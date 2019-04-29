@@ -2,60 +2,68 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 67AD3EBDB
-	for <lists+linux-api@lfdr.de>; Mon, 29 Apr 2019 22:53:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EEA4CEC1E
+	for <lists+linux-api@lfdr.de>; Mon, 29 Apr 2019 23:38:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729371AbfD2UxE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 29 Apr 2019 16:53:04 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:45815 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728669AbfD2UxE (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Apr 2019 16:53:04 -0400
-Received: by mail-lf1-f67.google.com with SMTP id t11so8962349lfl.12
-        for <linux-api@vger.kernel.org>; Mon, 29 Apr 2019 13:53:02 -0700 (PDT)
+        id S1729442AbfD2ViA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 29 Apr 2019 17:38:00 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:32792 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729370AbfD2Vh7 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Apr 2019 17:37:59 -0400
+Received: by mail-lj1-f193.google.com with SMTP id f23so10843317ljc.0
+        for <linux-api@vger.kernel.org>; Mon, 29 Apr 2019 14:37:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brauner.io; s=google;
+        d=linux-foundation.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=3qA2gnh3WCYTM8Z8LwSdNcpUBBLD5ma7h/mHJ94b/Z4=;
-        b=D9Ez8JKMsqbiIul/T3ZCGg8YZL5W573M9HFx64cRKPToTZ+/XbvxRJjy/hT8aFkks+
-         NjPilGNY4l4+hUf8q9D5txLxa8XPZ/toXOTUPNJHlNl4kjVcG2dDk1UIYrVqrM8dzkPb
-         +MJtLuJ+YpN+dPEDOH9CJS+tZP+ChfHmXazmErwjJCBvIo5bZX26GHZfPMAu3U0T0auN
-         Uslws8h29oq1Wvcu4amBhMWvUGPr58kJu/DTHA67GVH0rt8S9txOWyHnA32NAiMZmQmQ
-         Xp6EvSuzgztcJfOCahbps/1iFUTBJpCMkwWNIpzVEuMWKBLKzx/kvDiJ8yf5CDouge3w
-         ARDA==
+         :cc;
+        bh=xn/5jS+m49YEHy9VewaGSeXNPslEqie8PTvJU6EXUNw=;
+        b=hxFbqa4ewa41rSYJkjywqzmK/JSCoGBv9pbM0qVpY7Jcn8QmH+hVBPBdi7+D/zJmdk
+         nmh191WRMCDQnlnOa+BZyyPstDYFCZkzpGRd0yKcaYhaQ9NmaL1Wd+MyXvvygdZSo+wh
+         4K4v5k4yhv7oc8csttKN+MRZCq2FU2n6mdTIY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=3qA2gnh3WCYTM8Z8LwSdNcpUBBLD5ma7h/mHJ94b/Z4=;
-        b=ETEpo8jeZQdP/wqaBn/RpYGjhCq5O6/ftMfc04Ulo8Ea+cv4euGDSzLQIasf/6M1i+
-         LXq7pPmKSBYwE9uG5lmwPGDmK5UWMrACp0oqbTdEsCqWb/lLOqTfg8ABaYgqFzTU1b7W
-         Sr/Mo8sDIsWwK9ZKe923vK+72hAXQKyKrlRiTapZxDvGFI9xJLCGRQGB+4l3en5p1ax+
-         oGC3kcWP5+T+e9qDP5Ad46iEfluwwmJSJ6YuDllUDrJio2+wv63K2ZFLSZI+NIiUug58
-         ancdqLvqfgjICmvRhgij4JAPH9qYopI3vXP9/ORe5h3aVmv/2c0IJwEP6s8p3LLkda06
-         5oJg==
-X-Gm-Message-State: APjAAAWSNEjJbq0Hv0E/0im1EKBA9Y0kc8xw+7RUsA3/ZdI9AE367/25
-        PuPzymOateMEPJcmhcHC2+GiKj0KiFwVRPum6p5NEQ==
-X-Google-Smtp-Source: APXvYqxFBGjeAWwB5tyYA6QNJKlnN8uvPrVeE/FIMCz8lWPmbtyjKvHzPDTgD3B6JRpL+LJB4uB125WXlQX14XZrF14=
-X-Received: by 2002:a19:7406:: with SMTP id v6mr9658592lfe.9.1556571181274;
- Mon, 29 Apr 2019 13:53:01 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=xn/5jS+m49YEHy9VewaGSeXNPslEqie8PTvJU6EXUNw=;
+        b=sO2l3Op4VzFIzoBjDSst3dX1HutXs+Uhp9Az69lD39Nu6EiTh/xbANWnXY4GVa6WLF
+         zs67YfNhXenm3Y5gLkB7QGYtWs3MtWlnaxZIaQdJovcJCo0+J7iWZ1fMQQ9HYQh7L4gb
+         nJJyMgX/DO48JqR5nFSCR9GzGDyQLsnV/kYrIIOjroCpRH/zhSWah26Ml+SyJC2JEYmW
+         4Lo+nFZQP9SrAMsnoJ5iF6ETdRfqT6/TxvkjHkEmNezFAi/PaitovLkW+rA5JoRPkGIQ
+         xG7IT4CDd8FgdJMkry7R8GaZMP71uO1TEWU4W6IbTg4OhEV59gz0N/Sf0S+zaJvu3WII
+         YY4w==
+X-Gm-Message-State: APjAAAX/pPtm/gLwyHlZtocRraXec81ndldHNoEyX8CgHQyGKq1Ia85b
+        fHDiuiQL522dnNb3NZLFyM40GWMWC5U=
+X-Google-Smtp-Source: APXvYqzdho/xLUcht7ryWrK//sKv6pANedhiWMv8bKGy1FRxRnwbnsl7toO6tOs+EGlFEEFuWo9L2Q==
+X-Received: by 2002:a2e:9c57:: with SMTP id t23mr9162700ljj.152.1556573877400;
+        Mon, 29 Apr 2019 14:37:57 -0700 (PDT)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com. [209.85.167.42])
+        by smtp.gmail.com with ESMTPSA id m21sm7562580lfj.47.2019.04.29.14.37.56
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 29 Apr 2019 14:37:57 -0700 (PDT)
+Received: by mail-lf1-f42.google.com with SMTP id v1so9181920lfg.5
+        for <linux-api@vger.kernel.org>; Mon, 29 Apr 2019 14:37:56 -0700 (PDT)
+X-Received: by 2002:ac2:43cf:: with SMTP id u15mr3927622lfl.67.1556573506825;
+ Mon, 29 Apr 2019 14:31:46 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190414201436.19502-1-christian@brauner.io> <dc05ffe3-c2ff-8b3e-d181-e0cc620bf91d@metux.net>
  <20190415195911.z7b7miwsj67ha54y@yavin> <CALCETrWxMnaPvwicqkMLswMynWvJVteazD-bFv3ZnBKWp-1joQ@mail.gmail.com>
  <20190420071406.GA22257@ip-172-31-15-78> <CAG48ez0gG4bd-t1wdR2p6-N2FjWbCqm_+ZThKfF7yKnD=KLqAQ@mail.gmail.com>
- <CAG48ez15bf1EJB0XTJsGFpvf8r5pj9+rv1axKVr13H1NW7ARZw@mail.gmail.com> <87v9ywbkp8.fsf@oldenburg2.str.redhat.com>
-In-Reply-To: <87v9ywbkp8.fsf@oldenburg2.str.redhat.com>
-From:   Christian Brauner <christian@brauner.io>
-Date:   Mon, 29 Apr 2019 22:52:50 +0200
-Message-ID: <CAHrFyr5QNTb-y4wO0vph4u7LZtEdr5A+KtvxPokAUrkUQgb-5A@mail.gmail.com>
+ <CAG48ez15bf1EJB0XTJsGFpvf8r5pj9+rv1axKVr13H1NW7ARZw@mail.gmail.com>
+ <CAHk-=wi_N81mKYFz33ycoWiL7_tGbZBMJOsAs16inYzSza+OEw@mail.gmail.com> <87zho8bl8x.fsf@oldenburg2.str.redhat.com>
+In-Reply-To: <87zho8bl8x.fsf@oldenburg2.str.redhat.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Mon, 29 Apr 2019 14:31:30 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wiPv4QJBC0qX8xxnT5P2C7S5uDG0HKdvdSpcoXaHG91tQ@mail.gmail.com>
+Message-ID: <CAHk-=wiPv4QJBC0qX8xxnT5P2C7S5uDG0HKdvdSpcoXaHG91tQ@mail.gmail.com>
 Subject: Re: RFC: on adding new CLONE_* flags [WAS Re: [PATCH 0/4] clone: add CLONE_PIDFD]
 To:     Florian Weimer <fweimer@redhat.com>
 Cc:     Jann Horn <jannh@google.com>, Kevin Easton <kevin@guarana.org>,
         Andy Lutomirski <luto@kernel.org>,
+        Christian Brauner <christian@brauner.io>,
         Aleksa Sarai <cyphar@cyphar.com>,
         "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
         Al Viro <viro@zeniv.linux.org.uk>,
         David Howells <dhowells@redhat.com>,
         Linux API <linux-api@vger.kernel.org>,
@@ -71,92 +79,30 @@ Cc:     Jann Horn <jannh@google.com>, Kevin Easton <kevin@guarana.org>,
         Joel Fernandes <joel@joelfernandes.org>,
         Daniel Colascione <dancol@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Apr 29, 2019 at 10:50 PM Florian Weimer <fweimer@redhat.com> wrote:
+On Mon, Apr 29, 2019 at 1:38 PM Florian Weimer <fweimer@redhat.com> wrote:
 >
-> * Jann Horn:
->
-> >> int clone_temporary(int (*fn)(void *arg), void *arg, pid_t *child_pid,
-> >> <clone flags and arguments, maybe in a struct>)
-> >>
-> >> and then you'd use it like this to fork off a child process:
-> >>
-> >> int spawn_shell_subprocess_(void *arg) {
-> >>   char *cmdline =3D arg;
-> >>   execl("/bin/sh", "sh", "-c", cmdline);
-> >>   return -1;
-> >> }
-> >> pid_t spawn_shell_subprocess(char *cmdline) {
-> >>   pid_t child_pid;
-> >>   int res =3D clone_temporary(spawn_shell_subprocess_, cmdline,
-> >> &child_pid, [...]);
-> >>   if (res =3D=3D 0) return child_pid;
-> >>   return res;
-> >> }
-> >>
-> >> clone_temporary() could be implemented roughly as follows by the libc
-> >> (or other userspace code):
-> >>
-> >> sigset_t sigset, sigset_old;
-> >> sigfillset(&sigset);
-> >> sigprocmask(SIG_SETMASK, &sigset, &sigset_old);
-> >> int child_pid;
-> >> int result =3D 0;
-> >> /* starting here, use inline assembly to ensure that no stack
-> >> allocations occur */
-> >> long child =3D syscall(__NR_clone,
-> >> CLONE_VM|CLONE_CHILD_SETTID|CLONE_CHILD_CLEARTID|SIGCHLD, $RSP -
-> >> ABI_STACK_REDZONE_SIZE, NULL, &child_pid, 0);
-> >> if (child =3D=3D -1) { result =3D -1; goto reset_sigmask; }
-> >> if (child =3D=3D 0) {
-> >>   result =3D fn(arg);
-> >>   syscall(__NR_exit, 0);
-> >> }
-> >> futex(&child_pid, FUTEX_WAIT, child, NULL);
-> >> /* end of no-stack-allocations zone */
-> >> reset_sigmask:
-> >> sigprocmask(SIG_SETMASK, &sigset_old, NULL);
-> >> return result;
-> >
-> > ... I guess that already has a name, and it's called vfork(). (Well,
-> > except that the Linux vfork() isn't a real vfork().)
-> >
-> > So I guess my question is: Why not vfork()?
->
-> Mainly because some users want access to the clone flags, and that's not
-> possible with the current userspace wrappers.  The stack setup for the
-> undocumented clone wrapper is also cumbersome, and the ia64 pecularity
-> annoying.
->
-> For the stack sharing, the callback-based interface looks like the
-> absolutely right thing to do to me.  It enforces the notion that you can
-> safely return on the child path from a function calling vfork.
->
-> > And if vfork() alone isn't flexible enough, alternatively: How about
-> > an API that forks a new child in the same address space, and then
-> > allows the parent to invoke arbitrary syscalls in the context of the
-> > child?
->
-> As long it's not an eBPF script =E2=80=A6
+> In Linux-as-the-ABI (as opposed to Linux-as-the-implementation), vfork
+> is sometimes implemented as fork, so applications cannot rely on the
+> vfork behavior regarding the stopped parent and the shared address
+> space.
 
-You shouldn't even joke about this (I'm serious.).
-I'm very certain there are people who'd think this is a good idea.
+What broken library does that?
 
->
-> > You could also build that in userspace if you wanted, I think - just
-> > let the child run an assembly loop that reads registers from a unix
-> > seqpacket socket, invokes the syscall instruction, and writes the
-> > value of the result register back into the seqpacket socket. As long
-> > as you use CLONE_VM, you don't have to worry about moving the pointer
-> > targets of syscalls. The user-visible API could look like this:
->
-> People already use a variant of this, execve'ing twice.  See
-> jspawnhelper.
->
-> Thanks,
-> Florian
+Sure, we didn't have a proper vfork() long long long ago. But that
+predates both git and BK, so it's some time in the 90's. We've had a
+proper vfork() *forever*.
+
+> In fact, it would be nice to have a flag we can check in the posix_spawn
+> implementation, so that we can support vfork-as-fork without any run
+> time cost to native Linux.
+
+No. Just make a bug-report to whatever broken library you use. What's
+the point of having a library that can't even get vfork() right? Why
+would you want to have a flag to say "vfork is broken"?
+
+                 Linus
