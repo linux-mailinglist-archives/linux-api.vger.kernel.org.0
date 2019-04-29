@@ -2,41 +2,41 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A0EAAE681
-	for <lists+linux-api@lfdr.de>; Mon, 29 Apr 2019 17:30:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73AD3E66D
+	for <lists+linux-api@lfdr.de>; Mon, 29 Apr 2019 17:30:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728699AbfD2PaW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 29 Apr 2019 11:30:22 -0400
-Received: from mail.efficios.com ([167.114.142.138]:56838 "EHLO
+        id S1728721AbfD2P3b (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 29 Apr 2019 11:29:31 -0400
+Received: from mail.efficios.com ([167.114.142.138]:56952 "EHLO
         mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728671AbfD2P31 (ORCPT
+        with ESMTP id S1728674AbfD2P31 (ORCPT
         <rfc822;linux-api@vger.kernel.org>); Mon, 29 Apr 2019 11:29:27 -0400
 Received: from localhost (ip6-localhost [IPv6:::1])
-        by mail.efficios.com (Postfix) with ESMTP id ED0571C1CC6;
-        Mon, 29 Apr 2019 11:29:24 -0400 (EDT)
+        by mail.efficios.com (Postfix) with ESMTP id D89A31C1CEA;
+        Mon, 29 Apr 2019 11:29:25 -0400 (EDT)
 Received: from mail.efficios.com ([IPv6:::1])
         by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10032)
-        with ESMTP id luyhz6zmDPee; Mon, 29 Apr 2019 11:29:24 -0400 (EDT)
+        with ESMTP id Dih3OQRmIuKp; Mon, 29 Apr 2019 11:29:25 -0400 (EDT)
 Received: from localhost (ip6-localhost [IPv6:::1])
-        by mail.efficios.com (Postfix) with ESMTP id F1B371C1CBD;
-        Mon, 29 Apr 2019 11:29:23 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com F1B371C1CBD
+        by mail.efficios.com (Postfix) with ESMTP id 159A21C1CCD;
+        Mon, 29 Apr 2019 11:29:25 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 159A21C1CCD
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1556551764;
-        bh=axUkPA8dPVx5BOY3VnnFYxuZxxO8EEQBVn6LM2xVy1E=;
+        s=default; t=1556551765;
+        bh=7bREYjl8Np1pAd/Fde//VKkoNKJfwTpSdwiHFLstO2Y=;
         h=From:To:Date:Message-Id;
-        b=BPCO9C2oUVmvPEwUCHbPsyTq3m75by4hV8KwqvXiM3qVU8ytKv6NH9b9RsidT/8KA
-         Dl76YA6iWp6K31L6gB0N5zP7JZK18n5KKlPeqGySNrj5K1hY5/uOotSGcTofnjg72K
-         IYPeSM/NMyHxGa3CRFynNk08js9qS+SEBGtkSdzq7MZMGPLnwT63i82vlZK34EW9dJ
-         ToklC0B/649MX6gEzdLUfMuLaq6YWGn7+iCaYT/jasp8ylYW9Ltb6L9gATE6bT+0gv
-         OzR2NVGoXVqgv5uk91Q5UeqSY0N3zWwPd7XuXXisLx7sOiSI5UdYDFlb9AqInd+CjZ
-         Gng5CGetf3x/Q==
+        b=qdsdefdtcms3xo87H8y+IjvGDUQjo00yZbwHg2fFWlmSiOpPiYd7Yr+Fbw671on4T
+         YIF7yjLKHsj8Oj2FQG1xQ9E0mw5S7mw0KjVzgOcRQWyVwrau+KOVERiaRz3dFDtK3e
+         LeGmu9rldeFUl7zSmAQjy1MjlSezw2pK7qQdYeYT+W7znWKBUNYVAamU9ekt8BlO1P
+         9bv9v4Sq/Dhe2x8Vkk6NK3vsZX+19xwF79l728i4Ak4wEhVVKeoYVOucrJioaf4Zv6
+         ek3yglNSjYNoKMDeuOhOPBSJonAdf9al4rB9u1Mw4RTP3YTcHeFJaTgvYW/rK2tyqA
+         XYsJr9ypbkHUg==
 X-Virus-Scanned: amavisd-new at efficios.com
 Received: from mail.efficios.com ([IPv6:::1])
         by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10026)
-        with ESMTP id fqWFPsn-Aklo; Mon, 29 Apr 2019 11:29:23 -0400 (EDT)
+        with ESMTP id A3PNBTsTlWyu; Mon, 29 Apr 2019 11:29:25 -0400 (EDT)
 Received: from thinkos.internal.efficios.com (192-222-157-41.qc.cable.ebox.net [192.222.157.41])
-        by mail.efficios.com (Postfix) with ESMTPSA id 43FB11C1C9D;
+        by mail.efficios.com (Postfix) with ESMTPSA id C10091C1C9E;
         Mon, 29 Apr 2019 11:29:23 -0400 (EDT)
 From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To:     Shuah Khan <shuah@kernel.org>
@@ -61,10 +61,13 @@ Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
         Michael Kerrisk <mtk.manpages@gmail.com>,
         Joel Fernandes <joelaf@google.com>,
         Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        linux-kselftest@vger.kernel.org
-Subject: [PATCH for 5.2 03/12] rseq/selftests: Introduce __rseq_cs_ptr_array, rename __rseq_table to __rseq_cs
-Date:   Mon, 29 Apr 2019 11:27:54 -0400
-Message-Id: <20190429152803.7719-4-mathieu.desnoyers@efficios.com>
+        Carlos O'Donell <carlos@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Joseph Myers <joseph@codesourcery.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>
+Subject: [PATCH for 5.2 04/12] rseq/selftests: Use __rseq_handled symbol to coexist with glibc
+Date:   Mon, 29 Apr 2019 11:27:55 -0400
+Message-Id: <20190429152803.7719-5-mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20190429152803.7719-1-mathieu.desnoyers@efficios.com>
 References: <20190429152803.7719-1-mathieu.desnoyers@efficios.com>
@@ -73,494 +76,155 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-The entries within __rseq_table are aligned on 32 bytes due to
-linux/rseq.h struct rseq_cs uapi requirements, but the start of the
-__rseq_table section is not guaranteed to be 32-byte aligned. It can
-cause padding to be added at the start of the section, which makes it
-hard to use as an array of items by debuggers.
+In order to integrate rseq into user-space applications, expose a
+__rseq_handled symbol so many rseq users can be linked into the same
+application (e.g. librseq and glibc).
 
-Considering that __rseq_table does not really consist of a table due to
-the presence of padding, rename this section to __rseq_cs.
-
-Create a new __rseq_cs_ptr_array section which contains 64-bit packed
-pointers to entries within the __rseq_cs section.
+The __rseq_refcount TLS variable is static to the librseq library. It
+ensures that rseq syscall registration/unregistration happens only for
+the most early/late caller to rseq_{,un}register_current_thread for each
+thread, thus ensuring that rseq is registered across the lifetime of all
+rseq users for a given thread.
 
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-CC: Thomas Gleixner <tglx@linutronix.de>
-CC: Joel Fernandes <joelaf@google.com>
-CC: Peter Zijlstra <peterz@infradead.org>
-CC: Catalin Marinas <catalin.marinas@arm.com>
-CC: Dave Watson <davejwatson@fb.com>
-CC: Will Deacon <will.deacon@arm.com>
 CC: Shuah Khan <shuah@kernel.org>
-CC: Andi Kleen <andi@firstfloor.org>
-CC: linux-kselftest@vger.kernel.org
-CC: "H . Peter Anvin" <hpa@zytor.com>
-CC: Chris Lameter <cl@linux.com>
-CC: Russell King <linux@arm.linux.org.uk>
-CC: Michael Kerrisk <mtk.manpages@gmail.com>
-CC: "Paul E . McKenney" <paulmck@linux.vnet.ibm.com>
-CC: Paul Turner <pjt@google.com>
-CC: Boqun Feng <boqun.feng@gmail.com>
-CC: Josh Triplett <josh@joshtriplett.org>
-CC: Steven Rostedt <rostedt@goodmis.org>
+CC: Carlos O'Donell <carlos@redhat.com>
+CC: Florian Weimer <fweimer@redhat.com>
+CC: Joseph Myers <joseph@codesourcery.com>
+CC: Szabolcs Nagy <szabolcs.nagy@arm.com>
+CC: Thomas Gleixner <tglx@linutronix.de>
 CC: Ben Maurer <bmaurer@fb.com>
+CC: Peter Zijlstra <peterz@infradead.org>
+CC: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+CC: Boqun Feng <boqun.feng@gmail.com>
+CC: Will Deacon <will.deacon@arm.com>
+CC: Dave Watson <davejwatson@fb.com>
+CC: Paul Turner <pjt@google.com>
 CC: linux-api@vger.kernel.org
-CC: Andy Lutomirski <luto@amacapital.net>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linus Torvalds <torvalds@linux-foundation.org>
 ---
- tools/testing/selftests/rseq/rseq-arm.h   | 32 +++++++++++++++++--------------
- tools/testing/selftests/rseq/rseq-arm64.h |  9 ++++++---
- tools/testing/selftests/rseq/rseq-mips.h  | 32 +++++++++++++++++--------------
- tools/testing/selftests/rseq/rseq-ppc.h   | 22 +++++++++++++--------
- tools/testing/selftests/rseq/rseq-s390.h  | 18 +++++++++++------
- tools/testing/selftests/rseq/rseq-x86.h   | 19 ++++++++++++------
- 6 files changed, 81 insertions(+), 51 deletions(-)
+ tools/testing/selftests/rseq/rseq.c | 55 +++++++++++++++++++++++++++++++------
+ tools/testing/selftests/rseq/rseq.h |  1 +
+ 2 files changed, 48 insertions(+), 8 deletions(-)
 
-diff --git a/tools/testing/selftests/rseq/rseq-arm.h b/tools/testing/selftests/rseq/rseq-arm.h
-index 17e8d231943a..5f262c54364f 100644
---- a/tools/testing/selftests/rseq/rseq-arm.h
-+++ b/tools/testing/selftests/rseq/rseq-arm.h
-@@ -30,24 +30,28 @@ do {									\
- #include "rseq-skip.h"
- #else /* !RSEQ_SKIP_FASTPATH */
+diff --git a/tools/testing/selftests/rseq/rseq.c b/tools/testing/selftests/rseq/rseq.c
+index 4847e97ed049..7159eb777fd3 100644
+--- a/tools/testing/selftests/rseq/rseq.c
++++ b/tools/testing/selftests/rseq/rseq.c
+@@ -25,18 +25,27 @@
+ #include <syscall.h>
+ #include <assert.h>
+ #include <signal.h>
++#include <limits.h>
  
--#define __RSEQ_ASM_DEFINE_TABLE(version, flags,	start_ip,		\
-+#define __RSEQ_ASM_DEFINE_TABLE(label, version, flags, start_ip,	\
- 				post_commit_offset, abort_ip)		\
--		".pushsection __rseq_table, \"aw\"\n\t"			\
-+		".pushsection __rseq_cs, \"aw\"\n\t"			\
- 		".balign 32\n\t"					\
-+		__rseq_str(label) ":\n\t"					\
- 		".word " __rseq_str(version) ", " __rseq_str(flags) "\n\t" \
- 		".word " __rseq_str(start_ip) ", 0x0, " __rseq_str(post_commit_offset) ", 0x0, " __rseq_str(abort_ip) ", 0x0\n\t" \
-+		".popsection\n\t"					\
-+		".pushsection __rseq_cs_ptr_array, \"aw\"\n\t"		\
-+		".word " __rseq_str(label) "b, 0x0\n\t"			\
- 		".popsection\n\t"
+ #include "rseq.h"
  
--#define RSEQ_ASM_DEFINE_TABLE(start_ip, post_commit_ip, abort_ip)	\
--	__RSEQ_ASM_DEFINE_TABLE(0x0, 0x0, start_ip,			\
-+#define RSEQ_ASM_DEFINE_TABLE(label, start_ip, post_commit_ip, abort_ip) \
-+	__RSEQ_ASM_DEFINE_TABLE(label, 0x0, 0x0, start_ip,		\
- 				(post_commit_ip - start_ip), abort_ip)
+ #define ARRAY_SIZE(arr)	(sizeof(arr) / sizeof((arr)[0]))
  
- /*
-  * Exit points of a rseq critical section consist of all instructions outside
-  * of the critical section where a critical section can either branch to or
-  * reach through the normal course of its execution. The abort IP and the
-- * post-commit IP are already part of the __rseq_table section and should not
-- * be explicitly defined as additional exit points. Knowing all exit points is
-+ * post-commit IP are already part of the __rseq_cs section and should not be
-+ * explicitly defined as additional exit points. Knowing all exit points is
-  * useful to assist debuggers stepping over the critical section.
-  */
- #define RSEQ_ASM_DEFINE_EXIT_POINT(start_ip, exit_ip)			\
-@@ -99,7 +103,7 @@ int rseq_cmpeqv_storev(intptr_t *v, intptr_t expect, intptr_t newv, int cpu)
+-__attribute__((tls_model("initial-exec"))) __thread
+-volatile struct rseq __rseq_abi = {
++__thread volatile struct rseq __rseq_abi = {
+ 	.cpu_id = RSEQ_CPU_ID_UNINITIALIZED,
+ };
  
- 	rseq_workaround_gcc_asm_size_guess();
- 	__asm__ __volatile__ goto (
--		RSEQ_ASM_DEFINE_TABLE(1f, 2f, 4f) /* start, commit, abort */
-+		RSEQ_ASM_DEFINE_TABLE(9, 1f, 2f, 4f) /* start, commit, abort */
- 		RSEQ_ASM_DEFINE_EXIT_POINT(1f, %l[cmpfail])
- #ifdef RSEQ_COMPARE_TWICE
- 		RSEQ_ASM_DEFINE_EXIT_POINT(1f, %l[error1])
-@@ -166,7 +170,7 @@ int rseq_cmpnev_storeoffp_load(intptr_t *v, intptr_t expectnot,
- 
- 	rseq_workaround_gcc_asm_size_guess();
- 	__asm__ __volatile__ goto (
--		RSEQ_ASM_DEFINE_TABLE(1f, 2f, 4f) /* start, commit, abort */
-+		RSEQ_ASM_DEFINE_TABLE(9, 1f, 2f, 4f) /* start, commit, abort */
- 		RSEQ_ASM_DEFINE_EXIT_POINT(1f, %l[cmpfail])
- #ifdef RSEQ_COMPARE_TWICE
- 		RSEQ_ASM_DEFINE_EXIT_POINT(1f, %l[error1])
-@@ -237,7 +241,7 @@ int rseq_addv(intptr_t *v, intptr_t count, int cpu)
- 
- 	rseq_workaround_gcc_asm_size_guess();
- 	__asm__ __volatile__ goto (
--		RSEQ_ASM_DEFINE_TABLE(1f, 2f, 4f) /* start, commit, abort */
-+		RSEQ_ASM_DEFINE_TABLE(9, 1f, 2f, 4f) /* start, commit, abort */
- #ifdef RSEQ_COMPARE_TWICE
- 		RSEQ_ASM_DEFINE_EXIT_POINT(1f, %l[error1])
- #endif
-@@ -292,7 +296,7 @@ int rseq_cmpeqv_trystorev_storev(intptr_t *v, intptr_t expect,
- 
- 	rseq_workaround_gcc_asm_size_guess();
- 	__asm__ __volatile__ goto (
--		RSEQ_ASM_DEFINE_TABLE(1f, 2f, 4f) /* start, commit, abort */
-+		RSEQ_ASM_DEFINE_TABLE(9, 1f, 2f, 4f) /* start, commit, abort */
- 		RSEQ_ASM_DEFINE_EXIT_POINT(1f, %l[cmpfail])
- #ifdef RSEQ_COMPARE_TWICE
- 		RSEQ_ASM_DEFINE_EXIT_POINT(1f, %l[error1])
-@@ -367,7 +371,7 @@ int rseq_cmpeqv_trystorev_storev_release(intptr_t *v, intptr_t expect,
- 
- 	rseq_workaround_gcc_asm_size_guess();
- 	__asm__ __volatile__ goto (
--		RSEQ_ASM_DEFINE_TABLE(1f, 2f, 4f) /* start, commit, abort */
-+		RSEQ_ASM_DEFINE_TABLE(9, 1f, 2f, 4f) /* start, commit, abort */
- 		RSEQ_ASM_DEFINE_EXIT_POINT(1f, %l[cmpfail])
- #ifdef RSEQ_COMPARE_TWICE
- 		RSEQ_ASM_DEFINE_EXIT_POINT(1f, %l[error1])
-@@ -443,7 +447,7 @@ int rseq_cmpeqv_cmpeqv_storev(intptr_t *v, intptr_t expect,
- 
- 	rseq_workaround_gcc_asm_size_guess();
- 	__asm__ __volatile__ goto (
--		RSEQ_ASM_DEFINE_TABLE(1f, 2f, 4f) /* start, commit, abort */
-+		RSEQ_ASM_DEFINE_TABLE(9, 1f, 2f, 4f) /* start, commit, abort */
- 		RSEQ_ASM_DEFINE_EXIT_POINT(1f, %l[cmpfail])
- #ifdef RSEQ_COMPARE_TWICE
- 		RSEQ_ASM_DEFINE_EXIT_POINT(1f, %l[error1])
-@@ -527,7 +531,7 @@ int rseq_cmpeqv_trymemcpy_storev(intptr_t *v, intptr_t expect,
- 
- 	rseq_workaround_gcc_asm_size_guess();
- 	__asm__ __volatile__ goto (
--		RSEQ_ASM_DEFINE_TABLE(1f, 2f, 4f) /* start, commit, abort */
-+		RSEQ_ASM_DEFINE_TABLE(9, 1f, 2f, 4f) /* start, commit, abort */
- 		RSEQ_ASM_DEFINE_EXIT_POINT(1f, %l[cmpfail])
- #ifdef RSEQ_COMPARE_TWICE
- 		RSEQ_ASM_DEFINE_EXIT_POINT(1f, %l[error1])
-@@ -651,7 +655,7 @@ int rseq_cmpeqv_trymemcpy_storev_release(intptr_t *v, intptr_t expect,
- 
- 	rseq_workaround_gcc_asm_size_guess();
- 	__asm__ __volatile__ goto (
--		RSEQ_ASM_DEFINE_TABLE(1f, 2f, 4f) /* start, commit, abort */
-+		RSEQ_ASM_DEFINE_TABLE(9, 1f, 2f, 4f) /* start, commit, abort */
- 		RSEQ_ASM_DEFINE_EXIT_POINT(1f, %l[cmpfail])
- #ifdef RSEQ_COMPARE_TWICE
- 		RSEQ_ASM_DEFINE_EXIT_POINT(1f, %l[error1])
-diff --git a/tools/testing/selftests/rseq/rseq-arm64.h b/tools/testing/selftests/rseq/rseq-arm64.h
-index 2079f71e0ca2..b41a2a48e965 100644
---- a/tools/testing/selftests/rseq/rseq-arm64.h
-+++ b/tools/testing/selftests/rseq/rseq-arm64.h
-@@ -82,13 +82,16 @@ do {										\
- 
- #define __RSEQ_ASM_DEFINE_TABLE(label, version, flags, start_ip,		\
- 				post_commit_offset, abort_ip)			\
--	"	.pushsection	__rseq_table, \"aw\"\n"				\
-+	"	.pushsection	__rseq_cs, \"aw\"\n"				\
- 	"	.balign	32\n"							\
- 	__rseq_str(label) ":\n"							\
- 	"	.long	" __rseq_str(version) ", " __rseq_str(flags) "\n"	\
- 	"	.quad	" __rseq_str(start_ip) ", "				\
- 			  __rseq_str(post_commit_offset) ", "			\
- 			  __rseq_str(abort_ip) "\n"				\
-+	"	.popsection\n\t"						\
-+	"	.pushsection __rseq_cs_ptr_array, \"aw\"\n"				\
-+	"	.quad " __rseq_str(label) "b\n"					\
- 	"	.popsection\n"
- 
- #define RSEQ_ASM_DEFINE_TABLE(label, start_ip, post_commit_ip, abort_ip)	\
-@@ -99,8 +102,8 @@ do {										\
-  * Exit points of a rseq critical section consist of all instructions outside
-  * of the critical section where a critical section can either branch to or
-  * reach through the normal course of its execution. The abort IP and the
-- * post-commit IP are already part of the __rseq_table section and should not
-- * be explicitly defined as additional exit points. Knowing all exit points is
-+ * post-commit IP are already part of the __rseq_cs section and should not be
-+ * explicitly defined as additional exit points. Knowing all exit points is
-  * useful to assist debuggers stepping over the critical section.
-  */
- #define RSEQ_ASM_DEFINE_EXIT_POINT(start_ip, exit_ip)				\
-diff --git a/tools/testing/selftests/rseq/rseq-mips.h b/tools/testing/selftests/rseq/rseq-mips.h
-index 25d10ff54769..fe3eabcdcbe5 100644
---- a/tools/testing/selftests/rseq/rseq-mips.h
-+++ b/tools/testing/selftests/rseq/rseq-mips.h
-@@ -54,26 +54,30 @@ do {									\
- # error unsupported _MIPS_SZLONG
- #endif
- 
--#define __RSEQ_ASM_DEFINE_TABLE(version, flags,	start_ip, \
-+#define __RSEQ_ASM_DEFINE_TABLE(label, version, flags, start_ip, \
- 				post_commit_offset, abort_ip) \
--		".pushsection __rseq_table, \"aw\"\n\t" \
-+		".pushsection __rseq_cs, \"aw\"\n\t" \
- 		".balign 32\n\t" \
-+		__rseq_str(label) ":\n\t"					\
- 		".word " __rseq_str(version) ", " __rseq_str(flags) "\n\t" \
- 		LONG " " U32_U64_PAD(__rseq_str(start_ip)) "\n\t" \
- 		LONG " " U32_U64_PAD(__rseq_str(post_commit_offset)) "\n\t" \
- 		LONG " " U32_U64_PAD(__rseq_str(abort_ip)) "\n\t" \
-+		".popsection\n\t" \
-+		".pushsection __rseq_cs_ptr_array, \"aw\"\n\t" \
-+		LONG " " U32_U64_PAD(__rseq_str(label) "b") "\n\t" \
- 		".popsection\n\t"
- 
--#define RSEQ_ASM_DEFINE_TABLE(start_ip, post_commit_ip, abort_ip) \
--	__RSEQ_ASM_DEFINE_TABLE(0x0, 0x0, start_ip, \
-+#define RSEQ_ASM_DEFINE_TABLE(label, start_ip, post_commit_ip, abort_ip) \
-+	__RSEQ_ASM_DEFINE_TABLE(label, 0x0, 0x0, start_ip, \
- 				(post_commit_ip - start_ip), abort_ip)
- 
- /*
-  * Exit points of a rseq critical section consist of all instructions outside
-  * of the critical section where a critical section can either branch to or
-  * reach through the normal course of its execution. The abort IP and the
-- * post-commit IP are already part of the __rseq_table section and should not
-- * be explicitly defined as additional exit points. Knowing all exit points is
-+ * post-commit IP are already part of the __rseq_cs section and should not be
-+ * explicitly defined as additional exit points. Knowing all exit points is
-  * useful to assist debuggers stepping over the critical section.
-  */
- #define RSEQ_ASM_DEFINE_EXIT_POINT(start_ip, exit_ip) \
-@@ -127,7 +131,7 @@ int rseq_cmpeqv_storev(intptr_t *v, intptr_t expect, intptr_t newv, int cpu)
- 
- 	rseq_workaround_gcc_asm_size_guess();
- 	__asm__ __volatile__ goto (
--		RSEQ_ASM_DEFINE_TABLE(1f, 2f, 4f) /* start, commit, abort */
-+		RSEQ_ASM_DEFINE_TABLE(9, 1f, 2f, 4f) /* start, commit, abort */
- 		RSEQ_ASM_DEFINE_EXIT_POINT(1f, %l[cmpfail])
- #ifdef RSEQ_COMPARE_TWICE
- 		RSEQ_ASM_DEFINE_EXIT_POINT(1f, %l[error1])
-@@ -192,7 +196,7 @@ int rseq_cmpnev_storeoffp_load(intptr_t *v, intptr_t expectnot,
- 
- 	rseq_workaround_gcc_asm_size_guess();
- 	__asm__ __volatile__ goto (
--		RSEQ_ASM_DEFINE_TABLE(1f, 2f, 4f) /* start, commit, abort */
-+		RSEQ_ASM_DEFINE_TABLE(9, 1f, 2f, 4f) /* start, commit, abort */
- 		RSEQ_ASM_DEFINE_EXIT_POINT(1f, %l[cmpfail])
- #ifdef RSEQ_COMPARE_TWICE
- 		RSEQ_ASM_DEFINE_EXIT_POINT(1f, %l[error1])
-@@ -261,7 +265,7 @@ int rseq_addv(intptr_t *v, intptr_t count, int cpu)
- 
- 	rseq_workaround_gcc_asm_size_guess();
- 	__asm__ __volatile__ goto (
--		RSEQ_ASM_DEFINE_TABLE(1f, 2f, 4f) /* start, commit, abort */
-+		RSEQ_ASM_DEFINE_TABLE(9, 1f, 2f, 4f) /* start, commit, abort */
- #ifdef RSEQ_COMPARE_TWICE
- 		RSEQ_ASM_DEFINE_EXIT_POINT(1f, %l[error1])
- #endif
-@@ -316,7 +320,7 @@ int rseq_cmpeqv_trystorev_storev(intptr_t *v, intptr_t expect,
- 
- 	rseq_workaround_gcc_asm_size_guess();
- 	__asm__ __volatile__ goto (
--		RSEQ_ASM_DEFINE_TABLE(1f, 2f, 4f) /* start, commit, abort */
-+		RSEQ_ASM_DEFINE_TABLE(9, 1f, 2f, 4f) /* start, commit, abort */
- 		RSEQ_ASM_DEFINE_EXIT_POINT(1f, %l[cmpfail])
- #ifdef RSEQ_COMPARE_TWICE
- 		RSEQ_ASM_DEFINE_EXIT_POINT(1f, %l[error1])
-@@ -389,7 +393,7 @@ int rseq_cmpeqv_trystorev_storev_release(intptr_t *v, intptr_t expect,
- 
- 	rseq_workaround_gcc_asm_size_guess();
- 	__asm__ __volatile__ goto (
--		RSEQ_ASM_DEFINE_TABLE(1f, 2f, 4f) /* start, commit, abort */
-+		RSEQ_ASM_DEFINE_TABLE(9, 1f, 2f, 4f) /* start, commit, abort */
- 		RSEQ_ASM_DEFINE_EXIT_POINT(1f, %l[cmpfail])
- #ifdef RSEQ_COMPARE_TWICE
- 		RSEQ_ASM_DEFINE_EXIT_POINT(1f, %l[error1])
-@@ -463,7 +467,7 @@ int rseq_cmpeqv_cmpeqv_storev(intptr_t *v, intptr_t expect,
- 
- 	rseq_workaround_gcc_asm_size_guess();
- 	__asm__ __volatile__ goto (
--		RSEQ_ASM_DEFINE_TABLE(1f, 2f, 4f) /* start, commit, abort */
-+		RSEQ_ASM_DEFINE_TABLE(9, 1f, 2f, 4f) /* start, commit, abort */
- 		RSEQ_ASM_DEFINE_EXIT_POINT(1f, %l[cmpfail])
- #ifdef RSEQ_COMPARE_TWICE
- 		RSEQ_ASM_DEFINE_EXIT_POINT(1f, %l[error1])
-@@ -543,7 +547,7 @@ int rseq_cmpeqv_trymemcpy_storev(intptr_t *v, intptr_t expect,
- 
- 	rseq_workaround_gcc_asm_size_guess();
- 	__asm__ __volatile__ goto (
--		RSEQ_ASM_DEFINE_TABLE(1f, 2f, 4f) /* start, commit, abort */
-+		RSEQ_ASM_DEFINE_TABLE(9, 1f, 2f, 4f) /* start, commit, abort */
- 		RSEQ_ASM_DEFINE_EXIT_POINT(1f, %l[cmpfail])
- #ifdef RSEQ_COMPARE_TWICE
- 		RSEQ_ASM_DEFINE_EXIT_POINT(1f, %l[error1])
-@@ -664,7 +668,7 @@ int rseq_cmpeqv_trymemcpy_storev_release(intptr_t *v, intptr_t expect,
- 
- 	rseq_workaround_gcc_asm_size_guess();
- 	__asm__ __volatile__ goto (
--		RSEQ_ASM_DEFINE_TABLE(1f, 2f, 4f) /* start, commit, abort */
-+		RSEQ_ASM_DEFINE_TABLE(9, 1f, 2f, 4f) /* start, commit, abort */
- 		RSEQ_ASM_DEFINE_EXIT_POINT(1f, %l[cmpfail])
- #ifdef RSEQ_COMPARE_TWICE
- 		RSEQ_ASM_DEFINE_EXIT_POINT(1f, %l[error1])
-diff --git a/tools/testing/selftests/rseq/rseq-ppc.h b/tools/testing/selftests/rseq/rseq-ppc.h
-index 24f95649d71e..9df18487fa9f 100644
---- a/tools/testing/selftests/rseq/rseq-ppc.h
-+++ b/tools/testing/selftests/rseq/rseq-ppc.h
-@@ -33,8 +33,8 @@ do {									\
- #else /* !RSEQ_SKIP_FASTPATH */
- 
- /*
-- * The __rseq_table section can be used by debuggers to better handle
-- * single-stepping through the restartable critical sections.
-+ * The __rseq_cs_ptr_array and __rseq_cs sections can be used by debuggers to
-+ * better handle single-stepping through the restartable critical sections.
-  */
- 
- #ifdef __PPC64__
-@@ -46,11 +46,14 @@ do {									\
- 
- #define __RSEQ_ASM_DEFINE_TABLE(label, version, flags,				\
- 			start_ip, post_commit_offset, abort_ip)			\
--		".pushsection __rseq_table, \"aw\"\n\t"				\
-+		".pushsection __rseq_cs, \"aw\"\n\t"				\
- 		".balign 32\n\t"						\
- 		__rseq_str(label) ":\n\t"					\
- 		".long " __rseq_str(version) ", " __rseq_str(flags) "\n\t"	\
- 		".quad " __rseq_str(start_ip) ", " __rseq_str(post_commit_offset) ", " __rseq_str(abort_ip) "\n\t" \
-+		".popsection\n\t"						\
-+		".pushsection __rseq_cs_ptr_array, \"aw\"\n\t"			\
-+		".quad " __rseq_str(label) "b\n\t"				\
- 		".popsection\n\t"
- 
- #define RSEQ_ASM_STORE_RSEQ_CS(label, cs_label, rseq_cs)			\
-@@ -67,8 +70,8 @@ do {									\
-  * Exit points of a rseq critical section consist of all instructions outside
-  * of the critical section where a critical section can either branch to or
-  * reach through the normal course of its execution. The abort IP and the
-- * post-commit IP are already part of the __rseq_table section and should not
-- * be explicitly defined as additional exit points. Knowing all exit points is
-+ * post-commit IP are already part of the __rseq_cs section and should not be
-+ * explicitly defined as additional exit points. Knowing all exit points is
-  * useful to assist debuggers stepping over the critical section.
-  */
- #define RSEQ_ASM_DEFINE_EXIT_POINT(start_ip, exit_ip)			\
-@@ -85,20 +88,23 @@ do {									\
- 
- #define __RSEQ_ASM_DEFINE_TABLE(label, version, flags,				\
- 			start_ip, post_commit_offset, abort_ip)			\
--		".pushsection __rseq_table, \"aw\"\n\t"				\
-+		".pushsection __rseq_cs, \"aw\"\n\t"				\
- 		".balign 32\n\t"						\
- 		__rseq_str(label) ":\n\t"					\
- 		".long " __rseq_str(version) ", " __rseq_str(flags) "\n\t"	\
- 		/* 32-bit only supported on BE */				\
- 		".long 0x0, " __rseq_str(start_ip) ", 0x0, " __rseq_str(post_commit_offset) ", 0x0, " __rseq_str(abort_ip) "\n\t" \
-+		".popsection\n\t"					\
-+		".pushsection __rseq_cs_ptr_array, \"aw\"\n\t"		\
-+		".long 0x0, " __rseq_str(label) "b\n\t"			\
- 		".popsection\n\t"
- 
- /*
-  * Exit points of a rseq critical section consist of all instructions outside
-  * of the critical section where a critical section can either branch to or
-  * reach through the normal course of its execution. The abort IP and the
-- * post-commit IP are already part of the __rseq_table section and should not
-- * be explicitly defined as additional exit points. Knowing all exit points is
-+ * post-commit IP are already part of the __rseq_cs section and should not be
-+ * explicitly defined as additional exit points. Knowing all exit points is
-  * useful to assist debuggers stepping over the critical section.
-  */
- #define RSEQ_ASM_DEFINE_EXIT_POINT(start_ip, exit_ip)				\
-diff --git a/tools/testing/selftests/rseq/rseq-s390.h b/tools/testing/selftests/rseq/rseq-s390.h
-index b8b5b6f900af..fbb97815d71c 100644
---- a/tools/testing/selftests/rseq/rseq-s390.h
-+++ b/tools/testing/selftests/rseq/rseq-s390.h
-@@ -37,19 +37,22 @@ do {									\
- 
- #define __RSEQ_ASM_DEFINE_TABLE(label, version, flags,			\
- 				start_ip, post_commit_offset, abort_ip)	\
--		".pushsection __rseq_table, \"aw\"\n\t"			\
-+		".pushsection __rseq_cs, \"aw\"\n\t"			\
- 		".balign 32\n\t"					\
- 		__rseq_str(label) ":\n\t"				\
- 		".long " __rseq_str(version) ", " __rseq_str(flags) "\n\t" \
- 		".quad " __rseq_str(start_ip) ", " __rseq_str(post_commit_offset) ", " __rseq_str(abort_ip) "\n\t" \
-+		".popsection\n\t"					\
-+		".pushsection __rseq_cs_ptr_array, \"aw\"\n\t"		\
-+		".quad " __rseq_str(label) "b\n\t"			\
- 		".popsection\n\t"
- 
- /*
-  * Exit points of a rseq critical section consist of all instructions outside
-  * of the critical section where a critical section can either branch to or
-  * reach through the normal course of its execution. The abort IP and the
-- * post-commit IP are already part of the __rseq_table section and should not
-- * be explicitly defined as additional exit points. Knowing all exit points is
-+ * post-commit IP are already part of the __rseq_cs section and should not be
-+ * explicitly defined as additional exit points. Knowing all exit points is
-  * useful to assist debuggers stepping over the critical section.
-  */
- #define RSEQ_ASM_DEFINE_EXIT_POINT(start_ip, exit_ip)			\
-@@ -61,19 +64,22 @@ do {									\
- 
- #define __RSEQ_ASM_DEFINE_TABLE(label, version, flags,			\
- 				start_ip, post_commit_offset, abort_ip)	\
--		".pushsection __rseq_table, \"aw\"\n\t"			\
-+		".pushsection __rseq_cs, \"aw\"\n\t"			\
- 		".balign 32\n\t"					\
- 		__rseq_str(label) ":\n\t"				\
- 		".long " __rseq_str(version) ", " __rseq_str(flags) "\n\t" \
- 		".long 0x0, " __rseq_str(start_ip) ", 0x0, " __rseq_str(post_commit_offset) ", 0x0, " __rseq_str(abort_ip) "\n\t" \
-+		".popsection\n\t"					\
-+		".pushsection __rseq_cs_ptr_array, \"aw\"\n\t"		\
-+		".long 0x0, " __rseq_str(label) "b\n\t"			\
- 		".popsection\n\t"
- 
- /*
-  * Exit points of a rseq critical section consist of all instructions outside
-  * of the critical section where a critical section can either branch to or
-  * reach through the normal course of its execution. The abort IP and the
-- * post-commit IP are already part of the __rseq_table section and should not
-- * be explicitly defined as additional exit points. Knowing all exit points is
-+ * post-commit IP are already part of the __rseq_cs section and should not be
-+ * explicitly defined as additional exit points. Knowing all exit points is
-  * useful to assist debuggers stepping over the critical section.
-  */
- #define RSEQ_ASM_DEFINE_EXIT_POINT(start_ip, exit_ip)			\
-diff --git a/tools/testing/selftests/rseq/rseq-x86.h b/tools/testing/selftests/rseq/rseq-x86.h
-index 0668608d3674..03095236f6fa 100644
---- a/tools/testing/selftests/rseq/rseq-x86.h
-+++ b/tools/testing/selftests/rseq/rseq-x86.h
-@@ -47,13 +47,17 @@ do {									\
- 
- #define __RSEQ_ASM_DEFINE_TABLE(label, version, flags,			\
- 				start_ip, post_commit_offset, abort_ip)	\
--		".pushsection __rseq_table, \"aw\"\n\t"			\
-+		".pushsection __rseq_cs, \"aw\"\n\t"			\
- 		".balign 32\n\t"					\
- 		__rseq_str(label) ":\n\t"				\
- 		".long " __rseq_str(version) ", " __rseq_str(flags) "\n\t" \
- 		".quad " __rseq_str(start_ip) ", " __rseq_str(post_commit_offset) ", " __rseq_str(abort_ip) "\n\t" \
-+		".popsection\n\t"					\
-+		".pushsection __rseq_cs_ptr_array, \"aw\"\n\t"		\
-+		".quad " __rseq_str(label) "b\n\t"			\
- 		".popsection\n\t"
- 
+-static __attribute__((tls_model("initial-exec"))) __thread
+-volatile int refcount;
++/*
++ * Shared with other libraries. This library may take rseq ownership if it is
++ * still 0 when executing the library constructor. Set to 1 by library
++ * constructor when handling rseq. Set to 0 in destructor if handling rseq.
++ */
++int __rseq_handled;
 +
- #define RSEQ_ASM_DEFINE_TABLE(label, start_ip, post_commit_ip, abort_ip) \
- 	__RSEQ_ASM_DEFINE_TABLE(label, 0x0, 0x0, start_ip,		\
- 				(post_commit_ip - start_ip), abort_ip)
-@@ -62,8 +66,8 @@ do {									\
-  * Exit points of a rseq critical section consist of all instructions outside
-  * of the critical section where a critical section can either branch to or
-  * reach through the normal course of its execution. The abort IP and the
-- * post-commit IP are already part of the __rseq_table section and should not
-- * be explicitly defined as additional exit points. Knowing all exit points is
-+ * post-commit IP are already part of the __rseq_cs section and should not be
-+ * explicitly defined as additional exit points. Knowing all exit points is
-  * useful to assist debuggers stepping over the critical section.
-  */
- #define RSEQ_ASM_DEFINE_EXIT_POINT(start_ip, exit_ip)			\
-@@ -566,11 +570,14 @@ do {									\
-  */
- #define __RSEQ_ASM_DEFINE_TABLE(label, version, flags,			\
- 				start_ip, post_commit_offset, abort_ip)	\
--		".pushsection __rseq_table, \"aw\"\n\t"			\
-+		".pushsection __rseq_cs, \"aw\"\n\t"			\
- 		".balign 32\n\t"					\
- 		__rseq_str(label) ":\n\t"				\
- 		".long " __rseq_str(version) ", " __rseq_str(flags) "\n\t" \
- 		".long " __rseq_str(start_ip) ", 0x0, " __rseq_str(post_commit_offset) ", 0x0, " __rseq_str(abort_ip) ", 0x0\n\t" \
-+		".popsection\n\t"					\
-+		".pushsection __rseq_cs_ptr_array, \"aw\"\n\t"		\
-+		".long " __rseq_str(label) "b, 0x0\n\t"			\
- 		".popsection\n\t"
++/* Whether this library have ownership of rseq registration. */
++static int rseq_ownership;
++
++static __thread volatile uint32_t __rseq_refcount;
  
- #define RSEQ_ASM_DEFINE_TABLE(label, start_ip, post_commit_ip, abort_ip) \
-@@ -581,8 +588,8 @@ do {									\
-  * Exit points of a rseq critical section consist of all instructions outside
-  * of the critical section where a critical section can either branch to or
-  * reach through the normal course of its execution. The abort IP and the
-- * post-commit IP are already part of the __rseq_table section and should not
-- * be explicitly defined as additional exit points. Knowing all exit points is
-+ * post-commit IP are already part of the __rseq_cs section and should not be
-+ * explicitly defined as additional exit points. Knowing all exit points is
-  * useful to assist debuggers stepping over the critical section.
-  */
- #define RSEQ_ASM_DEFINE_EXIT_POINT(start_ip, exit_ip)			\
+ static void signal_off_save(sigset_t *oldset)
+ {
+@@ -69,8 +78,14 @@ int rseq_register_current_thread(void)
+ 	int rc, ret = 0;
+ 	sigset_t oldset;
+ 
++	if (!rseq_ownership)
++		return 0;
+ 	signal_off_save(&oldset);
+-	if (refcount++)
++	if (__rseq_refcount == UINT_MAX) {
++		ret = -1;
++		goto end;
++	}
++	if (__rseq_refcount++)
+ 		goto end;
+ 	rc = sys_rseq(&__rseq_abi, sizeof(struct rseq), 0, RSEQ_SIG);
+ 	if (!rc) {
+@@ -78,9 +93,9 @@ int rseq_register_current_thread(void)
+ 		goto end;
+ 	}
+ 	if (errno != EBUSY)
+-		__rseq_abi.cpu_id = -2;
++		__rseq_abi.cpu_id = RSEQ_CPU_ID_REGISTRATION_FAILED;
+ 	ret = -1;
+-	refcount--;
++	__rseq_refcount--;
+ end:
+ 	signal_restore(oldset);
+ 	return ret;
+@@ -91,13 +106,20 @@ int rseq_unregister_current_thread(void)
+ 	int rc, ret = 0;
+ 	sigset_t oldset;
+ 
++	if (!rseq_ownership)
++		return 0;
+ 	signal_off_save(&oldset);
+-	if (--refcount)
++	if (!__rseq_refcount) {
++		ret = -1;
++		goto end;
++	}
++	if (--__rseq_refcount)
+ 		goto end;
+ 	rc = sys_rseq(&__rseq_abi, sizeof(struct rseq),
+ 		      RSEQ_FLAG_UNREGISTER, RSEQ_SIG);
+ 	if (!rc)
+ 		goto end;
++	__rseq_refcount = 1;
+ 	ret = -1;
+ end:
+ 	signal_restore(oldset);
+@@ -115,3 +137,20 @@ int32_t rseq_fallback_current_cpu(void)
+ 	}
+ 	return cpu;
+ }
++
++void __attribute__((constructor)) rseq_init(void)
++{
++	/* Check whether rseq is handled by another library. */
++	if (__rseq_handled)
++		return;
++	__rseq_handled = 1;
++	rseq_ownership = 1;
++}
++
++void __attribute__((destructor)) rseq_fini(void)
++{
++	if (!rseq_ownership)
++		return;
++	__rseq_handled = 0;
++	rseq_ownership = 0;
++}
+diff --git a/tools/testing/selftests/rseq/rseq.h b/tools/testing/selftests/rseq/rseq.h
+index c72eb70f9b52..26348e2c44f3 100644
+--- a/tools/testing/selftests/rseq/rseq.h
++++ b/tools/testing/selftests/rseq/rseq.h
+@@ -45,6 +45,7 @@
+ #endif
+ 
+ extern __thread volatile struct rseq __rseq_abi;
++extern int __rseq_handled;
+ 
+ #define rseq_likely(x)		__builtin_expect(!!(x), 1)
+ #define rseq_unlikely(x)	__builtin_expect(!!(x), 0)
 -- 
 2.11.0
 
