@@ -2,42 +2,42 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 73AD3E66D
-	for <lists+linux-api@lfdr.de>; Mon, 29 Apr 2019 17:30:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D7E6FE683
+	for <lists+linux-api@lfdr.de>; Mon, 29 Apr 2019 17:31:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728721AbfD2P3b (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 29 Apr 2019 11:29:31 -0400
-Received: from mail.efficios.com ([167.114.142.138]:56952 "EHLO
+        id S1728528AbfD2PaW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 29 Apr 2019 11:30:22 -0400
+Received: from mail.efficios.com ([167.114.142.138]:56924 "EHLO
         mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728674AbfD2P31 (ORCPT
+        with ESMTP id S1728672AbfD2P31 (ORCPT
         <rfc822;linux-api@vger.kernel.org>); Mon, 29 Apr 2019 11:29:27 -0400
 Received: from localhost (ip6-localhost [IPv6:::1])
-        by mail.efficios.com (Postfix) with ESMTP id D89A31C1CEA;
+        by mail.efficios.com (Postfix) with ESMTP id B80931C1CE7;
         Mon, 29 Apr 2019 11:29:25 -0400 (EDT)
 Received: from mail.efficios.com ([IPv6:::1])
         by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10032)
-        with ESMTP id Dih3OQRmIuKp; Mon, 29 Apr 2019 11:29:25 -0400 (EDT)
+        with ESMTP id 2gPY819J-axm; Mon, 29 Apr 2019 11:29:25 -0400 (EDT)
 Received: from localhost (ip6-localhost [IPv6:::1])
-        by mail.efficios.com (Postfix) with ESMTP id 159A21C1CCD;
+        by mail.efficios.com (Postfix) with ESMTP id 511631C1CDC;
         Mon, 29 Apr 2019 11:29:25 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 159A21C1CCD
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 511631C1CDC
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
         s=default; t=1556551765;
-        bh=7bREYjl8Np1pAd/Fde//VKkoNKJfwTpSdwiHFLstO2Y=;
+        bh=ywHZBM285Oi7ZNY1INp8Fr4OzMaiucwZoNO/gC6Rwc8=;
         h=From:To:Date:Message-Id;
-        b=qdsdefdtcms3xo87H8y+IjvGDUQjo00yZbwHg2fFWlmSiOpPiYd7Yr+Fbw671on4T
-         YIF7yjLKHsj8Oj2FQG1xQ9E0mw5S7mw0KjVzgOcRQWyVwrau+KOVERiaRz3dFDtK3e
-         LeGmu9rldeFUl7zSmAQjy1MjlSezw2pK7qQdYeYT+W7znWKBUNYVAamU9ekt8BlO1P
-         9bv9v4Sq/Dhe2x8Vkk6NK3vsZX+19xwF79l728i4Ak4wEhVVKeoYVOucrJioaf4Zv6
-         ek3yglNSjYNoKMDeuOhOPBSJonAdf9al4rB9u1Mw4RTP3YTcHeFJaTgvYW/rK2tyqA
-         XYsJr9ypbkHUg==
+        b=cFDn/eIovgRc3tS5s+n5klc3EYh/x2iot7j09siSgkU1bHG39u1Q4b6f6HHS77dWC
+         fXm6aUrBmqBtwdmw7yu+FAayOxJnnck7EjyMnUd80O1fFSbSEdgcwvEPJ8iG147wqf
+         4OuL2NppXePrK87yRQ3zOIYGDFvV36kOBFD74LD8PBakVUk7pVg07zOR9bwl5nMjHI
+         cB/l2cBax4ajTRSGrNyQoGPl4GILFDvfOXil9fAYd8wZo7tczC/cbUK8b7tUNTesuN
+         hvsjLU8kb2nmkP/eEuvvv+mOMIcF5vrHhZgvUY+VTAujx4FMmvZ3r4fePFATvuleRb
+         vOIiKtLW630gQ==
 X-Virus-Scanned: amavisd-new at efficios.com
 Received: from mail.efficios.com ([IPv6:::1])
         by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10026)
-        with ESMTP id A3PNBTsTlWyu; Mon, 29 Apr 2019 11:29:25 -0400 (EDT)
+        with ESMTP id ZjrLtblpKBDb; Mon, 29 Apr 2019 11:29:25 -0400 (EDT)
 Received: from thinkos.internal.efficios.com (192-222-157-41.qc.cable.ebox.net [192.222.157.41])
-        by mail.efficios.com (Postfix) with ESMTPSA id C10091C1C9E;
-        Mon, 29 Apr 2019 11:29:23 -0400 (EDT)
+        by mail.efficios.com (Postfix) with ESMTPSA id 62D531C1CC5;
+        Mon, 29 Apr 2019 11:29:24 -0400 (EDT)
 From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To:     Shuah Khan <shuah@kernel.org>
 Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
@@ -61,13 +61,10 @@ Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
         Michael Kerrisk <mtk.manpages@gmail.com>,
         Joel Fernandes <joelaf@google.com>,
         Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Carlos O'Donell <carlos@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Joseph Myers <joseph@codesourcery.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>
-Subject: [PATCH for 5.2 04/12] rseq/selftests: Use __rseq_handled symbol to coexist with glibc
-Date:   Mon, 29 Apr 2019 11:27:55 -0400
-Message-Id: <20190429152803.7719-5-mathieu.desnoyers@efficios.com>
+        linux-kselftest@vger.kernel.org
+Subject: [PATCH for 5.2 05/12] rseq/selftests: s390: use jg instruction for jumps outside of the asm
+Date:   Mon, 29 Apr 2019 11:27:56 -0400
+Message-Id: <20190429152803.7719-6-mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20190429152803.7719-1-mathieu.desnoyers@efficios.com>
 References: <20190429152803.7719-1-mathieu.desnoyers@efficios.com>
@@ -76,155 +73,59 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-In order to integrate rseq into user-space applications, expose a
-__rseq_handled symbol so many rseq users can be linked into the same
-application (e.g. librseq and glibc).
+The branch target range of the "j" instruction is 64K, which is not
+enough for the general case.
 
-The __rseq_refcount TLS variable is static to the librseq library. It
-ensures that rseq syscall registration/unregistration happens only for
-the most early/late caller to rseq_{,un}register_current_thread for each
-thread, thus ensuring that rseq is registered across the lifetime of all
-rseq users for a given thread.
-
+Suggested-by: Martin Schwidefsky <schwidefsky@de.ibm.com>
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-CC: Shuah Khan <shuah@kernel.org>
-CC: Carlos O'Donell <carlos@redhat.com>
-CC: Florian Weimer <fweimer@redhat.com>
-CC: Joseph Myers <joseph@codesourcery.com>
-CC: Szabolcs Nagy <szabolcs.nagy@arm.com>
 CC: Thomas Gleixner <tglx@linutronix.de>
-CC: Ben Maurer <bmaurer@fb.com>
+CC: Joel Fernandes <joelaf@google.com>
 CC: Peter Zijlstra <peterz@infradead.org>
-CC: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-CC: Boqun Feng <boqun.feng@gmail.com>
-CC: Will Deacon <will.deacon@arm.com>
+CC: Catalin Marinas <catalin.marinas@arm.com>
 CC: Dave Watson <davejwatson@fb.com>
+CC: Will Deacon <will.deacon@arm.com>
+CC: Shuah Khan <shuah@kernel.org>
+CC: Andi Kleen <andi@firstfloor.org>
+CC: linux-kselftest@vger.kernel.org
+CC: "H . Peter Anvin" <hpa@zytor.com>
+CC: Chris Lameter <cl@linux.com>
+CC: Russell King <linux@arm.linux.org.uk>
+CC: Michael Kerrisk <mtk.manpages@gmail.com>
+CC: "Paul E . McKenney" <paulmck@linux.vnet.ibm.com>
 CC: Paul Turner <pjt@google.com>
+CC: Boqun Feng <boqun.feng@gmail.com>
+CC: Josh Triplett <josh@joshtriplett.org>
+CC: Steven Rostedt <rostedt@goodmis.org>
+CC: Ben Maurer <bmaurer@fb.com>
 CC: linux-api@vger.kernel.org
+CC: Andy Lutomirski <luto@amacapital.net>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linus Torvalds <torvalds@linux-foundation.org>
 ---
- tools/testing/selftests/rseq/rseq.c | 55 +++++++++++++++++++++++++++++++------
- tools/testing/selftests/rseq/rseq.h |  1 +
- 2 files changed, 48 insertions(+), 8 deletions(-)
+ tools/testing/selftests/rseq/rseq-s390.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tools/testing/selftests/rseq/rseq.c b/tools/testing/selftests/rseq/rseq.c
-index 4847e97ed049..7159eb777fd3 100644
---- a/tools/testing/selftests/rseq/rseq.c
-+++ b/tools/testing/selftests/rseq/rseq.c
-@@ -25,18 +25,27 @@
- #include <syscall.h>
- #include <assert.h>
- #include <signal.h>
-+#include <limits.h>
+diff --git a/tools/testing/selftests/rseq/rseq-s390.h b/tools/testing/selftests/rseq/rseq-s390.h
+index fbb97815d71c..7c4f3a70b6c7 100644
+--- a/tools/testing/selftests/rseq/rseq-s390.h
++++ b/tools/testing/selftests/rseq/rseq-s390.h
+@@ -117,14 +117,14 @@ do {									\
+ 		".long " __rseq_str(RSEQ_SIG) "\n\t"			\
+ 		__rseq_str(label) ":\n\t"				\
+ 		teardown						\
+-		"j %l[" __rseq_str(abort_label) "]\n\t"			\
++		"jg %l[" __rseq_str(abort_label) "]\n\t"		\
+ 		".popsection\n\t"
  
- #include "rseq.h"
+ #define RSEQ_ASM_DEFINE_CMPFAIL(label, teardown, cmpfail_label)		\
+ 		".pushsection __rseq_failure, \"ax\"\n\t"		\
+ 		__rseq_str(label) ":\n\t"				\
+ 		teardown						\
+-		"j %l[" __rseq_str(cmpfail_label) "]\n\t"		\
++		"jg %l[" __rseq_str(cmpfail_label) "]\n\t"		\
+ 		".popsection\n\t"
  
- #define ARRAY_SIZE(arr)	(sizeof(arr) / sizeof((arr)[0]))
- 
--__attribute__((tls_model("initial-exec"))) __thread
--volatile struct rseq __rseq_abi = {
-+__thread volatile struct rseq __rseq_abi = {
- 	.cpu_id = RSEQ_CPU_ID_UNINITIALIZED,
- };
- 
--static __attribute__((tls_model("initial-exec"))) __thread
--volatile int refcount;
-+/*
-+ * Shared with other libraries. This library may take rseq ownership if it is
-+ * still 0 when executing the library constructor. Set to 1 by library
-+ * constructor when handling rseq. Set to 0 in destructor if handling rseq.
-+ */
-+int __rseq_handled;
-+
-+/* Whether this library have ownership of rseq registration. */
-+static int rseq_ownership;
-+
-+static __thread volatile uint32_t __rseq_refcount;
- 
- static void signal_off_save(sigset_t *oldset)
- {
-@@ -69,8 +78,14 @@ int rseq_register_current_thread(void)
- 	int rc, ret = 0;
- 	sigset_t oldset;
- 
-+	if (!rseq_ownership)
-+		return 0;
- 	signal_off_save(&oldset);
--	if (refcount++)
-+	if (__rseq_refcount == UINT_MAX) {
-+		ret = -1;
-+		goto end;
-+	}
-+	if (__rseq_refcount++)
- 		goto end;
- 	rc = sys_rseq(&__rseq_abi, sizeof(struct rseq), 0, RSEQ_SIG);
- 	if (!rc) {
-@@ -78,9 +93,9 @@ int rseq_register_current_thread(void)
- 		goto end;
- 	}
- 	if (errno != EBUSY)
--		__rseq_abi.cpu_id = -2;
-+		__rseq_abi.cpu_id = RSEQ_CPU_ID_REGISTRATION_FAILED;
- 	ret = -1;
--	refcount--;
-+	__rseq_refcount--;
- end:
- 	signal_restore(oldset);
- 	return ret;
-@@ -91,13 +106,20 @@ int rseq_unregister_current_thread(void)
- 	int rc, ret = 0;
- 	sigset_t oldset;
- 
-+	if (!rseq_ownership)
-+		return 0;
- 	signal_off_save(&oldset);
--	if (--refcount)
-+	if (!__rseq_refcount) {
-+		ret = -1;
-+		goto end;
-+	}
-+	if (--__rseq_refcount)
- 		goto end;
- 	rc = sys_rseq(&__rseq_abi, sizeof(struct rseq),
- 		      RSEQ_FLAG_UNREGISTER, RSEQ_SIG);
- 	if (!rc)
- 		goto end;
-+	__rseq_refcount = 1;
- 	ret = -1;
- end:
- 	signal_restore(oldset);
-@@ -115,3 +137,20 @@ int32_t rseq_fallback_current_cpu(void)
- 	}
- 	return cpu;
- }
-+
-+void __attribute__((constructor)) rseq_init(void)
-+{
-+	/* Check whether rseq is handled by another library. */
-+	if (__rseq_handled)
-+		return;
-+	__rseq_handled = 1;
-+	rseq_ownership = 1;
-+}
-+
-+void __attribute__((destructor)) rseq_fini(void)
-+{
-+	if (!rseq_ownership)
-+		return;
-+	__rseq_handled = 0;
-+	rseq_ownership = 0;
-+}
-diff --git a/tools/testing/selftests/rseq/rseq.h b/tools/testing/selftests/rseq/rseq.h
-index c72eb70f9b52..26348e2c44f3 100644
---- a/tools/testing/selftests/rseq/rseq.h
-+++ b/tools/testing/selftests/rseq/rseq.h
-@@ -45,6 +45,7 @@
- #endif
- 
- extern __thread volatile struct rseq __rseq_abi;
-+extern int __rseq_handled;
- 
- #define rseq_likely(x)		__builtin_expect(!!(x), 1)
- #define rseq_unlikely(x)	__builtin_expect(!!(x), 0)
+ static inline __attribute__((always_inline))
 -- 
 2.11.0
 
