@@ -2,84 +2,182 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C4DDE39E
-	for <lists+linux-api@lfdr.de>; Mon, 29 Apr 2019 15:22:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 09F67E427
+	for <lists+linux-api@lfdr.de>; Mon, 29 Apr 2019 16:03:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726401AbfD2NWT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 29 Apr 2019 09:22:19 -0400
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:41841 "EHLO
-        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725838AbfD2NWT (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Apr 2019 09:22:19 -0400
-Received: by mail-qk1-f194.google.com with SMTP id l199so5862772qke.8;
-        Mon, 29 Apr 2019 06:22:19 -0700 (PDT)
+        id S1728298AbfD2OCu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 29 Apr 2019 10:02:50 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:34644 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728293AbfD2OCt (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Apr 2019 10:02:49 -0400
+Received: by mail-pg1-f194.google.com with SMTP id c13so4236169pgt.1
+        for <linux-api@vger.kernel.org>; Mon, 29 Apr 2019 07:02:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=PFu4LcJxharEXgw2klYAWZtX/puZbWdAKMF8s/Hs2eE=;
+        b=wf3DswDloG1u4oHlBpxqq8kPCsFCrpGWBM1XhGnys9lN64ZH8ZRWd5NWTO82vMm+H4
+         EpHveYtd/isl+i0Q6VrxPxKLUs9PQT1Fpg7dZF7/BoUtVDQ9pxnaifgBsM9+ctApquUi
+         Yl5ReFF/YnGSMLvkAJ3fo1dWWpiJS1TWP0pE4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jxj1FCipKcklarY6Q+hJsPo8HKtT8eDMF/LowfJ48xw=;
-        b=Sbt8zt5d/mefsrGhBrLCyCxx0ScBdXzomZnTqffwL8ee/2jJxZmIugIfbvJ/amxNH2
-         CuWYUv2wD5PeuSDLqncG+cFqtzjg/5hmzI1QUCy+kqzIYFv0PuFq3hVbWMCCA72BAck5
-         KSGECbiZTd8gYMGA7jMjHUGY0QtNN2xPt4t+nt6JBzcZZpWC4NJzvwpuUcrE1mAR51Bm
-         NPTLV/7eL2APotZt5g69Thn44L2avZuLRqNZTqByo3KwoFcNXrl6fT53jpm7iIkIK8Jp
-         bGi2x5a4cSih9GFpTIoyAuqeZoIAoy7zJRJ6JS+G9o0IFKlwckWqhpB+n5w3U57BDXKl
-         LQeg==
-X-Gm-Message-State: APjAAAVptRK3oDUEjovUIxLSPNAMjCkrO9M/UWiyEjiruiiCTDHBWqcc
-        Ea41oRxF4+XouMPmZSiG3o1DdgLYXrHFbUub8Dw=
-X-Google-Smtp-Source: APXvYqzA00hWBDMEberomQeBoApVfyufrjCPcagiQ+CrJXNsKP6fBHPvkVE+n4jTzMcf6/hgw0GZ+JNqgRHhjJk6HYc=
-X-Received: by 2002:ae9:ee15:: with SMTP id i21mr43735948qkg.107.1556544138476;
- Mon, 29 Apr 2019 06:22:18 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=PFu4LcJxharEXgw2klYAWZtX/puZbWdAKMF8s/Hs2eE=;
+        b=lrH4CtOm+DyxSKc68ZAxwIXIrTiyuFi3QexUEnPKluWh/mqPbKkJBC3TS7XfmLUCh0
+         G63lUW5NmIhDM8THuZckxnRF1opyf3iJgIz3hXd7ukHHyJ/bME+UidH04EX/Hzq0qbxj
+         OS7l9aX7Z+3l9sSJDi3r5DJwOKKecW+h8d/EYsm32odwo+L6dRZaOmxpF3RqpzoLAISH
+         steHJssGSh5wODsnAHrpokYguFIChVREz9/JW+dlETby9+lwj2eM1aOpXnAoJH7qfHed
+         wPrqfTO754Cai6tuRxfNrdBS5tXRiK6kXwnDMP2YWI/JrWHmW4Fc1WokXD88Frdqqk+S
+         CcKA==
+X-Gm-Message-State: APjAAAVoX1z4wCOLeqglFQKl3cWhrL8IQ+pPXmPSE37usEc+jumJZiyu
+        +jX5EQZb2Bx+J4dRGj6FHW0b8w==
+X-Google-Smtp-Source: APXvYqzeOjZa/OYBZv7q/tl5A0uibW0n1aWmK6abkgawPzyU9qpgOZFhzfeXxqWc5jbvXia2u4bzBg==
+X-Received: by 2002:a63:a18:: with SMTP id 24mr57229266pgk.332.1556546568429;
+        Mon, 29 Apr 2019 07:02:48 -0700 (PDT)
+Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id j16sm43790261pfi.58.2019.04.29.07.02.46
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 29 Apr 2019 07:02:46 -0700 (PDT)
+Date:   Mon, 29 Apr 2019 10:02:45 -0400
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     Oleg Nesterov <oleg@redhat.com>
+Cc:     Christian Brauner <christian@brauner.io>,
+        linux-kernel@vger.kernel.org, luto@amacapital.net,
+        rostedt@goodmis.org, dancol@google.com, sspatil@google.com,
+        jannh@google.com, surenb@google.com, timmurray@google.com,
+        Jonathan Kowalski <bl0pbl33p@gmail.com>,
+        torvalds@linux-foundation.org, kernel-team@android.com,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ingo Molnar <mingo@kernel.org>, Jann Horn <jann@thejh.net>,
+        linux-kselftest@vger.kernel.org, Michal Hocko <mhocko@suse.com>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Serge Hallyn <serge@hallyn.com>, Shuah Khan <shuah@kernel.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tycho Andersen <tycho@tycho.ws>, viro@zeniv.linux.org.uk,
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH v1 1/2] Add polling support to pidfd
+Message-ID: <20190429140245.GB233442@google.com>
+References: <20190425190010.46489-1-joel@joelfernandes.org>
+ <20190425222359.sqhboc4x4daznr6r@brauner.io>
+ <20190428162405.GA6757@redhat.com>
 MIME-Version: 1.0
-References: <20190426142531.1378357-1-arnd@arndb.de> <alpine.DEB.2.21.1904290933130.1626@nanos.tec.linutronix.de>
-In-Reply-To: <alpine.DEB.2.21.1904290933130.1626@nanos.tec.linutronix.de>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Mon, 29 Apr 2019 15:22:02 +0200
-Message-ID: <CAK8P3a2UVqg--Xs29o55QbsRKu-ynN8ZXR96Phiq2cuCoABvGw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] y2038: make CONFIG_64BIT_TIME unconditional
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     Joseph Myers <joseph@codesourcery.com>,
-        GNU C Library <libc-alpha@sourceware.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Deepa Dinamani <deepa.kernel@gmail.com>,
-        Lukasz Majewski <lukma@denx.de>,
-        Stepan Golosunov <stepan@golosunov.pp.ru>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190428162405.GA6757@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Apr 29, 2019 at 9:34 AM Thomas Gleixner <tglx@linutronix.de> wrote:
->
-> On Fri, 26 Apr 2019, Arnd Bergmann wrote:
->
-> > As Stepan Golosunov points out, we made a small mistake in the
-> > get_timespec64() function in the kernel. It was originally added under
-> > the assumption that CONFIG_64BIT_TIME would get enabled on all 32-bit
-> > and 64-bit architectures, but when I did the conversion, I only turned
-> > it on for 32-bit ones.
+On Sun, Apr 28, 2019 at 06:24:06PM +0200, Oleg Nesterov wrote:
+> Thanks for cc'ing me...
+> 
+> On 04/26, Christian Brauner wrote:
 > >
-> > The effect is that the get_timespec64() function never clears the upper
-> > half of the tv_nsec field for 32-bit tasks in compat mode. Clearing this
-> > is required for POSIX compliant behavior of functions that pass a
-> > 'timespec' structure with a 64-bit tv_sec and a 32-bit tv_nsec, plus
-> > uninitialized padding.
-> >
-> > The easiest fix for linux-5.1 is to just make the Kconfig symbol
-> > unconditional, as it was originally intended. As a follow-up,
-> > we should remove any #ifdef CONFIG_64BIT_TIME completely.
-> >
-> > Link: https://lore.kernel.org/lkml/20190422090710.bmxdhhankurhafxq@sghpc.golosunov.pp.ru/
-> > Cc: Lukasz Majewski <lukma@denx.de>
-> > Cc: Stepan Golosunov <stepan@golosunov.pp.ru>
-> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> > ---
-> > Please apply this one as a bugfix for 5.1
->
-> Can you provide a 'Fixes: ....' tag please?
+> > On Thu, Apr 25, 2019 at 03:00:09PM -0400, Joel Fernandes (Google) wrote:
+> > > +static unsigned int pidfd_poll(struct file *file, struct poll_table_struct *pts)
+> > > +{
+> > > +	struct task_struct *task;
+> > > +	struct pid *pid;
+> > > +	int poll_flags = 0;
+> > > +
+> > > +	/*
+> > > +	 * tasklist_lock must be held because to avoid racing with
+> > > +	 * changes in exit_state and wake up. Basically to avoid:
+> > > +	 *
+> > > +	 * P0: read exit_state = 0
+> > > +	 * P1: write exit_state = EXIT_DEAD
+> > > +	 * P1: Do a wake up - wq is empty, so do nothing
+> > > +	 * P0: Queue for polling - wait forever.
+> > > +	 */
+> > > +	read_lock(&tasklist_lock);
+> > > +	pid = file->private_data;
+> > > +	task = pid_task(pid, PIDTYPE_PID);
+> > > +	WARN_ON_ONCE(task && !thread_group_leader(task));
+> > > +
+> > > +	if (!task || (task->exit_state && thread_group_empty(task)))
+> > > +		poll_flags = POLLIN | POLLRDNORM;
+> 
+> Joel, I still can't understand why do we need tasklist... and I don't really
+> understand the comment. The code looks as if you are trying to avoid poll_wait(),
+> but this would be strange.
+> 
+> OK, why can't pidfd_poll() do
+> 
+> 	poll_wait(file, &pid->wait_pidfd, pts);
+> 
+> 	rcu_read_lock();
+> 	task = pid_task(pid, PIDTYPE_PID);
+> 	if (!task || task->exit_state && thread_group_empty(task))
+> 		poll_flags = POLLIN | ...;
+> 	rcu_read_unlock();
+> 
+> 	return poll_flags;
+> 
+> ?
 
-Ok, resent both patches now. I also took the chance to add a clarification
-for the point that Lukasz missed on the first submission.
+Oh that's much better Oleg, and would avoid the race I had in mind: Basically
+I was acquiring the tasklist_lock to avoid a case where a polling task is not
+woken up because it was added to the waitqueue too late. The reading of the
+exit_state and the conditional adding to the wait queue, needed to be atomic.
+Otherwise something like the following may be possible:
 
-       Arnd
+Task A (poller)		Task B (exiting task being polled)
+------------            ----------------
+poll() called
+			exit_state is set to non-zero
+read exit_state
+			wake_up_all()
+
+add_wait_queue()
+----------------------------------------------
+
+However, in your code above, it is avoided because we get:
+
+Task A (poller)		Task B (exiting task being polled)
+------------            ----------------
+poll() called
+add_wait_queue()
+			exit_state is set to non-zero
+read exit_state
+remove_wait_queue()
+			wake_up_all()
+
+I don't see any other issues with your code above so I can try it out and
+update the patches. Thanks.
+
+> > > +static void do_notify_pidfd(struct task_struct *task)
+> >
+> > Maybe a short command that this helper can only be called when we know
+> > that task is a thread-group leader wouldn't hurt so there's no confusion
+> > later.
+> 
+> Not really. If the task is traced, do_notify_parent() (and thus do_notify_pidfd())
+> can be called to notify the debugger even if the task is not a leader and/or if
+> it is not the last thread. The latter means a spurious wakeup for pidfd_poll().
+
+Seems like you are replying to Christian's point. I agree with you.
+
+> > > +{
+> > > +	struct pid *pid;
+> > > +
+> > > +	lockdep_assert_held(&tasklist_lock);
+> > > +
+> > > +	pid = get_task_pid(task, PIDTYPE_PID);
+> > > +	wake_up_all(&pid->wait_pidfd);
+> > > +	put_pid(pid);
+> 
+> Why get/put?
+
+Yes, pid_task() should do it. Will update it. Thanks!
+
+ - Joel
+
