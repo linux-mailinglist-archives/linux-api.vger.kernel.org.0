@@ -2,94 +2,172 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A3C42EB8B
-	for <lists+linux-api@lfdr.de>; Mon, 29 Apr 2019 22:21:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D967EEB9E
+	for <lists+linux-api@lfdr.de>; Mon, 29 Apr 2019 22:28:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729219AbfD2UV1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 29 Apr 2019 16:21:27 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:39260 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728928AbfD2UV0 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Apr 2019 16:21:26 -0400
-Received: by mail-lf1-f65.google.com with SMTP id d12so9025479lfk.6
-        for <linux-api@vger.kernel.org>; Mon, 29 Apr 2019 13:21:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+KBkvUzTALKgFLj/TOeD9d/FpBJiRxV8AwPVY9LOciU=;
-        b=OxXZEkxbYVzsZQ7Cy5ZsCi/u7kILgUKY0trvo9FOK+C+EkZRHqW8ZFkNORrDIB/mqL
-         F/DSCTJh2z/j8+NKw8b00XyqeE7sxk5+H0Bxooo63jGIVK8qknkJLbfkGup5Jj50YRvg
-         NW6+HnkqAnsclagMIbZlDrPBCOOSVVvs2zEnw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+KBkvUzTALKgFLj/TOeD9d/FpBJiRxV8AwPVY9LOciU=;
-        b=Difr/4RHieL7kqj9CidZtfqioSd2YGXvwTGSCddEWNusXWuQp3CRDSLGgkWR80e4ZY
-         DeSSd5H2qIJffqDOUjCB3qUgmrGzb21Sq1dI9C0FqonQfvgwEqP689VlF5+VHbdNt01X
-         MsMsMLXkMOD1uqfSKy3vxF0zJqAoqcjaMe/eM+bGF+7HFJrggasuR0UwwpnuZThZqQiJ
-         XzjJUc8Fdx5pTVnKa0Bs2E1B7dFsaR8l4HDNC75nOAMVV4zE5o65TXs4sGehAdyMgap3
-         rV0lF1OuGeKSkluYBN6IakghXQXAC8itvQUn9eVQMYRmYxHSbNBUk3K8ZKvVeFhTVaZm
-         FXcg==
-X-Gm-Message-State: APjAAAWNMeBnRmpcG2oUtKJmrsx1ZKw1mYi3m7ErYhx3GKtvqvGtI+wQ
-        g50t8/WZ3DJOpdI9LTJQqIQ2rP8m0GA=
-X-Google-Smtp-Source: APXvYqxan86UPmwCH9WajznXCeFR0XXCkmUs3SHB8VnaMy+Bkp+LlvJbuyNfRzDjnI3R2VxlcM4jSg==
-X-Received: by 2002:a19:ca02:: with SMTP id a2mr33027498lfg.88.1556569284450;
-        Mon, 29 Apr 2019 13:21:24 -0700 (PDT)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com. [209.85.167.44])
-        by smtp.gmail.com with ESMTPSA id o24sm4725190lfd.42.2019.04.29.13.21.23
-        for <linux-api@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 29 Apr 2019 13:21:23 -0700 (PDT)
-Received: by mail-lf1-f44.google.com with SMTP id v1so9034694lfg.5
-        for <linux-api@vger.kernel.org>; Mon, 29 Apr 2019 13:21:23 -0700 (PDT)
-X-Received: by 2002:ac2:4567:: with SMTP id k7mr34223361lfm.166.1556569282855;
- Mon, 29 Apr 2019 13:21:22 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190414201436.19502-1-christian@brauner.io> <dc05ffe3-c2ff-8b3e-d181-e0cc620bf91d@metux.net>
- <20190415195911.z7b7miwsj67ha54y@yavin> <CALCETrWxMnaPvwicqkMLswMynWvJVteazD-bFv3ZnBKWp-1joQ@mail.gmail.com>
- <20190420071406.GA22257@ip-172-31-15-78> <CAG48ez0gG4bd-t1wdR2p6-N2FjWbCqm_+ZThKfF7yKnD=KLqAQ@mail.gmail.com>
- <CAG48ez15bf1EJB0XTJsGFpvf8r5pj9+rv1axKVr13H1NW7ARZw@mail.gmail.com>
-In-Reply-To: <CAG48ez15bf1EJB0XTJsGFpvf8r5pj9+rv1axKVr13H1NW7ARZw@mail.gmail.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Mon, 29 Apr 2019 13:21:06 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wi_N81mKYFz33ycoWiL7_tGbZBMJOsAs16inYzSza+OEw@mail.gmail.com>
-Message-ID: <CAHk-=wi_N81mKYFz33ycoWiL7_tGbZBMJOsAs16inYzSza+OEw@mail.gmail.com>
-Subject: Re: RFC: on adding new CLONE_* flags [WAS Re: [PATCH 0/4] clone: add CLONE_PIDFD]
-To:     Jann Horn <jannh@google.com>
-Cc:     Kevin Easton <kevin@guarana.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Christian Brauner <christian@brauner.io>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        David Howells <dhowells@redhat.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Kees Cook <keescook@chromium.org>,
+        id S1729252AbfD2U2V (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 29 Apr 2019 16:28:21 -0400
+Received: from mail.efficios.com ([167.114.142.138]:51518 "EHLO
+        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729212AbfD2U2V (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Apr 2019 16:28:21 -0400
+Received: from localhost (ip6-localhost [IPv6:::1])
+        by mail.efficios.com (Postfix) with ESMTP id 462E71DA3AD;
+        Mon, 29 Apr 2019 16:28:19 -0400 (EDT)
+Received: from mail.efficios.com ([IPv6:::1])
+        by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10032)
+        with ESMTP id lfsha8KaN3Fx; Mon, 29 Apr 2019 16:28:18 -0400 (EDT)
+Received: from localhost (ip6-localhost [IPv6:::1])
+        by mail.efficios.com (Postfix) with ESMTP id 465211DA3A4;
+        Mon, 29 Apr 2019 16:28:18 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 465211DA3A4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+        s=default; t=1556569698;
+        bh=YdzuJk5SnUFbR7C4FKv2y0/l5GDXHqEZ1IsDFtfLIUU=;
+        h=Date:From:To:Message-ID:MIME-Version;
+        b=joV9WmxEQVsqv19xO5E+SX74B/DmyGn6EayUx6zUFDMkG+aZpO/OwVshAQ75YdpCN
+         9H414rbzLgB39elHjRYUbZ6ZCymS+V11b9Vpngz2cvicrJ6iJ6wT8YjE/UwtlSruF4
+         Ri63rFjdn1PoO8MEhAsVjjPvaA6OGnRXJ6DlneymQ5olMeBwzNf/kdeqBR6reW79PQ
+         3f++EZ9boHhC6ok8or6vGjriDoH2E1hDb0kV2Lj8T+W6wAPjPjIdYzZKghgM4ShWjn
+         ZIIJujpKMw7UA1qqREsVKKowtWi8VeKtdHf+M2/1fnF+cGZWZqErIixavrdoVs+Qn+
+         LKzDi6vPjokAA==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([IPv6:::1])
+        by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10026)
+        with ESMTP id C8GZDjvDNJLn; Mon, 29 Apr 2019 16:28:18 -0400 (EDT)
+Received: from mail02.efficios.com (mail02.efficios.com [167.114.142.138])
+        by mail.efficios.com (Postfix) with ESMTP id 261AB1DA393;
+        Mon, 29 Apr 2019 16:28:18 -0400 (EDT)
+Date:   Mon, 29 Apr 2019 16:28:18 -0400 (EDT)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     ndesaulniers <ndesaulniers@google.com>, shuah <shuah@kernel.org>
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-api <linux-api@vger.kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Paul E . McKenney" <paulmck@linux.vnet.ibm.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Dave Watson <davejwatson@fb.com>, Paul Turner <pjt@google.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Daniel Colascione <dancol@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        Russell King <linux@arm.linux.org.uk>,
+        Ingo Molnar <mingo@redhat.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Andi Kleen <andi@firstfloor.org>,
+        Chris Lameter <cl@linux.com>, Ben Maurer <bmaurer@fb.com>,
+        rostedt <rostedt@goodmis.org>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Joel Fernandes <joelaf@google.com>,
+        linux-kselftest <linux-kselftest@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>
+Message-ID: <712082435.384.1556569697998.JavaMail.zimbra@efficios.com>
+In-Reply-To: <CAKwvOdnbH0+ju5Ny-mB-Z4kC+ALyCJOU4Q8OCLHHjFAQzJqsXA@mail.gmail.com>
+References: <20190429152803.7719-1-mathieu.desnoyers@efficios.com> <20190429152803.7719-13-mathieu.desnoyers@efficios.com> <CAKwvOdnbH0+ju5Ny-mB-Z4kC+ALyCJOU4Q8OCLHHjFAQzJqsXA@mail.gmail.com>
+Subject: Re: [PATCH for 5.2 12/12] rseq/selftests: add -no-integrated-as for
+ clang
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [167.114.142.138]
+X-Mailer: Zimbra 8.8.12_GA_3794 (ZimbraWebClient - FF66 (Linux)/8.8.12_GA_3794)
+Thread-Topic: rseq/selftests: add -no-integrated-as for clang
+Thread-Index: Ac/EHQ/mSHgf8Nq7m+w8ff+ojTnKhQ==
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Apr 29, 2019 at 12:55 PM Jann Horn <jannh@google.com> wrote:
->
-> ... I guess that already has a name, and it's called vfork(). (Well,
-> except that the Linux vfork() isn't a real vfork().)
+----- On Apr 29, 2019, at 1:03 PM, ndesaulniers ndesaulniers@google.com wrote:
 
-What?
+> On Mon, Apr 29, 2019 at 8:29 AM Mathieu Desnoyers
+> <mathieu.desnoyers@efficios.com> wrote:
+>>
+>> Ongoing work for asm goto support from clang requires the
+>> -no-integrated-as compiler flag.
+>>
+>> This compiler flag is present in the toplevel kernel Makefile,
+>> but is not replicated for selftests. Add it specifically for
+>> the rseq selftest which requires asm goto.
+>>
+>> Link: https://reviews.llvm.org/D56571
+>> Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+>> CC: Nick Desaulniers <ndesaulniers@google.com>
+>> CC: Thomas Gleixner <tglx@linutronix.de>
+>> CC: Joel Fernandes <joelaf@google.com>
+>> CC: Peter Zijlstra <peterz@infradead.org>
+>> CC: Catalin Marinas <catalin.marinas@arm.com>
+>> CC: Dave Watson <davejwatson@fb.com>
+>> CC: Will Deacon <will.deacon@arm.com>
+>> CC: Shuah Khan <shuah@kernel.org>
+>> CC: Andi Kleen <andi@firstfloor.org>
+>> CC: linux-kselftest@vger.kernel.org
+>> CC: "H . Peter Anvin" <hpa@zytor.com>
+>> CC: Chris Lameter <cl@linux.com>
+>> CC: Russell King <linux@arm.linux.org.uk>
+>> CC: Michael Kerrisk <mtk.manpages@gmail.com>
+>> CC: "Paul E . McKenney" <paulmck@linux.vnet.ibm.com>
+>> CC: Paul Turner <pjt@google.com>
+>> CC: Boqun Feng <boqun.feng@gmail.com>
+>> CC: Josh Triplett <josh@joshtriplett.org>
+>> CC: Steven Rostedt <rostedt@goodmis.org>
+>> CC: Ben Maurer <bmaurer@fb.com>
+>> CC: linux-api@vger.kernel.org
+>> CC: Andy Lutomirski <luto@amacapital.net>
+>> CC: Andrew Morton <akpm@linux-foundation.org>
+>> CC: Linus Torvalds <torvalds@linux-foundation.org>
+>> ---
+>>  tools/testing/selftests/rseq/Makefile | 8 +++++++-
+>>  1 file changed, 7 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/tools/testing/selftests/rseq/Makefile
+>> b/tools/testing/selftests/rseq/Makefile
+>> index c30c52e1d0d2..d6469535630a 100644
+>> --- a/tools/testing/selftests/rseq/Makefile
+>> +++ b/tools/testing/selftests/rseq/Makefile
+>> @@ -1,5 +1,11 @@
+>>  # SPDX-License-Identifier: GPL-2.0+ OR MIT
+>> -CFLAGS += -O2 -Wall -g -I./ -I../../../../usr/include/ -L./ -Wl,-rpath=./
+>> +
+>> +ifneq ($(shell $(CC) --version 2>&1 | head -n 1 | grep clang),)
+>> +CLANG_FLAGS += -no-integrated-as
+>> +endif
+>> +
+>> +CFLAGS += -O2 -Wall -g -I./ -I../../../../usr/include/ -L./ -Wl,-rpath=./ \
+>> +         $(CLANG_FLAGS)
+> 
+> The top level Makefile exports $(CLANG_FLAGS), which should contain
+> `-no-integrated-as`.  Is that available here?  If so, then you can
+> just add `$(CLANG_FLAGS)`, no compiler check needed.
 
-Linux vfork() is very much a real vfork(). What do you mean?
+AFAIU, the makefiles under tools/testing/selftests all end up including
+tools/testing/selftests/lib.mk, which states:
 
-                 Linus
+"# This mimics the top-level Makefile. We do it explicitly here so that this
+ # Makefile can operate with or without the kbuild infrastructure."
+
+So I don't think it's using any of the definitions from the toplevel
+Makefile.
+
+> If not, maybe the test for CONFIG_CC_IS_CLANG is cleaner?
+
+A quick test indicates that the toplevel CONFIG_* definitions are unavailable
+from the kernel selftests makefiles.
+
+> Thanks for the patch, and helping test asm goto in Clang!
+
+You're very welcome! Considering that I intend to have rseq widely adopted in
+user-space, it's only natural to consider that its user-space side needs to be
+compiled by clang as well.
+
+Thanks,
+
+Mathieu
+
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+http://www.efficios.com
