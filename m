@@ -2,246 +2,121 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0071CE75A
-	for <lists+linux-api@lfdr.de>; Mon, 29 Apr 2019 18:11:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BCECBE7D6
+	for <lists+linux-api@lfdr.de>; Mon, 29 Apr 2019 18:33:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728613AbfD2QLV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 29 Apr 2019 12:11:21 -0400
-Received: from monster.unsafe.ru ([5.9.28.80]:45100 "EHLO mail.unsafe.ru"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728542AbfD2QLV (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 29 Apr 2019 12:11:21 -0400
-Received: from dhcp129-178.brq.redhat.com (nat-pool-brq-t.redhat.com [213.175.37.10])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.unsafe.ru (Postfix) with ESMTPSA id 5003CC61824;
-        Mon, 29 Apr 2019 16:11:17 +0000 (UTC)
-Date:   Mon, 29 Apr 2019 18:11:14 +0200
-From:   Alexey Gladkov <gladkov.alexey@gmail.com>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        linux-api@vger.kernel.org, linux-modules@vger.kernel.org,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Gleb Fotengauer-Malinovskiy <glebfm@altlinux.org>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rusty Russell <rusty@rustcorp.com.au>,
-        Jessica Yu <jeyu@kernel.org>,
-        Lucas De Marchi <lucas.de.marchi@gmail.com>
-Subject: [PATCH v4] moduleparam: Save information about built-in modules in
- separate file
-Message-ID: <20190429161114.GY9023@dhcp129-178.brq.redhat.com>
+        id S1728695AbfD2QdE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 29 Apr 2019 12:33:04 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:34202 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728666AbfD2QdD (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Apr 2019 12:33:03 -0400
+Received: by mail-pg1-f193.google.com with SMTP id c13so4432704pgt.1
+        for <linux-api@vger.kernel.org>; Mon, 29 Apr 2019 09:33:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=4u5KyvwOshsxhVh+dlKczng4m5MVTpApgn+4OWkgPnE=;
+        b=XpxVZxXyLJ0YimBp0vayH2zy8tcGXLzw8w3DDttrwTb+FzX8vh+3MV9hXUdXXJLDhg
+         4FqH8wLZdrEIPv1iUeyqQhuXMGdE8y4Xgl99IK6ll8hhxVzO5cKKdGEtHhdVycR5uhI3
+         n9zYslxIO+CR236lijdxnF6FS11fye40RInas=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=4u5KyvwOshsxhVh+dlKczng4m5MVTpApgn+4OWkgPnE=;
+        b=H7XZVoYDkGoR88UkUCefStjKsoYR0SxUx8sSPd173VkcwosLT6jR2gceysnU1OqPCb
+         mjp3GQhe1OHnXQcTWvWij0AV2Q/3B7nbO2BhwKQk9faHScnFLOW5p6ozBDLX70LGD2DJ
+         9V2PXPW/JpUyc1zPZwilOF6vsz9nSOsQmRTI5m1zlV+L2qW6lGeSsKYoSrl0LvmcJ5eV
+         S4xCp1mFiDu++jR/iAXuW7jEoNzlBudHOgLU0TFAb8yWcUHacqiRBomxUgin1TmakkvV
+         sGEmpArQ+cIMAYYbEdd6N+FPvFk0BHKHEpmmeUKu7f1+0VxuBMFm0iRf97BW/hnlgXhi
+         53rA==
+X-Gm-Message-State: APjAAAVrWJaEz9Ag2HNB9Val5zGkkEG4vFD3dBcTA2Z9znSOQJQHddoO
+        qviTI+yE8a5Mkh0Buj++XY3Gzw==
+X-Google-Smtp-Source: APXvYqxy0NH9DfF52+UZzKWGzifwxVWMDn25CFpma6QnDRG9j+hl4+IMTmxTavl5kmPTpcUkKLTBRQ==
+X-Received: by 2002:a65:44cb:: with SMTP id g11mr407421pgs.193.1556555582666;
+        Mon, 29 Apr 2019 09:33:02 -0700 (PDT)
+Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id z16sm979881pfa.42.2019.04.29.09.33.00
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 29 Apr 2019 09:33:01 -0700 (PDT)
+Date:   Mon, 29 Apr 2019 12:32:59 -0400
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     Oleg Nesterov <oleg@redhat.com>
+Cc:     Christian Brauner <christian@brauner.io>,
+        linux-kernel@vger.kernel.org, luto@amacapital.net,
+        rostedt@goodmis.org, dancol@google.com, sspatil@google.com,
+        jannh@google.com, surenb@google.com, timmurray@google.com,
+        Jonathan Kowalski <bl0pbl33p@gmail.com>,
+        torvalds@linux-foundation.org, kernel-team@android.com,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ingo Molnar <mingo@kernel.org>, Jann Horn <jann@thejh.net>,
+        linux-kselftest@vger.kernel.org, Michal Hocko <mhocko@suse.com>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Serge Hallyn <serge@hallyn.com>, Shuah Khan <shuah@kernel.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tycho Andersen <tycho@tycho.ws>, viro@zeniv.linux.org.uk,
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH v1 1/2] Add polling support to pidfd
+Message-ID: <20190429163259.GA201155@google.com>
+References: <20190425190010.46489-1-joel@joelfernandes.org>
+ <20190425222359.sqhboc4x4daznr6r@brauner.io>
+ <20190428162405.GA6757@redhat.com>
+ <20190429140245.GB233442@google.com>
+ <20190429142030.GA17715@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20190429142030.GA17715@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Problem:
+On Mon, Apr 29, 2019 at 04:20:30PM +0200, Oleg Nesterov wrote:
+> On 04/29, Joel Fernandes wrote:
+> >
+> > However, in your code above, it is avoided because we get:
+> >
+> > Task A (poller)		Task B (exiting task being polled)
+> > ------------            ----------------
+> > poll() called
+> > add_wait_queue()
+> > 			exit_state is set to non-zero
+> > read exit_state
+> > remove_wait_queue()
+> > 			wake_up_all()
+> 
+> just to clarify... No, sys_poll() path doesn't do remove_wait_queue() until
+> it returns to user mode, and that is why we can't race with set-exit_code +
+> wake_up().
 
-When a kernel module is compiled as a separate module, some important
-information about the kernel module is available via .modinfo section of
-the module.  In contrast, when the kernel module is compiled into the
-kernel, that information is not available.
+I didn't follow what you mean, the removal from the waitqueue happens in
+free_poll_entry() called from poll_freewait() which happens from
+do_sys_poll() which is before the syscall returns to user mode. Could you
+explain more?
 
-Information about built-in modules is necessary in the following cases:
+> pidfd_poll() can race with the exiting task, miss exit_code != 0, and return
+> zero. However, do_poll() won't block after that and pidfd_poll() will be called
+> again.
 
-1. When it is necessary to find out what additional parameters can be
-passed to the kernel at boot time.
+Here also I didn't follow what you mean. If exit_code is read as 0 in
+pidfd_poll(), then in do_poll() the count will be 0 and it will block in
+poll_schedule_timeout(). Right? But above you're saying it wont block.
+Also if you could show a timing diagram of this different race you're talking
+about, that will make things clear. It is a bit hard for me to picture
+otherwise.
 
-2. When you need to know which module names and their aliases are in
-the kernel. This is very useful for creating an initrd image.
+Also, I will use task_pid() for getting the pid from the task, as you suggest
+in the other thread.
 
-Proposal:
+thanks,
 
-The proposed patch does not remove .modinfo section with module
-information from the vmlinux at the build time and saves it into a
-separate file after kernel linking. So, the kernel does not increase in
-size and no additional information remains in it. Information is stored
-in the same format as in the separate modules (null-terminated string
-array). Because the .modinfo section is already exported with a separate
-modules, we are not creating a new API.
-
-It can be easily read in the userspace:
-
-$ tr '\0' '\n' < modules.builtin.modinfo
-ext4.softdep=pre: crc32c
-ext4.license=GPL
-ext4.description=Fourth Extended Filesystem
-ext4.author=Remy Card, Stephen Tweedie, Andrew Morton, Andreas Dilger, Theodore Ts'o and others
-ext4.alias=fs-ext4
-ext4.alias=ext3
-ext4.alias=fs-ext3
-ext4.alias=ext2
-ext4.alias=fs-ext2
-md_mod.alias=block-major-9-*
-md_mod.alias=md
-md_mod.description=MD RAID framework
-md_mod.license=GPL
-md_mod.parmtype=create_on_open:bool
-md_mod.parmtype=start_dirty_degraded:int
-...
-
-v2:
- * Extract modinfo from vmlinux.o as suggested by Masahiro Yamada;
- * Rename output file to kernel.builtin;
- * Add MODULE_VERSION to modinfo that is saved to the kernel.builtin;
- * Fix build warnings on powerpc.
-
-v3:
- * Rename output file to modules.builtin.modinfo as suggested by Masahiro Yamada;
- * Update Documentation/dontdiff, Documentation/kbuild/kbuild.txt.
-
-Co-Developed-by: Gleb Fotengauer-Malinovskiy <glebfm@altlinux.org>
-Signed-off-by: Gleb Fotengauer-Malinovskiy <glebfm@altlinux.org>
-Signed-off-by: Alexey Gladkov <gladkov.alexey@gmail.com>
-Acked-by: Jessica Yu <jeyu@kernel.org>
----
- .gitignore                        |  1 +
- Documentation/dontdiff            |  1 +
- Documentation/kbuild/kbuild.txt   |  5 +++++
- Makefile                          |  2 ++
- include/asm-generic/vmlinux.lds.h |  1 +
- include/linux/module.h            |  1 +
- include/linux/moduleparam.h       | 12 +++++-------
- scripts/link-vmlinux.sh           |  3 +++
- 8 files changed, 19 insertions(+), 7 deletions(-)
-
-diff --git a/.gitignore b/.gitignore
-index a20ac26aa2f5..91711164cd0a 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -58,6 +58,7 @@ modules.builtin
- /vmlinuz
- /System.map
- /Module.markers
-+/modules.builtin.modinfo
- 
- #
- # RPM spec file (make rpm-pkg)
-diff --git a/Documentation/dontdiff b/Documentation/dontdiff
-index 2228fcc8e29f..3d4d5a402b8b 100644
---- a/Documentation/dontdiff
-+++ b/Documentation/dontdiff
-@@ -179,6 +179,7 @@ mktables
- mktree
- modpost
- modules.builtin
-+modules.builtin.modinfo
- modules.order
- modversions.h*
- nconf
-diff --git a/Documentation/kbuild/kbuild.txt b/Documentation/kbuild/kbuild.txt
-index c9e3d93e7a89..63e118c8c837 100644
---- a/Documentation/kbuild/kbuild.txt
-+++ b/Documentation/kbuild/kbuild.txt
-@@ -11,6 +11,11 @@ modules.builtin
- This file lists all modules that are built into the kernel. This is used
- by modprobe to not fail when trying to load something builtin.
- 
-+modules.builtin.modinfo
-+--------------------------------------------------
-+This file contains modinfo from all modules that are built into the kernel.
-+Unlike modinfo of a separate module, all fields are prefixed with module name.
-+
- 
- Environment variables
- 
-diff --git a/Makefile b/Makefile
-index d5713e7b1e50..5e6657fcf08c 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1288,6 +1288,7 @@ _modinst_:
- 	fi
- 	@cp -f $(objtree)/modules.order $(MODLIB)/
- 	@cp -f $(objtree)/modules.builtin $(MODLIB)/
-+	@cp -f $(objtree)/modules.builtin.modinfo $(MODLIB)/
- 	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modinst
- 
- # This depmod is only for convenience to give the initial
-@@ -1328,6 +1329,7 @@ endif # CONFIG_MODULES
- 
- # Directories & files removed with 'make clean'
- CLEAN_DIRS  += $(MODVERDIR) include/ksym
-+CLEAN_FILES += modules.builtin.modinfo
- 
- # Directories & files removed with 'make mrproper'
- MRPROPER_DIRS  += include/config usr/include include/generated          \
-diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
-index 3d7a6a9c2370..44c724bf7d3a 100644
---- a/include/asm-generic/vmlinux.lds.h
-+++ b/include/asm-generic/vmlinux.lds.h
-@@ -844,6 +844,7 @@
- 	EXIT_CALL							\
- 	*(.discard)							\
- 	*(.discard.*)							\
-+	*(.modinfo)							\
- 	}
- 
- /**
-diff --git a/include/linux/module.h b/include/linux/module.h
-index f5bc4c046461..1cae28b1172a 100644
---- a/include/linux/module.h
-+++ b/include/linux/module.h
-@@ -237,6 +237,7 @@ extern typeof(name) __mod_##type##__##name##_device_table		\
- #define MODULE_VERSION(_version) MODULE_INFO(version, _version)
- #else
- #define MODULE_VERSION(_version)					\
-+	MODULE_INFO(version, _version);					\
- 	static struct module_version_attribute ___modver_attr = {	\
- 		.mattr	= {						\
- 			.attr	= {					\
-diff --git a/include/linux/moduleparam.h b/include/linux/moduleparam.h
-index ba36506db4fb..5ba250d9172a 100644
---- a/include/linux/moduleparam.h
-+++ b/include/linux/moduleparam.h
-@@ -10,23 +10,21 @@
-    module name. */
- #ifdef MODULE
- #define MODULE_PARAM_PREFIX /* empty */
-+#define __MODULE_INFO_PREFIX /* empty */
- #else
- #define MODULE_PARAM_PREFIX KBUILD_MODNAME "."
-+/* We cannot use MODULE_PARAM_PREFIX because some modules override it. */
-+#define __MODULE_INFO_PREFIX KBUILD_MODNAME "."
- #endif
- 
- /* Chosen so that structs with an unsigned long line up. */
- #define MAX_PARAM_PREFIX_LEN (64 - sizeof(unsigned long))
- 
--#ifdef MODULE
- #define __MODULE_INFO(tag, name, info)					  \
- static const char __UNIQUE_ID(name)[]					  \
-   __used __attribute__((section(".modinfo"), unused, aligned(1)))	  \
--  = __stringify(tag) "=" info
--#else  /* !MODULE */
--/* This struct is here for syntactic coherency, it is not used */
--#define __MODULE_INFO(tag, name, info)					  \
--  struct __UNIQUE_ID(name) {}
--#endif
-+  = __MODULE_INFO_PREFIX __stringify(tag) "=" info
-+
- #define __MODULE_PARM_TYPE(name, _type)					  \
-   __MODULE_INFO(parmtype, name##type, #name ":" _type)
- 
-diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-index c8cf45362bd6..43abf917f1ec 100755
---- a/scripts/link-vmlinux.sh
-+++ b/scripts/link-vmlinux.sh
-@@ -226,6 +226,9 @@ modpost_link vmlinux.o
- # modpost vmlinux.o to check for section mismatches
- ${MAKE} -f "${srctree}/scripts/Makefile.modpost" vmlinux.o
- 
-+info MODINFO modules.builtin.modinfo
-+"${OBJCOPY}" -j .modinfo -O binary vmlinux.o modules.builtin.modinfo
-+
- kallsymso=""
- kallsyms_vmlinux=""
- if [ -n "${CONFIG_KALLSYMS}" ]; then
--- 
-2.21.0
+- Joel
 
