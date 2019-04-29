@@ -2,144 +2,133 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 87E99E847
-	for <lists+linux-api@lfdr.de>; Mon, 29 Apr 2019 19:03:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0930E920
+	for <lists+linux-api@lfdr.de>; Mon, 29 Apr 2019 19:32:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728804AbfD2RD0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 29 Apr 2019 13:03:26 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:35394 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728600AbfD2RD0 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Apr 2019 13:03:26 -0400
-Received: by mail-pl1-f193.google.com with SMTP id w24so5373284plp.2
-        for <linux-api@vger.kernel.org>; Mon, 29 Apr 2019 10:03:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=t78kRyibN119sX6XaoF9LHRnGVjGQAvmGDpS+vaSbaM=;
-        b=WWFnOAaWMWJi8Y87MDOhYg3uT20LX29yUkkQFwloZur/2CX+8XKG3L2r7voIDSH2Ew
-         cLt0i1gR2cw2+mWSPDfcDR1Rf1UGXjCnmtlHVexo5B5+NJNedFfPkPIBirWXc/EyfJ79
-         NKafsSqDIIZPAAYg5Vraipp8pEVsu4LhaUOpsgwvdmAIBvKvbRMumD1lBMyuibJhE0B7
-         P6ioDOWFx7Tgiqa7Etq2SI5cmlmxU4fespoPE89jpXoIYouw0rtqZ21Qma9TRRqMCXyq
-         snKJ66cwNiq4nGrkji9xRgOc5VWjrtf1APv/UdUZ3o5kH5bW1H2yL1Jd5MTq71XjdP+X
-         fk+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=t78kRyibN119sX6XaoF9LHRnGVjGQAvmGDpS+vaSbaM=;
-        b=m82Fyv7njHbk+rieJ2Dal7mX8dkxotYmtklcTYKgtprZANAUgcBwYNBaLuRYQOj4JQ
-         /0NV/Y2Te5JDyKielKH8en2OZL40+JQsx5SA9w4rkWfd4vh5J69nF3g5ZiMNhveRJW2x
-         ozCwbfPLi3AKJsOTKOr1joXzUmScWK3p/rfV8ciiG0BxWnZlHN+p6MzkT91Lfia2f3mc
-         wAGieZ70h5CsS1cecNPCa8YKXF5DD5C7/OJLxCIdvOol4fa1csOKu2CJdnjQdFDdEJO7
-         +iwpMMYRvZiB1hutJylNv7Vy4Dq3ByRQHq0WpKvYsjYUXOZGywoNe6hW+G1wFy5erQnX
-         VlLQ==
-X-Gm-Message-State: APjAAAVlFrhADWymCjUX3mXbBVxvbGR6Ah2KRNJZUMZ+Vuqv4m5eeqtx
-        9WYSFJyvgtybNiOQV3YvkMb/f88UHCnnrw6kOl/NEw==
-X-Google-Smtp-Source: APXvYqw1M3eWxi/pFaO7kKJ5I3ulUBc9PTeuZHQQhY1Rvu+AoD5/ctqo73qV8GYax06T5JS5A99G43tYWVrAxxEI9xQ=
-X-Received: by 2002:a17:902:b595:: with SMTP id a21mr23126393pls.13.1556557404902;
- Mon, 29 Apr 2019 10:03:24 -0700 (PDT)
+        id S1728798AbfD2Rcq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 29 Apr 2019 13:32:46 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:38569 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728889AbfD2Rcp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Apr 2019 13:32:45 -0400
+Received: from [192.168.1.110] ([77.9.18.117]) by mrelayeu.kundenserver.de
+ (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1M8QNy-1hPXqm04bA-004P7i; Mon, 29 Apr 2019 19:31:48 +0200
+Subject: Re: RFC: on adding new CLONE_* flags [WAS Re: [PATCH 0/4] clone: add
+ CLONE_PIDFD]
+To:     "Serge E. Hallyn" <serge@hallyn.com>
+Cc:     Christian Brauner <christian@brauner.io>,
+        torvalds@linux-foundation.org, viro@zeniv.linux.org.uk,
+        jannh@google.com, dhowells@redhat.com, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org, luto@kernel.org, arnd@arndb.de,
+        ebiederm@xmission.com, keescook@chromium.org, tglx@linutronix.de,
+        mtk.manpages@gmail.com, akpm@linux-foundation.org, oleg@redhat.com,
+        cyphar@cyphar.com, joel@joelfernandes.org, dancol@google.com
+References: <20190414201436.19502-1-christian@brauner.io>
+ <dc05ffe3-c2ff-8b3e-d181-e0cc620bf91d@metux.net>
+ <20190415155034.GA25351@mail.hallyn.com>
+ <000a64d6-1e22-21bf-f232-15f141092e44@metux.net>
+ <20190429154949.GA23456@mail.hallyn.com>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Organization: metux IT consult
+Message-ID: <c95fbdbb-a62b-4ad1-f4be-7d1a8f96f508@metux.net>
+Date:   Mon, 29 Apr 2019 19:31:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-References: <20190429152803.7719-1-mathieu.desnoyers@efficios.com> <20190429152803.7719-13-mathieu.desnoyers@efficios.com>
-In-Reply-To: <20190429152803.7719-13-mathieu.desnoyers@efficios.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 29 Apr 2019 10:03:13 -0700
-Message-ID: <CAKwvOdnbH0+ju5Ny-mB-Z4kC+ALyCJOU4Q8OCLHHjFAQzJqsXA@mail.gmail.com>
-Subject: Re: [PATCH for 5.2 12/12] rseq/selftests: add -no-integrated-as for clang
-To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Shuah Khan <shuah@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        linux-api@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Paul E . McKenney" <paulmck@linux.vnet.ibm.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Dave Watson <davejwatson@fb.com>, Paul Turner <pjt@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Russell King <linux@arm.linux.org.uk>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Andi Kleen <andi@firstfloor.org>, Chris Lameter <cl@linux.com>,
-        Ben Maurer <bmaurer@fb.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Joel Fernandes <joelaf@google.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190429154949.GA23456@mail.hallyn.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:cOoGF4O0ntI/WPSdDzGnTzK38X8AqqrXHbTZWivbx0UCfrWZL/G
+ Jj+ShRCDmnv/XYUPHuT5DwIVW48/XSFn11Zxwptd18b7ASF/5PLdTJaONOmRjshmKTB2+85
+ WLqEsMstYdqJsobTMcsOCWj2Js1eO7hpRFG5JxtvafQ/pYdVtQuHE/yRL0ahDrbf7hP/5xn
+ T7P3oXfD0An2k4SRFg5DA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:DHNVwzPmvdQ=:otp/O9JL7oHEqhoLMW3eMN
+ 1plzeYIy2FDwKunOBfzgAlmFXVKNAiLC5PQpDhJteyCxARePZzZufNp+NVY44WoVNG/hTKUAU
+ ivxfi0ooWhuSXGgKQQZOIZjPKR7u1hPENDQm5Lxvn8NI2Ztf6ybJowZGXUhlYKDs37HW/CGs6
+ tFvXtF/eEvSnotj2o3BCRol183ro5yrGOt2VDzjoD58BFfOVVfUp7uXupHalSoc2PWPHtkXjW
+ UgCiUXv9J1B6UW9110waqz9LXa3VTFtFDpWCoO8pkCacBhwSj3Zqk2UdcnNZiOEh3H8b4Uydq
+ M4h7v7gnAfBHbRO+Lns5U7Y70r+6WUWpr2XpMIFrie7isvePp3WYP5SHDy7osBpr16065z5Km
+ M2a8DmBg309bysQcZ3WMsSPqnrXXXARypGf/mov0kYs49zmrvewMZnBRUAswjWj1h9k9igWfd
+ rDMRfZSqTkSJQnuY74LUCcZyni/1xHce7EUGJFwLf7INrFb80haqLY1BsP5fbO2+RBLdL4DkV
+ +jf1ObkV4rKApu8i2fK+tweHlDMbk1tKjfWCfdALOXebi+jiSBU24v/lSdNFhv8IpzaNce0H/
+ AKZUO2Gu10qt/BxijhK5mOTCt3nxKG/T0zJvAZEJHwmfZqB/weEOyyKUFddMjNd78nndCqMR4
+ FkKkjaBD/uYIR5n69poDbREqg7lwCTYCmotISrI0V0X5VrYv2J+hwLrClGqf61Lb1KYUgT0nN
+ S1z37sR5jFBKwpj/M2MAIgNEpmNBmFbXdPqky8VvM+LoaX79Dzjk3Y7+BoA=
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Apr 29, 2019 at 8:29 AM Mathieu Desnoyers
-<mathieu.desnoyers@efficios.com> wrote:
->
-> Ongoing work for asm goto support from clang requires the
-> -no-integrated-as compiler flag.
->
-> This compiler flag is present in the toplevel kernel Makefile,
-> but is not replicated for selftests. Add it specifically for
-> the rseq selftest which requires asm goto.
->
-> Link: https://reviews.llvm.org/D56571
-> Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-> CC: Nick Desaulniers <ndesaulniers@google.com>
-> CC: Thomas Gleixner <tglx@linutronix.de>
-> CC: Joel Fernandes <joelaf@google.com>
-> CC: Peter Zijlstra <peterz@infradead.org>
-> CC: Catalin Marinas <catalin.marinas@arm.com>
-> CC: Dave Watson <davejwatson@fb.com>
-> CC: Will Deacon <will.deacon@arm.com>
-> CC: Shuah Khan <shuah@kernel.org>
-> CC: Andi Kleen <andi@firstfloor.org>
-> CC: linux-kselftest@vger.kernel.org
-> CC: "H . Peter Anvin" <hpa@zytor.com>
-> CC: Chris Lameter <cl@linux.com>
-> CC: Russell King <linux@arm.linux.org.uk>
-> CC: Michael Kerrisk <mtk.manpages@gmail.com>
-> CC: "Paul E . McKenney" <paulmck@linux.vnet.ibm.com>
-> CC: Paul Turner <pjt@google.com>
-> CC: Boqun Feng <boqun.feng@gmail.com>
-> CC: Josh Triplett <josh@joshtriplett.org>
-> CC: Steven Rostedt <rostedt@goodmis.org>
-> CC: Ben Maurer <bmaurer@fb.com>
-> CC: linux-api@vger.kernel.org
-> CC: Andy Lutomirski <luto@amacapital.net>
-> CC: Andrew Morton <akpm@linux-foundation.org>
-> CC: Linus Torvalds <torvalds@linux-foundation.org>
-> ---
->  tools/testing/selftests/rseq/Makefile | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
->
-> diff --git a/tools/testing/selftests/rseq/Makefile b/tools/testing/selftests/rseq/Makefile
-> index c30c52e1d0d2..d6469535630a 100644
-> --- a/tools/testing/selftests/rseq/Makefile
-> +++ b/tools/testing/selftests/rseq/Makefile
-> @@ -1,5 +1,11 @@
->  # SPDX-License-Identifier: GPL-2.0+ OR MIT
-> -CFLAGS += -O2 -Wall -g -I./ -I../../../../usr/include/ -L./ -Wl,-rpath=./
-> +
-> +ifneq ($(shell $(CC) --version 2>&1 | head -n 1 | grep clang),)
-> +CLANG_FLAGS += -no-integrated-as
-> +endif
-> +
-> +CFLAGS += -O2 -Wall -g -I./ -I../../../../usr/include/ -L./ -Wl,-rpath=./ \
-> +         $(CLANG_FLAGS)
+On 29.04.19 17:49, Serge E. Hallyn wrote:
 
-The top level Makefile exports $(CLANG_FLAGS), which should contain
-`-no-integrated-as`.  Is that available here?  If so, then you can
-just add `$(CLANG_FLAGS)`, no compiler check needed.
+>> * all users are equal - no root at all. the only exception is the>>   initial process, which gets the kernel devices mounted into his>>
+ namespace.> > This does not match my understanding, but I'm most likely
+wrong.  (I thought> there was an actual 'host owner' uid, which mostly
+is only used for initial> process, but is basically root with a
+different name, and used far less.  No> uid transitions without factotem
+so that it *looked* like no root user).
+Not quite (IIRC). The hostowner is just the user who booted the machine,
+the initial process runs under this uname and gets the kernel devices
+bound into his namespace, so he can start fileservers on them.
 
-If not, maybe the test for CONFIG_CC_IS_CLANG is cleaner?
+Also the caphash device (the one you can create capabilities, eg. for
+user change, which then can be used via capuse device) can only be
+opened once - usually by the host factotum.
 
-Thanks for the patch, and helping test asm goto in Clang!
+There really is no such thing like root user.
+
+>> What I'd like to achieve on Linux:>>>> * unprivileged users can have their own mount namespace, where
+they>>   can mount at will (maybe just 9P).> > No problem, you can do
+that now.
+But only within separate userns, IMHO. (and, when I last tried, plain
+users couldn't directly create their userns).
+
+>> * but they still appear as the same normal users to the rest of the
+>>   system
+> 
+> No problem, you can do that now.
+
+How exactly ? Did I miss something vital ?
+
+>> * 9p programs (compiled for Linux ABI) can run parallel to traditional
+>>   linux programs within the same user and sessions (eg. from a terminal,
+>>   i can call both the same way)
+>> * namespace modifications affect both equally (eg. I could run ff in
+>>   an own ns)
+> 
+> affect both of what equally?
+
+mount / bind.
+
+> That's exactly what user namespaces are for.  You can create a new
+> user namespace, using no privilege at all, with your current uid (i.e.
+> 1000) mapped to whatever uid you like; if you pick 0, then you can unshare all
+> the namespaces you like.  
+
+But I don't like to appear as 'root' in here. I just wanna have my own
+filesystem namespace, nothing more.
+
+> Once you unshare mnt_ns, you can mount to your
+> heart's content.  To other processes on the host, your process is
+> uid 1000.
+
+Is that the uid, I'm appearing to filesystems ?
+
+> Regarding factotem, I agree that with the pidfd work going on etc, it's getting
+> more and more tempting to attempt a switch to that.  Looking back at my folder,
+> I see you posted a kernel patch for it.  I had done the same long ago.  Happy to
+> work with you again on that, and put a simple daemon into shadow package, if
+> util-linux isn't deemed the far better place.
+
+Yeah :)
+
+
+--mtx
+
 -- 
-Thanks,
-~Nick Desaulniers
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
