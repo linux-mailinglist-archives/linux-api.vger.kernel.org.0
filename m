@@ -2,129 +2,86 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2AACBEBA4
-	for <lists+linux-api@lfdr.de>; Mon, 29 Apr 2019 22:30:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2CC66EBB6
+	for <lists+linux-api@lfdr.de>; Mon, 29 Apr 2019 22:38:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729212AbfD2Ua1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 29 Apr 2019 16:30:27 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:33584 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729287AbfD2Ua1 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Apr 2019 16:30:27 -0400
-Received: by mail-pl1-f195.google.com with SMTP id y3so4780858plp.0
-        for <linux-api@vger.kernel.org>; Mon, 29 Apr 2019 13:30:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=zoZD/dNKX5WgAZZR7UrYB8wzOfrnR6MIY38MQG1fU9I=;
-        b=HuFJyw7mcBSICXvwxdh6PMU9X3LJLUHpU9+bKmS9D3HjBjD776G0OSDEufj+PWdErx
-         k+PyxOOFQOv4gIG3lXqz8OPtk+h5QV9gyLoysdsdq29yCYbFcRy2Lcl69wcmmoVdCLpe
-         FlsNPdnOMLUXYepIRQZiaczXsQNBazRJMZ0M16estlF4q8C0e6bWl/rw3sku1cg3LAG6
-         /hr2t34gB65l0tdPv6Jcz9kv0WhOVgBjfreNS4WifOA0gMfDBQgOGsQTS8cNMEW8Ovlq
-         kemmEstg9YzsRssiopg3wv6x0o1paj4jb7lHf1m7hxUMUWiGesyu03sKiVEM3kPLdQFl
-         poeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zoZD/dNKX5WgAZZR7UrYB8wzOfrnR6MIY38MQG1fU9I=;
-        b=Y5GyJx73w72a39NIU1zwjfcEhsqnU52DUNNaFwX44IyxrWVVpvxhM7M/YABWDZ6y2i
-         2pCoHkvTPj68WxNas7x7Neqfcqr3f0Co4lmEceTjT9daPZBCglDXoVMcSxfDvhhtHmuv
-         Fwdb080yJmaEUpJH4rZfFFjppZp4ZZNiSpCR403G2+AmOzT/SbvuluQRPkV8//rUXc0A
-         NfxUEl9Ir2r7IrwDwVs5FiJeElQnfYrY1wyGakslfYO3x7uaz+c9qjHBEY0P52EqY3L7
-         PTe8DnFaV3E07bc0VWC4YCKyQYDDgzzmlRI+MJas906/S0IGbiJtnqnmoCXxiJzagxhv
-         bqOg==
-X-Gm-Message-State: APjAAAUs9ugJJgqq7zj95lJtZ7AWTMo8ZI3KsiNydz7F404yBbmnJim0
-        6tVSNrgi5IGS8lGkQufMkHpbCVMnl81E3XWTgugBNw==
-X-Google-Smtp-Source: APXvYqxhr41z/hs2DekvYrX7RAFq341c0UsIKJJmbvYU/vfug6dUJri8bpSYOLqVcpo5BkOuZml7Dc4pFEKcsYeeoUo=
-X-Received: by 2002:a17:902:380c:: with SMTP id l12mr63915997plc.320.1556569825937;
- Mon, 29 Apr 2019 13:30:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190429152803.7719-1-mathieu.desnoyers@efficios.com>
- <20190429152803.7719-13-mathieu.desnoyers@efficios.com> <CAKwvOdnbH0+ju5Ny-mB-Z4kC+ALyCJOU4Q8OCLHHjFAQzJqsXA@mail.gmail.com>
- <712082435.384.1556569697998.JavaMail.zimbra@efficios.com>
-In-Reply-To: <712082435.384.1556569697998.JavaMail.zimbra@efficios.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 29 Apr 2019 13:30:14 -0700
-Message-ID: <CAKwvOdk1bUgczvUr3OVttFZ4ArO6fSEz6_enPmu+GDDy1yTrTQ@mail.gmail.com>
-Subject: Re: [PATCH for 5.2 12/12] rseq/selftests: add -no-integrated-as for clang
-To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc:     shuah <shuah@kernel.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-api <linux-api@vger.kernel.org>,
+        id S1729212AbfD2UiR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 29 Apr 2019 16:38:17 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36894 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729252AbfD2UiR (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 29 Apr 2019 16:38:17 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 4B87F308626C;
+        Mon, 29 Apr 2019 20:38:16 +0000 (UTC)
+Received: from oldenburg2.str.redhat.com (ovpn-116-123.ams2.redhat.com [10.36.116.123])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id C76F01001959;
+        Mon, 29 Apr 2019 20:38:08 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Jann Horn <jannh@google.com>, Kevin Easton <kevin@guarana.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Christian Brauner <christian@brauner.io>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "Enrico Weigelt\, metux IT consult" <lkml@metux.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        David Howells <dhowells@redhat.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Kees Cook <keescook@chromium.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Paul E . McKenney" <paulmck@linux.vnet.ibm.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Dave Watson <davejwatson@fb.com>, Paul Turner <pjt@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Russell King <linux@arm.linux.org.uk>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Andi Kleen <andi@firstfloor.org>,
-        Chris Lameter <cl@linux.com>, Ben Maurer <bmaurer@fb.com>,
-        rostedt <rostedt@goodmis.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
         Michael Kerrisk <mtk.manpages@gmail.com>,
-        Joel Fernandes <joelaf@google.com>,
-        linux-kselftest <linux-kselftest@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+        Andrew Morton <akpm@linux-foundation.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Daniel Colascione <dancol@google.com>
+Subject: Re: RFC: on adding new CLONE_* flags [WAS Re: [PATCH 0/4] clone: add CLONE_PIDFD]
+References: <20190414201436.19502-1-christian@brauner.io>
+        <dc05ffe3-c2ff-8b3e-d181-e0cc620bf91d@metux.net>
+        <20190415195911.z7b7miwsj67ha54y@yavin>
+        <CALCETrWxMnaPvwicqkMLswMynWvJVteazD-bFv3ZnBKWp-1joQ@mail.gmail.com>
+        <20190420071406.GA22257@ip-172-31-15-78>
+        <CAG48ez0gG4bd-t1wdR2p6-N2FjWbCqm_+ZThKfF7yKnD=KLqAQ@mail.gmail.com>
+        <CAG48ez15bf1EJB0XTJsGFpvf8r5pj9+rv1axKVr13H1NW7ARZw@mail.gmail.com>
+        <CAHk-=wi_N81mKYFz33ycoWiL7_tGbZBMJOsAs16inYzSza+OEw@mail.gmail.com>
+Date:   Mon, 29 Apr 2019 22:38:06 +0200
+In-Reply-To: <CAHk-=wi_N81mKYFz33ycoWiL7_tGbZBMJOsAs16inYzSza+OEw@mail.gmail.com>
+        (Linus Torvalds's message of "Mon, 29 Apr 2019 13:21:06 -0700")
+Message-ID: <87zho8bl8x.fsf@oldenburg2.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.49]); Mon, 29 Apr 2019 20:38:16 +0000 (UTC)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Apr 29, 2019 at 1:28 PM Mathieu Desnoyers
-<mathieu.desnoyers@efficios.com> wrote:
->
-> ----- On Apr 29, 2019, at 1:03 PM, ndesaulniers ndesaulniers@google.com wrote:
->
-> > On Mon, Apr 29, 2019 at 8:29 AM Mathieu Desnoyers
-> > <mathieu.desnoyers@efficios.com> wrote:
-> >> diff --git a/tools/testing/selftests/rseq/Makefile
-> >> b/tools/testing/selftests/rseq/Makefile
-> >> index c30c52e1d0d2..d6469535630a 100644
-> >> --- a/tools/testing/selftests/rseq/Makefile
-> >> +++ b/tools/testing/selftests/rseq/Makefile
-> >> @@ -1,5 +1,11 @@
-> >>  # SPDX-License-Identifier: GPL-2.0+ OR MIT
-> >> -CFLAGS += -O2 -Wall -g -I./ -I../../../../usr/include/ -L./ -Wl,-rpath=./
-> >> +
-> >> +ifneq ($(shell $(CC) --version 2>&1 | head -n 1 | grep clang),)
-> >> +CLANG_FLAGS += -no-integrated-as
-> >> +endif
-> >> +
-> >> +CFLAGS += -O2 -Wall -g -I./ -I../../../../usr/include/ -L./ -Wl,-rpath=./ \
-> >> +         $(CLANG_FLAGS)
-> >
-> > The top level Makefile exports $(CLANG_FLAGS), which should contain
-> > `-no-integrated-as`.  Is that available here?  If so, then you can
-> > just add `$(CLANG_FLAGS)`, no compiler check needed.
->
-> AFAIU, the makefiles under tools/testing/selftests all end up including
-> tools/testing/selftests/lib.mk, which states:
->
-> "# This mimics the top-level Makefile. We do it explicitly here so that this
->  # Makefile can operate with or without the kbuild infrastructure."
->
-> So I don't think it's using any of the definitions from the toplevel
-> Makefile.
->
-> > If not, maybe the test for CONFIG_CC_IS_CLANG is cleaner?
->
-> A quick test indicates that the toplevel CONFIG_* definitions are unavailable
-> from the kernel selftests makefiles.
+* Linus Torvalds:
 
-Ok, in that case...
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-Thanks again!
+> On Mon, Apr 29, 2019 at 12:55 PM Jann Horn <jannh@google.com> wrote:
+>>
+>> ... I guess that already has a name, and it's called vfork(). (Well,
+>> except that the Linux vfork() isn't a real vfork().)
+>
+> What?
+>
+> Linux vfork() is very much a real vfork(). What do you mean?
 
--- 
+In Linux-as-the-ABI (as opposed to Linux-as-the-implementation), vfork
+is sometimes implemented as fork, so applications cannot rely on the
+vfork behavior regarding the stopped parent and the shared address
+space.
+
+In fact, it would be nice to have a flag we can check in the posix_spawn
+implementation, so that we can support vfork-as-fork without any run
+time cost to native Linux.
+
 Thanks,
-~Nick Desaulniers
+Florian
