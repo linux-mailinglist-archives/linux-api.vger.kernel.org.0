@@ -2,96 +2,88 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E7973E492
-	for <lists+linux-api@lfdr.de>; Mon, 29 Apr 2019 16:22:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78FE2E4B5
+	for <lists+linux-api@lfdr.de>; Mon, 29 Apr 2019 16:26:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728263AbfD2OWD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 29 Apr 2019 10:22:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38406 "EHLO mail.kernel.org"
+        id S1728276AbfD2O0E (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 29 Apr 2019 10:26:04 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:23907 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728240AbfD2OWD (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 29 Apr 2019 10:22:03 -0400
-Received: from linux-8ccs (ip5f5ade6f.dynamic.kabel-deutschland.de [95.90.222.111])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1728254AbfD2O0E (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 29 Apr 2019 10:26:04 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F2E1B20673;
-        Mon, 29 Apr 2019 14:21:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1556547722;
-        bh=iQv7qdfNE2ZTy8sIWEeqO2sCGSXIkTfD+az4PXbR/KQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tlVpTOyE8ff5uwR+X2Fo9yxipvxr6BB0tD7ZTU0xIYIAgeIL+iSusOHylbN/Ip0aW
-         8J9D/REnUqe5kGNK9WupgYLl+L2THYwe7sYigaRdw8UIqTEdEEkIEZus2n70MrsGoz
-         GhiSIrOIjTlivm54pxLKsEVOIUHW8frEYUntptoo=
-Date:   Mon, 29 Apr 2019 16:21:56 +0200
-From:   Jessica Yu <jeyu@kernel.org>
-To:     Alexey Gladkov <gladkov.alexey@gmail.com>
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        linux-api@vger.kernel.org, linux-modules@vger.kernel.org,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Gleb Fotengauer-Malinovskiy <glebfm@altlinux.org>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rusty Russell <rusty@rustcorp.com.au>,
-        Lucas De Marchi <lucas.de.marchi@gmail.com>
-Subject: Re: [PATCH v3] moduleparam: Save information about built-in modules
- in separate file
-Message-ID: <20190429142156.GA31567@linux-8ccs>
-References: <20190429090854.GU9023@dhcp129-178.brq.redhat.com>
+        by mx1.redhat.com (Postfix) with ESMTPS id 62C5B3199389;
+        Mon, 29 Apr 2019 14:26:03 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.43.17.159])
+        by smtp.corp.redhat.com (Postfix) with SMTP id 385555C205;
+        Mon, 29 Apr 2019 14:25:57 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+        oleg@redhat.com; Mon, 29 Apr 2019 16:26:02 +0200 (CEST)
+Date:   Mon, 29 Apr 2019 16:25:55 +0200
+From:   Oleg Nesterov <oleg@redhat.com>
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     Christian Brauner <christian@brauner.io>,
+        linux-kernel@vger.kernel.org, luto@amacapital.net,
+        rostedt@goodmis.org, dancol@google.com, sspatil@google.com,
+        jannh@google.com, surenb@google.com, timmurray@google.com,
+        Jonathan Kowalski <bl0pbl33p@gmail.com>,
+        torvalds@linux-foundation.org, kernel-team@android.com,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ingo Molnar <mingo@kernel.org>, Jann Horn <jann@thejh.net>,
+        linux-kselftest@vger.kernel.org, Michal Hocko <mhocko@suse.com>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Serge Hallyn <serge@hallyn.com>, Shuah Khan <shuah@kernel.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tycho Andersen <tycho@tycho.ws>, viro@zeniv.linux.org.uk,
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH v1 1/2] Add polling support to pidfd
+Message-ID: <20190429142555.GB17715@redhat.com>
+References: <20190425190010.46489-1-joel@joelfernandes.org>
+ <20190425222359.sqhboc4x4daznr6r@brauner.io>
+ <20190428162405.GA6757@redhat.com>
+ <20190429140245.GB233442@google.com>
+ <20190429140743.GB173743@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190429090854.GU9023@dhcp129-178.brq.redhat.com>
-X-OS:   Linux linux-8ccs 5.1.0-rc1-lp150.12.28-default+ x86_64
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190429140743.GB173743@google.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.41]); Mon, 29 Apr 2019 14:26:04 +0000 (UTC)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-+++ Alexey Gladkov [29/04/19 11:08 +0200]:
->Problem:
+On 04/29, Joel Fernandes wrote:
 >
->When a kernel module is compiled as a separate module, some important
->information about the kernel module is available via .modinfo section of
->the module.  In contrast, when the kernel module is compiled into the
->kernel, that information is not available.
+> On Mon, Apr 29, 2019 at 10:02:45AM -0400, Joel Fernandes wrote:
+> > On Sun, Apr 28, 2019 at 06:24:06PM +0200, Oleg Nesterov wrote:
+> [snip]
+> > > > > +{
+> > > > > +	struct pid *pid;
+> > > > > +
+> > > > > +	lockdep_assert_held(&tasklist_lock);
+> > > > > +
+> > > > > +	pid = get_task_pid(task, PIDTYPE_PID);
+> > > > > +	wake_up_all(&pid->wait_pidfd);
+> > > > > +	put_pid(pid);
+> > >
+> > > Why get/put?
+> >
+> > Yes, pid_task() should do it. Will update it. Thanks!
 >
->Information about built-in modules is necessary in the following cases:
->
->1. When it is necessary to find out what additional parameters can be
->passed to the kernel at boot time.
->
->2. When you need to know which module names and their aliases are in
->the kernel. This is very useful for creating an initrd image.
->
->Proposal:
->
->The proposed patch does not remove .modinfo section with module
->information from the vmlinux at the build time and saves it into a
->separate file after kernel linking. So, the kernel does not increase in
->size and no additional information remains in it. Information is stored
->in the same format as in the separate modules (null-terminated string
->array). Because the .modinfo section is already exported with a separate
->modules, we are not creating a new API.
->
->It can be easily read in the userspace:
->
->$ tr '\0' '\n' < kernel.builtin
+> I spoke too soon. We need the task's pid of type PIDTYPE_PID. How else can we
+> get it? This does an atomic_inc on the pid->count, so we need to put_pid()
+> after we are done with it. Did I miss something?
 
-s/kernel.builtin/modules.builtin.modinfo/
+Just use task_pid(task);
 
-Otherwise, for module.h and moduleparam.h:
-
-Acked-by: Jessica Yu <jeyu@kernel.org>
-
-And it would be great if Lucas can confirm if the file format and name
-would be OK for kmod.
-
-Thanks!
-
-Jessica
+Oleg.
 
