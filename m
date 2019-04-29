@@ -2,129 +2,177 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E3DC4E6E6
-	for <lists+linux-api@lfdr.de>; Mon, 29 Apr 2019 17:49:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 13F2EE76C
+	for <lists+linux-api@lfdr.de>; Mon, 29 Apr 2019 18:15:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728587AbfD2Ptx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 29 Apr 2019 11:49:53 -0400
-Received: from mail.hallyn.com ([178.63.66.53]:39526 "EHLO mail.hallyn.com"
+        id S1728626AbfD2QPn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 29 Apr 2019 12:15:43 -0400
+Received: from mail.nwra.com ([72.52.192.72]:40750 "EHLO mail.nwra.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728555AbfD2Ptx (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 29 Apr 2019 11:49:53 -0400
-Received: by mail.hallyn.com (Postfix, from userid 1001)
-        id D18296C6; Mon, 29 Apr 2019 10:49:49 -0500 (CDT)
-Date:   Mon, 29 Apr 2019 10:49:49 -0500
-From:   "Serge E. Hallyn" <serge@hallyn.com>
-To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Cc:     "Serge E. Hallyn" <serge@hallyn.com>,
-        Christian Brauner <christian@brauner.io>,
-        torvalds@linux-foundation.org, viro@zeniv.linux.org.uk,
-        jannh@google.com, dhowells@redhat.com, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org, luto@kernel.org, arnd@arndb.de,
-        ebiederm@xmission.com, keescook@chromium.org, tglx@linutronix.de,
-        mtk.manpages@gmail.com, akpm@linux-foundation.org, oleg@redhat.com,
-        cyphar@cyphar.com, joel@joelfernandes.org, dancol@google.com
-Subject: Re: RFC: on adding new CLONE_* flags [WAS Re: [PATCH 0/4] clone: add
- CLONE_PIDFD]
-Message-ID: <20190429154949.GA23456@mail.hallyn.com>
-References: <20190414201436.19502-1-christian@brauner.io>
- <dc05ffe3-c2ff-8b3e-d181-e0cc620bf91d@metux.net>
- <20190415155034.GA25351@mail.hallyn.com>
- <000a64d6-1e22-21bf-f232-15f141092e44@metux.net>
+        id S1728520AbfD2QPm (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 29 Apr 2019 12:15:42 -0400
+X-Greylist: delayed 581 seconds by postgrey-1.27 at vger.kernel.org; Mon, 29 Apr 2019 12:15:41 EDT
+Received: from barry.cora.nwra.com (inferno.cora.nwra.com [204.134.157.90])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by mail.nwra.com (Postfix) with ESMTPS id A275C3405ED;
+        Mon, 29 Apr 2019 09:05:59 -0700 (PDT)
+Subject: Re: [PATCH] fanotify: Make wait for permission events interruptible
+To:     Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org
+Cc:     Vivek Trivedi <t.vivek@samsung.com>,
+        Amir Goldstein <amir73il@gmail.com>, linux-api@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>
+References: <20190321151142.17104-1-jack@suse.cz>
+ <20190415095907.GA14466@quack2.suse.cz>
+From:   Orion Poplawski <orion@nwra.com>
+Organization: NWRA
+Message-ID: <77d23991-48c0-7b87-ad49-41e505909dd7@nwra.com>
+Date:   Mon, 29 Apr 2019 10:05:58 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <000a64d6-1e22-21bf-f232-15f141092e44@metux.net>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20190415095907.GA14466@quack2.suse.cz>
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256; boundary="------------ms060802050609060701070202"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Apr 16, 2019 at 08:32:50PM +0200, Enrico Weigelt, metux IT consult wrote:
+This is a cryptographically signed message in MIME format.
 
-(Sorry for the late reply, I had missed this one)
+--------------ms060802050609060701070202
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-> On 15.04.19 17:50, Serge E. Hallyn wrote:
-> 
-> Hi,
-> 
-> >> I'm working on implementing plan9-like fs namespaces, where unprivileged>> processes can change their own namespace at will. For that, certain>
-> > Is there any place where we can see previous discussion about this?
-> Yes, lkml and constainers list.
-> It's stalled since few month, as I'm too busy w/ other things.
-> 
-> > If you have to disable suid anyway, then is there any reason why the> existing ability to do this in a private user namespace, with only>
-> your own uid mapped (which you can do without any privilege) does> not
-> suffice?  That was actually one of the main design goals of user>
-> namespaces, to be able to clone(CLONE_NEWUSER), map your current uid,>
-> then clone(CLONE_NEWNS) and bind mount at will.
-> Well, it's not that easy ... maybe I should explain a bit more about how
-> Plan9 works, and how I intent to map it into Linux:
-> 
-> * on plan9, anybody can alter his own fs namespace (bind and mount), as
->   well as spawning new ones
-> * basically anything is coming from some fileserver - even devices
->   (eg. there is no such thing like device nodes)
-> * access control is done by the individual fileservers, based on the
->   initial authentication (on connecting to the server, before mounting)
+On 4/15/19 3:59 AM, Jan Kara wrote:
+> On Thu 21-03-19 16:11:42, Jan Kara wrote:
+>> Switch waiting for response to fanotify permission events interruptibl=
+e.
+>> This allows e.g. the system to be suspended while there are some
+>> fanotify permission events pending (which is reportedly pretty common
+>> when for example AV solution is in use). However just making the wait
+>> interruptible can result in e.g. open(2) returning -EINTR where
+>> previously such error code never happened in practice. To avoid
+>> confusion of userspace due to this error code, return -ERESTARTNOINTR
+>> instead.
+>>
+>> Signed-off-by: Jan Kara <jack@suse.cz>
+>> ---
+>>  fs/notify/fanotify/fanotify.c | 11 +++++++++--
+>>  1 file changed, 9 insertions(+), 2 deletions(-)
+>>
+>> Orion, can you give this patch some testing with your usecase? Also if=
+ anybody
+>> sees any issue with returning -ERESTARTNOINTR I have missed, please sp=
+eak up.
+>=20
+> Ping Orion? Did you have any chance to give this patch a try? Does it f=
+ix
+> hibernation issues you observe without causing issues with bash and oth=
+er
+> programs? I'd like to queue this patch for the coming merge window but
+> I'd like to see some testing results showing that it actually helps
+> anything... Thanks!
+>=20
+> 								Honza
 
-yes, so far I'm aware of this,
 
-> * all users are equal - no root at all. the only exception is the
->   initial process, which gets the kernel devices mounted into his
->   namespace.
+I've been running it for a while with mostly promising results but one
+concern.  Notably, when running in conjuction with BitDefender Anti-Virus=
+ I
+have noticed issues when cloning large git projects (seems to be a good s=
+tress
+test on open()).  I believe the problems go away when BD is stopped.  At =
+this
+point I'm not sure if the issue lies more with BD or with the kernel patc=
+h.
 
-This does not match my understanding, but I'm most likely wrong.  (I thought
-there was an actual 'host owner' uid, which mostly is only used for initial
-process, but is basically root with a different name, and used far less.  No
-uid transitions without factotem so that it *looked* like no root user).
 
-> What I'd like to achieve on Linux:
-> 
-> * unprivileged users can have their own mount namespace, where they
->   can mount at will (maybe just 9P).
+--=20
+Orion Poplawski
+Manager of NWRA Technical Systems          720-772-5637
+NWRA, Boulder/CoRA Office             FAX: 303-415-9702
+3380 Mitchell Lane                       orion@nwra.com
+Boulder, CO 80301                 https://www.nwra.com/
 
-No problem, you can do that now.
 
-> * but they still appear as the same normal users to the rest of the
->   system
+--------------ms060802050609060701070202
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
 
-No problem, you can do that now.
-
-> * 9p programs (compiled for Linux ABI) can run parallel to traditional
->   linux programs within the same user and sessions (eg. from a terminal,
->   i can call both the same way)
-> * namespace modifications affect both equally (eg. I could run ff in
->   an own ns)
-
-affect both of what equally?
-
-> * these namespaces exist as long as there's one process alive in here
-
-That's sort of how it is now, except you can also pin the namespaces
-with their fds.
-
-> * creating a new ns can be done by unprivileged user
-
-That's true now.
-
->  One of the things to make this work (w/o introducing a massive security
-> hole) is disable suid for those processes (actually, one day i'd like to
-> get rid of it completely, but that's another story).
-
-That's exactly what user namespaces are for.  You can create a new
-user namespace, using no privilege at all, with your current uid (i.e.
-1000) mapped to whatever uid you like; if you pick 0, then you can unshare all
-the namespaces you like.  Once you unshare mnt_ns, you can mount to your
-heart's content.  To other processes on the host, your process is
-uid 1000.  Host uid 0 is not mapped into your ns, so you cannot exploit
-suid to host root.
-
-Regarding factotem, I agree that with the pidfd work going on etc, it's getting
-more and more tempting to attempt a switch to that.  Looking back at my folder,
-I see you posted a kernel patch for it.  I had done the same long ago.  Happy to
-work with you again on that, and put a simple daemon into shadow package, if
-util-linux isn't deemed the far better place.
-
--serge
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCC
+CjYwggTpMIID0aADAgECAgRMDow4MA0GCSqGSIb3DQEBBQUAMIG0MRQwEgYDVQQKEwtFbnRy
+dXN0Lm5ldDFAMD4GA1UECxQ3d3d3LmVudHJ1c3QubmV0L0NQU18yMDQ4IGluY29ycC4gYnkg
+cmVmLiAobGltaXRzIGxpYWIuKTElMCMGA1UECxMcKGMpIDE5OTkgRW50cnVzdC5uZXQgTGlt
+aXRlZDEzMDEGA1UEAxMqRW50cnVzdC5uZXQgQ2VydGlmaWNhdGlvbiBBdXRob3JpdHkgKDIw
+NDgpMB4XDTExMTExMTE1MzgzNFoXDTIxMTExMjAwMTczNFowgaUxCzAJBgNVBAYTAlVTMRYw
+FAYDVQQKEw1FbnRydXN0LCBJbmMuMTkwNwYDVQQLEzB3d3cuZW50cnVzdC5uZXQvQ1BTIGlz
+IGluY29ycG9yYXRlZCBieSByZWZlcmVuY2UxHzAdBgNVBAsTFihjKSAyMDEwIEVudHJ1c3Qs
+IEluYy4xIjAgBgNVBAMTGUVudHJ1c3QgQ2xhc3MgMiBDbGllbnQgQ0EwggEiMA0GCSqGSIb3
+DQEBAQUAA4IBDwAwggEKAoIBAQDEMo1C0J4ZnVuQWhBMtRAAIbkHSN6uboDW/xRQBuh1r2tG
+juelT63DjLD6e+AZkf3wY61xSfOoHB+rNBkgTktU6QCTvnAIMd6JU6xXvCTvKo9C1PfqlSVd
+FHbSzacS+huytFxhQL1f3VebRFXYxYkZPGU9uejUpS3CLNPqgzGiCDxeWa4SLioKjF7zszGu
+Cq1+7LBJCfynLiIeaGQ0nRbjpj0DMUAW95T2Sxk0yZfmIpxI3mSggwtYBZjEIkaJBf2jvvZJ
+TGEDFqT4Cpkc4sDGfmkCMleQA68AlKG53M6v7/R8GM4wC8qH+NVfH1lR2IsLuTjGWMJTfNom
+1NvyvZDNAgMBAAGjggEOMIIBCjAOBgNVHQ8BAf8EBAMCAQYwEgYDVR0TAQH/BAgwBgEB/wIB
+ADAzBggrBgEFBQcBAQQnMCUwIwYIKwYBBQUHMAGGF2h0dHA6Ly9vY3NwLmVudHJ1c3QubmV0
+MDIGA1UdHwQrMCkwJ6AloCOGIWh0dHA6Ly9jcmwuZW50cnVzdC5uZXQvMjA0OGNhLmNybDA7
+BgNVHSAENDAyMDAGBFUdIAAwKDAmBggrBgEFBQcCARYaaHR0cDovL3d3dy5lbnRydXN0Lm5l
+dC9ycGEwHQYDVR0OBBYEFAmRpbrp8i4qdd/Nfv53yvLea5skMB8GA1UdIwQYMBaAFFXkgdER
+gL7YibkIozH5oSQJFrlwMA0GCSqGSIb3DQEBBQUAA4IBAQAKibWxMzkQsSwJee7zG22odkq0
+w3jj5/8nYTTMSuzYgu4fY0rhfUV6REaqVsaATN/IdQmcYSHZPk3LoBr0kYolpXptG7lnGT8l
+M9RBH2E/GCKTyD73w+kP51j0nh9O45/h1d83uvyx7YA2ZmaFJlditeJusIJq0KwjE9EXFUYJ
+WXbOp3CniB5xJz4d3tnqnQiKfyuW8oubFH/KRXJPCi1bv865e+iMiEyP114JkKDnyPmAPq3B
+MrJGw/3NDAzlwv1PCbeCIJK802SfBzFN9s81aTek70c/JSt7Dt+bO7JxPSfOlC57Jq1InwR/
+nxuHzHodsSCQFQiuAhHTwwA9qOtHMIIFRTCCBC2gAwIBAgIQF5XJg+ffrZoAAAAATDX/LTAN
+BgkqhkiG9w0BAQsFADCBpTELMAkGA1UEBhMCVVMxFjAUBgNVBAoTDUVudHJ1c3QsIEluYy4x
+OTA3BgNVBAsTMHd3dy5lbnRydXN0Lm5ldC9DUFMgaXMgaW5jb3Jwb3JhdGVkIGJ5IHJlZmVy
+ZW5jZTEfMB0GA1UECxMWKGMpIDIwMTAgRW50cnVzdCwgSW5jLjEiMCAGA1UEAxMZRW50cnVz
+dCBDbGFzcyAyIENsaWVudCBDQTAeFw0xNzEyMTUxNzE3MTBaFw0yMDEyMTUxNzQ3MDBaMIGT
+MQswCQYDVQQGEwJVUzETMBEGA1UECBMKV2FzaGluZ3RvbjEQMA4GA1UEBxMHUmVkbW9uZDEm
+MCQGA1UEChMdTm9ydGhXZXN0IFJlc2VhcmNoIEFzc29jaWF0ZXMxNTAWBgNVBAMTD09yaW9u
+IFBvcGxhd3NraTAbBgkqhkiG9w0BCQEWDm9yaW9uQG53cmEuY29tMIIBIjANBgkqhkiG9w0B
+AQEFAAOCAQ8AMIIBCgKCAQEAop24yyNf/vYlUdWtgHFHWcittcBFeMIWS5GJxcDDYSjYfHUY
+hiEq8D4eMrktwirxZqnGTwMdN+RCqrnNZSR/YOsHSwpsW+9eOtAAlHMPCbaPsS+X0xxZX3VR
+SdxXulwELCE6Saik1UMQ0MWHts1TwNuDrAXlvmoxCHgXSgcs4ukfNSOAs49Ol09tOt5xI5NA
+Cz2sDjAiwonIm2ccuqbc5zJZiL2YOVTzOq9Aa/i38tRldTYkJH80WgnpmMZTSgGLua8kwA/u
+4Lmax2VEcoRMw9zzmJav8gFNpQDbVnO3Ik2nlreJ/FX9+JmUa7zDn4FS0rT37ZJ7rOA3N968
+CwBHAwIDAQABo4IBfzCCAXswDgYDVR0PAQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMC
+BggrBgEFBQcDBDBCBgNVHSAEOzA5MDcGC2CGSAGG+mwKAQQCMCgwJgYIKwYBBQUHAgEWGmh0
+dHA6Ly93d3cuZW50cnVzdC5uZXQvcnBhMGoGCCsGAQUFBwEBBF4wXDAjBggrBgEFBQcwAYYX
+aHR0cDovL29jc3AuZW50cnVzdC5uZXQwNQYIKwYBBQUHMAKGKWh0dHA6Ly9haWEuZW50cnVz
+dC5uZXQvMjA0OGNsYXNzMnNoYTIuY2VyMDQGA1UdHwQtMCswKaAnoCWGI2h0dHA6Ly9jcmwu
+ZW50cnVzdC5uZXQvY2xhc3MyY2EuY3JsMBkGA1UdEQQSMBCBDm9yaW9uQG53cmEuY29tMB8G
+A1UdIwQYMBaAFAmRpbrp8i4qdd/Nfv53yvLea5skMB0GA1UdDgQWBBSU5GXZh96BMn8UDBnI
+wT0CYlbijTAJBgNVHRMEAjAAMA0GCSqGSIb3DQEBCwUAA4IBAQAj5E9g5NtdnH5bR1qKtyUG
+L9Rd6BIZBrVIMoEkpXi6rRwhfeAV2cU5T/Te94+pv5JkBQfJQAakeQM+VRvSHtODHTPot12I
+pX/Dm9oxhKXpWIveNjC/6Qbx+/E6iNvUGTtTTtCfwwpmyzVpUnJUN0B9XSHy78+fjJkDUIv6
+byrBSC/zW0MxSd0HKtr2Do3FYZgEmFiEchDzwJeTmpJiJN/IVk/gtfJXSYQFOA0QawovCSvG
+gZy/0fRY5y8h1MDWmVBRrHBRoL+ot9Q6nbhMyszvEGIVYVvWleE3Zcpu0teQ5WDv7WYs6ZZe
+xIkGhIIW65NWIa1rG+UYok993UqK2FGnMYIEXzCCBFsCAQEwgbowgaUxCzAJBgNVBAYTAlVT
+MRYwFAYDVQQKEw1FbnRydXN0LCBJbmMuMTkwNwYDVQQLEzB3d3cuZW50cnVzdC5uZXQvQ1BT
+IGlzIGluY29ycG9yYXRlZCBieSByZWZlcmVuY2UxHzAdBgNVBAsTFihjKSAyMDEwIEVudHJ1
+c3QsIEluYy4xIjAgBgNVBAMTGUVudHJ1c3QgQ2xhc3MgMiBDbGllbnQgQ0ECEBeVyYPn362a
+AAAAAEw1/y0wDQYJYIZIAWUDBAIBBQCgggJ1MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
+HAYJKoZIhvcNAQkFMQ8XDTE5MDQyOTE2MDU1OFowLwYJKoZIhvcNAQkEMSIEIP6MYtuWRqGT
+IOIFD2asPAZodrDoR8yq/SK0yEGfOZzkMGwGCSqGSIb3DQEJDzFfMF0wCwYJYIZIAWUDBAEq
+MAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzAOBggqhkiG9w0DAgICAIAwDQYIKoZIhvcNAwIC
+AUAwBwYFKw4DAgcwDQYIKoZIhvcNAwICASgwgcsGCSsGAQQBgjcQBDGBvTCBujCBpTELMAkG
+A1UEBhMCVVMxFjAUBgNVBAoTDUVudHJ1c3QsIEluYy4xOTA3BgNVBAsTMHd3dy5lbnRydXN0
+Lm5ldC9DUFMgaXMgaW5jb3Jwb3JhdGVkIGJ5IHJlZmVyZW5jZTEfMB0GA1UECxMWKGMpIDIw
+MTAgRW50cnVzdCwgSW5jLjEiMCAGA1UEAxMZRW50cnVzdCBDbGFzcyAyIENsaWVudCBDQQIQ
+F5XJg+ffrZoAAAAATDX/LTCBzQYLKoZIhvcNAQkQAgsxgb2ggbowgaUxCzAJBgNVBAYTAlVT
+MRYwFAYDVQQKEw1FbnRydXN0LCBJbmMuMTkwNwYDVQQLEzB3d3cuZW50cnVzdC5uZXQvQ1BT
+IGlzIGluY29ycG9yYXRlZCBieSByZWZlcmVuY2UxHzAdBgNVBAsTFihjKSAyMDEwIEVudHJ1
+c3QsIEluYy4xIjAgBgNVBAMTGUVudHJ1c3QgQ2xhc3MgMiBDbGllbnQgQ0ECEBeVyYPn362a
+AAAAAEw1/y0wDQYJKoZIhvcNAQEBBQAEggEAO74bNtqG+QvcovOm63ccO4T9j1QHOjyr6+oA
+rKyipCQeTpOOEQB+q+SNhng8pU1GvupQV/hCz2U5y7VKZ0rXAyfwZ5T5Dg1wHLEOwhzTwc9e
+SOTurRZzd76Qgb1NT2lKwvea7kTQl0aL0CZZ7V5rtjrpyZ1cheRgwOkSi1rLiYC3IdpgU8jH
+w0pbiZOBlVQuM7HQS2JQG6izkADTH1aLbsFKbAIEWR3fn1arKpZxc3wDeWnlsxujRGArGUVt
+1rY96OQAl7uWJnnMJQwvhc5nvcyHolFxfRqFxy+MFcLuK4rwADpI0tflke+6QWuGBqgH634a
+lvllpI3olUQTUjsqbAAAAAAAAA==
+--------------ms060802050609060701070202--
