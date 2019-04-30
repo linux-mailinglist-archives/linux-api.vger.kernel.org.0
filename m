@@ -2,147 +2,108 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EB43FE7B
-	for <lists+linux-api@lfdr.de>; Tue, 30 Apr 2019 19:07:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D21E010037
+	for <lists+linux-api@lfdr.de>; Tue, 30 Apr 2019 21:19:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726102AbfD3RHm convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Tue, 30 Apr 2019 13:07:42 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40334 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726050AbfD3RHl (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 30 Apr 2019 13:07:41 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 95B4EC05CDFC;
-        Tue, 30 Apr 2019 17:07:31 +0000 (UTC)
-Received: from oldenburg2.str.redhat.com (ovpn-116-90.ams2.redhat.com [10.36.116.90])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id AACAD171DF;
-        Tue, 30 Apr 2019 17:07:21 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Jann Horn <jannh@google.com>, Kevin Easton <kevin@guarana.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Christian Brauner <christian@brauner.io>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Enrico Weigelt\, metux IT consult" <lkml@metux.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
+        id S1726164AbfD3TTr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 30 Apr 2019 15:19:47 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:36375 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726030AbfD3TTq (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 30 Apr 2019 15:19:46 -0400
+Received: by mail-oi1-f193.google.com with SMTP id l203so12236402oia.3
+        for <linux-api@vger.kernel.org>; Tue, 30 Apr 2019 12:19:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=g3qC6EpvLSeHFr2sRZhVsgJD/RMgh/dYJRkIiVXTq9w=;
+        b=Nnxc1mQbpIdlfxZJ7b65LkwEBcnT2G3SZCW1ewlTv0HCLQ4SeZltNWI5DB2nRlxokd
+         RbaAGI3WnQpjuhLJY9ogavnDOrcrgDcvHLoP1iCDhPh5D+pmfThLuStn7g+aL5vdM5ar
+         sr/4+METBLx3UHpY+uyqkruCyquSMHVBY6rqFpT8B7wIk5ADufaYUkL6d/EkL+nrEEJL
+         A52w4k7dbRxEjbEjnCVFV55IGN5uMzHbR/DBtTPsL+cdGWrwxwSHUVqQrT8gQ7y1NYdl
+         R9H10F3TJ2anAK5lqoJyjCsDV1U8YOZ066fwedQIWhxvucztM9lbs98EpH9FMtFY+vbv
+         PdHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=g3qC6EpvLSeHFr2sRZhVsgJD/RMgh/dYJRkIiVXTq9w=;
+        b=leCEB/mN3EsVYFJcmoRBCeMEIseys72zlgSjbeOgZsVLauVMc0uENRPn+lGHZH1C60
+         qqFddIzj5VLY6mQFlLlFHZizE5osUAfrSpke+ZB3716e/twuqn96eobp9bQk+S5vSZDA
+         N411dEty5XvGzAduH0DrB3Zww8kA9sG52boWz8w/YssQtjSW5iiQvFVwTgCOlJHxwtu2
+         Z7TF+2oM66m3r22RBAYLUv1vgU6xh9bph/4Vkzlnr6nZsaHNsyqMcCQ13B2+6BuRzWRC
+         pnXrYRIM9R2SjQdV9xX5AcUpvOAwbL45M6jdMWB9KxzPQBPIJNa7HjdswI/SLWeFIDQn
+         Jq5A==
+X-Gm-Message-State: APjAAAUkpILiVOeCQYH42Wd7vGl5pvhkA9Qat68g2vRCNmBCeNbeRgoM
+        A20AMbnR4fj9CzDRuu9irdC8rKsPwjTiuEeKatd5ww==
+X-Google-Smtp-Source: APXvYqxkhEi0s8vy1kV0tccLSHaysowwTaDcwz5lI7gFIXwU1OEMUPDBxvGY5LUoFgErWFKKyHF8OmhxBFF+gGMYJP8=
+X-Received: by 2002:aca:dcd7:: with SMTP id t206mr4274264oig.68.1556651985980;
+ Tue, 30 Apr 2019 12:19:45 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190404003249.14356-1-matthewgarrett@google.com> <20190404003249.14356-23-matthewgarrett@google.com>
+In-Reply-To: <20190404003249.14356-23-matthewgarrett@google.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Tue, 30 Apr 2019 15:19:20 -0400
+Message-ID: <CAG48ez0uVYJHycXv8jTvYrSGomhsQrQkR+Jpf-vXYJYn58eEjw@mail.gmail.com>
+Subject: Re: [PATCH V32 22/27] bpf: Restrict bpf when kernel lockdown is in
+ confidentiality mode
+To:     Matthew Garrett <matthewgarrett@google.com>, bpf@vger.kernel.org
+Cc:     James Morris <jmorris@namei.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
         David Howells <dhowells@redhat.com>,
         Linux API <linux-api@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Kees Cook <keescook@chromium.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Daniel Colascione <dancol@google.com>
-Subject: Re: RFC: on adding new CLONE_* flags [WAS Re: [PATCH 0/4] clone: add CLONE_PIDFD]
-References: <20190414201436.19502-1-christian@brauner.io>
-        <dc05ffe3-c2ff-8b3e-d181-e0cc620bf91d@metux.net>
-        <20190415195911.z7b7miwsj67ha54y@yavin>
-        <CALCETrWxMnaPvwicqkMLswMynWvJVteazD-bFv3ZnBKWp-1joQ@mail.gmail.com>
-        <20190420071406.GA22257@ip-172-31-15-78>
-        <CAG48ez0gG4bd-t1wdR2p6-N2FjWbCqm_+ZThKfF7yKnD=KLqAQ@mail.gmail.com>
-        <CAG48ez15bf1EJB0XTJsGFpvf8r5pj9+rv1axKVr13H1NW7ARZw@mail.gmail.com>
-        <CAHk-=wi_N81mKYFz33ycoWiL7_tGbZBMJOsAs16inYzSza+OEw@mail.gmail.com>
-        <CAG48ez1CV54c1xZ9s26ym=9avkihiNi=ppW-CWA1-qrCpYdc1A@mail.gmail.com>
-        <CAHk-=wg73au-kvOwWpPDY+rXrz8O5gwrcPiw1FZx-Qr2PqpRFg@mail.gmail.com>
-        <87r29jaoov.fsf@oldenburg2.str.redhat.com>
-        <CAHk-=wiM8VQ_Ny6Y=fTqE9Aq1LuDdU5bKfnXPyYXU1bi7GtU4w@mail.gmail.com>
-        <CAHk-=wgxqoH=Cztd7W67pYJyZwPPNtY5P7K66u2QTDEpEYHVAw@mail.gmail.com>
-Date:   Tue, 30 Apr 2019 19:07:19 +0200
-In-Reply-To: <CAHk-=wgxqoH=Cztd7W67pYJyZwPPNtY5P7K66u2QTDEpEYHVAw@mail.gmail.com>
-        (Linus Torvalds's message of "Tue, 30 Apr 2019 09:26:57 -0700")
-Message-ID: <871s1j777c.fsf@oldenburg2.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.31]); Tue, 30 Apr 2019 17:07:41 +0000 (UTC)
+        Andy Lutomirski <luto@kernel.org>,
+        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Matthew Garrett <mjg59@google.com>,
+        Network Development <netdev@vger.kernel.org>,
+        Chun-Yi Lee <jlee@suse.com>,
+        Daniel Borkmann <daniel@iogearbox.net>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Linus Torvalds:
++bpf list
 
-> On Tue, Apr 30, 2019 at 9:19 AM Linus Torvalds
-> <torvalds@linux-foundation.org> wrote:
->>
->> Of course, if you *don't* need the exact vfork() semantics, clone
->> itself actually very much supports a callback model with s separate
->> stack. You can basically do this:
->>
->>  - allocate new stack for the child
->>  - in trivial asm wrapper, do:
->>     - push the callback address on the child stack
->>     - clone(CLONE_VFORK|CLONE_VM|CLONE_SIGCHLD, chld_stack, NULL, NULL,NULL)
->>     - "ret"
->>  - free new stack
->>
->> where the "ret" in the child will just go to the callback, while the
->> parent (eventually) just returns from the trivial wrapper and frees
->> the new stack (which by definition is no longer used, since the child
->> has exited or execve'd.
+On Wed, Apr 3, 2019 at 8:34 PM Matthew Garrett
+<matthewgarrett@google.com> wrote:
+> There are some bpf functions can be used to read kernel memory:
+> bpf_probe_read, bpf_probe_write_user and bpf_trace_printk.  These allow
+> private keys in kernel memory (e.g. the hibernation image signing key) to
+> be read by an eBPF program and kernel memory to be altered without
+> restriction. Disable them if the kernel has been locked down in
+> confidentiality mode.
 >
-> In fact, Florian, maybe this is the solution to your "I want to use
-> vfork for posix_spawn(), but I don't know if I can trust it" problem.
+> Suggested-by: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+> Signed-off-by: David Howells <dhowells@redhat.com>
+> Signed-off-by: Matthew Garrett <mjg59@google.com>
+> cc: netdev@vger.kernel.org
+> cc: Chun-Yi Lee <jlee@suse.com>
+> cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+> Cc: Daniel Borkmann <daniel@iogearbox.net>
+> ---
+>  kernel/trace/bpf_trace.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
 >
-> Just use clone() directly. On WSL it will presumably just fail, and
-> you can then fall back on doing the slow stupid
-> fork+pipes-to-communicate.
+> diff --git a/kernel/trace/bpf_trace.c b/kernel/trace/bpf_trace.c
+> index 8b068adb9da1..9e8eda605b5e 100644
+> --- a/kernel/trace/bpf_trace.c
+> +++ b/kernel/trace/bpf_trace.c
+> @@ -137,6 +137,9 @@ BPF_CALL_3(bpf_probe_read, void *, dst, u32, size, const void *, unsafe_ptr)
+>  {
+>         int ret;
+>
+> +       if (kernel_is_locked_down("BPF", LOCKDOWN_CONFIDENTIALITY))
+> +               return -EINVAL;
+> +
+>         ret = probe_kernel_read(dst, unsafe_ptr, size);
+>         if (unlikely(ret < 0))
+>                 memset(dst, 0, size);
 
-We already use clone.  I don't know why.  We should add a comment that
-provides the reason.
-
-> On valgrind, I don't know what will happen. Maybe it will just do an
-> unchecked posix_spawn() because valgrind doesn't catch it?
-
-I think what happens with these emulators that they use fork (no shared
-address space) but suspend the parent thread.  clone with CLONE_VFORK
-definitely does not fail.  That mostly works, except that you do not get
-back the error code from the execve.  Instead, the process is considered
-launched, and the caller collects the exit status from the _exit after
-the failed execve.
-
-> Of course, if you *don't* need the exact vfork() semantics, clone
-> itself actually very much supports a callback model with s separate
-> stack. You can basically do this:
-> 
->  - allocate new stack for the child
->  - in trivial asm wrapper, do:
->     - push the callback address on the child stack
->     - clone(CLONE_VFORK|CLONE_VM|CLONE_SIGCHLD, chld_stack, NULL, NULL,NULL)
->     - "ret"
->  - free new stack
-> 
-> where the "ret" in the child will just go to the callback, while the
-> parent (eventually) just returns from the trivial wrapper and frees
-> the new stack (which by definition is no longer used, since the child
-> has exited or execve'd.
-> 
-> So you can most definitely create a "vfork_with_child_callback()" with
-> clone, and it would arguably be a much superior interface to vfork()
-> anyway (maybe you'd like to pass in some arguments to the callback too
-> - add more stack setup for the child as needed), but it wouldn't be
-> the right solution for programs that just want to use the standard BSD
-> vfork() model.
-
-As far as we understand the situation, we believe that we absolutely
-must block all signals for both the parent thread and the new
-subprocess.  Signals can be unblocked in the subprocess, but only after
-setting their handlers to SIG_DFL or SIG_IGN.  (Parent signal handlers
-cannot run in the subprocess because application-supplied signal
-handlers generally do not expect to run with a corrupt TCB—or a
-different PID.)
-
-At that point, I wonder if we can just skip the stack setup for the
-CLONE_VFORK case and reuse the existing stack.
-
-Thanks,
-Florian
+This looks wrong. bpf_probe_read_proto is declared with an
+ARG_PTR_TO_UNINIT_MEM argument, so if you don't do a "memset(dst, 0,
+size);" like in the probe_kernel_read() error path, the BPF program
+can read uninitialized memory.
