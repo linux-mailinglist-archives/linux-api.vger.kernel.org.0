@@ -2,94 +2,79 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C14B6F868
-	for <lists+linux-api@lfdr.de>; Tue, 30 Apr 2019 14:08:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17516F90B
+	for <lists+linux-api@lfdr.de>; Tue, 30 Apr 2019 14:39:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727357AbfD3MIO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 30 Apr 2019 08:08:14 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55442 "EHLO mx1.redhat.com"
+        id S1728287AbfD3MjM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 30 Apr 2019 08:39:12 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39766 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727341AbfD3MIO (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 30 Apr 2019 08:08:14 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        id S1727469AbfD3MjL (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 30 Apr 2019 08:39:11 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 6704930018C2;
-        Tue, 30 Apr 2019 12:08:13 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id C16833091786;
+        Tue, 30 Apr 2019 12:39:10 +0000 (UTC)
 Received: from dhcp-27-174.brq.redhat.com (unknown [10.43.17.159])
-        by smtp.corp.redhat.com (Postfix) with SMTP id 1FDDE78DEC;
-        Tue, 30 Apr 2019 12:08:01 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with SMTP id 7C2301001E91;
+        Tue, 30 Apr 2019 12:39:04 +0000 (UTC)
 Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Tue, 30 Apr 2019 14:08:11 +0200 (CEST)
-Date:   Tue, 30 Apr 2019 14:07:59 +0200
+        oleg@redhat.com; Tue, 30 Apr 2019 14:39:08 +0200 (CEST)
+Date:   Tue, 30 Apr 2019 14:39:01 +0200
 From:   Oleg Nesterov <oleg@redhat.com>
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     Christian Brauner <christian@brauner.io>,
-        linux-kernel@vger.kernel.org, luto@amacapital.net,
-        rostedt@goodmis.org, dancol@google.com, sspatil@google.com,
-        jannh@google.com, surenb@google.com, timmurray@google.com,
-        Jonathan Kowalski <bl0pbl33p@gmail.com>,
-        torvalds@linux-foundation.org, kernel-team@android.com,
-        Andrew Morton <akpm@linux-foundation.org>,
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Jann Horn <jannh@google.com>, Kevin Easton <kevin@guarana.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Christian Brauner <christian@brauner.io>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        David Howells <dhowells@redhat.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
         Arnd Bergmann <arnd@arndb.de>,
         "Eric W. Biederman" <ebiederm@xmission.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ingo Molnar <mingo@kernel.org>, Jann Horn <jann@thejh.net>,
-        linux-kselftest@vger.kernel.org, Michal Hocko <mhocko@suse.com>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Serge Hallyn <serge@hallyn.com>, Shuah Khan <shuah@kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Kees Cook <keescook@chromium.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, viro@zeniv.linux.org.uk,
-        linux-api@vger.kernel.org
-Subject: Re: [PATCH v1 1/2] Add polling support to pidfd
-Message-ID: <20190430120759.GC23020@redhat.com>
-References: <20190425190010.46489-1-joel@joelfernandes.org>
- <20190425222359.sqhboc4x4daznr6r@brauner.io>
- <20190428162405.GA6757@redhat.com>
- <20190429140245.GB233442@google.com>
- <20190429142030.GA17715@redhat.com>
- <20190429163259.GA201155@google.com>
- <20190430115332.GB23020@redhat.com>
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Daniel Colascione <dancol@google.com>
+Subject: Re: RFC: on adding new CLONE_* flags [WAS Re: [PATCH 0/4] clone: add
+ CLONE_PIDFD]
+Message-ID: <20190430123901.GD23020@redhat.com>
+References: <20190414201436.19502-1-christian@brauner.io>
+ <dc05ffe3-c2ff-8b3e-d181-e0cc620bf91d@metux.net>
+ <20190415195911.z7b7miwsj67ha54y@yavin>
+ <CALCETrWxMnaPvwicqkMLswMynWvJVteazD-bFv3ZnBKWp-1joQ@mail.gmail.com>
+ <20190420071406.GA22257@ip-172-31-15-78>
+ <CAG48ez0gG4bd-t1wdR2p6-N2FjWbCqm_+ZThKfF7yKnD=KLqAQ@mail.gmail.com>
+ <CAG48ez15bf1EJB0XTJsGFpvf8r5pj9+rv1axKVr13H1NW7ARZw@mail.gmail.com>
+ <CAHk-=wi_N81mKYFz33ycoWiL7_tGbZBMJOsAs16inYzSza+OEw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190430115332.GB23020@redhat.com>
+In-Reply-To: <CAHk-=wi_N81mKYFz33ycoWiL7_tGbZBMJOsAs16inYzSza+OEw@mail.gmail.com>
 User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.46]); Tue, 30 Apr 2019 12:08:14 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.41]); Tue, 30 Apr 2019 12:39:11 +0000 (UTC)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 04/30, Oleg Nesterov wrote:
+On 04/29, Linus Torvalds wrote:
 >
-> > > pidfd_poll() can race with the exiting task, miss exit_code != 0, and return
-> > > zero. However, do_poll() won't block after that and pidfd_poll() will be called
-> > > again.
-> >
-> > Here also I didn't follow what you mean. If exit_code is read as 0 in
-> > pidfd_poll(), then in do_poll() the count will be 0 and it will block in
-> > poll_schedule_timeout(). Right?
->
-> No. Please note the pwq->triggered check and please read __pollwake().
->
-> But if you want to understand this you can forget about poll/select. It is
-> a bit complicated, in particular because it has to do set_current_state()
-> right  before schedule() and thus it plays games with pwq->triggered. But in
-> essence this doesn't differ too much from the plain wait_event-like code
-> (although you can also look at wait_woken/woken_wake_function).
->
-> If remove_wait_queue() could happem before wake_up_all() (like in your pseudo-
-> code above), then pidfd_poll() or any other ->poll() method could miss _both_
-> the condition and wakeup. But sys_poll() doesn't do this, so it is fine to miss
-> the condition and rely on wake_up_all() which ensures we won't block and the
-> next iteration must see condition == T.
+> Linux vfork() is very much a real vfork(). What do you mean?
 
-Oh, just in case... If it is not clear, of course I am talking about the case
-when wake_up_call() was already called when we check the condition. Otherwise
-everything is simple.
+Yes, but I am wondering if man vfork should clarify what "child terminates"
+actually means. I mean, the child can do clone(CLONE_THREAD) + sys_exit(),
+this will wake the parent thread up before the child process exits or execs.
+
+I see nothing wrong, but I was always curious whether it was designed this
+way on purpose or not.
 
 Oleg.
 
