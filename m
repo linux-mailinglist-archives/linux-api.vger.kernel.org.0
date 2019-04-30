@@ -2,55 +2,63 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D67A4EDF6
-	for <lists+linux-api@lfdr.de>; Tue, 30 Apr 2019 02:39:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C1E5EEC0
+	for <lists+linux-api@lfdr.de>; Tue, 30 Apr 2019 04:22:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729721AbfD3AjE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 29 Apr 2019 20:39:04 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:38346 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729590AbfD3AjE (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Apr 2019 20:39:04 -0400
-Received: by mail-ot1-f68.google.com with SMTP id t20so10407095otl.5
-        for <linux-api@vger.kernel.org>; Mon, 29 Apr 2019 17:39:04 -0700 (PDT)
+        id S1729837AbfD3CW2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 29 Apr 2019 22:22:28 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:43150 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729803AbfD3CW2 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Apr 2019 22:22:28 -0400
+Received: by mail-lj1-f196.google.com with SMTP id t1so1134068lje.10
+        for <linux-api@vger.kernel.org>; Mon, 29 Apr 2019 19:22:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=linux-foundation.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=CgTZ/3K30VQ7Yy+pkC8aq78l5d1oLQkhIepKaWoCAis=;
-        b=hDbhNhUUvtz91pYUFmj6nfFXK8CKr5RbKdQxwq4t9TgTcelkeWGGBkCFCVn1roCGTY
-         5gCaEeHjrUe+44R/9CUFSnxJsPyMbN5Yedvj+K0BJcQoz7xv9AK4lWxoXOjtD7txq1FR
-         IszJWlRcxRV66h+r/Q1aUkJur2mIkSYoeRYsk2r9OkuYs0zmliDeHL1b2PKeL/oj+E+k
-         SF55kopRV66yIgAmst000r/FAqTIuVGN7MDzN/5QyzEK9PpLIe59lTC21+Nh1T4XDCBL
-         7Gm2HOK/pKO+Eq6hW+L1OokwwwjUfFbbrqHdUo/bWpsB2Sj1fjd0KHaYbnHcocOicwY9
-         WlHg==
+        bh=O7K80baoGD98i/ki0iA1SM4BuBVnujumewB88uhrGPE=;
+        b=agEwzL5uVGX3m7CSaELzs/03mfCALUUKzAl+yfarpEfu3aAmqoEpsz3pM4cUroNLl/
+         6bneaBMEu0Mu4GZZEgEZtYPC7Go4RCUjhq5pyTbn8KeNhVXtO4bI8l39EoVfErZQk0aR
+         6Hh69Nwv8qf3nijb9WYOsKX2+TAZsGITw3iDI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=CgTZ/3K30VQ7Yy+pkC8aq78l5d1oLQkhIepKaWoCAis=;
-        b=sm4AMkVMr0yxsUyoLiKZpZ55XrNdwmKsN1Kll6ZiU9jGjcGdR132x68CgpGbvTp0Ce
-         eHOOJ0XpMz2AV8szdQqoK0CWSmhyUymnKnVEm/SgXbULQWJi67OtYl8d6Ih7BYbKdLH/
-         yjXa/tyPTBW0u68avIr2Hc127zzmtYDDBMBtCum90C59llvjHyldeiebGmwXn/Yt6v9y
-         J+TapKwd8awJxrnkgkZ7T4+k6VXlquoSv7+q+Ux7Znk8vramyacifYcY2q3+3qwRwR58
-         f2mKN3zfGTc6hzQ9scj7PtttrYaG7dsrffWuo9+mf1ZEZd9wzOq0EvgV79Sj9F6OPcAV
-         hmBQ==
-X-Gm-Message-State: APjAAAXq0L10RBRgsjtK9IIC9axl3MraNOJu0Pk6DqGGay9RE0wOzYZJ
-        VPoWu9uhL95KXCQ7B+kU4EJ2w/BZXZUIuPCayVqsRw==
-X-Google-Smtp-Source: APXvYqwWLXmgw6LO0TQOApqsoDQCT6J8Fxw3fh5GCqCZu3eyL9N9e5DL2d3J/0PsdjmDC+DNw2jfN8I4xhhddyTXqlk=
-X-Received: by 2002:a9d:6748:: with SMTP id w8mr6113811otm.198.1556584743486;
- Mon, 29 Apr 2019 17:39:03 -0700 (PDT)
+        bh=O7K80baoGD98i/ki0iA1SM4BuBVnujumewB88uhrGPE=;
+        b=HtTnXEgWg8gmQcgjFQTkZX7gV0kIRBGvZrNDJZxWnWlXi32O0YwPr9LMVdT/IxbGa8
+         gR70jcxSUVXzYtryn09SrsNNgXSg8WteRIir+NBTYsRyOOqdP32cQI+mMXSCUh57epDF
+         GTK7HZK8mxzv/THiCNjNl4Mc3rs29y3J2g0Sk+Dd+EBLY6K/Ko253JxeEnQYAIRD4YTI
+         BUc1tu08FJVBoaNWCyY0JITPQjRqUtBsTAhICdyZ+iMHkwwJ6w8BihyUSe/dZkp8Eaq8
+         h4TiY4o0S1xqjPNMFNzT3Lw2PXo/rU23LHuaCCDGuBQbr/tnUXyr01maneWm5MWmiqyR
+         dkYw==
+X-Gm-Message-State: APjAAAWfNAV2My3HqRdzKZFLzZRRneQuq6MQ0nfnm5X7utNTDZ6DeHEW
+        gX54e+pnwn/9giBEmIUw5MzqZnLEfuo=
+X-Google-Smtp-Source: APXvYqziK8E+mynxWE98Xha/uwoL+jC5/PRR/BjSEQ/9QhC3ewyajQMPeRo5iwontcelS8CXnkyDtA==
+X-Received: by 2002:a2e:74f:: with SMTP id i15mr17481103ljd.156.1556590945547;
+        Mon, 29 Apr 2019 19:22:25 -0700 (PDT)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com. [209.85.208.174])
+        by smtp.gmail.com with ESMTPSA id v24sm948634lje.31.2019.04.29.19.22.25
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 29 Apr 2019 19:22:25 -0700 (PDT)
+Received: by mail-lj1-f174.google.com with SMTP id s7so8537399ljh.1
+        for <linux-api@vger.kernel.org>; Mon, 29 Apr 2019 19:22:25 -0700 (PDT)
+X-Received: by 2002:a2e:9ac8:: with SMTP id p8mr31073909ljj.79.1556590587148;
+ Mon, 29 Apr 2019 19:16:27 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190414201436.19502-1-christian@brauner.io> <dc05ffe3-c2ff-8b3e-d181-e0cc620bf91d@metux.net>
  <20190415195911.z7b7miwsj67ha54y@yavin> <CALCETrWxMnaPvwicqkMLswMynWvJVteazD-bFv3ZnBKWp-1joQ@mail.gmail.com>
  <20190420071406.GA22257@ip-172-31-15-78> <CAG48ez0gG4bd-t1wdR2p6-N2FjWbCqm_+ZThKfF7yKnD=KLqAQ@mail.gmail.com>
- <CAG48ez15bf1EJB0XTJsGFpvf8r5pj9+rv1axKVr13H1NW7ARZw@mail.gmail.com> <CAHk-=wi_N81mKYFz33ycoWiL7_tGbZBMJOsAs16inYzSza+OEw@mail.gmail.com>
-In-Reply-To: <CAHk-=wi_N81mKYFz33ycoWiL7_tGbZBMJOsAs16inYzSza+OEw@mail.gmail.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Mon, 29 Apr 2019 20:38:36 -0400
-Message-ID: <CAG48ez1CV54c1xZ9s26ym=9avkihiNi=ppW-CWA1-qrCpYdc1A@mail.gmail.com>
+ <CAG48ez15bf1EJB0XTJsGFpvf8r5pj9+rv1axKVr13H1NW7ARZw@mail.gmail.com>
+ <CAHk-=wi_N81mKYFz33ycoWiL7_tGbZBMJOsAs16inYzSza+OEw@mail.gmail.com> <CAG48ez1CV54c1xZ9s26ym=9avkihiNi=ppW-CWA1-qrCpYdc1A@mail.gmail.com>
+In-Reply-To: <CAG48ez1CV54c1xZ9s26ym=9avkihiNi=ppW-CWA1-qrCpYdc1A@mail.gmail.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Mon, 29 Apr 2019 19:16:11 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wg73au-kvOwWpPDY+rXrz8O5gwrcPiw1FZx-Qr2PqpRFg@mail.gmail.com>
+Message-ID: <CAHk-=wg73au-kvOwWpPDY+rXrz8O5gwrcPiw1FZx-Qr2PqpRFg@mail.gmail.com>
 Subject: Re: RFC: on adding new CLONE_* flags [WAS Re: [PATCH 0/4] clone: add CLONE_PIDFD]
-To:     Linus Torvalds <torvalds@linux-foundation.org>
+To:     Jann Horn <jannh@google.com>
 Cc:     Kevin Easton <kevin@guarana.org>,
         Andy Lutomirski <luto@kernel.org>,
         Christian Brauner <christian@brauner.io>,
@@ -76,18 +84,46 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Apr 29, 2019 at 4:21 PM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
+On Mon, Apr 29, 2019 at 5:39 PM Jann Horn <jannh@google.com> wrote:
 >
-> On Mon, Apr 29, 2019 at 12:55 PM Jann Horn <jannh@google.com> wrote:
-> >
-> > ... I guess that already has a name, and it's called vfork(). (Well,
-> > except that the Linux vfork() isn't a real vfork().)
->
-> What?
->
-> Linux vfork() is very much a real vfork(). What do you mean?
+> ... uuuh, whoops. Turns out I don't know what I'm talking about.
 
-... uuuh, whoops. Turns out I don't know what I'm talking about.
-Nevermind. For some reason I thought vfork() was just
-CLONE_VFORK|SIGCHLD, but now I see I got that completely wrong.
+Well, apparently there's some odd libc issue accoprding to Florian, so
+there *might* be something to it.
+
+> Nevermind. For some reason I thought vfork() was just
+> CLONE_VFORK|SIGCHLD, but now I see I got that completely wrong.
+
+Well, inside the kernel, that's actually *very* close to what vfork() is:
+
+  SYSCALL_DEFINE0(vfork)
+  {
+        return _do_fork(CLONE_VFORK | CLONE_VM | SIGCHLD, 0,
+                        0, NULL, NULL, 0);
+  }
+
+but that's just an internal implementation detail. It's a real vfork()
+and should act as the traditional BSD "share everything" without any
+address space copying. The CLONE_VFORK flag is what does the "wait for
+child to exit or execve" magic.
+
+Note that vfork() is "exciting" for the compiler in much the same way
+"setjmp/longjmp()" is, because of the shared stack use in the child
+and the parent. It is *very* easy to get this wrong and cause massive
+and subtle memory corruption issues because the parent returns to
+something that has been messed up by the child.
+
+That may be why some libc might end up just using "fork()", because it
+ends up avoiding bugs in user space.
+(In fact, if I recall correctly, the _reason_ we have an explicit
+'vfork()' entry point rather than using clone() with magic parameters
+was that the lack of arguments meant that you didn't have to
+save/restore any registers in user space, which made the whole stack
+issue simpler. But it's been two decades, so my memory is bitrotting).
+
+Also, particularly if you have a big address space, vfork()+execve()
+can be quite a bit faster than fork()+execve(). Linux fork() is pretty
+efficient, but if you have gigabytes of VM space to copy, it's going
+to take time even if you do it fairly well.
+
+               Linus
