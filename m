@@ -2,37 +2,36 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0839A10509
-	for <lists+linux-api@lfdr.de>; Wed,  1 May 2019 07:01:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 062AA10533
+	for <lists+linux-api@lfdr.de>; Wed,  1 May 2019 07:24:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725766AbfEAFBR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 1 May 2019 01:01:17 -0400
-Received: from www.microlink.zm ([197.220.196.7]:46384 "EHLO www.microlink.zm"
+        id S1725535AbfEAFYZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 1 May 2019 01:24:25 -0400
+Received: from www.microlink.zm ([197.220.196.7]:33472 "EHLO www.microlink.zm"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725298AbfEAFBR (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 1 May 2019 01:01:17 -0400
-X-Greylist: delayed 771 seconds by postgrey-1.27 at vger.kernel.org; Wed, 01 May 2019 01:00:15 EDT
+        id S1725298AbfEAFYY (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 1 May 2019 01:24:24 -0400
 Received: from localhost (unknown [127.0.0.1])
-        by www.microlink.zm (Postfix) with ESMTP id 4025743A0D32;
-        Wed,  1 May 2019 04:30:40 +0000 (UTC)
+        by www.microlink.zm (Postfix) with ESMTP id BB46F4383B8E;
+        Wed,  1 May 2019 05:07:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at microlink.zm
 Received: from www.microlink.zm ([127.0.0.1])
         by localhost (www.microlink.zm [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id PJsABwOy1erw; Wed,  1 May 2019 06:30:39 +0200 (CAT)
+        with ESMTP id oPDnz3pu-PA3; Wed,  1 May 2019 07:07:03 +0200 (CAT)
 Received: by www.microlink.zm (Postfix, from userid 48)
-        id E70A1438565F; Wed,  1 May 2019 06:30:35 +0200 (CAT)
+        id 93763439878F; Wed,  1 May 2019 07:07:00 +0200 (CAT)
 Received: from 41.145.111.15
         (SquirrelMail authenticated user mzmwand)
         by www.microlink.zm with HTTP;
-        Wed, 1 May 2019 06:30:35 +0200
-Message-ID: <48ef865e183c67876431445c37b1fed2.squirrel@www.microlink.zm>
-Date:   Wed, 1 May 2019 06:30:35 +0200
+        Wed, 1 May 2019 07:07:00 +0200
+Message-ID: <6c151a24b9bf3b386781a4c2598f13cd.squirrel@www.microlink.zm>
+Date:   Wed, 1 May 2019 07:07:00 +0200
 Subject: GOOD DAY
 From:   "Hot Lotto Sizzler" <mzmwand@microlink.zm>
 Reply-To: info.claimagentoffice@gmail.com
 User-Agent: SquirrelMail/1.4.21
 MIME-Version: 1.0
-Content-Type: multipart/mixed;boundary="----=_20190501063035_79917"
+Content-Type: multipart/mixed;boundary="----=_20190501070700_38534"
 X-Priority: 3 (Normal)
 Importance: Normal
 To:     unlisted-recipients:; (no To-header on input)
@@ -41,14 +40,14 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-------=_20190501063035_79917
+------=_20190501070700_38534
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: 8bit
 
 
 
 You have won
-------=_20190501063035_79917
+------=_20190501070700_38534
 Content-Type:
  application/vnd.openxmlformats-officedocument.wordprocessingml.document;
  name="Hot.docx"
@@ -2534,6 +2533,6 @@ AA8AAAAAAAAAAAAAAAAANhcCAHdvcmQvc3R5bGVzLnhtbFBLAQItABQABgAIAAAAIQCEKgSC8gEA
 ALsFAAASAAAAAAAAAAAAAAAAAD4fAgB3b3JkL2ZvbnRUYWJsZS54bWxQSwECLQAUAAYACAAAACEA
 72VHW9EBAADRAwAAEAAAAAAAAAAAAAAAAABgIQIAZG9jUHJvcHMvYXBwLnhtbFBLBQYAAAAADQAN
 AEwDAABnJAIAAAA=
-------=_20190501063035_79917--
+------=_20190501070700_38534--
 
 
