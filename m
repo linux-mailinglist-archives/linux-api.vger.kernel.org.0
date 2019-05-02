@@ -2,153 +2,79 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AF5CF12051
-	for <lists+linux-api@lfdr.de>; Thu,  2 May 2019 18:33:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF414123D9
+	for <lists+linux-api@lfdr.de>; Thu,  2 May 2019 23:07:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726536AbfEBQd0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 2 May 2019 12:33:26 -0400
-Received: from mga12.intel.com ([192.55.52.136]:6989 "EHLO mga12.intel.com"
+        id S1726304AbfEBVHV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 2 May 2019 17:07:21 -0400
+Received: from namei.org ([65.99.196.166]:37082 "EHLO namei.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726451AbfEBQd0 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 2 May 2019 12:33:26 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 02 May 2019 09:33:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.60,422,1549958400"; 
-   d="scan'208";a="296427717"
-Received: from yyu32-desk1.sc.intel.com ([143.183.136.147])
-  by orsmga004.jf.intel.com with ESMTP; 02 May 2019 09:33:23 -0700
-Message-ID: <91611b9e159799bbf603b65cf7bb6b37dd81b075.camel@intel.com>
-Subject: Re: [PATCH] binfmt_elf: Extract .note.gnu.property from an ELF file
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Dave Martin <Dave.Martin@arm.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        libc-alpha@sourceware.org
-Date:   Thu, 02 May 2019 09:25:56 -0700
-In-Reply-To: <20190502161424.GQ3567@e103592.cambridge.arm.com>
-References: <20190501211217.5039-1-yu-cheng.yu@intel.com>
-         <20190502111003.GO3567@e103592.cambridge.arm.com>
-         <5b2c6cee345e00182e97842ae90c02cdcd830135.camel@intel.com>
-         <20190502161424.GQ3567@e103592.cambridge.arm.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1725962AbfEBVHV (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 2 May 2019 17:07:21 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by namei.org (8.14.4/8.14.4) with ESMTP id x42L7F4G000848;
+        Thu, 2 May 2019 21:07:15 GMT
+Date:   Fri, 3 May 2019 07:07:15 +1000 (AEST)
+From:   James Morris <jmorris@namei.org>
+To:     Matthew Garrett <mjg59@google.com>
+cc:     LSM List <linux-security-module@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        David Howells <dhowells@redhat.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        Andy Lutomirski <luto@kernel.org>
+Subject: Re: [PATCH V32 01/27] Add the ability to lock down access to the
+ running kernel image
+In-Reply-To: <CACdnJus-+VTy0uOWg982SgZr55Lp7Xot653dJb_tO5T=J6D8nw@mail.gmail.com>
+Message-ID: <alpine.LRH.2.21.1905030653480.32502@namei.org>
+References: <20190404003249.14356-1-matthewgarrett@google.com> <20190404003249.14356-2-matthewgarrett@google.com> <CACdnJus-+VTy0uOWg982SgZr55Lp7Xot653dJb_tO5T=J6D8nw@mail.gmail.com>
+User-Agent: Alpine 2.21 (LRH 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, 2019-05-02 at 17:14 +0100, Dave Martin wrote:
-> On Thu, May 02, 2019 at 08:47:06AM -0700, Yu-cheng Yu wrote:
-> > On Thu, 2019-05-02 at 12:10 +0100, Dave Martin wrote:
-> > > On Wed, May 01, 2019 at 02:12:17PM -0700, Yu-cheng Yu wrote:
-> > > > An ELF file's .note.gnu.property indicates features the executable file
-> > > > can support.  For example, the property GNU_PROPERTY_X86_FEATURE_1_AND
-> > > > indicates the file supports GNU_PROPERTY_X86_FEATURE_1_IBT and/or
-> > > > GNU_PROPERTY_X86_FEATURE_1_SHSTK.
-> > 
-> > [...]
-> > > A couple of questions before I look in more detail:
-> > > 
-> > > 1) Can we rely on PT_GNU_PROPERTY being present in the phdrs to describe
-> > > the NT_GNU_PROPERTY_TYPE_0 note?  If so, we can avoid trying to parse
-> > > irrelevant PT_NOTE segments.
-> > 
-> > Some older linkers can create multiples of NT_GNU_PROPERTY_TYPE_0.  The code
-> > scans all PT_NOTE segments to ensure there is only one
-> > NT_GNU_PROPERTY_TYPE_0. 
-> > If there are multiples, then all are considered invalid.
-> 
-> I'm concerned that in the arm64 case we would waste some effort by
-> scanning multiple notes.
-> 
-> Could we do something like iterating over the phdrs, and if we find
-> exactly one PT_GNU_PROPERTY then use that, else fall back to scanning
-> all PT_NOTEs?
+On Mon, 29 Apr 2019, Matthew Garrett wrote:
 
-That makes sense to me, but the concern is that we don't know the
-PT_GNU_PROPERTY the only one.  This probably needs to be discussed with more
-people.
+> Hi James,
+> 
+> What's the best way forward with this? I'm still not entirely clear on
+> how it can be implemented purely as an LSM, but if you have ideas on
+> what sort of implementation you'd prefer I'm happy to work on that.
 
-> > > 2) Are there standard types for things like the program property header?
-> > > If not, can we add something in elf.h?  We should try to coordinate with
-> > > libc on that.  Something like
-> > > 
-> > > typedef __u32 Elf_Word;
-> > > 
-> > > typedef struct {
-> > > 	Elf_Word pr_type;
-> > > 	Elf_Word pr_datasz;
-> > > } Elf_Gnu_Prophdr;
-> > > 
-> > > (i.e., just the header part from [1], with a more specific name -- which
-> > > I just made up).
-> > 
-> > Yes, I will fix that.
-> > 
-> > [...]
-> > > 3) It looks like we have to go and re-parse all the notes for every
-> > > property requested by the arch code.
-> > 
-> > As explained above, it is necessary to scan all PT_NOTE segments.  But there
-> > should be only one NT_GNU_PROPERTY_TYPE_0 in an ELF file.  Once that is
-> > found,
-> > perhaps we can store it somewhere, or call into the arch code as you
-> > mentioned
-> > below.  I will look into that.
-> 
-> Just to get something working on arm64, I'm working on some hacks that
-> move things around a bit -- I'll post when I have something.
-> 
-> Did you have any view on my other point, below?
+It can't be implemented purely as an LSM.
 
-That should work.  I will also make some changes for that.
+The concerns I have are:
 
-> 
-> Cheers
-> ---Dave
-> 
-> > > For now there is only one property requested anyway, so this is probably
-> > > not too bad.  But could we flip things around so that we have some
-> > > CONFIG_ARCH_WANTS_ELF_GNU_PROPERTY (say), and have the ELF core code
-> > > call into the arch backend for each property found?
-> > > 
-> > > The arch could provide some hook
-> > > 
-> > > 	int arch_elf_has_gnu_property(const Elf_Gnu_Prophdr *prop,
-> > > 					const void *data);
-> > > 
-> > > to consume the properties as they are found.
-> > > 
-> > > This would effectively replace the arch_setup_property() hook you
-> > > currently have.
-> > > 
-> > > Cheers
-> > > ---Dave
-> > > 
-> > > [1] https://github.com/hjl-tools/linux-abi/wiki/Linux-Extensions-to-gABI
+  o Mixing of mechanism and policy (they are hardcoded together)
+  o Too-coarse policy (all or nothing, which will lead many to choose   
+    nothing)
+  o Lack of integration with LSM
+  o Completeness
+  o Maintenance (including adding new lockdowns without breaking existing 
+    userspace)
+  
+One possible direction is to (as previously mentioned) assign IDs to each 
+callsite and be able to check this ID against a simple policy array 
+(allow/deny).  The default policy choices could be reduced to 'all' or 
+'none' during kconfig, and allow a custom policy to be loaded later if 
+desired.
+
+Within the policy check hook, we could add a new LSM hook, which would 
+allow an LSM to restrictively override the lockdown policy with its own 
+(so e.g. SELinux could utilize the context of the current process to 
+determine if a lockdown feature should be enforced).
+
+This doesn't really address the completeness / maintenance issue (i.e. "do 
+we have everything covered and how do we ensure this on an ongoing 
+basis?", and "what will this new lockdown feature break?"), although it 
+should make it easier to add new lockdown callsites as they don't have to 
+be enabled by the user.
+
+Thoughts?
+
+-- 
+James Morris
+<jmorris@namei.org>
+
