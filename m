@@ -2,48 +2,45 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 39329133F9
-	for <lists+linux-api@lfdr.de>; Fri,  3 May 2019 21:22:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D0C013412
+	for <lists+linux-api@lfdr.de>; Fri,  3 May 2019 21:39:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725793AbfECTWf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 3 May 2019 15:22:35 -0400
-Received: from mail.efficios.com ([167.114.142.138]:59300 "EHLO
+        id S1726858AbfECTjJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 3 May 2019 15:39:09 -0400
+Received: from mail.efficios.com ([167.114.142.138]:34698 "EHLO
         mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725789AbfECTWf (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 3 May 2019 15:22:35 -0400
+        with ESMTP id S1726444AbfECTjJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 3 May 2019 15:39:09 -0400
 Received: from localhost (ip6-localhost [IPv6:::1])
-        by mail.efficios.com (Postfix) with ESMTP id 6E86D1DEA36;
-        Fri,  3 May 2019 15:22:33 -0400 (EDT)
+        by mail.efficios.com (Postfix) with ESMTP id DFB931831BF;
+        Fri,  3 May 2019 15:39:06 -0400 (EDT)
 Received: from mail.efficios.com ([IPv6:::1])
         by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10032)
-        with ESMTP id 0QuwNrTwQwAY; Fri,  3 May 2019 15:22:33 -0400 (EDT)
+        with ESMTP id MWCyrBIOlpm2; Fri,  3 May 2019 15:39:05 -0400 (EDT)
 Received: from localhost (ip6-localhost [IPv6:::1])
-        by mail.efficios.com (Postfix) with ESMTP id E9E7F1DEA14;
-        Fri,  3 May 2019 15:22:32 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com E9E7F1DEA14
+        by mail.efficios.com (Postfix) with ESMTP id AB2931831AF;
+        Fri,  3 May 2019 15:39:05 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com AB2931831AF
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1556911353;
-        bh=Z1fXbode9z//U9geZ8RU9W20aXBHSnu7pA0JsyOME6U=;
-        h=Date:From:To:Message-ID:MIME-Version;
-        b=oJyLWiZAFwoLwOGgE/MF/ve5CmfrvgRQC3357sjT/Lu+vyPLa4t5XIFPcail2khfE
-         FPuWIFxcT7lRWMYv1LTCAsgWVuzmLi901E1sH/a7YNODtduZGFcJkVqK00NTgq7ysG
-         5CwtUVbbufy8KEkLSUDax3NDMfTMs3EDN0FZ7eYqFPptZHAqgfpqIPc9yeH6c7rXq9
-         wHCqgo/7rpLRpgzH6Z+/+VHw/as3wcOATZg/1kAMGmfJx9gEUP5814jnH8UdYq5Xy4
-         TnPppbgf75vEsavaCGv8GON7R+4IMK5Du7x+4XpbQGztic6wZNUAej7vjHmdVy3Cgv
-         xmltnO/50PLkw==
+        s=default; t=1556912345;
+        bh=rIdjeP9dOunM2tC/0N/byMbrGcuAXBACBHAmVs+B6pg=;
+        h=From:To:Date:Message-Id;
+        b=DNaLuimxdIPOaeydsZ9AttC0tGcbmsi2dsp0IdP2pD4Pr2ufEUwZSpkS7EJmgncno
+         gGnbXO0rVklXpi8F+3Glu1OKWkX7/RRJm6EwSRLCzmnNybVH3p3xpaJp7+FphQz0sT
+         2K7Oy9jVP8tQbGROKzj7ZtdCc/Kl8kTf4FqxqX+Onmp355+1XFTspVtDbTEePqEilq
+         DrRTUyQmP7ETZR7JwcMihYziWdn5/A3QxAcuh4iUjd1l8TAuhxB9TLpITLsB10xzLQ
+         VSoQ2koEqXKYfLcfzoDlUR2N8AY96dNPIa+e1hAe9j7HHmlw41aBmHmdUCLaC1d0uh
+         c8jrSizqZolgA==
 X-Virus-Scanned: amavisd-new at efficios.com
 Received: from mail.efficios.com ([IPv6:::1])
         by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10026)
-        with ESMTP id zcPuURcV7p-X; Fri,  3 May 2019 15:22:32 -0400 (EDT)
-Received: from mail02.efficios.com (mail02.efficios.com [167.114.142.138])
-        by mail.efficios.com (Postfix) with ESMTP id C98851DEA0E;
-        Fri,  3 May 2019 15:22:32 -0400 (EDT)
-Date:   Fri, 3 May 2019 15:22:32 -0400 (EDT)
+        with ESMTP id xzKHk0_xTFq7; Fri,  3 May 2019 15:39:05 -0400 (EDT)
+Received: from thinkos.internal.efficios.com (192-222-157-41.qc.cable.ebox.net [192.222.157.41])
+        by mail.efficios.com (Postfix) with ESMTPSA id 399601831A7;
+        Fri,  3 May 2019 15:39:05 -0400 (EDT)
 From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     shuah <shuah@kernel.org>, Andy Whitcroft <apw@canonical.com>,
-        Joe Perches <joe@perches.com>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-api <linux-api@vger.kernel.org>,
+To:     Shuah Khan <shuah@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
         Thomas Gleixner <tglx@linutronix.de>,
         Peter Zijlstra <peterz@infradead.org>,
         "Paul E . McKenney" <paulmck@linux.vnet.ibm.com>,
@@ -53,100 +50,152 @@ Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Russell King <linux@arm.linux.org.uk>,
         Ingo Molnar <mingo@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Andi Kleen <andi@firstfloor.org>,
-        Chris Lameter <cl@linux.com>, Ben Maurer <bmaurer@fb.com>,
-        rostedt <rostedt@goodmis.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Andi Kleen <andi@firstfloor.org>, Chris Lameter <cl@linux.com>,
+        Ben Maurer <bmaurer@fb.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
         Josh Triplett <josh@joshtriplett.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
         Michael Kerrisk <mtk.manpages@gmail.com>,
-        Joel Fernandes <joelaf@google.com>
-Message-ID: <1137649333.995.1556911352713.JavaMail.zimbra@efficios.com>
-In-Reply-To: <68a135d7-7b30-71c7-c570-c7608d6f75d5@kernel.org>
-References: <20190429152803.7719-1-mathieu.desnoyers@efficios.com> <678952111.699.1556908562445.JavaMail.zimbra@efficios.com> <68a135d7-7b30-71c7-c570-c7608d6f75d5@kernel.org>
-Subject: Re: [PATCH for 5.2 00/12] Restartable Sequences selftests updates
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [167.114.142.138]
-X-Mailer: Zimbra 8.8.12_GA_3794 (ZimbraWebClient - FF66 (Linux)/8.8.12_GA_3794)
-Thread-Topic: Restartable Sequences selftests updates
-Thread-Index: nivK8tFeBpLkZ4PuzE/4yflaEoxB+w==
+        Joel Fernandes <joelaf@google.com>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        linux-kselftest@vger.kernel.org
+Subject: [PATCH v2 for 5.2 08/12] rseq/selftests: arm: use udf instruction for RSEQ_SIG
+Date:   Fri,  3 May 2019 15:38:58 -0400
+Message-Id: <20190503193858.9676-1-mathieu.desnoyers@efficios.com>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20190429152803.7719-9-mathieu.desnoyers@efficios.com>
+References: <20190429152803.7719-9-mathieu.desnoyers@efficios.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
------ On May 3, 2019, at 2:53 PM, shuah shuah@kernel.org wrote:
+Use udf as the guard instruction for the restartable sequence abort
+handler.
 
-> On 5/3/19 12:36 PM, Mathieu Desnoyers wrote:
->> ----- On Apr 29, 2019, at 11:27 AM, Mathieu Desnoyers
->> mathieu.desnoyers@efficios.com wrote:
->> 
->>> Those rseq selftests updates are hereby submitted to Shuah Khan,
->>> maintainer of kernel selftests, for the next merge window (5.2).
->>>
->>> They change the per-architecture pre-abort signatures to ensure those
->>> are valid trap instructions.
->>>
->>> The way exit points are presented to debuggers is enhanced, ensuring
->>> all exit points are present, so debuggers don't have to disassemble
->>> rseq critical section to properly skip over them.
->>>
->>> Discussions with the glibc community is reaching a concensus of exposing
->>> a __rseq_handled symbol from glibc to coexist with rseq early adopters.
->>> Update the rseq selftest code to expose and use this symbol.
->>>
->>> Support for compiling asm goto with clang is added with the
->>> "-no-integrated-as" compiler switch, similarly to the toplevel kernel
->>> Makefile.
->> 
->> Hi Shuah,
->> 
->> Is there anything else you need before you can pick up those patches ?
->> 
-> 
-> I was going to say "no more work needed" and noticed that the series has
-> checkpatch errors and warns as I was running the series through
-> pre-commit tests.
-> 
-> Patches 1,2,3,8 have errors/warns based
-> on quick look at the log.
-> 
-> 
-> ERROR: need consistent spacing around '%' (ctx:WxV)
-> #227: FILE: tools/testing/selftests/rseq/rseq-x86.h:104:
-> +		RSEQ_ASM_CMP_CPU_ID(cpu_id, RSEQ_CPU_ID_OFFSET(%[rseq_abi]), %l[error1])
-> 
-> 
-> Will you be able to fix them and resend?
+Previously, the chosen signature was not a valid instruction, based
+on the assumption that it could always sit in a literal pool. However,
+there are compilation environments in which literal pools are not
+available, for instance execute-only code. Therefore, we need to
+choose a signature value that is also a valid instruction.
 
-(CCing the che checkpatch maintainers)
+Handle compiling with -mbig-endian on ARMv6+, which generates binaries
+with mixed code vs data endianness (little endian code, big endian
+data).
 
-checkpatch appears to be wrong for these errors. I suspect it thinks those are
-'%' modulo operators (for which the style requires space before/after),
-but those are actually part of the asm input and goto target operands.
+Else mismatch between code endianness for the generated signatures and
+data endianness for the RSEQ_SIG parameter passed to the rseq
+registration will trigger application segmentation faults when the
+kernel try to abort rseq critical sections.
 
-Most warnings are about some lines over 80 cols. However, the areas where
-this happens is due to following the style of already upstream code which
-has the final "\" at the end of line sometimes beyond 80 col to accommodate
-macros that take a bit of horizontal real estate.
+Prior to ARMv6, -mbig-endian generates big-endian code and data, so
+endianness should not be reversed in that case.
 
-For patch 8, the warning about "availble" being a typo is right. The
-style error about space after "asm (" is right as well. Should I send only
-this updated patch to you or should I send the whole patchset again ?
+Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+CC: Peter Zijlstra <peterz@infradead.org>
+CC: Thomas Gleixner <tglx@linutronix.de>
+CC: Joel Fernandes <joelaf@google.com>
+CC: Catalin Marinas <catalin.marinas@arm.com>
+CC: Dave Watson <davejwatson@fb.com>
+CC: Will Deacon <will.deacon@arm.com>
+CC: Shuah Khan <shuah@kernel.org>
+CC: Andi Kleen <andi@firstfloor.org>
+CC: linux-kselftest@vger.kernel.org
+CC: "H . Peter Anvin" <hpa@zytor.com>
+CC: Chris Lameter <cl@linux.com>
+CC: Russell King <linux@arm.linux.org.uk>
+CC: Michael Kerrisk <mtk.manpages@gmail.com>
+CC: "Paul E . McKenney" <paulmck@linux.vnet.ibm.com>
+CC: Paul Turner <pjt@google.com>
+CC: Boqun Feng <boqun.feng@gmail.com>
+CC: Josh Triplett <josh@joshtriplett.org>
+CC: Steven Rostedt <rostedt@goodmis.org>
+CC: Ben Maurer <bmaurer@fb.com>
+CC: linux-api@vger.kernel.org
+CC: Andy Lutomirski <luto@amacapital.net>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linus Torvalds <torvalds@linux-foundation.org>
+---
+Changes since v1:
+- Fix checkpatch error and warning.
 
-Thanks,
+---
+ tools/testing/selftests/rseq/rseq-arm.h | 52 +++++++++++++++++++++++++++++++--
+ 1 file changed, 50 insertions(+), 2 deletions(-)
 
-Mathieu
-
-
-> 
-> thanks,
-> -- Shuah
-
+diff --git a/tools/testing/selftests/rseq/rseq-arm.h b/tools/testing/selftests/rseq/rseq-arm.h
+index 5f262c54364f..84f28f147fb6 100644
+--- a/tools/testing/selftests/rseq/rseq-arm.h
++++ b/tools/testing/selftests/rseq/rseq-arm.h
+@@ -5,7 +5,54 @@
+  * (C) Copyright 2016-2018 - Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+  */
+ 
+-#define RSEQ_SIG	0x53053053
++/*
++ * RSEQ_SIG uses the udf A32 instruction with an uncommon immediate operand
++ * value 0x5de3. This traps if user-space reaches this instruction by mistake,
++ * and the uncommon operand ensures the kernel does not move the instruction
++ * pointer to attacker-controlled code on rseq abort.
++ *
++ * The instruction pattern in the A32 instruction set is:
++ *
++ * e7f5def3    udf    #24035    ; 0x5de3
++ *
++ * This translates to the following instruction pattern in the T16 instruction
++ * set:
++ *
++ * little endian:
++ * def3        udf    #243      ; 0xf3
++ * e7f5        b.n    <7f5>
++ *
++ * pre-ARMv6 big endian code:
++ * e7f5        b.n    <7f5>
++ * def3        udf    #243      ; 0xf3
++ *
++ * ARMv6+ -mbig-endian generates mixed endianness code vs data: little-endian
++ * code and big-endian data. Ensure the RSEQ_SIG data signature matches code
++ * endianness. Prior to ARMv6, -mbig-endian generates big-endian code and data
++ * (which match), so there is no need to reverse the endianness of the data
++ * representation of the signature. However, the choice between BE32 and BE8
++ * is done by the linker, so we cannot know whether code and data endianness
++ * will be mixed before the linker is invoked.
++ */
++
++#define RSEQ_SIG_CODE	0xe7f5def3
++
++#ifndef __ASSEMBLER__
++
++#define RSEQ_SIG_DATA							\
++	({								\
++		int sig;						\
++		asm volatile ("b 2f\n\t"				\
++			      "1: .inst " __rseq_str(RSEQ_SIG_CODE) "\n\t" \
++			      "2:\n\t"					\
++			      "ldr %[sig], 1b\n\t"			\
++			      : [sig] "=r" (sig));			\
++		sig;							\
++	})
++
++#define RSEQ_SIG	RSEQ_SIG_DATA
++
++#endif
+ 
+ #define rseq_smp_mb()	__asm__ __volatile__ ("dmb" ::: "memory", "cc")
+ #define rseq_smp_rmb()	__asm__ __volatile__ ("dmb" ::: "memory", "cc")
+@@ -78,7 +125,8 @@ do {									\
+ 		__rseq_str(table_label) ":\n\t"				\
+ 		".word " __rseq_str(version) ", " __rseq_str(flags) "\n\t" \
+ 		".word " __rseq_str(start_ip) ", 0x0, " __rseq_str(post_commit_offset) ", 0x0, " __rseq_str(abort_ip) ", 0x0\n\t" \
+-		".word " __rseq_str(RSEQ_SIG) "\n\t"			\
++		".arm\n\t"						\
++		".inst " __rseq_str(RSEQ_SIG_CODE) "\n\t"		\
+ 		__rseq_str(label) ":\n\t"				\
+ 		teardown						\
+ 		"b %l[" __rseq_str(abort_label) "]\n\t"
 -- 
-Mathieu Desnoyers
-EfficiOS Inc.
-http://www.efficios.com
+2.11.0
+
