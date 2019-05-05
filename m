@@ -2,132 +2,173 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CAAC135E4
-	for <lists+linux-api@lfdr.de>; Sat,  4 May 2019 00:59:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4212513CCE
+	for <lists+linux-api@lfdr.de>; Sun,  5 May 2019 04:32:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726326AbfECW7P (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 3 May 2019 18:59:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40166 "EHLO mail.kernel.org"
+        id S1726524AbfEECcI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 4 May 2019 22:32:08 -0400
+Received: from mail.hallyn.com ([178.63.66.53]:40736 "EHLO mail.hallyn.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726302AbfECW7P (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 3 May 2019 18:59:15 -0400
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F17582063F;
-        Fri,  3 May 2019 22:59:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1556924354;
-        bh=c5BabGzNJmVs5Eqq6k6wAV9zIaA+Vxh6BthoEQ0ElZM=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=VoyRCsmrqpJYoF4RrkGGDv5/nxCkqf5nTa1ptWmSW8aUXnqqDGYB/uMi/ENac3z/E
-         PwZQc2TaBfND+hC08Qh4ZLxlE7KyjzcvgVrRg58XoXAfeCHn8V+WZzuM8vBlO00H13
-         9hHLdJp5jy69Yol1Nf6eqcfsKuLT2p7/hO+tyd5Q=
-Subject: Re: [PATCH for 5.2 00/12] Restartable Sequences selftests updates
-To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Andy Whitcroft <apw@canonical.com>,
-        Joe Perches <joe@perches.com>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-api <linux-api@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Paul E . McKenney" <paulmck@linux.vnet.ibm.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Dave Watson <davejwatson@fb.com>, Paul Turner <pjt@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Russell King <linux@arm.linux.org.uk>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Andi Kleen <andi@firstfloor.org>,
-        Chris Lameter <cl@linux.com>, Ben Maurer <bmaurer@fb.com>,
-        rostedt <rostedt@goodmis.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Joel Fernandes <joelaf@google.com>, shuah <shuah@kernel.org>
-References: <20190429152803.7719-1-mathieu.desnoyers@efficios.com>
- <678952111.699.1556908562445.JavaMail.zimbra@efficios.com>
- <68a135d7-7b30-71c7-c570-c7608d6f75d5@kernel.org>
- <1137649333.995.1556911352713.JavaMail.zimbra@efficios.com>
-From:   shuah <shuah@kernel.org>
-Message-ID: <9aa2d6ca-5b42-5c4d-788d-d82dc0389eff@kernel.org>
-Date:   Fri, 3 May 2019 16:59:12 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1726390AbfEECcH (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Sat, 4 May 2019 22:32:07 -0400
+Received: by mail.hallyn.com (Postfix, from userid 1001)
+        id EEBF95E2; Sat,  4 May 2019 21:32:04 -0500 (CDT)
+Date:   Sat, 4 May 2019 21:32:04 -0500
+From:   "Serge E. Hallyn" <serge@hallyn.com>
+To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Cc:     "Serge E. Hallyn" <serge@hallyn.com>,
+        Christian Brauner <christian@brauner.io>,
+        torvalds@linux-foundation.org, viro@zeniv.linux.org.uk,
+        jannh@google.com, dhowells@redhat.com, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org, luto@kernel.org, arnd@arndb.de,
+        ebiederm@xmission.com, keescook@chromium.org, tglx@linutronix.de,
+        mtk.manpages@gmail.com, akpm@linux-foundation.org, oleg@redhat.com,
+        cyphar@cyphar.com, joel@joelfernandes.org, dancol@google.com
+Subject: Re: RFC: on adding new CLONE_* flags [WAS Re: [PATCH 0/4] clone: add
+ CLONE_PIDFD]
+Message-ID: <20190505023204.GA4445@mail.hallyn.com>
+References: <20190414201436.19502-1-christian@brauner.io>
+ <dc05ffe3-c2ff-8b3e-d181-e0cc620bf91d@metux.net>
+ <20190415155034.GA25351@mail.hallyn.com>
+ <000a64d6-1e22-21bf-f232-15f141092e44@metux.net>
+ <20190429154949.GA23456@mail.hallyn.com>
+ <c95fbdbb-a62b-4ad1-f4be-7d1a8f96f508@metux.net>
 MIME-Version: 1.0
-In-Reply-To: <1137649333.995.1556911352713.JavaMail.zimbra@efficios.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c95fbdbb-a62b-4ad1-f4be-7d1a8f96f508@metux.net>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 5/3/19 1:22 PM, Mathieu Desnoyers wrote:
-> ----- On May 3, 2019, at 2:53 PM, shuah shuah@kernel.org wrote:
-> 
->> On 5/3/19 12:36 PM, Mathieu Desnoyers wrote:
->>> ----- On Apr 29, 2019, at 11:27 AM, Mathieu Desnoyers
->>> mathieu.desnoyers@efficios.com wrote:
->>>
->>>> Those rseq selftests updates are hereby submitted to Shuah Khan,
->>>> maintainer of kernel selftests, for the next merge window (5.2).
->>>>
->>>> They change the per-architecture pre-abort signatures to ensure those
->>>> are valid trap instructions.
->>>>
->>>> The way exit points are presented to debuggers is enhanced, ensuring
->>>> all exit points are present, so debuggers don't have to disassemble
->>>> rseq critical section to properly skip over them.
->>>>
->>>> Discussions with the glibc community is reaching a concensus of exposing
->>>> a __rseq_handled symbol from glibc to coexist with rseq early adopters.
->>>> Update the rseq selftest code to expose and use this symbol.
->>>>
->>>> Support for compiling asm goto with clang is added with the
->>>> "-no-integrated-as" compiler switch, similarly to the toplevel kernel
->>>> Makefile.
->>>
->>> Hi Shuah,
->>>
->>> Is there anything else you need before you can pick up those patches ?
->>>
->>
->> I was going to say "no more work needed" and noticed that the series has
->> checkpatch errors and warns as I was running the series through
->> pre-commit tests.
->>
->> Patches 1,2,3,8 have errors/warns based
->> on quick look at the log.
->>
->>
->> ERROR: need consistent spacing around '%' (ctx:WxV)
->> #227: FILE: tools/testing/selftests/rseq/rseq-x86.h:104:
->> +		RSEQ_ASM_CMP_CPU_ID(cpu_id, RSEQ_CPU_ID_OFFSET(%[rseq_abi]), %l[error1])
->>
->>
->> Will you be able to fix them and resend?
-> 
-> (CCing the che checkpatch maintainers)
-> 
-> checkpatch appears to be wrong for these errors. I suspect it thinks those are
-> '%' modulo operators (for which the style requires space before/after),
-> but those are actually part of the asm input and goto target operands.
-> 
-> Most warnings are about some lines over 80 cols. However, the areas where
-> this happens is due to following the style of already upstream code which
-> has the final "\" at the end of line sometimes beyond 80 col to accommodate
-> macros that take a bit of horizontal real estate.
-> 
-> For patch 8, the warning about "availble" being a typo is right. The
-> style error about space after "asm (" is right as well. Should I send only
-> this updated patch to you or should I send the whole patchset again ?
-> 
+On Mon, Apr 29, 2019 at 07:31:43PM +0200, Enrico Weigelt, metux IT consult wrote:
 
-No need to send all patches. This is good.
+Argh.  Sorry, it seems your emails aren't making it into my inbox, only
+my once-in-a-long-while-checked lkml folder.  Sorry again.
 
-thanks,
--- Shuah
+> On 29.04.19 17:49, Serge E. Hallyn wrote:
+> 
+> >> * all users are equal - no root at all. the only exception is the>>   initial process, which gets the kernel devices mounted into his>>
+>  namespace.> > This does not match my understanding, but I'm most likely
+> wrong.  (I thought> there was an actual 'host owner' uid, which mostly
+> is only used for initial> process, but is basically root with a
+> different name, and used far less.  No> uid transitions without factotem
+> so that it *looked* like no root user).
+> Not quite (IIRC). The hostowner is just the user who booted the machine,
+> the initial process runs under this uname and gets the kernel devices
+> bound into his namespace, so he can start fileservers on them.
+> 
+> Also the caphash device (the one you can create capabilities, eg. for
+> user change, which then can be used via capuse device) can only be
+> opened once - usually by the host factotum.
+> 
+> There really is no such thing like root user.
+> 
+> >> What I'd like to achieve on Linux:>>>> * unprivileged users can have their own mount namespace, where
+> they>>   can mount at will (maybe just 9P).> > No problem, you can do
+> that now.
+>
+> But only within separate userns, IMHO. (and, when I last tried, plain
+
+"Only within a separate userns" - but why does that matter?  It's just
+a different uid mapping.
+
+> users couldn't directly create their userns).
+
+Plain users can definately create their own userns, directly.  On some
+distros there is a kernel knob like
+
+#cat /proc/sys/kernel/unprivileged_userns_clone
+1
+
+which when unset prevents unprivileged users creating a namespace.
+
+> >> * but they still appear as the same normal users to the rest of the
+> >>   system
+> > 
+> > No problem, you can do that now.
+> 
+> How exactly ? Did I miss something vital ?
+
+By unsharing your namespace and writing the new uid mapping.  You can of
+course only map your own uid without using any privileged helpers at all.
+And it requires help from a second process, which does the writing to
+the uid map file after the first process has unshared.  But you can do it.
+For instance, using the nsexec.c at
+
+	https://github.com/fcicq/nsexec
+
+You can:
+
+Terminal 1:
+	shallyn@stp:~/src/nsexec$ ./nsexec -UWm
+	about to unshare with 10020000
+	Press any key to exec (I am 31157)
+
+Now in terminal 2:
+
+Terminal 2:
+	shallyn@stp:~/src/nsexec$ echo "0 1000 1" > /proc/31157/uid_map
+	shallyn@stp:~/src/nsexec$ echo deny > /proc/31157/setgroups
+	shallyn@stp:~/src/nsexec$ echo "0 1000 1" > /proc/31157/gid_map
+
+Then back in terminal 1:
+	# id
+	uid=0(root) gid=0(root) groups=0(root),65534(nogroup)
+	# mount --bind /etc /mnt
+	# echo $?
+	0
+	# ls /root
+	ls: cannot open directory '/root': Permission denied
+
+To the rest of the system you look like uid 1000.  You could have
+chosen uid 1000 in your new namespace, but then you couldn't mount.
+Of course you can nest user namespaces so you could create another,
+this time mapping uid 1000 so you look like 1000 to yourself as well.
+
+> >> * 9p programs (compiled for Linux ABI) can run parallel to traditional
+> >>   linux programs within the same user and sessions (eg. from a terminal,
+> >>   i can call both the same way)
+> >> * namespace modifications affect both equally (eg. I could run ff in
+> >>   an own ns)
+> > 
+> > affect both of what equally?
+> 
+> mount / bind.
+> 
+> > That's exactly what user namespaces are for.  You can create a new
+> > user namespace, using no privilege at all, with your current uid (i.e.
+> > 1000) mapped to whatever uid you like; if you pick 0, then you can unshare all
+> > the namespaces you like.  
+> 
+> But I don't like to appear as 'root' in here. I just wanna have my own
+> filesystem namespace, nothing more.
+
+Right.  As you know setuid makes that impossible, unfortunately.  That's
+where nonewprivs shows promise.
+
+> > Once you unshare mnt_ns, you can mount to your
+> > heart's content.  To other processes on the host, your process is
+> > uid 1000.
+> 
+> Is that the uid, I'm appearing to filesystems ?
+
+Yes.
+
+> > Regarding factotem, I agree that with the pidfd work going on etc, it's getting
+> > more and more tempting to attempt a switch to that.  Looking back at my folder,
+> > I see you posted a kernel patch for it.  I had done the same long ago.  Happy to
+> > work with you again on that, and put a simple daemon into shadow package, if
+> > util-linux isn't deemed the far better place.
+> 
+> Yeah :)
+> 
+> 
+> --mtx
+> 
+> -- 
+> Enrico Weigelt, metux IT consult
+> Free software and Linux embedded engineering
+> info@metux.net -- +49-151-27565287
