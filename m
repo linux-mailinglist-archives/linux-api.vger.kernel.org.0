@@ -2,351 +2,131 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E11D515215
-	for <lists+linux-api@lfdr.de>; Mon,  6 May 2019 18:56:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F3F6153C5
+	for <lists+linux-api@lfdr.de>; Mon,  6 May 2019 20:38:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727130AbfEFQ40 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 6 May 2019 12:56:26 -0400
-Received: from mx2.mailbox.org ([80.241.60.215]:60732 "EHLO mx2.mailbox.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726426AbfEFQ4Z (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 6 May 2019 12:56:25 -0400
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:105:465:1:1:0])
-        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
-        (No client certificate requested)
-        by mx2.mailbox.org (Postfix) with ESMTPS id 813F9A0207;
-        Mon,  6 May 2019 18:56:22 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp1.mailbox.org ([80.241.60.240])
-        by spamfilter05.heinlein-hosting.de (spamfilter05.heinlein-hosting.de [80.241.56.123]) (amavisd-new, port 10030)
-        with ESMTP id DH1gt924SPWe; Mon,  6 May 2019 18:56:09 +0200 (CEST)
-From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     Al Viro <viro@zeniv.linux.org.uk>,
+        id S1726578AbfEFSiF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 6 May 2019 14:38:05 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:43799 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726218AbfEFSiF (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 6 May 2019 14:38:05 -0400
+Received: by mail-oi1-f193.google.com with SMTP id j9so9632996oie.10
+        for <linux-api@vger.kernel.org>; Mon, 06 May 2019 11:38:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=DJEsU4nDrYVuZtMVVFf4WrJq7TRs9Dl+cfY2LjHeYik=;
+        b=MBoBEQKfRSbHx9GOc308vRlaTuHtNlVgKaleqLz6VWU9jPubTioCuQS5bAsqlJPl70
+         kLLf/a2s74wO9d7xMzl6NvPOTPL95DMI5Kd8roODkNjxkLqb+OJj7T2K9+fA3DD5YiFy
+         Csn5W9HSmnaJHJQKPXJBxM2D9lac7YK6NYqM6oWR3WwnOdIdF2bxlYFtB6WOB8Re40Ge
+         1pbNACljeg5BON3hEiNjZvJYjZgCF6OX3MuKJy0mXq/rO3FU0ptaX4FNkdijc4oSUknn
+         hJFQ0aAo3YIZ2MKlhIfRpUSY02KuEtPwlFSu2EjYDy7zdM0tmerfOmBXnlYcrQB+zWBH
+         YTHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=DJEsU4nDrYVuZtMVVFf4WrJq7TRs9Dl+cfY2LjHeYik=;
+        b=OreKACHmjTu/5gvvTFlc06fTzzyVnWWg9TFXBhNYowUhCGNB48nJMt2UaQnIhj6N4f
+         PweE45HVSvrJNJMFfv5S9VHwqsrS7IP6/qdotTr9ltWdBa3f0h8QSy1wAvCdKcebJXV1
+         d/vEJIJ5PXXVhc5pKQ/7ibJliDUGc/TgTI6uMpwcnkjIYuNwTRPNFYofizX9+l8XnTea
+         pUcUi0NZTcqhyY39j3SKZq8uhvpUIIzx6pX2C4ax6MWRuNgq/XOuSXRbERmW8FvXdJI5
+         0QB1b4/3L9cq86Qqvuj+4W5u7hQuNC7vuLdiE8lgfr428U7YESoeJ9Ofv8sJYY36hdB4
+         T2Yg==
+X-Gm-Message-State: APjAAAWbu9ivu29Y6iN7aKbQORlaJeGePXIRHt62jTSGGHbv02u6wNYO
+        GbdvzgF2txV2NthVCLJi7qk3Tg4GfdPovWW2kKvHVA==
+X-Google-Smtp-Source: APXvYqyRtYhLJtXFbPaT/4axbLHrLss+1Ssr+PITeKIx+2SHq2/t5N+tRD9+558gYq8usuNGo+uYxRI39k8vizFBPt0=
+X-Received: by 2002:aca:5412:: with SMTP id i18mr2217737oib.157.1557167883599;
+ Mon, 06 May 2019 11:38:03 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190506165439.9155-1-cyphar@cyphar.com> <20190506165439.9155-6-cyphar@cyphar.com>
+In-Reply-To: <20190506165439.9155-6-cyphar@cyphar.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Mon, 6 May 2019 20:37:37 +0200
+Message-ID: <CAG48ez0-CiODf6UBHWTaog97prx=VAd3HgHvEjdGNz344m1xKw@mail.gmail.com>
+Subject: Re: [PATCH v6 5/6] binfmt_*: scope path resolution of interpreters
+To:     Aleksa Sarai <cyphar@cyphar.com>, Andy Lutomirski <luto@kernel.org>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
         Jeff Layton <jlayton@kernel.org>,
         "J. Bruce Fields" <bfields@fieldses.org>,
         Arnd Bergmann <arnd@arndb.de>,
-        David Howells <dhowells@redhat.com>
-Cc:     Aleksa Sarai <cyphar@cyphar.com>,
-        Christian Brauner <christian@brauner.io>,
+        David Howells <dhowells@redhat.com>,
         Eric Biederman <ebiederm@xmission.com>,
-        Andy Lutomirski <luto@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Alexei Starovoitov <ast@kernel.org>,
         Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Tycho Andersen <tycho@tycho.ws>,
+        Christian Brauner <christian@brauner.io>,
+        Tycho Andersen <tycho@tycho.ws>,
         David Drysdale <drysdale@google.com>,
         Chanho Min <chanho.min@lge.com>,
         Oleg Nesterov <oleg@redhat.com>, Aleksa Sarai <asarai@suse.de>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         containers@lists.linux-foundation.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org
-Subject: [PATCH v6 6/6] namei: resolveat(2) syscall
-Date:   Tue,  7 May 2019 02:54:39 +1000
-Message-Id: <20190506165439.9155-7-cyphar@cyphar.com>
-In-Reply-To: <20190506165439.9155-1-cyphar@cyphar.com>
-References: <20190506165439.9155-1-cyphar@cyphar.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-The most obvious syscall to add support for the new LOOKUP_* scoping
-flags would be openat(2) (along with the required execveat(2) change
-included in this series). However, there are a few reasons to not do
-this:
+On Mon, May 6, 2019 at 6:56 PM Aleksa Sarai <cyphar@cyphar.com> wrote:
+> The need to be able to scope path resolution of interpreters became
+> clear with one of the possible vectors used in CVE-2019-5736 (which
+> most major container runtimes were vulnerable to).
+>
+> Naively, it might seem that openat(2) -- which supports path scoping --
+> can be combined with execveat(AT_EMPTY_PATH) to trivially scope the
+> binary being executed. Unfortunately, a "bad binary" (usually a symlink)
+> could be written as a #!-style script with the symlink target as the
+> interpreter -- which would be completely missed by just scoping the
+> openat(2). An example of this being exploitable is CVE-2019-5736.
+>
+> In order to get around this, we need to pass down to each binfmt_*
+> implementation the scoping flags requested in execveat(2). In order to
+> maintain backwards-compatibility we only pass the scoping AT_* flags.
+>
+> To avoid breaking userspace (in the exceptionally rare cases where you
+> have #!-scripts with a relative path being execveat(2)-ed with dfd !=
+> AT_FDCWD), we only pass dfd down to binfmt_* if any of our new flags are
+> set in execveat(2).
 
- * The new LOOKUP_* flags are intended to be security features, and
-   openat(2) will silently ignore all unknown flags. This means that
-   users would need to avoid foot-gunning themselves constantly when
-   using this interface if it were part of openat(2).
+This seems extremely dangerous. I like the overall series, but not this patch.
 
- * Resolution scoping feels like a different operation to the existing
-   O_* flags. And since openat(2) has limited flag space, it seems to be
-   quite wasteful to clutter it with 5 flags that are all
-   resolution-related. Arguably O_NOFOLLOw is also a resolution flag but
-   its entire purpose is to error out if you encounter a trailing
-   symlink not to scope resolution.
+> @@ -1762,6 +1774,12 @@ static int __do_execve_file(int fd, struct filename *filename,
+>
+>         sched_exec();
+>
+> +       bprm->flags = flags & (AT_XDEV | AT_NO_MAGICLINKS | AT_NO_SYMLINKS |
+> +                              AT_THIS_ROOT);
+[...]
+> +#define AT_THIS_ROOT           0x100000 /* - Scope ".." resolution to dirfd (like chroot(2)). */
 
- * Other systems would be able to reimplement this syscall allowing for
-   cross-OS standardisation rather than being hidden amongst O_* flags
-   which may result in it not being used by all the parties that might
-   want to use it (file servers, web servers, container runtimes, etc).
+So now what happens if there is a setuid root ELF binary with program
+interpreter "/lib64/ld-linux-x86-64.so.2" (like /bin/su), and an
+unprivileged user runs it with execveat(..., AT_THIS_ROOT)? Is that
+going to let the unprivileged user decide which interpreter the
+setuid-root process should use? From a high-level perspective, opening
+the interpreter should be controlled by the program that is being
+loaded, not by the program that invoked it.
 
- * It gives us the opportunity to iterate on the O_PATH interface in the
-   future. There are some potential security improvements that can be
-   made to O_PATH (handling /proc/self/fd re-opening of file descriptors
-   much more sanely) which could be made even better with some other
-   bits (such as ACC_MODE bits which work for O_PATH).
 
-To this end, we introduce the resolveat(2) syscall. At the moment it's
-effectively another way of getting a bog-standard O_PATH descriptor but
-with the ability to use the new LOOKUP_* flags.
+In my opinion, CVE-2019-5736 points out two different problems:
 
-Because resolveat(2) only provides the ability to get O_PATH
-descriptors, users will need to get creative with /proc/self/fd in order
-to get a usable file descriptor for other uses. However, in future we
-can add O_EMPTYPATH support to openat(2) which would allow for
-re-opening without procfs (though as mentioned above there are some
-security improvements that should be made to the interfaces).
+The big problem: The __ptrace_may_access() logic has a special-case
+short-circuit for "introspection" that you can't opt out of; this
+makes it possible to open things in procfs that are related to the
+current process even if the credentials of the process wouldn't permit
+accessing another process like it. I think the proper fix to deal with
+this would be to add a prctl() flag for "set whether introspection is
+allowed for this process", and if userspace has manually un-set that
+flag, any introspection special-case logic would be skipped.
 
-NOTE: This patch adds the syscall to all architectures using the new
-      unified syscall numbering, but several architectures are missing
-      newer (nr > 423) syscalls -- hence the uneven gaps in the syscall
-      tables.
-
-Cc: Christian Brauner <christian@brauner.io>
-Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
----
- arch/alpha/kernel/syscalls/syscall.tbl      |  1 +
- arch/arm/tools/syscall.tbl                  |  1 +
- arch/ia64/kernel/syscalls/syscall.tbl       |  1 +
- arch/m68k/kernel/syscalls/syscall.tbl       |  1 +
- arch/microblaze/kernel/syscalls/syscall.tbl |  1 +
- arch/mips/kernel/syscalls/syscall_n32.tbl   |  1 +
- arch/mips/kernel/syscalls/syscall_n64.tbl   |  1 +
- arch/mips/kernel/syscalls/syscall_o32.tbl   |  1 +
- arch/parisc/kernel/syscalls/syscall.tbl     |  1 +
- arch/powerpc/kernel/syscalls/syscall.tbl    |  1 +
- arch/s390/kernel/syscalls/syscall.tbl       |  1 +
- arch/sh/kernel/syscalls/syscall.tbl         |  1 +
- arch/sparc/kernel/syscalls/syscall.tbl      |  1 +
- arch/x86/entry/syscalls/syscall_32.tbl      |  1 +
- arch/x86/entry/syscalls/syscall_64.tbl      |  1 +
- arch/xtensa/kernel/syscalls/syscall.tbl     |  1 +
- fs/namei.c                                  | 46 +++++++++++++++++++++
- include/uapi/linux/fcntl.h                  | 12 ++++++
- 18 files changed, 74 insertions(+)
-
-diff --git a/arch/alpha/kernel/syscalls/syscall.tbl b/arch/alpha/kernel/syscalls/syscall.tbl
-index 63ed39cbd3bd..72f431b1dc9c 100644
---- a/arch/alpha/kernel/syscalls/syscall.tbl
-+++ b/arch/alpha/kernel/syscalls/syscall.tbl
-@@ -461,5 +461,6 @@
- 530	common	getegid				sys_getegid
- 531	common	geteuid				sys_geteuid
- 532	common	getppid				sys_getppid
-+533	common	resolveat			sys_resolveat
- # all other architectures have common numbers for new syscall, alpha
- # is the exception.
-diff --git a/arch/arm/tools/syscall.tbl b/arch/arm/tools/syscall.tbl
-index 9016f4081bb9..1bc0282a67f7 100644
---- a/arch/arm/tools/syscall.tbl
-+++ b/arch/arm/tools/syscall.tbl
-@@ -437,3 +437,4 @@
- 421	common	rt_sigtimedwait_time64		sys_rt_sigtimedwait
- 422	common	futex_time64			sys_futex
- 423	common	sched_rr_get_interval_time64	sys_sched_rr_get_interval
-+428	common	resolveat			sys_resolveat
-diff --git a/arch/ia64/kernel/syscalls/syscall.tbl b/arch/ia64/kernel/syscalls/syscall.tbl
-index ab9cda5f6136..d3ae73ffaf48 100644
---- a/arch/ia64/kernel/syscalls/syscall.tbl
-+++ b/arch/ia64/kernel/syscalls/syscall.tbl
-@@ -344,3 +344,4 @@
- 332	common	pkey_free			sys_pkey_free
- 333	common	rseq				sys_rseq
- # 334 through 423 are reserved to sync up with other architectures
-+428	common	resolveat			sys_resolveat
-diff --git a/arch/m68k/kernel/syscalls/syscall.tbl b/arch/m68k/kernel/syscalls/syscall.tbl
-index 125c14178979..81b7389e9e58 100644
---- a/arch/m68k/kernel/syscalls/syscall.tbl
-+++ b/arch/m68k/kernel/syscalls/syscall.tbl
-@@ -423,3 +423,4 @@
- 421	common	rt_sigtimedwait_time64		sys_rt_sigtimedwait
- 422	common	futex_time64			sys_futex
- 423	common	sched_rr_get_interval_time64	sys_sched_rr_get_interval
-+428	common	resolveat			sys_resolveat
-diff --git a/arch/microblaze/kernel/syscalls/syscall.tbl b/arch/microblaze/kernel/syscalls/syscall.tbl
-index 8ee3a8c18498..626aed10e2b5 100644
---- a/arch/microblaze/kernel/syscalls/syscall.tbl
-+++ b/arch/microblaze/kernel/syscalls/syscall.tbl
-@@ -429,3 +429,4 @@
- 421	common	rt_sigtimedwait_time64		sys_rt_sigtimedwait
- 422	common	futex_time64			sys_futex
- 423	common	sched_rr_get_interval_time64	sys_sched_rr_get_interval
-+428	common	resolveat			sys_resolveat
-diff --git a/arch/mips/kernel/syscalls/syscall_n32.tbl b/arch/mips/kernel/syscalls/syscall_n32.tbl
-index 15f4117900ee..8cbd6032d6bf 100644
---- a/arch/mips/kernel/syscalls/syscall_n32.tbl
-+++ b/arch/mips/kernel/syscalls/syscall_n32.tbl
-@@ -362,3 +362,4 @@
- 421	n32	rt_sigtimedwait_time64		compat_sys_rt_sigtimedwait_time64
- 422	n32	futex_time64			sys_futex
- 423	n32	sched_rr_get_interval_time64	sys_sched_rr_get_interval
-+428	n32	resolveat			sys_resolveat
-diff --git a/arch/mips/kernel/syscalls/syscall_n64.tbl b/arch/mips/kernel/syscalls/syscall_n64.tbl
-index c85502e67b44..234923a1fc88 100644
---- a/arch/mips/kernel/syscalls/syscall_n64.tbl
-+++ b/arch/mips/kernel/syscalls/syscall_n64.tbl
-@@ -338,3 +338,4 @@
- 327	n64	rseq				sys_rseq
- 328	n64	io_pgetevents			sys_io_pgetevents
- # 329 through 423 are reserved to sync up with other architectures
-+428	n64	resolveat			sys_resolveat
-diff --git a/arch/mips/kernel/syscalls/syscall_o32.tbl b/arch/mips/kernel/syscalls/syscall_o32.tbl
-index 2e063d0f837e..7b4586acf35d 100644
---- a/arch/mips/kernel/syscalls/syscall_o32.tbl
-+++ b/arch/mips/kernel/syscalls/syscall_o32.tbl
-@@ -411,3 +411,4 @@
- 421	o32	rt_sigtimedwait_time64		sys_rt_sigtimedwait		compat_sys_rt_sigtimedwait_time64
- 422	o32	futex_time64			sys_futex			sys_futex
- 423	o32	sched_rr_get_interval_time64	sys_sched_rr_get_interval	sys_sched_rr_get_interval
-+428	o32	resolveat			sys_resolveat			sys_resolveat
-diff --git a/arch/parisc/kernel/syscalls/syscall.tbl b/arch/parisc/kernel/syscalls/syscall.tbl
-index b26766c6647d..19a9a92dc5f8 100644
---- a/arch/parisc/kernel/syscalls/syscall.tbl
-+++ b/arch/parisc/kernel/syscalls/syscall.tbl
-@@ -420,3 +420,4 @@
- 421	32	rt_sigtimedwait_time64		sys_rt_sigtimedwait		compat_sys_rt_sigtimedwait_time64
- 422	32	futex_time64			sys_futex			sys_futex
- 423	32	sched_rr_get_interval_time64	sys_sched_rr_get_interval	sys_sched_rr_get_interval
-+428	common	resolveat			sys_resolveat			sys_resolveat
-diff --git a/arch/powerpc/kernel/syscalls/syscall.tbl b/arch/powerpc/kernel/syscalls/syscall.tbl
-index b18abb0c3dae..bfcd75b928de 100644
---- a/arch/powerpc/kernel/syscalls/syscall.tbl
-+++ b/arch/powerpc/kernel/syscalls/syscall.tbl
-@@ -505,3 +505,4 @@
- 421	32	rt_sigtimedwait_time64		sys_rt_sigtimedwait		compat_sys_rt_sigtimedwait_time64
- 422	32	futex_time64			sys_futex			sys_futex
- 423	32	sched_rr_get_interval_time64	sys_sched_rr_get_interval	sys_sched_rr_get_interval
-+428	common	resolveat			sys_resolveat			sys_resolveat
-diff --git a/arch/s390/kernel/syscalls/syscall.tbl b/arch/s390/kernel/syscalls/syscall.tbl
-index 02579f95f391..084e51f02e65 100644
---- a/arch/s390/kernel/syscalls/syscall.tbl
-+++ b/arch/s390/kernel/syscalls/syscall.tbl
-@@ -426,3 +426,4 @@
- 421	32	rt_sigtimedwait_time64	-				compat_sys_rt_sigtimedwait_time64
- 422	32	futex_time64		-				sys_futex
- 423	32	sched_rr_get_interval_time64	-			sys_sched_rr_get_interval
-+428	common	resolveat		sys_resolveat			-
-diff --git a/arch/sh/kernel/syscalls/syscall.tbl b/arch/sh/kernel/syscalls/syscall.tbl
-index bfda678576e4..e9115c5cec72 100644
---- a/arch/sh/kernel/syscalls/syscall.tbl
-+++ b/arch/sh/kernel/syscalls/syscall.tbl
-@@ -426,3 +426,4 @@
- 421	common	rt_sigtimedwait_time64		sys_rt_sigtimedwait
- 422	common	futex_time64			sys_futex
- 423	common	sched_rr_get_interval_time64	sys_sched_rr_get_interval
-+428	common	resolveat			sys_resolveat
-diff --git a/arch/sparc/kernel/syscalls/syscall.tbl b/arch/sparc/kernel/syscalls/syscall.tbl
-index b9a5a04b2d2c..2d3fdd913d89 100644
---- a/arch/sparc/kernel/syscalls/syscall.tbl
-+++ b/arch/sparc/kernel/syscalls/syscall.tbl
-@@ -469,3 +469,4 @@
- 421	32	rt_sigtimedwait_time64		sys_rt_sigtimedwait		compat_sys_rt_sigtimedwait_time64
- 422	32	futex_time64			sys_futex			sys_futex
- 423	32	sched_rr_get_interval_time64	sys_sched_rr_get_interval	sys_sched_rr_get_interval
-+428	common	resolveat			sys_resolveat			sys_resolveat
-diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
-index 4cd5f982b1e5..101feef22473 100644
---- a/arch/x86/entry/syscalls/syscall_32.tbl
-+++ b/arch/x86/entry/syscalls/syscall_32.tbl
-@@ -438,3 +438,4 @@
- 425	i386	io_uring_setup		sys_io_uring_setup		__ia32_sys_io_uring_setup
- 426	i386	io_uring_enter		sys_io_uring_enter		__ia32_sys_io_uring_enter
- 427	i386	io_uring_register	sys_io_uring_register		__ia32_sys_io_uring_register
-+428	i386	resolveat		sys_resolveat			__ia32_sys_resolveat
-diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
-index 64ca0d06259a..c7c197bf07bc 100644
---- a/arch/x86/entry/syscalls/syscall_64.tbl
-+++ b/arch/x86/entry/syscalls/syscall_64.tbl
-@@ -355,6 +355,7 @@
- 425	common	io_uring_setup		__x64_sys_io_uring_setup
- 426	common	io_uring_enter		__x64_sys_io_uring_enter
- 427	common	io_uring_register	__x64_sys_io_uring_register
-+428	common	resolveat		__x64_sys_resolveat
- 
- #
- # x32-specific system call numbers start at 512 to avoid cache impact
-diff --git a/arch/xtensa/kernel/syscalls/syscall.tbl b/arch/xtensa/kernel/syscalls/syscall.tbl
-index 6af49929de85..86c44f15dfa4 100644
---- a/arch/xtensa/kernel/syscalls/syscall.tbl
-+++ b/arch/xtensa/kernel/syscalls/syscall.tbl
-@@ -394,3 +394,4 @@
- 421	common	rt_sigtimedwait_time64		sys_rt_sigtimedwait
- 422	common	futex_time64			sys_futex
- 423	common	sched_rr_get_interval_time64	sys_sched_rr_get_interval
-+428	common	resolveat			sys_resolveat
-diff --git a/fs/namei.c b/fs/namei.c
-index 2b6a1bf4e745..30db5833aac3 100644
---- a/fs/namei.c
-+++ b/fs/namei.c
-@@ -3656,6 +3656,52 @@ struct file *do_filp_open(int dfd, struct filename *pathname,
- 	return filp;
- }
- 
-+SYSCALL_DEFINE3(resolveat, int, dfd, const char __user *, path,
-+		unsigned long, flags)
-+{
-+	int fd;
-+	struct filename *tmp;
-+	struct open_flags op = {
-+		.open_flag = O_PATH,
-+	};
-+
-+	if (flags & ~VALID_RESOLVE_FLAGS)
-+		return -EINVAL;
-+
-+	if (flags & RESOLVE_CLOEXEC)
-+		op.open_flag |= O_CLOEXEC;
-+	if (!(flags & RESOLVE_NOFOLLOW))
-+		op.lookup_flags |= LOOKUP_FOLLOW;
-+	if (flags & RESOLVE_BENEATH)
-+		op.lookup_flags |= LOOKUP_BENEATH;
-+	if (flags & RESOLVE_XDEV)
-+		op.lookup_flags |= LOOKUP_XDEV;
-+	if (flags & RESOLVE_NO_MAGICLINKS)
-+		op.lookup_flags |= LOOKUP_NO_MAGICLINKS;
-+	if (flags & RESOLVE_NO_SYMLINKS)
-+		op.lookup_flags |= LOOKUP_NO_SYMLINKS;
-+	if (flags & RESOLVE_THIS_ROOT)
-+		op.lookup_flags |= LOOKUP_IN_ROOT;
-+
-+	tmp = getname(path);
-+	if (IS_ERR(tmp))
-+		return PTR_ERR(tmp);
-+
-+	fd = get_unused_fd_flags(op.open_flag);
-+	if (fd >= 0) {
-+		struct file *f = do_filp_open(dfd, tmp, &op);
-+		if (IS_ERR(f)) {
-+			put_unused_fd(fd);
-+			fd = PTR_ERR(f);
-+		} else {
-+			fsnotify_open(f);
-+			fd_install(fd, f);
-+		}
-+	}
-+	putname(tmp);
-+	return fd;
-+}
-+
- struct file *do_file_open_root(struct dentry *dentry, struct vfsmount *mnt,
- 		const char *name, const struct open_flags *op)
- {
-diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
-index bfca7f87cd2a..d5a2a97929c6 100644
---- a/include/uapi/linux/fcntl.h
-+++ b/include/uapi/linux/fcntl.h
-@@ -100,4 +100,16 @@
- #define AT_NO_SYMLINKS		0x080000 /* - Block all symlinks (implies AT_NO_MAGICLINKS). */
- #define AT_THIS_ROOT		0x100000 /* - Scope ".." resolution to dirfd (like chroot(2)). */
- 
-+/* First two bits of RESOLVE_* are reserved for future ACC_MODE extensions. */
-+#define RESOLVE_CLOEXEC		0x004 /* Set O_CLOEXEC on the returned fd. */
-+#define RESOLVE_NOFOLLOW	0x008 /* Don't follow trailing symlinks. */
-+#define RESOLVE_RESOLUTION_TYPE	0x1F0 /* Type of path-resolution scoping we are applying. */
-+#define RESOLVE_BENEATH		0x010 /* - Block "lexical" trickery like "..", symlinks, absolute paths, etc. */
-+#define RESOLVE_XDEV		0x020 /* - Block mount-point crossings (includes bind-mounts). */
-+#define RESOLVE_NO_MAGICLINKS	0x040 /* - Block procfs-style "magic" symlinks. */
-+#define RESOLVE_NO_SYMLINKS	0x080 /* - Block all symlinks (implies AT_NO_MAGICLINKS). */
-+#define RESOLVE_THIS_ROOT	0x100 /* - Scope ".." resolution to dirfd (like chroot(2)). */
-+
-+#define VALID_RESOLVE_FLAGS	(RESOLVE_CLOEXEC | RESOLVE_NOFOLLOW | RESOLVE_RESOLUTION_TYPE)
-+
- #endif /* _UAPI_LINUX_FCNTL_H */
--- 
-2.21.0
-
+An additional problem: /proc/*/exe can be used to open a file for
+writing; I think it may have been Andy Lutomirski who pointed out some
+time ago that it would be nice if you couldn't use /proc/*/fd/* to
+re-open files with more privileges, which is sort of the same thing.
