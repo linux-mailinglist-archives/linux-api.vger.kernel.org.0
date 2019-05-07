@@ -2,362 +2,198 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CF0E516740
-	for <lists+linux-api@lfdr.de>; Tue,  7 May 2019 17:57:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC54516824
+	for <lists+linux-api@lfdr.de>; Tue,  7 May 2019 18:44:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726457AbfEGP57 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 7 May 2019 11:57:59 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:36349 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726197AbfEGP57 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 7 May 2019 11:57:59 -0400
-Received: by mail-ot1-f66.google.com with SMTP id c3so705902otr.3
-        for <linux-api@vger.kernel.org>; Tue, 07 May 2019 08:57:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=5Z5TigwEera364CM2VdxaFhBvvqoQcUUDoPjuwON3M8=;
-        b=Fhw5wO5azxXSmUnVRy0VmVZxtI/8TimIdTzYQ/UeoAQYQZGviAYTNksdgqJ+h4IZlZ
-         mTokc54qsRDW2yS4EvQ+bDPSH4FN4IflNhrlICbYtcUDota0DTDSg99mmSQiDtoSf8RM
-         h7KMdjvi1jKcaWslrq7D0NRQycOzn/nIUefPAYMi5pPAS4MZzUQXex130Qk9KqmdbCgA
-         0R3yL7+k/LxSJXiaiPle11wC6eBLMtw1mmTrGkhB4TAaZf7hOXNDW04OmQMQDJQ7s7DR
-         WTyr5IX3eLwtE2yFAI+mQoZ9iViMdkKcVLHWFCAbjLvJsw1+eYUPSIO/QHK4niDfxWAj
-         /g4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=5Z5TigwEera364CM2VdxaFhBvvqoQcUUDoPjuwON3M8=;
-        b=YWwhWNebBuNdsKdw0+dVFZ+D7A5uMEEdZ/xtaVXjCGwcT6V4iNNrfJtnq6AoFMQpD/
-         +7AhAIHs4wUrI0iNeezRXwwDkyGJDbDYxeKq/jhWHc1QDE7CHVlgXeBZc5WK+kkLNG7d
-         gTq2S1TcgFVrGsOr2crNwVR9MVJ7HxbXp9MNoRN7VmG9dgWkkWgGWalDWNyUoztxIrqo
-         30JgxLUFlk6TyBpI9UPfYXuBDyyjA8eflsa2WdNDLUddzOjjdz9q1B4LlzgGlyZvIkMq
-         cJMj3GhN4ZKE5HcebfDloQxnY5ObH3fsu6pXtCcQnl5itRnvKfKE2518em1D3+5jtrbe
-         5lPg==
-X-Gm-Message-State: APjAAAWgN+0jHz1aeo8tAUILaXj/nsQltQ8JT9Er9FjstO2pnhLJoVd8
-        V3Oo4npAmwCHluS/BPdwv+OVS8/iSq4xRPTUZVYc6w==
-X-Google-Smtp-Source: APXvYqznV4n0rtnwALOxXWGajN2p+ua09SAXiEIQ3HSkpkefYwXUadugP+hgxSmobjgqjOaL0Vn4qNDOneSoOTZ4bSE=
-X-Received: by 2002:a9d:739a:: with SMTP id j26mr1315767otk.242.1557244677914;
- Tue, 07 May 2019 08:57:57 -0700 (PDT)
+        id S1726788AbfEGQnu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 7 May 2019 12:43:50 -0400
+Received: from mx1.mailbox.org ([80.241.60.212]:59064 "EHLO mx1.mailbox.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726723AbfEGQnt (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 7 May 2019 12:43:49 -0400
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:105:465:1:1:0])
+        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
+        (No client certificate requested)
+        by mx1.mailbox.org (Postfix) with ESMTPS id C3C114E8ED;
+        Tue,  7 May 2019 18:43:46 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from smtp1.mailbox.org ([80.241.60.240])
+        by spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de [80.241.56.122]) (amavisd-new, port 10030)
+        with ESMTP id gmDMQFZYLp7i; Tue,  7 May 2019 18:43:37 +0200 (CEST)
+From:   Aleksa Sarai <cyphar@cyphar.com>
+To:     Al Viro <viro@zeniv.linux.org.uk>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J. Bruce Fields" <bfields@fieldses.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        David Howells <dhowells@redhat.com>
+Cc:     Aleksa Sarai <cyphar@cyphar.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>,
+        Christian Brauner <christian@brauner.io>,
+        Tycho Andersen <tycho@tycho.ws>,
+        David Drysdale <drysdale@google.com>,
+        Chanho Min <chanho.min@lge.com>,
+        Oleg Nesterov <oleg@redhat.com>, Aleksa Sarai <asarai@suse.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        containers@lists.linux-foundation.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org
+Subject: [PATCH v7 0/5] namei: resolveat(2) path resolution restriction API
+Date:   Wed,  8 May 2019 02:43:12 +1000
+Message-Id: <20190507164317.13562-1-cyphar@cyphar.com>
 MIME-Version: 1.0
-References: <20190502040331.81196-1-ezemtsov@google.com> <20190502040331.81196-2-ezemtsov@google.com>
-In-Reply-To: <20190502040331.81196-2-ezemtsov@google.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Tue, 7 May 2019 17:57:31 +0200
-Message-ID: <CAG48ez3SWdcSbdeu9sBx-MUSONgk9_Kmx62NmCALAVou1q9kCw@mail.gmail.com>
-Subject: Re: [PATCH 1/6] incfs: Add first files of incrementalfs
-To:     ezemtsov@google.com
-Cc:     linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-+linux-api
+Patch changelog:
+  v7:
+    * Remove execveat(2) support for these flags since it might
+      result in some pretty hairy security issues with setuid binaries.
+      There are other avenues we can go down to solve the issues with
+      CVE-2019-5736. [Jann]
+    * Reserve an additional bit in resolveat(2) for the eXecute access
+      mode if we end up implementing it.
+  v6:
+    * Drop O_* flags API to the new LOOKUP_ path scoping bits and
+      instead introduce resolveat(2) as an alternative method of
+      obtaining an O_PATH. The justification for this is included in
+      patch 6 (though switching back to O_* flags is trivial).
+  v5:
+    * In response to CVE-2019-5736 (one of the vectors showed that
+      open(2)+fexec(3) cannot be used to scope binfmt_script's implicit
+      open_exec()), AT_* flags have been re-added and are now piped
+      through to binfmt_script (and other binfmt_* that use open_exec)
+      but are only supported for execveat(2) for now.
+  v4:
+    * Remove AT_* flag reservations, as they require more discussion.
+    * Switch to path_is_under() over __d_path() for breakout checking.
+    * Make O_XDEV no longer block openat("/tmp", "/", O_XDEV) -- dirfd
+      is now ignored for absolute paths to match other flags.
+    * Improve the dirfd_path_init() refactor and move it to a separate
+      commit.
+    * Remove reference to Linux-capsicum.
+    * Switch "proclink" name to "magic link".
+  v3: [resend]
+  v2:
+    * Made ".." resolution with AT_THIS_ROOT and AT_BENEATH safe(r) with
+      some semi-aggressive __d_path checking (see patch 3).
+    * Disallowed "proclinks" with AT_THIS_ROOT and AT_BENEATH, in the
+      hopes they can be re-enabled once safe.
+    * Removed the selftests as they will be reimplemented as xfstests.
+    * Removed stat(2) support, since you can already get it through
+      O_PATH and fstatat(2).
 
-On Tue, May 7, 2019 at 4:23 PM <ezemtsov@google.com> wrote:
-> - fs/incfs dir
-> - Kconfig (CONFIG_INCREMENTAL_FS)
-> - Makefile
-> - Module and file system initialization and clean up code
-> - New MAINTAINERS entry
-> - Add incrementalfs.h UAPI header
-> - Register ioctl range in ioctl-numbers.txt
-> - Documentation
->
-> Signed-off-by: Eugene Zemtsov <ezemtsov@google.com>
-[...]
-> diff --git a/Documentation/filesystems/incrementalfs.rst b/Documentation/=
-filesystems/incrementalfs.rst
-> new file mode 100644
-> index 000000000000..682e3dcb6b5a
-> --- /dev/null
-> +++ b/Documentation/filesystems/incrementalfs.rst
-> @@ -0,0 +1,452 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +Incremental File System
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Overview
-> +=3D=3D=3D=3D=3D=3D=3D=3D
-> +Incremental FS is special-purpose Linux virtual file system that allows
-> +execution of a program while its binary and resource files are still bei=
-ng
-> +lazily downloaded over the network, USB etc. It is focused on incrementa=
-l
-> +delivery for a small number (under 100) of big files (more than 10 megab=
-ytes).
-> +Incremental FS doesn=E2=80=99t allow direct writes into files and, once =
-loaded, file
-> +content never changes. Incremental FS doesn=E2=80=99t use a block device=
-, instead it
-> +saves data into a backing file located on a regular file-system.
-> +
-> +But why?
-> +--------
-> +To allow running **big** Android apps before their binaries and resource=
-s are
-> +fully downloaded to an Android device. If an app reads something not loa=
-ded yet,
-> +it needs to wait for the data block to be fetched, but in most cases hot=
- blocks
-> +can be loaded in advance.
+The need for some sort of control over VFS's path resolution (to avoid
+malicious paths resulting in inadvertent breakouts) has been a very
+long-standing desire of many userspace applications. This patchset is a
+revival of Al Viro's old AT_NO_JUMPS[1,2] patchset (which was a variant
+of David Drysdale's O_BENEATH patchset[3] which was a spin-off of the
+Capsicum project[4]) with a few additions and changes made based on the
+previous discussion within [5] as well as others I felt were useful.
 
-But the idea is that eventually, the complete application will be
-downloaded, right? You're not planning to download the last few chunks
-of an app on demand weeks after it has been installed?
+In line with the conclusions of the original discussion of AT_NO_JUMPS,
+the flag has been split up into separate flags. However, instead of
+being an openat(2) flag it is provided through a new syscall
+resolveat(2) which provides an alternative way to get an O_PATH file
+descriptor (the reasoning for doing this is included in patch 6). The
+following new LOOKUP_ (and corresponding uapi) flags are added:
 
-> +Workflow
-> +--------
-> +A userspace process, called a data loader, mounts an instance of increme=
-ntal-fs
-> +giving it a file descriptor on an underlying file system (like ext4 or f=
-2fs).
-> +Incremental-fs reads content (if any) of this backing file and interpret=
-s it as
-> +a file system image with files, directories and data blocks. At this poi=
-nt
-> +the data loader can declare new files to be shown by incremental-fs.
-> +
-> +A process is started from a binary located on incremental-fs.
-> +All reads are served directly from the backing file
-> +without roundtrips into userspace. If the process accesses a data block =
-that was
-> +not originally present in the backing file, the read operation waits.
-> +
-> +Meanwhile the data loader can feed new data blocks to incremental-fs by =
-calling
-> +write() on a special .cmd pseudo-file. The data loader can request infor=
-mation
-> +about pending reads by calling poll() and read() on the .cmd pseudo-file=
-.
-> +This mechanism allows the data loader to serve most urgently needed data=
- first.
-> +Once a data block is given to incremental-fs, it saves it to the backing=
- file
-> +and unblocks all the reads waiting for this block.
-> +
-> +Eventually all data for all files is uploaded by the data loader, and sa=
-ved by
-> +incremental-fs into the backing file. At that moment the data loader is =
-not
-> +needed any longer. The backing file will play the role of a complete
-> +filesystem image for all future runs of the program.
+  * LOOKUP_XDEV blocks all mountpoint crossings (upwards, downwards, or
+    through absolute links). Absolute pathnames alone in openat(2) do
+    not trigger this.
 
-This means that for all future runs, you still need to mount an incfs
-instance to be able to access application files, even when the
-complete application has been downloaded already, right? Wouldn't it
-be nicer if, once the complete application has been downloaded, you
-could stop using a shim layer entirely? That way, the performance of
-the shim layer would also matter less.
+  * LOOKUP_NO_MAGICLINKS blocks resolution through /proc/$pid/fd-style
+    links. This is done by blocking the usage of nd_jump_link() during
+    resolution in a filesystem. The term "magic links" is used to match
+    with the only reference to these links in Documentation/, but I'm
+    happy to change the name.
 
-Is there a reason why this thing is not backed by a normal directory
-hierarchy on the backing file system, instead of the single image file
-you're proposing?
+    It should be noted that this is different to the scope of
+    ~LOOKUP_FOLLOW in that it applies to all path components. However,
+    you can do resolveat(NOFOLLOW|NO_MAGICLINKS) on a "magic link" and
+    it will *not* fail (assuming that no parent component was a "magic
+    link"), and you will have an fd for the "magic link".
 
-> +External .cmd file interface
-> +----------------------------
-> +When incremental-fs is mounted, a mount directory contains a pseudo-file
-> +called '.cmd'. The data loader will open this file and call read(), writ=
-e(),
-> +poll() and ioctl() on it inspect and change state of incremental-fs.
-> +
-> +poll() and read() are used by the data loader to wait for pending reads =
-to
-> +appear and obtain an array of ``struct incfs_pending_read_info``.
-> +
-> +write() is used by the data loader to feed new data blocks to incrementa=
-l-fs.
-> +A data buffer given to write() is interpreted as an array of
-> +``struct incfs_new_data_block``. Structs in the array describe locations=
- and
-> +properties of data blocks loaded with this write() call.
+  * LOOKUP_BENEATH disallows escapes to outside the starting dirfd's
+    tree, using techniques such as ".." or absolute links. Absolute
+    paths in openat(2) are also disallowed. Conceptually this flag is to
+    ensure you "stay below" a certain point in the filesystem tree --
+    but this requires some additional to protect against various races
+    that would allow escape using ".." (see patch 4 for more detail).
 
-You can't do that. A write() handler must not interpret written data
-as pointers; that must be handled with an ioctl instead.
+    Currently LOOKUP_BENEATH implies LOOKUP_NO_MAGICLINKS, because it
+    can trivially beam you around the filesystem (breaking the
+    protection). In future, there might be similar safety checks as in
+    patch 4, but that requires more discussion.
 
-> +``ioctl(INCFS_IOC_PROCESS_INSTRUCTION)`` is used to change structure of
-> +incremental-fs. It receives an pointer to ``struct incfs_instruction``
-> +where type field can have be one of the following values.
-> +
-> +**INCFS_INSTRUCTION_NEW_FILE**
-> +Creates an inode (a file or a directory) without a name.
-> +It assumes ``incfs_new_file_instruction.file`` is populated with details=
-.
-> +
-> +**INCFS_INSTRUCTION_ADD_DIR_ENTRY**
-> +Creates a name (aka hardlink) for an inode in a directory.
-> +A directory can't have more than one hardlink pointing to it, but files =
-can be
-> +linked from different directories.
-> +It assumes ``incfs_new_file_instruction.dir_entry`` is populated with de=
-tails.
-> +
-> +**INCFS_INSTRUCTION_REMOVE_DIR_ENTRY**
-> +Remove a name (aka hardlink) for a file from a directory.
-> +Only empty directories can be unlinked.
-> +It assumes ``incfs_new_file_instruction.dir_entry`` is populated with de=
-tails.
+In addition, two new flags were added that expand on the above ideas:
 
-What is the usecase for removing directory entries?
+  * LOOKUP_NO_SYMLINKS does what it says on the tin. No symlink
+    resolution is allowed at all, including "magic links". Just as with
+    LOOKUP_NO_MAGICLINKS this can still be used with NOFOLLOW to open an
+    fd for the symlink as long as no parent path had a symlink
+    component.
 
-With the API you're proposing, you're always going to want to populate
-the entire directory hierarchy before running an application from
-incfs, because otherwise lookups and readdir might fail in a way the
-application doesn't expect, right?
+  * LOOKUP_IN_ROOT is an extension of LOOKUP_BENEATH that, rather than
+    blocking attempts to move past the root, forces all such movements
+    to be scoped to the starting point. This provides chroot(2)-like
+    protection but without the cost of a chroot(2) for each filesystem
+    operation, as well as being safe against race attacks that chroot(2)
+    is not.
 
-> +For more details see in uapi/linux/incrementalfs.h and samples below.
-> +
-> +Supported mount options
-> +-----------------------
-> +See ``fs/incfs/options.c`` for more details.
-> +
-> +    * ``backing_fd=3D<unsigned int>``
-> +        Required. A file descriptor of a backing file opened by the proc=
-ess
-> +        calling mount(2). This descriptor can be closed after mount retu=
-rns.
-> +
-> +    * ``read_timeout_msc=3D<unsigned int>``
-> +        Default: 1000. Timeout in milliseconds before a read operation f=
-ails
-> +        if no data found in the backing file or provided by the data loa=
-der.
+    If a race is detected (as with LOOKUP_BENEATH) then an error is
+    generated, and similar to LOOKUP_BENEATH it is not permitted to cross
+    "magic links" with LOOKUP_IN_ROOT.
 
-So... if I run an application from this incremental file system, and
-the application page faults on a page that hasn't been loaded yet, and
-my phone happens to not have connectivity for a second because it's
-moving between wifi and cellular or whatever, the application will
-crash?
+    The primary need for this is from container runtimes, which
+    currently need to do symlink scoping in userspace[6] when opening
+    paths in a potentially malicious container. There is a long list of
+    CVEs that could have bene mitigated by having O_THISROOT (such as
+    CVE-2017-1002101, CVE-2017-1002102, CVE-2018-15664, and
+    CVE-2019-5736, just to name a few).
 
-> +Open .cmd file
-> +~~~~~~~~~~~~~~
-> +
-> +::
-> +
-> +    int open_commands_file(char *mount_dir)
-> +    {
-> +        char cmd_file[255];
-> +        int cmd_fd;
-> +
-> +        snprintf(cmd_file, ARRAY_SIZE(cmd_file), "%s/.cmd", mount_dir);
-> +        cmd_fd =3D open(cmd_file, O_RDWR);
-> +        if (cmd_fd < 0)
-> +            perror("Can't open commands file");
-> +        return cmd_fd;
-> +    }
+[1]: https://lwn.net/Articles/721443/
+[2]: https://lore.kernel.org/patchwork/patch/784221/
+[3]: https://lwn.net/Articles/619151/
+[4]: https://lwn.net/Articles/603929/
+[5]: https://lwn.net/Articles/723057/
+[6]: https://github.com/cyphar/filepath-securejoin
 
-How is access control for this supposed to work? The command file is
-created with mode 0666, so does that mean that any instance of the
-application can write arbitrary code into chunks that haven't been
-loaded yet, modulo SELinux?
+Aleksa Sarai (5):
+  namei: split out nd->dfd handling to dirfd_path_init
+  namei: O_BENEATH-style path resolution flags
+  namei: LOOKUP_IN_ROOT: chroot-like path resolution
+  namei: aggressively check for nd->root escape on ".." resolution
+  namei: resolveat(2) syscall
 
-> +Design alternatives
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Why isn't incremental-fs implemented via FUSE?
-> +----------------------------------------------
-> +TLDR: FUSE-based filesystems add 20-80% of performance overhead for targ=
-et
-> +scenarios
+ arch/alpha/kernel/syscalls/syscall.tbl      |   1 +
+ arch/arm/tools/syscall.tbl                  |   1 +
+ arch/ia64/kernel/syscalls/syscall.tbl       |   1 +
+ arch/m68k/kernel/syscalls/syscall.tbl       |   1 +
+ arch/microblaze/kernel/syscalls/syscall.tbl |   1 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl   |   1 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl   |   1 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl   |   1 +
+ arch/parisc/kernel/syscalls/syscall.tbl     |   1 +
+ arch/powerpc/kernel/syscalls/syscall.tbl    |   1 +
+ arch/s390/kernel/syscalls/syscall.tbl       |   1 +
+ arch/sh/kernel/syscalls/syscall.tbl         |   1 +
+ arch/sparc/kernel/syscalls/syscall.tbl      |   1 +
+ arch/x86/entry/syscalls/syscall_32.tbl      |   1 +
+ arch/x86/entry/syscalls/syscall_64.tbl      |   1 +
+ arch/xtensa/kernel/syscalls/syscall.tbl     |   1 +
+ fs/namei.c                                  | 251 +++++++++++++++-----
+ include/linux/namei.h                       |   8 +
+ include/uapi/linux/fcntl.h                  |  13 +
+ 19 files changed, 229 insertions(+), 59 deletions(-)
 
-Really?
+-- 
+2.21.0
 
-> and increase power use on mobile beyond acceptable limit
-> +for widespread deployment.
-
-From what I can tell, you only really need this thing to be active
-while the application is still being downloaded - and at that point in
-time, you're shoving packets over a wireless connection, checking data
-integrity, writing blocks to disk, and so on, right? Does FUSE add
-noticeable power use to that?
-
-> A custom kernel filesystem is the way to overcome
-> +these limitations.
-
-I doubt that. I see two main alternatives that I think would both be better=
-:
-
-1. Use a FUSE filesystem to trap writes while files are being
-downloaded, then switch to native ext4.
-2. Add an eBPF hook in the ext4 read path. The hook would take the
-inode number and the offset as input and return a value that indicates
-whether the kernel should let the read go through or block the read
-and send a notification to userspace over a file descriptor. Sort of
-like userfaultfd, except with an eBPF-based fastpath. (And to deal
-with readahead, you could perhaps add a flag that is passed through to
-the read code to say "this is readahead", and then throw an error
-instead of blocking the read.)
-
-> +From the theoretical side of things, FUSE filesystem adds some overhead =
-to
-> +each filesystem operation that=E2=80=99s not handled by OS page cache:
-
-How many filesystem operations do you have during application download
-that are not handled by the OS page cache?
-
-> +    * When an IO request arrives to FUSE driver (D), it puts it into a q=
-ueue
-> +      that runs on a separate kernel thread
-> +    * Then another separate user-mode handler process (H) has to run,
-> +      potentially after a context switch, to read the request from the q=
-ueue.
-> +      Reading the request adds a kernel-user mode transition to the hand=
-ling.
-> +    * (H) sends the IO request to kernel to handle it on some underlying=
- storage
-> +      filesystem. This adds a user-kernel and kernel-user mode transitio=
-n
-> +      pair to the handling.
-> +    * (H) then responds to the FUSE request via a write(2) call.
-> +      Writing the response is another user-kernel mode transition.
-> +    * (D) needs to read the response from (H) when its kernel thread run=
-s
-> +      and forward it to the user
-> +
-> +Together, the scenario adds 2 extra user-kernel-user mode transition pai=
-rs,
-> +and potentially has up to 3 additional context switches for the FUSE ker=
-nel
-> +thread and the user-mode handler to start running for each IO request on=
- the
-> +filesystem.
-> +This overhead can vary from unnoticeable to unmanageable, depending on t=
-he
-> +target scenario.
-
-Is the overhead of extra context switches really "unmanageable"
-compared to the latency of storage?
-
-> But it will always burn extra power via CPU staying longer
-> +in non-idle state, handling context switches and mode transitions.
-> +One important goal for the new filesystem is to be able to handle each p=
-age
-> +read separately on demand, because we don't want to wait and download mo=
-re data
-> +than absolutely necessary. Thus readahead would need to be disabled comp=
-letely.
-> +This increases the number of separate IO requests and the FUSE related o=
-verhead
-> +by almost 32x (128KB readahead limit vs 4KB individual block operations)
-
-You could implement the readahead in the FUSE filesystem, no? Check if
-adjacent blocks are already available, and if so, shove them into the
-page cache without waiting for the kernel to ask for them?
-
-> +For more info see a 2017 USENIX research paper:
-> +To FUSE or Not to FUSE: Performance of User-Space File Systems
-> +Bharath Kumar Reddy Vangoor, Stony Brook University;
-> +Vasily Tarasov, IBM Research-Almaden;
-> +Erez Zadok, Stony Brook University
-> +https://www.usenix.org/system/files/conference/fast17/fast17-vangoor.pdf
-
-From that paper, the workloads that are interesting for you are either
-the seq-rd-1th-1f or the rnd-rd-1th-1f workloads, right?
