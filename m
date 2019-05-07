@@ -2,276 +2,362 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 10A0A162FB
-	for <lists+linux-api@lfdr.de>; Tue,  7 May 2019 13:42:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF0E516740
+	for <lists+linux-api@lfdr.de>; Tue,  7 May 2019 17:57:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726516AbfEGLmj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 7 May 2019 07:42:39 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:51826 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726415AbfEGLmi (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 7 May 2019 07:42:38 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CD97D80D;
-        Tue,  7 May 2019 04:42:37 -0700 (PDT)
-Received: from e110439-lin (e110439-lin.cambridge.arm.com [10.1.194.43])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D739A3F5AF;
-        Tue,  7 May 2019 04:42:34 -0700 (PDT)
-Date:   Tue, 7 May 2019 12:42:32 +0100
-From:   Patrick Bellasi <patrick.bellasi@arm.com>
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-pm@vger.kernel.org,
-        linux-api@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Tejun Heo <tj@kernel.org>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Paul Turner <pjt@google.com>,
-        Quentin Perret <quentin.perret@arm.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Morten Rasmussen <morten.rasmussen@arm.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Todd Kjos <tkjos@google.com>,
-        Joel Fernandes <joelaf@google.com>,
-        Steve Muckle <smuckle@google.com>
-Subject: Re: [PATCH v8 12/16] sched/core: uclamp: Extend CPU's cgroup
- controller
-Message-ID: <20190507114232.npsvba4itex5qpvl@e110439-lin>
-References: <20190402104153.25404-1-patrick.bellasi@arm.com>
- <20190402104153.25404-13-patrick.bellasi@arm.com>
- <CAJuCfpFFSgRUFb9pyckpXWxr-z+mrrhcsLjZiVN5fZMvYC5XxQ@mail.gmail.com>
+        id S1726457AbfEGP57 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 7 May 2019 11:57:59 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:36349 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726197AbfEGP57 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 7 May 2019 11:57:59 -0400
+Received: by mail-ot1-f66.google.com with SMTP id c3so705902otr.3
+        for <linux-api@vger.kernel.org>; Tue, 07 May 2019 08:57:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=5Z5TigwEera364CM2VdxaFhBvvqoQcUUDoPjuwON3M8=;
+        b=Fhw5wO5azxXSmUnVRy0VmVZxtI/8TimIdTzYQ/UeoAQYQZGviAYTNksdgqJ+h4IZlZ
+         mTokc54qsRDW2yS4EvQ+bDPSH4FN4IflNhrlICbYtcUDota0DTDSg99mmSQiDtoSf8RM
+         h7KMdjvi1jKcaWslrq7D0NRQycOzn/nIUefPAYMi5pPAS4MZzUQXex130Qk9KqmdbCgA
+         0R3yL7+k/LxSJXiaiPle11wC6eBLMtw1mmTrGkhB4TAaZf7hOXNDW04OmQMQDJQ7s7DR
+         WTyr5IX3eLwtE2yFAI+mQoZ9iViMdkKcVLHWFCAbjLvJsw1+eYUPSIO/QHK4niDfxWAj
+         /g4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=5Z5TigwEera364CM2VdxaFhBvvqoQcUUDoPjuwON3M8=;
+        b=YWwhWNebBuNdsKdw0+dVFZ+D7A5uMEEdZ/xtaVXjCGwcT6V4iNNrfJtnq6AoFMQpD/
+         +7AhAIHs4wUrI0iNeezRXwwDkyGJDbDYxeKq/jhWHc1QDE7CHVlgXeBZc5WK+kkLNG7d
+         gTq2S1TcgFVrGsOr2crNwVR9MVJ7HxbXp9MNoRN7VmG9dgWkkWgGWalDWNyUoztxIrqo
+         30JgxLUFlk6TyBpI9UPfYXuBDyyjA8eflsa2WdNDLUddzOjjdz9q1B4LlzgGlyZvIkMq
+         cJMj3GhN4ZKE5HcebfDloQxnY5ObH3fsu6pXtCcQnl5itRnvKfKE2518em1D3+5jtrbe
+         5lPg==
+X-Gm-Message-State: APjAAAWgN+0jHz1aeo8tAUILaXj/nsQltQ8JT9Er9FjstO2pnhLJoVd8
+        V3Oo4npAmwCHluS/BPdwv+OVS8/iSq4xRPTUZVYc6w==
+X-Google-Smtp-Source: APXvYqznV4n0rtnwALOxXWGajN2p+ua09SAXiEIQ3HSkpkefYwXUadugP+hgxSmobjgqjOaL0Vn4qNDOneSoOTZ4bSE=
+X-Received: by 2002:a9d:739a:: with SMTP id j26mr1315767otk.242.1557244677914;
+ Tue, 07 May 2019 08:57:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJuCfpFFSgRUFb9pyckpXWxr-z+mrrhcsLjZiVN5fZMvYC5XxQ@mail.gmail.com>
-User-Agent: NeoMutt/20180716
+References: <20190502040331.81196-1-ezemtsov@google.com> <20190502040331.81196-2-ezemtsov@google.com>
+In-Reply-To: <20190502040331.81196-2-ezemtsov@google.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Tue, 7 May 2019 17:57:31 +0200
+Message-ID: <CAG48ez3SWdcSbdeu9sBx-MUSONgk9_Kmx62NmCALAVou1q9kCw@mail.gmail.com>
+Subject: Re: [PATCH 1/6] incfs: Add first files of incrementalfs
+To:     ezemtsov@google.com
+Cc:     linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 17-Apr 17:12, Suren Baghdasaryan wrote:
-> On Tue, Apr 2, 2019 at 3:43 AM Patrick Bellasi <patrick.bellasi@arm.com> wrote:
-> >
-> > The cgroup CPU bandwidth controller allows to assign a specified
-> > (maximum) bandwidth to the tasks of a group. However this bandwidth is
-> > defined and enforced only on a temporal base, without considering the
-> > actual frequency a CPU is running on. Thus, the amount of computation
-> > completed by a task within an allocated bandwidth can be very different
-> > depending on the actual frequency the CPU is running that task.
-> > The amount of computation can be affected also by the specific CPU a
-> > task is running on, especially when running on asymmetric capacity
-> > systems like Arm's big.LITTLE.
-> >
-> > With the availability of schedutil, the scheduler is now able
-> > to drive frequency selections based on actual task utilization.
-> > Moreover, the utilization clamping support provides a mechanism to
-> > bias the frequency selection operated by schedutil depending on
-> > constraints assigned to the tasks currently RUNNABLE on a CPU.
-> >
-> > Giving the mechanisms described above, it is now possible to extend the
-> > cpu controller to specify the minimum (or maximum) utilization which
-> > should be considered for tasks RUNNABLE on a cpu.
-> > This makes it possible to better defined the actual computational
-> > power assigned to task groups, thus improving the cgroup CPU bandwidth
-> > controller which is currently based just on time constraints.
-> >
-> > Extend the CPU controller with a couple of new attributes util.{min,max}
-> > which allows to enforce utilization boosting and capping for all the
-> > tasks in a group. Specifically:
-> >
-> > - util.min: defines the minimum utilization which should be considered
-> >             i.e. the RUNNABLE tasks of this group will run at least at a
-> >                  minimum frequency which corresponds to the util.min
-> >                  utilization
-> >
-> > - util.max: defines the maximum utilization which should be considered
-> >             i.e. the RUNNABLE tasks of this group will run up to a
-> >                  maximum frequency which corresponds to the util.max
-> >                  utilization
-> >
-> > These attributes:
-> >
-> > a) are available only for non-root nodes, both on default and legacy
-> >    hierarchies, while system wide clamps are defined by a generic
-> >    interface which does not depends on cgroups. This system wide
-> >    interface enforces constraints on tasks in the root node.
-> >
-> > b) enforce effective constraints at each level of the hierarchy which
-> >    are a restriction of the group requests considering its parent's
-> >    effective constraints. Root group effective constraints are defined
-> >    by the system wide interface.
-> >    This mechanism allows each (non-root) level of the hierarchy to:
-> >    - request whatever clamp values it would like to get
-> >    - effectively get only up to the maximum amount allowed by its parent
-> >
-> > c) have higher priority than task-specific clamps, defined via
-> >    sched_setattr(), thus allowing to control and restrict task requests
-> >
-> > Add two new attributes to the cpu controller to collect "requested"
-> > clamp values. Allow that at each non-root level of the hierarchy.
-> > Validate local consistency by enforcing util.min < util.max.
-> > Keep it simple by do not caring now about "effective" values computation
-> > and propagation along the hierarchy.
-> >
-> > Signed-off-by: Patrick Bellasi <patrick.bellasi@arm.com>
-> > Cc: Ingo Molnar <mingo@redhat.com>
-> > Cc: Peter Zijlstra <peterz@infradead.org>
-> > Cc: Tejun Heo <tj@kernel.org>
-> >
-> > --
-> > Changes in v8:
-> >  Message-ID: <20190214154817.GN50184@devbig004.ftw2.facebook.com>
-> >  - update changelog description for points b), c) and following paragraph
-> > ---
-> >  Documentation/admin-guide/cgroup-v2.rst |  27 +++++
-> >  init/Kconfig                            |  22 ++++
-> >  kernel/sched/core.c                     | 142 +++++++++++++++++++++++-
-> >  kernel/sched/sched.h                    |   6 +
-> >  4 files changed, 196 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-> > index 7bf3f129c68b..47710a77f4fa 100644
-> > --- a/Documentation/admin-guide/cgroup-v2.rst
-> > +++ b/Documentation/admin-guide/cgroup-v2.rst
-> > @@ -909,6 +909,12 @@ controller implements weight and absolute bandwidth limit models for
-> >  normal scheduling policy and absolute bandwidth allocation model for
-> >  realtime scheduling policy.
-> >
-> > +Cycles distribution is based, by default, on a temporal base and it
-> > +does not account for the frequency at which tasks are executed.
-> > +The (optional) utilization clamping support allows to enforce a minimum
-> > +bandwidth, which should always be provided by a CPU, and a maximum bandwidth,
-> > +which should never be exceeded by a CPU.
-> > +
-> >  WARNING: cgroup2 doesn't yet support control of realtime processes and
-> >  the cpu controller can only be enabled when all RT processes are in
-> >  the root cgroup.  Be aware that system management software may already
-> > @@ -974,6 +980,27 @@ All time durations are in microseconds.
-> >         Shows pressure stall information for CPU. See
-> >         Documentation/accounting/psi.txt for details.
-> >
-> > +  cpu.util.min
-> > +        A read-write single value file which exists on non-root cgroups.
-> > +        The default is "0", i.e. no utilization boosting.
-> > +
-> > +        The requested minimum utilization in the range [0, 1024].
-> > +
-> > +        This interface allows reading and setting minimum utilization clamp
-> > +        values similar to the sched_setattr(2). This minimum utilization
-> > +        value is used to clamp the task specific minimum utilization clamp.
-> > +
-> > +  cpu.util.max
-> > +        A read-write single value file which exists on non-root cgroups.
-> > +        The default is "1024". i.e. no utilization capping
-> > +
-> > +        The requested maximum utilization in the range [0, 1024].
-> > +
-> > +        This interface allows reading and setting maximum utilization clamp
-> > +        values similar to the sched_setattr(2). This maximum utilization
-> > +        value is used to clamp the task specific maximum utilization clamp.
-> > +
-> > +
-> >
-> >  Memory
-> >  ------
-> > diff --git a/init/Kconfig b/init/Kconfig
-> > index 7439cbf4d02e..33006e8de996 100644
-> > --- a/init/Kconfig
-> > +++ b/init/Kconfig
-> > @@ -877,6 +877,28 @@ config RT_GROUP_SCHED
-> >
-> >  endif #CGROUP_SCHED
-> >
-> > +config UCLAMP_TASK_GROUP
-> > +       bool "Utilization clamping per group of tasks"
-> > +       depends on CGROUP_SCHED
-> > +       depends on UCLAMP_TASK
-> > +       default n
-> > +       help
-> > +         This feature enables the scheduler to track the clamped utilization
-> > +         of each CPU based on RUNNABLE tasks currently scheduled on that CPU.
-> > +
-> > +         When this option is enabled, the user can specify a min and max
-> > +         CPU bandwidth which is allowed for each single task in a group.
-> > +         The max bandwidth allows to clamp the maximum frequency a task
-> > +         can use, while the min bandwidth allows to define a minimum
-> > +         frequency a task will always use.
-> > +
-> > +         When task group based utilization clamping is enabled, an eventually
-> > +         specified task-specific clamp value is constrained by the cgroup
-> > +         specified clamp value. Both minimum and maximum task clamping cannot
-> > +         be bigger than the corresponding clamping defined at task group level.
-> > +
-> > +         If in doubt, say N.
-> > +
-> >  config CGROUP_PIDS
-> >         bool "PIDs controller"
-> >         help
-> > diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-> > index 71c9dd6487b1..aeed2dd315cc 100644
-> > --- a/kernel/sched/core.c
-> > +++ b/kernel/sched/core.c
-> > @@ -1130,8 +1130,12 @@ static void __init init_uclamp(void)
-> >         /* System defaults allow max clamp values for both indexes */
-> >         uc_max.value = uclamp_none(UCLAMP_MAX);
-> >         uc_max.bucket_id = uclamp_bucket_id(uc_max.value);
-> > -       for (clamp_id = 0; clamp_id < UCLAMP_CNT; ++clamp_id)
-> > +       for (clamp_id = 0; clamp_id < UCLAMP_CNT; ++clamp_id) {
-> >                 uclamp_default[clamp_id] = uc_max;
-> > +#ifdef CONFIG_UCLAMP_TASK_GROUP
-> > +               root_task_group.uclamp_req[clamp_id] = uc_max;
-> > +#endif
-> > +       }
-> >  }
-> >
-> >  #else /* CONFIG_UCLAMP_TASK */
-> > @@ -6720,6 +6724,19 @@ void ia64_set_curr_task(int cpu, struct task_struct *p)
-> >  /* task_group_lock serializes the addition/removal of task groups */
-> >  static DEFINE_SPINLOCK(task_group_lock);
-> >
-> > +static inline int alloc_uclamp_sched_group(struct task_group *tg,
-> > +                                          struct task_group *parent)
-> > +{
-> > +#ifdef CONFIG_UCLAMP_TASK_GROUP
-> > +       int clamp_id;
-> > +
-> > +       for (clamp_id = 0; clamp_id < UCLAMP_CNT; ++clamp_id)
-> > +               tg->uclamp_req[clamp_id] = parent->uclamp_req[clamp_id];
-> > +#endif
-> > +
-> > +       return 1;
-> 
-> Looks like you never return anything else neither here nor in the
-> following patches I think...
++linux-api
 
-That's right, I just preferred to keep the same structure in the
-callsite below...
+On Tue, May 7, 2019 at 4:23 PM <ezemtsov@google.com> wrote:
+> - fs/incfs dir
+> - Kconfig (CONFIG_INCREMENTAL_FS)
+> - Makefile
+> - Module and file system initialization and clean up code
+> - New MAINTAINERS entry
+> - Add incrementalfs.h UAPI header
+> - Register ioctl range in ioctl-numbers.txt
+> - Documentation
+>
+> Signed-off-by: Eugene Zemtsov <ezemtsov@google.com>
+[...]
+> diff --git a/Documentation/filesystems/incrementalfs.rst b/Documentation/=
+filesystems/incrementalfs.rst
+> new file mode 100644
+> index 000000000000..682e3dcb6b5a
+> --- /dev/null
+> +++ b/Documentation/filesystems/incrementalfs.rst
+> @@ -0,0 +1,452 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Incremental File System
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Overview
+> +=3D=3D=3D=3D=3D=3D=3D=3D
+> +Incremental FS is special-purpose Linux virtual file system that allows
+> +execution of a program while its binary and resource files are still bei=
+ng
+> +lazily downloaded over the network, USB etc. It is focused on incrementa=
+l
+> +delivery for a small number (under 100) of big files (more than 10 megab=
+ytes).
+> +Incremental FS doesn=E2=80=99t allow direct writes into files and, once =
+loaded, file
+> +content never changes. Incremental FS doesn=E2=80=99t use a block device=
+, instead it
+> +saves data into a backing file located on a regular file-system.
+> +
+> +But why?
+> +--------
+> +To allow running **big** Android apps before their binaries and resource=
+s are
+> +fully downloaded to an Android device. If an app reads something not loa=
+ded yet,
+> +it needs to wait for the data block to be fetched, but in most cases hot=
+ blocks
+> +can be loaded in advance.
 
-> > +}
-> > +
-> >  static void sched_free_group(struct task_group *tg)
-> >  {
-> >         free_fair_sched_group(tg);
-> > @@ -6743,6 +6760,9 @@ struct task_group *sched_create_group(struct task_group *parent)
-> >         if (!alloc_rt_sched_group(tg, parent))
-> >                 goto err;
-> >
-> > +       if (!alloc_uclamp_sched_group(tg, parent))
-> > +               goto err;
-> > +
+But the idea is that eventually, the complete application will be
+downloaded, right? You're not planning to download the last few chunks
+of an app on demand weeks after it has been installed?
 
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> +Workflow
+> +--------
+> +A userspace process, called a data loader, mounts an instance of increme=
+ntal-fs
+> +giving it a file descriptor on an underlying file system (like ext4 or f=
+2fs).
+> +Incremental-fs reads content (if any) of this backing file and interpret=
+s it as
+> +a file system image with files, directories and data blocks. At this poi=
+nt
+> +the data loader can declare new files to be shown by incremental-fs.
+> +
+> +A process is started from a binary located on incremental-fs.
+> +All reads are served directly from the backing file
+> +without roundtrips into userspace. If the process accesses a data block =
+that was
+> +not originally present in the backing file, the read operation waits.
+> +
+> +Meanwhile the data loader can feed new data blocks to incremental-fs by =
+calling
+> +write() on a special .cmd pseudo-file. The data loader can request infor=
+mation
+> +about pending reads by calling poll() and read() on the .cmd pseudo-file=
+.
+> +This mechanism allows the data loader to serve most urgently needed data=
+ first.
+> +Once a data block is given to incremental-fs, it saves it to the backing=
+ file
+> +and unblocks all the reads waiting for this block.
+> +
+> +Eventually all data for all files is uploaded by the data loader, and sa=
+ved by
+> +incremental-fs into the backing file. At that moment the data loader is =
+not
+> +needed any longer. The backing file will play the role of a complete
+> +filesystem image for all future runs of the program.
 
-... under the assumption the compiler is smart enough to optimized that.
+This means that for all future runs, you still need to mount an incfs
+instance to be able to access application files, even when the
+complete application has been downloaded already, right? Wouldn't it
+be nicer if, once the complete application has been downloaded, you
+could stop using a shim layer entirely? That way, the performance of
+the shim layer would also matter less.
 
-But perhaps  it's less confusing to just use void, will update in v9.
+Is there a reason why this thing is not backed by a normal directory
+hierarchy on the backing file system, instead of the single image file
+you're proposing?
 
-> >         return tg;
-> >
-> >  err:
--- 
-#include <best/regards.h>
+> +External .cmd file interface
+> +----------------------------
+> +When incremental-fs is mounted, a mount directory contains a pseudo-file
+> +called '.cmd'. The data loader will open this file and call read(), writ=
+e(),
+> +poll() and ioctl() on it inspect and change state of incremental-fs.
+> +
+> +poll() and read() are used by the data loader to wait for pending reads =
+to
+> +appear and obtain an array of ``struct incfs_pending_read_info``.
+> +
+> +write() is used by the data loader to feed new data blocks to incrementa=
+l-fs.
+> +A data buffer given to write() is interpreted as an array of
+> +``struct incfs_new_data_block``. Structs in the array describe locations=
+ and
+> +properties of data blocks loaded with this write() call.
 
-Patrick Bellasi
+You can't do that. A write() handler must not interpret written data
+as pointers; that must be handled with an ioctl instead.
+
+> +``ioctl(INCFS_IOC_PROCESS_INSTRUCTION)`` is used to change structure of
+> +incremental-fs. It receives an pointer to ``struct incfs_instruction``
+> +where type field can have be one of the following values.
+> +
+> +**INCFS_INSTRUCTION_NEW_FILE**
+> +Creates an inode (a file or a directory) without a name.
+> +It assumes ``incfs_new_file_instruction.file`` is populated with details=
+.
+> +
+> +**INCFS_INSTRUCTION_ADD_DIR_ENTRY**
+> +Creates a name (aka hardlink) for an inode in a directory.
+> +A directory can't have more than one hardlink pointing to it, but files =
+can be
+> +linked from different directories.
+> +It assumes ``incfs_new_file_instruction.dir_entry`` is populated with de=
+tails.
+> +
+> +**INCFS_INSTRUCTION_REMOVE_DIR_ENTRY**
+> +Remove a name (aka hardlink) for a file from a directory.
+> +Only empty directories can be unlinked.
+> +It assumes ``incfs_new_file_instruction.dir_entry`` is populated with de=
+tails.
+
+What is the usecase for removing directory entries?
+
+With the API you're proposing, you're always going to want to populate
+the entire directory hierarchy before running an application from
+incfs, because otherwise lookups and readdir might fail in a way the
+application doesn't expect, right?
+
+> +For more details see in uapi/linux/incrementalfs.h and samples below.
+> +
+> +Supported mount options
+> +-----------------------
+> +See ``fs/incfs/options.c`` for more details.
+> +
+> +    * ``backing_fd=3D<unsigned int>``
+> +        Required. A file descriptor of a backing file opened by the proc=
+ess
+> +        calling mount(2). This descriptor can be closed after mount retu=
+rns.
+> +
+> +    * ``read_timeout_msc=3D<unsigned int>``
+> +        Default: 1000. Timeout in milliseconds before a read operation f=
+ails
+> +        if no data found in the backing file or provided by the data loa=
+der.
+
+So... if I run an application from this incremental file system, and
+the application page faults on a page that hasn't been loaded yet, and
+my phone happens to not have connectivity for a second because it's
+moving between wifi and cellular or whatever, the application will
+crash?
+
+> +Open .cmd file
+> +~~~~~~~~~~~~~~
+> +
+> +::
+> +
+> +    int open_commands_file(char *mount_dir)
+> +    {
+> +        char cmd_file[255];
+> +        int cmd_fd;
+> +
+> +        snprintf(cmd_file, ARRAY_SIZE(cmd_file), "%s/.cmd", mount_dir);
+> +        cmd_fd =3D open(cmd_file, O_RDWR);
+> +        if (cmd_fd < 0)
+> +            perror("Can't open commands file");
+> +        return cmd_fd;
+> +    }
+
+How is access control for this supposed to work? The command file is
+created with mode 0666, so does that mean that any instance of the
+application can write arbitrary code into chunks that haven't been
+loaded yet, modulo SELinux?
+
+> +Design alternatives
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Why isn't incremental-fs implemented via FUSE?
+> +----------------------------------------------
+> +TLDR: FUSE-based filesystems add 20-80% of performance overhead for targ=
+et
+> +scenarios
+
+Really?
+
+> and increase power use on mobile beyond acceptable limit
+> +for widespread deployment.
+
+From what I can tell, you only really need this thing to be active
+while the application is still being downloaded - and at that point in
+time, you're shoving packets over a wireless connection, checking data
+integrity, writing blocks to disk, and so on, right? Does FUSE add
+noticeable power use to that?
+
+> A custom kernel filesystem is the way to overcome
+> +these limitations.
+
+I doubt that. I see two main alternatives that I think would both be better=
+:
+
+1. Use a FUSE filesystem to trap writes while files are being
+downloaded, then switch to native ext4.
+2. Add an eBPF hook in the ext4 read path. The hook would take the
+inode number and the offset as input and return a value that indicates
+whether the kernel should let the read go through or block the read
+and send a notification to userspace over a file descriptor. Sort of
+like userfaultfd, except with an eBPF-based fastpath. (And to deal
+with readahead, you could perhaps add a flag that is passed through to
+the read code to say "this is readahead", and then throw an error
+instead of blocking the read.)
+
+> +From the theoretical side of things, FUSE filesystem adds some overhead =
+to
+> +each filesystem operation that=E2=80=99s not handled by OS page cache:
+
+How many filesystem operations do you have during application download
+that are not handled by the OS page cache?
+
+> +    * When an IO request arrives to FUSE driver (D), it puts it into a q=
+ueue
+> +      that runs on a separate kernel thread
+> +    * Then another separate user-mode handler process (H) has to run,
+> +      potentially after a context switch, to read the request from the q=
+ueue.
+> +      Reading the request adds a kernel-user mode transition to the hand=
+ling.
+> +    * (H) sends the IO request to kernel to handle it on some underlying=
+ storage
+> +      filesystem. This adds a user-kernel and kernel-user mode transitio=
+n
+> +      pair to the handling.
+> +    * (H) then responds to the FUSE request via a write(2) call.
+> +      Writing the response is another user-kernel mode transition.
+> +    * (D) needs to read the response from (H) when its kernel thread run=
+s
+> +      and forward it to the user
+> +
+> +Together, the scenario adds 2 extra user-kernel-user mode transition pai=
+rs,
+> +and potentially has up to 3 additional context switches for the FUSE ker=
+nel
+> +thread and the user-mode handler to start running for each IO request on=
+ the
+> +filesystem.
+> +This overhead can vary from unnoticeable to unmanageable, depending on t=
+he
+> +target scenario.
+
+Is the overhead of extra context switches really "unmanageable"
+compared to the latency of storage?
+
+> But it will always burn extra power via CPU staying longer
+> +in non-idle state, handling context switches and mode transitions.
+> +One important goal for the new filesystem is to be able to handle each p=
+age
+> +read separately on demand, because we don't want to wait and download mo=
+re data
+> +than absolutely necessary. Thus readahead would need to be disabled comp=
+letely.
+> +This increases the number of separate IO requests and the FUSE related o=
+verhead
+> +by almost 32x (128KB readahead limit vs 4KB individual block operations)
+
+You could implement the readahead in the FUSE filesystem, no? Check if
+adjacent blocks are already available, and if so, shove them into the
+page cache without waiting for the kernel to ask for them?
+
+> +For more info see a 2017 USENIX research paper:
+> +To FUSE or Not to FUSE: Performance of User-Space File Systems
+> +Bharath Kumar Reddy Vangoor, Stony Brook University;
+> +Vasily Tarasov, IBM Research-Almaden;
+> +Erez Zadok, Stony Brook University
+> +https://www.usenix.org/system/files/conference/fast17/fast17-vangoor.pdf
+
+From that paper, the workloads that are interesting for you are either
+the seq-rd-1th-1f or the rnd-rd-1th-1f workloads, right?
