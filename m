@@ -2,33 +2,33 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 29DDF17FF8
-	for <lists+linux-api@lfdr.de>; Wed,  8 May 2019 20:42:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8413218028
+	for <lists+linux-api@lfdr.de>; Wed,  8 May 2019 21:01:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727196AbfEHSmL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 8 May 2019 14:42:11 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:53210 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725910AbfEHSmL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 8 May 2019 14:42:11 -0400
+        id S1726583AbfEHTAf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 8 May 2019 15:00:35 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:52246 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727023AbfEHTAf (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 8 May 2019 15:00:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
         Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=QkojuoKjlRx99FreCBXd8uMCKzFV4ejE/54/aBGxim4=; b=dT+DeY8lE/Z1A7+znLacFSsaP
-        DZ5Fl9+uTUZQBO1AyhdDIvkusWBYz4k6WCStuCcIX960z9J377EmXYz4l0m/17/X+ZMLiytQufq/e
-        pFgthAalIqOkUtE7hWoQAW8QMFgUHQCnN7m2cU44mPWj8ehnTCXbrJpL9/oRpqPjYbFxj+MiwzzAn
-        89p+vATzYA40ZmPKFKoPv4SQh6wjR3ykHB7uTSILi+b964qVuVlU0i0nDKR7Dwxv2g7qnUYBkrI43
-        Sk6MY//bPrr1Nkq+kb+4F0ORDLUX7m67XDBUPAs1hpYuFA9VasufR18ZAWjD5xcWZbYwvmoQuwGmD
-        hFU9tSVTw==;
+         bh=G5cSp6uXMPnnzFNazt27d470pw/eFBtk4HEyqUtsqls=; b=NVKayVoyG7DIerq67jDawzKuW
+        Z8DyXl57CA29JIEnjkvQDkz47ar/picbGRJetShXTWoRnpuGCTy/TAo4z1jDS8ptFebBowu0YwoA3
+        1LWeN32ilwW40UU5OS7D+TL+grn1eI73hYHJKnumIOOODWZYqwmCgk+FR20mdOT4MwEO1jExULTQH
+        978E00mwL4rlORhP/8v8RqibzJJdKyCgREbgcw50hAJd4ORJEs17bnWrhx+b86bBZj0iRFG6aFyS8
+        nK8RSgVBeqblNFUBglYTchSLmEyYryMYY1AreMSrt+IfuCc92OfKDDKgKOClRa++ZHxYfoEth7v0b
+        YmHgCyUFA==;
 Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hORW0-0007R8-Cv; Wed, 08 May 2019 18:42:04 +0000
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hORna-0003RS-0P; Wed, 08 May 2019 19:00:14 +0000
 Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 4E708980308; Wed,  8 May 2019 20:42:02 +0200 (CEST)
-Date:   Wed, 8 May 2019 20:42:02 +0200
+        id B7ED198030A; Wed,  8 May 2019 21:00:11 +0200 (CEST)
+Date:   Wed, 8 May 2019 21:00:11 +0200
 From:   Peter Zijlstra <peterz@infradead.org>
 To:     Patrick Bellasi <patrick.bellasi@arm.com>
 Cc:     linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
@@ -47,7 +47,7 @@ Cc:     linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
         Steve Muckle <smuckle@google.com>,
         Suren Baghdasaryan <surenb@google.com>
 Subject: Re: [PATCH v8 04/16] sched/core: uclamp: Add system default clamps
-Message-ID: <20190508184202.GA32547@worktop.programming.kicks-ass.net>
+Message-ID: <20190508190011.GB32547@worktop.programming.kicks-ass.net>
 References: <20190402104153.25404-1-patrick.bellasi@arm.com>
  <20190402104153.25404-5-patrick.bellasi@arm.com>
 MIME-Version: 1.0
@@ -60,9 +60,107 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Apr 02, 2019 at 11:41:40AM +0100, Patrick Bellasi wrote:
-> Add a privileged interface to define a system default configuration via:
-> 
->   /proc/sys/kernel/sched_uclamp_util_{min,max}
 
-Isn't the 'u' in "uclamp" already for util?
+There was a bunch of repetition that seemed fragile; does something like
+the below make sense?
+
+
+Index: linux-2.6/kernel/sched/core.c
+===================================================================
+--- linux-2.6.orig/kernel/sched/core.c
++++ linux-2.6/kernel/sched/core.c
+@@ -770,6 +770,9 @@ unsigned int sysctl_sched_uclamp_util_ma
+ /* All clamps are required to be less or equal than these values */
+ static struct uclamp_se uclamp_default[UCLAMP_CNT];
+ 
++#define for_each_clamp_id(clamp_id)	\
++	for ((clamp_id) = 0; (clamp_id) < UCLAMP_CNT; (clamp_id)++)
++
+ /* Integer rounded range for each bucket */
+ #define UCLAMP_BUCKET_DELTA DIV_ROUND_CLOSEST(SCHED_CAPACITY_SCALE, UCLAMP_BUCKETS)
+ 
+@@ -790,6 +793,12 @@ static inline unsigned int uclamp_none(i
+ 	return SCHED_CAPACITY_SCALE;
+ }
+ 
++static inline void uclamp_se_set(struct uclamp_se *uc_se, unsigned int value)
++{
++	uc_se->value = value;
++	uc_se->bucket_id = uclamp_bucket_id(value);
++}
++
+ static inline unsigned int
+ uclamp_idle_value(struct rq *rq, unsigned int clamp_id, unsigned int clamp_value)
+ {
+@@ -977,7 +986,7 @@ static inline void uclamp_rq_inc(struct
+ 	if (unlikely(!p->sched_class->uclamp_enabled))
+ 		return;
+ 
+-	for (clamp_id = 0; clamp_id < UCLAMP_CNT; ++clamp_id)
++	for_each_clamp_id(clamp_id)
+ 		uclamp_rq_inc_id(p, rq, clamp_id);
+ 
+ 	/* Reset clamp idle holding when there is one RUNNABLE task */
+@@ -992,7 +1001,7 @@ static inline void uclamp_rq_dec(struct
+ 	if (unlikely(!p->sched_class->uclamp_enabled))
+ 		return;
+ 
+-	for (clamp_id = 0; clamp_id < UCLAMP_CNT; ++clamp_id)
++	for_each_clamp_id(clamp_id)
+ 		uclamp_rq_dec_id(p, rq, clamp_id);
+ }
+ 
+@@ -1021,16 +1030,13 @@ int sysctl_sched_uclamp_handler(struct c
+ 	}
+ 
+ 	if (old_min != sysctl_sched_uclamp_util_min) {
+-		uclamp_default[UCLAMP_MIN].value =
+-			sysctl_sched_uclamp_util_min;
+-		uclamp_default[UCLAMP_MIN].bucket_id =
+-			uclamp_bucket_id(sysctl_sched_uclamp_util_min);
++		uclamp_se_set(&uclamp_default[UCLAMP_MIN],
++			      sysctl_sched_uclamp_util_min);
+ 	}
++
+ 	if (old_max != sysctl_sched_uclamp_util_max) {
+-		uclamp_default[UCLAMP_MAX].value =
+-			sysctl_sched_uclamp_util_max;
+-		uclamp_default[UCLAMP_MAX].bucket_id =
+-			uclamp_bucket_id(sysctl_sched_uclamp_util_max);
++		uclamp_se_set(&uclamp_default[UCLAMP_MAX],
++			      sysctl_sched_uclamp_util_max);
+ 	}
+ 
+ 	/*
+@@ -1052,7 +1058,7 @@ static void uclamp_fork(struct task_stru
+ {
+ 	unsigned int clamp_id;
+ 
+-	for (clamp_id = 0; clamp_id < UCLAMP_CNT; ++clamp_id)
++	for_each_clamp_id(clamp_id)
+ 		p->uclamp[clamp_id].active = false;
+ }
+ 
+@@ -1067,17 +1073,12 @@ static void __init init_uclamp(void)
+ 		cpu_rq(cpu)->uclamp_flags = 0;
+ 	}
+ 
+-	for (clamp_id = 0; clamp_id < UCLAMP_CNT; ++clamp_id) {
+-		struct uclamp_se *uc_se = &init_task.uclamp_req[clamp_id];
+-
+-		uc_se->value = uclamp_none(clamp_id);
+-		uc_se->bucket_id = uclamp_bucket_id(uc_se->value);
+-	}
++	for_each_clamp_id(clamp_id)
++		uclamp_se_set(&init_task.uclamp_req[clamp_id], uclamp_none(clamp_id));
+ 
+ 	/* System defaults allow max clamp values for both indexes */
+-	uc_max.value = uclamp_none(UCLAMP_MAX);
+-	uc_max.bucket_id = uclamp_bucket_id(uc_max.value);
+-	for (clamp_id = 0; clamp_id < UCLAMP_CNT; ++clamp_id)
++	uclamp_se_set(&uc_max, uclamp_none(UCLAMP_MAX));
++	for_each_clamp_id(clamp_id)
+ 		uclamp_default[clamp_id] = uc_max;
+ }
+ 
+
