@@ -2,83 +2,128 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BB101809F
-	for <lists+linux-api@lfdr.de>; Wed,  8 May 2019 21:44:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C792B1827C
+	for <lists+linux-api@lfdr.de>; Thu,  9 May 2019 00:59:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727296AbfEHTos (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 8 May 2019 15:44:48 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:52722 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727097AbfEHTos (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 8 May 2019 15:44:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=uKC1JyjjYtwBLaIzRTzlSvw/gzaX0p25IvXJ52mSqSs=; b=AwjkqeDEmIXQOdcKAOI6y0NAg
-        ycueoqeqjWgFk2U10qsfzTOI+HmvK10yNcdV7CW2VqvXGpz38vTnWqccy5aCNcb6avXKkZBNXeFwf
-        BqKLO1CBEKC4KYkmhW970DUS15DtlrRe2qSOmV2bPZbEFJjuO5kxtpxalwQleqoVn8L2zaIs7tUd2
-        i/ztBkermxB8Q0B0yRYogV7I76ZQo/IbKI7j/yA6yw49gN8OGzNYc7NtqeLR7669CAj9Pprhb+5rr
-        QqYdMuCUakroUHM7yUh7YTAaBjiV35HsCRqf7QZKtzGEnVo+Q2b2O9SaUFc/UQuRdvVnKQr/zRZD/
-        Fa4xuRCKQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hOSUb-0003yo-HJ; Wed, 08 May 2019 19:44:41 +0000
-Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 8FB0F98030A; Wed,  8 May 2019 21:44:39 +0200 (CEST)
-Date:   Wed, 8 May 2019 21:44:39 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Patrick Bellasi <patrick.bellasi@arm.com>
-Cc:     Suren Baghdasaryan <surenb@google.com>,
-        LKML <linux-kernel@vger.kernel.org>, linux-pm@vger.kernel.org,
-        linux-api@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
-        Tejun Heo <tj@kernel.org>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Paul Turner <pjt@google.com>,
-        Quentin Perret <quentin.perret@arm.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Morten Rasmussen <morten.rasmussen@arm.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Todd Kjos <tkjos@google.com>,
-        Joel Fernandes <joelaf@google.com>,
-        Steve Muckle <smuckle@google.com>
-Subject: Re: [PATCH v8 06/16] sched/core: uclamp: Extend sched_setattr() to
- support utilization clamping
-Message-ID: <20190508194439.GF32547@worktop.programming.kicks-ass.net>
-References: <20190402104153.25404-1-patrick.bellasi@arm.com>
- <20190402104153.25404-7-patrick.bellasi@arm.com>
- <CAJuCfpH3htcr3xB_Y4nr7HXCdQd1hOdOAXbtZJB1SOt7Of_qbw@mail.gmail.com>
- <20190507111347.4ivnjwbymsf7i3e6@e110439-lin>
+        id S1727900AbfEHW7D (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 8 May 2019 18:59:03 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:40898 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726830AbfEHW7D (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 8 May 2019 18:59:03 -0400
+Received: by mail-pf1-f193.google.com with SMTP id u17so210289pfn.7;
+        Wed, 08 May 2019 15:59:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=3skeGRJ5pRr7+D0+GcBeYq1z7ba6TiYFkEy56aNuN4w=;
+        b=f6E0Q9JV/oK81qEUGBzLotW8ivaqqSHQj7zCw/2vC4n6WMxqICOe4J18CGHEnErqml
+         8wbXgFKBwRG1uwSDnr5Nkn/yCLqp0wlAiItz+AYTS7CWrdy3bMeTFC0yXK4CkYMks5yS
+         qQqA5u3k0/MIGmqy5d0sr/1l+9LuLYarLCbc3pZhwmpX2Emen/uTBbGAbtd0Sj5FXEaX
+         A3Tf/jGtFYql7ptoRop4ZSC4OQxhjEzN5jZ1VD4upkNn8MJoDEc31FtjJ3ZJmAWtNTas
+         B0DgM3KudTDi1acsEkSoFtPV66r3dP+Ak6uPJLO8/hT9sfmFREvZkxJ6qmkjWjC7axjn
+         2s/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=3skeGRJ5pRr7+D0+GcBeYq1z7ba6TiYFkEy56aNuN4w=;
+        b=n1usrSXd36sRvrrDOMuXyl5P/DkJq7uK/sYBru4E3db4m+lJwqPdqMHannh3dTR7PT
+         Qy6SKIEMzEMveQNr6j4C3//6EFzamgaO+wmd3/+5x/+GO+RYL0GyRbSb6/ncpL8r97db
+         Wfntpr/K8CJp3M5ohwR20NKUxJCx88jA5KouK//7NgCE0KjHUa+gj1KV4BiNZhS3C+G6
+         3V/T+qhMcnN4SCAYexa/g4ND422BneztFzX0WgMy+2ufs83bfoZYYC1nLXRYxb2yssE7
+         8PiyFNJdQKGSevF67bSHXNPyPJwX5UnE8Z37Uhu8DFiN+1V1pfCU8P8CBWTOtSuOw02P
+         PvRw==
+X-Gm-Message-State: APjAAAXD97/6rs2Gqe3SFipR0jqEKO9cMpFsePL808kEN/xtq6hsBjZc
+        ASL6MoIup4HqEayfrBo7eXI=
+X-Google-Smtp-Source: APXvYqyrohy1M3ppdW6lU7eKE2owmntyLl4B+K6DHGaWoh7InMPIPpSi5AI1dedYXt/CdhdeAcHu/g==
+X-Received: by 2002:a63:6f8e:: with SMTP id k136mr969393pgc.104.1557356342554;
+        Wed, 08 May 2019 15:59:02 -0700 (PDT)
+Received: from localhost ([2601:640:0:ebed:19d3:11c4:475e:3daa])
+        by smtp.gmail.com with ESMTPSA id i65sm327948pgc.3.2019.05.08.15.59.01
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 08 May 2019 15:59:01 -0700 (PDT)
+Date:   Wed, 8 May 2019 15:59:00 -0700
+From:   Yury Norov <yury.norov@gmail.com>
+To:     Yury Norov <ynorov@caviumnetworks.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, Adam Borowski <kilobyte@angband.pl>,
+        Alexander Graf <agraf@suse.de>,
+        Alexey Klimov <klimov.linux@gmail.com>,
+        Andreas Schwab <schwab@suse.de>,
+        Andrew Pinski <pinskia@gmail.com>,
+        Bamvor Zhangjian <bamv2005@gmail.com>,
+        Chris Metcalf <cmetcalf@mellanox.com>,
+        Christoph Muellner <christoph.muellner@theobroma-systems.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Florian Weimer <fweimer@redhat.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        James Hogan <james.hogan@imgtec.com>,
+        James Morse <james.morse@arm.com>,
+        Joseph Myers <joseph@codesourcery.com>,
+        Lin Yongting <linyongting@huawei.com>,
+        Manuel Montezelo <manuel.montezelo@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Martin Schwidefsky <schwidefsky@de.ibm.com>,
+        Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
+        Nathan_Lynch <Nathan_Lynch@mentor.com>,
+        Philipp Tomsich <philipp.tomsich@theobroma-systems.com>,
+        Prasun Kapoor <Prasun.Kapoor@caviumnetworks.com>,
+        Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
+        Steve Ellcey <sellcey@caviumnetworks.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>
+Subject: Re: [PATCH v9 00/24] ILP32 for ARM64
+Message-ID: <20190508225900.GA14091@yury-thinkpad>
+References: <20180516081910.10067-1-ynorov@caviumnetworks.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190507111347.4ivnjwbymsf7i3e6@e110439-lin>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20180516081910.10067-1-ynorov@caviumnetworks.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, May 07, 2019 at 12:13:47PM +0100, Patrick Bellasi wrote:
-> On 17-Apr 15:26, Suren Baghdasaryan wrote:
-> > On Tue, Apr 2, 2019 at 3:42 AM Patrick Bellasi <patrick.bellasi@arm.com> wrote:
+Hi all,
 
-> > > @@ -1056,6 +1100,13 @@ static void __init init_uclamp(void)
-> > >  #else /* CONFIG_UCLAMP_TASK */
-> > >  static inline void uclamp_rq_inc(struct rq *rq, struct task_struct *p) { }
-> > >  static inline void uclamp_rq_dec(struct rq *rq, struct task_struct *p) { }
-> > > +static inline int uclamp_validate(struct task_struct *p,
-> > > +                                 const struct sched_attr *attr)
-> > > +{
-> > > +       return -ENODEV;
-> > 
-> > ENOSYS might be more appropriate?
+On Wed, May 16, 2018 at 11:18:45AM +0300, Yury Norov wrote:
+> This series enables AARCH64 with ILP32 mode.
 > 
-> Yep, agree, thanks!
+> As supporting work, it introduces ARCH_32BIT_OFF_T configuration
+> option that is enabled for existing 32-bit architectures but disabled
+> for new arches (so 64-bit off_t userspace type is used by new userspace).
+> Also it deprecates getrlimit and setrlimit syscalls prior to prlimit64.
+> 
+> Based on kernel v4.16. Tested with LTP, glibc testsuite, trinity, lmbench,
+> CPUSpec.
+> 
+> This series on github: 
+> https://github.com/norov/linux/tree/ilp32-4.16
+> Linaro toolchain:
+> http://snapshots.linaro.org/components/toolchain/binaries/7.3-2018.04-rc1/aarch64-linux-gnu_ilp32/
+> Debian repo:
+> http://people.linaro.org/~wookey/ilp32/
+> OpenSUSE repo:
+> https://build.opensuse.org/project/show/devel:ARM:Factory:Contrib:ILP32
 
-No, -ENOSYS (see the comment) is special in that it indicates the whole
-system call is unavailable; that is most certainly not the case!
+This is the 5.1-based version.
+Changes comparing to 5.0:
+ - drop arch patches that has been taken upstream:
+   80d7da1cac62 asm-generic: Drop getrlimit and setrlimit syscalls from default list
+   942fa985e9f1 32-bit userspace ABI: introduce ARCH_32BIT_OFF_T config option
+   0d0216c03a7a compat ABI: use non-compat openat and open_by_handle_at variants
+ - in include/linux/thread_bits.h define current_thread_info() prior to
+   inclusion of asm/thread_info.h, to avoid circullar dependencies (thread: move
+   thread bits accessors to separated file);
+ - enable old IPC interfaces for ilp32, according to mainline changes
+   (arm64: ilp32: introduce syscall table for ILP32).
+
+Thanks,
+Yury
