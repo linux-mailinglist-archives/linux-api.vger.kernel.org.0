@@ -2,205 +2,168 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 30E7C188F9
-	for <lists+linux-api@lfdr.de>; Thu,  9 May 2019 13:29:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98F7318947
+	for <lists+linux-api@lfdr.de>; Thu,  9 May 2019 13:53:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726487AbfEIL3K (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 9 May 2019 07:29:10 -0400
-Received: from lhrrgout.huawei.com ([185.176.76.210]:32930 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725869AbfEIL3K (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 9 May 2019 07:29:10 -0400
-Received: from lhreml703-cah.china.huawei.com (unknown [172.18.7.108])
-        by Forcepoint Email with ESMTP id 9D6FBDF03E2FB9130A0C;
-        Thu,  9 May 2019 12:29:08 +0100 (IST)
-Received: from roberto-HP-EliteDesk-800-G2-DM-65W.huawei.com (10.204.65.154)
- by smtpsuk.huawei.com (10.201.108.44) with Microsoft SMTP Server (TLS) id
- 14.3.408.0; Thu, 9 May 2019 12:29:02 +0100
-From:   Roberto Sassu <roberto.sassu@huawei.com>
-To:     <viro@zeniv.linux.org.uk>
-CC:     <linux-security-module@vger.kernel.org>,
-        <linux-integrity@vger.kernel.org>, <initramfs@vger.kernel.org>,
-        <linux-api@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <zohar@linux.vnet.ibm.com>,
-        <silviu.vlasceanu@huawei.com>, <dmitry.kasatkin@huawei.com>,
-        <takondra@cisco.com>, <kamensky@cisco.com>, <hpa@zytor.com>,
-        <arnd@arndb.de>, <rob@landley.net>, <james.w.mcmechan@gmail.com>,
-        Roberto Sassu <roberto.sassu@huawei.com>
-Subject: [PATCH v2 3/3] initramfs: introduce do_readxattrs()
-Date:   Thu, 9 May 2019 13:24:20 +0200
-Message-ID: <20190509112420.15671-4-roberto.sassu@huawei.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190509112420.15671-1-roberto.sassu@huawei.com>
-References: <20190509112420.15671-1-roberto.sassu@huawei.com>
+        id S1726469AbfEILx2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 9 May 2019 07:53:28 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:57688 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725961AbfEILx2 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 9 May 2019 07:53:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=WEmDk6UA0mKEAIOMzekDc5S1hEk04SivBh1zhxTc3zI=; b=Wm1dH3s9bdRNqyyTki9T0RnUc
+        8jrBIACYi/tZ6usBaEfAoRS/f0oz0FV3xupnk8a/Dsz459j7txFBPigZuHGdZfPh5dr8Cg6ekYhoq
+        lVhbZgWKqv8kIAgaO2M+5gS5OGNKobAbQ3HI2tw1w8inhvG3sfESnF9DQgw8qajnAlHak+/hL+pqs
+        puC3Q/+utjJWUAXlY3WNSI5JnszSlEoqG9a1qV7qBdLe0memcpibzZ5Tgv1B4umRNh/QJvhYjvfyx
+        UtWcaR0YGZXPr9D2DhmsRP2Z/mIA4LaJMlrnL0V+4t/jVFXn173CtbwJO085Viy9T1+ooZMRSR+64
+        mHXlmnZCA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hOhbs-0002ix-D0; Thu, 09 May 2019 11:53:12 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 6619A2029F87E; Thu,  9 May 2019 13:53:07 +0200 (CEST)
+Date:   Thu, 9 May 2019 13:53:07 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Patrick Bellasi <patrick.bellasi@arm.com>
+Cc:     linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-api@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
+        Tejun Heo <tj@kernel.org>,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Paul Turner <pjt@google.com>,
+        Quentin Perret <quentin.perret@arm.com>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Morten Rasmussen <morten.rasmussen@arm.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Todd Kjos <tkjos@google.com>,
+        Joel Fernandes <joelaf@google.com>,
+        Steve Muckle <smuckle@google.com>,
+        Suren Baghdasaryan <surenb@google.com>
+Subject: Re: [PATCH v8 04/16] sched/core: uclamp: Add system default clamps
+Message-ID: <20190509115307.GS2623@hirez.programming.kicks-ass.net>
+References: <20190402104153.25404-1-patrick.bellasi@arm.com>
+ <20190402104153.25404-5-patrick.bellasi@arm.com>
+ <20190508190733.GC32547@worktop.programming.kicks-ass.net>
+ <20190508191529.GA26813@worktop.programming.kicks-ass.net>
+ <20190509091057.ckef2ley4eswyzds@e110439-lin>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.204.65.154]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190509091057.ckef2ley4eswyzds@e110439-lin>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This patch adds support for an alternative method to add xattrs to files in
-the rootfs filesystem. Instead of extracting them directly from the ram
-disk image, they are extracted from a regular file called .xattr-list, that
-can be added by any ram disk generator available today.
+On Thu, May 09, 2019 at 10:10:57AM +0100, Patrick Bellasi wrote:
+> On 08-May 21:15, Peter Zijlstra wrote:
+> > On Wed, May 08, 2019 at 09:07:33PM +0200, Peter Zijlstra wrote:
+> > > On Tue, Apr 02, 2019 at 11:41:40AM +0100, Patrick Bellasi wrote:
+> > > > +static inline struct uclamp_se
+> > > > +uclamp_eff_get(struct task_struct *p, unsigned int clamp_id)
+> > > > +{
+> > > > +	struct uclamp_se uc_req = p->uclamp_req[clamp_id];
+> > > > +	struct uclamp_se uc_max = uclamp_default[clamp_id];
+> > > > +
+> > > > +	/* System default restrictions always apply */
+> > > > +	if (unlikely(uc_req.value > uc_max.value))
+> > > > +		return uc_max;
+> > > > +
+> > > > +	return uc_req;
+> > > > +}
+> > > > +
+> > > > +static inline unsigned int
+> > > > +uclamp_eff_bucket_id(struct task_struct *p, unsigned int clamp_id)
+> > > > +{
+> > > > +	struct uclamp_se uc_eff;
+> > > > +
+> > > > +	/* Task currently refcounted: use back-annotated (effective) bucket */
+> > > > +	if (p->uclamp[clamp_id].active)
+> > > > +		return p->uclamp[clamp_id].bucket_id;
+> > > > +
+> > > > +	uc_eff = uclamp_eff_get(p, clamp_id);
+> > > > +
+> > > > +	return uc_eff.bucket_id;
+> > > > +}
+> > > > +
+> > > > +unsigned int uclamp_eff_value(struct task_struct *p, unsigned int clamp_id)
+> > > > +{
+> > > > +	struct uclamp_se uc_eff;
+> > > > +
+> > > > +	/* Task currently refcounted: use back-annotated (effective) value */
+> > > > +	if (p->uclamp[clamp_id].active)
+> > > > +		return p->uclamp[clamp_id].value;
+> > > > +
+> > > > +	uc_eff = uclamp_eff_get(p, clamp_id);
+> > > > +
+> > > > +	return uc_eff.value;
+> > > > +}
+> > > 
+> > > This is 'wrong' because:
+> > > 
+> > >   uclamp_eff_value(p,id) := uclamp_eff(p,id).value
+> > 
+> > Clearly I means to say the above does not hold with the given
+> > implementation, while the naming would suggest it does.
+> 
+> Not sure to completely get your point...
 
-.xattr-list can be generated by executing:
+the point is that uclamp_eff_get() doesn't do the back annotate thing
+and therefore returns something entirely different from
+uclamp_eff_{bucket_id,value}(), where the naming would suggest it in
+fact returns the same thing.
 
-$ getfattr --absolute-names -d -P -R -e hex -m - \
-      <file list> | xattr.awk -b > ${initdir}/.xattr-list
+> > > Which seems to suggest the uclamp_eff_*() functions want another name.
+> 
+> That function returns the effective value of a task, which is either:
+>  1. the back annotated value for a RUNNABLE task
+> or
+>  2. the aggregation of task-specific, system-default and cgroup values
+>     for a non RUNNABLE task.
 
-where the content of the xattr.awk script is:
+Right, but uclamp_eff_get() doesn't do 1, while the other two do do it.
+And that is confusing.
 
-#! /usr/bin/awk -f
+> > > Also, suppose the above would be true; does GCC really generate better
+> > > code for the LHS compared to the RHS?
+> 
+> It generate "sane" code which implements the above logic and allows
+> to know that whenever we call uclamp_eff_value(p,id) we get the most
+> updated effective value for a task, independently from its {!}RUNNABLE
+> state.
+> 
+> I would keep the function but, since Suren also complained also about
+> the name... perhaps I should come up with a better name? Proposals?
+
+Right, so they should move to the patch where they're needed, but I was
+wondering why you'd not written something like:
+
+static inline
+struct uclamp_se uclamp_active(struct task_struct *p, unsigned int clamp_id)
 {
-  if (!length($0)) {
-    printf("%.10x%s\0", len, file);
-    for (x in xattr) {
-      printf("%.8x%s\0", xattr_len[x], x);
-      for (i = 0; i < length(xattr[x]) / 2; i++) {
-        printf("%c", strtonum("0x"substr(xattr[x], i * 2 + 1, 2)));
-      }
-    }
-    i = 0;
-    delete xattr;
-    delete xattr_len;
-    next;
-  };
-  if (i == 0) {
-    file=$3;
-    len=length(file) + 8 + 1;
-  }
-  if (i > 0) {
-    split($0, a, "=");
-    xattr[a[1]]=substr(a[2], 3);
-    xattr_len[a[1]]=length(a[1]) + 1 + 8 + length(xattr[a[1]]) / 2;
-    len+=xattr_len[a[1]];
-  };
-  i++;
+	if (p->uclamp[clamp_id].active)
+		return p->uclamp[clamp_id];
+
+	return uclamp_eff(p, clamp_id);
 }
 
-Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
----
- init/initramfs.c | 89 ++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 89 insertions(+)
+And then used:
 
-diff --git a/init/initramfs.c b/init/initramfs.c
-index 98c2aa4b5ab4..91f35a84c592 100644
---- a/init/initramfs.c
-+++ b/init/initramfs.c
-@@ -11,6 +11,9 @@
- #include <linux/utime.h>
- #include <linux/file.h>
- 
-+#define XATTR_LIST_FILENAME ".xattr-list"
-+
-+
- static ssize_t __init xwrite(int fd, const char *p, size_t count)
- {
- 	ssize_t out = 0;
-@@ -451,6 +454,91 @@ static int __init do_setxattrs(void)
- 	return 0;
- }
- 
-+struct path_hdr {
-+	char p_size[10]; /* total size including p_size field */
-+	char p_data[];  /* <path>\0<xattrs> */
-+};
-+
-+static int __init do_readxattrs(void)
-+{
-+	struct path_hdr hdr;
-+	char str[sizeof(hdr.p_size) + 1];
-+	unsigned long file_entry_size;
-+	size_t size, name_buf_size, total_size;
-+	struct kstat st;
-+	int ret, fd;
-+
-+	ret = vfs_lstat(XATTR_LIST_FILENAME, &st);
-+	if (ret < 0)
-+		return ret;
-+
-+	total_size = st.size;
-+
-+	fd = ksys_open(XATTR_LIST_FILENAME, O_RDONLY, 0);
-+	if (fd < 0)
-+		return fd;
-+
-+	while (total_size) {
-+		size = ksys_read(fd, (char *)&hdr, sizeof(hdr));
-+		if (size != sizeof(hdr)) {
-+			ret = -EIO;
-+			goto out;
-+		}
-+
-+		total_size -= size;
-+
-+		memcpy(str, hdr.p_size, sizeof(hdr.p_size));
-+		ret = kstrtoul(str, 16, &file_entry_size);
-+		if (ret < 0)
-+			goto out;
-+
-+		file_entry_size -= sizeof(sizeof(hdr.p_size));
-+		if (file_entry_size > total_size) {
-+			ret = -EINVAL;
-+			goto out;
-+		}
-+
-+		name_buf = vmalloc(file_entry_size);
-+		if (!name_buf) {
-+			ret = -ENOMEM;
-+			goto out;
-+		}
-+
-+		size = ksys_read(fd, name_buf, file_entry_size);
-+		if (size != file_entry_size) {
-+			ret = -EIO;
-+			goto out_free;
-+		}
-+
-+		total_size -= size;
-+
-+		name_buf_size = strnlen(name_buf, file_entry_size);
-+		if (name_buf_size == file_entry_size) {
-+			ret = -EINVAL;
-+			goto out_free;
-+		}
-+
-+		xattr_buf = name_buf + name_buf_size + 1;
-+		xattr_len = file_entry_size - name_buf_size - 1;
-+
-+		ret = do_setxattrs();
-+		vfree(name_buf);
-+		name_buf = NULL;
-+
-+		if (ret < 0)
-+			break;
-+	}
-+out_free:
-+	vfree(name_buf);
-+out:
-+	ksys_close(fd);
-+
-+	if (ret < 0)
-+		error("Unable to parse xattrs");
-+
-+	return ret;
-+}
-+
- static __initdata int (*actions[])(void) = {
- 	[Start]		= do_start,
- 	[Collect]	= do_collect,
-@@ -554,6 +642,7 @@ static char * __init unpack_to_rootfs(char *buf, unsigned long len)
- 		buf += my_inptr;
- 		len -= my_inptr;
- 	}
-+	do_readxattrs();
- 	dir_utime();
- 	kfree(name_buf);
- 	kfree(symlink_buf);
--- 
-2.17.1
+	uclamp_active(p, id).{value,bucket_id}
 
+- OR -
+
+have uclamp_eff() include the active thing, afaict the callsite in
+uclamp_rq_inc_id() guarantees !active.
+
+In any case, I'm thinking the foo().member notation saves us from having
+to have two almost identical functions and the 'inline' part should get
+GCC to generate sane code.
