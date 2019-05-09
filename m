@@ -2,68 +2,75 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A5571903F
-	for <lists+linux-api@lfdr.de>; Thu,  9 May 2019 20:33:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 907D51922E
+	for <lists+linux-api@lfdr.de>; Thu,  9 May 2019 21:05:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726701AbfEISdu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 9 May 2019 14:33:50 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:37366 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726661AbfEISdu (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 9 May 2019 14:33:50 -0400
-Received: by mail-ot1-f67.google.com with SMTP id r10so2509574otd.4
-        for <linux-api@vger.kernel.org>; Thu, 09 May 2019 11:33:50 -0700 (PDT)
+        id S1726842AbfEITE7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 9 May 2019 15:04:59 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:46941 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726715AbfEITE7 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 9 May 2019 15:04:59 -0400
+Received: by mail-wr1-f68.google.com with SMTP id r7so3852737wrr.13;
+        Thu, 09 May 2019 12:04:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=landley-net.20150623.gappssmtp.com; s=20150623;
+        d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=6LDuh9KBtjyZgSBqOPlt4ghOhYRTyR7+OimbX5fXjTc=;
-        b=m7MZm5jn+yUTyqYeKP+3U2AfIk2e/Jl7gRlj1d0vNElu89qzzwPGU4WFh2pRN3iGK8
-         6NkXYiIaZxmWqTWtDTsXMCjBrxg3Wi+ON8VLjl28KeXWmZ1yCAk7U2iA9U5wOLGpVrf6
-         4C4jvycCm53aEaILky7UnN3UKRuEHLH4DYCjk6kbWNpnMsPw3O4PTkZ34RDNe5jWnbck
-         UmNUnENCXk7ZL3MZ1rYS34gPy7dbedYHUod/vucgxDHzv2UGKYZZ9m/Ped5rsgK+BFk/
-         Fy+UM5SnDsH5pIswj8zYSyHMqUWESF+i8+t6ovRwRYGQ/c3kpcWuWIDJlTrTTBHJz/6S
-         zOfA==
+        bh=KNkXkUX+WxA26kQpUG6N8wLW+pdYHuf5EvTZnefgm+Y=;
+        b=tAhmBPN5m0jbDt3q3P5gw8WD4xxEv9xNvZ4x84L7cPdXNcV86wQ0yySuzLidI9/NO7
+         0tWBZiq8czBtbHCP70SlzjhTSloBa0R1cAhPO6NBmNKuHX6aJQvO0RPeP+z5CDxaWZbG
+         DWJkQ96g1JoUWnlAwYa0e1nst8Dq1Lgra+zczKUBV8Pm/LH8IE5fcc8fdDAS5XoX1DkP
+         w6OnNKbi1H7FLixj8NekRWUPW9mu+z5o8Tokc4Smf/Uhnf2IfwWojI57s4ewhl3O0sPC
+         OR9RSuJXpmKpBNvQLpVT/B8UDODPkztbwc0FL7mes50XKtdsuxDVW6Ezfw9mxSVwN+ey
+         Hhnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=6LDuh9KBtjyZgSBqOPlt4ghOhYRTyR7+OimbX5fXjTc=;
-        b=eWTu+2tWJS0BePB9HVaC+vS9XaLCBlnGFRJyFEQwVgdlyV74rZ8oCFLsITJnKvnkZf
-         c1WWEkWv7QaTY9iwT1AU5sP2sEAaXzV4oiHVQ8riFEugAlxwhVHY7s7AO8fYRDSe6yb/
-         OowwipdMYdTtWS22X5OUjSh1VWK0e4XW5xbp8CcWglpWt/eKkeFjl7A4YTJUDHCmWG4d
-         dGF1l8QdyMTzLSELjcP7dwso7+RX6i7ruQPOPI2cPujGMfT2J1y04TSV+4cyEBKnY62v
-         in/qGBOAOy2BcaJLrFrbWT5E621MfcCA9rIkKlXWIFpsTdWwwawwnFcCBgcRZLOWeeUt
-         3w6w==
-X-Gm-Message-State: APjAAAVWvzzuudV+kyAcE0n/tzJnEV+mm2vYH/zTczq0/j7rsrNSXKD+
-        1swo7cAzaLapq28xQAT5V2YfBw==
-X-Google-Smtp-Source: APXvYqyC+t5IsIZRkPqBYoKSelJuMnV/D1ZbE+b+3mQahrODmHmWzUUCjlIwBfKd2Oj/f6iFjJVnEg==
-X-Received: by 2002:a9d:7c88:: with SMTP id q8mr151513otn.167.1557426829720;
-        Thu, 09 May 2019 11:33:49 -0700 (PDT)
-Received: from [192.168.1.5] (072-182-052-210.res.spectrum.com. [72.182.52.210])
-        by smtp.googlemail.com with ESMTPSA id j1sm1034165otl.43.2019.05.09.11.33.45
+        bh=KNkXkUX+WxA26kQpUG6N8wLW+pdYHuf5EvTZnefgm+Y=;
+        b=Lv1qKc2/YOA0q8o7+stfrlLsowsoVGsaE81D9QQSzDVqNIdaq70MBi8H3FrqH2qsu5
+         jSZooFnTTE6JRPuwQYMj2qaWwT3n4HchhMdCFS+KC4ZS2X8eJ+28BlAEdSZpgG2GGzrN
+         ReXOz5GqMqvnfeaMuMfcq9o3ind40eK2k+slurKBOrPiEcodkcF7xXZMHyff3DigpeuK
+         Su0o6A/MA0DluD+uSfXsCLaLRswwe3s1rdPYXZ6mf1IvHNtkf6+PG+MEFb3jn60P8c9B
+         mhtdm3+NvnX5RPE1QrC4fE9w4u/FJ65f4peuFlVX4dOXpcfLt9i8BUWlJY8ei+VLrEVl
+         5stw==
+X-Gm-Message-State: APjAAAWQEnfXyA6uk/4PMUFhU5f0OSgCG9Z7P3T8+LsRbbVT1EeisIaJ
+        QB4JK1emxD251ginPZW+06POPSTCUnw=
+X-Google-Smtp-Source: APXvYqxBetp7L4QZnDlkzIz1Wa5SXvMCrIMj4u5PDYkGpZpqCqxnTRfjPW5SQFkHX+EDucjSHVfhXQ==
+X-Received: by 2002:a5d:4a4f:: with SMTP id v15mr4239485wrs.5.1557428696932;
+        Thu, 09 May 2019 12:04:56 -0700 (PDT)
+Received: from [192.168.20.141] ([194.99.104.18])
+        by smtp.gmail.com with ESMTPSA id d4sm8661231wrf.7.2019.05.09.12.04.54
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 09 May 2019 11:33:49 -0700 (PDT)
-Subject: Re: [PATCH v2 0/3] initramfs: add support for xattrs in the initial
- ram disk
-To:     Roberto Sassu <roberto.sassu@huawei.com>, viro@zeniv.linux.org.uk
-Cc:     linux-security-module@vger.kernel.org,
-        linux-integrity@vger.kernel.org, initramfs@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, zohar@linux.vnet.ibm.com,
-        silviu.vlasceanu@huawei.com, dmitry.kasatkin@huawei.com,
-        takondra@cisco.com, kamensky@cisco.com, hpa@zytor.com,
-        arnd@arndb.de, james.w.mcmechan@gmail.com
-References: <20190509112420.15671-1-roberto.sassu@huawei.com>
-From:   Rob Landley <rob@landley.net>
-Message-ID: <fca8e601-1144-1bb8-c007-518651f624a5@landley.net>
-Date:   Thu, 9 May 2019 13:34:13 -0500
+        Thu, 09 May 2019 12:04:56 -0700 (PDT)
+Subject: Re: [PATCH v3 09/11] platform/x86: asus-wmi: Control RGB keyboard
+ backlight
+To:     Pavel Machek <pavel@ucw.cz>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        Corentin Chary <corentin.chary@gmail.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Daniel Drake <drake@endlessm.com>,
+        acpi4asus-user <acpi4asus-user@lists.sourceforge.net>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-api@vger.kernel.org
+References: <7acd57fe-604a-a96a-4ca2-a25bc88d6405@gmail.com>
+ <c953b43b-6186-77e9-54b1-b1cd1d7d1eb6@gmail.com>
+ <CAHp75Vf9uPG7_K0P26nHYCH0WB6LFX3wk8aJBpLWQ-r46kDw9w@mail.gmail.com>
+ <20190508171229.GA22024@amd>
+From:   Yurii Pavlovskyi <yurii.pavlovskyi@gmail.com>
+Message-ID: <52e73640-9fbf-437b-537a-7b3dc167052f@gmail.com>
+Date:   Thu, 9 May 2019 21:04:53 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190509112420.15671-1-roberto.sassu@huawei.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20190508171229.GA22024@amd>
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
@@ -71,25 +78,64 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 5/9/19 6:24 AM, Roberto Sassu wrote:
-> This patch set aims at solving the following use case: appraise files from
-> the initial ram disk. To do that, IMA checks the signature/hash from the
-> security.ima xattr. Unfortunately, this use case cannot be implemented
-> currently, as the CPIO format does not support xattrs.
+First of all, thanks to Andy for all the review comments!
+
+I will implement all the ones that I didn't directly answer on as well and
+update this series shortly.
+
+Regarding this patch,
+
+On 08.05.19 19:12, Pavel Machek wrote:
+>> Shouldn't be the LED subsystem driver for this?
 > 
-> This proposal consists in marshaling pathnames and xattrs in a file called
-> .xattr-list. They are unmarshaled by the CPIO parser after all files have
-> been extracted.
+> Yes, please. We have common interface for LED drivers; this needs to
+> use it.
 
-So it's in-band signalling that has a higher peak memory requirement.
+That is indeed a better option and I did in fact considered this first and
+even did a test implementation. The discoveries were:
+1. The WMI methods are write-only and only written all at once in a
+transaction manner (also invoking solely first RGB-interface method has no
+effect until some other keyboard backlight method is called).
+2. In addition to RGB there are several control values, which switch
+effects, speed and enable or disable the backlight under specific
+conditions or switch whether it is set temporarily or permanently (not that
+these are critical functionalities, but for the sake of completeness).
+3. The EC is really slow
+# time bash -c "echo 1 > /sys/devices/platform/faustus/kbbl_set"
 
-> The difference with another proposal
-> (https://lore.kernel.org/patchwork/cover/888071/) is that xattrs can be
-> included in an image without changing the image format, as opposed to
-> defining a new one. As seen from the discussion, if a new format has to be
-> defined, it should fix the issues of the existing format, which requires
-> more time.
+real	0m0,691s
+user	0m0,000s
+sys	0m0,691s
 
-So you've explicitly chosen _not_ to address Y2038 while you're there.
+(please ignore the sysfs-path there, it's essentially the same code running
+as in this patch). It is consistently same for both temporary and permanent
+configuration. Writing after every change would take about (6+)x of that.
+Not that it's that unbearable though as it is not likely to be done often.
 
-Rob
+I was not quite happy with that implementation so I opted for writing sort
+of sysfs wrapper instead that would allow same sort of transactions as
+provided by BIOS. I agree that it's non-standard solution.
+
+If I understood correctly, the typical current RGB led_class devices from
+the Linux tree currently provide channels as separate LEDs. There are also
+blink / pattern options present, I guess one could misuse them for setting
+effects and speed. So one could make 3 devices for RGB + 3 for awake,
+sleep, boot modes + 1 for setting effect / speed.
+
+I'd guess the end solution might be also either something like combination
+of both approaches (RGB leds + separate sysfs interface) or some extension
+of the led_class device interface. Dropping support of the non-essential
+features for the sake of uniformity of ABI would also be an option to
+consider (exposing just three RGB LEDs with brightness only), not happy one
+though.
+
+In any case this looks like it might need some additional research,
+discussion, development, and a pair of iterations so I tend to separate
+this patch from the series and post it extra after the others are through
+to avoid dragging 10+ patches around.
+
+Any suggestions on how to do this properly would be appreciated. That's the
+best I could come up with at the moment.
+
+Thanks,
+Yurii
