@@ -2,35 +2,24 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E19218A35
-	for <lists+linux-api@lfdr.de>; Thu,  9 May 2019 15:02:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F419918A41
+	for <lists+linux-api@lfdr.de>; Thu,  9 May 2019 15:04:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726558AbfEINCZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 9 May 2019 09:02:25 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:57618 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726054AbfEINCZ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 9 May 2019 09:02:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=Zs0QwpA986xBV8SHwzSyfAtMa6UMTB6GSBeVfJrlmPg=; b=oKXDYugMnMb7TATIUk352eY8M
-        kC6Q/0/Jfs4X6iuyC4CytddI06oUr//opY/9OmboGGQ/FEay0t6+gZSljBPYHUygpF79SIRuIUfi0
-        fl2WudmUn0sK/3wI5H3kfPg9cVNSvnPeec+KeswOh9cMMiUq1aC1kfBp5nI3gd+FT8gz67iXXT4ZR
-        GPGvL+GDSHLzMDNKN35dsw3jI3j41na34Gu0Y0+z76vGXKOW/TOmP4lSWLBz8OUjyaonmVzNLiVtr
-        PngCxAwPnRi1oILq5cJ10hM3MRkkgNxnDiqGsKdq6g44YQ4PI4VDy03xXxwL6bspqaY9cnDEjTva6
-        87iTWVlzQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hOigj-0006DQ-JA; Thu, 09 May 2019 13:02:17 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 5ECA32006F48C; Thu,  9 May 2019 15:02:15 +0200 (CEST)
-Date:   Thu, 9 May 2019 15:02:15 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Patrick Bellasi <patrick.bellasi@arm.com>
+        id S1726054AbfEINEv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 9 May 2019 09:04:51 -0400
+Received: from foss.arm.com ([217.140.101.70]:40882 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726600AbfEINEv (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 9 May 2019 09:04:51 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6261B374;
+        Thu,  9 May 2019 06:04:50 -0700 (PDT)
+Received: from e110439-lin (e110439-lin.cambridge.arm.com [10.1.194.43])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6D1673F7BD;
+        Thu,  9 May 2019 06:04:47 -0700 (PDT)
+Date:   Thu, 9 May 2019 14:04:44 +0100
+From:   Patrick Bellasi <patrick.bellasi@arm.com>
+To:     Peter Zijlstra <peterz@infradead.org>
 Cc:     linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
         linux-api@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
         Tejun Heo <tj@kernel.org>,
@@ -46,34 +35,144 @@ Cc:     linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
         Joel Fernandes <joelaf@google.com>,
         Steve Muckle <smuckle@google.com>,
         Suren Baghdasaryan <surenb@google.com>
-Subject: Re: [PATCH v8 00/16] Add utilization clamping support
-Message-ID: <20190509130215.GV2623@hirez.programming.kicks-ass.net>
+Subject: Re: [PATCH v8 04/16] sched/core: uclamp: Add system default clamps
+Message-ID: <20190509130444.4yawtbpjx2y7pp7g@e110439-lin>
 References: <20190402104153.25404-1-patrick.bellasi@arm.com>
+ <20190402104153.25404-5-patrick.bellasi@arm.com>
+ <20190508190733.GC32547@worktop.programming.kicks-ass.net>
+ <20190508191529.GA26813@worktop.programming.kicks-ass.net>
+ <20190509091057.ckef2ley4eswyzds@e110439-lin>
+ <20190509115307.GS2623@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190402104153.25404-1-patrick.bellasi@arm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190509115307.GS2623@hirez.programming.kicks-ass.net>
+User-Agent: NeoMutt/20180716
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Apr 02, 2019 at 11:41:36AM +0100, Patrick Bellasi wrote:
-> Series Organization
-> ===================
+On 09-May 13:53, Peter Zijlstra wrote:
+> On Thu, May 09, 2019 at 10:10:57AM +0100, Patrick Bellasi wrote:
+> > On 08-May 21:15, Peter Zijlstra wrote:
+> > > On Wed, May 08, 2019 at 09:07:33PM +0200, Peter Zijlstra wrote:
+> > > > On Tue, Apr 02, 2019 at 11:41:40AM +0100, Patrick Bellasi wrote:
+> > > > > +static inline struct uclamp_se
+> > > > > +uclamp_eff_get(struct task_struct *p, unsigned int clamp_id)
+> > > > > +{
+> > > > > +	struct uclamp_se uc_req = p->uclamp_req[clamp_id];
+> > > > > +	struct uclamp_se uc_max = uclamp_default[clamp_id];
+> > > > > +
+> > > > > +	/* System default restrictions always apply */
+> > > > > +	if (unlikely(uc_req.value > uc_max.value))
+> > > > > +		return uc_max;
+> > > > > +
+> > > > > +	return uc_req;
+> > > > > +}
+> > > > > +
+> > > > > +static inline unsigned int
+> > > > > +uclamp_eff_bucket_id(struct task_struct *p, unsigned int clamp_id)
+> > > > > +{
+> > > > > +	struct uclamp_se uc_eff;
+> > > > > +
+> > > > > +	/* Task currently refcounted: use back-annotated (effective) bucket */
+> > > > > +	if (p->uclamp[clamp_id].active)
+> > > > > +		return p->uclamp[clamp_id].bucket_id;
+> > > > > +
+> > > > > +	uc_eff = uclamp_eff_get(p, clamp_id);
+> > > > > +
+> > > > > +	return uc_eff.bucket_id;
+> > > > > +}
+> > > > > +
+> > > > > +unsigned int uclamp_eff_value(struct task_struct *p, unsigned int clamp_id)
+> > > > > +{
+> > > > > +	struct uclamp_se uc_eff;
+> > > > > +
+> > > > > +	/* Task currently refcounted: use back-annotated (effective) value */
+> > > > > +	if (p->uclamp[clamp_id].active)
+> > > > > +		return p->uclamp[clamp_id].value;
+> > > > > +
+> > > > > +	uc_eff = uclamp_eff_get(p, clamp_id);
+> > > > > +
+> > > > > +	return uc_eff.value;
+> > > > > +}
+> > > > 
+> > > > This is 'wrong' because:
+> > > > 
+> > > >   uclamp_eff_value(p,id) := uclamp_eff(p,id).value
+> > > 
+> > > Clearly I means to say the above does not hold with the given
+> > > implementation, while the naming would suggest it does.
+> > 
+> > Not sure to completely get your point...
 > 
-> The series is organized into these main sections:
+> the point is that uclamp_eff_get() doesn't do the back annotate thing
+> and therefore returns something entirely different from
+> uclamp_eff_{bucket_id,value}(), where the naming would suggest it in
+> fact returns the same thing.
 > 
->  - Patches [01-07]: Per task (primary) API
->  - Patches [08-09]: Schedutil integration for FAIR and RT tasks
->  - Patches [10-11]: Integration with EAS's energy_compute()
+> > > > Which seems to suggest the uclamp_eff_*() functions want another name.
+> > 
+> > That function returns the effective value of a task, which is either:
+> >  1. the back annotated value for a RUNNABLE task
+> > or
+> >  2. the aggregation of task-specific, system-default and cgroup values
+> >     for a non RUNNABLE task.
+> 
+> Right, but uclamp_eff_get() doesn't do 1, while the other two do do it.
+> And that is confusing.
 
-Aside from the comments already provided, I think this is starting to
-look really good.
+I see, right.
 
-Thanks!
+> > > > Also, suppose the above would be true; does GCC really generate better
+> > > > code for the LHS compared to the RHS?
+> > 
+> > It generate "sane" code which implements the above logic and allows
+> > to know that whenever we call uclamp_eff_value(p,id) we get the most
+> > updated effective value for a task, independently from its {!}RUNNABLE
+> > state.
+> > 
+> > I would keep the function but, since Suren also complained also about
+> > the name... perhaps I should come up with a better name? Proposals?
+> 
+> Right, so they should move to the patch where they're needed, but I was
 
->  - Patches [12-16]: Per task group (secondary) API
+Yes, I'll move _value() to 10/16:
 
-I still have to stare at these, but maybe a little later...
+   sched/core: uclamp: Add uclamp_util_with()
+
+where we actually need to access the clamp value and...
+
+> wondering why you'd not written something like:
+> 
+> static inline
+> struct uclamp_se uclamp_active(struct task_struct *p, unsigned int clamp_id)
+> {
+> 	if (p->uclamp[clamp_id].active)
+> 		return p->uclamp[clamp_id];
+> 
+> 	return uclamp_eff(p, clamp_id);
+> }
+> 
+> And then used:
+> 
+> 	uclamp_active(p, id).{value,bucket_id}
+> 
+> - OR -
+> 
+> have uclamp_eff() include the active thing, afaict the callsite in
+> uclamp_rq_inc_id() guarantees !active.
+> 
+> In any case, I'm thinking the foo().member notation saves us from having
+> to have two almost identical functions and the 'inline' part should get
+> GCC to generate sane code.
+
+... look into this approach, seems reasonable and actually better to read.
+
+Thanks
+
+-- 
+#include <best/regards.h>
+
+Patrick Bellasi
