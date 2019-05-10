@@ -2,109 +2,95 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A40631A410
-	for <lists+linux-api@lfdr.de>; Fri, 10 May 2019 22:46:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C45221A46D
+	for <lists+linux-api@lfdr.de>; Fri, 10 May 2019 23:20:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728027AbfEJUqD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 10 May 2019 16:46:03 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:43619 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728023AbfEJUqD (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 10 May 2019 16:46:03 -0400
-Received: by mail-oi1-f195.google.com with SMTP id t187so2170224oie.10
-        for <linux-api@vger.kernel.org>; Fri, 10 May 2019 13:46:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=landley-net.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=aj6INEqnnfoQNhyU5G7iw5JJmBhRXMSKlpuNHBS6Zik=;
-        b=RUS1u52QMGXhtmf6NRCHIrzXEoaN3rFUW9pkgWLoZZ/UVaEQXywiJB9ZHGrvG+E5ca
-         2GGYdp0mldCJnm1zE4Png/lpgHEWd0dki4rG2TWPVZNwPtjkH+onGmDNDap4ySjHRU5L
-         ijk4gDOGgTTThNQTw5ZrovFwcwUUSI/K/+IuGRIx5qmh597mFvjxEiphK3DcL8ooFbWQ
-         RBcyReeKi40Rtp24bcEnymoPElT6C/olCSYSrSYR6wHWipzRbOvrrPOMPa+oHTSeRWzd
-         dAD9v7yG8hRCFFwcxwj2TLXadD6bRo2gBoaS2yo7q6lALLa0PJwQdD5xqR5xHr8xJArg
-         tDzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=aj6INEqnnfoQNhyU5G7iw5JJmBhRXMSKlpuNHBS6Zik=;
-        b=lni16YRqZwLCyLDyZaCTm3Qobxv9rj1cXglocDZAGyc59vy4r6/fQsQ1QLJIxyRNK0
-         aZt0FmojfSN637TaIOap88NcU+quIOUTiDXjt6OirbV8MtWywAG0B4oatqsuwNAwOEtp
-         6Gzjp58gwxLRdAYJH16p7VMFBHYyUffMwH4dei6wXefV7WVrrnsRh/qqm8LEisG4D6KV
-         f9tnfx307zN1tgRy9FvQNv71sjC3xFQEtoTVZsh9CTUUwLOJZtX+/Wvs2JxpGuLclnbK
-         Qroq8QgsU/dcjoEbZUXnUheJshnyMiBJ9DKl/EWLRllH3BXtgsVztXC0qyPsCTVV2rUA
-         qe/A==
-X-Gm-Message-State: APjAAAV5zC0RtZz2jd83Dj1Kocimk6O4+ej0Y2NJy+Psik1x7GVEyWOi
-        O8HRCAICEyRUDK9cmP93TA5omw==
-X-Google-Smtp-Source: APXvYqyErglKg5iNl3+gNAkIG/E1H2w5zvgHUFe+9TQW6qpQh3DFRs8JwhYnl/pmUpL9cX/YWphefQ==
-X-Received: by 2002:a54:4e1d:: with SMTP id a29mr512160oiy.92.1557521162786;
-        Fri, 10 May 2019 13:46:02 -0700 (PDT)
-Received: from [192.168.1.5] (072-182-052-210.res.spectrum.com. [72.182.52.210])
-        by smtp.googlemail.com with ESMTPSA id r23sm1303599otg.49.2019.05.10.13.46.01
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 10 May 2019 13:46:02 -0700 (PDT)
-Subject: Re: [PATCH v2 0/3] initramfs: add support for xattrs in the initial
- ram disk
-To:     Mimi Zohar <zohar@linux.ibm.com>,
-        Roberto Sassu <roberto.sassu@huawei.com>,
-        viro@zeniv.linux.org.uk
-Cc:     linux-security-module@vger.kernel.org,
-        linux-integrity@vger.kernel.org, initramfs@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, zohar@linux.vnet.ibm.com,
-        silviu.vlasceanu@huawei.com, dmitry.kasatkin@huawei.com,
-        takondra@cisco.com, kamensky@cisco.com, hpa@zytor.com,
-        arnd@arndb.de, james.w.mcmechan@gmail.com
-References: <20190509112420.15671-1-roberto.sassu@huawei.com>
- <fca8e601-1144-1bb8-c007-518651f624a5@landley.net>
- <bf0d02fc-d6ce-ef1d-bb7d-7ca14432c6fd@huawei.com>
- <1557488971.10635.102.camel@linux.ibm.com>
-From:   Rob Landley <rob@landley.net>
-Message-ID: <3a9d717e-0e12-9d62-a3cf-afb7a5dbf166@landley.net>
-Date:   Fri, 10 May 2019 15:46:30 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1727897AbfEJVUj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 10 May 2019 17:20:39 -0400
+Received: from mail.kernel.org ([198.145.29.99]:32842 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727876AbfEJVUj (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 10 May 2019 17:20:39 -0400
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E187F21479
+        for <linux-api@vger.kernel.org>; Fri, 10 May 2019 21:20:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1557523238;
+        bh=eVSDLxFRJtNqvSdy6nzYE0dpoYEOh2L4bbdtCHYcgX4=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=0fS3cTmHczG1ssOc5teJdrM/TgWQ6nVTFhgCqAq8ASGKhIkMVg92wafAOLYiI3MWl
+         INOHmViBS9cNEKaDJzcRJl2lEH3LwAKUHnacjQ8LBm+I8aoDSG2JbRqJtx70KX/w7K
+         pTHZRqYnAaT5e2/zJ0Nn7aMXre7H8IOi3HsAkp+Y=
+Received: by mail-wm1-f54.google.com with SMTP id o189so8864500wmb.1
+        for <linux-api@vger.kernel.org>; Fri, 10 May 2019 14:20:37 -0700 (PDT)
+X-Gm-Message-State: APjAAAVR+CzljjF0tvvVsOHIx1rKf46L9r0kw1rDz2K497rEZumQv84Z
+        SRcsVC1xRGwdnQc8kvLLv9CguqlYI6ck/ktS2sixGA==
+X-Google-Smtp-Source: APXvYqxmLWOSJzfnM1hN1P+7VEpgHvDb4cHKF5KSb97t7Bb1E5U/runa9boZbrE+HP301qSI8wrEMedzUhCobT/8uJY=
+X-Received: by 2002:a7b:cb58:: with SMTP id v24mr8095092wmj.107.1557523234745;
+ Fri, 10 May 2019 14:20:34 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1557488971.10635.102.camel@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20190506165439.9155-1-cyphar@cyphar.com> <20190506165439.9155-6-cyphar@cyphar.com>
+ <CAG48ez0-CiODf6UBHWTaog97prx=VAd3HgHvEjdGNz344m1xKw@mail.gmail.com>
+ <20190506191735.nmzf7kwfh7b6e2tf@yavin> <20190510204141.GB253532@google.com>
+In-Reply-To: <20190510204141.GB253532@google.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Fri, 10 May 2019 14:20:23 -0700
+X-Gmail-Original-Message-ID: <CALCETrW2nn=omqJb4p+m-BDsCOhg+YZQ3ELd4BdhODV3G44gfA@mail.gmail.com>
+Message-ID: <CALCETrW2nn=omqJb4p+m-BDsCOhg+YZQ3ELd4BdhODV3G44gfA@mail.gmail.com>
+Subject: Re: [PATCH v6 5/6] binfmt_*: scope path resolution of interpreters
+To:     Jann Horn <jannh@google.com>
+Cc:     Aleksa Sarai <cyphar@cyphar.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J. Bruce Fields" <bfields@fieldses.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        David Howells <dhowells@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Christian Brauner <christian@brauner.io>,
+        Tycho Andersen <tycho@tycho.ws>,
+        David Drysdale <drysdale@google.com>,
+        Chanho Min <chanho.min@lge.com>,
+        Oleg Nesterov <oleg@redhat.com>, Aleksa Sarai <asarai@suse.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Containers <containers@lists.linux-foundation.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 5/10/19 6:49 AM, Mimi Zohar wrote:
-> On Fri, 2019-05-10 at 08:56 +0200, Roberto Sassu wrote:
->> On 5/9/2019 8:34 PM, Rob Landley wrote:
->>> On 5/9/19 6:24 AM, Roberto Sassu wrote:
-> 
->>>> The difference with another proposal
->>>> (https://lore.kernel.org/patchwork/cover/888071/) is that xattrs can be
->>>> included in an image without changing the image format, as opposed to
->>>> defining a new one. As seen from the discussion, if a new format has to be
->>>> defined, it should fix the issues of the existing format, which requires
->>>> more time.
->>>
->>> So you've explicitly chosen _not_ to address Y2038 while you're there.
->>
->> Can you be more specific?
-> 
-> Right, this patch set avoids incrementing the CPIO magic number and
-> the resulting changes required (eg. increasing the timestamp field
-> size), by including a file with the security xattrs in the CPIO.  In
-> either case, including the security xattrs in the initramfs header or
-> as a separate file, the initramfs, itself, needs to be signed.
+On Fri, May 10, 2019 at 1:41 PM Jann Horn <jannh@google.com> wrote:
+>
+> On Tue, May 07, 2019 at 05:17:35AM +1000, Aleksa Sarai wrote:
+> > On 2019-05-06, Jann Horn <jannh@google.com> wrote:
+> > > In my opinion, CVE-2019-5736 points out two different problems:
+> > >
+> > > The big problem: The __ptrace_may_access() logic has a special-case
+> > > short-circuit for "introspection" that you can't opt out of; this
+> > > makes it possible to open things in procfs that are related to the
+> > > current process even if the credentials of the process wouldn't permit
+> > > accessing another process like it. I think the proper fix to deal with
+> > > this would be to add a prctl() flag for "set whether introspection is
+> > > allowed for this process", and if userspace has manually un-set that
+> > > flag, any introspection special-case logic would be skipped.
+> >
+> > We could do PR_SET_DUMPABLE=3 for this, I guess?
+>
+> Hmm... I'd make it a new prctl() command, since introspection is
+> somewhat orthogonal to dumpability. Also, dumpability is per-mm, and I
+> think the introspection flag should be per-thread.
 
-The /init binary in the initramfs runs as root and launches all other processes
-on the system. Presumably it can write any xattrs it wants to, and doesn't need
-any extra permissions granted to it to do so. But as soon as you start putting
-xattrs on _other_ files within the initramfs that are _not_ necessarily running
-as PID 1, _that's_ when the need to sign the initramfs comes in?
-
-Presumably the signing occurs on the gzipped file. How does that affect the cpio
-parsing _after_ it's decompressed? Why would that be part of _this_ patch?
-
-Rob
+I've lost track of the context here, but it seems to me that
+mitigating attacks involving accidental following of /proc links
+shouldn't depend on dumpability.  What's the actual problem this is
+trying to solve again?
