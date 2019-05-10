@@ -2,87 +2,101 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FB2A198A5
-	for <lists+linux-api@lfdr.de>; Fri, 10 May 2019 08:56:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8A9A19CE7
+	for <lists+linux-api@lfdr.de>; Fri, 10 May 2019 13:49:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726981AbfEJG42 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 10 May 2019 02:56:28 -0400
-Received: from lhrrgout.huawei.com ([185.176.76.210]:32931 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726816AbfEJG42 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 10 May 2019 02:56:28 -0400
-Received: from LHREML711-CAH.china.huawei.com (unknown [172.18.7.108])
-        by Forcepoint Email with ESMTP id 80FC5F410DD9BCBB68F2;
-        Fri, 10 May 2019 07:56:26 +0100 (IST)
-Received: from [10.220.96.108] (10.220.96.108) by smtpsuk.huawei.com
- (10.201.108.34) with Microsoft SMTP Server (TLS) id 14.3.408.0; Fri, 10 May
- 2019 07:56:16 +0100
+        id S1727249AbfEJLtz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 10 May 2019 07:49:55 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:35304 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727079AbfEJLtz (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 10 May 2019 07:49:55 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x4ABmGQ0077566
+        for <linux-api@vger.kernel.org>; Fri, 10 May 2019 07:49:53 -0400
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2sd77hc1g1-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-api@vger.kernel.org>; Fri, 10 May 2019 07:49:53 -0400
+Received: from localhost
+        by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-api@vger.kernel.org> from <zohar@linux.ibm.com>;
+        Fri, 10 May 2019 12:49:51 +0100
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+        by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Fri, 10 May 2019 12:49:45 +0100
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
+        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x4ABnihp46530636
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 10 May 2019 11:49:44 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 7FD974C04A;
+        Fri, 10 May 2019 11:49:44 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 7DBE34C040;
+        Fri, 10 May 2019 11:49:42 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.80.95.242])
+        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Fri, 10 May 2019 11:49:42 +0000 (GMT)
 Subject: Re: [PATCH v2 0/3] initramfs: add support for xattrs in the initial
  ram disk
-To:     Rob Landley <rob@landley.net>, <viro@zeniv.linux.org.uk>
-CC:     <linux-security-module@vger.kernel.org>,
-        <linux-integrity@vger.kernel.org>, <initramfs@vger.kernel.org>,
-        <linux-api@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <zohar@linux.vnet.ibm.com>,
-        <silviu.vlasceanu@huawei.com>, <dmitry.kasatkin@huawei.com>,
-        <takondra@cisco.com>, <kamensky@cisco.com>, <hpa@zytor.com>,
-        <arnd@arndb.de>, <james.w.mcmechan@gmail.com>
+From:   Mimi Zohar <zohar@linux.ibm.com>
+To:     Roberto Sassu <roberto.sassu@huawei.com>,
+        Rob Landley <rob@landley.net>, viro@zeniv.linux.org.uk
+Cc:     linux-security-module@vger.kernel.org,
+        linux-integrity@vger.kernel.org, initramfs@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, zohar@linux.vnet.ibm.com,
+        silviu.vlasceanu@huawei.com, dmitry.kasatkin@huawei.com,
+        takondra@cisco.com, kamensky@cisco.com, hpa@zytor.com,
+        arnd@arndb.de, james.w.mcmechan@gmail.com
+Date:   Fri, 10 May 2019 07:49:31 -0400
+In-Reply-To: <bf0d02fc-d6ce-ef1d-bb7d-7ca14432c6fd@huawei.com>
 References: <20190509112420.15671-1-roberto.sassu@huawei.com>
- <fca8e601-1144-1bb8-c007-518651f624a5@landley.net>
-From:   Roberto Sassu <roberto.sassu@huawei.com>
-Message-ID: <bf0d02fc-d6ce-ef1d-bb7d-7ca14432c6fd@huawei.com>
-Date:   Fri, 10 May 2019 08:56:18 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.3.0
-MIME-Version: 1.0
-In-Reply-To: <fca8e601-1144-1bb8-c007-518651f624a5@landley.net>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.220.96.108]
-X-CFilter-Loop: Reflected
+         <fca8e601-1144-1bb8-c007-518651f624a5@landley.net>
+         <bf0d02fc-d6ce-ef1d-bb7d-7ca14432c6fd@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+x-cbid: 19051011-4275-0000-0000-0000033363FB
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19051011-4276-0000-0000-00003842DA35
+Message-Id: <1557488971.10635.102.camel@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-09_02:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=828 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1905100084
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 5/9/2019 8:34 PM, Rob Landley wrote:
-> On 5/9/19 6:24 AM, Roberto Sassu wrote:
->> This patch set aims at solving the following use case: appraise files from
->> the initial ram disk. To do that, IMA checks the signature/hash from the
->> security.ima xattr. Unfortunately, this use case cannot be implemented
->> currently, as the CPIO format does not support xattrs.
->>
->> This proposal consists in marshaling pathnames and xattrs in a file called
->> .xattr-list. They are unmarshaled by the CPIO parser after all files have
->> been extracted.
+On Fri, 2019-05-10 at 08:56 +0200, Roberto Sassu wrote:
+> On 5/9/2019 8:34 PM, Rob Landley wrote:
+> > On 5/9/19 6:24 AM, Roberto Sassu wrote:
+
+> >> The difference with another proposal
+> >> (https://lore.kernel.org/patchwork/cover/888071/) is that xattrs can be
+> >> included in an image without changing the image format, as opposed to
+> >> defining a new one. As seen from the discussion, if a new format has to be
+> >> defined, it should fix the issues of the existing format, which requires
+> >> more time.
+> > 
+> > So you've explicitly chosen _not_ to address Y2038 while you're there.
 > 
-> So it's in-band signalling that has a higher peak memory requirement.
+> Can you be more specific?
 
-This can be modified. Now I allocate the memory necessary for the path
-and all xattrs of a file (max: .xattr-list size - 10 bytes). I could
-process each xattr individually (max: 255 + 1 + 65536 bytes).
+Right, this patch set avoids incrementing the CPIO magic number and
+the resulting changes required (eg. increasing the timestamp field
+size), by including a file with the security xattrs in the CPIO.  In
+either case, including the security xattrs in the initramfs header or
+as a separate file, the initramfs, itself, needs to be signed.
 
+Mimi
 
->> The difference with another proposal
->> (https://lore.kernel.org/patchwork/cover/888071/) is that xattrs can be
->> included in an image without changing the image format, as opposed to
->> defining a new one. As seen from the discussion, if a new format has to be
->> defined, it should fix the issues of the existing format, which requires
->> more time.
-> 
-> So you've explicitly chosen _not_ to address Y2038 while you're there.
-
-Can you be more specific?
-
-Thanks
-
-Roberto
-
-
-> Rob
-> 
-
--- 
-HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
-Managing Director: Bo PENG, Jian LI, Yanli SHI
