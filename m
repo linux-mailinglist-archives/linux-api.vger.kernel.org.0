@@ -2,151 +2,119 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E76191BE81
-	for <lists+linux-api@lfdr.de>; Mon, 13 May 2019 22:19:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D1A481BF60
+	for <lists+linux-api@lfdr.de>; Tue, 14 May 2019 00:09:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726142AbfEMUTw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 13 May 2019 16:19:52 -0400
-Received: from mx0b-0016f401.pphosted.com ([67.231.156.173]:54490 "EHLO
-        mx0b-0016f401.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726130AbfEMUTv (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 13 May 2019 16:19:51 -0400
-Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
-        by mx0b-0016f401.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x4DKADuB012076;
-        Mon, 13 May 2019 13:16:53 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pfpt0818;
- bh=8FSlz0GjC3PdOKK/ewJnq9q1qVk9z6fQdSQDgDPLZOs=;
- b=v8h8SgiZTm2Mrf3UKe715rKamNihd4Ywk9LCgclviNg51vqDvK8/3RvWaC5xJq+FRnyJ
- VlqRytZQWSER0seoEEL3JJD9lpESnkfSKDRe2nQuJIx0PM7wVgmeh9JiSRUcerIss9TM
- +wOxxxMGugafn9Am/EVOMhDTDnOQMTxgtVE2Oy8tIx3lyJTtuvEj8OPoxKJbgrPQU1uY
- l7xm5n/tUP6amIn1e+ILLBU96cT0FYJC9wJ2Jr8UCq1nYp9d4jZd3WdMakJmbzirH5/g
- 8SoY4yb7Dg39sBTj6an/Of82bbjH88cGICYQHOl3ITxmVKklZL1xCsZ1CgHwpMcJ/vk3 7Q== 
-Received: from sc-exch02.marvell.com ([199.233.58.182])
-        by mx0b-0016f401.pphosted.com with ESMTP id 2sf9xchp6t-11
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Mon, 13 May 2019 13:16:52 -0700
-Received: from SC-EXCH02.marvell.com (10.93.176.82) by SC-EXCH02.marvell.com
- (10.93.176.82) with Microsoft SMTP Server (TLS) id 15.0.1367.3; Mon, 13 May
- 2019 13:16:22 -0700
-Received: from NAM05-CO1-obe.outbound.protection.outlook.com (104.47.48.53) by
- SC-EXCH02.marvell.com (10.93.176.82) with Microsoft SMTP Server (TLS) id
- 15.0.1367.3 via Frontend Transport; Mon, 13 May 2019 13:16:22 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marvell.onmicrosoft.com; s=selector1-marvell-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8FSlz0GjC3PdOKK/ewJnq9q1qVk9z6fQdSQDgDPLZOs=;
- b=dks3mxVUhOA91QILnn063NP916tvQ50FO0HuSlFouxKiM2NmHe7/J61cDuzv86U7wkwlelrnvjMwDWsUX1IDt6L0iNX5Na+Irjq3DZhlvQF+7dyI92gtqo9kCjQBhuOQidaPvHhQhrT4ciRIFbufee94Py6FAGmZEH68TyVdL5w=
-Received: from MN2PR18MB3086.namprd18.prod.outlook.com (20.179.21.74) by
- MN2PR18MB3328.namprd18.prod.outlook.com (10.255.238.17) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1878.21; Mon, 13 May 2019 20:16:18 +0000
-Received: from MN2PR18MB3086.namprd18.prod.outlook.com
- ([fe80::9407:14a6:29bf:d683]) by MN2PR18MB3086.namprd18.prod.outlook.com
- ([fe80::9407:14a6:29bf:d683%7]) with mapi id 15.20.1878.024; Mon, 13 May 2019
- 20:16:18 +0000
-From:   Yuri Norov <ynorov@marvell.com>
-To:     Andreas Schwab <schwab@suse.de>, Yury Norov <yury.norov@gmail.com>,
-        "ltp@lists.linux.it" <ltp@lists.linux.it>
-CC:     Yury Norov <ynorov@caviumnetworks.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        Adam Borowski <kilobyte@angband.pl>,
-        "Alexander Graf" <agraf@suse.de>,
-        Alexey Klimov <klimov.linux@gmail.com>,
-        Andrew Pinski <pinskia@gmail.com>,
-        Bamvor Zhangjian <bamv2005@gmail.com>,
-        Chris Metcalf <cmetcalf@mellanox.com>,
-        Christoph Muellner <christoph.muellner@theobroma-systems.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        "Florian Weimer" <fweimer@redhat.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        James Hogan <james.hogan@imgtec.com>,
-        James Morse <james.morse@arm.com>,
-        Joseph Myers <joseph@codesourcery.com>,
-        Lin Yongting <linyongting@huawei.com>,
-        "Manuel Montezelo" <manuel.montezelo@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Martin Schwidefsky <schwidefsky@de.ibm.com>,
-        Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
-        Nathan_Lynch <Nathan_Lynch@mentor.com>,
-        "Philipp Tomsich" <philipp.tomsich@theobroma-systems.com>,
-        Prasun Kapoor <Prasun.Kapoor@caviumnetworks.com>,
-        Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
-        Steve Ellcey <sellcey@caviumnetworks.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>
-Subject: Re: [EXT] Re: [PATCH v9 00/24] ILP32 for ARM64
-Thread-Topic: [EXT] Re: [PATCH v9 00/24] ILP32 for ARM64
-Thread-Index: AQHUhpjH9to/8IYtJ0GO80mU13Jv5KZi1g0AgAbuLc2AAL0yKQ==
-Date:   Mon, 13 May 2019 20:16:17 +0000
-Message-ID: <MN2PR18MB30865B950D85C6463EB0E1D4CB0F0@MN2PR18MB3086.namprd18.prod.outlook.com>
-References: <20180516081910.10067-1-ynorov@caviumnetworks.com>
-        <20190508225900.GA14091@yury-thinkpad>,<mvmtvdyoi33.fsf@suse.de>
-In-Reply-To: <mvmtvdyoi33.fsf@suse.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [2601:640:9:8937:19d3:11c4:475e:3daa]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d63a7e5a-30b5-4c72-6c2e-08d6d7dfdb8f
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(2017052603328)(7193020);SRVR:MN2PR18MB3328;
-x-ms-traffictypediagnostic: MN2PR18MB3328:
-x-microsoft-antispam-prvs: <MN2PR18MB332863E675D3AFB0F5BEF1F1CB0F0@MN2PR18MB3328.namprd18.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:826;
-x-forefront-prvs: 0036736630
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(396003)(376002)(366004)(136003)(39860400002)(346002)(199004)(189003)(55016002)(25786009)(9686003)(6246003)(316002)(64756008)(66556008)(66476007)(6116002)(66946007)(66446008)(76176011)(2501003)(7736002)(86362001)(73956011)(186003)(2906002)(476003)(76116006)(486006)(11346002)(4326008)(52536014)(446003)(46003)(229853002)(305945005)(99286004)(5660300002)(8936002)(68736007)(33656002)(8676002)(74316002)(6506007)(53936002)(4744005)(81166006)(7406005)(7416002)(7696005)(81156014)(6436002)(71200400001)(478600001)(102836004)(71190400001)(14454004)(54906003)(110136005)(14444005)(256004);DIR:OUT;SFP:1101;SCL:1;SRVR:MN2PR18MB3328;H:MN2PR18MB3086.namprd18.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: marvell.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 0BNA/4lGkwI/JlW9pnyosBaPDm721604g/Nf3FAJ0B/ROE9Hupn8TalOe1n6tAYKBDim/zKvwaubRL4labxcw8SscgAKrkz3NAY9IT8pwPQqCdoIhfvxdC+p0d7UMmZonRhz5O8qSt1NR37x5d6Q8ksZX5WcNMnR+FBN4iTbjqkO6PhExPk0DpVNmBzaE5FftIenOPUYMIbxzHe+bvHEQgZxHBjiHME+aFmfMpdmjDJ7+3xkWh51b+veSpXfSdLSW14XLPVYo20s6/c9dCbye7Yi/6xmMC76lhS2Vcnth7hRgBiwxiFiiWt3eswxlQ7+vdjDsya1CQjzCICCMUDKcv5hH32IXVRrkcJSS5MlhwGHZQiizlXIjUtGK7HABrJhnjUva8d8aP1ahEBGQ5CFagk/HuznHKSSaQ/sGRRSgHg=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: d63a7e5a-30b5-4c72-6c2e-08d6d7dfdb8f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 May 2019 20:16:17.9821
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR18MB3328
-X-OriginatorOrg: marvell.com
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-13_12:,,
+        id S1726594AbfEMWJb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 13 May 2019 18:09:31 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:40566 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726542AbfEMWJb (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 13 May 2019 18:09:31 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x4DM2lN3011991
+        for <linux-api@vger.kernel.org>; Mon, 13 May 2019 18:09:29 -0400
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2sfe14f5tt-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-api@vger.kernel.org>; Mon, 13 May 2019 18:09:29 -0400
+Received: from localhost
+        by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-api@vger.kernel.org> from <zohar@linux.ibm.com>;
+        Mon, 13 May 2019 23:09:27 +0100
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+        by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Mon, 13 May 2019 23:09:24 +0100
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
+        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x4DM9Np452166906
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 13 May 2019 22:09:23 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 34A1A4C046;
+        Mon, 13 May 2019 22:09:23 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id F045D4C044;
+        Mon, 13 May 2019 22:09:21 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.80.110.120])
+        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Mon, 13 May 2019 22:09:21 +0000 (GMT)
+Subject: Re: [PATCH v2 0/3] initramfs: add support for xattrs in the initial
+ ram disk
+From:   Mimi Zohar <zohar@linux.ibm.com>
+To:     Arvind Sankar <nivedita@alum.mit.edu>
+Cc:     Arvind Sankar <niveditas98@gmail.com>,
+        Roberto Sassu <roberto.sassu@huawei.com>,
+        Rob Landley <rob@landley.net>, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-integrity@vger.kernel.org, initramfs@vger.kernel.org
+Date:   Mon, 13 May 2019 18:09:11 -0400
+In-Reply-To: <20190513184744.GA12386@rani.riverdale.lan>
+References: <dca50ee1-62d8-2256-6fdb-9a786e6cea5a@landley.net>
+         <20190512194322.GA71658@rani.riverdale.lan>
+         <3fe0e74b-19ca-6081-3afe-e05921b1bfe6@huawei.com>
+         <4f522e28-29c8-5930-5d90-e0086b503613@landley.net>
+         <f7bc547c-61f4-1a17-735c-7e8df97d7965@huawei.com>
+         <20190513172007.GA69717@rani.riverdale.lan>
+         <20190513175250.GC69717@rani.riverdale.lan>
+         <1557772584.4969.62.camel@linux.ibm.com>
+         <20190513184744.GA12386@rani.riverdale.lan>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+x-cbid: 19051322-0008-0000-0000-000002E646B0
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19051322-0009-0000-0000-00002252DD3F
+Message-Id: <1557785351.4969.94.camel@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-13_14:,,
  signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1905130147
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-+ ltp@lists.linux.it
+On Mon, 2019-05-13 at 14:47 -0400, Arvind Sankar wrote:
+> On Mon, May 13, 2019 at 02:36:24PM -0400, Mimi Zohar wrote:
+> > 
+> > > > How does this work today then? Is it actually the case that initramfs
+> > > > just cannot be used on an IMA-enabled system, or it can but it leaves
+> > > > the initramfs unverified and we're trying to fix that? I had assumed the
+> > > > latter.
+> > > Oooh, it's done not by starting IMA appraisal later, but by loading a
+> > > default policy to ignore initramfs?
+> > 
+> > Right, when rootfs is a tmpfs filesystem, it supports xattrs, allowing
+> > for finer grained policies to be defined.  This patch set would allow
+> > a builtin IMA appraise policy to be defined which includes tmpfs.
 
-> There is a problem with the stack size accounting during execve when
-> there is no stack limit:
->
-> $ ulimit -s
-> 8192
-> $ ./hello.ilp32=20
-> Hello World!
-> $ ulimit -s unlimited
-> $ ./hello.ilp32=20
-> Segmentation fault
-> $ strace ./hello.ilp32=20
-> execve("./hello.ilp32", ["./hello.ilp32"], 0xfffff10548f0 /* 77 vars */) =
-=3D -1 ENOMEM (Cannot allocate memory)
-> +++ killed by SIGSEGV +++
-> Segmentation fault (core dumped)
->
-> Andreas.
+Clarification: finer grain IMA policy rules are normally defined in
+terms of LSM labels.  The LSMs need to enabled, before writing IMA
+policy rules in terms of the LSM labels.
 
-Thanks Andreas, I will take a look. Do we have such test in LTP?
-   =20
-Yury=
+> > 
+> Ok, but wouldn't my idea still work? Leave the default compiled-in
+> policy set to not appraise initramfs. The embedded /init sets all the
+> xattrs, changes the policy to appraise tmpfs, and then exec's the real
+> init? Then everything except the embedded /init and the file with the
+> xattrs will be appraised, and the embedded /init was verified as part of
+> the kernel image signature. The only additional kernel change needed
+> then is to add a config option to the kernel to disallow overwriting the
+> embedded initramfs (or at least the embedded /init).
+
+Yes and no.  The current IMA design allows a builtin policy to be
+specified on the boot command line ("ima_policy="), so that it exists
+from boot, and allows it to be replaced once with a custom policy.
+ After that, assuming that CONFIG_IMA_WRITE_POLICY is configured,
+additional rules may be appended.  As your embedded /init solution
+already replaces the builtin policy, the IMA policy couldn't currently
+be replaced a second time with a custom policy based on LSM labels.
+
+Mimi
+
