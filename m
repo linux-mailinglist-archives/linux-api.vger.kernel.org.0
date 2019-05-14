@@ -2,158 +2,103 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AA0F31E569
-	for <lists+linux-api@lfdr.de>; Wed, 15 May 2019 01:03:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC1FA1E5A2
+	for <lists+linux-api@lfdr.de>; Wed, 15 May 2019 01:38:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726319AbfENXDL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 14 May 2019 19:03:11 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:44188 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726251AbfENXDL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 14 May 2019 19:03:11 -0400
-Received: by mail-pl1-f193.google.com with SMTP id c5so311702pll.11;
-        Tue, 14 May 2019 16:03:10 -0700 (PDT)
+        id S1726466AbfENXio (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 14 May 2019 19:38:44 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:37874 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726218AbfENXio (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 14 May 2019 19:38:44 -0400
+Received: by mail-oi1-f195.google.com with SMTP id f4so467439oib.4
+        for <linux-api@vger.kernel.org>; Tue, 14 May 2019 16:38:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=4xuOhafijhTBKjPcHvwICr8fCf3XDF6k7moLbg3FXwg=;
-        b=f+iki57StuAV+FkmK28LEJUx6eRLXHSLyK478LBU5ugMCQKEKAZdX23XdU0hTop3GI
-         xGJewyrbS+bCN0qDv8n7PLgw3R8cXpE0K/wG2jRzQacmvbhYfW7oSLUF0VZeH68ddsoC
-         qCNTE4tz3BD6ag5z4FRz+GrqR1A+UYG9qKbww7xnZsjPhVhqd+6O8objP/SAgY/BQF1Q
-         ivbwlEgshLeExC9RVBfCEAUIXWs05qZfaYgSJfxqkwNiFZ85iJBc25BjSEsCaj8LJ185
-         thGVy5+SA6YMXpJunfpxoxvi7Ld/QsAGJr58tOGd2mFNOsejpsJWS0s/mxLb0Izfo4iT
-         76Gw==
+        d=landley-net.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=kYvQT6mY9JfQHDpLNfUkCh431/BzUwth4mETG8vnTcM=;
+        b=rH1kN6xjlUQPAimKjhf1g5xol5K7bxpX+XExDwea7rJ/vrEQeHR+gNLXC3ZVH4TQZ9
+         nB+xK5+dfFBG+AS7/qk8hqyz2HQWexnTzW8k5LJW1xanq4EH8KofvdU+krYoB4fiF8Vt
+         fPWv1qAMT3PwG44QcHmls8cQO1gCx6JOi0ZF7v60B6oUPIayDactRAml6HwN/Z9XOve5
+         ipNHYxw0+3e1MrlsX6gxLtTtFC7qklUGicX7c6sNm+KGZAZRTO3CR+Vb+0+CyjD/lvna
+         uv4xTwEp5X40rPribrLMqvuk4Sk3d3SkDo1lGscczxN91c6+TpmIAuOPFrsNrQ2x/hlX
+         cVOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=4xuOhafijhTBKjPcHvwICr8fCf3XDF6k7moLbg3FXwg=;
-        b=b8VSCG2DEf4t8R2wEAGIfJSF4EQUNBIH/JgRKqv/Zl+I3t0bsd1Ya851h1lsGwITOn
-         Zf7cVmYtFfAW6yMeBSxi/OyThJrZeKcLCezpph7gLzIkFfNYMqqyXcCl8tzNej+B8Dyr
-         3tRGNHLd2+ajuccWRvjRsP7HEwf34iintT6MuYSPYz/DZghkb+/7z4N1+C8WLKAqyrLZ
-         C2xkpSn17MmmtmQ19DPyfQG4O1pVcFdzeKGuHYDElLsdUnz+K1GG59q0B5z7g1ntDCKy
-         2o9o1ZRF3yjuZUdyYk38/UtiXzQBbQejO+BxE5Bp9lqB32C+s/iLfgZ0J3UTKIub3sB5
-         lBsA==
-X-Gm-Message-State: APjAAAUOI13e5i5A8NB8cULdC95vGU44RKSmuHR3avVhONfM9q1m8EPI
-        YY12xSbzROj9HEBWavnflak=
-X-Google-Smtp-Source: APXvYqy3fmo7/ncm6lIHtrFpfQoSewVnPVoZDijQHrQxC4R9KBEXyV2Q9ZJU/PMMxrsLSU8w/4pXOg==
-X-Received: by 2002:a17:902:5983:: with SMTP id p3mr38930332pli.224.1557874990361;
-        Tue, 14 May 2019 16:03:10 -0700 (PDT)
-Received: from localhost ([2601:640:5:a19f:19d3:11c4:475e:3daa])
-        by smtp.gmail.com with ESMTPSA id l65sm238391pfb.7.2019.05.14.16.03.09
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 14 May 2019 16:03:09 -0700 (PDT)
-Date:   Tue, 14 May 2019 16:01:58 -0700
-From:   Yury Norov <yury.norov@gmail.com>
-To:     Cyril Hrubis <chrubis@suse.cz>
-Cc:     Yuri Norov <ynorov@marvell.com>, Andreas Schwab <schwab@suse.de>,
-        "ltp@lists.linux.it" <ltp@lists.linux.it>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Philipp Tomsich <philipp.tomsich@theobroma-systems.com>,
-        Joseph Myers <joseph@codesourcery.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        Steve Ellcey <sellcey@caviumnetworks.com>,
-        Prasun Kapoor <Prasun.Kapoor@caviumnetworks.com>,
-        Alexander Graf <agraf@suse.de>,
-        Bamvor Zhangjian <bamv2005@gmail.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Adam Borowski <kilobyte@angband.pl>,
-        Manuel Montezelo <manuel.montezelo@gmail.com>,
-        James Hogan <james.hogan@imgtec.com>,
-        Chris Metcalf <cmetcalf@mellanox.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andrew Pinski <pinskia@gmail.com>,
-        Lin Yongting <linyongting@huawei.com>,
-        Alexey Klimov <klimov.linux@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
-        Florian Weimer <fweimer@redhat.com>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        Nathan_Lynch <Nathan_Lynch@mentor.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
-        Martin Schwidefsky <schwidefsky@de.ibm.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Christoph Muellner <christoph.muellner@theobroma-systems.com>
-Subject: Re: [LTP] [EXT] Re: [PATCH v9 00/24] ILP32 for ARM64
-Message-ID: <20190514230158.GA6780@yury-thinkpad>
-References: <20180516081910.10067-1-ynorov@caviumnetworks.com>
- <20190508225900.GA14091@yury-thinkpad>
- <mvmtvdyoi33.fsf@suse.de>
- <MN2PR18MB30865B950D85C6463EB0E1D4CB0F0@MN2PR18MB3086.namprd18.prod.outlook.com>
- <20190514104311.GA24708@rei>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=kYvQT6mY9JfQHDpLNfUkCh431/BzUwth4mETG8vnTcM=;
+        b=SmBsKzjv2hEE0TYeYaSnQoWxawWB5zgXlc+o7vfbL4kR0Da4zLGAmrfyScxZBXKEiz
+         Wsg4/R4ZhddIbMF8NzEfpvh+4lw9n8EMSiTbXqDWodjmEes1U3qch3JqvUMg1xNOUkoL
+         07RBwrufzezfbS8KyzdlHxMOLWwSAd5LaH2oiFo4qZrr2ExTeM1d5AnuAEWKKiwZbCop
+         FBeRYuCX9QCz5CjXyahfpoJRYg+N+Xm3S+y8dV6HUnmlSlMPIdlnm1SrNym8nRnggaS9
+         FzrKwXr3vgr6byNx96Eomoe8VejsIzwA6pBTC7DV4xxxMaxhcuRJn47LjjNY8sy3XQIW
+         HNgQ==
+X-Gm-Message-State: APjAAAUnqN7n6fHTiAJGs/VqlNtEkUKJJbSXQagCXcOoyVd3AGdKUplH
+        VWxPaj31oZg630RTLvGGrE3CPw==
+X-Google-Smtp-Source: APXvYqxxe8Yr5f9XAWXGbDojS8nV2uootZLPvLP3tvJ3cgiNcLPrf4uxkN+Rr9TfiQsk/Azg0isydg==
+X-Received: by 2002:aca:f189:: with SMTP id p131mr367929oih.89.1557877123450;
+        Tue, 14 May 2019 16:38:43 -0700 (PDT)
+Received: from [192.168.1.5] (rrcs-97-77-70-138.sw.biz.rr.com. [97.77.70.138])
+        by smtp.googlemail.com with ESMTPSA id x64sm141795oia.32.2019.05.14.16.38.41
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 14 May 2019 16:38:42 -0700 (PDT)
+Subject: Re: [PATCH v2 0/3] initramfs: add support for xattrs in the initial
+ ram disk
+To:     James Bottomley <James.Bottomley@HansenPartnership.com>,
+        Andy Lutomirski <luto@kernel.org>
+Cc:     Arvind Sankar <niveditas98@gmail.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        linux-integrity <linux-integrity@vger.kernel.org>,
+        initramfs@vger.kernel.org
+References: <dca50ee1-62d8-2256-6fdb-9a786e6cea5a@landley.net>
+ <20190512194322.GA71658@rani.riverdale.lan>
+ <3fe0e74b-19ca-6081-3afe-e05921b1bfe6@huawei.com>
+ <4f522e28-29c8-5930-5d90-e0086b503613@landley.net>
+ <f7bc547c-61f4-1a17-735c-7e8df97d7965@huawei.com>
+ <CALCETrV3b205L38xqPr6QqwGn6-vxQdPoJGUygJJpgM-JqqXfQ@mail.gmail.com>
+ <1557861511.3378.19.camel@HansenPartnership.com>
+From:   Rob Landley <rob@landley.net>
+Message-ID: <4da3dbda-bb76-5d71-d5c5-c03d98350ab0@landley.net>
+Date:   Tue, 14 May 2019 18:39:16 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190514104311.GA24708@rei>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <1557861511.3378.19.camel@HansenPartnership.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, May 14, 2019 at 12:43:11PM +0200, Cyril Hrubis wrote:
-> Hi!
-> > > There is a problem with the stack size accounting during execve when
-> > > there is no stack limit:
-> > >
-> > > $ ulimit -s
-> > > 8192
-> > > $ ./hello.ilp32 
-> > > Hello World!
-> > > $ ulimit -s unlimited
-> > > $ ./hello.ilp32 
-> > > Segmentation fault
-> > > $ strace ./hello.ilp32 
-> > > execve("./hello.ilp32", ["./hello.ilp32"], 0xfffff10548f0 /* 77 vars */) = -1 ENOMEM (Cannot allocate memory)
-> > > +++ killed by SIGSEGV +++
-> > > Segmentation fault (core dumped)
-> > >
-> > > Andreas.
-> > 
-> > Thanks Andreas, I will take a look. Do we have such test in LTP?
-
-So the problem was in not converting new compat-sensitive code:
-
-diff --git a/arch/arm64/include/asm/processor.h b/arch/arm64/include/asm/processor.h
-index 5bdf357169d8..c509f83fa506 100644
---- a/arch/arm64/include/asm/processor.h
-+++ b/arch/arm64/include/asm/processor.h
-@@ -63,7 +63,7 @@
- 				TASK_SIZE_32 : TASK_SIZE_64)
- #define TASK_SIZE_OF(tsk)	(is_compat_thread(tsk) ? \
- 				TASK_SIZE_32 : TASK_SIZE_64)
--#define DEFAULT_MAP_WINDOW	(test_thread_flag(TIF_32BIT) ? \
-+#define DEFAULT_MAP_WINDOW	(is_compat_task() ? \
- 				TASK_SIZE_32 : DEFAULT_MAP_WINDOW_64)
- #else
- #define TASK_SIZE		TASK_SIZE_64
-
-The fix is incorporated in ilp32-5.1.1:
-https://github.com/norov/linux/tree/ilp32-5.1.1
-
-> We do have a test that we can run a binary with very small stack size
-> i.e. 512kB but there does not seem to be anything that would catch this
-> specific problem.
+On 5/14/19 2:18 PM, James Bottomley wrote:
+>> I think Rob is right here.  If /init was statically built into the
+>> kernel image, it has no more ability to compromise the kernel than
+>> anything else in the kernel.  What's the problem here?
 > 
-> Can you please open an issue and describe how to reproduce the problem
-> at our github tracker:
+> The specific problem is that unless you own the kernel signing key,
+> which is really untrue for most distribution consumers because the
+> distro owns the key, you cannot build the initrd statically into the
+> kernel.  You can take the distro signed kernel, link it with the initrd
+> then resign the combination with your key, provided you insert your key
+> into the MoK variables as a trusted secure boot key, but the distros
+> have been unhappy recommending this as standard practice.
 > 
-> https://github.com/linux-test-project/ltp/issues
-> 
-> Then we can create testcase based on that reproducer later on.
-> 
-> -- 
-> Cyril Hrubis
-> chrubis@suse.cz
+> If our model for security is going to be to link the kernel and the
+> initrd statically to give signature protection over the aggregate then
+> we need to figure out how to execute this via the distros.  If we
+> accept that the split model, where the distro owns and signs the kernel
+> but the machine owner builds and is responsible for the initrd, then we
+> need to explore split security models like this proposal.
 
-OK, I'll do.
+You can have a built-in and an external initrd? The second extracts over the
+first? (I know because once upon a time conflicting files would append. It
+sounds like the desired behavior here is O_EXCL fail and move on.)
 
-Yury
+Rob
