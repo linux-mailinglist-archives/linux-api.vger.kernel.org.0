@@ -2,103 +2,104 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 438D41C2CA
-	for <lists+linux-api@lfdr.de>; Tue, 14 May 2019 08:06:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 822981C726
+	for <lists+linux-api@lfdr.de>; Tue, 14 May 2019 12:43:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726078AbfENGGN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 14 May 2019 02:06:13 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:43261 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725985AbfENGGN (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 14 May 2019 02:06:13 -0400
-Received: by mail-ot1-f65.google.com with SMTP id i8so14098377oth.10
-        for <linux-api@vger.kernel.org>; Mon, 13 May 2019 23:06:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=landley-net.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=PXt1KR8uTPyJUn4Yxy2apR4YARPk5L8lEm2vMkzJPBM=;
-        b=e91q8D7aFphaY4A6IL5QmEU/FViV57G/ehUkaEkFrK1dcpjq0tV/orbAlirGH4/L0V
-         HiNO6aGwsRRgCXa9Hh5CgGQmS+70E/uhKmZPWtXXVpGjcYHJ2hDsl0yyTFjkgTK/xlmx
-         PhNiLFgJYZJwyvVHfroFvFD0FW7PSkb2EPJ0qQW74bWCcU2i2RSPzx/nzo6/Od7NLPJ+
-         Ond0PKkr+1PCB1r5YvqNf3Nfocj1tasDuWueMZIbWi966AHRCkQ2utNMgUMZndXBy68H
-         g+ssB7URZ3eeNsnjb5ZvI8b2btqbFB0jfNIfgT8YzZ7FAnbWztIJtQChnH90RVS4ob7n
-         Uq+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=PXt1KR8uTPyJUn4Yxy2apR4YARPk5L8lEm2vMkzJPBM=;
-        b=Z4/BKHNvhnNEifhu13fDsStvmrR+noAQsGU1HAcGwR4Ype9ki44AFIAuY3zgL9huQH
-         R1J10fGfXvOO8P9zbAQnMyZRv3e5z2mFU91C+B9jo+avugJX0zBJoeohymMEGeGd2fH9
-         84AeRDqiAZSlbO8jFboDIPSTDqOA09DOUh1e7JhBZndguzx98E/9gj9JcDrmT1I4iEoa
-         6/qomm++e0TPebaXuHxXNIwbAAfstL3TRpeGIHXczh2qfe9CMLZjpk4fPvM7GwHmnJJy
-         gEpTyvhTdtcTbG19RgFPgcxnW63b/htv1gkEd+9e1z7o3KO8Q/D0PafaLsRl7VtoHfyr
-         iw7A==
-X-Gm-Message-State: APjAAAUa2/D2ASvs0KMelHv6v0plvqIqA552lHRVHR6V14pJvixzxxKk
-        dyCDEy0tANTpey6nzXdO2IqErA==
-X-Google-Smtp-Source: APXvYqz34cqK8ejkbSx+SrrTyV2DMUPTt7fPvQMKcNmaB8vAqawQFjp1e57tMQIaPu2wl3v6VjClBA==
-X-Received: by 2002:a9d:638f:: with SMTP id w15mr7650121otk.16.1557813972655;
-        Mon, 13 May 2019 23:06:12 -0700 (PDT)
-Received: from [192.168.1.5] (072-182-052-210.res.spectrum.com. [72.182.52.210])
-        by smtp.googlemail.com with ESMTPSA id a1sm6771206oiy.38.2019.05.13.23.06.11
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 13 May 2019 23:06:12 -0700 (PDT)
-Subject: Re: [PATCH v2 0/3] initramfs: add support for xattrs in the initial
- ram disk
-To:     Mimi Zohar <zohar@linux.ibm.com>,
-        Arvind Sankar <nivedita@alum.mit.edu>
-Cc:     Arvind Sankar <niveditas98@gmail.com>,
-        Roberto Sassu <roberto.sassu@huawei.com>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
-        initramfs@vger.kernel.org
-References: <dca50ee1-62d8-2256-6fdb-9a786e6cea5a@landley.net>
- <20190512194322.GA71658@rani.riverdale.lan>
- <3fe0e74b-19ca-6081-3afe-e05921b1bfe6@huawei.com>
- <4f522e28-29c8-5930-5d90-e0086b503613@landley.net>
- <f7bc547c-61f4-1a17-735c-7e8df97d7965@huawei.com>
- <20190513172007.GA69717@rani.riverdale.lan>
- <20190513175250.GC69717@rani.riverdale.lan>
- <1557772584.4969.62.camel@linux.ibm.com>
- <20190513184744.GA12386@rani.riverdale.lan>
- <1557785351.4969.94.camel@linux.ibm.com>
-From:   Rob Landley <rob@landley.net>
-Message-ID: <66b57ae5-bb5a-c008-8490-2c90e050fc65@landley.net>
-Date:   Tue, 14 May 2019 01:06:45 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1725892AbfENKnQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 14 May 2019 06:43:16 -0400
+Received: from mx2.suse.de ([195.135.220.15]:39300 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725893AbfENKnQ (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 14 May 2019 06:43:16 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id D4BF7AC3F;
+        Tue, 14 May 2019 10:43:13 +0000 (UTC)
+Date:   Tue, 14 May 2019 12:43:11 +0200
+From:   Cyril Hrubis <chrubis@suse.cz>
+To:     Yuri Norov <ynorov@marvell.com>
+Cc:     Andreas Schwab <schwab@suse.de>, Yury Norov <yury.norov@gmail.com>,
+        "ltp@lists.linux.it" <ltp@lists.linux.it>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Philipp Tomsich <philipp.tomsich@theobroma-systems.com>,
+        Joseph Myers <joseph@codesourcery.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        Steve Ellcey <sellcey@caviumnetworks.com>,
+        Prasun Kapoor <Prasun.Kapoor@caviumnetworks.com>,
+        Alexander Graf <agraf@suse.de>,
+        Bamvor Zhangjian <bamv2005@gmail.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Adam Borowski <kilobyte@angband.pl>,
+        Manuel Montezelo <manuel.montezelo@gmail.com>,
+        James Hogan <james.hogan@imgtec.com>,
+        Chris Metcalf <cmetcalf@mellanox.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andrew Pinski <pinskia@gmail.com>,
+        Lin Yongting <linyongting@huawei.com>,
+        Alexey Klimov <klimov.linux@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        Nathan_Lynch <Nathan_Lynch@mentor.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
+        Martin Schwidefsky <schwidefsky@de.ibm.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Christoph Muellner <christoph.muellner@theobroma-systems.com>
+Subject: Re: [LTP] [EXT] Re: [PATCH v9 00/24] ILP32 for ARM64
+Message-ID: <20190514104311.GA24708@rei>
+References: <20180516081910.10067-1-ynorov@caviumnetworks.com>
+ <20190508225900.GA14091@yury-thinkpad>
+ <mvmtvdyoi33.fsf@suse.de>
+ <MN2PR18MB30865B950D85C6463EB0E1D4CB0F0@MN2PR18MB3086.namprd18.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <1557785351.4969.94.camel@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <MN2PR18MB30865B950D85C6463EB0E1D4CB0F0@MN2PR18MB3086.namprd18.prod.outlook.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 5/13/19 5:09 PM, Mimi Zohar wrote:
->> Ok, but wouldn't my idea still work? Leave the default compiled-in
->> policy set to not appraise initramfs. The embedded /init sets all the
->> xattrs, changes the policy to appraise tmpfs, and then exec's the real
->> init? Then everything except the embedded /init and the file with the
->> xattrs will be appraised, and the embedded /init was verified as part of
->> the kernel image signature. The only additional kernel change needed
->> then is to add a config option to the kernel to disallow overwriting the
->> embedded initramfs (or at least the embedded /init).
+Hi!
+> > There is a problem with the stack size accounting during execve when
+> > there is no stack limit:
+> >
+> > $ ulimit -s
+> > 8192
+> > $ ./hello.ilp32 
+> > Hello World!
+> > $ ulimit -s unlimited
+> > $ ./hello.ilp32 
+> > Segmentation fault
+> > $ strace ./hello.ilp32 
+> > execve("./hello.ilp32", ["./hello.ilp32"], 0xfffff10548f0 /* 77 vars */) = -1 ENOMEM (Cannot allocate memory)
+> > +++ killed by SIGSEGV +++
+> > Segmentation fault (core dumped)
+> >
+> > Andreas.
 > 
-> Yes and no.  The current IMA design allows a builtin policy to be
-> specified on the boot command line ("ima_policy="), so that it exists
-> from boot, and allows it to be replaced once with a custom policy.
->  After that, assuming that CONFIG_IMA_WRITE_POLICY is configured,
-> additional rules may be appended.  As your embedded /init solution
-> already replaces the builtin policy, the IMA policy couldn't currently
-> be replaced a second time with a custom policy based on LSM labels.
+> Thanks Andreas, I will take a look. Do we have such test in LTP?
 
-So your design assumption you're changing other code to work around in that
-instance is the policy can only be replaced once rather than having a "finalize"
-option when it's set, making it immutable from then on.
+We do have a test that we can run a binary with very small stack size
+i.e. 512kB but there does not seem to be anything that would catch this
+specific problem.
 
-Rob
+Can you please open an issue and describe how to reproduce the problem
+at our github tracker:
+
+https://github.com/linux-test-project/ltp/issues
+
+Then we can create testcase based on that reproducer later on.
+
+-- 
+Cyril Hrubis
+chrubis@suse.cz
