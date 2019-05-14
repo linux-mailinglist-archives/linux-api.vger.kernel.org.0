@@ -2,114 +2,110 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 689AC1CAA9
-	for <lists+linux-api@lfdr.de>; Tue, 14 May 2019 16:44:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5743D1CAE3
+	for <lists+linux-api@lfdr.de>; Tue, 14 May 2019 16:51:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726148AbfENOoL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 14 May 2019 10:44:11 -0400
-Received: from mail-qk1-f195.google.com ([209.85.222.195]:39743 "EHLO
-        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726013AbfENOoL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 14 May 2019 10:44:11 -0400
-Received: by mail-qk1-f195.google.com with SMTP id z128so10431156qkb.6;
-        Tue, 14 May 2019 07:44:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=MK/EeSYeIjxF8YTDVcELY66892EK1YJmsPeFgAgfrjM=;
-        b=qFdfOb2sfefv9BKhBFjgSIS+uytVFyTYQ01SS/qtY0zqykm8VlTLnzSLtzv7QxzVth
-         Un7eDsop3VKZJC1EVd6XQpNfWig7m6h2m69LtD0Y5JLiiTr04ZS0LEWa7FjLql/o3qHl
-         O7HVDtrCJDu7HTU8+WIMJdMxzEreKcply4xEir4+Pv1PClq2/Gcu6WNG4NDBJuK3VSZa
-         2eWFbELeMgW2NQ06TCD4S95CPB0dl3sK1becx5Cf0gM8+0W5lLRqw6P2+vPwbQcqMgl8
-         W2lYGRotHkH389BRu9YrUNYuioMiZFGvkiJfKEBfRZBe5j/iZzUTy5QB/vcHsTWMgq5t
-         /OrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:date:to:cc:subject:message-id
-         :references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to:user-agent;
-        bh=MK/EeSYeIjxF8YTDVcELY66892EK1YJmsPeFgAgfrjM=;
-        b=n1dehGjbpQoYTxOTZowrc24AuLMmTi8H6Ep3ikekGaApmG/Xw4+9olSaq5Gw9+ce+L
-         N9eGG/K+Z0nPr8zdnHOS3eMQhWvZfVfH7crOx4UCvjJxiW51nLHY/9ADRu2Viv8OTasI
-         osKofXo3PZZaUgktc98071oeN3Vt1XJhdC+74aLmtXzXczQZFSGdc6eMirGx5ovbdx53
-         RnNnu4+688hniVb5Ol5zoAduuyq4ZPE5RzZbQesXGdY+WdNFUdKa55N53uCyOWJLFWo3
-         m5CHrf56v+u/gLp/HZxA4aL/Q+jNFQIKnB+6NzXJvSYOtU0ssD7M0/tEb2yd5QaNsQwo
-         Ojhg==
-X-Gm-Message-State: APjAAAWJpoHgUsfH4tZj0vq6smNBtWroRhITQtp8uAcS64YCAFcz4DqS
-        0ksg3EEPsmgOktdOyTC73P4=
-X-Google-Smtp-Source: APXvYqyOJRF/R0s6XEjfz+HFqZXUy/U3dE0Nq2kon+YZAEx3Nx+C5qxM5rRFpkNMj/j57uhOGWxe4Q==
-X-Received: by 2002:a37:495:: with SMTP id 143mr27573670qke.106.1557845049750;
-        Tue, 14 May 2019 07:44:09 -0700 (PDT)
-Received: from rani.riverdale.lan ([2001:470:1f07:5f3::b55f])
-        by smtp.gmail.com with ESMTPSA id d64sm5449740qke.55.2019.05.14.07.44.08
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 14 May 2019 07:44:09 -0700 (PDT)
-From:   Arvind Sankar <nivedita@alum.mit.edu>
-X-Google-Original-From: Arvind Sankar <arvind@rani.riverdale.lan>
-Date:   Tue, 14 May 2019 10:44:07 -0400
-To:     Rob Landley <rob@landley.net>
-Cc:     Mimi Zohar <zohar@linux.ibm.com>,
-        Arvind Sankar <nivedita@alum.mit.edu>,
-        Arvind Sankar <niveditas98@gmail.com>,
-        Roberto Sassu <roberto.sassu@huawei.com>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
-        initramfs@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] initramfs: add support for xattrs in the initial
- ram disk
-Message-ID: <20190514144406.GA37109@rani.riverdale.lan>
-References: <20190512194322.GA71658@rani.riverdale.lan>
- <3fe0e74b-19ca-6081-3afe-e05921b1bfe6@huawei.com>
- <4f522e28-29c8-5930-5d90-e0086b503613@landley.net>
- <f7bc547c-61f4-1a17-735c-7e8df97d7965@huawei.com>
- <20190513172007.GA69717@rani.riverdale.lan>
- <20190513175250.GC69717@rani.riverdale.lan>
- <1557772584.4969.62.camel@linux.ibm.com>
- <20190513184744.GA12386@rani.riverdale.lan>
- <1557785351.4969.94.camel@linux.ibm.com>
- <66b57ae5-bb5a-c008-8490-2c90e050fc65@landley.net>
+        id S1726013AbfENOvY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 14 May 2019 10:51:24 -0400
+Received: from mx2.suse.de ([195.135.220.15]:35372 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725901AbfENOvY (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 14 May 2019 10:51:24 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 520E3AF94;
+        Tue, 14 May 2019 14:51:23 +0000 (UTC)
+Date:   Tue, 14 May 2019 16:51:22 +0200
+From:   Michal Hocko <mhocko@kernel.org>
+To:     Oleksandr Natalenko <oleksandr@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, Kirill Tkhai <ktkhai@virtuozzo.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Matthew Wilcox <willy@infradead.org>,
+        Pavel Tatashin <pasha.tatashin@soleen.com>,
+        Timofey Titovets <nefelim4ag@gmail.com>,
+        Aaron Tomlin <atomlin@redhat.com>,
+        Grzegorz Halat <ghalat@redhat.com>, linux-mm@kvack.org,
+        linux-api@vger.kernel.org, Hugh Dickins <hughd@google.com>
+Subject: Re: [PATCH RFC v2 0/4] mm/ksm: add option to automerge VMAs
+Message-ID: <20190514145122.GG4683@dhcp22.suse.cz>
+References: <20190514131654.25463-1-oleksandr@redhat.com>
+ <20190514144105.GF4683@dhcp22.suse.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <66b57ae5-bb5a-c008-8490-2c90e050fc65@landley.net>
+In-Reply-To: <20190514144105.GF4683@dhcp22.suse.cz>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, May 14, 2019 at 01:06:45AM -0500, Rob Landley wrote:
-> On 5/13/19 5:09 PM, Mimi Zohar wrote:
-> >> Ok, but wouldn't my idea still work? Leave the default compiled-in
-> >> policy set to not appraise initramfs. The embedded /init sets all the
-> >> xattrs, changes the policy to appraise tmpfs, and then exec's the real
-> >> init? Then everything except the embedded /init and the file with the
-> >> xattrs will be appraised, and the embedded /init was verified as part of
-> >> the kernel image signature. The only additional kernel change needed
-> >> then is to add a config option to the kernel to disallow overwriting the
-> >> embedded initramfs (or at least the embedded /init).
-> > 
-> > Yes and no.  The current IMA design allows a builtin policy to be
-> > specified on the boot command line ("ima_policy="), so that it exists
-> > from boot, and allows it to be replaced once with a custom policy.
-> >  After that, assuming that CONFIG_IMA_WRITE_POLICY is configured,
-> > additional rules may be appended.  As your embedded /init solution
-> > already replaces the builtin policy, the IMA policy couldn't currently
-> > be replaced a second time with a custom policy based on LSM labels.
-> 
-> So your design assumption you're changing other code to work around in that
-> instance is the policy can only be replaced once rather than having a "finalize"
-> option when it's set, making it immutable from then on.
-> 
-> Rob
-I agree it would be better to have a finalize option. Outside of my
-idea, it seems the current setup would make it so while developing an
-IMA policy you need to keep rebooting to test your changes?
+[Forgot Hugh]
 
-I'd suggest having a knob that starts out unrestricted, and can be
-one-way changed to append-only or immutable. This seems like a good idea
-even if you decide the embedded image is too much trouble or unworkable
-for other reasons.
+On Tue 14-05-19 16:41:05, Michal Hocko wrote:
+> [This is adding a new user visible interface so you should be CCing
+> linux-api mailing list. Also CC Hugh for KSM in general. Done now]
+> 
+> On Tue 14-05-19 15:16:50, Oleksandr Natalenko wrote:
+> > By default, KSM works only on memory that is marked by madvise(). And the
+> > only way to get around that is to either:
+> > 
+> >   * use LD_PRELOAD; or
+> >   * patch the kernel with something like UKSM or PKSM.
+> > 
+> > Instead, lets implement a sysfs knob, which allows marking VMAs as
+> > mergeable. This can be used manually on some task in question or by some
+> > small userspace helper daemon.
+> > 
+> > The knob is named "force_madvise", and it is write-only. It accepts a PID
+> > to act on. To mark the VMAs as mergeable, use:
+> > 
+> >    # echo PID > /sys/kernel/mm/ksm/force_madvise
+> > 
+> > To unmerge all the VMAs, use the same approach, prepending the PID with
+> > the "minus" sign:
+> > 
+> >    # echo -PID > /sys/kernel/mm/ksm/force_madvise
+> > 
+> > This patchset is based on earlier Timofey's submission [1], but it doesn't
+> > use dedicated kthread to walk through the list of tasks/VMAs. Instead,
+> > it is up to userspace to traverse all the tasks in /proc if needed.
+> > 
+> > The previous suggestion [2] was based on amending do_anonymous_page()
+> > handler to implement fully automatic mode, but this approach was
+> > incorrect due to improper locking and not desired due to excessive
+> > complexity.
+> > 
+> > The current approach just implements minimal interface and leaves the
+> > decision on how and when to act to userspace.
+> 
+> Please make sure to describe a usecase that warrants adding a new
+> interface we have to maintain for ever.
+> 
+> > 
+> > Thanks.
+> > 
+> > [1] https://lore.kernel.org/patchwork/patch/1012142/
+> > [2] http://lkml.iu.edu/hypermail/linux/kernel/1905.1/02417.html
+> > 
+> > Oleksandr Natalenko (4):
+> >   mm/ksm: introduce ksm_enter() helper
+> >   mm/ksm: introduce ksm_leave() helper
+> >   mm/ksm: introduce force_madvise knob
+> >   mm/ksm: add force merging/unmerging documentation
+> > 
+> >  Documentation/admin-guide/mm/ksm.rst |  11 ++
+> >  mm/ksm.c                             | 160 +++++++++++++++++++++------
+> >  2 files changed, 137 insertions(+), 34 deletions(-)
+> > 
+> > -- 
+> > 2.21.0
+> > 
+> 
+> -- 
+> Michal Hocko
+> SUSE Labs
+
+-- 
+Michal Hocko
+SUSE Labs
