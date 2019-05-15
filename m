@@ -2,432 +2,136 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0370B1EBAB
-	for <lists+linux-api@lfdr.de>; Wed, 15 May 2019 12:04:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EDB281EE44
+	for <lists+linux-api@lfdr.de>; Wed, 15 May 2019 13:19:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726598AbfEOKEj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 May 2019 06:04:39 -0400
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:39684 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726591AbfEOKEi (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 15 May 2019 06:04:38 -0400
-Received: by mail-ed1-f65.google.com with SMTP id e24so3310824edq.6
-        for <linux-api@vger.kernel.org>; Wed, 15 May 2019 03:04:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brauner.io; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ge9TRjktRVrVnqZ1iKeaxbfy+4/gA1DaXxLhSva2Pzo=;
-        b=V2IoDNXoO/tu4YP46eZWZIx8mjzPhScOJUiediP/JD8yu9tDCuMkDzTLMczg+YzL1i
-         8h2maTsgCDWSFCTCfU7iElO2lDQNz25OK2rLpUjDuXn/InO53AUIxsKPAWZBZHQBnkrY
-         AylmGI44jvziO7CBVaOiSNrjQugCrPeFW/qMRQoUVqpO2tl+/0kLGYKgu+87muoF6SIN
-         MFzNwXd7/30/fH3HAQmJ/WwjziGXeplBLLVcWSfq2WKVF3S/Ioic1nkUHLKFgoQ6jJCX
-         K0CUmtSRSotosjbWq4lR1Rb3W3WdkgrHbqgOTbcxCjBqn46ScWwnVsssoWObRRQFq4Fq
-         owXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ge9TRjktRVrVnqZ1iKeaxbfy+4/gA1DaXxLhSva2Pzo=;
-        b=G3S9HTZwIM/c3zrxg5CyJaI4KTXN143Bpi1A3ygfnGQ5OaMDnvvGYTHyQQzt6VUCL0
-         Q3Ao6vFBY778gDIqanz+DoIEJbWCRTvR023nHoSky5TjVXkPIqTWeE5PA5z7CGWVmrWU
-         jPQBYPNIu3M5fLEh+vIZrFeJeHujSCncungthKRC6sgCg1LlUAPC2NjE0hKRX+64dxpf
-         g265sN1hD+xhaMuSiKnOvKlrHgSX/M5MrdmPGtm3VuHliehb46VMxQ8y8tgUKKFNPcrH
-         vWJ8QthtUySEXVTMlp2QdTtRBM7tRa1Pt0y6s728MvmF8w1BWGIRtN5+OQ+ssd9GOJco
-         AbxA==
-X-Gm-Message-State: APjAAAWEmPtdTU9sQEB7m9TFj+cQWiqAmipigDYICsfCexbN639E4upH
-        9FuC6dfK+OhPE3aFTbmSFSMPrQ==
-X-Google-Smtp-Source: APXvYqzYgU+hAC+Brc4ebmK6tMsQUeItKnvEVlDVIv4My6oi+2rwZ3pVrIyeOkkPgIu/faKmW7m32w==
-X-Received: by 2002:a17:906:4f8e:: with SMTP id o14mr31438316eju.168.1557914677041;
-        Wed, 15 May 2019 03:04:37 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:8109:9cc0:6dac:cd8f:f6e9:1b84:bbb1])
-        by smtp.gmail.com with ESMTPSA id i33sm642763ede.47.2019.05.15.03.04.34
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 15 May 2019 03:04:36 -0700 (PDT)
-From:   Christian Brauner <christian@brauner.io>
-To:     jannh@google.com, oleg@redhat.com, viro@zeniv.linux.org.uk,
-        torvalds@linux-foundation.org, linux-kernel@vger.kernel.org,
-        arnd@arndb.de, dhowells@redhat.com
-Cc:     akpm@linux-foundation.org, cyphar@cyphar.com,
-        ebiederm@xmission.com, elena.reshetova@intel.com,
-        keescook@chromium.org, luto@amacapital.net, luto@kernel.org,
-        tglx@linutronix.de, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Christian Brauner <christian@brauner.io>,
-        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: [PATCH 2/2] tests: add pidfd_open() tests
-Date:   Wed, 15 May 2019 12:04:00 +0200
-Message-Id: <20190515100400.3450-2-christian@brauner.io>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190515100400.3450-1-christian@brauner.io>
-References: <20190515100400.3450-1-christian@brauner.io>
+        id S1730929AbfEOLTS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 15 May 2019 07:19:18 -0400
+Received: from lhrrgout.huawei.com ([185.176.76.210]:32942 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1730926AbfEOLTS (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 15 May 2019 07:19:18 -0400
+Received: from LHREML714-CAH.china.huawei.com (unknown [172.18.7.107])
+        by Forcepoint Email with ESMTP id 140A8AC54039E2847CA4;
+        Wed, 15 May 2019 12:19:16 +0100 (IST)
+Received: from [10.220.96.108] (10.220.96.108) by smtpsuk.huawei.com
+ (10.201.108.37) with Microsoft SMTP Server (TLS) id 14.3.408.0; Wed, 15 May
+ 2019 12:19:06 +0100
+Subject: Re: [PATCH v2 0/3] initramfs: add support for xattrs in the initial
+ ram disk
+To:     Arvind Sankar <nivedita@alum.mit.edu>,
+        James Bottomley <James.Bottomley@HansenPartnership.com>
+CC:     Rob Landley <rob@landley.net>, Andy Lutomirski <luto@kernel.org>,
+        "Arvind Sankar" <niveditas98@gmail.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "Linux API" <linux-api@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        linux-integrity <linux-integrity@vger.kernel.org>,
+        <initramfs@vger.kernel.org>,
+        "Silviu Vlasceanu" <Silviu.Vlasceanu@huawei.com>
+References: <dca50ee1-62d8-2256-6fdb-9a786e6cea5a@landley.net>
+ <20190512194322.GA71658@rani.riverdale.lan>
+ <3fe0e74b-19ca-6081-3afe-e05921b1bfe6@huawei.com>
+ <4f522e28-29c8-5930-5d90-e0086b503613@landley.net>
+ <f7bc547c-61f4-1a17-735c-7e8df97d7965@huawei.com>
+ <CALCETrV3b205L38xqPr6QqwGn6-vxQdPoJGUygJJpgM-JqqXfQ@mail.gmail.com>
+ <1557861511.3378.19.camel@HansenPartnership.com>
+ <4da3dbda-bb76-5d71-d5c5-c03d98350ab0@landley.net>
+ <1557878052.2873.6.camel@HansenPartnership.com>
+ <20190515005221.GB88615@rani.riverdale.lan>
+From:   Roberto Sassu <roberto.sassu@huawei.com>
+Message-ID: <a138af12-d983-453e-f0b2-661a80b7e837@huawei.com>
+Date:   Wed, 15 May 2019 13:19:04 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.3.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190515005221.GB88615@rani.riverdale.lan>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.220.96.108]
+X-CFilter-Loop: Reflected
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This adds testing for the new pidfd_open() syscalls. Specifically, we test:
-- that no invalid flags can be passed to pidfd_open()
-- that no invalid pid can be passed to pidfd_open()
-- that a pidfd can be retrieved with pidfd_open()
-- that the retrieved pidfd references the correct pid
+On 5/15/2019 2:52 AM, Arvind Sankar wrote:
+> On Tue, May 14, 2019 at 04:54:12PM -0700, James Bottomley wrote:
+>> On Tue, 2019-05-14 at 18:39 -0500, Rob Landley wrote:
+>>> On 5/14/19 2:18 PM, James Bottomley wrote:
+>>>>> I think Rob is right here.  If /init was statically built into
+>>>>> the kernel image, it has no more ability to compromise the kernel
+>>>>> than anything else in the kernel.  What's the problem here?
+>>>>
+>>>> The specific problem is that unless you own the kernel signing key,
+>>>> which is really untrue for most distribution consumers because the
+>>>> distro owns the key, you cannot build the initrd statically into
+>>>> the kernel.  You can take the distro signed kernel, link it with
+>>>> the initrd then resign the combination with your key, provided you
+>>>> insert your key into the MoK variables as a trusted secure boot
+>>>> key, but the distros have been unhappy recommending this as
+>>>> standard practice.
+>>>>
+>>>> If our model for security is going to be to link the kernel and the
+>>>> initrd statically to give signature protection over the aggregate
+>>>> then we need to figure out how to execute this via the distros.  If
+>>>> we accept that the split model, where the distro owns and signs the
+>>>> kernel but the machine owner builds and is responsible for the
+>>>> initrd, then we need to explore split security models like this
+>>>> proposal.
+>>>
+>>> You can have a built-in and an external initrd? The second extracts
+>>> over the first? (I know because once upon a time conflicting files
+>>> would append. It sounds like the desired behavior here is O_EXCL fail
+>>> and move on.)
+>>
+>> Technically yes, because the first initrd could find the second by some
+>> predefined means, extract it to a temporary directory and do a
+>> pivot_root() and then the second would do some stuff, find the real
+>> root and do a pivot_root() again.  However, while possible, wouldn't it
+>> just add to the rendezvous complexity without adding any benefits? even
+>> if the first initrd is built and signed by the distro and the second is
+>> built by you, the first has to verify the second somehow.  I suppose
+>> the second could be tar extracted, which would add xattrs, if that's
+>> the goal?
+>>
+>> James
+>>
+> You can specify multiple initrd's to the boot loader, and they get
+> loaded in sequence into memory and parsed by the kernel before /init is
+> launched. Currently I believe later ones will overwrite the earlier
+> ones, which is why we've been talking about adding an option to prevent
+> that. You don't have to mess with manually finding/parsing initramfs's
+> which wouldn't even be feasible since you may not have the drivers
+> loaded yet to access the device/filesystem on which they live.
+> 
+> Once that's done, the embedded /init is just going to do in userspace
+> wht the current patch does in the kernel. So all the files in the
+> external initramfs(es) would need to have IMA signatures via the special
+> xattr file.
 
-Signed-off-by: Christian Brauner <christian@brauner.io>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: "Eric W. Biederman" <ebiederm@xmission.com>
-Cc: Kees Cook <keescook@chromium.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Jann Horn <jannh@google.com>
-Cc: David Howells <dhowells@redhat.com>
-Cc: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc: Andy Lutomirsky <luto@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Oleg Nesterov <oleg@redhat.com>
-Cc: Aleksa Sarai <cyphar@cyphar.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Al Viro <viro@zeniv.linux.org.uk>
-Cc: linux-api@vger.kernel.org
----
- tools/testing/selftests/pidfd/Makefile        |   2 +-
- tools/testing/selftests/pidfd/pidfd.h         |  57 ++++++
- .../testing/selftests/pidfd/pidfd_open_test.c | 170 ++++++++++++++++++
- tools/testing/selftests/pidfd/pidfd_test.c    |  41 +----
- 4 files changed, 229 insertions(+), 41 deletions(-)
- create mode 100644 tools/testing/selftests/pidfd/pidfd.h
- create mode 100644 tools/testing/selftests/pidfd/pidfd_open_test.c
+So, the scheme you are proposing is not equivalent: using the distro key
+to verify signatures, compared to adding a new user key to verify the
+initramfs he builds. Why would it be necessary for the user to share
+responsibility with the distro, if the only files he uses come from the
+distro?
 
-diff --git a/tools/testing/selftests/pidfd/Makefile b/tools/testing/selftests/pidfd/Makefile
-index deaf8073bc06..b36c0be70848 100644
---- a/tools/testing/selftests/pidfd/Makefile
-+++ b/tools/testing/selftests/pidfd/Makefile
-@@ -1,6 +1,6 @@
- CFLAGS += -g -I../../../../usr/include/
- 
--TEST_GEN_PROGS := pidfd_test
-+TEST_GEN_PROGS := pidfd_test pidfd_open_test
- 
- include ../lib.mk
- 
-diff --git a/tools/testing/selftests/pidfd/pidfd.h b/tools/testing/selftests/pidfd/pidfd.h
-new file mode 100644
-index 000000000000..8452e910463f
---- /dev/null
-+++ b/tools/testing/selftests/pidfd/pidfd.h
-@@ -0,0 +1,57 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+#ifndef __PIDFD_H
-+#define __PIDFD_H
-+
-+#define _GNU_SOURCE
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <sched.h>
-+#include <signal.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <syscall.h>
-+#include <sys/mount.h>
-+
-+#include "../kselftest.h"
-+
-+/*
-+ * The kernel reserves 300 pids via RESERVED_PIDS in kernel/pid.c
-+ * That means, when it wraps around any pid < 300 will be skipped.
-+ * So we need to use a pid > 300 in order to test recycling.
-+ */
-+#define PID_RECYCLE 1000
-+
-+/*
-+ * Define a few custom error codes for the child process to clearly indicate
-+ * what is happening. This way we can tell the difference between a system
-+ * error, a test error, etc.
-+ */
-+#define PIDFD_PASS 0
-+#define PIDFD_FAIL 1
-+#define PIDFD_ERROR 2
-+#define PIDFD_SKIP 3
-+#define PIDFD_XFAIL 4
-+
-+int wait_for_pid(pid_t pid)
-+{
-+	int status, ret;
-+
-+again:
-+	ret = waitpid(pid, &status, 0);
-+	if (ret == -1) {
-+		if (errno == EINTR)
-+			goto again;
-+
-+		return -1;
-+	}
-+
-+	if (!WIFEXITED(status))
-+		return -1;
-+
-+	return WEXITSTATUS(status);
-+}
-+
-+
-+#endif /* __PIDFD_H */
-diff --git a/tools/testing/selftests/pidfd/pidfd_open_test.c b/tools/testing/selftests/pidfd/pidfd_open_test.c
-new file mode 100644
-index 000000000000..9b073c1ac618
---- /dev/null
-+++ b/tools/testing/selftests/pidfd/pidfd_open_test.c
-@@ -0,0 +1,170 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#define _GNU_SOURCE
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <inttypes.h>
-+#include <limits.h>
-+#include <linux/types.h>
-+#include <linux/wait.h>
-+#include <sched.h>
-+#include <signal.h>
-+#include <stdbool.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <syscall.h>
-+#include <sys/mount.h>
-+#include <sys/prctl.h>
-+#include <sys/wait.h>
-+#include <unistd.h>
-+
-+#include "pidfd.h"
-+#include "../kselftest.h"
-+
-+static inline int sys_pidfd_open(pid_t pid, unsigned int flags)
-+{
-+	return syscall(__NR_pidfd_open, pid, flags);
-+}
-+
-+static int safe_int(const char *numstr, int *converted)
-+{
-+	char *err = NULL;
-+	long sli;
-+
-+	errno = 0;
-+	sli = strtol(numstr, &err, 0);
-+	if (errno == ERANGE && (sli == LONG_MAX || sli == LONG_MIN))
-+		return -ERANGE;
-+
-+	if (errno != 0 && sli == 0)
-+		return -EINVAL;
-+
-+	if (err == numstr || *err != '\0')
-+		return -EINVAL;
-+
-+	if (sli > INT_MAX || sli < INT_MIN)
-+		return -ERANGE;
-+
-+	*converted = (int)sli;
-+	return 0;
-+}
-+
-+static int char_left_gc(const char *buffer, size_t len)
-+{
-+	size_t i;
-+
-+	for (i = 0; i < len; i++) {
-+		if (buffer[i] == ' ' ||
-+		    buffer[i] == '\t')
-+			continue;
-+
-+		return i;
-+	}
-+
-+	return 0;
-+}
-+
-+static int char_right_gc(const char *buffer, size_t len)
-+{
-+	int i;
-+
-+	for (i = len - 1; i >= 0; i--) {
-+		if (buffer[i] == ' '  ||
-+		    buffer[i] == '\t' ||
-+		    buffer[i] == '\n' ||
-+		    buffer[i] == '\0')
-+			continue;
-+
-+		return i + 1;
-+	}
-+
-+	return 0;
-+}
-+
-+static char *trim_whitespace_in_place(char *buffer)
-+{
-+	buffer += char_left_gc(buffer, strlen(buffer));
-+	buffer[char_right_gc(buffer, strlen(buffer))] = '\0';
-+	return buffer;
-+}
-+
-+static pid_t get_pid_from_fdinfo_file(int pidfd, const char *key, size_t keylen)
-+{
-+	int ret;
-+	char path[512];
-+	FILE *f;
-+	size_t n = 0;
-+	pid_t result = -1;
-+	char *line = NULL;
-+
-+	snprintf(path, sizeof(path), "/proc/self/fdinfo/%d", pidfd);
-+
-+	f = fopen(path, "re");
-+	if (!f)
-+		return -1;
-+
-+	while (getline(&line, &n, f) != -1) {
-+		char *numstr;
-+
-+		if (strncmp(line, key, keylen))
-+			continue;
-+
-+		numstr = trim_whitespace_in_place(line + 4);
-+		ret = safe_int(numstr, &result);
-+		if (ret < 0)
-+			goto out;
-+
-+		break;
-+	}
-+
-+out:
-+	free(line);
-+	fclose(f);
-+	return result;
-+}
-+
-+int main(int argc, char **argv)
-+{
-+	int pidfd = -1, ret = 1;
-+	pid_t pid;
-+
-+	pidfd = sys_pidfd_open(-1, 0);
-+	if (pidfd >= 0) {
-+		ksft_print_msg(
-+			"%s - succeeded to open pidfd for invalid pid -1\n",
-+			strerror(errno));
-+		goto on_error;
-+	}
-+	ksft_test_result_pass("do not allow invalid pid test: passed\n");
-+	ksft_inc_pass_cnt();
-+
-+	pidfd = sys_pidfd_open(getpid(), 1);
-+	if (pidfd >= 0) {
-+		ksft_print_msg(
-+			"%s - succeeded to open pidfd with invalid flag value specified\n",
-+			strerror(errno));
-+		goto on_error;
-+	}
-+	ksft_test_result_pass("do not allow invalid flag test: passed\n");
-+	ksft_inc_pass_cnt();
-+
-+	pidfd = sys_pidfd_open(getpid(), 0);
-+	if (pidfd < 0) {
-+		ksft_print_msg("%s - failed to open pidfd\n", strerror(errno));
-+		goto on_error;
-+	}
-+	ksft_test_result_pass("open a new pidfd test: passed\n");
-+	ksft_inc_pass_cnt();
-+
-+	pid = get_pid_from_fdinfo_file(pidfd, "Pid:", sizeof("Pid:") - 1);
-+	ksft_print_msg("pidfd %d refers to process with pid %d\n", pidfd, pid);
-+
-+	ret = 0;
-+
-+on_error:
-+	if (pidfd >= 0)
-+		close(pidfd);
-+
-+	return !ret ? ksft_exit_pass() : ksft_exit_fail();
-+}
-diff --git a/tools/testing/selftests/pidfd/pidfd_test.c b/tools/testing/selftests/pidfd/pidfd_test.c
-index d59378a93782..f01de87249c9 100644
---- a/tools/testing/selftests/pidfd/pidfd_test.c
-+++ b/tools/testing/selftests/pidfd/pidfd_test.c
-@@ -14,6 +14,7 @@
- #include <sys/wait.h>
- #include <unistd.h>
- 
-+#include "pidfd.h"
- #include "../kselftest.h"
- 
- static inline int sys_pidfd_send_signal(int pidfd, int sig, siginfo_t *info,
-@@ -62,28 +63,6 @@ static int test_pidfd_send_signal_simple_success(void)
- 	return 0;
- }
- 
--static int wait_for_pid(pid_t pid)
--{
--	int status, ret;
--
--again:
--	ret = waitpid(pid, &status, 0);
--	if (ret == -1) {
--		if (errno == EINTR)
--			goto again;
--
--		return -1;
--	}
--
--	if (ret != pid)
--		goto again;
--
--	if (!WIFEXITED(status))
--		return -1;
--
--	return WEXITSTATUS(status);
--}
--
- static int test_pidfd_send_signal_exited_fail(void)
- {
- 	int pidfd, ret, saved_errno;
-@@ -128,13 +107,6 @@ static int test_pidfd_send_signal_exited_fail(void)
- 	return 0;
- }
- 
--/*
-- * The kernel reserves 300 pids via RESERVED_PIDS in kernel/pid.c
-- * That means, when it wraps around any pid < 300 will be skipped.
-- * So we need to use a pid > 300 in order to test recycling.
-- */
--#define PID_RECYCLE 1000
--
- /*
-  * Maximum number of cycles we allow. This is equivalent to PID_MAX_DEFAULT.
-  * If users set a higher limit or we have cycled PIDFD_MAX_DEFAULT number of
-@@ -143,17 +115,6 @@ static int test_pidfd_send_signal_exited_fail(void)
-  */
- #define PIDFD_MAX_DEFAULT 0x8000
- 
--/*
-- * Define a few custom error codes for the child process to clearly indicate
-- * what is happening. This way we can tell the difference between a system
-- * error, a test error, etc.
-- */
--#define PIDFD_PASS 0
--#define PIDFD_FAIL 1
--#define PIDFD_ERROR 2
--#define PIDFD_SKIP 3
--#define PIDFD_XFAIL 4
--
- static int test_pidfd_send_signal_recycled_pid_fail(void)
- {
- 	int i, ret;
+
+> Note that if you want the flexibility to be able to load one or both of
+> two external initramfs's, the current in-kernel proposal wouldn't be
+> enough -- the xattr specification would have to be more flexible (eg
+> reading .xattr-list* to allow each initramfs to specifiy its own
+> xattrs. This sort of enhancement would be much easier to handle with the
+> userspace variant.
+
+Yes, the alternative solution is to parse .xattr-list at the time it is
+extracted. The .xattr-list of each initramfs will be processed. Also,
+the CPIO parser doesn't have to reopen the file after all other files
+have been extracted.
+
+Roberto
+
 -- 
-2.21.0
-
+HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
+Managing Director: Bo PENG, Jian LI, Yanli SHI
