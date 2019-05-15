@@ -2,105 +2,93 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E4951F73F
-	for <lists+linux-api@lfdr.de>; Wed, 15 May 2019 17:16:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58C3E1F74D
+	for <lists+linux-api@lfdr.de>; Wed, 15 May 2019 17:19:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727153AbfEOPQD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 May 2019 11:16:03 -0400
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:50775 "EHLO
-        new1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726567AbfEOPQD (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 15 May 2019 11:16:03 -0400
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 09669B881;
-        Wed, 15 May 2019 11:16:02 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Wed, 15 May 2019 11:16:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm3; bh=vwxG4zfHU1KFopIJRohTDTKqQxn
-        zS9PnCdczIsuquQE=; b=gHkvdyLXIDp0vGK+W7yRjq/rjgDBR7tzxR9R7z0JJ1t
-        ETMPawT6EO98yeb7fpVVWt78adtbwr/Q37R6ICQ7ZwRkAQ8vUCi0d75RMV5sb3eO
-        0xSr5dWVddZu+LzMa6uIh58y3U7HetT2sfUzDyjUzv27XnzaERYulO/VlhQQXWNd
-        QuJ76pupaP85prOYolxkTr2nSaBiE97VCOL8LJl7wOggdplGlOHDeqSTYi/l5aU9
-        kJtY3WWhxfjjFWVSm4/hnfcVNvvlvUJXggpjlWD4as3sUr0doQ0LcsnMbF1t2KvF
-        wa1kF5teSJTxaOrkcMaK2wFnufZCFGLivbQIb5ch4DA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=vwxG4z
-        fHU1KFopIJRohTDTKqQxnzS9PnCdczIsuquQE=; b=gtRcPgCq3KlYjNgN5VkUbh
-        vPRqtf232eMydJaBzRhgEFMZPVJPaepK61PHnjsTO+aI6xO3+7vnL/QBNCYW0npR
-        mdjON24eCAjS6h/CQZbl5kSg45zXOyaWlWtJoFkhcT0qKt7ACvNcdSx8DeVfrI3V
-        Fu0gV/rF7R27mDeD5OJIQgbAn+yPoLzLGeiwa+uXa/geqqpcbNl1YzklJid0l0vX
-        9a34M5XrENZALRRrYViU+9A/9NK9oBeRjVzf9HCuAli4jeKE1usn5PEv6h1JSmSh
-        1PYMfmNLU+/Q08L4tp1ioiGimAOCbgcjleRwUgiZZbUu3NyXTOxvsAwpWkmtpHLQ
-        ==
-X-ME-Sender: <xms:Ly3cXIqtEcRx9UKvtT31bHQPGHtqif2FimXrV5sg9rf5MZDW0qE-TA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrleekgdekvdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujggfsehttdertddtredvnecuhfhrohhmpefirhgvghcu
-    mffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucfkphepkeefrdekiedrkeelrddutd
-    ejnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhhdrtghomhenucev
-    lhhushhtvghrufhiiigvpedt
-X-ME-Proxy: <xmx:MC3cXDmYW1qVvqbi6kuOuyKLMhJdj57T6xm-YL-Bzw-5gC_7Eyls_w>
-    <xmx:MC3cXIvjo27jTfAB63rKqho2w26r_LTW_30RhoeNi8vMnmwkQPw7ZQ>
-    <xmx:MC3cXDDKfweBa9OM_nuhIdbZJYf_IXPTRxGZvsw3KAjiMz0KJMEQWQ>
-    <xmx:MS3cXKbqACB4COtIQLCVlB1vCPAk72yRC4uF8X0KOiQ7lOfuM8BeuA>
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 71077103CB;
-        Wed, 15 May 2019 11:15:59 -0400 (EDT)
-Date:   Wed, 15 May 2019 17:15:57 +0200
-From:   Greg KH <greg@kroah.com>
-To:     Michal Hocko <mhocko@kernel.org>
-Cc:     Oleksandr Natalenko <oleksandr@redhat.com>,
-        linux-kernel@vger.kernel.org, Kirill Tkhai <ktkhai@virtuozzo.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Matthew Wilcox <willy@infradead.org>,
-        Pavel Tatashin <pasha.tatashin@soleen.com>,
-        Timofey Titovets <nefelim4ag@gmail.com>,
-        Aaron Tomlin <atomlin@redhat.com>,
-        Grzegorz Halat <ghalat@redhat.com>, linux-mm@kvack.org,
-        linux-api@vger.kernel.org, Hugh Dickins <hughd@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Minchan Kim <minchan@kernel.org>
-Subject: Re: [PATCH RFC v2 0/4] mm/ksm: add option to automerge VMAs
-Message-ID: <20190515151557.GA23969@kroah.com>
-References: <20190514131654.25463-1-oleksandr@redhat.com>
- <20190514144105.GF4683@dhcp22.suse.cz>
- <20190514145122.GG4683@dhcp22.suse.cz>
- <20190515062523.5ndf7obzfgugilfs@butterfly.localdomain>
- <20190515065311.GB16651@dhcp22.suse.cz>
- <20190515145151.GG16651@dhcp22.suse.cz>
+        id S1727201AbfEOPTX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 15 May 2019 11:19:23 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:26961 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726581AbfEOPTW (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 15 May 2019 11:19:22 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 1942D301A3E1;
+        Wed, 15 May 2019 15:19:22 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.43.17.159])
+        by smtp.corp.redhat.com (Postfix) with SMTP id AC9925D9C0;
+        Wed, 15 May 2019 15:19:16 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+        oleg@redhat.com; Wed, 15 May 2019 17:19:19 +0200 (CEST)
+Date:   Wed, 15 May 2019 17:19:13 +0200
+From:   Oleg Nesterov <oleg@redhat.com>
+To:     Christian Brauner <christian@brauner.io>
+Cc:     jannh@google.com, viro@zeniv.linux.org.uk,
+        torvalds@linux-foundation.org, linux-kernel@vger.kernel.org,
+        arnd@arndb.de, dhowells@redhat.com, akpm@linux-foundation.org,
+        cyphar@cyphar.com, ebiederm@xmission.com,
+        elena.reshetova@intel.com, keescook@chromium.org,
+        luto@amacapital.net, luto@kernel.org, tglx@linutronix.de,
+        linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-xtensa@linux-xtensa.org, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 1/2] pid: add pidfd_open()
+Message-ID: <20190515151912.GE18892@redhat.com>
+References: <20190515100400.3450-1-christian@brauner.io>
+ <20190515143857.GB18892@redhat.com>
+ <20190515144927.f2yxyi6w6lhn3xx7@brauner.io>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190515145151.GG16651@dhcp22.suse.cz>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+In-Reply-To: <20190515144927.f2yxyi6w6lhn3xx7@brauner.io>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.41]); Wed, 15 May 2019 15:19:22 +0000 (UTC)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, May 15, 2019 at 04:51:51PM +0200, Michal Hocko wrote:
-> [Cc Suren and Minchan - the email thread starts here 20190514131654.25463-1-oleksandr@redhat.com]
-> 
-> On Wed 15-05-19 08:53:11, Michal Hocko wrote:
-> [...]
-> > I will try to comment on the interface itself later. But I have to say
-> > that I am not impressed. Abusing sysfs for per process features is quite
-> > gross to be honest.
-> 
-> I have already commented on this in other email. I consider sysfs an
-> unsuitable interface for per-process API.
+On 05/15, Christian Brauner wrote:
+>
+> On Wed, May 15, 2019 at 04:38:58PM +0200, Oleg Nesterov wrote:
+> >
+> > it seems that you can do a single check
+> >
+> > 	tsk = pid_task(p, PIDTYPE_TGID);
+> > 	if (!tsk)
+> > 		ret = -ESRCH;
+> >
+> > this even looks more correct if we race with exec changing the leader.
+>
+> The logic here being that you can only reach the thread_group leader
+> from struct pid if PIDTYPE_PID == PIDTYPE_TGID for this struct pid?
 
-Wait, what?  A new sysfs file/directory per process?  That's crazy, no
-one must have benchmarked it :)
+Not exactly... it is not that PIDTYPE_PID == PIDTYPE_TGID for this pid,
+struct pid has no "type" or something like this.
 
-And I agree, sysfs is not for that, please don't abuse it.  Proc is for
-process apis.
+The logic is that pid->tasks[PIDTYPE_XXX] is the list of task which use
+this pid as "XXX" type.
 
-thanks,
+For example, clone(CLONE_THREAD) creates a pid which has a single non-
+empty list, pid->tasks[PIDTYPE_PID]. This pid can't be used as TGID or
+SID.
 
-greg k-h
+So if pid_task(PIDTYPE_TGID) returns non-NULL we know that this pid was
+used for a group-leader, see copy_process() which does
+
+	if (thread_group_leader(p))
+		attach_pid(p, PIDTYPE_TGID);
+
+
+If we race with exec which changes the leader pid_task(TGID) can return
+the old leader. We do not care, but this means that we should not check
+thread_group_leader().
+
+Oleg.
+
