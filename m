@@ -2,111 +2,138 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 696331F7CB
-	for <lists+linux-api@lfdr.de>; Wed, 15 May 2019 17:40:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00EF81F82B
+	for <lists+linux-api@lfdr.de>; Wed, 15 May 2019 18:08:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728421AbfEOPkV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 May 2019 11:40:21 -0400
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:34781 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728415AbfEOPkV (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 15 May 2019 11:40:21 -0400
-Received: by mail-ed1-f65.google.com with SMTP id p27so499892eda.1
-        for <linux-api@vger.kernel.org>; Wed, 15 May 2019 08:40:19 -0700 (PDT)
+        id S1726731AbfEOQIl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 15 May 2019 12:08:41 -0400
+Received: from mail-qk1-f194.google.com ([209.85.222.194]:43265 "EHLO
+        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726168AbfEOQIl (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 15 May 2019 12:08:41 -0400
+Received: by mail-qk1-f194.google.com with SMTP id z6so298502qkl.10;
+        Wed, 15 May 2019 09:08:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brauner.io; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
+        d=gmail.com; s=20161025;
+        h=sender:from:date:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=xdgkq7E7+92ZW8x2Wkn7bfn+NRy1PNeG8DcUh6bxPio=;
-        b=bfuTPZdAtZJEgr+LRkX72jzoj84BPgpwvQPX7TINdboNhdzKNjJGvDzVvqvaaAh8Km
-         iqTakFfgT4CJH4/cI6DSpX88s8Sfap4XoOKg2RDeLLxirLNHPqbOEbbj/6aCt06XF/9P
-         X/us6CYYROr8DPKhgLY3SLh3ZeL1/eih/MR9PMbtrWfnl7CFIcBUAogBL0DY90Buod6x
-         uECgJQv/SirIkuk/ECloyg95oA5R0oldoWVKg0CvJmRDjoeJEJ6edtPOwuBN6C4fcGnO
-         BW2YYNw0hfraOKLIXAT/1qzfZOA/kv0yJLeVZCoYp69fdwL2bHQEsKScA+TLGS8z8aPr
-         de9w==
+        bh=rDzDXjuWrp9NigrMtjTMJdSWxU9Nebxe8lEb+hdgCeM=;
+        b=VHn9zykAWaopBAUtLYpZi2AwAslx4LYXUZC6gIWm3y3oTwtX1uqctoyNvZdojuOpa2
+         vGA20hlW+frZp52TTjJKD9a3KSfubK9jQGL/jOGj5EswmKpBa4bimDk8B25CApqyoT5P
+         Nloc1fl83rg5n0HzsjceJf9wFDSOJmkoLRsdp5v7AxQGhFBO+t34gBdvgXXEIuxoetZe
+         UZ5msDMVecVGJqPN6AynIdMkPzlx9U5dcg5tXSGWpK91Hnuj7E5GacEpvXKNcm2mdCa/
+         ujzPDsvL4SQRaOSNpzvae2YSNesTKPMELO6xwduxu4zBaW/RwXBTQ3OWrDeRMW8k+7nb
+         hQfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=xdgkq7E7+92ZW8x2Wkn7bfn+NRy1PNeG8DcUh6bxPio=;
-        b=FlUg2VBqtpfpaazMOF1aODs/EKQokRURUJfDLwSFBYAdUqA3HTkKQvvZ0i9/O2fJU4
-         SLwU9933JdusBsTzz+HLne0K9tbd2MuRiYMZzPujFePTu6/ZPJa6Pr106wKdUM7ge0jy
-         +EwRuE5iVurCTSgFw5KMl4eWebV2W2CN17/T/GwDEiZU9nwFwOSUcC53sTRx28NahQZr
-         qGMz1bX6umC/mvfQtN3yRtaUzNFemsWtZkOdp4/KpIzhz2J+TtuIqySdfdrA31eb74WG
-         qF5En5NzuLy9Zq5E91DiDG9Wb9e5zIKKkG9mDXmIRewa5igTKSmGEe2Wd9YuOLlcOhWc
-         F8ZA==
-X-Gm-Message-State: APjAAAVgaHJv+5Rr0K26Umoo7AMi0BcXQL80/hosHWIeNrSGeXXjWanO
-        QVCItR1d1gN3v6ebQyJkWSiZ8w==
-X-Google-Smtp-Source: APXvYqwxmqRE9VJlOAD22A4kr7WHnyESSHU1d/yh8q05kzTP6OSdD5czfo3EsMWHZUHFy4XAQOiyOg==
-X-Received: by 2002:a50:87b5:: with SMTP id a50mr42379905eda.118.1557934819122;
-        Wed, 15 May 2019 08:40:19 -0700 (PDT)
-Received: from brauner.io ([193.96.224.243])
-        by smtp.gmail.com with ESMTPSA id p52sm887134eda.79.2019.05.15.08.40.16
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 15 May 2019 08:40:18 -0700 (PDT)
-Date:   Wed, 15 May 2019 17:40:15 +0200
-From:   Christian Brauner <christian@brauner.io>
-To:     Oleg Nesterov <oleg@redhat.com>
-Cc:     jannh@google.com, viro@zeniv.linux.org.uk,
-        torvalds@linux-foundation.org, linux-kernel@vger.kernel.org,
-        arnd@arndb.de, dhowells@redhat.com, akpm@linux-foundation.org,
-        cyphar@cyphar.com, ebiederm@xmission.com,
-        elena.reshetova@intel.com, keescook@chromium.org,
-        luto@amacapital.net, luto@kernel.org, tglx@linutronix.de,
-        linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
-        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-xtensa@linux-xtensa.org, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH 1/2] pid: add pidfd_open()
-Message-ID: <20190515154014.4jaxuw4fcgbusnbt@brauner.io>
-References: <20190515100400.3450-1-christian@brauner.io>
- <20190515143857.GB18892@redhat.com>
- <20190515153515.GA20783@redhat.com>
+        h=x-gm-message-state:sender:from:date:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=rDzDXjuWrp9NigrMtjTMJdSWxU9Nebxe8lEb+hdgCeM=;
+        b=ot5TBcHfGpioosB7KpPYfZO2EAiCt+/WueNpbnr1NaGO4wsn2N5vrXeaeS1859acrZ
+         Ul2w134WAAa+4/Jv3gUplWqp+QEHhBoJ5Egg7/bftJwqUPhHiCEmyXglbczm5ZC+P2rH
+         HBbH3gtQJmkVHJv5h2OLGVI8yeLthIcciR13nABFhojI7fa8WC8RrKXCQMkxb++1jhpX
+         6nHCqP44yojMsmNHSB3OCrgmUAp4PRiXeO2u/0ZvYxdV7BTlPMuBzcK8KpUygwXIDbjS
+         lxIM0Irf6jyxo0Q0CLl4VTFpUav3/WoyrXcjOTti1YInpg3BqnYo2QID9hs5fkDDmRDe
+         jPyg==
+X-Gm-Message-State: APjAAAWLWL71XOoVJrjh9kNRUXuQ25+3YkPIjtNSdfzhLOU9C/UWuD8j
+        kXN9HjjLk25i1UpYbly7HcQ=
+X-Google-Smtp-Source: APXvYqzBSgmaU+b+dESWX3eMqn5yo+6EymAdXwgwSwLiqCxivmGIgjG1gsocO/0wUT7h94ZAaOefcA==
+X-Received: by 2002:a37:6c84:: with SMTP id h126mr35184313qkc.168.1557936519219;
+        Wed, 15 May 2019 09:08:39 -0700 (PDT)
+Received: from rani.riverdale.lan ([2001:470:1f07:5f3::b55f])
+        by smtp.gmail.com with ESMTPSA id o24sm1249308qtp.94.2019.05.15.09.08.38
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 15 May 2019 09:08:38 -0700 (PDT)
+From:   Arvind Sankar <nivedita@alum.mit.edu>
+X-Google-Original-From: Arvind Sankar <arvind@rani.riverdale.lan>
+Date:   Wed, 15 May 2019 12:08:36 -0400
+To:     Roberto Sassu <roberto.sassu@huawei.com>
+Cc:     Arvind Sankar <nivedita@alum.mit.edu>,
+        James Bottomley <James.Bottomley@HansenPartnership.com>,
+        Rob Landley <rob@landley.net>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arvind Sankar <niveditas98@gmail.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        linux-integrity <linux-integrity@vger.kernel.org>,
+        initramfs@vger.kernel.org,
+        Silviu Vlasceanu <Silviu.Vlasceanu@huawei.com>
+Subject: Re: [PATCH v2 0/3] initramfs: add support for xattrs in the initial
+ ram disk
+Message-ID: <20190515160834.GA81614@rani.riverdale.lan>
+References: <20190512194322.GA71658@rani.riverdale.lan>
+ <3fe0e74b-19ca-6081-3afe-e05921b1bfe6@huawei.com>
+ <4f522e28-29c8-5930-5d90-e0086b503613@landley.net>
+ <f7bc547c-61f4-1a17-735c-7e8df97d7965@huawei.com>
+ <CALCETrV3b205L38xqPr6QqwGn6-vxQdPoJGUygJJpgM-JqqXfQ@mail.gmail.com>
+ <1557861511.3378.19.camel@HansenPartnership.com>
+ <4da3dbda-bb76-5d71-d5c5-c03d98350ab0@landley.net>
+ <1557878052.2873.6.camel@HansenPartnership.com>
+ <20190515005221.GB88615@rani.riverdale.lan>
+ <a138af12-d983-453e-f0b2-661a80b7e837@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190515153515.GA20783@redhat.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <a138af12-d983-453e-f0b2-661a80b7e837@huawei.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, May 15, 2019 at 05:35:15PM +0200, Oleg Nesterov wrote:
-> On 05/15, Oleg Nesterov wrote:
-> >
-> > On 05/15, Christian Brauner wrote:
-> > >
-> > > +SYSCALL_DEFINE2(pidfd_open, pid_t, pid, unsigned int, flags)
-> > > +{
-> > > +	int fd, ret;
-> > > +	struct pid *p;
-> > > +	struct task_struct *tsk;
-> > > +
-> > > +	if (flags)
-> > > +		return -EINVAL;
-> > > +
-> > > +	if (pid <= 0)
-> > > +		return -EINVAL;
-> > > +
-> > > +	p = find_get_pid(pid);
-> > > +	if (!p)
-> > > +		return -ESRCH;
-> > > +
-> > > +	rcu_read_lock();
-> > > +	tsk = pid_task(p, PIDTYPE_PID);
-> >
-> > You do not need find_get_pid() before rcu_lock and put_pid() at the end.
-> > You can just do find_vpid() under rcu_read_lock().
+On Wed, May 15, 2019 at 01:19:04PM +0200, Roberto Sassu wrote:
+> On 5/15/2019 2:52 AM, Arvind Sankar wrote:
+> > You can specify multiple initrd's to the boot loader, and they get
+> > loaded in sequence into memory and parsed by the kernel before /init is
+> > launched. Currently I believe later ones will overwrite the earlier
+> > ones, which is why we've been talking about adding an option to prevent
+> > that. You don't have to mess with manually finding/parsing initramfs's
+> > which wouldn't even be feasible since you may not have the drivers
+> > loaded yet to access the device/filesystem on which they live.
+> > 
+> > Once that's done, the embedded /init is just going to do in userspace
+> > wht the current patch does in the kernel. So all the files in the
+> > external initramfs(es) would need to have IMA signatures via the special
+> > xattr file.
 > 
-> Ah, sorry. Somehow I forgot you need to call pidfd_create(pid), you can't
-> do this under rcu_read_lock().
+> So, the scheme you are proposing is not equivalent: using the distro key
+> to verify signatures, compared to adding a new user key to verify the
+> initramfs he builds. Why would it be necessary for the user to share
+> responsibility with the distro, if the only files he uses come from the
+> distro?
 > 
-> So I was wrong, you can't avoid get/put_pid.
+I don't understand what you mean? The IMA hashes are signed by some key,
+but I don't see how what that key is needs to be different between the
+two proposals. If the only files used are from the distro, in my scheme
+as well you can use the signatures and key provided by the distro. If
+they're not, then in your scheme as well you would have to allow for a
+local signing key to be used. Both schemes are using the same
+.xattr-list file, no?
 
-Yeah, I haven't made any changes yet.
+If the external initramfs is to be signed, and it is built locally, in
+both schemes there will have to be a provision for a local signing key,
+but this key in any case is verified by the bootloader so there can't
+be a difference between the two schemes since they're the same there.
 
-Christian
+What is the difference you're seeing here?
+> 
+> > Note that if you want the flexibility to be able to load one or both of
+> > two external initramfs's, the current in-kernel proposal wouldn't be
+> > enough -- the xattr specification would have to be more flexible (eg
+> > reading .xattr-list* to allow each initramfs to specifiy its own
+> > xattrs. This sort of enhancement would be much easier to handle with the
+> > userspace variant.
+> 
+> Yes, the alternative solution is to parse .xattr-list at the time it is
+> extracted. The .xattr-list of each initramfs will be processed. Also,
+> the CPIO parser doesn't have to reopen the file after all other files
+> have been extracted.
+> 
+> Roberto
+Right, I guess this would be sort of the minimal "modification" to the
+CPIO format to allow it to support xattrs.
+> 
+> -- 
+> HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
+> Managing Director: Bo PENG, Jian LI, Yanli SHI
