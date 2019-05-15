@@ -2,21 +2,21 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B8D51EB55
-	for <lists+linux-api@lfdr.de>; Wed, 15 May 2019 11:46:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC8961EB4A
+	for <lists+linux-api@lfdr.de>; Wed, 15 May 2019 11:46:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726713AbfEOJqE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 May 2019 05:46:04 -0400
-Received: from foss.arm.com ([217.140.101.70]:39372 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726651AbfEOJqC (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 15 May 2019 05:46:02 -0400
+        id S1726651AbfEOJqG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 15 May 2019 05:46:06 -0400
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:39392 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725974AbfEOJqF (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 15 May 2019 05:46:05 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F0BB4A78;
-        Wed, 15 May 2019 02:46:01 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 541A780D;
+        Wed, 15 May 2019 02:46:05 -0700 (PDT)
 Received: from e110439-lin.cambridge.arm.com (e110439-lin.cambridge.arm.com [10.1.194.43])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id D90433F703;
-        Wed, 15 May 2019 02:45:58 -0700 (PDT)
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 3C4FD3F703;
+        Wed, 15 May 2019 02:46:02 -0700 (PDT)
 From:   Patrick Bellasi <patrick.bellasi@arm.com>
 To:     linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
         linux-api@vger.kernel.org
@@ -35,9 +35,9 @@ Cc:     Ingo Molnar <mingo@redhat.com>,
         Joel Fernandes <joelaf@google.com>,
         Steve Muckle <smuckle@google.com>,
         Suren Baghdasaryan <surenb@google.com>
-Subject: [PATCH v9 09/16] sched/cpufreq: uclamp: Add clamps for FAIR and RT tasks
-Date:   Wed, 15 May 2019 10:44:52 +0100
-Message-Id: <20190515094459.10317-10-patrick.bellasi@arm.com>
+Subject: [PATCH v9 10/16] sched/core: uclamp: Add uclamp_util_with()
+Date:   Wed, 15 May 2019 10:44:53 +0100
+Message-Id: <20190515094459.10317-11-patrick.bellasi@arm.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190515094459.10317-1-patrick.bellasi@arm.com>
 References: <20190515094459.10317-1-patrick.bellasi@arm.com>
@@ -48,140 +48,98 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Each time a frequency update is required via schedutil, a frequency is
-selected to (possibly) satisfy the utilization reported by each
-scheduling class and irqs. However, when utilization clamping is in use,
-the frequency selection should consider userspace utilization clamping
-hints.  This will allow, for example, to:
+So far uclamp_util() allows to clamp a specified utilization considering
+the clamp values requested by RUNNABLE tasks in a CPU. For the Energy
+Aware Scheduler (EAS) it is interesting to test how clamp values will
+change when a task is becoming RUNNABLE on a given CPU.
+For example, EAS is interested in comparing the energy impact of
+different scheduling decisions and the clamp values can play a role on
+that.
 
- - boost tasks which are directly affecting the user experience
-   by running them at least at a minimum "requested" frequency
-
- - cap low priority tasks not directly affecting the user experience
-   by running them only up to a maximum "allowed" frequency
-
-These constraints are meant to support a per-task based tuning of the
-frequency selection thus supporting a fine grained definition of
-performance boosting vs energy saving strategies in kernel space.
-
-Add support to clamp the utilization of RUNNABLE FAIR and RT tasks
-within the boundaries defined by their aggregated utilization clamp
-constraints.
-
-Do that by considering the max(min_util, max_util) to give boosted tasks
-the performance they need even when they happen to be co-scheduled with
-other capped tasks.
+Add uclamp_util_with() which allows to clamp a given utilization by
+considering the possible impact on CPU clamp values of a specified task.
 
 Signed-off-by: Patrick Bellasi <patrick.bellasi@arm.com>
 Cc: Ingo Molnar <mingo@redhat.com>
 Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
----
- kernel/sched/cpufreq_schedutil.c | 15 ++++++++++++---
- kernel/sched/fair.c              |  4 ++++
- kernel/sched/rt.c                |  4 ++++
- kernel/sched/sched.h             | 23 +++++++++++++++++++++++
- 4 files changed, 43 insertions(+), 3 deletions(-)
 
-diff --git a/kernel/sched/cpufreq_schedutil.c b/kernel/sched/cpufreq_schedutil.c
-index 5c41ea367422..7d786d99fdb4 100644
---- a/kernel/sched/cpufreq_schedutil.c
-+++ b/kernel/sched/cpufreq_schedutil.c
-@@ -201,8 +201,10 @@ unsigned long schedutil_freq_util(int cpu, unsigned long util_cfs,
- 	unsigned long dl_util, util, irq;
- 	struct rq *rq = cpu_rq(cpu);
+---
+Changes in v9:
+ Message-ID: <20190507103845.tejg55wfsu3l3jwh@e110439-lin>
+ - moved here the definition of uclamp_eff_value() from a previous patch
+---
+ kernel/sched/core.c  | 13 +++++++++++++
+ kernel/sched/sched.h | 21 ++++++++++++++++++++-
+ 2 files changed, 33 insertions(+), 1 deletion(-)
+
+diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+index f0e04298b1d7..eed7664437ac 100644
+--- a/kernel/sched/core.c
++++ b/kernel/sched/core.c
+@@ -868,6 +868,19 @@ uclamp_eff_get(struct task_struct *p, unsigned int clamp_id)
+ 	return uc_req;
+ }
  
--	if (type == FREQUENCY_UTIL && rt_rq_is_runnable(&rq->rt))
-+	if (!IS_BUILTIN(CONFIG_UCLAMP_TASK) &&
-+	    type == FREQUENCY_UTIL && rt_rq_is_runnable(&rq->rt)) {
- 		return max;
-+	}
- 
- 	/*
- 	 * Early check to see if IRQ/steal time saturates the CPU, can be
-@@ -218,9 +220,16 @@ unsigned long schedutil_freq_util(int cpu, unsigned long util_cfs,
- 	 * CFS tasks and we use the same metric to track the effective
- 	 * utilization (PELT windows are synchronized) we can directly add them
- 	 * to obtain the CPU's actual utilization.
-+	 *
-+	 * CFS and RT utilization can be boosted or capped, depending on
-+	 * utilization clamp constraints requested by currently RUNNABLE
-+	 * tasks.
-+	 * When there are no CFS RUNNABLE tasks, clamps are released and
-+	 * frequency will be gracefully reduced with the utilization decay.
- 	 */
--	util = util_cfs;
--	util += cpu_util_rt(rq);
-+	util = util_cfs + cpu_util_rt(rq);
-+	if (type == FREQUENCY_UTIL)
-+		util = uclamp_util(rq, util);
- 
- 	dl_util = cpu_util_dl(rq);
- 
-diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-index f35930f5e528..5e5fe5462099 100644
---- a/kernel/sched/fair.c
-+++ b/kernel/sched/fair.c
-@@ -10690,6 +10690,10 @@ const struct sched_class fair_sched_class = {
- #ifdef CONFIG_FAIR_GROUP_SCHED
- 	.task_change_group	= task_change_group_fair,
- #endif
++unsigned int uclamp_eff_value(struct task_struct *p, unsigned int clamp_id)
++{
++	struct uclamp_se uc_eff;
 +
-+#ifdef CONFIG_UCLAMP_TASK
-+	.uclamp_enabled		= 1,
-+#endif
- };
- 
- #ifdef CONFIG_SCHED_DEBUG
-diff --git a/kernel/sched/rt.c b/kernel/sched/rt.c
-index 1e6b909dca36..7fe730382092 100644
---- a/kernel/sched/rt.c
-+++ b/kernel/sched/rt.c
-@@ -2400,6 +2400,10 @@ const struct sched_class rt_sched_class = {
- 	.switched_to		= switched_to_rt,
- 
- 	.update_curr		= update_curr_rt,
++	/* Task currently refcounted: use back-annotated (effective) value */
++	if (p->uclamp[clamp_id].active)
++		return p->uclamp[clamp_id].value;
 +
-+#ifdef CONFIG_UCLAMP_TASK
-+	.uclamp_enabled		= 1,
-+#endif
- };
- 
- #ifdef CONFIG_RT_GROUP_SCHED
++	uc_eff = uclamp_eff_get(p, clamp_id);
++
++	return uc_eff.value;
++}
++
+ /*
+  * When a task is enqueued on a rq, the clamp bucket currently defined by the
+  * task's uclamp::bucket_id is refcounted on that rq. This also immediately
 diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
-index a8a693c75669..1ea44f4dec16 100644
+index 1ea44f4dec16..c95340a1d598 100644
 --- a/kernel/sched/sched.h
 +++ b/kernel/sched/sched.h
-@@ -2275,6 +2275,29 @@ static inline void cpufreq_update_util(struct rq *rq, unsigned int flags)
- static inline void cpufreq_update_util(struct rq *rq, unsigned int flags) {}
+@@ -2276,11 +2276,20 @@ static inline void cpufreq_update_util(struct rq *rq, unsigned int flags) {}
  #endif /* CONFIG_CPU_FREQ */
  
-+#ifdef CONFIG_UCLAMP_TASK
+ #ifdef CONFIG_UCLAMP_TASK
+-static inline unsigned int uclamp_util(struct rq *rq, unsigned int util)
++unsigned int uclamp_eff_value(struct task_struct *p, unsigned int clamp_id);
++
++static __always_inline
++unsigned int uclamp_util_with(struct rq *rq, unsigned int util,
++			      struct task_struct *p)
+ {
+ 	unsigned int min_util = READ_ONCE(rq->uclamp[UCLAMP_MIN].value);
+ 	unsigned int max_util = READ_ONCE(rq->uclamp[UCLAMP_MAX].value);
+ 
++	if (p) {
++		min_util = max(min_util, uclamp_eff_value(p, UCLAMP_MIN));
++		max_util = max(max_util, uclamp_eff_value(p, UCLAMP_MAX));
++	}
++
+ 	/*
+ 	 * Since CPU's {min,max}_util clamps are MAX aggregated considering
+ 	 * RUNNABLE tasks with _different_ clamps, we can end up with an
+@@ -2291,7 +2300,17 @@ static inline unsigned int uclamp_util(struct rq *rq, unsigned int util)
+ 
+ 	return clamp(util, min_util, max_util);
+ }
++
 +static inline unsigned int uclamp_util(struct rq *rq, unsigned int util)
 +{
-+	unsigned int min_util = READ_ONCE(rq->uclamp[UCLAMP_MIN].value);
-+	unsigned int max_util = READ_ONCE(rq->uclamp[UCLAMP_MAX].value);
-+
-+	/*
-+	 * Since CPU's {min,max}_util clamps are MAX aggregated considering
-+	 * RUNNABLE tasks with _different_ clamps, we can end up with an
-+	 * inversion. Fix it now when the clamps are applied.
-+	 */
-+	if (unlikely(min_util >= max_util))
-+		return min_util;
-+
-+	return clamp(util, min_util, max_util);
++	return uclamp_util_with(rq, util, NULL);
 +}
-+#else /* CONFIG_UCLAMP_TASK */
-+static inline unsigned int uclamp_util(struct rq *rq, unsigned int util)
+ #else /* CONFIG_UCLAMP_TASK */
++static inline unsigned int uclamp_util_with(struct rq *rq, unsigned int util,
++					    struct task_struct *p)
 +{
 +	return util;
 +}
-+#endif /* CONFIG_UCLAMP_TASK */
-+
- #ifdef arch_scale_freq_capacity
- # ifndef arch_scale_freq_invariant
- #  define arch_scale_freq_invariant()	true
+ static inline unsigned int uclamp_util(struct rq *rq, unsigned int util)
+ {
+ 	return util;
 -- 
 2.21.0
 
