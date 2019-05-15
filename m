@@ -2,136 +2,113 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EDB281EE44
-	for <lists+linux-api@lfdr.de>; Wed, 15 May 2019 13:19:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E2B51F460
+	for <lists+linux-api@lfdr.de>; Wed, 15 May 2019 14:29:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730929AbfEOLTS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 May 2019 07:19:18 -0400
-Received: from lhrrgout.huawei.com ([185.176.76.210]:32942 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1730926AbfEOLTS (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 15 May 2019 07:19:18 -0400
-Received: from LHREML714-CAH.china.huawei.com (unknown [172.18.7.107])
-        by Forcepoint Email with ESMTP id 140A8AC54039E2847CA4;
-        Wed, 15 May 2019 12:19:16 +0100 (IST)
-Received: from [10.220.96.108] (10.220.96.108) by smtpsuk.huawei.com
- (10.201.108.37) with Microsoft SMTP Server (TLS) id 14.3.408.0; Wed, 15 May
- 2019 12:19:06 +0100
-Subject: Re: [PATCH v2 0/3] initramfs: add support for xattrs in the initial
- ram disk
-To:     Arvind Sankar <nivedita@alum.mit.edu>,
-        James Bottomley <James.Bottomley@HansenPartnership.com>
-CC:     Rob Landley <rob@landley.net>, Andy Lutomirski <luto@kernel.org>,
-        "Arvind Sankar" <niveditas98@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "Linux API" <linux-api@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        linux-integrity <linux-integrity@vger.kernel.org>,
-        <initramfs@vger.kernel.org>,
-        "Silviu Vlasceanu" <Silviu.Vlasceanu@huawei.com>
-References: <dca50ee1-62d8-2256-6fdb-9a786e6cea5a@landley.net>
- <20190512194322.GA71658@rani.riverdale.lan>
- <3fe0e74b-19ca-6081-3afe-e05921b1bfe6@huawei.com>
- <4f522e28-29c8-5930-5d90-e0086b503613@landley.net>
- <f7bc547c-61f4-1a17-735c-7e8df97d7965@huawei.com>
- <CALCETrV3b205L38xqPr6QqwGn6-vxQdPoJGUygJJpgM-JqqXfQ@mail.gmail.com>
- <1557861511.3378.19.camel@HansenPartnership.com>
- <4da3dbda-bb76-5d71-d5c5-c03d98350ab0@landley.net>
- <1557878052.2873.6.camel@HansenPartnership.com>
- <20190515005221.GB88615@rani.riverdale.lan>
-From:   Roberto Sassu <roberto.sassu@huawei.com>
-Message-ID: <a138af12-d983-453e-f0b2-661a80b7e837@huawei.com>
-Date:   Wed, 15 May 2019 13:19:04 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.3.0
+        id S1726995AbfEOM32 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 15 May 2019 08:29:28 -0400
+Received: from mail-vs1-f68.google.com ([209.85.217.68]:37222 "EHLO
+        mail-vs1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726803AbfEOM31 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 15 May 2019 08:29:27 -0400
+Received: by mail-vs1-f68.google.com with SMTP id o5so1566244vsq.4;
+        Wed, 15 May 2019 05:29:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cgdsZEIH2W5eTMf3uaLx4q/hdk2jHzw6fNgJE2/Ss+k=;
+        b=Kl1WAuyv9mYDtkcZTKYWwrcEjYd5h2UITDxQ0i8bc3etfxEnmdO91neWn/D44ScI5o
+         2dPdO26CQ2qpDl0OYOdMME31KZPnk7J8rqt+3+UpgGHGJf3t+chzENYfs7KbrbcznjdH
+         vIvZbymPN0VSnn0Lvj2a3Rkl5szI2YD322jgtVWxlH4lV7ufSmV17xZStx7q5sWryg49
+         pBT++UmGoudT2A4o0d6xVTbTeqSpws9htAsHYUAgQg0bJaeFwQQVrHN7HYMFZ8iOvBTX
+         ZHz5cXs/jzxNfwyxJFN2ZaYbWBoR9+6Ak/XcQ7PIif51U6J0arvK8IuGEdf44ZxsMA44
+         4y9A==
+X-Gm-Message-State: APjAAAUaz+8HolnY8TfWhHskyIP01Y9I2M/xPNoy+LiPFTZvtYNQJwpj
+        XRwh9qVedYi6mqWJlHL+YhcutX43utUGBoWcLrM=
+X-Google-Smtp-Source: APXvYqzDAJzfhabDwTYAYFXSOnY37iC0IXZoLvq4QwE8CVpdlrcgi5gg8xMkv97L4kuyL6Wc28Zhp7a2DMatRjdZeGY=
+X-Received: by 2002:a67:8e03:: with SMTP id q3mr20471095vsd.152.1557923365973;
+ Wed, 15 May 2019 05:29:25 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190515005221.GB88615@rani.riverdale.lan>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.220.96.108]
-X-CFilter-Loop: Reflected
+References: <20190515100400.3450-1-christian@brauner.io>
+In-Reply-To: <20190515100400.3450-1-christian@brauner.io>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 15 May 2019 14:29:14 +0200
+Message-ID: <CAMuHMdUKJOP2H4cVy0Na5hjn2-HUbfvE_zbctS4L9d-h9Oru4Q@mail.gmail.com>
+Subject: Re: [PATCH 1/2] pid: add pidfd_open()
+To:     Christian Brauner <christian@brauner.io>
+Cc:     Jann Horn <jannh@google.com>, Oleg Nesterov <oleg@redhat.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        "torvalds@linux-foundation.org" <torvalds@linux-foundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        David Howells <dhowells@redhat.com>,
+        "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
+        Linux-sh list <linux-sh@vger.kernel.org>,
+        linux-mips@vger.kernel.org,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        sparclinux <sparclinux@vger.kernel.org>,
+        elena.reshetova@intel.com, Linux-Arch <linux-arch@vger.kernel.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        linux-xtensa@linux-xtensa.org, Kees Cook <keescook@chromium.org>,
+        linux-m68k <linux-m68k@lists.linux-m68k.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Parisc List <linux-parisc@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>, cyphar@cyphar.com,
+        Andy Lutomirski <luto@amacapital.net>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        alpha <linux-alpha@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 5/15/2019 2:52 AM, Arvind Sankar wrote:
-> On Tue, May 14, 2019 at 04:54:12PM -0700, James Bottomley wrote:
->> On Tue, 2019-05-14 at 18:39 -0500, Rob Landley wrote:
->>> On 5/14/19 2:18 PM, James Bottomley wrote:
->>>>> I think Rob is right here.  If /init was statically built into
->>>>> the kernel image, it has no more ability to compromise the kernel
->>>>> than anything else in the kernel.  What's the problem here?
->>>>
->>>> The specific problem is that unless you own the kernel signing key,
->>>> which is really untrue for most distribution consumers because the
->>>> distro owns the key, you cannot build the initrd statically into
->>>> the kernel.  You can take the distro signed kernel, link it with
->>>> the initrd then resign the combination with your key, provided you
->>>> insert your key into the MoK variables as a trusted secure boot
->>>> key, but the distros have been unhappy recommending this as
->>>> standard practice.
->>>>
->>>> If our model for security is going to be to link the kernel and the
->>>> initrd statically to give signature protection over the aggregate
->>>> then we need to figure out how to execute this via the distros.  If
->>>> we accept that the split model, where the distro owns and signs the
->>>> kernel but the machine owner builds and is responsible for the
->>>> initrd, then we need to explore split security models like this
->>>> proposal.
->>>
->>> You can have a built-in and an external initrd? The second extracts
->>> over the first? (I know because once upon a time conflicting files
->>> would append. It sounds like the desired behavior here is O_EXCL fail
->>> and move on.)
->>
->> Technically yes, because the first initrd could find the second by some
->> predefined means, extract it to a temporary directory and do a
->> pivot_root() and then the second would do some stuff, find the real
->> root and do a pivot_root() again.  However, while possible, wouldn't it
->> just add to the rendezvous complexity without adding any benefits? even
->> if the first initrd is built and signed by the distro and the second is
->> built by you, the first has to verify the second somehow.  I suppose
->> the second could be tar extracted, which would add xattrs, if that's
->> the goal?
->>
->> James
->>
-> You can specify multiple initrd's to the boot loader, and they get
-> loaded in sequence into memory and parsed by the kernel before /init is
-> launched. Currently I believe later ones will overwrite the earlier
-> ones, which is why we've been talking about adding an option to prevent
-> that. You don't have to mess with manually finding/parsing initramfs's
-> which wouldn't even be feasible since you may not have the drivers
-> loaded yet to access the device/filesystem on which they live.
-> 
-> Once that's done, the embedded /init is just going to do in userspace
-> wht the current patch does in the kernel. So all the files in the
-> external initramfs(es) would need to have IMA signatures via the special
-> xattr file.
+On Wed, May 15, 2019 at 12:04 PM Christian Brauner <christian@brauner.io> wrote:
+> This adds the pidfd_open() syscall. It allows a caller to retrieve pollable
+> pidfds for a process which did not get created via CLONE_PIDFD, i.e. for a
+> process that is created via traditional fork()/clone() calls that is only
+> referenced by a PID:
+>
+> int pidfd = pidfd_open(1234, 0);
+> ret = pidfd_send_signal(pidfd, SIGSTOP, NULL, 0);
+>
+> With the introduction of pidfds through CLONE_PIDFD it is possible to
+> created pidfds at process creation time.
+> However, a lot of processes get created with traditional PID-based calls
+> such as fork() or clone() (without CLONE_PIDFD). For these processes a
+> caller can currently not create a pollable pidfd. This is a huge problem
+> for Android's low memory killer (LMK) and service managers such as systemd.
+> Both are examples of tools that want to make use of pidfds to get reliable
+> notification of process exit for non-parents (pidfd polling) and race-free
+> signal sending (pidfd_send_signal()). They intend to switch to this API for
+> process supervision/management as soon as possible. Having no way to get
+> pollable pidfds from PID-only processes is one of the biggest blockers for
+> them in adopting this api. With pidfd_open() making it possible to retrieve
+> pidfd for PID-based processes we enable them to adopt this api.
+>
+> In line with Arnd's recent changes to consolidate syscall numbers across
+> architectures, I have added the pidfd_open() syscall to all architectures
+> at the same time.
+>
+> Signed-off-by: Christian Brauner <christian@brauner.io>
 
-So, the scheme you are proposing is not equivalent: using the distro key
-to verify signatures, compared to adding a new user key to verify the
-initramfs he builds. Why would it be necessary for the user to share
-responsibility with the distro, if the only files he uses come from the
-distro?
+>  arch/m68k/kernel/syscalls/syscall.tbl       |  1 +
 
+Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-> Note that if you want the flexibility to be able to load one or both of
-> two external initramfs's, the current in-kernel proposal wouldn't be
-> enough -- the xattr specification would have to be more flexible (eg
-> reading .xattr-list* to allow each initramfs to specifiy its own
-> xattrs. This sort of enhancement would be much easier to handle with the
-> userspace variant.
+Gr{oetje,eeting}s,
 
-Yes, the alternative solution is to parse .xattr-list at the time it is
-extracted. The .xattr-list of each initramfs will be processed. Also,
-the CPIO parser doesn't have to reopen the file after all other files
-have been extracted.
-
-Roberto
+                        Geert
 
 -- 
-HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
-Managing Director: Bo PENG, Jian LI, Yanli SHI
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
