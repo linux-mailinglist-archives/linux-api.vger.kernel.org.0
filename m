@@ -2,139 +2,251 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D48091F921
-	for <lists+linux-api@lfdr.de>; Wed, 15 May 2019 19:07:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 581071F978
+	for <lists+linux-api@lfdr.de>; Wed, 15 May 2019 19:45:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727719AbfEORGz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 May 2019 13:06:55 -0400
-Received: from lhrrgout.huawei.com ([185.176.76.210]:32943 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726586AbfEORGy (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 15 May 2019 13:06:54 -0400
-Received: from LHREML714-CAH.china.huawei.com (unknown [172.18.7.107])
-        by Forcepoint Email with ESMTP id 9408C8E5CBF113525311;
-        Wed, 15 May 2019 18:06:51 +0100 (IST)
-Received: from [10.220.96.108] (10.220.96.108) by smtpsuk.huawei.com
- (10.201.108.37) with Microsoft SMTP Server (TLS) id 14.3.408.0; Wed, 15 May
- 2019 18:06:45 +0100
-Subject: Re: [PATCH v2 0/3] initramfs: add support for xattrs in the initial
- ram disk
-To:     Arvind Sankar <nivedita@alum.mit.edu>
-CC:     James Bottomley <James.Bottomley@HansenPartnership.com>,
-        Rob Landley <rob@landley.net>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arvind Sankar <niveditas98@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        linux-integrity <linux-integrity@vger.kernel.org>,
-        <initramfs@vger.kernel.org>,
-        Silviu Vlasceanu <Silviu.Vlasceanu@huawei.com>
-References: <20190512194322.GA71658@rani.riverdale.lan>
- <3fe0e74b-19ca-6081-3afe-e05921b1bfe6@huawei.com>
- <4f522e28-29c8-5930-5d90-e0086b503613@landley.net>
- <f7bc547c-61f4-1a17-735c-7e8df97d7965@huawei.com>
- <CALCETrV3b205L38xqPr6QqwGn6-vxQdPoJGUygJJpgM-JqqXfQ@mail.gmail.com>
- <1557861511.3378.19.camel@HansenPartnership.com>
- <4da3dbda-bb76-5d71-d5c5-c03d98350ab0@landley.net>
- <1557878052.2873.6.camel@HansenPartnership.com>
- <20190515005221.GB88615@rani.riverdale.lan>
- <a138af12-d983-453e-f0b2-661a80b7e837@huawei.com>
- <20190515160834.GA81614@rani.riverdale.lan>
-From:   Roberto Sassu <roberto.sassu@huawei.com>
-Message-ID: <ce65240a-4df6-8ebc-8360-c01451e724f0@huawei.com>
-Date:   Wed, 15 May 2019 19:06:52 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.3.0
+        id S1727194AbfEORpV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 15 May 2019 13:45:21 -0400
+Received: from mail-ua1-f68.google.com ([209.85.222.68]:38798 "EHLO
+        mail-ua1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726787AbfEORpV (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 15 May 2019 13:45:21 -0400
+Received: by mail-ua1-f68.google.com with SMTP id t15so183832uao.5
+        for <linux-api@vger.kernel.org>; Wed, 15 May 2019 10:45:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=y2m7yv1XhZnPjtDDyBcaCJV3OfxxWTymy93VR6KaE5U=;
+        b=CviqV5ydQdEcHOiodPrSzU5jMvwQcoHtcBbzWljh20l7kJfiKaNVIzcADvvKuuu2lZ
+         D5dv2aAqIdF3YAbFDCrxnTcTBU90PWElfvdDYQCMrr+nOoGhBZEoDopVuiUf5M58ccQ5
+         2tsQw9iTnMF7r9zi5Sax0dbLHIsqOuXqo8Xfad/2eoJL05xFPBEVJVo7Bpy74nSJSWJp
+         tiCTG9TdzKLOLYvR9JjOrasUQhZxX3L73rtKi0MnSX2QN8wYp4yV5eT8d6JR0AW98TkG
+         CWnq5Zzgpx7YK5fuwC3vCdixJtYQICLk60N+E5r9tJiENbkf1RQcDw4tlX99XRV1SGwF
+         SySQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=y2m7yv1XhZnPjtDDyBcaCJV3OfxxWTymy93VR6KaE5U=;
+        b=auIx3uhaHvu1NqKlwhfJxF4pnLWkcbDkk2u8xZbiKCwQ8iay+B4ahFBBzJ4fHaNImj
+         vUZUSWrj/+K3bei1MVbJjI9EDhlygRYuj6AGuZcdFIV2PJpUX1/XaEQu8GvjcQ5ZqzaX
+         7tOqGYZyHWyTl75L/jH0lR77lYHXubaCUGbM5a8uNqIhPkJKvrGKNcW1EdoA6+KhwbW1
+         woriJd9RdFkGJEW7/DMJDdgPp40zLUi1ZaotMbYOxCKS8hO6ODkPNQBr4pB4Nsoca7nw
+         K+uv5Xhuj04X8W4gXu5V+O55XrcmklLu+4putWQCA5bC/Zg+B1mUo/3DBZ87TXItbEPs
+         ipKg==
+X-Gm-Message-State: APjAAAUSJkqfLYcvtO5840NCDnvKq+H3drD0uX0mO4FcFPPu+Dd9Bol7
+        6LKaeRrKeN+9nhJ6zK5mQIHmpIbylS37Fg7ZE9um9w==
+X-Google-Smtp-Source: APXvYqywR4mX+Nl6g9f5/Sp0unLUl+sgnKvLBMi1P4KMj6h1ZwXo6NEp9s5gtpFZIlqrfauTRtA7ILfjhAlSpHxYz88=
+X-Received: by 2002:ab0:14ab:: with SMTP id d40mr21334220uae.41.1557942319615;
+ Wed, 15 May 2019 10:45:19 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190515160834.GA81614@rani.riverdale.lan>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.220.96.108]
-X-CFilter-Loop: Reflected
+References: <20190515100400.3450-1-christian@brauner.io>
+In-Reply-To: <20190515100400.3450-1-christian@brauner.io>
+From:   Daniel Colascione <dancol@google.com>
+Date:   Wed, 15 May 2019 10:45:06 -0700
+Message-ID: <CAKOZuesPF+ftwqsNDMBy1LpwJgWTNuQm9-E=C90sSTBYEEsDww@mail.gmail.com>
+Subject: Re: [PATCH 1/2] pid: add pidfd_open()
+To:     Christian Brauner <christian@brauner.io>
+Cc:     Jann Horn <jannh@google.com>, Oleg Nesterov <oleg@redhat.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        David Howells <dhowells@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        elena.reshetova@intel.com, Kees Cook <keescook@chromium.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-xtensa@linux-xtensa.org,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch@vger.kernel.org,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 5/15/2019 6:08 PM, Arvind Sankar wrote:
-> On Wed, May 15, 2019 at 01:19:04PM +0200, Roberto Sassu wrote:
->> On 5/15/2019 2:52 AM, Arvind Sankar wrote:
->>> You can specify multiple initrd's to the boot loader, and they get
->>> loaded in sequence into memory and parsed by the kernel before /init is
->>> launched. Currently I believe later ones will overwrite the earlier
->>> ones, which is why we've been talking about adding an option to prevent
->>> that. You don't have to mess with manually finding/parsing initramfs's
->>> which wouldn't even be feasible since you may not have the drivers
->>> loaded yet to access the device/filesystem on which they live.
->>>
->>> Once that's done, the embedded /init is just going to do in userspace
->>> wht the current patch does in the kernel. So all the files in the
->>> external initramfs(es) would need to have IMA signatures via the special
->>> xattr file.
->>
->> So, the scheme you are proposing is not equivalent: using the distro key
->> to verify signatures, compared to adding a new user key to verify the
->> initramfs he builds. Why would it be necessary for the user to share
->> responsibility with the distro, if the only files he uses come from the
->> distro?
->>
-> I don't understand what you mean? The IMA hashes are signed by some key,
-> but I don't see how what that key is needs to be different between the
-> two proposals. If the only files used are from the distro, in my scheme
-> as well you can use the signatures and key provided by the distro. If
-> they're not, then in your scheme as well you would have to allow for a
-> local signing key to be used. Both schemes are using the same
-> .xattr-list file, no?
+On Wed, May 15, 2019 at 3:04 AM Christian Brauner <christian@brauner.io> wrote:
+>
+> This adds the pidfd_open() syscall. It allows a caller to retrieve pollable
+> pidfds for a process which did not get created via CLONE_PIDFD, i.e. for a
+> process that is created via traditional fork()/clone() calls that is only
+> referenced by a PID:
 
-I was referring to James's proposal to load an external initramfs from
-the embedded initramfs. If the embedded initramfs opens the external
-initramfs when IMA is enabled, the external initramfs needs to be
-signed with a local signing key. But I read your answer that this
-wouldn't be feasible. You have to specify all initramfs in the boot
-loader configuration.
+Thanks for doing this work. I'm really looking forward to this new
+approach to process management.
 
-I think deferring IMA initialization is not the safest approach, as it
-cannot be guaranteed for all possible scenarios that there won't be any
-file read before /init is executed.
+> int pidfd = pidfd_open(1234, 0);
+> ret = pidfd_send_signal(pidfd, SIGSTOP, NULL, 0);
+>
+> With the introduction of pidfds through CLONE_PIDFD it is possible to
+> created pidfds at process creation time.
+> However, a lot of processes get created with traditional PID-based calls
+> such as fork() or clone() (without CLONE_PIDFD). For these processes a
+> caller can currently not create a pollable pidfd. This is a huge problem
+> for Android's low memory killer (LMK) and service managers such as systemd.
+> Both are examples of tools that want to make use of pidfds to get reliable
+> notification of process exit for non-parents (pidfd polling) and race-free
+> signal sending (pidfd_send_signal()). They intend to switch to this API for
+> process supervision/management as soon as possible. Having no way to get
+> pollable pidfds from PID-only processes is one of the biggest blockers for
+> them in adopting this api. With pidfd_open() making it possible to retrieve
+> pidfd for PID-based processes we enable them to adopt this api.
+>
+> In line with Arnd's recent changes to consolidate syscall numbers across
+> architectures, I have added the pidfd_open() syscall to all architectures
+> at the same time.
 
-But if IMA is enabled, there is the problem of who signs .xattr-list.
-There should be a local signing key that it is not necessary if the user
-only accesses distro files.
+I'm glad it's easier now.
 
+>  arch/alpha/kernel/syscalls/syscall.tbl      |  1 +
+>  arch/arm64/include/asm/unistd32.h           |  2 +
+>  arch/ia64/kernel/syscalls/syscall.tbl       |  1 +
+>  arch/m68k/kernel/syscalls/syscall.tbl       |  1 +
+>  arch/microblaze/kernel/syscalls/syscall.tbl |  1 +
+>  arch/mips/kernel/syscalls/syscall_n32.tbl   |  1 +
+>  arch/parisc/kernel/syscalls/syscall.tbl     |  1 +
+>  arch/powerpc/kernel/syscalls/syscall.tbl    |  1 +
+>  arch/s390/kernel/syscalls/syscall.tbl       |  1 +
+>  arch/sh/kernel/syscalls/syscall.tbl         |  1 +
+>  arch/sparc/kernel/syscalls/syscall.tbl      |  1 +
+>  arch/x86/entry/syscalls/syscall_32.tbl      |  1 +
+>  arch/x86/entry/syscalls/syscall_64.tbl      |  1 +
+>  arch/xtensa/kernel/syscalls/syscall.tbl     |  1 +
 
-> If the external initramfs is to be signed, and it is built locally, in
-> both schemes there will have to be a provision for a local signing key,
-> but this key in any case is verified by the bootloader so there can't
-> be a difference between the two schemes since they're the same there.
-> 
-> What is the difference you're seeing here?
->>
->>> Note that if you want the flexibility to be able to load one or both of
->>> two external initramfs's, the current in-kernel proposal wouldn't be
->>> enough -- the xattr specification would have to be more flexible (eg
->>> reading .xattr-list* to allow each initramfs to specifiy its own
->>> xattrs. This sort of enhancement would be much easier to handle with the
->>> userspace variant.
->>
->> Yes, the alternative solution is to parse .xattr-list at the time it is
->> extracted. The .xattr-list of each initramfs will be processed. Also,
->> the CPIO parser doesn't have to reopen the file after all other files
->> have been extracted.
->>
->> Roberto
-> Right, I guess this would be sort of the minimal "modification" to the
-> CPIO format to allow it to support xattrs.
+It'd be nice to arrange the system call tables so that we need to
+change only one file when adding a new system call.
 
-I would try to do it without modification of the CPIO format. However,
-at the time .xattr-list is parsed (in do_copy() before .xattr-list is
-closed), it is not guaranteed that all files are extracted. These must
-be created before xattrs are added, but the file type must be correct,
-otherwise clean_path() removes the existing file with xattrs.
+[Snip system call wiring]
 
-Roberto
+> --- a/include/linux/pid.h
+> +++ b/include/linux/pid.h
+> @@ -67,6 +67,7 @@ struct pid
+>  extern struct pid init_struct_pid;
+>
+>  extern const struct file_operations pidfd_fops;
+> +extern int pidfd_create(struct pid *pid);
+>
+>  static inline struct pid *get_pid(struct pid *pid)
+>  {
+> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+> index e2870fe1be5b..989055e0b501 100644
+> --- a/include/linux/syscalls.h
+> +++ b/include/linux/syscalls.h
+> @@ -929,6 +929,7 @@ asmlinkage long sys_clock_adjtime32(clockid_t which_clock,
+>                                 struct old_timex32 __user *tx);
+>  asmlinkage long sys_syncfs(int fd);
+>  asmlinkage long sys_setns(int fd, int nstype);
+> +asmlinkage long sys_pidfd_open(pid_t pid, unsigned int flags);
+>  asmlinkage long sys_sendmmsg(int fd, struct mmsghdr __user *msg,
+>                              unsigned int vlen, unsigned flags);
+>  asmlinkage long sys_process_vm_readv(pid_t pid,
+> diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
+> index dee7292e1df6..94a257a93d20 100644
+> --- a/include/uapi/asm-generic/unistd.h
+> +++ b/include/uapi/asm-generic/unistd.h
+> @@ -832,9 +832,11 @@ __SYSCALL(__NR_io_uring_setup, sys_io_uring_setup)
+>  __SYSCALL(__NR_io_uring_enter, sys_io_uring_enter)
+>  #define __NR_io_uring_register 427
+>  __SYSCALL(__NR_io_uring_register, sys_io_uring_register)
+> +#define __NR_pidfd_open 428
+> +__SYSCALL(__NR_pidfd_open, sys_pidfd_open)
+>
+>  #undef __NR_syscalls
+> -#define __NR_syscalls 428
+> +#define __NR_syscalls 429
+>
+>  /*
+>   * 32 bit systems traditionally used different
+> diff --git a/kernel/fork.c b/kernel/fork.c
+> index 737db1828437..980cc1d2b8d4 100644
+> --- a/kernel/fork.c
+> +++ b/kernel/fork.c
+> @@ -1714,7 +1714,7 @@ const struct file_operations pidfd_fops = {
+>   * Return: On success, a cloexec pidfd is returned.
+>   *         On error, a negative errno number will be returned.
+>   */
+> -static int pidfd_create(struct pid *pid)
+> +int pidfd_create(struct pid *pid)
+>  {
+>         int fd;
+>
+> diff --git a/kernel/pid.c b/kernel/pid.c
+> index 20881598bdfa..237d18d6ecb8 100644
+> --- a/kernel/pid.c
+> +++ b/kernel/pid.c
+> @@ -38,6 +38,7 @@
+>  #include <linux/syscalls.h>
+>  #include <linux/proc_ns.h>
+>  #include <linux/proc_fs.h>
+> +#include <linux/sched/signal.h>
+>  #include <linux/sched/task.h>
+>  #include <linux/idr.h>
+>
+> @@ -451,6 +452,53 @@ struct pid *find_ge_pid(int nr, struct pid_namespace *ns)
+>         return idr_get_next(&ns->idr, &nr);
+>  }
+>
+> +/**
+> + * pidfd_open() - Open new pid file descriptor.
+> + *
+> + * @pid:   pid for which to retrieve a pidfd
+> + * @flags: flags to pass
+> + *
+> + * This creates a new pid file descriptor with the O_CLOEXEC flag set for
+> + * the process identified by @pid. Currently, the process identified by
+> + * @pid must be a thread-group leader. This restriction currently exists
+> + * for all aspects of pidfds including pidfd creation (CLONE_PIDFD cannot
+> + * be used with CLONE_THREAD) and pidfd polling (only supports thread group
+> + * leaders).
+> + *
+> + * Return: On success, a cloexec pidfd is returned.
+> + *         On error, a negative errno number will be returned.
+> + */
+> +SYSCALL_DEFINE2(pidfd_open, pid_t, pid, unsigned int, flags)
+> +{
+> +       int fd, ret;
+> +       struct pid *p;
+> +       struct task_struct *tsk;
+> +
+> +       if (flags)
+> +               return -EINVAL;
 
--- 
-HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
-Managing Director: Bo PENG, Jian LI, Yanli SHI
+If we support blocking operations on pidfds, we'll want to be able to
+put them in non-blocking mode. Does it make sense to accept and ignore
+O_NONBLOCK here now?
+
+> +       if (pid <= 0)
+> +               return -EINVAL;
+
+WDYT of defining pid == 0 to mean "open myself"?
+
+> +       p = find_get_pid(pid);
+> +       if (!p)
+> +               return -ESRCH;
+> +
+> +       rcu_read_lock();
+> +       tsk = pid_task(p, PIDTYPE_PID);
+> +       if (!tsk)
+> +               ret = -ESRCH;
+> +       else if (unlikely(!thread_group_leader(tsk)))
+> +               ret = -EINVAL;
+> +       else
+> +               ret = 0;
+> +       rcu_read_unlock();
+> +
+> +       fd = ret ?: pidfd_create(p);
+> +       put_pid(p);
+> +       return fd;
+> +}
