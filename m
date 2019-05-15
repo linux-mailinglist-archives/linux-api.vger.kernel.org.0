@@ -2,102 +2,76 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C6481F6F5
+	by mail.lfdr.de (Postfix) with ESMTP id C69461F6F6
 	for <lists+linux-api@lfdr.de>; Wed, 15 May 2019 16:52:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727695AbfEOOvv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 May 2019 10:51:51 -0400
-Received: from mx2.mailbox.org ([80.241.60.215]:60552 "EHLO mx2.mailbox.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727336AbfEOOvv (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 15 May 2019 10:51:51 -0400
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:105:465:1:1:0])
-        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
-        (No client certificate requested)
-        by mx2.mailbox.org (Postfix) with ESMTPS id 36D13A1145;
-        Wed, 15 May 2019 16:51:46 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp1.mailbox.org ([80.241.60.240])
-        by spamfilter01.heinlein-hosting.de (spamfilter01.heinlein-hosting.de [80.241.56.115]) (amavisd-new, port 10030)
-        with ESMTP id X8vroVdtsNp3; Wed, 15 May 2019 16:51:23 +0200 (CEST)
-Date:   Thu, 16 May 2019 00:51:05 +1000
-From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     Christian Brauner <christian@brauner.io>
-Cc:     Yann Droneaud <ydroneaud@opteya.com>, jannh@google.com,
-        oleg@redhat.com, viro@zeniv.linux.org.uk,
-        torvalds@linux-foundation.org, linux-kernel@vger.kernel.org,
-        arnd@arndb.de, dhowells@redhat.com, akpm@linux-foundation.org,
-        ebiederm@xmission.com, elena.reshetova@intel.com,
-        keescook@chromium.org, luto@amacapital.net, luto@kernel.org,
-        tglx@linutronix.de, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH 1/2] pid: add pidfd_open()
-Message-ID: <20190515145105.t7u6v5wxsq2tnbwj@yavin>
-References: <20190515100400.3450-1-christian@brauner.io>
- <4c5ae46657e1931a832def5645db61eb0bf1accd.camel@opteya.com>
- <20190515141634.lrc5ynllcmjr64mn@brauner.io>
+        id S1728290AbfEOOvz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 15 May 2019 10:51:55 -0400
+Received: from mx2.suse.de ([195.135.220.15]:51410 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727336AbfEOOvz (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 15 May 2019 10:51:55 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 281DAAFDD;
+        Wed, 15 May 2019 14:51:53 +0000 (UTC)
+Date:   Wed, 15 May 2019 16:51:51 +0200
+From:   Michal Hocko <mhocko@kernel.org>
+To:     Oleksandr Natalenko <oleksandr@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, Kirill Tkhai <ktkhai@virtuozzo.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Matthew Wilcox <willy@infradead.org>,
+        Pavel Tatashin <pasha.tatashin@soleen.com>,
+        Timofey Titovets <nefelim4ag@gmail.com>,
+        Aaron Tomlin <atomlin@redhat.com>,
+        Grzegorz Halat <ghalat@redhat.com>, linux-mm@kvack.org,
+        linux-api@vger.kernel.org, Hugh Dickins <hughd@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Minchan Kim <minchan@kernel.org>
+Subject: Re: [PATCH RFC v2 0/4] mm/ksm: add option to automerge VMAs
+Message-ID: <20190515145151.GG16651@dhcp22.suse.cz>
+References: <20190514131654.25463-1-oleksandr@redhat.com>
+ <20190514144105.GF4683@dhcp22.suse.cz>
+ <20190514145122.GG4683@dhcp22.suse.cz>
+ <20190515062523.5ndf7obzfgugilfs@butterfly.localdomain>
+ <20190515065311.GB16651@dhcp22.suse.cz>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="2zvewrqzesizclxu"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190515141634.lrc5ynllcmjr64mn@brauner.io>
+In-Reply-To: <20190515065311.GB16651@dhcp22.suse.cz>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+[Cc Suren and Minchan - the email thread starts here 20190514131654.25463-1-oleksandr@redhat.com]
 
---2zvewrqzesizclxu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed 15-05-19 08:53:11, Michal Hocko wrote:
+[...]
+> I will try to comment on the interface itself later. But I have to say
+> that I am not impressed. Abusing sysfs for per process features is quite
+> gross to be honest.
 
-On 2019-05-15, Christian Brauner <christian@brauner.io> wrote:
-> On Wed, May 15, 2019 at 04:00:20PM +0200, Yann Droneaud wrote:
-> > Would it be possible to create file descriptor with "restricted"
-> > operation ?
-> >=20
-> > - O_RDONLY: waiting for process completion allowed (for example)
-> > - O_WRONLY: sending process signal allowed
->=20
-> Yes, something like this is likely going to be possible in the future.
-> We had discussion around this. But mapping this to O_RDONLY and O_WRONLY
-> is not the right model. It makes more sense to have specialized flags
-> that restrict actions.
+I have already commented on this in other email. I consider sysfs an
+unsuitable interface for per-process API. Not to mention this particular
+one is very KSM specific while the question about setting different
+hints on memory of a remote process is a more generic question. As
+already mentioned there are usecases where people would like to say
+that a certain memory is cold from outside of the process context (e.g.
+monitor application). So essentially a form of a user space memory
+management. And this usecase sounds a bit similar to me and having a
+common api sounds more sensible to me.
 
-Not to mention that the O_* flags have silly values which we shouldn't
-replicate in new syscalls IMHO.
+One thing we were discussing at LSFMM this year was a way to either
+provide madvise_remote(pid, addr, length, advice) or a fadvise
+alternative over /proc/<pid>/map_vmas/<range> file descriptors
+(essentially resembling the existing map_files api) to achieve such a
+functionality. This is still a very rough idea but the api would sound
+much more generic to me and it would allow much wider range of usecases.
 
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-<https://www.cyphar.com/>
-
---2zvewrqzesizclxu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEb6Gz4/mhjNy+aiz1Snvnv3Dem58FAlzcJ1kACgkQSnvnv3De
-m5+m3g//R5zkvJNpR/uERo7fQzZ+8FbxYCxRtilFUHcBIdsgV/Lx50jsUxWug4Zl
-9r3C4jToLLKtMADwKihJR+E1ftE2STZ85hvLL0wpKX2kUqQcby7sU+XqgAFDuFXe
-eJLnHxTbErqrqcU8Qz1+0nTAxiPcekV2c7jB1+jQtFvakcqlxaT2CtK2/7P3sw2P
-G8mLXOL8uRx2WQ4z94SwfQ4kFwx14SIfWOA3kXVCDsuOoisQBqFsq9WhTwVsTb1X
-H9KRNF58YIjBkWTVe3VcJZiVKXfqZxYbZDhHSQiibqyFZ3JkBjeo+FS9xoGqCNkl
-I1M/BRHkyfhy1fIA8sIq82Bf1XXj4gaunsAk26xJqdpNnwUzXLT9IqXB/cD+D0+/
-v6SzkNckMf/igucg6Ev9n8Z+Asst7aTfDLkrtPubFrYsD8FjgsU7xqMlN5lnVMx3
-ovXX+xt0yRgVaczFTA0oWlc316Cje3SfchGc5dYce1BdsM98UaveoFKqsZ2QFyA7
-sHNClAFebnAGwYAcOAWgz4dU+B2YmDv1Z1xJ52IyGcPo4KGXYBfY9X3J+rIXTLhc
-0qp7vr8JIII/pSDquixjtG+aI+eLtl0g72mUM1KlOGDJZhQG14VRasjEI1M098Fk
-GRGn0Y2fOWPigwhq0zRKpIIp2d3YXZY8TamkTEMXPY3azLq50Jk=
-=+Ix9
------END PGP SIGNATURE-----
-
---2zvewrqzesizclxu--
+But maybe I am completely wrong and this is just opens a can of worms
+that we do not want.
+-- 
+Michal Hocko
+SUSE Labs
