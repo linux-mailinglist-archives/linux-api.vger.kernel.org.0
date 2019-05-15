@@ -2,180 +2,80 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ED1DE1F652
-	for <lists+linux-api@lfdr.de>; Wed, 15 May 2019 16:16:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EF971F67A
+	for <lists+linux-api@lfdr.de>; Wed, 15 May 2019 16:24:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728235AbfEOOQk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 May 2019 10:16:40 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:36658 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727152AbfEOOQj (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 15 May 2019 10:16:39 -0400
-Received: by mail-ed1-f67.google.com with SMTP id a8so76724edx.3
-        for <linux-api@vger.kernel.org>; Wed, 15 May 2019 07:16:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brauner.io; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=5teuJo4XSRrnL6XxnC+QODipuz2WCzByYGo45sEdpQE=;
-        b=gAJyzptkeah2CnPVHf8ki6Ey+Aje7kt4hiLFQY/UoXftAeb5KMt9kDcge1dL70700f
-         v4lzCF24qKMgoDDJqK48PCIsuOAEIEWh56QloYL0Zx1Ytcl8wEHGZj2FHlHTDjeh1xHN
-         qgtG9Lh2tYpVWiUdw1UsD0iGHta3lP4Ta8QIkzIE14Ud+jGfSqHpCDEAvWIr2Z7unvQT
-         7zkggOJrHmZj/c4eERJMnDK2ju7392d0B+Atitgv36pLJz4hMjFGB1lnPt+6SoqUGyah
-         IPYOEdYPIgWXRHQq6puWtz6SFEJeqqmkoJuWNHfimIVIYgR96+2ydELKuFEvw/jF51Hq
-         +B1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=5teuJo4XSRrnL6XxnC+QODipuz2WCzByYGo45sEdpQE=;
-        b=RHuLXGjvIPrir9B8PERgo30oC3GUrTGd9px9fhtf0MXPnBgdDQHL5Vbb+HLec4Uiu4
-         Y3OIDWLstJ3X7hoOHK4qTMgIzuFB7ULoWviZqfbSCFSpGxaIKV0kPI+mX5tEUth07tBW
-         0UMTOsNNM2P3bizDavyf8N+ht1Sivr9hDygRqmscQ0fA6zjMge3Cgy5QVukPTQznK34L
-         lSk0S5OwLa94UwKTx6rubm0h7CR+m7YG6ZpEc4BhTrpuFY2EvNQO0Z9aRoMcVbtG0DkY
-         WD7lI8UPd0h82MRpdRk70zwOKBBN9KryDb6X9WK/v/lpGlZsZZRC0VKway2ciDC31qN6
-         hi6w==
-X-Gm-Message-State: APjAAAVuaYuyLerjvG779B6JXR4QQggbI36VWC4OBWXLhKLV8IFXe2f+
-        s6DtLEXW6FKqcBRCM5UQqobdWQ==
-X-Google-Smtp-Source: APXvYqz/5w9Bko49z66nfUW8rJGtWbKGmV1irTYSDrNlaxrZSh+Ve4PPN0bCyixGXoTczpolwiOJ2g==
-X-Received: by 2002:a50:8bbb:: with SMTP id m56mr44288042edm.230.1557929797459;
-        Wed, 15 May 2019 07:16:37 -0700 (PDT)
-Received: from brauner.io ([178.19.218.101])
-        by smtp.gmail.com with ESMTPSA id h13sm493114ejs.3.2019.05.15.07.16.35
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 15 May 2019 07:16:36 -0700 (PDT)
-Date:   Wed, 15 May 2019 16:16:35 +0200
-From:   Christian Brauner <christian@brauner.io>
-To:     Yann Droneaud <ydroneaud@opteya.com>
-Cc:     jannh@google.com, oleg@redhat.com, viro@zeniv.linux.org.uk,
-        torvalds@linux-foundation.org, linux-kernel@vger.kernel.org,
-        arnd@arndb.de, dhowells@redhat.com, akpm@linux-foundation.org,
-        cyphar@cyphar.com, ebiederm@xmission.com,
-        elena.reshetova@intel.com, keescook@chromium.org,
-        luto@amacapital.net, luto@kernel.org, tglx@linutronix.de,
-        linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
-        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-xtensa@linux-xtensa.org, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH 1/2] pid: add pidfd_open()
-Message-ID: <20190515141634.lrc5ynllcmjr64mn@brauner.io>
-References: <20190515100400.3450-1-christian@brauner.io>
- <4c5ae46657e1931a832def5645db61eb0bf1accd.camel@opteya.com>
+        id S1727279AbfEOOYW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 15 May 2019 10:24:22 -0400
+Received: from mx2.suse.de ([195.135.220.15]:47196 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726098AbfEOOYW (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 15 May 2019 10:24:22 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 08E71ACF5;
+        Wed, 15 May 2019 14:24:21 +0000 (UTC)
+Date:   Wed, 15 May 2019 16:24:19 +0200
+From:   Michal Hocko <mhocko@kernel.org>
+To:     Oleksandr Natalenko <oleksandr@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, Kirill Tkhai <ktkhai@virtuozzo.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Matthew Wilcox <willy@infradead.org>,
+        Pavel Tatashin <pasha.tatashin@soleen.com>,
+        Timofey Titovets <nefelim4ag@gmail.com>,
+        Aaron Tomlin <atomlin@redhat.com>,
+        Grzegorz Halat <ghalat@redhat.com>, linux-mm@kvack.org,
+        linux-api@vger.kernel.org, Hugh Dickins <hughd@google.com>
+Subject: Re: [PATCH RFC v2 0/4] mm/ksm: add option to automerge VMAs
+Message-ID: <20190515142419.GD16651@dhcp22.suse.cz>
+References: <20190514131654.25463-1-oleksandr@redhat.com>
+ <20190514144105.GF4683@dhcp22.suse.cz>
+ <20190514145122.GG4683@dhcp22.suse.cz>
+ <20190515062523.5ndf7obzfgugilfs@butterfly.localdomain>
+ <20190515065311.GB16651@dhcp22.suse.cz>
+ <20190515073723.wbr522cpyjfelfav@butterfly.localdomain>
+ <20190515083321.GC16651@dhcp22.suse.cz>
+ <20190515085158.hyuamrxkxhjhx6go@butterfly.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4c5ae46657e1931a832def5645db61eb0bf1accd.camel@opteya.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20190515085158.hyuamrxkxhjhx6go@butterfly.localdomain>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, May 15, 2019 at 04:00:20PM +0200, Yann Droneaud wrote:
-> Hi,
-> 
-> Le mercredi 15 mai 2019 à 12:03 +0200, Christian Brauner a écrit :
+On Wed 15-05-19 10:51:58, Oleksandr Natalenko wrote:
+> On Wed, May 15, 2019 at 10:33:21AM +0200, Michal Hocko wrote:
+> > > For my current setup with 2 Firefox instances I get 100 to 200 MiB saved
+> > > for the second instance depending on the amount of tabs.
 > > 
-> > diff --git a/kernel/pid.c b/kernel/pid.c
-> > index 20881598bdfa..237d18d6ecb8 100644
-> > --- a/kernel/pid.c
-> > +++ b/kernel/pid.c
-> > @@ -451,6 +452,53 @@ struct pid *find_ge_pid(int nr, struct
-> > pid_namespace *ns)
-> >  	return idr_get_next(&ns->idr, &nr);
-> >  }
-> >  
-> > +/**
-> > + * pidfd_open() - Open new pid file descriptor.
-> > + *
-> > + * @pid:   pid for which to retrieve a pidfd
-> > + * @flags: flags to pass
-> > + *
-> > + * This creates a new pid file descriptor with the O_CLOEXEC flag set for
-> > + * the process identified by @pid. Currently, the process identified by
-> > + * @pid must be a thread-group leader. This restriction currently exists
-> > + * for all aspects of pidfds including pidfd creation (CLONE_PIDFD cannot
-> > + * be used with CLONE_THREAD) and pidfd polling (only supports thread group
-> > + * leaders).
-> > + *
+> > What does prevent Firefox (an opensource project) to be updated to use
+> > the explicit merging?
 > 
-> Would it be possible to create file descriptor with "restricted"
-> operation ?
-> 
-> - O_RDONLY: waiting for process completion allowed (for example)
-> - O_WRONLY: sending process signal allowed
+> This was rather an example of a big project. Other big projects may be
+> closed source, of course.
 
-Yes, something like this is likely going to be possible in the future.
-We had discussion around this. But mapping this to O_RDONLY and O_WRONLY
-is not the right model. It makes more sense to have specialized flags
-that restrict actions.
+Again, specific examples are usually considered a much better
+justification than "something might use the feature".
 
-> 
-> For example, a process could send over a Unix socket a process a pidfd,
-> allowing this to only wait for completion, but not sending signal ?
-> 
-> I see the permission check is not done in pidfd_open(), so what prevent
-> a user from sending a signal to another user owned process ?
+[...]
 
-That's supposed to be possible. You can do the same right now already
-with pids. Tools like LMK need this probably very much.
-Permission checking for signals is done at send time right now.
-And if you can't signal via a pid you can't signal via a pidfd as
-they're both subject to the same permissions checks.
+> > OK, this makes more sense. Please note that there are other people who
+> > would like to see certain madvise operations to be done on a remote
+> > process - e.g. to allow external memory management (Android would like
+> > to control memory aging so something like MADV_DONTNEED without loosing
+> > content and more probably) and potentially other madvise operations.
+> > Or maybe we need a completely new interface other than madvise.
+> 
+> I didn't know about those intentions. Could you please point me to a
+> relevant discussion so that I can check the details?
 
-> 
-> If it's in pidfd_send_signal(), then, passing the socket through
-> SCM_RIGHT won't be useful if the target process is not owned by the
-> same user, or root.
-> 
-> > + * Return: On success, a cloexec pidfd is returned.
-> > + *         On error, a negative errno number will be returned.
-> > + */
-> > +SYSCALL_DEFINE2(pidfd_open, pid_t, pid, unsigned int, flags)
-> > +{
-> > +	int fd, ret;
-> > +	struct pid *p;
-> > +	struct task_struct *tsk;
-> > +
-> > +	if (flags)
-> > +		return -EINVAL;
-> > +
-> > +	if (pid <= 0)
-> > +		return -EINVAL;
-> > +
-> > +	p = find_get_pid(pid);
-> > +	if (!p)
-> > +		return -ESRCH;
-> > +
-> > +	rcu_read_lock();
-> > +	tsk = pid_task(p, PIDTYPE_PID);
-> > +	if (!tsk)
-> > +		ret = -ESRCH;
-> > +	else if (unlikely(!thread_group_leader(tsk)))
-> > +		ret = -EINVAL;
-> > +	else
-> > +		ret = 0;
-> > +	rcu_read_unlock();
-> > +
-> > +	fd = ret ?: pidfd_create(p);
-> > +	put_pid(p);
-> > +	return fd;
-> > +}
-> > +
-> >  void __init pid_idr_init(void)
-> >  {
-> >  	/* Verify no one has done anything silly: */
-> 
-> Regards.
-> 
-> -- 
-> Yann Droneaud
-> OPTEYA
-> 
-> 
+I am sorry I do not have any specific links to patches under discussion.
+We have discussed that topic at LSFMM this year
+(https://lwn.net/Articles/787217/) and Google guys should be sending
+something soon.
+-- 
+Michal Hocko
+SUSE Labs
