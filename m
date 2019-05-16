@@ -2,51 +2,52 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DD1220C8D
-	for <lists+linux-api@lfdr.de>; Thu, 16 May 2019 18:07:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8DA520C98
+	for <lists+linux-api@lfdr.de>; Thu, 16 May 2019 18:10:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727048AbfEPQGv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 16 May 2019 12:06:51 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:37733 "EHLO
+        id S1726764AbfEPQKM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 16 May 2019 12:10:12 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:45637 "EHLO
         mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727041AbfEPQGv (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 16 May 2019 12:06:51 -0400
-Received: by mail-ot1-f65.google.com with SMTP id r10so3954203otd.4
-        for <linux-api@vger.kernel.org>; Thu, 16 May 2019 09:06:50 -0700 (PDT)
+        with ESMTP id S1726362AbfEPQKL (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 16 May 2019 12:10:11 -0400
+Received: by mail-ot1-f65.google.com with SMTP id t24so3904448otl.12
+        for <linux-api@vger.kernel.org>; Thu, 16 May 2019 09:10:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=I4VKFuY3dBhk8M0E31KTPJJ8MMHDVcscAUiCzod5h4g=;
-        b=H6xNrQHksO0mY+GD8TjSIB/dl7gXte6ptfd1KwGU7WS9fv6i/tgp5PRwV1QwuOcLn8
-         EQgegFWR1awHjfSGP4+gjgXMyl3Gl62XXSb7Mm7Nf1RXzKuaEetJoPJs6GSuS0KBL9vl
-         Wub95qd5nDDIuDpLobcQrJAeLZp5nVs+LMne3mcxV43wLSgIfXzXurgIQYOiBUs8VKq4
-         KUB/9oEuCvZV97lXvc2ABvfckVlCEpI9+rGFlz3y2hfmc98QPPAyHhjTuVHOdOUM3Bkm
-         UOJay+FnLHdEk6rocRtjzEXrvs47hR0q26+/2U1SS5+d0iEBJ8VXwWGOZJ51SarUWMvq
-         4fdw==
+        bh=bMHMBrMd0YNkJT0fsHTTWNRBFmrV68S4uDG6Stq2kXM=;
+        b=oQIJnd3cJFOTGWU+mhqQw5xZ/48tAUVBLW2xsdnHW75CFgSaesak+3DGKJkRVnnlf5
+         f7vp8/QSuZL0RRyYca0jxJkcPCNSvi7RRnbKm5rO4uvFQinoZkfWxKegO3545xUKi6Tm
+         yDlWfRiGkBs9X7KKIzePsKsJBYU4Mhp9dgLaLpepquR4TXbJgz+SyjP4Cb13IfAyCjJc
+         yGAprbbVJ9x317dpUPRsbFj1RHmcJ2iqPoNfYLSKY45Sx4cye8fqfTTAzGmIRMznduug
+         6Zyh7c9l0qYmroDn3xiUT/EZlGqq0eanNec/JAobiVm74MfwZM1Br1PUonCZzlOV+vwq
+         1QHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=I4VKFuY3dBhk8M0E31KTPJJ8MMHDVcscAUiCzod5h4g=;
-        b=HK4u25HrDhsS/l1v1FgeFeduCX4j8bKxc1pwEogbJOdTHs34ZDElHyr5r33UmNZ7Sb
-         qdF+nwckfsLylZqCSDhDXCcVnJrmcD0t2jT3677hNj9jOAhATdnkXI2GIciPBJ+obPBZ
-         osFmRseRj7TnPAVkUOVIvfBvFQah7kOP3M9EuQ/7NNkEcalX3K4JThVCE7WlXK10HbtI
-         eYq4M7s57aJxxjmzBraXgkGvkWTyt3uHnN+zoIOe0/Ht69qz75QDq+HGHPo0BVGyc3M2
-         vAz5Do8LIMICmWf/oKB0WLjcLEC+RUE3TfeOqZAF9Tp38kL+95DadbLl6GwwgAdUO3XY
-         LIjg==
-X-Gm-Message-State: APjAAAWRSwPnFRxjnpUyt+k+4K3tmLLte/aq2E4VNYubASwVBE+4N653
-        8Gffe4lJhVy/dBDz03JkjfI4oQcfkImfEn+ENpfgUQ==
-X-Google-Smtp-Source: APXvYqzler3soQWaPkgJTqHADqwjhXm5FObYmA+iecGHRrkmAWqb4Fk8pHSH7Qj3lDCx4Ml5SA54wKgEPHxudDIXDq4=
-X-Received: by 2002:a9d:7347:: with SMTP id l7mr6353382otk.183.1558022810319;
- Thu, 16 May 2019 09:06:50 -0700 (PDT)
+        bh=bMHMBrMd0YNkJT0fsHTTWNRBFmrV68S4uDG6Stq2kXM=;
+        b=hXHNXrSZf52l0iilvnlDmHvvQzwxpPfs75cW3yb0JZP490V9fcVTIGdmo1c+FdL7u1
+         4WRySN0TgELxB7l/1C5AOO+rMRtxTSxuYt8dquLD/SNXQce4T7I1J99nsQp/ryevNk0G
+         qBPkR395MyrI6NBnkPPtnlpA7vUGRGhkYd8mQ8I/LW3B4H0kOigLtD04dQAnkZJoZ9HT
+         eDW3VuCkBUw+XoY+DbRkvulsoKhufqBxqnWFz7e9k37Kfvx/QgTT3Sq409wLfFr0fJF3
+         6dbF1xomJL3I17MLQCrZLc7Flk2aFYz88Y3CUyCmPwuoPYL8ShfbGR/1mZu7sV0L4dXP
+         MExA==
+X-Gm-Message-State: APjAAAV3wEk/RA5lGmfELUSfiaz8HK6Y9pphn/w/p02KIiq5+57YN5Jt
+        2ycF7fv4j2BWtTSmIfFZKQVG3Le7rR8Qw45XmLE3OA==
+X-Google-Smtp-Source: APXvYqxWTgXDP+q+BEeyCjiZ3kodMX94OZctQK+ZcHZRSQLNXJRMtNIbRJ4iu9fxZKt8FJF85O7xJzJohWCE0aKFlNM=
+X-Received: by 2002:a9d:7347:: with SMTP id l7mr6367258otk.183.1558023010974;
+ Thu, 16 May 2019 09:10:10 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190516094234.9116-1-oleksandr@redhat.com> <20190516094234.9116-5-oleksandr@redhat.com>
- <CAG48ez2yXw_PJXO-mS=Qw5rkLpG6zDPd0saMhhGk09-du2bpaA@mail.gmail.com> <20190516142013.sf2vitmksvbkb33f@butterfly.localdomain>
-In-Reply-To: <20190516142013.sf2vitmksvbkb33f@butterfly.localdomain>
+ <CAG48ez2yXw_PJXO-mS=Qw5rkLpG6zDPd0saMhhGk09-du2bpaA@mail.gmail.com>
+ <20190516142013.sf2vitmksvbkb33f@butterfly.localdomain> <20190516144323.pzkvs6hapf3czorz@butterfly.localdomain>
+In-Reply-To: <20190516144323.pzkvs6hapf3czorz@butterfly.localdomain>
 From:   Jann Horn <jannh@google.com>
-Date:   Thu, 16 May 2019 18:06:24 +0200
-Message-ID: <CAG48ez0teQk+rVnRmr=xcM8PJ_8UZC3hSi7PABx-qunz+5=DGg@mail.gmail.com>
+Date:   Thu, 16 May 2019 18:09:44 +0200
+Message-ID: <CAG48ez0-ytaDNVa7TiMaa4nR-nMEh_ZgND-sXjiw+RzZFmMqhw@mail.gmail.com>
 Subject: Re: [PATCH RFC 4/5] mm/ksm, proc: introduce remote merge
 To:     Oleksandr Natalenko <oleksandr@redhat.com>
 Cc:     kernel list <linux-kernel@vger.kernel.org>,
@@ -71,73 +72,48 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, May 16, 2019 at 4:20 PM Oleksandr Natalenko
+On Thu, May 16, 2019 at 4:43 PM Oleksandr Natalenko
 <oleksandr@redhat.com> wrote:
-> On Thu, May 16, 2019 at 12:00:24PM +0200, Jann Horn wrote:
-> > On Thu, May 16, 2019 at 11:43 AM Oleksandr Natalenko
-> > <oleksandr@redhat.com> wrote:
-> > > Use previously introduced remote madvise knob to mark task's
-> > > anonymous memory as mergeable.
+> On Thu, May 16, 2019 at 04:20:13PM +0200, Oleksandr Natalenko wrote:
+> > > [...]
+> > > > @@ -2960,15 +2962,63 @@ static int proc_stack_depth(struct seq_file *m, struct pid_namespace *ns,
+> > > >  static ssize_t madvise_write(struct file *file, const char __user *buf,
+> > > >                 size_t count, loff_t *ppos)
+> > > >  {
+> > > > +       /* For now, only KSM hints are implemented */
+> > > > +#ifdef CONFIG_KSM
+> > > > +       char buffer[PROC_NUMBUF];
+> > > > +       int behaviour;
+> > > >         struct task_struct *task;
+> > > > +       struct mm_struct *mm;
+> > > > +       int err = 0;
+> > > > +       struct vm_area_struct *vma;
+> > > > +
+> > > > +       memset(buffer, 0, sizeof(buffer));
+> > > > +       if (count > sizeof(buffer) - 1)
+> > > > +               count = sizeof(buffer) - 1;
+> > > > +       if (copy_from_user(buffer, buf, count))
+> > > > +               return -EFAULT;
+> > > > +
+> > > > +       if (!memcmp("merge", buffer, min(sizeof("merge")-1, count)))
 > > >
-> > > To force merging task's VMAs, "merge" hint is used:
-> > >
-> > >    # echo merge > /proc/<pid>/madvise
-> > >
-> > > Force unmerging is done similarly:
-> > >
-> > >    # echo unmerge > /proc/<pid>/madvise
-> > >
-> > > To achieve this, previously introduced ksm_madvise_*() helpers
-> > > are used.
+> > > This means that you also match on something like "mergeblah". Just use strcmp().
 > >
-> > Why does this not require PTRACE_MODE_ATTACH_FSCREDS to the target
-> > process? Enabling KSM on another process is hazardous because it
-> > significantly increases the attack surface for side channels.
+> > I agree. Just to make it more interesting I must say that
 > >
-> > (Note that if you change this to require PTRACE_MODE_ATTACH_FSCREDS,
-> > you'll want to use mm_access() in the ->open handler and drop the mm
-> > in ->release. mm_access() from a ->write handler is not permitted.)
+> >    /sys/kernel/mm/transparent_hugepage/enabled
+> >
+> > uses memcmp in the very same way, and thus echoing "alwaysssss" or
+> > "madviseeee" works perfectly there, and it was like that from the very
+> > beginning, it seems. Should we fix it, or it became (zomg) a public API?
 >
-> Sounds reasonable. So, something similar to what mem_open() & friends do
-> now:
+> Actually, maybe, the reason for using memcmp is to handle "echo"
+> properly: by default it puts a newline character at the end, so if we use
+> just strcmp, echo should be called with -n, otherwise strcmp won't match
+> the string.
 >
-> static int madvise_open(...)
-> ...
->         struct task_struct *task = get_proc_task(inode);
-> ...
->         if (task) {
->                 mm = mm_access(task, PTRACE_MODE_ATTACH_FSCREDS);
->                 put_task_struct(task);
->                 if (!IS_ERR_OR_NULL(mm)) {
->                         mmgrab(mm);
->                         mmput(mm);
-> ...
->
-> Then:
->
-> static ssize_t madvise_write(...)
-> ...
->         if (!mmget_not_zero(mm))
->                 goto out;
->
->         down_write(&mm->mmap_sem);
->         if (!mmget_still_valid(mm))
->                 goto skip_mm;
-> ...
-> skip_mm:
->         up_write(&mm->mmap_sem);
->
->         mmput(mm);
-> out:
->         return ...;
->
-> And, finally:
->
-> static int madvise_release(...)
-> ...
->                 mmdrop(mm);
-> ...
->
-> Right?
+> Huh?
 
-Yeah, that looks reasonable.
+Ah, yes, other code like e.g. proc_setgroups_write() uses strncmp()
+and then has an extra check to make sure everything trailing is
+whitespace.
