@@ -2,99 +2,104 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DE4E720967
-	for <lists+linux-api@lfdr.de>; Thu, 16 May 2019 16:21:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 676662096B
+	for <lists+linux-api@lfdr.de>; Thu, 16 May 2019 16:22:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727210AbfEPOVp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 16 May 2019 10:21:45 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:54300 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727195AbfEPOVp (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 16 May 2019 10:21:45 -0400
-Received: by mail-wm1-f65.google.com with SMTP id i3so3836488wml.4
-        for <linux-api@vger.kernel.org>; Thu, 16 May 2019 07:21:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=3pBYZyFUkM5nWJomyVpE/m2x1DxoC1ycwj8/edxQgVk=;
-        b=KHF71/U/SqXVY6AqApav+KABWAsZ5zGS1aK+fZExk5AnGg2DX3oWoPIMu75zcdBX1H
-         M2MKiEY4psgSiSuZ7dB6cDXnU2KHVoWYuw7T+soxTb/C86gjUWtlaYPk3H39pmrLnCTG
-         zpqnkaObgjLMKfzrlsjcKNWhX5+R6tlL8Kh0xnRJxYB1GZCd48Cj99mlVgVPW+N6xx6q
-         NlXRPVfUyKexsEWlOSlDT37JHSmdVUmlX6K6+YP+an1woT3ekCx2Hwp1cm42rbJhOaFy
-         2U6PyFDtzlRd0pbtQoEL854Ufb6rPHdkO6Ze0d0rkpvKuA3j3Op5wwjv2wtJXcWF+Yhb
-         4PBA==
-X-Gm-Message-State: APjAAAXJjZTm8WMegtTs1XFWupBorJ0twHWNTTcaf1jaHi2pDB2gCs/z
-        iocbNNmPSmhPoFF1YnuaPFNPZw==
-X-Google-Smtp-Source: APXvYqxXwoK109kD/ez3T5lP/j8A8AQ1AFMnns5SxEo7Ap1IuaYOUMPIMyPdhIllQencoKBO77rrOw==
-X-Received: by 2002:a1c:2245:: with SMTP id i66mr12110548wmi.19.1558016504222;
-        Thu, 16 May 2019 07:21:44 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
-        by smtp.gmail.com with ESMTPSA id j82sm7364200wmj.40.2019.05.16.07.21.43
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 16 May 2019 07:21:43 -0700 (PDT)
-Date:   Thu, 16 May 2019 16:21:42 +0200
-From:   Oleksandr Natalenko <oleksandr@redhat.com>
+        id S1726739AbfEPOWd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 16 May 2019 10:22:33 -0400
+Received: from relay.sw.ru ([185.231.240.75]:55154 "EHLO relay.sw.ru"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726696AbfEPOWd (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 16 May 2019 10:22:33 -0400
+Received: from [172.16.25.169]
+        by relay.sw.ru with esmtp (Exim 4.91)
+        (envelope-from <ktkhai@virtuozzo.com>)
+        id 1hRHH5-0007GL-T0; Thu, 16 May 2019 17:22:24 +0300
+Subject: Re: [PATCH RFC 0/5] mm: process_vm_mmap() -- syscall for duplication
+ a process mapping
 To:     Michal Hocko <mhocko@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, Kirill Tkhai <ktkhai@virtuozzo.com>,
-        Hugh Dickins <hughd@google.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Matthew Wilcox <willy@infradead.org>,
-        Pavel Tatashin <pasha.tatashin@soleen.com>,
-        Greg KH <greg@kroah.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Timofey Titovets <nefelim4ag@gmail.com>,
-        Aaron Tomlin <atomlin@redhat.com>,
-        Grzegorz Halat <ghalat@redhat.com>, linux-mm@kvack.org,
+Cc:     akpm@linux-foundation.org, dan.j.williams@intel.com,
+        keith.busch@intel.com, kirill.shutemov@linux.intel.com,
+        pasha.tatashin@oracle.com, alexander.h.duyck@linux.intel.com,
+        ira.weiny@intel.com, andreyknvl@google.com, arunks@codeaurora.org,
+        vbabka@suse.cz, cl@linux.com, riel@surriel.com,
+        keescook@chromium.org, hannes@cmpxchg.org, npiggin@gmail.com,
+        mathieu.desnoyers@efficios.com, shakeelb@google.com, guro@fb.com,
+        aarcange@redhat.com, hughd@google.com, jglisse@redhat.com,
+        mgorman@techsingularity.net, daniel.m.jordan@oracle.com,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         linux-api@vger.kernel.org
-Subject: Re: [PATCH RFC 0/5] mm/ksm, proc: introduce remote madvise
-Message-ID: <20190516142142.qti3zfevuf67dedn@butterfly.localdomain>
-References: <20190516094234.9116-1-oleksandr@redhat.com>
- <20190516104412.GN16651@dhcp22.suse.cz>
+References: <155793276388.13922.18064660723547377633.stgit@localhost.localdomain>
+ <20190516133034.GT16651@dhcp22.suse.cz>
+ <20190516135259.GU16651@dhcp22.suse.cz>
+From:   Kirill Tkhai <ktkhai@virtuozzo.com>
+Message-ID: <85562807-2a13-9aa2-e67d-15513c766eae@virtuozzo.com>
+Date:   Thu, 16 May 2019 17:22:23 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190516104412.GN16651@dhcp22.suse.cz>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20190516135259.GU16651@dhcp22.suse.cz>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi.
-
-On Thu, May 16, 2019 at 12:44:12PM +0200, Michal Hocko wrote:
-> On Thu 16-05-19 11:42:29, Oleksandr Natalenko wrote:
+On 16.05.2019 16:52, Michal Hocko wrote:
+> On Thu 16-05-19 15:30:34, Michal Hocko wrote:
+>> [You are defining a new user visible API, please always add linux-api
+>>  mailing list - now done]
+>>
+>> On Wed 15-05-19 18:11:15, Kirill Tkhai wrote:
 > [...]
-> > * to mark all the eligible VMAs as mergeable, use:
-> > 
-> >    # echo merge > /proc/<pid>/madvise
-> > 
-> > * to unmerge all the VMAs, use:
-> > 
-> >    # echo unmerge > /proc/<pid>/madvise
+>>> The proposed syscall aims to introduce an interface, which
+>>> supplements currently existing process_vm_writev() and
+>>> process_vm_readv(), and allows to solve the problem with
+>>> anonymous memory transfer. The above example may be rewritten as:
+>>>
+>>> 	void *buf;
+>>>
+>>> 	buf = mmap(NULL, n * PAGE_SIZE, PROT_READ|PROT_WRITE,
+>>> 		   MAP_PRIVATE|MAP_ANONYMOUS, ...);
+>>> 	recv(sock, buf, n * PAGE_SIZE, 0);
+>>>
+>>> 	/* Sign of @pid is direction: "from @pid task to current" or vice versa. */
+>>> 	process_vm_mmap(-pid, buf, n * PAGE_SIZE, remote_addr, PVMMAP_FIXED);
+>>> 	munmap(buf, n * PAGE_SIZE);
 > 
-> Please do not open a new thread until a previous one reaches some
-> conclusion. I have outlined some ways to go forward in
-> http://lkml.kernel.org/r/20190515145151.GG16651@dhcp22.suse.cz.
-> I haven't heard any feedback on that, yet you open a 3rd way in a
-> different thread. This will not help to move on with the discussion.
-> 
-> Please follow up on that thread.
+> AFAIU this means that you actually want to do an mmap of an anonymous
+> memory with a COW semantic to the remote process right?
 
-Sure, I will follow the thread once and if there are responses. Consider
-this one to be an intermediate summary of current suggestions and also
-an indication that it is better to have the code early for public eyes.
+Yes.
 
-Thank you.
+> How does the remote process find out where and what has been mmaped?
 
-> -- 
-> Michal Hocko
-> SUSE Labs
+Any way. Isn't this a trivial task? :) You may use socket or any
+of appropriate linux features to communicate between them.
 
--- 
-  Best regards,
-    Oleksandr Natalenko (post-factum)
-    Senior Software Maintenance Engineer
+>What if the range collides? This sounds quite scary to me TBH.
+
+In case of range collides, the part of old VMA becomes unmapped.
+The same way we behave on ordinary mmap. You may intersect a range,
+which another thread mapped, so you need a synchronization between
+them. There is no a principle difference.
+
+Also I'm going to add a flag to prevent unmapping like Kees suggested.
+Please, see his message.
+
+> Why cannot you simply use shared memory for that?
+
+Because of remote task may want specific type of VMA. It may want not to
+share a VMA with its children.
+
+Speaking about online migration, a task wants its anonymous private VMAs
+remain the same after the migration. Otherwise, imagine the situation,
+when task's stack becomes a shared VMA after the migration.
+Also, task wants anonymous mapping remains anonymous.
+
+In general, in case of shared memory is enough for everything, we would
+have never had process_vm_writev() and process_vm_readv() syscalls.
+
+Kirill
