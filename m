@@ -2,98 +2,112 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 47D5220F92
-	for <lists+linux-api@lfdr.de>; Thu, 16 May 2019 22:23:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2BDC20FAC
+	for <lists+linux-api@lfdr.de>; Thu, 16 May 2019 22:39:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726752AbfEPUXf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 16 May 2019 16:23:35 -0400
-Received: from vmicros1.altlinux.org ([194.107.17.57]:50168 "EHLO
-        vmicros1.altlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726409AbfEPUXf (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 16 May 2019 16:23:35 -0400
-Received: from mua.local.altlinux.org (mua.local.altlinux.org [192.168.1.14])
-        by vmicros1.altlinux.org (Postfix) with ESMTP id A0DE572CCD5;
-        Thu, 16 May 2019 23:23:31 +0300 (MSK)
-Received: by mua.local.altlinux.org (Postfix, from userid 508)
-        id 8D0A47CC6FF; Thu, 16 May 2019 23:23:31 +0300 (MSK)
-Date:   Thu, 16 May 2019 23:23:31 +0300
-From:   "Dmitry V. Levin" <ldv@altlinux.org>
-To:     Al Viro <viro@zeniv.linux.org.uk>
-Cc:     Christian Brauner <christian@brauner.io>,
-        David Howells <dhowells@redhat.com>,
-        torvalds@linux-foundation.org, Arnd Bergmann <arnd@arndb.de>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org
-Subject: Re: [PATCH 0/4] uapi, vfs: Change the mount API UAPI [ver #2]
-Message-ID: <20190516202331.GA29908@altlinux.org>
-References: <155800752418.4037.9567789434648701032.stgit@warthog.procyon.org.uk>
- <20190516162259.GB17978@ZenIV.linux.org.uk>
- <20190516163151.urrmrueugockxtdy@brauner.io>
- <20190516165021.GD17978@ZenIV.linux.org.uk>
+        id S1727692AbfEPUjb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 16 May 2019 16:39:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48824 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726449AbfEPUjb (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 16 May 2019 16:39:31 -0400
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5B8A320818;
+        Thu, 16 May 2019 20:39:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1558039170;
+        bh=tcgjrB3/19sDA33UxnnN4mT/qQLfumYlHg8RU4fVnaY=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=WFE+ITa8xr4GmA613u92s7scZTpWyyw/1AKa5fYjuTeweu9RYwcgIEdNmgfKATXc2
+         zE68nlxEWlO1AGpW8ooqqRn1cQvLQsu7KrvywzhsbHBSHGRP8si0JP6y1tVyrQss2O
+         SSu9A15JrawNe9HQhmXnJFhv6bvqlJVrLZEZQDto=
+Subject: Re: [PATCH for 5.2 07/12] rseq/selftests: s390: use trap4 for
+ RSEQ_SIG
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Paul E . McKenney" <paulmck@linux.vnet.ibm.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Dave Watson <davejwatson@fb.com>, Paul Turner <pjt@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Russell King <linux@arm.linux.org.uk>,
+        Ingo Molnar <mingo@redhat.com>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Andi Kleen <andi@firstfloor.org>, Chris Lameter <cl@linux.com>,
+        Ben Maurer <bmaurer@fb.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Joel Fernandes <joelaf@google.com>,
+        Martin Schwidefsky <schwidefsky@de.ibm.com>
+References: <20190429152803.7719-1-mathieu.desnoyers@efficios.com>
+ <20190429152803.7719-8-mathieu.desnoyers@efficios.com>
+From:   shuah <shuah@kernel.org>
+Message-ID: <ae4bdd65-d7ab-6bb8-f823-c22e320b4f64@kernel.org>
+Date:   Thu, 16 May 2019 14:39:28 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190516165021.GD17978@ZenIV.linux.org.uk>
+In-Reply-To: <20190429152803.7719-8-mathieu.desnoyers@efficios.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-[looks like linux-abi is a typo, Cc'ed linux-api instead]
+Hi Mathieu,
 
-On Thu, May 16, 2019 at 05:50:22PM +0100, Al Viro wrote:
-> [linux-abi cc'd]
+On 4/29/19 9:27 AM, Mathieu Desnoyers wrote:
+> From: Martin Schwidefsky <schwidefsky@de.ibm.com>
 > 
-> On Thu, May 16, 2019 at 06:31:52PM +0200, Christian Brauner wrote:
-> > On Thu, May 16, 2019 at 05:22:59PM +0100, Al Viro wrote:
-> > > On Thu, May 16, 2019 at 12:52:04PM +0100, David Howells wrote:
-> > > > 
-> > > > Hi Linus, Al,
-> > > > 
-> > > > Here are some patches that make changes to the mount API UAPI and two of
-> > > > them really need applying, before -rc1 - if they're going to be applied at
-> > > > all.
-> > > 
-> > > I'm fine with 2--4, but I'm not convinced that cloexec-by-default crusade
-> > > makes any sense.  Could somebody give coherent arguments in favour of
-> > > abandoning the existing conventions?
-> > 
-> > So as I said in the commit message. From a userspace perspective it's
-> > more of an issue if one accidently leaks an fd to a task during exec.
-> > 
-> > Also, most of the time one does not want to inherit an fd during an
-> > exec. It is a hazzle to always have to specify an extra flag.
-> > 
-> > As Al pointed out to me open() semantics are not going anywhere. Sure,
-> > no argument there at all.
-> > But the idea of making fds cloexec by default is only targeted at fds
-> > that come from separate syscalls. fsopen(), open_tree_clone(), etc. they
-> > all return fds independent of open() so it's really easy to have them
-> > cloexec by default without regressing anyone and we also remove the need
-> > for a bunch of separate flags for each syscall to turn them into
-> > cloexec-fds. I mean, those for syscalls came with 4 separate flags to be
-> > able to specify that the returned fd should be made cloexec. The other
-> > way around, cloexec by default, fcntl() to remove the cloexec bit is way
-> > saner imho.
+> Use trap4 as the guard instruction for the restartable sequence abort
+> handler.
 > 
-> Re separate flags - it is, in principle, a valid argument.  OTOH, I'm not
-> sure if they need to be separate - they all have the same value and
-> I don't see any reason for that to change...
+> Signed-off-by: Martin Schwidefsky <schwidefsky@de.ibm.com>
+> Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+> ---
+>   tools/testing/selftests/rseq/rseq-s390.h | 9 ++++++++-
+>   1 file changed, 8 insertions(+), 1 deletion(-)
 > 
-> Only tangentially related, but I wonder if something like close_range(from, to)
-> would be a more useful approach...  That kind of open-coded loops is not
-> rare in userland and kernel-side code can do them much cheaper.  Something
-> like
-> 	/* that exec is sensitive */
-> 	unshare(CLONE_FILES);
-> 	/* we don't want anything past stderr here */
-> 	close_range(3, ~0U);
-> 	execve(....);
-> on the userland side of thing.  Comments?
+> diff --git a/tools/testing/selftests/rseq/rseq-s390.h b/tools/testing/selftests/rseq/rseq-s390.h
+> index 7c4f3a70b6c7..1d05c5187ae6 100644
+> --- a/tools/testing/selftests/rseq/rseq-s390.h
+> +++ b/tools/testing/selftests/rseq/rseq-s390.h
+> @@ -1,6 +1,13 @@
+>   /* SPDX-License-Identifier: LGPL-2.1 OR MIT */
+>   
+> -#define RSEQ_SIG	0x53053053
+> +/*
+> + * RSEQ_SIG uses the trap4 instruction. As Linux does not make use of the
+> + * access-register mode nor the linkage stack this instruction will always
+> + * cause a special-operation exception (the trap-enabled bit in the DUCT
+> + * is and will stay 0). The instruction pattern is
+> + *	b2 ff 0f ff	trap4   4095(%r0)
+> + */
+> +#define RSEQ_SIG	0xB2FF0FFF
+>   
+>   #define rseq_smp_mb()	__asm__ __volatile__ ("bcr 15,0" ::: "memory")
+>   #define rseq_smp_rmb()	rseq_smp_mb()
+> 
 
-glibc people need a syscall to implement closefrom properly, see
-https://sourceware.org/bugzilla/show_bug.cgi?id=10353#c14
+I generated my pull request for Linus and did a sanity check and ran
+into merge conflict on this patch. Looks like this is already in
+Linus's tree.
 
+Can you confirm!
 
--- 
-ldv
+I have to drop this patch and regenerate my pull request. Can you
+confirm!
+
+thanks,
+-- Shuah
