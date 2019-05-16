@@ -2,121 +2,115 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5585720997
-	for <lists+linux-api@lfdr.de>; Thu, 16 May 2019 16:27:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 340B6209FF
+	for <lists+linux-api@lfdr.de>; Thu, 16 May 2019 16:43:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727227AbfEPO1P (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 16 May 2019 10:27:15 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37447 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727021AbfEPO1P (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 16 May 2019 10:27:15 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 7E7E388E5D;
-        Thu, 16 May 2019 14:27:11 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.43.17.159])
-        by smtp.corp.redhat.com (Postfix) with SMTP id 144FC341E2;
-        Thu, 16 May 2019 14:27:01 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Thu, 16 May 2019 16:27:10 +0200 (CEST)
-Date:   Thu, 16 May 2019 16:27:00 +0200
-From:   Oleg Nesterov <oleg@redhat.com>
-To:     Christian Brauner <christian@brauner.io>
-Cc:     jannh@google.com, viro@zeniv.linux.org.uk,
-        torvalds@linux-foundation.org, linux-kernel@vger.kernel.org,
-        arnd@arndb.de, akpm@linux-foundation.org, cyphar@cyphar.com,
-        dhowells@redhat.com, ebiederm@xmission.com,
-        elena.reshetova@intel.com, keescook@chromium.org,
-        luto@amacapital.net, luto@kernel.org, tglx@linutronix.de,
-        linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
-        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-xtensa@linux-xtensa.org, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        joel@joelfernandes.org, dancol@google.com, serge@hallyn.com,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v1 1/2] pid: add pidfd_open()
-Message-ID: <20190516142659.GB22564@redhat.com>
-References: <20190516135944.7205-1-christian@brauner.io>
+        id S1727404AbfEPOn2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 16 May 2019 10:43:28 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:41028 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726717AbfEPOn1 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 16 May 2019 10:43:27 -0400
+Received: by mail-wr1-f68.google.com with SMTP id g12so3429576wro.8
+        for <linux-api@vger.kernel.org>; Thu, 16 May 2019 07:43:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=Cj+rXNfNlUN3r4Yp7FC3w8W2jv87lre7M4pXy1RJygg=;
+        b=piipsv2QQ7XLfxLB6p4Fd0dZ3x6MXpHpjtZLmxVU3a2+zSIkrLf67vZFRK3GueFF8w
+         IriyRNq8eVtaQT0AL16fAvDhz9fOxHfTqmjtJEaYG2U0XR1dBauSKve7L2n6rThRWdGr
+         TzQ29wm5Syw5fKeiWmnjqLmvOx0W1y9a+e4ooN3Ta8nBKrMWvPrLAT7b/rJjX9Hed8cp
+         Fn3EAsx92qEVJUGioaj9z3uev98+hTysu74eiuesXc0UGmOvQFnaOkgDFvYfnjkkCxW3
+         spmucl/nemp9E/BPzJhAL5cFKVooox/1IFQs2OyFulPrJw1rUruxfII1qVzfZPNf0nkw
+         m7zA==
+X-Gm-Message-State: APjAAAUYP5xYtL2sl8EgGo1HLqqAmBI1sb8F03EJNwcI1mOuFXsdh+wy
+        Q1nT3F5x4ReMnqeQnyGwo6ogWQ==
+X-Google-Smtp-Source: APXvYqzKDhdhn0sTfAQMEnf2Z3MPEpDPMQ1RAoC5i7RhAcgllW8ck8oD5TGkmgzragiiRcn+PESIqQ==
+X-Received: by 2002:a5d:4206:: with SMTP id n6mr17691401wrq.58.1558017806003;
+        Thu, 16 May 2019 07:43:26 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+        by smtp.gmail.com with ESMTPSA id q13sm6113444wrn.27.2019.05.16.07.43.24
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 16 May 2019 07:43:25 -0700 (PDT)
+Date:   Thu, 16 May 2019 16:43:24 +0200
+From:   Oleksandr Natalenko <oleksandr@redhat.com>
+To:     Jann Horn <jannh@google.com>
+Cc:     kernel list <linux-kernel@vger.kernel.org>,
+        Kirill Tkhai <ktkhai@virtuozzo.com>,
+        Hugh Dickins <hughd@google.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Michal Hocko <mhocko@suse.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Pavel Tatashin <pasha.tatashin@soleen.com>,
+        Greg KH <greg@kroah.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Timofey Titovets <nefelim4ag@gmail.com>,
+        Aaron Tomlin <atomlin@redhat.com>,
+        Grzegorz Halat <ghalat@redhat.com>,
+        Linux-MM <linux-mm@kvack.org>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [PATCH RFC 4/5] mm/ksm, proc: introduce remote merge
+Message-ID: <20190516144323.pzkvs6hapf3czorz@butterfly.localdomain>
+References: <20190516094234.9116-1-oleksandr@redhat.com>
+ <20190516094234.9116-5-oleksandr@redhat.com>
+ <CAG48ez2yXw_PJXO-mS=Qw5rkLpG6zDPd0saMhhGk09-du2bpaA@mail.gmail.com>
+ <20190516142013.sf2vitmksvbkb33f@butterfly.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190516135944.7205-1-christian@brauner.io>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.25]); Thu, 16 May 2019 14:27:14 +0000 (UTC)
+In-Reply-To: <20190516142013.sf2vitmksvbkb33f@butterfly.localdomain>
+User-Agent: NeoMutt/20180716
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 05/16, Christian Brauner wrote:
->
-> With the introduction of pidfds through CLONE_PIDFD it is possible to
-> created pidfds at process creation time.
+On Thu, May 16, 2019 at 04:20:13PM +0200, Oleksandr Natalenko wrote:
+> > [...]
+> > > @@ -2960,15 +2962,63 @@ static int proc_stack_depth(struct seq_file *m, struct pid_namespace *ns,
+> > >  static ssize_t madvise_write(struct file *file, const char __user *buf,
+> > >                 size_t count, loff_t *ppos)
+> > >  {
+> > > +       /* For now, only KSM hints are implemented */
+> > > +#ifdef CONFIG_KSM
+> > > +       char buffer[PROC_NUMBUF];
+> > > +       int behaviour;
+> > >         struct task_struct *task;
+> > > +       struct mm_struct *mm;
+> > > +       int err = 0;
+> > > +       struct vm_area_struct *vma;
+> > > +
+> > > +       memset(buffer, 0, sizeof(buffer));
+> > > +       if (count > sizeof(buffer) - 1)
+> > > +               count = sizeof(buffer) - 1;
+> > > +       if (copy_from_user(buffer, buf, count))
+> > > +               return -EFAULT;
+> > > +
+> > > +       if (!memcmp("merge", buffer, min(sizeof("merge")-1, count)))
+> > 
+> > This means that you also match on something like "mergeblah". Just use strcmp().
+> 
+> I agree. Just to make it more interesting I must say that
+> 
+>    /sys/kernel/mm/transparent_hugepage/enabled
+> 
+> uses memcmp in the very same way, and thus echoing "alwaysssss" or
+> "madviseeee" works perfectly there, and it was like that from the very
+> beginning, it seems. Should we fix it, or it became (zomg) a public API?
 
-Now I am wondering why do we need CLONE_PIDFD, you can just do
+Actually, maybe, the reason for using memcmp is to handle "echo"
+properly: by default it puts a newline character at the end, so if we use
+just strcmp, echo should be called with -n, otherwise strcmp won't match
+the string.
 
-	pid = fork();
-	pidfd_open(pid);
+Huh?
 
-> +SYSCALL_DEFINE2(pidfd_open, pid_t, pid, unsigned int, flags)
-> +{
-> +	int fd, ret;
-> +	struct pid *p;
-> +	struct task_struct *tsk;
-> +
-> +	if (flags)
-> +		return -EINVAL;
-> +
-> +	if (pid <= 0)
-> +		return -EINVAL;
-> +
-> +	p = find_get_pid(pid);
-> +	if (!p)
-> +		return -ESRCH;
-> +
-> +	ret = 0;
-> +	rcu_read_lock();
-> +	/*
-> +	 * If this returns non-NULL the pid was used as a thread-group
-> +	 * leader. Note, we race with exec here: If it changes the
-> +	 * thread-group leader we might return the old leader.
-> +	 */
-> +	tsk = pid_task(p, PIDTYPE_TGID);
-> +	if (!tsk)
-> +		ret = -ESRCH;
-> +	rcu_read_unlock();
-> +
-> +	fd = ret ?: pidfd_create(p);
-> +	put_pid(p);
-> +	return fd;
-> +}
+> [...]
 
-Looks correct, feel free to add Reviewed-by: Oleg Nesterov <oleg@redhat.com>
-
-But why do we need task_struct *tsk?
-
-	rcu_read_lock();
-	if (!pid_task(PIDTYPE_TGID))
-		ret = -ESRCH;
-	rcu_read_unlock();
-
-and in fact we do not even need rcu_read_lock(), we could do
-
-	// shut up rcu_dereference_check()
-	rcu_lock_acquire(&rcu_lock_map);
-	if (!pid_task(PIDTYPE_TGID))
-		ret = -ESRCH;
-	rcu_lock_release(&rcu_lock_map);
-
-Well... I won't insist, but the comment about the race with exec looks a bit
-confusing to me. It is true, but we do not care at all, we are not going to
-use the task_struct returned by pid_task().
-
-Oleg.
-
+-- 
+  Best regards,
+    Oleksandr Natalenko (post-factum)
+    Senior Software Maintenance Engineer
