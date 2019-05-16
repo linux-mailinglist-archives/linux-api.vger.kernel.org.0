@@ -2,80 +2,98 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 41F9020E44
-	for <lists+linux-api@lfdr.de>; Thu, 16 May 2019 19:53:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47D5220F92
+	for <lists+linux-api@lfdr.de>; Thu, 16 May 2019 22:23:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726515AbfEPRxj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 16 May 2019 13:53:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58088 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726441AbfEPRxj (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 16 May 2019 13:53:39 -0400
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 03B3E20848;
-        Thu, 16 May 2019 17:53:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1558029218;
-        bh=em+LcIMo1nRKWU1S98ETA5A+61nFWT/rVEqPPgyWRiU=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=NhEpJ5aRPKlU2+vcItCuQ8MNSjEIf4KpFA3ceVt7flBA7xug2UpluYPEZ6FDWggwG
-         DjBbNdY72lyEO2yBKmxvU4HPKi4VATQGp7L8K3vCLiz3S9n/6BdiJrVKJweH8dTQBX
-         A986OZaI98o6L3m4e2KcDS1gkp4wo1snU/wmfNFY=
-Received: by mail-ed1-f52.google.com with SMTP id m4so6438192edd.8;
-        Thu, 16 May 2019 10:53:37 -0700 (PDT)
-X-Gm-Message-State: APjAAAVeUij85gT822mBByHlhDUaq4jnh+OXcsp0gvgR6XnhHmNW8boj
-        KtFo6gtJ2indAv6jNayXEwx76hvWWJ8W1f1KzVk=
-X-Google-Smtp-Source: APXvYqytAu9VOj9PXAicNz313TptckgI5vyn3h4G51H3J9ziOL/EH2rkUdRE/4sTfwdgBiGqBTGyFk7WL2gjXkm+ODw=
-X-Received: by 2002:a50:b854:: with SMTP id k20mr51604420ede.224.1558029216606;
- Thu, 16 May 2019 10:53:36 -0700 (PDT)
+        id S1726752AbfEPUXf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 16 May 2019 16:23:35 -0400
+Received: from vmicros1.altlinux.org ([194.107.17.57]:50168 "EHLO
+        vmicros1.altlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726409AbfEPUXf (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 16 May 2019 16:23:35 -0400
+Received: from mua.local.altlinux.org (mua.local.altlinux.org [192.168.1.14])
+        by vmicros1.altlinux.org (Postfix) with ESMTP id A0DE572CCD5;
+        Thu, 16 May 2019 23:23:31 +0300 (MSK)
+Received: by mua.local.altlinux.org (Postfix, from userid 508)
+        id 8D0A47CC6FF; Thu, 16 May 2019 23:23:31 +0300 (MSK)
+Date:   Thu, 16 May 2019 23:23:31 +0300
+From:   "Dmitry V. Levin" <ldv@altlinux.org>
+To:     Al Viro <viro@zeniv.linux.org.uk>
+Cc:     Christian Brauner <christian@brauner.io>,
+        David Howells <dhowells@redhat.com>,
+        torvalds@linux-foundation.org, Arnd Bergmann <arnd@arndb.de>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH 0/4] uapi, vfs: Change the mount API UAPI [ver #2]
+Message-ID: <20190516202331.GA29908@altlinux.org>
+References: <155800752418.4037.9567789434648701032.stgit@warthog.procyon.org.uk>
+ <20190516162259.GB17978@ZenIV.linux.org.uk>
+ <20190516163151.urrmrueugockxtdy@brauner.io>
+ <20190516165021.GD17978@ZenIV.linux.org.uk>
 MIME-Version: 1.0
-References: <1556528151-17221-1-git-send-email-hao.wu@intel.com>
- <1556528151-17221-6-git-send-email-hao.wu@intel.com> <CANk1AXQSL8k=FOLv4_rLfRHBqOi=CW=yP3O8ch4VEa25cj9+Cw@mail.gmail.com>
-In-Reply-To: <CANk1AXQSL8k=FOLv4_rLfRHBqOi=CW=yP3O8ch4VEa25cj9+Cw@mail.gmail.com>
-From:   Alan Tull <atull@kernel.org>
-Date:   Thu, 16 May 2019 12:53:00 -0500
-X-Gmail-Original-Message-ID: <CANk1AXQCp2ozUQDWz__MuiUeDLvGvrfqj3KUYmBa5Z34oxG8NQ@mail.gmail.com>
-Message-ID: <CANk1AXQCp2ozUQDWz__MuiUeDLvGvrfqj3KUYmBa5Z34oxG8NQ@mail.gmail.com>
-Subject: Re: [PATCH v2 05/18] Documentation: fpga: dfl: add descriptions for
- virtualization and new interfaces.
-To:     Wu Hao <hao.wu@intel.com>
-Cc:     Moritz Fischer <mdf@kernel.org>, linux-fpga@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-api@vger.kernel.org, Xu Yilun <yilun.xu@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190516165021.GD17978@ZenIV.linux.org.uk>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, May 16, 2019 at 12:36 PM Alan Tull <atull@kernel.org> wrote:
->
-> On Mon, Apr 29, 2019 at 4:12 AM Wu Hao <hao.wu@intel.com> wrote:
+[looks like linux-abi is a typo, Cc'ed linux-api instead]
 
-Hi Hao,
+On Thu, May 16, 2019 at 05:50:22PM +0100, Al Viro wrote:
+> [linux-abi cc'd]
+> 
+> On Thu, May 16, 2019 at 06:31:52PM +0200, Christian Brauner wrote:
+> > On Thu, May 16, 2019 at 05:22:59PM +0100, Al Viro wrote:
+> > > On Thu, May 16, 2019 at 12:52:04PM +0100, David Howells wrote:
+> > > > 
+> > > > Hi Linus, Al,
+> > > > 
+> > > > Here are some patches that make changes to the mount API UAPI and two of
+> > > > them really need applying, before -rc1 - if they're going to be applied at
+> > > > all.
+> > > 
+> > > I'm fine with 2--4, but I'm not convinced that cloexec-by-default crusade
+> > > makes any sense.  Could somebody give coherent arguments in favour of
+> > > abandoning the existing conventions?
+> > 
+> > So as I said in the commit message. From a userspace perspective it's
+> > more of an issue if one accidently leaks an fd to a task during exec.
+> > 
+> > Also, most of the time one does not want to inherit an fd during an
+> > exec. It is a hazzle to always have to specify an extra flag.
+> > 
+> > As Al pointed out to me open() semantics are not going anywhere. Sure,
+> > no argument there at all.
+> > But the idea of making fds cloexec by default is only targeted at fds
+> > that come from separate syscalls. fsopen(), open_tree_clone(), etc. they
+> > all return fds independent of open() so it's really easy to have them
+> > cloexec by default without regressing anyone and we also remove the need
+> > for a bunch of separate flags for each syscall to turn them into
+> > cloexec-fds. I mean, those for syscalls came with 4 separate flags to be
+> > able to specify that the returned fd should be made cloexec. The other
+> > way around, cloexec by default, fcntl() to remove the cloexec bit is way
+> > saner imho.
+> 
+> Re separate flags - it is, in principle, a valid argument.  OTOH, I'm not
+> sure if they need to be separate - they all have the same value and
+> I don't see any reason for that to change...
+> 
+> Only tangentially related, but I wonder if something like close_range(from, to)
+> would be a more useful approach...  That kind of open-coded loops is not
+> rare in userland and kernel-side code can do them much cheaper.  Something
+> like
+> 	/* that exec is sensitive */
+> 	unshare(CLONE_FILES);
+> 	/* we don't want anything past stderr here */
+> 	close_range(3, ~0U);
+> 	execve(....);
+> on the userland side of thing.  Comments?
 
-Most of this patchset looks ready to go upstream or nearly so with
-pretty straightforward changes .  Patches 17 and 18 need minor changes
-and please change the scnprintf in the other patches.  The patches
-that had nontrivial changes are the power and thermal ones involving
-hwmon.  I'm hoping to send up the patchset minus the hwmon patches in
-the next version if there's no unforseen issues.  If the hwmon patches
-are ready then also, that's great, but otherwise those patches don't
-need to hold up all the rest of the patchset.  How's that sound?
+glibc people need a syscall to implement closefrom properly, see
+https://sourceware.org/bugzilla/show_bug.cgi?id=10353#c14
 
-Alan
 
-> >
-> > This patch adds virtualization support description for DFL based
-> > FPGA devices (based on PCIe SRIOV), and introductions to new
-> > interfaces added by new dfl private feature drivers.
-> >
-> > Signed-off-by: Xu Yilun <yilun.xu@intel.com>
-> > Signed-off-by: Wu Hao <hao.wu@intel.com>
->
-> Acked-by: Alan Tull <atull@kernel.org>
->
-> Thanks,
-> Alan
+-- 
+ldv
