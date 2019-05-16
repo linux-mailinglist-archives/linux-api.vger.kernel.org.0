@@ -2,32 +2,48 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B2BDC20FAC
-	for <lists+linux-api@lfdr.de>; Thu, 16 May 2019 22:39:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C41020FBE
+	for <lists+linux-api@lfdr.de>; Thu, 16 May 2019 22:49:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727692AbfEPUjb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 16 May 2019 16:39:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48824 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726449AbfEPUjb (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 16 May 2019 16:39:31 -0400
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5B8A320818;
-        Thu, 16 May 2019 20:39:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1558039170;
-        bh=tcgjrB3/19sDA33UxnnN4mT/qQLfumYlHg8RU4fVnaY=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=WFE+ITa8xr4GmA613u92s7scZTpWyyw/1AKa5fYjuTeweu9RYwcgIEdNmgfKATXc2
-         zE68nlxEWlO1AGpW8ooqqRn1cQvLQsu7KrvywzhsbHBSHGRP8si0JP6y1tVyrQss2O
-         SSu9A15JrawNe9HQhmXnJFhv6bvqlJVrLZEZQDto=
-Subject: Re: [PATCH for 5.2 07/12] rseq/selftests: s390: use trap4 for
- RSEQ_SIG
-To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        id S1727109AbfEPUtC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 16 May 2019 16:49:02 -0400
+Received: from mail.efficios.com ([167.114.142.138]:35978 "EHLO
+        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726785AbfEPUtC (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 16 May 2019 16:49:02 -0400
+Received: from localhost (ip6-localhost [IPv6:::1])
+        by mail.efficios.com (Postfix) with ESMTP id F240EADBAA;
+        Thu, 16 May 2019 16:49:00 -0400 (EDT)
+Received: from mail.efficios.com ([IPv6:::1])
+        by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10032)
+        with ESMTP id vzaCwoTpeqOF; Thu, 16 May 2019 16:49:00 -0400 (EDT)
+Received: from localhost (ip6-localhost [IPv6:::1])
+        by mail.efficios.com (Postfix) with ESMTP id 7C23AADB9D;
+        Thu, 16 May 2019 16:49:00 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 7C23AADB9D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+        s=default; t=1558039740;
+        bh=T6tB5oucUJQiYwUQy00a3W/PHRzwk7hwAhqOqcUpxQU=;
+        h=Date:From:To:Message-ID:MIME-Version;
+        b=loAapQuhGsDymqQYkp3fr522T6o689kXMDM78TPzkykDOIfQFimq7bB4OSHLjEwbq
+         j5dFVwWlNXFaUrhNRdjC5L3q7YMEkklz3uBoLHmSPb8S8Se8qP3FfEh0fTKbBq7T0W
+         1VGChKEtSFW/D5harJ6CZNu71CXXqpa3tU/1S+YHuaoPNTEbnbMjvAqdVHdyQNN2tc
+         LY4AjQSF/uAlHlc4Y4MD7rsC0YoXvnI26c9uYZmvKo2Uxv2AAUHhGGOzdFv37BR2pa
+         FeT2EdktJoraiNlmQC/9ZDbLeHHVC6lxCPPZdnPh8G/6TjBUdw1/sRPFUCZJf0ekUX
+         A4Jr4pUJhRnZg==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([IPv6:::1])
+        by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10026)
+        with ESMTP id 6_bTRsBCf0uv; Thu, 16 May 2019 16:49:00 -0400 (EDT)
+Received: from mail02.efficios.com (mail02.efficios.com [167.114.142.138])
+        by mail.efficios.com (Postfix) with ESMTP id 5B469ADB8A;
+        Thu, 16 May 2019 16:49:00 -0400 (EDT)
+Date:   Thu, 16 May 2019 16:49:00 -0400 (EDT)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     shuah <shuah@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-api <linux-api@vger.kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Peter Zijlstra <peterz@infradead.org>,
         "Paul E . McKenney" <paulmck@linux.vnet.ibm.com>,
@@ -37,77 +53,106 @@ Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
         Andrew Morton <akpm@linux-foundation.org>,
         Russell King <linux@arm.linux.org.uk>,
         Ingo Molnar <mingo@redhat.com>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Andi Kleen <andi@firstfloor.org>, Chris Lameter <cl@linux.com>,
-        Ben Maurer <bmaurer@fb.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Andi Kleen <andi@firstfloor.org>,
+        Chris Lameter <cl@linux.com>, Ben Maurer <bmaurer@fb.com>,
+        rostedt <rostedt@goodmis.org>,
         Josh Triplett <josh@joshtriplett.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
         Michael Kerrisk <mtk.manpages@gmail.com>,
         Joel Fernandes <joelaf@google.com>,
-        Martin Schwidefsky <schwidefsky@de.ibm.com>
-References: <20190429152803.7719-1-mathieu.desnoyers@efficios.com>
- <20190429152803.7719-8-mathieu.desnoyers@efficios.com>
-From:   shuah <shuah@kernel.org>
-Message-ID: <ae4bdd65-d7ab-6bb8-f823-c22e320b4f64@kernel.org>
-Date:   Thu, 16 May 2019 14:39:28 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        schwidefsky <schwidefsky@de.ibm.com>
+Message-ID: <1150133970.2996.1558039740182.JavaMail.zimbra@efficios.com>
+In-Reply-To: <ae4bdd65-d7ab-6bb8-f823-c22e320b4f64@kernel.org>
+References: <20190429152803.7719-1-mathieu.desnoyers@efficios.com> <20190429152803.7719-8-mathieu.desnoyers@efficios.com> <ae4bdd65-d7ab-6bb8-f823-c22e320b4f64@kernel.org>
+Subject: Re: [PATCH for 5.2 07/12] rseq/selftests: s390: use trap4 for
+ RSEQ_SIG
 MIME-Version: 1.0
-In-Reply-To: <20190429152803.7719-8-mathieu.desnoyers@efficios.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [167.114.142.138]
+X-Mailer: Zimbra 8.8.12_GA_3803 (ZimbraWebClient - FF66 (Linux)/8.8.12_GA_3794)
+Thread-Topic: rseq/selftests: s390: use trap4 for RSEQ_SIG
+Thread-Index: MQQxEXkQJjNJ2KoXle2eK6CTH9qBYg==
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Mathieu,
+----- On May 16, 2019, at 4:39 PM, shuah shuah@kernel.org wrote:
 
-On 4/29/19 9:27 AM, Mathieu Desnoyers wrote:
-> From: Martin Schwidefsky <schwidefsky@de.ibm.com>
+> Hi Mathieu,
 > 
-> Use trap4 as the guard instruction for the restartable sequence abort
-> handler.
+> On 4/29/19 9:27 AM, Mathieu Desnoyers wrote:
+>> From: Martin Schwidefsky <schwidefsky@de.ibm.com>
+>> 
+>> Use trap4 as the guard instruction for the restartable sequence abort
+>> handler.
+>> 
+>> Signed-off-by: Martin Schwidefsky <schwidefsky@de.ibm.com>
+>> Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+>> ---
+>>   tools/testing/selftests/rseq/rseq-s390.h | 9 ++++++++-
+>>   1 file changed, 8 insertions(+), 1 deletion(-)
+>> 
+>> diff --git a/tools/testing/selftests/rseq/rseq-s390.h
+>> b/tools/testing/selftests/rseq/rseq-s390.h
+>> index 7c4f3a70b6c7..1d05c5187ae6 100644
+>> --- a/tools/testing/selftests/rseq/rseq-s390.h
+>> +++ b/tools/testing/selftests/rseq/rseq-s390.h
+>> @@ -1,6 +1,13 @@
+>>   /* SPDX-License-Identifier: LGPL-2.1 OR MIT */
+>>   
+>> -#define RSEQ_SIG	0x53053053
+>> +/*
+>> + * RSEQ_SIG uses the trap4 instruction. As Linux does not make use of the
+>> + * access-register mode nor the linkage stack this instruction will always
+>> + * cause a special-operation exception (the trap-enabled bit in the DUCT
+>> + * is and will stay 0). The instruction pattern is
+>> + *	b2 ff 0f ff	trap4   4095(%r0)
+>> + */
+>> +#define RSEQ_SIG	0xB2FF0FFF
+>>   
+>>   #define rseq_smp_mb()	__asm__ __volatile__ ("bcr 15,0" ::: "memory")
+>>   #define rseq_smp_rmb()	rseq_smp_mb()
+>> 
 > 
-> Signed-off-by: Martin Schwidefsky <schwidefsky@de.ibm.com>
-> Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-> ---
->   tools/testing/selftests/rseq/rseq-s390.h | 9 ++++++++-
->   1 file changed, 8 insertions(+), 1 deletion(-)
+> I generated my pull request for Linus and did a sanity check and ran
+> into merge conflict on this patch. Looks like this is already in
+> Linus's tree.
 > 
-> diff --git a/tools/testing/selftests/rseq/rseq-s390.h b/tools/testing/selftests/rseq/rseq-s390.h
-> index 7c4f3a70b6c7..1d05c5187ae6 100644
-> --- a/tools/testing/selftests/rseq/rseq-s390.h
-> +++ b/tools/testing/selftests/rseq/rseq-s390.h
-> @@ -1,6 +1,13 @@
->   /* SPDX-License-Identifier: LGPL-2.1 OR MIT */
->   
-> -#define RSEQ_SIG	0x53053053
-> +/*
-> + * RSEQ_SIG uses the trap4 instruction. As Linux does not make use of the
-> + * access-register mode nor the linkage stack this instruction will always
-> + * cause a special-operation exception (the trap-enabled bit in the DUCT
-> + * is and will stay 0). The instruction pattern is
-> + *	b2 ff 0f ff	trap4   4095(%r0)
-> + */
-> +#define RSEQ_SIG	0xB2FF0FFF
->   
->   #define rseq_smp_mb()	__asm__ __volatile__ ("bcr 15,0" ::: "memory")
->   #define rseq_smp_rmb()	rseq_smp_mb()
+> Can you confirm!
 > 
+> I have to drop this patch and regenerate my pull request. Can you
+> confirm!
 
-I generated my pull request for Linus and did a sanity check and ran
-into merge conflict on this patch. Looks like this is already in
-Linus's tree.
+I confirm, it went through the s390 maintainer tree, here is the
+upstream commit already in Linus' master:
 
-Can you confirm!
+commit e24e4712efad737ca09ff299276737331cd021d9
+Author: Martin Schwidefsky <schwidefsky@de.ibm.com>
+Date:   Wed Apr 10 12:28:41 2019 +0200
 
-I have to drop this patch and regenerate my pull request. Can you
-confirm!
+    s390/rseq: use trap4 for RSEQ_SIG
+    
+    Use trap4 as the guard instruction for the restartable sequence abort
+    handler.
+    
+    Signed-off-by: Martin Schwidefsky <schwidefsky@de.ibm.com>
 
-thanks,
--- Shuah
+So you can either drop it from your end of the pull request, or Linus will
+deal with the merge, as you prefer.
+
+Thanks!
+
+Mathieu
+
+
+> 
+> thanks,
+> -- Shuah
+
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+http://www.efficios.com
