@@ -2,84 +2,109 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 024692130B
-	for <lists+linux-api@lfdr.de>; Fri, 17 May 2019 06:27:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DA6D21350
+	for <lists+linux-api@lfdr.de>; Fri, 17 May 2019 06:59:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727072AbfEQE10 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 17 May 2019 00:27:26 -0400
-Received: from mga02.intel.com ([134.134.136.20]:42690 "EHLO mga02.intel.com"
+        id S1727738AbfEQE7S (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 17 May 2019 00:59:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37036 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726755AbfEQE10 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 17 May 2019 00:27:26 -0400
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 16 May 2019 21:27:25 -0700
-X-ExtLoop1: 1
-Received: from hao-dev.bj.intel.com (HELO localhost) ([10.238.157.65])
-  by orsmga003.jf.intel.com with ESMTP; 16 May 2019 21:27:23 -0700
-Date:   Fri, 17 May 2019 12:11:16 +0800
-From:   Wu Hao <hao.wu@intel.com>
-To:     Alan Tull <atull@kernel.org>
-Cc:     Moritz Fischer <mdf@kernel.org>, linux-fpga@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-api@vger.kernel.org, Xu Yilun <yilun.xu@intel.com>
-Subject: Re: [PATCH v2 05/18] Documentation: fpga: dfl: add descriptions for
- virtualization and new interfaces.
-Message-ID: <20190517041116.GC20569@hao-dev>
-References: <1556528151-17221-1-git-send-email-hao.wu@intel.com>
- <1556528151-17221-6-git-send-email-hao.wu@intel.com>
- <CANk1AXQSL8k=FOLv4_rLfRHBqOi=CW=yP3O8ch4VEa25cj9+Cw@mail.gmail.com>
- <CANk1AXQCp2ozUQDWz__MuiUeDLvGvrfqj3KUYmBa5Z34oxG8NQ@mail.gmail.com>
+        id S1727361AbfEQE7R (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 17 May 2019 00:59:17 -0400
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 87C5120881
+        for <linux-api@vger.kernel.org>; Fri, 17 May 2019 04:59:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1558069156;
+        bh=wn472IRdgwSTmAQxOlJ/TuR65yPV4PLu1QbTI1KzXZU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=eaIpNd90DK2//QGPdxnHMx1w5XMd4XWQJk+S1SkUSgByFc2xJxya9zH2K8syt32kw
+         ymb32N0jsurDwfDLWZDy9zKPpg/BPMGVQHilwhl9u/YZ4d0JAOeHVucEhsWufCrOrX
+         1vVYJNl6eVnliev49liAwN5dHKRQIvQgFJldG67s=
+Received: by mail-wr1-f47.google.com with SMTP id m3so5442026wrv.2
+        for <linux-api@vger.kernel.org>; Thu, 16 May 2019 21:59:16 -0700 (PDT)
+X-Gm-Message-State: APjAAAWa4KD0M9ZOPqoWKYfZx7g+DT/FyrW45/I6cBtUq3gEaFzdbUsR
+        0l3Q2ViiBOmmYSFQs/8GRFLYKJuSx3sUr8D7HZIXjQ==
+X-Google-Smtp-Source: APXvYqzrXACnyPa8ejF2asmlRChu4kEILQCxLR0vnSQ2bz6Vk4VDCYAyPYlAg09EEOnjcM+Q5YUwTyVYJi+mDfcutbI=
+X-Received: by 2002:adf:dc4b:: with SMTP id m11mr2344176wrj.66.1558069155028;
+ Thu, 16 May 2019 21:59:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANk1AXQCp2ozUQDWz__MuiUeDLvGvrfqj3KUYmBa5Z34oxG8NQ@mail.gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+References: <20190517032505.19921-1-felipe@felipegasper.com>
+In-Reply-To: <20190517032505.19921-1-felipe@felipegasper.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Thu, 16 May 2019 21:59:03 -0700
+X-Gmail-Original-Message-ID: <CALCETrUaTamZ1ZGbWpu+4kDAEFRqyESoa_4tgwpAmMh3NVQ4pQ@mail.gmail.com>
+Message-ID: <CALCETrUaTamZ1ZGbWpu+4kDAEFRqyESoa_4tgwpAmMh3NVQ4pQ@mail.gmail.com>
+Subject: Re: [PATCH] Add UNIX_DIAG_UID to Netlink UNIX socket diagnostics.
+To:     Felipe <felipe@felipegasper.com>
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Network Development <netdev@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, May 16, 2019 at 12:53:00PM -0500, Alan Tull wrote:
-> On Thu, May 16, 2019 at 12:36 PM Alan Tull <atull@kernel.org> wrote:
-> >
-> > On Mon, Apr 29, 2019 at 4:12 AM Wu Hao <hao.wu@intel.com> wrote:
-> 
-> Hi Hao,
-> 
-> Most of this patchset looks ready to go upstream or nearly so with
-> pretty straightforward changes .  Patches 17 and 18 need minor changes
-> and please change the scnprintf in the other patches.  The patches
-> that had nontrivial changes are the power and thermal ones involving
-> hwmon.  I'm hoping to send up the patchset minus the hwmon patches in
-> the next version if there's no unforseen issues.  If the hwmon patches
-> are ready then also, that's great, but otherwise those patches don't
-> need to hold up all the rest of the patchset.  How's that sound?
+> On May 16, 2019, at 8:25 PM, Felipe <felipe@felipegasper.com> wrote:
+>
+> Author: Felipe Gasper <felipe@felipegasper.com>
+> Date:   Thu May 16 12:16:53 2019 -0500
+>
+>    Add UNIX_DIAG_UID to Netlink UNIX socket diagnostics.
+>
+>    This adds the ability for Netlink to report a socket=E2=80=99s UID alo=
+ng with the
+>    other UNIX socket diagnostic information that is already available. Th=
+is will
+>    allow diagnostic tools greater insight into which users control which =
+socket.
+>
+>    Signed-off-by: Felipe Gasper <felipe@felipegasper.com>
+>
+> diff --git a/include/uapi/linux/unix_diag.h b/include/uapi/linux/unix_dia=
+g.h
+> index 5c502fd..a198857 100644
+> --- a/include/uapi/linux/unix_diag.h
+> +++ b/include/uapi/linux/unix_diag.h
+> @@ -20,6 +20,7 @@ struct unix_diag_req {
+> #define UDIAG_SHOW_ICONS    0x00000008    /* show pending connections */
+> #define UDIAG_SHOW_RQLEN    0x00000010    /* show skb receive queue len *=
+/
+> #define UDIAG_SHOW_MEMINFO    0x00000020    /* show memory info of a sock=
+et */
+> +#define UDIAG_SHOW_UID        0x00000040    /* show socket's UID */
+>
+> struct unix_diag_msg {
+>    __u8    udiag_family;
+> @@ -40,6 +41,7 @@ enum {
+>    UNIX_DIAG_RQLEN,
+>    UNIX_DIAG_MEMINFO,
+>    UNIX_DIAG_SHUTDOWN,
+> +    UNIX_DIAG_UID,
+>
+>    __UNIX_DIAG_MAX,
+> };
+> diff --git a/net/unix/diag.c b/net/unix/diag.c
+> index 3183d9b..011f56c 100644
+> --- a/net/unix/diag.c
+> +++ b/net/unix/diag.c
+> @@ -110,6 +110,11 @@ static int sk_diag_show_rqlen(struct sock *sk, struc=
+t sk_buff *nlskb)
+>    return nla_put(nlskb, UNIX_DIAG_RQLEN, sizeof(rql), &rql);
+> }
+>
+> +static int sk_diag_dump_uid(struct sock *sk, struct sk_buff *nlskb)
+> +{
+> +    return nla_put(nlskb, UNIX_DIAG_UID, sizeof(kuid_t), &(sk->sk_uid));
 
-Hi Alan
-
-Thanks for your time for reviewing this patchset.
-
-This sounds good to me. Only thing here is, I need to split the patch which
-updates documentation into 2 patches (to remove hwmon description in doc),
-but for sure, it should be very easy. :)
-
-Thanks
-Hao
-
-> 
-> Alan
-> 
-> > >
-> > > This patch adds virtualization support description for DFL based
-> > > FPGA devices (based on PCIe SRIOV), and introductions to new
-> > > interfaces added by new dfl private feature drivers.
-> > >
-> > > Signed-off-by: Xu Yilun <yilun.xu@intel.com>
-> > > Signed-off-by: Wu Hao <hao.wu@intel.com>
-> >
-> > Acked-by: Alan Tull <atull@kernel.org>
-> >
-> > Thanks,
-> > Alan
+That type is called *k* uid_t because it=E2=80=99s internal to the kernel. =
+You
+probably want from_kuid_munged(), which will fix it up for an
+appropriate userns.  Presumably you want sk=E2=80=99s netns=E2=80=99s usern=
+s.
