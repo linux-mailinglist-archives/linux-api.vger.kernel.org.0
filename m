@@ -2,138 +2,70 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DEE0A21A16
-	for <lists+linux-api@lfdr.de>; Fri, 17 May 2019 16:53:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E0EE221B70
+	for <lists+linux-api@lfdr.de>; Fri, 17 May 2019 18:18:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729109AbfEQOxJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 17 May 2019 10:53:09 -0400
-Received: from web1.siteocity.com ([67.227.147.204]:37842 "EHLO
-        web1.siteocity.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728968AbfEQOxJ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 17 May 2019 10:53:09 -0400
-X-Greylist: delayed 2485 seconds by postgrey-1.27 at vger.kernel.org; Fri, 17 May 2019 10:53:07 EDT
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=felipegasper.com; s=default; h=To:References:Message-Id:
-        Content-Transfer-Encoding:Cc:Date:In-Reply-To:From:Subject:Mime-Version:
-        Content-Type:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=N6m8ItcPeAXtI74gTibpdhO9VtglXynz6qvN46c+wdE=; b=PbLc3yPgpUwo/2Tew4KztUm6S
-        rZJmFRHIoU+mXUVUC8Ov5FFBXfUWtDM54nHWwDtTIUJJn+HMajz888QdKsY4VrA1A5L39+Jrqxu0z
-        +FpipWyEUSj93ct8veIK7NeHbcP4Ww63H5533KcvSfbWJrR6r8KOO30yFmEiWm5M39Xo2zAgVt+39
-        8nZvmhDNgnrjPSQZ0aAR7nR8gx//oaRW2VxsnxYpZfWugiWZUXArBmBruHKZPToS1mq2ImRG567RX
-        kYLoeZIBOeGnKZDrFlxd/qeuugysXejb5juPhbBGavctKePoxlRzLrGpFikzohTtPpvU2tsEnsGM9
-        0pL2zc1pA==;
-Received: from [149.248.87.38] (port=51684 helo=[192.168.86.41])
-        by web1.siteocity.com with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.92)
-        (envelope-from <felipe@felipegasper.com>)
-        id 1hRdaG-0000dd-AM; Fri, 17 May 2019 09:11:41 -0500
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.11\))
-Subject: Re: [PATCH] Add UNIX_DIAG_UID to Netlink UNIX socket diagnostics.
-From:   Felipe Gasper <felipe@felipegasper.com>
-In-Reply-To: <CALCETrUaTamZ1ZGbWpu+4kDAEFRqyESoa_4tgwpAmMh3NVQ4pQ@mail.gmail.com>
-Date:   Fri, 17 May 2019 10:11:38 -0400
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Network Development <netdev@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
+        id S1729576AbfEQQSd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 17 May 2019 12:18:33 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:43821 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728949AbfEQQSd (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 17 May 2019 12:18:33 -0400
+Received: by mail-ed1-f65.google.com with SMTP id w33so11325667edb.10
+        for <linux-api@vger.kernel.org>; Fri, 17 May 2019 09:18:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=o/oVy7/t+y0tA4e46/w1p7/qz8aeWba22l3k5trO/eo=;
+        b=LaPMZX65KcRgjDJfEcyCi/FWMPu4h/SmU/RYyUjmOoS5LBPqh+WKJ4tE9r7s/Hfe1h
+         CvNi0Qv5d7SYB17T8MX14HvRXRH7GQfELNjC46hSdGWIaaBjr5bPHxHpCBpyvt29z+3o
+         Z8L4H8zMt38FWJvUmj5F5VkstNfKvLIrJ7KUZ3bV9QY6PfOEcKlb5BFpiLjNj9d5yQ54
+         ieI5qwHFx6Oz0hI9R4DyNymrSMWcODkdxS2qXHXOGwoVQZ4GZxjxr7cRC+qZaDwDgBAH
+         hli+WYiTd087u80sl3A7RiHpzxzJNlnRgYzsTFVU7fxpyz8ZMOzTc0LREoDLrrv7jkUu
+         KEKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to:content-transfer-encoding;
+        bh=o/oVy7/t+y0tA4e46/w1p7/qz8aeWba22l3k5trO/eo=;
+        b=DGW/jqJ1gdc6UWLlcIBwv7iXhxtB3j3NyyT+fmtX4++rAI1TA2bycnnAm/kPUpI/CK
+         RhvzN/EP0ivc8DqGwQXFnlmq+F1yTAiRep+6Z2zjI4QlNz5rvZ+uLkxOIAYJAmuOeVI+
+         fxMst6MCETl8AEEbxsOpmfjKgayO+m4iIF3eZDJPcPzF+mJ5RrU/QXlcNpYkorVyMGGl
+         jzDy+yFbm9x+7i6EiANHiPtX88wHp8a+B7BaPcPaYcyFGgmw9iCGa3l46y5LgPGzDeTS
+         V7MJ+hTpX41GYkNTy/KpzoJTvC1og3EQ0iKkHR1elJuVQXCKmXv33BgeooBMefP8OLu3
+         PDZA==
+X-Gm-Message-State: APjAAAU4P83f4j1HiyxZl6070kd+5WMsSEvdTn0bXaeFON8QQQaoL9ZV
+        b4T8f7wlgKLrOMPNuXiqscxjNFWIUuV+bD4Ed+w=
+X-Google-Smtp-Source: APXvYqyW0AUhZ30/mknFGGwQ6HwXsZ+Ze9acJb8qlZkbmkbEtHH1zkR2TDfj5RafcGytN1GzPwXrDerOiFpsCyzMe00=
+X-Received: by 2002:a17:906:5013:: with SMTP id s19mr45345780ejj.203.1558109911291;
+ Fri, 17 May 2019 09:18:31 -0700 (PDT)
+MIME-Version: 1.0
+Reply-To: mohammadouattara53@gmail.com
+Received: by 2002:aa7:c89a:0:0:0:0:0 with HTTP; Fri, 17 May 2019 09:18:30
+ -0700 (PDT)
+From:   Mohammad Ouattara <mohammadouattara27@gmail.com>
+Date:   Fri, 17 May 2019 16:18:30 +0000
+X-Google-Sender-Auth: ZhVApCNyLr6j0bfHqowRQ7JPdac
+Message-ID: <CAOcJ4xTDW8xB+mUdXzjbugXbYphxSHCQU3mkKGoBr1dHCrwzZg@mail.gmail.com>
+Subject: From dr. mohammad ouattara.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <AF68C2F5-1E59-44D4-BC63-9C988C278174@felipegasper.com>
-References: <20190517032505.19921-1-felipe@felipegasper.com>
- <CALCETrUaTamZ1ZGbWpu+4kDAEFRqyESoa_4tgwpAmMh3NVQ4pQ@mail.gmail.com>
-To:     Andy Lutomirski <luto@kernel.org>
-X-Mailer: Apple Mail (2.3445.104.11)
-X-OutGoing-Spam-Status: No, score=-1.0
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - web1.siteocity.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - felipegasper.com
-X-Get-Message-Sender-Via: web1.siteocity.com: authenticated_id: fgasper/from_h
-X-Authenticated-Sender: web1.siteocity.com: felipe@felipegasper.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-From-Rewrite: unmodified, already matched
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+Dear friend,
 
-> On May 17, 2019, at 12:59 AM, Andy Lutomirski <luto@kernel.org> wrote:
->=20
->> On May 16, 2019, at 8:25 PM, Felipe <felipe@felipegasper.com> wrote:
->>=20
->> Author: Felipe Gasper <felipe@felipegasper.com>
->> Date:   Thu May 16 12:16:53 2019 -0500
->>=20
->>   Add UNIX_DIAG_UID to Netlink UNIX socket diagnostics.
->>=20
->>   This adds the ability for Netlink to report a socket=E2=80=99s UID =
-along with the
->>   other UNIX socket diagnostic information that is already available. =
-This will
->>   allow diagnostic tools greater insight into which users control =
-which socket.
->>=20
->>   Signed-off-by: Felipe Gasper <felipe@felipegasper.com>
->>=20
->> diff --git a/include/uapi/linux/unix_diag.h =
-b/include/uapi/linux/unix_diag.h
->> index 5c502fd..a198857 100644
->> --- a/include/uapi/linux/unix_diag.h
->> +++ b/include/uapi/linux/unix_diag.h
->> @@ -20,6 +20,7 @@ struct unix_diag_req {
->> #define UDIAG_SHOW_ICONS    0x00000008    /* show pending connections =
-*/
->> #define UDIAG_SHOW_RQLEN    0x00000010    /* show skb receive queue =
-len */
->> #define UDIAG_SHOW_MEMINFO    0x00000020    /* show memory info of a =
-socket */
->> +#define UDIAG_SHOW_UID        0x00000040    /* show socket's UID */
->>=20
->> struct unix_diag_msg {
->>   __u8    udiag_family;
->> @@ -40,6 +41,7 @@ enum {
->>   UNIX_DIAG_RQLEN,
->>   UNIX_DIAG_MEMINFO,
->>   UNIX_DIAG_SHUTDOWN,
->> +    UNIX_DIAG_UID,
->>=20
->>   __UNIX_DIAG_MAX,
->> };
->> diff --git a/net/unix/diag.c b/net/unix/diag.c
->> index 3183d9b..011f56c 100644
->> --- a/net/unix/diag.c
->> +++ b/net/unix/diag.c
->> @@ -110,6 +110,11 @@ static int sk_diag_show_rqlen(struct sock *sk, =
-struct sk_buff *nlskb)
->>   return nla_put(nlskb, UNIX_DIAG_RQLEN, sizeof(rql), &rql);
->> }
->>=20
->> +static int sk_diag_dump_uid(struct sock *sk, struct sk_buff *nlskb)
->> +{
->> +    return nla_put(nlskb, UNIX_DIAG_UID, sizeof(kuid_t), =
-&(sk->sk_uid));
->=20
-> That type is called *k* uid_t because it=E2=80=99s internal to the =
-kernel. You
-> probably want from_kuid_munged(), which will fix it up for an
-> appropriate userns.  Presumably you want sk=E2=80=99s netns=E2=80=99s =
-userns.
+I=E2=80=99m Mr mohammad ouattara, Manager of bill and exchange at (BOA) BAN=
+K
+in Burkina Faso, I would like you to indicate your interest to receive
+the transfer of (15.5 Million Dollars) in your bank account, I will
+like you to stand as the next of kin to a deceased customer who die in
+plane crash.
 
-Thank you for pointing this out.
-
-Would it suffice to get the userns as: =E2=80=9Csk_user_ns(sk)=E2=80=9D?
-
-Or would it be better to pass struct netlink_callback *cb from =
-unix_diag_dump() to sk_diag_dump() to sk_diag_fill(), then to the new =
-function to add the UID?
-
-cheers,
--Felipe Gasper=
+Thanks for your co-operation.
+Your sincerely,
+Mr mohammad ouattara.
