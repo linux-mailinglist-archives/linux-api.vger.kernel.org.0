@@ -2,70 +2,113 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E0EE221B70
-	for <lists+linux-api@lfdr.de>; Fri, 17 May 2019 18:18:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EADA021C18
+	for <lists+linux-api@lfdr.de>; Fri, 17 May 2019 18:59:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729576AbfEQQSd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 17 May 2019 12:18:33 -0400
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:43821 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728949AbfEQQSd (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 17 May 2019 12:18:33 -0400
-Received: by mail-ed1-f65.google.com with SMTP id w33so11325667edb.10
-        for <linux-api@vger.kernel.org>; Fri, 17 May 2019 09:18:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=o/oVy7/t+y0tA4e46/w1p7/qz8aeWba22l3k5trO/eo=;
-        b=LaPMZX65KcRgjDJfEcyCi/FWMPu4h/SmU/RYyUjmOoS5LBPqh+WKJ4tE9r7s/Hfe1h
-         CvNi0Qv5d7SYB17T8MX14HvRXRH7GQfELNjC46hSdGWIaaBjr5bPHxHpCBpyvt29z+3o
-         Z8L4H8zMt38FWJvUmj5F5VkstNfKvLIrJ7KUZ3bV9QY6PfOEcKlb5BFpiLjNj9d5yQ54
-         ieI5qwHFx6Oz0hI9R4DyNymrSMWcODkdxS2qXHXOGwoVQZ4GZxjxr7cRC+qZaDwDgBAH
-         hli+WYiTd087u80sl3A7RiHpzxzJNlnRgYzsTFVU7fxpyz8ZMOzTc0LREoDLrrv7jkUu
-         KEKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to:content-transfer-encoding;
-        bh=o/oVy7/t+y0tA4e46/w1p7/qz8aeWba22l3k5trO/eo=;
-        b=DGW/jqJ1gdc6UWLlcIBwv7iXhxtB3j3NyyT+fmtX4++rAI1TA2bycnnAm/kPUpI/CK
-         RhvzN/EP0ivc8DqGwQXFnlmq+F1yTAiRep+6Z2zjI4QlNz5rvZ+uLkxOIAYJAmuOeVI+
-         fxMst6MCETl8AEEbxsOpmfjKgayO+m4iIF3eZDJPcPzF+mJ5RrU/QXlcNpYkorVyMGGl
-         jzDy+yFbm9x+7i6EiANHiPtX88wHp8a+B7BaPcPaYcyFGgmw9iCGa3l46y5LgPGzDeTS
-         V7MJ+hTpX41GYkNTy/KpzoJTvC1og3EQ0iKkHR1elJuVQXCKmXv33BgeooBMefP8OLu3
-         PDZA==
-X-Gm-Message-State: APjAAAU4P83f4j1HiyxZl6070kd+5WMsSEvdTn0bXaeFON8QQQaoL9ZV
-        b4T8f7wlgKLrOMPNuXiqscxjNFWIUuV+bD4Ed+w=
-X-Google-Smtp-Source: APXvYqyW0AUhZ30/mknFGGwQ6HwXsZ+Ze9acJb8qlZkbmkbEtHH1zkR2TDfj5RafcGytN1GzPwXrDerOiFpsCyzMe00=
-X-Received: by 2002:a17:906:5013:: with SMTP id s19mr45345780ejj.203.1558109911291;
- Fri, 17 May 2019 09:18:31 -0700 (PDT)
+        id S1727822AbfEQQ7D (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 17 May 2019 12:59:03 -0400
+Received: from lhrrgout.huawei.com ([185.176.76.210]:32951 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727370AbfEQQ7C (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 17 May 2019 12:59:02 -0400
+Received: from lhreml707-cah.china.huawei.com (unknown [172.18.7.106])
+        by Forcepoint Email with ESMTP id DD288D5C50E3A877CF75;
+        Fri, 17 May 2019 17:59:00 +0100 (IST)
+Received: from roberto-HP-EliteDesk-800-G2-DM-65W.huawei.com (10.204.65.154)
+ by smtpsuk.huawei.com (10.201.108.48) with Microsoft SMTP Server (TLS) id
+ 14.3.408.0; Fri, 17 May 2019 17:58:52 +0100
+From:   Roberto Sassu <roberto.sassu@huawei.com>
+To:     <viro@zeniv.linux.org.uk>
+CC:     <linux-security-module@vger.kernel.org>,
+        <linux-integrity@vger.kernel.org>, <initramfs@vger.kernel.org>,
+        <linux-api@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <zohar@linux.vnet.ibm.com>,
+        <silviu.vlasceanu@huawei.com>, <dmitry.kasatkin@huawei.com>,
+        <takondra@cisco.com>, <kamensky@cisco.com>, <hpa@zytor.com>,
+        <arnd@arndb.de>, <rob@landley.net>, <james.w.mcmechan@gmail.com>,
+        <niveditas98@gmail.com>, Roberto Sassu <roberto.sassu@huawei.com>
+Subject: [PATCH v3 0/2] initramfs: add support for xattrs in the initial ram disk
+Date:   Fri, 17 May 2019 18:55:17 +0200
+Message-ID: <20190517165519.11507-1-roberto.sassu@huawei.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Reply-To: mohammadouattara53@gmail.com
-Received: by 2002:aa7:c89a:0:0:0:0:0 with HTTP; Fri, 17 May 2019 09:18:30
- -0700 (PDT)
-From:   Mohammad Ouattara <mohammadouattara27@gmail.com>
-Date:   Fri, 17 May 2019 16:18:30 +0000
-X-Google-Sender-Auth: ZhVApCNyLr6j0bfHqowRQ7JPdac
-Message-ID: <CAOcJ4xTDW8xB+mUdXzjbugXbYphxSHCQU3mkKGoBr1dHCrwzZg@mail.gmail.com>
-Subject: From dr. mohammad ouattara.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Originating-IP: [10.204.65.154]
+X-CFilter-Loop: Reflected
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Dear friend,
+This patch set aims at solving the following use case: appraise files from
+the initial ram disk. To do that, IMA checks the signature/hash from the
+security.ima xattr. Unfortunately, this use case cannot be implemented
+currently, as the CPIO format does not support xattrs.
 
-I=E2=80=99m Mr mohammad ouattara, Manager of bill and exchange at (BOA) BAN=
-K
-in Burkina Faso, I would like you to indicate your interest to receive
-the transfer of (15.5 Million Dollars) in your bank account, I will
-like you to stand as the next of kin to a deceased customer who die in
-plane crash.
+This proposal consists in marshaling pathnames and xattrs in a file called
+.xattr-list. They are unmarshaled by the CPIO parser after all files have
+been extracted, or before the next ram disk is processed.
 
-Thanks for your co-operation.
-Your sincerely,
-Mr mohammad ouattara.
+The difference from v1 (https://lkml.org/lkml/2018/11/22/1182) is that all
+xattrs are stored in a single file and not per file (solves the file name
+limitation issue, as it is not necessary to add a suffix to files
+containing xattrs).
+
+The difference with another proposal
+(https://lore.kernel.org/patchwork/cover/888071/) is that xattrs can be
+included in an image without changing the image format, as opposed to
+defining a new one. As seen from the discussion, if a new format has to be
+defined, it should fix the issues of the existing format, which requires
+more time.
+
+To fulfill both requirements, adding support for xattrs in a short time and
+defining a new image format properly, this patch set takes an incremental
+approach: it introduces a parser of xattrs that can be used either if
+xattrs are in a regular file or directly added to the image (this patch set
+reuses patch 9/15 of the existing proposal); in addition, it introduces a
+wrapper of the xattr parser, to read xattrs from a file.
+
+The changes introduced by this patch set don't cause any compatibility
+issue: kernels without the xattr parser simply extracts .xattr-list and
+don't unmarshal xattrs; kernels with the xattr parser don't unmarshal
+xattrs if .xattr-list is not found in the image.
+
+From the kernel space perspective, backporting this functionality to older
+kernels should be very easy. It is sufficient to add two calls to the new
+function do_readxattrs(). From the user space perspective, no change is
+required for the use case. A new dracut module (module-setup.sh) will
+execute:
+
+getfattr --absolute-names -d -h -R -e hex -m security.ima \
+    <file list> | xattr.awk -b > ${initdir}/.xattr-list
+
+where xattr.awk is the script that marshals xattrs (see patch 3/3). The
+same can be done with the initramfs-tools ram disk generator.
+
+Changelog
+
+v2:
+- replace ksys_lsetxattr() with kern_path() and vfs_setxattr()
+  (suggested by Jann Horn)
+- replace ksys_open()/ksys_read()/ksys_close() with
+  filp_open()/kernel_read()/fput()
+  (suggested by Jann Horn)
+- use path variable instead of name_buf in do_readxattrs()
+- set last byte of str to 0 in do_readxattrs()
+- call do_readxattrs() in do_name() before replacing an existing
+  .xattr-list
+- pass pathname to do_setxattrs()
+
+
+Mimi Zohar (1):
+  initramfs: set extended attributes
+
+Roberto Sassu (1):
+  initramfs: introduce do_readxattrs()
+
+ init/initramfs.c | 170 ++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 168 insertions(+), 2 deletions(-)
+
+-- 
+2.17.1
+
