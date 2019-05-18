@@ -2,126 +2,350 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D0732216A
-	for <lists+linux-api@lfdr.de>; Sat, 18 May 2019 05:48:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 19110221BE
+	for <lists+linux-api@lfdr.de>; Sat, 18 May 2019 07:50:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728268AbfERDsX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 17 May 2019 23:48:23 -0400
-Received: from web1.siteocity.com ([67.227.147.204]:44760 "EHLO
-        web1.siteocity.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726761AbfERDsW (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 17 May 2019 23:48:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=felipegasper.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=jC2pzib8Rq8RDjX2koQw8+8PZ+U/nFGIGBi9LwADKV0=; b=Y1BmTae6ZDK4oj5rbucA28kWmF
-        4ntpgJeqsTbTcdu4KLgb1HeFk/8tN7C8LhYK+9KCjlEQqiO9NqRHzKgZGPFrKD0G0AbunVkmUiXWz
-        FDkX82sTi8Mx6YVQOvLhxIk3O13WB8O6ZREewvD3Xil2JwF1Z4oovA9aXE2530gbMDn3WzAwwNCmO
-        JyUcO/VRnCPQ1E3cQHM8OgQBrtgbSHwGkaa2CcqoJkwnHCg+sH7oCX5zbLSXEUJWnwYsE2w7/4AHN
-        5yfNPmDnyTtipB+rvwTCC4yGIB3ZJNfkAbmb/STKetFO1pNuTSfjCy8ik+vx9uiU3N1FQHIQx6v5k
-        Zco85oYw==;
-Received: from fgasper by web1.siteocity.com with local (Exim 4.92)
-        (envelope-from <fgasper@web1.siteocity.com>)
-        id 1hRqKa-0004Vm-BF; Fri, 17 May 2019 22:48:21 -0500
-From:   Felipe Gasper <felipe@felipegasper.com>
-To:     davem@davemloft.net, viro@zeniv.linux.org.uk,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        linux-api@vger.kernel.org
-Subject: [PATCH v2] net: Add UNIX_DIAG_UID to Netlink UNIX socket diagnostics.
-Date:   Fri, 17 May 2019 22:48:20 -0500
-Message-Id: <20190518034820.16500-1-felipe@felipegasper.com>
-X-Mailer: git-send-email 2.21.0
+        id S1725938AbfERFuD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 18 May 2019 01:50:03 -0400
+Received: from mga06.intel.com ([134.134.136.31]:23785 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725468AbfERFuD (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Sat, 18 May 2019 01:50:03 -0400
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 May 2019 22:49:58 -0700
+X-ExtLoop1: 1
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 17 May 2019 22:49:54 -0700
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1hRsED-0005px-KE; Sat, 18 May 2019 13:49:53 +0800
+Date:   Sat, 18 May 2019 13:49:34 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Roberto Sassu <roberto.sassu@huawei.com>
+Cc:     kbuild-all@01.org, viro@zeniv.linux.org.uk,
+        linux-security-module@vger.kernel.org,
+        linux-integrity@vger.kernel.org, initramfs@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, zohar@linux.vnet.ibm.com,
+        silviu.vlasceanu@huawei.com, dmitry.kasatkin@huawei.com,
+        takondra@cisco.com, kamensky@cisco.com, hpa@zytor.com,
+        arnd@arndb.de, rob@landley.net, james.w.mcmechan@gmail.com,
+        niveditas98@gmail.com, Roberto Sassu <roberto.sassu@huawei.com>
+Subject: Re: [PATCH v3 2/2] initramfs: introduce do_readxattrs()
+Message-ID: <201905181320.40kqTTSD%lkp@intel.com>
+References: <20190517165519.11507-3-roberto.sassu@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-OutGoing-Spam-Status: No, score=0.0
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - web1.siteocity.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [1438 994] / [47 12]
-X-AntiAbuse: Sender Address Domain - web1.siteocity.com
-X-Get-Message-Sender-Via: web1.siteocity.com: authenticated_id: fgasper/from_h
-X-Authenticated-Sender: web1.siteocity.com: felipe@felipegasper.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: /home/fgasper
-X-From-Rewrite: unmodified, already matched
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190517165519.11507-3-roberto.sassu@huawei.com>
+X-Patchwork-Hint: ignore
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Author: Felipe Gasper <felipe@felipegasper.com>
-Date:   Fri May 17 16:54:40 2019 -0500
+Hi Roberto,
 
-   net: Add UNIX_DIAG_UID to Netlink UNIX socket diagnostics.
+Thank you for the patch! Perhaps something to improve:
 
-   This adds the ability for Netlink to report a socket’s UID along with the
-   other UNIX diagnostic information that is already available. This will
-   allow diagnostic tools greater insight into which users control which socket.
+[auto build test WARNING on linus/master]
+[also build test WARNING on v5.1 next-20190517]
+[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
 
-   Signed-off-by: Felipe Gasper <felipe@felipegasper.com>
+url:    https://github.com/0day-ci/linux/commits/Roberto-Sassu/initramfs-set-extended-attributes/20190518-055846
+reproduce:
+        # apt-get install sparse
+        make ARCH=x86_64 allmodconfig
+        make C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__'
 
-diff --git a/include/uapi/linux/unix_diag.h b/include/uapi/linux/unix_diag.h
-index 5c502fd..a198857 100644
---- a/include/uapi/linux/unix_diag.h
-+++ b/include/uapi/linux/unix_diag.h
-@@ -20,6 +20,7 @@ struct unix_diag_req {
- #define UDIAG_SHOW_ICONS	0x00000008	/* show pending connections */
- #define UDIAG_SHOW_RQLEN	0x00000010	/* show skb receive queue len */
- #define UDIAG_SHOW_MEMINFO	0x00000020	/* show memory info of a socket */
-+#define UDIAG_SHOW_UID		0x00000040	/* show socket's UID */
- 
- struct unix_diag_msg {
- 	__u8	udiag_family;
-@@ -40,6 +41,7 @@ enum {
- 	UNIX_DIAG_RQLEN,
- 	UNIX_DIAG_MEMINFO,
- 	UNIX_DIAG_SHUTDOWN,
-+	UNIX_DIAG_UID,
- 
- 	__UNIX_DIAG_MAX,
- };
-diff --git a/net/unix/diag.c b/net/unix/diag.c
-index 3183d9b..e40f348 100644
---- a/net/unix/diag.c
-+++ b/net/unix/diag.c
-@@ -4,9 +4,11 @@
- #include <linux/unix_diag.h>
- #include <linux/skbuff.h>
- #include <linux/module.h>
-+#include <linux/uidgid.h>
- #include <net/netlink.h>
- #include <net/af_unix.h>
- #include <net/tcp_states.h>
-+#include <net/sock.h>
- 
- static int sk_diag_dump_name(struct sock *sk, struct sk_buff *nlskb)
- {
-@@ -110,6 +112,12 @@ static int sk_diag_show_rqlen(struct sock *sk, struct sk_buff *nlskb)
- 	return nla_put(nlskb, UNIX_DIAG_RQLEN, sizeof(rql), &rql);
- }
- 
-+static int sk_diag_dump_uid(struct sock *sk, struct sk_buff *nlskb)
-+{
-+	uid_t uid = from_kuid_munged(sk_user_ns(sk), sock_i_uid(sk));
-+	return nla_put(nlskb, UNIX_DIAG_UID, sizeof(uid_t), &uid);
-+}
-+
- static int sk_diag_fill(struct sock *sk, struct sk_buff *skb, struct unix_diag_req *req,
- 		u32 portid, u32 seq, u32 flags, int sk_ino)
- {
-@@ -156,6 +164,10 @@ static int sk_diag_fill(struct sock *sk, struct sk_buff *skb, struct unix_diag_r
- 	if (nla_put_u8(skb, UNIX_DIAG_SHUTDOWN, sk->sk_shutdown))
- 		goto out_nlmsg_trim;
- 
-+	if ((req->udiag_show & UDIAG_SHOW_UID) &&
-+	    sk_diag_dump_uid(sk, skb))
-+		goto out_nlmsg_trim;
-+
- 	nlmsg_end(skb, nlh);
- 	return 0;
- 
+If you fix the issue, kindly add following tag
+Reported-by: kbuild test robot <lkp@intel.com>
+
+
+sparse warnings: (new ones prefixed by >>)
+
+   init/initramfs.c:24:45: sparse: sparse: incorrect type in argument 2 (different address spaces) @@    expected char const [noderef] <asn:1> *buf @@    got f] <asn:1> *buf @@
+   init/initramfs.c:24:45: sparse:    expected char const [noderef] <asn:1> *buf
+   init/initramfs.c:24:45: sparse:    got char const *p
+   init/initramfs.c:115:36: sparse: sparse: incorrect type in argument 2 (different address spaces) @@    expected char const [noderef] <asn:1> *filename @@    got n:1> *filename @@
+   init/initramfs.c:115:36: sparse:    expected char const [noderef] <asn:1> *filename
+   init/initramfs.c:115:36: sparse:    got char *filename
+   init/initramfs.c:303:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@    expected char const [noderef] <asn:1> *name @@    got n:1> *name @@
+   init/initramfs.c:303:24: sparse:    expected char const [noderef] <asn:1> *name
+   init/initramfs.c:303:24: sparse:    got char *path
+   init/initramfs.c:305:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@    expected char const [noderef] <asn:1> *pathname @@    got n:1> *pathname @@
+   init/initramfs.c:305:36: sparse:    expected char const [noderef] <asn:1> *pathname
+   init/initramfs.c:305:36: sparse:    got char *path
+   init/initramfs.c:307:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@    expected char const [noderef] <asn:1> *pathname @@    got n:1> *pathname @@
+   init/initramfs.c:307:37: sparse:    expected char const [noderef] <asn:1> *pathname
+   init/initramfs.c:307:37: sparse:    got char *path
+   init/initramfs.c:317:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@    expected char const [noderef] <asn:1> *oldname @@    got n:1> *oldname @@
+   init/initramfs.c:317:43: sparse:    expected char const [noderef] <asn:1> *oldname
+   init/initramfs.c:317:43: sparse:    got char *old
+   init/initramfs.c:317:48: sparse: sparse: incorrect type in argument 2 (different address spaces) @@    expected char const [noderef] <asn:1> *newname @@    got char char const [noderef] <asn:1> *newname @@
+   init/initramfs.c:317:48: sparse:    expected char const [noderef] <asn:1> *newname
+   init/initramfs.c:317:48: sparse:    got char *static [toplevel] [assigned] collected
+   init/initramfs.c:404:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@    expected char const [noderef] <asn:1> *name @@    got n:1> *name @@
+   init/initramfs.c:404:25: sparse:    expected char const [noderef] <asn:1> *name
+   init/initramfs.c:404:25: sparse:    got char *
+>> init/initramfs.c:490:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@    expected char const [noderef] <asn:1> *name @@    got char char const [noderef] <asn:1> *name @@
+   init/initramfs.c:490:32: sparse:    expected char const [noderef] <asn:1> *name
+   init/initramfs.c:490:32: sparse:    got char *static [toplevel] [assigned] collected
+   init/initramfs.c:500:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@    expected char const [noderef] <asn:1> *filename @@    got char char const [noderef] <asn:1> *filename @@
+   init/initramfs.c:500:41: sparse:    expected char const [noderef] <asn:1> *filename
+   init/initramfs.c:500:41: sparse:    got char *static [toplevel] [assigned] collected
+   init/initramfs.c:512:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@    expected char const [noderef] <asn:1> *pathname @@    got char char const [noderef] <asn:1> *pathname @@
+   init/initramfs.c:512:28: sparse:    expected char const [noderef] <asn:1> *pathname
+   init/initramfs.c:512:28: sparse:    got char *static [toplevel] [assigned] collected
+   init/initramfs.c:513:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@    expected char const [noderef] <asn:1> *filename @@    got char char const [noderef] <asn:1> *filename @@
+   init/initramfs.c:513:28: sparse:    expected char const [noderef] <asn:1> *filename
+   init/initramfs.c:513:28: sparse:    got char *static [toplevel] [assigned] collected
+   init/initramfs.c:514:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@    expected char const [noderef] <asn:1> *filename @@    got char char const [noderef] <asn:1> *filename @@
+   init/initramfs.c:514:28: sparse:    expected char const [noderef] <asn:1> *filename
+   init/initramfs.c:514:28: sparse:    got char *static [toplevel] [assigned] collected
+   init/initramfs.c:519:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@    expected char const [noderef] <asn:1> *filename @@    got char char const [noderef] <asn:1> *filename @@
+   init/initramfs.c:519:36: sparse:    expected char const [noderef] <asn:1> *filename
+   init/initramfs.c:519:36: sparse:    got char *static [toplevel] [assigned] collected
+   init/initramfs.c:520:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@    expected char const [noderef] <asn:1> *filename @@    got char char const [noderef] <asn:1> *filename @@
+   init/initramfs.c:520:36: sparse:    expected char const [noderef] <asn:1> *filename
+   init/initramfs.c:520:36: sparse:    got char *static [toplevel] [assigned] collected
+   init/initramfs.c:521:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@    expected char const [noderef] <asn:1> *filename @@    got char char const [noderef] <asn:1> *filename @@
+   init/initramfs.c:521:36: sparse:    expected char const [noderef] <asn:1> *filename
+   init/initramfs.c:521:36: sparse:    got char *static [toplevel] [assigned] collected
+   init/initramfs.c:552:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@    expected char const [noderef] <asn:1> *oldname @@    got n:1> *oldname @@
+   init/initramfs.c:552:32: sparse:    expected char const [noderef] <asn:1> *oldname
+   init/initramfs.c:552:32: sparse:    got char *
+   init/initramfs.c:552:53: sparse: sparse: incorrect type in argument 2 (different address spaces) @@    expected char const [noderef] <asn:1> *newname @@    got char char const [noderef] <asn:1> *newname @@
+   init/initramfs.c:552:53: sparse:    expected char const [noderef] <asn:1> *newname
+   init/initramfs.c:552:53: sparse:    got char *static [toplevel] [assigned] collected
+   init/initramfs.c:553:21: sparse: sparse: incorrect type in argument 1 (different address spaces) @@    expected char const [noderef] <asn:1> *filename @@    got char char const [noderef] <asn:1> *filename @@
+   init/initramfs.c:553:21: sparse:    expected char const [noderef] <asn:1> *filename
+   init/initramfs.c:553:21: sparse:    got char *static [toplevel] [assigned] collected
+
+vim +490 init/initramfs.c
+
+   310	
+   311	static int __init maybe_link(void)
+   312	{
+   313		if (nlink >= 2) {
+   314			char *old = find_link(major, minor, ino, mode, collected);
+   315			if (old) {
+   316				clean_path(collected, 0);
+ > 317				return (ksys_link(old, collected) < 0) ? -1 : 1;
+   318			}
+   319		}
+   320		return 0;
+   321	}
+   322	
+   323	struct xattr_hdr {
+   324		char c_size[8]; /* total size including c_size field */
+   325		char c_data[];  /* <name>\0<value> */
+   326	};
+   327	
+   328	static int __init __maybe_unused do_setxattrs(char *pathname)
+   329	{
+   330		char *buf = xattr_buf;
+   331		char *bufend = buf + xattr_len;
+   332		struct xattr_hdr *hdr;
+   333		char str[sizeof(hdr->c_size) + 1];
+   334		struct path path;
+   335	
+   336		if (!xattr_len)
+   337			return 0;
+   338	
+   339		str[sizeof(hdr->c_size)] = 0;
+   340	
+   341		while (buf < bufend) {
+   342			char *xattr_name, *xattr_value;
+   343			unsigned long xattr_entry_size;
+   344			unsigned long xattr_name_size, xattr_value_size;
+   345			int ret;
+   346	
+   347			if (buf + sizeof(hdr->c_size) > bufend) {
+   348				error("malformed xattrs");
+   349				break;
+   350			}
+   351	
+   352			hdr = (struct xattr_hdr *)buf;
+   353			memcpy(str, hdr->c_size, sizeof(hdr->c_size));
+   354			ret = kstrtoul(str, 16, &xattr_entry_size);
+   355			buf += xattr_entry_size;
+   356			if (ret || buf > bufend || !xattr_entry_size) {
+   357				error("malformed xattrs");
+   358				break;
+   359			}
+   360	
+   361			xattr_name = hdr->c_data;
+   362			xattr_name_size = strnlen(xattr_name,
+   363						xattr_entry_size - sizeof(hdr->c_size));
+   364			if (xattr_name_size == xattr_entry_size - sizeof(hdr->c_size)) {
+   365				error("malformed xattrs");
+   366				break;
+   367			}
+   368	
+   369			xattr_value = xattr_name + xattr_name_size + 1;
+   370			xattr_value_size = buf - xattr_value;
+   371	
+   372			ret = kern_path(pathname, 0, &path);
+   373			if (!ret) {
+   374				ret = vfs_setxattr(path.dentry, xattr_name, xattr_value,
+   375						   xattr_value_size, 0);
+   376	
+   377				path_put(&path);
+   378			}
+   379	
+   380			pr_debug("%s: %s size: %lu val: %s (ret: %d)\n", pathname,
+   381				 xattr_name, xattr_value_size, xattr_value, ret);
+   382		}
+   383	
+   384		return 0;
+   385	}
+   386	
+   387	struct path_hdr {
+   388		char p_size[10]; /* total size including p_size field */
+   389		char p_data[];   /* <path>\0<xattrs> */
+   390	};
+   391	
+   392	static int __init do_readxattrs(void)
+   393	{
+   394		struct path_hdr hdr;
+   395		char *path = NULL;
+   396		char str[sizeof(hdr.p_size) + 1];
+   397		unsigned long file_entry_size;
+   398		size_t size, path_size, total_size;
+   399		struct kstat st;
+   400		struct file *file;
+   401		loff_t pos;
+   402		int ret;
+   403	
+   404		ret = vfs_lstat(XATTR_LIST_FILENAME, &st);
+   405		if (ret < 0)
+   406			return ret;
+   407	
+   408		total_size = st.size;
+   409	
+   410		file = filp_open(XATTR_LIST_FILENAME, O_RDONLY, 0);
+   411		if (IS_ERR(file))
+   412			return PTR_ERR(file);
+   413	
+   414		pos = file->f_pos;
+   415	
+   416		while (total_size) {
+   417			size = kernel_read(file, (char *)&hdr, sizeof(hdr), &pos);
+   418			if (size != sizeof(hdr)) {
+   419				ret = -EIO;
+   420				goto out;
+   421			}
+   422	
+   423			total_size -= size;
+   424	
+   425			str[sizeof(hdr.p_size)] = 0;
+   426			memcpy(str, hdr.p_size, sizeof(hdr.p_size));
+   427			ret = kstrtoul(str, 16, &file_entry_size);
+   428			if (ret < 0)
+   429				goto out;
+   430	
+   431			file_entry_size -= sizeof(sizeof(hdr.p_size));
+   432			if (file_entry_size > total_size) {
+   433				ret = -EINVAL;
+   434				goto out;
+   435			}
+   436	
+   437			path = vmalloc(file_entry_size);
+   438			if (!path) {
+   439				ret = -ENOMEM;
+   440				goto out;
+   441			}
+   442	
+   443			size = kernel_read(file, path, file_entry_size, &pos);
+   444			if (size != file_entry_size) {
+   445				ret = -EIO;
+   446				goto out_free;
+   447			}
+   448	
+   449			total_size -= size;
+   450	
+   451			path_size = strnlen(path, file_entry_size);
+   452			if (path_size == file_entry_size) {
+   453				ret = -EINVAL;
+   454				goto out_free;
+   455			}
+   456	
+   457			xattr_buf = path + path_size + 1;
+   458			xattr_len = file_entry_size - path_size - 1;
+   459	
+   460			ret = do_setxattrs(path);
+   461			vfree(path);
+   462			path = NULL;
+   463	
+   464			if (ret < 0)
+   465				break;
+   466		}
+   467	out_free:
+   468		vfree(path);
+   469	out:
+   470		fput(file);
+   471	
+   472		if (ret < 0)
+   473			error("Unable to parse xattrs");
+   474	
+   475		return ret;
+   476	}
+   477	
+   478	static __initdata int wfd;
+   479	
+   480	static int __init do_name(void)
+   481	{
+   482		state = SkipIt;
+   483		next_state = Reset;
+   484		if (strcmp(collected, "TRAILER!!!") == 0) {
+   485			free_hash();
+   486			return 0;
+   487		} else if (strcmp(collected, XATTR_LIST_FILENAME) == 0) {
+   488			struct kstat st;
+   489	
+ > 490			if (!vfs_lstat(collected, &st))
+   491				do_readxattrs();
+   492		}
+   493		clean_path(collected, mode);
+   494		if (S_ISREG(mode)) {
+   495			int ml = maybe_link();
+   496			if (ml >= 0) {
+   497				int openflags = O_WRONLY|O_CREAT;
+   498				if (ml != 1)
+   499					openflags |= O_TRUNC;
+   500				wfd = ksys_open(collected, openflags, mode);
+   501	
+   502				if (wfd >= 0) {
+   503					ksys_fchown(wfd, uid, gid);
+   504					ksys_fchmod(wfd, mode);
+   505					if (body_len)
+   506						ksys_ftruncate(wfd, body_len);
+   507					vcollected = kstrdup(collected, GFP_KERNEL);
+   508					state = CopyFile;
+   509				}
+   510			}
+   511		} else if (S_ISDIR(mode)) {
+   512			ksys_mkdir(collected, mode);
+   513			ksys_chown(collected, uid, gid);
+   514			ksys_chmod(collected, mode);
+   515			dir_add(collected, mtime);
+   516		} else if (S_ISBLK(mode) || S_ISCHR(mode) ||
+   517			   S_ISFIFO(mode) || S_ISSOCK(mode)) {
+   518			if (maybe_link() == 0) {
+   519				ksys_mknod(collected, mode, rdev);
+   520				ksys_chown(collected, uid, gid);
+   521				ksys_chmod(collected, mode);
+   522				do_utime(collected, mtime);
+   523			}
+   524		}
+   525		return 0;
+   526	}
+   527	
+
+---
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
