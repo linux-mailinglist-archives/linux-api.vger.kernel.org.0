@@ -2,174 +2,162 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 027752230A
-	for <lists+linux-api@lfdr.de>; Sat, 18 May 2019 12:05:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C4D9622437
+	for <lists+linux-api@lfdr.de>; Sat, 18 May 2019 19:18:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729722AbfERKFI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 18 May 2019 06:05:08 -0400
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:42479 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729688AbfERKFI (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 18 May 2019 06:05:08 -0400
-Received: by mail-ed1-f68.google.com with SMTP id l25so14683784eda.9
-        for <linux-api@vger.kernel.org>; Sat, 18 May 2019 03:05:06 -0700 (PDT)
+        id S1728688AbfERRS5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 18 May 2019 13:18:57 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:39444 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727260AbfERRS5 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 18 May 2019 13:18:57 -0400
+Received: by mail-pl1-f196.google.com with SMTP id g9so4767019plm.6
+        for <linux-api@vger.kernel.org>; Sat, 18 May 2019 10:18:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brauner.io; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=kuxvODYNXQX1UADGYTekrXKJHl9GqTdixhHyMJoLFkg=;
-        b=MzXf8JwF72gJj2Pq8n12P+UywZxc2BVXTvpiVUKrEniJVb1LIFP3IbcOliQYISdvq7
-         CigvtYVzwi+8s8BzhGA7JzeYEAEgELRKSJUGXkBeKo3jIoY+k+AIz1NIGNQ3IbqWFvd/
-         pZcoiBfjP1G87UNeXXgpYPrDlzF+SvvAxTS1B9J01RvJsEbVREubCnWtrpwlE+W8uhC8
-         abJb2p1WNSljrqCFAQH7at9A4yXrlhg+5ZrhECybT+pFDJTv4XLPhvmKoEIQriQEdsEE
-         2qeWRYeIhjWVjN8Omnws0ZotrB2BKKuxhO4+QGekj7Ec6VajrUKLl5oRB10tcR/KFGxb
-         SomA==
+        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=lInakaH9QIJV2qyTcHK9vy8+So0EobhrfMkTeL58g00=;
+        b=qtHSZPLPznbImALkmN2FBZIz4O+T+RKgAdwpltbsjoobbCkfcB1Jl/6+7Tstsc8l+d
+         8dxP1VvUIDh45pvv2DeQU+UudRkBSaWmD3IQsH14wPR96NikKq7qdM050+jIbYJyXem9
+         F7P/23llmD/DuTFm2v2rz+9ZCdKiB23WQD8AfCIldtIfwR5CoCyKxhOyDQQ+J/enFadU
+         KJr7wa2iU8sysixF9jjLSF4I05eZAtCeeJ876hMXIo1In87zvb10xbxm1c4BprhxscR+
+         n7LJB6RmeaMqfKX/1F9ahBC1WeItsr/DpOZlDtgGIPk5TFhhJjUU4r8h+t9GF9OFEIw/
+         1cag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=kuxvODYNXQX1UADGYTekrXKJHl9GqTdixhHyMJoLFkg=;
-        b=V8p8AZP4yZOiVQELYlpFSqlm7vBpfpacJJ3hYgNsR26Qy3gHN2aa4XS/giZuwaSugt
-         UwxVCSvtLj4+IkG4ECo8sep6lgy8X9EjuhenClRq5QRVvE5vmnln6OEjbz5y6EDDXz0G
-         QwR2zOXgwbFTvtyDxAIh8Sk/EPsQUDJPwLIJhQqjEFLTZ3nBQZuScqn6rp5hw1DTk5Sk
-         xtpV1Q7Ao6fYZnm/cBSG/2l+uKxFYuGBWauIdNwKUZNmJWnwI49UkF1OnJDDy/Ya7OYT
-         cw5F4uk8xGL2KS8NxNL2smAUB/rU5eJYCIny75T5utjstkZGZQ3VemC5v9PxZe/x3W+C
-         LsBQ==
-X-Gm-Message-State: APjAAAVo0QtCkccblfvnjqLYN3olFvwXxer4ZGxXxCd380Zz1YxUwS9c
-        2dVwyB7yzRViPjUpCBgdhECvhA==
-X-Google-Smtp-Source: APXvYqyJ8cSwup5T+wLOXgE4G1RIJN3Q14FiCUfotn6HCvE35vO+QFm+mQrHo4U4TisKcq8ZEYMBDQ==
-X-Received: by 2002:a50:b82d:: with SMTP id j42mr63022736ede.186.1558173905455;
-        Sat, 18 May 2019 03:05:05 -0700 (PDT)
-Received: from brauner.io ([46.183.103.8])
-        by smtp.gmail.com with ESMTPSA id y30sm3741910edc.83.2019.05.18.03.04.59
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Sat, 18 May 2019 03:05:04 -0700 (PDT)
-Date:   Sat, 18 May 2019 12:04:46 +0200
-From:   Christian Brauner <christian@brauner.io>
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     jannh@google.com, oleg@redhat.com, viro@zeniv.linux.org.uk,
-        torvalds@linux-foundation.org, linux-kernel@vger.kernel.org,
-        arnd@arndb.de, akpm@linux-foundation.org, cyphar@cyphar.com,
-        dhowells@redhat.com, ebiederm@xmission.com,
-        elena.reshetova@intel.com, keescook@chromium.org,
-        luto@amacapital.net, luto@kernel.org, tglx@linutronix.de,
-        linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linux-mips@vger.kernel.orgg, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
-        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-xtensa@linux-xtensa.org, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        dancol@google.com, serge@hallyn.com, surenb@google.com,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        kernel-team@android.com
-Subject: Re: [PATCH v1 1/2] pid: add pidfd_open()
-Message-ID: <20190518100435.c5bqpcnra53dsr6p@brauner.io>
-References: <20190516135944.7205-1-christian@brauner.io>
- <20190516224949.GA15401@localhost>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190516224949.GA15401@localhost>
-User-Agent: NeoMutt/20180716
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=lInakaH9QIJV2qyTcHK9vy8+So0EobhrfMkTeL58g00=;
+        b=h5YsYICpgzozXF4xfPCds8gQEDTKpwdxRB5uag9KhMiuWCkfppTUABCiZgcG64Di5O
+         oTlS2qEMuGdD3uGe+CubHaFrYzHOqpNkrQxhGWA6+KNuEPwhYWME9EmS0BPgLrWVfdkb
+         OmyIbVPDIKlKp0lmn/nLLMvauLgkZBtVzdffI8uwAIx85no8Sa/4qjgxaAjhQmlF0dMJ
+         RdCt+/ug0wAK9YjLUySVzYQTG213zoe0r8x1oWvnQYpssqKbjxQYP4weGH7lyJ1puDZ4
+         pdLYihloSLuIGubBpXgiy94CtAJ216AzwjPOqOXfIwMaP79CrUfBpyOEzFD5ZR9/KvVR
+         Gv7A==
+X-Gm-Message-State: APjAAAWHeUJIOVkP/1wuRotSAHyw4o2OdpOEphXhZElGBkHp9N/xY7Yg
+        KossiKBVOLPBuVALRJ6GqiPoDjcmVhc=
+X-Google-Smtp-Source: APXvYqwcmysrVwi8eDDoMIdmDMADJBNZKuxiO7AjctFjBc75iOz2YhLkLlg3S/MX0lMnU+XgHh2a7A==
+X-Received: by 2002:a17:902:683:: with SMTP id 3mr22168356plh.209.1558199936948;
+        Sat, 18 May 2019 10:18:56 -0700 (PDT)
+Received: from ?IPv6:2601:646:c200:1ef2:752c:b986:3395:75e0? ([2601:646:c200:1ef2:752c:b986:3395:75e0])
+        by smtp.gmail.com with ESMTPSA id q193sm18551512pfc.52.2019.05.18.10.18.54
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 18 May 2019 10:18:55 -0700 (PDT)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH v2] net: Add UNIX_DIAG_UID to Netlink UNIX socket diagnostics.
+From:   Andy Lutomirski <luto@amacapital.net>
+X-Mailer: iPhone Mail (16E227)
+In-Reply-To: <20190518034820.16500-1-felipe@felipegasper.com>
+Date:   Sat, 18 May 2019 10:18:54 -0700
+Cc:     davem@davemloft.net, viro@zeniv.linux.org.uk,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        linux-api@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <6CDA54A5-56FF-4B42-B6F5-762E72C3FC3B@amacapital.net>
+References: <20190518034820.16500-1-felipe@felipegasper.com>
+To:     Felipe Gasper <felipe@felipegasper.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, May 18, 2019 at 05:48:03AM -0400, Joel Fernandes wrote:
-> Hi Christian,
-> 
-> For next revision, could you also CC surenb@google.com as well? He is also
-> working on the low memory killer. And also suggest CC to
-> kernel-team@android.com. And mentioned some comments below, thanks.
 
-Yip, totally. Just added them both to my Cc list. :)
-(I saw you added Suren manually. I added the Android kernel team now too.)
 
-> 
-> On Thu, May 16, 2019 at 03:59:42PM +0200, Christian Brauner wrote:
-> [snip]  
-> > diff --git a/kernel/pid.c b/kernel/pid.c
-> > index 20881598bdfa..4afca3d6dcb8 100644
-> > --- a/kernel/pid.c
-> > +++ b/kernel/pid.c
-> > @@ -38,6 +38,7 @@
-> >  #include <linux/syscalls.h>
-> >  #include <linux/proc_ns.h>
-> >  #include <linux/proc_fs.h>
-> > +#include <linux/sched/signal.h>
-> >  #include <linux/sched/task.h>
-> >  #include <linux/idr.h>
-> >  
-> > @@ -451,6 +452,55 @@ struct pid *find_ge_pid(int nr, struct pid_namespace *ns)
-> >  	return idr_get_next(&ns->idr, &nr);
-> >  }
-> >  
-> > +/**
-> > + * pidfd_open() - Open new pid file descriptor.
-> > + *
-> > + * @pid:   pid for which to retrieve a pidfd
-> > + * @flags: flags to pass
-> > + *
-> > + * This creates a new pid file descriptor with the O_CLOEXEC flag set for
-> > + * the process identified by @pid. Currently, the process identified by
-> > + * @pid must be a thread-group leader. This restriction currently exists
-> > + * for all aspects of pidfds including pidfd creation (CLONE_PIDFD cannot
-> > + * be used with CLONE_THREAD) and pidfd polling (only supports thread group
-> > + * leaders).
-> > + *
-> > + * Return: On success, a cloexec pidfd is returned.
-> > + *         On error, a negative errno number will be returned.
-> > + */
-> > +SYSCALL_DEFINE2(pidfd_open, pid_t, pid, unsigned int, flags)
-> > +{
-> > +	int fd, ret;
-> > +	struct pid *p;
-> > +	struct task_struct *tsk;
-> > +
-> > +	if (flags)
-> > +		return -EINVAL;
-> > +
-> > +	if (pid <= 0)
-> > +		return -EINVAL;
-> > +
-> > +	p = find_get_pid(pid);
-> > +	if (!p)
-> > +		return -ESRCH;
-> > +
-> > +	ret = 0;
-> > +	rcu_read_lock();
-> > +	/*
-> > +	 * If this returns non-NULL the pid was used as a thread-group
-> > +	 * leader. Note, we race with exec here: If it changes the
-> > +	 * thread-group leader we might return the old leader.
-> > +	 */
-> > +	tsk = pid_task(p, PIDTYPE_TGID);
-> 
-> Just trying to understand the comment here. The issue is that we might either
-> return the new leader, or the old leader depending on the overlap with
-> concurrent de_thread right? In either case, we don't care though.
-> 
-> I suggest to remove the "Note..." part of the comment since it doesn't seem the
-> race is relevant here unless we are doing something else with tsk in the
-> function, but if you want to keep it that's also fine. Comment text should
-> probably should be 'return the new leader' though.
+> On May 17, 2019, at 8:48 PM, Felipe Gasper <felipe@felipegasper.com> wrote=
+:
+>=20
+> Author: Felipe Gasper <felipe@felipegasper.com>
+> Date:   Fri May 17 16:54:40 2019 -0500
+>=20
+>   net: Add UNIX_DIAG_UID to Netlink UNIX socket diagnostics.
+>=20
+>   This adds the ability for Netlink to report a socket=E2=80=99s UID along=
+ with the
+>   other UNIX diagnostic information that is already available. This will
+>   allow diagnostic tools greater insight into which users control which so=
+cket.
+>=20
+>   Signed-off-by: Felipe Gasper <felipe@felipegasper.com>
+>=20
+> diff --git a/include/uapi/linux/unix_diag.h b/include/uapi/linux/unix_diag=
+.h
+> index 5c502fd..a198857 100644
+> --- a/include/uapi/linux/unix_diag.h
+> +++ b/include/uapi/linux/unix_diag.h
+> @@ -20,6 +20,7 @@ struct unix_diag_req {
+> #define UDIAG_SHOW_ICONS    0x00000008    /* show pending connections */
+> #define UDIAG_SHOW_RQLEN    0x00000010    /* show skb receive queue len */=
 
-Nah, I actually removed the comment already independently (cf. see [1]).
+> #define UDIAG_SHOW_MEMINFO    0x00000020    /* show memory info of a socke=
+t */
+> +#define UDIAG_SHOW_UID        0x00000040    /* show socket's UID */
+>=20
+> struct unix_diag_msg {
+>    __u8    udiag_family;
+> @@ -40,6 +41,7 @@ enum {
+>    UNIX_DIAG_RQLEN,
+>    UNIX_DIAG_MEMINFO,
+>    UNIX_DIAG_SHUTDOWN,
+> +    UNIX_DIAG_UID,
+>=20
+>    __UNIX_DIAG_MAX,
+> };
+> diff --git a/net/unix/diag.c b/net/unix/diag.c
+> index 3183d9b..e40f348 100644
+> --- a/net/unix/diag.c
+> +++ b/net/unix/diag.c
+> @@ -4,9 +4,11 @@
+> #include <linux/unix_diag.h>
+> #include <linux/skbuff.h>
+> #include <linux/module.h>
+> +#include <linux/uidgid.h>
+> #include <net/netlink.h>
+> #include <net/af_unix.h>
+> #include <net/tcp_states.h>
+> +#include <net/sock.h>
+>=20
+> static int sk_diag_dump_name(struct sock *sk, struct sk_buff *nlskb)
+> {
+> @@ -110,6 +112,12 @@ static int sk_diag_show_rqlen(struct sock *sk, struct=
+ sk_buff *nlskb)
+>    return nla_put(nlskb, UNIX_DIAG_RQLEN, sizeof(rql), &rql);
+> }
+>=20
+> +static int sk_diag_dump_uid(struct sock *sk, struct sk_buff *nlskb)
+> +{
+> +    uid_t uid =3D from_kuid_munged(sk_user_ns(sk), sock_i_uid(sk));
+> +    return nla_put(nlskb, UNIX_DIAG_UID, sizeof(uid_t), &uid);
 
-[1]: https://git.kernel.org/pub/scm/linux/kernel/git/brauner/linux.git/commit/?h=pidfd_open&id=dcfc98c2d957bf3ac14b06414cb2cf4c673fc297
-> 
-> > +	if (!tsk)
-> > +		ret = -ESRCH;
-> 
-> Perhaps -EINVAL?  AFAICS, this can only happen if a CLONE_THREAD pid was
-> passed as argument to pidfd_open which is invalid. But let me know what you
-> had in mind..
+This still looks wrong. You=E2=80=99re reporting the uid of the socket as se=
+en by that socket.  Presumably you actually want the uid of the socket as se=
+en by the *diagnostic* socket. This might be sk_user_ns(nlskb->sk).
 
-Hm, from the kernel's perspective ESRCH is correct but I guess EINVAL is
-nicer for userspace. So I don't have objections to using EINVAL. My
-first version did too I think.
+You can test this with a command like unshare -U -r nc -l 12345 run as no -r=
+oot. Then run you user diagnostic tool to find the uid of the socket. It sho=
+uld not be zero. Similarly, if you run unshare -U -r bash and then open a so=
+cket and run your diagnostic tool, both from that same session, you should s=
+ee 0 as the uid since bash and all its children think they=E2=80=99re uid 0.=
 
-Thanks!
-Christian
+
+> +}
+
+> +
+> static int sk_diag_fill(struct sock *sk, struct sk_buff *skb, struct unix_=
+diag_req *req,
+>        u32 portid, u32 seq, u32 flags, int sk_ino)
+> {
+> @@ -156,6 +164,10 @@ static int sk_diag_fill(struct sock *sk, struct sk_bu=
+ff *skb, struct unix_diag_r
+>    if (nla_put_u8(skb, UNIX_DIAG_SHUTDOWN, sk->sk_shutdown))
+>        goto out_nlmsg_trim;
+>=20
+> +    if ((req->udiag_show & UDIAG_SHOW_UID) &&
+> +        sk_diag_dump_uid(sk, skb))
+> +        goto out_nlmsg_trim;
+> +
+>    nlmsg_end(skb, nlh);
+>    return 0;
+>=20
