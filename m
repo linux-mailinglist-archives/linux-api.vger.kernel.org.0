@@ -2,20 +2,20 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 61F8E23916
-	for <lists+linux-api@lfdr.de>; Mon, 20 May 2019 16:01:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FB3923927
+	for <lists+linux-api@lfdr.de>; Mon, 20 May 2019 16:02:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390874AbfETOA5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 20 May 2019 10:00:57 -0400
-Received: from relay.sw.ru ([185.231.240.75]:39828 "EHLO relay.sw.ru"
+        id S2390971AbfETOBG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 20 May 2019 10:01:06 -0400
+Received: from relay.sw.ru ([185.231.240.75]:39874 "EHLO relay.sw.ru"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387488AbfETOA5 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 20 May 2019 10:00:57 -0400
+        id S1732639AbfETOBG (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 20 May 2019 10:01:06 -0400
 Received: from [172.16.25.169] (helo=localhost.localdomain)
         by relay.sw.ru with esmtp (Exim 4.91)
         (envelope-from <ktkhai@virtuozzo.com>)
-        id 1hSiq4-00083Y-T0; Mon, 20 May 2019 17:00:29 +0300
-Subject: [PATCH v2 5/7] mm: Introduce may_mmap_overlapped_region() helper
+        id 1hSiqA-00083v-6q; Mon, 20 May 2019 17:00:34 +0300
+Subject: [PATCH v2 6/7] mm: Introduce find_vma_filter_flags() helper
 From:   Kirill Tkhai <ktkhai@virtuozzo.com>
 To:     akpm@linux-foundation.org, dan.j.williams@intel.com,
         ktkhai@virtuozzo.com, mhocko@suse.com, keith.busch@intel.com,
@@ -28,8 +28,8 @@ To:     akpm@linux-foundation.org, dan.j.williams@intel.com,
         mgorman@techsingularity.net, daniel.m.jordan@oracle.com,
         jannh@google.com, kilobyte@angband.pl, linux-api@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Date:   Mon, 20 May 2019 17:00:28 +0300
-Message-ID: <155836082877.2441.3415778176783960096.stgit@localhost.localdomain>
+Date:   Mon, 20 May 2019 17:00:34 +0300
+Message-ID: <155836083406.2441.7999607190635457587.stgit@localhost.localdomain>
 In-Reply-To: <155836064844.2441.10911127801797083064.stgit@localhost.localdomain>
 References: <155836064844.2441.10911127801797083064.stgit@localhost.localdomain>
 User-Agent: StGit/0.18
@@ -41,65 +41,99 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Extract address space limit check for overlapped regions
-in a separate helper.
+This patch introduce a new helper, which returns
+vma of enough length at given address, but only
+if it does not contain passed flags.
 
 v2: New
 
 Signed-off-by: Kirill Tkhai <ktkhai@virtuozzo.com>
 ---
- mm/mmap.c |   33 ++++++++++++++++++++-------------
- 1 file changed, 20 insertions(+), 13 deletions(-)
+ include/linux/mm.h |    3 +++
+ mm/mremap.c        |   39 ++++++++++++++++++++++++++-------------
+ 2 files changed, 29 insertions(+), 13 deletions(-)
 
-diff --git a/mm/mmap.c b/mm/mmap.c
-index e4ced5366643..260e47e917e6 100644
---- a/mm/mmap.c
-+++ b/mm/mmap.c
-@@ -583,6 +583,24 @@ static unsigned long count_vma_pages_range(struct mm_struct *mm,
- 	return nr_pages;
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index 54328d08dbdd..65ceb56acd44 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -1515,6 +1515,9 @@ void unmap_mapping_pages(struct address_space *mapping,
+ 		pgoff_t start, pgoff_t nr, bool even_cows);
+ void unmap_mapping_range(struct address_space *mapping,
+ 		loff_t const holebegin, loff_t const holelen, int even_cows);
++struct vm_area_struct *find_vma_without_flags(struct mm_struct *mm,
++		unsigned long addr, unsigned long len,
++		unsigned long prohibited_flags);
+ #else
+ static inline vm_fault_t handle_mm_fault(struct vm_area_struct *vma,
+ 		unsigned long address, unsigned int flags)
+diff --git a/mm/mremap.c b/mm/mremap.c
+index 9a96cfc28675..dabae6a70287 100644
+--- a/mm/mremap.c
++++ b/mm/mremap.c
+@@ -430,14 +430,37 @@ static unsigned long move_vma(struct vm_area_struct *vma,
+ 	return new_addr;
  }
  
-+/*
-+ * Check against address space limit, whether we may expand mm
-+ * with a new mapping. Currently mapped in the given range pages
-+ * are not accounted in the limit.
-+ */
-+static bool may_mmap_overlapped_region(struct mm_struct *mm,
-+		unsigned long vm_flags, unsigned long addr, unsigned long len)
++struct vm_area_struct *find_vma_without_flags(struct mm_struct *mm,
++		unsigned long addr, unsigned long len,
++		unsigned long prohibited_flags)
 +{
-+	unsigned long nr_pages = len >> PAGE_SHIFT;
++	struct vm_area_struct *vma = find_vma(mm, addr);
 +
-+	if (!may_expand_vm(mm, vm_flags, nr_pages)) {
-+		nr_pages -= count_vma_pages_range(mm, addr, addr + len);
-+		if (!may_expand_vm(mm, vm_flags, nr_pages))
-+			return false;
-+	}
-+	return true;
++	if (!vma || vma->vm_start > addr)
++		return ERR_PTR(-EFAULT);
++
++	/* vm area boundaries crossing */
++	if (len > vma->vm_end - addr)
++		return ERR_PTR(-EFAULT);
++
++	if (vma->vm_flags & prohibited_flags)
++		return ERR_PTR(-EFAULT);
++
++	return vma;
 +}
 +
- void __vma_link_rb(struct mm_struct *mm, struct vm_area_struct *vma,
- 		struct rb_node **rb_link, struct rb_node *rb_parent)
+ static struct vm_area_struct *vma_to_resize(unsigned long addr,
+ 	unsigned long old_len, unsigned long new_len, unsigned long *p)
  {
-@@ -1697,19 +1715,8 @@ unsigned long mmap_region(struct file *file, unsigned long addr,
- 	unsigned long charged = 0;
+ 	struct mm_struct *mm = current->mm;
+-	struct vm_area_struct *vma = find_vma(mm, addr);
+-	unsigned long pgoff;
++	struct vm_area_struct *vma;
++	unsigned long pgoff, prohibited_flags = VM_HUGETLB;
  
- 	/* Check against address space limit. */
--	if (!may_expand_vm(mm, vm_flags, len >> PAGE_SHIFT)) {
--		unsigned long nr_pages;
--
--		/*
--		 * MAP_FIXED may remove pages of mappings that intersects with
--		 * requested mapping. Account for the pages it would unmap.
--		 */
--		nr_pages = count_vma_pages_range(mm, addr, addr + len);
--
--		if (!may_expand_vm(mm, vm_flags,
--					(len >> PAGE_SHIFT) - nr_pages))
--			return -ENOMEM;
--	}
-+	if (!may_mmap_overlapped_region(mm, vm_flags, addr, len))
-+		return -ENOMEM;
+-	if (!vma || vma->vm_start > addr)
++	if (old_len != new_len)
++		prohibited_flags |= VM_DONTEXPAND | VM_PFNMAP;
++
++	vma = find_vma_without_flags(mm, addr, old_len, prohibited_flags);
++	if (IS_ERR(vma))
+ 		return ERR_PTR(-EFAULT);
  
- 	/* Clear old maps */
- 	while (find_vma_links(mm, addr, addr + len, &prev, &rb_link,
+ 	/*
+@@ -453,13 +476,6 @@ static struct vm_area_struct *vma_to_resize(unsigned long addr,
+ 		return ERR_PTR(-EINVAL);
+ 	}
+ 
+-	if (is_vm_hugetlb_page(vma))
+-		return ERR_PTR(-EINVAL);
+-
+-	/* We can't remap across vm area boundaries */
+-	if (old_len > vma->vm_end - addr)
+-		return ERR_PTR(-EFAULT);
+-
+ 	if (new_len == old_len)
+ 		return vma;
+ 
+@@ -469,9 +485,6 @@ static struct vm_area_struct *vma_to_resize(unsigned long addr,
+ 	if (pgoff + (new_len >> PAGE_SHIFT) < pgoff)
+ 		return ERR_PTR(-EINVAL);
+ 
+-	if (vma->vm_flags & (VM_DONTEXPAND | VM_PFNMAP))
+-		return ERR_PTR(-EFAULT);
+-
+ 	if (vma->vm_flags & VM_LOCKED) {
+ 		unsigned long locked, lock_limit;
+ 		locked = atomic64_read(&mm->locked_vm) << PAGE_SHIFT;
 
