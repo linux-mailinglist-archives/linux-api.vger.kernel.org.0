@@ -2,80 +2,71 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A3A122E2D
-	for <lists+linux-api@lfdr.de>; Mon, 20 May 2019 10:16:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AAF522E31
+	for <lists+linux-api@lfdr.de>; Mon, 20 May 2019 10:17:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730931AbfETIQY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 20 May 2019 04:16:24 -0400
-Received: from mx2.suse.de ([195.135.220.15]:52238 "EHLO mx1.suse.de"
+        id S1730768AbfETIRA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 20 May 2019 04:17:00 -0400
+Received: from lhrrgout.huawei.com ([185.176.76.210]:32954 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729496AbfETIQY (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 20 May 2019 04:16:24 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 6CBF8ADEA;
-        Mon, 20 May 2019 08:16:22 +0000 (UTC)
-Date:   Mon, 20 May 2019 10:16:21 +0200
-From:   Michal Hocko <mhocko@kernel.org>
-To:     Minchan Kim <minchan@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Tim Murray <timmurray@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Brian Geffon <bgeffon@google.com>, linux-api@vger.kernel.org
-Subject: Re: [RFC 1/7] mm: introduce MADV_COOL
-Message-ID: <20190520081621.GV6836@dhcp22.suse.cz>
-References: <20190520035254.57579-1-minchan@kernel.org>
- <20190520035254.57579-2-minchan@kernel.org>
+        id S1729496AbfETIRA (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 20 May 2019 04:17:00 -0400
+Received: from LHREML714-CAH.china.huawei.com (unknown [172.18.7.107])
+        by Forcepoint Email with ESMTP id 7536EA16AA066197D4C3;
+        Mon, 20 May 2019 09:16:58 +0100 (IST)
+Received: from [10.220.96.108] (10.220.96.108) by smtpsuk.huawei.com
+ (10.201.108.37) with Microsoft SMTP Server (TLS) id 14.3.408.0; Mon, 20 May
+ 2019 09:16:52 +0100
+Subject: Re: [PATCH v3 2/2] initramfs: introduce do_readxattrs()
+To:     Arvind Sankar <nivedita@alum.mit.edu>
+CC:     <hpa@zytor.com>, <viro@zeniv.linux.org.uk>,
+        <linux-security-module@vger.kernel.org>,
+        <linux-integrity@vger.kernel.org>, <initramfs@vger.kernel.org>,
+        <linux-api@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <zohar@linux.vnet.ibm.com>,
+        <silviu.vlasceanu@huawei.com>, <dmitry.kasatkin@huawei.com>,
+        <takondra@cisco.com>, <kamensky@cisco.com>, <arnd@arndb.de>,
+        <rob@landley.net>, <james.w.mcmechan@gmail.com>,
+        <niveditas98@gmail.com>
+References: <20190517165519.11507-1-roberto.sassu@huawei.com>
+ <20190517165519.11507-3-roberto.sassu@huawei.com>
+ <CD9A4F89-7CA5-4329-A06A-F8DEB87905A5@zytor.com>
+ <20190517210219.GA5998@rani.riverdale.lan>
+ <20190517211014.GA9198@rani.riverdale.lan>
+From:   Roberto Sassu <roberto.sassu@huawei.com>
+Message-ID: <cee53f00-a216-0666-0774-0f3ebf1b1292@huawei.com>
+Date:   Mon, 20 May 2019 10:16:58 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.3.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190520035254.57579-2-minchan@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190517211014.GA9198@rani.riverdale.lan>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.220.96.108]
+X-CFilter-Loop: Reflected
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-[CC linux-api]
+On 5/17/2019 11:10 PM, Arvind Sankar wrote:
+> On Fri, May 17, 2019 at 05:02:20PM -0400, Arvind Sankar wrote:
+>> On Fri, May 17, 2019 at 01:18:11PM -0700, hpa@zytor.com wrote:
+>>>
+>>> Ok... I just realized this does not work for a modular initramfs, composed at load time from multiple files, which is a very real problem. Should be easy enough to deal with: instead of one large file, use one companion file per source file, perhaps something like filename..xattrs (suggesting double dots to make it less likely to conflict with a "real" file.) No leading dot, as it makes it more likely that archivers will sort them before the file proper.
+>> This version of the patch was changed from the previous one exactly to deal with this case --
+>> it allows for the bootloader to load multiple initramfs archives, each
+>> with its own .xattr-list file, and to have that work properly.
+>> Could you elaborate on the issue that you see?
+> Roberto, are you missing a changelog entry for v2->v3 change?
 
-On Mon 20-05-19 12:52:48, Minchan Kim wrote:
-> When a process expects no accesses to a certain memory range
-> it could hint kernel that the pages can be reclaimed
-> when memory pressure happens but data should be preserved
-> for future use.  This could reduce workingset eviction so it
-> ends up increasing performance.
-> 
-> This patch introduces the new MADV_COOL hint to madvise(2)
-> syscall. MADV_COOL can be used by a process to mark a memory range
-> as not expected to be used in the near future. The hint can help
-> kernel in deciding which pages to evict early during memory
-> pressure.
+The changelog for v1->v2 is missing.
 
-I do not want to start naming fight but MADV_COOL sounds a bit
-misleading. Everybody thinks his pages are cool ;). Probably MADV_COLD
-or MADV_DONTNEED_PRESERVE.
+Thanks
 
-> Internally, it works via deactivating memory from active list to
-> inactive's head so when the memory pressure happens, they will be
-> reclaimed earlier than other active pages unless there is no
-> access until the time.
+Roberto
 
-Could you elaborate about the decision to move to the head rather than
-tail? What should happen to inactive pages? Should we move them to the
-tail? Your implementation seems to ignore those completely. Why?
-
-What should happen for shared pages? In other words do we want to allow
-less privileged process to control evicting of shared pages with a more
-privileged one? E.g. think of all sorts of side channel attacks. Maybe
-we want to do the same thing as for mincore where write access is
-required.
 -- 
-Michal Hocko
-SUSE Labs
+HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
+Managing Director: Bo PENG, Jian LI, Yanli SHI
