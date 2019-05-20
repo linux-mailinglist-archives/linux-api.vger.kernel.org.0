@@ -2,72 +2,38 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ECAB023CB7
-	for <lists+linux-api@lfdr.de>; Mon, 20 May 2019 17:57:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E348023EFC
+	for <lists+linux-api@lfdr.de>; Mon, 20 May 2019 19:29:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392392AbfETP4s (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 20 May 2019 11:56:48 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:55789 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392399AbfETP4k (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 20 May 2019 11:56:40 -0400
-Received: by mail-wm1-f65.google.com with SMTP id x64so13829705wmb.5
-        for <linux-api@vger.kernel.org>; Mon, 20 May 2019 08:56:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brauner.io; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=N8T3aL28oy4lTIwynzNCFzfhApKXr6vicH7lBpgxJHA=;
-        b=esLKW/omJMddteonMci2qfVi7LlXy4K6bSIyPjIrjIbQCDx72GwYK6/qiGKmIrznEV
-         sT5yZN02Ad2DEvdP9Y9+ApfnACL61hZTQpdEwDrPbisYqVx4JVrs2OELFytGLOr2cPyO
-         kfbiVk3xTtvCtxi4B9fr7qcnv/ksxeJLFIxx7wwiMV8wEiVauRlOX8RmSV7yR6Pm2v1z
-         2OfW39JpCI4G57jLGrbjM/Wyktov1GgbVOvWrg5+us9x1WDIyCWF5cvvpfCkCL7y0mHq
-         vTNOdgO7vNrA+D4Ax4ihmtYzuUrq0q8zX4YN3sKRhvB8lsKuFITjDYC/fQe+D6bSEqmf
-         xUSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=N8T3aL28oy4lTIwynzNCFzfhApKXr6vicH7lBpgxJHA=;
-        b=KIinLnG+hrcrHZoZvBRbitkbh/xEQ1jqoomz+ylZVCQUhhLjqn6ubXUAgnqx9y7GVg
-         9yaLKvIW8UKuU2D3iBcLtRIWnnWKiwu8Y8l6RygoHGrllFsXDn9sPxRDknnb5T7amVvy
-         QVrPpPjoGRH7KiD5eMpTVDRTbjQYrcE7ohcbbi23F0S4n7oMX5ckCZcOrL/S/fBiJ3R3
-         kDBqXlDrJqSCiJlOfZ1cGeJMjXUkKE5Yr0eKW6CyntSDtm9Sfk7fWYFfz2LAn1PPc0Ul
-         tJz1ybFkCNrRKDnz3X+B7zo/Il2kG/QX6W40MGJXKjr7kUJENO+8/nY7MSSGGJ4x/Kn/
-         xSlQ==
-X-Gm-Message-State: APjAAAVGvjGTUTxie88fW/6VHcm+MkWbpnrKmMFai4ANc9Kw9HxIMudv
-        oOwC3FAbCKMphJhoKy9XHBQktg==
-X-Google-Smtp-Source: APXvYqz4rIn/BcJdLcMGcq/WCKnCmkKesTw5BAVGHwnjk1ukV2M1PfYiLIg/1h5LFtCcLROOvSgbsg==
-X-Received: by 2002:a05:600c:110a:: with SMTP id b10mr12368594wma.125.1558367798584;
-        Mon, 20 May 2019 08:56:38 -0700 (PDT)
-Received: from localhost.localdomain ([212.91.227.56])
-        by smtp.gmail.com with ESMTPSA id t19sm12577789wmi.42.2019.05.20.08.56.36
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 20 May 2019 08:56:37 -0700 (PDT)
-From:   Christian Brauner <christian@brauner.io>
-To:     jannh@google.com, oleg@redhat.com, viro@zeniv.linux.org.uk,
-        torvalds@linux-foundation.org, linux-kernel@vger.kernel.org,
-        arnd@arndb.de
-Cc:     akpm@linux-foundation.org, cyphar@cyphar.com, dhowells@redhat.com,
-        ebiederm@xmission.com, elena.reshetova@intel.com,
-        keescook@chromium.org, luto@amacapital.net, luto@kernel.org,
-        tglx@linutronix.de, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, joel@joelfernandes.org,
-        dancol@google.com, serge@hallyn.com, surenb@google.com,
-        kernel-team@android.com, Christian Brauner <christian@brauner.io>,
-        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: [PATCH v3 2/2] tests: add pidfd_open() tests
-Date:   Mon, 20 May 2019 17:56:30 +0200
-Message-Id: <20190520155630.21684-2-christian@brauner.io>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190520155630.21684-1-christian@brauner.io>
-References: <20190520155630.21684-1-christian@brauner.io>
+        id S2390905AbfETR2r (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 20 May 2019 13:28:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40394 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726672AbfETR2r (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 20 May 2019 13:28:47 -0400
+Received: from ebiggers-linuxstation.mtv.corp.google.com (unknown [104.132.1.77])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 44C94208C3;
+        Mon, 20 May 2019 17:28:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1558373325;
+        bh=ArKPyVmtwc/zYIckyrFkIp4PJxww5YwiXzlMHBoGUlA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=oT6l/IiCiKfKBT0kkM88J2aaEF6UHPd2zYHqjxSrQtEBOfRe3p4YLkVqZ+IQY3rsx
+         5pSwdgFoEFEGtiBv2CUBzLbwiuuD+BwsK3HlbeQwUiPc2FzKAHHXXsWzRIJ8437AcQ
+         L1c5QRC9UcwBJRo2VLUaG1rs2/DhP+TZGyPnEEGA=
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     linux-fscrypt@vger.kernel.org
+Cc:     Satya Tangirala <satyat@google.com>, linux-api@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net, keyrings@vger.kernel.org,
+        linux-mtd@lists.infradead.org, linux-crypto@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+        Paul Crowley <paulcrowley@google.com>
+Subject: [PATCH v6 00/16] fscrypt: key management improvements
+Date:   Mon, 20 May 2019 10:25:36 -0700
+Message-Id: <20190520172552.217253-1-ebiggers@kernel.org>
+X-Mailer: git-send-email 2.21.0.1020.gf2820cf01a-goog
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
@@ -75,374 +41,200 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This adds testing for the new pidfd_open() syscalls. Specifically, we test:
-- that no invalid flags can be passed to pidfd_open()
-- that no invalid pid can be passed to pidfd_open()
-- that a pidfd can be retrieved with pidfd_open()
-- that the retrieved pidfd references the correct pid
+Hello,
 
-Signed-off-by: Christian Brauner <christian@brauner.io>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: "Eric W. Biederman" <ebiederm@xmission.com>
-Cc: Kees Cook <keescook@chromium.org>
-Cc: Joel Fernandes (Google) <joel@joelfernandes.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Jann Horn <jannh@google.com>
-Cc: David Howells <dhowells@redhat.com>
-Cc: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc: Andy Lutomirsky <luto@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Oleg Nesterov <oleg@redhat.com>
-Cc: Aleksa Sarai <cyphar@cyphar.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Al Viro <viro@zeniv.linux.org.uk>
-Cc: linux-api@vger.kernel.org
----
-v1: unchanged
-v2:
-- Christian Brauner <christian@brauner.io>:
-  - set number of planned tests via ksft_set_plan()
-v3: unchanged
----
- tools/testing/selftests/pidfd/.gitignore      |   1 +
- tools/testing/selftests/pidfd/Makefile        |   2 +-
- tools/testing/selftests/pidfd/pidfd.h         |  57 ++++++
- .../testing/selftests/pidfd/pidfd_open_test.c | 169 ++++++++++++++++++
- tools/testing/selftests/pidfd/pidfd_test.c    |  41 +----
- 5 files changed, 229 insertions(+), 41 deletions(-)
- create mode 100644 tools/testing/selftests/pidfd/pidfd.h
- create mode 100644 tools/testing/selftests/pidfd/pidfd_open_test.c
+[Note: I'd like to apply this for v5.3.  Additional review is greatly
+ appreciated, especially of the API before it's set in stone.  Thanks!]
 
-diff --git a/tools/testing/selftests/pidfd/.gitignore b/tools/testing/selftests/pidfd/.gitignore
-index 822a1e63d045..16d84d117bc0 100644
---- a/tools/testing/selftests/pidfd/.gitignore
-+++ b/tools/testing/selftests/pidfd/.gitignore
-@@ -1 +1,2 @@
-+pidfd_open_test
- pidfd_test
-diff --git a/tools/testing/selftests/pidfd/Makefile b/tools/testing/selftests/pidfd/Makefile
-index deaf8073bc06..b36c0be70848 100644
---- a/tools/testing/selftests/pidfd/Makefile
-+++ b/tools/testing/selftests/pidfd/Makefile
-@@ -1,6 +1,6 @@
- CFLAGS += -g -I../../../../usr/include/
- 
--TEST_GEN_PROGS := pidfd_test
-+TEST_GEN_PROGS := pidfd_test pidfd_open_test
- 
- include ../lib.mk
- 
-diff --git a/tools/testing/selftests/pidfd/pidfd.h b/tools/testing/selftests/pidfd/pidfd.h
-new file mode 100644
-index 000000000000..8452e910463f
---- /dev/null
-+++ b/tools/testing/selftests/pidfd/pidfd.h
-@@ -0,0 +1,57 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+#ifndef __PIDFD_H
-+#define __PIDFD_H
-+
-+#define _GNU_SOURCE
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <sched.h>
-+#include <signal.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <syscall.h>
-+#include <sys/mount.h>
-+
-+#include "../kselftest.h"
-+
-+/*
-+ * The kernel reserves 300 pids via RESERVED_PIDS in kernel/pid.c
-+ * That means, when it wraps around any pid < 300 will be skipped.
-+ * So we need to use a pid > 300 in order to test recycling.
-+ */
-+#define PID_RECYCLE 1000
-+
-+/*
-+ * Define a few custom error codes for the child process to clearly indicate
-+ * what is happening. This way we can tell the difference between a system
-+ * error, a test error, etc.
-+ */
-+#define PIDFD_PASS 0
-+#define PIDFD_FAIL 1
-+#define PIDFD_ERROR 2
-+#define PIDFD_SKIP 3
-+#define PIDFD_XFAIL 4
-+
-+int wait_for_pid(pid_t pid)
-+{
-+	int status, ret;
-+
-+again:
-+	ret = waitpid(pid, &status, 0);
-+	if (ret == -1) {
-+		if (errno == EINTR)
-+			goto again;
-+
-+		return -1;
-+	}
-+
-+	if (!WIFEXITED(status))
-+		return -1;
-+
-+	return WEXITSTATUS(status);
-+}
-+
-+
-+#endif /* __PIDFD_H */
-diff --git a/tools/testing/selftests/pidfd/pidfd_open_test.c b/tools/testing/selftests/pidfd/pidfd_open_test.c
-new file mode 100644
-index 000000000000..0377133dd6dc
---- /dev/null
-+++ b/tools/testing/selftests/pidfd/pidfd_open_test.c
-@@ -0,0 +1,169 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#define _GNU_SOURCE
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <inttypes.h>
-+#include <limits.h>
-+#include <linux/types.h>
-+#include <linux/wait.h>
-+#include <sched.h>
-+#include <signal.h>
-+#include <stdbool.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <syscall.h>
-+#include <sys/mount.h>
-+#include <sys/prctl.h>
-+#include <sys/wait.h>
-+#include <unistd.h>
-+
-+#include "pidfd.h"
-+#include "../kselftest.h"
-+
-+static inline int sys_pidfd_open(pid_t pid, unsigned int flags)
-+{
-+	return syscall(__NR_pidfd_open, pid, flags);
-+}
-+
-+static int safe_int(const char *numstr, int *converted)
-+{
-+	char *err = NULL;
-+	long sli;
-+
-+	errno = 0;
-+	sli = strtol(numstr, &err, 0);
-+	if (errno == ERANGE && (sli == LONG_MAX || sli == LONG_MIN))
-+		return -ERANGE;
-+
-+	if (errno != 0 && sli == 0)
-+		return -EINVAL;
-+
-+	if (err == numstr || *err != '\0')
-+		return -EINVAL;
-+
-+	if (sli > INT_MAX || sli < INT_MIN)
-+		return -ERANGE;
-+
-+	*converted = (int)sli;
-+	return 0;
-+}
-+
-+static int char_left_gc(const char *buffer, size_t len)
-+{
-+	size_t i;
-+
-+	for (i = 0; i < len; i++) {
-+		if (buffer[i] == ' ' ||
-+		    buffer[i] == '\t')
-+			continue;
-+
-+		return i;
-+	}
-+
-+	return 0;
-+}
-+
-+static int char_right_gc(const char *buffer, size_t len)
-+{
-+	int i;
-+
-+	for (i = len - 1; i >= 0; i--) {
-+		if (buffer[i] == ' '  ||
-+		    buffer[i] == '\t' ||
-+		    buffer[i] == '\n' ||
-+		    buffer[i] == '\0')
-+			continue;
-+
-+		return i + 1;
-+	}
-+
-+	return 0;
-+}
-+
-+static char *trim_whitespace_in_place(char *buffer)
-+{
-+	buffer += char_left_gc(buffer, strlen(buffer));
-+	buffer[char_right_gc(buffer, strlen(buffer))] = '\0';
-+	return buffer;
-+}
-+
-+static pid_t get_pid_from_fdinfo_file(int pidfd, const char *key, size_t keylen)
-+{
-+	int ret;
-+	char path[512];
-+	FILE *f;
-+	size_t n = 0;
-+	pid_t result = -1;
-+	char *line = NULL;
-+
-+	snprintf(path, sizeof(path), "/proc/self/fdinfo/%d", pidfd);
-+
-+	f = fopen(path, "re");
-+	if (!f)
-+		return -1;
-+
-+	while (getline(&line, &n, f) != -1) {
-+		char *numstr;
-+
-+		if (strncmp(line, key, keylen))
-+			continue;
-+
-+		numstr = trim_whitespace_in_place(line + 4);
-+		ret = safe_int(numstr, &result);
-+		if (ret < 0)
-+			goto out;
-+
-+		break;
-+	}
-+
-+out:
-+	free(line);
-+	fclose(f);
-+	return result;
-+}
-+
-+int main(int argc, char **argv)
-+{
-+	int pidfd = -1, ret = 1;
-+	pid_t pid;
-+
-+	ksft_set_plan(3);
-+
-+	pidfd = sys_pidfd_open(-1, 0);
-+	if (pidfd >= 0) {
-+		ksft_print_msg(
-+			"%s - succeeded to open pidfd for invalid pid -1\n",
-+			strerror(errno));
-+		goto on_error;
-+	}
-+	ksft_test_result_pass("do not allow invalid pid test: passed\n");
-+
-+	pidfd = sys_pidfd_open(getpid(), 1);
-+	if (pidfd >= 0) {
-+		ksft_print_msg(
-+			"%s - succeeded to open pidfd with invalid flag value specified\n",
-+			strerror(errno));
-+		goto on_error;
-+	}
-+	ksft_test_result_pass("do not allow invalid flag test: passed\n");
-+
-+	pidfd = sys_pidfd_open(getpid(), 0);
-+	if (pidfd < 0) {
-+		ksft_print_msg("%s - failed to open pidfd\n", strerror(errno));
-+		goto on_error;
-+	}
-+	ksft_test_result_pass("open a new pidfd test: passed\n");
-+
-+	pid = get_pid_from_fdinfo_file(pidfd, "Pid:", sizeof("Pid:") - 1);
-+	ksft_print_msg("pidfd %d refers to process with pid %d\n", pidfd, pid);
-+
-+	ret = 0;
-+
-+on_error:
-+	if (pidfd >= 0)
-+		close(pidfd);
-+
-+	return !ret ? ksft_exit_pass() : ksft_exit_fail();
-+}
-diff --git a/tools/testing/selftests/pidfd/pidfd_test.c b/tools/testing/selftests/pidfd/pidfd_test.c
-index 5bae1792e3d6..a03387052aa7 100644
---- a/tools/testing/selftests/pidfd/pidfd_test.c
-+++ b/tools/testing/selftests/pidfd/pidfd_test.c
-@@ -14,6 +14,7 @@
- #include <sys/wait.h>
- #include <unistd.h>
- 
-+#include "pidfd.h"
- #include "../kselftest.h"
- 
- static inline int sys_pidfd_send_signal(int pidfd, int sig, siginfo_t *info,
-@@ -62,28 +63,6 @@ static int test_pidfd_send_signal_simple_success(void)
- 	return 0;
- }
- 
--static int wait_for_pid(pid_t pid)
--{
--	int status, ret;
--
--again:
--	ret = waitpid(pid, &status, 0);
--	if (ret == -1) {
--		if (errno == EINTR)
--			goto again;
--
--		return -1;
--	}
--
--	if (ret != pid)
--		goto again;
--
--	if (!WIFEXITED(status))
--		return -1;
--
--	return WEXITSTATUS(status);
--}
--
- static int test_pidfd_send_signal_exited_fail(void)
- {
- 	int pidfd, ret, saved_errno;
-@@ -128,13 +107,6 @@ static int test_pidfd_send_signal_exited_fail(void)
- 	return 0;
- }
- 
--/*
-- * The kernel reserves 300 pids via RESERVED_PIDS in kernel/pid.c
-- * That means, when it wraps around any pid < 300 will be skipped.
-- * So we need to use a pid > 300 in order to test recycling.
-- */
--#define PID_RECYCLE 1000
--
- /*
-  * Maximum number of cycles we allow. This is equivalent to PID_MAX_DEFAULT.
-  * If users set a higher limit or we have cycled PIDFD_MAX_DEFAULT number of
-@@ -143,17 +115,6 @@ static int test_pidfd_send_signal_exited_fail(void)
-  */
- #define PIDFD_MAX_DEFAULT 0x8000
- 
--/*
-- * Define a few custom error codes for the child process to clearly indicate
-- * what is happening. This way we can tell the difference between a system
-- * error, a test error, etc.
-- */
--#define PIDFD_PASS 0
--#define PIDFD_FAIL 1
--#define PIDFD_ERROR 2
--#define PIDFD_SKIP 3
--#define PIDFD_XFAIL 4
--
- static int test_pidfd_send_signal_recycled_pid_fail(void)
- {
- 	int i, ret;
+This patchset makes major improvements to how keys are added, removed,
+and derived in fscrypt, aka ext4/f2fs/ubifs encryption.  It does this by
+adding new ioctls that add and remove encryption keys directly to/from
+the filesystem, and by adding a new encryption policy version ("v2")
+where the user-provided keys are only used as input to HKDF-SHA512 and
+are identified by their cryptographic hash.
+
+All new APIs and all cryptosystem changes are documented in
+Documentation/filesystems/fscrypt.rst.  Userspace can use the new key
+management ioctls with existing encrypted directories, but migrating to
+v2 encryption policies is needed for the full benefits.
+
+These changes solve four interrelated problems:
+
+(1) Providing fscrypt keys via process-subscribed keyrings is abusing
+    encryption as an OS-level access control mechanism, causing many
+    bugs where processes don't get access to the keys they need -- e.g.,
+    when a 'sudo' command or a system service needs to access encrypted
+    files.  It's also inconsistent with the filesystem/VFS "view" of
+    encrypted files which is global, so sometimes things randomly happen
+    to work anyway due to caching.  Regardless, currently almost all
+    fscrypt users actually do need global keys, so they're having to use
+    workarounds that heavily abuse the session or user keyrings, e.g.
+    Android and Chromium OS both use a systemwide "session keyring" and
+    the 'fscrypt' tool links all user keyrings into root's user keyring.
+
+(2) Currently there's no way to securely and efficiently remove a
+    fscrypt key such that not only is the original key wiped, but also
+    all files and directories protected by that key are "locked" and
+    their per-file keys wiped.  Many users want this and are using
+    'echo 2 > /proc/sys/vm/drop_caches' as a workaround, but this is
+    root-only, and also is overkill so can be a performance disaster.
+
+(3) The key derivation function (KDF) that fscrypt uses to derive
+    per-file keys is nonstandard, inflexible, and has some weaknesses
+    such as being reversible and not evenly distributing the entropy
+    from the user-provided keys.
+
+(4) fscrypt doesn't check that the correct key was supplied.  This can
+    be a security vulnerability, since it allows malicious local users
+    to associate the wrong key with files to which they have read-only
+    access, causing other users' processes to read/write the wrong data.
+
+Ultimately, the solutions to these problems all tie into each other.  By
+adding a filesystem-level encryption keyring with ioctls to add/remove
+keys to/from it, the keys are made usable filesystem-wide (solves
+problem #1).  It also becomes easy to track the inodes that were
+"unlocked" with each key, so they can be evicted when the key is removed
+(solves problem #2).  Moreover, the filesystem-level keyring is a
+natural place to store an HMAC transform keyed by each key, thus making
+it easy and efficient to switch the KDF to HKDF (solves problem #3).
+
+Finally, to check that the correct key was supplied, I use HKDF to
+derive a cryptographically secure key_identifier for each key (solves
+problem #4).  This in combination with key quotas and other careful
+precautions also makes it safe to allow non-root users to add and remove
+keys to/from the filesystem-level keyring.  Thus, all problems are
+solved without having to restrict the fscrypt API to root only.
+
+The patchset is organized as follows:
+
+- Patches 1-8 add new ioctls FS_IOC_ADD_ENCRYPTION_KEY,
+  FS_IOC_REMOVE_ENCRYPTION_KEY, and FS_IOC_GET_ENCRYPTION_KEY_STATUS.
+  Adding a key logically "unlocks" all files on the filesystem that are
+  protected by that key; removing a key "locks" them again.
+
+- Patches 9-12 add support for v2 encryption policies.
+
+- Patches 13-15 wire up the new ioctls to ext4, f2fs, and ubifs.
+
+- Patch 16 updates the fscrypt documentation for all the changes.
+
+Changes v5 => v6:
+    - Change HKDF to use the specification-defined default salt rather
+      than a custom fixed salt, and prepend the string "fscrypt" to
+      'info' instead.  This is arguably needed to match how RFC 5869 and
+      SP 800-56C are worded.  Both ways are secure in this context, so
+      prefer the "boring" way that clearly matches the standards.
+    - Rebase onto v5.2-rc1.
+    - A few small cleanups.
+
+Changes v4 => v5:
+    - Simplify shrink_dcache_inode(), as suggested by Al Viro;
+      also move it into fs/crypto/.
+    - Fix a build error on some architectures by calling
+      copy_from_user() rather than get_user() with a __u64 pointer.
+
+Changes v3 => v4:
+    - Introduce fscrypt_sb_free() to avoid an extra #ifdef.
+    - Fix UBIFS's ->drop_inode().
+    - Add 'version' to union fscrypt_policy and union fscrypt_context.
+
+Changes v2 => v3:
+    - Use ->drop_inode() to trigger the inode eviction during/after
+      FS_IOC_REMOVE_ENCRYPTION_KEY, as suggested by Dave Chinner.
+    - A few small cleanups.
+
+v1 of this patchset was sent in October 2017 with title "fscrypt:
+filesystem-level keyring and v2 policy support".  This revived version
+follows the same basic design but incorporates numerous improvements,
+such as splitting keyinfo.c into multiple files for much better
+understandability, and introducing "per-mode" encryption keys to
+implement the semantics of the DIRECT_KEY encryption policy flag.
+
+This patchset applies to v5.2-rc1.  You can also get it from git at:
+
+	Repository:   https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git
+	Branch:       fscrypt-key-mgmt-improvements-v6
+
+I've written xfstests for the new APIs.  They test the APIs themselves
+as well as verify the correctness of the ciphertext stored on-disk for
+v2 encryption policies.  The tests can be found at:
+
+	Repository:   https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/xfstests-dev.git
+	Branch:       fscrypt-key-mgmt-improvements
+
+The xfstests depend on new xfs_io commands which can be found at:
+
+	Repository:   https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/xfsprogs-dev.git
+	Branch:       fscrypt-key-mgmt-improvements
+
+I've also made proof-of-concept changes to the 'fscrypt' userspace
+program (https://github.com/google/fscrypt) to make it support v2
+encryption policies.  You can find these changes in git at:
+
+	Repository:   https://github.com/ebiggers/fscrypt.git
+	Branch:       fscrypt-key-mgmt-improvements
+
+To make the 'fscrypt' userspace program experimentally use v2 encryption
+policies on new encrypted directories, add the following to
+/etc/fscrypt.conf within the "options" section:
+
+	"policy_version": "2"
+
+Finally, it's also planned for Android and Chromium OS to switch to the
+new ioctls and eventually to v2 encryption policies.  Work-in-progress,
+proof-of-concept changes by Satya Tangirala for AOSP can be found at
+https://android-review.googlesource.com/q/topic:fscrypt-key-mgmt-improvements
+
+Eric Biggers (16):
+  fs, fscrypt: move uapi definitions to new header <linux/fscrypt.h>
+  fscrypt: use FSCRYPT_ prefix for uapi constants
+  fscrypt: use FSCRYPT_* definitions, not FS_*
+  fscrypt: add ->ci_inode to fscrypt_info
+  fscrypt: refactor v1 policy key setup into keysetup_legacy.c
+  fscrypt: add FS_IOC_ADD_ENCRYPTION_KEY ioctl
+  fscrypt: add FS_IOC_REMOVE_ENCRYPTION_KEY ioctl
+  fscrypt: add FS_IOC_GET_ENCRYPTION_KEY_STATUS ioctl
+  fscrypt: add an HKDF-SHA512 implementation
+  fscrypt: v2 encryption policy support
+  fscrypt: allow unprivileged users to add/remove keys for v2 policies
+  fscrypt: require that key be added when setting a v2 encryption policy
+  ext4: wire up new fscrypt ioctls
+  f2fs: wire up new fscrypt ioctls
+  ubifs: wire up new fscrypt ioctls
+  fscrypt: document the new ioctls and policy version
+
+ Documentation/filesystems/fscrypt.rst | 670 ++++++++++++++----
+ MAINTAINERS                           |   1 +
+ fs/crypto/Kconfig                     |   2 +
+ fs/crypto/Makefile                    |  10 +-
+ fs/crypto/crypto.c                    |  14 +-
+ fs/crypto/fname.c                     |   5 +-
+ fs/crypto/fscrypt_private.h           | 366 +++++++++-
+ fs/crypto/hkdf.c                      | 178 +++++
+ fs/crypto/keyinfo.c                   | 612 ----------------
+ fs/crypto/keyring.c                   | 963 ++++++++++++++++++++++++++
+ fs/crypto/keysetup.c                  | 560 +++++++++++++++
+ fs/crypto/keysetup_legacy.c           | 340 +++++++++
+ fs/crypto/policy.c                    | 392 ++++++++---
+ fs/ext4/ioctl.c                       |  24 +
+ fs/ext4/super.c                       |   3 +
+ fs/f2fs/file.c                        |  46 ++
+ fs/f2fs/super.c                       |   2 +
+ fs/super.c                            |   2 +
+ fs/ubifs/ioctl.c                      |  16 +
+ fs/ubifs/super.c                      |  11 +
+ include/linux/fs.h                    |   1 +
+ include/linux/fscrypt.h               |  48 +-
+ include/uapi/linux/fs.h               |  54 +-
+ include/uapi/linux/fscrypt.h          | 163 +++++
+ 24 files changed, 3541 insertions(+), 942 deletions(-)
+ create mode 100644 fs/crypto/hkdf.c
+ delete mode 100644 fs/crypto/keyinfo.c
+ create mode 100644 fs/crypto/keyring.c
+ create mode 100644 fs/crypto/keysetup.c
+ create mode 100644 fs/crypto/keysetup_legacy.c
+ create mode 100644 include/uapi/linux/fscrypt.h
+
 -- 
-2.21.0
+2.21.0.1020.gf2820cf01a-goog
 
