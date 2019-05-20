@@ -2,111 +2,103 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D132623B66
-	for <lists+linux-api@lfdr.de>; Mon, 20 May 2019 16:59:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8C1023BB4
+	for <lists+linux-api@lfdr.de>; Mon, 20 May 2019 17:09:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387596AbfETO7e (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 20 May 2019 10:59:34 -0400
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:45868 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730927AbfETO7e (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 20 May 2019 10:59:34 -0400
-Received: by mail-qt1-f194.google.com with SMTP id t1so16601268qtc.12;
-        Mon, 20 May 2019 07:59:32 -0700 (PDT)
+        id S1731760AbfETPI6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 20 May 2019 11:08:58 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:39095 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732596AbfETPI5 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 20 May 2019 11:08:57 -0400
+Received: by mail-wm1-f68.google.com with SMTP id n25so13010510wmk.4
+        for <linux-api@vger.kernel.org>; Mon, 20 May 2019 08:08:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=P9y3c6/pdf3tbErI0Do1diigP58TG78CE1J0hIezm6I=;
+        b=je0V+f8q316pSmPHnXBh0zlNCIMMIf0OTbOsKzKgqpiT5HJoGx7mgp0OmmrbCA6ypD
+         T+8lsnJPKUBVQTt2YUj4Hjldoscaw/3gfqWtUsK/glWrq5k2hsbzgoAW58zf0vxCqogH
+         GOdrfDuW/v5LxD5eTjNRHz5sknGLMr+DWSpm8/Fy7P5AsMxnI53jQ8fTyN5GuUIlLR9Z
+         S0up4Y3meHZxSb07WX1pbkLBgwWdNf3po14WBinDKeARTl6purwLBpNsNE3KYHuS+6c8
+         zfd6w/dQFy7+34oXkA4FVEGxYMhLqFuhoC9SyGvSo65ZV86AJ746EGnz1oC6vjAbDD+i
+         QqmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=iH7q7ju5ViVE2L49uUn5QLFQ5DZ8FjITgD5GKa2X2Zo=;
-        b=Rvz6Kw6u7lHk9Kf4z6dJBscjYiMxVkwz9RSK4WQ99kijDKo4/Hx4OL/mbzOuPGlLug
-         us/bQexY+QlbTVnuQgkSmqxtPVniXstghTLKbeodJgVANjQJXj6xYxNnS3khw6BVVDFU
-         bd/290l+I0x4CdDOZ8LnKemyt+xiUdbqGNrYpw/uBETE8qrqpjXGeJzYJXjpOFExw2gt
-         qNRcDHUt/YR3cabR7j1slj8zD7EBH6tkwO7CUutDhITP5xB0YfapOmrfUIPWZi6UhB8Y
-         Zczkl+j53RjWAwvfY9v5nD1blI23r2z9BJo0zRFm7Q0/G+/fDQ241N0mTC4LMOfn3xzH
-         26ZA==
-X-Gm-Message-State: APjAAAWrOlSJzyo0u3oFTswKEZA/2/LUfmWd/LNmaO0Do3YRIgaEkJ+E
-        zdmeXNb4oJm47ZHN9OYMW4Cg8zFzPt260dplO30=
-X-Google-Smtp-Source: APXvYqwOT7nfn0Ec9lVwVForvy74QSNQH5ELZWBScMVTNkQThEwunqzpps+HxqPvYzZryhqp4taHn31cUSXBj95IN0s=
-X-Received: by 2002:ac8:2a05:: with SMTP id k5mr46480681qtk.304.1558364372377;
- Mon, 20 May 2019 07:59:32 -0700 (PDT)
+        bh=P9y3c6/pdf3tbErI0Do1diigP58TG78CE1J0hIezm6I=;
+        b=tm52c0OKYVLP/05uBGDV4iXyJZ7u7BTdf0m1wFqBf++7oSUPRmmMM6ZMx+LZvKv/nT
+         hQ8+OzdJX87mS6/9eRKDzJhV9aVUnaQ1v8QUkjpL9AoWD3bsS8Q3vfOchAjavEF2bTko
+         vjMoJGR1W1AnShHSojQ7XVxfdGyQ9C2UmclY5Dq/AkeX5xMG7aUn3uKTIzwuWTh3T4JZ
+         YoJJLMOXW41PrPSFBILrmY8PUKOI+Pns+zYvvQZn6Dq18XYd7QeebVfz2CyeB9JqOFRq
+         7cRLjMeoTTcIUhtAm3tPrGfoymMaL9w8IbKLWCtfesil8syEy7uU8gptad7j8RHyLzoq
+         mZTA==
+X-Gm-Message-State: APjAAAUNnI1Dr64SBo290jvRv1eDb2gukGgyV/fGCYBXpv+ajnXwXsxw
+        qzKumRgdYuR/ryftHETdrRtxoNI0rNhA+wMDhajs3w==
+X-Google-Smtp-Source: APXvYqwTvkGu1GK/0tSXG4iFUHM6unRNHVZf1lF2nENMPjqEy8F0XxkWnj/B1GwuSNTjbSbtEZH2Wip0AFBPNQmrDik=
+X-Received: by 2002:a1c:dcc2:: with SMTP id t185mr11431100wmg.143.1558364935763;
+ Mon, 20 May 2019 08:08:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190520134605.29116-1-christian@brauner.io> <CAK8P3a1cZZ6SQe5mGjhga=MgTvCGF6OKyjvosR8J6z6EpH+rVA@mail.gmail.com>
- <20190520144822.xfaifawi65jus6ng@brauner.io>
-In-Reply-To: <20190520144822.xfaifawi65jus6ng@brauner.io>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Mon, 20 May 2019 16:59:16 +0200
-Message-ID: <CAK8P3a2u2gftAuzTfspAUCvWPPE0YVNOATFPN__tEQoO4GXg-g@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] pid: add pidfd_open()
-To:     Christian Brauner <christian@brauner.io>
-Cc:     Jann Horn <jannh@google.com>, Oleg Nesterov <oleg@redhat.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>, cyphar@cyphar.com,
-        David Howells <dhowells@redhat.com>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        "Reshetova, Elena" <elena.reshetova@intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        alpha <linux-alpha@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-ia64@vger.kernel.org,
-        linux-m68k <linux-m68k@lists.linux-m68k.org>,
-        linux-mips@vger.kernel.org,
-        Parisc List <linux-parisc@vger.kernel.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        sparclinux <sparclinux@vger.kernel.org>,
-        linux-xtensa@linux-xtensa.org,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
+References: <20190520035254.57579-1-minchan@kernel.org> <20190520035254.57579-2-minchan@kernel.org>
+ <20190520081621.GV6836@dhcp22.suse.cz> <20190520081943.GW6836@dhcp22.suse.cz>
+In-Reply-To: <20190520081943.GW6836@dhcp22.suse.cz>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Mon, 20 May 2019 08:08:45 -0700
+Message-ID: <CAJuCfpE60ZOcpFfE6MpF0PBujK9sfeRjbkhUa243Bo9QmOoARg@mail.gmail.com>
+Subject: Re: [RFC 1/7] mm: introduce MADV_COOL
+To:     Michal Hocko <mhocko@kernel.org>
+Cc:     Minchan Kim <minchan@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Tim Murray <timmurray@google.com>,
         Joel Fernandes <joel@joelfernandes.org>,
         Daniel Colascione <dancol@google.com>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Android Kernel Team <kernel-team@android.com>
+        Shakeel Butt <shakeelb@google.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Brian Geffon <bgeffon@google.com>, linux-api@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, May 20, 2019 at 4:48 PM Christian Brauner <christian@brauner.io> wrote:
+On Mon, May 20, 2019 at 1:19 AM Michal Hocko <mhocko@kernel.org> wrote:
 >
-> On Mon, May 20, 2019 at 04:37:03PM +0200, Arnd Bergmann wrote:
-> > On Mon, May 20, 2019 at 3:46 PM Christian Brauner <christian@brauner.io> wrote:
+> On Mon 20-05-19 10:16:21, Michal Hocko wrote:
+> > [CC linux-api]
+> >
+> > On Mon 20-05-19 12:52:48, Minchan Kim wrote:
+> > > When a process expects no accesses to a certain memory range
+> > > it could hint kernel that the pages can be reclaimed
+> > > when memory pressure happens but data should be preserved
+> > > for future use.  This could reduce workingset eviction so it
+> > > ends up increasing performance.
 > > >
-> > > In line with Arnd's recent changes to consolidate syscall numbers across
-> > > architectures, I have added the pidfd_open() syscall to all architectures
-> > > at the same time.
+> > > This patch introduces the new MADV_COOL hint to madvise(2)
+> > > syscall. MADV_COOL can be used by a process to mark a memory range
+> > > as not expected to be used in the near future. The hint can help
+> > > kernel in deciding which pages to evict early during memory
+> > > pressure.
 > >
-> > Thanks! I've checked that the ones you have added are all
-> > done correctly. However, double-checking that you got all of them,
-> > I noticed that you missed mips-o32 and mips-n64. With those added:
-> >
-> > Acked-by: Arnd Bergmann <arnd@arndb.de>
+> > I do not want to start naming fight but MADV_COOL sounds a bit
+> > misleading. Everybody thinks his pages are cool ;). Probably MADV_COLD
+> > or MADV_DONTNEED_PRESERVE.
 >
-> Perfect, will plumb mips-o32 and mips-n64 and resend once more with your
-> ack added.
-> Sidenote: You plan on merging the common syscall tables or will there be
-> a script to do this work per-arch in the future?
+> OK, I can see that you have used MADV_COLD for a different mode.
+> So this one is effectively a non destructive MADV_FREE alternative
+> so MADV_FREE_PRESERVE would sound like a good fit. Your MADV_COLD
+> in other patch would then be MADV_DONTNEED_PRESERVE. Right?
+>
 
-David Howells also asked about this. I think having a common table will
-be best in the long run, patches welcome.
+I agree that naming them this way would be more in-line with the
+existing API. Another good option IMO could be MADV_RECLAIM_NOW /
+MADV_RECLAIM_LAZY which might explain a bit better what they do but
+Michal's proposal is more consistent with the current API.
 
-As you noticed, there are still a few minor differences between the files
-on mips, arm, x86, alpha and s390, and we are missing the .tbl files
-for arm-compat and asm-generic, as well as an architecture independent
-script.
-
-Once that is all taken care of, we can move the entries for syscall
-403 and higher into a common file, and change the script to pick
-up the contents from there in addition to the architecture specific
-file.
-
-      Arnd
+> --
+> Michal Hocko
+> SUSE Labs
