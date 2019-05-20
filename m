@@ -2,20 +2,20 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C493F23032
-	for <lists+linux-api@lfdr.de>; Mon, 20 May 2019 11:23:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5129023052
+	for <lists+linux-api@lfdr.de>; Mon, 20 May 2019 11:28:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730270AbfETJXB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 20 May 2019 05:23:01 -0400
-Received: from mx2.suse.de ([195.135.220.15]:38882 "EHLO mx1.suse.de"
+        id S1732095AbfETJ2F (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 20 May 2019 05:28:05 -0400
+Received: from mx2.suse.de ([195.135.220.15]:40018 "EHLO mx1.suse.de"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729598AbfETJXB (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 20 May 2019 05:23:01 -0400
+        id S1731436AbfETJ2E (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 20 May 2019 05:28:04 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 2FB58AF5F;
-        Mon, 20 May 2019 09:22:59 +0000 (UTC)
-Date:   Mon, 20 May 2019 11:22:58 +0200
+        by mx1.suse.de (Postfix) with ESMTP id AAA62ABD7;
+        Mon, 20 May 2019 09:28:02 +0000 (UTC)
+Date:   Mon, 20 May 2019 11:28:01 +0200
 From:   Michal Hocko <mhocko@kernel.org>
 To:     Minchan Kim <minchan@kernel.org>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
@@ -29,521 +29,120 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Shakeel Butt <shakeelb@google.com>,
         Sonny Rao <sonnyrao@google.com>,
         Brian Geffon <bgeffon@google.com>, linux-api@vger.kernel.org
-Subject: Re: [RFC 6/7] mm: extend process_madvise syscall to support vector
- arrary
-Message-ID: <20190520092258.GZ6836@dhcp22.suse.cz>
+Subject: Re: [RFC 7/7] mm: madvise support MADV_ANONYMOUS_FILTER and
+ MADV_FILE_FILTER
+Message-ID: <20190520092801.GA6836@dhcp22.suse.cz>
 References: <20190520035254.57579-1-minchan@kernel.org>
- <20190520035254.57579-7-minchan@kernel.org>
+ <20190520035254.57579-8-minchan@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190520035254.57579-7-minchan@kernel.org>
+In-Reply-To: <20190520035254.57579-8-minchan@kernel.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-[Cc linux-api]
+[cc linux-api]
 
-On Mon 20-05-19 12:52:53, Minchan Kim wrote:
-> Currently, process_madvise syscall works for only one address range
-> so user should call the syscall several times to give hints to
-> multiple address range.
+On Mon 20-05-19 12:52:54, Minchan Kim wrote:
+> System could have much faster swap device like zRAM. In that case, swapping
+> is extremely cheaper than file-IO on the low-end storage.
+> In this configuration, userspace could handle different strategy for each
+> kinds of vma. IOW, they want to reclaim anonymous pages by MADV_COLD
+> while it keeps file-backed pages in inactive LRU by MADV_COOL because
+> file IO is more expensive in this case so want to keep them in memory
+> until memory pressure happens.
+> 
+> To support such strategy easier, this patch introduces
+> MADV_ANONYMOUS_FILTER and MADV_FILE_FILTER options in madvise(2) like
+> that /proc/<pid>/clear_refs already has supported same filters.
+> They are filters could be Ored with other existing hints using top two bits
+> of (int behavior).
 
-Is that a problem? How big of a problem? Any numbers?
+madvise operates on top of ranges and it is quite trivial to do the
+filtering from the userspace so why do we need any additional filtering?
 
-> This patch extends process_madvise syscall to support multiple
-> hints, address ranges and return vaules so user could give hints
-> all at once.
+> Once either of them is set, the hint could affect only the interested vma
+> either anonymous or file-backed.
 > 
-> struct pr_madvise_param {
->     int size;                       /* the size of this structure */
->     const struct iovec __user *vec; /* address range array */
-> }
-> 
-> int process_madvise(int pidfd, ssize_t nr_elem,
-> 		    int *behavior,
-> 		    struct pr_madvise_param *results,
-> 		    struct pr_madvise_param *ranges,
-> 		    unsigned long flags);
-> 
-> - pidfd
-> 
-> target process fd
-> 
-> - nr_elem
-> 
-> the number of elemenent of array behavior, results, ranges
-> 
-> - behavior
-> 
-> hints for each address range in remote process so that user could
-> give different hints for each range.
+> With that, user could call a process_madvise syscall simply with a entire
+> range(0x0 - 0xFFFFFFFFFFFFFFFF) but either of MADV_ANONYMOUS_FILTER and
+> MADV_FILE_FILTER so there is no need to call the syscall range by range.
 
-What is the guarantee of a single call? Do all hints get applied or the
-first failure backs of? What are the atomicity guarantees?
+OK, so here is the reason you want that. The immediate question is why
+cannot the monitor do the filtering from the userspace. Slightly more
+work, all right, but less of an API to expose and that itself is a
+strong argument against.
 
+> * from v1r2
+>   * use consistent check with clear_refs to identify anon/file vma - surenb
 > 
-> - results
-> 
-> array of buffers to get results for associated remote address range
-> action.
-> 
-> - ranges
-> 
-> array to buffers to have remote process's address ranges to be
-> processed
-> 
-> - flags
-> 
-> extra argument for the future. It should be zero this moment.
-> 
-> Example)
-> 
-> struct pr_madvise_param {
->         int size;
->         const struct iovec *vec;
-> };
-> 
-> int main(int argc, char *argv[])
-> {
->         struct pr_madvise_param retp, rangep;
->         struct iovec result_vec[2], range_vec[2];
->         int hints[2];
->         long ret[2];
->         void *addr[2];
-> 
->         pid_t pid;
->         char cmd[64] = {0,};
->         addr[0] = mmap(NULL, ALLOC_SIZE, PROT_READ|PROT_WRITE,
->                           MAP_POPULATE|MAP_PRIVATE|MAP_ANONYMOUS, 0, 0);
-> 
->         if (MAP_FAILED == addr[0])
->                 return 1;
-> 
->         addr[1] = mmap(NULL, ALLOC_SIZE, PROT_READ|PROT_WRITE,
->                           MAP_POPULATE|MAP_PRIVATE|MAP_ANONYMOUS, 0, 0);
-> 
->         if (MAP_FAILED == addr[1])
->                 return 1;
-> 
->         hints[0] = MADV_COLD;
-> 	range_vec[0].iov_base = addr[0];
->         range_vec[0].iov_len = ALLOC_SIZE;
->         result_vec[0].iov_base = &ret[0];
->         result_vec[0].iov_len = sizeof(long);
-> 	retp.vec = result_vec;
->         retp.size = sizeof(struct pr_madvise_param);
-> 
->         hints[1] = MADV_COOL;
->         range_vec[1].iov_base = addr[1];
->         range_vec[1].iov_len = ALLOC_SIZE;
->         result_vec[1].iov_base = &ret[1];
->         result_vec[1].iov_len = sizeof(long);
->         rangep.vec = range_vec;
->         rangep.size = sizeof(struct pr_madvise_param);
-> 
->         pid = fork();
->         if (!pid) {
->                 sleep(10);
->         } else {
->                 int pidfd = open(cmd,  O_DIRECTORY | O_CLOEXEC);
->                 if (pidfd < 0)
->                         return 1;
-> 
->                 /* munmap to make pages private for the child */
->                 munmap(addr[0], ALLOC_SIZE);
->                 munmap(addr[1], ALLOC_SIZE);
->                 system("cat /proc/vmstat | egrep 'pswpout|deactivate'");
->                 if (syscall(__NR_process_madvise, pidfd, 2, behaviors,
-> 						&retp, &rangep, 0))
->                         perror("process_madvise fail\n");
->                 system("cat /proc/vmstat | egrep 'pswpout|deactivate'");
->         }
-> 
->         return 0;
-> }
+> * from v1r1
+>   * use naming "filter" for new madvise option - dancol
 > 
 > Signed-off-by: Minchan Kim <minchan@kernel.org>
 > ---
->  include/uapi/asm-generic/mman-common.h |   5 +
->  mm/madvise.c                           | 184 +++++++++++++++++++++----
->  2 files changed, 166 insertions(+), 23 deletions(-)
+>  include/uapi/asm-generic/mman-common.h |  5 +++++
+>  mm/madvise.c                           | 14 ++++++++++++++
+>  2 files changed, 19 insertions(+)
 > 
 > diff --git a/include/uapi/asm-generic/mman-common.h b/include/uapi/asm-generic/mman-common.h
-> index b9b51eeb8e1a..b8e230de84a6 100644
+> index b8e230de84a6..be59a1b90284 100644
 > --- a/include/uapi/asm-generic/mman-common.h
 > +++ b/include/uapi/asm-generic/mman-common.h
-> @@ -74,4 +74,9 @@
->  #define PKEY_ACCESS_MASK	(PKEY_DISABLE_ACCESS |\
->  				 PKEY_DISABLE_WRITE)
+> @@ -66,6 +66,11 @@
+>  #define MADV_WIPEONFORK 18		/* Zero memory on fork, child only */
+>  #define MADV_KEEPONFORK 19		/* Undo MADV_WIPEONFORK */
 >  
-> +struct pr_madvise_param {
-> +	int size;			/* the size of this structure */
-> +	const struct iovec __user *vec;	/* address range array */
-> +};
+> +#define MADV_BEHAVIOR_MASK (~(MADV_ANONYMOUS_FILTER|MADV_FILE_FILTER))
 > +
->  #endif /* __ASM_GENERIC_MMAN_COMMON_H */
+> +#define MADV_ANONYMOUS_FILTER	(1<<31)	/* works for only anonymous vma */
+> +#define MADV_FILE_FILTER	(1<<30)	/* works for only file-backed vma */
+> +
+>  /* compatibility flags */
+>  #define MAP_FILE	0
+>  
 > diff --git a/mm/madvise.c b/mm/madvise.c
-> index af02aa17e5c1..f4f569dac2bd 100644
+> index f4f569dac2bd..116131243540 100644
 > --- a/mm/madvise.c
 > +++ b/mm/madvise.c
-> @@ -320,6 +320,7 @@ static int madvise_cool_pte_range(pmd_t *pmd, unsigned long addr,
->  	struct page *page;
->  	struct vm_area_struct *vma = walk->vma;
->  	unsigned long next;
-> +	long nr_pages = 0;
+> @@ -1002,7 +1002,15 @@ static int madvise_core(struct task_struct *tsk, unsigned long start,
+>  	int write;
+>  	size_t len;
+>  	struct blk_plug plug;
+> +	bool anon_only, file_only;
 >  
->  	next = pmd_addr_end(addr, end);
->  	if (pmd_trans_huge(*pmd)) {
-> @@ -380,9 +381,12 @@ static int madvise_cool_pte_range(pmd_t *pmd, unsigned long addr,
->  
->  		ptep_test_and_clear_young(vma, addr, pte);
->  		deactivate_page(page);
-> +		nr_pages++;
+> +	anon_only = behavior & MADV_ANONYMOUS_FILTER;
+> +	file_only = behavior & MADV_FILE_FILTER;
 > +
->  	}
->  
->  	pte_unmap_unlock(orig_pte, ptl);
-> +	*(long *)walk->private += nr_pages;
->  	cond_resched();
->  
->  	return 0;
-> @@ -390,11 +394,13 @@ static int madvise_cool_pte_range(pmd_t *pmd, unsigned long addr,
->  
->  static void madvise_cool_page_range(struct mmu_gather *tlb,
->  			     struct vm_area_struct *vma,
-> -			     unsigned long addr, unsigned long end)
-> +			     unsigned long addr, unsigned long end,
-> +			     long *nr_pages)
->  {
->  	struct mm_walk cool_walk = {
->  		.pmd_entry = madvise_cool_pte_range,
->  		.mm = vma->vm_mm,
-> +		.private = nr_pages
->  	};
->  
->  	tlb_start_vma(tlb, vma);
-> @@ -403,7 +409,8 @@ static void madvise_cool_page_range(struct mmu_gather *tlb,
->  }
->  
->  static long madvise_cool(struct vm_area_struct *vma,
-> -			unsigned long start_addr, unsigned long end_addr)
-> +			unsigned long start_addr, unsigned long end_addr,
-> +			long *nr_pages)
->  {
->  	struct mm_struct *mm = vma->vm_mm;
->  	struct mmu_gather tlb;
-> @@ -413,7 +420,7 @@ static long madvise_cool(struct vm_area_struct *vma,
->  
->  	lru_add_drain();
->  	tlb_gather_mmu(&tlb, mm, start_addr, end_addr);
-> -	madvise_cool_page_range(&tlb, vma, start_addr, end_addr);
-> +	madvise_cool_page_range(&tlb, vma, start_addr, end_addr, nr_pages);
->  	tlb_finish_mmu(&tlb, start_addr, end_addr);
->  
->  	return 0;
-> @@ -429,6 +436,7 @@ static int madvise_cold_pte_range(pmd_t *pmd, unsigned long addr,
->  	int isolated = 0;
->  	struct vm_area_struct *vma = walk->vma;
->  	unsigned long next;
-> +	long nr_pages = 0;
->  
->  	next = pmd_addr_end(addr, end);
->  	if (pmd_trans_huge(*pmd)) {
-> @@ -492,7 +500,7 @@ static int madvise_cold_pte_range(pmd_t *pmd, unsigned long addr,
->  		list_add(&page->lru, &page_list);
->  		if (isolated >= SWAP_CLUSTER_MAX) {
->  			pte_unmap_unlock(orig_pte, ptl);
-> -			reclaim_pages(&page_list);
-> +			nr_pages += reclaim_pages(&page_list);
->  			isolated = 0;
->  			pte = pte_offset_map_lock(vma->vm_mm, pmd, addr, &ptl);
->  			orig_pte = pte;
-> @@ -500,19 +508,22 @@ static int madvise_cold_pte_range(pmd_t *pmd, unsigned long addr,
->  	}
->  
->  	pte_unmap_unlock(orig_pte, ptl);
-> -	reclaim_pages(&page_list);
-> +	nr_pages += reclaim_pages(&page_list);
->  	cond_resched();
->  
-> +	*(long *)walk->private += nr_pages;
->  	return 0;
->  }
->  
->  static void madvise_cold_page_range(struct mmu_gather *tlb,
->  			     struct vm_area_struct *vma,
-> -			     unsigned long addr, unsigned long end)
-> +			     unsigned long addr, unsigned long end,
-> +			     long *nr_pages)
->  {
->  	struct mm_walk warm_walk = {
->  		.pmd_entry = madvise_cold_pte_range,
->  		.mm = vma->vm_mm,
-> +		.private = nr_pages,
->  	};
->  
->  	tlb_start_vma(tlb, vma);
-> @@ -522,7 +533,8 @@ static void madvise_cold_page_range(struct mmu_gather *tlb,
->  
->  
->  static long madvise_cold(struct vm_area_struct *vma,
-> -			unsigned long start_addr, unsigned long end_addr)
-> +			unsigned long start_addr, unsigned long end_addr,
-> +			long *nr_pages)
->  {
->  	struct mm_struct *mm = vma->vm_mm;
->  	struct mmu_gather tlb;
-> @@ -532,7 +544,7 @@ static long madvise_cold(struct vm_area_struct *vma,
->  
->  	lru_add_drain();
->  	tlb_gather_mmu(&tlb, mm, start_addr, end_addr);
-> -	madvise_cold_page_range(&tlb, vma, start_addr, end_addr);
-> +	madvise_cold_page_range(&tlb, vma, start_addr, end_addr, nr_pages);
->  	tlb_finish_mmu(&tlb, start_addr, end_addr);
->  
->  	return 0;
-> @@ -922,7 +934,7 @@ static int madvise_inject_error(int behavior,
->  static long
->  madvise_vma(struct task_struct *tsk, struct vm_area_struct *vma,
->  		struct vm_area_struct **prev, unsigned long start,
-> -		unsigned long end, int behavior)
-> +		unsigned long end, int behavior, long *nr_pages)
->  {
->  	switch (behavior) {
->  	case MADV_REMOVE:
-> @@ -930,9 +942,9 @@ madvise_vma(struct task_struct *tsk, struct vm_area_struct *vma,
->  	case MADV_WILLNEED:
->  		return madvise_willneed(vma, prev, start, end);
->  	case MADV_COOL:
-> -		return madvise_cool(vma, start, end);
-> +		return madvise_cool(vma, start, end, nr_pages);
->  	case MADV_COLD:
-> -		return madvise_cold(vma, start, end);
-> +		return madvise_cold(vma, start, end, nr_pages);
->  	case MADV_FREE:
->  	case MADV_DONTNEED:
->  		return madvise_dontneed_free(tsk, vma, prev, start,
-> @@ -981,7 +993,7 @@ madvise_behavior_valid(int behavior)
->  }
->  
->  static int madvise_core(struct task_struct *tsk, unsigned long start,
-> -			size_t len_in, int behavior)
-> +			size_t len_in, int behavior, long *nr_pages)
->  {
->  	unsigned long end, tmp;
->  	struct vm_area_struct *vma, *prev;
-> @@ -996,6 +1008,7 @@ static int madvise_core(struct task_struct *tsk, unsigned long start,
->  
->  	if (start & ~PAGE_MASK)
+> +	if (anon_only && file_only)
+> +		return error;
+> +
+> +	behavior = behavior & MADV_BEHAVIOR_MASK;
+>  	if (!madvise_behavior_valid(behavior))
 >  		return error;
-> +
->  	len = (len_in + ~PAGE_MASK) & PAGE_MASK;
 >  
->  	/* Check to see whether len was rounded up from small -ve to zero */
-> @@ -1035,6 +1048,8 @@ static int madvise_core(struct task_struct *tsk, unsigned long start,
->  	blk_start_plug(&plug);
->  	for (;;) {
->  		/* Still start < end. */
-> +		long pages = 0;
-> +
->  		error = -ENOMEM;
->  		if (!vma)
->  			goto out;
-> @@ -1053,9 +1068,11 @@ static int madvise_core(struct task_struct *tsk, unsigned long start,
+> @@ -1067,12 +1075,18 @@ static int madvise_core(struct task_struct *tsk, unsigned long start,
+>  		if (end < tmp)
 >  			tmp = end;
 >  
+> +		if (anon_only && vma->vm_file)
+> +			goto next;
+> +		if (file_only && !vma->vm_file)
+> +			goto next;
+> +
 >  		/* Here vma->vm_start <= start < tmp <= (end|vma->vm_end). */
-> -		error = madvise_vma(tsk, vma, &prev, start, tmp, behavior);
-> +		error = madvise_vma(tsk, vma, &prev, start, tmp,
-> +					behavior, &pages);
+>  		error = madvise_vma(tsk, vma, &prev, start, tmp,
+>  					behavior, &pages);
 >  		if (error)
 >  			goto out;
-> +		*nr_pages += pages;
+>  		*nr_pages += pages;
+> +next:
 >  		start = tmp;
 >  		if (prev && start < prev->vm_end)
 >  			start = prev->vm_end;
-> @@ -1140,26 +1157,137 @@ static int madvise_core(struct task_struct *tsk, unsigned long start,
->   */
->  SYSCALL_DEFINE3(madvise, unsigned long, start, size_t, len_in, int, behavior)
->  {
-> -	return madvise_core(current, start, len_in, behavior);
-> +	unsigned long dummy;
-> +
-> +	return madvise_core(current, start, len_in, behavior, &dummy);
->  }
->  
-> -SYSCALL_DEFINE4(process_madvise, int, pidfd, unsigned long, start,
-> -		size_t, len_in, int, behavior)
-> +static int pr_madvise_copy_param(struct pr_madvise_param __user *u_param,
-> +		struct pr_madvise_param *param)
-> +{
-> +	u32 size;
-> +	int ret;
-> +
-> +	memset(param, 0, sizeof(*param));
-> +
-> +	ret = get_user(size, &u_param->size);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (size > PAGE_SIZE)
-> +		return -E2BIG;
-> +
-> +	if (!size || size > sizeof(struct pr_madvise_param))
-> +		return -EINVAL;
-> +
-> +	ret = copy_from_user(param, u_param, size);
-> +	if (ret)
-> +		return -EFAULT;
-> +
-> +	return ret;
-> +}
-> +
-> +static int process_madvise_core(struct task_struct *tsk, int *behaviors,
-> +				struct iov_iter *iter,
-> +				const struct iovec *range_vec,
-> +				unsigned long riovcnt,
-> +				unsigned long flags)
-> +{
-> +	int i;
-> +	long err;
-> +
-> +	for (err = 0, i = 0; i < riovcnt && iov_iter_count(iter); i++) {
-> +		long ret = 0;
-> +
-> +		err = madvise_core(tsk, (unsigned long)range_vec[i].iov_base,
-> +				range_vec[i].iov_len, behaviors[i],
-> +				&ret);
-> +		if (err)
-> +			ret = err;
-> +
-> +		if (copy_to_iter(&ret, sizeof(long), iter) !=
-> +				sizeof(long)) {
-> +			err = -EFAULT;
-> +			break;
-> +		}
-> +
-> +		err = 0;
-> +	}
-> +
-> +	return err;
-> +}
-> +
-> +SYSCALL_DEFINE6(process_madvise, int, pidfd, ssize_t, nr_elem,
-> +			const int __user *, hints,
-> +			struct pr_madvise_param __user *, results,
-> +			struct pr_madvise_param __user *, ranges,
-> +			unsigned long, flags)
->  {
->  	int ret;
->  	struct fd f;
->  	struct pid *pid;
->  	struct task_struct *tsk;
->  	struct mm_struct *mm;
-> +	struct pr_madvise_param result_p, range_p;
-> +	const struct iovec __user *result_vec, __user *range_vec;
-> +	int *behaviors;
-> +	struct iovec iovstack_result[UIO_FASTIOV];
-> +	struct iovec iovstack_r[UIO_FASTIOV];
-> +	struct iovec *iov_l = iovstack_result;
-> +	struct iovec *iov_r = iovstack_r;
-> +	struct iov_iter iter;
-> +
-> +	if (flags != 0)
-> +		return -EINVAL;
-> +
-> +	ret = pr_madvise_copy_param(results, &result_p);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = pr_madvise_copy_param(ranges, &range_p);
-> +	if (ret)
-> +		return ret;
-> +
-> +	result_vec = result_p.vec;
-> +	range_vec = range_p.vec;
-> +
-> +	if (result_p.size != sizeof(struct pr_madvise_param) ||
-> +			range_p.size != sizeof(struct pr_madvise_param))
-> +		return -EINVAL;
-> +
-> +	behaviors = kmalloc_array(nr_elem, sizeof(int), GFP_KERNEL);
-> +	if (!behaviors)
-> +		return -ENOMEM;
-> +
-> +	ret = copy_from_user(behaviors, hints, sizeof(int) * nr_elem);
-> +	if (ret < 0)
-> +		goto free_behavior_vec;
-> +
-> +	ret = import_iovec(READ, result_vec, nr_elem, UIO_FASTIOV,
-> +				&iov_l, &iter);
-> +	if (ret < 0)
-> +		goto free_behavior_vec;
-> +
-> +	if (!iov_iter_count(&iter)) {
-> +		ret = -EINVAL;
-> +		goto free_iovecs;
-> +	}
-> +
-> +	ret = rw_copy_check_uvector(CHECK_IOVEC_ONLY, range_vec, nr_elem,
-> +				UIO_FASTIOV, iovstack_r, &iov_r);
-> +	if (ret <= 0)
-> +		goto free_iovecs;
->  
->  	f = fdget(pidfd);
-> -	if (!f.file)
-> -		return -EBADF;
-> +	if (!f.file) {
-> +		ret = -EBADF;
-> +		goto free_iovecs;
-> +	}
->  
->  	pid = pidfd_to_pid(f.file);
->  	if (IS_ERR(pid)) {
->  		ret = PTR_ERR(pid);
-> -		goto err;
-> +		goto put_fd;
->  	}
->  
->  	ret = -EINVAL;
-> @@ -1167,7 +1295,7 @@ SYSCALL_DEFINE4(process_madvise, int, pidfd, unsigned long, start,
->  	tsk = pid_task(pid, PIDTYPE_PID);
->  	if (!tsk) {
->  		rcu_read_unlock();
-> -		goto err;
-> +		goto put_fd;
->  	}
->  	get_task_struct(tsk);
->  	rcu_read_unlock();
-> @@ -1176,12 +1304,22 @@ SYSCALL_DEFINE4(process_madvise, int, pidfd, unsigned long, start,
->  		ret = IS_ERR(mm) ? PTR_ERR(mm) : -ESRCH;
->  		if (ret == -EACCES)
->  			ret = -EPERM;
-> -		goto err;
-> +		goto put_task;
->  	}
-> -	ret = madvise_core(tsk, start, len_in, behavior);
-> +
-> +	ret = process_madvise_core(tsk, behaviors, &iter, iov_r,
-> +					nr_elem, flags);
->  	mmput(mm);
-> +put_task:
->  	put_task_struct(tsk);
-> -err:
-> +put_fd:
->  	fdput(f);
-> +free_iovecs:
-> +	if (iov_r != iovstack_r)
-> +		kfree(iov_r);
-> +	kfree(iov_l);
-> +free_behavior_vec:
-> +	kfree(behaviors);
-> +
->  	return ret;
->  }
 > -- 
 > 2.21.0.1020.gf2820cf01a-goog
 > 
