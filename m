@@ -2,352 +2,246 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EA10F22ECD
-	for <lists+linux-api@lfdr.de>; Mon, 20 May 2019 10:27:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7446922F2E
+	for <lists+linux-api@lfdr.de>; Mon, 20 May 2019 10:47:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729657AbfETI1H (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 20 May 2019 04:27:07 -0400
-Received: from mx2.suse.de ([195.135.220.15]:55228 "EHLO mx1.suse.de"
+        id S1727310AbfETIrb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 20 May 2019 04:47:31 -0400
+Received: from lhrrgout.huawei.com ([185.176.76.210]:32955 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727682AbfETI1G (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 20 May 2019 04:27:06 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 82BF1AC0C;
-        Mon, 20 May 2019 08:27:04 +0000 (UTC)
-Date:   Mon, 20 May 2019 10:27:03 +0200
-From:   Michal Hocko <mhocko@kernel.org>
-To:     Minchan Kim <minchan@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Tim Murray <timmurray@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Brian Geffon <bgeffon@google.com>, linux-api@vger.kernel.org
-Subject: Re: [RFC 3/7] mm: introduce MADV_COLD
-Message-ID: <20190520082703.GX6836@dhcp22.suse.cz>
-References: <20190520035254.57579-1-minchan@kernel.org>
- <20190520035254.57579-4-minchan@kernel.org>
+        id S1727499AbfETIrb (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 20 May 2019 04:47:31 -0400
+Received: from LHREML714-CAH.china.huawei.com (unknown [172.18.7.107])
+        by Forcepoint Email with ESMTP id 4BE9A91FD6E0516857B2;
+        Mon, 20 May 2019 09:47:29 +0100 (IST)
+Received: from [10.220.96.108] (10.220.96.108) by smtpsuk.huawei.com
+ (10.201.108.37) with Microsoft SMTP Server (TLS) id 14.3.408.0; Mon, 20 May
+ 2019 09:47:21 +0100
+Subject: Re: [PATCH v3 2/2] initramfs: introduce do_readxattrs()
+To:     <hpa@zytor.com>, <viro@zeniv.linux.org.uk>
+CC:     <linux-security-module@vger.kernel.org>,
+        <linux-integrity@vger.kernel.org>, <initramfs@vger.kernel.org>,
+        <linux-api@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <zohar@linux.vnet.ibm.com>,
+        <silviu.vlasceanu@huawei.com>, <dmitry.kasatkin@huawei.com>,
+        <takondra@cisco.com>, <kamensky@cisco.com>, <arnd@arndb.de>,
+        <rob@landley.net>, <james.w.mcmechan@gmail.com>,
+        <niveditas98@gmail.com>
+References: <20190517165519.11507-1-roberto.sassu@huawei.com>
+ <20190517165519.11507-3-roberto.sassu@huawei.com>
+ <CD9A4F89-7CA5-4329-A06A-F8DEB87905A5@zytor.com>
+From:   Roberto Sassu <roberto.sassu@huawei.com>
+Message-ID: <2fbe55dc-2f4a-e476-79d0-06931b4f1dee@huawei.com>
+Date:   Mon, 20 May 2019 10:47:27 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.3.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190520035254.57579-4-minchan@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <CD9A4F89-7CA5-4329-A06A-F8DEB87905A5@zytor.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.220.96.108]
+X-CFilter-Loop: Reflected
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-[Cc linux-api]
-
-On Mon 20-05-19 12:52:50, Minchan Kim wrote:
-> When a process expects no accesses to a certain memory range
-> for a long time, it could hint kernel that the pages can be
-> reclaimed instantly but data should be preserved for future use.
-> This could reduce workingset eviction so it ends up increasing
-> performance.
+On 5/17/2019 10:18 PM, hpa@zytor.com wrote:
+> On May 17, 2019 9:55:19 AM PDT, Roberto Sassu <roberto.sassu@huawei.com> wrote:
+>> This patch adds support for an alternative method to add xattrs to
+>> files in
+>> the rootfs filesystem. Instead of extracting them directly from the ram
+>> disk image, they are extracted from a regular file called .xattr-list,
+>> that
+>> can be added by any ram disk generator available today. The file format
+>> is:
+>>
+>> <file #N data len (ASCII, 10 chars)><file #N path>\0
+>> <xattr #N data len (ASCII, 8 chars)><xattr #N name>\0<xattr #N value>
+>>
+>> .xattr-list can be generated by executing:
+>>
+>> $ getfattr --absolute-names -d -h -R -e hex -m - \
+>>       <file list> | xattr.awk -b > ${initdir}/.xattr-list
+>>
+>> where the content of the xattr.awk script is:
+>>
+>> #! /usr/bin/awk -f
+>> {
+>>   if (!length($0)) {
+>>     printf("%.10x%s\0", len, file);
+>>     for (x in xattr) {
+>>       printf("%.8x%s\0", xattr_len[x], x);
+>>       for (i = 0; i < length(xattr[x]) / 2; i++) {
+>>         printf("%c", strtonum("0x"substr(xattr[x], i * 2 + 1, 2)));
+>>       }
+>>     }
+>>     i = 0;
+>>     delete xattr;
+>>     delete xattr_len;
+>>     next;
+>>   };
+>>   if (i == 0) {
+>>     file=$3;
+>>     len=length(file) + 8 + 1;
+>>   }
+>>   if (i > 0) {
+>>     split($0, a, "=");
+>>     xattr[a[1]]=substr(a[2], 3);
+>>     xattr_len[a[1]]=length(a[1]) + 1 + 8 + length(xattr[a[1]]) / 2;
+>>     len+=xattr_len[a[1]];
+>>   };
+>>   i++;
+>> }
+>>
+>> Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
+>> ---
+>> init/initramfs.c | 99 ++++++++++++++++++++++++++++++++++++++++++++++++
+>> 1 file changed, 99 insertions(+)
+>>
+>> diff --git a/init/initramfs.c b/init/initramfs.c
+>> index 0c6dd1d5d3f6..6ec018c6279a 100644
+>> --- a/init/initramfs.c
+>> +++ b/init/initramfs.c
+>> @@ -13,6 +13,8 @@
+>> #include <linux/namei.h>
+>> #include <linux/xattr.h>
+>>
+>> +#define XATTR_LIST_FILENAME ".xattr-list"
+>> +
+>> static ssize_t __init xwrite(int fd, const char *p, size_t count)
+>> {
+>> 	ssize_t out = 0;
+>> @@ -382,6 +384,97 @@ static int __init __maybe_unused do_setxattrs(char
+>> *pathname)
+>> 	return 0;
+>> }
+>>
+>> +struct path_hdr {
+>> +	char p_size[10]; /* total size including p_size field */
+>> +	char p_data[];   /* <path>\0<xattrs> */
+>> +};
+>> +
+>> +static int __init do_readxattrs(void)
+>> +{
+>> +	struct path_hdr hdr;
+>> +	char *path = NULL;
+>> +	char str[sizeof(hdr.p_size) + 1];
+>> +	unsigned long file_entry_size;
+>> +	size_t size, path_size, total_size;
+>> +	struct kstat st;
+>> +	struct file *file;
+>> +	loff_t pos;
+>> +	int ret;
+>> +
+>> +	ret = vfs_lstat(XATTR_LIST_FILENAME, &st);
+>> +	if (ret < 0)
+>> +		return ret;
+>> +
+>> +	total_size = st.size;
+>> +
+>> +	file = filp_open(XATTR_LIST_FILENAME, O_RDONLY, 0);
+>> +	if (IS_ERR(file))
+>> +		return PTR_ERR(file);
+>> +
+>> +	pos = file->f_pos;
+>> +
+>> +	while (total_size) {
+>> +		size = kernel_read(file, (char *)&hdr, sizeof(hdr), &pos);
+>> +		if (size != sizeof(hdr)) {
+>> +			ret = -EIO;
+>> +			goto out;
+>> +		}
+>> +
+>> +		total_size -= size;
+>> +
+>> +		str[sizeof(hdr.p_size)] = 0;
+>> +		memcpy(str, hdr.p_size, sizeof(hdr.p_size));
+>> +		ret = kstrtoul(str, 16, &file_entry_size);
+>> +		if (ret < 0)
+>> +			goto out;
+>> +
+>> +		file_entry_size -= sizeof(sizeof(hdr.p_size));
+>> +		if (file_entry_size > total_size) {
+>> +			ret = -EINVAL;
+>> +			goto out;
+>> +		}
+>> +
+>> +		path = vmalloc(file_entry_size);
+>> +		if (!path) {
+>> +			ret = -ENOMEM;
+>> +			goto out;
+>> +		}
+>> +
+>> +		size = kernel_read(file, path, file_entry_size, &pos);
+>> +		if (size != file_entry_size) {
+>> +			ret = -EIO;
+>> +			goto out_free;
+>> +		}
+>> +
+>> +		total_size -= size;
+>> +
+>> +		path_size = strnlen(path, file_entry_size);
+>> +		if (path_size == file_entry_size) {
+>> +			ret = -EINVAL;
+>> +			goto out_free;
+>> +		}
+>> +
+>> +		xattr_buf = path + path_size + 1;
+>> +		xattr_len = file_entry_size - path_size - 1;
+>> +
+>> +		ret = do_setxattrs(path);
+>> +		vfree(path);
+>> +		path = NULL;
+>> +
+>> +		if (ret < 0)
+>> +			break;
+>> +	}
+>> +out_free:
+>> +	vfree(path);
+>> +out:
+>> +	fput(file);
+>> +
+>> +	if (ret < 0)
+>> +		error("Unable to parse xattrs");
+>> +
+>> +	return ret;
+>> +}
+>> +
+>> static __initdata int wfd;
+>>
+>> static int __init do_name(void)
+>> @@ -391,6 +484,11 @@ static int __init do_name(void)
+>> 	if (strcmp(collected, "TRAILER!!!") == 0) {
+>> 		free_hash();
+>> 		return 0;
+>> +	} else if (strcmp(collected, XATTR_LIST_FILENAME) == 0) {
+>> +		struct kstat st;
+>> +
+>> +		if (!vfs_lstat(collected, &st))
+>> +			do_readxattrs();
+>> 	}
+>> 	clean_path(collected, mode);
+>> 	if (S_ISREG(mode)) {
+>> @@ -562,6 +660,7 @@ static char * __init unpack_to_rootfs(char *buf,
+>> unsigned long len)
+>> 		buf += my_inptr;
+>> 		len -= my_inptr;
+>> 	}
+>> +	do_readxattrs();
+>> 	dir_utime();
+>> 	kfree(name_buf);
+>> 	kfree(symlink_buf);
 > 
-> This patch introduces the new MADV_COLD hint to madvise(2)
-> syscall. MADV_COLD can be used by a process to mark a memory range
-> as not expected to be used for a long time. The hint can help
-> kernel in deciding which pages to evict proactively.
+> Ok... I just realized this does not work for a modular initramfs, composed at load time from multiple files, which is a very real problem. Should be easy enough to deal with: instead of one large file, use one companion file per source file, perhaps something like filename..xattrs (suggesting double dots to make it less likely to conflict with a "real" file.) No leading dot, as it makes it more likely that archivers will sort them before the file proper.
 
-As mentioned in other email this looks like a non-destructive
-MADV_DONTNEED alternative.
+Version 1 of the patch set worked exactly in this way. However, Rob
+pointed out that this would be a problem if file names plus the suffix
+exceed 255 characters.
 
-> Internally, it works via reclaiming memory in process context
-> the syscall is called. If the page is dirty but backing storage
-> is not synchronous device, the written page will be rotate back
-> into LRU's tail once the write is done so they will reclaim easily
-> when memory pressure happens. If backing storage is
-> synchrnous device(e.g., zram), hte page will be reclaimed instantly.
-
-Why do we special case async backing storage? Please always try to
-explain _why_ the decision is made.
-
-I haven't checked the implementation yet so I cannot comment on that.
-
-> Signed-off-by: Minchan Kim <minchan@kernel.org>
-> ---
->  include/linux/swap.h                   |   1 +
->  include/uapi/asm-generic/mman-common.h |   1 +
->  mm/madvise.c                           | 123 +++++++++++++++++++++++++
->  mm/vmscan.c                            |  74 +++++++++++++++
->  4 files changed, 199 insertions(+)
-> 
-> diff --git a/include/linux/swap.h b/include/linux/swap.h
-> index 64795abea003..7f32a948fc6a 100644
-> --- a/include/linux/swap.h
-> +++ b/include/linux/swap.h
-> @@ -365,6 +365,7 @@ extern int vm_swappiness;
->  extern int remove_mapping(struct address_space *mapping, struct page *page);
->  extern unsigned long vm_total_pages;
->  
-> +extern unsigned long reclaim_pages(struct list_head *page_list);
->  #ifdef CONFIG_NUMA
->  extern int node_reclaim_mode;
->  extern int sysctl_min_unmapped_ratio;
-> diff --git a/include/uapi/asm-generic/mman-common.h b/include/uapi/asm-generic/mman-common.h
-> index f7a4a5d4b642..b9b51eeb8e1a 100644
-> --- a/include/uapi/asm-generic/mman-common.h
-> +++ b/include/uapi/asm-generic/mman-common.h
-> @@ -43,6 +43,7 @@
->  #define MADV_WILLNEED	3		/* will need these pages */
->  #define MADV_DONTNEED	4		/* don't need these pages */
->  #define MADV_COOL	5		/* deactivatie these pages */
-> +#define MADV_COLD	6		/* reclaim these pages */
->  
->  /* common parameters: try to keep these consistent across architectures */
->  #define MADV_FREE	8		/* free pages only if memory pressure */
-> diff --git a/mm/madvise.c b/mm/madvise.c
-> index c05817fb570d..9a6698b56845 100644
-> --- a/mm/madvise.c
-> +++ b/mm/madvise.c
-> @@ -42,6 +42,7 @@ static int madvise_need_mmap_write(int behavior)
->  	case MADV_WILLNEED:
->  	case MADV_DONTNEED:
->  	case MADV_COOL:
-> +	case MADV_COLD:
->  	case MADV_FREE:
->  		return 0;
->  	default:
-> @@ -416,6 +417,125 @@ static long madvise_cool(struct vm_area_struct *vma,
->  	return 0;
->  }
->  
-> +static int madvise_cold_pte_range(pmd_t *pmd, unsigned long addr,
-> +				unsigned long end, struct mm_walk *walk)
-> +{
-> +	pte_t *orig_pte, *pte, ptent;
-> +	spinlock_t *ptl;
-> +	LIST_HEAD(page_list);
-> +	struct page *page;
-> +	int isolated = 0;
-> +	struct vm_area_struct *vma = walk->vma;
-> +	unsigned long next;
-> +
-> +	next = pmd_addr_end(addr, end);
-> +	if (pmd_trans_huge(*pmd)) {
-> +		spinlock_t *ptl;
-> +
-> +		ptl = pmd_trans_huge_lock(pmd, vma);
-> +		if (!ptl)
-> +			return 0;
-> +
-> +		if (is_huge_zero_pmd(*pmd))
-> +			goto huge_unlock;
-> +
-> +		page = pmd_page(*pmd);
-> +		if (page_mapcount(page) > 1)
-> +			goto huge_unlock;
-> +
-> +		if (next - addr != HPAGE_PMD_SIZE) {
-> +			int err;
-> +
-> +			get_page(page);
-> +			spin_unlock(ptl);
-> +			lock_page(page);
-> +			err = split_huge_page(page);
-> +			unlock_page(page);
-> +			put_page(page);
-> +			if (!err)
-> +				goto regular_page;
-> +			return 0;
-> +		}
-> +
-> +		if (isolate_lru_page(page))
-> +			goto huge_unlock;
-> +
-> +		list_add(&page->lru, &page_list);
-> +huge_unlock:
-> +		spin_unlock(ptl);
-> +		reclaim_pages(&page_list);
-> +		return 0;
-> +	}
-> +
-> +	if (pmd_trans_unstable(pmd))
-> +		return 0;
-> +regular_page:
-> +	orig_pte = pte_offset_map_lock(vma->vm_mm, pmd, addr, &ptl);
-> +	for (pte = orig_pte; addr < end; pte++, addr += PAGE_SIZE) {
-> +		ptent = *pte;
-> +		if (!pte_present(ptent))
-> +			continue;
-> +
-> +		page = vm_normal_page(vma, addr, ptent);
-> +		if (!page)
-> +			continue;
-> +
-> +		if (page_mapcount(page) > 1)
-> +			continue;
-> +
-> +		if (isolate_lru_page(page))
-> +			continue;
-> +
-> +		isolated++;
-> +		list_add(&page->lru, &page_list);
-> +		if (isolated >= SWAP_CLUSTER_MAX) {
-> +			pte_unmap_unlock(orig_pte, ptl);
-> +			reclaim_pages(&page_list);
-> +			isolated = 0;
-> +			pte = pte_offset_map_lock(vma->vm_mm, pmd, addr, &ptl);
-> +			orig_pte = pte;
-> +		}
-> +	}
-> +
-> +	pte_unmap_unlock(orig_pte, ptl);
-> +	reclaim_pages(&page_list);
-> +	cond_resched();
-> +
-> +	return 0;
-> +}
-> +
-> +static void madvise_cold_page_range(struct mmu_gather *tlb,
-> +			     struct vm_area_struct *vma,
-> +			     unsigned long addr, unsigned long end)
-> +{
-> +	struct mm_walk warm_walk = {
-> +		.pmd_entry = madvise_cold_pte_range,
-> +		.mm = vma->vm_mm,
-> +	};
-> +
-> +	tlb_start_vma(tlb, vma);
-> +	walk_page_range(addr, end, &warm_walk);
-> +	tlb_end_vma(tlb, vma);
-> +}
-> +
-> +
-> +static long madvise_cold(struct vm_area_struct *vma,
-> +			unsigned long start_addr, unsigned long end_addr)
-> +{
-> +	struct mm_struct *mm = vma->vm_mm;
-> +	struct mmu_gather tlb;
-> +
-> +	if (vma->vm_flags & (VM_LOCKED|VM_HUGETLB|VM_PFNMAP))
-> +		return -EINVAL;
-> +
-> +	lru_add_drain();
-> +	tlb_gather_mmu(&tlb, mm, start_addr, end_addr);
-> +	madvise_cold_page_range(&tlb, vma, start_addr, end_addr);
-> +	tlb_finish_mmu(&tlb, start_addr, end_addr);
-> +
-> +	return 0;
-> +}
-> +
->  static int madvise_free_pte_range(pmd_t *pmd, unsigned long addr,
->  				unsigned long end, struct mm_walk *walk)
->  
-> @@ -806,6 +926,8 @@ madvise_vma(struct vm_area_struct *vma, struct vm_area_struct **prev,
->  		return madvise_willneed(vma, prev, start, end);
->  	case MADV_COOL:
->  		return madvise_cool(vma, start, end);
-> +	case MADV_COLD:
-> +		return madvise_cold(vma, start, end);
->  	case MADV_FREE:
->  	case MADV_DONTNEED:
->  		return madvise_dontneed_free(vma, prev, start, end, behavior);
-> @@ -828,6 +950,7 @@ madvise_behavior_valid(int behavior)
->  	case MADV_DONTNEED:
->  	case MADV_FREE:
->  	case MADV_COOL:
-> +	case MADV_COLD:
->  #ifdef CONFIG_KSM
->  	case MADV_MERGEABLE:
->  	case MADV_UNMERGEABLE:
-> diff --git a/mm/vmscan.c b/mm/vmscan.c
-> index a28e5d17b495..1701b31f70a8 100644
-> --- a/mm/vmscan.c
-> +++ b/mm/vmscan.c
-> @@ -2096,6 +2096,80 @@ static void shrink_active_list(unsigned long nr_to_scan,
->  			nr_deactivate, nr_rotated, sc->priority, file);
->  }
->  
-> +unsigned long reclaim_pages(struct list_head *page_list)
-> +{
-> +	int nid = -1;
-> +	unsigned long nr_isolated[2] = {0, };
-> +	unsigned long nr_reclaimed = 0;
-> +	LIST_HEAD(node_page_list);
-> +	struct reclaim_stat dummy_stat;
-> +	struct scan_control sc = {
-> +		.gfp_mask = GFP_KERNEL,
-> +		.priority = DEF_PRIORITY,
-> +		.may_writepage = 1,
-> +		.may_unmap = 1,
-> +		.may_swap = 1,
-> +	};
-> +
-> +	while (!list_empty(page_list)) {
-> +		struct page *page;
-> +
-> +		page = lru_to_page(page_list);
-> +		list_del(&page->lru);
-> +
-> +		if (nid == -1) {
-> +			nid = page_to_nid(page);
-> +			INIT_LIST_HEAD(&node_page_list);
-> +			nr_isolated[0] = nr_isolated[1] = 0;
-> +		}
-> +
-> +		if (nid == page_to_nid(page)) {
-> +			list_add(&page->lru, &node_page_list);
-> +			nr_isolated[!!page_is_file_cache(page)] +=
-> +						hpage_nr_pages(page);
-> +			continue;
-> +		}
-> +
-> +		nid = page_to_nid(page);
-> +
-> +		mod_node_page_state(NODE_DATA(nid), NR_ISOLATED_ANON,
-> +					nr_isolated[0]);
-> +		mod_node_page_state(NODE_DATA(nid), NR_ISOLATED_FILE,
-> +					nr_isolated[1]);
-> +		nr_reclaimed += shrink_page_list(&node_page_list,
-> +				NODE_DATA(nid), &sc, TTU_IGNORE_ACCESS,
-> +				&dummy_stat, true);
-> +		while (!list_empty(&node_page_list)) {
-> +			struct page *page = lru_to_page(page_list);
-> +
-> +			list_del(&page->lru);
-> +			putback_lru_page(page);
-> +		}
-> +		mod_node_page_state(NODE_DATA(nid), NR_ISOLATED_ANON,
-> +					-nr_isolated[0]);
-> +		mod_node_page_state(NODE_DATA(nid), NR_ISOLATED_FILE,
-> +					-nr_isolated[1]);
-> +		nr_isolated[0] = nr_isolated[1] = 0;
-> +		INIT_LIST_HEAD(&node_page_list);
-> +	}
-> +
-> +	if (!list_empty(&node_page_list)) {
-> +		mod_node_page_state(NODE_DATA(nid), NR_ISOLATED_ANON,
-> +					nr_isolated[0]);
-> +		mod_node_page_state(NODE_DATA(nid), NR_ISOLATED_FILE,
-> +					nr_isolated[1]);
-> +		nr_reclaimed += shrink_page_list(&node_page_list,
-> +				NODE_DATA(nid), &sc, TTU_IGNORE_ACCESS,
-> +				&dummy_stat, true);
-> +		mod_node_page_state(NODE_DATA(nid), NR_ISOLATED_ANON,
-> +					-nr_isolated[0]);
-> +		mod_node_page_state(NODE_DATA(nid), NR_ISOLATED_FILE,
-> +					-nr_isolated[1]);
-> +	}
-> +
-> +	return nr_reclaimed;
-> +}
-> +
->  /*
->   * The inactive anon list should be small enough that the VM never has
->   * to do too much work.
-> -- 
-> 2.21.0.1020.gf2820cf01a-goog
-> 
+Roberto
 
 -- 
-Michal Hocko
-SUSE Labs
+HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
+Managing Director: Bo PENG, Jian LI, Yanli SHI
