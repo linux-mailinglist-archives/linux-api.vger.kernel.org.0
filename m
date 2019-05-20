@@ -2,20 +2,20 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 985BE2300C
-	for <lists+linux-api@lfdr.de>; Mon, 20 May 2019 11:19:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C493F23032
+	for <lists+linux-api@lfdr.de>; Mon, 20 May 2019 11:23:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731009AbfETJSe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 20 May 2019 05:18:34 -0400
-Received: from mx2.suse.de ([195.135.220.15]:38096 "EHLO mx1.suse.de"
+        id S1730270AbfETJXB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 20 May 2019 05:23:01 -0400
+Received: from mx2.suse.de ([195.135.220.15]:38882 "EHLO mx1.suse.de"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729598AbfETJSd (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 20 May 2019 05:18:33 -0400
+        id S1729598AbfETJXB (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 20 May 2019 05:23:01 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 7089AAE4B;
-        Mon, 20 May 2019 09:18:30 +0000 (UTC)
-Date:   Mon, 20 May 2019 11:18:29 +0200
+        by mx1.suse.de (Postfix) with ESMTP id 2FB58AF5F;
+        Mon, 20 May 2019 09:22:59 +0000 (UTC)
+Date:   Mon, 20 May 2019 11:22:58 +0200
 From:   Michal Hocko <mhocko@kernel.org>
 To:     Minchan Kim <minchan@kernel.org>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
@@ -29,14 +29,15 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Shakeel Butt <shakeelb@google.com>,
         Sonny Rao <sonnyrao@google.com>,
         Brian Geffon <bgeffon@google.com>, linux-api@vger.kernel.org
-Subject: Re: [RFC 5/7] mm: introduce external memory hinting API
-Message-ID: <20190520091829.GY6836@dhcp22.suse.cz>
+Subject: Re: [RFC 6/7] mm: extend process_madvise syscall to support vector
+ arrary
+Message-ID: <20190520092258.GZ6836@dhcp22.suse.cz>
 References: <20190520035254.57579-1-minchan@kernel.org>
- <20190520035254.57579-6-minchan@kernel.org>
+ <20190520035254.57579-7-minchan@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190520035254.57579-6-minchan@kernel.org>
+In-Reply-To: <20190520035254.57579-7-minchan@kernel.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
@@ -45,216 +46,504 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 [Cc linux-api]
 
-On Mon 20-05-19 12:52:52, Minchan Kim wrote:
-> There is some usecase that centralized userspace daemon want to give
-> a memory hint like MADV_[COOL|COLD] to other process. Android's
-> ActivityManagerService is one of them.
+On Mon 20-05-19 12:52:53, Minchan Kim wrote:
+> Currently, process_madvise syscall works for only one address range
+> so user should call the syscall several times to give hints to
+> multiple address range.
+
+Is that a problem? How big of a problem? Any numbers?
+
+> This patch extends process_madvise syscall to support multiple
+> hints, address ranges and return vaules so user could give hints
+> all at once.
 > 
-> It's similar in spirit to madvise(MADV_WONTNEED), but the information
-> required to make the reclaim decision is not known to the app. Instead,
-> it is known to the centralized userspace daemon(ActivityManagerService),
-> and that daemon must be able to initiate reclaim on its own without
-> any app involvement.
-
-Could you expand some more about how this all works? How does the
-centralized daemon track respective ranges? How does it synchronize
-against parallel modification of the address space etc.
-
-> To solve the issue, this patch introduces new syscall process_madvise(2)
-> which works based on pidfd so it could give a hint to the exeternal
-> process.
+> struct pr_madvise_param {
+>     int size;                       /* the size of this structure */
+>     const struct iovec __user *vec; /* address range array */
+> }
 > 
-> int process_madvise(int pidfd, void *addr, size_t length, int advise);
-
-OK, this makes some sense from the API point of view. When we have
-discussed that at LSFMM I was contemplating about something like that
-except the fd would be a VMA fd rather than the process. We could extend
-and reuse /proc/<pid>/map_files interface which doesn't support the
-anonymous memory right now. 
-
-I am not saying this would be a better interface but I wanted to mention
-it here for a further discussion. One slight advantage would be that
-you know the exact object that you are operating on because you have a
-fd for the VMA and we would have a more straightforward way to reject
-operation if the underlying object has changed (e.g. unmapped and reused
-for a different mapping).
-
-> All advises madvise provides can be supported in process_madvise, too.
-> Since it could affect other process's address range, only privileged
-> process(CAP_SYS_PTRACE) or something else(e.g., being the same UID)
-> gives it the right to ptrrace the process could use it successfully.
-
-proc_mem_open model we use for accessing address space via proc sounds
-like a good mode. You are doing something similar.
-
-> Please suggest better idea if you have other idea about the permission.
+> int process_madvise(int pidfd, ssize_t nr_elem,
+> 		    int *behavior,
+> 		    struct pr_madvise_param *results,
+> 		    struct pr_madvise_param *ranges,
+> 		    unsigned long flags);
 > 
-> * from v1r1
->   * use ptrace capability - surenb, dancol
+> - pidfd
+> 
+> target process fd
+> 
+> - nr_elem
+> 
+> the number of elemenent of array behavior, results, ranges
+> 
+> - behavior
+> 
+> hints for each address range in remote process so that user could
+> give different hints for each range.
+
+What is the guarantee of a single call? Do all hints get applied or the
+first failure backs of? What are the atomicity guarantees?
+
+> 
+> - results
+> 
+> array of buffers to get results for associated remote address range
+> action.
+> 
+> - ranges
+> 
+> array to buffers to have remote process's address ranges to be
+> processed
+> 
+> - flags
+> 
+> extra argument for the future. It should be zero this moment.
+> 
+> Example)
+> 
+> struct pr_madvise_param {
+>         int size;
+>         const struct iovec *vec;
+> };
+> 
+> int main(int argc, char *argv[])
+> {
+>         struct pr_madvise_param retp, rangep;
+>         struct iovec result_vec[2], range_vec[2];
+>         int hints[2];
+>         long ret[2];
+>         void *addr[2];
+> 
+>         pid_t pid;
+>         char cmd[64] = {0,};
+>         addr[0] = mmap(NULL, ALLOC_SIZE, PROT_READ|PROT_WRITE,
+>                           MAP_POPULATE|MAP_PRIVATE|MAP_ANONYMOUS, 0, 0);
+> 
+>         if (MAP_FAILED == addr[0])
+>                 return 1;
+> 
+>         addr[1] = mmap(NULL, ALLOC_SIZE, PROT_READ|PROT_WRITE,
+>                           MAP_POPULATE|MAP_PRIVATE|MAP_ANONYMOUS, 0, 0);
+> 
+>         if (MAP_FAILED == addr[1])
+>                 return 1;
+> 
+>         hints[0] = MADV_COLD;
+> 	range_vec[0].iov_base = addr[0];
+>         range_vec[0].iov_len = ALLOC_SIZE;
+>         result_vec[0].iov_base = &ret[0];
+>         result_vec[0].iov_len = sizeof(long);
+> 	retp.vec = result_vec;
+>         retp.size = sizeof(struct pr_madvise_param);
+> 
+>         hints[1] = MADV_COOL;
+>         range_vec[1].iov_base = addr[1];
+>         range_vec[1].iov_len = ALLOC_SIZE;
+>         result_vec[1].iov_base = &ret[1];
+>         result_vec[1].iov_len = sizeof(long);
+>         rangep.vec = range_vec;
+>         rangep.size = sizeof(struct pr_madvise_param);
+> 
+>         pid = fork();
+>         if (!pid) {
+>                 sleep(10);
+>         } else {
+>                 int pidfd = open(cmd,  O_DIRECTORY | O_CLOEXEC);
+>                 if (pidfd < 0)
+>                         return 1;
+> 
+>                 /* munmap to make pages private for the child */
+>                 munmap(addr[0], ALLOC_SIZE);
+>                 munmap(addr[1], ALLOC_SIZE);
+>                 system("cat /proc/vmstat | egrep 'pswpout|deactivate'");
+>                 if (syscall(__NR_process_madvise, pidfd, 2, behaviors,
+> 						&retp, &rangep, 0))
+>                         perror("process_madvise fail\n");
+>                 system("cat /proc/vmstat | egrep 'pswpout|deactivate'");
+>         }
+> 
+>         return 0;
+> }
 > 
 > Signed-off-by: Minchan Kim <minchan@kernel.org>
 > ---
->  arch/x86/entry/syscalls/syscall_32.tbl |  1 +
->  arch/x86/entry/syscalls/syscall_64.tbl |  1 +
->  include/linux/proc_fs.h                |  1 +
->  include/linux/syscalls.h               |  2 ++
->  include/uapi/asm-generic/unistd.h      |  2 ++
->  kernel/signal.c                        |  2 +-
->  kernel/sys_ni.c                        |  1 +
->  mm/madvise.c                           | 45 ++++++++++++++++++++++++++
->  8 files changed, 54 insertions(+), 1 deletion(-)
+>  include/uapi/asm-generic/mman-common.h |   5 +
+>  mm/madvise.c                           | 184 +++++++++++++++++++++----
+>  2 files changed, 166 insertions(+), 23 deletions(-)
 > 
-> diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
-> index 4cd5f982b1e5..5b9dd55d6b57 100644
-> --- a/arch/x86/entry/syscalls/syscall_32.tbl
-> +++ b/arch/x86/entry/syscalls/syscall_32.tbl
-> @@ -438,3 +438,4 @@
->  425	i386	io_uring_setup		sys_io_uring_setup		__ia32_sys_io_uring_setup
->  426	i386	io_uring_enter		sys_io_uring_enter		__ia32_sys_io_uring_enter
->  427	i386	io_uring_register	sys_io_uring_register		__ia32_sys_io_uring_register
-> +428	i386	process_madvise		sys_process_madvise		__ia32_sys_process_madvise
-> diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
-> index 64ca0d06259a..0e5ee78161c9 100644
-> --- a/arch/x86/entry/syscalls/syscall_64.tbl
-> +++ b/arch/x86/entry/syscalls/syscall_64.tbl
-> @@ -355,6 +355,7 @@
->  425	common	io_uring_setup		__x64_sys_io_uring_setup
->  426	common	io_uring_enter		__x64_sys_io_uring_enter
->  427	common	io_uring_register	__x64_sys_io_uring_register
-> +428	common	process_madvise		__x64_sys_process_madvise
+> diff --git a/include/uapi/asm-generic/mman-common.h b/include/uapi/asm-generic/mman-common.h
+> index b9b51eeb8e1a..b8e230de84a6 100644
+> --- a/include/uapi/asm-generic/mman-common.h
+> +++ b/include/uapi/asm-generic/mman-common.h
+> @@ -74,4 +74,9 @@
+>  #define PKEY_ACCESS_MASK	(PKEY_DISABLE_ACCESS |\
+>  				 PKEY_DISABLE_WRITE)
 >  
->  #
->  # x32-specific system call numbers start at 512 to avoid cache impact
-> diff --git a/include/linux/proc_fs.h b/include/linux/proc_fs.h
-> index 52a283ba0465..f8545d7c5218 100644
-> --- a/include/linux/proc_fs.h
-> +++ b/include/linux/proc_fs.h
-> @@ -122,6 +122,7 @@ static inline struct pid *tgid_pidfd_to_pid(const struct file *file)
->  
->  #endif /* CONFIG_PROC_FS */
->  
-> +extern struct pid *pidfd_to_pid(const struct file *file);
->  struct net;
->  
->  static inline struct proc_dir_entry *proc_net_mkdir(
-> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-> index e2870fe1be5b..21c6c9a62006 100644
-> --- a/include/linux/syscalls.h
-> +++ b/include/linux/syscalls.h
-> @@ -872,6 +872,8 @@ asmlinkage long sys_munlockall(void);
->  asmlinkage long sys_mincore(unsigned long start, size_t len,
->  				unsigned char __user * vec);
->  asmlinkage long sys_madvise(unsigned long start, size_t len, int behavior);
-> +asmlinkage long sys_process_madvise(int pid_fd, unsigned long start,
-> +				size_t len, int behavior);
->  asmlinkage long sys_remap_file_pages(unsigned long start, unsigned long size,
->  			unsigned long prot, unsigned long pgoff,
->  			unsigned long flags);
-> diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
-> index dee7292e1df6..7ee82ce04620 100644
-> --- a/include/uapi/asm-generic/unistd.h
-> +++ b/include/uapi/asm-generic/unistd.h
-> @@ -832,6 +832,8 @@ __SYSCALL(__NR_io_uring_setup, sys_io_uring_setup)
->  __SYSCALL(__NR_io_uring_enter, sys_io_uring_enter)
->  #define __NR_io_uring_register 427
->  __SYSCALL(__NR_io_uring_register, sys_io_uring_register)
-> +#define __NR_process_madvise 428
-> +__SYSCALL(__NR_process_madvise, sys_process_madvise)
->  
->  #undef __NR_syscalls
->  #define __NR_syscalls 428
-> diff --git a/kernel/signal.c b/kernel/signal.c
-> index 1c86b78a7597..04e75daab1f8 100644
-> --- a/kernel/signal.c
-> +++ b/kernel/signal.c
-> @@ -3620,7 +3620,7 @@ static int copy_siginfo_from_user_any(kernel_siginfo_t *kinfo, siginfo_t *info)
->  	return copy_siginfo_from_user(kinfo, info);
->  }
->  
-> -static struct pid *pidfd_to_pid(const struct file *file)
-> +struct pid *pidfd_to_pid(const struct file *file)
->  {
->  	if (file->f_op == &pidfd_fops)
->  		return file->private_data;
-> diff --git a/kernel/sys_ni.c b/kernel/sys_ni.c
-> index 4d9ae5ea6caf..5277421795ab 100644
-> --- a/kernel/sys_ni.c
-> +++ b/kernel/sys_ni.c
-> @@ -278,6 +278,7 @@ COND_SYSCALL(mlockall);
->  COND_SYSCALL(munlockall);
->  COND_SYSCALL(mincore);
->  COND_SYSCALL(madvise);
-> +COND_SYSCALL(process_madvise);
->  COND_SYSCALL(remap_file_pages);
->  COND_SYSCALL(mbind);
->  COND_SYSCALL_COMPAT(mbind);
+> +struct pr_madvise_param {
+> +	int size;			/* the size of this structure */
+> +	const struct iovec __user *vec;	/* address range array */
+> +};
+> +
+>  #endif /* __ASM_GENERIC_MMAN_COMMON_H */
 > diff --git a/mm/madvise.c b/mm/madvise.c
-> index 119e82e1f065..af02aa17e5c1 100644
+> index af02aa17e5c1..f4f569dac2bd 100644
 > --- a/mm/madvise.c
 > +++ b/mm/madvise.c
-> @@ -9,6 +9,7 @@
->  #include <linux/mman.h>
->  #include <linux/pagemap.h>
->  #include <linux/page_idle.h>
-> +#include <linux/proc_fs.h>
->  #include <linux/syscalls.h>
->  #include <linux/mempolicy.h>
->  #include <linux/page-isolation.h>
-> @@ -16,6 +17,7 @@
->  #include <linux/hugetlb.h>
->  #include <linux/falloc.h>
->  #include <linux/sched.h>
-> +#include <linux/sched/mm.h>
->  #include <linux/ksm.h>
->  #include <linux/fs.h>
->  #include <linux/file.h>
-> @@ -1140,3 +1142,46 @@ SYSCALL_DEFINE3(madvise, unsigned long, start, size_t, len_in, int, behavior)
+> @@ -320,6 +320,7 @@ static int madvise_cool_pte_range(pmd_t *pmd, unsigned long addr,
+>  	struct page *page;
+>  	struct vm_area_struct *vma = walk->vma;
+>  	unsigned long next;
+> +	long nr_pages = 0;
+>  
+>  	next = pmd_addr_end(addr, end);
+>  	if (pmd_trans_huge(*pmd)) {
+> @@ -380,9 +381,12 @@ static int madvise_cool_pte_range(pmd_t *pmd, unsigned long addr,
+>  
+>  		ptep_test_and_clear_young(vma, addr, pte);
+>  		deactivate_page(page);
+> +		nr_pages++;
+> +
+>  	}
+>  
+>  	pte_unmap_unlock(orig_pte, ptl);
+> +	*(long *)walk->private += nr_pages;
+>  	cond_resched();
+>  
+>  	return 0;
+> @@ -390,11 +394,13 @@ static int madvise_cool_pte_range(pmd_t *pmd, unsigned long addr,
+>  
+>  static void madvise_cool_page_range(struct mmu_gather *tlb,
+>  			     struct vm_area_struct *vma,
+> -			     unsigned long addr, unsigned long end)
+> +			     unsigned long addr, unsigned long end,
+> +			     long *nr_pages)
 >  {
->  	return madvise_core(current, start, len_in, behavior);
+>  	struct mm_walk cool_walk = {
+>  		.pmd_entry = madvise_cool_pte_range,
+>  		.mm = vma->vm_mm,
+> +		.private = nr_pages
+>  	};
+>  
+>  	tlb_start_vma(tlb, vma);
+> @@ -403,7 +409,8 @@ static void madvise_cool_page_range(struct mmu_gather *tlb,
 >  }
+>  
+>  static long madvise_cool(struct vm_area_struct *vma,
+> -			unsigned long start_addr, unsigned long end_addr)
+> +			unsigned long start_addr, unsigned long end_addr,
+> +			long *nr_pages)
+>  {
+>  	struct mm_struct *mm = vma->vm_mm;
+>  	struct mmu_gather tlb;
+> @@ -413,7 +420,7 @@ static long madvise_cool(struct vm_area_struct *vma,
+>  
+>  	lru_add_drain();
+>  	tlb_gather_mmu(&tlb, mm, start_addr, end_addr);
+> -	madvise_cool_page_range(&tlb, vma, start_addr, end_addr);
+> +	madvise_cool_page_range(&tlb, vma, start_addr, end_addr, nr_pages);
+>  	tlb_finish_mmu(&tlb, start_addr, end_addr);
+>  
+>  	return 0;
+> @@ -429,6 +436,7 @@ static int madvise_cold_pte_range(pmd_t *pmd, unsigned long addr,
+>  	int isolated = 0;
+>  	struct vm_area_struct *vma = walk->vma;
+>  	unsigned long next;
+> +	long nr_pages = 0;
+>  
+>  	next = pmd_addr_end(addr, end);
+>  	if (pmd_trans_huge(*pmd)) {
+> @@ -492,7 +500,7 @@ static int madvise_cold_pte_range(pmd_t *pmd, unsigned long addr,
+>  		list_add(&page->lru, &page_list);
+>  		if (isolated >= SWAP_CLUSTER_MAX) {
+>  			pte_unmap_unlock(orig_pte, ptl);
+> -			reclaim_pages(&page_list);
+> +			nr_pages += reclaim_pages(&page_list);
+>  			isolated = 0;
+>  			pte = pte_offset_map_lock(vma->vm_mm, pmd, addr, &ptl);
+>  			orig_pte = pte;
+> @@ -500,19 +508,22 @@ static int madvise_cold_pte_range(pmd_t *pmd, unsigned long addr,
+>  	}
+>  
+>  	pte_unmap_unlock(orig_pte, ptl);
+> -	reclaim_pages(&page_list);
+> +	nr_pages += reclaim_pages(&page_list);
+>  	cond_resched();
+>  
+> +	*(long *)walk->private += nr_pages;
+>  	return 0;
+>  }
+>  
+>  static void madvise_cold_page_range(struct mmu_gather *tlb,
+>  			     struct vm_area_struct *vma,
+> -			     unsigned long addr, unsigned long end)
+> +			     unsigned long addr, unsigned long end,
+> +			     long *nr_pages)
+>  {
+>  	struct mm_walk warm_walk = {
+>  		.pmd_entry = madvise_cold_pte_range,
+>  		.mm = vma->vm_mm,
+> +		.private = nr_pages,
+>  	};
+>  
+>  	tlb_start_vma(tlb, vma);
+> @@ -522,7 +533,8 @@ static void madvise_cold_page_range(struct mmu_gather *tlb,
+>  
+>  
+>  static long madvise_cold(struct vm_area_struct *vma,
+> -			unsigned long start_addr, unsigned long end_addr)
+> +			unsigned long start_addr, unsigned long end_addr,
+> +			long *nr_pages)
+>  {
+>  	struct mm_struct *mm = vma->vm_mm;
+>  	struct mmu_gather tlb;
+> @@ -532,7 +544,7 @@ static long madvise_cold(struct vm_area_struct *vma,
+>  
+>  	lru_add_drain();
+>  	tlb_gather_mmu(&tlb, mm, start_addr, end_addr);
+> -	madvise_cold_page_range(&tlb, vma, start_addr, end_addr);
+> +	madvise_cold_page_range(&tlb, vma, start_addr, end_addr, nr_pages);
+>  	tlb_finish_mmu(&tlb, start_addr, end_addr);
+>  
+>  	return 0;
+> @@ -922,7 +934,7 @@ static int madvise_inject_error(int behavior,
+>  static long
+>  madvise_vma(struct task_struct *tsk, struct vm_area_struct *vma,
+>  		struct vm_area_struct **prev, unsigned long start,
+> -		unsigned long end, int behavior)
+> +		unsigned long end, int behavior, long *nr_pages)
+>  {
+>  	switch (behavior) {
+>  	case MADV_REMOVE:
+> @@ -930,9 +942,9 @@ madvise_vma(struct task_struct *tsk, struct vm_area_struct *vma,
+>  	case MADV_WILLNEED:
+>  		return madvise_willneed(vma, prev, start, end);
+>  	case MADV_COOL:
+> -		return madvise_cool(vma, start, end);
+> +		return madvise_cool(vma, start, end, nr_pages);
+>  	case MADV_COLD:
+> -		return madvise_cold(vma, start, end);
+> +		return madvise_cold(vma, start, end, nr_pages);
+>  	case MADV_FREE:
+>  	case MADV_DONTNEED:
+>  		return madvise_dontneed_free(tsk, vma, prev, start,
+> @@ -981,7 +993,7 @@ madvise_behavior_valid(int behavior)
+>  }
+>  
+>  static int madvise_core(struct task_struct *tsk, unsigned long start,
+> -			size_t len_in, int behavior)
+> +			size_t len_in, int behavior, long *nr_pages)
+>  {
+>  	unsigned long end, tmp;
+>  	struct vm_area_struct *vma, *prev;
+> @@ -996,6 +1008,7 @@ static int madvise_core(struct task_struct *tsk, unsigned long start,
+>  
+>  	if (start & ~PAGE_MASK)
+>  		return error;
 > +
-> +SYSCALL_DEFINE4(process_madvise, int, pidfd, unsigned long, start,
-> +		size_t, len_in, int, behavior)
+>  	len = (len_in + ~PAGE_MASK) & PAGE_MASK;
+>  
+>  	/* Check to see whether len was rounded up from small -ve to zero */
+> @@ -1035,6 +1048,8 @@ static int madvise_core(struct task_struct *tsk, unsigned long start,
+>  	blk_start_plug(&plug);
+>  	for (;;) {
+>  		/* Still start < end. */
+> +		long pages = 0;
+> +
+>  		error = -ENOMEM;
+>  		if (!vma)
+>  			goto out;
+> @@ -1053,9 +1068,11 @@ static int madvise_core(struct task_struct *tsk, unsigned long start,
+>  			tmp = end;
+>  
+>  		/* Here vma->vm_start <= start < tmp <= (end|vma->vm_end). */
+> -		error = madvise_vma(tsk, vma, &prev, start, tmp, behavior);
+> +		error = madvise_vma(tsk, vma, &prev, start, tmp,
+> +					behavior, &pages);
+>  		if (error)
+>  			goto out;
+> +		*nr_pages += pages;
+>  		start = tmp;
+>  		if (prev && start < prev->vm_end)
+>  			start = prev->vm_end;
+> @@ -1140,26 +1157,137 @@ static int madvise_core(struct task_struct *tsk, unsigned long start,
+>   */
+>  SYSCALL_DEFINE3(madvise, unsigned long, start, size_t, len_in, int, behavior)
+>  {
+> -	return madvise_core(current, start, len_in, behavior);
+> +	unsigned long dummy;
+> +
+> +	return madvise_core(current, start, len_in, behavior, &dummy);
+>  }
+>  
+> -SYSCALL_DEFINE4(process_madvise, int, pidfd, unsigned long, start,
+> -		size_t, len_in, int, behavior)
+> +static int pr_madvise_copy_param(struct pr_madvise_param __user *u_param,
+> +		struct pr_madvise_param *param)
 > +{
+> +	u32 size;
 > +	int ret;
-> +	struct fd f;
-> +	struct pid *pid;
-> +	struct task_struct *tsk;
-> +	struct mm_struct *mm;
 > +
-> +	f = fdget(pidfd);
-> +	if (!f.file)
-> +		return -EBADF;
+> +	memset(param, 0, sizeof(*param));
 > +
-> +	pid = pidfd_to_pid(f.file);
-> +	if (IS_ERR(pid)) {
-> +		ret = PTR_ERR(pid);
-> +		goto err;
-> +	}
+> +	ret = get_user(size, &u_param->size);
+> +	if (ret)
+> +		return ret;
 > +
-> +	ret = -EINVAL;
-> +	rcu_read_lock();
-> +	tsk = pid_task(pid, PIDTYPE_PID);
-> +	if (!tsk) {
-> +		rcu_read_unlock();
-> +		goto err;
-> +	}
-> +	get_task_struct(tsk);
-> +	rcu_read_unlock();
-> +	mm = mm_access(tsk, PTRACE_MODE_ATTACH_REALCREDS);
-> +	if (!mm || IS_ERR(mm)) {
-> +		ret = IS_ERR(mm) ? PTR_ERR(mm) : -ESRCH;
-> +		if (ret == -EACCES)
-> +			ret = -EPERM;
-> +		goto err;
-> +	}
-> +	ret = madvise_core(tsk, start, len_in, behavior);
-> +	mmput(mm);
-> +	put_task_struct(tsk);
-> +err:
-> +	fdput(f);
+> +	if (size > PAGE_SIZE)
+> +		return -E2BIG;
+> +
+> +	if (!size || size > sizeof(struct pr_madvise_param))
+> +		return -EINVAL;
+> +
+> +	ret = copy_from_user(param, u_param, size);
+> +	if (ret)
+> +		return -EFAULT;
+> +
 > +	return ret;
 > +}
+> +
+> +static int process_madvise_core(struct task_struct *tsk, int *behaviors,
+> +				struct iov_iter *iter,
+> +				const struct iovec *range_vec,
+> +				unsigned long riovcnt,
+> +				unsigned long flags)
+> +{
+> +	int i;
+> +	long err;
+> +
+> +	for (err = 0, i = 0; i < riovcnt && iov_iter_count(iter); i++) {
+> +		long ret = 0;
+> +
+> +		err = madvise_core(tsk, (unsigned long)range_vec[i].iov_base,
+> +				range_vec[i].iov_len, behaviors[i],
+> +				&ret);
+> +		if (err)
+> +			ret = err;
+> +
+> +		if (copy_to_iter(&ret, sizeof(long), iter) !=
+> +				sizeof(long)) {
+> +			err = -EFAULT;
+> +			break;
+> +		}
+> +
+> +		err = 0;
+> +	}
+> +
+> +	return err;
+> +}
+> +
+> +SYSCALL_DEFINE6(process_madvise, int, pidfd, ssize_t, nr_elem,
+> +			const int __user *, hints,
+> +			struct pr_madvise_param __user *, results,
+> +			struct pr_madvise_param __user *, ranges,
+> +			unsigned long, flags)
+>  {
+>  	int ret;
+>  	struct fd f;
+>  	struct pid *pid;
+>  	struct task_struct *tsk;
+>  	struct mm_struct *mm;
+> +	struct pr_madvise_param result_p, range_p;
+> +	const struct iovec __user *result_vec, __user *range_vec;
+> +	int *behaviors;
+> +	struct iovec iovstack_result[UIO_FASTIOV];
+> +	struct iovec iovstack_r[UIO_FASTIOV];
+> +	struct iovec *iov_l = iovstack_result;
+> +	struct iovec *iov_r = iovstack_r;
+> +	struct iov_iter iter;
+> +
+> +	if (flags != 0)
+> +		return -EINVAL;
+> +
+> +	ret = pr_madvise_copy_param(results, &result_p);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = pr_madvise_copy_param(ranges, &range_p);
+> +	if (ret)
+> +		return ret;
+> +
+> +	result_vec = result_p.vec;
+> +	range_vec = range_p.vec;
+> +
+> +	if (result_p.size != sizeof(struct pr_madvise_param) ||
+> +			range_p.size != sizeof(struct pr_madvise_param))
+> +		return -EINVAL;
+> +
+> +	behaviors = kmalloc_array(nr_elem, sizeof(int), GFP_KERNEL);
+> +	if (!behaviors)
+> +		return -ENOMEM;
+> +
+> +	ret = copy_from_user(behaviors, hints, sizeof(int) * nr_elem);
+> +	if (ret < 0)
+> +		goto free_behavior_vec;
+> +
+> +	ret = import_iovec(READ, result_vec, nr_elem, UIO_FASTIOV,
+> +				&iov_l, &iter);
+> +	if (ret < 0)
+> +		goto free_behavior_vec;
+> +
+> +	if (!iov_iter_count(&iter)) {
+> +		ret = -EINVAL;
+> +		goto free_iovecs;
+> +	}
+> +
+> +	ret = rw_copy_check_uvector(CHECK_IOVEC_ONLY, range_vec, nr_elem,
+> +				UIO_FASTIOV, iovstack_r, &iov_r);
+> +	if (ret <= 0)
+> +		goto free_iovecs;
+>  
+>  	f = fdget(pidfd);
+> -	if (!f.file)
+> -		return -EBADF;
+> +	if (!f.file) {
+> +		ret = -EBADF;
+> +		goto free_iovecs;
+> +	}
+>  
+>  	pid = pidfd_to_pid(f.file);
+>  	if (IS_ERR(pid)) {
+>  		ret = PTR_ERR(pid);
+> -		goto err;
+> +		goto put_fd;
+>  	}
+>  
+>  	ret = -EINVAL;
+> @@ -1167,7 +1295,7 @@ SYSCALL_DEFINE4(process_madvise, int, pidfd, unsigned long, start,
+>  	tsk = pid_task(pid, PIDTYPE_PID);
+>  	if (!tsk) {
+>  		rcu_read_unlock();
+> -		goto err;
+> +		goto put_fd;
+>  	}
+>  	get_task_struct(tsk);
+>  	rcu_read_unlock();
+> @@ -1176,12 +1304,22 @@ SYSCALL_DEFINE4(process_madvise, int, pidfd, unsigned long, start,
+>  		ret = IS_ERR(mm) ? PTR_ERR(mm) : -ESRCH;
+>  		if (ret == -EACCES)
+>  			ret = -EPERM;
+> -		goto err;
+> +		goto put_task;
+>  	}
+> -	ret = madvise_core(tsk, start, len_in, behavior);
+> +
+> +	ret = process_madvise_core(tsk, behaviors, &iter, iov_r,
+> +					nr_elem, flags);
+>  	mmput(mm);
+> +put_task:
+>  	put_task_struct(tsk);
+> -err:
+> +put_fd:
+>  	fdput(f);
+> +free_iovecs:
+> +	if (iov_r != iovstack_r)
+> +		kfree(iov_r);
+> +	kfree(iov_l);
+> +free_behavior_vec:
+> +	kfree(behaviors);
+> +
+>  	return ret;
+>  }
 > -- 
 > 2.21.0.1020.gf2820cf01a-goog
 > 
