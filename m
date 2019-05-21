@@ -2,99 +2,131 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 61DAE250AE
-	for <lists+linux-api@lfdr.de>; Tue, 21 May 2019 15:39:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C8B8D2522D
+	for <lists+linux-api@lfdr.de>; Tue, 21 May 2019 16:32:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728212AbfEUNj6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 21 May 2019 09:39:58 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:43480 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728315AbfEUNj6 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 21 May 2019 09:39:58 -0400
-Received: by mail-lf1-f66.google.com with SMTP id u27so13114000lfg.10
-        for <linux-api@vger.kernel.org>; Tue, 21 May 2019 06:39:57 -0700 (PDT)
+        id S1728581AbfEUOck (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 21 May 2019 10:32:40 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:41770 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728603AbfEUOck (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 21 May 2019 10:32:40 -0400
+Received: by mail-pl1-f195.google.com with SMTP id f12so8539118plt.8
+        for <linux-api@vger.kernel.org>; Tue, 21 May 2019 07:32:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=DGZ7ZHyxHghlyk00GjOL+Su8tQVyBxRwxWt505Mwkr8=;
-        b=UUsV50XWdVARTWvdiywE4LnO/Bgl22uVqIvj5DiL4yTqSSX691QJuUM5FH7mGHFNYk
-         Q0+0Bk1dY9Y5jYUMp6VxvQCJ668wo7gKKnk7wKdAbO6uXmyxdHg1D3dyjo/e1Z67HVYz
-         ek1VF3gFyvtiDXkBXE/5DNTwuCl20PqPvKDr8=
+        d=brauner.io; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=CyEpPRrV9RS3Zg004GbU3opzLF2psDEeRox6G2Dzgi4=;
+        b=R7tC9jV5a+mxQO62x+PWvbdzprD7UnwlstIi1E921IR8MQwvIjqpWXEjFq96wgtFnG
+         fTY3nrMJ7vCArpwoCVItDxzdQ40Qirw2JBMtmG9CODfWHtTXbOzlgqZAKYfvraG5V/E/
+         frjGG7jnSr228cVlsj/AYjMiDaehudskW3T4AmnYaTekKHbr2YRWH9MAzfQSuPvXNkig
+         nGR3hP9fBOFFBpPON8OQVuBm2SSMmqqE80W+7bGmI4VUShRRrCVcCUx8VLhizIP/+v8d
+         eMhf2YFuLCOUzRqivSwvxO5aWPP4xWsn3q69TEqczL5TXIDQcUFBiSLNtQvcQ37Ukm91
+         n7lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=DGZ7ZHyxHghlyk00GjOL+Su8tQVyBxRwxWt505Mwkr8=;
-        b=RS9eJ+mY5ErBJJ9Gh4sUl+g7EZPwI1U057A0s2B0u/LP0Py2TLjviNwWBfktHfYw2C
-         qTU6feep8+41K5btjwTnSG3sGnXastb95J6/OuDd8YQ7Wh2zLIZLFqJW5GNHxlSPJRDW
-         JsvqXWDPinokcg5SPChIbYYMaUa50Do98hWRZPzr22sYnlZmUE2Y0ixiyCOPGb/aQ3q9
-         omUlbw1iDAXOf3q+x6S65C833DxvOtJe6tEf78MK4FHpYb8yHzy/D0JpOW0xRVy1VmFD
-         tr6jrRbM+4Grw+FneMH42aL8LRvXl1lxrjQ5hVe1YdMiYeVsl4zlrBDrxsYDAlB8KM98
-         /dvA==
-X-Gm-Message-State: APjAAAVrB0x2hjzqHzw24SHjyCFTvpawisnYRds6Xdjz/Xxh5adKg68i
-        mkLnp9b0uREW+saiM1dOR+Wuevf0aiyDdrkZ
-X-Google-Smtp-Source: APXvYqy9VOBSFXKLfNL+Ppcf03Ojn4u3dT2Srf4sf8eVcsyswZbIav8iH9LKu3NFIr4da9Rx00Vw+w==
-X-Received: by 2002:ac2:5490:: with SMTP id t16mr2238952lfk.154.1558445996105;
-        Tue, 21 May 2019 06:39:56 -0700 (PDT)
-Received: from [172.16.11.26] ([81.216.59.226])
-        by smtp.gmail.com with ESMTPSA id r26sm4706723lfa.62.2019.05.21.06.39.54
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 21 May 2019 06:39:55 -0700 (PDT)
-Subject: Re: [PATCH 1/2] open: add close_range()
-To:     Christian Brauner <christian@brauner.io>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org
-References: <20190521113448.20654-1-christian@brauner.io>
-From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Message-ID: <82d34133-e174-efc3-48ed-332304028595@rasmusvillemoes.dk>
-Date:   Tue, 21 May 2019 15:39:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=CyEpPRrV9RS3Zg004GbU3opzLF2psDEeRox6G2Dzgi4=;
+        b=myiIIfHDnxRG8YyYLbzjcwUroMrD6pRiRIi/b0qhDemntSOnWkN6QOap46gRbLu/qQ
+         SUXclczDoquRqjL4j+SH5dD5sQsJYkQTmjOPhCu/7digXKzJGEIQSmeV/gMz0YzHAuJD
+         5YtmzREPqS3iWsRwjYddlOjR0UWKnpqiJjlEQe5MP78Ve4FWXbe90GDjJYqV5tgpKULF
+         Qlk53ckf2fHIoZfHNt0cETbBiZVbBPEC7YF6R9iaS1d0pneQXDnaliugOeNbYJ3PCR+q
+         OOOd2ef9Kl8CyN5F10R2kWOQgIKgLAoq1NZj8as7JZA2zhIc1qK9CKOiZWsvYcrl2IQy
+         yonw==
+X-Gm-Message-State: APjAAAVTgeYZ0tA2YMPRKmPdtMrLGvyfJ53HWEnuCOigg1h4rOgulLm8
+        OoCoKiOd+VKv1IjO+P0PaKPIsA==
+X-Google-Smtp-Source: APXvYqzfSnHKDaWx/UeH1zZV9VxL0yBVD2SxGAqwuR5ORrqMhe2WMo1TCAFF94hkLIeOM4eQM6MVkw==
+X-Received: by 2002:a17:902:ba88:: with SMTP id k8mr9263163pls.16.1558449159148;
+        Tue, 21 May 2019 07:32:39 -0700 (PDT)
+Received: from brauner.io ([208.54.39.182])
+        by smtp.gmail.com with ESMTPSA id q5sm25819914pfb.51.2019.05.21.07.32.25
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Tue, 21 May 2019 07:32:38 -0700 (PDT)
+Date:   Tue, 21 May 2019 16:32:22 +0200
+From:   Christian Brauner <christian@brauner.io>
+To:     jannh@google.com, oleg@redhat.com, viro@zeniv.linux.org.uk,
+        torvalds@linux-foundation.org, linux-kernel@vger.kernel.org,
+        arnd@arndb.de
+Cc:     akpm@linux-foundation.org, cyphar@cyphar.com, dhowells@redhat.com,
+        ebiederm@xmission.com, elena.reshetova@intel.com,
+        keescook@chromium.org, luto@amacapital.net, luto@kernel.org,
+        tglx@linutronix.de, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, joel@joelfernandes.org,
+        dancol@google.com, serge@hallyn.com, surenb@google.com,
+        kernel-team@android.com
+Subject: Re: [PATCH v3 1/2] pid: add pidfd_open()
+Message-ID: <20190521143220.crb2zyvdov3fl4g7@brauner.io>
+References: <20190520155630.21684-1-christian@brauner.io>
 MIME-Version: 1.0
-In-Reply-To: <20190521113448.20654-1-christian@brauner.io>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <20190520155630.21684-1-christian@brauner.io>
+User-Agent: NeoMutt/20180716
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 21/05/2019 13.34, Christian Brauner wrote:
+On Mon, May 20, 2019 at 05:56:29PM +0200, Christian Brauner wrote:
+> This adds the pidfd_open() syscall. It allows a caller to retrieve pollable
+> pidfds for a process which did not get created via CLONE_PIDFD, i.e. for a
+> process that is created via traditional fork()/clone() calls that is only
+> referenced by a PID:
+> 
+> int pidfd = pidfd_open(1234, 0);
+> ret = pidfd_send_signal(pidfd, SIGSTOP, NULL, 0);
+> 
+> With the introduction of pidfds through CLONE_PIDFD it is possible to
+> created pidfds at process creation time.
+> However, a lot of processes get created with traditional PID-based calls
+> such as fork() or clone() (without CLONE_PIDFD). For these processes a
+> caller can currently not create a pollable pidfd. This is a problem for
+> Android's low memory killer (LMK) and service managers such as systemd.
+> Both are examples of tools that want to make use of pidfds to get reliable
+> notification of process exit for non-parents (pidfd polling) and race-free
+> signal sending (pidfd_send_signal()). They intend to switch to this API for
+> process supervision/management as soon as possible. Having no way to get
+> pollable pidfds from PID-only processes is one of the biggest blockers for
+> them in adopting this api. With pidfd_open() making it possible to retrieve
+> pidfds for PID-based processes we enable them to adopt this api.
+> 
+> In line with Arnd's recent changes to consolidate syscall numbers across
+> architectures, I have added the pidfd_open() syscall to all architectures
+> at the same time.
+> 
+> Signed-off-by: Christian Brauner <christian@brauner.io>
+> Reviewed-by: Oleg Nesterov <oleg@redhat.com>
 
-> The performance is striking. For good measure, comparing the following
-> simple close_all_fds() userspace implementation that is essentially just
-> glibc's version in [6]:
-> 
-> static int close_all_fds(void)
-> {
->         DIR *dir;
->         struct dirent *direntp;
-> 
->         dir = opendir("/proc/self/fd");
->         if (!dir)
->                 return -1;
-> 
->         while ((direntp = readdir(dir))) {
->                 int fd;
->                 if (strcmp(direntp->d_name, ".") == 0)
->                         continue;
->                 if (strcmp(direntp->d_name, "..") == 0)
->                         continue;
->                 fd = atoi(direntp->d_name);
->                 if (fd == 0 || fd == 1 || fd == 2)
->                         continue;
->                 close(fd);
->         }
-> 
->         closedir(dir); /* cannot fail */
->         return 0;
-> }
+This now also carries a Reviewed-by from David.
 
-Before anybody copy-pastes this, please note that it lacks a check for
-fd == dirfd(dir). If all of /proc/self/fd is returned in the first
-getdents() syscall one won't notice, but...
+> Acked-by: Arnd Bergmann <arnd@arndb.de>
+> Cc: "Eric W. Biederman" <ebiederm@xmission.com>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Joel Fernandes (Google) <joel@joelfernandes.org>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Jann Horn <jannh@google.com>
+> Cc: David Howells <dhowells@redhat.com>
+> Cc: Andy Lutomirsky <luto@kernel.org>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Aleksa Sarai <cyphar@cyphar.com>
+> Cc: Linus Torvalds <torvalds@linux-foundation.org>
+> Cc: Al Viro <viro@zeniv.linux.org.uk>
+> Cc: linux-api@vger.kernel.org
 
-Rasmus
+I've moved pidfd_open() into my for-next branch together with Joel's
+pidfd polling changes. Everything is based on v5.2-rc1.
+
+The chosen syscall number for now is 434. David is going to send out
+another pile of mount api related syscalls. I'll coordinate with him
+accordingly prior to the 5.3 merge window.
+
+Thanks!
+Christian
