@@ -2,22 +2,51 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EE6C24C37
-	for <lists+linux-api@lfdr.de>; Tue, 21 May 2019 12:05:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7713024C98
+	for <lists+linux-api@lfdr.de>; Tue, 21 May 2019 12:26:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726740AbfEUKFk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 21 May 2019 06:05:40 -0400
-Received: from mx2.suse.de ([195.135.220.15]:58686 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726259AbfEUKFk (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 21 May 2019 06:05:40 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 93DAAAC4F;
-        Tue, 21 May 2019 10:05:38 +0000 (UTC)
-Date:   Tue, 21 May 2019 12:05:37 +0200
-From:   Michal Hocko <mhocko@kernel.org>
-To:     Minchan Kim <minchan@kernel.org>
+        id S1726344AbfEUK0V (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 21 May 2019 06:26:21 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:38488 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726900AbfEUK0U (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 21 May 2019 06:26:20 -0400
+Received: by mail-pf1-f194.google.com with SMTP id b76so8850195pfb.5;
+        Tue, 21 May 2019 03:26:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=v7oTWqJm+U+8EwWIlN8PXARmqW1yabluA4GVB5Q/Ymc=;
+        b=d/JcV1xuIxQEiJwk7yG4v/8OtBPTzjRoH8pRp+ELNSATolCfDK10qD/aK35UikxFIH
+         XeQP6Deb0NOJGW9tREokTHWw5iFX8kZxVfgFeb/CCvMv2F9O3egSSZNvvB7f2WZlGxbI
+         u80t7LgdQY+wj3uWSQsxNk9jKK9aZiyNeusSuazL9BtuzJEfWCE2KkS4J0qf++Sxcpyy
+         m1IVjgGh1hp9/6t4cp2N7Lpabf829ZtUVbTkGefGfgmPgYsZ8w6H0HNRrKvWjWordBwS
+         lwFekyCyWpBkKcRcnAHRnL9rPS9xJITzC59oT29L99JwuLJ/c2TsdbdElO5uRbjpqpiI
+         R+4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=v7oTWqJm+U+8EwWIlN8PXARmqW1yabluA4GVB5Q/Ymc=;
+        b=hdXbS5JMwn9tfTdNTlZfgRYE4C/oDPQAAi/mJsFnsqnE+iaR3T7cNgnIPphiHFhXhk
+         3D3r+T+I/+3MkHh4dwSCpjWhpj9Uluh6ML4isjS4xhjcOjHydv4nBhcJwZPV7AOHXUDb
+         qPPdq1NXCuwLQCCJ8967g5s/aLXuB6R3N/CKbfpMlAuN1ohucbsy73T7GqOimbGORc9s
+         REL7kMe4LZAGNsFRmuN29N23NVu5JL6pcjbxe2QWfVpt/LbS+hUT5a+QoX/e9tEU8Sr3
+         jGVvzskBueXS5RU5fneT2Xzy5zVyE9zgtHWhMXPARhabD+G+x6y+7qTK+MnFoTBJlV8f
+         akZg==
+X-Gm-Message-State: APjAAAXr4+CYTnrsij9HgqVwkftwPM4DQrV2mbYjEomzJdFa16xcyeV1
+        8SAxw4LrnCVW9TpmuZvtqa0=
+X-Google-Smtp-Source: APXvYqzZdjlSTwRjqi+DHWVHAtfu7VOytFN2Av0aQnixHQc7zc41tJwI2PuEyhis7/e/9mFRwgfs2w==
+X-Received: by 2002:a63:754b:: with SMTP id f11mr81175818pgn.32.1558434379902;
+        Tue, 21 May 2019 03:26:19 -0700 (PDT)
+Received: from google.com ([2401:fa00:d:0:98f1:8b3d:1f37:3e8])
+        by smtp.gmail.com with ESMTPSA id z7sm26834601pfr.23.2019.05.21.03.26.15
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Tue, 21 May 2019 03:26:18 -0700 (PDT)
+Date:   Tue, 21 May 2019 19:26:13 +0900
+From:   Minchan Kim <minchan@kernel.org>
+To:     Michal Hocko <mhocko@kernel.org>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         LKML <linux-kernel@vger.kernel.org>,
         linux-mm <linux-mm@kvack.org>,
@@ -29,62 +58,59 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Shakeel Butt <shakeelb@google.com>,
         Sonny Rao <sonnyrao@google.com>,
         Brian Geffon <bgeffon@google.com>, linux-api@vger.kernel.org
-Subject: Re: [RFC 1/7] mm: introduce MADV_COOL
-Message-ID: <20190521100537.GJ32329@dhcp22.suse.cz>
+Subject: Re: [RFC 6/7] mm: extend process_madvise syscall to support vector
+ arrary
+Message-ID: <20190521102613.GC219653@google.com>
 References: <20190520035254.57579-1-minchan@kernel.org>
- <20190520035254.57579-2-minchan@kernel.org>
- <20190520081621.GV6836@dhcp22.suse.cz>
- <20190520225419.GA10039@google.com>
- <20190521060443.GA32329@dhcp22.suse.cz>
- <20190521091134.GA219653@google.com>
+ <20190520035254.57579-7-minchan@kernel.org>
+ <20190520092258.GZ6836@dhcp22.suse.cz>
+ <20190521024820.GG10039@google.com>
+ <20190521062421.GD32329@dhcp22.suse.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190521091134.GA219653@google.com>
+In-Reply-To: <20190521062421.GD32329@dhcp22.suse.cz>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue 21-05-19 18:11:34, Minchan Kim wrote:
-> On Tue, May 21, 2019 at 08:04:43AM +0200, Michal Hocko wrote:
-> > On Tue 21-05-19 07:54:19, Minchan Kim wrote:
-> > > On Mon, May 20, 2019 at 10:16:21AM +0200, Michal Hocko wrote:
-> > [...]
-> > > > > Internally, it works via deactivating memory from active list to
-> > > > > inactive's head so when the memory pressure happens, they will be
-> > > > > reclaimed earlier than other active pages unless there is no
-> > > > > access until the time.
-> > > > 
-> > > > Could you elaborate about the decision to move to the head rather than
-> > > > tail? What should happen to inactive pages? Should we move them to the
-> > > > tail? Your implementation seems to ignore those completely. Why?
+On Tue, May 21, 2019 at 08:24:21AM +0200, Michal Hocko wrote:
+> On Tue 21-05-19 11:48:20, Minchan Kim wrote:
+> > On Mon, May 20, 2019 at 11:22:58AM +0200, Michal Hocko wrote:
+> > > [Cc linux-api]
 > > > 
-> > > Normally, inactive LRU could have used-once pages without any mapping
-> > > to user's address space. Such pages would be better candicate to
-> > > reclaim when the memory pressure happens. With deactivating only
-> > > active LRU pages of the process to the head of inactive LRU, we will
-> > > keep them in RAM longer than used-once pages and could have more chance
-> > > to be activated once the process is resumed.
+> > > On Mon 20-05-19 12:52:53, Minchan Kim wrote:
+> > > > Currently, process_madvise syscall works for only one address range
+> > > > so user should call the syscall several times to give hints to
+> > > > multiple address range.
+> > > 
+> > > Is that a problem? How big of a problem? Any numbers?
 > > 
-> > You are making some assumptions here. You have an explicit call what is
-> > cold now you are assuming something is even colder. Is this assumption a
-> > general enough to make people depend on it? Not that we wouldn't be able
-> > to change to logic later but that will always be risky - especially in
-> > the area when somebody want to make a user space driven memory
-> > management.
+> > We easily have 2000+ vma so it's not trivial overhead. I will come up
+> > with number in the description at respin.
 > 
-> Think about MADV_FREE. It moves those pages into inactive file LRU's head.
-> See the get_scan_count which makes forceful scanning of inactive file LRU
-> if it has enough size based on the memory pressure.
-> The reason is it's likely to have used-once pages in inactive file LRU,
-> generally. Those pages has been top-priority candidate to be reclaimed
-> for a long time.
+> Does this really have to be a fast operation? I would expect the monitor
+> is by no means a fast path. The system call overhead is not what it used
+> to be, sigh, but still for something that is not a hot path it should be
+> tolerable, especially when the whole operation is quite expensive on its
+> own (wrt. the syscall entry/exit).
 
-OK, fair enough. Being consistent with MADV_FREE is reasonable. I just
-forgot we do rotate like this there.
+What's different with process_vm_[readv|writev] and vmsplice?
+If the range needed to be covered is a lot, vector operation makes senese
+to me.
 
--- 
-Michal Hocko
-SUSE Labs
+> 
+> I am not saying we do not need a multiplexing API, I am just not sure
+> we need it right away. Btw. there was some demand for other MM syscalls
+> to provide a multiplexing API (e.g. mprotect), maybe it would be better
+> to handle those in one go?
+
+That's the exactly what Daniel Colascione suggested from internal
+review. That would be a interesting approach if we could aggregate
+all of system call in one go.
+
+> -- 
+> Michal Hocko
+> SUSE Labs
