@@ -2,150 +2,165 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C98524F6C
-	for <lists+linux-api@lfdr.de>; Tue, 21 May 2019 14:57:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5126D24FAD
+	for <lists+linux-api@lfdr.de>; Tue, 21 May 2019 15:04:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728230AbfEUM5M (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 21 May 2019 08:57:12 -0400
-Received: from mail-yw1-f67.google.com ([209.85.161.67]:40617 "EHLO
-        mail-yw1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728142AbfEUM5M (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 21 May 2019 08:57:12 -0400
-Received: by mail-yw1-f67.google.com with SMTP id 18so7253401ywe.7
-        for <linux-api@vger.kernel.org>; Tue, 21 May 2019 05:57:11 -0700 (PDT)
+        id S1728277AbfEUNEo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 21 May 2019 09:04:44 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:36318 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727534AbfEUNEo (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 21 May 2019 09:04:44 -0400
+Received: by mail-wr1-f66.google.com with SMTP id s17so18551904wru.3
+        for <linux-api@vger.kernel.org>; Tue, 21 May 2019 06:04:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=T/AHbGrbWFUhevOXCGpUGCgyop6Di8UfE0ud1RTG1ps=;
-        b=akTuLbwyJU5RN+ZX+1XrhOSjd4MciXH7phKiqrpcWAfdgPdU7zImpJSRTClYg+LnD8
-         f72NWpwZAcJEJWW1W6buISDdzYyEyDIrp3SR3YVvwuoBzzqiLJ9PEwNNgqHybiKQNlMJ
-         2iG330vUDmL9jD5pERSkZpkiDcA8RywSlF0+wux3E+aw+YbeSJtlt4GB0itIQzksJcGg
-         Ox4p2HDQsBtjjFQFbP2hmcPMJ6riI3suMWoQIGSBSXyT4sy107pII8ukRM5RFzlrR0H7
-         IR44iZACqmT/AbXbIN0ZY4HXhfvGYsyfHLNXmBvTIPjUwP/LNaI4afQeK3TCCWZpsHCl
-         1cnQ==
+        d=brauner.io; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=UoeHu3yoNUcPPl9PKQVlxSlKB7SL3/RQXELHWxMzhXU=;
+        b=XJSG1EyPYqVFv06qjxl82rQK6DnXz+zzZ5SuDKstpUJiXRNS8tQ5JU13/0R23pzYo8
+         CBflOikG7l96+4gPyOlywhufFiPRmoYNDl41896XQ/0MJatuwnRejMHB6TDC98rsUSsk
+         2AmSYFgAwYwyiIa3Uw0OG4PN7UgonE+wdbkLG/dhBH8kdQoOGpBbAw+wyKcjrVvNwBmM
+         VMKMZI30ibz9pqFsG/Cn36t1s2Pm2QH0dtNNkeKYHL7aO5r+71RV9j9Ohu/+y3mncQUm
+         NMgjzNYEt1ik5sf8wphXNVOj5VnbG86Jclu6wpcMm3hVcqUXQ13o2yCTql/kibMeVk3R
+         6GZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=T/AHbGrbWFUhevOXCGpUGCgyop6Di8UfE0ud1RTG1ps=;
-        b=n3FWejhR7OJLdjE9wwzyGlKaD8dU5OavMVfFheR0G567NcgXkobPAylHbxlE+xeB5m
-         6ImKLkUipEE8liNfPDiQFW2QN5H1BJYDbeUrog6z6/brLuCcztzjFnX0zfu7z1zHYcq5
-         PXgN/oDiVcE41eNveZsCvcy0TVt3X/QeYYmJkjBJZHQYWWINlRxPhdivVrdpycyZO7Y1
-         R2um3zfO+JhBQfRb26jbVseiSz57VsrCZspclMMNr7OmdEg3F8OPqV6qUYz5XvEazxYL
-         rHKMgHkck2jzI2x6Zj3bRzLH7vjOnZBAl2K8uZmi+gRS2qfmLMwC/gg4PcWHkqGH/Bip
-         JXxg==
-X-Gm-Message-State: APjAAAVrWh6+gkgdcHqQFs6Awj3fPa51NUd0Pig/zehQ39KO2tT2ZcPw
-        h6gjfDTWXgcia9qk2EsPjHAUStforNfZP4FFGULQnQ==
-X-Google-Smtp-Source: APXvYqw2hO53tPry9V/J/vvYsaoh0I6dNYkejzO13Jx59B3H/C01BT/91Z/hSGJB2ngnVnWoIhnH/4HGgY7h5wywf4c=
-X-Received: by 2002:a81:5ec3:: with SMTP id s186mr39737429ywb.308.1558443430631;
- Tue, 21 May 2019 05:57:10 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=UoeHu3yoNUcPPl9PKQVlxSlKB7SL3/RQXELHWxMzhXU=;
+        b=fpxEESIxGheXnRoNt92nKqp3EtUuWjUHZA6GUX65dWaRqhoIEpvlCgipXEDecWHvJv
+         NqhJTkxAXCPreAmDuwfufu9XFKMGXeaLtWip/oeT6hdTkCDyZtFGg9lmAS5wioQXt6kH
+         JjpVNnfrcSs20oYzg0qpJjGDeD/ZLiL7lO0/ZJkkB6Ju2A3v0wQuF8jsbFTKAoePOdF+
+         TWm0U44WyZCr4kPDDEDp8N2GBlcU3hD9h6v3LlFse7j+BH2t2fhITcQrTS8+7FkNZUj7
+         Zwb9h0quRFZ+Mf/lU1myf5kqm892d0i0zwA/qm27aaBclcPmLm7F+BSmip6Ri76XCcZI
+         askQ==
+X-Gm-Message-State: APjAAAUsurAMptwBS5u6gx0i3J5REqBtgXpVmW5m2KOG0IyGNsq/2ZKQ
+        29jXGqkxC6mL1CVY2HQFeMW3YA==
+X-Google-Smtp-Source: APXvYqxG2D4TpRJtgA1by9C5SwilBq6kPP4Jw28l+Fw52p05f/l2TsKOiCci80kJtWr6XsY8G818bQ==
+X-Received: by 2002:a5d:6b12:: with SMTP id v18mr34420146wrw.306.1558443882738;
+        Tue, 21 May 2019 06:04:42 -0700 (PDT)
+Received: from brauner.io (p548C9938.dip0.t-ipconnect.de. [84.140.153.56])
+        by smtp.gmail.com with ESMTPSA id x64sm5789182wmg.17.2019.05.21.06.04.41
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Tue, 21 May 2019 06:04:42 -0700 (PDT)
+Date:   Tue, 21 May 2019 15:04:39 +0200
+From:   Christian Brauner <christian@brauner.io>
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     viro@zeniv.linux.org.uk, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        jannh@google.com, oleg@redhat.com, tglx@linutronix.de,
+        torvalds@linux-foundation.org, arnd@arndb.de, shuah@kernel.org,
+        dhowells@redhat.com, tkjos@android.com, ldv@altlinux.org,
+        miklos@szeredi.hu, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+        linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        x86@kernel.org
+Subject: Re: [PATCH 1/2] open: add close_range()
+Message-ID: <20190521130438.q3u4wvve7p6md6cm@brauner.io>
+References: <20190521113448.20654-1-christian@brauner.io>
+ <87tvdoau12.fsf@oldenburg2.str.redhat.com>
 MIME-Version: 1.0
-References: <20190520035254.57579-1-minchan@kernel.org> <dbe801f0-4bbe-5f6e-9053-4b7deb38e235@arm.com>
- <CAEe=Sxka3Q3vX+7aWUJGKicM+a9Px0rrusyL+5bB1w4ywF6N4Q@mail.gmail.com> <1754d0ef-6756-d88b-f728-17b1fe5d5b07@arm.com>
-In-Reply-To: <1754d0ef-6756-d88b-f728-17b1fe5d5b07@arm.com>
-From:   Shakeel Butt <shakeelb@google.com>
-Date:   Tue, 21 May 2019 05:56:59 -0700
-Message-ID: <CALvZod6ioRxSi7tHB-uSTxN1-hsxD+8O3mfFAjaqdsimjUVmcw@mail.gmail.com>
-Subject: Re: [RFC 0/7] introduce memory hinting API for external process
-To:     Anshuman Khandual <anshuman.khandual@arm.com>
-Cc:     Tim Murray <timmurray@google.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>, Michal Hocko <mhocko@suse.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Brian Geffon <bgeffon@google.com>, linux-api@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87tvdoau12.fsf@oldenburg2.str.redhat.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, May 20, 2019 at 7:55 PM Anshuman Khandual
-<anshuman.khandual@arm.com> wrote:
->
->
->
-> On 05/20/2019 10:29 PM, Tim Murray wrote:
-> > On Sun, May 19, 2019 at 11:37 PM Anshuman Khandual
-> > <anshuman.khandual@arm.com> wrote:
-> >>
-> >> Or Is the objective here is reduce the number of processes which get killed by
-> >> lmkd by triggering swapping for the unused memory (user hinted) sooner so that
-> >> they dont get picked by lmkd. Under utilization for zram hardware is a concern
-> >> here as well ?
-> >
-> > The objective is to avoid some instances of memory pressure by
-> > proactively swapping pages that userspace knows to be cold before
-> > those pages reach the end of the LRUs, which in turn can prevent some
-> > apps from being killed by lmk/lmkd. As soon as Android userspace knows
-> > that an application is not being used and is only resident to improve
-> > performance if the user returns to that app, we can kick off
-> > process_madvise on that process's pages (or some portion of those
-> > pages) in a power-efficient way to reduce memory pressure long before
-> > the system hits the free page watermark. This allows the system more
-> > time to put pages into zram versus waiting for the watermark to
-> > trigger kswapd, which decreases the likelihood that later memory
-> > allocations will cause enough pressure to trigger a kill of one of
-> > these apps.
->
-> So this opens up bit of LRU management to user space hints. Also because the app
-> in itself wont know about the memory situation of the entire system, new system
-> call needs to be called from an external process.
->
-> >
-> >> Swapping out memory into zram wont increase the latency for a hot start ? Or
-> >> is it because as it will prevent a fresh cold start which anyway will be slower
-> >> than a slow hot start. Just being curious.
-> >
-> > First, not all swapped pages will be reloaded immediately once an app
-> > is resumed. We've found that an app's working set post-process_madvise
-> > is significantly smaller than what an app allocates when it first
-> > launches (see the delta between pswpin and pswpout in Minchan's
-> > results). Presumably because of this, faulting to fetch from zram does
->
-> pswpin      417613    1392647     975034     233.00
-> pswpout    1274224    2661731    1387507     108.00
->
-> IIUC the swap-in ratio is way higher in comparison to that of swap out. Is that
-> always the case ? Or it tend to swap out from an active area of the working set
-> which faulted back again.
->
-> > not seem to introduce a noticeable hot start penalty, not does it
-> > cause an increase in performance problems later in the app's
-> > lifecycle. I've measured with and without process_madvise, and the
-> > differences are within our noise bounds. Second, because we're not
->
-> That is assuming that post process_madvise() working set for the application is
-> always smaller. There is another challenge. The external process should ideally
-> have the knowledge of active areas of the working set for an application in
-> question for it to invoke process_madvise() correctly to prevent such scenarios.
->
-> > preemptively evicting file pages and only making them more likely to
-> > be evicted when there's already memory pressure, we avoid the case
-> > where we process_madvise an app then immediately return to the app and
-> > reload all file pages in the working set even though there was no
-> > intervening memory pressure. Our initial version of this work evicted
->
-> That would be the worst case scenario which should be avoided. Memory pressure
-> must be a parameter before actually doing the swap out. But pages if know to be
-> inactive/cold can be marked high priority to be swapped out.
->
-> > file pages preemptively and did cause a noticeable slowdown (~15%) for
-> > that case; this patch set avoids that slowdown. Finally, the benefit
-> > from avoiding cold starts is huge. The performance improvement from
-> > having a hot start instead of a cold start ranges from 3x for very
-> > small apps to 50x+ for larger apps like high-fidelity games.
->
-> Is there any other real world scenario apart from this app based ecosystem where
-> user hinted LRU management might be helpful ? Just being curious. Thanks for the
-> detailed explanation. I will continue looking into this series.
+On Tue, May 21, 2019 at 02:09:29PM +0200, Florian Weimer wrote:
+> * Christian Brauner:
+> 
+> > +/**
+> > + * __close_range() - Close all file descriptors in a given range.
+> > + *
+> > + * @fd:     starting file descriptor to close
+> > + * @max_fd: last file descriptor to close
+> > + *
+> > + * This closes a range of file descriptors. All file descriptors
+> > + * from @fd up to and including @max_fd are closed.
+> > + */
+> > +int __close_range(struct files_struct *files, unsigned fd, unsigned max_fd)
+> > +{
+> > +	unsigned int cur_max;
+> > +
+> > +	if (fd > max_fd)
+> > +		return -EINVAL;
+> > +
+> > +	rcu_read_lock();
+> > +	cur_max = files_fdtable(files)->max_fds;
+> > +	rcu_read_unlock();
+> > +
+> > +	/* cap to last valid index into fdtable */
+> > +	if (max_fd >= cur_max)
+> > +		max_fd = cur_max - 1;
+> > +
+> > +	while (fd <= max_fd)
+> > +		__close_fd(files, fd++);
+> > +
+> > +	return 0;
+> > +}
+> 
+> This seems rather drastic.  How long does this block in kernel mode?
+> Maybe it's okay as long as the maximum possible value for cur_max stays
+> around 4 million or so.
 
-Chrome OS is another real world use-case for this user hinted LRU
-management approach by proactively reclaiming reclaim from tabs not
-accessed by the user for some time.
+That's probably valid concern when you reach very high numbers though I
+wonder how relevant this is in practice.
+Also, you would only be blocking yourself I imagine, i.e. you can't DOS
+another task with this unless your multi-threaded.
+
+> 
+> Solaris has an fdwalk function:
+> 
+>   <https://docs.oracle.com/cd/E88353_01/html/E37843/closefrom-3c.html>
+> 
+> So a different way to implement this would expose a nextfd system call
+
+Meh. If nextfd() then I would like it to be able to:
+- get the nextfd(fd) >= fd
+- get highest open fd e.g. nextfd(-1)
+
+But then I wonder if nextfd() needs to be a syscall and isn't just
+either:
+fcntl(fd, F_GET_NEXT)?
+or
+prctl(PR_GET_NEXT)?
+
+Technically, one could also do:
+
+fd_range(unsigned fd, unsigend end_fd, unsigned flags);
+
+fd_range(3, 50, FD_RANGE_CLOSE);
+
+/* return highest fd within the range [3, 50] */
+fd_range(3, 50, FD_RANGE_NEXT);
+
+/* return highest fd */
+fd_range(3, UINT_MAX, FD_RANGE_NEXT);
+
+This syscall could also reasonably be extended.
+
+> to userspace, so that we can use that to implement both fdwalk and
+> closefrom.  But maybe fdwalk is just too obscure, given the existence of
+> /proc.
+
+Yeah we probably don't need fdwalk.
+
+> 
+> I'll happily implement closefrom on top of close_range in glibc (plus
+> fallback for older kernels based on /proc—with an abort in case that
+> doesn't work because the RLIMIT_NOFILE hack is unreliable
+> unfortunately).
+> 
+> Thanks,
+> Florian
