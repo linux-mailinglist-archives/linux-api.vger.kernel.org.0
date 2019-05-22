@@ -2,38 +2,116 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 599A725EE7
-	for <lists+linux-api@lfdr.de>; Wed, 22 May 2019 10:00:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 54CDB25F24
+	for <lists+linux-api@lfdr.de>; Wed, 22 May 2019 10:12:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728527AbfEVH77 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Wed, 22 May 2019 03:59:59 -0400
-Received: from mail.contraloria.gob.bo ([190.11.83.39]:42627 "HELO
-        mail.contraloria.gob.bo" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1728370AbfEVH77 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 22 May 2019 03:59:59 -0400
-X-Greylist: delayed 11038 seconds by postgrey-1.27 at vger.kernel.org; Wed, 22 May 2019 03:59:49 EDT
-Received: from [192.99.195.49] (ip49.ip-192-99-195.net [192.99.195.49])
-        by mail.contraloria.gob.bo (Postfix) with ESMTPSA id 04FE4303C8B9
-        for <linux-api@vger.kernel.org>; Tue, 21 May 2019 23:55:27 -0400 (BOT)
-Content-Type: text/plain; charset="iso-8859-1"
+        id S1728631AbfEVIMY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 22 May 2019 04:12:24 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:43692 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726552AbfEVIMY (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 22 May 2019 04:12:24 -0400
+Received: by mail-lf1-f66.google.com with SMTP id u27so959488lfg.10
+        for <linux-api@vger.kernel.org>; Wed, 22 May 2019 01:12:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=brauner.io; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=NinRxNHyDYbCj8IbjH00ChDPuWJUmzxEB5UBBCZfvuk=;
+        b=FQpPrYcaQxCAFGTYiUsPu0qLO+TyOcW7gshxdKkzEdBEoeF7zfGLnQVrcgcr4gKCeX
+         LJ4YXrL36Z8UOIkkUcBOLv8jo3+1wy2Zrr1Gv+mEl7u90rBwnDVcVlXzHgwabis+F7I/
+         dlJlteIhWCGDFh11b+aiyTTGML6DsZQmYr7FjOpjo+237NiSY/93FSEYu5SmcuC+kMHi
+         w+QbDlfq/QnsLdgPfA6Jf+xdMdism6B4eELfwRuNPZvO4gmtKOqxk/k31Xt7g6ek0i6A
+         6O4E/le0sudnktBxl+9AFEIeQt8N5n9ZAVs90K2h9eXQLV3Rz/8qfSLtahw9cvbBcJ3h
+         1JTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=NinRxNHyDYbCj8IbjH00ChDPuWJUmzxEB5UBBCZfvuk=;
+        b=ETHgS79F62I/dT0XgdiMWH6ngK5SGLfaTweo1HPdjNf63pOHSFnjD/bNts22JKOAmb
+         6s5Os8zET3W5WzuA9IPLiTkHHyK+jTd7E/uA2VG2qQKFcvfcWvPHEx5wn878htK7Znby
+         8xOY6g0NzxOCtvZ+khon1X6DSiHiWXbEc8QOP1N+IDBRfbAbOLvM0WQwyFHtg4LDhFhO
+         aO3xtzY4FjbjGRPkjo7z2Sh+NEKkOvfDOs7tr4V1oVci67sX/2fxWTmTUMZzfS0y/QPU
+         ko6wuJMX831jhSVKl6MfEGcCP88jdnSUveS3omb8d7HcInHAuDFP1yQDuFVkAkK1Rvgu
+         F39A==
+X-Gm-Message-State: APjAAAW908/53iF5I8F3ZnA1sig/2l1r9GulgKf7VWWeZ1hKro+P95E5
+        cxehuzUlZVpuL2PAZnHmVPNy6wllbqE7xepjWqO9xw==
+X-Google-Smtp-Source: APXvYqx7pLLI28SrC6KCXMaRxdNQfwff8OtpKLPW6FHDJY0UodmrushWU4y7kAd+10dOgbbxHnK3LHfXY1UCm8GAhHE=
+X-Received: by 2002:a05:6512:1c1:: with SMTP id f1mr4469627lfp.125.1558512742198;
+ Wed, 22 May 2019 01:12:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: [No Subject]
-To:     linux-api@vger.kernel.org
-From:   "Gardner, Tim" <usrtch@contraloria.gob.bo>
-Date:   Tue, 21 May 2019 21:25:49 -0700
-Reply-To: adamlui32@aol.com
-X-Mailer: iPad Mail (14G60)
-Message-Id: <20190522035528.04FE4303C8B9@mail.contraloria.gob.bo>
+References: <20190521150006.GJ17978@ZenIV.linux.org.uk> <20190521113448.20654-1-christian@brauner.io>
+ <28114.1558456227@warthog.procyon.org.uk> <20190521164141.rbehqnghiej3gfua@brauner.io>
+ <CAHk-=wgtHm4t71oKbykE=awiVv2H2wCy8yH0L_FsyhHQ5OSO+Q@mail.gmail.com>
+In-Reply-To: <CAHk-=wgtHm4t71oKbykE=awiVv2H2wCy8yH0L_FsyhHQ5OSO+Q@mail.gmail.com>
+From:   Christian Brauner <christian@brauner.io>
+Date:   Wed, 22 May 2019 10:12:11 +0200
+Message-ID: <CAHrFyr4NV_5Z7TRSXTaurd4KCTLiHqKb47dN=bdY46HiL9ZY3Q@mail.gmail.com>
+Subject: Re: [PATCH 1/2] open: add close_range()
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     David Howells <dhowells@redhat.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Jann Horn <jannh@google.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Arnd Bergmann <arnd@arndb.de>, Shuah Khan <shuah@kernel.org>,
+        Todd Kjos <tkjos@android.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        alpha <linux-alpha@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-ia64@vger.kernel.org,
+        linux-m68k <linux-m68k@lists.linux-m68k.org>,
+        linux-mips@vger.kernel.org,
+        Parisc List <linux-parisc@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        Linux-sh list <linux-sh@vger.kernel.org>,
+        sparclinux <sparclinux@vger.kernel.org>,
+        linux-xtensa@linux-xtensa.org,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-We are now providing business & personal loans: 
--Rate starting at: 2.05%. 
--Flexible repayment: up to 30 years. 
-For more information and application, please reply. 
+On Tue, May 21, 2019 at 10:23 PM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> On Tue, May 21, 2019 at 9:41 AM Christian Brauner <christian@brauner.io> wrote:
+> >
+> > Yeah, you mentioned this before. I do like being able to specify an
+> > upper bound to have the ability to place fds strategically after said
+> > upper bound.
+>
+> I suspect that's the case.
+>
+> And if somebody really wants to just close everything and uses a large
+> upper bound, we can - if we really want to - just compare the upper
+> bound to the file table size, and do an optimized case for that. We do
+> that upper bound comparison anyway to limit the size of the walk, so
+> *if* it's a big deal, that case could then do the whole "shrink
+> fdtable" case too.
 
-> To unsubscribe please reply with "unsubscribe" as subject. 
+Makes sense.
+
+>
+> But I don't believe it's worth optimizing for unless somebody really
+> has a load where that is shown to be a big deal.   Just do the silly
+> and simple loop, and add a cond_resched() in the loop, like
+> close_files() does for the "we have a _lot_ of files open" case.
+
+Ok. I will resend a v1 later with the cond_resched() logic you and Al
+suggested added.
+
+Thanks!
+Christian
