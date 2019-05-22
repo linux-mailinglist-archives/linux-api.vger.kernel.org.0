@@ -2,116 +2,260 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 54CDB25F24
-	for <lists+linux-api@lfdr.de>; Wed, 22 May 2019 10:12:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 378A326150
+	for <lists+linux-api@lfdr.de>; Wed, 22 May 2019 12:04:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728631AbfEVIMY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 22 May 2019 04:12:24 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:43692 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726552AbfEVIMY (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 22 May 2019 04:12:24 -0400
-Received: by mail-lf1-f66.google.com with SMTP id u27so959488lfg.10
-        for <linux-api@vger.kernel.org>; Wed, 22 May 2019 01:12:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brauner.io; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=NinRxNHyDYbCj8IbjH00ChDPuWJUmzxEB5UBBCZfvuk=;
-        b=FQpPrYcaQxCAFGTYiUsPu0qLO+TyOcW7gshxdKkzEdBEoeF7zfGLnQVrcgcr4gKCeX
-         LJ4YXrL36Z8UOIkkUcBOLv8jo3+1wy2Zrr1Gv+mEl7u90rBwnDVcVlXzHgwabis+F7I/
-         dlJlteIhWCGDFh11b+aiyTTGML6DsZQmYr7FjOpjo+237NiSY/93FSEYu5SmcuC+kMHi
-         w+QbDlfq/QnsLdgPfA6Jf+xdMdism6B4eELfwRuNPZvO4gmtKOqxk/k31Xt7g6ek0i6A
-         6O4E/le0sudnktBxl+9AFEIeQt8N5n9ZAVs90K2h9eXQLV3Rz/8qfSLtahw9cvbBcJ3h
-         1JTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=NinRxNHyDYbCj8IbjH00ChDPuWJUmzxEB5UBBCZfvuk=;
-        b=ETHgS79F62I/dT0XgdiMWH6ngK5SGLfaTweo1HPdjNf63pOHSFnjD/bNts22JKOAmb
-         6s5Os8zET3W5WzuA9IPLiTkHHyK+jTd7E/uA2VG2qQKFcvfcWvPHEx5wn878htK7Znby
-         8xOY6g0NzxOCtvZ+khon1X6DSiHiWXbEc8QOP1N+IDBRfbAbOLvM0WQwyFHtg4LDhFhO
-         aO3xtzY4FjbjGRPkjo7z2Sh+NEKkOvfDOs7tr4V1oVci67sX/2fxWTmTUMZzfS0y/QPU
-         ko6wuJMX831jhSVKl6MfEGcCP88jdnSUveS3omb8d7HcInHAuDFP1yQDuFVkAkK1Rvgu
-         F39A==
-X-Gm-Message-State: APjAAAW908/53iF5I8F3ZnA1sig/2l1r9GulgKf7VWWeZ1hKro+P95E5
-        cxehuzUlZVpuL2PAZnHmVPNy6wllbqE7xepjWqO9xw==
-X-Google-Smtp-Source: APXvYqx7pLLI28SrC6KCXMaRxdNQfwff8OtpKLPW6FHDJY0UodmrushWU4y7kAd+10dOgbbxHnK3LHfXY1UCm8GAhHE=
-X-Received: by 2002:a05:6512:1c1:: with SMTP id f1mr4469627lfp.125.1558512742198;
- Wed, 22 May 2019 01:12:22 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190521150006.GJ17978@ZenIV.linux.org.uk> <20190521113448.20654-1-christian@brauner.io>
- <28114.1558456227@warthog.procyon.org.uk> <20190521164141.rbehqnghiej3gfua@brauner.io>
- <CAHk-=wgtHm4t71oKbykE=awiVv2H2wCy8yH0L_FsyhHQ5OSO+Q@mail.gmail.com>
-In-Reply-To: <CAHk-=wgtHm4t71oKbykE=awiVv2H2wCy8yH0L_FsyhHQ5OSO+Q@mail.gmail.com>
-From:   Christian Brauner <christian@brauner.io>
-Date:   Wed, 22 May 2019 10:12:11 +0200
-Message-ID: <CAHrFyr4NV_5Z7TRSXTaurd4KCTLiHqKb47dN=bdY46HiL9ZY3Q@mail.gmail.com>
-Subject: Re: [PATCH 1/2] open: add close_range()
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     David Howells <dhowells@redhat.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        id S1728625AbfEVKEM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 22 May 2019 06:04:12 -0400
+Received: from relay.sw.ru ([185.231.240.75]:44208 "EHLO relay.sw.ru"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728424AbfEVKEM (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 22 May 2019 06:04:12 -0400
+Received: from [172.16.25.169]
+        by relay.sw.ru with esmtp (Exim 4.91)
+        (envelope-from <ktkhai@virtuozzo.com>)
+        id 1hTO6G-0002Ts-Q7; Wed, 22 May 2019 13:03:56 +0300
+Subject: Re: [PATCH v2 0/7] mm: process_vm_mmap() -- syscall for duplication a
+ process mapping
+To:     Jann Horn <jannh@google.com>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Keith Busch <keith.busch@intel.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Alexander Duyck <alexander.h.duyck@linux.intel.com>,
+        Weiny Ira <ira.weiny@intel.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        arunks@codeaurora.org, Vlastimil Babka <vbabka@suse.cz>,
+        Christoph Lameter <cl@linux.com>,
+        Rik van Riel <riel@surriel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Roman Gushchin <guro@fb.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jerome Glisse <jglisse@redhat.com>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        daniel.m.jordan@oracle.com, Adam Borowski <kilobyte@angband.pl>,
         Linux API <linux-api@vger.kernel.org>,
-        Jann Horn <jannh@google.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Arnd Bergmann <arnd@arndb.de>, Shuah Khan <shuah@kernel.org>,
-        Todd Kjos <tkjos@android.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        alpha <linux-alpha@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-ia64@vger.kernel.org,
-        linux-m68k <linux-m68k@lists.linux-m68k.org>,
-        linux-mips@vger.kernel.org,
-        Parisc List <linux-parisc@vger.kernel.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        sparclinux <sparclinux@vger.kernel.org>,
-        linux-xtensa@linux-xtensa.org,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>
+References: <155836064844.2441.10911127801797083064.stgit@localhost.localdomain>
+ <CALCETrU221N6uPmdaj4bRDDsf+Oc5tEfPERuyV24wsYKHn+spA@mail.gmail.com>
+ <9638a51c-4295-924f-1852-1783c7f3e82d@virtuozzo.com>
+ <CAG48ez2BcVCwYGmAo4MwZ2crZ9f7=qKrORcN=fYz=K5xP2xfgQ@mail.gmail.com>
+ <069c90d6-924b-fa97-90d7-7d74f8785d9b@virtuozzo.com>
+ <CAG48ez31Kxukg7y4PU-+3RjsYZxEHfjvs2q0EFqxDM2KDcLUoA@mail.gmail.com>
+From:   Kirill Tkhai <ktkhai@virtuozzo.com>
+Message-ID: <3e8177a1-29c9-8502-c78d-8a0743474331@virtuozzo.com>
+Date:   Wed, 22 May 2019 13:03:56 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <CAG48ez31Kxukg7y4PU-+3RjsYZxEHfjvs2q0EFqxDM2KDcLUoA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, May 21, 2019 at 10:23 PM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> On Tue, May 21, 2019 at 9:41 AM Christian Brauner <christian@brauner.io> wrote:
-> >
-> > Yeah, you mentioned this before. I do like being able to specify an
-> > upper bound to have the ability to place fds strategically after said
-> > upper bound.
->
-> I suspect that's the case.
->
-> And if somebody really wants to just close everything and uses a large
-> upper bound, we can - if we really want to - just compare the upper
-> bound to the file table size, and do an optimized case for that. We do
-> that upper bound comparison anyway to limit the size of the walk, so
-> *if* it's a big deal, that case could then do the whole "shrink
-> fdtable" case too.
+On 21.05.2019 20:28, Jann Horn wrote:
+> On Tue, May 21, 2019 at 7:04 PM Kirill Tkhai <ktkhai@virtuozzo.com> wrote:
+>> On 21.05.2019 19:20, Jann Horn wrote:
+>>> On Tue, May 21, 2019 at 5:52 PM Kirill Tkhai <ktkhai@virtuozzo.com> wrote:
+>>>> On 21.05.2019 17:43, Andy Lutomirski wrote:
+>>>>> On Mon, May 20, 2019 at 7:01 AM Kirill Tkhai <ktkhai@virtuozzo.com> wrote:
+>>>>>> New syscall, which allows to clone a remote process VMA
+>>>>>> into local process VM. The remote process's page table
+>>>>>> entries related to the VMA are cloned into local process's
+>>>>>> page table (in any desired address, which makes this different
+>>>>>> from that happens during fork()). Huge pages are handled
+>>>>>> appropriately.
+>>> [...]
+>>>>>> There are several problems with process_vm_writev() in this example:
+>>>>>>
+>>>>>> 1)it causes pagefault on remote process memory, and it forces
+>>>>>>   allocation of a new page (if was not preallocated);
+>>>>>
+>>>>> I don't see how your new syscall helps.  You're writing to remote
+>>>>> memory.  If that memory wasn't allocated, it's going to get allocated
+>>>>> regardless of whether you use a write-like interface or an mmap-like
+>>>>> interface.
+>>>>
+>>>> No, the talk is not about just another interface for copying memory.
+>>>> The talk is about borrowing of remote task's VMA and corresponding
+>>>> page table's content. Syscall allows to copy part of page table
+>>>> with preallocated pages from remote to local process. See here:
+>>>>
+>>>> [task1]                                                        [task2]
+>>>>
+>>>> buf = mmap(NULL, n * PAGE_SIZE, PROT_READ|PROT_WRITE,
+>>>>            MAP_PRIVATE|MAP_ANONYMOUS, ...);
+>>>>
+>>>> <task1 populates buf>
+>>>>
+>>>>                                                                buf = process_vm_mmap(pid_of_task1, addr, n * PAGE_SIZE, ...);
+>>>> munmap(buf);
+>>>>
+>>>>
+>>>> process_vm_mmap() copies PTEs related to memory of buf in task1 to task2
+>>>> just like in the way we do during fork syscall.
+>>>>
+>>>> There is no copying of buf memory content, unless COW happens. This is
+>>>> the principal difference to process_vm_writev(), which just allocates
+>>>> pages in remote VM.
+>>>>
+>>>>> Keep in mind that, on x86, just the hardware part of a
+>>>>> page fault is very slow -- populating the memory with a syscall
+>>>>> instead of a fault may well be faster.
+>>>>
+>>>> It is not as slow, as disk IO has. Just compare, what happens in case of anonymous
+>>>> pages related to buf of task1 are swapped:
+>>>>
+>>>> 1)process_vm_writev() reads them back into memory;
+>>>>
+>>>> 2)process_vm_mmap() just copies swap PTEs from task1 page table
+>>>>   to task2 page table.
+>>>>
+>>>> Also, for faster page faults one may use huge pages for the mappings.
+>>>> But really, it's funny to think about page faults, when there are
+>>>> disk IO problems I shown.
+>>> [...]
+>>>>> That only doubles the amount of memory if you let n
+>>>>> scale linearly with p, which seems unlikely.
+>>>>>
+>>>>>>
+>>>>>> 3)received data has no a chance to be properly swapped for
+>>>>>>   a long time.
+>>>>>
+>>>>> ...
+>>>>>
+>>>>>> a)kernel moves @buf pages into swap right after recv();
+>>>>>> b)process_vm_writev() reads the data back from swap to pages;
+>>>>>
+>>>>> If you're under that much memory pressure and thrashing that badly,
+>>>>> your performance is going to be awful no matter what you're doing.  If
+>>>>> you indeed observe this behavior under normal loads, then this seems
+>>>>> like a VM issue that should be addressed in its own right.
+>>>>
+>>>> I don't think so. Imagine: a container migrates from one node to another.
+>>>> The nodes are the same, say, every of them has 4GB of RAM.
+>>>>
+>>>> Before the migration, the container's tasks used 4GB of RAM and 8GB of swap.
+>>>> After the page server on the second node received the pages, we want these
+>>>> pages become swapped as soon as possible, and we don't want to read them from
+>>>> swap to pass a read consumer.
+>>>
+>>> But you don't have to copy that memory into the container's tasks all
+>>> at once, right? Can't you, every time you've received a few dozen
+>>> kilobytes of data or whatever, shove them into the target task? That
+>>> way you don't have problems with swap because the time before the data
+>>> has arrived in its final VMA is tiny.
+>>
+>> We try to maintain online migration with as small downtime as possible,
+>> and the container on source node is completely stopped at the very end.
+>> Memory of container tasks is copied in background without container
+>> completely stop, and _PAGE_SOFT_DIRTY is used to track dirty pages.
+>>
+>> Container may create any new processes during the migration, and these
+>> processes may contain any memory mappings.
+>>
+>> Imagine the situation. We migrate a big web server with a lot of processes,
+>> and some of children processes have the same COW mapping as parent has.
+>> In case of all memory dump is available at the moment of the grand parent
+>> web server process creation, we populate the mapping in parent, and all
+>> the children may inherit the mapping in case of they want after fork.
+>> COW works here. But in case of some processes are created before all memory
+>> is available on destination node, we can't do such the COW inheritance.
+>> This will be the reason, the memory consumed by container grows many
+>> times after the migration. So, the only solution is to create process
+>> tree after memory is available and all mappings are known.
+> 
+> But if one of the processes modifies the memory after you've started
+> migrating it to the new machine, that memory can't be CoW anymore
+> anyway, right? So it should work if you first do a first pass of
+> copying the memory and creating the process hierarchy, and then copy
+> more recent changes into the individual processes, breaking the CoW
+> for those pages, right?
 
-Makes sense.
+Not so. We have to have all processes killed on source node, before
+creation the same process tree on destination machine. The process
+tree should be completely analyzed before a try of its recreation
+from ground. The analysis allows to choose the strategy and the sequence
+of each process creation and inheritance of entities like namespaces,
+mm, fdtables, etc. It's impossible to restore a process tree in case
+of you already have started to create it, but haven't stopped processes
+on source node. Also, we can restore only subset of process trees,
+but you never know what will happen with a live process tree in further.
+So, source process tree must be freezed before restore.
 
->
-> But I don't believe it's worth optimizing for unless somebody really
-> has a load where that is shown to be a big deal.   Just do the silly
-> and simple loop, and add a cond_resched() in the loop, like
-> close_files() does for the "we have a _lot_ of files open" case.
+A restore of arbitrary process tree in laws of all linux limitations
+on sequence of action to recreate an entity of a process makes this
+nontrivial mathematical problem, which has no a solution at the moment,
+and it's unknown whether it has a solution.
 
-Ok. I will resend a v1 later with the cond_resched() logic you and Al
-suggested added.
+So, at the moment of restore starts, we know all about all tasks and
+their relation ships. Yes, we start to copy memory from source to destination,
+when container on source is alive. But we track this memory with _PAGE_SOFT_DIRTY
+flag, and dirtied pages are repopulated with new content. Please, see the comment
+about hellish below.
+ 
+>> It's on of the examples. But believe me, there are a lot of another reasons,
+>> why process tree should be created only after all process tree is freezed,
+>> and no new tasks on source are possible. PGID and SSID inheritance, for
+>> example. All of this requires special order of tasks creation. In case of
+>> you try to restore process tree with correct namespaces and especial in
+>> case of many user namespaces in a container, you will just see like a hell
+>> will open before your eyes, and we never can think about this.
+> 
+> Could you elaborate on why that is so hellish?
 
-Thanks!
-Christian
+Because you never know the way, the system came into the state you're seeing
+at the moment. Even in a simple process chain like:
+
+          task1
+            |
+          task2
+            |
+          task3
+          /   \
+      task4  task5
+
+any of these processes may change its namespace, pgid, ssid, unshare mm,
+files, become a child subreaper, die and make its children reparented,
+do all of these before or after parent did one of its actions. All of
+these actions are not independent between each other, and some actions
+prohibit another actions. And you can restore the process tree only
+in case you repeat all of the sequence in the same order it was made
+by the container.
+
+It's impossible to say "task2, set your session to 5!", because the only
+way to set ssid is call setsid() syscall, which may be made only once in
+a process life. But setsid itself implies limitations on further setpgid()
+syscall (see the code, if interesting). And this limitation does not mean
+we always should call setpgid() before it, no, these are no such the simple
+rules. The same and moreover with inheritance of namespaces, when some of
+task's children may inherit old task's namespaces, some may inherit current,
+some will inherit further. A child will be able to assign a namespace, say,
+net ns, only in case of its userns allows to do this. This implies another
+limitation on process creation order, while this does not mean this gives
+a stable rule of choosing an order you create process tree. No, the only
+rule is "in the moment of time, one of tasks should made one of the above
+actions".
+
+This is a mathematical problem of ordering finite number of actors with
+finite number of rules and relationship between them, and the rules do not
+imply unambiguous replay from the ground by the end state.
+
+We behave well in limited and likely cases of process tree configurations,
+and this is enough for most cases. But common problem is very difficult,
+and currently it's not proven it even has a solution as a finite set of
+rules you may apply to restore any process tree.
+
+Kirill
