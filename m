@@ -2,269 +2,173 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F54F26763
-	for <lists+linux-api@lfdr.de>; Wed, 22 May 2019 17:54:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CBD8267EA
+	for <lists+linux-api@lfdr.de>; Wed, 22 May 2019 18:18:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729948AbfEVPxj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 22 May 2019 11:53:39 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:45005 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729962AbfEVPxi (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 22 May 2019 11:53:38 -0400
-Received: by mail-wr1-f68.google.com with SMTP id w13so2870853wru.11
-        for <linux-api@vger.kernel.org>; Wed, 22 May 2019 08:53:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brauner.io; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=yF9i8CBoIre9ittu6TL9sPlugb9HPbhX86BuS4x2hi8=;
-        b=RYzExnyoOv3w5Fb8VLaJHKEDYxs4aenFqlTgzrIoyILRfHlvMh2wGo5lxkZtzBmSIr
-         kOGCfp5ne9EqBjqB6SzVHfmT6akW35gkdJVszwCJfKB8OV9YsU+yLxNBGrh9EpI2AGJh
-         UC9CvWQkTTUhhU+Qs7HlgDA9/qRwQSTqEeE1QaaLxOvM3rcT5L1U8BZ/5wc1ZG5x0i7E
-         oVzw1tA9/4XF6mpiT+HTIGS38DpLhBMAGWhCo8hqTjqdKKGpJ7IGV/2j7ZITikN0fESr
-         Plage1J7mGBtdyltzXMUFjtQKVS37nFTFKuGUm5GPSBVyEtAs/0A2m/IvTHzNtOz+P81
-         l4yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=yF9i8CBoIre9ittu6TL9sPlugb9HPbhX86BuS4x2hi8=;
-        b=s7FGyn3rm6KZPTc4pCkzwZEzIIS4pn9L4hxME8rtoy8XI+C4t9SXiLJI2mQL2SW561
-         6fdfZJV4Bq3sARCn3nlBnFBXckWpJ7cxJFYvocmUrTKa83yNjzOJC/0qvPnlIyRsyScm
-         Ath3OrwLR/Ar8cdOsHlhJ7zVaBHjKvkW6sqcKiUDxF9eyxhu81E2z8zLwEnjHdSZW+/h
-         U1cs7B7cM2cMEfaYFlZGXN3W2iPllrK+9ND1q+sOxAVfTHVISDjYfVA95wLG9hu6x7T7
-         4aAhjuR0HvVxWpXe1uSOxQ6zUy2QqfRgmD1LkSYGWi6rKE5zqLiPnUeBzfXjMC6tZyG8
-         dvPg==
-X-Gm-Message-State: APjAAAXB9TQG4QIRsENez0Rs6j5YH7P7N3bFLtrClFAxYGk+BMPQHsRJ
-        CS75FgpwHGFQKqtFqdt+MDLQ4Q==
-X-Google-Smtp-Source: APXvYqxptX7r7Y8CjJpjVCMVuUuAEbDzgoOyVNwuGDnMbTihy60ncTFvjTKE97l9juX0zFfMwBxjdQ==
-X-Received: by 2002:adf:ce89:: with SMTP id r9mr6992995wrn.300.1558540415392;
-        Wed, 22 May 2019 08:53:35 -0700 (PDT)
-Received: from localhost.localdomain ([185.197.132.10])
-        by smtp.gmail.com with ESMTPSA id t12sm15677263wro.2.2019.05.22.08.53.33
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 22 May 2019 08:53:34 -0700 (PDT)
-From:   Christian Brauner <christian@brauner.io>
-To:     viro@zeniv.linux.org.uk, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        torvalds@linux-foundation.org, fweimer@redhat.com
-Cc:     jannh@google.com, oleg@redhat.com, tglx@linutronix.de,
-        arnd@arndb.de, shuah@kernel.org, dhowells@redhat.com,
-        tkjos@android.com, ldv@altlinux.org, miklos@szeredi.hu,
-        linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
-        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-xtensa@linux-xtensa.org, linux-arch@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, x86@kernel.org,
-        Christian Brauner <christian@brauner.io>
-Subject: [PATCH v1 2/2] tests: add close_range() tests
-Date:   Wed, 22 May 2019 17:52:59 +0200
-Message-Id: <20190522155259.11174-2-christian@brauner.io>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190522155259.11174-1-christian@brauner.io>
-References: <20190522155259.11174-1-christian@brauner.io>
+        id S1729853AbfEVQRv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 22 May 2019 12:17:51 -0400
+Received: from terminus.zytor.com ([198.137.202.136]:48639 "EHLO
+        mail.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728638AbfEVQRu (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 22 May 2019 12:17:50 -0400
+Received: from [IPv6:2607:fb90:3635:972:9c5a:d1ae:8e8f:2fe7] ([IPv6:2607:fb90:3635:972:9c5a:d1ae:8e8f:2fe7])
+        (authenticated bits=0)
+        by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id x4MGHSn03691732
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
+        Wed, 22 May 2019 09:17:30 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com x4MGHSn03691732
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+        s=2019051801; t=1558541852;
+        bh=B44ya3o9B6nqq6f/Jtd+b4WU9Xx+2DYOyzI8sYcDzls=;
+        h=Date:In-Reply-To:References:Subject:To:CC:From:From;
+        b=uiMj7ouDv0CJJx/tuZx6jO74+sdp1REU90ooSB5Z2URjHChSQMIkPIXIgJMaLqcHa
+         bgEb0yw6vbjDRwDz/Zr6gDDaS+dL3mG1tPZRFlc022fMDsV52ZkgTF1ddn0xI3z4Em
+         HuOBuls8ENM4Tcuc7zIgk48oTAtnymU9JL0g09dmlanScR1N1Gz1kpJ5cDziwPUff0
+         mfjYAwaA8ljFJzgZOFWvwzAtpRjKvEfVBrDqv/QKMMt6KYfHWtAD2Cvqt038kxD+WO
+         0nGzFStMwoRl+WNfWH7w8+nXamRR8ZYWrNivWRM6y53fGfep7+6iEaik56YK0htho6
+         oOVdD/InCq6wA==
+Date:   Wed, 22 May 2019 09:17:24 -0700
+User-Agent: K-9 Mail for Android
+In-Reply-To: <7bdca169-7a01-8c55-40e4-a832e876a0e5@huawei.com>
+References: <20190517165519.11507-1-roberto.sassu@huawei.com> <20190517165519.11507-3-roberto.sassu@huawei.com> <CD9A4F89-7CA5-4329-A06A-F8DEB87905A5@zytor.com> <20190517210219.GA5998@rani.riverdale.lan> <d48f35a1-aab1-2f20-2e91-5e81a84b107f@zytor.com> <20190517221731.GA11358@rani.riverdale.lan> <7bdca169-7a01-8c55-40e4-a832e876a0e5@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 2/2] initramfs: introduce do_readxattrs()
+To:     Roberto Sassu <roberto.sassu@huawei.com>,
+        Arvind Sankar <nivedita@alum.mit.edu>
+CC:     viro@zeniv.linux.org.uk, linux-security-module@vger.kernel.org,
+        linux-integrity@vger.kernel.org, initramfs@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, zohar@linux.vnet.ibm.com,
+        silviu.vlasceanu@huawei.com, dmitry.kasatkin@huawei.com,
+        takondra@cisco.com, kamensky@cisco.com, arnd@arndb.de,
+        rob@landley.net, james.w.mcmechan@gmail.com, niveditas98@gmail.com
+From:   hpa@zytor.com
+Message-ID: <9C5B9F98-2067-43D3-B149-57613F38DCD4@zytor.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This adds basic tests for the new close_range() syscall.
-- test that no invalid flags can be passed
-- test that a range of file descriptors is correctly closed
-- test that a range of file descriptors is correctly closed if there there
-  are already closed file descriptors in the range
-- test that max_fd is correctly capped to the current fdtable maximum
+On May 20, 2019 2:39:46 AM PDT, Roberto Sassu <roberto=2Esassu@huawei=2Ecom=
+> wrote:
+>On 5/18/2019 12:17 AM, Arvind Sankar wrote:
+>> On Fri, May 17, 2019 at 02:47:31PM -0700, H=2E Peter Anvin wrote:
+>>> On 5/17/19 2:02 PM, Arvind Sankar wrote:
+>>>> On Fri, May 17, 2019 at 01:18:11PM -0700, hpa@zytor=2Ecom wrote:
+>>>>>
+>>>>> Ok=2E=2E=2E I just realized this does not work for a modular initram=
+fs,
+>composed at load time from multiple files, which is a very real
+>problem=2E Should be easy enough to deal with: instead of one large file,
+>use one companion file per source file, perhaps something like
+>filename=2E=2Exattrs (suggesting double dots to make it less likely to
+>conflict with a "real" file=2E) No leading dot, as it makes it more
+>likely that archivers will sort them before the file proper=2E
+>>>> This version of the patch was changed from the previous one exactly
+>to deal with this case --
+>>>> it allows for the bootloader to load multiple initramfs archives,
+>each
+>>>> with its own =2Exattr-list file, and to have that work properly=2E
+>>>> Could you elaborate on the issue that you see?
+>>>>
+>>>
+>>> Well, for one thing, how do you define "cpio archive", each with its
+>own
+>>> =2Exattr-list file? Second, that would seem to depend on the ordering,
+>no,
+>>> in which case you depend critically on =2Exattr-list file following
+>the
+>>> files, which most archivers won't do=2E
+>>>
+>>> Either way it seems cleaner to have this per file; especially if/as
+>it
+>>> can be done without actually mucking up the format=2E
+>>>
+>>> I need to run, but I'll post a more detailed explanation of what I
+>did
+>>> in a little bit=2E
+>>>
+>>> 	-hpa
+>>>
+>> Not sure what you mean by how do I define it? Each cpio archive will
+>> contain its own =2Exattr-list file with signatures for the files within
+>> it, that was the idea=2E
+>>=20
+>> You need to review the code more closely I think -- it does not
+>depend
+>> on the =2Exattr-list file following the files to which it applies=2E
+>>=20
+>> The code first extracts =2Exattr-list as though it was a regular file=
+=2E
+>If
+>> a later dupe shows up (presumably from a second archive, although the
+>> patch will actually allow a second one in the same archive), it will
+>> then process the existing =2Exattr-list file and apply the attributes
+>> listed within it=2E It then will proceed to read the second one and
+>> overwrite the first one with it (this is the normal behaviour in the
+>> kernel cpio parser)=2E At the end once all the archives have been
+>> extracted, if there is an =2Exattr-list file in the rootfs it will be
+>> parsed (it would've been the last one encountered, which hasn't been
+>> parsed yet, just extracted)=2E
+>>=20
+>> Regarding the idea to use the high 16 bits of the mode field in
+>> the header that's another possibility=2E It would just require
+>additional
+>> support in the program that actually creates the archive though,
+>which
+>> the current patch doesn't=2E
+>
+>Yes, for adding signatures for a subset of files, no changes to the ram
+>disk generator are necessary=2E Everything is done by a custom module=2E =
+To
+>support a generic use case, it would be necessary to modify the
+>generator to execute getfattr and the awk script after files have been
+>placed in the temporary directory=2E
+>
+>If I understood the new proposal correctly, it would be task for cpio
+>to
+>read file metadata after the content and create a new record for each
+>file with mode 0x18000, type of metadata encoded in the file name and
+>metadata as file content=2E I don't know how easy it would be to modify
+>cpio=2E Probably the amount of changes would be reasonable=2E
+>
+>The kernel will behave in a similar way=2E It will call do_readxattrs()
+>in
+>do_copy() for each file=2E Since the only difference between the current
+>and the new proposal would be two additional calls to do_readxattrs()
+>in
+>do_name() and unpack_to_rootfs(), maybe we could support both=2E
+>
+>Roberto
 
-Signed-off-by: Christian Brauner <christian@brauner.io>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Jann Horn <jannh@google.com>
-Cc: David Howells <dhowells@redhat.com>
-Cc: Dmitry V. Levin <ldv@altlinux.org>
-Cc: Oleg Nesterov <oleg@redhat.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Florian Weimer <fweimer@redhat.com>
-Cc: linux-api@vger.kernel.org
----
-v1: unchanged
----
- tools/testing/selftests/Makefile              |   1 +
- tools/testing/selftests/core/.gitignore       |   1 +
- tools/testing/selftests/core/Makefile         |   6 +
- .../testing/selftests/core/close_range_test.c | 128 ++++++++++++++++++
- 4 files changed, 136 insertions(+)
- create mode 100644 tools/testing/selftests/core/.gitignore
- create mode 100644 tools/testing/selftests/core/Makefile
- create mode 100644 tools/testing/selftests/core/close_range_test.c
+The nice thing with explicit metadata is that it doesn't have to contain t=
+he filename per se, and each file is self-contained=2E There is a reason wh=
+y each cpio header starts with the magic number: each cpio record is formal=
+ly independent and can be processed in isolation=2E  The TRAILER!!! thing i=
+s a huge wart in the format, although in practice TRAILER!!! always has a m=
+ode of 0 and so can be distinguished from an actual file=2E
 
-diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
-index 9781ca79794a..06e57fabbff9 100644
---- a/tools/testing/selftests/Makefile
-+++ b/tools/testing/selftests/Makefile
-@@ -4,6 +4,7 @@ TARGETS += bpf
- TARGETS += breakpoints
- TARGETS += capabilities
- TARGETS += cgroup
-+TARGETS += core
- TARGETS += cpufreq
- TARGETS += cpu-hotplug
- TARGETS += drivers/dma-buf
-diff --git a/tools/testing/selftests/core/.gitignore b/tools/testing/selftests/core/.gitignore
-new file mode 100644
-index 000000000000..6e6712ce5817
---- /dev/null
-+++ b/tools/testing/selftests/core/.gitignore
-@@ -0,0 +1 @@
-+close_range_test
-diff --git a/tools/testing/selftests/core/Makefile b/tools/testing/selftests/core/Makefile
-new file mode 100644
-index 000000000000..de3ae68aa345
---- /dev/null
-+++ b/tools/testing/selftests/core/Makefile
-@@ -0,0 +1,6 @@
-+CFLAGS += -g -I../../../../usr/include/ -I../../../../include
-+
-+TEST_GEN_PROGS := close_range_test
-+
-+include ../lib.mk
-+
-diff --git a/tools/testing/selftests/core/close_range_test.c b/tools/testing/selftests/core/close_range_test.c
-new file mode 100644
-index 000000000000..ab10cd205ab9
---- /dev/null
-+++ b/tools/testing/selftests/core/close_range_test.c
-@@ -0,0 +1,128 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#define _GNU_SOURCE
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <linux/kernel.h>
-+#include <limits.h>
-+#include <stdbool.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <syscall.h>
-+#include <unistd.h>
-+
-+#include "../kselftest.h"
-+
-+static inline int sys_close_range(unsigned int fd, unsigned int max_fd,
-+				  unsigned int flags)
-+{
-+	return syscall(__NR_close_range, fd, max_fd, flags);
-+}
-+
-+#ifndef ARRAY_SIZE
-+#define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
-+#endif
-+
-+int main(int argc, char **argv)
-+{
-+	const char *test_name = "close_range";
-+	int i, ret;
-+	int open_fds[100];
-+	int fd_max, fd_mid, fd_min;
-+
-+	ksft_set_plan(7);
-+
-+	for (i = 0; i < ARRAY_SIZE(open_fds); i++) {
-+		int fd;
-+
-+		fd = open("/dev/null", O_RDONLY | O_CLOEXEC);
-+		if (fd < 0) {
-+			if (errno == ENOENT)
-+				ksft_exit_skip(
-+					"%s test: skipping test since /dev/null does not exist\n",
-+					test_name);
-+
-+			ksft_exit_fail_msg(
-+				"%s test: %s - failed to open /dev/null\n",
-+				strerror(errno), test_name);
-+		}
-+
-+		open_fds[i] = fd;
-+	}
-+
-+	fd_min = open_fds[0];
-+	fd_max = open_fds[99];
-+
-+	ret = sys_close_range(fd_min, fd_max, 1);
-+	if (!ret)
-+		ksft_exit_fail_msg(
-+			"%s test: managed to pass invalid flag value\n",
-+			test_name);
-+	ksft_test_result_pass("do not allow invalid flag values for close_range()\n");
-+
-+	fd_mid = open_fds[50];
-+	ret = sys_close_range(fd_min, fd_mid, 0);
-+	if (ret < 0)
-+		ksft_exit_fail_msg(
-+			"%s test: Failed to close range of file descriptors from 4 to 50\n",
-+			test_name);
-+	ksft_test_result_pass("close_range() from %d to %d\n", fd_min, fd_mid);
-+
-+	for (i = 0; i <= 50; i++) {
-+		ret = fcntl(open_fds[i], F_GETFL);
-+		if (ret >= 0)
-+			ksft_exit_fail_msg(
-+				"%s test: Failed to close range of file descriptors from 4 to 50\n",
-+				test_name);
-+	}
-+	ksft_test_result_pass("fcntl() verify closed range from %d to %d\n", fd_min, fd_mid);
-+
-+	/* create a couple of gaps */
-+	close(57);
-+	close(78);
-+	close(81);
-+	close(82);
-+	close(84);
-+	close(90);
-+
-+	fd_mid = open_fds[51];
-+	/* Choose slightly lower limit and leave some fds for a later test */
-+	fd_max = open_fds[92];
-+	ret = sys_close_range(fd_mid, fd_max, 0);
-+	if (ret < 0)
-+		ksft_exit_fail_msg(
-+			"%s test: Failed to close range of file descriptors from 51 to 100\n",
-+			test_name);
-+	ksft_test_result_pass("close_range() from %d to %d\n", fd_mid, fd_max);
-+
-+	for (i = 51; i <= 92; i++) {
-+		ret = fcntl(open_fds[i], F_GETFL);
-+		if (ret >= 0)
-+			ksft_exit_fail_msg(
-+				"%s test: Failed to close range of file descriptors from 51 to 100\n",
-+				test_name);
-+	}
-+	ksft_test_result_pass("fcntl() verify closed range from %d to %d\n", fd_mid, fd_max);
-+
-+	fd_mid = open_fds[93];
-+	fd_max = open_fds[99];
-+	/* test that the kernel caps and still closes all fds */
-+	ret = sys_close_range(fd_mid, UINT_MAX, 0);
-+	if (ret < 0)
-+		ksft_exit_fail_msg(
-+			"%s test: Failed to close range of file descriptors from 51 to 100\n",
-+			test_name);
-+	ksft_test_result_pass("close_range() from %d to %d\n", fd_mid, fd_max);
-+
-+	for (i = 93; i < 100; i++) {
-+		ret = fcntl(open_fds[i], F_GETFL);
-+		if (ret >= 0)
-+			ksft_exit_fail_msg(
-+				"%s test: Failed to close range of file descriptors from 51 to 100\n",
-+				test_name);
-+	}
-+	ksft_test_result_pass("fcntl() verify closed range from %d to %d\n", fd_mid, fd_max);
-+
-+	return ksft_exit_pass();
-+}
--- 
-2.21.0
+The use of mode 0x18000 for metadata allows for optional backwards compati=
+bility for extraction; for encoding this can be handled with very simple po=
+stprocessing=2E
 
+So my suggestion would be to have mode 0x18000 indicate extended file meta=
+data, with the filename of the form:
+
+optional_filename!XXXXX!
+
+=2E=2E=2E where XXXXX indicates the type of metadata (e=2Eg=2E !XATTR!)=2E=
+ The optional_filename prefix allows an unaware decoder to extract to a wel=
+l-defined name; simple postprocessing would be able to either remove (for s=
+ize) or add (for compatibility) this prefix=2E It would be an error for thi=
+s prefix, if present, to not match the name of the previous file=2E
+
+I do agree that the delayed processing of an =2Exattr-list as you describe=
+ ought to work even with a modular initramfs=2E
+
+
+--=20
+Sent from my Android device with K-9 Mail=2E Please excuse my brevity=2E
