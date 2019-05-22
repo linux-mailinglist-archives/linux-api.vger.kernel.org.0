@@ -2,109 +2,122 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B7B6C258D6
-	for <lists+linux-api@lfdr.de>; Tue, 21 May 2019 22:28:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C649625BC6
+	for <lists+linux-api@lfdr.de>; Wed, 22 May 2019 03:50:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727428AbfEUU2l (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 21 May 2019 16:28:41 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:44477 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726766AbfEUU2k (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 21 May 2019 16:28:40 -0400
-Received: by mail-lf1-f68.google.com with SMTP id n134so14057058lfn.11
-        for <linux-api@vger.kernel.org>; Tue, 21 May 2019 13:28:39 -0700 (PDT)
+        id S1728060AbfEVBue (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 21 May 2019 21:50:34 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:40298 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727733AbfEVBud (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 21 May 2019 21:50:33 -0400
+Received: by mail-pl1-f194.google.com with SMTP id g69so236934plb.7;
+        Tue, 21 May 2019 18:50:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mwA8SKkNo0NB1BSSFbQlGkhBkIi6dkzdh19hX1ggqqc=;
-        b=E9cuWHFCD4Bgx1lOv97Ctr9bLKO3EjHQDpiZyM5FZUFuOxpsSHENK8V3oPkAEWY2CT
-         4OwJ0l1afyS0KlYgZEStFftLyE7H7JbMd/BnYgfS8lVdq73pcYKuqkBJcrl7o7GLJZCx
-         7466NcnIhfaDTvK1H+iwihEveSzhyKGC/2Zgk=
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=KEsTTRLdcPvr4DyB6nsvDnVWKWacN5V2AbAsyIXP34I=;
+        b=UjHLINqajyRyc03bkbJEwVX7nyyMpQmWAyv5W7+imFIOFa51iCIXk7CK/61xyyRIai
+         FGYl+HB0sIXMbUhOTJDJlmDRS2bCzV0qCGUqghC+DnZPDQp1xWuscp4ICweSbOG1v4p5
+         FMbXHwFzUmECuKMiVhzbb1ysJXHPR4w7qbNPVaEJxDG1Xc/OU5cYB1WHPyDB71x9sBqD
+         K+H+qxwPPSAbqOlZmB9z2Os4xKbVMMtHfZ06glc1KrU6zwbHYph/usPPsgWR5EvW2NFB
+         eSZRhhUszhkhdhGDKNcykyGEq6fUojSTYBiRH5bYQgPXAdTX6rN8GRTnhS29HUp8ht7t
+         9vyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mwA8SKkNo0NB1BSSFbQlGkhBkIi6dkzdh19hX1ggqqc=;
-        b=d9SiLaUDJ5iQ+3nXRhhEz+AKirNx9O9nilGH4S1S+z8C4RJy/k0osCaKD1QfGU4E4V
-         s8T5HL9/aSij6nby116yfUKsqjzVZxU1UppyPLBCTL93Uev3wvD2JZBVWi0wjzEjtXy6
-         +e7QO2VqUyOsRj47Htyy5x2qsMEQl2B5vy5vYnMihnq8i4/TWqVVyzvBCrYaaCSdkb4r
-         6BQ8AKeAhBt51+MZ1MDnPu01NVIQCb61XL/aAZlZ55ea3Ftw6xYpfziMnf2hmW80qGph
-         r/43NVsRg2K+GyalIL0bK3xsjNYEwo4Y916aDWZ2Hrtk/piysIyiMu4EIfci8a6r6GRE
-         tuHg==
-X-Gm-Message-State: APjAAAXpPSO0TNEPOWTh1sO+5kiZbitFog+q4xbi1C3YJ5AR53XU3iV2
-        q6t+6/t61W0y3skbVS3ZRyvEtNNGsLM=
-X-Google-Smtp-Source: APXvYqwwQxjxKFlWSEstt2T4MCm6Ko+Svv9Z93BlQOw51vPFNesKXR7Xuwz8rxgDKrLKzS47k7dO4w==
-X-Received: by 2002:ac2:52a8:: with SMTP id r8mr4771600lfm.20.1558470518511;
-        Tue, 21 May 2019 13:28:38 -0700 (PDT)
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com. [209.85.208.177])
-        by smtp.gmail.com with ESMTPSA id n18sm5885776lji.63.2019.05.21.13.28.38
-        for <linux-api@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 21 May 2019 13:28:38 -0700 (PDT)
-Received: by mail-lj1-f177.google.com with SMTP id q16so6090516ljj.8
-        for <linux-api@vger.kernel.org>; Tue, 21 May 2019 13:28:38 -0700 (PDT)
-X-Received: by 2002:a2e:2f03:: with SMTP id v3mr4725518ljv.6.1558470208997;
- Tue, 21 May 2019 13:23:28 -0700 (PDT)
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=KEsTTRLdcPvr4DyB6nsvDnVWKWacN5V2AbAsyIXP34I=;
+        b=eSKozO1mL9UnUFh1UhpLErfHJ1t6mzkLR1c6GPtBt2yjR2ytOlChYq85pAyNZS870k
+         CldqLzRkyKXn/z/J+oaia0Rs7LinXQeg/aXo7ZZAHvcukBoD1e2J2H0pWNAgHbxHftGE
+         Ir1p9VrzSCEYLgog+OfEoP9Y5Md7tT0oLdJBe4yYLTblvGcHesIe5IDvKnkxwJBqnf5i
+         Z8yxfeixeYxEFUPRHjCawSCBU7K6hf5kzoegNbftt4r30uQOldXg1VTsN5ZC9vpT0IxA
+         /LchyHPigxLRZJ43Q/eXiGvaEIn/zEab7r3ne9djH70QcMEbH55BW/2My0Z3+N6tPV6p
+         9HRw==
+X-Gm-Message-State: APjAAAUnaIDZJvn6xr8R08gP1q+CxIyR6RKkpA1PWWRWEV+XbTiuw5d3
+        hsl52nB7fxt2u/IRmgynimVZA9tf
+X-Google-Smtp-Source: APXvYqzxNfYUeQPKEfHm11BNLPHtdaRoG0oDRvWdcFYfHEy5dbahZDUKE2b+2g5lZcbEDfmXMxPRIQ==
+X-Received: by 2002:a17:902:b108:: with SMTP id q8mr81677417plr.110.1558489832732;
+        Tue, 21 May 2019 18:50:32 -0700 (PDT)
+Received: from google.com ([2401:fa00:d:0:98f1:8b3d:1f37:3e8])
+        by smtp.gmail.com with ESMTPSA id u134sm32855756pfc.61.2019.05.21.18.50.28
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Tue, 21 May 2019 18:50:31 -0700 (PDT)
+Date:   Wed, 22 May 2019 10:50:25 +0900
+From:   Minchan Kim <minchan@kernel.org>
+To:     Johannes Weiner <hannes@cmpxchg.org>
+Cc:     Michal Hocko <mhocko@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>, Tim Murray <timmurray@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Daniel Colascione <dancol@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Brian Geffon <bgeffon@google.com>, linux-api@vger.kernel.org
+Subject: Re: [RFC 7/7] mm: madvise support MADV_ANONYMOUS_FILTER and
+ MADV_FILE_FILTER
+Message-ID: <20190522015025.GA29449@google.com>
+References: <20190520035254.57579-1-minchan@kernel.org>
+ <20190520035254.57579-8-minchan@kernel.org>
+ <20190520092801.GA6836@dhcp22.suse.cz>
+ <20190521025533.GH10039@google.com>
+ <20190521153310.GA3218@cmpxchg.org>
 MIME-Version: 1.0
-References: <20190521150006.GJ17978@ZenIV.linux.org.uk> <20190521113448.20654-1-christian@brauner.io>
- <28114.1558456227@warthog.procyon.org.uk> <20190521164141.rbehqnghiej3gfua@brauner.io>
-In-Reply-To: <20190521164141.rbehqnghiej3gfua@brauner.io>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Tue, 21 May 2019 13:23:13 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgtHm4t71oKbykE=awiVv2H2wCy8yH0L_FsyhHQ5OSO+Q@mail.gmail.com>
-Message-ID: <CAHk-=wgtHm4t71oKbykE=awiVv2H2wCy8yH0L_FsyhHQ5OSO+Q@mail.gmail.com>
-Subject: Re: [PATCH 1/2] open: add close_range()
-To:     Christian Brauner <christian@brauner.io>
-Cc:     David Howells <dhowells@redhat.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Jann Horn <jannh@google.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Arnd Bergmann <arnd@arndb.de>, Shuah Khan <shuah@kernel.org>,
-        tkjos@android.com, "Dmitry V. Levin" <ldv@altlinux.org>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        alpha <linux-alpha@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-ia64@vger.kernel.org,
-        linux-m68k <linux-m68k@lists.linux-m68k.org>,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190521153310.GA3218@cmpxchg.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, May 21, 2019 at 9:41 AM Christian Brauner <christian@brauner.io> wrote:
->
-> Yeah, you mentioned this before. I do like being able to specify an
-> upper bound to have the ability to place fds strategically after said
-> upper bound.
+On Tue, May 21, 2019 at 11:33:10AM -0400, Johannes Weiner wrote:
+> On Tue, May 21, 2019 at 11:55:33AM +0900, Minchan Kim wrote:
+> > On Mon, May 20, 2019 at 11:28:01AM +0200, Michal Hocko wrote:
+> > > [cc linux-api]
+> > > 
+> > > On Mon 20-05-19 12:52:54, Minchan Kim wrote:
+> > > > System could have much faster swap device like zRAM. In that case, swapping
+> > > > is extremely cheaper than file-IO on the low-end storage.
+> > > > In this configuration, userspace could handle different strategy for each
+> > > > kinds of vma. IOW, they want to reclaim anonymous pages by MADV_COLD
+> > > > while it keeps file-backed pages in inactive LRU by MADV_COOL because
+> > > > file IO is more expensive in this case so want to keep them in memory
+> > > > until memory pressure happens.
+> > > > 
+> > > > To support such strategy easier, this patch introduces
+> > > > MADV_ANONYMOUS_FILTER and MADV_FILE_FILTER options in madvise(2) like
+> > > > that /proc/<pid>/clear_refs already has supported same filters.
+> > > > They are filters could be Ored with other existing hints using top two bits
+> > > > of (int behavior).
+> > > 
+> > > madvise operates on top of ranges and it is quite trivial to do the
+> > > filtering from the userspace so why do we need any additional filtering?
+> > > 
+> > > > Once either of them is set, the hint could affect only the interested vma
+> > > > either anonymous or file-backed.
+> > > > 
+> > > > With that, user could call a process_madvise syscall simply with a entire
+> > > > range(0x0 - 0xFFFFFFFFFFFFFFFF) but either of MADV_ANONYMOUS_FILTER and
+> > > > MADV_FILE_FILTER so there is no need to call the syscall range by range.
+> > > 
+> > > OK, so here is the reason you want that. The immediate question is why
+> > > cannot the monitor do the filtering from the userspace. Slightly more
+> > > work, all right, but less of an API to expose and that itself is a
+> > > strong argument against.
+> > 
+> > What I should do if we don't have such filter option is to enumerate all of
+> > vma via /proc/<pid>/maps and then parse every ranges and inode from string,
+> > which would be painful for 2000+ vmas.
+> 
+> Just out of curiosity, how do you get to 2000+ distinct memory regions
+> in the address space of a mobile app? I'm assuming these aren't files,
+> but rather anon objects with poor grouping. Is that from guard pages
+> between individual heap allocations or something?
 
-I suspect that's the case.
-
-And if somebody really wants to just close everything and uses a large
-upper bound, we can - if we really want to - just compare the upper
-bound to the file table size, and do an optimized case for that. We do
-that upper bound comparison anyway to limit the size of the walk, so
-*if* it's a big deal, that case could then do the whole "shrink
-fdtable" case too.
-
-But I don't believe it's worth optimizing for unless somebody really
-has a load where that is shown to be a big deal.   Just do the silly
-and simple loop, and add a cond_resched() in the loop, like
-close_files() does for the "we have a _lot_ of files open" case.
-
-                   Linus
+Android uses preload library model to speed up app launch so it loads
+all of library in advance on zygote and forks new app based on it.
