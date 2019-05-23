@@ -2,237 +2,129 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E9DCB27C2D
-	for <lists+linux-api@lfdr.de>; Thu, 23 May 2019 13:51:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B0FC27C9C
+	for <lists+linux-api@lfdr.de>; Thu, 23 May 2019 14:21:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730540AbfEWLv2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 23 May 2019 07:51:28 -0400
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:44419 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730081AbfEWLvZ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 23 May 2019 07:51:25 -0400
-Received: by mail-ed1-f68.google.com with SMTP id b8so8798033edm.11
-        for <linux-api@vger.kernel.org>; Thu, 23 May 2019 04:51:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brauner.io; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=DxrwlFYynfpKWcnso1ASEMJy1QePVih8VzbqwCBkVwk=;
-        b=S/Ixtxvc2rCTBfYbzQGiR2W1gdfRhjumXOGgdu6z5ZJn93UKfws6k6ee18PWPXzlDD
-         34VNSUVl1F53yAPBVRFXImrLpe7sp1R3RWU6ueWOjvI6M8sU1iNP4im0skwaqTuQRUI3
-         sJIA+/8okDM6QZIbI5rbYpsc3IcvP6Y2vT3m/sqm3D8RJWvk/pCqLrz+0Bww9JTf0nJB
-         iYoTll8Maxv4hlDHAWHuPjFK29juGO9XVC/XtHjE4Ia93dBRDXi9FTYBwym4yIuDO3bU
-         KpK6X02jkldIOkbi8+Z06PuUo/TGQJMyBrB/dAr/0sdCeNd8eYTqTlNcvQeNZ+q4dvvT
-         hkvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=DxrwlFYynfpKWcnso1ASEMJy1QePVih8VzbqwCBkVwk=;
-        b=l8nZzMoKqmWA7cNUuNMZ8S8lut/pAKA6jg62ByFUNKKJcnXP/aKCrF4ubC4+fHRrGu
-         EX7A3ZdRtN+6duke/acXKoWzruAE2ld20LFB6RFmIaynB3paI3A4imJklLwN91Tp0mf+
-         czW9Io/SIQkuWvJ9ibTpt9kCxFKS4R2HAOhLFuobPWyNnVNd6odBe+mXARKRQhYqt9Mb
-         YqEu9Pv7MB6pSldE+Vfx4Ev2cFbFEiJroxV9XGmyhfL87/uZGdE5vVLjh+aBohlvW2gw
-         uoOA30QLjgs44Jap2fKtuZMCgCI8b6KjK+dMMYuiaH58ScZpsh4GzI3OjsTNRPYOKYnH
-         YmUg==
-X-Gm-Message-State: APjAAAWLlIwJVp2SbO+wR79qeIq3jJ3/Rl4jiA3WBNIzzQ+KW05WcGu3
-        PFgud4nPqULvTPaWq77WqEeq7g==
-X-Google-Smtp-Source: APXvYqx7/y/DNnexBZOnXkDyT0N3tMuirzQAMafDXHp1AgKt73Se0dTImjP3o0mVoffNMpPelxEu9Q==
-X-Received: by 2002:a50:84a1:: with SMTP id 30mr95678372edq.105.1558612282526;
-        Thu, 23 May 2019 04:51:22 -0700 (PDT)
-Received: from brauner.io (178-197-142-46.pool.kielnet.net. [46.142.197.178])
-        by smtp.gmail.com with ESMTPSA id h23sm4406908ejc.34.2019.05.23.04.51.21
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 23 May 2019 04:51:22 -0700 (PDT)
-Date:   Thu, 23 May 2019 13:51:20 +0200
-From:   Christian Brauner <christian@brauner.io>
-To:     Oleg Nesterov <oleg@redhat.com>
-Cc:     viro@zeniv.linux.org.uk, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        torvalds@linux-foundation.org, fweimer@redhat.com,
-        jannh@google.com, tglx@linutronix.de, arnd@arndb.de,
-        shuah@kernel.org, dhowells@redhat.com, tkjos@android.com,
-        ldv@altlinux.org, miklos@szeredi.hu, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-        linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        x86@kernel.org
-Subject: Re: [PATCH v1 1/2] open: add close_range()
-Message-ID: <20190523115118.pmscbd6kaqy37dym@brauner.io>
-References: <20190522155259.11174-1-christian@brauner.io>
- <20190522165737.GC4915@redhat.com>
+        id S1730046AbfEWMVZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 23 May 2019 08:21:25 -0400
+Received: from lhrrgout.huawei.com ([185.176.76.210]:32962 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728309AbfEWMVZ (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 23 May 2019 08:21:25 -0400
+Received: from lhreml705-cah.china.huawei.com (unknown [172.18.7.108])
+        by Forcepoint Email with ESMTP id DF1343C60C1E20BF93B0;
+        Thu, 23 May 2019 13:21:22 +0100 (IST)
+Received: from roberto-HP-EliteDesk-800-G2-DM-65W.huawei.com (10.204.65.154)
+ by smtpsuk.huawei.com (10.201.108.46) with Microsoft SMTP Server (TLS) id
+ 14.3.408.0; Thu, 23 May 2019 13:21:11 +0100
+From:   Roberto Sassu <roberto.sassu@huawei.com>
+To:     <viro@zeniv.linux.org.uk>
+CC:     <linux-security-module@vger.kernel.org>,
+        <linux-integrity@vger.kernel.org>, <initramfs@vger.kernel.org>,
+        <linux-api@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <bug-cpio@gnu.org>,
+        <zohar@linux.vnet.ibm.com>, <silviu.vlasceanu@huawei.com>,
+        <dmitry.kasatkin@huawei.com>, <takondra@cisco.com>,
+        <kamensky@cisco.com>, <hpa@zytor.com>, <arnd@arndb.de>,
+        <rob@landley.net>, <james.w.mcmechan@gmail.com>,
+        <niveditas98@gmail.com>, Roberto Sassu <roberto.sassu@huawei.com>
+Subject: [PATCH v4 0/3] initramfs: add support for xattrs in the initial ram disk
+Date:   Thu, 23 May 2019 14:18:00 +0200
+Message-ID: <20190523121803.21638-1-roberto.sassu@huawei.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190522165737.GC4915@redhat.com>
-User-Agent: NeoMutt/20180716
+Content-Type: text/plain
+X-Originating-IP: [10.204.65.154]
+X-CFilter-Loop: Reflected
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, May 22, 2019 at 06:57:37PM +0200, Oleg Nesterov wrote:
-> On 05/22, Christian Brauner wrote:
-> >
-> > +static struct file *pick_file(struct files_struct *files, unsigned fd)
-> >  {
-> > -	struct file *file;
-> > +	struct file *file = NULL;
-> >  	struct fdtable *fdt;
-> >  
-> >  	spin_lock(&files->file_lock);
-> > @@ -632,15 +629,65 @@ int __close_fd(struct files_struct *files, unsigned fd)
-> >  		goto out_unlock;
-> >  	rcu_assign_pointer(fdt->fd[fd], NULL);
-> >  	__put_unused_fd(files, fd);
-> > -	spin_unlock(&files->file_lock);
-> > -	return filp_close(file, files);
-> >  
-> >  out_unlock:
-> >  	spin_unlock(&files->file_lock);
-> > -	return -EBADF;
-> > +	return file;
-> 
-> ...
-> 
-> > +int __close_range(struct files_struct *files, unsigned fd, unsigned max_fd)
-> > +{
-> > +	unsigned int cur_max;
-> > +
-> > +	if (fd > max_fd)
-> > +		return -EINVAL;
-> > +
-> > +	rcu_read_lock();
-> > +	cur_max = files_fdtable(files)->max_fds;
-> > +	rcu_read_unlock();
-> > +
-> > +	/* cap to last valid index into fdtable */
-> > +	if (max_fd >= cur_max)
-> > +		max_fd = cur_max - 1;
-> > +
-> > +	while (fd <= max_fd) {
-> > +		struct file *file;
-> > +
-> > +		file = pick_file(files, fd++);
-> 
-> Well, how about something like
-> 
-> 	static unsigned int find_next_opened_fd(struct fdtable *fdt, unsigned start)
-> 	{
-> 		unsigned int maxfd = fdt->max_fds;
-> 		unsigned int maxbit = maxfd / BITS_PER_LONG;
-> 		unsigned int bitbit = start / BITS_PER_LONG;
-> 
-> 		bitbit = find_next_bit(fdt->full_fds_bits, maxbit, bitbit) * BITS_PER_LONG;
-> 		if (bitbit > maxfd)
-> 			return maxfd;
-> 		if (bitbit > start)
-> 			start = bitbit;
-> 		return find_next_bit(fdt->open_fds, maxfd, start);
-> 	}
+This patch set aims at solving the following use case: appraise files from
+the initial ram disk. To do that, IMA checks the signature/hash from the
+security.ima xattr. Unfortunately, this use case cannot be implemented
+currently, as the CPIO format does not support xattrs.
 
-> 
-> 	unsigned close_next_fd(struct files_struct *files, unsigned start, unsigned maxfd)
-> 	{
-> 		unsigned fd;
-> 		struct file *file;
-> 		struct fdtable *fdt;
-> 	
-> 		spin_lock(&files->file_lock);
-> 		fdt = files_fdtable(files);
-> 		fd = find_next_opened_fd(fdt, start);
-> 		if (fd >= fdt->max_fds || fd > maxfd) {
-> 			fd = -1;
-> 			goto out;
-> 		}
-> 
-> 		file = fdt->fd[fd];
-> 		rcu_assign_pointer(fdt->fd[fd], NULL);
-> 		__put_unused_fd(files, fd);
-> 	out:
-> 		spin_unlock(&files->file_lock);
-> 
-> 		if (fd == -1u)
-> 			return fd;
-> 
-> 		filp_close(file, files);
-> 		return fd + 1;
-> 	}
+This proposal consists in including file metadata as additional files named
+METADATA!!!, for each file added to the ram disk. The CPIO parser in the
+kernel recognizes these special files from the file name, and calls the
+appropriate parser to add metadata to the previously extracted file. It has
+been proposed to use bit 17:16 of the file mode as a way to recognize files
+with metadata, but both the kernel and the cpio tool declare the file mode
+as unsigned short.
 
-Thanks, Oleg!
+The difference from v2, v3 (https://lkml.org/lkml/2019/5/9/230,
+https://lkml.org/lkml/2019/5/17/466) is that file metadata are stored in
+separate files instead of a single file. Given that files with metadata
+must immediately follow the files metadata will be added to, image
+generators have to be modified in this version.
 
-I kept it dumb and was about to reply that your solution introduces more
-code when it seemed we wanted to keep this very simple for now.
-But then I saw that find_next_opened_fd() already exists as
-find_next_fd(). So it's actually not bad compared to what I sent in v1.
-So - with some small tweaks (need to test it and all now) - how do we
-feel about?:
+The difference from v1 (https://lkml.org/lkml/2018/11/22/1182) is that
+all files have the same name. The file metadata are added to is always the
+previous one, and the image generator in user space will make sure that
+files are in the correct sequence.
 
-/**
- * __close_next_open_fd() - Close the nearest open fd.
- *
- * @curfd: lowest file descriptor to consider
- * @maxfd: highest file descriptor to consider
- *
- * This function will close the nearest open fd, i.e. it will either
- * close @curfd if it is open or the closest open file descriptor
- * c greater than @curfd that
- * is smaller or equal to maxfd.
- * If the function found a file descriptor to close it will return 0 and
- * place the file descriptor it closed in @curfd. If it did not find a
- * file descriptor to close it will return -EBADF.
- */
-static int __close_next_open_fd(struct files_struct *files, unsigned *curfd, unsigned maxfd)
-{
-        struct file *file = NULL;
-	unsigned fd;
-	struct fdtable *fdt;
+The difference with another proposal
+(https://lore.kernel.org/patchwork/cover/888071/) is that xattrs can be
+included in an image without changing the image format. Files with metadata
+will appear as regular files. It will be task of the parser in the kernel
+to process them.
 
-	spin_lock(&files->file_lock);
-	fdt = files_fdtable(files);
-	fd = find_next_fd(fdt, *curfd);
-	if (fd >= fdt->max_fds || fd > maxfd)
-		goto out_unlock;
+This patch set extends the format of data defined in patch 9/15 of the last
+proposal. It adds header version and type, so that new formats can be
+defined and arbitrary metadata types can be processed.
 
-	file = fdt->fd[fd];
-	rcu_assign_pointer(fdt->fd[fd], NULL);
-	__put_unused_fd(files, fd);
+The changes introduced by this patch set don't cause any compatibility
+issue: kernels without the metadata parser simply extract the special files
+and don't process metadata; kernels with the metadata parser don't process
+metadata if the special files are not included in the image.
 
-out_unlock:
-	spin_unlock(&files->file_lock);
+From the kernel space perspective, backporting this functionality to older
+kernels should be very easy. It is sufficient to add two calls to the new
+function do_process_metadata() in do_copy(), and to check the file name in
+do_name(). From the user space perspective, unlike the previous version of
+the patch set, it is required to modify the image generators in order to
+include metadata as separate files.
 
-	if (!file)
-		return -EBADF;
+Changelog
 
-	*curfd = fd;
-	filp_close(file, files);
-	return 0;
-}
+v3:
+- include file metadata as separate files named METADATA!!!
+- add the possibility to include in the ram disk arbitrary metadata types
 
-int __close_range(struct files_struct *files, unsigned fd, unsigned max_fd)
-{
-	if (fd > max_fd)
-		return -EINVAL;
+v2:
+- replace ksys_lsetxattr() with kern_path() and vfs_setxattr()
+  (suggested by Jann Horn)
+- replace ksys_open()/ksys_read()/ksys_close() with
+  filp_open()/kernel_read()/fput()
+  (suggested by Jann Horn)
+- use path variable instead of name_buf in do_readxattrs()
+- set last byte of str to 0 in do_readxattrs()
+- call do_readxattrs() in do_name() before replacing an existing
+  .xattr-list
+- pass pathname to do_setxattrs()
 
-	while (fd <= max_fd) {
-		if (__close_next_fd(files, &fd, maxfd))
-			break;
+v1:
+- move xattr unmarshaling to CPIO parser
 
-		cond_resched();
-		fd++;
-	}
 
-	return 0;
-}
+Mimi Zohar (1):
+  initramfs: add file metadata
 
-SYSCALL_DEFINE3(close_range, unsigned int, fd, unsigned int, max_fd,
-		unsigned int, flags)
-{
-	if (flags)
-		return -EINVAL;
+Roberto Sassu (2):
+  initramfs: read metadata from special file METADATA!!!
+  gen_init_cpio: add support for file metadata
 
-	return __close_range(current->files, fd, max_fd);
-}
+ include/linux/initramfs.h |  21 ++++++
+ init/initramfs.c          | 137 +++++++++++++++++++++++++++++++++++++-
+ usr/Kconfig               |   8 +++
+ usr/Makefile              |   4 +-
+ usr/gen_init_cpio.c       | 137 ++++++++++++++++++++++++++++++++++++--
+ usr/gen_initramfs_list.sh |  10 ++-
+ 6 files changed, 305 insertions(+), 12 deletions(-)
+ create mode 100644 include/linux/initramfs.h
+
+-- 
+2.17.1
+
