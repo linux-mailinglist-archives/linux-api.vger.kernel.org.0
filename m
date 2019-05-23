@@ -2,191 +2,237 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 97BC727436
-	for <lists+linux-api@lfdr.de>; Thu, 23 May 2019 04:01:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9DCB27C2D
+	for <lists+linux-api@lfdr.de>; Thu, 23 May 2019 13:51:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729616AbfEWCA5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 22 May 2019 22:00:57 -0400
-Received: from mx1.mailbox.org ([80.241.60.212]:47140 "EHLO mx1.mailbox.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727691AbfEWCA5 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 22 May 2019 22:00:57 -0400
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:105:465:1:2:0])
-        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
-        (No client certificate requested)
-        by mx1.mailbox.org (Postfix) with ESMTPS id 6311252105;
-        Thu, 23 May 2019 04:00:53 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp2.mailbox.org ([80.241.60.241])
-        by spamfilter05.heinlein-hosting.de (spamfilter05.heinlein-hosting.de [80.241.56.123]) (amavisd-new, port 10030)
-        with ESMTP id IywjhBoiZwGj; Thu, 23 May 2019 04:00:27 +0200 (CEST)
-Date:   Thu, 23 May 2019 12:00:09 +1000
-From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J. Bruce Fields" <bfields@fieldses.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        David Howells <dhowells@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Christian Brauner <christian@brauner.io>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Tycho Andersen <tycho@tycho.ws>,
-        David Drysdale <drysdale@google.com>,
-        Chanho Min <chanho.min@lge.com>,
-        Oleg Nesterov <oleg@redhat.com>, Aleksa Sarai <asarai@suse.de>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>
-Subject: Re: [PATCH RFC v8 01/10] namei: obey trailing magic-link DAC
- permissions
-Message-ID: <20190523020009.mi25uziu2b3whf4l@yavin>
-References: <20190520133305.11925-1-cyphar@cyphar.com>
- <20190520133305.11925-2-cyphar@cyphar.com>
- <CALCETrVCwe49q5mu=f6jTYNSgosQSjjY5chukMPo6eZtQGqo5g@mail.gmail.com>
+        id S1730540AbfEWLv2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 23 May 2019 07:51:28 -0400
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:44419 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730081AbfEWLvZ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 23 May 2019 07:51:25 -0400
+Received: by mail-ed1-f68.google.com with SMTP id b8so8798033edm.11
+        for <linux-api@vger.kernel.org>; Thu, 23 May 2019 04:51:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=brauner.io; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=DxrwlFYynfpKWcnso1ASEMJy1QePVih8VzbqwCBkVwk=;
+        b=S/Ixtxvc2rCTBfYbzQGiR2W1gdfRhjumXOGgdu6z5ZJn93UKfws6k6ee18PWPXzlDD
+         34VNSUVl1F53yAPBVRFXImrLpe7sp1R3RWU6ueWOjvI6M8sU1iNP4im0skwaqTuQRUI3
+         sJIA+/8okDM6QZIbI5rbYpsc3IcvP6Y2vT3m/sqm3D8RJWvk/pCqLrz+0Bww9JTf0nJB
+         iYoTll8Maxv4hlDHAWHuPjFK29juGO9XVC/XtHjE4Ia93dBRDXi9FTYBwym4yIuDO3bU
+         KpK6X02jkldIOkbi8+Z06PuUo/TGQJMyBrB/dAr/0sdCeNd8eYTqTlNcvQeNZ+q4dvvT
+         hkvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=DxrwlFYynfpKWcnso1ASEMJy1QePVih8VzbqwCBkVwk=;
+        b=l8nZzMoKqmWA7cNUuNMZ8S8lut/pAKA6jg62ByFUNKKJcnXP/aKCrF4ubC4+fHRrGu
+         EX7A3ZdRtN+6duke/acXKoWzruAE2ld20LFB6RFmIaynB3paI3A4imJklLwN91Tp0mf+
+         czW9Io/SIQkuWvJ9ibTpt9kCxFKS4R2HAOhLFuobPWyNnVNd6odBe+mXARKRQhYqt9Mb
+         YqEu9Pv7MB6pSldE+Vfx4Ev2cFbFEiJroxV9XGmyhfL87/uZGdE5vVLjh+aBohlvW2gw
+         uoOA30QLjgs44Jap2fKtuZMCgCI8b6KjK+dMMYuiaH58ScZpsh4GzI3OjsTNRPYOKYnH
+         YmUg==
+X-Gm-Message-State: APjAAAWLlIwJVp2SbO+wR79qeIq3jJ3/Rl4jiA3WBNIzzQ+KW05WcGu3
+        PFgud4nPqULvTPaWq77WqEeq7g==
+X-Google-Smtp-Source: APXvYqx7/y/DNnexBZOnXkDyT0N3tMuirzQAMafDXHp1AgKt73Se0dTImjP3o0mVoffNMpPelxEu9Q==
+X-Received: by 2002:a50:84a1:: with SMTP id 30mr95678372edq.105.1558612282526;
+        Thu, 23 May 2019 04:51:22 -0700 (PDT)
+Received: from brauner.io (178-197-142-46.pool.kielnet.net. [46.142.197.178])
+        by smtp.gmail.com with ESMTPSA id h23sm4406908ejc.34.2019.05.23.04.51.21
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Thu, 23 May 2019 04:51:22 -0700 (PDT)
+Date:   Thu, 23 May 2019 13:51:20 +0200
+From:   Christian Brauner <christian@brauner.io>
+To:     Oleg Nesterov <oleg@redhat.com>
+Cc:     viro@zeniv.linux.org.uk, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        torvalds@linux-foundation.org, fweimer@redhat.com,
+        jannh@google.com, tglx@linutronix.de, arnd@arndb.de,
+        shuah@kernel.org, dhowells@redhat.com, tkjos@android.com,
+        ldv@altlinux.org, miklos@szeredi.hu, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+        linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        x86@kernel.org
+Subject: Re: [PATCH v1 1/2] open: add close_range()
+Message-ID: <20190523115118.pmscbd6kaqy37dym@brauner.io>
+References: <20190522155259.11174-1-christian@brauner.io>
+ <20190522165737.GC4915@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="mqlbmyoyuxzxnuxp"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CALCETrVCwe49q5mu=f6jTYNSgosQSjjY5chukMPo6eZtQGqo5g@mail.gmail.com>
+In-Reply-To: <20190522165737.GC4915@redhat.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Wed, May 22, 2019 at 06:57:37PM +0200, Oleg Nesterov wrote:
+> On 05/22, Christian Brauner wrote:
+> >
+> > +static struct file *pick_file(struct files_struct *files, unsigned fd)
+> >  {
+> > -	struct file *file;
+> > +	struct file *file = NULL;
+> >  	struct fdtable *fdt;
+> >  
+> >  	spin_lock(&files->file_lock);
+> > @@ -632,15 +629,65 @@ int __close_fd(struct files_struct *files, unsigned fd)
+> >  		goto out_unlock;
+> >  	rcu_assign_pointer(fdt->fd[fd], NULL);
+> >  	__put_unused_fd(files, fd);
+> > -	spin_unlock(&files->file_lock);
+> > -	return filp_close(file, files);
+> >  
+> >  out_unlock:
+> >  	spin_unlock(&files->file_lock);
+> > -	return -EBADF;
+> > +	return file;
+> 
+> ...
+> 
+> > +int __close_range(struct files_struct *files, unsigned fd, unsigned max_fd)
+> > +{
+> > +	unsigned int cur_max;
+> > +
+> > +	if (fd > max_fd)
+> > +		return -EINVAL;
+> > +
+> > +	rcu_read_lock();
+> > +	cur_max = files_fdtable(files)->max_fds;
+> > +	rcu_read_unlock();
+> > +
+> > +	/* cap to last valid index into fdtable */
+> > +	if (max_fd >= cur_max)
+> > +		max_fd = cur_max - 1;
+> > +
+> > +	while (fd <= max_fd) {
+> > +		struct file *file;
+> > +
+> > +		file = pick_file(files, fd++);
+> 
+> Well, how about something like
+> 
+> 	static unsigned int find_next_opened_fd(struct fdtable *fdt, unsigned start)
+> 	{
+> 		unsigned int maxfd = fdt->max_fds;
+> 		unsigned int maxbit = maxfd / BITS_PER_LONG;
+> 		unsigned int bitbit = start / BITS_PER_LONG;
+> 
+> 		bitbit = find_next_bit(fdt->full_fds_bits, maxbit, bitbit) * BITS_PER_LONG;
+> 		if (bitbit > maxfd)
+> 			return maxfd;
+> 		if (bitbit > start)
+> 			start = bitbit;
+> 		return find_next_bit(fdt->open_fds, maxfd, start);
+> 	}
 
---mqlbmyoyuxzxnuxp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> 
+> 	unsigned close_next_fd(struct files_struct *files, unsigned start, unsigned maxfd)
+> 	{
+> 		unsigned fd;
+> 		struct file *file;
+> 		struct fdtable *fdt;
+> 	
+> 		spin_lock(&files->file_lock);
+> 		fdt = files_fdtable(files);
+> 		fd = find_next_opened_fd(fdt, start);
+> 		if (fd >= fdt->max_fds || fd > maxfd) {
+> 			fd = -1;
+> 			goto out;
+> 		}
+> 
+> 		file = fdt->fd[fd];
+> 		rcu_assign_pointer(fdt->fd[fd], NULL);
+> 		__put_unused_fd(files, fd);
+> 	out:
+> 		spin_unlock(&files->file_lock);
+> 
+> 		if (fd == -1u)
+> 			return fd;
+> 
+> 		filp_close(file, files);
+> 		return fd + 1;
+> 	}
 
-On 2019-05-22, Andy Lutomirski <luto@kernel.org> wrote:
-> On Mon, May 20, 2019 at 6:34 AM Aleksa Sarai <cyphar@cyphar.com> wrote:
-> > One final exception is given, which is that non-O_PATH file descriptors
-> > are given re-open rights equivalent to the permissions available at
-> > open-time. This allows for O_RDONLY file descriptors to be re-opened
-> > O_RDWR as long as the user had MAY_WRITE access at the time of opening
-> > the O_RDONLY descriptor. This is necessary to avoid breaking userspace
-> > (some of the kernel's own selftests depended on this "feature").
->=20
-> Can you clarify this exception a bit?  I'd like to make sure it's not
-> such a huge exception that it invalidates the whole point of the
-> patch.
+Thanks, Oleg!
 
-Sure. This exception applies to regular file opens, and the idea is that
-the user had permissions to open the file O_RDWR originally (even if
-they opened it O_RDONLY) so re-opening it O_RDWR later should not be an
-issue (they could've just opened it O_RDWR in the first place). These
-permissions still get masked by nd->opath_mask, so opening a magic-link
-or including an O_PATH doesn't increase the permission set.
+I kept it dumb and was about to reply that your solution introduces more
+code when it seemed we wanted to keep this very simple for now.
+But then I saw that find_next_opened_fd() already exists as
+find_next_fd(). So it's actually not bad compared to what I sent in v1.
+So - with some small tweaks (need to test it and all now) - how do we
+feel about?:
 
-This does mean that an O_RDONLY open (if the user could've done an
-O_RDWR and still done the open) results in an FMODE_PATH_WRITE. To be
-honest, I'm still on the fence whether this is a great idea or not (and
-I'd prefer to not include it). Though, I don't think it invalidates the
-patch though, since the attack scenario of a read-only file being
-re-opened later as read-write is still blocked.
+/**
+ * __close_next_open_fd() - Close the nearest open fd.
+ *
+ * @curfd: lowest file descriptor to consider
+ * @maxfd: highest file descriptor to consider
+ *
+ * This function will close the nearest open fd, i.e. it will either
+ * close @curfd if it is open or the closest open file descriptor
+ * c greater than @curfd that
+ * is smaller or equal to maxfd.
+ * If the function found a file descriptor to close it will return 0 and
+ * place the file descriptor it closed in @curfd. If it did not find a
+ * file descriptor to close it will return -EBADF.
+ */
+static int __close_next_open_fd(struct files_struct *files, unsigned *curfd, unsigned maxfd)
+{
+        struct file *file = NULL;
+	unsigned fd;
+	struct fdtable *fdt;
 
-The main reason for including it is the concern that there is some
-program from 1993 running in a basement somewhere that depends on this
-that we don't know about. Though, as a counter-example, I have run this
-patchset (without this exception) on my laptop for a few days without
-any visible issues.
+	spin_lock(&files->file_lock);
+	fdt = files_fdtable(files);
+	fd = find_next_fd(fdt, *curfd);
+	if (fd >= fdt->max_fds || fd > maxfd)
+		goto out_unlock;
 
-> If you open a file for execute, by actually exec()ing it or by using
-> something like the proposed O_MAYEXEC, and you have inode_permission
-> to write, do you still end up with FMODE_PATH_WRITE? The code looks
-> like it does, and this seems like it might be a mistake.
+	file = fdt->fd[fd];
+	rcu_assign_pointer(fdt->fd[fd], NULL);
+	__put_unused_fd(files, fd);
 
-I'm not sure about the execve(2) example -- after all, you don't get an
-fd from execve(2) and /proc/self/exe still has a mode a+rx.
+out_unlock:
+	spin_unlock(&files->file_lock);
 
-I'm also not sure what the semantics of a hypothetical O_MAYEXEC would
-be -- but we'd probably want to discuss re-opening semantics when it
-gets included. I would argue that since O_MAYEXEC would likely be merged
-after this, no userspace code would depend on this mis-feature and we
-could decide to not include FMODE_EXECv2 in the handling of additional
-permissions.
+	if (!file)
+		return -EBADF;
 
-As an aside, I did originally implement RESOLVE_UPGRADE_NOEXEC (and the
-corresponding FMODE_PATH_EXEC handling). It worked for the most part,
-though execveat(AT_EMPTY_PATH) would need some additional changes to do
-the may_open_magiclink() checks and I decided against including it here
-until we had an O_MAYEXEC.
+	*curfd = fd;
+	filp_close(file, files);
+	return 0;
+}
 
-> Is there any way for user code to read out these new file mode bits?
+int __close_range(struct files_struct *files, unsigned fd, unsigned max_fd)
+{
+	if (fd > max_fd)
+		return -EINVAL;
 
-There is, but it's not exactly trivial. You could check the mode of
-/proc/self/fd and then compare it to the acc_mode of the "flags"
-/proc/self/fdinfo. The bits present in /proc/self/fd but not in acc_mode
-are the FMODE_PATH_* bits.
+	while (fd <= max_fd) {
+		if (__close_next_fd(files, &fd, maxfd))
+			break;
 
-However, this is quite an ugly way of doing it. I see two options to
-make it easier:
+		cond_resched();
+		fd++;
+	}
 
- 1. We can add additional information to fdinfo so it includes that
-    FMODE_PATH_* bits to indicate how the fd can be upgraded.
+	return 0;
+}
 
- 2. Previously, only the u bits of the fd mode were used to represent the
-    open flags. We could add the FMODE_PATH_* permissions to the g bits
-    and change how the permission check in trailing_symlink() operates.
+SYSCALL_DEFINE3(close_range, unsigned int, fd, unsigned int, max_fd,
+		unsigned int, flags)
+{
+	if (flags)
+		return -EINVAL;
 
-    The really neat thing here is that we could then know for sure which
-    fmode bits are set during name lookup of a magic-link rather than
-    assuming they're all FMODE_PATH_* bits.
-
-    In addition, userspace that depends on checking the u bits of an fd
-    mode would continue to work (though I'm not aware of any userspace
-    code that does depend on this).
-
-Option 2 seems nicer to me in some respects, but it has the additional
-cost of making the permission check less obvious (it's no longer an
-"inode_permission" and is instead something different with a weird new
-set of semantics). Then again, the modes of magic-links weren't obeyed
-in the first place so I'd argue these semantics are entirely up for us
-to decide.
-
-> What are actual examples of uses for this exception?  Breaking
-> selftests is not, in and of itself, a huge problem.
-
-Not as far as I know. All of the re-opening users I know of do re-opens
-of O_PATH or are re-opening with the same (or fewer) privileges. I also
-ran this for a few days on my laptop without this exception, and didn't
-have any visible issues.
-
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-<https://www.cyphar.com/>
-
---mqlbmyoyuxzxnuxp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEb6Gz4/mhjNy+aiz1Snvnv3Dem58FAlzl/qUACgkQSnvnv3De
-m5/O+RAA3pdApPb48XJD4ExYCVJOdzKgy9Tfayj+cr3F5V3uVAGmdpXpXSsQHlT7
-wi+V5W6qsycYQPdn+JzKbVHwNaAlmsKNIowUDQ7NMykj+JjfPFPBWmbt1PVe9qej
-z9Q5WSFI3wefQGmQrP8VCKvnAo9WrYpe4ns/76SDEf2wHZD29QrK6ODPK83XJ/E4
-3BOets8Bp+pfM5jko9rRGS5jhvnNNd1zu5NMu4folvCC8AjmwvGBpJomrjSJKeGo
-zevcwNtMtp6ZPQiuCJQDDG7op4o21Fm+daifODOorh/wrrgp39AVTcNnHZrVVUnR
-ac03BeIzK7Y6TjQSRMn5cBfgeB8RrDxtzAtRSyEWGCkmvM9es9+eOEjn6f1dYF96
-sN75Kp1MAsPpLV5cmKSHCrPzRepKYm2vZJWrFE0igwj476z9y+Nx4DJR3iVbjaNS
-oFk4LtujWazXWzUKB7/a/s7IBwjsV6XZqKmbGthlOaEQniBEYyq+KboyHmODZj0n
-7TZnqJW1eXxYbRIEoagCjYwOF+F8m/ViGL4rSIkIgTqZ40+PTXL4372ikSo5TTCj
-6RMH7+NGZMMllmuy6p3/2jZgwZJexnky+G4TsRYH5O0AhcwvLjn0efg7w/zncl+6
-gQkl4hnn30STItTrQD5EfjRoowVNTp4BiPlKu8nmIwZEPB9Rjq0=
-=zmQ7
------END PGP SIGNATURE-----
-
---mqlbmyoyuxzxnuxp--
+	return __close_range(current->files, fd, max_fd);
+}
