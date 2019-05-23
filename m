@@ -2,451 +2,178 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BEB4327E58
-	for <lists+linux-api@lfdr.de>; Thu, 23 May 2019 15:41:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EEDA727F41
+	for <lists+linux-api@lfdr.de>; Thu, 23 May 2019 16:15:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729902AbfEWNlt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 23 May 2019 09:41:49 -0400
-Received: from lhrrgout.huawei.com ([185.176.76.210]:32966 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729698AbfEWNlt (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 23 May 2019 09:41:49 -0400
-Received: from lhreml705-cah.china.huawei.com (unknown [172.18.7.108])
-        by Forcepoint Email with ESMTP id 6F7EF4F3DADC617547CA;
-        Thu, 23 May 2019 14:41:46 +0100 (IST)
-Received: from roberto-HP-EliteDesk-800-G2-DM-65W.huawei.com (10.204.65.154)
- by smtpsuk.huawei.com (10.201.108.46) with Microsoft SMTP Server (TLS) id
- 14.3.408.0; Thu, 23 May 2019 14:41:34 +0100
-From:   Roberto Sassu <roberto.sassu@huawei.com>
-To:     <viro@zeniv.linux.org.uk>
-CC:     <linux-security-module@vger.kernel.org>,
-        <linux-integrity@vger.kernel.org>, <initramfs@vger.kernel.org>,
-        <linux-api@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <bug-cpio@gnu.org>,
-        <zohar@linux.vnet.ibm.com>, <silviu.vlasceanu@huawei.com>,
-        <dmitry.kasatkin@huawei.com>, <takondra@cisco.com>,
-        <kamensky@cisco.com>, <hpa@zytor.com>, <arnd@arndb.de>,
-        <rob@landley.net>, <james.w.mcmechan@gmail.com>,
-        <niveditas98@gmail.com>, Roberto Sassu <roberto.sassu@huawei.com>
-Subject: [USER][PATCH] cpio: add option to add file metadata in copy-out mode
-Date:   Thu, 23 May 2019 15:38:24 +0200
-Message-ID: <20190523133824.710-1-roberto.sassu@huawei.com>
-X-Mailer: git-send-email 2.17.1
+        id S1730885AbfEWOPB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 23 May 2019 10:15:01 -0400
+Received: from mail-it1-f194.google.com ([209.85.166.194]:38716 "EHLO
+        mail-it1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730818AbfEWOPA (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 23 May 2019 10:15:00 -0400
+Received: by mail-it1-f194.google.com with SMTP id i63so8728858ita.3
+        for <linux-api@vger.kernel.org>; Thu, 23 May 2019 07:15:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=brauner.io; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=rgSvHJdgJSnF7/xiB9jp3IYiH1RwVXYwyOL2WgM6elM=;
+        b=agfu05mcW6DVn/laHbq7o5peWWMubiiXLa3+mtVVF+i5l0QEt93/bvKWl3JbPoVwXl
+         0k64ioj3Ph2BkMXRRbAHKAFfkxjOHDSRt5NCBWr2asYnRnNKZL4zjdQz3kH7Jqukj0z6
+         2og5izGp8YNUen+yStzQvEMwIJdLGCCPJJnwa/rcJXm71w0kxDdqtXnMzoicLjGDEAWi
+         ZhH0AtrgRENAHSCoFkVjHZZZaCx513l14vIozc4GzDXmosIFXifqXJPpo1kJBs9fbYoH
+         SAsp9lAUDI9bdzdzBP2B3VcM+Tv5WeTYZNB/it3XGBVA35In6f74kJj0SxBCXK8Oqary
+         LS0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=rgSvHJdgJSnF7/xiB9jp3IYiH1RwVXYwyOL2WgM6elM=;
+        b=mbUe1tegrvstyBLqxcNEqhVuUSG/Kd+rhoCAdYrJZv7kDfThFNLuh6Wk9IpjxwQgpP
+         XQZglqh/xEgAESQwlCceD2HupYRkLhD1eHzMdc6oQZytyOsn2+KCmlUO/BQMQpvKa2iy
+         9BtB5SPejWSEwpQ3iABiBoOBzjgfcQxTGwGeaDdbThu6iO/GW5ykVh6fAZ3x9RR11QaG
+         kpeUY/8cXD1+ZkFd5ZJMiIZoB71chnXPgYWoNZMybQgUxVPCMbonrsuf2UGmzkSf8k8l
+         bBmSos9rCYiePvN5clhEXwVQ7Z/haEvb9svR1Q7Q5oqlP81h/5PGyGXMYcS2rSdNiZE5
+         WGZg==
+X-Gm-Message-State: APjAAAWN/dHaJSW0h69jMhqDS/XulEYIn7HQbNbE5Tf8wGvVESK+fBVe
+        SdurpFCuXRPEIcCaHSQtggI3nQ==
+X-Google-Smtp-Source: APXvYqy9XAMrNMkQarBeYE8e7HlYFHTwYh86KxFNh1Z1HbzreF/S6QYjLd8wwHWfkp2KJKFiXZBbVg==
+X-Received: by 2002:a24:590f:: with SMTP id p15mr12892482itb.12.1558620899772;
+        Thu, 23 May 2019 07:14:59 -0700 (PDT)
+Received: from brauner.io ([172.56.12.187])
+        by smtp.gmail.com with ESMTPSA id q142sm4141521itb.17.2019.05.23.07.14.51
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Thu, 23 May 2019 07:14:58 -0700 (PDT)
+Date:   Thu, 23 May 2019 16:14:48 +0200
+From:   Christian Brauner <christian@brauner.io>
+To:     Oleg Nesterov <oleg@redhat.com>
+Cc:     viro@zeniv.linux.org.uk, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        torvalds@linux-foundation.org, fweimer@redhat.com,
+        jannh@google.com, tglx@linutronix.de, arnd@arndb.de,
+        shuah@kernel.org, dhowells@redhat.com, tkjos@android.com,
+        ldv@altlinux.org, miklos@szeredi.hu, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+        linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        x86@kernel.org
+Subject: Re: [PATCH v1 1/2] open: add close_range()
+Message-ID: <20190523141447.34s3kc3fuwmoeq7n@brauner.io>
+References: <20190522155259.11174-1-christian@brauner.io>
+ <20190522165737.GC4915@redhat.com>
+ <20190523115118.pmscbd6kaqy37dym@brauner.io>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.204.65.154]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190523115118.pmscbd6kaqy37dym@brauner.io>
+User-Agent: NeoMutt/20180716
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This patch adds the -e <type> option to include file metadata in the image.
-At the moment, only the xattr type is supported.
+On Thu, May 23, 2019 at 01:51:18PM +0200, Christian Brauner wrote:
+> On Wed, May 22, 2019 at 06:57:37PM +0200, Oleg Nesterov wrote:
+> > On 05/22, Christian Brauner wrote:
+> > >
+> > > +static struct file *pick_file(struct files_struct *files, unsigned fd)
+> > >  {
+> > > -	struct file *file;
+> > > +	struct file *file = NULL;
+> > >  	struct fdtable *fdt;
+> > >  
+> > >  	spin_lock(&files->file_lock);
+> > > @@ -632,15 +629,65 @@ int __close_fd(struct files_struct *files, unsigned fd)
+> > >  		goto out_unlock;
+> > >  	rcu_assign_pointer(fdt->fd[fd], NULL);
+> > >  	__put_unused_fd(files, fd);
+> > > -	spin_unlock(&files->file_lock);
+> > > -	return filp_close(file, files);
+> > >  
+> > >  out_unlock:
+> > >  	spin_unlock(&files->file_lock);
+> > > -	return -EBADF;
+> > > +	return file;
+> > 
+> > ...
+> > 
+> > > +int __close_range(struct files_struct *files, unsigned fd, unsigned max_fd)
+> > > +{
+> > > +	unsigned int cur_max;
+> > > +
+> > > +	if (fd > max_fd)
+> > > +		return -EINVAL;
+> > > +
+> > > +	rcu_read_lock();
+> > > +	cur_max = files_fdtable(files)->max_fds;
+> > > +	rcu_read_unlock();
+> > > +
+> > > +	/* cap to last valid index into fdtable */
+> > > +	if (max_fd >= cur_max)
+> > > +		max_fd = cur_max - 1;
+> > > +
+> > > +	while (fd <= max_fd) {
+> > > +		struct file *file;
+> > > +
+> > > +		file = pick_file(files, fd++);
+> > 
+> > Well, how about something like
+> > 
+> > 	static unsigned int find_next_opened_fd(struct fdtable *fdt, unsigned start)
+> > 	{
+> > 		unsigned int maxfd = fdt->max_fds;
+> > 		unsigned int maxbit = maxfd / BITS_PER_LONG;
+> > 		unsigned int bitbit = start / BITS_PER_LONG;
+> > 
+> > 		bitbit = find_next_bit(fdt->full_fds_bits, maxbit, bitbit) * BITS_PER_LONG;
+> > 		if (bitbit > maxfd)
+> > 			return maxfd;
+> > 		if (bitbit > start)
+> > 			start = bitbit;
+> > 		return find_next_bit(fdt->open_fds, maxfd, start);
+> > 	}
+> 
+> > 
+> > 	unsigned close_next_fd(struct files_struct *files, unsigned start, unsigned maxfd)
+> > 	{
+> > 		unsigned fd;
+> > 		struct file *file;
+> > 		struct fdtable *fdt;
+> > 	
+> > 		spin_lock(&files->file_lock);
+> > 		fdt = files_fdtable(files);
+> > 		fd = find_next_opened_fd(fdt, start);
+> > 		if (fd >= fdt->max_fds || fd > maxfd) {
+> > 			fd = -1;
+> > 			goto out;
+> > 		}
+> > 
+> > 		file = fdt->fd[fd];
+> > 		rcu_assign_pointer(fdt->fd[fd], NULL);
+> > 		__put_unused_fd(files, fd);
+> > 	out:
+> > 		spin_unlock(&files->file_lock);
+> > 
+> > 		if (fd == -1u)
+> > 			return fd;
+> > 
+> > 		filp_close(file, files);
+> > 		return fd + 1;
+> > 	}
+> 
+> Thanks, Oleg!
+> 
+> I kept it dumb and was about to reply that your solution introduces more
+> code when it seemed we wanted to keep this very simple for now.
+> But then I saw that find_next_opened_fd() already exists as
+> find_next_fd(). So it's actually not bad compared to what I sent in v1.
+> So - with some small tweaks (need to test it and all now) - how do we
+> feel about?:
 
-If the xattr type is selected, the patch includes an additional file for
-each file passed to stdin, with special name 'METADATA!!!'. The additional
-file might contain multiple metadata records. The format of each record is:
+That's obviously not correct atm but I'll send out a tweaked version in
+a bit.
 
-<metadata len (ASCII, 8 chars)><version><type><metadata>
-
-The format of metadata for the xattr type is:
-
-<xattr name>\0<xattr value>
-
-Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
----
- doc/cpio.texi   |   3 ++
- src/copyout.c   | 136 ++++++++++++++++++++++++++++++++++++++++++++++--
- src/dstring.c   |  26 +++++++--
- src/dstring.h   |   1 +
- src/extern.h    |   2 +
- src/global.c    |   2 +
- src/initramfs.h |  21 ++++++++
- src/main.c      |  22 ++++++++
- 8 files changed, 206 insertions(+), 7 deletions(-)
- create mode 100644 src/initramfs.h
-
-diff --git a/doc/cpio.texi b/doc/cpio.texi
-index e667b48..d7b311f 100644
---- a/doc/cpio.texi
-+++ b/doc/cpio.texi
-@@ -275,6 +275,9 @@ Set the I/O block size to the given @var{number} of bytes.
- @item -D @var{dir}
- @itemx --directory=@var{dir}
- Change to directory @var{dir}
-+@item -e @var{type}
-+@itemx --file-metadata=@var{type}
-+Include in the image file metadata with the specified type.
- @item --force-local
- Treat the archive file as local, even if its name contains colons.
- @item -F [[@var{user}@@]@var{host}:]@var{archive-file}
-diff --git a/src/copyout.c b/src/copyout.c
-index 7532dac..f0e512a 100644
---- a/src/copyout.c
-+++ b/src/copyout.c
-@@ -22,6 +22,7 @@
- #include <stdio.h>
- #include <sys/types.h>
- #include <sys/stat.h>
-+#include <sys/xattr.h>
- #include "filetypes.h"
- #include "cpiohdr.h"
- #include "dstring.h"
-@@ -578,6 +579,92 @@ assign_string (char **pvar, char *value)
-   *pvar = p;
- }
- 
-+static int
-+write_xattrs (int metadata_fd, char *path)
-+{
-+  struct metadata_hdr hdr = { .c_version = 1, .c_type = TYPE_XATTR };
-+  char str[sizeof(hdr.c_size) + 1];
-+  char *xattr_list, *list_ptr, *xattr_value;
-+  ssize_t list_len, name_len, value_len, len;
-+  int ret = -EINVAL;
-+
-+  if (metadata_fd < 0)
-+    return 0;
-+
-+  list_len = llistxattr(path, NULL, 0);
-+  if (list_len <= 0)
-+    return -ENOENT;
-+
-+  list_ptr = xattr_list = malloc(list_len);
-+  if (!list_ptr) {
-+    error (0, 0, _("out of memory"));
-+    return ret;
-+  }
-+
-+  len = llistxattr(path, xattr_list, list_len);
-+  if (len != list_len)
-+    goto out;
-+
-+  if (ftruncate(metadata_fd, 0))
-+    goto out;
-+
-+  lseek(metadata_fd, 0, SEEK_SET);
-+
-+  while (list_ptr < xattr_list + list_len) {
-+    name_len = strlen(list_ptr);
-+
-+    value_len = lgetxattr(path, list_ptr, NULL, 0);
-+    if (value_len < 0) {
-+      error (0, 0, _("cannot get xattrs"));
-+      break;
-+    }
-+
-+    if (value_len) {
-+      xattr_value = malloc(value_len);
-+      if (!xattr_value) {
-+	error (0, 0, _("out of memory"));
-+	break;
-+      }
-+    } else {
-+      xattr_value = NULL;
-+    }
-+
-+    len = lgetxattr(path, list_ptr, xattr_value, value_len);
-+    if (len != value_len)
-+      break;
-+
-+    snprintf(str, sizeof(str), "%.8lx",
-+	     sizeof(hdr) + name_len + 1 + value_len);
-+
-+    memcpy(hdr.c_size, str, sizeof(hdr.c_size));
-+
-+    if (write(metadata_fd, &hdr, sizeof(hdr)) != sizeof(hdr))
-+      break;
-+
-+    if (write(metadata_fd, list_ptr, name_len + 1) != name_len + 1)
-+      break;
-+
-+    if (write(metadata_fd, xattr_value, value_len) != value_len)
-+      break;
-+
-+    if (fsync(metadata_fd))
-+      break;
-+
-+    list_ptr += name_len + 1;
-+    free(xattr_value);
-+    xattr_value = NULL;
-+  }
-+
-+  free(xattr_value);
-+out:
-+  free(xattr_list);
-+
-+  if (list_ptr != xattr_list + list_len)
-+    return ret;
-+
-+  return 0;
-+}
-+
- /* Read a list of file names from the standard input
-    and write a cpio collection on the standard output.
-    The format of the header depends on the compatibility (-c) flag.  */
-@@ -591,6 +678,8 @@ process_copy_out ()
-   int in_file_des;		/* Source file descriptor.  */
-   int out_file_des;		/* Output file descriptor.  */
-   char *orig_file_name = NULL;
-+  char template[] = "/tmp/cpio-metadata-XXXXXX";
-+  int ret, metadata_fd, metadata = 0, old_metadata;
- 
-   /* Initialize the copy out.  */
-   ds_init (&input_name, 128);
-@@ -623,9 +712,36 @@ process_copy_out ()
-       prepare_append (out_file_des);
-     }
- 
-+  /* Create a temporary file to store file metadata */
-+  if (metadata_type != TYPE_NONE) {
-+    metadata_fd = mkstemp(template);
-+    if (metadata_fd < 0) {
-+      error (0, 0, _("cannot create temporary file"));
-+      return;
-+    }
-+  }
-+
-   /* Copy files with names read from stdin.  */
--  while (ds_fgetstr (stdin, &input_name, name_end) != NULL)
-+  while ((metadata_type != TYPE_NONE && metadata) ||
-+	 ds_fgetstr (stdin, &input_name, name_end) != NULL)
-     {
-+      old_metadata = metadata;
-+
-+      if (metadata) {
-+	metadata = 0;
-+
-+        if (metadata_type != TYPE_XATTR) {
-+	  error (0, 0, _("metadata type not supported"));
-+	  continue;
-+	}
-+
-+	ret = write_xattrs(metadata_fd, orig_file_name);
-+	if (ret < 0)
-+	  continue;
-+
-+	ds_sgetstr (template, &input_name, name_end);
-+      }
-+
-       /* Check for blank line.  */
-       if (input_name.ds_string[0] == 0)
- 	{
-@@ -655,8 +771,15 @@ process_copy_out ()
- 		    }
- 		}
- 	    }
--	  
--	  assign_string (&orig_file_name, input_name.ds_string);
-+
-+	  if (old_metadata) {
-+	    assign_string (&orig_file_name, template);
-+	    ds_sgetstr (METADATA_FILENAME, &input_name, name_end);
-+	    file_hdr.c_mode |= 0x10000;
-+	  } else {
-+	    assign_string (&orig_file_name, input_name.ds_string);
-+	  }
-+
- 	  cpio_safer_name_suffix (input_name.ds_string, false,
- 				  !no_abs_paths_flag, true);
- #ifndef HPUX_CDF
-@@ -844,6 +967,8 @@ process_copy_out ()
- 	    fprintf (stderr, "%s\n", orig_file_name);
- 	  if (dot_flag)
- 	    fputc ('.', stderr);
-+	  if (metadata_type != TYPE_NONE && !old_metadata)
-+	    metadata = 1;
- 	}
-     }
- 
-@@ -882,6 +1007,11 @@ process_copy_out ()
- 	       ngettext ("%lu block\n", "%lu blocks\n",
- 			 (unsigned long) blocks), (unsigned long) blocks);
-     }
-+
-+  if (metadata_type != TYPE_NONE) {
-+    close(metadata_fd);
-+    unlink(template);
-+  }
- }
- 
- 
-diff --git a/src/dstring.c b/src/dstring.c
-index ddad4c8..fe3cfaf 100644
---- a/src/dstring.c
-+++ b/src/dstring.c
-@@ -60,8 +60,8 @@ ds_resize (dynamic_string *string, int size)
-    Return NULL if end of file is detected.  Otherwise,
-    Return a pointer to the null-terminated string in S.  */
- 
--char *
--ds_fgetstr (FILE *f, dynamic_string *s, char eos)
-+static char *
-+ds_fgetstr_common (FILE *f, char *input_string, dynamic_string *s, char eos)
- {
-   int insize;			/* Amount needed for line.  */
-   int strsize;			/* Amount allocated for S.  */
-@@ -72,7 +72,10 @@ ds_fgetstr (FILE *f, dynamic_string *s, char eos)
-   strsize = s->ds_length;
- 
-   /* Read the input string.  */
--  next_ch = getc (f);
-+  if (input_string)
-+    next_ch = *input_string++;
-+  else
-+    next_ch = getc (f);
-   while (next_ch != eos && next_ch != EOF)
-     {
-       if (insize >= strsize - 1)
-@@ -81,7 +84,10 @@ ds_fgetstr (FILE *f, dynamic_string *s, char eos)
- 	  strsize = s->ds_length;
- 	}
-       s->ds_string[insize++] = next_ch;
--      next_ch = getc (f);
-+      if (input_string)
-+	next_ch = *input_string++;
-+      else
-+	next_ch = getc (f);
-     }
-   s->ds_string[insize++] = '\0';
- 
-@@ -91,6 +97,12 @@ ds_fgetstr (FILE *f, dynamic_string *s, char eos)
-     return s->ds_string;
- }
- 
-+char *
-+ds_fgetstr (FILE *f, dynamic_string *s, char eos)
-+{
-+  return ds_fgetstr_common (f, NULL, s, eos);
-+}
-+
- char *
- ds_fgets (FILE *f, dynamic_string *s)
- {
-@@ -102,3 +114,9 @@ ds_fgetname (FILE *f, dynamic_string *s)
- {
-   return ds_fgetstr (f, s, '\0');
- }
-+
-+char *
-+ds_sgetstr (char *input_string, dynamic_string *s, char eos)
-+{
-+  return ds_fgetstr_common (NULL, input_string, s, eos);
-+}
-diff --git a/src/dstring.h b/src/dstring.h
-index b5135fe..f5f95ec 100644
---- a/src/dstring.h
-+++ b/src/dstring.h
-@@ -49,3 +49,4 @@ void ds_resize (dynamic_string *string, int size);
- char *ds_fgetname (FILE *f, dynamic_string *s);
- char *ds_fgets (FILE *f, dynamic_string *s);
- char *ds_fgetstr (FILE *f, dynamic_string *s, char eos);
-+char *ds_sgetstr (char *input_string, dynamic_string *s, char eos);
-diff --git a/src/extern.h b/src/extern.h
-index 6fa2089..4c34404 100644
---- a/src/extern.h
-+++ b/src/extern.h
-@@ -19,6 +19,7 @@
- 
- #include "paxlib.h"
- #include "quotearg.h"
-+#include "initramfs.h"
- #include "quote.h"
- 
- enum archive_format
-@@ -99,6 +100,7 @@ extern char output_is_seekable;
- extern int (*xstat) ();
- extern void (*copy_function) ();
- extern char *change_directory_option;
-+extern enum metadata_types metadata_type;
- 
- 
- /* copyin.c */
-diff --git a/src/global.c b/src/global.c
-index fb3abe9..0c40be0 100644
---- a/src/global.c
-+++ b/src/global.c
-@@ -199,3 +199,5 @@ char *change_directory_option;
- int renumber_inodes_option;
- int ignore_devno_option;
- 
-+/* include file metadata into the image */
-+enum metadata_types metadata_type = TYPE_NONE;
-diff --git a/src/initramfs.h b/src/initramfs.h
-new file mode 100644
-index 0000000..d13fc39
---- /dev/null
-+++ b/src/initramfs.h
-@@ -0,0 +1,21 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
-+/*
-+ * include/linux/initramfs.h
-+ *
-+ * Include file for file metadata in the initial ram disk.
-+ */
-+#ifndef _LINUX_INITRAMFS_H
-+#define _LINUX_INITRAMFS_H
-+
-+#define METADATA_FILENAME "METADATA!!!"
-+
-+enum metadata_types { TYPE_NONE, TYPE_XATTR, TYPE__LAST };
-+
-+struct metadata_hdr {
-+	char c_size[8];     /* total size including c_size field */
-+	char c_version;     /* header version */
-+	char c_type;        /* metadata type */
-+	char c_metadata[];  /* metadata */
-+} __attribute__((packed));
-+
-+#endif /*_LINUX_INITRAMFS_H*/
-diff --git a/src/main.c b/src/main.c
-index c68aba9..af1fa52 100644
---- a/src/main.c
-+++ b/src/main.c
-@@ -200,6 +200,8 @@ static struct argp_option options[] = {
-   {"device-independent", DEVICE_INDEPENDENT_OPTION, NULL, 0,
-    N_("Create device-independent (reproducible) archives") },
-   {"reproducible", 0, NULL, OPTION_ALIAS },
-+  {"file-metadata", 'e', N_("TYPE"), 0,
-+   N_("Include file metadata"), GRID+1 },
- #undef GRID
-   
-   /* ********** */
-@@ -293,6 +295,22 @@ warn_control (char *arg)
-   return 1;
- }
- 
-+static enum metadata_types
-+parse_metadata_type(char *arg)
-+{
-+  static char *metadata_type_str[TYPE__LAST] = {
-+    [TYPE_NONE] = "none",
-+    [TYPE_XATTR] = "xattr",
-+  };
-+  int i;
-+
-+  for (i = 0; i < TYPE__LAST; i++)
-+    if (!strcmp (metadata_type_str[i], arg))
-+      return i;
-+
-+  return TYPE_NONE;
-+}
-+
- static error_t
- parse_opt (int key, char *arg, struct argp_state *state)
- {
-@@ -354,6 +372,10 @@ parse_opt (int key, char *arg, struct argp_state *state)
-       copy_matching_files = false;
-       break;
- 
-+    case 'e':		/* Metadata type.  */
-+      metadata_type = parse_metadata_type(arg);
-+      break;
-+
-     case 'E':		/* Pattern file name.  */
-       pattern_file_name = arg;
-       break;
--- 
-2.17.1
-
+Christian
