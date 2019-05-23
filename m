@@ -2,21 +2,21 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 77C0227CB1
-	for <lists+linux-api@lfdr.de>; Thu, 23 May 2019 14:23:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BEB4327E58
+	for <lists+linux-api@lfdr.de>; Thu, 23 May 2019 15:41:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729972AbfEWMXE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 23 May 2019 08:23:04 -0400
-Received: from lhrrgout.huawei.com ([185.176.76.210]:32965 "EHLO huawei.com"
+        id S1729902AbfEWNlt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 23 May 2019 09:41:49 -0400
+Received: from lhrrgout.huawei.com ([185.176.76.210]:32966 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728309AbfEWMXE (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 23 May 2019 08:23:04 -0400
+        id S1729698AbfEWNlt (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 23 May 2019 09:41:49 -0400
 Received: from lhreml705-cah.china.huawei.com (unknown [172.18.7.108])
-        by Forcepoint Email with ESMTP id 16E9B6CF7216F6A5AE3C;
-        Thu, 23 May 2019 13:23:02 +0100 (IST)
+        by Forcepoint Email with ESMTP id 6F7EF4F3DADC617547CA;
+        Thu, 23 May 2019 14:41:46 +0100 (IST)
 Received: from roberto-HP-EliteDesk-800-G2-DM-65W.huawei.com (10.204.65.154)
  by smtpsuk.huawei.com (10.201.108.46) with Microsoft SMTP Server (TLS) id
- 14.3.408.0; Thu, 23 May 2019 13:22:53 +0100
+ 14.3.408.0; Thu, 23 May 2019 14:41:34 +0100
 From:   Roberto Sassu <roberto.sassu@huawei.com>
 To:     <viro@zeniv.linux.org.uk>
 CC:     <linux-security-module@vger.kernel.org>,
@@ -28,12 +28,10 @@ CC:     <linux-security-module@vger.kernel.org>,
         <kamensky@cisco.com>, <hpa@zytor.com>, <arnd@arndb.de>,
         <rob@landley.net>, <james.w.mcmechan@gmail.com>,
         <niveditas98@gmail.com>, Roberto Sassu <roberto.sassu@huawei.com>
-Subject: [PATCH v4 3/3] gen_init_cpio: add support for file metadata
-Date:   Thu, 23 May 2019 14:18:03 +0200
-Message-ID: <20190523121803.21638-4-roberto.sassu@huawei.com>
+Subject: [USER][PATCH] cpio: add option to add file metadata in copy-out mode
+Date:   Thu, 23 May 2019 15:38:24 +0200
+Message-ID: <20190523133824.710-1-roberto.sassu@huawei.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190523121803.21638-1-roberto.sassu@huawei.com>
-References: <20190523121803.21638-1-roberto.sassu@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.204.65.154]
@@ -43,315 +41,412 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This patch adds support for file metadata (only TYPE_XATTR metadata type).
-gen_init_cpio has been modified to read xattrs from files that will be
-added to the image and to include file metadata as separate files with the
-special name 'METADATA!!!'.
+This patch adds the -e <type> option to include file metadata in the image.
+At the moment, only the xattr type is supported.
 
-This behavior can be selected by setting the desired file metadata type as
-value for CONFIG_INITRAMFS_FILE_METADATA.
+If the xattr type is selected, the patch includes an additional file for
+each file passed to stdin, with special name 'METADATA!!!'. The additional
+file might contain multiple metadata records. The format of each record is:
+
+<metadata len (ASCII, 8 chars)><version><type><metadata>
+
+The format of metadata for the xattr type is:
+
+<xattr name>\0<xattr value>
 
 Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
 ---
- usr/Kconfig               |   8 +++
- usr/Makefile              |   4 +-
- usr/gen_init_cpio.c       | 137 ++++++++++++++++++++++++++++++++++++--
- usr/gen_initramfs_list.sh |  10 ++-
- 4 files changed, 150 insertions(+), 9 deletions(-)
+ doc/cpio.texi   |   3 ++
+ src/copyout.c   | 136 ++++++++++++++++++++++++++++++++++++++++++++++--
+ src/dstring.c   |  26 +++++++--
+ src/dstring.h   |   1 +
+ src/extern.h    |   2 +
+ src/global.c    |   2 +
+ src/initramfs.h |  21 ++++++++
+ src/main.c      |  22 ++++++++
+ 8 files changed, 206 insertions(+), 7 deletions(-)
+ create mode 100644 src/initramfs.h
 
-diff --git a/usr/Kconfig b/usr/Kconfig
-index 43658b8a975e..8d9f54a16440 100644
---- a/usr/Kconfig
-+++ b/usr/Kconfig
-@@ -233,3 +233,11 @@ config INITRAMFS_COMPRESSION
- 	default ".lzma" if RD_LZMA
- 	default ".bz2"  if RD_BZIP2
- 	default ""
-+
-+config INITRAMFS_FILE_METADATA
-+	string "File metadata type"
-+	default ""
-+	help
-+	  Specify xattr to include xattrs in the image.
-+
-+	  If you are not sure, leave it blank.
-diff --git a/usr/Makefile b/usr/Makefile
-index 4a70ae43c9cb..7d5eb3c7b713 100644
---- a/usr/Makefile
-+++ b/usr/Makefile
-@@ -29,7 +29,9 @@ ramfs-input := $(if $(filter-out "",$(CONFIG_INITRAMFS_SOURCE)), \
- 			$(shell echo $(CONFIG_INITRAMFS_SOURCE)),-d)
- ramfs-args  := \
-         $(if $(CONFIG_INITRAMFS_ROOT_UID), -u $(CONFIG_INITRAMFS_ROOT_UID)) \
--        $(if $(CONFIG_INITRAMFS_ROOT_GID), -g $(CONFIG_INITRAMFS_ROOT_GID))
-+        $(if $(CONFIG_INITRAMFS_ROOT_GID), -g $(CONFIG_INITRAMFS_ROOT_GID)) \
-+        $(if $(filter-out "",$(CONFIG_INITRAMFS_FILE_METADATA)), \
-+         -e $(CONFIG_INITRAMFS_FILE_METADATA))
- 
- # $(datafile_d_y) is used to identify all files included
- # in initramfs and to detect if any files are added/removed.
-diff --git a/usr/gen_init_cpio.c b/usr/gen_init_cpio.c
-index 03b21189d58b..e93cb1093e77 100644
---- a/usr/gen_init_cpio.c
-+++ b/usr/gen_init_cpio.c
-@@ -3,6 +3,7 @@
- #include <stdlib.h>
+diff --git a/doc/cpio.texi b/doc/cpio.texi
+index e667b48..d7b311f 100644
+--- a/doc/cpio.texi
++++ b/doc/cpio.texi
+@@ -275,6 +275,9 @@ Set the I/O block size to the given @var{number} of bytes.
+ @item -D @var{dir}
+ @itemx --directory=@var{dir}
+ Change to directory @var{dir}
++@item -e @var{type}
++@itemx --file-metadata=@var{type}
++Include in the image file metadata with the specified type.
+ @item --force-local
+ Treat the archive file as local, even if its name contains colons.
+ @item -F [[@var{user}@@]@var{host}:]@var{archive-file}
+diff --git a/src/copyout.c b/src/copyout.c
+index 7532dac..f0e512a 100644
+--- a/src/copyout.c
++++ b/src/copyout.c
+@@ -22,6 +22,7 @@
+ #include <stdio.h>
  #include <sys/types.h>
  #include <sys/stat.h>
 +#include <sys/xattr.h>
- #include <string.h>
- #include <unistd.h>
- #include <time.h>
-@@ -10,6 +11,7 @@
- #include <errno.h>
- #include <ctype.h>
- #include <limits.h>
-+#include "../include/linux/initramfs.h"
+ #include "filetypes.h"
+ #include "cpiohdr.h"
+ #include "dstring.h"
+@@ -578,6 +579,92 @@ assign_string (char **pvar, char *value)
+   *pvar = p;
+ }
  
- /*
-  * Original work by Jeff Garzik
-@@ -24,6 +26,115 @@
- static unsigned int offset;
- static unsigned int ino = 721;
- static time_t default_mtime;
-+static char metadata_path[] = "/tmp/cpio-metadata-XXXXXX";
-+static int metadata_fd = -1;
-+
-+static enum metadata_types parse_metadata_type(char *arg)
++static int
++write_xattrs (int metadata_fd, char *path)
 +{
-+	static char *metadata_type_str[TYPE__LAST] = {
-+		[TYPE_NONE] = "none",
-+		[TYPE_XATTR] = "xattr",
-+	};
-+	int i;
++  struct metadata_hdr hdr = { .c_version = 1, .c_type = TYPE_XATTR };
++  char str[sizeof(hdr.c_size) + 1];
++  char *xattr_list, *list_ptr, *xattr_value;
++  ssize_t list_len, name_len, value_len, len;
++  int ret = -EINVAL;
 +
-+	for (i = 0; i < TYPE__LAST; i++)
-+		if (!strcmp(metadata_type_str[i], arg))
-+			return i;
++  if (metadata_fd < 0)
++    return 0;
 +
-+	return TYPE_NONE;
-+}
++  list_len = llistxattr(path, NULL, 0);
++  if (list_len <= 0)
++    return -ENOENT;
 +
-+static int cpio_mkfile(const char *name, const char *location,
-+		       unsigned int mode, uid_t uid, gid_t gid,
-+		       unsigned int nlinks);
++  list_ptr = xattr_list = malloc(list_len);
++  if (!list_ptr) {
++    error (0, 0, _("out of memory"));
++    return ret;
++  }
 +
-+static int write_xattrs(const char *path)
-+{
-+	struct metadata_hdr hdr = { .c_version = 1, .c_type = TYPE_XATTR };
-+	char str[sizeof(hdr.c_size) + 1];
-+	char *xattr_list, *list_ptr, *xattr_value;
-+	ssize_t list_len, name_len, value_len, len;
-+	int ret = -EINVAL;
++  len = llistxattr(path, xattr_list, list_len);
++  if (len != list_len)
++    goto out;
 +
-+	if (metadata_fd < 0)
-+		return 0;
++  if (ftruncate(metadata_fd, 0))
++    goto out;
 +
-+	if (path == metadata_path)
-+		return 0;
++  lseek(metadata_fd, 0, SEEK_SET);
 +
-+	list_len = listxattr(path, NULL, 0);
-+	if (list_len <= 0)
-+		return 0;
++  while (list_ptr < xattr_list + list_len) {
++    name_len = strlen(list_ptr);
 +
-+	list_ptr = xattr_list = malloc(list_len);
-+	if (!list_ptr) {
-+		fprintf(stderr, "out of memory\n");
-+		return ret;
-+	}
++    value_len = lgetxattr(path, list_ptr, NULL, 0);
++    if (value_len < 0) {
++      error (0, 0, _("cannot get xattrs"));
++      break;
++    }
 +
-+	len = listxattr(path, xattr_list, list_len);
-+	if (len != list_len)
-+		goto out;
++    if (value_len) {
++      xattr_value = malloc(value_len);
++      if (!xattr_value) {
++	error (0, 0, _("out of memory"));
++	break;
++      }
++    } else {
++      xattr_value = NULL;
++    }
 +
-+	if (ftruncate(metadata_fd, 0))
-+		goto out;
++    len = lgetxattr(path, list_ptr, xattr_value, value_len);
++    if (len != value_len)
++      break;
 +
-+	lseek(metadata_fd, 0, SEEK_SET);
++    snprintf(str, sizeof(str), "%.8lx",
++	     sizeof(hdr) + name_len + 1 + value_len);
 +
-+	while (list_ptr < xattr_list + list_len) {
-+		name_len = strlen(list_ptr);
++    memcpy(hdr.c_size, str, sizeof(hdr.c_size));
 +
-+		value_len = getxattr(path, list_ptr, NULL, 0);
-+		if (value_len < 0) {
-+			fprintf(stderr, "cannot get xattrs\n");
-+			break;
-+		}
++    if (write(metadata_fd, &hdr, sizeof(hdr)) != sizeof(hdr))
++      break;
 +
-+		if (value_len) {
-+			xattr_value = malloc(value_len);
-+			if (!xattr_value) {
-+				fprintf(stderr, "out of memory\n");
-+				break;
-+			}
-+		} else {
-+			xattr_value = NULL;
-+		}
++    if (write(metadata_fd, list_ptr, name_len + 1) != name_len + 1)
++      break;
 +
-+		len = getxattr(path, list_ptr, xattr_value, value_len);
-+		if (len != value_len)
-+			break;
++    if (write(metadata_fd, xattr_value, value_len) != value_len)
++      break;
 +
-+		snprintf(str, sizeof(str), "%.8lx",
-+			 sizeof(hdr) + name_len + 1 + value_len);
++    if (fsync(metadata_fd))
++      break;
 +
-+		memcpy(hdr.c_size, str, sizeof(hdr.c_size));
++    list_ptr += name_len + 1;
++    free(xattr_value);
++    xattr_value = NULL;
++  }
 +
-+		if (write(metadata_fd, &hdr, sizeof(hdr)) != sizeof(hdr))
-+			break;
-+
-+		if (write(metadata_fd, list_ptr, name_len + 1) != name_len + 1)
-+			break;
-+
-+		if (write(metadata_fd, xattr_value, value_len) != value_len)
-+			break;
-+
-+		if (fsync(metadata_fd))
-+			break;
-+
-+		list_ptr += name_len + 1;
-+		free(xattr_value);
-+		xattr_value = NULL;
-+	}
-+
-+	free(xattr_value);
++  free(xattr_value);
 +out:
-+	free(xattr_list);
++  free(xattr_list);
 +
-+	if (list_ptr != xattr_list + list_len)
-+		return ret;
++  if (list_ptr != xattr_list + list_len)
++    return ret;
 +
-+	return cpio_mkfile(METADATA_FILENAME, metadata_path, S_IFREG, 0, 0, 1);
++  return 0;
 +}
++
+ /* Read a list of file names from the standard input
+    and write a cpio collection on the standard output.
+    The format of the header depends on the compatibility (-c) flag.  */
+@@ -591,6 +678,8 @@ process_copy_out ()
+   int in_file_des;		/* Source file descriptor.  */
+   int out_file_des;		/* Output file descriptor.  */
+   char *orig_file_name = NULL;
++  char template[] = "/tmp/cpio-metadata-XXXXXX";
++  int ret, metadata_fd, metadata = 0, old_metadata;
  
- struct file_handler {
- 	const char *type;
-@@ -128,7 +239,7 @@ static int cpio_mkslink(const char *name, const char *target,
- 	push_pad();
- 	push_string(target);
- 	push_pad();
--	return 0;
-+	return write_xattrs(name);
- }
+   /* Initialize the copy out.  */
+   ds_init (&input_name, 128);
+@@ -623,9 +712,36 @@ process_copy_out ()
+       prepare_append (out_file_des);
+     }
  
- static int cpio_mkslink_line(const char *line)
-@@ -174,7 +285,7 @@ static int cpio_mkgeneric(const char *name, unsigned int mode,
- 		0);			/* chksum */
- 	push_hdr(s);
- 	push_rest(name);
--	return 0;
-+	return write_xattrs(name);
- }
- 
- enum generic_types {
-@@ -268,7 +379,7 @@ static int cpio_mknod(const char *name, unsigned int mode,
- 		0);			/* chksum */
- 	push_hdr(s);
- 	push_rest(name);
--	return 0;
-+	return write_xattrs(name);
- }
- 
- static int cpio_mknod_line(const char *line)
-@@ -372,8 +483,7 @@ static int cpio_mkfile(const char *name, const char *location,
- 		name += namesize;
- 	}
- 	ino++;
--	rc = 0;
--	
-+	rc = write_xattrs(location);
- error:
- 	if (filebuf) free(filebuf);
- 	if (file >= 0) close(file);
-@@ -526,10 +636,11 @@ int main (int argc, char *argv[])
- 	int ec = 0;
- 	int line_nr = 0;
- 	const char *filename;
-+	enum metadata_types metadata_type = TYPE_NONE;
- 
- 	default_mtime = time(NULL);
- 	while (1) {
--		int opt = getopt(argc, argv, "t:h");
-+		int opt = getopt(argc, argv, "t:e:h");
- 		char *invalid;
- 
- 		if (opt == -1)
-@@ -544,6 +655,9 @@ int main (int argc, char *argv[])
- 				exit(1);
- 			}
- 			break;
-+		case 'e':
-+			metadata_type = parse_metadata_type(optarg);
-+			break;
- 		case 'h':
- 		case '?':
- 			usage(argv[0]);
-@@ -565,6 +679,14 @@ int main (int argc, char *argv[])
- 		exit(1);
- 	}
- 
-+	if (metadata_type != TYPE_NONE) {
-+		metadata_fd = mkstemp(metadata_path);
-+		if (metadata_fd < 0) {
-+			fprintf(stderr, "cannot create temporary file\n");
-+			exit(1);
-+		}
++  /* Create a temporary file to store file metadata */
++  if (metadata_type != TYPE_NONE) {
++    metadata_fd = mkstemp(template);
++    if (metadata_fd < 0) {
++      error (0, 0, _("cannot create temporary file"));
++      return;
++    }
++  }
++
+   /* Copy files with names read from stdin.  */
+-  while (ds_fgetstr (stdin, &input_name, name_end) != NULL)
++  while ((metadata_type != TYPE_NONE && metadata) ||
++	 ds_fgetstr (stdin, &input_name, name_end) != NULL)
+     {
++      old_metadata = metadata;
++
++      if (metadata) {
++	metadata = 0;
++
++        if (metadata_type != TYPE_XATTR) {
++	  error (0, 0, _("metadata type not supported"));
++	  continue;
 +	}
 +
- 	while (fgets(line, LINE_SIZE, cpio_list)) {
- 		int type_idx;
- 		size_t slen = strlen(line);
-@@ -620,5 +742,8 @@ int main (int argc, char *argv[])
- 	if (ec == 0)
- 		cpio_trailer();
- 
-+	if (metadata_type != TYPE_NONE)
-+		close(metadata_fd);
++	ret = write_xattrs(metadata_fd, orig_file_name);
++	if (ret < 0)
++	  continue;
 +
- 	exit(ec);
- }
-diff --git a/usr/gen_initramfs_list.sh b/usr/gen_initramfs_list.sh
-index 0aad760fcd8c..0907a4043da9 100755
---- a/usr/gen_initramfs_list.sh
-+++ b/usr/gen_initramfs_list.sh
-@@ -15,7 +15,7 @@ set -e
- usage() {
- cat << EOF
- Usage:
--$0 [-o <file>] [-u <uid>] [-g <gid>] {-d | <cpio_source>} ...
-+$0 [-o <file>] [-u <uid>] [-g <gid>] {-d | <cpio_source>} [-e <type>] ...
- 	-o <file>      Create compressed initramfs file named <file> using
- 		       gen_init_cpio and compressor depending on the extension
- 	-u <uid>       User ID to map to user ID 0 (root).
-@@ -28,6 +28,7 @@ $0 [-o <file>] [-u <uid>] [-g <gid>] {-d | <cpio_source>} ...
- 		       If <cpio_source> is a .cpio file it will be used
- 		       as direct input to initramfs.
- 	-d             Output the default cpio list.
-+	-e <type>      File metadata type to include in the cpio archive.
++	ds_sgetstr (template, &input_name, name_end);
++      }
++
+       /* Check for blank line.  */
+       if (input_name.ds_string[0] == 0)
+ 	{
+@@ -655,8 +771,15 @@ process_copy_out ()
+ 		    }
+ 		}
+ 	    }
+-	  
+-	  assign_string (&orig_file_name, input_name.ds_string);
++
++	  if (old_metadata) {
++	    assign_string (&orig_file_name, template);
++	    ds_sgetstr (METADATA_FILENAME, &input_name, name_end);
++	    file_hdr.c_mode |= 0x10000;
++	  } else {
++	    assign_string (&orig_file_name, input_name.ds_string);
++	  }
++
+ 	  cpio_safer_name_suffix (input_name.ds_string, false,
+ 				  !no_abs_paths_flag, true);
+ #ifndef HPUX_CDF
+@@ -844,6 +967,8 @@ process_copy_out ()
+ 	    fprintf (stderr, "%s\n", orig_file_name);
+ 	  if (dot_flag)
+ 	    fputc ('.', stderr);
++	  if (metadata_type != TYPE_NONE && !old_metadata)
++	    metadata = 1;
+ 	}
+     }
  
- All options except -o and -l may be repeated and are interpreted
- sequentially and immediately.  -u and -g states are preserved across
-@@ -283,6 +284,10 @@ while [ $# -gt 0 ]; do
- 			default_list="$arg"
- 			${dep_list}default_initramfs
- 			;;
-+		"-e")   # file metadata type
-+			metadata_arg="-e $1"
-+			shift
-+			;;
- 		"-h")
- 			usage
- 			exit 0
-@@ -312,7 +317,8 @@ if [ ! -z ${output_file} ]; then
- 			fi
- 		fi
- 		cpio_tfile="$(mktemp ${TMPDIR:-/tmp}/cpiofile.XXXXXX)"
--		usr/gen_init_cpio $timestamp ${cpio_list} > ${cpio_tfile}
-+		usr/gen_init_cpio $metadata_arg $timestamp \
-+			${cpio_list} > ${cpio_tfile}
- 	else
- 		cpio_tfile=${cpio_file}
- 	fi
+@@ -882,6 +1007,11 @@ process_copy_out ()
+ 	       ngettext ("%lu block\n", "%lu blocks\n",
+ 			 (unsigned long) blocks), (unsigned long) blocks);
+     }
++
++  if (metadata_type != TYPE_NONE) {
++    close(metadata_fd);
++    unlink(template);
++  }
+ }
+ 
+ 
+diff --git a/src/dstring.c b/src/dstring.c
+index ddad4c8..fe3cfaf 100644
+--- a/src/dstring.c
++++ b/src/dstring.c
+@@ -60,8 +60,8 @@ ds_resize (dynamic_string *string, int size)
+    Return NULL if end of file is detected.  Otherwise,
+    Return a pointer to the null-terminated string in S.  */
+ 
+-char *
+-ds_fgetstr (FILE *f, dynamic_string *s, char eos)
++static char *
++ds_fgetstr_common (FILE *f, char *input_string, dynamic_string *s, char eos)
+ {
+   int insize;			/* Amount needed for line.  */
+   int strsize;			/* Amount allocated for S.  */
+@@ -72,7 +72,10 @@ ds_fgetstr (FILE *f, dynamic_string *s, char eos)
+   strsize = s->ds_length;
+ 
+   /* Read the input string.  */
+-  next_ch = getc (f);
++  if (input_string)
++    next_ch = *input_string++;
++  else
++    next_ch = getc (f);
+   while (next_ch != eos && next_ch != EOF)
+     {
+       if (insize >= strsize - 1)
+@@ -81,7 +84,10 @@ ds_fgetstr (FILE *f, dynamic_string *s, char eos)
+ 	  strsize = s->ds_length;
+ 	}
+       s->ds_string[insize++] = next_ch;
+-      next_ch = getc (f);
++      if (input_string)
++	next_ch = *input_string++;
++      else
++	next_ch = getc (f);
+     }
+   s->ds_string[insize++] = '\0';
+ 
+@@ -91,6 +97,12 @@ ds_fgetstr (FILE *f, dynamic_string *s, char eos)
+     return s->ds_string;
+ }
+ 
++char *
++ds_fgetstr (FILE *f, dynamic_string *s, char eos)
++{
++  return ds_fgetstr_common (f, NULL, s, eos);
++}
++
+ char *
+ ds_fgets (FILE *f, dynamic_string *s)
+ {
+@@ -102,3 +114,9 @@ ds_fgetname (FILE *f, dynamic_string *s)
+ {
+   return ds_fgetstr (f, s, '\0');
+ }
++
++char *
++ds_sgetstr (char *input_string, dynamic_string *s, char eos)
++{
++  return ds_fgetstr_common (NULL, input_string, s, eos);
++}
+diff --git a/src/dstring.h b/src/dstring.h
+index b5135fe..f5f95ec 100644
+--- a/src/dstring.h
++++ b/src/dstring.h
+@@ -49,3 +49,4 @@ void ds_resize (dynamic_string *string, int size);
+ char *ds_fgetname (FILE *f, dynamic_string *s);
+ char *ds_fgets (FILE *f, dynamic_string *s);
+ char *ds_fgetstr (FILE *f, dynamic_string *s, char eos);
++char *ds_sgetstr (char *input_string, dynamic_string *s, char eos);
+diff --git a/src/extern.h b/src/extern.h
+index 6fa2089..4c34404 100644
+--- a/src/extern.h
++++ b/src/extern.h
+@@ -19,6 +19,7 @@
+ 
+ #include "paxlib.h"
+ #include "quotearg.h"
++#include "initramfs.h"
+ #include "quote.h"
+ 
+ enum archive_format
+@@ -99,6 +100,7 @@ extern char output_is_seekable;
+ extern int (*xstat) ();
+ extern void (*copy_function) ();
+ extern char *change_directory_option;
++extern enum metadata_types metadata_type;
+ 
+ 
+ /* copyin.c */
+diff --git a/src/global.c b/src/global.c
+index fb3abe9..0c40be0 100644
+--- a/src/global.c
++++ b/src/global.c
+@@ -199,3 +199,5 @@ char *change_directory_option;
+ int renumber_inodes_option;
+ int ignore_devno_option;
+ 
++/* include file metadata into the image */
++enum metadata_types metadata_type = TYPE_NONE;
+diff --git a/src/initramfs.h b/src/initramfs.h
+new file mode 100644
+index 0000000..d13fc39
+--- /dev/null
++++ b/src/initramfs.h
+@@ -0,0 +1,21 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++/*
++ * include/linux/initramfs.h
++ *
++ * Include file for file metadata in the initial ram disk.
++ */
++#ifndef _LINUX_INITRAMFS_H
++#define _LINUX_INITRAMFS_H
++
++#define METADATA_FILENAME "METADATA!!!"
++
++enum metadata_types { TYPE_NONE, TYPE_XATTR, TYPE__LAST };
++
++struct metadata_hdr {
++	char c_size[8];     /* total size including c_size field */
++	char c_version;     /* header version */
++	char c_type;        /* metadata type */
++	char c_metadata[];  /* metadata */
++} __attribute__((packed));
++
++#endif /*_LINUX_INITRAMFS_H*/
+diff --git a/src/main.c b/src/main.c
+index c68aba9..af1fa52 100644
+--- a/src/main.c
++++ b/src/main.c
+@@ -200,6 +200,8 @@ static struct argp_option options[] = {
+   {"device-independent", DEVICE_INDEPENDENT_OPTION, NULL, 0,
+    N_("Create device-independent (reproducible) archives") },
+   {"reproducible", 0, NULL, OPTION_ALIAS },
++  {"file-metadata", 'e', N_("TYPE"), 0,
++   N_("Include file metadata"), GRID+1 },
+ #undef GRID
+   
+   /* ********** */
+@@ -293,6 +295,22 @@ warn_control (char *arg)
+   return 1;
+ }
+ 
++static enum metadata_types
++parse_metadata_type(char *arg)
++{
++  static char *metadata_type_str[TYPE__LAST] = {
++    [TYPE_NONE] = "none",
++    [TYPE_XATTR] = "xattr",
++  };
++  int i;
++
++  for (i = 0; i < TYPE__LAST; i++)
++    if (!strcmp (metadata_type_str[i], arg))
++      return i;
++
++  return TYPE_NONE;
++}
++
+ static error_t
+ parse_opt (int key, char *arg, struct argp_state *state)
+ {
+@@ -354,6 +372,10 @@ parse_opt (int key, char *arg, struct argp_state *state)
+       copy_matching_files = false;
+       break;
+ 
++    case 'e':		/* Metadata type.  */
++      metadata_type = parse_metadata_type(arg);
++      break;
++
+     case 'E':		/* Pattern file name.  */
+       pattern_file_name = arg;
+       break;
 -- 
 2.17.1
 
