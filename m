@@ -2,199 +2,101 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 50F1C295DC
-	for <lists+linux-api@lfdr.de>; Fri, 24 May 2019 12:32:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BDB6D295EC
+	for <lists+linux-api@lfdr.de>; Fri, 24 May 2019 12:36:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390475AbfEXKbu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 24 May 2019 06:31:50 -0400
-Received: from mail-it1-f194.google.com ([209.85.166.194]:33162 "EHLO
-        mail-it1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390198AbfEXKbt (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 24 May 2019 06:31:49 -0400
-Received: by mail-it1-f194.google.com with SMTP id j17so10663656itk.0
-        for <linux-api@vger.kernel.org>; Fri, 24 May 2019 03:31:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brauner.io; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=t6QPS5lwd7cr471Dg03A0AXuNJ/CrzRoO1xYODuKhbA=;
-        b=Vxe1OcgbXiqgWJS2x6TaYm+Cn6jhah0Qj5bXPrvsCh/P7F74y/HXVPKJgfba1esHAh
-         pwR5mq5lwAljwztFYdwuQRV8yQdOUdArsoOfy733CwBcrJjtFBZmm+2psNdK9a0f6LRt
-         rLVXaIubfp97S/kaUSegG/zw06TKZWV2uGoYdfz/HBZMYvpqO26ETRVlzOvec4BsvfMF
-         b/tEWUN6EkieS8aeK40Tf6C3HdOU3ue/E/Pe+SN7+Bn/JSvbY38QUqiXMJBvf9Eosi4J
-         jqg/ZTc6HhZAgAgv8MD/8YVQKF6dun5zVxcWHFX4FzRjCjDe6ZiDbFDHVp+8BPV1oxjx
-         me4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=t6QPS5lwd7cr471Dg03A0AXuNJ/CrzRoO1xYODuKhbA=;
-        b=FXYL4HdaNYUux4zqnF2CaNQ+JqZ2bNzVJzudbezQd7MH47j5IzlcMHua/jtyHZLguf
-         l6zKmN5MuQsePNA8kKaioJ9GvIGBYooNked2GpjtEt/orUhejtpZ1UkDmHTA691/bjHc
-         kgzn18vzmI74jK5ENnvQAE8OQrd7ZFPQFjNIO/btZbGRXv6zbTFbCAMEjExifIbKY1Fo
-         ceE0egYSoze1in2GCA5I30ZEZHdPYYyOtngKuzVjw3fDSsel//fJX2WMNbLqQi1OCAbY
-         Q/gKJLnem05KHlUIjlwxL+HqGDK5wmt9DCXDXBAPlKZDvqbH8Y4/BgSISBt1GJkSPuXD
-         /0WA==
-X-Gm-Message-State: APjAAAWjIe5wMaMZg6T7Lu0G1RYyYZ7Q8OnlHhf6Iqb0lHhW0LcRqjFT
-        WhvynfK+HHBScfXdpSgdnAfHCg==
-X-Google-Smtp-Source: APXvYqzsmLzfolt9XPm7istwtQ8OTvFuPcrdmMMZuaT+6LV9wiCluPiGeCgPdZY3zO0tzizi0DzZng==
-X-Received: by 2002:a24:28c1:: with SMTP id h184mr18752225ith.105.1558693908188;
-        Fri, 24 May 2019 03:31:48 -0700 (PDT)
-Received: from brauner.io ([172.56.12.37])
-        by smtp.gmail.com with ESMTPSA id p2sm1028528itb.29.2019.05.24.03.31.41
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 24 May 2019 03:31:47 -0700 (PDT)
-Date:   Fri, 24 May 2019 12:31:39 +0200
-From:   Christian Brauner <christian@brauner.io>
-To:     Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
-Cc:     viro@zeniv.linux.org.uk, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        torvalds@linux-foundation.org, fweimer@redhat.com,
-        jannh@google.com, oleg@redhat.com, tglx@linutronix.de,
-        arnd@arndb.de, shuah@kernel.org, dhowells@redhat.com,
-        tkjos@android.com, ldv@altlinux.org, miklos@szeredi.hu,
-        linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
-        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-xtensa@linux-xtensa.org, linux-arch@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH v1 1/2] open: add close_range()
-Message-ID: <20190524103137.otw7tbmagiqnf6u6@brauner.io>
-References: <20190522155259.11174-1-christian@brauner.io>
- <67e4458a-9cc4-d1aa-608c-73ebe9e2f7a3@yandex-team.ru>
+        id S2390274AbfEXKgY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 24 May 2019 06:36:24 -0400
+Received: from relay.sw.ru ([185.231.240.75]:56218 "EHLO relay.sw.ru"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389448AbfEXKgY (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 24 May 2019 06:36:24 -0400
+Received: from [172.16.25.169]
+        by relay.sw.ru with esmtp (Exim 4.91)
+        (envelope-from <ktkhai@virtuozzo.com>)
+        id 1hU7YU-0005xE-Bo; Fri, 24 May 2019 13:36:06 +0300
+Subject: Re: [PATCH v2 0/7] mm: process_vm_mmap() -- syscall for duplication a
+ process mapping
+To:     Andy Lutomirski <luto@kernel.org>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Keith Busch <keith.busch@intel.com>,
+        alexander.h.duyck@linux.intel.com, Weiny Ira <ira.weiny@intel.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        arunks@codeaurora.org, Vlastimil Babka <vbabka@suse.cz>,
+        Christoph Lameter <cl@linux.com>,
+        Rik van Riel <riel@surriel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Roman Gushchin <guro@fb.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jerome Glisse <jglisse@redhat.com>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        daniel.m.jordan@oracle.com, Jann Horn <jannh@google.com>,
+        Adam Borowski <kilobyte@angband.pl>,
+        Linux API <linux-api@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>
+References: <155836064844.2441.10911127801797083064.stgit@localhost.localdomain>
+ <CALCETrU221N6uPmdaj4bRDDsf+Oc5tEfPERuyV24wsYKHn+spA@mail.gmail.com>
+ <9638a51c-4295-924f-1852-1783c7f3e82d@virtuozzo.com>
+ <CALCETrUMDTGRtLFocw6vnN___7rkb6r82ULehs0=yQO5PZL8MA@mail.gmail.com>
+ <67d1321e-ffd6-24a3-407f-cd26c82e46b8@virtuozzo.com>
+ <CALCETrWzuH3=Uh91UeGwpCj28kjQ82Lj2OTuXm7_3d871PyZSA@mail.gmail.com>
+From:   Kirill Tkhai <ktkhai@virtuozzo.com>
+Message-ID: <58ad677d-677f-5e16-ecf9-565fcc3b7145@virtuozzo.com>
+Date:   Fri, 24 May 2019 13:36:05 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
+In-Reply-To: <CALCETrWzuH3=Uh91UeGwpCj28kjQ82Lj2OTuXm7_3d871PyZSA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <67e4458a-9cc4-d1aa-608c-73ebe9e2f7a3@yandex-team.ru>
-User-Agent: NeoMutt/20180716
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, May 23, 2019 at 07:22:17PM +0300, Konstantin Khlebnikov wrote:
-> On 22.05.2019 18:52, Christian Brauner wrote:> This adds the close_range() syscall. It allows to efficiently close a range
-> > of file descriptors up to all file descriptors of a calling task.
-> >
-> > The syscall came up in a recent discussion around the new mount API and
-> > making new file descriptor types cloexec by default. During this
-> > discussion, Al suggested the close_range() syscall (cf. [1]). Note, a
-> > syscall in this manner has been requested by various people over time.
-> >
-> > First, it helps to close all file descriptors of an exec()ing task. This
-> > can be done safely via (quoting Al's example from [1] verbatim):
-> >
-> >          /* that exec is sensitive */
-> >          unshare(CLONE_FILES);
-> >          /* we don't want anything past stderr here */
-> >          close_range(3, ~0U);
-> >          execve(....);
-> >
-> > The code snippet above is one way of working around the problem that file
-> > descriptors are not cloexec by default. This is aggravated by the fact that
-> > we can't just switch them over without massively regressing userspace. For
-> > a whole class of programs having an in-kernel method of closing all file
-> > descriptors is very helpful (e.g. demons, service managers, programming
-> > language standard libraries, container managers etc.).
-> > (Please note, unshare(CLONE_FILES) should only be needed if the calling
-> >   task is multi-threaded and shares the file descriptor table with another
-> >   thread in which case two threads could race with one thread allocating
-> >   file descriptors and the other one closing them via close_range(). For the
-> >   general case close_range() before the execve() is sufficient.)
-> >
-> > Second, it allows userspace to avoid implementing closing all file
-> > descriptors by parsing through /proc/<pid>/fd/* and calling close() on each
-> > file descriptor. From looking at various large(ish) userspace code bases
-> > this or similar patterns are very common in:
-> > - service managers (cf. [4])
-> > - libcs (cf. [6])
-> > - container runtimes (cf. [5])
-> > - programming language runtimes/standard libraries
-> >    - Python (cf. [2])
-> >    - Rust (cf. [7], [8])
-> > As Dmitry pointed out there's even a long-standing glibc bug about missing
-> > kernel support for this task (cf. [3]).
-> > In addition, the syscall will also work for tasks that do not have procfs
-> > mounted and on kernels that do not have procfs support compiled in. In such
-> > situations the only way to make sure that all file descriptors are closed
-> > is to call close() on each file descriptor up to UINT_MAX or RLIMIT_NOFILE,
-> > OPEN_MAX trickery (cf. comment [8] on Rust).
-> >
-> > The performance is striking. For good measure, comparing the following
-> > simple close_all_fds() userspace implementation that is essentially just
-> > glibc's version in [6]:
-> >
-> > static int close_all_fds(void)
-> > {
-> >          int dir_fd;
-> >          DIR *dir;
-> >          struct dirent *direntp;
-> >
-> >          dir = opendir("/proc/self/fd");
-> >          if (!dir)
-> >                  return -1;
-> >          dir_fd = dirfd(dir);
-> >          while ((direntp = readdir(dir))) {
-> >                  int fd;
-> >                  if (strcmp(direntp->d_name, ".") == 0)
-> >                          continue;
-> >                  if (strcmp(direntp->d_name, "..") == 0)
-> >                          continue;
-> >                  fd = atoi(direntp->d_name);
-> >                  if (fd == dir_fd || fd == 0 || fd == 1 || fd == 2)
-> >                          continue;
-> >                  close(fd);
-> >          }
-> >          closedir(dir);
-> >          return 0;
-> > }
-> >
-> > to close_range() yields:
-> > 1. closing 4 open files:
-> >     - close_all_fds(): ~280 us
-> >     - close_range():    ~24 us
-> >
-> > 2. closing 1000 open files:
-> >     - close_all_fds(): ~5000 us
-> >     - close_range():   ~800 us
-> >
-> > close_range() is designed to allow for some flexibility. Specifically, it
-> > does not simply always close all open file descriptors of a task. Instead,
-> > callers can specify an upper bound.
-> > This is e.g. useful for scenarios where specific file descriptors are
-> > created with well-known numbers that are supposed to be excluded from
-> > getting closed.
-> > For extra paranoia close_range() comes with a flags argument. This can e.g.
-> > be used to implement extension. Once can imagine userspace wanting to stop
-> > at the first error instead of ignoring errors under certain circumstances.
+On 23.05.2019 19:19, Andy Lutomirski wrote:
+> On Tue, May 21, 2019 at 10:44 AM Kirill Tkhai <ktkhai@virtuozzo.com> wrote:
+>>
+>> On 21.05.2019 19:43, Andy Lutomirski wrote:
+>>> On Tue, May 21, 2019 at 8:52 AM Kirill Tkhai <ktkhai@virtuozzo.com> wrote:
+>>>>
+>>>> On 21.05.2019 17:43, Andy Lutomirski wrote:
 > 
-> > There might be other valid ideas in the future. In any case, a flag
-> > argument doesn't hurt and keeps us on the safe side.
+>>> Do you mean that the code you sent rejects this case?  If so, please
+>>> document it.  In any case, I looked at the code, and it seems to be
+>>> trying to handle MAP_SHARED and MAP_ANONYMOUS.  I don't see where it
+>>> would reject copying a vDSO.
+>>
+>> I prohibit all the VMAs, which contain on of flags: VM_HUGETLB|VM_DONTEXPAND|VM_PFNMAP|VM_IO.
+>> I'll check carefully, whether it's enough for vDSO.
 > 
-> Here is another strange but real-live scenario: crash handler for dumping core.
-> 
-> If applications has network connections it would be better to close them all,
-> otherwise clients will wait until end of dumping process or timeout.
-> Also closing normal files might be a good idea for releasing locks.
-> 
-> But simple closing might race with other threads - closed fd will be reused
-> while some code still thinks it refers to original file.
-> 
-> Our solution closes files without freeing fd: it opens /dev/null and
-> replaces all opened descriptors using dup2.
-> 
-> So, special flag for close_range() could close files without clearing bitmap.
-> Effect should be the same - fd wouldn't be reused.
-> 
-> Actually two flags for two phases: closing files and releasing fd.
+> I think you could make the new syscall a lot more comprehensible bg
+> restricting it to just MAP_ANONYMOUS, by making it unmap the source,
+> or possibly both.  If the new syscall unmaps the source (in order so
+> that the source is gone before the newly mapped pages become
+> accessible), then you avoid issues in which you need to define
+> sensible semantics for what happens if both copies are accessed
+> simultaneously.
 
-Konstantin, I'm sorry, I totally missed that part of your mail
-yesterday.
-Without speaking to the feasibility of this it's at least a good
-illustration that people really do have the possible need for a flag
-argument.
+In case of we unmap source, this does not introduce a new principal
+behavior with the same page mapped twice in a single process like
+Kirill pointed. This sounds as a good idea and this covers my
+application area.
 
-Thanks!
-Christian
+The only new principal thing is a child process will be able to inherit
+a parent's VMA, which is not possible now. But it looks like we never
+depend on processes relationship in the mapping code, and process
+reparenting already gives many combinations, so the new change should
+not affect much on this.
+
+Kirill
