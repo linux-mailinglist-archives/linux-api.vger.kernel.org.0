@@ -2,103 +2,161 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5810528939
-	for <lists+linux-api@lfdr.de>; Thu, 23 May 2019 21:42:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B19C628F75
+	for <lists+linux-api@lfdr.de>; Fri, 24 May 2019 05:11:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391838AbfEWTbr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 23 May 2019 15:31:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45182 "EHLO mail.kernel.org"
+        id S2388131AbfEXDL7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 23 May 2019 23:11:59 -0400
+Received: from mx2.mailbox.org ([80.241.60.215]:19540 "EHLO mx2.mailbox.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2403841AbfEWTbW (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 23 May 2019 15:31:22 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S2387559AbfEXDL7 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 23 May 2019 23:11:59 -0400
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [80.241.60.241])
+        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F2B642186A;
-        Thu, 23 May 2019 19:31:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1558639882;
-        bh=bazesv1zlSbhV7hBl7cRwPHNDrdniWGCiApnCNuxURc=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=fAepko/joRL5VIrpsCpIZqZ37DhZdU/80iezQtMendrw9IrxfVDYkUt/pJiRdBfHB
-         JJDYPpNz3uYcuo0XNNUszrbVMD+ax0scZIMugW07uTiLd/dSbeIYJP7cv3Bpddf2EI
-         JUxdi+NuPIZ+iwNceiFU3nAIlkDXp/W60ThZLJjg=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Joseph Myers <joseph@codesourcery.com>,
-        libc-alpha@sourceware.org, linux-api@vger.kernel.org,
-        Deepa Dinamani <deepa.kernel@gmail.com>,
-        Lukasz Majewski <lukma@denx.de>,
-        Stepan Golosunov <stepan@golosunov.pp.ru>
-Subject: [PATCH 5.1 119/122] y2038: Make CONFIG_64BIT_TIME unconditional
-Date:   Thu, 23 May 2019 21:07:21 +0200
-Message-Id: <20190523181721.342941070@linuxfoundation.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190523181705.091418060@linuxfoundation.org>
-References: <20190523181705.091418060@linuxfoundation.org>
-User-Agent: quilt/0.66
+        by mx2.mailbox.org (Postfix) with ESMTPS id 1335AA015B;
+        Fri, 24 May 2019 05:11:54 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from smtp2.mailbox.org ([80.241.60.241])
+        by spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de [80.241.56.122]) (amavisd-new, port 10030)
+        with ESMTP id SZgroZg2fFsB; Fri, 24 May 2019 05:11:27 +0200 (CEST)
+Date:   Fri, 24 May 2019 13:11:09 +1000
+From:   Aleksa Sarai <cyphar@cyphar.com>
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J. Bruce Fields" <bfields@fieldses.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        David Howells <dhowells@redhat.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Christian Brauner <christian@brauner.io>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>, Tycho Andersen <tycho@tycho.ws>,
+        David Drysdale <drysdale@google.com>,
+        Chanho Min <chanho.min@lge.com>,
+        Oleg Nesterov <oleg@redhat.com>, Aleksa Sarai <asarai@suse.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Containers <containers@lists.linux-foundation.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>
+Subject: Re: [PATCH RFC v8 01/10] namei: obey trailing magic-link DAC
+ permissions
+Message-ID: <20190524031109.v24r6typyug2rlto@yavin>
+References: <20190520133305.11925-1-cyphar@cyphar.com>
+ <20190520133305.11925-2-cyphar@cyphar.com>
+ <CALCETrVCwe49q5mu=f6jTYNSgosQSjjY5chukMPo6eZtQGqo5g@mail.gmail.com>
+ <20190523020009.mi25uziu2b3whf4l@yavin>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="r6xfnzimry42j3mt"
+Content-Disposition: inline
+In-Reply-To: <20190523020009.mi25uziu2b3whf4l@yavin>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Arnd Bergmann <arnd@arndb.de>
 
-commit f3d964673b2f1c5d5c68c77273efcf7103eed03b upstream.
+--r6xfnzimry42j3mt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-As Stepan Golosunov points out, there is a small mistake in the
-get_timespec64() function in the kernel. It was originally added under the
-assumption that CONFIG_64BIT_TIME would get enabled on all 32-bit and
-64-bit architectures, but when the conversion was done, it was only turned
-on for 32-bit ones.
+On 2019-05-23, Aleksa Sarai <cyphar@cyphar.com> wrote:
+> On 2019-05-22, Andy Lutomirski <luto@kernel.org> wrote:
+> > What are actual examples of uses for this exception?  Breaking
+> > selftests is not, in and of itself, a huge problem.
+>=20
+> Not as far as I know. All of the re-opening users I know of do re-opens
+> of O_PATH or are re-opening with the same (or fewer) privileges. I also
+> ran this for a few days on my laptop without this exception, and didn't
+> have any visible issues.
 
-The effect is that the get_timespec64() function never clears the upper
-half of the tv_nsec field for 32-bit tasks in compat mode. Clearing this is
-required for POSIX compliant behavior of functions that pass a 'timespec'
-structure with a 64-bit tv_sec and a 32-bit tv_nsec, plus uninitialized
-padding.
+I have modified the patch to WARN_ON(may_open_magiclink() =3D=3D -EACCES).
 
-The easiest fix for linux-5.1 is to just make the Kconfig symbol
-unconditional, as it was originally intended. As a follow-up, the #ifdef
-CONFIG_64BIT_TIME can be removed completely..
+So far (in the past day on my openSUSE machines) I have only seen two
+programs which have hit this case: kbd[1]'s "loadkeys" and "kbd_mode"
+binaries. In addition to there not being any user-visible errors -- they
+actually handle permission errors gracefully!
 
-Note: for native 32-bit mode, no change is needed, this works as
-designed and user space should never need to clear the upper 32
-bits of the tv_nsec field, in or out of the kernel.
+  static int
+  open_a_console(const char *fnam)
+  {
+  	int fd;
 
-Fixes: 00bf25d693e7 ("y2038: use time32 syscall names on 32-bit")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: Joseph Myers <joseph@codesourcery.com>
-Cc: libc-alpha@sourceware.org
-Cc: linux-api@vger.kernel.org
-Cc: Deepa Dinamani <deepa.kernel@gmail.com>
-Cc: Lukasz Majewski <lukma@denx.de>
-Cc: Stepan Golosunov <stepan@golosunov.pp.ru>
-Link: https://lore.kernel.org/lkml/20190422090710.bmxdhhankurhafxq@sghpc.golosunov.pp.ru/
-Link: https://lkml.kernel.org/r/20190429131951.471701-1-arnd@arndb.de
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+  	/*
+  	 * For ioctl purposes we only need some fd and permissions
+  	 * do not matter. But setfont:activatemap() does a write.
+  	 */
+  	fd =3D open(fnam, O_RDWR);
+  	if (fd < 0)
+  		fd =3D open(fnam, O_WRONLY);
+  	if (fd < 0)
+  		fd =3D open(fnam, O_RDONLY);
+  	if (fd < 0)
+  		return -1;
+  	return fd;
+  }
 
----
- arch/Kconfig |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The above gets called with "/proc/self/fd/0" as an argument (as well as
+other console candidates like "/dev/console"). And setfont:activatemap()
+actually does handle read-only fds:
 
---- a/arch/Kconfig
-+++ b/arch/Kconfig
-@@ -764,7 +764,7 @@ config COMPAT_OLD_SIGACTION
- 	bool
- 
- config 64BIT_TIME
--	def_bool ARCH_HAS_64BIT_TIME
-+	def_bool y
- 	help
- 	  This should be selected by all architectures that need to support
- 	  new system calls with a 64-bit time_t. This is relevant on all 32-bit
+  static void
+  send_escseq(int fd, const char *seq, int n)
+  {
+  	if (write(fd, seq, n) !=3D n) /* maybe fd is read-only */
+  		printf("%s", seq);
+  }
 
+  void activatemap(int fd)
+  {
+  	send_escseq(fd, "\033(K", 3);
+  }
 
+So, thus far, not only have I not seen anything go wrong -- the only
+program which actually hits this case handles the error gracefully.
+Obviously we got lucky here, but the lack of any users of this
+mis-feature leads me to have some hope that we can block it without
+anyone noticing.
+
+But I emphatically do not want to break userspace here (except for
+attackers, obviously).
+
+[1]: http://git.altlinux.org/people/legion/packages/kbd.git
+
+--=20
+Aleksa Sarai
+Senior Software Engineer (Containers)
+SUSE Linux GmbH
+<https://www.cyphar.com/>
+
+--r6xfnzimry42j3mt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEb6Gz4/mhjNy+aiz1Snvnv3Dem58FAlznYMwACgkQSnvnv3De
+m5/UlRAAovI52jrpVsYCg4NsE4FyF6D0yGqaH+nTC1yXRTFIQOX0gWiYDa0U/BAQ
+cJNYiSNBV8HHy4s0N5h1MFu6FDKmWhNS5a8A58HUMXlJQ/6/RpT2NnleB6MBfi02
+E91mqGiVxU4wEthnb44GhUhTmbSoo4JwrdI7AfhvOiKTEziXcf7HcF2VUMMySdD+
+WTC48upAO2G2oYUowAWydF4//I6y7LL4mFPO0RhWCxUqFQmapC3ujka1xvkE46zQ
+4R8ZIlKhnBk3SuE5B77urbIAr4gnQt7U6dZVvQACl/bpBBR8UPkj19okJ4yfjr77
+x2q5Wq8MJB4sYTcjeAml1GNV3f+3v39OwDxiP9HF/j0oergsbKO/Lx0+B3S63TEk
+Hz3KhZRfC8/YpeTTGy60l/3Wqb+kONRvl8J1H47C/JS26MVQUs9nym/Iq6PX+cRf
+V2usCjxwVE1vrZAbpxUMAuifgTmkjf3n2NAURpFTKMX/druhDFxol6ZsuB4/0Ti4
+EseHO5B2wVxkydDzR/9cmj6y29HUge+Y3fAeKa3zvtShYwhKqHg4DYx8CsoFVBfK
+ACLPMT6ymdJ/uz/xBy6wzT88vmDJZ4XC/vlAeAUTXZdd//s2CUu3fSaJs1FfKHr/
+marW2Z16cmWWkyzZiWZlekLhKRxG3BmpD7bI5Wcxw2YKwPYl8IQ=
+=eLDb
+-----END PGP SIGNATURE-----
+
+--r6xfnzimry42j3mt--
