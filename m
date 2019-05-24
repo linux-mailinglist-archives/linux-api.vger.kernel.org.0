@@ -2,67 +2,90 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C1AF328F88
-	for <lists+linux-api@lfdr.de>; Fri, 24 May 2019 05:18:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 072A5291F8
+	for <lists+linux-api@lfdr.de>; Fri, 24 May 2019 09:44:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731490AbfEXDSZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 23 May 2019 23:18:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41532 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729972AbfEXDSZ (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 23 May 2019 23:18:25 -0400
-Received: from localhost.localdomain (c-73-223-200-170.hsd1.ca.comcast.net [73.223.200.170])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5FAB621773;
-        Fri, 24 May 2019 03:18:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1558667905;
-        bh=XwHg2mXb8WzJvbztibhVXfbFYRpVR6mtdv8vVyp0Duk=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=gOH1cU9zPFjRxln9OKY2r62pmt7/PemAORYbGNQaegIo+iNyQgDReb7QKaxHNrJMV
-         wSO5kvL30yjVKbx/3MMAoDgQQRq/1VMw0+WCa8a6BuYmGleZmEV4g/sve7Ch1/cBre
-         NLuOxJNpsd1jJge2pGr1UmmlztkDedgK2+m3hZgI=
-Date:   Thu, 23 May 2019 20:18:22 -0700
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Aubrey Li <aubrey.li@linux.intel.com>
-Cc:     tglx@linutronix.de, mingo@redhat.com, peterz@infradead.org,
-        hpa@zytor.com, ak@linux.intel.com, tim.c.chen@linux.intel.com,
-        dave.hansen@intel.com, arjan@linux.intel.com, adobriyan@gmail.com,
-        aubrey.li@intel.com, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Andy Lutomirski <luto@kernel.org>
-Subject: Re: [PATCH v18 1/3] proc: add /proc/<pid>/arch_status
-Message-Id: <20190523201822.cc554d68ec567164bec781e1@linux-foundation.org>
-In-Reply-To: <20190425143219.102258-1-aubrey.li@linux.intel.com>
-References: <20190425143219.102258-1-aubrey.li@linux.intel.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S2389001AbfEXHoL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 24 May 2019 03:44:11 -0400
+Received: from mail-qk1-f196.google.com ([209.85.222.196]:47089 "EHLO
+        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388911AbfEXHoL (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 24 May 2019 03:44:11 -0400
+Received: by mail-qk1-f196.google.com with SMTP id a132so6005115qkb.13;
+        Fri, 24 May 2019 00:44:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=k2hM4uRH+xcF6VZw3zZp57FHF0UiIEpfXR9WFJl84UE=;
+        b=PYXq1Idzv0Di7KLMknzWpNB+eY+yAOjbVLGoI5HUbfbPvDLGbeqCylQHAYwjvuSa0e
+         IkMKSeoe3IR3aNnjCBw+MHwc5WWQdgsseuj/aC59yOVLI4d0Twksyz4v5wc494lIhagG
+         tI6f8JhIFaoCJFSmJxKQFc1dQ+AEZABwqBiQEMUXnGdfiMTZB2Gs3uPZ3vGAsGa/AdF7
+         LCIl7WMuGS5y0Bo6e8XQO/aJiEDa/nlQqrbspcGRQGNzl23DvPUNFRrB+4NRjwo/OfAB
+         atqkh0iKBC0EFrVTNrQ50gbR+7yV90h01bA/rQNSKkLlx5BjivcZnCzdDU1XcWXk/L1l
+         WKfA==
+X-Gm-Message-State: APjAAAXwfXByxZKYfWiMo9NPVH0LPLmzUDK7pZnqtwgzF0APfN1TY0OJ
+        4eLsFdXsvJQkA4Q8mb4D3BVwKXzWUO3mq3l/+tQ=
+X-Google-Smtp-Source: APXvYqy/WqyRL4BlbMWLM5GdeDgLkBJI6XwCNcVvXGonN+2oV2dtTQWrObje5U17OKbtEn0pWH9nlYsDR25/fOWgBDY=
+X-Received: by 2002:ac8:2433:: with SMTP id c48mr70119188qtc.18.1558683849757;
+ Fri, 24 May 2019 00:44:09 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190522155259.11174-1-christian@brauner.io> <67e4458a-9cc4-d1aa-608c-73ebe9e2f7a3@yandex-team.ru>
+ <20190523163345.q5ynd2ytk7nxcvqf@brauner.io>
+In-Reply-To: <20190523163345.q5ynd2ytk7nxcvqf@brauner.io>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Fri, 24 May 2019 09:43:53 +0200
+Message-ID: <CAK8P3a26uvqmExJZsezhB+cp2ADM0Ai9jVUKWOFM6kg848bCKg@mail.gmail.com>
+Subject: Re: [PATCH v1 1/2] open: add close_range()
+To:     Christian Brauner <christian@brauner.io>
+Cc:     Konstantin Khlebnikov <khlebnikov@yandex-team.ru>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        Jann Horn <jannh@google.com>, Oleg Nesterov <oleg@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Shuah Khan <shuah@kernel.org>,
+        David Howells <dhowells@redhat.com>,
+        Todd Kjos <tkjos@android.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        alpha <linux-alpha@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-ia64@vger.kernel.org,
+        linux-m68k <linux-m68k@lists.linux-m68k.org>,
+        linux-mips@vger.kernel.org,
+        Parisc List <linux-parisc@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        Linux-sh list <linux-sh@vger.kernel.org>,
+        sparclinux <sparclinux@vger.kernel.org>,
+        linux-xtensa@linux-xtensa.org,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, 25 Apr 2019 22:32:17 +0800 Aubrey Li <aubrey.li@linux.intel.com> wrote:
+On Thu, May 23, 2019 at 6:33 PM Christian Brauner <christian@brauner.io> wrote:
+> On Thu, May 23, 2019 at 07:22:17PM +0300, Konstantin Khlebnikov wrote:
+> > On 22.05.2019 18:52, Christian Brauner wrote:> This adds the close_range() syscall. It allows to efficiently close a range
+> > >   22 files changed, 100 insertions(+), 9 deletions(-)
+> > >
+> >
+> > It would be better to split arch/ wiring into separate patch for better readability.
+>
+> Ok. You mean only do x86 - seems to be the standard - and then move the
+> others into a separate patch? Doesn't seem worth to have a patch
+> per-arch, I'd think.
 
-> The architecture specific information of the running processes
-> could be useful to the userland. Add /proc/<pid>/arch_status
-> interface support to examine process architecture specific
-> information externally.
+I think I would prefer the first patch to just add the call without wiring it up
+anywhere, and a second patch do add it on all architectures including x86.
 
-I'll give this an
-
-Acked-by: Andrew Morton <akpm@linux-foundation.org>
-
-from a procfs POV and shall let the x86 maintainers worry about it.
-
-I must say I'm a bit surprised that we don't already provide some form
-of per-process CPU-specific info anywhere in procfs.  Something to
-piggy-back this onto.  But I can't find such a thing.
-
-I assume we've already discussed why this is a new procfs file rather
-than merely a new line in /proc/<pid>/status.  If so, please add the
-reasoning to the changelog.  If not, please discuss now ;)
-
-
+     Arnd
