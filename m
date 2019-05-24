@@ -2,286 +2,125 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 13475296C9
-	for <lists+linux-api@lfdr.de>; Fri, 24 May 2019 13:12:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 392522979A
+	for <lists+linux-api@lfdr.de>; Fri, 24 May 2019 13:52:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390864AbfEXLLd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 24 May 2019 07:11:33 -0400
-Received: from mail-it1-f193.google.com ([209.85.166.193]:40642 "EHLO
-        mail-it1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391017AbfEXLLZ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 24 May 2019 07:11:25 -0400
-Received: by mail-it1-f193.google.com with SMTP id h11so13226580itf.5
-        for <linux-api@vger.kernel.org>; Fri, 24 May 2019 04:11:24 -0700 (PDT)
+        id S2391112AbfEXLwl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 24 May 2019 07:52:41 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:37778 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391204AbfEXLwl (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 24 May 2019 07:52:41 -0400
+Received: by mail-ed1-f65.google.com with SMTP id w37so14002121edw.4
+        for <linux-api@vger.kernel.org>; Fri, 24 May 2019 04:52:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brauner.io; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=nuilRgGUYviZJo16cdF7vgoam1Y3XVG2+yfRV0kCp44=;
-        b=R+t/15ExfNAlDmS3T8/nYVgxjZsPbXAkCbY/B3M2JMRsaFaURV0Zvwo0dvOoA8j1Hm
-         pYCK1zBbhCgnKR+XhqVnk7+ApqJfnA2u7suNZ83jbrV4R6vPW6qeJf7gbtLWsp8NPh5C
-         7QGuX9muWb4qK2c7arcSFCR/ETv8/zM12NWPgcweja2NzxE0Nb6gWV3ACS2uOuwyElHV
-         mivWTrs4gdGOskQm1ccR4N4oruKpjx/ClJz9t2u6Li4RA51pbfSX1I+7TFfDNr/PD8QU
-         BbPiZbClYmIgJVXnBXzJUBI/f+bo1JTfUguXL47Z1WJ3MaS6fvhxARml1t5MsSBiA5gB
-         mG/A==
+        d=shutemov-name.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=ByWnRi5xnahJzCvKHvwWbU8X9Zsko8eu1QbpfSkepcI=;
+        b=fj/ve63SAS6LbkLj3/2xSc53dNUmA1kW4LO4gSD8p2pPsVcJ9mLN+PvcWiX5chYCXi
+         FwvB06ka0Un2UzcVw5StRa2fV3jOhanfDBaa2eLmuewTaYIk8Nyh2G/FBud9KdNKUPgD
+         BnxdtzszrHmfqrRG6uZekWuGnfjzPJrl4G2hrnGkkSsXmhH/cL5dq4U7IQYqfuSQUa9q
+         RoO0oAnWL3q712yci1RgE/ECkQYR0eHQ7n277ogD1Y/aDZ4+t4XeirJcK65N2OuHolOa
+         gtM+Nl6z8WIZHPK/9i/SanpcCLzXIlgQ3an9r/HSECyPuRkRdPMF5GypCCnheChJ6uIc
+         +cMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=nuilRgGUYviZJo16cdF7vgoam1Y3XVG2+yfRV0kCp44=;
-        b=ufrUn/oKvzzis4QK/XHO6sqSDFw8Hv2bZS0xE6PkGLesnPJ4nZm6tjD2o3dBAnSEYl
-         Z6L3NKh025QcilVJkRSQRgcCp9jrVRabq85sPg4VaQKtoIzGHJ8YsOIKnvz7k3J2pdhP
-         +cd7M7O6qvRy514sCuw3c71QjwlXKsSSq2nh9apUYJITkLaBSF9Wr499jXdXF6Z1hA8T
-         wYAf0xTeLKC63Vs6aVF4PmVjWug2p73HbYe+PbIp++aefCdA06ouFwPCpi9Q3ENHbpSH
-         2FZbHoFNVfWVTyRnbDe3n0rbvfFE2MYEY+mEuBKoYntFk3aRybLY26O9Z7lektjyZzBc
-         yFbw==
-X-Gm-Message-State: APjAAAW5JGz0u2at3P9qXPYMp9qvGCXEkIrh5dLi50OyZCOhXvY4siEa
-        wDrxJ1+wH6aSrVWu5Y9KXCB5zg==
-X-Google-Smtp-Source: APXvYqxBWUfU8Pv7v2XH7gr4LqA1seYEni45lAXHr6lzqG9t83zM0qgC2zZvMzAwxI3Sa3ujZjPIVg==
-X-Received: by 2002:a24:7c97:: with SMTP id a145mr12709178itd.117.1558696284466;
-        Fri, 24 May 2019 04:11:24 -0700 (PDT)
-Received: from localhost.localdomain ([172.56.12.37])
-        by smtp.gmail.com with ESMTPSA id y194sm1024771itb.34.2019.05.24.04.11.19
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=ByWnRi5xnahJzCvKHvwWbU8X9Zsko8eu1QbpfSkepcI=;
+        b=rrwI8JdQxjUOO7OGIb95RE58HTY2HNu5Y1VtXE3HHOB7Oovc5Tce8bcs8vZ9od7Mrm
+         uoIvH8bbUpc5Jpg/qLQ55puA8kZOTV/SGfaGRcG5oR7ADc6kL0RvOwmC4yaJPgvjAAIE
+         ZLKVc84uo5xvqya3jgi9CNWa3PuxdybWoN23k4Lrtd7SRfXNP4TqBss7dyZxiaIGhGn7
+         6n+QZjbSO2EBjsZ9loa7fqUzf1OhZnhSkRPKuqlj+bSbbi2Z6jUwZZjtCgzbxIXRp3j6
+         Ui0eINg35rEIcpX8tbd7j84zeOA49R4Pt5WFffv6g62KXD2XO3OWOGFt4ZCDl8EpOlcF
+         jDMA==
+X-Gm-Message-State: APjAAAUSDAq7LyFPejUMdzq3+e4EGIQrqQ9Hx9Cs8nOg/gFKiULhXM1N
+        sSqpHjV2U4iWAyL4zM+vzFLbEA==
+X-Google-Smtp-Source: APXvYqy+YBb8phwRTTasGpoCAhen7qTO3dYqvPQ/V2KcTvAargF0eTRh095ZIIytNdKz6fMRQTOaDg==
+X-Received: by 2002:a17:906:2447:: with SMTP id a7mr1078163ejb.235.1558698759336;
+        Fri, 24 May 2019 04:52:39 -0700 (PDT)
+Received: from box.localdomain (mm-192-235-121-178.mgts.dynamic.pppoe.byfly.by. [178.121.235.192])
+        by smtp.gmail.com with ESMTPSA id l19sm683637edc.84.2019.05.24.04.52.38
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 24 May 2019 04:11:23 -0700 (PDT)
-From:   Christian Brauner <christian@brauner.io>
-To:     viro@zeniv.linux.org.uk, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, torvalds@linux-foundation.org,
-        fweimer@redhat.com
-Cc:     jannh@google.com, oleg@redhat.com, tglx@linutronix.de,
-        arnd@arndb.de, shuah@kernel.org, dhowells@redhat.com,
-        tkjos@android.com, ldv@altlinux.org, miklos@szeredi.hu,
-        Christian Brauner <christian@brauner.io>,
-        linux-api@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: [PATCH v3 3/3] tests: add close_range() tests
-Date:   Fri, 24 May 2019 13:10:47 +0200
-Message-Id: <20190524111047.6892-4-christian@brauner.io>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190524111047.6892-1-christian@brauner.io>
-References: <20190524111047.6892-1-christian@brauner.io>
+        Fri, 24 May 2019 04:52:38 -0700 (PDT)
+Received: by box.localdomain (Postfix, from userid 1000)
+        id 1BED8102F25; Fri, 24 May 2019 14:52:39 +0300 (+03)
+Date:   Fri, 24 May 2019 14:52:39 +0300
+From:   "Kirill A. Shutemov" <kirill@shutemov.name>
+To:     Kirill Tkhai <ktkhai@virtuozzo.com>
+Cc:     akpm@linux-foundation.org, dan.j.williams@intel.com,
+        mhocko@suse.com, keith.busch@intel.com,
+        kirill.shutemov@linux.intel.com, alexander.h.duyck@linux.intel.com,
+        ira.weiny@intel.com, andreyknvl@google.com, arunks@codeaurora.org,
+        vbabka@suse.cz, cl@linux.com, riel@surriel.com,
+        keescook@chromium.org, hannes@cmpxchg.org, npiggin@gmail.com,
+        mathieu.desnoyers@efficios.com, shakeelb@google.com, guro@fb.com,
+        aarcange@redhat.com, hughd@google.com, jglisse@redhat.com,
+        mgorman@techsingularity.net, daniel.m.jordan@oracle.com,
+        jannh@google.com, kilobyte@angband.pl, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v2 0/7] mm: process_vm_mmap() -- syscall for duplication
+ a process mapping
+Message-ID: <20190524115239.ugxv766doolc6nsc@box>
+References: <155836064844.2441.10911127801797083064.stgit@localhost.localdomain>
+ <20190522152254.5cyxhjizuwuojlix@box>
+ <358bb95e-0dca-6a82-db39-83c0cf09a06c@virtuozzo.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <358bb95e-0dca-6a82-db39-83c0cf09a06c@virtuozzo.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This adds basic tests for the new close_range() syscall.
-- test that no invalid flags can be passed
-- test that a range of file descriptors is correctly closed
-- test that a range of file descriptors is correctly closed if there there
-  are already closed file descriptors in the range
-- test that max_fd is correctly capped to the current fdtable maximum
+On Fri, May 24, 2019 at 01:45:50PM +0300, Kirill Tkhai wrote:
+> On 22.05.2019 18:22, Kirill A. Shutemov wrote:
+> > On Mon, May 20, 2019 at 05:00:01PM +0300, Kirill Tkhai wrote:
+> >> This patchset adds a new syscall, which makes possible
+> >> to clone a VMA from a process to current process.
+> >> The syscall supplements the functionality provided
+> >> by process_vm_writev() and process_vm_readv() syscalls,
+> >> and it may be useful in many situation.
+> > 
+> > Kirill, could you explain how the change affects rmap and how it is safe.
+> > 
+> > My concern is that the patchset allows to map the same page multiple times
+> > within one process or even map page allocated by child to the parrent.
+> > 
+> > It was not allowed before.
+> > 
+> > In the best case it makes reasoning about rmap substantially more difficult.
+> > 
+> > But I'm worry it will introduce hard-to-debug bugs, like described in
+> > https://lwn.net/Articles/383162/.
+> 
+> Andy suggested to unmap PTEs from source page table, and this make the single
+> page never be mapped in the same process twice. This is OK for my use case,
+> and here we will just do a small step "allow to inherit VMA by a child process",
+> which we didn't have before this. If someone still needs to continue the work
+> to allow the same page be mapped twice in a single process in the future, this
+> person will have a supported basis we do in this small step. I believe, someone
+> like debugger may want to have this to make a fast snapshot of a process private
+> memory (when the task is stopped for a small time to get its memory). But for
+> me remapping is enough at the moment.
+> 
+> What do you think about this?
 
-Signed-off-by: Christian Brauner <christian@brauner.io>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Jann Horn <jannh@google.com>
-Cc: David Howells <dhowells@redhat.com>
-Cc: Dmitry V. Levin <ldv@altlinux.org>
-Cc: Oleg Nesterov <oleg@redhat.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Florian Weimer <fweimer@redhat.com>
-Cc: Shuah Khan <shuah@kernel.org>
-Cc: linux-api@vger.kernel.org
-Cc: linux-kselftest@vger.kernel.org
----
-v1: unchanged
-v2:
-- Christian Brauner <christian@brauner.io>:
-  - verify that close_range() correctly closes a single file descriptor
-v3:
-- Christian Brauner <christian@brauner.io>:
-  - add missing Cc for Shuah
-  - add missing Cc for linux-kselftest
----
- tools/testing/selftests/Makefile              |   1 +
- tools/testing/selftests/core/.gitignore       |   1 +
- tools/testing/selftests/core/Makefile         |   6 +
- .../testing/selftests/core/close_range_test.c | 142 ++++++++++++++++++
- 4 files changed, 150 insertions(+)
- create mode 100644 tools/testing/selftests/core/.gitignore
- create mode 100644 tools/testing/selftests/core/Makefile
- create mode 100644 tools/testing/selftests/core/close_range_test.c
+I don't think that unmapping alone will do. Consider the following
+scenario:
 
-diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
-index 9781ca79794a..06e57fabbff9 100644
---- a/tools/testing/selftests/Makefile
-+++ b/tools/testing/selftests/Makefile
-@@ -4,6 +4,7 @@ TARGETS += bpf
- TARGETS += breakpoints
- TARGETS += capabilities
- TARGETS += cgroup
-+TARGETS += core
- TARGETS += cpufreq
- TARGETS += cpu-hotplug
- TARGETS += drivers/dma-buf
-diff --git a/tools/testing/selftests/core/.gitignore b/tools/testing/selftests/core/.gitignore
-new file mode 100644
-index 000000000000..6e6712ce5817
---- /dev/null
-+++ b/tools/testing/selftests/core/.gitignore
-@@ -0,0 +1 @@
-+close_range_test
-diff --git a/tools/testing/selftests/core/Makefile b/tools/testing/selftests/core/Makefile
-new file mode 100644
-index 000000000000..de3ae68aa345
---- /dev/null
-+++ b/tools/testing/selftests/core/Makefile
-@@ -0,0 +1,6 @@
-+CFLAGS += -g -I../../../../usr/include/ -I../../../../include
-+
-+TEST_GEN_PROGS := close_range_test
-+
-+include ../lib.mk
-+
-diff --git a/tools/testing/selftests/core/close_range_test.c b/tools/testing/selftests/core/close_range_test.c
-new file mode 100644
-index 000000000000..d6e6079d3d53
---- /dev/null
-+++ b/tools/testing/selftests/core/close_range_test.c
-@@ -0,0 +1,142 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#define _GNU_SOURCE
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <linux/kernel.h>
-+#include <limits.h>
-+#include <stdbool.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <syscall.h>
-+#include <unistd.h>
-+
-+#include "../kselftest.h"
-+
-+static inline int sys_close_range(unsigned int fd, unsigned int max_fd,
-+				  unsigned int flags)
-+{
-+	return syscall(__NR_close_range, fd, max_fd, flags);
-+}
-+
-+#ifndef ARRAY_SIZE
-+#define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
-+#endif
-+
-+int main(int argc, char **argv)
-+{
-+	const char *test_name = "close_range";
-+	int i, ret;
-+	int open_fds[101];
-+	int fd_max, fd_mid, fd_min;
-+
-+	ksft_set_plan(9);
-+
-+	for (i = 0; i < ARRAY_SIZE(open_fds); i++) {
-+		int fd;
-+
-+		fd = open("/dev/null", O_RDONLY | O_CLOEXEC);
-+		if (fd < 0) {
-+			if (errno == ENOENT)
-+				ksft_exit_skip(
-+					"%s test: skipping test since /dev/null does not exist\n",
-+					test_name);
-+
-+			ksft_exit_fail_msg(
-+				"%s test: %s - failed to open /dev/null\n",
-+				strerror(errno), test_name);
-+		}
-+
-+		open_fds[i] = fd;
-+	}
-+
-+	fd_min = open_fds[0];
-+	fd_max = open_fds[99];
-+
-+	ret = sys_close_range(fd_min, fd_max, 1);
-+	if (!ret)
-+		ksft_exit_fail_msg(
-+			"%s test: managed to pass invalid flag value\n",
-+			test_name);
-+	ksft_test_result_pass("do not allow invalid flag values for close_range()\n");
-+
-+	fd_mid = open_fds[50];
-+	ret = sys_close_range(fd_min, fd_mid, 0);
-+	if (ret < 0)
-+		ksft_exit_fail_msg(
-+			"%s test: Failed to close range of file descriptors from %d to %d\n",
-+			test_name, fd_min, fd_mid);
-+	ksft_test_result_pass("close_range() from %d to %d\n", fd_min, fd_mid);
-+
-+	for (i = 0; i <= 50; i++) {
-+		ret = fcntl(open_fds[i], F_GETFL);
-+		if (ret >= 0)
-+			ksft_exit_fail_msg(
-+				"%s test: Failed to close range of file descriptors from %d to %d\n",
-+				test_name, fd_min, fd_mid);
-+	}
-+	ksft_test_result_pass("fcntl() verify closed range from %d to %d\n", fd_min, fd_mid);
-+
-+	/* create a couple of gaps */
-+	close(57);
-+	close(78);
-+	close(81);
-+	close(82);
-+	close(84);
-+	close(90);
-+
-+	fd_mid = open_fds[51];
-+	/* Choose slightly lower limit and leave some fds for a later test */
-+	fd_max = open_fds[92];
-+	ret = sys_close_range(fd_mid, fd_max, 0);
-+	if (ret < 0)
-+		ksft_exit_fail_msg(
-+			"%s test: Failed to close range of file descriptors from 51 to 100\n",
-+			test_name);
-+	ksft_test_result_pass("close_range() from %d to %d\n", fd_mid, fd_max);
-+
-+	for (i = 51; i <= 92; i++) {
-+		ret = fcntl(open_fds[i], F_GETFL);
-+		if (ret >= 0)
-+			ksft_exit_fail_msg(
-+				"%s test: Failed to close range of file descriptors from 51 to 100\n",
-+				test_name);
-+	}
-+	ksft_test_result_pass("fcntl() verify closed range from %d to %d\n", fd_mid, fd_max);
-+
-+	fd_mid = open_fds[93];
-+	fd_max = open_fds[99];
-+	/* test that the kernel caps and still closes all fds */
-+	ret = sys_close_range(fd_mid, UINT_MAX, 0);
-+	if (ret < 0)
-+		ksft_exit_fail_msg(
-+			"%s test: Failed to close range of file descriptors from 51 to 100\n",
-+			test_name);
-+	ksft_test_result_pass("close_range() from %d to %d\n", fd_mid, fd_max);
-+
-+	for (i = 93; i < 100; i++) {
-+		ret = fcntl(open_fds[i], F_GETFL);
-+		if (ret >= 0)
-+			ksft_exit_fail_msg(
-+				"%s test: Failed to close range of file descriptors from 51 to 100\n",
-+				test_name);
-+	}
-+	ksft_test_result_pass("fcntl() verify closed range from %d to %d\n", fd_mid, fd_max);
-+
-+	ret = sys_close_range(open_fds[100], open_fds[100], 0);
-+	if (ret < 0)
-+		ksft_exit_fail_msg(
-+			"%s test: Failed to close single file descriptor\n",
-+			test_name);
-+	ksft_test_result_pass("close_range() closed single file descriptor\n");
-+
-+	ret = fcntl(open_fds[100], F_GETFL);
-+	if (ret >= 0)
-+		ksft_exit_fail_msg(
-+			"%s test: Failed to close single file descriptor\n",
-+			test_name);
-+	ksft_test_result_pass("fcntl() verify closed single file descriptor\n");
-+
-+	return ksft_exit_pass();
-+}
--- 
-2.21.0
+1. Task A creates and populates the mapping.
+2. Task A forks. We have now Task B mapping the same pages, but
+write-protected.
+3. Task B calls process_vm_mmap() and passes the mapping to the parent.
 
+After this Task A will have the same anon pages mapped twice.
+
+One possible way out would be to force CoW on all pages in the mapping,
+before passing the mapping to the new process.
+
+Thanks,
+Kirill.
