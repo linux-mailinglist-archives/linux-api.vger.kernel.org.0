@@ -2,108 +2,104 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A70E629995
-	for <lists+linux-api@lfdr.de>; Fri, 24 May 2019 16:00:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80E402A092
+	for <lists+linux-api@lfdr.de>; Fri, 24 May 2019 23:43:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403932AbfEXOAr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 24 May 2019 10:00:47 -0400
-Received: from relay.sw.ru ([185.231.240.75]:34690 "EHLO relay.sw.ru"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2403875AbfEXOAr (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 24 May 2019 10:00:47 -0400
-Received: from [172.16.25.169]
-        by relay.sw.ru with esmtp (Exim 4.91)
-        (envelope-from <ktkhai@virtuozzo.com>)
-        id 1hUAkL-0006lR-1n; Fri, 24 May 2019 17:00:33 +0300
-Subject: Re: [PATCH v2 0/7] mm: process_vm_mmap() -- syscall for duplication a
- process mapping
-To:     "Kirill A. Shutemov" <kirill@shutemov.name>
-Cc:     akpm@linux-foundation.org, dan.j.williams@intel.com,
-        mhocko@suse.com, keith.busch@intel.com,
-        kirill.shutemov@linux.intel.com, alexander.h.duyck@linux.intel.com,
-        ira.weiny@intel.com, andreyknvl@google.com, arunks@codeaurora.org,
-        vbabka@suse.cz, cl@linux.com, riel@surriel.com,
-        keescook@chromium.org, hannes@cmpxchg.org, npiggin@gmail.com,
-        mathieu.desnoyers@efficios.com, shakeelb@google.com, guro@fb.com,
-        aarcange@redhat.com, hughd@google.com, jglisse@redhat.com,
-        mgorman@techsingularity.net, daniel.m.jordan@oracle.com,
-        jannh@google.com, kilobyte@angband.pl, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org
-References: <155836064844.2441.10911127801797083064.stgit@localhost.localdomain>
- <20190522152254.5cyxhjizuwuojlix@box>
- <358bb95e-0dca-6a82-db39-83c0cf09a06c@virtuozzo.com>
- <20190524115239.ugxv766doolc6nsc@box>
-From:   Kirill Tkhai <ktkhai@virtuozzo.com>
-Message-ID: <c3cd3719-0a5e-befe-89f2-328526bb714d@virtuozzo.com>
-Date:   Fri, 24 May 2019 17:00:32 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S2404252AbfEXVn1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 24 May 2019 17:43:27 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:60204 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404339AbfEXVnZ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 24 May 2019 17:43:25 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x4OLdSlE141964;
+        Fri, 24 May 2019 21:43:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ content-transfer-encoding : in-reply-to; s=corp-2018-07-02;
+ bh=5ZYOEzS+65K8bB/ZHCHtVMV0q6W5qUrvuM4ooNhr7KA=;
+ b=m+Zhhh6bDXlaH1hAoV9gd9ihKiKeb6nlkBYBgRMj+BZ38id0RqowMWRjt6wKtIptu7jM
+ V5LvrzcunUIC2M9aHa7Lhz8vwdFsYhJIr+IEpJHXTQJrBNVw2PDwFWns+SUkHrXUhp1z
+ ws62Zjw3BrtWx0HiRj+WN/Me+RoLyUUyWZTMKXNVcGUKDmoShFrg1wkG9Yu120lCzOQ6
+ zTD5DrSu0fgXVIydHgRcbqeEGca7YgMFmKAsHdS7rqgodWOlU5hztSQOYxxx9gFc2mai
+ iEAb3F37E4XWVYZPO3j41WDxYJ3rzu8pBjLswBwpyde6jwpFDyRLsnqmdP/igSiq6gUy 8g== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by userp2120.oracle.com with ESMTP id 2smsk5kgm1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 24 May 2019 21:43:11 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x4OLhBln162017;
+        Fri, 24 May 2019 21:43:11 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by userp3030.oracle.com with ESMTP id 2smshg3ec9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 24 May 2019 21:43:10 +0000
+Received: from abhmp0022.oracle.com (abhmp0022.oracle.com [141.146.116.28])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x4OLh4p9016253;
+        Fri, 24 May 2019 21:43:04 GMT
+Received: from ca-dmjordan1.us.oracle.com (/10.211.9.48)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Fri, 24 May 2019 21:43:04 +0000
+Date:   Fri, 24 May 2019 17:43:04 -0400
+From:   Daniel Jordan <daniel.m.jordan@oracle.com>
+To:     "Potyra, Stefan" <Stefan.Potyra@elektrobit.com>
+Cc:     "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "Jordan, Tobias" <Tobias.Jordan@elektrobit.com>,
+        akpm@linux-foundation.org, vbabka@suse.cz, mhocko@suse.com,
+        kirill.shutemov@linux.intel.com, linux-api@vger.kernel.org
+Subject: Re: [PATCH] mm: mlockall error for flag MCL_ONFAULT
+Message-ID: <20190524214304.enntpu4tvzpyxzfe@ca-dmjordan1.us.oracle.com>
+References: <20190522112329.GA25483@er01809n.ebgroup.elektrobit.com>
 MIME-Version: 1.0
-In-Reply-To: <20190524115239.ugxv766doolc6nsc@box>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190522112329.GA25483@er01809n.ebgroup.elektrobit.com>
+User-Agent: NeoMutt/20180323-268-5a959c
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9267 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1905240141
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9267 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1905240141
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 24.05.2019 14:52, Kirill A. Shutemov wrote:
-> On Fri, May 24, 2019 at 01:45:50PM +0300, Kirill Tkhai wrote:
->> On 22.05.2019 18:22, Kirill A. Shutemov wrote:
->>> On Mon, May 20, 2019 at 05:00:01PM +0300, Kirill Tkhai wrote:
->>>> This patchset adds a new syscall, which makes possible
->>>> to clone a VMA from a process to current process.
->>>> The syscall supplements the functionality provided
->>>> by process_vm_writev() and process_vm_readv() syscalls,
->>>> and it may be useful in many situation.
->>>
->>> Kirill, could you explain how the change affects rmap and how it is safe.
->>>
->>> My concern is that the patchset allows to map the same page multiple times
->>> within one process or even map page allocated by child to the parrent.
->>>
->>> It was not allowed before.
->>>
->>> In the best case it makes reasoning about rmap substantially more difficult.
->>>
->>> But I'm worry it will introduce hard-to-debug bugs, like described in
->>> https://lwn.net/Articles/383162/.
->>
->> Andy suggested to unmap PTEs from source page table, and this make the single
->> page never be mapped in the same process twice. This is OK for my use case,
->> and here we will just do a small step "allow to inherit VMA by a child process",
->> which we didn't have before this. If someone still needs to continue the work
->> to allow the same page be mapped twice in a single process in the future, this
->> person will have a supported basis we do in this small step. I believe, someone
->> like debugger may want to have this to make a fast snapshot of a process private
->> memory (when the task is stopped for a small time to get its memory). But for
->> me remapping is enough at the moment.
->>
->> What do you think about this?
-> 
-> I don't think that unmapping alone will do. Consider the following
-> scenario:
-> 
-> 1. Task A creates and populates the mapping.
-> 2. Task A forks. We have now Task B mapping the same pages, but
-> write-protected.
-> 3. Task B calls process_vm_mmap() and passes the mapping to the parent.
-> 
-> After this Task A will have the same anon pages mapped twice.
+[ Adding linux-api and some of the people who were involved in the
+MCL_ONFAULT/mlock2/etc discussions.  Author of the Fixes patch appears to
+have moved on. ]
 
-Ah, sure.
+On Wed, May 22, 2019 at 11:23:37AM +0000, Potyra, Stefan wrote:
+> If mlockall() is called with only MCL_ONFAULT as flag,
+> it removes any previously applied lockings and does
+> nothing else.
 
-> One possible way out would be to force CoW on all pages in the mapping,
-> before passing the mapping to the new process.
+The change looks reasonable.  Hard to imagine any application relies on it, and
+they really shouldn't be if they are.  Debian codesearch turned up only a few
+cases where stress-ng was doing this for unknown reasons[1] and this change
+isn't gonna break those.  In this case I think changing the syscall's behavior
+is justified.  
 
-This will pop all swapped pages up, which is the thing the patchset aims
-to prevent.
+> This behavior is counter-intuitive and doesn't match the
+> Linux man page.
 
-Hm, what about allow remapping only VMA, which anon_vma::rb_root contain
-only chain and which vma->anon_vma_chain contains single entry? This is
-a vma, which were faulted, but its mm never were duplicated (or which
-forks already died).
+I'd quote it for the changelog:
 
-Thanks,
-Kirill
+  For mlockall():
+
+  EINVAL Unknown  flags were specified or MCL_ONFAULT was specified with‐
+         out either MCL_FUTURE or MCL_CURRENT.
+
+With that you can add
+
+Reviewed-by: Daniel Jordan <daniel.m.jordan@oracle.com>
+
+[1] https://sources.debian.org/src/stress-ng/0.09.50-1/stress-mlock.c/?hl=203#L203
