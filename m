@@ -2,389 +2,282 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9614B2AA4C
-	for <lists+linux-api@lfdr.de>; Sun, 26 May 2019 16:36:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 016792AB50
+	for <lists+linux-api@lfdr.de>; Sun, 26 May 2019 18:58:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727801AbfEZOgi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 26 May 2019 10:36:38 -0400
-Received: from mail.virtlab.unibo.it ([130.136.161.50]:56014 "EHLO
-        mail.virtlab.unibo.it" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727767AbfEZOgi (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 26 May 2019 10:36:38 -0400
-X-Greylist: delayed 656 seconds by postgrey-1.27 at vger.kernel.org; Sun, 26 May 2019 10:36:35 EDT
-Received: from cs.unibo.it (host0.studiodavoli.it [109.234.61.1])
-        by mail.virtlab.unibo.it (Postfix) with ESMTPSA id 94DBE1FF56;
-        Sun, 26 May 2019 16:25:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=cs.unibo.it;
-        s=virtlab; t=1558880738;
-        bh=C+N35ZzXj0U6TNHCXxgyJtcRMzkF1WAh1wwcXUynMic=;
-        h=Date:From:To:Cc:Subject:From;
-        b=BJaFV42a2QEk7d9YIb2049DqKUj1/iwlBGt2h5i/mPZ3mu/pVtQtvqIUsYItyK6vy
-         iJWGaOI7DRpNhuxRIR3EEvyVP5wU4b5nRy+xzknCPLUtArlz+ReG3/UBNCSwwSXkQc
-         HWhXZwyBjrnXd+NtEmBp4LroVv59xkDY0eYWjoco=
-Date:   Sun, 26 May 2019 16:25:21 +0200
-From:   Renzo Davoli <renzo@cs.unibo.it>
-To:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Davide Libenzi <davidel@xmailserver.org>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     linux-api@vger.kernel.org
-Subject: [PATCH 1/1] eventfd new tag EFD_VPOLL: generate epoll events
-Message-ID: <20190526142521.GA21842@cs.unibo.it>
+        id S1727987AbfEZQ6U (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 26 May 2019 12:58:20 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:40977 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727880AbfEZQ6T (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 26 May 2019 12:58:19 -0400
+Received: by mail-lj1-f193.google.com with SMTP id q16so4271874ljj.8
+        for <linux-api@vger.kernel.org>; Sun, 26 May 2019 09:58:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=gwWdQnmq8yASPrv2cFHrDQaqBgqtmSmbYfjT2af0Acs=;
+        b=UXAoISgQjf1jQmsrwHd12UAUvhD6bf1H5d4w3/6UVxx1RAozQIy7yc+RrEsARJDzoR
+         K1BNPe1jPjl5Z3yMoxGsaOGzTOj1A035x4xcNiPp17tsaBS9HrmfLWpUaJSdRTJB95CQ
+         lGTpp6xg251xIEiGguzO4NBvatZ9DuEMxtP5g=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=gwWdQnmq8yASPrv2cFHrDQaqBgqtmSmbYfjT2af0Acs=;
+        b=VMvV6jadX+HJ1f4jGs9FFSofDMGcPkI23aizuNfgwPkFZbEFZh6EgTRvVnq6JtE6FW
+         MJAa7Qe3ricJEVsa7jJEQeq8zoNbYr5AKwUFB8qTmdNKUbWGr/7TJNqBYHTuYhlmA6jZ
+         mJ1bZJlRdnTE6bf0kMgZqFHliw6XDYHGWWYRg4gBC9hkYFMSKBMwCv38La70VF9QoVwQ
+         EX3dT20WNhauLA5EI7SYHjRREfLiMla/9UOtiUFJAGXfXsntbk7mmyIrOEAN5Eiy8fcr
+         A+CuU6i8Fa8X3VtcyGkcJb0U4I/6xhcN8k/AI8PSzTkm+8pq4Uapq9CCsjMtfoe7wmfJ
+         jRVw==
+X-Gm-Message-State: APjAAAUpcQwlfgFMNXTq9Hcvu7m5xslMFedTbxpbIevi77ZUWaCFqUGi
+        fZw1kbu/00M76naNHw1OkPam0Iy6PLs=
+X-Google-Smtp-Source: APXvYqxLR37lidWSjNXHWReAwEnFn4Vmrw7jX4pFEd+7//egAzgCTK28JVp8uJ3G2QGvfgIxAqX0pg==
+X-Received: by 2002:a2e:8516:: with SMTP id j22mr28759683lji.119.1558889896911;
+        Sun, 26 May 2019 09:58:16 -0700 (PDT)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com. [209.85.167.43])
+        by smtp.gmail.com with ESMTPSA id k21sm2041650lji.81.2019.05.26.09.58.16
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 26 May 2019 09:58:16 -0700 (PDT)
+Received: by mail-lf1-f43.google.com with SMTP id v18so10405761lfi.1
+        for <linux-api@vger.kernel.org>; Sun, 26 May 2019 09:58:16 -0700 (PDT)
+X-Received: by 2002:ac2:4565:: with SMTP id k5mr1557648lfm.170.1558889448623;
+ Sun, 26 May 2019 09:50:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20190526102612.6970-1-christian@brauner.io>
+In-Reply-To: <20190526102612.6970-1-christian@brauner.io>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Sun, 26 May 2019 09:50:32 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wieuV4hGwznPsX-8E0G2FKhx3NjZ9X3dTKh5zKd+iqOBw@mail.gmail.com>
+Message-ID: <CAHk-=wieuV4hGwznPsX-8E0G2FKhx3NjZ9X3dTKh5zKd+iqOBw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] fork: add clone6
+To:     Christian Brauner <christian@brauner.io>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
+        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
+        Jann Horn <jannh@google.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+        David Howells <dhowells@redhat.com>,
+        Pavel Emelyanov <xemul@virtuozzo.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Adrian Reber <adrian@lisas.de>,
+        Andrei Vagin <avagin@gmail.com>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This patch implements an extension of eventfd to define file descriptors 
-whose I/O events can be generated at user level. These file descriptors
-trigger notifications for [p]select/[p]poll/epoll.
+On Sun, May 26, 2019 at 3:27 AM Christian Brauner <christian@brauner.io> wrote:
+>
+> This adds the clone6 system call.
 
-This feature is useful for user-level implementations of network stacks
-or virtual device drivers as libraries.
+No, this is not acceptable.
 
-Development and porting of code often requires to find the way to wait for I/O
-events both coming from file descriptors and generated by user-level code (e.g.
-user-implemented net stacks or drivers).  While it is possible to provide a
-partial support (e.g. using pipes or socketpairs), a clean and complete
-solution is still missing (as far as I have seen); e.g. I have not seen any
-clean way to generate EPOLLPRI, EPOLLERR, etc.
+> +       struct clone6_args args = {
 
-This proposal is based on a new tag for eventfd2(2): EFD_VPOLL.
+First of all, we don't pass in "clone6_args" to the actual implementation.
 
-This statement:
-	fd = eventfd(EPOLLOUT, EFD_VPOLL | EFD_CLOEXEC);
-creates a file descriptor for I/O event generation. In this case EPOLLOUT is
-initially true.
+Passing in lots of args as a structure is fine. But it damn well isn't
+a "clone6" structure. It's just a "clone_args" inside the kernel, and
+there should be a separate clone_uapi_args for the user/kernel
+interface.
 
-Likewise all the other eventfs services, read(2) and write(2) use a 8-byte 
-integer argument.
+The user interface (in the uapi file) may be called "clone6_args", but
+that is *not* then what we pass around inside the kernel.
 
-read(2) returns the current state of the pending events.
+But even for the uapi version, the "clone6" name doesn't make any
+sense as a name to begin with. It's not the sixth revision of clone,
+and that clone6 structure isn't even "six arguments", because it has
+lots of other arguments (with the extra flags registers you did, but
+I'll get to that later).
 
-The argument of write(2) is an or-composition of a control command
-(EFD_VPOLL_ADDEVENTS, EFD_VPOLL_DELEVENTS or EFD_VPOLL_MODEVENTS) and the
-bitmap of events to be added, deleted to the current set of pending events.
-EFD_VPOLL_MODEVENTS completely redefines the set of pending events.
+Finally, the actual definition of that thing is wrong for a uapi interface too:
 
-e.g.:
-	uint64_t request = EFD_VPOLL_ADDEVENTS | EPOLLIN | EPOLLPRI;
-	write(fd, &request, sizeof(request);
-adds EPOLLIN and EPOLLPRI to the set of pending events.
+   struct clone6_args {
+          __s32 pidfd;
+          __aligned_u64 parent_tidptr;
+          __aligned_u64 child_tidptr;
+          ...
 
-These are examples of messages asking for a feature like EFD_VPOLL:
-https://stackoverflow.com/questions/909189/simulating-file-descriptor-in-user-space
-https://stackoverflow.com/questions/1648147/running-a-simple-tcp-server-with-poll-how-do-i-trigger-events-artificially
-... and I need it to write networking and device modules for vuos:
-https://github.com/virtualsquare/vuos
-(it is the new codebase of ViewOS, see www.virtualsquare.org).
+because now it has a hole in that structure definition because of
+alignment issues. So make "pidfd" be 64-bit too. You clearly tried to
+make this be compat-aware etc, but we really don't want to have parts
+of user structures with random padding that we then don't check.
 
-EXAMPLE:
-The following program creates an eventfd/EFD_VPOLL file descriptor and then forks
-a child process.  While the parent waits for events using epoll_wait the child
-generates a sequence of events. When the parent receives an event (or a set of events)
-it prints it and disarm it.
-The following shell session shows a sample run of the program:
-	timeout...
-	timeout...
-	GOT event 1
-	timeout...
-	GOT event 1
-	timeout...
-	GOT event 3
-	timeout...
-	GOT event 2
-	timeout...
-	GOT event 4
-	timeout...
-	GOT event 10
+So the *user* visible structure should be full of those __aligned_u64
+to make sure everything is aligned and doesn't care about compat
+models.
 
-Program source:
-#include <sys/eventfd.h>
-#include <sys/epoll.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdint.h>             /* Definition of uint64_t */
+But the *kernel* structure that we use should be nice and tailored for
+kernel use, and use proper kernel types.
 
-#ifndef EFD_VPOLL
-#define EFD_VPOLL (1 << 1)
-#define EFD_VPOLL_ADDEVENTS (1UL << 32)
-#define EFD_VPOLL_DELEVENTS (2UL << 32)
-#define EFD_VPOLL_MODEVENTS (3UL << 32)
-#endif
+And related to that disgusting thing:
 
-#define handle_error(msg) \
-	do { perror(msg); exit(EXIT_FAILURE); } while (0)
+> -extern long _do_fork(unsigned long, unsigned long, unsigned long, int __user *, int __user *, unsigned long);
+> +extern long _do_fork(u64 clone_flags, struct clone6_args *uargs);
 
-static void vpoll_ctl(int fd, uint64_t request) {
-	ssize_t s;
-	s = write(fd, &request, sizeof(request));
-	if (s != sizeof(uint64_t))
-		handle_error("write");
-}
+This is the correct thing to do (except for the "clone6" name), but:
 
-int
-main(int argc, char *argv[])
+>  static __latent_entropy struct task_struct *copy_process(
+> -                                       unsigned long clone_flags,
+> -                                       unsigned long stack_start,
+> -                                       unsigned long stack_size,
+> -                                       int __user *parent_tidptr,
+> -                                       int __user *child_tidptr,
+> +                                       u64 clone_flags,
+>                                         struct pid *pid,
+>                                         int trace,
+> -                                       unsigned long tls,
+> -                                       int node)
+> +                                       int node,
+> +                                       struct clone6_args *args,
+> +                                       bool is_clone6)
+
+But this is absolutely wrong.
+
+That "bool is_clone6" is garbage.
+
+The in-kernel "struict clone_args" should just be everything that
+clone needs to know.
+
+So the in-kernel "struct clone_args" should never ever need some
+"is_clone6" boolean to specify how you then treat the arguments.
+
+Stuff like this:
+
+> +       int __user *child_tidptr = u64_to_user_ptr(args->child_tidptr);
+
+should have been done in the stubs that set up the "struct clone_args"
+thing, not in copy_process().
+
+So all those
+
+        if (is_clone6) ...
+
+things need to go away, and it just needs to be the caller (who knows
+what kind of clone call it is) setting up the clone_args properly,
+depending on the *different* user interfaces.
+
+And no, we don't do crazy stuff like this either:
+
++SYSCALL_DEFINE6(clone6, struct clone6_args __user*, uargs,
++                       unsigned int, flags1,
++                       unsigned int, flags2,
++                       unsigned int, flags3,
++                       unsigned int, flags4,
++                       unsigned int, flags5)
+
+where this is wrong because it randomly just decides that everything
+is flags (BS), and then doubles down on stupidity by making them
+"unsigned int", so that the tests of the flags actually don't test the
+upper bits anyway.
+
+Why would you reserve 5 words of flags for future use when you have a
+whole structure in user space that you _didn't_ reserve anything in?
+
+So remove all those random flags, put ONE of them in the structure you
+already have (as a "__aligned_u64", so that you actually get 64 bits,
+not the 32 in "unsigned int"), and then perhaps you can add *one*
+other register argument, which is the *size* of the structure that
+user space is passing in.
+
+That way, if we ever expand things, we'll just add new flags to the
+end of the in-memory structure we have, but old binaries that don't
+know about the size will continue to pass in the old size, and we'll
+be all good.
+
+So I hate the whole patch with a passion. It does absolutely
+everything wrong from an interface standpoint.
+
+I don't hate the notion of just adding flags. But do it cleanly, not
+with random "is_clone6" bits.
+
+And no, the structure we pass in from user space must *NOT* be the
+same structure that we just copy blindly around as a kernel structure.
+We've done that mistake before, and it is *always* a mistake. Think
+"struct stat" and friends. No, we have a "struct kstat" for the kernel
+version, and then we convert at the system call boundary. Let's not
+repeat traditional mistakes.
+
+And part of the conversion is exactly that
+
+  Make everybody use the same in-kernel interface, so that the
+lower-down routines don't have those kinds of "if it's this system
+call, do this, otherwise, do that"
+
+kind of horrible nasty mis-designs.
+
+So to summarize:
+
+ (a) make a separate kernel-only "clone_args" structure that is
+unified and works for every single version of clone/fork/vfork, and
+that has pointers and types in the kernel native format.
+
+     So this will have things like "int __user *parent_tidptr" etc,
+and something like *one* u64 flag field.
+
+ (b) have the new system call have a nice compat-safe but
+_independent_ format ("struct clone_uapi_struct")
+
+ (c) you can now make the new system-call interface be something like
+
+int clone_ext(struct clone_uapi_struct __user *uargs, size_t size);
 {
-	int efd, epollfd; 
-	struct epoll_event ev;
-	ev.events = EPOLLIN | EPOLLRDHUP | EPOLLERR | EPOLLOUT | EPOLLHUP | EPOLLPRI;
-	ev.data.u64 = 0;
+        struct clone_uapi_struct kargs;
+        struct clone_args args;
 
-	efd = eventfd(0, EFD_VPOLL | EFD_CLOEXEC);
-	if (efd == -1)
-		handle_error("eventfd");
-	epollfd = epoll_create1(EPOLL_CLOEXEC);
-	if (efd == -1)
-		handle_error("epoll_create1");
-	if (epoll_ctl(epollfd, EPOLL_CTL_ADD, efd, &ev) == -1) 
-		handle_error("epoll_ctl");
+        // The API is defined as a stucture of 64-bit words
+        if (size & 7)
+                return -EINVAL;
+        if (!access_ok(uargs, size))
+                return -EFAULT;
 
-	switch (fork()) {
-		case 0:
-			sleep(3);
-			vpoll_ctl(efd, EFD_VPOLL_ADDEVENTS | EPOLLIN);
-			sleep(2);
-			vpoll_ctl(efd, EFD_VPOLL_ADDEVENTS | EPOLLIN);
-			sleep(2);
-			vpoll_ctl(efd, EFD_VPOLL_ADDEVENTS | EPOLLIN | EPOLLPRI);
-			sleep(2);
-			vpoll_ctl(efd, EFD_VPOLL_ADDEVENTS | EPOLLPRI);
-			sleep(2);
-			vpoll_ctl(efd, EFD_VPOLL_ADDEVENTS | EPOLLOUT);
-			sleep(2);
-			vpoll_ctl(efd, EFD_VPOLL_ADDEVENTS | EPOLLHUP);
-			exit(EXIT_SUCCESS);
-		default:
-			while (1) {
-				int nfds;
-				nfds = epoll_wait(epollfd, &ev, 1, 1000);
-				if (nfds < 0)
-					handle_error("epoll_wait");
-				else if (nfds == 0)
-					printf("timeout...\n");
-				else {
-					printf("GOT event %x\n", ev.events);
-					vpoll_ctl(efd, EFD_VPOLL_DELEVENTS | ev.events);
-					if (ev.events & EPOLLHUP)
-						break;
-				}
-			}
-		case -1:
-			handle_error("fork");
-	}
-	close(epollfd);
-	close(efd);
-	return 0;
-}
+        // If the user passes in new flags we don't
+        // know about (because it was compiled against
+        // a newer kernel than what is runn ing), make
+        // sure they are zero
+        if (size > sizeof(kargs)) {
+                size_t n = (size - sizeof(kargs))>>3;
+                u64 __user *ptr = (u64 __user *)(uargs+1)
 
-Signed-off-by: Renzo Davoli <renzo@cs.unibo.it>
----
- fs/eventfd.c                   | 115 +++++++++++++++++++++++++++++++--
- include/linux/eventfd.h        |   7 +-
- include/uapi/linux/eventpoll.h |   2 +
- 3 files changed, 116 insertions(+), 8 deletions(-)
+                if (n > 10)
+                        return -EINVAL;
+                do {
+                        u64 val;
+                        if (get_user(val, ptr++))
+                                return -EFAULT;
+                        if (val)
+                                return -EINVAL;
+                } while (--n);
 
-diff --git a/fs/eventfd.c b/fs/eventfd.c
-index 8aa0ea8c55e8..f83b7d02307e 100644
---- a/fs/eventfd.c
-+++ b/fs/eventfd.c
-@@ -3,6 +3,7 @@
-  *  fs/eventfd.c
-  *
-  *  Copyright (C) 2007  Davide Libenzi <davidel@xmailserver.org>
-+ *  EFD_VPOLL support: 2019 Renzo Davoli <renzo@cs.unibo.it>
-  *
-  */
- 
-@@ -30,12 +31,24 @@ struct eventfd_ctx {
- 	struct kref kref;
- 	wait_queue_head_t wqh;
- 	/*
--	 * Every time that a write(2) is performed on an eventfd, the
--	 * value of the __u64 being written is added to "count" and a
--	 * wakeup is performed on "wqh". A read(2) will return the "count"
--	 * value to userspace, and will reset "count" to zero. The kernel
--	 * side eventfd_signal() also, adds to the "count" counter and
--	 * issue a wakeup.
-+	 * If the EFD_VPOLL flag was NOT set at eventfd creation:
-+	 *   Every time that a write(2) is performed on an eventfd, the
-+	 *   value of the __u64 being written is added to "count" and a
-+	 *   wakeup is performed on "wqh". A read(2) will return the "count"
-+	 *   value to userspace, and will reset "count" to zero (or decrement
-+	 *   "count" by 1 if the flag EFD_SEMAPHORE has been set). The kernel
-+	 *   side eventfd_signal() also, adds to the "count" counter and
-+	 *   issue a wakeup.
-+	 *
-+	 * If the EFD_VPOLL flag was set at eventfd creation:
-+	 *   count is the set of pending EPOLL events.
-+	 *   read(2) returns the current value of count.
-+	 *   The argument of write(2) is an 8-byte integer:
-+	 *   it is an or-composition of a control command (EFD_VPOLL_ADDEVENTS,
-+	 *   EFD_VPOLL_DELEVENTS or EFD_VPOLL_MODEVENTS) and the bitmap of
-+	 *   events to be added, deleted to the current set of pending events.
-+	 *   (i.e. which bits of "count" must be set or reset).
-+	 *   EFD_VPOLL_MODEVENTS redefines the set of pending events.
- 	 */
- 	__u64 count;
- 	unsigned int flags;
-@@ -295,6 +308,78 @@ static ssize_t eventfd_write(struct file *file, const char __user *buf, size_t c
- 	return res;
- }
- 
-+static __poll_t eventfd_vpoll_poll(struct file *file, poll_table *wait)
-+{
-+	struct eventfd_ctx *ctx = file->private_data;
-+	__poll_t events = 0;
-+	u64 count;
-+
-+	poll_wait(file, &ctx->wqh, wait);
-+
-+	count = READ_ONCE(ctx->count);
-+
-+	events = (count & EPOLLALLMASK);
-+
-+	return events;
-+}
-+
-+static ssize_t eventfd_vpoll_read(struct file *file, char __user *buf,
-+		size_t count, loff_t *ppos)
-+{
-+	struct eventfd_ctx *ctx = file->private_data;
-+	ssize_t res;
-+	__u64 ucnt = 0;
-+
-+	if (count < sizeof(ucnt))
-+		return -EINVAL;
-+	res = sizeof(ucnt);
-+	ucnt = READ_ONCE(ctx->count);
-+	if (put_user(ucnt, (__u64 __user *)buf))
-+		return -EFAULT;
-+
-+	return res;
-+}
-+
-+static ssize_t eventfd_vpoll_write(struct file *file, const char __user *buf,
-+		size_t count, loff_t *ppos)
-+{
-+	struct eventfd_ctx *ctx = file->private_data;
-+	ssize_t res;
-+	__u64 ucnt;
-+	__u32 events;
-+
-+	if (count < sizeof(ucnt))
-+		return -EINVAL;
-+	if (copy_from_user(&ucnt, buf, sizeof(ucnt)))
-+		return -EFAULT;
-+	spin_lock_irq(&ctx->wqh.lock);
-+
-+	events = ucnt & EPOLLALLMASK;
-+	res = sizeof(ucnt);
-+	switch (ucnt & ~((__u64)EPOLLALLMASK)) {
-+	case EFD_VPOLL_ADDEVENTS:
-+		ctx->count |= events;
-+		break;
-+	case EFD_VPOLL_DELEVENTS:
-+		ctx->count &= ~(events);
-+		break;
-+	case EFD_VPOLL_MODEVENTS:
-+		ctx->count = (ctx->count & ~EPOLLALLMASK) | events;
-+		break;
-+	default:
-+		res = -EINVAL;
-+	}
-+
-+	/* wake up waiting threads */
-+	if (res >= 0 && waitqueue_active(&ctx->wqh))
-+		wake_up_locked_poll(&ctx->wqh, res);
-+
-+	spin_unlock_irq(&ctx->wqh.lock);
-+
-+	return res;
-+
-+}
-+
- #ifdef CONFIG_PROC_FS
- static void eventfd_show_fdinfo(struct seq_file *m, struct file *f)
- {
-@@ -319,6 +404,17 @@ static const struct file_operations eventfd_fops = {
- 	.llseek		= noop_llseek,
- };
- 
-+static const struct file_operations eventfd_vpoll_fops = {
-+#ifdef CONFIG_PROC_FS
-+	.show_fdinfo	= eventfd_show_fdinfo,
-+#endif
-+	.release	= eventfd_release,
-+	.poll		= eventfd_vpoll_poll,
-+	.read		= eventfd_vpoll_read,
-+	.write		= eventfd_vpoll_write,
-+	.llseek		= noop_llseek,
-+};
-+
- /**
-  * eventfd_fget - Acquire a reference of an eventfd file descriptor.
-  * @fd: [in] Eventfd file descriptor.
-@@ -391,6 +487,7 @@ EXPORT_SYMBOL_GPL(eventfd_ctx_fileget);
- static int do_eventfd(unsigned int count, int flags)
- {
- 	struct eventfd_ctx *ctx;
-+	const struct file_operations *fops = &eventfd_fops;
- 	int fd;
- 
- 	/* Check the EFD_* constants for consistency.  */
-@@ -410,7 +507,11 @@ static int do_eventfd(unsigned int count, int flags)
- 	ctx->flags = flags;
- 	ctx->id = ida_simple_get(&eventfd_ida, 0, 0, GFP_KERNEL);
- 
--	fd = anon_inode_getfd("[eventfd]", &eventfd_fops, ctx,
-+	if (flags & EFD_VPOLL) {
-+		fops = &eventfd_vpoll_fops;
-+		ctx->count &= EPOLLALLMASK;
-+	}
-+	fd = anon_inode_getfd("[eventfd]", fops, ctx,
- 			      O_RDWR | (flags & EFD_SHARED_FCNTL_FLAGS));
- 	if (fd < 0)
- 		eventfd_free_ctx(ctx);
-diff --git a/include/linux/eventfd.h b/include/linux/eventfd.h
-index ffcc7724ca21..63258cf29344 100644
---- a/include/linux/eventfd.h
-+++ b/include/linux/eventfd.h
-@@ -21,11 +21,16 @@
-  * shared O_* flags.
-  */
- #define EFD_SEMAPHORE (1 << 0)
-+#define EFD_VPOLL (1 << 1)
- #define EFD_CLOEXEC O_CLOEXEC
- #define EFD_NONBLOCK O_NONBLOCK
- 
- #define EFD_SHARED_FCNTL_FLAGS (O_CLOEXEC | O_NONBLOCK)
--#define EFD_FLAGS_SET (EFD_SHARED_FCNTL_FLAGS | EFD_SEMAPHORE)
-+#define EFD_FLAGS_SET (EFD_SHARED_FCNTL_FLAGS | EFD_SEMAPHORE | EFD_VPOLL)
-+
-+#define EFD_VPOLL_ADDEVENTS (1UL << 32)
-+#define EFD_VPOLL_DELEVENTS (2UL << 32)
-+#define EFD_VPOLL_MODEVENTS (3UL << 32)
- 
- struct eventfd_ctx;
- struct file;
-diff --git a/include/uapi/linux/eventpoll.h b/include/uapi/linux/eventpoll.h
-index 8a3432d0f0dc..814de6d869c7 100644
---- a/include/uapi/linux/eventpoll.h
-+++ b/include/uapi/linux/eventpoll.h
-@@ -41,6 +41,8 @@
- #define EPOLLMSG	(__force __poll_t)0x00000400
- #define EPOLLRDHUP	(__force __poll_t)0x00002000
- 
-+#define EPOLLALLMASK	((__force __poll_t)0x0fffffff)
-+
- /* Set exclusive wakeup mode for the target file descriptor */
- #define EPOLLEXCLUSIVE	((__force __poll_t)(1U << 28))
- 
--- 
-2.20.1
+                // Ok, everything else was zero, we use
+                // the part we know about
+                size = sizeof(kargs);
+        }
+        memset(&kargs, 0, sizeof(kargs));
+        memcpy_from_user(&kargs, uargs, size);
 
+        .. now convert 'kargs' to 'args' ..
+
+See? The above may be a bit *unnecessarily* anal about the whole
+checking etc, but it's actually fairly simple in the end. And it means
+that we have that "convert to internal format" in just one place - the
+place where it makes sense. And it's a lot cleaner interface to user
+mode, and allows for easy expansion later.
+
+NOTE! By all means make "clone_ext()" take some of the other arguments
+as part of the argument registers, not everything has to be part of
+"struct clone_uapi_struct". But none of this "flag1..5" stuff. That's
+what a struct is for.
+
+Maybe the basic ":u64 clone_flags" could be the first argument (but
+64-bit arguments can be a bit nasty for compat layers, so it's
+probably not even worth it - once you have to copy an argument
+structure from user space, you might as well put everything there).
+
+                Linus
