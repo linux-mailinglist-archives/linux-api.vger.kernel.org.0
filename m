@@ -2,81 +2,76 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D0652AF24
-	for <lists+linux-api@lfdr.de>; Mon, 27 May 2019 09:04:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1AABC2AF47
+	for <lists+linux-api@lfdr.de>; Mon, 27 May 2019 09:16:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726063AbfE0HET (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 27 May 2019 03:04:19 -0400
-Received: from mx2.suse.de ([195.135.220.15]:44740 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725908AbfE0HET (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 27 May 2019 03:04:19 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 9EFD7AD9C;
-        Mon, 27 May 2019 07:04:17 +0000 (UTC)
-Date:   Mon, 27 May 2019 09:04:15 +0200
-From:   Michal Hocko <mhocko@kernel.org>
-To:     Daniel Jordan <daniel.m.jordan@oracle.com>
-Cc:     "Potyra, Stefan" <Stefan.Potyra@elektrobit.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "Jordan, Tobias" <Tobias.Jordan@elektrobit.com>,
-        akpm@linux-foundation.org, vbabka@suse.cz,
-        kirill.shutemov@linux.intel.com, linux-api@vger.kernel.org
-Subject: Re: [PATCH] mm: mlockall error for flag MCL_ONFAULT
-Message-ID: <20190527070415.GA1658@dhcp22.suse.cz>
-References: <20190522112329.GA25483@er01809n.ebgroup.elektrobit.com>
- <20190524214304.enntpu4tvzpyxzfe@ca-dmjordan1.us.oracle.com>
+        id S1725973AbfE0HQP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 27 May 2019 03:16:15 -0400
+Received: from mga09.intel.com ([134.134.136.24]:16335 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725940AbfE0HQP (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 27 May 2019 03:16:15 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 27 May 2019 00:16:13 -0700
+X-ExtLoop1: 1
+Received: from cli6-desk1.ccr.corp.intel.com (HELO [10.239.161.118]) ([10.239.161.118])
+  by fmsmga001.fm.intel.com with ESMTP; 27 May 2019 00:16:11 -0700
+Subject: Re: [PATCH v18 1/3] proc: add /proc/<pid>/arch_status
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     tglx@linutronix.de, mingo@redhat.com, peterz@infradead.org,
+        hpa@zytor.com, ak@linux.intel.com, tim.c.chen@linux.intel.com,
+        dave.hansen@intel.com, arjan@linux.intel.com, adobriyan@gmail.com,
+        aubrey.li@intel.com, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Andy Lutomirski <luto@kernel.org>
+References: <20190425143219.102258-1-aubrey.li@linux.intel.com>
+ <20190523201822.cc554d68ec567164bec781e1@linux-foundation.org>
+From:   "Li, Aubrey" <aubrey.li@linux.intel.com>
+Message-ID: <d9c9e104-8062-961a-ede7-60d0590f942a@linux.intel.com>
+Date:   Mon, 27 May 2019 15:16:11 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.1.1
 MIME-Version: 1.0
+In-Reply-To: <20190523201822.cc554d68ec567164bec781e1@linux-foundation.org>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190524214304.enntpu4tvzpyxzfe@ca-dmjordan1.us.oracle.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri 24-05-19 17:43:04, Daniel Jordan wrote:
-> [ Adding linux-api and some of the people who were involved in the
-> MCL_ONFAULT/mlock2/etc discussions.  Author of the Fixes patch appears to
-> have moved on. ]
+On 2019/5/24 11:18, Andrew Morton wrote:
+> On Thu, 25 Apr 2019 22:32:17 +0800 Aubrey Li <aubrey.li@linux.intel.com> wrote:
 > 
-> On Wed, May 22, 2019 at 11:23:37AM +0000, Potyra, Stefan wrote:
-> > If mlockall() is called with only MCL_ONFAULT as flag,
-> > it removes any previously applied lockings and does
-> > nothing else.
+>> The architecture specific information of the running processes
+>> could be useful to the userland. Add /proc/<pid>/arch_status
+>> interface support to examine process architecture specific
+>> information externally.
 > 
-> The change looks reasonable.  Hard to imagine any application relies on it, and
-> they really shouldn't be if they are.  Debian codesearch turned up only a few
-> cases where stress-ng was doing this for unknown reasons[1] and this change
-> isn't gonna break those.  In this case I think changing the syscall's behavior
-> is justified.  
+> I'll give this an
 > 
-> > This behavior is counter-intuitive and doesn't match the
-> > Linux man page.
-> 
-> I'd quote it for the changelog:
-> 
->   For mlockall():
-> 
->   EINVAL Unknown  flags were specified or MCL_ONFAULT was specified with‐
->          out either MCL_FUTURE or MCL_CURRENT.
-> 
-> With that you can add
-> 
-> Reviewed-by: Daniel Jordan <daniel.m.jordan@oracle.com>
-> 
-> [1] https://sources.debian.org/src/stress-ng/0.09.50-1/stress-mlock.c/?hl=203#L203
-
-Well spotted and the fix looks reasonable as well. Quoting the man page
-seems useful as well.
-
-Acked-by: Michal Hocko <mhocko@suse.com>
+> Acked-by: Andrew Morton <akpm@linux-foundation.org>
 
 Thanks!
--- 
-Michal Hocko
-SUSE Labs
+
+> 
+> from a procfs POV and shall let the x86 maintainers worry about it.
+> 
+> I must say I'm a bit surprised that we don't already provide some form
+> of per-process CPU-specific info anywhere in procfs.  Something to
+> piggy-back this onto.  But I can't find such a thing.
+> 
+> I assume we've already discussed why this is a new procfs file rather
+> than merely a new line in /proc/<pid>/status.  If so, please add the
+> reasoning to the changelog.  If not, please discuss now ;)
+>
+
+Andy and Thomas may want to give more comments. The discussion was that
+we don't want /proc/PID/status to be different on different architectures.
+It would be better to separate the arch staff into its own file /proc/PID/
+arch_status and make sure that everything in it is namespaced.
+
+Thanks,
+-Aubrey
