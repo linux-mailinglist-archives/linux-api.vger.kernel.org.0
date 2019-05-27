@@ -2,95 +2,80 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 858F62B7A1
-	for <lists+linux-api@lfdr.de>; Mon, 27 May 2019 16:35:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E0372B7BA
+	for <lists+linux-api@lfdr.de>; Mon, 27 May 2019 16:39:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726598AbfE0Ofn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 27 May 2019 10:35:43 -0400
-Received: from mx2.suse.de ([195.135.220.15]:43340 "EHLO mx1.suse.de"
+        id S1726435AbfE0Oj2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 27 May 2019 10:39:28 -0400
+Received: from mx2.suse.de ([195.135.220.15]:43862 "EHLO mx1.suse.de"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726209AbfE0Ofm (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 27 May 2019 10:35:42 -0400
+        id S1726302AbfE0Oj2 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 27 May 2019 10:39:28 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id D712FAF10;
-        Mon, 27 May 2019 14:35:40 +0000 (UTC)
-Date:   Mon, 27 May 2019 15:35:39 +0100
-From:   Luis Henriques <lhenriques@suse.com>
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     "Darrick J . Wong" <darrick.wong@oracle.com>,
-        Dave Chinner <david@fromorbit.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Olga Kornievskaia <olga.kornievskaia@gmail.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
-        linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org,
-        ceph-devel@vger.kernel.org, linux-api@vger.kernel.org,
-        Dave Chinner <dchinner@redhat.com>
-Subject: Re: [PATCH v2 6/8] vfs: copy_file_range should update file timestamps
-Message-ID: <20190527143539.GA14980@hermes.olymp>
-References: <20190526061100.21761-1-amir73il@gmail.com>
- <20190526061100.21761-7-amir73il@gmail.com>
+        by mx1.suse.de (Postfix) with ESMTP id 68FD0AEFD;
+        Mon, 27 May 2019 14:39:27 +0000 (UTC)
+Date:   Mon, 27 May 2019 16:39:26 +0200
+From:   Michal Hocko <mhocko@kernel.org>
+To:     Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
+Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Tejun Heo <tj@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Roman Gushchin <guro@fb.com>, linux-api@vger.kernel.org
+Subject: Re: [PATCH RFC] mm/madvise: implement MADV_STOCKPILE (kswapd from
+ user space)
+Message-ID: <20190527143926.GF1658@dhcp22.suse.cz>
+References: <155895155861.2824.318013775811596173.stgit@buzz>
+ <20190527141223.GD1658@dhcp22.suse.cz>
+ <20190527142156.GE1658@dhcp22.suse.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190526061100.21761-7-amir73il@gmail.com>
+In-Reply-To: <20190527142156.GE1658@dhcp22.suse.cz>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sun, May 26, 2019 at 09:10:57AM +0300, Amir Goldstein wrote:
-> From: Dave Chinner <dchinner@redhat.com>
+On Mon 27-05-19 16:21:56, Michal Hocko wrote:
+> On Mon 27-05-19 16:12:23, Michal Hocko wrote:
+> > [Cc linux-api. Please always cc this list when proposing a new user
+> >  visible api. Keeping the rest of the email intact for reference]
+> > 
+> > On Mon 27-05-19 13:05:58, Konstantin Khlebnikov wrote:
+> [...]
+> > > This implements manual kswapd-style memory reclaim initiated by userspace.
+> > > It reclaims both physical memory and cgroup pages. It works in context of
+> > > task who calls syscall madvise thus cpu time is accounted correctly.
 > 
-> Timestamps are not updated right now, so programs looking for
-> timestamp updates for file modifications (like rsync) will not
-> detect that files have changed. We are also accessing the source
-> data when doing a copy (but not when cloning) so we need to update
-> atime on the source file as well.
-> 
-> Signed-off-by: Dave Chinner <dchinner@redhat.com>
-> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
-> ---
->  fs/read_write.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
-> diff --git a/fs/read_write.c b/fs/read_write.c
-> index e16bcafc0da2..4b23a86aacd9 100644
-> --- a/fs/read_write.c
-> +++ b/fs/read_write.c
-> @@ -1576,6 +1576,16 @@ int generic_copy_file_range_prep(struct file *file_in, struct file *file_out)
->  
->  	WARN_ON_ONCE(!inode_is_locked(file_inode(file_out)));
->  
-> +	/* Update source timestamps, because we are accessing file data */
-> +	file_accessed(file_in);
-> +
-> +	/* Update destination timestamps, since we can alter file contents. */
-> +	if (!(file_out->f_mode & FMODE_NOCMTIME)) {
-> +		ret = file_update_time(file_out);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
+> I do not follow. Does this mean that the madvise always reclaims from
+> the memcg the process is member of?
 
-Is this the right place for updating the timestamps?  I see that in same
-cases we may be updating the timestamp even if there was an error and no
-copy was performed.  For example, if file_remove_privs fails.
+OK, I've had a quick look at the implementation (the semantic should be
+clear from the patch descrition btw.) and it goes all the way up the
+hierarchy and finally try to impose the same limit to the global state.
+This doesn't really make much sense to me. For few reasons.
 
-(btw, I've re-tested everything on ceph and everything seems to be
-working fine.)
+First of all it breaks isolation where one subgroup can influence a
+different hierarchy via parent reclaim.
 
-Cheers,
---
-Luís
+I also have a problem with conflating the global and memcg states. Does
+it really make any sense to have the same target to the global state
+as per-memcg? How are you supposed to use this interface to shrink a
+particular memcg or for the global situation with a proportional
+distribution to all memcgs?
 
+There also doens't seem to be anything about security model for this
+operation. There is no capability check from a quick look. Is it really
+safe to expose such a functionality for a common user?
 
->  	/*
->  	 * Clear the security bits if the process is not being run by root.
->  	 * This keeps people from modifying setuid and setgid binaries.
-> -- 
-> 2.17.1
-> 
-> 
+Last but not least, I am not really convinced that madvise is a proper
+interface. It stretches the API which is address range based and it has
+per-process implications.
+-- 
+Michal Hocko
+SUSE Labs
