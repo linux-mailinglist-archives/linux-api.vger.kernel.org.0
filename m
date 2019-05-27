@@ -2,215 +2,96 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E47B52BAB0
-	for <lists+linux-api@lfdr.de>; Mon, 27 May 2019 21:27:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0F222BAC8
+	for <lists+linux-api@lfdr.de>; Mon, 27 May 2019 21:36:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727402AbfE0T14 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 27 May 2019 15:27:56 -0400
-Received: from mail.efficios.com ([167.114.142.138]:55984 "EHLO
-        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727001AbfE0T1z (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 27 May 2019 15:27:55 -0400
-Received: from localhost (ip6-localhost [IPv6:::1])
-        by mail.efficios.com (Postfix) with ESMTP id AB0D6200ECD;
-        Mon, 27 May 2019 15:27:53 -0400 (EDT)
-Received: from mail.efficios.com ([IPv6:::1])
-        by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10032)
-        with ESMTP id 2XDxU0yZTogr; Mon, 27 May 2019 15:27:53 -0400 (EDT)
-Received: from localhost (ip6-localhost [IPv6:::1])
-        by mail.efficios.com (Postfix) with ESMTP id 1DF44200EC5;
-        Mon, 27 May 2019 15:27:53 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 1DF44200EC5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1558985273;
-        bh=d31GhQ9bjr6oReTPqU/khzs4flPCAOchr34x8uA7phA=;
-        h=Date:From:To:Message-ID:MIME-Version;
-        b=NwtpcrHO5Ph9WBzkmHBi58aqvmzA+duCIFTAk6+EISV5Qqbb2/q7e64B5BPbx/VMj
-         WOoANuLvR2DdzsPpu3jCkYim9NuLZMiHUBz+eunwmwEpbGI04wjN4H23DbrApucR+E
-         TCb6tY5d8ZWwiZIHo5+1xUHg98N5UIgzSxImzYxGRKYn5Mr92kMcMJRVwfc4IbDcPo
-         S8rSxNE/EcyXlGgHKCK5sxOfdR8uscAdbzkj3FibQFcfSgAs+O47ntYkwj6ssBrPOd
-         eogvNNniRcv+iLtsmxCMlP8JIPbys8QKXCJjiTe6OhAYUIFiivofcfkWbP+3bU0/S0
-         OVWo1yjd+xmzw==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([IPv6:::1])
-        by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10026)
-        with ESMTP id j1ZExa31FGWe; Mon, 27 May 2019 15:27:53 -0400 (EDT)
-Received: from mail02.efficios.com (mail02.efficios.com [167.114.142.138])
-        by mail.efficios.com (Postfix) with ESMTP id 0176E200EBC;
-        Mon, 27 May 2019 15:27:53 -0400 (EDT)
-Date:   Mon, 27 May 2019 15:27:52 -0400 (EDT)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     carlos <carlos@redhat.com>, Joseph Myers <joseph@codesourcery.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        libc-alpha <libc-alpha@sourceware.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ben Maurer <bmaurer@fb.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Dave Watson <davejwatson@fb.com>, Paul Turner <pjt@google.com>,
-        Rich Felker <dalias@libc.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-api <linux-api@vger.kernel.org>
-Message-ID: <1239705947.14878.1558985272873.JavaMail.zimbra@efficios.com>
-In-Reply-To: <87h89gjgaf.fsf@oldenburg2.str.redhat.com>
-References: <20190503184219.19266-1-mathieu.desnoyers@efficios.com> <20190503184219.19266-2-mathieu.desnoyers@efficios.com> <87h89gjgaf.fsf@oldenburg2.str.redhat.com>
-Subject: Re: [PATCH 1/5] glibc: Perform rseq(2) registration at C startup
- and thread creation (v10)
+        id S1727113AbfE0Tgp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 27 May 2019 15:36:45 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:33905 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726772AbfE0Tgp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 27 May 2019 15:36:45 -0400
+Received: by mail-oi1-f194.google.com with SMTP id u64so12583212oib.1
+        for <linux-api@vger.kernel.org>; Mon, 27 May 2019 12:36:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8wOkTICbGGgSQKfMenc3seaDZ/KLgjroUdiof+HnQ4s=;
+        b=KyX4N9fqFU6gT9OH1da4ukXI54+PtAJWkozfkY5dUnyUl5SliiI+ox0dC1m6ecKZkq
+         2cbeynpQeQdlLyOhc4lLQPmNFVaaUFHrjJECflBdQMk+kPLdR9ZOcMMFL5uRCwKatFeb
+         tTuV1ATMZeoqPCVAxo0v7AvtjchgMA3H3KoZ4cGjCUSRYRZjRouCFPSdlCdiIYGaTkEL
+         N707cRBDzsjTd7MxleiRRg27FLy+pSktaDy092UqsDWvyOv01ZFtZ6aDYKcck3lXKsWQ
+         QYJk7Y8LfRDDa0Fx6Qylo9I0yvrAkm4kgPWIZUqvAg63Tjkxf/jCRM8G82NSuPvj6fkE
+         hHBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8wOkTICbGGgSQKfMenc3seaDZ/KLgjroUdiof+HnQ4s=;
+        b=lsYYI5Q8BFw3zGibOry7X3sUlGTxOarsTzakalIP4vndsr7etw6N/fKXTd8AFYCIph
+         cpAFxzWnfj7AoolCZBYVyTnwcr4eDt7CMYvxNQ/ri6fNa3xY7RykFNiNOQtiNq7LuYEe
+         8CjiHTDqiA8fE2Q9Pk07Ic8wvNgqP1LMWaGT0uMJicnCaY7f4zex9SMyBvu2msvzoS8l
+         pUsqwE+KP7pBgo/EIKDDI58gCTkVcevmw5vBE/52tSCTg6dwtW9Q/squUWaxT1k6McTo
+         CcDzxLGMXIkrRG/15lSx/zoLrg85DIqQU3DTEWHS3h02YGB8Bde+gukM94TybjDwkvZK
+         DydA==
+X-Gm-Message-State: APjAAAX9JVIagEHYqVFZ1K1y2CTiB5D/1oDE7/Ggirw4YaDeILcGSi3V
+        x04ebkHDubLjWWFfa8wdRlaOsKeJzB73bw7zOQcQGA==
+X-Google-Smtp-Source: APXvYqzjis5QKOqN7UmcaChzDsoUV0+dmtf01xdFNdjoZUGPORQ++uXNnITdfqBZARKJxYLU5wQK2Caza/hcN5eqwcc=
+X-Received: by 2002:aca:c48c:: with SMTP id u134mr364457oif.39.1558985804503;
+ Mon, 27 May 2019 12:36:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [167.114.142.138]
-X-Mailer: Zimbra 8.8.12_GA_3803 (ZimbraWebClient - FF67 (Linux)/8.8.12_GA_3794)
-Thread-Topic: glibc: Perform rseq(2) registration at C startup and thread creation (v10)
-Thread-Index: 18yTu+T8PFt4cXiNhOg61XhmaTl3EQ==
+References: <20190526102612.6970-1-christian@brauner.io> <CAHk-=wieuV4hGwznPsX-8E0G2FKhx3NjZ9X3dTKh5zKd+iqOBw@mail.gmail.com>
+ <20190527104239.fbnjzfyxa4y4acpf@brauner.io> <CAHk-=wjnbK5ob9JE0H1Ge_R4BL6D0ztsAvrM6DN+S+zyDWE=7A@mail.gmail.com>
+In-Reply-To: <CAHk-=wjnbK5ob9JE0H1Ge_R4BL6D0ztsAvrM6DN+S+zyDWE=7A@mail.gmail.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Mon, 27 May 2019 21:36:18 +0200
+Message-ID: <CAG48ez2wyDhM-V1hs5ya1R4x7wHT=T8XLOYCPUyw97kzzLhbhg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] fork: add clone6
+To:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Christian Brauner <christian@brauner.io>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
+        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+        David Howells <dhowells@redhat.com>,
+        Pavel Emelyanov <xemul@virtuozzo.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Adrian Reber <adrian@lisas.de>,
+        Andrei Vagin <avagin@gmail.com>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
------ On May 27, 2019, at 7:19 AM, Florian Weimer fweimer@redhat.com wrote:
++Kees
 
-> * Mathieu Desnoyers:
-> 
->> +/* volatile because fields can be read/updated by the kernel.  */
->> +__thread volatile struct rseq __rseq_abi = {
->> +  .cpu_id = RSEQ_CPU_ID_UNINITIALIZED,
->> +};
-> 
-> As I've explained repeatedly, the volatile qualifier is wrong because it
-> is impossible to get rid of it.  (Accessing an object declared volatile
-> using non-volatile pointers is undefined.)  Code using __rseq_abi should
-> use relaxed MO atomics or signal fences/compiler barriers, as
-> appropriate.
+On Mon, May 27, 2019 at 9:27 PM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+> On Mon, May 27, 2019 at 3:42 AM Christian Brauner <christian@brauner.io> wrote:
+> > Hm, still pondering whether having one unsigned int argument passed
+> > through registers that captures all the flags from the old clone() would
+> > be a good idea.
+>
+> That sounds like a reasonable thing to do.
+>
+> Maybe we could continue to call the old flags CLONE_XYZ and continue
+> to pass them in as "flags" argument, and then we have CLONE_EXT_XYZ
+> flags for a new 64-bit flag field that comes in through memory in the
+> new clone_args thing?
 
-Hi Florian,
+With the current seccomp model, that would have the unfortunate effect
+of making it impossible to filter out new clone flags - which would
+likely mean that people who want to sandbox their code would not use
+the new clone() because they don't want their sandboxed code to be
+able to create time namespaces and whatever other new fancy things
+clone() might support in the future. This is why I convinced Christian
+to pass flags in registers for the first patch version.
 
-OK. So let's remove the volatile.
-
-This means the sched_getcpu() implementation will need to load __rseq_abi.cpu_id
-with a atomic_load_relaxed(), am I correct ?
-
-This field can be updated at by the kernel at any point of user-space execution
-due to preemption, so we need to ensure the load is performed as a single
-instruction to prevent the compiler from doing load tearing, and to force it
-to re-fetch the value within loops.
-
-It would become:
-
-int
-sched_getcpu (void)
-{
-  int cpu_id = atomic_load_relaxed (&__rseq_abi.cpu_id);
-
-  return cpu_id >= 0 ? cpu_id : vsyscall_sched_getcpu ();
-}
-
-> 
->> +/* Advertise Restartable Sequences registration ownership across
->> +   application and shared libraries.
->> +
->> +   Libraries and applications must check whether this variable is zero or
->> +   non-zero if they wish to perform rseq registration on their own. If it
->> +   is zero, it means restartable sequence registration is not handled, and
->> +   the library or application is free to perform rseq registration. In
->> +   that case, the library or application is taking ownership of rseq
->> +   registration, and may set __rseq_handled to 1. It may then set it back
->> +   to 0 after it completes unregistering rseq.
->> +
->> +   If __rseq_handled is found to be non-zero, it means that another
->> +   library (or the application) is currently handling rseq registration.
->> +
->> +   Typical use of __rseq_handled is within library constructors and
->> +   destructors, or at program startup.  */
->> +
->> +int __rseq_handled;
-> 
-> It's not clear to me whether the intent is that __rseq_handled reflects
-> kernel support for rseq or not.
-
-If __rseq_handled is set, it means a library is managing the rseq registration.
-It is independent from the fact that the kernel supports rseq or not.
-
-If e.g. glibc manages rseq registration, it sets __rseq_handled to 1. It will
-then query the kernel for rseq availability. If the kernel happens to not
-support rseq, the __rseq_abi.cpu_id will be set to RSEQ_CPU_ID_REGISTRATION_FAILED,
-which means the registration has failed.
-
-The kernel does not support rseq in that scenario, and it would be pointless
-for an early adopter library to try to also register it.
-
-As soon as a library changes the state of __rseq_abi.cpu_id, it is indeed
-managing rseq registration. Perhaps the meaning of "handling" rseq registration
-should be clarified in the comment.
-
-> Currently, it only tells us whether
-> glibc has been built with rseq support or not.  It does not reflect
-> kernel support.
-
-We know we have kernel support if __rseq_abi.cpu_id >= 0.
-
->  I'm still not convinced that this symbol is necessary,
-> especially if we mandate a kernel header version which defines __NR_rseq
-> for building glibc (which may happen due to the time64_t work).
-
-__NR_rseq is not yet supported by all Linux architectures. So we will need
-to support building glibc against kernel headers that do not define __NR_rseq
-for quite a while anyway.
-
-Moreover, this does not solve the issue tackled by __rseq_handled: early
-adopter libraries managing rseq registration built against older glibc
-versions which eventually end up running within a process linked against
-a newer glibc which handles rseq registration.
-
-> 
-> Furthermore, the reference to ELF constructors is misleading.  I believe
-> the code you added to __libc_start_main to initialize __rseq_handled and
-> register __seq_abi with the kernel runs *after* ELF constructors have
-> executed (and not at all if the main program is written in Go, alas).
-> All initialization activity for the shared case needs to happen in
-> elf/rtld.c or called from there, probably as part of the security
-> initialization code or thereabouts.
-
-in elf/rtld.c:dl_main() we have the following code:
-
-  /* We do not initialize any of the TLS functionality unless any of the
-     initial modules uses TLS.  This makes dynamic loading of modules with
-     TLS impossible, but to support it requires either eagerly doing setup
-     now or lazily doing it later.  Doing it now makes us incompatible with
-     an old kernel that can't perform TLS_INIT_TP, even if no TLS is ever
-     used.  Trying to do it lazily is too hairy to try when there could be
-     multiple threads (from a non-TLS-using libpthread).  */
-  bool was_tls_init_tp_called = tls_init_tp_called;
-  if (tcbp == NULL)
-    tcbp = init_tls ();
-
-If I understand your point correctly, I should move the rseq_init() and
-rseq_register_current_thread() for the SHARED case just after this
-initialization, otherwise calling those from LIBC_START_MAIN() is too
-late and it runs after initial modules constructors (or not at all for
-Go). However, this means glibc will start using TLS internally. I'm
-concerned that this is not quite in line with the above comment which
-states that TLS is not initialized if no initial modules use TLS.
-
-For the !SHARED use-case, if my understanding is correct, I should keep
-rseq_init() and rseq_register_current_thread() calls within LIBC_START_MAIN().
-
-Thoughts ?
-
-Thanks for the feedback!
-
-Mathieu
-
-
-
-> 
-> Thanks,
-> Florian
-
--- 
-Mathieu Desnoyers
-EfficiOS Inc.
-http://www.efficios.com
+The alternative I see would be to somehow extend seccomp to support
+argument structures that are passed in memory - that would probably
+require quite a bit of new plumbing though, both in the kernel and in
+userspace code that configures seccomp filters.
