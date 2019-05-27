@@ -2,126 +2,123 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0712D2AFCC
-	for <lists+linux-api@lfdr.de>; Mon, 27 May 2019 10:12:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46FA12AF9F
+	for <lists+linux-api@lfdr.de>; Mon, 27 May 2019 09:58:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725943AbfE0IM0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 27 May 2019 04:12:26 -0400
-Received: from smtpgwcipde.automotive.elektrobit.com ([213.95.163.141]:44052
-        "EHLO smtpgwcipde.elektrobit.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725940AbfE0IMZ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 27 May 2019 04:12:25 -0400
-X-Greylist: delayed 1062 seconds by postgrey-1.27 at vger.kernel.org; Mon, 27 May 2019 04:12:22 EDT
-Received: from denue6es002.localdomain (denue6es002.automotive.elektrobit.com [213.95.163.135])
-        by smtpgwcipde.elektrobit.com  with ESMTP id x4R7rlge000382-x4R7rlgg000382
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=OK);
-        Mon, 27 May 2019 09:53:47 +0200
-Received: from denue6es002.securemail.local (localhost [127.0.0.1])
-        by denue6es002.localdomain (Postfix) with SMTP id 50A3419288;
-        Mon, 27 May 2019 09:53:47 +0200 (CEST)
-Received: from denue6es011.ebgroup.elektrobit.com (denue6es011.ebgroup.elektrobit.com [10.243.160.101])
-        by denue6es002.localdomain (Postfix) with ESMTPS;
-        Mon, 27 May 2019 09:53:45 +0200 (CEST)
-Received: from denue6es010.ebgroup.elektrobit.com (10.243.160.100) by
- denue6es011.ebgroup.elektrobit.com (10.243.160.101) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Mon, 27 May 2019 09:53:45 +0200
-Received: from NAM03-DM3-obe.outbound.protection.outlook.com (104.47.41.52) by
- denue6es010.ebgroup.elektrobit.com (10.243.160.100) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.1713.5 via Frontend Transport; Mon, 27 May 2019 09:53:44 +0200
+        id S1726072AbfE0H6S (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 27 May 2019 03:58:18 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:40933 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726071AbfE0H6S (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 27 May 2019 03:58:18 -0400
+Received: by mail-pf1-f194.google.com with SMTP id u17so9114847pfn.7;
+        Mon, 27 May 2019 00:58:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=elektrobit.onmicrosoft.com; s=selector1-elektrobit-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IrDMXXLOZuqClmZUFX57XNpADLFT9wrLxaBakKxxt2U=;
- b=q8gjawXy7qgTd7slxXo5q2yG6gdM+23seC4MCsOORZvj8SHXTW+7hOPkhKfzHM6h4orrnl1ivQZZY8/Z/iuQV4mfSqQRnFWqi6/kz4y0GNXzC5h2jp1BZL5/l4YMi+vHLWxCHaOojN6W0nEAJBqbXuf3n9+sbZX2C8tOYTGwyQs=
-Received: from DM6PR08MB5195.namprd08.prod.outlook.com (20.176.118.25) by
- DM6PR08MB5977.namprd08.prod.outlook.com (20.179.69.209) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1922.15; Mon, 27 May 2019 07:53:42 +0000
-Received: from DM6PR08MB5195.namprd08.prod.outlook.com
- ([fe80::3165:8bdb:ef18:9e1a]) by DM6PR08MB5195.namprd08.prod.outlook.com
- ([fe80::3165:8bdb:ef18:9e1a%2]) with mapi id 15.20.1922.021; Mon, 27 May 2019
- 07:53:42 +0000
-From:   "Potyra, Stefan" <Stefan.Potyra@elektrobit.com>
-To:     Michal Hocko <mhocko@kernel.org>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>
-CC:     "Potyra, Stefan" <Stefan.Potyra@elektrobit.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "Jordan, Tobias" <Tobias.Jordan@elektrobit.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "vbabka@suse.cz" <vbabka@suse.cz>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
-Subject: [PATCH v2] mm: mlockall error for flag MCL_ONFAULT
-Thread-Topic: [PATCH v2] mm: mlockall error for flag MCL_ONFAULT
-Thread-Index: AQHVFGFNv0h5WJVR6EeShGKsboxNMQ==
-Date:   Mon, 27 May 2019 07:53:42 +0000
-Message-ID: <20190527075333.GA6339@er01809n.ebgroup.elektrobit.com>
-References: <20190527070415.GA1658@dhcp22.suse.cz>
-In-Reply-To: <20190527070415.GA1658@dhcp22.suse.cz>
-Accept-Language: de-DE, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: AM6PR0202CA0025.eurprd02.prod.outlook.com
- (2603:10a6:209:15::38) To DM6PR08MB5195.namprd08.prod.outlook.com
- (2603:10b6:5:42::25)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Stefan.Potyra@elektrobit.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [213.95.148.172]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9bef0ffe-d812-49d7-f2f2-08d6e2786fcb
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600148)(711020)(4605104)(1401327)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:DM6PR08MB5977;
-x-ms-traffictypediagnostic: DM6PR08MB5977:
-x-microsoft-antispam-prvs: <DM6PR08MB59775BE33D076AE683353458801D0@DM6PR08MB5977.namprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4125;
-x-forefront-prvs: 0050CEFE70
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(136003)(396003)(346002)(376002)(39840400004)(366004)(189003)(199004)(1076003)(6436002)(6512007)(25786009)(33656002)(6486002)(14454004)(68736007)(64756008)(66446008)(66556008)(66476007)(72206003)(478600001)(316002)(66946007)(73956011)(52116002)(99286004)(486006)(76176011)(71190400001)(71200400001)(8676002)(8936002)(110136005)(54906003)(11346002)(186003)(446003)(102836004)(386003)(26005)(476003)(6506007)(53936002)(256004)(5660300002)(14444005)(4326008)(86362001)(6116002)(3846002)(305945005)(7736002)(81156014)(81166006)(66066001)(2906002);DIR:OUT;SFP:1101;SCL:1;SRVR:DM6PR08MB5977;H:DM6PR08MB5195.namprd08.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: elektrobit.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: W8qP1zlKiH58N0Xa05QqiEfqPc7IAZ/IM+5SV7idtNtjnE8qob8gQrxjppB23rBl0XFZvhhrMBCA1CIDEZDJasztMjxJj8Y4WC/i1HcVaFnyDbQ9Et2gCBUTsoN8XEO4Xg7+pw03Cb1+BFyjoUJ2mz0ucGDKRSZAi67pnj3wkiVdS7zmu3R50Cmc0Og5Msj/7Vu1EZ1aNfGOM05enCsuI5SPzP1rttt4WtV3cvH6BR3xUL1UYG6SFc6ITgHq0d6ru086MlyA9u5TCj79LAvFDs2jrJTTe3TS/+YgDml0ECfmJ7SK+wlLlKCSdf5zJ7ptgUSA1q1zwlbUMh0fadqZ6dDw2oDjgBKLoI8tI7XRA45rBZDeG9G0SLwW2q+UhkFdffpR6STYkcV/QPIduyQmmkpvj7rLpETFOqP2sbkSIrM=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <45C0C401F4D9434B806A15C5EEE14E5F@namprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=AtLyxtk9Dzb+m0497auHuXX2nLc0N/zfXlXDKG81NXE=;
+        b=YddJ3EXGsxY4Mae6Yosu3sXkx8hcN2mk9wf03Iho6huUQyCPm36tLZN9XRHcwwl3Li
+         VZaWwsKHHQZcGjze8MpJwBYvZOr4/JFoZqb2BPJXB4vYBfUDiYxmmmeOW3i5Nkxxl1sA
+         P1fefUbWAjWl4KGzjTUuRKEIyJuI1s/2DqcJ3DorxbS8UENXyLrPmziVxPdpJ+rBCOF9
+         YomHgrYFvLVxqilDv0CmZeyCuZyUeOhpTLmA4D3xEhFkTGRV8ptiiK2Ma+ENptkVk/mR
+         m95QZTxEYEUNCpACv/zCSylIB2q9gUhh6hNzdZIxykp8t69jthBbipxfdll4UlP3zuWj
+         kGOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=AtLyxtk9Dzb+m0497auHuXX2nLc0N/zfXlXDKG81NXE=;
+        b=E9865puWIr3ZOA6rm/8yVUmQyyjx/Wz5HIRNHiJMZhKjW0WOfwF6JsYVXHDxJVHM4r
+         6BaPJ8n82wUoIM5wNEuyQ6eXkNVFQK3asEd3vszmRICpHK7Id2BZ2O1HAaZb1X2Kp2U2
+         QMt49vH1nOwKGCFM23hfmUsNR2CuJuvdzHGnp+0doMU2hYWxMi98GmGeTtkIet3NXKFH
+         IPrBH3t70biO42QPoSJZHGCtqMLlU/UWppE6b7gaNdNw4nbqpns+zMI4yQMDjXneolpK
+         1tPoEYVePYA4VRAW5/c5FhKZ/FJCSzVUNgPEIqna4VPqIiE4ol/9mDAEzPx4AxD0uVUP
+         EVRQ==
+X-Gm-Message-State: APjAAAXV9iqEoAudT2nMAB42a8la7Z9ah6EX9Np4NIBfVtokBxXqUm3a
+        vkdXQSkUuNaBsjwX68zyv7I=
+X-Google-Smtp-Source: APXvYqy7Ciw4BWJbHLqJmf1T3VmgXQeVxglXh68Qvk5eTkT4dj+InYqIzbs2GO1rQP7sg3r1fXpkAw==
+X-Received: by 2002:a17:90a:b885:: with SMTP id o5mr28965553pjr.52.1558943897757;
+        Mon, 27 May 2019 00:58:17 -0700 (PDT)
+Received: from google.com ([2401:fa00:d:0:98f1:8b3d:1f37:3e8])
+        by smtp.gmail.com with ESMTPSA id d9sm8833891pgl.20.2019.05.27.00.58.13
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Mon, 27 May 2019 00:58:16 -0700 (PDT)
+Date:   Mon, 27 May 2019 16:58:11 +0900
+From:   Minchan Kim <minchan@kernel.org>
+To:     Michal Hocko <mhocko@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Tim Murray <timmurray@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Daniel Colascione <dancol@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Brian Geffon <bgeffon@google.com>, linux-api@vger.kernel.org
+Subject: Re: [RFC 7/7] mm: madvise support MADV_ANONYMOUS_FILTER and
+ MADV_FILE_FILTER
+Message-ID: <20190527075811.GC6879@google.com>
+References: <20190520035254.57579-1-minchan@kernel.org>
+ <20190520035254.57579-8-minchan@kernel.org>
+ <20190520092801.GA6836@dhcp22.suse.cz>
+ <20190521025533.GH10039@google.com>
+ <20190521062628.GE32329@dhcp22.suse.cz>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9bef0ffe-d812-49d7-f2f2-08d6e2786fcb
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 May 2019 07:53:42.2251
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: e764c36b-012e-4216-910d-8fd16283182d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Stefan.Potyra@elektrobit.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR08MB5977
-X-OriginatorOrg: elektrobit.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190521062628.GE32329@dhcp22.suse.cz>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-SWYgbWxvY2thbGwoKSBpcyBjYWxsZWQgd2l0aCBvbmx5IE1DTF9PTkZBVUxUIGFzIGZsYWcsDQpp
-dCByZW1vdmVzIGFueSBwcmV2aW91c2x5IGFwcGxpZWQgbG9ja2luZ3MgYW5kIGRvZXMNCm5vdGhp
-bmcgZWxzZS4NCg0KVGhpcyBiZWhhdmlvciBpcyBjb3VudGVyLWludHVpdGl2ZSBhbmQgZG9lc24n
-dCBtYXRjaCB0aGUNCkxpbnV4IG1hbiBwYWdlLg0KDQogIEZvciBtbG9ja2FsbCgpOg0KDQogIEVJ
-TlZBTCBVbmtub3duICBmbGFncyB3ZXJlIHNwZWNpZmllZCBvciBNQ0xfT05GQVVMVCB3YXMgc3Bl
-Y2lmaWVkIHdpdGjigJANCiAgICAgICAgIG91dCBlaXRoZXIgTUNMX0ZVVFVSRSBvciBNQ0xfQ1VS
-UkVOVC4NCg0KQ29uc2VxdWVudGx5LCByZXR1cm4gdGhlIGVycm9yIEVJTlZBTCwgaWYgb25seSBN
-Q0xfT05GQVVMVA0KaXMgcGFzc2VkLiBUaGF0IHdheSwgYXBwbGljYXRpb25zIHdpbGwgYXQgbGVh
-c3QgZGV0ZWN0IHRoYXQNCnRoZXkgYXJlIGNhbGxpbmcgbWxvY2thbGwoKSBpbmNvcnJlY3RseS4N
-Cg0KRml4ZXM6IGIwZjIwNWMyYTMwOCAoIm1tOiBtbG9jazogYWRkIG1sb2NrIGZsYWdzIHRvIGVu
-YWJsZSBWTV9MT0NLT05GQVVMVCB1c2FnZSIpDQpTaWduZWQtb2ZmLWJ5OiBTdGVmYW4gUG90eXJh
-IDxTdGVmYW4uUG90eXJhQGVsZWt0cm9iaXQuY29tPg0KUmV2aWV3ZWQtYnk6IERhbmllbCBKb3Jk
-YW4gPGRhbmllbC5tLmpvcmRhbkBvcmFjbGUuY29tPg0KQWNrZWQtYnk6IE1pY2hhbCBIb2NrbyA8
-bWhvY2tvQHN1c2UuY29tPg0KLS0tDQogbW0vbWxvY2suYyB8IDMgKystDQogMSBmaWxlIGNoYW5n
-ZWQsIDIgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KDQpkaWZmIC0tZ2l0IGEvbW0vbWxv
-Y2suYyBiL21tL21sb2NrLmMNCmluZGV4IGU0OTJhMTU1YzUxYS4uMDNmMzljYmRkNGM0IDEwMDY0
-NA0KLS0tIGEvbW0vbWxvY2suYw0KKysrIGIvbW0vbWxvY2suYw0KQEAgLTc5Nyw3ICs3OTcsOCBA
-QCBTWVNDQUxMX0RFRklORTEobWxvY2thbGwsIGludCwgZmxhZ3MpDQogCXVuc2lnbmVkIGxvbmcg
-bG9ja19saW1pdDsNCiAJaW50IHJldDsNCiANCi0JaWYgKCFmbGFncyB8fCAoZmxhZ3MgJiB+KE1D
-TF9DVVJSRU5UIHwgTUNMX0ZVVFVSRSB8IE1DTF9PTkZBVUxUKSkpDQorCWlmICghZmxhZ3MgfHwg
-KGZsYWdzICYgfihNQ0xfQ1VSUkVOVCB8IE1DTF9GVVRVUkUgfCBNQ0xfT05GQVVMVCkpIHx8DQor
-CSAgICBmbGFncyA9PSBNQ0xfT05GQVVMVCkNCiAJCXJldHVybiAtRUlOVkFMOw0KIA0KIAlpZiAo
-IWNhbl9kb19tbG9jaygpKQ0KLS0gDQoyLjIwLjENCg0K
+On Tue, May 21, 2019 at 08:26:28AM +0200, Michal Hocko wrote:
+> On Tue 21-05-19 11:55:33, Minchan Kim wrote:
+> > On Mon, May 20, 2019 at 11:28:01AM +0200, Michal Hocko wrote:
+> > > [cc linux-api]
+> > > 
+> > > On Mon 20-05-19 12:52:54, Minchan Kim wrote:
+> > > > System could have much faster swap device like zRAM. In that case, swapping
+> > > > is extremely cheaper than file-IO on the low-end storage.
+> > > > In this configuration, userspace could handle different strategy for each
+> > > > kinds of vma. IOW, they want to reclaim anonymous pages by MADV_COLD
+> > > > while it keeps file-backed pages in inactive LRU by MADV_COOL because
+> > > > file IO is more expensive in this case so want to keep them in memory
+> > > > until memory pressure happens.
+> > > > 
+> > > > To support such strategy easier, this patch introduces
+> > > > MADV_ANONYMOUS_FILTER and MADV_FILE_FILTER options in madvise(2) like
+> > > > that /proc/<pid>/clear_refs already has supported same filters.
+> > > > They are filters could be Ored with other existing hints using top two bits
+> > > > of (int behavior).
+> > > 
+> > > madvise operates on top of ranges and it is quite trivial to do the
+> > > filtering from the userspace so why do we need any additional filtering?
+> > > 
+> > > > Once either of them is set, the hint could affect only the interested vma
+> > > > either anonymous or file-backed.
+> > > > 
+> > > > With that, user could call a process_madvise syscall simply with a entire
+> > > > range(0x0 - 0xFFFFFFFFFFFFFFFF) but either of MADV_ANONYMOUS_FILTER and
+> > > > MADV_FILE_FILTER so there is no need to call the syscall range by range.
+> > > 
+> > > OK, so here is the reason you want that. The immediate question is why
+> > > cannot the monitor do the filtering from the userspace. Slightly more
+> > > work, all right, but less of an API to expose and that itself is a
+> > > strong argument against.
+> > 
+> > What I should do if we don't have such filter option is to enumerate all of
+> > vma via /proc/<pid>/maps and then parse every ranges and inode from string,
+> > which would be painful for 2000+ vmas.
+> 
+> Painful is not an argument to add a new user API. If the existing API
+> suits the purpose then it should be used. If it is not usable, we can
+> think of a different way.
+
+I measured 1568 vma parsing overhead of /proc/<pid>/maps in ARM64 modern
+mobile CPU. It takes 60ms and 185ms on big cores depending on cpu governor.
+It's never trivial.
