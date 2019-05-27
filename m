@@ -2,80 +2,164 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E0372B7BA
-	for <lists+linux-api@lfdr.de>; Mon, 27 May 2019 16:39:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F07B72B96D
+	for <lists+linux-api@lfdr.de>; Mon, 27 May 2019 19:27:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726435AbfE0Oj2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 27 May 2019 10:39:28 -0400
-Received: from mx2.suse.de ([195.135.220.15]:43862 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726302AbfE0Oj2 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 27 May 2019 10:39:28 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 68FD0AEFD;
-        Mon, 27 May 2019 14:39:27 +0000 (UTC)
-Date:   Mon, 27 May 2019 16:39:26 +0200
-From:   Michal Hocko <mhocko@kernel.org>
-To:     Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
-Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Tejun Heo <tj@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Roman Gushchin <guro@fb.com>, linux-api@vger.kernel.org
-Subject: Re: [PATCH RFC] mm/madvise: implement MADV_STOCKPILE (kswapd from
- user space)
-Message-ID: <20190527143926.GF1658@dhcp22.suse.cz>
-References: <155895155861.2824.318013775811596173.stgit@buzz>
- <20190527141223.GD1658@dhcp22.suse.cz>
- <20190527142156.GE1658@dhcp22.suse.cz>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190527142156.GE1658@dhcp22.suse.cz>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1726517AbfE0R1H (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 27 May 2019 13:27:07 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:33496 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726457AbfE0R1G (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 27 May 2019 13:27:06 -0400
+Received: by mail-wr1-f67.google.com with SMTP id d9so17533707wrx.0;
+        Mon, 27 May 2019 10:27:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=9WX0VFYO4FVs44DMQ1hkSFUp4e1UxuztItybOtfTqFU=;
+        b=bMFyDjnJWfw3h9h2ZwPS9hOy1AGomYHeXJCK6ClXR89C0wNpY9a/9Wz5NkiPgSSdeq
+         pGwfYJN2uAykqUFZQczPG550z+bac7GaL6d/tDBnk2/L79gM/05lQq1EOp7+XKfGvrtj
+         Ec9mA9u6IM+ZZX0VApXrZAzp2ufvxPIbgv4DfHir/N3qcBN+BaFjA4Za0YwZUqjEsvYw
+         RsbRzJpc4Xb6CHIVWkPRwmGDMuSDdkkimi0c07OjdHheQbHhEMuC2ghyHkimgeiss2BT
+         vbFLIDmjh25v4vZrQAst4l4rYKub7ATLhxPB7P/fLMxTitj1i8VwXDIRyp3DOwe7kmDz
+         lcPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=9WX0VFYO4FVs44DMQ1hkSFUp4e1UxuztItybOtfTqFU=;
+        b=AnejTpGUMYFPV7zRSJKp3GHCaJ4+61MEOA6LXMaIBN550piLi+/OKnNF7+d5Oi8IFD
+         bUOJMQew5AcWDgQOekI5XeGQv/J5h9Yl2tD+Mh7qHqj3ypMp9VFdI5/S7ZP3drGm63vy
+         laQiPobS6XLbM7aY+wUBUleU55hrRZc7vC3kf2BjAFsJPBLu3MclyXdTTFDLDZWjUfGy
+         yngQ8BfBNHGZcqo+vgCa8jOFDRYmlthPgh0HsEhsgNUR0ltHifcmsFb6ag3TRiqIJsLP
+         PCJQjmzvUM4OitH8OXJS0rBAfqvqaxfmOvw1kBP3Zu1VpCkFqTXUo/b5a7SKRXzjljv3
+         1pxQ==
+X-Gm-Message-State: APjAAAVem4OsW0jZiT/jgMBfEgzi/K2t4Kp5mhBL23wT0JTqkL1UnciO
+        U+XG/tmzsnaOK9TkhEbpinc=
+X-Google-Smtp-Source: APXvYqzQM7w/ysae6EMfiq7n42CFJmrcBJPXGbTpco9z9Lrr2GCtadH2djq7ALmpAvtHtPns0pJRDA==
+X-Received: by 2002:a5d:488a:: with SMTP id g10mr11069095wrq.344.1558978024064;
+        Mon, 27 May 2019 10:27:04 -0700 (PDT)
+Received: from localhost.localdomain ([5.102.238.208])
+        by smtp.gmail.com with ESMTPSA id o14sm855129wrp.77.2019.05.27.10.27.01
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 27 May 2019 10:27:02 -0700 (PDT)
+From:   Amir Goldstein <amir73il@gmail.com>
+To:     Theodore Tso <tytso@mit.edu>, Jan Kara <jack@suse.cz>
+Cc:     "Darrick J . Wong" <darrick.wong@oracle.com>,
+        Dave Chinner <david@fromorbit.com>, Chris Mason <clm@fb.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-btrfs@vger.kernel.org,
+        linux-api@vger.kernel.org
+Subject: [RFC][PATCH] link.2: AT_ATOMIC_DATA and AT_ATOMIC_METADATA
+Date:   Mon, 27 May 2019 20:26:55 +0300
+Message-Id: <20190527172655.9287-1-amir73il@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon 27-05-19 16:21:56, Michal Hocko wrote:
-> On Mon 27-05-19 16:12:23, Michal Hocko wrote:
-> > [Cc linux-api. Please always cc this list when proposing a new user
-> >  visible api. Keeping the rest of the email intact for reference]
-> > 
-> > On Mon 27-05-19 13:05:58, Konstantin Khlebnikov wrote:
-> [...]
-> > > This implements manual kswapd-style memory reclaim initiated by userspace.
-> > > It reclaims both physical memory and cgroup pages. It works in context of
-> > > task who calls syscall madvise thus cpu time is accounted correctly.
-> 
-> I do not follow. Does this mean that the madvise always reclaims from
-> the memcg the process is member of?
+New link flags to request "atomic" link.
 
-OK, I've had a quick look at the implementation (the semantic should be
-clear from the patch descrition btw.) and it goes all the way up the
-hierarchy and finally try to impose the same limit to the global state.
-This doesn't really make much sense to me. For few reasons.
+Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+---
 
-First of all it breaks isolation where one subgroup can influence a
-different hierarchy via parent reclaim.
+Hi Guys,
 
-I also have a problem with conflating the global and memcg states. Does
-it really make any sense to have the same target to the global state
-as per-memcg? How are you supposed to use this interface to shrink a
-particular memcg or for the global situation with a proportional
-distribution to all memcgs?
+Following our discussions on LSF/MM and beyond [1][2], here is
+an RFC documentation patch.
 
-There also doens't seem to be anything about security model for this
-operation. There is no capability check from a quick look. Is it really
-safe to expose such a functionality for a common user?
+Ted, I know we discussed limiting the API for linking an O_TMPFILE
+to avert the hardlinks issue, but I decided it would be better to
+document the hardlinks non-guaranty instead. This will allow me to
+replicate the same semantics and documentation to renameat(2).
+Let me know how that works out for you.
 
-Last but not least, I am not really convinced that madvise is a proper
-interface. It stretches the API which is address range based and it has
-per-process implications.
+I also decided to try out two separate flags for data and metadata.
+I do not find any of those flags very useful without the other, but
+documenting them seprately was easier, because of the fsync/fdatasync
+reference.  In the end, we are trying to solve a social engineering
+problem, so this is the least confusing way I could think of to describe
+the new API.
+
+First implementation of AT_ATOMIC_METADATA is expected to be
+noop for xfs/ext4 and probably fsync for btrfs.
+
+First implementation of AT_ATOMIC_DATA is expected to be
+filemap_write_and_wait() for xfs/ext4 and probably fdatasync for btrfs.
+
+Thoughts?
+
+Amir.
+
+[1] https://lwn.net/Articles/789038/
+[2] https://lore.kernel.org/linux-fsdevel/CAOQ4uxjZm6E2TmCv8JOyQr7f-2VB0uFRy7XEp8HBHQmMdQg+6w@mail.gmail.com/
+
+ man2/link.2 | 51 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 51 insertions(+)
+
+diff --git a/man2/link.2 b/man2/link.2
+index 649ba00c7..15c24703e 100644
+--- a/man2/link.2
++++ b/man2/link.2
+@@ -184,6 +184,57 @@ See
+ .BR openat (2)
+ for an explanation of the need for
+ .BR linkat ().
++.TP
++.BR AT_ATOMIC_METADATA " (since Linux 5.x)"
++By default, a link operation followed by a system crash, may result in the
++new file name being linked with old inode metadata, such as out dated time
++stamps or missing extended attributes.
++One way to prevent this is to call
++.BR fsync (2)
++before linking the inode, but that involves flushing of volatile disk caches.
++
++A filesystem that accepts this flag will guaranty, that old inode metadata
++will not be exposed in the new linked name.
++Some filesystems may internally perform
++.BR fsync (2)
++before linking the inode to provide this guaranty,
++but often, filesystems will have a more efficient method to provide this
++guaranty without flushing volatile disk caches.
++
++A filesystem that accepts this flag does
++.BR NOT
++guaranty that the new file name will exist after a system crash, nor that the
++current inode metadata is persisted to disk.
++Specifically, if a file has hardlinks, the existance of the linked name after
++a system crash does
++.BR NOT
++guaranty that any of the other file names exist, nor that the last observed
++value of
++.I st_nlink
++(see
++.BR stat (2))
++has persisted.
++.TP
++.BR AT_ATOMIC_DATA " (since Linux 5.x)"
++By default, a link operation followed by a system crash, may result in the
++new file name being linked with old data or missing data.
++One way to prevent this is to call
++.BR fdatasync (2)
++before linking the inode, but that involves flushing of volatile disk caches.
++
++A filesystem that accepts this flag will guaranty, that old data
++will not be exposed in the new linked name.
++Some filesystems may internally perform
++.BR fsync (2)
++before linking the inode to provide this guaranty,
++but often, filesystems will have a more efficient method to provide this
++guaranty without flushing volatile disk caches.
++
++A filesystem that accepts this flag does
++.BR NOT
++guaranty that the new file name will exist after a system crash, nor that the
++current inode data is persisted to disk.
++.TP
+ .SH RETURN VALUE
+ On success, zero is returned.
+ On error, \-1 is returned, and
 -- 
-Michal Hocko
-SUSE Labs
+2.17.1
+
