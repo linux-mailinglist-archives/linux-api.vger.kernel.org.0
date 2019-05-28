@@ -2,104 +2,103 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F1382C1B5
-	for <lists+linux-api@lfdr.de>; Tue, 28 May 2019 10:53:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 588C52C1E7
+	for <lists+linux-api@lfdr.de>; Tue, 28 May 2019 10:58:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726687AbfE1IxY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 28 May 2019 04:53:24 -0400
-Received: from mx2.suse.de ([195.135.220.15]:42388 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726649AbfE1IxY (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 28 May 2019 04:53:24 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 3CFCCAF1C;
-        Tue, 28 May 2019 08:53:22 +0000 (UTC)
-From:   Luis Henriques <lhenriques@suse.com>
-To:     Dave Chinner <david@fromorbit.com>
-Cc:     Amir Goldstein <amir73il@gmail.com>,
-        "Darrick J . Wong" <darrick.wong@oracle.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Olga Kornievskaia <olga.kornievskaia@gmail.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
-        linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org,
-        ceph-devel@vger.kernel.org, linux-api@vger.kernel.org,
-        Dave Chinner <dchinner@redhat.com>
-Subject: Re: [PATCH v2 6/8] vfs: copy_file_range should update file timestamps
-References: <20190526061100.21761-1-amir73il@gmail.com>
-        <20190526061100.21761-7-amir73il@gmail.com>
-        <20190527143539.GA14980@hermes.olymp>
-        <20190527220513.GB29573@dread.disaster.area>
-Date:   Tue, 28 May 2019 09:53:20 +0100
-In-Reply-To: <20190527220513.GB29573@dread.disaster.area> (Dave Chinner's
-        message of "Tue, 28 May 2019 08:05:13 +1000")
-Message-ID: <875zpvrmdb.fsf@suse.com>
+        id S1726371AbfE1I6x (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 28 May 2019 04:58:53 -0400
+Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:33994 "EHLO
+        forwardcorp1j.mail.yandex.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726279AbfE1I6x (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 28 May 2019 04:58:53 -0400
+Received: from mxbackcorp1j.mail.yandex.net (mxbackcorp1j.mail.yandex.net [IPv6:2a02:6b8:0:1619::162])
+        by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 820A62E0A7B;
+        Tue, 28 May 2019 11:58:50 +0300 (MSK)
+Received: from smtpcorp1j.mail.yandex.net (smtpcorp1j.mail.yandex.net [2a02:6b8:0:1619::137])
+        by mxbackcorp1j.mail.yandex.net (nwsmtp/Yandex) with ESMTP id uDbd8mNgjG-wnp8YhTV;
+        Tue, 28 May 2019 11:58:50 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru; s=default;
+        t=1559033930; bh=e67vXEFlguLHoPzm4i6XNcC1TsQ4C+poa1KdWpDWoFM=;
+        h=In-Reply-To:Message-ID:From:Date:References:To:Subject:Cc;
+        b=u3veDeuDUQqhxqZN/gx25dJHfV9rTVsyH55dJyggW9tsHn9L8tEWLJMbVDXtSNkn+
+         /Mu+KdcC/MNOuZx0EXTTo9HeqV7S1epVvwf7ngTgKEAJdcLz0aKJuK6/qOcof9TqCc
+         5C72JSfB2X5Dg3IePfeIr7t3TMMHRgLn5I8OXHEs=
+Authentication-Results: mxbackcorp1j.mail.yandex.net; dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-red.dhcp.yndx.net (dynamic-red.dhcp.yndx.net [2a02:6b8:0:40c:d877:17c:81de:6e43])
+        by smtpcorp1j.mail.yandex.net (nwsmtp/Yandex) with ESMTPSA id 56Lg4wTzc1-wn8qqC4T;
+        Tue, 28 May 2019 11:58:49 +0300
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (Client certificate not present)
+Subject: Re: [PATCH RFC] mm/madvise: implement MADV_STOCKPILE (kswapd from
+ user space)
+To:     Michal Hocko <mhocko@kernel.org>
+Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Tejun Heo <tj@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Roman Gushchin <guro@fb.com>, linux-api@vger.kernel.org
+References: <155895155861.2824.318013775811596173.stgit@buzz>
+ <20190527141223.GD1658@dhcp22.suse.cz> <20190527142156.GE1658@dhcp22.suse.cz>
+ <20190527143926.GF1658@dhcp22.suse.cz>
+ <9c55a343-2a91-46c6-166d-41b94bf5e9c8@yandex-team.ru>
+ <20190528065153.GB1803@dhcp22.suse.cz>
+ <a4e5eeb8-3560-d4b4-08a0-8a22c677c0f7@yandex-team.ru>
+ <20190528073835.GP1658@dhcp22.suse.cz>
+ <5af1ba69-61d1-1472-4aa3-20beb4ae44ae@yandex-team.ru>
+ <20190528084243.GT1658@dhcp22.suse.cz>
+From:   Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
+Message-ID: <4ecf491b-68b5-9a65-5074-648a4f94d2b0@yandex-team.ru>
+Date:   Tue, 28 May 2019 11:58:49 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <20190528084243.GT1658@dhcp22.suse.cz>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-CA
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Dave Chinner <david@fromorbit.com> writes:
+On 28.05.2019 11:42, Michal Hocko wrote:
+> On Tue 28-05-19 11:04:46, Konstantin Khlebnikov wrote:
+>> On 28.05.2019 10:38, Michal Hocko wrote:
+> [...]
+>>> Could you define the exact semantic? Ideally something for the manual
+>>> page please?
+>>>
+>>
+>> Like kswapd which works with thresholds of free memory this one reclaims
+>> until 'free' (i.e. memory which could be allocated without invoking
+>> direct recliam of any kind) is lower than passed 'size' argument.
+> 
+> s@lower@higher@ I guess
 
-> On Mon, May 27, 2019 at 03:35:39PM +0100, Luis Henriques wrote:
->> On Sun, May 26, 2019 at 09:10:57AM +0300, Amir Goldstein wrote:
->> > From: Dave Chinner <dchinner@redhat.com>
->> > 
->> > Timestamps are not updated right now, so programs looking for
->> > timestamp updates for file modifications (like rsync) will not
->> > detect that files have changed. We are also accessing the source
->> > data when doing a copy (but not when cloning) so we need to update
->> > atime on the source file as well.
->> > 
->> > Signed-off-by: Dave Chinner <dchinner@redhat.com>
->> > Signed-off-by: Amir Goldstein <amir73il@gmail.com>
->> > ---
->> >  fs/read_write.c | 10 ++++++++++
->> >  1 file changed, 10 insertions(+)
->> > 
->> > diff --git a/fs/read_write.c b/fs/read_write.c
->> > index e16bcafc0da2..4b23a86aacd9 100644
->> > --- a/fs/read_write.c
->> > +++ b/fs/read_write.c
->> > @@ -1576,6 +1576,16 @@ int generic_copy_file_range_prep(struct file *file_in, struct file *file_out)
->> >  
->> >  	WARN_ON_ONCE(!inode_is_locked(file_inode(file_out)));
->> >  
->> > +	/* Update source timestamps, because we are accessing file data */
->> > +	file_accessed(file_in);
->> > +
->> > +	/* Update destination timestamps, since we can alter file contents. */
->> > +	if (!(file_out->f_mode & FMODE_NOCMTIME)) {
->> > +		ret = file_update_time(file_out);
->> > +		if (ret)
->> > +			return ret;
->> > +	}
->> > +
->> 
->> Is this the right place for updating the timestamps?  I see that in same
->> cases we may be updating the timestamp even if there was an error and no
->> copy was performed.  For example, if file_remove_privs fails.
->
-> It's the same place we do it for read - file_accessed() is called
-> before we do the IO - and the same place for write -
-> file_update_time() is called before we copy data into the pagecache
-> or do direct IO. As such, it really doesn't matter if it is before
-> or after file_remove_privs() - the IO can still fail for many
-> reasons after we've updated the timestamps and in some of the
-> failure cases (e.g. we failed the sync at the end of an O_DSYNC
-> buffered write) we still want the timestamps to be modified because
-> the data and/or user visible metadata /may/ have been changed.
->
-> cfr operates under the same constraints as read() and write(), so we
-> need to update the timestamps up front regardless of whether the
-> copy ends up succeeding or not....
+Yep. My wording still bad.
+'size' argument should be called 'watermark' or 'threshold'.
 
-Great, thanks for explaining it.  It now makes sense, even for
-consistency, to have this operation here.
+I.e. reclaim while 'free' memory is lower passed 'threshold'.
 
-Cheers,
--- 
-Luis
+> 
+>> Thus right after madvise(NULL, size, MADV_STOCKPILE) 'size' bytes
+>> could be allocated in this memory cgroup without extra latency from
+>> reclaimer if there is no other memory consumers.
+>>
+>> Reclaimed memory is simply put into free lists in common buddy allocator,
+>> there is no reserves for particular task or cgroup.
+>>
+>> If overall memory allocation rate is smooth without rough spikes then
+>> calling MADV_STOCKPILE in loop periodically provides enough room for
+>> allocations and eliminates direct reclaim from all other tasks.
+>> As a result this eliminates unpredictable delays caused by
+>> direct reclaim in random places.
+> 
+> OK, this makes it more clear to me. Thanks for the clarification!
+> I have clearly misunderstood and misinterpreted target as the reclaim
+> target rather than free memory target.  Sorry about the confusion.
+> I sill think that this looks like an abuse of the madvise but if there
+> is a wider consensus this is acceptable I will not stand in the way.
+> 
