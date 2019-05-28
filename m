@@ -2,58 +2,52 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D933F2C651
-	for <lists+linux-api@lfdr.de>; Tue, 28 May 2019 14:19:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6BC42C65A
+	for <lists+linux-api@lfdr.de>; Tue, 28 May 2019 14:22:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726853AbfE1MTC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 28 May 2019 08:19:02 -0400
-Received: from mail-vs1-f68.google.com ([209.85.217.68]:36920 "EHLO
-        mail-vs1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726592AbfE1MTB (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 28 May 2019 08:19:01 -0400
-Received: by mail-vs1-f68.google.com with SMTP id o5so9130886vsq.4
-        for <linux-api@vger.kernel.org>; Tue, 28 May 2019 05:19:00 -0700 (PDT)
+        id S1726728AbfE1MWQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 28 May 2019 08:22:16 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:32770 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726580AbfE1MWP (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 28 May 2019 08:22:15 -0400
+Received: by mail-pl1-f196.google.com with SMTP id g21so8299339plq.0;
+        Tue, 28 May 2019 05:22:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ORqKaK5SbOOd3p03HTDtpxAB4e5t5rAZ59rsVeYfxoU=;
-        b=Yb4AhbzvgeoA4phjVOJgz3SL60IuOMa8e9QKY6JUgxCC+BPSNxincUqUTNCFIwB4Vt
-         Q9VI3sCNMb+8I72kXpXELXcJuvXW8CKb0j8Ivk8/6SLj0VKc8wKKe/higTt79ys6xeZd
-         dW5DnxVyyT3tsWYFyB9nxe8Mq+2NPwe56EL4eZNi0jw5O/LW+2Pg0NIyfld2HFZ7oswO
-         kKLQeRwXVV1Yw2f3Qzri/8ET09sAEj9LkrIVGq6mN5NimUXB+Fnd3bMWoU39ncUZ6BI3
-         1aL8SxpujBgTVax7pnOd2dbf7pM+dB/cjo8UxoCwXmSyi+fw2Pyh/ji6TmJgsqU90nbi
-         yfkQ==
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=AJ8VRsxsoWGs/vBSV1ADUeGhgVxuJp/KwJ0JXgr2QW8=;
+        b=nOfmaveBw33qA+XOhBteLcPyL6U0iAwH31DZFkeev74RKVWIws7CENGYDnihRDjxvn
+         nCSw3qHhQW9dZsKA3TKHyivcfswE3XdA9LbjIbTloBrbMUu3qCfhcahqTPjJl0c2BHwF
+         Ba2JzCTarLEOdUUnVtU94PDddmwZRE2ZSfocpESfyPTDwtaK8r/Oo7dIbyD+lJR2PkZe
+         z5yy6U4PyW7okX5RiXlxAYZTR2aoWnaWNfGqD1u7PcQRsptm3U1jVZdg5qnUVZ1mJufG
+         ED5ixHOJ4Tos/q69eKg1psE/LcRiqlnlfCoTm84cOZT5jDb6CrabqUYSIp1T62ntfYa1
+         mJ1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ORqKaK5SbOOd3p03HTDtpxAB4e5t5rAZ59rsVeYfxoU=;
-        b=qeKH/NKaere6hS3KQjuYw1UsDC0lX2wg+n/GwFkspcL3TjYqawL1rvc7glDojf6QAh
-         5Phk9TH2pc5LY21GT/N4UDb60Fhoiub4cAp0uVSMIWHw0oAVvYAvvtFJTrNsHbfE/diY
-         zhPQNUvQnAgt8u2WuD1pEpKmoMnNt85iJjoAEKOk8oXI5SfjrGADQNiAg19Jr1TLlp/Z
-         mSl4pnLQc8Q+Z7JethvNjx9EWogUoUghxO96KrgFCd41DznEf+ImvRqhp+loPYxAa/E0
-         LzuGYxjoeboSw3j8s/rdRj58NmgdIIwgVWGKXpDXqawxZ4D0hGNc/cF3XyymlOYjPtOB
-         mC5A==
-X-Gm-Message-State: APjAAAUCr5S9ZCC1kNd/iRKHXgUpvIrgE8O5rAhbsoTDFXHXQT5vIFD7
-        IYYuyD8n4B2Nfhrnw3Ge8PKk8KPIFQUlhjULddEtEA==
-X-Google-Smtp-Source: APXvYqwHGdwWWRLMzJZmDcCG1KolSprsOID74iOH6L9dNX3JnKLeaXSRpvZuXPWdpupjhSWyj0fwrcEZakU/8Ak5rzw=
-X-Received: by 2002:a67:1485:: with SMTP id 127mr43484532vsu.77.1559045939780;
- Tue, 28 May 2019 05:18:59 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190528062947.GL1658@dhcp22.suse.cz> <20190528081351.GA159710@google.com>
- <CAKOZuesnS6kBFX-PKJ3gvpkv8i-ysDOT2HE2Z12=vnnHQv0FDA@mail.gmail.com>
- <20190528084927.GB159710@google.com> <20190528090821.GU1658@dhcp22.suse.cz>
- <20190528103256.GA9199@google.com> <20190528104117.GW1658@dhcp22.suse.cz>
- <20190528111208.GA30365@google.com> <20190528112840.GY1658@dhcp22.suse.cz>
- <CAKOZuesCSrE0esqDDbo8x5u5rM-Uv_81jjBt1QRXFKNOUJu0aw@mail.gmail.com> <20190528115609.GA1658@dhcp22.suse.cz>
-In-Reply-To: <20190528115609.GA1658@dhcp22.suse.cz>
-From:   Daniel Colascione <dancol@google.com>
-Date:   Tue, 28 May 2019 05:18:48 -0700
-Message-ID: <CAKOZuesnXGAsQgkB45n=jqwDRQ4_aoPiydmZxfxPmzO2p=cTow@mail.gmail.com>
-Subject: Re: [RFC 7/7] mm: madvise support MADV_ANONYMOUS_FILTER and MADV_FILE_FILTER
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=AJ8VRsxsoWGs/vBSV1ADUeGhgVxuJp/KwJ0JXgr2QW8=;
+        b=KEIjPYaCo70DO6UleQTqGbwfnDv1j5ShkAi5VDvY0iOR4aPa/dM3iK/wPk7H4Gwk+I
+         q2p9tFBzbMGoIvBqcqiR1qV2CPwZVAQP1rbfxxuwddEQrmF5rWzqcOwoVXwguhcV1O+Y
+         YwO9LDRAW4C2p9qnyERJqlmrhYW7hBm3kkY1YDFVdFLFZmtFUJesfmIlALs35p1mLu3+
+         VT6N41NNUGiB6WCbVoFH0fWPQ8u9jY+6NqG6dtpxvckaCv+euK2ngMYhKleC7DKT/Knm
+         N0A9cYj9y0k8cZ1dSlvIwWFEj0pqqq5fdhJwctHX6GlhaKx/+awyBerX5A0zdzq0b7U0
+         OxuA==
+X-Gm-Message-State: APjAAAWoJuP1AJQD3lNUkCbuKGtv1lvAK5BNH7b87sEqRJfGJn8qYVtl
+        bAU8Raoa2c0aFd4SrMrIMwo=
+X-Google-Smtp-Source: APXvYqyxBBA1c7fo0kmqewKRmZb4uXkX32qK6cXRlHYmibj6AYwQWFyVNY2kFpvESFd+P8Oc5wfClw==
+X-Received: by 2002:a17:902:8a91:: with SMTP id p17mr70129886plo.60.1559046134645;
+        Tue, 28 May 2019 05:22:14 -0700 (PDT)
+Received: from google.com ([2401:fa00:d:0:98f1:8b3d:1f37:3e8])
+        by smtp.gmail.com with ESMTPSA id o7sm18655494pfp.168.2019.05.28.05.22.10
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Tue, 28 May 2019 05:22:13 -0700 (PDT)
+Date:   Tue, 28 May 2019 21:22:07 +0900
+From:   Minchan Kim <minchan@kernel.org>
 To:     Michal Hocko <mhocko@kernel.org>
-Cc:     Minchan Kim <minchan@kernel.org>,
+Cc:     Daniel Colascione <dancol@google.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         LKML <linux-kernel@vger.kernel.org>,
         linux-mm <linux-mm@kvack.org>,
@@ -65,17 +59,32 @@ Cc:     Minchan Kim <minchan@kernel.org>,
         Sonny Rao <sonnyrao@google.com>,
         Brian Geffon <bgeffon@google.com>,
         Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [RFC 7/7] mm: madvise support MADV_ANONYMOUS_FILTER and
+ MADV_FILE_FILTER
+Message-ID: <20190528122207.GD30365@google.com>
+References: <20190528081351.GA159710@google.com>
+ <CAKOZuesnS6kBFX-PKJ3gvpkv8i-ysDOT2HE2Z12=vnnHQv0FDA@mail.gmail.com>
+ <20190528084927.GB159710@google.com>
+ <20190528090821.GU1658@dhcp22.suse.cz>
+ <20190528103256.GA9199@google.com>
+ <20190528104117.GW1658@dhcp22.suse.cz>
+ <20190528111208.GA30365@google.com>
+ <20190528112840.GY1658@dhcp22.suse.cz>
+ <20190528114436.GB30365@google.com>
+ <20190528120614.GB1658@dhcp22.suse.cz>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190528120614.GB1658@dhcp22.suse.cz>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, May 28, 2019 at 4:56 AM Michal Hocko <mhocko@kernel.org> wrote:
->
-> On Tue 28-05-19 04:42:47, Daniel Colascione wrote:
-> > On Tue, May 28, 2019 at 4:28 AM Michal Hocko <mhocko@kernel.org> wrote:
-> > >
+On Tue, May 28, 2019 at 02:06:14PM +0200, Michal Hocko wrote:
+> On Tue 28-05-19 20:44:36, Minchan Kim wrote:
+> > On Tue, May 28, 2019 at 01:28:40PM +0200, Michal Hocko wrote:
 > > > On Tue 28-05-19 20:12:08, Minchan Kim wrote:
 > > > > On Tue, May 28, 2019 at 12:41:17PM +0200, Michal Hocko wrote:
 > > > > > On Tue 28-05-19 19:32:56, Minchan Kim wrote:
@@ -89,7 +98,7 @@ On Tue, May 28, 2019 at 4:56 AM Michal Hocko <mhocko@kernel.org> wrote:
 > > > > > > > > > >
 > > > > > > > > > > The reason to add such filter option is to avoid the parsing overhead
 > > > > > > > > > > so map_anon wouldn't be helpful.
-> > > > > > > > >
+> > > > > > > > > 
 > > > > > > > > > Without chiming on whether the filter option is a good idea, I'd like
 > > > > > > > > > to suggest that providing an efficient binary interfaces for pulling
 > > > > > > > > > memory map information out of processes.  Some single-system-call
@@ -97,77 +106,56 @@ On Tue, May 28, 2019 at 4:56 AM Michal Hocko <mhocko@kernel.org> wrote:
 > > > > > > > > > complete with attributes (selectable, like statx?) for each VMA would
 > > > > > > > > > reduce complexity and increase performance in a variety of areas,
 > > > > > > > > > e.g., Android memory map debugging commands.
-> > > > > > > >
+> > > > > > > > 
 > > > > > > > > I agree it's the best we can get *generally*.
 > > > > > > > > Michal, any opinion?
-> > > > > > >
+> > > > > > > 
 > > > > > > > I am not really sure this is directly related. I think the primary
 > > > > > > > question that we have to sort out first is whether we want to have
 > > > > > > > the remote madvise call process or vma fd based. This is an important
 > > > > > > > distinction wrt. usability. I have only seen pid vs. pidfd discussions
 > > > > > > > so far unfortunately.
-> > > > > >
+> > > > > > 
 > > > > > > With current usecase, it's per-process API with distinguishable anon/file
 > > > > > > but thought it could be easily extended later for each address range
 > > > > > > operation as userspace getting smarter with more information.
-> > > > >
+> > > > > 
 > > > > > Never design user API based on a single usecase, please. The "easily
 > > > > > extended" part is by far not clear to me TBH. As I've already mentioned
 > > > > > several times, the synchronization model has to be thought through
 > > > > > carefuly before a remote process address range operation can be
 > > > > > implemented.
-> > > >
+> > > > 
 > > > > I agree with you that we shouldn't design API on single usecase but what
 > > > > you are concerning is actually not our usecase because we are resilient
 > > > > with the race since MADV_COLD|PAGEOUT is not destruptive.
 > > > > Actually, many hints are already racy in that the upcoming pattern would
 > > > > be different with the behavior you thought at the moment.
-> > >
+> > > 
 > > > How come they are racy wrt address ranges? You would have to be in
 > > > multithreaded environment and then the onus of synchronization is on
 > > > threads. That model is quite clear. But we are talking about separate
-> > > processes and some of them might be even not aware of an external entity
-> > > tweaking their address space.
-> >
-> > I don't think the difference between a thread and a process matters in
-> > this context. Threads race on address space operations all the time
-> > --- in the sense that multiple threads modify a process's address
-> > space without synchronization.
->
-> I would disagree. They do have in-kernel synchronization as long as they
-> do not use MAP_FIXED. If they do want to use MAP_FIXED then they better
-> synchronize or the result is undefined.
+> > 
+> > Think about MADV_FREE. Allocator would think the chunk is worth to mark
+> > "freeable" but soon, user of the allocator asked the chunk - ie, it's not
+> > freeable any longer once user start to use it.
+> 
+> That is not a race in the address space, right. The underlying object
+> hasn't changed. It has been declared as freeable and since that moment
+> nobody can rely on the content because it might have been discarded.
+> Or put simply, the content is undefined. It is responsibility of the
+> madvise caller to make sure that the object is not in active use while
+> it is marking it.
+> 
+> > My point is that kinds of *hints* are always racy so any synchronization
+> > couldn't help a lot. That's why I want to restrict hints process_madvise
+> > supports as such kinds of non-destruptive one at next respin.
+> 
+> I agree that a non-destructive operations are safer against paralel
+> modifications because you just get a annoying and unexpected latency at
+> worst case. But we should discuss whether this assumption is sufficient
+> for further development. I am pretty sure once we open remote madvise
+> people will find usecases for destructive operations or even new madvise
+> modes we haven't heard of. What then?
 
-Right. It's because the kernel hands off different regions to
-different non-MAP_FIXED mmap callers that it's pretty easy for threads
-to mind their own business, but they're all still using the same
-address space.
-
-> > From a synchronization point
-> > of view, it doesn't really matter whether it's a thread within the
-> > target process or a thread outside the target process that does the
-> > address space manipulation. What's new is the inspection of the
-> > address space before performing an operation.
->
-> The fundamental difference is that if you want to achieve the same
-> inside the process then your application is inherenly aware of the
-> operation and use whatever synchronization is needed to achieve a
-> consistency. As soon as you allow the same from outside you either
-> have to have an aware target application as well or you need a mechanism
-> to find out that your decision has been invalidated by a later
-> unsynchronized action.
-
-I thought of this objection immediately after I hit send. :-)
-
-I still don't think the intra- vs inter-process difference matters.
-It's true that threads can synchronize with each other, but different
-processes can synchronize with each other too. I mean, you *could* use
-sem_open(3) for your heap lock and open the semaphore from two
-different processes. That's silly, but it'd work.
-
-The important requirement, I think, is that we need to support
-managing "memory-naive" uncooperative tasks (perhaps legacy ones
-written before cross-process memory management even became possible),
-and I think that the cooperative-vs-uncooperative distinction matters
-a lot more than the tgid of the thread doing the memory manipulation.
-(Although in our case, we really do need a separate tgid. :-))
+I support Daniel's vma seq number approach for the future plan.
