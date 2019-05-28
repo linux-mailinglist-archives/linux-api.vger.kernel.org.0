@@ -2,430 +2,290 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AE10F2CB0A
-	for <lists+linux-api@lfdr.de>; Tue, 28 May 2019 18:03:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AEED2CB32
+	for <lists+linux-api@lfdr.de>; Tue, 28 May 2019 18:10:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727295AbfE1QC4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 28 May 2019 12:02:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:14825 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726602AbfE1QCz (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 28 May 2019 12:02:55 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id BD208C07F673;
-        Tue, 28 May 2019 16:02:54 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-120-173.rdu2.redhat.com [10.10.120.173])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 3C9555D9C5;
-        Tue, 28 May 2019 16:02:51 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
- Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
- Kingdom.
- Registered in England and Wales under Company Registration No. 3798903
-Subject: [PATCH 7/7] Add sample notification program
-From:   David Howells <dhowells@redhat.com>
-To:     viro@zeniv.linux.org.uk
-Cc:     dhowells@redhat.com, raven@themaw.net,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-block@vger.kernel.org, keyrings@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Tue, 28 May 2019 17:02:50 +0100
-Message-ID: <155905937049.7587.16487253555712551165.stgit@warthog.procyon.org.uk>
-In-Reply-To: <155905930702.7587.7100265859075976147.stgit@warthog.procyon.org.uk>
-References: <155905930702.7587.7100265859075976147.stgit@warthog.procyon.org.uk>
-User-Agent: StGit/unknown-version
+        id S1726512AbfE1QK2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 28 May 2019 12:10:28 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:47054 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726362AbfE1QK1 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 28 May 2019 12:10:27 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x4SG9PEU148139;
+        Tue, 28 May 2019 16:09:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2018-07-02;
+ bh=qorUMK1v9HhQ+q//nWQ7Plmkh7GZi4VQt8I7/SEfPrY=;
+ b=jH+b4g2nTntOFebAnpi4wB7tlIlzdHYPo+Da6JJMm3EEYCfDbSBGUSRsoNaRXaAh5Pln
+ k97b4lWSPjHiFNL3NbCi5aIACFERjlBzjPzf0lHXWJ4CjSZXwl/VFiduQY8jg12lTFpL
+ PAKacYtO/wF5l/KUAg2KEK6oCLEK3oLykd5Afgyian8UOkey7G61TehxV9FiI3qXc6RJ
+ NgABsOMx3spQz7+kzip/6hBglOTeKdkviVFOyw0P+sgt9fAhjMdQrUxCv1f3gzSXem6i
+ bSjmYN9Z7sc3y4hOJ8v7lNnFrYqOxdZ1w3Cim49m5pHR7x+a2MbQOVKWcFOM1+8giH85 dw== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by userp2130.oracle.com with ESMTP id 2spw4tcahr-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 28 May 2019 16:09:36 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x4SG84TR094641;
+        Tue, 28 May 2019 16:09:36 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by userp3020.oracle.com with ESMTP id 2sr31urhxm-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 28 May 2019 16:09:35 +0000
+Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x4SG9W3w017148;
+        Tue, 28 May 2019 16:09:33 GMT
+Received: from localhost (/67.169.218.210)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Tue, 28 May 2019 09:09:32 -0700
+Date:   Tue, 28 May 2019 09:09:30 -0700
+From:   "Darrick J. Wong" <darrick.wong@oracle.com>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Dave Chinner <david@fromorbit.com>, Christoph Hellwig <hch@lst.de>,
+        Olga Kornievskaia <olga.kornievskaia@gmail.com>,
+        Luis Henriques <lhenriques@suse.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
+        linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+        ceph-devel@vger.kernel.org, linux-api@vger.kernel.org,
+        Dave Chinner <dchinner@redhat.com>
+Subject: Re: [PATCH v2 2/8] vfs: no fallback for ->copy_file_range
+Message-ID: <20190528160930.GA5221@magnolia>
+References: <20190526061100.21761-1-amir73il@gmail.com>
+ <20190526061100.21761-3-amir73il@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.31]); Tue, 28 May 2019 16:02:54 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190526061100.21761-3-amir73il@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9270 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=2 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1905280103
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9270 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=2 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1905280103
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This needs to be linked with -lkeyutils.
+On Sun, May 26, 2019 at 09:10:53AM +0300, Amir Goldstein wrote:
+> From: Dave Chinner <dchinner@redhat.com>
+> 
+> Now that we have generic_copy_file_range(), remove it as a fallback
+> case when offloads fail. This puts the responsibility for executing
+> fallbacks on the filesystems that implement ->copy_file_range and
+> allows us to add operational validity checks to
+> generic_copy_file_range().
+> 
+> Rework vfs_copy_file_range() to call a new do_copy_file_range()
+> helper to exceute the copying callout, and move calls to
 
-It is run like:
+    execute ^^^^^^^
 
-	./watch_test
+> generic_file_copy_range() into filesystem methods where they
+> currently return failures.
+> 
+> [Amir] overlayfs is not responsible of executing the fallback.
+> It is the responsibility of the underlying filesystem.
+> 
+> Signed-off-by: Dave Chinner <dchinner@redhat.com>
+> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
 
-and watches "/" for mount changes and the current session keyring for key
-changes:
+Seems fine to me otherwise...
+Reviewed-by: Darrick J. Wong <darrick.wong@oracle.com>
 
-	# keyctl add user a a @s
-	1035096409
-	# keyctl unlink 1035096409 @s
-	# mount -t tmpfs none /mnt/nfsv3tcp/
-	# umount /mnt/nfsv3tcp
+--D
 
-producing:
-
-	# ./watch_test
-	ptrs h=4 t=2 m=20003
-	NOTIFY[00000004-00000002] ty=0003 sy=0002 i=01000010
-	KEY 2ffc2e5d change=2[linked] aux=1035096409
-	ptrs h=6 t=4 m=20003
-	NOTIFY[00000006-00000004] ty=0003 sy=0003 i=01000010
-	KEY 2ffc2e5d change=3[unlinked] aux=1035096409
-	ptrs h=8 t=6 m=20003
-	NOTIFY[00000008-00000006] ty=0001 sy=0000 i=02000010
-	MOUNT 00000013 change=0[new_mount] aux=168
-	ptrs h=a t=8 m=20003
-	NOTIFY[0000000a-00000008] ty=0001 sy=0001 i=02000010
-	MOUNT 00000013 change=1[unmount] aux=168
-
-Other events may be produced, such as with a failing disk:
-
-	ptrs h=5 t=2 m=6000004
-	NOTIFY[00000005-00000002] ty=0004 sy=0006 i=04000018
-	BLOCK 00800050 e=6[critical medium] s=5be8
-
-This corresponds to:
-
-	print_req_error: critical medium error, dev sdf, sector 23528 flags 0
-
-in dmesg.
-
-Signed-off-by: David Howells <dhowells@redhat.com>
----
-
- samples/Kconfig                  |    6 +
- samples/Makefile                 |    1 
- samples/watch_queue/Makefile     |    9 +
- samples/watch_queue/watch_test.c |  284 ++++++++++++++++++++++++++++++++++++++
- 4 files changed, 300 insertions(+)
- create mode 100644 samples/watch_queue/Makefile
- create mode 100644 samples/watch_queue/watch_test.c
-
-diff --git a/samples/Kconfig b/samples/Kconfig
-index 0561a94f6fdb..a2b7a7babee5 100644
---- a/samples/Kconfig
-+++ b/samples/Kconfig
-@@ -160,4 +160,10 @@ config SAMPLE_VFS
- 	  as mount API and statx().  Note that this is restricted to the x86
- 	  arch whilst it accesses system calls that aren't yet in all arches.
- 
-+config SAMPLE_WATCH_QUEUE
-+	bool "Build example /dev/watch_queue notification consumer"
-+	help
-+	  Build example userspace program to use the new mount_notify(),
-+	  sb_notify() syscalls and the KEYCTL_WATCH_KEY keyctl() function.
-+
- endif # SAMPLES
-diff --git a/samples/Makefile b/samples/Makefile
-index debf8925f06f..ed3b8bab6e9b 100644
---- a/samples/Makefile
-+++ b/samples/Makefile
-@@ -20,3 +20,4 @@ obj-$(CONFIG_SAMPLE_TRACE_PRINTK)	+= trace_printk/
- obj-$(CONFIG_VIDEO_PCI_SKELETON)	+= v4l/
- obj-y					+= vfio-mdev/
- subdir-$(CONFIG_SAMPLE_VFS)		+= vfs
-+subdir-$(CONFIG_SAMPLE_WATCH_QUEUE)	+= watch_queue
-diff --git a/samples/watch_queue/Makefile b/samples/watch_queue/Makefile
-new file mode 100644
-index 000000000000..42b694430d0f
---- /dev/null
-+++ b/samples/watch_queue/Makefile
-@@ -0,0 +1,9 @@
-+# List of programs to build
-+hostprogs-y := watch_test
-+
-+# Tell kbuild to always build the programs
-+always := $(hostprogs-y)
-+
-+HOSTCFLAGS_watch_test.o += -I$(objtree)/usr/include
-+
-+HOSTLOADLIBES_watch_test += -lkeyutils
-diff --git a/samples/watch_queue/watch_test.c b/samples/watch_queue/watch_test.c
-new file mode 100644
-index 000000000000..0bbab492e237
---- /dev/null
-+++ b/samples/watch_queue/watch_test.c
-@@ -0,0 +1,284 @@
-+/* Use /dev/watch_queue to watch for keyring and mount topology changes.
-+ *
-+ * Copyright (C) 2018 Red Hat, Inc. All Rights Reserved.
-+ * Written by David Howells (dhowells@redhat.com)
-+ *
-+ * This program is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU General Public Licence
-+ * as published by the Free Software Foundation; either version
-+ * 2 of the Licence, or (at your option) any later version.
-+ */
-+
-+#include <stdbool.h>
-+#include <stdarg.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <signal.h>
-+#include <unistd.h>
-+#include <fcntl.h>
-+#include <dirent.h>
-+#include <errno.h>
-+#include <sys/wait.h>
-+#include <sys/ioctl.h>
-+#include <sys/mman.h>
-+#include <poll.h>
-+#include <limits.h>
-+#include <linux/watch_queue.h>
-+#include <linux/unistd.h>
-+#include <linux/keyctl.h>
-+
-+#ifndef __NR_mount_notify
-+#define __NR_mount_notify -1
-+#endif
-+#ifndef __NR_sb_notify
-+#define __NR_sb_notify -1
-+#endif
-+#ifndef __NR_block_notify
-+#define __NR_block_notify -1
-+#endif
-+#ifndef KEYCTL_WATCH_KEY
-+#define KEYCTL_WATCH_KEY -1
-+#endif
-+
-+#define BUF_SIZE 4
-+
-+static const char *key_subtypes[256] = {
-+	[NOTIFY_KEY_INSTANTIATED]	= "instantiated",
-+	[NOTIFY_KEY_UPDATED]		= "updated",
-+	[NOTIFY_KEY_LINKED]		= "linked",
-+	[NOTIFY_KEY_UNLINKED]		= "unlinked",
-+	[NOTIFY_KEY_CLEARED]		= "cleared",
-+	[NOTIFY_KEY_REVOKED]		= "revoked",
-+	[NOTIFY_KEY_INVALIDATED]	= "invalidated",
-+	[NOTIFY_KEY_SETATTR]		= "setattr",
-+};
-+
-+static void saw_key_change(struct watch_notification *n)
-+{
-+	struct key_notification *k = (struct key_notification *)n;
-+	unsigned int len = n->info & WATCH_INFO_LENGTH;
-+
-+	if (len != sizeof(struct key_notification))
-+		return;
-+
-+	printf("KEY %08x change=%u[%s] aux=%u\n",
-+	       k->key_id, n->subtype, key_subtypes[n->subtype], k->aux);
-+}
-+
-+static const char *mount_subtypes[256] = {
-+	[NOTIFY_MOUNT_NEW_MOUNT]	= "new_mount",
-+	[NOTIFY_MOUNT_UNMOUNT]		= "unmount",
-+	[NOTIFY_MOUNT_EXPIRY]		= "expiry",
-+	[NOTIFY_MOUNT_READONLY]		= "readonly",
-+	[NOTIFY_MOUNT_SETATTR]		= "setattr",
-+	[NOTIFY_MOUNT_MOVE_FROM]	= "move_from",
-+	[NOTIFY_MOUNT_MOVE_TO]		= "move_to",
-+};
-+
-+static long keyctl_watch_key(int key, int watch_fd, int watch_id)
-+{
-+	return syscall(__NR_keyctl, KEYCTL_WATCH_KEY, key, watch_fd, watch_id);
-+}
-+
-+static void saw_mount_change(struct watch_notification *n)
-+{
-+	struct mount_notification *m = (struct mount_notification *)n;
-+	unsigned int len = n->info & WATCH_INFO_LENGTH;
-+
-+	if (len != sizeof(struct mount_notification))
-+		return;
-+
-+	printf("MOUNT %08x change=%u[%s] aux=%u\n",
-+	       m->triggered_on, n->subtype, mount_subtypes[n->subtype], m->changed_mount);
-+}
-+
-+static const char *super_subtypes[256] = {
-+	[NOTIFY_SUPERBLOCK_READONLY]	= "readonly",
-+	[NOTIFY_SUPERBLOCK_ERROR]	= "error",
-+	[NOTIFY_SUPERBLOCK_EDQUOT]	= "edquot",
-+	[NOTIFY_SUPERBLOCK_NETWORK]	= "network",
-+};
-+
-+static void saw_super_change(struct watch_notification *n)
-+{
-+	struct superblock_notification *s = (struct superblock_notification *)n;
-+	unsigned int len = n->info & WATCH_INFO_LENGTH;
-+
-+	if (len < sizeof(struct superblock_notification))
-+		return;
-+
-+	printf("SUPER %08llx change=%u[%s]\n",
-+	       s->sb_id, n->subtype, super_subtypes[n->subtype]);
-+}
-+
-+static const char *block_subtypes[256] = {
-+	[NOTIFY_BLOCK_ERROR_TIMEOUT]			= "timeout",
-+	[NOTIFY_BLOCK_ERROR_NO_SPACE]			= "critical space allocation",
-+	[NOTIFY_BLOCK_ERROR_RECOVERABLE_TRANSPORT]	= "recoverable transport",
-+	[NOTIFY_BLOCK_ERROR_CRITICAL_TARGET]		= "critical target",
-+	[NOTIFY_BLOCK_ERROR_CRITICAL_NEXUS]		= "critical nexus",
-+	[NOTIFY_BLOCK_ERROR_CRITICAL_MEDIUM]		= "critical medium",
-+	[NOTIFY_BLOCK_ERROR_PROTECTION]			= "protection",
-+	[NOTIFY_BLOCK_ERROR_KERNEL_RESOURCE]		= "kernel resource",
-+	[NOTIFY_BLOCK_ERROR_DEVICE_RESOURCE]		= "device resource",
-+	[NOTIFY_BLOCK_ERROR_IO]				= "I/O",
-+};
-+
-+static void saw_block_change(struct watch_notification *n)
-+{
-+	struct block_notification *b = (struct block_notification *)n;
-+	unsigned int len = n->info & WATCH_INFO_LENGTH;
-+
-+	if (len < sizeof(struct block_notification))
-+		return;
-+
-+	printf("BLOCK %08llx e=%u[%s] s=%llx\n",
-+	       (unsigned long long)b->dev,
-+	       n->subtype, block_subtypes[n->subtype],
-+	       (unsigned long long)b->sector);
-+}
-+
-+/*
-+ * Consume and display events.
-+ */
-+static int consumer(int fd, struct watch_queue_buffer *buf)
-+{
-+	struct watch_notification *n;
-+	struct pollfd p[1];
-+	unsigned int head, tail, mask = buf->meta.mask;
-+
-+	for (;;) {
-+		p[0].fd = fd;
-+		p[0].events = POLLIN | POLLERR;
-+		p[0].revents = 0;
-+
-+		if (poll(p, 1, -1) == -1) {
-+			perror("poll");
-+			break;
-+		}
-+
-+		printf("ptrs h=%x t=%x m=%x\n",
-+		       buf->meta.head, buf->meta.tail, buf->meta.mask);
-+
-+		while (head = buf->meta.head,
-+		       tail = buf->meta.tail,
-+		       tail != head
-+		       ) {
-+			asm ("lfence" : : : "memory" );
-+			n = &buf->slots[tail & mask];
-+			printf("NOTIFY[%08x-%08x] ty=%04x sy=%04x i=%08x\n",
-+			       head, tail, n->type, n->subtype, n->info);
-+			if ((n->info & WATCH_INFO_LENGTH) == 0)
-+				goto out;
-+
-+			switch (n->type) {
-+			case WATCH_TYPE_META:
-+				if (n->subtype == WATCH_META_REMOVAL_NOTIFICATION)
-+					printf("REMOVAL of watchpoint %08x\n",
-+					       n->info & WATCH_INFO_ID);
-+				break;
-+			case WATCH_TYPE_MOUNT_NOTIFY:
-+				saw_mount_change(n);
-+				break;
-+			case WATCH_TYPE_SB_NOTIFY:
-+				saw_super_change(n);
-+				break;
-+			case WATCH_TYPE_KEY_NOTIFY:
-+				saw_key_change(n);
-+				break;
-+			case WATCH_TYPE_BLOCK_NOTIFY:
-+				saw_block_change(n);
-+				break;
-+			}
-+
-+			tail += (n->info & WATCH_INFO_LENGTH) >> WATCH_LENGTH_SHIFT;
-+			asm("mfence" ::: "memory");
-+			buf->meta.tail = tail;
-+		}
-+	}
-+
-+out:
-+	return 0;
-+}
-+
-+static struct watch_notification_filter filter = {
-+	.nr_filters	= 4,
-+	.__reserved	= 0,
-+	.filters = {
-+		[0] = {
-+			.type			= WATCH_TYPE_MOUNT_NOTIFY,
-+			// Reject move-from notifications
-+			.subtype_filter[0]	= UINT_MAX & ~(1 << NOTIFY_MOUNT_MOVE_FROM),
-+		},
-+		[1]	= {
-+			.type			= WATCH_TYPE_SB_NOTIFY,
-+			// Only accept notification of changes to R/O state
-+			.subtype_filter[0]	= (1 << NOTIFY_SUPERBLOCK_READONLY),
-+			// Only accept notifications of change-to-R/O
-+			.info_mask		= WATCH_INFO_FLAG_0,
-+			.info_filter		= WATCH_INFO_FLAG_0,
-+		},
-+		[2]	= {
-+			.type			= WATCH_TYPE_KEY_NOTIFY,
-+			.subtype_filter[0]	= UINT_MAX,
-+		},
-+		[3]	= {
-+			.type			= WATCH_TYPE_BLOCK_NOTIFY,
-+			.subtype_filter[0]	= UINT_MAX,
-+		},
-+	},
-+};
-+
-+int main(int argc, char **argv)
-+{
-+	struct watch_queue_buffer *buf;
-+	size_t page_size;
-+	int fd;
-+
-+	fd = open("/dev/watch_queue", O_RDWR);
-+	if (fd == -1) {
-+		perror("/dev/watch_queue");
-+		exit(1);
-+	}
-+
-+	if (ioctl(fd, IOC_WATCH_QUEUE_SET_SIZE, BUF_SIZE) == -1) {
-+		perror("/dev/watch_queue(size)");
-+		exit(1);
-+	}
-+
-+	if (ioctl(fd, IOC_WATCH_QUEUE_SET_FILTER, &filter) == -1) {
-+		perror("/dev/watch_queue(filter)");
-+		exit(1);
-+	}
-+
-+	page_size = sysconf(_SC_PAGESIZE);
-+	buf = mmap(NULL, BUF_SIZE * page_size, PROT_READ | PROT_WRITE,
-+		   MAP_SHARED, fd, 0);
-+	if (buf == MAP_FAILED) {
-+		perror("mmap");
-+		exit(1);
-+	}
-+
-+	if (keyctl_watch_key(KEY_SPEC_SESSION_KEYRING, fd, 0x01) == -1) {
-+		perror("keyctl");
-+		exit(1);
-+	}
-+
-+	if (syscall(__NR_mount_notify, AT_FDCWD, "/", 0, fd, 0x02) == -1) {
-+		perror("mount_notify");
-+		exit(1);
-+	}
-+
-+	if (syscall(__NR_sb_notify, AT_FDCWD, "/mnt", 0, fd, 0x03) == -1) {
-+		perror("sb_notify");
-+		exit(1);
-+	}
-+
-+	if (syscall(__NR_block_notify, fd, 0x04) == -1) {
-+		perror("block_notify");
-+		exit(1);
-+	}
-+
-+	return consumer(fd, buf);
-+}
-
+> ---
+>  fs/ceph/file.c    | 21 ++++++++++++++++++---
+>  fs/cifs/cifsfs.c  |  4 ++++
+>  fs/fuse/file.c    | 21 ++++++++++++++++++---
+>  fs/nfs/nfs4file.c | 20 +++++++++++++++++---
+>  fs/read_write.c   | 25 ++++++++++++++++---------
+>  5 files changed, 73 insertions(+), 18 deletions(-)
+> 
+> diff --git a/fs/ceph/file.c b/fs/ceph/file.c
+> index 305daf043eb0..e87f7b2023af 100644
+> --- a/fs/ceph/file.c
+> +++ b/fs/ceph/file.c
+> @@ -1889,9 +1889,9 @@ static int is_file_size_ok(struct inode *src_inode, struct inode *dst_inode,
+>  	return 0;
+>  }
+>  
+> -static ssize_t ceph_copy_file_range(struct file *src_file, loff_t src_off,
+> -				    struct file *dst_file, loff_t dst_off,
+> -				    size_t len, unsigned int flags)
+> +static ssize_t __ceph_copy_file_range(struct file *src_file, loff_t src_off,
+> +				      struct file *dst_file, loff_t dst_off,
+> +				      size_t len, unsigned int flags)
+>  {
+>  	struct inode *src_inode = file_inode(src_file);
+>  	struct inode *dst_inode = file_inode(dst_file);
+> @@ -2100,6 +2100,21 @@ static ssize_t ceph_copy_file_range(struct file *src_file, loff_t src_off,
+>  	return ret;
+>  }
+>  
+> +static ssize_t ceph_copy_file_range(struct file *src_file, loff_t src_off,
+> +				    struct file *dst_file, loff_t dst_off,
+> +				    size_t len, unsigned int flags)
+> +{
+> +	ssize_t ret;
+> +
+> +	ret = __ceph_copy_file_range(src_file, src_off, dst_file, dst_off,
+> +				     len, flags);
+> +
+> +	if (ret == -EOPNOTSUPP)
+> +		ret = generic_copy_file_range(src_file, src_off, dst_file,
+> +					      dst_off, len, flags);
+> +	return ret;
+> +}
+> +
+>  const struct file_operations ceph_file_fops = {
+>  	.open = ceph_open,
+>  	.release = ceph_release,
+> diff --git a/fs/cifs/cifsfs.c b/fs/cifs/cifsfs.c
+> index f5fcd6360056..c65823270313 100644
+> --- a/fs/cifs/cifsfs.c
+> +++ b/fs/cifs/cifsfs.c
+> @@ -1148,6 +1148,10 @@ static ssize_t cifs_copy_file_range(struct file *src_file, loff_t off,
+>  	rc = cifs_file_copychunk_range(xid, src_file, off, dst_file, destoff,
+>  					len, flags);
+>  	free_xid(xid);
+> +
+> +	if (rc == -EOPNOTSUPP)
+> +		rc = generic_copy_file_range(src_file, off, dst_file,
+> +					     destoff, len, flags);
+>  	return rc;
+>  }
+>  
+> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+> index 3959f08279e6..e03901ae729b 100644
+> --- a/fs/fuse/file.c
+> +++ b/fs/fuse/file.c
+> @@ -3097,9 +3097,9 @@ static long fuse_file_fallocate(struct file *file, int mode, loff_t offset,
+>  	return err;
+>  }
+>  
+> -static ssize_t fuse_copy_file_range(struct file *file_in, loff_t pos_in,
+> -				    struct file *file_out, loff_t pos_out,
+> -				    size_t len, unsigned int flags)
+> +static ssize_t __fuse_copy_file_range(struct file *file_in, loff_t pos_in,
+> +				      struct file *file_out, loff_t pos_out,
+> +				      size_t len, unsigned int flags)
+>  {
+>  	struct fuse_file *ff_in = file_in->private_data;
+>  	struct fuse_file *ff_out = file_out->private_data;
+> @@ -3173,6 +3173,21 @@ static ssize_t fuse_copy_file_range(struct file *file_in, loff_t pos_in,
+>  	return err;
+>  }
+>  
+> +static ssize_t fuse_copy_file_range(struct file *src_file, loff_t src_off,
+> +				    struct file *dst_file, loff_t dst_off,
+> +				    size_t len, unsigned int flags)
+> +{
+> +	ssize_t ret;
+> +
+> +	ret = __fuse_copy_file_range(src_file, src_off, dst_file, dst_off,
+> +				     len, flags);
+> +
+> +	if (ret == -EOPNOTSUPP)
+> +		ret = generic_copy_file_range(src_file, src_off, dst_file,
+> +					      dst_off, len, flags);
+> +	return ret;
+> +}
+> +
+>  static const struct file_operations fuse_file_operations = {
+>  	.llseek		= fuse_file_llseek,
+>  	.read_iter	= fuse_file_read_iter,
+> diff --git a/fs/nfs/nfs4file.c b/fs/nfs/nfs4file.c
+> index cf42a8b939e3..4842f3ab3161 100644
+> --- a/fs/nfs/nfs4file.c
+> +++ b/fs/nfs/nfs4file.c
+> @@ -129,9 +129,9 @@ nfs4_file_flush(struct file *file, fl_owner_t id)
+>  }
+>  
+>  #ifdef CONFIG_NFS_V4_2
+> -static ssize_t nfs4_copy_file_range(struct file *file_in, loff_t pos_in,
+> -				    struct file *file_out, loff_t pos_out,
+> -				    size_t count, unsigned int flags)
+> +static ssize_t __nfs4_copy_file_range(struct file *file_in, loff_t pos_in,
+> +				      struct file *file_out, loff_t pos_out,
+> +				      size_t count, unsigned int flags)
+>  {
+>  	if (!nfs_server_capable(file_inode(file_out), NFS_CAP_COPY))
+>  		return -EOPNOTSUPP;
+> @@ -140,6 +140,20 @@ static ssize_t nfs4_copy_file_range(struct file *file_in, loff_t pos_in,
+>  	return nfs42_proc_copy(file_in, pos_in, file_out, pos_out, count);
+>  }
+>  
+> +static ssize_t nfs4_copy_file_range(struct file *file_in, loff_t pos_in,
+> +				    struct file *file_out, loff_t pos_out,
+> +				    size_t count, unsigned int flags)
+> +{
+> +	ssize_t ret;
+> +
+> +	ret = __nfs4_copy_file_range(file_in, pos_in, file_out, pos_out, count,
+> +				     flags);
+> +	if (ret == -EOPNOTSUPP)
+> +		ret = generic_copy_file_range(file_in, pos_in, file_out,
+> +					      pos_out, count, flags);
+> +	return ret;
+> +}
+> +
+>  static loff_t nfs4_file_llseek(struct file *filep, loff_t offset, int whence)
+>  {
+>  	loff_t ret;
+> diff --git a/fs/read_write.c b/fs/read_write.c
+> index 676b02fae589..b63dcb4e4fe9 100644
+> --- a/fs/read_write.c
+> +++ b/fs/read_write.c
+> @@ -1595,6 +1595,19 @@ ssize_t generic_copy_file_range(struct file *file_in, loff_t pos_in,
+>  }
+>  EXPORT_SYMBOL(generic_copy_file_range);
+>  
+> +static ssize_t do_copy_file_range(struct file *file_in, loff_t pos_in,
+> +				  struct file *file_out, loff_t pos_out,
+> +				  size_t len, unsigned int flags)
+> +{
+> +	if (file_out->f_op->copy_file_range)
+> +		return file_out->f_op->copy_file_range(file_in, pos_in,
+> +						       file_out, pos_out,
+> +						       len, flags);
+> +
+> +	return generic_copy_file_range(file_in, pos_in, file_out, pos_out, len,
+> +				       flags);
+> +}
+> +
+>  /*
+>   * copy_file_range() differs from regular file read and write in that it
+>   * specifically allows return partial success.  When it does so is up to
+> @@ -1655,15 +1668,9 @@ ssize_t vfs_copy_file_range(struct file *file_in, loff_t pos_in,
+>  		}
+>  	}
+>  
+> -	if (file_out->f_op->copy_file_range) {
+> -		ret = file_out->f_op->copy_file_range(file_in, pos_in, file_out,
+> -						      pos_out, len, flags);
+> -		if (ret != -EOPNOTSUPP)
+> -			goto done;
+> -	}
+> -
+> -	ret = generic_copy_file_range(file_in, pos_in, file_out, pos_out, len,
+> -				      flags);
+> +	ret = do_copy_file_range(file_in, pos_in, file_out, pos_out, len,
+> +				flags);
+> +	WARN_ON_ONCE(ret == -EOPNOTSUPP);
+>  done:
+>  	if (ret > 0) {
+>  		fsnotify_access(file_in);
+> -- 
+> 2.17.1
+> 
