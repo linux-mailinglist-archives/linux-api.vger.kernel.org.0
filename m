@@ -2,147 +2,97 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0325E2C3B1
-	for <lists+linux-api@lfdr.de>; Tue, 28 May 2019 11:58:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF8372C3EF
+	for <lists+linux-api@lfdr.de>; Tue, 28 May 2019 12:08:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726689AbfE1J6K (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 28 May 2019 05:58:10 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:42443 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726693AbfE1J6K (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 28 May 2019 05:58:10 -0400
-Received: by mail-ot1-f66.google.com with SMTP id i2so17154439otr.9
-        for <linux-api@vger.kernel.org>; Tue, 28 May 2019 02:58:09 -0700 (PDT)
+        id S1726439AbfE1KIN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 28 May 2019 06:08:13 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:35696 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726400AbfE1KIM (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 28 May 2019 06:08:12 -0400
+Received: by mail-ot1-f68.google.com with SMTP id n14so17227700otk.2
+        for <linux-api@vger.kernel.org>; Tue, 28 May 2019 03:08:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=brauner.io; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=n8mEOfFlOrFfQ5ADoq5IltTLDgmtoxRa6B+153SpHAE=;
-        b=cpeK2sktn7NMSf704YRsePZcwMV5rEfvSYWLdkbE0oo7SEPsGyf2Sg/RoHTcSoQfPd
-         wKUtklR660LzAKMlYxgcivpoPmw+LSf5RppXvWNS6o1G0soFTMAvZUcbgBxvK2BECrI0
-         Rle3mXgyvD783k6/0SbYAStUQCihPJGyFt818iQ5hLWys0KtqDqC6rX9cnEeWCbwKNG0
-         tdk47Ttoh8A9F1CCaGanOIYDEl/ZdHErWc8Wv5KldYhEb6ofWf7dsBtFYzjTibWrsdhA
-         MZ+zwyNHz+uR8reJwzBhLz8RLg8uhrkcEzyfZuKsJUXFqTqSWw3bOPqffMHHTUaHwhxW
-         1OcQ==
+        bh=EX6OLV5ZAUtrIspgTC/dD9s7hQyjTDGZmjCu936OSL8=;
+        b=b7HAl2F4pyNTMb75RB18eK82rHnNb7sgimOIYVdxdoBd3KMFC5Gjs9sBasws5mbWSr
+         6MvIZ2l2IHj+B6MG2f2G9kG8nd2YTmTKodF/+81DHkSIq1siG+Rr4BEGz+78XEcDvogX
+         faTEFwe/nSAFn9Dqy3uSjz+u0TI+Eatyzr+VHJNiT/clF9B7WrAW0rMRYEWj/4JMg6KQ
+         JzUaH6ij8XJQ6dygU5bRCXts80yn8/Lqudl+AjGwYmc4F8fM+lMFJEatCRBMytSC7xHo
+         WbHYBOCkAjSuq8yim7t//gtzYwulMNqxo/+3ecE5puMtJx9CwNP6PJTnbljhla7FTmOQ
+         9xiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=n8mEOfFlOrFfQ5ADoq5IltTLDgmtoxRa6B+153SpHAE=;
-        b=YKLCrTAJRXNcRhHBmbFZX/IaeyAVXjpg7h2QsC/V7lc8zZR7oqfIhLwRgA4qBb8QXi
-         dswuvYhP9xFNARxYAl90tgYtxLEI+XlqfIKhm5YMg+blXKJR9SquLQLFauFulbM+mSws
-         WfQ3ZU6o4y2Mxz89iGQP1vbZTETq5PDwRkRbUM2OSdGN9jkId1UKpGdCJDDOqOipbcp8
-         BVF1Yljw184nNxsFa+9j8cNhIDrJm8bq8w1KH8hQGo+9IwgFaQAICzUz5xRJM3n1dRLn
-         /Gssb60kW2l5dVtAzvQmYgwoXZ2SDJ0UcYu3uFeFpeD5OkR4PFQ9UjiS8tBjOJW64FNe
-         nCBw==
-X-Gm-Message-State: APjAAAUQu6aLhrHqx5S1ZjyAeMc1+8Fp4NUycmJiqh0ApjnHAVVB20r+
-        YEQ370FDj+VVY7nbdDAtpkjC0Q==
-X-Google-Smtp-Source: APXvYqwNLIyMiw7dADjTCxSmg48ETPJlltLpV+f/5L0odOCbBrMF/Z9t2SkD+zCcao739KqAxW23xA==
-X-Received: by 2002:a05:6830:214f:: with SMTP id r15mr4126904otd.143.1559037489020;
-        Tue, 28 May 2019 02:58:09 -0700 (PDT)
+        bh=EX6OLV5ZAUtrIspgTC/dD9s7hQyjTDGZmjCu936OSL8=;
+        b=EgcCHBjT57GkCGOEaZDumnJMZDrcEldIQv3CRGd6IfCm6pl5HEqYyyYvaLR8dO4x7k
+         gHftTFjNhB2VDFR8XzYNzDbQG1yRh+ZfMBu4ifP6BSGbAPEp+oaWu7HCwPiuL4bMlgxJ
+         1H9X7TYdsjtNCD75OgYTT1+7dHozki225ISCVvzxGD0XVe/LH7ZnzfrFsB4rcISZP8vU
+         xuD3WY89C4edWmYDvjAHTkJtAw0kRvNQM6XWtNbg6CXyJT+6hoP60dqUJq8g/a4gQZzq
+         PUL/J6AxTRFqkilkNKZfECEyO7QAmu3MdSlmL8DUuGwfjJ9zzEYKpdRlmVNuLjGCFgXD
+         FiaQ==
+X-Gm-Message-State: APjAAAUFkhL1eIYJ2aa5GHqmzho3eCNyyhEpgO5QPiaqn3CzO5qy8ha2
+        TX4MqOa3VLJUZQw6zL9mTEQv6w==
+X-Google-Smtp-Source: APXvYqy+CVLW4qcGF5HZbujWnRF7l0dKamIr0LRxh4BCVKOiOumpEkoC7xrroBljDS1vYgtKHhWhrw==
+X-Received: by 2002:a9d:5a14:: with SMTP id v20mr4657355oth.356.1559038092169;
+        Tue, 28 May 2019 03:08:12 -0700 (PDT)
 Received: from brauner.io ([172.56.7.242])
-        by smtp.gmail.com with ESMTPSA id n187sm2440013oif.25.2019.05.28.02.57.59
+        by smtp.gmail.com with ESMTPSA id q21sm4633894ota.24.2019.05.28.03.08.07
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 28 May 2019 02:58:08 -0700 (PDT)
-Date:   Tue, 28 May 2019 11:57:56 +0200
+        Tue, 28 May 2019 03:08:11 -0700 (PDT)
+Date:   Tue, 28 May 2019 12:08:04 +0200
 From:   Christian Brauner <christian@brauner.io>
-To:     Michael Ellerman <mpe@ellerman.id.au>
-Cc:     viro@zeniv.linux.org.uk, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        torvalds@linux-foundation.org, fweimer@redhat.com,
-        jannh@google.com, oleg@redhat.com, tglx@linutronix.de,
-        arnd@arndb.de, shuah@kernel.org, dhowells@redhat.com,
-        tkjos@android.com, ldv@altlinux.org, miklos@szeredi.hu,
-        linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
-        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-xtensa@linux-xtensa.org, linux-arch@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH v2 2/2] tests: add close_range() tests
-Message-ID: <20190528095754.peumcgjysw2nq24y@brauner.io>
-References: <20190523154747.15162-1-christian@brauner.io>
- <20190523154747.15162-3-christian@brauner.io>
- <8736kzqpdm.fsf@concordia.ellerman.id.au>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
+        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
+        Jann Horn <jannh@google.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+        David Howells <dhowells@redhat.com>,
+        Pavel Emelyanov <xemul@virtuozzo.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Adrian Reber <adrian@lisas.de>,
+        Andrei Vagin <avagin@gmail.com>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [PATCH 1/2] fork: add clone6
+Message-ID: <20190528100802.sdfqtwrowrmulpml@brauner.io>
+References: <20190526102612.6970-1-christian@brauner.io>
+ <CAHk-=wieuV4hGwznPsX-8E0G2FKhx3NjZ9X3dTKh5zKd+iqOBw@mail.gmail.com>
+ <20190527104239.fbnjzfyxa4y4acpf@brauner.io>
+ <CAHk-=wjnbK5ob9JE0H1Ge_R4BL6D0ztsAvrM6DN+S+zyDWE=7A@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <8736kzqpdm.fsf@concordia.ellerman.id.au>
+In-Reply-To: <CAHk-=wjnbK5ob9JE0H1Ge_R4BL6D0ztsAvrM6DN+S+zyDWE=7A@mail.gmail.com>
 User-Agent: NeoMutt/20180716
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, May 28, 2019 at 12:33:41PM +1000, Michael Ellerman wrote:
-> Christian Brauner <christian@brauner.io> writes:
-> > This adds basic tests for the new close_range() syscall.
-> > - test that no invalid flags can be passed
-> > - test that a range of file descriptors is correctly closed
-> > - test that a range of file descriptors is correctly closed if there there
-> >   are already closed file descriptors in the range
-> > - test that max_fd is correctly capped to the current fdtable maximum
+On Mon, May 27, 2019 at 12:27:08PM -0700, Linus Torvalds wrote:
+> On Mon, May 27, 2019 at 3:42 AM Christian Brauner <christian@brauner.io> wrote:
 > >
-> > Signed-off-by: Christian Brauner <christian@brauner.io>
-> > Cc: Arnd Bergmann <arnd@arndb.de>
-> > Cc: Jann Horn <jannh@google.com>
-> > Cc: David Howells <dhowells@redhat.com>
-> > Cc: Dmitry V. Levin <ldv@altlinux.org>
-> > Cc: Oleg Nesterov <oleg@redhat.com>
-> > Cc: Linus Torvalds <torvalds@linux-foundation.org>
-> > Cc: Florian Weimer <fweimer@redhat.com>
-> > Cc: linux-api@vger.kernel.org
-> > ---
-> > v1: unchanged
-> > v2:
-> > - Christian Brauner <christian@brauner.io>:
-> >   - verify that close_range() correctly closes a single file descriptor
-> > ---
-> >  tools/testing/selftests/Makefile              |   1 +
-> >  tools/testing/selftests/core/.gitignore       |   1 +
-> >  tools/testing/selftests/core/Makefile         |   6 +
-> >  .../testing/selftests/core/close_range_test.c | 142 ++++++++++++++++++
-> >  4 files changed, 150 insertions(+)
-> >  create mode 100644 tools/testing/selftests/core/.gitignore
-> >  create mode 100644 tools/testing/selftests/core/Makefile
-> >  create mode 100644 tools/testing/selftests/core/close_range_test.c
-> >
-> > diff --git a/tools/testing/selftests/core/.gitignore b/tools/testing/selftests/core/.gitignore
-> > new file mode 100644
-> > index 000000000000..6e6712ce5817
-> > --- /dev/null
-> > +++ b/tools/testing/selftests/core/.gitignore
-> > @@ -0,0 +1 @@
-> > +close_range_test
-> > diff --git a/tools/testing/selftests/core/Makefile b/tools/testing/selftests/core/Makefile
-> > new file mode 100644
-> > index 000000000000..de3ae68aa345
-> > --- /dev/null
-> > +++ b/tools/testing/selftests/core/Makefile
-> > @@ -0,0 +1,6 @@
-> > +CFLAGS += -g -I../../../../usr/include/ -I../../../../include
+> > Hm, still pondering whether having one unsigned int argument passed
+> > through registers that captures all the flags from the old clone() would
+> > be a good idea.
 > 
-> Your second -I pulls the unexported kernel headers in, userspace
-> programs shouldn't include unexported kernel headers.
+> That sounds like a reasonable thing to do.
 > 
-> It breaks the build on powerpc with eg:
-> 
->   powerpc64le-linux-gnu-gcc -g -I../../../../usr/include/ -I../../../../include    close_range_test.c  -o /output/kselftest/core/close_range_test
->   In file included from /usr/powerpc64le-linux-gnu/include/bits/fcntl-linux.h:346,
->                    from /usr/powerpc64le-linux-gnu/include/bits/fcntl.h:62,
->                    from /usr/powerpc64le-linux-gnu/include/fcntl.h:35,
->                    from close_range_test.c:5:
->   ../../../../include/linux/falloc.h:13:2: error: unknown type name '__s16'
->     __s16  l_type;
->     ^~~~~
-> 
-> 
-> Did you do that on purpose or just copy it from one of the other
-> Makefiles? :)
+> Maybe we could continue to call the old flags CLONE_XYZ and continue
+> to pass them in as "flags" argument, and then we have CLONE_EXT_XYZ
+> flags for a new 64-bit flag field that comes in through memory in the
+> new clone_args thing?
 
-I originally did that on purpose because checkpatch was yammering on
-about me not having used ARRAY_SIZE(). But that include can go, you are
-right.
+Hm. I think I'll try a first version without an additional register
+flags argument. And here's why: I'm not sure it buys us a lot especially
+if we're giving up on making this convenient for seccomp anyway.
+And with that out of the way (at least for the moment) I would really
+like to make this interface consistent. But we can revisit this when I
+have the code.
 
 Christian
