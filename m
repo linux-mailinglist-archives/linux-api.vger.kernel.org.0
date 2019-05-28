@@ -2,57 +2,23 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E0F12C5D2
-	for <lists+linux-api@lfdr.de>; Tue, 28 May 2019 13:52:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 169522C5F2
+	for <lists+linux-api@lfdr.de>; Tue, 28 May 2019 13:56:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726852AbfE1LwH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 28 May 2019 07:52:07 -0400
-Received: from mail-vs1-f65.google.com ([209.85.217.65]:35048 "EHLO
-        mail-vs1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726826AbfE1LwH (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 28 May 2019 07:52:07 -0400
-Received: by mail-vs1-f65.google.com with SMTP id q13so12579462vso.2
-        for <linux-api@vger.kernel.org>; Tue, 28 May 2019 04:52:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=i1aTFeYdC8ihQzpvWtoviM3ZNZ2tyKMHAXg6yp7ic20=;
-        b=PosD1hmuB27HZrO906sYy0hewh4Vct55iIo0ByAp5WPqAr20vF5v6fG5Uxip/NrYLY
-         QjNnEufZ8cZ02hvqUlK+kE3rzkvD77a6u2RqFou/IyqQ/DUV5A8SEpapg7REnhCFXf8f
-         u9vjOMgPCoIbg724+0XcflX2NkQmUJFCsD+SMjVGC6JLL5Sstt5s7We8VUgj8MRjdTP7
-         7LmPrujpPcmv4jaTkhKrCAJkq3XSFukprMN1b7c8kCdwOZ1tnM/O9Di7jnoUHqdDlfk1
-         d/uI/EnpyQ1PHBBvLQ3TCqurKIo2lqu05a0yHDeZjxhFgubelY7FKKvZEfDq3rfs0RSv
-         LrFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=i1aTFeYdC8ihQzpvWtoviM3ZNZ2tyKMHAXg6yp7ic20=;
-        b=uY5e3aHwcBvBcn/6lcK9kobyk/xnjYxSw2Co3d9aleGdKseyCSKDMqCThU52+CwfHH
-         3K0UJtdDxyCHp9qkjJZZjMsxoZnrnGIE1d4L7yrJwxN8Fe8WcuwQCfD2PIYx5477zOi9
-         EcEcfAuIIIx87rSPXPwdRcdroU9tZrGy8LF2phgDFPAjtbxFSmXZe+8eSn4a6V0uSudS
-         yeqYUvHi0K84U5SmG9D2wQFHEV+4Vf/npUURbOT6nxVwFr3MyE6F/5Nea0YMpZ2F0HHQ
-         8uXpUP99YOJ+fGB89JythMRxObG1aE/kWKb4eWqCZ5KnegbmVcj0Y3+rwqYwiYRUWioV
-         fb9g==
-X-Gm-Message-State: APjAAAVxGQ93Adfc0qABOMJweGzIFBU48pVWYBcbVvxyjvZn+kChpFe4
-        jB2DJWwHYuXaAM8zZAuxVlj7vWXC8R9H57OHRt0RoA==
-X-Google-Smtp-Source: APXvYqziveOhM5aNGo++tqUxS5XQXmXAHH/ek/mb/jgasaqofdw7uSl7LyXM4Lvz7mZ8iIPG7/VXfBvYqhiTJAbga5g=
-X-Received: by 2002:a67:1485:: with SMTP id 127mr43387796vsu.77.1559044326244;
- Tue, 28 May 2019 04:52:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190528032632.GF6879@google.com> <20190528062947.GL1658@dhcp22.suse.cz>
- <20190528081351.GA159710@google.com> <CAKOZuesnS6kBFX-PKJ3gvpkv8i-ysDOT2HE2Z12=vnnHQv0FDA@mail.gmail.com>
- <20190528084927.GB159710@google.com> <20190528090821.GU1658@dhcp22.suse.cz>
- <20190528103256.GA9199@google.com> <20190528104117.GW1658@dhcp22.suse.cz>
- <20190528111208.GA30365@google.com> <20190528112840.GY1658@dhcp22.suse.cz> <20190528114436.GB30365@google.com>
-In-Reply-To: <20190528114436.GB30365@google.com>
-From:   Daniel Colascione <dancol@google.com>
-Date:   Tue, 28 May 2019 04:51:54 -0700
-Message-ID: <CAKOZueu7ayjDoV904gFPRQu84_toxWAN5hBBe17x=g-MOBJ7uQ@mail.gmail.com>
-Subject: Re: [RFC 7/7] mm: madvise support MADV_ANONYMOUS_FILTER and MADV_FILE_FILTER
-To:     Minchan Kim <minchan@kernel.org>
-Cc:     Michal Hocko <mhocko@kernel.org>,
+        id S1726808AbfE1L4N (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 28 May 2019 07:56:13 -0400
+Received: from mx2.suse.de ([195.135.220.15]:54666 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726592AbfE1L4N (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 28 May 2019 07:56:13 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 2AFCEAD4A;
+        Tue, 28 May 2019 11:56:11 +0000 (UTC)
+Date:   Tue, 28 May 2019 13:56:09 +0200
+From:   Michal Hocko <mhocko@kernel.org>
+To:     Daniel Colascione <dancol@google.com>
+Cc:     Minchan Kim <minchan@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         LKML <linux-kernel@vger.kernel.org>,
         linux-mm <linux-mm@kvack.org>,
@@ -64,15 +30,32 @@ Cc:     Michal Hocko <mhocko@kernel.org>,
         Sonny Rao <sonnyrao@google.com>,
         Brian Geffon <bgeffon@google.com>,
         Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [RFC 7/7] mm: madvise support MADV_ANONYMOUS_FILTER and
+ MADV_FILE_FILTER
+Message-ID: <20190528115609.GA1658@dhcp22.suse.cz>
+References: <20190528062947.GL1658@dhcp22.suse.cz>
+ <20190528081351.GA159710@google.com>
+ <CAKOZuesnS6kBFX-PKJ3gvpkv8i-ysDOT2HE2Z12=vnnHQv0FDA@mail.gmail.com>
+ <20190528084927.GB159710@google.com>
+ <20190528090821.GU1658@dhcp22.suse.cz>
+ <20190528103256.GA9199@google.com>
+ <20190528104117.GW1658@dhcp22.suse.cz>
+ <20190528111208.GA30365@google.com>
+ <20190528112840.GY1658@dhcp22.suse.cz>
+ <CAKOZuesCSrE0esqDDbo8x5u5rM-Uv_81jjBt1QRXFKNOUJu0aw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKOZuesCSrE0esqDDbo8x5u5rM-Uv_81jjBt1QRXFKNOUJu0aw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, May 28, 2019 at 4:44 AM Minchan Kim <minchan@kernel.org> wrote:
->
-> On Tue, May 28, 2019 at 01:28:40PM +0200, Michal Hocko wrote:
+On Tue 28-05-19 04:42:47, Daniel Colascione wrote:
+> On Tue, May 28, 2019 at 4:28 AM Michal Hocko <mhocko@kernel.org> wrote:
+> >
 > > On Tue 28-05-19 20:12:08, Minchan Kim wrote:
 > > > On Tue, May 28, 2019 at 12:41:17PM +0200, Michal Hocko wrote:
 > > > > On Tue 28-05-19 19:32:56, Minchan Kim wrote:
@@ -123,26 +106,55 @@ On Tue, May 28, 2019 at 4:44 AM Minchan Kim <minchan@kernel.org> wrote:
 > > How come they are racy wrt address ranges? You would have to be in
 > > multithreaded environment and then the onus of synchronization is on
 > > threads. That model is quite clear. But we are talking about separate
->
-> Think about MADV_FREE. Allocator would think the chunk is worth to mark
-> "freeable" but soon, user of the allocator asked the chunk - ie, it's not
-> freeable any longer once user start to use it.
->
-> My point is that kinds of *hints* are always racy so any synchronization
-> couldn't help a lot. That's why I want to restrict hints process_madvise
-> supports as such kinds of non-destruptive one at next respin.
+> > processes and some of them might be even not aware of an external entity
+> > tweaking their address space.
+> 
+> I don't think the difference between a thread and a process matters in
+> this context. Threads race on address space operations all the time
+> --- in the sense that multiple threads modify a process's address
+> space without synchronization.
 
-I think it's more natural for process_madvise to be a superset of
-regular madvise. What's the harm? There are no security implications,
-since anyone who could process_madvise could just ptrace anyway. I
-also don't think limiting the hinting to non-destructive operations
-guarantees safety (in a broad sense) either, since operating on the
-wrong memory range can still cause unexpected system performance
-issues even if there's no data loss.
+I would disagree. They do have in-kernel synchronization as long as they
+do not use MAP_FIXED. If they do want to use MAP_FIXED then they better
+synchronize or the result is undefined.
 
-More broadly, what I want to see is a family of process_* APIs that
-provide a superset of the functionality that the existing intraprocess
-APIs provide. I think this approach is elegant and generalizes easily.
-I'm worried about prematurely limiting the interprocess memory APIs
-and creating limitations that will last a long time in order to avoid
-having to consider issues like VMA synchronization.
+> The main reasons that these races
+> hasn't been a problem are: 1) threads mostly "mind their own business"
+> and modify different parts of the address space or use locks to ensure
+> that they don't stop on each other (e.g., the malloc heap lock), and
+> 2) POSIX mmap atomic-replacement semantics make certain classes of
+> operation (like "magic ring buffer" setup) safe even in the presence
+> of other threads stomping over an address space.
+
+Agreed here.
+
+[...]
+
+> From a synchronization point
+> of view, it doesn't really matter whether it's a thread within the
+> target process or a thread outside the target process that does the
+> address space manipulation. What's new is the inspection of the
+> address space before performing an operation.
+
+The fundamental difference is that if you want to achieve the same
+inside the process then your application is inherenly aware of the
+operation and use whatever synchronization is needed to achieve a
+consistency. As soon as you allow the same from outside you either
+have to have an aware target application as well or you need a mechanism
+to find out that your decision has been invalidated by a later
+unsynchronized action.
+
+> Minchan started this thread by proposing some flags that would
+> implement a few of the filtering policies I used as examples above.
+> Personally, instead of providing a few pre-built policies as flags,
+> I'd rather push the page manipulation policy to userspace as much as
+> possible and just have the kernel provide a mechanism that *in
+> general* makes these read-decide-modify operations efficient and
+> robust. I still think there's way to achieve this goal very
+> inexpensively without compromising on flexibility.
+
+Agreed here.
+
+-- 
+Michal Hocko
+SUSE Labs
