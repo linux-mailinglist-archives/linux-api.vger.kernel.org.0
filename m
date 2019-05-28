@@ -2,56 +2,55 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B55C2C633
-	for <lists+linux-api@lfdr.de>; Tue, 28 May 2019 14:11:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D933F2C651
+	for <lists+linux-api@lfdr.de>; Tue, 28 May 2019 14:19:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726820AbfE1MLa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 28 May 2019 08:11:30 -0400
-Received: from mail-ua1-f66.google.com ([209.85.222.66]:33930 "EHLO
-        mail-ua1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726761AbfE1MLa (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 28 May 2019 08:11:30 -0400
-Received: by mail-ua1-f66.google.com with SMTP id 7so7737742uah.1
-        for <linux-api@vger.kernel.org>; Tue, 28 May 2019 05:11:29 -0700 (PDT)
+        id S1726853AbfE1MTC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 28 May 2019 08:19:02 -0400
+Received: from mail-vs1-f68.google.com ([209.85.217.68]:36920 "EHLO
+        mail-vs1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726592AbfE1MTB (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 28 May 2019 08:19:01 -0400
+Received: by mail-vs1-f68.google.com with SMTP id o5so9130886vsq.4
+        for <linux-api@vger.kernel.org>; Tue, 28 May 2019 05:19:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=U7wnhTi1uQo6V/xpqUaVr0hP2X6g+jWpW5AQ/F6tDws=;
-        b=i80p6wNeevbxzibgjJlQSdFx55pjq29/WrRd24oogoTWyGwx0a7ddWM7vYDcYd2cVj
-         yK2syANq10bctqTpD289h+qBiNBJIYBnv8GsHEV/j3VNNkcYDKiDI+AxoVNhhTRSLQ6g
-         41oLTGoEsC/MbE5ddRVlXatJ1g+Qw8Oi3X1J9eRxN898G0W0Yv5meexAoitpeWb22sOs
-         LxviRM4yobOz209myGmMdqEagjAvxPcKsodHfj56GK02GGAcyXofC1knuaT4nflh0MUD
-         mq+k+VqZClnjjU8kJv8thzl+fgaTNjKYkx4OHabMx42oSVbZThKtPNr73nxOHhGblt2e
-         NPLA==
+        bh=ORqKaK5SbOOd3p03HTDtpxAB4e5t5rAZ59rsVeYfxoU=;
+        b=Yb4AhbzvgeoA4phjVOJgz3SL60IuOMa8e9QKY6JUgxCC+BPSNxincUqUTNCFIwB4Vt
+         Q9VI3sCNMb+8I72kXpXELXcJuvXW8CKb0j8Ivk8/6SLj0VKc8wKKe/higTt79ys6xeZd
+         dW5DnxVyyT3tsWYFyB9nxe8Mq+2NPwe56EL4eZNi0jw5O/LW+2Pg0NIyfld2HFZ7oswO
+         kKLQeRwXVV1Yw2f3Qzri/8ET09sAEj9LkrIVGq6mN5NimUXB+Fnd3bMWoU39ncUZ6BI3
+         1aL8SxpujBgTVax7pnOd2dbf7pM+dB/cjo8UxoCwXmSyi+fw2Pyh/ji6TmJgsqU90nbi
+         yfkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=U7wnhTi1uQo6V/xpqUaVr0hP2X6g+jWpW5AQ/F6tDws=;
-        b=WwNRnrU1CZmlFhylfvA8avZqRMbz7vOU3xTAmRt/Cg6gUZAghpuz9+tsOcujVnpa5C
-         RiJwDNmnzTJBfBNUmdST+X20h58hvgHWcE5KU7sIeILFJe2LLVVDBtZbbvcg0pmwcFLD
-         pKWbfwKpiw5cGK4mNzpDt/0ii/iZQ8H8spT7xsrAfr2aeYXfh+IbJNomvuPZiSS74fdN
-         ++XXCyAdzIQjO+Rd82ZC9SLVAkpxISDSSp8+BCAy+PEkMLqLpqOSKrg+MCuUqVV3KOyO
-         pw6iBqu0ZksDm6pTqn+tKDK6ocXe88a2lxkl4GlVJVlagcScq9QBLozHlNzxTUrfI8U8
-         tNoQ==
-X-Gm-Message-State: APjAAAUKpC0xcXoutoaIvbmc8/tux9eZSi+sJhnft55kNDcQVaDvj1Xp
-        GaBbAIiX6vVgra9v6X5t/jdZ/XDcvM3O+1JIV2DqkA==
-X-Google-Smtp-Source: APXvYqxRhcclx4/30SOtZbPyI8AVq9UpcnBdM/JhlqSxn6KB80PXZVG6k3oRp1sa+ZytSp/rM4r2T+UH8y7BdJP+5O0=
-X-Received: by 2002:ab0:1407:: with SMTP id b7mr41670622uae.112.1559045488662;
- Tue, 28 May 2019 05:11:28 -0700 (PDT)
+        bh=ORqKaK5SbOOd3p03HTDtpxAB4e5t5rAZ59rsVeYfxoU=;
+        b=qeKH/NKaere6hS3KQjuYw1UsDC0lX2wg+n/GwFkspcL3TjYqawL1rvc7glDojf6QAh
+         5Phk9TH2pc5LY21GT/N4UDb60Fhoiub4cAp0uVSMIWHw0oAVvYAvvtFJTrNsHbfE/diY
+         zhPQNUvQnAgt8u2WuD1pEpKmoMnNt85iJjoAEKOk8oXI5SfjrGADQNiAg19Jr1TLlp/Z
+         mSl4pnLQc8Q+Z7JethvNjx9EWogUoUghxO96KrgFCd41DznEf+ImvRqhp+loPYxAa/E0
+         LzuGYxjoeboSw3j8s/rdRj58NmgdIIwgVWGKXpDXqawxZ4D0hGNc/cF3XyymlOYjPtOB
+         mC5A==
+X-Gm-Message-State: APjAAAUCr5S9ZCC1kNd/iRKHXgUpvIrgE8O5rAhbsoTDFXHXQT5vIFD7
+        IYYuyD8n4B2Nfhrnw3Ge8PKk8KPIFQUlhjULddEtEA==
+X-Google-Smtp-Source: APXvYqwHGdwWWRLMzJZmDcCG1KolSprsOID74iOH6L9dNX3JnKLeaXSRpvZuXPWdpupjhSWyj0fwrcEZakU/8Ak5rzw=
+X-Received: by 2002:a67:1485:: with SMTP id 127mr43484532vsu.77.1559045939780;
+ Tue, 28 May 2019 05:18:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190527124411.GC1658@dhcp22.suse.cz> <20190528032632.GF6879@google.com>
- <20190528062947.GL1658@dhcp22.suse.cz> <20190528081351.GA159710@google.com>
+References: <20190528062947.GL1658@dhcp22.suse.cz> <20190528081351.GA159710@google.com>
  <CAKOZuesnS6kBFX-PKJ3gvpkv8i-ysDOT2HE2Z12=vnnHQv0FDA@mail.gmail.com>
  <20190528084927.GB159710@google.com> <20190528090821.GU1658@dhcp22.suse.cz>
- <CAKOZueux3T4_dMOUK6R=ZHhCFaSSstOCPh_KSwSMCW_yp=jdSg@mail.gmail.com>
- <20190528103312.GV1658@dhcp22.suse.cz> <CAKOZueuRAtps+YZ1g2SOevBrDwE6tWsTuONJu1NLgvW7cpA-ug@mail.gmail.com>
- <20190528114923.GZ1658@dhcp22.suse.cz>
-In-Reply-To: <20190528114923.GZ1658@dhcp22.suse.cz>
+ <20190528103256.GA9199@google.com> <20190528104117.GW1658@dhcp22.suse.cz>
+ <20190528111208.GA30365@google.com> <20190528112840.GY1658@dhcp22.suse.cz>
+ <CAKOZuesCSrE0esqDDbo8x5u5rM-Uv_81jjBt1QRXFKNOUJu0aw@mail.gmail.com> <20190528115609.GA1658@dhcp22.suse.cz>
+In-Reply-To: <20190528115609.GA1658@dhcp22.suse.cz>
 From:   Daniel Colascione <dancol@google.com>
-Date:   Tue, 28 May 2019 05:11:16 -0700
-Message-ID: <CAKOZueuerHTCPbQqowSxi-_sRsqxYQQqgyi1UOh7EkZcS3DCnA@mail.gmail.com>
+Date:   Tue, 28 May 2019 05:18:48 -0700
+Message-ID: <CAKOZuesnXGAsQgkB45n=jqwDRQ4_aoPiydmZxfxPmzO2p=cTow@mail.gmail.com>
 Subject: Re: [RFC 7/7] mm: madvise support MADV_ANONYMOUS_FILTER and MADV_FILE_FILTER
 To:     Michal Hocko <mhocko@kernel.org>
 Cc:     Minchan Kim <minchan@kernel.org>,
@@ -72,225 +71,103 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, May 28, 2019 at 4:49 AM Michal Hocko <mhocko@kernel.org> wrote:
+On Tue, May 28, 2019 at 4:56 AM Michal Hocko <mhocko@kernel.org> wrote:
 >
-> On Tue 28-05-19 04:21:44, Daniel Colascione wrote:
-> > On Tue, May 28, 2019 at 3:33 AM Michal Hocko <mhocko@kernel.org> wrote:
+> On Tue 28-05-19 04:42:47, Daniel Colascione wrote:
+> > On Tue, May 28, 2019 at 4:28 AM Michal Hocko <mhocko@kernel.org> wrote:
 > > >
-> > > On Tue 28-05-19 02:39:03, Daniel Colascione wrote:
-> > > > On Tue, May 28, 2019 at 2:08 AM Michal Hocko <mhocko@kernel.org> wrote:
-> > > > >
-> > > > > On Tue 28-05-19 17:49:27, Minchan Kim wrote:
-> > > > > > On Tue, May 28, 2019 at 01:31:13AM -0700, Daniel Colascione wrote:
-> > > > > > > On Tue, May 28, 2019 at 1:14 AM Minchan Kim <minchan@kernel.org> wrote:
-> > > > > > > > if we went with the per vma fd approach then you would get this
-> > > > > > > > > feature automatically because map_files would refer to file backed
-> > > > > > > > > mappings while map_anon could refer only to anonymous mappings.
+> > > On Tue 28-05-19 20:12:08, Minchan Kim wrote:
+> > > > On Tue, May 28, 2019 at 12:41:17PM +0200, Michal Hocko wrote:
+> > > > > On Tue 28-05-19 19:32:56, Minchan Kim wrote:
+> > > > > > On Tue, May 28, 2019 at 11:08:21AM +0200, Michal Hocko wrote:
+> > > > > > > On Tue 28-05-19 17:49:27, Minchan Kim wrote:
+> > > > > > > > On Tue, May 28, 2019 at 01:31:13AM -0700, Daniel Colascione wrote:
+> > > > > > > > > On Tue, May 28, 2019 at 1:14 AM Minchan Kim <minchan@kernel.org> wrote:
+> > > > > > > > > > if we went with the per vma fd approach then you would get this
+> > > > > > > > > > > feature automatically because map_files would refer to file backed
+> > > > > > > > > > > mappings while map_anon could refer only to anonymous mappings.
+> > > > > > > > > >
+> > > > > > > > > > The reason to add such filter option is to avoid the parsing overhead
+> > > > > > > > > > so map_anon wouldn't be helpful.
+> > > > > > > > >
+> > > > > > > > > Without chiming on whether the filter option is a good idea, I'd like
+> > > > > > > > > to suggest that providing an efficient binary interfaces for pulling
+> > > > > > > > > memory map information out of processes.  Some single-system-call
+> > > > > > > > > method for retrieving a binary snapshot of a process's address space
+> > > > > > > > > complete with attributes (selectable, like statx?) for each VMA would
+> > > > > > > > > reduce complexity and increase performance in a variety of areas,
+> > > > > > > > > e.g., Android memory map debugging commands.
 > > > > > > > >
-> > > > > > > > The reason to add such filter option is to avoid the parsing overhead
-> > > > > > > > so map_anon wouldn't be helpful.
+> > > > > > > > I agree it's the best we can get *generally*.
+> > > > > > > > Michal, any opinion?
 > > > > > > >
-> > > > > > > Without chiming on whether the filter option is a good idea, I'd like
-> > > > > > > to suggest that providing an efficient binary interfaces for pulling
-> > > > > > > memory map information out of processes.  Some single-system-call
-> > > > > > > method for retrieving a binary snapshot of a process's address space
-> > > > > > > complete with attributes (selectable, like statx?) for each VMA would
-> > > > > > > reduce complexity and increase performance in a variety of areas,
-> > > > > > > e.g., Android memory map debugging commands.
+> > > > > > > I am not really sure this is directly related. I think the primary
+> > > > > > > question that we have to sort out first is whether we want to have
+> > > > > > > the remote madvise call process or vma fd based. This is an important
+> > > > > > > distinction wrt. usability. I have only seen pid vs. pidfd discussions
+> > > > > > > so far unfortunately.
 > > > > > >
-> > > > > > I agree it's the best we can get *generally*.
-> > > > > > Michal, any opinion?
+> > > > > > With current usecase, it's per-process API with distinguishable anon/file
+> > > > > > but thought it could be easily extended later for each address range
+> > > > > > operation as userspace getting smarter with more information.
 > > > > >
-> > > > > I am not really sure this is directly related. I think the primary
-> > > > > question that we have to sort out first is whether we want to have
-> > > > > the remote madvise call process or vma fd based. This is an important
-> > > > > distinction wrt. usability. I have only seen pid vs. pidfd discussions
-> > > > > so far unfortunately.
+> > > > > Never design user API based on a single usecase, please. The "easily
+> > > > > extended" part is by far not clear to me TBH. As I've already mentioned
+> > > > > several times, the synchronization model has to be thought through
+> > > > > carefuly before a remote process address range operation can be
+> > > > > implemented.
 > > > >
-> > > > I don't think the vma fd approach is viable. We have some processes
-> > > > with a *lot* of VMAs --- system_server had 4204 when I checked just
-> > > > now (and that's typical) --- and an FD operation per VMA would be
-> > > > excessive.
+> > > > I agree with you that we shouldn't design API on single usecase but what
+> > > > you are concerning is actually not our usecase because we are resilient
+> > > > with the race since MADV_COLD|PAGEOUT is not destruptive.
+> > > > Actually, many hints are already racy in that the upcoming pattern would
+> > > > be different with the behavior you thought at the moment.
 > > >
-> > > What do you mean by excessive here? Do you expect the process to have
-> > > them open all at once?
+> > > How come they are racy wrt address ranges? You would have to be in
+> > > multithreaded environment and then the onus of synchronization is on
+> > > threads. That model is quite clear. But we are talking about separate
+> > > processes and some of them might be even not aware of an external entity
+> > > tweaking their address space.
 > >
-> > Minchan's already done timing. More broadly, in an era with various
-> > speculative execution mitigations, making a system call is pretty
-> > expensive.
+> > I don't think the difference between a thread and a process matters in
+> > this context. Threads race on address space operations all the time
+> > --- in the sense that multiple threads modify a process's address
+> > space without synchronization.
 >
-> This is a completely separate discussion. This could be argued about
-> many other syscalls.
+> I would disagree. They do have in-kernel synchronization as long as they
+> do not use MAP_FIXED. If they do want to use MAP_FIXED then they better
+> synchronize or the result is undefined.
 
-Yes, it can be. That's why we have scatter-gather IO system calls in
-the first place.
+Right. It's because the kernel hands off different regions to
+different non-MAP_FIXED mmap callers that it's pretty easy for threads
+to mind their own business, but they're all still using the same
+address space.
 
-> Let's make the semantic correct first before we
-> even start thinking about mutliplexing. It is easier to multiplex on an
-> existing and sane interface.
-
-I don't think of it as "multiplexing" yet, not in the fundamental unit
-of operation is the address range.
-
-> Btw. Minchan concluded that multiplexing is not really all that
-> important based on his numbers http://lkml.kernel.org/r/20190527074940.GB6879@google.com
+> > From a synchronization point
+> > of view, it doesn't really matter whether it's a thread within the
+> > target process or a thread outside the target process that does the
+> > address space manipulation. What's new is the inspection of the
+> > address space before performing an operation.
 >
-> [...]
->
-> > > Is this really too much different from /proc/<pid>/map_files?
-> >
-> > It's very different. See below.
-> >
-> > > > > An interface to query address range information is a separate but
-> > > > > although a related topic. We have /proc/<pid>/[s]maps for that right
-> > > > > now and I understand it is not a general win for all usecases because
-> > > > > it tends to be slow for some. I can see how /proc/<pid>/map_anons could
-> > > > > provide per vma information in a binary form via a fd based interface.
-> > > > > But I would rather not conflate those two discussions much - well except
-> > > > > if it could give one of the approaches more justification but let's
-> > > > > focus on the madvise part first.
-> > > >
-> > > > I don't think it's a good idea to focus on one feature in a
-> > > > multi-feature change when the interactions between features can be
-> > > > very important for overall design of the multi-feature system and the
-> > > > design of each feature.
-> > > >
-> > > > Here's my thinking on the high-level design:
-> > > >
-> > > > I'm imagining an address-range system that would work like this: we'd
-> > > > create some kind of process_vm_getinfo(2) system call [1] that would
-> > > > accept a statx-like attribute map and a pid/fd parameter as input and
-> > > > return, on output, two things: 1) an array [2] of VMA descriptors
-> > > > containing the requested information, and 2) a VMA configuration
-> > > > sequence number. We'd then have process_madvise() and other
-> > > > cross-process VM interfaces accept both address ranges and this
-> > > > sequence number; they'd succeed only if the VMA configuration sequence
-> > > > number is still current, i.e., the target process hasn't changed its
-> > > > VMA configuration (implicitly or explicitly) since the call to
-> > > > process_vm_getinfo().
-> > >
-> > > The sequence number is essentially a cookie that is transparent to the
-> > > userspace right? If yes, how does it differ from a fd (returned from
-> > > /proc/<pid>/map_{anons,files}/range) which is a cookie itself and it can
-> >
-> > If you want to operate on N VMAs simultaneously under an FD-per-VMA
-> > model, you'd need to have those N FDs all open at the same time *and*
-> > add some kind of system call that accepted those N FDs and an
-> > operation to perform. The sequence number I'm proposing also applies
-> > to the whole address space, not just one VMA. Even if you did have
-> > these N FDs open all at once and supplied them all to some batch
-> > operation, you couldn't guarantee via the FD mechanism that some *new*
-> > VMA didn't appear in the address range you want to manipulate. A
-> > global sequence number would catch this case. I still think supplying
-> > a list of address ranges (like we already do for scatter-gather IO) is
-> > less error-prone, less resource-intensive, more consistent with
-> > existing practice, and equally flexible, especially if we start
-> > supporting destructive cross-process memory operations, which may be
-> > useful for things like checkpointing and optimizing process startup.
->
-> I have a strong feeling you are over optimizing here. We are talking
-> about a pro-active memory management and so far I haven't heard any
-> usecase where all this would happen in the fast path. There are
-> essentially two usecases I have heard so far. Age/Reclaim the whole
-> process (with anon/fs preferency) and do the same on a particular
-> and well specified range (e.g. a garbage collector or an inactive large
-> image in browsert etc...). The former doesn't really care about parallel
-> address range manipulations because it can tolerate them. The later is a
-> completely different story.
->
-> Are there any others where saving few ms matter so much?
+> The fundamental difference is that if you want to achieve the same
+> inside the process then your application is inherenly aware of the
+> operation and use whatever synchronization is needed to achieve a
+> consistency. As soon as you allow the same from outside you either
+> have to have an aware target application as well or you need a mechanism
+> to find out that your decision has been invalidated by a later
+> unsynchronized action.
 
-Saving ms matters quite a bit. We may want to perform some of this
-eager memory management in response to user activity, e.g.,
-application switch, and even if that work isn't quite synchronous,
-every cycle the system spends on management overhead is a cycle it
-can't spend on rendering frames. Overhead means jank. Additionally,
-we're on battery-operated devices. Milliseconds of CPU overhead
-accumulated over a long time is a real energy sink.
+I thought of this objection immediately after I hit send. :-)
 
-> > Besides: process_vm_readv and process_vm_writev already work on
-> > address ranges. Why should other cross-process memory APIs use a very
-> > different model for naming memory regions?
->
-> I would consider those APIs not a great example. They are racy on
-> more levels (pid reuse and address space modification), and require a
-> non-trivial synchronization. Do you want something similar for madvise
-> on a non-cooperating remote application?
->
-> > > be used to revalidate when the operation is requested and fail if
-> > > something has changed. Moreover we already do have a fd based madvise
-> > > syscall so there shouldn't be really a large need to add a new set of
-> > > syscalls.
-> >
-> > We have various system calls that provide hints for open files, but
-> > the memory operations are distinct. Modeling anonymous memory as a
-> > kind of file-backed memory for purposes of VMA manipulation would also
-> > be a departure from existing practice. Can you help me understand why
-> > you seem to favor the FD-per-VMA approach so heavily? I don't see any
-> > arguments *for* an FD-per-VMA model for remove memory manipulation and
-> > I see a lot of arguments against it. Is there some compelling
-> > advantage I'm missing?
->
-> First and foremost it provides an easy cookie to the userspace to
-> guarantee time-to-check-time-to-use consistency.
+I still don't think the intra- vs inter-process difference matters.
+It's true that threads can synchronize with each other, but different
+processes can synchronize with each other too. I mean, you *could* use
+sem_open(3) for your heap lock and open the semaphore from two
+different processes. That's silly, but it'd work.
 
-But only for one VMA at a time.
-
-> It also naturally
-> extend an existing fadvise interface that achieves madvise semantic on
-> files.
-
-There are lots of things that madvise can do that fadvise can't and
-that don't even really make sense for fadvise, e.g., MADV_FREE. It
-seems odd to me to duplicate much of the madvise interface into
-fadvise so that we can use file APIs to give madvise hints. It seems
-simpler to me to just provide a mechanism to put the madvise hints
-where they're needed.
-
-> I am not really pushing hard for this particular API but I really
-> do care about a programming model that would be sane.
-
-You've used "sane" twice so far in this message. Can you specify more
-precisely what you mean by that word? I agree that there needs to be
-some defense against TOCTOU races when doing remote memory management,
-but I don't think providing this robustness via a file descriptor is
-any more sane than alternative approaches. A file descriptor comes
-with a lot of other features --- e.g., SCM_RIGHTS, fstat, and a
-concept of owning a resource --- that aren't needed to achieve
-robustness.
-
-Normally, a file descriptor refers to some resource that the kernel
-holds as long as the file descriptor (well, the open file description
-or struct file) lives -- things like graphics buffers, files, and
-sockets. If we're using an FD *just* as a cookie and not a resource,
-I'd rather just expose the cookie directly.
-
-> If we have a
-> different means to achieve the same then all fine by me but so far I
-> haven't heard any sound arguments to invent something completely new
-> when we have established APIs to use.
-
-Doesn't the next sentence describe something profoundly new? :-)
-
-> Exporting anonymous mappings via
-> proc the same way we do for file mappings doesn't seem to be stepping
-> outside of the current practice way too much.
-
-It seems like a radical departure from existing practice to provide
-filesystem interfaces to anonymous memory regions, e.g., anon_vma.
-You've never been able to refer to those memory regions with file
-descriptors.
-
-All I'm suggesting is that we take the existing madvise mechanism,
-make it work cross-process, and make it robust against TOCTOU
-problems, all one step at a time. Maybe my sense of API "size" is
-miscalibrated, but adding a new type of FD to refer to anonymous VMA
-regions feels like a bigger departure and so requires stronger
-justification, especially if the result of the FD approach is probably
-something less efficient than a cookie-based one.
-
-> and we should focus on discussing whether this is a
-> sane model. And I think it would be much better to discuss that under
-> the respective patch which introduces that API rather than here.
-
-I think it's important to discuss what that API should look like. :-)
+The important requirement, I think, is that we need to support
+managing "memory-naive" uncooperative tasks (perhaps legacy ones
+written before cross-process memory management even became possible),
+and I think that the cooperative-vs-uncooperative distinction matters
+a lot more than the tgid of the thread doing the memory manipulation.
+(Although in our case, we really do need a separate tgid. :-))
