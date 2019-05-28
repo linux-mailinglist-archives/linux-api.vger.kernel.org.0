@@ -2,126 +2,140 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 918C32BF77
-	for <lists+linux-api@lfdr.de>; Tue, 28 May 2019 08:33:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CFD52BF73
+	for <lists+linux-api@lfdr.de>; Tue, 28 May 2019 08:29:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726693AbfE1Gd2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 28 May 2019 02:33:28 -0400
-Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:36616 "EHLO
-        forwardcorp1j.mail.yandex.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725904AbfE1Gd2 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 28 May 2019 02:33:28 -0400
-X-Greylist: delayed 489 seconds by postgrey-1.27 at vger.kernel.org; Tue, 28 May 2019 02:33:25 EDT
-Received: from mxbackcorp1g.mail.yandex.net (mxbackcorp1g.mail.yandex.net [IPv6:2a02:6b8:0:1402::301])
-        by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 697642E09A5;
-        Tue, 28 May 2019 09:25:14 +0300 (MSK)
-Received: from smtpcorp1p.mail.yandex.net (smtpcorp1p.mail.yandex.net [2a02:6b8:0:1472:2741:0:8b6:10])
-        by mxbackcorp1g.mail.yandex.net (nwsmtp/Yandex) with ESMTP id gjyj3ZqPVy-PDkmUO4v;
-        Tue, 28 May 2019 09:25:14 +0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru; s=default;
-        t=1559024714; bh=K6zlxuXc3ZiiYmoECKuEjIeU1HxTh98Kh3YIPYtNrec=;
-        h=In-Reply-To:Message-ID:From:Date:References:To:Subject:Cc;
-        b=0UqRsySvqkS3LazKxNnApMjZpK/fP1oYQCh/U/or4cG9kcftMas6WFNhHUnoTm/mu
-         xhatMyLM6ZE7I7HlX2it0JxbGr6r05Hd3NVN81shFwOyBHjHeocCoevZ6WNjmXGgQa
-         ppF4bsoDsM3TaIHQpkY0itz36FQqkPfJa8J7/QvI=
-Authentication-Results: mxbackcorp1g.mail.yandex.net; dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-red.dhcp.yndx.net (dynamic-red.dhcp.yndx.net [2a02:6b8:0:40c:d877:17c:81de:6e43])
-        by smtpcorp1p.mail.yandex.net (nwsmtp/Yandex) with ESMTPSA id jGMIvBUfvr-PDd4CQrV;
-        Tue, 28 May 2019 09:25:13 +0300
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (Client certificate not present)
-Subject: Re: [PATCH RFC] mm/madvise: implement MADV_STOCKPILE (kswapd from
- user space)
-To:     Michal Hocko <mhocko@kernel.org>
-Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        id S1726866AbfE1G3u (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 28 May 2019 02:29:50 -0400
+Received: from mx2.suse.de ([195.135.220.15]:45354 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726305AbfE1G3u (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 28 May 2019 02:29:50 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 2B3F8AFE2;
+        Tue, 28 May 2019 06:29:48 +0000 (UTC)
+Date:   Tue, 28 May 2019 08:29:47 +0200
+From:   Michal Hocko <mhocko@kernel.org>
+To:     Minchan Kim <minchan@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
         Johannes Weiner <hannes@cmpxchg.org>,
-        Tejun Heo <tj@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Roman Gushchin <guro@fb.com>, linux-api@vger.kernel.org
-References: <155895155861.2824.318013775811596173.stgit@buzz>
- <20190527141223.GD1658@dhcp22.suse.cz> <20190527142156.GE1658@dhcp22.suse.cz>
- <20190527143926.GF1658@dhcp22.suse.cz>
-From:   Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
-Message-ID: <9c55a343-2a91-46c6-166d-41b94bf5e9c8@yandex-team.ru>
-Date:   Tue, 28 May 2019 09:25:13 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Tim Murray <timmurray@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Daniel Colascione <dancol@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Brian Geffon <bgeffon@google.com>, linux-api@vger.kernel.org
+Subject: Re: [RFC 7/7] mm: madvise support MADV_ANONYMOUS_FILTER and
+ MADV_FILE_FILTER
+Message-ID: <20190528062947.GL1658@dhcp22.suse.cz>
+References: <20190520035254.57579-1-minchan@kernel.org>
+ <20190520035254.57579-8-minchan@kernel.org>
+ <20190520092801.GA6836@dhcp22.suse.cz>
+ <20190521025533.GH10039@google.com>
+ <20190521062628.GE32329@dhcp22.suse.cz>
+ <20190527075811.GC6879@google.com>
+ <20190527124411.GC1658@dhcp22.suse.cz>
+ <20190528032632.GF6879@google.com>
 MIME-Version: 1.0
-In-Reply-To: <20190527143926.GF1658@dhcp22.suse.cz>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-CA
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190528032632.GF6879@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 27.05.2019 17:39, Michal Hocko wrote:
-> On Mon 27-05-19 16:21:56, Michal Hocko wrote:
->> On Mon 27-05-19 16:12:23, Michal Hocko wrote:
->>> [Cc linux-api. Please always cc this list when proposing a new user
->>>   visible api. Keeping the rest of the email intact for reference]
->>>
->>> On Mon 27-05-19 13:05:58, Konstantin Khlebnikov wrote:
->> [...]
->>>> This implements manual kswapd-style memory reclaim initiated by userspace.
->>>> It reclaims both physical memory and cgroup pages. It works in context of
->>>> task who calls syscall madvise thus cpu time is accounted correctly.
->>
->> I do not follow. Does this mean that the madvise always reclaims from
->> the memcg the process is member of?
+On Tue 28-05-19 12:26:32, Minchan Kim wrote:
+> On Mon, May 27, 2019 at 02:44:11PM +0200, Michal Hocko wrote:
+> > On Mon 27-05-19 16:58:11, Minchan Kim wrote:
+> > > On Tue, May 21, 2019 at 08:26:28AM +0200, Michal Hocko wrote:
+> > > > On Tue 21-05-19 11:55:33, Minchan Kim wrote:
+> > > > > On Mon, May 20, 2019 at 11:28:01AM +0200, Michal Hocko wrote:
+> > > > > > [cc linux-api]
+> > > > > > 
+> > > > > > On Mon 20-05-19 12:52:54, Minchan Kim wrote:
+> > > > > > > System could have much faster swap device like zRAM. In that case, swapping
+> > > > > > > is extremely cheaper than file-IO on the low-end storage.
+> > > > > > > In this configuration, userspace could handle different strategy for each
+> > > > > > > kinds of vma. IOW, they want to reclaim anonymous pages by MADV_COLD
+> > > > > > > while it keeps file-backed pages in inactive LRU by MADV_COOL because
+> > > > > > > file IO is more expensive in this case so want to keep them in memory
+> > > > > > > until memory pressure happens.
+> > > > > > > 
+> > > > > > > To support such strategy easier, this patch introduces
+> > > > > > > MADV_ANONYMOUS_FILTER and MADV_FILE_FILTER options in madvise(2) like
+> > > > > > > that /proc/<pid>/clear_refs already has supported same filters.
+> > > > > > > They are filters could be Ored with other existing hints using top two bits
+> > > > > > > of (int behavior).
+> > > > > > 
+> > > > > > madvise operates on top of ranges and it is quite trivial to do the
+> > > > > > filtering from the userspace so why do we need any additional filtering?
+> > > > > > 
+> > > > > > > Once either of them is set, the hint could affect only the interested vma
+> > > > > > > either anonymous or file-backed.
+> > > > > > > 
+> > > > > > > With that, user could call a process_madvise syscall simply with a entire
+> > > > > > > range(0x0 - 0xFFFFFFFFFFFFFFFF) but either of MADV_ANONYMOUS_FILTER and
+> > > > > > > MADV_FILE_FILTER so there is no need to call the syscall range by range.
+> > > > > > 
+> > > > > > OK, so here is the reason you want that. The immediate question is why
+> > > > > > cannot the monitor do the filtering from the userspace. Slightly more
+> > > > > > work, all right, but less of an API to expose and that itself is a
+> > > > > > strong argument against.
+> > > > > 
+> > > > > What I should do if we don't have such filter option is to enumerate all of
+> > > > > vma via /proc/<pid>/maps and then parse every ranges and inode from string,
+> > > > > which would be painful for 2000+ vmas.
+> > > > 
+> > > > Painful is not an argument to add a new user API. If the existing API
+> > > > suits the purpose then it should be used. If it is not usable, we can
+> > > > think of a different way.
+> > > 
+> > > I measured 1568 vma parsing overhead of /proc/<pid>/maps in ARM64 modern
+> > > mobile CPU. It takes 60ms and 185ms on big cores depending on cpu governor.
+> > > It's never trivial.
+> > 
+> > This is not the only option. Have you tried to simply use
+> > /proc/<pid>/map_files interface? This will provide you with all the file
+> > backed mappings.
 > 
-> OK, I've had a quick look at the implementation (the semantic should be
-> clear from the patch descrition btw.) and it goes all the way up the
-> hierarchy and finally try to impose the same limit to the global state.
-> This doesn't really make much sense to me. For few reasons.
+> I compared maps vs. map_files with 3036 file-backed vma.
+> Test scenario is to dump all of vmas of the process and parse address
+> ranges.
+> For map_files, it's easy to parse each address range because directory name
+> itself is range. However, in case of maps, I need to parse each range
+> line by line so need to scan all of lines.
 > 
-> First of all it breaks isolation where one subgroup can influence a
-> different hierarchy via parent reclaim.
-
-madvise(NULL, size, MADV_STOCKPILE) is the same as memory allocation and
-freeing immediately, but without pinning memory and provoking oom.
-
-So, there is shouldn't be any isolation or security issues.
-
-At least probably it should be limited with portion of limit (like half)
-instead of whole limit as it does now.
-
+> (maps cover additional non-file-backed vmas so nr_vma is a little bigger)
 > 
-> I also have a problem with conflating the global and memcg states. Does
-> it really make any sense to have the same target to the global state
-> as per-memcg? How are you supposed to use this interface to shrink a
-> particular memcg or for the global situation with a proportional
-> distribution to all memcgs?
-
-For now this is out of my use cease. This could be done in userspace
-with multiple daemons in different contexts and connection between them.
-In this case each daemon should apply pressure only its own level.
-
-Also kernel could remember static pressure applied from each cgroup which
-fades away when memory is allocated. And each call adds this pressure to
-own requests to cooperate with neighbours. But rhight I don't know how to
-implement this without over-engineering. Pure userspace solution looks
-much better.
-
+> performance mode:
+> map_files: nr_vma 3036 usec 13387
+> maps     : nr_vma 3078 usec 12923
 > 
-> There also doens't seem to be anything about security model for this
-> operation. There is no capability check from a quick look. Is it really
-> safe to expose such a functionality for a common user?
-
-Yep, it seems save. This is same as memory allocation and freeing.
-
+> powersave mode:
 > 
-> Last but not least, I am not really convinced that madvise is a proper
-> interface. It stretches the API which is address range based and it has
-> per-process implications.
+> map_files: nr_vma 3036 usec 52614
+> maps     : nr_vma 3078 usec 41089
 > 
+> map_files is slower than maps if we dump all of vmas. I guess directory
+> operation needs much more jobs(e.g., dentry lookup, instantiation)
+> compared to maps.
 
-Well, this is silly but semantic could be explained as preparation for
-memory allocation via faulting into region. But since it doesn't need
-to know exact range starting address could be arbitrary.
+OK, that is somehow surprising. I am still not convinced the filter is a
+good idea though. The primary reason is that it encourages using madvise
+on a wide range without having a clue what the range contains. E.g. the
+full address range and rely the right thing will happen. Do we really
+want madvise to operate in that mode?
 
-Also we employ MADV_POPULATE which implements batched faults into range
-for robust memory allocation and undo for MADV_FREE. Will publish later.
+Btw. if we went with the per vma fd approach then you would get this
+feature automatically because map_files would refer to file backed
+mappings while map_anon could refer only to anonymous mappings.
+
+-- 
+Michal Hocko
+SUSE Labs
