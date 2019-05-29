@@ -2,168 +2,138 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B3AF2E163
-	for <lists+linux-api@lfdr.de>; Wed, 29 May 2019 17:43:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 11A472E16E
+	for <lists+linux-api@lfdr.de>; Wed, 29 May 2019 17:45:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726140AbfE2PnW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 29 May 2019 11:43:22 -0400
-Received: from ou.quest-ce.net ([195.154.187.82]:48665 "EHLO ou.quest-ce.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726097AbfE2PnW (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 29 May 2019 11:43:22 -0400
-Received: from [2a01:e35:39f2:1220:9dd7:c176:119b:4c9d] (helo=opteyam2)
-        by ou.quest-ce.net with esmtpsa (TLS1.1:RSA_AES_256_CBC_SHA1:256)
-        (Exim 4.80)
-        (envelope-from <ydroneaud@opteya.com>)
-        id 1hW0iU-000B3I-RX; Wed, 29 May 2019 17:42:15 +0200
-Message-ID: <1058006e0df4b52b3e53c7b3202c04140899aeb5.camel@opteya.com>
-From:   Yann Droneaud <ydroneaud@opteya.com>
-To:     Christian Brauner <christian@brauner.io>, viro@zeniv.linux.org.uk,
-        linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
-        jannh@google.com
-Cc:     fweimer@redhat.com, oleg@redhat.com, arnd@arndb.de,
-        dhowells@redhat.com, Pavel Emelyanov <xemul@virtuozzo.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Adrian Reber <adrian@lisas.de>,
-        Andrei Vagin <avagin@gmail.com>, linux-api@vger.kernel.org
-Date:   Wed, 29 May 2019 17:42:14 +0200
-In-Reply-To: <20190529152237.10719-1-christian@brauner.io>
-References: <20190529152237.10719-1-christian@brauner.io>
-Organization: OPTEYA
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.2 (3.32.2-1.fc30) 
+        id S1726304AbfE2PpN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 29 May 2019 11:45:13 -0400
+Received: from mail.efficios.com ([167.114.142.138]:46590 "EHLO
+        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726062AbfE2PpM (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 29 May 2019 11:45:12 -0400
+Received: from localhost (ip6-localhost [IPv6:::1])
+        by mail.efficios.com (Postfix) with ESMTP id 5C5E520E810;
+        Wed, 29 May 2019 11:45:11 -0400 (EDT)
+Received: from mail.efficios.com ([IPv6:::1])
+        by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10032)
+        with ESMTP id 06Uex-ntIi6b; Wed, 29 May 2019 11:45:10 -0400 (EDT)
+Received: from localhost (ip6-localhost [IPv6:::1])
+        by mail.efficios.com (Postfix) with ESMTP id C762520E80B;
+        Wed, 29 May 2019 11:45:10 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com C762520E80B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+        s=default; t=1559144710;
+        bh=Z8u/h+OkjMEmjPJ6ylYRgvClv2UsRwp41k4WjCc8j/0=;
+        h=Date:From:To:Message-ID:MIME-Version;
+        b=ViqyNnKao9tEaN867vuBuAYQVDaw826E1hgVaz5U8GY9XZRZMApV6dp8PUcC6qnsk
+         +o0dC6tPNyGGjG9x7qDHmlwtk9GKPP63jK+XJnsXXuFG+lfXTtIurAuphyL2PEC1si
+         rlWL8eJyrWq7eEPcITpC1O0xGLROp+sH+thw7gWpGNbfCgalOVbzJAfyN7ZASz72ZB
+         kP1lFDRCvpiVRQUNaIdpKo4dODwQcVR1bV/sdBoUJQ/mU2SlAzHIT5Vyf1qPKMUiqm
+         llCSbpGVtnQyqYP0bIKpxpLiQVlFrQGpJbFImbtRhvJbcNQXU+cBUnm7YAFgVWsYLw
+         S0TzC/XTwigbw==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([IPv6:::1])
+        by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10026)
+        with ESMTP id D_tNcsrx8C2x; Wed, 29 May 2019 11:45:10 -0400 (EDT)
+Received: from mail02.efficios.com (mail02.efficios.com [167.114.142.138])
+        by mail.efficios.com (Postfix) with ESMTP id AA0FE20E7FE;
+        Wed, 29 May 2019 11:45:10 -0400 (EDT)
+Date:   Wed, 29 May 2019 11:45:10 -0400 (EDT)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     carlos <carlos@redhat.com>, Joseph Myers <joseph@codesourcery.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        libc-alpha <libc-alpha@sourceware.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ben Maurer <bmaurer@fb.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Dave Watson <davejwatson@fb.com>, Paul Turner <pjt@google.com>,
+        Rich Felker <dalias@libc.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-api <linux-api@vger.kernel.org>
+Message-ID: <140718133.18261.1559144710554.JavaMail.zimbra@efficios.com>
+In-Reply-To: <1239705947.14878.1558985272873.JavaMail.zimbra@efficios.com>
+References: <20190503184219.19266-1-mathieu.desnoyers@efficios.com> <20190503184219.19266-2-mathieu.desnoyers@efficios.com> <87h89gjgaf.fsf@oldenburg2.str.redhat.com> <1239705947.14878.1558985272873.JavaMail.zimbra@efficios.com>
+Subject: Re: [PATCH 1/5] glibc: Perform rseq(2) registration at C startup
+ and thread creation (v10)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a01:e35:39f2:1220:9dd7:c176:119b:4c9d
-X-SA-Exim-Mail-From: ydroneaud@opteya.com
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on ou.quest-ce.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-        autolearn=ham version=3.3.2
-Subject: Re: [PATCH v1 1/2] fork: add clone3
-X-SA-Exim-Version: 4.2.1 (built Mon, 26 Dec 2011 16:24:06 +0000)
-X-SA-Exim-Scanned: Yes (on ou.quest-ce.net)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [167.114.142.138]
+X-Mailer: Zimbra 8.8.12_GA_3803 (ZimbraWebClient - FF67 (Linux)/8.8.12_GA_3794)
+Thread-Topic: glibc: Perform rseq(2) registration at C startup and thread creation (v10)
+Thread-Index: 18yTu+T8PFt4cXiNhOg61XhmaTl3EWs0GkO7
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Le mercredi 29 mai 2019 à 17:22 +0200, Christian Brauner a écrit :
-> This adds the clone3 system call.
+----- On May 27, 2019, at 3:27 PM, Mathieu Desnoyers mathieu.desnoyers@efficios.com wrote:
+
+> ----- On May 27, 2019, at 7:19 AM, Florian Weimer fweimer@redhat.com wrote:
 > 
+
+[...]
+
+>> 
+>> Furthermore, the reference to ELF constructors is misleading.  I believe
+>> the code you added to __libc_start_main to initialize __rseq_handled and
+>> register __seq_abi with the kernel runs *after* ELF constructors have
+>> executed (and not at all if the main program is written in Go, alas).
+>> All initialization activity for the shared case needs to happen in
+>> elf/rtld.c or called from there, probably as part of the security
+>> initialization code or thereabouts.
 > 
-> diff --git a/kernel/fork.c b/kernel/fork.c
-> index b4cba953040a..6bc3e3d17150 100644
-> --- a/kernel/fork.c
-> +++ b/kernel/fork.c
-> @@ -2472,7 +2475,96 @@ SYSCALL_DEFINE5(clone, unsigned long, clone_flags, unsigned long, newsp,
->  		 unsigned long, tls)
->  #endif
->  {
-> -	return _do_fork(clone_flags, newsp, 0, parent_tidptr, child_tidptr, tls);
-> +	struct kernel_clone_args args = {
-> +		.flags = clone_flags,
-> +		.stack = newsp,
-> +		.pidfd = parent_tidptr,
-> +		.parent_tidptr = parent_tidptr,
-> +		.tls = tls,
-> +		.child_tidptr = child_tidptr,
-> +	};
-> +
-> +	/* clone(CLONE_PIDFD) uses parent_tidptr to return a pidfd */
-> +	if ((clone_flags & CLONE_PIDFD) && (clone_flags & CLONE_PARENT_SETTID))
-> +		return -EINVAL;
-> +
-> +	return _do_fork(&args);
-> +}
-> +
-> +static bool clone3_flags_valid(u64 flags)
-> +{
-> +	if (flags & CLONE_DETACHED)
-> +		return false;
-> +
-> +	if (flags & ~CLONE_MAX)
-> +		return false;
-> +
-> +	return true;
-> +}
-> +
-> +static int copy_clone_args_from_user(struct kernel_clone_args *kargs,
-> +				     struct clone_args __user *uargs,
-> +				     size_t size)
-> +{
-> +	struct clone_args args;
-> +
-> +	if (unlikely(size > PAGE_SIZE))
-> +		return -E2BIG;
-> +
-> +	if (unlikely(size < sizeof(struct clone_args)))
-> +		return -EINVAL;
-> +
-> +	if (unlikely(!access_ok(uargs, size)))
-> +		return -EFAULT;
-> +
-> +	if (size > sizeof(struct clone_args)) {
-> +		unsigned char __user *addr;
-> +		unsigned char __user *end;
-> +		unsigned char val;
-> +
-> +		addr = (void __user *)uargs + sizeof(struct clone_args);
-> +		end = (void __user *)uargs + size;
-> +
-> +		for (; addr < end; addr++) {
-> +			if (get_user(val, addr))
-> +				return -EFAULT;
-> +			if (val)
-> +				return -E2BIG;
+> in elf/rtld.c:dl_main() we have the following code:
+> 
+>  /* We do not initialize any of the TLS functionality unless any of the
+>     initial modules uses TLS.  This makes dynamic loading of modules with
+>     TLS impossible, but to support it requires either eagerly doing setup
+>     now or lazily doing it later.  Doing it now makes us incompatible with
+>     an old kernel that can't perform TLS_INIT_TP, even if no TLS is ever
+>     used.  Trying to do it lazily is too hairy to try when there could be
+>     multiple threads (from a non-TLS-using libpthread).  */
+>  bool was_tls_init_tp_called = tls_init_tp_called;
+>  if (tcbp == NULL)
+>    tcbp = init_tls ();
+> 
+> If I understand your point correctly, I should move the rseq_init() and
+> rseq_register_current_thread() for the SHARED case just after this
+> initialization, otherwise calling those from LIBC_START_MAIN() is too
+> late and it runs after initial modules constructors (or not at all for
+> Go). However, this means glibc will start using TLS internally. I'm
+> concerned that this is not quite in line with the above comment which
+> states that TLS is not initialized if no initial modules use TLS.
+> 
+> For the !SHARED use-case, if my understanding is correct, I should keep
+> rseq_init() and rseq_register_current_thread() calls within LIBC_START_MAIN().
 
-Should be -EINVAL: having something after the structure should be
-handled just like an invalid flags, while still allowing future
-userspace program to probe for support for newer feature.
+I've moved the rseq initialization for SHARED case to the very end of
+elf/rtld.c:init_tls(), and get the following error on make check:
 
-> +		}
-> +
-> +		size = sizeof(struct clone_args);
-> +	}
-> +
-> +	if (copy_from_user(&args, uargs, size))
-> +		return -EFAULT;
-> +
-> +	if (!clone3_flags_valid(args.flags))
-> +		return -EINVAL;
-> +
-> +	memset(kargs, 0, sizeof(*kargs));
-> +
-> +	kargs->flags = args.flags;
-> +	kargs->child_tidptr = u64_to_user_ptr(args.child_tidptr);
-> +	kargs->parent_tidptr = u64_to_user_ptr(args.parent_tidptr);
-> +	kargs->pidfd = u64_to_user_ptr(args.pidfd);
-> +	kargs->stack = args.stack;
-> +	kargs->stack_size = args.stack_size;
-> +	kargs->tls = args.tls;
-> +
-> +	return 0;
-> +}
-> +
-> +SYSCALL_DEFINE2(clone3, struct clone_args __user *, uargs, size_t, size)
-> +{
-> +	int err;
-> +
-> +	struct kernel_clone_args kargs;
-> +
-> +	err = copy_clone_args_from_user(&kargs, uargs, size);
-> +	if (err)
-> +		return err;
-> +
-> +	return _do_fork(&kargs);
->  }
->  #endif
->  
+Generating locale am_ET.UTF-8: this might take a while...
+Inconsistency detected by ld.so: get-dynamic-info.h: 143: elf_get_dynamic_info: Assertion `info[DT_FLAGS] == NULL || (info[DT_FLAGS]->d_un.d_val & ~DF_BIND_NOW) == 0' failed!
+Charmap: "UTF-8" Inputfile: "am_ET" Outputdir: "am_ET.UTF-8" failed
+/bin/sh: 4: cannot create /home/efficios/git/glibc-build/localedata/am_ET.UTF-8/LC_CTYPE.test-result: Directory nonexistent
 
-Regards.
+This error goes away if I comment out the call to rseq_register_current_thread (),
+which touches the __rseq_abi __thread variable and issues a system call.
+
+Currently, the __rseq_abi __thread variable is within
+sysdeps/unix/sysv/linux/rseq-sym.c, which is added to the
+sysdep_routines within sysdeps/unix/sysv/linux/Makefile. I
+suspect it may need to be moved elsewhere.
+
+Any thoughts on how to solve this ?
+
+Thanks,
+
+Mathieu
 
 -- 
-Yann Droneaud
-OPTEYA
-
-
+Mathieu Desnoyers
+EfficiOS Inc.
+http://www.efficios.com
