@@ -2,108 +2,115 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 725DB2D8A9
-	for <lists+linux-api@lfdr.de>; Wed, 29 May 2019 11:09:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 62FF62DA05
+	for <lists+linux-api@lfdr.de>; Wed, 29 May 2019 12:08:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725911AbfE2JJ6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 29 May 2019 05:09:58 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42732 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725874AbfE2JJ6 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 29 May 2019 05:09:58 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id C769A7E426;
-        Wed, 29 May 2019 09:09:48 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-120-173.rdu2.redhat.com [10.10.120.173])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id BC50B6608B;
-        Wed, 29 May 2019 09:09:45 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <20190528235810.GA5776@kroah.com>
-References: <20190528235810.GA5776@kroah.com> <155905930702.7587.7100265859075976147.stgit@warthog.procyon.org.uk>
-To:     Greg KH <gregkh@linuxfoundation.org>, casey@schaufler-ca.com
-Cc:     dhowells@redhat.com, viro@zeniv.linux.org.uk, raven@themaw.net,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-block@vger.kernel.org, keyrings@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC][PATCH 0/7] Mount, FS, Block and Keyrings notifications
+        id S1725914AbfE2KIr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 29 May 2019 06:08:47 -0400
+Received: from mail-vs1-f68.google.com ([209.85.217.68]:46888 "EHLO
+        mail-vs1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726101AbfE2KIp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 29 May 2019 06:08:45 -0400
+Received: by mail-vs1-f68.google.com with SMTP id l125so1316074vsl.13
+        for <linux-api@vger.kernel.org>; Wed, 29 May 2019 03:08:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=JqrLgxA4AciEivrwCOum3XhYhFc14FWOXrSGbHtn8l4=;
+        b=XvJCcOWlfI2cAhepwsVATWYEeMXjuPGe36MHEYZY73iUGWkDtfiutI6POmJ9WBgnS5
+         7Zc+MH34Bcng8GBK5pAcN4+/ymPXCE+cXwGYB27pb6fpcm7JJpWRObHmiVtzA72kO7Vt
+         9+YOcI2Zw1oJR4UQfSqS3YY8SCLdrxar3eA2YXi5fviMqALw30QBbOqvt5re4j9bK06T
+         MxXx7a5LVP5i0xbfny+YkspK2cwfOCnZBTAt3WnFtwFkd4xGRcuYSn0qZjjDGgjxXAFp
+         q1ZvaHN3BjJcwWhnr0OVqYGhnNyVRVJJJjOo2VP9Y1mgoPIvFrPK79bYI9MyJL/gQWXB
+         lB1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=JqrLgxA4AciEivrwCOum3XhYhFc14FWOXrSGbHtn8l4=;
+        b=Z0nHmkBtQA9bQJxpi6hwMgdjAymG6buK9zOWq94Sg3SmAtZhSwKMv1H/XGJSSQ4ZYw
+         XYGRgSLNo5a6IArUT4qlbr+BckksQwqjTQJytR1xiMb5mP9t1Hi9K25WTSZGg5NADIHo
+         ay+D0PzDTXU1Ovfh68avfErSSdcYoJvAQndQmBHnXjLPqelRf8wwY9fpWJ3XXj/GIDeR
+         AYX4ZNgZaGP3WGCodNQGu3k0BSzjecGbn02/kwa8f2wQXS6dWbFWAsSVCrp+YTcKmFfD
+         AJmozuMsE+PmB5XqYQ/GYEVjNob8K2nZf0A8wylZ5S74yjCroFoMjCZksyhrYrD1x9Dj
+         Kc5g==
+X-Gm-Message-State: APjAAAUPnEgGKkGuwFzwWr4c7Qjcc6j2EmZ9Sq5gWdz1PJNgXo5W6pg6
+        pc0+ISWTo98ThgTCMu9vKPBoyiUc4gYQwvL5/EWS4Q==
+X-Google-Smtp-Source: APXvYqzSCE0z59kl4Upmp3wn1FWiwFbydqjXU+SBtt9efM9Z8jZQTMXLALdpKllyD+vumjd3lYW8613GvLhWpIBE3/g=
+X-Received: by 2002:a67:e90f:: with SMTP id c15mr3517797vso.9.1559124523923;
+ Wed, 29 May 2019 03:08:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <31750.1559120984.1@warthog.procyon.org.uk>
-Date:   Wed, 29 May 2019 10:09:44 +0100
-Message-ID: <31751.1559120984@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.27]); Wed, 29 May 2019 09:09:57 +0000 (UTC)
+References: <20190520035254.57579-1-minchan@kernel.org> <20190520035254.57579-7-minchan@kernel.org>
+ <20190520092258.GZ6836@dhcp22.suse.cz> <20190521024820.GG10039@google.com>
+ <20190521062421.GD32329@dhcp22.suse.cz> <20190521102613.GC219653@google.com>
+ <20190521103726.GM32329@dhcp22.suse.cz> <20190527074940.GB6879@google.com>
+In-Reply-To: <20190527074940.GB6879@google.com>
+From:   Daniel Colascione <dancol@google.com>
+Date:   Wed, 29 May 2019 03:08:32 -0700
+Message-ID: <CAKOZuesK-8zrm1zua4dzqh4TEMivsZKiccySMvfBjOyDkg-MEw@mail.gmail.com>
+Subject: Re: [RFC 6/7] mm: extend process_madvise syscall to support vector arrary
+To:     Minchan Kim <minchan@kernel.org>
+Cc:     Michal Hocko <mhocko@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Tim Murray <timmurray@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Brian Geffon <bgeffon@google.com>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Greg KH <gregkh@linuxfoundation.org> wrote:
+On Mon, May 27, 2019 at 12:49 AM Minchan Kim <minchan@kernel.org> wrote:
+>
+> On Tue, May 21, 2019 at 12:37:26PM +0200, Michal Hocko wrote:
+> > On Tue 21-05-19 19:26:13, Minchan Kim wrote:
+> > > On Tue, May 21, 2019 at 08:24:21AM +0200, Michal Hocko wrote:
+> > > > On Tue 21-05-19 11:48:20, Minchan Kim wrote:
+> > > > > On Mon, May 20, 2019 at 11:22:58AM +0200, Michal Hocko wrote:
+> > > > > > [Cc linux-api]
+> > > > > >
+> > > > > > On Mon 20-05-19 12:52:53, Minchan Kim wrote:
+> > > > > > > Currently, process_madvise syscall works for only one address range
+> > > > > > > so user should call the syscall several times to give hints to
+> > > > > > > multiple address range.
+> > > > > >
+> > > > > > Is that a problem? How big of a problem? Any numbers?
+> > > > >
+> > > > > We easily have 2000+ vma so it's not trivial overhead. I will come up
+> > > > > with number in the description at respin.
+> > > >
+> > > > Does this really have to be a fast operation? I would expect the monitor
+> > > > is by no means a fast path. The system call overhead is not what it used
+> > > > to be, sigh, but still for something that is not a hot path it should be
+> > > > tolerable, especially when the whole operation is quite expensive on its
+> > > > own (wrt. the syscall entry/exit).
+> > >
+> > > What's different with process_vm_[readv|writev] and vmsplice?
+> > > If the range needed to be covered is a lot, vector operation makes senese
+> > > to me.
+> >
+> > I am not saying that the vector API is wrong. All I am trying to say is
+> > that the benefit is not really clear so far. If you want to push it
+> > through then you should better get some supporting data.
+>
+> I measured 1000 madvise syscall vs. a vector range syscall with 1000
+> ranges on ARM64 mordern device. Even though I saw 15% improvement but
+> absoluate gain is just 1ms so I don't think it's worth to support.
+> I will drop vector support at next revision.
 
-> >  (3) Letting users see events they shouldn't be able to see.
-> 
-> How are you handling namespaces then?  Are they determined by the
-> namespace of the process that opened the original device handle, or the
-> namespace that made the new syscall for the events to "start flowing"?
-
-So far I haven't had to deal directly with namespaces.
-
-mount_notify() requires you to have access to the mountpoint you want to watch
-- and the entire tree rooted there is in one namespace, so your event sources
-are restricted to that namespace.  Further, mount objects don't themselves
-have any other namespaces, not even a user_ns.
-
-sb_notify() requires you to have access to the superblock you want to watch.
-superblocks aren't directly namespaced as a class, though individual
-superblocks may participate in particular namespaces (ipc, net, etc.).  I'm
-thinking some of these should be marked unwatchable (all pseudo superblocks,
-kernfs-class, proc, for example).
-
-Superblocks, however, do each have a user_ns - but you were allowed to access
-the superblock by pathwalk, so you must have some access to the user_ns - I
-think.
-
-KEYCTL_NOTIFY requires you to have View access on the key you're watching.
-Currently, keys have no real namespace restrictions, though I have patches to
-include a namespace tag in the lookup criteria.
-
-block_notify() doesn't require any direct access since you're watching a
-global queue and there is no blockdev namespacing.  LSMs are given the option
-to filter events, though.  The thought here is that if you can access dmesg,
-you should be able to watch for blockdev events.
-
-
-Actually, thinking further on this, restricting access to events is trickier
-than I thought and than perhaps Casey was suggesting.
-
-Say you're watching a mount object and someone in a different user_ns
-namespace or with a different security label mounts on it.  What governs
-whether you are allowed to see the event?
-
-You're watching the object for changes - and it *has* changed.  Further, you
-might be able to see the result of this change by other means (/proc/mounts,
-for instance).
-
-Should you be denied the event based on the security model?
-
-On the other hand, if you're watching a tree of mount objects, it could be
-argued that you should be denied access to events on any mount object you
-can't reach by pathwalk.
-
-On the third hand, if you can see it in /proc/mounts or by fsinfo(), you
-should get an event for it.
-
-
-> How are you handling namespaces then?
-
-So to go back to the original question.  At the moment they haven't impinged
-directly and I haven't had to deal with them directly.  There are indirect
-namespace restrictions that I get for free just due to pathwalk, for instance.
-
-David
+Please do keep the vector support. Absolute timing is misleading,
+since in a tight loop, you're not going to contend on mmap_sem. We've
+seen tons of improvements in things like camera start come from
+coalescing mprotect calls, with the gains coming from taking and
+releasing various locks a lot less often and bouncing around less on
+the contended lock paths. Raw throughput doesn't tell the whole story,
+especially on mobile.
