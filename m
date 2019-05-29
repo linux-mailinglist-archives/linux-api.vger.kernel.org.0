@@ -2,134 +2,120 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 146432E48B
-	for <lists+linux-api@lfdr.de>; Wed, 29 May 2019 20:33:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D6672E50D
+	for <lists+linux-api@lfdr.de>; Wed, 29 May 2019 21:09:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727320AbfE2Sdt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 29 May 2019 14:33:49 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:51394 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725917AbfE2Sdt (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 29 May 2019 14:33:49 -0400
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x4TIXQbG069667;
-        Wed, 29 May 2019 18:33:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2018-07-02;
- bh=R/+z/tc0/SAWa0SjP7BukZGNCOg4xR/nOoG03j4CVHg=;
- b=AY8+x7YT5IsFJdGZ5yEg28P8Pb5Qq/PkwNyzpit66iScBYI8KWtUggNJkRFYLyVuhQLF
- pCbL/mCVeHwD20P3DIaRf3HKGDJ89gAaxQZY7xTv2JLGBeBH800nXwE2bNDcj2r2nW3G
- bdntXgcbue4dGK0ymRGzSLMrsIXn2RlQE121bBtu7KXY5EqvR7oFCEeWyA2IYg4oVkOR
- JJRFvWk21dLb8a26pK01BG1F7Dn9YKKobLZ0SOyjFutNg45Piw+Pn8g3lTpg1gnAN89Z
- fhuhNxN/94S2WapfAhE/q+Eb07dctpUtHjtCoqb5yhQ+ChZfjgnYTHuerWyLq5YxWrQ7 dQ== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by aserp2130.oracle.com with ESMTP id 2spu7dm0uy-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 29 May 2019 18:33:37 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x4TIX2rG031915;
-        Wed, 29 May 2019 18:33:36 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by userp3020.oracle.com with ESMTP id 2sr31ve6aj-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 29 May 2019 18:33:36 +0000
-Received: from abhmp0013.oracle.com (abhmp0013.oracle.com [141.146.116.19])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x4TIXZWE000659;
-        Wed, 29 May 2019 18:33:35 GMT
-Received: from localhost (/67.169.218.210)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 29 May 2019 11:33:35 -0700
-Date:   Wed, 29 May 2019 11:33:33 -0700
-From:   "Darrick J. Wong" <darrick.wong@oracle.com>
-To:     Amir Goldstein <amir73il@gmail.com>
+        id S1726718AbfE2TI5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 29 May 2019 15:08:57 -0400
+Received: from mail-yb1-f195.google.com ([209.85.219.195]:40938 "EHLO
+        mail-yb1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725914AbfE2TI5 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 29 May 2019 15:08:57 -0400
+Received: by mail-yb1-f195.google.com with SMTP id g62so1198844ybg.7;
+        Wed, 29 May 2019 12:08:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3OGwXMfFFQztZM039mI0WMSn1MvrOmZGR4oYkysJC3w=;
+        b=SDTngy90DbeR+MzZDVKcRdkaLP1+vir+e/4EefAKUMh01+y3AxKsaTOgp8UXv9u/kE
+         egvD3XMOaKIO6mAc28kewQPQfnR83nClWMseWJaKp6CGzxyo/3PIg6zwwDWixnB/rYvH
+         TcQ4nbmzhMoJhgDROtSC68zFbYomgFQ+GGp/aBW2MLFRaJHBiLgo2XwXk5Fy5cLJxctl
+         MhVPs2nmEpM6VLxLWpNAmlhW6wThw4YTXdQlFp6qXiHtXlnA7i6fuL3Oljw97t2qYByJ
+         q61wR5WFYO+WhuKLMDDSg2TCWuoFvAzc4R6x2qrUWUFk+LqKNw55xJcOPmUqSsmGDzot
+         5dAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3OGwXMfFFQztZM039mI0WMSn1MvrOmZGR4oYkysJC3w=;
+        b=tepq9LwD9Q65AtPHy2K92Beyy2IpUQkMCou9NP4F9Cen5KkIwN9j0c1ZTc4YGtKIUy
+         bC6Wjj+hbq0tXmN6MT+rW0OmTAKf/yltwpGqiPF5s6nK5Zb4/Cy6dUWzQhys1Xy+/xdw
+         uIzgqTSGMvZ7byukaRgM7cyqWEVcHpwvzYnLmiH8z7tC6uehLEYMy9QhLhx4ED8NdCwu
+         ZYqLp5oa8gcBS9avMtk8f6CmIIJEViV4yV//k4PSjyDsNbl1gRfz/oL+1f5tHvMJEfdY
+         peovjMeBBk3B1X4mKw/Q09jd37jc8MeXfjePLJQ/8H/pes4RLwv84STHQ3iwUdM/grGX
+         F44g==
+X-Gm-Message-State: APjAAAWNgHqyv9WAHhwOXBzfGxKbmjAnyL6+jNqXfbeA56iuXQk4tMUg
+        gMhpDbCfOXYOu/SkXOpMWYmFsfSqlbSIoZsGtNQ=
+X-Google-Smtp-Source: APXvYqzloFzwd2llHYpp5ChMwkSfcbQRwyvB23IwdGNr0fVkGV5pXryNtFvsN+98UPJjSgKSdR/vdNglJk06q9T/qDc=
+X-Received: by 2002:a05:6902:4c3:: with SMTP id v3mr247877ybs.144.1559156935937;
+ Wed, 29 May 2019 12:08:55 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190529174318.22424-1-amir73il@gmail.com> <20190529174318.22424-7-amir73il@gmail.com>
+ <20190529182748.GF5231@magnolia>
+In-Reply-To: <20190529182748.GF5231@magnolia>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Wed, 29 May 2019 22:08:44 +0300
+Message-ID: <CAOQ4uxgsMLTPtYaQwwNHo3NrzXz9u=YGc2v6Pg8TSo7-xFrqQQ@mail.gmail.com>
+Subject: Re: [PATCH v3 06/13] vfs: introduce file_modified() helper
+To:     "Darrick J. Wong" <darrick.wong@oracle.com>
 Cc:     Dave Chinner <david@fromorbit.com>, Christoph Hellwig <hch@lst.de>,
-        linux-xfs@vger.kernel.org,
+        linux-xfs <linux-xfs@vger.kernel.org>,
         Olga Kornievskaia <olga.kornievskaia@gmail.com>,
         Luis Henriques <lhenriques@suse.com>,
         Al Viro <viro@zeniv.linux.org.uk>,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        ceph-devel@vger.kernel.org, linux-nfs@vger.kernel.org,
-        linux-cifs@vger.kernel.org
-Subject: Re: [PATCH v3 08/13] vfs: copy_file_range needs to strip setuid bits
- and update timestamps
-Message-ID: <20190529183333.GH5231@magnolia>
-References: <20190529174318.22424-1-amir73il@gmail.com>
- <20190529174318.22424-9-amir73il@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190529174318.22424-9-amir73il@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9272 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1905290120
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9272 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1905290120
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-api@vger.kernel.org, ceph-devel@vger.kernel.org,
+        Linux NFS Mailing List <linux-nfs@vger.kernel.org>,
+        CIFS <linux-cifs@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, May 29, 2019 at 08:43:12PM +0300, Amir Goldstein wrote:
-> Because generic_copy_file_range doesn't hold the destination inode lock
-> throughout the copy, strip setuid bits before and after copy.
-> 
-> The destination inode mtime is updated before and after the copy and the
-> source inode atime is updated after the copy, similar to
-> generic_file_read_iter().
-> 
-> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+On Wed, May 29, 2019 at 9:27 PM Darrick J. Wong <darrick.wong@oracle.com> wrote:
+>
+> On Wed, May 29, 2019 at 08:43:10PM +0300, Amir Goldstein wrote:
+> > The combination of file_remove_privs() and file_update_mtime() is
+> > quite common in filesystem ->write_iter() methods.
+> >
+> > Modelled after the helper file_accessed(), introduce file_modified()
+> > and use it from generic_remap_file_range_prep().
+> >
+> > Note that the order of calling file_remove_privs() before
+> > file_update_mtime() in the helper was matched to the more common order by
+> > filesystems and not the current order in generic_remap_file_range_prep().
+> >
+> > Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+> > ---
+> >  fs/inode.c         | 20 ++++++++++++++++++++
+> >  fs/read_write.c    | 21 +++------------------
+> >  include/linux/fs.h |  2 ++
+> >  3 files changed, 25 insertions(+), 18 deletions(-)
+> >
+> > diff --git a/fs/inode.c b/fs/inode.c
+> > index df6542ec3b88..2885f2f2c7a5 100644
+> > --- a/fs/inode.c
+> > +++ b/fs/inode.c
+> > @@ -1899,6 +1899,26 @@ int file_update_time(struct file *file)
+> >  }
+> >  EXPORT_SYMBOL(file_update_time);
+> >
+> > +/* Caller must hold the file's inode lock */
+> > +int file_modified(struct file *file)
+> > +{
+> > +     int err;
+> > +
+> > +     /*
+> > +      * Clear the security bits if the process is not being run by root.
+> > +      * This keeps people from modifying setuid and setgid binaries.
+> > +      */
+> > +     err = file_remove_privs(file);
+> > +     if (err)
+> > +             return err;
+> > +
+> > +     if (likely(file->f_mode & FMODE_NOCMTIME))
+>
+> I would not have thought NOCMTIME is likely?
+>
+> Maybe it is for io requests coming from overlayfs, but for regular uses
+> I don't think that's true.
 
-Looks reasonable,
-Reviewed-by: Darrick J. Wong <darrick.wong@oracle.com>
+Nope that's a typo. Good spotting.
+Overlayfs doesn't set FMODE_NOCMTIME (yet). Only xfs does from
+XFS_IOC_OPEN_BY_HANDLE, but I think Dave said that is a deprecated
+API. so should have been very_unlikely().
 
---D
-
-> ---
->  fs/read_write.c | 23 +++++++++++++++++++++--
->  1 file changed, 21 insertions(+), 2 deletions(-)
-> 
-> diff --git a/fs/read_write.c b/fs/read_write.c
-> index cec7e7b1f693..706ea5f276a7 100644
-> --- a/fs/read_write.c
-> +++ b/fs/read_write.c
-> @@ -1590,8 +1590,27 @@ ssize_t generic_copy_file_range(struct file *file_in, loff_t pos_in,
->  				struct file *file_out, loff_t pos_out,
->  				size_t len, unsigned int flags)
->  {
-> -	return do_splice_direct(file_in, &pos_in, file_out, &pos_out,
-> -				len > MAX_RW_COUNT ? MAX_RW_COUNT : len, 0);
-> +	struct inode *inode_out = file_inode(file_out);
-> +	int ret, err;
-> +
-> +	/* Should inode_out lock be held throughout the copy operation? */
-> +	inode_lock(inode_out);
-> +	err = file_modified(file_out);
-> +	inode_unlock(inode_out);
-> +	if (err)
-> +		return err;
-> +
-> +	ret = do_splice_direct(file_in, &pos_in, file_out, &pos_out,
-> +			       len > MAX_RW_COUNT ? MAX_RW_COUNT : len, 0);
-> +
-> +	file_accessed(file_in);
-> +
-> +	/* To be on the safe side, remove privs also after copy */
-> +	inode_lock(inode_out);
-> +	err = file_modified(file_out);
-> +	inode_unlock(inode_out);
-> +
-> +	return err ?: ret;
->  }
->  EXPORT_SYMBOL(generic_copy_file_range);
->  
-> -- 
-> 2.17.1
-> 
+Thanks,
+Amir.
