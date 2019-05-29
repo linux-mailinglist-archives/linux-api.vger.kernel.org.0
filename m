@@ -2,127 +2,126 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CDCEC2D2EA
-	for <lists+linux-api@lfdr.de>; Wed, 29 May 2019 02:44:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 190172D523
+	for <lists+linux-api@lfdr.de>; Wed, 29 May 2019 07:39:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725820AbfE2AoJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 28 May 2019 20:44:09 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39876 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725816AbfE2AoJ (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 28 May 2019 20:44:09 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 5C3A185362;
-        Wed, 29 May 2019 00:44:08 +0000 (UTC)
-Received: from madcap2.tricolour.ca (ovpn-112-16.phx2.redhat.com [10.3.112.16])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 0175D60BDF;
-        Wed, 29 May 2019 00:43:55 +0000 (UTC)
-Date:   Tue, 28 May 2019 20:43:52 -0400
-From:   Richard Guy Briggs <rgb@redhat.com>
-To:     Steve Grubb <sgrubb@redhat.com>
-Cc:     Paul Moore <paul@paul-moore.com>, Dan Walsh <dwalsh@redhat.com>,
-        Neil Horman <nhorman@tuxdriver.com>,
-        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
-        Linux-Audit Mailing List <linux-audit@redhat.com>,
-        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
-        omosnace@redhat.com, dhowells@redhat.com, simo@redhat.com,
-        Eric Paris <eparis@parisplace.org>,
-        Serge Hallyn <serge@hallyn.com>, ebiederm@xmission.com,
-        Mrunal Patel <mpatel@redhat.com>
-Subject: Re: [PATCH ghak90 V6 00/10] audit: implement container identifier
-Message-ID: <20190529004352.vvicec7nnk6pvkwt@madcap2.tricolour.ca>
-References: <cover.1554732921.git.rgb@redhat.com>
- <509ea6b0-1ac8-b809-98c2-37c34dd98ca3@redhat.com>
- <CAHC9VhRW9f6GbhvvfifbOzd9p=PgdB2gq1E7tACcaqvfb85Y8A@mail.gmail.com>
- <3299293.RYyUlNkVNy@x2>
+        id S1726054AbfE2FjC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 29 May 2019 01:39:02 -0400
+Received: from mail-yb1-f195.google.com ([209.85.219.195]:45716 "EHLO
+        mail-yb1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725880AbfE2FjB (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 29 May 2019 01:39:01 -0400
+Received: by mail-yb1-f195.google.com with SMTP id e128so327076ybc.12;
+        Tue, 28 May 2019 22:39:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=vXawYOoYL3iVXFsDCoGpoazEsaewREIFtZ87X0NznBo=;
+        b=UOFBRy2khHWgEKicbD1a2E+aZAQGkNify5UGBgYZa3y+sdQzXJ3Yyi0HX5hO4Da8PQ
+         2APyB3WrMNTWjkYSDhODjmiUNivOY8ESI5ydrxy4WLkFlIjpbpE0YPS1xUYgn+8tg+Tz
+         +3cZtZRoTU9CwJ2Vt4N2xIpXHAqBvj8F9UDfT3DD+Fk6fX4xIvKyIco2JcWai3rc2nGp
+         poXBKSbQ4oJ8FsFlGv5Pv+xScvrn6QEJEAcQHlmV0Y0bIqmpZw8nOHRf2SG+GoFkotNf
+         RjpVGrsOGEXAnFqIgIiOlqEF0rhZ3D1gIMnocfEDPk0lW6h/lNhrAuBBRKBQhHMuv9Wu
+         T1CQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vXawYOoYL3iVXFsDCoGpoazEsaewREIFtZ87X0NznBo=;
+        b=dusDDpiTB6sQOPQ0jg8S/K3C/7NAVnJkBdx0ygZmMiSIVkkMPvSME6E4bxMtCFS9ir
+         J3UT8/4cSf1WnIIOl1BFEqHfUGlTX4oDmTkO42RyJ+TFrFpu4tzyFeNMA4Sv+C53aL2w
+         CLEomFpU5gSTKQrrSC5+jmrT9n43EFC9X6F6YlivO9Ts6Dknc2W9KhpfzFQ7EG5mL0yX
+         DOMBlD43sWEkhTDBktjGCIMP3x1jGX9081oxjl8catjNAXwsh8I30tGsKr4chIx87Jz8
+         VkHBTX/+k7UBdJOd/k0/iFOfabpaLbxqokIBz/hQ6qwDbbKpRsouDUgSQ5rkAJkygTF0
+         Q8Cg==
+X-Gm-Message-State: APjAAAWog2cToNaA899H1orSWdBiCyq1IkLPGsfQqXaAIfOG9SRgXg3a
+        19rzQkeNLfzDg8yuVCrY50NvOIl2gQuM/B3DIoY=
+X-Google-Smtp-Source: APXvYqxedQWc5ndnnoOxgtJO+TWkV1HPjz/HUq1qcE4fouHr3mtFf6yvJ3r27cgAVJe+Bai7FhvdiKsNYVjx8IGuwXs=
+X-Received: by 2002:a25:d946:: with SMTP id q67mr3637755ybg.126.1559108340796;
+ Tue, 28 May 2019 22:39:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3299293.RYyUlNkVNy@x2>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.25]); Wed, 29 May 2019 00:44:08 +0000 (UTC)
+References: <20190527172655.9287-1-amir73il@gmail.com> <20190528202659.GA12412@mit.edu>
+In-Reply-To: <20190528202659.GA12412@mit.edu>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Wed, 29 May 2019 08:38:49 +0300
+Message-ID: <CAOQ4uxgo5jmwQbLAKQre9=7pLQw=CwMgDaWPaJxi-5NGnPEVPQ@mail.gmail.com>
+Subject: Re: [RFC][PATCH] link.2: AT_ATOMIC_DATA and AT_ATOMIC_METADATA
+To:     "Theodore Ts'o" <tytso@mit.edu>
+Cc:     Jan Kara <jack@suse.cz>,
+        "Darrick J . Wong" <darrick.wong@oracle.com>,
+        Dave Chinner <david@fromorbit.com>, Chris Mason <clm@fb.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-xfs <linux-xfs@vger.kernel.org>,
+        Ext4 <linux-ext4@vger.kernel.org>,
+        Linux Btrfs <linux-btrfs@vger.kernel.org>,
+        linux-api@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2019-05-28 19:00, Steve Grubb wrote:
-> On Tuesday, May 28, 2019 6:26:47 PM EDT Paul Moore wrote:
-> > On Tue, May 28, 2019 at 5:54 PM Daniel Walsh <dwalsh@redhat.com> wrote:
-> > > On 4/22/19 9:49 AM, Paul Moore wrote:
-> > > > On Mon, Apr 22, 2019 at 7:38 AM Neil Horman <nhorman@tuxdriver.com> 
-> wrote:
-> > > >> On Mon, Apr 08, 2019 at 11:39:07PM -0400, Richard Guy Briggs wrote:
-> > > >>> Implement kernel audit container identifier.
-> > > >> 
-> > > >> I'm sorry, I've lost track of this, where have we landed on it? Are we
-> > > >> good for inclusion?
-> > > > 
-> > > > I haven't finished going through this latest revision, but unless
-> > > > Richard made any significant changes outside of the feedback from the
-> > > > v5 patchset I'm guessing we are "close".
-> > > > 
-> > > > Based on discussions Richard and I had some time ago, I have always
-> > > > envisioned the plan as being get the kernel patchset, tests, docs
-> > > > ready (which Richard has been doing) and then run the actual
-> > > > implemented API by the userland container folks, e.g. cri-o/lxc/etc.,
-> > > > to make sure the actual implementation is sane from their perspective.
-> > > > They've already seen the design, so I'm not expecting any real
-> > > > surprises here, but sometimes opinions change when they have actual
-> > > > code in front of them to play with and review.
-> > > > 
-> > > > Beyond that, while the cri-o/lxc/etc. folks are looking it over,
-> > > > whatever additional testing we can do would be a big win.  I'm
-> > > > thinking I'll pull it into a separate branch in the audit tree
-> > > > (audit/working-container ?) and include that in my secnext kernels
-> > > > that I build/test on a regular basis; this is also a handy way to keep
-> > > > it based against the current audit/next branch.  If any changes are
-> > > > needed Richard can either chose to base those changes on audit/next or
-> > > > the separate audit container ID branch; that's up to him.  I've done
-> > > > this with other big changes in other trees, e.g. SELinux, and it has
-> > > > worked well to get some extra testing in and keep the patchset "merge
-> > > > ready" while others outside the subsystem look things over.
-> > > 
-> > > Mrunal Patel (maintainer of CRI-O) and I have reviewed the API, and
-> > > believe this is something we can work on in the container runtimes team
-> > > to implement the container auditing code in CRI-O and Podman.
-> > 
-> > Thanks Dan.  If I pulled this into a branch and built you some test
-> > kernels to play with, any idea how long it might take to get a proof
-> > of concept working on the cri-o side?
-> 
-> We'd need to merge user space patches and let them use that instead of the 
-> raw interface. I'm not going to merge user space until we are pretty sure the 
-> patch is going into the kernel.
+On Tue, May 28, 2019 at 11:27 PM Theodore Ts'o <tytso@mit.edu> wrote:
+>
+> On Mon, May 27, 2019 at 08:26:55PM +0300, Amir Goldstein wrote:
+> >
+> > Following our discussions on LSF/MM and beyond [1][2], here is
+> > an RFC documentation patch.
+> >
+> > Ted, I know we discussed limiting the API for linking an O_TMPFILE
+> > to avert the hardlinks issue, but I decided it would be better to
+> > document the hardlinks non-guaranty instead. This will allow me to
+> > replicate the same semantics and documentation to renameat(2).
+> > Let me know how that works out for you.
+> >
+> > I also decided to try out two separate flags for data and metadata.
+> > I do not find any of those flags very useful without the other, but
+> > documenting them seprately was easier, because of the fsync/fdatasync
+> > reference.  In the end, we are trying to solve a social engineering
+> > problem, so this is the least confusing way I could think of to describe
+> > the new API.
+>
+> The way you have stated thigs is very confusing, and prone to be
+> misunderstood.  I think it would be helpful to state things in the
+> positive, instead of the negative.
+>
+> Let's review what you had wanted:
+>
+>         *If* the filename is visible in the directory after the crash,
+>         *then* all of the metadata/data that had been written to the file
+>         before the linkat(2) would be visible.
+>
+>         HOWEVER, you did not want to necessarily force an fsync(2) in
+>         order to provide that guarantee.  That is, the filename would
+>         not necessarily be guaranteed to be visible after a crash when
+>         linkat(2) returns, but if the existence of the filename is
+>         persisted, then the data would be too.
+>
+>         Also, at least initially we talked about this only making
+>         sense for O_TMPFILE file desacriptors.  I believe you were
+>         trying to generalize things so it wouldn't necessarily have to
+>         be a file created using O_TMPFILE.  Is that correct?
 
-I have an f29 test rpm of the userspace bits if that helps for testing:
-	http://people.redhat.com/~rbriggs/ghak90/git-1db7e21/
+That is correct. I felt we were limiting ourselves only to avert the
+hardlinks issue, so decided its better to explain that "nlink is not
+part of the inode metadata" that this guarantee refers to.
+I would be happy to get your feedback about the hardlink disclaimer
+since you brought up the concern. It the disclaimer enough?
+Not needed at all?
 
-Here's what it contains (minus the last patch):
-	https://github.com/linux-audit/audit-userspace/compare/master...rgbriggs:ghau40-containerid-filter.v7.0
+>
+> So instead of saying "A filesystem that accepts this flag will
+> guaranty, that old inode data will not be exposed in the new linked
+> name."  It's much clearer to state this in the affirmative:
+>
+>         A filesystem which accepts this flag will guarantee that if
+>         the new pathname exists after a crash, all of the data written
+>         to the file at the time of the linkat(2) call will be visible.
+>
 
-> -Steve
-> 
-> > FWIW, I've also reached out to some of the LXC folks I know to get
-> > their take on the API.  I think if we can get two different container
-> > runtimes to give the API a thumbs-up then I think we are in good shape
-> > with respect to the userspace interface.
-> > 
-> > I just finished looking over the last of the pending audit kernel
-> > patches that were queued waiting for the merge window to open so this
-> > is next on my list to look at.  I plan to start doing that
-> > tonight/tomorrow, and as long as the changes between v5/v6 are not
-> > that big, it shouldn't take too long.
+Sounds good to me. I will take a swing at another patch.
 
-- RGB
-
---
-Richard Guy Briggs <rgb@redhat.com>
-Sr. S/W Engineer, Kernel Security, Base Operating Systems
-Remote, Ottawa, Red Hat Canada
-IRC: rgb, SunRaycer
-Voice: +1.647.777.2635, Internal: (81) 32635
+Thanks for the review!
+Amir.
