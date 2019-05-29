@@ -2,50 +2,50 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CE2922D69E
-	for <lists+linux-api@lfdr.de>; Wed, 29 May 2019 09:43:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B34B82D71A
+	for <lists+linux-api@lfdr.de>; Wed, 29 May 2019 09:55:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726685AbfE2HnB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 29 May 2019 03:43:01 -0400
-Received: from mail-it1-f196.google.com ([209.85.166.196]:38286 "EHLO
-        mail-it1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726418AbfE2HnB (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 29 May 2019 03:43:01 -0400
-Received: by mail-it1-f196.google.com with SMTP id i63so2012323ita.3
-        for <linux-api@vger.kernel.org>; Wed, 29 May 2019 00:43:00 -0700 (PDT)
+        id S1726547AbfE2Hzu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 29 May 2019 03:55:50 -0400
+Received: from mail-it1-f195.google.com ([209.85.166.195]:39382 "EHLO
+        mail-it1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726139AbfE2Hzu (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 29 May 2019 03:55:50 -0400
+Received: by mail-it1-f195.google.com with SMTP id 9so2055078itf.4
+        for <linux-api@vger.kernel.org>; Wed, 29 May 2019 00:55:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=szeredi.hu; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=hqFyk47sSJVRHLsfxDt9uxstj8u1M1gZeotStw/KYzw=;
-        b=id5wu9BvoNG48+Ck6s8h94PZq86QUHxdJHUYxEOU8jSAxFsa+1A4HOIk2KNNGCHNYc
-         OwBytSNRzvO8aYb8lITay3X7zkUGradhD9vfX1R53KWAnrSkr37AzcJ0yZUZVC+Trdhy
-         bprSeX3NyZpk8vHx5k5/l7d+PI9MlT+Ld0xEg=
+        bh=op4791qBHMjDCQdV9txK9mbzIX+WhgzeovFSwUXqaFQ=;
+        b=YbZYex+MkYR9h819JTNbMfn9OoTfQc0WfMl0pIniSUlyhGceEB4vQ8StrtFyuiAy4w
+         V/rdXa8qsaNoWL4xwbh2GBDzhIEKxgBZMsNRyZjGgmPoBJPWEYu2f0YjJis9SSPtC26W
+         UD998MyvHLyBc5OYtLE92jxNIzzt5APPCEtC8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=hqFyk47sSJVRHLsfxDt9uxstj8u1M1gZeotStw/KYzw=;
-        b=Ea1fH0S+qd/xt2M6ai8buxGQ8a/+JFSwhae7/FWnu/DfUAZSEhvY8i+xqH1iWN77Dp
-         dhUr/7t3KkpBjNChD5hTXq0DBUsqJrWKKbcIwsuUUM98AJseFEDaTKGFSLHN0Q0v7Jnu
-         PDW9PbuPMu88y0ZjODtsuTv4P0UFgD6yjwp1coVZXMrnPmoXH+dzJZcHfQ6z8T5JZVVi
-         pXzKk0uNY5W0KrcGXZBIGnIwgJTVt8HXGZpIo9JkkXhnqeljCcq6IBWUvpgKRN6FN1R+
-         HaBeF7MK8+JcRT12tNUCP0utESylMr/MBYjJKiyYtW393rDgX7pjCnnPlia9QTJBIJ+B
-         waig==
-X-Gm-Message-State: APjAAAWM7IorV43WHiPeOHs2NJ1p/H8cXLLaa/O27C/L2bcH0Ed5POY/
-        rv3R8vwWmsqvNNIu5jGbV7MH84/d5RX68MGhRpZVSC+X
-X-Google-Smtp-Source: APXvYqwAlJ+88fBjLtyGuaqudPy4+GEXvEcXAfTVL7Bhrhnm6RhxFQ9ymvOB6HhajvGltquJ5SQcGvLqHvz3kY11lns=
-X-Received: by 2002:a24:2846:: with SMTP id h67mr6510467ith.94.1559115780417;
- Wed, 29 May 2019 00:43:00 -0700 (PDT)
+        bh=op4791qBHMjDCQdV9txK9mbzIX+WhgzeovFSwUXqaFQ=;
+        b=lq23Nx/0X3oIH0e8KSZn5N0/C75GecDIPXe+IL3X5pdifKf3MWFwgTcoGHrCbui1tW
+         gaL7qQN6Ay4dVanIhn3SFx9ffuuPJdIrVMrFQHPi4bg/lPiS0IXeLbv5ApkhOJ+cbJua
+         Mjk7y1dvL6zbhHYI/CrgBaMBoowGod0TZHnVWS4sqy+NIxGP+G7buTSA2ZYD6/AEVdp5
+         04pt3xdMslu+HtRCUbfr3vY/Y9UYmmcGMGi+Maw+E+qhkZFzQl+s7KDHMy/F0T9U7tRT
+         SiF9r/kFi8VMgjHKOQ/dfXHN5Y/ObYwQuVeTubdnRNe5EZFsX0dYJADBLGcR2CdJqPUa
+         sClA==
+X-Gm-Message-State: APjAAAVzlWkQyaA7aS+Tp3gqVtMSHkbJlHCP7PmaKv8NsB+P29RmjPGr
+        uvVuMphqSjf2baNRFTUhiq3rbiQKA95dMqKD1eEvRw==
+X-Google-Smtp-Source: APXvYqy/whcusTY4hHDoC4X+OnP9aaNKf6KjmFpD6uW6iIEpnRrUQmEJ77wekoH11aNFI99khObtXhKqxO04kVXVSD0=
+X-Received: by 2002:a24:4dd4:: with SMTP id l203mr6105131itb.118.1559116549227;
+ Wed, 29 May 2019 00:55:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <155905626142.1662.18430571708534506785.stgit@warthog.procyon.org.uk>
- <155905627049.1662.17033721577309385838.stgit@warthog.procyon.org.uk>
-In-Reply-To: <155905627049.1662.17033721577309385838.stgit@warthog.procyon.org.uk>
+References: <155905621951.1304.5956310120238620025.stgit@warthog.procyon.org.uk>
+ <155905622921.1304.8775688192987027250.stgit@warthog.procyon.org.uk>
+In-Reply-To: <155905622921.1304.8775688192987027250.stgit@warthog.procyon.org.uk>
 From:   Miklos Szeredi <miklos@szeredi.hu>
-Date:   Wed, 29 May 2019 09:42:49 +0200
-Message-ID: <CAJfpegtkpNNOOWQ3TnLPGSm=bwL2otQp1--GjNNFiXO7imMxEQ@mail.gmail.com>
-Subject: Re: [PATCH 01/25] vfs: syscall: Add fsinfo() to query filesystem
- information [ver #13]
+Date:   Wed, 29 May 2019 09:55:38 +0200
+Message-ID: <CAJfpeguPTQ00zVjpwVQ4R8mEqE3aijCzNMAz6Wvr56xE-jfJag@mail.gmail.com>
+Subject: Re: [PATCH 1/7] General notification queue with user mmap()'able ring
+ buffer [ver #13]
 To:     David Howells <dhowells@redhat.com>
 Cc:     Al Viro <viro@zeniv.linux.org.uk>, Ian Kent <raven@themaw.net>,
         Linux API <linux-api@vger.kernel.org>,
@@ -57,36 +57,32 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, May 28, 2019 at 5:11 PM David Howells <dhowells@redhat.com> wrote:
+On Tue, May 28, 2019 at 5:10 PM David Howells <dhowells@redhat.com> wrote:
 >
-> Add a system call to allow filesystem information to be queried.  A request
-> value can be given to indicate the desired attribute.  Support is provided
-> for enumerating multi-value attributes.
+> Implement a misc device that implements a general notification queue as a
+> ring buffer that can be mmap()'d from userspace.
 >
+> The way this is done is:
+>
+>  (1) An application opens the device and indicates the size of the ring
+>      buffer that it wants to reserve in pages (this can only be set once):
+>
+>         fd = open("/dev/watch_queue", O_RDWR);
+>         ioctl(fd, IOC_WATCH_QUEUE_NR_PAGES, nr_of_pages);
+>
+>  (2) The application should then map the pages that the device has
+>      reserved.  Each instance of the device created by open() allocates
+>      separate pages so that maps of different fds don't interfere with one
+>      another.  Multiple mmap() calls on the same fd, however, will all work
+>      together.
+>
+>         page_size = sysconf(_SC_PAGESIZE);
+>         mapping_size = nr_of_pages * page_size;
+>         char *buf = mmap(NULL, mapping_size, PROT_READ|PROT_WRITE,
+>                          MAP_SHARED, fd, 0);
 
-[...]
-
-> +static u32 calc_sb_flags(u32 s_flags)
-> +{
-> +       u32 flags = 0;
-> +
-> +       if (s_flags & SB_RDONLY)        flags |= MS_RDONLY;
-> +       if (s_flags & SB_SYNCHRONOUS)   flags |= MS_SYNCHRONOUS;
-> +       if (s_flags & SB_MANDLOCK)      flags |= MS_MANDLOCK;
-> +       if (s_flags & SB_DIRSYNC)       flags |= MS_DIRSYNC;
-> +       if (s_flags & SB_SILENT)        flags |= MS_SILENT;
-> +       if (s_flags & SB_POSIXACL)      flags |= MS_POSIXACL;
-> +       if (s_flags & SB_LAZYTIME)      flags |= MS_LAZYTIME;
-> +       if (s_flags & SB_I_VERSION)     flags |= MS_I_VERSION;
-
-Please don't resurrect MS_ flags.  They are from the old API and
-shouldn't be used in the new one.  Some of them (e.g. MS_POSIXACL,
-MS_I_VERSION) are actually internal flags despite being exported on
-the old API.  And there's SB_SILENT which is simply not a superblock
-flag and we might be better getting rid of it entirely.
-
-The proper way to query mount options should be analogous to the way
-they are set on the new API: list of {key, type, value, aux} tuples.
+Would it make sense to use relayfs for the implementation of the
+mapped ring buffer?
 
 Thanks,
 Miklos
