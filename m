@@ -2,133 +2,145 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 43A8B2E0F5
-	for <lists+linux-api@lfdr.de>; Wed, 29 May 2019 17:23:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD14D2E10C
+	for <lists+linux-api@lfdr.de>; Wed, 29 May 2019 17:29:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726112AbfE2PXS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 29 May 2019 11:23:18 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:34319 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726097AbfE2PXQ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 29 May 2019 11:23:16 -0400
-Received: by mail-wr1-f68.google.com with SMTP id f8so2118159wrt.1
-        for <linux-api@vger.kernel.org>; Wed, 29 May 2019 08:23:15 -0700 (PDT)
+        id S1726240AbfE2P3T (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 29 May 2019 11:29:19 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:45427 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726097AbfE2P3T (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 29 May 2019 11:29:19 -0400
+Received: by mail-lj1-f196.google.com with SMTP id r76so2871303lja.12
+        for <linux-api@vger.kernel.org>; Wed, 29 May 2019 08:29:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brauner.io; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=sEU/6jo/VWdUWlOyGNZQKsa0Hbh5Kew23C4AwHcHeOY=;
-        b=cxf6FGCWzQXEk7cUsYBGphB6EHup1dBk3Ti5WgycwzrZ4P2SvoS1IFsZhZalAfXbeb
-         DTmGlc6SreSP3V68maP1P2GHr4vl3fiR68a7LYtsGu99ifzbTtENj5V4f87/3TSUh0zH
-         BjQ3s+0X9oYoMpo/iElk2U7WXBueVT4LAGy2LUil3ygMCFwvm7vA8Ug+ezui0l313mlZ
-         CeTSqvkBuGMeLXo9QwhmUh3hVJdkN/XQ4lwQ2xhxg8kYlXWzFRsyTjgIpwAvB9ZfkIO7
-         +TokJsJiTVObhuUShGqw4ehFOq0Z80X1iuMzgydyJIGClxFNn8bllXXo8UNsrH7IrcRa
-         Lb9g==
+        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=zGaoYWpZqQThaCeamoLFUvuaep53rUnIcLcyCp5w/vg=;
+        b=K16i45JTnOhNMfVGcEM3dEc/HE4jxUF98k+I1d4LAg3DOuRJvQylZri7olnMGkge0H
+         4u/1DHCKb96WcllkEwg/MgRcL7L1CCWB/hO2xL6zPqW540FOdvpqq8ULGBnZRtoyr3fP
+         /dGrfil607dUvRtiW7bu8V4ywrGKbWRLqU6mf6azB7C8mCUui5dBAoSANEn7un7OuRYk
+         IqepsvKsbnqV/1oKEERjHclI3LARwVOrafGfm/8g8m245GMvIADoi+bQuHeE9itYkX84
+         p6l1akwBNRSzQLd+wftooHrEfiVN9zwWBxGF+rHhkqPeWkDXyPffgp3T4WNSYiCr0lTu
+         +NzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=sEU/6jo/VWdUWlOyGNZQKsa0Hbh5Kew23C4AwHcHeOY=;
-        b=B4nH2KoVbSo3n7NMVSaIQiSPKotcn9IW1AV8YC5KCEZVcrGOG/k6kD5FoD6c3+IBSv
-         7FDwplWFufp9SvyJzatqwrL5L3jCoGnVnVAywsZNraVY7iAJmMdU2JlghsCRuVZVIQ8Q
-         E036N4PZVJf7HxzZhE+A7LKM3SOHUlMGHo4RvXfenDxMV3dAuKsT4oRVrlwkl5JWJz34
-         oDPXiUXsG1dQstVo3gg2/fKn/Nlh2AIysNNqo3OZJLuo36YqJMf94+9FEJTtOuB/PPx+
-         aMzOidmlazIk1Lhazr2PCSqrW2Ix1u7IdTYfQ90aNh1dOJ0vk8lD5rah2WCkla+zonq0
-         cF+w==
-X-Gm-Message-State: APjAAAXr0QHtmXqPJLFO1Ubv63XDzcdpG9wA7Q3QQzV6sku4olCx7FPD
-        gPshLLXonu3g8/UYa8qV/1MpDg==
-X-Google-Smtp-Source: APXvYqxqllal3eetCSSRngpIJj59zjpZSbbwaoTCO52UECzlz0mHSLjA0ealsaerNmAcnYfH9/PH3A==
-X-Received: by 2002:adf:ea51:: with SMTP id j17mr3797515wrn.159.1559143394433;
-        Wed, 29 May 2019 08:23:14 -0700 (PDT)
-Received: from localhost.localdomain ([212.91.227.56])
-        by smtp.gmail.com with ESMTPSA id x68sm7874865wmf.13.2019.05.29.08.23.13
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 29 May 2019 08:23:13 -0700 (PDT)
-From:   Christian Brauner <christian@brauner.io>
-To:     viro@zeniv.linux.org.uk, linux-kernel@vger.kernel.org,
-        torvalds@linux-foundation.org, jannh@google.com
-Cc:     fweimer@redhat.com, oleg@redhat.com, arnd@arndb.de,
-        dhowells@redhat.com, Christian Brauner <christian@brauner.io>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Adrian Reber <adrian@lisas.de>, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, x86@kernel.org
-Subject: [PATCH v1 2/2] arch: wire-up clone3() syscall on x86
-Date:   Wed, 29 May 2019 17:22:37 +0200
-Message-Id: <20190529152237.10719-2-christian@brauner.io>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190529152237.10719-1-christian@brauner.io>
-References: <20190529152237.10719-1-christian@brauner.io>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zGaoYWpZqQThaCeamoLFUvuaep53rUnIcLcyCp5w/vg=;
+        b=s4jfA8e456WwuSvWdRbGkdxsOP4RVkH7w0kyDl9PEfNUWdlttKaALuwIYXWzNNdaK9
+         aZGbhgLhhleVNDGhXj8wvV93FJ5izTWRYfiHno1Qp+5Uhb6Pt86YW/JpkWcRlfcWebR4
+         H8rEhR3l8ERVWKZuxhURymPrLP9yz6kuSeWoSKWt6gW/5jbOsfBeNgghhxrRN4G12Cwm
+         KPqYWNHny6TUkOCiFJluyYNgHtfNfLAT8+rPfcEGDWdxDMEQ7ZTv/W6qlg75fztC1wnC
+         7LpCOM/ox4YGsS2yP3AcB+fzGzfi8W/dAUF6niYlMnBvJ+XQ2DImc90F6g+Aq/zRBr+D
+         zMSg==
+X-Gm-Message-State: APjAAAU6ToY2LjEFAxfHb2yMS84NE0TxBuPrhCdX2sTS/B90TTaNjtcL
+        3Gh8iWnqECYMZ+jrc/YYLEY8XsqM0lKAuSmL0hxbZAA=
+X-Google-Smtp-Source: APXvYqzA1he5CqqTYdGxCaEGH42J2+OT0TC3I1+seVKjcqbN4107AbF/Fb/yxBclhcMIQ95Q2dNrHCvd5kXZOEP8NA8=
+X-Received: by 2002:a2e:92cc:: with SMTP id k12mr2501807ljh.16.1559143756865;
+ Wed, 29 May 2019 08:29:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1554732921.git.rgb@redhat.com> <9edad39c40671fb53f28d76862304cc2647029c6.1554732921.git.rgb@redhat.com>
+ <20190529145742.GA8959@cisco>
+In-Reply-To: <20190529145742.GA8959@cisco>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Wed, 29 May 2019 11:29:05 -0400
+Message-ID: <CAHC9VhR4fudQanvZGYWMvCf7k2CU3q7e7n1Pi7hzC3v_zpVEdw@mail.gmail.com>
+Subject: Re: [PATCH ghak90 V6 02/10] audit: add container id
+To:     Tycho Andersen <tycho@tycho.ws>
+Cc:     Richard Guy Briggs <rgb@redhat.com>,
+        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
+        Linux-Audit Mailing List <linux-audit@redhat.com>,
+        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
+        sgrubb@redhat.com, omosnace@redhat.com, dhowells@redhat.com,
+        simo@redhat.com, Eric Paris <eparis@parisplace.org>,
+        Serge Hallyn <serge@hallyn.com>, ebiederm@xmission.com,
+        nhorman@tuxdriver.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Wire up the clone3() call on x86.
+On Wed, May 29, 2019 at 10:57 AM Tycho Andersen <tycho@tycho.ws> wrote:
+>
+> On Mon, Apr 08, 2019 at 11:39:09PM -0400, Richard Guy Briggs wrote:
+> > It is not permitted to unset the audit container identifier.
+> > A child inherits its parent's audit container identifier.
+>
+> ...
+>
+> >  /**
+> > + * audit_set_contid - set current task's audit contid
+> > + * @contid: contid value
+> > + *
+> > + * Returns 0 on success, -EPERM on permission failure.
+> > + *
+> > + * Called (set) from fs/proc/base.c::proc_contid_write().
+> > + */
+> > +int audit_set_contid(struct task_struct *task, u64 contid)
+> > +{
+> > +     u64 oldcontid;
+> > +     int rc = 0;
+> > +     struct audit_buffer *ab;
+> > +     uid_t uid;
+> > +     struct tty_struct *tty;
+> > +     char comm[sizeof(current->comm)];
+> > +
+> > +     task_lock(task);
+> > +     /* Can't set if audit disabled */
+> > +     if (!task->audit) {
+> > +             task_unlock(task);
+> > +             return -ENOPROTOOPT;
+> > +     }
+> > +     oldcontid = audit_get_contid(task);
+> > +     read_lock(&tasklist_lock);
+> > +     /* Don't allow the audit containerid to be unset */
+> > +     if (!audit_contid_valid(contid))
+> > +             rc = -EINVAL;
+> > +     /* if we don't have caps, reject */
+> > +     else if (!capable(CAP_AUDIT_CONTROL))
+> > +             rc = -EPERM;
+> > +     /* if task has children or is not single-threaded, deny */
+> > +     else if (!list_empty(&task->children))
+> > +             rc = -EBUSY;
+> > +     else if (!(thread_group_leader(task) && thread_group_empty(task)))
+> > +             rc = -EALREADY;
+> > +     read_unlock(&tasklist_lock);
+> > +     if (!rc)
+> > +             task->audit->contid = contid;
+> > +     task_unlock(task);
+> > +
+> > +     if (!audit_enabled)
+> > +             return rc;
+>
+> ...but it is allowed to change it (assuming
+> capable(CAP_AUDIT_CONTROL), of course)? Seems like this might be more
+> immediately useful since we still live in the world of majority
+> privileged containers if we didn't allow changing it, in addition to
+> un-setting it.
 
-This patch only wires up clone3() on x86. Some of the arches look like they
-need special assembly massaging and it is probably smarter if the
-appropriate arch maintainers would do the actual wiring.
+The idea is that only container orchestrators should be able to
+set/modify the audit container ID, and since setting the audit
+container ID can have a significant effect on the records captured
+(and their routing to multiple daemons when we get there) modifying
+the audit container ID is akin to modifying the audit configuration
+which is why it is gated by CAP_AUDIT_CONTROL.  The current thinking
+is that you would only change the audit container ID from one
+set/inherited value to another if you were nesting containers, in
+which case the nested container orchestrator would need to be granted
+CAP_AUDIT_CONTROL (which everyone to date seems to agree is a workable
+compromise).  We did consider allowing for a chain of nested audit
+container IDs, but the implications of doing so are significant
+(implementation mess, runtime cost, etc.) so we are leaving that out
+of this effort.
 
-Signed-off-by: Christian Brauner <christian@brauner.io>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: David Howells <dhowells@redhat.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Oleg Nesterov <oleg@redhat.com>
-Cc: Adrian Reber <adrian@lisas.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Florian Weimer <fweimer@redhat.com>
-Cc: linux-api@vger.kernel.org
-Cc: linux-arch@vger.kernel.org
-Cc: x86@kernel.org
----
-v1: unchanged
----
- arch/x86/entry/syscalls/syscall_32.tbl | 1 +
- arch/x86/entry/syscalls/syscall_64.tbl | 1 +
- include/uapi/asm-generic/unistd.h      | 4 +++-
- 3 files changed, 5 insertions(+), 1 deletion(-)
+From a practical perspective, un-setting the audit container ID is
+pretty much the same as changing it from one set value to another so
+most of the above applies to that case as well.
 
-diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
-index ad968b7bac72..80e26211feff 100644
---- a/arch/x86/entry/syscalls/syscall_32.tbl
-+++ b/arch/x86/entry/syscalls/syscall_32.tbl
-@@ -438,3 +438,4 @@
- 431	i386	fsconfig		sys_fsconfig			__ia32_sys_fsconfig
- 432	i386	fsmount			sys_fsmount			__ia32_sys_fsmount
- 433	i386	fspick			sys_fspick			__ia32_sys_fspick
-+436	i386	clone3			sys_clone3			__ia32_sys_clone3
-diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
-index b4e6f9e6204a..7968f0b5b5e8 100644
---- a/arch/x86/entry/syscalls/syscall_64.tbl
-+++ b/arch/x86/entry/syscalls/syscall_64.tbl
-@@ -355,6 +355,7 @@
- 431	common	fsconfig		__x64_sys_fsconfig
- 432	common	fsmount			__x64_sys_fsmount
- 433	common	fspick			__x64_sys_fspick
-+436	common	clone3			__x64_sys_clone3/ptregs
- 
- #
- # x32-specific system call numbers start at 512 to avoid cache impact
-diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
-index a87904daf103..45bc87687c47 100644
---- a/include/uapi/asm-generic/unistd.h
-+++ b/include/uapi/asm-generic/unistd.h
-@@ -844,9 +844,11 @@ __SYSCALL(__NR_fsconfig, sys_fsconfig)
- __SYSCALL(__NR_fsmount, sys_fsmount)
- #define __NR_fspick 433
- __SYSCALL(__NR_fspick, sys_fspick)
-+#define __NR_clone3 436
-+__SYSCALL(__NR_clone3, sys_clone3)
- 
- #undef __NR_syscalls
--#define __NR_syscalls 434
-+#define __NR_syscalls 437
- 
- /*
-  * 32 bit systems traditionally used different
 -- 
-2.21.0
-
+paul moore
+www.paul-moore.com
