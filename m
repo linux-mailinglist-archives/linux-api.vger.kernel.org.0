@@ -2,112 +2,102 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0043B2E214
-	for <lists+linux-api@lfdr.de>; Wed, 29 May 2019 18:12:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AA1492E22C
+	for <lists+linux-api@lfdr.de>; Wed, 29 May 2019 18:20:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727202AbfE2QMq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 29 May 2019 12:12:46 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:41128 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727209AbfE2QMq (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 29 May 2019 12:12:46 -0400
-Received: by mail-ot1-f67.google.com with SMTP id l25so2580769otp.8
-        for <linux-api@vger.kernel.org>; Wed, 29 May 2019 09:12:46 -0700 (PDT)
+        id S1726858AbfE2QUj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 29 May 2019 12:20:39 -0400
+Received: from mail-yw1-f68.google.com ([209.85.161.68]:42244 "EHLO
+        mail-yw1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726162AbfE2QUi (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 29 May 2019 12:20:38 -0400
+Received: by mail-yw1-f68.google.com with SMTP id s5so1302966ywd.9;
+        Wed, 29 May 2019 09:20:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=1dA5y3r0aKOO17C44t4tmXUXlp1J2scPYhjFw2NUwAY=;
-        b=f2+LkvmJQcoBptCBm246fDUwbMG6hdJdrT0vD4h0TvX/VMamWpYyvvexR9WXdTf6GN
-         a6ndExHvujI200GIB17qHDR5BRqnNQAso0RemsqKAi9lJyGCtqCI2L/Xiq6y+2qoP8uS
-         X2itQ+NkIkTjLv0mEem5m+uz4MCQeXIAN1gYQwIu9J2V9m6Q51c48uvrxu4HUmp43XeJ
-         OtO0k1rezsyZvoKR2+c8omaqFkJwe1VDzKCVoRlCv14hXE85n5c+4wxlaawpMFBHUfLv
-         sZ2i3sT6G5ebk20iTs9m19hqG+D4/Npi87/mxK0+2ohPzpdxVR4pPWvJg/HBrqlBaufe
-         0eFQ==
+        bh=qgWFwBbqc/TIeFx+G72gp5eLEUxfA2pK5OKuDEowGKc=;
+        b=jQSFEpXtckdK15GU+zOhWiGnSetf0KAzWuZb58/zupTyFnbmFnkOKY/iSToYuQyN5L
+         MkI6aVdlMmOcfKlg9ISJwKI+z1ZDwj3q5XuMNWjHeIXgiskwej8PInH6I/oXzzsCBq0X
+         QbUBwy1a+RM+qyUmZ3+hCoLNYZVgX+YehA8iiDIrxLJdqHnITrrPL3YC/9ZjncB+SoBO
+         Nk6bungjzgZ15oeBYTgVV/FQhatnWgz1WrbbG7rU6pRlMWg7bIMhim8quPwHVPp4GVxW
+         9qzJHOnagZq48iB2ZR7WXJ1NaV6qWYsbq4NZfDfLWONADgwARn6tkDmxfZLQCSgbrmFg
+         Zt2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=1dA5y3r0aKOO17C44t4tmXUXlp1J2scPYhjFw2NUwAY=;
-        b=TxfvNfQR2b1puuNBgyDyK7KC6UPH6/e6XHS6umaD5JkcjuJ5aCgYuhB1GMnhlU4p+g
-         kgh2Q2q+dVxIlfO4fVM+Ai6PSHxdXdB1zcRMNclnvlmGJAY1lubK+1YrW+/O1Ku1DXXZ
-         sD1X0YDL52DqIiZatEIHNKG4SXSmKgqihG9ljlOPMCdmA2h8Pn4M1vZadnu0o/aylTwb
-         XgmdbodJtYqy6n7je6DJY217xNrKMYeCpg83quMxxqBYnN23tZKOEtKkL5WjdNzVPnwq
-         PkJ6qOrMJP2OK244Dm3RVLW64Iy+EGxCwtPuN2+OHkHE6dM1fyUhfhJruGsnP7/G2saP
-         Hnzg==
-X-Gm-Message-State: APjAAAWaP+Nox6sZHGuxmOnOnI4kJq9Kt/8csXfGhpx/DXEq/BbDZW98
-        FLUpremxrPIk3WWrY20NyNxuzy8FT9o2qPg/P+qvYg==
-X-Google-Smtp-Source: APXvYqwaOZla10Bof+mWLbbjMk94Ufa8TbjMKTZDaEYcqsOulha4oFcPoVi9fCgSIx16NNNOnT1R2rYebkMt9uJmErs=
-X-Received: by 2002:a9d:7347:: with SMTP id l7mr1571410otk.183.1559146365528;
- Wed, 29 May 2019 09:12:45 -0700 (PDT)
+        bh=qgWFwBbqc/TIeFx+G72gp5eLEUxfA2pK5OKuDEowGKc=;
+        b=Lqn2X94KepSJd87ksswKtyzwVgccWw7Y0ZkNyo27lHSc4qDB2nbwa65qxVzMtf9i8q
+         ui7cUCm70p1bXExouRJmbtf00MLwwaioZFeZoKzLL2aE5IstHZahK1Wv6wX+fZJy2d+/
+         o4XS4HUvlN3odpqUTrk9LWP6+rIeVXUIsg+tsIrRlO4uLUH2arlvVkUY13DHYaVjh5/p
+         wqSwf7gVuNDKz8e2k3o1Jrm0mQ/DPn8zL+mSCtS2vNzB6Y2Arr+Oa8Cu9Ajn1CvX3XYZ
+         bnrKqaVXecAtBdVLSjAlv38bSNYBf5Qzq8m7IKiam2vmxewV/EBt9XHmOwRePRm45OxU
+         M+yg==
+X-Gm-Message-State: APjAAAVNgpmDxwzXkWdrPY/LzDATgpDEsiD+vqLNlipNWCRMthJIyfT1
+        eOanGB7BEiTCmkK/VGdZogsK7WcL1F4aDpWiiy0=
+X-Google-Smtp-Source: APXvYqzzgbRrTpnULwe/IoxAzcoJVne1h/bBy2qlyUlmguuG3+RHGMFZemo93QUU34JXx68hkctDvcHbDw8oHipDSVE=
+X-Received: by 2002:a81:3797:: with SMTP id e145mr53153276ywa.25.1559146832803;
+ Wed, 29 May 2019 09:20:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAG48ez2rRh2_Kq_EGJs5k-ZBNffGs_Q=vkQdinorBgo58tbGpg@mail.gmail.com>
- <155905930702.7587.7100265859075976147.stgit@warthog.procyon.org.uk>
- <155905933492.7587.6968545866041839538.stgit@warthog.procyon.org.uk>
- <14347.1559127657@warthog.procyon.org.uk> <312a138c-e5b2-4bfb-b50b-40c82c55773f@schaufler-ca.com>
-In-Reply-To: <312a138c-e5b2-4bfb-b50b-40c82c55773f@schaufler-ca.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Wed, 29 May 2019 18:12:19 +0200
-Message-ID: <CAG48ez2KMrTBFzO9p8GvduXruz+FNLPyhc2YivHePsgViEoT1g@mail.gmail.com>
-Subject: Re: [PATCH 3/7] vfs: Add a mount-notification facility
-To:     Casey Schaufler <casey@schaufler-ca.com>
-Cc:     David Howells <dhowells@redhat.com>,
-        Al Viro <viro@zeniv.linux.org.uk>, raven@themaw.net,
+References: <20190526061100.21761-1-amir73il@gmail.com> <20190526061100.21761-10-amir73il@gmail.com>
+ <20190528164844.GJ5221@magnolia>
+In-Reply-To: <20190528164844.GJ5221@magnolia>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Wed, 29 May 2019 19:20:21 +0300
+Message-ID: <CAOQ4uxiWxkmvtK6qX6T5cOAFeTb3Oo9xocG+yY24RaMftnJ2tQ@mail.gmail.com>
+Subject: Re: [PATCH v2 9/8] man-pages: copy_file_range updates
+To:     "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc:     Dave Chinner <david@fromorbit.com>, Christoph Hellwig <hch@lst.de>,
+        Olga Kornievskaia <olga.kornievskaia@gmail.com>,
+        Luis Henriques <lhenriques@suse.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-block@vger.kernel.org, keyrings@vger.kernel.org,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        Andy Lutomirski <luto@kernel.org>
+        linux-xfs <linux-xfs@vger.kernel.org>,
+        Linux NFS Mailing List <linux-nfs@vger.kernel.org>,
+        CIFS <linux-cifs@vger.kernel.org>, ceph-devel@vger.kernel.org,
+        linux-api@vger.kernel.org, Dave Chinner <dchinner@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, May 29, 2019 at 5:53 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
-> On 5/29/2019 4:00 AM, David Howells wrote:
-> > Jann Horn <jannh@google.com> wrote:
-> >
-> >>> +void post_mount_notification(struct mount *changed,
-> >>> +                            struct mount_notification *notify)
-> >>> +{
-> >>> +       const struct cred *cred = current_cred();
-> >> This current_cred() looks bogus to me. Can't mount topology changes
-> >> come from all sorts of places? For example, umount_mnt() from
-> >> umount_tree() from dissolve_on_fput() from __fput(), which could
-> >> happen pretty much anywhere depending on where the last reference gets
-> >> dropped?
-> > IIRC, that's what Casey argued is the right thing to do from a security PoV.
-> > Casey?
+> > +A major rework of the kernel implementation occurred in 5.3. Areas of the API
+> > +that weren't clearly defined were clarified and the API bounds are much more
+> > +strictly checked than on earlier kernels. Applications should target the
+> > +behaviour and requirements of 5.3 kernels.
 >
-> You need to identify the credential of the subject that triggered
-> the event. If it isn't current_cred(), the cred needs to be passed
-> in to post_mount_notification(), or derived by some other means.
+> Are there any weird cases where a program targetting 5.3 behavior would
+> fail or get stuck in an infinite loop on a 5.2 kernel?
+
+I don't think so. When Dave wrote this paragraph the behavior was changed
+from short copy to EINVAL. That would have been a problem to maintain
+old vs. new copy loops, but now the behavior  did not change in that respect.
+
 >
-> > Maybe I should pass in NULL creds in the case that an event is being generated
-> > because an object is being destroyed due to the last usage[*] being removed.
+> Particularly since glibc spat out a copy_file_range fallback for 2.29
+> that tries to emulate the kernel behavior 100%.  It even refuses
+> cross-filesystem copies (because hey, we documented that :() even though
+> that's perfectly fine for a userspace implementation.
 >
-> You should pass the cred of the process that removed the
-> last usage. If the last usage was removed by something like
-> the power being turned off on a disk drive a system cred
-> should be used. Someone or something caused the event. It can
-> be important who it was.
+> TBH I suspect that we ought to get the glibc developers to remove the
+> "no cross device copies" code from their implementation and then update
+> the manpage to say that cross device copies are supposed to be
+> supported all the time, at least as of glibc 2.(futureversion).
 
-The kernel's normal security model means that you should be able to
-e.g. accept FDs that random processes send you and perform
-read()/write() calls on them without acting as a subject in any
-security checks; let alone close(). If you send a file descriptor over
-a unix domain socket and the unix domain socket is garbage collected,
-for example, I think the close() will just come from some random,
-completely unrelated task that happens to trigger the garbage
-collector?
+I don't see a problem with copy_file_range() returning EXDEV.
+That is why I left EXDEV in the man page.
+Tools should know how to deal with EXDEV by now.
+If you are running on a new kernel, you get better likelihood
+for copy_file_range() to do clone or in-kernel copy for you.
 
-Also, I think if someone does I/O via io_uring, I think the caller's
-credentials for read/write operations will probably just be normal
-kernel creds?
+>
+> Anyways, thanks for taking on the c_f_r cleanup! :)
+>
 
-Here the checks probably aren't all that important, but in other
-places, when people try to use an LSM as the primary line of defense,
-checks that don't align with the kernel's normal security model might
-lead to a bunch of problems.
+Sure, get ready for another round ;-)
+
+Thanks for the review!
+Amir.
