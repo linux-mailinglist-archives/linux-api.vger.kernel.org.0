@@ -2,50 +2,50 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B34B82D71A
-	for <lists+linux-api@lfdr.de>; Wed, 29 May 2019 09:55:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D73222D757
+	for <lists+linux-api@lfdr.de>; Wed, 29 May 2019 10:09:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726547AbfE2Hzu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 29 May 2019 03:55:50 -0400
-Received: from mail-it1-f195.google.com ([209.85.166.195]:39382 "EHLO
-        mail-it1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726139AbfE2Hzu (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 29 May 2019 03:55:50 -0400
-Received: by mail-it1-f195.google.com with SMTP id 9so2055078itf.4
-        for <linux-api@vger.kernel.org>; Wed, 29 May 2019 00:55:49 -0700 (PDT)
+        id S1726029AbfE2IJK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 29 May 2019 04:09:10 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:40123 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726005AbfE2IJK (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 29 May 2019 04:09:10 -0400
+Received: by mail-io1-f66.google.com with SMTP id n5so1042308ioc.7
+        for <linux-api@vger.kernel.org>; Wed, 29 May 2019 01:09:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=szeredi.hu; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=op4791qBHMjDCQdV9txK9mbzIX+WhgzeovFSwUXqaFQ=;
-        b=YbZYex+MkYR9h819JTNbMfn9OoTfQc0WfMl0pIniSUlyhGceEB4vQ8StrtFyuiAy4w
-         V/rdXa8qsaNoWL4xwbh2GBDzhIEKxgBZMsNRyZjGgmPoBJPWEYu2f0YjJis9SSPtC26W
-         UD998MyvHLyBc5OYtLE92jxNIzzt5APPCEtC8=
+        bh=RxXvclxvtLO6JmXKyzZz4TtfqD6qqSQQNDFUnK5EdOE=;
+        b=dIAHLOYYCq5oAsIPqSqwXo7BO2qeHR7SZftiNljkQHJUJv80V0MatrM6Q3SkC/BoXo
+         2yM1PXXNJy2qg2EtCGlpBmJsNHMoswxau4JRWvZ9Vi+wqjT0Vy1KAUu496HRxp8Z2wTT
+         UipyxohvDO1db0DYXvIDnvgfESM3mBn8LbT8A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=op4791qBHMjDCQdV9txK9mbzIX+WhgzeovFSwUXqaFQ=;
-        b=lq23Nx/0X3oIH0e8KSZn5N0/C75GecDIPXe+IL3X5pdifKf3MWFwgTcoGHrCbui1tW
-         gaL7qQN6Ay4dVanIhn3SFx9ffuuPJdIrVMrFQHPi4bg/lPiS0IXeLbv5ApkhOJ+cbJua
-         Mjk7y1dvL6zbhHYI/CrgBaMBoowGod0TZHnVWS4sqy+NIxGP+G7buTSA2ZYD6/AEVdp5
-         04pt3xdMslu+HtRCUbfr3vY/Y9UYmmcGMGi+Maw+E+qhkZFzQl+s7KDHMy/F0T9U7tRT
-         SiF9r/kFi8VMgjHKOQ/dfXHN5Y/ObYwQuVeTubdnRNe5EZFsX0dYJADBLGcR2CdJqPUa
-         sClA==
-X-Gm-Message-State: APjAAAVzlWkQyaA7aS+Tp3gqVtMSHkbJlHCP7PmaKv8NsB+P29RmjPGr
-        uvVuMphqSjf2baNRFTUhiq3rbiQKA95dMqKD1eEvRw==
-X-Google-Smtp-Source: APXvYqy/whcusTY4hHDoC4X+OnP9aaNKf6KjmFpD6uW6iIEpnRrUQmEJ77wekoH11aNFI99khObtXhKqxO04kVXVSD0=
-X-Received: by 2002:a24:4dd4:: with SMTP id l203mr6105131itb.118.1559116549227;
- Wed, 29 May 2019 00:55:49 -0700 (PDT)
+        bh=RxXvclxvtLO6JmXKyzZz4TtfqD6qqSQQNDFUnK5EdOE=;
+        b=SpzcjsDPk8zQ8xxlEr0zRsvAQK1mbOk6QPXcJ/7H8T8kIKiFHmWNpU2XvimDWFwpn7
+         b6jO03iAj6fF/alxd+1Z+USjnums5EvAiBycoortqHy6UZM3ad3+sCHafzCfzoe7s4U/
+         YqMNG//AttL/+AvjfKqZA7zPpK3NLW6aKuM9amPnctlgoWylKZkqxPVErsJB/+2Eh6/n
+         DZM16evGw1SM1jFjflV0dj9v68ASxAwUI/4unci5uyOyfjInJ/UK8eqh0onbL3UkV+cb
+         fjF5kvMleSu4bp4FtxbVZXNH0zyaB/Z7UPsM9sr+otI9K9jeOzy+4+891azlRMiSRFE3
+         3hRw==
+X-Gm-Message-State: APjAAAVBfs+iqRD/WW5bSQvKtBBnMnMo7qh9LQQu4ESzXIv/FhvNUD9O
+        MkGdIwPXzsbMUPo523lNmp4zd3qxaV17SI/TXFQUvg==
+X-Google-Smtp-Source: APXvYqwhgOrotS8jlyEYFxpVCtEt1jaGqmJaJ2Q6ogp9Ky0GdDMgFIIk9nOCTBuYSmaAcZn2/UUVPBw0wO8G5MlhJtY=
+X-Received: by 2002:a05:6602:2252:: with SMTP id o18mr5265330ioo.63.1559117349466;
+ Wed, 29 May 2019 01:09:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <155905621951.1304.5956310120238620025.stgit@warthog.procyon.org.uk>
- <155905622921.1304.8775688192987027250.stgit@warthog.procyon.org.uk>
-In-Reply-To: <155905622921.1304.8775688192987027250.stgit@warthog.procyon.org.uk>
+References: <155905626142.1662.18430571708534506785.stgit@warthog.procyon.org.uk>
+ <155905629702.1662.7233272785972036117.stgit@warthog.procyon.org.uk>
+In-Reply-To: <155905629702.1662.7233272785972036117.stgit@warthog.procyon.org.uk>
 From:   Miklos Szeredi <miklos@szeredi.hu>
-Date:   Wed, 29 May 2019 09:55:38 +0200
-Message-ID: <CAJfpeguPTQ00zVjpwVQ4R8mEqE3aijCzNMAz6Wvr56xE-jfJag@mail.gmail.com>
-Subject: Re: [PATCH 1/7] General notification queue with user mmap()'able ring
- buffer [ver #13]
+Date:   Wed, 29 May 2019 10:08:58 +0200
+Message-ID: <CAJfpegutheVtnmN6BFSjzrmz8p9+DpZxFoKa4CoShoh4MW+5gQ@mail.gmail.com>
+Subject: Re: [PATCH 04/25] vfs: Implement parameter value retrieval with
+ fsinfo() [ver #13]
 To:     David Howells <dhowells@redhat.com>
 Cc:     Al Viro <viro@zeniv.linux.org.uk>, Ian Kent <raven@themaw.net>,
         Linux API <linux-api@vger.kernel.org>,
@@ -57,32 +57,64 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, May 28, 2019 at 5:10 PM David Howells <dhowells@redhat.com> wrote:
+On Tue, May 28, 2019 at 5:11 PM David Howells <dhowells@redhat.com> wrote:
 >
-> Implement a misc device that implements a general notification queue as a
-> ring buffer that can be mmap()'d from userspace.
+> Implement parameter value retrieval with fsinfo() - akin to parsing
+> /proc/mounts.
 >
-> The way this is done is:
+> This allows all the parameters to be retrieved in one go with:
 >
->  (1) An application opens the device and indicates the size of the ring
->      buffer that it wants to reserve in pages (this can only be set once):
->
->         fd = open("/dev/watch_queue", O_RDWR);
->         ioctl(fd, IOC_WATCH_QUEUE_NR_PAGES, nr_of_pages);
->
->  (2) The application should then map the pages that the device has
->      reserved.  Each instance of the device created by open() allocates
->      separate pages so that maps of different fds don't interfere with one
->      another.  Multiple mmap() calls on the same fd, however, will all work
->      together.
->
->         page_size = sysconf(_SC_PAGESIZE);
->         mapping_size = nr_of_pages * page_size;
->         char *buf = mmap(NULL, mapping_size, PROT_READ|PROT_WRITE,
->                          MAP_SHARED, fd, 0);
+>         struct fsinfo_params params = {
+>                 .request        = FSINFO_ATTR_PARAMETER,
+>         };
 
-Would it make sense to use relayfs for the implementation of the
-mapped ring buffer?
+Ah, here it is.
+
+>
+> Each parameter comes as a pair of blobs with a length tacked on the front
+> rather than using separators, since any printable character that could be
+> used as a separator can be found in some value somewhere (including comma).
+> In fact, cifs allows the separator to be set using the "sep=" option in
+> parameter parsing.
+>
+> The length on the front of each blob is 1-3 bytes long.  Each byte has a
+> flag in bit 7 that's set if there are more bytes and clear on the last
+> byte; bits 0-6 should be shifted and OR'd into the length count.  The bytes
+> are most-significant first.
+>
+> For example, 0x83 0xf5 0x06 is the length (0x03<<14 | 0x75<<7 | 0x06).
+
+Sounds way too complicated.  What about fixed 4byte sizes?  Or using
+the nul charater as separator (and binary blobs be damned)?
+
+[...]
+
+> +static void fsinfo_insert_sb_flag_parameters(struct path *path,
+> +                                            struct fsinfo_kparams *params)
+> +{
+> +       int s_flags = READ_ONCE(path->dentry->d_sb->s_flags);
+> +
+> +       if (s_flags & SB_DIRSYNC)
+> +               fsinfo_note_param(params, "dirsync", NULL);
+> +       if (s_flags & SB_LAZYTIME)
+> +               fsinfo_note_param(params, "lazytime", NULL);
+> +       if (s_flags & SB_MANDLOCK)
+> +               fsinfo_note_param(params, "mand", NULL);
+> +       if (s_flags & SB_POSIXACL)
+> +               fsinfo_note_param(params, "posixacl", NULL);
+> +       if (s_flags & SB_RDONLY)
+> +               fsinfo_note_param(params, "ro", NULL);
+> +       if (s_flags & SB_SYNCHRONOUS)
+> +               fsinfo_note_param(params, "sync", NULL);
+
+Again, don't blindly transform s_flags into options, because some of
+them may have been internally manipulated by the filesystem.
+
+You could do a helper for filesystems that does the the common ones
+(ro/sync/dirsync) but all of that *should* go through the filesystem.
+
+Same goes for vfs_parse_sb_flag() btw.   It should be moved into each
+filesystem's ->parse_param() and not be a mandatory thing.
 
 Thanks,
 Miklos
