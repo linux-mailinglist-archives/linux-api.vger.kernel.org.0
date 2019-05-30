@@ -2,268 +2,153 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8ED8230287
-	for <lists+linux-api@lfdr.de>; Thu, 30 May 2019 21:03:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E37E5302C7
+	for <lists+linux-api@lfdr.de>; Thu, 30 May 2019 21:29:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726031AbfE3TDH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 30 May 2019 15:03:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49580 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725961AbfE3TDH (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 30 May 2019 15:03:07 -0400
-Received: from localhost (unknown [207.225.69.115])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EDD862605D;
-        Thu, 30 May 2019 19:03:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1559242986;
-        bh=1NwOnMeya3dT7OeALreEavjx6ZrXNePmJ88jF1rZn1U=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=stYwYKHgMJSn4x+dRLqNHiZ7q5iICvXa5t4WL543+9Ix4jp2GHMtTkAnDD6r5BHG3
-         oFlYjvHRmqPbP4MCqLiFHxfVUd+7zY9BcLZId/DVSv8AYjGEEr6tgqf8AClXWl5Wdz
-         X2km4Edobf4PjQO0yglZcHjjrzI8vuNVcmGzuuDE=
-Date:   Thu, 30 May 2019 12:03:05 -0700
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Wu Hao <hao.wu@intel.com>
-Cc:     atull@kernel.org, mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        Luwei Kang <luwei.kang@intel.com>,
-        Xu Yilun <yilun.xu@intel.com>
-Subject: Re: [PATCH v3 16/16] fpga: dfl: fme: add performance reporting
- support
-Message-ID: <20190530190305.GA2909@kroah.com>
-References: <1558934546-12171-1-git-send-email-hao.wu@intel.com>
- <1558934546-12171-17-git-send-email-hao.wu@intel.com>
+        id S1726031AbfE3T3y (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 30 May 2019 15:29:54 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:42535 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726483AbfE3T3s (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 30 May 2019 15:29:48 -0400
+Received: by mail-lj1-f194.google.com with SMTP id y15so3993299ljd.9
+        for <linux-api@vger.kernel.org>; Thu, 30 May 2019 12:29:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=iVk/NFNgHVBFx7MhewVcDHKeuh0/y8uv27n+wctjBBw=;
+        b=iUJd3oa19CugyfCed6zmPxPNuarTP/1imCFXfhjAKXmDQBo5jZe7ZBR5RJOq+hx6br
+         tfQzOOPQSqboRyGxFLT3oSfQ+JEgq29U2q60jo8Rr2CFQTVVxATpRL8XEc0KJdCPnkC0
+         SbiJiRSFkAq8oO5wi8mEi96cPVRUr9w8MIZ/OWqOCcFnsB6CPb5tpIu+P0Ghso3X245/
+         NCySiboUIcKL8ug8JS2mDcOFFPLquJEQpPTys/6K9z3FovVwTZAdFmLqlzNlKDrXytw1
+         cQv+DRz6iJnKKRbUgD8k65be4+HNaacB+tw7zitbPLmamQffqA0s+u7+l5fj7cD+yxkk
+         BtIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=iVk/NFNgHVBFx7MhewVcDHKeuh0/y8uv27n+wctjBBw=;
+        b=UUvc9jXHHk4qwZGtHRpaxSqvtbIlPo/1xzY4et4nyci0PPoCQEmLMnsRh+hYjQE9ep
+         AK3ZwupxlIIMpXW4JHsCYage9E0P++wJvpG3Ix9ehKMNb4PFWv0zIwh44inWA+vpmbll
+         o52etXj/yc6rmJbFSXOPsRZDkGdEOe38E3UYaknCPlyi8hPRLv6KauOeyM01wh1aCmqM
+         nGfekBTgvBs/3kna74oOq6S3Ae4hyxyauy/48m+WoXwDchxIVOpgi4bBqdbvHphTZmTm
+         DEj+HmeTlmLqox9yWet5m+SBGkLtNffqVy9/xXc9xTGiWR9+kVR/jRofBgSMygypZJEY
+         FlTg==
+X-Gm-Message-State: APjAAAWWJWoHcAYbbSp56naLwrnq5XUW+3kAuh1CUO+PjqebWx+3+d8K
+        ay6JzKswjI5CZO/eH+kMxJowyiHZUwov60byJgiF
+X-Google-Smtp-Source: APXvYqy4oT9/ncpEwgceU+Uxm1SPfMQyT6tfoJxHZH5OZOJlX84DZdkuPn8yylZ7C5804jX66KJvTV8Txj+BX2224oo=
+X-Received: by 2002:a2e:9bc5:: with SMTP id w5mr3279775ljj.87.1559244585165;
+ Thu, 30 May 2019 12:29:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1558934546-12171-17-git-send-email-hao.wu@intel.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
+References: <cover.1554732921.git.rgb@redhat.com> <9edad39c40671fb53f28d76862304cc2647029c6.1554732921.git.rgb@redhat.com>
+ <20190529145742.GA8959@cisco> <CAHC9VhR4fudQanvZGYWMvCf7k2CU3q7e7n1Pi7hzC3v_zpVEdw@mail.gmail.com>
+ <20190529153427.GB8959@cisco> <CAHC9VhSF3AjErX37+eeusJ7+XRw8yuPsmqBTRwc9EVoRBh_3Tw@mail.gmail.com>
+ <20190529222835.GD8959@cisco> <CAHC9VhRS66VGtug3fq3RTGHDvfGmBJG6yRJ+iMxm3cxnNF-zJw@mail.gmail.com>
+ <20190530170913.GA16722@mail.hallyn.com>
+In-Reply-To: <20190530170913.GA16722@mail.hallyn.com>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Thu, 30 May 2019 15:29:32 -0400
+Message-ID: <CAHC9VhThLiQzGYRUWmSuVfOC6QCDmA75BDB7Eg7V8HX4x7ymQg@mail.gmail.com>
+Subject: Re: [PATCH ghak90 V6 02/10] audit: add container id
+To:     "Serge E. Hallyn" <serge@hallyn.com>
+Cc:     Tycho Andersen <tycho@tycho.ws>,
+        Richard Guy Briggs <rgb@redhat.com>,
+        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
+        Linux-Audit Mailing List <linux-audit@redhat.com>,
+        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
+        sgrubb@redhat.com, omosnace@redhat.com, dhowells@redhat.com,
+        simo@redhat.com, Eric Paris <eparis@parisplace.org>,
+        ebiederm@xmission.com, nhorman@tuxdriver.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, May 27, 2019 at 01:22:26PM +0800, Wu Hao wrote:
-> --- /dev/null
-> +++ b/drivers/fpga/dfl-fme-perf.c
-> @@ -0,0 +1,962 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Driver for FPGA Management Engine (FME) Global Performance Reporting
-> + *
-> + * Copyright 2019 Intel Corporation, Inc.
-> + *
-> + * Authors:
-> + *   Kang Luwei <luwei.kang@intel.com>
-> + *   Xiao Guangrong <guangrong.xiao@linux.intel.com>
-> + *   Wu Hao <hao.wu@intel.com>
-> + *   Joseph Grecco <joe.grecco@intel.com>
-> + *   Enno Luebbers <enno.luebbers@intel.com>
-> + *   Tim Whisonant <tim.whisonant@intel.com>
-> + *   Ananda Ravuri <ananda.ravuri@intel.com>
-> + *   Mitchel, Henry <henry.mitchel@intel.com>
-> + */
-> +
-> +#include "dfl.h"
-> +#include "dfl-fme.h"
-> +
-> +/*
-> + * Performance Counter Registers for Cache.
-> + *
-> + * Cache Events are listed below as CACHE_EVNT_*.
-> + */
-> +#define CACHE_CTRL			0x8
-> +#define CACHE_RESET_CNTR		BIT_ULL(0)
-> +#define CACHE_FREEZE_CNTR		BIT_ULL(8)
-> +#define CACHE_CTRL_EVNT			GENMASK_ULL(19, 16)
-> +#define CACHE_EVNT_RD_HIT		0x0
-> +#define CACHE_EVNT_WR_HIT		0x1
-> +#define CACHE_EVNT_RD_MISS		0x2
-> +#define CACHE_EVNT_WR_MISS		0x3
-> +#define CACHE_EVNT_RSVD			0x4
-> +#define CACHE_EVNT_HOLD_REQ		0x5
-> +#define CACHE_EVNT_DATA_WR_PORT_CONTEN	0x6
-> +#define CACHE_EVNT_TAG_WR_PORT_CONTEN	0x7
-> +#define CACHE_EVNT_TX_REQ_STALL		0x8
-> +#define CACHE_EVNT_RX_REQ_STALL		0x9
-> +#define CACHE_EVNT_EVICTIONS		0xa
-> +#define CACHE_EVNT_MAX			CACHE_EVNT_EVICTIONS
-> +#define CACHE_CHANNEL_SEL		BIT_ULL(20)
-> +#define CACHE_CHANNEL_RD		0
-> +#define CACHE_CHANNEL_WR		1
-> +#define CACHE_CHANNEL_MAX		2
-> +#define CACHE_CNTR0			0x10
-> +#define CACHE_CNTR1			0x18
-> +#define CACHE_CNTR_EVNT_CNTR		GENMASK_ULL(47, 0)
-> +#define CACHE_CNTR_EVNT			GENMASK_ULL(63, 60)
-> +
-> +/*
-> + * Performance Counter Registers for Fabric.
-> + *
-> + * Fabric Events are listed below as FAB_EVNT_*
-> + */
-> +#define FAB_CTRL			0x20
-> +#define FAB_RESET_CNTR			BIT_ULL(0)
-> +#define FAB_FREEZE_CNTR			BIT_ULL(8)
-> +#define FAB_CTRL_EVNT			GENMASK_ULL(19, 16)
-> +#define FAB_EVNT_PCIE0_RD		0x0
-> +#define FAB_EVNT_PCIE0_WR		0x1
-> +#define FAB_EVNT_PCIE1_RD		0x2
-> +#define FAB_EVNT_PCIE1_WR		0x3
-> +#define FAB_EVNT_UPI_RD			0x4
-> +#define FAB_EVNT_UPI_WR			0x5
-> +#define FAB_EVNT_MMIO_RD		0x6
-> +#define FAB_EVNT_MMIO_WR		0x7
-> +#define FAB_EVNT_MAX			FAB_EVNT_MMIO_WR
-> +#define FAB_PORT_ID			GENMASK_ULL(21, 20)
-> +#define FAB_PORT_FILTER			BIT_ULL(23)
-> +#define FAB_PORT_FILTER_DISABLE		0
-> +#define FAB_PORT_FILTER_ENABLE		1
-> +#define FAB_CNTR			0x28
-> +#define FAB_CNTR_EVNT_CNTR		GENMASK_ULL(59, 0)
-> +#define FAB_CNTR_EVNT			GENMASK_ULL(63, 60)
-> +
-> +/*
-> + * Performance Counter Registers for Clock.
-> + *
-> + * Clock Counter can't be reset or frozen by SW.
-> + */
-> +#define CLK_CNTR			0x30
-> +
-> +/*
-> + * Performance Counter Registers for IOMMU / VT-D.
-> + *
-> + * VT-D Events are listed below as VTD_EVNT_* and VTD_SIP_EVNT_*
-> + */
-> +#define VTD_CTRL			0x38
-> +#define VTD_RESET_CNTR			BIT_ULL(0)
-> +#define VTD_FREEZE_CNTR			BIT_ULL(8)
-> +#define VTD_CTRL_EVNT			GENMASK_ULL(19, 16)
-> +#define VTD_EVNT_AFU_MEM_RD_TRANS	0x0
-> +#define VTD_EVNT_AFU_MEM_WR_TRANS	0x1
-> +#define VTD_EVNT_AFU_DEVTLB_RD_HIT	0x2
-> +#define VTD_EVNT_AFU_DEVTLB_WR_HIT	0x3
-> +#define VTD_EVNT_DEVTLB_4K_FILL		0x4
-> +#define VTD_EVNT_DEVTLB_2M_FILL		0x5
-> +#define VTD_EVNT_DEVTLB_1G_FILL		0x6
-> +#define VTD_EVNT_MAX			VTD_EVNT_DEVTLB_1G_FILL
-> +#define VTD_CNTR			0x40
-> +#define VTD_CNTR_EVNT			GENMASK_ULL(63, 60)
-> +#define VTD_CNTR_EVNT_CNTR		GENMASK_ULL(47, 0)
-> +#define VTD_SIP_CTRL			0x48
-> +#define VTD_SIP_RESET_CNTR		BIT_ULL(0)
-> +#define VTD_SIP_FREEZE_CNTR		BIT_ULL(8)
-> +#define VTD_SIP_CTRL_EVNT		GENMASK_ULL(19, 16)
-> +#define VTD_SIP_EVNT_IOTLB_4K_HIT	0x0
-> +#define VTD_SIP_EVNT_IOTLB_2M_HIT	0x1
-> +#define VTD_SIP_EVNT_IOTLB_1G_HIT	0x2
-> +#define VTD_SIP_EVNT_SLPWC_L3_HIT	0x3
-> +#define VTD_SIP_EVNT_SLPWC_L4_HIT	0x4
-> +#define VTD_SIP_EVNT_RCC_HIT		0x5
-> +#define VTD_SIP_EVNT_IOTLB_4K_MISS	0x6
-> +#define VTD_SIP_EVNT_IOTLB_2M_MISS	0x7
-> +#define VTD_SIP_EVNT_IOTLB_1G_MISS	0x8
-> +#define VTD_SIP_EVNT_SLPWC_L3_MISS	0x9
-> +#define VTD_SIP_EVNT_SLPWC_L4_MISS	0xa
-> +#define VTD_SIP_EVNT_RCC_MISS		0xb
-> +#define VTD_SIP_EVNT_MAX		VTD_SIP_EVNT_RCC_MISS
-> +#define VTD_SIP_CNTR			0X50
-> +#define VTD_SIP_CNTR_EVNT		GENMASK_ULL(63, 60)
-> +#define VTD_SIP_CNTR_EVNT_CNTR		GENMASK_ULL(47, 0)
-> +
-> +#define PERF_OBJ_ROOT_ID		(~0)
-> +
-> +#define PERF_TIMEOUT			30
-> +
-> +/**
-> + * struct perf_object - object of performance counter
-> + *
-> + * @id: instance id. PERF_OBJ_ROOT_ID indicates it is a parent object which
-> + *      counts performance counters for all instances.
-> + * @attr_groups: the sysfs files are associated with this object.
-> + * @feature: pointer to related private feature.
-> + * @node: used to link itself to parent's children list.
-> + * @children: used to link its children objects together.
-> + * @kobj: generic kobject interface.
-> + *
-> + * 'node' and 'children' are used to construct parent-children hierarchy.
-> + */
-> +struct perf_object {
-> +	int id;
-> +	const struct attribute_group **attr_groups;
-> +	struct dfl_feature *feature;
-> +
-> +	struct list_head node;
-> +	struct list_head children;
-> +	struct kobject kobj;
+On Thu, May 30, 2019 at 1:09 PM Serge E. Hallyn <serge@hallyn.com> wrote:
+> On Wed, May 29, 2019 at 06:39:48PM -0400, Paul Moore wrote:
+> > On Wed, May 29, 2019 at 6:28 PM Tycho Andersen <tycho@tycho.ws> wrote:
+> > > On Wed, May 29, 2019 at 12:03:58PM -0400, Paul Moore wrote:
+> > > > On Wed, May 29, 2019 at 11:34 AM Tycho Andersen <tycho@tycho.ws> wrote:
+> > > > > On Wed, May 29, 2019 at 11:29:05AM -0400, Paul Moore wrote:
+> > > > > > On Wed, May 29, 2019 at 10:57 AM Tycho Andersen <tycho@tycho.ws> wrote:
+> > > > > > > On Mon, Apr 08, 2019 at 11:39:09PM -0400, Richard Guy Briggs wrote:
 
-Woah, why are you using a "raw" kobject and not a 'struct device' here?
-You just broke userspace and no libraries will see your kobject's
-properties as the "chain" of struct devices is not happening anymore.
+...
 
-Why can this not just be a 'struct device'?
+> > > > > > The current thinking
+> > > > > > is that you would only change the audit container ID from one
+> > > > > > set/inherited value to another if you were nesting containers, in
+> > > > > > which case the nested container orchestrator would need to be granted
+> > > > > > CAP_AUDIT_CONTROL (which everyone to date seems to agree is a workable
+> > > > > > compromise).
+> > >
+> > > won't work in user namespaced containers, because they will never be
+> > > capable(CAP_AUDIT_CONTROL); so I don't think this will work for
+> > > nesting as is. But maybe nobody cares :)
+> >
+> > That's fun :)
+> >
+> > To be honest, I've never been a big fan of supporting nested
+> > containers from an audit perspective, so I'm not really too upset
+> > about this.  The k8s/cri-o folks seem okay with this, or at least I
+> > haven't heard any objections; lxc folks, what do you have to say?
+>
+> I actually thought the answer to this (when last I looked, "some time" ago)
+> was that userspace should track an audit message saying "task X in
+> container Y is changing its auditid to Z", and then decide to also track Z.
+> This should be doable, but a lot of extra work in userspace.
+>
+> Per-userns containerids would also work.  So task X1 is in containerid
+> 1 on the host and creates a new task Y in new userns;  it continues to
+> be reported in init_user_ns as containerid 1 forever;  but in its own
+> userns it can request to be known as some other containerid.  Audit
+> socks would be per-userns, allowing root in a container to watch for
+> audit events in its own (and descendent) namespaces.
+>
+> But again I'm sure we've gone over all this in the last few years.
+>
+> I suppose we can look at this as a "first step", and talk about
+> making it user-ns-nestable later.  But agreed it's not useful in a
+> lot of situations as is.
 
+[REMINDER: It is an "*audit* container ID" and not a general
+"container ID" ;)  Smiley aside, I'm not kidding about that part.]
 
-> +};
-> +
-> +/**
-> + * struct perf_obj_attribute - attribute of perf object
-> + *
-> + * @attr: attribute of this perf object.
-> + * @show: show callback for sysfs attribute.
-> + * @store: store callback for sysfs attribute.
-> + */
-> +struct perf_obj_attribute {
-> +	struct attribute attr;
-> +	ssize_t (*show)(struct perf_object *pobj, char *buf);
-> +	ssize_t (*store)(struct perf_object *pobj,
-> +			 const char *buf, size_t n);
-> +};
-> +
-> +#define to_perf_obj_attr(_attr)					\
-> +		container_of(_attr, struct perf_obj_attribute, attr)
-> +#define to_perf_obj(_kobj)					\
-> +		container_of(_kobj, struct perf_object, kobj)
-> +
-> +#define __POBJ_ATTR(_name, _mode, _show, _store) {			\
-> +	.attr = {.name = __stringify(_name),				\
-> +		 .mode = VERIFY_OCTAL_PERMISSIONS(_mode) },		\
-> +	.show   = _show,						\
-> +	.store  = _store,						\
-> +}
-> +
-> +#define PERF_OBJ_ATTR_F_RO(_name, _filename)				\
-> +struct perf_obj_attribute perf_obj_attr_##_name =			\
-> +	__POBJ_ATTR(_filename, 0444, _name##_show, NULL)
-> +
-> +#define PERF_OBJ_ATTR_F_WO(_name, _filename)				\
-> +struct perf_obj_attribute perf_obj_attr_##_name =			\
-> +	__POBJ_ATTR(_filename, 0200, NULL, _name##_store)
-> +
-> +#define PERF_OBJ_ATTR_F_RW(_name, _filename)				\
-> +struct perf_obj_attribute perf_obj_attr_##_name =			\
-> +	__POBJ_ATTR(_filename, 0644, _name##_show, _name##_store)
-> +
-> +#define PERF_OBJ_ATTR_RO(_name)						\
-> +struct perf_obj_attribute perf_obj_attr_##_name =			\
-> +	__POBJ_ATTR(_name, 0444, _name##_show, NULL)
-> +
-> +#define PERF_OBJ_ATTR_WO(_name)						\
-> +struct perf_obj_attribute perf_obj_attr_##_name =			\
-> +	__POBJ_ATTR(_name, 0200, NULL, _name##_store)
-> +
-> +#define PERF_OBJ_ATTR_RW(_name)						\
-> +struct perf_obj_attribute perf_obj_attr_##_name =			\
-> +	__POBJ_ATTR(_name, 0644, _name##_show, _name##_store)
+I'm not interested in supporting/merging something that isn't useful;
+if this doesn't work for your use case then we need to figure out what
+would work.  It sounds like nested containers are much more common in
+the lxc world, can you elaborate a bit more on this?
 
-When you have to roll your own sysfs attributes for a single driver,
-that is a HUGE hint you are doing something wrong.  No driver for an
-individual device should EVER have to do this.
+As far as the possible solutions you mention above, I'm not sure I
+like the per-userns audit container IDs, I'd much rather just emit the
+necessary tracking information via the audit record stream and let the
+log analysis tools figure it out.  However, the bigger question is how
+to limit (re)setting the audit container ID when you are in a non-init
+userns.  For reasons already mentioned, using capable() is a non
+starter for everything but the initial userns, and using ns_capable()
+is equally poor as it essentially allows any userns the ability to
+munge it's audit container ID (obviously not good).  It appears we
+need a different method for controlling access to the audit container
+ID.
 
-Please use the driver core properly and do not route around it.
+Punting this to a LSM hook is an obvious thing to do, and something we
+might want to do anyway, but currently audit doesn't rely on the LSM
+for proper/safe operation and I'm not sure I want to change that now.
 
-thanks,
+The next obvious thing is to create some sort of access control knob
+in audit itself.  Perhaps an auditctl operation that would allow the
+administrator to specify which containers, via their corresponding
+audit container IDs, are allowed to change their audit container ID?
+The permission granting would need to be done in the init userns, but
+it would allow containers with a non-init userns the ability to change
+their audit container ID.  We would probably still want a
+ns_capable(CAP_AUDIT_CONTROL) restriction in this case.
 
-greg k-h
+Does anyone else have any other ideas?
+
+-- 
+paul moore
+www.paul-moore.com
