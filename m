@@ -2,165 +2,191 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D55783037C
-	for <lists+linux-api@lfdr.de>; Thu, 30 May 2019 22:46:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 636C2303A6
+	for <lists+linux-api@lfdr.de>; Thu, 30 May 2019 22:56:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726688AbfE3Upm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 30 May 2019 16:45:42 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:33123 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726489AbfE3Upm (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 30 May 2019 16:45:42 -0400
-Received: by mail-lf1-f65.google.com with SMTP id y17so6115564lfe.0
-        for <linux-api@vger.kernel.org>; Thu, 30 May 2019 13:45:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=EhDqOLrNL+Ls6g+jJlH1kHSTN+6mKWoVpwhK7g7g/0o=;
-        b=xlyV3ThJjdhKcZhreP5PbaxjF4yCg2iuc+K7UzQP6tLJWwrREj0I5yVvPo3B3jh7iK
-         jh1rsg4jyI3plqbkkIs9e7MgP53igOczr5L4MydDQ87MWflfgTeiR7tPUVxTFoKpmcm4
-         6sepnRi8IUd5YcXQYTYWT9BEkanR1k/eUovXIZ4CYEx4LttHAIlePcabZEyckUcOfwA+
-         ld4cKn0kM4Vfx29ADhSIicvea8BSndd/KrqWITOd8GFDTydQiWEJoSMQKugjZoDNrglv
-         RFE65J9Z1q+k0M/9D9082A8PAYYyDpKeO4/3eIRTiQyhsN5cVxluVIS5g72M/cFmB4vp
-         uEtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=EhDqOLrNL+Ls6g+jJlH1kHSTN+6mKWoVpwhK7g7g/0o=;
-        b=ZThWC2boRyznZPtXj6nreMAHHZ3qd9oaI6m07/UciiHs6bai6PsE8wbXoayTFOZts7
-         6/9tuZeQll6VKk0+llCkSm8cWCtBhcU65Tv14hgCAr4Hirylzqqnl6g1JznDa3XkMIxo
-         arQxx2jFfLX6cATFqWn+CT9iY4BnqtHShe21Dy2m5x4iEncgDu1Uyebsx/zpfXCUTga8
-         k34ReWiQviMHMZbnotqGG35HF9lgiVKgcoMTWNj/1IzWrlhuAQxtvDTevzgDdF8E/5SX
-         Re52FGCL+8YhBZmBbxP5OVWPb6RnhA45clFmOVZYceW+5wSHEnRciPqtiwyslyTFgT1U
-         QXSQ==
-X-Gm-Message-State: APjAAAViJk37YS/tpWulXxIypNuKRHABrBukS94NBko/TMIDYJCkW2s/
-        b8vzvT+M50QP8L0pK0I6eeSrUzjlg/uAZs733L2k
-X-Google-Smtp-Source: APXvYqxCLcpJGQ9X7hllnM/E88Y7wiOxHiqGV+F77SwcvQq/KmkEMFzXAp+UwedDTn7SR4CSxAW2AxSMb9dduBaWcmQ=
-X-Received: by 2002:ac2:410a:: with SMTP id b10mr3157662lfi.175.1559249140261;
- Thu, 30 May 2019 13:45:40 -0700 (PDT)
+        id S1726307AbfE3U4p (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 30 May 2019 16:56:45 -0400
+Received: from mail.efficios.com ([167.114.142.138]:52656 "EHLO
+        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725961AbfE3U4p (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 30 May 2019 16:56:45 -0400
+Received: from localhost (ip6-localhost [IPv6:::1])
+        by mail.efficios.com (Postfix) with ESMTP id 4525422C75B;
+        Thu, 30 May 2019 16:56:43 -0400 (EDT)
+Received: from mail.efficios.com ([IPv6:::1])
+        by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10032)
+        with ESMTP id xuiTPSZpoVyF; Thu, 30 May 2019 16:56:41 -0400 (EDT)
+Received: from localhost (ip6-localhost [IPv6:::1])
+        by mail.efficios.com (Postfix) with ESMTP id B82AE22C751;
+        Thu, 30 May 2019 16:56:41 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com B82AE22C751
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+        s=default; t=1559249801;
+        bh=DqOvR38azidtYWY064tHH9yFqc/Lp232qmUcNljW6/w=;
+        h=Date:From:To:Message-ID:MIME-Version;
+        b=ti4Gq1TTCmk7QcERHGMQFI+rpEs4P/FlDBc30sVpoX1rLp7WbqvcQmBRJzceKzdxr
+         o0IgSLBfRABzGGp/LqjddVURi9pIEXCYnwhLLuOCrKcC1RY/fmy4gJsquighrOqdnd
+         SOR4JmRVzp1NoV6xwxd/njIj7tkxesscLeLisON3YEDXEP7X2Mlqv1PdMP0pMxQ7Ok
+         WCylazPt4cRd1DgUQK5BP+yfZVHzayn4UQ1AcuRL3RQWIvlrOaPviR9WNOH3Xw2PA1
+         aMW9HbmaXtOCh1r/wiv8eKOS/4qMJPsmwyOnyAFAVN3Vz8hXjUQ+qG0m6WhismStmQ
+         Bg8njsogzn3ew==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([IPv6:::1])
+        by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10026)
+        with ESMTP id zBslBDFYXAWg; Thu, 30 May 2019 16:56:41 -0400 (EDT)
+Received: from mail02.efficios.com (mail02.efficios.com [167.114.142.138])
+        by mail.efficios.com (Postfix) with ESMTP id 9CFA222C74B;
+        Thu, 30 May 2019 16:56:41 -0400 (EDT)
+Date:   Thu, 30 May 2019 16:56:41 -0400 (EDT)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     carlos <carlos@redhat.com>, Joseph Myers <joseph@codesourcery.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        libc-alpha <libc-alpha@sourceware.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ben Maurer <bmaurer@fb.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Dave Watson <davejwatson@fb.com>, Paul Turner <pjt@google.com>,
+        Rich Felker <dalias@libc.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-api <linux-api@vger.kernel.org>
+Message-ID: <2022553041.20966.1559249801435.JavaMail.zimbra@efficios.com>
+In-Reply-To: <140718133.18261.1559144710554.JavaMail.zimbra@efficios.com>
+References: <20190503184219.19266-1-mathieu.desnoyers@efficios.com> <20190503184219.19266-2-mathieu.desnoyers@efficios.com> <87h89gjgaf.fsf@oldenburg2.str.redhat.com> <1239705947.14878.1558985272873.JavaMail.zimbra@efficios.com> <140718133.18261.1559144710554.JavaMail.zimbra@efficios.com>
+Subject: Re: [PATCH 1/5] glibc: Perform rseq(2) registration at C startup
+ and thread creation (v10)
 MIME-Version: 1.0
-References: <cover.1554732921.git.rgb@redhat.com> <0785ee2644804f3ec6af1243cc0dcf89709c1fd4.1554732921.git.rgb@redhat.com>
- <CAHC9VhRV-0LSEcRvPO1uXtKdpEQsaLZnBV3T=zcMTZPN5ugz5w@mail.gmail.com>
- <20190530141951.iofimovrndap4npq@madcap2.tricolour.ca> <CAHC9VhQhkzCtVOXhPL7BzaqvF0y+8gBQwhOo1EQDS2OUyZbV5g@mail.gmail.com>
- <20190530203702.fibsrazabbiifjvf@madcap2.tricolour.ca>
-In-Reply-To: <20190530203702.fibsrazabbiifjvf@madcap2.tricolour.ca>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Thu, 30 May 2019 16:45:28 -0400
-Message-ID: <CAHC9VhR6oqKer_p6Xsu6oO2j3bMZGPXWHnGchZOqUoMx9yJFwQ@mail.gmail.com>
-Subject: Re: [PATCH ghak90 V6 08/10] audit: add containerid filtering
-To:     Richard Guy Briggs <rgb@redhat.com>
-Cc:     containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
-        Linux-Audit Mailing List <linux-audit@redhat.com>,
-        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
-        sgrubb@redhat.com, omosnace@redhat.com, dhowells@redhat.com,
-        simo@redhat.com, Eric Paris <eparis@parisplace.org>,
-        Serge Hallyn <serge@hallyn.com>, ebiederm@xmission.com,
-        nhorman@tuxdriver.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [167.114.142.138]
+X-Mailer: Zimbra 8.8.12_GA_3803 (ZimbraWebClient - FF67 (Linux)/8.8.12_GA_3794)
+Thread-Topic: glibc: Perform rseq(2) registration at C startup and thread creation (v10)
+Thread-Index: 18yTu+T8PFt4cXiNhOg61XhmaTl3EWs0GkO7rE/zIqc=
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, May 30, 2019 at 4:37 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> On 2019-05-30 10:34, Paul Moore wrote:
-> > On Thu, May 30, 2019 at 10:20 AM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > >
-> > > On 2019-05-29 18:16, Paul Moore wrote:
-> > > > On Mon, Apr 8, 2019 at 11:41 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > > >
-> > > > > Implement audit container identifier filtering using the AUDIT_CONTID
-> > > > > field name to send an 8-character string representing a u64 since the
-> > > > > value field is only u32.
-> > > > >
-> > > > > Sending it as two u32 was considered, but gathering and comparing two
-> > > > > fields was more complex.
-> > > > >
-> > > > > The feature indicator is AUDIT_FEATURE_BITMAP_CONTAINERID.
-> > > > >
-> > > > > Please see the github audit kernel issue for the contid filter feature:
-> > > > >   https://github.com/linux-audit/audit-kernel/issues/91
-> > > > > Please see the github audit userspace issue for filter additions:
-> > > > >   https://github.com/linux-audit/audit-userspace/issues/40
-> > > > > Please see the github audit testsuiite issue for the test case:
-> > > > >   https://github.com/linux-audit/audit-testsuite/issues/64
-> > > > > Please see the github audit wiki for the feature overview:
-> > > > >   https://github.com/linux-audit/audit-kernel/wiki/RFE-Audit-Container-ID
-> > > > > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-> > > > > Acked-by: Serge Hallyn <serge@hallyn.com>
-> > > > > Acked-by: Neil Horman <nhorman@tuxdriver.com>
-> > > > > Reviewed-by: Ondrej Mosnacek <omosnace@redhat.com>
-> > > > > ---
-> > > > >  include/linux/audit.h      |  1 +
-> > > > >  include/uapi/linux/audit.h |  5 ++++-
-> > > > >  kernel/audit.h             |  1 +
-> > > > >  kernel/auditfilter.c       | 47 ++++++++++++++++++++++++++++++++++++++++++++++
-> > > > >  kernel/auditsc.c           |  4 ++++
-> > > > >  5 files changed, 57 insertions(+), 1 deletion(-)
-> > > >
-> > > > ...
-> > > >
-> > > > > diff --git a/kernel/auditfilter.c b/kernel/auditfilter.c
-> > > > > index 63f8b3f26fab..407b5bb3b4c6 100644
-> > > > > --- a/kernel/auditfilter.c
-> > > > > +++ b/kernel/auditfilter.c
-> > > > > @@ -1206,6 +1224,31 @@ int audit_comparator(u32 left, u32 op, u32 right)
-> > > > >         }
-> > > > >  }
-> > > > >
-> > > > > +int audit_comparator64(u64 left, u32 op, u64 right)
-> > > > > +{
-> > > > > +       switch (op) {
-> > > > > +       case Audit_equal:
-> > > > > +               return (left == right);
-> > > > > +       case Audit_not_equal:
-> > > > > +               return (left != right);
-> > > > > +       case Audit_lt:
-> > > > > +               return (left < right);
-> > > > > +       case Audit_le:
-> > > > > +               return (left <= right);
-> > > > > +       case Audit_gt:
-> > > > > +               return (left > right);
-> > > > > +       case Audit_ge:
-> > > > > +               return (left >= right);
-> > > > > +       case Audit_bitmask:
-> > > > > +               return (left & right);
-> > > > > +       case Audit_bittest:
-> > > > > +               return ((left & right) == right);
-> > > > > +       default:
-> > > > > +               BUG();
-> > > >
-> > > > A little birdy mentioned the BUG() here as a potential issue and while
-> > > > I had ignored it in earlier patches because this is likely a
-> > > > cut-n-paste from another audit comparator function, I took a closer
-> > > > look this time.  It appears as though we will never have an invalid op
-> > > > value as audit_data_to_entry()/audit_to_op() ensure that the op value
-> > > > is a a known good value.  Removing the BUG() from all the audit
-> > > > comparators is a separate issue, but I think it would be good to
-> > > > remove it from this newly added comparator; keeping it so that we
-> > > > return "0" in the default case seems reasoanble.
-> > >
-> > > Fair enough.  That BUG(); can be removed.
-> >
-> > Please send a fixup patch for this.
->
-> The fixup patch is trivial.
+----- On May 29, 2019, at 11:45 AM, Mathieu Desnoyers mathieu.desnoyers@efficios.com wrote:
 
-Yes, I know.
+> ----- On May 27, 2019, at 3:27 PM, Mathieu Desnoyers
+> mathieu.desnoyers@efficios.com wrote:
+> 
+>> ----- On May 27, 2019, at 7:19 AM, Florian Weimer fweimer@redhat.com wrote:
+>> 
+> 
+> [...]
+> 
+>>> 
+>>> Furthermore, the reference to ELF constructors is misleading.  I believe
+>>> the code you added to __libc_start_main to initialize __rseq_handled and
+>>> register __seq_abi with the kernel runs *after* ELF constructors have
+>>> executed (and not at all if the main program is written in Go, alas).
+>>> All initialization activity for the shared case needs to happen in
+>>> elf/rtld.c or called from there, probably as part of the security
+>>> initialization code or thereabouts.
+>> 
+>> in elf/rtld.c:dl_main() we have the following code:
+>> 
+>>  /* We do not initialize any of the TLS functionality unless any of the
+>>     initial modules uses TLS.  This makes dynamic loading of modules with
+>>     TLS impossible, but to support it requires either eagerly doing setup
+>>     now or lazily doing it later.  Doing it now makes us incompatible with
+>>     an old kernel that can't perform TLS_INIT_TP, even if no TLS is ever
+>>     used.  Trying to do it lazily is too hairy to try when there could be
+>>     multiple threads (from a non-TLS-using libpthread).  */
+>>  bool was_tls_init_tp_called = tls_init_tp_called;
+>>  if (tcbp == NULL)
+>>    tcbp = init_tls ();
+>> 
+>> If I understand your point correctly, I should move the rseq_init() and
+>> rseq_register_current_thread() for the SHARED case just after this
+>> initialization, otherwise calling those from LIBC_START_MAIN() is too
+>> late and it runs after initial modules constructors (or not at all for
+>> Go). However, this means glibc will start using TLS internally. I'm
+>> concerned that this is not quite in line with the above comment which
+>> states that TLS is not initialized if no initial modules use TLS.
+>> 
+>> For the !SHARED use-case, if my understanding is correct, I should keep
+>> rseq_init() and rseq_register_current_thread() calls within LIBC_START_MAIN().
+> 
+> I've moved the rseq initialization for SHARED case to the very end of
+> elf/rtld.c:init_tls(), and get the following error on make check:
+> 
+> Generating locale am_ET.UTF-8: this might take a while...
+> Inconsistency detected by ld.so: get-dynamic-info.h: 143: elf_get_dynamic_info:
+> Assertion `info[DT_FLAGS] == NULL || (info[DT_FLAGS]->d_un.d_val &
+> ~DF_BIND_NOW) == 0' failed!
+> Charmap: "UTF-8" Inputfile: "am_ET" Outputdir: "am_ET.UTF-8" failed
+> /bin/sh: 4: cannot create
+> /home/efficios/git/glibc-build/localedata/am_ET.UTF-8/LC_CTYPE.test-result:
+> Directory nonexistent
+> 
+> This error goes away if I comment out the call to rseq_register_current_thread
+> (),
+> which touches the __rseq_abi __thread variable and issues a system call.
+> 
+> Currently, the __rseq_abi __thread variable is within
+> sysdeps/unix/sysv/linux/rseq-sym.c, which is added to the
+> sysdep_routines within sysdeps/unix/sysv/linux/Makefile. I
+> suspect it may need to be moved elsewhere.
+> 
+> Any thoughts on how to solve this ?
 
-> The rebase to v5.2-rc1 audit/next had merge
-> conflicts with four recent patchsets.  It may be simpler to submit a new
-> patchset and look at a diff of the two sets.  I'm testing the rebase
-> now.
+I found that it's because touching a __thread variable from
+ld-linux-x86-64.so.2 ends up setting the DF_STATIC_TLS flag
+for that .so, which is really not expected.
 
-Great thanks.  Although you might want to hold off a bit on posting
-the next revision until we sort out the discussion which is happening
-in patch 02/10; unfortunately I fear we may need to change some of the
-logic.
+Even if I tweak the assert to make it more lenient there,
+touching the __thread variable ends up triggering a SIGFPE.
 
---
-paul moore
-www.paul-moore.com
+So rather than touching the TLS from ld-linux-x86-64.so.2,
+I've rather experimented with moving the rseq initialization
+for both SHARED and !SHARED cases to a library constructor
+within libc.so.
+
+Are you aware of any downside to this approach ?
+
+diff --git a/csu/libc-start.c b/csu/libc-start.c
+index 5d9c3675fa..9755ed5467 100644
+--- a/csu/libc-start.c
++++ b/csu/libc-start.c
+@@ -22,6 +22,7 @@
+ #include <ldsodefs.h>
+ #include <exit-thread.h>
+ #include <libc-internal.h>
++#include <rseq-internal.h>
+ 
+ #include <elf/dl-tunables.h>
+ 
+@@ -81,6 +82,14 @@ apply_irel (void)
+ }
+ #endif
+ 
++static
++__attribute__ ((constructor))
++void __rseq_libc_init (void)
++{
++  rseq_init ();
++  /* Register rseq ABI to the kernel.   */
++  (void) rseq_register_current_thread ();
++}
+ 
+ #ifdef LIBC_START_MAIN
+ # ifdef LIBC_START_DISABLE_INLINE
+
+
+Thanks,
+
+Mathieu
+
+
+
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+http://www.efficios.com
