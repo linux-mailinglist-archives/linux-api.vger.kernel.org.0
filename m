@@ -2,171 +2,113 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E5FE030088
-	for <lists+linux-api@lfdr.de>; Thu, 30 May 2019 19:09:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A2114301E1
+	for <lists+linux-api@lfdr.de>; Thu, 30 May 2019 20:26:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726477AbfE3RJR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 30 May 2019 13:09:17 -0400
-Received: from mail.hallyn.com ([178.63.66.53]:50574 "EHLO mail.hallyn.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725961AbfE3RJR (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 30 May 2019 13:09:17 -0400
-Received: by mail.hallyn.com (Postfix, from userid 1001)
-        id 3568262D; Thu, 30 May 2019 12:09:13 -0500 (CDT)
-Date:   Thu, 30 May 2019 12:09:13 -0500
-From:   "Serge E. Hallyn" <serge@hallyn.com>
-To:     Paul Moore <paul@paul-moore.com>
-Cc:     Tycho Andersen <tycho@tycho.ws>,
-        Richard Guy Briggs <rgb@redhat.com>,
-        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
-        Linux-Audit Mailing List <linux-audit@redhat.com>,
-        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
-        sgrubb@redhat.com, omosnace@redhat.com, dhowells@redhat.com,
-        simo@redhat.com, Eric Paris <eparis@parisplace.org>,
-        Serge Hallyn <serge@hallyn.com>, ebiederm@xmission.com,
-        nhorman@tuxdriver.com
-Subject: Re: [PATCH ghak90 V6 02/10] audit: add container id
-Message-ID: <20190530170913.GA16722@mail.hallyn.com>
-References: <cover.1554732921.git.rgb@redhat.com>
- <9edad39c40671fb53f28d76862304cc2647029c6.1554732921.git.rgb@redhat.com>
- <20190529145742.GA8959@cisco>
- <CAHC9VhR4fudQanvZGYWMvCf7k2CU3q7e7n1Pi7hzC3v_zpVEdw@mail.gmail.com>
- <20190529153427.GB8959@cisco>
- <CAHC9VhSF3AjErX37+eeusJ7+XRw8yuPsmqBTRwc9EVoRBh_3Tw@mail.gmail.com>
- <20190529222835.GD8959@cisco>
- <CAHC9VhRS66VGtug3fq3RTGHDvfGmBJG6yRJ+iMxm3cxnNF-zJw@mail.gmail.com>
+        id S1726708AbfE3S0v (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 30 May 2019 14:26:51 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:36186 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726547AbfE3S0u (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 30 May 2019 14:26:50 -0400
+Received: by mail-pl1-f194.google.com with SMTP id d21so2907657plr.3
+        for <linux-api@vger.kernel.org>; Thu, 30 May 2019 11:26:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=479NrpI5Fpv8iNSEqJ5Iw1oq9Ng17zG9lbJXZZiDpy0=;
+        b=Me4frF9wOzh8lEvpxZ+vU5EUYHAr4jOgS4hV4/+Jkt5CrHU3uvrkkrEJk1V/YWWY3c
+         O1LeU+cx+xBxaGd3saLITg7VBE7sFN0iIWNHmc08B3n/Pa92mPLjpcam2qtui/OMGHdR
+         yhNXhwF9tOi0AGMYVP4ueerYO83fR82m00jDg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=479NrpI5Fpv8iNSEqJ5Iw1oq9Ng17zG9lbJXZZiDpy0=;
+        b=lvjyYjXAk5adZKYR2vC8JggQe0h89Ckt5tPpu1tGtMwbCFjonsCmQ0F81f3l3GqMjy
+         HA7YTsqW1LGD5UKoqLlAfj0o2vEmFhP1Tpk4FG1LcMnXKYNOvFVdNrlDC2lZj85DGXr3
+         Rg99O2IBv1zAGCBBGdfIg9LWm7yk4t8Lcy2RiaAjFTbcQlULNHAiWLy9Tlb5z5OeqiG3
+         4r1MGOJZ3QwF6eBiBmRHLvAF2MGg1Xu1ZnPvAaxWXjkY+1gcPn/HyWD26UG/ORd3eLS4
+         FVDhn67ilfQjwPXdPEW66CkFXGlfG0WfPKzV1CqNUgR5b0gUpf9WwcmXXT1s51x35QwR
+         1AdA==
+X-Gm-Message-State: APjAAAUVjuxiCFKUNOqhcP/cqu0FvxxSIWg86zYgaOSSyW18sVm7BVUT
+        Y/xdUkL+862deBVzmEu5kEop5A==
+X-Google-Smtp-Source: APXvYqyHXrW5NCEsy8spGMlIWgFWxdYS/BWA/cI4wEZ5qBofJ864Jbzeza81bYct/2aQTQraJavC3A==
+X-Received: by 2002:a17:902:148:: with SMTP id 66mr4639420plb.143.1559240810223;
+        Thu, 30 May 2019 11:26:50 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id m123sm3886620pfm.39.2019.05.30.11.26.48
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 30 May 2019 11:26:48 -0700 (PDT)
+Date:   Thu, 30 May 2019 11:26:47 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Jann Horn <jannh@google.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Christian Brauner <christian@brauner.io>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+        David Howells <dhowells@redhat.com>,
+        Pavel Emelyanov <xemul@virtuozzo.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Adrian Reber <adrian@lisas.de>,
+        Andrei Vagin <avagin@gmail.com>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [PATCH 1/2] fork: add clone6
+Message-ID: <201905301122.88FD40B3@keescook>
+References: <20190526102612.6970-1-christian@brauner.io>
+ <CAHk-=wieuV4hGwznPsX-8E0G2FKhx3NjZ9X3dTKh5zKd+iqOBw@mail.gmail.com>
+ <20190527104239.fbnjzfyxa4y4acpf@brauner.io>
+ <CAHk-=wjnbK5ob9JE0H1Ge_R4BL6D0ztsAvrM6DN+S+zyDWE=7A@mail.gmail.com>
+ <CAG48ez2wyDhM-V1hs5ya1R4x7wHT=T8XLOYCPUyw97kzzLhbhg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHC9VhRS66VGtug3fq3RTGHDvfGmBJG6yRJ+iMxm3cxnNF-zJw@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <CAG48ez2wyDhM-V1hs5ya1R4x7wHT=T8XLOYCPUyw97kzzLhbhg@mail.gmail.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, May 29, 2019 at 06:39:48PM -0400, Paul Moore wrote:
-> On Wed, May 29, 2019 at 6:28 PM Tycho Andersen <tycho@tycho.ws> wrote:
-> > On Wed, May 29, 2019 at 12:03:58PM -0400, Paul Moore wrote:
-> > > On Wed, May 29, 2019 at 11:34 AM Tycho Andersen <tycho@tycho.ws> wrote:
-> > > >
-> > > > On Wed, May 29, 2019 at 11:29:05AM -0400, Paul Moore wrote:
-> > > > > On Wed, May 29, 2019 at 10:57 AM Tycho Andersen <tycho@tycho.ws> wrote:
-> > > > > >
-> > > > > > On Mon, Apr 08, 2019 at 11:39:09PM -0400, Richard Guy Briggs wrote:
-> > > > > > > It is not permitted to unset the audit container identifier.
-> > > > > > > A child inherits its parent's audit container identifier.
-> > > > > >
-> > > > > > ...
-> > > > > >
-> > > > > > >  /**
-> > > > > > > + * audit_set_contid - set current task's audit contid
-> > > > > > > + * @contid: contid value
-> > > > > > > + *
-> > > > > > > + * Returns 0 on success, -EPERM on permission failure.
-> > > > > > > + *
-> > > > > > > + * Called (set) from fs/proc/base.c::proc_contid_write().
-> > > > > > > + */
-> > > > > > > +int audit_set_contid(struct task_struct *task, u64 contid)
-> > > > > > > +{
-> > > > > > > +     u64 oldcontid;
-> > > > > > > +     int rc = 0;
-> > > > > > > +     struct audit_buffer *ab;
-> > > > > > > +     uid_t uid;
-> > > > > > > +     struct tty_struct *tty;
-> > > > > > > +     char comm[sizeof(current->comm)];
-> > > > > > > +
-> > > > > > > +     task_lock(task);
-> > > > > > > +     /* Can't set if audit disabled */
-> > > > > > > +     if (!task->audit) {
-> > > > > > > +             task_unlock(task);
-> > > > > > > +             return -ENOPROTOOPT;
-> > > > > > > +     }
-> > > > > > > +     oldcontid = audit_get_contid(task);
-> > > > > > > +     read_lock(&tasklist_lock);
-> > > > > > > +     /* Don't allow the audit containerid to be unset */
-> > > > > > > +     if (!audit_contid_valid(contid))
-> > > > > > > +             rc = -EINVAL;
-> > > > > > > +     /* if we don't have caps, reject */
-> > > > > > > +     else if (!capable(CAP_AUDIT_CONTROL))
-> > > > > > > +             rc = -EPERM;
-> > > > > > > +     /* if task has children or is not single-threaded, deny */
-> > > > > > > +     else if (!list_empty(&task->children))
-> > > > > > > +             rc = -EBUSY;
-> > > > > > > +     else if (!(thread_group_leader(task) && thread_group_empty(task)))
-> > > > > > > +             rc = -EALREADY;
-> > > > > > > +     read_unlock(&tasklist_lock);
-> > > > > > > +     if (!rc)
-> > > > > > > +             task->audit->contid = contid;
-> > > > > > > +     task_unlock(task);
-> > > > > > > +
-> > > > > > > +     if (!audit_enabled)
-> > > > > > > +             return rc;
-> > > > > >
-> > > > > > ...but it is allowed to change it (assuming
-> > > > > > capable(CAP_AUDIT_CONTROL), of course)? Seems like this might be more
-> > > > > > immediately useful since we still live in the world of majority
-> > > > > > privileged containers if we didn't allow changing it, in addition to
-> > > > > > un-setting it.
-> > > > >
-> > > > > The idea is that only container orchestrators should be able to
-> > > > > set/modify the audit container ID, and since setting the audit
-> > > > > container ID can have a significant effect on the records captured
-> > > > > (and their routing to multiple daemons when we get there) modifying
-> > > > > the audit container ID is akin to modifying the audit configuration
-> > > > > which is why it is gated by CAP_AUDIT_CONTROL.  The current thinking
-> > > > > is that you would only change the audit container ID from one
-> > > > > set/inherited value to another if you were nesting containers, in
-> > > > > which case the nested container orchestrator would need to be granted
-> > > > > CAP_AUDIT_CONTROL (which everyone to date seems to agree is a workable
-> > > > > compromise).
-> > > >
-> > > > But then don't you want some kind of ns_capable() instead (probably
-> > > > not the obvious one, though...)? With capable(), you can't really nest
-> > > > using the audit-id and user namespaces together.
-> > >
-> > > You want capable() and not ns_capable() because you want to ensure
-> > > that the orchestrator has the rights in the init_ns as changes to the
-> > > audit container ID could have an auditing impact that spans the entire
-> > > system.
-> >
-> > Ok but,
-> >
-> > > > > The current thinking
-> > > > > is that you would only change the audit container ID from one
-> > > > > set/inherited value to another if you were nesting containers, in
-> > > > > which case the nested container orchestrator would need to be granted
-> > > > > CAP_AUDIT_CONTROL (which everyone to date seems to agree is a workable
-> > > > > compromise).
-> >
-> > won't work in user namespaced containers, because they will never be
-> > capable(CAP_AUDIT_CONTROL); so I don't think this will work for
-> > nesting as is. But maybe nobody cares :)
+On Mon, May 27, 2019 at 09:36:18PM +0200, Jann Horn wrote:
+> +Kees
 > 
-> That's fun :)
+> On Mon, May 27, 2019 at 9:27 PM Linus Torvalds
+> <torvalds@linux-foundation.org> wrote:
+> > On Mon, May 27, 2019 at 3:42 AM Christian Brauner <christian@brauner.io> wrote:
+> > > Hm, still pondering whether having one unsigned int argument passed
+> > > through registers that captures all the flags from the old clone() would
+> > > be a good idea.
+> >
+> > That sounds like a reasonable thing to do.
+> >
+> > Maybe we could continue to call the old flags CLONE_XYZ and continue
+> > to pass them in as "flags" argument, and then we have CLONE_EXT_XYZ
+> > flags for a new 64-bit flag field that comes in through memory in the
+> > new clone_args thing?
 > 
-> To be honest, I've never been a big fan of supporting nested
-> containers from an audit perspective, so I'm not really too upset
-> about this.  The k8s/cri-o folks seem okay with this, or at least I
-> haven't heard any objections; lxc folks, what do you have to say?
+> With the current seccomp model, that would have the unfortunate effect
+> of making it impossible to filter out new clone flags - which would
+> likely mean that people who want to sandbox their code would not use
+> the new clone() because they don't want their sandboxed code to be
+> able to create time namespaces and whatever other new fancy things
+> clone() might support in the future. This is why I convinced Christian
+> to pass flags in registers for the first patch version.
+> 
+> The alternative I see would be to somehow extend seccomp to support
+> argument structures that are passed in memory - that would probably
+> require quite a bit of new plumbing though, both in the kernel and in
+> userspace code that configures seccomp filters.
 
-I actually thought the answer to this (when last I looked, "some time" ago)
-was that userspace should track an audit message saying "task X in
-container Y is changing its auditid to Z", and then decide to also track Z.
-This should be doable, but a lot of extra work in userspace.
+FWIW, the only path forward on this that I've been able to see is to
+normalize how syscalls read memory from userspace, and to basically
+provide a cache (i.e. copy from userspace once) that will be examined by
+both seccomp and later kernel functions. I have not been able to imagine
+an API that wasn't a massive amount of work to implement, though. Maybe
+it could be done only for a few kinds of arguments (file paths, certain
+structures, etc) but I haven't made any progress on it.
 
-Per-userns containerids would also work.  So task X1 is in containerid
-1 on the host and creates a new task Y in new userns;  it continues to
-be reported in init_user_ns as containerid 1 forever;  but in its own
-userns it can request to be known as some other containerid.  Audit
-socks would be per-userns, allowing root in a container to watch for
-audit events in its own (and descendent) namespaces.
-
-But again I'm sure we've gone over all this in the last few years.
-
-I suppose we can look at this as a "first step", and talk about
-making it user-ns-nestable later.  But agreed it's not useful in a
-lot of situations as is.
-
--serge
+-- 
+Kees Cook
