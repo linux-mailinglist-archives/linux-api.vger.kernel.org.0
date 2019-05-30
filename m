@@ -2,110 +2,185 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D14B82FBF6
-	for <lists+linux-api@lfdr.de>; Thu, 30 May 2019 15:08:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D18702FC1E
+	for <lists+linux-api@lfdr.de>; Thu, 30 May 2019 15:20:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727020AbfE3NIl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 30 May 2019 09:08:41 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38660 "EHLO mx1.redhat.com"
+        id S1726415AbfE3NUQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 30 May 2019 09:20:16 -0400
+Received: from port70.net ([81.7.13.123]:46612 "EHLO port70.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726382AbfE3NIk (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 30 May 2019 09:08:40 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 8FD0B30C120A;
-        Thu, 30 May 2019 13:08:34 +0000 (UTC)
-Received: from x2.localnet (ovpn-122-132.rdu2.redhat.com [10.10.122.132])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 437A15F9BA;
-        Thu, 30 May 2019 13:08:25 +0000 (UTC)
-From:   Steve Grubb <sgrubb@redhat.com>
-To:     Paul Moore <paul@paul-moore.com>
-Cc:     Richard Guy Briggs <rgb@redhat.com>,
-        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
-        Linux-Audit Mailing List <linux-audit@redhat.com>,
-        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
-        omosnace@redhat.com, dhowells@redhat.com, simo@redhat.com,
-        Eric Paris <eparis@parisplace.org>,
-        Serge Hallyn <serge@hallyn.com>, ebiederm@xmission.com,
-        Neil Horman <nhorman@tuxdriver.com>
-Subject: Re: [PATCH ghak90 V6 00/10] audit: implement container identifier
-Date:   Thu, 30 May 2019 09:08:22 -0400
-Message-ID: <1674888.6UpDe63hFX@x2>
-Organization: Red Hat
-In-Reply-To: <CAHC9VhTQ0gDZoWUh1QB4b7h3AgbpkhS40jrPVpCfJb11GT_FzQ@mail.gmail.com>
-References: <cover.1554732921.git.rgb@redhat.com> <CAHC9VhQYPF2ma_W+hySbQtfTztf=K1LTFnxnyVK0y9VYxj-K=w@mail.gmail.com> <CAHC9VhTQ0gDZoWUh1QB4b7h3AgbpkhS40jrPVpCfJb11GT_FzQ@mail.gmail.com>
+        id S1726253AbfE3NUQ (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 30 May 2019 09:20:16 -0400
+Received: by port70.net (Postfix, from userid 1002)
+        id EFC27ABEC0B8; Thu, 30 May 2019 15:20:12 +0200 (CEST)
+Date:   Thu, 30 May 2019 15:20:12 +0200
+From:   Szabolcs Nagy <nsz@port70.net>
+To:     Christian Brauner <christian@brauner.io>
+Cc:     viro@zeniv.linux.org.uk, linux-kernel@vger.kernel.org,
+        torvalds@linux-foundation.org, jannh@google.com,
+        fweimer@redhat.com, oleg@redhat.com, arnd@arndb.de,
+        dhowells@redhat.com, Pavel Emelyanov <xemul@virtuozzo.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Adrian Reber <adrian@lisas.de>,
+        Andrei Vagin <avagin@gmail.com>, linux-api@vger.kernel.org
+Subject: Re: [PATCH v1 1/2] fork: add clone3
+Message-ID: <20190530132012.GS16415@port70.net>
+References: <20190529152237.10719-1-christian@brauner.io>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.46]); Thu, 30 May 2019 13:08:40 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190529152237.10719-1-christian@brauner.io>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wednesday, May 29, 2019 6:26:12 PM EDT Paul Moore wrote:
-> On Mon, Apr 22, 2019 at 9:49 AM Paul Moore <paul@paul-moore.com> wrote:
-> > On Mon, Apr 22, 2019 at 7:38 AM Neil Horman <nhorman@tuxdriver.com> 
-wrote:
-> > > On Mon, Apr 08, 2019 at 11:39:07PM -0400, Richard Guy Briggs wrote:
-> > > > Implement kernel audit container identifier.
-> > > 
-> > > I'm sorry, I've lost track of this, where have we landed on it? Are we
-> > > good for inclusion?
-> > 
-> > I haven't finished going through this latest revision, but unless
-> > Richard made any significant changes outside of the feedback from the
-> > v5 patchset I'm guessing we are "close".
-> > 
-> > Based on discussions Richard and I had some time ago, I have always
-> > envisioned the plan as being get the kernel patchset, tests, docs
-> > ready (which Richard has been doing) and then run the actual
-> > implemented API by the userland container folks, e.g. cri-o/lxc/etc.,
-> > to make sure the actual implementation is sane from their perspective.
-> > They've already seen the design, so I'm not expecting any real
-> > surprises here, but sometimes opinions change when they have actual
-> > code in front of them to play with and review.
-> > 
-> > Beyond that, while the cri-o/lxc/etc. folks are looking it over,
-> > whatever additional testing we can do would be a big win.  I'm
-> > thinking I'll pull it into a separate branch in the audit tree
-> > (audit/working-container ?) and include that in my secnext kernels
-> > that I build/test on a regular basis; this is also a handy way to keep
-> > it based against the current audit/next branch.  If any changes are
-> > needed Richard can either chose to base those changes on audit/next or
-> > the separate audit container ID branch; that's up to him.  I've done
-> > this with other big changes in other trees, e.g. SELinux, and it has
-> > worked well to get some extra testing in and keep the patchset "merge
-> > ready" while others outside the subsystem look things over.
+* Christian Brauner <christian@brauner.io> [2019-05-29 17:22:36 +0200]:
+> This adds the clone3 system call.
 > 
-> I just sent my feedback on the v6 patchset, and it's small: basically
-> three patches with "one-liner" changes needed.
+> As mentioned several times already (cf. [7], [8]) here's the promised
+> patchset for clone3().
 > 
-> Richard, it's your call on how you want to proceed from here.  You can
-> post a v7 incorporating the feedback, or since the tweaks are so
-> minor, you can post fixup patches; the former being more
-> comprehensive, the later being quicker to review and digest.
-> Regardless of that, while we are waiting on a prototype from the
-> container folks, I think it would be good to pull this into a working
-> branch in the audit repo (as mentioned above), unless you would prefer
-> to keep it as a patchset on the mailing list?
+> We recently merged the CLONE_PIDFD patchset (cf. [1]). It took the last
+> free flag from clone().
+> 
+> Independent of the CLONE_PIDFD patchset a time namespace has been discussed
+> at Linux Plumber Conference last year and has been sent out and reviewed
+> (cf. [5]). It is expected that it will go upstream in the not too distant
+> future. However, it relies on the addition of the CLONE_NEWTIME flag to
+> clone(). The only other good candidate - CLONE_DETACHED - is currently not
+> recyclable as we have identified at least two large or widely used
+> codebases that currently pass this flag (cf. [2], [3], and [4]). Given that
+> CLONE_PIDFD grabbed the last clone() flag the time namespace is effectively
+> blocked. clone3() has the advantage that it will unblock this patchset
+> again.
+> 
+> The idea is to keep clone3() very simple and close to the original clone(),
+> specifically, to keep on supporting old clone()-based workloads.
+> We know there have been various creative proposals how a new process
+> creation syscall or even api is supposed to look like. Some people even
+> going so far as to argue that the traditional fork()+exec() split should be
+> abandoned in favor of an in-kernel version of spawn(). Independent of
+> whether or not we personally think spawn() is a good idea this patchset has
+> and does not want to have anything to do with this.
+> One stance we take is that there's no real good alternative to
+> clone()+exec() and we need and want to support this model going forward;
+> independent of spawn().
+> The following requirements guided clone3():
+> - bump the number of available flags
+> - move arguments that are currently passed as separate arguments
+>   in clone() into a dedicated struct clone_args
+>   - choose a struct layout that is easy to handle on 32 and on 64 bit
+>   - choose a struct layout that is extensible
+>   - give new flags that currently need to abuse another flag's dedicated
+>     return argument in clone() their own dedicated return argument
+>     (e.g. CLONE_PIDFD)
+>   - use a separate kernel internal struct kernel_clone_args that is
+>     properly typed according to current kernel conventions in fork.c and is
+>     different from  the uapi struct clone_args
+> - port _do_fork() to use kernel_clone_args so that all process creation
+>   syscalls such as fork(), vfork(), clone(), and clone3() behave identical
+>   (Arnd suggested, that we can probably also port do_fork() itself in a
+>    separate patchset.)
+> - ease of transition for userspace from clone() to clone3()
+>   This very much means that we do *not* remove functionality that userspace
+>   currently relies on as the latter is a good way of creating a syscall
+>   that won't be adopted.
+> - do not try to be clever or complex: keep clone3() as dumb as possible
+> 
+> In accordance with Linus suggestions, clone3() has the following signature:
+> 
+> /* uapi */
+> struct clone_args {
+>         __aligned_u64 flags;
+>         __aligned_u64 pidfd;
+>         __aligned_u64 parent_tidptr;
+>         __aligned_u64 child_tidptr;
+>         __aligned_u64 stack;
+>         __aligned_u64 stack_size;
+>         __aligned_u64 tls;
+> };
 
-Personally, I'd like to see this on a branch so that it's easier to build a 
-kernel locally for testing.
+is this new linux syscall api style to pass pointers as u64?
 
--Steve
+i think it will look a bit ugly in userspace where cast
+to u64 would signextend pointers on most 32bit targets, so
+user code would have to do something like
 
+arg.ptr = (uint64_t)(uintptr_t)ptr;
 
-> If you want to go with
-> the working branch approach, I'll keep the branch fresh and (re)based
-> against audit/next and if we notice any problems you can just submit
-> fixes against that branch (depending on the issue they can be fixup
-> patches, or proper patches).  My hope is that this will enable the
-> process to move quicker as we get near the finish line.
+such ugliness can be hidden by the libc with a different
+struct definition, but it will require bigendian and alignment
+hackery (or translation in libc, but that does not really work
+when user calls raw syscall).
 
-
-
-
+> 
+> /* kernel internal */
+> struct kernel_clone_args {
+>         u64 flags;
+>         int __user *pidfd;
+>         int __user *parent_tidptr;
+>         int __user *child_tidptr;
+>         unsigned long stack;
+>         unsigned long stack_size;
+>         unsigned long tls;
+> };
+> 
+> long sys_clone3(struct clone_args __user *uargs, size_t size)
+> 
+> clone3() cleanly supports all of the supported flags from clone() and thus
+> all legacy workloads.
+> The advantage of sticking close to the old clone() is the low cost for
+> userspace to switch to this new api. Quite a lot of userspace apis (e.g.
+> pthreads) are based on the clone() syscall. With the new clone3() syscall
+> supporting all of the old workloads and opening up the ability to add new
+> features should make switching to it for userspace more appealing. In
+> essence, glibc can just write a simple wrapper to switch from clone() to
+> clone3().
+> 
+> There has been some interest in this patchset already. We have received a
+> patch from the CRIU corner for clone3() that would set the PID/TID of a
+> restored process without /proc/sys/kernel/ns_last_pid to eliminate a race.
+> 
+> /* References */
+> [1]: b3e5838252665ee4cfa76b82bdf1198dca81e5be
+> [2]: https://dxr.mozilla.org/mozilla-central/source/security/sandbox/linux/SandboxFilter.cpp#343
+> [3]: https://git.musl-libc.org/cgit/musl/tree/src/thread/pthread_create.c#n233
+> [4]: https://sources.debian.org/src/blcr/0.8.5-2.3/cr_module/cr_dump_self.c/?hl=740#L740
+> [5]: https://lore.kernel.org/lkml/20190425161416.26600-1-dima@arista.com/
+> [6]: https://lore.kernel.org/lkml/20190425161416.26600-2-dima@arista.com/
+> [7]: https://lore.kernel.org/lkml/CAHrFyr5HxpGXA2YrKza-oB-GGwJCqwPfyhD-Y5wbktWZdt0sGQ@mail.gmail.com/
+> [8]: https://lore.kernel.org/lkml/20190524102756.qjsjxukuq2f4t6bo@brauner.io/
+> 
+> Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+> Signed-off-by: Christian Brauner <christian@brauner.io>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Pavel Emelyanov <xemul@virtuozzo.com>
+> Cc: Jann Horn <jannh@google.com>
+> Cc: David Howells <dhowells@redhat.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Oleg Nesterov <oleg@redhat.com>
+> Cc: Adrian Reber <adrian@lisas.de>
+> Cc: Linus Torvalds <torvalds@linux-foundation.org>
+> Cc: Andrei Vagin <avagin@gmail.com>
+> Cc: Al Viro <viro@zeniv.linux.org.uk>
+> Cc: Florian Weimer <fweimer@redhat.com>
+> Cc: linux-api@vger.kernel.org
+> --
+> v1:
+> - Linus Torvalds <torvalds@linux-foundation.org>:
+>   - redesign based on Linus proposal
+>   - switch from arg-based to revision-based naming scheme: s/clone6/clone3/
+> - Arnd Bergmann <arnd@arndb.de>:
+>   - use a single copy_from_user() instead of multiple get_user() calls
+>     since the latter have a constant overhead on some architectures
+>   - a range of other tweaks and suggestions
+> ---
+>  arch/x86/ia32/sys_ia32.c   |  11 ++-
+>  include/linux/sched/task.h |  13 ++-
+>  include/linux/syscalls.h   |   6 ++
+>  include/uapi/linux/sched.h |  16 ++++
+>  kernel/fork.c              | 176 ++++++++++++++++++++++++++++---------
+>  5 files changed, 177 insertions(+), 45 deletions(-)
+...
