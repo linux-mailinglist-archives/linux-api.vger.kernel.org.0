@@ -2,86 +2,99 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B669A310A6
-	for <lists+linux-api@lfdr.de>; Fri, 31 May 2019 16:55:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B5BE31130
+	for <lists+linux-api@lfdr.de>; Fri, 31 May 2019 17:22:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726773AbfEaOzM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 31 May 2019 10:55:12 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40650 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726531AbfEaOzM (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 31 May 2019 10:55:12 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 47CAFC0AD2B7;
-        Fri, 31 May 2019 14:55:12 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-120-173.rdu2.redhat.com [10.10.120.173])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 44FF41001E6F;
-        Fri, 31 May 2019 14:55:09 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <20190529231112.GB3164@kroah.com>
-References: <20190529231112.GB3164@kroah.com> <20190528231218.GA28384@kroah.com> <20190528162603.GA24097@kroah.com> <155905930702.7587.7100265859075976147.stgit@warthog.procyon.org.uk> <155905931502.7587.11705449537368497489.stgit@warthog.procyon.org.uk> <4031.1559064620@warthog.procyon.org.uk> <31936.1559146000@warthog.procyon.org.uk>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     dhowells@redhat.com, viro@zeniv.linux.org.uk, raven@themaw.net,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-block@vger.kernel.org, keyrings@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/7] General notification queue with user mmap()'able ring buffer
+        id S1726683AbfEaPV5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 31 May 2019 11:21:57 -0400
+Received: from mail-yw1-f68.google.com ([209.85.161.68]:33810 "EHLO
+        mail-yw1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726531AbfEaPV5 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 31 May 2019 11:21:57 -0400
+Received: by mail-yw1-f68.google.com with SMTP id n76so4287627ywd.1;
+        Fri, 31 May 2019 08:21:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hVB+3wva8lYYaR85t5N42o/6t3+e71DhQnwd4VnHZ2s=;
+        b=cauG1fiQiQ8aQQCenQLcHSPvx0I4gcwkiAsElwldIFkEwXd6bYpDga4KE1UvqPxFYC
+         C8/0vrf8SnlO5U59qZrpnpGjhw5zk8B7tlhZVZRPNe5eBn8+dsEMlymmRjxE6XAUo8Rw
+         89R6HOiMiLK/x6SZZLku+9dBLsBrO0EkuRiGBtzTpuZ9T8+dsuYh+F8koLzFKFj9gxLV
+         rSNEGiJfEK1+a7Ch9m7iB8v80YQyb7g3nwL86B6ImAWB8wkibU6jLHFhJZt0rhlwAYfe
+         VZa78TlWWnngrFEhPzRJrqciRm+n6AvzQdvQckUGzVxmq3lL+wpgUSSQAn2bGqKQRwEe
+         t82w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hVB+3wva8lYYaR85t5N42o/6t3+e71DhQnwd4VnHZ2s=;
+        b=H72TB05u5pYQneDC07Bvl1/fvkhke8w1+dqcJa64WBg0Z8uD5Lghd1F8qIXdRT1LAa
+         gZr20WdGv184b0Ce6F8v/+Jd5BdfkHzvFgStUUyIIfwf7Y+7E5L1JYtvQ9m9V3iALTFh
+         YSU7sF/1el3tnswVj8A7Pz10vgysfL604fif/owBMaBTOSpMg12Z+a0os9UX9xu+0A3o
+         EG63JExlaaA821n1v1nDzvfg0508CSIG4jmEH9ebOTTmefIDCeN6NnmklOQtxv2mepYu
+         0AhtpjetvZMRooUgAnRhWOlP+kThhPF0PXZvWHrpHogXR8zDdaXTWIuy87TA6wzNbUe5
+         8MjQ==
+X-Gm-Message-State: APjAAAXgALxsnD6DPRzB7h+wj8Uxl77P20VpCdsUL8Fq9MyJiSHu/M+I
+        AhM00izP88U5skJjcgOoXSIv3lJqjEN/QH1aYtA=
+X-Google-Smtp-Source: APXvYqzweoHJN024aJFPsVRMFJeZ7erwv8ogr3cR1VHrvMTSMSfOoUXoORxVBwUVuv3Wftm9yea1zNU3KdGTZeHMwbg=
+X-Received: by 2002:a81:7096:: with SMTP id l144mr6198986ywc.294.1559316116397;
+ Fri, 31 May 2019 08:21:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <3762.1559314508.1@warthog.procyon.org.uk>
-Date:   Fri, 31 May 2019 15:55:08 +0100
-Message-ID: <3763.1559314508@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.32]); Fri, 31 May 2019 14:55:12 +0000 (UTC)
+References: <20190527172655.9287-1-amir73il@gmail.com> <20190528202659.GA12412@mit.edu>
+ <CAOQ4uxgo5jmwQbLAKQre9=7pLQw=CwMgDaWPaJxi-5NGnPEVPQ@mail.gmail.com>
+In-Reply-To: <CAOQ4uxgo5jmwQbLAKQre9=7pLQw=CwMgDaWPaJxi-5NGnPEVPQ@mail.gmail.com>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Fri, 31 May 2019 18:21:45 +0300
+Message-ID: <CAOQ4uxgj94WR82iHE4PDGSD0UDxG5sCtr+Sv+t1sOHHmnXFYzQ@mail.gmail.com>
+Subject: Re: [RFC][PATCH] link.2: AT_ATOMIC_DATA and AT_ATOMIC_METADATA
+To:     "Theodore Ts'o" <tytso@mit.edu>
+Cc:     Jan Kara <jack@suse.cz>,
+        "Darrick J . Wong" <darrick.wong@oracle.com>,
+        Dave Chinner <david@fromorbit.com>, Chris Mason <clm@fb.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-xfs <linux-xfs@vger.kernel.org>,
+        Ext4 <linux-ext4@vger.kernel.org>,
+        Linux Btrfs <linux-btrfs@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Greg KH <gregkh@linuxfoundation.org> wrote:
+> >
+> > So instead of saying "A filesystem that accepts this flag will
+> > guaranty, that old inode data will not be exposed in the new linked
+> > name."  It's much clearer to state this in the affirmative:
+> >
+> >         A filesystem which accepts this flag will guarantee that if
+> >         the new pathname exists after a crash, all of the data written
+> >         to the file at the time of the linkat(2) call will be visible.
+> >
+>
+> Sounds good to me. I will take a swing at another patch.
+>
 
-> So, if that's all that needs to be fixed, can you use the same
-> buffer/code if that patch is merged?
+So I am down to single flag documented with 3 tweets ;-)
 
-I really don't know.  The perf code is complex, partially in hardware drivers
-and is tricky to understand - though a chunk of that is the "aux" buffer part;
-PeterZ used words like "special" and "magic" and the comments in the code talk
-about the hardware writing into the buffer.
+What do you think of:
 
-__perf_output_begin() does not appear to be SMP safe.  It uses local_cmpxchg()
-and local_add() which on x86 lack the LOCK prefix.
+"AT_ATOMIC_DATA (since Linux 5.x)
+A filesystem which accepts this flag will guarantee that if the linked file
+name exists after a system crash, then all of the data written to the file
+and all of the file's metadata at the time of the linkat(2) call will be
+visible.
 
-stracing the perf command on my test machine, it calls perf_event_open(2) four
-times and mmap's each fd it gets back.  I'm guessing that each one maps a
-separate buffer for each CPU.
+The way to achieve this guarantee on old kernels is to call fsync (2)
+before linking the file, but doing so will also results in flushing of
+volatile disk caches.
 
-So to use watch_queue based on perf's buffering, you would have to have a
-(2^N)+1 pages-sized buffer for each CPU.  So that would be a minimum of 64K of
-unswappable memory for my desktop machine, say).  Multiply that by each
-process that wants to listen for events...
+A filesystem which accepts this flag does NOT
+guarantee that any of the file hardlinks will exist after a system crash,
+nor that the last observed value of st_nlink (see stat (2)) will persist."
 
-What I'm aiming for is something that has a single buffer used by all CPUs for
-each instance of /dev/watch_queue opened and I'd also like to avoid having to
-allocate the metadata page and the aux buffer to save space.  This is locked
-memory and cannot be swapped.
 
-Also, perf has to leave a gap in the ring because it uses CIRC_SPACE(), though
-that's a minor detail that I guess can't be fixed now.
-
-I'm also slightly concerned that __perf_output_begin() doesn't check if
-rb->user->tail has got ahead of rb->user->head or that it's lagging too far
-behind.  I doubt it's a serious problem for the kernel since it won't write
-outside of the buffer, but userspace might screw up.  I think the worst that
-will happen is that userspace will get confused.
-
-One thing I would like is to waive the 2^N size requirement.  I understand
-*why* we do that, but I wonder how expensive DIV instructions are for
-relatively small divisors.
-
-David
+Thanks,
+Amir.
