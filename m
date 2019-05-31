@@ -2,193 +2,240 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 432603146B
-	for <lists+linux-api@lfdr.de>; Fri, 31 May 2019 20:11:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DEC431539
+	for <lists+linux-api@lfdr.de>; Fri, 31 May 2019 21:23:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726652AbfEaSLA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 31 May 2019 14:11:00 -0400
-Received: from mail.efficios.com ([167.114.142.138]:37580 "EHLO
-        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726701AbfEaSLA (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 31 May 2019 14:11:00 -0400
-Received: from localhost (ip6-localhost [IPv6:::1])
-        by mail.efficios.com (Postfix) with ESMTP id 2AD3922F45C;
-        Fri, 31 May 2019 14:10:58 -0400 (EDT)
-Received: from mail.efficios.com ([IPv6:::1])
-        by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10032)
-        with ESMTP id CVbXiAMBTh8l; Fri, 31 May 2019 14:10:57 -0400 (EDT)
-Received: from localhost (ip6-localhost [IPv6:::1])
-        by mail.efficios.com (Postfix) with ESMTP id 6F47022F452;
-        Fri, 31 May 2019 14:10:57 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 6F47022F452
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1559326257;
-        bh=5pWd1qkBb3teYvKpgXTm+KiNou/eDaH+jFixlM1uv00=;
-        h=Date:From:To:Message-ID:MIME-Version;
-        b=k5VLoki8BdROQLM1uUaHJqdewCx2tHy6R5ucG0eHqDTt3UWAv1n9iK2SuWXSWBFUQ
-         vlulMZ9s32lcR5UkF7OzzNks0Vn7Qmks0QyoxoGO4Xut/3s8omXKqVY9RVZMKGHJEI
-         TNqhwXToZDkqim9Wpy910sYbH4lsLnAPsrijTPNGLKiLLYsDQW/h96scaq1Uz6nVj8
-         BZnP7fvRhAFDklGPfoCS5E3wkvGtefxr4UxK/oVrXr8d2brN7j9RIel3zHh5puZV8Q
-         /NZCvbAJaWDLBdFEiZFzMBJ91j6l7XEUzfYmXUaLL2hqS7cAoqdjCR7GuqfT8uQGFc
-         Ahvecd3l/caGw==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([IPv6:::1])
-        by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10026)
-        with ESMTP id kld0ZKmMzhFe; Fri, 31 May 2019 14:10:57 -0400 (EDT)
-Received: from mail02.efficios.com (mail02.efficios.com [167.114.142.138])
-        by mail.efficios.com (Postfix) with ESMTP id 516D322F446;
-        Fri, 31 May 2019 14:10:57 -0400 (EDT)
-Date:   Fri, 31 May 2019 14:10:57 -0400 (EDT)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     carlos <carlos@redhat.com>, Joseph Myers <joseph@codesourcery.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        libc-alpha <libc-alpha@sourceware.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ben Maurer <bmaurer@fb.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Dave Watson <davejwatson@fb.com>, Paul Turner <pjt@google.com>,
-        Rich Felker <dalias@libc.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-api <linux-api@vger.kernel.org>
-Message-ID: <1528929896.22217.1559326257155.JavaMail.zimbra@efficios.com>
-In-Reply-To: <87muj2k4ov.fsf@oldenburg2.str.redhat.com>
-References: <20190503184219.19266-1-mathieu.desnoyers@efficios.com> <87h89gjgaf.fsf@oldenburg2.str.redhat.com> <1239705947.14878.1558985272873.JavaMail.zimbra@efficios.com> <140718133.18261.1559144710554.JavaMail.zimbra@efficios.com> <2022553041.20966.1559249801435.JavaMail.zimbra@efficios.com> <875zprm4jo.fsf@oldenburg2.str.redhat.com> <732661684.21584.1559314109886.JavaMail.zimbra@efficios.com> <87muj2k4ov.fsf@oldenburg2.str.redhat.com>
-Subject: Re: [PATCH 1/5] glibc: Perform rseq(2) registration at C startup
- and thread creation (v10)
+        id S1727153AbfEaTXu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 31 May 2019 15:23:50 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:44998 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727085AbfEaTXu (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 31 May 2019 15:23:50 -0400
+Received: by mail-pl1-f194.google.com with SMTP id c5so4372335pll.11
+        for <linux-api@vger.kernel.org>; Fri, 31 May 2019 12:23:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:date:message-id:mime-version
+         :content-transfer-encoding:cc:from:to;
+        bh=VG+Xtpxl4luXcLoXYHzOczLmqwJ/KICZpqExcJIYQWo=;
+        b=IdpDJ2Sdvvu2aCwVghck/fh8P2m5OVAEQywtxiW6hom7DWBJlrlMaFQHD48xQLiOgA
+         dAnE/FG5C8ku8HzdkNxuuO9SAGoaBx9Um9ZVdndxbCstRykE0KcOAOaztnQXg9IPQSC1
+         P7qM0KnouvWr69rozc+9G4rzHEmQ3CrRaBp/adukL79PqIMDkdxfIbKwedVp5IJ2fwtO
+         Qogol3T4Zg6OymJYAu52E3JlyFqz81cBc8fvGjw6iZnyFMS91fi4vGzfrgFwgVPTMLUX
+         OFl071sryPFOnJaOJ4RxrLohzBzsnOOgJ94mDk5ZMAx9rcDIB9SGaq3e0OEs8B/JR0qR
+         nXKQ==
+X-Gm-Message-State: APjAAAVpcSeR63twqWVaiq8daw2wkN1l/fU4NQyRDEWa7Rw4pqAiSwIU
+        9WJ2ddEv2DCOdoJsr11fiM8pu7OCVC0=
+X-Google-Smtp-Source: APXvYqwodoAgavzj2P4i1gNyR2leUPdA0IKjvBtDOQwiUdYmgggspbkKhk4fbaMsdd3hKYvFlqbwlg==
+X-Received: by 2002:a17:902:1003:: with SMTP id b3mr11774895pla.172.1559330629047;
+        Fri, 31 May 2019 12:23:49 -0700 (PDT)
+Received: from localhost ([12.206.222.5])
+        by smtp.gmail.com with ESMTPSA id r4sm11493078pfq.134.2019.05.31.12.23.48
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 31 May 2019 12:23:48 -0700 (PDT)
+Subject: Add a new fchmodat4() syscall
+Date:   Fri, 31 May 2019 12:11:59 -0700
+Message-Id: <20190531191204.4044-1-palmer@sifive.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [167.114.142.138]
-X-Mailer: Zimbra 8.8.12_GA_3803 (ZimbraWebClient - FF67 (Linux)/8.8.12_GA_3794)
-Thread-Topic: glibc: Perform rseq(2) registration at C startup and thread creation (v10)
-Thread-Index: 86crk3o97x34dTvOXYVp+G+7ug75ug==
+Content-Transfer-Encoding: 8bit
+Cc:     linux-arch@vger.kernel.org, x86@kernel.org, luto@kernel.org,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+        Arnd Bergmann <arnd@arndb.de>
+From:   Palmer Dabbelt <palmer@sifive.com>
+To:     viro@zeniv.linux.org.uk, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+I spent half of dinner last night being complained to by one of our
+hardware engineers about Linux's lack of support for the flags argument
+to fchmodat().  This all came about because of a FUSE filesystem
+implementation, and while there are some application-specific
+workarounds for the issue it seemed to me like the cleanest bet was to
+just go add another fchmodat() that supports flags to the kernel.
 
+The actual implementation is super simple: essentially it's just
+the same as fchmodat(), but LOOKUP_FOLLOW is conditionally set based on
+the flags.  I've attempted to make this match "man 2 fchmodat" as
+closely as possible, which says EINVAL is returned for invalid flags (as
+opposed to ENOTSUPP, which is currently returned by glibc for
+AT_SYMLINK_NOFOLLOW).  I have a sketch of a glibc patch that I haven't
+even compiled yet, but seems fairly straight-forward:
 
------ On May 31, 2019, at 11:46 AM, Florian Weimer fweimer@redhat.com wrote=
-:
+    diff --git a/sysdeps/unix/sysv/linux/fchmodat.c b/sysdeps/unix/sysv/linux/fchmodat.c
+    index 6d9cbc1ce9e0..b1beab76d56c 100644
+    --- a/sysdeps/unix/sysv/linux/fchmodat.c
+    +++ b/sysdeps/unix/sysv/linux/fchmodat.c
+    @@ -29,12 +29,36 @@
+     int
+     fchmodat (int fd, const char *file, mode_t mode, int flag)
+     {
+    -  if (flag & ~AT_SYMLINK_NOFOLLOW)
+    -    return INLINE_SYSCALL_ERROR_RETURN_VALUE (EINVAL);
+    -#ifndef __NR_lchmod		/* Linux so far has no lchmod syscall.  */
+    +  /* There are four paths through this code:
+    +      - The flags are zero.  In this case it's fine to call fchmodat.
+    +      - The flags are non-zero and glibc doesn't have access to
+    +	__NR_fchmodat4.  In this case all we can do is emulate the error codes
+    +	defined by the glibc interface from userspace.
+    +      - The flags are non-zero, glibc has __NR_fchmodat4, and the kernel has
+    +	fchmodat4.  This is the simplest case, as the fchmodat4 syscall exactly
+    +	matches glibc's library interface so it can be called directly.
+    +      - The flags are non-zero, glibc has __NR_fchmodat4, but the kernel does
+    +	not.  In this case we must respect the error codes defined by the glibc
+    +	interface instead of returning ENOSYS.
+    +    The intent here is to ensure that the kernel is called at most once per
+    +    library call, and that the error types defined by glibc are always
+    +    respected.  */
+    +
+    +#ifdef __NR_fchmodat4
+    +  long result;
+    +#endif
+    +
+    +  if (flag == 0)
+    +    return INLINE_SYSCALL (fchmodat, 3, fd, file, mode);
+    +
+    +#ifdef __NR_fchmodat4
+    +  result = INLINE_SYSCALL (fchmodat4, 4, fd, file, mode, flag);
+    +  if (result == 0 || errno != ENOSYS)
+    +    return result;
+    +#endif
+    +
+       if (flag & AT_SYMLINK_NOFOLLOW)
+         return INLINE_SYSCALL_ERROR_RETURN_VALUE (ENOTSUP);
+    -#endif
+     
+    -  return INLINE_SYSCALL (fchmodat, 3, fd, file, mode);
+    +  return INLINE_SYSCALL_ERROR_RETURN_VALUE (EINVAL);
+     }
 
-> * Mathieu Desnoyers:
->=20
->> Let's break this down into the various sub-issues involved:
->>
->> 1) How early do we need to setup rseq ? Should it be setup before:
->>    - LD_PRELOAD .so constructors ?
->>      - Without circular dependency,
->>      - With circular dependency,
->>    - audit libraries initialization ?
->>    - IFUNC resolvers ?
->>    - other callbacks ?
->>    - memory allocator calls ?
->>
->> We may end up in a situation where we need memory allocation to be setup
->> in order to initialize TLS before rseq can be registered for the main
->> thread. I suspect we will end up needing a fallbacks which always work
->> for the few cases that would try to use rseq too early in dl/libc startu=
-p.
->=20
-> I think the answer to that depends on whether it's okay to have an
-> observable transition from =E2=80=9Cno rseq kernel support=E2=80=9D to =
-=E2=80=9Ckernel supports
-> rseq=E2=80=9D.
+I've never added a new syscall before so I'm not really sure what the
+proper procedure to follow is.  I'm assuming any new syscall will
+involve fairly significant discussion, so I've just done the minimum of
+an implementation for this patch set.  Specifically, I've:
 
-As far as my own use-cases are concerned, I only care that rseq is initiali=
-zed
-before LD_PRELOAD .so constructors are executed.
+* Defined a new syscall that looks like fchmodat but includes a flag
+  argument, which I'm calling fchmodat4 because it has 4 arguments.  I
+  don't know if that's the correct naming convention, and don't really
+  have any skin in that game.
+* Implemented that syscall by extending the fchmod code to handle flags,
+  which is pretty straight-forward.  I think it's sane, but given that
+  it's so simple I'm not sure if I'm missing something -- specifically,
+  I didn't go check to make sure the semantics of AT_SYMLINK_NOFOLLOW
+  match !LOOKUP_FOLLOW.  I'm assuming the do, but sometimes when I look
+  at something and say "that's so simple, how is it broken" I'm actually
+  just missing something entirely.
+* Added an asm-generic syscall number for this, which I assume I'm
+  supposed to do this first as it looks like we're trying to keep the
+  numbers in sync everywhere.
+* Added x86 syscalls for this so I could test it.
 
-There appears to be some amount of documented limitations for what can be
-done by the IFUNC resolvers. It might be acceptable to document that rseq
-might not be initialized yet when those are executed.
+I also cleaned up a checkpatch issue in fchmodat().  I only found this
+because I copied the fchmodat() interface for fchmodat4() and it threw
+the warning, I don't personally care either way as to whether or not the
+space is in there.
 
-I'd like to hear what others think about whether we should care about IFUNC
-resolvers and audit libraries using restartable sequences TLS ?
+I've given this fairly minimal testing.  Essentially all I've done is
+booted up 5.1.6 with this patch set on my local development box and run
 
-[...]
+    $ touch test-file
+    $ ln -s test-file test-link
+    $ cat > test.c
+    #include <fcntl.h>
+    #include <stdio.h>
+    #include <unistd.h>
+    
+    int main(int argc, char **argv)
+    {
+            long out;
+    
+            out = syscall(428, AT_FDCWD, "test-file", 0x888, AT_SYMLINK_NOFOLLOW);
+            printf("fchmodat4(AT_FDCWD, \"test-file\", 0x888, AT_SYMLINK_NOFOLLOW): %ld\n", out);
+    
+            out = syscall(428, AT_FDCWD, "test-file", 0x888, 0);
+            printf("fchmodat4(AT_FDCWD, \"test-file\", 0x888, 0): %ld\n", out);
+    
+            out = syscall(268, AT_FDCWD, "test-file", 0x888);
+            printf("fchmodat(AT_FDCWD, \"test-file\", 0x888): %ld\n", out);
+    
+            out = syscall(428, AT_FDCWD, "test-link", 0x888, AT_SYMLINK_NOFOLLOW);
+            printf("fchmodat4(AT_FDCWD, \"test-link\", 0x888, AT_SYMLINK_NOFOLLOW): %ld\n", out);
+    
+            out = syscall(428, AT_FDCWD, "test-link", 0x888, 0);
+            printf("fchmodat4(AT_FDCWD, \"test-link\", 0x888, 0): %ld\n", out);
+    
+            out = syscall(268, AT_FDCWD, "test-link", 0x888);
+            printf("fchmodat(AT_FDCWD, \"test-link\", 0x888): %ld\n", out);
+    
+            return 0;
+    }
+    $ gcc test.c -o test
+    $ ./test
+    fchmodat4(AT_FDCWD, "test-file", 0x888, AT_SYMLINK_NOFOLLOW): 0
+    fchmodat4(AT_FDCWD, "test-file", 0x888, 0): 0
+    fchmodat(AT_FDCWD, "test-file", 0x888): 0
+    fchmodat4(AT_FDCWD, "test-link", 0x888, AT_SYMLINK_NOFOLLOW): -1
+    fchmodat4(AT_FDCWD, "test-link", 0x888, 0): 0
+    fchmodat(AT_FDCWD, "test-link", 0x888): 0
 
->=20
->> 4) Inability to touch a TLS variable (__rseq_abi) from ld-linux-*.so.2
->>    - Should we extend the dynamic linker to allow such TLS variable to b=
-e
->>      accessed ? If so, how much effort is required ?
->>    - Can we find an alternative way to initialize rseq early during
->>      dl init stages while still performing the TLS access from a functio=
-n
->>      implemented within libc.so ?
->=20
-> This is again related to the answer for (1).  There are various hacks we
-> could implement to make the initialization invisible (e.g., computing
-> the address of the variable using the equivalent of dlsym, after loading
-> all the initial objects and before starting relocation).  If it's not
-> too hard to add TLS support to ld.so, we can consider that as well.
-> (The allocation side should be pretty easy, relocation support it could
-> be more tricky.)
->=20
->> So far, I got rseq to be initialized before LD_PRELOADed library
->> constructors by doing the initialization in a constructor within
->> libc.so. I don't particularly like this approach, because the
->> constructor order is not guaranteed.
->=20
-> Right.
+While I don't think there's any reason what's there is unacceptable, I
+don't really consider this finished.  I couldn't find a cookbook for
+"here's how you add a system call", but all I really did was "git grep
+add | grep syscall" so if there's something out there then please let me
+know and I'll follow it.  Specifically, I haven't:
 
-One question related to use of constructors: AFAIU, if a library depends
-on glibc, ELF guarantees that the glibc constructor will be executed first,
-before the other library.
+* Added any sort of documentation.  I don't find anything with a "git
+  grep fchmodat", so I'm assuming it's just the man pages that are
+  relevant here.
+* Fixed any of the other architectures.  I'm assuming this is just the
+  mechanical process of fixing all these in the same way I did for x86.
 
-Which leaves us with the execution order of constructors within libc.so,
-which is not guaranteed if we just use __attribute__ ((constructor)).
-However, all gcc versions that are required to build recent glibc
-seem to support a constructor with a "priority" value (lower gets
-executed first, and those are executed before constructors without
-priority).
+      arch/alpha/kernel/syscalls/syscall.tbl:461      common  fchmodat                        sys_fchmodat
+      arch/arm/tools/syscall.tbl:333  common  fchmodat                sys_fchmodat
+      arch/arm64/include/asm/unistd32.h:#define __NR_fchmodat 333
+      arch/arm64/include/asm/unistd32.h:__SYSCALL(__NR_fchmodat, sys_fchmodat)
+      arch/ia64/kernel/fsys.S:        data8 0                         // fchmodat
+      arch/ia64/kernel/syscalls/syscall.tbl:268       common  fchmodat                        sys_fchmodat
+      arch/m68k/kernel/syscalls/syscall.tbl:299       common  fchmodat                        sys_fchmodat
+      arch/microblaze/kernel/syscalls/syscall.tbl:306 common  fchmodat                        sys_fchmodat
+      arch/mips/kernel/syscalls/syscall_n32.tbl:262   n32     fchmodat                        sys_fchmodat
+      arch/mips/kernel/syscalls/syscall_n64.tbl:258   n64     fchmodat                        sys_fchmodat
+      arch/mips/kernel/syscalls/syscall_o32.tbl:299   o32     fchmodat                        sys_fchmodat
+      arch/parisc/kernel/syscalls/syscall.tbl:286     common  fchmodat                sys_fchmodat
+      arch/powerpc/kernel/syscalls/syscall.tbl:297    common  fchmodat                        sys_fchmodat
+      arch/s390/kernel/syscalls/syscall.tbl:299  common       fchmodat                sys_fchmodat                    sys_fchmodat
+      arch/sh/include/uapi/asm/unistd_64.h:#define __NR_fchmodat              334
+      arch/sh/kernel/syscalls/syscall.tbl:306 common  fchmodat                        sys_fchmodat
+      arch/sh/kernel/syscalls_64.S:   .long sys_fchmodat
+      arch/sparc/kernel/syscalls/syscall.tbl:295      common  fchmodat                sys_fchmodat
+      arch/xtensa/kernel/syscalls/syscall.tbl:300     common  fchmodat                        sys_fchmodat
+* Looked at anything in tools.  Again, I'm assuming it's just a
+  mechanical process of looking at all of these and adding fchmodat4.
 
-Could we do e.g.:
+      tools/include/nolibc/nolibc.h:#ifdef __NR_fchmodat
+      tools/include/nolibc/nolibc.h:  return my_syscall4(__NR_fchmodat, AT_FDCWD, path, mode, 0);
+      tools/include/uapi/asm-generic/unistd.h:#define __NR_fchmodat 53
+      tools/include/uapi/asm-generic/unistd.h:__SYSCALL(__NR_fchmodat, sys_fchmodat)
+      tools/perf/arch/powerpc/entry/syscalls/syscall.tbl:297  common  fchmodat                        sys_fchmodat
+      tools/perf/arch/s390/entry/syscalls/syscall.tbl:299  common     fchmodat                sys_fchmodat                    compat_sys_fchmodat
+      tools/perf/arch/x86/entry/syscalls/syscall_64.tbl:268   common  fchmodat                __x64_sys_fchmodat
+      tools/perf/builtin-trace.c:     { .name     = "fchmodat",
 
---- a/include/libc-internal.h
-+++ b/include/libc-internal.h
-@@ -21,6 +21,12 @@
-=20
- #include <hp-timing.h>
-=20
-+/* Libc constructor priority order. Lower is executed first.  */
-+enum libc_constructor_prio {
-+       /* Priorities between 0 and 100 are reserved.  */
-+       LIBC_CONSTRUCTOR_PRIO_RSEQ_INIT =3D 1000,
-+};
-+
- /* Initialize the `__libc_enable_secure' flag.  */
- extern void __libc_init_secure (void);
-=20
-and
+* Done anything with userspace, aside from thinking about the glibc code
+  above.  I'd assume that I'm meant to bring in libc-alpha to the
+  discussion, but I didn't want to do so this early in case this was
+  just a non-starter.
 
-csu/libc-start.c:
+I'm happy dealing with all of that, but given that I'm assuming there's
+going to be some discussion I wanted to send out the proof-of-concept
+first to see if this has any legs.  Aside from the glibc side the
+remaining work smells pretty mechanical, so I figured I'd wait on that
+until I knew it wasn't going to be a waste of time -- partially because
+I'm lazy, but mostly because I just realized I blew my whole morning
+working on this when all I really wanted to do was avoid discussing
+fchmodat in the first place :)
+    
 
-static
-__attribute__ ((constructor (LIBC_CONSTRUCTOR_PRIO_RSEQ_INIT)))
-void __rseq_libc_init (void)
-{
-  rseq_init ();
-  /* Register rseq ABI to the kernel.   */
-  (void) rseq_register_current_thread ();
-}
-
-[...]
-
-Thanks,
-
-Mathieu
-
-
-
-
---=20
-Mathieu Desnoyers
-EfficiOS Inc.
-http://www.efficios.com
