@@ -2,105 +2,80 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E978630CCB
-	for <lists+linux-api@lfdr.de>; Fri, 31 May 2019 12:45:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04F0330D2C
+	for <lists+linux-api@lfdr.de>; Fri, 31 May 2019 13:15:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726233AbfEaKpI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 31 May 2019 06:45:08 -0400
-Received: from mail.virtlab.unibo.it ([130.136.161.50]:43110 "EHLO
-        mail.virtlab.unibo.it" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726158AbfEaKpI (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 31 May 2019 06:45:08 -0400
-Received: from cs.unibo.it (host5.studiodavoli.it [109.234.61.227])
-        by mail.virtlab.unibo.it (Postfix) with ESMTPSA id 3F13F1FF56;
-        Fri, 31 May 2019 12:45:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=cs.unibo.it;
-        s=virtlab; t=1559299504;
-        bh=s4G4mm0cVlJxxyR750Hz6JmulktaIEHy2Bt1ua5aYVU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CAKhQHBm8yDt+YFRTa0N3chhhC+ygsozaglGaLMMQgRfeA720bE0+p55Z9myJ2qdE
-         v+O+Y9/zx3J/zBtByHSNb0jZQuYIsE8gLVNkbIyEySIS8cDYkU65hsPiIQBQJMKZlp
-         tzfdFhaLGei9bCsCSP9xfq4yE5rsajcjm1xnT5RA=
-Date:   Fri, 31 May 2019 12:45:02 +0200
-From:   Renzo Davoli <renzo@cs.unibo.it>
-To:     Roman Penyaev <rpenyaev@suse.de>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Davide Libenzi <davidel@xmailserver.org>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-kernel-owner@vger.kernel.org
-Subject: Re: [PATCH 1/1] eventfd new tag EFD_VPOLL: generate epoll events
-Message-ID: <20190531104502.GE3661@cs.unibo.it>
-References: <20190526142521.GA21842@cs.unibo.it>
- <20190527073332.GA13782@kroah.com>
- <20190527133621.GC26073@cs.unibo.it>
- <480f1bda66b67f740f5da89189bbfca3@suse.de>
+        id S1726461AbfEaLPD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 31 May 2019 07:15:03 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:42694 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726240AbfEaLPC (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 31 May 2019 07:15:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=0bzCcEeHXEwR7c+WQ7EMhHPHTFa6pRbMCfQNYRgGQ50=; b=TZRqiz+eB19FKOviEbwMF50eL
+        tkVinge7hG7nufh2+jXjJimy3MX8tBcxRj3YQ//UpQYvtJgMfKOhWXOXbYLoPoseaA8GM16AkT9se
+        Jngp47DXJ0z8Aw/MuS1HRC8U73Vd1LivUdfY5v/tC0ZNDKoBOdj6+6VODUmz8iT2gJDy2a+4tpMBx
+        VO+5A3Gl8tI5ZU5dfFyOOeE7KYOq4wxlJF67H2SjwQSOphmha3VHx2Fo9JYu9EsuOvlTOySnke9tM
+        z2Nkt7Oukx13QfyTJ/CxJdaCY4q6AKkM/OC82uZli8h02Sua/xANMZ4b54zPgJGxij2HRdkFUR5Ql
+        hCLOaznLw==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hWfUl-0002gF-9Z; Fri, 31 May 2019 11:14:47 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id BA181201D5AB1; Fri, 31 May 2019 13:14:45 +0200 (CEST)
+Date:   Fri, 31 May 2019 13:14:45 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     David Howells <dhowells@redhat.com>
+Cc:     Jann Horn <jannh@google.com>, Greg KH <gregkh@linuxfoundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>, raven@themaw.net,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-block@vger.kernel.org, keyrings@vger.kernel.org,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>
+Subject: Re: [PATCH 1/7] General notification queue with user mmap()'able
+ ring buffer
+Message-ID: <20190531111445.GO2677@hirez.programming.kicks-ass.net>
+References: <CAG48ez0R-R3Xs+3Xg9T9qcV3Xv6r4pnx1Z2y=Ltx7RGOayte_w@mail.gmail.com>
+ <20190528162603.GA24097@kroah.com>
+ <155905930702.7587.7100265859075976147.stgit@warthog.procyon.org.uk>
+ <155905931502.7587.11705449537368497489.stgit@warthog.procyon.org.uk>
+ <4031.1559064620@warthog.procyon.org.uk>
+ <20190528231218.GA28384@kroah.com>
+ <31936.1559146000@warthog.procyon.org.uk>
+ <16193.1559163763@warthog.procyon.org.uk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <480f1bda66b67f740f5da89189bbfca3@suse.de>
+In-Reply-To: <16193.1559163763@warthog.procyon.org.uk>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-HI Roman,
-
-On Fri, May 31, 2019 at 11:34:08AM +0200, Roman Penyaev wrote:
-> On 2019-05-27 15:36, Renzo Davoli wrote:
-> > Unfortunately this approach cannot be applied to
-> > poll/select/ppoll/pselect/epoll.
+On Wed, May 29, 2019 at 10:02:43PM +0100, David Howells wrote:
+> Jann Horn <jannh@google.com> wrote:
 > 
-> If you have to override other systemcalls, what is the problem to override
-> poll family?  It will add, let's say, 50 extra code lines complexity to your
-> userspace code.  All you need is to be woken up by *any* event and check
-> one mask variable, in order to understand what you need to do: read or
-> write,
-> basically exactly what you do in your eventfd modification, but only in
-> userspace.
-
-This approach would not scale. If I want to use both a (user-space) network stack
-and a (emulated) device (or more stacks and devices) which (overridden) poll would I use?
-
-The poll of the first stack is not able to to deal with the third device.
-
+> > Does this mean that refcount_read() isn't sufficient for what you want
+> > to do with tracing (because for some reason you actually need to know
+> > the values atomically at the time of increment/decrement)?
 > 
+> Correct.  There's a gap and if an interrupt or something occurs, it's
+> sufficiently big for the refcount trace to go weird.
 > 
-> > > Why can it not be less than 64?
-> > This is the imeplementation of 'write'. The 64 bits include the
-> > 'command'
-> > EFD_VPOLL_ADDEVENTS, EFD_VPOLL_DELEVENTS or EFD_VPOLL_MODEVENTS (in the
-> > most
-> > significant 32 bits) and the set of events (in the lowest 32 bits).
-> 
-> Do you really need add/del/mod semantics?  Userspace still has to keep mask
-> somewhere, so you can have one simple command, which does:
->    ctx->count = events;
-> in kernel, so no masks and this games with bits are needed.  That will
-> simplify API.
+> I've seen it in afs/rxrpc where the incoming network packets that are part of
+> the rxrpc call flow disrupt the refcounts noted in trace lines.
 
-It is true, at the price to have more complex code in user space.
-Other system calls could have beeen implemented as "set the value", instead there are
-ADD/DEL modification flags.
-I mean for example sigprocmask (SIG_BLOCK, SIG_UNBLOCK, SIG_SETMASK), or even epoll_ctl.
-While poll requires the program to keep the struct pollfd array stored somewhere,
-epoll is more powerful and flexible as different file descriptors can be added
-and deleted by different modules/components.
+Can you re-iterate the exact problem? I konw we talked about this in the
+past, but I seem to have misplaced those memories :/
 
-If I have two threads implementing the send and receive path of a socket in a user-space
-network stack implementation the epoll pending bitmap is shared so I have to create
-critical sections like the following one any time I need to set or reset a bit.
-	pthread_mutex_lock(mylock)
-	events |= EPOLLIN
-	write(efd, &events, sizeof(events));
-	pthread_mutex_unlock(mylock)
-Using add/del semantics locking is not required as the send path thread deals with EPOLLOUT while
-its siblings receive thread uses EPOLLIN or EPOLLPRI
-
-I would prefer the add/del/mod semantics, but if this is generally perceived as a unnecessary 
-complexity in the kernel code I can update my patch.  
-
-Thank you Roman,
-			
-			renzo
+FWIW I agree that kref is useless fluff, but I've long ago given up on
+that fight.
