@@ -2,126 +2,161 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 931E53115F
-	for <lists+linux-api@lfdr.de>; Fri, 31 May 2019 17:32:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D444331164
+	for <lists+linux-api@lfdr.de>; Fri, 31 May 2019 17:35:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726518AbfEaPco (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 31 May 2019 11:32:44 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:35259 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726421AbfEaPcn (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 31 May 2019 11:32:43 -0400
-Received: by mail-wm1-f66.google.com with SMTP id c6so3292989wml.0
-        for <linux-api@vger.kernel.org>; Fri, 31 May 2019 08:32:41 -0700 (PDT)
+        id S1726566AbfEaPfv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 31 May 2019 11:35:51 -0400
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:42934 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726546AbfEaPfu (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 31 May 2019 11:35:50 -0400
+Received: by mail-qt1-f194.google.com with SMTP id s15so1331928qtk.9;
+        Fri, 31 May 2019 08:35:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=fGL6EqRvLB+NZa/jkmcp3go/mVh1h/1Q1GkUa9Q/sF4=;
-        b=YeiseFldSN/5+crIbCEpQiudtO1RaplBzltFA4ASnVlWCmQ5W16mI5EqqeFw1Z3UKg
-         chuiyCFEKBLndFf+WsXRKqU5M0jaPWk+Qo8tUXLgtYCXxT6pOezcfWx43g+SkwyNxlGp
-         uMij9JgqtyU8jbzy5Mip8p9o83a0ss3Q2QaQA=
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=a6YwIIJc8LPr9G8BXrNtxAA4AtOs9+lI2cdNOdpA3Q0=;
+        b=BAc+ougURJ//27itXmCiZ/hU4b6VQWx20DqetuxCoOrzZFDHn6zHMQjyqBaZ4k26lz
+         X4JG0L42/1KfcfaJHRoGM8cNOS/CJWY8anDBsELhNCL680ziHCEP+iw3DR20vIS6MgpR
+         TpcV2r86X1blXIh+RfkXB1h9iSFGMttjOXnR4j4MWDYFA9daNTEhe7P5umDRvUUZrbg2
+         qs0vDhSXQpdB9nc7GgvXtPdZmD/mhAUgFUdxjpmbM0adJn6wuGJ/mfeYpcymgvmz+YbF
+         xV5PVOMw6X/EGp+S/ol872hO80QHKUg7lGe2KOfch27FKvUFDANfj4zIdRAWn3Lg2e0C
+         Cjnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=fGL6EqRvLB+NZa/jkmcp3go/mVh1h/1Q1GkUa9Q/sF4=;
-        b=lcBok2TztWQ0ag++hU3UeY2IraamCqN5s6xN18xiWAR5sB8rRefJGwa4Kx8AhWwxaQ
-         yCRexGEzPYyEA6IX6xHP90YBbfMMLslEsq86YXDgWeTjmqg6HaKZU+eqPOkk7p+HE9Ff
-         cV9MRpn3/iq3hpHV8RYlrpScY1Uxc3/ejQlrDmHm1v3aXCKziPrDyEU/TDdD/aVyPyA5
-         qTxZu7CzXcGw7Zkb4cF42Y6pHr5bO5Ho8wzfZVqa0/WwfUuBE1ZZda/YoTcsdh9tFYbK
-         9shkNze9S1fzUOrUmA/7d/MRmCSc31xXi3s063+agfF2C3pnhBaMpUmeLyojBWAT2uNS
-         pJOw==
-X-Gm-Message-State: APjAAAUl66Olr0VYgM1MjrPWcC1TKlnHKFroKzs7bz5C93mz6ADrgIEm
-        LAyYHGknHdncROtQKIMJn5kEyv2V56jXp98alJHw9w==
-X-Google-Smtp-Source: APXvYqyNRxhqo4AWL/lfKd/hj4rWl6fa+Jp4jN534MW6jCEZuWtdLzqLwGQqfEj5trBIQEyKlzPo6lqzNySqrOsiRrk=
-X-Received: by 2002:a1c:ed07:: with SMTP id l7mr5803517wmh.148.1559316760517;
- Fri, 31 May 2019 08:32:40 -0700 (PDT)
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=a6YwIIJc8LPr9G8BXrNtxAA4AtOs9+lI2cdNOdpA3Q0=;
+        b=unzdv7jHssqwjwZdNtFrnel7pgg5ZtQpvuzsut9bN15vuzgbJeImdMMwdky2ovPwGE
+         miy2MwBeEmJMePzncKYiYHe5A0H20DjwXUAFOYlzGyBNjYq/sl/lnHkLKhIohtHFoi53
+         nCW2oaqAoANnzmbBt6+Jj3ItbtrCNuTdsmBczNtxLJx/KowhSZAyyv1j1pstW1SpTUxU
+         LfX664m3Xv8Zb0Q4u3b07bJ5QRrkGEiZGwKF5h/gVx+yJR+RRYx1DpXZ/a1Sb9MdGIpH
+         ep47yHi9dFSecs3YfZrzD57xhDxzp5Jf9pjO3cDXRCkIfLkrpsuPoQQGu+lLtunMTb4F
+         /nYQ==
+X-Gm-Message-State: APjAAAUE0By7QUOOfQJOiSnLakw1BMfm6HplkQxbgDnRURkLBEVryESC
+        tN9PilXOOocKiCWfa1cHHaM=
+X-Google-Smtp-Source: APXvYqwXrOp+84AjrsXS4B7qfXNV01vDvagtkapssCObEwv2Hle4FplLiTJrDwe7OFh5FsQKOxiVuw==
+X-Received: by 2002:ac8:eca:: with SMTP id w10mr4936223qti.81.1559316949131;
+        Fri, 31 May 2019 08:35:49 -0700 (PDT)
+Received: from localhost ([2620:10d:c091:480::39c9])
+        by smtp.gmail.com with ESMTPSA id p4sm3449792qkb.84.2019.05.31.08.35.47
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 31 May 2019 08:35:47 -0700 (PDT)
+Date:   Fri, 31 May 2019 08:35:45 -0700
+From:   Tejun Heo <tj@kernel.org>
+To:     Patrick Bellasi <patrick.bellasi@arm.com>
+Cc:     linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-api@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Paul Turner <pjt@google.com>,
+        Quentin Perret <quentin.perret@arm.com>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Morten Rasmussen <morten.rasmussen@arm.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Todd Kjos <tkjos@google.com>,
+        Joel Fernandes <joelaf@google.com>,
+        Steve Muckle <smuckle@google.com>,
+        Suren Baghdasaryan <surenb@google.com>
+Subject: Re: [PATCH v9 12/16] sched/core: uclamp: Extend CPU's cgroup
+ controller
+Message-ID: <20190531153545.GE374014@devbig004.ftw2.facebook.com>
+References: <20190515094459.10317-1-patrick.bellasi@arm.com>
+ <20190515094459.10317-13-patrick.bellasi@arm.com>
 MIME-Version: 1.0
-References: <20190531002633.128370-1-semenzato@chromium.org>
- <20190531060401.GA7386@dhcp22.suse.cz> <20190531062206.GD6896@dhcp22.suse.cz> <20190531062318.GE6896@dhcp22.suse.cz>
-In-Reply-To: <20190531062318.GE6896@dhcp22.suse.cz>
-From:   Luigi Semenzato <semenzato@chromium.org>
-Date:   Fri, 31 May 2019 08:32:27 -0700
-Message-ID: <CAA25o9TQYDCdLj-qGkwwNGDGSthX2yAtnqNWDkx-4WEe5TGxGQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] mm: smaps: split PSS into components
-To:     Michal Hocko <mhocko@kernel.org>
-Cc:     Linux Memory Management List <linux-mm@kvack.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Sonny Rao <sonnyrao@chromium.org>,
-        Yu Zhao <yuzhao@chromium.org>, linux-api@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190515094459.10317-13-patrick.bellasi@arm.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, May 30, 2019 at 11:23 PM Michal Hocko <mhocko@kernel.org> wrote:
->
-> On Fri 31-05-19 08:22:06, Michal Hocko wrote:
-> > On Fri 31-05-19 08:04:01, Michal Hocko wrote:
-> > > [Please always Cc linux-api mailing list (now added) when adding a new
-> > > user visible API. Keeping the rest of the email intact for reference]
-> > >
-> > > On Thu 30-05-19 17:26:33, semenzato@chromium.org wrote:
-> > > > From: Luigi Semenzato <semenzato@chromium.org>
-> > > >
-> > > > Report separate components (anon, file, and shmem)
-> > > > for PSS in smaps_rollup.
-> > > >
-> > > > This helps understand and tune the memory manager behavior
-> > > > in consumer devices, particularly mobile devices.  Many of
-> > > > them (e.g. chromebooks and Android-based devices) use zram
-> > > > for anon memory, and perform disk reads for discarded file
-> > > > pages.  The difference in latency is large (e.g. reading
-> > > > a single page from SSD is 30 times slower than decompressing
-> > > > a zram page on one popular device), thus it is useful to know
-> > > > how much of the PSS is anon vs. file.
-> >
-> > Could you describe how exactly are those new counters going to be used?
+Hello, Patrick.
 
-Yes.  We wish to gather stats of memory usage by groups of processes
-on chromebooks: various types of chrome processes, android processes
-(for ARC++, i.e. android running on Chrome OS), VMs, daemons etc.  See
+On Wed, May 15, 2019 at 10:44:55AM +0100, Patrick Bellasi wrote:
+> Extend the CPU controller with a couple of new attributes util.{min,max}
+> which allows to enforce utilization boosting and capping for all the
+> tasks in a group. Specifically:
+> 
+> - util.min: defines the minimum utilization which should be considered
+> 	    i.e. the RUNNABLE tasks of this group will run at least at a
+> 		 minimum frequency which corresponds to the util.min
+> 		 utilization
+> 
+> - util.max: defines the maximum utilization which should be considered
+> 	    i.e. the RUNNABLE tasks of this group will run up to a
+> 		 maximum frequency which corresponds to the util.max
+> 		 utilization
 
-https://chromium.googlesource.com/chromiumos/platform2/+/refs/heads/master/metrics/pgmem.cc
+Let's please use a prefix which is more specific.  It's clamping the
+utilization estimates of the member tasks which in turn affect
+scheduling / frequency decisions but cpu.util.max reads like it's
+gonna limit the cpu utilization directly.  Maybe just use uclamp?
 
-and related files. The stats help us tune the memory manager better in
-different scenarios.  Without this patch we only have a global
-proportional RSS, but splitting into components help us deal with
-situations such as a varying ratio of file vs. anon pages, which can
-result, for instance, by starting/stopping android.  (In theory the
-"swappiness" tunable should help with that, but it doesn't seem
-effective under extreme pressure, which is unfortunately rather common
-on these consumer devices).
+> These attributes:
+> 
+> a) are available only for non-root nodes, both on default and legacy
+>    hierarchies, while system wide clamps are defined by a generic
+>    interface which does not depends on cgroups. This system wide
+>    interface enforces constraints on tasks in the root node.
 
-On older kernels, which we have to support for several years, we've
-added an equivalent "totmaps" locally and we'd be super-happy if going
-forward we can just switch to smaps_rollup.
+I'd much prefer if they weren't entangled this way.  The system wide
+limits should work the same regardless of cgroup's existence.  cgroup
+can put further restriction on top but mere creation of cgroups with
+cpu controller enabled shouldn't take them out of the system-wide
+limits.
 
-> > I do not expect this to add a visible penalty to users who are not going
-> > to use the counter but have you tried to measure that?
+> b) enforce effective constraints at each level of the hierarchy which
+>    are a restriction of the group requests considering its parent's
+>    effective constraints. Root group effective constraints are defined
+>    by the system wide interface.
+>    This mechanism allows each (non-root) level of the hierarchy to:
+>    - request whatever clamp values it would like to get
+>    - effectively get only up to the maximum amount allowed by its parent
 
-Right, if smaps or smaps_rollup is not used, this cannot have a
-measurable impact (maybe more code->more TLB misses, but that's at
-most tiny), so no, I haven't tried to measure that.
+I'll come back to this later.
 
-I have been measuring the cost of smaps_rollup for all processes in a
-chromebook under load (about 400 processes) but those measurements are
-too noisy to show change.
+> c) have higher priority than task-specific clamps, defined via
+>    sched_setattr(), thus allowing to control and restrict task requests
 
-The code is shared between smaps and smaps_rollup, and some of the
-results aren't used in smaps, only in smaps_rollup, so there's some
-waste (a couple of extra conditional branches, and loads/stores), but
-again I didn't think that reducing it is worth the trouble in terms of
-code complexity.
+This sounds good.
 
-> Also forgot to mention that any change to smaps should be documented in
-> Documentation/filesystems/proc.txt.
+> Add two new attributes to the cpu controller to collect "requested"
+> clamp values. Allow that at each non-root level of the hierarchy.
+> Validate local consistency by enforcing util.min < util.max.
+> Keep it simple by do not caring now about "effective" values computation
+> and propagation along the hierarchy.
 
-Thank you, I'll fix that and send a v3 (and Cc linux-api).
+So, the followings are what we're doing for hierarchical protection
+and limit propgations.
 
+* Limits (high / max) default to max.  Protections (low / min) 0.  A
+  new cgroup by default doesn't constrain itself further and doesn't
+  have any protection.
 
-> --
-> Michal Hocko
-> SUSE Labs
+* A limit defines the upper ceiling for the subtree.  If an ancestor
+  has a limit of X, none of its descendants can have more than X.
+
+* A protection defines the upper ceiling of protections for the
+  subtree.  If an andester has a protection of X, none of its
+  descendants can have more protection than X.
+
+Note that there's no way for an ancestor to enforce protection its
+descendants.  It can only allow them to claim some.  This is
+intentional as the other end of the spectrum is either descendants
+losing the ability to further distribute protections as they see fit.
+
+For proportions (as opposed to weights), we use percentage rational
+numbers - e.g. 38.44 for 38.44%.  I have parser and doc update commits
+pending.  I'll put them on cgroup/for-5.3.
+
+Thanks.
+
+-- 
+tejun
