@@ -2,187 +2,346 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A78A30E42
-	for <lists+linux-api@lfdr.de>; Fri, 31 May 2019 14:45:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA88E30EA6
+	for <lists+linux-api@lfdr.de>; Fri, 31 May 2019 15:12:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726442AbfEaMpA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 31 May 2019 08:45:00 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:38068 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726330AbfEaMpA (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 31 May 2019 08:45:00 -0400
-Received: by mail-lj1-f194.google.com with SMTP id o13so9479148lji.5
-        for <linux-api@vger.kernel.org>; Fri, 31 May 2019 05:44:57 -0700 (PDT)
+        id S1727255AbfEaNMg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 31 May 2019 09:12:36 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:40813 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726330AbfEaNMg (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 31 May 2019 09:12:36 -0400
+Received: by mail-pl1-f195.google.com with SMTP id g69so4009860plb.7;
+        Fri, 31 May 2019 06:12:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ZXDOKwkAEMBmiYSeMHCXxPtDvLwnxyJqoeUB0a+jAg8=;
-        b=Oh5evWeBS0FQ5+SDSVIYDoDosmFdUraAVQSeP13wAG0FfkUCyvKQpzKYfoQx/Fc9jG
-         lSaXqIOqwzoUzI3o8vBwZqtrK4OfHuaXvwJgEezHSUYUzDIRs8JkI5NH1zlR4cxWyQme
-         Jfit8Diw2UqqiuTc+FH74c11TZCrrrdmpj/o5+9/QDcaiVnDEyYq21nnWSIA465u/MU4
-         +qSUnOUm6rmASeEsGsXm0RP0/aMO/Wsm45X36MGxa7H5G8PkA5ZCJKY5x4qvxmWuxnO8
-         Qn1PWZvVAf7u20A+XXfB5qKWG2QcdBuOAtm661NoEzPCdGshFZqYQtHFr/60ieylKxGT
-         GHFA==
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=9KHsRNI4q1qCWnGmPczkdOM0myR1vhuW2pTdzPAj/o4=;
+        b=B/E7Iah5xOzd7kUYA0Hf89CcQEzyaC9ErJ573MnRH8e/jxbRg315RYZAHLrnqa7jED
+         wqHs1v4dcqHGN1tDdzO5aT9I8gOiLyA+N8Zs/0P0RmHBDdulH69roqZKEltlb3cBKXa/
+         khIa+e6HJ2Q6oUUJ/45dFLs1hZA9ylVu2yd2HiIL/YX6DhA+a89GkJc3USu8TIJ0QoT4
+         2DV3F1pMkl81uU/XLN4bCFMk4V8OUo4rSJaqbxWsV9XhjhiaT2IYIkFkxPMhMs0Fw3zU
+         +TDSAqbU7R4xGSaM1QoMvRNakPgW0zZ9yDLSR1FOUdc/ry3XYGeb+RTbdD4Id5tCiie6
+         9xig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZXDOKwkAEMBmiYSeMHCXxPtDvLwnxyJqoeUB0a+jAg8=;
-        b=hg1I9K3USwrsWLuxl+bkghzzXvaGEDNibgAkSrJhlT3V470+Ygmerw7qCdY2TChJOG
-         RqZ+1iuCohbuttr98QMFXAUlnoRVbelTzba/64zNAgRGpXKDJHWWT7J1EvmI+3VbJBHt
-         biNA19+6Kf1EqGPDvS7PbGIChZ3GUoT31ox1jLz5mpQVdk9wkNE94g3yyi6DoIik/7Sh
-         3ZhzR8f/IPvu2F+oUcJ3umxHyXL/wTzG92OucGWCQCqqMi5vZ32c0aXNysJ2dAy91e+z
-         A1ZLt6xIdMYCb1sPFyA621ZeV5tf5Fufz75GEEyDIx76XwgzEZlRSOge1fXCnNI98Nd7
-         tLhQ==
-X-Gm-Message-State: APjAAAXKmxjdHcPazBrhG+mfsb/LOfhVT0GwWu8QafXVu0poVjaUjLrj
-        1Dy3QvUraKya7a9fX6WOfj5fwsqJt/OymCMqfSiA6Qw=
-X-Google-Smtp-Source: APXvYqwRVVnGpDVdSGCj6R4r22cAjZvnCnlNYusSiD/sCSGkEdAyXXFr+krFA2m6K8I0tlJghON4fRG9yXZG4071sxQ=
-X-Received: by 2002:a2e:3e14:: with SMTP id l20mr5891599lja.40.1559306696964;
- Fri, 31 May 2019 05:44:56 -0700 (PDT)
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=9KHsRNI4q1qCWnGmPczkdOM0myR1vhuW2pTdzPAj/o4=;
+        b=Ilk1WvMN3+fayIOFyKtLbMzc4ohvuflSXYq7dtk0LuPXukvj9H44KBC4UAfLAD4dQv
+         3BRMu2N+J8NvLrZAzDQhtpZUCbB8mOrzp3VA6SPqmLhL2TebCxoM5u60uKe+GdQEBkvs
+         fJn2dcjlqmQCJbRrQAdsHXVicVPxL9DZvaqukg5ZF4wUJkVlkeVr9XjLnxCjpYA3sRex
+         SE7XbynNv+lE4dq0MmbT2fpj8gXSuYLi316mHmSEqVO1QAgwA0yI2B3P3TolLFXRSesC
+         GVmnY/dqwbmbds+qu9bHgaBjlBC4sYzLI+yYEulfj8KdwDyY4SVnGKqlPCT3u74PsLk6
+         JLGQ==
+X-Gm-Message-State: APjAAAVpWnMXDovHMHKSb3ObPn+si5axL/nk3fkBRBuh7BoYdnZtVJtb
+        cC9toZRcl6gisCvsmkN6O/k=
+X-Google-Smtp-Source: APXvYqy7Jgf27DPChwbcQAGQ8nsn/N8QFLKkuC0cBK7/8I3xRLMf23jBQpdMMIkVgJqWw+CCHy38gw==
+X-Received: by 2002:a17:902:2983:: with SMTP id h3mr9458413plb.267.1559308355443;
+        Fri, 31 May 2019 06:12:35 -0700 (PDT)
+Received: from google.com ([122.38.223.241])
+        by smtp.gmail.com with ESMTPSA id x24sm705609pfa.52.2019.05.31.06.12.29
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Fri, 31 May 2019 06:12:33 -0700 (PDT)
+Date:   Fri, 31 May 2019 22:12:26 +0900
+From:   Minchan Kim <minchan@kernel.org>
+To:     Oleksandr Natalenko <oleksandr@redhat.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-mm <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-api@vger.kernel.org,
+        Michal Hocko <mhocko@suse.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Tim Murray <timmurray@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Daniel Colascione <dancol@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Brian Geffon <bgeffon@google.com>, jannh@google.com,
+        oleg@redhat.com, christian@brauner.io, hdanton@sina.com
+Subject: Re: [RFCv2 4/6] mm: factor out madvise's core functionality
+Message-ID: <20190531131226.GA195463@google.com>
+References: <20190531064313.193437-1-minchan@kernel.org>
+ <20190531064313.193437-5-minchan@kernel.org>
+ <20190531070420.m7sxybbzzayig44o@butterfly.localdomain>
 MIME-Version: 1.0
-References: <20190529145742.GA8959@cisco> <CAHC9VhR4fudQanvZGYWMvCf7k2CU3q7e7n1Pi7hzC3v_zpVEdw@mail.gmail.com>
- <20190529153427.GB8959@cisco> <CAHC9VhSF3AjErX37+eeusJ7+XRw8yuPsmqBTRwc9EVoRBh_3Tw@mail.gmail.com>
- <20190529222835.GD8959@cisco> <CAHC9VhRS66VGtug3fq3RTGHDvfGmBJG6yRJ+iMxm3cxnNF-zJw@mail.gmail.com>
- <20190530170913.GA16722@mail.hallyn.com> <CAHC9VhThLiQzGYRUWmSuVfOC6QCDmA75BDB7Eg7V8HX4x7ymQg@mail.gmail.com>
- <20190530212900.GC5739@cisco> <CAHC9VhT5HPt9rCJoDutdvA3r1Y1GOHfpXe2eJ54atNC1=Vd8LA@mail.gmail.com>
- <20190531002058.tsddah4edcazkuzs@madcap2.tricolour.ca>
-In-Reply-To: <20190531002058.tsddah4edcazkuzs@madcap2.tricolour.ca>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Fri, 31 May 2019 08:44:45 -0400
-Message-ID: <CAHC9VhTrM1op_EH=YAn9pU8dMOr=jB-Ph4SxFeqGFskwLmFnCA@mail.gmail.com>
-Subject: Re: [PATCH ghak90 V6 02/10] audit: add container id
-To:     Richard Guy Briggs <rgb@redhat.com>
-Cc:     Tycho Andersen <tycho@tycho.ws>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
-        Linux-Audit Mailing List <linux-audit@redhat.com>,
-        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
-        sgrubb@redhat.com, omosnace@redhat.com, dhowells@redhat.com,
-        simo@redhat.com, Eric Paris <eparis@parisplace.org>,
-        ebiederm@xmission.com, nhorman@tuxdriver.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190531070420.m7sxybbzzayig44o@butterfly.localdomain>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, May 30, 2019 at 8:21 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> On 2019-05-30 19:26, Paul Moore wrote:
-> > On Thu, May 30, 2019 at 5:29 PM Tycho Andersen <tycho@tycho.ws> wrote:
-> > > On Thu, May 30, 2019 at 03:29:32PM -0400, Paul Moore wrote:
-> > > >
-> > > > [REMINDER: It is an "*audit* container ID" and not a general
-> > > > "container ID" ;)  Smiley aside, I'm not kidding about that part.]
-> > >
-> > > This sort of seems like a distinction without a difference; presumably
-> > > audit is going to want to differentiate between everything that people
-> > > in userspace call a container. So you'll have to support all this
-> > > insanity anyway, even if it's "not a container ID".
-> >
-> > That's not quite right.  Audit doesn't care about what a container is,
-> > or is not, it also doesn't care if the "audit container ID" actually
-> > matches the ID used by the container engine in userspace and I think
-> > that is a very important line to draw.  Audit is simply given a value
-> > which it calls the "audit container ID", it ensures that the value is
-> > inherited appropriately (e.g. children inherit their parent's audit
-> > container ID), and it uses the value in audit records to provide some
-> > additional context for log analysis.  The distinction isn't limited to
-> > the value itself, but also to how it is used; it is an "audit
-> > container ID" and not a "container ID" because this value is
-> > exclusively for use by the audit subsystem.  We are very intentionally
-> > not adding a generic container ID to the kernel.  If the kernel does
-> > ever grow a general purpose container ID we will be one of the first
-> > ones in line to make use of it, but we are not going to be the ones to
-> > generically add containers to the kernel.  Enough people already hate
-> > audit ;)
-> >
-> > > > I'm not interested in supporting/merging something that isn't useful;
-> > > > if this doesn't work for your use case then we need to figure out what
-> > > > would work.  It sounds like nested containers are much more common in
-> > > > the lxc world, can you elaborate a bit more on this?
-> > > >
-> > > > As far as the possible solutions you mention above, I'm not sure I
-> > > > like the per-userns audit container IDs, I'd much rather just emit the
-> > > > necessary tracking information via the audit record stream and let the
-> > > > log analysis tools figure it out.  However, the bigger question is how
-> > > > to limit (re)setting the audit container ID when you are in a non-init
-> > > > userns.  For reasons already mentioned, using capable() is a non
-> > > > starter for everything but the initial userns, and using ns_capable()
-> > > > is equally poor as it essentially allows any userns the ability to
-> > > > munge it's audit container ID (obviously not good).  It appears we
-> > > > need a different method for controlling access to the audit container
-> > > > ID.
-> > >
-> > > One option would be to make it a string, and have it be append only.
-> > > That should be safe with no checks.
-> > >
-> > > I know there was a long thread about what type to make this thing. I
-> > > think you could accomplish the append-only-ness with a u64 if you had
-> > > some rule about only allowing setting lower order bits than those that
-> > > are already set. With 4 bits for simplicity:
-> > >
-> > > 1100         # initial container id
-> > > 1100 -> 1011 # not allowed
-> > > 1100 -> 1101 # allowed, but now 1101 is set in stone since there are
-> > >              # no lower order bits left
-> > >
-> > > There are probably fancier ways to do it if you actually understand
-> > > math :)
-> >
-> >  ;)
-> >
-> > > Since userns nesting is limited to 32 levels (right now, IIRC), and
-> > > you have 64 bits, this might be reasonable. You could just teach
-> > > container engines to use the first say N bits for themselves, with a 1
-> > > bit for the barrier at the end.
-> >
-> > I like the creativity, but I worry that at some point these
-> > limitations are going to be raised (limits have a funny way of doing
-> > that over time) and we will be in trouble.  I say "trouble" because I
-> > want to be able to quickly do an audit container ID comparison and
-> > we're going to pay a penalty for these larger values (we'll need this
-> > when we add multiple auditd support and the requisite record routing).
-> >
-> > Thinking about this makes me also realize we probably need to think a
-> > bit longer about audit container ID conflicts between orchestrators.
-> > Right now we just take the value that is given to us by the
-> > orchestrator, but if we want to allow multiple container orchestrators
-> > to work without some form of cooperation in userspace (I think we have
-> > to assume the orchestrators will not talk to each other) we likely
-> > need to have some way to block reuse of an audit container ID.  We
-> > would either need to prevent the orchestrator from explicitly setting
-> > an audit container ID to a currently in use value, or instead generate
-> > the audit container ID in the kernel upon an event triggered by the
-> > orchestrator (e.g. a write to a /proc file).  I suspect we should
-> > start looking at the idr code, I think we will need to make use of it.
->
-> My first reaction to using the IDR code is that once an idr is given up,
-> it can be reused.  I suppose we request IDRs and then never give them up
-> to avoid reuse...
+On Fri, May 31, 2019 at 09:04:20AM +0200, Oleksandr Natalenko wrote:
+> On Fri, May 31, 2019 at 03:43:11PM +0900, Minchan Kim wrote:
+> > This patch factor out madvise's core functionality so that upcoming
+> > patch can reuse it without duplication. It shouldn't change any behavior.
+> > 
+> > Signed-off-by: Minchan Kim <minchan@kernel.org>
+> > ---
+> >  mm/madvise.c | 188 +++++++++++++++++++++++++++------------------------
+> >  1 file changed, 101 insertions(+), 87 deletions(-)
+> > 
+> > diff --git a/mm/madvise.c b/mm/madvise.c
+> > index 9d749a1420b4..466623ea8c36 100644
+> > --- a/mm/madvise.c
+> > +++ b/mm/madvise.c
+> > @@ -425,9 +425,10 @@ static int madvise_pageout_pte_range(pmd_t *pmd, unsigned long addr,
+> >  	struct page *page;
+> >  	int isolated = 0;
+> >  	struct vm_area_struct *vma = walk->vma;
+> > +	struct task_struct *task = walk->private;
+> >  	unsigned long next;
+> >  
+> > -	if (fatal_signal_pending(current))
+> > +	if (fatal_signal_pending(task))
+> >  		return -EINTR;
+> >  
+> >  	next = pmd_addr_end(addr, end);
+> > @@ -505,12 +506,14 @@ static int madvise_pageout_pte_range(pmd_t *pmd, unsigned long addr,
+> >  }
+> >  
+> >  static void madvise_pageout_page_range(struct mmu_gather *tlb,
+> > -			     struct vm_area_struct *vma,
+> > -			     unsigned long addr, unsigned long end)
+> > +				struct task_struct *task,
+> > +				struct vm_area_struct *vma,
+> > +				unsigned long addr, unsigned long end)
+> >  {
+> >  	struct mm_walk warm_walk = {
+> >  		.pmd_entry = madvise_pageout_pte_range,
+> >  		.mm = vma->vm_mm,
+> > +		.private = task,
+> >  	};
+> >  
+> >  	tlb_start_vma(tlb, vma);
+> > @@ -519,9 +522,9 @@ static void madvise_pageout_page_range(struct mmu_gather *tlb,
+> >  }
+> >  
+> >  
+> > -static long madvise_pageout(struct vm_area_struct *vma,
+> > -			struct vm_area_struct **prev,
+> > -			unsigned long start_addr, unsigned long end_addr)
+> > +static long madvise_pageout(struct task_struct *task,
+> > +		struct vm_area_struct *vma, struct vm_area_struct **prev,
+> > +		unsigned long start_addr, unsigned long end_addr)
+> >  {
+> >  	struct mm_struct *mm = vma->vm_mm;
+> >  	struct mmu_gather tlb;
+> > @@ -532,7 +535,7 @@ static long madvise_pageout(struct vm_area_struct *vma,
+> >  
+> >  	lru_add_drain();
+> >  	tlb_gather_mmu(&tlb, mm, start_addr, end_addr);
+> > -	madvise_pageout_page_range(&tlb, vma, start_addr, end_addr);
+> > +	madvise_pageout_page_range(&tlb, task, vma, start_addr, end_addr);
+> >  	tlb_finish_mmu(&tlb, start_addr, end_addr);
+> >  
+> >  	return 0;
+> > @@ -744,7 +747,8 @@ static long madvise_dontneed_single_vma(struct vm_area_struct *vma,
+> >  	return 0;
+> >  }
+> >  
+> > -static long madvise_dontneed_free(struct vm_area_struct *vma,
+> > +static long madvise_dontneed_free(struct mm_struct *mm,
+> > +				  struct vm_area_struct *vma,
+> >  				  struct vm_area_struct **prev,
+> >  				  unsigned long start, unsigned long end,
+> >  				  int behavior)
+> > @@ -756,8 +760,8 @@ static long madvise_dontneed_free(struct vm_area_struct *vma,
+> >  	if (!userfaultfd_remove(vma, start, end)) {
+> >  		*prev = NULL; /* mmap_sem has been dropped, prev is stale */
+> >  
+> > -		down_read(&current->mm->mmap_sem);
+> > -		vma = find_vma(current->mm, start);
+> > +		down_read(&mm->mmap_sem);
+> > +		vma = find_vma(mm, start);
+> >  		if (!vma)
+> >  			return -ENOMEM;
+> >  		if (start < vma->vm_start) {
+> > @@ -804,7 +808,8 @@ static long madvise_dontneed_free(struct vm_area_struct *vma,
+> >   * Application wants to free up the pages and associated backing store.
+> >   * This is effectively punching a hole into the middle of a file.
+> >   */
+> > -static long madvise_remove(struct vm_area_struct *vma,
+> > +static long madvise_remove(struct mm_struct *mm,
+> > +				struct vm_area_struct *vma,
+> >  				struct vm_area_struct **prev,
+> >  				unsigned long start, unsigned long end)
+> >  {
+> > @@ -838,13 +843,13 @@ static long madvise_remove(struct vm_area_struct *vma,
+> >  	get_file(f);
+> >  	if (userfaultfd_remove(vma, start, end)) {
+> >  		/* mmap_sem was not released by userfaultfd_remove() */
+> > -		up_read(&current->mm->mmap_sem);
+> > +		up_read(&mm->mmap_sem);
+> >  	}
+> >  	error = vfs_fallocate(f,
+> >  				FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE,
+> >  				offset, end - start);
+> >  	fput(f);
+> > -	down_read(&current->mm->mmap_sem);
+> > +	down_read(&mm->mmap_sem);
+> >  	return error;
+> >  }
+> >  
+> > @@ -918,21 +923,23 @@ static int madvise_inject_error(int behavior,
+> >  #endif
+> >  
+> >  static long
+> > -madvise_vma(struct vm_area_struct *vma, struct vm_area_struct **prev,
+> > +madvise_vma(struct task_struct *task, struct mm_struct *mm,
+> > +		struct vm_area_struct *vma, struct vm_area_struct **prev,
+> >  		unsigned long start, unsigned long end, int behavior)
+> >  {
+> >  	switch (behavior) {
+> >  	case MADV_REMOVE:
+> > -		return madvise_remove(vma, prev, start, end);
+> > +		return madvise_remove(mm, vma, prev, start, end);
+> >  	case MADV_WILLNEED:
+> >  		return madvise_willneed(vma, prev, start, end);
+> >  	case MADV_COLD:
+> >  		return madvise_cold(vma, prev, start, end);
+> >  	case MADV_PAGEOUT:
+> > -		return madvise_pageout(vma, prev, start, end);
+> > +		return madvise_pageout(task, vma, prev, start, end);
+> >  	case MADV_FREE:
+> >  	case MADV_DONTNEED:
+> > -		return madvise_dontneed_free(vma, prev, start, end, behavior);
+> > +		return madvise_dontneed_free(mm, vma, prev, start,
+> > +						end, behavior);
+> >  	default:
+> >  		return madvise_behavior(vma, prev, start, end, behavior);
+> >  	}
+> > @@ -976,68 +983,8 @@ madvise_behavior_valid(int behavior)
+> >  	}
+> >  }
+> >  
+> > -/*
+> > - * The madvise(2) system call.
+> > - *
+> > - * Applications can use madvise() to advise the kernel how it should
+> > - * handle paging I/O in this VM area.  The idea is to help the kernel
+> > - * use appropriate read-ahead and caching techniques.  The information
+> > - * provided is advisory only, and can be safely disregarded by the
+> > - * kernel without affecting the correct operation of the application.
+> > - *
+> > - * behavior values:
+> > - *  MADV_NORMAL - the default behavior is to read clusters.  This
+> > - *		results in some read-ahead and read-behind.
+> > - *  MADV_RANDOM - the system should read the minimum amount of data
+> > - *		on any access, since it is unlikely that the appli-
+> > - *		cation will need more than what it asks for.
+> > - *  MADV_SEQUENTIAL - pages in the given range will probably be accessed
+> > - *		once, so they can be aggressively read ahead, and
+> > - *		can be freed soon after they are accessed.
+> > - *  MADV_WILLNEED - the application is notifying the system to read
+> > - *		some pages ahead.
+> > - *  MADV_DONTNEED - the application is finished with the given range,
+> > - *		so the kernel can free resources associated with it.
+> > - *  MADV_FREE - the application marks pages in the given range as lazy free,
+> > - *		where actual purges are postponed until memory pressure happens.
+> > - *  MADV_REMOVE - the application wants to free up the given range of
+> > - *		pages and associated backing store.
+> > - *  MADV_DONTFORK - omit this area from child's address space when forking:
+> > - *		typically, to avoid COWing pages pinned by get_user_pages().
+> > - *  MADV_DOFORK - cancel MADV_DONTFORK: no longer omit this area when forking.
+> > - *  MADV_WIPEONFORK - present the child process with zero-filled memory in this
+> > - *              range after a fork.
+> > - *  MADV_KEEPONFORK - undo the effect of MADV_WIPEONFORK
+> > - *  MADV_HWPOISON - trigger memory error handler as if the given memory range
+> > - *		were corrupted by unrecoverable hardware memory failure.
+> > - *  MADV_SOFT_OFFLINE - try to soft-offline the given range of memory.
+> > - *  MADV_MERGEABLE - the application recommends that KSM try to merge pages in
+> > - *		this area with pages of identical content from other such areas.
+> > - *  MADV_UNMERGEABLE- cancel MADV_MERGEABLE: no longer merge pages with others.
+> > - *  MADV_HUGEPAGE - the application wants to back the given range by transparent
+> > - *		huge pages in the future. Existing pages might be coalesced and
+> > - *		new pages might be allocated as THP.
+> > - *  MADV_NOHUGEPAGE - mark the given range as not worth being backed by
+> > - *		transparent huge pages so the existing pages will not be
+> > - *		coalesced into THP and new pages will not be allocated as THP.
+> > - *  MADV_DONTDUMP - the application wants to prevent pages in the given range
+> > - *		from being included in its core dump.
+> > - *  MADV_DODUMP - cancel MADV_DONTDUMP: no longer exclude from core dump.
+> > - *
+> > - * return values:
+> > - *  zero    - success
+> > - *  -EINVAL - start + len < 0, start is not page-aligned,
+> > - *		"behavior" is not a valid value, or application
+> > - *		is attempting to release locked or shared pages,
+> > - *		or the specified address range includes file, Huge TLB,
+> > - *		MAP_SHARED or VMPFNMAP range.
+> > - *  -ENOMEM - addresses in the specified range are not currently
+> > - *		mapped, or are outside the AS of the process.
+> > - *  -EIO    - an I/O error occurred while paging in data.
+> > - *  -EBADF  - map exists, but area maps something that isn't a file.
+> > - *  -EAGAIN - a kernel resource was temporarily unavailable.
+> > - */
+> > -SYSCALL_DEFINE3(madvise, unsigned long, start, size_t, len_in, int, behavior)
+> > +static int madvise_core(struct task_struct *task, struct mm_struct *mm,
+> > +			unsigned long start, size_t len_in, int behavior)
+> 
+> Just a minor nitpick, but can we please have it named madvise_common,
+> not madvise_core? This would follow a usual naming scheme, when some
+> common functionality is factored out (like, for mutexes, semaphores
+> etc), and within the kernel "core" usually means something completely
+> different.
 
-I'm not sure we ever what to guarantee that an audit container ID
-won't be reused during the lifetime of the system, it is a discrete
-integer after all.  What I think we do want to guarantee is that we
-won't allow an unintentional audit container ID collision between
-different orchestrators; if a single orchestrator wants to reuse an
-audit container ID then that is its choice.
+Sure.
 
-> I already had some ideas of preventing an existing ID from being reused,
+> 
+> >  {
+> >  	unsigned long end, tmp;
+> >  	struct vm_area_struct *vma, *prev;
+> > @@ -1068,15 +1015,16 @@ SYSCALL_DEFINE3(madvise, unsigned long, start, size_t, len_in, int, behavior)
+> >  
+> >  #ifdef CONFIG_MEMORY_FAILURE
+> >  	if (behavior == MADV_HWPOISON || behavior == MADV_SOFT_OFFLINE)
+> > -		return madvise_inject_error(behavior, start, start + len_in);
+> > +		return madvise_inject_error(behavior,
+> > +					start, start + len_in);
+> 
+> Not sure what this change is about except changing the line length.
+> Note, madvise_inject_error() still operates on "current" through
+> get_user_pages_fast() and gup_pgd_range(), but that was not changed
+> here. I Know you've filtered out this hint later, so technically this
+> is not an issue, but, maybe, this needs some attention too since we've
+> already spotted it?
 
-Cool.  I only made the idr suggestion since it is used for PIDs and
-solves a very similar problem.
+It is leftover I had done. I actually modified it to handle remote
+task but changed my mind not to fix it because process_madvise
+will not support it at this moment. I'm not sure it's a good idea
+to change it for *might-be-done-in-future* at this moment even though
+we have spotted.
 
-> but that makes the practice of some container engines injecting
-> processes into existing containers difficult if not impossible.
+> 
+> >  #endif
+> >  
+> >  	write = madvise_need_mmap_write(behavior);
+> >  	if (write) {
+> > -		if (down_write_killable(&current->mm->mmap_sem))
+> > +		if (down_write_killable(&mm->mmap_sem))
+> >  			return -EINTR;
+> 
+> Do you still need that trick with mmget_still_valid() here?
+> Something like:
 
-Yes, we'll need some provision to indicate which orchestrator
-"controls" that particular audit container ID, and allow that
-orchestrator to reuse that particular audit container ID (until all
-those containers disappear and the audit container ID is given back to
-the pool).
+Since MADV_COLD|PAGEOUT doesn't change address space layout or
+vma->vm_flags, technically, we don't need it if I understand
+correctly. Right?
 
--- 
-paul moore
-www.paul-moore.com
+> 
+> if (current->mm != mm && !mmget_still_valid(mm))
+>    goto skip_mm;
+> 
+> and that skip_mm label would be before
+> 
+> if (write)
+>    up_write(&mm->mmap_sem);
+> 
+> below.
+> 
+> (see 04f5866e41fb70690e28397487d8bd8eea7d712a for details on this)
