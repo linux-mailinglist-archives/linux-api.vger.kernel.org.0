@@ -2,164 +2,221 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 72CB0305B8
-	for <lists+linux-api@lfdr.de>; Fri, 31 May 2019 02:21:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25BD23083F
+	for <lists+linux-api@lfdr.de>; Fri, 31 May 2019 08:04:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726454AbfEaAVP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 30 May 2019 20:21:15 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44792 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726045AbfEaAVO (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 30 May 2019 20:21:14 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 41C6F81F0C;
-        Fri, 31 May 2019 00:21:13 +0000 (UTC)
-Received: from madcap2.tricolour.ca (ovpn-112-16.phx2.redhat.com [10.3.112.16])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 039FB5D704;
-        Fri, 31 May 2019 00:21:00 +0000 (UTC)
-Date:   Thu, 30 May 2019 20:20:58 -0400
-From:   Richard Guy Briggs <rgb@redhat.com>
-To:     Paul Moore <paul@paul-moore.com>
-Cc:     Tycho Andersen <tycho@tycho.ws>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
-        Linux-Audit Mailing List <linux-audit@redhat.com>,
-        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
-        sgrubb@redhat.com, omosnace@redhat.com, dhowells@redhat.com,
-        simo@redhat.com, Eric Paris <eparis@parisplace.org>,
-        ebiederm@xmission.com, nhorman@tuxdriver.com
-Subject: Re: [PATCH ghak90 V6 02/10] audit: add container id
-Message-ID: <20190531002058.tsddah4edcazkuzs@madcap2.tricolour.ca>
-References: <20190529145742.GA8959@cisco>
- <CAHC9VhR4fudQanvZGYWMvCf7k2CU3q7e7n1Pi7hzC3v_zpVEdw@mail.gmail.com>
- <20190529153427.GB8959@cisco>
- <CAHC9VhSF3AjErX37+eeusJ7+XRw8yuPsmqBTRwc9EVoRBh_3Tw@mail.gmail.com>
- <20190529222835.GD8959@cisco>
- <CAHC9VhRS66VGtug3fq3RTGHDvfGmBJG6yRJ+iMxm3cxnNF-zJw@mail.gmail.com>
- <20190530170913.GA16722@mail.hallyn.com>
- <CAHC9VhThLiQzGYRUWmSuVfOC6QCDmA75BDB7Eg7V8HX4x7ymQg@mail.gmail.com>
- <20190530212900.GC5739@cisco>
- <CAHC9VhT5HPt9rCJoDutdvA3r1Y1GOHfpXe2eJ54atNC1=Vd8LA@mail.gmail.com>
+        id S1726181AbfEaGEE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 31 May 2019 02:04:04 -0400
+Received: from mx2.suse.de ([195.135.220.15]:56496 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725955AbfEaGEE (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 31 May 2019 02:04:04 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 7BEF9AF32;
+        Fri, 31 May 2019 06:04:02 +0000 (UTC)
+Date:   Fri, 31 May 2019 08:04:01 +0200
+From:   Michal Hocko <mhocko@kernel.org>
+To:     semenzato@chromium.org
+Cc:     linux-mm@kvack.org, akpm@linux-foundation.org,
+        sonnyrao@chromium.org, Yu Zhao <yuzhao@chromium.org>,
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH v2 1/1] mm: smaps: split PSS into components
+Message-ID: <20190531060401.GA7386@dhcp22.suse.cz>
+References: <20190531002633.128370-1-semenzato@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHC9VhT5HPt9rCJoDutdvA3r1Y1GOHfpXe2eJ54atNC1=Vd8LA@mail.gmail.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.27]); Fri, 31 May 2019 00:21:14 +0000 (UTC)
+In-Reply-To: <20190531002633.128370-1-semenzato@chromium.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2019-05-30 19:26, Paul Moore wrote:
-> On Thu, May 30, 2019 at 5:29 PM Tycho Andersen <tycho@tycho.ws> wrote:
-> > On Thu, May 30, 2019 at 03:29:32PM -0400, Paul Moore wrote:
-> > >
-> > > [REMINDER: It is an "*audit* container ID" and not a general
-> > > "container ID" ;)  Smiley aside, I'm not kidding about that part.]
-> >
-> > This sort of seems like a distinction without a difference; presumably
-> > audit is going to want to differentiate between everything that people
-> > in userspace call a container. So you'll have to support all this
-> > insanity anyway, even if it's "not a container ID".
-> 
-> That's not quite right.  Audit doesn't care about what a container is,
-> or is not, it also doesn't care if the "audit container ID" actually
-> matches the ID used by the container engine in userspace and I think
-> that is a very important line to draw.  Audit is simply given a value
-> which it calls the "audit container ID", it ensures that the value is
-> inherited appropriately (e.g. children inherit their parent's audit
-> container ID), and it uses the value in audit records to provide some
-> additional context for log analysis.  The distinction isn't limited to
-> the value itself, but also to how it is used; it is an "audit
-> container ID" and not a "container ID" because this value is
-> exclusively for use by the audit subsystem.  We are very intentionally
-> not adding a generic container ID to the kernel.  If the kernel does
-> ever grow a general purpose container ID we will be one of the first
-> ones in line to make use of it, but we are not going to be the ones to
-> generically add containers to the kernel.  Enough people already hate
-> audit ;)
-> 
-> > > I'm not interested in supporting/merging something that isn't useful;
-> > > if this doesn't work for your use case then we need to figure out what
-> > > would work.  It sounds like nested containers are much more common in
-> > > the lxc world, can you elaborate a bit more on this?
-> > >
-> > > As far as the possible solutions you mention above, I'm not sure I
-> > > like the per-userns audit container IDs, I'd much rather just emit the
-> > > necessary tracking information via the audit record stream and let the
-> > > log analysis tools figure it out.  However, the bigger question is how
-> > > to limit (re)setting the audit container ID when you are in a non-init
-> > > userns.  For reasons already mentioned, using capable() is a non
-> > > starter for everything but the initial userns, and using ns_capable()
-> > > is equally poor as it essentially allows any userns the ability to
-> > > munge it's audit container ID (obviously not good).  It appears we
-> > > need a different method for controlling access to the audit container
-> > > ID.
-> >
-> > One option would be to make it a string, and have it be append only.
-> > That should be safe with no checks.
-> >
-> > I know there was a long thread about what type to make this thing. I
-> > think you could accomplish the append-only-ness with a u64 if you had
-> > some rule about only allowing setting lower order bits than those that
-> > are already set. With 4 bits for simplicity:
-> >
-> > 1100         # initial container id
-> > 1100 -> 1011 # not allowed
-> > 1100 -> 1101 # allowed, but now 1101 is set in stone since there are
-> >              # no lower order bits left
-> >
-> > There are probably fancier ways to do it if you actually understand
-> > math :)
-> 
->  ;)
-> 
-> > Since userns nesting is limited to 32 levels (right now, IIRC), and
-> > you have 64 bits, this might be reasonable. You could just teach
-> > container engines to use the first say N bits for themselves, with a 1
-> > bit for the barrier at the end.
-> 
-> I like the creativity, but I worry that at some point these
-> limitations are going to be raised (limits have a funny way of doing
-> that over time) and we will be in trouble.  I say "trouble" because I
-> want to be able to quickly do an audit container ID comparison and
-> we're going to pay a penalty for these larger values (we'll need this
-> when we add multiple auditd support and the requisite record routing).
-> 
-> Thinking about this makes me also realize we probably need to think a
-> bit longer about audit container ID conflicts between orchestrators.
-> Right now we just take the value that is given to us by the
-> orchestrator, but if we want to allow multiple container orchestrators
-> to work without some form of cooperation in userspace (I think we have
-> to assume the orchestrators will not talk to each other) we likely
-> need to have some way to block reuse of an audit container ID.  We
-> would either need to prevent the orchestrator from explicitly setting
-> an audit container ID to a currently in use value, or instead generate
-> the audit container ID in the kernel upon an event triggered by the
-> orchestrator (e.g. a write to a /proc file).  I suspect we should
-> start looking at the idr code, I think we will need to make use of it.
+[Please always Cc linux-api mailing list (now added) when adding a new
+user visible API. Keeping the rest of the email intact for reference]
 
-My first reaction to using the IDR code is that once an idr is given up,
-it can be reused.  I suppose we request IDRs and then never give them up
-to avoid reuse...
+On Thu 30-05-19 17:26:33, semenzato@chromium.org wrote:
+> From: Luigi Semenzato <semenzato@chromium.org>
+> 
+> Report separate components (anon, file, and shmem)
+> for PSS in smaps_rollup.
+> 
+> This helps understand and tune the memory manager behavior
+> in consumer devices, particularly mobile devices.  Many of
+> them (e.g. chromebooks and Android-based devices) use zram
+> for anon memory, and perform disk reads for discarded file
+> pages.  The difference in latency is large (e.g. reading
+> a single page from SSD is 30 times slower than decompressing
+> a zram page on one popular device), thus it is useful to know
+> how much of the PSS is anon vs. file.
+> 
+> This patch also removes a small code duplication in smaps_account,
+> which would have gotten worse otherwise.
+> 
+> Acked-by: Yu Zhao <yuzhao@chromium.org>
+> Signed-off-by: Luigi Semenzato <semenzato@chromium.org>
+> ---
+>  fs/proc/task_mmu.c | 91 +++++++++++++++++++++++++++++++---------------
+>  1 file changed, 61 insertions(+), 30 deletions(-)
+> 
+> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+> index 01d4eb0e6bd1..ed3b952f0d30 100644
+> --- a/fs/proc/task_mmu.c
+> +++ b/fs/proc/task_mmu.c
+> @@ -417,17 +417,53 @@ struct mem_size_stats {
+>  	unsigned long shared_hugetlb;
+>  	unsigned long private_hugetlb;
+>  	u64 pss;
+> +	u64 pss_anon;
+> +	u64 pss_file;
+> +	u64 pss_shmem;
+>  	u64 pss_locked;
+>  	u64 swap_pss;
+>  	bool check_shmem_swap;
+>  };
+>  
+> +static void smaps_page_accumulate(struct mem_size_stats *mss,
+> +		struct page *page, unsigned long size, unsigned long pss,
+> +		bool dirty, bool locked, bool private)
+> +{
+> +	mss->pss += pss;
+> +
+> +	if (PageAnon(page))
+> +		mss->pss_anon += pss;
+> +	else if (PageSwapBacked(page))
+> +		mss->pss_shmem += pss;
+> +	else
+> +		mss->pss_file += pss;
+> +
+> +	if (locked)
+> +		mss->pss_locked += pss;
+> +
+> +	if (dirty || PageDirty(page)) {
+> +		if (private)
+> +			mss->private_dirty += size;
+> +		else
+> +			mss->shared_dirty += size;
+> +	} else {
+> +		if (private)
+> +			mss->private_clean += size;
+> +		else
+> +			mss->shared_clean += size;
+> +	}
+> +}
+> +
+>  static void smaps_account(struct mem_size_stats *mss, struct page *page,
+>  		bool compound, bool young, bool dirty, bool locked)
+>  {
+>  	int i, nr = compound ? 1 << compound_order(page) : 1;
+>  	unsigned long size = nr * PAGE_SIZE;
+>  
+> +	/*
+> +	 * First accumulate quantities that depend only on |size| and the type
+> +	 * of the compound page.
+> +	 */
+>  	if (PageAnon(page)) {
+>  		mss->anonymous += size;
+>  		if (!PageSwapBacked(page) && !dirty && !PageDirty(page))
+> @@ -440,42 +476,24 @@ static void smaps_account(struct mem_size_stats *mss, struct page *page,
+>  		mss->referenced += size;
+>  
+>  	/*
+> +	 * Then accumulate quantities that may depend on sharing, or that may
+> +	 * differ page-by-page.
+> +	 *
+>  	 * page_count(page) == 1 guarantees the page is mapped exactly once.
+>  	 * If any subpage of the compound page mapped with PTE it would elevate
+>  	 * page_count().
+>  	 */
+>  	if (page_count(page) == 1) {
+> -		if (dirty || PageDirty(page))
+> -			mss->private_dirty += size;
+> -		else
+> -			mss->private_clean += size;
+> -		mss->pss += (u64)size << PSS_SHIFT;
+> -		if (locked)
+> -			mss->pss_locked += (u64)size << PSS_SHIFT;
+> +		smaps_page_accumulate(mss, page, size, size << PSS_SHIFT, dirty,
+> +			locked, true);
+>  		return;
+>  	}
+> -
+>  	for (i = 0; i < nr; i++, page++) {
+>  		int mapcount = page_mapcount(page);
+> -		unsigned long pss = (PAGE_SIZE << PSS_SHIFT);
+> -
+> -		if (mapcount >= 2) {
+> -			if (dirty || PageDirty(page))
+> -				mss->shared_dirty += PAGE_SIZE;
+> -			else
+> -				mss->shared_clean += PAGE_SIZE;
+> -			mss->pss += pss / mapcount;
+> -			if (locked)
+> -				mss->pss_locked += pss / mapcount;
+> -		} else {
+> -			if (dirty || PageDirty(page))
+> -				mss->private_dirty += PAGE_SIZE;
+> -			else
+> -				mss->private_clean += PAGE_SIZE;
+> -			mss->pss += pss;
+> -			if (locked)
+> -				mss->pss_locked += pss;
+> -		}
+> +		unsigned long pss = PAGE_SIZE << PSS_SHIFT;
+> +
+> +		smaps_page_accumulate(mss, page, PAGE_SIZE, pss / mapcount,
+> +			dirty, locked, mapcount < 2);
+>  	}
+>  }
+>  
+> @@ -754,10 +772,23 @@ static void smap_gather_stats(struct vm_area_struct *vma,
+>  		seq_put_decimal_ull_width(m, str, (val) >> 10, 8)
+>  
+>  /* Show the contents common for smaps and smaps_rollup */
+> -static void __show_smap(struct seq_file *m, const struct mem_size_stats *mss)
+> +static void __show_smap(struct seq_file *m, const struct mem_size_stats *mss,
+> +	bool rollup_mode)
+>  {
+>  	SEQ_PUT_DEC("Rss:            ", mss->resident);
+>  	SEQ_PUT_DEC(" kB\nPss:            ", mss->pss >> PSS_SHIFT);
+> +	if (rollup_mode) {
+> +		/*
+> +		 * These are meaningful only for smaps_rollup, otherwise two of
+> +		 * them are zero, and the other one is the same as Pss.
+> +		 */
+> +		SEQ_PUT_DEC(" kB\nPss_Anon:       ",
+> +			mss->pss_anon >> PSS_SHIFT);
+> +		SEQ_PUT_DEC(" kB\nPss_File:       ",
+> +			mss->pss_file >> PSS_SHIFT);
+> +		SEQ_PUT_DEC(" kB\nPss_Shmem:      ",
+> +			mss->pss_shmem >> PSS_SHIFT);
+> +	}
+>  	SEQ_PUT_DEC(" kB\nShared_Clean:   ", mss->shared_clean);
+>  	SEQ_PUT_DEC(" kB\nShared_Dirty:   ", mss->shared_dirty);
+>  	SEQ_PUT_DEC(" kB\nPrivate_Clean:  ", mss->private_clean);
+> @@ -794,7 +825,7 @@ static int show_smap(struct seq_file *m, void *v)
+>  	SEQ_PUT_DEC(" kB\nMMUPageSize:    ", vma_mmu_pagesize(vma));
+>  	seq_puts(m, " kB\n");
+>  
+> -	__show_smap(m, &mss);
+> +	__show_smap(m, &mss, false);
+>  
+>  	seq_printf(m, "THPeligible:    %d\n", transparent_hugepage_enabled(vma));
+>  
+> @@ -841,7 +872,7 @@ static int show_smaps_rollup(struct seq_file *m, void *v)
+>  	seq_pad(m, ' ');
+>  	seq_puts(m, "[rollup]\n");
+>  
+> -	__show_smap(m, &mss);
+> +	__show_smap(m, &mss, true);
+>  
+>  	release_task_mempolicy(priv);
+>  	up_read(&mm->mmap_sem);
+> -- 
+> 2.22.0.rc1.257.g3120a18244-goog
 
-I already had some ideas of preventing an existing ID from being reused,
-but that makes the practice of some container engines injecting
-processes into existing containers difficult if not impossible.
-
-> paul moore
-> www.paul-moore.com
-
-- RGB
-
---
-Richard Guy Briggs <rgb@redhat.com>
-Sr. S/W Engineer, Kernel Security, Base Operating Systems
-Remote, Ottawa, Red Hat Canada
-IRC: rgb, SunRaycer
-Voice: +1.647.777.2635, Internal: (81) 32635
+-- 
+Michal Hocko
+SUSE Labs
