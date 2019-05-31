@@ -2,140 +2,259 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5883031187
-	for <lists+linux-api@lfdr.de>; Fri, 31 May 2019 17:46:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EED031193
+	for <lists+linux-api@lfdr.de>; Fri, 31 May 2019 17:49:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726640AbfEaPqV convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Fri, 31 May 2019 11:46:21 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60278 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726531AbfEaPqV (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 31 May 2019 11:46:21 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 9D00130C5854;
-        Fri, 31 May 2019 15:46:17 +0000 (UTC)
-Received: from oldenburg2.str.redhat.com (dhcp-192-219.str.redhat.com [10.33.192.219])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id DF7081009976;
-        Fri, 31 May 2019 15:46:09 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc:     carlos <carlos@redhat.com>, Joseph Myers <joseph@codesourcery.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        libc-alpha <libc-alpha@sourceware.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ben Maurer <bmaurer@fb.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Dave Watson <davejwatson@fb.com>, Paul Turner <pjt@google.com>,
-        Rich Felker <dalias@libc.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-api <linux-api@vger.kernel.org>
-Subject: Re: [PATCH 1/5] glibc: Perform rseq(2) registration at C startup and thread creation (v10)
-References: <20190503184219.19266-1-mathieu.desnoyers@efficios.com>
-        <20190503184219.19266-2-mathieu.desnoyers@efficios.com>
-        <87h89gjgaf.fsf@oldenburg2.str.redhat.com>
-        <1239705947.14878.1558985272873.JavaMail.zimbra@efficios.com>
-        <140718133.18261.1559144710554.JavaMail.zimbra@efficios.com>
-        <2022553041.20966.1559249801435.JavaMail.zimbra@efficios.com>
-        <875zprm4jo.fsf@oldenburg2.str.redhat.com>
-        <732661684.21584.1559314109886.JavaMail.zimbra@efficios.com>
-Date:   Fri, 31 May 2019 17:46:08 +0200
-In-Reply-To: <732661684.21584.1559314109886.JavaMail.zimbra@efficios.com>
-        (Mathieu Desnoyers's message of "Fri, 31 May 2019 10:48:29 -0400
-        (EDT)")
-Message-ID: <87muj2k4ov.fsf@oldenburg2.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+        id S1726546AbfEaPtN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 31 May 2019 11:49:13 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:40689 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726421AbfEaPtN (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 31 May 2019 11:49:13 -0400
+Received: by mail-pf1-f194.google.com with SMTP id u17so6445452pfn.7
+        for <linux-api@vger.kernel.org>; Fri, 31 May 2019 08:49:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=lUFtp2yOlfQq1CKiEF9tMKsKqyXjNbP4nir3ck8sFaE=;
+        b=GhRpfx2A5bxND9pas2Gk+Vdmrk2F/pXrfRMH0ecWkCkA8JZ3hSvXhkBVcDnQHmN8PB
+         ITmxk4tJ8dqEYWINfudSzwLTJrucAkYYaawM8P2s0bJ2xU3V2adfUY8LuZfNbBu6BioV
+         fFVXURHP/e4drwXX+jAAM0tPncLDWYozgC1lA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=lUFtp2yOlfQq1CKiEF9tMKsKqyXjNbP4nir3ck8sFaE=;
+        b=Wouk15ypgdIO25aoXTdyNGB0TrcAI19GDAloDAYqd8IB3hDVXBWDVG0fmJjN0NICWO
+         ubcFb96gog5o/wUyhv9bL7k3Ei0L98Wh62Jc4cPljjueFqCnJrZ4ZLyErpp/T7J+aLTo
+         8VJX9rMCCMMujFgqBDKUIztu5JTWwNZUnboT7c7/xxNwfie66W289DdaGw3g5DF8ll9f
+         TuH8S1Xq+SytK918heqjuHEW4+TrDJN8I22xZz+kVlHzgJpSD+p7FNUIyxNeVbuo+sGX
+         d5Osg4K7O+CQesn4YooKoiI7KaGg1VrN3B1NG1opzH8xuK+2GYHbRFPVYGzy/eogxYmu
+         LdMw==
+X-Gm-Message-State: APjAAAUall1f3UORS+bHo+PMIwkvCPhF5mCbAX6aP+Y0tal1xaRmimoD
+        Wnz+vyNQc+uStwlVrWnFi0pHww==
+X-Google-Smtp-Source: APXvYqz6ur5HqPd6uxOkgbZFaVWa+IJqvEKWFNcRchWcH8iA4hDtSasywAKZwQnFBxhrX6Tz7WF2XA==
+X-Received: by 2002:a17:90b:d8c:: with SMTP id bg12mr10399048pjb.70.1559317752008;
+        Fri, 31 May 2019 08:49:12 -0700 (PDT)
+Received: from luigi2.mtv.corp.google.com ([2620:15c:202:1:2c30:5512:25f8:631d])
+        by smtp.gmail.com with ESMTPSA id e127sm2916716pfe.98.2019.05.31.08.49.10
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 31 May 2019 08:49:10 -0700 (PDT)
+From:   semenzato@chromium.org
+To:     linux-mm@kvack.org, akpm@linux-foundation.org
+Cc:     sonnyrao@chromium.org, linux-api@vger.kernel.org,
+        Luigi Semenzato <semenzato@chromium.org>,
+        Yu Zhao <yuzhao@chromium.org>
+Subject: [PATCH v3 1/1] mm: smaps: split PSS into components
+Date:   Fri, 31 May 2019 08:46:45 -0700
+Message-Id: <20190531154645.39365-1-semenzato@chromium.org>
+X-Mailer: git-send-email 2.22.0.rc1.257.g3120a18244-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.46]); Fri, 31 May 2019 15:46:20 +0000 (UTC)
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Mathieu Desnoyers:
+From: Luigi Semenzato <semenzato@chromium.org>
 
-> Let's break this down into the various sub-issues involved:
->
-> 1) How early do we need to setup rseq ? Should it be setup before:
->    - LD_PRELOAD .so constructors ?
->      - Without circular dependency,
->      - With circular dependency,
->    - audit libraries initialization ?
->    - IFUNC resolvers ?
->    - other callbacks ?
->    - memory allocator calls ?
->
-> We may end up in a situation where we need memory allocation to be setup
-> in order to initialize TLS before rseq can be registered for the main
-> thread. I suspect we will end up needing a fallbacks which always work
-> for the few cases that would try to use rseq too early in dl/libc startup.
+Report separate components (anon, file, and shmem)
+for PSS in smaps_rollup.
 
-I think the answer to that depends on whether it's okay to have an
-observable transition from “no rseq kernel support” to “kernel supports
-rseq”.
+This helps understand and tune the memory manager behavior
+in consumer devices, particularly mobile devices.  Many of
+them (e.g. chromebooks and Android-based devices) use zram
+for anon memory, and perform disk reads for discarded file
+pages.  The difference in latency is large (e.g. reading
+a single page from SSD is 30 times slower than decompressing
+a zram page on one popular device), thus it is useful to know
+how much of the PSS is anon vs. file.
 
-> 2) Do we need to setup __rseq_handled and __rseq_abi at the same stage of
->    startup, or is it OK to setup __rseq_handled before __rseq_abi ?
+This patch also removes a small code duplication in smaps_account,
+which would have gotten worse otherwise.
 
-I think we should be able to set __rseq_handle early, even if we can
-perform the rseq area registration later.  (The distinction does not
-matter if the registration needs to be performed early as well.)
+Also added missing entry for smaps_rollup in
+Documentation/filesystems/proc.txt.
 
-Setting __rseq_handle in ld.so is easy if the variable is defined in
-ld.so, which is not a problem at all.
+Acked-by: Yu Zhao <yuzhao@chromium.org>
+Signed-off-by: Luigi Semenzato <semenzato@chromium.org>
+---
+ Documentation/filesystems/proc.txt |  6 +-
+ fs/proc/task_mmu.c                 | 91 ++++++++++++++++++++----------
+ 2 files changed, 65 insertions(+), 32 deletions(-)
 
-> 3) Which shared object owns __rseq_handled and __rseq_abi ?
->    - libc.so ?
->    - ld-linux-*.so.2 ?
->    - Should both symbols be owned by the same .so ?
+diff --git a/Documentation/filesystems/proc.txt b/Documentation/filesystems/proc.txt
+index 66cad5c86171..b48e85e19877 100644
+--- a/Documentation/filesystems/proc.txt
++++ b/Documentation/filesystems/proc.txt
+@@ -153,9 +153,11 @@ Table 1-1: Process specific entries in /proc
+ 		symbol the task is blocked in - or "0" if not blocked.
+  pagemap	Page table
+  stack		Report full stack trace, enable via CONFIG_STACKTRACE
+- smaps		an extension based on maps, showing the memory consumption of
++ smaps		An extension based on maps, showing the memory consumption of
+ 		each mapping and flags associated with it
+- numa_maps	an extension based on maps, showing the memory locality and
++ smaps_rollup	Accumulated smaps stats for all mappings of the process.  This
++		can be derived from smaps, but is faster and more convenient
++ numa_maps	An extension based on maps, showing the memory locality and
+ 		binding policy as well as mem usage (in pages) of each mapping.
+ ..............................................................................
+ 
+diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+index 01d4eb0e6bd1..ed3b952f0d30 100644
+--- a/fs/proc/task_mmu.c
++++ b/fs/proc/task_mmu.c
+@@ -417,17 +417,53 @@ struct mem_size_stats {
+ 	unsigned long shared_hugetlb;
+ 	unsigned long private_hugetlb;
+ 	u64 pss;
++	u64 pss_anon;
++	u64 pss_file;
++	u64 pss_shmem;
+ 	u64 pss_locked;
+ 	u64 swap_pss;
+ 	bool check_shmem_swap;
+ };
+ 
++static void smaps_page_accumulate(struct mem_size_stats *mss,
++		struct page *page, unsigned long size, unsigned long pss,
++		bool dirty, bool locked, bool private)
++{
++	mss->pss += pss;
++
++	if (PageAnon(page))
++		mss->pss_anon += pss;
++	else if (PageSwapBacked(page))
++		mss->pss_shmem += pss;
++	else
++		mss->pss_file += pss;
++
++	if (locked)
++		mss->pss_locked += pss;
++
++	if (dirty || PageDirty(page)) {
++		if (private)
++			mss->private_dirty += size;
++		else
++			mss->shared_dirty += size;
++	} else {
++		if (private)
++			mss->private_clean += size;
++		else
++			mss->shared_clean += size;
++	}
++}
++
+ static void smaps_account(struct mem_size_stats *mss, struct page *page,
+ 		bool compound, bool young, bool dirty, bool locked)
+ {
+ 	int i, nr = compound ? 1 << compound_order(page) : 1;
+ 	unsigned long size = nr * PAGE_SIZE;
+ 
++	/*
++	 * First accumulate quantities that depend only on |size| and the type
++	 * of the compound page.
++	 */
+ 	if (PageAnon(page)) {
+ 		mss->anonymous += size;
+ 		if (!PageSwapBacked(page) && !dirty && !PageDirty(page))
+@@ -440,42 +476,24 @@ static void smaps_account(struct mem_size_stats *mss, struct page *page,
+ 		mss->referenced += size;
+ 
+ 	/*
++	 * Then accumulate quantities that may depend on sharing, or that may
++	 * differ page-by-page.
++	 *
+ 	 * page_count(page) == 1 guarantees the page is mapped exactly once.
+ 	 * If any subpage of the compound page mapped with PTE it would elevate
+ 	 * page_count().
+ 	 */
+ 	if (page_count(page) == 1) {
+-		if (dirty || PageDirty(page))
+-			mss->private_dirty += size;
+-		else
+-			mss->private_clean += size;
+-		mss->pss += (u64)size << PSS_SHIFT;
+-		if (locked)
+-			mss->pss_locked += (u64)size << PSS_SHIFT;
++		smaps_page_accumulate(mss, page, size, size << PSS_SHIFT, dirty,
++			locked, true);
+ 		return;
+ 	}
+-
+ 	for (i = 0; i < nr; i++, page++) {
+ 		int mapcount = page_mapcount(page);
+-		unsigned long pss = (PAGE_SIZE << PSS_SHIFT);
+-
+-		if (mapcount >= 2) {
+-			if (dirty || PageDirty(page))
+-				mss->shared_dirty += PAGE_SIZE;
+-			else
+-				mss->shared_clean += PAGE_SIZE;
+-			mss->pss += pss / mapcount;
+-			if (locked)
+-				mss->pss_locked += pss / mapcount;
+-		} else {
+-			if (dirty || PageDirty(page))
+-				mss->private_dirty += PAGE_SIZE;
+-			else
+-				mss->private_clean += PAGE_SIZE;
+-			mss->pss += pss;
+-			if (locked)
+-				mss->pss_locked += pss;
+-		}
++		unsigned long pss = PAGE_SIZE << PSS_SHIFT;
++
++		smaps_page_accumulate(mss, page, PAGE_SIZE, pss / mapcount,
++			dirty, locked, mapcount < 2);
+ 	}
+ }
+ 
+@@ -754,10 +772,23 @@ static void smap_gather_stats(struct vm_area_struct *vma,
+ 		seq_put_decimal_ull_width(m, str, (val) >> 10, 8)
+ 
+ /* Show the contents common for smaps and smaps_rollup */
+-static void __show_smap(struct seq_file *m, const struct mem_size_stats *mss)
++static void __show_smap(struct seq_file *m, const struct mem_size_stats *mss,
++	bool rollup_mode)
+ {
+ 	SEQ_PUT_DEC("Rss:            ", mss->resident);
+ 	SEQ_PUT_DEC(" kB\nPss:            ", mss->pss >> PSS_SHIFT);
++	if (rollup_mode) {
++		/*
++		 * These are meaningful only for smaps_rollup, otherwise two of
++		 * them are zero, and the other one is the same as Pss.
++		 */
++		SEQ_PUT_DEC(" kB\nPss_Anon:       ",
++			mss->pss_anon >> PSS_SHIFT);
++		SEQ_PUT_DEC(" kB\nPss_File:       ",
++			mss->pss_file >> PSS_SHIFT);
++		SEQ_PUT_DEC(" kB\nPss_Shmem:      ",
++			mss->pss_shmem >> PSS_SHIFT);
++	}
+ 	SEQ_PUT_DEC(" kB\nShared_Clean:   ", mss->shared_clean);
+ 	SEQ_PUT_DEC(" kB\nShared_Dirty:   ", mss->shared_dirty);
+ 	SEQ_PUT_DEC(" kB\nPrivate_Clean:  ", mss->private_clean);
+@@ -794,7 +825,7 @@ static int show_smap(struct seq_file *m, void *v)
+ 	SEQ_PUT_DEC(" kB\nMMUPageSize:    ", vma_mmu_pagesize(vma));
+ 	seq_puts(m, " kB\n");
+ 
+-	__show_smap(m, &mss);
++	__show_smap(m, &mss, false);
+ 
+ 	seq_printf(m, "THPeligible:    %d\n", transparent_hugepage_enabled(vma));
+ 
+@@ -841,7 +872,7 @@ static int show_smaps_rollup(struct seq_file *m, void *v)
+ 	seq_pad(m, ' ');
+ 	seq_puts(m, "[rollup]\n");
+ 
+-	__show_smap(m, &mss);
++	__show_smap(m, &mss, true);
+ 
+ 	release_task_mempolicy(priv);
+ 	up_read(&mm->mmap_sem);
+-- 
+2.22.0.rc1.257.g3120a18244-goog
 
-I think we can pick whatever works, based on the requirements from (1).
-It's an implementation detail (altough it currently becomes part of the
-ABI for weird reasons, but the choice itself is arbitrary).
-
->    - What about the !SHARED case ? I think this would end up in libc.a
->    in all cases.
-
-Correct.
-
-> 4) Inability to touch a TLS variable (__rseq_abi) from ld-linux-*.so.2
->    - Should we extend the dynamic linker to allow such TLS variable to be
->      accessed ? If so, how much effort is required ?
->    - Can we find an alternative way to initialize rseq early during
->      dl init stages while still performing the TLS access from a function
->      implemented within libc.so ?
-
-This is again related to the answer for (1).  There are various hacks we
-could implement to make the initialization invisible (e.g., computing
-the address of the variable using the equivalent of dlsym, after loading
-all the initial objects and before starting relocation).  If it's not
-too hard to add TLS support to ld.so, we can consider that as well.
-(The allocation side should be pretty easy, relocation support it could
-be more tricky.)
-
-> So far, I got rseq to be initialized before LD_PRELOADed library
-> constructors by doing the initialization in a constructor within
-> libc.so. I don't particularly like this approach, because the
-> constructor order is not guaranteed.
-
-Right.
-
-> One possible solution would be to somehow expose a rseq initialization
-> function symbol from libc.so, look it up from ld-linux-*.so.2, and
-> invoke it after libc.so has been loaded. It would end up being similar
-> to a constructor, but with a fixed invocation order.
-
-This would still expose lack of rseq support to IFUNC resolvers
-initially.  I don't know if this is a problem (again, it comes down to
-(1) above).  There is a school of thought that you can't reference
-__rseq_abi from an IFUNC resolver because it needs a relocation.
-
-Thanks,
-Florian
