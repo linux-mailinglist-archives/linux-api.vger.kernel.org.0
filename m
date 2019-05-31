@@ -2,169 +2,86 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D05C3108C
-	for <lists+linux-api@lfdr.de>; Fri, 31 May 2019 16:48:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B669A310A6
+	for <lists+linux-api@lfdr.de>; Fri, 31 May 2019 16:55:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726581AbfEaOsd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 31 May 2019 10:48:33 -0400
-Received: from mail.efficios.com ([167.114.142.138]:57136 "EHLO
-        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726421AbfEaOsc (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 31 May 2019 10:48:32 -0400
-Received: from localhost (ip6-localhost [IPv6:::1])
-        by mail.efficios.com (Postfix) with ESMTP id F403122C750;
-        Fri, 31 May 2019 10:48:30 -0400 (EDT)
-Received: from mail.efficios.com ([IPv6:::1])
-        by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10032)
-        with ESMTP id sV7czKx3TTpV; Fri, 31 May 2019 10:48:30 -0400 (EDT)
-Received: from localhost (ip6-localhost [IPv6:::1])
-        by mail.efficios.com (Postfix) with ESMTP id 2F25D22C738;
-        Fri, 31 May 2019 10:48:30 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 2F25D22C738
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1559314110;
-        bh=lYLdvWHqEgBh1XBCm59pnUmR4YJ5QkepViWEd/RjOYI=;
-        h=Date:From:To:Message-ID:MIME-Version;
-        b=S8s8YrEv9PUYAcQmbW4RtdpZpAJXGaRmOucXGAKVs4HoATvOVlLGhhZDEAaP9jklS
-         cQ9PNtiVIsp5ipKJS/yUrHuvwp6TkE23l4YUNAh2Ut4LFycY8NAc0mboVuT7crWCd4
-         nyy+9FFDrcNuaH4EMuxhpls1KhhOmxQcQh1SvY6I+lR2maQxXMnDyGKsLkFulNZZpR
-         /JU1TzYg+h3FECve48pOpAgwBq/lfuAofZYlb+Lphw1/ORZLSa7Lz0Kjr7/yPTnDDb
-         YeRTrTJEIS7tNGZz8DGm7a8G3rySd+x4Ahdkv05hbbA3P70VsIMjc8lAmSbmVfqZCc
-         IwBAIVhU/8Pvg==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([IPv6:::1])
-        by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10026)
-        with ESMTP id tP2Ij7GqSvCE; Fri, 31 May 2019 10:48:30 -0400 (EDT)
-Received: from mail02.efficios.com (mail02.efficios.com [167.114.142.138])
-        by mail.efficios.com (Postfix) with ESMTP id 0E29A22C729;
-        Fri, 31 May 2019 10:48:30 -0400 (EDT)
-Date:   Fri, 31 May 2019 10:48:29 -0400 (EDT)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     carlos <carlos@redhat.com>, Joseph Myers <joseph@codesourcery.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        libc-alpha <libc-alpha@sourceware.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ben Maurer <bmaurer@fb.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Dave Watson <davejwatson@fb.com>, Paul Turner <pjt@google.com>,
-        Rich Felker <dalias@libc.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-api <linux-api@vger.kernel.org>
-Message-ID: <732661684.21584.1559314109886.JavaMail.zimbra@efficios.com>
-In-Reply-To: <875zprm4jo.fsf@oldenburg2.str.redhat.com>
-References: <20190503184219.19266-1-mathieu.desnoyers@efficios.com> <20190503184219.19266-2-mathieu.desnoyers@efficios.com> <87h89gjgaf.fsf@oldenburg2.str.redhat.com> <1239705947.14878.1558985272873.JavaMail.zimbra@efficios.com> <140718133.18261.1559144710554.JavaMail.zimbra@efficios.com> <2022553041.20966.1559249801435.JavaMail.zimbra@efficios.com> <875zprm4jo.fsf@oldenburg2.str.redhat.com>
-Subject: Re: [PATCH 1/5] glibc: Perform rseq(2) registration at C startup
- and thread creation (v10)
+        id S1726773AbfEaOzM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 31 May 2019 10:55:12 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40650 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726531AbfEaOzM (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 31 May 2019 10:55:12 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 47CAFC0AD2B7;
+        Fri, 31 May 2019 14:55:12 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-120-173.rdu2.redhat.com [10.10.120.173])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 44FF41001E6F;
+        Fri, 31 May 2019 14:55:09 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <20190529231112.GB3164@kroah.com>
+References: <20190529231112.GB3164@kroah.com> <20190528231218.GA28384@kroah.com> <20190528162603.GA24097@kroah.com> <155905930702.7587.7100265859075976147.stgit@warthog.procyon.org.uk> <155905931502.7587.11705449537368497489.stgit@warthog.procyon.org.uk> <4031.1559064620@warthog.procyon.org.uk> <31936.1559146000@warthog.procyon.org.uk>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     dhowells@redhat.com, viro@zeniv.linux.org.uk, raven@themaw.net,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-block@vger.kernel.org, keyrings@vger.kernel.org,
+        linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/7] General notification queue with user mmap()'able ring buffer
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [167.114.142.138]
-X-Mailer: Zimbra 8.8.12_GA_3803 (ZimbraWebClient - FF67 (Linux)/8.8.12_GA_3794)
-Thread-Topic: glibc: Perform rseq(2) registration at C startup and thread creation (v10)
-Thread-Index: hCqY8L0Nc/c0WllqkYAE8st/EothUg==
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <3762.1559314508.1@warthog.procyon.org.uk>
+Date:   Fri, 31 May 2019 15:55:08 +0100
+Message-ID: <3763.1559314508@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.32]); Fri, 31 May 2019 14:55:12 +0000 (UTC)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+Greg KH <gregkh@linuxfoundation.org> wrote:
 
+> So, if that's all that needs to be fixed, can you use the same
+> buffer/code if that patch is merged?
 
------ On May 31, 2019, at 4:06 AM, Florian Weimer fweimer@redhat.com wrote:
+I really don't know.  The perf code is complex, partially in hardware drivers
+and is tricky to understand - though a chunk of that is the "aux" buffer part;
+PeterZ used words like "special" and "magic" and the comments in the code talk
+about the hardware writing into the buffer.
 
-> * Mathieu Desnoyers:
-> 
->> I found that it's because touching a __thread variable from
->> ld-linux-x86-64.so.2 ends up setting the DF_STATIC_TLS flag
->> for that .so, which is really not expected.
->>
->> Even if I tweak the assert to make it more lenient there,
->> touching the __thread variable ends up triggering a SIGFPE.
-> 
-> Sorry, I got distracted at this critical juncture.  Yes, I forgot that
-> there isn't TLS support in the dynamic loader today.
-> 
->> So rather than touching the TLS from ld-linux-x86-64.so.2,
->> I've rather experimented with moving the rseq initialization
->> for both SHARED and !SHARED cases to a library constructor
->> within libc.so.
->>
->> Are you aware of any downside to this approach ?
-> 
-> The information whether the kernel supports rseq would not be available
-> to IFUNC resolvers.  And in some cases, ELF constructors for application
-> libraries could run before the libc.so.6 constructor, so applications
-> would see a transition from lack of kernel support to kernel support.
-> 
->> +static
->> +__attribute__ ((constructor))
->> +void __rseq_libc_init (void)
->> +{
->> +  rseq_init ();
->> +  /* Register rseq ABI to the kernel.   */
->> +  (void) rseq_register_current_thread ();
->> +}
-> 
-> I think the call to rseq_init (and the __rseq_handled variable) should
-> still be part of the dynamic loader.  Otherwise there could be confusion
-> about whether glibc handles the registration (due the constructor
-> ordering issue).
+__perf_output_begin() does not appear to be SMP safe.  It uses local_cmpxchg()
+and local_add() which on x86 lack the LOCK prefix.
 
-Let's break this down into the various sub-issues involved:
+stracing the perf command on my test machine, it calls perf_event_open(2) four
+times and mmap's each fd it gets back.  I'm guessing that each one maps a
+separate buffer for each CPU.
 
-1) How early do we need to setup rseq ? Should it be setup before:
-   - LD_PRELOAD .so constructors ?
-     - Without circular dependency,
-     - With circular dependency,
-   - audit libraries initialization ?
-   - IFUNC resolvers ?
-   - other callbacks ?
-   - memory allocator calls ?
+So to use watch_queue based on perf's buffering, you would have to have a
+(2^N)+1 pages-sized buffer for each CPU.  So that would be a minimum of 64K of
+unswappable memory for my desktop machine, say).  Multiply that by each
+process that wants to listen for events...
 
-We may end up in a situation where we need memory allocation to be setup
-in order to initialize TLS before rseq can be registered for the main
-thread. I suspect we will end up needing a fallbacks which always work
-for the few cases that would try to use rseq too early in dl/libc startup.
+What I'm aiming for is something that has a single buffer used by all CPUs for
+each instance of /dev/watch_queue opened and I'd also like to avoid having to
+allocate the metadata page and the aux buffer to save space.  This is locked
+memory and cannot be swapped.
 
-2) Do we need to setup __rseq_handled and __rseq_abi at the same stage of
-   startup, or is it OK to setup __rseq_handled before __rseq_abi ?
+Also, perf has to leave a gap in the ring because it uses CIRC_SPACE(), though
+that's a minor detail that I guess can't be fixed now.
 
-3) Which shared object owns __rseq_handled and __rseq_abi ?
-   - libc.so ?
-   - ld-linux-*.so.2 ?
-   - Should both symbols be owned by the same .so ?
-   - What about the !SHARED case ? I think this would end up in libc.a in all cases.
+I'm also slightly concerned that __perf_output_begin() doesn't check if
+rb->user->tail has got ahead of rb->user->head or that it's lagging too far
+behind.  I doubt it's a serious problem for the kernel since it won't write
+outside of the buffer, but userspace might screw up.  I think the worst that
+will happen is that userspace will get confused.
 
-4) Inability to touch a TLS variable (__rseq_abi) from ld-linux-*.so.2
-   - Should we extend the dynamic linker to allow such TLS variable to be
-     accessed ? If so, how much effort is required ?
-   - Can we find an alternative way to initialize rseq early during
-     dl init stages while still performing the TLS access from a function
-     implemented within libc.so ?
+One thing I would like is to waive the 2^N size requirement.  I understand
+*why* we do that, but I wonder how expensive DIV instructions are for
+relatively small divisors.
 
-So far, I got rseq to be initialized before LD_PRELOADed library constructors
-by doing the initialization in a constructor within libc.so. I don't particularly
-like this approach, because the constructor order is not guaranteed.
-
-One possible solution would be to somehow expose a rseq initialization function
-symbol from libc.so, look it up from ld-linux-*.so.2, and invoke it after libc.so
-has been loaded. It would end up being similar to a constructor, but with a
-fixed invocation order.
-
-I'm just not sure we have everything we need to do this in ld-linux-*.so.2
-init stages.
-
-Thoughts ?
-
-Thanks,
-
-Mathieu
-
-
--- 
-Mathieu Desnoyers
-EfficiOS Inc.
-http://www.efficios.com
+David
