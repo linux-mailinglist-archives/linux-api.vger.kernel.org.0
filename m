@@ -2,48 +2,48 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F393431848
-	for <lists+linux-api@lfdr.de>; Sat,  1 Jun 2019 01:36:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CB9C31878
+	for <lists+linux-api@lfdr.de>; Sat,  1 Jun 2019 01:57:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726779AbfEaXgn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 31 May 2019 19:36:43 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:42108 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726518AbfEaXgm (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 31 May 2019 19:36:42 -0400
-Received: by mail-pg1-f196.google.com with SMTP id e6so3600327pgd.9
-        for <linux-api@vger.kernel.org>; Fri, 31 May 2019 16:36:42 -0700 (PDT)
+        id S1726693AbfEaX5z (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 31 May 2019 19:57:55 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:39641 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726634AbfEaX5z (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 31 May 2019 19:57:55 -0400
+Received: by mail-pl1-f196.google.com with SMTP id g9so4607614plm.6
+        for <linux-api@vger.kernel.org>; Fri, 31 May 2019 16:57:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
          :mime-version:content-transfer-encoding;
-        bh=ETJ6ykBl1LYGxegwTN6YGSCsMcqD6BFzZek270Zuebk=;
-        b=gDzeRZcCSG8o7HzTtM003zr9Uo1fOXFHwDdriHw2ej9N55NVOAcLla7Jwr/6NBgoFY
-         ztEgTUFeh1kxTjnBZyw7vIHG4Gpqr+DGciqWD7Gny2dh8wv2VPntN4IVrDX7UdmSwBGG
-         au0F2+HvrI/OdbFtwHFvXTSfg8JCUMTb8NVQSZ2Feo7UA76VYMmkffMYm986uw8osZft
-         sFGFaAnAsffl4ShMQiTaKXOvB8ZqacgUrXfIjkibUSwfpAiGvvYHjip4mn3+CBJhqU6Z
-         +ymxTTLxiPJw0C3Yq5xQSb5rHU0nVm4vPkKlwyI7B3knR3gb9sz0XI/Yf8OSqh+4Rcpq
-         5s4w==
-X-Gm-Message-State: APjAAAUCiSFP/mNpEn53ohEnK7soQZQd5NWgSaAuP6Wz4YCe5pYIBFoh
-        e1zBbBEQ7IKyde14GYmvKRHFyA==
-X-Google-Smtp-Source: APXvYqwoLUrSF2L9O78QIaOKl9xWjaJYrvRMSYuFqnbqJmbAXL60kkJQDOuqKH/g+FbeaN2B66BGeQ==
-X-Received: by 2002:a17:90a:207:: with SMTP id c7mr12479237pjc.94.1559345802001;
-        Fri, 31 May 2019 16:36:42 -0700 (PDT)
+        bh=t9nVl1gIHwlIdoPhU2OlffJsZVlBCqHfyxU1NxDBE+w=;
+        b=ol/5Q4y5iP7XrB8iwPu9rQ+2fTTWpyCTqWzvOac2+8zEK0NXoe2ENGf3bEUNQPl22U
+         gVQIvwMugVX4LXLOOXPY17azT8O0Oi5rZLiNAOo3wJM7WKd6xnjEJlzFMyjRfLd+BcT+
+         P0ZpSyHuPhUIX7jQKfNhBGAekPXXywPNKz5Cu9g6tL4JTfZrckztUPjuo6utZ7T9uhij
+         m7u3iSI2Ze4OS2C/dXQPvOLjByd26MzfaYEAAGsRz2J17QZVZHGK0qfuG/Znw6uBK0Xu
+         KRR2ow9xhlII2B7nyefrJmo/CUUVMUHD/VSLlXwUzLTaJVKbouXWcQO5+1Kfue/Kixto
+         cSGA==
+X-Gm-Message-State: APjAAAXnQiIft09mdQFoTt4NB1Kyxbyy8VmAnrNNv+Tcf+NfF/9ZOotW
+        8kyNuxQoXy/vMU7/kp5uW+gQ0g==
+X-Google-Smtp-Source: APXvYqxtos57K7T2XrlqEmaGz3PgUmvWlxnSpQme8O4EI89epWX4DYPjXoKLLCIvww44k1fLGUHRiA==
+X-Received: by 2002:a17:902:bb96:: with SMTP id m22mr13017495pls.5.1559347074023;
+        Fri, 31 May 2019 16:57:54 -0700 (PDT)
 Received: from localhost ([12.206.222.5])
-        by smtp.gmail.com with ESMTPSA id t187sm7656787pfb.64.2019.05.31.16.36.41
+        by smtp.gmail.com with ESMTPSA id t124sm7527066pfb.80.2019.05.31.16.57.52
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 31 May 2019 16:36:41 -0700 (PDT)
-Date:   Fri, 31 May 2019 16:36:41 -0700 (PDT)
-X-Google-Original-Date: Fri, 31 May 2019 16:23:50 PDT (-0700)
-Subject:     Re: [PATCH 2/5] Add fchmodat4(), a new syscall
-In-Reply-To: <CAK8P3a3HPeVq29k3Zk5rSk4bddiUQFrdEgDZUgdNnYZK+8QpGw@mail.gmail.com>
+        Fri, 31 May 2019 16:57:53 -0700 (PDT)
+Date:   Fri, 31 May 2019 16:57:53 -0700 (PDT)
+X-Google-Original-Date: Fri, 31 May 2019 16:42:25 PDT (-0700)
+Subject:     Re: [PATCH 3/5] asm-generic: Register fchmodat4 as syscall 428
+In-Reply-To: <CAK8P3a2=xko56LbwV4tyhyyyX+tw+EV-NGavYEYj0q61t=mnwg@mail.gmail.com>
 CC:     viro@zeniv.linux.org.uk, linux-kernel@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
         linux-arch@vger.kernel.org, x86@kernel.org, luto@kernel.org,
         tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com
 From:   Palmer Dabbelt <palmer@sifive.com>
 To:     Arnd Bergmann <arnd@arndb.de>
-Message-ID: <mhng-234d2802-9483-43be-af69-5bd04721b932@palmer-si-x1e>
+Message-ID: <mhng-d362e451-72d2-4893-a749-8469359b65ea@palmer-si-x1e>
 Mime-Version: 1.0 (MHng)
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
@@ -52,43 +52,30 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, 31 May 2019 12:51:00 PDT (-0700), Arnd Bergmann wrote:
+On Fri, 31 May 2019 12:56:39 PDT (-0700), Arnd Bergmann wrote:
 > On Fri, May 31, 2019 at 9:23 PM Palmer Dabbelt <palmer@sifive.com> wrote:
 >>
->> man 3p says that fchmodat() takes a flags argument, but the Linux
->> syscall does not.  There doesn't appear to be a good userspace
->> workaround for this issue but the implementation in the kernel is pretty
->> straight-forward.  The specific use case where the missing flags came up
->> was WRT a fuse filesystem implemenation, but the functionality is pretty
->> generic so I'm assuming there would be other use cases.
->>
 >> Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
->> ---
->>  fs/open.c                | 21 +++++++++++++++++++--
->>  include/linux/syscalls.h |  5 +++++
->>  2 files changed, 24 insertions(+), 2 deletions(-)
->>
->> diff --git a/fs/open.c b/fs/open.c
->> index a00350018a47..cfad7684e8d3 100644
->> --- a/fs/open.c
->> +++ b/fs/open.c
->> @@ -568,11 +568,17 @@ SYSCALL_DEFINE2(fchmod, unsigned int, fd, umode_t, mode)
->>         return ksys_fchmod(fd, mode);
->>  }
->>
->> -int do_fchmodat(int dfd, const char __user *filename, umode_t mode)
->> +int do_fchmodat4(int dfd, const char __user *filename, umode_t mode, int flags)
-> ...
->> +
->> +int do_fchmodat(int dfd, const char __user *filename, umode_t mode)
->> +{
->> +       return do_fchmodat4(dfd, filename, mode, 0);
->> +}
->> +
 >
-> There is only one external caller of do_fchmodat(), so just change that
-> to pass the extra argument here, and keep a single do_fchmodat()
-> function used by the sys_fchmod(), sys_fchmod4(), sys_chmod()
-> and ksys_chmod().
+> As usual, each patch needs a changelog text. I would prefer having a single
+> patch here that changes /all/ system call tables at once, rather than doing one
+> at a time like we used to.
 
-OK, I'll roll that up into a v2.
+Works for me.  That also gives me something to write about it the text :)
+
+> In linux-next, we are at number 434 now, and there are a couple of other
+> new system calls being proposed right now (more than usual), so you may
+> have to change the number a few times.
+
+OK, no problem.  It'll be a bit easier to handle the number that way.
+
+> Note: most architectures use .tbl files now, the exceptions are
+> include/uapi/asm-generic/unistd.h and arch/arm64/include/asm/unistd32.h,
+> and the latter also requires changing __NR_compat_syscalls in asm/unistd.h.
+>
+> Numbers should now be the same across architectures, except for alpha,
+> which has a +110 offset. We have discussed ways to have a single
+> file to modify for a new call on all architectures, but no patches yet.
+
+OK, thanks.  I'll wait a bit for feedback, but unless there's anything else
+I'll go ahead and finish this.
