@@ -2,101 +2,95 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CBD21309E7
-	for <lists+linux-api@lfdr.de>; Fri, 31 May 2019 10:14:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55CF030A63
+	for <lists+linux-api@lfdr.de>; Fri, 31 May 2019 10:35:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726002AbfEaIO6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 31 May 2019 04:14:58 -0400
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:39751 "EHLO
-        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726386AbfEaIO6 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 31 May 2019 04:14:58 -0400
-Received: by mail-qt1-f193.google.com with SMTP id i34so10347514qta.6;
-        Fri, 31 May 2019 01:14:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qz9y4gFluxzPwJy3KPISqVXROmvinNnPW5jrOuJybTo=;
-        b=Tm5ewF/wi6xIdUKsIkZdEGqPXXKlR882rY6T5MTG1DHJVvlwP0o9cTJDqcudqGhlFR
-         fKEhX4v13F7muxAOKwHJKK9rrnB+4+jOyD/RXIU5YIiJ3XobZdyvS0xV+3+H/Mz6lSr5
-         ZEaQ3i9oBK3LkpMPoFdWKmLffTKbEkw3C2QMl830DwWBw+OXg/x8GemOkZOZlRFU8UVK
-         SVFeBG9fKp86GgLhwcdBOUuy5mAo1yIt1X5rwxOE4Ml7eL0xnR19fKNv8Xz7I7bDaZZ5
-         4ALrZJCEN/QuwPzm+wMySnzAOZcjyVECdT0fb8vnfluWr4h7DFB4u6wqt769i+QQXMeO
-         1xdA==
-X-Gm-Message-State: APjAAAW+gdazBPq7iQyBbQXa4/1xblRqpHKbCZvUgga3ZaSUnWTT9S8O
-        EntfxlkNp/gu7n5VOP6yhgXgm/0T55o1W9Fx814=
-X-Google-Smtp-Source: APXvYqw6R6nQclsyVadJZQRr3GlWli/1GXaaSeZb7dxTTe/GAXqX/9X+vcmpy0O5aG8/euC5SLkSQaGiK9/5s8DtIcc=
-X-Received: by 2002:aed:3e7c:: with SMTP id m57mr2760555qtf.204.1559290496946;
- Fri, 31 May 2019 01:14:56 -0700 (PDT)
+        id S1726899AbfEaIfs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 31 May 2019 04:35:48 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:50224 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726240AbfEaIfs (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 31 May 2019 04:35:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=NYSXgtyp6qFIdURiXa8bdXnjz75azFUheeU4NBYX14M=; b=IcV+NfVF6AYcyTf2poTfMuQeD
+        XryTcYrTrHAMk4reMf3GJ1IXzhpOk5ITbYSlFEcvrlNo8ZFaIg2sZKFIOUqrbCNAmd0LHYC490hVh
+        LAWqsrB2u9lfZTNJQZr3tUWVGIS1gt6ATDEdOBeU+cC330I+4/SLe9Yh/UmxRTvqLHBirg4fDOsLq
+        AlIdc1zlzH9wXoiVlyQgW1Tx2p7tlGu4DUbRf/gy16GxsMAX/KPe2dqge5gIojO4f9IpUlNg8cdM9
+        wwdQk8f4N3qOcxbmcIMMqG5+HZp9Wiw6rL3K9N8zlD/vehFQitIuSxWpXIBS1R9MS3PQ9I5aE/mDJ
+        nhTrQLwWA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hWd0p-0003pt-W9; Fri, 31 May 2019 08:35:44 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 4BECC201B8CFE; Fri, 31 May 2019 10:35:42 +0200 (CEST)
+Date:   Fri, 31 May 2019 10:35:42 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Andrea Parri <andrea.parri@amarulasolutions.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        David Howells <dhowells@redhat.com>, viro@zeniv.linux.org.uk,
+        raven@themaw.net, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-block@vger.kernel.org,
+        keyrings@vger.kernel.org, linux-security-module@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Will Deacon <will.deacon@arm.com>,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Mark Rutland <mark.rutland@arm.com>
+Subject: Re: [PATCH 1/7] General notification queue with user mmap()'able
+ ring buffer
+Message-ID: <20190531083542.GL2623@hirez.programming.kicks-ass.net>
+References: <20190528231218.GA28384@kroah.com>
+ <20190528162603.GA24097@kroah.com>
+ <155905930702.7587.7100265859075976147.stgit@warthog.procyon.org.uk>
+ <155905931502.7587.11705449537368497489.stgit@warthog.procyon.org.uk>
+ <4031.1559064620@warthog.procyon.org.uk>
+ <31936.1559146000@warthog.procyon.org.uk>
+ <20190529231112.GB3164@kroah.com>
+ <20190530095039.GA5137@andrea>
 MIME-Version: 1.0
-References: <20190529152237.10719-1-christian@brauner.io> <20190530132012.GS16415@port70.net>
-In-Reply-To: <20190530132012.GS16415@port70.net>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Fri, 31 May 2019 10:14:40 +0200
-Message-ID: <CAK8P3a1zAk1qAkpmevO-AS6zxKdJneDe0ADouhZLW5SEUqoTuw@mail.gmail.com>
-Subject: Re: [PATCH v1 1/2] fork: add clone3
-To:     Szabolcs Nagy <nsz@port70.net>
-Cc:     Christian Brauner <christian@brauner.io>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Jann Horn <jannh@google.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        David Howells <dhowells@redhat.com>,
-        Pavel Emelyanov <xemul@virtuozzo.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Adrian Reber <adrian@lisas.de>,
-        Andrei Vagin <avagin@gmail.com>,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190530095039.GA5137@andrea>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, May 30, 2019 at 3:20 PM Szabolcs Nagy <nsz@port70.net> wrote:
-> * Christian Brauner <christian@brauner.io> [2019-05-29 17:22:36 +0200]:
+On Thu, May 30, 2019 at 11:50:39AM +0200, Andrea Parri wrote:
+> > > Looking at the perf ring buffer, there appears to be a missing barrier in
+> > > perf_aux_output_end():
+> > > 
+> > > 	rb->user_page->aux_head = rb->aux_head;
+> > > 
+> > > should be:
+> > > 
+> > > 	smp_store_release(&rb->user_page->aux_head, rb->aux_head);
+> > > 
+> > > It should also be using smp_load_acquire().  See
+> > > Documentation/core-api/circular-buffers.rst
+> > > 
+> > > And a (partial) patch has been proposed: https://lkml.org/lkml/2018/5/10/249
+> > 
+> > So, if that's all that needs to be fixed, can you use the same
+> > buffer/code if that patch is merged?
+> 
+> That's about one year old...: let me add the usual suspects in Cc:  ;-)
+> since I'm not sure what the plan was (or if I'm missing something) ...
 
-> > /* uapi */
-> > struct clone_args {
-> >         __aligned_u64 flags;
-> >         __aligned_u64 pidfd;
-> >         __aligned_u64 parent_tidptr;
-> >         __aligned_u64 child_tidptr;
-> >         __aligned_u64 stack;
-> >         __aligned_u64 stack_size;
-> >         __aligned_u64 tls;
-> > };
->
-> is this new linux syscall api style to pass pointers as u64?
+The AUX crud is 'special' and smp_store_release() doesn't really help in
+many cases. Notable, AUX is typically used in combination with a
+hardware writer. The driver is in charge of odering here, the generic
+code doesn't know what the appropriate barrier (if any) is and would
+have to resort to the most expensive/heavy one available.
 
-This is common for ioctls passing structures now. I don't think
-we've had many system calls with structures containing pointers,
-but the idea is the same, i.e. we want structures to be identical
-on 32-bit and 64-bit architectures.
+Also see the comment right above this function:
 
-> i think it will look a bit ugly in userspace where cast
-> to u64 would signextend pointers on most 32bit targets, so
-> user code would have to do something like
->
-> arg.ptr = (uint64_t)(uintptr_t)ptr;
->
-> such ugliness can be hidden by the libc with a different
-> struct definition, but it will require bigendian and alignment
-> hackery (or translation in libc, but that does not really work
-> when user calls raw syscall).
+ "It is the
+  pmu driver's responsibility to observe ordering rules of the hardware,
+  so that all the data is externally visible before this is called."
 
-Right. Note also that user space should do zero-extension
-of the variables in order for the kernel to not care about
-what called it. Just leaving padding fields in the structure
-is not enough here.
 
-User space that calls the raw syscall certainly has to
-go through the uintptr_t cast, but I would also expect that
-applications don't normally do that, and instead call a
-library function that has regular C calling conventions
-with individual arguments instead of a structure.
-
-      Arnd
