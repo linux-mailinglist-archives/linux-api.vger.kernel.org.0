@@ -2,126 +2,136 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EF22B30ECE
-	for <lists+linux-api@lfdr.de>; Fri, 31 May 2019 15:26:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FD2230EFB
+	for <lists+linux-api@lfdr.de>; Fri, 31 May 2019 15:39:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726515AbfEaN0r (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 31 May 2019 09:26:47 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:60612 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726485AbfEaN0q (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 31 May 2019 09:26:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=8n09TENg//rbgbzsGXRPd289l+d2UZWCH+fGg2NaHa4=; b=oMieT2howrG7WS9bOvNKdCmiR
-        jX6TmxtTHoTJ6p19NQ7BG0HE7FY04HsI5/nyRw+Aq42dtfLxVH85f/Oo1wrKHZiXHSYILXb6bYx6K
-        yhA1rgynmCx8lfqGcZssXNV6HHnn7atgrynyvL/+8MltoPvEPtws/8cz6hOIaknzrE3S4stP3RQCA
-        +MPBd2PAi7l2iU3fhSRgYTaCLKkRqUgtXi6eiRPa1g0WJHp8m2WPOXwF9+0/y9HLU+804TTCeG+yR
-        KtRFcgaXX9U1NowGmovnO8AyDivrrgn/IpW9UKTGwPivpjuRU9V2uX1aDiIUIutXoeABwDttquviR
-        2s09w9mqg==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hWhY5-0007pO-9M; Fri, 31 May 2019 13:26:21 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 158FF201822CC; Fri, 31 May 2019 15:26:20 +0200 (CEST)
-Date:   Fri, 31 May 2019 15:26:20 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     David Howells <dhowells@redhat.com>
-Cc:     Jann Horn <jannh@google.com>, Greg KH <gregkh@linuxfoundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>, raven@themaw.net,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-block@vger.kernel.org, keyrings@vger.kernel.org,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>
-Subject: Re: [PATCH 1/7] General notification queue with user mmap()'able
- ring buffer
-Message-ID: <20190531132620.GC2606@hirez.programming.kicks-ass.net>
-References: <20190531111445.GO2677@hirez.programming.kicks-ass.net>
- <CAG48ez0R-R3Xs+3Xg9T9qcV3Xv6r4pnx1Z2y=Ltx7RGOayte_w@mail.gmail.com>
- <20190528162603.GA24097@kroah.com>
- <155905930702.7587.7100265859075976147.stgit@warthog.procyon.org.uk>
- <155905931502.7587.11705449537368497489.stgit@warthog.procyon.org.uk>
- <4031.1559064620@warthog.procyon.org.uk>
- <20190528231218.GA28384@kroah.com>
- <31936.1559146000@warthog.procyon.org.uk>
- <16193.1559163763@warthog.procyon.org.uk>
- <21942.1559304135@warthog.procyon.org.uk>
+        id S1726518AbfEaNjP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 31 May 2019 09:39:15 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:44066 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726501AbfEaNjP (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 31 May 2019 09:39:15 -0400
+Received: by mail-pg1-f194.google.com with SMTP id n2so4069398pgp.11;
+        Fri, 31 May 2019 06:39:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=p2xs/JXfPoxuMW8YWnH2CaGd+XoTegPAh3+JTTCbB5s=;
+        b=IDKwcaOHGadMB1TmLSObOSA0W/aGdtHDC0stKAbwq4TtKsZB6mhzcklZYmOzKQnzhq
+         hxywSfajmRY5mDRpAvWBh1M3KgJKwf/zl9jOd1WGYj6UXQ2fSX3E1nhZkkIegcSHln1Z
+         dOs3dg8Pt1GBE3ik7m7RbCDl9neE8lReHVYFYme1QyB0wwO829iUToFVHsE9Dm4FXoHq
+         gzk7kwcDaPtxSBv+Lo75tbXdD+lu0qJyhYndZkyHayIjT+3oQ3oUFEBtO971zCVy2KXw
+         du35CsPT0zBzdgBTKHgTqnxMc3iatZyQXdovcqC1wmgrge9T/uteTBvSpZeWOVZdU+7Z
+         upLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=p2xs/JXfPoxuMW8YWnH2CaGd+XoTegPAh3+JTTCbB5s=;
+        b=A9syRLRh6/b0QHoPs1pd/fKZqNHlIQI3iLJeSz8OQA24f98qhgZ8kJNVq5ZzfpYNxz
+         N3ClOS5B39H4/JIxzHKSMdL2b4tLYEokpfM8Ezx0Gd420cy0SoQaRfso3znaAVB3alfB
+         V3ZI6LYkKMy4+m7YixWBe3Nge4/nwM1xeIHO2QISEt+BzDWdVUwxlPc3INEXMOnrAj/o
+         g+3Uxmq8iG/Hb3RKYFhZn6eVVRTEfEQ2Y+lYQMU+saqa1mZzY12shz4tW1Azw2ygLPFZ
+         VTt9ctRLAhAVGbX2bNRRIP3oHJYrq61Cho50ipoo6OPGoPxutzBSFl7E5eTl9y1Pg3Iq
+         faAg==
+X-Gm-Message-State: APjAAAXge+bHX1AbQNe1whYTcE0zviCbQfn2D5YrXSlZTt5EVRDPQj8r
+        MGRvaZxa9/YCRxHTQSv/k6M=
+X-Google-Smtp-Source: APXvYqwpn6INIam9Hj1iduhR8iI5bXQQTo7X1hltxvTWMZbD5dIKnXsGM8MX89DjI7uadV0NebmWCw==
+X-Received: by 2002:a63:4714:: with SMTP id u20mr9412205pga.347.1559309954195;
+        Fri, 31 May 2019 06:39:14 -0700 (PDT)
+Received: from google.com ([122.38.223.241])
+        by smtp.gmail.com with ESMTPSA id 128sm7105292pff.16.2019.05.31.06.39.07
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Fri, 31 May 2019 06:39:12 -0700 (PDT)
+Date:   Fri, 31 May 2019 22:39:04 +0900
+From:   Minchan Kim <minchan@kernel.org>
+To:     Michal Hocko <mhocko@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-mm <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-api@vger.kernel.org,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Tim Murray <timmurray@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Daniel Colascione <dancol@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Brian Geffon <bgeffon@google.com>, jannh@google.com,
+        oleg@redhat.com, christian@brauner.io, oleksandr@redhat.com,
+        hdanton@sina.com
+Subject: Re: [RFCv2 1/6] mm: introduce MADV_COLD
+Message-ID: <20190531133904.GC195463@google.com>
+References: <20190531064313.193437-1-minchan@kernel.org>
+ <20190531064313.193437-2-minchan@kernel.org>
+ <20190531084752.GI6896@dhcp22.suse.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <21942.1559304135@warthog.procyon.org.uk>
+In-Reply-To: <20190531084752.GI6896@dhcp22.suse.cz>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, May 31, 2019 at 01:02:15PM +0100, David Howells wrote:
-> Peter Zijlstra <peterz@infradead.org> wrote:
+On Fri, May 31, 2019 at 10:47:52AM +0200, Michal Hocko wrote:
+> On Fri 31-05-19 15:43:08, Minchan Kim wrote:
+> > When a process expects no accesses to a certain memory range, it could
+> > give a hint to kernel that the pages can be reclaimed when memory pressure
+> > happens but data should be preserved for future use.  This could reduce
+> > workingset eviction so it ends up increasing performance.
+> > 
+> > This patch introduces the new MADV_COLD hint to madvise(2) syscall.
+> > MADV_COLD can be used by a process to mark a memory range as not expected
+> > to be used in the near future. The hint can help kernel in deciding which
+> > pages to evict early during memory pressure.
+> > 
+> > Internally, it works via deactivating pages from active list to inactive's
+> > head if the page is private because inactive list could be full of
+> > used-once pages which are first candidate for the reclaiming and that's a
+> > reason why MADV_FREE move pages to head of inactive LRU list. Therefore,
+> > if the memory pressure happens, they will be reclaimed earlier than other
+> > active pages unless there is no access until the time.
 > 
-> > Can you re-iterate the exact problem? I konw we talked about this in the
-> > past, but I seem to have misplaced those memories :/
+> [I am intentionally not looking at the implementation because below
+> points should be clear from the changelog - sorry about nagging ;)]
 > 
-> Take this for example:
-> 
-> 	void afs_put_call(struct afs_call *call)
-> 	{
-> 		struct afs_net *net = call->net;
-> 		int n = atomic_dec_return(&call->usage);
-> 		int o = atomic_read(&net->nr_outstanding_calls);
-> 
-> 		trace_afs_call(call, afs_call_trace_put, n + 1, o,
-> 			       __builtin_return_address(0));
-> 
-> 		ASSERTCMP(n, >=, 0);
-> 		if (n == 0) {
-> 			...
-> 		}
-> 	}
-> 
-> I am printing the usage count in the afs_call tracepoint so that I can use it
-> to debug refcount bugs.  If I do it like this:
-> 
-> 	void afs_put_call(struct afs_call *call)
-> 	{
-> 		int n = refcount_read(&call->usage);
-> 		int o = atomic_read(&net->nr_outstanding_calls);
-> 
-> 		trace_afs_call(call, afs_call_trace_put, n, o,
-> 			       __builtin_return_address(0));
-> 
-> 		if (refcount_dec_and_test(&call->usage)) {
-> 			...
-> 		}
-> 	}
-> 
-> then there's a temporal gap between the usage count being read and the actual
-> atomic decrement in which another CPU can alter the count.  This can be
-> exacerbated by an interrupt occurring, a softirq occurring or someone enabling
-> the tracepoint.
-> 
-> I can't do the tracepoint after the decrement if refcount_dec_and_test()
-> returns false unless I save all the values from the object that I might need
-> as the object could be destroyed any time from that point on.
+> What kind of pages can be deactivated? Anonymous/File backed.
+> Private/shared? If shared, are there any restrictions?
 
-Is it not the responsibility of the task that affects the 1->0
-transition to actually free the memory?
+Both file and private pages could be deactived from each active LRU
+to each inactive LRU if the page has one map_count. In other words,
 
-That is, I'm expecting the '...' in both cases above the include the
-actual freeing of the object. If this is not the case, then @usage is
-not a reference count.
+    if (page_mapcount(page) <= 1)
+        deactivate_page(page);
 
-(and it has already been established that refcount_t doesn't work for
-usage count scenarios)
+> 
+> Are there any restrictions on mappings? E.g. what would be an effect of
+> this operation on hugetlbfs mapping?
 
-Aside from that, is the problem that refcount_dec_and_test() returns a
-boolean (true - last put, false - not last) instead of the refcount
-value? This does indeed make it hard to print the exact count value for
-the event.
+VM_LOCKED|VM_HUGETLB|VM_PFNMAP vma will be skipped like MADV_FREE|DONTNEED
+
+> 
+> Also you are talking about inactive LRU but what kind of LRU is that? Is
+> it the anonymous LRU? If yes, don't we have the same problem as with the
+
+active file page -> inactive file LRU
+active anon page -> inacdtive anon LRU
+
+> early MADV_FREE implementation when enough page cache causes that
+> deactivated anonymous memory doesn't get reclaimed anytime soon. Or
+> worse never when there is no swap available?
+
+I think MADV_COLD is a little bit different symantic with MAVD_FREE.
+MADV_FREE means it's okay to discard when the memory pressure because
+the content of the page is *garbage*. Furthemore, freeing such pages is
+almost zero overhead since we don't need to swap out and access
+afterward causes minor fault. Thus, it would make sense to put those
+freeable pages in inactive file LRU to compete other used-once pages.
+
+However, MADV_COLD doesn't means it's a garbage and freeing requires
+swap out/swap in afterward. So, it would be better to move inactive
+anon's LRU list, not file LRU. Furthermore, it would avoid unnecessary
+scanning of those cold anonymous if system doesn't have a swap device.
+
