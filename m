@@ -2,75 +2,99 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B0738315B2
-	for <lists+linux-api@lfdr.de>; Fri, 31 May 2019 21:56:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F0A131638
+	for <lists+linux-api@lfdr.de>; Fri, 31 May 2019 22:39:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727368AbfEaT44 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 31 May 2019 15:56:56 -0400
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:37023 "EHLO
-        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727147AbfEaT44 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 31 May 2019 15:56:56 -0400
-Received: by mail-qt1-f193.google.com with SMTP id y57so2408226qtk.4;
-        Fri, 31 May 2019 12:56:56 -0700 (PDT)
+        id S1727613AbfEaUiu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 31 May 2019 16:38:50 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:34517 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726593AbfEaUiu (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 31 May 2019 16:38:50 -0400
+Received: by mail-lf1-f67.google.com with SMTP id v18so8977725lfi.1
+        for <linux-api@vger.kernel.org>; Fri, 31 May 2019 13:38:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=CJg5QUCA0uPT2F+o9Dh7JaPgMKMdBBZHboAZ09rcF54=;
+        b=HfKC+uYBIngRJFypqrkOc0/UKsvYuqY5793NSQ4XY5ZlXJ+nUBECGXpPw/5aGC59wy
+         JFNPgtG+Ghy8dk7PmRHD9Jb6iiamQbvnEB3o/mJLZs5MdHJjv1mMjI0sDXPSMAIL9FZE
+         M+O9r4iy3Y5UUwrhzyC/sNO6wPFFFmD2vNTz8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Y/rGGdWu5XycD5C8N2GrP1YfPaYIiEt1+UzdCzQQwTA=;
-        b=IRDgGMYuAvaE1GSIOI3o/tLy6QghUC/gn59W8EGZYnnrf9ygntjzbieiQ3dlEsllbU
-         ztyyIguVbB2eHpmI9PkEJ2BwAS9VlMhKzI+fhGp2Lgr6qdZSii2rAWmai/dO1jFO5bxB
-         cVXi/mZFGbSbMsIAvroXJO/nn9LYuVE7T9DyKs4KHkS08aDguFsrE07Ml8RNFFXZ+X5G
-         svudypRSxUBdUObaug++K1UclxUiicg5g+AnqXx5puXnX8UkMleopia6girdXGU8pZcl
-         pfT6fHEXuCzscjxIpLM04Vewl7J3jbV0wGGhX+nv5qLlnJHgkDn9NqEepMNlBbte9z++
-         nkvw==
-X-Gm-Message-State: APjAAAVtQFKrl/qfDJBgj/1KCyOFg3tHCbU4gYtI8oWsyc+lJhSUS3W9
-        1U8LurkPcqIvnSneESH1GxXBaWFmkXz/x/3ap9g=
-X-Google-Smtp-Source: APXvYqz07GsQb18PQEuYoOrVPB5qWAwO/Z2Je+evEIb3JjUC/80MFu0dsduMvyyuzYa7wz7Pj3pRLV9pSmAglB0lGPc=
-X-Received: by 2002:a0c:b78a:: with SMTP id l10mr10482109qve.62.1559332615542;
- Fri, 31 May 2019 12:56:55 -0700 (PDT)
+        bh=CJg5QUCA0uPT2F+o9Dh7JaPgMKMdBBZHboAZ09rcF54=;
+        b=ZJbUWkKwqsyK4/TFCIjjIjFM+VTRx3tHkmgqQTjuoj3qmUWYEd+EZfkaBsIyC/dIRN
+         nIK+1lBCZY5pIp4Jq7jG9Omy6SAMP8DyeVYK29aQyfUgsJIhpUU3M1ZOs3eQm+U+NBjW
+         fhRFyyKl/Ql3BwCebib6agagJPOeXuLVRzoUpRiPqU/er3v0DiZ5od2EN9C7Q8WTH1nt
+         oNsMS0r/Av45jhR9GVoB3Tq9sZMmmP1Qceu0qibo5Lz8vKMaPhGS7kEgQGX6GFU2SApY
+         Q8jeBJynpOGt+icORYlrPHMiq9Wd//FutkkC9komluhhbY869+cRMdqs1UHvmT2OxfJ0
+         XwUQ==
+X-Gm-Message-State: APjAAAXdzQQuK6A49CRYhuFBJWo7TXyS8Bbl0BlJSi4M44gBTxOh5Nef
+        Pad24Uy1d1ESpYSO1V2aZjJKp90XJ0w=
+X-Google-Smtp-Source: APXvYqysNzjRJ9hSIuxtWeZxHREAlorSW01ynSPqS94mmaHHThytbMZe4pCPwd0QU5HipDGtUuvdnQ==
+X-Received: by 2002:ac2:41c4:: with SMTP id d4mr3100857lfi.17.1559335127152;
+        Fri, 31 May 2019 13:38:47 -0700 (PDT)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com. [209.85.208.176])
+        by smtp.gmail.com with ESMTPSA id t2sm1593822ljd.36.2019.05.31.13.38.45
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 31 May 2019 13:38:46 -0700 (PDT)
+Received: by mail-lj1-f176.google.com with SMTP id z5so10822416lji.10
+        for <linux-api@vger.kernel.org>; Fri, 31 May 2019 13:38:45 -0700 (PDT)
+X-Received: by 2002:a2e:97d8:: with SMTP id m24mr6980173ljj.52.1559335125640;
+ Fri, 31 May 2019 13:38:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190531191204.4044-1-palmer@sifive.com> <20190531191204.4044-4-palmer@sifive.com>
-In-Reply-To: <20190531191204.4044-4-palmer@sifive.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Fri, 31 May 2019 21:56:39 +0200
-Message-ID: <CAK8P3a2=xko56LbwV4tyhyyyX+tw+EV-NGavYEYj0q61t=mnwg@mail.gmail.com>
-Subject: Re: [PATCH 3/5] asm-generic: Register fchmodat4 as syscall 428
-To:     Palmer Dabbelt <palmer@sifive.com>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>
+References: <20190529152237.10719-1-christian@brauner.io> <20190529222414.GA6492@gmail.com>
+In-Reply-To: <20190529222414.GA6492@gmail.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Fri, 31 May 2019 13:38:29 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whQP-Ykxi=zSYaV9iXsHsENa+2fdj-zYKwyeyed63Lsfw@mail.gmail.com>
+Message-ID: <CAHk-=whQP-Ykxi=zSYaV9iXsHsENa+2fdj-zYKwyeyed63Lsfw@mail.gmail.com>
+Subject: Re: [PATCH v1 1/2] fork: add clone3
+To:     Andrei Vagin <avagin@gmail.com>
+Cc:     Christian Brauner <christian@brauner.io>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
+        Jann Horn <jannh@google.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+        David Howells <dhowells@redhat.com>,
+        Pavel Emelyanov <xemul@virtuozzo.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Adrian Reber <adrian@lisas.de>,
+        Linux API <linux-api@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, May 31, 2019 at 9:23 PM Palmer Dabbelt <palmer@sifive.com> wrote:
+On Wed, May 29, 2019 at 3:24 PM Andrei Vagin <avagin@gmail.com> wrote:
 >
-> Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
+> Thank you for thinking about time namespaces. I looked at this patch
+> quickly and I would suggest to move a termination signal out of flags. I
+> think we can add a separate field (exit_signal) into clone_args. Does it
+> make sense? For me, exit_signal in flags always looked weird...
 
-As usual, each patch needs a changelog text. I would prefer having a single
-patch here that changes /all/ system call tables at once, rather than doing one
-at a time like we used to.
+I agree - the child signal in flags was always just a "it fits" kind
+of thing, and that was obviously true back then, but is not true now.
 
-In linux-next, we are at number 434 now, and there are a couple of other
-new system calls being proposed right now (more than usual), so you may
-have to change the number a few times.
+In fact, if we move it out of flags, we'd open up new flag values for
+the new interface, in that now the low 8 bits are freed up for more
+useful things.
 
-Note: most architectures use .tbl files now, the exceptions are
-include/uapi/asm-generic/unistd.h and arch/arm64/include/asm/unistd32.h,
-and the latter also requires changing __NR_compat_syscalls in asm/unistd.h.
+In fact, even for the old ones, we might just say that instead of the
+full 8-bit CSIGNAL field, nobody ever *used* more than 6 bits, because
+_NSIG is 64, and we've never actually had named signals > 31.
 
-Numbers should now be the same across architectures, except for alpha,
-which has a +110 offset. We have discussed ways to have a single
-file to modify for a new call on all architectures, but no patches yet.
+(Yeah, yeah, somebody could use signal 64, and yes, mips has _NSIG
+128, but realistically we could get two new clone signals in the old
+interface and I think nobody would even notice).
 
-     Arnd
+In fact, all of the CSIGNAL bits are ignored if CLONE_THREAD or
+CLONE_PARENT is set.
+
+                   Linus
