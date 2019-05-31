@@ -2,121 +2,126 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 56CDC30EBB
-	for <lists+linux-api@lfdr.de>; Fri, 31 May 2019 15:19:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF22B30ECE
+	for <lists+linux-api@lfdr.de>; Fri, 31 May 2019 15:26:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726515AbfEaNTM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 31 May 2019 09:19:12 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:38854 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726330AbfEaNTL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 31 May 2019 09:19:11 -0400
-Received: by mail-pf1-f196.google.com with SMTP id a186so5509979pfa.5;
-        Fri, 31 May 2019 06:19:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=NGbXt3/IQA1b49aRJS6BBAi0DW9ybOJRqUfZBPY09dA=;
-        b=A3WPnRqnTUdG3crEHGBb/NpBr+tWmhd8IyhewWKj1R4bjxJzKPyXLzw5G3U9Lnteyl
-         S36wH0W0+2k1njFZy2Ds2f/9kFql5X0DZRwamUx250rLJpRwx19xr3wuHqAOJBBYxLq9
-         D5yvDqjjRPT9mniegqhTMI69xTfamzNzmqGuYDQC27qaWbbK2U1nrf6NWOVP/AQgAVed
-         27HAfAIiBEc/pMFVtc2MGWrATM8vpC7OKdA/xorvzdMTJRgsu4MAyOAQ07qRReLzaC1m
-         vS3W5pSSEa4XJdth4E3PvyqmD9aT/s5qNUBsNMohsGUqNgFntqIxkqkXVq7VroDVR9nb
-         xcZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=NGbXt3/IQA1b49aRJS6BBAi0DW9ybOJRqUfZBPY09dA=;
-        b=Bf794g/fKtpcOFKaBaI/yDB3dac5tTlWFL3ZHSFogPoiv8uwpOEEY03gu7hIToEd9e
-         WjxKA1QlEzavJoiZ8Wy6V/LBpvru82RbwVVl5i3jj+NaoAs2embXRTRdc09MgLpD/K+8
-         FYCzXpFuMQie9CpNi3fn+d/s5KBRvHKHhkt4yaIaGYzcRKknQhCyG0/SrMfRUz8bLcIG
-         Kh3zY94gPdaLsP+zmPEH4NYLqWuSC9qE3L4Qlq9Mtedw7zOvunO9xuAPhau2wjpOjhSx
-         J0zeNp+8idW3IWdUN9JQyLLwR8j9EJ4Vlmw/ygM8kyLOpDTUkIZNruTSxqiY24GI0/ZK
-         Mpbg==
-X-Gm-Message-State: APjAAAUtqyDWQyAwfE+yw551v7ULeQM0KV2GulZJ7MytN/pKNCBZaCn6
-        jZYNyps3Ory4xxJtvFDPYq8=
-X-Google-Smtp-Source: APXvYqwfmPTYrU4YNg70+w+fekZWbolWXYkyOovH8OK5qnvs6Xh/v3zPDoIKALH3CJn/NV3nmmscEA==
-X-Received: by 2002:a63:6884:: with SMTP id d126mr9237347pgc.154.1559308750486;
-        Fri, 31 May 2019 06:19:10 -0700 (PDT)
-Received: from google.com ([122.38.223.241])
-        by smtp.gmail.com with ESMTPSA id d186sm5485008pgc.58.2019.05.31.06.19.02
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 31 May 2019 06:19:09 -0700 (PDT)
-Date:   Fri, 31 May 2019 22:19:00 +0900
-From:   Minchan Kim <minchan@kernel.org>
-To:     Michal Hocko <mhocko@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        linux-mm <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-api@vger.kernel.org,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Tim Murray <timmurray@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Brian Geffon <bgeffon@google.com>, jannh@google.com,
-        oleg@redhat.com, christian@brauner.io, oleksandr@redhat.com,
-        hdanton@sina.com
-Subject: Re: [RFCv2 5/6] mm: introduce external memory hinting API
-Message-ID: <20190531131859.GB195463@google.com>
-References: <20190531064313.193437-1-minchan@kernel.org>
- <20190531064313.193437-6-minchan@kernel.org>
- <20190531083757.GH6896@dhcp22.suse.cz>
+        id S1726515AbfEaN0r (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 31 May 2019 09:26:47 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:60612 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726485AbfEaN0q (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 31 May 2019 09:26:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=8n09TENg//rbgbzsGXRPd289l+d2UZWCH+fGg2NaHa4=; b=oMieT2howrG7WS9bOvNKdCmiR
+        jX6TmxtTHoTJ6p19NQ7BG0HE7FY04HsI5/nyRw+Aq42dtfLxVH85f/Oo1wrKHZiXHSYILXb6bYx6K
+        yhA1rgynmCx8lfqGcZssXNV6HHnn7atgrynyvL/+8MltoPvEPtws/8cz6hOIaknzrE3S4stP3RQCA
+        +MPBd2PAi7l2iU3fhSRgYTaCLKkRqUgtXi6eiRPa1g0WJHp8m2WPOXwF9+0/y9HLU+804TTCeG+yR
+        KtRFcgaXX9U1NowGmovnO8AyDivrrgn/IpW9UKTGwPivpjuRU9V2uX1aDiIUIutXoeABwDttquviR
+        2s09w9mqg==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hWhY5-0007pO-9M; Fri, 31 May 2019 13:26:21 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 158FF201822CC; Fri, 31 May 2019 15:26:20 +0200 (CEST)
+Date:   Fri, 31 May 2019 15:26:20 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     David Howells <dhowells@redhat.com>
+Cc:     Jann Horn <jannh@google.com>, Greg KH <gregkh@linuxfoundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>, raven@themaw.net,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-block@vger.kernel.org, keyrings@vger.kernel.org,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>
+Subject: Re: [PATCH 1/7] General notification queue with user mmap()'able
+ ring buffer
+Message-ID: <20190531132620.GC2606@hirez.programming.kicks-ass.net>
+References: <20190531111445.GO2677@hirez.programming.kicks-ass.net>
+ <CAG48ez0R-R3Xs+3Xg9T9qcV3Xv6r4pnx1Z2y=Ltx7RGOayte_w@mail.gmail.com>
+ <20190528162603.GA24097@kroah.com>
+ <155905930702.7587.7100265859075976147.stgit@warthog.procyon.org.uk>
+ <155905931502.7587.11705449537368497489.stgit@warthog.procyon.org.uk>
+ <4031.1559064620@warthog.procyon.org.uk>
+ <20190528231218.GA28384@kroah.com>
+ <31936.1559146000@warthog.procyon.org.uk>
+ <16193.1559163763@warthog.procyon.org.uk>
+ <21942.1559304135@warthog.procyon.org.uk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190531083757.GH6896@dhcp22.suse.cz>
+In-Reply-To: <21942.1559304135@warthog.procyon.org.uk>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, May 31, 2019 at 10:37:57AM +0200, Michal Hocko wrote:
-> On Fri 31-05-19 15:43:12, Minchan Kim wrote:
-> > There is some usecase that centralized userspace daemon want to give
-> > a memory hint like MADV_[COLD|PAGEEOUT] to other process. Android's
-> > ActivityManagerService is one of them.
-> > 
-> > It's similar in spirit to madvise(MADV_WONTNEED), but the information
-> > required to make the reclaim decision is not known to the app. Instead,
-> > it is known to the centralized userspace daemon(ActivityManagerService),
-> > and that daemon must be able to initiate reclaim on its own without
-> > any app involvement.
-> > 
-> > To solve the issue, this patch introduces new syscall process_madvise(2).
-> > It could give a hint to the exeternal process of pidfd.
-> > 
-> >  int process_madvise(int pidfd, void *addr, size_t length, int advise,
-> > 			unsigned long cookie, unsigned long flag);
-> > 
-> > Since it could affect other process's address range, only privileged
-> > process(CAP_SYS_PTRACE) or something else(e.g., being the same UID)
-> > gives it the right to ptrace the process could use it successfully.
-> > 
-> > The syscall has a cookie argument to privode atomicity(i.e., detect
-> > target process's address space change since monitor process has parsed
-> > the address range of target process so the operaion could fail in case
-> > of happening race). Although there is no interface to get a cookie
-> > at this moment, it could be useful to consider it as argument to avoid
-> > introducing another new syscall in future. It could support *atomicity*
-> > for disruptive hint(e.g., MADV_DONTNEED|FREE).
-> > flag argument is reserved for future use if we need to extend the API.
+On Fri, May 31, 2019 at 01:02:15PM +0100, David Howells wrote:
+> Peter Zijlstra <peterz@infradead.org> wrote:
 > 
-> Providing an API that is incomplete will not fly. Really. As this really
-> begs for much more discussion and it would be good to move on with the
-> core idea of the pro active memory memory management from userspace
-> usecase. Could you split out the core change so that we can move on and
-> leave the external for a later discussion. I believe this would lead to
-> a smoother integration.
+> > Can you re-iterate the exact problem? I konw we talked about this in the
+> > past, but I seem to have misplaced those memories :/
+> 
+> Take this for example:
+> 
+> 	void afs_put_call(struct afs_call *call)
+> 	{
+> 		struct afs_net *net = call->net;
+> 		int n = atomic_dec_return(&call->usage);
+> 		int o = atomic_read(&net->nr_outstanding_calls);
+> 
+> 		trace_afs_call(call, afs_call_trace_put, n + 1, o,
+> 			       __builtin_return_address(0));
+> 
+> 		ASSERTCMP(n, >=, 0);
+> 		if (n == 0) {
+> 			...
+> 		}
+> 	}
+> 
+> I am printing the usage count in the afs_call tracepoint so that I can use it
+> to debug refcount bugs.  If I do it like this:
+> 
+> 	void afs_put_call(struct afs_call *call)
+> 	{
+> 		int n = refcount_read(&call->usage);
+> 		int o = atomic_read(&net->nr_outstanding_calls);
+> 
+> 		trace_afs_call(call, afs_call_trace_put, n, o,
+> 			       __builtin_return_address(0));
+> 
+> 		if (refcount_dec_and_test(&call->usage)) {
+> 			...
+> 		}
+> 	}
+> 
+> then there's a temporal gap between the usage count being read and the actual
+> atomic decrement in which another CPU can alter the count.  This can be
+> exacerbated by an interrupt occurring, a softirq occurring or someone enabling
+> the tracepoint.
+> 
+> I can't do the tracepoint after the decrement if refcount_dec_and_test()
+> returns false unless I save all the values from the object that I might need
+> as the object could be destroyed any time from that point on.
 
-No problem but I need to understand what you want a little bit more because
-I thought this patchset is already step by step so if we reach the agreement
-of part of them like [1-5/6], it could be merged first.
+Is it not the responsibility of the task that affects the 1->0
+transition to actually free the memory?
 
-Could you say how you want to split the patchset for forward progress?
+That is, I'm expecting the '...' in both cases above the include the
+actual freeing of the object. If this is not the case, then @usage is
+not a reference count.
 
-Thanks.
+(and it has already been established that refcount_t doesn't work for
+usage count scenarios)
+
+Aside from that, is the problem that refcount_dec_and_test() returns a
+boolean (true - last put, false - not last) instead of the refcount
+value? This does indeed make it hard to print the exact count value for
+the event.
