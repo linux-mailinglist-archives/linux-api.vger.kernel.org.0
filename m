@@ -2,99 +2,156 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F0A131638
-	for <lists+linux-api@lfdr.de>; Fri, 31 May 2019 22:39:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8BCF316F1
+	for <lists+linux-api@lfdr.de>; Sat,  1 Jun 2019 00:08:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727613AbfEaUiu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 31 May 2019 16:38:50 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:34517 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726593AbfEaUiu (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 31 May 2019 16:38:50 -0400
-Received: by mail-lf1-f67.google.com with SMTP id v18so8977725lfi.1
-        for <linux-api@vger.kernel.org>; Fri, 31 May 2019 13:38:48 -0700 (PDT)
+        id S1726776AbfEaWIU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 31 May 2019 18:08:20 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:45740 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726741AbfEaWIU (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 31 May 2019 18:08:20 -0400
+Received: by mail-wr1-f65.google.com with SMTP id b18so7391056wrq.12
+        for <linux-api@vger.kernel.org>; Fri, 31 May 2019 15:08:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=CJg5QUCA0uPT2F+o9Dh7JaPgMKMdBBZHboAZ09rcF54=;
-        b=HfKC+uYBIngRJFypqrkOc0/UKsvYuqY5793NSQ4XY5ZlXJ+nUBECGXpPw/5aGC59wy
-         JFNPgtG+Ghy8dk7PmRHD9Jb6iiamQbvnEB3o/mJLZs5MdHJjv1mMjI0sDXPSMAIL9FZE
-         M+O9r4iy3Y5UUwrhzyC/sNO6wPFFFmD2vNTz8=
+        d=brauner.io; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=Ko+Wfyi0i3W9WpJFYljQ2csSgtbI9KzNY6clfhR9vIY=;
+        b=Xkl2M46O4ONXQoKukrh9dDHZI44Fdkjsyy2ix0AyrV4jZZTexqNuY0GkXgSG/30iRD
+         iOWtIkxPnFM0RQTqKRl+cMC5qPNoPscKekDEP9DpSpIApMr+2krumjnPat8cZOX3rYCD
+         25cI9u4R3ddTTb455a4bxxTbr+kZH/3GL9qKoawUxCRxVZ08atYeitfzLosAQq4QYmOT
+         Ra9TE2EjDPC5KpRYYV9YJaNzWPd4fQvboEveN3PiK8IM7tkZsg0EDwSPeY7vvK429s2J
+         wt4WtbY52JJ7VfHMXO8LDbULlJ6LcEie+x2CcEJMvhz/SufHgqQrqcEwPKVoBtRJgacV
+         TWWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CJg5QUCA0uPT2F+o9Dh7JaPgMKMdBBZHboAZ09rcF54=;
-        b=ZJbUWkKwqsyK4/TFCIjjIjFM+VTRx3tHkmgqQTjuoj3qmUWYEd+EZfkaBsIyC/dIRN
-         nIK+1lBCZY5pIp4Jq7jG9Omy6SAMP8DyeVYK29aQyfUgsJIhpUU3M1ZOs3eQm+U+NBjW
-         fhRFyyKl/Ql3BwCebib6agagJPOeXuLVRzoUpRiPqU/er3v0DiZ5od2EN9C7Q8WTH1nt
-         oNsMS0r/Av45jhR9GVoB3Tq9sZMmmP1Qceu0qibo5Lz8vKMaPhGS7kEgQGX6GFU2SApY
-         Q8jeBJynpOGt+icORYlrPHMiq9Wd//FutkkC9komluhhbY869+cRMdqs1UHvmT2OxfJ0
-         XwUQ==
-X-Gm-Message-State: APjAAAXdzQQuK6A49CRYhuFBJWo7TXyS8Bbl0BlJSi4M44gBTxOh5Nef
-        Pad24Uy1d1ESpYSO1V2aZjJKp90XJ0w=
-X-Google-Smtp-Source: APXvYqysNzjRJ9hSIuxtWeZxHREAlorSW01ynSPqS94mmaHHThytbMZe4pCPwd0QU5HipDGtUuvdnQ==
-X-Received: by 2002:ac2:41c4:: with SMTP id d4mr3100857lfi.17.1559335127152;
-        Fri, 31 May 2019 13:38:47 -0700 (PDT)
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com. [209.85.208.176])
-        by smtp.gmail.com with ESMTPSA id t2sm1593822ljd.36.2019.05.31.13.38.45
-        for <linux-api@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 31 May 2019 13:38:46 -0700 (PDT)
-Received: by mail-lj1-f176.google.com with SMTP id z5so10822416lji.10
-        for <linux-api@vger.kernel.org>; Fri, 31 May 2019 13:38:45 -0700 (PDT)
-X-Received: by 2002:a2e:97d8:: with SMTP id m24mr6980173ljj.52.1559335125640;
- Fri, 31 May 2019 13:38:45 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190529152237.10719-1-christian@brauner.io> <20190529222414.GA6492@gmail.com>
-In-Reply-To: <20190529222414.GA6492@gmail.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Fri, 31 May 2019 13:38:29 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whQP-Ykxi=zSYaV9iXsHsENa+2fdj-zYKwyeyed63Lsfw@mail.gmail.com>
-Message-ID: <CAHk-=whQP-Ykxi=zSYaV9iXsHsENa+2fdj-zYKwyeyed63Lsfw@mail.gmail.com>
-Subject: Re: [PATCH v1 1/2] fork: add clone3
-To:     Andrei Vagin <avagin@gmail.com>
-Cc:     Christian Brauner <christian@brauner.io>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
-        Jann Horn <jannh@google.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        David Howells <dhowells@redhat.com>,
-        Pavel Emelyanov <xemul@virtuozzo.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=Ko+Wfyi0i3W9WpJFYljQ2csSgtbI9KzNY6clfhR9vIY=;
+        b=VQ7AZ+5t9LeSPoBZHCa6CjOolooTadS0EN+OzEVht6L8TVsor5J1sfTSyoO4skIJWK
+         VU87Gi+tw0Px+NxZTO+etQl5ElROBiXUYUfxRlrc2Ywz3Cmuyxe+1pIwhgWdHPQpTHXW
+         J2lY/70XZ+wgs9GkBhMjBAHwfe4QWFRNSc7vDtZxtmJ2hI/vBXmH51mRDSOvsOlJ+4UE
+         TqlQnZHj3ruJOuswADWUFukis/XooxzSSEB9RHv0Hyze/ZIx6YTV6CJ+ijdhkbupLCuq
+         FCUQr8pH9gAVzWQ+C9k6wXdYS+xoQRQaI/XOIHUIieTyZ/0Bv9LZ4+y5mCeAiu7wW7ZF
+         U63A==
+X-Gm-Message-State: APjAAAUrQj2+vgRRE2xoXSaEvQnNX/To+SdOCE4LFcz0cZT0y6ZNf8FL
+        2VCT3rfExefTmFSkbD9jdHgykA==
+X-Google-Smtp-Source: APXvYqzFdnv3qzEAIcXHR3zG4OGdyoA5rAUUUsYFs30nC2YlkL1BuHJpjp4kIfaRFe2SEJMKXHNsfg==
+X-Received: by 2002:a05:6000:1149:: with SMTP id d9mr2285752wrx.154.1559340498233;
+        Fri, 31 May 2019 15:08:18 -0700 (PDT)
+Received: from brauner.io (93-32-55-82.ip32.fastwebnet.it. [93.32.55.82])
+        by smtp.gmail.com with ESMTPSA id 65sm14341721wro.85.2019.05.31.15.08.16
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Fri, 31 May 2019 15:08:17 -0700 (PDT)
+Date:   Sat, 1 Jun 2019 00:08:16 +0200
+From:   Christian Brauner <christian@brauner.io>
+To:     Yann Droneaud <ydroneaud@opteya.com>
+Cc:     viro@zeniv.linux.org.uk, linux-kernel@vger.kernel.org,
+        torvalds@linux-foundation.org, jannh@google.com,
+        fweimer@redhat.com, oleg@redhat.com, arnd@arndb.de,
+        dhowells@redhat.com, Pavel Emelyanov <xemul@virtuozzo.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Adrian Reber <adrian@lisas.de>,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Andrei Vagin <avagin@gmail.com>, linux-api@vger.kernel.org
+Subject: Re: [PATCH v1 1/2] fork: add clone3
+Message-ID: <20190531220815.owrc5kbbdemmwdhs@brauner.io>
+References: <20190529152237.10719-1-christian@brauner.io>
+ <1058006e0df4b52b3e53c7b3202c04140899aeb5.camel@opteya.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1058006e0df4b52b3e53c7b3202c04140899aeb5.camel@opteya.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, May 29, 2019 at 3:24 PM Andrei Vagin <avagin@gmail.com> wrote:
->
-> Thank you for thinking about time namespaces. I looked at this patch
-> quickly and I would suggest to move a termination signal out of flags. I
-> think we can add a separate field (exit_signal) into clone_args. Does it
-> make sense? For me, exit_signal in flags always looked weird...
+On Wed, May 29, 2019 at 05:42:14PM +0200, Yann Droneaud wrote:
+> Le mercredi 29 mai 2019 à 17:22 +0200, Christian Brauner a écrit :
+> > This adds the clone3 system call.
+> > 
+> > 
+> > diff --git a/kernel/fork.c b/kernel/fork.c
+> > index b4cba953040a..6bc3e3d17150 100644
+> > --- a/kernel/fork.c
+> > +++ b/kernel/fork.c
+> > @@ -2472,7 +2475,96 @@ SYSCALL_DEFINE5(clone, unsigned long, clone_flags, unsigned long, newsp,
+> >  		 unsigned long, tls)
+> >  #endif
+> >  {
+> > -	return _do_fork(clone_flags, newsp, 0, parent_tidptr, child_tidptr, tls);
+> > +	struct kernel_clone_args args = {
+> > +		.flags = clone_flags,
+> > +		.stack = newsp,
+> > +		.pidfd = parent_tidptr,
+> > +		.parent_tidptr = parent_tidptr,
+> > +		.tls = tls,
+> > +		.child_tidptr = child_tidptr,
+> > +	};
+> > +
+> > +	/* clone(CLONE_PIDFD) uses parent_tidptr to return a pidfd */
+> > +	if ((clone_flags & CLONE_PIDFD) && (clone_flags & CLONE_PARENT_SETTID))
+> > +		return -EINVAL;
+> > +
+> > +	return _do_fork(&args);
+> > +}
+> > +
+> > +static bool clone3_flags_valid(u64 flags)
+> > +{
+> > +	if (flags & CLONE_DETACHED)
+> > +		return false;
+> > +
+> > +	if (flags & ~CLONE_MAX)
+> > +		return false;
+> > +
+> > +	return true;
+> > +}
+> > +
+> > +static int copy_clone_args_from_user(struct kernel_clone_args *kargs,
+> > +				     struct clone_args __user *uargs,
+> > +				     size_t size)
+> > +{
+> > +	struct clone_args args;
+> > +
+> > +	if (unlikely(size > PAGE_SIZE))
+> > +		return -E2BIG;
+> > +
+> > +	if (unlikely(size < sizeof(struct clone_args)))
+> > +		return -EINVAL;
+> > +
+> > +	if (unlikely(!access_ok(uargs, size)))
+> > +		return -EFAULT;
+> > +
+> > +	if (size > sizeof(struct clone_args)) {
+> > +		unsigned char __user *addr;
+> > +		unsigned char __user *end;
+> > +		unsigned char val;
+> > +
+> > +		addr = (void __user *)uargs + sizeof(struct clone_args);
+> > +		end = (void __user *)uargs + size;
+> > +
+> > +		for (; addr < end; addr++) {
+> > +			if (get_user(val, addr))
+> > +				return -EFAULT;
+> > +			if (val)
+> > +				return -E2BIG;
+> 
+> Should be -EINVAL: having something after the structure should be
+> handled just like an invalid flags, while still allowing future
+> userspace program to probe for support for newer feature.
 
-I agree - the child signal in flags was always just a "it fits" kind
-of thing, and that was obviously true back then, but is not true now.
+(Traveling until Monday, so sorry for delayed responses.)
 
-In fact, if we move it out of flags, we'd open up new flag values for
-the new interface, in that now the low 8 bits are freed up for more
-useful things.
+This copies what:
 
-In fact, even for the old ones, we might just say that instead of the
-full 8-bit CSIGNAL field, nobody ever *used* more than 6 bits, because
-_NSIG is 64, and we've never actually had named signals > 31.
+kernel/sched/core.c:sched_copy_attr()
+kernel/event/core.c:perf_copy_attr()
 
-(Yeah, yeah, somebody could use signal 64, and yes, mips has _NSIG
-128, but realistically we could get two new clone signals in the old
-interface and I think nobody would even notice).
+are already doing. Consistency might be good here but, I think.
 
-In fact, all of the CSIGNAL bits are ignored if CLONE_THREAD or
-CLONE_PARENT is set.
-
-                   Linus
+Christian
