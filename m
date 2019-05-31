@@ -2,178 +2,90 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 98D4831337
-	for <lists+linux-api@lfdr.de>; Fri, 31 May 2019 18:59:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CAC4C3138D
+	for <lists+linux-api@lfdr.de>; Fri, 31 May 2019 19:12:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726791AbfEaQ7a (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 31 May 2019 12:59:30 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:44571 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726749AbfEaQ7a (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 31 May 2019 12:59:30 -0400
-Received: by mail-qt1-f195.google.com with SMTP id x47so1656297qtk.11
-        for <linux-api@vger.kernel.org>; Fri, 31 May 2019 09:59:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=e3NDCjv26v8d/6GmHIuWCh8rhIogpl4fMn5sXvVuI0c=;
-        b=f8WPz/+hD8iie5whEpGer0vyU0wOgv311IGNFCXMOj/NFL+1xQv5rdq/sLr0vTGqyR
-         D6cgjU6mJcydC2jbjchTtkfzjxQEhtKuhmZI5YdJqCj3Ohw0b/OOQ3QicxR77uGLCTSs
-         tNJeznJPLPhwE2A8dhYmVKeOkBegUCxn8GC87aElTzNPvaLVwzoxqNKoG8OuHJPolcr8
-         QDLJyRD84j7hLlmTwwwkBOFvc65tS5RO6ip0IJxG28S5uNa0GTZ2GXR/BlShA8I4Zngn
-         bIVsIScBIk8K9a5HRlG5NsLb9Q/MvJtZw5Ay8p/0G7CAxHPRREYcTfTCO3UzAgv3Gzmm
-         NXow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=e3NDCjv26v8d/6GmHIuWCh8rhIogpl4fMn5sXvVuI0c=;
-        b=C3OwwGoC1NwtkbYI61eQd3fRSYxKnvNjQyPdZXwdNZMlopLlX3U4Ol5nK4O7ZqLkwU
-         kfHQ/7uY+DestLo53rYlqbSfk27GwF+qTTCzqb8WcX3VyHdjC6ly7zPN5+ufFVMIjNnN
-         Ex67nxFmnfXcjnO7xIlnZVe3JP4qw5Y1zO7riLJsY/WgAHl4TXQWhF8RsiFCaPO1Zy1O
-         YjhFHiBW+IGwTSR7NPs5B26qN+qJrgbH5tGYgO5QpOzYhKDQTjJ8/bUpRpLLC0Cm35iH
-         FUCzXIE7EQw2ez3YnIC0Q+Sa4M+AU2nQeqoGQRasByYZoAPV6Wr2+4z3T2sHs5uNQf3+
-         AUyQ==
-X-Gm-Message-State: APjAAAUUhiRWlg/y8Wc3CPZBAZvr85pDWHAvO5idDdEMfI3G3DqWMn/+
-        rn7nlhlM7M72CLpMua0T454CZg==
-X-Google-Smtp-Source: APXvYqzaN7Osp+sFUz/UO2xtX8ksDYOwDOi8/ZwHvqZxRo9bRaBiMSUChy138SG9ks/ETIGz6vQ6cg==
-X-Received: by 2002:a0c:93e1:: with SMTP id g30mr9477692qvg.194.1559321969216;
-        Fri, 31 May 2019 09:59:29 -0700 (PDT)
-Received: from localhost (pool-108-27-252-85.nycmny.fios.verizon.net. [108.27.252.85])
-        by smtp.gmail.com with ESMTPSA id y29sm4638814qkj.8.2019.05.31.09.59.28
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 31 May 2019 09:59:28 -0700 (PDT)
-Date:   Fri, 31 May 2019 12:59:27 -0400
-From:   Johannes Weiner <hannes@cmpxchg.org>
-To:     Minchan Kim <minchan@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        linux-mm <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-api@vger.kernel.org,
-        Michal Hocko <mhocko@suse.com>,
-        Tim Murray <timmurray@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Brian Geffon <bgeffon@google.com>, jannh@google.com,
-        oleg@redhat.com, christian@brauner.io, oleksandr@redhat.com,
-        hdanton@sina.com
-Subject: Re: [RFCv2 3/6] mm: introduce MADV_PAGEOUT
-Message-ID: <20190531165927.GA20067@cmpxchg.org>
-References: <20190531064313.193437-1-minchan@kernel.org>
- <20190531064313.193437-4-minchan@kernel.org>
+        id S1726483AbfEaRMv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 31 May 2019 13:12:51 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37760 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726558AbfEaRMv (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 31 May 2019 13:12:51 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 1C2FA85365;
+        Fri, 31 May 2019 17:12:51 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-120-173.rdu2.redhat.com [10.10.120.173])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 3B5C958CA2;
+        Fri, 31 May 2019 17:12:48 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <20190531164444.GD2606@hirez.programming.kicks-ass.net>
+References: <20190531164444.GD2606@hirez.programming.kicks-ass.net> <CAG48ez0R-R3Xs+3Xg9T9qcV3Xv6r4pnx1Z2y=Ltx7RGOayte_w@mail.gmail.com> <20190528162603.GA24097@kroah.com> <155905930702.7587.7100265859075976147.stgit@warthog.procyon.org.uk> <155905931502.7587.11705449537368497489.stgit@warthog.procyon.org.uk> <4031.1559064620@warthog.procyon.org.uk> <20190528231218.GA28384@kroah.com> <31936.1559146000@warthog.procyon.org.uk> <16193.1559163763@warthog.procyon.org.uk> <21942.1559304135@warthog.procyon.org.uk> <606.1559312412@warthog.procyon.org.uk>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     dhowells@redhat.com, Jann Horn <jannh@google.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>, raven@themaw.net,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-block@vger.kernel.org, keyrings@vger.kernel.org,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>
+Subject: Re: [PATCH 1/7] General notification queue with user mmap()'able ring buffer
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190531064313.193437-4-minchan@kernel.org>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <15400.1559322762.1@warthog.procyon.org.uk>
+Date:   Fri, 31 May 2019 18:12:42 +0100
+Message-ID: <15401.1559322762@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.25]); Fri, 31 May 2019 17:12:51 +0000 (UTC)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Michan,
+Peter Zijlstra <peterz@infradead.org> wrote:
 
-this looks pretty straight-forward to me, only one kink:
+> > > (and it has already been established that refcount_t doesn't work for
+> > > usage count scenarios)
+> > 
+> > ?
+> > 
+> > Does that mean struct kref doesn't either?
+> 
+> Indeed, since kref is just a pointless wrapper around refcount_t it does
+> not either.
+> 
+> The main distinction between a reference count and a usage count is that
+> 0 means different things. For a refcount 0 means dead. For a usage count
+> 0 is merely unused but valid.
 
-On Fri, May 31, 2019 at 03:43:10PM +0900, Minchan Kim wrote:
-> --- a/mm/vmscan.c
-> +++ b/mm/vmscan.c
-> @@ -2126,6 +2126,83 @@ static void shrink_active_list(unsigned long nr_to_scan,
->  			nr_deactivate, nr_rotated, sc->priority, file);
->  }
->  
-> +unsigned long reclaim_pages(struct list_head *page_list)
-> +{
-> +	int nid = -1;
-> +	unsigned long nr_isolated[2] = {0, };
-> +	unsigned long nr_reclaimed = 0;
-> +	LIST_HEAD(node_page_list);
-> +	struct reclaim_stat dummy_stat;
-> +	struct scan_control sc = {
-> +		.gfp_mask = GFP_KERNEL,
-> +		.priority = DEF_PRIORITY,
-> +		.may_writepage = 1,
-> +		.may_unmap = 1,
-> +		.may_swap = 1,
-> +	};
-> +
-> +	while (!list_empty(page_list)) {
-> +		struct page *page;
-> +
-> +		page = lru_to_page(page_list);
-> +		if (nid == -1) {
-> +			nid = page_to_nid(page);
-> +			INIT_LIST_HEAD(&node_page_list);
-> +			nr_isolated[0] = nr_isolated[1] = 0;
-> +		}
-> +
-> +		if (nid == page_to_nid(page)) {
-> +			list_move(&page->lru, &node_page_list);
-> +			nr_isolated[!!page_is_file_cache(page)] +=
-> +						hpage_nr_pages(page);
-> +			continue;
-> +		}
-> +
-> +		mod_node_page_state(NODE_DATA(nid), NR_ISOLATED_ANON,
-> +					nr_isolated[0]);
-> +		mod_node_page_state(NODE_DATA(nid), NR_ISOLATED_FILE,
-> +					nr_isolated[1]);
-> +		nr_reclaimed += shrink_page_list(&node_page_list,
-> +				NODE_DATA(nid), &sc, TTU_IGNORE_ACCESS,
-> +				&dummy_stat, true);
-> +		while (!list_empty(&node_page_list)) {
-> +			struct page *page = lru_to_page(&node_page_list);
-> +
-> +			list_del(&page->lru);
-> +			putback_lru_page(page);
-> +		}
-> +		mod_node_page_state(NODE_DATA(nid), NR_ISOLATED_ANON,
-> +					-nr_isolated[0]);
-> +		mod_node_page_state(NODE_DATA(nid), NR_ISOLATED_FILE,
-> +					-nr_isolated[1]);
-> +		nid = -1;
-> +	}
-> +
-> +	if (!list_empty(&node_page_list)) {
-> +		mod_node_page_state(NODE_DATA(nid), NR_ISOLATED_ANON,
-> +					nr_isolated[0]);
-> +		mod_node_page_state(NODE_DATA(nid), NR_ISOLATED_FILE,
-> +					nr_isolated[1]);
-> +		nr_reclaimed += shrink_page_list(&node_page_list,
-> +				NODE_DATA(nid), &sc, TTU_IGNORE_ACCESS,
-> +				&dummy_stat, true);
-> +		mod_node_page_state(NODE_DATA(nid), NR_ISOLATED_ANON,
-> +					-nr_isolated[0]);
-> +		mod_node_page_state(NODE_DATA(nid), NR_ISOLATED_FILE,
-> +					-nr_isolated[1]);
-> +
-> +		while (!list_empty(&node_page_list)) {
-> +			struct page *page = lru_to_page(&node_page_list);
-> +
-> +			list_del(&page->lru);
-> +			putback_lru_page(page);
-> +		}
-> +
-> +	}
+Ah - I consider the terms interchangeable.
 
-The NR_ISOLATED accounting, nid parsing etc. is really awkward and
-makes it hard to see what the function actually does.
+Take Documentation/filesystems/vfs.txt for instance:
 
-Can you please make those ISOLATED counters part of the isolation API?
-Your patch really shows this is an overdue cleanup.
+  dget: open a new handle for an existing dentry (this just increments
+	the usage count)
 
-These are fast local percpu counters, we don't need the sprawling
-batching we do all over vmscan.c, migrate.c, khugepaged.c,
-compaction.c etc. Isolation can increase the counter page by page, and
-reclaim or putback can likewise decrease them one by one.
+  dput: close a handle for a dentry (decrements the usage count). ...
 
-It looks like mlock is the only user of the isolation api that does
-not participate in the NR_ISOLATED_* counters protocol, but I don't
-see why it wouldn't, or why doing so would hurt.
+  ...
 
-There are also seem to be quite a few callsites that use the atomic
-versions of the counter API when they're clearly under the irqsafe
-lru_lock. That would be fixed automatically by this work as well.
+  d_lookup: look up a dentry given its parent and path name component
+	It looks up the child of that given name from the dcache
+	hash table. If it is found, the reference count is incremented
+	and the dentry is returned. The caller must use dput()
+	to free the dentry when it finishes using it.
+
+Here we interchange the terms.
+
+Or https://www.kernel.org/doc/gorman/html/understand/understand013.html
+which seems to interchange the terms in reference to struct page.
+
+David
