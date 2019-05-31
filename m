@@ -2,161 +2,140 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D444331164
-	for <lists+linux-api@lfdr.de>; Fri, 31 May 2019 17:35:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5883031187
+	for <lists+linux-api@lfdr.de>; Fri, 31 May 2019 17:46:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726566AbfEaPfv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 31 May 2019 11:35:51 -0400
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:42934 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726546AbfEaPfu (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 31 May 2019 11:35:50 -0400
-Received: by mail-qt1-f194.google.com with SMTP id s15so1331928qtk.9;
-        Fri, 31 May 2019 08:35:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=a6YwIIJc8LPr9G8BXrNtxAA4AtOs9+lI2cdNOdpA3Q0=;
-        b=BAc+ougURJ//27itXmCiZ/hU4b6VQWx20DqetuxCoOrzZFDHn6zHMQjyqBaZ4k26lz
-         X4JG0L42/1KfcfaJHRoGM8cNOS/CJWY8anDBsELhNCL680ziHCEP+iw3DR20vIS6MgpR
-         TpcV2r86X1blXIh+RfkXB1h9iSFGMttjOXnR4j4MWDYFA9daNTEhe7P5umDRvUUZrbg2
-         qs0vDhSXQpdB9nc7GgvXtPdZmD/mhAUgFUdxjpmbM0adJn6wuGJ/mfeYpcymgvmz+YbF
-         xV5PVOMw6X/EGp+S/ol872hO80QHKUg7lGe2KOfch27FKvUFDANfj4zIdRAWn3Lg2e0C
-         Cjnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=a6YwIIJc8LPr9G8BXrNtxAA4AtOs9+lI2cdNOdpA3Q0=;
-        b=unzdv7jHssqwjwZdNtFrnel7pgg5ZtQpvuzsut9bN15vuzgbJeImdMMwdky2ovPwGE
-         miy2MwBeEmJMePzncKYiYHe5A0H20DjwXUAFOYlzGyBNjYq/sl/lnHkLKhIohtHFoi53
-         nCW2oaqAoANnzmbBt6+Jj3ItbtrCNuTdsmBczNtxLJx/KowhSZAyyv1j1pstW1SpTUxU
-         LfX664m3Xv8Zb0Q4u3b07bJ5QRrkGEiZGwKF5h/gVx+yJR+RRYx1DpXZ/a1Sb9MdGIpH
-         ep47yHi9dFSecs3YfZrzD57xhDxzp5Jf9pjO3cDXRCkIfLkrpsuPoQQGu+lLtunMTb4F
-         /nYQ==
-X-Gm-Message-State: APjAAAUE0By7QUOOfQJOiSnLakw1BMfm6HplkQxbgDnRURkLBEVryESC
-        tN9PilXOOocKiCWfa1cHHaM=
-X-Google-Smtp-Source: APXvYqwXrOp+84AjrsXS4B7qfXNV01vDvagtkapssCObEwv2Hle4FplLiTJrDwe7OFh5FsQKOxiVuw==
-X-Received: by 2002:ac8:eca:: with SMTP id w10mr4936223qti.81.1559316949131;
-        Fri, 31 May 2019 08:35:49 -0700 (PDT)
-Received: from localhost ([2620:10d:c091:480::39c9])
-        by smtp.gmail.com with ESMTPSA id p4sm3449792qkb.84.2019.05.31.08.35.47
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 31 May 2019 08:35:47 -0700 (PDT)
-Date:   Fri, 31 May 2019 08:35:45 -0700
-From:   Tejun Heo <tj@kernel.org>
-To:     Patrick Bellasi <patrick.bellasi@arm.com>
-Cc:     linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-api@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
+        id S1726640AbfEaPqV convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Fri, 31 May 2019 11:46:21 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60278 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726531AbfEaPqV (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 31 May 2019 11:46:21 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 9D00130C5854;
+        Fri, 31 May 2019 15:46:17 +0000 (UTC)
+Received: from oldenburg2.str.redhat.com (dhcp-192-219.str.redhat.com [10.33.192.219])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id DF7081009976;
+        Fri, 31 May 2019 15:46:09 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc:     carlos <carlos@redhat.com>, Joseph Myers <joseph@codesourcery.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        libc-alpha <libc-alpha@sourceware.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ben Maurer <bmaurer@fb.com>,
         Peter Zijlstra <peterz@infradead.org>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Paul Turner <pjt@google.com>,
-        Quentin Perret <quentin.perret@arm.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Morten Rasmussen <morten.rasmussen@arm.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Todd Kjos <tkjos@google.com>,
-        Joel Fernandes <joelaf@google.com>,
-        Steve Muckle <smuckle@google.com>,
-        Suren Baghdasaryan <surenb@google.com>
-Subject: Re: [PATCH v9 12/16] sched/core: uclamp: Extend CPU's cgroup
- controller
-Message-ID: <20190531153545.GE374014@devbig004.ftw2.facebook.com>
-References: <20190515094459.10317-1-patrick.bellasi@arm.com>
- <20190515094459.10317-13-patrick.bellasi@arm.com>
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Dave Watson <davejwatson@fb.com>, Paul Turner <pjt@google.com>,
+        Rich Felker <dalias@libc.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-api <linux-api@vger.kernel.org>
+Subject: Re: [PATCH 1/5] glibc: Perform rseq(2) registration at C startup and thread creation (v10)
+References: <20190503184219.19266-1-mathieu.desnoyers@efficios.com>
+        <20190503184219.19266-2-mathieu.desnoyers@efficios.com>
+        <87h89gjgaf.fsf@oldenburg2.str.redhat.com>
+        <1239705947.14878.1558985272873.JavaMail.zimbra@efficios.com>
+        <140718133.18261.1559144710554.JavaMail.zimbra@efficios.com>
+        <2022553041.20966.1559249801435.JavaMail.zimbra@efficios.com>
+        <875zprm4jo.fsf@oldenburg2.str.redhat.com>
+        <732661684.21584.1559314109886.JavaMail.zimbra@efficios.com>
+Date:   Fri, 31 May 2019 17:46:08 +0200
+In-Reply-To: <732661684.21584.1559314109886.JavaMail.zimbra@efficios.com>
+        (Mathieu Desnoyers's message of "Fri, 31 May 2019 10:48:29 -0400
+        (EDT)")
+Message-ID: <87muj2k4ov.fsf@oldenburg2.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190515094459.10317-13-patrick.bellasi@arm.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.46]); Fri, 31 May 2019 15:46:20 +0000 (UTC)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hello, Patrick.
+* Mathieu Desnoyers:
 
-On Wed, May 15, 2019 at 10:44:55AM +0100, Patrick Bellasi wrote:
-> Extend the CPU controller with a couple of new attributes util.{min,max}
-> which allows to enforce utilization boosting and capping for all the
-> tasks in a group. Specifically:
-> 
-> - util.min: defines the minimum utilization which should be considered
-> 	    i.e. the RUNNABLE tasks of this group will run at least at a
-> 		 minimum frequency which corresponds to the util.min
-> 		 utilization
-> 
-> - util.max: defines the maximum utilization which should be considered
-> 	    i.e. the RUNNABLE tasks of this group will run up to a
-> 		 maximum frequency which corresponds to the util.max
-> 		 utilization
+> Let's break this down into the various sub-issues involved:
+>
+> 1) How early do we need to setup rseq ? Should it be setup before:
+>    - LD_PRELOAD .so constructors ?
+>      - Without circular dependency,
+>      - With circular dependency,
+>    - audit libraries initialization ?
+>    - IFUNC resolvers ?
+>    - other callbacks ?
+>    - memory allocator calls ?
+>
+> We may end up in a situation where we need memory allocation to be setup
+> in order to initialize TLS before rseq can be registered for the main
+> thread. I suspect we will end up needing a fallbacks which always work
+> for the few cases that would try to use rseq too early in dl/libc startup.
 
-Let's please use a prefix which is more specific.  It's clamping the
-utilization estimates of the member tasks which in turn affect
-scheduling / frequency decisions but cpu.util.max reads like it's
-gonna limit the cpu utilization directly.  Maybe just use uclamp?
+I think the answer to that depends on whether it's okay to have an
+observable transition from “no rseq kernel support” to “kernel supports
+rseq”.
 
-> These attributes:
-> 
-> a) are available only for non-root nodes, both on default and legacy
->    hierarchies, while system wide clamps are defined by a generic
->    interface which does not depends on cgroups. This system wide
->    interface enforces constraints on tasks in the root node.
+> 2) Do we need to setup __rseq_handled and __rseq_abi at the same stage of
+>    startup, or is it OK to setup __rseq_handled before __rseq_abi ?
 
-I'd much prefer if they weren't entangled this way.  The system wide
-limits should work the same regardless of cgroup's existence.  cgroup
-can put further restriction on top but mere creation of cgroups with
-cpu controller enabled shouldn't take them out of the system-wide
-limits.
+I think we should be able to set __rseq_handle early, even if we can
+perform the rseq area registration later.  (The distinction does not
+matter if the registration needs to be performed early as well.)
 
-> b) enforce effective constraints at each level of the hierarchy which
->    are a restriction of the group requests considering its parent's
->    effective constraints. Root group effective constraints are defined
->    by the system wide interface.
->    This mechanism allows each (non-root) level of the hierarchy to:
->    - request whatever clamp values it would like to get
->    - effectively get only up to the maximum amount allowed by its parent
+Setting __rseq_handle in ld.so is easy if the variable is defined in
+ld.so, which is not a problem at all.
 
-I'll come back to this later.
+> 3) Which shared object owns __rseq_handled and __rseq_abi ?
+>    - libc.so ?
+>    - ld-linux-*.so.2 ?
+>    - Should both symbols be owned by the same .so ?
 
-> c) have higher priority than task-specific clamps, defined via
->    sched_setattr(), thus allowing to control and restrict task requests
+I think we can pick whatever works, based on the requirements from (1).
+It's an implementation detail (altough it currently becomes part of the
+ABI for weird reasons, but the choice itself is arbitrary).
 
-This sounds good.
+>    - What about the !SHARED case ? I think this would end up in libc.a
+>    in all cases.
 
-> Add two new attributes to the cpu controller to collect "requested"
-> clamp values. Allow that at each non-root level of the hierarchy.
-> Validate local consistency by enforcing util.min < util.max.
-> Keep it simple by do not caring now about "effective" values computation
-> and propagation along the hierarchy.
+Correct.
 
-So, the followings are what we're doing for hierarchical protection
-and limit propgations.
+> 4) Inability to touch a TLS variable (__rseq_abi) from ld-linux-*.so.2
+>    - Should we extend the dynamic linker to allow such TLS variable to be
+>      accessed ? If so, how much effort is required ?
+>    - Can we find an alternative way to initialize rseq early during
+>      dl init stages while still performing the TLS access from a function
+>      implemented within libc.so ?
 
-* Limits (high / max) default to max.  Protections (low / min) 0.  A
-  new cgroup by default doesn't constrain itself further and doesn't
-  have any protection.
+This is again related to the answer for (1).  There are various hacks we
+could implement to make the initialization invisible (e.g., computing
+the address of the variable using the equivalent of dlsym, after loading
+all the initial objects and before starting relocation).  If it's not
+too hard to add TLS support to ld.so, we can consider that as well.
+(The allocation side should be pretty easy, relocation support it could
+be more tricky.)
 
-* A limit defines the upper ceiling for the subtree.  If an ancestor
-  has a limit of X, none of its descendants can have more than X.
+> So far, I got rseq to be initialized before LD_PRELOADed library
+> constructors by doing the initialization in a constructor within
+> libc.so. I don't particularly like this approach, because the
+> constructor order is not guaranteed.
 
-* A protection defines the upper ceiling of protections for the
-  subtree.  If an andester has a protection of X, none of its
-  descendants can have more protection than X.
+Right.
 
-Note that there's no way for an ancestor to enforce protection its
-descendants.  It can only allow them to claim some.  This is
-intentional as the other end of the spectrum is either descendants
-losing the ability to further distribute protections as they see fit.
+> One possible solution would be to somehow expose a rseq initialization
+> function symbol from libc.so, look it up from ld-linux-*.so.2, and
+> invoke it after libc.so has been loaded. It would end up being similar
+> to a constructor, but with a fixed invocation order.
 
-For proportions (as opposed to weights), we use percentage rational
-numbers - e.g. 38.44 for 38.44%.  I have parser and doc update commits
-pending.  I'll put them on cgroup/for-5.3.
+This would still expose lack of rseq support to IFUNC resolvers
+initially.  I don't know if this is a problem (again, it comes down to
+(1) above).  There is a school of thought that you can't reference
+__rseq_abi from an IFUNC resolver because it needs a relocation.
 
-Thanks.
-
--- 
-tejun
+Thanks,
+Florian
