@@ -2,48 +2,48 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 62345308DD
-	for <lists+linux-api@lfdr.de>; Fri, 31 May 2019 08:43:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A253308E5
+	for <lists+linux-api@lfdr.de>; Fri, 31 May 2019 08:43:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726862AbfEaGnm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 31 May 2019 02:43:42 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:38732 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725955AbfEaGnm (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 31 May 2019 02:43:42 -0400
-Received: by mail-pl1-f193.google.com with SMTP id f97so3604025plb.5;
-        Thu, 30 May 2019 23:43:41 -0700 (PDT)
+        id S1726910AbfEaGnr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 31 May 2019 02:43:47 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:35580 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725955AbfEaGnq (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 31 May 2019 02:43:46 -0400
+Received: by mail-pl1-f196.google.com with SMTP id p1so3599658plo.2;
+        Thu, 30 May 2019 23:43:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=G+TrQWebb1OQqIMsOPBwXOFrxSHqKpw5UQ00aCYRV6U=;
-        b=kuACxbXH+9FoOl8y32mUGUSFvG3BNUwt7h4d8u+U1DMvt0f0dWSJxfj0SIY9/t3bGB
-         J6Xc51DsKnBPFaE4WbaMPk1mAgGh7Uoe9JiYM5kmLCvZOUS/NwOpzEGLN1TVUAciqAZY
-         j/MFHhAydSn2PLOj6PmQ59xb5YmVCJTGYCNMeiLopGArg/Hc3cTHxmLOuBW3cOKVHjYN
-         Gudc1YJevZoVh/8NVigzrpCmlDHGNfTao83N+IApxFs1dKuDmEDuGtiQ1ARmSLXeRDrW
-         Wxg+6NIRSZuT02jPArGbPPUbPMYXC7btU9n1KVReG/mzKU5L1n9Tq0Uc4NCQvXJGkqRQ
-         8SRg==
+        bh=i0n4fcezG7qmXXiR6N7lNveZXLIkFhoMMErG1GaUxuc=;
+        b=qXemTkT8r4Wi0uTe+NvJ9cwRtlyNU9BH3JRXJ31swm6H3VPAiX93vJgXxtq9BmxMht
+         mmjxQUjVC1YEFizMCUm2/LgOar80xohZx5K+3+NszkywMrXyujoAvQB6cX2QlgGU/zdk
+         Db71ubYU1Nj+kD9gQw2mD8AImg/4UYOz4+VTpazzlJu8Czm+g07Cs/KFnnNdwY3lbjkw
+         uult2wzDiWTQx2tmR2oxqzR2xYGg1h8c6DE/iMexVI4w8PJbyRsEE+YFRrw0wpp3bYp+
+         I4Xm+gDvUYXDWx5+221F8d0DCuncf2NB1uoIP0X+F6tK1cUG91wKxh7dikN21cwhiBxI
+         vxzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=G+TrQWebb1OQqIMsOPBwXOFrxSHqKpw5UQ00aCYRV6U=;
-        b=D+U91XJKs/JiHkNBeOOQsPRUbNMzWJMJL0M58Rddpdm21dhoAxkrZZLGFaJgTZdv8s
-         9qCuLtAAngT1weANQ4rd/vzxu02STb+VIQY5GCmtFj41pF6HmatcFicay0BDqGPKGbTl
-         19EpDi1EOArhIupC11ytfsB7MiWlvGZtEVgbicZWcfPuS/6CwZdJlu9uPknc5C7EC4TY
-         Hh85HgBqftnKDnmhyqHeWxaqBKgB3TJp/g3cyIjQw3xDonBYyuzGpF9u7J4eV05eFWIp
-         BBuTdO7ZuWmCaKttMkgjWeVPrncnxdwb3TOgdborLbfaypQgMXvifPKiJaHytflHfveh
-         UzBg==
-X-Gm-Message-State: APjAAAXXb8K5GhPaK9IIZIDQJAUtkkdfYEwx3L8GbUfl+ABQlzz6YIB2
-        xsr7zNZSEmFT3th6bCHyx78=
-X-Google-Smtp-Source: APXvYqwAhOWjoSgAiirZU4CO+Y4FLGljQXQatDXZpfewPZcwELP4PX2gZp7hdg8bFpts+exduLmpIQ==
-X-Received: by 2002:a17:902:2ba7:: with SMTP id l36mr7376613plb.334.1559285020728;
-        Thu, 30 May 2019 23:43:40 -0700 (PDT)
+        bh=i0n4fcezG7qmXXiR6N7lNveZXLIkFhoMMErG1GaUxuc=;
+        b=afDmf+jByAyYP5lRWFzVcEd6adD8uebZASH0bp55Fb4YDkmpLBNb7zwgFlpP0FQPWK
+         jRgEfi8Lx9XaE1WI8Z79SSx94lBeZ3zQV/m6yXgTOKkrGHcBvvw039GxM7VomDa4CgTI
+         666IESFY8XEtfshu2ec94/ONXWQp31pT19HsechD4J+firZiZ+Y9UYJsRlPJMSgPgMD6
+         VUjnJSR3GLj1dGnFDibRS5jD7OEWukRoug2apJwAPH0BaHUeIfrgJMcKykYzRt7c/w2D
+         EEae29dsbiStOR+L/6N6B+eLo4PyMM7yn70/E24hRl/LaXD64S2p4xbhVczh3iu6SXbC
+         TyuA==
+X-Gm-Message-State: APjAAAXq6rcQyTHRrasytZ6mm9Lkc9byUpsMtf0hTEr6YIgxnWO+/qCg
+        biUC2Afh8YasnotEZelD21JE1Q7/
+X-Google-Smtp-Source: APXvYqzhZsFy8hJnTqv+6LQ309ELVxI8pTbZ01FO7waDc9Ax2BZwvcM2+JNFU0bbPjjdmfJSO1re7Q==
+X-Received: by 2002:a17:902:8210:: with SMTP id x16mr7361005pln.306.1559285026107;
+        Thu, 30 May 2019 23:43:46 -0700 (PDT)
 Received: from bbox-2.seo.corp.google.com ([2401:fa00:d:0:98f1:8b3d:1f37:3e8])
-        by smtp.gmail.com with ESMTPSA id f30sm4243340pjg.13.2019.05.30.23.43.35
+        by smtp.gmail.com with ESMTPSA id f30sm4243340pjg.13.2019.05.30.23.43.40
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 30 May 2019 23:43:39 -0700 (PDT)
+        Thu, 30 May 2019 23:43:45 -0700 (PDT)
 From:   Minchan Kim <minchan@kernel.org>
 To:     Andrew Morton <akpm@linux-foundation.org>
 Cc:     linux-mm <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
@@ -58,9 +58,9 @@ Cc:     linux-mm <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
         Brian Geffon <bgeffon@google.com>, jannh@google.com,
         oleg@redhat.com, christian@brauner.io, oleksandr@redhat.com,
         hdanton@sina.com, Minchan Kim <minchan@kernel.org>
-Subject: [RFCv2 3/6] mm: introduce MADV_PAGEOUT
-Date:   Fri, 31 May 2019 15:43:10 +0900
-Message-Id: <20190531064313.193437-4-minchan@kernel.org>
+Subject: [RFCv2 4/6] mm: factor out madvise's core functionality
+Date:   Fri, 31 May 2019 15:43:11 +0900
+Message-Id: <20190531064313.193437-5-minchan@kernel.org>
 X-Mailer: git-send-email 2.22.0.rc1.257.g3120a18244-goog
 In-Reply-To: <20190531064313.193437-1-minchan@kernel.org>
 References: <20190531064313.193437-1-minchan@kernel.org>
@@ -71,301 +71,337 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-When a process expects no accesses to a certain memory range
-for a long time, it could hint kernel that the pages can be
-reclaimed instantly but data should be preserved for future use.
-This could reduce workingset eviction so it ends up increasing
-performance.
-
-This patch introduces the new MADV_PAGEOUT hint to madvise(2)
-syscall. MADV_PAGEOUT can be used by a process to mark a memory
-range as not expected to be used for a long time so that kernel
-reclaims the memory instantly. The hint can help kernel in deciding
-which pages to evict proactively.
-
-* RFCv1
- * rename from MADV_COLD to MADV_PAGEOUT - hannes
- * bail out if process is being killed - Hillf
- * fix reclaim_pages bugs - Hillf
+This patch factor out madvise's core functionality so that upcoming
+patch can reuse it without duplication. It shouldn't change any behavior.
 
 Signed-off-by: Minchan Kim <minchan@kernel.org>
 ---
- include/linux/swap.h                   |   1 +
- include/uapi/asm-generic/mman-common.h |   1 +
- mm/madvise.c                           | 126 +++++++++++++++++++++++++
- mm/vmscan.c                            |  77 +++++++++++++++
- 4 files changed, 205 insertions(+)
+ mm/madvise.c | 188 +++++++++++++++++++++++++++------------------------
+ 1 file changed, 101 insertions(+), 87 deletions(-)
 
-diff --git a/include/linux/swap.h b/include/linux/swap.h
-index 0ce997edb8bb..063c0c1e112b 100644
---- a/include/linux/swap.h
-+++ b/include/linux/swap.h
-@@ -365,6 +365,7 @@ extern int vm_swappiness;
- extern int remove_mapping(struct address_space *mapping, struct page *page);
- extern unsigned long vm_total_pages;
- 
-+extern unsigned long reclaim_pages(struct list_head *page_list);
- #ifdef CONFIG_NUMA
- extern int node_reclaim_mode;
- extern int sysctl_min_unmapped_ratio;
-diff --git a/include/uapi/asm-generic/mman-common.h b/include/uapi/asm-generic/mman-common.h
-index 1190f4e7f7b9..92e347a89ddc 100644
---- a/include/uapi/asm-generic/mman-common.h
-+++ b/include/uapi/asm-generic/mman-common.h
-@@ -44,6 +44,7 @@
- #define MADV_WILLNEED	3		/* will need these pages */
- #define MADV_DONTNEED	4		/* don't need these pages */
- #define MADV_COLD	5		/* deactivatie these pages */
-+#define MADV_PAGEOUT	6		/* reclaim these pages */
- 
- /* common parameters: try to keep these consistent across architectures */
- #define MADV_FREE	8		/* free pages only if memory pressure */
 diff --git a/mm/madvise.c b/mm/madvise.c
-index bff150eab6da..9d749a1420b4 100644
+index 9d749a1420b4..466623ea8c36 100644
 --- a/mm/madvise.c
 +++ b/mm/madvise.c
-@@ -41,6 +41,7 @@ static int madvise_need_mmap_write(int behavior)
- 	case MADV_WILLNEED:
- 	case MADV_DONTNEED:
- 	case MADV_COLD:
-+	case MADV_PAGEOUT:
- 	case MADV_FREE:
- 		return 0;
- 	default:
-@@ -415,6 +416,128 @@ static long madvise_cold(struct vm_area_struct *vma,
+@@ -425,9 +425,10 @@ static int madvise_pageout_pte_range(pmd_t *pmd, unsigned long addr,
+ 	struct page *page;
+ 	int isolated = 0;
+ 	struct vm_area_struct *vma = walk->vma;
++	struct task_struct *task = walk->private;
+ 	unsigned long next;
+ 
+-	if (fatal_signal_pending(current))
++	if (fatal_signal_pending(task))
+ 		return -EINTR;
+ 
+ 	next = pmd_addr_end(addr, end);
+@@ -505,12 +506,14 @@ static int madvise_pageout_pte_range(pmd_t *pmd, unsigned long addr,
+ }
+ 
+ static void madvise_pageout_page_range(struct mmu_gather *tlb,
+-			     struct vm_area_struct *vma,
+-			     unsigned long addr, unsigned long end)
++				struct task_struct *task,
++				struct vm_area_struct *vma,
++				unsigned long addr, unsigned long end)
+ {
+ 	struct mm_walk warm_walk = {
+ 		.pmd_entry = madvise_pageout_pte_range,
+ 		.mm = vma->vm_mm,
++		.private = task,
+ 	};
+ 
+ 	tlb_start_vma(tlb, vma);
+@@ -519,9 +522,9 @@ static void madvise_pageout_page_range(struct mmu_gather *tlb,
+ }
+ 
+ 
+-static long madvise_pageout(struct vm_area_struct *vma,
+-			struct vm_area_struct **prev,
+-			unsigned long start_addr, unsigned long end_addr)
++static long madvise_pageout(struct task_struct *task,
++		struct vm_area_struct *vma, struct vm_area_struct **prev,
++		unsigned long start_addr, unsigned long end_addr)
+ {
+ 	struct mm_struct *mm = vma->vm_mm;
+ 	struct mmu_gather tlb;
+@@ -532,7 +535,7 @@ static long madvise_pageout(struct vm_area_struct *vma,
+ 
+ 	lru_add_drain();
+ 	tlb_gather_mmu(&tlb, mm, start_addr, end_addr);
+-	madvise_pageout_page_range(&tlb, vma, start_addr, end_addr);
++	madvise_pageout_page_range(&tlb, task, vma, start_addr, end_addr);
+ 	tlb_finish_mmu(&tlb, start_addr, end_addr);
+ 
+ 	return 0;
+@@ -744,7 +747,8 @@ static long madvise_dontneed_single_vma(struct vm_area_struct *vma,
  	return 0;
  }
  
-+static int madvise_pageout_pte_range(pmd_t *pmd, unsigned long addr,
-+				unsigned long end, struct mm_walk *walk)
-+{
-+	pte_t *orig_pte, *pte, ptent;
-+	spinlock_t *ptl;
-+	LIST_HEAD(page_list);
-+	struct page *page;
-+	int isolated = 0;
-+	struct vm_area_struct *vma = walk->vma;
-+	unsigned long next;
-+
-+	if (fatal_signal_pending(current))
-+		return -EINTR;
-+
-+	next = pmd_addr_end(addr, end);
-+	if (pmd_trans_huge(*pmd)) {
-+		ptl = pmd_trans_huge_lock(pmd, vma);
-+		if (!ptl)
-+			return 0;
-+
-+		if (is_huge_zero_pmd(*pmd))
-+			goto huge_unlock;
-+
-+		page = pmd_page(*pmd);
-+		if (page_mapcount(page) > 1)
-+			goto huge_unlock;
-+
-+		if (next - addr != HPAGE_PMD_SIZE) {
-+			int err;
-+
-+			get_page(page);
-+			spin_unlock(ptl);
-+			lock_page(page);
-+			err = split_huge_page(page);
-+			unlock_page(page);
-+			put_page(page);
-+			if (!err)
-+				goto regular_page;
-+			return 0;
-+		}
-+
-+		if (isolate_lru_page(page))
-+			goto huge_unlock;
-+
-+		list_add(&page->lru, &page_list);
-+huge_unlock:
-+		spin_unlock(ptl);
-+		reclaim_pages(&page_list);
-+		return 0;
-+	}
-+
-+	if (pmd_trans_unstable(pmd))
-+		return 0;
-+regular_page:
-+	orig_pte = pte_offset_map_lock(vma->vm_mm, pmd, addr, &ptl);
-+	for (pte = orig_pte; addr < end; pte++, addr += PAGE_SIZE) {
-+		ptent = *pte;
-+		if (!pte_present(ptent))
-+			continue;
-+
-+		page = vm_normal_page(vma, addr, ptent);
-+		if (!page)
-+			continue;
-+
-+		if (page_mapcount(page) > 1)
-+			continue;
-+
-+		if (isolate_lru_page(page))
-+			continue;
-+
-+		isolated++;
-+		list_add(&page->lru, &page_list);
-+		if (isolated >= SWAP_CLUSTER_MAX) {
-+			pte_unmap_unlock(orig_pte, ptl);
-+			reclaim_pages(&page_list);
-+			isolated = 0;
-+			pte = pte_offset_map_lock(vma->vm_mm, pmd, addr, &ptl);
-+			orig_pte = pte;
-+		}
-+	}
-+
-+	pte_unmap_unlock(orig_pte, ptl);
-+	reclaim_pages(&page_list);
-+	cond_resched();
-+
-+	return 0;
-+}
-+
-+static void madvise_pageout_page_range(struct mmu_gather *tlb,
-+			     struct vm_area_struct *vma,
-+			     unsigned long addr, unsigned long end)
-+{
-+	struct mm_walk warm_walk = {
-+		.pmd_entry = madvise_pageout_pte_range,
-+		.mm = vma->vm_mm,
-+	};
-+
-+	tlb_start_vma(tlb, vma);
-+	walk_page_range(addr, end, &warm_walk);
-+	tlb_end_vma(tlb, vma);
-+}
-+
-+
-+static long madvise_pageout(struct vm_area_struct *vma,
-+			struct vm_area_struct **prev,
-+			unsigned long start_addr, unsigned long end_addr)
-+{
-+	struct mm_struct *mm = vma->vm_mm;
-+	struct mmu_gather tlb;
-+
-+	*prev = vma;
-+	if (vma->vm_flags & (VM_LOCKED|VM_HUGETLB|VM_PFNMAP))
-+		return -EINVAL;
-+
-+	lru_add_drain();
-+	tlb_gather_mmu(&tlb, mm, start_addr, end_addr);
-+	madvise_pageout_page_range(&tlb, vma, start_addr, end_addr);
-+	tlb_finish_mmu(&tlb, start_addr, end_addr);
-+
-+	return 0;
-+}
-+
- static int madvise_free_pte_range(pmd_t *pmd, unsigned long addr,
- 				unsigned long end, struct mm_walk *walk)
+-static long madvise_dontneed_free(struct vm_area_struct *vma,
++static long madvise_dontneed_free(struct mm_struct *mm,
++				  struct vm_area_struct *vma,
+ 				  struct vm_area_struct **prev,
+ 				  unsigned long start, unsigned long end,
+ 				  int behavior)
+@@ -756,8 +760,8 @@ static long madvise_dontneed_free(struct vm_area_struct *vma,
+ 	if (!userfaultfd_remove(vma, start, end)) {
+ 		*prev = NULL; /* mmap_sem has been dropped, prev is stale */
  
-@@ -805,6 +928,8 @@ madvise_vma(struct vm_area_struct *vma, struct vm_area_struct **prev,
+-		down_read(&current->mm->mmap_sem);
+-		vma = find_vma(current->mm, start);
++		down_read(&mm->mmap_sem);
++		vma = find_vma(mm, start);
+ 		if (!vma)
+ 			return -ENOMEM;
+ 		if (start < vma->vm_start) {
+@@ -804,7 +808,8 @@ static long madvise_dontneed_free(struct vm_area_struct *vma,
+  * Application wants to free up the pages and associated backing store.
+  * This is effectively punching a hole into the middle of a file.
+  */
+-static long madvise_remove(struct vm_area_struct *vma,
++static long madvise_remove(struct mm_struct *mm,
++				struct vm_area_struct *vma,
+ 				struct vm_area_struct **prev,
+ 				unsigned long start, unsigned long end)
+ {
+@@ -838,13 +843,13 @@ static long madvise_remove(struct vm_area_struct *vma,
+ 	get_file(f);
+ 	if (userfaultfd_remove(vma, start, end)) {
+ 		/* mmap_sem was not released by userfaultfd_remove() */
+-		up_read(&current->mm->mmap_sem);
++		up_read(&mm->mmap_sem);
+ 	}
+ 	error = vfs_fallocate(f,
+ 				FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE,
+ 				offset, end - start);
+ 	fput(f);
+-	down_read(&current->mm->mmap_sem);
++	down_read(&mm->mmap_sem);
+ 	return error;
+ }
+ 
+@@ -918,21 +923,23 @@ static int madvise_inject_error(int behavior,
+ #endif
+ 
+ static long
+-madvise_vma(struct vm_area_struct *vma, struct vm_area_struct **prev,
++madvise_vma(struct task_struct *task, struct mm_struct *mm,
++		struct vm_area_struct *vma, struct vm_area_struct **prev,
+ 		unsigned long start, unsigned long end, int behavior)
+ {
+ 	switch (behavior) {
+ 	case MADV_REMOVE:
+-		return madvise_remove(vma, prev, start, end);
++		return madvise_remove(mm, vma, prev, start, end);
+ 	case MADV_WILLNEED:
  		return madvise_willneed(vma, prev, start, end);
  	case MADV_COLD:
  		return madvise_cold(vma, prev, start, end);
-+	case MADV_PAGEOUT:
-+		return madvise_pageout(vma, prev, start, end);
+ 	case MADV_PAGEOUT:
+-		return madvise_pageout(vma, prev, start, end);
++		return madvise_pageout(task, vma, prev, start, end);
  	case MADV_FREE:
  	case MADV_DONTNEED:
- 		return madvise_dontneed_free(vma, prev, start, end, behavior);
-@@ -827,6 +952,7 @@ madvise_behavior_valid(int behavior)
- 	case MADV_DONTNEED:
- 	case MADV_FREE:
- 	case MADV_COLD:
-+	case MADV_PAGEOUT:
- #ifdef CONFIG_KSM
- 	case MADV_MERGEABLE:
- 	case MADV_UNMERGEABLE:
-diff --git a/mm/vmscan.c b/mm/vmscan.c
-index 0973a46a0472..280dd808fb91 100644
---- a/mm/vmscan.c
-+++ b/mm/vmscan.c
-@@ -2126,6 +2126,83 @@ static void shrink_active_list(unsigned long nr_to_scan,
- 			nr_deactivate, nr_rotated, sc->priority, file);
+-		return madvise_dontneed_free(vma, prev, start, end, behavior);
++		return madvise_dontneed_free(mm, vma, prev, start,
++						end, behavior);
+ 	default:
+ 		return madvise_behavior(vma, prev, start, end, behavior);
+ 	}
+@@ -976,68 +983,8 @@ madvise_behavior_valid(int behavior)
+ 	}
  }
  
-+unsigned long reclaim_pages(struct list_head *page_list)
+-/*
+- * The madvise(2) system call.
+- *
+- * Applications can use madvise() to advise the kernel how it should
+- * handle paging I/O in this VM area.  The idea is to help the kernel
+- * use appropriate read-ahead and caching techniques.  The information
+- * provided is advisory only, and can be safely disregarded by the
+- * kernel without affecting the correct operation of the application.
+- *
+- * behavior values:
+- *  MADV_NORMAL - the default behavior is to read clusters.  This
+- *		results in some read-ahead and read-behind.
+- *  MADV_RANDOM - the system should read the minimum amount of data
+- *		on any access, since it is unlikely that the appli-
+- *		cation will need more than what it asks for.
+- *  MADV_SEQUENTIAL - pages in the given range will probably be accessed
+- *		once, so they can be aggressively read ahead, and
+- *		can be freed soon after they are accessed.
+- *  MADV_WILLNEED - the application is notifying the system to read
+- *		some pages ahead.
+- *  MADV_DONTNEED - the application is finished with the given range,
+- *		so the kernel can free resources associated with it.
+- *  MADV_FREE - the application marks pages in the given range as lazy free,
+- *		where actual purges are postponed until memory pressure happens.
+- *  MADV_REMOVE - the application wants to free up the given range of
+- *		pages and associated backing store.
+- *  MADV_DONTFORK - omit this area from child's address space when forking:
+- *		typically, to avoid COWing pages pinned by get_user_pages().
+- *  MADV_DOFORK - cancel MADV_DONTFORK: no longer omit this area when forking.
+- *  MADV_WIPEONFORK - present the child process with zero-filled memory in this
+- *              range after a fork.
+- *  MADV_KEEPONFORK - undo the effect of MADV_WIPEONFORK
+- *  MADV_HWPOISON - trigger memory error handler as if the given memory range
+- *		were corrupted by unrecoverable hardware memory failure.
+- *  MADV_SOFT_OFFLINE - try to soft-offline the given range of memory.
+- *  MADV_MERGEABLE - the application recommends that KSM try to merge pages in
+- *		this area with pages of identical content from other such areas.
+- *  MADV_UNMERGEABLE- cancel MADV_MERGEABLE: no longer merge pages with others.
+- *  MADV_HUGEPAGE - the application wants to back the given range by transparent
+- *		huge pages in the future. Existing pages might be coalesced and
+- *		new pages might be allocated as THP.
+- *  MADV_NOHUGEPAGE - mark the given range as not worth being backed by
+- *		transparent huge pages so the existing pages will not be
+- *		coalesced into THP and new pages will not be allocated as THP.
+- *  MADV_DONTDUMP - the application wants to prevent pages in the given range
+- *		from being included in its core dump.
+- *  MADV_DODUMP - cancel MADV_DONTDUMP: no longer exclude from core dump.
+- *
+- * return values:
+- *  zero    - success
+- *  -EINVAL - start + len < 0, start is not page-aligned,
+- *		"behavior" is not a valid value, or application
+- *		is attempting to release locked or shared pages,
+- *		or the specified address range includes file, Huge TLB,
+- *		MAP_SHARED or VMPFNMAP range.
+- *  -ENOMEM - addresses in the specified range are not currently
+- *		mapped, or are outside the AS of the process.
+- *  -EIO    - an I/O error occurred while paging in data.
+- *  -EBADF  - map exists, but area maps something that isn't a file.
+- *  -EAGAIN - a kernel resource was temporarily unavailable.
+- */
+-SYSCALL_DEFINE3(madvise, unsigned long, start, size_t, len_in, int, behavior)
++static int madvise_core(struct task_struct *task, struct mm_struct *mm,
++			unsigned long start, size_t len_in, int behavior)
+ {
+ 	unsigned long end, tmp;
+ 	struct vm_area_struct *vma, *prev;
+@@ -1068,15 +1015,16 @@ SYSCALL_DEFINE3(madvise, unsigned long, start, size_t, len_in, int, behavior)
+ 
+ #ifdef CONFIG_MEMORY_FAILURE
+ 	if (behavior == MADV_HWPOISON || behavior == MADV_SOFT_OFFLINE)
+-		return madvise_inject_error(behavior, start, start + len_in);
++		return madvise_inject_error(behavior,
++					start, start + len_in);
+ #endif
+ 
+ 	write = madvise_need_mmap_write(behavior);
+ 	if (write) {
+-		if (down_write_killable(&current->mm->mmap_sem))
++		if (down_write_killable(&mm->mmap_sem))
+ 			return -EINTR;
+ 	} else {
+-		down_read(&current->mm->mmap_sem);
++		down_read(&mm->mmap_sem);
+ 	}
+ 
+ 	/*
+@@ -1084,7 +1032,7 @@ SYSCALL_DEFINE3(madvise, unsigned long, start, size_t, len_in, int, behavior)
+ 	 * ranges, just ignore them, but return -ENOMEM at the end.
+ 	 * - different from the way of handling in mlock etc.
+ 	 */
+-	vma = find_vma_prev(current->mm, start, &prev);
++	vma = find_vma_prev(mm, start, &prev);
+ 	if (vma && start > vma->vm_start)
+ 		prev = vma;
+ 
+@@ -1109,7 +1057,7 @@ SYSCALL_DEFINE3(madvise, unsigned long, start, size_t, len_in, int, behavior)
+ 			tmp = end;
+ 
+ 		/* Here vma->vm_start <= start < tmp <= (end|vma->vm_end). */
+-		error = madvise_vma(vma, &prev, start, tmp, behavior);
++		error = madvise_vma(task, mm, vma, &prev, start, tmp, behavior);
+ 		if (error)
+ 			goto out;
+ 		start = tmp;
+@@ -1121,14 +1069,80 @@ SYSCALL_DEFINE3(madvise, unsigned long, start, size_t, len_in, int, behavior)
+ 		if (prev)
+ 			vma = prev->vm_next;
+ 		else	/* madvise_remove dropped mmap_sem */
+-			vma = find_vma(current->mm, start);
++			vma = find_vma(mm, start);
+ 	}
+ out:
+ 	blk_finish_plug(&plug);
+ 	if (write)
+-		up_write(&current->mm->mmap_sem);
++		up_write(&mm->mmap_sem);
+ 	else
+-		up_read(&current->mm->mmap_sem);
++		up_read(&mm->mmap_sem);
+ 
+ 	return error;
+ }
++
++/*
++ * The madvise(2) system call.
++ *
++ * Applications can use madvise() to advise the kernel how it should
++ * handle paging I/O in this VM area.  The idea is to help the kernel
++ * use appropriate read-ahead and caching techniques.  The information
++ * provided is advisory only, and can be safely disregarded by the
++ * kernel without affecting the correct operation of the application.
++ *
++ * behavior values:
++ *  MADV_NORMAL - the default behavior is to read clusters.  This
++ *		results in some read-ahead and read-behind.
++ *  MADV_RANDOM - the system should read the minimum amount of data
++ *		on any access, since it is unlikely that the appli-
++ *		cation will need more than what it asks for.
++ *  MADV_SEQUENTIAL - pages in the given range will probably be accessed
++ *		once, so they can be aggressively read ahead, and
++ *		can be freed soon after they are accessed.
++ *  MADV_WILLNEED - the application is notifying the system to read
++ *		some pages ahead.
++ *  MADV_DONTNEED - the application is finished with the given range,
++ *		so the kernel can free resources associated with it.
++ *  MADV_FREE - the application marks pages in the given range as lazy free,
++ *		where actual purges are postponed until memory pressure happens.
++ *  MADV_REMOVE - the application wants to free up the given range of
++ *		pages and associated backing store.
++ *  MADV_DONTFORK - omit this area from child's address space when forking:
++ *		typically, to avoid COWing pages pinned by get_user_pages().
++ *  MADV_DOFORK - cancel MADV_DONTFORK: no longer omit this area when forking.
++ *  MADV_WIPEONFORK - present the child process with zero-filled memory in this
++ *              range after a fork.
++ *  MADV_KEEPONFORK - undo the effect of MADV_WIPEONFORK
++ *  MADV_HWPOISON - trigger memory error handler as if the given memory range
++ *		were corrupted by unrecoverable hardware memory failure.
++ *  MADV_SOFT_OFFLINE - try to soft-offline the given range of memory.
++ *  MADV_MERGEABLE - the application recommends that KSM try to merge pages in
++ *		this area with pages of identical content from other such areas.
++ *  MADV_UNMERGEABLE- cancel MADV_MERGEABLE: no longer merge pages with others.
++ *  MADV_HUGEPAGE - the application wants to back the given range by transparent
++ *		huge pages in the future. Existing pages might be coalesced and
++ *		new pages might be allocated as THP.
++ *  MADV_NOHUGEPAGE - mark the given range as not worth being backed by
++ *		transparent huge pages so the existing pages will not be
++ *		coalesced into THP and new pages will not be allocated as THP.
++ *  MADV_DONTDUMP - the application wants to prevent pages in the given range
++ *		from being included in its core dump.
++ *  MADV_DODUMP - cancel MADV_DONTDUMP: no longer exclude from core dump.
++ *
++ * return values:
++ *  zero    - success
++ *  -EINVAL - start + len < 0, start is not page-aligned,
++ *		"behavior" is not a valid value, or application
++ *		is attempting to release locked or shared pages,
++ *		or the specified address range includes file, Huge TLB,
++ *		MAP_SHARED or VMPFNMAP range.
++ *  -ENOMEM - addresses in the specified range are not currently
++ *		mapped, or are outside the AS of the process.
++ *  -EIO    - an I/O error occurred while paging in data.
++ *  -EBADF  - map exists, but area maps something that isn't a file.
++ *  -EAGAIN - a kernel resource was temporarily unavailable.
++ */
++SYSCALL_DEFINE3(madvise, unsigned long, start, size_t, len_in, int, behavior)
 +{
-+	int nid = -1;
-+	unsigned long nr_isolated[2] = {0, };
-+	unsigned long nr_reclaimed = 0;
-+	LIST_HEAD(node_page_list);
-+	struct reclaim_stat dummy_stat;
-+	struct scan_control sc = {
-+		.gfp_mask = GFP_KERNEL,
-+		.priority = DEF_PRIORITY,
-+		.may_writepage = 1,
-+		.may_unmap = 1,
-+		.may_swap = 1,
-+	};
-+
-+	while (!list_empty(page_list)) {
-+		struct page *page;
-+
-+		page = lru_to_page(page_list);
-+		if (nid == -1) {
-+			nid = page_to_nid(page);
-+			INIT_LIST_HEAD(&node_page_list);
-+			nr_isolated[0] = nr_isolated[1] = 0;
-+		}
-+
-+		if (nid == page_to_nid(page)) {
-+			list_move(&page->lru, &node_page_list);
-+			nr_isolated[!!page_is_file_cache(page)] +=
-+						hpage_nr_pages(page);
-+			continue;
-+		}
-+
-+		mod_node_page_state(NODE_DATA(nid), NR_ISOLATED_ANON,
-+					nr_isolated[0]);
-+		mod_node_page_state(NODE_DATA(nid), NR_ISOLATED_FILE,
-+					nr_isolated[1]);
-+		nr_reclaimed += shrink_page_list(&node_page_list,
-+				NODE_DATA(nid), &sc, TTU_IGNORE_ACCESS,
-+				&dummy_stat, true);
-+		while (!list_empty(&node_page_list)) {
-+			struct page *page = lru_to_page(&node_page_list);
-+
-+			list_del(&page->lru);
-+			putback_lru_page(page);
-+		}
-+		mod_node_page_state(NODE_DATA(nid), NR_ISOLATED_ANON,
-+					-nr_isolated[0]);
-+		mod_node_page_state(NODE_DATA(nid), NR_ISOLATED_FILE,
-+					-nr_isolated[1]);
-+		nid = -1;
-+	}
-+
-+	if (!list_empty(&node_page_list)) {
-+		mod_node_page_state(NODE_DATA(nid), NR_ISOLATED_ANON,
-+					nr_isolated[0]);
-+		mod_node_page_state(NODE_DATA(nid), NR_ISOLATED_FILE,
-+					nr_isolated[1]);
-+		nr_reclaimed += shrink_page_list(&node_page_list,
-+				NODE_DATA(nid), &sc, TTU_IGNORE_ACCESS,
-+				&dummy_stat, true);
-+		mod_node_page_state(NODE_DATA(nid), NR_ISOLATED_ANON,
-+					-nr_isolated[0]);
-+		mod_node_page_state(NODE_DATA(nid), NR_ISOLATED_FILE,
-+					-nr_isolated[1]);
-+
-+		while (!list_empty(&node_page_list)) {
-+			struct page *page = lru_to_page(&node_page_list);
-+
-+			list_del(&page->lru);
-+			putback_lru_page(page);
-+		}
-+
-+	}
-+
-+	return nr_reclaimed;
++	return madvise_core(current, current->mm, start, len_in, behavior);
 +}
-+
- /*
-  * The inactive anon list should be small enough that the VM never has
-  * to do too much work.
 -- 
 2.22.0.rc1.257.g3120a18244-goog
 
