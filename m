@@ -2,111 +2,107 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 33B4E313B2
-	for <lists+linux-api@lfdr.de>; Fri, 31 May 2019 19:22:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B9080313F1
+	for <lists+linux-api@lfdr.de>; Fri, 31 May 2019 19:35:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726587AbfEaRWT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 31 May 2019 13:22:19 -0400
-Received: from mail-yb1-f194.google.com ([209.85.219.194]:46243 "EHLO
-        mail-yb1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726518AbfEaRWT (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 31 May 2019 13:22:19 -0400
-Received: by mail-yb1-f194.google.com with SMTP id p8so3812873ybo.13;
-        Fri, 31 May 2019 10:22:18 -0700 (PDT)
+        id S1726867AbfEaRfd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 31 May 2019 13:35:33 -0400
+Received: from mail-vs1-f65.google.com ([209.85.217.65]:45052 "EHLO
+        mail-vs1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725913AbfEaRfd (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 31 May 2019 13:35:33 -0400
+Received: by mail-vs1-f65.google.com with SMTP id w124so7191942vsb.11
+        for <linux-api@vger.kernel.org>; Fri, 31 May 2019 10:35:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=QHZuXAv9RV6nMzfrTXtRIJSW9h335fj0yWw3txPwqfY=;
-        b=j++pochL7pXVLsGaoWRuDYI3pTo6sjXULgmG5F82dJl8z3Vr2FQa5m+gmV/CKurquK
-         rfPSoas+McnMH5y0BdJLMI31vAVsJ+etJTSP+7+9ZVW6+KHy7bsTsb2g7VoHsIKJUGTe
-         AMemqMqz+x4fNVC+ozw202Q7xgbgUFZuIRy8Pb8rOgQ6DeH+6obAzUvQvJd0hEn0bRiz
-         Zn6yP6WaWDcHj638zteTnm5vsCzVcmYuDmdYIpHCbNnH/GBXpO17i7ee06Ah5KNAFQlQ
-         7VLRVGEXgiurPryMNoB5I6GtCljWlDKNskLxRum5sRlzeQbH5GdiqmpGCPFvxYuukOQT
-         zecQ==
+        bh=UT95TGe8i+iSc4Mrslq2c6bgkkgpf7MqKUVEvywS9rQ=;
+        b=XkRXGO8rGh8TZ4EUzxfokC5808K1dz1UcgRHXk5nSZXjzX7ByJ9OOS3VUfLxIGGAe4
+         tBJOQ41tQiTrAGL8Vqh+uDVv6x0PoGvSasP0vc6fBcPf9wEekZyVRoXaNo1xuJ2Fn5wJ
+         Mdw2jJZ25WDo6I4uz8vJmqlZY84v/5BJKw6tSscV26kE59k4+mPTnBO54Ga2JiQ3fF49
+         9f36MMHIrDv6UDicgzKbwCc4KmUky3yRfA6nB2SCVng6BOkS7L2+dNFKBJmEgZK6JRI0
+         aOaHXvY0eVS+UnHvlhi71Ao0kSR18YVuOC0awHBXNUVnRpG6nJezGgjBM5MLoZEwisfe
+         er5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=QHZuXAv9RV6nMzfrTXtRIJSW9h335fj0yWw3txPwqfY=;
-        b=XXIsDiG6ikDOLljtWlFB6NpiAD45Neeplv/ARc7Zb59DrQUmgJJDwvAewuVMVw7sXw
-         tmxi6PqwDQGAlsuuywjc6bMVPCyb7TnGfK/teYyfeqX6QwcjEGPxpMVLjTPwJfTB61n4
-         QZZG5tqRLU9CaGylJcTCFQLOc4KHWIMISj1NfYUX94LCVYGOCDTBQm1+6dTUAbGZvhwM
-         AacnQIX9xHInL9gYMRMQSOgZbWT8dIDDXvD9Sj4Sa+oAv9W7pv1yRoX1LyVM72qPFr0S
-         mp7W7aLtfb/+eU/il5GENlMSvoc5bmepEib9RLnPtz/MWQ6M7Na/a0mklRDuThvD4t2W
-         k2mw==
-X-Gm-Message-State: APjAAAViIO0dumVfHQXEuPLLB0HQup1NkITC3akhB22HfOx0jP7nlm6y
-        tp7yP4VccmIO8c1tPt2A9At5P6RwdkHvuQkLa787dYwf
-X-Google-Smtp-Source: APXvYqyb7ZGEmSQufUFHFc2hhMicBtacsy9sHfewm3MYn7xKT3f5qFhup6r5dW9Ww4PhnJdWlED4fXrkI7ndW2uIJSw=
-X-Received: by 2002:a25:4489:: with SMTP id r131mr5400286yba.14.1559323338223;
- Fri, 31 May 2019 10:22:18 -0700 (PDT)
+        bh=UT95TGe8i+iSc4Mrslq2c6bgkkgpf7MqKUVEvywS9rQ=;
+        b=kjuwWve+C0MVBSLqw4v40Oyyf79HeR+6/mTxPK2L4Q1WyonAQI2xLB3zmm0ENLw7N5
+         hgGd6jc1IuzbnJrsT/qcN+kCvua+mifJygfJJb5+ZdvrKk8+iJ90OuKdr8+Nri5bbIZ1
+         30UVhHEGidzGX8MPjIoP1uxryUcc24MbBzoweQdi9n93M9a044NF5QCbdZK806Sdm2t4
+         nWvQXFqO6cwTzW700GmCTGMwf+JOjH982XcllKXS8WaHan1wp8BcLFdKgk/pE7xfp7kU
+         bRsAx8vS1yl/+8FGsoql6QE4M4ujczvWMMgSn3oa+jIAPXJJojhecAkJhTw1FsAc1c+p
+         S8ZA==
+X-Gm-Message-State: APjAAAU9VivnOuqtXPWTZ/ouUeGPEhEpslI4wsLzqAFpG0v3tqAnkmif
+        ZUGwIXfiBXPv7/32O2za3lz+8DV1Pu2u9F9wu4mz7Q==
+X-Google-Smtp-Source: APXvYqwXzH1wOrhlClP+4XIXhtYESdkaXQctuZZmUpL+byNkQuwIQh6PWl6WuJPpoo7fr6T7kU+2n6RwqkoaZfzW3Nw=
+X-Received: by 2002:a67:2084:: with SMTP id g126mr6137960vsg.114.1559324131824;
+ Fri, 31 May 2019 10:35:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190527172655.9287-1-amir73il@gmail.com> <20190528202659.GA12412@mit.edu>
- <CAOQ4uxgo5jmwQbLAKQre9=7pLQw=CwMgDaWPaJxi-5NGnPEVPQ@mail.gmail.com>
- <CAOQ4uxgj94WR82iHE4PDGSD0UDxG5sCtr+Sv+t1sOHHmnXFYzQ@mail.gmail.com> <20190531164136.GA3066@mit.edu>
-In-Reply-To: <20190531164136.GA3066@mit.edu>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Fri, 31 May 2019 20:22:06 +0300
-Message-ID: <CAOQ4uxjp5psDBLXBu+26xRLpV50txqksVFe6ZhUo0io8kgoH4A@mail.gmail.com>
-Subject: Re: [RFC][PATCH] link.2: AT_ATOMIC_DATA and AT_ATOMIC_METADATA
-To:     "Theodore Ts'o" <tytso@mit.edu>
-Cc:     Jan Kara <jack@suse.cz>,
-        "Darrick J . Wong" <darrick.wong@oracle.com>,
-        Dave Chinner <david@fromorbit.com>, Chris Mason <clm@fb.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-xfs <linux-xfs@vger.kernel.org>,
-        Ext4 <linux-ext4@vger.kernel.org>,
-        Linux Btrfs <linux-btrfs@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
+References: <20190531064313.193437-1-minchan@kernel.org> <20190531064313.193437-6-minchan@kernel.org>
+In-Reply-To: <20190531064313.193437-6-minchan@kernel.org>
+From:   Daniel Colascione <dancol@google.com>
+Date:   Fri, 31 May 2019 10:35:20 -0700
+Message-ID: <CAKOZuevswVxZjffQcwjqJFa5V4Vv2jxq=mq6hWhd1SpNrGAGkg@mail.gmail.com>
+Subject: Re: [RFCv2 5/6] mm: introduce external memory hinting API
+To:     Minchan Kim <minchan@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-mm <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Tim Murray <timmurray@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Brian Geffon <bgeffon@google.com>,
+        Jann Horn <jannh@google.com>, Oleg Nesterov <oleg@redhat.com>,
+        Christian Brauner <christian@brauner.io>, oleksandr@redhat.com,
+        hdanton@sina.com
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, May 31, 2019 at 7:41 PM Theodore Ts'o <tytso@mit.edu> wrote:
+On Thu, May 30, 2019 at 11:43 PM Minchan Kim <minchan@kernel.org> wrote:
 >
-> On Fri, May 31, 2019 at 06:21:45PM +0300, Amir Goldstein wrote:
-> > What do you think of:
-> >
-> > "AT_ATOMIC_DATA (since Linux 5.x)
-> > A filesystem which accepts this flag will guarantee that if the linked file
-> > name exists after a system crash, then all of the data written to the file
-> > and all of the file's metadata at the time of the linkat(2) call will be
-> > visible.
+> There is some usecase that centralized userspace daemon want to give
+> a memory hint like MADV_[COLD|PAGEEOUT] to other process. Android's
+> ActivityManagerService is one of them.
 >
-> ".... will be visible after the the file system is remounted".  (Never
-> hurts to be explicit.)
+> It's similar in spirit to madvise(MADV_WONTNEED), but the information
+> required to make the reclaim decision is not known to the app. Instead,
+> it is known to the centralized userspace daemon(ActivityManagerService),
+> and that daemon must be able to initiate reclaim on its own without
+> any app involvement.
 >
-> > The way to achieve this guarantee on old kernels is to call fsync (2)
-> > before linking the file, but doing so will also results in flushing of
-> > volatile disk caches.
-> >
-> > A filesystem which accepts this flag does NOT
-> > guarantee that any of the file hardlinks will exist after a system crash,
-> > nor that the last observed value of st_nlink (see stat (2)) will persist."
-> >
+> To solve the issue, this patch introduces new syscall process_madvise(2).
+> It could give a hint to the exeternal process of pidfd.
 >
-> This is I think more precise:
+>  int process_madvise(int pidfd, void *addr, size_t length, int advise,
+>                         unsigned long cookie, unsigned long flag);
 >
->     This guarantee can be achieved by calling fsync(2) before linking
->     the file, but there may be more performant ways to provide these
->     semantics.  In particular, note that the use of the AT_ATOMIC_DATA
->     flag does *not* guarantee that the new link created by linkat(2)
->     will be persisted after a crash.
+> Since it could affect other process's address range, only privileged
+> process(CAP_SYS_PTRACE) or something else(e.g., being the same UID)
+> gives it the right to ptrace the process could use it successfully.
+>
+> The syscall has a cookie argument to privode atomicity(i.e., detect
+> target process's address space change since monitor process has parsed
+> the address range of target process so the operaion could fail in case
+> of happening race). Although there is no interface to get a cookie
+> at this moment, it could be useful to consider it as argument to avoid
+> introducing another new syscall in future. It could support *atomicity*
+> for disruptive hint(e.g., MADV_DONTNEED|FREE).
+> flag argument is reserved for future use if we need to extend the API.
 
-OK. Just to be clear, mentioning hardlinks and st_link is not needed
-in your opinion?
-
->
-> We should also document that a file system which does not implement
-> this flag MUST return EINVAL if it is passed this flag to linkat(2).
->
-
-OK. I think this part can be documented as possible reason for EINVAL
-As in renameat(2) man page:
-       EINVAL The filesystem does not support one of the flags in flags.
-
-Thanks,
-Amir.
+How about a compromise? Let's allow all madvise hints if the process
+is calling process_madvise *on itself* (which will be useful once we
+wire up the atomicity cookie) and restrict the cross-process case to
+the hints you've mentioned. This way, the restriction on madvise hints
+isn't tied to the specific API, but to the relationship between hinter
+and hintee.
