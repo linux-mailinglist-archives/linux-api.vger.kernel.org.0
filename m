@@ -2,91 +2,141 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BB7031702
-	for <lists+linux-api@lfdr.de>; Sat,  1 Jun 2019 00:14:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 62B0531751
+	for <lists+linux-api@lfdr.de>; Sat,  1 Jun 2019 00:45:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726538AbfEaWOA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 31 May 2019 18:14:00 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:42814 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725934AbfEaWOA (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 31 May 2019 18:14:00 -0400
-Received: by mail-wr1-f65.google.com with SMTP id o12so304004wrj.9
-        for <linux-api@vger.kernel.org>; Fri, 31 May 2019 15:13:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brauner.io; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=e0zehylnRNwEoLMrCtDr0FIIIv+bm7246N0/VnWTSdI=;
-        b=BAC3ltmN+JNBuMnr+fmkqoJ/R2Jl5ZglI9F+hoi3aeqvqtSHvB7KjA9durJerJCZlL
-         MbdlR5Ed+iyDoBNWR+pPGjhyb1smmWtfOWf2XXKElsdhddUjuTys9W6XUQdRrhBbFGjF
-         mGaH1m6kD7e1H3TOp+L36cVvw2k3E5sR3x7XZuw40NQOYOo6OJLn7ZluWzrAIebz0o6Y
-         gkRwYNYL2BjdADyxBLHOw7HPuyGtEeOasqUgH/wGNYi17Q6PNJUqpytlGTWAJHgRmBLh
-         NfxaABdmTQ7txQpL3XyymcvLMOEUt+nvKjIzNK9mXONEoUOTpXefg4E4OUQ1PyvBZM/3
-         N6WA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=e0zehylnRNwEoLMrCtDr0FIIIv+bm7246N0/VnWTSdI=;
-        b=MyJlRn6rxN33OTlYBKC+K2CuB0thK8sVbR2RtnUyud5+x7FfR3Ip4xSM/W7Uen3HiU
-         5Gpn2JNFGFuh89oMNPbsk2PCs7MsbqXdeoBNnFbz5qPI1ociM9p10tKf1Hyl7cyMPPi2
-         xL1j+O7V/lNw4Td9OQOFkMT6DPEHcOHv0Lth2ltvIkYy84i/+YvbsYGDTJHjTxLBwXmE
-         mR/QkmzhJlfAW9dluqfP5/SYRp53OB0PFejaxziqbSCdIKtuiR0C9opdVjiRmvwd+swl
-         p21kZfGYntDddJuUYur5L6TBPK71OxtCN5/prkn5X5yyfMqQLiFlrXphWAbdyry9WSWf
-         c77w==
-X-Gm-Message-State: APjAAAXtpHjVqYOIqLhkLSIX7RNezctTMPmfhKrIFEthMQUmLOVcACDt
-        B+VekS4pRj/FnV0ahokitM3wXA==
-X-Google-Smtp-Source: APXvYqw0OR/H3EuEp5fqjZFM8TZ/nEGygjIjvRDRDc9VEOCCRUu9NNHqaeGl81tYfFTPe2EALCE5+A==
-X-Received: by 2002:adf:e583:: with SMTP id l3mr7751345wrm.1.1559340838726;
-        Fri, 31 May 2019 15:13:58 -0700 (PDT)
-Received: from brauner.io (93-32-55-82.ip32.fastwebnet.it. [93.32.55.82])
-        by smtp.gmail.com with ESMTPSA id k2sm7898056wrx.84.2019.05.31.15.13.57
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 31 May 2019 15:13:58 -0700 (PDT)
-Date:   Sat, 1 Jun 2019 00:13:57 +0200
-From:   Christian Brauner <christian@brauner.io>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Andrei Vagin <avagin@gmail.com>, Al Viro <viro@zeniv.linux.org.uk>,
-        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
-        Jann Horn <jannh@google.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        David Howells <dhowells@redhat.com>,
-        Pavel Emelyanov <xemul@virtuozzo.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Adrian Reber <adrian@lisas.de>,
+        id S1726541AbfEaWp4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 31 May 2019 18:45:56 -0400
+Received: from mail106.syd.optusnet.com.au ([211.29.132.42]:51380 "EHLO
+        mail106.syd.optusnet.com.au" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726450AbfEaWp4 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 31 May 2019 18:45:56 -0400
+Received: from dread.disaster.area (pa49-180-144-61.pa.nsw.optusnet.com.au [49.180.144.61])
+        by mail106.syd.optusnet.com.au (Postfix) with ESMTPS id C77533DCAFB;
+        Sat,  1 Jun 2019 08:45:50 +1000 (AEST)
+Received: from dave by dread.disaster.area with local (Exim 4.92)
+        (envelope-from <david@fromorbit.com>)
+        id 1hWqHV-0000lu-7s; Sat, 01 Jun 2019 08:45:49 +1000
+Date:   Sat, 1 Jun 2019 08:45:49 +1000
+From:   Dave Chinner <david@fromorbit.com>
+To:     Theodore Ts'o <tytso@mit.edu>
+Cc:     Amir Goldstein <amir73il@gmail.com>, Jan Kara <jack@suse.cz>,
+        "Darrick J . Wong" <darrick.wong@oracle.com>,
+        Chris Mason <clm@fb.com>, Al Viro <viro@zeniv.linux.org.uk>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-xfs <linux-xfs@vger.kernel.org>,
+        Ext4 <linux-ext4@vger.kernel.org>,
+        Linux Btrfs <linux-btrfs@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>
-Subject: Re: [PATCH v1 1/2] fork: add clone3
-Message-ID: <20190531221356.uekyzxhtuijgj4pg@brauner.io>
-References: <20190529152237.10719-1-christian@brauner.io>
- <20190529222414.GA6492@gmail.com>
- <CAHk-=whQP-Ykxi=zSYaV9iXsHsENa+2fdj-zYKwyeyed63Lsfw@mail.gmail.com>
+Subject: Re: [RFC][PATCH] link.2: AT_ATOMIC_DATA and AT_ATOMIC_METADATA
+Message-ID: <20190531224549.GF29573@dread.disaster.area>
+References: <20190527172655.9287-1-amir73il@gmail.com>
+ <20190528202659.GA12412@mit.edu>
+ <CAOQ4uxgo5jmwQbLAKQre9=7pLQw=CwMgDaWPaJxi-5NGnPEVPQ@mail.gmail.com>
+ <CAOQ4uxgj94WR82iHE4PDGSD0UDxG5sCtr+Sv+t1sOHHmnXFYzQ@mail.gmail.com>
+ <20190531164136.GA3066@mit.edu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHk-=whQP-Ykxi=zSYaV9iXsHsENa+2fdj-zYKwyeyed63Lsfw@mail.gmail.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20190531164136.GA3066@mit.edu>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Optus-CM-Score: 0
+X-Optus-CM-Analysis: v=2.2 cv=FNpr/6gs c=1 sm=1 tr=0 cx=a_idp_d
+        a=8RU0RCro9O0HS2ezTvitPg==:117 a=8RU0RCro9O0HS2ezTvitPg==:17
+        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=dq6fvYVFJ5YA:10
+        a=7-415B0cAAAA:8 a=zFZ6myeN1Ekg2b9OktAA:9 a=CjuIK1q_8ugA:10
+        a=biEYGPWJfzWAr4FL6Ov7:22
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, May 31, 2019 at 01:38:29PM -0700, Linus Torvalds wrote:
-> On Wed, May 29, 2019 at 3:24 PM Andrei Vagin <avagin@gmail.com> wrote:
-> >
-> > Thank you for thinking about time namespaces. I looked at this patch
-> > quickly and I would suggest to move a termination signal out of flags. I
-> > think we can add a separate field (exit_signal) into clone_args. Does it
-> > make sense? For me, exit_signal in flags always looked weird...
+On Fri, May 31, 2019 at 12:41:36PM -0400, Theodore Ts'o wrote:
+> On Fri, May 31, 2019 at 06:21:45PM +0300, Amir Goldstein wrote:
+> > What do you think of:
+> > 
+> > "AT_ATOMIC_DATA (since Linux 5.x)
+> > A filesystem which accepts this flag will guarantee that if the linked file
+> > name exists after a system crash, then all of the data written to the file
+> > and all of the file's metadata at the time of the linkat(2) call will be
+> > visible.
 > 
-> I agree - the child signal in flags was always just a "it fits" kind
-> of thing, and that was obviously true back then, but is not true now.
+> ".... will be visible after the the file system is remounted".  (Never
+> hurts to be explicit.)
+> 
+> > The way to achieve this guarantee on old kernels is to call fsync (2)
+> > before linking the file, but doing so will also results in flushing of
+> > volatile disk caches.
+> >
+> > A filesystem which accepts this flag does NOT
+> > guarantee that any of the file hardlinks will exist after a system crash,
+> > nor that the last observed value of st_nlink (see stat (2)) will persist."
+> > 
+> 
+> This is I think more precise:
+> 
+>     This guarantee can be achieved by calling fsync(2) before linking
+>     the file, but there may be more performant ways to provide these
+>     semantics.  In particular, note that the use of the AT_ATOMIC_DATA
+>     flag does *not* guarantee that the new link created by linkat(2)
+>     will be persisted after a crash.
 
-(Traveling until Monday, so sorry for delayed responses.)
+So here's the *implementation* problem I see with this definition of
+AT_ATOMIC_DATA. After linkat(dirfd, name, AT_ATOMIC_DATA), there is
+no guarantee that the data is on disk or that the link is present.
 
-Yip, I agree that this is a good idea (answered Andrei's mail just now
-saying the same thing). I'll send out a new version of the patch with
-these changes added next week.
+However:
 
-Christian
+	linkat(dirfd, name, AT_ATOMIC_DATA);
+	fsync(dirfd);
+
+Suddenly changes all that.
+
+i.e. when we fsync(dirfd) we guarantee that "name" is present in the
+directory and because we used AT_ATOMIC_DATA it implies that the
+data pointed to by "name" must be present on disk. IOWs, what was
+once a pure directory sync operation now *must* fsync all the child
+inodes that have been linkat(AT_ATOMIC_DATA) since the last time the
+direct has been made stable. 
+
+IOWs, the described AT_ATOMIC_DATA "we don't have to write the data
+during linkat() go-fast-get-out-of-gaol-free" behaviour isn't worth
+the pixels it is written on - it just moves all the complexity to
+directory fsync, and that's /already/ a behavioural minefield.
+
+IMO, the "work-around" of forcing filesystems to write back
+destination inodes during a link() operation is just nasty and will
+just end up with really weird performance anomalies occurring in
+production systems. That's not really a solution, either, especially
+as it is far, far faster for applications to use AIO_FSYNC and then
+on the completion callback run a normal linkat() operation...
+
+Hence, if I've understood these correctly, then I'll be recommending
+that XFS follows this:
+
+> We should also document that a file system which does not implement
+> this flag MUST return EINVAL if it is passed this flag to linkat(2).
+
+and returns -EINVAL to these flags because we do not have the change
+tracking infrastructure to handle these directory fsync semantics.
+I also suspect that, even if we could track this efficiently, we
+can't do the flushing atomically because of locking order
+constraints between directories, regular files, pages in the page
+cache, etc.
+
+Given that we can already use AIO to provide this sort of ordering,
+and AIO is vastly faster than synchronous IO, I don't see any point
+in adding complex barrier interfaces that can be /easily implemented
+in userspace/ using existing AIO primitives. You should start
+thinking about expanding libaio with stuff like
+"link_after_fdatasync()" and suddenly the whole problem of
+filesystem data vs metadata ordering goes away because the
+application directly controls all ordering without blocking and
+doesn't need to care what the filesystem under it does....
+
+Cheers,
+
+Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
