@@ -2,122 +2,103 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 01F98333CF
-	for <lists+linux-api@lfdr.de>; Mon,  3 Jun 2019 17:44:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65F6133470
+	for <lists+linux-api@lfdr.de>; Mon,  3 Jun 2019 18:01:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727542AbfFCPoM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 3 Jun 2019 11:44:12 -0400
-Received: from mail-ua1-f68.google.com ([209.85.222.68]:35366 "EHLO
-        mail-ua1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727501AbfFCPoM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 3 Jun 2019 11:44:12 -0400
-Received: by mail-ua1-f68.google.com with SMTP id r7so6653987ual.2
-        for <linux-api@vger.kernel.org>; Mon, 03 Jun 2019 08:44:11 -0700 (PDT)
+        id S1727611AbfFCQBi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 3 Jun 2019 12:01:38 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:38356 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726722AbfFCQBh (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 3 Jun 2019 12:01:37 -0400
+Received: by mail-lf1-f68.google.com with SMTP id b11so14041054lfa.5
+        for <linux-api@vger.kernel.org>; Mon, 03 Jun 2019 09:01:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Pxr2tsBIRKskeHWPSwMDss/AepFRvbtFu+kFFRUCb+Q=;
-        b=FeiRgsweRwTNxjLQEZKDRVMSsebGvhERPWsd1c7KGoMTjJVDnHHl1PLX97BQ+pii77
-         hXtgyY75bU/8TkqS3pgzN5I5hTHdt4eK7NIYTXesu+y8UAKBHgjB0t9mjdZt3w+naCKT
-         rM9EkwPnii6j9iaJgVUuZV9kmbIImg2XC97jJMlaEswKCY5ECylPsSlPW/geZgkeQ6uC
-         dSkTIW8/omAz6+vXCb/USUR0sqDwhsiGnB6pp2PyqiyEsckbAVuvNkDzmpDyALKbtt/p
-         PfvvZJYgSqX83KJQk1Sl9u3JzNGJUxILFZ7nxCKabg0SZXDzVVCf5/7Tg4QlIB3fGbEx
-         ZYCw==
+        bh=wwAb+fjZakb4SE3XBU2vDo+/FsY9YcZ27a86p6XEaAs=;
+        b=RAknaK6HJEQ5zkQCebN0zIeweiFarG87mqZWgTXpU/mJYEt/DEie3H3GUrpMAkizhf
+         DAjrek0lkfPev895ypNRKOioKwTHoHppJhQCGVAq+NcSFX9QQKad4aQE4NgXUszbotod
+         HpqE5XLtyZaVR5/qdNcdgb7ceGwsUQvR666euqtSsqc3OmniQ2styCZ5A6fa8wFzmYab
+         XQWs/R8Zv9uWMeeBYycMepmlBwpgKHulJsqz5096zetgsMifJSoInjVF+zauJ7Lcd+ZK
+         poQFphqqutbXYOSTji0TJpFkZiZboByLaWGvrwJDqBIG4csRSA2uepIebTq5Rhzk3wDG
+         LSOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Pxr2tsBIRKskeHWPSwMDss/AepFRvbtFu+kFFRUCb+Q=;
-        b=k7qWN2ruNx7Qzo6NJ+ly4XMZEqZErVCyvkx3wUBlePjIWrbzMIBzxtm2XkuVq2ECkn
-         uU/S+SqJt575Z6gqPKlEvCoos6jBCny8SOf+UzuF2b8WnvaQWCGVq1KM3F1+EuhdgbRb
-         JakG/H+IKhBgMccCjy7Jd0U8ibm3tuV9BJXES/MN2HbBCbRRY1igje8B7oHTtWzUkK5H
-         mL5NBl713met6PJA1FTZHJanIrsEiCnMw57kNBNiKB7+ccEcK0p25zlM2rg0DgxFkFcJ
-         oBxiOHeQRh/RsCVRuOL3z+myYmRpUwJNyw9DNd7PVLABPDcAvSZsf8OJALySx0SV2FIS
-         kOtw==
-X-Gm-Message-State: APjAAAWZdNivQlHZ1O3rXbFcAnqWTJo/4CZMYT37YGxXFL6peh8yAomn
-        VzIpcMuqTd0a4aKYhE91y7723+HxMtnxe+D3VnXDtQ==
-X-Google-Smtp-Source: APXvYqzC/biQeMQwwnleohw9UkPA9qCfiYB7Q+NAS71L23R0SboHrt/PF2NrayEW15/9pMefLmUdej7+yCs2uAGXatU=
-X-Received: by 2002:ab0:6198:: with SMTP id h24mr3159945uan.41.1559576651190;
- Mon, 03 Jun 2019 08:44:11 -0700 (PDT)
+        bh=wwAb+fjZakb4SE3XBU2vDo+/FsY9YcZ27a86p6XEaAs=;
+        b=j/gtRz6yoSm3aoDgOH4wg2f9JLlBWYJA5Euopdas9dTO2OVWfcKaZ5zNK0yQlGhQI/
+         7rBKydn3/JDyCmc7uyU+DflMzxNk39yVtF6G2oT5J4cVw85zwHnsVsUS27VRiHFanLt6
+         4MxbXViLNJRLcWhBgI+z8QLTdvBCVHIIlx7X9anG6bOKue9wt50+HFUUpz3lpSw5DtpG
+         jX3X/+dsAdWNFzJX/FYzdc4u154QV42MQuicsiH7b40EtbFsVA/jxmvJxmrfgNP4ETzz
+         JXwR/RuWBJRX0PKS9i45hGSzpq3iEImFSS1G1ZRILgSJWjGr6uaClMLocadkzB6KThqA
+         hRbA==
+X-Gm-Message-State: APjAAAX4UPanenjDj8b1iNCYlS4i9TaIhKZDBEe64LuJIOlnAhoEjfa2
+        AmRaMRDPMCMBAghbfmuHjt1B3MzLVmM4abVGq2dx
+X-Google-Smtp-Source: APXvYqzF84jTm/2bsJE8Z7872PStSoK3LKry51awtLL9AllXtZ9eS6eWxt9+Bys/+Qo1UsfILlV7LgRg51RsyxVhV98=
+X-Received: by 2002:ac2:446b:: with SMTP id y11mr9514878lfl.158.1559577695379;
+ Mon, 03 Jun 2019 09:01:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190531064313.193437-1-minchan@kernel.org> <20190531064313.193437-2-minchan@kernel.org>
- <20190531084752.GI6896@dhcp22.suse.cz> <20190531133904.GC195463@google.com>
- <20190531140332.GT6896@dhcp22.suse.cz> <20190531143407.GB216592@google.com> <20190603071607.GB4531@dhcp22.suse.cz>
-In-Reply-To: <20190603071607.GB4531@dhcp22.suse.cz>
-From:   Daniel Colascione <dancol@google.com>
-Date:   Mon, 3 Jun 2019 08:43:59 -0700
-Message-ID: <CAKOZuetW1UsPP3fDm-zTBOiO_oWkkDwADu+Apy53abWNs-UcUA@mail.gmail.com>
-Subject: Re: [RFCv2 1/6] mm: introduce MADV_COLD
-To:     Michal Hocko <mhocko@kernel.org>
-Cc:     Minchan Kim <minchan@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-mm <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Tim Murray <timmurray@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Brian Geffon <bgeffon@google.com>,
-        Jann Horn <jannh@google.com>, Oleg Nesterov <oleg@redhat.com>,
-        Christian Brauner <christian@brauner.io>, oleksandr@redhat.com,
-        hdanton@sina.com
+References: <fadb320e38a899441fcc693bbbc822a3b57f1a46.1559239558.git.rgb@redhat.com>
+In-Reply-To: <fadb320e38a899441fcc693bbbc822a3b57f1a46.1559239558.git.rgb@redhat.com>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Mon, 3 Jun 2019 12:01:24 -0400
+Message-ID: <CAHC9VhQZuOXiK4yj4xeRwGF_qepeg7qDL02GDdYhwTNRLRdmPA@mail.gmail.com>
+Subject: Re: [PATCH ghak90 V6] fixup! audit: add containerid filtering
+To:     Richard Guy Briggs <rgb@redhat.com>
+Cc:     containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
+        Linux-Audit Mailing List <linux-audit@redhat.com>,
+        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
+        sgrubb@redhat.com, omosnace@redhat.com, dhowells@redhat.com,
+        simo@redhat.com, Eric Paris <eparis@parisplace.org>,
+        Serge Hallyn <serge@hallyn.com>, ebiederm@xmission.com,
+        nhorman@tuxdriver.com
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jun 3, 2019 at 12:16 AM Michal Hocko <mhocko@kernel.org> wrote:
-> On Fri 31-05-19 23:34:07, Minchan Kim wrote:
-> > On Fri, May 31, 2019 at 04:03:32PM +0200, Michal Hocko wrote:
-> > > On Fri 31-05-19 22:39:04, Minchan Kim wrote:
-> > > > On Fri, May 31, 2019 at 10:47:52AM +0200, Michal Hocko wrote:
-> > > > > On Fri 31-05-19 15:43:08, Minchan Kim wrote:
-> > > > > > When a process expects no accesses to a certain memory range, it could
-> > > > > > give a hint to kernel that the pages can be reclaimed when memory pressure
-> > > > > > happens but data should be preserved for future use.  This could reduce
-> > > > > > workingset eviction so it ends up increasing performance.
-> > > > > >
-> > > > > > This patch introduces the new MADV_COLD hint to madvise(2) syscall.
-> > > > > > MADV_COLD can be used by a process to mark a memory range as not expected
-> > > > > > to be used in the near future. The hint can help kernel in deciding which
-> > > > > > pages to evict early during memory pressure.
-> > > > > >
-> > > > > > Internally, it works via deactivating pages from active list to inactive's
-> > > > > > head if the page is private because inactive list could be full of
-> > > > > > used-once pages which are first candidate for the reclaiming and that's a
-> > > > > > reason why MADV_FREE move pages to head of inactive LRU list. Therefore,
-> > > > > > if the memory pressure happens, they will be reclaimed earlier than other
-> > > > > > active pages unless there is no access until the time.
-> > > > >
-> > > > > [I am intentionally not looking at the implementation because below
-> > > > > points should be clear from the changelog - sorry about nagging ;)]
-> > > > >
-> > > > > What kind of pages can be deactivated? Anonymous/File backed.
-> > > > > Private/shared? If shared, are there any restrictions?
-> > > >
-> > > > Both file and private pages could be deactived from each active LRU
-> > > > to each inactive LRU if the page has one map_count. In other words,
-> > > >
-> > > >     if (page_mapcount(page) <= 1)
-> > > >         deactivate_page(page);
-> > >
-> > > Why do we restrict to pages that are single mapped?
-> >
-> > Because page table in one of process shared the page would have access bit
-> > so finally we couldn't reclaim the page. The more process it is shared,
-> > the more fail to reclaim.
+On Fri, May 31, 2019 at 1:54 PM Richard Guy Briggs <rgb@redhat.com> wrote:
 >
-> So what? In other words why should it be restricted solely based on the
-> map count. I can see a reason to restrict based on the access
-> permissions because we do not want to simplify all sorts of side channel
-> attacks but memory reclaim is capable of reclaiming shared pages and so
-> far I haven't heard any sound argument why madvise should skip those.
-> Again if there are any reasons, then document them in the changelog.
+> Remove the BUG() call since we will never have an invalid op value as
+> audit_data_to_entry()/audit_to_op() ensure that the op value is a a
+> known good value.
+>
+> Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+> ---
+>  kernel/auditfilter.c | 1 -
+>  1 file changed, 1 deletion(-)
 
-Whether to reclaim shared pages is a policy decision best left to
-userland, IMHO.
+Thanks for sending this out.  However, in light of the discussion in
+the patchset's cover letter it looks like we need to better support
+nested container orchestrators which is likely going to require some
+non-trivial changes to the kernel/userspace API.  Because of this I'm
+going to hold off pulling these patches into a "working" branch,
+hopefully the next revision of these patches will solve the nested
+orchestrator issue enough that we can continue to move forward with
+testing.
+
+> diff --git a/kernel/auditfilter.c b/kernel/auditfilter.c
+> index 407b5bb3b4c6..385a114a1254 100644
+> --- a/kernel/auditfilter.c
+> +++ b/kernel/auditfilter.c
+> @@ -1244,7 +1244,6 @@ int audit_comparator64(u64 left, u32 op, u64 right)
+>         case Audit_bittest:
+>                 return ((left & right) == right);
+>         default:
+> -               BUG();
+>                 return 0;
+>         }
+>  }
+> --
+> 1.8.3.1
+>
+
+
+-- 
+paul moore
+www.paul-moore.com
