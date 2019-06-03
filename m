@@ -2,136 +2,75 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D3A533279
-	for <lists+linux-api@lfdr.de>; Mon,  3 Jun 2019 16:44:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B7FA332CC
+	for <lists+linux-api@lfdr.de>; Mon,  3 Jun 2019 16:56:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729139AbfFCOoD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 3 Jun 2019 10:44:03 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:40382 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729143AbfFCOoD (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 3 Jun 2019 10:44:03 -0400
-Received: by mail-wm1-f68.google.com with SMTP id u16so6146585wmc.5
-        for <linux-api@vger.kernel.org>; Mon, 03 Jun 2019 07:44:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brauner.io; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=2n8KUWE3mEPh7r/u0P9GAsbcb3XzF8DN1nLPmw9SmYA=;
-        b=LBIypiuLvGlf3u5FnslCwaambPTGPqJStGZQ8uvhGsKj8SUoTcJtbrhHrStYJpTutl
-         VquqSWxjA1nLl2LROx2iNWN/8ddkwF8Qur2OLWm5F8gGC18F35VZIx4/qHmFNjwwPf5J
-         xr8vGiNAgc0xPiYl94/W/H3fwwPqzdR8j9R+vv5Yam3VXmIRrEIKO6uVuLieKzvpE/z4
-         EI4fkNgavHs+aMAG7KHiDMbdcDcoalu8gfqkjchsW/VTNBJ17hnOw2EZAeEyEcyZEnxW
-         O6CkStlPk2s2N3W5fXTsdQKyH5iyJvznQUzPScJGCsVpJvZeEMBGxLuTfnyddTdZBC5D
-         GFSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=2n8KUWE3mEPh7r/u0P9GAsbcb3XzF8DN1nLPmw9SmYA=;
-        b=S1CNn0590tLobZbFCa4HnX+Md42y38/IBIIEu5j7MVm7dq+rCl/p9P/4erhVyP8U9U
-         drQDIZz4/uNUyYNk3UNpFZ4SXgURDBZLcjliA+JgoxqtpyFcby3E0ZiJ3tn141uLm2Sg
-         oOwqHWv7GW1kHoJxjCPXxun/2YWkvrakPfNG9nK4HQ6S5e/XCMWKMBeO6FNrsmQSNlnO
-         1lUWI5bv4rdwY6lRHbljsg4Z8ektlVqx2qmWGzaVU305cYEeiw+041TA6NhMykKvGaiC
-         MM2vsaIOAZ1Iy9QbFkcKay3rDjLdyyQgrAVcmFTK7rjTrhpuqT+3RuLgV37Av5vv9koE
-         mpjg==
-X-Gm-Message-State: APjAAAU03bY2zUN/PBeTqTSNCFoXSyhJJlq2PjKigdDPjXQAh5tLIs6e
-        J4p4f8mOZvwEJisSYw8G5MkS6g==
-X-Google-Smtp-Source: APXvYqwOq8JMLcKmAC25HfB3WU9PodW1dRPByveHWW7p+wN+k1tru28BLGgM7YcFm+xuYaHmqa5ldg==
-X-Received: by 2002:a1c:f910:: with SMTP id x16mr2501197wmh.132.1559573042055;
-        Mon, 03 Jun 2019 07:44:02 -0700 (PDT)
-Received: from localhost.localdomain ([212.91.227.56])
-        by smtp.gmail.com with ESMTPSA id 197sm14672583wma.36.2019.06.03.07.44.00
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 03 Jun 2019 07:44:01 -0700 (PDT)
-From:   Christian Brauner <christian@brauner.io>
-To:     viro@zeniv.linux.org.uk, linux-kernel@vger.kernel.org,
-        torvalds@linux-foundation.org, jannh@google.com
-Cc:     keescook@chromium.org, fweimer@redhat.com, oleg@redhat.com,
-        arnd@arndb.de, dhowells@redhat.com,
-        Christian Brauner <christian@brauner.io>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Adrian Reber <adrian@lisas.de>, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, x86@kernel.org
-Subject: [PATCH v2 2/2] arch: wire-up clone3() syscall on x86
-Date:   Mon,  3 Jun 2019 16:43:31 +0200
-Message-Id: <20190603144331.16760-2-christian@brauner.io>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190603144331.16760-1-christian@brauner.io>
-References: <20190603144331.16760-1-christian@brauner.io>
+        id S1729048AbfFCO4l (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 3 Jun 2019 10:56:41 -0400
+Received: from relay.sw.ru ([185.231.240.75]:35872 "EHLO relay.sw.ru"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728956AbfFCO4l (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 3 Jun 2019 10:56:41 -0400
+Received: from [172.16.25.169]
+        by relay.sw.ru with esmtp (Exim 4.91)
+        (envelope-from <ktkhai@virtuozzo.com>)
+        id 1hXoO0-0004bx-Na; Mon, 03 Jun 2019 17:56:32 +0300
+Subject: Re: [PATCH v2 0/7] mm: process_vm_mmap() -- syscall for duplication a
+ process mapping
+From:   Kirill Tkhai <ktkhai@virtuozzo.com>
+To:     "Kirill A. Shutemov" <kirill@shutemov.name>
+Cc:     akpm@linux-foundation.org, dan.j.williams@intel.com,
+        mhocko@suse.com, keith.busch@intel.com,
+        kirill.shutemov@linux.intel.com, alexander.h.duyck@linux.intel.com,
+        ira.weiny@intel.com, andreyknvl@google.com, arunks@codeaurora.org,
+        vbabka@suse.cz, cl@linux.com, riel@surriel.com,
+        keescook@chromium.org, hannes@cmpxchg.org, npiggin@gmail.com,
+        mathieu.desnoyers@efficios.com, shakeelb@google.com, guro@fb.com,
+        aarcange@redhat.com, hughd@google.com, jglisse@redhat.com,
+        mgorman@techsingularity.net, daniel.m.jordan@oracle.com,
+        jannh@google.com, kilobyte@angband.pl, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org
+References: <155836064844.2441.10911127801797083064.stgit@localhost.localdomain>
+ <20190522152254.5cyxhjizuwuojlix@box>
+ <4228b541-d31c-b76a-2570-1924df0d4724@virtuozzo.com>
+Message-ID: <5ae7e3c1-3875-ea1e-54b3-ac3c493a11f0@virtuozzo.com>
+Date:   Mon, 3 Jun 2019 17:56:32 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <4228b541-d31c-b76a-2570-1924df0d4724@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Wire up the clone3() call on x86.
+On 03.06.2019 17:38, Kirill Tkhai wrote:
+> On 22.05.2019 18:22, Kirill A. Shutemov wrote:
+>> On Mon, May 20, 2019 at 05:00:01PM +0300, Kirill Tkhai wrote:
+>>> This patchset adds a new syscall, which makes possible
+>>> to clone a VMA from a process to current process.
+>>> The syscall supplements the functionality provided
+>>> by process_vm_writev() and process_vm_readv() syscalls,
+>>> and it may be useful in many situation.
+>>
+>> Kirill, could you explain how the change affects rmap and how it is safe.
+>>
+>> My concern is that the patchset allows to map the same page multiple times
+>> within one process or even map page allocated by child to the parrent.
+> 
+> Speaking honestly, we already support this model, since ZERO_PAGE() may
+> be mapped multiply times in any number of mappings.
 
-This patch only wires up clone3() on x86. Some of the arches look like they
-need special assembly massaging and it is probably smarter if the
-appropriate arch maintainers would do the actual wiring.
+Picking of huge_zero_page and mremapping its VMA to unaligned address also gives
+the case, when the same huge page is mapped as huge page and as set of ordinary
+pages in the same process.
 
-Signed-off-by: Christian Brauner <christian@brauner.io>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Kees Cook <keescook@chromium.org>
-Cc: David Howells <dhowells@redhat.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Oleg Nesterov <oleg@redhat.com>
-Cc: Adrian Reber <adrian@lisas.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Florian Weimer <fweimer@redhat.com>
-Cc: linux-api@vger.kernel.org
-Cc: linux-arch@vger.kernel.org
-Cc: x86@kernel.org
----
-v1: unchanged
-v2: unchanged
----
- arch/x86/entry/syscalls/syscall_32.tbl | 1 +
- arch/x86/entry/syscalls/syscall_64.tbl | 1 +
- include/uapi/asm-generic/unistd.h      | 4 +++-
- 3 files changed, 5 insertions(+), 1 deletion(-)
+Summing up two above cases, is there really a fundamental problem with
+the functionality the patch set introduces? It looks like we already have
+these cases in stable kernel supported.
 
-diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
-index ad968b7bac72..80e26211feff 100644
---- a/arch/x86/entry/syscalls/syscall_32.tbl
-+++ b/arch/x86/entry/syscalls/syscall_32.tbl
-@@ -438,3 +438,4 @@
- 431	i386	fsconfig		sys_fsconfig			__ia32_sys_fsconfig
- 432	i386	fsmount			sys_fsmount			__ia32_sys_fsmount
- 433	i386	fspick			sys_fspick			__ia32_sys_fspick
-+436	i386	clone3			sys_clone3			__ia32_sys_clone3
-diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
-index b4e6f9e6204a..7968f0b5b5e8 100644
---- a/arch/x86/entry/syscalls/syscall_64.tbl
-+++ b/arch/x86/entry/syscalls/syscall_64.tbl
-@@ -355,6 +355,7 @@
- 431	common	fsconfig		__x64_sys_fsconfig
- 432	common	fsmount			__x64_sys_fsmount
- 433	common	fspick			__x64_sys_fspick
-+436	common	clone3			__x64_sys_clone3/ptregs
- 
- #
- # x32-specific system call numbers start at 512 to avoid cache impact
-diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
-index a87904daf103..45bc87687c47 100644
---- a/include/uapi/asm-generic/unistd.h
-+++ b/include/uapi/asm-generic/unistd.h
-@@ -844,9 +844,11 @@ __SYSCALL(__NR_fsconfig, sys_fsconfig)
- __SYSCALL(__NR_fsmount, sys_fsmount)
- #define __NR_fspick 433
- __SYSCALL(__NR_fspick, sys_fspick)
-+#define __NR_clone3 436
-+__SYSCALL(__NR_clone3, sys_clone3)
- 
- #undef __NR_syscalls
--#define __NR_syscalls 434
-+#define __NR_syscalls 437
- 
- /*
-  * 32 bit systems traditionally used different
--- 
-2.21.0
-
+Thanks,
+Kirill
