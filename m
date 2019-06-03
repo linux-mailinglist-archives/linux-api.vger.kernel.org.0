@@ -2,340 +2,230 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9028133A0F
-	for <lists+linux-api@lfdr.de>; Mon,  3 Jun 2019 23:47:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AFD0C33B24
+	for <lists+linux-api@lfdr.de>; Tue,  4 Jun 2019 00:24:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726382AbfFCVrI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 3 Jun 2019 17:47:08 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:44059 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726049AbfFCVrG (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 3 Jun 2019 17:47:06 -0400
-Received: by mail-pf1-f195.google.com with SMTP id t16so2535892pfe.11
-        for <linux-api@vger.kernel.org>; Mon, 03 Jun 2019 14:47:06 -0700 (PDT)
+        id S1726831AbfFCWYM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 3 Jun 2019 18:24:12 -0400
+Received: from mail-vs1-f68.google.com ([209.85.217.68]:42589 "EHLO
+        mail-vs1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726179AbfFCWYL (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 3 Jun 2019 18:24:11 -0400
+Received: by mail-vs1-f68.google.com with SMTP id z11so12272064vsq.9;
+        Mon, 03 Jun 2019 15:24:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=9LPKxd1nI0ZUtX3abWKWE3c/1njFqcKECDTFnlPGL2o=;
-        b=FKzf7YDb4qFfQZg6nrRvW4ycRM0/BZA6wFJ1vLs7IldrWmXI3xJqN0FlXgOQuQtP3w
-         iOoOuxKQT7vJoEYXgkm50Y9hp80Pmxe+shwuUB2Ha8D0dFvrbw5EAmGRXa3yKpuykMQh
-         /CppskyHBegOtPKxkPQ7roJoyW89VLBsMI0Bfo6B2vlNLav5Dco6HA8KDsSFZZi5OQ5Z
-         il27slw+3ar1ciVjpOeX4xK/PenlX19YM86soJ9NsAQy3ikiOc6C3ehQyzUxB5b//hfS
-         dYp8IKidYk9ktoLayJxda7dxkdAexm0k6mkAj4XUyG4mrXnHZTQF7Q5Yu31yVOH6NfVZ
-         p/Fw==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=C8Ve0xjKXEJqPCX4CqFLywaP30z1QNXLFcyDp7e0Z10=;
+        b=kwjpkGgWsUCehTdcGWr+86fSky5RB8AU+c2buIsl9+Jf316gbOuyXMMbNxFK5ZMHqh
+         cdsz8TfiLL2mbKWXXiVY++23ne8nsGvf6RIiz4xmzKu7Cz9BpmydVWphO2+J9xrLclQN
+         dwbydVcx284jBphRZrdhxNn+2hZBJzA7I2HiaZjy6hrOlypR7SDwSrVhwjBY1VhRnEHR
+         hT7T9ZgQcEhnHaZuprDs3elOGUyhCR8fqsYxo4gFYhFKNvzr60cQrbuYSRR85tsT2VtK
+         sRtQPTRbK0qt23dMbAYYhqNkOiwj7i7b3Rr5m03kf9/9f8UPe0o0CSo/Kn+vX+OaP5I3
+         8FaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=9LPKxd1nI0ZUtX3abWKWE3c/1njFqcKECDTFnlPGL2o=;
-        b=g2ewYlGwzd6+LDzcjdRGVs/G2ZNcxNVsc+9roYxHN8BqO6sL6NQ1LMqgNwLaO9uR9O
-         881/fVjUpoFOU+Q9vMcEaRVRwDHMsy6cbYjbeHS5GBwxW0ErcYsNQe38Vp9cciQelFi5
-         PP8BDoByvZCOrItRv1D9ScIIm2MelDL95am1mw+oNtHaTBQuJxWs89wZzSW9k0dMt100
-         Y7ZftF4ORQCGOM6lQ5D2mGQVHOEd6sWDW3JpH4fUbYjVp7X/Zp22301WhiBPxRXiq5iS
-         UdmtyLGWvVk9nCY7w5HYz1X+2iFlr7jeGtHeWPlbB68r+cTs9Uaj8LM1suVyRbEnT88z
-         3fEQ==
-X-Gm-Message-State: APjAAAWMSZwpSy/bwYqMaarOgDJc0rUT1u9WJ68ztXBbuEmSX1LbTWkv
-        nE1c5rLq3wWcJ5DS991iWBLZ8g==
-X-Google-Smtp-Source: APXvYqyM2Y0sae+nSGLXKThpQney4UrZWsYqt8jVPmg5YWX93aNmlOJcmKBPnSemkZt8jdJU4q+2Dg==
-X-Received: by 2002:a17:90a:17c4:: with SMTP id q62mr11770806pja.104.1559594353536;
-        Mon, 03 Jun 2019 13:39:13 -0700 (PDT)
-Received: from localhost ([2620:10d:c091:500::1:9fa4])
-        by smtp.gmail.com with ESMTPSA id l21sm15463318pff.40.2019.06.03.13.39.12
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 03 Jun 2019 13:39:12 -0700 (PDT)
-Date:   Mon, 3 Jun 2019 16:39:11 -0400
-From:   Johannes Weiner <hannes@cmpxchg.org>
-To:     Minchan Kim <minchan@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        linux-mm <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-api@vger.kernel.org,
-        Michal Hocko <mhocko@suse.com>,
-        Tim Murray <timmurray@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Brian Geffon <bgeffon@google.com>, jannh@google.com,
-        oleg@redhat.com, christian@brauner.io, oleksandr@redhat.com,
-        hdanton@sina.com
-Subject: Re: [PATCH v1 4/4] mm: introduce MADV_PAGEOUT
-Message-ID: <20190603203911.GA14953@cmpxchg.org>
-References: <20190603053655.127730-1-minchan@kernel.org>
- <20190603053655.127730-5-minchan@kernel.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=C8Ve0xjKXEJqPCX4CqFLywaP30z1QNXLFcyDp7e0Z10=;
+        b=NWpTB4NO9VGLDMD/b5ACs8GucamcxP1ZP4/RjRZtnEYNAL3bZ0Ke4p2W6Z9Q4SLka+
+         ZKDNbGEI26hTPKNw70lMJ1fbfHxIKNvPCexWdN4VOcsjf/f8O5HT7x74spkeHoYKbO8A
+         Ju9zoqDmhnWWeWm8neLb9813ebULMImXkThJJ4OvsygHj/GMlMd+oWjVbO2gZDX457y5
+         j0fTnSlsijSJdmuKYE+L4DwF9Sj8lZzNxpLP6XGW0fblt+3gD3CW4NvLb5tDxBAFHJ4Z
+         u3is1RqYy3jDQo4QM/rwiOvhg/5PLVcPrG2I9Q59YH9GcbktNen6+fWWLAyPdUTR3wgd
+         JyzQ==
+X-Gm-Message-State: APjAAAV86nKNHnRY09Mdnr+540CJi7/WETFFiBRpWp1hmufJXQcCNn/r
+        fLP98ZdyB1z6te6On/7jVoOv1xyOx0z5Yci+pf9DbQ==
+X-Google-Smtp-Source: APXvYqxA2hWGTz0XN0jPUwqb0oSRZbvYot1ZMtOJXi8sVTlK32c0wPKaTR9Jc7yVx5G83r4lZvwyuo99mhs+XtGNMvg=
+X-Received: by 2002:a67:de99:: with SMTP id r25mr13862777vsk.215.1559594386441;
+ Mon, 03 Jun 2019 13:39:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190603053655.127730-5-minchan@kernel.org>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+References: <20190529174318.22424-1-amir73il@gmail.com> <20190529174318.22424-14-amir73il@gmail.com>
+ <CAN-5tyF9OnRsF_dgtx8aUGFB5tUUs=JK1wzXvRGo3za8jfpJdQ@mail.gmail.com> <CAOQ4uxh_0RVus56Ao_tFXCHdM6dsTrk=MsSBs1p7NjX4eJZkbg@mail.gmail.com>
+In-Reply-To: <CAOQ4uxh_0RVus56Ao_tFXCHdM6dsTrk=MsSBs1p7NjX4eJZkbg@mail.gmail.com>
+From:   Olga Kornievskaia <olga.kornievskaia@gmail.com>
+Date:   Mon, 3 Jun 2019 16:39:35 -0400
+Message-ID: <CAN-5tyFMOxjUrzBFf3OE+5P8pnh0Q-ngUWCmU2eFB1WKFyGPQw@mail.gmail.com>
+Subject: Re: [PATCH v3 13/13] vfs: allow copy_file_range to copy across devices
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     "Darrick J . Wong" <darrick.wong@oracle.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Christoph Hellwig <hch@lst.de>,
+        linux-xfs <linux-xfs@vger.kernel.org>,
+        Luis Henriques <lhenriques@suse.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        ceph-devel@vger.kernel.org, linux-nfs <linux-nfs@vger.kernel.org>,
+        CIFS <linux-cifs@vger.kernel.org>,
+        Steve French <stfrench@microsoft.com>,
+        Dave Chinner <dchinner@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jun 03, 2019 at 02:36:55PM +0900, Minchan Kim wrote:
-> When a process expects no accesses to a certain memory range
-> for a long time, it could hint kernel that the pages can be
-> reclaimed instantly but data should be preserved for future use.
-> This could reduce workingset eviction so it ends up increasing
-> performance.
-> 
-> This patch introduces the new MADV_PAGEOUT hint to madvise(2)
-> syscall. MADV_PAGEOUT can be used by a process to mark a memory
-> range as not expected to be used for a long time so that kernel
-> reclaims *any LRU* pages instantly. The hint can help kernel in deciding
-> which pages to evict proactively.
-> 
-> All of error rule is same with MADV_DONTNEED.
-> 
-> Note:
->     This hint works with only private pages(IOW, page_mapcount(page) < 2)
->     because shared page could have more chance to be accessed from other
->     processes sharing the page so that it could cause major fault soon,
->     which is inefficient.
-> 
-> * RFC v2
->  * make reclaim_pages simple via factoring out isolate logic - hannes
-> 
-> * RFCv1
->  * rename from MADV_COLD to MADV_PAGEOUT - hannes
->  * bail out if process is being killed - Hillf
->  * fix reclaim_pages bugs - Hillf
-> 
-> Signed-off-by: Minchan Kim <minchan@kernel.org>
-> ---
->  include/linux/swap.h                   |   1 +
->  include/uapi/asm-generic/mman-common.h |   1 +
->  mm/madvise.c                           | 126 +++++++++++++++++++++++++
->  mm/vmscan.c                            |  34 +++++++
->  4 files changed, 162 insertions(+)
-> 
-> diff --git a/include/linux/swap.h b/include/linux/swap.h
-> index 0ce997edb8bb..063c0c1e112b 100644
-> --- a/include/linux/swap.h
-> +++ b/include/linux/swap.h
-> @@ -365,6 +365,7 @@ extern int vm_swappiness;
->  extern int remove_mapping(struct address_space *mapping, struct page *page);
->  extern unsigned long vm_total_pages;
->  
-> +extern unsigned long reclaim_pages(struct list_head *page_list);
->  #ifdef CONFIG_NUMA
->  extern int node_reclaim_mode;
->  extern int sysctl_min_unmapped_ratio;
-> diff --git a/include/uapi/asm-generic/mman-common.h b/include/uapi/asm-generic/mman-common.h
-> index 1190f4e7f7b9..92e347a89ddc 100644
-> --- a/include/uapi/asm-generic/mman-common.h
-> +++ b/include/uapi/asm-generic/mman-common.h
-> @@ -44,6 +44,7 @@
->  #define MADV_WILLNEED	3		/* will need these pages */
->  #define MADV_DONTNEED	4		/* don't need these pages */
->  #define MADV_COLD	5		/* deactivatie these pages */
-> +#define MADV_PAGEOUT	6		/* reclaim these pages */
->  
->  /* common parameters: try to keep these consistent across architectures */
->  #define MADV_FREE	8		/* free pages only if memory pressure */
-> diff --git a/mm/madvise.c b/mm/madvise.c
-> index ab158766858a..b010249cb8b6 100644
-> --- a/mm/madvise.c
-> +++ b/mm/madvise.c
-> @@ -41,6 +41,7 @@ static int madvise_need_mmap_write(int behavior)
->  	case MADV_WILLNEED:
->  	case MADV_DONTNEED:
->  	case MADV_COLD:
-> +	case MADV_PAGEOUT:
->  	case MADV_FREE:
->  		return 0;
->  	default:
-> @@ -415,6 +416,128 @@ static long madvise_cold(struct vm_area_struct *vma,
->  	return 0;
->  }
->  
-> +static int madvise_pageout_pte_range(pmd_t *pmd, unsigned long addr,
-> +				unsigned long end, struct mm_walk *walk)
-> +{
-> +	pte_t *orig_pte, *pte, ptent;
-> +	spinlock_t *ptl;
-> +	LIST_HEAD(page_list);
-> +	struct page *page;
-> +	int isolated = 0;
-> +	struct vm_area_struct *vma = walk->vma;
-> +	unsigned long next;
-> +
-> +	if (fatal_signal_pending(current))
-> +		return -EINTR;
-> +
-> +	next = pmd_addr_end(addr, end);
-> +	if (pmd_trans_huge(*pmd)) {
-> +		ptl = pmd_trans_huge_lock(pmd, vma);
-> +		if (!ptl)
-> +			return 0;
-> +
-> +		if (is_huge_zero_pmd(*pmd))
-> +			goto huge_unlock;
-> +
-> +		page = pmd_page(*pmd);
-> +		if (page_mapcount(page) > 1)
-> +			goto huge_unlock;
-> +
-> +		if (next - addr != HPAGE_PMD_SIZE) {
-> +			int err;
-> +
-> +			get_page(page);
-> +			spin_unlock(ptl);
-> +			lock_page(page);
-> +			err = split_huge_page(page);
-> +			unlock_page(page);
-> +			put_page(page);
-> +			if (!err)
-> +				goto regular_page;
-> +			return 0;
-> +		}
-> +
-> +		if (isolate_lru_page(page))
-> +			goto huge_unlock;
-> +
-> +		list_add(&page->lru, &page_list);
-> +huge_unlock:
-> +		spin_unlock(ptl);
-> +		reclaim_pages(&page_list);
-> +		return 0;
-> +	}
-> +
-> +	if (pmd_trans_unstable(pmd))
-> +		return 0;
-> +regular_page:
-> +	orig_pte = pte_offset_map_lock(vma->vm_mm, pmd, addr, &ptl);
-> +	for (pte = orig_pte; addr < end; pte++, addr += PAGE_SIZE) {
-> +		ptent = *pte;
-> +		if (!pte_present(ptent))
-> +			continue;
-> +
-> +		page = vm_normal_page(vma, addr, ptent);
-> +		if (!page)
-> +			continue;
-> +
-> +		if (page_mapcount(page) > 1)
-> +			continue;
-> +
-> +		if (isolate_lru_page(page))
-> +			continue;
-> +
-> +		isolated++;
-> +		list_add(&page->lru, &page_list);
-> +		if (isolated >= SWAP_CLUSTER_MAX) {
-> +			pte_unmap_unlock(orig_pte, ptl);
-> +			reclaim_pages(&page_list);
-> +			isolated = 0;
-> +			pte = pte_offset_map_lock(vma->vm_mm, pmd, addr, &ptl);
-> +			orig_pte = pte;
-> +		}
-> +	}
-> +
-> +	pte_unmap_unlock(orig_pte, ptl);
-> +	reclaim_pages(&page_list);
-> +	cond_resched();
-> +
-> +	return 0;
-> +}
-> +
-> +static void madvise_pageout_page_range(struct mmu_gather *tlb,
-> +			     struct vm_area_struct *vma,
-> +			     unsigned long addr, unsigned long end)
-> +{
-> +	struct mm_walk warm_walk = {
-> +		.pmd_entry = madvise_pageout_pte_range,
-> +		.mm = vma->vm_mm,
-> +	};
-> +
-> +	tlb_start_vma(tlb, vma);
-> +	walk_page_range(addr, end, &warm_walk);
-> +	tlb_end_vma(tlb, vma);
-> +}
-> +
-> +
-> +static long madvise_pageout(struct vm_area_struct *vma,
-> +			struct vm_area_struct **prev,
-> +			unsigned long start_addr, unsigned long end_addr)
-> +{
-> +	struct mm_struct *mm = vma->vm_mm;
-> +	struct mmu_gather tlb;
-> +
-> +	*prev = vma;
-> +	if (!can_madv_lru_vma(vma))
-> +		return -EINVAL;
-> +
-> +	lru_add_drain();
-> +	tlb_gather_mmu(&tlb, mm, start_addr, end_addr);
-> +	madvise_pageout_page_range(&tlb, vma, start_addr, end_addr);
-> +	tlb_finish_mmu(&tlb, start_addr, end_addr);
-> +
-> +	return 0;
-> +}
-> +
->  static int madvise_free_pte_range(pmd_t *pmd, unsigned long addr,
->  				unsigned long end, struct mm_walk *walk)
->  
-> @@ -805,6 +928,8 @@ madvise_vma(struct vm_area_struct *vma, struct vm_area_struct **prev,
->  		return madvise_willneed(vma, prev, start, end);
->  	case MADV_COLD:
->  		return madvise_cold(vma, prev, start, end);
-> +	case MADV_PAGEOUT:
-> +		return madvise_pageout(vma, prev, start, end);
->  	case MADV_FREE:
->  	case MADV_DONTNEED:
->  		return madvise_dontneed_free(vma, prev, start, end, behavior);
-> @@ -827,6 +952,7 @@ madvise_behavior_valid(int behavior)
->  	case MADV_DONTNEED:
->  	case MADV_FREE:
->  	case MADV_COLD:
-> +	case MADV_PAGEOUT:
->  #ifdef CONFIG_KSM
->  	case MADV_MERGEABLE:
->  	case MADV_UNMERGEABLE:
-> diff --git a/mm/vmscan.c b/mm/vmscan.c
-> index 56df55e8afcd..2c2cf442db58 100644
-> --- a/mm/vmscan.c
-> +++ b/mm/vmscan.c
-> @@ -2136,6 +2136,40 @@ static void shrink_active_list(unsigned long nr_to_scan,
->  			nr_deactivate, nr_rotated, sc->priority, file);
->  }
->  
-> +unsigned long reclaim_pages(struct list_head *page_list)
-> +{
-> +	unsigned long nr_reclaimed = 0;
-> +	LIST_HEAD(node_page_list);
-> +	struct reclaim_stat dummy_stat;
-> +	struct scan_control sc = {
-> +		.gfp_mask = GFP_KERNEL,
-> +		.priority = DEF_PRIORITY,
-> +		.may_writepage = 1,
-> +		.may_unmap = 1,
-> +		.may_swap = 1,
-> +	};
-> +
-> +	while (!list_empty(page_list)) {
-> +		struct page *page;
-> +
-> +		page = lru_to_page(page_list);
-> +		list_move(&page->lru, &node_page_list);
-> +		nr_reclaimed += shrink_page_list(&node_page_list,
-> +						page_pgdat(page),
-> +						&sc, TTU_IGNORE_ACCESS,
-> +						&dummy_stat, true);
-> +		if (!list_empty(&node_page_list)) {
-> +			struct page *page = lru_to_page(&node_page_list);
-> +
-> +			list_del(&page->lru);
-> +			putback_lru_page(page);
-> +
-> +		}
-> +	}
+On Wed, May 29, 2019 at 5:03 PM Amir Goldstein <amir73il@gmail.com> wrote:
+>
+> On Wed, May 29, 2019 at 11:09 PM Olga Kornievskaia
+> <olga.kornievskaia@gmail.com> wrote:
+> >
+> > On Wed, May 29, 2019 at 1:43 PM Amir Goldstein <amir73il@gmail.com> wrote:
+> > >
+> > > We want to enable cross-filesystem copy_file_range functionality
+> > > where possible, so push the "same superblock only" checks down to
+> > > the individual filesystem callouts so they can make their own
+> > > decisions about cross-superblock copy offload and fallack to
+> > > generic_copy_file_range() for cross-superblock copy.
+> > >
+> > > [Amir] We do not call ->remap_file_range() in case the inodes are not
+> > > on the same sb and do not call ->copy_file_range() in case the inodes
+> > > are not on the same filesystem type.
+> > >
+> > > This changes behavior of the copy_file_range(2) syscall, which will
+> > > now allow cross filesystem in-kernel copy.  CIFS already supports
+> > > cross-superblock copy, between two shares to the same server. This
+> > > functionality will now be available via the copy_file_range(2) syscall.
+> > >
+> > > Cc: Steve French <stfrench@microsoft.com>
+> > > Signed-off-by: Dave Chinner <dchinner@redhat.com>
+> > > Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+> > > Reviewed-by: Darrick J. Wong <darrick.wong@oracle.com>
+> > > ---
+> > >  fs/ceph/file.c    |  4 +++-
+> > >  fs/cifs/cifsfs.c  |  2 +-
+> > >  fs/fuse/file.c    |  5 ++++-
+> > >  fs/nfs/nfs4file.c |  5 ++++-
+> > >  fs/read_write.c   | 20 ++++++++++++++------
+> > >  5 files changed, 26 insertions(+), 10 deletions(-)
+> > >
+> > > diff --git a/fs/ceph/file.c b/fs/ceph/file.c
+> > > index 8a70708e1aca..e9614d686301 100644
+> > > --- a/fs/ceph/file.c
+> > > +++ b/fs/ceph/file.c
+> > > @@ -1909,6 +1909,8 @@ static ssize_t __ceph_copy_file_range(struct file *src_file, loff_t src_off,
+> > >
+> > >         if (src_inode == dst_inode)
+> > >                 return -EINVAL;
+> > > +       if (src_inode->i_sb != dst_inode->i_sb)
+> > > +               return -EXDEV;
+> > >         if (ceph_snap(dst_inode) != CEPH_NOSNAP)
+> > >                 return -EROFS;
+> > >
+> > > @@ -2126,7 +2128,7 @@ static ssize_t ceph_copy_file_range(struct file *src_file, loff_t src_off,
+> > >         ret = __ceph_copy_file_range(src_file, src_off, dst_file, dst_off,
+> > >                                      len, flags);
+> > >
+> > > -       if (ret == -EOPNOTSUPP)
+> > > +       if (ret == -EOPNOTSUPP || ret == -EXDEV)
+> > >                 ret = generic_copy_file_range(src_file, src_off, dst_file,
+> > >                                               dst_off, len, flags);
+> > >         return ret;
+> > > diff --git a/fs/cifs/cifsfs.c b/fs/cifs/cifsfs.c
+> > > index ab6c5c24146d..83956452c108 100644
+> > > --- a/fs/cifs/cifsfs.c
+> > > +++ b/fs/cifs/cifsfs.c
+> > > @@ -1154,7 +1154,7 @@ static ssize_t cifs_copy_file_range(struct file *src_file, loff_t off,
+> > >                                         len, flags);
+> > >         free_xid(xid);
+> > >
+> > > -       if (rc == -EOPNOTSUPP)
+> > > +       if (rc == -EOPNOTSUPP || rc == -EXDEV)
+> > >                 rc = generic_copy_file_range(src_file, off, dst_file,
+> > >                                              destoff, len, flags);
+> > >         return rc;
+> > > diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+> > > index 7f33d68f66d9..eab00cd089e8 100644
+> > > --- a/fs/fuse/file.c
+> > > +++ b/fs/fuse/file.c
+> > > @@ -3126,6 +3126,9 @@ static ssize_t __fuse_copy_file_range(struct file *file_in, loff_t pos_in,
+> > >         if (fc->no_copy_file_range)
+> > >                 return -EOPNOTSUPP;
+> > >
+> > > +       if (file_inode(file_in)->i_sb != file_inode(file_out)->i_sb)
+> > > +               return -EXDEV;
+> > > +
+> > >         inode_lock(inode_out);
+> > >
+> > >         err = file_modified(file_out);
+> > > @@ -3187,7 +3190,7 @@ static ssize_t fuse_copy_file_range(struct file *src_file, loff_t src_off,
+> > >         ret = __fuse_copy_file_range(src_file, src_off, dst_file, dst_off,
+> > >                                      len, flags);
+> > >
+> > > -       if (ret == -EOPNOTSUPP)
+> > > +       if (ret == -EOPNOTSUPP || ret == -EXDEV)
+> > >                 ret = generic_copy_file_range(src_file, src_off, dst_file,
+> > >                                               dst_off, len, flags);
+> > >         return ret;
+> > > diff --git a/fs/nfs/nfs4file.c b/fs/nfs/nfs4file.c
+> > > index 4842f3ab3161..f4157eb1f69d 100644
+> > > --- a/fs/nfs/nfs4file.c
+> > > +++ b/fs/nfs/nfs4file.c
+> > > @@ -133,6 +133,9 @@ static ssize_t __nfs4_copy_file_range(struct file *file_in, loff_t pos_in,
+> > >                                       struct file *file_out, loff_t pos_out,
+> > >                                       size_t count, unsigned int flags)
+> > >  {
+> > > +       /* Only offload copy if superblock is the same */
+> > > +       if (file_inode(file_in)->i_sb != file_inode(file_out)->i_sb)
+> > > +               return -EXDEV;
+> > >         if (!nfs_server_capable(file_inode(file_out), NFS_CAP_COPY))
+> > >                 return -EOPNOTSUPP;
+> > >         if (file_inode(file_in) == file_inode(file_out))
+> > > @@ -148,7 +151,7 @@ static ssize_t nfs4_copy_file_range(struct file *file_in, loff_t pos_in,
+> > >
+> > >         ret = __nfs4_copy_file_range(file_in, pos_in, file_out, pos_out, count,
+> > >                                      flags);
+> > > -       if (ret == -EOPNOTSUPP)
+> > > +       if (ret == -EOPNOTSUPP || ret == -EXDEV)
+> > >                 ret = generic_copy_file_range(file_in, pos_in, file_out,
+> > >                                               pos_out, count, flags);
+> > >         return ret;
+> > > diff --git a/fs/read_write.c b/fs/read_write.c
+> > > index 706ea5f276a7..d8930bb735cb 100644
+> > > --- a/fs/read_write.c
+> > > +++ b/fs/read_write.c
+> > > @@ -1618,7 +1618,18 @@ static ssize_t do_copy_file_range(struct file *file_in, loff_t pos_in,
+> > >                                   struct file *file_out, loff_t pos_out,
+> > >                                   size_t len, unsigned int flags)
+> > >  {
+> > > -       if (file_out->f_op->copy_file_range)
+> > > +       /*
+> > > +        * Although we now allow filesystems to handle cross sb copy, passing
+> > > +        * an inode of the wrong filesystem type to filesystem operation can
+> > > +        * often result in an attempt to dereference the wrong concrete inode
+> > > +        * struct, so avoid doing that until we really have a good reason.
+> > > +        * The incentive for passing inode from different sb to filesystem is
+> > > +        * NFS cross server copy and for that use case, enforcing same
+> > > +        * filesystem type is acceptable.
+> > > +        */
+> > > +       if (file_out->f_op->copy_file_range &&
+> > > +           file_inode(file_in)->i_sb->s_type ==
+> > > +           file_inode(file_out)->i_sb->s_type)
+> >
+> > While I'm not sure how much I care (vs wanting at least this much of
+> > cross device copy available) but in NFS there are several NFS
+> > file_system_type defined which would disallow a copy between them
+> > (like nfs4_remote_fs_type, nfs4_remote_referral_fs_type, and good old
+> > nfs4_fs_type).
+> >
+> > One idea would be to push the check into the filesystems themselves.
+> >
+>
+> That will require more delicate patches to filesystems.
+> Are you saying there is a *good* reason to do that now?
+> Is nfs copy offload expected to be between different types of nfs
+> file_system_type?
 
-Awesome, this is way more readable now. Thanks for the cleanup!
+So I had to setup a test case to perhaps give you a good reason. An
+NFS server might have an export that's a referral to another server.
+In this case the NFS client gets an ERR_MOVED and would mount the 2nd
+server. It shows up as a submount and it would have a different file
+system type. Having that check would prevent the NFS client from doing
+an NFS copy_file_range between those 2 servers and instead VFS would
+fallback to the generic_copy_file_range.
 
-Regarding the loop, for the vast majority of instances, pages on
-page_list will actually be from the same node. It would make sense to
-do batching here and collect pages until last_pgdat != pgdat. That
-should reduce the number of tlb flushes and memcg uncharge flushes in
-shrink_page_list().
+So why is hard(er) to push the check that ->s_types are the same for
+the input and output files into the filesystems like it's done in this
+patch with the ->i_sb checks?
