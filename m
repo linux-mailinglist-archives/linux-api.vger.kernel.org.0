@@ -2,102 +2,190 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 55E72337E0
-	for <lists+linux-api@lfdr.de>; Mon,  3 Jun 2019 20:32:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5F60339A9
+	for <lists+linux-api@lfdr.de>; Mon,  3 Jun 2019 22:24:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726623AbfFCSb4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 3 Jun 2019 14:31:56 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:39616 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726136AbfFCSbz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 3 Jun 2019 14:31:55 -0400
-Received: by mail-oi1-f193.google.com with SMTP id m202so2470437oig.6
-        for <linux-api@vger.kernel.org>; Mon, 03 Jun 2019 11:31:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=landley-net.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=JB7G7a3obPccO07RyvNY8mElks92DaU5NY5QKwWTZvQ=;
-        b=lE/gBTu5gNk+nG3gMkLC5L1qqMeFZke1tNjNI5xgMMMUPlBG3ZAzppxMiEuBOtKiMI
-         Y6xOk9eUEgPGAqGCVGFZpHU68PsLFNawXTBrG55HWus8sEfa/pbs2FkPH3l9y2eEvDvI
-         iGvFo6MBYyAPDhEBFQ/4NNauvhmdicFzBSZLXBRHikKFhbpLDxXobG2dm7zdUMcMLlR4
-         bLxdEBF7g9pTfKNAUVZBPWJPnMha7n3pUfVeRzY2e9a5BSDSaj0E6B5Lem8uEQQeVdh+
-         wXJNvLH9D4lzgEpF3Pu7V+6V4lfAyFJbr7/0knZSFvSon08cblLXIUE+SrdvBuzGJp3y
-         AyZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=JB7G7a3obPccO07RyvNY8mElks92DaU5NY5QKwWTZvQ=;
-        b=NGGQpLygp+NOhxOfbiB4YjTpHMmSjcv3HuB5IvS092rPWvDUf0HaXYo82+st4L3HjH
-         0wfUK8W0G+qGeKu3vu+y38bafFZrLWbIVFBMjxUvbIO6hDmSEgutbiYSFjTuGYYgk/g5
-         zOGzC8TD1XS30/QDchcZISHFyAZVM9dPggqOVZZPsS7+2o/T67wmPmcq0dDbHw/4K6l9
-         xsU4hwNRlZzUmU22SJesAK6mc5++6f7YLSuHSDErKU4X+gPCOZXwM7m2Xs1M0U1Br8nn
-         HzLHodMa39yzaP5/Ez7r7M0W0i9/7rZbQ1Vt615RLG+DRBTPUe8k223uCd5ZlIUjbmy/
-         J3Cw==
-X-Gm-Message-State: APjAAAXd06YaAywr/j8QRp9KfkcEH+TJvK3LACBMcKh7ly35s0KmMz5H
-        jnXzkglbI7KiTzu6C8LgsNtSUQ==
-X-Google-Smtp-Source: APXvYqx/JQHKW1RVtJywUChZiZhbYIWjyWjyP52wifJ5hVzfHkQZ9dKculi7hqOvLpAffmvtGewfWA==
-X-Received: by 2002:aca:c382:: with SMTP id t124mr1900442oif.9.1559586715364;
-        Mon, 03 Jun 2019 11:31:55 -0700 (PDT)
-Received: from [192.168.1.5] (072-182-052-210.res.spectrum.com. [72.182.52.210])
-        by smtp.googlemail.com with ESMTPSA id b127sm6172046oih.43.2019.06.03.11.31.54
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 03 Jun 2019 11:31:54 -0700 (PDT)
-Subject: Re: [PATCH v4 0/3] initramfs: add support for xattrs in the initial
- ram disk
-To:     Roberto Sassu <roberto.sassu@huawei.com>, viro@zeniv.linux.org.uk
-Cc:     linux-security-module@vger.kernel.org,
-        linux-integrity@vger.kernel.org, initramfs@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, bug-cpio@gnu.org,
-        zohar@linux.vnet.ibm.com, silviu.vlasceanu@huawei.com,
-        dmitry.kasatkin@huawei.com, takondra@cisco.com, kamensky@cisco.com,
-        hpa@zytor.com, arnd@arndb.de, james.w.mcmechan@gmail.com,
-        niveditas98@gmail.com
-References: <20190523121803.21638-1-roberto.sassu@huawei.com>
- <cf9d08ca-74c7-c945-5bf9-7c3495907d1e@huawei.com>
-From:   Rob Landley <rob@landley.net>
-Message-ID: <541e9ea1-024f-5c22-0b58-f8692e6c1eb1@landley.net>
-Date:   Mon, 3 Jun 2019 13:32:53 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1726033AbfFCUYr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 3 Jun 2019 16:24:47 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51268 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725956AbfFCUYq (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 3 Jun 2019 16:24:46 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 697D9306E33B;
+        Mon,  3 Jun 2019 20:24:39 +0000 (UTC)
+Received: from x2.localnet (ovpn-122-112.rdu2.redhat.com [10.10.122.112])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id DC03E19936;
+        Mon,  3 Jun 2019 20:24:23 +0000 (UTC)
+From:   Steve Grubb <sgrubb@redhat.com>
+To:     Paul Moore <paul@paul-moore.com>
+Cc:     Richard Guy Briggs <rgb@redhat.com>,
+        Tycho Andersen <tycho@tycho.ws>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
+        Linux-Audit Mailing List <linux-audit@redhat.com>,
+        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
+        omosnace@redhat.com, dhowells@redhat.com, simo@redhat.com,
+        Eric Paris <eparis@parisplace.org>, ebiederm@xmission.com,
+        nhorman@tuxdriver.com
+Subject: Re: [PATCH ghak90 V6 02/10] audit: add container id
+Date:   Mon, 03 Jun 2019 16:24:23 -0400
+Message-ID: <97478582.yP93vGJyqj@x2>
+Organization: Red Hat
+In-Reply-To: <CAHC9VhTrM1op_EH=YAn9pU8dMOr=jB-Ph4SxFeqGFskwLmFnCA@mail.gmail.com>
+References: <20190529145742.GA8959@cisco> <20190531002058.tsddah4edcazkuzs@madcap2.tricolour.ca> <CAHC9VhTrM1op_EH=YAn9pU8dMOr=jB-Ph4SxFeqGFskwLmFnCA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <cf9d08ca-74c7-c945-5bf9-7c3495907d1e@huawei.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.49]); Mon, 03 Jun 2019 20:24:46 +0000 (UTC)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 6/3/19 4:31 AM, Roberto Sassu wrote:
->> This patch set aims at solving the following use case: appraise files from
->> the initial ram disk. To do that, IMA checks the signature/hash from the
->> security.ima xattr. Unfortunately, this use case cannot be implemented
->> currently, as the CPIO format does not support xattrs.
->>
->> This proposal consists in including file metadata as additional files named
->> METADATA!!!, for each file added to the ram disk. The CPIO parser in the
->> kernel recognizes these special files from the file name, and calls the
->> appropriate parser to add metadata to the previously extracted file. It has
->> been proposed to use bit 17:16 of the file mode as a way to recognize files
->> with metadata, but both the kernel and the cpio tool declare the file mode
->> as unsigned short.
->
-> Any opinion on this patch set?
+Hello Paul,
+
+I am curious about this. We seemed to be close to getting this patch pulled 
+in. A lot of people are waiting for it. Can you summarize what you think the 
+patches need and who we think needs to do it? I'm lost. Does LXC people need 
+to propose something? Does Richard? Someone else? Who's got the ball?
+
+Thank,
+-Steve
+
+On Friday, May 31, 2019 8:44:45 AM EDT Paul Moore wrote:
+> On Thu, May 30, 2019 at 8:21 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > On 2019-05-30 19:26, Paul Moore wrote:
+> > > On Thu, May 30, 2019 at 5:29 PM Tycho Andersen <tycho@tycho.ws> wrote:
+> > > > On Thu, May 30, 2019 at 03:29:32PM -0400, Paul Moore wrote:
+> > > > > [REMINDER: It is an "*audit* container ID" and not a general
+> > > > > "container ID" ;)  Smiley aside, I'm not kidding about that part.]
+> > > > 
+> > > > This sort of seems like a distinction without a difference;
+> > > > presumably
+> > > > audit is going to want to differentiate between everything that
+> > > > people
+> > > > in userspace call a container. So you'll have to support all this
+> > > > insanity anyway, even if it's "not a container ID".
+> > > 
+> > > That's not quite right.  Audit doesn't care about what a container is,
+> > > or is not, it also doesn't care if the "audit container ID" actually
+> > > matches the ID used by the container engine in userspace and I think
+> > > that is a very important line to draw.  Audit is simply given a value
+> > > which it calls the "audit container ID", it ensures that the value is
+> > > inherited appropriately (e.g. children inherit their parent's audit
+> > > container ID), and it uses the value in audit records to provide some
+> > > additional context for log analysis.  The distinction isn't limited to
+> > > the value itself, but also to how it is used; it is an "audit
+> > > container ID" and not a "container ID" because this value is
+> > > exclusively for use by the audit subsystem.  We are very intentionally
+> > > not adding a generic container ID to the kernel.  If the kernel does
+> > > ever grow a general purpose container ID we will be one of the first
+> > > ones in line to make use of it, but we are not going to be the ones to
+> > > generically add containers to the kernel.  Enough people already hate
+> > > audit ;)
+> > > 
+> > > > > I'm not interested in supporting/merging something that isn't
+> > > > > useful;
+> > > > > if this doesn't work for your use case then we need to figure out
+> > > > > what
+> > > > > would work.  It sounds like nested containers are much more common
+> > > > > in
+> > > > > the lxc world, can you elaborate a bit more on this?
+> > > > > 
+> > > > > As far as the possible solutions you mention above, I'm not sure I
+> > > > > like the per-userns audit container IDs, I'd much rather just emit
+> > > > > the
+> > > > > necessary tracking information via the audit record stream and let
+> > > > > the
+> > > > > log analysis tools figure it out.  However, the bigger question is
+> > > > > how
+> > > > > to limit (re)setting the audit container ID when you are in a
+> > > > > non-init
+> > > > > userns.  For reasons already mentioned, using capable() is a non
+> > > > > starter for everything but the initial userns, and using
+> > > > > ns_capable()
+> > > > > is equally poor as it essentially allows any userns the ability to
+> > > > > munge it's audit container ID (obviously not good).  It appears we
+> > > > > need a different method for controlling access to the audit
+> > > > > container
+> > > > > ID.
+> > > > 
+> > > > One option would be to make it a string, and have it be append only.
+> > > > That should be safe with no checks.
+> > > > 
+> > > > I know there was a long thread about what type to make this thing. I
+> > > > think you could accomplish the append-only-ness with a u64 if you had
+> > > > some rule about only allowing setting lower order bits than those
+> > > > that
+> > > > are already set. With 4 bits for simplicity:
+> > > > 
+> > > > 1100         # initial container id
+> > > > 1100 -> 1011 # not allowed
+> > > > 1100 -> 1101 # allowed, but now 1101 is set in stone since there are
+> > > > 
+> > > >              # no lower order bits left
+> > > > 
+> > > > There are probably fancier ways to do it if you actually understand
+> > > > math :)
+> > >  
+> > >  ;)
+> > >  
+> > > > Since userns nesting is limited to 32 levels (right now, IIRC), and
+> > > > you have 64 bits, this might be reasonable. You could just teach
+> > > > container engines to use the first say N bits for themselves, with a
+> > > > 1
+> > > > bit for the barrier at the end.
+> > > 
+> > > I like the creativity, but I worry that at some point these
+> > > limitations are going to be raised (limits have a funny way of doing
+> > > that over time) and we will be in trouble.  I say "trouble" because I
+> > > want to be able to quickly do an audit container ID comparison and
+> > > we're going to pay a penalty for these larger values (we'll need this
+> > > when we add multiple auditd support and the requisite record routing).
+> > > 
+> > > Thinking about this makes me also realize we probably need to think a
+> > > bit longer about audit container ID conflicts between orchestrators.
+> > > Right now we just take the value that is given to us by the
+> > > orchestrator, but if we want to allow multiple container orchestrators
+> > > to work without some form of cooperation in userspace (I think we have
+> > > to assume the orchestrators will not talk to each other) we likely
+> > > need to have some way to block reuse of an audit container ID.  We
+> > > would either need to prevent the orchestrator from explicitly setting
+> > > an audit container ID to a currently in use value, or instead generate
+> > > the audit container ID in the kernel upon an event triggered by the
+> > > orchestrator (e.g. a write to a /proc file).  I suspect we should
+> > > start looking at the idr code, I think we will need to make use of it.
+> > 
+> > My first reaction to using the IDR code is that once an idr is given up,
+> > it can be reused.  I suppose we request IDRs and then never give them up
+> > to avoid reuse...
 > 
-> Thanks
+> I'm not sure we ever what to guarantee that an audit container ID
+> won't be reused during the lifetime of the system, it is a discrete
+> integer after all.  What I think we do want to guarantee is that we
+> won't allow an unintentional audit container ID collision between
+> different orchestrators; if a single orchestrator wants to reuse an
+> audit container ID then that is its choice.
 > 
-> Roberto
+> > I already had some ideas of preventing an existing ID from being reused,
+> 
+> Cool.  I only made the idr suggestion since it is used for PIDs and
+> solves a very similar problem.
+> 
+> > but that makes the practice of some container engines injecting
+> > processes into existing containers difficult if not impossible.
+> 
+> Yes, we'll need some provision to indicate which orchestrator
+> "controls" that particular audit container ID, and allow that
+> orchestrator to reuse that particular audit container ID (until all
+> those containers disappear and the audit container ID is given back to
+> the pool).
 
-Sorry, I've had the window open since you posted it but haven't gotten around to
-it. I'll try to build it later today.
 
-It does look interesting, and I have no objections to the basic approach. I
-should be able to add support to toybox cpio over a weekend once I've got the
-kernel doing it to test against.
 
-Rob
+
