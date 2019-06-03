@@ -2,190 +2,138 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E5F60339A9
-	for <lists+linux-api@lfdr.de>; Mon,  3 Jun 2019 22:24:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B94CE339C7
+	for <lists+linux-api@lfdr.de>; Mon,  3 Jun 2019 22:32:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726033AbfFCUYr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 3 Jun 2019 16:24:47 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51268 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725956AbfFCUYq (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 3 Jun 2019 16:24:46 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 697D9306E33B;
-        Mon,  3 Jun 2019 20:24:39 +0000 (UTC)
-Received: from x2.localnet (ovpn-122-112.rdu2.redhat.com [10.10.122.112])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id DC03E19936;
-        Mon,  3 Jun 2019 20:24:23 +0000 (UTC)
-From:   Steve Grubb <sgrubb@redhat.com>
-To:     Paul Moore <paul@paul-moore.com>
-Cc:     Richard Guy Briggs <rgb@redhat.com>,
-        Tycho Andersen <tycho@tycho.ws>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
-        Linux-Audit Mailing List <linux-audit@redhat.com>,
-        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
-        omosnace@redhat.com, dhowells@redhat.com, simo@redhat.com,
-        Eric Paris <eparis@parisplace.org>, ebiederm@xmission.com,
-        nhorman@tuxdriver.com
-Subject: Re: [PATCH ghak90 V6 02/10] audit: add container id
-Date:   Mon, 03 Jun 2019 16:24:23 -0400
-Message-ID: <97478582.yP93vGJyqj@x2>
-Organization: Red Hat
-In-Reply-To: <CAHC9VhTrM1op_EH=YAn9pU8dMOr=jB-Ph4SxFeqGFskwLmFnCA@mail.gmail.com>
-References: <20190529145742.GA8959@cisco> <20190531002058.tsddah4edcazkuzs@madcap2.tricolour.ca> <CAHC9VhTrM1op_EH=YAn9pU8dMOr=jB-Ph4SxFeqGFskwLmFnCA@mail.gmail.com>
+        id S1726382AbfFCUcg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 3 Jun 2019 16:32:36 -0400
+Received: from mx2.suse.de ([195.135.220.15]:35232 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726163AbfFCUcf (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 3 Jun 2019 16:32:35 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 633F7ACF8;
+        Mon,  3 Jun 2019 20:32:33 +0000 (UTC)
+Date:   Mon, 3 Jun 2019 22:32:30 +0200
+From:   Michal Hocko <mhocko@kernel.org>
+To:     Johannes Weiner <hannes@cmpxchg.org>
+Cc:     Minchan Kim <minchan@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-mm <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-api@vger.kernel.org,
+        Tim Murray <timmurray@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Daniel Colascione <dancol@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Brian Geffon <bgeffon@google.com>, jannh@google.com,
+        oleg@redhat.com, christian@brauner.io, oleksandr@redhat.com,
+        hdanton@sina.com
+Subject: Re: [RFCv2 1/6] mm: introduce MADV_COLD
+Message-ID: <20190603203230.GB22799@dhcp22.suse.cz>
+References: <20190531064313.193437-1-minchan@kernel.org>
+ <20190531064313.193437-2-minchan@kernel.org>
+ <20190531084752.GI6896@dhcp22.suse.cz>
+ <20190531133904.GC195463@google.com>
+ <20190531140332.GT6896@dhcp22.suse.cz>
+ <20190531143407.GB216592@google.com>
+ <20190603071607.GB4531@dhcp22.suse.cz>
+ <20190603172717.GA30363@cmpxchg.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.49]); Mon, 03 Jun 2019 20:24:46 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190603172717.GA30363@cmpxchg.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hello Paul,
-
-I am curious about this. We seemed to be close to getting this patch pulled 
-in. A lot of people are waiting for it. Can you summarize what you think the 
-patches need and who we think needs to do it? I'm lost. Does LXC people need 
-to propose something? Does Richard? Someone else? Who's got the ball?
-
-Thank,
--Steve
-
-On Friday, May 31, 2019 8:44:45 AM EDT Paul Moore wrote:
-> On Thu, May 30, 2019 at 8:21 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > On 2019-05-30 19:26, Paul Moore wrote:
-> > > On Thu, May 30, 2019 at 5:29 PM Tycho Andersen <tycho@tycho.ws> wrote:
-> > > > On Thu, May 30, 2019 at 03:29:32PM -0400, Paul Moore wrote:
-> > > > > [REMINDER: It is an "*audit* container ID" and not a general
-> > > > > "container ID" ;)  Smiley aside, I'm not kidding about that part.]
-> > > > 
-> > > > This sort of seems like a distinction without a difference;
-> > > > presumably
-> > > > audit is going to want to differentiate between everything that
-> > > > people
-> > > > in userspace call a container. So you'll have to support all this
-> > > > insanity anyway, even if it's "not a container ID".
-> > > 
-> > > That's not quite right.  Audit doesn't care about what a container is,
-> > > or is not, it also doesn't care if the "audit container ID" actually
-> > > matches the ID used by the container engine in userspace and I think
-> > > that is a very important line to draw.  Audit is simply given a value
-> > > which it calls the "audit container ID", it ensures that the value is
-> > > inherited appropriately (e.g. children inherit their parent's audit
-> > > container ID), and it uses the value in audit records to provide some
-> > > additional context for log analysis.  The distinction isn't limited to
-> > > the value itself, but also to how it is used; it is an "audit
-> > > container ID" and not a "container ID" because this value is
-> > > exclusively for use by the audit subsystem.  We are very intentionally
-> > > not adding a generic container ID to the kernel.  If the kernel does
-> > > ever grow a general purpose container ID we will be one of the first
-> > > ones in line to make use of it, but we are not going to be the ones to
-> > > generically add containers to the kernel.  Enough people already hate
-> > > audit ;)
-> > > 
-> > > > > I'm not interested in supporting/merging something that isn't
-> > > > > useful;
-> > > > > if this doesn't work for your use case then we need to figure out
-> > > > > what
-> > > > > would work.  It sounds like nested containers are much more common
-> > > > > in
-> > > > > the lxc world, can you elaborate a bit more on this?
+On Mon 03-06-19 13:27:17, Johannes Weiner wrote:
+> On Mon, Jun 03, 2019 at 09:16:07AM +0200, Michal Hocko wrote:
+> > On Fri 31-05-19 23:34:07, Minchan Kim wrote:
+> > > On Fri, May 31, 2019 at 04:03:32PM +0200, Michal Hocko wrote:
+> > > > On Fri 31-05-19 22:39:04, Minchan Kim wrote:
+> > > > > On Fri, May 31, 2019 at 10:47:52AM +0200, Michal Hocko wrote:
+> > > > > > On Fri 31-05-19 15:43:08, Minchan Kim wrote:
+> > > > > > > When a process expects no accesses to a certain memory range, it could
+> > > > > > > give a hint to kernel that the pages can be reclaimed when memory pressure
+> > > > > > > happens but data should be preserved for future use.  This could reduce
+> > > > > > > workingset eviction so it ends up increasing performance.
+> > > > > > > 
+> > > > > > > This patch introduces the new MADV_COLD hint to madvise(2) syscall.
+> > > > > > > MADV_COLD can be used by a process to mark a memory range as not expected
+> > > > > > > to be used in the near future. The hint can help kernel in deciding which
+> > > > > > > pages to evict early during memory pressure.
+> > > > > > > 
+> > > > > > > Internally, it works via deactivating pages from active list to inactive's
+> > > > > > > head if the page is private because inactive list could be full of
+> > > > > > > used-once pages which are first candidate for the reclaiming and that's a
+> > > > > > > reason why MADV_FREE move pages to head of inactive LRU list. Therefore,
+> > > > > > > if the memory pressure happens, they will be reclaimed earlier than other
+> > > > > > > active pages unless there is no access until the time.
+> > > > > > 
+> > > > > > [I am intentionally not looking at the implementation because below
+> > > > > > points should be clear from the changelog - sorry about nagging ;)]
+> > > > > > 
+> > > > > > What kind of pages can be deactivated? Anonymous/File backed.
+> > > > > > Private/shared? If shared, are there any restrictions?
 > > > > > 
-> > > > > As far as the possible solutions you mention above, I'm not sure I
-> > > > > like the per-userns audit container IDs, I'd much rather just emit
-> > > > > the
-> > > > > necessary tracking information via the audit record stream and let
-> > > > > the
-> > > > > log analysis tools figure it out.  However, the bigger question is
-> > > > > how
-> > > > > to limit (re)setting the audit container ID when you are in a
-> > > > > non-init
-> > > > > userns.  For reasons already mentioned, using capable() is a non
-> > > > > starter for everything but the initial userns, and using
-> > > > > ns_capable()
-> > > > > is equally poor as it essentially allows any userns the ability to
-> > > > > munge it's audit container ID (obviously not good).  It appears we
-> > > > > need a different method for controlling access to the audit
-> > > > > container
-> > > > > ID.
+> > > > > Both file and private pages could be deactived from each active LRU
+> > > > > to each inactive LRU if the page has one map_count. In other words,
+> > > > > 
+> > > > >     if (page_mapcount(page) <= 1)
+> > > > >         deactivate_page(page);
 > > > > 
-> > > > One option would be to make it a string, and have it be append only.
-> > > > That should be safe with no checks.
-> > > > 
-> > > > I know there was a long thread about what type to make this thing. I
-> > > > think you could accomplish the append-only-ness with a u64 if you had
-> > > > some rule about only allowing setting lower order bits than those
-> > > > that
-> > > > are already set. With 4 bits for simplicity:
-> > > > 
-> > > > 1100         # initial container id
-> > > > 1100 -> 1011 # not allowed
-> > > > 1100 -> 1101 # allowed, but now 1101 is set in stone since there are
-> > > > 
-> > > >              # no lower order bits left
-> > > > 
-> > > > There are probably fancier ways to do it if you actually understand
-> > > > math :)
-> > >  
-> > >  ;)
-> > >  
-> > > > Since userns nesting is limited to 32 levels (right now, IIRC), and
-> > > > you have 64 bits, this might be reasonable. You could just teach
-> > > > container engines to use the first say N bits for themselves, with a
-> > > > 1
-> > > > bit for the barrier at the end.
+> > > > Why do we restrict to pages that are single mapped?
 > > > 
-> > > I like the creativity, but I worry that at some point these
-> > > limitations are going to be raised (limits have a funny way of doing
-> > > that over time) and we will be in trouble.  I say "trouble" because I
-> > > want to be able to quickly do an audit container ID comparison and
-> > > we're going to pay a penalty for these larger values (we'll need this
-> > > when we add multiple auditd support and the requisite record routing).
-> > > 
-> > > Thinking about this makes me also realize we probably need to think a
-> > > bit longer about audit container ID conflicts between orchestrators.
-> > > Right now we just take the value that is given to us by the
-> > > orchestrator, but if we want to allow multiple container orchestrators
-> > > to work without some form of cooperation in userspace (I think we have
-> > > to assume the orchestrators will not talk to each other) we likely
-> > > need to have some way to block reuse of an audit container ID.  We
-> > > would either need to prevent the orchestrator from explicitly setting
-> > > an audit container ID to a currently in use value, or instead generate
-> > > the audit container ID in the kernel upon an event triggered by the
-> > > orchestrator (e.g. a write to a /proc file).  I suspect we should
-> > > start looking at the idr code, I think we will need to make use of it.
+> > > Because page table in one of process shared the page would have access bit
+> > > so finally we couldn't reclaim the page. The more process it is shared,
+> > > the more fail to reclaim.
 > > 
-> > My first reaction to using the IDR code is that once an idr is given up,
-> > it can be reused.  I suppose we request IDRs and then never give them up
-> > to avoid reuse...
+> > So what? In other words why should it be restricted solely based on the
+> > map count. I can see a reason to restrict based on the access
+> > permissions because we do not want to simplify all sorts of side channel
+> > attacks but memory reclaim is capable of reclaiming shared pages and so
+> > far I haven't heard any sound argument why madvise should skip those.
+> > Again if there are any reasons, then document them in the changelog.
 > 
-> I'm not sure we ever what to guarantee that an audit container ID
-> won't be reused during the lifetime of the system, it is a discrete
-> integer after all.  What I think we do want to guarantee is that we
-> won't allow an unintentional audit container ID collision between
-> different orchestrators; if a single orchestrator wants to reuse an
-> audit container ID then that is its choice.
+> I think it makes sense. It could be explained, but it also follows
+> established madvise semantics, and I'm not sure it's necessarily
+> Minchan's job to re-iterate those.
 > 
-> > I already had some ideas of preventing an existing ID from being reused,
+> Sharing isn't exactly transparent to userspace. The kernel does COW,
+> ksm etc. When you madvise, you can really only speak for your own
+> reference to that memory - "*I* am not using this."
 > 
-> Cool.  I only made the idr suggestion since it is used for PIDs and
-> solves a very similar problem.
-> 
-> > but that makes the practice of some container engines injecting
-> > processes into existing containers difficult if not impossible.
-> 
-> Yes, we'll need some provision to indicate which orchestrator
-> "controls" that particular audit container ID, and allow that
-> orchestrator to reuse that particular audit container ID (until all
-> those containers disappear and the audit container ID is given back to
-> the pool).
+> This is in line with other madvise calls: MADV_DONTNEED clears the
+> local page table entries and drops the corresponding references, so
+> shared pages won't get freed. MADV_FREE clears the pte dirty bit and
+> also has explicit mapcount checks before clearing PG_dirty, so again
+> shared pages don't get freed.
 
+Right, being consistent with other madvise syscalls is certainly a way
+to go. And I am not pushing one way or another, I just want this to be
+documented with a reasoning behind. Consistency is certainly an argument
+to use.
 
+On the other hand these non-destructive madvise operations are quite
+different and the shared policy might differ as a result as well. We are
+aging objects rather than destroying them after all. Being able to age
+a pagecache with a sufficient privileges sounds like a useful usecase to
+me. In other words you are able to cause the same effect indirectly
+without the madvise operation so it kinda makes sense to allow it in a
+more sophisticated way.
 
-
+That being said, madvise is just a _hint_ and the kernel will be always
+free to ignore it so the future implementation might change so we can
+start simple and consistent with existing MADV_$FOO operations now and
+extend later on. But let's document the intention in the changelog and
+make the decision clear. I am sorry to be so anal about this but I have
+seen so many ad-hoc policies that were undocumented and it was so hard
+to guess when revisiting later on and make some sense of it.
+-- 
+Michal Hocko
+SUSE Labs
