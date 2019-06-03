@@ -2,75 +2,151 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B7FA332CC
-	for <lists+linux-api@lfdr.de>; Mon,  3 Jun 2019 16:56:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4373332F5
+	for <lists+linux-api@lfdr.de>; Mon,  3 Jun 2019 17:00:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729048AbfFCO4l (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 3 Jun 2019 10:56:41 -0400
-Received: from relay.sw.ru ([185.231.240.75]:35872 "EHLO relay.sw.ru"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728956AbfFCO4l (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 3 Jun 2019 10:56:41 -0400
-Received: from [172.16.25.169]
-        by relay.sw.ru with esmtp (Exim 4.91)
-        (envelope-from <ktkhai@virtuozzo.com>)
-        id 1hXoO0-0004bx-Na; Mon, 03 Jun 2019 17:56:32 +0300
-Subject: Re: [PATCH v2 0/7] mm: process_vm_mmap() -- syscall for duplication a
- process mapping
-From:   Kirill Tkhai <ktkhai@virtuozzo.com>
-To:     "Kirill A. Shutemov" <kirill@shutemov.name>
-Cc:     akpm@linux-foundation.org, dan.j.williams@intel.com,
-        mhocko@suse.com, keith.busch@intel.com,
-        kirill.shutemov@linux.intel.com, alexander.h.duyck@linux.intel.com,
-        ira.weiny@intel.com, andreyknvl@google.com, arunks@codeaurora.org,
-        vbabka@suse.cz, cl@linux.com, riel@surriel.com,
-        keescook@chromium.org, hannes@cmpxchg.org, npiggin@gmail.com,
-        mathieu.desnoyers@efficios.com, shakeelb@google.com, guro@fb.com,
-        aarcange@redhat.com, hughd@google.com, jglisse@redhat.com,
-        mgorman@techsingularity.net, daniel.m.jordan@oracle.com,
-        jannh@google.com, kilobyte@angband.pl, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org
-References: <155836064844.2441.10911127801797083064.stgit@localhost.localdomain>
- <20190522152254.5cyxhjizuwuojlix@box>
- <4228b541-d31c-b76a-2570-1924df0d4724@virtuozzo.com>
-Message-ID: <5ae7e3c1-3875-ea1e-54b3-ac3c493a11f0@virtuozzo.com>
-Date:   Mon, 3 Jun 2019 17:56:32 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1729171AbfFCPAR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 3 Jun 2019 11:00:17 -0400
+Received: from mail.virtlab.unibo.it ([130.136.161.50]:48671 "EHLO
+        mail.virtlab.unibo.it" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729124AbfFCPAR (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 3 Jun 2019 11:00:17 -0400
+Received: from cs.unibo.it (host5.studiodavoli.it [109.234.61.227])
+        by mail.virtlab.unibo.it (Postfix) with ESMTPSA id 98D3C22603;
+        Mon,  3 Jun 2019 17:00:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=cs.unibo.it;
+        s=virtlab; t=1559574013;
+        bh=DLnGNJnyJiNIykJV53YV0lVX0PRr2Fd6kDb05wo5wS8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=t9TRXE1ZG2HmO1JDHZWIbU3N53MsWj6yw5DLIv3bv8lY/Gn9lUzXMZv2o80o29Gx0
+         lIuBTK/cPwE8c/kanOCxHBwFDWOrRbCOu89aCbpzhZ8uRZ9UDA4N1te50FN2ddtltg
+         bMph7PP9tu8nzFne0ohyU69o8q/hDpfLCQXN1f5I=
+Date:   Mon, 3 Jun 2019 17:00:10 +0200
+From:   Renzo Davoli <renzo@cs.unibo.it>
+To:     Roman Penyaev <rpenyaev@suse.de>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Davide Libenzi <davidel@xmailserver.org>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-kernel-owner@vger.kernel.org
+Subject: Re: [PATCH 1/1] eventfd new tag EFD_VPOLL: generate epoll events
+Message-ID: <20190603150010.GE4312@cs.unibo.it>
+References: <20190526142521.GA21842@cs.unibo.it>
+ <20190527073332.GA13782@kroah.com>
+ <20190527133621.GC26073@cs.unibo.it>
+ <480f1bda66b67f740f5da89189bbfca3@suse.de>
+ <20190531104502.GE3661@cs.unibo.it>
+ <cd20672aaf13f939b4f798d0839d2438@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <4228b541-d31c-b76a-2570-1924df0d4724@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cd20672aaf13f939b4f798d0839d2438@suse.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 03.06.2019 17:38, Kirill Tkhai wrote:
-> On 22.05.2019 18:22, Kirill A. Shutemov wrote:
->> On Mon, May 20, 2019 at 05:00:01PM +0300, Kirill Tkhai wrote:
->>> This patchset adds a new syscall, which makes possible
->>> to clone a VMA from a process to current process.
->>> The syscall supplements the functionality provided
->>> by process_vm_writev() and process_vm_readv() syscalls,
->>> and it may be useful in many situation.
->>
->> Kirill, could you explain how the change affects rmap and how it is safe.
->>
->> My concern is that the patchset allows to map the same page multiple times
->> within one process or even map page allocated by child to the parrent.
+Hi Roman,
+
+	 I sorry for the delay in my answer, but I needed to set up a minimal
+tutorial to show what I am working on and why I need a feature like the
+one I am proposing.
+
+Please, have a look of the README.md page here:
+https://github.com/virtualsquare/vuos
+(everything can be downloaded and tested)
+
+On Fri, May 31, 2019 at 01:48:39PM +0200, Roman Penyaev wrote:
+> Since each such a stack has a set of read/write/etc functions you always
+> can extend you stack with another call which returns you event mask,
+> specifying what exactly you have to do, e.g.:
 > 
-> Speaking honestly, we already support this model, since ZERO_PAGE() may
-> be mapped multiply times in any number of mappings.
+>     nfds = epoll_wait(epollfd, events, MAX_EVENTS, -1);
+>     for (n = 0; n < nfds; ++n) {
+>          struct sock *sock;
+> 
+>          sock = events[n].data.ptr;
+>          events = sock->get_events(sock, &events[n]);
+> 
+>          if (events & EPOLLIN)
+>              sock->read(sock);
+>          if (events & EPOLLOUT)
+>              sock->write(sock);
+>     }
+> 
+> 
+> With such a virtual table you can mix all userspace stacks and even
+> with normal sockets, for which 'get_events' function can be declared as
+> 
+> static poll_t kernel_sock_get_events(struct sock *sock, struct epoll_event
+> *ev)
+> {
+>     return ev->events;
+> }
+> 
+> Do I miss something?
 
-Picking of huge_zero_page and mremapping its VMA to unaligned address also gives
-the case, when the same huge page is mapped as huge page and as set of ordinary
-pages in the same process.
+I am not trying to port some tools to use user-space implemented stacks or device
+drivers/emulators, I am seeking to a general purpose approach.
 
-Summing up two above cases, is there really a fundamental problem with
-the functionality the patch set introduces? It looks like we already have
-these cases in stable kernel supported.
+I think that the example in the section of the README "mount a user-level 
+networking stack" explains the situation.
 
-Thanks,
-Kirill
+The submodule vunetvdestack uses a namespace to define a networking stack connected
+to a VDE network (see https://github.com/rd235/vdeplug4).
+
+The API is clean (as it can be seen at the end of the file vunet_modules/vunetvdestack.c).
+All the methods but "socket" are directly mapped to their system call counterparts:
+
+struct vunet_operations vunet_ops = {
+  .socket = vdestack_socket,
+  .bind = bind,
+  .connect = connect,
+  .listen = listen,
+  .accept4 = accept4,
+....
+	.epoll_ctl = epoll_ctl,
+...
+}
+
+(the elegance of the API can be seen also in vunet_modules/vunetreal.c: a 38 lines module
+ implementing a gateway to the real networking of the hosting machine)
+
+Unfortunately I cannot use the same clean interface to support user-library implemented
+stacks like lwip/lwipv6/picotcp because I cannot generate EPOLL events...
+
+Bizantine workarounds based on data structures exchanged in the data.ptr field of epoll_event
+that must be decoded by the hypervisor to retrieve the missing information about the event
+can be implemented... but it would be a pity ;-)
+
+The same problem arises in umdev modules: virtual devices should generate the same
+EPOLL events of their real couterparts.
+
+I feel that the ability to generate/synthesize EPOLL events could be useful for many projects.
+(In my first message I included some URLs of people seeking for this feature, retrieved by
+ some queries on a web search engine)
+
+Implementations may vary as well as the kernel API to support such a feature.
+As I told, my proposal has a minimal impact on the code, it does not require the definition
+of new syscalls, it simply enhances the features of eventfd.
+
+> 
+> Eventually you come up with such a lock to protect your tcp or whatever
+> state machine.  Or you have a real example where read and write paths
+> can work completely independently?
+
+Actually umvu hypervisor uses concurrent tracing of concurrent processes.
+We have named this technique "guardian angels": each process/thread running in the
+partial virtual machine has a correspondent thread in the hypervisor.
+So if a process uses two threads to manage a network connection (say a TCP stream),
+the two guardian angels replicate their requests towards the networking module.
+
+So I am looking for a general solution, not to a pattern to port some projects.
+(and I cannot use two different approaches for event driven and multi-threaded
+ implementations as I have to support both).
+
+If you reached this point...  Thank you for your patience.
+I am more than pleased to receive further comments or proposals.
+
+	renzo
