@@ -2,271 +2,368 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BF4134B67
-	for <lists+linux-api@lfdr.de>; Tue,  4 Jun 2019 17:03:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4359834C4A
+	for <lists+linux-api@lfdr.de>; Tue,  4 Jun 2019 17:31:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727801AbfFDPDw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 4 Jun 2019 11:03:52 -0400
-Received: from mga06.intel.com ([134.134.136.31]:64497 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727586AbfFDPDw (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 4 Jun 2019 11:03:52 -0400
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Jun 2019 08:03:51 -0700
-X-ExtLoop1: 1
-Received: from hao-dev.bj.intel.com (HELO localhost) ([10.238.157.65])
-  by fmsmga004.fm.intel.com with ESMTP; 04 Jun 2019 08:03:49 -0700
-Date:   Tue, 4 Jun 2019 22:47:28 +0800
-From:   Wu Hao <hao.wu@intel.com>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     atull@kernel.org, mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        Luwei Kang <luwei.kang@intel.com>,
-        Xu Yilun <yilun.xu@intel.com>
-Subject: Re: [PATCH v3 16/16] fpga: dfl: fme: add performance reporting
- support
-Message-ID: <20190604144728.GA18051@hao-dev>
-References: <1558934546-12171-1-git-send-email-hao.wu@intel.com>
- <1558934546-12171-17-git-send-email-hao.wu@intel.com>
- <20190530190305.GA2909@kroah.com>
- <20190601091147.GB3743@hao-dev>
- <20190601094219.GA1998@kroah.com>
+        id S1727953AbfFDPbz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 4 Jun 2019 11:31:55 -0400
+Received: from out02.mta.xmission.com ([166.70.13.232]:34542 "EHLO
+        out02.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728030AbfFDPbz (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Jun 2019 11:31:55 -0400
+Received: from in01.mta.xmission.com ([166.70.13.51])
+        by out02.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.87)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1hYBPj-0002XI-4f; Tue, 04 Jun 2019 09:31:51 -0600
+Received: from ip72-206-97-68.om.om.cox.net ([72.206.97.68] helo=x220.xmission.com)
+        by in01.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.87)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1hYBPh-0007V2-Fr; Tue, 04 Jun 2019 09:31:50 -0600
+From:   ebiederm@xmission.com (Eric W. Biederman)
+To:     Oleg Nesterov <oleg@redhat.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Deepa Dinamani <deepa.kernel@gmail.com>,
+        linux-kernel@vger.kernel.org, arnd@arndb.de, dbueso@suse.de,
+        axboe@kernel.dk, dave@stgolabs.net, e@80x24.org, jbaron@akamai.com,
+        linux-fsdevel@vger.kernel.org, linux-aio@kvack.org,
+        omar.kilani@gmail.com, tglx@linutronix.de, stable@vger.kernel.org,
+        Al Viro <viro@ZenIV.linux.org.uk>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        David Laight <David.Laight@ACULAB.COM>,
+        <linux-api@vger.kernel.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>
+References: <20190522032144.10995-1-deepa.kernel@gmail.com>
+        <20190529161157.GA27659@redhat.com>
+        <20190604134117.GA29963@redhat.com>
+Date:   Tue, 04 Jun 2019 10:31:41 -0500
+In-Reply-To: <20190604134117.GA29963@redhat.com> (Oleg Nesterov's message of
+        "Tue, 4 Jun 2019 15:41:17 +0200")
+Message-ID: <87tvd5nz8i.fsf@xmission.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190601094219.GA1998@kroah.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Content-Type: text/plain
+X-XM-SPF: eid=1hYBPh-0007V2-Fr;;;mid=<87tvd5nz8i.fsf@xmission.com>;;;hst=in01.mta.xmission.com;;;ip=72.206.97.68;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX18JqAu4Gol4nYpDPJY9T1kkLCifzkJMxgQ=
+X-SA-Exim-Connect-IP: 72.206.97.68
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa07.xmission.com
+X-Spam-Level: *
+X-Spam-Status: No, score=1.5 required=8.0 tests=ALL_TRUSTED,BAYES_50,
+        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,T_TooManySym_01,
+        T_TooManySym_02,T_XMDrugObfuBody_08,XMSubLong autolearn=disabled
+        version=3.4.2
+X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.7 XMSubLong Long Subject
+        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
+        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
+        *      [sa07 1397; Body=1 Fuz1=1 Fuz2=1]
+        *  0.0 T_TooManySym_01 4+ unique symbols in subject
+        *  1.0 T_XMDrugObfuBody_08 obfuscated drug references
+        *  0.0 T_TooManySym_02 5+ unique symbols in subject
+X-Spam-DCC: XMission; sa07 1397; Body=1 Fuz1=1 Fuz2=1 
+X-Spam-Combo: *;Oleg Nesterov <oleg@redhat.com>
+X-Spam-Relay-Country: 
+X-Spam-Timing: total 1133 ms - load_scoreonly_sql: 0.04 (0.0%),
+        signal_user_changed: 13 (1.1%), b_tie_ro: 1.79 (0.2%), parse: 2.1
+        (0.2%), extract_message_metadata: 24 (2.1%), get_uri_detail_list: 7
+        (0.6%), tests_pri_-1000: 24 (2.1%), tests_pri_-950: 1.74 (0.2%),
+        tests_pri_-900: 1.35 (0.1%), tests_pri_-90: 53 (4.7%), check_bayes: 51
+        (4.5%), b_tokenize: 23 (2.0%), b_tok_get_all: 13 (1.1%), b_comp_prob:
+        6 (0.5%), b_tok_touch_all: 6 (0.5%), b_finish: 1.01 (0.1%),
+        tests_pri_0: 997 (88.0%), check_dkim_signature: 1.10 (0.1%),
+        check_dkim_adsp: 2.5 (0.2%), poll_dns_idle: 0.36 (0.0%), tests_pri_10:
+        2.3 (0.2%), tests_pri_500: 10 (0.9%), rewrite_mail: 0.00 (0.0%)
+Subject: Re: [PATCH] signal: remove the wrong signal_pending() check in restore_user_sigmask()
+X-Spam-Flag: No
+X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
+X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Jun 01, 2019 at 02:42:19AM -0700, Greg KH wrote:
-> On Sat, Jun 01, 2019 at 05:11:47PM +0800, Wu Hao wrote:
-> > On Thu, May 30, 2019 at 12:03:05PM -0700, Greg KH wrote:
-> > > On Mon, May 27, 2019 at 01:22:26PM +0800, Wu Hao wrote:
-> > > > --- /dev/null
-> > > > +++ b/drivers/fpga/dfl-fme-perf.c
-> > > > @@ -0,0 +1,962 @@
-> > > > +// SPDX-License-Identifier: GPL-2.0
-> > > > +/*
-> > > > + * Driver for FPGA Management Engine (FME) Global Performance Reporting
-> > > > + *
-> > > > + * Copyright 2019 Intel Corporation, Inc.
-> > > > + *
-> > > > + * Authors:
-> > > > + *   Kang Luwei <luwei.kang@intel.com>
-> > > > + *   Xiao Guangrong <guangrong.xiao@linux.intel.com>
-> > > > + *   Wu Hao <hao.wu@intel.com>
-> > > > + *   Joseph Grecco <joe.grecco@intel.com>
-> > > > + *   Enno Luebbers <enno.luebbers@intel.com>
-> > > > + *   Tim Whisonant <tim.whisonant@intel.com>
-> > > > + *   Ananda Ravuri <ananda.ravuri@intel.com>
-> > > > + *   Mitchel, Henry <henry.mitchel@intel.com>
-> > > > + */
-> > > > +
-> > > > +#include "dfl.h"
-> > > > +#include "dfl-fme.h"
-> > > > +
-> > > > +/*
-> > > > + * Performance Counter Registers for Cache.
-> > > > + *
-> > > > + * Cache Events are listed below as CACHE_EVNT_*.
-> > > > + */
-> > > > +#define CACHE_CTRL			0x8
-> > > > +#define CACHE_RESET_CNTR		BIT_ULL(0)
-> > > > +#define CACHE_FREEZE_CNTR		BIT_ULL(8)
-> > > > +#define CACHE_CTRL_EVNT			GENMASK_ULL(19, 16)
-> > > > +#define CACHE_EVNT_RD_HIT		0x0
-> > > > +#define CACHE_EVNT_WR_HIT		0x1
-> > > > +#define CACHE_EVNT_RD_MISS		0x2
-> > > > +#define CACHE_EVNT_WR_MISS		0x3
-> > > > +#define CACHE_EVNT_RSVD			0x4
-> > > > +#define CACHE_EVNT_HOLD_REQ		0x5
-> > > > +#define CACHE_EVNT_DATA_WR_PORT_CONTEN	0x6
-> > > > +#define CACHE_EVNT_TAG_WR_PORT_CONTEN	0x7
-> > > > +#define CACHE_EVNT_TX_REQ_STALL		0x8
-> > > > +#define CACHE_EVNT_RX_REQ_STALL		0x9
-> > > > +#define CACHE_EVNT_EVICTIONS		0xa
-> > > > +#define CACHE_EVNT_MAX			CACHE_EVNT_EVICTIONS
-> > > > +#define CACHE_CHANNEL_SEL		BIT_ULL(20)
-> > > > +#define CACHE_CHANNEL_RD		0
-> > > > +#define CACHE_CHANNEL_WR		1
-> > > > +#define CACHE_CHANNEL_MAX		2
-> > > > +#define CACHE_CNTR0			0x10
-> > > > +#define CACHE_CNTR1			0x18
-> > > > +#define CACHE_CNTR_EVNT_CNTR		GENMASK_ULL(47, 0)
-> > > > +#define CACHE_CNTR_EVNT			GENMASK_ULL(63, 60)
-> > > > +
-> > > > +/*
-> > > > + * Performance Counter Registers for Fabric.
-> > > > + *
-> > > > + * Fabric Events are listed below as FAB_EVNT_*
-> > > > + */
-> > > > +#define FAB_CTRL			0x20
-> > > > +#define FAB_RESET_CNTR			BIT_ULL(0)
-> > > > +#define FAB_FREEZE_CNTR			BIT_ULL(8)
-> > > > +#define FAB_CTRL_EVNT			GENMASK_ULL(19, 16)
-> > > > +#define FAB_EVNT_PCIE0_RD		0x0
-> > > > +#define FAB_EVNT_PCIE0_WR		0x1
-> > > > +#define FAB_EVNT_PCIE1_RD		0x2
-> > > > +#define FAB_EVNT_PCIE1_WR		0x3
-> > > > +#define FAB_EVNT_UPI_RD			0x4
-> > > > +#define FAB_EVNT_UPI_WR			0x5
-> > > > +#define FAB_EVNT_MMIO_RD		0x6
-> > > > +#define FAB_EVNT_MMIO_WR		0x7
-> > > > +#define FAB_EVNT_MAX			FAB_EVNT_MMIO_WR
-> > > > +#define FAB_PORT_ID			GENMASK_ULL(21, 20)
-> > > > +#define FAB_PORT_FILTER			BIT_ULL(23)
-> > > > +#define FAB_PORT_FILTER_DISABLE		0
-> > > > +#define FAB_PORT_FILTER_ENABLE		1
-> > > > +#define FAB_CNTR			0x28
-> > > > +#define FAB_CNTR_EVNT_CNTR		GENMASK_ULL(59, 0)
-> > > > +#define FAB_CNTR_EVNT			GENMASK_ULL(63, 60)
-> > > > +
-> > > > +/*
-> > > > + * Performance Counter Registers for Clock.
-> > > > + *
-> > > > + * Clock Counter can't be reset or frozen by SW.
-> > > > + */
-> > > > +#define CLK_CNTR			0x30
-> > > > +
-> > > > +/*
-> > > > + * Performance Counter Registers for IOMMU / VT-D.
-> > > > + *
-> > > > + * VT-D Events are listed below as VTD_EVNT_* and VTD_SIP_EVNT_*
-> > > > + */
-> > > > +#define VTD_CTRL			0x38
-> > > > +#define VTD_RESET_CNTR			BIT_ULL(0)
-> > > > +#define VTD_FREEZE_CNTR			BIT_ULL(8)
-> > > > +#define VTD_CTRL_EVNT			GENMASK_ULL(19, 16)
-> > > > +#define VTD_EVNT_AFU_MEM_RD_TRANS	0x0
-> > > > +#define VTD_EVNT_AFU_MEM_WR_TRANS	0x1
-> > > > +#define VTD_EVNT_AFU_DEVTLB_RD_HIT	0x2
-> > > > +#define VTD_EVNT_AFU_DEVTLB_WR_HIT	0x3
-> > > > +#define VTD_EVNT_DEVTLB_4K_FILL		0x4
-> > > > +#define VTD_EVNT_DEVTLB_2M_FILL		0x5
-> > > > +#define VTD_EVNT_DEVTLB_1G_FILL		0x6
-> > > > +#define VTD_EVNT_MAX			VTD_EVNT_DEVTLB_1G_FILL
-> > > > +#define VTD_CNTR			0x40
-> > > > +#define VTD_CNTR_EVNT			GENMASK_ULL(63, 60)
-> > > > +#define VTD_CNTR_EVNT_CNTR		GENMASK_ULL(47, 0)
-> > > > +#define VTD_SIP_CTRL			0x48
-> > > > +#define VTD_SIP_RESET_CNTR		BIT_ULL(0)
-> > > > +#define VTD_SIP_FREEZE_CNTR		BIT_ULL(8)
-> > > > +#define VTD_SIP_CTRL_EVNT		GENMASK_ULL(19, 16)
-> > > > +#define VTD_SIP_EVNT_IOTLB_4K_HIT	0x0
-> > > > +#define VTD_SIP_EVNT_IOTLB_2M_HIT	0x1
-> > > > +#define VTD_SIP_EVNT_IOTLB_1G_HIT	0x2
-> > > > +#define VTD_SIP_EVNT_SLPWC_L3_HIT	0x3
-> > > > +#define VTD_SIP_EVNT_SLPWC_L4_HIT	0x4
-> > > > +#define VTD_SIP_EVNT_RCC_HIT		0x5
-> > > > +#define VTD_SIP_EVNT_IOTLB_4K_MISS	0x6
-> > > > +#define VTD_SIP_EVNT_IOTLB_2M_MISS	0x7
-> > > > +#define VTD_SIP_EVNT_IOTLB_1G_MISS	0x8
-> > > > +#define VTD_SIP_EVNT_SLPWC_L3_MISS	0x9
-> > > > +#define VTD_SIP_EVNT_SLPWC_L4_MISS	0xa
-> > > > +#define VTD_SIP_EVNT_RCC_MISS		0xb
-> > > > +#define VTD_SIP_EVNT_MAX		VTD_SIP_EVNT_RCC_MISS
-> > > > +#define VTD_SIP_CNTR			0X50
-> > > > +#define VTD_SIP_CNTR_EVNT		GENMASK_ULL(63, 60)
-> > > > +#define VTD_SIP_CNTR_EVNT_CNTR		GENMASK_ULL(47, 0)
-> > > > +
-> > > > +#define PERF_OBJ_ROOT_ID		(~0)
-> > > > +
-> > > > +#define PERF_TIMEOUT			30
-> > > > +
-> > > > +/**
-> > > > + * struct perf_object - object of performance counter
-> > > > + *
-> > > > + * @id: instance id. PERF_OBJ_ROOT_ID indicates it is a parent object which
-> > > > + *      counts performance counters for all instances.
-> > > > + * @attr_groups: the sysfs files are associated with this object.
-> > > > + * @feature: pointer to related private feature.
-> > > > + * @node: used to link itself to parent's children list.
-> > > > + * @children: used to link its children objects together.
-> > > > + * @kobj: generic kobject interface.
-> > > > + *
-> > > > + * 'node' and 'children' are used to construct parent-children hierarchy.
-> > > > + */
-> > > > +struct perf_object {
-> > > > +	int id;
-> > > > +	const struct attribute_group **attr_groups;
-> > > > +	struct dfl_feature *feature;
-> > > > +
-> > > > +	struct list_head node;
-> > > > +	struct list_head children;
-> > > > +	struct kobject kobj;
-> > > 
-> > > Woah, why are you using a "raw" kobject and not a 'struct device' here?
-> > > You just broke userspace and no libraries will see your kobject's
-> > > properties as the "chain" of struct devices is not happening anymore.
-> > > 
-> > > Why can this not just be a 'struct device'?
-> > 
-> > Hi Greg,
-> > 
-> > Many thanks for the review and comments.
-> > 
-> > Actually we are just trying to create sysfs hierarchy for performance
-> > counters using these data structures.
-> > 
-> > If we use 'struct device' instead of kobject, then we have to let userspace
-> > code to deal with device's sysfs (e.g. ignore 'uevent' below). This is the
-> > only concern from my side now, as I know that using 'struct device'
-> > saves code as we don't need to introduce a new perf_obj_attribute then.
-> > 
-> > dfl-fme.0/perf/
-> >  ├── iommu
-> >  │   ├── afu0
-> >  │   │   ├── devtlb_1g_fill
-> >  │   │   ├── devtlb_2m_fill
-> >  │   │   ├── devtlb_4k_fill
-> >  │   │   ├── devtlb_read_hit
-> >  │   │   ├── devtlb_write_hit
-> >  │   │   ├── read_transaction
-> >  │   │   ├── uevent
-> >  │   │   └── write_transaction
-> >  │   ├── freeze
-> >  │   ├── iotlb_1g_hit
-> >  │   ├── iotlb_1g_miss
-> > 	 ...
-> >      └── uevent
-> >  ...
-> > 
-> > Do you think if we could keep it or it's better to use 'struct device'?
-> 
-> What about using the attribute group name?  That gives you a subdir for
-> free.  Doing anything "deeper" than one level means that you really have
-> a child device, and yes, you need to use a 'struct device'.  Make it
-> part of your bus and just have it be a different "type" and all should
-> be good.
-> 
-> Again, NEVER use a raw kobject as a child of a 'struct device', that
-> will break things.
-> 
-> And please cc: me on this series from now on, as you are obviously
-> trying to do complex things with the driver model and sysfs and it is
-> easy to get very wrong.
-> 
-> But wait, step back, why does this one driver have such a "special"
-> user/kernel api that unique to it and nothing else?  That's also a big
-> red flag, why not just use the normal perf api that everyone else uses?
+Oleg Nesterov <oleg@redhat.com> writes:
+
+> This is the minimal fix for stable, I'll send cleanups later.
 >
+> The commit 854a6ed56839a40f6b5d02a2962f48841482eec4 ("signal: Add
+> restore_user_sigmask()") introduced the visible change which breaks
+> user-space: a signal temporary unblocked by set_user_sigmask() can
+> be delivered even if the caller returns success or timeout.
+>
+> Change restore_user_sigmask() to accept the additional "interrupted"
+> argument which should be used instead of signal_pending() check, and
+> update the callers.
+>
+> Reported-by: Eric Wong <e@80x24.org>
+> Fixes: 854a6ed56839a40f6b5d02a2962f48841482eec4 ("signal: Add restore_user_sigmask()")
+> cc: stable@vger.kernel.org (v5.0+)
+> Signed-off-by: Oleg Nesterov <oleg@redhat.com>
 
-Hi Greg,
+Acked-by: "Eric W. Biederman" <ebiederm@xmission.com>
 
-Actually we just tried to add some interfaces for users to read hardware
-counters, Yes, I fully agree that we should use the existing apis whenever
-possible. I will look into perf api to see if we can use them instead.
+I have read through the patch and it looks good.
 
-Many thanks for the review and comments!
+For clarity.  I don't think this is required by posix, or fundamentally
+to remove the races in select.  It is what linux has always done and
+we have applications who care so I agree this fix is needed.
 
-Hao
+Further in any case where the semantic change that this patch rolls back
+(aka where allowing a signal to be delivered and the select like call to
+complete) would be advantage we can do as well if not better by using
+signalfd.
 
-> thanks,
-> 
-> greg k-h
+Michael is there any chance we can get this guarantee of the linux
+implementation of pselect and friends clearly documented.  The guarantee
+that if the system call completes successfully we are guaranteed that
+no signal that is unblocked by using sigmask will be delivered?
+
+Eric
+
+> ---
+>  fs/aio.c               | 28 ++++++++++++++++++++--------
+>  fs/eventpoll.c         |  4 ++--
+>  fs/io_uring.c          |  7 ++++---
+>  fs/select.c            | 18 ++++++------------
+>  include/linux/signal.h |  2 +-
+>  kernel/signal.c        |  5 +++--
+>  6 files changed, 36 insertions(+), 28 deletions(-)
+>
+> diff --git a/fs/aio.c b/fs/aio.c
+> index 3490d1f..c1e581d 100644
+> --- a/fs/aio.c
+> +++ b/fs/aio.c
+> @@ -2095,6 +2095,7 @@ SYSCALL_DEFINE6(io_pgetevents,
+>  	struct __aio_sigset	ksig = { NULL, };
+>  	sigset_t		ksigmask, sigsaved;
+>  	struct timespec64	ts;
+> +	bool interrupted;
+>  	int ret;
+>  
+>  	if (timeout && unlikely(get_timespec64(&ts, timeout)))
+> @@ -2108,8 +2109,10 @@ SYSCALL_DEFINE6(io_pgetevents,
+>  		return ret;
+>  
+>  	ret = do_io_getevents(ctx_id, min_nr, nr, events, timeout ? &ts : NULL);
+> -	restore_user_sigmask(ksig.sigmask, &sigsaved);
+> -	if (signal_pending(current) && !ret)
+> +
+> +	interrupted = signal_pending(current);
+> +	restore_user_sigmask(ksig.sigmask, &sigsaved, interrupted);
+> +	if (interrupted && !ret)
+>  		ret = -ERESTARTNOHAND;
+>  
+>  	return ret;
+> @@ -2128,6 +2131,7 @@ SYSCALL_DEFINE6(io_pgetevents_time32,
+>  	struct __aio_sigset	ksig = { NULL, };
+>  	sigset_t		ksigmask, sigsaved;
+>  	struct timespec64	ts;
+> +	bool interrupted;
+>  	int ret;
+>  
+>  	if (timeout && unlikely(get_old_timespec32(&ts, timeout)))
+> @@ -2142,8 +2146,10 @@ SYSCALL_DEFINE6(io_pgetevents_time32,
+>  		return ret;
+>  
+>  	ret = do_io_getevents(ctx_id, min_nr, nr, events, timeout ? &ts : NULL);
+> -	restore_user_sigmask(ksig.sigmask, &sigsaved);
+> -	if (signal_pending(current) && !ret)
+> +
+> +	interrupted = signal_pending(current);
+> +	restore_user_sigmask(ksig.sigmask, &sigsaved, interrupted);
+> +	if (interrupted && !ret)
+>  		ret = -ERESTARTNOHAND;
+>  
+>  	return ret;
+> @@ -2193,6 +2199,7 @@ COMPAT_SYSCALL_DEFINE6(io_pgetevents,
+>  	struct __compat_aio_sigset ksig = { NULL, };
+>  	sigset_t ksigmask, sigsaved;
+>  	struct timespec64 t;
+> +	bool interrupted;
+>  	int ret;
+>  
+>  	if (timeout && get_old_timespec32(&t, timeout))
+> @@ -2206,8 +2213,10 @@ COMPAT_SYSCALL_DEFINE6(io_pgetevents,
+>  		return ret;
+>  
+>  	ret = do_io_getevents(ctx_id, min_nr, nr, events, timeout ? &t : NULL);
+> -	restore_user_sigmask(ksig.sigmask, &sigsaved);
+> -	if (signal_pending(current) && !ret)
+> +
+> +	interrupted = signal_pending(current);
+> +	restore_user_sigmask(ksig.sigmask, &sigsaved, interrupted);
+> +	if (interrupted && !ret)
+>  		ret = -ERESTARTNOHAND;
+>  
+>  	return ret;
+> @@ -2226,6 +2235,7 @@ COMPAT_SYSCALL_DEFINE6(io_pgetevents_time64,
+>  	struct __compat_aio_sigset ksig = { NULL, };
+>  	sigset_t ksigmask, sigsaved;
+>  	struct timespec64 t;
+> +	bool interrupted;
+>  	int ret;
+>  
+>  	if (timeout && get_timespec64(&t, timeout))
+> @@ -2239,8 +2249,10 @@ COMPAT_SYSCALL_DEFINE6(io_pgetevents_time64,
+>  		return ret;
+>  
+>  	ret = do_io_getevents(ctx_id, min_nr, nr, events, timeout ? &t : NULL);
+> -	restore_user_sigmask(ksig.sigmask, &sigsaved);
+> -	if (signal_pending(current) && !ret)
+> +
+> +	interrupted = signal_pending(current);
+> +	restore_user_sigmask(ksig.sigmask, &sigsaved, interrupted);
+> +	if (interrupted && !ret)
+>  		ret = -ERESTARTNOHAND;
+>  
+>  	return ret;
+> diff --git a/fs/eventpoll.c b/fs/eventpoll.c
+> index c6f5131..4c74c76 100644
+> --- a/fs/eventpoll.c
+> +++ b/fs/eventpoll.c
+> @@ -2325,7 +2325,7 @@ SYSCALL_DEFINE6(epoll_pwait, int, epfd, struct epoll_event __user *, events,
+>  
+>  	error = do_epoll_wait(epfd, events, maxevents, timeout);
+>  
+> -	restore_user_sigmask(sigmask, &sigsaved);
+> +	restore_user_sigmask(sigmask, &sigsaved, error == -EINTR);
+>  
+>  	return error;
+>  }
+> @@ -2350,7 +2350,7 @@ COMPAT_SYSCALL_DEFINE6(epoll_pwait, int, epfd,
+>  
+>  	err = do_epoll_wait(epfd, events, maxevents, timeout);
+>  
+> -	restore_user_sigmask(sigmask, &sigsaved);
+> +	restore_user_sigmask(sigmask, &sigsaved, err == -EINTR);
+>  
+>  	return err;
+>  }
+> diff --git a/fs/io_uring.c b/fs/io_uring.c
+> index 0fbb486..1147c5d 100644
+> --- a/fs/io_uring.c
+> +++ b/fs/io_uring.c
+> @@ -2201,11 +2201,12 @@ static int io_cqring_wait(struct io_ring_ctx *ctx, int min_events,
+>  	}
+>  
+>  	ret = wait_event_interruptible(ctx->wait, io_cqring_events(ring) >= min_events);
+> -	if (ret == -ERESTARTSYS)
+> -		ret = -EINTR;
+>  
+>  	if (sig)
+> -		restore_user_sigmask(sig, &sigsaved);
+> +		restore_user_sigmask(sig, &sigsaved, ret == -ERESTARTSYS);
+> +
+> +	if (ret == -ERESTARTSYS)
+> +		ret = -EINTR;
+>  
+>  	return READ_ONCE(ring->r.head) == READ_ONCE(ring->r.tail) ? ret : 0;
+>  }
+> diff --git a/fs/select.c b/fs/select.c
+> index 6cbc9ff..a4d8f6e 100644
+> --- a/fs/select.c
+> +++ b/fs/select.c
+> @@ -758,10 +758,9 @@ static long do_pselect(int n, fd_set __user *inp, fd_set __user *outp,
+>  		return ret;
+>  
+>  	ret = core_sys_select(n, inp, outp, exp, to);
+> +	restore_user_sigmask(sigmask, &sigsaved, ret == -ERESTARTNOHAND);
+>  	ret = poll_select_copy_remaining(&end_time, tsp, type, ret);
+>  
+> -	restore_user_sigmask(sigmask, &sigsaved);
+> -
+>  	return ret;
+>  }
+>  
+> @@ -1106,8 +1105,7 @@ SYSCALL_DEFINE5(ppoll, struct pollfd __user *, ufds, unsigned int, nfds,
+>  
+>  	ret = do_sys_poll(ufds, nfds, to);
+>  
+> -	restore_user_sigmask(sigmask, &sigsaved);
+> -
+> +	restore_user_sigmask(sigmask, &sigsaved, ret == -EINTR);
+>  	/* We can restart this syscall, usually */
+>  	if (ret == -EINTR)
+>  		ret = -ERESTARTNOHAND;
+> @@ -1142,8 +1140,7 @@ SYSCALL_DEFINE5(ppoll_time32, struct pollfd __user *, ufds, unsigned int, nfds,
+>  
+>  	ret = do_sys_poll(ufds, nfds, to);
+>  
+> -	restore_user_sigmask(sigmask, &sigsaved);
+> -
+> +	restore_user_sigmask(sigmask, &sigsaved, ret == -EINTR);
+>  	/* We can restart this syscall, usually */
+>  	if (ret == -EINTR)
+>  		ret = -ERESTARTNOHAND;
+> @@ -1350,10 +1347,9 @@ static long do_compat_pselect(int n, compat_ulong_t __user *inp,
+>  		return ret;
+>  
+>  	ret = compat_core_sys_select(n, inp, outp, exp, to);
+> +	restore_user_sigmask(sigmask, &sigsaved, ret == -ERESTARTNOHAND);
+>  	ret = poll_select_copy_remaining(&end_time, tsp, type, ret);
+>  
+> -	restore_user_sigmask(sigmask, &sigsaved);
+> -
+>  	return ret;
+>  }
+>  
+> @@ -1425,8 +1421,7 @@ COMPAT_SYSCALL_DEFINE5(ppoll_time32, struct pollfd __user *, ufds,
+>  
+>  	ret = do_sys_poll(ufds, nfds, to);
+>  
+> -	restore_user_sigmask(sigmask, &sigsaved);
+> -
+> +	restore_user_sigmask(sigmask, &sigsaved, ret == -EINTR);
+>  	/* We can restart this syscall, usually */
+>  	if (ret == -EINTR)
+>  		ret = -ERESTARTNOHAND;
+> @@ -1461,8 +1456,7 @@ COMPAT_SYSCALL_DEFINE5(ppoll_time64, struct pollfd __user *, ufds,
+>  
+>  	ret = do_sys_poll(ufds, nfds, to);
+>  
+> -	restore_user_sigmask(sigmask, &sigsaved);
+> -
+> +	restore_user_sigmask(sigmask, &sigsaved, ret == -EINTR);
+>  	/* We can restart this syscall, usually */
+>  	if (ret == -EINTR)
+>  		ret = -ERESTARTNOHAND;
+> diff --git a/include/linux/signal.h b/include/linux/signal.h
+> index 9702016..78c2bb3 100644
+> --- a/include/linux/signal.h
+> +++ b/include/linux/signal.h
+> @@ -276,7 +276,7 @@ extern int sigprocmask(int, sigset_t *, sigset_t *);
+>  extern int set_user_sigmask(const sigset_t __user *usigmask, sigset_t *set,
+>  	sigset_t *oldset, size_t sigsetsize);
+>  extern void restore_user_sigmask(const void __user *usigmask,
+> -				 sigset_t *sigsaved);
+> +				 sigset_t *sigsaved, bool interrupted);
+>  extern void set_current_blocked(sigset_t *);
+>  extern void __set_current_blocked(const sigset_t *);
+>  extern int show_unhandled_signals;
+> diff --git a/kernel/signal.c b/kernel/signal.c
+> index 328a01e..aa6a6f1 100644
+> --- a/kernel/signal.c
+> +++ b/kernel/signal.c
+> @@ -2912,7 +2912,8 @@ EXPORT_SYMBOL(set_compat_user_sigmask);
+>   * This is useful for syscalls such as ppoll, pselect, io_pgetevents and
+>   * epoll_pwait where a new sigmask is passed in from userland for the syscalls.
+>   */
+> -void restore_user_sigmask(const void __user *usigmask, sigset_t *sigsaved)
+> +void restore_user_sigmask(const void __user *usigmask, sigset_t *sigsaved,
+> +				bool interrupted)
+>  {
+>  
+>  	if (!usigmask)
+> @@ -2922,7 +2923,7 @@ void restore_user_sigmask(const void __user *usigmask, sigset_t *sigsaved)
+>  	 * Restoring sigmask here can lead to delivering signals that the above
+>  	 * syscalls are intended to block because of the sigmask passed in.
+>  	 */
+> -	if (signal_pending(current)) {
+> +	if (interrupted) {
+>  		current->saved_sigmask = *sigsaved;
+>  		set_restore_sigmask();
+>  		return;
