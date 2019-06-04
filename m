@@ -2,136 +2,176 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2252533E1D
-	for <lists+linux-api@lfdr.de>; Tue,  4 Jun 2019 06:51:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E96A33F4F
+	for <lists+linux-api@lfdr.de>; Tue,  4 Jun 2019 08:55:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726352AbfFDEvz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 4 Jun 2019 00:51:55 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:36309 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726136AbfFDEvz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Jun 2019 00:51:55 -0400
-Received: by mail-pg1-f194.google.com with SMTP id a3so2190530pgb.3;
-        Mon, 03 Jun 2019 21:51:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=HIshHbJGz5AuZX+SokNLkAl+hD0L1jiePIWoq2eJXjE=;
-        b=CHp9I4t8D8E6Sf8L73xeqo6RDiNmk13G3jhqACbPNpNvCuGV1v7FaOayAR3r1y9VxR
-         SmG9Lgp87OWWgEGXuCd0/ce/8dRaCCuU7rc1wWsI9fNhtrGkC2Bd6V7XAiZLwS/jFcIV
-         XPKjcwgxRjmkXPMpyusWkE0uO+SNn9TjS/L7DhEKglcgLznHuZMeQc2guYxS/u/ZdvB6
-         Dt9582g8LRbhaZNVRVJSo8AcYBqo/KkpPSdWWIhrQDat0rYlMDMxxj42bshxLmasOKM/
-         nz+7P8RMDg+CLbA5qVI8CjmSeB+zq9D8IORFMp7IUaroSbi76uCi+jFnHVWyOTGSPxeP
-         xBog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=HIshHbJGz5AuZX+SokNLkAl+hD0L1jiePIWoq2eJXjE=;
-        b=mpeTL3YbUAi77a8FxCE0dQ//PJbmj4BASsZNJBOO3fVi79TXLxSgTm7nirirnSchaK
-         V0kw7M8VCuktCbbuQKb8Ixv+EcmSi5DrW8ralGiOwvxlJ4vLEaIRz5K17iZ/3agqcjdv
-         +yGUdZ24T7sA7K85hOemFs0oRD3M6KK83kqOU5n1W/fVkyez/jUopVi9a3IE/nXxgR9X
-         ewEY0n4BdyJXp0KAxa6L9H9t3jvFE6hmJoiKXhqvfHHfEyiK4ZeWh7SzZsjivf3wnOOa
-         M9LC45IoPlV3zd1tPBsZouEQpNfWCwt1ASdB/RcToBAr9/hth4kw+DunZw+HUCnjfOOS
-         SKnw==
-X-Gm-Message-State: APjAAAXpcriu6UPfFFe12fkRCBPTtHCYOnlvlWuupPabwnGuzKoRceZP
-        Z+1ycIIb6iQOP6GwPAcmxGI=
-X-Google-Smtp-Source: APXvYqxR/48QdIGAIUfDAIFTi3ruydBg7FO5eCefdksVed2G9NtEyc9wCflexu9+e9paiCqFo0XGAQ==
-X-Received: by 2002:a17:90a:aa88:: with SMTP id l8mr34652130pjq.65.1559623914129;
-        Mon, 03 Jun 2019 21:51:54 -0700 (PDT)
-Received: from google.com ([2401:fa00:d:0:98f1:8b3d:1f37:3e8])
-        by smtp.gmail.com with ESMTPSA id f186sm18863795pfb.5.2019.06.03.21.51.48
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 03 Jun 2019 21:51:52 -0700 (PDT)
-Date:   Tue, 4 Jun 2019 13:51:46 +0900
-From:   Minchan Kim <minchan@kernel.org>
-To:     Hillf Danton <hdanton@sina.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        id S1726713AbfFDGzo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 4 Jun 2019 02:55:44 -0400
+Received: from mx2.suse.de ([195.135.220.15]:47628 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726578AbfFDGzo (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 4 Jun 2019 02:55:44 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 76144AD51;
+        Tue,  4 Jun 2019 06:55:41 +0000 (UTC)
+Date:   Tue, 4 Jun 2019 08:55:39 +0200
+From:   Michal Hocko <mhocko@kernel.org>
+To:     Johannes Weiner <hannes@cmpxchg.org>
+Cc:     Minchan Kim <minchan@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
         linux-mm <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-api@vger.kernel.org,
         Tim Murray <timmurray@google.com>,
         Joel Fernandes <joel@joelfernandes.org>,
         Suren Baghdasaryan <surenb@google.com>,
         Daniel Colascione <dancol@google.com>,
         Shakeel Butt <shakeelb@google.com>,
         Sonny Rao <sonnyrao@google.com>,
-        Brian Geffon <bgeffon@google.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "oleg@redhat.com" <oleg@redhat.com>,
-        "christian@brauner.io" <christian@brauner.io>,
-        "oleksandr@redhat.com" <oleksandr@redhat.com>
-Subject: Re: [PATCH v1 3/4] mm: account nr_isolated_xxx in
- [isolate|putback]_lru_page
-Message-ID: <20190604045146.GD43390@google.com>
-References: <20190604042047.13492-1-hdanton@sina.com>
+        Brian Geffon <bgeffon@google.com>, jannh@google.com,
+        oleg@redhat.com, christian@brauner.io, oleksandr@redhat.com,
+        hdanton@sina.com
+Subject: Re: [RFCv2 1/6] mm: introduce MADV_COLD
+Message-ID: <20190604065539.GB4669@dhcp22.suse.cz>
+References: <20190531064313.193437-1-minchan@kernel.org>
+ <20190531064313.193437-2-minchan@kernel.org>
+ <20190531084752.GI6896@dhcp22.suse.cz>
+ <20190531133904.GC195463@google.com>
+ <20190531140332.GT6896@dhcp22.suse.cz>
+ <20190531143407.GB216592@google.com>
+ <20190603071607.GB4531@dhcp22.suse.cz>
+ <20190603172717.GA30363@cmpxchg.org>
+ <20190603203230.GB22799@dhcp22.suse.cz>
+ <20190603215059.GA16824@cmpxchg.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190604042047.13492-1-hdanton@sina.com>
+In-Reply-To: <20190603215059.GA16824@cmpxchg.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Hillf,
-
-On Tue, Jun 04, 2019 at 12:20:47PM +0800, Hillf Danton wrote:
-> 
-> Hi Minchan
-> 
-> On Mon, 3 Jun 2019 13:37:27 +0800 Minchan Kim wrote:
-> > @@ -1181,10 +1179,17 @@ static ICE_noinline int unmap_and_move(new_page_t get_new_page,
-> >  		return -ENOMEM;
+On Mon 03-06-19 17:50:59, Johannes Weiner wrote:
+> On Mon, Jun 03, 2019 at 10:32:30PM +0200, Michal Hocko wrote:
+> > On Mon 03-06-19 13:27:17, Johannes Weiner wrote:
+> > > On Mon, Jun 03, 2019 at 09:16:07AM +0200, Michal Hocko wrote:
+> > > > On Fri 31-05-19 23:34:07, Minchan Kim wrote:
+> > > > > On Fri, May 31, 2019 at 04:03:32PM +0200, Michal Hocko wrote:
+> > > > > > On Fri 31-05-19 22:39:04, Minchan Kim wrote:
+> > > > > > > On Fri, May 31, 2019 at 10:47:52AM +0200, Michal Hocko wrote:
+> > > > > > > > On Fri 31-05-19 15:43:08, Minchan Kim wrote:
+> > > > > > > > > When a process expects no accesses to a certain memory range, it could
+> > > > > > > > > give a hint to kernel that the pages can be reclaimed when memory pressure
+> > > > > > > > > happens but data should be preserved for future use.  This could reduce
+> > > > > > > > > workingset eviction so it ends up increasing performance.
+> > > > > > > > > 
+> > > > > > > > > This patch introduces the new MADV_COLD hint to madvise(2) syscall.
+> > > > > > > > > MADV_COLD can be used by a process to mark a memory range as not expected
+> > > > > > > > > to be used in the near future. The hint can help kernel in deciding which
+> > > > > > > > > pages to evict early during memory pressure.
+> > > > > > > > > 
+> > > > > > > > > Internally, it works via deactivating pages from active list to inactive's
+> > > > > > > > > head if the page is private because inactive list could be full of
+> > > > > > > > > used-once pages which are first candidate for the reclaiming and that's a
+> > > > > > > > > reason why MADV_FREE move pages to head of inactive LRU list. Therefore,
+> > > > > > > > > if the memory pressure happens, they will be reclaimed earlier than other
+> > > > > > > > > active pages unless there is no access until the time.
+> > > > > > > > 
+> > > > > > > > [I am intentionally not looking at the implementation because below
+> > > > > > > > points should be clear from the changelog - sorry about nagging ;)]
+> > > > > > > > 
+> > > > > > > > What kind of pages can be deactivated? Anonymous/File backed.
+> > > > > > > > Private/shared? If shared, are there any restrictions?
+> > > > > > > 
+> > > > > > > Both file and private pages could be deactived from each active LRU
+> > > > > > > to each inactive LRU if the page has one map_count. In other words,
+> > > > > > > 
+> > > > > > >     if (page_mapcount(page) <= 1)
+> > > > > > >         deactivate_page(page);
+> > > > > > 
+> > > > > > Why do we restrict to pages that are single mapped?
+> > > > > 
+> > > > > Because page table in one of process shared the page would have access bit
+> > > > > so finally we couldn't reclaim the page. The more process it is shared,
+> > > > > the more fail to reclaim.
+> > > > 
+> > > > So what? In other words why should it be restricted solely based on the
+> > > > map count. I can see a reason to restrict based on the access
+> > > > permissions because we do not want to simplify all sorts of side channel
+> > > > attacks but memory reclaim is capable of reclaiming shared pages and so
+> > > > far I haven't heard any sound argument why madvise should skip those.
+> > > > Again if there are any reasons, then document them in the changelog.
+> > > 
+> > > I think it makes sense. It could be explained, but it also follows
+> > > established madvise semantics, and I'm not sure it's necessarily
+> > > Minchan's job to re-iterate those.
+> > > 
+> > > Sharing isn't exactly transparent to userspace. The kernel does COW,
+> > > ksm etc. When you madvise, you can really only speak for your own
+> > > reference to that memory - "*I* am not using this."
+> > > 
+> > > This is in line with other madvise calls: MADV_DONTNEED clears the
+> > > local page table entries and drops the corresponding references, so
+> > > shared pages won't get freed. MADV_FREE clears the pte dirty bit and
+> > > also has explicit mapcount checks before clearing PG_dirty, so again
+> > > shared pages don't get freed.
 > > 
-> >  	if (page_count(page) == 1) {
-> > +		bool is_lru = !__PageMovable(page);
-> > +
-> >  		/* page was freed from under us. So we are done. */
-> >  		ClearPageActive(page);
-> >  		ClearPageUnevictable(page);
-> > -		if (unlikely(__PageMovable(page))) {
-> > +		if (likely(is_lru))
-> > +			mod_node_page_state(page_pgdat(page),
-> > +						NR_ISOLATED_ANON +
-> > +						page_is_file_cache(page),
-> > +						hpage_nr_pages(page));
-
-That should be -hpage_nr_pages(page). It's a bug.
-
-> > +		else {
-> >  			lock_page(page);
-> >  			if (!PageMovable(page))
-> >  				__ClearPageIsolated(page);
-> 
-> As this page will go down the path only through the MIGRATEPAGE_SUCCESS branches,
-> with no putback ahead, the current code is, I think, doing right things for this
-> work to keep isolated stat balanced.
-
-I guess that's the one you pointed out. Right?
-Thanks for the review!
-
-> 
-> > @@ -1210,15 +1215,6 @@ static ICE_noinline int unmap_and_move(new_page_t get_new_page,
-> >  		 * restored.
-> >  		 */
-> >  		list_del(&page->lru);
-> > -
-> > -		/*
-> > -		 * Compaction can migrate also non-LRU pages which are
-> > -		 * not accounted to NR_ISOLATED_*. They can be recognized
-> > -		 * as __PageMovable
-> > -		 */
-> > -		if (likely(!__PageMovable(page)))
-> > -			mod_node_page_state(page_pgdat(page), NR_ISOLATED_ANON +
-> > -					page_is_file_cache(page), -hpage_nr_pages(page));
-> >  	}
+> > Right, being consistent with other madvise syscalls is certainly a way
+> > to go. And I am not pushing one way or another, I just want this to be
+> > documented with a reasoning behind. Consistency is certainly an argument
+> > to use.
 > > 
+> > On the other hand these non-destructive madvise operations are quite
+> > different and the shared policy might differ as a result as well. We are
+> > aging objects rather than destroying them after all. Being able to age
+> > a pagecache with a sufficient privileges sounds like a useful usecase to
+> > me. In other words you are able to cause the same effect indirectly
+> > without the madvise operation so it kinda makes sense to allow it in a
+> > more sophisticated way.
 > 
-> BR
-> Hillf
+> Right, I don't think it's about permission - as you say, you can do
+> this indirectly. Page reclaim is all about relative page order, so if
+> we thwarted you from demoting some pages, you could instead promote
+> other pages to cause a similar end result.
+
+There is one notable difference. If we allow an easy way to demote a
+shared resource _easily_ then we have to think about potential side
+channel attacks. Sure you can generate a memory pressure to cause the
+same but that is much harder and impractical in many cases.
+
+> I think it's about intent. You're advising the kernel that *you're*
+> not using this memory and would like to have it cleared out based on
+> that knowledge. You could do the same by simply allocating the new
+> pages and have the kernel sort it out. However, if the kernel sorts it
+> out, it *will* look at other users of the page, and it might decide
+> that other pages are actually colder when considering all users.
 > 
+> When you ignore shared state, on the other hand, the pages you advise
+> out could refault right after. And then, not only did you not free up
+> the memory, but you also caused IO that may interfere with bringing in
+> the new data for which you tried to create room in the first place.
+
+That is a fair argument and I would tend to agree. On the other hand we
+are talking about potential usecases which tend to _know_ what they are
+doing and removing the possibility completely sounds like they will not
+exploit the existing interface to the maximum. But as already mentioned
+starting simpler and more restricted is usually a better choice when
+the semantic is not carved in stone from the very beginning and
+documented that way.
+
+> So I don't think it ever makes sense to override it.
+> 
+> But it might be better to drop the explicit mapcount check and instead
+> make the local pte young and call shrink_page_list() without the
+> TTU_IGNORE_ACCESS, ignore_references flags - leave it to reclaim code
+> to handle references and shared pages exactly the same way it would if
+> those pages came fresh off the LRU tail, excluding only the reference
+> from the mapping that we're madvising.
+
+Yeah that makes sense to me.
+
+-- 
+Michal Hocko
+SUSE Labs
