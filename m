@@ -2,101 +2,94 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E79BE34C5F
-	for <lists+linux-api@lfdr.de>; Tue,  4 Jun 2019 17:38:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 94C3934CB3
+	for <lists+linux-api@lfdr.de>; Tue,  4 Jun 2019 17:57:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728105AbfFDPiV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 4 Jun 2019 11:38:21 -0400
-Received: from a9-99.smtp-out.amazonses.com ([54.240.9.99]:50926 "EHLO
-        a9-99.smtp-out.amazonses.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727972AbfFDPiV (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Jun 2019 11:38:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-        s=6gbrjpgwjskckoa6a5zn6fwqkn67xbtw; d=amazonses.com; t=1559662700;
-        h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:MIME-Version:Content-Type:Feedback-ID;
-        bh=OIhqYY+SOkOUs9T6s6IEPEZv9lMASXYu4UBAM6SEZvE=;
-        b=ZYNwKBfhOkfV60g9kU9G7VB5OM0s231pfDNM3QuvIazUXNFVO7bjE5m0pNNNMQec
-        mEU2+GxAR9kUbYrODxURkYyW8OfS7B5BnJz4CvBknHYYByKfjas7oyCwT1qOsv54YQE
-        sODGtZoWQg96VqyeEDuBs0l2tlZz6jNwzoqkr9iE=
-Date:   Tue, 4 Jun 2019 15:38:20 +0000
-From:   Christopher Lameter <cl@linux.com>
-X-X-Sender: cl@nuc-kabylake
-To:     Minchan Kim <minchan@kernel.org>
-cc:     Andrew Morton <akpm@linux-foundation.org>,
-        linux-mm <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-api@vger.kernel.org,
-        Michal Hocko <mhocko@suse.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Tim Murray <timmurray@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Brian Geffon <bgeffon@google.com>, jannh@google.com,
-        oleg@redhat.com, christian@brauner.io, oleksandr@redhat.com,
-        hdanton@sina.com
-Subject: Re: [PATCH v1 4/4] mm: introduce MADV_PAGEOUT
-In-Reply-To: <20190603053655.127730-5-minchan@kernel.org>
-Message-ID: <0100016b232425c9-64a09298-59ba-48b8-9aa3-e7e1ad2d316c-000000@email.amazonses.com>
-References: <20190603053655.127730-1-minchan@kernel.org> <20190603053655.127730-5-minchan@kernel.org>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        id S1728197AbfFDP5q convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Tue, 4 Jun 2019 11:57:46 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([146.101.78.151]:37075 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728189AbfFDP5q (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Jun 2019 11:57:46 -0400
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-51-Mt3WHCfVPUCuA7Ovoyd_7A-1; Tue, 04 Jun 2019 16:57:42 +0100
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Tue, 4 Jun 2019 16:57:41 +0100
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
+ Tue, 4 Jun 2019 16:57:41 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     "'Eric W. Biederman'" <ebiederm@xmission.com>,
+        Oleg Nesterov <oleg@redhat.com>
+CC:     Andrew Morton <akpm@linux-foundation.org>,
+        Deepa Dinamani <deepa.kernel@gmail.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>, "dbueso@suse.de" <dbueso@suse.de>,
+        "axboe@kernel.dk" <axboe@kernel.dk>,
+        "dave@stgolabs.net" <dave@stgolabs.net>,
+        "e@80x24.org" <e@80x24.org>,
+        "jbaron@akamai.com" <jbaron@akamai.com>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-aio@kvack.org" <linux-aio@kvack.org>,
+        "omar.kilani@gmail.com" <omar.kilani@gmail.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        "Al Viro" <viro@ZenIV.linux.org.uk>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>
+Subject: RE: [PATCH] signal: remove the wrong signal_pending() check in
+ restore_user_sigmask()
+Thread-Topic: [PATCH] signal: remove the wrong signal_pending() check in
+ restore_user_sigmask()
+Thread-Index: AQHVGuqlwFf0q/qAAkiR7PRGfFAGAqaLofdg
+Date:   Tue, 4 Jun 2019 15:57:41 +0000
+Message-ID: <3b68788ea9114d08bdfdab575c8c29bb@AcuMS.aculab.com>
+References: <20190522032144.10995-1-deepa.kernel@gmail.com>
+        <20190529161157.GA27659@redhat.com>     <20190604134117.GA29963@redhat.com>
+ <87tvd5nz8i.fsf@xmission.com>
+In-Reply-To: <87tvd5nz8i.fsf@xmission.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-SES-Outgoing: 2019.06.04-54.240.9.99
-Feedback-ID: 1.us-east-1.fQZZZ0Xtj2+TD7V5apTT/NrT6QKuPgzCT/IC7XYgDKI=:AmazonSES
+X-MC-Unique: Mt3WHCfVPUCuA7Ovoyd_7A-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, 3 Jun 2019, Minchan Kim wrote:
+From: Eric W. Biederman
+> Sent: 04 June 2019 16:32
+...
+> Michael is there any chance we can get this guarantee of the linux
+> implementation of pselect and friends clearly documented.  The guarantee
+> that if the system call completes successfully we are guaranteed that
+> no signal that is unblocked by using sigmask will be delivered?
 
-> @@ -415,6 +416,128 @@ static long madvise_cold(struct vm_area_struct *vma,
->  	return 0;
->  }
->
-> +static int madvise_pageout_pte_range(pmd_t *pmd, unsigned long addr,
-> +				unsigned long end, struct mm_walk *walk)
-> +{
-> +	pte_t *orig_pte, *pte, ptent;
-> +	spinlock_t *ptl;
-> +	LIST_HEAD(page_list);
-> +	struct page *page;
-> +	int isolated = 0;
-> +	struct vm_area_struct *vma = walk->vma;
-> +	unsigned long next;
-> +
-> +	if (fatal_signal_pending(current))
-> +		return -EINTR;
-> +
-> +	next = pmd_addr_end(addr, end);
-> +	if (pmd_trans_huge(*pmd)) {
-> +		ptl = pmd_trans_huge_lock(pmd, vma);
-> +		if (!ptl)
-> +			return 0;
-> +
-> +		if (is_huge_zero_pmd(*pmd))
-> +			goto huge_unlock;
-> +
-> +		page = pmd_page(*pmd);
-> +		if (page_mapcount(page) > 1)
-> +			goto huge_unlock;
-> +
-> +		if (next - addr != HPAGE_PMD_SIZE) {
-> +			int err;
-> +
-> +			get_page(page);
-> +			spin_unlock(ptl);
-> +			lock_page(page);
-> +			err = split_huge_page(page);
-> +			unlock_page(page);
-> +			put_page(page);
-> +			if (!err)
-> +				goto regular_page;
-> +			return 0;
-> +		}
+The behaviour certainly needs documenting - the ToG docs are unclear.
+I think you need stronger statement that the one above.
 
-I have seen this before multiple times. Is there a way to avoid
-replicating the whole shebang?
+Maybe "signals will only be delivered (ie the handler called) if
+the system call has to wait and the wait is interrupted by a signal.
+(Even then pselect might find ready fd and return success.)
+
+There is also the 'issue' of ERESTARTNOHAND.
+Some of the system calls will return EINTR if the wait is interrupted
+by a signal that doesn't have a handler, others get restarted.
+I'm not at all sure about why there is a difference.
+
+	David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
 
