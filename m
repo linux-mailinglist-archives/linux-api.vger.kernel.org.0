@@ -2,169 +2,441 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6828F350EF
-	for <lists+linux-api@lfdr.de>; Tue,  4 Jun 2019 22:31:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2086935122
+	for <lists+linux-api@lfdr.de>; Tue,  4 Jun 2019 22:38:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726697AbfFDUbw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 4 Jun 2019 16:31:52 -0400
-Received: from sonic309-27.consmr.mail.gq1.yahoo.com ([98.137.65.153]:35343
-        "EHLO sonic309-27.consmr.mail.gq1.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726573AbfFDUbk (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Jun 2019 16:31:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1559680299; bh=2oO3AC7G3WVdgBC1FKSrqp/j5wxp08KaHcpA6OlkO6A=; h=Subject:To:Cc:References:From:Date:In-Reply-To:From:Subject; b=jBIjnMHsIyJRcyvAU0UF3BYvTIt4W4TMczgDwxdye2DBPuCU8t45Btn3ndfYuEiUHK4p8Cb21r7GQBz0kNdq9IOpTsn4S4o7b/FPwF6qivAyB0cIDOsEr3JBZpsXDm+po2lHhg2FFnH3bMDBxnJlB7rOiJj62AbKJzrkDQG/B5V08AZ9gH8BG7AxqBzS2bDZNjy/lksUFfvihMBx4IMM5jbNVMamBWSfxtNufhwjuch1OAp4j+RhbJizg6HbuoQ1xCOwhGQk8etJbbGmCYkKPrDbZtQVfmXhpsumWmzwbc69MCHLao5lPluuXpqkwWNi0gXyick8XaRVkXOxtNfkow==
-X-YMail-OSG: cib7.UMVM1k2qx.6kYvO5LekyL_FU44OpDYXhwxPFdOijDYShRUGNYGke9UPe6L
- oFD0ocRk7DSAmbjxy._XhHAuOk9hCm2gGu.Z3uOYUJlXE_iNMp9xei2aYos2zyCRcAWXOzAo2wOT
- TeMMtFtWQ.kkJZRnjjtSjRirP_l9jH1HTNgiz6bTVes4Afe9lGIUAxOjlW82ibm93.dbwgzVPWNh
- XpbWR.qYNNO_htGy1Scntcsb3hzdkSnSseBtMvTMcjYv.uxMhUvMFH30EIWstgN0X4D.f6QslVic
- KlDCqImByxadZJeNTiyJ3KMqiYTn2z72ya0Op699srkclQUis9KOGiTToVuBN_6hFXfMCWPolQBC
- zynNyjkku7SR4nPVqGVDKjT7ptLhh_lxngHnRZBOvcl705ZAkYTIEJ7IvUydu._d6Bfjkahbe7Oz
- Te1bKtGt3JshpBEZK_3oNsFd4W6399iSpY20Co6MPpoGHNmTiinZfnK7v3Km2ydmkK5TMRzKQSia
- Sbjnnd5x6brUHZj7c7c_p1dVZcXNqBCuGMkJHB1u1FX5x7hZ8PWE5f4xMG84eVWGtRSnJ9WPJ6pi
- 5vjOhHOvHHiRvQkHHvZMn2fM8dbSbXrCxogbQVmYQDO7q96hG4YaZn5c4GWZViO1SonEFgdHjSAQ
- Vx2VqY6McjuBL3NRK0p.E_W7jgjddNQ_0Z7WKQIGNCP11b2IfTtSelYSgertmJBbETmIwU2K9BeU
- Se7wmih1dXv1tBWq92kQ6PfIuJwo1PfZp9vpzCmgvGePU0pAkihNZoU7r_mPKgWE.ahrAtgKp2cW
- psOWaUJCb6CR3LpR5n0U2bjX.ID4tA9zYBR9If_N5d8wopY2_mYcESiRgcoyvby6.ngFKiDyXUZQ
- Ih.fXtErrFjNucqfHBtX4iyJW8l3s0OyUpA9eZE.ULrykvzyIwKbPVqzqC0k0O6FgU49Os029zsF
- neWfJhp1Uv5GTrHKo8nhMe8anQNCI_tXEOZ_jte2pW3Y08ig7ojqMY5be9GTi6LWWPUDpIosE.Ol
- B4BAlbtMOgrMb_YppD2Z24BFi.qjPRyz.dCFCtK6XKzmYXh1Z1QodedG5ltnwvWKpS4rfwHgriWF
- Uk7AF9n7T9m.vfMftWZdF4qd9X8XrN5VFIBdHWWWTNnwVNFYr2ILcAkyPPdo7Qfnfs7XV8cBt7v0
- XW1pty6Ek3waZ2JzOUGy5IhHEaKxBZVupQ9TzUlBhmecLZJiwslESBuG0F6v0.5jvXLr4_eVhUTv
- bdJOyRfZr689L5c3Oy9k-
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic309.consmr.mail.gq1.yahoo.com with HTTP; Tue, 4 Jun 2019 20:31:39 +0000
-Received: from c-73-223-4-185.hsd1.ca.comcast.net (EHLO [192.168.0.103]) ([73.223.4.185])
-          by smtp411.mail.gq1.yahoo.com (Oath Hermes SMTP Server) with ESMTPA ID 8ee78ba6e07883911f0213d43032097d;
-          Tue, 04 Jun 2019 20:31:38 +0000 (UTC)
-Subject: Re: [RFC][PATCH 0/8] Mount, FS, Block and Keyrings notifications [ver
- #2]
-To:     Andy Lutomirski <luto@kernel.org>,
-        David Howells <dhowells@redhat.com>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>, raven@themaw.net,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-block@vger.kernel.org, keyrings@vger.kernel.org,
-        LSM List <linux-security-module@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, casey@schaufler-ca.com
-References: <155966609977.17449.5624614375035334363.stgit@warthog.procyon.org.uk>
- <CALCETrWzDR=Ap8NQ5-YrVhXCEBgr+hwpjw9fBn0m2NkZzZ7XLQ@mail.gmail.com>
-From:   Casey Schaufler <casey@schaufler-ca.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=casey@schaufler-ca.com; keydata=
- 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
- abzjfg==
-Message-ID: <50c2ea19-6ae8-1f42-97ef-ba5c95e40475@schaufler-ca.com>
-Date:   Tue, 4 Jun 2019 13:31:37 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1726521AbfFDUip (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 4 Jun 2019 16:38:45 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:45180 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726474AbfFDUip (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Jun 2019 16:38:45 -0400
+Received: by mail-pf1-f194.google.com with SMTP id s11so13375746pfm.12
+        for <linux-api@vger.kernel.org>; Tue, 04 Jun 2019 13:38:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=vmtKd7pXCUoo21JdwkU/alve0IMksDE1qVB9HK93KUM=;
+        b=NH+zeQoAkCXNrr5hzhwpxS62fI/HeUnphmwpIyIBMJXL49cc/GqDRmPRRUZnYXE2Jw
+         owomvWsN+VmZ5DMZM2FYWH04v7pnPJPLA82wjOCqAY8ZhB+xB3B/8uaaaDBlCOY2ZAqh
+         oVNO2E424p6mlfJ6759JaYearaNnWMK+1mFg0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=vmtKd7pXCUoo21JdwkU/alve0IMksDE1qVB9HK93KUM=;
+        b=YPINfjB7VJ+2u1PA3d4JXJuqAppqmoNQ/IvhUHLvxegp7K7NYyotNp6IYJ9DLFjwbE
+         yiaYRc63TTDCzIC+3hq/W1abGfsw1Q+4Ay2LRNaxKWXdAdIl5vK4+6sK9oUF1Q6dENPV
+         unrDJhnfF5Th14pdNt3b0oTn9RLnvlfYuGkod7wWxM0vy1Ygy2MJRLH0KEuqA/6k2bVI
+         tx4XGJPTQ5mxalHUT+2hBREZ9TTFce0FYmvEkbMA2c0xxypDXOtdjVwfmO/X7UPs1ZmD
+         D9gritLF+cQhY/8hTdAfP3xpnhZ+nttDArwi0hxzpdE2977ozVWKTMUjoci96dil+tzX
+         tP5Q==
+X-Gm-Message-State: APjAAAWlU2LC0TYegU743GCqX3hm+dYC1gDOAQFyqY78EDnIba5g3sqH
+        NsTKufhaj9qVhCilg1GMC6xrjg==
+X-Google-Smtp-Source: APXvYqwYHfl45p29nmprOdyveIj26VWleTZ66ckx+7+TLMff5VtLrd8nsByKgtMPUTdhjZFxGTszdQ==
+X-Received: by 2002:a17:90a:1c1:: with SMTP id 1mr2256203pjd.72.1559680724047;
+        Tue, 04 Jun 2019 13:38:44 -0700 (PDT)
+Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id s66sm25508699pgs.87.2019.06.04.13.38.42
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 04 Jun 2019 13:38:43 -0700 (PDT)
+Date:   Tue, 4 Jun 2019 16:38:41 -0400
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     Minchan Kim <minchan@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-mm <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-api@vger.kernel.org,
+        Michal Hocko <mhocko@suse.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Tim Murray <timmurray@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Daniel Colascione <dancol@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Brian Geffon <bgeffon@google.com>, jannh@google.com,
+        oleg@redhat.com, christian@brauner.io, oleksandr@redhat.com,
+        hdanton@sina.com
+Subject: Re: [PATCH v1 1/4] mm: introduce MADV_COLD
+Message-ID: <20190604203841.GC228607@google.com>
+References: <20190603053655.127730-1-minchan@kernel.org>
+ <20190603053655.127730-2-minchan@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CALCETrWzDR=Ap8NQ5-YrVhXCEBgr+hwpjw9fBn0m2NkZzZ7XLQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190603053655.127730-2-minchan@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-n 6/4/2019 10:43 AM, Andy Lutomirski wrote:
-> On Tue, Jun 4, 2019 at 9:35 AM David Howells <dhowells@redhat.com> wrot=
-e:
->>
->> Hi Al,
->>
->> Here's a set of patches to add a general variable-length notification =
-queue
->> concept and to add sources of events for:
-> I asked before and didn't see a response, so I'll ask again.  Why are
-> you paying any attention at all to the creds that generate an event?
-> It seems like the resulting security model will be vary hard to
-> understand and probably buggy.  Can't you define a sensible model in
-> which only the listener creds matter?
+On Mon, Jun 03, 2019 at 02:36:52PM +0900, Minchan Kim wrote:
+> When a process expects no accesses to a certain memory range, it could
+> give a hint to kernel that the pages can be reclaimed when memory pressure
+> happens but data should be preserved for future use.  This could reduce
+> workingset eviction so it ends up increasing performance.
+> 
+> This patch introduces the new MADV_COLD hint to madvise(2) syscall.
+> MADV_COLD can be used by a process to mark a memory range as not expected
+> to be used in the near future. The hint can help kernel in deciding which
+> pages to evict early during memory pressure.
+> 
+> It works for every LRU pages like MADV_[DONTNEED|FREE]. IOW, It moves
+> 
+> 	active file page -> inactive file LRU
+> 	active anon page -> inacdtive anon LRU
+> 
+> Unlike MADV_FREE, it doesn't move active anonymous pages to inactive
+> files's head because MADV_COLD is a little bit different symantic.
+> MADV_FREE means it's okay to discard when the memory pressure because
+> the content of the page is *garbage* so freeing such pages is almost zero
+> overhead since we don't need to swap out and access afterward causes just
+> minor fault. Thus, it would make sense to put those freeable pages in
+> inactive file LRU to compete other used-once pages. Even, it could
+> give a bonus to make them be reclaimed on swapless system. However,
+> MADV_COLD doesn't mean garbage so reclaiming them requires swap-out/in
+> in the end. So it's better to move inactive anon's LRU list, not file LRU.
+> Furthermore, it would help to avoid unnecessary scanning of cold anonymous
+> if system doesn't have a swap device.
+> 
+> All of error rule is same with MADV_DONTNEED.
+> 
+> Note:
+> This hint works with only private pages(IOW, page_mapcount(page) < 2)
+> because shared page could have more chance to be accessed from other
+> processes sharing the page although the caller reset the reference bits.
+> It ends up preventing the reclaim of the page and wastes CPU cycle.
+> 
+> * RFCv2
+>  * add more description - mhocko
+> 
+> * RFCv1
+>  * renaming from MADV_COOL to MADV_COLD - hannes
+> 
+> * internal review
+>  * use clear_page_youn in deactivate_page - joelaf
+>  * Revise the description - surenb
+>  * Renaming from MADV_WARM to MADV_COOL - surenb
+> 
+> Signed-off-by: Minchan Kim <minchan@kernel.org>
+> ---
+>  include/linux/page-flags.h             |   1 +
+>  include/linux/page_idle.h              |  15 ++++
+>  include/linux/swap.h                   |   1 +
+>  include/uapi/asm-generic/mman-common.h |   1 +
+>  mm/internal.h                          |   2 +-
+>  mm/madvise.c                           | 115 ++++++++++++++++++++++++-
+>  mm/oom_kill.c                          |   2 +-
+>  mm/swap.c                              |  43 +++++++++
+>  8 files changed, 176 insertions(+), 4 deletions(-)
+> 
+> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+> index 9f8712a4b1a5..58b06654c8dd 100644
+> --- a/include/linux/page-flags.h
+> +++ b/include/linux/page-flags.h
+> @@ -424,6 +424,7 @@ static inline bool set_hwpoison_free_buddy_page(struct page *page)
+>  TESTPAGEFLAG(Young, young, PF_ANY)
+>  SETPAGEFLAG(Young, young, PF_ANY)
+>  TESTCLEARFLAG(Young, young, PF_ANY)
+> +CLEARPAGEFLAG(Young, young, PF_ANY)
+>  PAGEFLAG(Idle, idle, PF_ANY)
+>  #endif
+>  
+> diff --git a/include/linux/page_idle.h b/include/linux/page_idle.h
+> index 1e894d34bdce..f3f43b317150 100644
+> --- a/include/linux/page_idle.h
+> +++ b/include/linux/page_idle.h
+> @@ -19,6 +19,11 @@ static inline void set_page_young(struct page *page)
+>  	SetPageYoung(page);
+>  }
+>  
+> +static inline void clear_page_young(struct page *page)
+> +{
+> +	ClearPageYoung(page);
+> +}
+> +
+>  static inline bool test_and_clear_page_young(struct page *page)
+>  {
+>  	return TestClearPageYoung(page);
+> @@ -65,6 +70,16 @@ static inline void set_page_young(struct page *page)
+>  	set_bit(PAGE_EXT_YOUNG, &page_ext->flags);
+>  }
+>  
+> +static void clear_page_young(struct page *page)
+> +{
+> +	struct page_ext *page_ext = lookup_page_ext(page);
+> +
+> +	if (unlikely(!page_ext))
+> +		return;
+> +
+> +	clear_bit(PAGE_EXT_YOUNG, &page_ext->flags);
+> +}
+> +
+>  static inline bool test_and_clear_page_young(struct page *page)
+>  {
+>  	struct page_ext *page_ext = lookup_page_ext(page);
+> diff --git a/include/linux/swap.h b/include/linux/swap.h
+> index de2c67a33b7e..0ce997edb8bb 100644
+> --- a/include/linux/swap.h
+> +++ b/include/linux/swap.h
+> @@ -340,6 +340,7 @@ extern void lru_add_drain_cpu(int cpu);
+>  extern void lru_add_drain_all(void);
+>  extern void rotate_reclaimable_page(struct page *page);
+>  extern void deactivate_file_page(struct page *page);
+> +extern void deactivate_page(struct page *page);
+>  extern void mark_page_lazyfree(struct page *page);
+>  extern void swap_setup(void);
+>  
+> diff --git a/include/uapi/asm-generic/mman-common.h b/include/uapi/asm-generic/mman-common.h
+> index bea0278f65ab..1190f4e7f7b9 100644
+> --- a/include/uapi/asm-generic/mman-common.h
+> +++ b/include/uapi/asm-generic/mman-common.h
+> @@ -43,6 +43,7 @@
+>  #define MADV_SEQUENTIAL	2		/* expect sequential page references */
+>  #define MADV_WILLNEED	3		/* will need these pages */
+>  #define MADV_DONTNEED	4		/* don't need these pages */
+> +#define MADV_COLD	5		/* deactivatie these pages */
+>  
+>  /* common parameters: try to keep these consistent across architectures */
+>  #define MADV_FREE	8		/* free pages only if memory pressure */
+> diff --git a/mm/internal.h b/mm/internal.h
+> index 9eeaf2b95166..75a4f96ec0fb 100644
+> --- a/mm/internal.h
+> +++ b/mm/internal.h
+> @@ -43,7 +43,7 @@ vm_fault_t do_swap_page(struct vm_fault *vmf);
+>  void free_pgtables(struct mmu_gather *tlb, struct vm_area_struct *start_vma,
+>  		unsigned long floor, unsigned long ceiling);
+>  
+> -static inline bool can_madv_dontneed_vma(struct vm_area_struct *vma)
+> +static inline bool can_madv_lru_vma(struct vm_area_struct *vma)
+>  {
+>  	return !(vma->vm_flags & (VM_LOCKED|VM_HUGETLB|VM_PFNMAP));
+>  }
+> diff --git a/mm/madvise.c b/mm/madvise.c
+> index 628022e674a7..ab158766858a 100644
+> --- a/mm/madvise.c
+> +++ b/mm/madvise.c
+> @@ -40,6 +40,7 @@ static int madvise_need_mmap_write(int behavior)
+>  	case MADV_REMOVE:
+>  	case MADV_WILLNEED:
+>  	case MADV_DONTNEED:
+> +	case MADV_COLD:
+>  	case MADV_FREE:
+>  		return 0;
+>  	default:
+> @@ -307,6 +308,113 @@ static long madvise_willneed(struct vm_area_struct *vma,
+>  	return 0;
+>  }
+>  
+> +static int madvise_cold_pte_range(pmd_t *pmd, unsigned long addr,
+> +				unsigned long end, struct mm_walk *walk)
+> +{
+> +	pte_t *orig_pte, *pte, ptent;
+> +	spinlock_t *ptl;
+> +	struct page *page;
+> +	struct vm_area_struct *vma = walk->vma;
+> +	unsigned long next;
+> +
+> +	next = pmd_addr_end(addr, end);
+> +	if (pmd_trans_huge(*pmd)) {
+> +		ptl = pmd_trans_huge_lock(pmd, vma);
+> +		if (!ptl)
+> +			return 0;
+> +
+> +		if (is_huge_zero_pmd(*pmd))
+> +			goto huge_unlock;
+> +
+> +		page = pmd_page(*pmd);
+> +		if (page_mapcount(page) > 1)
+> +			goto huge_unlock;
+> +
+> +		if (next - addr != HPAGE_PMD_SIZE) {
+> +			int err;
+> +
+> +			get_page(page);
+> +			spin_unlock(ptl);
+> +			lock_page(page);
+> +			err = split_huge_page(page);
+> +			unlock_page(page);
+> +			put_page(page);
+> +			if (!err)
+> +				goto regular_page;
+> +			return 0;
+> +		}
+> +
+> +		pmdp_test_and_clear_young(vma, addr, pmd);
+> +		deactivate_page(page);
+> +huge_unlock:
+> +		spin_unlock(ptl);
+> +		return 0;
+> +	}
+> +
+> +	if (pmd_trans_unstable(pmd))
+> +		return 0;
+> +
+> +regular_page:
+> +	orig_pte = pte_offset_map_lock(vma->vm_mm, pmd, addr, &ptl);
+> +	for (pte = orig_pte; addr < end; pte++, addr += PAGE_SIZE) {
+> +		ptent = *pte;
+> +
+> +		if (pte_none(ptent))
+> +			continue;
+> +
+> +		if (!pte_present(ptent))
+> +			continue;
+> +
+> +		page = vm_normal_page(vma, addr, ptent);
+> +		if (!page)
+> +			continue;
+> +
+> +		if (page_mapcount(page) > 1)
+> +			continue;
+> +
+> +		ptep_test_and_clear_young(vma, addr, pte);
 
-We've spent the last 18 months reeling from the implications
-of what can happen when one process has the ability to snoop
-on another. Introducing yet another mechanism that is trivial
-to exploit is a very bad idea.
+Wondering here how it interacts with idle page tracking. Here since young
+flag is cleared by the cold hint, page_referenced_one() or
+page_idle_clear_pte_refs_one() will not be able to clear the page-idle flag
+if it was previously set since it does not know any more that a page was
+actively referenced.
 
-I will try to explain the problem once again. If process A
-sends a signal (writes information) to process B the kernel
-checks that either process A has the same UID as process B
-or that process A has privilege to override that policy.
-Process B is passive in this access control decision, while
-process A is active. In the event delivery case, process A
-does something (e.g. modifies a keyring) that generates an
-event, which is then sent to process B's event buffer. Again,
-A is active and B is passive. Process A must have write access
-(defined by some policy) to process B's event buffer. To
-implement such a policy requires A's credential, and some
-information about the object (passive entity) to which the
-event is being delivered. You can't just use the credential
-from Process B because it is not the active entity, it is the
-passive entity.
+Should you also be clearing the page-idle flag here if the ptep young/accessed
+bit was previously set, just so that page-idle tracking works smoothly when
+this hint is concurrently applied?
 
+> +		deactivate_page(page);
+> +	}
+> +
+> +	pte_unmap_unlock(orig_pte, ptl);
+> +	cond_resched();
+> +
+> +	return 0;
+> +}
+> +
+> +static void madvise_cold_page_range(struct mmu_gather *tlb,
+> +			     struct vm_area_struct *vma,
+> +			     unsigned long addr, unsigned long end)
+> +{
+> +	struct mm_walk cool_walk = {
+> +		.pmd_entry = madvise_cold_pte_range,
+> +		.mm = vma->vm_mm,
+> +	};
+> +
+> +	tlb_start_vma(tlb, vma);
+> +	walk_page_range(addr, end, &cool_walk);
+> +	tlb_end_vma(tlb, vma);
+> +}
+> +
+> +static long madvise_cold(struct vm_area_struct *vma,
+> +			struct vm_area_struct **prev,
+> +			unsigned long start_addr, unsigned long end_addr)
+> +{
+> +	struct mm_struct *mm = vma->vm_mm;
+> +	struct mmu_gather tlb;
+> +
+> +	*prev = vma;
+> +	if (!can_madv_lru_vma(vma))
+> +		return -EINVAL;
+> +
+> +	lru_add_drain();
+> +	tlb_gather_mmu(&tlb, mm, start_addr, end_addr);
+> +	madvise_cold_page_range(&tlb, vma, start_addr, end_addr);
+> +	tlb_finish_mmu(&tlb, start_addr, end_addr);
+> +
+> +	return 0;
+> +}
+> +
+>  static int madvise_free_pte_range(pmd_t *pmd, unsigned long addr,
+>  				unsigned long end, struct mm_walk *walk)
+>  
+> @@ -519,7 +627,7 @@ static long madvise_dontneed_free(struct vm_area_struct *vma,
+>  				  int behavior)
+>  {
+>  	*prev = vma;
+> -	if (!can_madv_dontneed_vma(vma))
+> +	if (!can_madv_lru_vma(vma))
+>  		return -EINVAL;
+>  
+>  	if (!userfaultfd_remove(vma, start, end)) {
+> @@ -541,7 +649,7 @@ static long madvise_dontneed_free(struct vm_area_struct *vma,
+>  			 */
+>  			return -ENOMEM;
+>  		}
+> -		if (!can_madv_dontneed_vma(vma))
+> +		if (!can_madv_lru_vma(vma))
+>  			return -EINVAL;
+>  		if (end > vma->vm_end) {
+>  			/*
+> @@ -695,6 +803,8 @@ madvise_vma(struct vm_area_struct *vma, struct vm_area_struct **prev,
+>  		return madvise_remove(vma, prev, start, end);
+>  	case MADV_WILLNEED:
+>  		return madvise_willneed(vma, prev, start, end);
+> +	case MADV_COLD:
+> +		return madvise_cold(vma, prev, start, end);
+>  	case MADV_FREE:
+>  	case MADV_DONTNEED:
+>  		return madvise_dontneed_free(vma, prev, start, end, behavior);
+> @@ -716,6 +826,7 @@ madvise_behavior_valid(int behavior)
+>  	case MADV_WILLNEED:
+>  	case MADV_DONTNEED:
+>  	case MADV_FREE:
+> +	case MADV_COLD:
+>  #ifdef CONFIG_KSM
+>  	case MADV_MERGEABLE:
+>  	case MADV_UNMERGEABLE:
+> diff --git a/mm/oom_kill.c b/mm/oom_kill.c
+> index 5a58778c91d4..f73d5f5145f0 100644
+> --- a/mm/oom_kill.c
+> +++ b/mm/oom_kill.c
+> @@ -515,7 +515,7 @@ bool __oom_reap_task_mm(struct mm_struct *mm)
+>  	set_bit(MMF_UNSTABLE, &mm->flags);
+>  
+>  	for (vma = mm->mmap ; vma; vma = vma->vm_next) {
+> -		if (!can_madv_dontneed_vma(vma))
+> +		if (!can_madv_lru_vma(vma))
+>  			continue;
+>  
+>  		/*
+> diff --git a/mm/swap.c b/mm/swap.c
+> index 7b079976cbec..cebedab15aa2 100644
+> --- a/mm/swap.c
+> +++ b/mm/swap.c
+> @@ -47,6 +47,7 @@ int page_cluster;
+>  static DEFINE_PER_CPU(struct pagevec, lru_add_pvec);
+>  static DEFINE_PER_CPU(struct pagevec, lru_rotate_pvecs);
+>  static DEFINE_PER_CPU(struct pagevec, lru_deactivate_file_pvecs);
+> +static DEFINE_PER_CPU(struct pagevec, lru_deactivate_pvecs);
+>  static DEFINE_PER_CPU(struct pagevec, lru_lazyfree_pvecs);
+>  #ifdef CONFIG_SMP
+>  static DEFINE_PER_CPU(struct pagevec, activate_page_pvecs);
+> @@ -538,6 +539,23 @@ static void lru_deactivate_file_fn(struct page *page, struct lruvec *lruvec,
+>  	update_page_reclaim_stat(lruvec, file, 0);
+>  }
+>  
+> +static void lru_deactivate_fn(struct page *page, struct lruvec *lruvec,
+> +			    void *arg)
+> +{
+> +	if (PageLRU(page) && PageActive(page) && !PageUnevictable(page)) {
+> +		int file = page_is_file_cache(page);
+> +		int lru = page_lru_base_type(page);
+> +
+> +		del_page_from_lru_list(page, lruvec, lru + LRU_ACTIVE);
+> +		ClearPageActive(page);
+> +		ClearPageReferenced(page);
+> +		clear_page_young(page);
 
->
->> LSM support is included:
->>
->>  (1) The creds of the process that did the fput() that reduced the ref=
-count
->>      to zero are cached in the file struct.
->>
->>  (2) __fput() overrides the current creds with the creds from (1) whil=
-st
->>      doing the cleanup, thereby making sure that the creds seen by the=
+I was curious, how does the above interact with clear_refs?
 
->>      destruction notification generated by mntput() appears to come fr=
-om
->>      the last fputter.
-> That looks like duct tape that is, at best, likely to be very buggy.
->
->>  (3) security_post_notification() is called for each queue that we mig=
-ht
->>      want to post a notification into, thereby allowing the LSM to pre=
-vent
->>      covert communications.
-> This seems like the wrong approach.  If an LSM wants to prevent covert
-> communication from, say, mount actions, then it shouldn't allow the
-> watch to be set up in the first place.
+It appears that a range that is marked as cold will appear to be unreferenced
+(since referenced flag is cleared) even though it may have been referenced in
+the past. Very least, I believe this behavior should be documented somewhere.
+
+I believe it is best for us to make the clear_refs technique behave similar
+to the idle-page tracking for the purposes of figuring out which pages are
+referenced, so that clear_refs is more immune to this hint.
+
+thanks,
+
+ - Joel
 
