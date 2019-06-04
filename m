@@ -2,140 +2,169 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 25BD934337
-	for <lists+linux-api@lfdr.de>; Tue,  4 Jun 2019 11:33:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 304F934373
+	for <lists+linux-api@lfdr.de>; Tue,  4 Jun 2019 11:43:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726933AbfFDJc7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 4 Jun 2019 05:32:59 -0400
-Received: from relay.sw.ru ([185.231.240.75]:42626 "EHLO relay.sw.ru"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726918AbfFDJc7 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 4 Jun 2019 05:32:59 -0400
-Received: from [172.16.25.169]
-        by relay.sw.ru with esmtp (Exim 4.91)
-        (envelope-from <ktkhai@virtuozzo.com>)
-        id 1hY5oE-0001dh-Oe; Tue, 04 Jun 2019 12:32:46 +0300
-Subject: Re: [PATCH v2 0/7] mm: process_vm_mmap() -- syscall for duplication a
- process mapping
-To:     "Kirill A. Shutemov" <kirill@shutemov.name>
-Cc:     akpm@linux-foundation.org, dan.j.williams@intel.com,
-        mhocko@suse.com, keith.busch@intel.com,
-        kirill.shutemov@linux.intel.com, alexander.h.duyck@linux.intel.com,
-        ira.weiny@intel.com, andreyknvl@google.com, arunks@codeaurora.org,
-        vbabka@suse.cz, cl@linux.com, riel@surriel.com,
-        keescook@chromium.org, hannes@cmpxchg.org, npiggin@gmail.com,
-        mathieu.desnoyers@efficios.com, shakeelb@google.com, guro@fb.com,
-        aarcange@redhat.com, hughd@google.com, jglisse@redhat.com,
-        mgorman@techsingularity.net, daniel.m.jordan@oracle.com,
-        jannh@google.com, kilobyte@angband.pl, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org
-References: <155836064844.2441.10911127801797083064.stgit@localhost.localdomain>
- <20190522152254.5cyxhjizuwuojlix@box>
- <4228b541-d31c-b76a-2570-1924df0d4724@virtuozzo.com>
- <5ae7e3c1-3875-ea1e-54b3-ac3c493a11f0@virtuozzo.com>
- <20190603174706.t4cby7f5ni4gvvom@box>
-From:   Kirill Tkhai <ktkhai@virtuozzo.com>
-Message-ID: <c250a53e-dd30-3f10-1c05-e86e4e10358a@virtuozzo.com>
-Date:   Tue, 4 Jun 2019 12:32:46 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1727008AbfFDJnW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 4 Jun 2019 05:43:22 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:53964 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726933AbfFDJnW (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Jun 2019 05:43:22 -0400
+Received: by mail-wm1-f66.google.com with SMTP id d17so6387120wmb.3
+        for <linux-api@vger.kernel.org>; Tue, 04 Jun 2019 02:43:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=brauner.io; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=9zsBjqfFxDnK299EPt8HWTK+gFJutyEx94Q+WKO51eU=;
+        b=aWootuo87lkA0fLMe02iMsBMN+6Wqgil2jMBTKo9HBgNee7yNm2q1+xrxYOhB7fc0E
+         QdFIfeYWDIv9ZKgHFFdxdTncjeBcuwSUOHUtyAgqaMGrAlrXvyMEVCAY2HUDOhqjIw5h
+         SxkBKH5LldMT+QhWcPWGEv4EwYGtj4BWNJCbDaZlb6RNLzX6iZFgojxKoo5aiJcLyhDo
+         6qvz+hd1La+h9MLVdRDT8JF3qIjoSFa7v3LAG7jMi9ucZxPObzoqY4RbV/STLhEMcs6E
+         AnB58Pyjt/Abe7IIgi7BiHELdpM0KM9WzSTWjHzDUItug42iiZjNUYgW2Tz/1bkV1q/u
+         HVTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=9zsBjqfFxDnK299EPt8HWTK+gFJutyEx94Q+WKO51eU=;
+        b=iSyCY7PjaxiKzMp/1gRtCR/lcjQ6HyEaPqBzoKZtN+MueETlFGKqujMBntXUywXG96
+         GQmiDUoPRhZnOREzfv5R/5sKGng6A9JO4QoFKnQa9MbHlVuScs+qg1JWA7qLFy4xw1WJ
+         1KULceU6VtX+zCKci3HSl7chMaf4yUnBinwBHBM5hLDUD8M/FJv4L4vMD8vXTxkkkniJ
+         MsRuftolq2MvcBu8CIqmOr8kQWLFttjgcUuEHLwzH81rMIk7DPiX38SQlnAuep4Z3uVI
+         cmigsyfX9dvYhZPMX5ddTomZbckqlZTJWgZkBTtZyjVG8zkAZoKlJ8IxVfNJRuBUpkjG
+         iO0w==
+X-Gm-Message-State: APjAAAVA/n+P5uqMdRJN8xQ9W2lB+hStvIJE2x5JvsWE9LMiGQ025SFl
+        Q4lkMfJIwysik5JHwq8HKKcj5A==
+X-Google-Smtp-Source: APXvYqwgwSue4d4xXG1eqyr2WgURWLA8qP2rB2INz9FuaOZWfmKlm2odEX/0SxywA21Yhne9QzL+xA==
+X-Received: by 2002:a7b:c842:: with SMTP id c2mr17669213wml.28.1559641400055;
+        Tue, 04 Jun 2019 02:43:20 -0700 (PDT)
+Received: from brauner.io ([212.91.227.56])
+        by smtp.gmail.com with ESMTPSA id y132sm27296890wmd.35.2019.06.04.02.43.18
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Tue, 04 Jun 2019 02:43:19 -0700 (PDT)
+Date:   Tue, 4 Jun 2019 11:43:18 +0200
+From:   Christian Brauner <christian@brauner.io>
+To:     David Howells <dhowells@redhat.com>
+Cc:     viro@zeniv.linux.org.uk, linux-kernel@vger.kernel.org,
+        torvalds@linux-foundation.org, jannh@google.com,
+        keescook@chromium.org, fweimer@redhat.com, oleg@redhat.com,
+        arnd@arndb.de, Pavel Emelyanov <xemul@virtuozzo.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Adrian Reber <adrian@lisas.de>,
+        Andrei Vagin <avagin@gmail.com>, linux-api@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] fork: add clone3
+Message-ID: <20190604094317.4wfelmbw4lgxzide@brauner.io>
+References: <20190603144331.16760-1-christian@brauner.io>
+ <4020.1559640492@warthog.procyon.org.uk>
 MIME-Version: 1.0
-In-Reply-To: <20190603174706.t4cby7f5ni4gvvom@box>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <4020.1559640492@warthog.procyon.org.uk>
+User-Agent: NeoMutt/20180716
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 03.06.2019 20:47, Kirill A. Shutemov wrote:> On Mon, Jun 03, 2019 at 05:56:32PM +0300, Kirill Tkhai wrote:
->> On 03.06.2019 17:38, Kirill Tkhai wrote:
->>> On 22.05.2019 18:22, Kirill A. Shutemov wrote:
->>>> On Mon, May 20, 2019 at 05:00:01PM +0300, Kirill Tkhai wrote:
->>>>> This patchset adds a new syscall, which makes possible
->>>>> to clone a VMA from a process to current process.
->>>>> The syscall supplements the functionality provided
->>>>> by process_vm_writev() and process_vm_readv() syscalls,
->>>>> and it may be useful in many situation.
->>>>
->>>> Kirill, could you explain how the change affects rmap and how it is safe.
->>>>
->>>> My concern is that the patchset allows to map the same page multiple times
->>>> within one process or even map page allocated by child to the parrent.
->>>
->>> Speaking honestly, we already support this model, since ZERO_PAGE() may
->>> be mapped multiply times in any number of mappings.
->>
->> Picking of huge_zero_page and mremapping its VMA to unaligned address also gives
->> the case, when the same huge page is mapped as huge page and as set of ordinary
->> pages in the same process.
->>
->> Summing up two above cases, is there really a fundamental problem with
->> the functionality the patch set introduces? It looks like we already have
->> these cases in stable kernel supported.
+On Tue, Jun 04, 2019 at 10:28:12AM +0100, David Howells wrote:
+> Christian Brauner <christian@brauner.io> wrote:
 > 
-> It *might* work. But it requires a lot of audit to prove that it actually
-> *does* work.
+> > +#include <linux/compiler_types.h>
+> 
+> I suspect you don't want to include that directly.
+> 
+> Also, to avoid bloating linux/sched/task.h yet further, maybe put this in
+> linux/sched/clone.h?
 
-Please, give the represent of the way the audit results should look like
-for you. In case of I hadn't done some audit before patchset preparing,
-I wouldn't have sent it. So, give an idea that you expect from this.
+Yeah, not the worst idea.
+Though I'd leave the flags where they are and just add struct
+kernel_clone_args in there. But I assume that's what you meant anyway.
 
-> For instance, are you sure it will not break KSM?
+> 
+> > -extern long _do_fork(unsigned long, unsigned long, unsigned long, int __user *, int __user *, unsigned long);
+> > +extern long _do_fork(struct kernel_clone_args *kargs);
+> >  extern long do_fork(unsigned long, unsigned long, unsigned long, int __user *, int __user *);
+> 
+> Maybe these could move into linux/sched/clone.h too.
 
-Yes, it does not break KSM. The main point is that in case of KSM we already
-may have not just only a page mapped twice in a single process, but even
-a page mapped twice in a single VMA. And this is just a particular case of
-generic supported set. (Ordinary page still can't be mapped twice in a single
-VMA, since pgoff differences won't allow to merge such two hunks together).
+Meh, that could be a separate cleanup patch after clone3() has been
+merged.
 
-The generic rule of ksm is "everything may happen with a page in a real time,
-and all of this will be reflected in stable and unstable trees and rmap_items
-some time later". Pages of a duplicated VMA will be interpreted as KSM fork,
-and the corresponding checks in unstable_tree_search_insert() and
-stable_tree_search() provide this.
+> 
+> > +#define CLONE_MAX ~0U
+> 
+> Can you add a comment summarising the meaning?
 
-When both of source and destination VMAs are mergeable,
-1)if page was added to stable tree before the duplication of related VMA,
-  then during scanning destination VMA in cmp_and_merge_page() it will be
-  detected as a duplicate, and we will just add related rmap_item
-  to stable node chain;
-2)if page was added to unstable tree before the duplication of related VMA,
-  and it is remaining there, then the page will be detected as a duplicate
-  in destination VMA, and the scan of page will be skipped till next turn;
-3)if page was not added to any tree before the duplication, it may be added
-  to one of the trees and it will be handled by one of two rules above.
+Yes, can do.
 
-When one of source or destination VMAs is not mergeable, while a page become
-PageKsm() during scanning other of them, the unmergeable VMA becomes to refer
-to PageKsm(), which does not have rmap_item. But it still possible to unmap
-that page from unmergeable VMA, since rmap_walk_ksm() goes over all anon_vma
-under rb_root. Just the same as what happens, when process forks, and its
-child makes VMA unmergeable.
+> 
+> > +	u64 clone_flags = args->flags;
+> > +	int __user *child_tidptr = args->child_tid;
+> > +	unsigned long tls = args->tls;
+> > +	unsigned long stack_start = args->stack;
+> > +	unsigned long stack_size = args->stack_size;
+> 
+> Some of these are only used once, so it's probably not worth sticking them in
+> local variables.
 
-> What does it mean for memory accounting? memcg?
+[1]:
+Ok, will double check.
+This was just to minimize copy-paste erros for variables which were used
+multiple times.
 
-Once assigned memcg remains the same after VMA duplication. Mapped page range
-advances counters in vm_stat_account(). Since we keep fork() semantics,
-the same thing occurs as after fork()+mremap().
+> 
+> > -		if (clone_flags &
+> > -		    (CLONE_DETACHED | CLONE_PARENT_SETTID | CLONE_THREAD))
+> > -			return ERR_PTR(-EINVAL);
+> 
+> Did this error check get lost?  I can see part of it further on, but the check
+> on CLONE_PARENT_SETTID is absent.
 
-> My point is that you breaking long standing invariant in Linux MM and it
-> has to be properly justified.
+No, it's only relevant for legacy clone() since it uses the
+parent_tidptr argument to return the pidfd. clone3() has a dedicated
+return argument for that in clone_args.
+The check for legacy clone() is now done in legacy clone() directly.
+copy_process() should only do generic checks for all version of
+clone(),fork(),vfork(), etc.
 
-I'm not against that. Please, say, which form of the justification you expect.
-I assume you do not mean retelling of every string of existing code, because
-this way the words will take 10 times more, than the code, and just not human
-possible.
+> 
+> > +	int __user *parent_tidptr = args->parent_tid;
+> 
+> There's only one usage remaining after this patch, so a local var doesn't gain
+> a lot.
 
-Please, give the specific request what you expect, and how this should look like.
+Yes, that leads back to [1].
 
-> I would expect to see some strange deadlocks or permanent trylock failure
-> as result of such change.
+> 
+> >  pid_t kernel_thread(int (*fn)(void *), void *arg, unsigned long flags)
+> >  {
+> > -	return _do_fork(flags|CLONE_VM|CLONE_UNTRACED, (unsigned long)fn,
+> > -		(unsigned long)arg, NULL, NULL, 0);
+> > +	struct kernel_clone_args args = {
+> > +		.flags = ((flags | CLONE_VM | CLONE_UNTRACED) & ~CSIGNAL),
+> > +		.exit_signal = (flags & CSIGNAL),
+> 
+> Kernel threads can have exit signals?
 
-Do you hint some specific area? Do you expect I run some specific test cases?
-Do you want we add some debugging engine on top of page locking to detect such
-the trylock failures?
+Yes,
 
-Thanks,
-Kirill
+kernel/kthread.c:       pid = kernel_thread(kthread, create, CLONE_FS | CLONE_FILES | SIGCHLD);
+kernel/umh.c:   pid = kernel_thread(call_usermodehelper_exec_async, sub_info, SIGCHLD);
+
+And even if they couldn't have. This is just to make sure that if they
+ever would we'd be prepared.
+
+> 
+> > +static int copy_clone_args_from_user(struct kernel_clone_args *kargs,
+> > +				     struct clone_args __user *uargs,
+> > +				     size_t size)
+> 
+> I would make this "noinline".  If it gets inlined, local variable "args" may
+> still be on the stack when _do_fork() gets called.
+
+Hm, can do.
+
+Thanks!
+Christian
