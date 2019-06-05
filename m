@@ -2,113 +2,154 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 396F5358CF
-	for <lists+linux-api@lfdr.de>; Wed,  5 Jun 2019 10:42:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1025835C83
+	for <lists+linux-api@lfdr.de>; Wed,  5 Jun 2019 14:21:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726778AbfFEIlo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 5 Jun 2019 04:41:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33614 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726636AbfFEIlo (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 5 Jun 2019 04:41:44 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 0AB11B9AD5;
-        Wed,  5 Jun 2019 08:41:39 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-120-173.rdu2.redhat.com [10.10.120.173])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id BEF6160576;
-        Wed,  5 Jun 2019 08:41:35 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <50c2ea19-6ae8-1f42-97ef-ba5c95e40475@schaufler-ca.com>
-References: <50c2ea19-6ae8-1f42-97ef-ba5c95e40475@schaufler-ca.com> <155966609977.17449.5624614375035334363.stgit@warthog.procyon.org.uk> <CALCETrWzDR=Ap8NQ5-YrVhXCEBgr+hwpjw9fBn0m2NkZzZ7XLQ@mail.gmail.com>
-To:     Casey Schaufler <casey@schaufler-ca.com>
-Cc:     dhowells@redhat.com, Andy Lutomirski <luto@kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>, raven@themaw.net,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-block@vger.kernel.org, keyrings@vger.kernel.org,
-        LSM List <linux-security-module@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC][PATCH 0/8] Mount, FS, Block and Keyrings notifications [ver #2]
+        id S1727625AbfFEMVp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 5 Jun 2019 08:21:45 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:41970 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727273AbfFEMVp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 5 Jun 2019 08:21:45 -0400
+Received: by mail-wr1-f65.google.com with SMTP id c2so19253421wrm.8;
+        Wed, 05 Jun 2019 05:21:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:subject:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=eMX4q3DpHMhUsdsN4u88JHTPcA/fYwja5qc5UwXeOj0=;
+        b=HkwwqWkbYHshnfYvDhmb8NlPq1PKXNE+NTRxvZwenZ5mdxm93abHvET1ts/6AqvNWM
+         IfefGtgsPVhkwiYXcZgGowa3l3QfD+OKsqASzLS2+wUdHnALs6fu+BOB89zspYmQSBXA
+         ktCUuQYXqnevp2qsxupbzl5wplKboxVDx5VwChJ09eueMX7GNlRFIeQNcX2DpnGBL4nN
+         F/QmyXv+U0ci9q4txpJpnLdJ9gISMBrpAAvVxJVjbX8RWQClrvDeZEPs5VnvQZrc6rsJ
+         FkuQDPfKNkTvAK0TXZRNc0xDGKJkhACetTPcFkPrPUuwDix+0WyWXACGaerBMJEk2+J1
+         XLqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=eMX4q3DpHMhUsdsN4u88JHTPcA/fYwja5qc5UwXeOj0=;
+        b=mgeLlCdWikl5GFWXnkbvo59T8tx6JhPSSLzJhWfmmpx2ttlJSl4O3Koey3nSCRp1JE
+         AfPL0Mzeh4r7vu2px9BDcK+cV+hCf8BhDHFehN/0HIunLKUbOmip7BZ4SXDjGlapUsKQ
+         KqWeD3t3noYFgY8MoS9cV4dKueQo/QqpWfcU0lrWP+4TaTQkgsZ/sv8ZlYuZNHvnLLVV
+         IDqkCGs7f4gR1Py/SA4bqSa05CzwjNxL0iD8kK2tyhCdjw40GeL6BLHBjqElxibQEaEJ
+         POm4741AA2Km6BvR0SyrCmY9iZvZIOK3PxuF+4Is5cq3AVtKV3+fEw0EoIxE8yCEdx6E
+         XhVg==
+X-Gm-Message-State: APjAAAVYOkOeHyLIP3CCJF+a2ol+05/OtiHrEyuNo+WISHUNj/Fm5zmN
+        cCHSNOphyXD2NDt08Ru3lqA=
+X-Google-Smtp-Source: APXvYqyPHvWdNV9UYQ5tB9zJObQjRgwr7QJNszooXaFDn9ZgdymeSnKyWkZI932VnvkKp8F3fqHtFg==
+X-Received: by 2002:a5d:6406:: with SMTP id z6mr9456223wru.87.1559737303220;
+        Wed, 05 Jun 2019 05:21:43 -0700 (PDT)
+Received: from [172.16.8.139] (host-78-151-217-120.as13285.net. [78.151.217.120])
+        by smtp.gmail.com with ESMTPSA id v67sm4961931wme.24.2019.06.05.05.21.41
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Wed, 05 Jun 2019 05:21:42 -0700 (PDT)
+From:   Alan Jenkins <alan.christopher.jenkins@gmail.com>
+Subject: Re: [PATCH 09/25] vfs: Allow mount information to be queried by
+ fsinfo() [ver #13]
+To:     David Howells <dhowells@redhat.com>, viro@zeniv.linux.org.uk
+Cc:     raven@themaw.net, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mszeredi@redhat.com
+References: <155905626142.1662.18430571708534506785.stgit@warthog.procyon.org.uk>
+ <155905633578.1662.8087594848892366318.stgit@warthog.procyon.org.uk>
+Message-ID: <60136f9f-8eb6-a7f4-11c6-daf988274420@gmail.com>
+Date:   Wed, 5 Jun 2019 13:21:40 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <20191.1559724094.1@warthog.procyon.org.uk>
-Date:   Wed, 05 Jun 2019 09:41:34 +0100
-Message-ID: <20192.1559724094@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.26]); Wed, 05 Jun 2019 08:41:44 +0000 (UTC)
+In-Reply-To: <155905633578.1662.8087594848892366318.stgit@warthog.procyon.org.uk>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Casey Schaufler <casey@schaufler-ca.com> wrote:
+On 28/05/2019 16:12, David Howells wrote:
+> Allow mount information, including information about the topology tree to
+> be queried with the fsinfo() system call.  Usage of AT_FSINFO_MOUNTID_PATH
+> allows overlapping mounts to be queried.
+>
+> To this end, four fsinfo() attributes are provided:
+>
+>   (1) FSINFO_ATTR_MOUNT_INFO.
+>
+>       This is a structure providing information about a mount, including:
+>
+> 	- Mounted superblock ID.
+> 	- Mount ID (as AT_FSINFO_MOUNTID_PATH).
+> 	- Parent mount ID.
+> 	- Mount attributes (eg. R/O, NOEXEC).
+> 	- Number of change notifications generated.
+>
+>       Note that the parent mount ID is overridden to the ID of the queried
+>       mount if the parent lies outside of the chroot or dfd tree.
+>
+>   (2) FSINFO_ATTR_MOUNT_DEVNAME.
+>
+>       This a string providing the device name associated with the mount.
+>
+>       Note that the device name may be a path that lies outside of the root.
+>
+>   (3) FSINFO_ATTR_MOUNT_CHILDREN.
+>
+>       This produces an array of structures, one for each child and capped
+>       with one for the argument mount (checked after listing all the
+>       children).  Each element contains the mount ID and the notification
+>       counter of the respective mount object.
+>
+>   (4) FSINFO_ATTR_MOUNT_SUBMOUNT.
+>
+>       This is a 1D array of strings, indexed with struct fsinfo_params::Nth.
+>       Each string is the relative pathname of the corresponding child
+>       returned by FSINFO_ATTR_MOUNT_CHILD.
 
-> I will try to explain the problem once again. If process A
-> sends a signal (writes information) to process B the kernel
-> checks that either process A has the same UID as process B
-> or that process A has privilege to override that policy.
-> Process B is passive in this access control decision, while
-> process A is active. In the event delivery case, process A
-> does something (e.g. modifies a keyring) that generates an
-> event, which is then sent to process B's event buffer.
-
-I think this might be the core sticking point here.  It looks like two
-different situations:
-
- (1) A explicitly sends event to B (eg. signalling, sendmsg, etc.)
-
- (2) A implicitly and unknowingly sends event to B as a side effect of some
-     other action (eg. B has a watch for the event A did).
-
-The LSM treats them as the same: that is B must have MAC authorisation to send
-a message to A.
-
-But there are problems with not sending the event:
-
- (1) B's internal state is then corrupt (or, at least, unknowingly invalid).
-
- (2) B can potentially figure out that the event happened by other means.
+FSINFO_ATTR_MOUNT_CHILD -> FSINFO_ATTR_MOUNT_CHILDREN
 
 
-I've implemented four event sources so far:
+>       Note that paths in the mount at the base of the tree (whether that be
+>       dfd or chroot) are relative to the base of the tree, not the root
+>       directory of that mount.
+>
+> Signed-off-by: David Howells<dhowells@redhat.com>
+> ---
+>
+>   fs/d_path.c                 |    2
+>   fs/fsinfo.c                 |    9 ++
+>   fs/internal.h               |    9 ++
+>   fs/namespace.c              |  175 +++++++++++++++++++++++++++++++++++++++++++
+>   include/uapi/linux/fsinfo.h |   28 +++++++
+>   samples/vfs/test-fsinfo.c   |   47 +++++++++++-
+>   6 files changed, 266 insertions(+), 4 deletions(-)
 
- (1) Keys/keyrings.  You can only get events on a key you have View permission
-     on and the other process has to have write access to it, so I think this
-     is good enough.
+> +/*
+> + * Information struct for fsinfo(FSINFO_ATTR_MOUNT_INFO).
+> + */
+> +struct fsinfo_mount_info {
+> +	__u64		f_sb_id;	/* Superblock ID */
+> +	__u32		mnt_id;		/* Mount identifier (use with AT_FSINFO_MOUNTID_PATH) */
+> +	__u32		parent_id;	/* Parent mount identifier */
+> +	__u32		group_id;	/* Mount group ID */
+> +	__u32		master_id;	/* Slave master group ID */
+> +	__u32		from_id;	/* Slave propogated from ID */
 
- (2) Block layer.  Currently this will only get you hardware error events,
-     which is probably safe.  I'm not sure you can manipulate those without
-     permission to directly access the device files.
+propogated -> propagated
 
- (3) Superblock.  This is trickier since it can see events that can be
-     manufactured (R/W <-> R/O remounting, EDQUOT) as well as events that
-     can't without hardware control (EIO, network link loss, RF kill).
-
- (4) Mount topology.  This is the trickiest since it allows you to see events
-     beyond the point at which you placed your watch (in essence, you place a
-     subtree watch).
-
-     The question is what permission checking should I do?  Ideally, I'd
-     emulate a pathwalk between the watchpoint and the eventing object to see
-     if the owner of the watchpoint could reach it.
-
-     I'd need to do a reverse walk, calling inode_permission(MAY_NOT_BLOCK)
-     for each directory between the eventing object and the watchpoint to see
-     if one rejects it - but some filesystems have a permission check that
-     can't be called in this state.
-
-     It would also be necessary to do this separately for each watchpoint in
-     the parental chain.
-
-     Further, each permissions check would generate an audit event and could
-     generate FAN_ACCESS and/or FAN_ACCESS_PERM fanotify events - which could
-     be a problem if fanotify is also trying to post those events to the same
-     watch queue.
-
-David
+> +	__u32		attr;		/* MOUNT_ATTR_* flags */
+> +	__u32		notify_counter;	/* Number of notifications generated. */
+> +	__u32		__reserved[1];
+> +};
+> +
+> +/*
+> + * Information struct element for fsinfo(FSINFO_ATTR_MOUNT_CHILDREN).
+> + * - An extra element is placed on the end representing the parent mount.
+> + */
+> +struct fsinfo_mount_child {
+> +	__u32		mnt_id;		/* Mount identifier (use with AT_FSINFO_MOUNTID_PATH) */
+> +	__u32		notify_counter;	/* Number of notifications generated on mount. */
+> +};
+> +
+>   #endif /* _UAPI_LINUX_FSINFO_H */
