@@ -2,54 +2,27 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E483F35EBD
-	for <lists+linux-api@lfdr.de>; Wed,  5 Jun 2019 16:10:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 787D735F69
+	for <lists+linux-api@lfdr.de>; Wed,  5 Jun 2019 16:40:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728088AbfFEOJr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 5 Jun 2019 10:09:47 -0400
-Received: from mail-qt1-f196.google.com ([209.85.160.196]:42566 "EHLO
-        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726442AbfFEOJr (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 5 Jun 2019 10:09:47 -0400
-Received: by mail-qt1-f196.google.com with SMTP id s15so18055070qtk.9;
-        Wed, 05 Jun 2019 07:09:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=v2MDSX43JHH0KYjwpIjVIi4kIeO7/cbyv9lPzZyoCrE=;
-        b=OVxjPMU8vSgMBWq01KiF8vrtW3d0wVXT2TRlMY7sfjlbCyidt/5GhQIrM9QaBbhXK8
-         yBBwNSjvNWUGNy4aaGMYIscuEKbhFOGhorRKCaOUadE8F9K+Of8SlEKCVZg/KO1AKcYZ
-         pLPhZTy74Pp0mgiNyxkil96aHglcrJc55A9kqhfsBvTdbMQicRUtIMxj9hr9Ak9mHXnR
-         tiG08FPK+JMidIbMnzDzsl6O7SEkqTX6bdUvGjwXdZIbxnFPnXRb7M5s0M0bzfi/NbiR
-         2k+FWmDk0/4S1ptJ/zsgSvGr3S6p5nPv0UCDziiS9ndZTLXlodNZ377uPGrp/Ax6rZd/
-         O1Hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=v2MDSX43JHH0KYjwpIjVIi4kIeO7/cbyv9lPzZyoCrE=;
-        b=EVNu17Neay7DNF2aLQM5Am2NV9N2wtZW0EtGXJL9KR5GdhEQzx6CD7LbwvTzulG/1O
-         A69c6jIzdRu20y59Fd8WfPDsrgtZY51GVYX1LgYrHty1sBLJ1LaqvX0ziIjs37z3FVHP
-         ol9wiYzHvsoqCvjuiGUTaS95xfJJjGJxQ+xbdWOA3JxeJyDst38PHYgKbuShRW/YUdyj
-         qJjwK/azgOqyZ23/5Cb5+DbTIXJ6//5ozg+ECVKATE2vc0BnisMvruYxHU1nF2kxbnK2
-         84kyJS39glXXbGS+/Rta8U3lVVSna9TYbWLDhEe7WELO5MLIIOoLGgfwmQRaz4stlApe
-         PEgQ==
-X-Gm-Message-State: APjAAAUDra4OFNuJxbofADSPl8Od4crKEiXS+0q1LJpUz6y8T4sGZ07I
-        YLn9t7HsIZztAHx6vDIuQNk=
-X-Google-Smtp-Source: APXvYqyznVqtqIoUN6wPQaRIrn1PSPcfNmqktReX7Bd4iJaFk86Dqnry9/4HbTgpLOJFuFZf4qUokQ==
-X-Received: by 2002:a0c:baa7:: with SMTP id x39mr14333646qvf.100.1559743785693;
-        Wed, 05 Jun 2019 07:09:45 -0700 (PDT)
-Received: from localhost ([2620:10d:c091:500::1:c027])
-        by smtp.gmail.com with ESMTPSA id d5sm9336669qtj.3.2019.06.05.07.09.44
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 05 Jun 2019 07:09:44 -0700 (PDT)
-Date:   Wed, 5 Jun 2019 07:09:43 -0700
-From:   Tejun Heo <tj@kernel.org>
-To:     Patrick Bellasi <patrick.bellasi@arm.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+        id S1727777AbfFEOkA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 5 Jun 2019 10:40:00 -0400
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:32884 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726442AbfFEOkA (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 5 Jun 2019 10:40:00 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 796AA374;
+        Wed,  5 Jun 2019 07:39:59 -0700 (PDT)
+Received: from e110439-lin (e110439-lin.cambridge.arm.com [10.1.194.43])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8515E3F246;
+        Wed,  5 Jun 2019 07:39:56 -0700 (PDT)
+Date:   Wed, 5 Jun 2019 15:39:50 +0100
+From:   Patrick Bellasi <patrick.bellasi@arm.com>
+To:     Tejun Heo <tj@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
         linux-api@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
         "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
         Vincent Guittot <vincent.guittot@linaro.org>,
         Viresh Kumar <viresh.kumar@linaro.org>,
@@ -64,58 +37,127 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Suren Baghdasaryan <surenb@google.com>
 Subject: Re: [PATCH v9 12/16] sched/core: uclamp: Extend CPU's cgroup
  controller
-Message-ID: <20190605140943.GM374014@devbig004.ftw2.facebook.com>
+Message-ID: <20190605143805.olk2ta5p2jnd4mjt@e110439-lin>
 References: <20190515094459.10317-1-patrick.bellasi@arm.com>
  <20190515094459.10317-13-patrick.bellasi@arm.com>
  <20190531153545.GE374014@devbig004.ftw2.facebook.com>
- <20190603122929.GC19426@darkstar>
+ <20190603122725.GB19426@darkstar>
+ <20190605140324.GL374014@devbig004.ftw2.facebook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190603122929.GC19426@darkstar>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <20190605140324.GL374014@devbig004.ftw2.facebook.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hello,
+On 05-Jun 07:03, Tejun Heo wrote:
+> Hello,
 
-On Mon, Jun 03, 2019 at 01:29:29PM +0100, Patrick Bellasi wrote:
-> On 31-May 08:35, Tejun Heo wrote:
-> > Hello, Patrick.
+Hi!
+
+> On Mon, Jun 03, 2019 at 01:27:25PM +0100, Patrick Bellasi wrote:
+> > All the above, to me it means that:
+> >  - cgroups are always capped by system clamps
+> >  - cgroups can further restrict system clamps
 > > 
-> > On Wed, May 15, 2019 at 10:44:55AM +0100, Patrick Bellasi wrote:
+> > Does that match with your view?
 > 
-> [...]
+> Yeah, as long as what's defined at system level clamps everything in
+> the system whether they're in cgroups or not, it's all good.
+
+Right, then we are good with v9 on this point.
+
+> > > * Limits (high / max) default to max.  Protections (low / min) 0.  A
+> > >   new cgroup by default doesn't constrain itself further and doesn't
+> > >   have any protection.
+> > 
+> > Example 2
+> > ---------
+> > 
+> > Let say we have:
+> > 
+> >   /tg1:
+> >         util_min=200 (as a protection)
+> >         util_max=800 (as a limit)
+> > 
+> > the moment we create a subgroup /tg1/tg11, in v9 it is initialized
+> > with the same limits _and protections_ of its father:
+> > 
+> >   /tg1/tg11:
+> >         util_min=200 (protection inherited from /tg1)
+> >         util_max=800 (limit inherited from /tg1)
+> > 
+> > Do you mean that we should have instead:
+> > 
+> >   /tg1/tg11:
+> >         util_min=0   (no protection by default at creation time)
+> >         util_max=800 (limit inherited from /tg1)
+> > 
+> > 
+> > i.e. we need to reset the protection of a newly created subgroup?
 > 
-> > For proportions (as opposed to weights), we use percentage rational
-> > numbers - e.g. 38.44 for 38.44%.  I have parser and doc update commits
-> > pending.  I'll put them on cgroup/for-5.3.
+> The default value for limits should be max, protections 0.  Don't
+> inherit config values from the parent.  That gets confusing super fast
+> because when the parent config is set and each child is created plays
+> into the overall configuration.  Hierarchical confinements should
+> always be enforced and a new cgroup should always start afresh in
+> terms of its own configuration.
+
+Got it, so in the example above we will create:
+
+   /tg1/tg11:
+         util_min=0    (no requested protection by default at creation time)
+         util_max=1024 (no requests limit by default at creation time)
+
+That's it for the "requested" values side, while the "effective"
+values are enforced by the hierarchical confinement rules since
+creation time.
+Which means we will enforce the effective values as:
+
+   /tg1/tg11:
+
+         util_min.effective=0
+            i.e. keep the child protection since smaller than parent
+
+         util_max.effective=800
+            i.e. keep parent limit since stricter than child
+
+Please shout if I got it wrong, otherwise I'll update v10 to
+implement the above logic.
+
+> > > * A limit defines the upper ceiling for the subtree.  If an ancestor
+> > >   has a limit of X, none of its descendants can have more than X.
+> > 
+> > That's correct, however we distinguish between "requested" and
+> > "effective" values.
 > 
-> That's a point worth discussing with Peter, we already changed one
-> time from percentages to 1024 scale.
+> Sure, all property propagating controllers should.
 
-cgroup tries to uss uniform units for its interface files as much as
-possible even when that deviates from non-cgroup interface.  We can
-bikeshed the pros and cons for that design choice for sure but I don't
-think it makes sense to deviate from that at this point unless there
-are really strong reasons to do so.
+Right.
 
-> Utilization clamps are expressed as percentages by definition,
-> they are just expressed in a convenient 1024 scale which should not be
-> alien to people using those knobs.
+> > > Note that there's no way for an ancestor to enforce protection its
+> > > descendants.  It can only allow them to claim some.  This is
+> > > intentional as the other end of the spectrum is either descendants
+> > > losing the ability to further distribute protections as they see fit.
+> > 
+> > Ok, that means I need to update in v10 the initialization of subgroups
+> > min clamps to be none by default as discussed in the above Example 2,
+> > right?
 > 
-> If we wanna use a "more specific" name like uclamp.{min,max} then we
-> should probably also accept to use a "more specific" metric, don't we?
+> Yeah and max to max.
 
-Heh, this actually made me chuckle.  It's an interesting bargaining
-take but I don't think that same word being in two different places
-makes them tradable entities.  We can go into the weeds with the
-semantics but how about us using an alternative adjective "misleading"
-for the cpu.util.min/max names to short-circuit that?
+Right, I've got it now.
 
-Thanks.
+
+> Thanks.
+
+Cheers,
+Patrick
 
 -- 
-tejun
+#include <best/regards.h>
+
+Patrick Bellasi
