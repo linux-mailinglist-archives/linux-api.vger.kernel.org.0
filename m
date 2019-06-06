@@ -2,818 +2,348 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 84A3B378B9
-	for <lists+linux-api@lfdr.de>; Thu,  6 Jun 2019 17:54:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25862379EE
+	for <lists+linux-api@lfdr.de>; Thu,  6 Jun 2019 18:43:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729558AbfFFPyS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 6 Jun 2019 11:54:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59782 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729344AbfFFPyP (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 6 Jun 2019 11:54:15 -0400
-Received: from sol.localdomain (c-24-5-143-220.hsd1.ca.comcast.net [24.5.143.220])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0B6582146F;
-        Thu,  6 Jun 2019 15:54:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1559836451;
-        bh=TI4B3hGfLwvKPWndy0+8cbfc3FXAXwjOn8XKiOp45QE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=EufRGdaXV3RB2P9bbhGUDT4PWuV1ySfYvVHNzeXMpwOFPCSjtRX5Fe1/okMyZPWwu
-         8xm/+aQ61bPmvjLoIRlk+ZtLJyW1E212jq085jVBEuxaLd/O0v7a1EfpByMiuo9Non
-         mS22fErOMQ5pNVVSh2Y/2hy4klS4/6UDmlKSKM/I=
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     linux-fscrypt@vger.kernel.org
-Cc:     linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+        id S1727705AbfFFQnq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 6 Jun 2019 12:43:46 -0400
+Received: from sonic310-27.consmr.mail.gq1.yahoo.com ([98.137.69.153]:43041
+        "EHLO sonic310-27.consmr.mail.gq1.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727627AbfFFQnl (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 6 Jun 2019 12:43:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1559839418; bh=u1sLD4QjuzjMkqUPyiTtXxaWLt0C7a5X1oo4THOAMAo=; h=Subject:To:Cc:References:From:Date:In-Reply-To:From:Subject; b=eurZicp24AqL5vjE03WAwOO7Xa023Hhxat7TRY4VF9FKX/Nj5mAGF4alhQFJP2iE0xMXWYTfx3GUp3UwhBBvnvqRMy3y8q7Jt0M4ap4MJ//+h/Z28zC+q+E3+NZXNWDSSZBDzIJA46iB3XW9apz0d7LzHC/5th8Epy7EtUNFnVSx+ZYQYLwiiNneUP3xVbuJiYPPNCTiMI/IRzsQ+wHYrZ9C5vMh7d5T0binrqO0+Z7A+RsMTzsWV7yaf8BzIVfzx2H/fRDR95Cm55g+XoTyiCnpteZIyRF8BSMY2uw2VpA8FYjPnSSzriD3D46ZYrbPZmlHchkElwqiMO2g6Suo1A==
+X-YMail-OSG: DhL2Bb4VM1kK_zeq.EWt7gTUlz9TfLTRwjo_eHNbXy7c8Ge_T_QOznpbaqEnm5E
+ 2qo2oYmnH8VmT_.PRDU0gk3l.VMbJ2DjRvQY.DPmUtS8EATiheMTRQw_S5tNZOdDbMu0mmcbU81j
+ EKTyT1rY910A44SK2KxjLZOU4t9c4_hS5l0_2tHCPPqnZ8Dry7lHCVMMpfoVzviHsEVJQcIeiPYa
+ RwqlgyOVAj7lxAgidlnSHGahTQJOyp0Qe0l1O2TIdTgD9x7KhaBkVXlW5dmPU2E8jj19fHi2boVP
+ V3zxiyEyw63qaAWU6hyhGmmyX1k6trk2knUsMrpt2JL7PuvPEWjsdrECskcmIRNaAyaHvQ.L8sIj
+ 3Nwe75a.PMfDriN7Qm.yvvSYuDvRypPzf8GFJ4qIpTGfIpPpWuHvR6nq1OYAaRPskSWLF57k9Cmq
+ OcXKbx2iHsgUr00Zm4wJh7CxWYzGOhVb3vRgnzRZuKpUCjPFH5lezVr6NpZEch73K5O0ewnbcaKj
+ xzmA65dyuCTAEyBBASVLEv2p9lntlltDnQQ9jDg6XpyRALZhjTiyix53U97V_NNPnK_0iKlUw1iC
+ DyU8Lrg6RvlAVKVfw9EgXUAm2w40aU_zDspncuYUH5uKxXOR08TnJZ2es5eK5pIZtlDjefH1QhtT
+ PHbi79D7_1E.staNDSkyTh6Y53Voyv2RGANRkinLs8dy3SO5sn7F0v8Kpq4pquwGs15uUsFDlPW5
+ qNgwTDMva6tO.tX7mrhKe_6xHhOCMmRFNnLTE.oNlxifrl19yy7WcQuylHFUoqNp31KsoFZyMNkv
+ RpW4v7hRnKGlEsnTg_27mu2f5t3T8qb6X4.mg0JG4U2RAgTUeBLS5FiH7iLYyE71TLmPC0iaXNbO
+ J46S5cIZdwqmq4IvvfluUcUaWsh35Xy.g4WNDvLvmDhElJr2KL9Ohan20UfQMW.XXGD2NqJu4PwS
+ kD33OTDa6clf45oH0qhKnxSvIGedvVSKxgcR5dKf4_r_hDJK.ZLdjViQ4mor6eZBHx4ATknIm1Cf
+ w103UsQJCxjq93PpP7ZiI.RIYwRgjVrEq1der7yWmZkRpBSObLJzQfV90yvAfe8GVcR_3cEoEP_m
+ ZC1EF26dKHbO2ali3O3qwItLWu0WMOwaXeyCZsc7MuEWvJPbtG5BkseBx2LBkRFdWRLJ.SmkIt9E
+ NFvjWyDul4rzytGbxlhpJUIHPB0gyNrgdO1QeAgpbZ9h4bG_PqFcO.7ODxFtm13cX2i1ncqYmDy5
+ lyBBVLhHzvTl7vgBtkGkjUdh1iSFVYNSKP0c3Yf1Adr0y0JuUeAnT3zqjK255dhp1NyDR5u9CqWe
+ VTIk43m_Lcq1F
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic310.consmr.mail.gq1.yahoo.com with HTTP; Thu, 6 Jun 2019 16:43:38 +0000
+Received: from c-73-223-4-185.hsd1.ca.comcast.net (EHLO [192.168.0.103]) ([73.223.4.185])
+          by smtp431.mail.gq1.yahoo.com (Oath Hermes SMTP Server) with ESMTPA ID 2931d6e1562697920eada9c26d4dfc98;
+          Thu, 06 Jun 2019 16:43:37 +0000 (UTC)
+Subject: Re: [RFC][PATCH 00/10] Mount, FS, Block and Keyrings notifications
+ [ver #3]
+To:     Stephen Smalley <sds@tycho.nsa.gov>,
+        David Howells <dhowells@redhat.com>
+Cc:     viro@zeniv.linux.org.uk,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, raven@themaw.net,
         linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-integrity@vger.kernel.org, Jaegeuk Kim <jaegeuk@kernel.org>,
-        "Theodore Y . Ts'o" <tytso@mit.edu>,
-        Victor Hsieh <victorhsieh@google.com>,
-        Dave Chinner <david@fromorbit.com>,
-        Christoph Hellwig <hch@lst.de>,
-        "Darrick J . Wong" <darrick.wong@oracle.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Subject: [PATCH v4 16/16] f2fs: add fs-verity support
-Date:   Thu,  6 Jun 2019 08:52:05 -0700
-Message-Id: <20190606155205.2872-17-ebiggers@kernel.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190606155205.2872-1-ebiggers@kernel.org>
-References: <20190606155205.2872-1-ebiggers@kernel.org>
+        linux-block@vger.kernel.org, keyrings@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Paul Moore <paul@paul-moore.com>,
+        casey@schaufler-ca.com
+References: <b91710d8-cd2d-6b93-8619-130b9d15983d@tycho.nsa.gov>
+ <155981411940.17513.7137844619951358374.stgit@warthog.procyon.org.uk>
+ <3813.1559827003@warthog.procyon.org.uk>
+ <8382af23-548c-f162-0e82-11e308049735@tycho.nsa.gov>
+From:   Casey Schaufler <casey@schaufler-ca.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=casey@schaufler-ca.com; keydata=
+ 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
+ abzjfg==
+Message-ID: <0eb007c5-b4a0-9384-d915-37b0e5a158bf@schaufler-ca.com>
+Date:   Thu, 6 Jun 2019 09:43:37 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <8382af23-548c-f162-0e82-11e308049735@tycho.nsa.gov>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Eric Biggers <ebiggers@google.com>
+On 6/6/2019 7:05 AM, Stephen Smalley wrote:
+> On 6/6/19 9:16 AM, David Howells wrote:
+>> Stephen Smalley <sds@tycho.nsa.gov> wrote:
+>>
+>> This might be easier to discuss if you can reply to:
+>>
+>> =C2=A0=C2=A0=C2=A0=C2=A0https://lore.kernel.org/lkml/5393.1559768763@w=
+arthog.procyon.org.uk/
+>>
+>> which is on the ver #2 posting of this patchset.
+>
+> Sorry for being late to the party.=C2=A0 Not sure whether you're asking=
+ me to respond only there or both there and here to your comments below.=C2=
+=A0 I'll start here but can revisit if it's a problem.
+>>
+>>>> LSM support is included, but controversial:
+>>>>
+>>>> =C2=A0=C2=A0 (1) The creds of the process that did the fput() that r=
+educed the refcount
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 to zero are cached in the file =
+struct.
+>>>>
+>>>> =C2=A0=C2=A0 (2) __fput() overrides the current creds with the creds=
+ from (1) whilst
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 doing the cleanup, thereby maki=
+ng sure that the creds seen by the
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 destruction notification genera=
+ted by mntput() appears to come from
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 the last fputter.
+>>>>
+>>>> =C2=A0=C2=A0 (3) security_post_notification() is called for each que=
+ue that we might
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 want to post a notification int=
+o, thereby allowing the LSM to prevent
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 covert communications.
+>>>>
+>>>> =C2=A0=C2=A0 (?) Do I need to add security_set_watch(), say, to rule=
+ on whether a watch
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 may be set in the first place?=C2=
+=A0 I might need to add a variant per
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 watch-type.
+>>>>
+>>>> =C2=A0=C2=A0 (?) Do I really need to keep track of the process creds=
+ in which an
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 implicit object destruction hap=
+pened?=C2=A0 For example, imagine you create
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 an fd with fsopen()/fsmount().=C2=
+=A0 It is marked to dissolve the mount it
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 refers to on close unless move_=
+mount() clears that flag.=C2=A0 Now, imagine
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 someone looking at that fd thro=
+ugh procfs at the same time as you exit
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 due to an error.=C2=A0 The LSM =
+sees the destruction notification come from
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 the looker if they happen to do=
+ their fput() after yours.
+>>>
+>>>
+>>> I'm not in favor of this approach.
+>>
+>> Which bit?=C2=A0 The last point?=C2=A0 Keeping track of the process cr=
+eds after an
+>> implicit object destruction.
+>
+> (1), (2), (3), and the last point.
+>
+>>> Can we check permission to the object being watched when a watch is s=
+et
+>>> (read-like access),
+>>
+>> Yes, and I need to do that.=C2=A0 I think it's likely to require an ex=
+tra hook for
+>> each entry point added because the objects are different:
+>>
+>> =C2=A0=C2=A0=C2=A0=C2=A0int security_watch_key(struct watch *watch, st=
+ruct key *key);
+>> =C2=A0=C2=A0=C2=A0=C2=A0int security_watch_sb(struct watch *watch, str=
+uct path *path);
+>> =C2=A0=C2=A0=C2=A0=C2=A0int security_watch_mount(struct watch *watch, =
+struct path *path);
+>> =C2=A0=C2=A0=C2=A0=C2=A0int security_watch_devices(struct watch *watch=
+);
+>>
+>>> make sure every access that can trigger a notification requires a
+>>> (write-like) permission to the accessed object,
+>>
+>> "write-like permssion" for whom?=C2=A0 The triggerer or the watcher?
+>
+> The former, i.e. the process that performed the operation that triggere=
+d the notification.=C2=A0 Think of it as a write from the process to the =
+accessed object, which triggers a notification (another write) on some re=
+lated object (the watched object), which is then read by the watcher.
 
-Add fs-verity support to f2fs.  fs-verity is a filesystem feature that
-enables transparent integrity protection and authentication of read-only
-files.  It uses a dm-verity like mechanism at the file level: a Merkle
-tree is used to verify any block in the file in log(filesize) time.  It
-is implemented mainly by helper functions in fs/verity/.  See
-Documentation/filesystems/fsverity.rst for the full documentation.
+We agree that the process that performed the operation that triggered
+the notification is the initial subject. Smack will treat the process
+with the watch set (in particular, its ring buffer) as the object
+being written to. SELinux, with its finer grained controls, will
+involve other things as noted above. There are other place where we
+see this, notably IP packet delivery.
 
-The f2fs support for fs-verity consists of:
+The implication is that the information about the triggering
+process needs to be available throughout.
 
-- Adding a filesystem feature flag and an inode flag for fs-verity.
+>
+>> There are various 'classes' of events:
+>>
+>> =C2=A0 (1) System events (eg. hardware I/O errors, automount points ex=
+piring).
+>>
+>> =C2=A0 (2) Direct events (eg. automounts, manual mounts, EDQUOT, key l=
+inkage).
+>>
+>> =C2=A0 (3) Indirect events (eg. exit/close doing the last fput and cau=
+sing an
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unmount).
+>>
+>> Class (1) are uncaused by a process, so I use init_cred for them.=C2=A0=
+ One could
+>> argue that the automount point expiry should perhaps take place under =
+the
+>> creds of whoever triggered it in the first place, but we need to be ca=
+reful
+>> about long-term cred pinning.
+>
+> This seems equivalent to just checking whether the watcher is allowed t=
+o get that kind of event, no other cred truly needed.
+>
+>> Class (2) the causing process must've had permission to cause them - o=
+therwise
+>> we wouldn't have got the event.
+>
+> So we've already done a check on the causing process, and we're going t=
+o check whether the watcher can set the watch. We just need to establish =
+the connection between the accessed object and the watched object in some=
+ manner.
 
-- Implementing the fsverity_operations to support enabling verity on an
-  inode and reading/writing the verity metadata.
+I don't agree. That is, I don't believe it is sufficient.
+There is no guarantee that being able to set a watch on an
+object implies that every process that can trigger the event
+can send it to you.
 
-- Updating ->readpages() to verify data as it's read from verity files
-  and to support reading verity metadata pages.
+	Watcher has Smack label W
+	Triggerer has Smack label T
+	Watched object has Smack label O
 
-- Updating ->write_begin(), ->write_end(), and ->writepages() to support
-  writing verity metadata pages.
+	Relevant Smack rules are
 
-- Calling the fs-verity hooks for ->open(), ->setattr(), and ->ioctl().
+	W O rw
+	T O rw
 
-Like ext4, f2fs stores the verity metadata (Merkle tree and
-fsverity_descriptor) past the end of the file, starting at the first
-page fully beyond i_size.  This approach works because (a) verity files
-are readonly, and (b) pages fully beyond i_size aren't visible to
-userspace but can be read/written internally by f2fs with only some
-relatively small changes to f2fs.  Extended attributes cannot be used
-because (a) f2fs limits the total size of an inode's xattr entries to
-4096 bytes, which wouldn't be enough for even a single Merkle tree
-block, and (b) f2fs encryption doesn't encrypt xattrs, yet the verity
-metadata *must* be encrypted when the file is because it contains hashes
-of the plaintext data.
+The watcher will be able to set the watch,
+the triggerer will be able to trigger the event,
+but there is nothing that would allow the watcher
+to receive the event. This is not a case of watcher
+reading the watched object, as the event is delivered
+without any action by watcher.
 
-Signed-off-by: Eric Biggers <ebiggers@google.com>
----
- fs/f2fs/Makefile |   1 +
- fs/f2fs/data.c   |  72 +++++++++++++--
- fs/f2fs/f2fs.h   |  23 ++++-
- fs/f2fs/file.c   |  40 +++++++++
- fs/f2fs/inode.c  |   5 +-
- fs/f2fs/super.c  |   3 +
- fs/f2fs/sysfs.c  |  11 +++
- fs/f2fs/verity.c | 224 +++++++++++++++++++++++++++++++++++++++++++++++
- fs/f2fs/xattr.h  |   2 +
- 9 files changed, 367 insertions(+), 14 deletions(-)
- create mode 100644 fs/f2fs/verity.c
+>
+>> Class (3) is interesting since it's currently entirely cleanup events =
+and the
+>> process may have the right to do them (close, dup2, exit, but also exe=
+cve)
+>> whether the LSM thinks it should be able to cause the object to be des=
+troyed
+>> or not.
+>>
+>> It gets more complicated than that, though: multiple processes with di=
+fferent
+>> security attributes can all have fds pointing to a common file object =
+- and
+>> the last one to close carries the can as far as the LSM is concerned.
+>
+> Yes, I'd prefer to avoid that.=C2=A0 You can't write policy that is sta=
+ble and meaningful that way.=C2=A0 This may fall under a similar situatio=
+n as class (1) - all we can meaningfully do is check whether the watcher =
+is allowed to see all such events.
 
-diff --git a/fs/f2fs/Makefile b/fs/f2fs/Makefile
-index 776c4b936504..2aaecc63834f 100644
---- a/fs/f2fs/Makefile
-+++ b/fs/f2fs/Makefile
-@@ -8,3 +8,4 @@ f2fs-$(CONFIG_F2FS_STAT_FS) += debug.o
- f2fs-$(CONFIG_F2FS_FS_XATTR) += xattr.o
- f2fs-$(CONFIG_F2FS_FS_POSIX_ACL) += acl.o
- f2fs-$(CONFIG_F2FS_IO_TRACE) += trace.o
-+f2fs-$(CONFIG_FS_VERITY) += verity.o
-diff --git a/fs/f2fs/data.c b/fs/f2fs/data.c
-index eda4181d2092..8f175d47291d 100644
---- a/fs/f2fs/data.c
-+++ b/fs/f2fs/data.c
-@@ -73,6 +73,7 @@ static enum count_type __read_io_type(struct page *page)
- enum bio_post_read_step {
- 	STEP_INITIAL = 0,
- 	STEP_DECRYPT,
-+	STEP_VERITY,
- };
- 
- struct bio_post_read_ctx {
-@@ -119,8 +120,23 @@ static void decrypt_work(struct work_struct *work)
- 	bio_post_read_processing(ctx);
- }
- 
-+static void verity_work(struct work_struct *work)
-+{
-+	struct bio_post_read_ctx *ctx =
-+		container_of(work, struct bio_post_read_ctx, work);
-+
-+	fsverity_verify_bio(ctx->bio);
-+
-+	bio_post_read_processing(ctx);
-+}
-+
- static void bio_post_read_processing(struct bio_post_read_ctx *ctx)
- {
-+	/*
-+	 * We use different work queues for decryption and for verity because
-+	 * verity may require reading metadata pages that need decryption, and
-+	 * we shouldn't recurse to the same workqueue.
-+	 */
- 	switch (++ctx->cur_step) {
- 	case STEP_DECRYPT:
- 		if (ctx->enabled_steps & (1 << STEP_DECRYPT)) {
-@@ -130,6 +146,14 @@ static void bio_post_read_processing(struct bio_post_read_ctx *ctx)
- 		}
- 		ctx->cur_step++;
- 		/* fall-through */
-+	case STEP_VERITY:
-+		if (ctx->enabled_steps & (1 << STEP_VERITY)) {
-+			INIT_WORK(&ctx->work, verity_work);
-+			fsverity_enqueue_verify_work(&ctx->work);
-+			return;
-+		}
-+		ctx->cur_step++;
-+		/* fall-through */
- 	default:
- 		__read_end_io(ctx->bio);
- 	}
-@@ -553,8 +577,15 @@ void f2fs_submit_page_write(struct f2fs_io_info *fio)
- 	up_write(&io->io_rwsem);
- }
- 
-+static inline bool f2fs_need_verity(const struct inode *inode, pgoff_t idx)
-+{
-+	return fsverity_active(inode) &&
-+	       idx < DIV_ROUND_UP(inode->i_size, PAGE_SIZE);
-+}
-+
- static struct bio *f2fs_grab_read_bio(struct inode *inode, block_t blkaddr,
--					unsigned nr_pages, unsigned op_flag)
-+				      unsigned nr_pages, unsigned op_flag,
-+				      pgoff_t first_idx)
- {
- 	struct f2fs_sb_info *sbi = F2FS_I_SB(inode);
- 	struct bio *bio;
-@@ -570,6 +601,10 @@ static struct bio *f2fs_grab_read_bio(struct inode *inode, block_t blkaddr,
- 
- 	if (f2fs_encrypted_file(inode))
- 		post_read_steps |= 1 << STEP_DECRYPT;
-+
-+	if (f2fs_need_verity(inode, first_idx))
-+		post_read_steps |= 1 << STEP_VERITY;
-+
- 	if (post_read_steps) {
- 		ctx = mempool_alloc(bio_post_read_ctx_pool, GFP_NOFS);
- 		if (!ctx) {
-@@ -591,7 +626,7 @@ static int f2fs_submit_page_read(struct inode *inode, struct page *page,
- 	struct f2fs_sb_info *sbi = F2FS_I_SB(inode);
- 	struct bio *bio;
- 
--	bio = f2fs_grab_read_bio(inode, blkaddr, 1, 0);
-+	bio = f2fs_grab_read_bio(inode, blkaddr, 1, 0, page->index);
- 	if (IS_ERR(bio))
- 		return PTR_ERR(bio);
- 
-@@ -1514,6 +1549,15 @@ int f2fs_fiemap(struct inode *inode, struct fiemap_extent_info *fieinfo,
- 	return ret;
- }
- 
-+static inline loff_t f2fs_readpage_limit(struct inode *inode)
-+{
-+	if (IS_ENABLED(CONFIG_FS_VERITY) &&
-+	    (IS_VERITY(inode) || f2fs_verity_in_progress(inode)))
-+		return inode->i_sb->s_maxbytes;
-+
-+	return i_size_read(inode);
-+}
-+
- static int f2fs_read_single_page(struct inode *inode, struct page *page,
- 					unsigned nr_pages,
- 					struct f2fs_map_blocks *map,
-@@ -1532,7 +1576,7 @@ static int f2fs_read_single_page(struct inode *inode, struct page *page,
- 
- 	block_in_file = (sector_t)page->index;
- 	last_block = block_in_file + nr_pages;
--	last_block_in_file = (i_size_read(inode) + blocksize - 1) >>
-+	last_block_in_file = (f2fs_readpage_limit(inode) + blocksize - 1) >>
- 							blkbits;
- 	if (last_block > last_block_in_file)
- 		last_block = last_block_in_file;
-@@ -1576,6 +1620,11 @@ static int f2fs_read_single_page(struct inode *inode, struct page *page,
- 	} else {
- zero_out:
- 		zero_user_segment(page, 0, PAGE_SIZE);
-+		if (f2fs_need_verity(inode, page->index) &&
-+		    !fsverity_verify_page(page)) {
-+			ret = -EIO;
-+			goto out;
-+		}
- 		if (!PageUptodate(page))
- 			SetPageUptodate(page);
- 		unlock_page(page);
-@@ -1594,7 +1643,7 @@ static int f2fs_read_single_page(struct inode *inode, struct page *page,
- 	}
- 	if (bio == NULL) {
- 		bio = f2fs_grab_read_bio(inode, block_nr, nr_pages,
--				is_readahead ? REQ_RAHEAD : 0);
-+				is_readahead ? REQ_RAHEAD : 0, page->index);
- 		if (IS_ERR(bio)) {
- 			ret = PTR_ERR(bio);
- 			bio = NULL;
-@@ -1991,7 +2040,7 @@ static int __write_data_page(struct page *page, bool *submitted,
- 	if (unlikely(is_sbi_flag_set(sbi, SBI_POR_DOING)))
- 		goto redirty_out;
- 
--	if (page->index < end_index)
-+	if (page->index < end_index || f2fs_verity_in_progress(inode))
- 		goto write;
- 
- 	/*
-@@ -2383,7 +2432,8 @@ static int prepare_write_begin(struct f2fs_sb_info *sbi,
- 	 * the block addresses when there is no need to fill the page.
- 	 */
- 	if (!f2fs_has_inline_data(inode) && len == PAGE_SIZE &&
--			!is_inode_flag_set(inode, FI_NO_PREALLOC))
-+	    !is_inode_flag_set(inode, FI_NO_PREALLOC) &&
-+	    !f2fs_verity_in_progress(inode))
- 		return 0;
- 
- 	/* f2fs_lock_op avoids race between write CP and convert_inline_page */
-@@ -2522,7 +2572,8 @@ static int f2fs_write_begin(struct file *file, struct address_space *mapping,
- 	if (len == PAGE_SIZE || PageUptodate(page))
- 		return 0;
- 
--	if (!(pos & (PAGE_SIZE - 1)) && (pos + len) >= i_size_read(inode)) {
-+	if (!(pos & (PAGE_SIZE - 1)) && (pos + len) >= i_size_read(inode) &&
-+	    !f2fs_verity_in_progress(inode)) {
- 		zero_user_segment(page, len, PAGE_SIZE);
- 		return 0;
- 	}
-@@ -2585,7 +2636,8 @@ static int f2fs_write_end(struct file *file,
- 
- 	set_page_dirty(page);
- 
--	if (pos + copied > i_size_read(inode))
-+	if (pos + copied > i_size_read(inode) &&
-+	    !f2fs_verity_in_progress(inode))
- 		f2fs_i_size_write(inode, pos + copied);
- unlock_out:
- 	f2fs_put_page(page, 1);
-@@ -2906,7 +2958,9 @@ void f2fs_clear_page_cache_dirty_tag(struct page *page)
- 
- int __init f2fs_init_post_read_processing(void)
- {
--	bio_post_read_ctx_cache = KMEM_CACHE(bio_post_read_ctx, 0);
-+	bio_post_read_ctx_cache =
-+		kmem_cache_create("f2fs_bio_post_read_ctx",
-+				  sizeof(struct bio_post_read_ctx), 0, 0, NULL);
- 	if (!bio_post_read_ctx_cache)
- 		goto fail;
- 	bio_post_read_ctx_pool =
-diff --git a/fs/f2fs/f2fs.h b/fs/f2fs/f2fs.h
-index 06b89a9862ab..8477191ad1c9 100644
---- a/fs/f2fs/f2fs.h
-+++ b/fs/f2fs/f2fs.h
-@@ -25,6 +25,7 @@
- #include <crypto/hash.h>
- 
- #include <linux/fscrypt.h>
-+#include <linux/fsverity.h>
- 
- #ifdef CONFIG_F2FS_CHECK_FS
- #define f2fs_bug_on(sbi, condition)	BUG_ON(condition)
-@@ -148,7 +149,7 @@ struct f2fs_mount_info {
- #define F2FS_FEATURE_QUOTA_INO		0x0080
- #define F2FS_FEATURE_INODE_CRTIME	0x0100
- #define F2FS_FEATURE_LOST_FOUND		0x0200
--#define F2FS_FEATURE_VERITY		0x0400	/* reserved */
-+#define F2FS_FEATURE_VERITY		0x0400
- #define F2FS_FEATURE_SB_CHKSUM		0x0800
- 
- #define __F2FS_HAS_FEATURE(raw_super, mask)				\
-@@ -626,7 +627,7 @@ enum {
- #define FADVISE_ENC_NAME_BIT	0x08
- #define FADVISE_KEEP_SIZE_BIT	0x10
- #define FADVISE_HOT_BIT		0x20
--#define FADVISE_VERITY_BIT	0x40	/* reserved */
-+#define FADVISE_VERITY_BIT	0x40
- 
- #define FADVISE_MODIFIABLE_BITS	(FADVISE_COLD_BIT | FADVISE_HOT_BIT)
- 
-@@ -646,6 +647,8 @@ enum {
- #define file_is_hot(inode)	is_file(inode, FADVISE_HOT_BIT)
- #define file_set_hot(inode)	set_file(inode, FADVISE_HOT_BIT)
- #define file_clear_hot(inode)	clear_file(inode, FADVISE_HOT_BIT)
-+#define file_is_verity(inode)	is_file(inode, FADVISE_VERITY_BIT)
-+#define file_set_verity(inode)	set_file(inode, FADVISE_VERITY_BIT)
- 
- #define DEF_DIR_LEVEL		0
- 
-@@ -2344,6 +2347,7 @@ static inline void f2fs_change_bit(unsigned int nr, char *addr)
- #define F2FS_TOPDIR_FL			0x00020000 /* Top of directory hierarchies*/
- #define F2FS_HUGE_FILE_FL               0x00040000 /* Set to each huge file */
- #define F2FS_EXTENTS_FL			0x00080000 /* Inode uses extents */
-+#define F2FS_VERITY_FL			0x00100000 /* Verity protected inode */
- #define F2FS_EA_INODE_FL	        0x00200000 /* Inode used for large EA */
- #define F2FS_EOFBLOCKS_FL		0x00400000 /* Blocks allocated beyond EOF */
- #define F2FS_NOCOW_FL			0x00800000 /* Do not cow file */
-@@ -2351,7 +2355,7 @@ static inline void f2fs_change_bit(unsigned int nr, char *addr)
- #define F2FS_PROJINHERIT_FL		0x20000000 /* Create with parents projid */
- #define F2FS_RESERVED_FL		0x80000000 /* reserved for ext4 lib */
- 
--#define F2FS_FL_USER_VISIBLE		0x30CBDFFF /* User visible flags */
-+#define F2FS_FL_USER_VISIBLE		0x30DBDFFF /* User visible flags */
- #define F2FS_FL_USER_MODIFIABLE		0x204BC0FF /* User modifiable flags */
- 
- /* Flags we can manipulate with through F2FS_IOC_FSSETXATTR */
-@@ -2417,6 +2421,7 @@ enum {
- 	FI_PROJ_INHERIT,	/* indicate file inherits projectid */
- 	FI_PIN_FILE,		/* indicate file should not be gced */
- 	FI_ATOMIC_REVOKE_REQUEST, /* request to drop atomic data */
-+	FI_VERITY_IN_PROGRESS,	/* building fs-verity Merkle tree */
- };
- 
- static inline void __mark_inode_dirty_flag(struct inode *inode,
-@@ -2456,6 +2461,12 @@ static inline void clear_inode_flag(struct inode *inode, int flag)
- 	__mark_inode_dirty_flag(inode, flag, false);
- }
- 
-+static inline bool f2fs_verity_in_progress(struct inode *inode)
-+{
-+	return IS_ENABLED(CONFIG_FS_VERITY) &&
-+	       is_inode_flag_set(inode, FI_VERITY_IN_PROGRESS);
-+}
-+
- static inline void set_acl_inode(struct inode *inode, umode_t mode)
- {
- 	F2FS_I(inode)->i_acl_mode = mode;
-@@ -3524,6 +3535,9 @@ void f2fs_exit_sysfs(void);
- int f2fs_register_sysfs(struct f2fs_sb_info *sbi);
- void f2fs_unregister_sysfs(struct f2fs_sb_info *sbi);
- 
-+/* verity.c */
-+extern const struct fsverity_operations f2fs_verityops;
-+
- /*
-  * crypto support
-  */
-@@ -3546,7 +3560,7 @@ static inline void f2fs_set_encrypted_inode(struct inode *inode)
-  */
- static inline bool f2fs_post_read_required(struct inode *inode)
- {
--	return f2fs_encrypted_file(inode);
-+	return f2fs_encrypted_file(inode) || fsverity_active(inode);
- }
- 
- #define F2FS_FEATURE_FUNCS(name, flagname) \
-@@ -3564,6 +3578,7 @@ F2FS_FEATURE_FUNCS(flexible_inline_xattr, FLEXIBLE_INLINE_XATTR);
- F2FS_FEATURE_FUNCS(quota_ino, QUOTA_INO);
- F2FS_FEATURE_FUNCS(inode_crtime, INODE_CRTIME);
- F2FS_FEATURE_FUNCS(lost_found, LOST_FOUND);
-+F2FS_FEATURE_FUNCS(verity, VERITY);
- F2FS_FEATURE_FUNCS(sb_chksum, SB_CHKSUM);
- 
- #ifdef CONFIG_BLK_DEV_ZONED
-diff --git a/fs/f2fs/file.c b/fs/f2fs/file.c
-index 45b45f37d347..6706c2081941 100644
---- a/fs/f2fs/file.c
-+++ b/fs/f2fs/file.c
-@@ -493,6 +493,10 @@ static int f2fs_file_open(struct inode *inode, struct file *filp)
- {
- 	int err = fscrypt_file_open(inode, filp);
- 
-+	if (err)
-+		return err;
-+
-+	err = fsverity_file_open(inode, filp);
- 	if (err)
- 		return err;
- 
-@@ -781,6 +785,10 @@ int f2fs_setattr(struct dentry *dentry, struct iattr *attr)
- 	if (err)
- 		return err;
- 
-+	err = fsverity_prepare_setattr(dentry, attr);
-+	if (err)
-+		return err;
-+
- 	if (is_quota_modification(inode, attr)) {
- 		err = dquot_initialize(inode);
- 		if (err)
-@@ -1656,6 +1664,8 @@ static int f2fs_ioc_getflags(struct file *filp, unsigned long arg)
- 
- 	if (IS_ENCRYPTED(inode))
- 		flags |= F2FS_ENCRYPT_FL;
-+	if (IS_VERITY(inode))
-+		flags |= F2FS_VERITY_FL;
- 	if (f2fs_has_inline_data(inode) || f2fs_has_inline_dentry(inode))
- 		flags |= F2FS_INLINE_DATA_FL;
- 	if (is_inode_flag_set(inode, FI_PIN_FILE))
-@@ -2980,6 +2990,30 @@ static int f2fs_ioc_precache_extents(struct file *filp, unsigned long arg)
- 	return f2fs_precache_extents(file_inode(filp));
- }
- 
-+static int f2fs_ioc_enable_verity(struct file *filp, unsigned long arg)
-+{
-+	struct inode *inode = file_inode(filp);
-+
-+	f2fs_update_time(F2FS_I_SB(inode), REQ_TIME);
-+
-+	if (!f2fs_sb_has_verity(F2FS_I_SB(inode))) {
-+		f2fs_msg(inode->i_sb, KERN_WARNING,
-+			 "Can't enable fs-verity on inode %lu: the verity feature is not enabled on this filesystem.\n",
-+			 inode->i_ino);
-+		return -EOPNOTSUPP;
-+	}
-+
-+	return fsverity_ioctl_enable(filp, (const void __user *)arg);
-+}
-+
-+static int f2fs_ioc_measure_verity(struct file *filp, unsigned long arg)
-+{
-+	if (!f2fs_sb_has_verity(F2FS_I_SB(file_inode(filp))))
-+		return -EOPNOTSUPP;
-+
-+	return fsverity_ioctl_measure(filp, (void __user *)arg);
-+}
-+
- long f2fs_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
- {
- 	if (unlikely(f2fs_cp_error(F2FS_I_SB(file_inode(filp)))))
-@@ -3036,6 +3070,10 @@ long f2fs_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
- 		return f2fs_ioc_set_pin_file(filp, arg);
- 	case F2FS_IOC_PRECACHE_EXTENTS:
- 		return f2fs_ioc_precache_extents(filp, arg);
-+	case FS_IOC_ENABLE_VERITY:
-+		return f2fs_ioc_enable_verity(filp, arg);
-+	case FS_IOC_MEASURE_VERITY:
-+		return f2fs_ioc_measure_verity(filp, arg);
- 	default:
- 		return -ENOTTY;
- 	}
-@@ -3149,6 +3187,8 @@ long f2fs_compat_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
- 	case F2FS_IOC_GET_PIN_FILE:
- 	case F2FS_IOC_SET_PIN_FILE:
- 	case F2FS_IOC_PRECACHE_EXTENTS:
-+	case FS_IOC_ENABLE_VERITY:
-+	case FS_IOC_MEASURE_VERITY:
- 		break;
- 	default:
- 		return -ENOIOCTLCMD;
-diff --git a/fs/f2fs/inode.c b/fs/f2fs/inode.c
-index ccb02226dd2c..b2f945b1afe5 100644
---- a/fs/f2fs/inode.c
-+++ b/fs/f2fs/inode.c
-@@ -46,9 +46,11 @@ void f2fs_set_inode_flags(struct inode *inode)
- 		new_fl |= S_DIRSYNC;
- 	if (file_is_encrypt(inode))
- 		new_fl |= S_ENCRYPTED;
-+	if (file_is_verity(inode))
-+		new_fl |= S_VERITY;
- 	inode_set_flags(inode, new_fl,
- 			S_SYNC|S_APPEND|S_IMMUTABLE|S_NOATIME|S_DIRSYNC|
--			S_ENCRYPTED);
-+			S_ENCRYPTED|S_VERITY);
- }
- 
- static void __get_inode_rdev(struct inode *inode, struct f2fs_inode *ri)
-@@ -749,6 +751,7 @@ void f2fs_evict_inode(struct inode *inode)
- 	}
- out_clear:
- 	fscrypt_put_encryption_info(inode);
-+	fsverity_cleanup_inode(inode);
- 	clear_inode(inode);
- }
- 
-diff --git a/fs/f2fs/super.c b/fs/f2fs/super.c
-index 6b959bbb336a..ea4a247d6ed6 100644
---- a/fs/f2fs/super.c
-+++ b/fs/f2fs/super.c
-@@ -3177,6 +3177,9 @@ static int f2fs_fill_super(struct super_block *sb, void *data, int silent)
- 	sb->s_op = &f2fs_sops;
- #ifdef CONFIG_FS_ENCRYPTION
- 	sb->s_cop = &f2fs_cryptops;
-+#endif
-+#ifdef CONFIG_FS_VERITY
-+	sb->s_vop = &f2fs_verityops;
- #endif
- 	sb->s_xattr = f2fs_xattr_handlers;
- 	sb->s_export_op = &f2fs_export_ops;
-diff --git a/fs/f2fs/sysfs.c b/fs/f2fs/sysfs.c
-index 729f46a3c9ee..b3e28467db72 100644
---- a/fs/f2fs/sysfs.c
-+++ b/fs/f2fs/sysfs.c
-@@ -117,6 +117,9 @@ static ssize_t features_show(struct f2fs_attr *a,
- 	if (f2fs_sb_has_lost_found(sbi))
- 		len += snprintf(buf + len, PAGE_SIZE - len, "%s%s",
- 				len ? ", " : "", "lost_found");
-+	if (f2fs_sb_has_verity(sbi))
-+		len += snprintf(buf + len, PAGE_SIZE - len, "%s%s",
-+				len ? ", " : "", "verity");
- 	if (f2fs_sb_has_sb_chksum(sbi))
- 		len += snprintf(buf + len, PAGE_SIZE - len, "%s%s",
- 				len ? ", " : "", "sb_checksum");
-@@ -350,6 +353,7 @@ enum feat_id {
- 	FEAT_QUOTA_INO,
- 	FEAT_INODE_CRTIME,
- 	FEAT_LOST_FOUND,
-+	FEAT_VERITY,
- 	FEAT_SB_CHECKSUM,
- };
- 
-@@ -367,6 +371,7 @@ static ssize_t f2fs_feature_show(struct f2fs_attr *a,
- 	case FEAT_QUOTA_INO:
- 	case FEAT_INODE_CRTIME:
- 	case FEAT_LOST_FOUND:
-+	case FEAT_VERITY:
- 	case FEAT_SB_CHECKSUM:
- 		return snprintf(buf, PAGE_SIZE, "supported\n");
- 	}
-@@ -455,6 +460,9 @@ F2FS_FEATURE_RO_ATTR(flexible_inline_xattr, FEAT_FLEXIBLE_INLINE_XATTR);
- F2FS_FEATURE_RO_ATTR(quota_ino, FEAT_QUOTA_INO);
- F2FS_FEATURE_RO_ATTR(inode_crtime, FEAT_INODE_CRTIME);
- F2FS_FEATURE_RO_ATTR(lost_found, FEAT_LOST_FOUND);
-+#ifdef CONFIG_FS_VERITY
-+F2FS_FEATURE_RO_ATTR(verity, FEAT_VERITY);
-+#endif
- F2FS_FEATURE_RO_ATTR(sb_checksum, FEAT_SB_CHECKSUM);
- 
- #define ATTR_LIST(name) (&f2fs_attr_##name.attr)
-@@ -517,6 +525,9 @@ static struct attribute *f2fs_feat_attrs[] = {
- 	ATTR_LIST(quota_ino),
- 	ATTR_LIST(inode_crtime),
- 	ATTR_LIST(lost_found),
-+#ifdef CONFIG_FS_VERITY
-+	ATTR_LIST(verity),
-+#endif
- 	ATTR_LIST(sb_checksum),
- 	NULL,
- };
-diff --git a/fs/f2fs/verity.c b/fs/f2fs/verity.c
-new file mode 100644
-index 000000000000..259f475de07a
---- /dev/null
-+++ b/fs/f2fs/verity.c
-@@ -0,0 +1,224 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * fs/f2fs/verity.c: fs-verity support for f2fs
-+ *
-+ * Copyright 2019 Google LLC
-+ */
-+
-+/*
-+ * Implementation of fsverity_operations for f2fs.
-+ *
-+ * Like ext4, f2fs stores the verity metadata (Merkle tree and
-+ * fsverity_descriptor) past the end of the file, starting at the first page
-+ * fully beyond i_size.  This approach works because (a) verity files are
-+ * readonly, and (b) pages fully beyond i_size aren't visible to userspace but
-+ * can be read/written internally by f2fs with only some relatively small
-+ * changes to f2fs.  Extended attributes cannot be used because (a) f2fs limits
-+ * the total size of an inode's xattr entries to 4096 bytes, which wouldn't be
-+ * enough for even a single Merkle tree block, and (b) f2fs encryption doesn't
-+ * encrypt xattrs, yet the verity metadata *must* be encrypted when the file is
-+ * because it contains hashes of the plaintext data.
-+ */
-+
-+#include <linux/f2fs_fs.h>
-+
-+#include "f2fs.h"
-+#include "xattr.h"
-+
-+/*
-+ * Read some verity metadata from the inode.  __vfs_read() can't be used because
-+ * we need to read beyond i_size.
-+ */
-+static int pagecache_read(struct inode *inode, void *buf, size_t count,
-+			  loff_t pos)
-+{
-+	const size_t orig_count = count;
-+
-+	while (count) {
-+		size_t n = min_t(size_t, count,
-+				 PAGE_SIZE - offset_in_page(pos));
-+		struct page *page;
-+		void *addr;
-+
-+		page = read_mapping_page(inode->i_mapping, pos >> PAGE_SHIFT,
-+					 NULL);
-+		if (IS_ERR(page))
-+			return PTR_ERR(page);
-+
-+		addr = kmap_atomic(page);
-+		memcpy(buf, addr + offset_in_page(pos), n);
-+		kunmap_atomic(addr);
-+
-+		put_page(page);
-+
-+		buf += n;
-+		pos += n;
-+		count -= n;
-+	}
-+	return orig_count;
-+}
-+
-+/*
-+ * Write some verity metadata to the inode for FS_IOC_ENABLE_VERITY.
-+ * kernel_write() can't be used because the file descriptor is readonly.
-+ */
-+static int pagecache_write(struct inode *inode, const void *buf, size_t count,
-+			   loff_t pos)
-+{
-+	while (count) {
-+		size_t n = min_t(size_t, count,
-+				 PAGE_SIZE - offset_in_page(pos));
-+		struct page *page;
-+		void *fsdata;
-+		void *addr;
-+		int res;
-+
-+		res = pagecache_write_begin(NULL, inode->i_mapping, pos, n, 0,
-+					    &page, &fsdata);
-+		if (res)
-+			return res;
-+
-+		addr = kmap_atomic(page);
-+		memcpy(addr + offset_in_page(pos), buf, n);
-+		kunmap_atomic(addr);
-+
-+		res = pagecache_write_end(NULL, inode->i_mapping, pos, n, n,
-+					  page, fsdata);
-+		if (res < 0)
-+			return res;
-+		if (res != n)
-+			return -EIO;
-+
-+		buf += n;
-+		pos += n;
-+		count -= n;
-+	}
-+	return 0;
-+}
-+
-+/*
-+ * Format of f2fs verity xattr.  This points to the location of the verity
-+ * descriptor within the file data rather than containing it directly because
-+ * the verity descriptor *must* be encrypted when f2fs encryption is used.  But,
-+ * f2fs encryption does not encrypt xattrs.
-+ */
-+struct fsverity_descriptor_location {
-+	__le32 version;
-+	__le32 size;
-+	__le64 pos;
-+};
-+
-+static int f2fs_begin_enable_verity(struct file *filp)
-+{
-+	struct inode *inode = file_inode(filp);
-+	int err;
-+
-+	err = f2fs_convert_inline_inode(inode);
-+	if (err)
-+		return err;
-+
-+	err = dquot_initialize(inode);
-+	if (err)
-+		return err;
-+
-+	set_inode_flag(inode, FI_VERITY_IN_PROGRESS);
-+	return 0;
-+}
-+
-+static int f2fs_end_enable_verity(struct file *filp, const void *desc,
-+				  size_t desc_size, u64 merkle_tree_size)
-+{
-+	struct inode *inode = file_inode(filp);
-+	u64 desc_pos = round_up(inode->i_size, PAGE_SIZE) + merkle_tree_size;
-+	struct fsverity_descriptor_location dloc = {
-+		.version = cpu_to_le32(1),
-+		.size = cpu_to_le32(desc_size),
-+		.pos = cpu_to_le64(desc_pos),
-+	};
-+	int err = 0;
-+
-+	if (desc != NULL) {
-+		/* Succeeded; write the verity descriptor. */
-+		err = pagecache_write(inode, desc, desc_size, desc_pos);
-+
-+		/* Write all pages before clearing FI_VERITY_IN_PROGRESS. */
-+		if (!err)
-+			err = filemap_write_and_wait(inode->i_mapping);
-+	} else {
-+		/* Failed; truncate anything we wrote past i_size. */
-+		f2fs_truncate(inode);
-+	}
-+
-+	clear_inode_flag(inode, FI_VERITY_IN_PROGRESS);
-+
-+	if (desc != NULL && !err) {
-+		err = f2fs_setxattr(inode, F2FS_XATTR_INDEX_VERITY,
-+				    F2FS_XATTR_NAME_VERITY, &dloc, sizeof(dloc),
-+				    NULL, XATTR_CREATE);
-+		if (!err) {
-+			file_set_verity(inode);
-+			f2fs_set_inode_flags(inode);
-+			f2fs_mark_inode_dirty_sync(inode, true);
-+		}
-+	}
-+	return err;
-+}
-+
-+static int f2fs_get_verity_descriptor(struct inode *inode, void *buf,
-+				      size_t buf_size)
-+{
-+	struct fsverity_descriptor_location dloc;
-+	int res;
-+	u32 size;
-+	u64 pos;
-+
-+	/* Get the descriptor location */
-+	res = f2fs_getxattr(inode, F2FS_XATTR_INDEX_VERITY,
-+			    F2FS_XATTR_NAME_VERITY, &dloc, sizeof(dloc), NULL);
-+	if (res < 0 && res != -ERANGE)
-+		return res;
-+	if (res != sizeof(dloc) || dloc.version != cpu_to_le32(1)) {
-+		f2fs_msg(inode->i_sb, KERN_WARNING,
-+			 "unknown verity xattr format");
-+		return -EINVAL;
-+	}
-+	size = le32_to_cpu(dloc.size);
-+	pos = le64_to_cpu(dloc.pos);
-+
-+	/* Get the descriptor */
-+	if (pos + size < pos || pos + size > inode->i_sb->s_maxbytes ||
-+	    pos < round_up(inode->i_size, PAGE_SIZE) || size > INT_MAX) {
-+		f2fs_msg(inode->i_sb, KERN_WARNING, "invalid verity xattr");
-+		return -EUCLEAN; /* EFSCORRUPTED */
-+	}
-+	if (buf_size == 0)
-+		return size;
-+	if (size > buf_size)
-+		return -ERANGE;
-+	return pagecache_read(inode, buf, size, pos);
-+}
-+
-+static struct page *f2fs_read_merkle_tree_page(struct inode *inode,
-+					       pgoff_t index)
-+{
-+	index += DIV_ROUND_UP(inode->i_size, PAGE_SIZE);
-+
-+	return read_mapping_page(inode->i_mapping, index, NULL);
-+}
-+
-+static int f2fs_write_merkle_tree_block(struct inode *inode, const void *buf,
-+					u64 index, int log_blocksize)
-+{
-+	loff_t pos = round_up(inode->i_size, PAGE_SIZE) +
-+		     (index << log_blocksize);
-+
-+	return pagecache_write(inode, buf, 1 << log_blocksize, pos);
-+}
-+
-+const struct fsverity_operations f2fs_verityops = {
-+	.begin_enable_verity	= f2fs_begin_enable_verity,
-+	.end_enable_verity	= f2fs_end_enable_verity,
-+	.get_verity_descriptor	= f2fs_get_verity_descriptor,
-+	.read_merkle_tree_page	= f2fs_read_merkle_tree_page,
-+	.write_merkle_tree_block = f2fs_write_merkle_tree_block,
-+};
-diff --git a/fs/f2fs/xattr.h b/fs/f2fs/xattr.h
-index a90920e2f949..de0c600b9cab 100644
---- a/fs/f2fs/xattr.h
-+++ b/fs/f2fs/xattr.h
-@@ -34,8 +34,10 @@
- #define F2FS_XATTR_INDEX_ADVISE			7
- /* Should be same as EXT4_XATTR_INDEX_ENCRYPTION */
- #define F2FS_XATTR_INDEX_ENCRYPTION		9
-+#define F2FS_XATTR_INDEX_VERITY			11
- 
- #define F2FS_XATTR_NAME_ENCRYPTION_CONTEXT	"c"
-+#define F2FS_XATTR_NAME_VERITY			"v"
- 
- struct f2fs_xattr_header {
- 	__le32  h_magic;        /* magic number for identification */
--- 
-2.21.0
+Back in the day when we were doing security evaluations
+the implications of "deleting" an object gave the security
+evaluators fits. UNIX/Linux files don't get deleted, they
+simply fall off the filesystem namespace when no one cares
+about them anymore. The model we used back in the day was
+that "delete" wasn't an operation that occurs on filesystem
+objects.
+
+But now you want to do something with security implications
+when the object disappears. We could say that the event does
+nothing but signal that the system has removed the watch on
+your behalf because it is now meaningless. No reason to worry
+about who dropped the last reference. We don't care about
+that from a policy viewpoint anyway.
+
+>
+>> And yet more complicated when you throw in unix sockets with partially=
+ passed
+>> fds still in their queues.=C2=A0 That's what patch 01 is designed to t=
+ry and cope
+>> with.
+>>
+>>> and make sure there is some sane way to control the relationship betw=
+een the
+>>> accessed object and the watched object (write-like)?
+>>
+>> This is the trick.=C2=A0 Keys and superblocks have object labels of th=
+eir own and
+>> don't - for now - propagate their watches.=C2=A0 With these, the watch=
+ is on the
+>> object you initially assign it to and it goes no further than that.
+>>
+>> mount_notify() is the interesting case since we want to be able to det=
+ect
+>> mount topology change events from within the vfs subtree rooted at the=
+ watched
+>> directory without having to manually put a watch on every directory in=
+ that
+>> subtree - or even just every mount object. >
+>> Or, maybe, that's what I'll have to do: make it mount_notify() can onl=
+y apply
+>> to the subtree within its superblock, and the caller must call mount_n=
+otify()
+>> for every mount object it wants to monitor.=C2=A0 That would at least =
+ensure that
+>> the caller can, at that point, reach all those mount points.
+>
+> Would that at least make it consistent with fanotify (not that it provi=
+des a great example)?
+>
+>>> For cases where we have no object per se or at least no security
+>>> structure/label associated with it, we may have to fall back to a
+>>> coarse-grained "Can the watcher get this kind of notification in gene=
+ral?".
+>>
+>> Agreed - and we should probably have that anyway.
+>>
+>> David
 
