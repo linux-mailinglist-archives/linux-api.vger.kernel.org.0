@@ -2,126 +2,82 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 650B837E7C
-	for <lists+linux-api@lfdr.de>; Thu,  6 Jun 2019 22:18:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1248237DDC
+	for <lists+linux-api@lfdr.de>; Thu,  6 Jun 2019 22:12:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727193AbfFFUSb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 6 Jun 2019 16:18:31 -0400
-Received: from mga14.intel.com ([192.55.52.115]:51127 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728093AbfFFURf (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 6 Jun 2019 16:17:35 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Jun 2019 13:17:33 -0700
-X-ExtLoop1: 1
-Received: from yyu32-desk1.sc.intel.com ([143.183.136.147])
-  by fmsmga001.fm.intel.com with ESMTP; 06 Jun 2019 13:17:33 -0700
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>
-Subject: [PATCH v7 14/14] x86: Discard .note.gnu.property sections
-Date:   Thu,  6 Jun 2019 13:09:26 -0700
-Message-Id: <20190606200926.4029-15-yu-cheng.yu@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190606200926.4029-1-yu-cheng.yu@intel.com>
-References: <20190606200926.4029-1-yu-cheng.yu@intel.com>
+        id S1728533AbfFFUMA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 6 Jun 2019 16:12:00 -0400
+Received: from mx2.suse.de ([195.135.220.15]:58646 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727082AbfFFUMA (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 6 Jun 2019 16:12:00 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 7B49AAF8A;
+        Thu,  6 Jun 2019 20:11:58 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Thu, 06 Jun 2019 22:11:57 +0200
+From:   Roman Penyaev <rpenyaev@suse.de>
+To:     Renzo Davoli <renzo@cs.unibo.it>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Davide Libenzi <davidel@xmailserver.org>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-kernel-owner@vger.kernel.org
+Subject: Re: [PATCH 1/1] eventfd new tag EFD_VPOLL: generate epoll events
+In-Reply-To: <20190603150010.GE4312@cs.unibo.it>
+References: <20190526142521.GA21842@cs.unibo.it>
+ <20190527073332.GA13782@kroah.com> <20190527133621.GC26073@cs.unibo.it>
+ <480f1bda66b67f740f5da89189bbfca3@suse.de>
+ <20190531104502.GE3661@cs.unibo.it>
+ <cd20672aaf13f939b4f798d0839d2438@suse.de>
+ <20190603150010.GE4312@cs.unibo.it>
+Message-ID: <5d44edf655e193789823094d1b4301fd@suse.de>
+X-Sender: rpenyaev@suse.de
+User-Agent: Roundcube Webmail
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: "H.J. Lu" <hjl.tools@gmail.com>
+Hi Renzo,
 
-With the command-line option, -mx86-used-note=yes, the x86 assembler
-in binutils 2.32 and above generates a program property note in a note
-section, .note.gnu.property, to encode used x86 ISAs and features.
-To exclude .note.gnu.property sections from NOTE segment in x86 kernel
-linker script:
+On 2019-06-03 17:00, Renzo Davoli wrote:
+> Hi Roman,
+> 
+> 	 I sorry for the delay in my answer, but I needed to set up a minimal
+> tutorial to show what I am working on and why I need a feature like the
+> one I am proposing.
+> 
+> Please, have a look of the README.md page here:
+> https://github.com/virtualsquare/vuos
+> (everything can be downloaded and tested)
 
-PHDRS {
- text PT_LOAD FLAGS(5);
- data PT_LOAD FLAGS(6);
- percpu PT_LOAD FLAGS(6);
- init PT_LOAD FLAGS(7);
- note PT_NOTE FLAGS(0);
-}
-SECTIONS
-{
-...
- .notes : AT(ADDR(.notes) - 0xffffffff80000000) { __start_notes = .; KEEP(*(.not
-e.*)) __stop_notes = .; } :text :note
-...
-}
+Is that similar to what user-mode linux does?  I mean the principle.
 
-this patch discards .note.gnu.property sections in kernel linker script
-by adding
+> I am not trying to port some tools to use user-space implemented
+> stacks or device
+> drivers/emulators, I am seeking to a general purpose approach.
 
- /DISCARD/ : {
-  *(.note.gnu.property)
- }
+You still intersect *each* syscall, why not to do the same for 
+epoll_wait()
+and replace events with correct value?  Seems you do something similar 
+already
+in a vu_wrap_poll.c: wo_epoll_wait(), right?
 
-before .notes sections.  Since .exit.text and .exit.data sections are
-discarded at runtime, it undefines EXIT_TEXT and EXIT_DATA to exclude
-.exit.text and .exit.data sections from default discarded sections.
+Don't get me wrong, I really want to understand whether everything 
+really
+looks so bad without proposed change. It seems not, because the whole 
+principle
+is based on intersection of each syscall, thus one more one less - it 
+does not
+become more clean and especially does not look like a generic purpose 
+solution,
+which you seek.  I may be wrong.
 
-Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
----
- arch/x86/kernel/vmlinux.lds.S | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
-
-diff --git a/arch/x86/kernel/vmlinux.lds.S b/arch/x86/kernel/vmlinux.lds.S
-index 0850b5149345..d2594b482c09 100644
---- a/arch/x86/kernel/vmlinux.lds.S
-+++ b/arch/x86/kernel/vmlinux.lds.S
-@@ -146,6 +146,10 @@ SECTIONS
- 	/* End of text section */
- 	_etext = .;
- 
-+	/* .note.gnu.property sections should be discarded */
-+	/DISCARD/ : {
-+		*(.note.gnu.property)
-+	}
- 	NOTES :text :note
- 
- 	EXCEPTION_TABLE(16) :text = 0x9090
-@@ -382,7 +386,12 @@ SECTIONS
- 	STABS_DEBUG
- 	DWARF_DEBUG
- 
--	/* Sections to be discarded */
-+	/* Sections to be discarded.  EXIT_TEXT and EXIT_DATA discard at runtime.
-+	 * not link time.  */
-+#undef EXIT_TEXT
-+#define EXIT_TEXT
-+#undef EXIT_DATA
-+#define EXIT_DATA
- 	DISCARDS
- 	/DISCARD/ : {
- 		*(.eh_frame)
--- 
-2.17.1
+--
+Roman
 
