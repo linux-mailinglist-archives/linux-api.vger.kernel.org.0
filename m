@@ -2,116 +2,66 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 337AA3806D
-	for <lists+linux-api@lfdr.de>; Fri,  7 Jun 2019 00:19:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BCB3380F5
+	for <lists+linux-api@lfdr.de>; Fri,  7 Jun 2019 00:38:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729081AbfFFWS6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 6 Jun 2019 18:18:58 -0400
-Received: from mga18.intel.com ([134.134.136.126]:41329 "EHLO mga18.intel.com"
+        id S1727279AbfFFWiY convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Thu, 6 Jun 2019 18:38:24 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37018 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726837AbfFFWS6 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 6 Jun 2019 18:18:58 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Jun 2019 15:18:57 -0700
-X-ExtLoop1: 1
-Received: from yyu32-desk1.sc.intel.com ([143.183.136.147])
-  by orsmga004.jf.intel.com with ESMTP; 06 Jun 2019 15:18:56 -0700
-Message-ID: <93ee5b103b8261d2b50de89f8658d133639a9af5.camel@intel.com>
-Subject: Re: [PATCH v7 04/27] x86/fpu/xstate: Introduce XSAVES system states
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Dave Hansen <dave.hansen@intel.com>,
-        Andy Lutomirski <luto@amacapital.net>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>
-Date:   Thu, 06 Jun 2019 15:10:55 -0700
-In-Reply-To: <4effb749-0cdc-6a49-6352-7b2d4aa7d866@intel.com>
-References: <20190606200646.3951-1-yu-cheng.yu@intel.com>
-         <20190606200646.3951-5-yu-cheng.yu@intel.com>
-         <0a2f8b9b-b96b-06c8-bae0-b78b2ca3b727@intel.com>
-         <5EE146A8-6C8C-4C5D-B7C0-AB8AD1012F1E@amacapital.net>
-         <4effb749-0cdc-6a49-6352-7b2d4aa7d866@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1726538AbfFFWiX (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 6 Jun 2019 18:38:23 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id C91BE128B5;
+        Thu,  6 Jun 2019 22:38:15 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-120-173.rdu2.redhat.com [10.10.120.173])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id B67827840D;
+        Thu,  6 Jun 2019 22:38:02 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <AD7898AE-B92C-4DE6-B895-7116FEDB3091@amacapital.net>
+References: <AD7898AE-B92C-4DE6-B895-7116FEDB3091@amacapital.net> <CALCETrVuNRPgEzv-XY4M9m6sEsCiRHxPenN_MpcMYc1h26vVwQ@mail.gmail.com> <b91710d8-cd2d-6b93-8619-130b9d15983d@tycho.nsa.gov> <155981411940.17513.7137844619951358374.stgit@warthog.procyon.org.uk> <3813.1559827003@warthog.procyon.org.uk> <8382af23-548c-f162-0e82-11e308049735@tycho.nsa.gov> <0eb007c5-b4a0-9384-d915-37b0e5a158bf@schaufler-ca.com> <c82052e5-ca11-67b5-965e-8f828081f31c@tycho.nsa.gov> <07e92045-2d80-8573-4d36-643deeaff9ec@schaufler-ca.com> <23611.1559855827@warthog.procyon.org.uk>
+To:     Andy Lutomirski <luto@amacapital.net>
+Cc:     dhowells@redhat.com, Andy Lutomirski <luto@kernel.org>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        USB list <linux-usb@vger.kernel.org>, raven@themaw.net,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-block@vger.kernel.org, keyrings@vger.kernel.org,
+        LSM List <linux-security-module@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Paul Moore <paul@paul-moore.com>
+Subject: Re: [RFC][PATCH 00/10] Mount, FS, Block and Keyrings notifications [ver #3]
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
+Date:   Thu, 06 Jun 2019 23:38:01 +0100
+Message-ID: <30567.1559860681@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.30]); Thu, 06 Jun 2019 22:38:23 +0000 (UTC)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, 2019-06-06 at 15:08 -0700, Dave Hansen wrote:
-> 
-> On 6/6/19 3:04 PM, Andy Lutomirski wrote:
-> > > But, that seems broken.  If we have supervisor state, we can't 
-> > > always defer the load until return to userspace, so we'll never?? 
-> > > have TIF_NEED_FPU_LOAD.  That would certainly be true for 
-> > > cet_kernel_state.
-> > 
-> > Ugh. I was sort of imagining that we would treat supervisor state
-> 
->  completely separately from user state.  But can you maybe give
-> examples of exactly what you mean?
-> > 
-> > > It seems like we actually need three classes of XSAVE states: 1. 
-> > > User state
-> > 
-> > This is FPU, XMM, etc, right?
-> 
-> Yep.
-> 
-> > > 2. Supervisor state that affects user mode
-> > 
-> > User CET?
-> 
-> Yep.
-> 
-> > > 3. Supervisor state that affects kernel mode
-> > 
-> > Like supervisor CET?  If we start doing supervisor shadow stack, the 
-> > context switches will be real fun.  We may need to handle this in 
-> > asm.
-> 
-> Yeah, that's what I was thinking.
-> 
-> I have the feeling Yu-cheng's patches don't comprehend this since
-> Sebastian's patches went in after he started working on shadow stacks.
-> 
-> > Where does PKRU fit in?  Maybe we can treat it as #3?
-> 
-> I thought Sebastian added specific PKRU handling to make it always
-> eager.  It's actually user state that affect kernel mode. :)
+Andy Lutomirski <luto@amacapital.net> wrote:
 
-For CET user states, we need to restore before making changes.  If they are not
-being changed (i.e. signal handling and syscalls), then they are restored only
-before going back to user-mode.
+> I mean: are there cases where some action generates a notification but does
+> not otherwise have an effect visible to the users who can receive the
+> notification. It looks like the answer is probably “no”, which is good.
 
-For CET kernel states, we only need to make small changes in the way similar to
-the PKRU handling, right?  We'll address it when sending CET kernel-mode
-patches.
+mount_notify().  You can get a notification that someone altered the mount
+topology (eg. by mounting something).  A process receiving a notification
+could then use fsinfo(), say, to reread the mount topology tree, find out
+where the new mount is and wander over there to have a look - assuming they
+have the permissions for pathwalk to succeed.
 
-I will put in more comments as suggested by Dave in earlier emails.
-
-Yu-cheng
+David
