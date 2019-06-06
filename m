@@ -2,56 +2,214 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C33E37FA4
-	for <lists+linux-api@lfdr.de>; Thu,  6 Jun 2019 23:34:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EF9B37FD8
+	for <lists+linux-api@lfdr.de>; Thu,  6 Jun 2019 23:46:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728536AbfFFVeC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 6 Jun 2019 17:34:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35616 "EHLO mail.kernel.org"
+        id S1726655AbfFFVqt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 6 Jun 2019 17:46:49 -0400
+Received: from mail.hallyn.com ([178.63.66.53]:54182 "EHLO mail.hallyn.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727057AbfFFVeC (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 6 Jun 2019 17:34:02 -0400
-Received: from akpm3.svl.corp.google.com (unknown [104.133.8.65])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 425B8206BB;
-        Thu,  6 Jun 2019 21:34:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1559856841;
-        bh=IBMakSAmxp2Ih7MrARdyOGb6a4i5uA7woITej/AKKnI=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=ISqfp6hTYjffzsObhMCnRqPeZw2vZjXkA6IDcdwg+OzVRM3YolpZrfl4RaCgwI5BA
-         T0o1vRvAlJ0vf/QdrH7xmFdH+C5RuJ33pRryt9dNFpuGdMwVZ8KVK0xtL8GXLTGPOM
-         xRpZViqMDQt4lM4GTjfgdwHyXDcVIUzDR74jyWPs=
-Date:   Thu, 6 Jun 2019 14:34:00 -0700
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Aubrey Li <aubrey.li@linux.intel.com>
-Cc:     tglx@linutronix.de, mingo@redhat.com, peterz@infradead.org,
-        hpa@zytor.com, ak@linux.intel.com, tim.c.chen@linux.intel.com,
-        dave.hansen@intel.com, arjan@linux.intel.com, adobriyan@gmail.com,
-        aubrey.li@intel.com, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Andy Lutomirski <luto@kernel.org>
-Subject: Re: [PATCH v19 1/3] proc: add /proc/<pid>/arch_status
-Message-Id: <20190606143400.9f4a584eb1dc640fdf334114@linux-foundation.org>
-In-Reply-To: <20190606012236.9391-1-aubrey.li@linux.intel.com>
-References: <20190606012236.9391-1-aubrey.li@linux.intel.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1726157AbfFFVqt (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 6 Jun 2019 17:46:49 -0400
+Received: by mail.hallyn.com (Postfix, from userid 1001)
+        id 7AD2916; Thu,  6 Jun 2019 16:46:45 -0500 (CDT)
+Date:   Thu, 6 Jun 2019 16:46:45 -0500
+From:   "Serge E. Hallyn" <serge@hallyn.com>
+To:     Christian Brauner <christian@brauner.io>
+Cc:     viro@zeniv.linux.org.uk, linux-kernel@vger.kernel.org,
+        torvalds@linux-foundation.org, jannh@google.com,
+        keescook@chromium.org, fweimer@redhat.com, oleg@redhat.com,
+        arnd@arndb.de, dhowells@redhat.com,
+        Pavel Emelyanov <xemul@virtuozzo.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Adrian Reber <adrian@lisas.de>,
+        Andrei Vagin <avagin@gmail.com>, linux-api@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] fork: add clone3
+Message-ID: <20190606214645.GA31599@mail.hallyn.com>
+References: <20190604160944.4058-1-christian@brauner.io>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190604160944.4058-1-christian@brauner.io>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu,  6 Jun 2019 09:22:34 +0800 Aubrey Li <aubrey.li@linux.intel.com> wrote:
+On Tue, Jun 04, 2019 at 06:09:43PM +0200, Christian Brauner wrote:
+> This adds the clone3 system call.
+> 
+> As mentioned several times already (cf. [7], [8]) here's the promised
+> patchset for clone3().
+> 
+> We recently merged the CLONE_PIDFD patchset (cf. [1]). It took the last
+> free flag from clone().
+> 
+> Independent of the CLONE_PIDFD patchset a time namespace has been discussed
+> at Linux Plumber Conference last year and has been sent out and reviewed
+> (cf. [5]). It is expected that it will go upstream in the not too distant
+> future. However, it relies on the addition of the CLONE_NEWTIME flag to
+> clone(). The only other good candidate - CLONE_DETACHED - is currently not
+> recyclable as we have identified at least two large or widely used
+> codebases that currently pass this flag (cf. [2], [3], and [4]). Given that
+> CLONE_PIDFD grabbed the last clone() flag the time namespace is effectively
+> blocked. clone3() has the advantage that it will unblock this patchset
+> again. In general, clone3() is extensible and allows for the implementation
+> of new features.
+> 
+> The idea is to keep clone3() very simple and close to the original clone(),
+> specifically, to keep on supporting old clone()-based workloads.
+> We know there have been various creative proposals how a new process
+> creation syscall or even api is supposed to look like. Some people even
+> going so far as to argue that the traditional fork()+exec() split should be
+> abandoned in favor of an in-kernel version of spawn(). Independent of
+> whether or not we personally think spawn() is a good idea this patchset has
+> and does not want to have anything to do with this.
+> One stance we take is that there's no real good alternative to
+> clone()+exec() and we need and want to support this model going forward;
+> independent of spawn().
+> The following requirements guided clone3():
+> - bump the number of available flags
+> - move arguments that are currently passed as separate arguments
+>   in clone() into a dedicated struct clone_args
+>   - choose a struct layout that is easy to handle on 32 and on 64 bit
+>   - choose a struct layout that is extensible
+>   - give new flags that currently need to abuse another flag's dedicated
+>     return argument in clone() their own dedicated return argument
+>     (e.g. CLONE_PIDFD)
+>   - use a separate kernel internal struct kernel_clone_args that is
+>     properly typed according to current kernel conventions in fork.c and is
+>     different from  the uapi struct clone_args
+> - port _do_fork() to use kernel_clone_args so that all process creation
+>   syscalls such as fork(), vfork(), clone(), and clone3() behave identical
+>   (Arnd suggested, that we can probably also port do_fork() itself in a
+>    separate patchset.)
+> - ease of transition for userspace from clone() to clone3()
+>   This very much means that we do *not* remove functionality that userspace
+>   currently relies on as the latter is a good way of creating a syscall
+>   that won't be adopted.
+> - do not try to be clever or complex: keep clone3() as dumb as possible
+> 
+> In accordance with Linus suggestions (cf. [11]), clone3() has the following
+> signature:
+> 
+> /* uapi */
+> struct clone_args {
+>         __aligned_u64 flags;
+>         __aligned_u64 pidfd;
+>         __aligned_u64 child_tid;
+>         __aligned_u64 parent_tid;
+>         __aligned_u64 exit_signal;
+>         __aligned_u64 stack;
+>         __aligned_u64 stack_size;
+>         __aligned_u64 tls;
+> };
+> 
+> /* kernel internal */
+> struct kernel_clone_args {
+>         u64 flags;
+>         int __user *pidfd;
+>         int __user *child_tid;
+>         int __user *parent_tid;
+>         int exit_signal;
+>         unsigned long stack;
+>         unsigned long stack_size;
+>         unsigned long tls;
+> };
+> 
+> long sys_clone3(struct clone_args __user *uargs, size_t size)
+> 
+> clone3() cleanly supports all of the supported flags from clone() and thus
+> all legacy workloads.
+> The advantage of sticking close to the old clone() is the low cost for
+> userspace to switch to this new api. Quite a lot of userspace apis (e.g.
+> pthreads) are based on the clone() syscall. With the new clone3() syscall
+> supporting all of the old workloads and opening up the ability to add new
+> features should make switching to it for userspace more appealing. In
+> essence, glibc can just write a simple wrapper to switch from clone() to
+> clone3().
+> 
+> There has been some interest in this patchset already. We have received a
+> patch from the CRIU corner for clone3() that would set the PID/TID of a
+> restored process without /proc/sys/kernel/ns_last_pid to eliminate a race.
+> 
+> /* User visible differences to legacy clone() */
+> - CLONE_DETACHED will cause EINVAL with clone3()
+> - CSIGNAL is deprecated
+>   It is superseeded by a dedicated "exit_signal" argument in struct
+>   clone_args freeing up space for additional flags.
+>   This is based on a suggestion from Andrei and Linus (cf. [9] and [10])
+> 
+> /* References */
+> [1]: b3e5838252665ee4cfa76b82bdf1198dca81e5be
+> [2]: https://dxr.mozilla.org/mozilla-central/source/security/sandbox/linux/SandboxFilter.cpp#343
+> [3]: https://git.musl-libc.org/cgit/musl/tree/src/thread/pthread_create.c#n233
+> [4]: https://sources.debian.org/src/blcr/0.8.5-2.3/cr_module/cr_dump_self.c/?hl=740#L740
+> [5]: https://lore.kernel.org/lkml/20190425161416.26600-1-dima@arista.com/
+> [6]: https://lore.kernel.org/lkml/20190425161416.26600-2-dima@arista.com/
+> [7]: https://lore.kernel.org/lkml/CAHrFyr5HxpGXA2YrKza-oB-GGwJCqwPfyhD-Y5wbktWZdt0sGQ@mail.gmail.com/
+> [8]: https://lore.kernel.org/lkml/20190524102756.qjsjxukuq2f4t6bo@brauner.io/
+> [9]: https://lore.kernel.org/lkml/20190529222414.GA6492@gmail.com/
+> [10]: https://lore.kernel.org/lkml/CAHk-=whQP-Ykxi=zSYaV9iXsHsENa+2fdj-zYKwyeyed63Lsfw@mail.gmail.com/
+> [11]: https://lore.kernel.org/lkml/CAHk-=wieuV4hGwznPsX-8E0G2FKhx3NjZ9X3dTKh5zKd+iqOBw@mail.gmail.com/
+> 
+> Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+> Signed-off-by: Christian Brauner <christian@brauner.io>
 
-> The architecture specific information of the running processes
-> could be useful to the userland. Add /proc/<pid>/arch_status
-> interface support to examine process architecture specific
-> information externally.
+Acked-by: Serge Hallyn <serge@hallyn.com>
 
-I'll grab these for some testing.  I can merge them up if the x86
-maintainers are OK with it all.  However I think it's best that these
-be merged via an x86 tree, please.
-
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Pavel Emelyanov <xemul@virtuozzo.com>
+> Cc: Jann Horn <jannh@google.com>
+> Cc: David Howells <dhowells@redhat.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Oleg Nesterov <oleg@redhat.com>
+> Cc: Adrian Reber <adrian@lisas.de>
+> Cc: Linus Torvalds <torvalds@linux-foundation.org>
+> Cc: Andrei Vagin <avagin@gmail.com>
+> Cc: Al Viro <viro@zeniv.linux.org.uk>
+> Cc: Florian Weimer <fweimer@redhat.com>
+> Cc: linux-api@vger.kernel.org
+> ---
+> v1:
+> - Linus Torvalds <torvalds@linux-foundation.org>:
+>   - redesign based on Linus proposal
+>   - switch from arg-based to revision-based naming scheme: s/clone6/clone3/
+> - Arnd Bergmann <arnd@arndb.de>:
+>   - use a single copy_from_user() instead of multiple get_user() calls
+>     since the latter have a constant overhead on some architectures
+>   - a range of other tweaks and suggestions
+> v2:
+> - Linus Torvalds <torvalds@linux-foundation.org>,
+>   Andrei Vagin <avagin@gmail.com>:
+>   - replace CSIGNAL flag with dedicated exit_signal argument in struct
+>     clone_args
+> - Christian Brauner <christian@brauner.io>:
+>   - improve naming for some struct clone_args members
+> v3:
+> - Arnd Bergmann <arnd@arndb.de>:
+>   - replace memset with constructor for clarity and better object code
+>   - call flag verification function clone3_flags_valid() on
+>     kernel_clone_args instead of clone_args
+>   - remove __ARCH_WANT_SYS_CLONE ifdefine around sys_clone3()
+> - Christian Brauner <christian@brauner.io>:
+>   - replace clone3_flags_valid() with clone3_args_valid() and call in
+>     clone3() directly rather than in copy_clone_args_from_user()
+>     This cleanly separates copying the args from userspace from the
+>     verification whether those args are sane.
+> - David Howells <dhowells@redhat.com>:
+>   - align new struct member assignments with tabs
+>   - replace CLONE_MAX by with a non-uapi exported CLONE_LEGACY_FLAGS and
+>     define it as  0xffffffffULL for clarity
+>   - make copy_clone_args_from_user() noinline
+>   - avoid assigning to local variables from struct kernel_clone_args
+>     members in cases where it makes sense
+> ---
+>  arch/x86/ia32/sys_ia32.c   |  12 ++-
+>  include/linux/sched/task.h |  17 +++-
+>  include/linux/syscalls.h   |   4 +
+>  include/uapi/linux/sched.h |  16 +++
+>  kernel/fork.c              | 201 ++++++++++++++++++++++++++++---------
+>  5 files changed, 199 insertions(+), 51 deletions(-)
