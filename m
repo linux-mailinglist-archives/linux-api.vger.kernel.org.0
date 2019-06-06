@@ -2,130 +2,189 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 389BE37DB4
-	for <lists+linux-api@lfdr.de>; Thu,  6 Jun 2019 21:55:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EEC4137E84
+	for <lists+linux-api@lfdr.de>; Thu,  6 Jun 2019 22:21:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727240AbfFFTyx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 6 Jun 2019 15:54:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34202 "EHLO mail.kernel.org"
+        id S1728658AbfFFUPJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 6 Jun 2019 16:15:09 -0400
+Received: from mga17.intel.com ([192.55.52.151]:47825 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727890AbfFFTyx (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 6 Jun 2019 15:54:53 -0400
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7F4E9212F5
-        for <linux-api@vger.kernel.org>; Thu,  6 Jun 2019 19:54:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1559850891;
-        bh=CwGMuE+WEe/QCirkYuKg8095g413T6AAKaG29fZ0SGQ=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=eQwvwcju3KjnhZ83Kd4AaOrth9m4z53DeQp6LenCs72nKfO38LO/vJA0nqcu6QMbU
-         IyPfe96L/vuzq7/JfV6upFI4P0etLFkwpz5qGPi/yaOXQubr8y2/C6sq3/jpxnxEym
-         ChcrDS8gGZxAFu/JAu4djfMGvCRA3Sr95xzJmlqw=
-Received: by mail-wr1-f51.google.com with SMTP id v14so3681471wrr.4
-        for <linux-api@vger.kernel.org>; Thu, 06 Jun 2019 12:54:51 -0700 (PDT)
-X-Gm-Message-State: APjAAAUADxqiOiNPUlqO+lnDsg3Y2jTKtEi5IxejTtseH3ZmS3i2b9WE
-        2JUTQi+EPpboGl949ninoJnjVSF4jTOYNFfHFLpEOA==
-X-Google-Smtp-Source: APXvYqyekhKavJMx5MB3Z2AxY4A/CobI1nxE7fayLLS4V4kYzZ+R4ThNtJeafKr4gLEMwMxes/0kV7JtVkKhH1VwAnQ=
-X-Received: by 2002:a5d:6207:: with SMTP id y7mr12434458wru.265.1559850890024;
- Thu, 06 Jun 2019 12:54:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <b91710d8-cd2d-6b93-8619-130b9d15983d@tycho.nsa.gov>
- <155981411940.17513.7137844619951358374.stgit@warthog.procyon.org.uk>
- <3813.1559827003@warthog.procyon.org.uk> <8382af23-548c-f162-0e82-11e308049735@tycho.nsa.gov>
- <0eb007c5-b4a0-9384-d915-37b0e5a158bf@schaufler-ca.com> <c82052e5-ca11-67b5-965e-8f828081f31c@tycho.nsa.gov>
- <07e92045-2d80-8573-4d36-643deeaff9ec@schaufler-ca.com>
-In-Reply-To: <07e92045-2d80-8573-4d36-643deeaff9ec@schaufler-ca.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Thu, 6 Jun 2019 12:54:38 -0700
-X-Gmail-Original-Message-ID: <CALCETrVuNRPgEzv-XY4M9m6sEsCiRHxPenN_MpcMYc1h26vVwQ@mail.gmail.com>
-Message-ID: <CALCETrVuNRPgEzv-XY4M9m6sEsCiRHxPenN_MpcMYc1h26vVwQ@mail.gmail.com>
-Subject: Re: [RFC][PATCH 00/10] Mount, FS, Block and Keyrings notifications
- [ver #3]
-To:     Casey Schaufler <casey@schaufler-ca.com>
-Cc:     Stephen Smalley <sds@tycho.nsa.gov>,
-        David Howells <dhowells@redhat.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        USB list <linux-usb@vger.kernel.org>, raven@themaw.net,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-block@vger.kernel.org, keyrings@vger.kernel.org,
-        LSM List <linux-security-module@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Paul Moore <paul@paul-moore.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S1726674AbfFFUPJ (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 6 Jun 2019 16:15:09 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Jun 2019 13:15:08 -0700
+X-ExtLoop1: 1
+Received: from yyu32-desk1.sc.intel.com ([143.183.136.147])
+  by orsmga002.jf.intel.com with ESMTP; 06 Jun 2019 13:15:07 -0700
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: [PATCH v7 00/27] Control-flow Enforcement: Shadow Stack
+Date:   Thu,  6 Jun 2019 13:06:19 -0700
+Message-Id: <20190606200646.3951-1-yu-cheng.yu@intel.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jun 6, 2019 at 11:56 AM Casey Schaufler <casey@schaufler-ca.com> wrote:
->
-> On 6/6/2019 10:16 AM, Stephen Smalley wrote:
-> > On 6/6/19 12:43 PM, Casey Schaufler wrote:
-> >> ...
-> >> I don't agree. That is, I don't believe it is sufficient.
-> >> There is no guarantee that being able to set a watch on an
-> >> object implies that every process that can trigger the event
-> >> can send it to you.
-> >>
-> >>     Watcher has Smack label W
-> >>     Triggerer has Smack label T
-> >>     Watched object has Smack label O
-> >>
-> >>     Relevant Smack rules are
-> >>
-> >>     W O rw
-> >>     T O rw
-> >>
-> >> The watcher will be able to set the watch,
-> >> the triggerer will be able to trigger the event,
-> >> but there is nothing that would allow the watcher
-> >> to receive the event. This is not a case of watcher
-> >> reading the watched object, as the event is delivered
-> >> without any action by watcher.
-> >
-> > You are allowing arbitrary information flow between T and W above.  Who cares about notifications?
->
-> I do. If Watched object is /dev/null no data flow is possible.
-> There are many objects on a modern Linux system for which this
-> is true. Even if it's "just a file" the existence of one path
-> for data to flow does not justify ignoring the rules for other
-> data paths.
+Intel has published Control-flow Enforcement (CET) in the Architecture
+Instruction Set Extensions Programming Reference:
 
-Aha!
+  https://software.intel.com/en-us/download/intel-architecture-instruction-set-
+  extensions-programming-reference
 
-Even ignoring security, writes to things like /dev/null should
-probably not trigger notifications to people who are watching
-/dev/null.  (There are probably lots of things like this: /dev/zero,
-/dev/urandom, etc.)  David, are there any notification types that have
-this issue in your patchset?  If so, is there a straightforward way to
-fix it?  Generically, it seems like maybe writes to device nodes
-shouldn't trigger notifications since, despite the fact that different
-openers of a device node share an inode, there isn't necessarily any
-connection between them.
+The previous version (v6) of CET Shadow Stack patches is here:
 
-Casey, if this is fixed in general, do you have another case where the
-right to write and the right to read do not imply the right to
-communicate?
+  https://lkml.org/lkml/2018/11/20/225
 
-> An analogy is that two processes with different UIDs can open a file,
-> but still can't signal each other.
+Summary of changes from v6:
 
-What do you mean "signal"?  If two processes with different UIDs can
-open the same file for read and write, then they can communicate with
-each other in many ways.  For example, one can write to the file and
-the other can read it.  One can take locks and the other can read the
-lock state.  They can both map it and use any number of memory access
-side channels to communicate.  But, of course, they can't send each
-other signals with kill().
+  Rebase to v5.2-rc3.
 
-If, however, one of these processes is using some fancy mechanism
-(inotify, dnotify, kqueue, fanotify, whatever) to watch the file, and
-the other one writes it, then it seems inconsistent to lie to the
-watching process and say that the file wasn't written because some
-security policy has decided to allow the write, allow the read, but
-suppress this particular notification.  Hence my request for a real
-example: when would it make sense to do this?
+  Adapt XSAVES system state changes to the recent FPU changes:
+    - Add modify_fpu_regs_begin(), modify_fpu_regs_end() to protect
+      CET MSR changes.
+    - Update signal handling.
+
+  Move ELF header-parsing out of x86.
+
+  Other small fixes in response to comments.
+
+This version passed GLIBC built-in tests.
+
+Hi Maintainers,
+
+What else is needed before this series can be merged?
+
+Thanks,
+Yu-cheng
+
+
+Yu-cheng Yu (27):
+  Documentation/x86: Add CET description
+  x86/cpufeatures: Add CET CPU feature flags for Control-flow
+    Enforcement Technology (CET)
+  x86/fpu/xstate: Change names to separate XSAVES system and user states
+  x86/fpu/xstate: Introduce XSAVES system states
+  x86/fpu/xstate: Add XSAVES system states for shadow stack
+  x86/cet: Add control protection exception handler
+  x86/cet/shstk: Add Kconfig option for user-mode shadow stack
+  mm: Introduce VM_SHSTK for shadow stack memory
+  mm/mmap: Prevent Shadow Stack VMA merges
+  x86/mm: Change _PAGE_DIRTY to _PAGE_DIRTY_HW
+  x86/mm: Introduce _PAGE_DIRTY_SW
+  drm/i915/gvt: Update _PAGE_DIRTY to _PAGE_DIRTY_BITS
+  x86/mm: Modify ptep_set_wrprotect and pmdp_set_wrprotect for
+    _PAGE_DIRTY_SW
+  x86/mm: Shadow stack page fault error checking
+  mm: Handle shadow stack page fault
+  mm: Handle THP/HugeTLB shadow stack page fault
+  mm: Update can_follow_write_pte/pmd for shadow stack
+  mm: Introduce do_mmap_locked()
+  x86/cet/shstk: User-mode shadow stack support
+  x86/cet/shstk: Introduce WRUSS instruction
+  x86/cet/shstk: Handle signals for shadow stack
+  binfmt_elf: Extract .note.gnu.property from an ELF file
+  x86/cet/shstk: ELF header parsing of Shadow Stack
+  x86/cet/shstk: Handle thread shadow stack
+  mm/mmap: Add Shadow stack pages to memory accounting
+  x86/cet/shstk: Add arch_prctl functions for Shadow Stack
+  x86/cet/shstk: Add Shadow Stack instructions to opcode map
+
+ .../admin-guide/kernel-parameters.txt         |   6 +
+ Documentation/x86/index.rst                   |   1 +
+ Documentation/x86/intel_cet.rst               | 268 +++++++++++++
+ arch/x86/Kconfig                              |  26 ++
+ arch/x86/Makefile                             |   7 +
+ arch/x86/entry/entry_64.S                     |   2 +-
+ arch/x86/ia32/ia32_signal.c                   |   8 +
+ arch/x86/include/asm/cet.h                    |  48 +++
+ arch/x86/include/asm/cpufeatures.h            |   2 +
+ arch/x86/include/asm/disabled-features.h      |   8 +-
+ arch/x86/include/asm/fpu/internal.h           |  25 +-
+ arch/x86/include/asm/fpu/signal.h             |   2 +
+ arch/x86/include/asm/fpu/types.h              |  22 ++
+ arch/x86/include/asm/fpu/xstate.h             |  26 +-
+ arch/x86/include/asm/mmu_context.h            |   3 +
+ arch/x86/include/asm/msr-index.h              |  18 +
+ arch/x86/include/asm/pgtable.h                | 191 ++++++++--
+ arch/x86/include/asm/pgtable_types.h          |  38 +-
+ arch/x86/include/asm/processor.h              |   5 +
+ arch/x86/include/asm/special_insns.h          |  32 ++
+ arch/x86/include/asm/traps.h                  |   5 +
+ arch/x86/include/uapi/asm/prctl.h             |   5 +
+ arch/x86/include/uapi/asm/processor-flags.h   |   2 +
+ arch/x86/include/uapi/asm/sigcontext.h        |  15 +
+ arch/x86/kernel/Makefile                      |   2 +
+ arch/x86/kernel/cet.c                         | 327 ++++++++++++++++
+ arch/x86/kernel/cet_prctl.c                   |  85 +++++
+ arch/x86/kernel/cpu/common.c                  |  25 ++
+ arch/x86/kernel/cpu/cpuid-deps.c              |   2 +
+ arch/x86/kernel/fpu/core.c                    |  26 +-
+ arch/x86/kernel/fpu/init.c                    |  10 -
+ arch/x86/kernel/fpu/signal.c                  |  81 +++-
+ arch/x86/kernel/fpu/xstate.c                  | 156 +++++---
+ arch/x86/kernel/idt.c                         |   4 +
+ arch/x86/kernel/process.c                     |   8 +-
+ arch/x86/kernel/process_64.c                  |  31 ++
+ arch/x86/kernel/relocate_kernel_64.S          |   2 +-
+ arch/x86/kernel/signal.c                      |  10 +-
+ arch/x86/kernel/signal_compat.c               |   2 +-
+ arch/x86/kernel/traps.c                       |  57 +++
+ arch/x86/kvm/vmx/vmx.c                        |   2 +-
+ arch/x86/lib/x86-opcode-map.txt               |  26 +-
+ arch/x86/mm/fault.c                           |  18 +
+ arch/x86/mm/pgtable.c                         |  41 ++
+ drivers/gpu/drm/i915/gvt/gtt.c                |   2 +-
+ fs/Kconfig.binfmt                             |   3 +
+ fs/Makefile                                   |   1 +
+ fs/binfmt_elf.c                               |  13 +
+ fs/gnu_property.c                             | 351 ++++++++++++++++++
+ fs/proc/task_mmu.c                            |   3 +
+ include/asm-generic/pgtable.h                 |  14 +
+ include/linux/elf.h                           |  12 +
+ include/linux/mm.h                            |  26 ++
+ include/uapi/asm-generic/siginfo.h            |   3 +-
+ include/uapi/linux/elf.h                      |  14 +
+ mm/gup.c                                      |   8 +-
+ mm/huge_memory.c                              |  12 +-
+ mm/memory.c                                   |   7 +-
+ mm/mmap.c                                     |  11 +
+ .../arch/x86/include/asm/disabled-features.h  |   8 +-
+ tools/objtool/arch/x86/lib/x86-opcode-map.txt |  26 +-
+ 61 files changed, 2029 insertions(+), 165 deletions(-)
+ create mode 100644 Documentation/x86/intel_cet.rst
+ create mode 100644 arch/x86/include/asm/cet.h
+ create mode 100644 arch/x86/kernel/cet.c
+ create mode 100644 arch/x86/kernel/cet_prctl.c
+ create mode 100644 fs/gnu_property.c
+
+-- 
+2.17.1
+
