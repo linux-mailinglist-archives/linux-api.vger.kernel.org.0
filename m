@@ -2,82 +2,88 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1248237DDC
-	for <lists+linux-api@lfdr.de>; Thu,  6 Jun 2019 22:12:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 472CC37EAA
+	for <lists+linux-api@lfdr.de>; Thu,  6 Jun 2019 22:25:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728533AbfFFUMA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 6 Jun 2019 16:12:00 -0400
-Received: from mx2.suse.de ([195.135.220.15]:58646 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727082AbfFFUMA (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 6 Jun 2019 16:12:00 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 7B49AAF8A;
-        Thu,  6 Jun 2019 20:11:58 +0000 (UTC)
+        id S1726245AbfFFUZh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 6 Jun 2019 16:25:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58308 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726379AbfFFUZh (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 6 Jun 2019 16:25:37 -0400
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3FE6B214AF
+        for <linux-api@vger.kernel.org>; Thu,  6 Jun 2019 20:25:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1559852736;
+        bh=DKhd22QxqBDA4KYT2cEZlqhYj/PumKxUwK/zMkdDIFM=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=G0CVtpqeJtYYi6ZVaBFtvvXvsAJWteRf+Hozt3FdnG/AgCfB13Ad6uwZ0nLaLABj2
+         Ly/i51Lug8kHTeKHt0sOEyAEaFq4S0eb4MTCLoZsHoQIebL3w5+kFZd//YQMmGUiXU
+         4WkplG7Ari2A2w0tOQzaO/RkIK0JrHzIWXgmzQyU=
+Received: by mail-wr1-f51.google.com with SMTP id f9so3713717wre.12
+        for <linux-api@vger.kernel.org>; Thu, 06 Jun 2019 13:25:36 -0700 (PDT)
+X-Gm-Message-State: APjAAAXC0ryvaMiHZw84PcpXIeK6oEbpEJvfuBMeBgIzpx6YbtTXVHPr
+        KIkK85pGgXLkhWa24H66tTsMJ5A9Mg52lQe2u3tHjA==
+X-Google-Smtp-Source: APXvYqyiVg/qughgzdZroKp3BApJXIniApUU+56AdTnkB3j3XqqcAGvsvRwbxtgUhLtiuuaGb5s/W6OHjaS71guGj14=
+X-Received: by 2002:adf:f2c8:: with SMTP id d8mr4513620wrp.221.1559852734693;
+ Thu, 06 Jun 2019 13:25:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Thu, 06 Jun 2019 22:11:57 +0200
-From:   Roman Penyaev <rpenyaev@suse.de>
-To:     Renzo Davoli <renzo@cs.unibo.it>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Davide Libenzi <davidel@xmailserver.org>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-kernel-owner@vger.kernel.org
-Subject: Re: [PATCH 1/1] eventfd new tag EFD_VPOLL: generate epoll events
-In-Reply-To: <20190603150010.GE4312@cs.unibo.it>
-References: <20190526142521.GA21842@cs.unibo.it>
- <20190527073332.GA13782@kroah.com> <20190527133621.GC26073@cs.unibo.it>
- <480f1bda66b67f740f5da89189bbfca3@suse.de>
- <20190531104502.GE3661@cs.unibo.it>
- <cd20672aaf13f939b4f798d0839d2438@suse.de>
- <20190603150010.GE4312@cs.unibo.it>
-Message-ID: <5d44edf655e193789823094d1b4301fd@suse.de>
-X-Sender: rpenyaev@suse.de
-User-Agent: Roundcube Webmail
+References: <20190606200926.4029-1-yu-cheng.yu@intel.com> <20190606200926.4029-11-yu-cheng.yu@intel.com>
+In-Reply-To: <20190606200926.4029-11-yu-cheng.yu@intel.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Thu, 6 Jun 2019 13:25:23 -0700
+X-Gmail-Original-Message-ID: <CALCETrUZ9vu8+9WrMcMdV6DvmB3nRQmLjd5_uDk8x1NMQUtPpg@mail.gmail.com>
+Message-ID: <CALCETrUZ9vu8+9WrMcMdV6DvmB3nRQmLjd5_uDk8x1NMQUtPpg@mail.gmail.com>
+Subject: Re: [PATCH v7 10/14] x86/vdso/32: Add ENDBR32 to __kernel_vsyscall
+ entry point
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Renzo,
+On Thu, Jun 6, 2019 at 1:17 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+>
+> From: "H.J. Lu" <hjl.tools@gmail.com>
+>
+> Add ENDBR32 to __kernel_vsyscall entry point.
+>
 
-On 2019-06-03 17:00, Renzo Davoli wrote:
-> Hi Roman,
-> 
-> 	 I sorry for the delay in my answer, but I needed to set up a minimal
-> tutorial to show what I am working on and why I need a feature like the
-> one I am proposing.
-> 
-> Please, have a look of the README.md page here:
-> https://github.com/virtualsquare/vuos
-> (everything can be downloaded and tested)
+Acked-by: Andy Lutomirski <luto@kernel.org>
 
-Is that similar to what user-mode linux does?  I mean the principle.
+However, you forgot your own Signed-off-by.
 
-> I am not trying to port some tools to use user-space implemented
-> stacks or device
-> drivers/emulators, I am seeking to a general purpose approach.
+> Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
 
-You still intersect *each* syscall, why not to do the same for 
-epoll_wait()
-and replace events with correct value?  Seems you do something similar 
-already
-in a vu_wrap_poll.c: wo_epoll_wait(), right?
 
-Don't get me wrong, I really want to understand whether everything 
-really
-looks so bad without proposed change. It seems not, because the whole 
-principle
-is based on intersection of each syscall, thus one more one less - it 
-does not
-become more clean and especially does not look like a generic purpose 
-solution,
-which you seek.  I may be wrong.
-
---
-Roman
-
+--Andy
