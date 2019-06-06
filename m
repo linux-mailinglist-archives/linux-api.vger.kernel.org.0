@@ -2,69 +2,70 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D3CA38148
-	for <lists+linux-api@lfdr.de>; Fri,  7 Jun 2019 00:52:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EE11381F8
+	for <lists+linux-api@lfdr.de>; Fri,  7 Jun 2019 01:54:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726906AbfFFWwy convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Thu, 6 Jun 2019 18:52:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58754 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726352AbfFFWwy (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 6 Jun 2019 18:52:54 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 0889F30821DF;
-        Thu,  6 Jun 2019 22:52:54 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-120-173.rdu2.redhat.com [10.10.120.173])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id B61CD78569;
-        Thu,  6 Jun 2019 22:52:51 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <20190606212140.GA25664@vmlxhi-102.adit-jv.com>
-References: <20190606212140.GA25664@vmlxhi-102.adit-jv.com> <155981411940.17513.7137844619951358374.stgit@warthog.procyon.org.uk> <155981421379.17513.13158528501056454772.stgit@warthog.procyon.org.uk>
-To:     Eugeniu Rosca <erosca@de.adit-jv.com>
-Cc:     dhowells@redhat.com, viro@zeniv.linux.org.uk, raven@themaw.net,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-block@vger.kernel.org, keyrings@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Subject: Re: [PATCH 10/10] Add sample notification program [ver #3]
+        id S1727247AbfFFXym (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 6 Jun 2019 19:54:42 -0400
+Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:47961 "EHLO
+        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726609AbfFFXym (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 6 Jun 2019 19:54:42 -0400
+Received: from callcc.thunk.org (61.0.32.70.hosted.by.gigenet.com [70.32.0.61] (may be forged))
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id x56NsaZ4016149
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 6 Jun 2019 19:54:38 -0400
+Received: by callcc.thunk.org (Postfix, from userid 15806)
+        id B5F9C420481; Thu,  6 Jun 2019 19:54:35 -0400 (EDT)
+Date:   Thu, 6 Jun 2019 19:54:35 -0400
+From:   "Theodore Ts'o" <tytso@mit.edu>
+To:     Christian Brauner <christian@brauner.io>
+Cc:     linux-api@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC]: Convention for naming syscall revisions
+Message-ID: <20190606235435.GD23169@mit.edu>
+Mail-Followup-To: Theodore Ts'o <tytso@mit.edu>,
+        Christian Brauner <christian@brauner.io>, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20190606154224.7lln4zp6v3ey4icq@brauner.io>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <31574.1559861570.1@warthog.procyon.org.uk>
-Content-Transfer-Encoding: 8BIT
-Date:   Thu, 06 Jun 2019 23:52:50 +0100
-Message-ID: <31575.1559861570@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.47]); Thu, 06 Jun 2019 22:52:54 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190606154224.7lln4zp6v3ey4icq@brauner.io>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Eugeniu Rosca <erosca@de.adit-jv.com> wrote:
-
-> How about arm64? Do you intend to enable cross-compilation?
-
-There's no guarantee that a cross-compiler can actually build userspace apps,
-though I haven't intended to encode anything against that in the Makefile.
-
-> > +			asm ("lfence" : : : "memory" );
-> [..]
-> > +			asm("mfence" ::: "memory");
+On Thu, Jun 06, 2019 at 05:42:25PM +0200, Christian Brauner wrote:
+> Hey everyone,
 > 
-> FWIW, trying to cross-compile it returned:
+> I hope this is not going to start a trash fire.
 > 
-> aarch64-linux-gnu-gcc -I../../usr/include -I../../include  watch_test.c   -o watch_test
-> /tmp/ccDXYynm.s: Assembler messages:
-> /tmp/ccDXYynm.s:471: Error: unknown mnemonic `lfence' -- `lfence'
-> /tmp/ccDXYynm.s:568: Error: unknown mnemonic `mfence' -- `mfence'
+> While working on a new clone version I tried to find out what the
+> current naming conventions for syscall revisions is. I was told and
+> seemed to be able to confirm through the syscall list that revisions of
+> syscalls are for the most part (for examples see [1]) named after the
+> number of arguments and not for the number of revisions. But some also
+> seem to escape that logic (e.g. clone2).
 
-Yeah.  I need to use C-standard __atomic_* stuff.
+There are also examples which show that it's a revision number:
 
-David
+      preadv2, pwritev2, mlock2, sync_file_range2
+
+immediately come to mind.  It's also important to note that in some
+cases, we do something very different (look aht the stat and fstat
+variants), and that in some cases the number of parameters for a
+system call vary between architectures (because of system call
+argument passing limitations), and this gets papered over by glibc.
+
+So we can define what the historical pattern, but there might be a big
+difference between what might make sense as an internal naming
+convention, and the names that we want to expose to userspace
+application programmers --- especially if the number of arguments at
+the syscall level might be different (on some architectures) than at
+the C library level.
+
+					- Ted
