@@ -2,92 +2,174 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A0FF394FC
-	for <lists+linux-api@lfdr.de>; Fri,  7 Jun 2019 20:56:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A0F239514
+	for <lists+linux-api@lfdr.de>; Fri,  7 Jun 2019 20:58:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732066AbfFGS4h (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 7 Jun 2019 14:56:37 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:40409 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732051AbfFGS4g (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 7 Jun 2019 14:56:36 -0400
-Received: by mail-lf1-f67.google.com with SMTP id a9so2386785lff.7
-        for <linux-api@vger.kernel.org>; Fri, 07 Jun 2019 11:56:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ldUxE0mi4WaCkQbvj9tDP1Y3dc9QMW/mTJhHqgLzTEc=;
-        b=RKAsnvIg7cohPa9ftFN/RAF3uODOQevDuoFKHSPc0Xl7WdRdmcZdyGnMNLHluRHbqx
-         u1w+QeICOks1DEl+AX3rcan7uhfcKxu3t+qYGPITFJ/CPSgD+SwNUDgnEQevDh4687CE
-         28hm9HoLaAqEQO2OQjx2RFtlsWUqCO4SqrVko=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ldUxE0mi4WaCkQbvj9tDP1Y3dc9QMW/mTJhHqgLzTEc=;
-        b=av/CTGRu0rF8kAzxVYRVgJaspQrRY82No2qfyrYjXkE4ugu/if3YC0JWIziutB999R
-         oC8Y9MgAsPFixYcxWyQWkkNXF4oB99EcQWG7UKHjLEhvd68KgAr7dTEKK335XxVkhBym
-         JX5MG5/t9aPBSv8Ob0HDycslOU/B9nc+dnpd8+GqWQeD4NfJxlnNG4eyknKw8amgZff1
-         bGIeHpvs+4ZN6+AC6x4ne1D3d5GRdPgIXZJRsaTYuq/jl/uGy0K4zP9NDNgoXtyIbov4
-         tTWXvwfvg0gwI+IQXVllXek02bUchYyszzqnglu3CrhJfN5vSw+5hf1x6CgQO3pj8JhG
-         4atw==
-X-Gm-Message-State: APjAAAXI0/YOtHM+EbJrWqUlGfHvKwlbZO9mFG+aubLjhImGFIYUjXQ4
-        rMBd8Dn+9YA3uzrTNNhL+IljEv8WKew=
-X-Google-Smtp-Source: APXvYqyEqA3M7sNrssFXpdyiap8WMiRURUWcrC8iADKWvcFCpXGDaC+3dU6qCitFh/+lKsv3WoVMrw==
-X-Received: by 2002:ac2:5a4b:: with SMTP id r11mr17581665lfn.9.1559933793752;
-        Fri, 07 Jun 2019 11:56:33 -0700 (PDT)
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com. [209.85.208.178])
-        by smtp.gmail.com with ESMTPSA id q2sm491393ljq.74.2019.06.07.11.56.32
-        for <linux-api@vger.kernel.org>
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Fri, 07 Jun 2019 11:56:33 -0700 (PDT)
-Received: by mail-lj1-f178.google.com with SMTP id k18so2614322ljc.11
-        for <linux-api@vger.kernel.org>; Fri, 07 Jun 2019 11:56:32 -0700 (PDT)
-X-Received: by 2002:a2e:635d:: with SMTP id x90mr19091410ljb.140.1559933792458;
- Fri, 07 Jun 2019 11:56:32 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190319165123.3967889-1-arnd@arndb.de> <alpine.DEB.2.21.1905072249570.19308@digraph.polyomino.org.uk>
- <87tvd2j9ye.fsf@oldenburg2.str.redhat.com> <CAHk-=wio1e4=WUUwmo-Ph55BEgH_X3oXzBpvPyLQg2TxzfGYuw@mail.gmail.com>
- <871s05fd8o.fsf@oldenburg2.str.redhat.com>
-In-Reply-To: <871s05fd8o.fsf@oldenburg2.str.redhat.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Fri, 7 Jun 2019 11:56:16 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wg4ijSoPq-w7ct_VuZvgHx+tUv_QX-We-62dEwK+AOf2w@mail.gmail.com>
-Message-ID: <CAHk-=wg4ijSoPq-w7ct_VuZvgHx+tUv_QX-We-62dEwK+AOf2w@mail.gmail.com>
-Subject: Re: [PATCH] uapi: avoid namespace conflict in linux/posix_types.h
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     Joseph Myers <joseph@codesourcery.com>,
+        id S1729291AbfFGS6V (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 7 Jun 2019 14:58:21 -0400
+Received: from mga11.intel.com ([192.55.52.93]:37364 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728727AbfFGS6U (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 7 Jun 2019 14:58:20 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Jun 2019 11:58:19 -0700
+X-ExtLoop1: 1
+Received: from ray.jf.intel.com (HELO [10.7.198.156]) ([10.7.198.156])
+  by orsmga005.jf.intel.com with ESMTP; 07 Jun 2019 11:58:19 -0700
+Subject: Re: [PATCH v7 03/14] x86/cet/ibt: Add IBT legacy code bitmap setup
+ function
+To:     Andy Lutomirski <luto@amacapital.net>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
         Arnd Bergmann <arnd@arndb.de>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Netdev <netdev@vger.kernel.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Paul Burton <pburton@wavecomp.com>,
-        Deepa Dinamani <deepa.kernel@gmail.com>,
-        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>
+References: <20190606200926.4029-1-yu-cheng.yu@intel.com>
+ <20190606200926.4029-4-yu-cheng.yu@intel.com>
+ <20190607080832.GT3419@hirez.programming.kicks-ass.net>
+ <aa8a92ef231d512b5c9855ef416db050b5ab59a6.camel@intel.com>
+ <20190607174336.GM3436@hirez.programming.kicks-ass.net>
+ <b3de4110-5366-fdc7-a960-71dea543a42f@intel.com>
+ <34E0D316-552A-401C-ABAA-5584B5BC98C5@amacapital.net>
+From:   Dave Hansen <dave.hansen@intel.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+Message-ID: <352e6172-938d-f8e4-c195-9fd1b881bdee@intel.com>
+Date:   Fri, 7 Jun 2019 11:58:19 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <34E0D316-552A-401C-ABAA-5584B5BC98C5@amacapital.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jun 7, 2019 at 11:43 AM Florian Weimer <fweimer@redhat.com> wrote:
->
-> On the glibc side, we nowadays deal with this by splitting headers
-> further.  (We used to suppress definitions with macros, but that tended
-> to become convoluted.)  In this case, moving the definition of
-> __kernel_long_t to its own header, so that
-> include/uapi/asm-generic/socket.h can include that should fix it.
+On 6/7/19 11:29 AM, Andy Lutomirski wrote:
+...
+>> I think this new MSR probably needs to get included in oops output when
+>> CET is enabled.
+> 
+> This shouldn’t be able to OOPS because it only happens at CPL 3,
+> right?  We should put it into core dumps, though.
 
-I think we should strive to do that on the kernel side too, since
-clearly we shouldn't expose that "val[]" thing in the core posix types
-due to namespace rules, but at the same time I think the patch to
-rename val[] is fundamentally broken too.
+Good point.
 
-Can you describe how you split things (perhaps even with a patch ;)?
-Is this literally the only issue you currently have? Because I'd
-expect similar issues to show up elsewhere too, but who knows.. You
-presumably do.
+Yu-cheng, can you just confirm that the bitmap can't be referenced in
+ring-0, no matter what?  We should also make sure that no funny business
+happens if we put an address in the bitmap that faults, or is
+non-canonical.  Do we have any self-tests for that?
 
-                Linus
+Let's say userspace gets a fault on this.  Do they have the
+introspection capability to figure out why they faulted, say in their
+signal handler?
+
+>> Why don't we require that a VMA be in place for the entire bitmap?
+>> Don't we need a "get" prctl function too in case something like a JIT is
+>> running and needs to find the location of this bitmap to set bits itself?
+>>
+>> Or, do we just go whole-hog and have the kernel manage the bitmap
+>> itself. Our interface here could be:
+>>
+>>    prctl(PR_MARK_CODE_AS_LEGACY, start, size);
+>>
+>> and then have the kernel allocate and set the bitmap for those code
+>> locations.
+> 
+> Given that the format depends on the VA size, this might be a good
+> idea.
+
+Yeah, making userspace know how large the address space is or could be
+is rather nasty, especially if we ever get any fancy CPU features that
+eat up address bits (a la ARM top-byte-ignore or SPARC ADI).
+
+> Hmm.  Can we be creative and skip populating it with zeros?  The CPU
+should only ever touch a page if we miss an ENDBR on it, so, in normal
+operation, we don’t need anything to be there.  We could try to prevent
+anyone from *reading* it outside of ENDBR tracking if we want to avoid
+people accidentally wasting lots of memory by forcing it to be fully
+populated when the read it.
+
+Won't reads on a big, contiguous private mapping get the huge zero page
+anyway?
+
+> The one downside is this forces it to be per-mm, but that seems like
+> a generally reasonable model anyway.
+
+Yeah, practically, you could only make it shared if you shared the
+layout of all code in the address space.  I'm sure the big database(s)
+do that cross-process, but I bet nobody else does.  User ASLR
+practically guarantees that nobody can do this.
+
+> This also gives us an excellent opportunity to make it read-only as
+> seen from userspace to prevent exploits from just poking it full of
+> ones before redirecting execution.
+
+That would be fun.
+
