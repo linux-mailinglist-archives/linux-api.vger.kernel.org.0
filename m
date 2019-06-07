@@ -2,110 +2,91 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E31B38482
-	for <lists+linux-api@lfdr.de>; Fri,  7 Jun 2019 08:41:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CA0C384B8
+	for <lists+linux-api@lfdr.de>; Fri,  7 Jun 2019 09:08:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726761AbfFGGlE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 7 Jun 2019 02:41:04 -0400
-Received: from mga02.intel.com ([134.134.136.20]:49807 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726048AbfFGGlE (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 7 Jun 2019 02:41:04 -0400
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Jun 2019 23:41:03 -0700
-X-ExtLoop1: 1
-Received: from pipin.fi.intel.com (HELO pipin) ([10.237.72.175])
-  by orsmga008.jf.intel.com with ESMTP; 06 Jun 2019 23:41:00 -0700
-From:   Felipe Balbi <felipe.balbi@linux.intel.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alan Stern <stern@rowland.harvard.edu>
-Cc:     David Howells <dhowells@redhat.com>, viro@zeniv.linux.org.uk,
-        linux-usb@vger.kernel.org, raven@themaw.net,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-block@vger.kernel.org, keyrings@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 09/10] usb: Add USB subsystem notifications [ver #3]
-In-Reply-To: <20190606153150.GB28997@kroah.com>
-References: <20190606143306.GA11294@kroah.com> <Pine.LNX.4.44L0.1906061051310.1641-100000@iolanthe.rowland.org> <20190606153150.GB28997@kroah.com>
-Date:   Fri, 07 Jun 2019 09:40:56 +0300
-Message-ID: <87imthdhjb.fsf@linux.intel.com>
+        id S1726922AbfFGHHz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 7 Jun 2019 03:07:55 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:44026 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726711AbfFGHHz (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 7 Jun 2019 03:07:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=3xG2gB2u3ltC4ECXHzkfqk/Rf8Lzs9XYnPxSdw9Djq4=; b=gBrTD1ywQqnghTyPb+u8oUuO1
+        n92Hi8a/rdgmVIhQ/moKpSzpN7IRYERjWycGLMqob6ui4vuJ0Lrag517vzAbE44qxJdkCSgxPKLT1
+        TPDM9DMcOeTrROrwysz2WUqaSu0h22M6pU9hi1I9cmfvloI+w1dJxzU3J6rnF+OWy4rCb0aDGY2of
+        b8kFhR/J3YJz62PeRqL2pk7arp5DAGDnFJX9NMH/Cj3Y2VoHWyDyUjEx/zl3iOjcEreXchO/Uxps0
+        vF2ga+x78jDgquKaiphXwBrUEmKnjdaG5QpFvxY68BuCmEZlEwI1DNDpMN8q58R1DKQ6b2F5Av84v
+        oC93ptfaw==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hZ8yG-00069g-2e; Fri, 07 Jun 2019 07:07:28 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 7C8E4202CD6B2; Fri,  7 Jun 2019 09:07:25 +0200 (CEST)
+Date:   Fri, 7 Jun 2019 09:07:25 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>
+Subject: Re: [PATCH v7 05/27] x86/fpu/xstate: Add XSAVES system states for
+ shadow stack
+Message-ID: <20190607070725.GN3419@hirez.programming.kicks-ass.net>
+References: <20190606200646.3951-1-yu-cheng.yu@intel.com>
+ <20190606200646.3951-6-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190606200646.3951-6-yu-cheng.yu@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+On Thu, Jun 06, 2019 at 01:06:24PM -0700, Yu-cheng Yu wrote:
+> Intel Control-flow Enforcement Technology (CET) introduces the
+> following MSRs.
+> 
+>     MSR_IA32_U_CET (user-mode CET settings),
+>     MSR_IA32_PL3_SSP (user-mode shadow stack),
+>     MSR_IA32_PL0_SSP (kernel-mode shadow stack),
+>     MSR_IA32_PL1_SSP (Privilege Level 1 shadow stack),
+>     MSR_IA32_PL2_SSP (Privilege Level 2 shadow stack).
+> 
+> Introduce them into XSAVES system states.
+> 
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> ---
+>  arch/x86/include/asm/fpu/types.h            | 22 +++++++++++++++++++++
+>  arch/x86/include/asm/fpu/xstate.h           |  4 +++-
+>  arch/x86/include/uapi/asm/processor-flags.h |  2 ++
+>  arch/x86/kernel/fpu/xstate.c                | 10 ++++++++++
+>  4 files changed, 37 insertions(+), 1 deletion(-)
 
-
-Hi,
-
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> writes:
-> On Thu, Jun 06, 2019 at 10:55:24AM -0400, Alan Stern wrote:
->> On Thu, 6 Jun 2019, Greg Kroah-Hartman wrote:
->>=20
->> > On Thu, Jun 06, 2019 at 10:24:18AM -0400, Alan Stern wrote:
->> > > On Thu, 6 Jun 2019, David Howells wrote:
->> > >=20
->> > > > Add a USB subsystem notification mechanism whereby notifications a=
-bout
->> > > > hardware events such as device connection, disconnection, reset an=
-d I/O
->> > > > errors, can be reported to a monitoring process asynchronously.
->> > >=20
->> > > USB I/O errors covers an awfully large and vague field.  Do we really
->> > > want to include them?  I'm doubtful.
->> >=20
->> > See the other patch on the linux-usb list that wanted to start adding
->> > KOBJ_CHANGE notifications about USB "i/o errors".
->>=20
->> That patch wanted to add notifications only for enumeration failures
->> (assuming you're talking about the patch from Eugeniu Rosca), not I/O
->> errors in general.
->
-> Yes, sorry, I was thinking that as a "I/O failed in enumeration" :)
->
->> > So for "severe" issues, yes, we should do this, but perhaps not for all
->> > of the "normal" things we see when a device is yanked out of the system
->> > and the like.
->>=20
->> Then what counts as a "severe" issue?  Anything besides enumeration=20
->> failure?
->
-> Not that I can think of at the moment, other than the other recently
-> added KOBJ_CHANGE issue.  I'm sure we have other "hard failure" issues
-> in the USB stack that people will want exposed over time.
-
-From=20an XHCI standpoint, Transaction Errors might be one thing. They
-happen rarely and are a strong indication that the bus itself is
-bad. Either bad cable, misbehaving PHYs, improper power management, etc.
-
-=2D-=20
-balbi
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAlz6BvgACgkQzL64meEa
-mQbHWA//alAxWfE7N7D+w/lSXSIZSiBqlrME+vIZMZvLXt1L3QgGugGyks7F0vZg
-GaYpsclw6LHhR0Nxjnb4h4zEEKidtzSGjPFEW0ghtmTOC+vPzqyxuiHuKIXUFFyJ
-7PSoe583uk8sEpPMPi9+imXjjBlgCylCHsI/7JIVNFPx+fZEpJXXffJQZsnELoib
-F6DI9+uaDCSqCpduSOwxEqx28bE7SKMugJV3CjHSFKLY8n+u1PBFlMJEgulNUCro
-Lum8WN98AnNfUVtinU4mUONIW2dZGaxxIhVdrKMluixEn9+O3zal0Ot2YAnLruvf
-mG4d+zsKaPojOB4Trze7F9FQQgaDprzqLg6BgRS3rZTiHBYgwcblPuBZosLeGttC
-T/mI4bp+4zqJ36cl9hXh4w2VbyN1qwlqvZ3qwQJahcuTYGVIne/JIz+4T8A2uf+v
-FRUmw1gZxjVBC/KI/VGUY0raq7DAbk55YfXLF2tnYc6sG9a51VQn0xy7L/rtouL/
-VQygKOay7wPw1k9lEUpJzgqwBg2s1Xv+5Hj4CeE91sboglzhRXl62MPg7B4KUFfM
-paMco4/bCwZ5kc/4N2SZd0SgKFGGbyDVg+uvB610vU6cu0V0WaQLQ6W3WCnxvUel
-04A0dGEf9E7/A/m8OLiv0ARjWfmc7BIVCLSAoGw5Gkv6MGxsrKA=
-=Dh4b
------END PGP SIGNATURE-----
---=-=-=--
+And yet, no changes to msr-index.h !?
