@@ -2,93 +2,123 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B1D53A215
-	for <lists+linux-api@lfdr.de>; Sat,  8 Jun 2019 22:52:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E2FA33A3B2
+	for <lists+linux-api@lfdr.de>; Sun,  9 Jun 2019 06:35:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727424AbfFHUwa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 8 Jun 2019 16:52:30 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:38279 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727372AbfFHUw3 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 8 Jun 2019 16:52:29 -0400
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id BFAAC801E8; Sat,  8 Jun 2019 22:52:15 +0200 (CEST)
-Date:   Sat, 8 Jun 2019 22:52:18 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Dave Hansen <dave.hansen@intel.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>
-Subject: Re: [PATCH v7 03/14] x86/cet/ibt: Add IBT legacy code bitmap setup
- function
-Message-ID: <20190608205218.GA2359@xo-6d-61-c0.localdomain>
-References: <20190606200926.4029-1-yu-cheng.yu@intel.com>
- <20190606200926.4029-4-yu-cheng.yu@intel.com>
- <20190607080832.GT3419@hirez.programming.kicks-ass.net>
- <aa8a92ef231d512b5c9855ef416db050b5ab59a6.camel@intel.com>
- <20190607174336.GM3436@hirez.programming.kicks-ass.net>
- <b3de4110-5366-fdc7-a960-71dea543a42f@intel.com>
+        id S1725808AbfFIEfh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 9 Jun 2019 00:35:37 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:41286 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725787AbfFIEfg (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 9 Jun 2019 00:35:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=3iCKY5LeaLUChDTDcVwu/h/F/j5YNJNGeSjVT5fdq88=; b=by4vZqhKqOxBJlKDd6hArInlm
+        WKADOCatsOoNcHcijlFuSKSkpxMaFoz+89V6rK04DRk+KaXCbmjSjbMjOQfsAKas/yaCx5yaCrasG
+        PyDXtgEdyTUBWH6O2Kupd/9erdnh9qOXU3372Xvj91W9/ecClafI8rERmnDPqNnlLZLG8HaG0+dgj
+        PG34x6yfIbTqxYxkE5sdI9jS93S8CLdAEfq+8giWfgfKdy/xskycgZGnI+QZfPXyxlcVAEB/kbmeC
+        MklrDoI9xw3g29y2gcGpCpY13lPuccz0x2cX4ZFoHieSnsz9BE7EtXKwrdSxm6hjjELk+Y+gJQ64J
+        +1JtM+uTg==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=dragon.dunlab)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hZpYN-0008Ro-Px; Sun, 09 Jun 2019 04:35:35 +0000
+Subject: Re: [PATCH 02/13] uapi: General notification ring definitions [ver
+ #4]
+To:     David Howells <dhowells@redhat.com>,
+        "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc:     viro@zeniv.linux.org.uk, raven@themaw.net,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-block@vger.kernel.org, keyrings@vger.kernel.org,
+        linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190607151228.GA1872258@magnolia>
+ <155991702981.15579.6007568669839441045.stgit@warthog.procyon.org.uk>
+ <155991706083.15579.16359443779582362339.stgit@warthog.procyon.org.uk>
+ <29222.1559922719@warthog.procyon.org.uk>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <6b6f5bb0-1426-239b-ac9f-281e31ddcd04@infradead.org>
+Date:   Sat, 8 Jun 2019 21:35:33 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b3de4110-5366-fdc7-a960-71dea543a42f@intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <29222.1559922719@warthog.procyon.org.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi!
+On 6/7/19 8:51 AM, David Howells wrote:
+> Darrick J. Wong <darrick.wong@oracle.com> wrote:
+> 
 
-> > I've no idea what the kernel should do; since you failed to answer the
-> > question what happens when you point this to garbage.
-> > 
-> > Does it then fault or what?
+>>> +	__u32			info;
+>>> +#define WATCH_INFO_OVERRUN	0x00000001	/* Event(s) lost due to overrun */
+>>> +#define WATCH_INFO_ENOMEM	0x00000002	/* Event(s) lost due to ENOMEM */
+>>> +#define WATCH_INFO_RECURSIVE	0x00000004	/* Change was recursive */
+>>> +#define WATCH_INFO_LENGTH	0x000001f8	/* Length of record / sizeof(watch_notification) */
+>>
+>> This is a mask, isn't it?  Could we perhaps have some helpers here?
+>> Something along the lines of...
+>>
+>> #define WATCH_INFO_LENGTH_MASK	0x000001f8
+>> #define WATCH_INFO_LENGTH_SHIFT	3
+>>
+>> static inline size_t watch_notification_length(struct watch_notification *wn)
+>> {
+>> 	return (wn->info & WATCH_INFO_LENGTH_MASK) >> WATCH_INFO_LENGTH_SHIFT *
+>> 			sizeof(struct watch_notification);
+>> }
+>>
+>> static inline struct watch_notification *watch_notification_next(
+>> 		struct watch_notification *wn)
+>> {
+>> 	return wn + ((wn->info & WATCH_INFO_LENGTH_MASK) >>
+>> 			WATCH_INFO_LENGTH_SHIFT);
+>> }
 > 
-> Yeah, I think you'll fault with a rather mysterious CR2 value since
-> you'll go look at the instruction that faulted and not see any
-> references to the CR2 value.
-> 
-> I think this new MSR probably needs to get included in oops output when
-> CET is enabled.
-> 
-> Why don't we require that a VMA be in place for the entire bitmap?
-> Don't we need a "get" prctl function too in case something like a JIT is
-> running and needs to find the location of this bitmap to set bits itself?
-> 
-> Or, do we just go whole-hog and have the kernel manage the bitmap
-> itself. Our interface here could be:
-> 
-> 	prctl(PR_MARK_CODE_AS_LEGACY, start, size);
-> 
-> and then have the kernel allocate and set the bitmap for those code
-> locations.
+> No inline functions in UAPI headers, please.  I'd love to kill off the ones
+> that we have, but that would break things.
 
-For the record, that sounds like a better interface than userspace knowing
-about the bitmap formats...
-									Pavel
+Hi David,
+
+What is the problem with inline functions in UAPI headers?
+
+>> ...so that we don't have to opencode all of the ring buffer walking
+>> magic and stuff?
+> 
+> There'll end up being a small userspace library, I think.
+
+>>> +};
+>>> +
+>>> +#define WATCH_LENGTH_SHIFT	3
+>>> +
+>>> +struct watch_queue_buffer {
+>>> +	union {
+>>> +		/* The first few entries are special, containing the
+>>> +		 * ring management variables.
+>>
+>> The first /two/ entries, correct?
+> 
+> Currently two.
+> 
+>> Also, weird multiline comment style.
+> 
+> Not really.
+
+Yes really.
+
+>>> +		 */
+
+It does not match the preferred coding style for multi-line comments
+according to coding-style.rst.
+
+
+thanks.
 -- 
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
+~Randy
