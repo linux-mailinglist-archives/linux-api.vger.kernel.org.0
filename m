@@ -2,102 +2,100 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 43BEF3BAEC
-	for <lists+linux-api@lfdr.de>; Mon, 10 Jun 2019 19:26:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2642B3BAF8
+	for <lists+linux-api@lfdr.de>; Mon, 10 Jun 2019 19:28:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727674AbfFJR0S (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 10 Jun 2019 13:26:18 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:46947 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387415AbfFJR0S (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 10 Jun 2019 13:26:18 -0400
-Received: by mail-wr1-f68.google.com with SMTP id n4so9973611wrw.13;
-        Mon, 10 Jun 2019 10:26:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=T2wOLlAZOy3qVuwvBdYnNU8FtvV+XZXW5B2+vkjvzz4=;
-        b=gC3U/uassCcEoc68QCw7GSiYkAneEFa7J1H2dMA5k36Z2H99T8sFzyGqAntJVHBOm5
-         00OEsj68IwdLBaF9QndWlLM2ASJucU4pTMp98fSeuev4Rekvs1vebV8r8S7bbvq5Cu9E
-         e8SbhDceZvQHD2Pazf8XZ9fLpdy6DpoeBgD9OCKZ7yiJ+7WLKYymJlcWNxIW4y3NY8iN
-         o2/DRWzVEpPn+TOrWoPSvgMa+t0MR13t8afnqhBIkOFJg1CtLs8+1FRCzJKmmVimu8I3
-         zVmMNNDEcjDPnWtXm7QOMNxOMY9X6FCaGSiutrtNTsRlm1UAm1Pcu0u0spPI5KL/tF6P
-         wxjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=T2wOLlAZOy3qVuwvBdYnNU8FtvV+XZXW5B2+vkjvzz4=;
-        b=r10DsDbJ9Nz7iK1M9NkXWOju6W7pp64LqveiUI0/GOtAauSgfhN71Gq/5Qse7oMoxq
-         AsQqnLoh5YGLm7Zq0ragwFgtYLpBWnm6xTL7YWrAuRWvie5Uv2hlt7mKhJWtWoG+ua59
-         WifIV4yEMkqAw0CyOEpvBlXNjxqd8W9IHc1XXCMugOU1RuH+yfdMg+2QvTP0H5vtT3A/
-         ulS7V0yyvGOhaPoxPu4xGklYmHYfoRPPzRu0oCIaI14jaOjzPnfMb6+uRuiMff8aDecx
-         5/gO4H7fkNR5ljkn3zF0hpcJ7TozJlCoX3yWGcBILe9r7l8MI21P6agCuyO7fdYsEy4U
-         gdMw==
-X-Gm-Message-State: APjAAAWfktCZ+TX95TR4y1Mc3MhZxpdtOCFdgTp9u0X/ChAKNsHb52YR
-        wq80etUpwYmhgzyUNaEZwPs=
-X-Google-Smtp-Source: APXvYqwQAchO4xzDDFGFembG1wpHHtqDt0EBI1Uads7Uz0CM6SO0qeCbrz57U2YQ6cfCnMi2buFfEw==
-X-Received: by 2002:adf:dd52:: with SMTP id u18mr7785778wrm.193.1560187575805;
-        Mon, 10 Jun 2019 10:26:15 -0700 (PDT)
-Received: from localhost.localdomain ([5.102.238.208])
-        by smtp.gmail.com with ESMTPSA id s10sm247626wmf.8.2019.06.10.10.26.14
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 10 Jun 2019 10:26:15 -0700 (PDT)
-From:   Amir Goldstein <amir73il@gmail.com>
-To:     "Darrick J . Wong" <darrick.wong@oracle.com>
-Cc:     Dave Chinner <david@fromorbit.com>, Christoph Hellwig <hch@lst.de>,
-        Theodore Ts'o <tytso@mit.edu>, linux-xfs@vger.kernel.org,
-        Olga Kornievskaia <olga.kornievskaia@gmail.com>,
-        Luis Henriques <lhenriques@suse.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        ceph-devel@vger.kernel.org, linux-nfs@vger.kernel.org,
-        linux-cifs@vger.kernel.org
-Subject: [PATCH] vfs: allow copy_file_range from a swapfile
-Date:   Mon, 10 Jun 2019 20:26:06 +0300
-Message-Id: <20190610172606.4119-1-amir73il@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        id S1728132AbfFJR2x (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 10 Jun 2019 13:28:53 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43376 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727674AbfFJR2x (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 10 Jun 2019 13:28:53 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id BA733C057E37;
+        Mon, 10 Jun 2019 17:28:49 +0000 (UTC)
+Received: from oldenburg2.str.redhat.com (ovpn-117-27.ams2.redhat.com [10.36.117.27])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 5D8DC5DD63;
+        Mon, 10 Jun 2019 17:28:37 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     Dave Hansen <dave.hansen@intel.com>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>
+Subject: Re: [PATCH v7 03/14] x86/cet/ibt: Add IBT legacy code bitmap setup function
+References: <20190606200926.4029-1-yu-cheng.yu@intel.com>
+        <20190606200926.4029-4-yu-cheng.yu@intel.com>
+        <20190607080832.GT3419@hirez.programming.kicks-ass.net>
+        <aa8a92ef231d512b5c9855ef416db050b5ab59a6.camel@intel.com>
+        <20190607174336.GM3436@hirez.programming.kicks-ass.net>
+        <b3de4110-5366-fdc7-a960-71dea543a42f@intel.com>
+        <34E0D316-552A-401C-ABAA-5584B5BC98C5@amacapital.net>
+        <7e0b97bf1fbe6ff20653a8e4e147c6285cc5552d.camel@intel.com>
+        <4b448cde-ee4e-1c95-0f7f-4fe694be7db6@intel.com>
+        <0e505563f7dae3849b57fb327f578f41b760b6f7.camel@intel.com>
+        <f6de9073-9939-a20d-2196-25fa223cf3fc@intel.com>
+        <5dc357f5858f8036cad5847cfe214401bb9138bf.camel@intel.com>
+Date:   Mon, 10 Jun 2019 19:28:36 +0200
+In-Reply-To: <5dc357f5858f8036cad5847cfe214401bb9138bf.camel@intel.com>
+        (Yu-cheng Yu's message of "Mon, 10 Jun 2019 09:05:13 -0700")
+Message-ID: <87h88xcptn.fsf@oldenburg2.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.31]); Mon, 10 Jun 2019 17:28:53 +0000 (UTC)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-read(2) is allowed from a swapfile, so copy_file_range(2) should
-be allowed as well.
+* Yu-cheng Yu:
 
-Reported-by: Theodore Ts'o <tytso@mit.edu>
-Fixes: 96e6e8f4a68d ("vfs: add missing checks to copy_file_range")
-Signed-off-by: Amir Goldstein <amir73il@gmail.com>
----
+> On Fri, 2019-06-07 at 14:09 -0700, Dave Hansen wrote:
+>> On 6/7/19 1:06 PM, Yu-cheng Yu wrote:
+>> > > Huh, how does glibc know about all possible past and future legacy code
+>> > > in the application?
+>> > 
+>> > When dlopen() gets a legacy binary and the policy allows that, it will
+>> > manage
+>> > the bitmap:
+>> > 
+>> >   If a bitmap has not been created, create one.
+>> >   Set bits for the legacy code being loaded.
+>> 
+>> I was thinking about code that doesn't go through GLIBC like JITs.
+>
+> If JIT manages the bitmap, it knows where it is.
+> It can always read the bitmap again, right?
 
-Darrick,
-
-This fixes the generic/554 issue reported by Ted.
-
-I intend to remove the test case of copy from swap file from
-generic/554, so test is expected to pass with or without this fix.
-But if you wait for next week's xfstests update before applying
-this fix, then at lease maintainer that run current xfstests master
-could use current copy-file-range-fixes branch to pass the tests.
+The problem are JIT libraries without assembler code which can be marked
+non-CET, such as liborc.  Our builds (e.g., orc-0.4.29-2.fc30.x86_64)
+currently carries the IBT and SHSTK flag, although the entry points into
+the generated code do not start with ENDBR, so that a jump to them will
+fault with the CET enabled.
 
 Thanks,
-Amir.
-
- mm/filemap.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/mm/filemap.c b/mm/filemap.c
-index aac71aef4c61..f74e5ce7ca50 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -3081,7 +3081,7 @@ int generic_copy_file_checks(struct file *file_in, loff_t pos_in,
- 	if (IS_IMMUTABLE(inode_out))
- 		return -EPERM;
- 
--	if (IS_SWAPFILE(inode_in) || IS_SWAPFILE(inode_out))
-+	if (IS_SWAPFILE(inode_out))
- 		return -ETXTBSY;
- 
- 	/* Ensure offsets don't wrap. */
--- 
-2.17.1
-
+Florian
