@@ -2,96 +2,225 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EB5763BB92
-	for <lists+linux-api@lfdr.de>; Mon, 10 Jun 2019 20:03:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0271F3BBC7
+	for <lists+linux-api@lfdr.de>; Mon, 10 Jun 2019 20:22:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388491AbfFJSDB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 10 Jun 2019 14:03:01 -0400
-Received: from mga12.intel.com ([192.55.52.136]:14159 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388412AbfFJSDB (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 10 Jun 2019 14:03:01 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Jun 2019 11:03:00 -0700
-X-ExtLoop1: 1
-Received: from ray.jf.intel.com (HELO [10.7.198.156]) ([10.7.198.156])
-  by orsmga002.jf.intel.com with ESMTP; 10 Jun 2019 11:03:00 -0700
-Subject: Re: [PATCH v2 0/5] Introduce MADV_COLD and MADV_PAGEOUT
-To:     Minchan Kim <minchan@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     linux-mm <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
-        linux-api@vger.kernel.org, Michal Hocko <mhocko@suse.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Tim Murray <timmurray@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Brian Geffon <bgeffon@google.com>, jannh@google.com,
-        oleg@redhat.com, christian@brauner.io, oleksandr@redhat.com,
-        hdanton@sina.com, lizeb@google.com
-References: <20190610111252.239156-1-minchan@kernel.org>
-From:   Dave Hansen <dave.hansen@intel.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-Message-ID: <21cf2918-ba0e-aae1-a20e-36ee1ad4f704@intel.com>
-Date:   Mon, 10 Jun 2019 11:03:00 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <20190610111252.239156-1-minchan@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        id S2387758AbfFJSWS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 10 Jun 2019 14:22:18 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:41910 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387425AbfFJSWR (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 10 Jun 2019 14:22:17 -0400
+Received: by mail-pg1-f196.google.com with SMTP id 83so5461654pgg.8
+        for <linux-api@vger.kernel.org>; Mon, 10 Jun 2019 11:22:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=QY6i0yhlosYKBzQSKH6aCBy2mSO5xg+k21z4/T/g/QU=;
+        b=CWrMCQpEHfiGDH0/APPguYvej1X08PVZNfvMJvyD21ZEb3eivAPQzuJ8tMNj9FYVca
+         jql6TF1mR9e/BXtgpx/0lzJODxMFkITGUR41xdyHsLIfqch+LeMsbWN6NTv+5wuIWO5w
+         k/dR+pBTAAG82Or6u+B72UnwccZfrBi5DcRsbNOYJG2T8j+OXK5OPjgqSIL9e2LlYKMm
+         E6jBgwWnOtQ1n28ITAzOc9zWCcVIXOkz/DmXY2lcbUsRKz5yMVS59ue8TFiNaZ72DAS/
+         mey4HI5P1ReXAsJ8bNndgX98pMZXNuvfQyLKjH8LS31IW3AfyzhvNold+rai1GTNyc8r
+         ysHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=QY6i0yhlosYKBzQSKH6aCBy2mSO5xg+k21z4/T/g/QU=;
+        b=fWjA6yOkSYtpj2onstiMo6NqHhNVMGirActlZKhFNCGZbrmp8JBR7zj53uh64daKW/
+         /Aml1OuMgak4g0dn7Shn6yDLLAasokHexZ96I4ToW6v1yO/wYs5WKP/iOB+zE+DahtEb
+         s7xtPw5jFpRPWqjWuBodqaZ7m1Ru0/axUcN3/JroxVaNqxxwWwypNnl3G6KMOENvVgXT
+         kT3qB69rbdIOzZKvRR5elDcF4rHHqNoQUuM/M+iSP148A8bTcdRjWeqVINZV+i+jjtzC
+         4Jje5gzySb1KEZmnztLKMkmzlf0q14zmAVVUV2lzdcuURIBR8si7VOxWb6i/hR2PAbBQ
+         /F3g==
+X-Gm-Message-State: APjAAAVRrkjJI8CZ6uVMVX+olfTa7rKZ46QLIFVb4PX0CHHI1ZojXYIs
+        Mu1s+o47t7AUUVZr0LZ2En8B0Q==
+X-Google-Smtp-Source: APXvYqxGA1nZyul0VfHAaNroAGuQ2k9Yaas0jtGOC35rwVfjQ8fqFhDRbECVetl1ZMn+hm+FtIhQTw==
+X-Received: by 2002:a17:90a:a410:: with SMTP id y16mr22740984pjp.62.1560190936876;
+        Mon, 10 Jun 2019 11:22:16 -0700 (PDT)
+Received: from ?IPv6:2600:1010:b007:4b59:4135:ea27:71a0:a536? ([2600:1010:b007:4b59:4135:ea27:71a0:a536])
+        by smtp.gmail.com with ESMTPSA id d35sm10598703pgm.31.2019.06.10.11.22.15
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 10 Jun 2019 11:22:15 -0700 (PDT)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (1.0)
+Subject: Re: [RFC][PATCH 00/13] Mount, FS, Block and Keyrings notifications [ver #4]
+From:   Andy Lutomirski <luto@amacapital.net>
+X-Mailer: iPhone Mail (16F203)
+In-Reply-To: <dac74580-5b48-86e4-8222-cac29a9f541d@schaufler-ca.com>
+Date:   Mon, 10 Jun 2019 11:22:13 -0700
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        David Howells <dhowells@redhat.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        USB list <linux-usb@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        raven@themaw.net, Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-block@vger.kernel.org, keyrings@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        Paul Moore <paul@paul-moore.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <E0925E1F-E5F2-4457-8704-47B6E64FE3F3@amacapital.net>
+References: <155991702981.15579.6007568669839441045.stgit@warthog.procyon.org.uk> <be966d9c-e38d-7a30-8d80-fad5f25ab230@tycho.nsa.gov> <0cf7a49d-85f6-fba9-62ec-a378e0b76adf@schaufler-ca.com> <CALCETrX5O18q2=dUeC=hEtK2=t5KQpGBy9XveHxFw36OqkbNOg@mail.gmail.com> <dac74580-5b48-86e4-8222-cac29a9f541d@schaufler-ca.com>
+To:     Casey Schaufler <casey@schaufler-ca.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-I'd really love to see the manpages for these new flags.  The devil is
-in the details of our promises to userspace.
+
+> On Jun 10, 2019, at 11:01 AM, Casey Schaufler <casey@schaufler-ca.com> wro=
+te:
+>=20
+>> On 6/10/2019 9:42 AM, Andy Lutomirski wrote:
+>>> On Mon, Jun 10, 2019 at 9:34 AM Casey Schaufler <casey@schaufler-ca.com>=
+ wrote:
+>>>> On 6/10/2019 8:21 AM, Stephen Smalley wrote:
+>>>>> On 6/7/19 10:17 AM, David Howells wrote:
+>>>>> Hi Al,
+>>>>>=20
+>>>>> Here's a set of patches to add a general variable-length notification q=
+ueue
+>>>>> concept and to add sources of events for:
+>>>>>=20
+>>>>>  (1) Mount topology events, such as mounting, unmounting, mount expiry=
+,
+>>>>>      mount reconfiguration.
+>>>>>=20
+>>>>>  (2) Superblock events, such as R/W<->R/O changes, quota overrun and I=
+/O
+>>>>>      errors (not complete yet).
+>>>>>=20
+>>>>>  (3) Key/keyring events, such as creating, linking and removal of keys=
+.
+>>>>>=20
+>>>>>  (4) General device events (single common queue) including:
+>>>>>=20
+>>>>>      - Block layer events, such as device errors
+>>>>>=20
+>>>>>      - USB subsystem events, such as device/bus attach/remove, device
+>>>>>        reset, device errors.
+>>>>>=20
+>>>>> One of the reasons for this is so that we can remove the issue of proc=
+esses
+>>>>> having to repeatedly and regularly scan /proc/mounts, which has proven=
+ to
+>>>>> be a system performance problem.  To further aid this, the fsinfo() sy=
+scall
+>>>>> on which this patch series depends, provides a way to access superbloc=
+k and
+>>>>> mount information in binary form without the need to parse /proc/mount=
+s.
+>>>>>=20
+>>>>>=20
+>>>>> LSM support is included, but controversial:
+>>>>>=20
+>>>>>  (1) The creds of the process that did the fput() that reduced the ref=
+count
+>>>>>      to zero are cached in the file struct.
+>>>>>=20
+>>>>>  (2) __fput() overrides the current creds with the creds from (1) whil=
+st
+>>>>>      doing the cleanup, thereby making sure that the creds seen by the=
+
+>>>>>      destruction notification generated by mntput() appears to come fr=
+om
+>>>>>      the last fputter.
+>>>>>=20
+>>>>>  (3) security_post_notification() is called for each queue that we mig=
+ht
+>>>>>      want to post a notification into, thereby allowing the LSM to pre=
+vent
+>>>>>      covert communications.
+>>>>>=20
+>>>>>  (?) Do I need to add security_set_watch(), say, to rule on whether a w=
+atch
+>>>>>      may be set in the first place?  I might need to add a variant per=
+
+>>>>>      watch-type.
+>>>>>=20
+>>>>>  (?) Do I really need to keep track of the process creds in which an
+>>>>>      implicit object destruction happened?  For example, imagine you c=
+reate
+>>>>>      an fd with fsopen()/fsmount().  It is marked to dissolve the moun=
+t it
+>>>>>      refers to on close unless move_mount() clears that flag.  Now, im=
+agine
+>>>>>      someone looking at that fd through procfs at the same time as you=
+ exit
+>>>>>      due to an error.  The LSM sees the destruction notification come f=
+rom
+>>>>>      the looker if they happen to do their fput() after yours.
+>>>> I remain unconvinced that (1), (2), (3), and the final (?) above are a g=
+ood idea.
+>>>>=20
+>>>> For SELinux, I would expect that one would implement a collection of pe=
+r watch-type WATCH permission checks on the target object (or to some well-d=
+efined object label like the kernel SID if there is no object) that allow re=
+ceipt of all notifications of that watch-type for objects related to the tar=
+get object, where "related to" is defined per watch-type.
+>>>>=20
+>>>> I wouldn't expect SELinux to implement security_post_notification() at a=
+ll.  I can't see how one can construct a meaningful, stable policy for it.  I=
+'d argue that the triggering process is not posting the notification; the ke=
+rnel is posting the notification and the watcher has been authorized to rece=
+ive it.
+>>> I cannot agree. There is an explicit action by a subject that results
+>>> in information being delivered to an object. Just like a signal or a
+>>> UDP packet delivery. Smack handles this kind of thing just fine. The
+>>> internal mechanism that results in the access is irrelevant from
+>>> this viewpoint. I can understand how a mechanism like SELinux that
+>>> works on finer granularity might view it differently.
+>> I think you really need to give an example of a coherent policy that
+>> needs this.
+>=20
+> I keep telling you, and you keep ignoring what I say.
+>=20
+>>  As it stands, your analogy seems confusing.
+>=20
+> It's pretty simple. I have given both the abstract
+> and examples.
+
+You gave the /dev/null example, which is inapplicable to this patchset.
+
+>=20
+>>  If someone
+>> changes the system clock, we don't restrict who is allowed to be
+>> notified (via, for example, TFD_TIMER_CANCEL_ON_SET) that the clock
+>> was changed based on who changed the clock.
+>=20
+> That's right. The system clock is not an object that
+> unprivileged processes can modify. In fact, it is not
+> an object at all. If you care to look, you will see that
+> Smack does nothing with the clock.
+
+And this is different from the mount tree how?
+
+>=20
+>>  Similarly, if someone
+>> tries to receive a packet on a socket, we check whether they have the
+>> right to receive on that socket (from the endpoint in question) and,
+>> if the sender is local, whether the sender can send to that socket.
+>> We do not check whether the sender can send to the receiver.
+>=20
+> Bzzzt! Smack sure does.
+
+This seems dubious. I=E2=80=99m still trying to get you to explain to a non-=
+Smack person why this makes sense.
+
+>=20
+>> The signal example is inapplicable.
+>=20
+> =46rom a modeling viewpoint the actions are identical.
+
+This seems incorrect to me and, I think, to most everyone else reading this.=
+ Can you explain?
+
+In SELinux-ese, when you write to a file, the subject is the writer and the o=
+bject is the file.  When you send a signal to a process, the object is the t=
+arget process.=
