@@ -2,97 +2,100 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BCB483BF2A
-	for <lists+linux-api@lfdr.de>; Tue, 11 Jun 2019 00:08:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF1A83BF9A
+	for <lists+linux-api@lfdr.de>; Tue, 11 Jun 2019 00:49:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728791AbfFJWIC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 10 Jun 2019 18:08:02 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50200 "EHLO mx1.redhat.com"
+        id S2390451AbfFJWs6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 10 Jun 2019 18:48:58 -0400
+Received: from mga14.intel.com ([192.55.52.115]:59984 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728674AbfFJWIC (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 10 Jun 2019 18:08:02 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id C7E933082E20;
-        Mon, 10 Jun 2019 22:07:59 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-120-126.rdu2.redhat.com [10.10.120.126])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 49AEA19C59;
-        Mon, 10 Jun 2019 22:07:47 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <25d88489-9850-f092-205e-0a4fc292f41b@schaufler-ca.com>
-References: <25d88489-9850-f092-205e-0a4fc292f41b@schaufler-ca.com> <155991702981.15579.6007568669839441045.stgit@warthog.procyon.org.uk> <be966d9c-e38d-7a30-8d80-fad5f25ab230@tycho.nsa.gov> <0cf7a49d-85f6-fba9-62ec-a378e0b76adf@schaufler-ca.com> <CALCETrX5O18q2=dUeC=hEtK2=t5KQpGBy9XveHxFw36OqkbNOg@mail.gmail.com> <dac74580-5b48-86e4-8222-cac29a9f541d@schaufler-ca.com> <E0925E1F-E5F2-4457-8704-47B6E64FE3F3@amacapital.net> <4b7d02b2-2434-8a7c-66cc-7dbebc37efbc@schaufler-ca.com> <CALCETrU+PKVbrKQJoXj9x_5y+vTZENMczHqyM_Xb85ca5YDZuA@mail.gmail.com>
-To:     Casey Schaufler <casey@schaufler-ca.com>
-Cc:     dhowells@redhat.com, Andy Lutomirski <luto@kernel.org>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        USB list <linux-usb@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        raven@themaw.net, Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-block@vger.kernel.org, keyrings@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Paul Moore <paul@paul-moore.com>
-Subject: Re: [RFC][PATCH 00/13] Mount, FS, Block and Keyrings notifications [ver #4]
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <29009.1560204466.1@warthog.procyon.org.uk>
-Date:   Mon, 10 Jun 2019 23:07:46 +0100
-Message-ID: <29010.1560204466@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.46]); Mon, 10 Jun 2019 22:08:02 +0000 (UTC)
+        id S2390340AbfFJWs5 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 10 Jun 2019 18:48:57 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Jun 2019 15:48:56 -0700
+X-ExtLoop1: 1
+Received: from yyu32-desk1.sc.intel.com ([143.183.136.147])
+  by fmsmga005.fm.intel.com with ESMTP; 10 Jun 2019 15:48:56 -0700
+Message-ID: <1b961c71d30e31ecb22da2c5401b1a81cb802d86.camel@intel.com>
+Subject: Re: [PATCH v7 03/14] x86/cet/ibt: Add IBT legacy code bitmap setup
+ function
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Dave Hansen <dave.hansen@intel.com>,
+        Andy Lutomirski <luto@amacapital.net>
+Cc:     Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>
+Date:   Mon, 10 Jun 2019 15:40:49 -0700
+In-Reply-To: <92e56b28-0cd4-e3f4-867b-639d9b98b86c@intel.com>
+References: <20190606200926.4029-1-yu-cheng.yu@intel.com>
+         <20190606200926.4029-4-yu-cheng.yu@intel.com>
+         <20190607080832.GT3419@hirez.programming.kicks-ass.net>
+         <aa8a92ef231d512b5c9855ef416db050b5ab59a6.camel@intel.com>
+         <20190607174336.GM3436@hirez.programming.kicks-ass.net>
+         <b3de4110-5366-fdc7-a960-71dea543a42f@intel.com>
+         <34E0D316-552A-401C-ABAA-5584B5BC98C5@amacapital.net>
+         <7e0b97bf1fbe6ff20653a8e4e147c6285cc5552d.camel@intel.com>
+         <25281DB3-FCE4-40C2-BADB-B3B05C5F8DD3@amacapital.net>
+         <e26f7d09376740a5f7e8360fac4805488b2c0a4f.camel@intel.com>
+         <3f19582d-78b1-5849-ffd0-53e8ca747c0d@intel.com>
+         <5aa98999b1343f34828414b74261201886ec4591.camel@intel.com>
+         <0665416d-9999-b394-df17-f2a5e1408130@intel.com>
+         <5c8727dde9653402eea97bfdd030c479d1e8dd99.camel@intel.com>
+         <ac9a20a6-170a-694e-beeb-605a17195034@intel.com>
+         <328275c9b43c06809c9937c83d25126a6e3efcbd.camel@intel.com>
+         <92e56b28-0cd4-e3f4-867b-639d9b98b86c@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Casey Schaufler <casey@schaufler-ca.com> wrote:
-
-> Process A and process B both open /dev/null.
-> A and B can write and read to their hearts content
-> to/from /dev/null without ever once communicating.
-> The mutual accessibility of /dev/null in no way implies that
-> A and B can communicate. If A can set a watch on /dev/null,
-> and B triggers an event, there still has to be an access
-> check on the delivery of the event because delivering an event
-> to A is not an action on /dev/null, but on A.
-
-If a process has the privilege, it appears that fanotify() allows that process
-to see others accessing /dev/null (FAN_ACCESS, FAN_ACCESS_PERM).  There don't
-seem to be any LSM checks there either.
-
-On the other hand, the privilege required is CAP_SYS_ADMIN,
-
-> > The mount tree can't be modified by unprivileged users, unless a
-> > privileged user very carefully configured it as such.
+On Mon, 2019-06-10 at 15:02 -0700, Dave Hansen wrote:
+> On 6/10/19 1:58 PM, Yu-cheng Yu wrote:
+> > > > On each memory request, the kernel then must consider a percentage of
+> > > > allocated space in its calculation, and on systems with less memory
+> > > > this quickly becomes a problem.
+> > > 
+> > > I'm not sure what you're referring to here?  Are you referring to our
+> > > overcommit limits?
+> > 
+> > Yes.
 > 
-> "Unless" means *is* possible. In which case access control is
-> required. I will admit to being less then expert on the extent
-> to which mounts can be done without privilege.
+> My assumption has always been that these large, potentially sparse
+> hardware tables *must* be mmap()'d with MAP_NORESERVE specified.  That
+> should keep them from being problematic with respect to overcommit.
 
-Automounts in network filesystems, for example.
+Ok, we will go back to do_mmap() with MAP_PRIVATE, MAP_NORESERVE and
+VM_DONTDUMP.  The bitmap will cover only 48-bit address space.
 
-The initial mount of the network filesystem requires local privilege, but then
-mountpoints are managed with remote privilege as granted by things like
-kerberos tickets.  The local kernel has no control.
+We then create PR_MARK_CODE_AS_LEGACY.  The kernel will set the bitmap, but it
+is going to be slow.
 
-If you have CONFIG_AFS_FS enabled in your kernel, for example, and you install
-the keyutils package (dnf, rpm, apt, etc.), then you should be able to do:
+Perhaps we still let the app fill the bitmap?
 
-	mount -t afs none /mnt -o dyn
-	ls /afs/grand.central.org/software/
-
-for example.  That will go through a couple of automount points.  Assuming you
-don't have a kerberos login on those servers, however, you shouldn't be able
-to add new mountpoints.
-
-Someone watching the mount topology can see events when an automount is
-enacted and when it expires, the latter being an event with the system as the
-subject since the expiry is done on a timeout set by the kernel.
-
-David
+Yu-cheng
