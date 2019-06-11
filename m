@@ -2,70 +2,91 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 74E593C07B
-	for <lists+linux-api@lfdr.de>; Tue, 11 Jun 2019 02:28:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DD2C3C0BC
+	for <lists+linux-api@lfdr.de>; Tue, 11 Jun 2019 02:58:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390671AbfFKA10 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 10 Jun 2019 20:27:26 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:39331 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390322AbfFKA10 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 10 Jun 2019 20:27:26 -0400
-Received: by mail-pf1-f196.google.com with SMTP id j2so6244605pfe.6
-        for <linux-api@vger.kernel.org>; Mon, 10 Jun 2019 17:27:25 -0700 (PDT)
+        id S2390323AbfFKA6u (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 10 Jun 2019 20:58:50 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:33148 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390214AbfFKA6u (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 10 Jun 2019 20:58:50 -0400
+Received: by mail-pl1-f194.google.com with SMTP id g21so4346491plq.0
+        for <linux-api@vger.kernel.org>; Mon, 10 Jun 2019 17:58:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=amacapital-net.20150623.gappssmtp.com; s=20150623;
         h=content-transfer-encoding:from:mime-version:subject:date:message-id
          :references:cc:in-reply-to:to;
-        bh=VM2dk3phoXMJWUmg4OkGbUsCUxKTv/qfJ7B/YkcH/jc=;
-        b=zYcM1bjwlBj/VZ68drx0nOd348CC8iakrVB6vDS+gJ7EnC22G0Gh88OpERBZMgOxFb
-         Ivn3P5x0NGHsY6n9ZwVcZ9+DkalHqli6FeDqy0tXEYqIPBV0K/GCO8vLZugKuT2lTtwD
-         hogTBTI88gW2RP7sY2VkC6QBGYVmfPW/Xblyq0TKoqpjTmAdJc19Kg+wXSgsVIgJiK68
-         TF1BEHQDiqVnYzgMC4rWD0NN1JH5T+orsD/EZPhiTRWl185RGHxhqVaMXN3a2sw23/ck
-         Loz04gUYjWWAQPhsjWh7cOJnDF71aXELbLgIeg20wyqufu5gFwncvNVs3a1n1mcZbyDn
-         xHhQ==
+        bh=Qm0kPO1uAJ3z1V1j+us2fMRdl6WcfjHPQXtYwKhWHOw=;
+        b=BVKkouMqizWMIp86sUnwYUIJSyRkM2G6Pe8zlryowrNTb9LFpBf1If0yNMMHqWfp0F
+         aqvarMEwPlbihNns5+AGPXDpt1we54kMWHty1e5OgyiGDIetI6BtOAAyQFCAS3LvpXtt
+         uzvSXO7fOA1xexLVdCqI1QOPZpKtT4lZVG077v5++zFnzHYcC3ZBSAwwFeHo9MexBqAQ
+         2Hhjnsrz/HjTu2HPnoa50Wg160y84xDJPkQyFDks7AOcPsvsPIeb4DvMn/Muc/w88IXq
+         lpM8C4dM7VF7To/MMIkC6rQztkpMZWTvQCV7twCTJ1I4ecG5LMDnzxqJ26KNPiGwgDTp
+         +SDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:content-transfer-encoding:from:mime-version
          :subject:date:message-id:references:cc:in-reply-to:to;
-        bh=VM2dk3phoXMJWUmg4OkGbUsCUxKTv/qfJ7B/YkcH/jc=;
-        b=GKEXiX/SqfIcdVlHoPLEHjG0q984fi0WwXH5cfh47XAzzZn+ypIBsaBDI4eKVCULJq
-         hh9i2yfDXxcs5t9Jsdgh1kJpMct7mu/Qtc1Wm4RGmA6x/opM0CxZA4BznPv7CnllXL38
-         GWoqzIDainYIEP0eO41jVTjAB+LTH/9IeM3YHxuVFpKJKLQ9W3qsP8S4uZYKDZOC6VoG
-         Yt10sDM8JKPzVa1zaSGYDmx1GTyFF9sHlmD36/fkgVINtFU3+cuGYMfxL01nJerosEkM
-         v5x0830UsmehY2GhjY68082HTmIoAPL+Zb8Z7Gy8ffTFTLhZgB7Asd5j+dWd5RjV6cse
-         WN5g==
-X-Gm-Message-State: APjAAAWvhaOAMkLosD5UJBfIWkbjJzvO/OT93CTggx3BRgfdVzwmRv+n
-        fZ9ICy0ZfbDDN/EJ92bRJcE9Yw==
-X-Google-Smtp-Source: APXvYqzwt2kqHvu9OTRvm5vLnspi9CzNyFEQTcK84714NO8Z1PTwNct/Ne+Bo6TCz7ewEYKeUwxoHQ==
-X-Received: by 2002:a62:1ec3:: with SMTP id e186mr78012544pfe.197.1560212845477;
-        Mon, 10 Jun 2019 17:27:25 -0700 (PDT)
-Received: from ?IPv6:2600:1010:b02c:114f:fc47:b6b2:14a5:bb80? ([2600:1010:b02c:114f:fc47:b6b2:14a5:bb80])
-        by smtp.gmail.com with ESMTPSA id u5sm11410506pgp.19.2019.06.10.17.27.17
+        bh=Qm0kPO1uAJ3z1V1j+us2fMRdl6WcfjHPQXtYwKhWHOw=;
+        b=Xw3b0kLrJR3jaUO3CTPdMidHDRaiWCEufNaSrEQPWRFt7ACHv7B24wfvOAznx0h4Am
+         y6PMdGURtha1Pg/pHIrmm4kUuA0smA/TL4dCLQtZFV75ru6yf3uJF3KkgRVtM8v7UjW3
+         CWD+wvIYtljPXU4rEYnfJ6hD9twvRtoZy0F8tlQuQOhjoIYJbsm+fFlZOGsU8hUc8oK2
+         k/8ed516t+2XrusCDhAvhwjO1u5h+WNp376+0kfmosW4f55WSiRMRPyku1wA5JMgF0G5
+         HuYnzZUKLArn3zztoMtBqPeSKpxuPrPQiXmt7IJu55iRnMW2bCbMTFvXYxBW5Rexi9Ao
+         LPbA==
+X-Gm-Message-State: APjAAAU94AQtVtvkkZXTbvkjDYK/EETUFVK8b0m3tV3Zn39EekEkvKfG
+        /iCfCcw7XRu9wyDeoZfAQp3Mcg==
+X-Google-Smtp-Source: APXvYqxSKP4PBZdAqAyV8bIxzJS6jMTPwYPb+xhoAjdP1xT8Us29SP9WDn8Ct0Ow9eVbUjBD+yr4Ew==
+X-Received: by 2002:a17:902:42e2:: with SMTP id h89mr70909928pld.271.1560214729538;
+        Mon, 10 Jun 2019 17:58:49 -0700 (PDT)
+Received: from [10.228.61.2] (151.sub-97-41-129.myvzw.com. [97.41.129.151])
+        by smtp.gmail.com with ESMTPSA id h19sm11894263pfn.79.2019.06.10.17.58.44
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 10 Jun 2019 17:27:23 -0700 (PDT)
+        Mon, 10 Jun 2019 17:58:46 -0700 (PDT)
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 From:   Andy Lutomirski <luto@amacapital.net>
 Mime-Version: 1.0 (1.0)
-Subject: Re: [RFC][PATCH 00/13] Mount, FS, Block and Keyrings notifications [ver #4]
-Date:   Mon, 10 Jun 2019 17:13:51 -0700
-Message-Id: <97BA9EB5-4E62-4E3A-BD97-CEC34F16FCFF@amacapital.net>
-References: <155991702981.15579.6007568669839441045.stgit@warthog.procyon.org.uk> <be966d9c-e38d-7a30-8d80-fad5f25ab230@tycho.nsa.gov> <0cf7a49d-85f6-fba9-62ec-a378e0b76adf@schaufler-ca.com> <CALCETrX5O18q2=dUeC=hEtK2=t5KQpGBy9XveHxFw36OqkbNOg@mail.gmail.com> <dac74580-5b48-86e4-8222-cac29a9f541d@schaufler-ca.com> <E0925E1F-E5F2-4457-8704-47B6E64FE3F3@amacapital.net> <4b7d02b2-2434-8a7c-66cc-7dbebc37efbc@schaufler-ca.com> <CALCETrU+PKVbrKQJoXj9x_5y+vTZENMczHqyM_Xb85ca5YDZuA@mail.gmail.com> <25d88489-9850-f092-205e-0a4fc292f41b@schaufler-ca.com>
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        David Howells <dhowells@redhat.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        USB list <linux-usb@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        raven@themaw.net, Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-block@vger.kernel.org, keyrings@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Paul Moore <paul@paul-moore.com>
-In-Reply-To: <25d88489-9850-f092-205e-0a4fc292f41b@schaufler-ca.com>
-To:     Casey Schaufler <casey@schaufler-ca.com>
+Subject: Re: [PATCH v7 03/14] x86/cet/ibt: Add IBT legacy code bitmap setup function
+Date:   Mon, 10 Jun 2019 17:36:03 -0700
+Message-Id: <7E931FED-B39D-4C05-8B78-D8CF2F0EF9FC@amacapital.net>
+References: <20190606200926.4029-1-yu-cheng.yu@intel.com> <aa8a92ef231d512b5c9855ef416db050b5ab59a6.camel@intel.com>
+ <20190607174336.GM3436@hirez.programming.kicks-ass.net> <b3de4110-5366-fdc7-a960-71dea543a42f@intel.com>
+ <34E0D316-552A-401C-ABAA-5584B5BC98C5@amacapital.net> <7e0b97bf1fbe6ff20653a8e4e147c6285cc5552d.camel@intel.com>
+ <25281DB3-FCE4-40C2-BADB-B3B05C5F8DD3@amacapital.net> <e26f7d09376740a5f7e8360fac4805488b2c0a4f.camel@intel.com>
+ <3f19582d-78b1-5849-ffd0-53e8ca747c0d@intel.com> <5aa98999b1343f34828414b74261201886ec4591.camel@intel.com>
+ <0665416d-9999-b394-df17-f2a5e1408130@intel.com> <5c8727dde9653402eea97bfdd030c479d1e8dd99.camel@intel.com>
+ <ac9a20a6-170a-694e-beeb-605a17195034@intel.com> <328275c9b43c06809c9937c83d25126a6e3efcbd.camel@intel.com>
+ <92e56b28-0cd4-e3f4-867b-639d9b98b86c@intel.com> <1b961c71d30e31ecb22da2c5401b1a81cb802d86.camel@intel.com>
+ <ea5e333f-8cd6-8396-635f-a9dc580d5364@intel.com> <BBBF82D3-EE21-49E1-92A4-713C7729E6AD@amacapital.net>
+ <a329c4fa-adb0-09a4-7a8c-465f82e0e6c7@intel.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>
+In-Reply-To: <a329c4fa-adb0-09a4-7a8c-465f82e0e6c7@intel.com>
+To:     Dave Hansen <dave.hansen@intel.com>
 X-Mailer: iPhone Mail (16F203)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
@@ -74,170 +95,26 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 
 
-> On Jun 10, 2019, at 2:25 PM, Casey Schaufler <casey@schaufler-ca.com> wrot=
-e:
+> On Jun 10, 2019, at 5:08 PM, Dave Hansen <dave.hansen@intel.com> wrote:
 >=20
->> On 6/10/2019 12:53 PM, Andy Lutomirski wrote:
->> On Mon, Jun 10, 2019 at 12:34 PM Casey Schaufler <casey@schaufler-ca.com>=
- wrote:
->>>>>> I think you really need to give an example of a coherent policy that
->>>>>> needs this.
->>>>> I keep telling you, and you keep ignoring what I say.
->>>>>=20
->>>>>> As it stands, your analogy seems confusing.
->>>>> It's pretty simple. I have given both the abstract
->>>>> and examples.
->>>> You gave the /dev/null example, which is inapplicable to this patchset.=
+>> On 6/10/19 4:54 PM, Andy Lutomirski wrote:
+>> Another benefit of kernel management: we could plausibly auto-clear
+>> the bits corresponding to munmapped regions. Is this worth it?
+>=20
+> I did it for MPX.  I think I even went to the trouble of zapping the
+> whole pages that got unused.
+>=20
+> But, MPX tables took 80% of the address space, worst-case.  This takes
+> 0.003% :)  The only case it would really matter would be a task was
+> long-running, used legacy executables/JITs, and was mapping/unmapping
+> text all over the address space.  That seems rather unlikely.
 
->>> That addressed an explicit objection, and pointed out
->>> an exception to a generality you had asserted, which was
->>> not true. It's also a red herring regarding the current
->>> discussion.
->> This argument is pointless.
->>=20
->> Please humor me and just give me an example.  If you think you have
->> already done so, feel free to repeat yourself.  If you have no
->> example, then please just say so.
->=20
-> To repeat the /dev/null example:
->=20
-> Process A and process B both open /dev/null.
-> A and B can write and read to their hearts content
-> to/from /dev/null without ever once communicating.
-> The mutual accessibility of /dev/null in no way implies that
-> A and B can communicate. If A can set a watch on /dev/null,
-> and B triggers an event, there still has to be an access
-> check on the delivery of the event because delivering an event
-> to A is not an action on /dev/null, but on A.
->=20
+Every wasted page still costs 4K plus page table overhead.  The worst case i=
+s a JIT that doesn=E2=80=99t clean up and leaks legacy bitmap memory all ove=
+r. We can blame the JIT, but the actual attribution could be complicated.
 
-At discussed, this is an irrelevant straw man. This patch series does not pr=
-oduce events when this happens. I=E2=80=99m looking for a relevant example, p=
-lease.
->=20
->=20
->>  An unprivileged
->> user can create a new userns and a new mount ns, but then they're
->> modifying a whole different mount tree.
->=20
-> Within those namespaces you can still have multiple users,
-> constrained be system access control policy.
+It also matters when you unmap one thing, map something else, and are sad wh=
+en the legacy bits are still set.
 
-And the one doing the mounting will be constrained by MAC and DAC policy, as=
- always.  The namespace creator is, from the perspective of those processes,=
- admin.
-
->=20
->>=20
->>>>>> Similarly, if someone
->>>>>> tries to receive a packet on a socket, we check whether they have the=
-
->>>>>> right to receive on that socket (from the endpoint in question) and,
->>>>>> if the sender is local, whether the sender can send to that socket.
->>>>>> We do not check whether the sender can send to the receiver.
->>>>> Bzzzt! Smack sure does.
->>>> This seems dubious. I=E2=80=99m still trying to get you to explain to a=
- non-Smack person why this makes sense.
->>> Process A sends a packet to process B.
->>> If A has access to TopSecret data and B is not
->>> allowed to see TopSecret data, the delivery should
->>> be prevented. Is that nonsensical?
->> It makes sense.  As I see it, the way that a sensible policy should do
->> this is by making sure that there are no sockets, pipes, etc that
->> Process A can write and that Process B can read.
->=20
-> You can't explain UDP controls without doing the access check
-> on packet delivery. The sendmsg() succeeds when the packet leaves
-> the sender. There doesn't even have to be a socket bound to the
-> port. The only opportunity you have for control is on packet
-> delivery, which is the only point at which you can have the
-> information required.
-
-Huh?  You sendmsg() from an address to an address.  My point is that, for mo=
-st purposes, that=E2=80=99s all the information that=E2=80=99s needed.
-
->=20
->> If you really want to prevent a malicious process with TopSecret data
->> from sending it to a different process, then you can't use Linux on
->> x86 or ARM.  Maybe that will be fixed some day, but you're going to
->> need to use an extremely tight sandbox to make this work.
->=20
-> I won't be commenting on that.
-
-Then why is preventing this is an absolute requirement? It=E2=80=99s unattai=
-nable.
-
->=20
->>=20
->>>>>> The signal example is inapplicable.
->>>>> =46rom a modeling viewpoint the actions are identical.
->>>> This seems incorrect to me
->>> What would be correct then? Some convoluted combination
->>> of system entities that aren't owned or controlled by
->>> any mechanism?
->>>=20
->> POSIX signal restrictions aren't there to prevent two processes from
->> communicating.  They're there to prevent the sender from manipulating
->> or crashing the receiver without appropriate privilege.
->=20
-> POSIX signal restrictions have a long history. In the P10031e/2c
-> debates both communication and manipulation where seriously
-> considered. I would say both are true.
->=20
->>>> and, I think, to most everyone else reading this.
->>> That's quite the assertion. You may even be correct.
->>>=20
->>>> Can you explain?
->>>>=20
->>>> In SELinux-ese, when you write to a file, the subject is the writer and=
- the object is the file.  When you send a signal to a process, the object is=
- the target process.
->>> YES!!!!!!!!!!!!
->>>=20
->>> And when a process triggers a notification it is the subject
->>> and the watching process is the object!
->>>=20
->>> Subject =3D=3D active entity
->>> Object  =3D=3D passive entity
->>>=20
->>> Triggering an event is, like calling kill(), an action!
->>>=20
->> And here is where I disagree with your interpretation.  Triggering an
->> event is a side effect of writing to the file.  There are *two*
->> security relevant actions, not one, and they are:
->>=20
->> First, the write:
->>=20
->> Subject =3D=3D the writer
->> Action =3D=3D write
->> Object =3D=3D the file
->>=20
->> Then the event, which could be modeled in a couple of ways:
->>=20
->> Subject =3D=3D the file
->=20
-> Files   are   not   subjects. They are passive entities.
->=20
->> Action =3D=3D notify
->> Object =3D=3D the recipient
-
-Great. Then use the variant below.
-
->>=20
->> or
->>=20
->> Subject =3D=3D the recipient
->> Action =3D=3D watch
->> Object =3D=3D the file
->>=20
->> By conflating these two actions into one, you've made the modeling
->> very hard, and you start running into all these nasty questions like
->> "who actually closed this open file"
->=20
-> No, I've made the code more difficult.
-> You can not call
-> the file a subject. That is just wrong. It's not a valid
-> model.
-
-You=E2=80=99ve ignored the =E2=80=9CAction =3D=3D watch=E2=80=9D variant. Do=
- you care to comment?
+Admittedly, it=E2=80=99s a bit hard to imagine the exploit that takes advant=
+age of this.=
