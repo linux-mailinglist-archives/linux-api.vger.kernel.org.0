@@ -2,106 +2,70 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 429453CA35
-	for <lists+linux-api@lfdr.de>; Tue, 11 Jun 2019 13:41:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CAC43CDA1
+	for <lists+linux-api@lfdr.de>; Tue, 11 Jun 2019 15:53:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403835AbfFKLlS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 11 Jun 2019 07:41:18 -0400
-Received: from foss.arm.com ([217.140.110.172]:59198 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2403817AbfFKLlS (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 11 Jun 2019 07:41:18 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4F861344;
-        Tue, 11 Jun 2019 04:41:15 -0700 (PDT)
-Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1A54D3F557;
-        Tue, 11 Jun 2019 04:42:53 -0700 (PDT)
-Date:   Tue, 11 Jun 2019 12:41:09 +0100
-From:   Dave Martin <Dave.Martin@arm.com>
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Subject: Re: [PATCH v7 22/27] binfmt_elf: Extract .note.gnu.property from an
- ELF file
-Message-ID: <20190611114109.GN28398@e103592.cambridge.arm.com>
-References: <20190606200646.3951-1-yu-cheng.yu@intel.com>
- <20190606200646.3951-23-yu-cheng.yu@intel.com>
- <20190607180115.GJ28398@e103592.cambridge.arm.com>
- <94b9c55b3b874825fda485af40ab2a6bc3dad171.camel@intel.com>
- <87lfy9cq04.fsf@oldenburg2.str.redhat.com>
+        id S1729032AbfFKNxE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 11 Jun 2019 09:53:04 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:35676 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1728344AbfFKNxE (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 11 Jun 2019 09:53:04 -0400
+Received: (qmail 1733 invoked by uid 2102); 11 Jun 2019 09:53:03 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 11 Jun 2019 09:53:03 -0400
+Date:   Tue, 11 Jun 2019 09:53:03 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     Felipe Balbi <felipe.balbi@linux.intel.com>
+cc:     Mathias Nyman <mathias.nyman@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        David Howells <dhowells@redhat.com>, <viro@zeniv.linux.org.uk>,
+        <linux-usb@vger.kernel.org>, <raven@themaw.net>,
+        <linux-fsdevel@vger.kernel.org>, <linux-api@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <keyrings@vger.kernel.org>,
+        <linux-security-module@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 09/10] usb: Add USB subsystem notifications [ver #3]
+In-Reply-To: <875zpcfxfk.fsf@linux.intel.com>
+Message-ID: <Pine.LNX.4.44L0.1906110950440.1535-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87lfy9cq04.fsf@oldenburg2.str.redhat.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jun 10, 2019 at 07:24:43PM +0200, Florian Weimer wrote:
-> * Yu-cheng Yu:
-> 
-> > To me, looking at PT_GNU_PROPERTY and not trying to support anything is a
-> > logical choice.  And it breaks only a limited set of toolchains.
+On Tue, 11 Jun 2019, Felipe Balbi wrote:
+
+> >> >> > So for "severe" issues, yes, we should do this, but perhaps not for all
+> >> >> > of the "normal" things we see when a device is yanked out of the system
+> >> >> > and the like.
+> >> >> 
+> >> >> Then what counts as a "severe" issue?  Anything besides enumeration 
+> >> >> failure?
+> >> >
+> >> > Not that I can think of at the moment, other than the other recently
+> >> > added KOBJ_CHANGE issue.  I'm sure we have other "hard failure" issues
+> >> > in the USB stack that people will want exposed over time.
+> >> 
+> >> From an XHCI standpoint, Transaction Errors might be one thing. They
+> >> happen rarely and are a strong indication that the bus itself is
+> >> bad. Either bad cable, misbehaving PHYs, improper power management, etc.
 > >
-> > I will simplify the parser and leave this patch as-is for anyone who wants to
-> > back-port.  Are there any objections or concerns?
+> > Don't you also get transaction errors if the user unplugs a device in 
+> > the middle of a transfer?  That's not the sort of thing we want to sent 
+> > notifications about.
 > 
-> Red Hat Enterprise Linux 8 does not use PT_GNU_PROPERTY and is probably
-> the largest collection of CET-enabled binaries that exists today.
+> Mathias, do we get Transaction Error if user removes cable during a
+> transfer? I thought we would just get Port Status Change with CC bit
+> cleared, no?
 
-For clarity, RHEL is actively parsing these properties today?
+Even if xHCI doesn't give Transaction Errors when a cable is unplugged 
+during a transfer, other host controllers do.  Sometimes quite a lot -- 
+they continue to occur until the kernel polls the parent hub's 
+interrupt ep and learns that the port is disconnected, which can take 
+up to 250 ms.
 
-> My hope was that we would backport the upstream kernel patches for CET,
-> port the glibc dynamic loader to the new kernel interface, and be ready
-> to run with CET enabled in principle (except that porting userspace
-> libraries such as OpenSSL has not really started upstream, so many
-> processes where CET is particularly desirable will still run without
-> it).
-> 
-> I'm not sure if it is a good idea to port the legacy support if it's not
-> part of the mainline kernel because it comes awfully close to creating
-> our own private ABI.
+Alan Stern
 
-I guess we can aim to factor things so that PT_NOTE scanning is
-available as a fallback on arches for which the absence of
-PT_GNU_PROPERTY is not authoritative.
-
-Can we argue that the lack of PT_GNU_PROPERTY is an ABI bug, fix it
-for new binaries and hence limit the efforts we go to to support
-theoretical binaries that lack the phdrs entry?
-
-If we can make practical simplifications to the parsing, such as
-limiting the maximum PT_NOTE size that we will search for the program
-properties to 1K (say), or requiring NT_NOTE_GNU_PROPERTY_TYPE_0 to sit
-by itself in a single PT_NOTE then that could help minimse the exec
-overheads and the number of places for bugs to hide in the kernel.
-
-What we can do here depends on what the tools currently do and what
-binaries are out there.
-
-Cheers
----Dave
