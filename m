@@ -2,109 +2,124 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 49F613C37C
-	for <lists+linux-api@lfdr.de>; Tue, 11 Jun 2019 07:45:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D31CD3C3EE
+	for <lists+linux-api@lfdr.de>; Tue, 11 Jun 2019 08:28:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391257AbfFKFo4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 11 Jun 2019 01:44:56 -0400
-Received: from mail-yw1-f68.google.com ([209.85.161.68]:35427 "EHLO
-        mail-yw1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390492AbfFKFo4 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 11 Jun 2019 01:44:56 -0400
-Received: by mail-yw1-f68.google.com with SMTP id k128so4781167ywf.2;
-        Mon, 10 Jun 2019 22:44:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+w1TZXVPXsAmWyQMupPIi48Y5cj/qlmRQ3y3C88Myg4=;
-        b=tqE/SaqExmYL4SMawkSvR1uHrcqw8SMH1s/cJ7q9WPOatVmT/TZY8anoN7pplN+vKM
-         DC79ie7sC/M9+HEx8JXaPg9YBJNp6YY9zZm2SCuxKY4w8CTo7MUoWFtKHIy5kfqzYFXI
-         qhUC1t+ShVl2ERMvbVuk5aGyysYeGRzuAGf675wNvodmAkYZ3mFtpZ9Rm/ymuQn9Yq7j
-         9ZIhjzmj3PYrzpcstKORlAe9IsO9jr/Ub/zaf/4o2MdWmlbAbiB9lwYAJVldk1VtXs8R
-         vlliNsbZCTTteugJKE7zhWAtaB+b6y3nrhEy+DM2Fn+QZT+L8F8G5VUGtCZZMALA7mbK
-         sNiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+w1TZXVPXsAmWyQMupPIi48Y5cj/qlmRQ3y3C88Myg4=;
-        b=N4Q2dFQ/B20xgQT45emAhsWMIW5222tRSxIWCaUi+cE6n45OvjbP0cG5BkYLzaR61t
-         9yyzH41JPrI3EZHCfF25OwctLh+7+ECkDYOUumDKiqzNiDANO9iO+AhHFq59mmKTf6vC
-         SR20oLVbiycJsyvIHR0/eHfcDdrwBWYAOcYMhRiuNkTJlBWVb7ekc2j5zO9YwkijluFO
-         OdQI8Xurh7p2TM2TAGSoWHU3mF+A1/Aa2NmQes1PWYnRq6LzUf0v3+zCpf/QUP4As0jT
-         /UbakFRyj12WUn4oMKr6SHdhQ6f4WaQSUxoan87+NXdUOkznHk0nv9eQ0UKaH2/yK9WT
-         QJVQ==
-X-Gm-Message-State: APjAAAU1EAZcH3rHzqdJWPOfhbDo30zxme0JG0lHHtC3dvvPfv558NgA
-        P8BbjA0dB3CJEtXYB/ktfIOAg8pySbyyStOLUHY=
-X-Google-Smtp-Source: APXvYqxaOnnDdwQIbxvN92XjnTF13G1VugiR0ALHYbo83TKOwzt20Rlu0lyS+T4g9LQ5XiGl77pGfZBFYWDZJGR6Qz4=
-X-Received: by 2002:a81:13d4:: with SMTP id 203mr8531169ywt.181.1560231894888;
- Mon, 10 Jun 2019 22:44:54 -0700 (PDT)
+        id S2391120AbfFKG22 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 11 Jun 2019 02:28:28 -0400
+Received: from mga18.intel.com ([134.134.136.126]:57905 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725766AbfFKG21 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 11 Jun 2019 02:28:27 -0400
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Jun 2019 23:28:26 -0700
+X-ExtLoop1: 1
+Received: from pipin.fi.intel.com (HELO pipin) ([10.237.72.175])
+  by fmsmga001.fm.intel.com with ESMTP; 10 Jun 2019 23:28:23 -0700
+From:   Felipe Balbi <felipe.balbi@linux.intel.com>
+To:     Alan Stern <stern@rowland.harvard.edu>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        David Howells <dhowells@redhat.com>, viro@zeniv.linux.org.uk,
+        linux-usb@vger.kernel.org, raven@themaw.net,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-block@vger.kernel.org, keyrings@vger.kernel.org,
+        linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 09/10] usb: Add USB subsystem notifications [ver #3]
+In-Reply-To: <Pine.LNX.4.44L0.1906071000260.1612-100000@iolanthe.rowland.org>
+References: <Pine.LNX.4.44L0.1906071000260.1612-100000@iolanthe.rowland.org>
+Date:   Tue, 11 Jun 2019 09:28:15 +0300
+Message-ID: <875zpcfxfk.fsf@linux.intel.com>
 MIME-Version: 1.0
-References: <20190610172606.4119-1-amir73il@gmail.com> <20190611011612.GQ1871505@magnolia>
- <20190611025108.GB2774@mit.edu> <20190611032926.GA1872778@magnolia>
-In-Reply-To: <20190611032926.GA1872778@magnolia>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Tue, 11 Jun 2019 08:44:43 +0300
-Message-ID: <CAOQ4uxgAgKhp55VGzBZ=ODKg5ztbJCB+WiFceXZjvw9=ecPdGw@mail.gmail.com>
-Subject: Re: [PATCH] vfs: allow copy_file_range from a swapfile
-To:     "Darrick J. Wong" <darrick.wong@oracle.com>
-Cc:     "Theodore Ts'o" <tytso@mit.edu>,
-        Dave Chinner <david@fromorbit.com>,
-        Christoph Hellwig <hch@lst.de>,
-        linux-xfs <linux-xfs@vger.kernel.org>,
-        Olga Kornievskaia <olga.kornievskaia@gmail.com>,
-        Luis Henriques <lhenriques@suse.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        ceph-devel@vger.kernel.org,
-        Linux NFS Mailing List <linux-nfs@vger.kernel.org>,
-        CIFS <linux-cifs@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jun 11, 2019 at 6:29 AM Darrick J. Wong <darrick.wong@oracle.com> wrote:
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+
+
+Hi,
+
+Alan Stern <stern@rowland.harvard.edu> writes:
+>> Greg Kroah-Hartman <gregkh@linuxfoundation.org> writes:
+>> > On Thu, Jun 06, 2019 at 10:55:24AM -0400, Alan Stern wrote:
+>> >> On Thu, 6 Jun 2019, Greg Kroah-Hartman wrote:
+>> >>=20
+>> >> > On Thu, Jun 06, 2019 at 10:24:18AM -0400, Alan Stern wrote:
+>> >> > > On Thu, 6 Jun 2019, David Howells wrote:
+>> >> > >=20
+>> >> > > > Add a USB subsystem notification mechanism whereby notification=
+s about
+>> >> > > > hardware events such as device connection, disconnection, reset=
+ and I/O
+>> >> > > > errors, can be reported to a monitoring process asynchronously.
+>> >> > >=20
+>> >> > > USB I/O errors covers an awfully large and vague field.  Do we re=
+ally
+>> >> > > want to include them?  I'm doubtful.
+>> >> >=20
+>> >> > See the other patch on the linux-usb list that wanted to start addi=
+ng
+>> >> > KOBJ_CHANGE notifications about USB "i/o errors".
+>> >>=20
+>> >> That patch wanted to add notifications only for enumeration failures
+>> >> (assuming you're talking about the patch from Eugeniu Rosca), not I/O
+>> >> errors in general.
+>> >
+>> > Yes, sorry, I was thinking that as a "I/O failed in enumeration" :)
+>> >
+>> >> > So for "severe" issues, yes, we should do this, but perhaps not for=
+ all
+>> >> > of the "normal" things we see when a device is yanked out of the sy=
+stem
+>> >> > and the like.
+>> >>=20
+>> >> Then what counts as a "severe" issue?  Anything besides enumeration=20
+>> >> failure?
+>> >
+>> > Not that I can think of at the moment, other than the other recently
+>> > added KOBJ_CHANGE issue.  I'm sure we have other "hard failure" issues
+>> > in the USB stack that people will want exposed over time.
+>>=20
+>> From an XHCI standpoint, Transaction Errors might be one thing. They
+>> happen rarely and are a strong indication that the bus itself is
+>> bad. Either bad cable, misbehaving PHYs, improper power management, etc.
 >
-> On Mon, Jun 10, 2019 at 10:51:08PM -0400, Theodore Ts'o wrote:
-> > On Mon, Jun 10, 2019 at 06:16:12PM -0700, Darrick J. Wong wrote:
-> > > On Mon, Jun 10, 2019 at 08:26:06PM +0300, Amir Goldstein wrote:
-> > > > read(2) is allowed from a swapfile, so copy_file_range(2) should
-> > > > be allowed as well.
-> > > >
-> > > > Reported-by: Theodore Ts'o <tytso@mit.edu>
-> > > > Fixes: 96e6e8f4a68d ("vfs: add missing checks to copy_file_range")
-> > > > Signed-off-by: Amir Goldstein <amir73il@gmail.com>
-> > > > ---
-> > > >
-> > > > Darrick,
-> > > >
-> > > > This fixes the generic/554 issue reported by Ted.
-> > >
-> > > Frankly I think we should go the other way -- non-root doesn't get to
-> > > copy from or read from swap files.
-> >
-> > The issue is that without this patch, *root* doesn't get to copy from
-> > swap files.  Non-root shouldn't have access via Unix permissions.  We
->
-> I'm not sure even root should have that privilege - it's a swap file,
-> and until you swapoff, it's owned by the kernel and we shouldn't let
-> backup programs copy your swapped out credit card numbers onto tape.
->
+> Don't you also get transaction errors if the user unplugs a device in=20
+> the middle of a transfer?  That's not the sort of thing we want to sent=20
+> notifications about.
 
-I am not a security expert and I do not want to be, but I believe it's
-better to have a complete security model before plugging random
-"security holes".
+Mathias, do we get Transaction Error if user removes cable during a
+transfer? I thought we would just get Port Status Change with CC bit
+cleared, no?
 
-That said. I don't have a strong feeling about allowing copy_file_range
-from swap file. If someone complains and they have a valid use case,
-we can always relax it then.
+=2D-=20
+balbi
 
-Anyway, as you saw, I removed the test case from xfstest, leaving
-the behavior (as far as the testsuite cares) undefined.
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Thanks,
-Amir.
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAlz/Sf8ACgkQzL64meEa
+mQYadA//auaAM9h9MprFzdErulkqH3HmHRaWdSU/kq9mtbaRLTuogqjRpvHqUc8p
+MTfNarWOJXGd5K8l8wjKT1LINfnFJSgcUOWE+bx3FFBbtistVC7KQ+ig9lb/+xj5
+TdkQa+9uZRkdFYkJrmPUTLjrnj74wNAnydPdqu5hPPcAHS+MCHF3KNTCN69h+s6g
+1F2nxcr9/6ZAPlIPtIHy3NW1wqDSvAKIM9nVWwTtT97B0pPAohAcu9/HrteyqyZ5
+53cqMqEn+8l430ehCn1IPNhQW9vIYFsxnaUdcRWpgUgEhkhmS8CBNPianolrMvf6
+VkWX0cfFSQeA/T/hrjqEfDAN+jaHlNGfBWScnqKupATHEOQtxobyxo/W9Pzsofqo
+k05eNr39pwAKaE0Fh+KOtrhnMKe9n3/ePAkYrYHdV30fuqF0WmtWhNw6btIYA30T
+2WHtHhJBP+yRu8VU0Y+EICyBF2L2gNO5sp3m2HsrpcQChescr1br7UYVGgXpxt8T
+/74wp8DlZB4NKSgrCrmwE3j1CfbgJCgf1KKsEXWUgF+zdVZTuoZVVOqo5G3iOxZg
+9Ry8nqLEA0Gz+HY/37wVmSG7hWS/Me7cpQg289uuEll9UXzpVal6oDaZrBFv3jeA
+pf6kOp99IqzbPVG/E16BGCdOgb5gwBNb+agM/Rj5jAn3f0BftoE=
+=gmf3
+-----END PGP SIGNATURE-----
+--=-=-=--
