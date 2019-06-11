@@ -2,286 +2,191 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6AA1240975
-	for <lists+linux-api@lfdr.de>; Tue, 11 Jun 2019 22:36:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C598418B8
+	for <lists+linux-api@lfdr.de>; Wed, 12 Jun 2019 01:16:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404880AbfFKUgY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 11 Jun 2019 16:36:24 -0400
-Received: from out01.mta.xmission.com ([166.70.13.231]:43875 "EHLO
-        out01.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391943AbfFKUgY (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 11 Jun 2019 16:36:24 -0400
-Received: from in02.mta.xmission.com ([166.70.13.52])
-        by out01.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.87)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1hanVC-0004lG-Tk; Tue, 11 Jun 2019 14:36:18 -0600
-Received: from ip72-206-97-68.om.om.cox.net ([72.206.97.68] helo=x220.xmission.com)
-        by in02.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.87)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1hanVA-0006GI-BF; Tue, 11 Jun 2019 14:36:18 -0600
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     Arseny Maslennikov <ar@cs.msu.ru>
+        id S2404483AbfFKXQg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 11 Jun 2019 19:16:36 -0400
+Received: from mx.cs.msu.ru ([188.44.42.42]:53658 "EHLO mail.cs.msu.ru"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728264AbfFKXQg (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 11 Jun 2019 19:16:36 -0400
+X-Greylist: delayed 2257 seconds by postgrey-1.27 at vger.kernel.org; Tue, 11 Jun 2019 19:16:33 EDT
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=cs.msu.ru;
+         s=dkim; h=Subject:In-Reply-To:Content-Type:MIME-Version:References:
+        Message-ID:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=GNE12vQTu4aqIFz7FyS4G9Pynhm5PGQdn9SLZmRERIA=; b=DtMEEeQVg/nre/6c89QcIuZG3q
+        /OB432/WUa4/x1RpAJ3mfYr/IJD0WpsHGCTToAUu8yIrHJm8hpBCdOI8F6PgXoiwhym3qM6ohbsU3
+        cz3zeVleCSw9fbjZLE7EuglmOOHOkbCQgdmC4GL/GTp1KJaCUJaSLDQymsR/+vS55t27KcnEwHzLx
+        rJMAHTC4V0f0uwKxiDaswdS+giqFcpyb3ymfVXEYQ76OXg7H7B71EZZvhL52w4QvcPMSM4Us8NOhS
+        Hg9SZqfCFFmNSGEMDq3Klfb38pvpIm4VM28BqmsPBDXCgwMPv4RVs2VwHNUbIg7eudzR/QutapgAu
+        O/k0tEqg==;
+Received: from [37.204.119.143] (port=45300 helo=cello)
+        by mail.cs.msu.ru with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.92 (FreeBSD))
+        (envelope-from <ar@cs.msu.ru>)
+        id 1hapPC-000Kcl-Qe; Wed, 12 Jun 2019 01:38:15 +0300
+Date:   Wed, 12 Jun 2019 01:38:06 +0300
+From:   Arseny Maslennikov <ar@cs.msu.ru>
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jiri Slaby <jslaby@suse.com>, Ingo Molnar <mingo@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
         linux-kernel@vger.kernel.org,
         "Vladimir D . Seleznev" <vseleznv@altlinux.org>,
-        <linux-api@vger.kernel.org>
+        linux-api@vger.kernel.org
+Message-ID: <20190611223806.GA1112@cello>
 References: <20190605081906.28938-1-ar@cs.msu.ru>
-        <20190605081906.28938-2-ar@cs.msu.ru>
-Date:   Tue, 11 Jun 2019 15:36:00 -0500
-In-Reply-To: <20190605081906.28938-2-ar@cs.msu.ru> (Arseny Maslennikov's
-        message of "Wed, 5 Jun 2019 11:19:00 +0300")
-Message-ID: <87o933507j.fsf@xmission.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.1 (gnu/linux)
+ <20190605081906.28938-2-ar@cs.msu.ru>
+ <87o933507j.fsf@xmission.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1hanVA-0006GI-BF;;;mid=<87o933507j.fsf@xmission.com>;;;hst=in02.mta.xmission.com;;;ip=72.206.97.68;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX1/3P7RQue3RXfD0vg4lwaqD053joFTXlMY=
-X-SA-Exim-Connect-IP: 72.206.97.68
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa07.xmission.com
-X-Spam-Level: ***
-X-Spam-Status: No, score=3.2 required=8.0 tests=ALL_TRUSTED,BAYES_50,
-        DCC_CHECK_NEGATIVE,LotsOfNums_01,T_TM2_M_HEADER_IN_MSG,T_TooManySym_01,
-        XMNoVowels,XMSubLong autolearn=disabled version=3.4.2
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.4543]
-        *  1.5 XMNoVowels Alpha-numberic number with no vowels
-        *  0.7 XMSubLong Long Subject
-        *  1.2 LotsOfNums_01 BODY: Lots of long strings of numbers
-        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
-        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-        *      [sa07 1397; Body=1 Fuz1=1 Fuz2=1]
-        *  0.0 T_TooManySym_01 4+ unique symbols in subject
-X-Spam-DCC: XMission; sa07 1397; Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: ***;Arseny Maslennikov <ar@cs.msu.ru>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 2146 ms - load_scoreonly_sql: 0.05 (0.0%),
-        signal_user_changed: 7 (0.3%), b_tie_ro: 4.4 (0.2%), parse: 1.15
-        (0.1%), extract_message_metadata: 15 (0.7%), get_uri_detail_list: 4.4
-        (0.2%), tests_pri_-1000: 13 (0.6%), tests_pri_-950: 1.39 (0.1%),
-        tests_pri_-900: 1.12 (0.1%), tests_pri_-90: 45 (2.1%), check_bayes: 42
-        (2.0%), b_tokenize: 18 (0.8%), b_tok_get_all: 10 (0.5%), b_comp_prob:
-        4.8 (0.2%), b_tok_touch_all: 4.7 (0.2%), b_finish: 0.80 (0.0%),
-        tests_pri_0: 736 (34.3%), check_dkim_signature: 0.89 (0.0%),
-        check_dkim_adsp: 2.8 (0.1%), poll_dns_idle: 1300 (60.6%),
-        tests_pri_10: 2.5 (0.1%), tests_pri_500: 1321 (61.6%), rewrite_mail:
-        0.00 (0.0%)
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="C7zPtVaVf+AK4Oqc"
+Content-Disposition: inline
+In-Reply-To: <87o933507j.fsf@xmission.com>
+OpenPGP: url=http://grep.cs.msu.ru/~ar/pgp-key.asc
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 37.204.119.143
+X-SA-Exim-Mail-From: ar@cs.msu.ru
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.cs.msu.ru
+X-Spam-Level: 
+X-Spam-Status: No, score=-5.1 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+        DKIM_ADSP_ALL autolearn=no autolearn_force=no version=3.4.2
 Subject: Re: [PATCH 1/7] signal.h: Define SIGINFO on all architectures
-X-Spam-Flag: No
-X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
-X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
+X-SA-Exim-Version: 4.2
+X-SA-Exim-Scanned: Yes (on mail.cs.msu.ru)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Arseny Maslennikov <ar@cs.msu.ru> writes:
 
-> This complementary patch defines SIGINFO as a synonym for SIGPWR
-> on every architecture supported by the kernel.
-> The particular signal number chosen does not really matter and is only
-> required for the related tty functionality to work properly,
-> so if it does not suite expectations, any suggestions are warmly
-> welcome.
->
-> SIGPWR looks like a nice candidate for this role, because it is
-> defined on every supported arch; it is currently only used to inform
-> PID 1 of power failures, and daemons that care about low-level
-> events do not tend to have a controlling terminal.
->
-> However, on sparcs SIGPWR is a synonym for SIGLOST, a signal unique
-> to that architecture, with a narrow set of intended uses that do not
-> combine well with interactively requesting status.
-> SIGLOST is not used by any kernel code at the moment.
-> I'm not sure there is a more reasonable alternative right now.
+--C7zPtVaVf+AK4Oqc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Is the name SIGINFO already well established.
+On Tue, Jun 11, 2019 at 03:36:00PM -0500, Eric W. Biederman wrote:
+> Arseny Maslennikov <ar@cs.msu.ru> writes:
+>=20
+> > This complementary patch defines SIGINFO as a synonym for SIGPWR
+> > on every architecture supported by the kernel.
+> > The particular signal number chosen does not really matter and is only
+> > required for the related tty functionality to work properly,
+> > so if it does not suite expectations, any suggestions are warmly
+> > welcome.
+> >
+> > SIGPWR looks like a nice candidate for this role, because it is
+> > defined on every supported arch; it is currently only used to inform
+> > PID 1 of power failures, and daemons that care about low-level
+> > events do not tend to have a controlling terminal.
+> >
+> > However, on sparcs SIGPWR is a synonym for SIGLOST, a signal unique
+> > to that architecture, with a narrow set of intended uses that do not
+> > combine well with interactively requesting status.
+> > SIGLOST is not used by any kernel code at the moment.
+> > I'm not sure there is a more reasonable alternative right now.
+>=20
+> Is the name SIGINFO already well established.
+>=20
+> It just is a little bit confusing with struct siginfo.
+>=20
 
-It just is a little bit confusing with struct siginfo.
+I thought about this, but the alternatives are clunkier.
+SIGKBINFO? Implies there actually is a keyboard, most ttys are
+virtual/software nowadays. Misplaced emphasis.
+SIGSTATUS? Too generic.
+SIGTINFO? This could work, like conveys the nature and all, but many
+applications already do #ifdef SIGINFO; if we reuse the name they will
+suddenly just work, and this helps adoption.
+SIGTINFO does decipher to "terminal info", this sounds too ambiguous.
 
-At least on x86 it looks like we have signals 32 and 33 that are
-reserved and not used for anything.  Is there a reason you have
-not picked one of those?
+Fortunately, from UNIX tradition signal names are defined in caps, and
+given there is much more related written discussion than spoken, this
+stands out enough to my taste. I'd say, it stands out a lot.
 
-Also should this be a realtime signal with signal information
-or a non-realtime signal?
+> At least on x86 it looks like we have signals 32 and 33 that are
+> reserved and not used for anything.  Is there a reason you have
+> not picked one of those?
 
-I don't expect there is much to encode except that the user is asking
-for information.  I half wonder if it could be done as a different
-si_code to SIGWINCH.  But of course that doesn't work because it is
-not a real time signal so does not queue more than one siginfo. (Sigh).
+Quoting signal(7) from man-pages:
+       The Linux kernel supports a range of 33 different real-time
+       signals, numbered 32  to  64.   However,  the  glibc  POSIX
+       threads  implementation  internally  uses two (for NPTL) or
+       three   (for   LinuxThreads)   real-time    signals    (see
+       pthreads(7)),  and  adjusts  the value of SIGRTMIN suitably
+       (to 34 or 35).
 
-I just would like to see that we have a clear concept of how this new
-signal plays into all of the signal handling bits.
+This excerpt gives the cue that signals 32 and 33 are not really unused,
+and I did not want to cause further adjustments to SIGRTMIN/SIGRTMAX,
+since this means we have to recompile the world with the new, changed
+SIGRTMIN/MAX...
 
-Added linux-api because this is fundamentally extending the linux-api,
-and we probably want man-page updates etc.
+If we'd change RTMIN, this makes all the rt signal numbers shift to the
+right and can cause havoc if we do not recompile the world.
 
-Eric
+We could probably go with decrementing RTMAX and reusing the value
+(effectively reserving a signal number from the end), but aliasing PWR
+seems much easier and less harmful, and easier for apps to adopt.
+If we find a strong reason not to reuse PWR, this may be considered as a
+plan B, but the idea to allocate even more precious signals seems too
+wasteful to me for now.
 
->
-> Signed-off-by: Arseny Maslennikov <ar@cs.msu.ru>
-> ---
->  arch/arm/include/uapi/asm/signal.h     | 1 +
->  arch/h8300/include/uapi/asm/signal.h   | 1 +
->  arch/ia64/include/uapi/asm/signal.h    | 1 +
->  arch/m68k/include/uapi/asm/signal.h    | 1 +
->  arch/mips/include/uapi/asm/signal.h    | 1 +
->  arch/parisc/include/uapi/asm/signal.h  | 1 +
->  arch/powerpc/include/uapi/asm/signal.h | 1 +
->  arch/s390/include/uapi/asm/signal.h    | 1 +
->  arch/sparc/include/uapi/asm/signal.h   | 2 ++
->  arch/x86/include/uapi/asm/signal.h     | 1 +
->  arch/xtensa/include/uapi/asm/signal.h  | 1 +
->  include/uapi/asm-generic/signal.h      | 1 +
->  12 files changed, 13 insertions(+)
->
-> diff --git a/arch/arm/include/uapi/asm/signal.h b/arch/arm/include/uapi/asm/signal.h
-> index 9b4185ba4f8a..b80b53a17267 100644
-> --- a/arch/arm/include/uapi/asm/signal.h
-> +++ b/arch/arm/include/uapi/asm/signal.h
-> @@ -50,6 +50,7 @@ typedef unsigned long sigset_t;
->  #define SIGLOST		29
->  */
->  #define SIGPWR		30
-> +#define SIGINFO		SIGPWR
->  #define SIGSYS		31
->  #define	SIGUNUSED	31
->  
-> diff --git a/arch/h8300/include/uapi/asm/signal.h b/arch/h8300/include/uapi/asm/signal.h
-> index e15521037348..7a2b783af22b 100644
-> --- a/arch/h8300/include/uapi/asm/signal.h
-> +++ b/arch/h8300/include/uapi/asm/signal.h
-> @@ -50,6 +50,7 @@ typedef unsigned long sigset_t;
->  #define SIGLOST		29
->  */
->  #define SIGPWR		30
-> +#define SIGINFO		SIGPWR
->  #define SIGSYS		31
->  #define	SIGUNUSED	31
->  
-> diff --git a/arch/ia64/include/uapi/asm/signal.h b/arch/ia64/include/uapi/asm/signal.h
-> index aa98ff1b9e22..b4c98cb17165 100644
-> --- a/arch/ia64/include/uapi/asm/signal.h
-> +++ b/arch/ia64/include/uapi/asm/signal.h
-> @@ -45,6 +45,7 @@
->  #define SIGLOST		29
->  */
->  #define SIGPWR		30
-> +#define SIGINFO		SIGPWR
->  #define SIGSYS		31
->  /* signal 31 is no longer "unused", but the SIGUNUSED macro remains for backwards compatibility */
->  #define	SIGUNUSED	31
-> diff --git a/arch/m68k/include/uapi/asm/signal.h b/arch/m68k/include/uapi/asm/signal.h
-> index 915cc755a184..a0b4e4108cb8 100644
-> --- a/arch/m68k/include/uapi/asm/signal.h
-> +++ b/arch/m68k/include/uapi/asm/signal.h
-> @@ -50,6 +50,7 @@ typedef unsigned long sigset_t;
->  #define SIGLOST		29
->  */
->  #define SIGPWR		30
-> +#define SIGINFO		SIGPWR
->  #define SIGSYS		31
->  #define	SIGUNUSED	31
->  
-> diff --git a/arch/mips/include/uapi/asm/signal.h b/arch/mips/include/uapi/asm/signal.h
-> index 53104b10aae2..975a6f0d3b0b 100644
-> --- a/arch/mips/include/uapi/asm/signal.h
-> +++ b/arch/mips/include/uapi/asm/signal.h
-> @@ -43,6 +43,7 @@ typedef unsigned long old_sigset_t;		/* at least 32 bits */
->  #define SIGCHLD		18	/* Child status has changed (POSIX).  */
->  #define SIGCLD		SIGCHLD /* Same as SIGCHLD (System V).	*/
->  #define SIGPWR		19	/* Power failure restart (System V).  */
-> +#define SIGINFO		SIGPWR	/* Keyboard status request (4.2 BSD). */
->  #define SIGWINCH	20	/* Window size change (4.3 BSD, Sun).  */
->  #define SIGURG		21	/* Urgent condition on socket (4.2 BSD).  */
->  #define SIGIO		22	/* I/O now possible (4.2 BSD).	*/
-> diff --git a/arch/parisc/include/uapi/asm/signal.h b/arch/parisc/include/uapi/asm/signal.h
-> index d38563a394f2..fe2e00d590ac 100644
-> --- a/arch/parisc/include/uapi/asm/signal.h
-> +++ b/arch/parisc/include/uapi/asm/signal.h
-> @@ -22,6 +22,7 @@
->  #define SIGUSR2		17
->  #define SIGCHLD		18
->  #define SIGPWR		19
-> +#define SIGINFO		SIGPWR
->  #define SIGVTALRM	20
->  #define SIGPROF		21
->  #define SIGIO		22
-> diff --git a/arch/powerpc/include/uapi/asm/signal.h b/arch/powerpc/include/uapi/asm/signal.h
-> index 85b0a7aa43e7..e7f3885905b4 100644
-> --- a/arch/powerpc/include/uapi/asm/signal.h
-> +++ b/arch/powerpc/include/uapi/asm/signal.h
-> @@ -53,6 +53,7 @@ typedef struct {
->  #define SIGLOST		29
->  */
->  #define SIGPWR		30
-> +#define SIGINFO		SIGPWR
->  #define SIGSYS		31
->  #define	SIGUNUSED	31
->  
-> diff --git a/arch/s390/include/uapi/asm/signal.h b/arch/s390/include/uapi/asm/signal.h
-> index 9a14a611ed82..12ee62987971 100644
-> --- a/arch/s390/include/uapi/asm/signal.h
-> +++ b/arch/s390/include/uapi/asm/signal.h
-> @@ -58,6 +58,7 @@ typedef unsigned long sigset_t;
->  #define SIGLOST         29
->  */
->  #define SIGPWR          30
-> +#define SIGINFO         SIGPWR
->  #define SIGSYS		31
->  #define SIGUNUSED       31
->  
-> diff --git a/arch/sparc/include/uapi/asm/signal.h b/arch/sparc/include/uapi/asm/signal.h
-> index ff9505923b9a..b655163198bb 100644
-> --- a/arch/sparc/include/uapi/asm/signal.h
-> +++ b/arch/sparc/include/uapi/asm/signal.h
-> @@ -71,6 +71,8 @@
->  #define SIGWINCH	28
->  #define SIGLOST		29
->  #define SIGPWR		SIGLOST
-> +/* XXX: is it OK for SIGINFO to collide with LOST? */
-> +#define SIGINFO		SIGPWR
->  #define SIGUSR1		30
->  #define SIGUSR2		31
->  
-> diff --git a/arch/x86/include/uapi/asm/signal.h b/arch/x86/include/uapi/asm/signal.h
-> index e5745d593dc7..1539bb28826c 100644
-> --- a/arch/x86/include/uapi/asm/signal.h
-> +++ b/arch/x86/include/uapi/asm/signal.h
-> @@ -55,6 +55,7 @@ typedef unsigned long sigset_t;
->  #define SIGLOST		29
->  */
->  #define SIGPWR		30
-> +#define SIGINFO		SIGPWR
->  #define SIGSYS		31
->  #define	SIGUNUSED	31
->  
-> diff --git a/arch/xtensa/include/uapi/asm/signal.h b/arch/xtensa/include/uapi/asm/signal.h
-> index 005dec5bfde4..d644234305de 100644
-> --- a/arch/xtensa/include/uapi/asm/signal.h
-> +++ b/arch/xtensa/include/uapi/asm/signal.h
-> @@ -65,6 +65,7 @@ typedef struct {
->  #define SIGPOLL		SIGIO
->  /* #define SIGLOST		29 */
->  #define SIGPWR		30
-> +#define SIGINFO		SIGPWR
->  #define SIGSYS		31
->  #define	SIGUNUSED	31
->  
-> diff --git a/include/uapi/asm-generic/signal.h b/include/uapi/asm-generic/signal.h
-> index 5c716a952cbe..9f9a1db0d43c 100644
-> --- a/include/uapi/asm-generic/signal.h
-> +++ b/include/uapi/asm-generic/signal.h
-> @@ -43,6 +43,7 @@
->  #define SIGLOST		29
->  */
->  #define SIGPWR		30
-> +#define SIGINFO		SIGPWR
->  #define SIGSYS		31
->  #define	SIGUNUSED	31
+>=20
+> Also should this be a realtime signal with signal information
+> or a non-realtime signal?
+
+I see no requirement for this to be a realtime signal.
+
+Non-realtime signals like PWR or INT also have at least some signal
+information which can be accessed with handlers installed with
+sigaction(2). [1] has a small example.
+The most obvious piece of info is that signals sent by n_tty
+(si_code=3D=3DSI_KERNEL) are easy to distinguish from signals sent by
+processes (si_code=3D=3DSI_USER)
+
+>=20
+> I don't expect there is much to encode except that the user is asking
+> for information.  I half wonder if it could be done as a different
+> si_code to SIGWINCH.  But of course that doesn't work because it is
+> not a real time signal so does not queue more than one siginfo. (Sigh).
+>=20
+
+Signals are just a huge mess (not that this is news...)  :)
+
+> I just would like to see that we have a clear concept of how this new
+> signal plays into all of the signal handling bits.
+>=20
+> Added linux-api because this is fundamentally extending the linux-api,
+> and we probably want man-page updates etc.
+>=20
+> Eric
+>=20
+
+[1]https://github.com/porrided/tty-kb-status-userspace/blob/d32028056c85b27=
+9cf8d5f43478b5419d090637c/siginfo-test/siginfo.c
+
+--C7zPtVaVf+AK4Oqc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE56JD3UKTLEu/ddrm9dQjyAYL01AFAl0ALUkACgkQ9dQjyAYL
+01BW0hAAp16BV3hKnjc+iWwm3CkoMTcMZPMDaDJZmsfyjUIS1qqNiJ3NfKr/2LGv
+C9A7sX3VKE0GXijjJvxxnyfVhKsamQ4m0vaJawhYPKcWj9BGVqZoAilEo5Lf4eV8
+Mw2unvgdr0YW4aReAb83ocCYD1ZjqFy3VGz9uVZHx9tOCTGXiVT/gijiHuT9PV4G
+iaO/SZW+CT1aZ6L0m7XDR78vPFuBLMrJmrBri5yd4LmvGS/A3ldsQA3QEY4v1Shc
+usk7AV90llIuKCQCNDj3OLD8odeESSqefCdtAE39Zuaau9N/BqLsXe5h6qp37ZkB
+vYsYkR1Bw9Pat5itTzuCNGnPtO4pSiPmnesQkKL2P5bxtUOl11BJCKCFei20O7yE
+cQI91lPpcDZrBMWvxtDPUzemqhQxzPoUvI3XbVK8gogFmFsVrTeFc5IlCUf0j3Jr
+JkTYbxWbtYf/MK+Pju2jxj5zcmlgVA8CFaF2sYB9BBHNGAnjZPdxJ1NmarHKc4f+
+Z1EFGJasACMR1P3TVXV9sjqmBMUzlrgxPGvCqnc+7icXbKMaDc2Lm7cUJfGapGi1
+zagyCvwkqJrPydKUgy753Cr8druVfT9jMfnCl/FoPhTpeXjTpbCawh0HAFjMK2JH
+aEoNg2C6FwF6IzCMX2D6UGc2RNk9iMJTzvWsOxpvJ6W0L8VAMXk=
+=73jc
+-----END PGP SIGNATURE-----
+
+--C7zPtVaVf+AK4Oqc--
