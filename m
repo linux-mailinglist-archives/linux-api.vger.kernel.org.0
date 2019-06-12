@@ -2,52 +2,52 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 605ED4300D
-	for <lists+linux-api@lfdr.de>; Wed, 12 Jun 2019 21:28:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2687843003
+	for <lists+linux-api@lfdr.de>; Wed, 12 Jun 2019 21:27:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728447AbfFLT2J (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 12 Jun 2019 15:28:09 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:46374 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728796AbfFLT0y (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Jun 2019 15:26:54 -0400
-Received: by mail-wr1-f66.google.com with SMTP id n4so18091352wrw.13
-        for <linux-api@vger.kernel.org>; Wed, 12 Jun 2019 12:26:52 -0700 (PDT)
+        id S1728910AbfFLT05 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 12 Jun 2019 15:26:57 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:50568 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728818AbfFLT04 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Jun 2019 15:26:56 -0400
+Received: by mail-wm1-f66.google.com with SMTP id c66so7715047wmf.0
+        for <linux-api@vger.kernel.org>; Wed, 12 Jun 2019 12:26:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=arista.com; s=googlenew;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=FC3oeW86TpoUhU2u+XmSM3ET8u46Qh/OH954yneG6/w=;
-        b=N9xvVDlb5zlpNNgnCRHpPRe5qEmjICcbTocDNAph0T09EjCkkfC+FWUyYK8FdzSW5/
-         OBhgu4q2TAU26iuGISdlpUt0V21+bKSXEmBStwGXoGPNFBo2WWUAXPQVyYFRzbz/9DZk
-         +qY1ot+CqEQorvwAXKZXZOKGi72hEF7x+TH2PGha0RZVhO8rVkODZRraW24NLZwGQ5cR
-         ke3J0Vc0dS2C/01HgN3Wv98ReX1uNM0Y3roK/zu+Y+3foriFoNl6UEgpbNO5W+gvyDPH
-         oA6Qpy5BT3mKUutoOIYmuIfKEXhtdM6wnvl6i3i33LYFcHL4bEuc5K13pPprsBc4U6R0
-         u/jg==
+        bh=XRp885uMdJAuEcfk6wtJl9pFzB2CTFcS76XeafSjAG0=;
+        b=cgBypDFhuJcDvgJ3WfCUXJ4p2srOcYCtmlL+6uFeUK8ndgTjI2oa5/w6wWKXdkIxS3
+         ehBJMYJjnYTTy1ak8qVT9aN+e6G8M7e1GF0L8qlWat67vX7x4rMP19sRgiyr3xsrl1wG
+         iE0VeIIL+dwcFHU0fLTqhkN9DCqLsr6lokjrBR1ZVFEzrgDYC7yiRByQBQfAgDWoca98
+         /KRZHLS2c2L/GEY2w57c9fI2XkElkHAzacYDLSZKCB8kbU2DAu3YfU0/ZEo3ce2DrA6G
+         qhX9TnPEG1pZqxCl3AxaUWJYQZ4PVneftyyaqFa5qWEzh+TpKdaSLUmnAozjRxDBlVCR
+         GqhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=FC3oeW86TpoUhU2u+XmSM3ET8u46Qh/OH954yneG6/w=;
-        b=hGtHL0h3+USOlDpJT7p3hv7pU8tb/pmV6uCzZLvb5WHoGuGNZ+9YSdXL5GBCouZdIk
-         txhZJtbc+5i0gBhV3QwemyPWR13W+RlZVd7qMRrhKUxOSILv02q5sxfE+5/mBvFsg/+6
-         FrSsbv+rcGebTh3GlWPX7pAOi1EK31l5QY1F44fQzbNZw75dyt+pJLlqJ5F+w7dtF+zk
-         NnaTVWAHQniPp9+PtyFQkrpk+9Ej0RMTLSYvUyFCrPD1Nv10BIOFomgb3Aaxb8A3ycVU
-         8//NW2QTZIBRshDDnLSZd5v/JM8QNUK2mAivK2gUqUqOc3kWDYt0YPbgTJ/0MQlMnhV+
-         BTWQ==
-X-Gm-Message-State: APjAAAWgUVl0CFOGZjSi4HdxKH5HxFLsiG3O2hH/CVrlSmIIWFHQnMqG
-        zpkQrkLuCZjkQXFfCFcr/PNYTg==
-X-Google-Smtp-Source: APXvYqxiGsluolQMy5fKcAC5qndDyYqfkbZOGX7+Gpqn37PWdstABJ3BBwWbxIopYZxjBdfkYMv6og==
-X-Received: by 2002:a5d:4a0b:: with SMTP id m11mr8961147wrq.251.1560367611639;
-        Wed, 12 Jun 2019 12:26:51 -0700 (PDT)
+        bh=XRp885uMdJAuEcfk6wtJl9pFzB2CTFcS76XeafSjAG0=;
+        b=AGeejoU1YfCbIcmy9vx8j9YubZD/AbstaCoC81Nhz8Wgdj44pkH6jfl0CNROIrMh1Y
+         jMZo1hJVBOJMf+ivnlbRji9ipp0aTFCuv2uHun/2GzcqkUykNWKAmaGtNI8c2DKTFse6
+         NCoEfkiawBjhw7eBRusdkCYHqfeDnmFXGh/vUiNEihU4WP8DXN2sK+SsMAbsKfDXtHmT
+         lNNqoAGNItsNphr5TabXkl1dEyZRUe6m6QiTp4HoHw4jzJaAYGdLFKgux5xLR6gvTmHP
+         NlQNYYpwtsEIAteU6dBP8MrUYlqRLnKoovkIkyMOuUQD+ec3WPz7+FXg6bCAAeZb8SfL
+         KGXA==
+X-Gm-Message-State: APjAAAXzrVdg2kqwwuKVMVYWKQnfAFme4p+4/m3u8O0Pf3VVEixlbB9p
+        GebqoTeWh/JHLNhK6MvZpqrMkQ==
+X-Google-Smtp-Source: APXvYqzUGCVDmc5eqnvclrAqsBL7OQbG1i0dwhsUMkIaidCFpYFdjiRURuI7F+Ni1zwbOyaMDND/Sw==
+X-Received: by 2002:a1c:1b81:: with SMTP id b123mr521266wmb.144.1560367612994;
+        Wed, 12 Jun 2019 12:26:52 -0700 (PDT)
 Received: from Mindolluin.ire.aristanetworks.com ([217.173.96.166])
-        by smtp.gmail.com with ESMTPSA id r5sm612526wrg.10.2019.06.12.12.26.50
+        by smtp.gmail.com with ESMTPSA id r5sm612526wrg.10.2019.06.12.12.26.51
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 12 Jun 2019 12:26:50 -0700 (PDT)
+        Wed, 12 Jun 2019 12:26:52 -0700 (PDT)
 From:   Dmitry Safonov <dima@arista.com>
 To:     linux-kernel@vger.kernel.org
-Cc:     Andrei Vagin <avagin@openvz.org>, Dmitry Safonov <dima@arista.com>,
-        Adrian Reber <adrian@lisas.de>,
+Cc:     Dmitry Safonov <dima@arista.com>, Adrian Reber <adrian@lisas.de>,
+        Andrei Vagin <avagin@openvz.org>,
         Andy Lutomirski <luto@kernel.org>,
         Arnd Bergmann <arnd@arndb.de>,
         Christian Brauner <christian.brauner@ubuntu.com>,
@@ -62,11 +62,10 @@ Cc:     Andrei Vagin <avagin@openvz.org>, Dmitry Safonov <dima@arista.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Vincenzo Frascino <vincenzo.frascino@arm.com>,
         containers@lists.linux-foundation.org, criu@openvz.org,
-        linux-api@vger.kernel.org, x86@kernel.org,
-        Andrei Vagin <avagin@gmail.com>
-Subject: [PATCHv4 15/28] x86/vdso: Add offsets page in vvar
-Date:   Wed, 12 Jun 2019 20:26:14 +0100
-Message-Id: <20190612192628.23797-16-dima@arista.com>
+        linux-api@vger.kernel.org, x86@kernel.org
+Subject: [PATCHv4 16/28] x86/vdso: Allocate timens vdso
+Date:   Wed, 12 Jun 2019 20:26:15 +0100
+Message-Id: <20190612192628.23797-17-dima@arista.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190612192628.23797-1-dima@arista.com>
 References: <20190612192628.23797-1-dima@arista.com>
@@ -77,274 +76,230 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Andrei Vagin <avagin@openvz.org>
+As it has been discussed on timens RFC, adding a new conditional branch
+`if (inside_time_ns)` on VDSO for all processes is undesirable.
+It will add a penalty for everybody as branch predictor may mispredict
+the jump. Also there are instruction cache lines wasted on cmp/jmp.
 
-As modern applications fetch time from VDSO without entering the kernel,
-it's needed to provide offsets for userspace code inside time namespace.
+Those effects of introducing time namespace are very much unwanted
+having in mind how much work have been spent on micro-optimisation
+vdso code.
 
-A page for timens offsets is allocated on time namespace construction.
-Put that page into VVAR for tasks inside timens and zero page for
-host processes.
+The propose is to allocate a second vdso code with dynamically
+patched out (disabled by static_branch) timens code on boot time.
 
-As VDSO code is already optimized as much as possible in terms of speed,
-any new if-condition in VDSO code is undesirable; the goal is to provide
-two .so(s), as was originally suggested by Andy and Thomas:
-- for host tasks with optimized-out clk_to_ns() without any penalty
-- for processes inside timens with clk_to_ns()
-For this purpose, define clk_to_ns() under CONFIG_TIME_NS.
+Allocate another vdso and copy original code.
 
-To eliminate any performance regression, clk_to_ns() will be called
-under static_branch with follow-up patches, that adds support for
-patching vdso.
-
-VDSO mappings are platform-specific, add Kconfig dependency for arch.
-
-Signed-off-by: Andrei Vagin <avagin@gmail.com>
-Co-developed-by: Dmitry Safonov <dima@arista.com>
+Co-developed-by: Andrei Vagin <avagin@openvz.org>
+Signed-off-by: Andrei Vagin <avagin@openvz.org>
 Signed-off-by: Dmitry Safonov <dima@arista.com>
 ---
- arch/Kconfig                          |  5 ++++
- arch/x86/Kconfig                      |  1 +
- arch/x86/entry/vdso/vclock_gettime.c  | 43 +++++++++++++++++++++++++++
- arch/x86/entry/vdso/vdso-layout.lds.S |  9 +++++-
- arch/x86/entry/vdso/vdso2c.c          |  3 ++
- arch/x86/entry/vdso/vma.c             | 12 ++++++++
- arch/x86/include/asm/vdso.h           |  1 +
- init/Kconfig                          |  1 +
- 8 files changed, 74 insertions(+), 1 deletion(-)
+ arch/x86/entry/vdso/vdso2c.h |   2 +-
+ arch/x86/entry/vdso/vma.c    | 113 +++++++++++++++++++++++++++++++++--
+ arch/x86/include/asm/vdso.h  |   9 +--
+ 3 files changed, 114 insertions(+), 10 deletions(-)
 
-diff --git a/arch/Kconfig b/arch/Kconfig
-index c47b328eada0..503a4113dc6c 100644
---- a/arch/Kconfig
-+++ b/arch/Kconfig
-@@ -734,6 +734,11 @@ config HAVE_ARCH_NVRAM_OPS
- config ISA_BUS_API
- 	def_bool ISA
+diff --git a/arch/x86/entry/vdso/vdso2c.h b/arch/x86/entry/vdso/vdso2c.h
+index 7556bb70ed8b..885b988aea19 100644
+--- a/arch/x86/entry/vdso/vdso2c.h
++++ b/arch/x86/entry/vdso/vdso2c.h
+@@ -157,7 +157,7 @@ static void BITSFUNC(go)(void *raw_addr, size_t raw_len,
+ 	}
+ 	fprintf(outfile, "\n};\n\n");
  
-+config ARCH_HAS_VDSO_TIME_NS
-+	bool
-+	help
-+	 VDSO can add time-ns offsets without entering kernel.
-+
- #
- # ABI hall of shame
- #
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 2bbbd4d1ba31..da70b320eb09 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -79,6 +79,7 @@ config X86
- 	select ARCH_HAS_STRICT_MODULE_RWX
- 	select ARCH_HAS_SYNC_CORE_BEFORE_USERMODE
- 	select ARCH_HAS_UBSAN_SANITIZE_ALL
-+	select ARCH_HAS_VDSO_TIME_NS
- 	select ARCH_HAS_ZONE_DEVICE		if X86_64
- 	select ARCH_HAVE_NMI_SAFE_CMPXCHG
- 	select ARCH_MIGHT_HAVE_ACPI_PDC		if ACPI
-diff --git a/arch/x86/entry/vdso/vclock_gettime.c b/arch/x86/entry/vdso/vclock_gettime.c
-index 0f82a70c7682..e2d93628c0dd 100644
---- a/arch/x86/entry/vdso/vclock_gettime.c
-+++ b/arch/x86/entry/vdso/vclock_gettime.c
-@@ -21,6 +21,7 @@
- #include <linux/math64.h>
- #include <linux/time.h>
- #include <linux/kernel.h>
-+#include <linux/timens_offsets.h>
- 
- #define gtod (&VVAR(vsyscall_gtod_data))
- 
-@@ -38,6 +39,11 @@ extern u8 hvclock_page[PAGE_SIZE]
- 	__attribute__((visibility("hidden")));
- #endif
- 
-+#ifdef CONFIG_TIME_NS
-+extern u8 timens_page
-+	__attribute__((visibility("hidden")));
-+#endif
-+
- #ifndef BUILD_VDSO32
- 
- notrace static long vdso_fallback_gettime(long clock, struct timespec *ts)
-@@ -139,6 +145,39 @@ notrace static inline u64 vgetcyc(int mode)
- 	return U64_MAX;
- }
- 
-+#ifdef CONFIG_TIME_NS
-+notrace static __always_inline void clk_to_ns(clockid_t clk, struct timespec *ts)
-+{
-+	struct timens_offsets *timens = (struct timens_offsets *) &timens_page;
-+	struct timespec64 *offset64;
-+
-+	switch (clk) {
-+	case CLOCK_MONOTONIC:
-+	case CLOCK_MONOTONIC_COARSE:
-+	case CLOCK_MONOTONIC_RAW:
-+		offset64 = &timens->monotonic;
-+		break;
-+	case CLOCK_BOOTTIME:
-+		offset64 = &timens->boottime;
-+	default:
-+		return;
-+	}
-+
-+	ts->tv_nsec += offset64->tv_nsec;
-+	ts->tv_sec += offset64->tv_sec;
-+	if (ts->tv_nsec >= NSEC_PER_SEC) {
-+		ts->tv_nsec -= NSEC_PER_SEC;
-+		ts->tv_sec++;
-+	}
-+	if (ts->tv_nsec < 0) {
-+		ts->tv_nsec += NSEC_PER_SEC;
-+		ts->tv_sec--;
-+	}
-+}
-+#else
-+notrace static __always_inline void clk_to_ns(clockid_t clk, struct timespec *ts) {}
-+#endif
-+
- notrace static int do_hres(clockid_t clk, struct timespec *ts)
- {
- 	struct vgtod_ts *base = &gtod->basetime[clk];
-@@ -165,6 +204,8 @@ notrace static int do_hres(clockid_t clk, struct timespec *ts)
- 	ts->tv_sec = sec + __iter_div_u64_rem(ns, NSEC_PER_SEC, &ns);
- 	ts->tv_nsec = ns;
- 
-+	clk_to_ns(clk, ts);
-+
- 	return 0;
- }
- 
-@@ -178,6 +219,8 @@ notrace static void do_coarse(clockid_t clk, struct timespec *ts)
- 		ts->tv_sec = base->sec;
- 		ts->tv_nsec = base->nsec;
- 	} while (unlikely(gtod_read_retry(gtod, seq)));
-+
-+	clk_to_ns(clk, ts);
- }
- 
- notrace int __vdso_clock_gettime(clockid_t clock, struct timespec *ts)
-diff --git a/arch/x86/entry/vdso/vdso-layout.lds.S b/arch/x86/entry/vdso/vdso-layout.lds.S
-index 93c6dc7812d0..ba216527e59f 100644
---- a/arch/x86/entry/vdso/vdso-layout.lds.S
-+++ b/arch/x86/entry/vdso/vdso-layout.lds.S
-@@ -7,6 +7,12 @@
-  * This script controls its layout.
-  */
- 
-+#ifdef CONFIG_TIME_NS
-+# define TIMENS_SZ	PAGE_SIZE
-+#else
-+# define TIMENS_SZ	0
-+#endif
-+
- SECTIONS
- {
- 	/*
-@@ -16,7 +22,7 @@ SECTIONS
- 	 * segment.
- 	 */
- 
--	vvar_start = . - 3 * PAGE_SIZE;
-+	vvar_start = . - (3 * PAGE_SIZE + TIMENS_SZ);
- 	vvar_page = vvar_start;
- 
- 	/* Place all vvars at the offsets in asm/vvar.h. */
-@@ -28,6 +34,7 @@ SECTIONS
- 
- 	pvclock_page = vvar_start + PAGE_SIZE;
- 	hvclock_page = vvar_start + 2 * PAGE_SIZE;
-+	timens_page = vvar_start + 3 * PAGE_SIZE;
- 
- 	. = SIZEOF_HEADERS;
- 
-diff --git a/arch/x86/entry/vdso/vdso2c.c b/arch/x86/entry/vdso/vdso2c.c
-index ce67370d14e5..7380908045c7 100644
---- a/arch/x86/entry/vdso/vdso2c.c
-+++ b/arch/x86/entry/vdso/vdso2c.c
-@@ -75,12 +75,14 @@ enum {
- 	sym_vvar_page,
- 	sym_pvclock_page,
- 	sym_hvclock_page,
-+	sym_timens_page,
- };
- 
- const int special_pages[] = {
- 	sym_vvar_page,
- 	sym_pvclock_page,
- 	sym_hvclock_page,
-+	sym_timens_page,
- };
- 
- struct vdso_sym {
-@@ -93,6 +95,7 @@ struct vdso_sym required_syms[] = {
- 	[sym_vvar_page] = {"vvar_page", true},
- 	[sym_pvclock_page] = {"pvclock_page", true},
- 	[sym_hvclock_page] = {"hvclock_page", true},
-+	[sym_timens_page] = {"timens_page", true},
- 	{"VDSO32_NOTE_MASK", true},
- 	{"__kernel_vsyscall", true},
- 	{"__kernel_sigreturn", true},
+-	fprintf(outfile, "const struct vdso_image %s = {\n", image_name);
++	fprintf(outfile, "struct vdso_image %s __ro_after_init = {\n", image_name);
+ 	fprintf(outfile, "\t.text = raw_data,\n");
+ 	fprintf(outfile, "\t.size = %lu,\n", mapping_size);
+ 	if (alt_sec) {
 diff --git a/arch/x86/entry/vdso/vma.c b/arch/x86/entry/vdso/vma.c
-index c30a33b2963b..8a7f4cfe1fad 100644
+index 8a7f4cfe1fad..cc06c6b70167 100644
 --- a/arch/x86/entry/vdso/vma.c
 +++ b/arch/x86/entry/vdso/vma.c
-@@ -14,6 +14,7 @@
- #include <linux/elf.h>
- #include <linux/cpu.h>
- #include <linux/ptrace.h>
-+#include <linux/time_namespace.h>
- #include <asm/pvclock.h>
- #include <asm/vgtod.h>
- #include <asm/proto.h>
-@@ -23,6 +24,7 @@
- #include <asm/desc.h>
- #include <asm/cpufeature.h>
- #include <asm/mshyperv.h>
-+#include <asm/page.h>
- 
- #if defined(CONFIG_X86_64)
+@@ -30,26 +30,128 @@
  unsigned int __read_mostly vdso64_enabled = 1;
-@@ -135,6 +137,16 @@ static vm_fault_t vvar_fault(const struct vm_special_mapping *sm,
- 		if (tsc_pg && vclock_was_used(VCLOCK_HVCLOCK))
+ #endif
+ 
+-void __init init_vdso_image(const struct vdso_image *image)
++void __init init_vdso_image(struct vdso_image *image)
+ {
+ 	BUG_ON(image->size % PAGE_SIZE != 0);
+ 
+ 	apply_alternatives((struct alt_instr *)(image->text + image->alt),
+ 			   (struct alt_instr *)(image->text + image->alt +
+ 						image->alt_len));
++#ifdef CONFIG_TIME_NS
++	image->text_timens = vmalloc_32(image->size);
++	if (WARN_ON(image->text_timens == NULL))
++		return;
++
++	memcpy(image->text_timens, image->text, image->size);
++#endif
+ }
+ 
+ struct linux_binprm;
+ 
++#ifdef CONFIG_TIME_NS
++static inline struct timens_offsets *current_timens_offsets(void)
++{
++	return current->nsproxy->time_ns->offsets;
++}
++
++static int vdso_check_timens(struct vm_area_struct *vma, bool *in_timens)
++{
++	struct task_struct *tsk;
++
++	if (likely(vma->vm_mm == current->mm)) {
++		*in_timens = !!current_timens_offsets();
++		return 0;
++	}
++
++	/*
++	 * .fault() handler can be called over remote process through
++	 * interfaces like /proc/$pid/mem or process_vm_{readv,writev}()
++	 * Considering such access to vdso as a slow-path.
++	 */
++
++#ifdef CONFIG_MEMCG
++	rcu_read_lock();
++
++	tsk = rcu_dereference(vma->vm_mm->owner);
++	if (tsk) {
++		task_lock(tsk);
++		/*
++		 * Shouldn't happen: nsproxy is unset in exit_mm().
++		 * Before that exit_mm() holds mmap_sem to set (mm = NULL).
++		 * It's impossible to have a fault in task without mm
++		 * and mmap_sem is taken during the fault.
++		 */
++		if (WARN_ON_ONCE(tsk->nsproxy == NULL)) {
++			task_unlock(tsk);
++			rcu_read_unlock();
++			return -EIO;
++		}
++		*in_timens = !!tsk->nsproxy->time_ns->offsets;
++		task_unlock(tsk);
++		rcu_read_unlock();
++		return 0;
++	}
++	rcu_read_unlock();
++#endif
++
++	read_lock(&tasklist_lock);
++	for_each_process(tsk) {
++		struct task_struct *c;
++
++		if (tsk->flags & PF_KTHREAD)
++			continue;
++		for_each_thread(tsk, c) {
++			if (c->mm == vma->vm_mm)
++				goto found;
++			if (c->mm)
++				break;
++		}
++	}
++	read_unlock(&tasklist_lock);
++	return -ESRCH;
++
++found:
++	task_lock(tsk);
++	read_unlock(&tasklist_lock);
++	*in_timens = !!tsk->nsproxy->time_ns->offsets;
++	task_unlock(tsk);
++
++	return 0;
++}
++#else /* CONFIG_TIME_NS */
++static inline int vdso_check_timens(struct vm_area_struct *vma, bool *in_timens)
++{
++	*in_timens = false;
++	return 0;
++}
++static inline struct timens_offsets *current_timens_offsets(void)
++{
++	return NULL;
++}
++#endif /* CONFIG_TIME_NS */
++
+ static vm_fault_t vdso_fault(const struct vm_special_mapping *sm,
+ 		      struct vm_area_struct *vma, struct vm_fault *vmf)
+ {
+ 	const struct vdso_image *image = vma->vm_mm->context.vdso_image;
++	unsigned long offset = vmf->pgoff << PAGE_SHIFT;
++	bool in_timens;
++	int err;
+ 
+ 	if (!image || (vmf->pgoff << PAGE_SHIFT) >= image->size)
+ 		return VM_FAULT_SIGBUS;
+ 
+-	vmf->page = virt_to_page(image->text + (vmf->pgoff << PAGE_SHIFT));
++	err = vdso_check_timens(vma, &in_timens);
++	if (err)
++		return VM_FAULT_SIGBUS;
++
++	WARN_ON_ONCE(in_timens && !image->text_timens);
++
++	if (in_timens && image->text_timens)
++		vmf->page = vmalloc_to_page(image->text_timens + offset);
++	else
++		vmf->page = virt_to_page(image->text + offset);
++
+ 	get_page(vmf->page);
+ 	return 0;
+ }
+@@ -138,13 +240,14 @@ static vm_fault_t vvar_fault(const struct vm_special_mapping *sm,
  			return vmf_insert_pfn(vma, vmf->address,
  					vmalloc_to_pfn(tsc_pg));
-+	} else if (sym_offset == image->sym_timens_page) {
-+		struct time_namespace *ns = current->nsproxy->time_ns;
-+		unsigned long pfn;
-+
-+		if (!ns->offsets)
-+			pfn = page_to_pfn(ZERO_PAGE(0));
-+		else
-+			pfn = page_to_pfn(virt_to_page(ns->offsets));
-+
-+		return vmf_insert_pfn(vma, vmf->address, pfn);
- 	}
+ 	} else if (sym_offset == image->sym_timens_page) {
+-		struct time_namespace *ns = current->nsproxy->time_ns;
++		/* We can fault only in current context for VM_PFNMAP mapping */
++		struct timens_offsets *offsets = current_timens_offsets();
+ 		unsigned long pfn;
  
- 	return VM_FAULT_SIGBUS;
+-		if (!ns->offsets)
++		if (!offsets)
+ 			pfn = page_to_pfn(ZERO_PAGE(0));
+ 		else
+-			pfn = page_to_pfn(virt_to_page(ns->offsets));
++			pfn = page_to_pfn(virt_to_page(offsets));
+ 
+ 		return vmf_insert_pfn(vma, vmf->address, pfn);
+ 	}
 diff --git a/arch/x86/include/asm/vdso.h b/arch/x86/include/asm/vdso.h
-index dffdc12cc7d6..9d420c545607 100644
+index 9d420c545607..03f468c63a24 100644
 --- a/arch/x86/include/asm/vdso.h
 +++ b/arch/x86/include/asm/vdso.h
-@@ -21,6 +21,7 @@ struct vdso_image {
- 	long sym_vvar_page;
- 	long sym_pvclock_page;
- 	long sym_hvclock_page;
-+	long sym_timens_page;
- 	long sym_VDSO32_NOTE_MASK;
- 	long sym___kernel_sigreturn;
- 	long sym___kernel_rt_sigreturn;
-diff --git a/init/Kconfig b/init/Kconfig
-index 098fe185360c..3d9497241394 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -993,6 +993,7 @@ config UTS_NS
+@@ -12,6 +12,7 @@
  
- config TIME_NS
- 	bool "TIME namespace"
-+	depends on ARCH_HAS_VDSO_TIME_NS
- 	default y
- 	help
- 	  In this namespace boottime and monotonic clocks can be set.
+ struct vdso_image {
+ 	void *text;
++	void *text_timens;
+ 	unsigned long size;   /* Always a multiple of PAGE_SIZE */
+ 
+ 	unsigned long alt, alt_len;
+@@ -30,18 +31,18 @@ struct vdso_image {
+ };
+ 
+ #ifdef CONFIG_X86_64
+-extern const struct vdso_image vdso_image_64;
++extern struct vdso_image vdso_image_64;
+ #endif
+ 
+ #ifdef CONFIG_X86_X32
+-extern const struct vdso_image vdso_image_x32;
++extern struct vdso_image vdso_image_x32;
+ #endif
+ 
+ #if defined CONFIG_X86_32 || defined CONFIG_COMPAT
+-extern const struct vdso_image vdso_image_32;
++extern struct vdso_image vdso_image_32;
+ #endif
+ 
+-extern void __init init_vdso_image(const struct vdso_image *image);
++extern void __init init_vdso_image(struct vdso_image *image);
+ 
+ extern int map_vdso_once(const struct vdso_image *image, unsigned long addr);
+ 
 -- 
 2.22.0
 
