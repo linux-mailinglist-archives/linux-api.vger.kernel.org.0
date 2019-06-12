@@ -2,111 +2,113 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DB6E1420E5
-	for <lists+linux-api@lfdr.de>; Wed, 12 Jun 2019 11:33:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FF1642330
+	for <lists+linux-api@lfdr.de>; Wed, 12 Jun 2019 13:00:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408703AbfFLJcp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 12 Jun 2019 05:32:45 -0400
-Received: from foss.arm.com ([217.140.110.172]:48554 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2408577AbfFLJcp (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 12 Jun 2019 05:32:45 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 871CE337;
-        Wed, 12 Jun 2019 02:32:44 -0700 (PDT)
-Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EEAC83F246;
-        Wed, 12 Jun 2019 02:32:40 -0700 (PDT)
-Date:   Wed, 12 Jun 2019 10:32:38 +0100
-From:   Dave Martin <Dave.Martin@arm.com>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     Florian Weimer <fweimer@redhat.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Subject: Re: [PATCH v7 22/27] binfmt_elf: Extract .note.gnu.property from an
- ELF file
-Message-ID: <20190612093238.GQ28398@e103592.cambridge.arm.com>
-References: <20190606200646.3951-1-yu-cheng.yu@intel.com>
- <20190606200646.3951-23-yu-cheng.yu@intel.com>
- <20190607180115.GJ28398@e103592.cambridge.arm.com>
- <94b9c55b3b874825fda485af40ab2a6bc3dad171.camel@intel.com>
- <87lfy9cq04.fsf@oldenburg2.str.redhat.com>
- <20190611114109.GN28398@e103592.cambridge.arm.com>
- <031bc55d8dcdcf4f031e6ff27c33fd52c61d33a5.camel@intel.com>
+        id S1732330AbfFLK7s (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 12 Jun 2019 06:59:48 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:39803 "EHLO
+        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727993AbfFLK7s (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Jun 2019 06:59:48 -0400
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+        id F2751802E0; Wed, 12 Jun 2019 12:59:35 +0200 (CEST)
+Date:   Wed, 12 Jun 2019 12:59:45 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Minchan Kim <minchan@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-mm <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-api@vger.kernel.org,
+        Michal Hocko <mhocko@suse.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Tim Murray <timmurray@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Daniel Colascione <dancol@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Brian Geffon <bgeffon@google.com>, jannh@google.com,
+        oleg@redhat.com, christian@brauner.io, oleksandr@redhat.com,
+        hdanton@sina.com, lizeb@google.com
+Subject: Re: [PATCH v2 0/5] Introduce MADV_COLD and MADV_PAGEOUT
+Message-ID: <20190612105945.GA16442@amd>
+References: <20190610111252.239156-1-minchan@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="zYM0uCDKw75PZbzx"
 Content-Disposition: inline
-In-Reply-To: <031bc55d8dcdcf4f031e6ff27c33fd52c61d33a5.camel@intel.com>
+In-Reply-To: <20190610111252.239156-1-minchan@kernel.org>
 User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jun 11, 2019 at 12:31:34PM -0700, Yu-cheng Yu wrote:
-> On Tue, 2019-06-11 at 12:41 +0100, Dave Martin wrote:
-> > On Mon, Jun 10, 2019 at 07:24:43PM +0200, Florian Weimer wrote:
-> > > * Yu-cheng Yu:
-> > > 
-> > > > To me, looking at PT_GNU_PROPERTY and not trying to support anything is a
-> > > > logical choice.  And it breaks only a limited set of toolchains.
-> > > > 
-> > > > I will simplify the parser and leave this patch as-is for anyone who wants
-> > > > to
-> > > > back-port.  Are there any objections or concerns?
-> > > 
-> > > Red Hat Enterprise Linux 8 does not use PT_GNU_PROPERTY and is probably
-> > > the largest collection of CET-enabled binaries that exists today.
-> > 
-> > For clarity, RHEL is actively parsing these properties today?
-> > 
-> > > My hope was that we would backport the upstream kernel patches for CET,
-> > > port the glibc dynamic loader to the new kernel interface, and be ready
-> > > to run with CET enabled in principle (except that porting userspace
-> > > libraries such as OpenSSL has not really started upstream, so many
-> > > processes where CET is particularly desirable will still run without
-> > > it).
-> > > 
-> > > I'm not sure if it is a good idea to port the legacy support if it's not
-> > > part of the mainline kernel because it comes awfully close to creating
-> > > our own private ABI.
-> > 
-> > I guess we can aim to factor things so that PT_NOTE scanning is
-> > available as a fallback on arches for which the absence of
-> > PT_GNU_PROPERTY is not authoritative.
-> 
-> We can probably check PT_GNU_PROPERTY first, and fallback (based on ld-linux
-> version?) to PT_NOTE scanning?
 
-For arm64, we can check for PT_GNU_PROPERTY and then give up
-unconditionally.
+--zYM0uCDKw75PZbzx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-For x86, we would fall back to PT_NOTE scanning, but this will add a bit
-of cost to binaries that don't have NT_GNU_PROPERTY_TYPE_0.  The ld.so
-version doesn't tell you what ELF ABI a given executable conforms to.
+Hi!
 
-Since this sounds like it's largely a distro-specific issue, maybe there
-could be a Kconfig option to turn the fallback PT_NOTE scanning on?
+> - Problem
+>=20
+> Naturally, cached apps were dominant consumers of memory on the system.
+> However, they were not significant consumers of swap even though they are
+> good candidate for swap. Under investigation, swapping out only begins
+> once the low zone watermark is hit and kswapd wakes up, but the overall
+> allocation rate in the system might trip lmkd thresholds and cause a cach=
+ed
+> process to be killed(we measured performance swapping out vs. zapping the
+> memory by killing a process. Unsurprisingly, zapping is 10x times faster
+> even though we use zram which is much faster than real storage) so kill
+> from lmkd will often satisfy the high zone watermark, resulting in very
+> few pages actually being moved to swap.
 
-Cheers
----Dave
+Is it still faster to swap-in the application than to restart it?
+
+
+> This approach is similar in spirit to madvise(MADV_WONTNEED), but the
+> information required to make the reclaim decision is not known to the app.
+> Instead, it is known to a centralized userspace daemon, and that daemon
+> must be able to initiate reclaim on its own without any app involvement.
+> To solve the concern, this patch introduces new syscall -
+>=20
+>     struct pr_madvise_param {
+>             int size;               /* the size of this structure */
+>             int cookie;             /* reserved to support atomicity */
+>             int nr_elem;            /* count of below arrary fields */
+>             int __user *hints;      /* hints for each range */
+>             /* to store result of each operation */
+>             const struct iovec __user *results;
+>             /* input address ranges */
+>             const struct iovec __user *ranges;
+>     };
+>    =20
+>     int process_madvise(int pidfd, struct pr_madvise_param *u_param,
+>                             unsigned long flags);
+
+That's quite a complex interface.
+
+Could we simply have feel_free_to_swap_out(int pid) syscall? :-).
+
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--zYM0uCDKw75PZbzx
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAl0A2yEACgkQMOfwapXb+vK7ngCdHTHlKgNthsiwMrKqz+jDGcDZ
+sfAAn1C5KLFMD7cpycS9Ep2CWeYprU8B
+=j4LI
+-----END PGP SIGNATURE-----
+
+--zYM0uCDKw75PZbzx--
