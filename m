@@ -2,48 +2,48 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 47CAF4300F
-	for <lists+linux-api@lfdr.de>; Wed, 12 Jun 2019 21:28:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 022A342FE8
+	for <lists+linux-api@lfdr.de>; Wed, 12 Jun 2019 21:26:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728563AbfFLT0p (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 12 Jun 2019 15:26:45 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:55583 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728024AbfFLT0o (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Jun 2019 15:26:44 -0400
-Received: by mail-wm1-f67.google.com with SMTP id a15so7696595wmj.5
-        for <linux-api@vger.kernel.org>; Wed, 12 Jun 2019 12:26:43 -0700 (PDT)
+        id S1728604AbfFLT0q (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 12 Jun 2019 15:26:46 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:38095 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728527AbfFLT0p (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Jun 2019 15:26:45 -0400
+Received: by mail-wr1-f67.google.com with SMTP id d18so18129606wrs.5
+        for <linux-api@vger.kernel.org>; Wed, 12 Jun 2019 12:26:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=arista.com; s=googlenew;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=6qkjB3IOi28arCXhgllHnytCrvmzEqMgo82CEycz3eU=;
-        b=ktiIxgdaWNMzSkpMdy2bSqkLdK0BWCP+FYYUgBqSc8jSuT4IS2YnUkDdsZGleIFXKn
-         fR/JX1UldYmS0tYY7l2PVS/GwUmuNSkSpGsZ6NB3RJtdmF4bQGMeT17fXR7fEpnjTA0e
-         4AdO3LPk6RpQ3hCcutrk1OYKHNKVH5j1r6kT9Fc6oHYe8Of1JSPBMAaBBX8CazEG0O/v
-         cLDotMQ6rBGI+J/2CIewoBBCPkWH5BqYzQaJwYc3mp/SSGSZkHmTSwrnOhXrkX9L1PhN
-         s2GsejSgP7P+sUGHrVtebHzfoVXqz3AAVSqRinTcgg39f5iDNOtUC94Pn0HC5JW4xgCj
-         bCuQ==
+        bh=aQYuVRWeyp8z2V68VQ+ceXmiIOG++TFaEr2U30kvyLQ=;
+        b=egvntGNUuOx2Kv0rzH4bBjA2d/eNgZbZseUfkKLYstwMkJMliXgTidpfMT3sG3TFJY
+         v4csc575IjFXzArKvq/XEJqw6uqRdD7fP0BuOll2Vkh6jVSkU5yvohJPgAmdjcVXhIym
+         zHJGPac4g2DwQvDWvzHNQ4+Mvxt02WZyYASyyeDIuVazqXyKfS/NYfyLBfeiZVquIWIK
+         f7Q4vfabv7DIXn/IUQzCMUurmQBgwPQrSfev1KWqUI7EYctp/0i+MwsaFTRKdPbBNcM+
+         8rpXXXZv4+L24wcohKOSMjO2ASwkkuaLNXYZMz0InXRqLnaS8vtOHj2BmHAxO2dEcdhI
+         51gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=6qkjB3IOi28arCXhgllHnytCrvmzEqMgo82CEycz3eU=;
-        b=n1eGsVm4I16GlDi5QZEx/6LtuHu18TZTYJelpNTpSsai5JdFELyXOOEybbugGZ9Ubx
-         TI34F8IlbnqBJq6tfYPGBHLf7SOfMKpU4Zd+9i9WPz3NgECYorILtlF9zL1c6IO2v0mg
-         3jAPYQ5uZJDPHAMdNK7ozSJA2ppT18MMXyhDp3JcaB3D1znoQbFfCB6zdeLsnkK6hOaf
-         VGjg/Y0UGRtT3jLln0YJXxXWD1lC7GxCwsxOJatCWLL2Pldnby5EJvvVMk1gmNt1t/7L
-         xjsCrV5pkaKc9GrnpEJB7kAlIO9GJGTmmgZtZhG5/DFZ5sSzq8ODaIOPg2qHWr3RTDXq
-         WS8Q==
-X-Gm-Message-State: APjAAAUT5/bfcUuFryTwBZPPo2QUP4ax1DKhYWsG5pNSjAELCQvPa/dH
-        02o7LYH/FfF83Ko+2zrlzlJMhQ==
-X-Google-Smtp-Source: APXvYqzb/Gj37ht5UhPIiWmr5OpmGFCzdSKaugZfvxBmgJnspXb+uV4sCorLCGUsWogXaswFY1SGwA==
-X-Received: by 2002:a1c:5a56:: with SMTP id o83mr348100wmb.103.1560367602993;
-        Wed, 12 Jun 2019 12:26:42 -0700 (PDT)
+        bh=aQYuVRWeyp8z2V68VQ+ceXmiIOG++TFaEr2U30kvyLQ=;
+        b=BGcIxK6XMSm8w078vbDaem3AT+lDL3ns09M+tm2vSJ6kfLukx2gnhWQKWFXLudKIr0
+         uSxBMX2Dekrp1zX4U+I/8wOrAkrj0wdMxSS4hrhJQnc3SYOCGFIVKpRm0/QwEgG7U5uL
+         Lor3aHdQnyzHQP+dVu+1QmRWd+x41+MWM/j5TeH3eeC0fHaVEIQg+D74XnwdusqNFBjy
+         jGyNZIb+YTHeQpatsAY6XvN+NLoZJzwOHrJKgL8PCf4gOSHiI7KNng+g+kpyNSJXUWT/
+         l7oQWOGfHhYwEeOqiDzmfvA48cNKwIHTbpwqiu7aDUVeVlvxy442A2x91MDcKoeojL3y
+         j8cA==
+X-Gm-Message-State: APjAAAVTl+mtr4JKC0YHZMWPIIMrLyHTuL7nUBKTQKLex+bYUXP3jxNT
+        d/pSo0RFWoflVFgdF+edHSw9kg==
+X-Google-Smtp-Source: APXvYqwSy+SQEmaxnOW73fMqtPP/7n7YbQcuU+lb8geAage2pxdtpBkw4APU7bz5Y21TMFCW2uf69A==
+X-Received: by 2002:adf:c506:: with SMTP id q6mr41597659wrf.219.1560367604455;
+        Wed, 12 Jun 2019 12:26:44 -0700 (PDT)
 Received: from Mindolluin.ire.aristanetworks.com ([217.173.96.166])
-        by smtp.gmail.com with ESMTPSA id r5sm612526wrg.10.2019.06.12.12.26.41
+        by smtp.gmail.com with ESMTPSA id r5sm612526wrg.10.2019.06.12.12.26.43
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 12 Jun 2019 12:26:42 -0700 (PDT)
+        Wed, 12 Jun 2019 12:26:43 -0700 (PDT)
 From:   Dmitry Safonov <dima@arista.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     Dmitry Safonov <dima@arista.com>, Adrian Reber <adrian@lisas.de>,
@@ -63,9 +63,9 @@ Cc:     Dmitry Safonov <dima@arista.com>, Adrian Reber <adrian@lisas.de>,
         Vincenzo Frascino <vincenzo.frascino@arm.com>,
         containers@lists.linux-foundation.org, criu@openvz.org,
         linux-api@vger.kernel.org, x86@kernel.org
-Subject: [PATCHv4 09/28] timens: Shift /proc/uptime
-Date:   Wed, 12 Jun 2019 20:26:08 +0100
-Message-Id: <20190612192628.23797-10-dima@arista.com>
+Subject: [PATCHv4 10/28] x86/vdso2c: Correct err messages on file opening
+Date:   Wed, 12 Jun 2019 20:26:09 +0100
+Message-Id: <20190612192628.23797-11-dima@arista.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190612192628.23797-1-dima@arista.com>
 References: <20190612192628.23797-1-dima@arista.com>
@@ -76,36 +76,41 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Respect boottime inside time namespace for /proc/uptime
+err() message in main() is misleading: it should print `outfilename`,
+which is argv[3], not argv[2].
+
+Correct error messages to be more precise about what failed and for
+which file.
 
 Co-developed-by: Andrei Vagin <avagin@openvz.org>
 Signed-off-by: Andrei Vagin <avagin@openvz.org>
 Signed-off-by: Dmitry Safonov <dima@arista.com>
 ---
- fs/proc/uptime.c | 3 +++
- 1 file changed, 3 insertions(+)
+ arch/x86/entry/vdso/vdso2c.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/fs/proc/uptime.c b/fs/proc/uptime.c
-index a4c2791ab70b..5a1b228964fb 100644
---- a/fs/proc/uptime.c
-+++ b/fs/proc/uptime.c
-@@ -5,6 +5,7 @@
- #include <linux/sched.h>
- #include <linux/seq_file.h>
- #include <linux/time.h>
-+#include <linux/time_namespace.h>
- #include <linux/kernel_stat.h>
+diff --git a/arch/x86/entry/vdso/vdso2c.c b/arch/x86/entry/vdso/vdso2c.c
+index 3a4d8d4d39f8..ce67370d14e5 100644
+--- a/arch/x86/entry/vdso/vdso2c.c
++++ b/arch/x86/entry/vdso/vdso2c.c
+@@ -184,7 +184,7 @@ static void map_input(const char *name, void **addr, size_t *len, int prot)
  
- static int uptime_proc_show(struct seq_file *m, void *v)
-@@ -20,6 +21,8 @@ static int uptime_proc_show(struct seq_file *m, void *v)
- 		nsec += (__force u64) kcpustat_cpu(i).cpustat[CPUTIME_IDLE];
+ 	int fd = open(name, O_RDONLY);
+ 	if (fd == -1)
+-		err(1, "%s", name);
++		err(1, "open(%s)", name);
  
- 	ktime_get_boottime_ts64(&uptime);
-+	timens_add_boottime(&uptime);
-+
- 	idle.tv_sec = div_u64_rem(nsec, NSEC_PER_SEC, &rem);
- 	idle.tv_nsec = rem;
- 	seq_printf(m, "%lu.%02lu %lu.%02lu\n",
+ 	tmp_len = lseek(fd, 0, SEEK_END);
+ 	if (tmp_len == (off_t)-1)
+@@ -237,7 +237,7 @@ int main(int argc, char **argv)
+ 	outfilename = argv[3];
+ 	outfile = fopen(outfilename, "w");
+ 	if (!outfile)
+-		err(1, "%s", argv[2]);
++		err(1, "fopen(%s)", outfilename);
+ 
+ 	go(raw_addr, raw_len, stripped_addr, stripped_len, outfile, name);
+ 
 -- 
 2.22.0
 
