@@ -2,83 +2,80 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BC8E41D15
-	for <lists+linux-api@lfdr.de>; Wed, 12 Jun 2019 08:58:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 282F341FFF
+	for <lists+linux-api@lfdr.de>; Wed, 12 Jun 2019 10:55:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407716AbfFLG6i (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 12 Jun 2019 02:58:38 -0400
-Received: from mga01.intel.com ([192.55.52.88]:45279 "EHLO mga01.intel.com"
+        id S2437422AbfFLIz0 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Wed, 12 Jun 2019 04:55:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60220 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390376AbfFLG6i (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 12 Jun 2019 02:58:38 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Jun 2019 23:58:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,363,1557212400"; 
-   d="scan'208";a="184148897"
-Received: from pipin.fi.intel.com (HELO pipin) ([10.237.72.175])
-  by fmsmga002.fm.intel.com with ESMTP; 11 Jun 2019 23:58:34 -0700
-From:   Felipe Balbi <felipe.balbi@linux.intel.com>
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     Mathias Nyman <mathias.nyman@linux.intel.com>,
+        id S2437421AbfFLIzZ (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 12 Jun 2019 04:55:25 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id A2ADC30832C8;
+        Wed, 12 Jun 2019 08:55:13 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-120-109.rdu2.redhat.com [10.10.120.109])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 714AE46;
+        Wed, 12 Jun 2019 08:55:03 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <cf3f4865-b6d7-7303-0212-960439e0c119@tycho.nsa.gov>
+References: <cf3f4865-b6d7-7303-0212-960439e0c119@tycho.nsa.gov> <155991702981.15579.6007568669839441045.stgit@warthog.procyon.org.uk> <be966d9c-e38d-7a30-8d80-fad5f25ab230@tycho.nsa.gov> <0cf7a49d-85f6-fba9-62ec-a378e0b76adf@schaufler-ca.com> <CALCETrX5O18q2=dUeC=hEtK2=t5KQpGBy9XveHxFw36OqkbNOg@mail.gmail.com> <dac74580-5b48-86e4-8222-cac29a9f541d@schaufler-ca.com> <E0925E1F-E5F2-4457-8704-47B6E64FE3F3@amacapital.net> <4b7d02b2-2434-8a7c-66cc-7dbebc37efbc@schaufler-ca.com> <CALCETrU+PKVbrKQJoXj9x_5y+vTZENMczHqyM_Xb85ca5YDZuA@mail.gmail.com> <25d88489-9850-f092-205e-0a4fc292f41b@schaufler-ca.com> <97BA9EB5-4E62-4E3A-BD97-CEC34F16FCFF@amacapital.net>
+To:     Stephen Smalley <sds@tycho.nsa.gov>
+Cc:     dhowells@redhat.com, Andy Lutomirski <luto@amacapital.net>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        USB list <linux-usb@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        David Howells <dhowells@redhat.com>, viro@zeniv.linux.org.uk,
-        linux-usb@vger.kernel.org, raven@themaw.net,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        raven@themaw.net, Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
         linux-block@vger.kernel.org, keyrings@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 09/10] usb: Add USB subsystem notifications [ver #3]
-In-Reply-To: <Pine.LNX.4.44L0.1906110950440.1535-100000@iolanthe.rowland.org>
-References: <Pine.LNX.4.44L0.1906110950440.1535-100000@iolanthe.rowland.org>
-Date:   Wed, 12 Jun 2019 09:58:33 +0300
-Message-ID: <87h88v1e92.fsf@linux.intel.com>
+        LKML <linux-kernel@vger.kernel.org>,
+        Paul Moore <paul@paul-moore.com>
+Subject: Re: [RFC][PATCH 00/13] Mount, FS, Block and Keyrings notifications [ver #4]
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <12979.1560329702.1@warthog.procyon.org.uk>
+Content-Transfer-Encoding: 8BIT
+Date:   Wed, 12 Jun 2019 09:55:02 +0100
+Message-ID: <12980.1560329702@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.44]); Wed, 12 Jun 2019 08:55:25 +0000 (UTC)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+Stephen Smalley <sds@tycho.nsa.gov> wrote:
 
-Hi,
+> 2) If notifications can be triggered by read-like operations (as in fanotify,
+> for example), then a "read" can be turned into a "write" flow through a
+> notification.
 
-Alan Stern <stern@rowland.harvard.edu> writes:
+I don't think any of the things can be classed as "read-like" operations.  At
+the moment, there are the following groups:
 
-> On Tue, 11 Jun 2019, Felipe Balbi wrote:
->
->> >> >> > So for "severe" issues, yes, we should do this, but perhaps not for all
->> >> >> > of the "normal" things we see when a device is yanked out of the system
->> >> >> > and the like.
->> >> >> 
->> >> >> Then what counts as a "severe" issue?  Anything besides enumeration 
->> >> >> failure?
->> >> >
->> >> > Not that I can think of at the moment, other than the other recently
->> >> > added KOBJ_CHANGE issue.  I'm sure we have other "hard failure" issues
->> >> > in the USB stack that people will want exposed over time.
->> >> 
->> >> From an XHCI standpoint, Transaction Errors might be one thing. They
->> >> happen rarely and are a strong indication that the bus itself is
->> >> bad. Either bad cable, misbehaving PHYs, improper power management, etc.
->> >
->> > Don't you also get transaction errors if the user unplugs a device in 
->> > the middle of a transfer?  That's not the sort of thing we want to sent 
->> > notifications about.
->> 
->> Mathias, do we get Transaction Error if user removes cable during a
->> transfer? I thought we would just get Port Status Change with CC bit
->> cleared, no?
->
-> Even if xHCI doesn't give Transaction Errors when a cable is unplugged 
-> during a transfer, other host controllers do.  Sometimes quite a lot -- 
-> they continue to occur until the kernel polls the parent hub's 
-> interrupt ep and learns that the port is disconnected, which can take 
-> up to 250 ms.
+ (1) Addition of objects (eg. key_link, mount).
 
-my comment was specific about XHCI. It even started with "From an XHCI
-standpoint" :-)
+ (2) Modifications to things (eg. keyctl_write, remount).
 
--- 
-balbi
+ (3) Removal of objects (eg. key_unlink, unmount, fput+FMODE_NEED_UNMOUNT).
+
+ (4) I/O or hardware errors (eg. USB device add/remove, EDQUOT, ENOSPC).
+
+I have not currently defined any access events.
+
+I've been looking at the possibility of having epoll generate events this way,
+but that's not as straightforward as I'd hoped and fanotify could potentially
+use it also, but in both those cases, the process is already getting the
+events currently by watching for them using synchronous waiting syscalls.
+Instead this would generate an event to say it had happened.
+
+David
