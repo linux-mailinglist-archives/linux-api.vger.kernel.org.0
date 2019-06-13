@@ -2,121 +2,90 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EFBC447F6
-	for <lists+linux-api@lfdr.de>; Thu, 13 Jun 2019 19:03:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E74974464D
+	for <lists+linux-api@lfdr.de>; Thu, 13 Jun 2019 18:50:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393169AbfFMRD2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 13 Jun 2019 13:03:28 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:34584 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729448AbfFLWyh (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Jun 2019 18:54:37 -0400
-Received: by mail-wm1-f65.google.com with SMTP id w9so5270611wmd.1
-        for <linux-api@vger.kernel.org>; Wed, 12 Jun 2019 15:54:35 -0700 (PDT)
+        id S1725747AbfFMQuq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 13 Jun 2019 12:50:46 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:33795 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725777AbfFMEBA (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 13 Jun 2019 00:01:00 -0400
+Received: by mail-lj1-f195.google.com with SMTP id p17so9800784ljg.1
+        for <linux-api@vger.kernel.org>; Wed, 12 Jun 2019 21:00:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brauner.io; s=google;
-        h=date:from:to:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=JPDTuU1KnT4imMfQFt3NF1AkrQ8ighWpONZCIjWty8k=;
-        b=Nq8XeflSpeNq85e0XL6YL6R2q9mdD488Rr1YrYR+xdjtkLsTPQ2J+RZ+++BpMD6zs4
-         0PUUwrE079J3RlX/OYkGYC9YyuOcEvxfOqptTMqPnhFbZf51cS1TkTQ9shNS3Xmu8lsx
-         LIgiKMllwi/VvpMIO63KrOTNKDCWxUyuXQuQOn/hk0cs1TLXFLsWrTHr16u4lAumEPal
-         xZF48NOWp4DkVh8r8exkogr1ZfbxTHy6Q+3E5sGDd8BRh62mpDKONNBwxYDF8sMXCTBC
-         RCCkc+wC5jS8dENlCKFJvHhLlIE5/3gbR6zPxnFgpahYIn1DIOkmO/0V6V3tLjJSwzEO
-         UUyQ==
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=fbJVJjV4JHgO+lN2CsoiJmjNN9A/OrzWGNbZgYy8/Gk=;
+        b=ZuHB+EFIWdmyBI+Bcm6q34WvnNer+ayYdcSCBHw9qKdJL9RuMOUEPVDSrPOV456jEe
+         Mu2BtvM6HHM2VC/dxpIL71LNetzBiC2Kp/5bf8wCUjnRs36qyJeTHEY/nu3+T/gkFmV2
+         AKNJR7dBb43TR0xZODVPwIEf0f2Q0JzJ6s+UY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=JPDTuU1KnT4imMfQFt3NF1AkrQ8ighWpONZCIjWty8k=;
-        b=gsyep3eefaOZ2CJefsBJQlYF3fzW9+sMzrwkcsMVq3K3gIy/EvfxuV2WgJ3cKaBRzQ
-         ab7qrsqjpKvFGdTGNHzAhGbjxOF3qiB+6kB9HLXB4llBelFR/yGe1D7ITB2c8WnHDenB
-         swhMZvj5FMdVDxN5kjgwAE/mKIGDFaFAHlE7zXn+cUAUGYm2bUlHblXoiWcGIC6XJpxf
-         vPCMa6I80Kl2YG9SDEUBS3IF4tMSC1ufUVGSPU0MA4Uy2Gw5QWsu+PLiIISkIbPke0VW
-         9q7O0XL90XaMwQb4LuaAJ5RUd/30uibbzJD4NedIyHzwkSQcWLrzQoWgqIL9Nmx/VAFa
-         Cj5w==
-X-Gm-Message-State: APjAAAWNxHE0Pm1pexm49d255XWDnfx6aqwvUjA/HQvezr51D4Eu1Z+5
-        LybNj524+JbP+wugeOTwGj2z7Q==
-X-Google-Smtp-Source: APXvYqzMwFI47ICM+9xHYN+8QsBe1OUPB18O7f91O/loMUm8TPCfIlC6qG8jtfcI5of1Ah/ZYCVwLQ==
-X-Received: by 2002:a1c:acc8:: with SMTP id v191mr1006944wme.177.1560380074924;
-        Wed, 12 Jun 2019 15:54:34 -0700 (PDT)
-Received: from brauner.io ([212.91.227.56])
-        by smtp.gmail.com with ESMTPSA id z14sm996092wre.96.2019.06.12.15.54.33
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 12 Jun 2019 15:54:34 -0700 (PDT)
-Date:   Thu, 13 Jun 2019 00:54:33 +0200
-From:   Christian Brauner <christian@brauner.io>
-To:     viro@zeniv.linux.org.uk, linux-kernel@vger.kernel.org,
-        torvalds@linux-foundation.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, dhowells@redhat.com
-Subject: Regression for MS_MOVE on kernel v5.1
-Message-ID: <20190612225431.p753mzqynxpsazb7@brauner.io>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=fbJVJjV4JHgO+lN2CsoiJmjNN9A/OrzWGNbZgYy8/Gk=;
+        b=ARXT3FZPGYNrgnWrhk8ugRBY+49+BB32cxwGxKsw6IlD29xEjSLw1tEkmuecySeDLu
+         0/jSAnKfyFN9Xcv+fxYoSo+DPF7xxZ34lp93JoEis1FbWE4+xY4uXsRPVmgPlpv9d0TX
+         GtWsMlCfsu24hG9ULjlvj3CsY9moO4P3ickmcax1uyCy57RbTzgHBp1DjwYSPzn502ak
+         iQC/xSYq4EVvP29xaK+cPfGQKSrc+RFpdCSFSyIotfS3MP0/CIuytYlqb0UUaIFeyCGJ
+         CZ1wkaRYxM8r65RGbAvW2RrUJDAt7ZRy8yD+yi/Ml0eXD/n9wOkpuTDxOdsSz8kUzsqM
+         gYqw==
+X-Gm-Message-State: APjAAAX8fgq3r4/q3VdXxl88WQ4uIKcyc8JYiqzqcXWEYFxs5KzsKjqd
+        viZa+DJNlH30N0SFc+boewGxdO4HxNA=
+X-Google-Smtp-Source: APXvYqwl7ctCopHF2mjMVrvWHL2TRMCOF/KpqjOryEN1Ks6J3iRUZBxCIVp7BK8YaCoBak6/6spHfQ==
+X-Received: by 2002:a2e:658e:: with SMTP id e14mr15696904ljf.147.1560398457372;
+        Wed, 12 Jun 2019 21:00:57 -0700 (PDT)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com. [209.85.208.174])
+        by smtp.gmail.com with ESMTPSA id c19sm343415lfi.39.2019.06.12.21.00.55
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Wed, 12 Jun 2019 21:00:55 -0700 (PDT)
+Received: by mail-lj1-f174.google.com with SMTP id t28so17057721lje.9
+        for <linux-api@vger.kernel.org>; Wed, 12 Jun 2019 21:00:55 -0700 (PDT)
+X-Received: by 2002:a2e:2c07:: with SMTP id s7mr5616489ljs.44.1560398455064;
+ Wed, 12 Jun 2019 21:00:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-User-Agent: NeoMutt/20180716
+References: <20190612225431.p753mzqynxpsazb7@brauner.io>
+In-Reply-To: <20190612225431.p753mzqynxpsazb7@brauner.io>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Wed, 12 Jun 2019 18:00:39 -1000
+X-Gmail-Original-Message-ID: <CAHk-=wh2Khe1Lj-Pdu3o2cXxumL1hegg_1JZGJXki6cchg_Q2Q@mail.gmail.com>
+Message-ID: <CAHk-=wh2Khe1Lj-Pdu3o2cXxumL1hegg_1JZGJXki6cchg_Q2Q@mail.gmail.com>
+Subject: Re: Regression for MS_MOVE on kernel v5.1
+To:     Christian Brauner <christian@brauner.io>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
+        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        David Howells <dhowells@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hey,
+On Wed, Jun 12, 2019 at 12:54 PM Christian Brauner <christian@brauner.io> wrote:
+>
+> The commit changes the internal logic to lock mounts when propagating
+> mounts (user+)mount namespaces and - I believe - causes do_mount_move()
+> to fail at:
 
-Sorry to be the bearer of bad news but I think I observed a pretty
-gnarly regression for userspace with MS_MOVE from kernel v5.1 onwards.
+You mean 'do_move_mount()'.
 
-When propagating mounts across mount namespaces owned by different user
-namespaces it is not possible anymore to move the mount in the less
-privileged mount namespace.
-Here is a reproducer:
+> if (old->mnt.mnt_flags & MNT_LOCKED)
+>         goto out;
+>
+> If that's indeed the case we should either revert this commit (reverts
+> cleanly, just tested it) or find a fix.
 
-sudo mount -t tmpfs tmpfs /mnt
-sudo --make-rshared /mnt
+Hmm.. I'm not entirely sure of the logic here, and just looking at
+that commit 3bd045cc9c4b ("separate copying and locking mount tree on
+cross-userns copies") doesn't make me go "Ahh" either.
 
-# create unprivileged user + mount namespace and preserve propagation
-unshare -U -m --map-root --propagation=unchanged
+Al? My gut feel is that we need to just revert, since this was in 5.1
+and it's getting reasonably late in 5.2 too. But maybe you go "guys,
+don't be silly, this is easily fixed with this one-liner".
 
-# now change back to the original mount namespace in another terminal:
-sudo mkdir /mnt/aaa
-sudo mount -t tmpfs tmpfs /mnt/aaa
-
-# now in the unprivileged user + mount namespace
-mount --move /mnt/aaa /opt
-
-This will work on kernels prior to 5.1 but will fail on kernels starting
-with 5.1.
-Unfortunately, this is a pretty big deal for userspace. In LXD - which I
-maintain when not doing kernel stuff - we use this mechanism to inject
-mounts into running unprivileged containers. Users started reporting
-failures against our mount injection feature just a short while ago
-(cf.  [1], [2]) and I just came around to looking into this today.
-
-I tracked this down to commit:
-
-commit 3bd045cc9c4be2049602b47505256b43908b4e2f
-Author: Al Viro <viro@zeniv.linux.org.uk>
-Date:   Wed Jan 30 13:15:45 2019 -0500
-
-    separate copying and locking mount tree on cross-userns copies
-
-    Rather than having propagate_mnt() check doing unprivileged copies,
-    lock them before commit_tree().
-
-    Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
-
-reverting it makes MS_MOVE to work correctly again.
-The commit changes the internal logic to lock mounts when propagating
-mounts (user+)mount namespaces and - I believe - causes do_mount_move()
-to fail at:
-
-if (old->mnt.mnt_flags & MNT_LOCKED)
-        goto out;
-
-If that's indeed the case we should either revert this commit (reverts
-cleanly, just tested it) or find a fix.
-
-Thanks!
-Christian
-
-[1]: https://github.com/lxc/lxd/issues/5788
-[2]: https://github.com/lxc/lxd/issues/5836
+                      Linus
