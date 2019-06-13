@@ -2,54 +2,74 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FFB543E1C
-	for <lists+linux-api@lfdr.de>; Thu, 13 Jun 2019 17:47:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 046D6439EC
+	for <lists+linux-api@lfdr.de>; Thu, 13 Jun 2019 17:17:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731763AbfFMPri (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 13 Jun 2019 11:47:38 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55346 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731750AbfFMJ1m (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 13 Jun 2019 05:27:42 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 2AD9430A6986;
-        Thu, 13 Jun 2019 09:27:34 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-120-109.rdu2.redhat.com [10.10.120.109])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 8457E600C0;
-        Thu, 13 Jun 2019 09:27:31 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <CAHk-=wh2Khe1Lj-Pdu3o2cXxumL1hegg_1JZGJXki6cchg_Q2Q@mail.gmail.com>
-References: <CAHk-=wh2Khe1Lj-Pdu3o2cXxumL1hegg_1JZGJXki6cchg_Q2Q@mail.gmail.com> <20190612225431.p753mzqynxpsazb7@brauner.io>
+        id S1732758AbfFMPRT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 13 Jun 2019 11:17:19 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:51416 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732193AbfFMNWz (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 13 Jun 2019 09:22:55 -0400
+Received: by mail-wm1-f66.google.com with SMTP id 207so2329935wma.1
+        for <linux-api@vger.kernel.org>; Thu, 13 Jun 2019 06:22:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=brauner.io; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=wuAK6EQ80PyDNnpIyEX4qP2XC/coEnhgovta7yfYWxY=;
+        b=JMQ0l3NrX2S5rxk2gqdSAV86GVbkXTUcGPYAfocG6ziyl8sqM3X+SMNxQgaJ7/z2U5
+         HJ4eyfVwdzmcB0Zb1Y1LC+S5FHiMrDv9M1bCkfwvadnhM5bHTiVz3TpWvQc0LwHv14Bg
+         EaXkN7lOTGprcoVn6/xbN8yMBrS2n60nsukmJN/V6yw78xXOI/PjvhfZRKH6E0vgUR91
+         feM1JDdZdSetkpv4okXsDVJL2RxQkpL5Frr7VMsmNVAfI3iJCf5GlflsDSQv+1i5VPXO
+         4SvN2fm0I6lD8JtK5KrWSuUpCZ4R1A0ZwKaMBsKzvg9ZqXYmaPdBL3YqRQwlfvRmO3Sa
+         Q9fQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=wuAK6EQ80PyDNnpIyEX4qP2XC/coEnhgovta7yfYWxY=;
+        b=fAHWka+yg7mb5UZL77kOxWirOspwuJduphMZW37Wp8zg2BjcuFe1mosnarboIDlQaQ
+         q5UOs/1W6iV46J68Wpa7FByNDO3ZSsk1qweuA+LFaa9qz8JJJrVN8CR/FxbXuTMez4xr
+         dDgUGBTshjkfWts3QK3defZHJBDigYxyI98AyloJNL4LjmKthVO62yX0teXUEOAXkV93
+         TqzBRgz2h48jQb3DliXiZ7GdKkgKpwG2ucqBAxp4qjbJ2Pqv3GHFZPNbTwYLXxRtI9RY
+         fm8UWGMkWYRTp4zLGL8XP7kUgt9OjqW7RMl8y5WS3a+drLPCbPZJnvWRXeR3f49oT/Xi
+         eJ3g==
+X-Gm-Message-State: APjAAAVLUNm7MVfbci1ZlGzIo3mcfAutnQCX57e51IG8czOVp6JiG6VY
+        0xoslfYLoOWS7hMlTig5nzVGIw==
+X-Google-Smtp-Source: APXvYqwuKiRsCndV/u776Jp+G0a5brq9AKUHpU7KLSBoUmn9cPWSRkTi7WUGMxVnxHSrjc8P5HbdIg==
+X-Received: by 2002:a1c:f519:: with SMTP id t25mr3944137wmh.58.1560432173272;
+        Thu, 13 Jun 2019 06:22:53 -0700 (PDT)
+Received: from brauner.io ([212.91.227.56])
+        by smtp.gmail.com with ESMTPSA id f3sm2842924wre.93.2019.06.13.06.22.51
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Thu, 13 Jun 2019 06:22:52 -0700 (PDT)
+Date:   Thu, 13 Jun 2019 15:22:51 +0200
+From:   Christian Brauner <christian@brauner.io>
 To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     dhowells@redhat.com, "Eric W. Biederman" <ebiederm@xmission.com>,
-        Christian Brauner <christian@brauner.io>,
-        Al Viro <viro@zeniv.linux.org.uk>,
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
         Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
+        Linux API <linux-api@vger.kernel.org>,
+        David Howells <dhowells@redhat.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>
 Subject: Re: Regression for MS_MOVE on kernel v5.1
+Message-ID: <20190613132250.u65yawzvf4voifea@brauner.io>
+References: <20190612225431.p753mzqynxpsazb7@brauner.io>
+ <CAHk-=wh2Khe1Lj-Pdu3o2cXxumL1hegg_1JZGJXki6cchg_Q2Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <9382.1560418050.1@warthog.procyon.org.uk>
-Date:   Thu, 13 Jun 2019 10:27:30 +0100
-Message-ID: <9383.1560418050@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.46]); Thu, 13 Jun 2019 09:27:42 +0000 (UTC)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wh2Khe1Lj-Pdu3o2cXxumL1hegg_1JZGJXki6cchg_Q2Q@mail.gmail.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-[Adding Eric to the cc list since he implemented MNT_LOCKED]
-
-Linus Torvalds <torvalds@linux-foundation.org> wrote:
-
+On Wed, Jun 12, 2019 at 06:00:39PM -1000, Linus Torvalds wrote:
+> On Wed, Jun 12, 2019 at 12:54 PM Christian Brauner <christian@brauner.io> wrote:
+> >
 > > The commit changes the internal logic to lock mounts when propagating
 > > mounts (user+)mount namespaces and - I believe - causes do_mount_move()
 > > to fail at:
@@ -69,3 +89,55 @@ Linus Torvalds <torvalds@linux-foundation.org> wrote:
 > Al? My gut feel is that we need to just revert, since this was in 5.1
 > and it's getting reasonably late in 5.2 too. But maybe you go "guys,
 > don't be silly, this is easily fixed with this one-liner".
+
+David and I have been staring at that code today for a while together.
+I think I made some sense of it.
+One thing we weren't absolutely sure is if the old MS_MOVE behavior was
+intentional or a bug. If it is a bug we have a problem since we quite
+heavily rely on this...
+
+So this whole cross-user+mnt namespace propagation mechanism comes with
+a big hammer that Eric indeed did introduce a while back which is
+MNT_LOCKED (cf. [1] for the relevant commit).
+
+Afaict, MNT_LOCKED is (among other cases) supposed to prevent a user+mnt
+namespace pair to get access to a mount that is hidden underneath an
+additional mount. Consider the following scenario:
+
+sudo mount -t tmpfs tmpfs /mnt
+sudo mount --make-rshared /mnt
+sudo mount -t tmpfs tmpfs /mnt
+sudo mount --make-rshared /mnt
+unshare -U -m --map-root --propagation=unchanged
+
+umount /mnt
+# or
+mount --move -mnt /opt
+
+The last umount/MS_MOVE is supposed to fail since the mount is locked
+with MNT_LOCKED since umounting or MS_MOVing the mount would reveal the
+underlying mount which I didn't have access to prior to the creation of
+my user+mnt namespace pair.
+(Whether or not this is a reasonable security mechanism is a separate
+discussion.)
+
+But now consider the case where from the ancestor user+mnt namespace
+pair I do:
+
+# propagate the mount to the user+mount namespace pair                 
+sudo mount -t tmpfs tmpfs /mnt
+# switch to the child user+mnt namespace pair
+umount /mnt
+# or
+mount --move /mnt /opt
+
+That umount/MS_MOVE should work since that mount was propagated to the
+unprivileged task after the user+mnt namespace pair was created.
+Also, because I already had access to the underlying mount in the first
+place and second because this is literally the only way - we know of -
+to inject a mount cross mount namespaces and this is a must have feature
+that quite a lot of users rely on.
+
+Christian
+
+[1]: git show 5ff9d8a65ce80efb509ce4e8051394e9ed2cd942
