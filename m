@@ -2,70 +2,91 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 735FC43959
-	for <lists+linux-api@lfdr.de>; Thu, 13 Jun 2019 17:13:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D93BB4379B
+	for <lists+linux-api@lfdr.de>; Thu, 13 Jun 2019 17:00:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732624AbfFMPNM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 13 Jun 2019 11:13:12 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39916 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732268AbfFMNfB (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 13 Jun 2019 09:35:01 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id C97C330C7E65;
-        Thu, 13 Jun 2019 13:34:52 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-120-109.rdu2.redhat.com [10.10.120.109])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id B8B695C3F8;
-        Thu, 13 Jun 2019 13:34:50 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <6b6f5bb0-1426-239b-ac9f-281e31ddcd04@infradead.org>
-References: <6b6f5bb0-1426-239b-ac9f-281e31ddcd04@infradead.org> <20190607151228.GA1872258@magnolia> <155991702981.15579.6007568669839441045.stgit@warthog.procyon.org.uk> <155991706083.15579.16359443779582362339.stgit@warthog.procyon.org.uk> <29222.1559922719@warthog.procyon.org.uk>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     dhowells@redhat.com, "Darrick J. Wong" <darrick.wong@oracle.com>,
+        id S1732592AbfFMPAV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 13 Jun 2019 11:00:21 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:49828 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732590AbfFMOt6 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 13 Jun 2019 10:49:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=WMyyxODgsxZ/XkDr48HWA7aTA4P32ySnPu90ZE1usUA=; b=SvRYAM6V25RdXhhsF2XFD/myCy
+        xb90MjFff+RemiPe/zmVRTwQhoIo5cqAF2taZi8MUOejdLT1cBDi4MzIr/OkvNaoWh9WPy78Y9iGa
+        km6RgOwE7MG8qQFY13YKdOYFyn6V6JWac8/2o05TV/mDxP5THfZdU34j/GMH7AaMmOqeVG5aDRGck
+        dbH6tYpypSW4SkNfYadSbfEYCHgblPGISG5mOtez1Wu92EQCQWKUOcaDGfrR2/Ic2uOjlu72PANeR
+        IrYhaIbx5gzo/xLXBtkiC/5kXhTzhv1AERPNvZZ0goFmnYWMrfD555r42SloB+Sv1bvNB2b5jQhg3
+        MQHwsJRQ==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=dragon.dunlab)
+        by merlin.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hbR35-0004ea-Lj; Thu, 13 Jun 2019 14:49:55 +0000
+Subject: Re: [PATCH 02/13] uapi: General notification ring definitions [ver
+ #4]
+To:     David Howells <dhowells@redhat.com>
+Cc:     "Darrick J. Wong" <darrick.wong@oracle.com>,
         viro@zeniv.linux.org.uk, raven@themaw.net,
         linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
         linux-block@vger.kernel.org, keyrings@vger.kernel.org,
         linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 02/13] uapi: General notification ring definitions [ver #4]
+References: <6b6f5bb0-1426-239b-ac9f-281e31ddcd04@infradead.org>
+ <20190607151228.GA1872258@magnolia>
+ <155991702981.15579.6007568669839441045.stgit@warthog.procyon.org.uk>
+ <155991706083.15579.16359443779582362339.stgit@warthog.procyon.org.uk>
+ <29222.1559922719@warthog.procyon.org.uk>
+ <30226.1560432885@warthog.procyon.org.uk>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <575fa290-961f-8dcd-3b76-4608daa5ee0e@infradead.org>
+Date:   Thu, 13 Jun 2019 07:49:49 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <30225.1560432885.1@warthog.procyon.org.uk>
-Date:   Thu, 13 Jun 2019 14:34:45 +0100
-Message-ID: <30226.1560432885@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.46]); Thu, 13 Jun 2019 13:35:01 +0000 (UTC)
+In-Reply-To: <30226.1560432885@warthog.procyon.org.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Randy Dunlap <rdunlap@infradead.org> wrote:
-
-> What is the problem with inline functions in UAPI headers?
-
-It makes compiler problems more likely; it increases the potential for name
-collisions with userspace; it makes for more potential problems if the headers
-are imported into some other language; and it's not easy to fix a bug in one
-if userspace uses it, just in case fixing the bug breaks userspace.
-
-Further, in this case, the first of Darrick's functions (calculating the
-length) is probably reasonable, but the second is not.  It should crank the
-tail pointer and then use that, but that requires 
-
-> >> Also, weird multiline comment style.
-> > 
-> > Not really.
+On 6/13/19 6:34 AM, David Howells wrote:
+> Randy Dunlap <rdunlap@infradead.org> wrote:
 > 
-> Yes really.
+>> What is the problem with inline functions in UAPI headers?
+> 
+> It makes compiler problems more likely; it increases the potential for name
+> collisions with userspace; it makes for more potential problems if the headers
+> are imported into some other language; and it's not easy to fix a bug in one
+> if userspace uses it, just in case fixing the bug breaks userspace.
+> 
+> Further, in this case, the first of Darrick's functions (calculating the
+> length) is probably reasonable, but the second is not.  It should crank the
+> tail pointer and then use that, but that requires 
+> 
+>>>> Also, weird multiline comment style.
+>>>
+>>> Not really.
+>>
+>> Yes really.
+> 
+> No.  It's not weird.  If anything, the default style is less good for several
+> reasons.  I'm going to deal with this separately as I need to generate some
+> stats first.
+> 
+> David
+> 
 
-No.  It's not weird.  If anything, the default style is less good for several
-reasons.  I'm going to deal with this separately as I need to generate some
-stats first.
+OK, maybe you are objecting to the word "weird."  So the multi-line comment style
+that you used is not the preferred Linux kernel multi-line comment style
+(except in networking code) [Documentation/process/coding-style.rst] that has been
+in effect for 20+ years AFAIK.
 
-David
+
+-- 
+~Randy
