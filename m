@@ -2,161 +2,139 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1066745E4A
-	for <lists+linux-api@lfdr.de>; Fri, 14 Jun 2019 15:35:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26A6445E66
+	for <lists+linux-api@lfdr.de>; Fri, 14 Jun 2019 15:38:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727842AbfFNNeJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 14 Jun 2019 09:34:09 -0400
-Received: from mail.efficios.com ([167.114.142.138]:38922 "EHLO
-        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727827AbfFNNeJ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 14 Jun 2019 09:34:09 -0400
-Received: from localhost (ip6-localhost [IPv6:::1])
-        by mail.efficios.com (Postfix) with ESMTP id D261D25143A;
-        Fri, 14 Jun 2019 09:34:07 -0400 (EDT)
-Received: from mail.efficios.com ([IPv6:::1])
-        by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10032)
-        with ESMTP id eMtJxE_PKUuv; Fri, 14 Jun 2019 09:34:07 -0400 (EDT)
-Received: from localhost (ip6-localhost [IPv6:::1])
-        by mail.efficios.com (Postfix) with ESMTP id 5A209251437;
-        Fri, 14 Jun 2019 09:34:07 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 5A209251437
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1560519247;
-        bh=BXdzK3imtsRVvyqNXo75xd1vpyjR6NM0BuwT0eQblbg=;
-        h=Date:From:To:Message-ID:MIME-Version;
-        b=HffgqhImyOqrETWjZ8ZBxuodnBa4RRE0oMjQGK4I0CeMV998n9+kRLxQFhCyE3SHW
-         pzxkkua62UHD/ubHQiY9NIFNhRGNCxFADrihzn2yERHxs96eJ8q5aTgPLjQl9krPG5
-         V7GnOuXwxx2LqEymxUqsAc5P0QciLnloo19N3JrfR/7wLNQn65NF8GfctY9iraUb5m
-         dE7ikuwq//6BwDIyqDNRw3i/csn4qDy1UGbBsnIEaZMdfiIdDXVx0Zx+XrbFd9QkRF
-         aDt/sS/q2RHGdvCqhorLHhIGCsFdXOiShv2oOZXemJ42iyJbTHQ2Ea8BZFwXG8ODh+
-         dHvAYZA7Znjzg==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([IPv6:::1])
-        by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10026)
-        with ESMTP id N5H9ReVy76NV; Fri, 14 Jun 2019 09:34:07 -0400 (EDT)
-Received: from mail02.efficios.com (mail02.efficios.com [167.114.142.138])
-        by mail.efficios.com (Postfix) with ESMTP id 3EF2125142C;
-        Fri, 14 Jun 2019 09:34:07 -0400 (EDT)
-Date:   Fri, 14 Jun 2019 09:34:07 -0400 (EDT)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     carlos <carlos@redhat.com>, Joseph Myers <joseph@codesourcery.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        libc-alpha <libc-alpha@sourceware.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ben Maurer <bmaurer@fb.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Dave Watson <davejwatson@fb.com>, Paul Turner <pjt@google.com>,
-        Rich Felker <dalias@libc.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-api <linux-api@vger.kernel.org>
-Message-ID: <189377747.3315.1560519247118.JavaMail.zimbra@efficios.com>
-In-Reply-To: <87wohoti47.fsf@oldenburg2.str.redhat.com>
-References: <20190503184219.19266-1-mathieu.desnoyers@efficios.com> <1635690189.3049.1560507249693.JavaMail.zimbra@efficios.com> <87tvcsv1pk.fsf@oldenburg2.str.redhat.com> <1190407525.3131.1560516910936.JavaMail.zimbra@efficios.com> <1085273942.3137.1560517301721.JavaMail.zimbra@efficios.com> <87d0jguxdk.fsf@oldenburg2.str.redhat.com> <1779359826.3226.1560518318701.JavaMail.zimbra@efficios.com> <87wohoti47.fsf@oldenburg2.str.redhat.com>
-Subject: Re: [PATCH 1/5] glibc: Perform rseq(2) registration at C startup
- and thread creation (v10)
+        id S1728004AbfFNNiW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 14 Jun 2019 09:38:22 -0400
+Received: from Galois.linutronix.de ([146.0.238.70]:38041 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727808AbfFNNiW (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 14 Jun 2019 09:38:22 -0400
+Received: from [5.158.153.52] (helo=nanos.tec.linutronix.de)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <tglx@linutronix.de>)
+        id 1hbmOy-0005NV-SL; Fri, 14 Jun 2019 15:37:57 +0200
+Date:   Fri, 14 Jun 2019 15:37:56 +0200 (CEST)
+From:   Thomas Gleixner <tglx@linutronix.de>
+To:     Dmitry Safonov <dima@arista.com>
+cc:     linux-kernel@vger.kernel.org, Andrei Vagin <avagin@gmail.com>,
+        Adrian Reber <adrian@lisas.de>,
+        Andrei Vagin <avagin@openvz.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Cyrill Gorcunov <gorcunov@openvz.org>,
+        Dmitry Safonov <0x7f454c46@gmail.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jann Horn <jannh@google.com>, Jeff Dike <jdike@addtoit.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Pavel Emelyanov <xemul@virtuozzo.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        containers@lists.linux-foundation.org, criu@openvz.org,
+        linux-api@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCHv4 06/28] timerfd/timens: Take into account ns clock
+ offsets
+In-Reply-To: <20190612192628.23797-7-dima@arista.com>
+Message-ID: <alpine.DEB.2.21.1906141534090.1722@nanos.tec.linutronix.de>
+References: <20190612192628.23797-1-dima@arista.com> <20190612192628.23797-7-dima@arista.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [167.114.142.138]
-X-Mailer: Zimbra 8.8.12_GA_3803 (ZimbraWebClient - FF67 (Linux)/8.8.12_GA_3794)
-Thread-Topic: glibc: Perform rseq(2) registration at C startup and thread creation (v10)
-Thread-Index: J/z3tq5R2TjIrEv1ISEFn2sEl/wrzw==
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
------ On Jun 14, 2019, at 3:24 PM, Florian Weimer fweimer@redhat.com wrote:
+On Wed, 12 Jun 2019, Dmitry Safonov wrote:
+> ---
+>  fs/timerfd.c                   |  3 +++
+>  include/linux/time_namespace.h | 18 ++++++++++++++++++
+>  kernel/time_namespace.c        | 27 +++++++++++++++++++++++++++
+>  3 files changed, 48 insertions(+)
 
-> * Mathieu Desnoyers:
-> 
->> ----- On Jun 14, 2019, at 3:09 PM, Florian Weimer fweimer@redhat.com wrote:
->>
->>> * Mathieu Desnoyers:
->>> 
->>>> But my original issue remains: if I define a variable called __rseq_handled
->>>> within either the main executable or the preloaded library, it overshadows
->>>> the libc one:
->>>>
->>>> efficios@compudjdev:~/test/libc-sym$ ./a
->>>> __rseq_handled main: 0 0x56135fd5102c
->>>> __rseq_abi.cpu_id main: 29 0x7fcbeca6d5a0
->>>> efficios@compudjdev:~/test/libc-sym$ LD_PRELOAD=./s.so ./a
->>>> __rseq_handled s.so: 0 0x558f70aeb02c
->>>> __rseq_abi.cpu_id s.so: -1 0x7fdca78b7760
->>>> __rseq_handled main: 0 0x558f70aeb02c
->>>> __rseq_abi.cpu_id main: 27 0x7fdca78b7760
->>>>
->>>> Which is unexpected.
->>> 
->>> Why is this unexpected?  It has to be this way if the main program uses
->>> a copy relocation of __rseq_handled.  As long as there is just one
->>> address across the entire program and ld.so initializes the copy of the
->>> variable that is actually used, everything will be fine.
->>
->> Here is a printout of the __rseq_handled address observed by ld.so, it
->> does not match:
->>
->> LD_PRELOAD=./s.so ./a
->> elf: __rseq_handled addr: 7f501c98a140
->> __rseq_handled s.so: 0 0x55817a88d02c
->> __rseq_abi.cpu_id s.so: -1 0x7f501c983760
->> __rseq_handled main: 0 0x55817a88d02c
->> __rseq_abi.cpu_id main: 27 0x7f501c983760
-> 
-> Where do you print the address?  Before or after the self-relocation of
-> the dynamic loader?  The address is only correct after self-relocation.
+Again, please split that into:
 
-I printed the address within rseq_init (), which happened to be invoked
-by the linker startup waaaay too early. I followed your advice and moved
-the rseq_init () invocation after linker re-relocation:
+   1) Introduce the new function
 
-diff --git a/elf/rtld.c b/elf/rtld.c
-index f29f284a7c..66b0894f9d 100644
---- a/elf/rtld.c
-+++ b/elf/rtld.c
-@@ -1410,9 +1410,6 @@ ERROR: '%s': cannot process note segment.\n", _dl_argv[0]);
-     /* Assign a module ID.  Do this before loading any audit modules.  */
-     GL(dl_rtld_map).l_tls_modid = _dl_next_tls_modid ();
- 
--  /* Publicize rseq registration ownership.  */
--  rseq_init ();
--
-   /* If we have auditing DSOs to load, do it now.  */
-   bool need_security_init = true;
-   if (__glibc_unlikely (audit_list != NULL)
-@@ -2284,6 +2281,11 @@ ERROR: ld.so: object '%s' cannot be loaded as audit interface: %s; ignored.\n",
-       HP_TIMING_ACCUM_NT (relocate_time, add);
-     }
- 
-+  /* Publicize rseq registration ownership.  This must be performed
-+     after rtld re-relocation, before invoking constructors of
-+     preloaded libraries.  */
-+  rseq_init ();
-+
-   /* Do any necessary cleanups for the startup OS interface code.
-      We do these now so that no calls are made after rtld re-relocation
-      which might be resolved to different functions than we expect.
+   2) Make use of it
 
-It works fine now!
+> diff --git a/fs/timerfd.c b/fs/timerfd.c
+> index 6a6fc8aa1de7..9b0c2f65e7e8 100644
+> --- a/fs/timerfd.c
+> +++ b/fs/timerfd.c
+> @@ -26,6 +26,7 @@
+>  #include <linux/syscalls.h>
+>  #include <linux/compat.h>
+>  #include <linux/rcupdate.h>
+> +#include <linux/time_namespace.h>
+>  
+>  struct timerfd_ctx {
+>  	union {
+> @@ -196,6 +197,8 @@ static int timerfd_setup(struct timerfd_ctx *ctx, int flags,
+>  	}
+>  
+>  	if (texp != 0) {
+> +		if (flags & TFD_TIMER_ABSTIME)
+> +			texp = timens_ktime_to_host(clockid, texp);
+>  		if (isalarm(ctx)) {
+>  			if (flags & TFD_TIMER_ABSTIME)
+>  				alarm_start(&ctx->t.alarm, texp);
+> diff --git a/include/linux/time_namespace.h b/include/linux/time_namespace.h
+> index 1dda8af6b9fe..d32b55fad953 100644
+> --- a/include/linux/time_namespace.h
+> +++ b/include/linux/time_namespace.h
+> @@ -56,6 +56,19 @@ static inline void timens_add_boottime(struct timespec64 *ts)
+>                  *ts = timespec64_add(*ts, ns_offsets->boottime);
+>  }
+>  
+> +ktime_t do_timens_ktime_to_host(clockid_t clockid, ktime_t tim,
+> +				struct timens_offsets *offsets);
+> +static inline ktime_t timens_ktime_to_host(clockid_t clockid, ktime_t tim)
+> +{
+> +	struct timens_offsets *offsets = current->nsproxy->time_ns->offsets;
+> +
+> +	if (!offsets) /* fast-path for the root time namespace */
 
-LD_PRELOAD=./s.so ./a
-elf: __rseq_handled addr: 56300f0a402c
-__rseq_handled s.so: 1 0x56300f0a402c
-__rseq_abi.cpu_id s.so: -1 0x7fad2ff58760
-__rseq_handled main: 1 0x56300f0a402c
-__rseq_abi.cpu_id main: 27 0x7fad2ff58760
+Can you please avoid tail comments. They break the reading flow. Aside of
+that I don't see the value of documenting the obvious.
 
-Thanks!
+> +ktime_t do_timens_ktime_to_host(clockid_t clockid, ktime_t tim, struct timens_offsets *ns_offsets)
 
-Mathieu
+Please line break the arguments
 
--- 
-Mathieu Desnoyers
-EfficiOS Inc.
-http://www.efficios.com
+ktime_t do_timens_ktime_to_host(clockid_t clockid, ktime_t tim,
+				struct timens_offsets *ns_offsets)
+
+> +{
+> +	ktime_t koff;
+> +
+> +	switch (clockid) {
+> +	case CLOCK_MONOTONIC:
+> +		koff = timespec64_to_ktime(ns_offsets->monotonic);
+> +		break;
+> +	case CLOCK_BOOTTIME:
+> +	case CLOCK_BOOTTIME_ALARM:
+> +		koff = timespec64_to_ktime(ns_offsets->boottime);
+> +		break;
+> +	default:
+> +		return tim;
+> +	}
+> +
+> +	/* tim - off has to be in [0, KTIME_MAX) */
+
+Please be more elaborate why the below conditions can happen at all.
+
+> +	if (tim < koff)
+> +		tim = 0;
+> +	else if (KTIME_MAX - tim < -koff)
+> +		tim = KTIME_MAX;
+> +	else
+> +		tim = ktime_sub(tim, koff);
+
+Thanks,
+
+	tglx
