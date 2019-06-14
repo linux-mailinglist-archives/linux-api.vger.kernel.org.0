@@ -2,191 +2,60 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 064AA4501A
-	for <lists+linux-api@lfdr.de>; Fri, 14 Jun 2019 01:37:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF06445079
+	for <lists+linux-api@lfdr.de>; Fri, 14 Jun 2019 02:20:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727187AbfFMXhN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 13 Jun 2019 19:37:13 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:37760 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726635AbfFMXhM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 13 Jun 2019 19:37:12 -0400
-Received: by mail-wm1-f67.google.com with SMTP id 22so456164wmg.2
-        for <linux-api@vger.kernel.org>; Thu, 13 Jun 2019 16:37:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brauner.io; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=oodRWfym8vGhEJNTwBcKhJMKuWNGLtph+QGLWfAyKO0=;
-        b=BvbGJfCrFemSkbH88wzZyyFSZzIZCF3X5vaX3OL9UB8Lz6ZMFUlq6T7RtZ5xwzVe2m
-         HGeBjbnEatgk9gSuh2WSiV+1vzf4BLyKfU6qbBz/4JMx/GGodTcx4WLzM+cUKFDgk7ut
-         8X7p3+SL7XYNw8+ei+6PhnS02p01XJ+5Xzs1Fn/fGsDgjjxrjpq6INY/46Ooh+ZdhAGK
-         Z+wGDUrYd+UR1Q8ZFuUHNrQwf4ValMHY33hco3gNPx00Auyxm4rAcRlWv9qKAvua0nBx
-         yvAtdRmzcUviT0Kw+M6SucHg8julb2219C8fnqqt8ccGYQs4MvzsDL0f34FkR2JospN9
-         pp4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=oodRWfym8vGhEJNTwBcKhJMKuWNGLtph+QGLWfAyKO0=;
-        b=G0g0TW8+7aeK/y5zsmvrIztcUoXcg9bHwD29wKqJ/oIRTPqjWidtLdAaCtVA/xT0j6
-         rxfQ7ExKDj4AQV5GftwIyuqtcPbYex5KhlesTW3HMa6n8SyGGnAfu5tpDePHyD3+/ROL
-         +2bXsNsEHrwoeDx4TOzR/LRtAj2ANpjTdCV8JtrUV9kkmPW/Pcsm/2SVA7pbPcas5lqP
-         wjdzwu9aaP/Qw/YnJjJyl6N7USyZOiPbsCo/da3Lri7Nndhsx4tLIo6m7bhkocTvb7bc
-         KGGAbE0hK3dUD8YLCOmG4xVYEorFOUd4nSzybCYVXvwGFyJIX9rnq/YcaLFvAQv035+u
-         jHHw==
-X-Gm-Message-State: APjAAAXF9Cuu7gnEqKdRyTSKwSMi6TQY+LkTVJTXXiPz32uHbbLwlKEK
-        Tmfvj+lw9JPGRXJTJ/xuaFEtpw==
-X-Google-Smtp-Source: APXvYqzEfhmewH9tg1rXq9RVwyKLlMT4ECRx5um77h5E2+ZurrtbqNeEBidyPPF+YuN7/SeF8pNtfw==
-X-Received: by 2002:a7b:cd84:: with SMTP id y4mr5640506wmj.41.1560469029595;
-        Thu, 13 Jun 2019 16:37:09 -0700 (PDT)
-Received: from brauner.io ([212.91.227.56])
-        by smtp.gmail.com with ESMTPSA id f13sm2169960wrt.27.2019.06.13.16.37.08
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 13 Jun 2019 16:37:09 -0700 (PDT)
-Date:   Fri, 14 Jun 2019 01:37:07 +0200
-From:   Christian Brauner <christian@brauner.io>
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Miklos Szeredi <miklos@szeredi.hu>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        David Howells <dhowells@redhat.com>
-Subject: Re: Regression for MS_MOVE on kernel v5.1
-Message-ID: <20190613233706.6k6struu7valxaxy@brauner.io>
-References: <20190612225431.p753mzqynxpsazb7@brauner.io>
- <CAHk-=wh2Khe1Lj-Pdu3o2cXxumL1hegg_1JZGJXki6cchg_Q2Q@mail.gmail.com>
- <20190613132250.u65yawzvf4voifea@brauner.io>
- <871rzxwcz7.fsf@xmission.com>
- <CAJfpegvZwDY+zoWjDTrPpMCS01rzQgeE-_z-QtGfvcRnoamzgg@mail.gmail.com>
- <878su5tadf.fsf@xmission.com>
+        id S1725867AbfFNAU0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 13 Jun 2019 20:20:26 -0400
+Received: from smtp1.ono.com ([62.42.230.162]:35844 "EHLO smtp1.ono.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725801AbfFNAUZ (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 13 Jun 2019 20:20:25 -0400
+X-Junkmail-Premium-Raw: score=35/50,refid=2.7.2:2019.6.13.235417:17:35.434,ip=62.42.230.131,rules=__HAS_MSGID,
+ __SANE_MSGID, MSGID_JMAIL_DEFAULT, INVALID_MSGID_NO_FQDN, __HAS_FROM,
+ FROM_NAME_PHRASE, __HAS_REPLYTO, __FRAUD_WEBMAIL_REPLYTO,
+ __PHISH_SPEAR_SUBJ_ALERT, __MIME_VERSION, __CT, __CT_TEXT_PLAIN, __CTE,
+ MISSING_HEADERS, __ANY_URI, __FRAUD_BODY_WEBMAIL, __URI_NO_WWW,
+ __FRAUD_INTRO, __STOCK_PHRASE_7, __FRAUD_MONEY_BIG_COIN_DIG, __OEM_PRICE,
+ __FRAUD_MONEY_CURRENCY_DOLLAR, __NO_HTML_TAG_RAW, BODYTEXTP_SIZE_400_LESS,
+ BODYTEXTP_SIZE_3000_LESS, BODY_SIZE_300_399, __MIME_TEXT_P1,
+ __MIME_TEXT_ONLY, __URI_NS, HTML_00_01, HTML_00_10, __FRAUD_MONEY_CURRENCY,
+ __FRAUD_MONEY_BIG_COIN, __FRAUD_MONEY_VALUE, __PHISH_SPEAR_GREETING,
+ __FRAUD_MONEY, FRAUD_X3, BODY_SIZE_5000_LESS, __FRAUD_WEBMAIL,
+ WEBMAIL_REPLYTO_NOT_FROM, FRAUD_WEBMAIL_R_NOT_F, __MIME_TEXT_P,
+ FRAUD_LITTLE_BODY, __PHISH_SPEAR_STRUCTURE_1, BODY_SIZE_1000_LESS,
+ BODY_SIZE_2000_LESS, __PHISH_SPEAR_STRUCTURE_2, REPLYTO_FROM_DIFF_ADDY,
+ NO_URI_HTTPS, BODY_SIZE_7000_LESS, TO_MALFORMED
+Received: from resprs01 (62.42.230.131) by smtp1.ono.com (9.0.019.09-1)
+        id 5C12554F096D4D67; Fri, 14 Jun 2019 02:20:21 +0200
+Received: from (149.126.75.6) by webmailcpr01n.ono.com;  Fri, 14 Jun 2019 02:20:21 +0200
+Message-ID: <26991433.485821560471621759.JavaMail.defaultUser@defaultHost>
+Date:   Fri, 14 Jun 2019 02:20:21 +0200 (CEST)
+From:   Mrs Maria Ibrahim <o0fit@ono.com>
+Reply-To: mrsmariaibrahim@gmail.com
+Subject: Dear Friend,
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <878su5tadf.fsf@xmission.com>
-User-Agent: NeoMutt/20180716
+Content-Type: text/plain;charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jun 13, 2019 at 04:59:24PM -0500, Eric W. Biederman wrote:
-> Miklos Szeredi <miklos@szeredi.hu> writes:
-> 
-> > On Thu, Jun 13, 2019 at 8:35 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
-> >>
-> >> Christian Brauner <christian@brauner.io> writes:
-> >>
-> >> > On Wed, Jun 12, 2019 at 06:00:39PM -1000, Linus Torvalds wrote:
-> >> >> On Wed, Jun 12, 2019 at 12:54 PM Christian Brauner <christian@brauner.io> wrote:
-> >> >> >
-> >> >> > The commit changes the internal logic to lock mounts when propagating
-> >> >> > mounts (user+)mount namespaces and - I believe - causes do_mount_move()
-> >> >> > to fail at:
-> >> >>
-> >> >> You mean 'do_move_mount()'.
-> >> >>
-> >> >> > if (old->mnt.mnt_flags & MNT_LOCKED)
-> >> >> >         goto out;
-> >> >> >
-> >> >> > If that's indeed the case we should either revert this commit (reverts
-> >> >> > cleanly, just tested it) or find a fix.
-> >> >>
-> >> >> Hmm.. I'm not entirely sure of the logic here, and just looking at
-> >> >> that commit 3bd045cc9c4b ("separate copying and locking mount tree on
-> >> >> cross-userns copies") doesn't make me go "Ahh" either.
-> >> >>
-> >> >> Al? My gut feel is that we need to just revert, since this was in 5.1
-> >> >> and it's getting reasonably late in 5.2 too. But maybe you go "guys,
-> >> >> don't be silly, this is easily fixed with this one-liner".
-> >> >
-> >> > David and I have been staring at that code today for a while together.
-> >> > I think I made some sense of it.
-> >> > One thing we weren't absolutely sure is if the old MS_MOVE behavior was
-> >> > intentional or a bug. If it is a bug we have a problem since we quite
-> >> > heavily rely on this...
-> >>
-> >> It was intentional.
-> >>
-> >> The only mounts that are locked in propagation are the mounts that
-> >> propagate together.  If you see the mounts come in as individuals you
-> >> can always see/manipulate/work with the underlying mount.
-> >>
-> >> I can think of only a few ways for MNT_LOCKED to become set:
-> >> a) unshare(CLONE_NEWNS)
-> >> b) mount --rclone /path/to/mnt/tree /path/to/propagation/point
-> >> c) mount --move /path/to/mnt/tree /path/to/propgation/point
-> >>
-> >> Nothing in the target namespace should be locked on the propgation point
-> >> but all of the new mounts that came across as a unit should be locked
-> >> together.
-> >
-> > Locked together means the root of the new mount tree doesn't have
-> > MNT_LOCKED set, but all mounts below do have MNT_LOCKED, right?
-> >
-> > Isn't the bug here that the root mount gets MNT_LOCKED as well?
 
-Yes, we suspected this as well. We just couldn't pinpoint where the
-surgery would need to start.
 
-> 
-> Yes, and the code to remove MNT_LOCKED is still sitting there in
-> propogate_one right after it calls copy_tree.  It should be a trivial
-> matter of moving that change to after the lock_mnt_tree call.
-> 
-> Now that I have been elightened about anonymous mount namespaces
-> I am suspecting that we want to take the user_namespace of the anonymous
-> namespace into account when deciding to lock the mounts.
-> 
-> >> Then it breaking is definitely a regression that needs to be fixed.
-> >>
-> >> I believe the problematic change as made because the new mount
-> >> api allows attaching floating mounts.  Or that was the plan last I
-> >> looked.   Those floating mounts don't have a mnt_ns so will result
-> >> in a NULL pointer dereference when they are attached.
-> >
-> > Well, it's called anonymous namespace.  So there *is* an mnt_ns, and
-> > its lifetime is bound to the file returned by fsmount().
-> 
-> Interesting.  That has changed since I last saw the patches.
-> 
-> Below is what will probably be a straight forward fix for the regression.
+--
+Dear Friend,
 
-Tested the patch just now applied on top of v5.1. It fixes the
-regression.
-Can you please send a proper patch, Eric?
+I am Mrs Maria Ibrahim. am sending you this brief letter to solicit 
+your
+partnership to transfer $18.5 million US Dollars.I shall send you more
+information and procedures when I receive positive response from you.
+please send me a message in my Email box (mrsmariaibrahim@gmail.com)
+as i wait to hear from you.
 
-Tested-by: Christian Brauner <christian@brauner.io>
-Acked-by: Christian Brauner <christian@brauner.io>
+Best regard
+Mrs Maria Ibrahim.
+--
 
-> 
-> Eric
-> 
-> diff --git a/fs/namespace.c b/fs/namespace.c
-> index ffb13f0562b0..a39edeecbc46 100644
-> --- a/fs/namespace.c
-> +++ b/fs/namespace.c
-> @@ -2105,6 +2105,7 @@ static int attach_recursive_mnt(struct mount *source_mnt,
->                 /* Notice when we are propagating across user namespaces */
->                 if (child->mnt_parent->mnt_ns->user_ns != user_ns)
->                         lock_mnt_tree(child);
-> +               child->mnt.mnt_flags &= ~MNT_LOCKED;
->                 commit_tree(child);
->         }
->         put_mountpoint(smp);
-> diff --git a/fs/pnode.c b/fs/pnode.c
-> index 7ea6cfb65077..012be405fec0 100644
-> --- a/fs/pnode.c
-> +++ b/fs/pnode.c
-> @@ -262,7 +262,6 @@ static int propagate_one(struct mount *m)
->         child = copy_tree(last_source, last_source->mnt.mnt_root, type);
->         if (IS_ERR(child))
->                 return PTR_ERR(child);
-> -       child->mnt.mnt_flags &= ~MNT_LOCKED;
->         mnt_set_mountpoint(m, mp, child);
->         last_dest = m;
->         last_source = child;
-> 
-> 
