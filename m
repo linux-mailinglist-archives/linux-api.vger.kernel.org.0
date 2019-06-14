@@ -2,91 +2,119 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 60A0045FCD
-	for <lists+linux-api@lfdr.de>; Fri, 14 Jun 2019 16:00:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78B7345FCB
+	for <lists+linux-api@lfdr.de>; Fri, 14 Jun 2019 16:00:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728642AbfFNN7M (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 14 Jun 2019 09:59:12 -0400
-Received: from Galois.linutronix.de ([146.0.238.70]:38196 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728300AbfFNN7M (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 14 Jun 2019 09:59:12 -0400
-Received: from [5.158.153.52] (helo=nanos.tec.linutronix.de)
-        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <tglx@linutronix.de>)
-        id 1hbmj6-0006Yh-J4; Fri, 14 Jun 2019 15:58:44 +0200
-Date:   Fri, 14 Jun 2019 15:58:43 +0200 (CEST)
-From:   Thomas Gleixner <tglx@linutronix.de>
-To:     Dmitry Safonov <dima@arista.com>
-cc:     linux-kernel@vger.kernel.org, Andrei Vagin <avagin@openvz.org>,
-        Adrian Reber <adrian@lisas.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Cyrill Gorcunov <gorcunov@openvz.org>,
-        Dmitry Safonov <0x7f454c46@gmail.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jann Horn <jannh@google.com>, Jeff Dike <jdike@addtoit.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Pavel Emelyanov <xemul@virtuozzo.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        containers@lists.linux-foundation.org, criu@openvz.org,
-        linux-api@vger.kernel.org, x86@kernel.org,
-        Andrei Vagin <avagin@gmail.com>
-Subject: Re: [PATCHv4 15/28] x86/vdso: Add offsets page in vvar
-In-Reply-To: <20190612192628.23797-16-dima@arista.com>
-Message-ID: <alpine.DEB.2.21.1906141553070.1722@nanos.tec.linutronix.de>
-References: <20190612192628.23797-1-dima@arista.com> <20190612192628.23797-16-dima@arista.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        id S1728304AbfFNN7G (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 14 Jun 2019 09:59:06 -0400
+Received: from mail.efficios.com ([167.114.142.138]:48010 "EHLO
+        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728300AbfFNN7G (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 14 Jun 2019 09:59:06 -0400
+Received: from localhost (ip6-localhost [IPv6:::1])
+        by mail.efficios.com (Postfix) with ESMTP id ADE6D251CCD;
+        Fri, 14 Jun 2019 09:59:04 -0400 (EDT)
+Received: from mail.efficios.com ([IPv6:::1])
+        by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10032)
+        with ESMTP id rJOHjntNcuT9; Fri, 14 Jun 2019 09:59:04 -0400 (EDT)
+Received: from localhost (ip6-localhost [IPv6:::1])
+        by mail.efficios.com (Postfix) with ESMTP id 4EA47251CC8;
+        Fri, 14 Jun 2019 09:59:04 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 4EA47251CC8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+        s=default; t=1560520744;
+        bh=jpmp9DG8eHAyLVISapjfq/tN+v/idvmpwbfusJBMqP4=;
+        h=Date:From:To:Message-ID:MIME-Version;
+        b=ExDF2YU3NUQJA2JcFDQjaJL1g9CCnkPixcgar3BbM9emiOPEPyaUyLowwGJ9pBilS
+         oKpc3GQ4S3kA3Avor0qnfp+nck1hSotR9n11BoNA0nmQDITQW53BtfhVrKZaIRDD8h
+         kkwSz7zkEbhkR3CsBO6PJjWn/AXU1abrrjlolvpcHEEQonPzjSqqc6yHs8xXp4BUue
+         gusO4b/erzcWJ06zLebUyvki5ZHoP+hMlse0PAfCDlaNLNBNJiPWCEGRPnvt6CcEZl
+         rPT2RISu2jlS/WujZUTwxT4/S+PWcCe9nt5o06JnF9zGmUGXPukd2sJoE1B6i5dPVo
+         YU/SE4Aj3kaWA==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([IPv6:::1])
+        by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10026)
+        with ESMTP id Mv1VjGbPs8-l; Fri, 14 Jun 2019 09:59:04 -0400 (EDT)
+Received: from mail02.efficios.com (mail02.efficios.com [167.114.142.138])
+        by mail.efficios.com (Postfix) with ESMTP id 32072251CBE;
+        Fri, 14 Jun 2019 09:59:04 -0400 (EDT)
+Date:   Fri, 14 Jun 2019 09:59:04 -0400 (EDT)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     carlos <carlos@redhat.com>, Joseph Myers <joseph@codesourcery.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        libc-alpha <libc-alpha@sourceware.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ben Maurer <bmaurer@fb.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Dave Watson <davejwatson@fb.com>, Paul Turner <pjt@google.com>,
+        Rich Felker <dalias@libc.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-api <linux-api@vger.kernel.org>
+Message-ID: <634912958.3582.1560520744040.JavaMail.zimbra@efficios.com>
+In-Reply-To: <87ef3wtgs4.fsf@oldenburg2.str.redhat.com>
+References: <20190503184219.19266-1-mathieu.desnoyers@efficios.com> <87d0jguxdk.fsf@oldenburg2.str.redhat.com> <1779359826.3226.1560518318701.JavaMail.zimbra@efficios.com> <87wohoti47.fsf@oldenburg2.str.redhat.com> <189377747.3315.1560519247118.JavaMail.zimbra@efficios.com> <87imt8tha5.fsf@oldenburg2.str.redhat.com> <26171199.3391.1560520033825.JavaMail.zimbra@efficios.com> <87ef3wtgs4.fsf@oldenburg2.str.redhat.com>
+Subject: Re: [PATCH 1/5] glibc: Perform rseq(2) registration at C startup
+ and thread creation (v10)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [167.114.142.138]
+X-Mailer: Zimbra 8.8.12_GA_3803 (ZimbraWebClient - FF67 (Linux)/8.8.12_GA_3794)
+Thread-Topic: glibc: Perform rseq(2) registration at C startup and thread creation (v10)
+Thread-Index: bTcDxImi7N70vGPu1EOcYFTLIBF+3A==
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, 12 Jun 2019, Dmitry Safonov wrote:
->  
-> +#ifdef CONFIG_TIME_NS
-> +notrace static __always_inline void clk_to_ns(clockid_t clk, struct timespec *ts)
-> +{
-> +	struct timens_offsets *timens = (struct timens_offsets *) &timens_page;
-> +	struct timespec64 *offset64;
-> +
-> +	switch (clk) {
-> +	case CLOCK_MONOTONIC:
-> +	case CLOCK_MONOTONIC_COARSE:
-> +	case CLOCK_MONOTONIC_RAW:
-> +		offset64 = &timens->monotonic;
-> +		break;
-> +	case CLOCK_BOOTTIME:
-> +		offset64 = &timens->boottime;
-> +	default:
-> +		return;
-> +	}
-> +
-> +	ts->tv_nsec += offset64->tv_nsec;
-> +	ts->tv_sec += offset64->tv_sec;
-> +	if (ts->tv_nsec >= NSEC_PER_SEC) {
-> +		ts->tv_nsec -= NSEC_PER_SEC;
-> +		ts->tv_sec++;
-> +	}
-> +	if (ts->tv_nsec < 0) {
-> +		ts->tv_nsec += NSEC_PER_SEC;
-> +		ts->tv_sec--;
-> +	}
+----- On Jun 14, 2019, at 3:53 PM, Florian Weimer fweimer@redhat.com wrote:
 
-I had to think twice why adding the offset (which can be negative) can
-never result in negative time being returned. A comment explaining this
-would be appreciated.
+> * Mathieu Desnoyers:
+> 
+>> ----- On Jun 14, 2019, at 3:42 PM, Florian Weimer fweimer@redhat.com wrote:
+>>
+>>> * Mathieu Desnoyers:
+>>> 
+>>>> +  /* Publicize rseq registration ownership.  This must be performed
+>>>> +     after rtld re-relocation, before invoking constructors of
+>>>> +     preloaded libraries.  */
+>>>> +  rseq_init ();
+>>> 
+>>> Please add a comment that IFUNC resolvers do not see the initialized
+>>> value.  I think this is okay because we currently do not support access
+>>> to extern variables in IFUNC resolvers.
+>>
+>> Do IFUNC resolvers happen to observe the __rseq_handled address that
+>> was internal to ld.so ?
+> 
+> They should observe the correct address, but they can access the
+> variable before initialization.  An initializer in ld.so will not have
+> an effect if an interposed definition initalized the variable to
+> something else.
+> 
+>> If so, we could simply initialize __rseq_handled twice: early before calling
+>> IFUNC resolvers, and after ld.so re-relocation.
+> 
+> No, I don't think this will make a difference.
 
-As I'm planning to merge Vincezos VDSO consolidation into 5.3, can you
-please start to work on top of his series, which should be available as
-final v7 next week hopefully.
+So comment it is:
+
+  /* Publicize rseq registration ownership.  This must be performed
+     after rtld re-relocation, before invoking constructors of
+     preloaded libraries. IFUNC resolvers are called before this
+     initialization, so they may not observe the initialized state.  */
+  rseq_init ();
 
 Thanks,
 
-	tglx
+Mathieu
+
+
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+http://www.efficios.com
