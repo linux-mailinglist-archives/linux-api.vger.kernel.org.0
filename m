@@ -2,173 +2,98 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 55F6C4629C
-	for <lists+linux-api@lfdr.de>; Fri, 14 Jun 2019 17:23:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F05DF462DC
+	for <lists+linux-api@lfdr.de>; Fri, 14 Jun 2019 17:33:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726218AbfFNPXM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 14 Jun 2019 11:23:12 -0400
-Received: from mail.efficios.com ([167.114.142.138]:49952 "EHLO
-        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726083AbfFNPXM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 14 Jun 2019 11:23:12 -0400
-Received: from localhost (ip6-localhost [IPv6:::1])
-        by mail.efficios.com (Postfix) with ESMTP id EEC6825174D;
-        Fri, 14 Jun 2019 11:23:10 -0400 (EDT)
-Received: from mail.efficios.com ([IPv6:::1])
-        by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10032)
-        with ESMTP id dHBNh9EPKqVL; Fri, 14 Jun 2019 11:23:10 -0400 (EDT)
-Received: from localhost (ip6-localhost [IPv6:::1])
-        by mail.efficios.com (Postfix) with ESMTP id AA480251731;
-        Fri, 14 Jun 2019 11:23:08 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com AA480251731
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1560525788;
-        bh=OBox3OMxjxvC7PvoLYGWSN3dsx6DMeQHxfzI7UPjj1Y=;
-        h=From:To:Date:Message-Id;
-        b=ZxhHLReM1LIW1i4jvG82L8qd3m5LTPJDyXwDqty0mpFQ+PLM8Cp+W8h7rbu734ot7
-         1Qg6PIsk3Q7eYwHmQEuH3mqUrMoYcqExVUsVlkB3ehCCcSSj7BDPSoHhGE61e2qXk3
-         1YWyu18xdbqY6QiRcvEfvoUpuZdvaZbNux0oI2PFtFfshhaSZpXcDfNkqsBbeK04Cq
-         zFNu2khFa6v4rXfjX3jNPBAsvjO1NCOPjV8OeL6X7WoPzKrpW4fPeJoYBiCx1OS0uq
-         L6HiXqZWIgOHjhdQXVDEhVs55OyLIH9rME6OctJDlrefUJQcZnehuOQ6ABHcrRk6fa
-         g3yhiwSdJrUyg==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([IPv6:::1])
-        by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10026)
-        with ESMTP id Uimi5a9qPjeK; Fri, 14 Jun 2019 11:23:08 -0400 (EDT)
-Received: from localhost.localdomain (192-222-181-218.qc.cable.ebox.net [192.222.181.218])
-        by mail.efficios.com (Postfix) with ESMTPSA id 655E725171F;
-        Fri, 14 Jun 2019 11:23:08 -0400 (EDT)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Carlos O'Donell <carlos@redhat.com>
-Cc:     Florian Weimer <fweimer@redhat.com>,
-        Joseph Myers <joseph@codesourcery.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        libc-alpha@sourceware.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        id S1726319AbfFNPdV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 14 Jun 2019 11:33:21 -0400
+Received: from mga18.intel.com ([134.134.136.126]:64871 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725780AbfFNPdV (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 14 Jun 2019 11:33:21 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Jun 2019 08:33:20 -0700
+X-ExtLoop1: 1
+Received: from yyu32-desk1.sc.intel.com ([10.144.153.205])
+  by fmsmga001.fm.intel.com with ESMTP; 14 Jun 2019 08:33:20 -0700
+Message-ID: <cf0d1470e95e0a8b88742651d06601a53d6655c1.camel@intel.com>
+Subject: Re: [PATCH v7 03/14] x86/cet/ibt: Add IBT legacy code bitmap setup
+ function
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Dave Hansen <dave.hansen@intel.com>,
+        Andy Lutomirski <luto@amacapital.net>
+Cc:     Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ben Maurer <bmaurer@fb.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Dave Watson <davejwatson@fb.com>, Paul Turner <pjt@google.com>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: [PATCH glibc 2/5] glibc: sched_getcpu(): use rseq cpu_id TLS on Linux (v5)
-Date:   Fri, 14 Jun 2019 11:23:01 -0400
-Message-Id: <20190614152304.12321-3-mathieu.desnoyers@efficios.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190614152304.12321-1-mathieu.desnoyers@efficios.com>
-References: <20190614152304.12321-1-mathieu.desnoyers@efficios.com>
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>
+Date:   Fri, 14 Jun 2019 08:25:16 -0700
+In-Reply-To: <ea5e333f-8cd6-8396-635f-a9dc580d5364@intel.com>
+References: <20190606200926.4029-1-yu-cheng.yu@intel.com>
+         <20190606200926.4029-4-yu-cheng.yu@intel.com>
+         <20190607080832.GT3419@hirez.programming.kicks-ass.net>
+         <aa8a92ef231d512b5c9855ef416db050b5ab59a6.camel@intel.com>
+         <20190607174336.GM3436@hirez.programming.kicks-ass.net>
+         <b3de4110-5366-fdc7-a960-71dea543a42f@intel.com>
+         <34E0D316-552A-401C-ABAA-5584B5BC98C5@amacapital.net>
+         <7e0b97bf1fbe6ff20653a8e4e147c6285cc5552d.camel@intel.com>
+         <25281DB3-FCE4-40C2-BADB-B3B05C5F8DD3@amacapital.net>
+         <e26f7d09376740a5f7e8360fac4805488b2c0a4f.camel@intel.com>
+         <3f19582d-78b1-5849-ffd0-53e8ca747c0d@intel.com>
+         <5aa98999b1343f34828414b74261201886ec4591.camel@intel.com>
+         <0665416d-9999-b394-df17-f2a5e1408130@intel.com>
+         <5c8727dde9653402eea97bfdd030c479d1e8dd99.camel@intel.com>
+         <ac9a20a6-170a-694e-beeb-605a17195034@intel.com>
+         <328275c9b43c06809c9937c83d25126a6e3efcbd.camel@intel.com>
+         <92e56b28-0cd4-e3f4-867b-639d9b98b86c@intel.com>
+         <1b961c71d30e31ecb22da2c5401b1a81cb802d86.camel@intel.com>
+         <ea5e333f-8cd6-8396-635f-a9dc580d5364@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-When available, use the cpu_id field from __rseq_abi on Linux to
-implement sched_getcpu(). Fall-back on the vgetcpu vDSO if unavailable.
+On Mon, 2019-06-10 at 15:59 -0700, Dave Hansen wrote:
+> On 6/10/19 3:40 PM, Yu-cheng Yu wrote:
+> > Ok, we will go back to do_mmap() with MAP_PRIVATE, MAP_NORESERVE and
+> > VM_DONTDUMP.  The bitmap will cover only 48-bit address space.
+> 
+> Could you make sure to discuss the downsides of only doing a 48-bit
+> address space?
 
-Benchmarks:
+The downside is that we cannot load legacy lib's above 48-bit address space, but
+currently ld-linux does not do that.  Should ld-linux do that in the future,
+dlopen() fails.  Considering CRIU migration, we probably need to do this anyway?
 
-x86-64: Intel E5-2630 v3@2.40GHz, 16-core, hyperthreading
+> What are the reasons behind and implications of VM_DONTDUMP?
 
-glibc sched_getcpu():                     13.7 ns (baseline)
-glibc sched_getcpu() using rseq:           2.5 ns (speedup:  5.5x)
-inline load cpuid from __rseq_abi TLS:     0.8 ns (speedup: 17.1x)
+The bitmap is very big.
 
-Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-CC: Carlos O'Donell <carlos@redhat.com>
-CC: Florian Weimer <fweimer@redhat.com>
-CC: Joseph Myers <joseph@codesourcery.com>
-CC: Szabolcs Nagy <szabolcs.nagy@arm.com>
-CC: Thomas Gleixner <tglx@linutronix.de>
-CC: Ben Maurer <bmaurer@fb.com>
-CC: Peter Zijlstra <peterz@infradead.org>
-CC: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-CC: Boqun Feng <boqun.feng@gmail.com>
-CC: Will Deacon <will.deacon@arm.com>
-CC: Dave Watson <davejwatson@fb.com>
-CC: Paul Turner <pjt@google.com>
-CC: libc-alpha@sourceware.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-api@vger.kernel.org
----
-Changes since v1:
-- rseq is only used if both __NR_rseq and RSEQ_SIG are defined.
+In GDB, it should be easy to tell why a control-protection fault occurred
+without the bitmap.
 
-Changes since v2:
-- remove duplicated __rseq_abi extern declaration.
-
-Changes since v3:
-- update ChangeLog.
-
-Changes since v4:
-- Use atomic_load_relaxed to load the __rseq_abi.cpu_id field, a
-  consequence of the fact that __rseq_abi is not volatile anymore.
-- Include atomic.h which provides atomic_load_relaxed.
----
- ChangeLog                              |  5 +++++
- sysdeps/unix/sysv/linux/sched_getcpu.c | 25 +++++++++++++++++++++++--
- 2 files changed, 28 insertions(+), 2 deletions(-)
-
-diff --git a/ChangeLog b/ChangeLog
-index 01a411acbf..58830cafc2 100644
---- a/ChangeLog
-+++ b/ChangeLog
-@@ -1,3 +1,8 @@
-+2019-04-23  Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-+
-+	* sysdeps/unix/sysv/linux/sched_getcpu.c: use rseq cpu_id TLS on
-+	Linux.
-+
- 2019-04-23  Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
- 
- 	* NEWS: Add Restartable Sequences feature description.
-diff --git a/sysdeps/unix/sysv/linux/sched_getcpu.c b/sysdeps/unix/sysv/linux/sched_getcpu.c
-index fb0d317f83..01a818f5b0 100644
---- a/sysdeps/unix/sysv/linux/sched_getcpu.c
-+++ b/sysdeps/unix/sysv/linux/sched_getcpu.c
-@@ -18,14 +18,15 @@
- #include <errno.h>
- #include <sched.h>
- #include <sysdep.h>
-+#include <atomic.h>
- 
- #ifdef HAVE_GETCPU_VSYSCALL
- # define HAVE_VSYSCALL
- #endif
- #include <sysdep-vdso.h>
- 
--int
--sched_getcpu (void)
-+static int
-+vsyscall_sched_getcpu (void)
- {
- #ifdef __NR_getcpu
-   unsigned int cpu;
-@@ -37,3 +38,23 @@ sched_getcpu (void)
-   return -1;
- #endif
- }
-+
-+#ifdef __NR_rseq
-+#include <sys/rseq.h>
-+#endif
-+
-+#if defined __NR_rseq && defined RSEQ_SIG
-+int
-+sched_getcpu (void)
-+{
-+  int cpu_id = atomic_load_relaxed (&__rseq_abi.cpu_id);
-+
-+  return cpu_id >= 0 ? cpu_id : vsyscall_sched_getcpu ();
-+}
-+#else
-+int
-+sched_getcpu (void)
-+{
-+  return vsyscall_sched_getcpu ();
-+}
-+#endif
--- 
-2.17.1
-
+Yu-cheng
