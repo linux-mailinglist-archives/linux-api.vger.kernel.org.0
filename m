@@ -2,25 +2,63 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 89A1248B3B
-	for <lists+linux-api@lfdr.de>; Mon, 17 Jun 2019 20:03:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F21E948BA7
+	for <lists+linux-api@lfdr.de>; Mon, 17 Jun 2019 20:13:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727829AbfFQSCw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 17 Jun 2019 14:02:52 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50144 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726047AbfFQSCw (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 17 Jun 2019 14:02:52 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id CC29781DFE;
-        Mon, 17 Jun 2019 18:02:46 +0000 (UTC)
-Received: from oldenburg2.str.redhat.com (ovpn-116-59.ams2.redhat.com [10.36.116.59])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 4D96978401;
-        Mon, 17 Jun 2019 18:02:41 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
+        id S1726243AbfFQSNk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 17 Jun 2019 14:13:40 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:35677 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726074AbfFQSNj (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 17 Jun 2019 14:13:39 -0400
+Received: by mail-lf1-f68.google.com with SMTP id a25so7241887lfg.2
+        for <linux-api@vger.kernel.org>; Mon, 17 Jun 2019 11:13:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=J081FiTz/dcpmcwzq5O6GF0XKXf+1rYscrgrosKZT9c=;
+        b=HBku58NGVAv95CcjvbfqVxo4zSvDzDkjpBqEa1eT1BUBn499MwtAVYnMb8KuIY8q1x
+         tRdMVTbOCh2URPJ2ZL0QtQNOYWR65ySiiK8lBU7nvffrP+x6MGzSjtH5IXIMF7+XVEV/
+         Dp3mtWFQ74+2UcMPuzNH0qKa44Gwg/tiwMvL4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=J081FiTz/dcpmcwzq5O6GF0XKXf+1rYscrgrosKZT9c=;
+        b=kEfryGx2JAGlvLsvXBHjvV9Bfb5dFebJqQgtAgTsaNsT/7tBckNVjXl10C62nwuJ9m
+         bjtdYFVSuokKN2whBkxskxkHH9YW5fjidX68wqxMct49agsvMy7MSfVpDHX/UuTHF+2U
+         P2IMeAbgo41dwhzN/wEo4bhe3aaioVW8aKK7FdFfH7vc67xzSvCBCDmqGqAEqggezMEy
+         FCvETdoyQmipc8ZLKByMUNMog2drNMlNYKEOpNJzlusPEm5ybIYkt6Q1rB2YJqkvVbZd
+         ODoEk/kPCPl0JmWgzoowfgOyJt666Eu2dCc5nbrDj2VUNCR0ca04TyJmakzg8/P5ITPk
+         yzvA==
+X-Gm-Message-State: APjAAAXQt7Uy/ZLBimJn+elbIUGtyWR6iSA+o8E0J6h+uEuwQS/ZYGUD
+        9LIbAMerSTL781PL0e2FYaSz61JFiVs=
+X-Google-Smtp-Source: APXvYqy24+Of5+PDV1xA6dWO4MVs59tZQimyqBwFoUQby0u3Js6mkl3HWuRx1QK8n8U/GcyhkoSWSQ==
+X-Received: by 2002:ac2:4d17:: with SMTP id r23mr691859lfi.130.1560795217549;
+        Mon, 17 Jun 2019 11:13:37 -0700 (PDT)
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com. [209.85.208.173])
+        by smtp.gmail.com with ESMTPSA id i1sm1847677lfc.86.2019.06.17.11.13.36
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Mon, 17 Jun 2019 11:13:36 -0700 (PDT)
+Received: by mail-lj1-f173.google.com with SMTP id a21so10250352ljh.7
+        for <linux-api@vger.kernel.org>; Mon, 17 Jun 2019 11:13:36 -0700 (PDT)
+X-Received: by 2002:a2e:9bc6:: with SMTP id w6mr17483710ljj.156.1560795216288;
+ Mon, 17 Jun 2019 11:13:36 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190319165123.3967889-1-arnd@arndb.de> <alpine.DEB.2.21.1905072249570.19308@digraph.polyomino.org.uk>
+ <87tvd2j9ye.fsf@oldenburg2.str.redhat.com> <CAHk-=wio1e4=WUUwmo-Ph55BEgH_X3oXzBpvPyLQg2TxzfGYuw@mail.gmail.com>
+ <871s05fd8o.fsf@oldenburg2.str.redhat.com> <CAHk-=wg4ijSoPq-w7ct_VuZvgHx+tUv_QX-We-62dEwK+AOf2w@mail.gmail.com>
+ <87sgs8igfj.fsf@oldenburg2.str.redhat.com> <CAHk-=wjCwnk0nfgCcMYqqX6o9bBrutDtut_fzZ-2VwiZR1y4kw@mail.gmail.com>
+ <87k1dkdr9c.fsf@oldenburg2.str.redhat.com>
+In-Reply-To: <87k1dkdr9c.fsf@oldenburg2.str.redhat.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Mon, 17 Jun 2019 11:13:20 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgiZNERDN7p-bsCzzYGRjeqTQw7kJxJnXAHVjqqO8PGrg@mail.gmail.com>
+Message-ID: <CAHk-=wgiZNERDN7p-bsCzzYGRjeqTQw7kJxJnXAHVjqqO8PGrg@mail.gmail.com>
+Subject: Re: [PATCH] uapi: avoid namespace conflict in linux/posix_types.h
+To:     Florian Weimer <fweimer@redhat.com>
 Cc:     Joseph Myers <joseph@codesourcery.com>,
         Arnd Bergmann <arnd@arndb.de>,
         Linux API <linux-api@vger.kernel.org>,
@@ -30,53 +68,24 @@ Cc:     Joseph Myers <joseph@codesourcery.com>,
         Paul Burton <pburton@wavecomp.com>,
         Deepa Dinamani <deepa.kernel@gmail.com>,
         Linux List Kernel Mailing <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] uapi: avoid namespace conflict in linux/posix_types.h
-References: <20190319165123.3967889-1-arnd@arndb.de>
-        <alpine.DEB.2.21.1905072249570.19308@digraph.polyomino.org.uk>
-        <87tvd2j9ye.fsf@oldenburg2.str.redhat.com>
-        <CAHk-=wio1e4=WUUwmo-Ph55BEgH_X3oXzBpvPyLQg2TxzfGYuw@mail.gmail.com>
-        <871s05fd8o.fsf@oldenburg2.str.redhat.com>
-        <CAHk-=wg4ijSoPq-w7ct_VuZvgHx+tUv_QX-We-62dEwK+AOf2w@mail.gmail.com>
-        <87sgs8igfj.fsf@oldenburg2.str.redhat.com>
-        <CAHk-=wjCwnk0nfgCcMYqqX6o9bBrutDtut_fzZ-2VwiZR1y4kw@mail.gmail.com>
-Date:   Mon, 17 Jun 2019 20:02:39 +0200
-In-Reply-To: <CAHk-=wjCwnk0nfgCcMYqqX6o9bBrutDtut_fzZ-2VwiZR1y4kw@mail.gmail.com>
-        (Linus Torvalds's message of "Mon, 17 Jun 2019 10:49:44 -0700")
-Message-ID: <87k1dkdr9c.fsf@oldenburg2.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.25]); Mon, 17 Jun 2019 18:02:52 +0000 (UTC)
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Linus Torvalds:
-
->> A different approach would rename <asm/posix_types.h> to something more
->> basic, exclude the two structs, and move all internal #includes which do
->> need the structs to the new header.
+On Mon, Jun 17, 2019 at 11:03 AM Florian Weimer <fweimer@redhat.com> wrote:
 >
-> In fact, I wouldn't even rename <posix_types.h> at all, I'd just make
-> sure it's namespace-clean.
->
-> I _think_ the only thing causing problems is  '__kernel_fsid_t' due to
-> that "val[]" thing, so just remove ity entirely, and add it to
-> <statfs.h> instead.
+> There's also __kernel_fd_set in <linux/posix_types.h>.  I may have
+> lumped this up with <asm/posix_types.h>, but it has the same problem.
 
-There's also __kernel_fd_set in <linux/posix_types.h>.  I may have
-lumped this up with <asm/posix_types.h>, but it has the same problem.
+Hmm.
 
-If it's okay to move them both to more natural places (maybe
-<asm/statfs.h> and <linux/socket.h>), I think that should work well for
-glibc.
+That one we might be able to just fix by renaming "fds_bits" to "__fds_bits".
 
-However, application code may have to include additional header files.
-I think the GCC/LLVM sanitizers currently get __kernel_fd_set from
-<linux/posix_types.h> (but I think we discussed it before, they really
-shouldn't use this type because it's misleading).
+Unlike the "val[]" thing, I don't think anybody is supposed to access
+those fields directly.
 
-Thanks,
-Florian
+Of course, "supposed to" and "does" are two very very different things ;)
+
+                  Linus
