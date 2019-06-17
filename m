@@ -2,120 +2,124 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DFD2047636
-	for <lists+linux-api@lfdr.de>; Sun, 16 Jun 2019 19:51:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C307A48039
+	for <lists+linux-api@lfdr.de>; Mon, 17 Jun 2019 13:08:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726926AbfFPRvQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 16 Jun 2019 13:51:16 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:40199 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726121AbfFPRvQ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 16 Jun 2019 13:51:16 -0400
-Received: by mail-wm1-f67.google.com with SMTP id v19so6740691wmj.5;
-        Sun, 16 Jun 2019 10:51:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=eVSTx+XKpmuAqrrVQWr/mEKYA3TUsuFexdVGwSEmrwY=;
-        b=AHmV61cNcCytwE+8j8CjiMsjNIVOGRJl0x50kDtiUSH87Snpxrx+DQjlsrur1SfIqB
-         //5heBapOMqdR6mE4KXvRhYF04XeAIcX5AX82SqojNUX3HwDn9QeOvHwrW5mCR/7W1v9
-         lDgQz/gYNcGt9xJCn4Dn2pHQSSxDETDWn0BSbN/oEfVHIe/mrJGhS4ha3mXeF8YEEZnt
-         8gMDj2Kp4huPCmhP7XjqhLIOm6PvSiZp/HgszoEmiRBNWTWi4B0otGGNvscDA8bKD/c4
-         H7AUWqwpY8ZnIwojAii3StsNC/TP5Hy1JUcBtmvd1ARtIBSFoEHLkoraSPVMPciIaZus
-         Y1Bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=eVSTx+XKpmuAqrrVQWr/mEKYA3TUsuFexdVGwSEmrwY=;
-        b=a6wK+b1JCiAmUgQVlIFTffnfv0l/3Fdoa4nCff/fyLvSq1kW3pE3160uAjZWd7JdxL
-         FFNDsDvClJamIsS3NFO0ZdENZcRwEoeZxHDCAN32zXy1sxS1kDlIpp3qaOnkezKhLnsf
-         DWkbEwYqdQkLSLQ/cs3NWumMRDWs7w3rCxS58/w/htVNyWI9E0CdaQazQnfr3Xfwv/oG
-         qMzcSeLvUyfPVRUs//FjbNBj3SZh23zFd/pseuMoVGzBcqCE7WZgidtMWRDXkhxLt2sp
-         Oywc1SL9Mb7nLVMFrXg3u2cqlS+ku80fRpKvpPSrRUs9PLzqrSk0kyIhZWjIh4A5SLW7
-         NSNw==
-X-Gm-Message-State: APjAAAWsXp9r92bSf5FildTGE9gNT5EwwPk4J7OTxgER2BGiNOdjAmiM
-        /UqHlp8mObRWyeiSC/mImso=
-X-Google-Smtp-Source: APXvYqyBF8D/KuFgdlt61asAqKXISiqUTVlj4ZuVudEgQCX1Wvy8FZxNRT73ct+SazvV623KepnaPw==
-X-Received: by 2002:a1c:a807:: with SMTP id r7mr15250572wme.137.1560707474190;
-        Sun, 16 Jun 2019 10:51:14 -0700 (PDT)
-Received: from [10.83.36.153] ([217.173.96.166])
-        by smtp.gmail.com with ESMTPSA id s12sm8502671wmh.34.2019.06.16.10.51.12
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Sun, 16 Jun 2019 10:51:13 -0700 (PDT)
-Subject: Re: [PATCHv4 17/28] x86/vdso: Switch image on
- setns()/unshare()/clone()
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Dmitry Safonov <dima@arista.com>
-Cc:     linux-kernel@vger.kernel.org, Adrian Reber <adrian@lisas.de>,
-        Andrei Vagin <avagin@openvz.org>,
-        Andy Lutomirski <luto@kernel.org>,
+        id S1727492AbfFQLI6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 17 Jun 2019 07:08:58 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58950 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726730AbfFQLI6 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 17 Jun 2019 07:08:58 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 206F4356E7;
+        Mon, 17 Jun 2019 11:08:32 +0000 (UTC)
+Received: from oldenburg2.str.redhat.com (dhcp-192-180.str.redhat.com [10.33.192.180])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 5EAC57BE78;
+        Mon, 17 Jun 2019 11:08:16 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Dave Martin <Dave.Martin@arm.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
         Arnd Bergmann <arnd@arndb.de>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Cyrill Gorcunov <gorcunov@openvz.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jann Horn <jannh@google.com>, Jeff Dike <jdike@addtoit.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Pavel Emelyanov <xemul@virtuozzo.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        containers@lists.linux-foundation.org, criu@openvz.org,
-        linux-api@vger.kernel.org, x86@kernel.org,
-        Andrei Vagin <avagin@gmail.com>
-References: <20190612192628.23797-1-dima@arista.com>
- <20190612192628.23797-18-dima@arista.com>
- <alpine.DEB.2.21.1906141603500.1722@nanos.tec.linutronix.de>
-From:   Dmitry Safonov <0x7f454c46@gmail.com>
-Message-ID: <efe0d911-e70d-c044-80fc-da7bab8e546d@gmail.com>
-Date:   Sun, 16 Jun 2019 18:51:12 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Subject: Re: [PATCH v7 22/27] binfmt_elf: Extract .note.gnu.property from an ELF file
+References: <20190606200646.3951-1-yu-cheng.yu@intel.com>
+        <20190606200646.3951-23-yu-cheng.yu@intel.com>
+        <20190607180115.GJ28398@e103592.cambridge.arm.com>
+        <94b9c55b3b874825fda485af40ab2a6bc3dad171.camel@intel.com>
+        <87lfy9cq04.fsf@oldenburg2.str.redhat.com>
+        <20190611114109.GN28398@e103592.cambridge.arm.com>
+        <031bc55d8dcdcf4f031e6ff27c33fd52c61d33a5.camel@intel.com>
+        <20190612093238.GQ28398@e103592.cambridge.arm.com>
+Date:   Mon, 17 Jun 2019 13:08:14 +0200
+In-Reply-To: <20190612093238.GQ28398@e103592.cambridge.arm.com> (Dave Martin's
+        message of "Wed, 12 Jun 2019 10:32:38 +0100")
+Message-ID: <87imt4jwpt.fsf@oldenburg2.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <alpine.DEB.2.21.1906141603500.1722@nanos.tec.linutronix.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.30]); Mon, 17 Jun 2019 11:08:57 +0000 (UTC)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 6/14/19 3:05 PM, Thomas Gleixner wrote:
-> On Wed, 12 Jun 2019, Dmitry Safonov wrote:
->>  
->> +#ifdef CONFIG_TIME_NS
->> +int vdso_join_timens(struct task_struct *task)
->> +{
->> +	struct mm_struct *mm = task->mm;
->> +	struct vm_area_struct *vma;
->> +
->> +	if (down_write_killable(&mm->mmap_sem))
->> +		return -EINTR;
->> +
->> +	for (vma = mm->mmap; vma; vma = vma->vm_next) {
->> +		unsigned long size = vma->vm_end - vma->vm_start;
->> +
->> +		if (vma_is_special_mapping(vma, &vvar_mapping) ||
->> +		    vma_is_special_mapping(vma, &vdso_mapping))
->> +			zap_page_range(vma, vma->vm_start, size);
->> +	}
->> +
->> +	up_write(&mm->mmap_sem);
->> +	return 0;
->> +}
->> +#else /* CONFIG_TIME_NS */
->> +int vdso_join_timens(struct task_struct *task)
->> +{
->> +	return -ENXIO;
->> +}
-> 
-> Is that else path really required? The callsite is only compiled when
-> CONFIG_TIME_NS is enabled, right?
+* Dave Martin:
 
-Oh, yes - will drop this.
+> On Tue, Jun 11, 2019 at 12:31:34PM -0700, Yu-cheng Yu wrote:
+>> On Tue, 2019-06-11 at 12:41 +0100, Dave Martin wrote:
+>> > On Mon, Jun 10, 2019 at 07:24:43PM +0200, Florian Weimer wrote:
+>> > > * Yu-cheng Yu:
+>> > > 
+>> > > > To me, looking at PT_GNU_PROPERTY and not trying to support anything is a
+>> > > > logical choice.  And it breaks only a limited set of toolchains.
+>> > > > 
+>> > > > I will simplify the parser and leave this patch as-is for anyone who wants
+>> > > > to
+>> > > > back-port.  Are there any objections or concerns?
+>> > > 
+>> > > Red Hat Enterprise Linux 8 does not use PT_GNU_PROPERTY and is probably
+>> > > the largest collection of CET-enabled binaries that exists today.
+>> > 
+>> > For clarity, RHEL is actively parsing these properties today?
+>> > 
+>> > > My hope was that we would backport the upstream kernel patches for CET,
+>> > > port the glibc dynamic loader to the new kernel interface, and be ready
+>> > > to run with CET enabled in principle (except that porting userspace
+>> > > libraries such as OpenSSL has not really started upstream, so many
+>> > > processes where CET is particularly desirable will still run without
+>> > > it).
+>> > > 
+>> > > I'm not sure if it is a good idea to port the legacy support if it's not
+>> > > part of the mainline kernel because it comes awfully close to creating
+>> > > our own private ABI.
+>> > 
+>> > I guess we can aim to factor things so that PT_NOTE scanning is
+>> > available as a fallback on arches for which the absence of
+>> > PT_GNU_PROPERTY is not authoritative.
+>> 
+>> We can probably check PT_GNU_PROPERTY first, and fallback (based on ld-linux
+>> version?) to PT_NOTE scanning?
+>
+> For arm64, we can check for PT_GNU_PROPERTY and then give up
+> unconditionally.
+>
+> For x86, we would fall back to PT_NOTE scanning, but this will add a bit
+> of cost to binaries that don't have NT_GNU_PROPERTY_TYPE_0.  The ld.so
+> version doesn't tell you what ELF ABI a given executable conforms to.
+>
+> Since this sounds like it's largely a distro-specific issue, maybe there
+> could be a Kconfig option to turn the fallback PT_NOTE scanning on?
+
+I'm worried that this causes interop issues similarly to what we see
+with VSYSCALL today.  If we need both and a way to disable it, it should
+be something like a personality flag which can be configured for each
+process tree separately.  Ideally, we'd settle on one correct approach
+(i.e., either always process both, or only process PT_GNU_PROPERTY) and
+enforce that.
 
 Thanks,
-          Dmitry
+Florian
