@@ -2,22 +2,25 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 285FC485AE
-	for <lists+linux-api@lfdr.de>; Mon, 17 Jun 2019 16:40:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BAE7485FE
+	for <lists+linux-api@lfdr.de>; Mon, 17 Jun 2019 16:50:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727485AbfFQOir (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 17 Jun 2019 10:38:47 -0400
-Received: from mx2.suse.de ([195.135.220.15]:53368 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726642AbfFQOir (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 17 Jun 2019 10:38:47 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 8AAABAEC3;
-        Mon, 17 Jun 2019 14:38:44 +0000 (UTC)
-Date:   Mon, 17 Jun 2019 16:38:42 +0200
-From:   Michal Hocko <mhocko@kernel.org>
-To:     Waiman Long <longman@redhat.com>
+        id S1727118AbfFQOuj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 17 Jun 2019 10:50:39 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56816 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726065AbfFQOuj (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 17 Jun 2019 10:50:39 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 2823DC02938A;
+        Mon, 17 Jun 2019 14:50:26 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-85.bos.redhat.com [10.18.17.85])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 8730B7DF71;
+        Mon, 17 Jun 2019 14:50:23 +0000 (UTC)
+Subject: Re: [PATCH] mm, memcg: Report number of memcg caches in slabinfo
+To:     Michal Hocko <mhocko@kernel.org>
 Cc:     Christoph Lameter <cl@linux.com>,
         Pekka Enberg <penberg@kernel.org>,
         David Rientjes <rientjes@google.com>,
@@ -28,126 +31,49 @@ Cc:     Christoph Lameter <cl@linux.com>,
         Shakeel Butt <shakeelb@google.com>,
         Vladimir Davydov <vdavydov.dev@gmail.com>,
         linux-api@vger.kernel.org
-Subject: Re: [PATCH] mm, memcg: Report number of memcg caches in slabinfo
-Message-ID: <20190617143842.GC1492@dhcp22.suse.cz>
 References: <20190617142149.5245-1-longman@redhat.com>
+ <20190617143842.GC1492@dhcp22.suse.cz>
+From:   Waiman Long <longman@redhat.com>
+Organization: Red Hat
+Message-ID: <9e165eae-e354-04c4-6362-0f80fe819469@redhat.com>
+Date:   Mon, 17 Jun 2019 10:50:23 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190617142149.5245-1-longman@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190617143842.GC1492@dhcp22.suse.cz>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.32]); Mon, 17 Jun 2019 14:50:39 +0000 (UTC)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-[Cc linux-api]
+On 6/17/19 10:38 AM, Michal Hocko wrote:
+> [Cc linux-api]
+>
+> On Mon 17-06-19 10:21:49, Waiman Long wrote:
+>> There are concerns about memory leaks from extensive use of memory
+>> cgroups as each memory cgroup creates its own set of kmem caches. There
+>> is a possiblity that the memcg kmem caches may remain even after the
+>> memory cgroup removal.
+>>
+>> Therefore, it will be useful to show how many memcg caches are present
+>> for each of the kmem caches.
+> How is a user going to use that information?  Btw. Don't we have an
+> interface to display the number of (dead) cgroups?
 
-On Mon 17-06-19 10:21:49, Waiman Long wrote:
-> There are concerns about memory leaks from extensive use of memory
-> cgroups as each memory cgroup creates its own set of kmem caches. There
-> is a possiblity that the memcg kmem caches may remain even after the
-> memory cgroup removal.
-> 
-> Therefore, it will be useful to show how many memcg caches are present
-> for each of the kmem caches.
+The interface to report dead cgroups is for cgroup v2 (cgroup.stat)
+only. I don't think there is a way to find that for cgroup v1. Also the
+number of memcg kmem caches may not be the same as the number of
+memcg's. It can range from 0 to above the number of memcg's.  So it is
+an interesting number by itself.
 
-How is a user going to use that information?  Btw. Don't we have an
-interface to display the number of (dead) cgroups?
+From the user perspective, if the numbers is way above the number of
+memcg's, there is probably something wrong there.
 
-Keeping the rest of the email for the reference.
+Cheers,
+Longman
 
-> As slabinfo reporting code has to iterate
-> through all the memcg caches to get the final numbers anyway, there is
-> no additional cost in reporting the number of memcg caches available.
-> 
-> The slabinfo version is bumped up to 2.2 as a new "<num_caches>" column
-> is added at the end.
-> 
-> Signed-off-by: Waiman Long <longman@redhat.com>
-> ---
->  mm/slab_common.c | 24 ++++++++++++++++--------
->  1 file changed, 16 insertions(+), 8 deletions(-)
-> 
-> diff --git a/mm/slab_common.c b/mm/slab_common.c
-> index 58251ba63e4a..c7aa47a99b2b 100644
-> --- a/mm/slab_common.c
-> +++ b/mm/slab_common.c
-> @@ -1308,13 +1308,13 @@ static void print_slabinfo_header(struct seq_file *m)
->  	 * without _too_ many complaints.
->  	 */
->  #ifdef CONFIG_DEBUG_SLAB
-> -	seq_puts(m, "slabinfo - version: 2.1 (statistics)\n");
-> +	seq_puts(m, "slabinfo - version: 2.2 (statistics)\n");
->  #else
-> -	seq_puts(m, "slabinfo - version: 2.1\n");
-> +	seq_puts(m, "slabinfo - version: 2.2\n");
->  #endif
->  	seq_puts(m, "# name            <active_objs> <num_objs> <objsize> <objperslab> <pagesperslab>");
->  	seq_puts(m, " : tunables <limit> <batchcount> <sharedfactor>");
-> -	seq_puts(m, " : slabdata <active_slabs> <num_slabs> <sharedavail>");
-> +	seq_puts(m, " : slabdata <active_slabs> <num_slabs> <sharedavail> <num_caches>");
->  #ifdef CONFIG_DEBUG_SLAB
->  	seq_puts(m, " : globalstat <listallocs> <maxobjs> <grown> <reaped> <error> <maxfreeable> <nodeallocs> <remotefrees> <alienoverflow>");
->  	seq_puts(m, " : cpustat <allochit> <allocmiss> <freehit> <freemiss>");
-> @@ -1338,14 +1338,18 @@ void slab_stop(struct seq_file *m, void *p)
->  	mutex_unlock(&slab_mutex);
->  }
->  
-> -static void
-> +/*
-> + * Return number of memcg caches.
-> + */
-> +static unsigned int
->  memcg_accumulate_slabinfo(struct kmem_cache *s, struct slabinfo *info)
->  {
->  	struct kmem_cache *c;
->  	struct slabinfo sinfo;
-> +	unsigned int cnt = 0;
->  
->  	if (!is_root_cache(s))
-> -		return;
-> +		return 0;
->  
->  	for_each_memcg_cache(c, s) {
->  		memset(&sinfo, 0, sizeof(sinfo));
-> @@ -1356,17 +1360,20 @@ memcg_accumulate_slabinfo(struct kmem_cache *s, struct slabinfo *info)
->  		info->shared_avail += sinfo.shared_avail;
->  		info->active_objs += sinfo.active_objs;
->  		info->num_objs += sinfo.num_objs;
-> +		cnt++;
->  	}
-> +	return cnt;
->  }
->  
->  static void cache_show(struct kmem_cache *s, struct seq_file *m)
->  {
->  	struct slabinfo sinfo;
-> +	unsigned int nr_memcg_caches;
->  
->  	memset(&sinfo, 0, sizeof(sinfo));
->  	get_slabinfo(s, &sinfo);
->  
-> -	memcg_accumulate_slabinfo(s, &sinfo);
-> +	nr_memcg_caches = memcg_accumulate_slabinfo(s, &sinfo);
->  
->  	seq_printf(m, "%-17s %6lu %6lu %6u %4u %4d",
->  		   cache_name(s), sinfo.active_objs, sinfo.num_objs, s->size,
-> @@ -1374,8 +1381,9 @@ static void cache_show(struct kmem_cache *s, struct seq_file *m)
->  
->  	seq_printf(m, " : tunables %4u %4u %4u",
->  		   sinfo.limit, sinfo.batchcount, sinfo.shared);
-> -	seq_printf(m, " : slabdata %6lu %6lu %6lu",
-> -		   sinfo.active_slabs, sinfo.num_slabs, sinfo.shared_avail);
-> +	seq_printf(m, " : slabdata %6lu %6lu %6lu %3u",
-> +		   sinfo.active_slabs, sinfo.num_slabs, sinfo.shared_avail,
-> +		   nr_memcg_caches);
->  	slabinfo_show_stats(m, s);
->  	seq_putc(m, '\n');
->  }
-> -- 
-> 2.18.1
-
--- 
-Michal Hocko
-SUSE Labs
