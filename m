@@ -2,120 +2,61 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A38644A23A
-	for <lists+linux-api@lfdr.de>; Tue, 18 Jun 2019 15:32:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48C454A32B
+	for <lists+linux-api@lfdr.de>; Tue, 18 Jun 2019 16:00:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729231AbfFRNcc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 18 Jun 2019 09:32:32 -0400
-Received: from foss.arm.com ([217.140.110.172]:41266 "EHLO foss.arm.com"
+        id S1729061AbfFROAm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 18 Jun 2019 10:00:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51480 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726088AbfFRNcc (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 18 Jun 2019 09:32:32 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2CBDA2B;
-        Tue, 18 Jun 2019 06:32:31 -0700 (PDT)
-Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 956973F718;
-        Tue, 18 Jun 2019 06:32:27 -0700 (PDT)
-Date:   Tue, 18 Jun 2019 14:32:25 +0100
-From:   Dave Martin <Dave.Martin@arm.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Florian Weimer <fweimer@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Subject: Re: [PATCH v7 22/27] binfmt_elf: Extract .note.gnu.property from an
- ELF file
-Message-ID: <20190618133223.GD2790@e103592.cambridge.arm.com>
-References: <87lfy9cq04.fsf@oldenburg2.str.redhat.com>
- <20190611114109.GN28398@e103592.cambridge.arm.com>
- <031bc55d8dcdcf4f031e6ff27c33fd52c61d33a5.camel@intel.com>
- <20190612093238.GQ28398@e103592.cambridge.arm.com>
- <87imt4jwpt.fsf@oldenburg2.str.redhat.com>
- <alpine.DEB.2.21.1906171418220.1854@nanos.tec.linutronix.de>
- <20190618091248.GB2790@e103592.cambridge.arm.com>
- <20190618124122.GH3419@hirez.programming.kicks-ass.net>
- <87ef3r9i2j.fsf@oldenburg2.str.redhat.com>
- <20190618125512.GJ3419@hirez.programming.kicks-ass.net>
+        id S1726047AbfFROAm (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 18 Jun 2019 10:00:42 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 2B293308792D;
+        Tue, 18 Jun 2019 14:00:37 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-120-57.rdu2.redhat.com [10.10.120.57])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 06F427BE64;
+        Tue, 18 Jun 2019 14:00:30 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+In-Reply-To: <20190601160822.GA77761@google.com>
+References: <20190601160822.GA77761@google.com> <155905626142.1662.18430571708534506785.stgit@warthog.procyon.org.uk> <155905633578.1662.8087594848892366318.stgit@warthog.procyon.org.uk>
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     dhowells@redhat.com, viro@zeniv.linux.org.uk, raven@themaw.net,
+        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mszeredi@redhat.com
+Subject: Re: [PATCH 09/25] vfs: Allow mount information to be queried by fsinfo() [ver #13]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190618125512.GJ3419@hirez.programming.kicks-ass.net>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <18753.1560866343.1@warthog.procyon.org.uk>
+From:   David Howells <dhowells@redhat.com>
+Date:   Tue, 18 Jun 2019 15:00:30 +0100
+Message-ID: <18849.1560866430@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.45]); Tue, 18 Jun 2019 14:00:42 +0000 (UTC)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jun 18, 2019 at 02:55:12PM +0200, Peter Zijlstra wrote:
-> On Tue, Jun 18, 2019 at 02:47:00PM +0200, Florian Weimer wrote:
-> > * Peter Zijlstra:
-> > 
-> > > I'm not sure I read Thomas' comment like that. In my reading keeping the
-> > > PT_NOTE fallback is exactly one of those 'fly workarounds'. By not
-> > > supporting PT_NOTE only the 'fine' people already shit^Hpping this out
-> > > of tree are affected, and we don't have to care about them at all.
-> > 
-> > Just to be clear here: There was an ABI document that required PT_NOTE
-> > parsing.
+Joel Fernandes <joel@joelfernandes.org> wrote:
+
+> > +	record.mnt_id = m->mnt_id;
+> > +	record.notify_counter = atomic_read(&m->mnt_notify_counter);
+> > +	store_mount_fsinfo(params, &record);
+> > +
+> > +	rcu_read_unlock();
 > 
-> URGH.
+> Not super familiar with this code, but wanted to check with you:
 > 
-> > The Linux kernel does *not* define the x86-64 ABI, it only
-> > implements it.  The authoritative source should be the ABI document.
-> >
-> > In this particularly case, so far anyone implementing this ABI extension
-> > tried to provide value by changing it, sometimes successfully.  Which
-> > makes me wonder why we even bother to mainatain ABI documentation.  The
-> > kernel is just very late to the party.
-> 
-> How can the kernel be late to the party if all of this is spinning
-> wheels without kernel support?
+> Here, if the rcu_read_lock is supposed to protect the RCU list, can
+> rcu_read_lock() scope be reduced to just wrapping around the
+> list_for_each_entry_rcu?
 
-PT_GNU_PROPERTY is mentioned and allocated a p_type value in hjl's
-spec [1], but otherwise seems underspecified.
+Done.
 
-In particular, it's not clear whether a PT_GNU_PROPERTY phdr _must_ be
-emitted for NT_GNU_PROPERTY_TYPE_0.  While it seems a no-brainer to emit
-it, RHEL's linker already doesn't IIUC, and there are binaries in the
-wild.
-
-Maybe this phdr type is a late addition -- I haven't attempted to dig
-through the history.
-
-
-For arm64 we don't have this out-of-tree legacy to support, so we can
-avoid exhausitvely searching for the note: no PT_GNU_PROPERTY ->
-no note.
-
-So, can we do the same for x86, forcing RHEL to carry some code out of
-tree to support their legacy binaries?  Or do we accept that there is
-already a de facto ABI and try to be compatible with it?
-
-
-From my side, I want to avoid duplication between x86 and arm64, and
-keep unneeded complexity out of the ELF loader where possible.
-
-Cheers
----Dave
-
-
-[1] https://github.com/hjl-tools/linux-abi/wiki/Linux-Extensions-to-gABI
+David
