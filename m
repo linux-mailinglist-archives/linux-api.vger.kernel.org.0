@@ -2,112 +2,79 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C7314A795
-	for <lists+linux-api@lfdr.de>; Tue, 18 Jun 2019 18:50:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C0674A7BF
+	for <lists+linux-api@lfdr.de>; Tue, 18 Jun 2019 18:59:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729806AbfFRQuf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 18 Jun 2019 12:50:35 -0400
-Received: from foss.arm.com ([217.140.110.172]:50042 "EHLO foss.arm.com"
+        id S1729514AbfFRQ6x (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 18 Jun 2019 12:58:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44044 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729327AbfFRQuf (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 18 Jun 2019 12:50:35 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E2F57344;
-        Tue, 18 Jun 2019 09:50:33 -0700 (PDT)
-Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 56B6C3F246;
-        Tue, 18 Jun 2019 09:50:30 -0700 (PDT)
-Date:   Tue, 18 Jun 2019 17:50:28 +0100
-From:   Dave Martin <Dave.Martin@arm.com>
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Subject: Re: [PATCH v7 22/27] binfmt_elf: Extract .note.gnu.property from an
- ELF file
-Message-ID: <20190618165027.GG2790@e103592.cambridge.arm.com>
-References: <87ef3r9i2j.fsf@oldenburg2.str.redhat.com>
- <20190618125512.GJ3419@hirez.programming.kicks-ass.net>
- <20190618133223.GD2790@e103592.cambridge.arm.com>
- <d54fe81be77b9edd8578a6d208c72cd7c0b8c1dd.camel@intel.com>
- <87pnna7v1d.fsf@oldenburg2.str.redhat.com>
- <1ca57aaae8a2121731f2dcb1a137b92eed39a0d2.camel@intel.com>
- <87blyu7ubf.fsf@oldenburg2.str.redhat.com>
- <b0491cb517ba377da6496fe91a98fdbfca4609a9.camel@intel.com>
- <20190618162005.GF2790@e103592.cambridge.arm.com>
- <8736k67tdc.fsf@oldenburg2.str.redhat.com>
+        id S1729472AbfFRQ6w (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 18 Jun 2019 12:58:52 -0400
+Received: from gmail.com (unknown [104.132.1.77])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5F52B206E0;
+        Tue, 18 Jun 2019 16:58:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1560877131;
+        bh=3vKBeAv0ShrIxat0BRxsGm3sPQZrnnaIEz4l4EoSWqQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=LE7EIq6eA2PpxpOB1likILRe0O8eGxX/GDvOgCYGT38/kRS9NlSM1Kuz5tGlTlTm0
+         wnaCikRm2uhxP3Pv2kbqMbs6aaqTTjd2hbYAt5k4w08SaLKVg8D7DsKU3aBQjBmY56
+         Inj4c3YclM86a8bTlmUILWCHPZboeq+XH8FsmLDM=
+Date:   Tue, 18 Jun 2019 09:58:49 -0700
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     Theodore Ts'o <tytso@mit.edu>
+Cc:     linux-fscrypt@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-integrity@vger.kernel.org,
+        Victor Hsieh <victorhsieh@google.com>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        Dave Chinner <david@fromorbit.com>,
+        Christoph Hellwig <hch@lst.de>,
+        "Darrick J . Wong" <darrick.wong@oracle.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [PATCH v4 13/16] fs-verity: support builtin file signatures
+Message-ID: <20190618165849.GE184520@gmail.com>
+References: <20190606155205.2872-1-ebiggers@kernel.org>
+ <20190606155205.2872-14-ebiggers@kernel.org>
+ <20190615152143.GN6142@mit.edu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8736k67tdc.fsf@oldenburg2.str.redhat.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20190615152143.GN6142@mit.edu>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jun 18, 2019 at 06:25:51PM +0200, Florian Weimer wrote:
-> * Dave Martin:
+On Sat, Jun 15, 2019 at 11:21:43AM -0400, Theodore Ts'o wrote:
+> On Thu, Jun 06, 2019 at 08:52:02AM -0700, Eric Biggers wrote:
+> > From: Eric Biggers <ebiggers@google.com>
+> > 
+> > To meet some users' needs, add optional support for having fs-verity
+> > handle a portion of the authentication policy in the kernel.  An
+> > ".fs-verity" keyring is created to which X.509 certificates can be
+> > added; then a sysctl 'fs.verity.require_signatures' can be set to cause
+> > the kernel to enforce that all fs-verity files contain a signature of
+> > their file measurement by a key in this keyring.
 > 
-> > On Tue, Jun 18, 2019 at 09:00:35AM -0700, Yu-cheng Yu wrote:
-> >> On Tue, 2019-06-18 at 18:05 +0200, Florian Weimer wrote:
-> >> > * Yu-cheng Yu:
-> >> > 
-> >> > > > I assumed that it would also parse the main executable and make
-> >> > > > adjustments based on that.
-> >> > > 
-> >> > > Yes, Linux also looks at the main executable's header, but not its
-> >> > > NT_GNU_PROPERTY_TYPE_0 if there is a loader.
-> >> > > 
-> >> > > > 
-> >> > > > ld.so can certainly provide whatever the kernel needs.  We need to tweak
-> >> > > > the existing loader anyway.
-> >> > > > 
-> >> > > > No valid statically-linked binaries exist today, so this is not a
-> >> > > > consideration at this point.
-> >> > > 
-> >> > > So from kernel, we look at only PT_GNU_PROPERTY?
-> >> > 
-> >> > If you don't parse notes/segments in the executable for CET, then yes.
-> >> > We can put PT_GNU_PROPERTY into the loader.
-> >> 
-> >> Thanks!
-> >
-> > Would this require the kernel and ld.so to be updated in a particular
-> > order to avoid breakage?  I don't know enough about RHEL to know how
-> > controversial that might be.
+> I think it might be a good idea to allow the require_signatures
+> setting to be set on a per-file system basis, via a mount option?  We
+> could plumb it in via a flag in fsverity_info, set by the file system.
+
+Perhaps, but this is something that can be added later, so I think we should
+hold off on it until someone needs it.
+
 > 
-> There is no official ld.so that will work with the current userspace
-> interface (in this patch submission).  Upstream glibc needs to be
-> updated anyway, so yet another change isn't much of an issue.  This is
-> not a problem; we knew that something like this might happen.
+> Other than this feature request, looks good; you can add:
 > 
-> Sure, people need a new binutils with backports for PT_GNU_PROPERTY, but
-> given that only very few people will build CET binaries with older
-> binutils, I think that's not a real issue either.
+> Reviewed-off-by: Theodore Ts'o <tytso@mit.edu>
+> 
 
-OK, just wanted to check we weren't missing any requirement for x86.
+I assume you mean "Reviewed-by" :-)
 
-This approach should satisfy the requirement for arm64 nicely.
-
-Cheers
----Dave
+- Eric
