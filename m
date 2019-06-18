@@ -2,36 +2,25 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 62F234A13B
-	for <lists+linux-api@lfdr.de>; Tue, 18 Jun 2019 14:57:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A38644A23A
+	for <lists+linux-api@lfdr.de>; Tue, 18 Jun 2019 15:32:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726428AbfFRM5A (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 18 Jun 2019 08:57:00 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:48236 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725913AbfFRM5A (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 18 Jun 2019 08:57:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=PYbrunDp8avnP39gEYH1AHS83LwzriBAbK/nP8h6WlU=; b=NFww7+43UaA1stlBZehQjCp02
-        Y7PtLUydx/okAC0L065bNSF4kxrjfybpYCytKhBCt/18SskmlAZk54VtmxcTdjaV6l1FMFthC5b0i
-        g9LFyUYpap0oM0WUfvOC+uNl0RB8e9btq4wFuWLqtjMG8DydgEMXYlnpOjjh5PK3JwigOIcp8y1qA
-        XFJOPsNh/gPO5nCfvM+zPvS4/0w5arjT21lzZ1nIwVKocPkNGOuTqKfPxDJTast1+Si3zME1zgiU5
-        V4a5T1WO4eAk1zwJCyZ9GHLBiN9Dqu3GL3wCSnYDNDs1SQpeh8dJAPay0ARexe8rwh5RbgmCRJM2l
-        qYBjy0PXQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hdDdr-0002GP-Ll; Tue, 18 Jun 2019 12:55:16 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 15A3D209C8915; Tue, 18 Jun 2019 14:55:12 +0200 (CEST)
-Date:   Tue, 18 Jun 2019 14:55:12 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     Dave Martin <Dave.Martin@arm.com>,
+        id S1729231AbfFRNcc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 18 Jun 2019 09:32:32 -0400
+Received: from foss.arm.com ([217.140.110.172]:41266 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726088AbfFRNcc (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 18 Jun 2019 09:32:32 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2CBDA2B;
+        Tue, 18 Jun 2019 06:32:31 -0700 (PDT)
+Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 956973F718;
+        Tue, 18 Jun 2019 06:32:27 -0700 (PDT)
+Date:   Tue, 18 Jun 2019 14:32:25 +0100
+From:   Dave Martin <Dave.Martin@arm.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Florian Weimer <fweimer@redhat.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
         "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
@@ -55,9 +44,8 @@ Cc:     Dave Martin <Dave.Martin@arm.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
 Subject: Re: [PATCH v7 22/27] binfmt_elf: Extract .note.gnu.property from an
  ELF file
-Message-ID: <20190618125512.GJ3419@hirez.programming.kicks-ass.net>
-References: <94b9c55b3b874825fda485af40ab2a6bc3dad171.camel@intel.com>
- <87lfy9cq04.fsf@oldenburg2.str.redhat.com>
+Message-ID: <20190618133223.GD2790@e103592.cambridge.arm.com>
+References: <87lfy9cq04.fsf@oldenburg2.str.redhat.com>
  <20190611114109.GN28398@e103592.cambridge.arm.com>
  <031bc55d8dcdcf4f031e6ff27c33fd52c61d33a5.camel@intel.com>
  <20190612093238.GQ28398@e103592.cambridge.arm.com>
@@ -66,36 +54,68 @@ References: <94b9c55b3b874825fda485af40ab2a6bc3dad171.camel@intel.com>
  <20190618091248.GB2790@e103592.cambridge.arm.com>
  <20190618124122.GH3419@hirez.programming.kicks-ass.net>
  <87ef3r9i2j.fsf@oldenburg2.str.redhat.com>
+ <20190618125512.GJ3419@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87ef3r9i2j.fsf@oldenburg2.str.redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190618125512.GJ3419@hirez.programming.kicks-ass.net>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jun 18, 2019 at 02:47:00PM +0200, Florian Weimer wrote:
-> * Peter Zijlstra:
+On Tue, Jun 18, 2019 at 02:55:12PM +0200, Peter Zijlstra wrote:
+> On Tue, Jun 18, 2019 at 02:47:00PM +0200, Florian Weimer wrote:
+> > * Peter Zijlstra:
+> > 
+> > > I'm not sure I read Thomas' comment like that. In my reading keeping the
+> > > PT_NOTE fallback is exactly one of those 'fly workarounds'. By not
+> > > supporting PT_NOTE only the 'fine' people already shit^Hpping this out
+> > > of tree are affected, and we don't have to care about them at all.
+> > 
+> > Just to be clear here: There was an ABI document that required PT_NOTE
+> > parsing.
 > 
-> > I'm not sure I read Thomas' comment like that. In my reading keeping the
-> > PT_NOTE fallback is exactly one of those 'fly workarounds'. By not
-> > supporting PT_NOTE only the 'fine' people already shit^Hpping this out
-> > of tree are affected, and we don't have to care about them at all.
+> URGH.
 > 
-> Just to be clear here: There was an ABI document that required PT_NOTE
-> parsing.
+> > The Linux kernel does *not* define the x86-64 ABI, it only
+> > implements it.  The authoritative source should be the ABI document.
+> >
+> > In this particularly case, so far anyone implementing this ABI extension
+> > tried to provide value by changing it, sometimes successfully.  Which
+> > makes me wonder why we even bother to mainatain ABI documentation.  The
+> > kernel is just very late to the party.
+> 
+> How can the kernel be late to the party if all of this is spinning
+> wheels without kernel support?
 
-URGH.
+PT_GNU_PROPERTY is mentioned and allocated a p_type value in hjl's
+spec [1], but otherwise seems underspecified.
 
-> The Linux kernel does *not* define the x86-64 ABI, it only
-> implements it.  The authoritative source should be the ABI document.
->
-> In this particularly case, so far anyone implementing this ABI extension
-> tried to provide value by changing it, sometimes successfully.  Which
-> makes me wonder why we even bother to mainatain ABI documentation.  The
-> kernel is just very late to the party.
+In particular, it's not clear whether a PT_GNU_PROPERTY phdr _must_ be
+emitted for NT_GNU_PROPERTY_TYPE_0.  While it seems a no-brainer to emit
+it, RHEL's linker already doesn't IIUC, and there are binaries in the
+wild.
 
-How can the kernel be late to the party if all of this is spinning
-wheels without kernel support?
+Maybe this phdr type is a late addition -- I haven't attempted to dig
+through the history.
+
+
+For arm64 we don't have this out-of-tree legacy to support, so we can
+avoid exhausitvely searching for the note: no PT_GNU_PROPERTY ->
+no note.
+
+So, can we do the same for x86, forcing RHEL to carry some code out of
+tree to support their legacy binaries?  Or do we accept that there is
+already a de facto ABI and try to be compatible with it?
+
+
+From my side, I want to avoid duplication between x86 and arm64, and
+keep unneeded complexity out of the ELF loader where possible.
+
+Cheers
+---Dave
+
+
+[1] https://github.com/hjl-tools/linux-abi/wiki/Linux-Extensions-to-gABI
