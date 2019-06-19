@@ -2,45 +2,45 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 86B4A4B85D
-	for <lists+linux-api@lfdr.de>; Wed, 19 Jun 2019 14:30:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C4664B858
+	for <lists+linux-api@lfdr.de>; Wed, 19 Jun 2019 14:30:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731908AbfFSMar (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 19 Jun 2019 08:30:47 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:52241 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731899AbfFSMaq (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 19 Jun 2019 08:30:46 -0400
-Received: by mail-wm1-f67.google.com with SMTP id s3so1584259wms.2
-        for <linux-api@vger.kernel.org>; Wed, 19 Jun 2019 05:30:45 -0700 (PDT)
+        id S1731916AbfFSMas (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 19 Jun 2019 08:30:48 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:56176 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731880AbfFSMar (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 19 Jun 2019 08:30:47 -0400
+Received: by mail-wm1-f66.google.com with SMTP id a15so1577962wmj.5
+        for <linux-api@vger.kernel.org>; Wed, 19 Jun 2019 05:30:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=z4INWegdUTe8Q6ns0c8f39S93Wy18nSWojE+tUkgp2w=;
-        b=QEOdM8qgjmPKwlQfXAihu3Nry5Gn1ysfXwODpD870TSFZw5Py2Tsn2ugpxBbL7jvVG
-         2FAy7UfGFM3Nd5v1MOQgM/Zjxs/6GYmpeOjdMRMTgINTQREj1BCpTiaT6C4bURTsysAJ
-         uelycfOCHdcmWihyjwFAEHcu0a8R+zUcYd+K9fgCYYXNVj3YQ5Qd1vG4CUADq4d0Lhw1
-         HEwTRqgY9EP2M73bh27ffl04y3Wno7lXBUSSbV09j8OXDniqIWXQ175aTzJoBJqs9mfY
-         o52nJVUA228NkCuN9ggRQh7kkoAUDw8O3aR7Syfg6QFKMT1WMH9Hn2YmngnOW0/rIkkU
-         /N+Q==
-X-Gm-Message-State: APjAAAW3Cm2d7szvlrPUsVqbKiO/M2dU3iAFp/FaYLpzNgPNbGAN1p/+
-        Tt5Nf7C8m7KJTSGdylQjzMkKwA==
-X-Google-Smtp-Source: APXvYqwjHs6lmB/m746hPFbtEy06SjhOEIMC6yffNLPHqQEgXE5XeQUFxlR0BzlXmc26vAqECvSlhg==
-X-Received: by 2002:a7b:c74a:: with SMTP id w10mr7804571wmk.99.1560947444548;
-        Wed, 19 Jun 2019 05:30:44 -0700 (PDT)
+        bh=XNbb6ySXfk0LsxFqiydMR/t6l2T9CSD+Rib4fd27MSM=;
+        b=XhRjNh1liQRmWVu5Zy+Ex4lMxQxw8c5H4vXupqd9YB+xxiodtIpoQZc8grO8YIBp1K
+         bVXqpiJ1SUm6kWu6bKxxxsYg0gNF13aMbgTDjJc8oOvhpOAwKtGp23nX4JSiar0QPBTc
+         d5zbpbOb/waNFpSYCb+y+2fo5oNvAIrC735qpxzjbDTbfFnB6gJQ2ny0dvB0Q9/OyZPJ
+         75ToGFfTxZWQb5zOEODjWE0HKQOJJBQ2o7Ctl3n4UPKzjvIA6W69PmHLV/I+B81tdT7Q
+         NfviNwZbKxefoeGBjWbpElp4vlpKBNuvv+Dxqy5kXD6ry+oIs9rvpbbrdYFwdvt9ZZyD
+         jETg==
+X-Gm-Message-State: APjAAAW3ugGVmV/vo/1rXMlPQLifAToKP1xdEhp4KPHMo/pMzwdq5Xbr
+        8TvvHPsTaKW5/twCi/1XQwF5ug==
+X-Google-Smtp-Source: APXvYqzDtNt23rFHKuVaUEO5oLhVSqmtdo5dNeWIEYEQF22eYOjWI12j/aKbz0NzzlQAmjdhiRPz6Q==
+X-Received: by 2002:a1c:b757:: with SMTP id h84mr8627226wmf.127.1560947445793;
+        Wed, 19 Jun 2019 05:30:45 -0700 (PDT)
 Received: from miu.piliscsaba.redhat.com (catv-212-96-48-140.catv.broadband.hu. [212.96.48.140])
-        by smtp.gmail.com with ESMTPSA id 11sm1837513wmd.23.2019.06.19.05.30.42
+        by smtp.gmail.com with ESMTPSA id 11sm1837513wmd.23.2019.06.19.05.30.44
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 19 Jun 2019 05:30:43 -0700 (PDT)
+        Wed, 19 Jun 2019 05:30:45 -0700 (PDT)
 From:   Miklos Szeredi <mszeredi@redhat.com>
 To:     David Howells <dhowells@redhat.com>
 Cc:     Al Viro <viro@zeniv.linux.org.uk>, Ian Kent <raven@themaw.net>,
         linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 12/13] fusectl: don't ignore options
-Date:   Wed, 19 Jun 2019 14:30:18 +0200
-Message-Id: <20190619123019.30032-12-mszeredi@redhat.com>
+Subject: [PATCH 13/13] resctrl: don't ignore options
+Date:   Wed, 19 Jun 2019 14:30:19 +0200
+Message-Id: <20190619123019.30032-13-mszeredi@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190619123019.30032-1-mszeredi@redhat.com>
 References: <20190619123019.30032-1-mszeredi@redhat.com>
@@ -52,7 +52,7 @@ List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 The options "sync", "async", "dirsync", "lazytime", "nolazytime", "mand"
-and "nomand" make no sense for the fusectl filesystem.  If these options
+and "nomand" make no sense for the resctrl filesystem.  If these options
 are supplied to fsconfig(FSCONFIG_SET_FLAG), then return -EINVAL instead of
 silently ignoring the option.
 
@@ -61,22 +61,22 @@ without failing should simply ignore the return value from fsconfig().
 
 Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
 ---
- fs/fuse/control.c | 2 +-
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/fuse/control.c b/fs/fuse/control.c
-index c35013ed7f65..f3aab288929f 100644
---- a/fs/fuse/control.c
-+++ b/fs/fuse/control.c
-@@ -351,7 +351,7 @@ static int fuse_ctl_get_tree(struct fs_context *fc)
+diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+index 83d3c358f95e..16b110d31457 100644
+--- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
++++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+@@ -2053,7 +2053,7 @@ static int rdt_parse_param(struct fs_context *fc, struct fs_parameter *param)
+ 	struct fs_parse_result result;
+ 	int ret, opt;
  
- static const struct fs_context_operations fuse_ctl_context_ops = {
- 	.get_tree	= fuse_ctl_get_tree,
--	.parse_param	= vfs_parse_fs_param,
-+	.parse_param	= vfs_parse_ro_rw,
- };
+-	ret = vfs_parse_sb_flag(fc, param);
++	ret = vfs_parse_ro_rw(fc, param);
+ 	if (ret != -ENOPARAM)
+ 		return ret;
  
- static int fuse_ctl_init_fs_context(struct fs_context *fc)
 -- 
 2.21.0
 
