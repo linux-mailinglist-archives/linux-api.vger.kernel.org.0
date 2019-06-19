@@ -2,48 +2,46 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C4664B858
-	for <lists+linux-api@lfdr.de>; Wed, 19 Jun 2019 14:30:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 974654B92B
+	for <lists+linux-api@lfdr.de>; Wed, 19 Jun 2019 14:55:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731916AbfFSMas (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 19 Jun 2019 08:30:48 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:56176 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731880AbfFSMar (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 19 Jun 2019 08:30:47 -0400
-Received: by mail-wm1-f66.google.com with SMTP id a15so1577962wmj.5
-        for <linux-api@vger.kernel.org>; Wed, 19 Jun 2019 05:30:46 -0700 (PDT)
+        id S1727068AbfFSMzA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 19 Jun 2019 08:55:00 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:50511 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727244AbfFSMzA (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 19 Jun 2019 08:55:00 -0400
+Received: by mail-wm1-f68.google.com with SMTP id c66so1680973wmf.0
+        for <linux-api@vger.kernel.org>; Wed, 19 Jun 2019 05:54:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=XNbb6ySXfk0LsxFqiydMR/t6l2T9CSD+Rib4fd27MSM=;
-        b=XhRjNh1liQRmWVu5Zy+Ex4lMxQxw8c5H4vXupqd9YB+xxiodtIpoQZc8grO8YIBp1K
-         bVXqpiJ1SUm6kWu6bKxxxsYg0gNF13aMbgTDjJc8oOvhpOAwKtGp23nX4JSiar0QPBTc
-         d5zbpbOb/waNFpSYCb+y+2fo5oNvAIrC735qpxzjbDTbfFnB6gJQ2ny0dvB0Q9/OyZPJ
-         75ToGFfTxZWQb5zOEODjWE0HKQOJJBQ2o7Ctl3n4UPKzjvIA6W69PmHLV/I+B81tdT7Q
-         NfviNwZbKxefoeGBjWbpElp4vlpKBNuvv+Dxqy5kXD6ry+oIs9rvpbbrdYFwdvt9ZZyD
-         jETg==
-X-Gm-Message-State: APjAAAW3ugGVmV/vo/1rXMlPQLifAToKP1xdEhp4KPHMo/pMzwdq5Xbr
-        8TvvHPsTaKW5/twCi/1XQwF5ug==
-X-Google-Smtp-Source: APXvYqzDtNt23rFHKuVaUEO5oLhVSqmtdo5dNeWIEYEQF22eYOjWI12j/aKbz0NzzlQAmjdhiRPz6Q==
-X-Received: by 2002:a1c:b757:: with SMTP id h84mr8627226wmf.127.1560947445793;
-        Wed, 19 Jun 2019 05:30:45 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oUKHb/HhBZ0gnG9oANdx2Pjudz3ATWiOMMw4XgDgVpU=;
+        b=ub0CCZLwkNECiRquNcO3IQSrye+ecGR7JH2oSo68+S/41/1TZFrmMJxZllqEhW7D0c
+         U9uNww4MorYeHRHWu5pI5VV5PFGxk2qJixn10lriSpflugGVeqPbq0JvX+CMwLzVGfLx
+         q9tvjHCA3oygYqPm0Gs9xpZ9/eNYRaxlMhabqg8QbxBPjP7cGCPabz4fHc42zBj3IXei
+         kB92cvvGZbNkMbojSTHXlhqjKZG4wI/Rf2IDybsgryMGkKXZS60+tMHUzbWbtaSh38YD
+         rDpqAsB4pXyzrqtklggUhX+Zuk/9RcZ3C6vy87TZRNY3t7CwRbO8B1mQbE1pVSjUNq0y
+         Qlgw==
+X-Gm-Message-State: APjAAAXENel6HbWYizKnIxfHKEIynzpZW3MJB3TLGDcVuLaUMnrjb3I1
+        iRfTof5CmZGvBoI9FoWNFRZEeA==
+X-Google-Smtp-Source: APXvYqw3i0VpSjIBS+93VI0Apn4ELLqPvHfMOQQF7nzI3bFhxPrXEygph6zjfl8uXvwK80wNW3qTeA==
+X-Received: by 2002:a1c:4956:: with SMTP id w83mr8147505wma.67.1560948898067;
+        Wed, 19 Jun 2019 05:54:58 -0700 (PDT)
 Received: from miu.piliscsaba.redhat.com (catv-212-96-48-140.catv.broadband.hu. [212.96.48.140])
-        by smtp.gmail.com with ESMTPSA id 11sm1837513wmd.23.2019.06.19.05.30.44
+        by smtp.gmail.com with ESMTPSA id l12sm42800918wrb.81.2019.06.19.05.54.56
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 19 Jun 2019 05:30:45 -0700 (PDT)
+        Wed, 19 Jun 2019 05:54:57 -0700 (PDT)
 From:   Miklos Szeredi <mszeredi@redhat.com>
 To:     David Howells <dhowells@redhat.com>
 Cc:     Al Viro <viro@zeniv.linux.org.uk>, Ian Kent <raven@themaw.net>,
         linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 13/13] resctrl: don't ignore options
-Date:   Wed, 19 Jun 2019 14:30:19 +0200
-Message-Id: <20190619123019.30032-13-mszeredi@redhat.com>
+Subject: [PATCH v2 05/13] vfs: don't parse "silent" option
+Date:   Wed, 19 Jun 2019 14:54:52 +0200
+Message-Id: <20190619125452.28303-1-mszeredi@redhat.com>
 X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190619123019.30032-1-mszeredi@redhat.com>
-References: <20190619123019.30032-1-mszeredi@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
@@ -51,32 +49,52 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-The options "sync", "async", "dirsync", "lazytime", "nolazytime", "mand"
-and "nomand" make no sense for the resctrl filesystem.  If these options
-are supplied to fsconfig(FSCONFIG_SET_FLAG), then return -EINVAL instead of
-silently ignoring the option.
+While this is a standard option as documented in mount(8), it is ignored by
+most filesystems.  So reject, unless filesystem explicitly wants to handle
+it.
+
+The exception is unconverted filesystems, where it is unknown if the
+filesystem handles this or not.
 
 Any implementation, such as mount(8) that needs to parse this option
 without failing should simply ignore the return value from fsconfig().
 
 Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
 ---
- arch/x86/kernel/cpu/resctrl/rdtgroup.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-index 83d3c358f95e..16b110d31457 100644
---- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-+++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-@@ -2053,7 +2053,7 @@ static int rdt_parse_param(struct fs_context *fc, struct fs_parameter *param)
- 	struct fs_parse_result result;
- 	int ret, opt;
+Changes:
+ - v1 didn't return on matching option in legacy_parse_param()
  
--	ret = vfs_parse_sb_flag(fc, param);
-+	ret = vfs_parse_ro_rw(fc, param);
+ fs/fs_context.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/fs/fs_context.c b/fs/fs_context.c
+index 49636e541293..bd8f8ab8358b 100644
+--- a/fs/fs_context.c
++++ b/fs/fs_context.c
+@@ -51,7 +51,6 @@ static const struct constant_table common_clear_sb_flag[] = {
+ 	{ "nolazytime",	SB_LAZYTIME },
+ 	{ "nomand",	SB_MANDLOCK },
+ 	{ "rw",		SB_RDONLY },
+-	{ "silent",	SB_SILENT },
+ };
+ 
+ /*
+@@ -535,6 +534,15 @@ static int legacy_parse_param(struct fs_context *fc, struct fs_parameter *param)
  	if (ret != -ENOPARAM)
  		return ret;
  
++	if (strcmp(param->key, "silent") == 0) {
++		if (param->type != fs_value_is_flag)
++			return invalf(fc, "%s: Unexpected value for '%s'",
++				      fc->fs_type->name, param->key);
++
++		fc->sb_flags |= SB_SILENT;
++		return 0;
++	}
++
+ 	if (strcmp(param->key, "source") == 0) {
+ 		if (param->type != fs_value_is_string)
+ 			return invalf(fc, "VFS: Legacy: Non-string source");
 -- 
 2.21.0
 
