@@ -2,46 +2,48 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D78954B848
-	for <lists+linux-api@lfdr.de>; Wed, 19 Jun 2019 14:30:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D63BE4B84B
+	for <lists+linux-api@lfdr.de>; Wed, 19 Jun 2019 14:30:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731696AbfFSMa2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 19 Jun 2019 08:30:28 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:44295 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727068AbfFSMa2 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 19 Jun 2019 08:30:28 -0400
-Received: by mail-wr1-f66.google.com with SMTP id r16so20251wrl.11
-        for <linux-api@vger.kernel.org>; Wed, 19 Jun 2019 05:30:26 -0700 (PDT)
+        id S1731789AbfFSMaa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 19 Jun 2019 08:30:30 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:54241 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731784AbfFSMaa (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 19 Jun 2019 08:30:30 -0400
+Received: by mail-wm1-f68.google.com with SMTP id x15so1582779wmj.3
+        for <linux-api@vger.kernel.org>; Wed, 19 Jun 2019 05:30:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZQFy3noIgLzCKKvfJTpCDEkL2tduUrGhw500s5XjKOM=;
-        b=qBt0HNFwuJkWh2B+/8KF6sS5onUHoZsba3dNjfnrBJlSgAOwoX32lhtRKhVPpAUXcM
-         Sg1V6OLbeY4FBpAcP/IT50a/us51JdfyXbm93yoYRwQfBoJGuIDSbqcsDFGTdOF/mW7v
-         hFyrDQUodNY2E8e/KzuSU2eZuYPSZO1F9Vszs2hQUq+0HPlEvckqSme/OMs5SAGgCaqa
-         STNyjeCOOscRgS23BCk+SL+1Ajm99zIFfI3nzo+QXj9cDoRy8C4nTPOg4DkEvLR8YZ0q
-         K5WpR5K97/7FsVp+e0SsOb+u0XlcBrobZHorjqurl1esR7feeGWtc8A0mkvBbliCEwph
-         MO6g==
-X-Gm-Message-State: APjAAAX+FCOgPDMdG2Q+BqWzfnDv/L5XEW3p8yI47hzktEcyJKrG5kM3
-        G+vd7rZIsR1x6kAT+fLCbz9f4jnEZ58=
-X-Google-Smtp-Source: APXvYqyM0eIINJF5V89HnKZUprBMY1GZ2O4C7V7moar/rzzhLkG1oS4KKMtGfJ/P9Up2vnllSLiCCw==
-X-Received: by 2002:adf:ec0f:: with SMTP id x15mr87257157wrn.165.1560947425796;
-        Wed, 19 Jun 2019 05:30:25 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=NVPnLeIv971f025k0CXEVACXNX2ckV29nGAgqfri3so=;
+        b=HGooDJFI+cLZw/AohTbnzHYiLgJpwapLmc5lOUCa1mYkhDwQFm7OXKKkR5BIJCSQlq
+         l2rA9oAGr9UMhMwvGTKRqXQo5Z8AL8vQCkZnUOVgEZwbOlo+LVlh+6iLkmOLCKZRMiXL
+         Di9LLA5ex3m92fclQWDt6L2Cs58ZWnkA6WMi+CSvFaCWt5VaayiDCWSW+5gEoRWXv+4g
+         IexwHPzm1ZDRYBdoEVup4XF/GdazauRiiFpMRiA6gbWzgDPOUcoC96JYQh8zbNV0RNP0
+         +/KKACUdPJgqcDUSjuu99NzgEYuFYPBDsj+XMSJqkbTj+8iJrRFkJjLaagwJsiBv2GrM
+         upcA==
+X-Gm-Message-State: APjAAAV+n1bSK2B8csV8EcZ8G07FzFW29uWwz33QgV/uymlrbHnp3+i7
+        pUAymckcJoU90kC4SvK9lZhzaw==
+X-Google-Smtp-Source: APXvYqzncdXtuPhfGwULjbWMrB268X3YQkOcb42lp3YuSywCSatwWWMFFsHdc7kraOvkXl4lQKZrMQ==
+X-Received: by 2002:a7b:ca43:: with SMTP id m3mr8465369wml.45.1560947427727;
+        Wed, 19 Jun 2019 05:30:27 -0700 (PDT)
 Received: from miu.piliscsaba.redhat.com (catv-212-96-48-140.catv.broadband.hu. [212.96.48.140])
-        by smtp.gmail.com with ESMTPSA id 11sm1837513wmd.23.2019.06.19.05.30.23
+        by smtp.gmail.com with ESMTPSA id 11sm1837513wmd.23.2019.06.19.05.30.25
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 19 Jun 2019 05:30:24 -0700 (PDT)
+        Wed, 19 Jun 2019 05:30:26 -0700 (PDT)
 From:   Miklos Szeredi <mszeredi@redhat.com>
 To:     David Howells <dhowells@redhat.com>
 Cc:     Al Viro <viro@zeniv.linux.org.uk>, Ian Kent <raven@themaw.net>,
         linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 01/13] vfs: verify param type in vfs_parse_sb_flag()
-Date:   Wed, 19 Jun 2019 14:30:07 +0200
-Message-Id: <20190619123019.30032-1-mszeredi@redhat.com>
+Subject: [PATCH 02/13] vfs: move vfs_parse_sb_flag() calls into filesystems
+Date:   Wed, 19 Jun 2019 14:30:08 +0200
+Message-Id: <20190619123019.30032-2-mszeredi@redhat.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190619123019.30032-1-mszeredi@redhat.com>
+References: <20190619123019.30032-1-mszeredi@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
@@ -49,72 +51,233 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-vfs_parse_sb_flag() accepted any kind of param with a matching key, not
-just a flag.  This is wrong, only allow flag type and return -EINVAL
-otherwise.
+Move parsing "standard" options into filesystems' ->parse_param().  This
+patch doesn't change behavior.
+
+This is in preparation for allowing filesystems to reject options that they
+don't support.
 
 Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
 ---
- fs/fs_context.c | 31 +++++++++++++++----------------
- 1 file changed, 15 insertions(+), 16 deletions(-)
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c |  6 +++++-
+ fs/afs/super.c                         |  6 +++++-
+ fs/fs_context.c                        | 12 +++++++-----
+ fs/fuse/control.c                      |  1 +
+ fs/hugetlbfs/inode.c                   |  6 +++++-
+ fs/proc/root.c                         |  6 +++++-
+ fs/sysfs/mount.c                       |  1 +
+ include/linux/fs_context.h             |  1 +
+ ipc/mqueue.c                           |  1 +
+ kernel/cgroup/cgroup-v1.c              |  6 +++++-
+ kernel/cgroup/cgroup.c                 |  6 +++++-
+ kernel/cgroup/cpuset.c                 |  1 +
+ 12 files changed, 42 insertions(+), 11 deletions(-)
 
+diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+index 2131b8bbaad7..83d3c358f95e 100644
+--- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
++++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+@@ -2051,7 +2051,11 @@ static int rdt_parse_param(struct fs_context *fc, struct fs_parameter *param)
+ {
+ 	struct rdt_fs_context *ctx = rdt_fc2context(fc);
+ 	struct fs_parse_result result;
+-	int opt;
++	int ret, opt;
++
++	ret = vfs_parse_sb_flag(fc, param);
++	if (ret != -ENOPARAM)
++		return ret;
+ 
+ 	opt = fs_parse(fc, &rdt_fs_parameters, param, &result);
+ 	if (opt < 0)
+diff --git a/fs/afs/super.c b/fs/afs/super.c
+index f18911e8d770..7f032d08781b 100644
+--- a/fs/afs/super.c
++++ b/fs/afs/super.c
+@@ -321,7 +321,11 @@ static int afs_parse_param(struct fs_context *fc, struct fs_parameter *param)
+ {
+ 	struct fs_parse_result result;
+ 	struct afs_fs_context *ctx = fc->fs_private;
+-	int opt;
++	int ret, opt;
++
++	ret = vfs_parse_sb_flag(fc, param);
++	if (ret != -ENOPARAM)
++		return ret;
+ 
+ 	opt = fs_parse(fc, &afs_fs_parameters, param, &result);
+ 	if (opt < 0)
 diff --git a/fs/fs_context.c b/fs/fs_context.c
-index 103643c68e3f..e56310fd8c75 100644
+index e56310fd8c75..a9f314390b99 100644
 --- a/fs/fs_context.c
 +++ b/fs/fs_context.c
-@@ -81,30 +81,29 @@ static const char *const forbidden_sb_flag[] = {
+@@ -81,7 +81,7 @@ static const char *const forbidden_sb_flag[] = {
  /*
   * Check for a common mount option that manipulates s_flags.
   */
--static int vfs_parse_sb_flag(struct fs_context *fc, const char *key)
-+static int vfs_parse_sb_flag(struct fs_context *fc, struct fs_parameter *param)
+-static int vfs_parse_sb_flag(struct fs_context *fc, struct fs_parameter *param)
++int vfs_parse_sb_flag(struct fs_context *fc, struct fs_parameter *param)
  {
--	unsigned int token;
-+	const char *key = param->key;
-+	unsigned int set, clear;
- 	unsigned int i;
- 
- 	for (i = 0; i < ARRAY_SIZE(forbidden_sb_flag); i++)
- 		if (strcmp(key, forbidden_sb_flag[i]) == 0)
- 			return -EINVAL;
- 
--	token = lookup_constant(common_set_sb_flag, key, 0);
--	if (token) {
--		fc->sb_flags |= token;
--		fc->sb_flags_mask |= token;
--		return 0;
--	}
-+	set = lookup_constant(common_set_sb_flag, key, 0);
-+	clear = lookup_constant(common_clear_sb_flag, key, 0);
-+	if (!set && !clear)
-+		return -ENOPARAM;
- 
--	token = lookup_constant(common_clear_sb_flag, key, 0);
--	if (token) {
--		fc->sb_flags &= ~token;
--		fc->sb_flags_mask |= token;
--		return 0;
--	}
-+	if (param->type != fs_value_is_flag)
-+		return invalf(fc, "%s: Unexpected value for '%s'",
-+			      fc->fs_type->name, param->key);
- 
--	return -ENOPARAM;
-+	fc->sb_flags |= set;
-+	fc->sb_flags &= ~clear;
-+	fc->sb_flags_mask |= set | clear;
-+	return 0;
+ 	const char *key = param->key;
+ 	unsigned int set, clear;
+@@ -105,6 +105,7 @@ static int vfs_parse_sb_flag(struct fs_context *fc, struct fs_parameter *param)
+ 	fc->sb_flags_mask |= set | clear;
+ 	return 0;
  }
++EXPORT_SYMBOL(vfs_parse_sb_flag);
  
  /**
-@@ -130,7 +129,7 @@ int vfs_parse_fs_param(struct fs_context *fc, struct fs_parameter *param)
+  * vfs_parse_fs_param - Add a single parameter to a superblock config
+@@ -129,10 +130,6 @@ int vfs_parse_fs_param(struct fs_context *fc, struct fs_parameter *param)
  	if (!param->key)
  		return invalf(fc, "Unnamed parameter\n");
  
--	ret = vfs_parse_sb_flag(fc, param->key);
-+	ret = vfs_parse_sb_flag(fc, param);
+-	ret = vfs_parse_sb_flag(fc, param);
+-	if (ret != -ENOPARAM)
+-		return ret;
+-
+ 	ret = security_fs_context_parse_param(fc, param);
  	if (ret != -ENOPARAM)
- 		return ret;
+ 		/* Param belongs to the LSM or is disallowed by the LSM; so
+@@ -561,6 +558,11 @@ static int legacy_parse_param(struct fs_context *fc, struct fs_parameter *param)
+ 	struct legacy_fs_context *ctx = fc->fs_private;
+ 	unsigned int size = ctx->data_size;
+ 	size_t len = 0;
++	int ret;
++
++	ret = vfs_parse_sb_flag(fc, param);
++	if (ret != -ENOPARAM)
++		return ret;
+ 
+ 	if (strcmp(param->key, "source") == 0) {
+ 		if (param->type != fs_value_is_string)
+diff --git a/fs/fuse/control.c b/fs/fuse/control.c
+index 14ce1e47f980..c35013ed7f65 100644
+--- a/fs/fuse/control.c
++++ b/fs/fuse/control.c
+@@ -351,6 +351,7 @@ static int fuse_ctl_get_tree(struct fs_context *fc)
+ 
+ static const struct fs_context_operations fuse_ctl_context_ops = {
+ 	.get_tree	= fuse_ctl_get_tree,
++	.parse_param	= vfs_parse_fs_param,
+ };
+ 
+ static int fuse_ctl_init_fs_context(struct fs_context *fc)
+diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
+index 1dcc57189382..89125cc36d0e 100644
+--- a/fs/hugetlbfs/inode.c
++++ b/fs/hugetlbfs/inode.c
+@@ -1149,7 +1149,11 @@ static int hugetlbfs_parse_param(struct fs_context *fc, struct fs_parameter *par
+ 	struct fs_parse_result result;
+ 	char *rest;
+ 	unsigned long ps;
+-	int opt;
++	int ret, opt;
++
++	ret = vfs_parse_sb_flag(fc, param);
++	if (ret != -ENOPARAM)
++		return ret;
+ 
+ 	opt = fs_parse(fc, &hugetlb_fs_parameters, param, &result);
+ 	if (opt < 0)
+diff --git a/fs/proc/root.c b/fs/proc/root.c
+index 8b145e7b9661..6ef1527ad975 100644
+--- a/fs/proc/root.c
++++ b/fs/proc/root.c
+@@ -56,7 +56,11 @@ static int proc_parse_param(struct fs_context *fc, struct fs_parameter *param)
+ {
+ 	struct proc_fs_context *ctx = fc->fs_private;
+ 	struct fs_parse_result result;
+-	int opt;
++	int ret, opt;
++
++	ret = vfs_parse_sb_flag(fc, param);
++	if (ret != -ENOPARAM)
++		return ret;
+ 
+ 	opt = fs_parse(fc, &proc_fs_parameters, param, &result);
+ 	if (opt < 0)
+diff --git a/fs/sysfs/mount.c b/fs/sysfs/mount.c
+index 1b56686ab178..ba576a976e8c 100644
+--- a/fs/sysfs/mount.c
++++ b/fs/sysfs/mount.c
+@@ -49,6 +49,7 @@ static void sysfs_fs_context_free(struct fs_context *fc)
+ 
+ static const struct fs_context_operations sysfs_fs_context_ops = {
+ 	.free		= sysfs_fs_context_free,
++	.parse_param	= vfs_parse_sb_flag,
+ 	.get_tree	= sysfs_get_tree,
+ };
+ 
+diff --git a/include/linux/fs_context.h b/include/linux/fs_context.h
+index d476ff0c10df..39f4d8b0a390 100644
+--- a/include/linux/fs_context.h
++++ b/include/linux/fs_context.h
+@@ -127,6 +127,7 @@ extern struct fs_context *fs_context_for_submount(struct file_system_type *fs_ty
+ 						struct dentry *reference);
+ 
+ extern struct fs_context *vfs_dup_fs_context(struct fs_context *fc);
++extern int vfs_parse_sb_flag(struct fs_context *fc, struct fs_parameter *param);
+ extern int vfs_parse_fs_param(struct fs_context *fc, struct fs_parameter *param);
+ extern int vfs_parse_fs_string(struct fs_context *fc, const char *key,
+ 			       const char *value, size_t v_size);
+diff --git a/ipc/mqueue.c b/ipc/mqueue.c
+index 216cad1ff0d0..557aa887996a 100644
+--- a/ipc/mqueue.c
++++ b/ipc/mqueue.c
+@@ -1577,6 +1577,7 @@ static const struct super_operations mqueue_super_ops = {
+ 
+ static const struct fs_context_operations mqueue_fs_context_ops = {
+ 	.free		= mqueue_fs_context_free,
++	.parse_param	= vfs_parse_sb_flag,
+ 	.get_tree	= mqueue_get_tree,
+ };
+ 
+diff --git a/kernel/cgroup/cgroup-v1.c b/kernel/cgroup/cgroup-v1.c
+index 88006be40ea3..f960e6149311 100644
+--- a/kernel/cgroup/cgroup-v1.c
++++ b/kernel/cgroup/cgroup-v1.c
+@@ -927,7 +927,11 @@ int cgroup1_parse_param(struct fs_context *fc, struct fs_parameter *param)
+ 	struct cgroup_fs_context *ctx = cgroup_fc2context(fc);
+ 	struct cgroup_subsys *ss;
+ 	struct fs_parse_result result;
+-	int opt, i;
++	int ret, opt, i;
++
++	ret = vfs_parse_sb_flag(fc, param);
++	if (ret != -ENOPARAM)
++		return ret;
+ 
+ 	opt = fs_parse(fc, &cgroup1_fs_parameters, param, &result);
+ 	if (opt == -ENOPARAM) {
+diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
+index bf9dbffd46b1..93890285b510 100644
+--- a/kernel/cgroup/cgroup.c
++++ b/kernel/cgroup/cgroup.c
+@@ -1834,7 +1834,11 @@ static int cgroup2_parse_param(struct fs_context *fc, struct fs_parameter *param
+ {
+ 	struct cgroup_fs_context *ctx = cgroup_fc2context(fc);
+ 	struct fs_parse_result result;
+-	int opt;
++	int ret, opt;
++
++	ret = vfs_parse_sb_flag(fc, param);
++	if (ret != -ENOPARAM)
++		return ret;
+ 
+ 	opt = fs_parse(fc, &cgroup2_fs_parameters, param, &result);
+ 	if (opt < 0)
+diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+index 515525ff1cfd..025f6c6083a3 100644
+--- a/kernel/cgroup/cpuset.c
++++ b/kernel/cgroup/cpuset.c
+@@ -394,6 +394,7 @@ static int cpuset_get_tree(struct fs_context *fc)
+ }
+ 
+ static const struct fs_context_operations cpuset_fs_context_ops = {
++	.parse_param	= vfs_parse_sb_flag,
+ 	.get_tree	= cpuset_get_tree,
+ };
  
 -- 
 2.21.0
