@@ -2,85 +2,91 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C20455930F
-	for <lists+linux-api@lfdr.de>; Fri, 28 Jun 2019 06:54:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C3AA84D294
+	for <lists+linux-api@lfdr.de>; Thu, 20 Jun 2019 17:57:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726669AbfF1Ex5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 28 Jun 2019 00:53:57 -0400
-Received: from mail-pf1-f232.google.com ([209.85.210.232]:45173 "EHLO
-        mail-pf1-f232.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726240AbfF1Ex5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 28 Jun 2019 00:53:57 -0400
-Received: by mail-pf1-f232.google.com with SMTP id r1so2315498pfq.12
-        for <linux-api@vger.kernel.org>; Thu, 27 Jun 2019 21:53:56 -0700 (PDT)
+        id S1726675AbfFTP5W (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 20 Jun 2019 11:57:22 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:42290 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726661AbfFTP5W (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 20 Jun 2019 11:57:22 -0400
+Received: by mail-lj1-f196.google.com with SMTP id t28so3175222lje.9
+        for <linux-api@vger.kernel.org>; Thu, 20 Jun 2019 08:57:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ctcd-edu.20150623.gappssmtp.com; s=20150623;
-        h=from:subject:thread-topic:thread-index:date:message-id
-         :accept-language:content-language:content-transfer-encoding
-         :mime-version;
-        bh=uja0RKLj8/ZClYB7/xee4WJU8BS3tEVS8HkeIEY1v6o=;
-        b=Pp6ugwMblAVk8EdSg2uZmnwCkjDnAeUEtYkyl/2pd63LjuHbk2LC1q+xge5CQIC/GH
-         pNJGwVNnOYcmjYXoYf2oan/rFHg6jNqjzfTJF61crDfC7ANiGAwRM8eGWxPOMRhAUQyg
-         lvdfAI0FfcjnvflgOXPvcA6EYs2cbKrmPfHb1o4wQKeSph2+crg4HdF4tb7L54XcZta/
-         /fnDZjiJQb5VzkHj3lI0XB3f129ALqpevx0mKDb5YpjTfAqrLwH+19+2nC7YgxGKaPst
-         vrV+q9eb+0yRY8GkmSrqDs/6aTIyTKO1scCH0BR7nb5KP/AyjnoZR+d5eS80Idxrzoet
-         bK/w==
+        d=joelfernandes.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=jWGyLei7iIX0YquCcpJVdvUVmyD9HHcydfLdWLV6VdQ=;
+        b=bFe5M5Viz6mhTHKLXiMPTsQHKWSneXU/P32CqJMYYaptrO+yxI3A5ZHrwgrV2u0KS5
+         rMgI+Roe2+x3nxcZJ1pksI2BGPwWFMRIupONO1kQiB3020Q2Rgino0w1y37GLCitolpZ
+         audrqCWFZ8YkyqtOjHihYhu0nEmriemTSSrqQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:thread-topic:thread-index:date
-         :message-id:accept-language:content-language
-         :content-transfer-encoding:mime-version;
-        bh=uja0RKLj8/ZClYB7/xee4WJU8BS3tEVS8HkeIEY1v6o=;
-        b=KiwgWFtfu6YZiZqTMlAnpxYwN2kKKzfWP27v5xcgbXJnJu2nYnHibxbZU3u+XNwhJ/
-         2g8UhZeFUSzWOoJGXxIowyUGuWJc/Kh5yMCxpnDnlodukjGcfcAIjOgcsYRo2em5sShQ
-         bva2FFMPI2EDUlba+3D7GuDK2SbelRImPJtuikFCIlntflEst098QMp52BVC95zrDx9G
-         mFGnen0L5kqXgOxMI3fVna45+kEI/te8A/BzdANTnuPg4HZq/pLGTotAlan5MeLp6fiq
-         QsL+8XqpSL2MHRnmDxu34PSxQYyBrDr3jLbm2/vkc0KR96d7vZYvd3wAIMunMqmVAP5C
-         9Zzw==
-X-Gm-Message-State: APjAAAXmaDuefcD85mrVWSuJz2eApH7gPYXofoyi/hcG3hEQOg+zR3MB
-        GS0U3tjHSYJyAvRTnI6TJo9hqesdop0PcLwjcUDqjVjkQOTSnw==
-X-Google-Smtp-Source: APXvYqxWnzytrw28rLZI3OWadgdZ3DWF/dwb3M14m8nGiJfU9cgSFUcH0a5rlr5KUF7rvFkqk8OObu9iTEUA
-X-Received: by 2002:a17:90a:d997:: with SMTP id d23mr10147894pjv.84.1561697636500;
-        Thu, 27 Jun 2019 21:53:56 -0700 (PDT)
-Received: from mail.ctcd.edu (rrcs-67-79-90-89.sw.biz.rr.com. [67.79.90.89])
-        by smtp-relay.gmail.com with ESMTPS id n69sm110753pjb.9.2019.06.27.21.53.56
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 27 Jun 2019 21:53:56 -0700 (PDT)
-X-Relaying-Domain: ctcd.edu
-Received: from CTCEmail02.campus.ctcd.org (172.17.139.89) by
- CTCEmail01.campus.ctcd.org (172.17.139.87) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.845.34; Thu, 20 Jun 2019 09:18:40 -0500
-Received: from CTCEmail02.campus.ctcd.org ([fe80::a0bb:ad1f:8c21:8800]) by
- CTCEmail02.campus.ctcd.org ([fe80::a0bb:ad1f:8c21:8800%2]) with mapi id
- 15.01.0845.034; Thu, 20 Jun 2019 09:18:40 -0500
-From:   "Chambers, Marcine" <MChambers@ctcd.edu>
-Subject: GOOD DAY
-Thread-Topic: GOOD DAY
-Thread-Index: AQHVJ3MOz3fw4vybV0CezupQuoA3uw==
-Date:   Thu, 20 Jun 2019 14:18:40 +0000
-Message-ID: <6406a540a0c54cb4900afa0f5889c847@ctcd.edu>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.17.139.254]
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jWGyLei7iIX0YquCcpJVdvUVmyD9HHcydfLdWLV6VdQ=;
+        b=m9Jvd4XAQYK1Ih1tJ/B/DhqjZQ/AuyUaxxwkTbOAbQKplw6qGkLPUBx+pIVE6Yln1A
+         JOwOHmD34e2n2ZP55oZlhBDvL3JWvO891ocjtiSWel5Z/OKHj99lZ2v4T6frECnCBe1i
+         EfJ62mfq9ciIobxzimUsRROsI0EKvMtwjK16+WQPH0j4JyKTmCg1Ecx4iHd9DbAILeOL
+         zyfJAX9acQpteVqjMTHpk/l537ITo3LQ/cTaNosX07Udicn4oVBG6JuEH1TLIa24kDEe
+         Ufm3aKc8HFHHxzKmGBCzjz5648MnvZsH2y3FEm4cLQXnWKGa/7S5dzOVSD8Sipj1NXPG
+         E+Pw==
+X-Gm-Message-State: APjAAAX/VEcD/R+5pRuVYfdqOPAx3JGbAP0Yx6VdfKlpqh5uUx7Xvclb
+        tLhIqjUTLro6+iuHiS5/9M11PljOK7NC6ACsMUwCWA==
+X-Google-Smtp-Source: APXvYqwrlNR3lH/4m9IeD5Bkl0pzlV3Ska/rPfDDBMmGCP6oxktUzG4DNWPlJ52+fxSnzyurONehOvGDKpiTNUq3KkQ=
+X-Received: by 2002:a2e:3602:: with SMTP id d2mr7778406lja.112.1561046240877;
+ Thu, 20 Jun 2019 08:57:20 -0700 (PDT)
 MIME-Version: 1.0
-To:     unlisted-recipients:; (no To-header on input)
+References: <20190603053655.127730-1-minchan@kernel.org> <20190603053655.127730-2-minchan@kernel.org>
+ <20190604203841.GC228607@google.com> <20190610100904.GC55602@google.com>
+ <20190612172104.GA125771@google.com> <20190613044824.GF55602@google.com>
+ <20190619171340.GA83620@google.com> <20190620050132.GC105727@google.com>
+In-Reply-To: <20190620050132.GC105727@google.com>
+From:   Joel Fernandes <joel@joelfernandes.org>
+Date:   Thu, 20 Jun 2019 11:57:09 -0400
+Message-ID: <CAEXW_YSY2GgW_Fp6VN2Qrf0Gr8c71DUgoTzZoq-V2=jFgDEDvQ@mail.gmail.com>
+Subject: Re: [PATCH v1 1/4] mm: introduce MADV_COLD
+To:     Minchan Kim <minchan@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-mm <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Tim Murray <timmurray@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Daniel Colascione <dancol@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Brian Geffon <bgeffon@google.com>,
+        Jann Horn <jannh@google.com>, Oleg Nesterov <oleg@redhat.com>,
+        Christian Brauner <christian@brauner.io>, oleksandr@redhat.com,
+        hdanton@sina.com, Vladimir Davydov <vdavydov.dev@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-I am Vice Chairman of Hang Seng Bank, I have Important Matter to Discuss wi=
-th you concerning my late client, Died without a NEXT OF KIN. Send me your =
-private email for full details information. email me at (chienkraymond@outl=
-ook.com)
+On Thu, Jun 20, 2019 at 1:01 AM Minchan Kim <minchan@kernel.org> wrote:
+[snip]
+> > > >
+> > > > I think to fix this, what you should do is clear the PG_Idle flag if the
+> > > > young/accessed PTE bits are set. If PG_Idle is already cleared, then you
+> > > > don't need to do anything.
+> > >
+> > > I'm not sure. What does it make MADV_COLD special?
+> > > How about MADV_FREE|MADV_DONTNEED?
+> > > Why don't they clear PG_Idle if pte was young at tearing down pte?
+> >
+> > Good point, so it sounds like those (MADV_FREE|MADV_DONTNEED) also need to be fixed then?
+>
+> Not sure. If you want it, maybe you need to fix every pte clearing and pte_mkold
+> part, which is more general to cover every sites like munmap, get_user_pages and
+> so on. Anyway, I don't think it's related to this patchset.
 
-Mail:infocarfer@aim.com
+Ok, I can look into this issue on my own when I get time. I'll add it
+to my list. No problems with your patch otherwise from my side.
 
-Regards
-Dr.Raymond Chien Kuo Fung
-
+ -Joel
