@@ -2,166 +2,132 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E244C4C60B
-	for <lists+linux-api@lfdr.de>; Thu, 20 Jun 2019 06:16:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D74AE4C649
+	for <lists+linux-api@lfdr.de>; Thu, 20 Jun 2019 06:40:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725857AbfFTEQ3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 20 Jun 2019 00:16:29 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:33047 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725781AbfFTEQ2 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 20 Jun 2019 00:16:28 -0400
-Received: by mail-pf1-f194.google.com with SMTP id x15so903647pfq.0;
-        Wed, 19 Jun 2019 21:16:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=zyH9dIWlfmNUKOXTFOi3+3dsuAgnXj2LnHyE8VRoTXc=;
-        b=HlccYEDLCGdFzCWc2+XXxnlUmoO3pAyGNRqwlxTIzNi6/R1X8imdVc9BrUqQe7kxdf
-         wjirXLQPBRskmIKpqzycg3O5Ks6K4WhYfFe2AHnmgHwkhyjQ3O1iikugt6psHm5jvF6C
-         xzy8pIOiL1mVmYHXDSZ8qTeRt6Uw2pi6024sfFV2YhUQz3+IHRz2JvX/THa3K/cH1gKl
-         tMCqBy1WtvaSQoh7+FtpVwYGUU88Rzuj2sj8k+PGUbqT+q3jfzKgXtyspVWDXCv69Bi6
-         2AD2boCNs/jDfYHodWX5ISOCvWMQWCsLkEIV1mujAIOiJ3ET9i45v4Cv2mEu0qyjX23j
-         65Kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=zyH9dIWlfmNUKOXTFOi3+3dsuAgnXj2LnHyE8VRoTXc=;
-        b=eDefnp/Fdx4XYVTA4WmI+1OPQmpnQyMJBjPM/oK1UZ2sokBeKCrxjn44/MvmYUnUIM
-         6CgxdJfQPO9Uom1/LUi8vkezaSTCsXsiBK6BDIvcubMFWACZS0mv0lv4XxXPPo9TBCkD
-         ToFN+u0DYeSIml98PFt9vfItW8Ov1FULopze+cosm3g1ouJR7nA0iJE0uD1b9U+xb4wA
-         gHAvsk5JRj43cSosWfTefAdsfPH+diFu83RTngozo6ntWDQe616vxYw9gy01uvKovcqp
-         u3W+DPXJhZV9z4zRt/kWgNxgvCMwc62XZqBti1xr2J4Dm46viWMLKA19XtdYklpc/L+2
-         PKXA==
-X-Gm-Message-State: APjAAAXa941mZW6krzLWPvyadaiWFOtSolKzQm99dpsUX9JpxqIGJztM
-        hDHcYQKbGd68UYeGNNcRDLk=
-X-Google-Smtp-Source: APXvYqyrXakYf1mOgEwcNtY1GbmgWRkGU/vcHWbzk94WlGzEI7BfgdBAHm4S3UHVri6Jafyu625cLQ==
-X-Received: by 2002:a63:1226:: with SMTP id h38mr10879479pgl.196.1561004187871;
-        Wed, 19 Jun 2019 21:16:27 -0700 (PDT)
-Received: from google.com ([2401:fa00:d:0:98f1:8b3d:1f37:3e8])
-        by smtp.gmail.com with ESMTPSA id j64sm30038956pfb.126.2019.06.19.21.16.22
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 19 Jun 2019 21:16:26 -0700 (PDT)
-Date:   Thu, 20 Jun 2019 13:16:20 +0900
-From:   Minchan Kim <minchan@kernel.org>
-To:     Michal Hocko <mhocko@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        linux-mm <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-api@vger.kernel.org,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Tim Murray <timmurray@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Brian Geffon <bgeffon@google.com>, jannh@google.com,
-        oleg@redhat.com, christian@brauner.io, oleksandr@redhat.com,
-        hdanton@sina.com, lizeb@google.com
-Subject: Re: [PATCH v2 4/5] mm: introduce MADV_PAGEOUT
-Message-ID: <20190620041620.GB105727@google.com>
-References: <20190610111252.239156-1-minchan@kernel.org>
- <20190610111252.239156-5-minchan@kernel.org>
- <20190619132450.GQ2968@dhcp22.suse.cz>
+        id S1725875AbfFTEkd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 20 Jun 2019 00:40:33 -0400
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:54593 "EHLO
+        out2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725871AbfFTEkc (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 20 Jun 2019 00:40:32 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailout.nyi.internal (Postfix) with ESMTP id B8CFF21C46;
+        Thu, 20 Jun 2019 00:40:31 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Thu, 20 Jun 2019 00:40:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=
+        message-id:subject:from:to:cc:date:in-reply-to:references
+        :content-type:mime-version:content-transfer-encoding; s=fm3; bh=
+        bO10TrMSXc4cbtBZ1aAhOLsOyVdLkD26hY7cPj0wvnE=; b=Nx/xu37GMJogDhyr
+        wSOnM+xusi5GPCusW0P1Pz5jFe+2V5NuAmqTkNPTQHcU+usEKfo2X/phETiLmPfm
+        tZtt19ity+lbdyqBUvnle32A4v21mNwUEADW7CQHY755hNETux9CUviyXbolLFll
+        iLkwpHWTgP7cOz9s+mb3sXl+B6PfUAhEXsRvK5EoKmZcxLjmUyE0Hj3S4jiusZx9
+        SwzogYBeuUlxa1dDw4uUWTR8uppM/GuPFbD87aBJCPShqJs5cVtXZqxkU7Z8R42J
+        Y+fSJccm/wrj/UvQl1GC/CGPnRmuROLpjSIkWuXydu/SP7QYfio0oWxzmXsS7bHS
+        L11wuQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:in-reply-to:message-id:mime-version:references
+        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm3; bh=bO10TrMSXc4cbtBZ1aAhOLsOyVdLkD26hY7cPj0wv
+        nE=; b=vlWmNlaG3ecVfiAoyzfKSQOfD51jf7K3puGsMZAeuYKwng3bIBW0S2MvO
+        Iv73UNlQs+Ej2RWc3f+Q/IZaq6UQg6vvJS5ZwZX51Y4SGHrkpnRTSV0stYeBV0hP
+        VaKCc+EfK9CdjYMxKn2Ra0Ww5qiW1T8bAZadhnYoHkPVm3j+cjD3272vU0W5faTi
+        w8299pFh7K7mrJ2P/w5u1nLFQGROmtu++8cWRl7PEDoC06PYQHV6rPCHMlta6nhj
+        7NogVMfwP0pMev0Uh6Or9PrXZzYVPEBUV8FAYtEMIfmRDvrTB+x8E37JPvulM75Q
+        098GJfuCXiH0NYkVfZxjUlGDh5R6Q==
+X-ME-Sender: <xms:Pw4LXSM169v8bVLKq7WbMyXhs8CvOZxjARXRfpRUUmBKGqTpZuFcMw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrtdefgdekgecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefkuffhvfffjghftggfggfgsehtjeertddtreejnecuhfhrohhmpefkrghnucfm
+    vghnthcuoehrrghvvghnsehthhgvmhgrfidrnhgvtheqnecukfhppeduudekrddvtdelrd
+    dujeefrdefgeenucfrrghrrghmpehmrghilhhfrhhomheprhgrvhgvnhesthhhvghmrgif
+    rdhnvghtnecuvehluhhsthgvrhfuihiivgeptd
+X-ME-Proxy: <xmx:Pw4LXSRrb-fX_TE7HXFI95QtvWgAtWNiCy-7bGGmAahgR4ABdklPwQ>
+    <xmx:Pw4LXbs9DXASFjh8jQZ-B1gxDl1FdIpe49UnGLJXVLt0mt2gdae3ww>
+    <xmx:Pw4LXYWKOvaIt1xou2CWzrFv870ti-5T7mN2dTFLVTYKZIbfYZyYKw>
+    <xmx:Pw4LXWqqZUuMrhD2uSGmH9Ou9ISH0VrokJ10V_o2fNTI-w70nuBivg>
+Received: from pluto.themaw.net (unknown [118.209.173.34])
+        by mail.messagingengine.com (Postfix) with ESMTPA id B4188380079;
+        Thu, 20 Jun 2019 00:40:30 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+        by pluto.themaw.net (Postfix) with ESMTP id 09B2A1C00FC;
+        Thu, 20 Jun 2019 12:40:27 +0800 (AWST)
+Message-ID: <1ea8ec52ce19499f021510b5c9e38be8d8ebe38f.camel@themaw.net>
+Subject: Re: [PATCH 05/13] vfs: don't parse "silent" option
+From:   Ian Kent <raven@themaw.net>
+To:     Miklos Szeredi <mszeredi@redhat.com>,
+        David Howells <dhowells@redhat.com>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Thu, 20 Jun 2019 12:40:26 +0800
+In-Reply-To: <20190619123019.30032-5-mszeredi@redhat.com>
+References: <20190619123019.30032-1-mszeredi@redhat.com>
+         <20190619123019.30032-5-mszeredi@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5 (3.30.5-1.fc29) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190619132450.GQ2968@dhcp22.suse.cz>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jun 19, 2019 at 03:24:50PM +0200, Michal Hocko wrote:
-> On Mon 10-06-19 20:12:51, Minchan Kim wrote:
-> [...]
-> > +static int madvise_pageout_pte_range(pmd_t *pmd, unsigned long addr,
-> > +				unsigned long end, struct mm_walk *walk)
+On Wed, 2019-06-19 at 14:30 +0200, Miklos Szeredi wrote:
+> While this is a standard option as documented in mount(8), it is ignored by
+> most filesystems.  So reject, unless filesystem explicitly wants to handle
+> it.
 > 
-> Again the same question about a potential code reuse...
-> [...]
-> > +regular_page:
-> > +	tlb_change_page_size(tlb, PAGE_SIZE);
-> > +	orig_pte = pte = pte_offset_map_lock(vma->vm_mm, pmd, addr, &ptl);
-> > +	flush_tlb_batched_pending(mm);
-> > +	arch_enter_lazy_mmu_mode();
-> > +	for (; addr < end; pte++, addr += PAGE_SIZE) {
-> > +		ptent = *pte;
-> > +		if (!pte_present(ptent))
-> > +			continue;
-> > +
-> > +		page = vm_normal_page(vma, addr, ptent);
-> > +		if (!page)
-> > +			continue;
-> > +
-> > +		if (isolate_lru_page(page))
-> > +			continue;
-> > +
-> > +		isolated++;
-> > +		if (pte_young(ptent)) {
-> > +			ptent = ptep_get_and_clear_full(mm, addr, pte,
-> > +							tlb->fullmm);
-> > +			ptent = pte_mkold(ptent);
-> > +			set_pte_at(mm, addr, pte, ptent);
-> > +			tlb_remove_tlb_entry(tlb, pte, addr);
-> > +		}
-> > +		ClearPageReferenced(page);
-> > +		test_and_clear_page_young(page);
-> > +		list_add(&page->lru, &page_list);
-> > +		if (isolated >= SWAP_CLUSTER_MAX) {
+> The exception is unconverted filesystems, where it is unknown if the
+> filesystem handles this or not.
 > 
-> Why do we need SWAP_CLUSTER_MAX batching? Especially when we need ...
-> [...]
+> Any implementation, such as mount(8) that needs to parse this option
+> without failing should simply ignore the return value from fsconfig().
 
-It aims for preventing early OOM kill since we isolate too many LRU
-pages concurrently.
+In theory this is fine but every time someone has attempted
+to change the handling of this in the past autofs has had
+problems so I'm a bit wary of the change.
+
+It was originally meant to tell the file system to ignore
+invalid options such as could be found in automount maps that
+are used with multiple OS implementations that have differences
+in their options.
+
+That was, IIRC, primarily NFS although NFS should handle most
+(if not all of those) cases these days.
+
+Nevertheless I'm a bit nervous about it, ;)
 
 > 
-> > +unsigned long reclaim_pages(struct list_head *page_list)
-> > +{
-> > +	int nid = -1;
-> > +	unsigned long nr_reclaimed = 0;
-> > +	LIST_HEAD(node_page_list);
-> > +	struct reclaim_stat dummy_stat;
-> > +	struct scan_control sc = {
-> > +		.gfp_mask = GFP_KERNEL,
-> > +		.priority = DEF_PRIORITY,
-> > +		.may_writepage = 1,
-> > +		.may_unmap = 1,
-> > +		.may_swap = 1,
-> > +	};
-> > +
-> > +	while (!list_empty(page_list)) {
-> > +		struct page *page;
-> > +
-> > +		page = lru_to_page(page_list);
-> > +		if (nid == -1) {
-> > +			nid = page_to_nid(page);
-> > +			INIT_LIST_HEAD(&node_page_list);
-> > +		}
-> > +
-> > +		if (nid == page_to_nid(page)) {
-> > +			list_move(&page->lru, &node_page_list);
-> > +			continue;
-> > +		}
-> > +
-> > +		nr_reclaimed += shrink_page_list(&node_page_list,
-> > +						NODE_DATA(nid),
-> > +						&sc, 0,
-> > +						&dummy_stat, false);
+> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+> ---
+>  fs/fs_context.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> per-node batching in fact. Other than that nothing really jumped at me.
-> Except for the shared page cache side channel timing aspect not being
-> considered AFAICS. To be more specific. Pushing out a shared page cache
-> is possible even now but this interface gives a much easier tool to
-> evict shared state and perform all sorts of timing attacks. Unless I am
-> missing something we should be doing something similar to mincore and
-> ignore shared pages without a writeable access or at least document why
-> we do not care.
+> diff --git a/fs/fs_context.c b/fs/fs_context.c
+> index 49636e541293..c26b353aa858 100644
+> --- a/fs/fs_context.c
+> +++ b/fs/fs_context.c
+> @@ -51,7 +51,6 @@ static const struct constant_table common_clear_sb_flag[] =
+> {
+>  	{ "nolazytime",	SB_LAZYTIME },
+>  	{ "nomand",	SB_MANDLOCK },
+>  	{ "rw",		SB_RDONLY },
+> -	{ "silent",	SB_SILENT },
+>  };
+>  
+>  /*
+> @@ -535,6 +534,9 @@ static int legacy_parse_param(struct fs_context *fc,
+> struct fs_parameter *param)
+>  	if (ret != -ENOPARAM)
+>  		return ret;
+>  
+> +	if (strcmp(param->key, "silent") == 0)
+> +		fc->sb_flags |= SB_SILENT;
+> +
+>  	if (strcmp(param->key, "source") == 0) {
+>  		if (param->type != fs_value_is_string)
+>  			return invalf(fc, "VFS: Legacy: Non-string source");
 
-I'm not sure IIUC side channel attach. As you mentioned, without this syscall,
-1. they already can do that simply by memory hogging
-2. If we need fix MADV_PAGEOUT, that means we need to fix MADV_DONTNEED, too?
