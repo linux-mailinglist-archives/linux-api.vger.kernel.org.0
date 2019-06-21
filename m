@@ -2,81 +2,139 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 53B074EB17
-	for <lists+linux-api@lfdr.de>; Fri, 21 Jun 2019 16:51:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E3DE4EC08
+	for <lists+linux-api@lfdr.de>; Fri, 21 Jun 2019 17:30:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726362AbfFUOuy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 Jun 2019 10:50:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57150 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726338AbfFUOuy (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 21 Jun 2019 10:50:54 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 0E8E6C057F2B;
-        Fri, 21 Jun 2019 14:50:53 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-120-57.rdu2.redhat.com [10.10.120.57])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 6F1B75D9E2;
-        Fri, 21 Jun 2019 14:50:51 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <20190621132839.6ggsppexqfp5htpw@brauner.io>
-References: <20190621132839.6ggsppexqfp5htpw@brauner.io> <20190621094757.zijugn6cfulmchnf@brauner.io> <155905626142.1662.18430571708534506785.stgit@warthog.procyon.org.uk> <155905627927.1662.13276277442207649583.stgit@warthog.procyon.org.uk> <21652.1561122763@warthog.procyon.org.uk> <E76F5188-CED8-4472-9136-BDCDFDAF57F0@brauner.io>
-To:     Christian Brauner <christian@brauner.io>
-Cc:     dhowells@redhat.com, viro@zeniv.linux.org.uk, raven@themaw.net,
-        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, mszeredi@redhat.com
-Subject: Re: [PATCH 02/25] vfs: Allow fsinfo() to query what's in an fs_context [ver #13]
+        id S1726253AbfFUPaT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 Jun 2019 11:30:19 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:45393 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726045AbfFUPaS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Jun 2019 11:30:18 -0400
+Received: by mail-wr1-f66.google.com with SMTP id f9so6969391wre.12
+        for <linux-api@vger.kernel.org>; Fri, 21 Jun 2019 08:30:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=brauner.io; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=5YZiI+zyweO0ekg0qLNHMbAW8w56yWaJIWuJNWGZdrg=;
+        b=dbXgRwNiGWpZ5dPzPLSjqSh7tCw83/f69jreXjaWR8B2wtYOw9YPmU3lsN9j2es8Ei
+         gRWkwcDnXMd82gOZr6ISqY820b65NQMRy8mIDEmdm+knU1sVfW/YrUbgxv5CXyM0koGm
+         hyGmh+vnwAqc4WIK9HTB5GsGjbEmuhVn41ACwvK6XXpzidzcacXcM/u4Jl2IsLVo8JS+
+         JH7Xao84vGP3gdM1BvNWl6r1D06nMa4/X9x1Kgn8LqcJzn4sSLj+qPMOwG20Sgbjn3bO
+         DsSuII112vDKrvffk7Vwpv2Ty/QVRWYlMpN7vmsWKazy160tWAdFaQkwUhg7nSpNIb6V
+         1hDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=5YZiI+zyweO0ekg0qLNHMbAW8w56yWaJIWuJNWGZdrg=;
+        b=KJoD3tDPNDQoTFfnd53BAraPkrE1rOVRNzmhjXWMjxQdIY+3ZcblGK/3E2zvVVljGu
+         dQ75qrBc8ZbsiPMSoa9lzjqaQmWZ/KE8UFJVAWqrp+j6yu/mvDgH6MnkNeAbONQH8oVv
+         I+sigLCk9GyGcbsepLYfvvEZAQ486vSBNQjePp0QUbAqcnFeDipK9z6JimqodTpOvYoF
+         POgo1qcErTc+7weh4GRatxQ/vMEZ/UdIx57afFYa5mPXMujajF/q5b5w6fHJSzWRPpZu
+         kssZlGjA1+oPhI4P4vkFBvTrxZPOvgCAiRE6L0KLhxD+5bEg0jaYmEZNzvH/04mW5cu+
+         r2sQ==
+X-Gm-Message-State: APjAAAXo5WRBYZjGxodpY7Wpd0IDD8GqWVU2/ip2UTeqzy/kZ3bnpjOP
+        S2v8I0v03n3zDZI9orpWT9JZAQ==
+X-Google-Smtp-Source: APXvYqxFKVSRfk08uzwdvWV3KQkOr6uYr6J60bP5szgzwI1jwV+mfyZuPSfD5iQmdEUNbgr/7nQ+KQ==
+X-Received: by 2002:a05:6000:124a:: with SMTP id j10mr3737859wrx.191.1561131016526;
+        Fri, 21 Jun 2019 08:30:16 -0700 (PDT)
+Received: from brauner.io ([212.91.227.56])
+        by smtp.gmail.com with ESMTPSA id w23sm3178921wmi.45.2019.06.21.08.30.14
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Fri, 21 Jun 2019 08:30:15 -0700 (PDT)
+Date:   Fri, 21 Jun 2019 17:30:13 +0200
+From:   Christian Brauner <christian@brauner.io>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Guenter Roeck <linux@roeck-us.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jann Horn <jannh@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        David Howells <dhowells@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Adrian Reber <adrian@lisas.de>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        Ley Foon Tan <lftan@altera.com>,
+        "moderated list:NIOS2 ARCHITECTURE" 
+        <nios2-dev@lists.rocketboards.org>
+Subject: Re: [PATCH v3 2/2] arch: wire-up clone3() syscall
+Message-ID: <20190621153012.fxwhx25mzmzueqh7@brauner.io>
+References: <20190604160944.4058-1-christian@brauner.io>
+ <20190604160944.4058-2-christian@brauner.io>
+ <20190620184451.GA28543@roeck-us.net>
+ <20190620221003.ciuov5fzqxrcaykp@brauner.io>
+ <CAK8P3a2iV7=HkHBVL_puvCQN0DmdKEnVs2aG9MQV_8Q58JSfTA@mail.gmail.com>
+ <20190621111839.v5yqlws6iw7mx4aa@brauner.io>
+ <CAK8P3a0T1=eg5ONbMFhHi=vmk1K5uogZ+5=wpsXvjVDzn6vS=Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <27767.1561128650.1@warthog.procyon.org.uk>
-Date:   Fri, 21 Jun 2019 15:50:50 +0100
-Message-ID: <27768.1561128650@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.32]); Fri, 21 Jun 2019 14:50:54 +0000 (UTC)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAK8P3a0T1=eg5ONbMFhHi=vmk1K5uogZ+5=wpsXvjVDzn6vS=Q@mail.gmail.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Christian Brauner <christian@brauner.io> wrote:
-
-> > >If you tried to go through /proc/pid/fd with open(O_PATH), I think
-> > >you'd get
-> > >the symlink, not the target.
-> > 
-> > Then you should use fdget(), no? :)
+On Fri, Jun 21, 2019 at 04:20:15PM +0200, Arnd Bergmann wrote:
+> On Fri, Jun 21, 2019 at 1:18 PM Christian Brauner <christian@brauner.io> wrote:
+> > On Fri, Jun 21, 2019 at 11:37:50AM +0200, Arnd Bergmann wrote:
+> > >
+> > > I never really liked having __ARCH_WANT_SYS_CLONE here
+> > > because it was the only one that a new architecture needed to
+> > > set: all the other __ARCH_WANT_* are for system calls that
+> > > are already superseded by newer ones, so a new architecture
+> > > would start out with an empty list.
+> > >
+> > > Since __ARCH_WANT_SYS_CLONE3 replaces
+> > > __ARCH_WANT_SYS_CLONE for new architectures, how about
+> > > leaving __ARCH_WANT_SYS_CLONE untouched but instead
+> >
+> > __ARCH_WANT_SYS_CLONE is left untouched. :)
+> >
+> > > coming up with the reverse for clone3 and mark the architectures
+> > > that specifically don't want it (if any)?
+> >
+> > Afaict, your suggestion is more or less the same thing what is done
+> > here. So I'm not sure it buys us anything apart from future
+> > architectures not needing to set __ARCH_WANT_SYS_CLONE3.
+> >
+> > I expect the macro above to be only here temporarily until all arches
+> > have caught up and we're sure that they don't require assembly stubs
+> > (cf. [1]). A decision I'd leave to the maintainers (since even for
+> > nios2 we were kind of on the fence what exactly the sys_clone stub was
+> > supposed to do).
+> >
+> > But I'm happy to take a patch from you if it's equally or more simple
+> > than this one right here.
+> >
+> > In any case, linux-next should be fine on all arches with this fixup
+> > now.
 > 
-> That is unless you want fsinfo() to be useable on any fd and just fds
-> that are returned from the new mount-api syscalls. Maybe that wasn't
-> clear from my first mail.
-
-fsinfo(), as coded, is usable on any fd, as for fstat(), statx() and
-fstatfs().
-
-I have made it such that if you do this on the fd returned by fsopen() or
-fspick(), the access is diverted to the filesystem that the fs_context refers
-to since querying anon_inodes is of little value.
-
-Now, it could be argued that it should require an AT_xxx flag to cause this
-diversion to happen.
-
-> Is the information returned for:
+> I've looked at bit more closely at the nios2 implementation, and I
+> believe this is purely an artifact of this file being copied over
+> from m68k, which also has an odd definition. The glibc side
+> of nios2 clone() is also odd in other ways, but that appears
+> to be unrelated to the kernel ABI.
 > 
-> int fd = fsopen()/fspick();
-> fsinfo(fd);
-> 
-> int ofd = open("/", O_PATH);
-> fsinfo(ofd, ...);
-> 
-> the same if they refer to the same mount or would they differ?
+> I think the best option here would be to not have any special
+> cases and just hook up clone3() the same way on all
+> architectures, with no #ifdef at all. If it turns out to not work
+> on a particular architecture later, they can still disable the
+> syscall then.
 
-At the moment it differs.  In the former case, there may not even be a
-superblock attached to the fd to query, though invariants like filesystem
-parameter types and names can be queried.
+Hm, if you believe that this is fine and want to "vouch" for it by
+whipping up a patch that replaces the wiring up done in [1] I'm happy to
+take it. :) Otherwise I'd feel more comfortable not adding all arches at
+once.
 
-David
+[1]: https://git.kernel.org/pub/scm/linux/kernel/git/brauner/linux.git/log/?h=clone
+
+Christian
