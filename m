@@ -2,102 +2,96 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ECD574DF81
-	for <lists+linux-api@lfdr.de>; Fri, 21 Jun 2019 06:09:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 91AD94E004
+	for <lists+linux-api@lfdr.de>; Fri, 21 Jun 2019 07:22:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725956AbfFUEJl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 Jun 2019 00:09:41 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:42694 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725876AbfFUEJk (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Jun 2019 00:09:40 -0400
-Received: by mail-pf1-f195.google.com with SMTP id q10so2859913pff.9
-        for <linux-api@vger.kernel.org>; Thu, 20 Jun 2019 21:09:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=s+s/XSWVXkMdm2LhsY97bPHzncR03/yzplCNbJ4zAnU=;
-        b=NleuHgZJxbf2bxIW5QCtsY+dKkhc5T/rAVLCWaztJ1qrdcVBIHlpEDmP3xMUP8eKh8
-         73toW62S4i2QSAS9AMrp+Cqj0ue16FPdKbh2JTsCmwKgYThnNOOFpBWR6LH/RPhYXGV4
-         tDcCjXb7IgGi84/+G+GMw6dpHN8vCNKrh0zkY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=s+s/XSWVXkMdm2LhsY97bPHzncR03/yzplCNbJ4zAnU=;
-        b=Qs3Zl9lMwHWmp/JbhF38IcWwTQ+Tc5x74kCKfXsoQGQXembvlk2Ws1gueEol9/HBe2
-         8Mgn7MlPj9gCX6dAN21qbHVf07K4nNdFJIzzJkoJCThpm9ae7BGJakkrFENCCuY8BeEl
-         MhJtf6xdn2cU6EVsy2RDrCfcHsgJO81qEW6JnYZ6Vwue1M8iOi16n4n6B0MF84hoqIz+
-         CSF4rKHgtJtW2+pNrViXgmxdIep/SFDfVALW8Pz0ld/f1u8gor1UYTOA3o3O2szTvJVm
-         Vs85CoVaQXi86r8VxBKgrliAS909xMdX0zGS5fXIBB3Lp2+kYlIkWyF8yRvUJj/TrHge
-         y1rA==
-X-Gm-Message-State: APjAAAX/RNkhBBPLiG4rLuAVafZjsoKCsASErWPDDZi2MtzImQnzCxpX
-        pLmhBMmWH2yTE0a8xYDMnyy62g==
-X-Google-Smtp-Source: APXvYqwmQXLi5Pk3pGhuyO8qiBBiKgdkX+g+szMSnhLqCYqNltxbT3SHmRFeIwEaMyQpArp0jmo8vQ==
-X-Received: by 2002:a63:c60b:: with SMTP id w11mr5685117pgg.356.1561090179984;
-        Thu, 20 Jun 2019 21:09:39 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id 23sm958498pfn.176.2019.06.20.21.09.38
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 20 Jun 2019 21:09:39 -0700 (PDT)
-Date:   Thu, 20 Jun 2019 21:09:38 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Matthew Garrett <matthewgarrett@google.com>
-Cc:     jmorris@namei.org, linux-security@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        David Howells <dhowells@redhat.com>,
-        Matthew Garrett <mjg59@google.com>
-Subject: Re: [PATCH V33 27/30] lockdown: Print current->comm in restriction
- messages
-Message-ID: <201906202109.F7662EB8@keescook>
-References: <20190621011941.186255-1-matthewgarrett@google.com>
- <20190621011941.186255-28-matthewgarrett@google.com>
+        id S1725961AbfFUFWg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 Jun 2019 01:22:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56890 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726030AbfFUFWg (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 21 Jun 2019 01:22:36 -0400
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A74EF215EA
+        for <linux-api@vger.kernel.org>; Fri, 21 Jun 2019 05:22:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1561094555;
+        bh=NuBaidFvEBtC7ilPgjpukJjyDzHqtDpAv+g7vUem4L0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=wHAqle4rYQtIgTUx0PgajIpQgVKMwYiszYWGnbwOGOPg3f8h0SxwonPpfRgqoNfGK
+         xQeM96lmb2OBA0PM5sujPByl7Yu2MDplcbR8vGDNOnHiNd3rwfDyjwpvAMHW6TdhA+
+         nqRfnXEPGM49QDf+f05/i8KCZ4T3qIfq70U1rkKo=
+Received: by mail-wr1-f52.google.com with SMTP id d18so5199283wrs.5
+        for <linux-api@vger.kernel.org>; Thu, 20 Jun 2019 22:22:35 -0700 (PDT)
+X-Gm-Message-State: APjAAAVLW8LB1xAdzsgHxag53a3rjCjglC4uFtifxac0TIoPsgbPotRt
+        4vzTQrfyS0Rt51a6BbE4HJz/mwgvhlz4GCR3PX8xeg==
+X-Google-Smtp-Source: APXvYqxNI6hTt7wfX1kpwI+fEFQ6wgbPiPAT/+6DNON5Il4mnboFbwtvmIjXpVXA3ghfnQeAd17VPzBRahUg/utphO4=
+X-Received: by 2002:adf:cc85:: with SMTP id p5mr32554986wrj.47.1561094554094;
+ Thu, 20 Jun 2019 22:22:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190621011941.186255-28-matthewgarrett@google.com>
+References: <20190621011941.186255-1-matthewgarrett@google.com> <20190621011941.186255-25-matthewgarrett@google.com>
+In-Reply-To: <20190621011941.186255-25-matthewgarrett@google.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Thu, 20 Jun 2019 22:22:21 -0700
+X-Gmail-Original-Message-ID: <CALCETrVUwQP7roLnW6kFG80Cc5U6X_T6AW+BTAftLccYGp8+Ow@mail.gmail.com>
+Message-ID: <CALCETrVUwQP7roLnW6kFG80Cc5U6X_T6AW+BTAftLccYGp8+Ow@mail.gmail.com>
+Subject: Re: [PATCH V33 24/30] bpf: Restrict bpf when kernel lockdown is in
+ confidentiality mode
+To:     Matthew Garrett <matthewgarrett@google.com>
+Cc:     James Morris <jmorris@namei.org>, linux-security@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        David Howells <dhowells@redhat.com>,
+        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Matthew Garrett <mjg59@google.com>,
+        Network Development <netdev@vger.kernel.org>,
+        Chun-Yi Lee <jlee@suse.com>,
+        Daniel Borkmann <daniel@iogearbox.net>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jun 20, 2019 at 06:19:38PM -0700, Matthew Garrett wrote:
-> Print the content of current->comm in messages generated by lockdown to
-> indicate a restriction that was hit.  This makes it a bit easier to find
-> out what caused the message.
-> 
-> The message now patterned something like:
-> 
->         Lockdown: <comm>: <what> is restricted; see man kernel_lockdown.7
-> 
-> Signed-off-by: David Howells <dhowells@redhat.com>
-> Signed-off-by: Matthew Garrett <mjg59@google.com>
-> ---
->  security/lockdown/lockdown.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/security/lockdown/lockdown.c b/security/lockdown/lockdown.c
-> index 14edc475d75c..408f0048f8a2 100644
+On Thu, Jun 20, 2019 at 6:21 PM Matthew Garrett
+<matthewgarrett@google.com> wrote:
+>
+> From: David Howells <dhowells@redhat.com>
+>
+> There are some bpf functions can be used to read kernel memory:
+> bpf_probe_read, bpf_probe_write_user and bpf_trace_printk.  These allow
+> private keys in kernel memory (e.g. the hibernation image signing key) to
+> be read by an eBPF program and kernel memory to be altered without
+> restriction. Disable them if the kernel has been locked down in
+> confidentiality mode.
+
+This patch exemplifies why I don't like this approach:
+
+> @@ -97,6 +97,7 @@ enum lockdown_reason {
+>         LOCKDOWN_INTEGRITY_MAX,
+>         LOCKDOWN_KCORE,
+>         LOCKDOWN_KPROBES,
+> +       LOCKDOWN_BPF,
+>         LOCKDOWN_CONFIDENTIALITY_MAX,
+
 > --- a/security/lockdown/lockdown.c
 > +++ b/security/lockdown/lockdown.c
-> @@ -80,8 +80,8 @@ early_param("lockdown", lockdown_param);
->  static int lockdown_is_locked_down(enum lockdown_reason what)
->  {	
->  	if ((kernel_locked_down >= what) && lockdown_reasons[what])
-> -		pr_notice("Lockdown: %s is restricted; see man kernel_lockdown.7\n",
-> -			  lockdown_reasons[what]);
-> +		pr_notice("Lockdown: %s: %s is restricted; see man kernel_lockdown.7\n",
-> +			  current->comm, lockdown_reasons[what]);
->  	return (kernel_locked_down >= what);
->  }
+> @@ -33,6 +33,7 @@ static char *lockdown_reasons[LOCKDOWN_CONFIDENTIALITY_MAX+1] = {
+>         [LOCKDOWN_INTEGRITY_MAX] = "integrity",
+>         [LOCKDOWN_KCORE] = "/proc/kcore access",
+>         [LOCKDOWN_KPROBES] = "use of kprobes",
+> +       [LOCKDOWN_BPF] = "use of bpf",
+>         [LOCKDOWN_CONFIDENTIALITY_MAX] = "confidentiality",
 
-Maybe needs ratelimiting?
+The text here says "use of bpf", but what this patch is *really* doing
+is locking down use of BPF to read kernel memory.  If the details
+change, then every LSM needs to get updated, and we risk breaking user
+policies that are based on LSMs that offer excessively fine
+granularity.
 
->  
-> -- 
-> 2.22.0.410.gd8fdbe21b5-goog
-> 
+I'd be more comfortable if the LSM only got to see "confidentiality"
+or "integrity".
 
--- 
-Kees Cook
+--Andy
