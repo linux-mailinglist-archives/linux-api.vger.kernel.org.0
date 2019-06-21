@@ -2,96 +2,65 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 91AD94E004
-	for <lists+linux-api@lfdr.de>; Fri, 21 Jun 2019 07:22:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B4814E009
+	for <lists+linux-api@lfdr.de>; Fri, 21 Jun 2019 07:24:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725961AbfFUFWg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 Jun 2019 01:22:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56890 "EHLO mail.kernel.org"
+        id S1725989AbfFUFX6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 Jun 2019 01:23:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57258 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726030AbfFUFWg (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 21 Jun 2019 01:22:36 -0400
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+        id S1725961AbfFUFX5 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 21 Jun 2019 01:23:57 -0400
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A74EF215EA
-        for <linux-api@vger.kernel.org>; Fri, 21 Jun 2019 05:22:35 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 84B6620B1F
+        for <linux-api@vger.kernel.org>; Fri, 21 Jun 2019 05:23:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1561094555;
-        bh=NuBaidFvEBtC7ilPgjpukJjyDzHqtDpAv+g7vUem4L0=;
+        s=default; t=1561094636;
+        bh=2EBeRyKGtMJ2VCsx/+amulz5VlNO21rfW55/TIABIls=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=wHAqle4rYQtIgTUx0PgajIpQgVKMwYiszYWGnbwOGOPg3f8h0SxwonPpfRgqoNfGK
-         xQeM96lmb2OBA0PM5sujPByl7Yu2MDplcbR8vGDNOnHiNd3rwfDyjwpvAMHW6TdhA+
-         nqRfnXEPGM49QDf+f05/i8KCZ4T3qIfq70U1rkKo=
-Received: by mail-wr1-f52.google.com with SMTP id d18so5199283wrs.5
-        for <linux-api@vger.kernel.org>; Thu, 20 Jun 2019 22:22:35 -0700 (PDT)
-X-Gm-Message-State: APjAAAVLW8LB1xAdzsgHxag53a3rjCjglC4uFtifxac0TIoPsgbPotRt
-        4vzTQrfyS0Rt51a6BbE4HJz/mwgvhlz4GCR3PX8xeg==
-X-Google-Smtp-Source: APXvYqxNI6hTt7wfX1kpwI+fEFQ6wgbPiPAT/+6DNON5Il4mnboFbwtvmIjXpVXA3ghfnQeAd17VPzBRahUg/utphO4=
-X-Received: by 2002:adf:cc85:: with SMTP id p5mr32554986wrj.47.1561094554094;
- Thu, 20 Jun 2019 22:22:34 -0700 (PDT)
+        b=BfXvsm3ZMFqMreFwzf/Y/mFIvYqQ0gKS6DdaChN5rbYjXjVuz0k6iR1K4HvIO1nSg
+         9R8PZXDIxDTRJovxkP27+WScSyfoOULeqtwc6/QlNy8AhGWIqmNRx6osjfknRfzaub
+         3eb6B7WSHGzWs77hyeREftTKY7ltG6Laj81/HW8w=
+Received: by mail-wr1-f46.google.com with SMTP id x17so5174153wrl.9
+        for <linux-api@vger.kernel.org>; Thu, 20 Jun 2019 22:23:56 -0700 (PDT)
+X-Gm-Message-State: APjAAAVAXd715c8FdfgBE1LXKnYTxm8T5l5ExBC3jNwKkT+lJz9/0a/N
+        4l0CxKMI5Y/PzJ705bzIccO67YR4u7weXjvj9S30Aw==
+X-Google-Smtp-Source: APXvYqzoWja4c3nDiSBKksnkns9RMIX6XWMOYsDRnjTIanzOX6th+BiBQ5W1AARM8CSSpdlsYrLPc3U1RxriQJo0+wY=
+X-Received: by 2002:a5d:6207:: with SMTP id y7mr72377327wru.265.1561094635161;
+ Thu, 20 Jun 2019 22:23:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190621011941.186255-1-matthewgarrett@google.com> <20190621011941.186255-25-matthewgarrett@google.com>
-In-Reply-To: <20190621011941.186255-25-matthewgarrett@google.com>
+References: <20190621011941.186255-1-matthewgarrett@google.com> <20190621011941.186255-2-matthewgarrett@google.com>
+In-Reply-To: <20190621011941.186255-2-matthewgarrett@google.com>
 From:   Andy Lutomirski <luto@kernel.org>
-Date:   Thu, 20 Jun 2019 22:22:21 -0700
-X-Gmail-Original-Message-ID: <CALCETrVUwQP7roLnW6kFG80Cc5U6X_T6AW+BTAftLccYGp8+Ow@mail.gmail.com>
-Message-ID: <CALCETrVUwQP7roLnW6kFG80Cc5U6X_T6AW+BTAftLccYGp8+Ow@mail.gmail.com>
-Subject: Re: [PATCH V33 24/30] bpf: Restrict bpf when kernel lockdown is in
- confidentiality mode
+Date:   Thu, 20 Jun 2019 22:23:44 -0700
+X-Gmail-Original-Message-ID: <CALCETrX87W4FE1xHF_W4=Do25Ci=LJxnvxNHMs9CTOFo4988aw@mail.gmail.com>
+Message-ID: <CALCETrX87W4FE1xHF_W4=Do25Ci=LJxnvxNHMs9CTOFo4988aw@mail.gmail.com>
+Subject: Re: [PATCH V33 01/30] security: Support early LSMs
 To:     Matthew Garrett <matthewgarrett@google.com>
 Cc:     James Morris <jmorris@namei.org>, linux-security@vger.kernel.org,
         LKML <linux-kernel@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
-        David Howells <dhowells@redhat.com>,
-        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-        Matthew Garrett <mjg59@google.com>,
-        Network Development <netdev@vger.kernel.org>,
-        Chun-Yi Lee <jlee@suse.com>,
-        Daniel Borkmann <daniel@iogearbox.net>
+        Matthew Garrett <mjg59@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jun 20, 2019 at 6:21 PM Matthew Garrett
+On Thu, Jun 20, 2019 at 6:22 PM Matthew Garrett
 <matthewgarrett@google.com> wrote:
 >
-> From: David Howells <dhowells@redhat.com>
->
-> There are some bpf functions can be used to read kernel memory:
-> bpf_probe_read, bpf_probe_write_user and bpf_trace_printk.  These allow
-> private keys in kernel memory (e.g. the hibernation image signing key) to
-> be read by an eBPF program and kernel memory to be altered without
-> restriction. Disable them if the kernel has been locked down in
-> confidentiality mode.
+> The lockdown module is intended to allow for kernels to be locked down
+> early in boot - sufficiently early that we don't have the ability to
+> kmalloc() yet. Add support for early initialisation of some LSMs, and
+> then add them to the list of names when we do full initialisation later.
 
-This patch exemplifies why I don't like this approach:
+I'm confused.  What does it even mean to lock down the kernel before
+we're ready to run userspace code?  We can't possibly be attacked by
+user code before there is any to attack us.
 
-> @@ -97,6 +97,7 @@ enum lockdown_reason {
->         LOCKDOWN_INTEGRITY_MAX,
->         LOCKDOWN_KCORE,
->         LOCKDOWN_KPROBES,
-> +       LOCKDOWN_BPF,
->         LOCKDOWN_CONFIDENTIALITY_MAX,
-
-> --- a/security/lockdown/lockdown.c
-> +++ b/security/lockdown/lockdown.c
-> @@ -33,6 +33,7 @@ static char *lockdown_reasons[LOCKDOWN_CONFIDENTIALITY_MAX+1] = {
->         [LOCKDOWN_INTEGRITY_MAX] = "integrity",
->         [LOCKDOWN_KCORE] = "/proc/kcore access",
->         [LOCKDOWN_KPROBES] = "use of kprobes",
-> +       [LOCKDOWN_BPF] = "use of bpf",
->         [LOCKDOWN_CONFIDENTIALITY_MAX] = "confidentiality",
-
-The text here says "use of bpf", but what this patch is *really* doing
-is locking down use of BPF to read kernel memory.  If the details
-change, then every LSM needs to get updated, and we risk breaking user
-policies that are based on LSMs that offer excessively fine
-granularity.
-
-I'd be more comfortable if the LSM only got to see "confidentiality"
-or "integrity".
+Am I missing something here?
 
 --Andy
