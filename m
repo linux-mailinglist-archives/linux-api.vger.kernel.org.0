@@ -2,101 +2,129 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DC9C84DE6A
-	for <lists+linux-api@lfdr.de>; Fri, 21 Jun 2019 03:20:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C90BD4DE85
+	for <lists+linux-api@lfdr.de>; Fri, 21 Jun 2019 03:23:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726441AbfFUBUL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 20 Jun 2019 21:20:11 -0400
-Received: from mail-pf1-f201.google.com ([209.85.210.201]:52445 "EHLO
-        mail-pf1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726538AbfFUBUL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 20 Jun 2019 21:20:11 -0400
-Received: by mail-pf1-f201.google.com with SMTP id a20so3234801pfn.19
-        for <linux-api@vger.kernel.org>; Thu, 20 Jun 2019 18:20:11 -0700 (PDT)
+        id S1726567AbfFUBUO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 20 Jun 2019 21:20:14 -0400
+Received: from mail-vk1-f202.google.com ([209.85.221.202]:46522 "EHLO
+        mail-vk1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726554AbfFUBUO (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 20 Jun 2019 21:20:14 -0400
+Received: by mail-vk1-f202.google.com with SMTP id p64so1921949vkp.13
+        for <linux-api@vger.kernel.org>; Thu, 20 Jun 2019 18:20:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=t/mH/2CAOnOWxHMVmIaOFtnDHIg0vKk910CbpA/m5hE=;
-        b=ZrJDgzp2uG5EFeE4+0LjPFkV0TGUObRy4jaKbEQsMbGFlQmn6fopYXvd1LW8FCJjlf
-         xqMgiWJHsarOqLc2NOHcvP5PUfYuofixZBCz9FuBma8aOFOF4vuTt5CRSL4fLm8BVxyR
-         rAxZYQJ3kH92QKEWj+SInFl8VP1HMViB/TXI+hKbeI+s34xQyFt73DCMooaFgNRJb+Lg
-         NWivhN7v4xaXLLeTEDkh1u5hYzRNZ3BTfnX1d1KRKBiqnCtA4L7i1elgetxINyuQwZNQ
-         b8WeC3kT/TTr+6Tac8XSU9ovBR5flmyV+hwqTZ70a5EHt5+aTJNkpBM/Kf4eEWFGAw6t
-         3B/w==
+        bh=sZPDagH2N6OInO/tFeMg9JGeODlstxnUOt5waxS+/Vg=;
+        b=pHH18yoAvnmfW2qvCxuOEiD2FV/+42fWKCvrpZZu8PPhOc9gYupxE7PK6VpLmLQXUU
+         fve//NFkOKVWipooUBEnA3UcVzYHXWHFA03vNawm1eIL/hRriG8rI4pyD1VJdMiEJqZ8
+         80BEkDl7fWc5uJnNPpj/k+AzYjq/FMeNUF2Z5fTF7XHJdfi2rOzjvKpjlcQFPRd/3wr2
+         QirOfocXpfj5d2J3a+xkXF0J8R5o3pIsDbCwMiw5l1FgVBqeBAZ7mzDeR2s80FZYb/CK
+         wHA8vGJZMP21IqcWXFBAXYdudMiW7M/o0z+aQXYnQOjnTbV8Ev4KFD8GEpSTuHMRcwT0
+         mINA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=t/mH/2CAOnOWxHMVmIaOFtnDHIg0vKk910CbpA/m5hE=;
-        b=c7WJ88cZtjohEy9YwrzXAeE84KMcojHQ7auSrb6d0o7c3skApr6B1OFfmloJ8wpFcG
-         vM3428l1N7fEvrS+fo5V91RgVUlbfhg3y9NGZDOXAzF6YJPBBYmv1kSpKeVEvSGnUldU
-         diIKs6LQ5DrueLpPWRmUaBMny7D/xKPsdlb8Voy0gnQjFGqhxXHiXyVuI1InViz0dsVx
-         ouuf+Wnb1kXBZ9DqZdTCapgWOYN5FeOhzJhpYHoDKHMA6Q07fpoyd6P/Mig1Hi7TdmBb
-         PwSoudQn3IYOBRPOo+encHgAUpkZmSTppZZmrdDw5M0o+aabu3HBjwfdebYB+7SKAWFS
-         Dtdg==
-X-Gm-Message-State: APjAAAU4gjmg8kVJcCpuZ8Phds5raXA8GPljeHMiEcKn+wZUxYP9Xtof
-        Ook7gIBfhi6qtpFnwerrb5cb+zX+zjS9Xq133wu92g==
-X-Google-Smtp-Source: APXvYqzxVqdSAIqmyaFpVNbAosUNxFCJA3loM78boAjh/0nuxooUctORb4Dj+NHACmdIFlF6J9m5m/dkrFISvkP8/LXfHg==
-X-Received: by 2002:a63:f4e:: with SMTP id 14mr15526503pgp.58.1561080010211;
- Thu, 20 Jun 2019 18:20:10 -0700 (PDT)
-Date:   Thu, 20 Jun 2019 18:19:20 -0700
+        bh=sZPDagH2N6OInO/tFeMg9JGeODlstxnUOt5waxS+/Vg=;
+        b=WO+I2oOT6mMDFrNFKSvBIbD5RMC0AZoBBN2UzVCDqi8cRMcXgYlYr+66Rh20NwxhGM
+         lcqetbv/+ZENmhWYq89wZ0ktDXHXrThL9kXnPil8hwebdvOOUW+nLaN5Bio8hVeYny6K
+         bkJKlZnVF9Bj2xvbgZfX/7nSjKFJrfEymbN6LCv/SGHbOCBmYYiwcJl474vFWj3xnsCs
+         qDS1ovEv1EsuZs5YpaJUWd3WUAxpEbnBu72mHzTzX872z0Nwe9Akzb1JXpxbliDi4fyR
+         OPPNCviGCPM2NF+EH2uF6hvIgMmbVMicCYS1DbdXU8dQ50+tfbOeJfkqTl0AJarksJ2R
+         aNtg==
+X-Gm-Message-State: APjAAAUSErXGD6XUH07GspOQ0y/DRtUVx+hcNdZuumOyxTL4KXF3YLAj
+        yjo+HP0OhIjOaBx8BItLPMiij8nyCTf6eSUz7c0jOw==
+X-Google-Smtp-Source: APXvYqxckCwmVhY53ts462jqSAK1H90HXXRRUJIVr6hr3RrpbKSlGb9nn3biH5pst2z8ewo9K52wgg7v3ry/ZnfMXaIzJg==
+X-Received: by 2002:a1f:23d6:: with SMTP id j205mr8388245vkj.52.1561080012958;
+ Thu, 20 Jun 2019 18:20:12 -0700 (PDT)
+Date:   Thu, 20 Jun 2019 18:19:21 -0700
 In-Reply-To: <20190621011941.186255-1-matthewgarrett@google.com>
-Message-Id: <20190621011941.186255-10-matthewgarrett@google.com>
+Message-Id: <20190621011941.186255-11-matthewgarrett@google.com>
 Mime-Version: 1.0
 References: <20190621011941.186255-1-matthewgarrett@google.com>
 X-Mailer: git-send-email 2.22.0.410.gd8fdbe21b5-goog
-Subject: [PATCH V33 09/30] kexec_file: Restrict at runtime if the kernel is
- locked down
+Subject: [PATCH V33 10/30] hibernate: Disable when the kernel is locked down
 From:   Matthew Garrett <matthewgarrett@google.com>
 To:     jmorris@namei.org
 Cc:     linux-security@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, Jiri Bohac <jbohac@suse.cz>,
+        linux-api@vger.kernel.org, Josh Boyer <jwboyer@fedoraproject.org>,
         David Howells <dhowells@redhat.com>,
-        Matthew Garrett <mjg59@google.com>, kexec@lists.infradead.org
+        Matthew Garrett <mjg59@google.com>, rjw@rjwysocki.net,
+        pavel@ucw.cz, linux-pm@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Jiri Bohac <jbohac@suse.cz>
+From: Josh Boyer <jwboyer@fedoraproject.org>
 
-When KEXEC_SIG is not enabled, kernel should not load images through
-kexec_file systemcall if the kernel is locked down.
+There is currently no way to verify the resume image when returning
+from hibernate.  This might compromise the signed modules trust model,
+so until we can work with signed hibernate images we disable it when the
+kernel is locked down.
 
-[Modified by David Howells to fit with modifications to the previous patch
- and to return -EPERM if the kernel is locked down for consistency with
- other lockdowns. Modified by Matthew Garrett to remove the IMA
- integration, which will be replaced by integrating with the IMA
- architecture policy patches.]
-
-Signed-off-by: Jiri Bohac <jbohac@suse.cz>
+Signed-off-by: Josh Boyer <jwboyer@fedoraproject.org>
 Signed-off-by: David Howells <dhowells@redhat.com>
 Signed-off-by: Matthew Garrett <mjg59@google.com>
-Reviewed-by: Jiri Bohac <jbohac@suse.cz>
-cc: kexec@lists.infradead.org
+Cc: rjw@rjwysocki.net
+Cc: pavel@ucw.cz
+cc: linux-pm@vger.kernel.org
 ---
- kernel/kexec_file.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ include/linux/security.h     | 1 +
+ kernel/power/hibernate.c     | 4 +++-
+ security/lockdown/lockdown.c | 1 +
+ 3 files changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/kernel/kexec_file.c b/kernel/kexec_file.c
-index 67f3a866eabe..455f4fc794f3 100644
---- a/kernel/kexec_file.c
-+++ b/kernel/kexec_file.c
-@@ -239,6 +239,12 @@ kimage_file_prepare_segments(struct kimage *image, int kernel_fd, int initrd_fd,
- 		}
+diff --git a/include/linux/security.h b/include/linux/security.h
+index 2d3c69b9fd04..deac722f0d86 100644
+--- a/include/linux/security.h
++++ b/include/linux/security.h
+@@ -85,6 +85,7 @@ enum lockdown_reason {
+ 	LOCKDOWN_MODULE_SIGNATURE,
+ 	LOCKDOWN_DEV_MEM,
+ 	LOCKDOWN_KEXEC,
++	LOCKDOWN_HIBERNATION,
+ 	LOCKDOWN_INTEGRITY_MAX,
+ 	LOCKDOWN_CONFIDENTIALITY_MAX,
+ };
+diff --git a/kernel/power/hibernate.c b/kernel/power/hibernate.c
+index abef759de7c8..5804ffeb8622 100644
+--- a/kernel/power/hibernate.c
++++ b/kernel/power/hibernate.c
+@@ -32,6 +32,7 @@
+ #include <linux/ctype.h>
+ #include <linux/genhd.h>
+ #include <linux/ktime.h>
++#include <linux/security.h>
+ #include <trace/events/power.h>
  
- 		ret = 0;
-+
-+		if (security_is_locked_down(LOCKDOWN_KEXEC)) {
-+			ret = -EPERM;
-+			goto out;
-+		}
-+
- 		break;
+ #include "power.h"
+@@ -70,7 +71,8 @@ static const struct platform_hibernation_ops *hibernation_ops;
  
- 		/* All other errors are fatal, including nomem, unparseable
+ bool hibernation_available(void)
+ {
+-	return (nohibernate == 0);
++	return nohibernate == 0 &&
++		!security_is_locked_down(LOCKDOWN_HIBERNATION);
+ }
+ 
+ /**
+diff --git a/security/lockdown/lockdown.c b/security/lockdown/lockdown.c
+index 94af1c3583d8..42b7bc467ef6 100644
+--- a/security/lockdown/lockdown.c
++++ b/security/lockdown/lockdown.c
+@@ -21,6 +21,7 @@ static char *lockdown_reasons[LOCKDOWN_CONFIDENTIALITY_MAX+1] = {
+ 	[LOCKDOWN_MODULE_SIGNATURE] = "unsigned module loading",
+ 	[LOCKDOWN_DEV_MEM] = "/dev/mem,kmem,port",
+ 	[LOCKDOWN_KEXEC] = "kexec of unsigned images",
++	[LOCKDOWN_HIBERNATION] = "hibernation",
+ 	[LOCKDOWN_INTEGRITY_MAX] = "integrity",
+ 	[LOCKDOWN_CONFIDENTIALITY_MAX] = "confidentiality",
+ };
 -- 
 2.22.0.410.gd8fdbe21b5-goog
 
