@@ -2,106 +2,110 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 491BA4E922
-	for <lists+linux-api@lfdr.de>; Fri, 21 Jun 2019 15:28:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C44524EA76
+	for <lists+linux-api@lfdr.de>; Fri, 21 Jun 2019 16:20:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726148AbfFUN2p (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 Jun 2019 09:28:45 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:38052 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725975AbfFUN2o (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Jun 2019 09:28:44 -0400
-Received: by mail-wr1-f67.google.com with SMTP id d18so6606838wrs.5
-        for <linux-api@vger.kernel.org>; Fri, 21 Jun 2019 06:28:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brauner.io; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=9EMsrpo1moUaH2rHK1LlYi+tUBFSGMr7JAdJB+mRI/g=;
-        b=ePuxoeeNHfTWihZvcOuCDGTjMSQJR2s8+iO36eDnxzA2613uotv2mmvRre4mAoyBTH
-         tpHZUMHF+W/Gl6aVgY2WlMgOi4JGt/7LoReSbjccE3cOlvYGjvQlqV1PSwbqPLsXYiwc
-         Qbty5/DAl6yAmIPjDjKlqz9wHu5liUE2Ezb+Aq99lkDjiz3zaJkziT+iqQ/GDj5N8rzx
-         mlbBbYGt0+pd4MFtLT8gN0NsbWg7B1X3DTL3RWXaHw29eyXy4tbP89E8WacQIkQHmrkC
-         jU3BInZsYTLHfOgK8SwzIPX+iC+yGTzWH01ZETolkrtW4q/J59eqLmHjKW2zLeZZ021t
-         J2uw==
+        id S1726029AbfFUOUd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 Jun 2019 10:20:33 -0400
+Received: from mail-qk1-f195.google.com ([209.85.222.195]:39489 "EHLO
+        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725975AbfFUOUd (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Jun 2019 10:20:33 -0400
+Received: by mail-qk1-f195.google.com with SMTP id i125so4518548qkd.6;
+        Fri, 21 Jun 2019 07:20:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=9EMsrpo1moUaH2rHK1LlYi+tUBFSGMr7JAdJB+mRI/g=;
-        b=gM3J7kR980k5K7DQb0JTUUXn+kZsp363mLRgAytq5DWOlVjhUt5K6ErEY62LlbbOAR
-         HcSnJNLw2z/ZfAu2H1JntrintB7IFsM/ecYaXd4XwcU9EL6k/ws/jtMFWbRKcrLbeskd
-         0HkZRGWLHmo4fT2X7DSmX/2b+m6mKKTOA62NqCvEJ9NTWURe5QawgLvT2y03dmxup48d
-         AfOARx1kGFpIyMKo0wbPICk+6jc1/3RLeFdpezdaAPCTWcUhTukskruRxQfYqBI63xxS
-         E9Pxz/vd9L3zbDwHh9Vo8P4EeMt6/2zH5+4AKajkbeSO8g24K9qCrregAG/I8UpnRiF8
-         8cdQ==
-X-Gm-Message-State: APjAAAWw+N6EZ1QkPfgfVeVpuhSkzdtJBY1IBl6KK3jDnKPJm7vSzlMQ
-        KLNAEB1QMMNUQoGF/Lyrm2rYsg==
-X-Google-Smtp-Source: APXvYqz7/r+j2/bz2zXC4bWeBw0/AOUH64ui71bNQocHtMgX5fBuIDo4/VDUKh7gVgVmUFvnOKbPGA==
-X-Received: by 2002:adf:eacd:: with SMTP id o13mr24607835wrn.91.1561123722303;
-        Fri, 21 Jun 2019 06:28:42 -0700 (PDT)
-Received: from brauner.io ([212.91.227.56])
-        by smtp.gmail.com with ESMTPSA id v15sm2867708wrt.25.2019.06.21.06.28.41
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 21 Jun 2019 06:28:41 -0700 (PDT)
-Date:   Fri, 21 Jun 2019 15:28:40 +0200
-From:   Christian Brauner <christian@brauner.io>
-To:     David Howells <dhowells@redhat.com>
-Cc:     viro@zeniv.linux.org.uk, raven@themaw.net,
-        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, mszeredi@redhat.com
-Subject: Re: [PATCH 02/25] vfs: Allow fsinfo() to query what's in an
- fs_context [ver #13]
-Message-ID: <20190621132839.6ggsppexqfp5htpw@brauner.io>
-References: <20190621094757.zijugn6cfulmchnf@brauner.io>
- <155905626142.1662.18430571708534506785.stgit@warthog.procyon.org.uk>
- <155905627927.1662.13276277442207649583.stgit@warthog.procyon.org.uk>
- <21652.1561122763@warthog.procyon.org.uk>
- <E76F5188-CED8-4472-9136-BDCDFDAF57F0@brauner.io>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=86Rms5nqRiV6IeH+qjixPzoUGmZuw2YR9fMahci1Mdk=;
+        b=fwRELvTAs+c9ke3nijUMNSb4DP0u4Q30iUGCJ29fIsR7AnlS2BW2c8CfupzpIASiiw
+         uwJafIYWY4gR6TncEfarpi9yOQctri1t42X/J8h6amggUngUfoV8urf8AkxQU7rfXI0H
+         9SudSNYP/30bHxQ7vaIVwrUeRSy7ZmTcK084caACF/bblcoJXieVN2bxTJjVRhe/c6KM
+         LHVmHx/vjRqwLWQ73HToSe0dOmEElChDSDVHw2CnUKTrzAVNActYsi+R02fnUZCnTSNI
+         so29wIrhIjG432AF+cdGpQvme6DbIgNB5CXWkpGvak+N//A9RWebayEL8ls4Q+UNY36G
+         ZzlA==
+X-Gm-Message-State: APjAAAVI2Sd7r2KzIAV8krHnSjFQ+WTox1qZDMFqMF0iuQhbqjWsFet0
+        s1r7qq5Xyw4gQx041zM6sxFrvgvK1jjDqszwK+o=
+X-Google-Smtp-Source: APXvYqyqwjrhMseoqPbT7Hw4nVdhmcH/NXpQC9gPuVbWnpECa7+VTtvjMcLYD5bkOoIfs0VngajGRxZZxXjZdcnFkQg=
+X-Received: by 2002:a37:ad12:: with SMTP id f18mr68806622qkm.3.1561126832500;
+ Fri, 21 Jun 2019 07:20:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <E76F5188-CED8-4472-9136-BDCDFDAF57F0@brauner.io>
-User-Agent: NeoMutt/20180716
+References: <20190604160944.4058-1-christian@brauner.io> <20190604160944.4058-2-christian@brauner.io>
+ <20190620184451.GA28543@roeck-us.net> <20190620221003.ciuov5fzqxrcaykp@brauner.io>
+ <CAK8P3a2iV7=HkHBVL_puvCQN0DmdKEnVs2aG9MQV_8Q58JSfTA@mail.gmail.com> <20190621111839.v5yqlws6iw7mx4aa@brauner.io>
+In-Reply-To: <20190621111839.v5yqlws6iw7mx4aa@brauner.io>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Fri, 21 Jun 2019 16:20:15 +0200
+Message-ID: <CAK8P3a0T1=eg5ONbMFhHi=vmk1K5uogZ+5=wpsXvjVDzn6vS=Q@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] arch: wire-up clone3() syscall
+To:     Christian Brauner <christian@brauner.io>
+Cc:     Guenter Roeck <linux@roeck-us.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jann Horn <jannh@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        David Howells <dhowells@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Adrian Reber <adrian@lisas.de>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Ley Foon Tan <lftan@altera.com>,
+        "moderated list:NIOS2 ARCHITECTURE" 
+        <nios2-dev@lists.rocketboards.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jun 21, 2019 at 03:16:04PM +0200, Christian Brauner wrote:
-> On June 21, 2019 3:12:43 PM GMT+02:00, David Howells <dhowells@redhat.com> wrote:
-> >Christian Brauner <christian@brauner.io> wrote:
+On Fri, Jun 21, 2019 at 1:18 PM Christian Brauner <christian@brauner.io> wrote:
+> On Fri, Jun 21, 2019 at 11:37:50AM +0200, Arnd Bergmann wrote:
 > >
-> >> >  static int vfs_fsinfo_fd(unsigned int fd, struct fsinfo_kparams
-> >*params)
-> >> >  {
-> >> >  	struct fd f = fdget_raw(fd);
-> >> 
-> >> You're using fdget_raw() which means you want to allow O_PATH fds but
-> >> below you're checking whether the f_ops correspond to
-> >> fscontext_fops. If it's an O_PATH
+> > I never really liked having __ARCH_WANT_SYS_CLONE here
+> > because it was the only one that a new architecture needed to
+> > set: all the other __ARCH_WANT_* are for system calls that
+> > are already superseded by newer ones, so a new architecture
+> > would start out with an empty list.
 > >
-> >It can't be.  The only way to get an fs_context fd is from fsopen() or
-> >fspick() - neither of which allow O_PATH to be specified.
-> >
-> >If you tried to go through /proc/pid/fd with open(O_PATH), I think
-> >you'd get
-> >the symlink, not the target.
-> 
-> Then you should use fdget(), no? :)
+> > Since __ARCH_WANT_SYS_CLONE3 replaces
+> > __ARCH_WANT_SYS_CLONE for new architectures, how about
+> > leaving __ARCH_WANT_SYS_CLONE untouched but instead
+>
+> __ARCH_WANT_SYS_CLONE is left untouched. :)
+>
+> > coming up with the reverse for clone3 and mark the architectures
+> > that specifically don't want it (if any)?
+>
+> Afaict, your suggestion is more or less the same thing what is done
+> here. So I'm not sure it buys us anything apart from future
+> architectures not needing to set __ARCH_WANT_SYS_CLONE3.
+>
+> I expect the macro above to be only here temporarily until all arches
+> have caught up and we're sure that they don't require assembly stubs
+> (cf. [1]). A decision I'd leave to the maintainers (since even for
+> nios2 we were kind of on the fence what exactly the sys_clone stub was
+> supposed to do).
+>
+> But I'm happy to take a patch from you if it's equally or more simple
+> than this one right here.
+>
+> In any case, linux-next should be fine on all arches with this fixup
+> now.
 
-That is unless you want fsinfo() to be useable on any fd and just fds
-that are returned from the new mount-api syscalls. Maybe that wasn't
-clear from my first mail.
+I've looked at bit more closely at the nios2 implementation, and I
+believe this is purely an artifact of this file being copied over
+from m68k, which also has an odd definition. The glibc side
+of nios2 clone() is also odd in other ways, but that appears
+to be unrelated to the kernel ABI.
 
-Is the information returned for:
+I think the best option here would be to not have any special
+cases and just hook up clone3() the same way on all
+architectures, with no #ifdef at all. If it turns out to not work
+on a particular architecture later, they can still disable the
+syscall then.
 
-int fd = fsopen()/fspick();
-fsinfo(fd);
-
-int ofd = open("/", O_PATH);
-fsinfo(ofd, ...);
-
-the same if they refer to the same mount or would they differ?
-
-Christian
+      Arnd
