@@ -2,158 +2,173 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1582E4F0AD
-	for <lists+linux-api@lfdr.de>; Sat, 22 Jun 2019 00:13:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 892A74F0C9
+	for <lists+linux-api@lfdr.de>; Sat, 22 Jun 2019 00:31:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726245AbfFUWNo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 Jun 2019 18:13:44 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:36828 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726045AbfFUWNn (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Jun 2019 18:13:43 -0400
-Received: by mail-wr1-f66.google.com with SMTP id n4so6726470wrs.3
-        for <linux-api@vger.kernel.org>; Fri, 21 Jun 2019 15:13:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brauner.io; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=/hHk0S9u9UZeTnfOgA1tURrEwbtjqCVR5Jur9CvSRDU=;
-        b=RblRDrzJgYetJYhfs1+s8zGLEDsuGMJYIGjWEzlVg6iUUawJSAWh1cWw4zJFIa+FF9
-         4LeBDtgHlqAbB+vNESZVHx4UWv8R/KrQ+it0E6eaErmnu0qwSsYrYdCN+gfY4JaQaZ6P
-         AEfu5UpaZ7fkNmoFypcWAstAxxW2RwUA9GM5+pZRNuKDG4cyfxxyolNquz5LWXzCjdWv
-         WZGQx+GJF9rXXbWtY2VnEdqRlmCm37wHCE+rHRRw1gRhZYoKIVHVsHwEnjpfYBeEOzcJ
-         4Yyv7NWj8vqz102/YbR8CkCBI9EAp7NTZQQPoSiN3TbrXncG2CYCat7fRf4pFOmd8u8P
-         OWMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=/hHk0S9u9UZeTnfOgA1tURrEwbtjqCVR5Jur9CvSRDU=;
-        b=iRijVrZ3cM8FCVAkdHrPMGQ/u6zKC+X1Jl5fCi19+N8uqKDYXEM4T+DHirHrVMKiES
-         ZKu49svTVVrCoOyzoWL0qATV3VlJDG51CDP2ZpXpgaxtPjiZhf5MGVyr+4nXBidjFoRx
-         LhuBWrBVOy6jhXm/f79kgGtGaIfQDCtZs4kzGRs3ABZFLn6OrxFeWUAYC5Gdyk8Y9mtt
-         MEU84ipkPWxwvzAjhhrS92PJvb2uZuz8CfJUifaQ8vV9v9jn1LsCF7yowl5/XewkKqOA
-         XlbplyKap8Xrqlk33Ehedo+M5WLnNsCBkAwbLZWUpaDcF9lZLTztkU/QKSMi2SpFjGxF
-         kj3Q==
-X-Gm-Message-State: APjAAAWRec4tbCaLRKpv/bM72gmiVdc6LaBxUz7Gb48X9krQLenfXQdt
-        8w17GQXWR2aPugnoeraPfkez4A==
-X-Google-Smtp-Source: APXvYqxvE86aR9hrpK/S0FbF+03Y/CoTNB7MxqN5zN4cMwFYbx/g7u97U/NtzcSGMXaqmgw1nkiDFQ==
-X-Received: by 2002:a5d:4fc8:: with SMTP id h8mr9986421wrw.124.1561155220929;
-        Fri, 21 Jun 2019 15:13:40 -0700 (PDT)
-Received: from brauner.io ([212.91.227.56])
-        by smtp.gmail.com with ESMTPSA id b6sm2547103wrx.85.2019.06.21.15.13.40
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 21 Jun 2019 15:13:40 -0700 (PDT)
-Date:   Sat, 22 Jun 2019 00:13:39 +0200
-From:   Christian Brauner <christian@brauner.io>
-To:     "Dmitry V. Levin" <ldv@altlinux.org>
-Cc:     Jann Horn <jannh@google.com>, Oleg Nesterov <oleg@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] samples: make pidfd-metadata fail gracefully on older
- kernels
-Message-ID: <20190621221339.6yj4vg4zexv4y2j7@brauner.io>
-References: <20190620103105.cdxgqfelzlnkmblv@brauner.io>
- <20190620110037.GA4998@altlinux.org>
- <20190620111036.asi3mbcv4ax5ekrw@brauner.io>
- <20190621170613.GA26182@altlinux.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190621170613.GA26182@altlinux.org>
-User-Agent: NeoMutt/20180716
+        id S1726233AbfFUWbf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 Jun 2019 18:31:35 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:64538 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726224AbfFUWbf (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Jun 2019 18:31:35 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x5LMVXYX123325
+        for <linux-api@vger.kernel.org>; Fri, 21 Jun 2019 18:31:34 -0400
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2t975s1s2f-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-api@vger.kernel.org>; Fri, 21 Jun 2019 18:31:33 -0400
+Received: from localhost
+        by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-api@vger.kernel.org> from <zohar@linux.ibm.com>;
+        Fri, 21 Jun 2019 23:31:30 +0100
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+        by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Fri, 21 Jun 2019 23:31:28 +0100
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
+        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x5LMVRPH63242380
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 21 Jun 2019 22:31:27 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 1A4815209F;
+        Fri, 21 Jun 2019 22:31:27 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.80.81.152])
+        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 33A80520A0;
+        Fri, 21 Jun 2019 22:31:26 +0000 (GMT)
+Subject: Re: [PATCH V33 03/30] security: Add a static lockdown policy LSM
+From:   Mimi Zohar <zohar@linux.ibm.com>
+To:     Matthew Garrett <matthewgarrett@google.com>, jmorris@namei.org
+Cc:     linux-security@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, Matthew Garrett <mjg59@google.com>,
+        David Howells <dhowells@redhat.com>
+Date:   Fri, 21 Jun 2019 18:31:15 -0400
+In-Reply-To: <20190621011941.186255-4-matthewgarrett@google.com>
+References: <20190621011941.186255-1-matthewgarrett@google.com>
+         <20190621011941.186255-4-matthewgarrett@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+x-cbid: 19062122-0008-0000-0000-000002F5F4F4
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19062122-0009-0000-0000-000022631B2F
+Message-Id: <1561156275.4057.154.camel@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-06-21_15:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1906210172
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jun 21, 2019 at 08:06:14PM +0300, Dmitry V. Levin wrote:
-> On Thu, Jun 20, 2019 at 01:10:37PM +0200, Christian Brauner wrote:
-> > On Thu, Jun 20, 2019 at 02:00:37PM +0300, Dmitry V. Levin wrote:
-> > > Cc'ed more people as the issue is not just with the example but
-> > > with the interface itself.
-> > > 
-> > > On Thu, Jun 20, 2019 at 12:31:06PM +0200, Christian Brauner wrote:
-> > > > On Thu, Jun 20, 2019 at 06:11:44AM +0300, Dmitry V. Levin wrote:
-> > > > > Initialize pidfd to an invalid descriptor, to fail gracefully on
-> > > > > those kernels that do not implement CLONE_PIDFD and leave pidfd
-> > > > > unchanged.
-> > > > > 
-> > > > > Signed-off-by: Dmitry V. Levin <ldv@altlinux.org>
-> > > > > ---
-> > > > >  samples/pidfd/pidfd-metadata.c | 8 ++++++--
-> > > > >  1 file changed, 6 insertions(+), 2 deletions(-)
-> > > > > 
-> > > > > diff --git a/samples/pidfd/pidfd-metadata.c b/samples/pidfd/pidfd-metadata.c
-> > > > > index 14b454448429..ff109fdac3a5 100644
-> > > > > --- a/samples/pidfd/pidfd-metadata.c
-> > > > > +++ b/samples/pidfd/pidfd-metadata.c
-> > > > > @@ -83,7 +83,7 @@ static int pidfd_metadata_fd(pid_t pid, int pidfd)
-> > > > >  
-> > > > >  int main(int argc, char *argv[])
-> > > > >  {
-> > > > > -	int pidfd = 0, ret = EXIT_FAILURE;
-> > > > > +	int pidfd = -1, ret = EXIT_FAILURE;
-> > > > 
-> > > > Hm, that currently won't work since we added a check in fork.c for
-> > > > pidfd == 0. If it isn't you'll get EINVAL.
-> > > 
-> > > Sorry, I must've missed that check.  But this makes things even worse.
-> > > 
-> > > > This was done to ensure that
-> > > > we can potentially extend CLONE_PIDFD by passing in flags through the
-> > > > return argument.
-> > > > However, I find this increasingly unlikely. Especially since the
-> > > > interface would be horrendous and an absolute last resort.
-> > > > If clone3() gets merged for 5.3 (currently in linux-next) we also have
-> > > > no real need anymore to extend legacy clone() this way. So either wait
-> > > > until (if) we merge clone3() where the check I mentioned is gone anyway,
-> > > > or remove the pidfd == 0 check from fork.c in a preliminary patch.
-> > > > Thoughts?
-> > > 
-> > > Userspace needs a reliable way to tell whether CLONE_PIDFD is supported
-> > > by the kernel or not.
-> > 
-> > Right, that's the general problem with legacy clone(): it ignores
-> > unknown flags... clone3() will EINVAL you if you pass any flag it
-> > doesn't know about.
-> > 
-> > For legacy clone you can pass
-> > 
-> > (CLONE_PIDFD | CLONE_DETACHED)
-> > 
-> > on all relevant kernels >= 2.6.2. CLONE_DETACHED will be silently
-> > ignored by the kernel if specified in flags. But if you specify both
-> > CLONE_PIDFD and CLONE_DETACHED on a kernel that does support CLONE_PIDFD
-> > you'll get EINVALed. (We did this because we wanted to have the ability
-> > to make CLONE_DETACHED reuseable with CLONE_PIDFD.)
-> > Does that help?
-> 
-> Yes, this is feasible, but the cost is extra syscall for new kernels
-> and more complicated userspace code, so...
+On Thu, 2019-06-20 at 18:19 -0700, Matthew Garrett wrote:
 
-Out of curiosity: what makes the new flag different than say
-CLONE_NEWCGROUP or any new clone flag that got introduced?
-CLONE_NEWCGROUP too would not be detectable apart from the method I gave
-you above; same for other clone flags. Why are you so keen on being able
-to detect this flag when other flags didn't seem to matter that much.
-(Again, mere curiosity.)
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -2239,6 +2239,15 @@
+>  	lockd.nlm_udpport=M	[NFS] Assign UDP port.
+>  			Format: <integer>
+>  
+> +	lockdown=	[SECURITY]
+> +			{ integrity | confidentiality }
+> +			Enable the kernel lockdown feature. If set to
+> +			integrity, kernel features that allow userland to
+> +			modify the running kernel are disabled. If set to
+> +			confidentiality, kernel features that allow userland
+> +			to extract confidential information from the kernel
+> +			are also disabled.
+> +
 
-> 
-> > > If CLONE_PIDFD is not supported, then pidfd remains unchanged.
-> > > 
-> > > If CLONE_PIDFD is supported and fd 0 is closed, then mandatory pidfd == 0
-> > > also remains unchanged, which effectively means that userspace must ensure
-> > > that fd 0 is not closed when invoking CLONE_PIDFD.  This is ugly.
-> > > 
-> > > If we can assume that clone(CLONE_PIDFD) is not going to be extended,
-> > > then I'm for removing the pidfd == 0 check along with recommending
-> > > userspace to initialize pidfd with -1.
-> > 
-> > Right, I'm ok with that too.
-> 
-> ... I'd prefer this variant.
+Does "also" imply "integrity" is a prereq for "confidentiality"?
 
-Please send a patch for review.
+> diff --git a/security/lockdown/Kconfig b/security/lockdown/Kconfig
+> new file mode 100644
+> index 000000000000..431cd2b9a14e
+> --- /dev/null
+> +++ b/security/lockdown/Kconfig
+> @@ -0,0 +1,46 @@
+> +config SECURITY_LOCKDOWN_LSM
+> +	bool "Basic module for enforcing kernel lockdown"
+> +	depends on SECURITY
+> +	help
+> +	  Build support for an LSM that enforces a coarse kernel lockdown
+> +	  behaviour.
+> +
+> +config SECURITY_LOCKDOWN_LSM_EARLY
+> +        bool "Enable lockdown LSM early in init"
+> +	depends on SECURITY_LOCKDOWN_LSM
+> +	help
+> +	  Enable the lockdown LSM early in boot. This is necessary in order
+> +	  to ensure that lockdown enforcement can be carried out on kernel
+> +	  boot parameters that are otherwise parsed before the security
+> +	  subsystem is fully initialised.
+> +
+> +choice
+> +	prompt "Kernel default lockdown mode"
+> +	default LOCK_DOWN_KERNEL_FORCE_NONE
+> +	depends on SECURITY_LOCKDOWN_LSM
+> +	help
+> +	  The kernel can be configured to default to differing levels of
+> +	  lockdown.
+> +
+> +config LOCK_DOWN_KERNEL_FORCE_NONE
+> +       bool "None"
+> +       help
+> +          No lockdown functionality is enabled by default. Lockdown may be
+> +	  enabled via the kernel commandline or /sys/kernel/security/lockdown.
+> +
+> +config LOCK_DOWN_KERNEL_FORCE_INTEGRITY
+> +       bool "Integrity"
+> +       help
+> +         The kernel runs in integrity mode by default. Features that allow
+> +	 the kernel to be modified at runtime are disabled.
+> +
+> +config LOCK_DOWN_KERNEL_FORCE_CONFIDENTIALITY
+> +       bool "Confidentiality"
+> +       help
+> +         The kernel runs in confidentiality mode by default. Features that
+> +	 allow the kernel to be modified at runtime or that permit userland
+> +	 code to read confidential material held inside the kernel are
+> +	 disabled.
+> +
 
-Christian
+Is there a missing dependency on LOCK_DOWN_KERNEL_FORCE_INTEGRITY
+here?
+
+> +endchoice
+> +
+
+
+> diff --git a/security/lockdown/lockdown.c b/security/lockdown/lockdown.c
+> new file mode 100644
+> index 000000000000..1ecb2eecb245
+> --- /dev/null
+> +++ b/security/lockdown/lockdown.c
+
+> +
+> +static int __init lockdown_lsm_init(void)
+> +{
+> +#if defined(CONFIG_LOCK_DOWN_KERNEL_FORCE_INTEGRITY)
+> +	lock_kernel_down("Kernel configuration", LOCKDOWN_INTEGRITY_MAX);
+> +#elif defined(CONFIG_LOCK_DOWN_KERNEL_FORCE_CONFIDENTIALITY)
+> +	lock_kernel_down("Kernel configuration", LOCKDOWN_CONFIDENTIALITY_MAX);
+> +#endif
+> +	security_add_hooks(lockdown_hooks, ARRAY_SIZE(lockdown_hooks),
+> +			   "lockdown");
+> +	return 0;
+> +}
+
+If there is a dependency on
+"defined(CONFIG_LOCK_DOWN_KERNEL_FORCE_INTEGRITY" for
+"CONFIG_LOCK_DOWN_KERNEL_FORCE_CONFIDENTIALITY", then the ordering
+should be reversed.  If there isn't a dependency of one on the other,
+then replace the "elif" with "endif".
+
+Mimi
+
