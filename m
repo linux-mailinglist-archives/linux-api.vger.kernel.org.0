@@ -2,146 +2,93 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C334D4EF88
-	for <lists+linux-api@lfdr.de>; Fri, 21 Jun 2019 21:37:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BCCD4EFC6
+	for <lists+linux-api@lfdr.de>; Fri, 21 Jun 2019 22:05:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725947AbfFUTht (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 Jun 2019 15:37:49 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:35730 "EHLO
+        id S1726205AbfFUUF5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 Jun 2019 16:05:57 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:42001 "EHLO
         mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726010AbfFUThs (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Jun 2019 15:37:48 -0400
-Received: by mail-io1-f65.google.com with SMTP id m24so264403ioo.2
-        for <linux-api@vger.kernel.org>; Fri, 21 Jun 2019 12:37:48 -0700 (PDT)
+        with ESMTP id S1726206AbfFUUF4 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Jun 2019 16:05:56 -0400
+Received: by mail-io1-f65.google.com with SMTP id u19so1406836ior.9
+        for <linux-api@vger.kernel.org>; Fri, 21 Jun 2019 13:05:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=g157EWPM9+4Os1nBGoiF1OQy1TbidUT7W+UG0Yj1JZ8=;
-        b=Ui+c355nGw/Pzq4W8mFUBqWcPIznrn5gEe+HgqtrvwaK3ZTNfZXljqddkioUIXkVoQ
-         fdHMP1jo2wLJfp8K17rKiHU7H609oNwo+2cnEciHQjAsnM/1cev6eVH0qui5gh52xYIN
-         poBdIOvP/QbzCSO0pFWawgB74WM+scaVtIGkZOWhNCEwtgnxwGO4smkvWtAYCYMRBc76
-         aSeKVPIUUKtMCOMFkV9jctYVXQZ8glK6bmgdCVddVNqa5kwUkKVZEvhWwc0dWI6QMKSk
-         oTpGzRg2eECWzTQBupoMyAIJZLEUeSP4lH8xyW5OTDPYgwS7nvC/9R84Uu+wxJMcFgHz
-         HvJg==
+        bh=DypY5fiIicrIoi3ORV0h3vKCopNCu2H79dLHF98Wk1s=;
+        b=BieFlEeaOPgi+fafYZbwPJAk/rgzMYgJne9JdDRFRlJ67BByhxNbJeiWxMC9B5y/s9
+         Gp8olywbJtE8mi44Ji6k8zEHSqnnACQtDN7I28HDQcTwz/mye1jJMaedbY6/qHdXorLI
+         Wfs9/larHy+OePAeGIpWCU4PVYoHRu54s+yDpX0ZYjNvvwg5OXzrDsxcjH6q8d7OOF7j
+         48AI5VhQZTNHr+JUkc9MWxW0n/4tx9Kt3taDC+fhcfCafvOZH8dO7US0xim1pWzmY5Eh
+         uxPjC59ST8oJkI5UEY7MywS+dGHUEPH7uSwunhiu0xgIfllo0HFRZbPbo7RM3eC4BaAX
+         +b3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=g157EWPM9+4Os1nBGoiF1OQy1TbidUT7W+UG0Yj1JZ8=;
-        b=NnytrXzU0r+NBYEdl9Rhh6+cWNqihwAt2MsNuTjgVExaxdnDr7x2CYRxUU7SOQCBTw
-         uV/4+kkOOE1FllY9ws41mFz+hSwFSFoaMGDwili/76oYTXXJnowLj7aRCnDGqqm0XPQw
-         0bK7PWoE+9IzjzxVv/2U7vFBljIj9Yiga+n1Vwr3mc3m4tVvdevFRWzU2iRkuKCMyfst
-         A8Xhu592WThk/9ZSB9o83d7R+NuNqlRmiOdEYfV0AUIEepHso7OpfYvxuqLGHsDvWrFF
-         iCSLHn1c/A7yffFRtDhNZgvv8WdOyQ+am65F8lrUG1Lc0QSVw+l1rulKnOYAMIqQ0yY+
-         dBRA==
-X-Gm-Message-State: APjAAAVu4LV2De6GukV8kToa6zgHZsJBxzHaHd3JaRq/j4NArtTfmWT3
-        XMCVmXeUdnltu5Mt98e7uMnQ3DOamB6zSsYpGj0xig==
-X-Google-Smtp-Source: APXvYqxS1ovex+5dBomAz4bV36QcWQv4dhYR2sjJI/In/DVPcORFH++/waHkU1ZRBbCT7W+1Tp89flH1UZInkdQrAeA=
-X-Received: by 2002:a02:3308:: with SMTP id c8mr44410773jae.103.1561145867511;
- Fri, 21 Jun 2019 12:37:47 -0700 (PDT)
+        bh=DypY5fiIicrIoi3ORV0h3vKCopNCu2H79dLHF98Wk1s=;
+        b=BnnmYzJ4LGVk3hjaAQJ3jkDWbzCl0aZeCQfFRh4LNmnEqodWJgUcrr42qe/ulXSlBN
+         R/tGubflW/F3XN79edZkotOV61xv5NHeMz5eULA9EZf6oa1MQz+dx775Ud3QwV0hJbDU
+         fCixj8JZsyk6hjSES7g8qWLfofoQoIV9zqrmRIozzAUovXwaw82I1m1gsacrX0dkDZV0
+         xHoLDW4kX4/KHKCnanabX936TXUyGbAmgzRGkcKnnUyGJIZribXfoKInrWQ2Z1ToVbl5
+         bbjEos3ts0Si1rNxFw03QPMpOpq8y/ThseUYrwVoehC+wqEJRLqXcx/VR7NJQ3bczGpk
+         R6PQ==
+X-Gm-Message-State: APjAAAVVAckdfpkxixKPs5Dc1dNTYbspFhoI0qqkvbHWFTBjAClc5B0c
+        JfMHNiwebqLlReW9ldzRUIaAXgYFP7byCIz/D+ugDg==
+X-Google-Smtp-Source: APXvYqyvFcTfOyKgeM/UaweMDg4Kki2AkTgmwFItVLQmiTExSzaei2TBGbOswsUQLvi+574xJqn1fxM3Q6bPWu5Kiec=
+X-Received: by 2002:a6b:8dcf:: with SMTP id p198mr36640213iod.46.1561147555624;
+ Fri, 21 Jun 2019 13:05:55 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190621011941.186255-1-matthewgarrett@google.com>
- <20190621011941.186255-4-matthewgarrett@google.com> <201906202028.5AB58C3@keescook>
-In-Reply-To: <201906202028.5AB58C3@keescook>
+ <20190621011941.186255-25-matthewgarrett@google.com> <CALCETrVUwQP7roLnW6kFG80Cc5U6X_T6AW+BTAftLccYGp8+Ow@mail.gmail.com>
+In-Reply-To: <CALCETrVUwQP7roLnW6kFG80Cc5U6X_T6AW+BTAftLccYGp8+Ow@mail.gmail.com>
 From:   Matthew Garrett <mjg59@google.com>
-Date:   Fri, 21 Jun 2019 12:37:36 -0700
-Message-ID: <CACdnJut_C_h2JjryDxEm9U_rpSJFkVyxq3iCW9=AhwcdVig=9g@mail.gmail.com>
-Subject: Re: [PATCH V33 03/30] security: Add a static lockdown policy LSM
-To:     Kees Cook <keescook@chromium.org>
+Date:   Fri, 21 Jun 2019 13:05:44 -0700
+Message-ID: <CACdnJuv2sePuGBtTM6UL4S2k1UATcAk517o6vPx2EWF0Uxt8iw@mail.gmail.com>
+Subject: Re: [PATCH V33 24/30] bpf: Restrict bpf when kernel lockdown is in
+ confidentiality mode
+To:     Andy Lutomirski <luto@kernel.org>
 Cc:     James Morris <jmorris@namei.org>, linux-security@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
-        David Howells <dhowells@redhat.com>
+        David Howells <dhowells@redhat.com>,
+        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Network Development <netdev@vger.kernel.org>,
+        Chun-Yi Lee <jlee@suse.com>,
+        Daniel Borkmann <daniel@iogearbox.net>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jun 20, 2019 at 8:44 PM Kees Cook <keescook@chromium.org> wrote:
+On Thu, Jun 20, 2019 at 10:22 PM Andy Lutomirski <luto@kernel.org> wrote:
+> On Thu, Jun 20, 2019 at 6:21 PM Matthew Garrett
+> <matthewgarrett@google.com> wrote:
+> > --- a/security/lockdown/lockdown.c
+> > +++ b/security/lockdown/lockdown.c
+> > @@ -33,6 +33,7 @@ static char *lockdown_reasons[LOCKDOWN_CONFIDENTIALITY_MAX+1] = {
+> >         [LOCKDOWN_INTEGRITY_MAX] = "integrity",
+> >         [LOCKDOWN_KCORE] = "/proc/kcore access",
+> >         [LOCKDOWN_KPROBES] = "use of kprobes",
+> > +       [LOCKDOWN_BPF] = "use of bpf",
+> >         [LOCKDOWN_CONFIDENTIALITY_MAX] = "confidentiality",
 >
-> On Thu, Jun 20, 2019 at 06:19:14PM -0700, Matthew Garrett wrote:
-> > +/*
-> > + *  If you add to this, remember to extend lockdown_reasons in
-> > + *  security/lockdown/lockdown.c.
-> > + */
->
-> Best to add something like:
->
-> BUILD_BUG_ON(ARRAY_SIZE(lockdown_reasons), LOCKDOWN_CONFIDENTIALLY_MAX);
->
-> to actually enforce this.
+> The text here says "use of bpf", but what this patch is *really* doing
+> is locking down use of BPF to read kernel memory.  If the details
+> change, then every LSM needs to get updated, and we risk breaking user
+> policies that are based on LSMs that offer excessively fine
+> granularity.
 
-I don't think this will work - it'll only catch cases where someone
-adds a new enum after LOCKDOWN_CONFIDENTIALITY_MAX.
+The text is descriptive rather than normative, and no changes should
+be made that alter the semantics of a reason - it makes more sense to
+just add another reason.
 
-> >  enum lockdown_reason {
-> >       LOCKDOWN_NONE,
-> >       LOCKDOWN_INTEGRITY_MAX,
-> > diff --git a/security/Kconfig b/security/Kconfig
-> > index 1d6463fb1450..c35aa72103df 100644
-> > --- a/security/Kconfig
-> > +++ b/security/Kconfig
-> > @@ -236,12 +236,13 @@ source "security/apparmor/Kconfig"
-> >  source "security/loadpin/Kconfig"
-> >  source "security/yama/Kconfig"
-> >  source "security/safesetid/Kconfig"
-> > +source "security/lockdown/Kconfig"
-> >
-> >  source "security/integrity/Kconfig"
-> >
-> >  config LSM
-> >       string "Ordered list of enabled LSMs"
-> > -     default "yama,loadpin,safesetid,integrity,selinux,smack,tomoyo,apparmor"
-> > +     default "lockdown,yama,loadpin,safesetid,integrity,selinux,smack,tomoyo,apparmor"
->
-> Is this needed? It seems like the early LSMs are totally ignored for
-> ordering?
+> I'd be more comfortable if the LSM only got to see "confidentiality"
+> or "integrity".
 
-It's relevant if it's not configured as an early LSM.
-
-> > +config SECURITY_LOCKDOWN_LSM
-> > +     bool "Basic module for enforcing kernel lockdown"
-> > +     depends on SECURITY
-> > +     help
-> > +       Build support for an LSM that enforces a coarse kernel lockdown
-> > +       behaviour.
-> > +
-> > +config SECURITY_LOCKDOWN_LSM_EARLY
-> > +        bool "Enable lockdown LSM early in init"
->
-> whitespace glitches?
-
-Fxied.
-
-> > +static enum lockdown_reason kernel_locked_down;
->
-> What's the use-case for runtime changing this value? (If you didn't, you
-> could make it __ro_after_init.)
-
-Cases where the admin wants to make the policy more strict after boot
-via securityfs.
-
-> > +     for (i = 0; i < ARRAY_SIZE(lockdown_levels); i++) {
-> > +             enum lockdown_reason level = lockdown_levels[i];
-> > +
-> > +             if (lockdown_reasons[level]) {
-> > +                     const char *label = lockdown_reasons[level];
-> > +
-> > +                     if (kernel_locked_down == level)
-> > +                             offset += sprintf(temp+offset, "[%s] ", label);
-> > +                     else
-> > +                             offset += sprintf(temp+offset, "%s ", label);
-> > +             }
-> > +     }
->
-> I thought there were helpers for this kind of thing?
-
-I'll check, I'm bad at finding these new fangled things.
-
-> Ah, I see now: it *might* be an early LSM. What states are missed if not
-> early? Only parameters? I think the behavior differences need to be
-> spelled out in Kconfig (or somewhere...)
-
-Ok.
+If LSM authors can be trusted to do the right thing here, then I see
+no problem in providing additional data. I'm happy to defer to James
+on that.
