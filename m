@@ -2,176 +2,274 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D4B594DF47
-	for <lists+linux-api@lfdr.de>; Fri, 21 Jun 2019 05:17:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30F194DF4D
+	for <lists+linux-api@lfdr.de>; Fri, 21 Jun 2019 05:22:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725948AbfFUDRk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 20 Jun 2019 23:17:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44692 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725906AbfFUDRj (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 20 Jun 2019 23:17:39 -0400
-Received: from sol.localdomain (c-24-5-143-220.hsd1.ca.comcast.net [24.5.143.220])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BBC9020679;
-        Fri, 21 Jun 2019 03:17:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1561087058;
-        bh=8upGiMNBTtWDElF9gjCLmVIbeZJwV8B0qLNbePNiBiU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=i7NAHT3Z7Kbuc4XrtwXOF81T38DWmrfYNGoBYndscZEb0luoJO0t/EdZKKvzbOvX0
-         ndbZtCx8sjRpIUemKoBxuF9qRXD3gVk9mg4H3uF3Xx1mOpmgmVa2tgoCOCaVDe5DIG
-         xBvf1lzHH0jscgF3GCUVG9dpoP8HuP1RtKSkB8qc=
-Date:   Thu, 20 Jun 2019 20:17:36 -0700
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     "Darrick J. Wong" <darrick.wong@oracle.com>
-Cc:     linux-fscrypt@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-integrity@vger.kernel.org, Jaegeuk Kim <jaegeuk@kernel.org>,
-        "Theodore Y . Ts'o" <tytso@mit.edu>,
-        Victor Hsieh <victorhsieh@google.com>,
-        Chandan Rajendra <chandan@linux.vnet.ibm.com>,
-        Dave Chinner <david@fromorbit.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [PATCH v5 14/16] ext4: add basic fs-verity support
-Message-ID: <20190621031736.GA742@sol.localdomain>
-References: <20190620205043.64350-1-ebiggers@kernel.org>
- <20190620205043.64350-15-ebiggers@kernel.org>
- <20190620235938.GE5375@magnolia>
+        id S1725936AbfFUDWC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 20 Jun 2019 23:22:02 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:35540 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725941AbfFUDWC (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 20 Jun 2019 23:22:02 -0400
+Received: by mail-pl1-f193.google.com with SMTP id p1so2282191plo.2
+        for <linux-api@vger.kernel.org>; Thu, 20 Jun 2019 20:22:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=XgqQCjlp6+2QBmDqcbVi4QnHGPaF4Oeb1ed6x/spUgc=;
+        b=TyRK0SGkcI8RWa+mEkKtt8IE0pvJpD1cYzcIr4iNZmMTZMlDZkL0kb7sUh9/eyZiJk
+         Kn6p8vwmzyKy/M8flUqPVDS23YwYNmzB0udQDAxRCq5/KYAlwyP3M6bcXoF1w8t4LgTu
+         Wjvq8nBxv9nubBwSMfwZj6QiJIJ8Xt2jPz3hQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=XgqQCjlp6+2QBmDqcbVi4QnHGPaF4Oeb1ed6x/spUgc=;
+        b=rIpIjig5qtV4PLWs3X6lfV2k2OMEkPZl2BIXVNyjhVg4RPB/Vw0tvqZkwsVgd7HzmM
+         TqJ4YTQKXLdwh82heove+YV8LMmtBIPpi/Lf1NfCFkj2W76bZb4nhUSnNJS9BDhhy7LW
+         f7e1dle2pul92FiZE93mnp54TBHOSBj35hnGAgqlrqAKf+9IBPNIHcK0TWDTJKZtwDWM
+         mMIQaYG9rno86LjJKUTQSSyHPKpl41quJXkuV8/WlBNkKcvuudQbHM6dj77JVXpT9CBK
+         LER7zXSmmLRVHpV2RLddKOkftjsWGQNdigfXpSbceartBcuRnDfl3nd57awE55Z1Siwd
+         W1Hw==
+X-Gm-Message-State: APjAAAVTJN5YHBzgjuzCi46NsTh32Yi82TExxBA151qKp8+h4pNlDuK5
+        ahsB8VsILJuHhkZPI0Piovs78g==
+X-Google-Smtp-Source: APXvYqx/dheNVHWmM09UQ9EC2eP1Lt7RZ1CxQtCV6ga5L5OGljy8W2hLaBGZOjTfAZfJkPLogoJhtA==
+X-Received: by 2002:a17:902:3103:: with SMTP id w3mr19024424plb.84.1561087321332;
+        Thu, 20 Jun 2019 20:22:01 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id k3sm917324pgo.81.2019.06.20.20.22.00
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 20 Jun 2019 20:22:00 -0700 (PDT)
+Date:   Thu, 20 Jun 2019 20:21:59 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Matthew Garrett <matthewgarrett@google.com>
+Cc:     jmorris@namei.org, linux-security@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        Matthew Garrett <mjg59@google.com>
+Subject: Re: [PATCH V33 01/30] security: Support early LSMs
+Message-ID: <201906202010.49D16E03@keescook>
+References: <20190621011941.186255-1-matthewgarrett@google.com>
+ <20190621011941.186255-2-matthewgarrett@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190620235938.GE5375@magnolia>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20190621011941.186255-2-matthewgarrett@google.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Darrick,
+On Thu, Jun 20, 2019 at 06:19:12PM -0700, Matthew Garrett wrote:
+> The lockdown module is intended to allow for kernels to be locked down
+> early in boot - sufficiently early that we don't have the ability to
+> kmalloc() yet. Add support for early initialisation of some LSMs, and
+> then add them to the list of names when we do full initialisation later.
 
-On Thu, Jun 20, 2019 at 04:59:38PM -0700, Darrick J. Wong wrote:
-> > diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
-> > index 1cb67859e0518b..5a1deea3fb3e37 100644
-> > --- a/fs/ext4/ext4.h
-> > +++ b/fs/ext4/ext4.h
-> > @@ -41,6 +41,7 @@
-> >  #endif
-> >  
-> >  #include <linux/fscrypt.h>
-> > +#include <linux/fsverity.h>
-> >  
-> >  #include <linux/compiler.h>
-> >  
-> > @@ -395,6 +396,7 @@ struct flex_groups {
-> >  #define EXT4_TOPDIR_FL			0x00020000 /* Top of directory hierarchies*/
-> >  #define EXT4_HUGE_FILE_FL               0x00040000 /* Set to each huge file */
-> >  #define EXT4_EXTENTS_FL			0x00080000 /* Inode uses extents */
-> > +#define EXT4_VERITY_FL			0x00100000 /* Verity protected inode */
+So, if I'm reading correctly, these "early LSMs":
+
+- start up before even boot parameter parsing has happened
+- have their position in the LSM ordering ignored
+- are initialized in boot order
+- cannot use kmalloc, as well as probably lots of other things
+
 > 
-> Hmm, a new inode flag, superblock rocompat feature flag, and
-> (presumably) the Merkle tree has some sort of well defined format which
-> starts at the next 64k boundary past EOF.
+> Signed-off-by: Matthew Garrett <mjg59@google.com>
+> ---
+>  include/asm-generic/vmlinux.lds.h |  8 +++++-
+>  include/linux/lsm_hooks.h         |  6 ++++
+>  include/linux/security.h          |  1 +
+>  init/main.c                       |  1 +
+>  security/security.c               | 48 +++++++++++++++++++++++++------
+>  5 files changed, 54 insertions(+), 10 deletions(-)
 > 
-> Would you mind updating the relevant parts of the ondisk format
-> documentation in Documentation/filesystems/ext4/, please?
+> diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
+> index f8f6f04c4453..e1963352fdb6 100644
+> --- a/include/asm-generic/vmlinux.lds.h
+> +++ b/include/asm-generic/vmlinux.lds.h
+> @@ -208,8 +208,13 @@
+>  			__start_lsm_info = .;				\
+>  			KEEP(*(.lsm_info.init))				\
+>  			__end_lsm_info = .;
+> +#define EARLY_LSM_TABLE()	. = ALIGN(8);				\
+> +			__start_early_lsm_info = .;			\
+> +			KEEP(*(.early_lsm_info.init))			\
+> +			__end_early_lsm_info = .;
+>  #else
+>  #define LSM_TABLE()
+> +#define EARLY_LSM_TABLE()
+>  #endif
+>  
+>  #define ___OF_TABLE(cfg, name)	_OF_TABLE_##cfg(name)
+> @@ -610,7 +615,8 @@
+>  	ACPI_PROBE_TABLE(irqchip)					\
+>  	ACPI_PROBE_TABLE(timer)						\
+>  	EARLYCON_TABLE()						\
+> -	LSM_TABLE()
+> +	LSM_TABLE()							\
+> +	EARLY_LSM_TABLE()
+>  
+>  #define INIT_TEXT							\
+>  	*(.init.text .init.text.*)					\
+> diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
+> index a240a3fc5fc4..66fd1eac7a32 100644
+> --- a/include/linux/lsm_hooks.h
+> +++ b/include/linux/lsm_hooks.h
+> @@ -2085,12 +2085,18 @@ struct lsm_info {
+>  };
+>  
+>  extern struct lsm_info __start_lsm_info[], __end_lsm_info[];
+> +extern struct lsm_info __start_early_lsm_info[], __end_early_lsm_info[];
+>  
+>  #define DEFINE_LSM(lsm)							\
+>  	static struct lsm_info __lsm_##lsm				\
+>  		__used __section(.lsm_info.init)			\
+>  		__aligned(sizeof(unsigned long))
+>  
+> +#define DEFINE_EARLY_LSM(lsm)						\
+> +	static struct lsm_info __early_lsm_##lsm			\
+> +		__used __section(.early_lsm_info.init)			\
+> +		__aligned(sizeof(unsigned long))
+> +
+>  #ifdef CONFIG_SECURITY_SELINUX_DISABLE
+>  /*
+>   * Assuring the safety of deleting a security module is up to
+> diff --git a/include/linux/security.h b/include/linux/security.h
+> index 49f2685324b0..1bb6fb2f1523 100644
+> --- a/include/linux/security.h
+> +++ b/include/linux/security.h
+> @@ -194,6 +194,7 @@ int unregister_lsm_notifier(struct notifier_block *nb);
+>  
+>  /* prototypes */
+>  extern int security_init(void);
+> +extern int early_security_init(void);
+>  
+>  /* Security operations */
+>  int security_binder_set_context_mgr(struct task_struct *mgr);
+> diff --git a/init/main.c b/init/main.c
+> index 598e278b46f7..f3faeb89c75f 100644
+> --- a/init/main.c
+> +++ b/init/main.c
+> @@ -563,6 +563,7 @@ asmlinkage __visible void __init start_kernel(void)
+>  	boot_cpu_init();
+>  	page_address_init();
+>  	pr_notice("%s", linux_banner);
+> +	early_security_init();
+>  	setup_arch(&command_line);
+>  	/*
+>  	 * Set up the the initial canary and entropy after arch
+> diff --git a/security/security.c b/security/security.c
+> index 23cbb1a295a3..2a6672c9e72f 100644
+> --- a/security/security.c
+> +++ b/security/security.c
+> @@ -37,6 +37,7 @@
+>  
+>  /* How many LSMs were built into the kernel? */
+>  #define LSM_COUNT (__end_lsm_info - __start_lsm_info)
+> +#define EARLY_LSM_COUNT (__end_early_lsm_info - __start_early_lsm_info)
+>  
+>  struct security_hook_heads security_hook_heads __lsm_ro_after_init;
+>  static ATOMIC_NOTIFIER_HEAD(lsm_notifier_chain);
+> @@ -281,6 +282,8 @@ static void __init ordered_lsm_parse(const char *order, const char *origin)
+>  static void __init lsm_early_cred(struct cred *cred);
+>  static void __init lsm_early_task(struct task_struct *task);
+>  
+> +static int lsm_append(const char *new, char **result);
+> +
+>  static void __init ordered_lsm_init(void)
+>  {
+>  	struct lsm_info **lsm;
+> @@ -327,15 +330,11 @@ static void __init ordered_lsm_init(void)
+>  	kfree(ordered_lsms);
+>  }
+>  
+> -/**
+> - * security_init - initializes the security framework
+> - *
+> - * This should be called early in the kernel initialization sequence.
+> - */
+> -int __init security_init(void)
+> +int __init early_security_init(void)
+>  {
+>  	int i;
+>  	struct hlist_head *list = (struct hlist_head *) &security_hook_heads;
+> +	struct lsm_info *lsm;
+>  
+>  	pr_info("Security Framework initializing\n");
+
+I'd rather this was kept in security_init() since it's the string to
+search for when debugging normal LSM initialization.
+
+>  
+> @@ -343,6 +342,30 @@ int __init security_init(void)
+>  	     i++)
+>  		INIT_HLIST_HEAD(&list[i]);
+>  
+> +	for (lsm = __start_early_lsm_info; lsm < __end_early_lsm_info; lsm++) {
+> +		if (!lsm->enabled)
+> +			lsm->enabled = &lsm_enabled_true;
+> +		initialize_lsm(lsm);
+> +	}
+
+This should call prepare_lsm() before initialize_lsm(). While not needed
+for this specific LSM, it would be nice to at least do the blog size
+calculations and keep everything the same as other LSMs.
+
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * security_init - initializes the security framework
+> + *
+> + * This should be called early in the kernel initialization sequence.
+> + */
+> +int __init security_init(void)
+> +{
+> +	struct lsm_info *lsm;
+> +
+> +	/* Append the names of the early LSM modules now */
+
+I would clarify this comment more: "... that kmalloc() is available."
+
+> +	for (lsm = __start_early_lsm_info; lsm < __end_early_lsm_info; lsm++) {
+> +		if (lsm->enabled)
+> +			lsm_append(lsm->name, &lsm_names);
+> +	}
+> +
+>  	/* Load LSMs in specified order. */
+>  	ordered_lsm_init();
+>  
+> @@ -388,7 +411,7 @@ static bool match_last_lsm(const char *list, const char *lsm)
+>  	return !strcmp(last, lsm);
+>  }
+>  
+> -static int lsm_append(char *new, char **result)
+> +static int lsm_append(const char *new, char **result)
+>  {
+>  	char *cp;
+>  
+> @@ -426,8 +449,15 @@ void __init security_add_hooks(struct security_hook_list *hooks, int count,
+>  		hooks[i].lsm = lsm;
+>  		hlist_add_tail_rcu(&hooks[i].list, hooks[i].head);
+>  	}
+> -	if (lsm_append(lsm, &lsm_names) < 0)
+> -		panic("%s - Cannot get early memory.\n", __func__);
+> +
+> +	/*
+> +	 * Don't try to append during early_security_init(), we'll come back
+> +	 * and fix this up afterwards.
+> +	 */
+> +	if (slab_is_available()) {
+> +		if (lsm_append(lsm, &lsm_names) < 0)
+> +			panic("%s - Cannot get early memory.\n", __func__);
+> +	}
+>  }
+>  
+>  int call_lsm_notifier(enum lsm_event event, void *data)
+> -- 
+> 2.22.0.410.gd8fdbe21b5-goog
 > 
-> I saw that the Merkle tree and verity descriptor formats themselves are
-> documented in the first patch, so you could simply link the ext4
-> documentation to it.
-> 
 
-Sure, I'll update the ext4 documentation.
-
-> > +/*
-> > + * Read some verity metadata from the inode.  __vfs_read() can't be used because
-> > + * we need to read beyond i_size.
-> > + */
-> > +static int pagecache_read(struct inode *inode, void *buf, size_t count,
-> > +			  loff_t pos)
-> > +{
-> > +	while (count) {
-> > +		size_t n = min_t(size_t, count,
-> > +				 PAGE_SIZE - offset_in_page(pos));
-> > +		struct page *page;
-> > +		void *addr;
-> > +
-> > +		page = read_mapping_page(inode->i_mapping, pos >> PAGE_SHIFT,
-> > +					 NULL);
-> > +		if (IS_ERR(page))
-> > +			return PTR_ERR(page);
-> > +
-> > +		addr = kmap_atomic(page);
-> > +		memcpy(buf, addr + offset_in_page(pos), n);
-> > +		kunmap_atomic(addr);
-> > +
-> > +		put_page(page);
-> > +
-> > +		buf += n;
-> > +		pos += n;
-> > +		count -= n;
-> > +	}
-> > +	return 0;
-> > +}
-> > +
-> > +/*
-> > + * Write some verity metadata to the inode for FS_IOC_ENABLE_VERITY.
-> > + * kernel_write() can't be used because the file descriptor is readonly.
-> > + */
-> > +static int pagecache_write(struct inode *inode, const void *buf, size_t count,
-> > +			   loff_t pos)
-> > +{
-> > +	while (count) {
-> > +		size_t n = min_t(size_t, count,
-> > +				 PAGE_SIZE - offset_in_page(pos));
-> > +		struct page *page;
-> > +		void *fsdata;
-> > +		void *addr;
-> > +		int res;
-> > +
-> > +		res = pagecache_write_begin(NULL, inode->i_mapping, pos, n, 0,
-> > +					    &page, &fsdata);
-> > +		if (res)
-> > +			return res;
-> > +
-> > +		addr = kmap_atomic(page);
-> > +		memcpy(addr + offset_in_page(pos), buf, n);
-> > +		kunmap_atomic(addr);
-> > +
-> > +		res = pagecache_write_end(NULL, inode->i_mapping, pos, n, n,
-> > +					  page, fsdata);
-> > +		if (res < 0)
-> > +			return res;
-> > +		if (res != n)
-> > +			return -EIO;
-> > +
-> > +		buf += n;
-> > +		pos += n;
-> > +		count -= n;
-> > +	}
-> > +	return 0;
-> > +}
-> 
-> This same code is duplicated in the f2fs patch.  Is there a reason why
-> they don't share this common code?  Even if you have to hide it under
-> fs/verity/ ?
-> 
-
-Yes, pagecache_read() and pagecache_write() are identical between ext4 and f2fs.
-I didn't put them in fs/verity/ because the "metadata past EOF" approach is a
-choice of ext4 and f2fs and not intrinsic to the fs-verity feature itself, so to
-avoid confusion I made the fs/verity/ support layer be completely clean of any
-assumption that that's the way filesystems implement fs-verity.
-
-Also, making the fsverity_operations call back into fs/verity/ adds a little
-extra conceptual complexity about what belongs where, since then we'd have a
-call stack of filesystem => fs/verity/ => filesystem => fs/verity/.
-
-But if people would rather that ext4 and f2fs share these two functions anyway,
-then sure, we could move them into fs/verity/, and other filesystems (if they
-take a different approach to fs-verity) simply won't use them.
-
-- Eric
+-- 
+Kees Cook
