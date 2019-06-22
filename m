@@ -2,93 +2,64 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 13B4C4F255
-	for <lists+linux-api@lfdr.de>; Sat, 22 Jun 2019 02:05:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D2474F6D4
+	for <lists+linux-api@lfdr.de>; Sat, 22 Jun 2019 18:28:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726178AbfFVAFW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 Jun 2019 20:05:22 -0400
-Received: from mail-yw1-f73.google.com ([209.85.161.73]:41651 "EHLO
-        mail-yw1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726993AbfFVAFP (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Jun 2019 20:05:15 -0400
-Received: by mail-yw1-f73.google.com with SMTP id b75so8076946ywh.8
-        for <linux-api@vger.kernel.org>; Fri, 21 Jun 2019 17:05:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=fQS0pxsoBetP2Nwdi98OVtp/cm2t8DN7nKB4q9h9T/o=;
-        b=q06PmHHAEtmmhXeJ3zAcK/RQZC6ZOveSxcl6UVi4p4GE4munOy8zjRT6zd5POah6m8
-         qUUGJT6DOt1SF18EDdympILS6nRbXGXb3RoIhCMm/FJICtGrII721ONnz4vNcVZoP3Nu
-         hiBh1dO7UkO1UVwF7JVcG0M8U6LUF7EAdCFqvrUGuxFqqF2cNBcbR+bwQPjgdsvzuYOb
-         SD2HjQOo2EMZX0FY8ScuXYx2/5Tbldc/k5ukwSjy+86A6zZ1Xx7vF235sNZkl9Zjspqg
-         BR8l3GCC4UH309ET+8MSJ4q0v7EDB51cTRUQo97fEIsDvlr5RsmrLleDNXJVE2xEbdzF
-         aw0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=fQS0pxsoBetP2Nwdi98OVtp/cm2t8DN7nKB4q9h9T/o=;
-        b=aHNGv2VAk19st7LR0nbyXnNtEryDhbrZ+CawjF3yK94/1I7Q312q/OHI+EsacRPiV4
-         Kk2IvfPheIZvN5+y6mOi+1swQptNwHKTnQ7lykBvpGz59QH6EZp3jsInQ5Ug9uOJDM4g
-         7N//z6qOpsEvWrZv+MQ9+i1iv0pNHUCcTl2ar9z84PNVgQzb0MGr7axVoZcqpxtFuVNY
-         gbIv9Tuj0EJmMZ9Cd4JZaATIEn0vN69rwaP0Yqsh1X/hDBMtEm1oZz8rOfQJyeeuWqQi
-         sYkWoHnE7NP7TsHnP02Y8pzL0smbkO5Qg3OP/nAArqpbMowr1V8FLX/vb9/XP0DbWTtJ
-         Z8Rw==
-X-Gm-Message-State: APjAAAV3GLqPzPsG33bl+YvhrwgyWuOx2zYQATz0JmxxF5gLdIVNeadM
-        F72wCaknC5Nz/nG0TQSuPGkdO6ZwcYLUDE3AgYReRg==
-X-Google-Smtp-Source: APXvYqx0rJT/xsCfnjxZK3RmGHU80HzrJAKBuZfKmF8O1USWU2O+1jjIPs2JgaewKUvGu1xDrRZPouAlEqHIaNui4XSXmg==
-X-Received: by 2002:a81:a8e:: with SMTP id 136mr50270319ywk.301.1561161914742;
- Fri, 21 Jun 2019 17:05:14 -0700 (PDT)
-Date:   Fri, 21 Jun 2019 17:03:58 -0700
-In-Reply-To: <20190622000358.19895-1-matthewgarrett@google.com>
-Message-Id: <20190622000358.19895-30-matthewgarrett@google.com>
-Mime-Version: 1.0
-References: <20190622000358.19895-1-matthewgarrett@google.com>
-X-Mailer: git-send-email 2.22.0.410.gd8fdbe21b5-goog
-Subject: [PATCH V34 29/29] lockdown: Print current->comm in restriction messages
-From:   Matthew Garrett <matthewgarrett@google.com>
-To:     jmorris@namei.org
-Cc:     linux-security-module@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        Matthew Garrett <matthewgarrett@google.com>,
-        David Howells <dhowells@redhat.com>,
-        Matthew Garrett <mjg59@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S1726372AbfFVQ2v (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 22 Jun 2019 12:28:51 -0400
+Received: from sonic301-3.consmr.mail.bf2.yahoo.com ([74.6.129.42]:35291 "EHLO
+        sonic301-3.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726362AbfFVQ2u (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 22 Jun 2019 12:28:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1561220929; bh=3fXYToOZXvh5MOJ1JSawYDThjnynC/Ekt2gucIg6zZg=; h=Date:From:Reply-To:Subject:From:Subject; b=FwrBLUl7u665XwQeVPTq5hUQ4Ptv5qPcwgE0MfCyAxPjQW66W+sBKlTITy95Xiak8M/9mL3k87XvuhuNYmdzjOXFqAsXXJ7ZeR0tr0xQhaR4qpp9+I79zHB4JVXDeOtUnrv/ni1DEn3m49tSMIml9+1SbDvUcui/xLYzcB7mOtvlwJJC6bBkcbOwJW8drH7WnSKYQVlUvO9PRg8+IWYABo4m/HoTrmg3JSd7+tfq1bmdsTjreC9G6uwJClVG1p8XyGEOijmNqXv9Ivunj8UzUvxVldTIg/taTAKdSlSG3i+xbnz28LKLpxSK2+M63p52Vf+hNJ0OycyVj1TkO+H8OQ==
+X-YMail-OSG: BClZlNgVM1mJa1pSUAMlnjmDwJQUKDn0osVKNVIeZ6AC0JZQ8NzrV_.P2vPToBw
+ lk4l1yMYy0P1wu9iKWHPF1vwWtED.NCcY6jE.jXdELnZdUngnDzcX.f1Ik7TcPjN._6dUftCNvSG
+ 0ilPDIIh6JKut3rld3EDzfXqVTEprJFL10dLfXEmdNXy8_9HzWnLN9Uxxh6FWr8nj4DbExyF48M8
+ b8CzHn8AtWzh0fDjJqMRXb5UR1L1fHF.mq4wk_41bl8VHLLREhO8D9AiMB_Iou.TvP.xektI4Uzf
+ lBotEg54S8nbe5a5a2eamKaLSiD6XaCIzSQkrGwkgk9qzk7J4361PG1C2lAWhSULJjGYH.uKi9SH
+ 8omXh8MvwuZmVU7umqXbA4eIFWV8ruRR3qRFWtA.2B0Eer.D49EbNovsAu.wRPm8yYyL6YMdaoys
+ 3vYAkjype1yPgR0gHAH3zObnNPMrtMzQfsTzcaha59dNYsVWPRo5EvcFgAIKXVIUqnKnooWuODru
+ O4SgrdrM8PGEZGs5dJS.h.dJB3gwQ.0I1wf1Q_CLgJhbPMrumaMiWl3ifhN9G_CCxrGhRPRltqdB
+ RyAvAXGENXKEJswzM.sYWHkLQyblOWaGX5TLKzeDGaJCZVu7CtZvQ0aNcyWtqrf4SAtE7MK9SqUH
+ 7phABBxeBrGdyDkvdUQOX_EPh25.Hb3SncDKllMEIHjvEdwbQcMGmqMEDVCI8Jh0nfgpjh259ODl
+ q.bGW_sz63_QvjPWXygjUQ4RzfXiei1bHIkvbkPAHc04dS.Qr8LP1Jyxp2QD0wtNtJgo5RScK99X
+ P5NPqcNAR8eez8YgXpk3cKLQCR9JSylhL6QyUVACODhQSLMO_l73eEDpWzNQUeEQLrEwA53TFUO9
+ BXx4lR26gADp4OeWMANR3pTNDn8J7Oc5G1l.tF8AqVFtdsoB5vgCdw0tzoX9_22cJzNNteihaN9H
+ ktOSXaCeUY26x9DWNkYi7HTOCc9F4vHnioRwelB9Lv.KGDeGPUJBBPmfcn0xXC8MB2YTlUFeVHzN
+ FJsHhvFz9eJx.VwEAdhJs3DHW6xmbj9a_RSOf.BoLPiAvMAdoBe_1sVY8nFOqhuBwpkbj17TOzIW
+ ts0JEWafkyantIFw8kEnIr0AHDEAK4aB1fgOVS8TQpbEaj2tB4pKHPa4OOjXszQAPBozr7PYVj2f
+ 6AcwHFYhcmsrFfliX20p43dgFMRY8GMXgvUWeegBAeAuOTxCoUC9WvAdL
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic301.consmr.mail.bf2.yahoo.com with HTTP; Sat, 22 Jun 2019 16:28:49 +0000
+Date:   Sat, 22 Jun 2019 16:28:46 +0000 (UTC)
+From:   "Miss.Fatima Yusuf" <fatimayusuf5@outlook.fr>
+Reply-To: miss.fmayusuf11@gmail.com
+Message-ID: <270302503.296556.1561220926635@mail.yahoo.com>
+Subject: From:Miss: Fatima Yusuf.
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Print the content of current->comm in messages generated by lockdown to
-indicate a restriction that was hit.  This makes it a bit easier to find
-out what caused the message.
 
-The message now patterned something like:
 
-        Lockdown: <comm>: <what> is restricted; see man kernel_lockdown.7
+From:Miss: Fatima Yusuf.
 
-Signed-off-by: David Howells <dhowells@redhat.com>
-Signed-off-by: Matthew Garrett <mjg59@google.com>
----
- security/lockdown/lockdown.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+For sure this mail would definitely come to you as a surprise, but do take your good time to go through it, My name is Ms. Fatima Yusuf,i am from Ivory Coast.
 
-diff --git a/security/lockdown/lockdown.c b/security/lockdown/lockdown.c
-index 98f9ee0026d5..9ca6f442fbc7 100644
---- a/security/lockdown/lockdown.c
-+++ b/security/lockdown/lockdown.c
-@@ -83,8 +83,8 @@ static int lockdown_is_locked_down(enum lockdown_reason what)
- {	
- 	if ((kernel_locked_down >= what)) {
- 		if (lockdown_reasons[what])
--			pr_notice("Lockdown: %s is restricted; see man kernel_lockdown.7\n",
--				  lockdown_reasons[what]);
-+			pr_notice("Lockdown: %s: %s is restricted; see man kernel_lockdown.7\n",
-+				  current->comm, lockdown_reasons[what]);
- 		return -EPERM;
- 	}
- 
--- 
-2.22.0.410.gd8fdbe21b5-goog
+I lost my parents a year and couple of months ago. My father was a serving director of the Agro-exporting board until his death. He was assassinated by his business partners.Before his death, he made a deposit of US$9.7 Million Dollars here in Cote d'ivoire which was for the purchase of cocoa processing machine and development of another factory before his untimely death.
 
+Being that this part of the world experiences political and crises time without number, there is no guarantee of lives and properties. I cannot invest this money here any long, despite the fact it had been my late father's industrial plans.
+
+I want you to do me a favor to receive this funds into your country or any safer place as the beneficiary, I have plans to invest this money in continuation with the investment vision of my late father, but not in this place again rather in your country. I have the vision of going into real estate and industrial production or any profitable business venture.
+
+I will be ready to compensate you with 20% of the total Amount, now all my hope is banked on you and i really wants to invest this money in your country, where there is stability of Government, political and economic welfare.
+
+My greatest worry now is how to move out of this country because my uncle is threatening to kill me as he killed my father,Please do not let anybody hear about this, it is between me and you alone because of my security reason.
+
+I am waiting to hear from you.
+Yours Sincerely,
+Miss.Fatima Yusuf.
