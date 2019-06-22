@@ -2,126 +2,215 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A85B4F231
-	for <lists+linux-api@lfdr.de>; Sat, 22 Jun 2019 02:05:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73ECD4F236
+	for <lists+linux-api@lfdr.de>; Sat, 22 Jun 2019 02:05:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726636AbfFVAE2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 Jun 2019 20:04:28 -0400
-Received: from mail-pl1-f202.google.com ([209.85.214.202]:36352 "EHLO
-        mail-pl1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726635AbfFVAE1 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Jun 2019 20:04:27 -0400
-Received: by mail-pl1-f202.google.com with SMTP id a5so4493152pla.3
-        for <linux-api@vger.kernel.org>; Fri, 21 Jun 2019 17:04:27 -0700 (PDT)
+        id S1726720AbfFVAEg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 Jun 2019 20:04:36 -0400
+Received: from mail-qk1-f201.google.com ([209.85.222.201]:44862 "EHLO
+        mail-qk1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726668AbfFVAEa (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Jun 2019 20:04:30 -0400
+Received: by mail-qk1-f201.google.com with SMTP id c207so9369998qkb.11
+        for <linux-api@vger.kernel.org>; Fri, 21 Jun 2019 17:04:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=E1ydClCjIQanqkYubDCe4fTQ8CyYEUPCl76Zws+exX4=;
-        b=Mw1nxxDCj3KPV9UNkkVTuYDyrqaNw9yfe8VMRM7ZPzqyoc628ni6A1ID84X/NQY/eG
-         TjqgdDZ2eclCmQYBtR64hrRsKfdJ0/b2ea/MKIjVjf5Schmnsf9z4DGGkKrP3ZMtf/4Z
-         5fExcPm/lB+/BHv/goxmhPnXnifnIxGZIkdJL93w+OXXSyC4vIJylekCmcsMP9+JbsT+
-         gVi97q0IioDlBycYNesWz61vacRTWYh1YbLAOH7R2x6khfBxHVRBC8C//eYSarvexPeG
-         Uo1SHVP2bSJa/A300oItLeqbJObzG1tatKWOxjfQ/shMDZS2UzCNHcLYt+NAQWt6dMzw
-         3Daw==
+        bh=QR1Fq3MnogoZDxR5LoHcfLT1JRgAByQ+Bas4Z8/9Vdo=;
+        b=cfhgJlRMYlL1ZQu+27acnf30xFuMCjbXTCAainFoeEtW6sZfy4z78AwyGDy66Snw59
+         pvtbyWjFtVqv2AKhiP7OGS07Od6EaserX0vCQ10ANdg4TLN7ndS3gF8OdAbzxSMsZSjY
+         sgeyCW+DZbTYK5bDNnjil5OmnI6NDxkWpYVsoDss5Tq0elODK37VxHU4y9hCNubVo7H9
+         D6Jc4/affqcgrEdydVrRLwyNXiUAVcnoLZVmNAKzcNEAxu/tKT5a4J7pWmeE/G0DMrk1
+         UjiODKe8fvrl0qgaiKwOCtBZVX6C122MMiRCGRrT/OHEGYG0c08Il4sj/O4286/d7H/A
+         e7rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=E1ydClCjIQanqkYubDCe4fTQ8CyYEUPCl76Zws+exX4=;
-        b=HdRHxumXvpXlX6Q1InMx+JRSr7NiNFRjVM1Re4kBWLJXRL48t2+joaIpcTiN1HdWH+
-         lgjxdU4JyyHHRwHHbLEggEAu0H1x2M7uh7apRe+uT8l55/tPN5Bd043Ft436Onv9iT28
-         NPR5ljng/uBBqm/SjsLrLq8+KEKZJ+l6nnCIQOIjX3gNrlEVZyiydPXUptErE03A0cft
-         DpSqKW35SSUQQPv+gqGrAuZ36OYUkbVqAV4VrNimH7VzF63GkBKAFstFocZBisiLwJZR
-         +O+1nmj7m1G293aorP0U45LtKp09WU4agZewazfojNVKqe8gg6HJGQUZjW1TrnIMT9Ez
-         ErUw==
-X-Gm-Message-State: APjAAAVWT8ZVEUEETrHgmLhYIb1n4vzfQR40kWw5v4Nm0P1DfLQPmA70
-        tNQWcqP9Mrdo8nB20K4ED+kGjZ/bQlYpASq4HzHB+A==
-X-Google-Smtp-Source: APXvYqzVsoigFEz9xV2syvjuZK/rAiWYW9AdGJzJFdfPo/qG/n7y42EqV0+KSVGLK/rbmx1Vz0/09WNn5tQlIgfdmqn5eA==
-X-Received: by 2002:a63:e304:: with SMTP id f4mr20804148pgh.187.1561161866832;
- Fri, 21 Jun 2019 17:04:26 -0700 (PDT)
-Date:   Fri, 21 Jun 2019 17:03:39 -0700
+        bh=QR1Fq3MnogoZDxR5LoHcfLT1JRgAByQ+Bas4Z8/9Vdo=;
+        b=ZwBJHuftLQIksLrJIIs35vIUOKiWg3u7Z7XiTg1WEe8TWdsmE8+2o5W1i1qwTf0OHa
+         kH5IauN26zQtfVkgDNDWzURqO6W1zlcdcbgfkg+CMJDbmlio9lpKgCFCnQinb6Hu85D0
+         9DyhcVFS6NWwpoIB5qfGqN07q+1CcANc/gQwu6o/1MxeK1hN5r842I8clCM3DycAPPcR
+         iG8n+37j44Yvqjto5dd+uTMrQE7it3fVhd6tnFrFlqmyJUtLFmm64s3Y83X7os7PlV4R
+         yZE5PCQXNc4Eu6HQFdp1a8kYZXbAXlLEhvUsBEbihCUf0wdvR3VWyuDgZ17BHTSlZMRF
+         apJw==
+X-Gm-Message-State: APjAAAXLeMaRlfQmT8bXqUgPgOFvy6mmomPwKxIitN1by0C+RpCUt9Gi
+        Wv6+8BMSB239ybXk8YAqR6IMhuu1/ZYdEiTOchWGUQ==
+X-Google-Smtp-Source: APXvYqzqeYXV9vwwXpTuqXyUuPT7+AwixwFvcs5ahBxR269UhwHGbFEprjzHgFntrzvSS2eF903JUTvnb8Dc9mAG5s87nw==
+X-Received: by 2002:a37:a98c:: with SMTP id s134mr109806733qke.176.1561161869518;
+ Fri, 21 Jun 2019 17:04:29 -0700 (PDT)
+Date:   Fri, 21 Jun 2019 17:03:40 -0700
 In-Reply-To: <20190622000358.19895-1-matthewgarrett@google.com>
-Message-Id: <20190622000358.19895-11-matthewgarrett@google.com>
+Message-Id: <20190622000358.19895-12-matthewgarrett@google.com>
 Mime-Version: 1.0
 References: <20190622000358.19895-1-matthewgarrett@google.com>
 X-Mailer: git-send-email 2.22.0.410.gd8fdbe21b5-goog
-Subject: [PATCH V34 10/29] hibernate: Disable when the kernel is locked down
+Subject: [PATCH V34 11/29] PCI: Lock down BAR access when the kernel is locked down
 From:   Matthew Garrett <matthewgarrett@google.com>
 To:     jmorris@namei.org
 Cc:     linux-security-module@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        Josh Boyer <jwboyer@fedoraproject.org>,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
         David Howells <dhowells@redhat.com>,
-        Matthew Garrett <mjg59@google.com>, rjw@rjwysocki.net,
-        pavel@ucw.cz, linux-pm@vger.kernel.org
+        Matthew Garrett <mjg59@google.com>,
+        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Josh Boyer <jwboyer@fedoraproject.org>
+From: Matthew Garrett <mjg59@srcf.ucam.org>
 
-There is currently no way to verify the resume image when returning
-from hibernate.  This might compromise the signed modules trust model,
-so until we can work with signed hibernate images we disable it when the
-kernel is locked down.
+Any hardware that can potentially generate DMA has to be locked down in
+order to avoid it being possible for an attacker to modify kernel code,
+allowing them to circumvent disabled module loading or module signing.
+Default to paranoid - in future we can potentially relax this for
+sufficiently IOMMU-isolated devices.
 
-Signed-off-by: Josh Boyer <jwboyer@fedoraproject.org>
 Signed-off-by: David Howells <dhowells@redhat.com>
 Signed-off-by: Matthew Garrett <mjg59@google.com>
-Cc: rjw@rjwysocki.net
-Cc: pavel@ucw.cz
-cc: linux-pm@vger.kernel.org
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+cc: linux-pci@vger.kernel.org
 ---
- include/linux/security.h     | 1 +
- kernel/power/hibernate.c     | 3 ++-
- security/lockdown/lockdown.c | 1 +
- 3 files changed, 4 insertions(+), 1 deletion(-)
+ drivers/pci/pci-sysfs.c      | 16 ++++++++++++++++
+ drivers/pci/proc.c           | 14 ++++++++++++--
+ drivers/pci/syscall.c        |  4 +++-
+ include/linux/security.h     |  1 +
+ security/lockdown/lockdown.c |  1 +
+ 5 files changed, 33 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
+index 25794c27c7a4..e1011efb5a31 100644
+--- a/drivers/pci/pci-sysfs.c
++++ b/drivers/pci/pci-sysfs.c
+@@ -903,6 +903,11 @@ static ssize_t pci_write_config(struct file *filp, struct kobject *kobj,
+ 	unsigned int size = count;
+ 	loff_t init_off = off;
+ 	u8 *data = (u8 *) buf;
++	int ret;
++
++	ret = security_locked_down(LOCKDOWN_PCI_ACCESS);
++	if (ret)
++		return ret;
+ 
+ 	if (off > dev->cfg_size)
+ 		return 0;
+@@ -1165,6 +1170,11 @@ static int pci_mmap_resource(struct kobject *kobj, struct bin_attribute *attr,
+ 	int bar = (unsigned long)attr->private;
+ 	enum pci_mmap_state mmap_type;
+ 	struct resource *res = &pdev->resource[bar];
++	int ret;
++
++	ret = security_locked_down(LOCKDOWN_PCI_ACCESS);
++	if (ret)
++		return ret;
+ 
+ 	if (res->flags & IORESOURCE_MEM && iomem_is_exclusive(res->start))
+ 		return -EINVAL;
+@@ -1241,6 +1251,12 @@ static ssize_t pci_write_resource_io(struct file *filp, struct kobject *kobj,
+ 				     struct bin_attribute *attr, char *buf,
+ 				     loff_t off, size_t count)
+ {
++	int ret;
++
++	ret = security_locked_down(LOCKDOWN_PCI_ACCESS);
++	if (ret)
++		return ret;
++
+ 	return pci_resource_io(filp, kobj, attr, buf, off, count, true);
+ }
+ 
+diff --git a/drivers/pci/proc.c b/drivers/pci/proc.c
+index 6fa1627ce08d..a72258d70407 100644
+--- a/drivers/pci/proc.c
++++ b/drivers/pci/proc.c
+@@ -13,6 +13,7 @@
+ #include <linux/seq_file.h>
+ #include <linux/capability.h>
+ #include <linux/uaccess.h>
++#include <linux/security.h>
+ #include <asm/byteorder.h>
+ #include "pci.h"
+ 
+@@ -115,7 +116,11 @@ static ssize_t proc_bus_pci_write(struct file *file, const char __user *buf,
+ 	struct pci_dev *dev = PDE_DATA(ino);
+ 	int pos = *ppos;
+ 	int size = dev->cfg_size;
+-	int cnt;
++	int cnt, ret;
++
++	ret = security_locked_down(LOCKDOWN_PCI_ACCESS);
++	if (ret)
++		return ret;
+ 
+ 	if (pos >= size)
+ 		return 0;
+@@ -196,6 +201,10 @@ static long proc_bus_pci_ioctl(struct file *file, unsigned int cmd,
+ #endif /* HAVE_PCI_MMAP */
+ 	int ret = 0;
+ 
++	ret = security_locked_down(LOCKDOWN_PCI_ACCESS);
++	if (ret)
++		return ret;
++
+ 	switch (cmd) {
+ 	case PCIIOC_CONTROLLER:
+ 		ret = pci_domain_nr(dev->bus);
+@@ -237,7 +246,8 @@ static int proc_bus_pci_mmap(struct file *file, struct vm_area_struct *vma)
+ 	struct pci_filp_private *fpriv = file->private_data;
+ 	int i, ret, write_combine = 0, res_bit = IORESOURCE_MEM;
+ 
+-	if (!capable(CAP_SYS_RAWIO))
++	if (!capable(CAP_SYS_RAWIO) ||
++	    security_locked_down(LOCKDOWN_PCI_ACCESS))
+ 		return -EPERM;
+ 
+ 	if (fpriv->mmap_state == pci_mmap_io) {
+diff --git a/drivers/pci/syscall.c b/drivers/pci/syscall.c
+index d96626c614f5..31e39558d49d 100644
+--- a/drivers/pci/syscall.c
++++ b/drivers/pci/syscall.c
+@@ -7,6 +7,7 @@
+ 
+ #include <linux/errno.h>
+ #include <linux/pci.h>
++#include <linux/security.h>
+ #include <linux/syscalls.h>
+ #include <linux/uaccess.h>
+ #include "pci.h"
+@@ -90,7 +91,8 @@ SYSCALL_DEFINE5(pciconfig_write, unsigned long, bus, unsigned long, dfn,
+ 	u32 dword;
+ 	int err = 0;
+ 
+-	if (!capable(CAP_SYS_ADMIN))
++	if (!capable(CAP_SYS_ADMIN) ||
++	    security_locked_down(LOCKDOWN_PCI_ACCESS))
+ 		return -EPERM;
+ 
+ 	dev = pci_get_domain_bus_and_slot(0, bus, dfn);
 diff --git a/include/linux/security.h b/include/linux/security.h
-index 00a31ab2e5ba..a051f21a1144 100644
+index a051f21a1144..1b849f10dec6 100644
 --- a/include/linux/security.h
 +++ b/include/linux/security.h
-@@ -85,6 +85,7 @@ enum lockdown_reason {
- 	LOCKDOWN_MODULE_SIGNATURE,
+@@ -86,6 +86,7 @@ enum lockdown_reason {
  	LOCKDOWN_DEV_MEM,
  	LOCKDOWN_KEXEC,
-+	LOCKDOWN_HIBERNATION,
+ 	LOCKDOWN_HIBERNATION,
++	LOCKDOWN_PCI_ACCESS,
  	LOCKDOWN_INTEGRITY_MAX,
  	LOCKDOWN_CONFIDENTIALITY_MAX,
  };
-diff --git a/kernel/power/hibernate.c b/kernel/power/hibernate.c
-index abef759de7c8..3a9cb2d3da4a 100644
---- a/kernel/power/hibernate.c
-+++ b/kernel/power/hibernate.c
-@@ -32,6 +32,7 @@
- #include <linux/ctype.h>
- #include <linux/genhd.h>
- #include <linux/ktime.h>
-+#include <linux/security.h>
- #include <trace/events/power.h>
- 
- #include "power.h"
-@@ -70,7 +71,7 @@ static const struct platform_hibernation_ops *hibernation_ops;
- 
- bool hibernation_available(void)
- {
--	return (nohibernate == 0);
-+	return nohibernate == 0 && !security_locked_down(LOCKDOWN_HIBERNATION);
- }
- 
- /**
 diff --git a/security/lockdown/lockdown.c b/security/lockdown/lockdown.c
-index 08fcd8116db3..ce5b3da9bd09 100644
+index ce5b3da9bd09..e2ee8a16b94c 100644
 --- a/security/lockdown/lockdown.c
 +++ b/security/lockdown/lockdown.c
-@@ -21,6 +21,7 @@ static char *lockdown_reasons[LOCKDOWN_CONFIDENTIALITY_MAX+1] = {
- 	[LOCKDOWN_MODULE_SIGNATURE] = "unsigned module loading",
+@@ -22,6 +22,7 @@ static char *lockdown_reasons[LOCKDOWN_CONFIDENTIALITY_MAX+1] = {
  	[LOCKDOWN_DEV_MEM] = "/dev/mem,kmem,port",
  	[LOCKDOWN_KEXEC] = "kexec of unsigned images",
-+	[LOCKDOWN_HIBERNATION] = "hibernation",
+ 	[LOCKDOWN_HIBERNATION] = "hibernation",
++	[LOCKDOWN_PCI_ACCESS] = "direct PCI access",
  	[LOCKDOWN_INTEGRITY_MAX] = "integrity",
  	[LOCKDOWN_CONFIDENTIALITY_MAX] = "confidentiality",
  };
