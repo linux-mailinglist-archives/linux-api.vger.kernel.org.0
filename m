@@ -2,108 +2,108 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D2F9A4F95C
-	for <lists+linux-api@lfdr.de>; Sun, 23 Jun 2019 02:14:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B237F4F961
+	for <lists+linux-api@lfdr.de>; Sun, 23 Jun 2019 02:25:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726521AbfFWAOt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 22 Jun 2019 20:14:49 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:35824 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726387AbfFWAOs (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 22 Jun 2019 20:14:48 -0400
-Received: by mail-pl1-f193.google.com with SMTP id p1so4822504plo.2
-        for <linux-api@vger.kernel.org>; Sat, 22 Jun 2019 17:14:47 -0700 (PDT)
+        id S1726424AbfFWAZa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 22 Jun 2019 20:25:30 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:46173 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726414AbfFWAZa (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 22 Jun 2019 20:25:30 -0400
+Received: by mail-pf1-f196.google.com with SMTP id 81so5425295pfy.13
+        for <linux-api@vger.kernel.org>; Sat, 22 Jun 2019 17:25:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=btG6avAzDAyvn5JxuzcdJRsv07F3W0fAi+zvzELLu4g=;
-        b=G10ix/75gAlaiLGUlBh565tLQ8+aylPU/RQBBsKWCCMUORUSsygtn+q15t9tr59J2A
-         cUiEQyECiFsC4UExccIv11GBw77rxdlv0rlsUUNpDdl5FmjAPK3GAviiQ1EbJBhyAJCJ
-         C48HUkgUK3dqaC+1Ih76fePbjemx7QzQ6cHf8=
+        bh=Muy8l67XTgQ8QvvYzm/lgbWW8wIRKwYpaJ4/hlcS4jk=;
+        b=hGZBty9vkwSEnFjKjjzvO41IQIGOS2M1st7Zs3Q2F5qYDxJa17E/2ppGWE/VoTbKE7
+         Ex+YYt8iotCN+AvqdKFQvogDBDELCpucsd4iGP9AfpIbPSn1IV8eFeA0d78v5BBaA1Yd
+         VBtAB4e4wegcGRAoCgrMEViWixlEWgGZpr8bU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=btG6avAzDAyvn5JxuzcdJRsv07F3W0fAi+zvzELLu4g=;
-        b=BH2/9ENz/h23NrgLNYykyOG0RNEOCcgXp/d5TU4+JhndAA37AkMY+/MXcvCECtAERP
-         87xMUzT/NtU87ZV7iPtmWKY7rvxSC1wy26CZW2BAQ8VM85Zj7uGOaRxgokHFqz0TUT9Z
-         iy9+U7bUO/KrGVyfIh5FE2M0AHG2SGS2NFl3XXMqhYRxYih6zNJlAEaz8Lya0YTZks9l
-         fnf/rE+DW5eVnlaeRXvOTqHSYAn/gqiYDkig9N0BVQol/ofmJTVxP6Cuqsnwqi0d9kh9
-         QmNw7UrLSlb89GIW0RfZFx2NEa2+C+CC+oxBDh3V+fIgkwzOcAeLpUFqi0cT9M9hFbVM
-         Pd2Q==
-X-Gm-Message-State: APjAAAX3Q6b0LrBj2XniNHL/VNinB6bq2YBnNldY/XfbA9kZM03iA9Ib
-        rEvRGevOuSMDyrRGLb1Ys8C3+w==
-X-Google-Smtp-Source: APXvYqxcvat/DBQ6Sbeb3rN2qxDjuCbNFZLf7vlqSfx2l0aGYSWcasg0xVthOBBHvZpowm2Cy1Uu7w==
-X-Received: by 2002:a17:902:7443:: with SMTP id e3mr3104455plt.176.1561248887361;
-        Sat, 22 Jun 2019 17:14:47 -0700 (PDT)
+        bh=Muy8l67XTgQ8QvvYzm/lgbWW8wIRKwYpaJ4/hlcS4jk=;
+        b=MtQNCSCSamiA3h2Tq04D8FvKdb6vH+BHlwY7+My9tOr+CWjn3tlEWrPj199bwUM6pC
+         vvcDP1hwu0Z2ea/b5+998ydIJ90ua7WGSEkTLow1KQIrMvrRcBjuHn9N6BKR8XVtslcT
+         So3ueUueCbzZeeKco+Fc2FXXHgeKQDlFruuatU5mR8SzHyX2XL6Bp5dlsRtVe/Q0LojG
+         /Jjg/vQK/0L7fo/jc/v2XnQ6LsIs5PYSYCxq+d8gtlQT5CXS76Zep8pB5Nplf4FpAd5s
+         uDP1Sa5vNYpkPzA13oNJg0GAeC5Svo9AY5fVDx6PtaAFBUCzsNCHCJMaR7L0JP4+qysJ
+         Zz+g==
+X-Gm-Message-State: APjAAAU2ti0Ube1XtO5ogIyfjH6atZ4qFABHr7cgCGInHeWepVLrIyYi
+        oyWBO9b2rUMxopV+qObDnwGehw==
+X-Google-Smtp-Source: APXvYqyfE7pyqOmRt//qF5dntnKG8qFiDNfEU/crAJj6CQbY7HT06JFeATqZu/GBxAPBGY+3arfbxQ==
+X-Received: by 2002:a17:90b:d8a:: with SMTP id bg10mr15802946pjb.92.1561249530062;
+        Sat, 22 Jun 2019 17:25:30 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id q10sm6534267pgg.35.2019.06.22.17.14.46
+        by smtp.gmail.com with ESMTPSA id e20sm6764757pfi.35.2019.06.22.17.25.28
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Sat, 22 Jun 2019 17:14:46 -0700 (PDT)
-Date:   Sat, 22 Jun 2019 17:14:45 -0700
+        Sat, 22 Jun 2019 17:25:28 -0700 (PDT)
+Date:   Sat, 22 Jun 2019 17:25:28 -0700
 From:   Kees Cook <keescook@chromium.org>
 To:     Matthew Garrett <matthewgarrett@google.com>
 Cc:     jmorris@namei.org, linux-security-module@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        Matthew Garrett <mjg59@google.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        linux-efi@vger.kernel.org
-Subject: Re: [PATCH V34 28/29] efi: Restrict efivar_ssdt_load when the kernel
- is locked down
-Message-ID: <201906221714.CDECCAEDA6@keescook>
+        David Howells <dhowells@redhat.com>,
+        Matthew Garrett <mjg59@google.com>
+Subject: Re: [PATCH V34 29/29] lockdown: Print current->comm in restriction
+ messages
+Message-ID: <201906221724.EF1BA1D@keescook>
 References: <20190622000358.19895-1-matthewgarrett@google.com>
- <20190622000358.19895-29-matthewgarrett@google.com>
+ <20190622000358.19895-30-matthewgarrett@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190622000358.19895-29-matthewgarrett@google.com>
+In-Reply-To: <20190622000358.19895-30-matthewgarrett@google.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jun 21, 2019 at 05:03:57PM -0700, Matthew Garrett wrote:
-> efivar_ssdt_load allows the kernel to import arbitrary ACPI code from an
-> EFI variable, which gives arbitrary code execution in ring 0. Prevent
-> that when the kernel is locked down.
+On Fri, Jun 21, 2019 at 05:03:58PM -0700, Matthew Garrett wrote:
+> Print the content of current->comm in messages generated by lockdown to
+> indicate a restriction that was hit.  This makes it a bit easier to find
+> out what caused the message.
 > 
+> The message now patterned something like:
+> 
+>         Lockdown: <comm>: <what> is restricted; see man kernel_lockdown.7
+> 
+> Signed-off-by: David Howells <dhowells@redhat.com>
 > Signed-off-by: Matthew Garrett <mjg59@google.com>
+> ---
+>  security/lockdown/lockdown.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/security/lockdown/lockdown.c b/security/lockdown/lockdown.c
+> index 98f9ee0026d5..9ca6f442fbc7 100644
+> --- a/security/lockdown/lockdown.c
+> +++ b/security/lockdown/lockdown.c
+> @@ -83,8 +83,8 @@ static int lockdown_is_locked_down(enum lockdown_reason what)
+>  {	
+>  	if ((kernel_locked_down >= what)) {
+
+To satisfy my paranoia, can you just add here:
+
+		if (WARN(what > LOCKDOWN_..._MAX))
+			return -EPERM;
+
+With that:
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
 
 -Kees
 
-> Cc: Ard Biesheuvel <ard.biesheuvel@linaro.org>
-> Cc: linux-efi@vger.kernel.org
-> ---
->  drivers/firmware/efi/efi.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/drivers/firmware/efi/efi.c b/drivers/firmware/efi/efi.c
-> index 55b77c576c42..9f92a013ab27 100644
-> --- a/drivers/firmware/efi/efi.c
-> +++ b/drivers/firmware/efi/efi.c
-> @@ -31,6 +31,7 @@
->  #include <linux/acpi.h>
->  #include <linux/ucs2_string.h>
->  #include <linux/memblock.h>
-> +#include <linux/security.h>
+>  		if (lockdown_reasons[what])
+> -			pr_notice("Lockdown: %s is restricted; see man kernel_lockdown.7\n",
+> -				  lockdown_reasons[what]);
+> +			pr_notice("Lockdown: %s: %s is restricted; see man kernel_lockdown.7\n",
+> +				  current->comm, lockdown_reasons[what]);
+>  		return -EPERM;
+>  	}
 >  
->  #include <asm/early_ioremap.h>
->  
-> @@ -242,6 +243,11 @@ static void generic_ops_unregister(void)
->  static char efivar_ssdt[EFIVAR_SSDT_NAME_MAX] __initdata;
->  static int __init efivar_ssdt_setup(char *str)
->  {
-> +	int ret = security_locked_down(LOCKDOWN_ACPI_TABLES);
-> +
-> +	if (ret)
-> +		return ret;
-> +
->  	if (strlen(str) < sizeof(efivar_ssdt))
->  		memcpy(efivar_ssdt, str, strlen(str));
->  	else
 > -- 
 > 2.22.0.410.gd8fdbe21b5-goog
 > 
