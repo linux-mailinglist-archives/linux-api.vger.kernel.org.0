@@ -2,147 +2,154 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DCC5750DA2
-	for <lists+linux-api@lfdr.de>; Mon, 24 Jun 2019 16:12:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D3A9B510BE
+	for <lists+linux-api@lfdr.de>; Mon, 24 Jun 2019 17:37:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728070AbfFXOM3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 24 Jun 2019 10:12:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54544 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725881AbfFXOM3 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 24 Jun 2019 10:12:29 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id BB2CD3087946;
-        Mon, 24 Jun 2019 14:12:28 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-120-57.rdu2.redhat.com [10.10.120.57])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 51D3A5C21F;
-        Mon, 24 Jun 2019 14:12:26 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
- Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
- Kingdom.
- Registered in England and Wales under Company Registration No. 3798903
-Subject: [PATCH 25/25] fsinfo: ufs - add sb operation fsinfo() [ver #14]
-From:   David Howells <dhowells@redhat.com>
-To:     viro@zeniv.linux.org.uk
-Cc:     dhowells@redhat.com, raven@themaw.net, mszeredi@redhat.com,
-        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Date:   Mon, 24 Jun 2019 15:12:25 +0100
-Message-ID: <156138554552.25627.15667264043714854814.stgit@warthog.procyon.org.uk>
-In-Reply-To: <156138532485.25627.7459410522109581052.stgit@warthog.procyon.org.uk>
-References: <156138532485.25627.7459410522109581052.stgit@warthog.procyon.org.uk>
-User-Agent: StGit/unknown-version
+        id S1726263AbfFXPhZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 24 Jun 2019 11:37:25 -0400
+Received: from www62.your-server.de ([213.133.104.62]:47396 "EHLO
+        www62.your-server.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729580AbfFXPhX (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 24 Jun 2019 11:37:23 -0400
+Received: from [88.198.220.130] (helo=sslproxy01.your-server.de)
+        by www62.your-server.de with esmtpsa (TLSv1.2:DHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.89_1)
+        (envelope-from <daniel@iogearbox.net>)
+        id 1hfQgn-0006VD-11; Mon, 24 Jun 2019 17:15:25 +0200
+Received: from [178.199.41.31] (helo=linux.home)
+        by sslproxy01.your-server.de with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.89)
+        (envelope-from <daniel@iogearbox.net>)
+        id 1hfQgm-0001i0-IJ; Mon, 24 Jun 2019 17:15:24 +0200
+Subject: Re: [PATCH V34 23/29] bpf: Restrict bpf when kernel lockdown is in
+ confidentiality mode
+To:     Matthew Garrett <matthewgarrett@google.com>, jmorris@namei.org
+Cc:     linux-security-module@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        David Howells <dhowells@redhat.com>,
+        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Matthew Garrett <mjg59@google.com>, netdev@vger.kernel.org,
+        Chun-Yi Lee <jlee@suse.com>, jannh@google.com,
+        bpf@vger.kernel.org
+References: <20190622000358.19895-1-matthewgarrett@google.com>
+ <20190622000358.19895-24-matthewgarrett@google.com>
+From:   Daniel Borkmann <daniel@iogearbox.net>
+Message-ID: <739e21b5-9559-d588-3542-bf0bc81de1b2@iogearbox.net>
+Date:   Mon, 24 Jun 2019 17:15:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.3.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20190622000358.19895-24-matthewgarrett@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.45]); Mon, 24 Jun 2019 14:12:28 +0000 (UTC)
+X-Authenticated-Sender: daniel@iogearbox.net
+X-Virus-Scanned: Clear (ClamAV 0.100.3/25490/Mon Jun 24 10:02:14 2019)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Ian Kent <raven@themaw.net>
+On 06/22/2019 02:03 AM, Matthew Garrett wrote:
+> From: David Howells <dhowells@redhat.com>
+> 
+> There are some bpf functions can be used to read kernel memory:
 
-The new fsinfo() system call adds a new super block operation
-->fsinfo() which is used by file systems to provide file
-system specific information for fsinfo() requests.
+Nit: that
 
-The fsinfo() request FSINFO_ATTR_PARAMETERS provides the same
-function as sb operation ->show_options() so it needs to be
-implemented by any file system that provides ->show_options()
-as a minimum.
+> bpf_probe_read, bpf_probe_write_user and bpf_trace_printk.  These allow
 
-Signed-off-by: Ian Kent <raven@themaw.net>
-Signed-off-by: David Howells <dhowells@redhat.com>
----
+Please explain how bpf_probe_write_user reads kernel memory ... ?!
 
- fs/ufs/super.c |   58 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 58 insertions(+)
+> private keys in kernel memory (e.g. the hibernation image signing key) to
+> be read by an eBPF program and kernel memory to be altered without
 
-diff --git a/fs/ufs/super.c b/fs/ufs/super.c
-index 84c0c5178cd2..40a3e9db8ac7 100644
---- a/fs/ufs/super.c
-+++ b/fs/ufs/super.c
-@@ -89,6 +89,7 @@
- #include <linux/mount.h>
- #include <linux/seq_file.h>
- #include <linux/iversion.h>
-+#include <linux/fsinfo.h>
- 
- #include "ufs_fs.h"
- #include "ufs.h"
-@@ -1401,6 +1402,60 @@ static int ufs_show_options(struct seq_file *seq, struct dentry *root)
- 	return 0;
- }
- 
-+#ifdef CONFIG_FSINFO
-+static int ufs_fsinfo_print_token(struct fsinfo_kparams *params, const char *token)
-+{
-+	char *new, *key, *value;
-+
-+	new = kstrdup(token, GFP_KERNEL);
-+	if (!new)
-+		return -ENOMEM;
-+
-+	key = new;
-+	value = strchr(new, '=');
-+	if (value)
-+		*value++ = '\0';
-+
-+	fsinfo_note_param(params, key, value);
-+
-+	kfree(new);
-+	return 0;
-+}
-+
-+/*
-+ * Get filesystem information.
-+ */
-+static int ufs_fsinfo(struct path *path, struct fsinfo_kparams *params)
-+{
-+	struct ufs_sb_info *sbi = UFS_SB(path->dentry->d_sb);
-+	unsigned mval = sbi->s_mount_opt & UFS_MOUNT_UFSTYPE;
-+	const struct match_token *tp = tokens;
-+	int ret;
-+
-+	switch (params->request) {
-+	case FSINFO_ATTR_PARAMETERS:
-+		fsinfo_note_sb_params(params, path->dentry->d_sb->s_flags);
-+		while (tp->token != Opt_onerror_panic && tp->token != mval)
-+			++tp;
-+		BUG_ON(tp->token == Opt_onerror_panic);
-+		ret = ufs_fsinfo_print_token(params, tp->pattern);
-+		if (ret)
-+			return ret;
-+		mval = sbi->s_mount_opt & UFS_MOUNT_ONERROR;
-+		while (tp->token != Opt_err && tp->token != mval)
-+			++tp;
-+		BUG_ON(tp->token == Opt_err);
-+		ret = ufs_fsinfo_print_token(params, tp->pattern);
-+		if (ret)
-+			return ret;
-+		return params->usage;
-+
-+	default:
-+		return generic_fsinfo(path, params);
-+	}
-+}
-+#endif /* CONFIG_FSINFO */
-+
- static int ufs_statfs(struct dentry *dentry, struct kstatfs *buf)
- {
- 	struct super_block *sb = dentry->d_sb;
-@@ -1496,6 +1551,9 @@ static const struct super_operations ufs_super_ops = {
- 	.statfs		= ufs_statfs,
- 	.remount_fs	= ufs_remount,
- 	.show_options   = ufs_show_options,
-+#ifdef CONFIG_FSINFO
-+	.fsinfo		= ufs_fsinfo,
-+#endif
- };
- 
- static struct dentry *ufs_mount(struct file_system_type *fs_type,
+... and while we're at it, also how they allow "kernel memory to be
+altered without restriction". I've been pointing this false statement
+out long ago.
+
+> restriction. Disable them if the kernel has been locked down in
+> confidentiality mode.
+> 
+> Suggested-by: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+> Signed-off-by: David Howells <dhowells@redhat.com>
+> Signed-off-by: Matthew Garrett <mjg59@google.com>
+> cc: netdev@vger.kernel.org
+> cc: Chun-Yi Lee <jlee@suse.com>
+> cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+> Cc: Daniel Borkmann <daniel@iogearbox.net>
+
+Nacked-by: Daniel Borkmann <daniel@iogearbox.net>
+
+[...]
+>  
+> diff --git a/kernel/trace/bpf_trace.c b/kernel/trace/bpf_trace.c
+> index d64c00afceb5..638f9b00a8df 100644
+> --- a/kernel/trace/bpf_trace.c
+> +++ b/kernel/trace/bpf_trace.c
+> @@ -137,6 +137,10 @@ BPF_CALL_3(bpf_probe_read, void *, dst, u32, size, const void *, unsafe_ptr)
+>  {
+>  	int ret;
+>  
+> +	ret = security_locked_down(LOCKDOWN_BPF_READ);
+> +	if (ret)
+> +		return ret;
+
+This whole thing is still buggy as has been pointed out before by
+Jann. For helpers like above and few others below, error conditions
+must clear the buffer ...
+
+>  	ret = probe_kernel_read(dst, unsafe_ptr, size);
+>  	if (unlikely(ret < 0))
+>  		memset(dst, 0, size);
+> @@ -156,6 +160,12 @@ static const struct bpf_func_proto bpf_probe_read_proto = {
+>  BPF_CALL_3(bpf_probe_write_user, void *, unsafe_ptr, const void *, src,
+>  	   u32, size)
+>  {
+> +	int ret;
+> +
+> +	ret = security_locked_down(LOCKDOWN_BPF_READ);
+> +	if (ret)
+> +		return ret;
+> +
+>  	/*
+>  	 * Ensure we're in user context which is safe for the helper to
+>  	 * run. This helper has no business in a kthread.
+> @@ -205,7 +215,11 @@ BPF_CALL_5(bpf_trace_printk, char *, fmt, u32, fmt_size, u64, arg1,
+>  	int fmt_cnt = 0;
+>  	u64 unsafe_addr;
+>  	char buf[64];
+> -	int i;
+> +	int i, ret;
+> +
+> +	ret = security_locked_down(LOCKDOWN_BPF_READ);
+> +	if (ret)
+> +		return ret;
+>  
+>  	/*
+>  	 * bpf_check()->check_func_arg()->check_stack_boundary()
+> @@ -534,6 +548,10 @@ BPF_CALL_3(bpf_probe_read_str, void *, dst, u32, size,
+>  {
+>  	int ret;
+>  
+> +	ret = security_locked_down(LOCKDOWN_BPF_READ);
+> +	if (ret)
+> +		return ret;
+> +
+>  	/*
+>  	 * The strncpy_from_unsafe() call will likely not fill the entire
+>  	 * buffer, but that's okay in this circumstance as we're probing
+> diff --git a/security/lockdown/lockdown.c b/security/lockdown/lockdown.c
+> index 5a08c17f224d..2eea2cc13117 100644
+> --- a/security/lockdown/lockdown.c
+> +++ b/security/lockdown/lockdown.c
+> @@ -33,6 +33,7 @@ static char *lockdown_reasons[LOCKDOWN_CONFIDENTIALITY_MAX+1] = {
+>  	[LOCKDOWN_INTEGRITY_MAX] = "integrity",
+>  	[LOCKDOWN_KCORE] = "/proc/kcore access",
+>  	[LOCKDOWN_KPROBES] = "use of kprobes",
+> +	[LOCKDOWN_BPF_READ] = "use of bpf to read kernel RAM",
+>  	[LOCKDOWN_CONFIDENTIALITY_MAX] = "confidentiality",
+>  };
+>  
+> 
 
