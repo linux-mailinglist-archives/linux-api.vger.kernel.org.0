@@ -2,88 +2,55 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 977B65062C
-	for <lists+linux-api@lfdr.de>; Mon, 24 Jun 2019 11:52:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00A9850906
+	for <lists+linux-api@lfdr.de>; Mon, 24 Jun 2019 12:36:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728247AbfFXJwx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 24 Jun 2019 05:52:53 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:54694 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728169AbfFXJwx (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 24 Jun 2019 05:52:53 -0400
-Received: by mail-wm1-f65.google.com with SMTP id g135so12113506wme.4
-        for <linux-api@vger.kernel.org>; Mon, 24 Jun 2019 02:52:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brauner.io; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=RrWOGQLSuFaCXRqkCQw1GpNc+s0Q4CseKG3Kvw44Shw=;
-        b=DCoHB6xY3eLz3XYEk/MV+TWa102/ZzqKZrFVovG3pkCyujl3srGzZ+ARKgTQxPanYW
-         HUeKGkI+ZfsdglHWhyFQmJzSvGb/cTYqqGpCEgogSY8hUZ7drOQjiVcEyyOEPCTCP8I2
-         vVWUJ096GVTPHP/VDpYYWRZt2bSNoeYfhPpr+KhJksGY8bzzDoZ7S++oEzmTOw3sxaHQ
-         lE8K5a0tYztxEOGlLq29IZMaydA2om2Rx5gMp8UV7vLy2gLYop8k4+Kvdjh9CAYoMnXe
-         xpV1h6T2RLstvmX3T7OLjfbvzsP5cwmVJH2fQzCEkxvxs1HvLST6xJQWUMJyu6Du+axD
-         SIxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=RrWOGQLSuFaCXRqkCQw1GpNc+s0Q4CseKG3Kvw44Shw=;
-        b=p6P3yJRGhh5GXGVukR7iiaPtcH9j8Kqx3dMRt5Gh9x9ROTWkyW7/LJCXAIBgRW3yhb
-         5FRcxti97Y/x8u//V1Hqi+F9b5mVE7huJJV36tEWUR+w7qkFaCOQ6x0oMGh2uwaPuVYL
-         FiDD3OivquvwCx4ME3bNUKyuruIRGDG+N52wcy1ltgDpKmkMJAPG5Jh8hdMIYwQQphBK
-         BBQwJPoruPs312KQtFYhoXW9RE2jdO7UZ3GCI0c3GtmuRsaMDaWKEP86RyXG/RoI1GiC
-         Y7eMM0VTNn7jfinwWukW6LbboiLtD9A/nPRpoJ4xkuESpES5FCJS9TyaIHTp3crq2tEQ
-         Onvg==
-X-Gm-Message-State: APjAAAUwSfH7ptm3qkJPrq1theQqoTlJl5Dcv8c6k22ufzmXoAoVGKcC
-        zL0eGT0/X7l0OzQuy/Isj2P2CA==
-X-Google-Smtp-Source: APXvYqzcRi9VW5MY/fgFY0K0taW/zNqBWT1EAliuMcqcFZSQEgOrbCOiqiM0C/jd07OKXwZTfhMmNQ==
-X-Received: by 2002:a7b:c751:: with SMTP id w17mr15904467wmk.127.1561369971469;
-        Mon, 24 Jun 2019 02:52:51 -0700 (PDT)
-Received: from brauner.io ([212.91.227.56])
-        by smtp.gmail.com with ESMTPSA id w7sm5866229wmc.46.2019.06.24.02.52.51
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 24 Jun 2019 02:52:51 -0700 (PDT)
-Date:   Mon, 24 Jun 2019 11:52:50 +0200
-From:   Christian Brauner <christian@brauner.io>
-To:     "Dmitry V. Levin" <ldv@altlinux.org>
-Cc:     Jann Horn <jannh@google.com>, Oleg Nesterov <oleg@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] samples: make pidfd-metadata fail gracefully on older
- kernels
-Message-ID: <20190624095250.wtl5t5cewo7scyby@brauner.io>
-References: <20190620103105.cdxgqfelzlnkmblv@brauner.io>
- <20190620110037.GA4998@altlinux.org>
- <20190620111036.asi3mbcv4ax5ekrw@brauner.io>
- <20190621170613.GA26182@altlinux.org>
- <20190621221339.6yj4vg4zexv4y2j7@brauner.io>
- <20190623113230.GC20697@altlinux.org>
+        id S1728388AbfFXKgk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 24 Jun 2019 06:36:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34521 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726774AbfFXKgk (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 24 Jun 2019 06:36:40 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 7F7A2307D98F;
+        Mon, 24 Jun 2019 10:36:40 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-120-57.rdu2.redhat.com [10.10.120.57])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id DE91B60605;
+        Mon, 24 Jun 2019 10:36:35 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <CAOssrKcU2JKDYMDbW7V6jpM7_4WFSMA91h9AjpjoYmX=H4ybeg@mail.gmail.com>
+References: <CAOssrKcU2JKDYMDbW7V6jpM7_4WFSMA91h9AjpjoYmX=H4ybeg@mail.gmail.com> <20190619123019.30032-1-mszeredi@redhat.com> <20190619123019.30032-5-mszeredi@redhat.com> <1ea8ec52ce19499f021510b5c9e38be8d8ebe38f.camel@themaw.net>
+To:     Miklos Szeredi <mszeredi@redhat.com>
+Cc:     dhowells@redhat.com, Ian Kent <raven@themaw.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 05/13] vfs: don't parse "silent" option
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190623113230.GC20697@altlinux.org>
-User-Agent: NeoMutt/20180716
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <30204.1561372589.1@warthog.procyon.org.uk>
+Date:   Mon, 24 Jun 2019 11:36:29 +0100
+Message-ID: <30205.1561372589@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.48]); Mon, 24 Jun 2019 10:36:40 +0000 (UTC)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sun, Jun 23, 2019 at 02:32:30PM +0300, Dmitry V. Levin wrote:
-> On Sat, Jun 22, 2019 at 12:13:39AM +0200, Christian Brauner wrote:
-> [...]
-> > Out of curiosity: what makes the new flag different than say
-> > CLONE_NEWCGROUP or any new clone flag that got introduced?
-> > CLONE_NEWCGROUP too would not be detectable apart from the method I gave
-> > you above; same for other clone flags. Why are you so keen on being able
-> > to detect this flag when other flags didn't seem to matter that much.
-> 
-> I wasn't following uapi changes closely enough those days. ;)
+Miklos Szeredi <mszeredi@redhat.com> wrote:
 
-(Seriously, you had one job. :) I'm joking of course.)
+> What I'm saying is that with a new interface the rules need not follow
+> the rules of the old interface, because at the start no one is using
+> the new interface, so no chance of breaking anything.
 
-What you want makes sense to me overall. This way userspace can decide
-easier whether to manage a process through a pidfd or needs to fallback
-to a pid.
+Er. No.  That's not true, since the old interface comes through the new one.
 
-Christian
+David
