@@ -2,105 +2,84 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D37C951D14
-	for <lists+linux-api@lfdr.de>; Mon, 24 Jun 2019 23:27:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9506E51D1F
+	for <lists+linux-api@lfdr.de>; Mon, 24 Jun 2019 23:30:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732266AbfFXV1u (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 24 Jun 2019 17:27:50 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:14558 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726331AbfFXV1t (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 24 Jun 2019 17:27:49 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x5OLNn6I117520
-        for <linux-api@vger.kernel.org>; Mon, 24 Jun 2019 17:27:48 -0400
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2tb6arg9jn-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-api@vger.kernel.org>; Mon, 24 Jun 2019 17:27:47 -0400
-Received: from localhost
-        by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-api@vger.kernel.org> from <zohar@linux.ibm.com>;
-        Mon, 24 Jun 2019 22:27:44 +0100
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
-        by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Mon, 24 Jun 2019 22:27:40 +0100
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
-        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x5OLRdCl50462832
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 24 Jun 2019 21:27:39 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 70859A4057;
-        Mon, 24 Jun 2019 21:27:39 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 68810A4040;
-        Mon, 24 Jun 2019 21:27:38 +0000 (GMT)
-Received: from dhcp-9-31-103-88.watson.ibm.com (unknown [9.31.103.88])
-        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Mon, 24 Jun 2019 21:27:38 +0000 (GMT)
-Subject: Re: [PATCH V31 07/25] kexec_file: Restrict at runtime if the kernel
- is locked down
-From:   Mimi Zohar <zohar@linux.ibm.com>
-To:     Matthew Garrett <mjg59@google.com>, Dave Young <dyoung@redhat.com>
-Cc:     James Morris <jmorris@namei.org>, Jiri Bohac <jbohac@suse.cz>,
-        Linux API <linux-api@vger.kernel.org>,
-        kexec@lists.infradead.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        David Howells <dhowells@redhat.com>,
+        id S1728487AbfFXVa6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 24 Jun 2019 17:30:58 -0400
+Received: from mail-io1-f67.google.com ([209.85.166.67]:43669 "EHLO
+        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728425AbfFXVa6 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 24 Jun 2019 17:30:58 -0400
+Received: by mail-io1-f67.google.com with SMTP id k20so36801ios.10
+        for <linux-api@vger.kernel.org>; Mon, 24 Jun 2019 14:30:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=X1crQPJTAtGM5uUHM8HI5Md6CDkFNGlZyxi3sPcH+qY=;
+        b=GV/T5Ga4ZWk+3W3tqaFce2Ne2RQBxrSLyrhdSzfTB7LlQz8v8cPfHUnL0gw97i2ytW
+         U4a+Nfv1evzoydxm7+aE0QEItVbBUUIJG/3U7ZVO97sH5R/GBfQ/sK+TpOvu118vpAVE
+         5Ebmq730K8DfY367AGv9eK+RcSiWu/TKO7xNIlIMr46k+uacGMr0RWHh9AkvQlBwPQz/
+         3dK8NiOrmCOZBOFRnBLzpc7otO4y3P98/1Bzu4aZ7JDhtZf7jNuJnBC8VOF1BZHvZufo
+         L+R4LgK/I5cGCdrR41cI4yo5nDHrqGqdldJiFjF0OI44NEPptk1A10JIl1ioUUvMRyJx
+         zBBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=X1crQPJTAtGM5uUHM8HI5Md6CDkFNGlZyxi3sPcH+qY=;
+        b=troj5KcDRYAED1OPP4zuLcaJbZ3n/VTiLXZaVI4AU5W9Rro+xFrwMIrky6SqhXkExE
+         p23EZtrZtVhPOXKyJVmyuBp9mvJyxBsRaciEL+7okGItrdamIq+PXDl26geB1OFqxBlF
+         l/1/4KihtTG3dXWKlI8I9PRjWbgGBwpL+6DRnZG/C5E+xL4gxmQW70/F8QnwKs5F5KUE
+         nxXdznuy+mCSlh7oicsYp3+tjgix8D64RS/g1GrF+Bu9vM6gK/YggQ9OKPyvGLeCnPiM
+         H2Dde/RstxKOYronkMH2fKRa1JVXysPHKLBactSi1Jyq7caJWqiux9OpASYS34rnwnJR
+         A/0w==
+X-Gm-Message-State: APjAAAUfw7ljaoQpWGoc9xNL0vLGCe9DCU7rCrx/6xHdnDINN8KWAuLt
+        CGsTlgUJLqyjQTDDl/eSWkB3kkn+uQ3UGfAX7PStGA==
+X-Google-Smtp-Source: APXvYqwbJ6/OJ4cAqwtkSkNEdex1XxYWjuM6oISUMTZ0zxZxc1DgCYwtvFO6zbVNKmMolpTJMIfjoUOPVX3NdCWBiKk=
+X-Received: by 2002:a6b:f114:: with SMTP id e20mr39401495iog.169.1561411857221;
+ Mon, 24 Jun 2019 14:30:57 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190622000358.19895-1-matthewgarrett@google.com>
+ <20190622000358.19895-24-matthewgarrett@google.com> <739e21b5-9559-d588-3542-bf0bc81de1b2@iogearbox.net>
+ <CACdnJuvR2bn3y3fYzg06GWXXgAGjgED2Dfa5g0oAwJ28qCCqBg@mail.gmail.com>
+ <CALCETrWmZX3R1L88Gz9vLY68gcK8zSXL4cA4GqAzQoyqSR7rRQ@mail.gmail.com> <7f36edf7-3120-975e-b643-3c0fa470bafd@iogearbox.net>
+In-Reply-To: <7f36edf7-3120-975e-b643-3c0fa470bafd@iogearbox.net>
+From:   Matthew Garrett <mjg59@google.com>
+Date:   Mon, 24 Jun 2019 14:30:46 -0700
+Message-ID: <CACdnJuuHdX-y5VpqVFVDM3ORUXLNh+-XKxykxypvYKotHuk1mA@mail.gmail.com>
+Subject: Re: [PATCH V34 23/29] bpf: Restrict bpf when kernel lockdown is in
+ confidentiality mode
+To:     Daniel Borkmann <daniel@iogearbox.net>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        James Morris <jmorris@namei.org>,
         LSM List <linux-security-module@vger.kernel.org>,
-        Andy Lutomirski <luto@kernel.org>
-Date:   Mon, 24 Jun 2019 17:27:37 -0400
-In-Reply-To: <CACdnJusPtYLdg7ZPhBo=Y5EsBz6B+5M2zYscBrLcc89oNnPkdQ@mail.gmail.com>
-References: <20190326182742.16950-1-matthewgarrett@google.com>
-         <20190326182742.16950-8-matthewgarrett@google.com>
-         <20190621064340.GB4528@localhost.localdomain>
-         <CACdnJut=J1YTpM4s6g5XWCEs+=X0Jvf8otfMg+w=_oqSZmf01Q@mail.gmail.com>
-         <20190624015206.GB2976@dhcp-128-65.nay.redhat.com>
-         <CACdnJusPtYLdg7ZPhBo=Y5EsBz6B+5M2zYscBrLcc89oNnPkdQ@mail.gmail.com>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        David Howells <dhowells@redhat.com>,
+        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Network Development <netdev@vger.kernel.org>,
+        Chun-Yi Lee <jlee@suse.com>, Jann Horn <jannh@google.com>,
+        bpf@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 19062421-0008-0000-0000-000002F6A77A
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19062421-0009-0000-0000-00002263D4EA
-Message-Id: <1561411657.4340.70.camel@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-06-24_14:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=3 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1906240169
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Matthew,
+On Mon, Jun 24, 2019 at 2:22 PM Daniel Borkmann <daniel@iogearbox.net> wrote:
+> Agree, for example, bpf_probe_write_user() can never write into
+> kernel memory (only user one). Just thinking out loud, wouldn't it
+> be cleaner and more generic to perform this check at the actual function
+> which performs the kernel memory without faulting? All three of these
+> are in mm/maccess.c, and the very few occasions that override the
+> probe_kernel_read symbol are calling eventually into __probe_kernel_read(),
+> so this would catch all of them wrt lockdown restrictions. Otherwise
+> you'd need to keep tracking every bit of new code being merged that
+> calls into one of these, no? That way you only need to do it once like
+> below and are guaranteed that the check catches these in future as well.
 
-On Mon, 2019-06-24 at 14:06 -0700, Matthew Garrett wrote:
-> On Sun, Jun 23, 2019 at 6:52 PM Dave Young <dyoung@redhat.com> wrote:
-> >
-> > On 06/21/19 at 01:18pm, Matthew Garrett wrote:
-> > > I don't think so - we want it to be possible to load images if they
-> > > have a valid signature.
-> >
-> > I know it works like this way because of the previous patch.  But from
-> > the patch log "When KEXEC_SIG is not enabled, kernel should not load
-> > images", it is simple to check it early for !IS_ENABLED(CONFIG_KEXEC_SIG) &&
-> > kernel_is_locked_down(reason, LOCKDOWN_INTEGRITY)  instead of depending
-> > on the late code to verify signature.  In that way, easier to
-> > understand the logic, no?
-> 
-> But that combination doesn't enforce signature validation? We can't
-> depend on !IS_ENABLED(CONFIG_KEXEC_SIG_FORCE) because then it'll
-> enforce signature validation even if lockdown is disabled.
-
-I agree with Dave.  There should be a stub lockdown function to
-prevent enforcing lockdown when it isn't enabled.
-
-Mimi
-
+Not all paths into probe_kernel_read/write are from entry points that
+need to be locked down (eg, as far as I can tell ftrace can't leak
+anything interesting here).
