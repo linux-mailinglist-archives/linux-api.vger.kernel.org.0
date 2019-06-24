@@ -2,64 +2,64 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 657D950BD1
-	for <lists+linux-api@lfdr.de>; Mon, 24 Jun 2019 15:21:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3CA450C4F
+	for <lists+linux-api@lfdr.de>; Mon, 24 Jun 2019 15:48:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726864AbfFXNV3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 24 Jun 2019 09:21:29 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55214 "EHLO mail.kernel.org"
+        id S1730528AbfFXNsS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 24 Jun 2019 09:48:18 -0400
+Received: from m13-129.163.com ([220.181.13.129]:16837 "EHLO m13-129.163.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726773AbfFXNV3 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 24 Jun 2019 09:21:29 -0400
-Received: from pobox.suse.cz (prg-ext-pat.suse.com [213.151.95.130])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4916120820;
-        Mon, 24 Jun 2019 13:21:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1561382488;
-        bh=WAE1HR6hUH9xAcKn4xMqspK9ebAd/XkgtM/HqIgBdiw=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=g8JlED+0oqILB6Ch8fwGlZ6lFtDGij9D2xNScUPrTW24XcjIZqN3PWDME2nCrPQHj
-         jTfTQ37BG6gJhCI9mC4lB2ztn87SlhnIA3MIoPJGVfHXgFuhP36lfNf9D97jvgEAk9
-         ha9OKapyPhY/qyD9EJbEttZLSeYCwIXergjN8nUQ=
-Date:   Mon, 24 Jun 2019 15:21:23 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Pavel Machek <pavel@ucw.cz>
-cc:     Matthew Garrett <matthewgarrett@google.com>, jmorris@namei.org,
-        linux-security-module@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        Josh Boyer <jwboyer@fedoraproject.org>,
-        David Howells <dhowells@redhat.com>,
-        Matthew Garrett <mjg59@google.com>, rjw@rjwysocki.net,
-        Joey Lee <JLee@suse.com>, linux-pm@vger.kernel.org
-Subject: Re: [PATCH V34 10/29] hibernate: Disable when the kernel is locked
- down
-In-Reply-To: <20190622175208.GB30317@amd>
-Message-ID: <nycvar.YFH.7.76.1906241520500.27227@cbobk.fhfr.pm>
-References: <20190622000358.19895-1-matthewgarrett@google.com> <20190622000358.19895-11-matthewgarrett@google.com> <20190622175208.GB30317@amd>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        id S1726505AbfFXNsS (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 24 Jun 2019 09:48:18 -0400
+X-Greylist: delayed 916 seconds by postgrey-1.27 at vger.kernel.org; Mon, 24 Jun 2019 09:48:17 EDT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=aUGKt
+        vZSy+6o0S9PVtKxbkzfcp42LXfJggJvKQBcobw=; b=mQly/kqzO1oiR3doEt8hS
+        ppAyTx2uccPH4rQaW6E2hG79FGTcWdoLaP4/usBjKU2gFnZ6g0P1Qr5yI5bZGeqw
+        nMLcNJNkKT9jAvWPUFg2jPFPiJ2mlOTez343k0d5uFJ+Tnw2Sd7t8QRdjMDgLSQz
+        ZOuiDhAZpZrNIfxQpY2au4=
+Received: from weijieut$163.com ( [121.237.48.209] ) by
+ ajax-webmail-wmsvr129 (Coremail) ; Mon, 24 Jun 2019 21:30:10 +0800 (CST)
+X-Originating-IP: [121.237.48.209]
+Date:   Mon, 24 Jun 2019 21:30:10 +0800 (CST)
+From:   "Weijie Yang" <weijieut@163.com>
+To:     linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Cc:     axboe@fb.com, fengguang.wu@intel.com, linux-api@vger.kernel.org,
+        "weijie.yang@samsung.com" <weijie.yang@samsung.com>
+Subject: [bug report] read-ahead can't work properly
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version SP_ntes V3.5 build
+ 20190614(cb3344cf) Copyright (c) 2002-2019 www.mailtech.cn 163com
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=GBK
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Message-ID: <37a8bb5a.af8b.16b89adff5d.Coremail.weijieut@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: gcGowADXbfJi0BBdeBX+AA--.3677W
+X-CM-SenderInfo: xzhlyxxhxwqiywtou0bp/xtbBDQLdsFaD5oP5fAAAsX
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, 22 Jun 2019, Pavel Machek wrote:
-
-> > There is currently no way to verify the resume image when returning
-> > from hibernate.  This might compromise the signed modules trust model,
-> > so until we can work with signed hibernate images we disable it when the
-> > kernel is locked down.
-> 
-> I keep getting these...
-> 
-> IIRC suse has patches to verify the images.
-
-Yeah, Joey Lee is taking care of those. CCing.
-
--- 
-Jiri Kosina
-SUSE Labs
-
+CldoZW4gdHJ5IHRoZSBmaWxlIHJlYWRhaGVhZCBieSBwb3NpeF9mYWR2aXNlKCksIEkgZmluZCBp
+dCBjYW4ndCB3b3JrIHByb3Blcmx5LgoKRm9yIGV4YW1wbGUsIHBvc2l4X2ZhZHZpc2UoUE9TSVhf
+RkFEVl9XSUxMTkVFRCkgYSAxME1CIGZpbGUsIHRoZSBrZXJuZWwKYWN0dWFsbHkgIHJlYWRhaGVh
+ZCBvbmx5IDUxMktCIGRhdGEgdG8gdGhlIHBhZ2UgY2FjaGUsIGV2ZW4gaWYgdGhlcmUgYXJlIGVu
+b3VnaApmcmVlIG1lbW9yeSBpbiB0aGUgbWFjaGluZS4KCldoZW4gdHJhY2UgdG8ga2VybmVsLCBJ
+IGZpbmQgdGhlIGlzc3VlIGlzIGF0IGZvcmNlX3BhZ2VfY2FjaGVfcmVhZGFoZWFkKCk6CiAKICAg
+ICAgICBtYXhfcGFnZXMgPSBtYXhfdCh1bnNpZ25lZCBsb25nLCBiZGktPmlvX3BhZ2VzLCByYS0+
+cmFfcGFnZXMpOwogICAgICAgIG5yX3RvX3JlYWQgPSBtaW4obnJfdG9fcmVhZCwgbWF4X3BhZ2Vz
+KTsKCk5vIG1hdGVyIHdoYXQgaW5wdXQgbnJfdG9fcmVhZCBpcywgaXQgaXMgbGltaXRlZCB0byBh
+IHZlcnkgc21hbGwgc2l6ZSwgc3VjaCBhcyAxMjggcGFnZXMuCgpJIHRoaW5rIHRoZSBtaW4oKSBs
+aW1pdCBjb2RlIGlzIHRvIGxpbWl0IHBlci1kaXNrLWlvIHNpemUsIG5vdCB0aGUgdG90YWwgbnJf
+dG9fcmVhZC4KYW5kIHRyYWNlIHRoZSBnaXQgbG9nLCB0aGlzIGlzc3VlIGlzIGludHJvZHVjZWQg
+YnkgNmQyYmU5MTVlNTg5CmFmdGVyIHRoYXQsIG5yX3RvX3JlYWQgaXMgbGltaXRlZCBhdCBzbWFs
+bCwgZXZlbiBpZiB0aGVyZSBhcmUgZW5vdWdoIGZyZWUgbWVtb3J5LgpiZWZvcmUgdGhhdCwgdXNl
+ciBjYW4gcmVhZGFoZWFkIGEgdmVyeSBsYXJnZSBmaWxlIGlmIHRoZXkgaGF2ZSBlbm91Z2ggbWVt
+b3J5LgoKV2hlbiByZWFkIHRoZSBwb3NpeF9mYWR2aXNlKCkgbWFuLXBhZ2UsIGl0IHNheXMgcmVh
+ZGFoZWFkIGRhdGEgZGVwZW5kaW5nIG9uCnZpcnR1YWwgbWVtb3J5IGxvYWQuIApTbyBpZiB0aGVy
+ZSBhcmUgZW5vdWdoIG1lbW9yeSwgaXQgc2hvdWxkIHJlYWQgYXMgbWFueSBkYXRhIGFzIHVzZXIg
+ZXhwZWN0ZWQuCgpFeHBlY3Qgc29tZW9uZSBjYW4gY2xhcmlmeSBvci9hbmQgZml4IGl0LiAKClRo
+YW5rcyAKCgoKCg==
