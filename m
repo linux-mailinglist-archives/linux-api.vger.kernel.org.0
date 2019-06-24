@@ -2,55 +2,65 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 00A9850906
-	for <lists+linux-api@lfdr.de>; Mon, 24 Jun 2019 12:36:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C0DB50928
+	for <lists+linux-api@lfdr.de>; Mon, 24 Jun 2019 12:45:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728388AbfFXKgk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 24 Jun 2019 06:36:40 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34521 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726774AbfFXKgk (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 24 Jun 2019 06:36:40 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 7F7A2307D98F;
-        Mon, 24 Jun 2019 10:36:40 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-120-57.rdu2.redhat.com [10.10.120.57])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id DE91B60605;
-        Mon, 24 Jun 2019 10:36:35 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <CAOssrKcU2JKDYMDbW7V6jpM7_4WFSMA91h9AjpjoYmX=H4ybeg@mail.gmail.com>
-References: <CAOssrKcU2JKDYMDbW7V6jpM7_4WFSMA91h9AjpjoYmX=H4ybeg@mail.gmail.com> <20190619123019.30032-1-mszeredi@redhat.com> <20190619123019.30032-5-mszeredi@redhat.com> <1ea8ec52ce19499f021510b5c9e38be8d8ebe38f.camel@themaw.net>
-To:     Miklos Szeredi <mszeredi@redhat.com>
-Cc:     dhowells@redhat.com, Ian Kent <raven@themaw.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
+        id S1729139AbfFXKoz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 24 Jun 2019 06:44:55 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:45654 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728560AbfFXKoz (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 24 Jun 2019 06:44:55 -0400
+Received: by mail-io1-f65.google.com with SMTP id e3so454380ioc.12
+        for <linux-api@vger.kernel.org>; Mon, 24 Jun 2019 03:44:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BCgJq21igY0KSeVe2g6442gqLYQ5ESADKLIyY02vYSc=;
+        b=V7M/NXhOuQS4On+rDbNB9o5uk8KWw3IJiEcuRoBNI3C4ZrSFlbKZPocuyJJEGarSWX
+         cXoI9v0l+onpcSKVWagUIjyKIN8GtAofup0sx+z6dQi5bw3Fkpvhtqf2B3UN7NZumdCV
+         FNkLBLnkGrrVHn40gN5iwtfoN2CIYxom1jkhSzZAvgUfOBhU7kz39WgMw7zt4btd+Ihu
+         R+Rqsxf8V/MDZmszMefCdpe1qFwmjbGiACkbI+n/XRb+/1PY5kYn6MHQ69b4e2c6pJ/z
+         tIz0UR9kCuow4WSxyIELjArtfOrw0RKQcAT7GdLnliD5JBzKPKLmyZ+d6t3vN4kZi2Zk
+         RSuA==
+X-Gm-Message-State: APjAAAUXzC47Ol6E6T1+4SUlmDsZRirsTRGx6vwk0glcvlrvTPCyZCv6
+        DLJdFOMXQ803GjkoMqxR7nQvp5LQJXIj06Kt960XRg==
+X-Google-Smtp-Source: APXvYqyDcUV7/ft0Fe+wYR8jAaVZC48EZPDjC0/hFh9o1V9pGhwVl+uquTsaMxl4rwUCXSCbvah6+NItemUjJReLvCc=
+X-Received: by 2002:a02:ccdc:: with SMTP id k28mr16948024jaq.41.1561373094455;
+ Mon, 24 Jun 2019 03:44:54 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190619123019.30032-1-mszeredi@redhat.com> <20190619123019.30032-5-mszeredi@redhat.com>
+ <1ea8ec52ce19499f021510b5c9e38be8d8ebe38f.camel@themaw.net>
+ <CAOssrKcU2JKDYMDbW7V6jpM7_4WFSMA91h9AjpjoYmX=H4ybeg@mail.gmail.com> <30205.1561372589@warthog.procyon.org.uk>
+In-Reply-To: <30205.1561372589@warthog.procyon.org.uk>
+From:   Miklos Szeredi <mszeredi@redhat.com>
+Date:   Mon, 24 Jun 2019 12:44:43 +0200
+Message-ID: <CAOssrKdGSRVSc38X1J0zCQQN+tUhiwPA4bCL0rHCZ-O8iVzzeQ@mail.gmail.com>
+Subject: Re: [PATCH 05/13] vfs: don't parse "silent" option
+To:     David Howells <dhowells@redhat.com>
+Cc:     Ian Kent <raven@themaw.net>, Al Viro <viro@zeniv.linux.org.uk>,
         Linux API <linux-api@vger.kernel.org>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         lkml <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 05/13] vfs: don't parse "silent" option
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <30204.1561372589.1@warthog.procyon.org.uk>
-Date:   Mon, 24 Jun 2019 11:36:29 +0100
-Message-ID: <30205.1561372589@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.48]); Mon, 24 Jun 2019 10:36:40 +0000 (UTC)
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Miklos Szeredi <mszeredi@redhat.com> wrote:
+On Mon, Jun 24, 2019 at 12:36 PM David Howells <dhowells@redhat.com> wrote:
+>
+> Miklos Szeredi <mszeredi@redhat.com> wrote:
+>
+> > What I'm saying is that with a new interface the rules need not follow
+> > the rules of the old interface, because at the start no one is using
+> > the new interface, so no chance of breaking anything.
+>
+> Er. No.  That's not true, since the old interface comes through the new one.
 
-> What I'm saying is that with a new interface the rules need not follow
-> the rules of the old interface, because at the start no one is using
-> the new interface, so no chance of breaking anything.
+No, old interface sets SB_* directly from arg 4 of mount(2) and not
+via parsing arg 5.
 
-Er. No.  That's not true, since the old interface comes through the new one.
-
-David
+Thanks,
+Miklos
