@@ -2,82 +2,106 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A4E3F4FB53
-	for <lists+linux-api@lfdr.de>; Sun, 23 Jun 2019 13:32:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D445C4FEB5
+	for <lists+linux-api@lfdr.de>; Mon, 24 Jun 2019 03:52:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726441AbfFWLce (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 23 Jun 2019 07:32:34 -0400
-Received: from vmicros1.altlinux.org ([194.107.17.57]:44088 "EHLO
-        vmicros1.altlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726350AbfFWLce (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 23 Jun 2019 07:32:34 -0400
-Received: from mua.local.altlinux.org (mua.local.altlinux.org [192.168.1.14])
-        by vmicros1.altlinux.org (Postfix) with ESMTP id E597372CC6C;
-        Sun, 23 Jun 2019 14:32:30 +0300 (MSK)
-Received: by mua.local.altlinux.org (Postfix, from userid 508)
-        id BD7567CCE2E; Sun, 23 Jun 2019 14:32:30 +0300 (MSK)
-Date:   Sun, 23 Jun 2019 14:32:30 +0300
-From:   "Dmitry V. Levin" <ldv@altlinux.org>
-To:     Christian Brauner <christian@brauner.io>
-Cc:     Jann Horn <jannh@google.com>, Oleg Nesterov <oleg@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] samples: make pidfd-metadata fail gracefully on older
- kernels
-Message-ID: <20190623113230.GC20697@altlinux.org>
-References: <20190620103105.cdxgqfelzlnkmblv@brauner.io>
- <20190620110037.GA4998@altlinux.org>
- <20190620111036.asi3mbcv4ax5ekrw@brauner.io>
- <20190621170613.GA26182@altlinux.org>
- <20190621221339.6yj4vg4zexv4y2j7@brauner.io>
+        id S1726647AbfFXBw2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 23 Jun 2019 21:52:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:3888 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726795AbfFXBw2 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Sun, 23 Jun 2019 21:52:28 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id CB2E6C04959F;
+        Mon, 24 Jun 2019 01:52:23 +0000 (UTC)
+Received: from dhcp-128-65.nay.redhat.com (ovpn-12-23.pek2.redhat.com [10.72.12.23])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 3A55310018F9;
+        Mon, 24 Jun 2019 01:52:14 +0000 (UTC)
+Date:   Mon, 24 Jun 2019 09:52:06 +0800
+From:   Dave Young <dyoung@redhat.com>
+To:     Matthew Garrett <mjg59@google.com>
+Cc:     James Morris <jmorris@namei.org>, Jiri Bohac <jbohac@suse.cz>,
+        Linux API <linux-api@vger.kernel.org>,
+        kexec@lists.infradead.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        David Howells <dhowells@redhat.com>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        Andy Lutomirski <luto@kernel.org>
+Subject: Re: [PATCH V31 07/25] kexec_file: Restrict at runtime if the kernel
+ is locked down
+Message-ID: <20190624015206.GB2976@dhcp-128-65.nay.redhat.com>
+References: <20190326182742.16950-1-matthewgarrett@google.com>
+ <20190326182742.16950-8-matthewgarrett@google.com>
+ <20190621064340.GB4528@localhost.localdomain>
+ <CACdnJut=J1YTpM4s6g5XWCEs+=X0Jvf8otfMg+w=_oqSZmf01Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="SLDf9lqlvOQaIe6s"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190621221339.6yj4vg4zexv4y2j7@brauner.io>
+In-Reply-To: <CACdnJut=J1YTpM4s6g5XWCEs+=X0Jvf8otfMg+w=_oqSZmf01Q@mail.gmail.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.31]); Mon, 24 Jun 2019 01:52:28 +0000 (UTC)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On 06/21/19 at 01:18pm, Matthew Garrett wrote:
+> On Thu, Jun 20, 2019 at 11:43 PM Dave Young <dyoung@redhat.com> wrote:
+> >
+> > On 03/26/19 at 11:27am, Matthew Garrett wrote:
+> > > From: Jiri Bohac <jbohac@suse.cz>
+> > >
+> > > When KEXEC_SIG is not enabled, kernel should not load images through
+> > > kexec_file systemcall if the kernel is locked down.
+> > >
+> > > [Modified by David Howells to fit with modifications to the previous patch
+> > >  and to return -EPERM if the kernel is locked down for consistency with
+> > >  other lockdowns. Modified by Matthew Garrett to remove the IMA
+> > >  integration, which will be replaced by integrating with the IMA
+> > >  architecture policy patches.]
+> > >
+> > > Signed-off-by: Jiri Bohac <jbohac@suse.cz>
+> > > Signed-off-by: David Howells <dhowells@redhat.com>
+> > > Signed-off-by: Matthew Garrett <mjg59@google.com>
+> > > Reviewed-by: Jiri Bohac <jbohac@suse.cz>
+> > > cc: kexec@lists.infradead.org
+> > > ---
+> > >  kernel/kexec_file.c | 6 ++++++
+> > >  1 file changed, 6 insertions(+)
+> > >
+> > > diff --git a/kernel/kexec_file.c b/kernel/kexec_file.c
+> > > index 67f3a866eabe..a1cc37c8b43b 100644
+> > > --- a/kernel/kexec_file.c
+> > > +++ b/kernel/kexec_file.c
+> > > @@ -239,6 +239,12 @@ kimage_file_prepare_segments(struct kimage *image, int kernel_fd, int initrd_fd,
+> > >               }
+> > >
+> > >               ret = 0;
+> > > +
+> > > +             if (kernel_is_locked_down(reason, LOCKDOWN_INTEGRITY)) {
+> > > +                     ret = -EPERM;
+> > > +                     goto out;
+> > > +             }
+> > > +
+> >
+> > Checking here is late, it would be good to move the check to earlier
+> > code around below code:
+> >         /* We only trust the superuser with rebooting the system. */
+> >         if (!capable(CAP_SYS_BOOT) || kexec_load_disabled)
+> >                 return -EPERM;
+> 
+> I don't think so - we want it to be possible to load images if they
+> have a valid signature.
 
---SLDf9lqlvOQaIe6s
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I know it works like this way because of the previous patch.  But from
+the patch log "When KEXEC_SIG is not enabled, kernel should not load
+images", it is simple to check it early for !IS_ENABLED(CONFIG_KEXEC_SIG) && 
+kernel_is_locked_down(reason, LOCKDOWN_INTEGRITY)  instead of depending
+on the late code to verify signature.  In that way, easier to
+understand the logic, no?
 
-On Sat, Jun 22, 2019 at 12:13:39AM +0200, Christian Brauner wrote:
-[...]
-> Out of curiosity: what makes the new flag different than say
-> CLONE_NEWCGROUP or any new clone flag that got introduced?
-> CLONE_NEWCGROUP too would not be detectable apart from the method I gave
-> you above; same for other clone flags. Why are you so keen on being able
-> to detect this flag when other flags didn't seem to matter that much.
-
-I wasn't following uapi changes closely enough those days. ;)
-
-
---=20
-ldv
-
---SLDf9lqlvOQaIe6s
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIcBAEBCAAGBQJdD2NOAAoJEAVFT+BVnCUIynwQANQg2+3d1f3l3bLNZVQ5QcSi
-TXyKC5vKPf+zMj/1U2worLzq75AC6r+cfM7dVZoTb6zVCqN3CiQMQUuVXJHItA3N
-uwFq3KM4DLR0ofIyRoyYq9MnWDpBUWNt0xdUZxLYPYMiRfaueAaqDfvFOAhexDcX
-PouLJj3ixzVP5JXmzxzZer//oj+gyy+8Of2Z5QTg7K4mJMyrthS/3/qg9q7Ys1jR
-N9LysvxIVUn8UgmtWxIk1vKcwiVjCNmrqM63NWfhm6gX8YhaDzP+k9AwdYBO3MIV
-U58OZwWsQ4lrsnKEjQd74ACZPyuZk1ics50oK9bfFwk9HJBVgIp1WfEP2z1//VZM
-auZtI5SYix3svGX2MIV8l16nKj/FP3IY+IfyYwSxlermffcM9olR+hRNoEdYAxEt
-SBC7mSfozIeNLqokGNXr81SMx2w+QT0GawDdk2P8WB9ZJNAARDgLxOUw69Eu7p7q
-0lBb0bPqUrCrp6XPJ3zVDpi6W+DbVBd7748iTxlorSKepFfVbWIsKLE591pfmOe/
-m+tWajRVbMHQ080kualKehGgFLyahPpCzqUEmyThibInTlxShvZ50iFoNWRUxiID
-6BF7OzGRoVG6Y4qSS4EalX1Mzo7xwh6+dcQPLxshSU0J32FG2alLxyQKOEChzAQ9
-YQ8V+SuiitfJh3VPHBE6
-=Eosu
------END PGP SIGNATURE-----
-
---SLDf9lqlvOQaIe6s--
+Thanks
+Dave
