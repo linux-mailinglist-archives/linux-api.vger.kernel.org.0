@@ -2,57 +2,30 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 72D6A51C1C
-	for <lists+linux-api@lfdr.de>; Mon, 24 Jun 2019 22:16:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4195851D04
+	for <lists+linux-api@lfdr.de>; Mon, 24 Jun 2019 23:22:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731575AbfFXUP5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 24 Jun 2019 16:15:57 -0400
-Received: from mail-io1-f66.google.com ([209.85.166.66]:41964 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731567AbfFXUP5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 24 Jun 2019 16:15:57 -0400
-Received: by mail-io1-f66.google.com with SMTP id w25so4443256ioc.8
-        for <linux-api@vger.kernel.org>; Mon, 24 Jun 2019 13:15:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=NlNgzMMFJ+7QwGx9xG98XqTbQWSzsaaFAnhIGC2h2XQ=;
-        b=NJGAPTmUam9+dMN0mbGC1vA6isBRugH0cJzAQU6FeessvYEf6yigBykoLNvckboO3/
-         RxDkBfqV+yw42M+bQIm97RifrnkhMUPvAAhuDM72zLT4jB3DygRAWDY59fcJKHsJPX2+
-         3+d2DIKgFvXJaFL9EUuz/R7kelADr+QazYAQ02FtZ4tYF2V/ieg29/jq+Lvo9zI/MXda
-         IdSWU6kcTBgiUoXi9HmdgUEQdKeV09YSt0GzBD61kq1idQba5fMW/q+ThWkqOYpA32AK
-         92iFCn9RLi7EPpKuHTMTDKtB7kwTJcG4gFeNJwNP/zH/FEuLdiZkDxl404taFXuSNC2Q
-         E50Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=NlNgzMMFJ+7QwGx9xG98XqTbQWSzsaaFAnhIGC2h2XQ=;
-        b=laDIbSE9ls6KsR+sGJob0ca1HRicCCree/D9VIP8qy6esPFB8N+rDtndcfIiOCcoVG
-         /a76aiEontrGCiPs4rf3GGt99coblR2YYN3QILrIfkSNPHJJNFP5GnTs5vr2VUh/yLGy
-         wBVVF++QKAL5ASSYX8PFZkQBt7V7RBP7y7awLhwZrQpc8YQ+FOWqUbQE9zjH3f3Ggkgp
-         doYnOuLyi6zhLNB6ZWGJ1xiig9Bj95R2Vc42y4YLTYdhg8zDd5pTs8SbOvdHO4atVvJs
-         EtogButu1wDO46wK1sFQyr6wdr25rWMlxvkTUQE7OmP9dUzA25aQV/6Q+MHb6s/Ui7zd
-         KMbg==
-X-Gm-Message-State: APjAAAWG3GliCVM/beI3geidZ4WBzq+L8Eb25ibgdf6IWV9N0KEq4LBf
-        JAvs0FGXrPpzTcQ/j0rV1KY+9HoJYjicx3FLECSfCQ==
-X-Google-Smtp-Source: APXvYqyqE/v1ofHO2nNCjIkljvgKCheFXksKQ8Ljlo0aFkiv1nRWwX6SmmK6XsZCfnY2ySNNRxkFfbK1mnYl9RNm7VA=
-X-Received: by 2002:a5d:9d97:: with SMTP id 23mr2139870ion.204.1561407356312;
- Mon, 24 Jun 2019 13:15:56 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190622000358.19895-1-matthewgarrett@google.com>
- <20190622000358.19895-24-matthewgarrett@google.com> <739e21b5-9559-d588-3542-bf0bc81de1b2@iogearbox.net>
- <CACdnJuvR2bn3y3fYzg06GWXXgAGjgED2Dfa5g0oAwJ28qCCqBg@mail.gmail.com> <CALCETrWmZX3R1L88Gz9vLY68gcK8zSXL4cA4GqAzQoyqSR7rRQ@mail.gmail.com>
-In-Reply-To: <CALCETrWmZX3R1L88Gz9vLY68gcK8zSXL4cA4GqAzQoyqSR7rRQ@mail.gmail.com>
-From:   Matthew Garrett <mjg59@google.com>
-Date:   Mon, 24 Jun 2019 13:15:44 -0700
-Message-ID: <CACdnJuu20Rsb-9XAcTR5Q9RJ5wY7ATazS7dLgDODH+YSZU50Tg@mail.gmail.com>
+        id S1728036AbfFXVWV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 24 Jun 2019 17:22:21 -0400
+Received: from www62.your-server.de ([213.133.104.62]:42800 "EHLO
+        www62.your-server.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726331AbfFXVWV (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 24 Jun 2019 17:22:21 -0400
+Received: from [88.198.220.130] (helo=sslproxy01.your-server.de)
+        by www62.your-server.de with esmtpsa (TLSv1.2:DHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.89_1)
+        (envelope-from <daniel@iogearbox.net>)
+        id 1hfW4E-0002Kr-QH; Mon, 24 Jun 2019 22:59:58 +0200
+Received: from [178.199.41.31] (helo=linux.home)
+        by sslproxy01.your-server.de with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.89)
+        (envelope-from <daniel@iogearbox.net>)
+        id 1hfW4E-0007X2-GT; Mon, 24 Jun 2019 22:59:58 +0200
 Subject: Re: [PATCH V34 23/29] bpf: Restrict bpf when kernel lockdown is in
  confidentiality mode
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     Daniel Borkmann <daniel@iogearbox.net>,
-        James Morris <jmorris@namei.org>,
+To:     Andy Lutomirski <luto@kernel.org>,
+        Matthew Garrett <mjg59@google.com>
+Cc:     James Morris <jmorris@namei.org>,
         LSM List <linux-security-module@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
@@ -61,19 +34,114 @@ Cc:     Daniel Borkmann <daniel@iogearbox.net>,
         Network Development <netdev@vger.kernel.org>,
         Chun-Yi Lee <jlee@suse.com>, Jann Horn <jannh@google.com>,
         bpf@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+References: <20190622000358.19895-1-matthewgarrett@google.com>
+ <20190622000358.19895-24-matthewgarrett@google.com>
+ <739e21b5-9559-d588-3542-bf0bc81de1b2@iogearbox.net>
+ <CACdnJuvR2bn3y3fYzg06GWXXgAGjgED2Dfa5g0oAwJ28qCCqBg@mail.gmail.com>
+ <CALCETrWmZX3R1L88Gz9vLY68gcK8zSXL4cA4GqAzQoyqSR7rRQ@mail.gmail.com>
+From:   Daniel Borkmann <daniel@iogearbox.net>
+Message-ID: <7f36edf7-3120-975e-b643-3c0fa470bafd@iogearbox.net>
+Date:   Mon, 24 Jun 2019 22:59:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.3.0
+MIME-Version: 1.0
+In-Reply-To: <CALCETrWmZX3R1L88Gz9vLY68gcK8zSXL4cA4GqAzQoyqSR7rRQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Authenticated-Sender: daniel@iogearbox.net
+X-Virus-Scanned: Clear (ClamAV 0.100.3/25490/Mon Jun 24 10:02:14 2019)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jun 24, 2019 at 1:09 PM Andy Lutomirski <luto@kernel.org> wrote:
-
+On 06/24/2019 10:08 PM, Andy Lutomirski wrote:
+> On Mon, Jun 24, 2019 at 12:54 PM Matthew Garrett <mjg59@google.com> wrote:
+>> On Mon, Jun 24, 2019 at 8:37 AM Daniel Borkmann <daniel@iogearbox.net> wrote:
+>>> On 06/22/2019 02:03 AM, Matthew Garrett wrote:
+>>>> From: David Howells <dhowells@redhat.com>
+>>>>
+>>>> There are some bpf functions can be used to read kernel memory:
+>>>
+>>> Nit: that
+>>
+>> Fixed.
+>>
+>>>> bpf_probe_read, bpf_probe_write_user and bpf_trace_printk.  These allow
+>>>
+>>> Please explain how bpf_probe_write_user reads kernel memory ... ?!
+>>
+>> Ha.
+>>
+>>>> private keys in kernel memory (e.g. the hibernation image signing key) to
+>>>> be read by an eBPF program and kernel memory to be altered without
+>>>
+>>> ... and while we're at it, also how they allow "kernel memory to be
+>>> altered without restriction". I've been pointing this false statement
+>>> out long ago.
+>>
+>> Yup. How's the following description:
+>>
+>>     bpf: Restrict bpf when kernel lockdown is in confidentiality mode
+>>
+>>     There are some bpf functions that can be used to read kernel memory and
+>>     exfiltrate it to userland: bpf_probe_read, bpf_probe_write_user and
+>>     bpf_trace_printk.  These could be abused to (eg) allow private
+>> keys in kernel
+>>     memory to be leaked. Disable them if the kernel has been locked
+>> down in confidentiality
+>>     mode.
+> 
 > I'm confused.  I understand why we're restricting bpf_probe_read().
 > Why are we restricting bpf_probe_write_user() and bpf_trace_printk(),
 > though?
 
-Hmm. I think the thinking here was around exfiltration mechanisms, but
-if the read is blocked then that seems less likely. This seems to
-trace back to http://kernsec.org/pipermail/linux-security-module-archive/2017-October/003545.html
-- Joey, do you know the reasoning here?
+Agree, for example, bpf_probe_write_user() can never write into
+kernel memory (only user one). Just thinking out loud, wouldn't it
+be cleaner and more generic to perform this check at the actual function
+which performs the kernel memory without faulting? All three of these
+are in mm/maccess.c, and the very few occasions that override the
+probe_kernel_read symbol are calling eventually into __probe_kernel_read(),
+so this would catch all of them wrt lockdown restrictions. Otherwise
+you'd need to keep tracking every bit of new code being merged that
+calls into one of these, no? That way you only need to do it once like
+below and are guaranteed that the check catches these in future as well.
+
+Thanks,
+Daniel
+
+diff --git a/mm/maccess.c b/mm/maccess.c
+index 482d4d6..2c8220f 100644
+--- a/mm/maccess.c
++++ b/mm/maccess.c
+@@ -29,6 +29,9 @@ long __probe_kernel_read(void *dst, const void *src, size_t size)
+ 	long ret;
+ 	mm_segment_t old_fs = get_fs();
+
++	if (security_locked_down(LOCKDOWN_KERNEL_READ))
++		return -EFAULT;
++
+ 	set_fs(KERNEL_DS);
+ 	pagefault_disable();
+ 	ret = __copy_from_user_inatomic(dst,
+@@ -57,6 +60,9 @@ long __probe_kernel_write(void *dst, const void *src, size_t size)
+ 	long ret;
+ 	mm_segment_t old_fs = get_fs();
+
++	if (security_locked_down(LOCKDOWN_KERNEL_WRITE))
++		return -EFAULT;
++
+ 	set_fs(KERNEL_DS);
+ 	pagefault_disable();
+ 	ret = __copy_to_user_inatomic((__force void __user *)dst, src, size);
+@@ -90,6 +96,9 @@ long strncpy_from_unsafe(char *dst, const void *unsafe_addr, long count)
+ 	const void *src = unsafe_addr;
+ 	long ret;
+
++	if (security_locked_down(LOCKDOWN_KERNEL_READ))
++		return -EFAULT;
++
+ 	if (unlikely(count <= 0))
+ 		return 0;
+
