@@ -2,86 +2,91 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F2108554B4
-	for <lists+linux-api@lfdr.de>; Tue, 25 Jun 2019 18:39:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DAC955656
+	for <lists+linux-api@lfdr.de>; Tue, 25 Jun 2019 19:52:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727329AbfFYQjB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 25 Jun 2019 12:39:01 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:11238 "EHLO mx1.redhat.com"
+        id S1731654AbfFYRw3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 25 Jun 2019 13:52:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45102 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726722AbfFYQjB (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 25 Jun 2019 12:39:01 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S1726562AbfFYRw3 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 25 Jun 2019 13:52:29 -0400
+Received: from gmail.com (unknown [104.132.1.77])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 3F41D309265B;
-        Tue, 25 Jun 2019 16:39:01 +0000 (UTC)
-Received: from oldenburg2.str.redhat.com (ovpn-116-87.ams2.redhat.com [10.36.116.87])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 6D6055C25D;
-        Tue, 25 Jun 2019 16:38:37 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     linux-api@vger.kernel.org, kernel-hardening@lists.openwall.com,
-        linux-x86_64@vger.kernel.org, linux-arch@vger.kernel.org,
-        Andy Lutomirski <luto@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Carlos O'Donell <carlos@redhat.com>, x86@kernel.org
-Subject: Re: Detecting the availability of VSYSCALL
-References: <87v9wty9v4.fsf@oldenburg2.str.redhat.com>
-        <alpine.DEB.2.21.1906251824500.32342@nanos.tec.linutronix.de>
-Date:   Tue, 25 Jun 2019 18:38:15 +0200
-In-Reply-To: <alpine.DEB.2.21.1906251824500.32342@nanos.tec.linutronix.de>
-        (Thomas Gleixner's message of "Tue, 25 Jun 2019 18:30:29 +0200
-        (CEST)")
-Message-ID: <87lfxpy614.fsf@oldenburg2.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2756320663;
+        Tue, 25 Jun 2019 17:52:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1561485148;
+        bh=wyycSt+pI2DJX5K8aByDIu1qndou0ZcC3vKhYC0f3bM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=DjAOE5lDyE7nFLOiJ/TjmGzmXakZCqaiO7KZ4EjtP6/qEVCgSX/Fym0WfDE8dHEU7
+         TVqGc4cKyWEW9szMmQezxKmszLdo28xETW3HIk2BO5u49SUH1z9G3kxm/PyvTbUZla
+         rhLWkPZS8pNpuwPX5N2EHJ5EymKNGv0664ZbxDz8=
+Date:   Tue, 25 Jun 2019 10:52:26 -0700
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     Chao Yu <yuchao0@huawei.com>
+Cc:     linux-fscrypt@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-integrity@vger.kernel.org, Jaegeuk Kim <jaegeuk@kernel.org>,
+        "Theodore Y . Ts'o" <tytso@mit.edu>,
+        Victor Hsieh <victorhsieh@google.com>,
+        Chandan Rajendra <chandan@linux.vnet.ibm.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Christoph Hellwig <hch@lst.de>,
+        "Darrick J . Wong" <darrick.wong@oracle.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [PATCH v5 16/16] f2fs: add fs-verity support
+Message-ID: <20190625175225.GC81914@gmail.com>
+References: <20190620205043.64350-1-ebiggers@kernel.org>
+ <20190620205043.64350-17-ebiggers@kernel.org>
+ <90495fb1-72eb-ca42-8457-ef8e969eda51@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.43]); Tue, 25 Jun 2019 16:39:01 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <90495fb1-72eb-ca42-8457-ef8e969eda51@huawei.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Thomas Gleixner:
+Hi Chao, thanks for the review.
 
-> On Tue, 25 Jun 2019, Florian Weimer wrote:
->> We're trying to create portable binaries which use VSYSCALL on older
->> kernels (to avoid performance regressions), but gracefully degrade to
->> full system calls on kernels which do not have VSYSCALL support compiled
->> in (or disabled at boot).
->>
->> For technical reasons, we cannot use vDSO fallback.  Trying vDSO first
->> and only then use VSYSCALL is the way this has been tackled in the past,
->> which is why this userspace ABI breakage goes generally unnoticed.  But
->> we don't have a dynamic linker in our scenario.
->
-> I'm not following. On newer kernels which usually have vsyscall disabled
-> you need to use real syscalls anyway, so why are you so worried about
-> performance on older kernels. That doesn't make sense.
+On Tue, Jun 25, 2019 at 03:55:57PM +0800, Chao Yu wrote:
+> Hi Eric,
+> 
+> On 2019/6/21 4:50, Eric Biggers wrote:
+> > +static int f2fs_begin_enable_verity(struct file *filp)
+> > +{
+> > +	struct inode *inode = file_inode(filp);
+> > +	int err;
+> > +
+> 
+> I think we'd better add condition here (under inode lock) to disallow enabling
+> verity on atomic/volatile inode, as we may fail to write merkle tree data due to
+> atomic/volatile inode's special writeback method.
+> 
 
-We want binaries that run fast on VSYSCALL kernels, but can fall back to
-full system calls on kernels that do not have them (instead of
-crashing).
+Yes, I'll add the following:
 
-We could parse the vDSO and prefer the functions found there, but this
-is for the statically linked case.  We currently do not have a (minimal)
-dynamic loader there in that version of the code base, so that doesn't
-really work for us.
+	if (f2fs_is_atomic_file(inode) || f2fs_is_volatile_file(inode))
+		return -EOPNOTSUPP;
 
->> Is there any reliable way to detect that VSYSCALL is unavailable,
->> without resorting to parsing /proc/self/maps or opening file
->> descriptors?
->
-> Not that I'm aware of except
->
->     sigaction(SIG_SEGV,....)
->
-> /me hides
+> > +	err = f2fs_convert_inline_inode(inode);
+> > +	if (err)
+> > +		return err;
+> > +
+> > +	err = dquot_initialize(inode);
+> > +	if (err)
+> > +		return err;
+> 
+> We can get rid of dquot_initialize() here, since f2fs_file_open() ->
+> dquot_file_open() should has initialized quota entry previously, right?
 
-I know people do this for SIGILL to probe for CPU features, but yeah,
-let's just not go there. 8-p
+We still need it because dquot_file_open() only calls dquot_initialize() if the
+file is being opened for writing.  But here the file descriptor is readonly.
+I'll add a comment explaining this here and in the ext4 equivalent.
 
-Thanks,
-Florian
+- Eric
