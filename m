@@ -2,79 +2,120 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0518A569C9
-	for <lists+linux-api@lfdr.de>; Wed, 26 Jun 2019 14:55:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B8D756857
+	for <lists+linux-api@lfdr.de>; Wed, 26 Jun 2019 14:12:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727146AbfFZMzR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 26 Jun 2019 08:55:17 -0400
-Received: from zyloware.com ([23.95.19.78]:45265 "EHLO chulaseafood.com"
-        rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726484AbfFZMzR (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 26 Jun 2019 08:55:17 -0400
-X-Greylist: delayed 3607 seconds by postgrey-1.27 at vger.kernel.org; Wed, 26 Jun 2019 08:55:16 EDT
-To:     linux-api@vger.kernel.org
-Subject: =?UTF-8?B?wrcgICAgICAgICBjYW4geW91IGd1aWRlIG1lPw==?=
-Message-ID: <bddb89e610846278c722eb19b5c47493@inaflashweb.com>
-Date:   Wed, 26 Jun 2019 13:35:59 +0200
-From:   "Laura" <ansitaasdsaksi@verizon.net>
-Reply-To: ansitaasdsaksi@verizon.net
+        id S1726965AbfFZMMd convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Wed, 26 Jun 2019 08:12:33 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37276 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726131AbfFZMMd (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 26 Jun 2019 08:12:33 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 57F6B2F8BC9;
+        Wed, 26 Jun 2019 12:12:28 +0000 (UTC)
+Received: from oldenburg2.str.redhat.com (dhcp-192-180.str.redhat.com [10.33.192.180])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 53332608CA;
+        Wed, 26 Jun 2019 12:12:23 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Linux API <linux-api@vger.kernel.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-x86_64@vger.kernel.org,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        "Carlos O'Donell" <carlos@redhat.com>, X86 ML <x86@kernel.org>
+Subject: Re: Detecting the availability of VSYSCALL
+References: <87v9wty9v4.fsf@oldenburg2.str.redhat.com>
+        <alpine.DEB.2.21.1906251824500.32342@nanos.tec.linutronix.de>
+        <87lfxpy614.fsf@oldenburg2.str.redhat.com>
+        <CALCETrVh1f5wJNMbMoVqY=bq-7G=uQ84BUkepf5RksA3vUopNQ@mail.gmail.com>
+        <87a7e5v1d9.fsf@oldenburg2.str.redhat.com>
+        <CALCETrUDt4v3=FqD+vseGTKTuG=qY+1LwRPrOrU8C7vCVbo=uA@mail.gmail.com>
+Date:   Wed, 26 Jun 2019 14:12:22 +0200
+In-Reply-To: <CALCETrUDt4v3=FqD+vseGTKTuG=qY+1LwRPrOrU8C7vCVbo=uA@mail.gmail.com>
+        (Andy Lutomirski's message of "Tue, 25 Jun 2019 14:49:27 -0700")
+Message-ID: <87o92kmtp5.fsf@oldenburg2.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; format=flowed; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.38]); Wed, 26 Jun 2019 12:12:33 +0000 (UTC)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi,
+* Andy Lutomirski:
 
-Did you see my email below from last week?
+> On Tue, Jun 25, 2019 at 1:47 PM Florian Weimer <fweimer@redhat.com> wrote:
+>>
+>> * Andy Lutomirski:
+>>
+>> >> We want binaries that run fast on VSYSCALL kernels, but can fall back to
+>> >> full system calls on kernels that do not have them (instead of
+>> >> crashing).
+>> >
+>> > Define "VSYSCALL kernels."  On any remotely recent kernel (*all* new
+>> > kernels and all kernels for the last several years that haven't
+>> > specifically requested vsyscall=native), using vsyscalls is much, much
+>> > slower than just doing syscalls.  I know a way you can tell whether
+>> > vsyscalls are fast, but it's unreliable, and I'm disinclined to
+>> > suggest it.  There are also at least two pending patch series that
+>> > will interfere.
+>>
+>> The fast path is for the benefit of the 2.6.32-based kernel in Red Hat
+>> Enterprise Linux 6.  It doesn't have the vsyscall emulation code yet, I
+>> think.
+>>
+>> My hope is to produce (statically linked) binaries that run as fast on
+>> that kernel as they run today, but can gracefully fall back to something
+>> else on kernels without vsyscall support.
+>>
+>> >> We could parse the vDSO and prefer the functions found there, but this
+>> >> is for the statically linked case.  We currently do not have a (minimal)
+>> >> dynamic loader there in that version of the code base, so that doesn't
+>> >> really work for us.
+>> >
+>> > Is anything preventing you from adding a vDSO parser?  I wrote one
+>> > just for this type of use:
+>> >
+>> > $ wc -l tools/testing/selftests/vDSO/parse_vdso.c
+>> > 269 tools/testing/selftests/vDSO/parse_vdso.c
+>> >
+>> > (289 lines includes quite a bit of comment.)
+>>
+>> I'm worried that if I use a custom parser and the binaries start
+>> crashing again because something changed in the kernel (within the scope
+>> permitted by the ELF specification), the kernel won't be fixed.
+>>
+>> That is, we'd be in exactly the same situation as today.
+>
+> With my maintainer hat on, the kernel won't do that.  Obviously a
+> review of my parser would be appreciated, but I consider it to be
+> fully supported, just like glibc and musl's parsers are fully
+> supported.  Sadly, I *also* consider the version Go forked for a while
+> (now fixed) to be supported.  Sigh.
 
-We manufacture ALL custom LOGO and branded products – over 300,000 to
-choose from.
+We've been burnt once, otherwise we wouldn't be having this
+conversation.  It's not just what the kernel does by default; if it's
+configurable, it will be disabled by some, and if it's label as
+“security hardening”, the userspace ABI promise is suddenly forgotten
+and it's all userspace's fault for not supporting the new way.
 
-The most asked about product that we make, are the custom printed USB flash
-drives!
-We can print your logo on them and load your digital images, videos and
-files!
+It looks like parsing the vDSO is the only way forward, and we have to
+move in that direction if we move at all.
 
-http://inaflashweb.com
+It's tempting to read the machine code on the vsyscall page and analyze
+that, but vsyscall=none behavior changed at one point, and you no longer
+any mapping there at all.  So that doesn't work, either.
 
-Here is what we include:
--Any size memory you need: 64MB up to 128GB
--We will print your logo on both sides, just ask!
--Very Low Order Minimums
--Need them quickly? Not a problem, we offer Rush Service
-http://inaflashweb.com
+I do hope the next userspace ABI break will have an option to undo it on
+a per-container basis.  Or at least a flag to detect it.
 
-NEW: We can make a custom shaped USB drive to look like your Logo or
-product!
-
-Email over a copy of your logo and we will create a design mock up for you
-at no cost!
-
-Our higher memory sizes are a really good option right now!
-
-Ask about the “Double Your Memory” upgrade promotion going on right
-now!
-
-Pricing is low right now, so let us know what you need and we will get you
-a quick quote.
-
-We will beat any competitors pricing, send us your last invoice and we will
-beat it!
-
-We always offer great rates for schools and nonprofits as well.
-
-Let us know what you would like quoted?
-http://inaflashweb.com
-
-Regards,
-
-
-
-Sabrina Millons
-+1-888-480-8218
-Custom USB Account Manager
-http://inaflashweb.com
-
+Thanks,
+Florian
