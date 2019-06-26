@@ -2,82 +2,95 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 649D75707D
-	for <lists+linux-api@lfdr.de>; Wed, 26 Jun 2019 20:21:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00862571E4
+	for <lists+linux-api@lfdr.de>; Wed, 26 Jun 2019 21:39:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726382AbfFZSVo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 26 Jun 2019 14:21:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35988 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726223AbfFZSVm (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 26 Jun 2019 14:21:42 -0400
-Received: from gmail.com (unknown [104.132.1.77])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 07DA221726;
-        Wed, 26 Jun 2019 18:21:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1561573301;
-        bh=pNDy9ibt9Htg2aMIkROB6dLLyxI5mmHvZKejgIZn7Oc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TuI1lc8jAO4MB0RfvPP/3xjShwRJ5zX3E3hM3QnXjDNiYK2hkpbKcuEqrrq4t9f3Y
-         HFbcTFROptxFb6vvrHInrM7dcrlL86yIu0vDiQ9n7kCmvyRn/xKjMfwDx6VqIJcthL
-         KS8lIu7/J75DGlTa501xa6kZdnbnaUIMVJWVth/M=
-Date:   Wed, 26 Jun 2019 11:21:39 -0700
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     Chao Yu <yuchao0@huawei.com>
-Cc:     linux-fscrypt@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-integrity@vger.kernel.org, Jaegeuk Kim <jaegeuk@kernel.org>,
-        "Theodore Y . Ts'o" <tytso@mit.edu>,
-        Victor Hsieh <victorhsieh@google.com>,
-        Chandan Rajendra <chandan@linux.vnet.ibm.com>,
-        Dave Chinner <david@fromorbit.com>,
-        Christoph Hellwig <hch@lst.de>,
-        "Darrick J . Wong" <darrick.wong@oracle.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [PATCH v5 16/16] f2fs: add fs-verity support
-Message-ID: <20190626182138.GA30296@gmail.com>
-References: <20190620205043.64350-1-ebiggers@kernel.org>
- <20190620205043.64350-17-ebiggers@kernel.org>
- <90495fb1-72eb-ca42-8457-ef8e969eda51@huawei.com>
- <20190625175225.GC81914@gmail.com>
- <68c5a15f-f6a8-75e2-b485-0f1b51471995@huawei.com>
+        id S1726359AbfFZTjn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 26 Jun 2019 15:39:43 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:34695 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726227AbfFZTjn (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 26 Jun 2019 15:39:43 -0400
+Received: by mail-io1-f66.google.com with SMTP id k8so4513740iot.1
+        for <linux-api@vger.kernel.org>; Wed, 26 Jun 2019 12:39:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=HrgKV2laxb7CmMhAO2Zht6dY5cjmqevbQFQ/CfbqMLo=;
+        b=KOoNaQnzlS7is373aZlIpXHi9c/FdczNBYXNJFlghPA2DuSObQ02XSjoB1IECTklM+
+         lu+Dc+nt5KYYNp13+gCQ+cSPlInpBMLEywNBGsksqwRjnrv4SgUO4PXqNuruj9JYNsLm
+         kz6tlMgIJDouZH1XfpYKhctzWZ+76XIHOprLbjuymNqrlW+9lhNJvZkyzXwBn0LCXAv1
+         bgQrnFzdo87+D0PZ6JlClu2ag5qEUE87IshPvZXHlnIwnO4AHs/bvDfaaqoDHucFvW0c
+         JdK7yuvbRLz0qrXD7/fy4fHElKOQlRQjn69aL3tJlmmNO9FR5oavdTLDNvBKbt8YQRmt
+         E+MQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=HrgKV2laxb7CmMhAO2Zht6dY5cjmqevbQFQ/CfbqMLo=;
+        b=VLZZBETgT6d9GEB8RLrFf2diyjh0AM2vTZYtnB9WIBl6tohzcGiZ8kyXmgRAUucWgq
+         Iz6hHJXuMcEOOHbTAiVpu/Y4NvWfm2GqfNyZ421dqd/XfL38zELUy6VjGgAolmchwWC0
+         nNMXwxy4mLXrKSyEYQiAZxn2eitZdFSW6E3psB1on/5SJWnUZfzSAmyQum8Mt1fcNpve
+         G6g1cheJgqisB5rRaKsjNDyOfNZHGdwefkGpZVAVWLNfqGqV7bu1EjjBrmqMGp/q4jpB
+         ARdm4SBBbop48FE2vpQPidOG+ptopfjORPxQSfMlEUcqTGBnQRIu3Ds8PIHXcKvTAqIC
+         cNUw==
+X-Gm-Message-State: APjAAAWN7khl1RBZipxep3/a5BX53JqBXasMtezVWNTHcXBBwp74Edo/
+        DC7siHx1cZLS8KiY7gbNSscNt/1s+Y1zmgiTpHcGzw==
+X-Google-Smtp-Source: APXvYqzZOm3tnncwSNKOqbGjfZFdhqffwjA+jtK7Mdjt6sdyN+pEm2CYZ51R95H0ZHN2OwG9zQHYDMww4fcojyvf4zk=
+X-Received: by 2002:a02:3308:: with SMTP id c8mr4225629jae.103.1561577982127;
+ Wed, 26 Jun 2019 12:39:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <68c5a15f-f6a8-75e2-b485-0f1b51471995@huawei.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20190621011941.186255-1-matthewgarrett@google.com>
+ <20190621011941.186255-30-matthewgarrett@google.com> <20190626090748.23eba868@gandalf.local.home>
+In-Reply-To: <20190626090748.23eba868@gandalf.local.home>
+From:   Matthew Garrett <mjg59@google.com>
+Date:   Wed, 26 Jun 2019 12:39:31 -0700
+Message-ID: <CACdnJuubBJxrybsV6+hyz9RyUR2AUyzy=4WJEeoYrNgbh_=FCQ@mail.gmail.com>
+Subject: Re: [PATCH V33 29/30] tracefs: Restrict tracefs when the kernel is
+ locked down
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     James Morris <jmorris@namei.org>, linux-security@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jun 26, 2019 at 03:34:35PM +0800, Chao Yu wrote:
-> >>> +	err = f2fs_convert_inline_inode(inode);
-> >>> +	if (err)
-> >>> +		return err;
-> >>> +
-> >>> +	err = dquot_initialize(inode);
-> >>> +	if (err)
-> >>> +		return err;
-> >>
-> >> We can get rid of dquot_initialize() here, since f2fs_file_open() ->
-> >> dquot_file_open() should has initialized quota entry previously, right?
-> > 
-> > We still need it because dquot_file_open() only calls dquot_initialize() if the
-> > file is being opened for writing.  But here the file descriptor is readonly.
-> > I'll add a comment explaining this here and in the ext4 equivalent.
-> 
-> Ah, you're right.
-> 
-> f2fs_convert_inline_inode() may grab one more block during conversion, so we
-> need to call dquot_initialize() before inline conversion?
-> 
-> Thanks,
-> 
+On Wed, Jun 26, 2019 at 6:07 AM Steven Rostedt <rostedt@goodmis.org> wrote:
+>
+> On Thu, 20 Jun 2019 18:19:40 -0700
+> Matthew Garrett <matthewgarrett@google.com> wrote:
+> > +static const struct file_operations tracefs_proxy_file_operations = {
+> > +     .read =         default_read_file,
+> > +     .write =        default_write_file,
+> > +     .open =         default_open_file,
+> > +     .llseek =       noop_llseek,
+> > +};
+>
+> This appears to be unused.
 
-Good point.  I'll fix that here and in ext4.
+Oops, yup - dropped.
 
-- Eric
+> > +     dentry->d_fsdata = fops ? (void *)fops :
+> > +             (void *)&tracefs_file_operations;
+> > +     memcpy(proxy_fops, dentry->d_fsdata, sizeof(struct file_operations));
+> > +     proxy_fops->open = default_open_file;
+> >       inode->i_mode = mode;
+> > -     inode->i_fop = fops ? fops : &tracefs_file_operations;
+> > +     inode->i_fop = proxy_fops;
+>
+>
+> I think the above would look cleaner as:
+>
+>
+>         if (!fops)
+>                 fops = &tracefs_file_operations;
+>
+>         dentry->d_fsdata = (void *)fops;
+>         memcpy(proxy_fops, fops, sizeof(*proxy_fops);
+>         proxy_fops->open = default_open_file;
+
+ACK.
