@@ -2,90 +2,97 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E30EC56CD5
-	for <lists+linux-api@lfdr.de>; Wed, 26 Jun 2019 16:50:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B573056D01
+	for <lists+linux-api@lfdr.de>; Wed, 26 Jun 2019 17:00:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728240AbfFZOug (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 26 Jun 2019 10:50:36 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:38380 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727516AbfFZOug (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 26 Jun 2019 10:50:36 -0400
-Received: by mail-ed1-f67.google.com with SMTP id r12so3780515edo.5
-        for <linux-api@vger.kernel.org>; Wed, 26 Jun 2019 07:50:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brauner.io; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Xn5/sjr2SkMR21Q+6SAo5VDqXrDegQPvyCLgGPTTURs=;
-        b=CoKaEc3wxeHdnMcIofwNS4wPiIsB4YJ0MdREl3n8yGAalh9nxwnCt6s4C7YfqB8J7E
-         XZ9CeglN7DhsaHQPGmJ83Xl5B0+DGakBv2quoUi0orpESnYwIZqHJZM9JPLeH4wUZJuZ
-         FJg5EF2YLZN5kH2gFq0nfo1K9QphlQ+THUqGo+zpGmjyVGQo59izd65NQ8XrSHqXsJkV
-         r+kff83JiIWKJr7BCUU9RQqkV3uJayYQQaUfcPpzsf6Svs9Nf5b9ApGUsLLNm6A7nuXq
-         SEJyHZREjdICZ1ASaILln/JIbacf7oWT3YEAa3Gen4dxnBfWB6NHRmCJOP/+w/8WQDYR
-         rETw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Xn5/sjr2SkMR21Q+6SAo5VDqXrDegQPvyCLgGPTTURs=;
-        b=HxPU1NoWs2Ta3zRtBwCfmjNTXDrywk08QJSejW5bzeBKku+qyR3wVYa6X7q9rfHrMy
-         EFhXTWkie2oJrl6PE8GTV9cgrfwpl/BtgvzNYV28y/9bB/7fDy7E/2DqoTZ0rlqDd0Vo
-         Ff1mDVkCdUKXeHSBRPuH/+1nBE8Q0vkQqP2YgEuWfA+aknThkaBlQ1xL8wEgz5Dg7S3G
-         z5878oNMNUWt3tP5cCZWqAqQh3FQAYGyF8FAtei2DvXXJFuRonouGFpQAZUeAYbwrkSu
-         NFf5EqS+v+Xyf3TUkYk5JnnRSqMz1UbUaxyrTEbyumsKlSYuBc8rQRinKVYQVJK4zU3s
-         PAmA==
-X-Gm-Message-State: APjAAAWDZPmN1epXbLgm/SisI4ZsQfXDmuIugfBkozUrzWhT48ESr3yE
-        P3b0e1fdpM/4Zz8BbPGLc9CnBA==
-X-Google-Smtp-Source: APXvYqxihuTlAVHp7Dtm+OQSgaT0vicToPsHIUlp7ShmYxpuuMQHg3Wi0UPDnVnoRgF96oLtm3CiGQ==
-X-Received: by 2002:a17:906:7f16:: with SMTP id d22mr4466398ejr.17.1561560634310;
-        Wed, 26 Jun 2019 07:50:34 -0700 (PDT)
-Received: from brauner.io (cable-89-16-153-196.cust.telecolumbus.net. [89.16.153.196])
-        by smtp.gmail.com with ESMTPSA id a6sm5477457eds.19.2019.06.26.07.50.33
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 26 Jun 2019 07:50:33 -0700 (PDT)
-Date:   Wed, 26 Jun 2019 16:50:32 +0200
-From:   Christian Brauner <christian@brauner.io>
-To:     David Howells <dhowells@redhat.com>
-Cc:     viro@zeniv.linux.org.uk, raven@themaw.net, mszeredi@redhat.com,
-        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/25] VFS: Introduce filesystem information query
- syscall [ver #14]
-Message-ID: <20190626145031.nvpekusplnt5kqw5@brauner.io>
-References: <20190626131902.6xat2ab65arc62td@brauner.io>
- <156138532485.25627.7459410522109581052.stgit@warthog.procyon.org.uk>
- <20190626100525.irdehd24jowz5f75@brauner.io>
- <9360.1561559497@warthog.procyon.org.uk>
+        id S1727516AbfFZPAj convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Wed, 26 Jun 2019 11:00:39 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54848 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726029AbfFZPAi (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 26 Jun 2019 11:00:38 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 5FB7630832EA;
+        Wed, 26 Jun 2019 15:00:38 +0000 (UTC)
+Received: from oldenburg2.str.redhat.com (dhcp-192-180.str.redhat.com [10.33.192.180])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id CDF415D9D3;
+        Wed, 26 Jun 2019 15:00:29 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Andy Lutomirski <luto@amacapital.net>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Linux API <linux-api@vger.kernel.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-x86_64@vger.kernel.org,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Carlos O'Donell <carlos@redhat.com>, X86 ML <x86@kernel.org>
+Subject: Re: Detecting the availability of VSYSCALL
+References: <87v9wty9v4.fsf@oldenburg2.str.redhat.com>
+        <alpine.DEB.2.21.1906251824500.32342@nanos.tec.linutronix.de>
+        <87lfxpy614.fsf@oldenburg2.str.redhat.com>
+        <CALCETrVh1f5wJNMbMoVqY=bq-7G=uQ84BUkepf5RksA3vUopNQ@mail.gmail.com>
+        <87a7e5v1d9.fsf@oldenburg2.str.redhat.com>
+        <CALCETrUDt4v3=FqD+vseGTKTuG=qY+1LwRPrOrU8C7vCVbo=uA@mail.gmail.com>
+        <87o92kmtp5.fsf@oldenburg2.str.redhat.com>
+        <CA96B819-30A9-43D3-9FE3-2D551D35369E@amacapital.net>
+Date:   Wed, 26 Jun 2019 17:00:28 +0200
+In-Reply-To: <CA96B819-30A9-43D3-9FE3-2D551D35369E@amacapital.net> (Andy
+        Lutomirski's message of "Wed, 26 Jun 2019 07:15:59 -0700")
+Message-ID: <87r27gjss3.fsf@oldenburg2.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <9360.1561559497@warthog.procyon.org.uk>
-User-Agent: NeoMutt/20180716
+Content-Transfer-Encoding: 8BIT
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.44]); Wed, 26 Jun 2019 15:00:38 +0000 (UTC)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jun 26, 2019 at 03:31:37PM +0100, David Howells wrote:
-> Christian Brauner <christian@brauner.io> wrote:
-> 
-> > And I also very much recommend to remove any potential cross-dependency
-> > between the fsinfo() and the notification patchset.
-> 
-> The problem with that is that to make the notification patchset useful for
-> mount notifications, you need some information that you would obtain through
-> fsinfo().
+* Andy Lutomirski:
 
-But would it really be that bad if you'd just land fsinfo() and then
-focus on the notification stuff. This very much rather looks like a
-timing issue than a conceptual one, i.e. you could very much just push
-fsinfo() and leave the notification stuff alone until that is done.
+> I didn’t add a flag because the vsyscall page was thoroughly obsolete
+> when all this happened, and I wanted to encourage all new code to just
+> parse the vDSO instead of piling on the hacks.
 
-Once fsinfo() has landed you can then go on to put additional bits you
-need from or for fsinfo() for the notification patchset in there. Seems
-you have at least sketched both APIs sufficiently that you know what you
-need to look out for to not cause any regressions later on when you need
-to expand them.
+It turned out that the thorny cases just switched to system calls
+instead.  I think we finally completed the transition in glibc upstream
+in 2018 (for x86).
 
-Christian
+> Anyway, you may be the right person to ask: is there some credible way
+> that the kernel could detect new binaries that don’t need vsyscalls?
+> Maybe a new ELF note on a static binary or on the ELF interpreter? We
+> can dynamically switch it in principle.
+
+For this kind of change, markup similar to PT_GNU_STACK would have been
+appropriate, I think: Old kernels and loaders would have ignored the
+program header and loaded the program anyway, but the vsyscall page
+still existed, so that would have been fine. The kernel would have
+needed to check the program interpreter or the main executable (without
+a program interpreter, i.e., the statically linked case).  Due the way
+the vsyscalls are concentrated in glibc, a dynamically linked executable
+would not have needed checking (or re-linking).  I don't think we would
+have implemented the full late enablement after dlopen we did for
+executable stacks.  In theory, any code could have jumped to the
+vsyscall area, but in practice, it's just dynamically linked glibc and
+static binaries.
+
+But nowadays, unmarked glibcs which do not depend on vsyscall vastly
+outnumber unmarked glibcs which requrie it.  Therefore, markup of
+binaries does not seem to be reasonable to day.  I could imagine a
+personality flag you can set (if yoy have CAP_SYS_ADMIN) that re-enables
+vsyscall support for new subprocesses.  And a container runtime would do
+this based on metadata found in the image.  This way, the container host
+itself could be protected, and you could still run legacy images which
+require vsyscall.
+
+For the non-container case, if you know that you'll run legacy
+workloads, you'd still have the boot parameter.  But I think it could
+default to vsyscall=none in many more cases.
+
+Thanks,
+Florian
