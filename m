@@ -2,53 +2,27 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9900A55BE9
-	for <lists+linux-api@lfdr.de>; Wed, 26 Jun 2019 01:03:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7399C5636A
+	for <lists+linux-api@lfdr.de>; Wed, 26 Jun 2019 09:35:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726434AbfFYXDL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 25 Jun 2019 19:03:11 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:35283 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725782AbfFYXDL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 25 Jun 2019 19:03:11 -0400
-Received: by mail-lf1-f66.google.com with SMTP id a25so195830lfg.2;
-        Tue, 25 Jun 2019 16:03:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=vCqj6Gl5Q+n6lzWdb5L2oHqmQfEmkpa5M5PzJg/vAX0=;
-        b=Xb+hHpzdadY3+SZLz7lziYzk74KcI7TJz4DoosGtrKHDRZWbmvbRnU0CnFGMpbcfuF
-         Pk8kgfMcbnxZL00uBqYQOwGOH9t5TcnZt6TJlMwfK2h4iErKeRRXNLG8Z4F7C8ydio1j
-         1HlMw7Gv2XjLypWKJS+g0r87+zG+TkbGD5M+MCKwEw9yRo0GLdGXm6Lfzpcu+k9UE9d0
-         F/M1TF1+T/R8J7RiHvYkadgyTfoCuki9o2u4q3pGOwFIW5+XofAOHXF5gW7KhBQtx+kT
-         A/0C/2uSQzf7ymawbvg8ME7Vop7uFjg1N3hzdSaT8Xbqmd1KmjrxGBiqWXqzyhqm7B5L
-         Mkkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=vCqj6Gl5Q+n6lzWdb5L2oHqmQfEmkpa5M5PzJg/vAX0=;
-        b=oixzy6Ral1Z03dPceB/nY3lc1BvoSFuRtvjGR3+ygYxUff+vL4ahPdcp7R8KnPN2Kf
-         1a/T2v6rdICze3xr4sAEoJFjcpPE77hmjNRDt9AAFpGWGYtWmAQxHYIZWdPWoQ5Nbex9
-         8PUWOExp3W8Hm9vlhZFtGLXJzqmyn0mxmSWIEdDTRXOU/0yi5UH6NMurViH7vg8qAzZd
-         +klxUh306G/KWp4BcMhWABBVudCa94Ec5dBGxFYAgyPO0h47YmRxmvsz9ozRQl6aZh8D
-         C9LsDJT/wpkOQEPyLgukY/FBP/8xoMLFjv6MIxjymwzepQ6XfeccGWgh1qD4JIAe+hoS
-         fXYA==
-X-Gm-Message-State: APjAAAVaOR+xyEVQcRzFLolSJUtI7VJUk9Rp8VhSal4roQaumPDeDxEE
-        qnO1Oac2UomjtymjRhMMhiyJRU5WMl/wMu3pctiSvVpx
-X-Google-Smtp-Source: APXvYqwMki2vRi0D6xb9XX2ObQWdMs2vNpF7/ZvfvRpFFo74l4CVr0RYcBMIdgXXJPnYTSSDRLHNjCE2a1Zni1qeP0M=
-X-Received: by 2002:a19:6e4d:: with SMTP id q13mr691917lfk.6.1561503788417;
- Tue, 25 Jun 2019 16:03:08 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190625215239.11136-1-mic@digikod.net> <20190625215239.11136-3-mic@digikod.net>
-In-Reply-To: <20190625215239.11136-3-mic@digikod.net>
-From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date:   Tue, 25 Jun 2019 16:02:57 -0700
-Message-ID: <CAADnVQ+Twio22VSi21RR5TY1Zm-1xRTGmREcXLSs5Jv-KWGTiw@mail.gmail.com>
+        id S1726076AbfFZHfR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 26 Jun 2019 03:35:17 -0400
+Received: from smtp-sh.infomaniak.ch ([128.65.195.4]:48195 "EHLO
+        smtp-sh.infomaniak.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725876AbfFZHfQ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 26 Jun 2019 03:35:16 -0400
+Received: from smtp7.infomaniak.ch (smtp7.infomaniak.ch [83.166.132.30])
+        by smtp-sh.infomaniak.ch (8.14.5/8.14.5) with ESMTP id x5Q7XpeS029374
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 26 Jun 2019 09:33:51 +0200
+Received: from ns3096276.ip-94-23-54.eu (ns3096276.ip-94-23-54.eu [94.23.54.103])
+        (authenticated bits=0)
+        by smtp7.infomaniak.ch (8.14.5/8.14.5) with ESMTP id x5Q7XZKl136464
+        (version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=NO);
+        Wed, 26 Jun 2019 09:33:46 +0200
 Subject: Re: [PATCH bpf-next v9 02/10] bpf: Add eBPF program subtype and
  is_valid_subtype() verifier
-To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
+To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
 Cc:     LKML <linux-kernel@vger.kernel.org>,
         Aleksa Sarai <cyphar@cyphar.com>,
         Alexander Viro <viro@zeniv.linux.org.uk>,
@@ -66,7 +40,7 @@ Cc:     LKML <linux-kernel@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Kees Cook <keescook@chromium.org>,
         Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mickael.salaun@ssi.gouv.fr>,
+        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mickael.salaun@ssi.gouv.fr>,
         Paul Moore <paul@paul-moore.com>,
         Sargun Dhillon <sargun@sargun.me>,
         "Serge E . Hallyn" <serge@hallyn.com>,
@@ -80,55 +54,86 @@ Cc:     LKML <linux-kernel@vger.kernel.org>,
         Linux-Fsdevel <linux-fsdevel@vger.kernel.org>,
         LSM List <linux-security-module@vger.kernel.org>,
         Network Development <netdev@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+References: <20190625215239.11136-1-mic@digikod.net>
+ <20190625215239.11136-3-mic@digikod.net>
+ <CAADnVQ+Twio22VSi21RR5TY1Zm-1xRTGmREcXLSs5Jv-KWGTiw@mail.gmail.com>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Openpgp: preference=signencrypt
+Message-ID: <1b87e170-0779-fad0-f623-8cf677843338@digikod.net>
+Date:   Wed, 26 Jun 2019 09:33:35 +0200
+User-Agent: 
+MIME-Version: 1.0
+In-Reply-To: <CAADnVQ+Twio22VSi21RR5TY1Zm-1xRTGmREcXLSs5Jv-KWGTiw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
+X-Antivirus-Code: 0x100000
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jun 25, 2019 at 3:04 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net> =
-wrote:
->
-> The goal of the program subtype is to be able to have different static
-> fine-grained verifications for a unique program type.
->
-> The struct bpf_verifier_ops gets a new optional function:
-> is_valid_subtype(). This new verifier is called at the beginning of the
-> eBPF program verification to check if the (optional) program subtype is
-> valid.
->
-> The new helper bpf_load_program_xattr() enables to verify a program with
-> subtypes.
->
-> For now, only Landlock eBPF programs are using a program subtype (see
-> next commits) but this could be used by other program types in the
-> future.
->
-> Signed-off-by: Micka=C3=ABl Sala=C3=BCn <mic@digikod.net>
-> Cc: Alexei Starovoitov <ast@kernel.org>
-> Cc: Daniel Borkmann <daniel@iogearbox.net>
-> Cc: David S. Miller <davem@davemloft.net>
-> Link: https://lkml.kernel.org/r/20160827205559.GA43880@ast-mbp.thefaceboo=
-k.com
-> ---
->
-> Changes since v8:
-> * use bpf_load_program_xattr() instead of bpf_load_program() and add
->   bpf_verify_program_xattr() to deal with subtypes
-> * remove put_extra() since there is no more "previous" field (for now)
->
-> Changes since v7:
-> * rename LANDLOCK_SUBTYPE_* to LANDLOCK_*
-> * move subtype in bpf_prog_aux and use only one bit for has_subtype
->   (suggested by Alexei Starovoitov)
 
-sorry to say, but I don't think the landlock will ever land,
-since posting huge patches once a year is missing a lot of development
-that is happening during that time.
-This 2/10 patch is an example.
-subtype concept was useful 2 years ago when v6 was posted.
-Since then bpf developers faced very similar problem in other parts
-and it was solved with 'expected_attach_type' field.
-See commit 5e43f899b03a ("bpf: Check attach type at prog load time")
-dated March 2018.
+
+On 26/06/2019 01:02, Alexei Starovoitov wrote:
+> On Tue, Jun 25, 2019 at 3:04 PM Mickaël Salaün <mic@digikod.net> wrote:
+>>
+>> The goal of the program subtype is to be able to have different static
+>> fine-grained verifications for a unique program type.
+>>
+>> The struct bpf_verifier_ops gets a new optional function:
+>> is_valid_subtype(). This new verifier is called at the beginning of the
+>> eBPF program verification to check if the (optional) program subtype is
+>> valid.
+>>
+>> The new helper bpf_load_program_xattr() enables to verify a program with
+>> subtypes.
+>>
+>> For now, only Landlock eBPF programs are using a program subtype (see
+>> next commits) but this could be used by other program types in the
+>> future.
+>>
+>> Signed-off-by: Mickaël Salaün <mic@digikod.net>
+>> Cc: Alexei Starovoitov <ast@kernel.org>
+>> Cc: Daniel Borkmann <daniel@iogearbox.net>
+>> Cc: David S. Miller <davem@davemloft.net>
+>> Link: https://lkml.kernel.org/r/20160827205559.GA43880@ast-mbp.thefacebook.com
+>> ---
+>>
+>> Changes since v8:
+>> * use bpf_load_program_xattr() instead of bpf_load_program() and add
+>>   bpf_verify_program_xattr() to deal with subtypes
+>> * remove put_extra() since there is no more "previous" field (for now)
+>>
+>> Changes since v7:
+>> * rename LANDLOCK_SUBTYPE_* to LANDLOCK_*
+>> * move subtype in bpf_prog_aux and use only one bit for has_subtype
+>>   (suggested by Alexei Starovoitov)
+> 
+> sorry to say, but I don't think the landlock will ever land,
+> since posting huge patches once a year is missing a lot of development
+> that is happening during that time.
+
+You're right that it's been a while since the last patch set, but the
+main reasons behind this was a lack of feedback (probably because of the
+size of the patch set, which is now reduce to a consistent minimum), the
+rework needed to address everyone's concern (Landlock modify kernel
+components from different maintainers), and above all, the LSM stacking
+infrastructure which was quite beefy and then took some time to land:
+https://lore.kernel.org/lkml/50db058a-7dde-441b-a7f9-f6837fe8b69f@schaufler-ca.com/
+This stacking infrastructure was required to have a useful version of
+Landlock (which is used as a use case example), and it was released with
+Linux v5.1 (last month). Now, I think everything is finally ready to
+move forward.
+
+> This 2/10 patch is an example.
+> subtype concept was useful 2 years ago when v6 was posted.
+> Since then bpf developers faced very similar problem in other parts
+> and it was solved with 'expected_attach_type' field.
+> See commit 5e43f899b03a ("bpf: Check attach type at prog load time")
+> dated March 2018.
+
+I saw this nice feature but I wasn't sure if it was the right field to
+use. Indeed, I need more than a "type", but also some values (triggers)
+as shown by this patch. What do you suggest?
