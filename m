@@ -2,115 +2,264 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1535856455
-	for <lists+linux-api@lfdr.de>; Wed, 26 Jun 2019 10:17:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35B00565E6
+	for <lists+linux-api@lfdr.de>; Wed, 26 Jun 2019 11:49:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726823AbfFZIRJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 26 Jun 2019 04:17:09 -0400
-Received: from lhrrgout.huawei.com ([185.176.76.210]:33035 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725379AbfFZIRI (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 26 Jun 2019 04:17:08 -0400
-Received: from LHREML712-CAH.china.huawei.com (unknown [172.18.7.106])
-        by Forcepoint Email with ESMTP id D7F66B43525032CA199F;
-        Wed, 26 Jun 2019 09:17:05 +0100 (IST)
-Received: from [10.220.96.108] (10.220.96.108) by smtpsuk.huawei.com
- (10.201.108.35) with Microsoft SMTP Server (TLS) id 14.3.408.0; Wed, 26 Jun
- 2019 09:16:57 +0100
-Subject: Re: [PATCH v4 0/3] initramfs: add support for xattrs in the initial
- ram disk
-To:     Rob Landley <rob@landley.net>, <viro@zeniv.linux.org.uk>
-CC:     <linux-security-module@vger.kernel.org>,
-        <linux-integrity@vger.kernel.org>, <initramfs@vger.kernel.org>,
-        <linux-api@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <bug-cpio@gnu.org>,
-        <zohar@linux.vnet.ibm.com>, <silviu.vlasceanu@huawei.com>,
-        <dmitry.kasatkin@huawei.com>, <takondra@cisco.com>,
-        <kamensky@cisco.com>, <hpa@zytor.com>, <arnd@arndb.de>,
-        <james.w.mcmechan@gmail.com>, <niveditas98@gmail.com>
-References: <20190523121803.21638-1-roberto.sassu@huawei.com>
- <cf9d08ca-74c7-c945-5bf9-7c3495907d1e@huawei.com>
- <541e9ea1-024f-5c22-0b58-f8692e6c1eb1@landley.net>
-From:   Roberto Sassu <roberto.sassu@huawei.com>
-Message-ID: <33cfb804-6a17-39f0-92b7-01d54e9c452d@huawei.com>
-Date:   Wed, 26 Jun 2019 10:15:10 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.3.0
+        id S1726131AbfFZJtQ convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Wed, 26 Jun 2019 05:49:16 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41238 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726104AbfFZJtQ (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 26 Jun 2019 05:49:16 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 34C0D3082E06;
+        Wed, 26 Jun 2019 09:49:15 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-120-57.rdu2.redhat.com [10.10.120.57])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 8A6AD5D9C6;
+        Wed, 26 Jun 2019 09:49:13 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <20190625082822.l4pz33dwzvotboe4@brauner.io>
+References: <20190625082822.l4pz33dwzvotboe4@brauner.io> <156138532485.25627.7459410522109581052.stgit@warthog.procyon.org.uk> <156138533403.25627.4606280739806094239.stgit@warthog.procyon.org.uk>
+To:     Christian Brauner <christian@brauner.io>
+Cc:     dhowells@redhat.com, viro@zeniv.linux.org.uk, raven@themaw.net,
+        mszeredi@redhat.com, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 01/25] vfs: syscall: Add fsinfo() to query filesystem information [ver #14]
 MIME-Version: 1.0
-In-Reply-To: <541e9ea1-024f-5c22-0b58-f8692e6c1eb1@landley.net>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.220.96.108]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <7559.1561542552.1@warthog.procyon.org.uk>
+Content-Transfer-Encoding: 8BIT
+Date:   Wed, 26 Jun 2019 10:49:12 +0100
+Message-ID: <7560.1561542552@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.46]); Wed, 26 Jun 2019 09:49:15 +0000 (UTC)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 6/3/2019 8:32 PM, Rob Landley wrote:
-> On 6/3/19 4:31 AM, Roberto Sassu wrote:
->>> This patch set aims at solving the following use case: appraise files from
->>> the initial ram disk. To do that, IMA checks the signature/hash from the
->>> security.ima xattr. Unfortunately, this use case cannot be implemented
->>> currently, as the CPIO format does not support xattrs.
->>>
->>> This proposal consists in including file metadata as additional files named
->>> METADATA!!!, for each file added to the ram disk. The CPIO parser in the
->>> kernel recognizes these special files from the file name, and calls the
->>> appropriate parser to add metadata to the previously extracted file. It has
->>> been proposed to use bit 17:16 of the file mode as a way to recognize files
->>> with metadata, but both the kernel and the cpio tool declare the file mode
->>> as unsigned short.
->>
->> Any opinion on this patch set?
->>
->> Thanks
->>
->> Roberto
+Christian Brauner <christian@brauner.io> wrote:
+
+> > +	return sizeof(*p);
 > 
-> Sorry, I've had the window open since you posted it but haven't gotten around to
-> it. I'll try to build it later today.
+> Hm, the discrepancy between the function signature returning int and
+> the sizeof operator most likely being size_t is bothering me. It
+> probably doesn't matter but maybe we can avoid that.
+
+If sizeof(*p) exceeds 4096, the buffer is going to have been overrun by this
+point anyway.
+
+The function can't return size_t, though it could return ssize_t.  I could
+switch it to return long or even store the result in fsinfo_kparams::usage and
+return 0.
+
+> > +	strlcpy(p->f_fs_name, path->dentry->d_sb->s_type->name,
+> > +		sizeof(p->f_fs_name));
 > 
-> It does look interesting, and I have no objections to the basic approach. I
-> should be able to add support to toybox cpio over a weekend once I've got the
-> kernel doing it to test against.
+> Truncation is acceptable or impossible I assume?
 
-Ok.
+I'm hoping that file_system_type::name isn't going to exceed 15 chars plus
+NUL.  If it does, it will be truncated.  I don't really want to add an
+individual attribute just for the filesystem driver name.
 
-Let me give some instructions so that people can test this patch set.
+> > +#define _gen(X, Y) FSINFO_ATTR_##X: return fsinfo_generic_##Y(path, params->buffer)
+> 
+> I'm really not sure that this helps readability in the switch below... :)
+> 
+> > +
+> > +	switch (params->request) {
+> > +	case _gen(STATFS,		statfs);
+> > +	case _gen(IDS,			ids);
+> > +	case _gen(LIMITS,		limits);
+> > +	case _gen(SUPPORTS,		supports);
+> > +	case _gen(CAPABILITIES,		capabilities);
+> > +	case _gen(TIMESTAMP_INFO,	timestamp_info);
+> > ...
 
-To add xattrs to the ram disk embedded in the kernel it is sufficient
-to set CONFIG_INITRAMFS_FILE_METADATA="xattr" and
-CONFIG_INITRAMFS_SOURCE="<file with xattr>" in the kernel configuration.
+I'm trying to avoid having to spend multiple lines per case and tabulation
+makes things easier to read.  So
 
-To add xattrs to the external ram disk, it is necessary to patch cpio:
+	case FSINFO_ATTR_SUPPORTS:		return fsinfo_generic_supports(path, params->buffer);
+	case FSINFO_ATTR_CAPABILITIES:		return fsinfo_generic_capabilities(path, params->buffer);
+	case FSINFO_ATTR_TIMESTAMP_INFO:	return fsinfo_generic_timestamp_info(path, params->buffer);
 
-https://github.com/euleros/cpio/commit/531cabc88e9ecdc3231fad6e4856869baa9a91ef 
-(xattr-v1 branch)
+is a bit on the long side per line, whereas:
 
-and dracut:
+	case FSINFO_ATTR_SUPPORTS:
+		return fsinfo_generic_supports(path, params->buffer);
+	case FSINFO_ATTR_CAPABILITIES:
+		return fsinfo_generic_capabilities(path, params->buffer);
+	case FSINFO_ATTR_TIMESTAMP_INFO:
+		return fsinfo_generic_timestamp_info(path, params->buffer);
 
-https://github.com/euleros/dracut/commit/a2dee56ea80495c2c1871bc73186f7b00dc8bf3b 
-(digest-lists branch)
+is less readable by interleaving two of the three columns.  (Note that _gen is
+a actually third column as I introduce alternatives later).
 
-The same modification can be done for mkinitramfs (add '-e xattr' to the
-cpio command line).
+> > +		if (ret <= (int)params->buf_size)
+> 
+> He, and this is where the return value discrepancy hits again. Just
+> doesn't look nice tbh. :)
 
-To simplify the test, it would be sufficient to replace only the cpio
-binary and the dracut script with the modified versions. For dracut, the
-patch should be applied to the local dracut (after it has been renamed
-to dracut.sh).
+No.  That's dealing with signed/unsigned comparison.  It might be better if I
+change this to:
 
-Then, run:
+		if (IS_ERR_VALUE(ret))
+			return ret; /* Error */
+		if ((unsigned int)ret <= params->buf_size)
+			return ret; /* It fitted */
 
-dracut -e xattr -I <file with xattr> (add -f to overwrite the ram disk)
+In any case, buf_size isn't permitted to be larger than INT_MAX due to a check
+later in the loop.
 
-Xattrs can be seen by stopping the boot process for example by adding
-rd.break to the kernel command line.
+> > +		kvfree(params->buffer);
+> 
+> That means callers should always memset fsinfo_kparams or this is an
+> invalid free...
 
-Roberto
+vfs_info() isn't a public function.  And, in any case, the caller *must*
+provide a buffer here.
 
--- 
-HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
-Managing Director: Bo PENG, Jian LI, Yanli SHI
+> > + * Return buffer information by requestable attribute.
+> > + *
+> > + * STRUCT indicates a fixed-size structure with only one instance.
+> > ...
+> I honestly have a hard time following the documentation here
+
+How about:
+
+ * STRUCT	- a fixed-size structure with only one instance.
+ * STRUCT_N	- a sequence of STRUCTs, indexed by Nth
+ * STRUCT_NM	- a sequence of sequences of STRUCTs, indexed by Nth, Mth
+ * STRING	- a string with only one instance.
+ * STRING_N	- a sequence of STRING, indexed by Nth
+ * STRING_NM	- a sequence of sequences of STRING, indexed by Nth, Mth
+ * OPAQUE	- a blob that can be larger than 4K.
+ * STRUCT_ARRAY - an array of structs that can be larger than 4K
+
+> and that monster table/macro thing below.  For example, STRUCT_NM
+> corresponds to __FSINFO_NM or what?
+
+STRUCT_NM -> .type = __FSINFO_STRUCT, .flags = __FSINFO_NM, .size = ...
+
+If you think this is bad, you should try looking at the device ID tables used
+by the drivers and the attribute tables;-)
+
+I could spell out the flag and type in the macro defs (such as the body of
+FSINFO_STRING(X,Y) for instance).  It would make it harder to compare macros
+as it wouldn't then tabulate, though.
+
+> And is this uapi as you're using this in your samples/test below?
+
+Not exactly.  Each attribute is defined as being a certain type in the
+documentation in the UAPI header, but this is not coded there.  The assumption
+being that if you're using a particular attribute, you'll know what the type
+of the attribute is and you'll structure your code appropriately.
+
+The reason the sample code has this replicated is that it doesn't really
+attempt to interpret the type per se.  It has a dumper for an individual
+attribute value, but the table tells it whether there should be one of those,
+N of those or N of M(0), M(1), M(2), ... of those so that it can report an
+error if it doesn't see what it expects.
+
+I could even cheaply provide a meta attribute that dumps the contents of the
+table (just the type info, not the names).
+
+> > ...
+> > +	FSINFO_STRING		(NAME_ENCODING,		-),
+> > +	FSINFO_STRING		(NAME_CODEPAGE,		-),
+> > +};
+> 
+> Can I complain again that this is really annoying to parse.
+
+Apparently you can;-)  What would you prefer?  This:
+
+static const struct fsinfo_attr_info fsinfo_buffer_info[FSINFO_ATTR__NR] = {
+	[FSINFO_STATFS] = {
+		.type	= __FSINFO_STRUCT,
+		.size	= sizeof(struct fsinfo_statfs),
+	},
+	[FSINFO_SERVERS] = {
+		.type	= __FSINFO_STRUCT,
+		.flags	= __FSINFO_NM,
+		.size	= sizeof(struct fsinfo_server),
+	},
+	...
+};	
+
+That has 3-5 lines for each 1 in the current code and isn't a great deal more
+readable.
+
+> if (copy_to_user()) and if (clear_user()) and not if (clear_user() != 0)
+
+Better "if (copy_to_user() != 0)" since it's not a boolean return value in
+either case.
+
+> Nit: There's a bunch of name inconsistency for the arguments between the
+> stub and the definition:
+> 
+> SYSCALL_DEFINE5(fsinfo,
+> 		int, dfd, const char __user *, filename,
+> 		struct fsinfo_params __user *, _params,
+> 		void __user *, user_buffer, size_t, user_buf_size)
+
+Yeah.  C just doesn't care.
+
+I'll change filename to pathname throughout.  That's at least consistent with
+various glibc manpages for other vfs syscalls.
+
+_params I can change to params and params as-was to kparams.
+
+But user_buffer and user_buf_size, I'll keep as I've named them such to avoid
+confusion with kparams->buffer and kparams->scratch_buffer.  However, I
+wouldn't want to call them that in the UAPI.
+
+> Do we do SPDX that way? Or isn't this just supposed to be:
+> // <spdxy stuff>
+
+Look in, say, include/uapi/linux/stat.h or .../fs.h.
+
+> > +	FSINFO_ATTR__NR
+> 
+> Nit/Bikeshed: FSINFO_ATTR_MAX? Seems more intuitive.
+
+No.  That would imply a limit that it will never exceed.
+
+> > +struct fsinfo_u128 {
+> > +#if defined(__BYTE_ORDER) ? __BYTE_ORDER == __BIG_ENDIAN : defined(__BIG_ENDIAN)
+> > +	__u64	hi;
+> > +	__u64	lo;
+> > +#elif defined(__BYTE_ORDER) ? __BYTE_ORDER == __LITTLE_ENDIAN : defined(__LITTLE_ENDIAN)
+> > +	__u64	lo;
+> > +	__u64	hi;
+> > +#endif
+> > +};
+> 
+> Hm, I know why you do this custom fsinfo_u128 thingy but for userspace
+> that is going to be annoying to operate with, e.g. comparing the
+> size/space of two filesystems etc.
+
+We don't have a __u128 in the UAPI, and I'm reluctant to use __uint128_t.
+
+Do you have a better suggestion?
+
+> > +struct fsinfo_ids {
+> > +	char	f_fs_name[15 + 1];	/* Filesystem name */
+> 
+> You should probably make this a macro so userspace can use it in fs-name
+> length checks too.
+
+The name length, you mean?  Well, you can use sizeof...
+
+> > +	FSINFO_CAP__NR
+> 
+> Hm, again, maybe better to use FSINFO_CAP_MAX?
+
+It's not a limit.
+
+David
