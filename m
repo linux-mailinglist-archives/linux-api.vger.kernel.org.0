@@ -2,75 +2,95 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E2DF258E6C
-	for <lists+linux-api@lfdr.de>; Fri, 28 Jun 2019 01:17:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C59458E7A
+	for <lists+linux-api@lfdr.de>; Fri, 28 Jun 2019 01:23:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726707AbfF0XR7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 27 Jun 2019 19:17:59 -0400
-Received: from mail-io1-f66.google.com ([209.85.166.66]:35281 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726599AbfF0XR7 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 27 Jun 2019 19:17:59 -0400
-Received: by mail-io1-f66.google.com with SMTP id m24so8592319ioo.2
-        for <linux-api@vger.kernel.org>; Thu, 27 Jun 2019 16:17:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1ALt8d0AtAjsRjrBD8rKsbA1G2O0Y0X5Cg7cv209nE4=;
-        b=aU9s6q0Gw5jxFhUMjcSh770eZamw7jwmsQtPSF3OsojwjJFkj/vdbzg1uaasp6O8oC
-         5Lf3Iylyam/fkMhb8IeT/68P8BTYkIsHI7vQ1GPqKc88kecKDHl2WC5/8te3z2WBI0Qn
-         GcvLKKGe42nXpXjVYDLUDxBy0h88aHmFLnnxMaBSeVl0DYkoN2HA9rSmkVseW8dwgwZT
-         vq+yckoAVxXmA1g0SqgcQ40WeZxmKDNcr597rc7c0Hek93KVhbjPOLKlC3lbT9+wUCJ6
-         2ANHgiLq+yJhPrxCs/QctQgXz782a+MotcpW5OxWyVZWuus/ZiT/xHuN/4vSOSGpSROl
-         c1kA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1ALt8d0AtAjsRjrBD8rKsbA1G2O0Y0X5Cg7cv209nE4=;
-        b=PkAYo/8zhrq5NmewRcuGztTI1SUImaKyXUgRXGkICNrCXMcSSXqOseBM/FwMGIywKm
-         KB9u4n9eem+n4OmAm5OtkalElBvSf74wmYNuGLuXEekjQDljuHSrcefvY3WpX31rpoE5
-         hJX5sYuihf77KoIwx/bQqzFP6vGmfeqZMMOQ7ZX2CKuOApMPJiVhZ9VU2VXVso3Wahid
-         M8BqAqw29QSJU8wfUZudf2oKAa6fcX1HH1YwbopyRW2EvKehQkgwJBwH/bR+nUy7VIX0
-         e2RhntfasxHXnUjfdKDnQGD6cjJ7r8zFaluI+qOSrmODeHQ+JrLgXAjhty5+wXf7U3F2
-         LQBw==
-X-Gm-Message-State: APjAAAXhEASUnfwreI0jm8mQUjzd/c8CRuodk23r+556w7F+uMpRjU6r
-        XpKfWV8v8RngnjKjfetLZkSyqrCYBUoxNgN5QaZJmw==
-X-Google-Smtp-Source: APXvYqyOUB8xbkKRjPyKPBurKBA+e3hSaS/yPPQW2nJi/+xOea08zQ3i0BDwUHECu+YT1wis6SvkIp+6xGsGO0jzQ9k=
-X-Received: by 2002:a6b:8dcf:: with SMTP id p198mr7960681iod.46.1561677478172;
- Thu, 27 Jun 2019 16:17:58 -0700 (PDT)
+        id S1726567AbfF0XXY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 27 Jun 2019 19:23:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47450 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726574AbfF0XXY (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 27 Jun 2019 19:23:24 -0400
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id DAF3F215EA
+        for <linux-api@vger.kernel.org>; Thu, 27 Jun 2019 23:23:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1561677803;
+        bh=kXB0eS8pT4D+hcUPC2PR+0kOliEd8dU5IchIN1Hskt8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Rzq1Mbzi52Cqr9tKPeg9PIx8m2rEDwxZVowrCg4wXtLlpuP3Jtc9v39mqsgGyUHQK
+         B2+ijaiqQJoVHPKsrkPR0z6M98vReMp2FiiOoxvRob9yvo2r8Pc/wvGfzpI3jaEGyw
+         a2EWhBxJIOcI/YW0Ql/gicAhLgjR8qyIc6OQWpyA=
+Received: by mail-wr1-f42.google.com with SMTP id v14so4308564wrr.4
+        for <linux-api@vger.kernel.org>; Thu, 27 Jun 2019 16:23:22 -0700 (PDT)
+X-Gm-Message-State: APjAAAV58pRPpGZH5AfLGs28UhZl5pqYaMPcxZ7jtdMdOUd/NzR1nhkd
+        xhjQKSnmb79XBTw1+lcRyJggP4Alanfu5cN08kWWbw==
+X-Google-Smtp-Source: APXvYqzjr/QH+PIoGqS71dCctuNtbCVXYhiRJONwF8d9fXg29Z5HH0Te+o3LGa7ZOuGFyx26xlvsCSwEDCX8Q8cBEy0=
+X-Received: by 2002:a5d:6a42:: with SMTP id t2mr5110416wrw.352.1561677801383;
+ Thu, 27 Jun 2019 16:23:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190622000358.19895-1-matthewgarrett@google.com>
- <20190622000358.19895-10-matthewgarrett@google.com> <alpine.LRH.2.21.1906271423070.16512@namei.org>
- <CACdnJusJeCYPKVFHiu6yn+mfqQe5k0RqZhbCUZEkxtXx_shMmw@mail.gmail.com> <alpine.LRH.2.21.1906280411370.18880@namei.org>
-In-Reply-To: <alpine.LRH.2.21.1906280411370.18880@namei.org>
-From:   Matthew Garrett <mjg59@google.com>
-Date:   Thu, 27 Jun 2019 16:17:46 -0700
-Message-ID: <CACdnJuvRtQWFknzxLwKc6erCBZ3+6tXmabEdRuXXGTGrYEAp6w@mail.gmail.com>
-Subject: Re: [PATCH V34 09/29] kexec_file: Restrict at runtime if the kernel
- is locked down
-To:     James Morris <jmorris@namei.org>
-Cc:     LSM List <linux-security-module@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+References: <20190621011941.186255-1-matthewgarrett@google.com>
+ <20190621011941.186255-25-matthewgarrett@google.com> <CALCETrVUwQP7roLnW6kFG80Cc5U6X_T6AW+BTAftLccYGp8+Ow@mail.gmail.com>
+ <alpine.LRH.2.21.1906270621080.28132@namei.org> <6E53376F-01BB-4795-BC02-24F9CAE00001@amacapital.net>
+ <bce70c8b-9efd-6362-d536-cfbbcf70b0b7@tycho.nsa.gov> <alpine.LRH.2.21.1906280332500.17363@namei.org>
+ <de8b15eb-ba6c-847a-7435-42742203d4a5@tycho.nsa.gov> <CACdnJuuG8cR7h9v3pNcBKsxyckAzpKuBJs1GQxsz77jk5DRoQA@mail.gmail.com>
+In-Reply-To: <CACdnJuuG8cR7h9v3pNcBKsxyckAzpKuBJs1GQxsz77jk5DRoQA@mail.gmail.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Thu, 27 Jun 2019 16:23:10 -0700
+X-Gmail-Original-Message-ID: <CALCETrU7JVH7LR3d_=s-O=b2bjevTLw2rSm5g50UjaUB2PTY5A@mail.gmail.com>
+Message-ID: <CALCETrU7JVH7LR3d_=s-O=b2bjevTLw2rSm5g50UjaUB2PTY5A@mail.gmail.com>
+Subject: Re: [PATCH V33 24/30] bpf: Restrict bpf when kernel lockdown is in
+ confidentiality mode
+To:     Matthew Garrett <mjg59@google.com>
+Cc:     Stephen Smalley <sds@tycho.nsa.gov>,
+        James Morris <jmorris@namei.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        linux-security@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
-        Jiri Bohac <jbohac@suse.cz>,
-        David Howells <dhowells@redhat.com>, kexec@lists.infradead.org
+        David Howells <dhowells@redhat.com>,
+        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Network Development <netdev@vger.kernel.org>,
+        Chun-Yi Lee <jlee@suse.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        LSM List <linux-security-module@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jun 27, 2019 at 11:14 AM James Morris <jmorris@namei.org> wrote:
+On Thu, Jun 27, 2019 at 4:16 PM Matthew Garrett <mjg59@google.com> wrote:
 >
-> On Thu, 27 Jun 2019, Matthew Garrett wrote:
+> On Thu, Jun 27, 2019 at 1:16 PM Stephen Smalley <sds@tycho.nsa.gov> wrote:
+> > That would only allow the LSM to further lock down the system above the
+> > lockdown level set at boot, not grant exemptions for specific
+> > functionality/interfaces required by the user or by a specific
+> > process/program. You'd have to boot with lockdown=none (or your
+> > lockdown=custom suggestion) in order for the LSM to allow anything
+> > covered by the integrity or confidentiality levels.  And then the kernel
+> > would be unprotected prior to full initialization of the LSM, including
+> > policy load.
+> >
+> > It seems like one would want to be able to boot with lockdown=integrity
+> > to protect the kernel initially, then switch over to allowing the LSM to
+> > selectively override it.
 >
-> > By that metric, on a secure boot system how do we determine that code
-> > running in the firmware environment wasn't compromised before it
-> > launched the initial signed kernel?
->
-> Remote attestation tied to a hardware root of trust, before allowing
-> access to any further resources.
+> One option would be to allow modules to be "unstacked" at runtime, but
+> there's still something of a problem here - how do you ensure that
+> your userland can be trusted to load a new policy before it does so?
+> If you're able to assert that your early userland is trustworthy
+> (perhaps because it's in an initramfs that's part of your signed boot
+> payload), there's maybe an argument that most of the lockdown
+> integrity guarantees are unnecessary before handoff - just using the
+> lockdown LSM to protect against attacks via kernel parameters would be
+> sufficient.
 
-If you use IMA you can get the same guarantees over kexec.
+I think that, if you don't trust your system enough to avoid
+compromising itself before policy load, then your MAC policy is more
+or less dead in the water.  It seems to be that it ought to be good
+enough to boot with lockdown=none and then have a real policy loaded
+along with the rest of the MAC policy.  Or, for applications that need
+to be stricter, you accept that MAC policy can't override lockdown.
