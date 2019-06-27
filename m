@@ -2,100 +2,103 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6606D58973
-	for <lists+linux-api@lfdr.de>; Thu, 27 Jun 2019 20:06:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4CF25897F
+	for <lists+linux-api@lfdr.de>; Thu, 27 Jun 2019 20:08:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726498AbfF0SGF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 27 Jun 2019 14:06:05 -0400
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:44481 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726520AbfF0SGF (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 27 Jun 2019 14:06:05 -0400
-Received: by mail-ed1-f66.google.com with SMTP id k8so7918855edr.11
-        for <linux-api@vger.kernel.org>; Thu, 27 Jun 2019 11:06:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shutemov-name.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=GNTzyha5uolkaXE/AKF7PBU/m2fQYAR8jso3b3bQxho=;
-        b=m6y4j+YlgNsr629H/6PD1n/d7eQF/bkBheIl52SPCTGjhkZInu9kwhWyV6xo8kNYKD
-         yW9xvLn6tcc/UhZ1t9w/7oCSIK6Vc7cAeNF1ujw0cWYoJ9L/EQaeAzVlDBsh5qQ+HxLB
-         cH8PNBx5HRUIS74qnr91FI0M1RH074hNCCfXwE6ggsWmq6s/U7RoOlHwvpFF7HgPvyyw
-         mjUyDP0Ghj3HoGxJp9lxEM2ZpSP6k9xFp1U/VO4rny6J3/W+RU9TtSfWSvoedcg/FZM3
-         kNrp0BPWz4YjtLT0DHh2S/BgmzEt18f4tLKDNfLy9n9rAu/D4lhFEBrdEyZkl6qjrCpG
-         +NjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=GNTzyha5uolkaXE/AKF7PBU/m2fQYAR8jso3b3bQxho=;
-        b=LWBF3c//4wx1OdDWAvz6pRPmMB7/sko/VzHFaedwTqqo1ychvpDeONwFdoHXP+ARe0
-         bds3Qoq7MI1GfUydS5x3KO2KhXxJ3tLO+GUlSSR4RDxPhOOQzwqrMkbxqcJeg5pW1vc+
-         rKdtZs7KkNC7cDpY7ixaOpBFHPC6iB4Tl76EyBYp4wy95gPQD90C5xqzFSHzNbVFzb9S
-         hFOBiwkL/xmXk3u0ZoNRGPRRu9vSg2hsOaGZHON5NSf9WRQ1bE4ga2N94j0Hh9IOuZT2
-         5TXZoZ9Yy91FLn6Mqop/9fT4gkNy91D0q1Vq9P8Pd1bByQMAR3vBrgtwLzDbtmmbBs1w
-         kmvg==
-X-Gm-Message-State: APjAAAWX4oSJR95d42ncPNTKiAzsJ6Bko2O/7DU5sIiiO9hEIjXXae3a
-        hdZvAUO5q7sRbsoOBA1QsVKz9w==
-X-Google-Smtp-Source: APXvYqzGenvzx0Y0XnRI9xMYTAF7M9wkR56sl8+MbNVoy/EGzYm6e5vo9AYG/tf+nQsmZ+uVL9oupw==
-X-Received: by 2002:a50:ac46:: with SMTP id w6mr6202710edc.238.1561658763449;
-        Thu, 27 Jun 2019 11:06:03 -0700 (PDT)
-Received: from box.localdomain ([86.57.175.117])
-        by smtp.gmail.com with ESMTPSA id d36sm934170ede.23.2019.06.27.11.06.02
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 27 Jun 2019 11:06:02 -0700 (PDT)
-Received: by box.localdomain (Postfix, from userid 1000)
-        id E28C7103747; Thu, 27 Jun 2019 21:06:01 +0300 (+03)
-Date:   Thu, 27 Jun 2019 21:06:01 +0300
-From:   "Kirill A. Shutemov" <kirill@shutemov.name>
-To:     Minchan Kim <minchan@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        linux-mm <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-api@vger.kernel.org,
-        Michal Hocko <mhocko@suse.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Tim Murray <timmurray@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Sonny Rao <sonnyrao@google.com>, oleksandr@redhat.com,
-        hdanton@sina.com, lizeb@google.com,
-        Dave Hansen <dave.hansen@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH v3 0/5] Introduce MADV_COLD and MADV_PAGEOUT
-Message-ID: <20190627180601.xcppuzia3gk57lq2@box>
-References: <20190627115405.255259-1-minchan@kernel.org>
+        id S1726601AbfF0SII (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 27 Jun 2019 14:08:08 -0400
+Received: from namei.org ([65.99.196.166]:49158 "EHLO namei.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726519AbfF0SII (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 27 Jun 2019 14:08:08 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by namei.org (8.14.4/8.14.4) with ESMTP id x5RI6c5Z018737;
+        Thu, 27 Jun 2019 18:06:38 GMT
+Date:   Fri, 28 Jun 2019 04:06:38 +1000 (AEST)
+From:   James Morris <jmorris@namei.org>
+To:     Stephen Smalley <sds@tycho.nsa.gov>
+cc:     Andy Lutomirski <luto@amacapital.net>,
+        Andy Lutomirski <luto@kernel.org>,
+        Matthew Garrett <matthewgarrett@google.com>,
+        linux-security@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        David Howells <dhowells@redhat.com>,
+        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Matthew Garrett <mjg59@google.com>,
+        Network Development <netdev@vger.kernel.org>,
+        Chun-Yi Lee <jlee@suse.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        linux-security-module@vger.kernel.org
+Subject: Re: [PATCH V33 24/30] bpf: Restrict bpf when kernel lockdown is in
+ confidentiality mode
+In-Reply-To: <bce70c8b-9efd-6362-d536-cfbbcf70b0b7@tycho.nsa.gov>
+Message-ID: <alpine.LRH.2.21.1906280332500.17363@namei.org>
+References: <20190621011941.186255-1-matthewgarrett@google.com> <20190621011941.186255-25-matthewgarrett@google.com> <CALCETrVUwQP7roLnW6kFG80Cc5U6X_T6AW+BTAftLccYGp8+Ow@mail.gmail.com> <alpine.LRH.2.21.1906270621080.28132@namei.org>
+ <6E53376F-01BB-4795-BC02-24F9CAE00001@amacapital.net> <bce70c8b-9efd-6362-d536-cfbbcf70b0b7@tycho.nsa.gov>
+User-Agent: Alpine 2.21 (LRH 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190627115405.255259-1-minchan@kernel.org>
-User-Agent: NeoMutt/20180716
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jun 27, 2019 at 08:54:00PM +0900, Minchan Kim wrote:
-> - Problem
-> 
-> Naturally, cached apps were dominant consumers of memory on the system.
-> However, they were not significant consumers of swap even though they are
-> good candidate for swap. Under investigation, swapping out only begins
-> once the low zone watermark is hit and kswapd wakes up, but the overall
-> allocation rate in the system might trip lmkd thresholds and cause a cached
-> process to be killed(we measured performance swapping out vs. zapping the
-> memory by killing a process. Unsurprisingly, zapping is 10x times faster
-> even though we use zram which is much faster than real storage) so kill
-> from lmkd will often satisfy the high zone watermark, resulting in very
-> few pages actually being moved to swap.
+On Thu, 27 Jun 2019, Stephen Smalley wrote:
 
-Maybe we should look if we do The Right Thing™ at system-wide level before
-introducing new API? How changing swappiness affects your workloads? What
-is swappiness value in your setup?
+> There are two scenarios where finer-grained distinctions make sense:
+> 
+> - Users may need to enable specific functionality that falls under the
+> umbrella of "confidentiality" or "integrity" lockdown.  Finer-grained lockdown
+> reasons free them from having to make an all-or-nothing choice between lost
+> functionality or no lockdown at all.
+
+Agreed. This will be used for more than just UEFI secure boot on desktops, 
+e.g. embedded systems using verified boot, where finer grained policy will 
+be needed for what are sometimes very specific use-cases (which may be 
+also covered by other mitigations).
+
+> This can be supported directly by the
+> lockdown module without any help from SELinux or other security modules; we
+> just need the ability to specify these finer-grained lockdown levels via the
+> boot parameters and securityfs nodes.
+
+If the lockdown LSM implements fine grained policy (rather than the simple 
+coarse grained policy), I'd suggest adding a new lockdown level of 
+'custom' which by default enables all hooks but allows selective 
+disablement via params/sysfs.
+
+This would be simpler than telling users to use a different lockdown LSM 
+for this.
+
+> - Different processes/programs may need to use different sets of functionality
+> restricted via lockdown confidentiality or integrity categories.  If we have
+> to allow all-or-none for the set of interfaces/functionality covered by the
+> generic confidentiality or integrity categories, then we'll end up having to
+> choose between lost functionality or overprivileged processes, neither of
+> which is optimal.
+> 
+> Is it truly the case that everything under the "confidentiality" category
+> poses the same level of risk to kernel confidentiality, and similarly for
+> everything under the "integrity" category?  If not, then being able to
+> distinguish them definitely has benefit.
+
+Good question. We can't know the answer to this unless we know how an 
+attacker might leverage access.
+
+The value here IMHO is more in allowing tradeoffs to be made by system 
+designers vs. disabling lockdown entirely.
+
+> I'm still not clear though on how/if this will compose with or be overridden
+> by other security modules.  We would need some means for another security
+> module to take over lockdown decisions once it has initialized (including
+> policy load), and to be able to access state that is currently private to the
+> lockdown module, like the level.
+
+Why not utilize stacking (restrictively), similarly to capabilities?
+
 
 -- 
- Kirill A. Shutemov
+James Morris
+<jmorris@namei.org>
+
