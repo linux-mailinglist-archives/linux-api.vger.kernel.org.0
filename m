@@ -2,122 +2,453 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BD0B5832C
-	for <lists+linux-api@lfdr.de>; Thu, 27 Jun 2019 15:13:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6EDC583F7
+	for <lists+linux-api@lfdr.de>; Thu, 27 Jun 2019 15:57:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726425AbfF0NNj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 27 Jun 2019 09:13:39 -0400
-Received: from mga02.intel.com ([134.134.136.20]:52238 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726059AbfF0NNi (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 27 Jun 2019 09:13:38 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 27 Jun 2019 06:13:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,423,1557212400"; 
-   d="scan'208";a="170416999"
-Received: from jrschiff-mobl.amr.corp.intel.com (HELO [10.251.13.147]) ([10.251.13.147])
-  by FMSMGA003.fm.intel.com with ESMTP; 27 Jun 2019 06:13:36 -0700
-Subject: Re: [PATCH v3 1/5] mm: introduce MADV_COLD
-To:     Minchan Kim <minchan@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     linux-mm <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
-        linux-api@vger.kernel.org, Michal Hocko <mhocko@suse.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Tim Murray <timmurray@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Sonny Rao <sonnyrao@google.com>, oleksandr@redhat.com,
-        hdanton@sina.com, lizeb@google.com,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-References: <20190627115405.255259-1-minchan@kernel.org>
- <20190627115405.255259-2-minchan@kernel.org>
-From:   Dave Hansen <dave.hansen@intel.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-Message-ID: <343599f9-3d99-b74f-1732-368e584fa5ef@intel.com>
-Date:   Thu, 27 Jun 2019 06:13:36 -0700
+        id S1726497AbfF0N5i (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 27 Jun 2019 09:57:38 -0400
+Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:50502 "EHLO
+        forwardcorp1j.mail.yandex.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726480AbfF0N5i (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 27 Jun 2019 09:57:38 -0400
+Received: from mxbackcorp1g.mail.yandex.net (mxbackcorp1g.mail.yandex.net [IPv6:2a02:6b8:0:1402::301])
+        by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id BAF9F2E0991;
+        Thu, 27 Jun 2019 16:57:23 +0300 (MSK)
+Received: from smtpcorp1o.mail.yandex.net (smtpcorp1o.mail.yandex.net [2a02:6b8:0:1a2d::30])
+        by mxbackcorp1g.mail.yandex.net (nwsmtp/Yandex) with ESMTP id A9QfKAEBFd-vKmmcEX6;
+        Thu, 27 Jun 2019 16:57:23 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru; s=default;
+        t=1561643843; bh=SGYkaK+Rlbq+Uc7ERgjWGNaZgL9QynbVGqBIggRLS3w=;
+        h=In-Reply-To:Message-ID:From:Date:References:To:Subject:Cc;
+        b=TmIBiFqI6uM3l95NO9ustp4eRdIjTeBMjtd31VpWL0RprfGb6zWlFQ5y9pFXfBs/X
+         1FTPfF7JiMfFZYD5r7z2GONAAxznFsTe2jnC4xfFGggamopna8V2i8JlEDp1xZ+HDY
+         vvA/q8ee7ai60eFDK3uq1Cd7RpciF0IizCey09ys=
+Authentication-Results: mxbackcorp1g.mail.yandex.net; dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-spb.dhcp.yndx.net (dynamic-spb.dhcp.yndx.net [2a02:6b8:0:2309:2859:dd95:c83d:83e8])
+        by smtpcorp1o.mail.yandex.net (nwsmtp/Yandex) with ESMTPSA id OPDXcNBkSF-vICKkb6W;
+        Thu, 27 Jun 2019 16:57:20 +0300
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (Client certificate not present)
+Subject: Re: [PATCH v3 1/2] pid: add pidfd_open()
+To:     Christian Brauner <christian@brauner.io>, jannh@google.com,
+        oleg@redhat.com, viro@zeniv.linux.org.uk,
+        torvalds@linux-foundation.org, linux-kernel@vger.kernel.org,
+        arnd@arndb.de
+Cc:     akpm@linux-foundation.org, cyphar@cyphar.com, dhowells@redhat.com,
+        ebiederm@xmission.com, elena.reshetova@intel.com,
+        keescook@chromium.org, luto@amacapital.net, luto@kernel.org,
+        tglx@linutronix.de, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, joel@joelfernandes.org,
+        dancol@google.com, serge@hallyn.com, surenb@google.com,
+        kernel-team@android.com
+References: <20190520155630.21684-1-christian@brauner.io>
+From:   Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
+Message-ID: <6d1cba6c-4dac-4d31-653e-e4211c75803a@yandex-team.ru>
+Date:   Thu, 27 Jun 2019 16:57:18 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.1
 MIME-Version: 1.0
-In-Reply-To: <20190627115405.255259-2-minchan@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190520155630.21684-1-christian@brauner.io>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-CA
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 6/27/19 4:54 AM, Minchan Kim wrote:
-> This patch introduces the new MADV_COLD hint to madvise(2) syscall.
-> MADV_COLD can be used by a process to mark a memory range as not expected
-> to be used in the near future. The hint can help kernel in deciding which
-> pages to evict early during memory pressure.
+On 20.05.2019 18:56, Christian Brauner wrote:
+> This adds the pidfd_open() syscall. It allows a caller to retrieve pollable
+> pidfds for a process which did not get created via CLONE_PIDFD, i.e. for a
+> process that is created via traditional fork()/clone() calls that is only
+> referenced by a PID:
 > 
-> It works for every LRU pages like MADV_[DONTNEED|FREE]. IOW, It moves
+> int pidfd = pidfd_open(1234, 0);
+> ret = pidfd_send_signal(pidfd, SIGSTOP, NULL, 0);
 > 
-> 	active file page -> inactive file LRU
-> 	active anon page -> inacdtive anon LRU
+> With the introduction of pidfds through CLONE_PIDFD it is possible to
+> created pidfds at process creation time.
+> However, a lot of processes get created with traditional PID-based calls
+> such as fork() or clone() (without CLONE_PIDFD). For these processes a
+> caller can currently not create a pollable pidfd. This is a problem for
+> Android's low memory killer (LMK) and service managers such as systemd.
+> Both are examples of tools that want to make use of pidfds to get reliable
+> notification of process exit for non-parents (pidfd polling) and race-free
+> signal sending (pidfd_send_signal()). They intend to switch to this API for
+> process supervision/management as soon as possible. Having no way to get
+> pollable pidfds from PID-only processes is one of the biggest blockers for
+> them in adopting this api. With pidfd_open() making it possible to retrieve
+> pidfds for PID-based processes we enable them to adopt this api.
+> 
+> In line with Arnd's recent changes to consolidate syscall numbers across
+> architectures, I have added the pidfd_open() syscall to all architectures
+> at the same time.
 
-Is the LRU behavior part of the interface or the implementation?
+As I see pidfd_open() works only within current pid-namespace.
 
-I ask because we've got something in between tossing something down the
-LRU and swapping it: page migration.  Specifically, on a system with
-slower memory media (like persistent memory) we just migrate a page
-instead of discarding it at reclaim:
+Have you considered separate argument for pidns-fd or flag for opening pid in
+pid-ns referred by nsproxy->pid_ns_for_children set by setns.
 
-> https://lore.kernel.org/linux-mm/20190321200157.29678-4-keith.busch@intel.com/
+This could be used for use cases I've tried to cover by syscall "translate_pid"
+https://lkml.org/lkml/2018/6/1/788
 
-So let's say I have a page I want to evict from DRAM to the next slower
-tier of memory.  Do I use MADV_COLD or MADV_PAGEOUT?  If the LRU
-behavior is part of the interface itself, then MADV_COLD doesn't work.
+> 
+> Signed-off-by: Christian Brauner <christian@brauner.io>
+> Reviewed-by: Oleg Nesterov <oleg@redhat.com>
+> Acked-by: Arnd Bergmann <arnd@arndb.de>
+> Cc: "Eric W. Biederman" <ebiederm@xmission.com>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Joel Fernandes (Google) <joel@joelfernandes.org>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Jann Horn <jannh@google.com>
+> Cc: David Howells <dhowells@redhat.com>
+> Cc: Andy Lutomirsky <luto@kernel.org>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Aleksa Sarai <cyphar@cyphar.com>
+> Cc: Linus Torvalds <torvalds@linux-foundation.org>
+> Cc: Al Viro <viro@zeniv.linux.org.uk>
+> Cc: linux-api@vger.kernel.org
+> ---
+> v1:
+> - kbuild test robot <lkp@intel.com>:
+>    - add missing entry for pidfd_open to arch/arm/tools/syscall.tbl
+> - Oleg Nesterov <oleg@redhat.com>:
+>    - use simpler thread-group leader check
+> v2:
+> - Oleg Nesterov <oleg@redhat.com>:
+>    - avoid using additional variable
+>    - remove unneeded comment
+> - Arnd Bergmann <arnd@arndb.de>:
+>    - switch from 428 to 434 since the new mount api has taken it
+>    - bump syscall numbers in arch/arm64/include/asm/unistd.h
+> - Joel Fernandes (Google) <joel@joelfernandes.org>:
+>    - switch from ESRCH to EINVAL when the passed-in pid does not refer to a
+>      thread-group leader
+> - Christian Brauner <christian@brauner.io>:
+>    - rebase on v5.2-rc1
+>    - adapt syscall number to account for new mount api syscalls
+> v3:
+> - Arnd Bergmann <arnd@arndb.de>:
+>    - add missing syscall entries for mips-o32 and mips-n64
+> ---
+>   arch/alpha/kernel/syscalls/syscall.tbl      |  1 +
+>   arch/arm/tools/syscall.tbl                  |  1 +
+>   arch/arm64/include/asm/unistd.h             |  2 +-
+>   arch/arm64/include/asm/unistd32.h           |  2 +
+>   arch/ia64/kernel/syscalls/syscall.tbl       |  1 +
+>   arch/m68k/kernel/syscalls/syscall.tbl       |  1 +
+>   arch/microblaze/kernel/syscalls/syscall.tbl |  1 +
+>   arch/mips/kernel/syscalls/syscall_n32.tbl   |  1 +
+>   arch/mips/kernel/syscalls/syscall_n64.tbl   |  1 +
+>   arch/mips/kernel/syscalls/syscall_o32.tbl   |  1 +
+>   arch/parisc/kernel/syscalls/syscall.tbl     |  1 +
+>   arch/powerpc/kernel/syscalls/syscall.tbl    |  1 +
+>   arch/s390/kernel/syscalls/syscall.tbl       |  1 +
+>   arch/sh/kernel/syscalls/syscall.tbl         |  1 +
+>   arch/sparc/kernel/syscalls/syscall.tbl      |  1 +
+>   arch/x86/entry/syscalls/syscall_32.tbl      |  1 +
+>   arch/x86/entry/syscalls/syscall_64.tbl      |  1 +
+>   arch/xtensa/kernel/syscalls/syscall.tbl     |  1 +
+>   include/linux/pid.h                         |  1 +
+>   include/linux/syscalls.h                    |  1 +
+>   include/uapi/asm-generic/unistd.h           |  4 +-
+>   kernel/fork.c                               |  2 +-
+>   kernel/pid.c                                | 43 +++++++++++++++++++++
+>   23 files changed, 68 insertions(+), 3 deletions(-)
+> 
+> diff --git a/arch/alpha/kernel/syscalls/syscall.tbl b/arch/alpha/kernel/syscalls/syscall.tbl
+> index 9e7704e44f6d..1db9bbcfb84e 100644
+> --- a/arch/alpha/kernel/syscalls/syscall.tbl
+> +++ b/arch/alpha/kernel/syscalls/syscall.tbl
+> @@ -473,3 +473,4 @@
+>   541	common	fsconfig			sys_fsconfig
+>   542	common	fsmount				sys_fsmount
+>   543	common	fspick				sys_fspick
+> +544	common	pidfd_open			sys_pidfd_open
+> diff --git a/arch/arm/tools/syscall.tbl b/arch/arm/tools/syscall.tbl
+> index aaf479a9e92d..81e6e1817c45 100644
+> --- a/arch/arm/tools/syscall.tbl
+> +++ b/arch/arm/tools/syscall.tbl
+> @@ -447,3 +447,4 @@
+>   431	common	fsconfig			sys_fsconfig
+>   432	common	fsmount				sys_fsmount
+>   433	common	fspick				sys_fspick
+> +434	common	pidfd_open			sys_pidfd_open
+> diff --git a/arch/arm64/include/asm/unistd.h b/arch/arm64/include/asm/unistd.h
+> index 70e6882853c0..e8f7d95a1481 100644
+> --- a/arch/arm64/include/asm/unistd.h
+> +++ b/arch/arm64/include/asm/unistd.h
+> @@ -44,7 +44,7 @@
+>   #define __ARM_NR_compat_set_tls		(__ARM_NR_COMPAT_BASE + 5)
+>   #define __ARM_NR_COMPAT_END		(__ARM_NR_COMPAT_BASE + 0x800)
+>   
+> -#define __NR_compat_syscalls		434
+> +#define __NR_compat_syscalls		435
+>   #endif
+>   
+>   #define __ARCH_WANT_SYS_CLONE
+> diff --git a/arch/arm64/include/asm/unistd32.h b/arch/arm64/include/asm/unistd32.h
+> index c39e90600bb3..7a3158ccd68e 100644
+> --- a/arch/arm64/include/asm/unistd32.h
+> +++ b/arch/arm64/include/asm/unistd32.h
+> @@ -886,6 +886,8 @@ __SYSCALL(__NR_fsconfig, sys_fsconfig)
+>   __SYSCALL(__NR_fsmount, sys_fsmount)
+>   #define __NR_fspick 433
+>   __SYSCALL(__NR_fspick, sys_fspick)
+> +#define __NR_pidfd_open 434
+> +__SYSCALL(__NR_pidfd_open, sys_pidfd_open)
+>   
+>   /*
+>    * Please add new compat syscalls above this comment and update
+> diff --git a/arch/ia64/kernel/syscalls/syscall.tbl b/arch/ia64/kernel/syscalls/syscall.tbl
+> index e01df3f2f80d..ecc44926737b 100644
+> --- a/arch/ia64/kernel/syscalls/syscall.tbl
+> +++ b/arch/ia64/kernel/syscalls/syscall.tbl
+> @@ -354,3 +354,4 @@
+>   431	common	fsconfig			sys_fsconfig
+>   432	common	fsmount				sys_fsmount
+>   433	common	fspick				sys_fspick
+> +434	common	pidfd_open			sys_pidfd_open
+> diff --git a/arch/m68k/kernel/syscalls/syscall.tbl b/arch/m68k/kernel/syscalls/syscall.tbl
+> index 7e3d0734b2f3..9a3eb2558568 100644
+> --- a/arch/m68k/kernel/syscalls/syscall.tbl
+> +++ b/arch/m68k/kernel/syscalls/syscall.tbl
+> @@ -433,3 +433,4 @@
+>   431	common	fsconfig			sys_fsconfig
+>   432	common	fsmount				sys_fsmount
+>   433	common	fspick				sys_fspick
+> +434	common	pidfd_open			sys_pidfd_open
+> diff --git a/arch/microblaze/kernel/syscalls/syscall.tbl b/arch/microblaze/kernel/syscalls/syscall.tbl
+> index 26339e417695..ad706f83c755 100644
+> --- a/arch/microblaze/kernel/syscalls/syscall.tbl
+> +++ b/arch/microblaze/kernel/syscalls/syscall.tbl
+> @@ -439,3 +439,4 @@
+>   431	common	fsconfig			sys_fsconfig
+>   432	common	fsmount				sys_fsmount
+>   433	common	fspick				sys_fspick
+> +434	common	pidfd_open			sys_pidfd_open
+> diff --git a/arch/mips/kernel/syscalls/syscall_n32.tbl b/arch/mips/kernel/syscalls/syscall_n32.tbl
+> index 0e2dd68ade57..97035e19ad03 100644
+> --- a/arch/mips/kernel/syscalls/syscall_n32.tbl
+> +++ b/arch/mips/kernel/syscalls/syscall_n32.tbl
+> @@ -372,3 +372,4 @@
+>   431	n32	fsconfig			sys_fsconfig
+>   432	n32	fsmount				sys_fsmount
+>   433	n32	fspick				sys_fspick
+> +434	n32	pidfd_open			sys_pidfd_open
+> diff --git a/arch/mips/kernel/syscalls/syscall_n64.tbl b/arch/mips/kernel/syscalls/syscall_n64.tbl
+> index 5eebfa0d155c..d7292722d3b0 100644
+> --- a/arch/mips/kernel/syscalls/syscall_n64.tbl
+> +++ b/arch/mips/kernel/syscalls/syscall_n64.tbl
+> @@ -348,3 +348,4 @@
+>   431	n64	fsconfig			sys_fsconfig
+>   432	n64	fsmount				sys_fsmount
+>   433	n64	fspick				sys_fspick
+> +434	n64	pidfd_open			sys_pidfd_open
+> diff --git a/arch/mips/kernel/syscalls/syscall_o32.tbl b/arch/mips/kernel/syscalls/syscall_o32.tbl
+> index 3cc1374e02d0..dba084c92f14 100644
+> --- a/arch/mips/kernel/syscalls/syscall_o32.tbl
+> +++ b/arch/mips/kernel/syscalls/syscall_o32.tbl
+> @@ -421,3 +421,4 @@
+>   431	o32	fsconfig			sys_fsconfig
+>   432	o32	fsmount				sys_fsmount
+>   433	o32	fspick				sys_fspick
+> +434	o32	pidfd_open			sys_pidfd_open
+> diff --git a/arch/parisc/kernel/syscalls/syscall.tbl b/arch/parisc/kernel/syscalls/syscall.tbl
+> index c9e377d59232..5022b9e179c2 100644
+> --- a/arch/parisc/kernel/syscalls/syscall.tbl
+> +++ b/arch/parisc/kernel/syscalls/syscall.tbl
+> @@ -430,3 +430,4 @@
+>   431	common	fsconfig			sys_fsconfig
+>   432	common	fsmount				sys_fsmount
+>   433	common	fspick				sys_fspick
+> +434	common	pidfd_open			sys_pidfd_open
+> diff --git a/arch/powerpc/kernel/syscalls/syscall.tbl b/arch/powerpc/kernel/syscalls/syscall.tbl
+> index 103655d84b4b..f2c3bda2d39f 100644
+> --- a/arch/powerpc/kernel/syscalls/syscall.tbl
+> +++ b/arch/powerpc/kernel/syscalls/syscall.tbl
+> @@ -515,3 +515,4 @@
+>   431	common	fsconfig			sys_fsconfig
+>   432	common	fsmount				sys_fsmount
+>   433	common	fspick				sys_fspick
+> +434	common	pidfd_open			sys_pidfd_open
+> diff --git a/arch/s390/kernel/syscalls/syscall.tbl b/arch/s390/kernel/syscalls/syscall.tbl
+> index e822b2964a83..6ebacfeaf853 100644
+> --- a/arch/s390/kernel/syscalls/syscall.tbl
+> +++ b/arch/s390/kernel/syscalls/syscall.tbl
+> @@ -436,3 +436,4 @@
+>   431  common	fsconfig		sys_fsconfig			sys_fsconfig
+>   432  common	fsmount			sys_fsmount			sys_fsmount
+>   433  common	fspick			sys_fspick			sys_fspick
+> +434  common	pidfd_open		sys_pidfd_open			sys_pidfd_open
+> diff --git a/arch/sh/kernel/syscalls/syscall.tbl b/arch/sh/kernel/syscalls/syscall.tbl
+> index 016a727d4357..834c9c7d79fa 100644
+> --- a/arch/sh/kernel/syscalls/syscall.tbl
+> +++ b/arch/sh/kernel/syscalls/syscall.tbl
+> @@ -436,3 +436,4 @@
+>   431	common	fsconfig			sys_fsconfig
+>   432	common	fsmount				sys_fsmount
+>   433	common	fspick				sys_fspick
+> +434	common	pidfd_open			sys_pidfd_open
+> diff --git a/arch/sparc/kernel/syscalls/syscall.tbl b/arch/sparc/kernel/syscalls/syscall.tbl
+> index e047480b1605..c58e71f21129 100644
+> --- a/arch/sparc/kernel/syscalls/syscall.tbl
+> +++ b/arch/sparc/kernel/syscalls/syscall.tbl
+> @@ -479,3 +479,4 @@
+>   431	common	fsconfig			sys_fsconfig
+>   432	common	fsmount				sys_fsmount
+>   433	common	fspick				sys_fspick
+> +434	common	pidfd_open			sys_pidfd_open
+> diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
+> index ad968b7bac72..43e4429a5272 100644
+> --- a/arch/x86/entry/syscalls/syscall_32.tbl
+> +++ b/arch/x86/entry/syscalls/syscall_32.tbl
+> @@ -438,3 +438,4 @@
+>   431	i386	fsconfig		sys_fsconfig			__ia32_sys_fsconfig
+>   432	i386	fsmount			sys_fsmount			__ia32_sys_fsmount
+>   433	i386	fspick			sys_fspick			__ia32_sys_fspick
+> +434	i386	pidfd_open		sys_pidfd_open			__ia32_sys_pidfd_open
+> diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
+> index b4e6f9e6204a..1bee0a77fdd3 100644
+> --- a/arch/x86/entry/syscalls/syscall_64.tbl
+> +++ b/arch/x86/entry/syscalls/syscall_64.tbl
+> @@ -355,6 +355,7 @@
+>   431	common	fsconfig		__x64_sys_fsconfig
+>   432	common	fsmount			__x64_sys_fsmount
+>   433	common	fspick			__x64_sys_fspick
+> +434	common	pidfd_open		__x64_sys_pidfd_open
+>   
+>   #
+>   # x32-specific system call numbers start at 512 to avoid cache impact
+> diff --git a/arch/xtensa/kernel/syscalls/syscall.tbl b/arch/xtensa/kernel/syscalls/syscall.tbl
+> index 5fa0ee1c8e00..782b81945ccc 100644
+> --- a/arch/xtensa/kernel/syscalls/syscall.tbl
+> +++ b/arch/xtensa/kernel/syscalls/syscall.tbl
+> @@ -404,3 +404,4 @@
+>   431	common	fsconfig			sys_fsconfig
+>   432	common	fsmount				sys_fsmount
+>   433	common	fspick				sys_fspick
+> +434	common	pidfd_open			sys_pidfd_open
+> diff --git a/include/linux/pid.h b/include/linux/pid.h
+> index 3c8ef5a199ca..c938a92eab99 100644
+> --- a/include/linux/pid.h
+> +++ b/include/linux/pid.h
+> @@ -67,6 +67,7 @@ struct pid
+>   extern struct pid init_struct_pid;
+>   
+>   extern const struct file_operations pidfd_fops;
+> +extern int pidfd_create(struct pid *pid);
+>   
+>   static inline struct pid *get_pid(struct pid *pid)
+>   {
+> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+> index e2870fe1be5b..989055e0b501 100644
+> --- a/include/linux/syscalls.h
+> +++ b/include/linux/syscalls.h
+> @@ -929,6 +929,7 @@ asmlinkage long sys_clock_adjtime32(clockid_t which_clock,
+>   				struct old_timex32 __user *tx);
+>   asmlinkage long sys_syncfs(int fd);
+>   asmlinkage long sys_setns(int fd, int nstype);
+> +asmlinkage long sys_pidfd_open(pid_t pid, unsigned int flags);
+>   asmlinkage long sys_sendmmsg(int fd, struct mmsghdr __user *msg,
+>   			     unsigned int vlen, unsigned flags);
+>   asmlinkage long sys_process_vm_readv(pid_t pid,
+> diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
+> index a87904daf103..e5684a4512c0 100644
+> --- a/include/uapi/asm-generic/unistd.h
+> +++ b/include/uapi/asm-generic/unistd.h
+> @@ -844,9 +844,11 @@ __SYSCALL(__NR_fsconfig, sys_fsconfig)
+>   __SYSCALL(__NR_fsmount, sys_fsmount)
+>   #define __NR_fspick 433
+>   __SYSCALL(__NR_fspick, sys_fspick)
+> +#define __NR_pidfd_open 434
+> +__SYSCALL(__NR_pidfd_open, sys_pidfd_open)
+>   
+>   #undef __NR_syscalls
+> -#define __NR_syscalls 434
+> +#define __NR_syscalls 435
+>   
+>   /*
+>    * 32 bit systems traditionally used different
+> diff --git a/kernel/fork.c b/kernel/fork.c
+> index b4cba953040a..c3df226f47a1 100644
+> --- a/kernel/fork.c
+> +++ b/kernel/fork.c
+> @@ -1724,7 +1724,7 @@ const struct file_operations pidfd_fops = {
+>    * Return: On success, a cloexec pidfd is returned.
+>    *         On error, a negative errno number will be returned.
+>    */
+> -static int pidfd_create(struct pid *pid)
+> +int pidfd_create(struct pid *pid)
+>   {
+>   	int fd;
+>   
+> diff --git a/kernel/pid.c b/kernel/pid.c
+> index 89548d35eefb..8fc9d94f6ac1 100644
+> --- a/kernel/pid.c
+> +++ b/kernel/pid.c
+> @@ -37,6 +37,7 @@
+>   #include <linux/syscalls.h>
+>   #include <linux/proc_ns.h>
+>   #include <linux/proc_fs.h>
+> +#include <linux/sched/signal.h>
+>   #include <linux/sched/task.h>
+>   #include <linux/idr.h>
+>   
+> @@ -450,6 +451,48 @@ struct pid *find_ge_pid(int nr, struct pid_namespace *ns)
+>   	return idr_get_next(&ns->idr, &nr);
+>   }
+>   
+> +/**
+> + * pidfd_open() - Open new pid file descriptor.
+> + *
+> + * @pid:   pid for which to retrieve a pidfd
+> + * @flags: flags to pass
+> + *
+> + * This creates a new pid file descriptor with the O_CLOEXEC flag set for
+> + * the process identified by @pid. Currently, the process identified by
+> + * @pid must be a thread-group leader. This restriction currently exists
+> + * for all aspects of pidfds including pidfd creation (CLONE_PIDFD cannot
+> + * be used with CLONE_THREAD) and pidfd polling (only supports thread group
+> + * leaders).
+> + *
+> + * Return: On success, a cloexec pidfd is returned.
+> + *         On error, a negative errno number will be returned.
+> + */
+> +SYSCALL_DEFINE2(pidfd_open, pid_t, pid, unsigned int, flags)
+> +{
+> +	int fd, ret;
+> +	struct pid *p;
+> +
+> +	if (flags)
+> +		return -EINVAL;
+> +
+> +	if (pid <= 0)
+> +		return -EINVAL;
+> +
+> +	p = find_get_pid(pid);
+> +	if (!p)
+> +		return -ESRCH;
+> +
+> +	ret = 0;
+> +	rcu_read_lock();
+> +	if (!pid_task(p, PIDTYPE_TGID))
+> +		ret = -EINVAL;
+> +	rcu_read_unlock();
+> +
+> +	fd = ret ?: pidfd_create(p);
+> +	put_pid(p);
+> +	return fd;
+> +}
+> +
+>   void __init pid_idr_init(void)
+>   {
+>   	/* Verify no one has done anything silly: */
+> 
 
-Do you think we'll need a third MADV_ flag for our automatic migration
-behavior?  MADV_REALLYCOLD?  MADV_MIGRATEOUT?
