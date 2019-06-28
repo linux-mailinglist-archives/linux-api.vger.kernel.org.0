@@ -2,497 +2,409 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 41EA35A266
-	for <lists+linux-api@lfdr.de>; Fri, 28 Jun 2019 19:30:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 91E705A283
+	for <lists+linux-api@lfdr.de>; Fri, 28 Jun 2019 19:35:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726688AbfF1Raq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 28 Jun 2019 13:30:46 -0400
-Received: from mga07.intel.com ([134.134.136.100]:51702 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726514AbfF1Raq (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 28 Jun 2019 13:30:46 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 28 Jun 2019 10:30:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,428,1557212400"; 
-   d="scan'208";a="163034051"
-Received: from yyu32-desk1.sc.intel.com ([10.144.153.205])
-  by fmsmga008.fm.intel.com with ESMTP; 28 Jun 2019 10:30:44 -0700
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [RFC PATCH] binfmt_elf: Extract .note.gnu.property from an ELF file
-Date:   Fri, 28 Jun 2019 10:22:03 -0700
-Message-Id: <20190628172203.797-1-yu-cheng.yu@intel.com>
-X-Mailer: git-send-email 2.17.1
+        id S1726693AbfF1Rfd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 28 Jun 2019 13:35:33 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:41064 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726497AbfF1Rfd (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 28 Jun 2019 13:35:33 -0400
+Received: by mail-pg1-f195.google.com with SMTP id q4so1410077pgj.8;
+        Fri, 28 Jun 2019 10:35:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=JdK5RNxqN98ZSCYRGeVTAN4w2IhmQVUVQ7bqp2v3Jm4=;
+        b=fPcolmNas+XWX7uvKcnEfajbfnLdkJXLZiyIuu1RxmBDggNH+/0WPzc7kGzMpCeFcA
+         SPONx5NhvrMBMSfFwF4FzlAqiN0x4i1qwdNcyHke8Hzu2jShCutggVRKyBFbru75vBVu
+         MyBDpshWGBWfd8CTw80gQPvOX4frqEPGi61kqEmJ4l3NyBXOd2oN5sHRKn57i5x2GIzM
+         CDJaNYoBb5G6sohjnPg1H2CmAs8yrPA52wq+RwA0SdstBCaKqxoKjjevTnu4UFXeZhFh
+         KLyG/S/sdc6En5+JD2uJ52jpzWTvauLEOowEuW6X8ws2jhVZ9ZMIdpbiIAfq4Lp4WROh
+         XfQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=JdK5RNxqN98ZSCYRGeVTAN4w2IhmQVUVQ7bqp2v3Jm4=;
+        b=MgV3iZOQmMWRIsNRSw0zYZ060dW8PelyvBFXSXKbmigSoFEyiXmSy4xENt2c7vr2jJ
+         aKhovi3R/CiCA1JQy9nTvLuK9LmiDGgq4NcKYtSl60WV4v1u3QvjmtOgeJ2uiUUHG8+j
+         ZhWvcypCglG1BsP84n9a/mbIsHEv/eMhprthrrrICj/4kdWkP12wwMuyZ/oy7Ee+BzlE
+         jljNmKyl8s5j2weBfRVswCAuTAzV+FADn5UxhAUn2RF7YcZGIodKzz+49XH+ZeCiOjsq
+         cC+1QdRYnie/VHAz3S4ajQ4Ak7wbsl7hTiK0h/ptaf36GUw9PWFzksx2ifP1l3wSr7rt
+         mtuA==
+X-Gm-Message-State: APjAAAXx1p934MRqll3lS98jXQ8fVHsJ7ed10c1v0Mg4lAVhNPnHA4Vl
+        YS8ZT2osmn8k0Npy3ZS+sWM=
+X-Google-Smtp-Source: APXvYqx7kQs9lkVX3bawtQZCEszJMny4sjF4jC1RAncF/LoYbMfZUOd0eLb3Pe2a5SUtVS5Usrpntw==
+X-Received: by 2002:a17:90a:25af:: with SMTP id k44mr14320863pje.122.1561743332448;
+        Fri, 28 Jun 2019 10:35:32 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id c130sm6143568pfc.184.2019.06.28.10.35.31
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 28 Jun 2019 10:35:31 -0700 (PDT)
+Date:   Fri, 28 Jun 2019 10:35:31 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Wu Hao <hao.wu@intel.com>
+Cc:     mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, jdelvare@suse.com, atull@kernel.org,
+        gregkh@linuxfoundation.org, Luwei Kang <luwei.kang@intel.com>,
+        Russ Weight <russell.h.weight@intel.com>,
+        Xu Yilun <yilun.xu@intel.com>
+Subject: Re: [PATCH v4 2/3] fpga: dfl: fme: add thermal management support
+Message-ID: <20190628173531.GA25890@roeck-us.net>
+References: <1561611218-5800-1-git-send-email-hao.wu@intel.com>
+ <1561611218-5800-3-git-send-email-hao.wu@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1561611218-5800-3-git-send-email-hao.wu@intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This patch was part of the Intel Control-flow Enforcement (CET) series at:
+On Thu, Jun 27, 2019 at 12:53:37PM +0800, Wu Hao wrote:
+> This patch adds support to thermal management private feature for DFL
+> FPGA Management Engine (FME). This private feature driver registers
+> a hwmon for thermal/temperature monitoring (hwmon temp1_input).
+> If hardware automatic throttling is supported by this hardware, then
+> driver also exposes sysfs interfaces under hwmon for thresholds
+> (temp1_max/ crit/ emergency), threshold alarms (temp1_max_alarm/
+> temp1_crit_alarm) and throttling policy (temp1_max_policy).
+> 
+> Signed-off-by: Luwei Kang <luwei.kang@intel.com>
+> Signed-off-by: Russ Weight <russell.h.weight@intel.com>
+> Signed-off-by: Xu Yilun <yilun.xu@intel.com>
+> Signed-off-by: Wu Hao <hao.wu@intel.com>
 
-    https://lkml.org/lkml/2019/6/6/1014.
+Acked-by: Guenter Roeck <linux@roeck-us.net>
 
-In the discussion, we decided to look at only an ELF header's
-PT_GNU_PROPERTY, which is a shortcut pointing to the file's
-.note.gnu.property.
-
-The Linux gABI extension draft is here:
-
-    https://github.com/hjl-tools/linux-abi/wiki/linux-abi-draft.pdf.
-
-A few existing CET-enabled binary files were built without
-PT_GNU_PROPERTY; but those files' .note.gnu.property are checked by
-ld-linux, not Linux.  The compatibility impact from this change is
-therefore managable.
-
-An ELF file's .note.gnu.property indicates features the executable file
-can support.  For example, the property GNU_PROPERTY_X86_FEATURE_1_AND
-indicates the file supports GNU_PROPERTY_X86_FEATURE_1_IBT and/or
-GNU_PROPERTY_X86_FEATURE_1_SHSTK.
-
-With this patch, if an arch needs to setup features from ELF properties,
-it needs CONFIG_ARCH_USE_GNU_PROPERTY to be set, and specific
-arch_parse_property() and arch_setup_property().
-
-This work is derived from code provided by H.J. Lu <hjl.tools@gmail.com>.
-
-Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
----
- fs/Kconfig.binfmt        |   3 +
- fs/Makefile              |   1 +
- fs/binfmt_elf.c          |  20 +++
- fs/gnu_property.c        | 279 +++++++++++++++++++++++++++++++++++++++
- include/linux/elf.h      |  11 ++
- include/uapi/linux/elf.h |  14 ++
- 6 files changed, 328 insertions(+)
- create mode 100644 fs/gnu_property.c
-
-diff --git a/fs/Kconfig.binfmt b/fs/Kconfig.binfmt
-index f87ddd1b6d72..397138ab305b 100644
---- a/fs/Kconfig.binfmt
-+++ b/fs/Kconfig.binfmt
-@@ -36,6 +36,9 @@ config COMPAT_BINFMT_ELF
- config ARCH_BINFMT_ELF_STATE
- 	bool
- 
-+config ARCH_USE_GNU_PROPERTY
-+	bool
-+
- config BINFMT_ELF_FDPIC
- 	bool "Kernel support for FDPIC ELF binaries"
- 	default y if !BINFMT_ELF
-diff --git a/fs/Makefile b/fs/Makefile
-index c9aea23aba56..b69f18c14e09 100644
---- a/fs/Makefile
-+++ b/fs/Makefile
-@@ -44,6 +44,7 @@ obj-$(CONFIG_BINFMT_ELF)	+= binfmt_elf.o
- obj-$(CONFIG_COMPAT_BINFMT_ELF)	+= compat_binfmt_elf.o
- obj-$(CONFIG_BINFMT_ELF_FDPIC)	+= binfmt_elf_fdpic.o
- obj-$(CONFIG_BINFMT_FLAT)	+= binfmt_flat.o
-+obj-$(CONFIG_ARCH_USE_GNU_PROPERTY) += gnu_property.o
- 
- obj-$(CONFIG_FS_MBCACHE)	+= mbcache.o
- obj-$(CONFIG_FS_POSIX_ACL)	+= posix_acl.o
-diff --git a/fs/binfmt_elf.c b/fs/binfmt_elf.c
-index 8264b468f283..cbc6d68f4a18 100644
---- a/fs/binfmt_elf.c
-+++ b/fs/binfmt_elf.c
-@@ -852,6 +852,21 @@ static int load_elf_binary(struct linux_binprm *bprm)
- 			}
- 	}
- 
-+	if (interpreter) {
-+		retval = arch_parse_property(&loc->interp_elf_ex,
-+					     interp_elf_phdata,
-+					     interpreter, true,
-+					     &arch_state);
-+	} else {
-+		retval = arch_parse_property(&loc->elf_ex,
-+					     elf_phdata,
-+					     bprm->file, false,
-+					     &arch_state);
-+	}
-+
-+	if (retval)
-+		goto out_free_dentry;
-+
- 	/*
- 	 * Allow arch code to reject the ELF at this point, whilst it's
- 	 * still possible to return an error to the code that invoked
-@@ -1080,6 +1095,11 @@ static int load_elf_binary(struct linux_binprm *bprm)
- 		goto out_free_dentry;
- 	}
- 
-+	retval = arch_setup_property(&arch_state);
-+
-+	if (retval < 0)
-+		goto out_free_dentry;
-+
- 	if (interpreter) {
- 		unsigned long interp_map_addr = 0;
- 
-diff --git a/fs/gnu_property.c b/fs/gnu_property.c
-new file mode 100644
-index 000000000000..37cd503a0c48
---- /dev/null
-+++ b/fs/gnu_property.c
-@@ -0,0 +1,279 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Extract an ELF file's .note.gnu.property.
-+ *
-+ * The path from the ELF header to the note section is the following:
-+ * elfhdr->elf_phdr->elf_note->property[].
-+ */
-+
-+#include <uapi/linux/elf-em.h>
-+#include <linux/processor.h>
-+#include <linux/binfmts.h>
-+#include <linux/elf.h>
-+#include <linux/slab.h>
-+#include <linux/fs.h>
-+#include <linux/uaccess.h>
-+#include <linux/string.h>
-+#include <linux/compat.h>
-+
-+/*
-+ * The .note.gnu.property layout:
-+ *
-+ *	struct elf_note {
-+ *		u32 n_namesz; --> sizeof(n_name[]); always (4)
-+ *		u32 n_ndescsz;--> sizeof(property[])
-+ *		u32 n_type;   --> always NT_GNU_PROPERTY_TYPE_0 (5)
-+ *	};
-+ *	char n_name[4]; --> always 'GNU\0'
-+ *
-+ *	struct {
-+ *		struct gnu_property {
-+ *			u32 pr_type;
-+ *			u32 pr_datasz;
-+ *		};
-+ *		u8 pr_data[pr_datasz];
-+ *	}[];
-+ */
-+
-+typedef bool (test_item_fn)(void *buf, u32 *arg, u32 type);
-+typedef void *(next_item_fn)(void *buf, u32 *arg, u32 type);
-+
-+static bool test_property(void *buf, u32 *max_type, u32 pr_type)
-+{
-+	struct gnu_property *pr = buf;
-+
-+	/*
-+	 * Property types must be in ascending order.
-+	 * Keep track of the max when testing each.
-+	 */
-+	if (pr->pr_type > *max_type)
-+		*max_type = pr->pr_type;
-+
-+	return (pr->pr_type == pr_type);
-+}
-+
-+static void *next_property(void *buf, u32 *max_type, u32 pr_type)
-+{
-+	struct gnu_property *pr = buf;
-+
-+	if ((buf + sizeof(*pr) + pr->pr_datasz < buf) ||
-+	    (pr->pr_type > pr_type) ||
-+	    (pr->pr_type > *max_type))
-+		return NULL;
-+	else
-+		return (buf + sizeof(*pr) + pr->pr_datasz);
-+}
-+
-+/*
-+ * Scan 'buf' for a pattern; return true if found.
-+ * *pos is the distance from the beginning of buf to where
-+ * the searched item or the next item is located.
-+ */
-+static int scan(u8 *buf, u32 buf_size, int item_size, test_item_fn test_item,
-+		next_item_fn next_item, u32 *arg, u32 type, u32 *pos)
-+{
-+	int found = 0;
-+	u8 *p, *max;
-+
-+	max = buf + buf_size;
-+	if (max < buf)
-+		return 0;
-+
-+	p = buf;
-+
-+	while ((p + item_size < max) && (p + item_size > buf)) {
-+		if (test_item(p, arg, type)) {
-+			found = 1;
-+			break;
-+		}
-+
-+		p = next_item(p, arg, type);
-+	}
-+
-+	*pos = (p + item_size <= buf) ? 0 : (u32)(p - buf);
-+	return found;
-+}
-+
-+/*
-+ * Search an NT_GNU_PROPERTY_TYPE_0 for the property of 'pr_type'.
-+ */
-+static int find_property(u32 pr_type, u32 *property, struct file *file,
-+			 loff_t file_offset, unsigned long desc_size)
-+{
-+	u8 *buf;
-+	int buf_size;
-+
-+	u32 buf_pos;
-+	unsigned long read_size;
-+	unsigned long done;
-+	int found = 0;
-+	int ret = 0;
-+	u32 last_pr = 0;
-+
-+	*property = 0;
-+	buf_pos = 0;
-+
-+	buf_size = (desc_size > PAGE_SIZE) ? PAGE_SIZE : desc_size;
-+	buf = kmalloc(buf_size, GFP_KERNEL);
-+	if (!buf)
-+		return -ENOMEM;
-+
-+	for (done = 0; done < desc_size; done += buf_pos) {
-+		read_size = desc_size - done;
-+		if (read_size > buf_size)
-+			read_size = buf_size;
-+
-+		ret = kernel_read(file, buf, read_size, &file_offset);
-+
-+		if (ret != read_size)
-+			return (ret < 0) ? ret : -EIO;
-+
-+		ret = 0;
-+		found = scan(buf, read_size, sizeof(struct gnu_property),
-+			     test_property, next_property,
-+			     &last_pr, pr_type, &buf_pos);
-+
-+		if ((!buf_pos) || found)
-+			break;
-+
-+		file_offset += buf_pos - read_size;
-+	}
-+
-+	if (found) {
-+		struct gnu_property *pr =
-+			(struct gnu_property *)(buf + buf_pos);
-+
-+		if (pr->pr_datasz == 4) {
-+			u32 *max =  (u32 *)(buf + read_size);
-+			u32 *data = (u32 *)((u8 *)pr + sizeof(*pr));
-+
-+			if (data + 1 <= max) {
-+				*property = *data;
-+			} else {
-+				file_offset += buf_pos - read_size;
-+				file_offset += sizeof(*pr);
-+				ret = kernel_read(file, property, 4,
-+						  &file_offset);
-+			}
-+		}
-+	}
-+
-+	kfree(buf);
-+	return ret;
-+}
-+
-+/*
-+ * Look at an ELF file's PT_GNU_PROPERTY for the property of pr_type.
-+ *
-+ * Input:
-+ *	file: the file to search;
-+ *	phdr: the file's elf header;
-+ *	phnum: number of entries in phdr;
-+ *	pr_type: the property type.
-+ *
-+ * Output:
-+ *	The property found.
-+ *
-+ * Return:
-+ *	Zero or error.
-+ */
-+
-+static int scan_segments_64(struct file *file, struct elf64_phdr *phdr,
-+			    int phnum, u32 pr_type, u32 *property)
-+{
-+	int i, err;
-+
-+	err = 0;
-+
-+	for (i = 0; i < phnum; i++, phdr++) {
-+		if (phdr->p_align != 8)
-+			continue;
-+
-+		if (phdr->p_type == PT_GNU_PROPERTY) {
-+			struct elf64_note n;
-+			loff_t pos;
-+
-+			/* read note header */
-+			pos = phdr->p_offset;
-+			err = kernel_read(file, &n, sizeof(n), &pos);
-+			if (err < sizeof(n))
-+				return -EIO;
-+
-+			/* find note payload offset */
-+			pos = phdr->p_offset + round_up(sizeof(n) + n.n_namesz,
-+							phdr->p_align);
-+
-+			err = find_property(pr_type, property, file,
-+					    pos, n.n_descsz);
-+			break;
-+		}
-+	}
-+
-+	return err;
-+}
-+
-+static int scan_segments_32(struct file *file, struct elf32_phdr *phdr,
-+			    int phnum, u32 pr_type, u32 *property)
-+{
-+	int i, err;
-+
-+	err = 0;
-+
-+	for (i = 0; i < phnum; i++, phdr++) {
-+		if (phdr->p_align != 4)
-+			continue;
-+
-+		if (phdr->p_type == PT_GNU_PROPERTY) {
-+			struct elf32_note n;
-+			loff_t pos;
-+
-+			/* read note header */
-+			pos = phdr->p_offset;
-+			err = kernel_read(file, &n, sizeof(n), &pos);
-+			if (err < sizeof(n))
-+				return -EIO;
-+
-+			/* find note payload offset */
-+			pos = phdr->p_offset + round_up(sizeof(n) + n.n_namesz,
-+							phdr->p_align);
-+
-+			err = find_property(pr_type, property, file,
-+					    pos, n.n_descsz);
-+			break;
-+		}
-+	}
-+
-+	return err;
-+}
-+
-+int get_gnu_property(void *ehdr_p, void *phdr_p, struct file *f,
-+		     u32 pr_type, u32 *property)
-+{
-+	struct elf64_hdr *ehdr64 = ehdr_p;
-+	int err = 0;
-+
-+	*property = 0;
-+
-+	if (ehdr64->e_ident[EI_CLASS] == ELFCLASS64) {
-+		struct elf64_phdr *phdr64 = phdr_p;
-+
-+		err = scan_segments_64(f, phdr64, ehdr64->e_phnum,
-+				       pr_type, property);
-+		if (err < 0)
-+			goto out;
-+	} else {
-+		struct elf32_hdr *ehdr32 = ehdr_p;
-+
-+		if (ehdr32->e_ident[EI_CLASS] == ELFCLASS32) {
-+			struct elf32_phdr *phdr32 = phdr_p;
-+
-+			err = scan_segments_32(f, phdr32, ehdr32->e_phnum,
-+					       pr_type, property);
-+			if (err < 0)
-+				goto out;
-+		}
-+	}
-+
-+out:
-+	return err;
-+}
-diff --git a/include/linux/elf.h b/include/linux/elf.h
-index e3649b3e970e..c86cbfd17382 100644
---- a/include/linux/elf.h
-+++ b/include/linux/elf.h
-@@ -56,4 +56,15 @@ static inline int elf_coredump_extra_notes_write(struct coredump_params *cprm) {
- extern int elf_coredump_extra_notes_size(void);
- extern int elf_coredump_extra_notes_write(struct coredump_params *cprm);
- #endif
-+
-+#ifdef CONFIG_ARCH_USE_GNU_PROPERTY
-+extern int arch_parse_property(void *ehdr, void *phdr, struct file *f,
-+			       bool inter, struct arch_elf_state *state);
-+extern int arch_setup_property(struct arch_elf_state *state);
-+extern int get_gnu_property(void *ehdr_p, void *phdr_p, struct file *f,
-+			    u32 pr_type, u32 *feature);
-+#else
-+#define arch_parse_property(ehdr, phdr, file, inter, state) (0)
-+#define arch_setup_property(state) (0)
-+#endif
- #endif /* _LINUX_ELF_H */
-diff --git a/include/uapi/linux/elf.h b/include/uapi/linux/elf.h
-index 34c02e4290fe..530ce08467c2 100644
---- a/include/uapi/linux/elf.h
-+++ b/include/uapi/linux/elf.h
-@@ -36,6 +36,7 @@ typedef __s64	Elf64_Sxword;
- #define PT_LOPROC  0x70000000
- #define PT_HIPROC  0x7fffffff
- #define PT_GNU_EH_FRAME		0x6474e550
-+#define PT_GNU_PROPERTY		0x6474e553
- 
- #define PT_GNU_STACK	(PT_LOOS + 0x474e551)
- 
-@@ -443,4 +444,17 @@ typedef struct elf64_note {
-   Elf64_Word n_type;	/* Content type */
- } Elf64_Nhdr;
- 
-+/* NT_GNU_PROPERTY_TYPE_0 header */
-+struct gnu_property {
-+  __u32 pr_type;
-+  __u32 pr_datasz;
-+};
-+
-+/* .note.gnu.property types */
-+#define GNU_PROPERTY_X86_FEATURE_1_AND		0xc0000002
-+
-+/* Bits of GNU_PROPERTY_X86_FEATURE_1_AND */
-+#define GNU_PROPERTY_X86_FEATURE_1_IBT		0x00000001
-+#define GNU_PROPERTY_X86_FEATURE_1_SHSTK	0x00000002
-+
- #endif /* _UAPI_LINUX_ELF_H */
--- 
-2.17.1
-
+> ---
+> v2: create a dfl_fme_thermal hwmon to expose thermal information.
+>     move all sysfs interfaces under hwmon
+> 	tempareture       --> hwmon temp1_input
+> 	threshold1        --> hwmon temp1_alarm
+> 	threshold2        --> hwmon temp1_crit
+> 	trip_threshold    --> hwmon temp1_emergency
+> 	threshold1_status --> hwmon temp1_alarm_status
+> 	threshold2_status --> hwmon temp1_crit_status
+> 	threshold1_policy --> hwmon temp1_alarm_policy
+> v3: rename some hwmon sysfs interfaces to follow hwmon ABI.
+> 	temp1_alarm        --> temp1_max
+> 	temp1_alarm_status --> temp1_max_alarm
+> 	temp1_crit_status  --> temp1_crit_alarm
+> 	temp1_alarm_policy --> temp1_max_policy
+>     update sysfs doc for above sysfs interface changes.
+>     replace scnprintf with sprintf in sysfs interface.
+> v4: use HWMON_CHANNEL_INFO.
+>     rebase, and update date in sysfs doc.
+> ---
+>  Documentation/ABI/testing/sysfs-platform-dfl-fme |  64 ++++++++
+>  drivers/fpga/Kconfig                             |   2 +-
+>  drivers/fpga/dfl-fme-main.c                      | 187 +++++++++++++++++++++++
+>  3 files changed, 252 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/ABI/testing/sysfs-platform-dfl-fme b/Documentation/ABI/testing/sysfs-platform-dfl-fme
+> index 86eef83..2cd17dc 100644
+> --- a/Documentation/ABI/testing/sysfs-platform-dfl-fme
+> +++ b/Documentation/ABI/testing/sysfs-platform-dfl-fme
+> @@ -119,3 +119,67 @@ Description:	Write-only. Write error code to this file to clear all errors
+>  		logged in errors, first_error and next_error. Write fails with
+>  		-EINVAL if input parsing fails or input error code doesn't
+>  		match.
+> +
+> +What:		/sys/bus/platform/devices/dfl-fme.0/hwmon/hwmonX/name
+> +Date:		June 2019
+> +KernelVersion:	5.3
+> +Contact:	Wu Hao <hao.wu@intel.com>
+> +Description:	Read-Only. Read this file to get the name of hwmon device, it
+> +		supports values:
+> +		    'dfl_fme_thermal' - thermal hwmon device name
+> +
+> +What:		/sys/bus/platform/devices/dfl-fme.0/hwmon/hwmonX/temp1_input
+> +Date:		June 2019
+> +KernelVersion:	5.3
+> +Contact:	Wu Hao <hao.wu@intel.com>
+> +Description:	Read-Only. It returns FPGA device temperature in millidegrees
+> +		Celsius.
+> +
+> +What:		/sys/bus/platform/devices/dfl-fme.0/hwmon/hwmonX/temp1_max
+> +Date:		June 2019
+> +KernelVersion:	5.3
+> +Contact:	Wu Hao <hao.wu@intel.com>
+> +Description:	Read-Only. It returns hardware threshold1 temperature in
+> +		millidegrees Celsius. If temperature rises at or above this
+> +		threshold, hardware starts 50% or 90% throttling (see
+> +		'temp1_max_policy').
+> +
+> +What:		/sys/bus/platform/devices/dfl-fme.0/hwmon/hwmonX/temp1_crit
+> +Date:		June 2019
+> +KernelVersion:	5.3
+> +Contact:	Wu Hao <hao.wu@intel.com>
+> +Description:	Read-Only. It returns hardware threshold2 temperature in
+> +		millidegrees Celsius. If temperature rises at or above this
+> +		threshold, hardware starts 100% throttling.
+> +
+> +What:		/sys/bus/platform/devices/dfl-fme.0/hwmon/hwmonX/temp1_emergency
+> +Date:		June 2019
+> +KernelVersion:	5.3
+> +Contact:	Wu Hao <hao.wu@intel.com>
+> +Description:	Read-Only. It returns hardware trip threshold temperature in
+> +		millidegrees Celsius. If temperature rises at or above this
+> +		threshold, a fatal event will be triggered to board management
+> +		controller (BMC) to shutdown FPGA.
+> +
+> +What:		/sys/bus/platform/devices/dfl-fme.0/hwmon/hwmonX/temp1_max_alarm
+> +Date:		June 2019
+> +KernelVersion:	5.3
+> +Contact:	Wu Hao <hao.wu@intel.com>
+> +Description:	Read-only. It returns 1 if temperature is currently at or above
+> +		hardware threshold1 (see 'temp1_max'), otherwise 0.
+> +
+> +What:		/sys/bus/platform/devices/dfl-fme.0/hwmon/hwmonX/temp1_crit_alarm
+> +Date:		June 2019
+> +KernelVersion:	5.3
+> +Contact:	Wu Hao <hao.wu@intel.com>
+> +Description:	Read-only. It returns 1 if temperature is currently at or above
+> +		hardware threshold2 (see 'temp1_crit'), otherwise 0.
+> +
+> +What:		/sys/bus/platform/devices/dfl-fme.0/hwmon/hwmonX/temp1_max_policy
+> +Date:		June 2019
+> +KernelVersion:	5.3
+> +Contact:	Wu Hao <hao.wu@intel.com>
+> +Description:	Read-Only. Read this file to get the policy of hardware threshold1
+> +		(see 'temp1_max'). It only supports two values (policies):
+> +		    0 - AP2 state (90% throttling)
+> +		    1 - AP1 state (50% throttling)
+> diff --git a/drivers/fpga/Kconfig b/drivers/fpga/Kconfig
+> index 8072c19..48f6224 100644
+> --- a/drivers/fpga/Kconfig
+> +++ b/drivers/fpga/Kconfig
+> @@ -155,7 +155,7 @@ config FPGA_DFL
+>  
+>  config FPGA_DFL_FME
+>  	tristate "FPGA DFL FME Driver"
+> -	depends on FPGA_DFL
+> +	depends on FPGA_DFL && HWMON
+>  	help
+>  	  The FPGA Management Engine (FME) is a feature device implemented
+>  	  under Device Feature List (DFL) framework. Select this option to
+> diff --git a/drivers/fpga/dfl-fme-main.c b/drivers/fpga/dfl-fme-main.c
+> index 4490cf4..59ff9f1 100644
+> --- a/drivers/fpga/dfl-fme-main.c
+> +++ b/drivers/fpga/dfl-fme-main.c
+> @@ -14,6 +14,8 @@
+>   *   Henry Mitchel <henry.mitchel@intel.com>
+>   */
+>  
+> +#include <linux/hwmon.h>
+> +#include <linux/hwmon-sysfs.h>
+>  #include <linux/kernel.h>
+>  #include <linux/module.h>
+>  #include <linux/uaccess.h>
+> @@ -217,6 +219,187 @@ static long fme_hdr_ioctl(struct platform_device *pdev,
+>  	.ioctl = fme_hdr_ioctl,
+>  };
+>  
+> +#define FME_THERM_THRESHOLD	0x8
+> +#define TEMP_THRESHOLD1		GENMASK_ULL(6, 0)
+> +#define TEMP_THRESHOLD1_EN	BIT_ULL(7)
+> +#define TEMP_THRESHOLD2		GENMASK_ULL(14, 8)
+> +#define TEMP_THRESHOLD2_EN	BIT_ULL(15)
+> +#define TRIP_THRESHOLD		GENMASK_ULL(30, 24)
+> +#define TEMP_THRESHOLD1_STATUS	BIT_ULL(32)		/* threshold1 reached */
+> +#define TEMP_THRESHOLD2_STATUS	BIT_ULL(33)		/* threshold2 reached */
+> +/* threshold1 policy: 0 - AP2 (90% throttle) / 1 - AP1 (50% throttle) */
+> +#define TEMP_THRESHOLD1_POLICY	BIT_ULL(44)
+> +
+> +#define FME_THERM_RDSENSOR_FMT1	0x10
+> +#define FPGA_TEMPERATURE	GENMASK_ULL(6, 0)
+> +
+> +#define FME_THERM_CAP		0x20
+> +#define THERM_NO_THROTTLE	BIT_ULL(0)
+> +
+> +#define MD_PRE_DEG
+> +
+> +static bool fme_thermal_throttle_support(void __iomem *base)
+> +{
+> +	u64 v = readq(base + FME_THERM_CAP);
+> +
+> +	return FIELD_GET(THERM_NO_THROTTLE, v) ? false : true;
+> +}
+> +
+> +static umode_t thermal_hwmon_attrs_visible(const void *drvdata,
+> +					   enum hwmon_sensor_types type,
+> +					   u32 attr, int channel)
+> +{
+> +	const struct dfl_feature *feature = drvdata;
+> +
+> +	/* temperature is always supported, and check hardware cap for others */
+> +	if (attr == hwmon_temp_input)
+> +		return 0444;
+> +
+> +	return fme_thermal_throttle_support(feature->ioaddr) ? 0444 : 0;
+> +}
+> +
+> +static int thermal_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
+> +			      u32 attr, int channel, long *val)
+> +{
+> +	struct dfl_feature *feature = dev_get_drvdata(dev);
+> +	u64 v;
+> +
+> +	switch (attr) {
+> +	case hwmon_temp_input:
+> +		v = readq(feature->ioaddr + FME_THERM_RDSENSOR_FMT1);
+> +		*val = (long)(FIELD_GET(FPGA_TEMPERATURE, v) * 1000);
+> +		break;
+> +	case hwmon_temp_max:
+> +		v = readq(feature->ioaddr + FME_THERM_THRESHOLD);
+> +		*val = (long)(FIELD_GET(TEMP_THRESHOLD1, v) * 1000);
+> +		break;
+> +	case hwmon_temp_crit:
+> +		v = readq(feature->ioaddr + FME_THERM_THRESHOLD);
+> +		*val = (long)(FIELD_GET(TEMP_THRESHOLD2, v) * 1000);
+> +		break;
+> +	case hwmon_temp_emergency:
+> +		v = readq(feature->ioaddr + FME_THERM_THRESHOLD);
+> +		*val = (long)(FIELD_GET(TRIP_THRESHOLD, v) * 1000);
+> +		break;
+> +	case hwmon_temp_max_alarm:
+> +		v = readq(feature->ioaddr + FME_THERM_THRESHOLD);
+> +		*val = (long)FIELD_GET(TEMP_THRESHOLD1_STATUS, v);
+> +		break;
+> +	case hwmon_temp_crit_alarm:
+> +		v = readq(feature->ioaddr + FME_THERM_THRESHOLD);
+> +		*val = (long)FIELD_GET(TEMP_THRESHOLD2_STATUS, v);
+> +		break;
+> +	default:
+> +		return -EOPNOTSUPP;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct hwmon_ops thermal_hwmon_ops = {
+> +	.is_visible = thermal_hwmon_attrs_visible,
+> +	.read = thermal_hwmon_read,
+> +};
+> +
+> +static const struct hwmon_channel_info *thermal_hwmon_info[] = {
+> +	HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT | HWMON_T_EMERGENCY |
+> +				 HWMON_T_MAX   | HWMON_T_MAX_ALARM |
+> +				 HWMON_T_CRIT  | HWMON_T_CRIT_ALARM),
+> +	NULL
+> +};
+> +
+> +static const struct hwmon_chip_info thermal_hwmon_chip_info = {
+> +	.ops = &thermal_hwmon_ops,
+> +	.info = thermal_hwmon_info,
+> +};
+> +
+> +static ssize_t temp1_max_policy_show(struct device *dev,
+> +				     struct device_attribute *attr, char *buf)
+> +{
+> +	struct dfl_feature *feature = dev_get_drvdata(dev);
+> +	u64 v;
+> +
+> +	v = readq(feature->ioaddr + FME_THERM_THRESHOLD);
+> +
+> +	return sprintf(buf, "%u\n",
+> +		       (unsigned int)FIELD_GET(TEMP_THRESHOLD1_POLICY, v));
+> +}
+> +
+> +static DEVICE_ATTR_RO(temp1_max_policy);
+> +
+> +static struct attribute *thermal_extra_attrs[] = {
+> +	&dev_attr_temp1_max_policy.attr,
+> +	NULL,
+> +};
+> +
+> +static umode_t thermal_extra_attrs_visible(struct kobject *kobj,
+> +					   struct attribute *attr, int index)
+> +{
+> +	struct device *dev = kobj_to_dev(kobj);
+> +	struct dfl_feature *feature = dev_get_drvdata(dev);
+> +
+> +	return fme_thermal_throttle_support(feature->ioaddr) ? attr->mode : 0;
+> +}
+> +
+> +static const struct attribute_group thermal_extra_group = {
+> +	.attrs		= thermal_extra_attrs,
+> +	.is_visible	= thermal_extra_attrs_visible,
+> +};
+> +__ATTRIBUTE_GROUPS(thermal_extra);
+> +
+> +static int fme_thermal_mgmt_init(struct platform_device *pdev,
+> +				 struct dfl_feature *feature)
+> +{
+> +	struct device *hwmon;
+> +
+> +	dev_dbg(&pdev->dev, "FME Thermal Management Init.\n");
+> +
+> +	/*
+> +	 * create hwmon to allow userspace monitoring temperature and other
+> +	 * threshold information.
+> +	 *
+> +	 * temp1_input      -> FPGA device temperature
+> +	 * temp1_max        -> hardware threshold 1 -> 50% or 90% throttling
+> +	 * temp1_crit       -> hardware threshold 2 -> 100% throttling
+> +	 * temp1_emergency  -> hardware trip_threshold to shutdown FPGA
+> +	 * temp1_max_alarm  -> hardware threshold 1 alarm
+> +	 * temp1_crit_alarm -> hardware threshold 2 alarm
+> +	 *
+> +	 * create device specific sysfs interfaces, e.g. read temp1_max_policy
+> +	 * to understand the actual hardware throttling action (50% vs 90%).
+> +	 *
+> +	 * If hardware doesn't support automatic throttling per thresholds,
+> +	 * then all above sysfs interfaces are not visible except temp1_input
+> +	 * for temperature.
+> +	 */
+> +	hwmon = devm_hwmon_device_register_with_info(&pdev->dev,
+> +						     "dfl_fme_thermal", feature,
+> +						     &thermal_hwmon_chip_info,
+> +						     thermal_extra_groups);
+> +	if (IS_ERR(hwmon)) {
+> +		dev_err(&pdev->dev, "Fail to register thermal hwmon\n");
+> +		return PTR_ERR(hwmon);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void fme_thermal_mgmt_uinit(struct platform_device *pdev,
+> +				   struct dfl_feature *feature)
+> +{
+> +	dev_dbg(&pdev->dev, "FME Thermal Management UInit.\n");
+> +}
+> +
+> +static const struct dfl_feature_id fme_thermal_mgmt_id_table[] = {
+> +	{.id = FME_FEATURE_ID_THERMAL_MGMT,},
+> +	{0,}
+> +};
+> +
+> +static const struct dfl_feature_ops fme_thermal_mgmt_ops = {
+> +	.init = fme_thermal_mgmt_init,
+> +	.uinit = fme_thermal_mgmt_uinit,
+> +};
+> +
+>  static struct dfl_feature_driver fme_feature_drvs[] = {
+>  	{
+>  		.id_table = fme_hdr_id_table,
+> @@ -231,6 +414,10 @@ static long fme_hdr_ioctl(struct platform_device *pdev,
+>  		.ops = &fme_global_err_ops,
+>  	},
+>  	{
+> +		.id_table = fme_thermal_mgmt_id_table,
+> +		.ops = &fme_thermal_mgmt_ops,
+> +	},
+> +	{
+>  		.ops = NULL,
+>  	},
+>  };
+> -- 
+> 1.8.3.1
+> 
