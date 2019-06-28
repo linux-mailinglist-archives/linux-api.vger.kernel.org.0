@@ -2,178 +2,319 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 52B6759CC8
-	for <lists+linux-api@lfdr.de>; Fri, 28 Jun 2019 15:16:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D6A2D59F1F
+	for <lists+linux-api@lfdr.de>; Fri, 28 Jun 2019 17:44:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726695AbfF1NQ6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 28 Jun 2019 09:16:58 -0400
-Received: from smtp-out.ssi.gouv.fr ([86.65.182.90]:54792 "EHLO
-        smtp-out.ssi.gouv.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726590AbfF1NQ6 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 28 Jun 2019 09:16:58 -0400
-Received: from smtp-out.ssi.gouv.fr (localhost [127.0.0.1])
-        by smtp-out.ssi.gouv.fr (Postfix) with ESMTP id BECDAD0006F;
-        Fri, 28 Jun 2019 15:17:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ssi.gouv.fr;
-        s=20160407; t=1561727823;
-        bh=4QpdD3Fv+j/DUToNpr9bdvINCY1lm/nwotSarRRnLoo=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To:From:Subject;
-        b=V4oH5XMUGscMi8Gq1v5kREK8lTOsGXMNBJTpC+fp5yU/eKSBiSb1w/b9EhX95Jktz
-         23y4Ybyo+tnUbieYEDaGeYUlNE1cHJ6RJtZA3MPIpycNccHkUiBXMBanxf2uAAHmJh
-         Ft7/MNqWnvCVcuWJXvjzRin9RRW2xBP5gPWF9Yt/dfXGtYhG/ut4j7KHBwST+N6T9t
-         owuJLIZt1jkyJ3osKMCyBGjh9DKTRFVkcm1jdz3BA4PyPUp4bUoD1GIffCvvgBdkd6
-         wbBdiaGoCggKhAHyhC1FygajiYABF0pYSEW8ruWL6BWs/IF2x3k95+enXclwpBtyxP
-         oOEynOlKBS30Q==
-Subject: Re: [PATCH bpf-next v9 05/10] bpf,landlock: Add a new map type: inode
-To:     Al Viro <viro@zeniv.linux.org.uk>
-CC:     =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>,
-        <linux-kernel@vger.kernel.org>, Aleksa Sarai <cyphar@cyphar.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        David Drysdale <drysdale@google.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        James Morris <jmorris@namei.org>, Jann Horn <jann@thejh.net>,
-        John Johansen <john.johansen@canonical.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Paul Moore <paul@paul-moore.com>,
-        Sargun Dhillon <sargun@sargun.me>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Stephen Smalley <sds@tycho.nsa.gov>, Tejun Heo <tj@kernel.org>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        Thomas Graf <tgraf@suug.ch>, Tycho Andersen <tycho@tycho.ws>,
-        Will Drewry <wad@chromium.org>,
-        <kernel-hardening@lists.openwall.com>, <linux-api@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>,
-        <linux-security-module@vger.kernel.org>, <netdev@vger.kernel.org>
-References: <20190625215239.11136-1-mic@digikod.net>
- <20190625215239.11136-6-mic@digikod.net>
- <20190625225201.GJ17978@ZenIV.linux.org.uk>
- <79bac827-4092-8a4d-9dc6-6019419b2486@ssi.gouv.fr>
- <20190627165640.GQ17978@ZenIV.linux.org.uk>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mickael.salaun@ssi.gouv.fr>
-Message-ID: <9dbe8d9c-d7a7-5bf2-dda2-7dd72c44be2d@ssi.gouv.fr>
-Date:   Fri, 28 Jun 2019 15:17:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux i686; rv:52.0) Gecko/20100101
- Thunderbird/52.9.0
+        id S1726716AbfF1Pny (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 28 Jun 2019 11:43:54 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58325 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726657AbfF1Pny (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 28 Jun 2019 11:43:54 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id D9AAF811D8;
+        Fri, 28 Jun 2019 15:43:39 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-120-219.rdu2.redhat.com [10.10.120.219])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 089AA1001E60;
+        Fri, 28 Jun 2019 15:43:37 +0000 (UTC)
+Subject: [PATCH 00/11] VFS: Introduce filesystem information query syscall
+ [ver #15]
+From:   David Howells <dhowells@redhat.com>
+To:     viro@zeniv.linux.org.uk
+Cc:     dhowells@redhat.com, raven@themaw.net, mszeredi@redhat.com,
+        christian@brauner.io, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Fri, 28 Jun 2019 16:43:37 +0100
+Message-ID: <156173661696.14042.17822154531324224780.stgit@warthog.procyon.org.uk>
+User-Agent: StGit/unknown-version
 MIME-Version: 1.0
-In-Reply-To: <20190627165640.GQ17978@ZenIV.linux.org.uk>
 Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.27]); Fri, 28 Jun 2019 15:43:53 +0000 (UTC)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 
+Here are a set of patches that adds a syscall, fsinfo(), that allows
+attributes of a filesystem/superblock to be queried.  Attribute values are
+of four basic types:
 
-On 27/06/2019 18:56, Al Viro wrote:
-> On Thu, Jun 27, 2019 at 06:18:12PM +0200, Micka=C3=ABl Sala=C3=BCn wrote:
->
->>>> +/* called from syscall */
->>>> +static int sys_inode_map_delete_elem(struct bpf_map *map, struct inod=
-e *key)
->>>> +{
->>>> +    struct inode_array *array =3D container_of(map, struct inode_arra=
-y, map);
->>>> +    struct inode *inode;
->>>> +    int i;
->>>> +
->>>> +    WARN_ON_ONCE(!rcu_read_lock_held());
->>>> +    for (i =3D 0; i < array->map.max_entries; i++) {
->>>> +            if (array->elems[i].inode =3D=3D key) {
->>>> +                    inode =3D xchg(&array->elems[i].inode, NULL);
->>>> +                    array->nb_entries--;
->>>
->>> Umm...  Is that intended to be atomic in any sense?
->>
->> nb_entries is not used as a bound check but to avoid walking uselessly
->> through the (pre-allocated) array when adding a new element, but I'll
->> use an atomic to avoid inconsistencies anyway.
->
->
->>> Wait a sec...  So we have those beasties that can have long-term
->>> references to arbitrary inodes stuck in them?  What will happen
->>> if you get umount(2) called while such a thing exists?
->>
->> I though an umount would be denied but no, we get a self-destructed busy
->> inode and a bug!
->> What about wrapping the inode's superblock->s_op->destroy_inode() to
->> first remove the element from the map and then call the real
->> destroy_inode(), if any?
->
-> What do you mean, _the_ map?  I don't see anything to prevent insertion
-> of references to the same inode into any number of those...
+ (1) Version dependent-length structure (size defined by type).
 
-Indeed, the current design needs to check for duplicate inode references
-to avoid unused entries (until a reference is removed). I was planning
-to use an rbtree but I'm working on using a hash table instead (cf.
-bpf/hashtab.c), which will solve the issue anyway.
+ (2) Variable-length string (up to 4096, no NUL).
 
->
->> Or I could update fs/inode.c:destroy_inode() to call inode->free_inode()
->> if it is set, and set it when such inode is referenced by a map?
->> Or maybe I could hold the referencing file in the map and then wrap its
->> f_op?
->
-> First of all, anything including the word "wrap" is a non-starter.
-> We really don't need the headache associated with the locking needed
-> to replace the method tables on the fly, or with the code checking that
-> ->f_op points to given method table, etc.  That's not going to fly,
-> especially since you'd end up _chaining_ those (again, the same reference
-> can go in more than once).
->
-> Nothing is allowed to change the method tables of live objects, period.
-> Once a struct file is opened, its ->f_op is never going to change and
-> it entirely belongs to the device driver or filesystem it resides on.
-> Nothing else (not VFS, not VM, not some LSM module, etc.) has any busines=
-s
-> touching that.  The same goes for inodes, dentries, etc.
->
-> What kind of behaviour do you want there?  Do you want the inodes you've
-> referenced there to be forgotten on e.g. memory pressure?  The thing is,
-> I don't see how "it's getting freed" could map onto any semantics that
-> might be useful for you - it looks like the wrong event for that.
+ (3) Array of fixed-length structures (up to INT_MAX size).
 
-At least, I would like to be able to compare an inode with the reference
-one if this reference may be accessible somewhere on the system. Being
-able to keep the inode reference as long as its superblock is alive
-seems to solve the problem. This enable for example to compare inodes
-from two bind mounts of the same file system even if one mount point is
-unmounted.
+ (4) Opaque blob (up to INT_MAX size).
 
-Storing and using the device ID and the inode number bring a new problem
-when an inode is removed and when its number is recycled. However, if I
-can be notified when such an inode is removed (preferably without using
-an LSM hook) and if I can know when the backing device go out of the
-scope of the (live) system (e.g. hot unplugging an USB drive), this
-should solve the problem and also enable to keep a reference to an inode
-as long as possible without any dangling pointer nor wrapper.
+Attributes can have multiple values either as a sequence of values or a
+sequence-of-sequences of values and all the values of a particular
+attribute must be of the same type.
+
+Note that the values of an attribute *are* allowed to vary between dentries
+within a single superblock, depending on the specific dentry that you're
+looking at.
+
+I've tried to make the interface as light as possible, so integer/enum
+attribute selector rather than string and the core does all the allocation
+and extensibility support work rather than leaving that to the filesystems.
+That means that for the first two attribute types, sb->s_op->fsinfo() may
+assume that the provided buffer is always present and always big enough.
+
+Further, this removes the possibility of the filesystem gaining access to the
+userspace buffer.
 
 
---
-Micka=C3=ABl Sala=C3=BCn
-ANSSI/SDE/ST/LAM
+fsinfo() allows a variety of information to be retrieved about a filesystem
+and the mount topology:
 
-Les donn=C3=A9es =C3=A0 caract=C3=A8re personnel recueillies et trait=C3=A9=
-es dans le cadre de cet =C3=A9change, le sont =C3=A0 seule fin d=E2=80=99ex=
-=C3=A9cution d=E2=80=99une relation professionnelle et s=E2=80=99op=C3=A8re=
-nt dans cette seule finalit=C3=A9 et pour la dur=C3=A9e n=C3=A9cessaire =C3=
-=A0 cette relation. Si vous souhaitez faire usage de vos droits de consulta=
-tion, de rectification et de suppression de vos donn=C3=A9es, veuillez cont=
-acter contact.rgpd@sgdsn.gouv.fr. Si vous avez re=C3=A7u ce message par err=
-eur, nous vous remercions d=E2=80=99en informer l=E2=80=99exp=C3=A9diteur e=
-t de d=C3=A9truire le message. The personal data collected and processed du=
-ring this exchange aims solely at completing a business relationship and is=
- limited to the necessary duration of that relationship. If you wish to use=
- your rights of consultation, rectification and deletion of your data, plea=
-se contact: contact.rgpd@sgdsn.gouv.fr. If you have received this message i=
-n error, we thank you for informing the sender and destroying the message.
+ (1) General superblock attributes:
+
+      - The amount of space/free space in a filesystem (as statfs()).
+      - Filesystem identifiers (UUID, volume label, device numbers, ...)
+      - The limits on a filesystem's capabilities
+      - Information on supported statx fields and attributes and IOC flags.
+      - A variety single-bit flags indicating supported capabilities.
+      - Timestamp resolution and range.
+      - Sources (as per mount(2), but fsconfig() allows multiple sources).
+      - In-filesystem filename format information.
+      - Filesystem parameters ("mount -o xxx"-type things).
+      - LSM parameters (again "mount -o xxx"-type things).
+
+ (2) Filesystem-specific superblock attributes:
+
+      - Server names and addresses.
+      - Cell name.
+
+ (3) Filesystem configuration metadata attributes:
+
+      - Filesystem parameter type descriptions.
+      - Name -> parameter mappings.
+      - Simple enumeration name -> value mappings.
+
+ (4) Information about what the fsinfo() syscall itself supports, including
+     the number of attibutes supported and the number of capability bits
+     supported.
+
+ (5) Future patches will include information about the mount topology.
+
+The system is extensible:
+
+ (1) New attributes can be added.  There is no requirement that a
+     filesystem implement every attribute.  Note that the core VFS keeps a
+     table of types and sizes so it can handle future extensibility rather
+     than delegating this to the filesystems.
+
+ (2) Version length-dependent structure attributes can be made larger and
+     have additional information tacked on the end, provided it keeps the
+     layout of the existing fields.  If an older process asks for a shorter
+     structure, it will only be given the bits it asks for.  If a newer
+     process asks for a longer structure on an older kernel, the extra
+     space will be set to 0.  In all cases, the size of the data actually
+     available is returned.
+
+     In essence, the size of a structure is that structure's version: a
+     smaller size is an earlier version and a later version includes
+     everything that the earlier version did.
+
+ (3) New single-bit capability flags can be added.  This is a structure-typed
+     attribute and, as such, (2) applies.  Any bits you wanted but the kernel
+     doesn't support are automatically set to 0.
+
+If a filesystem-specific attribute is added, it should just take up the next
+number in the enumeration.  Currently, I do not intend that the number space
+should be subdivided between interested parties.
+
+
+fsinfo() may be called like the following, for example:
+
+	struct fsinfo_params params = {
+		.at_flags	= AT_SYMLINK_NOFOLLOW,
+		.request	= FSINFO_ATTR_SERVER_ADDRESS;
+		.Nth		= 2;
+		.Mth		= 1;
+	};
+	struct fsinfo_server_address address;
+
+	len = fsinfo(AT_FDCWD, "/afs/grand.central.org/doc", &params,
+		     &address, sizeof(address));
+
+The above example would query a network filesystem, such as AFS or NFS, and
+ask what the 2nd address (Mth) of the 3rd server (Nth) that the superblock is
+using is.  Whereas:
+
+	struct fsinfo_params params = {
+		.at_flags	= AT_SYMLINK_NOFOLLOW,
+		.request	= FSINFO_ATTR_AFS_CELL_NAME;
+	};
+	char cell_name[256];
+
+	len = fsinfo(AT_FDCWD, "/afs/grand.central.org/doc", &params,
+		     &cell_name, sizeof(cell_name));
+
+would retrieve the name of an AFS cell as a string.
+
+fsinfo() can also be used to query a context from fsopen() or fspick():
+
+	fd = fsopen("ext4", 0);
+	struct fsinfo_params params = {
+		.request	= FSINFO_ATTR_PARAM_DESCRIPTION;
+	};
+	struct fsinfo_param_description desc;
+	fsinfo(fd, NULL, &params, &desc, sizeof(desc));
+
+even if that context doesn't currently have a superblock attached (though if
+there's no superblock attached, only filesystem-specific things like parameter
+descriptions can be accessed).
+
+The patches can be found here also:
+
+	https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git
+
+on branch:
+
+	fsinfo-core
+
+
+===================
+SIGNIFICANT CHANGES
+===================
+
+ ver #15:
+
+ (*) Rebase the patchset to v5.2-rc1 to remove the dependencies on my
+     mount-api-viro branch.  Al has remunged the patches, but has not
+     exposed what he might send upstream.
+
+ (*) Split out various of the individual filesystem implementation patches
+     that depend on mount API changes having been made.
+
+ (*) Split out the specify-by-mount-ID patch and the mount-topology query
+     patches into the fsinfo-mount branch.
+
+ ver #14:
+
+ (*) Increase to 128-bit the fields for number of blocks and files in the
+     filesystem and also the max file size and max inode number fields.
+
+ (*) Increase to 64-bit the fields for max hard links and max xattr body
+     length.
+
+ (*) Provide struct fsinfo_timestamp_one to represent the characteristics
+     of a single timestamp and move the range into it.  FAT, for example,
+     has different ranges for different timestamps.  Each timestamp is then
+     represented by one of these structs.
+
+ (*) Don't expose MS_* flags (such as MS_RDONLY) through this interface as
+     they ought to be considered deprecated; instead anyone who wants them
+     should parse FSINFO_ATTR_PARAMETERS for the string equivalents.
+
+ (*) Add a flag, AT_FSINFO_FROM_FSOPEN, to indicate that the fd being
+     accessed is from fsopen()/fspick() and that fsinfo() should look
+     inside and access the filesystem referred to by the fs_context.
+
+ (*) If the filesystem implements FSINFO_ATTR_PARAMETERS for itself, don't
+     automatically include flags for the SB_* bits that are normally
+     rendered by, say, /proc/mounts (such as SB_RDONLY).  Rather, a helper
+     is provided that the filesystem must call with an appropriately
+     wangled s_flags.
+
+ (*) Drop the NFS fsinfo patch for now as NFS fs_context support is
+     unlikely to get upstream in the upcoming merge window.
+
+ ver #13:
+
+ (*) Provided a "fixed-struct array" type so that the list of children of a
+     mount and all their change counters can be read atomically.
+
+ (*) Additional filesystem examples.
+
+ (*) Documented the API.
+
+ ver #12:
+
+ (*) Rename ->get_fsinfo() to ->fsinfo().
+
+ (*) Pass the path through to to ->fsinfo() as it's needed for NFS to
+     retrocalculate the source name.
+
+ (*) Indicated which is the source parameter in the param-description
+     attribute.
+
+ (*) Dropped the realm attribute.
+
+David
+---
+David Howells (10):
+      vfs: syscall: Add fsinfo() to query filesystem information
+      fsinfo: Add syscalls to other arches
+      vfs: Allow fsinfo() to query what's in an fs_context
+      vfs: Allow fsinfo() to be used to query an fs parameter description
+      vfs: Implement parameter value retrieval with fsinfo()
+      fsinfo: Implement retrieval of LSM parameters with fsinfo()
+      afs: Support fsinfo()
+      fsinfo: Add API documentation
+      hugetlbfs: Add support for fsinfo()
+      kernfs, cgroup: Add fsinfo support
+
+Ian Kent (1):
+      fsinfo: proc - add sb operation fsinfo()
+
+
+ Documentation/filesystems/fsinfo.rst        |  561 +++++++++++++++++++
+ arch/alpha/kernel/syscalls/syscall.tbl      |    1 
+ arch/arm/tools/syscall.tbl                  |    1 
+ arch/arm64/include/asm/unistd.h             |    2 
+ arch/arm64/include/asm/unistd32.h           |    2 
+ arch/ia64/kernel/syscalls/syscall.tbl       |    1 
+ arch/m68k/kernel/syscalls/syscall.tbl       |    1 
+ arch/microblaze/kernel/syscalls/syscall.tbl |    1 
+ arch/mips/kernel/syscalls/syscall_n32.tbl   |    1 
+ arch/mips/kernel/syscalls/syscall_n64.tbl   |    1 
+ arch/mips/kernel/syscalls/syscall_o32.tbl   |    1 
+ arch/parisc/kernel/syscalls/syscall.tbl     |    1 
+ arch/powerpc/kernel/syscalls/syscall.tbl    |    1 
+ arch/s390/kernel/syscalls/syscall.tbl       |    1 
+ arch/sh/kernel/syscalls/syscall.tbl         |    1 
+ arch/sparc/kernel/syscalls/syscall.tbl      |    1 
+ arch/x86/entry/syscalls/syscall_32.tbl      |    1 
+ arch/x86/entry/syscalls/syscall_64.tbl      |    1 
+ arch/xtensa/kernel/syscalls/syscall.tbl     |    1 
+ fs/Kconfig                                  |    7 
+ fs/Makefile                                 |    1 
+ fs/afs/internal.h                           |    1 
+ fs/afs/super.c                              |  180 ++++++
+ fs/fsinfo.c                                 |  818 +++++++++++++++++++++++++++
+ fs/hugetlbfs/inode.c                        |   57 ++
+ fs/kernfs/mount.c                           |   20 +
+ fs/proc/inode.c                             |   37 +
+ fs/statfs.c                                 |    2 
+ include/linux/fs.h                          |    5 
+ include/linux/fsinfo.h                      |   69 ++
+ include/linux/kernfs.h                      |    4 
+ include/linux/lsm_hooks.h                   |   13 
+ include/linux/security.h                    |   11 
+ include/linux/syscalls.h                    |    4 
+ include/uapi/asm-generic/unistd.h           |    4 
+ include/uapi/linux/fcntl.h                  |    2 
+ include/uapi/linux/fsinfo.h                 |  291 ++++++++++
+ kernel/cgroup/cgroup-v1.c                   |   44 +
+ kernel/cgroup/cgroup.c                      |   19 +
+ kernel/sys_ni.c                             |    1 
+ samples/vfs/Makefile                        |    6 
+ samples/vfs/test-fs-query.c                 |  138 +++++
+ samples/vfs/test-fsinfo.c                   |  640 +++++++++++++++++++++
+ security/security.c                         |   12 
+ 44 files changed, 2961 insertions(+), 6 deletions(-)
+ create mode 100644 Documentation/filesystems/fsinfo.rst
+ create mode 100644 fs/fsinfo.c
+ create mode 100644 include/linux/fsinfo.h
+ create mode 100644 include/uapi/linux/fsinfo.h
+ create mode 100644 samples/vfs/test-fs-query.c
+ create mode 100644 samples/vfs/test-fsinfo.c
+
