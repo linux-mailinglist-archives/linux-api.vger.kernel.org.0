@@ -2,307 +2,152 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 976AD59577
-	for <lists+linux-api@lfdr.de>; Fri, 28 Jun 2019 10:02:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5092A59864
+	for <lists+linux-api@lfdr.de>; Fri, 28 Jun 2019 12:28:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726658AbfF1ICH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 28 Jun 2019 04:02:07 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:46409 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726524AbfF1ICG (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 28 Jun 2019 04:02:06 -0400
-Received: by mail-pl1-f194.google.com with SMTP id e5so2780131pls.13
-        for <linux-api@vger.kernel.org>; Fri, 28 Jun 2019 01:02:06 -0700 (PDT)
+        id S1726576AbfF1K2r (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 28 Jun 2019 06:28:47 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:45331 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726688AbfF1K2q (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 28 Jun 2019 06:28:46 -0400
+Received: by mail-wr1-f68.google.com with SMTP id f9so5684649wre.12
+        for <linux-api@vger.kernel.org>; Fri, 28 Jun 2019 03:28:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=WZq6BCzx2oAYKBXZwpH6LRexuDJ0/444+0e0Mc/hDbY=;
-        b=Rd9lRP9zAd/kbl3ZE7qYqE71uAPpqI08y9O8Z8POPjewUXfV5BkcxB5GlkY7Lz2EvR
-         L0vi5OB036U4FKFCgIDZv8F3y6lztLOxmk0kwy/NUBPaZkq+ECaVF1Jt2lfubLgAj49H
-         Uk6C/xmHOoJyYfOl2AD99Cc4Ji0bJcI5iEK/IOzTvY7wn8alGsOUKlv4FIhRP3sRGF55
-         fIMKwrwTaQtuY+hOsydah24wbl/mQVSW6sltZZBybHwghcYUR14MnHCnTHXmgdqPSQtw
-         agAI8RdzSUB0Onytip3sOEuouLaTLd1x4D+UiNdsy+ktLsNeIwWlm9Q+91kPa3V5g02W
-         Z4fA==
+        d=brauner.io; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=00lQgp4KF8mWHCT3vLiiTY3cz1BNXZmrWPRpQYCYepQ=;
+        b=WvtXk5cgkogFhun+ZiE8ghcPR+1UCyc/a3gnHHaDJ2OoARpA7j7GPvZHcTvAvmoldN
+         7hZrC4XrFmRcPKeHZUeA/lmAI58KJnTJg5dxqgjmWnUH44QobZ38qiH1ciDZFGssNwR8
+         d2JbM5WtRmJIFjsWjE1y0ztGJf2D6lMaWXL5rmTrVO4N5b5BlsWCnkdR/Yeeie7MFKKR
+         oEQJTJarOPlUcveHA29/+uI+yKuU1azZPdnQt3pJPNE+tbWR51D8JMJzOmBfVWL0CltH
+         UTrCoRZrxz7b9gaY3Su9TFQ1pNF7Weh0YQPLrbh6Y+fJRKb5TFYWajaQPELLKQt66mxe
+         IisA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=WZq6BCzx2oAYKBXZwpH6LRexuDJ0/444+0e0Mc/hDbY=;
-        b=kLN6qL9Y+bAAkAQ3yN5sJX/0McuZuygooARbZ4Vqj447yfJwkiA+mVqLbsAW41zsr7
-         qZRKujlTs9DgZSdl0/vWgTxcvPa+1gQ8IZoHRoD0pWoa6F4AtnSIUROBdyQ8hLvcy700
-         LGr45WhyLlTscsTKfR9t3JRUrO08Ee+ii9um6rJ279jaq3MCNSPyi7MitYBpF1p4/YA1
-         jTpbM2wUuKaXQcK29LfKS2h5ImPTSBWOXZwzS4KsSXDkkn3Ho8p+9pJMkrJ2ShLkXPNf
-         B+5rsrHlvOAP46F/Shztxn8skX5k63P/oXLz8oVwG4aA4T+D5cKBvuxcfE0HX5BS6+bI
-         2nMg==
-X-Gm-Message-State: APjAAAW14OVDNOphCDDa60W4QQ8U8Yaxrw3ocsqsw3nziRs0FeBtCmfF
-        gYNSOCrL+z3Qwy9Qe95+jHVJETusd26KF3I7pNB4jA==
-X-Google-Smtp-Source: APXvYqwmEZtlGKAjiLJWvizo9Zwmik6FWTQ62cPvtwGWDViEZL1wVsPAEfk8YLKeNB7mUaMkZVTde4hFd59dR/Vcw90=
-X-Received: by 2002:a17:902:2006:: with SMTP id n6mr10173684pla.232.1561708925220;
- Fri, 28 Jun 2019 01:02:05 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=00lQgp4KF8mWHCT3vLiiTY3cz1BNXZmrWPRpQYCYepQ=;
+        b=OfsJN/SC8EcSvg6xaEz4gEenLG7XbTnD9WLX4hLK6II83ACRa+hxPivFhguAlosy3m
+         ejvXd4y6tMtwQ/6Dx/CtpMczQ+R2kxnxDPd8bLIvrhzBMHG/NNHFZUlU35f6ICuuDwxH
+         2BPxZNjL2NuOnJ3fvKLDraOGNdyVEupNCJc8cyjsyliR5J1Cf5zq/HzIFa0qy6TeEOvM
+         1G0HVhzWrYQSI/WJ2W1zHjY86gs7RuCeZVhzzAzgIH2RaEz9juUpjTVmXL2jxufWHSQZ
+         8cwTn7dNguTsRodrR9w71eFqxX33s1z2H2zEaU4rEZ9+xbznDiQtAoXEOwFnl3gqdgs6
+         F2IA==
+X-Gm-Message-State: APjAAAUtz3sAQWu3gDjxdxSh+hi4iJ28ZbTME3jzjSp3OWUWlNiosJ4C
+        Va7EzdpJumwiXw7k+sitIvVBTA==
+X-Google-Smtp-Source: APXvYqwceU7uOJWFzAL991B1wKGjN7mDumVTVPUijIsToU5QF3dnh/WIfSHQjHGLcY+56bqP2MuwWg==
+X-Received: by 2002:adf:fb84:: with SMTP id a4mr7863262wrr.41.1561717723814;
+        Fri, 28 Jun 2019 03:28:43 -0700 (PDT)
+Received: from brauner.io ([212.91.227.56])
+        by smtp.gmail.com with ESMTPSA id x6sm2241373wru.0.2019.06.28.03.28.42
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Fri, 28 Jun 2019 03:28:43 -0700 (PDT)
+Date:   Fri, 28 Jun 2019 12:28:42 +0200
+From:   Christian Brauner <christian@brauner.io>
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Song Liu <songliubraving@fb.com>,
+        Network Development <netdev@vger.kernel.org>,
+        bpf@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        kernel-team <kernel-team@fb.com>, lmb@cloudflare.com,
+        Jann Horn <jannh@google.com>,
+        Greg KH <gregkh@linuxfoundation.org>, casey@schaufler-ca.com,
+        sds@tycho.nsa.gov, linux-security@vger.kernel.org
+Subject: Re: [PATCH v2 bpf-next 1/4] bpf: unprivileged BPF access via /dev/bpf
+Message-ID: <20190628102841.dye2ajyusukvwlwq@brauner.io>
+References: <20190627201923.2589391-1-songliubraving@fb.com>
+ <20190627201923.2589391-2-songliubraving@fb.com>
+ <21894f45-70d8-dfca-8c02-044f776c5e05@kernel.org>
+ <CALCETrUp3Tj062wG-noNdsY-sU9gsob_kVK=W_DxWciMpZFvyA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20190617082613.109131-1-brendanhiggins@google.com>
- <20190617082613.109131-18-brendanhiggins@google.com> <20190626021744.GU19023@42.do-not-panic.com>
- <CAAXuY3p+kVhjQ4LYtzormqVcH2vKu1abc_K9Z0XY=JX=bp8NcQ@mail.gmail.com> <20190627061021.GE19023@42.do-not-panic.com>
-In-Reply-To: <20190627061021.GE19023@42.do-not-panic.com>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Fri, 28 Jun 2019 01:01:54 -0700
-Message-ID: <CAFd5g45VJ9yfuESUc=E0ydJyN+mk1b1kyHSCYvO2x9KPC7+3GQ@mail.gmail.com>
-Subject: Re: [PATCH v5 17/18] kernel/sysctl-test: Add null pointer test for sysctl.c:proc_dointvec()
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     Iurii Zaikin <yzaikin@google.com>, linux-api@vger.kernel.org,
-        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Kees Cook <keescook@google.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-        shuah <shuah@kernel.org>, "Theodore Ts'o" <tytso@mit.edu>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "Bird, Timothy" <Tim.Bird@sony.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Knut Omang <knut.omang@oracle.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Petr Mladek <pmladek@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CALCETrUp3Tj062wG-noNdsY-sU9gsob_kVK=W_DxWciMpZFvyA@mail.gmail.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jun 26, 2019 at 11:10 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
->
-> On Wed, Jun 26, 2019 at 09:07:43PM -0700, Iurii Zaikin wrote:
-> > On Tue, Jun 25, 2019 at 7:17 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
-> > > > +static void sysctl_test_dointvec_table_maxlen_unset(struct kunit *test)
-> > > > +{
-> > > > +     struct ctl_table table = {
-> > > > +             .procname = "foo",
-> > > > +             .data           = &test_data.int_0001,
-> > > > +             .maxlen         = 0,
-> > > > +             .mode           = 0644,
-> > > > +             .proc_handler   = proc_dointvec,
-> > > > +             .extra1         = &i_zero,
-> > > > +             .extra2         = &i_one_hundred,
-> > > > +     };
-> > > > +     void  *buffer = kunit_kzalloc(test, sizeof(int), GFP_USER);
-> > > > +     size_t len;
-> > > > +     loff_t pos;
-> > > > +
-> > > > +     len = 1234;
-> > > > +     KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, 0, buffer, &len, &pos));
-> > > > +     KUNIT_EXPECT_EQ(test, (size_t)0, len);
-> > > > +     len = 1234;
-> > > > +     KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, 1, buffer, &len, &pos));
-> > > > +     KUNIT_EXPECT_EQ(test, (size_t)0, len);
-> > > > +}
-> > >
-> > > In a way this is also testing for general kernel API changes. This is and the
-> > > last one were good examples. So this is not just testing functionality
-> > > here. There is no wrong or write answer if 0 or -EINVAL was returned
-> > > other than the fact that we have been doing this for years.
-> > >
-> > > Its a perhaps small but important difference for some of these tests.  I
-> > > *do* think its worth clarifying through documentation which ones are
-> > > testing for API consistency Vs proper correctness.
+On Thu, Jun 27, 2019 at 04:42:18PM -0700, Andy Lutomirski wrote:
+> [sigh, I finally set up lore nntp, and I goofed some addresses.  Hi
+> Kees and linux-api.]
+
+Love it or hate it but that should probably also Cc linux-security...
+
+> 
+> On Thu, Jun 27, 2019 at 4:40 PM Andy Lutomirski <luto@kernel.org> wrote:
 > >
-> > You make a good point that the test codifies the existing behavior of
-> > the function in lieu of formal documentation.  However, the test cases
-> > were derived from examining the source code of the function under test
-> > and attempting to cover all branches. The assertions were added only
-> > for the values that appeared to be set deliberately in the
-> > implementation. And it makes sense to me to test that the code does
-> > exactly what the implementation author intended.
->
-> I'm not arguing against adding them. I'm suggesting that it is different
-> to test for API than for correctness of intended functionality, and
-> it would be wise to make it clear which test cases are for API and which
-> for correctness.
-
-I see later on that some of the API stuff you are talking about is
-public APIs from the standpoint of user (outside of LInux) visible. To
-be clear, is that what you mean by public APIs throughout, or would
-you distinguish between correctness tests, internal API tests, and
-external API tests?
-
-> This will come up later for other kunit tests and it would be great
-> to set precendent so that other kunit tests can follow similar
-> practices to ensure its clear what is API realted Vs correctness of
-> intended functionality.
->
-> In fact, I'm not yet sure if its possible to test public kernel API to
-> userspace with kunit, but if it is possible... well, that could make
-> linux-api folks happy as they could enable us to codify interpreation of
-> what is expected into kunit test cases, and we'd ensure that the
-> codified interpretation is not only documented in man pages but also
-> through formal kunit test cases.
->
-> A regression in linux-api then could be formalized through a proper
-> kunit tests case. And if an API evolves, it would force developers to
-> update the respective kunit which codifies that contract.
-
-Yep, I think that is long term hope. Some of the file system interface
-stuff that requires a filesystem to be mounted somewhere might get a
-little weird/difficult, but I suspect we should be able to do it
-eventually. I mean it's all just C code right? Should mostly boil down
-to someone figuring out how to do it the first time.
-
-> > > > +static void sysctl_test_dointvec_single_less_int_min(struct kunit *test)
-> > > > +{
-> > > > +     struct ctl_table table = {
-> > > > +             .procname = "foo",
-> > > > +             .data           = &test_data.int_0001,
-> > > > +             .maxlen         = sizeof(int),
-> > > > +             .mode           = 0644,
-> > > > +             .proc_handler   = proc_dointvec,
-> > > > +             .extra1         = &i_zero,
-> > > > +             .extra2         = &i_one_hundred,
-> > > > +     };
-> > > > +     char input[32];
-> > > > +     size_t len = sizeof(input) - 1;
-> > > > +     loff_t pos = 0;
-> > > > +     unsigned long abs_of_less_than_min = (unsigned long)INT_MAX
-> > > > +                                          - (INT_MAX + INT_MIN) + 1;
-> > > > +
-> > > > +     KUNIT_EXPECT_LT(test,
-> > > > +                     (size_t)snprintf(input, sizeof(input), "-%lu",
-> > > > +                                      abs_of_less_than_min),
-> > > > +                     sizeof(input));
-> > > > +
-> > > > +     table.data = kunit_kzalloc(test, sizeof(int), GFP_USER);
-> > > > +     KUNIT_EXPECT_EQ(test, -EINVAL,
-> > > > +                     proc_dointvec(&table, 1, input, &len, &pos));
-> > > > +     KUNIT_EXPECT_EQ(test, sizeof(input) - 1, len);
-> > > > +     KUNIT_EXPECT_EQ(test, 0, ((int *)table.data)[0]);
-> > > > +}
+> > On 6/27/19 1:19 PM, Song Liu wrote:
+> > > This patch introduce unprivileged BPF access. The access control is
+> > > achieved via device /dev/bpf. Users with write access to /dev/bpf are able
+> > > to call sys_bpf().
 > > >
-> > > API test.
+> > > Two ioctl command are added to /dev/bpf:
 > > >
-> > Not sure why.
->
-> Because you are codifying that we *definitely* return -EINVAL on
-> overlow. Some parts of the kernel return -ERANGE for overflows for
-> instance.
->
-> It would be a generic test for overflow if it would just test
-> for any error.
->
-> It is a fine and good test to keep. All these tests are good to keep.
->
-> > I believe there has been a real bug with int overflow in
-> > proc_dointvec.
-> > Covering it with test seems like a good idea.
->
-> Oh definitely.
->
-> > > > +static void sysctl_test_dointvec_single_greater_int_max(struct kunit *test)
-> > > > +{
-> > > > +     struct ctl_table table = {
-> > > > +             .procname = "foo",
-> > > > +             .data           = &test_data.int_0001,
-> > > > +             .maxlen         = sizeof(int),
-> > > > +             .mode           = 0644,
-> > > > +             .proc_handler   = proc_dointvec,
-> > > > +             .extra1         = &i_zero,
-> > > > +             .extra2         = &i_one_hundred,
-> > > > +     };
-> > > > +     char input[32];
-> > > > +     size_t len = sizeof(input) - 1;
-> > > > +     loff_t pos = 0;
-> > > > +     unsigned long greater_than_max = (unsigned long)INT_MAX + 1;
-> > > > +
-> > > > +     KUNIT_EXPECT_GT(test, greater_than_max, (unsigned long)INT_MAX);
-> > > > +     KUNIT_EXPECT_LT(test, (size_t)snprintf(input, sizeof(input), "%lu",
-> > > > +                                            greater_than_max),
-> > > > +                     sizeof(input));
-> > > > +     table.data = kunit_kzalloc(test, sizeof(int), GFP_USER);
-> > > > +     KUNIT_EXPECT_EQ(test, -EINVAL,
-> > > > +                     proc_dointvec(&table, 1, input, &len, &pos));
-> > > > +     KUNIT_EXPECT_EQ(test, sizeof(input) - 1, len);
-> > > > +     KUNIT_EXPECT_EQ(test, 0, ((int *)table.data)[0]);
-> > > > +}
-> > > > +
+> > > The two commands enable/disable permission to call sys_bpf() for current
+> > > task. This permission is noted by bpf_permitted in task_struct. This
+> > > permission is inherited during clone(CLONE_THREAD).
 > > >
-> > > API test.
+> > > Helper function bpf_capable() is added to check whether the task has got
+> > > permission via /dev/bpf.
 > > >
-> > > > +static struct kunit_case sysctl_test_cases[] = {
-> > > > +     KUNIT_CASE(sysctl_test_dointvec_null_tbl_data),
-> > > > +     KUNIT_CASE(sysctl_test_dointvec_table_maxlen_unset),
-> > > > +     KUNIT_CASE(sysctl_test_dointvec_table_len_is_zero),
-> > > > +     KUNIT_CASE(sysctl_test_dointvec_table_read_but_position_set),
-> > > > +     KUNIT_CASE(sysctl_test_dointvec_happy_single_positive),
-> > > > +     KUNIT_CASE(sysctl_test_dointvec_happy_single_negative),
-> > > > +     KUNIT_CASE(sysctl_test_dointvec_single_less_int_min),
-> > > > +     KUNIT_CASE(sysctl_test_dointvec_single_greater_int_max),
-> > > > +     {}
-> > > > +};
-> > >
-> > > Oh all are API tests.. perhaps then just rename then
-> > > sysctl_test_cases to sysctl_api_test_cases.
-> > >
-> > > Would be good to add at least *two* other tests cases for this
-> > > example, one which does a valid read and one which does a valid write.
-> > Added valid reads. There already are 2 valid writes.
->
-> Thanks.
->
-> > > If that is done either we add another kunit test module for correctness
-> > > or just extend the above and use prefix / postfixes on the functions
-> > > to distinguish between API / correctness somehow.
-> > >
-> > > > +
-> > > > +static struct kunit_module sysctl_test_module = {
-> > > > +     .name = "sysctl_test",
-> > > > +     .test_cases = sysctl_test_cases,
-> > > > +};
-> > > > +
-> > > > +module_test(sysctl_test_module);
-> > > > diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> > > > index cbdfae3798965..389b8986f5b77 100644
-> > > > --- a/lib/Kconfig.debug
-> > > > +++ b/lib/Kconfig.debug
-> > > > @@ -1939,6 +1939,16 @@ config TEST_SYSCTL
-> > > >
-> > > >         If unsure, say N.
-> > > >
-> > > > +config SYSCTL_KUNIT_TEST
-> > > > +     bool "KUnit test for sysctl"
-> > > > +     depends on KUNIT
-> > > > +     help
-> > > > +       This builds the proc sysctl unit test, which runs on boot. For more
-> > > > +       information on KUnit and unit tests in general please refer to the
-> > > > +       KUnit documentation in Documentation/dev-tools/kunit/.
-> > >
-> > > A little more description here would help. It is testing for API and
-> > > hopefully also correctness (if extended with those two examples I
-> > > mentioned).
-> > >
-> > Added "Tests the API contract and implementation correctness of sysctl."
->
-> Yes, much clearer, thanks!
-
-Cheers!
+> >
+> > > diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+> > > index 0e079b2298f8..79dc4d641cf3 100644
+> > > --- a/kernel/bpf/verifier.c
+> > > +++ b/kernel/bpf/verifier.c
+> > > @@ -9134,7 +9134,7 @@ int bpf_check(struct bpf_prog **prog, union bpf_attr *attr,
+> > >               env->insn_aux_data[i].orig_idx = i;
+> > >       env->prog = *prog;
+> > >       env->ops = bpf_verifier_ops[env->prog->type];
+> > > -     is_priv = capable(CAP_SYS_ADMIN);
+> > > +     is_priv = bpf_capable(CAP_SYS_ADMIN);
+> >
+> > Huh?  This isn't a hardening measure -- the "is_priv" verifier mode
+> > allows straight-up leaks of private kernel state to user mode.
+> >
+> > (For that matter, the pending lockdown stuff should possibly consider
+> > this a "confidentiality" issue.)
+> >
+> >
+> > I have a bigger issue with this patch, though: it's a really awkward way
+> > to pretend to have capabilities.  For bpf, it seems like you could make
+> > this be a *real* capability without too much pain since there's only one
+> > syscall there.  Just find a way to pass an fd to /dev/bpf into the
+> > syscall.  If this means you need a new bpf_with_cap() syscall that takes
+> > an extra argument, so be it.  The old bpf() syscall can just translate
+> > to bpf_with_cap(..., -1).
+> >
+> > For a while, I've considered a scheme I call "implicit rights".  There
+> > would be a directory in /dev called /dev/implicit_rights.  This would
+> > either be part of devtmpfs or a whole new filesystem -- it would *not*
+> > be any other filesystem.  The contents would be files that can't be read
+> > or written and exist only in memory.  You create them with a privileged
+> > syscall.  Certain actions that are sensitive but not at the level of
+> > CAP_SYS_ADMIN (use of large-attack-surface bpf stuff, creation of user
+> > namespaces, profiling the kernel, etc) could require an "implicit
+> > right".  When you do them, if you don't have CAP_SYS_ADMIN, the kernel
+> > would do a path walk for, say, /dev/implicit_rights/bpf and, if the
+> > object exists, can be opened, and actually refers to the "bpf" rights
+> > object, then the action is allowed.  Otherwise it's denied.
+> >
+> > This is extensible, and it doesn't require the rather ugly per-task
+> > state of whether it's enabled.
+> >
+> > For things like creation of user namespaces, there's an existing API,
+> > and the default is that it works without privilege.  Switching it to an
+> > implicit right has the benefit of not requiring code changes to programs
+> > that already work as non-root.
+> >
+> > But, for BPF in particular, this type of compatibility issue doesn't
+> > exist now.  You already can't use most eBPF functionality without
+> > privilege.  New bpf-using programs meant to run without privilege are
+> > *new*, so they can use a new improved API.  So, rather than adding this
+> > obnoxious ioctl, just make the API explicit, please.
+> >
+> > Also, please cc: linux-abi next time.
