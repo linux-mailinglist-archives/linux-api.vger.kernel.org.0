@@ -2,103 +2,435 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6870258ED7
-	for <lists+linux-api@lfdr.de>; Fri, 28 Jun 2019 01:56:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10B6158EFD
+	for <lists+linux-api@lfdr.de>; Fri, 28 Jun 2019 02:30:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726514AbfF0X41 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 27 Jun 2019 19:56:27 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:43114 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726506AbfF0X41 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 27 Jun 2019 19:56:27 -0400
-Received: by mail-pg1-f195.google.com with SMTP id f25so1720595pgv.10;
-        Thu, 27 Jun 2019 16:56:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=CLj4gZCTfK/NAoTIvU2cEk9DiiqDuv0OJwpnaduKmqA=;
-        b=TD/Y9ETxzwIz92B9+E24f8PXv4qRImq4vZCpEFH0DQAK0HYr9/LCzuC51LYrglkt9H
-         x107u1OY4skzs+uUyX/5RNDgKbdmpfJ8q6NcbT0lRYiwUwQqAQXplH4P8knqbVMuCLfr
-         r/QQe6OnL2EdKXhlSxyR6ooko9ZkW529nCwU12nL1zwuVwh8bQieBXaxA9q9y5G+xBqY
-         JuztrCRRnJKg3B6VfnSKAdOn3ZHw5uh4V1BpQH+y3R+eK1C30Ajm+GSGH2SLlqmnzRb5
-         Oq2itXwjtvyt4k1Z1Jlm5GX+GuhGPQJiPvrankJmbqYBzY2I7Rr8KdQBdGF8XuhmHrYj
-         vdvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=CLj4gZCTfK/NAoTIvU2cEk9DiiqDuv0OJwpnaduKmqA=;
-        b=JdblmkY8OVO4EA6r017peX+ZP0oxInKF8xEVAd8R9dRgcfqbK1VDSiun12D+rmCHiU
-         txn8Z+GD7o8ovcrypvrO1UKYyK6RBK/jRUWA9brEnAOXrDUtb5mtFikm9FSUlUo9Tw8v
-         i97VgHKmQNT/Txhb/y4y9Ko9Uj0SsVmsIg681Hx3VhNKfCGoLfkg/CFD/HVbjhpWq/IK
-         edb8C2RBSHdKOLM/FdTEavZMghIj9V6gi7/FrRxHJPMsqJMo+No6jpYqZlBn0yaDI1tD
-         wjLwXEO0FGuk5zcxzc4ymQwRgUSwijl2r2m/z+KXVC1J0QTHgLWaEyFp7DC7nexeCIon
-         QKtA==
-X-Gm-Message-State: APjAAAUBsCC0LwGK7gA/35/xdzyYma4ALA1nUM+3YH/reuLwoUCEBGDq
-        EAI7HDjG5q0erJozET/3TyE=
-X-Google-Smtp-Source: APXvYqwioUiNv41x01aQdRcQnt8g3CLHIHh9zwhAz5EQgEvfxKBbPX0L6hoApe0uDHiYVFbY+15cDA==
-X-Received: by 2002:a63:4c46:: with SMTP id m6mr6527455pgl.59.1561679786207;
-        Thu, 27 Jun 2019 16:56:26 -0700 (PDT)
-Received: from google.com ([2401:fa00:d:0:98f1:8b3d:1f37:3e8])
-        by smtp.gmail.com with ESMTPSA id a3sm319767pje.3.2019.06.27.16.56.21
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 27 Jun 2019 16:56:24 -0700 (PDT)
-Date:   Fri, 28 Jun 2019 08:56:18 +0900
-From:   Minchan Kim <minchan@kernel.org>
-To:     Michal Hocko <mhocko@kernel.org>
-Cc:     Dave Hansen <dave.hansen@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-mm <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-api@vger.kernel.org,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Tim Murray <timmurray@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Sonny Rao <sonnyrao@google.com>, oleksandr@redhat.com,
-        hdanton@sina.com, lizeb@google.com,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH v3 1/5] mm: introduce MADV_COLD
-Message-ID: <20190627235618.GC33052@google.com>
-References: <20190627115405.255259-1-minchan@kernel.org>
- <20190627115405.255259-2-minchan@kernel.org>
- <343599f9-3d99-b74f-1732-368e584fa5ef@intel.com>
- <20190627140203.GB5303@dhcp22.suse.cz>
- <d9341eb3-08eb-3c2b-9786-00b8a4f59953@intel.com>
- <20190627145302.GC5303@dhcp22.suse.cz>
+        id S1726579AbfF1AaY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 27 Jun 2019 20:30:24 -0400
+Received: from mga04.intel.com ([192.55.52.120]:15737 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726514AbfF1AaX (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 27 Jun 2019 20:30:23 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 27 Jun 2019 17:30:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,425,1557212400"; 
+   d="scan'208";a="170600700"
+Received: from hao-dev.bj.intel.com (HELO localhost) ([10.238.157.65])
+  by FMSMGA003.fm.intel.com with ESMTP; 27 Jun 2019 17:30:20 -0700
+Date:   Fri, 28 Jun 2019 08:13:42 +0800
+From:   Wu Hao <hao.wu@intel.com>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        atull@kernel.org, Luwei Kang <luwei.kang@intel.com>,
+        Xu Yilun <yilun.xu@intel.com>
+Subject: Re: [PATCH v4 2/2] fpga: dfl: fme: add performance reporting support
+Message-ID: <20190628001342.GB9202@hao-dev>
+References: <1561612195-6081-1-git-send-email-hao.wu@intel.com>
+ <1561612195-6081-3-git-send-email-hao.wu@intel.com>
+ <20190627165329.GB9855@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190627145302.GC5303@dhcp22.suse.cz>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190627165329.GB9855@kroah.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jun 27, 2019 at 04:53:02PM +0200, Michal Hocko wrote:
-> On Thu 27-06-19 07:36:50, Dave Hansen wrote:
-> [...]
-> > For MADV_COLD, if we defined it like this, I think we could use it for
-> > both purposes (demotion and LRU movement):
+On Fri, Jun 28, 2019 at 12:53:29AM +0800, Greg KH wrote:
+> On Thu, Jun 27, 2019 at 01:09:55PM +0800, Wu Hao wrote:
+> > This patch adds support for performance reporting private feature
+> > for FPGA Management Engine (FME). Now it supports several different
+> > performance counters, including 'basic', 'cache', 'fabric', 'vtd'
+> > and 'vtd_sip'. It allows user to use standard linux tools to access
+> > these performance counters.
 > > 
-> > 	Pages in the specified regions will be treated as less-recently-
-> > 	accessed compared to pages in the system with similar access
-> > 	frequencies.  In contrast to MADV_DONTNEED, the contents of the
-> 
-> you meant s@MADV_DONTNEED@MADV_FREE@ I suppose
-
-Right, MADV_FREE is more proper because it's aging related.
-
-> 
-> > 	region are preserved.
+> > e.g. List all events by "perf list"
 > > 
-> > It would be nice not to talk about reclaim at all since we're not
-> > promising reclaim per se.
+> >   perf list | grep fme
+> > 
+> >   fme0/cache_read_hit/                         [Kernel PMU event]
+> >   fme0/cache_read_miss/                        [Kernel PMU event]
+> >   ...
+> > 
+> >   fme0/fab_mmio_read/                          [Kernel PMU event]
+> >   fme0/fab_mmio_write/                         [Kernel PMU event]
+> >   ...
+> > 
+> >   fme0/fab_port_mmio_read,portid=?/            [Kernel PMU event]
+> >   fme0/fab_port_mmio_write,portid=?/           [Kernel PMU event]
+> >   ...
+> > 
+> >   fme0/vtd_port_devtlb_1g_fill,portid=?/       [Kernel PMU event]
+> >   fme0/vtd_port_devtlb_2m_fill,portid=?/       [Kernel PMU event]
+> >   ...
+> > 
+> >   fme0/vtd_sip_iotlb_1g_hit/                   [Kernel PMU event]
+> >   fme0/vtd_sip_iotlb_1g_miss/                  [Kernel PMU event]
+> >   ...
+> > 
+> >   fme0/clock                                   [Kernel PMU event]
+> >   ...
+> > 
+> > e.g. check increased counter value after run one application using
+> > "perf stat" command.
+> > 
+> >  perf stat -e fme0/fab_mmio_read/,fme0/fab_mmio_write/, ./test
+> > 
+> >  Performance counter stats for './test':
+> > 
+> >                  1      fme0/fab_mmio_read/
+> >                  2      fme0/fab_mmio_write/
+> > 
+> >        1.009496520 seconds time elapsed
+> > 
+> > Please note that fabric counters support both fab_* and fab_port_*, but
+> > actually they are sharing one set of performance counters in hardware.
+> > If user wants to monitor overall data events on fab_* then fab_port_*
+> > can't be supported at the same time, see example below:
+> > 
+> > perf stat -e fme0/fab_mmio_read/,fme0/fab_port_mmio_write,portid=0/
+> > 
+> >  Performance counter stats for 'system wide':
+> > 
+> >                  0      fme0/fab_mmio_read/
+> >    <not supported>      fme0/fab_port_mmio_write,portid=0/
+> > 
+> >        2.141064085 seconds time elapsed
+> > 
+> > Signed-off-by: Luwei Kang <luwei.kang@intel.com>
+> > Signed-off-by: Xu Yilun <yilun.xu@intel.com>
+> > Signed-off-by: Wu Hao <hao.wu@intel.com>
+> > ---
+> > v3: replace scnprintf with sprintf in sysfs interfaces.
+> >     update sysfs doc kernel version and date.
+> >     fix sysfs doc issue for fabric counter.
+> >     refine PERF_OBJ_ATTR_* macro, doesn't count on __ATTR anymore.
+> >     introduce PERF_OBJ_ATTR_F_* macro, as it needs to use different
+> >     filenames for some of the sysfs attributes.
+> >     remove kobject_del when destroy kobject, kobject_put is enough.
+> >     do sysfs_remove_groups first when destroying perf_obj.
+> >     WARN_ON_ONCE in case internal parms are wrong in read_*_count().
+> > v4: rework this patch to use standard perf API as user interfaces.
+> > ---
+> >  drivers/fpga/Makefile       |   1 +
+> >  drivers/fpga/dfl-fme-main.c |   4 +
+> >  drivers/fpga/dfl-fme-perf.c | 871 ++++++++++++++++++++++++++++++++++++++++++++
+> >  drivers/fpga/dfl-fme.h      |   2 +
+> >  4 files changed, 878 insertions(+)
+> >  create mode 100644 drivers/fpga/dfl-fme-perf.c
+> > 
+> > diff --git a/drivers/fpga/Makefile b/drivers/fpga/Makefile
+> > index 4865b74..d8e21df 100644
+> > --- a/drivers/fpga/Makefile
+> > +++ b/drivers/fpga/Makefile
+> > @@ -40,6 +40,7 @@ obj-$(CONFIG_FPGA_DFL_FME_REGION)	+= dfl-fme-region.o
+> >  obj-$(CONFIG_FPGA_DFL_AFU)		+= dfl-afu.o
+> >  
+> >  dfl-fme-objs := dfl-fme-main.o dfl-fme-pr.o dfl-fme-error.o
+> > +dfl-fme-objs += dfl-fme-perf.o
+> >  dfl-afu-objs := dfl-afu-main.o dfl-afu-region.o dfl-afu-dma-region.o
+> >  dfl-afu-objs += dfl-afu-error.o
+> >  
+> > diff --git a/drivers/fpga/dfl-fme-main.c b/drivers/fpga/dfl-fme-main.c
+> > index 9225b68..a11c112 100644
+> > --- a/drivers/fpga/dfl-fme-main.c
+> > +++ b/drivers/fpga/dfl-fme-main.c
+> > @@ -639,6 +639,10 @@ static void fme_power_mgmt_uinit(struct platform_device *pdev,
+> >  		.ops = &fme_power_mgmt_ops,
+> >  	},
+> >  	{
+> > +		.id_table = fme_perf_id_table,
+> > +		.ops = &fme_perf_ops,
+> > +	},
+> > +	{
+> >  		.ops = NULL,
+> >  	},
+> >  };
+> > diff --git a/drivers/fpga/dfl-fme-perf.c b/drivers/fpga/dfl-fme-perf.c
+> > new file mode 100644
+> > index 0000000..0d7768a
+> > --- /dev/null
+> > +++ b/drivers/fpga/dfl-fme-perf.c
+> > @@ -0,0 +1,871 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Driver for FPGA Management Engine (FME) Global Performance Reporting
+> > + *
+> > + * Copyright 2019 Intel Corporation, Inc.
+> > + *
+> > + * Authors:
+> > + *   Kang Luwei <luwei.kang@intel.com>
+> > + *   Xiao Guangrong <guangrong.xiao@linux.intel.com>
+> > + *   Wu Hao <hao.wu@intel.com>
+> > + *   Xu Yilun <yilun.xu@intel.com>
+> > + *   Joseph Grecco <joe.grecco@intel.com>
+> > + *   Enno Luebbers <enno.luebbers@intel.com>
+> > + *   Tim Whisonant <tim.whisonant@intel.com>
+> > + *   Ananda Ravuri <ananda.ravuri@intel.com>
+> > + *   Mitchel, Henry <henry.mitchel@intel.com>
+> > + */
+> > +
+> > +#include <linux/perf_event.h>
+> > +#include "dfl.h"
+> > +#include "dfl-fme.h"
+> > +
+> > +/*
+> > + * Performance Counter Registers for Cache.
+> > + *
+> > + * Cache Events are listed below as CACHE_EVNT_*.
+> > + */
+> > +#define CACHE_CTRL			0x8
+> > +#define CACHE_RESET_CNTR		BIT_ULL(0)
+> > +#define CACHE_FREEZE_CNTR		BIT_ULL(8)
+> > +#define CACHE_CTRL_EVNT			GENMASK_ULL(19, 16)
+> > +#define CACHE_EVNT_RD_HIT		0x0
+> > +#define CACHE_EVNT_WR_HIT		0x1
+> > +#define CACHE_EVNT_RD_MISS		0x2
+> > +#define CACHE_EVNT_WR_MISS		0x3
+> > +#define CACHE_EVNT_RSVD			0x4
+> > +#define CACHE_EVNT_HOLD_REQ		0x5
+> > +#define CACHE_EVNT_DATA_WR_PORT_CONTEN	0x6
+> > +#define CACHE_EVNT_TAG_WR_PORT_CONTEN	0x7
+> > +#define CACHE_EVNT_TX_REQ_STALL		0x8
+> > +#define CACHE_EVNT_RX_REQ_STALL		0x9
+> > +#define CACHE_EVNT_EVICTIONS		0xa
+> > +#define CACHE_CHANNEL_SEL		BIT_ULL(20)
+> > +#define CACHE_CHANNEL_RD		0
+> > +#define CACHE_CHANNEL_WR		1
+> > +#define CACHE_CNTR0			0x10
+> > +#define CACHE_CNTR1			0x18
+> > +#define CACHE_CNTR_EVNT_CNTR		GENMASK_ULL(47, 0)
+> > +#define CACHE_CNTR_EVNT			GENMASK_ULL(63, 60)
+> > +
+> > +/*
+> > + * Performance Counter Registers for Fabric.
+> > + *
+> > + * Fabric Events are listed below as FAB_EVNT_*
+> > + */
+> > +#define FAB_CTRL			0x20
+> > +#define FAB_RESET_CNTR			BIT_ULL(0)
+> > +#define FAB_FREEZE_CNTR			BIT_ULL(8)
+> > +#define FAB_CTRL_EVNT			GENMASK_ULL(19, 16)
+> > +#define FAB_EVNT_PCIE0_RD		0x0
+> > +#define FAB_EVNT_PCIE0_WR		0x1
+> > +#define FAB_EVNT_PCIE1_RD		0x2
+> > +#define FAB_EVNT_PCIE1_WR		0x3
+> > +#define FAB_EVNT_UPI_RD			0x4
+> > +#define FAB_EVNT_UPI_WR			0x5
+> > +#define FAB_EVNT_MMIO_RD		0x6
+> > +#define FAB_EVNT_MMIO_WR		0x7
+> > +#define FAB_PORT_ID			GENMASK_ULL(21, 20)
+> > +#define FAB_PORT_FILTER			BIT_ULL(23)
+> > +#define FAB_PORT_FILTER_DISABLE		0
+> > +#define FAB_PORT_FILTER_ENABLE		1
+> > +#define FAB_CNTR			0x28
+> > +#define FAB_CNTR_EVNT_CNTR		GENMASK_ULL(59, 0)
+> > +#define FAB_CNTR_EVNT			GENMASK_ULL(63, 60)
+> > +
+> > +/*
+> > + * Performance Counter Registers for Clock.
+> > + *
+> > + * Clock Counter can't be reset or frozen by SW.
+> > + */
+> > +#define CLK_CNTR			0x30
+> > +#define BASIC_EVNT_CLK			0x0
+> > +
+> > +/*
+> > + * Performance Counter Registers for IOMMU / VT-D.
+> > + *
+> > + * VT-D Events are listed below as VTD_EVNT_* and VTD_SIP_EVNT_*
+> > + */
+> > +#define VTD_CTRL			0x38
+> > +#define VTD_RESET_CNTR			BIT_ULL(0)
+> > +#define VTD_FREEZE_CNTR			BIT_ULL(8)
+> > +#define VTD_CTRL_EVNT			GENMASK_ULL(19, 16)
+> > +#define VTD_EVNT_AFU_MEM_RD_TRANS	0x0
+> > +#define VTD_EVNT_AFU_MEM_WR_TRANS	0x1
+> > +#define VTD_EVNT_AFU_DEVTLB_RD_HIT	0x2
+> > +#define VTD_EVNT_AFU_DEVTLB_WR_HIT	0x3
+> > +#define VTD_EVNT_DEVTLB_4K_FILL		0x4
+> > +#define VTD_EVNT_DEVTLB_2M_FILL		0x5
+> > +#define VTD_EVNT_DEVTLB_1G_FILL		0x6
+> > +#define VTD_CNTR			0x40
+> > +#define VTD_CNTR_EVNT_CNTR		GENMASK_ULL(47, 0)
+> > +#define VTD_CNTR_EVNT			GENMASK_ULL(63, 60)
+> > +
+> > +#define VTD_SIP_CTRL			0x48
+> > +#define VTD_SIP_RESET_CNTR		BIT_ULL(0)
+> > +#define VTD_SIP_FREEZE_CNTR		BIT_ULL(8)
+> > +#define VTD_SIP_CTRL_EVNT		GENMASK_ULL(19, 16)
+> > +#define VTD_SIP_EVNT_IOTLB_4K_HIT	0x0
+> > +#define VTD_SIP_EVNT_IOTLB_2M_HIT	0x1
+> > +#define VTD_SIP_EVNT_IOTLB_1G_HIT	0x2
+> > +#define VTD_SIP_EVNT_SLPWC_L3_HIT	0x3
+> > +#define VTD_SIP_EVNT_SLPWC_L4_HIT	0x4
+> > +#define VTD_SIP_EVNT_RCC_HIT		0x5
+> > +#define VTD_SIP_EVNT_IOTLB_4K_MISS	0x6
+> > +#define VTD_SIP_EVNT_IOTLB_2M_MISS	0x7
+> > +#define VTD_SIP_EVNT_IOTLB_1G_MISS	0x8
+> > +#define VTD_SIP_EVNT_SLPWC_L3_MISS	0x9
+> > +#define VTD_SIP_EVNT_SLPWC_L4_MISS	0xa
+> > +#define VTD_SIP_EVNT_RCC_MISS		0xb
+> > +#define VTD_SIP_CNTR			0X50
+> > +#define VTD_SIP_CNTR_EVNT_CNTR		GENMASK_ULL(47, 0)
+> > +#define VTD_SIP_CNTR_EVNT		GENMASK_ULL(63, 60)
+> > +
+> > +#define PERF_TIMEOUT			30
+> > +
+> > +#define PERF_MAX_PORT_NUM		1
+> > +
+> > +/**
+> > + * struct fme_perf_priv - priv data structure for fme perf driver
+> > + *
+> > + * @dev: parent device.
+> > + * @ioaddr: mapped base address of mmio region.
+> > + * @pmu: pmu data structure for fme perf counters.
+> > + * @id: id of this fme performance report private feature.
+> > + * @fab_users: current user number on fabric counters.
+> > + * @fab_port_id: used to indicate current working mode of fabric counters.
+> > + * @fab_lock: lock to protect fabric counters working mode.
+> > + * @events_group: events attribute group for fme perf pmu.
+> > + * @attr_groups: attribute groups for fme perf pmu.
+> > + */
+> > +struct fme_perf_priv {
+> > +	struct device *dev;
+> > +	void __iomem *ioaddr;
+> > +	struct pmu pmu;
+> > +	u64 id;
+> > +
+> > +	u32 fab_users;
+> > +	u32 fab_port_id;
+> > +	spinlock_t fab_lock;
+> > +
+> > +	struct attribute_group events_group;
+> > +	const struct attribute_group *attr_groups[4];
+> > +};
+> > +
+> > +/**
+> > + * struct fme_perf_event_attr - fme perf event attribute
+> > + *
+> > + * @attr: device attribute of fme perf event.
+> > + * @event_id: id of fme perf event.
+> > + * @event_type: type of fme perf event.
+> > + * @is_port_event: indicate if this is a port based event.
+> > + * @data: private data for fme perf event.
+> > + */
+> > +struct fme_perf_event_attr {
+> > +	struct device_attribute attr;
+> > +	u32 event_id;
+> > +	u32 event_type;
+> > +	bool is_port_event;
+> > +	u64 data;
+> > +};
+> > +
+> > +/**
+> > + * struct fme_perf_event_ops - callbacks for fme perf events
+> > + *
+> > + * @event_init: callback invoked during event init.
+> > + * @event_destroy: callback invoked during event destroy.
+> > + * @read_counter: callback to read hardware counters.
+> > + */
+> > +struct fme_perf_event_ops {
+> > +	int (*event_init)(struct fme_perf_priv *priv, u32 event,
+> > +			  u32 port_id, u64 data);
+> > +	void (*event_destroy)(struct fme_perf_priv *priv, u32 event,
+> > +			      u32 port_id, u64 data);
+> > +	u64 (*read_counter)(struct fme_perf_priv *priv, u32 event,
+> > +			    u32 port_id, u64 data);
+> > +};
+> > +
+> > +/**
+> > + * struct fme_perf_event_group - fme perf groups
+> > + *
+> > + * @ev_attrs: fme perf event attributes.
+> > + * @num: events number in this group.
+> > + * @ops: same callbacks shared by all fme perf events in this group.
+> > + */
+> > +struct fme_perf_event_group {
+> > +	struct fme_perf_event_attr *ev_attrs;
+> > +	unsigned int num;
+> > +	struct fme_perf_event_ops *ops;
+> > +};
+> > +
+> > +#define to_fme_perf_priv(_pmu)	container_of(_pmu, struct fme_perf_priv, pmu)
+> > +
+> > +static cpumask_t fme_perf_cpumask = CPU_MASK_CPU0;
+> > +
+> > +static ssize_t cpumask_show(struct device *dev,
+> > +			    struct device_attribute *attr, char *buf)
+> > +{
+> > +	return cpumap_print_to_pagebuf(true, buf, &fme_perf_cpumask);
+> > +}
+> > +static DEVICE_ATTR_RO(cpumask);
+> > +
+> > +static struct attribute *fme_perf_cpumask_attrs[] = {
+> > +	&dev_attr_cpumask.attr,
+> > +	NULL,
+> > +};
+> > +
+> > +static struct attribute_group fme_perf_cpumask_group = {
+> > +	.attrs = fme_perf_cpumask_attrs,
+> > +};
+> > +
+> > +#define FME_EVENT_MASK		GENMASK_ULL(11, 0)
+> > +#define FME_EVTYPE_MASK		GENMASK_ULL(15, 12)
+> > +#define FME_EVTYPE_BASIC	0
+> > +#define FME_EVTYPE_CACHE	1
+> > +#define FME_EVTYPE_FABRIC	2
+> > +#define FME_EVTYPE_VTD		3
+> > +#define FME_EVTYPE_VTD_SIP	4
+> > +#define FME_EVTYPE_MAX		FME_EVTYPE_VTD_SIP
+> > +#define FME_PORTID_MASK		GENMASK_ULL(23, 16)
+> > +#define FME_PORTID_ROOT		(0xffU)
+> > +
+> > +PMU_FORMAT_ATTR(event,		"config:0-11");
+> > +PMU_FORMAT_ATTR(evtype,		"config:12-15");
+> > +PMU_FORMAT_ATTR(portid,		"config:16-23");
+> > +
+> > +static struct attribute *fme_perf_format_attrs[] = {
+> > +	&format_attr_event.attr,
+> > +	&format_attr_evtype.attr,
+> > +	&format_attr_portid.attr,
+> > +	NULL,
+> > +};
+> > +
+> > +static struct attribute_group fme_perf_format_group = {
+> > +	.name = "format",
+> > +	.attrs = fme_perf_format_attrs,
+> > +};
+> 
+> No Documentation/ABI/ entries for these sysfs files?
 
-Your suggestion doesn't expose any implementation detail and could meet your
-needs later. I'm okay. I will change it if others are not against of it.
+Hi Greg,
 
-Thanks, Dave.
+Thanks for the review.
+
+I think those sysfs groups are all common ones to pmu, actually group
+"events" and "format" are covered by these two ABI docs
+
+Documentation/ABI/testing/sysfs-bus-event_source-devices-events
+Documentation/ABI/testing/sysfs-bus-event_source-devices-format
+
+For cpumask, i believe it's a common sysfs interface too, almost everybody
+uses it (e.g. drivers/perf/*, and also perf tool). So we didn't introduce
+a new ABI doc for these common ones.
+
+As you see in this patchset, we add some descriptions in fpga/dfl.txt
+doc file, it's following the same way as other Documentation/perf/*, as
+we think it would help, and may be easier for FPGA user to find it.
+
+
+Thanks
+Hao
+
+> 
+> thanks,
+> 
+> greg k-h
