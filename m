@@ -2,93 +2,114 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DE875ADCF
-	for <lists+linux-api@lfdr.de>; Sun, 30 Jun 2019 01:48:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03B3A5ADD3
+	for <lists+linux-api@lfdr.de>; Sun, 30 Jun 2019 01:52:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726961AbfF2XsG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 29 Jun 2019 19:48:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58328 "EHLO mail.kernel.org"
+        id S1726957AbfF2XwE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 29 Jun 2019 19:52:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59172 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726954AbfF2XsG (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Sat, 29 Jun 2019 19:48:06 -0400
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+        id S1726952AbfF2XwE (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Sat, 29 Jun 2019 19:52:04 -0400
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1694D2177B
-        for <linux-api@vger.kernel.org>; Sat, 29 Jun 2019 23:48:05 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9B7AD20828
+        for <linux-api@vger.kernel.org>; Sat, 29 Jun 2019 23:52:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1561852085;
-        bh=/Z9JxHM/U8pOR2q9Q111pLKFbaSLjxZI1rBO4UNXjGs=;
+        s=default; t=1561852322;
+        bh=6zNQnfiowkbQ8h6I1Y7teWbbkPJhz6He7iJKmvs4QWA=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=DhmTf41Y2AuaabsMozTRzHIZvaRyAuQnNAVsjlAdX17h5VfZCAAt73CqYND0OuWLT
-         Lq4O6ZKNaaR2s6Xde+Jhb4vpZSxaF7h0FlO1NZ6Zu41SuIQF4k0VerykHuEEWED+Xa
-         1d9VWfWJonrnFa53poGTxTuBHSXOqSfoVPIl25NE=
-Received: by mail-wm1-f49.google.com with SMTP id x15so12387090wmj.3
-        for <linux-api@vger.kernel.org>; Sat, 29 Jun 2019 16:48:05 -0700 (PDT)
-X-Gm-Message-State: APjAAAU4InkFiIu90Joi43tD+3y4PypzXT77MccZw50LOwaMK7MUDfyb
-        AKwRmnneB1oxZ+2xYNb/YmTkdkDCkSXOCusqQPU+Ow==
-X-Google-Smtp-Source: APXvYqwPvmJHkMRl329cQ9T4D/2dboMc6Y5O8FWBmYdZc9xtZrbDnQPOXbb072fAhtMQs+QCOGRqxnm2IlTbXokTVhU=
-X-Received: by 2002:a1c:1a56:: with SMTP id a83mr12548344wma.161.1561852083701;
- Sat, 29 Jun 2019 16:48:03 -0700 (PDT)
+        b=LqHFV/mMj1WJ1FJYjm4dsZpET86Mk/PcxN8/9sOQw1WXWUG0Jw9kUjnmFl3GysdAD
+         3HSO7T1bHPJwRE/Sbj1fNLXA027nVKrVADGQkhL1cKA3q8a0ez7Dwgxg+zfl7gVTto
+         wGWlXzmhRnEbB5Zg1vV8H1Rq3yYKZdrURN7yOqMA=
+Received: by mail-wm1-f51.google.com with SMTP id v19so12259556wmj.5
+        for <linux-api@vger.kernel.org>; Sat, 29 Jun 2019 16:52:02 -0700 (PDT)
+X-Gm-Message-State: APjAAAXfI+02OD5ZgqcqRAo8usID/JOHHORqEgSCXvlRCmacfynPg1+u
+        y49mUrEI6o3AZLvQFvJlptrO6wBgxPa6y61AaDSuSA==
+X-Google-Smtp-Source: APXvYqxhmwDqrmlkZAimba10Xv/RlD6PB4UdF/fPwsFeXRzhkaTblqCt81E36GQUxcf4afzX9qpHfKxpnuSWGrcyO2s=
+X-Received: by 2002:a7b:c450:: with SMTP id l16mr12352705wmi.0.1561852321259;
+ Sat, 29 Jun 2019 16:52:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190621011941.186255-1-matthewgarrett@google.com>
- <20190621011941.186255-25-matthewgarrett@google.com> <CALCETrVUwQP7roLnW6kFG80Cc5U6X_T6AW+BTAftLccYGp8+Ow@mail.gmail.com>
- <alpine.LRH.2.21.1906270621080.28132@namei.org> <6E53376F-01BB-4795-BC02-24F9CAE00001@amacapital.net>
- <bce70c8b-9efd-6362-d536-cfbbcf70b0b7@tycho.nsa.gov> <CALCETrXwt43w6rQY6zt0J_3HOaad=+E5PushJNdSOZDBuaYV+Q@mail.gmail.com>
- <CACdnJuuy7-tkj86njAqtdJ3dUMu-2T8a2y8DC3fMKBK0z9J6ag@mail.gmail.com>
-In-Reply-To: <CACdnJuuy7-tkj86njAqtdJ3dUMu-2T8a2y8DC3fMKBK0z9J6ag@mail.gmail.com>
+References: <20190501211217.5039-1-yu-cheng.yu@intel.com> <20190502111003.GO3567@e103592.cambridge.arm.com>
+ <CALCETrVZCzh+KFCF6ijuf4QEPn=R2gJ8FHLpyFd=n+pNOMMMjA@mail.gmail.com> <87ef3fweoq.fsf@oldenburg2.str.redhat.com>
+In-Reply-To: <87ef3fweoq.fsf@oldenburg2.str.redhat.com>
 From:   Andy Lutomirski <luto@kernel.org>
-Date:   Sat, 29 Jun 2019 16:47:52 -0700
-X-Gmail-Original-Message-ID: <CALCETrUzGfB2EO0eUpan3b4qyUPmkTZ-7dMuLqu_bmnY-ry=SA@mail.gmail.com>
-Message-ID: <CALCETrUzGfB2EO0eUpan3b4qyUPmkTZ-7dMuLqu_bmnY-ry=SA@mail.gmail.com>
-Subject: Re: [PATCH V33 24/30] bpf: Restrict bpf when kernel lockdown is in
- confidentiality mode
-To:     Matthew Garrett <mjg59@google.com>
+Date:   Sat, 29 Jun 2019 16:51:50 -0700
+X-Gmail-Original-Message-ID: <CALCETrUPJXW7An9EBaRQLppB3vHEQFfYP1o8h-4PSFcZt5Pa2A@mail.gmail.com>
+Message-ID: <CALCETrUPJXW7An9EBaRQLppB3vHEQFfYP1o8h-4PSFcZt5Pa2A@mail.gmail.com>
+Subject: Re: [PATCH] binfmt_elf: Extract .note.gnu.property from an ELF file
+To:     Florian Weimer <fweimer@redhat.com>
 Cc:     Andy Lutomirski <luto@kernel.org>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        James Morris <jmorris@namei.org>,
-        linux-security@vger.kernel.org,
+        Dave Martin <Dave.Martin@arm.com>,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
         LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
-        David Howells <dhowells@redhat.com>,
-        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-        Network Development <netdev@vger.kernel.org>,
-        Chun-Yi Lee <jlee@suse.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        LSM List <linux-security-module@vger.kernel.org>
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        libc-alpha <libc-alpha@sourceware.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jun 28, 2019 at 11:47 AM Matthew Garrett <mjg59@google.com> wrote:
+On Thu, Jun 27, 2019 at 2:39 AM Florian Weimer <fweimer@redhat.com> wrote:
 >
-> On Thu, Jun 27, 2019 at 4:27 PM Andy Lutomirski <luto@kernel.org> wrote:
-> > They're really quite similar in my mind.  Certainly some things in the
-> > "integrity" category give absolutely trivial control over the kernel
-> > (e.g. modules) while others make it quite challenging (ioperm), but
-> > the end result is very similar.  And quite a few "confidentiality"
-> > things genuinely do allow all kernel memory to be read.
-> >
-> > I agree that finer-grained distinctions could be useful. My concern is
-> > that it's a tradeoff, and the other end of the tradeoff is an ABI
-> > stability issue.  If someone decides down the road that some feature
-> > that is currently "integrity" can be split into a narrow "integrity"
-> > feature and a "confidentiality" feature then, if the user policy knows
-> > about the individual features, there's a risk of breaking people's
-> > systems.  If we keep the fine-grained control, do we have a clear
-> > compatibility story?
+> * Andy Lutomirski:
 >
-> My preference right now is to retain the fine-grained aspect of things
-> in the internal API, simply because it'll be more annoying to add it
-> back later if we want to. I don't want to expose it via the Lockdown
-> user facing API for the reasons you've described, but it's not
-> impossible that another LSM would find a way to do this reasonably.
-> Does it seem reasonable to punt this discussion out to the point where
-> another LSM tries to do something with this information, based on the
-> implementation they're attempting?
+> > Also, I don't think there's any actual requirement that the upstream
+> > kernel recognize existing CET-enabled RHEL 8 binaries as being
+> > CET-enabled.  I tend to think that RHEL 8 jumped the gun here.
+>
+> The ABI was supposed to be finalized and everyone involved thought it
+> had been reviewed by the GNU gABI community and other interested
+> parties.  It had been included in binutils for several releases.
+>
+> From my point of view, the kernel is just a consumer of the ABI.  The
+> kernel would not change an instruction encoding if it doesn't like it
+> for some reason, either.
 
-I think I can get behind this, as long as it's clear to LSM authors
-that this list is only a little bit stable.  I can certainly see the
-use for the fine-grained info being available for auditing.
+I read the only relevant gABI thing I could find easily, and it seems
+to document the "gnu property" thing.  I have no problem with that.
+
+>
+> > While the upstream kernel should make some reasonble effort to make
+> > sure that RHEL 8 binaries will continue to run, I don't see why we
+> > need to go out of our way to keep the full set of mitigations
+> > available for binaries that were developed against a non-upstream
+> > kernel.
+>
+> They were developed against the ABI specification.
+>
+> I do not have a strong opinion what the kernel should do going forward.
+> I just want to make clear what happened.
+
+I admit that I'm not really clear on exactly what RHEL 8 shipped.
+Some of this stuff is very much an ELF ABI that belongs to the
+toolchain, but some if it is kernel API.  For example, the IBT legacy
+bitmap API is very much in flux, and I don't think anything credible
+has been submitted for upstream inclusion.  Does RHEL 8's glibc
+attempt to cope with the case where some libraries are CET-compatible
+and some are not?  If so, how does this work?  What, if any, services
+does the RHEL 8 kernel provide in this direction?
