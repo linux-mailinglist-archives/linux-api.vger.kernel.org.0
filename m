@@ -2,121 +2,191 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 47F255B2F6
-	for <lists+linux-api@lfdr.de>; Mon,  1 Jul 2019 04:59:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3730C5B540
+	for <lists+linux-api@lfdr.de>; Mon,  1 Jul 2019 08:44:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726509AbfGAC7l (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 30 Jun 2019 22:59:41 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:54944 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726472AbfGAC7l (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 30 Jun 2019 22:59:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=IHOctcrnamPZlDOqkWx9gP7HKz6z4cfFnI1BHiO0w78=; b=MKHZDli96OWvWZf7Ml4qTTeTS
-        ADyGVjgEjt6ySSV9VdCosU1hi/21jcTscAC72nDZep1VKznI9fOx5A3N3iQPcPQy90pnC1WC+eC1S
-        Rr7xFMdssx1hm0W+7gNoMx1ZjX+NiaShGwa47IjtziyeHwzGGep8ZAN86u3cCfovTY2F7wuumVf87
-        txn5FMi7ZWCH/Z/lgAMKc90KP7QwzvTaqGRrZNGra+ZSPqK40+DWONlvWDTT8RVbu20a0hZVH3uxk
-        H2OilOPm03NJt7KIxOKf2aPx1YW4NfG8NGsQC+FAYu1tdnITXha3MxrdrMgG9/RcGNspO6MR5oPXD
-        8OeSFCLlA==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=dragon.dunlab)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hhmXZ-0007q7-Pi; Mon, 01 Jul 2019 02:59:37 +0000
-Subject: Re: [PATCH 2/6] Adjust watch_queue documentation to mention mount and
- superblock watches. [ver #5]
-To:     David Howells <dhowells@redhat.com>, viro@zeniv.linux.org.uk
-Cc:     Casey Schaufler <casey@schaufler-ca.com>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        nicolas.dichtel@6wind.com, raven@themaw.net,
-        Christian Brauner <christian@brauner.io>,
-        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <156173701358.15650.8735203424342507015.stgit@warthog.procyon.org.uk>
- <156173703546.15650.14319137940607993268.stgit@warthog.procyon.org.uk>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <7a288c2c-11a1-87df-9550-b247d6ce3010@infradead.org>
-Date:   Sun, 30 Jun 2019 19:59:33 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
-MIME-Version: 1.0
-In-Reply-To: <156173703546.15650.14319137940607993268.stgit@warthog.procyon.org.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S1727318AbfGAGoL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 1 Jul 2019 02:44:11 -0400
+Received: from mga07.intel.com ([134.134.136.100]:58897 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727093AbfGAGoL (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 1 Jul 2019 02:44:11 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 Jun 2019 23:39:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,437,1557212400"; 
+   d="scan'208";a="361731239"
+Received: from hao-dev.bj.intel.com ([10.238.157.65])
+  by fmsmga005.fm.intel.com with ESMTP; 30 Jun 2019 23:39:00 -0700
+From:   Wu Hao <hao.wu@intel.com>
+To:     mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     linux-api@vger.kernel.org, gregkh@linuxfoundation.org,
+        atull@kernel.org, Wu Hao <hao.wu@intel.com>,
+        Xu Yilun <yilun.xu@intel.com>
+Subject: [PATCH v2 05/15] Documentation: fpga: dfl: add descriptions for virtualization and new interfaces.
+Date:   Mon,  1 Jul 2019 14:22:12 +0800
+Message-Id: <1561962132-3782-1-git-send-email-hao.wu@intel.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi David,
+This patch adds virtualization support description for DFL based
+FPGA devices (based on PCIe SRIOV), and introductions to new
+interfaces added by new dfl private feature drivers.
 
-On 6/28/19 8:50 AM, David Howells wrote:
-> Signed-off-by: David Howells <dhowells@redhat.com>
-> ---
-> 
->  Documentation/watch_queue.rst |   20 +++++++++++++++++++-
->  drivers/misc/Kconfig          |    5 +++--
->  2 files changed, 22 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/watch_queue.rst b/Documentation/watch_queue.rst
-> index 4087a8e670a8..1bec2018d549 100644
-> --- a/Documentation/watch_queue.rst
-> +++ b/Documentation/watch_queue.rst
-> @@ -13,6 +13,10 @@ receive notifications from the kernel.  This can be used in conjunction with::
->  
->      * USB subsystem event notifications
->  
-> +  * Mount topology change notifications
-> +
-> +  * Superblock event notifications
-> +
->  
->  The notifications buffers can be enabled by:
->  
-> @@ -324,6 +328,19 @@ Any particular buffer can be fed from multiple sources.  Sources include:
->      for buses and devices.  Watchpoints of this type are set on the global
->      device watch list.
->  
-> +  * WATCH_TYPE_MOUNT_NOTIFY
-> +
-> +    Notifications of this type indicate mount tree topology changes and mount
-> +    attribute changes.  A watch can be set on a particular file or directory
-> +    and notifications from the path subtree rooted at that point will be
-> +    intercepted.
-> +
-> +  * WATCH_TYPE_SB_NOTIFY
-> +
-> +    Notifications of this type indicate superblock events, such as quota limits
-> +    being hit, I/O errors being produced or network server loss/reconnection.
-> +    Watches of this type are set directly on superblocks.
-> +
->  
->  Event Filtering
->  ===============
-> @@ -365,7 +382,8 @@ Where:
->  	(watch.info & info_mask) == info_filter
->  
->      This could be used, for example, to ignore events that are not exactly on
-> -    the watched point in a mount tree.
-> +    the watched point in a mount tree by specifying NOTIFY_MOUNT_IN_SUBTREE
-> +    must be 0.
+[mdf@kernel.org: Fixed up to make it work with new reStructuredText docs]
+Signed-off-by: Xu Yilun <yilun.xu@intel.com>
+Signed-off-by: Wu Hao <hao.wu@intel.com>
+Acked-by: Alan Tull <atull@kernel.org>
+Signed-off-by: Moritz Fischer <mdf@kernel.org>
+---
+v2: fix issues during rebasing (doc format change txt -> rst).
+---
+ Documentation/fpga/dfl.rst | 105 +++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 105 insertions(+)
 
-I'm having a little trouble parsing that sentence.
-Could you clarify it or maybe rewrite/modify it?
-Thanks.
-
->  
->    * ``subtype_filter`` is a bitmask indicating the subtypes that are of
->      interest.  Bit 0 of subtype_filter[0] corresponds to subtype 0, bit 1 to
-
-
-
+diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
+index 2f125ab..6fa483f 100644
+--- a/Documentation/fpga/dfl.rst
++++ b/Documentation/fpga/dfl.rst
+@@ -87,6 +87,8 @@ The following functions are exposed through ioctls:
+ - Get driver API version (DFL_FPGA_GET_API_VERSION)
+ - Check for extensions (DFL_FPGA_CHECK_EXTENSION)
+ - Program bitstream (DFL_FPGA_FME_PORT_PR)
++- Assign port to PF (DFL_FPGA_FME_PORT_ASSIGN)
++- Release port from PF (DFL_FPGA_FME_PORT_RELEASE)
+ 
+ More functions are exposed through sysfs
+ (/sys/class/fpga_region/regionX/dfl-fme.n/):
+@@ -102,6 +104,10 @@ More functions are exposed through sysfs
+      one FPGA device may have more than one port, this sysfs interface indicates
+      how many ports the FPGA device has.
+ 
++ Global error reporting management (errors/)
++     error reporting sysfs interfaces allow user to read errors detected by the
++     hardware, and clear the logged errors.
++
+ 
+ FIU - PORT
+ ==========
+@@ -143,6 +149,10 @@ More functions are exposed through sysfs:
+  Read Accelerator GUID (afu_id)
+      afu_id indicates which PR bitstream is programmed to this AFU.
+ 
++ Error reporting (errors/)
++     error reporting sysfs interfaces allow user to read port/afu errors
++     detected by the hardware, and clear the logged errors.
++
+ 
+ DFL Framework Overview
+ ======================
+@@ -218,6 +228,101 @@ the compat_id exposed by the target FPGA region. This check is usually done by
+ userspace before calling the reconfiguration IOCTL.
+ 
+ 
++FPGA virtualization - PCIe SRIOV
++================================
++This section describes the virtualization support on DFL based FPGA device to
++enable accessing an accelerator from applications running in a virtual machine
++(VM). This section only describes the PCIe based FPGA device with SRIOV support.
++
++Features supported by the particular FPGA device are exposed through Device
++Feature Lists, as illustrated below:
++
++::
++
++    +-------------------------------+  +-------------+
++    |              PF               |  |     VF      |
++    +-------------------------------+  +-------------+
++        ^            ^         ^              ^
++        |            |         |              |
++  +-----|------------|---------|--------------|-------+
++  |     |            |         |              |       |
++  |  +-----+     +-------+ +-------+      +-------+   |
++  |  | FME |     | Port0 | | Port1 |      | Port2 |   |
++  |  +-----+     +-------+ +-------+      +-------+   |
++  |                  ^         ^              ^       |
++  |                  |         |              |       |
++  |              +-------+ +------+       +-------+   |
++  |              |  AFU  | |  AFU |       |  AFU  |   |
++  |              +-------+ +------+       +-------+   |
++  |                                                   |
++  |            DFL based FPGA PCIe Device             |
++  +---------------------------------------------------+
++
++FME is always accessed through the physical function (PF).
++
++Ports (and related AFUs) are accessed via PF by default, but could be exposed
++through virtual function (VF) devices via PCIe SRIOV. Each VF only contains
++1 Port and 1 AFU for isolation. Users could assign individual VFs (accelerators)
++created via PCIe SRIOV interface, to virtual machines.
++
++The driver organization in virtualization case is illustrated below:
++::
++
++    +-------++------++------+             |
++    | FME   || FME  || FME  |             |
++    | FPGA  || FPGA || FPGA |             |
++    |Manager||Bridge||Region|             |
++    +-------++------++------+             |
++    +-----------------------+  +--------+ |             +--------+
++    |          FME          |  |  AFU   | |             |  AFU   |
++    |         Module        |  | Module | |             | Module |
++    +-----------------------+  +--------+ |             +--------+
++          +-----------------------+       |       +-----------------------+
++          | FPGA Container Device |       |       | FPGA Container Device |
++          |  (FPGA Base Region)   |       |       |  (FPGA Base Region)   |
++          +-----------------------+       |       +-----------------------+
++            +------------------+          |         +------------------+
++            | FPGA PCIE Module |          | Virtual | FPGA PCIE Module |
++            +------------------+   Host   | Machine +------------------+
++   -------------------------------------- | ------------------------------
++             +---------------+            |          +---------------+
++             | PCI PF Device |            |          | PCI VF Device |
++             +---------------+            |          +---------------+
++
++FPGA PCIe device driver is always loaded first once a FPGA PCIe PF or VF device
++is detected. It:
++
++* Finishes enumeration on both FPGA PCIe PF and VF device using common
++  interfaces from DFL framework.
++* Supports SRIOV.
++
++The FME device driver plays a management role in this driver architecture, it
++provides ioctls to release Port from PF and assign Port to PF. After release
++a port from PF, then it's safe to expose this port through a VF via PCIe SRIOV
++sysfs interface.
++
++To enable accessing an accelerator from applications running in a VM, the
++respective AFU's port needs to be assigned to a VF using the following steps:
++
++#. The PF owns all AFU ports by default. Any port that needs to be
++   reassigned to a VF must first be released through the
++   DFL_FPGA_FME_PORT_RELEASE ioctl on the FME device.
++
++#. Once N ports are released from PF, then user can use command below
++   to enable SRIOV and VFs. Each VF owns only one Port with AFU.
++
++   ::
++
++      echo N > $PCI_DEVICE_PATH/sriov_numvfs
++
++#. Pass through the VFs to VMs
++
++#. The AFU under VF is accessible from applications in VM (using the
++   same driver inside the VF).
++
++Note that an FME can't be assigned to a VF, thus PR and other management
++functions are only available via the PF.
++
+ Device enumeration
+ ==================
+ This section introduces how applications enumerate the fpga device from
 -- 
-~Randy
+2.7.4
+
