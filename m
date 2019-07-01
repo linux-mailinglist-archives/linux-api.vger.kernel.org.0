@@ -2,398 +2,547 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 41E685B564
-	for <lists+linux-api@lfdr.de>; Mon,  1 Jul 2019 08:55:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C3D6D5B5C2
+	for <lists+linux-api@lfdr.de>; Mon,  1 Jul 2019 09:35:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727720AbfGAGzd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 1 Jul 2019 02:55:33 -0400
-Received: from mga18.intel.com ([134.134.136.126]:53192 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727716AbfGAGzc (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 1 Jul 2019 02:55:32 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 Jun 2019 23:54:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,437,1557212400"; 
-   d="scan'208";a="165255022"
-Received: from hao-dev.bj.intel.com ([10.238.157.65])
-  by fmsmga007.fm.intel.com with ESMTP; 30 Jun 2019 23:54:05 -0700
-From:   Wu Hao <hao.wu@intel.com>
-To:     mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     linux-api@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        jdelvare@suse.com, linux@roeck-us.net, atull@kernel.org,
-        gregkh@linuxfoundation.org, Wu Hao <hao.wu@intel.com>,
-        Luwei Kang <luwei.kang@intel.com>,
-        Xu Yilun <yilun.xu@intel.com>
-Subject: [PATCH v5 3/3] fpga: dfl: fme: add power management support
-Date:   Mon,  1 Jul 2019 14:37:07 +0800
-Message-Id: <1561963027-4213-4-git-send-email-hao.wu@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1561963027-4213-1-git-send-email-hao.wu@intel.com>
-References: <1561963027-4213-1-git-send-email-hao.wu@intel.com>
+        id S1727403AbfGAHfK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 1 Jul 2019 03:35:10 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:34186 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727282AbfGAHfK (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 1 Jul 2019 03:35:10 -0400
+Received: by mail-pl1-f193.google.com with SMTP id i2so6886702plt.1;
+        Mon, 01 Jul 2019 00:35:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=71m5Jc7yVHoWmTO589LwHIoJGVcKpT8MN+HFfAHTHfI=;
+        b=mwYHkb4dcemqfJDLATPe6QUhp/1JIC56rwSI2q8LyF9tqejjEDQqFn879h+YvvYgqC
+         NODMU8DvsBcAyPli9MgwqT+GozmYr3BokfDdnHxHt8YhMEY/xmU8su7SuTC2ahi0gBIi
+         ig3iGhAgU+zK1RUVIMHjW4LFAzKbtUz8rt27S4sIcLpzKVp34qZaaEGEQmnirByjM2yF
+         PFmOlRonCy4DQfKL6zxAyMaXZH4vI+n7sKE8sZAv/9zk9SjNegSfJobCrjJXRcJuAdU7
+         LuQFOYe5duAPWJfSxITPmsHJ6Ei2zl7Sujs/E5cXiQW2uUrAlgXePEczcqyzCmCijxWR
+         jQ2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=71m5Jc7yVHoWmTO589LwHIoJGVcKpT8MN+HFfAHTHfI=;
+        b=JaPoDW63dtLlNtKENE1Jz5FIl4nb1enB6xblMLgrFp+uql7R9LK4AnfrRycTlz1/Ch
+         n6jkn5seiXuFX5WSo7VdSTWmjTf706rWJq4KCj+/OGr/7f3irDubrb1nK4q1pWcO5T/l
+         FMW4hsYzC4NqYtveG1nwTUgyWcv9oTSB7J5rcc/jIBMQ5ytgbD8cC+yzVgqeW12Aw7UN
+         9k3iFqbvdyIDGUXl/1anF4RZJ/gFQ1T9uZjfeJCD4jBOA0m46rOljeRjp1zvd1CuBxFx
+         lV36z23ZG7nnyMOBynipq0KGT/RA4blySqmNNFHWZY8J5xxKp+JyTE+yI/0Y6UoZ13m6
+         oC/g==
+X-Gm-Message-State: APjAAAWgKQQG+tCg8ncN0QjEe6TVlW3IlngLoRYFBJh2yU0/cvQR3zHY
+        us38LBpJwfrApxvI6klTFnw=
+X-Google-Smtp-Source: APXvYqzesPMDKMlXkUx0Md/0kxnp6qGpoFUbbhoRbhzs7ZmQqCvtQdk/SxKyxccG0hNqQJabiZOP8g==
+X-Received: by 2002:a17:902:542:: with SMTP id 60mr27687591plf.68.1561966509009;
+        Mon, 01 Jul 2019 00:35:09 -0700 (PDT)
+Received: from google.com ([2401:fa00:d:0:98f1:8b3d:1f37:3e8])
+        by smtp.gmail.com with ESMTPSA id j1sm9837188pfe.101.2019.07.01.00.35.03
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Mon, 01 Jul 2019 00:35:07 -0700 (PDT)
+Date:   Mon, 1 Jul 2019 16:35:00 +0900
+From:   Minchan Kim <minchan@kernel.org>
+To:     Michal Hocko <mhocko@kernel.org>
+Cc:     Dave Hansen <dave.hansen@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-mm <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-api@vger.kernel.org,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Tim Murray <timmurray@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Daniel Colascione <dancol@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Sonny Rao <sonnyrao@google.com>, oleksandr@redhat.com,
+        hdanton@sina.com, lizeb@google.com,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: Re: [PATCH v3 1/5] mm: introduce MADV_COLD
+Message-ID: <20190701073500.GA136163@google.com>
+References: <20190627115405.255259-1-minchan@kernel.org>
+ <20190627115405.255259-2-minchan@kernel.org>
+ <343599f9-3d99-b74f-1732-368e584fa5ef@intel.com>
+ <20190627140203.GB5303@dhcp22.suse.cz>
+ <d9341eb3-08eb-3c2b-9786-00b8a4f59953@intel.com>
+ <20190627145302.GC5303@dhcp22.suse.cz>
+ <20190627235618.GC33052@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190627235618.GC33052@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This patch adds support for power management private feature under
-FPGA Management Engine (FME). This private feature driver registers
-a hwmon for power (power1_input), thresholds information, e.g.
-(power1_max / crit / max_alarm / crit_alarm) and also read-only sysfs
-interfaces for other power management information. For configuration,
-user could write threshold values via above power1_max / crit sysfs
-interface under hwmon too.
+On Fri, Jun 28, 2019 at 08:56:18AM +0900, Minchan Kim wrote:
+> On Thu, Jun 27, 2019 at 04:53:02PM +0200, Michal Hocko wrote:
+> > On Thu 27-06-19 07:36:50, Dave Hansen wrote:
+> > [...]
+> > > For MADV_COLD, if we defined it like this, I think we could use it for
+> > > both purposes (demotion and LRU movement):
+> > > 
+> > > 	Pages in the specified regions will be treated as less-recently-
+> > > 	accessed compared to pages in the system with similar access
+> > > 	frequencies.  In contrast to MADV_DONTNEED, the contents of the
+> > 
+> > you meant s@MADV_DONTNEED@MADV_FREE@ I suppose
+> 
+> Right, MADV_FREE is more proper because it's aging related.
+> 
+> > 
+> > > 	region are preserved.
+> > > 
+> > > It would be nice not to talk about reclaim at all since we're not
+> > > promising reclaim per se.
+> 
+> Your suggestion doesn't expose any implementation detail and could meet your
+> needs later. I'm okay. I will change it if others are not against of it.
+> 
+> Thanks, Dave.
 
-Signed-off-by: Luwei Kang <luwei.kang@intel.com>
-Signed-off-by: Xu Yilun <yilun.xu@intel.com>
-Signed-off-by: Wu Hao <hao.wu@intel.com>
----
-v2: create a dfl_fme_power hwmon to expose power sysfs interfaces.
-    move all sysfs interfaces under hwmon
-        consumed          --> hwmon power1_input
-        threshold1        --> hwmon power1_cap
-        threshold2        --> hwmon power1_crit
-        threshold1_status --> hwmon power1_cap_status
-        threshold2_status --> hwmon power1_crit_status
-        xeon_limit        --> hwmon power1_xeon_limit
-        fpga_limit        --> hwmon power1_fpga_limit
-        ltr               --> hwmon power1_ltr
-v3: rename some hwmon sysfs interfaces to follow hwmon ABI.
-	power1_cap         --> power1_max
-	power1_cap_status  --> power1_max_alarm
-	power1_crit_status --> power1_crit_alarm
-    update sysfs doc for above sysfs interface changes.
-    replace scnprintf with sprintf in sysfs interface.
-v4: use HWMON_CHANNEL_INFO.
-    update date in sysfs doc.
-v5: clamp threshold inputs in power_hwmon_write function.
-    update sysfs doc as threshold inputs are clamped now.
-    add more descriptions to ltr sysfs interface.
----
- Documentation/ABI/testing/sysfs-platform-dfl-fme |  68 +++++++
- drivers/fpga/dfl-fme-main.c                      | 216 +++++++++++++++++++++++
- 2 files changed, 284 insertions(+)
+From 39df9f94e6204b8893f3f3feb692745657392657 Mon Sep 17 00:00:00 2001
+From: Minchan Kim <minchan@kernel.org>
+Date: Fri, 24 May 2019 13:47:54 +0900
+Subject: [PATCH v3 1/5] mm: introduce MADV_COLD
 
-diff --git a/Documentation/ABI/testing/sysfs-platform-dfl-fme b/Documentation/ABI/testing/sysfs-platform-dfl-fme
-index 2cd17dc..5c2e49d 100644
---- a/Documentation/ABI/testing/sysfs-platform-dfl-fme
-+++ b/Documentation/ABI/testing/sysfs-platform-dfl-fme
-@@ -127,6 +127,7 @@ Contact:	Wu Hao <hao.wu@intel.com>
- Description:	Read-Only. Read this file to get the name of hwmon device, it
- 		supports values:
- 		    'dfl_fme_thermal' - thermal hwmon device name
-+		    'dfl_fme_power'   - power hwmon device name
+When a process expects no accesses to a certain memory range, it could
+give a hint to kernel that the pages can be reclaimed when memory pressure
+happens but data should be preserved for future use.  This could reduce
+workingset eviction so it ends up increasing performance.
+
+This patch introduces the new MADV_COLD hint to madvise(2) syscall.
+MADV_COLD can be used by a process to mark a memory range as not expected
+to be used in the near future. The hint can help kernel in deciding which
+pages to evict early during memory pressure.
+
+It works for every LRU pages like MADV_[DONTNEED|FREE]. IOW, It moves
+
+	active file page -> inactive file LRU
+	active anon page -> inacdtive anon LRU
+
+Unlike MADV_FREE, it doesn't move active anonymous pages to inactive
+file LRU's head because MADV_COLD is a little bit different symantic.
+MADV_FREE means it's okay to discard when the memory pressure because
+the content of the page is *garbage* so freeing such pages is almost zero
+overhead since we don't need to swap out and access afterward causes just
+minor fault. Thus, it would make sense to put those freeable pages in
+inactive file LRU to compete other used-once pages. It makes sense for
+implmentaion point of view, too because it's not swapbacked memory any
+longer until it would be re-dirtied. Even, it could give a bonus to make
+them be reclaimed on swapless system. However, MADV_COLD doesn't mean
+garbage so reclaiming them requires swap-out/in in the end so it's bigger
+cost. Since we have designed VM LRU aging based on cost-model, anonymous
+cold pages would be better to position inactive anon's LRU list, not file
+LRU. Furthermore, it would help to avoid unnecessary scanning if system
+doesn't have a swap device. Let's start simpler way without adding
+complexity at this moment. However, keep in mind, too that it's a caveat
+that workloads with a lot of pages cache are likely to ignore MADV_COLD
+on anonymous memory because we rarely age anonymous LRU lists.
+
+* man-page material
+
+MADV_COLD (since Linux x.x)
+
+Pages in the specified regions will be treated as less-recently-accessed
+compared to pages in the system with similar access frequencies.
+In contrast to MADV_FREE, the contents of the region are preserved
+regardless of subsequent writes to pages.
+
+MADV_COLD cannot be applied to locked pages, Huge TLB pages, or VM_PFNMAP
+pages.
+
+* v2
+ * add up the warn with lots of page cache workload - mhocko
+ * add man page stuff - dave
+
+* v1
+ * remove page_mapcount filter - hannes, mhocko
+ * remove idle page handling - joelaf
+
+* RFCv2
+ * add more description - mhocko
+
+* RFCv1
+ * renaming from MADV_COOL to MADV_COLD - hannes
+
+* internal review
+ * use clear_page_youn in deactivate_page - joelaf
+ * Revise the description - surenb
+ * Renaming from MADV_WARM to MADV_COOL - surenb
+
+Signed-off-by: Minchan Kim <minchan@kernel.org>
+---
+ include/linux/swap.h                   |   1 +
+ include/uapi/asm-generic/mman-common.h |   1 +
+ mm/internal.h                          |   2 +-
+ mm/madvise.c                           | 180 ++++++++++++++++++++++++-
+ mm/oom_kill.c                          |   2 +-
+ mm/swap.c                              |  42 ++++++
+ 6 files changed, 224 insertions(+), 4 deletions(-)
+
+diff --git a/include/linux/swap.h b/include/linux/swap.h
+index de2c67a33b7e..0ce997edb8bb 100644
+--- a/include/linux/swap.h
++++ b/include/linux/swap.h
+@@ -340,6 +340,7 @@ extern void lru_add_drain_cpu(int cpu);
+ extern void lru_add_drain_all(void);
+ extern void rotate_reclaimable_page(struct page *page);
+ extern void deactivate_file_page(struct page *page);
++extern void deactivate_page(struct page *page);
+ extern void mark_page_lazyfree(struct page *page);
+ extern void swap_setup(void);
  
- What:		/sys/bus/platform/devices/dfl-fme.0/hwmon/hwmonX/temp1_input
- Date:		June 2019
-@@ -183,3 +184,70 @@ Description:	Read-Only. Read this file to get the policy of hardware threshold1
- 		(see 'temp1_max'). It only supports two values (policies):
- 		    0 - AP2 state (90% throttling)
- 		    1 - AP1 state (50% throttling)
-+
-+What:		/sys/bus/platform/devices/dfl-fme.0/hwmon/hwmonX/power1_input
-+Date:		June 2019
-+KernelVersion:	5.3
-+Contact:	Wu Hao <hao.wu@intel.com>
-+Description:	Read-Only. It returns current FPGA power consumption in uW.
-+
-+What:		/sys/bus/platform/devices/dfl-fme.0/hwmon/hwmonX/power1_max
-+Date:		June 2019
-+KernelVersion:	5.3
-+Contact:	Wu Hao <hao.wu@intel.com>
-+Description:	Read-Write. Read this file to get current hardware power
-+		threshold1 in uW. If power consumption rises at or above
-+		this threshold, hardware starts 50% throttling.
-+		Write this file to set current hardware power threshold1 in uW.
-+		As hardware only accepts values in Watts, so input value will
-+		be round down per Watts (< 1 watts part will be discarded) and
-+		clamped within the range from 0 to 127 Watts. Write fails with
-+		-EINVAL if input parsing fails.
-+
-+What:		/sys/bus/platform/devices/dfl-fme.0/hwmon/hwmonX/power1_crit
-+Date:		June 2019
-+KernelVersion:	5.3
-+Contact:	Wu Hao <hao.wu@intel.com>
-+Description:	Read-Write. Read this file to get current hardware power
-+		threshold2 in uW. If power consumption rises at or above
-+		this threshold, hardware starts 90% throttling.
-+		Write this file to set current hardware power threshold2 in uW.
-+		As hardware only accepts values in Watts, so input value will
-+		be round down per Watts (< 1 watts part will be discarded) and
-+		clamped within the range from 0 to 127 Watts. Write fails with
-+		-EINVAL if input parsing fails.
-+
-+What:		/sys/bus/platform/devices/dfl-fme.0/hwmon/hwmonX/power1_max_alarm
-+Date:		June 2019
-+KernelVersion:	5.3
-+Contact:	Wu Hao <hao.wu@intel.com>
-+Description:	Read-only. It returns 1 if power consumption is currently at or
-+		above hardware threshold1 (see 'power1_max'), otherwise 0.
-+
-+What:		/sys/bus/platform/devices/dfl-fme.0/hwmon/hwmonX/power1_crit_alarm
-+Date:		June 2019
-+KernelVersion:	5.3
-+Contact:	Wu Hao <hao.wu@intel.com>
-+Description:	Read-only. It returns 1 if power consumption is currently at or
-+		above hardware threshold2 (see 'power1_crit'), otherwise 0.
-+
-+What:		/sys/bus/platform/devices/dfl-fme.0/hwmon/hwmonX/power1_xeon_limit
-+Date:		June 2019
-+KernelVersion:	5.3
-+Contact:	Wu Hao <hao.wu@intel.com>
-+Description:	Read-Only. It returns power limit for XEON in uW.
-+
-+What:		/sys/bus/platform/devices/dfl-fme.0/hwmon/hwmonX/power1_fpga_limit
-+Date:		June 2019
-+KernelVersion:	5.3
-+Contact:	Wu Hao <hao.wu@intel.com>
-+Description:	Read-Only. It returns power limit for FPGA in uW.
-+
-+What:		/sys/bus/platform/devices/dfl-fme.0/hwmon/hwmonX/power1_ltr
-+Date:		June 2019
-+KernelVersion:	5.3
-+Contact:	Wu Hao <hao.wu@intel.com>
-+Description:	Read-only. Read this file to get current Latency Tolerance
-+		Reporting (ltr) value. It returns 1 if all Accelerated
-+		Function Units (AFUs) can tolerate latency >= 40us for memory
-+		access or 0 if any AFU is latency sensitive (< 40us).
-diff --git a/drivers/fpga/dfl-fme-main.c b/drivers/fpga/dfl-fme-main.c
-index 59ff9f1..1ff386d 100644
---- a/drivers/fpga/dfl-fme-main.c
-+++ b/drivers/fpga/dfl-fme-main.c
-@@ -400,6 +400,218 @@ static void fme_thermal_mgmt_uinit(struct platform_device *pdev,
- 	.uinit = fme_thermal_mgmt_uinit,
- };
+diff --git a/include/uapi/asm-generic/mman-common.h b/include/uapi/asm-generic/mman-common.h
+index ef4623f03156..d7b4231eea63 100644
+--- a/include/uapi/asm-generic/mman-common.h
++++ b/include/uapi/asm-generic/mman-common.h
+@@ -47,6 +47,7 @@
+ #define MADV_SEQUENTIAL	2		/* expect sequential page references */
+ #define MADV_WILLNEED	3		/* will need these pages */
+ #define MADV_DONTNEED	4		/* don't need these pages */
++#define MADV_COLD	5		/* deactivatie these pages */
  
-+#define FME_PWR_STATUS		0x8
-+#define FME_LATENCY_TOLERANCE	BIT_ULL(18)
-+#define PWR_CONSUMED		GENMASK_ULL(17, 0)
-+
-+#define FME_PWR_THRESHOLD	0x10
-+#define PWR_THRESHOLD1		GENMASK_ULL(6, 0)	/* in Watts */
-+#define PWR_THRESHOLD2		GENMASK_ULL(14, 8)	/* in Watts */
-+#define PWR_THRESHOLD_MAX	0x7f			/* in Watts */
-+#define PWR_THRESHOLD1_STATUS	BIT_ULL(16)
-+#define PWR_THRESHOLD2_STATUS	BIT_ULL(17)
-+
-+#define FME_PWR_XEON_LIMIT	0x18
-+#define XEON_PWR_LIMIT		GENMASK_ULL(14, 0)	/* in 0.1 Watts */
-+#define XEON_PWR_EN		BIT_ULL(15)
-+#define FME_PWR_FPGA_LIMIT	0x20
-+#define FPGA_PWR_LIMIT		GENMASK_ULL(14, 0)	/* in 0.1 Watts */
-+#define FPGA_PWR_EN		BIT_ULL(15)
-+
-+static int power_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
-+			    u32 attr, int channel, long *val)
+ /* common parameters: try to keep these consistent across architectures */
+ #define MADV_FREE	8		/* free pages only if memory pressure */
+diff --git a/mm/internal.h b/mm/internal.h
+index f53a14d67538..c61b215ff265 100644
+--- a/mm/internal.h
++++ b/mm/internal.h
+@@ -39,7 +39,7 @@ vm_fault_t do_swap_page(struct vm_fault *vmf);
+ void free_pgtables(struct mmu_gather *tlb, struct vm_area_struct *start_vma,
+ 		unsigned long floor, unsigned long ceiling);
+ 
+-static inline bool can_madv_dontneed_vma(struct vm_area_struct *vma)
++static inline bool can_madv_lru_vma(struct vm_area_struct *vma)
+ {
+ 	return !(vma->vm_flags & (VM_LOCKED|VM_HUGETLB|VM_PFNMAP));
+ }
+diff --git a/mm/madvise.c b/mm/madvise.c
+index 628022e674a7..7abb8e54bc7a 100644
+--- a/mm/madvise.c
++++ b/mm/madvise.c
+@@ -40,6 +40,7 @@ static int madvise_need_mmap_write(int behavior)
+ 	case MADV_REMOVE:
+ 	case MADV_WILLNEED:
+ 	case MADV_DONTNEED:
++	case MADV_COLD:
+ 	case MADV_FREE:
+ 		return 0;
+ 	default:
+@@ -307,6 +308,178 @@ static long madvise_willneed(struct vm_area_struct *vma,
+ 	return 0;
+ }
+ 
++static int madvise_cold_pte_range(pmd_t *pmd, unsigned long addr,
++				unsigned long end, struct mm_walk *walk)
 +{
-+	struct dfl_feature *feature = dev_get_drvdata(dev);
-+	u64 v;
++	struct mmu_gather *tlb = walk->private;
++	struct mm_struct *mm = tlb->mm;
++	struct vm_area_struct *vma = walk->vma;
++	pte_t *orig_pte, *pte, ptent;
++	spinlock_t *ptl;
++	struct page *page;
++	unsigned long next;
 +
-+	switch (attr) {
-+	case hwmon_power_input:
-+		v = readq(feature->ioaddr + FME_PWR_STATUS);
-+		*val = (long)(FIELD_GET(PWR_CONSUMED, v) * 1000000);
-+		break;
-+	case hwmon_power_max:
-+		v = readq(feature->ioaddr + FME_PWR_THRESHOLD);
-+		*val = (long)(FIELD_GET(PWR_THRESHOLD1, v) * 1000000);
-+		break;
-+	case hwmon_power_crit:
-+		v = readq(feature->ioaddr + FME_PWR_THRESHOLD);
-+		*val = (long)(FIELD_GET(PWR_THRESHOLD2, v) * 1000000);
-+		break;
-+	case hwmon_power_max_alarm:
-+		v = readq(feature->ioaddr + FME_PWR_THRESHOLD);
-+		*val = (long)FIELD_GET(PWR_THRESHOLD1_STATUS, v);
-+		break;
-+	case hwmon_power_crit_alarm:
-+		v = readq(feature->ioaddr + FME_PWR_THRESHOLD);
-+		*val = (long)FIELD_GET(PWR_THRESHOLD2_STATUS, v);
-+		break;
-+	default:
-+		return -EOPNOTSUPP;
++	next = pmd_addr_end(addr, end);
++	if (pmd_trans_huge(*pmd)) {
++		pmd_t orig_pmd;
++
++		tlb_change_page_size(tlb, HPAGE_PMD_SIZE);
++		ptl = pmd_trans_huge_lock(pmd, vma);
++		if (!ptl)
++			return 0;
++
++		orig_pmd = *pmd;
++		if (is_huge_zero_pmd(orig_pmd))
++			goto huge_unlock;
++
++		if (unlikely(!pmd_present(orig_pmd))) {
++			VM_BUG_ON(thp_migration_supported() &&
++					!is_pmd_migration_entry(orig_pmd));
++			goto huge_unlock;
++		}
++
++		page = pmd_page(orig_pmd);
++		if (next - addr != HPAGE_PMD_SIZE) {
++			int err;
++
++			if (page_mapcount(page) != 1)
++				goto huge_unlock;
++
++			get_page(page);
++			spin_unlock(ptl);
++			lock_page(page);
++			err = split_huge_page(page);
++			unlock_page(page);
++			put_page(page);
++			if (!err)
++				goto regular_page;
++			return 0;
++		}
++
++		if (pmd_young(orig_pmd)) {
++			pmdp_invalidate(vma, addr, pmd);
++			orig_pmd = pmd_mkold(orig_pmd);
++
++			set_pmd_at(mm, addr, pmd, orig_pmd);
++			tlb_remove_pmd_tlb_entry(tlb, pmd, addr);
++		}
++
++		test_and_clear_page_young(page);
++		deactivate_page(page);
++huge_unlock:
++		spin_unlock(ptl);
++		return 0;
 +	}
++
++	if (pmd_trans_unstable(pmd))
++		return 0;
++
++regular_page:
++	tlb_change_page_size(tlb, PAGE_SIZE);
++	orig_pte = pte = pte_offset_map_lock(vma->vm_mm, pmd, addr, &ptl);
++	flush_tlb_batched_pending(mm);
++	arch_enter_lazy_mmu_mode();
++	for (; addr < end; pte++, addr += PAGE_SIZE) {
++		ptent = *pte;
++
++		if (pte_none(ptent))
++			continue;
++
++		if (!pte_present(ptent))
++			continue;
++
++		page = vm_normal_page(vma, addr, ptent);
++		if (!page)
++			continue;
++
++		/*
++		 * Creating a THP page is expensive so split it only if we
++		 * are sure it's worth. Split it if we are only owner.
++		 */
++		if (PageTransCompound(page)) {
++			if (page_mapcount(page) != 1)
++				break;
++			get_page(page);
++			if (!trylock_page(page)) {
++				put_page(page);
++				break;
++			}
++			pte_unmap_unlock(orig_pte, ptl);
++			if (split_huge_page(page)) {
++				unlock_page(page);
++				put_page(page);
++				pte_offset_map_lock(mm, pmd, addr, &ptl);
++				break;
++			}
++			unlock_page(page);
++			put_page(page);
++			pte = pte_offset_map_lock(mm, pmd, addr, &ptl);
++			pte--;
++			addr -= PAGE_SIZE;
++			continue;
++		}
++
++		VM_BUG_ON_PAGE(PageTransCompound(page), page);
++
++		if (pte_young(ptent)) {
++			ptent = ptep_get_and_clear_full(mm, addr, pte,
++							tlb->fullmm);
++			ptent = pte_mkold(ptent);
++			set_pte_at(mm, addr, pte, ptent);
++			tlb_remove_tlb_entry(tlb, pte, addr);
++		}
++
++		/*
++		 * We are deactivating a page for accelerating reclaiming.
++		 * VM couldn't reclaim the page unless we clear PG_young.
++		 * As a side effect, it makes confuse idle-page tracking
++		 * because they will miss recent referenced history.
++		 */
++		test_and_clear_page_young(page);
++		deactivate_page(page);
++	}
++
++	arch_enter_lazy_mmu_mode();
++	pte_unmap_unlock(orig_pte, ptl);
++	cond_resched();
 +
 +	return 0;
 +}
 +
-+static int power_hwmon_write(struct device *dev, enum hwmon_sensor_types type,
-+			     u32 attr, int channel, long val)
++static void madvise_cold_page_range(struct mmu_gather *tlb,
++			     struct vm_area_struct *vma,
++			     unsigned long addr, unsigned long end)
 +{
-+	struct dfl_feature_platform_data *pdata = dev_get_platdata(dev->parent);
-+	struct dfl_feature *feature = dev_get_drvdata(dev);
-+	int ret = 0;
-+	u64 v;
++	struct mm_walk cold_walk = {
++		.pmd_entry = madvise_cold_pte_range,
++		.mm = vma->vm_mm,
++		.private = tlb,
++	};
 +
-+	val = clamp_val(val / 1000000, 0, PWR_THRESHOLD_MAX);
-+
-+	mutex_lock(&pdata->lock);
-+
-+	switch (attr) {
-+	case hwmon_power_max:
-+		v = readq(feature->ioaddr + FME_PWR_THRESHOLD);
-+		v &= ~PWR_THRESHOLD1;
-+		v |= FIELD_PREP(PWR_THRESHOLD1, val);
-+		writeq(v, feature->ioaddr + FME_PWR_THRESHOLD);
-+		break;
-+	case hwmon_power_crit:
-+		v = readq(feature->ioaddr + FME_PWR_THRESHOLD);
-+		v &= ~PWR_THRESHOLD2;
-+		v |= FIELD_PREP(PWR_THRESHOLD2, val);
-+		writeq(v, feature->ioaddr + FME_PWR_THRESHOLD);
-+		break;
-+	default:
-+		ret = -EOPNOTSUPP;
-+		break;
-+	}
-+
-+	mutex_unlock(&pdata->lock);
-+
-+	return ret;
++	tlb_start_vma(tlb, vma);
++	walk_page_range(addr, end, &cold_walk);
++	tlb_end_vma(tlb, vma);
 +}
 +
-+static umode_t power_hwmon_attrs_visible(const void *drvdata,
-+					 enum hwmon_sensor_types type,
-+					 u32 attr, int channel)
++static long madvise_cold(struct vm_area_struct *vma,
++			struct vm_area_struct **prev,
++			unsigned long start_addr, unsigned long end_addr)
 +{
-+	switch (attr) {
-+	case hwmon_power_input:
-+	case hwmon_power_max_alarm:
-+	case hwmon_power_crit_alarm:
-+		return 0444;
-+	case hwmon_power_max:
-+	case hwmon_power_crit:
-+		return 0644;
-+	}
++	struct mm_struct *mm = vma->vm_mm;
++	struct mmu_gather tlb;
++
++	*prev = vma;
++	if (!can_madv_lru_vma(vma))
++		return -EINVAL;
++
++	lru_add_drain();
++	tlb_gather_mmu(&tlb, mm, start_addr, end_addr);
++	madvise_cold_page_range(&tlb, vma, start_addr, end_addr);
++	tlb_finish_mmu(&tlb, start_addr, end_addr);
 +
 +	return 0;
 +}
 +
-+static const struct hwmon_ops power_hwmon_ops = {
-+	.is_visible = power_hwmon_attrs_visible,
-+	.read = power_hwmon_read,
-+	.write = power_hwmon_write,
-+};
-+
-+static const struct hwmon_channel_info *power_hwmon_info[] = {
-+	HWMON_CHANNEL_INFO(power, HWMON_P_INPUT |
-+				  HWMON_P_MAX   | HWMON_P_MAX_ALARM |
-+				  HWMON_P_CRIT  | HWMON_P_CRIT_ALARM),
-+	NULL
-+};
-+
-+static const struct hwmon_chip_info power_hwmon_chip_info = {
-+	.ops = &power_hwmon_ops,
-+	.info = power_hwmon_info,
-+};
-+
-+static ssize_t power1_xeon_limit_show(struct device *dev,
-+				      struct device_attribute *attr, char *buf)
+ static int madvise_free_pte_range(pmd_t *pmd, unsigned long addr,
+ 				unsigned long end, struct mm_walk *walk)
+ 
+@@ -519,7 +692,7 @@ static long madvise_dontneed_free(struct vm_area_struct *vma,
+ 				  int behavior)
+ {
+ 	*prev = vma;
+-	if (!can_madv_dontneed_vma(vma))
++	if (!can_madv_lru_vma(vma))
+ 		return -EINVAL;
+ 
+ 	if (!userfaultfd_remove(vma, start, end)) {
+@@ -541,7 +714,7 @@ static long madvise_dontneed_free(struct vm_area_struct *vma,
+ 			 */
+ 			return -ENOMEM;
+ 		}
+-		if (!can_madv_dontneed_vma(vma))
++		if (!can_madv_lru_vma(vma))
+ 			return -EINVAL;
+ 		if (end > vma->vm_end) {
+ 			/*
+@@ -695,6 +868,8 @@ madvise_vma(struct vm_area_struct *vma, struct vm_area_struct **prev,
+ 		return madvise_remove(vma, prev, start, end);
+ 	case MADV_WILLNEED:
+ 		return madvise_willneed(vma, prev, start, end);
++	case MADV_COLD:
++		return madvise_cold(vma, prev, start, end);
+ 	case MADV_FREE:
+ 	case MADV_DONTNEED:
+ 		return madvise_dontneed_free(vma, prev, start, end, behavior);
+@@ -716,6 +891,7 @@ madvise_behavior_valid(int behavior)
+ 	case MADV_WILLNEED:
+ 	case MADV_DONTNEED:
+ 	case MADV_FREE:
++	case MADV_COLD:
+ #ifdef CONFIG_KSM
+ 	case MADV_MERGEABLE:
+ 	case MADV_UNMERGEABLE:
+diff --git a/mm/oom_kill.c b/mm/oom_kill.c
+index 6de5c354d6ca..2140a6f8db63 100644
+--- a/mm/oom_kill.c
++++ b/mm/oom_kill.c
+@@ -523,7 +523,7 @@ bool __oom_reap_task_mm(struct mm_struct *mm)
+ 	set_bit(MMF_UNSTABLE, &mm->flags);
+ 
+ 	for (vma = mm->mmap ; vma; vma = vma->vm_next) {
+-		if (!can_madv_dontneed_vma(vma))
++		if (!can_madv_lru_vma(vma))
+ 			continue;
+ 
+ 		/*
+diff --git a/mm/swap.c b/mm/swap.c
+index 607c48229a1d..a91859d061f3 100644
+--- a/mm/swap.c
++++ b/mm/swap.c
+@@ -47,6 +47,7 @@ int page_cluster;
+ static DEFINE_PER_CPU(struct pagevec, lru_add_pvec);
+ static DEFINE_PER_CPU(struct pagevec, lru_rotate_pvecs);
+ static DEFINE_PER_CPU(struct pagevec, lru_deactivate_file_pvecs);
++static DEFINE_PER_CPU(struct pagevec, lru_deactivate_pvecs);
+ static DEFINE_PER_CPU(struct pagevec, lru_lazyfree_pvecs);
+ #ifdef CONFIG_SMP
+ static DEFINE_PER_CPU(struct pagevec, activate_page_pvecs);
+@@ -538,6 +539,22 @@ static void lru_deactivate_file_fn(struct page *page, struct lruvec *lruvec,
+ 	update_page_reclaim_stat(lruvec, file, 0);
+ }
+ 
++static void lru_deactivate_fn(struct page *page, struct lruvec *lruvec,
++			    void *arg)
 +{
-+	struct dfl_feature *feature = dev_get_drvdata(dev);
-+	u16 xeon_limit = 0;
-+	u64 v;
++	if (PageLRU(page) && PageActive(page) && !PageUnevictable(page)) {
++		int file = page_is_file_cache(page);
++		int lru = page_lru_base_type(page);
 +
-+	v = readq(feature->ioaddr + FME_PWR_XEON_LIMIT);
++		del_page_from_lru_list(page, lruvec, lru + LRU_ACTIVE);
++		ClearPageActive(page);
++		ClearPageReferenced(page);
++		add_page_to_lru_list(page, lruvec, lru);
 +
-+	if (FIELD_GET(XEON_PWR_EN, v))
-+		xeon_limit = FIELD_GET(XEON_PWR_LIMIT, v);
-+
-+	return sprintf(buf, "%u\n", xeon_limit * 100000);
-+}
-+
-+static ssize_t power1_fpga_limit_show(struct device *dev,
-+				      struct device_attribute *attr, char *buf)
-+{
-+	struct dfl_feature *feature = dev_get_drvdata(dev);
-+	u16 fpga_limit = 0;
-+	u64 v;
-+
-+	v = readq(feature->ioaddr + FME_PWR_FPGA_LIMIT);
-+
-+	if (FIELD_GET(FPGA_PWR_EN, v))
-+		fpga_limit = FIELD_GET(FPGA_PWR_LIMIT, v);
-+
-+	return sprintf(buf, "%u\n", fpga_limit * 100000);
-+}
-+
-+static ssize_t power1_ltr_show(struct device *dev,
-+			       struct device_attribute *attr, char *buf)
-+{
-+	struct dfl_feature *feature = dev_get_drvdata(dev);
-+	u64 v;
-+
-+	v = readq(feature->ioaddr + FME_PWR_STATUS);
-+
-+	return sprintf(buf, "%u\n",
-+		       (unsigned int)FIELD_GET(FME_LATENCY_TOLERANCE, v));
-+}
-+
-+static DEVICE_ATTR_RO(power1_xeon_limit);
-+static DEVICE_ATTR_RO(power1_fpga_limit);
-+static DEVICE_ATTR_RO(power1_ltr);
-+
-+static struct attribute *power_extra_attrs[] = {
-+	&dev_attr_power1_xeon_limit.attr,
-+	&dev_attr_power1_fpga_limit.attr,
-+	&dev_attr_power1_ltr.attr,
-+	NULL
-+};
-+
-+ATTRIBUTE_GROUPS(power_extra);
-+
-+static int fme_power_mgmt_init(struct platform_device *pdev,
-+			       struct dfl_feature *feature)
-+{
-+	struct device *hwmon;
-+
-+	dev_dbg(&pdev->dev, "FME Power Management Init.\n");
-+
-+	hwmon = devm_hwmon_device_register_with_info(&pdev->dev,
-+						     "dfl_fme_power", feature,
-+						     &power_hwmon_chip_info,
-+						     power_extra_groups);
-+	if (IS_ERR(hwmon)) {
-+		dev_err(&pdev->dev, "Fail to register power hwmon\n");
-+		return PTR_ERR(hwmon);
++		__count_vm_events(PGDEACTIVATE, hpage_nr_pages(page));
++		update_page_reclaim_stat(lruvec, file, 0);
 +	}
-+
-+	return 0;
 +}
+ 
+ static void lru_lazyfree_fn(struct page *page, struct lruvec *lruvec,
+ 			    void *arg)
+@@ -590,6 +607,10 @@ void lru_add_drain_cpu(int cpu)
+ 	if (pagevec_count(pvec))
+ 		pagevec_lru_move_fn(pvec, lru_deactivate_file_fn, NULL);
+ 
++	pvec = &per_cpu(lru_deactivate_pvecs, cpu);
++	if (pagevec_count(pvec))
++		pagevec_lru_move_fn(pvec, lru_deactivate_fn, NULL);
 +
-+static void fme_power_mgmt_uinit(struct platform_device *pdev,
-+				 struct dfl_feature *feature)
+ 	pvec = &per_cpu(lru_lazyfree_pvecs, cpu);
+ 	if (pagevec_count(pvec))
+ 		pagevec_lru_move_fn(pvec, lru_lazyfree_fn, NULL);
+@@ -623,6 +644,26 @@ void deactivate_file_page(struct page *page)
+ 	}
+ }
+ 
++/*
++ * deactivate_page - deactivate a page
++ * @page: page to deactivate
++ *
++ * deactivate_page() moves @page to the inactive list if @page was on the active
++ * list and was not an unevictable page.  This is done to accelerate the reclaim
++ * of @page.
++ */
++void deactivate_page(struct page *page)
 +{
-+	dev_dbg(&pdev->dev, "FME Power Management UInit.\n");
++	if (PageLRU(page) && PageActive(page) && !PageUnevictable(page)) {
++		struct pagevec *pvec = &get_cpu_var(lru_deactivate_pvecs);
++
++		get_page(page);
++		if (!pagevec_add(pvec, page) || PageCompound(page))
++			pagevec_lru_move_fn(pvec, lru_deactivate_fn, NULL);
++		put_cpu_var(lru_deactivate_pvecs);
++	}
 +}
 +
-+static const struct dfl_feature_id fme_power_mgmt_id_table[] = {
-+	{.id = FME_FEATURE_ID_POWER_MGMT,},
-+	{0,}
-+};
-+
-+static const struct dfl_feature_ops fme_power_mgmt_ops = {
-+	.init = fme_power_mgmt_init,
-+	.uinit = fme_power_mgmt_uinit,
-+};
-+
- static struct dfl_feature_driver fme_feature_drvs[] = {
- 	{
- 		.id_table = fme_hdr_id_table,
-@@ -418,6 +630,10 @@ static void fme_thermal_mgmt_uinit(struct platform_device *pdev,
- 		.ops = &fme_thermal_mgmt_ops,
- 	},
- 	{
-+		.id_table = fme_power_mgmt_id_table,
-+		.ops = &fme_power_mgmt_ops,
-+	},
-+	{
- 		.ops = NULL,
- 	},
- };
+ /**
+  * mark_page_lazyfree - make an anon page lazyfree
+  * @page: page to deactivate
+@@ -687,6 +728,7 @@ void lru_add_drain_all(void)
+ 		if (pagevec_count(&per_cpu(lru_add_pvec, cpu)) ||
+ 		    pagevec_count(&per_cpu(lru_rotate_pvecs, cpu)) ||
+ 		    pagevec_count(&per_cpu(lru_deactivate_file_pvecs, cpu)) ||
++		    pagevec_count(&per_cpu(lru_deactivate_pvecs, cpu)) ||
+ 		    pagevec_count(&per_cpu(lru_lazyfree_pvecs, cpu)) ||
+ 		    need_activate_page_drain(cpu)) {
+ 			INIT_WORK(work, lru_add_drain_per_cpu);
 -- 
-1.8.3.1
+2.22.0.410.gd8fdbe21b5-goog
+
 
