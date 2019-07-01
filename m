@@ -2,81 +2,63 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DF2E25B740
-	for <lists+linux-api@lfdr.de>; Mon,  1 Jul 2019 10:53:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D4D95B8E9
+	for <lists+linux-api@lfdr.de>; Mon,  1 Jul 2019 12:22:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728069AbfGAIxG convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Mon, 1 Jul 2019 04:53:06 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57336 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726442AbfGAIxF (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 1 Jul 2019 04:53:05 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 1E43F308FC4D;
-        Mon,  1 Jul 2019 08:52:55 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-120-219.rdu2.redhat.com [10.10.120.219])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 173CA19C6A;
-        Mon,  1 Jul 2019 08:52:50 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <7a288c2c-11a1-87df-9550-b247d6ce3010@infradead.org>
-References: <7a288c2c-11a1-87df-9550-b247d6ce3010@infradead.org> <156173701358.15650.8735203424342507015.stgit@warthog.procyon.org.uk> <156173703546.15650.14319137940607993268.stgit@warthog.procyon.org.uk>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     dhowells@redhat.com, viro@zeniv.linux.org.uk,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        nicolas.dichtel@6wind.com, raven@themaw.net,
-        Christian Brauner <christian@brauner.io>,
-        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/6] Adjust watch_queue documentation to mention mount and superblock watches. [ver #5]
+        id S1727268AbfGAKW7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 1 Jul 2019 06:22:59 -0400
+Received: from mx2.suse.de ([195.135.220.15]:36526 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726076AbfGAKW7 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 1 Jul 2019 06:22:59 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 7BEA0AEE6;
+        Mon,  1 Jul 2019 10:22:57 +0000 (UTC)
+Date:   Mon, 1 Jul 2019 12:22:56 +0200
+From:   Michal Hocko <mhocko@kernel.org>
+To:     Minchan Kim <minchan@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-mm <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-api@vger.kernel.org,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Tim Murray <timmurray@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Daniel Colascione <dancol@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Sonny Rao <sonnyrao@google.com>, oleksandr@redhat.com,
+        hdanton@sina.com, lizeb@google.com,
+        Dave Hansen <dave.hansen@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: Re: [PATCH v3 0/5] Introduce MADV_COLD and MADV_PAGEOUT
+Message-ID: <20190701102256.GN6376@dhcp22.suse.cz>
+References: <20190627115405.255259-1-minchan@kernel.org>
+ <20190701073848.GB136163@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <8211.1561971170.1@warthog.procyon.org.uk>
-Content-Transfer-Encoding: 8BIT
-Date:   Mon, 01 Jul 2019 09:52:50 +0100
-Message-ID: <8212.1561971170@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.43]); Mon, 01 Jul 2019 08:53:05 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190701073848.GB136163@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Randy Dunlap <rdunlap@infradead.org> wrote:
+On Mon 01-07-19 16:38:48, Minchan Kim wrote:
+> 
+> Hi Folks,
+> 
+> Do you guys have comments? I think it would be long enough to be
+> pending. If there is no further comments, I want to ask to merge.
 
-> I'm having a little trouble parsing that sentence.
-> Could you clarify it or maybe rewrite/modify it?
-> Thanks.
-
-How about:
-
-  * ``info_filter`` and ``info_mask`` act as a filter on the info field of the
-    notification record.  The notification is only written into the buffer if::
-
-	(watch.info & info_mask) == info_filter
-
-    This could be used, for example, to ignore events that are not exactly on
-    the watched point in a mount tree by specifying NOTIFY_MOUNT_IN_SUBTREE
-    must not be set, e.g.::
-
-	{
-		.type = WATCH_TYPE_MOUNT_NOTIFY,
-		.info_filter = 0,
-		.info_mask = NOTIFY_MOUNT_IN_SUBTREE,
-		.subtype_filter = ...,
-	}
-
-    as an event would be only permissible with this filter if::
-
-    	(watch.info & NOTIFY_MOUNT_IN_SUBTREE) == 0
-
-David
+This is definitely on my todo list for this week. But please be patient.
+It's been _one_ work day since you posted this last version so I do not
+think this is stalling for too long. Sure the current version is
+probably not too much different from the previous but I didn't get to
+review it in the depth yet. All the code duplication doesn't make it
+much easier but I understand your reasoning that sharing more code is
+not really straightforward.
+-- 
+Michal Hocko
+SUSE Labs
