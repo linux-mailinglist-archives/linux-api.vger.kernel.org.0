@@ -2,193 +2,422 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0284F5C6DB
-	for <lists+linux-api@lfdr.de>; Tue,  2 Jul 2019 03:59:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08B575C84F
+	for <lists+linux-api@lfdr.de>; Tue,  2 Jul 2019 06:25:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726957AbfGBB72 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 1 Jul 2019 21:59:28 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57554 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726960AbfGBB72 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 1 Jul 2019 21:59:28 -0400
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 73B772183F
-        for <linux-api@vger.kernel.org>; Tue,  2 Jul 2019 01:59:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1562032766;
-        bh=vfBqxjBFiv4f2Mh6w2VjvKxzYfLG/G8MOOehI4eM1Uc=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=nkjEXELg0rCs3JkahPXhkWW6EzViUeJoi5Tv2L/pOtrLwWonVWt8noxz06g4cfFlO
-         rxUgkfqRm1bSLTUZ81McgdZ8Z5lS7S5XR3she+E9wOAF+auHn/a2TYsPW9MWdbd+OU
-         YReF4BpLlVklhrAbV5WG9GfEMh81O7RJuBVVpBj4=
-Received: by mail-wm1-f52.google.com with SMTP id h19so1260549wme.0
-        for <linux-api@vger.kernel.org>; Mon, 01 Jul 2019 18:59:26 -0700 (PDT)
-X-Gm-Message-State: APjAAAWb8OxWaEevCPCcRb86mMWl1sFeMwHZ7ZIpmc34MnG6Xyc2sMS/
-        5gP3jKrup/hMdNh+Y/2Ja/vVK4r+ypHSC/fpM9U6eA==
-X-Google-Smtp-Source: APXvYqxpnFWG683UJYpQwkpoYGb8geVG3M89fbVIJgxolQRP/j11U6qBqV/yYKmR+T9Z2qM7N9f7wEcMr/WxN5zmj6Q=
-X-Received: by 2002:a7b:c450:: with SMTP id l16mr1276782wmi.0.1562032764995;
- Mon, 01 Jul 2019 18:59:24 -0700 (PDT)
+        id S1725801AbfGBEZz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 2 Jul 2019 00:25:55 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:35371 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725780AbfGBEZz (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 2 Jul 2019 00:25:55 -0400
+Received: by mail-pl1-f195.google.com with SMTP id w24so8442963plp.2;
+        Mon, 01 Jul 2019 21:25:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=TK4L+e1p7WfqMPjmIlIO9/gCwaje8g7TPeddL9H98rM=;
+        b=Wac8ZGt9JJeHk7TAuAGU/bULIIxeBf0eJsfkU3zFFSSaG8yM1l3fVdtJXXfJ0vu/li
+         m5QfLN4/oW3ruPoetsZ5xzlUzCgd6hNT26GDrrf0yHY+/to+6kkeySYk+iJjE628DO4q
+         UGFEeXoT8ugDKcCr4Qlz4FYYDYuEVskdyaCB6YWxkb6IsbI15zKsS8hx51L2kUPgx5Gm
+         4TlHhgcClqGerJ/QbhPxGGSTPwnCMOcVBxnmGT8b+tpevWEDcNyMNCb3YMInko0ka8G6
+         sj/aYnfoDGy4a6NQfJi9lRgrX2fwr2Nf28UeDVsOhIIx6tGmZu1VIfF1T0l9QfyC/P4U
+         X5UA==
+X-Gm-Message-State: APjAAAUr/iHubSx4RcxxHA2lN/sH70dreGEe5w4hQcnRXkKHE+jxbt4e
+        98FuBgS9HlTc2i6+0WrazSc=
+X-Google-Smtp-Source: APXvYqwsSlrc4moRfO+seqKCTcNnGB17m3ptLmEiDHyh29CmfWA+pj6Sn1dXWcpG1xqRz3210e6Vkg==
+X-Received: by 2002:a17:902:2865:: with SMTP id e92mr32440638plb.264.1562041554118;
+        Mon, 01 Jul 2019 21:25:54 -0700 (PDT)
+Received: from localhost ([2601:647:5b80:29f7:aba9:7dd5:dfa6:e012])
+        by smtp.gmail.com with ESMTPSA id s66sm4170200pfs.8.2019.07.01.21.25.52
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Mon, 01 Jul 2019 21:25:53 -0700 (PDT)
+Date:   Mon, 1 Jul 2019 21:25:50 -0700
+From:   Moritz Fischer <mdf@kernel.org>
+To:     Wu Hao <hao.wu@intel.com>
+Cc:     mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, jdelvare@suse.com, linux@roeck-us.net,
+        atull@kernel.org, gregkh@linuxfoundation.org,
+        Luwei Kang <luwei.kang@intel.com>,
+        Xu Yilun <yilun.xu@intel.com>
+Subject: Re: [PATCH v5 3/3] fpga: dfl: fme: add power management support
+Message-ID: <20190702042550.GA21853@archbook>
+References: <1561963027-4213-1-git-send-email-hao.wu@intel.com>
+ <1561963027-4213-4-git-send-email-hao.wu@intel.com>
 MIME-Version: 1.0
-References: <20190627201923.2589391-1-songliubraving@fb.com>
- <20190627201923.2589391-2-songliubraving@fb.com> <21894f45-70d8-dfca-8c02-044f776c5e05@kernel.org>
- <3C595328-3ABE-4421-9772-8D41094A4F57@fb.com> <CALCETrWBnH4Q43POU8cQ7YMjb9LioK28FDEQf7aHZbdf1eBZWg@mail.gmail.com>
- <0DE7F23E-9CD2-4F03-82B5-835506B59056@fb.com>
-In-Reply-To: <0DE7F23E-9CD2-4F03-82B5-835506B59056@fb.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Mon, 1 Jul 2019 18:59:13 -0700
-X-Gmail-Original-Message-ID: <CALCETrWBWbNFJvsTCeUchu3BZJ3SH3dvtXLUB2EhnPrzFfsLNA@mail.gmail.com>
-Message-ID: <CALCETrWBWbNFJvsTCeUchu3BZJ3SH3dvtXLUB2EhnPrzFfsLNA@mail.gmail.com>
-Subject: Re: [PATCH v2 bpf-next 1/4] bpf: unprivileged BPF access via /dev/bpf
-To:     Song Liu <songliubraving@fb.com>
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        "linux-security@vger.kernel.org" <linux-security@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Kernel Team <Kernel-team@fb.com>,
-        Lorenz Bauer <lmb@cloudflare.com>,
-        Jann Horn <jannh@google.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1561963027-4213-4-git-send-email-hao.wu@intel.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jul 1, 2019 at 2:03 AM Song Liu <songliubraving@fb.com> wrote:
->
-> Hi Andy,
->
-> Thanks for these detailed analysis.
->
-> > On Jun 30, 2019, at 8:12 AM, Andy Lutomirski <luto@kernel.org> wrote:
-> >
-> > On Fri, Jun 28, 2019 at 12:05 PM Song Liu <songliubraving@fb.com> wrote=
-:
-> >>
-> >> Hi Andy,
-> >>
-> >>> On Jun 27, 2019, at 4:40 PM, Andy Lutomirski <luto@kernel.org> wrote:
-> >>>
-> >>> On 6/27/19 1:19 PM, Song Liu wrote:
-> >>>> This patch introduce unprivileged BPF access. The access control is
-> >>>> achieved via device /dev/bpf. Users with write access to /dev/bpf ar=
-e able
-> >>>> to call sys_bpf().
-> >>>> Two ioctl command are added to /dev/bpf:
-> >>>> The two commands enable/disable permission to call sys_bpf() for cur=
-rent
-> >>>> task. This permission is noted by bpf_permitted in task_struct. This
-> >>>> permission is inherited during clone(CLONE_THREAD).
-> >>>> Helper function bpf_capable() is added to check whether the task has=
- got
-> >>>> permission via /dev/bpf.
-> >>>
-> >>>> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
-> >>>> index 0e079b2298f8..79dc4d641cf3 100644
-> >>>> --- a/kernel/bpf/verifier.c
-> >>>> +++ b/kernel/bpf/verifier.c
-> >>>> @@ -9134,7 +9134,7 @@ int bpf_check(struct bpf_prog **prog, union bp=
-f_attr *attr,
-> >>>>             env->insn_aux_data[i].orig_idx =3D i;
-> >>>>     env->prog =3D *prog;
-> >>>>     env->ops =3D bpf_verifier_ops[env->prog->type];
-> >>>> -    is_priv =3D capable(CAP_SYS_ADMIN);
-> >>>> +    is_priv =3D bpf_capable(CAP_SYS_ADMIN);
-> >>>
-> >>> Huh?  This isn't a hardening measure -- the "is_priv" verifier mode a=
-llows straight-up leaks of private kernel state to user mode.
-> >>>
-> >>> (For that matter, the pending lockdown stuff should possibly consider=
- this a "confidentiality" issue.)
-> >>>
-> >>>
-> >>> I have a bigger issue with this patch, though: it's a really awkward =
-way to pretend to have capabilities. For bpf, it seems like you could make =
-this be a *real* capability without too much pain since there's only one sy=
-scall there.  Just find a way to pass an fd to /dev/bpf into the syscall.  =
-If this means you need a new bpf_with_cap() syscall that takes an extra arg=
-ument, so be it.  The old bpf() syscall can just translate to bpf_with_cap(=
-..., -1).
-> >>>
-> >>> For a while, I've considered a scheme I call "implicit rights".  Ther=
-e would be a directory in /dev called /dev/implicit_rights.  This would eit=
-her be part of devtmpfs or a whole new filesystem -- it would *not* be any =
-other filesystem.  The contents would be files that can't be read or writte=
-n and exist only in memory. You create them with a privileged syscall.  Cer=
-tain actions that are sensitive but not at the level of CAP_SYS_ADMIN (use =
-of large-attack-surface bpf stuff, creation of user namespaces, profiling t=
-he kernel, etc) could require an "implicit right".  When you do them, if yo=
-u don't have CAP_SYS_ADMIN, the kernel would do a path walk for, say, /dev/=
-implicit_rights/bpf and, if the object exists, can be opened, and actually =
-refers to the "bpf" rights object, then the action is allowed.  Otherwise i=
-t's denied.
-> >>>
-> >>> This is extensible, and it doesn't require the rather ugly per-task s=
-tate of whether it's enabled.
-> >>>
-> >>> For things like creation of user namespaces, there's an existing API,=
- and the default is that it works without privilege.  Switching it to an im=
-plicit right has the benefit of not requiring code changes to programs that=
- already work as non-root.
-> >>>
-> >>> But, for BPF in particular, this type of compatibility issue doesn't =
-exist now.  You already can't use most eBPF functionality without privilege=
-.  New bpf-using programs meant to run without privilege are *new*, so they=
- can use a new improved API.  So, rather than adding this obnoxious ioctl, =
-just make the API explicit, please.
-> >>>
-> >>> Also, please cc: linux-abi next time.
-> >>
-> >> Thanks for your inputs.
-> >>
-> >> I think we need to clarify the use case here. In this case, we are NOT
-> >> thinking about creating new tools for unprivileged users. Instead, we
-> >> would like to use existing tools without root.
-> >
-> > I read patch 4, and I interpret it very differently.  Patches 2-4 are
-> > creating a new version of libbpf and a new version of bpftool.  Given
-> > this, I see no real justification for adding a new in-kernel per-task
-> > state instead of just pushing the complexity into libbpf.
->
-> I am not sure whether we are on the same page. Let me try an example,
-> say we have application A, which calls sys_bpf().
->
-> Before the series: we have to run A with root;
-> After the series:  we add a special user with access to /dev/bpf, and
->                    run A with this special user.
->
-> If we look at the whole system, I would say we are more secure after
-> the series.
->
-> I am not trying to make an extreme example here, because this use case
-> is the motivation here.
->
-> To stay safe, we have to properly manage the permission of /dev/bpf.
-> This is just like we need to properly manage access to /etc/sudoers and
-> /dev/mem.
->
-> Does this make sense?
->
+Hi Hao,
 
-I think I'm understanding your motivation.  You're not trying to make
-bpf() generically usable without privilege -- you're trying to create
-a way to allow certain users to access dangerous bpf functionality
-within some limits.
+On Mon, Jul 01, 2019 at 02:37:07PM +0800, Wu Hao wrote:
+> This patch adds support for power management private feature under
+> FPGA Management Engine (FME). This private feature driver registers
+> a hwmon for power (power1_input), thresholds information, e.g.
+> (power1_max / crit / max_alarm / crit_alarm) and also read-only sysfs
+> interfaces for other power management information. For configuration,
+> user could write threshold values via above power1_max / crit sysfs
+> interface under hwmon too.
+> 
+> Signed-off-by: Luwei Kang <luwei.kang@intel.com>
+> Signed-off-by: Xu Yilun <yilun.xu@intel.com>
+> Signed-off-by: Wu Hao <hao.wu@intel.com>
+Reviewed-by: Moritz Fischer <mdf@kernel.org>
 
-That's a perfectly fine goal, but I think you're reinventing the
-wheel, and the wheel you're reinventing is quite complicated and
-already exists.  I think you should teach bpftool to be secure when
-installed setuid root or with fscaps enabled and put your policy in
-bpftool.  If you want to harden this a little bit, it would seem
-entirely reasonable to add a new CAP_BPF_ADMIN and change some, but
-not all, of the capable() checks to check CAP_BPF_ADMIN instead of the
-capabilities that they currently check.
-
-Your example of /etc/sudoers is apt, and it does not involve any
-kernel support :)
+> ---
+> v2: create a dfl_fme_power hwmon to expose power sysfs interfaces.
+>     move all sysfs interfaces under hwmon
+>         consumed          --> hwmon power1_input
+>         threshold1        --> hwmon power1_cap
+>         threshold2        --> hwmon power1_crit
+>         threshold1_status --> hwmon power1_cap_status
+>         threshold2_status --> hwmon power1_crit_status
+>         xeon_limit        --> hwmon power1_xeon_limit
+>         fpga_limit        --> hwmon power1_fpga_limit
+>         ltr               --> hwmon power1_ltr
+> v3: rename some hwmon sysfs interfaces to follow hwmon ABI.
+> 	power1_cap         --> power1_max
+> 	power1_cap_status  --> power1_max_alarm
+> 	power1_crit_status --> power1_crit_alarm
+>     update sysfs doc for above sysfs interface changes.
+>     replace scnprintf with sprintf in sysfs interface.
+> v4: use HWMON_CHANNEL_INFO.
+>     update date in sysfs doc.
+> v5: clamp threshold inputs in power_hwmon_write function.
+>     update sysfs doc as threshold inputs are clamped now.
+>     add more descriptions to ltr sysfs interface.
+> ---
+>  Documentation/ABI/testing/sysfs-platform-dfl-fme |  68 +++++++
+>  drivers/fpga/dfl-fme-main.c                      | 216 +++++++++++++++++++++++
+>  2 files changed, 284 insertions(+)
+> 
+> diff --git a/Documentation/ABI/testing/sysfs-platform-dfl-fme b/Documentation/ABI/testing/sysfs-platform-dfl-fme
+> index 2cd17dc..5c2e49d 100644
+> --- a/Documentation/ABI/testing/sysfs-platform-dfl-fme
+> +++ b/Documentation/ABI/testing/sysfs-platform-dfl-fme
+> @@ -127,6 +127,7 @@ Contact:	Wu Hao <hao.wu@intel.com>
+>  Description:	Read-Only. Read this file to get the name of hwmon device, it
+>  		supports values:
+>  		    'dfl_fme_thermal' - thermal hwmon device name
+> +		    'dfl_fme_power'   - power hwmon device name
+>  
+>  What:		/sys/bus/platform/devices/dfl-fme.0/hwmon/hwmonX/temp1_input
+>  Date:		June 2019
+> @@ -183,3 +184,70 @@ Description:	Read-Only. Read this file to get the policy of hardware threshold1
+>  		(see 'temp1_max'). It only supports two values (policies):
+>  		    0 - AP2 state (90% throttling)
+>  		    1 - AP1 state (50% throttling)
+> +
+> +What:		/sys/bus/platform/devices/dfl-fme.0/hwmon/hwmonX/power1_input
+> +Date:		June 2019
+> +KernelVersion:	5.3
+> +Contact:	Wu Hao <hao.wu@intel.com>
+> +Description:	Read-Only. It returns current FPGA power consumption in uW.
+> +
+> +What:		/sys/bus/platform/devices/dfl-fme.0/hwmon/hwmonX/power1_max
+> +Date:		June 2019
+> +KernelVersion:	5.3
+> +Contact:	Wu Hao <hao.wu@intel.com>
+> +Description:	Read-Write. Read this file to get current hardware power
+> +		threshold1 in uW. If power consumption rises at or above
+> +		this threshold, hardware starts 50% throttling.
+> +		Write this file to set current hardware power threshold1 in uW.
+> +		As hardware only accepts values in Watts, so input value will
+> +		be round down per Watts (< 1 watts part will be discarded) and
+> +		clamped within the range from 0 to 127 Watts. Write fails with
+> +		-EINVAL if input parsing fails.
+> +
+> +What:		/sys/bus/platform/devices/dfl-fme.0/hwmon/hwmonX/power1_crit
+> +Date:		June 2019
+> +KernelVersion:	5.3
+> +Contact:	Wu Hao <hao.wu@intel.com>
+> +Description:	Read-Write. Read this file to get current hardware power
+> +		threshold2 in uW. If power consumption rises at or above
+> +		this threshold, hardware starts 90% throttling.
+> +		Write this file to set current hardware power threshold2 in uW.
+> +		As hardware only accepts values in Watts, so input value will
+> +		be round down per Watts (< 1 watts part will be discarded) and
+> +		clamped within the range from 0 to 127 Watts. Write fails with
+> +		-EINVAL if input parsing fails.
+> +
+> +What:		/sys/bus/platform/devices/dfl-fme.0/hwmon/hwmonX/power1_max_alarm
+> +Date:		June 2019
+> +KernelVersion:	5.3
+> +Contact:	Wu Hao <hao.wu@intel.com>
+> +Description:	Read-only. It returns 1 if power consumption is currently at or
+> +		above hardware threshold1 (see 'power1_max'), otherwise 0.
+> +
+> +What:		/sys/bus/platform/devices/dfl-fme.0/hwmon/hwmonX/power1_crit_alarm
+> +Date:		June 2019
+> +KernelVersion:	5.3
+> +Contact:	Wu Hao <hao.wu@intel.com>
+> +Description:	Read-only. It returns 1 if power consumption is currently at or
+> +		above hardware threshold2 (see 'power1_crit'), otherwise 0.
+> +
+> +What:		/sys/bus/platform/devices/dfl-fme.0/hwmon/hwmonX/power1_xeon_limit
+> +Date:		June 2019
+> +KernelVersion:	5.3
+> +Contact:	Wu Hao <hao.wu@intel.com>
+> +Description:	Read-Only. It returns power limit for XEON in uW.
+> +
+> +What:		/sys/bus/platform/devices/dfl-fme.0/hwmon/hwmonX/power1_fpga_limit
+> +Date:		June 2019
+> +KernelVersion:	5.3
+> +Contact:	Wu Hao <hao.wu@intel.com>
+> +Description:	Read-Only. It returns power limit for FPGA in uW.
+> +
+> +What:		/sys/bus/platform/devices/dfl-fme.0/hwmon/hwmonX/power1_ltr
+> +Date:		June 2019
+> +KernelVersion:	5.3
+> +Contact:	Wu Hao <hao.wu@intel.com>
+> +Description:	Read-only. Read this file to get current Latency Tolerance
+> +		Reporting (ltr) value. It returns 1 if all Accelerated
+> +		Function Units (AFUs) can tolerate latency >= 40us for memory
+> +		access or 0 if any AFU is latency sensitive (< 40us).
+> diff --git a/drivers/fpga/dfl-fme-main.c b/drivers/fpga/dfl-fme-main.c
+> index 59ff9f1..1ff386d 100644
+> --- a/drivers/fpga/dfl-fme-main.c
+> +++ b/drivers/fpga/dfl-fme-main.c
+> @@ -400,6 +400,218 @@ static void fme_thermal_mgmt_uinit(struct platform_device *pdev,
+>  	.uinit = fme_thermal_mgmt_uinit,
+>  };
+>  
+> +#define FME_PWR_STATUS		0x8
+> +#define FME_LATENCY_TOLERANCE	BIT_ULL(18)
+> +#define PWR_CONSUMED		GENMASK_ULL(17, 0)
+> +
+> +#define FME_PWR_THRESHOLD	0x10
+> +#define PWR_THRESHOLD1		GENMASK_ULL(6, 0)	/* in Watts */
+> +#define PWR_THRESHOLD2		GENMASK_ULL(14, 8)	/* in Watts */
+> +#define PWR_THRESHOLD_MAX	0x7f			/* in Watts */
+> +#define PWR_THRESHOLD1_STATUS	BIT_ULL(16)
+> +#define PWR_THRESHOLD2_STATUS	BIT_ULL(17)
+> +
+> +#define FME_PWR_XEON_LIMIT	0x18
+> +#define XEON_PWR_LIMIT		GENMASK_ULL(14, 0)	/* in 0.1 Watts */
+> +#define XEON_PWR_EN		BIT_ULL(15)
+> +#define FME_PWR_FPGA_LIMIT	0x20
+> +#define FPGA_PWR_LIMIT		GENMASK_ULL(14, 0)	/* in 0.1 Watts */
+> +#define FPGA_PWR_EN		BIT_ULL(15)
+> +
+> +static int power_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
+> +			    u32 attr, int channel, long *val)
+> +{
+> +	struct dfl_feature *feature = dev_get_drvdata(dev);
+> +	u64 v;
+> +
+> +	switch (attr) {
+> +	case hwmon_power_input:
+> +		v = readq(feature->ioaddr + FME_PWR_STATUS);
+> +		*val = (long)(FIELD_GET(PWR_CONSUMED, v) * 1000000);
+> +		break;
+> +	case hwmon_power_max:
+> +		v = readq(feature->ioaddr + FME_PWR_THRESHOLD);
+> +		*val = (long)(FIELD_GET(PWR_THRESHOLD1, v) * 1000000);
+> +		break;
+> +	case hwmon_power_crit:
+> +		v = readq(feature->ioaddr + FME_PWR_THRESHOLD);
+> +		*val = (long)(FIELD_GET(PWR_THRESHOLD2, v) * 1000000);
+> +		break;
+> +	case hwmon_power_max_alarm:
+> +		v = readq(feature->ioaddr + FME_PWR_THRESHOLD);
+> +		*val = (long)FIELD_GET(PWR_THRESHOLD1_STATUS, v);
+> +		break;
+> +	case hwmon_power_crit_alarm:
+> +		v = readq(feature->ioaddr + FME_PWR_THRESHOLD);
+> +		*val = (long)FIELD_GET(PWR_THRESHOLD2_STATUS, v);
+> +		break;
+> +	default:
+> +		return -EOPNOTSUPP;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int power_hwmon_write(struct device *dev, enum hwmon_sensor_types type,
+> +			     u32 attr, int channel, long val)
+> +{
+> +	struct dfl_feature_platform_data *pdata = dev_get_platdata(dev->parent);
+> +	struct dfl_feature *feature = dev_get_drvdata(dev);
+> +	int ret = 0;
+> +	u64 v;
+> +
+> +	val = clamp_val(val / 1000000, 0, PWR_THRESHOLD_MAX);
+> +
+> +	mutex_lock(&pdata->lock);
+> +
+> +	switch (attr) {
+> +	case hwmon_power_max:
+> +		v = readq(feature->ioaddr + FME_PWR_THRESHOLD);
+> +		v &= ~PWR_THRESHOLD1;
+> +		v |= FIELD_PREP(PWR_THRESHOLD1, val);
+> +		writeq(v, feature->ioaddr + FME_PWR_THRESHOLD);
+> +		break;
+> +	case hwmon_power_crit:
+> +		v = readq(feature->ioaddr + FME_PWR_THRESHOLD);
+> +		v &= ~PWR_THRESHOLD2;
+> +		v |= FIELD_PREP(PWR_THRESHOLD2, val);
+> +		writeq(v, feature->ioaddr + FME_PWR_THRESHOLD);
+> +		break;
+> +	default:
+> +		ret = -EOPNOTSUPP;
+> +		break;
+> +	}
+> +
+> +	mutex_unlock(&pdata->lock);
+> +
+> +	return ret;
+> +}
+> +
+> +static umode_t power_hwmon_attrs_visible(const void *drvdata,
+> +					 enum hwmon_sensor_types type,
+> +					 u32 attr, int channel)
+> +{
+> +	switch (attr) {
+> +	case hwmon_power_input:
+> +	case hwmon_power_max_alarm:
+> +	case hwmon_power_crit_alarm:
+> +		return 0444;
+> +	case hwmon_power_max:
+> +	case hwmon_power_crit:
+> +		return 0644;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct hwmon_ops power_hwmon_ops = {
+> +	.is_visible = power_hwmon_attrs_visible,
+> +	.read = power_hwmon_read,
+> +	.write = power_hwmon_write,
+> +};
+> +
+> +static const struct hwmon_channel_info *power_hwmon_info[] = {
+> +	HWMON_CHANNEL_INFO(power, HWMON_P_INPUT |
+> +				  HWMON_P_MAX   | HWMON_P_MAX_ALARM |
+> +				  HWMON_P_CRIT  | HWMON_P_CRIT_ALARM),
+> +	NULL
+> +};
+> +
+> +static const struct hwmon_chip_info power_hwmon_chip_info = {
+> +	.ops = &power_hwmon_ops,
+> +	.info = power_hwmon_info,
+> +};
+> +
+> +static ssize_t power1_xeon_limit_show(struct device *dev,
+> +				      struct device_attribute *attr, char *buf)
+> +{
+> +	struct dfl_feature *feature = dev_get_drvdata(dev);
+> +	u16 xeon_limit = 0;
+> +	u64 v;
+> +
+> +	v = readq(feature->ioaddr + FME_PWR_XEON_LIMIT);
+> +
+> +	if (FIELD_GET(XEON_PWR_EN, v))
+> +		xeon_limit = FIELD_GET(XEON_PWR_LIMIT, v);
+> +
+> +	return sprintf(buf, "%u\n", xeon_limit * 100000);
+> +}
+> +
+> +static ssize_t power1_fpga_limit_show(struct device *dev,
+> +				      struct device_attribute *attr, char *buf)
+> +{
+> +	struct dfl_feature *feature = dev_get_drvdata(dev);
+> +	u16 fpga_limit = 0;
+> +	u64 v;
+> +
+> +	v = readq(feature->ioaddr + FME_PWR_FPGA_LIMIT);
+> +
+> +	if (FIELD_GET(FPGA_PWR_EN, v))
+> +		fpga_limit = FIELD_GET(FPGA_PWR_LIMIT, v);
+> +
+> +	return sprintf(buf, "%u\n", fpga_limit * 100000);
+> +}
+> +
+> +static ssize_t power1_ltr_show(struct device *dev,
+> +			       struct device_attribute *attr, char *buf)
+> +{
+> +	struct dfl_feature *feature = dev_get_drvdata(dev);
+> +	u64 v;
+> +
+> +	v = readq(feature->ioaddr + FME_PWR_STATUS);
+> +
+> +	return sprintf(buf, "%u\n",
+> +		       (unsigned int)FIELD_GET(FME_LATENCY_TOLERANCE, v));
+> +}
+> +
+> +static DEVICE_ATTR_RO(power1_xeon_limit);
+> +static DEVICE_ATTR_RO(power1_fpga_limit);
+> +static DEVICE_ATTR_RO(power1_ltr);
+> +
+> +static struct attribute *power_extra_attrs[] = {
+> +	&dev_attr_power1_xeon_limit.attr,
+> +	&dev_attr_power1_fpga_limit.attr,
+> +	&dev_attr_power1_ltr.attr,
+> +	NULL
+> +};
+> +
+> +ATTRIBUTE_GROUPS(power_extra);
+> +
+> +static int fme_power_mgmt_init(struct platform_device *pdev,
+> +			       struct dfl_feature *feature)
+> +{
+> +	struct device *hwmon;
+> +
+> +	dev_dbg(&pdev->dev, "FME Power Management Init.\n");
+> +
+> +	hwmon = devm_hwmon_device_register_with_info(&pdev->dev,
+> +						     "dfl_fme_power", feature,
+> +						     &power_hwmon_chip_info,
+> +						     power_extra_groups);
+> +	if (IS_ERR(hwmon)) {
+> +		dev_err(&pdev->dev, "Fail to register power hwmon\n");
+> +		return PTR_ERR(hwmon);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void fme_power_mgmt_uinit(struct platform_device *pdev,
+> +				 struct dfl_feature *feature)
+> +{
+> +	dev_dbg(&pdev->dev, "FME Power Management UInit.\n");
+> +}
+> +
+> +static const struct dfl_feature_id fme_power_mgmt_id_table[] = {
+> +	{.id = FME_FEATURE_ID_POWER_MGMT,},
+> +	{0,}
+> +};
+> +
+> +static const struct dfl_feature_ops fme_power_mgmt_ops = {
+> +	.init = fme_power_mgmt_init,
+> +	.uinit = fme_power_mgmt_uinit,
+> +};
+> +
+>  static struct dfl_feature_driver fme_feature_drvs[] = {
+>  	{
+>  		.id_table = fme_hdr_id_table,
+> @@ -418,6 +630,10 @@ static void fme_thermal_mgmt_uinit(struct platform_device *pdev,
+>  		.ops = &fme_thermal_mgmt_ops,
+>  	},
+>  	{
+> +		.id_table = fme_power_mgmt_id_table,
+> +		.ops = &fme_power_mgmt_ops,
+> +	},
+> +	{
+>  		.ops = NULL,
+>  	},
+>  };
+> -- 
+> 1.8.3.1
+> 
+Thanks,
+Moritz
