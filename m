@@ -2,112 +2,86 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B7725FD87
-	for <lists+linux-api@lfdr.de>; Thu,  4 Jul 2019 21:50:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D555B5FF33
+	for <lists+linux-api@lfdr.de>; Fri,  5 Jul 2019 02:42:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727124AbfGDTu2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 4 Jul 2019 15:50:28 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:50150 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726805AbfGDTu2 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 4 Jul 2019 15:50:28 -0400
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id 67D7A8067F; Thu,  4 Jul 2019 21:50:14 +0200 (CEST)
-Date:   Thu, 4 Jul 2019 21:50:25 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Jann Horn <jannh@google.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>
-Subject: Re: [RFC PATCH] binfmt_elf: Extract .note.gnu.property from an ELF
- file
-Message-ID: <20190704195024.GA4013@amd>
-References: <20190628172203.797-1-yu-cheng.yu@intel.com>
- <CAG48ez0rHHfcRgiVZf5FP0YOzxsXigvpg6ci790cmiN6PBwkhQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="xHFwDpU9dbj6ez1V"
-Content-Disposition: inline
-In-Reply-To: <CAG48ez0rHHfcRgiVZf5FP0YOzxsXigvpg6ci790cmiN6PBwkhQ@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+        id S1727440AbfGEAmA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 4 Jul 2019 20:42:00 -0400
+Received: from mga03.intel.com ([134.134.136.65]:40861 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727348AbfGEAmA (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 4 Jul 2019 20:42:00 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Jul 2019 17:41:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,453,1557212400"; 
+   d="scan'208";a="185074652"
+Received: from hao-dev.bj.intel.com ([10.238.157.65])
+  by fmsmga001.fm.intel.com with ESMTP; 04 Jul 2019 17:41:57 -0700
+From:   Wu Hao <hao.wu@intel.com>
+To:     gregkh@linuxfoundation.org, mdf@kernel.org,
+        linux-fpga@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        atull@kernel.org, Wu Hao <hao.wu@intel.com>
+Subject: [PATCH v2 00/11] FPGA DFL updates
+Date:   Fri,  5 Jul 2019 08:23:47 +0800
+Message-Id: <1562286238-11413-1-git-send-email-hao.wu@intel.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+Hi Greg / Moritz
 
---xHFwDpU9dbj6ez1V
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This is v2 patchset which adds more features to FPGA DFL. This patchset
+is made on top of patch[1] and char-misc-next tree. Documentation patch
+for DFL is dropped from this patchset, and will resubmit it later to
+avoid conflict.
 
-Hi!
+Main changes from v1:
+  - remove DRV/MODULE_VERSION modifications. (patch #1, #3, #4, #6)
+  - remove argsz from new ioctls. (patch #2)
+  - replace sysfs_create/remove_* with device_add/remove_* for sysfs entries.
+    (patch #5, #8, #11)
 
+[1] [PATCH] fpga: dfl: use driver core functions, not sysfs ones.
+    https://lkml.org/lkml/2019/7/4/36
 
-> > +static int scan(u8 *buf, u32 buf_size, int item_size, test_item_fn tes=
-t_item,
-> > +               next_item_fn next_item, u32 *arg, u32 type, u32 *pos)
-> > +{
-> > +       int found =3D 0;
-> > +       u8 *p, *max;
-> > +
-> > +       max =3D buf + buf_size;
-> > +       if (max < buf)
-> > +               return 0;
->=20
-> How can this ever legitimately happen? If it can't, perhaps you meant
-> to put a WARN_ON_ONCE() or something like that here?
-> Also, computing out-of-bounds pointers is UB (section 6.5.6 of C99:
-> "If both the pointer operand and the result point to elements of the
-> same array object, or one past the last element of the array object,
-> the evaluation shall not produce an overflow; otherwise, the behavior
-> is undefined."), and if the addition makes the pointer wrap, that's
-> certainly out of bounds; so I don't think this condition can trigger
-> without UB.
+Wu Hao (11):
+  fpga: dfl: fme: support 512bit data width PR
+  fpga: dfl: fme: add DFL_FPGA_FME_PORT_RELEASE/ASSIGN ioctl support.
+  fpga: dfl: pci: enable SRIOV support.
+  fpga: dfl: afu: add AFU state related sysfs interfaces
+  fpga: dfl: afu: add userclock sysfs interfaces.
+  fpga: dfl: add id_table for dfl private feature driver
+  fpga: dfl: afu: export __port_enable/disable function.
+  fpga: dfl: afu: add error reporting support.
+  fpga: dfl: afu: add STP (SignalTap) support
+  fpga: dfl: fme: add capability sysfs interfaces
+  fpga: dfl: fme: add global error reporting support
 
-Kernel assumes sane compiler. We pass flags to get it... C99 does not
-quite apply here.
-								Pavel
-							=09
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
+ Documentation/ABI/testing/sysfs-platform-dfl-fme  |  98 ++++++
+ Documentation/ABI/testing/sysfs-platform-dfl-port | 104 ++++++
+ drivers/fpga/Makefile                             |   3 +-
+ drivers/fpga/dfl-afu-error.c                      | 225 +++++++++++++
+ drivers/fpga/dfl-afu-main.c                       | 328 +++++++++++++++++-
+ drivers/fpga/dfl-afu.h                            |   7 +
+ drivers/fpga/dfl-fme-error.c                      | 385 ++++++++++++++++++++++
+ drivers/fpga/dfl-fme-main.c                       |  93 +++++-
+ drivers/fpga/dfl-fme-mgr.c                        | 110 ++++++-
+ drivers/fpga/dfl-fme-pr.c                         |  50 ++-
+ drivers/fpga/dfl-fme.h                            |   7 +-
+ drivers/fpga/dfl-pci.c                            |  39 +++
+ drivers/fpga/dfl.c                                | 166 +++++++++-
+ drivers/fpga/dfl.h                                |  54 ++-
+ include/uapi/linux/fpga-dfl.h                     |  19 ++
+ 15 files changed, 1617 insertions(+), 71 deletions(-)
+ create mode 100644 drivers/fpga/dfl-afu-error.c
+ create mode 100644 drivers/fpga/dfl-fme-error.c
 
---xHFwDpU9dbj6ez1V
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+-- 
+1.8.3.1
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl0eWIAACgkQMOfwapXb+vLSMgCcC98TTx9pMIkokJGKGUu3i6ME
-o+AAn3TIA7Pjz5wBcK19BycwV2+shMN6
-=83sj
------END PGP SIGNATURE-----
-
---xHFwDpU9dbj6ez1V--
