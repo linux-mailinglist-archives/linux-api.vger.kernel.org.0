@@ -2,67 +2,59 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D5A060087
-	for <lists+linux-api@lfdr.de>; Fri,  5 Jul 2019 07:17:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 19938601E7
+	for <lists+linux-api@lfdr.de>; Fri,  5 Jul 2019 10:04:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725763AbfGEFRj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 5 Jul 2019 01:17:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56860 "EHLO mail.kernel.org"
+        id S1728026AbfGEIEd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 5 Jul 2019 04:04:33 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53188 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725681AbfGEFRi (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 5 Jul 2019 01:17:38 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1727506AbfGEIEd (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 5 Jul 2019 04:04:33 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DF97D216FD;
-        Fri,  5 Jul 2019 05:17:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1562303857;
-        bh=7wlnbU7f7NI4tp/aNkJpCkcXuqZ5WwcXUMv6L1ELc9A=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ugFyFfFKxNGYgqcsh/MHx4NXJCIKEN54oVlmcVYIMOOV+VWzrlEZvmbebID8zJ5bL
-         eqmwYQmbvOmjFYhkaVSALkugyKBmfb1VfnBe27/tme7AWsfKHTvt939Fp5y9LAsG40
-         T1T2qcyfsYKp8T79H0xukTrXjRdyvTpc+Fm0NASY=
-Date:   Fri, 5 Jul 2019 07:17:33 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     David Howells <dhowells@redhat.com>
-Cc:     viro@zeniv.linux.org.uk, Casey Schaufler <casey@schaufler-ca.com>,
+        by mx1.redhat.com (Postfix) with ESMTPS id 66E8A88304;
+        Fri,  5 Jul 2019 08:04:21 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-120-9.rdu2.redhat.com [10.10.120.9])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 4E5BE8D66B;
+        Fri,  5 Jul 2019 08:04:18 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <20190705051733.GA15821@kroah.com>
+References: <20190705051733.GA15821@kroah.com> <20190703190846.GA15663@kroah.com> <156173690158.15137.3985163001079120218.stgit@warthog.procyon.org.uk> <156173697086.15137.9549379251509621554.stgit@warthog.procyon.org.uk> <10295.1562256260@warthog.procyon.org.uk>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     dhowells@redhat.com, viro@zeniv.linux.org.uk,
+        Casey Schaufler <casey@schaufler-ca.com>,
         Stephen Smalley <sds@tycho.nsa.gov>, nicolas.dichtel@6wind.com,
         raven@themaw.net, Christian Brauner <christian@brauner.io>,
         keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
         linux-security-module@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
         linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 6/9] Add a general, global device notification watch list
- [ver #5]
-Message-ID: <20190705051733.GA15821@kroah.com>
-References: <20190703190846.GA15663@kroah.com>
- <156173690158.15137.3985163001079120218.stgit@warthog.procyon.org.uk>
- <156173697086.15137.9549379251509621554.stgit@warthog.procyon.org.uk>
- <10295.1562256260@warthog.procyon.org.uk>
+Subject: Re: [PATCH 6/9] Add a general, global device notification watch list [ver #5]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <10295.1562256260@warthog.procyon.org.uk>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <12945.1562313857.1@warthog.procyon.org.uk>
+Date:   Fri, 05 Jul 2019 09:04:17 +0100
+Message-ID: <12946.1562313857@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.28]); Fri, 05 Jul 2019 08:04:32 +0000 (UTC)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jul 04, 2019 at 05:04:20PM +0100, David Howells wrote:
-> Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
-> 
-> > Don't we need a manpage and a kselftest for it?
-> 
-> I've got part of a manpage, but it needs more work.
-> 
-> How do you do a kselftest for this when it does nothing unless hardware events
-> happen?
+Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
 
-Hm, good point, but there should be some way to test this to verify it
-works.  Maybe for the other types of events?
+> Hm, good point, but there should be some way to test this to verify it
+> works.  Maybe for the other types of events?
 
-thanks,
+Keyrings is the simplest.  keyutils's testsuite will handle that.  I'm trying
+to work out if I can simply make every macro in there that does a modification
+perform a watch automatically to make sure the appropriate events happen.
 
-greg k-h
+David
