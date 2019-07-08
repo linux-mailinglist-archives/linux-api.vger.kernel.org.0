@@ -2,109 +2,167 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C4476280C
-	for <lists+linux-api@lfdr.de>; Mon,  8 Jul 2019 20:10:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E4EA762812
+	for <lists+linux-api@lfdr.de>; Mon,  8 Jul 2019 20:12:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391336AbfGHSKc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 8 Jul 2019 14:10:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60554 "EHLO mail.kernel.org"
+        id S1728774AbfGHSM4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 8 Jul 2019 14:12:56 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42256 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391014AbfGHSKc (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 8 Jul 2019 14:10:32 -0400
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1728624AbfGHSM4 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 8 Jul 2019 14:12:56 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3FDEB21852;
-        Mon,  8 Jul 2019 18:10:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1562609430;
-        bh=j+rSbs+kGaqx8COBQc4tpdvoQbep4jlHqdDyLALm1mA=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=mFLm/RZJKV25ZjQjegx8Me/MS6n3tt5zsoZRyGpRp1nSFDPr1wJ7+s332MS8A8wV6
-         uOcBaKDmaW0WMydmDdcZ55c1EGWgqF8l82/ZeGaZoSgjuFTbg4oFvz/mZ8JJqddnyi
-         SWCtQJfoNRWl0a3bj5YNnAJnBRnmgzJ0enxE23v4=
-Subject: Re: [PATCH for 5.2] rseq/selftests: Fix Thumb mode build failure on
- arm32
-To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        stable <stable@vger.kernel.org>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Joel Fernandes <joelaf@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Watson <davejwatson@fb.com>,
-        Andi Kleen <andi@firstfloor.org>,
-        linux-kselftest <linux-kselftest@vger.kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Chris Lameter <cl@linux.com>,
-        Russell King <linux@arm.linux.org.uk>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        "Paul E . McKenney" <paulmck@linux.vnet.ibm.com>,
-        Paul Turner <pjt@google.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Josh Triplett <josh@joshtriplett.org>,
-        rostedt <rostedt@goodmis.org>, Ben Maurer <bmaurer@fb.com>,
-        linux-api <linux-api@vger.kernel.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        carlos <carlos@redhat.com>, Florian Weimer <fweimer@redhat.com>,
-        shuah <shuah@kernel.org>
-References: <20190630135613.19897-1-mathieu.desnoyers@efficios.com>
- <1154710388.12906.1562608719838.JavaMail.zimbra@efficios.com>
-From:   shuah <shuah@kernel.org>
-Message-ID: <bd970db6-e230-007c-8645-88866e6b3faf@kernel.org>
-Date:   Mon, 8 Jul 2019 12:10:18 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        by mx1.redhat.com (Postfix) with ESMTPS id 6EBFB85363;
+        Mon,  8 Jul 2019 18:12:53 +0000 (UTC)
+Received: from madcap2.tricolour.ca (ovpn-112-14.phx2.redhat.com [10.3.112.14])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 13A1C2BFBE;
+        Mon,  8 Jul 2019 18:12:39 +0000 (UTC)
+Date:   Mon, 8 Jul 2019 14:12:37 -0400
+From:   Richard Guy Briggs <rgb@redhat.com>
+To:     Paul Moore <paul@paul-moore.com>
+Cc:     Tycho Andersen <tycho@tycho.ws>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
+        Linux-Audit Mailing List <linux-audit@redhat.com>,
+        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
+        sgrubb@redhat.com, omosnace@redhat.com, dhowells@redhat.com,
+        simo@redhat.com, Eric Paris <eparis@parisplace.org>,
+        ebiederm@xmission.com, nhorman@tuxdriver.com
+Subject: Re: [PATCH ghak90 V6 02/10] audit: add container id
+Message-ID: <20190708181237.5poheliito7zpvmc@madcap2.tricolour.ca>
+References: <20190529145742.GA8959@cisco>
+ <CAHC9VhR4fudQanvZGYWMvCf7k2CU3q7e7n1Pi7hzC3v_zpVEdw@mail.gmail.com>
+ <20190529153427.GB8959@cisco>
+ <CAHC9VhSF3AjErX37+eeusJ7+XRw8yuPsmqBTRwc9EVoRBh_3Tw@mail.gmail.com>
+ <20190529222835.GD8959@cisco>
+ <CAHC9VhRS66VGtug3fq3RTGHDvfGmBJG6yRJ+iMxm3cxnNF-zJw@mail.gmail.com>
+ <20190530170913.GA16722@mail.hallyn.com>
+ <CAHC9VhThLiQzGYRUWmSuVfOC6QCDmA75BDB7Eg7V8HX4x7ymQg@mail.gmail.com>
+ <20190530212900.GC5739@cisco>
+ <CAHC9VhT5HPt9rCJoDutdvA3r1Y1GOHfpXe2eJ54atNC1=Vd8LA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1154710388.12906.1562608719838.JavaMail.zimbra@efficios.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHC9VhT5HPt9rCJoDutdvA3r1Y1GOHfpXe2eJ54atNC1=Vd8LA@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.25]); Mon, 08 Jul 2019 18:12:55 +0000 (UTC)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 7/8/19 11:58 AM, Mathieu Desnoyers wrote:
-> ----- On Jun 30, 2019, at 9:56 AM, Mathieu Desnoyers mathieu.desnoyers@efficios.com wrote:
+On 2019-05-30 19:26, Paul Moore wrote:
+> On Thu, May 30, 2019 at 5:29 PM Tycho Andersen <tycho@tycho.ws> wrote:
+> > On Thu, May 30, 2019 at 03:29:32PM -0400, Paul Moore wrote:
+> > >
+> > > [REMINDER: It is an "*audit* container ID" and not a general
+> > > "container ID" ;)  Smiley aside, I'm not kidding about that part.]
+> >
+> > This sort of seems like a distinction without a difference; presumably
+> > audit is going to want to differentiate between everything that people
+> > in userspace call a container. So you'll have to support all this
+> > insanity anyway, even if it's "not a container ID".
 > 
->> Using ".arm .inst" for the arm signature introduces build issues for
->> programs compiled in Thumb mode because the assembler stays in the
->> arm mode for the rest of the inline assembly. Revert to using a ".word"
->> to express the signature as data instead.
->>
->> The choice of signature is a valid trap instruction on arm32 little
->> endian, where both code and data are little endian.
->>
->> ARMv6+ big endian (BE8) generates mixed endianness code vs data:
->> little-endian code and big-endian data. The data value of the signature
->> needs to have its byte order reversed to generate the trap instruction.
->>
->> Prior to ARMv6, -mbig-endian generates big-endian code and data
->> (which match), so the endianness of the data representation of the
->> signature should not be reversed. However, the choice between BE32
->> and BE8 is done by the linker, so we cannot know whether code and
->> data endianness will be mixed before the linker is invoked. So rather
->> than try to play tricks with the linker, the rseq signature is simply
->> data (not a trap instruction) prior to ARMv6 on big endian. This is
->> why the signature is expressed as data (.word) rather than as
->> instruction (.inst) in assembler.
->>
->> Because a ".word" is used to emit the signature, it will be interpreted
->> as a literal pool by a disassembler, not as an actual instruction.
->> Considering that the signature is not meant to be executed except in
->> scenarios where the program execution is completely bogus, this should
->> not be an issue.
+> That's not quite right.  Audit doesn't care about what a container is,
+> or is not, it also doesn't care if the "audit container ID" actually
+> matches the ID used by the container engine in userspace and I think
+> that is a very important line to draw.  Audit is simply given a value
+> which it calls the "audit container ID", it ensures that the value is
+> inherited appropriately (e.g. children inherit their parent's audit
+> container ID), and it uses the value in audit records to provide some
+> additional context for log analysis.  The distinction isn't limited to
+> the value itself, but also to how it is used; it is an "audit
+> container ID" and not a "container ID" because this value is
+> exclusively for use by the audit subsystem.  We are very intentionally
+> not adding a generic container ID to the kernel.  If the kernel does
+> ever grow a general purpose container ID we will be one of the first
+> ones in line to make use of it, but we are not going to be the ones to
+> generically add containers to the kernel.  Enough people already hate
+> audit ;)
 > 
-> Now that 5.2 is out before this patch has been merged, can we please
-> integrate this patch through the kernel selftests or ARM tree so it
-> can be merged into the stable 5.2 branch ?
+> > > I'm not interested in supporting/merging something that isn't useful;
+> > > if this doesn't work for your use case then we need to figure out what
+> > > would work.  It sounds like nested containers are much more common in
+> > > the lxc world, can you elaborate a bit more on this?
+> > >
+> > > As far as the possible solutions you mention above, I'm not sure I
+> > > like the per-userns audit container IDs, I'd much rather just emit the
+> > > necessary tracking information via the audit record stream and let the
+> > > log analysis tools figure it out.  However, the bigger question is how
+> > > to limit (re)setting the audit container ID when you are in a non-init
+> > > userns.  For reasons already mentioned, using capable() is a non
+> > > starter for everything but the initial userns, and using ns_capable()
+> > > is equally poor as it essentially allows any userns the ability to
+> > > munge it's audit container ID (obviously not good).  It appears we
+> > > need a different method for controlling access to the audit container
+> > > ID.
+> >
+> > One option would be to make it a string, and have it be append only.
+> > That should be safe with no checks.
+> >
+> > I know there was a long thread about what type to make this thing. I
+> > think you could accomplish the append-only-ness with a u64 if you had
+> > some rule about only allowing setting lower order bits than those that
+> > are already set. With 4 bits for simplicity:
+> >
+> > 1100         # initial container id
+> > 1100 -> 1011 # not allowed
+> > 1100 -> 1101 # allowed, but now 1101 is set in stone since there are
+> >              # no lower order bits left
+> >
+> > There are probably fancier ways to do it if you actually understand
+> > math :)
 > 
+>  ;)
+> 
+> > Since userns nesting is limited to 32 levels (right now, IIRC), and
+> > you have 64 bits, this might be reasonable. You could just teach
+> > container engines to use the first say N bits for themselves, with a 1
+> > bit for the barrier at the end.
+> 
+> I like the creativity, but I worry that at some point these
+> limitations are going to be raised (limits have a funny way of doing
+> that over time) and we will be in trouble.  I say "trouble" because I
+> want to be able to quickly do an audit container ID comparison and
+> we're going to pay a penalty for these larger values (we'll need this
+> when we add multiple auditd support and the requisite record routing).
+> 
+> Thinking about this makes me also realize we probably need to think a
+> bit longer about audit container ID conflicts between orchestrators.
+> Right now we just take the value that is given to us by the
+> orchestrator, but if we want to allow multiple container orchestrators
+> to work without some form of cooperation in userspace (I think we have
+> to assume the orchestrators will not talk to each other) we likely
+> need to have some way to block reuse of an audit container ID.  We
+> would either need to prevent the orchestrator from explicitly setting
+> an audit container ID to a currently in use value, or instead generate
+> the audit container ID in the kernel upon an event triggered by the
+> orchestrator (e.g. a write to a /proc file).  I suspect we should
+> start looking at the idr code, I think we will need to make use of it.
 
-I will apply it to selftests and send it for 5.3-rc1 and mark it for
-stable.
+To address this, I'd suggest that it is enforced to only allow the
+setting of descendants and to maintain a master list of audit container
+identifiers (with a hash table if necessary later) that includes the
+container owner.
 
-thanks,
--- Shuah
+This also allows the orchestrator/engine to inject processes into
+existing containers by checking that the audit container identifier is
+only used again by the same owner.
+
+I have working code for both.
+
+> paul moore
+> www.paul-moore.com
+
+- RGB
+
+--
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems
+Remote, Ottawa, Red Hat Canada
+IRC: rgb, SunRaycer
+Voice: +1.647.777.2635, Internal: (81) 32635
