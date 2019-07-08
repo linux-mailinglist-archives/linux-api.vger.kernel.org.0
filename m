@@ -2,86 +2,85 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C7D5962883
-	for <lists+linux-api@lfdr.de>; Mon,  8 Jul 2019 20:46:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6895F62937
+	for <lists+linux-api@lfdr.de>; Mon,  8 Jul 2019 21:23:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731277AbfGHSqX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 8 Jul 2019 14:46:23 -0400
-Received: from ucol19pa13.eemsg.mail.mil ([214.24.24.86]:16622 "EHLO
-        ucol19pa13.eemsg.mail.mil" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728109AbfGHSqX (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 8 Jul 2019 14:46:23 -0400
-X-EEMSG-check-017: 727914215|UCOL19PA13_EEMSG_MP11.csd.disa.mil
-X-IronPort-AV: E=Sophos;i="5.63,466,1557187200"; 
-   d="scan'208";a="727914215"
+        id S1728461AbfGHTXW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 8 Jul 2019 15:23:22 -0400
+Received: from usfb19pa14.eemsg.mail.mil ([214.24.26.85]:59574 "EHLO
+        USFB19PA14.eemsg.mail.mil" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731505AbfGHTXW (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 8 Jul 2019 15:23:22 -0400
+X-Greylist: delayed 605 seconds by postgrey-1.27 at vger.kernel.org; Mon, 08 Jul 2019 15:23:20 EDT
+X-EEMSG-check-017: 169672779|USFB19PA14_EEMSG_MP10.csd.disa.mil
 Received: from emsm-gh1-uea10.ncsc.mil ([214.29.60.2])
-  by ucol19pa13.eemsg.mail.mil with ESMTP/TLS/DHE-RSA-AES256-SHA256; 08 Jul 2019 18:46:14 +0000
+  by USFB19PA14.eemsg.mail.mil with ESMTP/TLS/DHE-RSA-AES256-SHA256; 08 Jul 2019 19:13:12 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tycho.nsa.gov; i=@tycho.nsa.gov; q=dns/txt;
-  s=tycho.nsa.gov; t=1562611574; x=1594147574;
+  s=tycho.nsa.gov; t=1562613193; x=1594149193;
   h=subject:to:cc:references:from:message-id:date:
    mime-version:in-reply-to:content-transfer-encoding;
-  bh=96bFs/j1tykk6zv5kGzC/jOaR4nIBLQvQjY7eMB6i98=;
-  b=TZeJ/D+iOsuw2AKT+JZh1qG24a6J00O8/aa3OVdtyERt4kloYlHjt3ck
-   QsW4EzBP7OX8EkyUc8+k4u6EL/bB2uIQzyoCcSnQb6IjtWlTOJ4GL+uid
-   Nzy5upxY8kI09OK+cg3Pckwcx+Or5a3eFOMTtTmBngHVoq1ndFSEpWBok
-   p077R0fz0wwiUBTFmCGtYyJacVwoNhQHQrnaAVaHAmGuHnePar1avo/yX
-   lVSOoGak1GC5vWIWHEc7h1MMCdJ7e0FHx4FxyXLmt5eYyL/JpxOeOpOpw
-   DGDMItr2QnzFnnJ3iPJqBUPEww4sPrrYxsbdXaGoX1jjbqqryZtz90A1/
+  bh=jMwXkOh8bQ3MYhVQUKB4xWadNR5mWRfssUJmM3hjGqk=;
+  b=HTwtq3akPTxaMhAnhtThBUM3QKbMzQspdQQT1Lci92DBfYp2gSZ3KTYI
+   xjPyhHApFISwecnpL39TbE+2mmpDrhm1K0q/DWWMtIsER7AXWcOIwXniE
+   S4MxdwSLB4jah2PKxQjPVNVzoyPB+Voeh3aU/UlN+vfFPEIJZn8Kgd7td
+   Oh43dgAK+Xf677ap/hN60Bd6a/BMaDuBiI0BxhpChbpyw22a3H1CIUibC
+   ywONoYoovvCKbXG1kAH/lt3YOr8f1AE1VqpMaHyhNelYFuF/XgIytBab0
+   DQXZDTjisczmlrxkEbQdnHbaUt0jN4nxOraPFtjRj0s+OjdNUUad8IsmE
    A==;
 X-IronPort-AV: E=Sophos;i="5.63,466,1557187200"; 
-   d="scan'208";a="25479746"
-IronPort-PHdr: =?us-ascii?q?9a23=3AxTpC6hZFQvYoCGUV/hVeLov/LSx+4OfEezUN45?=
- =?us-ascii?q?9isYplN5qZpsqyYx7h7PlgxGXEQZ/co6odzbaP6ea8ASdZu8bJmUtBWaQEbw?=
- =?us-ascii?q?UCh8QSkl5oK+++Imq/EsTXaTcnFt9JTl5v8iLzG0FUHMHjew+a+SXqvnYdFR?=
- =?us-ascii?q?rlKAV6OPn+FJLMgMSrzeCy/IDYbxlViDanbr5+MQu6oR/eu8UKjoduN7g9xx?=
- =?us-ascii?q?jUqXZUZupawn9lK0iOlBjm/Mew+5Bj8yVUu/0/8sNLTLv3caclQ7FGFToqK2?=
- =?us-ascii?q?866tHluhnFVguP+2ATUn4KnRpSAgjK9w/1U5HsuSbnrOV92S2aPcrrTbAoXD?=
- =?us-ascii?q?mp8qlmRAP0hCoBKjU063/chNBug61HoRKhvx1/zJDSYIGJL/p1Y6fRccoHSW?=
- =?us-ascii?q?ZdQspdUipMDY2mb4sLEuEPI+BWoYfgrFcKtBeyGw2hCObpxzRVhHH5wLc63v?=
- =?us-ascii?q?w8Hw/Y0gwuH9EAvnrao9r6NqgdTe+7wbLUzTjBdf5axSvx5YbKfx0nvPqCXa?=
- =?us-ascii?q?hwcc3UyUQ3Cg3FkkufqZTlPzyL0OQGrnWV7+96WuKrj24otQFwqSWoy8c3l4?=
- =?us-ascii?q?bJnZkYykzE9CplwIY1Ise0SEhgYdG+CpdQuCaaN5VvT84kXmpmuz46x6UbtZ?=
- =?us-ascii?q?O0cyUG0pQqywPFZ/CZfIWE/AjvWPuXLDxlnnxqYqi/iAy38UW4z+38UdS730?=
- =?us-ascii?q?hSoypel9nMqmgN1xvO6sibUvd9/lmu2TKI1w3L9uFLO1o0lavGK5462LIwip?=
- =?us-ascii?q?oSvljDHi/xgkn2irOZdl449eSy7uTnY7HmqoedN49ylA7+LrwjltGwDOk3KA?=
- =?us-ascii?q?QDX3WX9f6i2LDs40H1WqhGguUzkqbDsZDaIcobprS+Aw9Qyosj8AuwDyy93d?=
- =?us-ascii?q?QEnXgIMFJFeBWdg4jvIFHBOur0Dfi4g1SyiDtr3ezJPqX9ApXRKXjOiKrufb?=
- =?us-ascii?q?Z6609S1gUzydRf54lPB7EbPv38R0/xu8bEDhMjLwO0xOPnAs1n1owCQWKPHr?=
- =?us-ascii?q?OZMKTKvF+W5+IvOe6MaZQUuTnjLfgl5uDugWU9mV8ce6mpwJQWZGq/HvR8LE?=
- =?us-ascii?q?WVe2fsgtQZG2cQogU+VPDqiEGFUTNLe3m9Rbk86S87CY+9FofMWoCtj6ac3C?=
- =?us-ascii?q?e1Gp1ZeHpGBkmQHnjybYmLR/AMaCeKKM97jjMETaShS5Mm1Ry2uw/60aRoLu?=
- =?us-ascii?q?XX+i0Yrp/j0Nl15+vOlRA9+zx0CNmd02eQQG5ugmMIRjg23KZlrUx60FeD3r?=
- =?us-ascii?q?Byg+ZEGtxL+/NJTgA6OIbaz+x7F9/yXQbBcc2SSFq8X9qmAC0+TtItw9AQZ0?=
- =?us-ascii?q?ZwANSvjx7C3yqsHrAZjaCEBJsx8qjExXj+O959y2ra1Kkml1QmWNFANXO4ia?=
- =?us-ascii?q?557AXTG47JnFucl6mwe6UQxijN+3mfzWCWpkFXTBZwUbnZXXAYfkbZsdT55l?=
- =?us-ascii?q?nDT7+1FbQnMxFOyciZJ6RRcN3ml0hGRPH9N9TEeW6xmmCwDw6SxryQdIrqZ3?=
- =?us-ascii?q?kd3CLFBUgHjQ8S/WyGNQk4BieuuGLTFyJuFV3xbEP26+V+q220TlUyzw6Ua0?=
- =?us-ascii?q?1tzb21+gQahfaEUfMcwqoEuDs9qzVzBFu929PWC9ydpwtuZalcfMg970xc2G?=
- =?us-ascii?q?LHuAxyIIagI7phhlEAaQR3uV3h1xFtBoVHi8gqo2sgzBBuJqKAzFNBazSY0I?=
- =?us-ascii?q?j0Or3WLGny4R+uZ7fN2l7AzNmW570P6PUkq1TjpQ2pE00i/Gh609lRzXSR/Y?=
- =?us-ascii?q?vKDAUMXpLrSEo39AZ1p6vcYiYj44PYz3psMbO7sjXawdImGPMlygq8f9dYKK?=
- =?us-ascii?q?6EEA7yE8sHB8mhMeAqlUOpYQ8aM+BM6qE0O9ird+WJ2KG1JuZshjGmgnpd4I?=
- =?us-ascii?q?B7zE2M8zBwSunS35YK2/uYxBeIVy/gjFe9tcD6gYREZTAUHmqixinoHZReZr?=
- =?us-ascii?q?VzfYsQF2euLNO4xs9ki57uRXFY7lijCE0C2MOzfhqSdVP91xVK1UsLuXynhT?=
- =?us-ascii?q?e4zztsnjEtr6qf2jHOwuv7eBUcPm5LQ3VtjVT3LIiqgNAVQlKoYxIqlBS7/0?=
- =?us-ascii?q?b6wbZUpKBlI2nUW0dIcDD8L3t+XauoqrqCf8lP5YsssSVWVuS8fF+bRqf+ox?=
- =?us-ascii?q?QEySPjGXVRxDQgejG0tZX2gQZ6hHieLHlttnrZf99/xRPF6NzbX/5R0WlOeC?=
- =?us-ascii?q?4tpTDJB1T0H9628NGQjN+XvuC5SG+lUoZ7ayTnzYqc8iC84DsuSQO+hfebiN?=
- =?us-ascii?q?DhEBZ81S79ysksUj/H6gv/Mafx0KHvCv5qZkllAhfH7sN+Hoxv2t8riIo4xW?=
- =?us-ascii?q?kRhpLT+2EO12j0L4MIiurFcHMRSGtTkJbu6w//1RgmdyjYyg=3D=3D?=
-X-IPAS-Result: =?us-ascii?q?A2CZAABnjiNd/wHyM5BlHAEBAQQBAQcEAQGBVgQBAQsBg?=
- =?us-ascii?q?WcFKoFuKIQckzIGgQktiVuRFAkBAQEBAQEBAQE0AQIBAYRAAoI4IzcGDgEDA?=
- =?us-ascii?q?QEBBAEBAQEEAQFsikOCOikBgmcBBSMVQRALDgoCAiYCAlcGAQwGAgEBglMMP?=
- =?us-ascii?q?4F3FKo6gTKFR4MlgUeBDCgBh22DcRd4gQeBOII9Lj6HToJYBJRmlWwJghmCH?=
- =?us-ascii?q?5FfBhuXfo0wmUsigVgrCAIYCCEPgyeCTReOPSMDMAx6AQGNaQEB?=
+   d="scan'208";a="25481373"
+IronPort-PHdr: =?us-ascii?q?9a23=3A6V8Rxxd4zLmBugHFRVvTyIaalGMj4u6mDksu8p?=
+ =?us-ascii?q?Mizoh2WeGdxc28bBON2/xhgRfzUJnB7Loc0qyK6vqmBTRLuM3f+Fk5M7V0Hy?=
+ =?us-ascii?q?cfjssXmwFySOWkMmbcaMDQUiohAc5ZX0Vk9XzoeWJcGcL5ekGA6ibqtW1aFR?=
+ =?us-ascii?q?rwLxd6KfroEYDOkcu3y/qy+5rOaAlUmTaxe7x/IAiooQnLucQanYRuJrs/xx?=
+ =?us-ascii?q?bIv3BFZ/lYyWR0KFyJgh3y/N2w/Jlt8yRRv/Iu6ctNWrjkcqo7ULJVEi0oP3?=
+ =?us-ascii?q?g668P3uxbDSxCP5mYHXWUNjhVIGQnF4wrkUZr3ryD3q/By2CiePc3xULA0RT?=
+ =?us-ascii?q?Gv5LplRRP0lCsKMSMy/XrJgcJskq1UvBOhpwR+w4HKZoGVKOF+db7Zcd8DWG?=
+ =?us-ascii?q?ZNQtpdWylHD4yydYsPC/cKM/heoYfzulACqQKyCReoCe/qzDJDm3340rAg0+?=
+ =?us-ascii?q?k5DA/IwgIgEdINvnraotr6O6UdXvy6wqTT0TXObelb1Svh5IXGcB0sp+yHU7?=
+ =?us-ascii?q?JqccrWzEkiDx7LjkmOpoz9PzOayOINuHWG4eplT+2vj2onpB9xozOywcoskZ?=
+ =?us-ascii?q?TGhpkOx1DY9SR23IY1JdqiRE59et6rCoFcty6dN4toW84vRXxjtiUiyrAepJ?=
+ =?us-ascii?q?K2cycHxI4nyhLCcfCLbYeF7gz5WOqMJzpzmWhrd6ilhxmo9Eit0uj8Vs6p31?=
+ =?us-ascii?q?lUtidFidzMtmwV1xzU98iHVuNx/ke/1jaL0ADe8v1ELloularaNp4h2aQ8lo?=
+ =?us-ascii?q?YTsEvfHi/2n1/6jKmKeUU/5uek8eHnYrTippOENo90jB/xMrg2l8CiDuk1PR?=
+ =?us-ascii?q?ICUmiG9eimyrHu8lP1TK9XgvEul6nWqpHaJcAVpq6jBA9V154u6w2iADe9y9?=
+ =?us-ascii?q?kYgXkGI05FeBKAlYTpPUrOL+riAfewhFSsji9nx+raMb35HpXNMn/Dna/8cr?=
+ =?us-ascii?q?Z97E5dxhQ8zdRb55JPEbwBOuz8VVLxtNPCEh81KRC7w+HiCN9lzIMRRXqPAr?=
+ =?us-ascii?q?OFMKPVqVKI+OMvI/OLZIIOuTfyNf4l5//wjXMjnV8dfK+p3YYYaXyiGfRmOU?=
+ =?us-ascii?q?qZbWDxgtcCCW0KpBYxTPT2iF2eVj5ef2q9ULgn5j4lCIOrFpzDSZytgLObwS?=
+ =?us-ascii?q?e7EJlWaX5cClyVDXjnbZ+IVOsLaCKXOsVhiCALVaC9S4890hGjrAD6y6B5Ie?=
+ =?us-ascii?q?rb+S0YtYnu1Nx05+3ViBEz+jJ0D8OA02GLUm57hH8IRz4x3KB5u0B9zU2D0a?=
+ =?us-ascii?q?dgifxCCdNT/+9JUhs9NZPEyex6Csz9WgXFftiTU1aqWMipATAtQdIx398BfU?=
+ =?us-ascii?q?J9Fs6jgxHN3iqqBaIam6aXC5wz96LWx2LxKNply3bayKkhiEErQtFVOm24mK?=
+ =?us-ascii?q?F/8RPeB5LJk0qHkqalb6od0DTL9Gid0WqEpFtYXxJoUaXZQXAfYVPbosj55k?=
+ =?us-ascii?q?PYTr+uEqgnMgpbxs6EMaZFccfpgk9bRPflJtveeXi9m2a3BRyQ3LODcJLqe3?=
+ =?us-ascii?q?kB3CXaEEUEkB4c/HacNQg/ACehrHneASdwFVLgfUzs6/NyqHClQU8uyQGFcU?=
+ =?us-ascii?q?lh26Cy+h4PivyWU+kT0a4cuCc9tzV0G06w39bXC9qGugpgc7xQYc4m4Fhczm?=
+ =?us-ascii?q?/ZqQN9MYK6L6x4hV4RbR53v0Xw2BVzEIlAltIqrHwyxgpoNa2YyE9Bdy+f3Z?=
+ =?us-ascii?q?3oPr3XK2/y/A2gaqLPwVHRzsqZ+roV6PQ5t1XivBilFk8l83p6ztlV12WT64?=
+ =?us-ascii?q?7UDAodT53xSFw79xtkqLHAZCky+YfU2WdrMamuvT/Iw8gpC/c9yha8Y9dfN7?=
+ =?us-ascii?q?uJFAvzE80cGsivJ/Umm1aybh0ZIu9S6rA7P8e9evuY166kIvxgkCiljWtZ+o?=
+ =?us-ascii?q?B91FyD9y5mRu7PxZYFzOmS3hGbWDfkkFehrsf3lJhAZTETGGq/1CflCJdLaa?=
+ =?us-ascii?q?1qfIYGEnmuI8KpydVknZLtWGBX9ESlB1wY3M+lYx2Sb0by3QdIz0QYvWSnmT?=
+ =?us-ascii?q?ekzzxzizwpqquf3CrTw+XtbRYIIWpLRG5+glfvOoW0kd8aU1aybwQzlxuq+1?=
+ =?us-ascii?q?z6x65Fq6R7NWXTRl1IfyfuJWF4TqSwrqaCY9JI6J4wtSVXUeK8YU2VS7LkoB?=
+ =?us-ascii?q?sVzTnjH21AyzA/bDyqpJr5kAJgiG6HL3Z8smDZecduyhfb/tDcQuRR3jVVDB?=
+ =?us-ascii?q?V/3BXeGFmwd/mu4tiQk4yL5uy+UH2sUplIWTPmwYOJqG2w4mg8RVWhnuq0ss?=
+ =?us-ascii?q?/qFwkklyv60cR6EyLSo1DhYdrFzaO/ZNl7c1FoCVm00M9zHoVzg8Nkn50L8W?=
+ =?us-ascii?q?QLjZWSu3wcmCH8NssNivG2V2YEWTNem42d2wPiwkA2ayvTlo8=3D?=
+X-IPAS-Result: =?us-ascii?q?A2CZAACAlCNd/wHyM5BlHAEBAQQBAQcEAQGBVgQBAQsBg?=
+ =?us-ascii?q?WwqgW4ohByTMwaBCS2JW5EUCQEBAQEBAQEBATQBAgEBhEACgjgjNwYOAQMBA?=
+ =?us-ascii?q?QEEAQEBAQQBAWyKQ4I6KQGCZgEBAQECASMVPwIQCw4KAgImAgJXBgEMBgIBA?=
+ =?us-ascii?q?YJTDD+BdwUPqkKBMoVHgyWBR4EMKAGLXhd4gQeBOII9Lj6HToJYBJRmlWwJg?=
+ =?us-ascii?q?hmCH5FfBhuXfo0wmUsigVgrCAIYCCEPgyeCTRcUjikjAzAMegEBjWkBAQ?=
 Received: from tarius.tycho.ncsc.mil ([144.51.242.1])
-  by EMSM-GH1-UEA10.NCSC.MIL with ESMTP; 08 Jul 2019 18:46:13 +0000
+  by EMSM-GH1-UEA10.NCSC.MIL with ESMTP; 08 Jul 2019 19:13:11 +0000
 Received: from moss-pluto.infosec.tycho.ncsc.mil (moss-pluto [192.168.25.131])
-        by tarius.tycho.ncsc.mil (8.14.4/8.14.4) with ESMTP id x68IkB5p017610;
-        Mon, 8 Jul 2019 14:46:11 -0400
-Subject: Re: [PATCH 2/9] security: Add hooks to rule on setting a watch [ver
- #5]
+        by tarius.tycho.ncsc.mil (8.14.4/8.14.4) with ESMTP id x68JD9A2024309;
+        Mon, 8 Jul 2019 15:13:09 -0400
+Subject: Re: [PATCH 3/9] security: Add a hook for the point of notification
+ insertion [ver #5]
 To:     David Howells <dhowells@redhat.com>, viro@zeniv.linux.org.uk
 Cc:     Casey Schaufler <casey@schaufler-ca.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -92,14 +91,14 @@ Cc:     Casey Schaufler <casey@schaufler-ca.com>,
         linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
         linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <156173690158.15137.3985163001079120218.stgit@warthog.procyon.org.uk>
- <156173692760.15137.9636883182556029747.stgit@warthog.procyon.org.uk>
+ <156173694190.15137.8939274212328721351.stgit@warthog.procyon.org.uk>
 From:   Stephen Smalley <sds@tycho.nsa.gov>
-Message-ID: <cd657aab-e11c-c0b1-2e36-dd796ca75b75@tycho.nsa.gov>
-Date:   Mon, 8 Jul 2019 14:46:11 -0400
+Message-ID: <541e5cb3-142b-fe87-dff6-260b46d34f2d@tycho.nsa.gov>
+Date:   Mon, 8 Jul 2019 15:13:09 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <156173692760.15137.9636883182556029747.stgit@warthog.procyon.org.uk>
+In-Reply-To: <156173694190.15137.8939274212328721351.stgit@warthog.procyon.org.uk>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -108,10 +107,34 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 6/28/19 11:48 AM, David Howells wrote:
-> Add security hooks that will allow an LSM to rule on whether or not a watch
-> may be set.  More than one hook is required as the watches watch different
-> types of object.
+On 6/28/19 11:49 AM, David Howells wrote:
+> Add a security hook that allows an LSM to rule on whether a notification
+> message is allowed to be inserted into a particular watch queue.
+> 
+> The hook is given the following information:
+> 
+>   (1) The credentials of the triggerer (which may be init_cred for a system
+>       notification, eg. a hardware error).
+> 
+>   (2) The credentials of the whoever set the watch.
+> 
+>   (3) The notification message.
+
+As with the other proposed hooks, it is difficult to evaluate this hook 
+without at least one implementation of the hook.  Since Casey is the 
+only one requesting this hook, a Smack implementation would be the 
+natural choice; I do not intend to implement this hook for SELinux. 
+However, by providing this hook, you are in effect taking a position wrt 
+the earlier controversy over it, i.e. that application developers must 
+deal with the possibility that notifications can be dropped if a 
+security module does not permit the triggerer to post the notification 
+to the watcher, without any indication to either the triggerer or the 
+watcher.  This is a choice you are making by providing this hook.  The 
+alternative is to require that permission to set a watch imply the 
+ability to receive all notifications for the watched object.  Aside from 
+friendliness to application developers, the latter also yields stable, 
+sane policy and better performance.
+
 > 
 > Signed-off-by: David Howells <dhowells@redhat.com>
 > cc: Casey Schaufler <casey@schaufler-ca.com>
@@ -119,128 +142,97 @@ On 6/28/19 11:48 AM, David Howells wrote:
 > cc: linux-security-module@vger.kernel.org
 > ---
 > 
->   include/linux/lsm_hooks.h |   22 ++++++++++++++++++++++
->   include/linux/security.h  |   15 +++++++++++++++
->   security/security.c       |   13 +++++++++++++
->   3 files changed, 50 insertions(+)
+>   include/linux/lsm_hooks.h |   10 ++++++++++
+>   include/linux/security.h  |   10 ++++++++++
+>   security/security.c       |    6 ++++++
+>   3 files changed, 26 insertions(+)
 > 
 > diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
-> index 47f58cfb6a19..f9d31f6445e4 100644
+> index f9d31f6445e4..fd4b2b14e7d0 100644
 > --- a/include/linux/lsm_hooks.h
 > +++ b/include/linux/lsm_hooks.h
-> @@ -1413,6 +1413,20 @@
->    *	@ctx is a pointer in which to place the allocated security context.
->    *	@ctxlen points to the place to put the length of @ctx.
+> @@ -1426,6 +1426,12 @@
+>    *	from devices (as a global set).
+>    *	@watch: The watch object
 >    *
-> + * Security hooks for the general notification queue:
-> + *
-> + * @watch_key:
-> + *	Check to see if a process is allowed to watch for event notifications
-> + *	from a key or keyring.
-> + *	@watch: The watch object
-> + *	@key: The key to watch.
-> + *
-> + * @watch_devices:
-> + *	Check to see if a process is allowed to watch for event notifications
-> + *	from devices (as a global set).
-> + *	@watch: The watch object
-
-It is difficult to evaluate these without at least one implementation of 
-each hook.  I am unclear as to how any security module would use the 
-watch argument, since it has no security field/blob and does not appear 
-to contain any information that would be relevant to deciding whether or 
-not to permit the watch to be set.
-
-> + *
-> + *
+> + * @post_notification:
+> + *	Check to see if a watch notification can be posted to a particular
+> + *	queue.
+> + *	@w_cred: The credentials of the whoever set the watch.
+> + *	@cred: The event-triggerer's credentials
+> + *	@n: The notification being posted
+>    *
 >    * Security hooks for using the eBPF maps and programs functionalities through
 >    * eBPF syscalls.
->    *
-> @@ -1688,6 +1702,10 @@ union security_list_options {
->   	int (*inode_notifysecctx)(struct inode *inode, void *ctx, u32 ctxlen);
->   	int (*inode_setsecctx)(struct dentry *dentry, void *ctx, u32 ctxlen);
->   	int (*inode_getsecctx)(struct inode *inode, void **ctx, u32 *ctxlen);
-> +#ifdef CONFIG_WATCH_QUEUE
-> +	int (*watch_key)(struct watch *watch, struct key *key);
-> +	int (*watch_devices)(struct watch *watch);
-> +#endif /* CONFIG_WATCH_QUEUE */
+> @@ -1705,6 +1711,9 @@ union security_list_options {
+>   #ifdef CONFIG_WATCH_QUEUE
+>   	int (*watch_key)(struct watch *watch, struct key *key);
+>   	int (*watch_devices)(struct watch *watch);
+> +	int (*post_notification)(const struct cred *w_cred,
+> +				 const struct cred *cred,
+> +				 struct watch_notification *n);
+>   #endif /* CONFIG_WATCH_QUEUE */
 >   
 >   #ifdef CONFIG_SECURITY_NETWORK
->   	int (*unix_stream_connect)(struct sock *sock, struct sock *other,
-> @@ -1964,6 +1982,10 @@ struct security_hook_heads {
->   	struct hlist_head inode_notifysecctx;
->   	struct hlist_head inode_setsecctx;
->   	struct hlist_head inode_getsecctx;
-> +#ifdef CONFIG_WATCH_QUEUE
-> +	struct hlist_head watch_key;
-> +	struct hlist_head watch_devices;
-> +#endif /* CONFIG_WATCH_QUEUE */
+> @@ -1985,6 +1994,7 @@ struct security_hook_heads {
+>   #ifdef CONFIG_WATCH_QUEUE
+>   	struct hlist_head watch_key;
+>   	struct hlist_head watch_devices;
+> +	struct hlist_head post_notification;
+>   #endif /* CONFIG_WATCH_QUEUE */
 >   #ifdef CONFIG_SECURITY_NETWORK
 >   	struct hlist_head unix_stream_connect;
->   	struct hlist_head unix_may_send;
 > diff --git a/include/linux/security.h b/include/linux/security.h
-> index 659071c2e57c..540863678355 100644
+> index 540863678355..5c074bf18bea 100644
 > --- a/include/linux/security.h
 > +++ b/include/linux/security.h
-> @@ -57,6 +57,7 @@ struct mm_struct;
->   struct fs_context;
+> @@ -58,6 +58,7 @@ struct fs_context;
 >   struct fs_parameter;
 >   enum fs_value_type;
-> +struct watch;
+>   struct watch;
+> +struct watch_notification;
 >   
 >   /* Default (no) options for the capable function */
 >   #define CAP_OPT_NONE 0x0
-> @@ -392,6 +393,10 @@ void security_inode_invalidate_secctx(struct inode *inode);
->   int security_inode_notifysecctx(struct inode *inode, void *ctx, u32 ctxlen);
->   int security_inode_setsecctx(struct dentry *dentry, void *ctx, u32 ctxlen);
->   int security_inode_getsecctx(struct inode *inode, void **ctx, u32 *ctxlen);
-> +#ifdef CONFIG_WATCH_QUEUE
-> +int security_watch_key(struct watch *watch, struct key *key);
-> +int security_watch_devices(struct watch *watch);
-> +#endif /* CONFIG_WATCH_QUEUE */
+> @@ -396,6 +397,9 @@ int security_inode_getsecctx(struct inode *inode, void **ctx, u32 *ctxlen);
+>   #ifdef CONFIG_WATCH_QUEUE
+>   int security_watch_key(struct watch *watch, struct key *key);
+>   int security_watch_devices(struct watch *watch);
+> +int security_post_notification(const struct cred *w_cred,
+> +			       const struct cred *cred,
+> +			       struct watch_notification *n);
+>   #endif /* CONFIG_WATCH_QUEUE */
 >   #else /* CONFIG_SECURITY */
 >   
->   static inline int call_lsm_notifier(enum lsm_event event, void *data)
-> @@ -1204,6 +1209,16 @@ static inline int security_inode_getsecctx(struct inode *inode, void **ctx, u32
+> @@ -1218,6 +1222,12 @@ static inline int security_watch_devices(struct watch *watch)
 >   {
->   	return -EOPNOTSUPP;
+>   	return 0;
 >   }
-> +#ifdef CONFIG_WATCH_QUEUE
-> +static inline int security_watch_key(struct watch *watch, struct key *key)
+> +static inline int security_post_notification(const struct cred *w_cred,
+> +					     const struct cred *cred,
+> +					     struct watch_notification *n)
 > +{
 > +	return 0;
 > +}
-> +static inline int security_watch_devices(struct watch *watch)
-> +{
-> +	return 0;
-> +}
-> +#endif /* CONFIG_WATCH_QUEUE */
+>   #endif /* CONFIG_WATCH_QUEUE */
 >   #endif	/* CONFIG_SECURITY */
 >   
->   #ifdef CONFIG_SECURITY_NETWORK
 > diff --git a/security/security.c b/security/security.c
-> index 613a5c00e602..2c9919226ad1 100644
+> index 2c9919226ad1..459e87d55ac9 100644
 > --- a/security/security.c
 > +++ b/security/security.c
-> @@ -1917,6 +1917,19 @@ int security_inode_getsecctx(struct inode *inode, void **ctx, u32 *ctxlen)
+> @@ -1928,6 +1928,12 @@ int security_watch_devices(struct watch *watch)
+>   	return call_int_hook(watch_devices, 0, watch);
 >   }
->   EXPORT_SYMBOL(security_inode_getsecctx);
 >   
-> +#ifdef CONFIG_WATCH_QUEUE
-> +int security_watch_key(struct watch *watch, struct key *key)
+> +int security_post_notification(const struct cred *w_cred,
+> +			       const struct cred *cred,
+> +			       struct watch_notification *n)
 > +{
-> +	return call_int_hook(watch_key, 0, watch, key);
+> +	return call_int_hook(post_notification, 0, w_cred, cred, n);
 > +}
-> +
-> +int security_watch_devices(struct watch *watch)
-> +{
-> +	return call_int_hook(watch_devices, 0, watch);
-> +}
-> +
-> +#endif /* CONFIG_WATCH_QUEUE */
-> +
+>   #endif /* CONFIG_WATCH_QUEUE */
+>   
 >   #ifdef CONFIG_SECURITY_NETWORK
->   
->   int security_unix_stream_connect(struct sock *sock, struct sock *other, struct sock *newsk)
 > 
 
