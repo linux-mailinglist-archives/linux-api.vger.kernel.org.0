@@ -2,494 +2,136 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BD40B63780
-	for <lists+linux-api@lfdr.de>; Tue,  9 Jul 2019 16:10:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE19163DED
+	for <lists+linux-api@lfdr.de>; Wed, 10 Jul 2019 00:42:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726126AbfGIOKX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 9 Jul 2019 10:10:23 -0400
-Received: from mx2.suse.de ([195.135.220.15]:55764 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726115AbfGIOKX (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 9 Jul 2019 10:10:23 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 305F6AB8C;
-        Tue,  9 Jul 2019 14:10:21 +0000 (UTC)
-Date:   Tue, 9 Jul 2019 16:10:19 +0200
-From:   Michal Hocko <mhocko@kernel.org>
-To:     Minchan Kim <minchan@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        linux-mm <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-api@vger.kernel.org,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Tim Murray <timmurray@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Sonny Rao <sonnyrao@google.com>, oleksandr@redhat.com,
-        hdanton@sina.com, lizeb@google.com,
-        Dave Hansen <dave.hansen@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH v3 5/5] mm: factor out pmd young/dirty bit handling and
- THP split
-Message-ID: <20190709141019.GN26380@dhcp22.suse.cz>
-References: <20190627115405.255259-1-minchan@kernel.org>
- <20190627115405.255259-6-minchan@kernel.org>
+        id S1726896AbfGIWmp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 9 Jul 2019 18:42:45 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:38709 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726444AbfGIWmo (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 9 Jul 2019 18:42:44 -0400
+Received: by mail-pg1-f196.google.com with SMTP id z75so175406pgz.5;
+        Tue, 09 Jul 2019 15:42:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=EnQW9i20df0zx3M6tQh/RXiMIwRQmZ5+hWLyjYA/FdM=;
+        b=DD0AQXo7JMl/6LPkpiSOoXmJvtk0qrVJHBq8NWlJXgANSN9l8CYGHoEAX+Cg88pCHo
+         TjMtn/CAJnppHWLIVz6IGlqKuRg9mx2vSLtavvneT2TSfEmj31fdZW1RV/CGU9cg9feM
+         LFd8+qBvS2j4Q+F4zPaw9pKQ+w2UqTz6Gi9eSWRLAOsCs8/F/nHXqk/RhMtZIImDO9kn
+         qoroYl8z7mi57bbK3gsqZQC5gXEFa7fs6PBen9hSbEgYL9D4FLsV9sKg2tuF6f8LmUNa
+         U4XZXl4CbpMCgLpIjrWMldNTqZk4e9T6M1phfKBqPUCln+P90FeXwVX5AuosNREIy2vd
+         X4rA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=EnQW9i20df0zx3M6tQh/RXiMIwRQmZ5+hWLyjYA/FdM=;
+        b=b5MPLNHnwkGz/Sid3/C/1hkWopzvjCrHA8gBA7qhH7vaafdoHCRa60MoCMq2K2c47v
+         TqXjBUmKZ+eHM0wXfRG05BRrTNZjMDJraAc32U3EHsU3K1bmLdEzHK/we0mSl267yhJE
+         AXcyiWaaMuZ68CyDJI/5ctaAxKWKOCGIA64+vopmdE1L7Ubk5amDaOneCj1dS6niI+UY
+         1wc6vnftLc076T7jAjyEwyaV/k/52u7I80o3IZRU2F58RkdWVOX36c4oYP1zBP0QsWVK
+         iVtCvFED9yNC1TSUpC9+7t0La0khiodSPPsGUMNkSVLmi+RX0iO5/B66CO6uhsNwzYIy
+         W7gA==
+X-Gm-Message-State: APjAAAWGNOA7mDGM+iPDq/31reR7dH70vFdjskVkUKzIDnw6vtljRKRP
+        oRipjosmyHpQYwL1F0iIa/g=
+X-Google-Smtp-Source: APXvYqzWIHWAc0izqtDS4qxFCC/slE9GIKp9Zy4uf+1dCpoSZl/0jGEsHCMr1DHfkCHmu5CfiqPWOw==
+X-Received: by 2002:a17:90a:20a2:: with SMTP id f31mr2745143pjg.90.1562712163888;
+        Tue, 09 Jul 2019 15:42:43 -0700 (PDT)
+Received: from localhost ([2607:f140:6000:1f:f5fc:878f:592:306])
+        by smtp.gmail.com with ESMTPSA id t9sm141136pji.18.2019.07.09.15.42.42
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Tue, 09 Jul 2019 15:42:43 -0700 (PDT)
+Date:   Tue, 9 Jul 2019 15:42:41 -0700
+From:   Yury Norov <yury.norov@gmail.com>
+To:     Yury Norov <ynorov@caviumnetworks.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, Adam Borowski <kilobyte@angband.pl>,
+        Alexander Graf <agraf@suse.de>,
+        Alexey Klimov <klimov.linux@gmail.com>,
+        Andreas Schwab <schwab@suse.de>,
+        Andrew Pinski <pinskia@gmail.com>,
+        Bamvor Zhangjian <bamv2005@gmail.com>,
+        Chris Metcalf <cmetcalf@mellanox.com>,
+        Christoph Muellner <christoph.muellner@theobroma-systems.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Florian Weimer <fweimer@redhat.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        James Hogan <james.hogan@imgtec.com>,
+        James Morse <james.morse@arm.com>,
+        Joseph Myers <joseph@codesourcery.com>,
+        Lin Yongting <linyongting@huawei.com>,
+        Manuel Montezelo <manuel.montezelo@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Martin Schwidefsky <schwidefsky@de.ibm.com>,
+        Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
+        Nathan_Lynch <Nathan_Lynch@mentor.com>,
+        Philipp Tomsich <philipp.tomsich@theobroma-systems.com>,
+        Prasun Kapoor <Prasun.Kapoor@caviumnetworks.com>,
+        Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
+        Steve Ellcey <sellcey@caviumnetworks.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>
+Subject: Re: [PATCH v9 00/24] ILP32 for ARM64
+Message-ID: <20190709224241.GA28503@yury-thinkpad>
+References: <20180516081910.10067-1-ynorov@caviumnetworks.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190627115405.255259-6-minchan@kernel.org>
+In-Reply-To: <20180516081910.10067-1-ynorov@caviumnetworks.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu 27-06-19 20:54:05, Minchan Kim wrote:
-> Now, there are common part among MADV_COLD|PAGEOUT|FREE to reset
-> access/dirty bit resetting or split the THP page to handle part
-> of subpages in the THP page. This patch factor out the common part.
+Hi all,
 
-While this reduces the code duplication to some degree I suspect it only
-goes half way. I haven't tried that myself due to lack of time but I
-believe this has a potential to reduce even more. All those madvise
-calls are doing the same thing essentially. What page tables and apply
-an operation on ptes and/or a page that is mapped. And that suggests
-that the specific operation should be good with defining two - pte and
-page operations on each entry. All the rest should be a common code.
-
-That being said, I do not feel strongly about this patch. The rest of
-the series should be good enough even without it and I wouldn't delay it
-just by discussing a potential of the cleanup.
-
-> Signed-off-by: Minchan Kim <minchan@kernel.org>
-> ---
->  include/linux/huge_mm.h |   3 -
->  mm/huge_memory.c        |  74 -------------
->  mm/madvise.c            | 234 +++++++++++++++++++++++-----------------
->  3 files changed, 135 insertions(+), 176 deletions(-)
+On Wed, May 16, 2018 at 11:18:45AM +0300, Yury Norov wrote:
+> This series enables AARCH64 with ILP32 mode.
 > 
-> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
-> index 7cd5c150c21d..2667e1aa3ce5 100644
-> --- a/include/linux/huge_mm.h
-> +++ b/include/linux/huge_mm.h
-> @@ -29,9 +29,6 @@ extern struct page *follow_trans_huge_pmd(struct vm_area_struct *vma,
->  					  unsigned long addr,
->  					  pmd_t *pmd,
->  					  unsigned int flags);
-> -extern bool madvise_free_huge_pmd(struct mmu_gather *tlb,
-> -			struct vm_area_struct *vma,
-> -			pmd_t *pmd, unsigned long addr, unsigned long next);
->  extern int zap_huge_pmd(struct mmu_gather *tlb,
->  			struct vm_area_struct *vma,
->  			pmd_t *pmd, unsigned long addr);
-> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> index 93f531b63a45..e4b9a06788f3 100644
-> --- a/mm/huge_memory.c
-> +++ b/mm/huge_memory.c
-> @@ -1671,80 +1671,6 @@ vm_fault_t do_huge_pmd_numa_page(struct vm_fault *vmf, pmd_t pmd)
->  	return 0;
->  }
->  
-> -/*
-> - * Return true if we do MADV_FREE successfully on entire pmd page.
-> - * Otherwise, return false.
-> - */
-> -bool madvise_free_huge_pmd(struct mmu_gather *tlb, struct vm_area_struct *vma,
-> -		pmd_t *pmd, unsigned long addr, unsigned long next)
-> -{
-> -	spinlock_t *ptl;
-> -	pmd_t orig_pmd;
-> -	struct page *page;
-> -	struct mm_struct *mm = tlb->mm;
-> -	bool ret = false;
-> -
-> -	tlb_change_page_size(tlb, HPAGE_PMD_SIZE);
-> -
-> -	ptl = pmd_trans_huge_lock(pmd, vma);
-> -	if (!ptl)
-> -		goto out_unlocked;
-> -
-> -	orig_pmd = *pmd;
-> -	if (is_huge_zero_pmd(orig_pmd))
-> -		goto out;
-> -
-> -	if (unlikely(!pmd_present(orig_pmd))) {
-> -		VM_BUG_ON(thp_migration_supported() &&
-> -				  !is_pmd_migration_entry(orig_pmd));
-> -		goto out;
-> -	}
-> -
-> -	page = pmd_page(orig_pmd);
-> -	/*
-> -	 * If other processes are mapping this page, we couldn't discard
-> -	 * the page unless they all do MADV_FREE so let's skip the page.
-> -	 */
-> -	if (page_mapcount(page) != 1)
-> -		goto out;
-> -
-> -	if (!trylock_page(page))
-> -		goto out;
-> -
-> -	/*
-> -	 * If user want to discard part-pages of THP, split it so MADV_FREE
-> -	 * will deactivate only them.
-> -	 */
-> -	if (next - addr != HPAGE_PMD_SIZE) {
-> -		get_page(page);
-> -		spin_unlock(ptl);
-> -		split_huge_page(page);
-> -		unlock_page(page);
-> -		put_page(page);
-> -		goto out_unlocked;
-> -	}
-> -
-> -	if (PageDirty(page))
-> -		ClearPageDirty(page);
-> -	unlock_page(page);
-> -
-> -	if (pmd_young(orig_pmd) || pmd_dirty(orig_pmd)) {
-> -		pmdp_invalidate(vma, addr, pmd);
-> -		orig_pmd = pmd_mkold(orig_pmd);
-> -		orig_pmd = pmd_mkclean(orig_pmd);
-> -
-> -		set_pmd_at(mm, addr, pmd, orig_pmd);
-> -		tlb_remove_pmd_tlb_entry(tlb, pmd, addr);
-> -	}
-> -
-> -	mark_page_lazyfree(page);
-> -	ret = true;
-> -out:
-> -	spin_unlock(ptl);
-> -out_unlocked:
-> -	return ret;
-> -}
-> -
->  static inline void zap_deposited_table(struct mm_struct *mm, pmd_t *pmd)
->  {
->  	pgtable_t pgtable;
-> diff --git a/mm/madvise.c b/mm/madvise.c
-> index ee210473f639..13b06dc8d402 100644
-> --- a/mm/madvise.c
-> +++ b/mm/madvise.c
-> @@ -310,6 +310,91 @@ static long madvise_willneed(struct vm_area_struct *vma,
->  	return 0;
->  }
->  
-> +enum madv_pmdp_reset_t {
-> +	MADV_PMDP_RESET,	/* pmd was reset successfully */
-> +	MADV_PMDP_SPLIT,	/* pmd was split */
-> +	MADV_PMDP_ERROR,
-> +};
-> +
-> +static enum madv_pmdp_reset_t madvise_pmdp_reset_or_split(struct mm_walk *walk,
-> +				pmd_t *pmd, spinlock_t *ptl,
-> +				unsigned long addr, unsigned long end,
-> +				bool young, bool dirty)
-> +{
-> +	pmd_t orig_pmd;
-> +	unsigned long next;
-> +	struct page *page;
-> +	struct mmu_gather *tlb = walk->private;
-> +	struct mm_struct *mm = walk->mm;
-> +	struct vm_area_struct *vma = walk->vma;
-> +	bool reset_young = false;
-> +	bool reset_dirty = false;
-> +	enum madv_pmdp_reset_t ret = MADV_PMDP_ERROR;
-> +
-> +	orig_pmd = *pmd;
-> +	if (is_huge_zero_pmd(orig_pmd))
-> +		return ret;
-> +
-> +	if (unlikely(!pmd_present(orig_pmd))) {
-> +		VM_BUG_ON(thp_migration_supported() &&
-> +				!is_pmd_migration_entry(orig_pmd));
-> +		return ret;
-> +	}
-> +
-> +	next = pmd_addr_end(addr, end);
-> +	page = pmd_page(orig_pmd);
-> +	if (next - addr != HPAGE_PMD_SIZE) {
-> +		/*
-> +		 * THP collapsing is not cheap so only split the page is
-> +		 * private to the this process.
-> +		 */
-> +		if (page_mapcount(page) != 1)
-> +			return ret;
-> +		get_page(page);
-> +		spin_unlock(ptl);
-> +		lock_page(page);
-> +		if (!split_huge_page(page))
-> +			ret = MADV_PMDP_SPLIT;
-> +		unlock_page(page);
-> +		put_page(page);
-> +		return ret;
-> +	}
-> +
-> +	if (young && pmd_young(orig_pmd))
-> +		reset_young = true;
-> +	if (dirty && pmd_dirty(orig_pmd))
-> +		reset_dirty = true;
-> +
-> +	/*
-> +	 * Other process could rely on the PG_dirty for data consistency,
-> +	 * not pte_dirty so we could reset PG_dirty only when we are owner
-> +	 * of the page.
-> +	 */
-> +	if (reset_dirty) {
-> +		if (page_mapcount(page) != 1)
-> +			goto out;
-> +		if (!trylock_page(page))
-> +			goto out;
-> +		if (PageDirty(page))
-> +			ClearPageDirty(page);
-> +		unlock_page(page);
-> +	}
-> +
-> +	ret = MADV_PMDP_RESET;
-> +	if (reset_young || reset_dirty) {
-> +		tlb_change_page_size(tlb, HPAGE_PMD_SIZE);
-> +		pmdp_invalidate(vma, addr, pmd);
-> +		if (reset_young)
-> +			orig_pmd = pmd_mkold(orig_pmd);
-> +		if (reset_dirty)
-> +			orig_pmd = pmd_mkclean(orig_pmd);
-> +		set_pmd_at(mm, addr, pmd, orig_pmd);
-> +		tlb_remove_pmd_tlb_entry(tlb, pmd, addr);
-> +	}
-> +out:
-> +	return ret;
-> +}
-> +
->  static int madvise_cold_pte_range(pmd_t *pmd, unsigned long addr,
->  				unsigned long end, struct mm_walk *walk)
->  {
-> @@ -319,64 +404,31 @@ static int madvise_cold_pte_range(pmd_t *pmd, unsigned long addr,
->  	pte_t *orig_pte, *pte, ptent;
->  	spinlock_t *ptl;
->  	struct page *page;
-> -	unsigned long next;
->  
-> -	next = pmd_addr_end(addr, end);
->  	if (pmd_trans_huge(*pmd)) {
-> -		pmd_t orig_pmd;
-> -
-> -		tlb_change_page_size(tlb, HPAGE_PMD_SIZE);
->  		ptl = pmd_trans_huge_lock(pmd, vma);
->  		if (!ptl)
->  			return 0;
->  
-> -		orig_pmd = *pmd;
-> -		if (is_huge_zero_pmd(orig_pmd))
-> -			goto huge_unlock;
-> -
-> -		if (unlikely(!pmd_present(orig_pmd))) {
-> -			VM_BUG_ON(thp_migration_supported() &&
-> -					!is_pmd_migration_entry(orig_pmd));
-> -			goto huge_unlock;
-> -		}
-> -
-> -		page = pmd_page(orig_pmd);
-> -		if (next - addr != HPAGE_PMD_SIZE) {
-> -			int err;
-> -
-> -			if (page_mapcount(page) != 1)
-> -				goto huge_unlock;
-> -
-> -			get_page(page);
-> +		switch (madvise_pmdp_reset_or_split(walk, pmd, ptl, addr, end,
-> +							true, false)) {
-> +		case MADV_PMDP_RESET:
->  			spin_unlock(ptl);
-> -			lock_page(page);
-> -			err = split_huge_page(page);
-> -			unlock_page(page);
-> -			put_page(page);
-> -			if (!err)
-> -				goto regular_page;
-> -			return 0;
-> -		}
-> -
-> -		if (pmd_young(orig_pmd)) {
-> -			pmdp_invalidate(vma, addr, pmd);
-> -			orig_pmd = pmd_mkold(orig_pmd);
-> -
-> -			set_pmd_at(mm, addr, pmd, orig_pmd);
-> -			tlb_remove_pmd_tlb_entry(tlb, pmd, addr);
-> +			page = pmd_page(*pmd);
-> +			test_and_clear_page_young(page);
-> +			deactivate_page(page);
-> +			goto next;
-> +		case MADV_PMDP_ERROR:
-> +			spin_unlock(ptl);
-> +			goto next;
-> +		case MADV_PMDP_SPLIT:
-> +			; /* go through */
->  		}
-> -
-> -		test_and_clear_page_young(page);
-> -		deactivate_page(page);
-> -huge_unlock:
-> -		spin_unlock(ptl);
-> -		return 0;
->  	}
->  
->  	if (pmd_trans_unstable(pmd))
->  		return 0;
->  
-> -regular_page:
->  	tlb_change_page_size(tlb, PAGE_SIZE);
->  	orig_pte = pte = pte_offset_map_lock(vma->vm_mm, pmd, addr, &ptl);
->  	flush_tlb_batched_pending(mm);
-> @@ -443,6 +495,7 @@ static int madvise_cold_pte_range(pmd_t *pmd, unsigned long addr,
->  
->  	arch_enter_lazy_mmu_mode();
->  	pte_unmap_unlock(orig_pte, ptl);
-> +next:
->  	cond_resched();
->  
->  	return 0;
-> @@ -493,70 +546,38 @@ static int madvise_pageout_pte_range(pmd_t *pmd, unsigned long addr,
->  	LIST_HEAD(page_list);
->  	struct page *page;
->  	int isolated = 0;
-> -	unsigned long next;
->  
->  	if (fatal_signal_pending(current))
->  		return -EINTR;
->  
-> -	next = pmd_addr_end(addr, end);
->  	if (pmd_trans_huge(*pmd)) {
-> -		pmd_t orig_pmd;
-> -
-> -		tlb_change_page_size(tlb, HPAGE_PMD_SIZE);
->  		ptl = pmd_trans_huge_lock(pmd, vma);
->  		if (!ptl)
->  			return 0;
->  
-> -		orig_pmd = *pmd;
-> -		if (is_huge_zero_pmd(orig_pmd))
-> -			goto huge_unlock;
-> -
-> -		if (unlikely(!pmd_present(orig_pmd))) {
-> -			VM_BUG_ON(thp_migration_supported() &&
-> -					!is_pmd_migration_entry(orig_pmd));
-> -			goto huge_unlock;
-> -		}
-> -
-> -		page = pmd_page(orig_pmd);
-> -		if (next - addr != HPAGE_PMD_SIZE) {
-> -			int err;
-> -
-> -			if (page_mapcount(page) != 1)
-> -				goto huge_unlock;
-> -			get_page(page);
-> +		switch (madvise_pmdp_reset_or_split(walk, pmd, ptl, addr, end,
-> +							true, false)) {
-> +		case MADV_PMDP_RESET:
-> +			page = pmd_page(*pmd);
->  			spin_unlock(ptl);
-> -			lock_page(page);
-> -			err = split_huge_page(page);
-> -			unlock_page(page);
-> -			put_page(page);
-> -			if (!err)
-> -				goto regular_page;
-> -			return 0;
-> -		}
-> -
-> -		if (isolate_lru_page(page))
-> -			goto huge_unlock;
-> -
-> -		if (pmd_young(orig_pmd)) {
-> -			pmdp_invalidate(vma, addr, pmd);
-> -			orig_pmd = pmd_mkold(orig_pmd);
-> -
-> -			set_pmd_at(mm, addr, pmd, orig_pmd);
-> -			tlb_remove_tlb_entry(tlb, pmd, addr);
-> +			if (isolate_lru_page(page))
-> +				return 0;
-> +			ClearPageReferenced(page);
-> +			test_and_clear_page_young(page);
-> +			list_add(&page->lru, &page_list);
-> +			reclaim_pages(&page_list);
-> +			goto next;
-> +		case MADV_PMDP_ERROR:
-> +			spin_unlock(ptl);
-> +			goto next;
-> +		case MADV_PMDP_SPLIT:
-> +			; /* go through */
->  		}
-> -
-> -		ClearPageReferenced(page);
-> -		test_and_clear_page_young(page);
-> -		list_add(&page->lru, &page_list);
-> -huge_unlock:
-> -		spin_unlock(ptl);
-> -		reclaim_pages(&page_list);
-> -		return 0;
->  	}
->  
->  	if (pmd_trans_unstable(pmd))
->  		return 0;
-> -regular_page:
-> +
->  	tlb_change_page_size(tlb, PAGE_SIZE);
->  	orig_pte = pte = pte_offset_map_lock(vma->vm_mm, pmd, addr, &ptl);
->  	flush_tlb_batched_pending(mm);
-> @@ -631,6 +652,7 @@ static int madvise_pageout_pte_range(pmd_t *pmd, unsigned long addr,
->  	arch_leave_lazy_mmu_mode();
->  	pte_unmap_unlock(orig_pte, ptl);
->  	reclaim_pages(&page_list);
-> +next:
->  	cond_resched();
->  
->  	return 0;
-> @@ -700,12 +722,26 @@ static int madvise_free_pte_range(pmd_t *pmd, unsigned long addr,
->  	pte_t *orig_pte, *pte, ptent;
->  	struct page *page;
->  	int nr_swap = 0;
-> -	unsigned long next;
->  
-> -	next = pmd_addr_end(addr, end);
-> -	if (pmd_trans_huge(*pmd))
-> -		if (madvise_free_huge_pmd(tlb, vma, pmd, addr, next))
-> +	if (pmd_trans_huge(*pmd)) {
-> +		ptl = pmd_trans_huge_lock(pmd, vma);
-> +		if (!ptl)
-> +			return 0;
-> +
-> +		switch (madvise_pmdp_reset_or_split(walk, pmd, ptl, addr, end,
-> +							true, true)) {
-> +		case MADV_PMDP_RESET:
-> +			page = pmd_page(*pmd);
-> +			spin_unlock(ptl);
-> +			mark_page_lazyfree(page);
->  			goto next;
-> +		case MADV_PMDP_ERROR:
-> +			spin_unlock(ptl);
-> +			goto next;
-> +		case MADV_PMDP_SPLIT:
-> +			; /* go through */
-> +		}
-> +	}
->  
->  	if (pmd_trans_unstable(pmd))
->  		return 0;
-> @@ -817,8 +853,8 @@ static int madvise_free_pte_range(pmd_t *pmd, unsigned long addr,
->  	}
->  	arch_leave_lazy_mmu_mode();
->  	pte_unmap_unlock(orig_pte, ptl);
-> -	cond_resched();
->  next:
-> +	cond_resched();
->  	return 0;
->  }
->  
-> -- 
-> 2.22.0.410.gd8fdbe21b5-goog
+> As supporting work, it introduces ARCH_32BIT_OFF_T configuration
+> option that is enabled for existing 32-bit architectures but disabled
+> for new arches (so 64-bit off_t userspace type is used by new userspace).
+> Also it deprecates getrlimit and setrlimit syscalls prior to prlimit64.
+> 
+> Based on kernel v4.16. Tested with LTP, glibc testsuite, trinity, lmbench,
+> CPUSpec.
+> 
+> This series on github: 
+> https://github.com/norov/linux/tree/ilp32-4.16
+> Linaro toolchain:
+> http://snapshots.linaro.org/components/toolchain/binaries/7.3-2018.04-rc1/aarch64-linux-gnu_ilp32/
+> Debian repo:
+> http://people.linaro.org/~wookey/ilp32/
+> OpenSUSE repo:
+> https://build.opensuse.org/project/show/devel:ARM:Factory:Contrib:ILP32
+> 
+> Changes:
+> v3: https://lkml.org/lkml/2014/9/3/704
+> v4: https://lkml.org/lkml/2015/4/13/691
+> v5: https://lkml.org/lkml/2015/9/29/911
+> v6: https://lkml.org/lkml/2016/5/23/661
+> v7: https://lkml.org/lkml/2017/1/9/213
+> v8: https://lkml.org/lkml/2017/6/19/624
+> v9: - rebased on top of v4.16;
+>     - signal subsystem reworked to avoid code duplication, as requested
+>       by Dave Martin (patches 18 and 20);
+>     - new files introduced in series use SPDX notation for license;
+>     - linux-api and linux-arch CCed as the series changes kernel ABI;
+>     - checkpatch and other minor fixes.
+>     - Zhou Chengming's reported-by for patch 2 and signed-off-by for
+>       patch 21 removed because his email became invalid. Zhou, please
+>       share your new email.
 
--- 
-Michal Hocko
-SUSE Labs
+This is a 5.2-based version of series.
+https://github.com/norov/linux/tree/ilp32-5.2
+
+Thanks,
+Yury
