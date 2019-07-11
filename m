@@ -2,228 +2,218 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A6FBD65F96
-	for <lists+linux-api@lfdr.de>; Thu, 11 Jul 2019 20:42:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E91006629F
+	for <lists+linux-api@lfdr.de>; Fri, 12 Jul 2019 02:01:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730375AbfGKSm2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 11 Jul 2019 14:42:28 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:47052 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730369AbfGKSm1 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 11 Jul 2019 14:42:27 -0400
-Received: by mail-pl1-f196.google.com with SMTP id c2so3454283plz.13
-        for <linux-api@vger.kernel.org>; Thu, 11 Jul 2019 11:42:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Ye/ueaLSHeuUbF2UmwC3qi+L8ppesjqbY1zG1QqAhZE=;
-        b=LczJZj1LMI38wtffmfcB6+DCfMF5aokwVwquBj7rOFWJQgRco8bf3jn7Y7DRGU5AKV
-         eyjU2kDty+AJg5gmH7znkDUWdSkh2RLvTYYxEUHfUOHIABMuT/zxz26VO2fWPMLpbI42
-         Q0nKfVbhqRFEaZHRqg01t1RLn3rSDiadjybENTkR+xzCP5NkdrHC11Iih4QtXXJJEJ+2
-         wAnVn52naxG/hzDpgjqUVpVG8nvWNFb9Nm9+54eKFTwbHQZW+h21HGKmNMQL9ThFb9Vb
-         wu6ijN+pWhsut8bcnEO8hAL8JYSaTWFrXUY1xJwZBT5S2jLMFydUdVKuRZGN4kxI/tkg
-         glJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Ye/ueaLSHeuUbF2UmwC3qi+L8ppesjqbY1zG1QqAhZE=;
-        b=ZtZCDy9qWd6q8i4y+hTd1hrLN6YmsAnWiQoFK159Cyf+nvFrQUq86YGJziH09095cc
-         0+sRqY1sm7jAr/DQgruUNHbt/hzA4WM74NZU8GptGy00HgvNdh1mb8VzPMfGwUyZlPsK
-         dLgiqdOV2zRBNFdMBWfYWUUCaMvMzy4IST2AyKszZh1Ek4GkisDI+6HitYDH73Iq333m
-         mBfvholw9iZfyoCN9lvsZRzS1gYIpt7J9H/8cKmQAbTY7dkAvHaD2lrxuveqqNK6pfKk
-         7658xVE4CJY+JUY+9Vd6W0Ao+0hYev0XdcVSN2Cbny4hSSZmrUi9FvOP1IOwzC3l91uf
-         pLYQ==
-X-Gm-Message-State: APjAAAVewsVL2DXzYjGZKfkePId7OTcWAcqKAoW9Kee7FXqxYeSsQVmj
-        NupJilKBRzjn8oqcaeQmbfw=
-X-Google-Smtp-Source: APXvYqyaXVTrExLmUq7EZsqLnA7MmMx/jzEwrsO/Wn15ERbU1WlzrYFkuyZ9jcRvlFh1JKkaVAl1hw==
-X-Received: by 2002:a17:902:aa88:: with SMTP id d8mr5969327plr.274.1562870546389;
-        Thu, 11 Jul 2019 11:42:26 -0700 (PDT)
-Received: from localhost ([2620:10d:c091:500::2:5385])
-        by smtp.gmail.com with ESMTPSA id 85sm6717518pfv.130.2019.07.11.11.42.25
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 11 Jul 2019 11:42:25 -0700 (PDT)
-Date:   Thu, 11 Jul 2019 14:42:23 -0400
-From:   Johannes Weiner <hannes@cmpxchg.org>
-To:     Minchan Kim <minchan@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        linux-mm <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-api@vger.kernel.org,
-        Michal Hocko <mhocko@suse.com>,
-        Tim Murray <timmurray@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Sonny Rao <sonnyrao@google.com>, oleksandr@redhat.com,
-        hdanton@sina.com, lizeb@google.com,
-        Dave Hansen <dave.hansen@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH v4 4/4] mm: introduce MADV_PAGEOUT
-Message-ID: <20190711184223.GD20341@cmpxchg.org>
-References: <20190711012528.176050-1-minchan@kernel.org>
- <20190711012528.176050-5-minchan@kernel.org>
+        id S1728757AbfGLABg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 11 Jul 2019 20:01:36 -0400
+Received: from smtpq2.tb.mail.iss.as9143.net ([212.54.42.165]:56684 "EHLO
+        smtpq2.tb.mail.iss.as9143.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728102AbfGLABf (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 11 Jul 2019 20:01:35 -0400
+X-Greylist: delayed 1146 seconds by postgrey-1.27 at vger.kernel.org; Thu, 11 Jul 2019 20:01:33 EDT
+Received: from [212.54.42.115] (helo=lsmtp1.tb.mail.iss.as9143.net)
+        by smtpq2.tb.mail.iss.as9143.net with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.90_1)
+        (envelope-from <carlo@alinoe.com>)
+        id 1hlihk-0000hR-Qz; Fri, 12 Jul 2019 01:42:24 +0200
+Received: from 92-109-146-195.cable.dynamic.v4.ziggo.nl ([92.109.146.195] helo=mail9.alinoe.com)
+        by lsmtp1.tb.mail.iss.as9143.net with esmtp (Exim 4.90_1)
+        (envelope-from <carlo@alinoe.com>)
+        id 1hlihk-0006D4-NE; Fri, 12 Jul 2019 01:42:24 +0200
+Received: from carlo by mail9.alinoe.com with local (Exim 4.86_2)
+        (envelope-from <carlo@alinoe.com>)
+        id 1hlihj-0002MM-VI; Fri, 12 Jul 2019 01:42:23 +0200
+Date:   Fri, 12 Jul 2019 01:42:23 +0200
+From:   Carlo Wood <carlo@alinoe.com>
+To:     wangyun@linux.vnet.ibm.com
+Cc:     palewis@adobe.com, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, viro@zeniv.linux.org.uk,
+        akpm@linux-foundation.org, jbaron@redhat.com, pholland@adobe.com,
+        davidel@xmailserver.org, mtk.manpages@gmail.com,
+        paulmck@linux.vnet.ibm.com, ncardwell@google.com
+Subject: On
+Message-ID: <20190712014223.66326995@hikaru>
+X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190711012528.176050-5-minchan@kernel.org>
-User-Agent: Mutt/1.12.0 (2019-05-25)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: <locally generated>
+X-SA-Exim-Mail-From: carlo@alinoe.com
+X-SA-Exim-Scanned: No (on mail9.alinoe.com); SAEximRunCond expanded to false
+X-SourceIP: 92.109.146.195
+X-Ziggo-spambar: /
+X-Ziggo-spamscore: 0.0
+X-Ziggo-spamreport: CMAE Analysis: v=2.3 cv=XMeEtjpE c=1 sm=1 tr=0 a=at3gEZHPcpTZPMkiLtqVSg==:17 a=kj9zAlcOel0A:10 a=0o9FgrsRnhwA:10 a=D19gQVrFAAAA:8 a=BjFOTwK7AAAA:8 a=tsnVmnQLuO20XHqAJgYA:9 a=CjuIK1q_8ugA:10 a=W4TVW4IDbPiebHqcZpNg:22 a=N3Up1mgHhB-0MyeZKEz1:22
+X-Ziggo-Spam-Status: No
+X-Spam-Status: No
+X-Spam-Flag: No
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jul 11, 2019 at 10:25:28AM +0900, Minchan Kim wrote:
-> @@ -480,6 +482,198 @@ static long madvise_cold(struct vm_area_struct *vma,
->  	return 0;
->  }
->  
-> +static int madvise_pageout_pte_range(pmd_t *pmd, unsigned long addr,
-> +				unsigned long end, struct mm_walk *walk)
-> +{
-> +	struct mmu_gather *tlb = walk->private;
-> +	struct mm_struct *mm = tlb->mm;
-> +	struct vm_area_struct *vma = walk->vma;
-> +	pte_t *orig_pte, *pte, ptent;
-> +	spinlock_t *ptl;
-> +	LIST_HEAD(page_list);
-> +	struct page *page;
-> +	unsigned long next;
-> +
-> +	if (fatal_signal_pending(current))
-> +		return -EINTR;
-> +
-> +	next = pmd_addr_end(addr, end);
-> +	if (pmd_trans_huge(*pmd)) {
-> +		pmd_t orig_pmd;
-> +
-> +		tlb_change_page_size(tlb, HPAGE_PMD_SIZE);
-> +		ptl = pmd_trans_huge_lock(pmd, vma);
-> +		if (!ptl)
-> +			return 0;
-> +
-> +		orig_pmd = *pmd;
-> +		if (is_huge_zero_pmd(orig_pmd))
-> +			goto huge_unlock;
-> +
-> +		if (unlikely(!pmd_present(orig_pmd))) {
-> +			VM_BUG_ON(thp_migration_supported() &&
-> +					!is_pmd_migration_entry(orig_pmd));
-> +			goto huge_unlock;
-> +		}
-> +
-> +		page = pmd_page(orig_pmd);
-> +		if (next - addr != HPAGE_PMD_SIZE) {
-> +			int err;
-> +
-> +			if (page_mapcount(page) != 1)
-> +				goto huge_unlock;
-> +			get_page(page);
-> +			spin_unlock(ptl);
-> +			lock_page(page);
-> +			err = split_huge_page(page);
-> +			unlock_page(page);
-> +			put_page(page);
-> +			if (!err)
-> +				goto regular_page;
-> +			return 0;
-> +		}
-> +
-> +		if (isolate_lru_page(page))
-> +			goto huge_unlock;
-> +
-> +		if (pmd_young(orig_pmd)) {
-> +			pmdp_invalidate(vma, addr, pmd);
-> +			orig_pmd = pmd_mkold(orig_pmd);
-> +
-> +			set_pmd_at(mm, addr, pmd, orig_pmd);
-> +			tlb_remove_tlb_entry(tlb, pmd, addr);
-> +		}
-> +
-> +		ClearPageReferenced(page);
-> +		test_and_clear_page_young(page);
-> +		list_add(&page->lru, &page_list);
-> +huge_unlock:
-> +		spin_unlock(ptl);
-> +		reclaim_pages(&page_list);
-> +		return 0;
-> +	}
-> +
-> +	if (pmd_trans_unstable(pmd))
-> +		return 0;
-> +regular_page:
-> +	tlb_change_page_size(tlb, PAGE_SIZE);
-> +	orig_pte = pte = pte_offset_map_lock(vma->vm_mm, pmd, addr, &ptl);
-> +	flush_tlb_batched_pending(mm);
-> +	arch_enter_lazy_mmu_mode();
-> +	for (; addr < end; pte++, addr += PAGE_SIZE) {
-> +		ptent = *pte;
-> +		if (!pte_present(ptent))
-> +			continue;
-> +
-> +		page = vm_normal_page(vma, addr, ptent);
-> +		if (!page)
-> +			continue;
-> +
-> +		/*
-> +		 * creating a THP page is expensive so split it only if we
-> +		 * are sure it's worth. Split it if we are only owner.
-> +		 */
-> +		if (PageTransCompound(page)) {
-> +			if (page_mapcount(page) != 1)
-> +				break;
-> +			get_page(page);
-> +			if (!trylock_page(page)) {
-> +				put_page(page);
-> +				break;
-> +			}
-> +			pte_unmap_unlock(orig_pte, ptl);
-> +			if (split_huge_page(page)) {
-> +				unlock_page(page);
-> +				put_page(page);
-> +				pte_offset_map_lock(mm, pmd, addr, &ptl);
-> +				break;
-> +			}
-> +			unlock_page(page);
-> +			put_page(page);
-> +			pte = pte_offset_map_lock(mm, pmd, addr, &ptl);
-> +			pte--;
-> +			addr -= PAGE_SIZE;
-> +			continue;
-> +		}
-> +
-> +		VM_BUG_ON_PAGE(PageTransCompound(page), page);
-> +
-> +		if (isolate_lru_page(page))
-> +			continue;
-> +
-> +		if (pte_young(ptent)) {
-> +			ptent = ptep_get_and_clear_full(mm, addr, pte,
-> +							tlb->fullmm);
-> +			ptent = pte_mkold(ptent);
-> +			set_pte_at(mm, addr, pte, ptent);
-> +			tlb_remove_tlb_entry(tlb, pte, addr);
-> +		}
-> +		ClearPageReferenced(page);
-> +		test_and_clear_page_young(page);
-> +		list_add(&page->lru, &page_list);
-> +	}
-> +
-> +	arch_leave_lazy_mmu_mode();
-> +	pte_unmap_unlock(orig_pte, ptl);
-> +	reclaim_pages(&page_list);
-> +	cond_resched();
-> +
-> +	return 0;
-> +}
+Hello everyone,
 
-I know you have briefly talked about code sharing already.
+this is a follow up to a discussion from 2012 about EPOLL_CTL_DISABLE,
+which ended up NOT being accepted in the kernel.
 
-While I agree that sharing with MADV_FREE is maybe a stretch, I
-applied these patches and compared the pageout and the cold page table
-functions, and they are line for line the same EXCEPT for 2-3 lines at
-the very end, where one reclaims and the other deactivates. It would
-be good to share here, it shouldn't be hard or result in fragile code.
+I believe however that this issue wasn't addressed.
+Michael Kerrisk did an excellent job writing a summary of the problem:
+https://lkml.org/lkml/2012/10/16/302 (the first four listed points).
 
-Something like int madvise_cold_or_pageout_range(..., bool pageout)?
+In the past two years I've been working on "yet another" event driven
+I/O library, exclusively for linux however, with the general aim to
+be highly scalable for many cores. The I/O part (around epoll) is only
+part of that library - but it is what I spent the last two years on.
+
+I ran independently into the same problem as described by Paton Lewis
+and only afterwards, when I couldn't think of a working solution and
+started to do heavy research, found related articles about the problem.
+
+Reading through the thread on lkml.org that given above, it still
+isn't clear to me that this would be a non-issue that can be solved
+in user space (without severe (unnecessary) performance penalties).
+
+Let me summarize the problem in my own way (probably less general,
+but more related to my personal case):
+
+1. The epoll interest list stores a pointer in epoll_event::data.ptr
+   that points to a specific file descriptor related object, which
+   indeed can be seen as a user-space cache of data related to that
+   file descriptor. In my case this includes one mutex that protects
+   an unsigned int whose bits keep track of things like whether or
+   not that object (pointer) is in the epoll interest list (was added
+   with epoll_ctl) and which events are being watched specifically,
+   as well as whether or not the fd was closed (after removing it
+   from the interest list with EPOLL_CTL_DEL) etc.
+
+2. At least one thread (only one, in my case) calls epoll_wait
+   (epoll_pwait) in a loop. I use no timeout because that seems too
+   inaccurate, my timers are signal based. When epoll_wait returns, the
+   pointer epoll_event::data.ptr is used to call a member function on
+   the dereferenced FileDescriptor class. For non-C++ coders, that
+   means a function is passed as first parameter the value of
+   epoll_event::data.ptr (the 'this' pointer) which is subsequently
+   dereferenced inside that function. The exact function depends on the
+   actual event. In most cases the handling of the event is passed on
+   to a thread pool queue for handling by another thread - but before
+   that happens the pointer was already dereferenced (which, among
+   others, allows me to increment a reference count for that object).
+   This obviously means that epoll_event::data.ptr may never point to
+   freed data.
+
+3. As almost all processing happens by worker threads of a thread
+   pool - it will be some other thread that decides that an object
+   is done and needs to be freed. This thread first removes the object
+   from the epoll interest list, and then deletes the object.
+   Unfortunately this does not work -- and apart from adding a delay
+   before the object is really deleted (which isn't a real solution
+   as several of you already pointed out in 2012), I do not see any
+   possible alternative.
+
+The reason it can't work is because the Event Loop Thread (that loops
+around epoll_wait) may already be in the process of returning from
+epoll_wait, lets say -- it already returned from epoll_wait, but
+wasn't able to execute ANY code following it. And because this is
+ALWAYS possible there is NEVER a safe moment to delete the object.
+
+The scenario is, for example:
+
+   Event Loop Thread                           Worker thread
+
+   Returns from epoll_wait() passing
+   back to user space a data.ptr pointing
+   to a user allocated object.
+
+                                               Removes the object
+                                               from the epoll interest
+                                               list with EPOLL_CTL_DEL
+
+                                               <arbitrary delay here,
+                                                for example, no delay>
+
+                                               Free the object pointed
+                                               to by data.ptr.
+
+   Dereferences data.ptr and crashes.
+
+
+The solution proposed by Andy Lutomirski
+(https://lkml.org/lkml/2012/10/18/434) does not work here:
+In order use RCU the ptr must be removed from the protected
+"list" before the grace period is started, which must start
+before a read-side critical area ends. But the "list" here
+is the epoll interest list - and removing it from that list
+requires the call to epoll_ctl(..., EPOLL_CTL_DEL, ...) to 
+finish. In other words, the Worker thread is the RCU "updater"
+and the "arbitrary delay" must be the rcu grace period.
+No problems there. The event loop thread however must call
+rcu_read_lock() before accessing the epoll_event structure,
+which is not possible because that happens inside epoll_wait(),
+which doesn't provide a hook to add such call.
+
+As far as the Worker Thread is concerned there are no readers,
+and the grace period can finish instantly, simply because
+there is no way to register that data.ptr was already copied.
+
+If one tries to begin a read-side critical area after epoll_wait()
+returns, then that won't work: in that case you should not
+be able to access that ptr when it was already removed from
+the interest list. The only way that RCU would work here is
+when a reader subscribes *before* the kernel copies the
+corresponding epoll_event structure to user space, in a way
+that that will never happen when the EPOLL_CTL_DEL finished
+before it got to that point.
+
+
+I believe that the only safe solution is to let the Event Loop
+Thread do the deleting. So, if all else fails I'll have to add
+objects that a Worker Thread thinks need to be deleted to a
+FIFO that is processed by the Event Loop Thread before entering
+epoll_wait(). But that is a lot of extra code for something
+that could be achieved with just a small change to epoll:
+
+
+I propose to add a new EPOLL event EPOLLCLOSED that will cause
+epoll_wait to return (for that event) whenever a file descriptor is
+closed.
+
+The Worker Thread then does not remove an object from the
+interest list, but either adds (if it was removed before) or
+modifies the event (using EPOLL_CTL_MOD) to watch that fd
+for closing, and then closes it.
+
+Aka,
+
+  Working Thread:
+
+  epoll_ctl(epoll_fd, EPOLL_CTL_ADD, fd, &event);
+  close(fd);
+
+where event contains the new EPOLLCLOSED (compare EPOLLOUT, EPOLLIN
+etc).
+
+This must then guarantee the event EPOLLCLOSED to be reported
+by exactly one epoll_wait(), the caller thread of which can then
+proceed with deleting the resources.
+
+Note that close(fd) must cause the removal from the interest list
+of any epoll struct before causing the event - and that the
+EPOLLCLOSED event may only be reported after all other events
+for that fd have already been reported (although it would be
+ok to report them at the same time: simply handle the other
+events first).
+
+I am not sure how this will work when more than one thread
+calls epoll_wait and more than one watch the same fd: in
+that case it is less trivial because then it seems always
+possible that the EPOLLCLOSED event will be reported before
+another event in another thread.
+
+
+What are your thoughts? Is the addition of EPOLLCLOSED
+event feasible?
+
+-- 
+Carlo Wood <carlo@alinoe.com>
