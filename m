@@ -2,77 +2,78 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9253F671E0
-	for <lists+linux-api@lfdr.de>; Fri, 12 Jul 2019 17:01:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2FBF671E5
+	for <lists+linux-api@lfdr.de>; Fri, 12 Jul 2019 17:01:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727236AbfGLPAy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 12 Jul 2019 11:00:54 -0400
-Received: from zeniv.linux.org.uk ([195.92.253.2]:39588 "EHLO
-        ZenIV.linux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727035AbfGLPAx (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 12 Jul 2019 11:00:53 -0400
-Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92 #3 (Red Hat Linux))
-        id 1hlx2B-000201-9w; Fri, 12 Jul 2019 15:00:27 +0000
-Date:   Fri, 12 Jul 2019 16:00:27 +0100
-From:   Al Viro <viro@zeniv.linux.org.uk>
-To:     Aleksa Sarai <cyphar@cyphar.com>
-Cc:     Jeff Layton <jlayton@kernel.org>,
-        "J. Bruce Fields" <bfields@fieldses.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        David Howells <dhowells@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Christian Brauner <christian@brauner.io>,
-        David Drysdale <drysdale@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Eric Biederman <ebiederm@xmission.com>,
+        id S1727035AbfGLPBa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 12 Jul 2019 11:01:30 -0400
+Received: from mx2.suse.de ([195.135.220.15]:50734 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726724AbfGLPBa (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 12 Jul 2019 11:01:30 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id CC43AAE84;
+        Fri, 12 Jul 2019 15:01:28 +0000 (UTC)
+Date:   Fri, 12 Jul 2019 17:01:27 +0200
+From:   Michal Hocko <mhocko@kernel.org>
+To:     Johannes Weiner <hannes@cmpxchg.org>
+Cc:     Minchan Kim <minchan@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Tycho Andersen <tycho@tycho.ws>,
-        Chanho Min <chanho.min@lge.com>,
-        Oleg Nesterov <oleg@redhat.com>, Aleksa Sarai <asarai@suse.de>,
-        containers@lists.linux-foundation.org, linux-alpha@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-ia64@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-        linux-xtensa@linux-xtensa.org, sparclinux@vger.kernel.org
-Subject: Re: [PATCH v9 05/10] namei: O_BENEATH-style path resolution flags
-Message-ID: <20190712150026.GO17978@ZenIV.linux.org.uk>
-References: <20190706145737.5299-1-cyphar@cyphar.com>
- <20190706145737.5299-6-cyphar@cyphar.com>
- <20190712043341.GI17978@ZenIV.linux.org.uk>
- <20190712105745.nruaftgeat6irhzr@yavin>
- <20190712123924.GK17978@ZenIV.linux.org.uk>
- <20190712125552.GL17978@ZenIV.linux.org.uk>
- <20190712132553.GN17978@ZenIV.linux.org.uk>
+        linux-mm <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-api@vger.kernel.org,
+        Tim Murray <timmurray@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Daniel Colascione <dancol@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Sonny Rao <sonnyrao@google.com>, oleksandr@redhat.com,
+        hdanton@sina.com, lizeb@google.com,
+        Dave Hansen <dave.hansen@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: Re: [PATCH v4 4/4] mm: introduce MADV_PAGEOUT
+Message-ID: <20190712150127.GV29483@dhcp22.suse.cz>
+References: <20190711012528.176050-1-minchan@kernel.org>
+ <20190711012528.176050-5-minchan@kernel.org>
+ <20190711184223.GD20341@cmpxchg.org>
+ <20190712051828.GA128252@google.com>
+ <20190712135809.GB31107@cmpxchg.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190712132553.GN17978@ZenIV.linux.org.uk>
-User-Agent: Mutt/1.11.3 (2019-02-01)
+In-Reply-To: <20190712135809.GB31107@cmpxchg.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jul 12, 2019 at 02:25:53PM +0100, Al Viro wrote:
+On Fri 12-07-19 09:58:09, Johannes Weiner wrote:
+[...]
+> > @@ -423,6 +445,12 @@ static int madvise_cold_pte_range(pmd_t *pmd, unsigned long addr,
+> >  
+> >  		VM_BUG_ON_PAGE(PageTransCompound(page), page);
+> >  
+> > +		if (pageout) {
+> > +			if (isolate_lru_page(page))
+> > +				continue;
+> > +			list_add(&page->lru, &page_list);
+> > +		}
+> > +
+> >  		if (pte_young(ptent)) {
+> >  			ptent = ptep_get_and_clear_full(mm, addr, pte,
+> >  							tlb->fullmm);
+> 
+> One thought on the ordering here.
+> 
+> When LRU isolation fails, it would still make sense to clear the young
+> bit: we cannot reclaim the page as we wanted to, but the user still
+> provided a clear hint that the page is cold and she won't be touching
+> it for a while. MADV_PAGEOUT is basically MADV_COLD + try_to_reclaim.
+> So IMO isolation should go to the end next to deactivate_page().
 
-> 	if (flags & LOOKUP_BENEATH) {
-> 		nd->root = nd->path;
-> 		if (!(flags & LOOKUP_RCU))
-> 			path_get(&nd->root);
-> 		else
-> 			nd->root_seq = nd->seq;
+Make sense to me
 
-BTW, this assignment is needed for LOOKUP_RCU case.  Without it
-you are pretty much guaranteed that lazy pathwalk will fail,
-when it comes to complete_walk().
-
-Speaking of which, what would happen if LOOKUP_ROOT/LOOKUP_BENEATH
-combination would someday get passed?
+-- 
+Michal Hocko
+SUSE Labs
