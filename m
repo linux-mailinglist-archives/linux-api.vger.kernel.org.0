@@ -2,104 +2,66 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BDC16726F
-	for <lists+linux-api@lfdr.de>; Fri, 12 Jul 2019 17:33:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE562675B2
+	for <lists+linux-api@lfdr.de>; Fri, 12 Jul 2019 22:13:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727116AbfGLPde (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 12 Jul 2019 11:33:34 -0400
-Received: from mx1.mailbox.org ([80.241.60.212]:10600 "EHLO mx1.mailbox.org"
+        id S1727489AbfGLUNA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 12 Jul 2019 16:13:00 -0400
+Received: from namei.org ([65.99.196.166]:34928 "EHLO namei.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726930AbfGLPdd (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 12 Jul 2019 11:33:33 -0400
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:105:465:1:2:0])
-        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
-        (No client certificate requested)
-        by mx1.mailbox.org (Postfix) with ESMTPS id A1467511F2;
-        Fri, 12 Jul 2019 17:33:28 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp2.mailbox.org ([80.241.60.241])
-        by spamfilter03.heinlein-hosting.de (spamfilter03.heinlein-hosting.de [80.241.56.117]) (amavisd-new, port 10030)
-        with ESMTP id QDRC6RVdbb1k; Fri, 12 Jul 2019 17:33:19 +0200 (CEST)
-Date:   Sat, 13 Jul 2019 01:32:27 +1000
-From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     Al Viro <viro@zeniv.linux.org.uk>
-Cc:     Jeff Layton <jlayton@kernel.org>,
-        "J. Bruce Fields" <bfields@fieldses.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        David Howells <dhowells@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Jann Horn <jannh@google.com>,
+        id S1727487AbfGLUNA (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 12 Jul 2019 16:13:00 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by namei.org (8.14.4/8.14.4) with ESMTP id x6CKBdwI009529;
+        Fri, 12 Jul 2019 20:11:40 GMT
+Date:   Sat, 13 Jul 2019 06:11:39 +1000 (AEST)
+From:   James Morris <jmorris@namei.org>
+To:     David Howells <dhowells@redhat.com>
+cc:     viro@zeniv.linux.org.uk, Casey Schaufler <casey@schaufler-ca.com>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        nicolas.dichtel@6wind.com, raven@themaw.net,
         Christian Brauner <christian@brauner.io>,
-        David Drysdale <drysdale@google.com>,
-        Tycho Andersen <tycho@tycho.ws>,
-        Kees Cook <keescook@chromium.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        containers@lists.linux-foundation.org,
+        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Chanho Min <chanho.min@lge.com>,
-        Oleg Nesterov <oleg@redhat.com>, Aleksa Sarai <asarai@suse.de>,
-        linux-alpha@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-        linux-xtensa@linux-xtensa.org, sparclinux@vger.kernel.org
-Subject: Re: [PATCH v9 00/10] namei: openat2(2) path resolution restrictions
-Message-ID: <20190712153227.owkjmx47lzrggweo@yavin>
-References: <20190706145737.5299-1-cyphar@cyphar.com>
- <20190712151118.GP17978@ZenIV.linux.org.uk>
+        linux-block@vger.kernel.org, linux-security-module@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/6] security: Add hooks to rule on setting a superblock
+ or mount watch [ver #5]
+In-Reply-To: <156173702349.15650.1484210092464492434.stgit@warthog.procyon.org.uk>
+Message-ID: <alpine.LRH.2.21.1907130611040.4685@namei.org>
+References: <156173701358.15650.8735203424342507015.stgit@warthog.procyon.org.uk> <156173702349.15650.1484210092464492434.stgit@warthog.procyon.org.uk>
+User-Agent: Alpine 2.21 (LRH 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="whm56wbfs3ehouyz"
-Content-Disposition: inline
-In-Reply-To: <20190712151118.GP17978@ZenIV.linux.org.uk>
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Fri, 28 Jun 2019, David Howells wrote:
 
---whm56wbfs3ehouyz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Add security hooks that will allow an LSM to rule on whether or not a watch
+> may be set on a mount or on a superblock.  More than one hook is required
+> as the watches watch different types of object.
+> 
+> Signed-off-by: David Howells <dhowells@redhat.com>
+> cc: Casey Schaufler <casey@schaufler-ca.com>
+> cc: Stephen Smalley <sds@tycho.nsa.gov>
+> cc: linux-security-module@vger.kernel.org
+> ---
+> 
+>  include/linux/lsm_hooks.h |   16 ++++++++++++++++
+>  include/linux/security.h  |   10 ++++++++++
+>  security/security.c       |   10 ++++++++++
+>  3 files changed, 36 insertions(+)
 
-On 2019-07-12, Al Viro <viro@zeniv.linux.org.uk> wrote:
-> On Sun, Jul 07, 2019 at 12:57:27AM +1000, Aleksa Sarai wrote:
-> > Patch changelog:
-> >   v9:
-> >     * Replace resolveat(2) with openat2(2). [Linus]
-> >     * Output a warning to dmesg if may_open_magiclink() is violated.
-> >     * Add an openat2(O_CREAT) testcase.
->=20
-> One general note for the future, BTW: for such series it's generally
-> a good idea to put it into a public git tree somewhere and mention that
-> in the announcement...
 
-Sure, I'll mention it next time. For the record the tree is
-  <https://github.com/cyphar/linux/tree/resolveat/master>
+Acked-by: James Morris <jamorris@linux.microsoft.com>
 
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-<https://www.cyphar.com/>
 
---whm56wbfs3ehouyz
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+James Morris
+<jmorris@namei.org>
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCXSioAwAKCRCdlLljIbnQ
-EgzkAQChn28FqDC8mwoRBSpKSsYawQ4zVuMzbt7zKNknJNg7nQD/cmJDlKpmnt40
-Jbd8FP1RPFVHA8Y7yVeIE+cOpg3nbw4=
-=RciL
------END PGP SIGNATURE-----
-
---whm56wbfs3ehouyz--
