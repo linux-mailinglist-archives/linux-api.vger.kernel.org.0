@@ -2,204 +2,132 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6389466348
-	for <lists+linux-api@lfdr.de>; Fri, 12 Jul 2019 03:19:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5EE56657B
+	for <lists+linux-api@lfdr.de>; Fri, 12 Jul 2019 06:15:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726199AbfGLBTW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 11 Jul 2019 21:19:22 -0400
-Received: from smtpq5.tb.mail.iss.as9143.net ([212.54.42.168]:53982 "EHLO
-        smtpq5.tb.mail.iss.as9143.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729061AbfGLBTW (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 11 Jul 2019 21:19:22 -0400
-Received: from [212.54.42.117] (helo=lsmtp3.tb.mail.iss.as9143.net)
-        by smtpq5.tb.mail.iss.as9143.net with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.90_1)
-        (envelope-from <carlo@alinoe.com>)
-        id 1hlkDW-000327-Lw; Fri, 12 Jul 2019 03:19:18 +0200
-Received: from 92-109-146-195.cable.dynamic.v4.ziggo.nl ([92.109.146.195] helo=mail9.alinoe.com)
-        by lsmtp3.tb.mail.iss.as9143.net with esmtp (Exim 4.90_1)
-        (envelope-from <carlo@alinoe.com>)
-        id 1hlkDW-00069n-Hq; Fri, 12 Jul 2019 03:19:18 +0200
-Received: from carlo by mail9.alinoe.com with local (Exim 4.86_2)
-        (envelope-from <carlo@alinoe.com>)
-        id 1hlkDV-0003FT-Ky; Fri, 12 Jul 2019 03:19:17 +0200
-Date:   Fri, 12 Jul 2019 03:19:17 +0200
-From:   Carlo Wood <carlo@alinoe.com>
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     wangyun@linux.vnet.ibm.com, palewis@adobe.com,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>, jbaron@redhat.com,
-        pholland@adobe.com, Davide Libenzi <davidel@xmailserver.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Neal Cardwell <ncardwell@google.com>, carlo@alinoe.com
-Subject: Re: Is a new EPOLLCLOSED a solution to the problem that
- EPOLL_CTL_DISABLE tried to solve?
-Message-ID: <20190712031917.4eabf240@hikaru>
-In-Reply-To: <CALCETrWkmaB5K4AR0R6CYcdq8mJwKtbWbmYEq6oxeaoqdA3ZWA@mail.gmail.com>
-References: <20190712014223.66326995@hikaru>
-        <CALCETrWkmaB5K4AR0R6CYcdq8mJwKtbWbmYEq6oxeaoqdA3ZWA@mail.gmail.com>
-X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
+        id S1727934AbfGLEPg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 12 Jul 2019 00:15:36 -0400
+Received: from zeniv.linux.org.uk ([195.92.253.2]:60074 "EHLO
+        ZenIV.linux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727061AbfGLEPg (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 12 Jul 2019 00:15:36 -0400
+Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92 #3 (Red Hat Linux))
+        id 1hlmxT-000330-0Q; Fri, 12 Jul 2019 04:14:55 +0000
+Date:   Fri, 12 Jul 2019 05:14:54 +0100
+From:   Al Viro <viro@zeniv.linux.org.uk>
+To:     Aleksa Sarai <cyphar@cyphar.com>
+Cc:     Jeff Layton <jlayton@kernel.org>,
+        "J. Bruce Fields" <bfields@fieldses.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        David Howells <dhowells@redhat.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Christian Brauner <christian@brauner.io>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>, Tycho Andersen <tycho@tycho.ws>,
+        David Drysdale <drysdale@google.com>,
+        Chanho Min <chanho.min@lge.com>,
+        Oleg Nesterov <oleg@redhat.com>, Aleksa Sarai <asarai@suse.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        containers@lists.linux-foundation.org, linux-alpha@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        linux-xtensa@linux-xtensa.org, sparclinux@vger.kernel.org
+Subject: Re: [PATCH v9 01/10] namei: obey trailing magic-link DAC permissions
+Message-ID: <20190712041454.GG17978@ZenIV.linux.org.uk>
+References: <20190706145737.5299-1-cyphar@cyphar.com>
+ <20190706145737.5299-2-cyphar@cyphar.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: <locally generated>
-X-SA-Exim-Mail-From: carlo@alinoe.com
-X-SA-Exim-Scanned: No (on mail9.alinoe.com); SAEximRunCond expanded to false
-X-SourceIP: 92.109.146.195
-X-Ziggo-spambar: /
-X-Ziggo-spamscore: 0.0
-X-Ziggo-spamreport: CMAE Analysis: v=2.3 cv=JMuPTPCb c=1 sm=1 tr=0 a=at3gEZHPcpTZPMkiLtqVSg==:17 a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=0o9FgrsRnhwA:10 a=VwQbUJbxAAAA:8 a=BjFOTwK7AAAA:8 a=hNgpY4UhNZx4Anvnp_cA:9 a=CjuIK1q_8ugA:10 a=AjGcO6oz07-iQ99wixmX:22 a=N3Up1mgHhB-0MyeZKEz1:22
-X-Ziggo-Spam-Status: No
-X-Spam-Status: No
-X-Spam-Flag: No
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190706145737.5299-2-cyphar@cyphar.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Andy,
+On Sun, Jul 07, 2019 at 12:57:28AM +1000, Aleksa Sarai wrote:
 
-thank you for you quick reply.
+> @@ -514,7 +516,14 @@ static void set_nameidata(struct nameidata *p, int dfd, struct filename *name)
+>  	p->stack = p->internal;
+>  	p->dfd = dfd;
+>  	p->name = name;
+> -	p->total_link_count = old ? old->total_link_count : 0;
+> +	p->total_link_count = 0;
+> +	p->acc_mode = 0;
+> +	p->opath_mask = FMODE_PATH_READ | FMODE_PATH_WRITE;
+> +	if (old) {
+> +		p->total_link_count = old->total_link_count;
+> +		p->acc_mode = old->acc_mode;
+> +		p->opath_mask = old->opath_mask;
+> +	}
 
-On Thu, 11 Jul 2019 17:32:21 -0700
-Andy Lutomirski <luto@kernel.org> wrote:
+Huh?  Could somebody explain why traversals of NFS4 referrals should inherit
+->acc_mode and ->opath_mask?
 
-> > I propose to add a new EPOLL event EPOLLCLOSED that will cause
-> > epoll_wait to return (for that event) whenever a file descriptor is
-> > closed.  
-> 
-> This totally falls apart if you ever want to add a feature to your
-> library to detach the handler for a given fd without closing the fd.
+>  static __always_inline
+> -const char *get_link(struct nameidata *nd)
+> +const char *get_link(struct nameidata *nd, bool trailing)
+>  {
+>  	struct saved *last = nd->stack + nd->depth - 1;
+>  	struct dentry *dentry = last->link.dentry;
+> @@ -1081,6 +1134,44 @@ const char *get_link(struct nameidata *nd)
+>  		} else {
+>  			res = get(dentry, inode, &last->done);
+>  		}
+> +		/* If we just jumped it was because of a magic-link. */
+> +		if (unlikely(nd->flags & LOOKUP_JUMPED)) {
 
-Another way to cause epoll_wait() to wake up for that specific fd is
-okay too, of course.
+That's not quite guaranteed (it is possible to bind a symlink on top
+of a regular file, and you will get LOOKUP_JUMPED on the entry into
+trailing_symlink() when looking the result up).  Moreover, why bother
+with LOOKUP_JUMPED here?  See that
+	nd->last_type = LAST_BIND;
+several lines prior?  That's precisely to be able to recognize those
+suckers.
 
-For example, since the new event basically will mean "resources
-can now be deleted", the event could be called EPOLLDELETE.
-It is just needed to have some easy way to trigger this event.
+And _that_ would've avoided another piece of ugliness - your LOOKUP_JUMPED
+kludge forces you to handle that cra^Wsclero^Wvaluable security hardening
+in get_link(), instead of trailing_symlink() where you apparently want
+it to be.  Simply because nd_jump_root() done later in get_link() will set
+LOOKUP_JUMPED for absolute symlinks, confusing your test.
 
-Nevertheless, in the more exceptional case that one wants to destroy
-the object/rss that data.ptr points to without closing the fd it is
-probably possible to first dup the fd and then close the old one.
+Moreover, I'm not sure that trailing_symlink() is the right place for
+that either - I would be rather tempted to fold do_o_path() into
+path_openat(), inline path_lookupat() there (as in
+        s = path_init(nd, flags);
 
-> > The Worker Thread then does not remove an object from the
-> > interest list, but either adds (if it was removed before) or
-> > modifies the event (using EPOLL_CTL_MOD) to watch that fd
-> > for closing, and then closes it.
-> >
-> > Aka,
-> >
-> >   Working Thread:
-> >
-> >   epoll_ctl(epoll_fd, EPOLL_CTL_ADD, fd, &event);
-> >   close(fd);
-> >
-> > where event contains the new EPOLLCLOSED (compare EPOLLOUT, EPOLLIN
-> > etc).
-> >
-> > This must then guarantee the event EPOLLCLOSED to be reported
-> > by exactly one epoll_wait(), the caller thread of which can then
-> > proceed with deleting the resources.
-> >
-> > Note that close(fd) must cause the removal from the interest list
-> > of any epoll struct before causing the event - and that the
-> > EPOLLCLOSED event may only be reported after all other events
-> > for that fd have already been reported (although it would be
-> > ok to report them at the same time: simply handle the other
-> > events first).  
-> 
-> This is a bunch of subtle semantics in the kernel to support your
-> particular use case.
+        while (!(error = link_path_walk(s, nd))
+                && ((error = lookup_last(nd)) > 0)) {
+                s = trailing_symlink(nd);
+        }
+        if (!error)
+                error = complete_walk(nd);
+        if (!error && nd->flags & LOOKUP_DIRECTORY)
+                if (!d_can_lookup(nd->path.dentry))
+                        error = -ENOTDIR;
+        if (!error) {
+                audit_inode(nd->name, nd->path.dentry, 0);
+                error = vfs_open(&nd->path, file);
+        }
+        terminate_walk(nd);
+- we don't need LOOKUP_DOWN there) and then we only care about the
+two callers of trailing_symlink() that are in path_openat().  Which
+is where you have your ->acc_mode and ->opath_mask without the need
+to dump them into nameidata.  Or to bring that mess into the
+things like stat(2) et.al. - it simply doesn't belong there.
 
-My particular use case? How so? The problem I'm trying to address
-is the fact that "It is not currently possible to reliably delete epoll
-items when using the same epoll set from multiple threads", end quote
-of Paton Lewis' email from 2012.
-
-If there is a simple, generally accepted solution for this in user-space
-then of course there is no reason to change the kernel; but despite
-all my efforts to research the net for a solution for this, all can
-find are people with the same question and no good answers.
-
-If there was a way to pass a special event to the thread waiting in
-epoll_wait() that it now is safe to free the memory that data.ptr is
-pointing to, then problem would evaporate to something trivally simple.
-
-Lets say we would not be using close(2), but instead some
-epoll_destruct(epoll_fd, fd). Then the worker thread, instead of,
-
-  if (last reference to object has gone)
-  {
-    epoll_ctl(epoll_fd, EPOLL_CTL_DEL, object->fd, NULL);
-    delete object;  // Unsafe
-  }
-
-could do,
-
-  if (last reference to object has gone)
-    epoll_destuct(epoll_fd, object->fd);
-        // Or [optionally dup() and] close(object->fd);
-
-Whereas the thread that waits for epoll_fd would take care
-of the deletion:
-
-  for (;;)
-  {
-    int ready = epoll_wait(epoll_fd, s_events, maxevents, -1);
-    while (ready > 0)
-    {
-      epoll_event& event(s_events[--ready]);
-      if ((event.events & EPOLLDELETE)) // Or EPOLLCLOSED, or
-                                        // whatever the name is.
-      {
-        delete event.data.ptr;
-        break;
-      }
-      // Handle other events.
-    }
-  }
-
-In this case, if epoll_wait() had returned just prior to
-the call to epoll_destruct()/close(), the object will not be deleted;
-The returned events would be handled, epoll_wait() reentered,
-and only once EPOLLDELETE is returned the object would be deleted.
-
-The bunch of subtle requirements as you call it is just about how
-to implement this in a way that it will do what it is supposed to do,
-and in no way specific for my particular use case.
-
-The requirements are, namely:
-
-1. Only one epoll_fd may have added an epoll_event structure with
-   a pointer to the resource (if more than one need to point to it,
-   you could add a pointer to a smart pointer to the object to
-   the epoll_event structure instead). I'd be surprised if this
-   is not ALREADY a required for normal implementations.
-
-2. The call to epoll_destruct() (as introduced as example above)
-   must remove the fd from the epoll's interest list. Of course
-   it doesn't HAVE to - but then the user MUST call epoll_ctl(epoll_fd,
-   EPOLL_CTL_DEL, ...) right before it, so why not? The reason
-   I opted close(2) is because that ALREADY has this behavior,
-   hence it seems a good candidate for epoll_destruct.
-
-3. After an EPOLLDELETE (formly EPOLLCLOSED) has been returned by
-   an epoll_wait() no other events may be returned for that fd.
-   This is obvious, and should be easy to implement. I just added it for
-   completeness ;).
- 
-> But this case is fairly straightforward with the user mode approach --
-> for example, add it to the list for all threads calling epoll_wait.
-> Or otherwise defer the deletion until all epoll_wait threads have
-> woken.
-
-That really seems a hell of lot more complex (involving mutexes and
-updating a queue that might grow till unknown sizes, hence requiring
-possibly calls to malloc) then my proposed solution, for something that
-basically every application that uses epoll needs.
-
--- 
-Carlo Wood <carlo@alinoe.com>
+In any case, this "bool trailing" is completely wrong; whether that
+check belongs in trailing_symlink() or (some of) its callers, putting
+it into get_link() is a mistake, forced by kludgy check for procfs-style
+symlinks.
