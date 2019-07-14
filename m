@@ -2,55 +2,53 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DFCCB6817C
-	for <lists+linux-api@lfdr.de>; Mon, 15 Jul 2019 01:11:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07663681A2
+	for <lists+linux-api@lfdr.de>; Mon, 15 Jul 2019 01:34:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728803AbfGNXLx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 14 Jul 2019 19:11:53 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:45871 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728754AbfGNXLx (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 14 Jul 2019 19:11:53 -0400
-Received: by mail-pl1-f193.google.com with SMTP id y8so7328277plr.12;
-        Sun, 14 Jul 2019 16:11:52 -0700 (PDT)
+        id S1728864AbfGNXeM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 14 Jul 2019 19:34:12 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:36362 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728851AbfGNXeM (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 14 Jul 2019 19:34:12 -0400
+Received: by mail-pf1-f196.google.com with SMTP id r7so6561541pfl.3;
+        Sun, 14 Jul 2019 16:34:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=QprZyTVrRGOU97hs8P2pLED7gdEo6Bn7w3dBtOXj1PI=;
-        b=A+C44U4GHiHGQET3tLkpB31RD4wI6fK5Vo1rnT8BcbP+YePUM/RwDLOppKtpT48bQh
-         dxrFo9S5oW64hvrbSIZ7HjmyHRxW4LE5TY+bqLOjfjjd0c9MauojzUsXK30QjZhshJhK
-         tS4TpbLjnw0AgnEkAf90FdNebDnuacYZaEn2NZ1tdnfHCuXQkOLG9g3H8BBR50IW0Dyk
-         aDP1nW3xQeCzrAtrSJBTRl3Tu99vC2S7j0uFKH6weRrUWJlmz9HOjg7szu/TB8C0PdZz
-         OjtB+Q365C6wqGTtJ3ZmP4hkT5SfsLd5dljivGfZYl9nOkuE+znhjyUEOU4aans/SIlZ
-         KkGQ==
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZvDmUghJGtIcoH1lAHyVM001UDDabPCfyEnhJcDGzTM=;
+        b=T2Wy+WQirnIETDVwa5I7Np0AMEW+cV8L1e7Ij5LicL7Qhvsdij85agQZ5e4+gSLhlO
+         u8U4gowMTiXquKCqEqj9IwSdDaJNFdyMb9ZKNYq5ETKBBtsqBgSsStyMcxexqtpJBUus
+         Z/RHkYpBbpD64NZ2jwEzpHc2FsMwqEi8/V6rRg5ntZj5t1WGPL4bD/KNs0ylQYGrgK0D
+         kLgTrpOJ79uGEbJWnJkh8o6T/2OEkANymRkPHA877tCKQB6Qz8mJSYl4DTGIILZE3y51
+         w+uW8OrZ5hy2Oufr301FAVaWrOxaVNsG0syPeH5oIGyHn909rrLANBhIsP2ejgqdcqyU
+         sqkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=QprZyTVrRGOU97hs8P2pLED7gdEo6Bn7w3dBtOXj1PI=;
-        b=eRraLSE05Z4hcVqXWOfEsADlj2beRybZYHUAEM0OdazHQH9+dTd7Dag52sxv/m2XXV
-         s6HfGt0Due8uPV00HVIT/miJ2ZVZ2eU9JjXuzt9oGPjEJg2a7x+iWNKg3YKzvQtcSOn6
-         /oBcZEMm08rOEqobhFY3tqswa43BqWZKerKOxlsvqMGd/ilW8E7TGXadwqra8wI+e247
-         ERrK2qs9oi7L0FMpK3HP7//a5lQON69SnAXFdx3A9aYDpdPJExeIckCQz/GBPJa+Wp45
-         QPTVH4uCY5ftMsDbkN9c/QMr8jdDl11gtWxWGf71voNUi5d/wxl+otUYb96c0mO/Qhhi
-         wUmw==
-X-Gm-Message-State: APjAAAXjnfQqWRAH3aIhUJXf90jViG1GWKVg6xWI6mTrqx0Am1IsOwz3
-        2Jd8jcrznVubvSlabebGjDo=
-X-Google-Smtp-Source: APXvYqypZw9mo80LT1uOMkB/Sw/PUijB4++K7mDpQ5pbZT2o2JA6JmrC4ChRGzaRJHFg4RAUqIbugg==
-X-Received: by 2002:a17:902:1e6:: with SMTP id b93mr24790653plb.295.1563145911990;
-        Sun, 14 Jul 2019 16:11:51 -0700 (PDT)
-Received: from google.com ([2401:fa00:d:0:98f1:8b3d:1f37:3e8])
-        by smtp.gmail.com with ESMTPSA id s6sm22459338pfs.122.2019.07.14.16.11.46
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=ZvDmUghJGtIcoH1lAHyVM001UDDabPCfyEnhJcDGzTM=;
+        b=ukW1wbl3MOZcRD/Gyb/HyeW2O3B83hEANeJvAjXJ1xpRQ9KQ27v3/t4PcslrLWbC1Y
+         mOdkjr7GgbvkGu63uof7IN6/A9wn+2oBJxR8T3BSxaRCpYWor6N7EbMIbKo2m1q8rNSC
+         ot0a++yzPKDQGGU8BFuHF/lNevRIDZ9IiJZMJWZbzWVFxFH8yE3ycxke2+3YzySNHfQk
+         qU2URSOUa3qan35F+TgkiPot5Ky1c/12PPErqLit3k35wzyhPGrhh2KxAwISpnCi+0L1
+         UKpUkB5PrfQHmtBevOmTnOFTApQ8ZL9Ey0fYpBbz/E9FF7TZxP4za1qFsmW4OAbsiyCD
+         w6PQ==
+X-Gm-Message-State: APjAAAUEIh7JaijndS3FJ3bXUTW96OXtoTApQwWWkkSr4F6I7MyNGroz
+        0YX4T3faXF2owuoG7ayHjKo=
+X-Google-Smtp-Source: APXvYqxPNd56Ruj4+d9gaHMgq8nm67VzpKr7zPEFJR/Ph1orc5zxtioAdeFX1yd3HNSoyZ8td1Fc3Q==
+X-Received: by 2002:a63:3f48:: with SMTP id m69mr23329517pga.17.1563147250578;
+        Sun, 14 Jul 2019 16:34:10 -0700 (PDT)
+Received: from bbox-2.seo.corp.google.com ([2401:fa00:d:0:98f1:8b3d:1f37:3e8])
+        by smtp.gmail.com with ESMTPSA id n26sm16256923pfa.83.2019.07.14.16.34.05
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Sun, 14 Jul 2019 16:11:50 -0700 (PDT)
-Date:   Mon, 15 Jul 2019 08:11:44 +0900
+        Sun, 14 Jul 2019 16:34:09 -0700 (PDT)
 From:   Minchan Kim <minchan@kernel.org>
-To:     Johannes Weiner <hannes@cmpxchg.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        linux-mm <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-api@vger.kernel.org,
-        Michal Hocko <mhocko@suse.com>,
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-mm <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
+        linux-api@vger.kernel.org, Michal Hocko <mhocko@suse.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Tim Murray <timmurray@google.com>,
         Joel Fernandes <joel@joelfernandes.org>,
         Suren Baghdasaryan <surenb@google.com>,
@@ -59,222 +57,120 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Sonny Rao <sonnyrao@google.com>, oleksandr@redhat.com,
         hdanton@sina.com, lizeb@google.com,
         Dave Hansen <dave.hansen@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH v4 4/4] mm: introduce MADV_PAGEOUT
-Message-ID: <20190714231144.GB128252@google.com>
-References: <20190711012528.176050-1-minchan@kernel.org>
- <20190711012528.176050-5-minchan@kernel.org>
- <20190711184223.GD20341@cmpxchg.org>
- <20190712051828.GA128252@google.com>
- <20190712135809.GB31107@cmpxchg.org>
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Minchan Kim <minchan@kernel.org>
+Subject: [PATCH v5 0/5] Introduce MADV_COLD and MADV_PAGEOUT
+Date:   Mon, 15 Jul 2019 08:33:55 +0900
+Message-Id: <20190714233401.36909-1-minchan@kernel.org>
+X-Mailer: git-send-email 2.22.0.510.g264f2c817a-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190712135809.GB31107@cmpxchg.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jul 12, 2019 at 09:58:09AM -0400, Johannes Weiner wrote:
-> On Fri, Jul 12, 2019 at 02:18:28PM +0900, Minchan Kim wrote:
-> > Hi Johannes,
-> > 
-> > On Thu, Jul 11, 2019 at 02:42:23PM -0400, Johannes Weiner wrote:
-> > > On Thu, Jul 11, 2019 at 10:25:28AM +0900, Minchan Kim wrote:
-> > > > @@ -480,6 +482,198 @@ static long madvise_cold(struct vm_area_struct *vma,
-> > > >  	return 0;
-> > > >  }
-> > > >  
-> > > > +static int madvise_pageout_pte_range(pmd_t *pmd, unsigned long addr,
-> > > > +				unsigned long end, struct mm_walk *walk)
-> > > > +{
-> > > > +	struct mmu_gather *tlb = walk->private;
-> > > > +	struct mm_struct *mm = tlb->mm;
-> > > > +	struct vm_area_struct *vma = walk->vma;
-> > > > +	pte_t *orig_pte, *pte, ptent;
-> > > > +	spinlock_t *ptl;
-> > > > +	LIST_HEAD(page_list);
-> > > > +	struct page *page;
-> > > > +	unsigned long next;
-> > > > +
-> > > > +	if (fatal_signal_pending(current))
-> > > > +		return -EINTR;
-> > > > +
-> > > > +	next = pmd_addr_end(addr, end);
-> > > > +	if (pmd_trans_huge(*pmd)) {
-> > > > +		pmd_t orig_pmd;
-> > > > +
-> > > > +		tlb_change_page_size(tlb, HPAGE_PMD_SIZE);
-> > > > +		ptl = pmd_trans_huge_lock(pmd, vma);
-> > > > +		if (!ptl)
-> > > > +			return 0;
-> > > > +
-> > > > +		orig_pmd = *pmd;
-> > > > +		if (is_huge_zero_pmd(orig_pmd))
-> > > > +			goto huge_unlock;
-> > > > +
-> > > > +		if (unlikely(!pmd_present(orig_pmd))) {
-> > > > +			VM_BUG_ON(thp_migration_supported() &&
-> > > > +					!is_pmd_migration_entry(orig_pmd));
-> > > > +			goto huge_unlock;
-> > > > +		}
-> > > > +
-> > > > +		page = pmd_page(orig_pmd);
-> > > > +		if (next - addr != HPAGE_PMD_SIZE) {
-> > > > +			int err;
-> > > > +
-> > > > +			if (page_mapcount(page) != 1)
-> > > > +				goto huge_unlock;
-> > > > +			get_page(page);
-> > > > +			spin_unlock(ptl);
-> > > > +			lock_page(page);
-> > > > +			err = split_huge_page(page);
-> > > > +			unlock_page(page);
-> > > > +			put_page(page);
-> > > > +			if (!err)
-> > > > +				goto regular_page;
-> > > > +			return 0;
-> > > > +		}
-> > > > +
-> > > > +		if (isolate_lru_page(page))
-> > > > +			goto huge_unlock;
-> > > > +
-> > > > +		if (pmd_young(orig_pmd)) {
-> > > > +			pmdp_invalidate(vma, addr, pmd);
-> > > > +			orig_pmd = pmd_mkold(orig_pmd);
-> > > > +
-> > > > +			set_pmd_at(mm, addr, pmd, orig_pmd);
-> > > > +			tlb_remove_tlb_entry(tlb, pmd, addr);
-> > > > +		}
-> > > > +
-> > > > +		ClearPageReferenced(page);
-> > > > +		test_and_clear_page_young(page);
-> > > > +		list_add(&page->lru, &page_list);
-> > > > +huge_unlock:
-> > > > +		spin_unlock(ptl);
-> > > > +		reclaim_pages(&page_list);
-> > > > +		return 0;
-> > > > +	}
-> > > > +
-> > > > +	if (pmd_trans_unstable(pmd))
-> > > > +		return 0;
-> > > > +regular_page:
-> > > > +	tlb_change_page_size(tlb, PAGE_SIZE);
-> > > > +	orig_pte = pte = pte_offset_map_lock(vma->vm_mm, pmd, addr, &ptl);
-> > > > +	flush_tlb_batched_pending(mm);
-> > > > +	arch_enter_lazy_mmu_mode();
-> > > > +	for (; addr < end; pte++, addr += PAGE_SIZE) {
-> > > > +		ptent = *pte;
-> > > > +		if (!pte_present(ptent))
-> > > > +			continue;
-> > > > +
-> > > > +		page = vm_normal_page(vma, addr, ptent);
-> > > > +		if (!page)
-> > > > +			continue;
-> > > > +
-> > > > +		/*
-> > > > +		 * creating a THP page is expensive so split it only if we
-> > > > +		 * are sure it's worth. Split it if we are only owner.
-> > > > +		 */
-> > > > +		if (PageTransCompound(page)) {
-> > > > +			if (page_mapcount(page) != 1)
-> > > > +				break;
-> > > > +			get_page(page);
-> > > > +			if (!trylock_page(page)) {
-> > > > +				put_page(page);
-> > > > +				break;
-> > > > +			}
-> > > > +			pte_unmap_unlock(orig_pte, ptl);
-> > > > +			if (split_huge_page(page)) {
-> > > > +				unlock_page(page);
-> > > > +				put_page(page);
-> > > > +				pte_offset_map_lock(mm, pmd, addr, &ptl);
-> > > > +				break;
-> > > > +			}
-> > > > +			unlock_page(page);
-> > > > +			put_page(page);
-> > > > +			pte = pte_offset_map_lock(mm, pmd, addr, &ptl);
-> > > > +			pte--;
-> > > > +			addr -= PAGE_SIZE;
-> > > > +			continue;
-> > > > +		}
-> > > > +
-> > > > +		VM_BUG_ON_PAGE(PageTransCompound(page), page);
-> > > > +
-> > > > +		if (isolate_lru_page(page))
-> > > > +			continue;
-> > > > +
-> > > > +		if (pte_young(ptent)) {
-> > > > +			ptent = ptep_get_and_clear_full(mm, addr, pte,
-> > > > +							tlb->fullmm);
-> > > > +			ptent = pte_mkold(ptent);
-> > > > +			set_pte_at(mm, addr, pte, ptent);
-> > > > +			tlb_remove_tlb_entry(tlb, pte, addr);
-> > > > +		}
-> > > > +		ClearPageReferenced(page);
-> > > > +		test_and_clear_page_young(page);
-> > > > +		list_add(&page->lru, &page_list);
-> > > > +	}
-> > > > +
-> > > > +	arch_leave_lazy_mmu_mode();
-> > > > +	pte_unmap_unlock(orig_pte, ptl);
-> > > > +	reclaim_pages(&page_list);
-> > > > +	cond_resched();
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> > > 
-> > > I know you have briefly talked about code sharing already.
-> > > 
-> > > While I agree that sharing with MADV_FREE is maybe a stretch, I
-> > > applied these patches and compared the pageout and the cold page table
-> > > functions, and they are line for line the same EXCEPT for 2-3 lines at
-> > > the very end, where one reclaims and the other deactivates. It would
-> > > be good to share here, it shouldn't be hard or result in fragile code.
-> > 
-> > Fair enough if we leave MADV_FREE.
-> > 
-> > > 
-> > > Something like int madvise_cold_or_pageout_range(..., bool pageout)?
-> > 
-> > How about this?
-> > 
-> > From 41592f23e876ec21e49dc3c76dc89538e2bb16be Mon Sep 17 00:00:00 2001
-> > From: Minchan Kim <minchan@kernel.org>
-> > Date: Fri, 12 Jul 2019 14:05:36 +0900
-> > Subject: [PATCH] mm: factor out common parts between MADV_COLD and
-> >  MADV_PAGEOUT
-> > 
-> > There are many common parts between MADV_COLD and MADV_PAGEOUT.
-> > This patch factor them out to save code duplication.
-> > 
-> > Signed-off-by: Minchan Kim <minchan@kernel.org>
-> 
-> This looks much better, thanks!
-> 
-> > @@ -423,6 +445,12 @@ static int madvise_cold_pte_range(pmd_t *pmd, unsigned long addr,
-> >  
-> >  		VM_BUG_ON_PAGE(PageTransCompound(page), page);
-> >  
-> > +		if (pageout) {
-> > +			if (isolate_lru_page(page))
-> > +				continue;
-> > +			list_add(&page->lru, &page_list);
-> > +		}
-> > +
-> >  		if (pte_young(ptent)) {
-> >  			ptent = ptep_get_and_clear_full(mm, addr, pte,
-> >  							tlb->fullmm);
-> 
-> One thought on the ordering here.
-> 
-> When LRU isolation fails, it would still make sense to clear the young
-> bit: we cannot reclaim the page as we wanted to, but the user still
-> provided a clear hint that the page is cold and she won't be touching
-> it for a while. MADV_PAGEOUT is basically MADV_COLD + try_to_reclaim.
-> So IMO isolation should go to the end next to deactivate_page().
+This patch is part of previous series:
+https://lore.kernel.org/lkml/20190531064313.193437-1-minchan@kernel.org/
+Originally, it was created for external madvise hinting feature.
 
-Sure, I will modify MADV_PAGEOUT patch instead of refactoring one.
-Thanks for the review, Johannes!
+https://lkml.org/lkml/2019/5/31/463
+Michal wanted to separte the discussion from external hinting interface
+so this patchset includes only first part of my entire patchset
+
+  - introduce MADV_COLD and MADV_PAGEOUT hint to madvise.
+
+However, I keep entire description for others for easier understanding
+why this kinds of hint was born.
+
+Thanks.
+
+This patchset is against on next-20190712.
+
+Below is description of previous entire patchset.
+
+================= &< =====================
+
+- Background
+
+The Android terminology used for forking a new process and starting an app
+from scratch is a cold start, while resuming an existing app is a hot start.
+While we continually try to improve the performance of cold starts, hot
+starts will always be significantly less power hungry as well as faster so
+we are trying to make hot start more likely than cold start.
+
+To increase hot start, Android userspace manages the order that apps should
+be killed in a process called ActivityManagerService. ActivityManagerService
+tracks every Android app or service that the user could be interacting with
+at any time and translates that into a ranked list for lmkd(low memory
+killer daemon). They are likely to be killed by lmkd if the system has to
+reclaim memory. In that sense they are similar to entries in any other cache.
+Those apps are kept alive for opportunistic performance improvements but
+those performance improvements will vary based on the memory requirements of
+individual workloads.
+
+- Problem
+
+Naturally, cached apps were dominant consumers of memory on the system.
+However, they were not significant consumers of swap even though they are
+good candidate for swap. Under investigation, swapping out only begins
+once the low zone watermark is hit and kswapd wakes up, but the overall
+allocation rate in the system might trip lmkd thresholds and cause a cached
+process to be killed(we measured performance swapping out vs. zapping the
+memory by killing a process. Unsurprisingly, zapping is 10x times faster
+even though we use zram which is much faster than real storage) so kill
+from lmkd will often satisfy the high zone watermark, resulting in very
+few pages actually being moved to swap.
+
+- Approach
+
+The approach we chose was to use a new interface to allow userspace to
+proactively reclaim entire processes by leveraging platform information.
+This allowed us to bypass the inaccuracy of the kernel’s LRUs for pages
+that are known to be cold from userspace and to avoid races with lmkd
+by reclaiming apps as soon as they entered the cached state. Additionally,
+it could provide many chances for platform to use much information to
+optimize memory efficiency.
+
+To achieve the goal, the patchset introduce two new options for madvise.
+One is MADV_COLD which will deactivate activated pages and the other is
+MADV_PAGEOUT which will reclaim private pages instantly. These new options
+complement MADV_DONTNEED and MADV_FREE by adding non-destructive ways to
+gain some free memory space. MADV_PAGEOUT is similar to MADV_DONTNEED in a way
+that it hints the kernel that memory region is not currently needed and
+should be reclaimed immediately; MADV_COLD is similar to MADV_FREE in a way
+that it hints the kernel that memory region is not currently needed and
+should be reclaimed when memory pressure rises.
+
+* v4 - http://lore.kernel.org/lkml/20190711012528.176050-1-minchan@kernel.org/
+* v3 - http://lore.kernel.org/lkml/20190627115405.255259-1-minchan@kernel.org
+* v2 - http://lore.kernel.org/lkml/20190610111252.239156-1-minchan@kernel.org
+* v1 - http://lore.kernel.org/lkml/20190603053655.127730-1-minchan@kernel.org
+
+Minchan Kim (5):
+  mm: introduce MADV_COLD
+  mm: change PAGEREF_RECLAIM_CLEAN with PAGE_REFRECLAIM
+  mm: account nr_isolated_xxx in [isolate|putback]_lru_page
+  mm: introduce MADV_PAGEOUT
+  mm: factor out common parts between MADV_COLD and MADV_PAGEOUT
+
+ include/linux/swap.h                   |   2 +
+ include/uapi/asm-generic/mman-common.h |   2 +
+ mm/compaction.c                        |   2 -
+ mm/gup.c                               |   7 +-
+ mm/internal.h                          |   2 +-
+ mm/khugepaged.c                        |   3 -
+ mm/madvise.c                           | 274 ++++++++++++++++++++++++-
+ mm/memory-failure.c                    |   3 -
+ mm/memory_hotplug.c                    |   4 -
+ mm/mempolicy.c                         |   6 +-
+ mm/migrate.c                           |  37 +---
+ mm/oom_kill.c                          |   2 +-
+ mm/swap.c                              |  42 ++++
+ mm/vmscan.c                            |  83 +++++++-
+ 14 files changed, 404 insertions(+), 65 deletions(-)
+
+-- 
+2.22.0.510.g264f2c817a-goog
+
