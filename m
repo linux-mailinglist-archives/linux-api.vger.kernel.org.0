@@ -2,111 +2,128 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B2CE69C28
-	for <lists+linux-api@lfdr.de>; Mon, 15 Jul 2019 22:02:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2017169C26
+	for <lists+linux-api@lfdr.de>; Mon, 15 Jul 2019 22:02:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732330AbfGOUCD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 15 Jul 2019 16:02:03 -0400
-Received: from mail-qk1-f202.google.com ([209.85.222.202]:35655 "EHLO
-        mail-qk1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732501AbfGOUAh (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 15 Jul 2019 16:00:37 -0400
-Received: by mail-qk1-f202.google.com with SMTP id 5so14732401qki.2
-        for <linux-api@vger.kernel.org>; Mon, 15 Jul 2019 13:00:36 -0700 (PDT)
+        id S1732315AbfGOUCC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 15 Jul 2019 16:02:02 -0400
+Received: from mail-pf1-f201.google.com ([209.85.210.201]:48537 "EHLO
+        mail-pf1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732522AbfGOUAj (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 15 Jul 2019 16:00:39 -0400
+Received: by mail-pf1-f201.google.com with SMTP id u21so10850104pfn.15
+        for <linux-api@vger.kernel.org>; Mon, 15 Jul 2019 13:00:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=5T+b4pkocKIcoPwPocbouCfMQE+Kz4ndw1ZbXIQy5/k=;
-        b=WiP2xn7hpAfVzOYD0zMTv398nzim5ITpRx7xasgZ/7JJ1ldY9RN+GzQar/QJ/H559P
-         As5LDUrSxo3S742mB7JhtBaQ/zw4YzZtwjpUltwV0ZC2+ynjaufKYbosyx7j33dmTPPL
-         VjzNr6fWWw3AUfow3dbdCh0DJ1k6PjUSXU2vgnyE8Dn4KYjN2keZYQ5aPvD2KL8j5hSp
-         iLn5yiPDspkHNxs0iDVApzCb3WbakwL4P2nZGEKVZg5zQvsvRnKJwQ/FfhB9FT6dmnkE
-         NAuQ4zblcRoTtABvv1i8qmWTPsv/kFIPVHdXDUjHet9xV1C6dL3t3HMhTD7tdT6rCxPl
-         ZoQw==
+        bh=6D0LT3kOVXFnzThxDWKYD3nJFmfA+k8GxVnpNpHN0jQ=;
+        b=skNA0Zp0MFTgZ25ppBqcBepyRwgDB+SK+DMX63rm062qS/6ITw3TJ65vULvshl/TtW
+         1yZWQbMVqnxpBWEsQYNtyKQ6lRuwNRorHBsub03kLBk72nEp68iw8HJZXBRNwVeE+USZ
+         itxOsdWZdOvNbvaZECK5Ty85MxqMfKwYPCQtWK37i3zMdD/zXKZ7z0NzXOoC+t1DpYpx
+         9PDFJhuk7aEFF7pchF4lWOUpfd5Ywv26LZROy4USqNjgj3ka56bjikdRTRSJj1e+cLJr
+         xpNkbDDWelhTVtGwZAdkulUh13MBt8NDAm1EA8qyfqFu1ZGbS0D8/iJhrnDBfYWmZE4x
+         lxNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=5T+b4pkocKIcoPwPocbouCfMQE+Kz4ndw1ZbXIQy5/k=;
-        b=phwL5qk9j+Bar8X94ZV5sh5/j9PKF5/i7U4MnFSj41ne6hEQYJ6rpfdAW6WR6sMpIG
-         z7frtqN1Qx+xaehZ89TOydE0ojJrR2IZufu1XP6aMzGium/5uWQGrVy79qH1bXYWqGdd
-         MTTdH0d0pT/E5nYF8zm2JQkO68I9Gc9zKzXnj9nBYKOiRXpZqT04Ivuzx0P0RaewuTxL
-         3cDKbOw12ONh+bYoPyTm2bWfpcH0MSlBwqAqkQIllkfrWHlXI6PHSTyFBNVM5vg2HPr2
-         vv9nclpBnMh855wVpANPKfiNr4VEsifGWACqClLq1i7xYYoMfe/qYdcUAg527HAQzyau
-         I+MA==
-X-Gm-Message-State: APjAAAXbuKKBOuxQEfjb9JOZoe4CyTFgeP0LpVU+XABKYr+9NhC7qEgX
-        2MkUk3FQ0DQ3Wy7zPRPIq+7maR9D15knx8wpEPFJZA==
-X-Google-Smtp-Source: APXvYqxrHpgFWUgZ9E+cUYHX+RPLtAcPfO7gJMJvEmlA6W+iOSXGyUu0fsENQ6p+pjnV5VI8Ui+qzLBkbHarm4qbjeEzkA==
-X-Received: by 2002:ac8:24b8:: with SMTP id s53mr20092158qts.276.1563220836026;
- Mon, 15 Jul 2019 13:00:36 -0700 (PDT)
-Date:   Mon, 15 Jul 2019 12:59:33 -0700
+        bh=6D0LT3kOVXFnzThxDWKYD3nJFmfA+k8GxVnpNpHN0jQ=;
+        b=RMPS5mlQjWLW9exolFfBpH0KtnFh6OKIPOMSBU7WHFKcF/A7VwgcTWhE+MHCdZS/zz
+         W4NXHknKMP+IR9ZCigKVmC8jTarmjAnFQjlMkvnqniZhmKFJAjLoNtfCrAneMlT9T5Tl
+         mRGR13JgFfMlHgrlXEnQWNKKvI0pqMlXG8DX/B2OrfgTJcZhh5MNmxtFx555XmP5J9P0
+         z8FyeRuKcpfNn7ak1WyHenlbE1xHjGEuabl+Cs+0FQBNxyplssfiX24D7WaFUb8aMdFp
+         kgZfFre11KG3bxMwnkbsAhOeYCy64ZWdJdqui/Nbpenz4XifthNir2pmrvE7UJ7HksyD
+         phAA==
+X-Gm-Message-State: APjAAAVQMShjCWCYStgN7DJqyZ9pw3osLcoy/mAR2Gx68nL2A7HaZTjO
+        FtG9HxNbQRJTl+wou+z/rPAuBdSdcsKou+MOI63n3A==
+X-Google-Smtp-Source: APXvYqwX139JUoCV5imG25Ui0tA/gIuLEykR+UmIdT4xltTZpxM2nFpRz0YlncnpYVBThrlKvKGvsPAzEJX07X+Rj65jCw==
+X-Received: by 2002:a63:fc52:: with SMTP id r18mr28640627pgk.378.1563220838301;
+ Mon, 15 Jul 2019 13:00:38 -0700 (PDT)
+Date:   Mon, 15 Jul 2019 12:59:34 -0700
 In-Reply-To: <20190715195946.223443-1-matthewgarrett@google.com>
-Message-Id: <20190715195946.223443-17-matthewgarrett@google.com>
+Message-Id: <20190715195946.223443-18-matthewgarrett@google.com>
 Mime-Version: 1.0
 References: <20190715195946.223443-1-matthewgarrett@google.com>
 X-Mailer: git-send-email 2.22.0.510.g264f2c817a-goog
-Subject: [PATCH V35 16/29] acpi: Disable ACPI table override if the kernel is
+Subject: [PATCH V35 17/29] Prohibit PCMCIA CIS storage when the kernel is
  locked down
 From:   Matthew Garrett <matthewgarrett@google.com>
 To:     jmorris@namei.org
 Cc:     linux-security-module@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        Linn Crosetto <linn@hpe.com>,
         David Howells <dhowells@redhat.com>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
         Matthew Garrett <mjg59@google.com>,
-        Kees Cook <keescook@chromium.org>, linux-acpi@vger.kernel.org
+        Kees Cook <keescook@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Linn Crosetto <linn@hpe.com>
+From: David Howells <dhowells@redhat.com>
 
-From the kernel documentation (initrd_table_override.txt):
+Prohibit replacement of the PCMCIA Card Information Structure when the
+kernel is locked down.
 
-  If the ACPI_INITRD_TABLE_OVERRIDE compile option is true, it is possible
-  to override nearly any ACPI table provided by the BIOS with an
-  instrumented, modified one.
-
-When lockdown is enabled, the kernel should disallow any unauthenticated
-changes to kernel space.  ACPI tables contain code invoked by the kernel,
-so do not allow ACPI tables to be overridden if the kernel is locked down.
-
-Signed-off-by: Linn Crosetto <linn@hpe.com>
+Suggested-by: Dominik Brodowski <linux@dominikbrodowski.net>
 Signed-off-by: David Howells <dhowells@redhat.com>
 Signed-off-by: Matthew Garrett <mjg59@google.com>
 Reviewed-by: Kees Cook <keescook@chromium.org>
-cc: linux-acpi@vger.kernel.org
 ---
- drivers/acpi/tables.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/pcmcia/cistpl.c      | 5 +++++
+ include/linux/security.h     | 1 +
+ security/lockdown/lockdown.c | 1 +
+ 3 files changed, 7 insertions(+)
 
-diff --git a/drivers/acpi/tables.c b/drivers/acpi/tables.c
-index b32327759380..180ac4329763 100644
---- a/drivers/acpi/tables.c
-+++ b/drivers/acpi/tables.c
-@@ -20,6 +20,7 @@
- #include <linux/memblock.h>
- #include <linux/earlycpio.h>
- #include <linux/initrd.h>
+diff --git a/drivers/pcmcia/cistpl.c b/drivers/pcmcia/cistpl.c
+index abd029945cc8..629359fe3513 100644
+--- a/drivers/pcmcia/cistpl.c
++++ b/drivers/pcmcia/cistpl.c
+@@ -21,6 +21,7 @@
+ #include <linux/pci.h>
+ #include <linux/ioport.h>
+ #include <linux/io.h>
 +#include <linux/security.h>
- #include "internal.h"
+ #include <asm/byteorder.h>
+ #include <asm/unaligned.h>
  
- #ifdef CONFIG_ACPI_CUSTOM_DSDT
-@@ -578,6 +579,11 @@ void __init acpi_table_upgrade(void)
- 	if (table_nr == 0)
- 		return;
+@@ -1575,6 +1576,10 @@ static ssize_t pccard_store_cis(struct file *filp, struct kobject *kobj,
+ 	struct pcmcia_socket *s;
+ 	int error;
  
-+	if (security_locked_down(LOCKDOWN_ACPI_TABLES)) {
-+		pr_notice("kernel is locked down, ignoring table override\n");
-+		return;
-+	}
++	error = security_locked_down(LOCKDOWN_PCMCIA_CIS);
++	if (error)
++		return error;
 +
- 	acpi_tables_addr =
- 		memblock_find_in_range(0, ACPI_TABLE_UPGRADE_MAX_PHYS,
- 				       all_tables_size, PAGE_SIZE);
+ 	s = to_socket(container_of(kobj, struct device, kobj));
+ 
+ 	if (off)
+diff --git a/include/linux/security.h b/include/linux/security.h
+index 1c32522b3c5a..3773ad09b831 100644
+--- a/include/linux/security.h
++++ b/include/linux/security.h
+@@ -111,6 +111,7 @@ enum lockdown_reason {
+ 	LOCKDOWN_IOPORT,
+ 	LOCKDOWN_MSR,
+ 	LOCKDOWN_ACPI_TABLES,
++	LOCKDOWN_PCMCIA_CIS,
+ 	LOCKDOWN_INTEGRITY_MAX,
+ 	LOCKDOWN_CONFIDENTIALITY_MAX,
+ };
+diff --git a/security/lockdown/lockdown.c b/security/lockdown/lockdown.c
+index 67dbc5c70ea0..96106c2870ef 100644
+--- a/security/lockdown/lockdown.c
++++ b/security/lockdown/lockdown.c
+@@ -26,6 +26,7 @@ static char *lockdown_reasons[LOCKDOWN_CONFIDENTIALITY_MAX+1] = {
+ 	[LOCKDOWN_IOPORT] = "raw io port access",
+ 	[LOCKDOWN_MSR] = "raw MSR access",
+ 	[LOCKDOWN_ACPI_TABLES] = "modified ACPI tables",
++	[LOCKDOWN_PCMCIA_CIS] = "direct PCMCIA CIS storage",
+ 	[LOCKDOWN_INTEGRITY_MAX] = "integrity",
+ 	[LOCKDOWN_CONFIDENTIALITY_MAX] = "confidentiality",
+ };
 -- 
 2.22.0.510.g264f2c817a-goog
 
