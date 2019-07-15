@@ -2,118 +2,151 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E75669CE9
-	for <lists+linux-api@lfdr.de>; Mon, 15 Jul 2019 22:38:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 19D4669D38
+	for <lists+linux-api@lfdr.de>; Mon, 15 Jul 2019 23:04:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731148AbfGOUii (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 15 Jul 2019 16:38:38 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:46589 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730693AbfGOUii (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 15 Jul 2019 16:38:38 -0400
-Received: by mail-lj1-f194.google.com with SMTP id v24so17651076ljg.13
-        for <linux-api@vger.kernel.org>; Mon, 15 Jul 2019 13:38:37 -0700 (PDT)
+        id S1732469AbfGOVEo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 15 Jul 2019 17:04:44 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:42810 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732282AbfGOVEn (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 15 Jul 2019 17:04:43 -0400
+Received: by mail-lj1-f196.google.com with SMTP id t28so17689594lje.9
+        for <linux-api@vger.kernel.org>; Mon, 15 Jul 2019 14:04:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=SPYn0kigh/YyOOP3JdYIDFFrsPtkvgbvu1zMyQDVf3M=;
-        b=b5eOePLKODPIzr8swDyYF4AgFldz7V2YABrA3742nAOHLzAo2/ozBZ0RJ8D5vddpk3
-         sARlE/+axrtAh0KzWih8Ly0xxU5yIYpkYX1vuY4Ipmgobv3qAB/1jGKDo3KylvK7eHSd
-         4sJcUaNpn2Mo0wTr/tITuzI5VkAFW1+L/TggkgJyTaDX57KahSyYfLsipraO3VrBagKt
-         5af5hO2j+xukaou6B0ox1R1O0J8iM7BVCBnKA5cz6PdIvdxQIVHl7YCSpLQAA4Z6I3Z2
-         jiNXl2hfASd4OE8vuNF//VDxwoQHOiejs0XJsKihnYXyCJwArlLVd3jylh7ferlCZnUf
-         1LIw==
+        bh=nMdAH6nTLDrGvTqGSOAbQkcOJz7RylQFzwai+/2x5Kg=;
+        b=C00/OWh9vq2MRiQn1E4VUuP+O+05mZjNiBnTBYE91LA3zA6l01Y3ZAFqD2sa2HJkYA
+         h5J92fYmst8NEM4kbY7z9ANwjGbMbqg3KDgovAqdXLcZH01wV9eGew+ThGgGmvphgmAD
+         MxCVdar45y7UYA1DDtDoQVv8dYq4cWtZjZQ6/WT8LjTbkRr544wt+KFFducPNhPYqfvf
+         wvewvBAHmtMQ3UdggObhYJdHU1TEreaMfaoyjsOy6hYFNOwCZ9YqhCLMTU3973yjiSJE
+         Yi+PlsVJ+lpWQCfj+ktNFR7xMaZJmXQJhqz9OR+Yp0H3xtV8sPxtgsA5H5qa8lTtOAmU
+         09Kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=SPYn0kigh/YyOOP3JdYIDFFrsPtkvgbvu1zMyQDVf3M=;
-        b=RRc/QdsH/a2zP51dFjB+xu7peWt4N5GZbUNM8M9rFLEAijar77r7kN/1wNpNpqRsAr
-         XSrxFwlD9lup0/f7WVZve+EIKy12T1NRBHKHv34gVVeYVDsrIiYjYtIoR0DtksVKTklU
-         M51uUAE4irzxgVrXQR0TZ4JXW9fmg8iCFTWmcU88p+4DcqdrdoVpB+sX5ytk52hU5Nwa
-         Wyln2+2fDy7Dx9q5gB6rx5RfeVkUyrWR90HwP1JgeUkvRuYJF6XZdPs4+5MDdXYiWL6B
-         UgdIfNgnr8lYkX3WdaEYMbICZYDuro5AqnGYda60jiR/DL2hoqcJuzn1LZMXEwvo3zFr
-         BR1g==
-X-Gm-Message-State: APjAAAVBhccv1EF+1IxuJISBW2z5hzRs17vNuXHIryTnu98qosrtfwpB
-        623GwyeXIktzKowDaCtZFXIaAzuwWZEalE8IkA==
-X-Google-Smtp-Source: APXvYqy7ph4w7wyU2yk8+QNPGuKGKilYKae2+aEm11FJ7Oxrse5chHU3V+2dKv4MLJ5f+7kkorTp67H+wXIXoLMuFPs=
-X-Received: by 2002:a2e:3604:: with SMTP id d4mr15091488lja.85.1563223116334;
- Mon, 15 Jul 2019 13:38:36 -0700 (PDT)
+        bh=nMdAH6nTLDrGvTqGSOAbQkcOJz7RylQFzwai+/2x5Kg=;
+        b=toRqZTyQ7+iLUmfMY37kRMRNSyMSQYt9udWLiQfRCJuw0rxhMNzssLBirbj8wped7T
+         v7h6iRxm++4JbmonT7cgwjIq6MXMKw1V1kb8HQWtmC/6/q2wzkYfl/APSfKGYmeJBCY4
+         iMq/rEl/2IVxrjfkxtDXfFkpA2j2td0Dk6/CskDWc5gcaSDJBZ+jggvC6RqVPknNnMhL
+         n4akZSsKeHN4nla2PjBz+hzZCmpd+oFzAusrkOBVPLBsfNZv5FTcpIAjtujKSz9+6Rou
+         8n3trj9kSYlfL8Odp0gZEpQwofYHZWMsuCFs22knYoQWaaZAXQWR13wRKDBrt+mVSNQW
+         Lpog==
+X-Gm-Message-State: APjAAAWJtxut93ibJpuEUYbScsytkC05xKclbjyv4A50Eqmlukeuzyzu
+        i9a/tWG6UK3yM4nAx7H3yghzf1c6zNr4hCn/hA==
+X-Google-Smtp-Source: APXvYqx7xtowySesa4+9lw6Ozl7JVLEqOjJfTZIHvPqefLlVsTXkwA71CsctPNus3iiABl3+IN2es94OlE7TcFEpzio=
+X-Received: by 2002:a2e:5bdd:: with SMTP id m90mr14605368lje.46.1563224680729;
+ Mon, 15 Jul 2019 14:04:40 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1554732921.git.rgb@redhat.com> <9edad39c40671fb53f28d76862304cc2647029c6.1554732921.git.rgb@redhat.com>
  <20190529145742.GA8959@cisco> <CAHC9VhR4fudQanvZGYWMvCf7k2CU3q7e7n1Pi7hzC3v_zpVEdw@mail.gmail.com>
- <20190708175105.7zb6mikjw2wmnwln@madcap2.tricolour.ca>
-In-Reply-To: <20190708175105.7zb6mikjw2wmnwln@madcap2.tricolour.ca>
+ <20190529153427.GB8959@cisco> <CAHC9VhSF3AjErX37+eeusJ7+XRw8yuPsmqBTRwc9EVoRBh_3Tw@mail.gmail.com>
+ <20190529222835.GD8959@cisco> <CAHC9VhRS66VGtug3fq3RTGHDvfGmBJG6yRJ+iMxm3cxnNF-zJw@mail.gmail.com>
+ <20190530170913.GA16722@mail.hallyn.com> <CAHC9VhThLiQzGYRUWmSuVfOC6QCDmA75BDB7Eg7V8HX4x7ymQg@mail.gmail.com>
+ <20190708180558.5bar6ripag3sdadl@madcap2.tricolour.ca>
+In-Reply-To: <20190708180558.5bar6ripag3sdadl@madcap2.tricolour.ca>
 From:   Paul Moore <paul@paul-moore.com>
-Date:   Mon, 15 Jul 2019 16:38:25 -0400
-Message-ID: <CAHC9VhRFeCFSCn=m6wgDK2tXBN1euc2+bw8o=CfNwptk8t=j7A@mail.gmail.com>
+Date:   Mon, 15 Jul 2019 17:04:29 -0400
+Message-ID: <CAHC9VhRTT7JWqNnynvK04wKerjc-3UJ6R1uPtjCAPVr_tW-7MA@mail.gmail.com>
 Subject: Re: [PATCH ghak90 V6 02/10] audit: add container id
 To:     Richard Guy Briggs <rgb@redhat.com>
-Cc:     Tycho Andersen <tycho@tycho.ws>,
+Cc:     "Serge E. Hallyn" <serge@hallyn.com>,
+        Tycho Andersen <tycho@tycho.ws>,
         containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
         Linux-Audit Mailing List <linux-audit@redhat.com>,
         linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
         netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
         sgrubb@redhat.com, omosnace@redhat.com, dhowells@redhat.com,
         simo@redhat.com, Eric Paris <eparis@parisplace.org>,
-        Serge Hallyn <serge@hallyn.com>, ebiederm@xmission.com,
-        nhorman@tuxdriver.com
+        ebiederm@xmission.com, nhorman@tuxdriver.com
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jul 8, 2019 at 1:51 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> On 2019-05-29 11:29, Paul Moore wrote:
+On Mon, Jul 8, 2019 at 2:06 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> On 2019-05-30 15:29, Paul Moore wrote:
 
 ...
 
-> > The idea is that only container orchestrators should be able to
-> > set/modify the audit container ID, and since setting the audit
-> > container ID can have a significant effect on the records captured
-> > (and their routing to multiple daemons when we get there) modifying
-> > the audit container ID is akin to modifying the audit configuration
-> > which is why it is gated by CAP_AUDIT_CONTROL.  The current thinking
-> > is that you would only change the audit container ID from one
-> > set/inherited value to another if you were nesting containers, in
-> > which case the nested container orchestrator would need to be granted
-> > CAP_AUDIT_CONTROL (which everyone to date seems to agree is a workable
-> > compromise).  We did consider allowing for a chain of nested audit
-> > container IDs, but the implications of doing so are significant
-> > (implementation mess, runtime cost, etc.) so we are leaving that out
-> > of this effort.
+> > [REMINDER: It is an "*audit* container ID" and not a general
+> > "container ID" ;)  Smiley aside, I'm not kidding about that part.]
+> >
+> > I'm not interested in supporting/merging something that isn't useful;
+> > if this doesn't work for your use case then we need to figure out what
+> > would work.  It sounds like nested containers are much more common in
+> > the lxc world, can you elaborate a bit more on this?
+> >
+> > As far as the possible solutions you mention above, I'm not sure I
+> > like the per-userns audit container IDs, I'd much rather just emit the
+> > necessary tracking information via the audit record stream and let the
+> > log analysis tools figure it out.  However, the bigger question is how
+> > to limit (re)setting the audit container ID when you are in a non-init
+> > userns.  For reasons already mentioned, using capable() is a non
+> > starter for everything but the initial userns, and using ns_capable()
+> > is equally poor as it essentially allows any userns the ability to
+> > munge it's audit container ID (obviously not good).  It appears we
+> > need a different method for controlling access to the audit container
+> > ID.
 >
-> We had previously discussed the idea of restricting
-> orchestrators/engines from only being able to set the audit container
-> identifier on their own descendants, but it was discarded.  I've added a
-> check to ensure this is now enforced.
+> We're not quite ready yet for multiple audit daemons and possibly not
+> yet for audit namespaces, but this is starting to look a lot like the
+> latter.
 
-When we weren't allowing nested orchestrators it wasn't necessary, but
-with the move to support nesting I believe this will be a requirement.
-We might also need/want to restrict audit container ID changes if a
-descendant is acting as a container orchestrator and managing one or
-more audit container IDs; although I'm less certain of the need for
-this.
+A few quick comments on audit namespaces: the audit container ID is
+not envisioned as a new namespace (even in nested form) and neither do
+I consider running multiple audit daemons to be a new namespace.
 
-> I've also added a check to ensure that a process can't set its own audit
-> container identifier ...
+From my perspective we create namespaces to allow us to redefine a
+global resource for some subset of the system, e.g. providing a unique
+/tmp for some number of processes on the system.  While it may be
+tempting to think of the audit container ID as something we could
+"namespace", especially when multiple audit daemons are concerned, in
+some ways this would be counter productive; the audit container ID is
+intended to be a global ID that can be used to associate audit event
+records with a "container" where the "container" is defined by an
+orchestrator outside the audit subsystem.  The global nature of the
+audit container ID allows us to maintain a sane(ish) view of the
+system in the audit log, if we were to "namespace" the audit container
+ID such that the value was no longer guaranteed to be unique
+throughout the system, we would need to additionally track the audit
+namespace along with the audit container ID which starts to border on
+insanity IMHO.
 
-What does this protect against, or what problem does this solve?
-Considering how easy it is to fork/exec, it seems like this could be
-trivially bypassed.
+> If we can't trust ns_capable() then why are we passing on
+> CAP_AUDIT_CONTROL?  It is being passed down and not stripped purposely
+> by the orchestrator/engine.  If ns_capable() isn't inherited how is it
+> gained otherwise?  Can it be inserted by cotainer image?  I think the
+> answer is "no".  Either we trust ns_capable() or we have audit
+> namespaces (recommend based on user namespace) (or both).
 
-> ... and that if the identifier is already set, then the
-> orchestrator/engine must be in a descendant user namespace from the
-> orchestrator that set the previously inherited audit container
-> identifier.
+My thinking is that since ns_capable() checks the credentials with
+respect to the current user namespace we can't rely on it to control
+access since it would be possible for a privileged process running
+inside an unprivileged container to manipulate the audit container ID
+(containerized process has CAP_AUDIT_CONTROL, e.g. running as root in
+the container, while the container itself does not).
 
-You lost me here ... although I don't like the idea of relying on X
-namespace inheritance for a hard coded policy on setting the audit
-container ID; we've worked hard to keep this independent of any
-definition of a "container" and it would sadden me greatly if we had
-to go back on that.
+> At this point I would say we are at an impasse unless we trust
+> ns_capable() or we implement audit namespaces.
+
+I'm not sure how we can trust ns_capable(), but if you can think of a
+way I would love to hear it.  I'm also not sure how namespacing audit
+is helpful (see my above comments), but if you think it is please
+explain.
+
+> I don't think another mechanism to trust nested orchestrators/engines
+> will buy us anything.
+>
+> Am I missing something?
+
+Based on your questions/comments above it looks like your
+understanding of ns_capable() does not match mine; if I'm thinking
+about ns_capable() incorrectly, please educate me.
 
 -- 
 paul moore
