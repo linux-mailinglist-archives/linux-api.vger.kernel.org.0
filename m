@@ -2,121 +2,119 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A944B69C0B
-	for <lists+linux-api@lfdr.de>; Mon, 15 Jul 2019 22:01:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E75669CE9
+	for <lists+linux-api@lfdr.de>; Mon, 15 Jul 2019 22:38:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730952AbfGOUBN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 15 Jul 2019 16:01:13 -0400
-Received: from mail-pl1-f202.google.com ([209.85.214.202]:54965 "EHLO
-        mail-pl1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732761AbfGOUBK (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 15 Jul 2019 16:01:10 -0400
-Received: by mail-pl1-f202.google.com with SMTP id u10so8813498plq.21
-        for <linux-api@vger.kernel.org>; Mon, 15 Jul 2019 13:01:10 -0700 (PDT)
+        id S1731148AbfGOUii (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 15 Jul 2019 16:38:38 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:46589 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730693AbfGOUii (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 15 Jul 2019 16:38:38 -0400
+Received: by mail-lj1-f194.google.com with SMTP id v24so17651076ljg.13
+        for <linux-api@vger.kernel.org>; Mon, 15 Jul 2019 13:38:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=dW3mrZIEp1awhdhw/Gqc2hqiwmL3xRsZmPf/kk0Pt2o=;
-        b=QgsOBiTZ0JhGodLW/2DddiolYVh1/RB2P89soOifvOkQAzAzj6aYj874inMcQbf3VF
-         xIIB2u2IJscrI0ajrGL9OY7tvtGZ2dRmXXPfodDUx8Tc2cRd3DS3+JRzX6JPu5ld1fiq
-         ktIEGLvBlrPjHXVdJZU5GlDhxSfY/1VeW1AWBneKr1dmb/b8/ToFzQieChyjqVJy2rct
-         T1oAJMJFnipJ6mKvQ43tWK4kMMM7LgHioVLczeGji5iBUo6NUPumV98PLuxE9R7R+m+r
-         Y+b3mu0fnGkey7EA1KW2dWvIVqjz7n2nY+aaqtE34JAljTplN395F2YnFoxko5GiYLNg
-         b53g==
+        bh=SPYn0kigh/YyOOP3JdYIDFFrsPtkvgbvu1zMyQDVf3M=;
+        b=b5eOePLKODPIzr8swDyYF4AgFldz7V2YABrA3742nAOHLzAo2/ozBZ0RJ8D5vddpk3
+         sARlE/+axrtAh0KzWih8Ly0xxU5yIYpkYX1vuY4Ipmgobv3qAB/1jGKDo3KylvK7eHSd
+         4sJcUaNpn2Mo0wTr/tITuzI5VkAFW1+L/TggkgJyTaDX57KahSyYfLsipraO3VrBagKt
+         5af5hO2j+xukaou6B0ox1R1O0J8iM7BVCBnKA5cz6PdIvdxQIVHl7YCSpLQAA4Z6I3Z2
+         jiNXl2hfASd4OE8vuNF//VDxwoQHOiejs0XJsKihnYXyCJwArlLVd3jylh7ferlCZnUf
+         1LIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=dW3mrZIEp1awhdhw/Gqc2hqiwmL3xRsZmPf/kk0Pt2o=;
-        b=aXD+X4/ozDsie8Yw3JrRZQA+OmlV/kuhRSX1bwAfBKiYFichWOtmguylLf53mOsa6z
-         xWfB4cBTqG0tTfZGG0536Au0AHu1l79Y11K6KHltV7xBtVwuTJveNXeV5a5KAM0XV/3l
-         U50hFn6SagAu6SXslCOGE99L/KHwCalOUUtMFJG5tIctJP7d4/aw8TAyQcEQveRXj50x
-         LzQI1ZNCl7J0pj/g4kwwDFfFR4xZrnUO4X494CSr2XU87Mh9BGiX+sHsK2KqKZPaC+Sd
-         Mzz/R/CGwc21guyKvNcXYtaJSmC2qQrh9ByeAXCvLaBDxh/vwzwoxjPA4FxjRQnqbK9K
-         H6VA==
-X-Gm-Message-State: APjAAAWryIC3jAHizvzp00cRgpPW5kPKMMf5FepMysURJNugJt6GmE7G
-        0vrv1R08BatI85hWirzhb6oHWzN/2k5lQ1LUc+3hBw==
-X-Google-Smtp-Source: APXvYqxyIbjo/rprP2+a3LVCiD9lzTGJMTCQXA9mBfowhfTZ5DAkTI1aTkwiyc4SG4vQGr0LCsXl7VoQfC/s7XMPlfaSAw==
-X-Received: by 2002:a63:c748:: with SMTP id v8mr12746095pgg.418.1563220869628;
- Mon, 15 Jul 2019 13:01:09 -0700 (PDT)
-Date:   Mon, 15 Jul 2019 12:59:46 -0700
-In-Reply-To: <20190715195946.223443-1-matthewgarrett@google.com>
-Message-Id: <20190715195946.223443-30-matthewgarrett@google.com>
-Mime-Version: 1.0
-References: <20190715195946.223443-1-matthewgarrett@google.com>
-X-Mailer: git-send-email 2.22.0.510.g264f2c817a-goog
-Subject: [PATCH V35 29/29] lockdown: Print current->comm in restriction messages
-From:   Matthew Garrett <matthewgarrett@google.com>
-To:     jmorris@namei.org
-Cc:     linux-security-module@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        Matthew Garrett <matthewgarrett@google.com>,
-        David Howells <dhowells@redhat.com>,
-        Matthew Garrett <mjg59@google.com>,
-        Kees Cook <keescook@chromium.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SPYn0kigh/YyOOP3JdYIDFFrsPtkvgbvu1zMyQDVf3M=;
+        b=RRc/QdsH/a2zP51dFjB+xu7peWt4N5GZbUNM8M9rFLEAijar77r7kN/1wNpNpqRsAr
+         XSrxFwlD9lup0/f7WVZve+EIKy12T1NRBHKHv34gVVeYVDsrIiYjYtIoR0DtksVKTklU
+         M51uUAE4irzxgVrXQR0TZ4JXW9fmg8iCFTWmcU88p+4DcqdrdoVpB+sX5ytk52hU5Nwa
+         Wyln2+2fDy7Dx9q5gB6rx5RfeVkUyrWR90HwP1JgeUkvRuYJF6XZdPs4+5MDdXYiWL6B
+         UgdIfNgnr8lYkX3WdaEYMbICZYDuro5AqnGYda60jiR/DL2hoqcJuzn1LZMXEwvo3zFr
+         BR1g==
+X-Gm-Message-State: APjAAAVBhccv1EF+1IxuJISBW2z5hzRs17vNuXHIryTnu98qosrtfwpB
+        623GwyeXIktzKowDaCtZFXIaAzuwWZEalE8IkA==
+X-Google-Smtp-Source: APXvYqy7ph4w7wyU2yk8+QNPGuKGKilYKae2+aEm11FJ7Oxrse5chHU3V+2dKv4MLJ5f+7kkorTp67H+wXIXoLMuFPs=
+X-Received: by 2002:a2e:3604:: with SMTP id d4mr15091488lja.85.1563223116334;
+ Mon, 15 Jul 2019 13:38:36 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1554732921.git.rgb@redhat.com> <9edad39c40671fb53f28d76862304cc2647029c6.1554732921.git.rgb@redhat.com>
+ <20190529145742.GA8959@cisco> <CAHC9VhR4fudQanvZGYWMvCf7k2CU3q7e7n1Pi7hzC3v_zpVEdw@mail.gmail.com>
+ <20190708175105.7zb6mikjw2wmnwln@madcap2.tricolour.ca>
+In-Reply-To: <20190708175105.7zb6mikjw2wmnwln@madcap2.tricolour.ca>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Mon, 15 Jul 2019 16:38:25 -0400
+Message-ID: <CAHC9VhRFeCFSCn=m6wgDK2tXBN1euc2+bw8o=CfNwptk8t=j7A@mail.gmail.com>
+Subject: Re: [PATCH ghak90 V6 02/10] audit: add container id
+To:     Richard Guy Briggs <rgb@redhat.com>
+Cc:     Tycho Andersen <tycho@tycho.ws>,
+        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
+        Linux-Audit Mailing List <linux-audit@redhat.com>,
+        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
+        sgrubb@redhat.com, omosnace@redhat.com, dhowells@redhat.com,
+        simo@redhat.com, Eric Paris <eparis@parisplace.org>,
+        Serge Hallyn <serge@hallyn.com>, ebiederm@xmission.com,
+        nhorman@tuxdriver.com
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Print the content of current->comm in messages generated by lockdown to
-indicate a restriction that was hit.  This makes it a bit easier to find
-out what caused the message.
+On Mon, Jul 8, 2019 at 1:51 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> On 2019-05-29 11:29, Paul Moore wrote:
 
-The message now patterned something like:
+...
 
-        Lockdown: <comm>: <what> is restricted; see man kernel_lockdown.7
+> > The idea is that only container orchestrators should be able to
+> > set/modify the audit container ID, and since setting the audit
+> > container ID can have a significant effect on the records captured
+> > (and their routing to multiple daemons when we get there) modifying
+> > the audit container ID is akin to modifying the audit configuration
+> > which is why it is gated by CAP_AUDIT_CONTROL.  The current thinking
+> > is that you would only change the audit container ID from one
+> > set/inherited value to another if you were nesting containers, in
+> > which case the nested container orchestrator would need to be granted
+> > CAP_AUDIT_CONTROL (which everyone to date seems to agree is a workable
+> > compromise).  We did consider allowing for a chain of nested audit
+> > container IDs, but the implications of doing so are significant
+> > (implementation mess, runtime cost, etc.) so we are leaving that out
+> > of this effort.
+>
+> We had previously discussed the idea of restricting
+> orchestrators/engines from only being able to set the audit container
+> identifier on their own descendants, but it was discarded.  I've added a
+> check to ensure this is now enforced.
 
-Signed-off-by: David Howells <dhowells@redhat.com>
-Signed-off-by: Matthew Garrett <mjg59@google.com>
-Reviewed-by: Kees Cook <keescook@chromium.org>
----
- fs/proc/kcore.c              | 5 +++--
- security/lockdown/lockdown.c | 8 ++++++--
- 2 files changed, 9 insertions(+), 4 deletions(-)
+When we weren't allowing nested orchestrators it wasn't necessary, but
+with the move to support nesting I believe this will be a requirement.
+We might also need/want to restrict audit container ID changes if a
+descendant is acting as a container orchestrator and managing one or
+more audit container IDs; although I'm less certain of the need for
+this.
 
-diff --git a/fs/proc/kcore.c b/fs/proc/kcore.c
-index ee2c576cc94e..e2ed8e08cc7a 100644
---- a/fs/proc/kcore.c
-+++ b/fs/proc/kcore.c
-@@ -548,11 +548,12 @@ static int open_kcore(struct inode *inode, struct file *filp)
- {
- 	int ret = security_locked_down(LOCKDOWN_KCORE);
- 
--	if (ret)
--		return ret;
- 	if (!capable(CAP_SYS_RAWIO))
- 		return -EPERM;
- 
-+	if (ret)
-+		return ret;
-+
- 	filp->private_data = kmalloc(PAGE_SIZE, GFP_KERNEL);
- 	if (!filp->private_data)
- 		return -ENOMEM;
-diff --git a/security/lockdown/lockdown.c b/security/lockdown/lockdown.c
-index fd7cdbddd814..bbf30d34542c 100644
---- a/security/lockdown/lockdown.c
-+++ b/security/lockdown/lockdown.c
-@@ -81,10 +81,14 @@ early_param("lockdown", lockdown_param);
-  */
- static int lockdown_is_locked_down(enum lockdown_reason what)
- {
-+	if (WARN(what >= LOCKDOWN_CONFIDENTIALITY_MAX,
-+		 "Invalid lockdown reason"))
-+		return -EPERM;
-+
- 	if (kernel_locked_down >= what) {
- 		if (lockdown_reasons[what])
--			pr_notice("Lockdown: %s is restricted; see man kernel_lockdown.7\n",
--				  lockdown_reasons[what]);
-+			pr_notice("Lockdown: %s: %s is restricted; see man kernel_lockdown.7\n",
-+				  current->comm, lockdown_reasons[what]);
- 		return -EPERM;
- 	}
- 
+> I've also added a check to ensure that a process can't set its own audit
+> container identifier ...
+
+What does this protect against, or what problem does this solve?
+Considering how easy it is to fork/exec, it seems like this could be
+trivially bypassed.
+
+> ... and that if the identifier is already set, then the
+> orchestrator/engine must be in a descendant user namespace from the
+> orchestrator that set the previously inherited audit container
+> identifier.
+
+You lost me here ... although I don't like the idea of relying on X
+namespace inheritance for a hard coded policy on setting the audit
+container ID; we've worked hard to keep this independent of any
+definition of a "container" and it would sadden me greatly if we had
+to go back on that.
+
 -- 
-2.22.0.510.g264f2c817a-goog
-
+paul moore
+www.paul-moore.com
