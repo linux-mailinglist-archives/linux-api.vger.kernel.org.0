@@ -2,58 +2,64 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D143B69C1F
-	for <lists+linux-api@lfdr.de>; Mon, 15 Jul 2019 22:02:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 582B369BFB
+	for <lists+linux-api@lfdr.de>; Mon, 15 Jul 2019 22:01:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731042AbfGOUBu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 15 Jul 2019 16:01:50 -0400
-Received: from mail-pf1-f201.google.com ([209.85.210.201]:45110 "EHLO
-        mail-pf1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732578AbfGOUAu (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 15 Jul 2019 16:00:50 -0400
-Received: by mail-pf1-f201.google.com with SMTP id i27so10859584pfk.12
-        for <linux-api@vger.kernel.org>; Mon, 15 Jul 2019 13:00:49 -0700 (PDT)
+        id S1732621AbfGOUAx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 15 Jul 2019 16:00:53 -0400
+Received: from mail-qt1-f202.google.com ([209.85.160.202]:55970 "EHLO
+        mail-qt1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732619AbfGOUAw (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 15 Jul 2019 16:00:52 -0400
+Received: by mail-qt1-f202.google.com with SMTP id s22so15790401qtb.22
+        for <linux-api@vger.kernel.org>; Mon, 15 Jul 2019 13:00:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=27bG30v551PCUw49w0IhwfwVjWUxHkMd+OR3VLoSFAQ=;
-        b=TtALnbKpnTpmzFXbZcyThBpPXUD2vVMXHLz9/K8WCJZcT3sMigJcUb/tqieCDmJYOh
-         LKx1gN0TYA3+pZ4/kF+qHhWNB06etdiDXdmEYNb/MtNPes8oGYvUJlPhfR4z8qXd4ldc
-         q3cHPE6KMeWpAwlHSonpn/7Li7o6pH7n3SRDWVXWy0KDhxAewWkmSChbNmDmbAwsy+OO
-         m/KF6f0nDfVKtyBESrNNS6tPtxph9XndwqSrxe5fJU3pbkhLrN14ZuxLHqMZ6DVhzq3x
-         Ll+p9sRpyRcNcxXNlcvQmuSwnxf+IIPUZzC2PZ56UEdGVoIGdscmmb0Tqyh/yQPbDJ0N
-         HL/Q==
+        bh=uhU8rRk9ssWJivLHP7v3OR1+99tdkTFoizPFQKNdwe8=;
+        b=JJBIrjjJzae8JoufMUY5p2Xzah+XXUlMVPZRSmZOY36Jgo20AhbpPZawkEBT4xt9CI
+         UMnuaCruuSHuXXvqdFZBMtwSvl4t0IqdLAWwTmYA52CfjZGA3E4i8Gfl2ESgAszhKDWH
+         1oEEltwJN2uPQ3KjZNWNFT+0uMtDU4H1avgCjsBQu3I6RhBh3srjJDwJPD1QLjUhDVdU
+         8+jctr+k5408YV2PlndTV18NE43rC+ipzp7az2r5gd6dXRRGRlBBoi/2hUPYmZ30+PCU
+         X+MNhgkwY1Y72MueKA0y585tPXunJy8hcgIfBqY/aBrhr2wnBn2wAliTIc0u45bqvkWY
+         qb3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=27bG30v551PCUw49w0IhwfwVjWUxHkMd+OR3VLoSFAQ=;
-        b=d9uF/Iz8gdQQOzarbMf7SFpmtzgn2d0o4Bk4Xq/vc8r920oW6NVgiwFIWMm6HaK7r5
-         cSms/NyNKkLzZkRSAy94QHxGu83n7XRfWQrd90Z5yc/SpGfmBknyO862gH+0yVBjwMz/
-         /vME/sJn7mLIuwnMXlv4pfrkUcvfY7b2um2V7ouU8rBUpHZ4qOL5OAskrecj9HK5X30G
-         YF9VR5zixq1TkcoKgaAq6V7zqLt9MJukOt7nXR0a+R1NVjshW4Sq2tf/pfnshpCoRpf3
-         YcLeKfKBCD4/lXtPjR3tZ3GIFVPCWyCO2vNiZC3nj9Sp3+UkoIK+MTuYYmHBXDIsWWv2
-         HKyQ==
-X-Gm-Message-State: APjAAAXdR7tqzqUJeSsShpd4MKFfVr1Ed9nzUQOX+1Eu0uUtRY6t59bp
-        Bz3XUNk8f+Tanw6HBiiHhQH94lIoVuCD2XZEhj98zw==
-X-Google-Smtp-Source: APXvYqzkGmLJbJxcjs2hj9aWPl3QD/H1QcvcXF5PeHJYQdVT4P2+EUPV+l8kcWG1CRmP7Y/ux0sv82HRaOS4eeckdgZiew==
-X-Received: by 2002:a63:4522:: with SMTP id s34mr28567890pga.362.1563220849269;
- Mon, 15 Jul 2019 13:00:49 -0700 (PDT)
-Date:   Mon, 15 Jul 2019 12:59:38 -0700
+        bh=uhU8rRk9ssWJivLHP7v3OR1+99tdkTFoizPFQKNdwe8=;
+        b=Ju6w6uyw7c2YcXW5V8eiLJ/yPwyZjr8J38EDFrBQPY3FGB1JxfKuoU/pq30gBDySJf
+         rdR078y4gKWQUFENs7sFY8iSD5Dv7tZ/ZsCvQhFA/TW2C7N2fhH9piNPYXkzUYOyu0LR
+         nH2ZyXZMCCFvrGRC+9AMJZKrED+IxLw/OnHGhdsxHnet9FhMoNdVumUVAgNRJ+bk1iVF
+         XyohV0/3kCb5cV7cgnDiufTYvX6jUFES8SgWoetXwMyQRSLJgGl3j1oolpOVbtpGCrUB
+         M6LR1rKbeR9dH1DtUuXefVtYr7wwCtnAAxpgG8JvcvDSPaIJLFy2KPT3kYmdtiFI67qi
+         N7fA==
+X-Gm-Message-State: APjAAAXPKsNOSiycEaxMxxLe5SuZ1m6+s8aX1x8JaMCOMlO1ZOklZOhW
+        uIs5FL8cfBS0tzOe8Hql9zgRTT0brNLNXIdqLgtG/w==
+X-Google-Smtp-Source: APXvYqylW6r3pfE8eFjlmMirtVudGlaMh2+nmiRimFW5pWQ7r+wx5kZxLBjObC/dT2zgY9YDhkhq0AHf3oUq3xTxcd/s4g==
+X-Received: by 2002:ac8:142:: with SMTP id f2mr19678032qtg.336.1563220851847;
+ Mon, 15 Jul 2019 13:00:51 -0700 (PDT)
+Date:   Mon, 15 Jul 2019 12:59:39 -0700
 In-Reply-To: <20190715195946.223443-1-matthewgarrett@google.com>
-Message-Id: <20190715195946.223443-22-matthewgarrett@google.com>
+Message-Id: <20190715195946.223443-23-matthewgarrett@google.com>
 Mime-Version: 1.0
 References: <20190715195946.223443-1-matthewgarrett@google.com>
 X-Mailer: git-send-email 2.22.0.510.g264f2c817a-goog
-Subject: [PATCH V35 21/29] Lock down /proc/kcore
+Subject: [PATCH V35 22/29] Lock down tracing and perf kprobes when in
+ confidentiality mode
 From:   Matthew Garrett <matthewgarrett@google.com>
 To:     jmorris@namei.org
 Cc:     linux-security-module@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
         David Howells <dhowells@redhat.com>,
+        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
         Matthew Garrett <mjg59@google.com>,
-        Kees Cook <keescook@chromium.org>
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        "Naveen N . Rao" <naveen.n.rao@linux.ibm.com>,
+        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
+        davem@davemloft.net
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
@@ -62,63 +68,71 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 From: David Howells <dhowells@redhat.com>
 
-Disallow access to /proc/kcore when the kernel is locked down to prevent
-access to cryptographic data. This is limited to lockdown
-confidentiality mode and is still permitted in integrity mode.
+Disallow the creation of perf and ftrace kprobes when the kernel is
+locked down in confidentiality mode by preventing their registration.
+This prevents kprobes from being used to access kernel memory to steal
+crypto data, but continues to allow the use of kprobes from signed
+modules.
 
+Reported-by: Alexei Starovoitov <alexei.starovoitov@gmail.com>
 Signed-off-by: David Howells <dhowells@redhat.com>
 Signed-off-by: Matthew Garrett <mjg59@google.com>
+Acked-by: Masami Hiramatsu <mhiramat@kernel.org>
 Reviewed-by: Kees Cook <keescook@chromium.org>
+Cc: Naveen N. Rao <naveen.n.rao@linux.ibm.com>
+Cc: Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>
+Cc: davem@davemloft.net
+Cc: Masami Hiramatsu <mhiramat@kernel.org>
 ---
- fs/proc/kcore.c              | 5 +++++
  include/linux/security.h     | 1 +
+ kernel/trace/trace_kprobe.c  | 5 +++++
  security/lockdown/lockdown.c | 1 +
  3 files changed, 7 insertions(+)
 
-diff --git a/fs/proc/kcore.c b/fs/proc/kcore.c
-index f5834488b67d..ee2c576cc94e 100644
---- a/fs/proc/kcore.c
-+++ b/fs/proc/kcore.c
-@@ -31,6 +31,7 @@
- #include <linux/ioport.h>
- #include <linux/memory.h>
- #include <linux/sched/task.h>
-+#include <linux/security.h>
- #include <asm/sections.h>
- #include "internal.h"
- 
-@@ -545,6 +546,10 @@ read_kcore(struct file *file, char __user *buffer, size_t buflen, loff_t *fpos)
- 
- static int open_kcore(struct inode *inode, struct file *filp)
- {
-+	int ret = security_locked_down(LOCKDOWN_KCORE);
-+
-+	if (ret)
-+		return ret;
- 	if (!capable(CAP_SYS_RAWIO))
- 		return -EPERM;
- 
 diff --git a/include/linux/security.h b/include/linux/security.h
-index 3f7b6a4cd65a..f0cffd0977d3 100644
+index f0cffd0977d3..987d8427f091 100644
 --- a/include/linux/security.h
 +++ b/include/linux/security.h
-@@ -116,6 +116,7 @@ enum lockdown_reason {
- 	LOCKDOWN_MODULE_PARAMETERS,
+@@ -117,6 +117,7 @@ enum lockdown_reason {
  	LOCKDOWN_MMIOTRACE,
  	LOCKDOWN_INTEGRITY_MAX,
-+	LOCKDOWN_KCORE,
+ 	LOCKDOWN_KCORE,
++	LOCKDOWN_KPROBES,
  	LOCKDOWN_CONFIDENTIALITY_MAX,
  };
  
+diff --git a/kernel/trace/trace_kprobe.c b/kernel/trace/trace_kprobe.c
+index 7d736248a070..fcb28b0702b2 100644
+--- a/kernel/trace/trace_kprobe.c
++++ b/kernel/trace/trace_kprobe.c
+@@ -11,6 +11,7 @@
+ #include <linux/uaccess.h>
+ #include <linux/rculist.h>
+ #include <linux/error-injection.h>
++#include <linux/security.h>
+ 
+ #include "trace_dynevent.h"
+ #include "trace_kprobe_selftest.h"
+@@ -415,6 +416,10 @@ static int __register_trace_kprobe(struct trace_kprobe *tk)
+ {
+ 	int i, ret;
+ 
++	ret = security_locked_down(LOCKDOWN_KPROBES);
++	if (ret)
++		return ret;
++
+ 	if (trace_probe_is_registered(&tk->tp))
+ 		return -EINVAL;
+ 
 diff --git a/security/lockdown/lockdown.c b/security/lockdown/lockdown.c
-index e725f63c29d2..9c097240a3a6 100644
+index 9c097240a3a6..ccb3e9a2a47c 100644
 --- a/security/lockdown/lockdown.c
 +++ b/security/lockdown/lockdown.c
-@@ -31,6 +31,7 @@ static char *lockdown_reasons[LOCKDOWN_CONFIDENTIALITY_MAX+1] = {
- 	[LOCKDOWN_MODULE_PARAMETERS] = "unsafe module parameters",
+@@ -32,6 +32,7 @@ static char *lockdown_reasons[LOCKDOWN_CONFIDENTIALITY_MAX+1] = {
  	[LOCKDOWN_MMIOTRACE] = "unsafe mmio",
  	[LOCKDOWN_INTEGRITY_MAX] = "integrity",
-+	[LOCKDOWN_KCORE] = "/proc/kcore access",
+ 	[LOCKDOWN_KCORE] = "/proc/kcore access",
++	[LOCKDOWN_KPROBES] = "use of kprobes",
  	[LOCKDOWN_CONFIDENTIALITY_MAX] = "confidentiality",
  };
  
