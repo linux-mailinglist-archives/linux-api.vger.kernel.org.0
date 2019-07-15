@@ -2,59 +2,59 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 19D4669D38
-	for <lists+linux-api@lfdr.de>; Mon, 15 Jul 2019 23:04:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B89FB69D58
+	for <lists+linux-api@lfdr.de>; Mon, 15 Jul 2019 23:10:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732469AbfGOVEo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 15 Jul 2019 17:04:44 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:42810 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732282AbfGOVEn (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 15 Jul 2019 17:04:43 -0400
-Received: by mail-lj1-f196.google.com with SMTP id t28so17689594lje.9
-        for <linux-api@vger.kernel.org>; Mon, 15 Jul 2019 14:04:41 -0700 (PDT)
+        id S1730311AbfGOVKM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 15 Jul 2019 17:10:12 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:44367 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730156AbfGOVKL (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 15 Jul 2019 17:10:11 -0400
+Received: by mail-lj1-f195.google.com with SMTP id k18so17713158ljc.11
+        for <linux-api@vger.kernel.org>; Mon, 15 Jul 2019 14:10:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=nMdAH6nTLDrGvTqGSOAbQkcOJz7RylQFzwai+/2x5Kg=;
-        b=C00/OWh9vq2MRiQn1E4VUuP+O+05mZjNiBnTBYE91LA3zA6l01Y3ZAFqD2sa2HJkYA
-         h5J92fYmst8NEM4kbY7z9ANwjGbMbqg3KDgovAqdXLcZH01wV9eGew+ThGgGmvphgmAD
-         MxCVdar45y7UYA1DDtDoQVv8dYq4cWtZjZQ6/WT8LjTbkRr544wt+KFFducPNhPYqfvf
-         wvewvBAHmtMQ3UdggObhYJdHU1TEreaMfaoyjsOy6hYFNOwCZ9YqhCLMTU3973yjiSJE
-         Yi+PlsVJ+lpWQCfj+ktNFR7xMaZJmXQJhqz9OR+Yp0H3xtV8sPxtgsA5H5qa8lTtOAmU
-         09Kw==
+        bh=QqWs6tnJsgPqdUO1RETz8iVY1LYxL4xOc0UaMWvwPg0=;
+        b=Jc3fkDPoiovpnK/n6pDHbPLS9nVpGOM7djQI5/ClJN/dSVYx0G2CcXdfv23vT3PanX
+         Qn6AUs3nVlieQDU5Z4c7eqmhRVhmiFpAcCkovtd0tanJyIidCZd+LqSce4GoI/lUymw3
+         ElQLBiBEe1Ku5Olg531yOzIB+dCJGL8uU4Lf44GoktV3dBNmKyeVkOTIuJ7cMV0EA4hN
+         rcTTJVbFdwgsoDOx4fLkWerxaPeZb6F33gh+JEpagB8bKE/FmRMbnODKAMa0coDjYDqZ
+         4BjkOPXxge1sCEh141rXpKRh4sAooMqCmZgsr22pRF9VCyPb2695owHUo7FbJ1nKjCGq
+         vcNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=nMdAH6nTLDrGvTqGSOAbQkcOJz7RylQFzwai+/2x5Kg=;
-        b=toRqZTyQ7+iLUmfMY37kRMRNSyMSQYt9udWLiQfRCJuw0rxhMNzssLBirbj8wped7T
-         v7h6iRxm++4JbmonT7cgwjIq6MXMKw1V1kb8HQWtmC/6/q2wzkYfl/APSfKGYmeJBCY4
-         iMq/rEl/2IVxrjfkxtDXfFkpA2j2td0Dk6/CskDWc5gcaSDJBZ+jggvC6RqVPknNnMhL
-         n4akZSsKeHN4nla2PjBz+hzZCmpd+oFzAusrkOBVPLBsfNZv5FTcpIAjtujKSz9+6Rou
-         8n3trj9kSYlfL8Odp0gZEpQwofYHZWMsuCFs22knYoQWaaZAXQWR13wRKDBrt+mVSNQW
-         Lpog==
-X-Gm-Message-State: APjAAAWJtxut93ibJpuEUYbScsytkC05xKclbjyv4A50Eqmlukeuzyzu
-        i9a/tWG6UK3yM4nAx7H3yghzf1c6zNr4hCn/hA==
-X-Google-Smtp-Source: APXvYqx7xtowySesa4+9lw6Ozl7JVLEqOjJfTZIHvPqefLlVsTXkwA71CsctPNus3iiABl3+IN2es94OlE7TcFEpzio=
-X-Received: by 2002:a2e:5bdd:: with SMTP id m90mr14605368lje.46.1563224680729;
- Mon, 15 Jul 2019 14:04:40 -0700 (PDT)
+        bh=QqWs6tnJsgPqdUO1RETz8iVY1LYxL4xOc0UaMWvwPg0=;
+        b=DMtQS0lluylZG4S3MI3eN9BR6WeC9EpAcEf2gTN4VyK0M+TqfDdsDztZcqmNz9ynC8
+         VCqgKYU3ocSpLAibyZuqWp/gxdloyuT36imJz2efEQ91682y5wBVjcZpWNrs6qNjpCUf
+         U8Tf2bVRqGhKmYP1NlKy6irzHYtESdg1xZde9o6/s73djvJBW+GcKjHk7SVj6AlmZkfV
+         VWrZZd69Yv3W7YTOwfL0nooasqYWQvN/AZhT8u9GnPzntTXJjG/1ExGFsoMs+Ilwmi8K
+         Ff0F+qo1D7ui9/1d++Ex20AL+ZcbbASvN5JVq7wE7fmkXCcaE7X/NSy0W5tizPjjH/lb
+         Gtmw==
+X-Gm-Message-State: APjAAAUnRqC8PIljC0d89Lzm/t4uoF9qBJyNtZW4nEWosL2GlaQdfFyN
+        dErDtGV07qeYF3xyAVLWhfKeoLXIPDA2QxpkYQ==
+X-Google-Smtp-Source: APXvYqxVf+AvafI76eso5Vi9qaZvd/1ppBT5BDFcvn0IUAfeDjccWO8ASbUvznAJcvMELWLizujdPIuM3Zrv5fujIzE=
+X-Received: by 2002:a2e:9dc1:: with SMTP id x1mr15382970ljj.0.1563225009574;
+ Mon, 15 Jul 2019 14:10:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1554732921.git.rgb@redhat.com> <9edad39c40671fb53f28d76862304cc2647029c6.1554732921.git.rgb@redhat.com>
- <20190529145742.GA8959@cisco> <CAHC9VhR4fudQanvZGYWMvCf7k2CU3q7e7n1Pi7hzC3v_zpVEdw@mail.gmail.com>
+References: <20190529145742.GA8959@cisco> <CAHC9VhR4fudQanvZGYWMvCf7k2CU3q7e7n1Pi7hzC3v_zpVEdw@mail.gmail.com>
  <20190529153427.GB8959@cisco> <CAHC9VhSF3AjErX37+eeusJ7+XRw8yuPsmqBTRwc9EVoRBh_3Tw@mail.gmail.com>
  <20190529222835.GD8959@cisco> <CAHC9VhRS66VGtug3fq3RTGHDvfGmBJG6yRJ+iMxm3cxnNF-zJw@mail.gmail.com>
  <20190530170913.GA16722@mail.hallyn.com> <CAHC9VhThLiQzGYRUWmSuVfOC6QCDmA75BDB7Eg7V8HX4x7ymQg@mail.gmail.com>
- <20190708180558.5bar6ripag3sdadl@madcap2.tricolour.ca>
-In-Reply-To: <20190708180558.5bar6ripag3sdadl@madcap2.tricolour.ca>
+ <20190530212900.GC5739@cisco> <CAHC9VhT5HPt9rCJoDutdvA3r1Y1GOHfpXe2eJ54atNC1=Vd8LA@mail.gmail.com>
+ <20190708181237.5poheliito7zpvmc@madcap2.tricolour.ca>
+In-Reply-To: <20190708181237.5poheliito7zpvmc@madcap2.tricolour.ca>
 From:   Paul Moore <paul@paul-moore.com>
-Date:   Mon, 15 Jul 2019 17:04:29 -0400
-Message-ID: <CAHC9VhRTT7JWqNnynvK04wKerjc-3UJ6R1uPtjCAPVr_tW-7MA@mail.gmail.com>
+Date:   Mon, 15 Jul 2019 17:09:58 -0400
+Message-ID: <CAHC9VhT0V+xi_6nAR5TsM2vs34LbgMeO=-W+MS_kqiXRRzneZQ@mail.gmail.com>
 Subject: Re: [PATCH ghak90 V6 02/10] audit: add container id
 To:     Richard Guy Briggs <rgb@redhat.com>
-Cc:     "Serge E. Hallyn" <serge@hallyn.com>,
-        Tycho Andersen <tycho@tycho.ws>,
+Cc:     Tycho Andersen <tycho@tycho.ws>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
         containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
         Linux-Audit Mailing List <linux-audit@redhat.com>,
         linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
@@ -68,85 +68,43 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jul 8, 2019 at 2:06 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> On 2019-05-30 15:29, Paul Moore wrote:
+On Mon, Jul 8, 2019 at 2:12 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> On 2019-05-30 19:26, Paul Moore wrote:
 
 ...
 
-> > [REMINDER: It is an "*audit* container ID" and not a general
-> > "container ID" ;)  Smiley aside, I'm not kidding about that part.]
+> > I like the creativity, but I worry that at some point these
+> > limitations are going to be raised (limits have a funny way of doing
+> > that over time) and we will be in trouble.  I say "trouble" because I
+> > want to be able to quickly do an audit container ID comparison and
+> > we're going to pay a penalty for these larger values (we'll need this
+> > when we add multiple auditd support and the requisite record routing).
 > >
-> > I'm not interested in supporting/merging something that isn't useful;
-> > if this doesn't work for your use case then we need to figure out what
-> > would work.  It sounds like nested containers are much more common in
-> > the lxc world, can you elaborate a bit more on this?
-> >
-> > As far as the possible solutions you mention above, I'm not sure I
-> > like the per-userns audit container IDs, I'd much rather just emit the
-> > necessary tracking information via the audit record stream and let the
-> > log analysis tools figure it out.  However, the bigger question is how
-> > to limit (re)setting the audit container ID when you are in a non-init
-> > userns.  For reasons already mentioned, using capable() is a non
-> > starter for everything but the initial userns, and using ns_capable()
-> > is equally poor as it essentially allows any userns the ability to
-> > munge it's audit container ID (obviously not good).  It appears we
-> > need a different method for controlling access to the audit container
-> > ID.
+> > Thinking about this makes me also realize we probably need to think a
+> > bit longer about audit container ID conflicts between orchestrators.
+> > Right now we just take the value that is given to us by the
+> > orchestrator, but if we want to allow multiple container orchestrators
+> > to work without some form of cooperation in userspace (I think we have
+> > to assume the orchestrators will not talk to each other) we likely
+> > need to have some way to block reuse of an audit container ID.  We
+> > would either need to prevent the orchestrator from explicitly setting
+> > an audit container ID to a currently in use value, or instead generate
+> > the audit container ID in the kernel upon an event triggered by the
+> > orchestrator (e.g. a write to a /proc file).  I suspect we should
+> > start looking at the idr code, I think we will need to make use of it.
 >
-> We're not quite ready yet for multiple audit daemons and possibly not
-> yet for audit namespaces, but this is starting to look a lot like the
-> latter.
+> To address this, I'd suggest that it is enforced to only allow the
+> setting of descendants and to maintain a master list of audit container
+> identifiers (with a hash table if necessary later) that includes the
+> container owner.
 
-A few quick comments on audit namespaces: the audit container ID is
-not envisioned as a new namespace (even in nested form) and neither do
-I consider running multiple audit daemons to be a new namespace.
-
-From my perspective we create namespaces to allow us to redefine a
-global resource for some subset of the system, e.g. providing a unique
-/tmp for some number of processes on the system.  While it may be
-tempting to think of the audit container ID as something we could
-"namespace", especially when multiple audit daemons are concerned, in
-some ways this would be counter productive; the audit container ID is
-intended to be a global ID that can be used to associate audit event
-records with a "container" where the "container" is defined by an
-orchestrator outside the audit subsystem.  The global nature of the
-audit container ID allows us to maintain a sane(ish) view of the
-system in the audit log, if we were to "namespace" the audit container
-ID such that the value was no longer guaranteed to be unique
-throughout the system, we would need to additionally track the audit
-namespace along with the audit container ID which starts to border on
-insanity IMHO.
-
-> If we can't trust ns_capable() then why are we passing on
-> CAP_AUDIT_CONTROL?  It is being passed down and not stripped purposely
-> by the orchestrator/engine.  If ns_capable() isn't inherited how is it
-> gained otherwise?  Can it be inserted by cotainer image?  I think the
-> answer is "no".  Either we trust ns_capable() or we have audit
-> namespaces (recommend based on user namespace) (or both).
-
-My thinking is that since ns_capable() checks the credentials with
-respect to the current user namespace we can't rely on it to control
-access since it would be possible for a privileged process running
-inside an unprivileged container to manipulate the audit container ID
-(containerized process has CAP_AUDIT_CONTROL, e.g. running as root in
-the container, while the container itself does not).
-
-> At this point I would say we are at an impasse unless we trust
-> ns_capable() or we implement audit namespaces.
-
-I'm not sure how we can trust ns_capable(), but if you can think of a
-way I would love to hear it.  I'm also not sure how namespacing audit
-is helpful (see my above comments), but if you think it is please
-explain.
-
-> I don't think another mechanism to trust nested orchestrators/engines
-> will buy us anything.
->
-> Am I missing something?
-
-Based on your questions/comments above it looks like your
-understanding of ns_capable() does not match mine; if I'm thinking
-about ns_capable() incorrectly, please educate me.
+We're discussing the audit container ID management policy elsewhere in
+this thread so I won't comment on that here, but I did want to say
+that we will likely need something better than a simple list of audit
+container IDs from the start.  It's common for systems to have
+thousands of containers now (or multiple thousands), which tells me
+that a list is a poor choice.  You mentioned a hash table, so I would
+suggest starting with that over the list for the initial patchset.
 
 -- 
 paul moore
