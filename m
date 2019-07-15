@@ -2,110 +2,126 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B89FB69D58
-	for <lists+linux-api@lfdr.de>; Mon, 15 Jul 2019 23:10:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 094EC69F39
+	for <lists+linux-api@lfdr.de>; Tue, 16 Jul 2019 00:54:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730311AbfGOVKM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 15 Jul 2019 17:10:12 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:44367 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730156AbfGOVKL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 15 Jul 2019 17:10:11 -0400
-Received: by mail-lj1-f195.google.com with SMTP id k18so17713158ljc.11
-        for <linux-api@vger.kernel.org>; Mon, 15 Jul 2019 14:10:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=QqWs6tnJsgPqdUO1RETz8iVY1LYxL4xOc0UaMWvwPg0=;
-        b=Jc3fkDPoiovpnK/n6pDHbPLS9nVpGOM7djQI5/ClJN/dSVYx0G2CcXdfv23vT3PanX
-         Qn6AUs3nVlieQDU5Z4c7eqmhRVhmiFpAcCkovtd0tanJyIidCZd+LqSce4GoI/lUymw3
-         ElQLBiBEe1Ku5Olg531yOzIB+dCJGL8uU4Lf44GoktV3dBNmKyeVkOTIuJ7cMV0EA4hN
-         rcTTJVbFdwgsoDOx4fLkWerxaPeZb6F33gh+JEpagB8bKE/FmRMbnODKAMa0coDjYDqZ
-         4BjkOPXxge1sCEh141rXpKRh4sAooMqCmZgsr22pRF9VCyPb2695owHUo7FbJ1nKjCGq
-         vcNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QqWs6tnJsgPqdUO1RETz8iVY1LYxL4xOc0UaMWvwPg0=;
-        b=DMtQS0lluylZG4S3MI3eN9BR6WeC9EpAcEf2gTN4VyK0M+TqfDdsDztZcqmNz9ynC8
-         VCqgKYU3ocSpLAibyZuqWp/gxdloyuT36imJz2efEQ91682y5wBVjcZpWNrs6qNjpCUf
-         U8Tf2bVRqGhKmYP1NlKy6irzHYtESdg1xZde9o6/s73djvJBW+GcKjHk7SVj6AlmZkfV
-         VWrZZd69Yv3W7YTOwfL0nooasqYWQvN/AZhT8u9GnPzntTXJjG/1ExGFsoMs+Ilwmi8K
-         Ff0F+qo1D7ui9/1d++Ex20AL+ZcbbASvN5JVq7wE7fmkXCcaE7X/NSy0W5tizPjjH/lb
-         Gtmw==
-X-Gm-Message-State: APjAAAUnRqC8PIljC0d89Lzm/t4uoF9qBJyNtZW4nEWosL2GlaQdfFyN
-        dErDtGV07qeYF3xyAVLWhfKeoLXIPDA2QxpkYQ==
-X-Google-Smtp-Source: APXvYqxVf+AvafI76eso5Vi9qaZvd/1ppBT5BDFcvn0IUAfeDjccWO8ASbUvznAJcvMELWLizujdPIuM3Zrv5fujIzE=
-X-Received: by 2002:a2e:9dc1:: with SMTP id x1mr15382970ljj.0.1563225009574;
- Mon, 15 Jul 2019 14:10:09 -0700 (PDT)
+        id S1730972AbfGOWyR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 15 Jul 2019 18:54:17 -0400
+Received: from www62.your-server.de ([213.133.104.62]:38728 "EHLO
+        www62.your-server.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730960AbfGOWyR (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 15 Jul 2019 18:54:17 -0400
+Received: from [78.46.172.3] (helo=sslproxy06.your-server.de)
+        by www62.your-server.de with esmtpsa (TLSv1.2:DHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.89_1)
+        (envelope-from <daniel@iogearbox.net>)
+        id 1hn9rI-0004FB-U8; Tue, 16 Jul 2019 00:54:12 +0200
+Received: from [99.0.85.34] (helo=localhost.localdomain)
+        by sslproxy06.your-server.de with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.89)
+        (envelope-from <daniel@iogearbox.net>)
+        id 1hn9rI-0001NB-Cu; Tue, 16 Jul 2019 00:54:12 +0200
+Subject: Re: [PATCH V35 23/29] bpf: Restrict bpf when kernel lockdown is in
+ confidentiality mode
+To:     Matthew Garrett <matthewgarrett@google.com>, jmorris@namei.org
+Cc:     linux-security-module@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        David Howells <dhowells@redhat.com>,
+        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Matthew Garrett <mjg59@google.com>, netdev@vger.kernel.org,
+        Chun-Yi Lee <jlee@suse.com>
+References: <20190715195946.223443-1-matthewgarrett@google.com>
+ <20190715195946.223443-24-matthewgarrett@google.com>
+From:   Daniel Borkmann <daniel@iogearbox.net>
+Message-ID: <5d363f09-d649-5693-45c0-bb99d69f0f38@iogearbox.net>
+Date:   Tue, 16 Jul 2019 00:54:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-References: <20190529145742.GA8959@cisco> <CAHC9VhR4fudQanvZGYWMvCf7k2CU3q7e7n1Pi7hzC3v_zpVEdw@mail.gmail.com>
- <20190529153427.GB8959@cisco> <CAHC9VhSF3AjErX37+eeusJ7+XRw8yuPsmqBTRwc9EVoRBh_3Tw@mail.gmail.com>
- <20190529222835.GD8959@cisco> <CAHC9VhRS66VGtug3fq3RTGHDvfGmBJG6yRJ+iMxm3cxnNF-zJw@mail.gmail.com>
- <20190530170913.GA16722@mail.hallyn.com> <CAHC9VhThLiQzGYRUWmSuVfOC6QCDmA75BDB7Eg7V8HX4x7ymQg@mail.gmail.com>
- <20190530212900.GC5739@cisco> <CAHC9VhT5HPt9rCJoDutdvA3r1Y1GOHfpXe2eJ54atNC1=Vd8LA@mail.gmail.com>
- <20190708181237.5poheliito7zpvmc@madcap2.tricolour.ca>
-In-Reply-To: <20190708181237.5poheliito7zpvmc@madcap2.tricolour.ca>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Mon, 15 Jul 2019 17:09:58 -0400
-Message-ID: <CAHC9VhT0V+xi_6nAR5TsM2vs34LbgMeO=-W+MS_kqiXRRzneZQ@mail.gmail.com>
-Subject: Re: [PATCH ghak90 V6 02/10] audit: add container id
-To:     Richard Guy Briggs <rgb@redhat.com>
-Cc:     Tycho Andersen <tycho@tycho.ws>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
-        Linux-Audit Mailing List <linux-audit@redhat.com>,
-        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
-        sgrubb@redhat.com, omosnace@redhat.com, dhowells@redhat.com,
-        simo@redhat.com, Eric Paris <eparis@parisplace.org>,
-        ebiederm@xmission.com, nhorman@tuxdriver.com
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190715195946.223443-24-matthewgarrett@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Authenticated-Sender: daniel@iogearbox.net
+X-Virus-Scanned: Clear (ClamAV 0.100.3/25511/Mon Jul 15 10:10:35 2019)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jul 8, 2019 at 2:12 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> On 2019-05-30 19:26, Paul Moore wrote:
+On 7/15/19 9:59 PM, Matthew Garrett wrote:
+> From: David Howells <dhowells@redhat.com>
+> 
+> bpf_read() and bpf_read_str() could potentially be abused to (eg) allow
+> private keys in kernel memory to be leaked. Disable them if the kernel
+> has been locked down in confidentiality mode.
+> 
+> Suggested-by: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+> Signed-off-by: Matthew Garrett <mjg59@google.com>
+> cc: netdev@vger.kernel.org
+> cc: Chun-Yi Lee <jlee@suse.com>
+> cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+> Cc: Daniel Borkmann <daniel@iogearbox.net>
+> ---
+>  include/linux/security.h     |  1 +
+>  kernel/trace/bpf_trace.c     | 10 ++++++++++
+>  security/lockdown/lockdown.c |  1 +
+>  3 files changed, 12 insertions(+)
+> 
+> diff --git a/include/linux/security.h b/include/linux/security.h
+> index 987d8427f091..8dd1741a52cd 100644
+> --- a/include/linux/security.h
+> +++ b/include/linux/security.h
+> @@ -118,6 +118,7 @@ enum lockdown_reason {
+>  	LOCKDOWN_INTEGRITY_MAX,
+>  	LOCKDOWN_KCORE,
+>  	LOCKDOWN_KPROBES,
+> +	LOCKDOWN_BPF_READ,
+>  	LOCKDOWN_CONFIDENTIALITY_MAX,
+>  };
+>  
+> diff --git a/kernel/trace/bpf_trace.c b/kernel/trace/bpf_trace.c
+> index ca1255d14576..605908da61c5 100644
+> --- a/kernel/trace/bpf_trace.c
+> +++ b/kernel/trace/bpf_trace.c
+> @@ -142,7 +142,12 @@ BPF_CALL_3(bpf_probe_read, void *, dst, u32, size, const void *, unsafe_ptr)
+>  {
+>  	int ret;
+>  
+> +	ret = security_locked_down(LOCKDOWN_BPF_READ);
+> +	if (ret)
+> +		goto out;
+> +
+>  	ret = probe_kernel_read(dst, unsafe_ptr, size);
+> +out:
+>  	if (unlikely(ret < 0))
+>  		memset(dst, 0, size);
 
-...
+Hmm, does security_locked_down() ever return a code > 0 or why do you
+have the double check on return code? If not, then for clarity the
+ret code from security_locked_down() should be checked as 'ret < 0'
+as well and out label should be at the memset directly instead.
 
-> > I like the creativity, but I worry that at some point these
-> > limitations are going to be raised (limits have a funny way of doing
-> > that over time) and we will be in trouble.  I say "trouble" because I
-> > want to be able to quickly do an audit container ID comparison and
-> > we're going to pay a penalty for these larger values (we'll need this
-> > when we add multiple auditd support and the requisite record routing).
-> >
-> > Thinking about this makes me also realize we probably need to think a
-> > bit longer about audit container ID conflicts between orchestrators.
-> > Right now we just take the value that is given to us by the
-> > orchestrator, but if we want to allow multiple container orchestrators
-> > to work without some form of cooperation in userspace (I think we have
-> > to assume the orchestrators will not talk to each other) we likely
-> > need to have some way to block reuse of an audit container ID.  We
-> > would either need to prevent the orchestrator from explicitly setting
-> > an audit container ID to a currently in use value, or instead generate
-> > the audit container ID in the kernel upon an event triggered by the
-> > orchestrator (e.g. a write to a /proc file).  I suspect we should
-> > start looking at the idr code, I think we will need to make use of it.
->
-> To address this, I'd suggest that it is enforced to only allow the
-> setting of descendants and to maintain a master list of audit container
-> identifiers (with a hash table if necessary later) that includes the
-> container owner.
+> @@ -569,6 +574,10 @@ BPF_CALL_3(bpf_probe_read_str, void *, dst, u32, size,
+>  {
+>  	int ret;
+>  
+> +	ret = security_locked_down(LOCKDOWN_BPF_READ);
+> +	if (ret)
+> +		goto out;
+> +
+>  	/*
+>  	 * The strncpy_from_unsafe() call will likely not fill the entire
+>  	 * buffer, but that's okay in this circumstance as we're probing
+> @@ -579,6 +588,7 @@ BPF_CALL_3(bpf_probe_read_str, void *, dst, u32, size,
+>  	 * is returned that can be used for bpf_perf_event_output() et al.
+>  	 */
+>  	ret = strncpy_from_unsafe(dst, unsafe_ptr, size);
+> +out:
+>  	if (unlikely(ret < 0))
+>  		memset(dst, 0, size);
 
-We're discussing the audit container ID management policy elsewhere in
-this thread so I won't comment on that here, but I did want to say
-that we will likely need something better than a simple list of audit
-container IDs from the start.  It's common for systems to have
-thousands of containers now (or multiple thousands), which tells me
-that a list is a poor choice.  You mentioned a hash table, so I would
-suggest starting with that over the list for the initial patchset.
+Ditto.
 
--- 
-paul moore
-www.paul-moore.com
+Thanks,
+Daniel
