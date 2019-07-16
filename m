@@ -2,136 +2,72 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 708D16AFF5
-	for <lists+linux-api@lfdr.de>; Tue, 16 Jul 2019 21:43:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 43F296B073
+	for <lists+linux-api@lfdr.de>; Tue, 16 Jul 2019 22:33:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388480AbfGPTip (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 16 Jul 2019 15:38:45 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52422 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726213AbfGPTip (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 16 Jul 2019 15:38:45 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 2FDCA3092647;
-        Tue, 16 Jul 2019 19:38:43 +0000 (UTC)
-Received: from madcap2.tricolour.ca (ovpn-112-14.phx2.redhat.com [10.3.112.14])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id CB95E60C44;
-        Tue, 16 Jul 2019 19:38:31 +0000 (UTC)
-Date:   Tue, 16 Jul 2019 15:38:28 -0400
-From:   Richard Guy Briggs <rgb@redhat.com>
-To:     Paul Moore <paul@paul-moore.com>
-Cc:     Tycho Andersen <tycho@tycho.ws>,
-        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
-        Linux-Audit Mailing List <linux-audit@redhat.com>,
-        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
-        sgrubb@redhat.com, omosnace@redhat.com, dhowells@redhat.com,
-        simo@redhat.com, Eric Paris <eparis@parisplace.org>,
-        Serge Hallyn <serge@hallyn.com>, ebiederm@xmission.com,
-        nhorman@tuxdriver.com
-Subject: Re: [PATCH ghak90 V6 02/10] audit: add container id
-Message-ID: <20190716193828.xvm67iv5jyypvvxp@madcap2.tricolour.ca>
-References: <cover.1554732921.git.rgb@redhat.com>
- <9edad39c40671fb53f28d76862304cc2647029c6.1554732921.git.rgb@redhat.com>
- <20190529145742.GA8959@cisco>
- <CAHC9VhR4fudQanvZGYWMvCf7k2CU3q7e7n1Pi7hzC3v_zpVEdw@mail.gmail.com>
- <20190708175105.7zb6mikjw2wmnwln@madcap2.tricolour.ca>
- <CAHC9VhRFeCFSCn=m6wgDK2tXBN1euc2+bw8o=CfNwptk8t=j7A@mail.gmail.com>
+        id S1728781AbfGPUcp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 16 Jul 2019 16:32:45 -0400
+Received: from mail-vs1-f65.google.com ([209.85.217.65]:43958 "EHLO
+        mail-vs1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728535AbfGPUcp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 16 Jul 2019 16:32:45 -0400
+Received: by mail-vs1-f65.google.com with SMTP id j26so14859708vsn.10
+        for <linux-api@vger.kernel.org>; Tue, 16 Jul 2019 13:32:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=81NxWyaYYLOx3U0CNAY+vem2FwAQtGrb2n7o/OCCQ6Q=;
+        b=EzQNWrBC5qDZZtG/w0lKikRR/oNojiw9cBTeaFyF+wRtC0dUeoMDAVmJAyqgyBzSEe
+         NnHR+bKb6u1SnmKae3PIH+umXwHZMHtFajbm/8e/0FKjLrjds+MrgdBNWGVgxTk/yr6r
+         a85dbUuIp7o5N3v/8tNZHHWO3WTJG2qgU7hh2JmzThDmC4LWVEqOIQxnLnkYtDSCe2ti
+         5FQhqEyqvKKdQWNiHM1ecC46U6rAWhmCVAaC9TfrC8eScLAfgKAcSwq1bSAoiEmgzGkY
+         v9jXDgZ1Ero5tUf69xUGxmjRwnF44LzOVHGe3Veh7QYw4fFvqvGOrUYAfq8zFdebhPQT
+         bgcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=81NxWyaYYLOx3U0CNAY+vem2FwAQtGrb2n7o/OCCQ6Q=;
+        b=qC0Lthi01V+6HU1ZNUJSzUyELYNL2N3cvaBqhRM8bH/MN90t1JohjUD1/mefdx1Gmz
+         yuG33rEqn2HUh0zjO0QqrwzgR4IJZrbKmnnH8veQcDChweEq37UKMNWSxN6gb1Gyd2LQ
+         XL5dlT7HCou6/wcT47b1fx6fCeKDaIg92Nkdm1glJ8sCBr8X9CdmAdE8ZKwLkQuznxWO
+         uvKia9UGaT9NwFRKebshQTYSJU4s83lQM9nxKxehkMJJQpXijOgXUQcKvD4gflvG0Ft2
+         /enAmpfLRojNGYYH57h6S1i46bovkm7/2jIvrYSQvtxRBcaN+WFly7d7GywxN/MHH3Of
+         zAkA==
+X-Gm-Message-State: APjAAAUYl9HjDxlR44+grXTUpWOKGOqIhwMwC76ixy5s2yraEvTsrr7Y
+        +ikN+HRBtKPKRY5mgCDG3q8uxCuKWlp5Yl+YJlRb6Q==
+X-Google-Smtp-Source: APXvYqxQj6V0JsV1Wq1M4PK/ZqnLQAggZqvxwAWQtvoVxjTqMsgvXgRRn/MxQo0FX6SkSFdhHPKRHE9oRdeF58llyro=
+X-Received: by 2002:a67:fb02:: with SMTP id d2mr12106614vsr.207.1563309164025;
+ Tue, 16 Jul 2019 13:32:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHC9VhRFeCFSCn=m6wgDK2tXBN1euc2+bw8o=CfNwptk8t=j7A@mail.gmail.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.43]); Tue, 16 Jul 2019 19:38:44 +0000 (UTC)
+References: <20190715195946.223443-1-matthewgarrett@google.com>
+ <20190715195946.223443-24-matthewgarrett@google.com> <5d363f09-d649-5693-45c0-bb99d69f0f38@iogearbox.net>
+In-Reply-To: <5d363f09-d649-5693-45c0-bb99d69f0f38@iogearbox.net>
+From:   Matthew Garrett <mjg59@google.com>
+Date:   Tue, 16 Jul 2019 13:32:33 -0700
+Message-ID: <CACdnJuudpnaQ5YUhoxmxNWVdRB6v0u0Bf2O6NmYOXjp8_govyg@mail.gmail.com>
+Subject: Re: [PATCH V35 23/29] bpf: Restrict bpf when kernel lockdown is in
+ confidentiality mode
+To:     Daniel Borkmann <daniel@iogearbox.net>
+Cc:     James Morris <jmorris@namei.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        David Howells <dhowells@redhat.com>,
+        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Network Development <netdev@vger.kernel.org>,
+        Chun-Yi Lee <jlee@suse.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2019-07-15 16:38, Paul Moore wrote:
-> On Mon, Jul 8, 2019 at 1:51 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > On 2019-05-29 11:29, Paul Moore wrote:
-> 
-> ...
-> 
-> > > The idea is that only container orchestrators should be able to
-> > > set/modify the audit container ID, and since setting the audit
-> > > container ID can have a significant effect on the records captured
-> > > (and their routing to multiple daemons when we get there) modifying
-> > > the audit container ID is akin to modifying the audit configuration
-> > > which is why it is gated by CAP_AUDIT_CONTROL.  The current thinking
-> > > is that you would only change the audit container ID from one
-> > > set/inherited value to another if you were nesting containers, in
-> > > which case the nested container orchestrator would need to be granted
-> > > CAP_AUDIT_CONTROL (which everyone to date seems to agree is a workable
-> > > compromise).  We did consider allowing for a chain of nested audit
-> > > container IDs, but the implications of doing so are significant
-> > > (implementation mess, runtime cost, etc.) so we are leaving that out
-> > > of this effort.
-> >
-> > We had previously discussed the idea of restricting
-> > orchestrators/engines from only being able to set the audit container
-> > identifier on their own descendants, but it was discarded.  I've added a
-> > check to ensure this is now enforced.
-> 
-> When we weren't allowing nested orchestrators it wasn't necessary, but
-> with the move to support nesting I believe this will be a requirement.
-> We might also need/want to restrict audit container ID changes if a
-> descendant is acting as a container orchestrator and managing one or
-> more audit container IDs; although I'm less certain of the need for
-> this.
+On Mon, Jul 15, 2019 at 3:54 PM Daniel Borkmann <daniel@iogearbox.net> wrote:
+> Hmm, does security_locked_down() ever return a code > 0 or why do you
+> have the double check on return code? If not, then for clarity the
+> ret code from security_locked_down() should be checked as 'ret < 0'
+> as well and out label should be at the memset directly instead.
 
-I was of the opinion it was necessary before with single-layer parallel
-orchestrators/engines.
-
-> > I've also added a check to ensure that a process can't set its own audit
-> > container identifier ...
-> 
-> What does this protect against, or what problem does this solve?
-> Considering how easy it is to fork/exec, it seems like this could be
-> trivially bypassed.
-
-Well, for starters, it would remove one layer of nesting.  It would
-separate the functional layers of processes.  Other than that, it seems
-like a gut feeling that it is just wrong to allow it.  It seems like a
-layer violation that one container orchestrator/engine could set its own
-audit container identifier and then set its children as well.  It would
-be its own parent.  It would make it harder to verify adherance to
-descendancy and inheritance rules.
-
-> > ... and that if the identifier is already set, then the
-> > orchestrator/engine must be in a descendant user namespace from the
-> > orchestrator that set the previously inherited audit container
-> > identifier.
-> 
-> You lost me here ... although I don't like the idea of relying on X
-> namespace inheritance for a hard coded policy on setting the audit
-> container ID; we've worked hard to keep this independent of any
-> definition of a "container" and it would sadden me greatly if we had
-> to go back on that.
-
-This would seem to be the one concession I'm reluctantly making to try
-to solve this nested container orchestrator/engine challenge.
-
-Would backing off on that descendant user namespace requirement and only
-require that a nested audit container identifier only be permitted on a
-descendant task be sufficient?  It may for this use case, but I suspect
-not for additional audit daemons (we're not there yet) and message
-routing to those daemons.
-
-The one difference here is that it does not depend on this if the audit
-container identifier has not already been set.
-
-> paul moore
-
-- RGB
-
---
-Richard Guy Briggs <rgb@redhat.com>
-Sr. S/W Engineer, Kernel Security, Base Operating Systems
-Remote, Ottawa, Red Hat Canada
-IRC: rgb, SunRaycer
-Voice: +1.647.777.2635, Internal: (81) 32635
+It doesn't, so I'll update. Thanks!
