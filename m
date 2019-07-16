@@ -2,72 +2,71 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 43F296B073
-	for <lists+linux-api@lfdr.de>; Tue, 16 Jul 2019 22:33:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 346116B07D
+	for <lists+linux-api@lfdr.de>; Tue, 16 Jul 2019 22:35:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728781AbfGPUcp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 16 Jul 2019 16:32:45 -0400
-Received: from mail-vs1-f65.google.com ([209.85.217.65]:43958 "EHLO
-        mail-vs1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728535AbfGPUcp (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 16 Jul 2019 16:32:45 -0400
-Received: by mail-vs1-f65.google.com with SMTP id j26so14859708vsn.10
-        for <linux-api@vger.kernel.org>; Tue, 16 Jul 2019 13:32:44 -0700 (PDT)
+        id S2388568AbfGPUfH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 16 Jul 2019 16:35:07 -0400
+Received: from mail-vs1-f68.google.com ([209.85.217.68]:36565 "EHLO
+        mail-vs1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728535AbfGPUfH (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 16 Jul 2019 16:35:07 -0400
+Received: by mail-vs1-f68.google.com with SMTP id y16so14861221vsc.3
+        for <linux-api@vger.kernel.org>; Tue, 16 Jul 2019 13:35:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=81NxWyaYYLOx3U0CNAY+vem2FwAQtGrb2n7o/OCCQ6Q=;
-        b=EzQNWrBC5qDZZtG/w0lKikRR/oNojiw9cBTeaFyF+wRtC0dUeoMDAVmJAyqgyBzSEe
-         NnHR+bKb6u1SnmKae3PIH+umXwHZMHtFajbm/8e/0FKjLrjds+MrgdBNWGVgxTk/yr6r
-         a85dbUuIp7o5N3v/8tNZHHWO3WTJG2qgU7hh2JmzThDmC4LWVEqOIQxnLnkYtDSCe2ti
-         5FQhqEyqvKKdQWNiHM1ecC46U6rAWhmCVAaC9TfrC8eScLAfgKAcSwq1bSAoiEmgzGkY
-         v9jXDgZ1Ero5tUf69xUGxmjRwnF44LzOVHGe3Veh7QYw4fFvqvGOrUYAfq8zFdebhPQT
-         bgcw==
+        bh=VTXuJjlx5q7Qe80Yz5WGd6e0nqZG+IooCpGI3pnycJ4=;
+        b=ciR4v8OhapnxETOGK7wfTSZ2HGLg5se7oSc+10v/R6wCoaTEmXzWxPDt9oxHC7JyTF
+         3OBlmd6OF2VFqqBP5UA5gEGCQpxr6VsxRZq+UJyxjUuhV4fZS+fn5gUYNVQmFqwerA+l
+         Dvlk44dSQmMS1DBn+qEEaLADi+7J3vPMB+uAkK8S6qGv2j2B01Am1tLxy/G5/Nq7wpwm
+         kELdNFdRDu3OT26VIB9t72SodzeeS67ODNGn6uZA/Izb2C5qi3+K0OTAxcOoFrC5DIFb
+         OgPkZr/yEBcciExidG+IrFGISg9uEbuuiV24lVUWbVDYx8i1P5Yb4kZVXHWnuaNhCIS+
+         4L6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=81NxWyaYYLOx3U0CNAY+vem2FwAQtGrb2n7o/OCCQ6Q=;
-        b=qC0Lthi01V+6HU1ZNUJSzUyELYNL2N3cvaBqhRM8bH/MN90t1JohjUD1/mefdx1Gmz
-         yuG33rEqn2HUh0zjO0QqrwzgR4IJZrbKmnnH8veQcDChweEq37UKMNWSxN6gb1Gyd2LQ
-         XL5dlT7HCou6/wcT47b1fx6fCeKDaIg92Nkdm1glJ8sCBr8X9CdmAdE8ZKwLkQuznxWO
-         uvKia9UGaT9NwFRKebshQTYSJU4s83lQM9nxKxehkMJJQpXijOgXUQcKvD4gflvG0Ft2
-         /enAmpfLRojNGYYH57h6S1i46bovkm7/2jIvrYSQvtxRBcaN+WFly7d7GywxN/MHH3Of
-         zAkA==
-X-Gm-Message-State: APjAAAUYl9HjDxlR44+grXTUpWOKGOqIhwMwC76ixy5s2yraEvTsrr7Y
-        +ikN+HRBtKPKRY5mgCDG3q8uxCuKWlp5Yl+YJlRb6Q==
-X-Google-Smtp-Source: APXvYqxQj6V0JsV1Wq1M4PK/ZqnLQAggZqvxwAWQtvoVxjTqMsgvXgRRn/MxQo0FX6SkSFdhHPKRHE9oRdeF58llyro=
-X-Received: by 2002:a67:fb02:: with SMTP id d2mr12106614vsr.207.1563309164025;
- Tue, 16 Jul 2019 13:32:44 -0700 (PDT)
+        bh=VTXuJjlx5q7Qe80Yz5WGd6e0nqZG+IooCpGI3pnycJ4=;
+        b=JiGsynRwjEJ/eLAobjPoz4fqtXqc1xGJrpfeegF6DEr/Q9UQfBO4R5083ZyjJCj92V
+         +sNeL1r0GoFfseGsh570yChYPsOuCQkUrr3vBusNaU57JZGtcxBr9qOtAGilOH7sfvt4
+         gFAJC8B4raePnTtjIaH4bQ9Q6NHC953iIHqd7Ddz+KQnx56BdCAC3YQv4gk4guTyfQWz
+         72RjDu7AwXbEHlijLp5nhCdMfaLLTHgDkdL13xWNLoWge7PymMTVbgf1y0fFovx/NnhV
+         I/Ah6UMT4AKk0OHXwNSaYwtkb/kFM9wSYfLKOav3kaM5AHEUoE9QsFg3Y1aTl9meZCU2
+         8lEA==
+X-Gm-Message-State: APjAAAXHhkI6iY/yMdEjq4ED03wwa5JrC01BPFRloZmpNHIW8QNZoaJH
+        dcpIJQyhPED8MHauNQQw0cr1b7nbNeRxrNbT9udKGQ==
+X-Google-Smtp-Source: APXvYqwULruIwhcKPZuWhSs6rndmokQERBpELkF586kigli0sXfpel4ZL/ik7omczmrrcRQVAd0KEsGFYuf4cFnxhF0=
+X-Received: by 2002:a67:ff99:: with SMTP id v25mr22116833vsq.158.1563309305642;
+ Tue, 16 Jul 2019 13:35:05 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190715195946.223443-1-matthewgarrett@google.com>
- <20190715195946.223443-24-matthewgarrett@google.com> <5d363f09-d649-5693-45c0-bb99d69f0f38@iogearbox.net>
-In-Reply-To: <5d363f09-d649-5693-45c0-bb99d69f0f38@iogearbox.net>
+ <20190715195946.223443-16-matthewgarrett@google.com> <20190716025923.GA5793@dhcp-128-65.nay.redhat.com>
+In-Reply-To: <20190716025923.GA5793@dhcp-128-65.nay.redhat.com>
 From:   Matthew Garrett <mjg59@google.com>
-Date:   Tue, 16 Jul 2019 13:32:33 -0700
-Message-ID: <CACdnJuudpnaQ5YUhoxmxNWVdRB6v0u0Bf2O6NmYOXjp8_govyg@mail.gmail.com>
-Subject: Re: [PATCH V35 23/29] bpf: Restrict bpf when kernel lockdown is in
- confidentiality mode
-To:     Daniel Borkmann <daniel@iogearbox.net>
+Date:   Tue, 16 Jul 2019 13:34:54 -0700
+Message-ID: <CACdnJuut9cfc1fsAy63t0Z=JVujmNELm2Xm1grEZzORF5Cuviw@mail.gmail.com>
+Subject: Re: [PATCH V35 15/29] acpi: Ignore acpi_rsdp kernel param when the
+ kernel has been locked down
+To:     Dave Young <dyoung@redhat.com>
 Cc:     James Morris <jmorris@namei.org>,
         LSM List <linux-security-module@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
+        Josh Boyer <jwboyer@redhat.com>,
         David Howells <dhowells@redhat.com>,
-        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-        Network Development <netdev@vger.kernel.org>,
-        Chun-Yi Lee <jlee@suse.com>
+        Borislav Petkov <bp@alien8.de>,
+        Kees Cook <keescook@chromium.org>, linux-acpi@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jul 15, 2019 at 3:54 PM Daniel Borkmann <daniel@iogearbox.net> wrote:
-> Hmm, does security_locked_down() ever return a code > 0 or why do you
-> have the double check on return code? If not, then for clarity the
-> ret code from security_locked_down() should be checked as 'ret < 0'
-> as well and out label should be at the memset directly instead.
+On Mon, Jul 15, 2019 at 7:59 PM Dave Young <dyoung@redhat.com> wrote:
+> I'm very sorry I noticed this late, but have to say this will not work for
+> X86 with latest kernel code.
 
-It doesn't, so I'll update. Thanks!
+No problem, thank you for catching this! I'll update the patch and
+send a new version.
