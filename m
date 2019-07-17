@@ -2,141 +2,198 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 97C5E6B269
-	for <lists+linux-api@lfdr.de>; Wed, 17 Jul 2019 01:31:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B8256B330
+	for <lists+linux-api@lfdr.de>; Wed, 17 Jul 2019 03:29:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389124AbfGPXag (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 16 Jul 2019 19:30:36 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:35128 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389117AbfGPXa2 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 16 Jul 2019 19:30:28 -0400
-Received: by mail-lf1-f65.google.com with SMTP id p197so14960323lfa.2
-        for <linux-api@vger.kernel.org>; Tue, 16 Jul 2019 16:30:27 -0700 (PDT)
+        id S1726101AbfGQB3M (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 16 Jul 2019 21:29:12 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:35833 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725899AbfGQB3M (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 16 Jul 2019 21:29:12 -0400
+Received: by mail-pf1-f194.google.com with SMTP id u14so9987314pfn.2
+        for <linux-api@vger.kernel.org>; Tue, 16 Jul 2019 18:29:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=YWcpEc5FvGUxMrkeRiB0cnwgYS5TPs4Urt5+gPVZDh8=;
-        b=kfuVXg1GBNwcOoznZPvryqh6/i2XrbBE6hkmVUMgSZi+LTGFCMeiia9P0u53fqR03S
-         Db8ww5cz17ZFCZKlTuva1FUSo3Y2oMZofZ8fP/h1fLivURlC81chU7PWbmPju7Admx1Z
-         0vNl1Znw/JxnQbaEB3qodZy91u3UJcA/kBkF3/fop+D+uNxeIU9ClEdXjFRvVywlejx8
-         DnAqQwuvXO4VpPWfxjCThhbeKljqILhPjFnODqbpRq1N11o4FSdml1BI7L1b7dz9y+YP
-         fYw1lfsvEQejaiRHp3kfd9vzzpXxhC6v4ipIrx4uMBDRiXoRA77MJ55m7j30qsm5olyc
-         8AKg==
+        d=sifive.com; s=google;
+        h=subject:date:message-id:mime-version:content-transfer-encoding:cc
+         :from:to;
+        bh=lCAdtmytrwTdW3zlJMsL7BH9HcOHIdUFUev907eAt/A=;
+        b=EWeObjoFmWq4Omx3n/Vk5ieecW6ME7Q+UElx0hnCrcAOTTwfJ8WA/Sx8n3WY/vKhA0
+         w6DxbQo2seu7BVmNL69pGIK8MrLb9SGxQw0ZhHDA/oLivg3XTYry1Jl/HOn/8ds0c/xl
+         O9ThCZWa11yjixEiKl5hzy4Eccujt0+y1RLNUSrPKnvavkdRx+ydohJ0NNiQpiV3Ozvx
+         aK7noJb1AfREOkm/Jo45bQYJsqD5CIa30MNowi++lgOE2CEfnJvHQKtzGzh+WEvqD0ri
+         qekgiFl3gec+0sTohyesxiSbunkhOiFPrtSd5l3tnJD2fwW7uxBVPSQs3Dbrtim5XVys
+         eqYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=YWcpEc5FvGUxMrkeRiB0cnwgYS5TPs4Urt5+gPVZDh8=;
-        b=JxEGk08rmO80u92tTi7DYwjyr+CB7g7VOd4TH+A31HNXeq1dMdzZqD+VuoTsemy7k5
-         HuvKGwQQDNBYaA8WIl3wQvrt9VfuvrC9Jwvxfab16x1mW+p95sUYXSFEzYMyGH2znV0A
-         C7YOlXystkraAtVufildVtsxJqKXRiVsy5yqkPYU6SCNeyiBR7GtyQKzGZEL6U56drbB
-         sIvWTtfCgXUNCstNt0AhjGdeX8lXiZpso61dlaIh5lHVkt0TR12ZvAk1nfqW+/P1Ki0C
-         55Tj9G8R2PSdP6IEHtfil/iMfwCuFu0uLkeQUIGUVEnuUFrpvQCA54zKfKYkX0yjhEyJ
-         ivvw==
-X-Gm-Message-State: APjAAAUaEMj6oNDmgVnqUcXku4nLO+Ku2O7Ie0bTBuXnFKjkGJ+CrA3R
-        jUyWrNuiZBQDX40iL+bWGqRbQa7ygDoSCPYxNw==
-X-Google-Smtp-Source: APXvYqxz39ngK72ytLQXqEXgHBnS7WXBpZpi6vOwRoyqlsR7YPmTcb6oeRneK/RtXK9BLw25UxnyGGXWi29uMJ0dI9o=
-X-Received: by 2002:ac2:4109:: with SMTP id b9mr14480083lfi.31.1563319826317;
- Tue, 16 Jul 2019 16:30:26 -0700 (PDT)
+        h=x-gm-message-state:subject:date:message-id:mime-version
+         :content-transfer-encoding:cc:from:to;
+        bh=lCAdtmytrwTdW3zlJMsL7BH9HcOHIdUFUev907eAt/A=;
+        b=q/THu2uJWcjWd8/DbOLzH0tUixlKwpjaXAW/UdhN3gLpA8Fq25iZcVcVg8ijKPnKnm
+         TkkigujqUIdtpqV90UuzrnfLD16PPpolUIKCrp3qk01+I46ZN3/Lg/koqn+dP4dDzRo+
+         yPMR9Xj6cF8YPSZuJVqtInr472VDX2xEHDDdx8vKs0Xpb0dIi0sHg9WbZo7f5mjcBkE2
+         BUIur6YP2sX4TPE1qPjkcp6G+1FaPekSHLFuKNrSUHAJ6vrDPLlf/+JgfBLv7vravOBn
+         lrKb6SD/URCu0mzlXt0pJ6jm0M8B1+A+WvppcIgB3PQvP3NK/ReztMudGGkEcNO6UASK
+         og5Q==
+X-Gm-Message-State: APjAAAXZtaNUQippnMJcQ7GcekhKfIuGmJOyZyflMAf6s+TwXinOLQ8+
+        A5d99cZu+gCI+AFOk82S124EZw==
+X-Google-Smtp-Source: APXvYqxD+A8D1A0efvs/gHSpa51lIoBZYiXr5jNYG6C1/J/dqptdfkqKaxchYfNokKm4TbgakH+Oxw==
+X-Received: by 2002:a17:90a:fa18:: with SMTP id cm24mr39334563pjb.120.1563326951272;
+        Tue, 16 Jul 2019 18:29:11 -0700 (PDT)
+Received: from localhost ([12.206.222.5])
+        by smtp.gmail.com with ESMTPSA id r61sm32564152pjb.7.2019.07.16.18.29.09
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Tue, 16 Jul 2019 18:29:10 -0700 (PDT)
+Subject: Add a new fchmodat4() syscall, v2
+Date:   Tue, 16 Jul 2019 18:27:15 -0700
+Message-Id: <20190717012719.5524-1-palmer@sifive.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <20190529145742.GA8959@cisco> <CAHC9VhR4fudQanvZGYWMvCf7k2CU3q7e7n1Pi7hzC3v_zpVEdw@mail.gmail.com>
- <20190529153427.GB8959@cisco> <CAHC9VhSF3AjErX37+eeusJ7+XRw8yuPsmqBTRwc9EVoRBh_3Tw@mail.gmail.com>
- <20190529222835.GD8959@cisco> <CAHC9VhRS66VGtug3fq3RTGHDvfGmBJG6yRJ+iMxm3cxnNF-zJw@mail.gmail.com>
- <20190530170913.GA16722@mail.hallyn.com> <CAHC9VhThLiQzGYRUWmSuVfOC6QCDmA75BDB7Eg7V8HX4x7ymQg@mail.gmail.com>
- <20190708180558.5bar6ripag3sdadl@madcap2.tricolour.ca> <CAHC9VhRTT7JWqNnynvK04wKerjc-3UJ6R1uPtjCAPVr_tW-7MA@mail.gmail.com>
- <20190716220320.sotbfqplgdructg7@madcap2.tricolour.ca>
-In-Reply-To: <20190716220320.sotbfqplgdructg7@madcap2.tricolour.ca>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Tue, 16 Jul 2019 19:30:15 -0400
-Message-ID: <CAHC9VhScHizB2r5q3T5s0P3jkYdvzBPPudDksosYFp_TO7W9-Q@mail.gmail.com>
-Subject: Re: [PATCH ghak90 V6 02/10] audit: add container id
-To:     Richard Guy Briggs <rgb@redhat.com>
-Cc:     "Serge E. Hallyn" <serge@hallyn.com>,
-        Tycho Andersen <tycho@tycho.ws>,
-        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
-        Linux-Audit Mailing List <linux-audit@redhat.com>,
-        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
-        sgrubb@redhat.com, omosnace@redhat.com, dhowells@redhat.com,
-        simo@redhat.com, Eric Paris <eparis@parisplace.org>,
-        ebiederm@xmission.com, nhorman@tuxdriver.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Cc:     rth@twiddle.net, ink@jurassic.park.msu.ru, mattst88@gmail.com,
+        linux@armlinux.org.uk, catalin.marinas@arm.com, will@kernel.org,
+        tony.luck@intel.com, fenghua.yu@intel.com, geert@linux-m68k.org,
+        monstr@monstr.eu, ralf@linux-mips.org, paul.burton@mips.com,
+        jhogan@kernel.org, James.Bottomley@HansenPartnership.com,
+        deller@gmx.de, benh@kernel.crashing.org, paulus@samba.org,
+        mpe@ellerman.id.au, heiko.carstens@de.ibm.com, gor@linux.ibm.com,
+        borntraeger@de.ibm.com, ysato@users.sourceforge.jp,
+        dalias@libc.org, davem@davemloft.net, luto@kernel.org,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+        x86@kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        peterz@infradead.org, acme@kernel.org,
+        alexander.shishkin@linux.intel.com, jolsa@redhat.com,
+        namhyung@kernel.org, Palmer Dabbelt <palmer@sifive.com>,
+        dhowells@redhat.com, firoz.khan@linaro.org, stefan@agner.ch,
+        schwidefsky@de.ibm.com, axboe@kernel.dk, christian@brauner.io,
+        hare@suse.com, deepa.kernel@gmail.com, tycho@tycho.ws,
+        kim.phillips@arm.com, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-arch@vger.kernel.org
+From:   Palmer Dabbelt <palmer@sifive.com>
+To:     viro@zeniv.linux.org.uk, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jul 16, 2019 at 6:03 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> On 2019-07-15 17:04, Paul Moore wrote:
-> > On Mon, Jul 8, 2019 at 2:06 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+This patch set adds fchmodat4(), a new syscall. The actual
+implementation is super simple: essentially it's just the same as
+fchmodat(), but LOOKUP_FOLLOW is conditionally set based on the flags.
+I've attempted to make this match "man 2 fchmodat" as closely as
+possible, which says EINVAL is returned for invalid flags (as opposed to
+ENOTSUPP, which is currently returned by glibc for AT_SYMLINK_NOFOLLOW).
+I have a sketch of a glibc patch that I haven't even compiled yet, but
+seems fairly straight-forward:
 
-...
+    diff --git a/sysdeps/unix/sysv/linux/fchmodat.c b/sysdeps/unix/sysv/linux/fchmodat.c
+    index 6d9cbc1ce9e0..b1beab76d56c 100644
+    --- a/sysdeps/unix/sysv/linux/fchmodat.c
+    +++ b/sysdeps/unix/sysv/linux/fchmodat.c
+    @@ -29,12 +29,36 @@
+     int
+     fchmodat (int fd, const char *file, mode_t mode, int flag)
+     {
+    -  if (flag & ~AT_SYMLINK_NOFOLLOW)
+    -    return INLINE_SYSCALL_ERROR_RETURN_VALUE (EINVAL);
+    -#ifndef __NR_lchmod		/* Linux so far has no lchmod syscall.  */
+    +  /* There are four paths through this code:
+    +      - The flags are zero.  In this case it's fine to call fchmodat.
+    +      - The flags are non-zero and glibc doesn't have access to
+    +	__NR_fchmodat4.  In this case all we can do is emulate the error codes
+    +	defined by the glibc interface from userspace.
+    +      - The flags are non-zero, glibc has __NR_fchmodat4, and the kernel has
+    +	fchmodat4.  This is the simplest case, as the fchmodat4 syscall exactly
+    +	matches glibc's library interface so it can be called directly.
+    +      - The flags are non-zero, glibc has __NR_fchmodat4, but the kernel does
+    +	not.  In this case we must respect the error codes defined by the glibc
+    +	interface instead of returning ENOSYS.
+    +    The intent here is to ensure that the kernel is called at most once per
+    +    library call, and that the error types defined by glibc are always
+    +    respected.  */
+    +
+    +#ifdef __NR_fchmodat4
+    +  long result;
+    +#endif
+    +
+    +  if (flag == 0)
+    +    return INLINE_SYSCALL (fchmodat, 3, fd, file, mode);
+    +
+    +#ifdef __NR_fchmodat4
+    +  result = INLINE_SYSCALL (fchmodat4, 4, fd, file, mode, flag);
+    +  if (result == 0 || errno != ENOSYS)
+    +    return result;
+    +#endif
+    +
+       if (flag & AT_SYMLINK_NOFOLLOW)
+         return INLINE_SYSCALL_ERROR_RETURN_VALUE (ENOTSUP);
+    -#endif
 
-> > > If we can't trust ns_capable() then why are we passing on
-> > > CAP_AUDIT_CONTROL?  It is being passed down and not stripped purposely
-> > > by the orchestrator/engine.  If ns_capable() isn't inherited how is it
-> > > gained otherwise?  Can it be inserted by cotainer image?  I think the
-> > > answer is "no".  Either we trust ns_capable() or we have audit
-> > > namespaces (recommend based on user namespace) (or both).
-> >
-> > My thinking is that since ns_capable() checks the credentials with
-> > respect to the current user namespace we can't rely on it to control
-> > access since it would be possible for a privileged process running
-> > inside an unprivileged container to manipulate the audit container ID
-> > (containerized process has CAP_AUDIT_CONTROL, e.g. running as root in
-> > the container, while the container itself does not).
->
-> What makes an unprivileged container unprivileged?  "root", or "CAP_*"?
+    -  return INLINE_SYSCALL (fchmodat, 3, fd, file, mode);
+    +  return INLINE_SYSCALL_ERROR_RETURN_VALUE (EINVAL);
+     }
 
-My understanding is that when most people refer to an unprivileged
-container they are referring to a container run without capabilities
-or a container run by a user other than root.  I'm sure there are
-better definitions out there, by folks much smarter than me on these
-things, but that's my working definition.
+I've never added a new syscall before so I'm not really sure what the
+proper procedure to follow is.  Based on the feedback from my v1 patch
+set it seems this is somewhat uncontroversial.  At this point I don't
+think there's anything I'm missing, though note that I haven't gotten
+around to testing it this time because the diff from v1 is trivial for
+any platform I could reasonably test on.  The v1 patches suggest a
+simple test case, but I didn't re-run it because I don't want to reboot
+my laptop.
 
-> If CAP_AUDIT_CONTROL is granted, does "root" matter?
+    $ touch test-file
+    $ ln -s test-file test-link
+    $ cat > test.c
+    #include <fcntl.h>
+    #include <stdio.h>
+    #include <unistd.h>
 
-Our discussions here have been about capabilities, not UIDs.  The only
-reason root might matter is that it generally has the full capability
-set.
+    int main(int argc, char **argv)
+    {
+            long out;
 
-> Does it matter what user namespace it is in?
+            out = syscall(434, AT_FDCWD, "test-file", 0x888, AT_SYMLINK_NOFOLLOW);
+            printf("fchmodat4(AT_FDCWD, \"test-file\", 0x888, AT_SYMLINK_NOFOLLOW): %ld\n", out);
 
-What likely matters is what check is called: capable() or
-ns_capable().  Those can yield very different results.
+            out = syscall(434, AT_FDCWD, "test-file", 0x888, 0);
+            printf("fchmodat4(AT_FDCWD, \"test-file\", 0x888, 0): %ld\n", out);
 
-> I understand that root is *gained* in an
-> unprivileged user namespace, but capabilities are inherited or permitted
-> and that process either has it or it doesn't and an unprivileged user
-> namespace can't gain a capability that has been rescinded.  Different
-> subsystems use the userid or capabilities or both to determine
-> privileges.
+            out = syscall(268, AT_FDCWD, "test-file", 0x888);
+            printf("fchmodat(AT_FDCWD, \"test-file\", 0x888): %ld\n", out);
 
-Once again, I believe the important thing to focus on here is
-capable() vs ns_capable().  We can't safely rely on ns_capable() for
-the audit container ID policy since that is easily met inside the
-container regardless of the process' creds which started the
-container.
+            out = syscall(434, AT_FDCWD, "test-link", 0x888, AT_SYMLINK_NOFOLLOW);
+            printf("fchmodat4(AT_FDCWD, \"test-link\", 0x888, AT_SYMLINK_NOFOLLOW): %ld\n", out);
 
-> In this case, is the userid relevant?
+            out = syscall(434, AT_FDCWD, "test-link", 0x888, 0);
+            printf("fchmodat4(AT_FDCWD, \"test-link\", 0x888, 0): %ld\n", out);
 
-We don't do UID checks, we do capability checks, so yes, the UID is irrelevant.
+            out = syscall(268, AT_FDCWD, "test-link", 0x888);
+            printf("fchmodat(AT_FDCWD, \"test-link\", 0x888): %ld\n", out);
 
-> > > At this point I would say we are at an impasse unless we trust
-> > > ns_capable() or we implement audit namespaces.
-> >
-> > I'm not sure how we can trust ns_capable(), but if you can think of a
-> > way I would love to hear it.  I'm also not sure how namespacing audit
-> > is helpful (see my above comments), but if you think it is please
-> > explain.
->
-> So if we are not namespacing, why do we not trust capabilities?
+            return 0;
+    }
+    $ gcc test.c -o test
+    $ ./test
+    fchmodat4(AT_FDCWD, "test-file", 0x888, AT_SYMLINK_NOFOLLOW): 0
+    fchmodat4(AT_FDCWD, "test-file", 0x888, 0): 0
+    fchmodat(AT_FDCWD, "test-file", 0x888): 0
+    fchmodat4(AT_FDCWD, "test-link", 0x888, AT_SYMLINK_NOFOLLOW): -1
+    fchmodat4(AT_FDCWD, "test-link", 0x888, 0): 0
+    fchmodat(AT_FDCWD, "test-link", 0x888): 0
 
-We can trust capable(CAP_AUDIT_CONTROL) for enforcing audit container
-ID policy, we can not trust ns_capable(CAP_AUDIT_CONTROL).
+I've only built this on 64-bit x86.
 
--- 
-paul moore
-www.paul-moore.com
+Changes since v1 [20190531191204.4044-1-palmer@sifive.com]:
+
+* All architectures are now supported, which support squashed into a
+  single patch.
+* The do_fchmodat() helper function has been removed, in favor of directly
+  calling do_fchmodat4().
+* The patches are based on 5.2 instead of 5.1.
+
