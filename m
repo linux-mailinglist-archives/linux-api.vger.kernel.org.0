@@ -2,149 +2,195 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 080A56BC78
-	for <lists+linux-api@lfdr.de>; Wed, 17 Jul 2019 14:40:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 383426C124
+	for <lists+linux-api@lfdr.de>; Wed, 17 Jul 2019 20:50:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726580AbfGQMkF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 17 Jul 2019 08:40:05 -0400
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:46208 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725873AbfGQMkE (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 17 Jul 2019 08:40:04 -0400
-Received: by mail-qt1-f194.google.com with SMTP id h21so23069400qtn.13;
-        Wed, 17 Jul 2019 05:40:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Q+81HBhn1TUwxu9S0B9qtFUuISibjz0/U9PrqDWTTnk=;
-        b=XcmxneGOy+2RXDL2AYuXAVZJAiyeHolR4ac1SzJQlQzwrwi+HqWSYoPkVqq9Vqmqg1
-         FqUghmpMcUzFuf3FSS4kllx0urGVacAPOsHEEssg1IcCrdVZRwWcHQ0thUX6C1t4cJoL
-         vOVr8CY1w5fJWuX4PjxWH/3qfPYVDkhrsa+FNQHmIYdGekpn15GeZDeuiy9HipKh7sJh
-         AHKocRO3yKYaTZLEjMvmeWDl1D3ocNZt0VWgNuaxapMwQPRA6H6V64dvA6mG81cJSpNL
-         aeJplonp1P4C/Vlc9tUcpxA5HCVp2ra7Vj9yw/aq7skHSfLh4Z2PuuHUmlIKQ9cKj5Od
-         nTqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Q+81HBhn1TUwxu9S0B9qtFUuISibjz0/U9PrqDWTTnk=;
-        b=nePew7iNL2rzy9UMLP4LX5YR99RKvQ9nCGtbuiO8mgZ36CimFI5C7KqlQ57RTC1Pj0
-         SZMppOl8Ec+Tfya1NRLXFK6xfXxS3BXj6TjvST75k6w2l9rEZS51iYX2tJFo3vagU2Qv
-         zIXJtb8ws59Kr0x0V3EloJlI2qy0VL2zx+YGBhd7nJiePxo5tCNn1/oy9HUCwOik1Y6h
-         brKsVJ+EtB9WbX61PAtOkNc5Q/defhjWNfw4Yck4YktI+DxbrbpmvBZ0eozstZjhlJPh
-         phmrLWKZKmVWTN23CWb0Bbkdu4xI9P/ItBYwpyfdRvpVDei18YKlTTEsYXsqvwt2olrv
-         t/tQ==
-X-Gm-Message-State: APjAAAV2Atavfk9+NHMNpEg3rW+OaTvh6TiHcaP7dkQXr4hokv7RxVPr
-        IFXGeph5SSEH/VvinsFYTAk=
-X-Google-Smtp-Source: APXvYqzbfxutvFrMV7t1nPl0gN0Fy5aGVu/YO7Xv3MDir0s1nCKm8BxCu8WphxvR5dCLt5lXuy+aag==
-X-Received: by 2002:aed:33e6:: with SMTP id v93mr27856811qtd.157.1563367202971;
-        Wed, 17 Jul 2019 05:40:02 -0700 (PDT)
-Received: from quaco.ghostprotocols.net ([179.97.35.11])
-        by smtp.gmail.com with ESMTPSA id y67sm11220164qkd.40.2019.07.17.05.40.01
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 17 Jul 2019 05:40:02 -0700 (PDT)
-From:   Arnaldo Carvalho de Melo <arnaldo.melo@gmail.com>
-X-Google-Original-From: Arnaldo Carvalho de Melo <acme@kernel.org>
-Received: by quaco.ghostprotocols.net (Postfix, from userid 1000)
-        id E255440340; Wed, 17 Jul 2019 09:39:59 -0300 (-03)
-Date:   Wed, 17 Jul 2019 09:39:59 -0300
-To:     Palmer Dabbelt <palmer@sifive.com>
-Cc:     viro@zeniv.linux.org.uk, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>, rth@twiddle.net,
-        ink@jurassic.park.msu.ru, mattst88@gmail.com,
-        linux@armlinux.org.uk, catalin.marinas@arm.com, will@kernel.org,
-        tony.luck@intel.com, fenghua.yu@intel.com, geert@linux-m68k.org,
-        monstr@monstr.eu, ralf@linux-mips.org, paul.burton@mips.com,
-        jhogan@kernel.org, James.Bottomley@hansenpartnership.com,
-        deller@gmx.de, benh@kernel.crashing.org, paulus@samba.org,
-        mpe@ellerman.id.au, heiko.carstens@de.ibm.com, gor@linux.ibm.com,
-        borntraeger@de.ibm.com, ysato@users.sourceforge.jp,
-        dalias@libc.org, davem@davemloft.net, luto@kernel.org,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        x86@kernel.org, peterz@infradead.org,
-        alexander.shishkin@linux.intel.com, jolsa@redhat.com,
-        namhyung@kernel.org, dhowells@redhat.com, firoz.khan@linaro.org,
-        stefan@agner.ch, schwidefsky@de.ibm.com, axboe@kernel.dk,
-        christian@brauner.io, hare@suse.com, deepa.kernel@gmail.com,
-        tycho@tycho.ws, kim.phillips@arm.com, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-arch@vger.kernel.org
-Subject: Re: [PATCH v2 4/4] tools: Add fchmodat4
-Message-ID: <20190717123959.GB24063@kernel.org>
-References: <20190717012719.5524-1-palmer@sifive.com>
- <20190717012719.5524-5-palmer@sifive.com>
+        id S1726598AbfGQSuJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 17 Jul 2019 14:50:09 -0400
+Received: from mx2.suse.de ([195.135.220.15]:52750 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725873AbfGQSuJ (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 17 Jul 2019 14:50:09 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 6A023AC10;
+        Wed, 17 Jul 2019 18:50:07 +0000 (UTC)
+Subject: Re: [v2 PATCH 2/2] mm: mempolicy: handle vma with unmovable pages
+ mapped correctly in mbind
+To:     Yang Shi <yang.shi@linux.alibaba.com>, mhocko@kernel.org,
+        mgorman@techsingularity.net, akpm@linux-foundation.org
+Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        Linux API <linux-api@vger.kernel.org>
+References: <1561162809-59140-1-git-send-email-yang.shi@linux.alibaba.com>
+ <1561162809-59140-3-git-send-email-yang.shi@linux.alibaba.com>
+ <0cbc99f6-76a9-7357-efa7-a2d551b3cd12@suse.cz>
+ <9defdc16-c825-05b7-b394-abdf39000220@linux.alibaba.com>
+ <3197a7df-c7bc-2bac-3d40-dbfc97d4a909@linux.alibaba.com>
+From:   Vlastimil Babka <vbabka@suse.cz>
+Openpgp: preference=signencrypt
+Autocrypt: addr=vbabka@suse.cz; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <7be3d36a-19fe-2e3b-8840-27fb5fd60f15@suse.cz>
+Date:   Wed, 17 Jul 2019 20:50:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190717012719.5524-5-palmer@sifive.com>
-X-Url:  http://acmel.wordpress.com
-User-Agent: Mutt/1.12.0 (2019-05-25)
+In-Reply-To: <3197a7df-c7bc-2bac-3d40-dbfc97d4a909@linux.alibaba.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Em Tue, Jul 16, 2019 at 06:27:19PM -0700, Palmer Dabbelt escreveu:
-> I'm not sure why it's necessary to add this explicitly to tools/ as well
-> as arch/, but there were a few instances of fspick in here so I blindly
-> added fchmodat4 in the same fashion.
-
-The copies in tools/ for these specific files are used to generate a
-syscall table used by 'perf trace', and we don't/can't access files
-outside of tools/ to build tools/perf/, so we grab a copy and have
-checks in place to warn perf developers when those copies get out of
-sync.
-
-Its not required that kernel developers update anything in tools, you're
-welcomed to do so if you wish tho.
-
-Thanks,
-
-- Arnaldo
- 
-> Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
-> ---
->  tools/include/uapi/asm-generic/unistd.h           | 4 +++-
->  tools/perf/arch/x86/entry/syscalls/syscall_64.tbl | 1 +
->  2 files changed, 4 insertions(+), 1 deletion(-)
+On 7/17/19 8:23 PM, Yang Shi wrote:
 > 
-> diff --git a/tools/include/uapi/asm-generic/unistd.h b/tools/include/uapi/asm-generic/unistd.h
-> index a87904daf103..36232ea94956 100644
-> --- a/tools/include/uapi/asm-generic/unistd.h
-> +++ b/tools/include/uapi/asm-generic/unistd.h
-> @@ -844,9 +844,11 @@ __SYSCALL(__NR_fsconfig, sys_fsconfig)
->  __SYSCALL(__NR_fsmount, sys_fsmount)
->  #define __NR_fspick 433
->  __SYSCALL(__NR_fspick, sys_fspick)
-> +#define __NR_fchmodat4 434
-> +__SYSCALL(__NR_fchmodat4, sys_fchmodat4)
->  
->  #undef __NR_syscalls
-> -#define __NR_syscalls 434
-> +#define __NR_syscalls 435
->  
->  /*
->   * 32 bit systems traditionally used different
-> diff --git a/tools/perf/arch/x86/entry/syscalls/syscall_64.tbl b/tools/perf/arch/x86/entry/syscalls/syscall_64.tbl
-> index b4e6f9e6204a..b92d5b195e66 100644
-> --- a/tools/perf/arch/x86/entry/syscalls/syscall_64.tbl
-> +++ b/tools/perf/arch/x86/entry/syscalls/syscall_64.tbl
-> @@ -355,6 +355,7 @@
->  431	common	fsconfig		__x64_sys_fsconfig
->  432	common	fsmount			__x64_sys_fsmount
->  433	common	fspick			__x64_sys_fspick
-> +434	common	fchmodat4		__x64_sys_fchmodat4
->  
->  #
->  # x32-specific system call numbers start at 512 to avoid cache impact
-> -- 
-> 2.21.0
+> 
+> On 7/16/19 10:28 AM, Yang Shi wrote:
+>>
+>>
+>> On 7/16/19 5:07 AM, Vlastimil Babka wrote:
+>>> On 6/22/19 2:20 AM, Yang Shi wrote:
+>>>> @@ -969,10 +975,21 @@ static long do_get_mempolicy(int *policy, 
+>>>> nodemask_t *nmask,
+>>>>   /*
+>>>>    * page migration, thp tail pages can be passed.
+>>>>    */
+>>>> -static void migrate_page_add(struct page *page, struct list_head 
+>>>> *pagelist,
+>>>> +static int migrate_page_add(struct page *page, struct list_head 
+>>>> *pagelist,
+>>>>                   unsigned long flags)
+>>>>   {
+>>>>       struct page *head = compound_head(page);
+>>>> +
+>>>> +    /*
+>>>> +     * Non-movable page may reach here.  And, there may be
+>>>> +     * temporaty off LRU pages or non-LRU movable pages.
+>>>> +     * Treat them as unmovable pages since they can't be
+>>>> +     * isolated, so they can't be moved at the moment.  It
+>>>> +     * should return -EIO for this case too.
+>>>> +     */
+>>>> +    if (!PageLRU(head) && (flags & MPOL_MF_STRICT))
+>>>> +        return -EIO;
+>>>> +
+>>> Hm but !PageLRU() is not the only way why queueing for migration can
+>>> fail, as can be seen from the rest of the function. Shouldn't all cases
+>>> be reported?
+>>
+>> Do you mean the shared pages and isolation failed pages? I'm not sure 
+>> whether we should consider these cases break the semantics or not, so 
+>> I leave them as they are. But, strictly speaking they should be 
+>> reported too, at least for the isolation failed page.
 
--- 
+CC'd linux-api, should be done on v3 posting also.
 
-- Arnaldo
+> By reading mbind man page, it says:
+> 
+> If MPOL_MF_MOVE is specified in flags, then the kernel will attempt to 
+> move all the existing pages in the memory range so that they follow the 
+> policy.  Pages that are shared with other processes will not be moved.  
+> If MPOL_MF_STRICT is also specified, then the call fails with the error 
+> EIO if some pages could not be moved.
+
+I don't think this means that for shared pages, -EIO should not be
+reported. I can imagine both interpretations of the paragraph. I guess
+we can be conservative and keep not reporting them, if that was always
+the case - but then perhaps clarify the man page?
+
+> It looks the code already handles shared page correctly, we just need 
+> return -EIO for isolation failed page if MPOL_MF_STRICT is specified.
+> 
+>>
+>> Thanks,
+>> Yang
+>>
+>>>
+>>>>       /*
+>>>>        * Avoid migrating a page that is shared with others.
+>>>>        */
+>>>> @@ -984,6 +1001,8 @@ static void migrate_page_add(struct page *page, 
+>>>> struct list_head *pagelist,
+>>>>                   hpage_nr_pages(head));
+>>>>           }
+>>>>       }
+>>>> +
+>>>> +    return 0;
+>>>>   }
+>>>>     /* page allocation callback for NUMA node migration */
+>>>> @@ -1186,9 +1205,10 @@ static struct page *new_page(struct page 
+>>>> *page, unsigned long start)
+>>>>   }
+>>>>   #else
+>>>>   -static void migrate_page_add(struct page *page, struct list_head 
+>>>> *pagelist,
+>>>> +static int migrate_page_add(struct page *page, struct list_head 
+>>>> *pagelist,
+>>>>                   unsigned long flags)
+>>>>   {
+>>>> +    return -EIO;
+>>>>   }
+>>>>     int do_migrate_pages(struct mm_struct *mm, const nodemask_t *from,
+>>>>
+>>
+> 
+
