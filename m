@@ -2,60 +2,60 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D785A6D51B
-	for <lists+linux-api@lfdr.de>; Thu, 18 Jul 2019 21:47:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C00946D54C
+	for <lists+linux-api@lfdr.de>; Thu, 18 Jul 2019 21:47:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403903AbfGRTpE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 18 Jul 2019 15:45:04 -0400
-Received: from mail-pg1-f202.google.com ([209.85.215.202]:53124 "EHLO
-        mail-pg1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2403850AbfGRTpD (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 18 Jul 2019 15:45:03 -0400
-Received: by mail-pg1-f202.google.com with SMTP id h3so17229363pgc.19
-        for <linux-api@vger.kernel.org>; Thu, 18 Jul 2019 12:45:03 -0700 (PDT)
+        id S2404074AbfGRTqO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 18 Jul 2019 15:46:14 -0400
+Received: from mail-pf1-f202.google.com ([209.85.210.202]:41719 "EHLO
+        mail-pf1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2403924AbfGRTpF (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 18 Jul 2019 15:45:05 -0400
+Received: by mail-pf1-f202.google.com with SMTP id q14so17227921pff.8
+        for <linux-api@vger.kernel.org>; Thu, 18 Jul 2019 12:45:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=/m12V7GtFFETHB33XzQ6fgVMLtCqWgKLhcMJE/WeTig=;
-        b=LX5aIKwFXuP4UXL8ulshAwY566U1sskEr/Wfas2wvpeI6QYdJajJTyuhAbgM8UARfY
-         09XfL9uMfDEMn9Wi/g16tPbfdpDAUqwrXNGw1cMnbrySCuOKHk1c0MQO8sosiRx8M3Td
-         DXZ+PJtuNAm3T4wGi+2RClGgh9IoBWJrf5p8S0ng6uEClG1Sl6R1w1rYkIRV9XCloG5S
-         hTe6/Tfh5i/ac04mQS/nl/vSRtUnT0va6CTFlrxsnDrhH4MZstKIq0qBAXehTtcSbXIH
-         Ru/1FTNhAQayEnoENFc7/u2037ol51D0LhgcV6HWhz6qZQ8N3vAx6bvUFjdEoC7uk5mC
-         AvMQ==
+        bh=1oQBZ5kAfw78ruR17gEno1cNC4m9jAFrzrAqQjxP+4s=;
+        b=bOCM6GL0Ngw8/0ygiEX9zoY9+UeVpwZrC+HYXZNlVCmCNmQeIDTdOr9n5sq3gWDm+B
+         si73WGz9FBMe21fi7q1cgUPVc6UKrNU5czhY45drBnT9fcda2oXVubTUpoYn7CB+THFG
+         NfxtWL3+bwAI+nFPpXR/XYuXylxs0bB6wzi1p59YteoWl4BMGvMhrbg4YA6PkAj+hyO6
+         JfNKoy8V2yjnRaFgKyjufj7DwMls0NaxqdhxPSGfjq1NGKNn9+15BYW4/frcFLB98ZE/
+         XmzoxkPX8bn/kJ30VxkaYuMDwmXXo+IAwglnrNTNcTBgbwGY81zwuHuZBABAhx6R/r1L
+         +KlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=/m12V7GtFFETHB33XzQ6fgVMLtCqWgKLhcMJE/WeTig=;
-        b=cuop9HjXJ6Fb6Vov1AWHrjm9aEPHvLjQXYqUmt2kp4cd1pQwXV7QTuvaNOgxC9n6BL
-         Agn+tYRL1qadKfC9dR6BZM2cCdZN/m/oPojlxvf6flnCLzQFiagqzQs0zLshlL1Trpqs
-         KAMDm0jWWvmpE5Qi2/6s0/SrSnKSyyFp/ubuY7U5ftPCfmuxdoYjgq2Wu9F5Zd8dlODy
-         su14u/VCex1BIWjTv32UohmecGH5jGo/liKaQwcBZjgJmqgqCrX9CDcYmVd2xNMQT0rl
-         bzpOm7h/ivPGj6tHHUGm60hlkOi2XBfWsZ7Y+seeTldm8KRyLp84MaTvzsmBXpZfiFl3
-         jJEQ==
-X-Gm-Message-State: APjAAAUBwKMm5L6zqmD8Ft3Ho+TRTzLBa/j2+pP+FQCgUZmqQ7iZb8Vv
-        cMmucPEghpqG1WWOoffxeGMhdrUMY8bXRSgPuH/GBw==
-X-Google-Smtp-Source: APXvYqweJz/mcSG09wtj4r4l346wIoy6Cn9FG2qUepklV3b0EHI7QNRxVKXSJh3QzyYxMK1q2HyykdXns3r+RSMJvWEmsA==
-X-Received: by 2002:a65:4d4e:: with SMTP id j14mr49019897pgt.50.1563479102392;
- Thu, 18 Jul 2019 12:45:02 -0700 (PDT)
-Date:   Thu, 18 Jul 2019 12:44:03 -0700
+        bh=1oQBZ5kAfw78ruR17gEno1cNC4m9jAFrzrAqQjxP+4s=;
+        b=N7QA0JHIuSm7kPzHSrKJMeGhjBXNQEhpbQ08+N6V/0EyWEHlB/YkzQ1xMDo798L59t
+         I7dSOR134J29UNXAx+zlwAOlGY0esZcSV12/aowg0jC1jtpoiJiGsbrTPce/fbA0xVHt
+         RJv1YCMVc3CgqiFQMIaC2tQlCff1MxFRfIPe1Hb/0GI/WDOUv3rlWAbtkw3MZo2miwnQ
+         9laXcLZjloBQnGARqGA8dW6Cx8CTo45T/Qf9d1qPgOhx1n5TNI2cRrmoTbtKAeHiTl+I
+         D6CDeg4jLKfHJCZXKPLyRW7qsucPfKqPQHU+pGwcxCRov+tMSYxv5MWZ/uZFa1Ln4cXp
+         tI0Q==
+X-Gm-Message-State: APjAAAUxYWMETMM9qy2ioBuGY6JJC0SlcXAlO4+6lhZr0z3ShI6jV6T0
+        V+olaV6kruxf8s4a50/toCwPP1zxc5ImunIoQt7Cxg==
+X-Google-Smtp-Source: APXvYqxlQfzj0hot9XOlEEvXsk76ZdqvBcPQcFU/XkEmSUECO78P340Mt+UCgz76BE5DH0Pmt8Ux45GcQe6wETMsLvQxOQ==
+X-Received: by 2002:a63:2c8:: with SMTP id 191mr48832875pgc.139.1563479105018;
+ Thu, 18 Jul 2019 12:45:05 -0700 (PDT)
+Date:   Thu, 18 Jul 2019 12:44:04 -0700
 In-Reply-To: <20190718194415.108476-1-matthewgarrett@google.com>
-Message-Id: <20190718194415.108476-18-matthewgarrett@google.com>
+Message-Id: <20190718194415.108476-19-matthewgarrett@google.com>
 Mime-Version: 1.0
 References: <20190718194415.108476-1-matthewgarrett@google.com>
 X-Mailer: git-send-email 2.22.0.510.g264f2c817a-goog
-Subject: [PATCH V36 17/29] Prohibit PCMCIA CIS storage when the kernel is
- locked down
+Subject: [PATCH V36 18/29] Lock down TIOCSSERIAL
 From:   Matthew Garrett <matthewgarrett@google.com>
 To:     jmorris@namei.org
 Cc:     linux-security-module@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
         David Howells <dhowells@redhat.com>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Matthew Garrett <mjg59@google.com>,
-        Kees Cook <keescook@chromium.org>
+        Kees Cook <keescook@chromium.org>,
+        Jiri Slaby <jslaby@suse.com>, linux-serial@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
@@ -64,63 +64,67 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 From: David Howells <dhowells@redhat.com>
 
-Prohibit replacement of the PCMCIA Card Information Structure when the
-kernel is locked down.
+Lock down TIOCSSERIAL as that can be used to change the ioport and irq
+settings on a serial port.  This only appears to be an issue for the serial
+drivers that use the core serial code.  All other drivers seem to either
+ignore attempts to change port/irq or give an error.
 
-Suggested-by: Dominik Brodowski <linux@dominikbrodowski.net>
+Reported-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: David Howells <dhowells@redhat.com>
 Signed-off-by: Matthew Garrett <mjg59@google.com>
 Reviewed-by: Kees Cook <keescook@chromium.org>
+cc: Jiri Slaby <jslaby@suse.com>
+Cc: linux-serial@vger.kernel.org
 ---
- drivers/pcmcia/cistpl.c      | 5 +++++
- include/linux/security.h     | 1 +
- security/lockdown/lockdown.c | 1 +
+ drivers/tty/serial/serial_core.c | 5 +++++
+ include/linux/security.h         | 1 +
+ security/lockdown/lockdown.c     | 1 +
  3 files changed, 7 insertions(+)
 
-diff --git a/drivers/pcmcia/cistpl.c b/drivers/pcmcia/cistpl.c
-index abd029945cc8..629359fe3513 100644
---- a/drivers/pcmcia/cistpl.c
-+++ b/drivers/pcmcia/cistpl.c
-@@ -21,6 +21,7 @@
- #include <linux/pci.h>
- #include <linux/ioport.h>
- #include <linux/io.h>
+diff --git a/drivers/tty/serial/serial_core.c b/drivers/tty/serial/serial_core.c
+index 4223cb496764..6e713be1d4e9 100644
+--- a/drivers/tty/serial/serial_core.c
++++ b/drivers/tty/serial/serial_core.c
+@@ -22,6 +22,7 @@
+ #include <linux/serial_core.h>
+ #include <linux/delay.h>
+ #include <linux/mutex.h>
 +#include <linux/security.h>
- #include <asm/byteorder.h>
- #include <asm/unaligned.h>
  
-@@ -1575,6 +1576,10 @@ static ssize_t pccard_store_cis(struct file *filp, struct kobject *kobj,
- 	struct pcmcia_socket *s;
- 	int error;
+ #include <linux/irq.h>
+ #include <linux/uaccess.h>
+@@ -862,6 +863,10 @@ static int uart_set_info(struct tty_struct *tty, struct tty_port *port,
+ 		goto check_and_exit;
+ 	}
  
-+	error = security_locked_down(LOCKDOWN_PCMCIA_CIS);
-+	if (error)
-+		return error;
++	retval = security_locked_down(LOCKDOWN_TIOCSSERIAL);
++	if (retval && (change_irq || change_port))
++		goto exit;
 +
- 	s = to_socket(container_of(kobj, struct device, kobj));
- 
- 	if (off)
+ 	/*
+ 	 * Ask the low level driver to verify the settings.
+ 	 */
 diff --git a/include/linux/security.h b/include/linux/security.h
-index 1c32522b3c5a..3773ad09b831 100644
+index 3773ad09b831..8f7048395114 100644
 --- a/include/linux/security.h
 +++ b/include/linux/security.h
-@@ -111,6 +111,7 @@ enum lockdown_reason {
- 	LOCKDOWN_IOPORT,
+@@ -112,6 +112,7 @@ enum lockdown_reason {
  	LOCKDOWN_MSR,
  	LOCKDOWN_ACPI_TABLES,
-+	LOCKDOWN_PCMCIA_CIS,
+ 	LOCKDOWN_PCMCIA_CIS,
++	LOCKDOWN_TIOCSSERIAL,
  	LOCKDOWN_INTEGRITY_MAX,
  	LOCKDOWN_CONFIDENTIALITY_MAX,
  };
 diff --git a/security/lockdown/lockdown.c b/security/lockdown/lockdown.c
-index ecb51b1a5c03..22482e1b9a77 100644
+index 22482e1b9a77..00a3a6438dd2 100644
 --- a/security/lockdown/lockdown.c
 +++ b/security/lockdown/lockdown.c
-@@ -26,6 +26,7 @@ static char *lockdown_reasons[LOCKDOWN_CONFIDENTIALITY_MAX+1] = {
- 	[LOCKDOWN_IOPORT] = "raw io port access",
+@@ -27,6 +27,7 @@ static char *lockdown_reasons[LOCKDOWN_CONFIDENTIALITY_MAX+1] = {
  	[LOCKDOWN_MSR] = "raw MSR access",
  	[LOCKDOWN_ACPI_TABLES] = "modifying ACPI tables",
-+	[LOCKDOWN_PCMCIA_CIS] = "direct PCMCIA CIS storage",
+ 	[LOCKDOWN_PCMCIA_CIS] = "direct PCMCIA CIS storage",
++	[LOCKDOWN_TIOCSSERIAL] = "reconfiguration of serial port IO",
  	[LOCKDOWN_INTEGRITY_MAX] = "integrity",
  	[LOCKDOWN_CONFIDENTIALITY_MAX] = "confidentiality",
  };
