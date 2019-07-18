@@ -2,44 +2,66 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 38CBE6C6B2
-	for <lists+linux-api@lfdr.de>; Thu, 18 Jul 2019 05:18:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 560656D042
+	for <lists+linux-api@lfdr.de>; Thu, 18 Jul 2019 16:48:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391936AbfGRDSb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 17 Jul 2019 23:18:31 -0400
-Received: from mx1.mailbox.org ([80.241.60.212]:39012 "EHLO mx1.mailbox.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389508AbfGRDSa (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 17 Jul 2019 23:18:30 -0400
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [80.241.60.241])
-        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
-        (No client certificate requested)
-        by mx1.mailbox.org (Postfix) with ESMTPS id F35D54FE71;
-        Thu, 18 Jul 2019 05:18:23 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp2.mailbox.org ([80.241.60.241])
-        by hefe.heinlein-support.de (hefe.heinlein-support.de [91.198.250.172]) (amavisd-new, port 10030)
-        with ESMTP id nZ38r1RPFd3K; Thu, 18 Jul 2019 05:18:14 +0200 (CEST)
-Date:   Thu, 18 Jul 2019 13:17:29 +1000
-From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     Al Viro <viro@zeniv.linux.org.uk>
-Cc:     Jeff Layton <jlayton@kernel.org>,
+        id S1727767AbfGROsT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 18 Jul 2019 10:48:19 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:33816 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390624AbfGROsS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 18 Jul 2019 10:48:18 -0400
+Received: by mail-lj1-f196.google.com with SMTP id p17so27655165ljg.1
+        for <linux-api@vger.kernel.org>; Thu, 18 Jul 2019 07:48:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rasmusvillemoes.dk; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=qOzcTnaZtrCxVZ+wrCV9j1v3ZSJaRvDDDE3Ip4m8PX4=;
+        b=BvozhdyNjQm5IKs1TT9YoWn3Ui6wySHrveALu6p1t7AtDp7QFxBLfHh88f5ww+lLJn
+         uwy3k971xxqR/HSbz4pAOIhSLMVdxGZ//qhiRBmEGbP5iSimOi3DrF8NmakZGMPtS2dX
+         7klk9Axk//12MJN1Z1lHBXwZgwDxdfLj6taYs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=qOzcTnaZtrCxVZ+wrCV9j1v3ZSJaRvDDDE3Ip4m8PX4=;
+        b=bl1bMvTylTvMg0kKRNy4a+XV51dtI6VxWxVkgkE88GjHVDG+yGluEJEjPN2csXiCAu
+         U4MQkX4tm/DwsGtzAN55oeFHr6cbHtpNttFopjq1NG5OxVKdXKPSeCYypiVnm3u6svwa
+         wwtMdzYIQgXavJzPDVesqZBY97gvGuL6r6GECOO4LdWHhVIbTUxPIR0FUAD/BXKE1PNp
+         kMDfCTEBk/Hd8W16BAlOLIB4qZckPJ7gDeV0iAXxGTTzon1S27adUxKV8rIFz9ZHtjVS
+         j7VAzFwo5+e6lHIdGN3Uss4ItrXX7Nhu/Bv1R8Q1h89wS1gkL9HdgMbPwW5Jcu0h/6Ef
+         TMOA==
+X-Gm-Message-State: APjAAAUtdklsYrOA2TEB7xzNwfO8sa5r1HGQS3w0ATNRErrO2M1bQKtd
+        EssfHODJk9uD9CvTR0zR9jc=
+X-Google-Smtp-Source: APXvYqxmTPpUAHG/iv/MbFly8EXHSdBuBHGZ2qYmzwo/cj6avvxhzmR7eZRDDVHxMRGQ2XfudRkVGQ==
+X-Received: by 2002:a05:651c:d1:: with SMTP id 17mr24822389ljr.174.1563461295757;
+        Thu, 18 Jul 2019 07:48:15 -0700 (PDT)
+Received: from [172.16.11.28] ([81.216.59.226])
+        by smtp.gmail.com with ESMTPSA id t4sm5672901ljh.9.2019.07.18.07.48.13
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 18 Jul 2019 07:48:15 -0700 (PDT)
+Subject: Re: [PATCH v9 08/10] open: openat2(2) syscall
+To:     Aleksa Sarai <cyphar@cyphar.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Jeff Layton <jlayton@kernel.org>,
         "J. Bruce Fields" <bfields@fieldses.org>,
         Arnd Bergmann <arnd@arndb.de>,
         David Howells <dhowells@redhat.com>,
         Shuah Khan <shuah@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Christian Brauner <christian@brauner.io>,
-        David Drysdale <drysdale@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
+        Shuah Khan <skhan@linuxfoundation.org>
+Cc:     Christian Brauner <christian@brauner.io>,
         Eric Biederman <ebiederm@xmission.com>,
+        Andy Lutomirski <luto@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Alexei Starovoitov <ast@kernel.org>,
         Kees Cook <keescook@chromium.org>,
         Jann Horn <jannh@google.com>, Tycho Andersen <tycho@tycho.ws>,
+        David Drysdale <drysdale@google.com>,
         Chanho Min <chanho.min@lge.com>,
         Oleg Nesterov <oleg@redhat.com>, Aleksa Sarai <asarai@suse.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         containers@lists.linux-foundation.org, linux-alpha@vger.kernel.org,
         linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
@@ -49,87 +71,108 @@ Cc:     Jeff Layton <jlayton@kernel.org>,
         linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
         linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
         linux-xtensa@linux-xtensa.org, sparclinux@vger.kernel.org
-Subject: Re: [PATCH v9 05/10] namei: O_BENEATH-style path resolution flags
-Message-ID: <20190718031729.scehpjydhuxgxqjy@yavin>
-References: <20190706145737.5299-6-cyphar@cyphar.com>
- <20190712043341.GI17978@ZenIV.linux.org.uk>
- <20190712105745.nruaftgeat6irhzr@yavin>
- <20190712123924.GK17978@ZenIV.linux.org.uk>
- <20190712125552.GL17978@ZenIV.linux.org.uk>
- <20190712132553.GN17978@ZenIV.linux.org.uk>
- <20190712150026.GO17978@ZenIV.linux.org.uk>
- <20190713024153.GA3817@ZenIV.linux.org.uk>
- <20190714070029.m53etvm3y4etidxt@yavin>
- <20190714143623.GR17978@ZenIV.linux.org.uk>
+References: <20190706145737.5299-1-cyphar@cyphar.com>
+ <20190706145737.5299-9-cyphar@cyphar.com>
+From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Message-ID: <845e4364-685f-343b-46fb-c418766dce3e@rasmusvillemoes.dk>
+Date:   Thu, 18 Jul 2019 16:48:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="z4aw3kgjubxi6rqg"
-Content-Disposition: inline
-In-Reply-To: <20190714143623.GR17978@ZenIV.linux.org.uk>
+In-Reply-To: <20190706145737.5299-9-cyphar@cyphar.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On 06/07/2019 16.57, Aleksa Sarai wrote:
+> 
+> --- a/fs/open.c
+> +++ b/fs/open.c
+> @@ -928,24 +928,32 @@ struct file *open_with_fake_path(const struct path *path, int flags,
+>  }
+>  EXPORT_SYMBOL(open_with_fake_path);
+>  
+> -static inline int build_open_flags(int flags, umode_t mode, struct open_flags *op)
+> +static inline int build_open_flags(struct open_how how, struct open_flags *op)
+>  {
 
---z4aw3kgjubxi6rqg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+How does passing such a huge struct by value affect code generation?
+Does gcc actually inline the function (and does it even inline the old
+one given that it's already non-trivial and has more than one caller).
 
-On 2019-07-14, Al Viro <viro@zeniv.linux.org.uk> wrote:
-> On Sun, Jul 14, 2019 at 05:00:29PM +1000, Aleksa Sarai wrote:
-> > The basic property being guaranteed by LOOKUP_IN_ROOT is that it will
-> > not result in resolution of a path component which was not inside the
-> > root of the dirfd tree at some point during resolution (and that all
-> > absolute symlink and ".." resolution will be done relative to the
-> > dirfd). This may smell slightly of chroot(2), because unfortunately it
-> > is a similar concept -- the reason for this is to allow for a more
-> > efficient way to safely resolve paths inside a rootfs than spawning a
-> > separate process to then pass back the fd to the caller.
->=20
-> IDGI...  If attacker can modify your subtree, you have already lost -
-> after all, they can make anything appear inside that tree just before
-> your syscall is made and bring it back out immediately afterwards.
-> And if they can't, what is the race you are trying to protect against?
-> Confused...
+>  	int lookup_flags = 0;
+> -	int acc_mode = ACC_MODE(flags);
+> +	int opath_mask = 0;
+> +	int acc_mode = ACC_MODE(how.flags);
+> +
+> +	if (how.resolve & ~VALID_RESOLVE_FLAGS)
+> +		return -EINVAL;
+> +	if (!(how.flags & (O_PATH | O_CREAT | __O_TMPFILE)) && how.mode != 0)
+> +		return -EINVAL;
+> +	if (memchr_inv(how.reserved, 0, sizeof(how.reserved)))
+> +		return -EINVAL;
 
-I'll be honest, this code mostly exists because Jann Horn said that it
-was necessary in order for this interface to be safe against those kinds
-of attacks. Though, it's also entirely possible I just am
-mis-remembering the attack scenario he described when I posted v1 of
-this series last year.
+How about passing how by const reference, and copy the few fields you
+need to local variables. That would at least simplify this patch by
+eliminating a lot of the
 
-The use-case I need this functionality for (as do other container
-runtimes) is one where you are trying to safely interact with a
-directory tree that is a (malicious) container's root filesystem -- so
-the container won't be able to move the directory tree root, nor can
-they move things outside the rootfs into it (or the reverse). Users
-dealing with FTP, web, or file servers probably have similar
-requirements.
+> -	flags &= VALID_OPEN_FLAGS;
+> +	how.flags &= VALID_OPEN_FLAGS;
+>  
+> -	if (flags & (O_CREAT | __O_TMPFILE))
+> -		op->mode = (mode & S_IALLUGO) | S_IFREG;
+> +	if (how.flags & (O_CREAT | __O_TMPFILE))
+> +		op->mode = (how.mode & S_IALLUGO) | S_IFREG;
 
-There is an obvious race condition if you allow the attacker to move the
-root (I give an example and test-case of it in the last patch in the
-series), and given that it is fairly trivial to defend against I don't
-see the downside in including it? But it's obviously your call -- and
-maybe Jann Horn can explain the reasoning behind this much better than I
-can.
+churn.
 
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-<https://www.cyphar.com/>
+>  
+> diff --git a/include/linux/fcntl.h b/include/linux/fcntl.h
+> index 2868ae6c8fc1..e59917292213 100644
+> --- a/include/linux/fcntl.h
+> +++ b/include/linux/fcntl.h
+> @@ -4,13 +4,26 @@
+>  
+>  #include <uapi/linux/fcntl.h>
+>  
+> -/* list of all valid flags for the open/openat flags argument: */
+> +/* Should open_how.mode be set for older syscalls wrappers? */
+> +#define OPENHOW_MODE(flags, mode) \
+> +	(((flags) | (O_CREAT | __O_TMPFILE)) ? (mode) : 0)
+> +
 
---z4aw3kgjubxi6rqg
-Content-Type: application/pgp-signature; name="signature.asc"
+Typo: (((flags) & (O_CREAT | __O_TMPFILE)) ? (mode) : 0)
 
------BEGIN PGP SIGNATURE-----
+> +/**
+> + * Arguments for how openat2(2) should open the target path. If @extra is zero,
+> + * then openat2(2) is identical to openat(2).
+> + *
+> + * @flags: O_* flags (unknown flags ignored).
+> + * @mode: O_CREAT file mode (ignored otherwise).
 
-iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCXS/kxgAKCRCdlLljIbnQ
-Eo0/AQD7a5jDbww9O+NZeirpVja2r3Y2CFcg1rTXSOeRjy321gEAoJhiO3HmSR50
-nG/Ogapy7jTKDSyCcC7BfUZDZSz67go=
-=wzlY
------END PGP SIGNATURE-----
+should probably say "O_CREAT/O_TMPFILE file mode".
 
---z4aw3kgjubxi6rqg--
+> + * @upgrade_mask: restrict how the O_PATH may be re-opened (ignored otherwise).
+> + * @resolve: RESOLVE_* flags (-EINVAL on unknown flags).
+> + * @reserved: reserved for future extensions, must be zeroed.
+> + */
+> +struct open_how {
+> +	__u32 flags;
+> +	union {
+> +		__u16 mode;
+> +		__u16 upgrade_mask;
+> +	};
+> +	__u16 resolve;
+
+So mode and upgrade_mask are naturally u16 aka mode_t. And yes, they
+probably never need to be used together, so the union works. That then
+makes the next member 2-byte aligned, so using a u16 for the resolve
+flags brings us to an 8-byte boundary, and 11 unused flag bits should be
+enough for a while. But it seems a bit artificial to cram all this
+together and then add 56 bytes of reserved space.
+
+Rasmus
