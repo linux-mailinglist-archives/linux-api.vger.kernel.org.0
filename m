@@ -2,157 +2,146 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B10CA6D63C
-	for <lists+linux-api@lfdr.de>; Thu, 18 Jul 2019 23:06:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7F916D675
+	for <lists+linux-api@lfdr.de>; Thu, 18 Jul 2019 23:32:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403818AbfGRVGm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 18 Jul 2019 17:06:42 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:37041 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728022AbfGRVGm (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 18 Jul 2019 17:06:42 -0400
-Received: by mail-pg1-f195.google.com with SMTP id i70so2692966pgd.4
-        for <linux-api@vger.kernel.org>; Thu, 18 Jul 2019 14:06:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=WHBYUvj9JGt1SYE4KDr6Cz0xmk9pn3DzGdEMJem8w6M=;
-        b=k0b4SHcyBjdAtwD9RJNFolaMMkMhrDoStFrJRvQsgwkWh2XpUphj4gS5DKLq/llGF/
-         39sE3TzdtW8s123SyMA+Oe3DwQpfkszvS0mpa26giIimqBA+5dr0q/qgm1cEOeI0OK0l
-         OdUaHLgvStngj7WwSLrwbiDOYE07o0VsJCs04=
+        id S2391377AbfGRVaJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 18 Jul 2019 17:30:09 -0400
+Received: from mail-qk1-f196.google.com ([209.85.222.196]:35212 "EHLO
+        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728014AbfGRVaJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 18 Jul 2019 17:30:09 -0400
+Received: by mail-qk1-f196.google.com with SMTP id r21so21732487qke.2;
+        Thu, 18 Jul 2019 14:30:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=WHBYUvj9JGt1SYE4KDr6Cz0xmk9pn3DzGdEMJem8w6M=;
-        b=jtyM+Q7NN0gFhGme6FUp75vYBLPqTtcekjNuTtClB4maw0gI/LPJKClHG1EOAFI5NA
-         0fWad7YDtlVhWM8xJfVKjzNn3+2xFl+vanGcigGXdPA26OvmfM0RQ0riwrNnmzuFRom+
-         VlkxISk9s8E4WQaBkfbDH8lspNE++CjOjr6/vHFR8Boi+Oc4RfVyEr+FJfyd/QiUa2D3
-         rIyD8EVyGA1BDMu2BgFn2ksLdWaMiZst9Ot5k5ziew1beCudEPGubBSwzBUR9GOwwrfA
-         4XP3B/KB7YET7s0DHCfcmu1YDJCSEMLN2MsrgObx3EX2KkMouFKXKMZwvKw8/9XMEnvd
-         Wc/g==
-X-Gm-Message-State: APjAAAVG+X4G75VEDu8FqIy0RODW1AGvCU675KLKvSIfcZ3zwAeuSPe3
-        ncqGgqByedOysF4JczldiJe/oQ==
-X-Google-Smtp-Source: APXvYqyw88KMjZmP2UlNUKCxHokf10xRn72SPzK4naVkut7nVWidBL7H7RX/dBpZIWSSAw8y7+lrjw==
-X-Received: by 2002:a63:eb51:: with SMTP id b17mr48524550pgk.384.1563484001438;
-        Thu, 18 Jul 2019 14:06:41 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id v8sm23845337pgs.82.2019.07.18.14.06.40
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 18 Jul 2019 14:06:40 -0700 (PDT)
-Date:   Thu, 18 Jul 2019 14:06:39 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Matthew Garrett <matthewgarrett@google.com>
-Cc:     jmorris@namei.org, linux-security-module@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        David Howells <dhowells@redhat.com>,
-        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-        Matthew Garrett <mjg59@google.com>, netdev@vger.kernel.org,
-        Chun-Yi Lee <jlee@suse.com>,
-        Daniel Borkmann <daniel@iogearbox.net>
-Subject: Re: [PATCH V36 23/29] bpf: Restrict bpf when kernel lockdown is in
- confidentiality mode
-Message-ID: <201907181406.001618FB6@keescook>
-References: <20190718194415.108476-1-matthewgarrett@google.com>
- <20190718194415.108476-24-matthewgarrett@google.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=gXA3fCzwUc7S8+pRMyyFoXYQ6Lxj2094nm3NP6Me1pg=;
+        b=uCH2vUxrfcr6142uAaV9WcXORBKH/D7E4P4NiRuyJaE8kui154F7hapgGZCVK4V5oV
+         h1KnYS8zB5WGcRW0yhYqz6ThOCVt0oV80LAGfoSFKRtZfNXUcqq4Vkc98WyzSf5MEfhC
+         ChJWDCasnRmyjbS9ZdJ1VIkfY5G1MVa9zaR2pgCczj6oOHsD73sgibeBSKVPZopGXvDM
+         xY7mk5kdPJ2hzmYK77+wvt1X8GlX5DuOJeI7mCZMAvHFwnVsvpfPZ56B86qqTVg8XPES
+         7Uk5MUGfBIJqa4SUJOhaEv7m8ueBN492aEPpsSidYIuqRP6htYAWtO8+oyTfmZ0jeCe8
+         JWVw==
+X-Gm-Message-State: APjAAAVWFgTKNxdz5VJMuDG74/oEsWc7zg83gF05rrI4hZNlp1YwqMUs
+        1xmowdKoxZ9t80vjXWPDDaUz1du0yDU5c5Rfqb8=
+X-Google-Smtp-Source: APXvYqwAnwmqNY3PBxWPuNJix5kLy4PEG765j1QyxyCKOemfTtTG+YSbK8sHn1TSB6/emkF2O/3aVUhdKFw2Cxuzrg4=
+X-Received: by 2002:a37:5f45:: with SMTP id t66mr32747316qkb.286.1563485406992;
+ Thu, 18 Jul 2019 14:30:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190718194415.108476-24-matthewgarrett@google.com>
+References: <20190706145737.5299-1-cyphar@cyphar.com> <20190706145737.5299-9-cyphar@cyphar.com>
+ <CAK8P3a33rGhPDFfRBAQyLTMG_WoEgX_toDgWR2O7rSwxKsZG+w@mail.gmail.com> <20190718161231.xcno272nvqpln3wj@yavin>
+In-Reply-To: <20190718161231.xcno272nvqpln3wj@yavin>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Thu, 18 Jul 2019 23:29:50 +0200
+Message-ID: <CAK8P3a3MiYK4bJiA3G_m5H-TpfN5__--b+=szsJBhG7_it+NQg@mail.gmail.com>
+Subject: Re: [PATCH v9 08/10] open: openat2(2) syscall
+To:     Aleksa Sarai <cyphar@cyphar.com>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J. Bruce Fields" <bfields@fieldses.org>,
+        David Howells <dhowells@redhat.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Christian Brauner <christian@brauner.io>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>, Tycho Andersen <tycho@tycho.ws>,
+        David Drysdale <drysdale@google.com>,
+        Chanho Min <chanho.min@lge.com>,
+        Oleg Nesterov <oleg@redhat.com>, Aleksa Sarai <asarai@suse.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        containers@lists.linux-foundation.org,
+        alpha <linux-alpha@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
+        linux-ia64@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-m68k <linux-m68k@lists.linux-m68k.org>,
+        linux-mips@vger.kernel.org,
+        Parisc List <linux-parisc@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        Linux-sh list <linux-sh@vger.kernel.org>,
+        linux-xtensa@linux-xtensa.org,
+        sparclinux <sparclinux@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jul 18, 2019 at 12:44:09PM -0700, Matthew Garrett wrote:
-> From: David Howells <dhowells@redhat.com>
-> 
-> bpf_read() and bpf_read_str() could potentially be abused to (eg) allow
-> private keys in kernel memory to be leaked. Disable them if the kernel
-> has been locked down in confidentiality mode.
-> 
-> Suggested-by: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-> Signed-off-by: Matthew Garrett <mjg59@google.com>
+On Thu, Jul 18, 2019 at 6:12 PM Aleksa Sarai <cyphar@cyphar.com> wrote:
+> On 2019-07-18, Arnd Bergmann <arnd@arndb.de> wrote:
+> > On Sat, Jul 6, 2019 at 5:00 PM Aleksa Sarai <cyphar@cyphar.com> wrote:
+> >
+> > In fact, that seems similar enough to the existing openat() that I think
+> > you could also just add the fifth argument to the existing call when
+> > a newly defined flag is set, similarly to how we only use the 'mode'
+> > argument when O_CREAT or O_TMPFILE are set.
+>
+> I considered doing this (and even had a preliminary version of it), but
+> I discovered that I was not in favour of this idea -- once I started to
+> write tests using it -- for a few reasons:
+>
+>   1. It doesn't really allow for clean extension for a future 6th
+>          argument (because you are using up O_* flags to signify "use the
+>          next argument", and O_* flags don't give -EINVAL if they're
+>          unknown). Now, yes you can do the on-start runtime check that
+>          everyone does -- but I've never really liked having to do it.
+>
+>          Having reserved padding for later extensions (that is actually
+>          checked and gives -EINVAL) matches more modern syscall designs.
+>
+>   2. I really was hoping that the variadic openat(2) could be done away
+>      using this union setup (Linus said he didn't like it, and suggested
+>          using something like 'struct stat' as an argument for openat(2) --
+>          though personally I am not sure I would personally like to use an
+>          interface like that).
+>
+>   3. In order to avoid wasting a syscall argument for mode/mask you need
+>          to either have something like your suggested mode_mask (which makes
+>          the syscall arguments less consistent) or have some sort of
+>          mode-like argument that is treated specially (which is really awful
+>          on multiple levels -- this one I also tried and even wrote my
+>          original tests using). And in both cases, the shims for
+>          open{,at}(2) are somewhat less clean.
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+These are all good reasons, thanks for providing the background.
 
--Kees
+> All of that being said, I'd be happy to switch to whatever you think
+> makes the most sense. As long as it's possible to get an O_PATH with
+> RESOLVE_IN_ROOT set, I'm happy.
 
-> cc: netdev@vger.kernel.org
-> cc: Chun-Yi Lee <jlee@suse.com>
-> cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-> Cc: Daniel Borkmann <daniel@iogearbox.net>
-> ---
->  include/linux/security.h     |  1 +
->  kernel/trace/bpf_trace.c     | 10 ++++++++++
->  security/lockdown/lockdown.c |  1 +
->  3 files changed, 12 insertions(+)
-> 
-> diff --git a/include/linux/security.h b/include/linux/security.h
-> index 987d8427f091..8dd1741a52cd 100644
-> --- a/include/linux/security.h
-> +++ b/include/linux/security.h
-> @@ -118,6 +118,7 @@ enum lockdown_reason {
->  	LOCKDOWN_INTEGRITY_MAX,
->  	LOCKDOWN_KCORE,
->  	LOCKDOWN_KPROBES,
-> +	LOCKDOWN_BPF_READ,
->  	LOCKDOWN_CONFIDENTIALITY_MAX,
->  };
->  
-> diff --git a/kernel/trace/bpf_trace.c b/kernel/trace/bpf_trace.c
-> index ca1255d14576..492a8bfaae98 100644
-> --- a/kernel/trace/bpf_trace.c
-> +++ b/kernel/trace/bpf_trace.c
-> @@ -142,8 +142,13 @@ BPF_CALL_3(bpf_probe_read, void *, dst, u32, size, const void *, unsafe_ptr)
->  {
->  	int ret;
->  
-> +	ret = security_locked_down(LOCKDOWN_BPF_READ);
-> +	if (ret < 0)
-> +		goto out;
-> +
->  	ret = probe_kernel_read(dst, unsafe_ptr, size);
->  	if (unlikely(ret < 0))
-> +out:
->  		memset(dst, 0, size);
->  
->  	return ret;
-> @@ -569,6 +574,10 @@ BPF_CALL_3(bpf_probe_read_str, void *, dst, u32, size,
->  {
->  	int ret;
->  
-> +	ret = security_locked_down(LOCKDOWN_BPF_READ);
-> +	if (ret < 0)
-> +		goto out;
-> +
->  	/*
->  	 * The strncpy_from_unsafe() call will likely not fill the entire
->  	 * buffer, but that's okay in this circumstance as we're probing
-> @@ -580,6 +589,7 @@ BPF_CALL_3(bpf_probe_read_str, void *, dst, u32, size,
->  	 */
->  	ret = strncpy_from_unsafe(dst, unsafe_ptr, size);
->  	if (unlikely(ret < 0))
-> +out:
->  		memset(dst, 0, size);
->  
->  	return ret;
-> diff --git a/security/lockdown/lockdown.c b/security/lockdown/lockdown.c
-> index 6b123cbf3748..1b89d3e8e54d 100644
-> --- a/security/lockdown/lockdown.c
-> +++ b/security/lockdown/lockdown.c
-> @@ -33,6 +33,7 @@ static char *lockdown_reasons[LOCKDOWN_CONFIDENTIALITY_MAX+1] = {
->  	[LOCKDOWN_INTEGRITY_MAX] = "integrity",
->  	[LOCKDOWN_KCORE] = "/proc/kcore access",
->  	[LOCKDOWN_KPROBES] = "use of kprobes",
-> +	[LOCKDOWN_BPF_READ] = "use of bpf to read kernel RAM",
->  	[LOCKDOWN_CONFIDENTIALITY_MAX] = "confidentiality",
->  };
->  
-> -- 
-> 2.22.0.510.g264f2c817a-goog
-> 
+I don't feel I should be in charge of making the decision. I'd still
+prefer avoiding the indirect argument structure because
 
--- 
-Kees Cook
+4. it's inconsistent with most other syscalls
+
+5. you get the same problem with seccomp and strace that
+   clone3() has -- these and others only track the register
+   arguments by default.
+
+6. copying the structure adds a small overhead compared to
+   passing registers
+
+7. the calling conventions may be inconvenient for  a user space
+   library, so you end up with different prototypes for the low-level
+   syscall and the libc abstraction.
+
+I don't see any of the above seven points as a showstopper
+either way, so I hope someone else has a strong opinion
+and can make the decision easier for you.
+
+In the meantime just keep what you have, so you don't have
+to change it multiple times.
+
+       Arnd
