@@ -2,146 +2,107 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A7F916D675
-	for <lists+linux-api@lfdr.de>; Thu, 18 Jul 2019 23:32:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F9B56D6AB
+	for <lists+linux-api@lfdr.de>; Thu, 18 Jul 2019 23:53:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391377AbfGRVaJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 18 Jul 2019 17:30:09 -0400
-Received: from mail-qk1-f196.google.com ([209.85.222.196]:35212 "EHLO
-        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728014AbfGRVaJ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 18 Jul 2019 17:30:09 -0400
-Received: by mail-qk1-f196.google.com with SMTP id r21so21732487qke.2;
-        Thu, 18 Jul 2019 14:30:07 -0700 (PDT)
+        id S2391326AbfGRVxM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 18 Jul 2019 17:53:12 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:38985 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727780AbfGRVxM (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 18 Jul 2019 17:53:12 -0400
+Received: by mail-lf1-f67.google.com with SMTP id v85so20265740lfa.6
+        for <linux-api@vger.kernel.org>; Thu, 18 Jul 2019 14:53:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=RhzTrt+KngzjicFbTv3vZ6r7DsUfT24hW3ZTH7kCo04=;
+        b=BDDC63AbbksIGaPLCaZ+G2vZ+QlUC0Y4xmaYnnx1w9Sn0c/YSKCOyE3F3bipx/OPNo
+         bY+GCUelVN9YgKRNdiGTQc7e9dxHE8srVeTFP4z3kHDTgyTHdIJxEgeYAGwEg5uRlCR4
+         SJCBe/KsTQXTy1ZbjaHtMM7hkizkZLcw0c9zfxcr0RvysIbU+uTnupNfETlIA5tdojdb
+         eaHLpJsvTbxt6FmfE6Rqf0hRmvzcJp0R71+FTYwBZjMbwYRjqxFe4jlSYdDpAlcz6a+v
+         gHInJ6oZUdBaKuk2fyjd8yd5aDlkZ2MjSHc//o4Z3Oextu3SQoPtQvrnS0hkfu0OOV0b
+         pBqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=gXA3fCzwUc7S8+pRMyyFoXYQ6Lxj2094nm3NP6Me1pg=;
-        b=uCH2vUxrfcr6142uAaV9WcXORBKH/D7E4P4NiRuyJaE8kui154F7hapgGZCVK4V5oV
-         h1KnYS8zB5WGcRW0yhYqz6ThOCVt0oV80LAGfoSFKRtZfNXUcqq4Vkc98WyzSf5MEfhC
-         ChJWDCasnRmyjbS9ZdJ1VIkfY5G1MVa9zaR2pgCczj6oOHsD73sgibeBSKVPZopGXvDM
-         xY7mk5kdPJ2hzmYK77+wvt1X8GlX5DuOJeI7mCZMAvHFwnVsvpfPZ56B86qqTVg8XPES
-         7Uk5MUGfBIJqa4SUJOhaEv7m8ueBN492aEPpsSidYIuqRP6htYAWtO8+oyTfmZ0jeCe8
-         JWVw==
-X-Gm-Message-State: APjAAAVWFgTKNxdz5VJMuDG74/oEsWc7zg83gF05rrI4hZNlp1YwqMUs
-        1xmowdKoxZ9t80vjXWPDDaUz1du0yDU5c5Rfqb8=
-X-Google-Smtp-Source: APXvYqwAnwmqNY3PBxWPuNJix5kLy4PEG765j1QyxyCKOemfTtTG+YSbK8sHn1TSB6/emkF2O/3aVUhdKFw2Cxuzrg4=
-X-Received: by 2002:a37:5f45:: with SMTP id t66mr32747316qkb.286.1563485406992;
- Thu, 18 Jul 2019 14:30:06 -0700 (PDT)
+        bh=RhzTrt+KngzjicFbTv3vZ6r7DsUfT24hW3ZTH7kCo04=;
+        b=p/VX1wTaebdD68VXGUF08Y8JSBe49Wav4c5Go2+XXLRIuD8dNCQf3w1OC8qKLVGkWZ
+         1T64/fM6m7WSQhzOpC3/5CIqu9RUQYK3RNIAbjkuP+fPBy7RQlhQcnhI01Y2iYkVWnaZ
+         cyUDEZzos7GRl+nPKJHpsFknKq8R36omnZizrCMcF3110jPDQcOtTfbHx7DP3hpQOBM9
+         nwyfHYiukH/5g+5HO3fYMNnPh6hHr4en4EbFbkb+r9ur/wsigI4bD8cjNDA0r77HswPw
+         suwX0StToCeOnLR2BASfM+F+bMwP49MVDjay0MFl3oiBUFhEuN9Gm334kMK7O2l+G/R9
+         /j0A==
+X-Gm-Message-State: APjAAAUdiKVay6CSst6I0r7tJY+z8LUdosiNg6hpNJuZ2spqM+caGiza
+        +3GIPe6lEswAyOTbQzSu4AgXiqlZ5zg8HMif4Q==
+X-Google-Smtp-Source: APXvYqyGCCJtInWCDaYi60JZY3NOkc1TuPq3hehijvo4gTpiQWjSYxIYBAQx3HMzGAWPk3gWvXKxriSLAdaQ7algVzQ=
+X-Received: by 2002:a19:8093:: with SMTP id b141mr22767615lfd.137.1563486789899;
+ Thu, 18 Jul 2019 14:53:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190706145737.5299-1-cyphar@cyphar.com> <20190706145737.5299-9-cyphar@cyphar.com>
- <CAK8P3a33rGhPDFfRBAQyLTMG_WoEgX_toDgWR2O7rSwxKsZG+w@mail.gmail.com> <20190718161231.xcno272nvqpln3wj@yavin>
-In-Reply-To: <20190718161231.xcno272nvqpln3wj@yavin>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Thu, 18 Jul 2019 23:29:50 +0200
-Message-ID: <CAK8P3a3MiYK4bJiA3G_m5H-TpfN5__--b+=szsJBhG7_it+NQg@mail.gmail.com>
-Subject: Re: [PATCH v9 08/10] open: openat2(2) syscall
-To:     Aleksa Sarai <cyphar@cyphar.com>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J. Bruce Fields" <bfields@fieldses.org>,
-        David Howells <dhowells@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Christian Brauner <christian@brauner.io>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Tycho Andersen <tycho@tycho.ws>,
-        David Drysdale <drysdale@google.com>,
-        Chanho Min <chanho.min@lge.com>,
-        Oleg Nesterov <oleg@redhat.com>, Aleksa Sarai <asarai@suse.de>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        containers@lists.linux-foundation.org,
-        alpha <linux-alpha@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
-        linux-ia64@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-m68k <linux-m68k@lists.linux-m68k.org>,
-        linux-mips@vger.kernel.org,
-        Parisc List <linux-parisc@vger.kernel.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        linux-xtensa@linux-xtensa.org,
-        sparclinux <sparclinux@vger.kernel.org>
+References: <20190529153427.GB8959@cisco> <CAHC9VhSF3AjErX37+eeusJ7+XRw8yuPsmqBTRwc9EVoRBh_3Tw@mail.gmail.com>
+ <20190529222835.GD8959@cisco> <CAHC9VhRS66VGtug3fq3RTGHDvfGmBJG6yRJ+iMxm3cxnNF-zJw@mail.gmail.com>
+ <20190530170913.GA16722@mail.hallyn.com> <CAHC9VhThLiQzGYRUWmSuVfOC6QCDmA75BDB7Eg7V8HX4x7ymQg@mail.gmail.com>
+ <20190708180558.5bar6ripag3sdadl@madcap2.tricolour.ca> <CAHC9VhRTT7JWqNnynvK04wKerjc-3UJ6R1uPtjCAPVr_tW-7MA@mail.gmail.com>
+ <20190716220320.sotbfqplgdructg7@madcap2.tricolour.ca> <CAHC9VhScHizB2r5q3T5s0P3jkYdvzBPPudDksosYFp_TO7W9-Q@mail.gmail.com>
+ <20190718005145.eshekqfr3navqqiy@madcap2.tricolour.ca>
+In-Reply-To: <20190718005145.eshekqfr3navqqiy@madcap2.tricolour.ca>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Thu, 18 Jul 2019 17:52:58 -0400
+Message-ID: <CAHC9VhTYV02ws3QcezER5cY+Xt+tExcJEO-dumTDx=FXGFh3nw@mail.gmail.com>
+Subject: Re: [PATCH ghak90 V6 02/10] audit: add container id
+To:     Richard Guy Briggs <rgb@redhat.com>
+Cc:     "Serge E. Hallyn" <serge@hallyn.com>,
+        Tycho Andersen <tycho@tycho.ws>,
+        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
+        Linux-Audit Mailing List <linux-audit@redhat.com>,
+        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
+        sgrubb@redhat.com, omosnace@redhat.com, dhowells@redhat.com,
+        simo@redhat.com, Eric Paris <eparis@parisplace.org>,
+        ebiederm@xmission.com, nhorman@tuxdriver.com
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jul 18, 2019 at 6:12 PM Aleksa Sarai <cyphar@cyphar.com> wrote:
-> On 2019-07-18, Arnd Bergmann <arnd@arndb.de> wrote:
-> > On Sat, Jul 6, 2019 at 5:00 PM Aleksa Sarai <cyphar@cyphar.com> wrote:
-> >
-> > In fact, that seems similar enough to the existing openat() that I think
-> > you could also just add the fifth argument to the existing call when
-> > a newly defined flag is set, similarly to how we only use the 'mode'
-> > argument when O_CREAT or O_TMPFILE are set.
+On Wed, Jul 17, 2019 at 8:52 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> On 2019-07-16 19:30, Paul Moore wrote:
+
+...
+
+> > We can trust capable(CAP_AUDIT_CONTROL) for enforcing audit container
+> > ID policy, we can not trust ns_capable(CAP_AUDIT_CONTROL).
 >
-> I considered doing this (and even had a preliminary version of it), but
-> I discovered that I was not in favour of this idea -- once I started to
-> write tests using it -- for a few reasons:
->
->   1. It doesn't really allow for clean extension for a future 6th
->          argument (because you are using up O_* flags to signify "use the
->          next argument", and O_* flags don't give -EINVAL if they're
->          unknown). Now, yes you can do the on-start runtime check that
->          everyone does -- but I've never really liked having to do it.
->
->          Having reserved padding for later extensions (that is actually
->          checked and gives -EINVAL) matches more modern syscall designs.
->
->   2. I really was hoping that the variadic openat(2) could be done away
->      using this union setup (Linus said he didn't like it, and suggested
->          using something like 'struct stat' as an argument for openat(2) --
->          though personally I am not sure I would personally like to use an
->          interface like that).
->
->   3. In order to avoid wasting a syscall argument for mode/mask you need
->          to either have something like your suggested mode_mask (which makes
->          the syscall arguments less consistent) or have some sort of
->          mode-like argument that is treated specially (which is really awful
->          on multiple levels -- this one I also tried and even wrote my
->          original tests using). And in both cases, the shims for
->          open{,at}(2) are somewhat less clean.
+> Ok.  So does a process in a non-init user namespace have two (or more)
+> sets of capabilities stored in creds, one in the init_user_ns, and one
+> in current_user_ns?  Or does it get stripped of all its capabilities in
+> init_user_ns once it has its own set in current_user_ns?  If the former,
+> then we can use capable().  If the latter, we need another mechanism, as
+> you have suggested might be needed.
 
-These are all good reasons, thanks for providing the background.
+Unfortunately I think the problem is that ultimately we need to allow
+any container orchestrator that has been given privileges to manage
+the audit container ID to also grant that privilege to any of the
+child process/containers it manages.  I don't believe we can do that
+with capabilities based on the code I've looked at, and the
+discussions I've had, but if you find a way I would leave to hear it.
 
-> All of that being said, I'd be happy to switch to whatever you think
-> makes the most sense. As long as it's possible to get an O_PATH with
-> RESOLVE_IN_ROOT set, I'm happy.
+> If some random unprivileged user wants to fire up a container
+> orchestrator/engine in his own user namespace, then audit needs to be
+> namespaced.  Can we safely discard this scenario for now?
 
-I don't feel I should be in charge of making the decision. I'd still
-prefer avoiding the indirect argument structure because
+I think the only time we want to allow a container orchestrator to
+manage the audit container ID is if it has been granted that privilege
+by someone who has that privilege already.  In the zero-container, or
+single-level of containers, case this is relatively easy, and we can
+accomplish it using CAP_AUDIT_CONTROL as the privilege.  If we start
+nesting container orchestrators it becomes more complicated as we need
+to be able to support granting and inheriting this privilege in a
+manner; this is why I suggested a new mechanism *may* be necessary.
 
-4. it's inconsistent with most other syscalls
-
-5. you get the same problem with seccomp and strace that
-   clone3() has -- these and others only track the register
-   arguments by default.
-
-6. copying the structure adds a small overhead compared to
-   passing registers
-
-7. the calling conventions may be inconvenient for  a user space
-   library, so you end up with different prototypes for the low-level
-   syscall and the libc abstraction.
-
-I don't see any of the above seven points as a showstopper
-either way, so I hope someone else has a strong opinion
-and can make the decision easier for you.
-
-In the meantime just keep what you have, so you don't have
-to change it multiple times.
-
-       Arnd
+--
+paul moore
+www.paul-moore.com
