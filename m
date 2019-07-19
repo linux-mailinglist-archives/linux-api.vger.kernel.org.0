@@ -2,35 +2,35 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C7F566E88C
-	for <lists+linux-api@lfdr.de>; Fri, 19 Jul 2019 18:18:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DCEF36E890
+	for <lists+linux-api@lfdr.de>; Fri, 19 Jul 2019 18:19:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728507AbfGSQRq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 19 Jul 2019 12:17:46 -0400
-Received: from out30-57.freemail.mail.aliyun.com ([115.124.30.57]:36965 "EHLO
-        out30-57.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728346AbfGSQRq (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 19 Jul 2019 12:17:46 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R511e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04407;MF=yang.shi@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0TXIWw-t_1563553057;
-Received: from US-143344MP.local(mailfrom:yang.shi@linux.alibaba.com fp:SMTPD_---0TXIWw-t_1563553057)
+        id S1727972AbfGSQS4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 19 Jul 2019 12:18:56 -0400
+Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130]:56178 "EHLO
+        out30-130.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727910AbfGSQS4 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 19 Jul 2019 12:18:56 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04420;MF=yang.shi@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0TXIf.k8_1563553123;
+Received: from US-143344MP.local(mailfrom:yang.shi@linux.alibaba.com fp:SMTPD_---0TXIf.k8_1563553123)
           by smtp.aliyun-inc.com(127.0.0.1);
-          Sat, 20 Jul 2019 00:17:39 +0800
-Subject: Re: [v3 PATCH 2/2] mm: mempolicy: handle vma with unmovable pages
- mapped correctly in mbind
+          Sat, 20 Jul 2019 00:18:45 +0800
+Subject: Re: [v3 PATCH 1/2] mm: mempolicy: make the behavior consistent when
+ MPOL_MF_MOVE* and MPOL_MF_STRICT were specified
 To:     Vlastimil Babka <vbabka@suse.cz>, mhocko@kernel.org,
         mgorman@techsingularity.net, akpm@linux-foundation.org
 Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
         linux-api@vger.kernel.org
 References: <1563470274-52126-1-git-send-email-yang.shi@linux.alibaba.com>
- <1563470274-52126-3-git-send-email-yang.shi@linux.alibaba.com>
- <6ba72e56-9f62-36bf-ded7-f337522715d5@suse.cz>
+ <1563470274-52126-2-git-send-email-yang.shi@linux.alibaba.com>
+ <c1e2b48a-972f-3944-bc17-598cb81a6658@suse.cz>
 From:   Yang Shi <yang.shi@linux.alibaba.com>
-Message-ID: <2a753062-a6bd-d767-085a-0bf9847ea067@linux.alibaba.com>
-Date:   Fri, 19 Jul 2019 09:17:35 -0700
+Message-ID: <081eeac9-f7a3-a2e6-480a-9f527f378591@linux.alibaba.com>
+Date:   Fri, 19 Jul 2019 09:18:41 -0700
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
  Gecko/20100101 Thunderbird/52.7.0
 MIME-Version: 1.0
-In-Reply-To: <6ba72e56-9f62-36bf-ded7-f337522715d5@suse.cz>
+In-Reply-To: <c1e2b48a-972f-3944-bc17-598cb81a6658@suse.cz>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
@@ -41,124 +41,120 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 
 
-On 7/19/19 6:01 AM, Vlastimil Babka wrote:
+On 7/19/19 5:48 AM, Vlastimil Babka wrote:
 > On 7/18/19 7:17 PM, Yang Shi wrote:
->> When running syzkaller internally, we ran into the below bug on 4.9.x
->> kernel:
+>> When both MPOL_MF_MOVE* and MPOL_MF_STRICT was specified, mbind() should
+>> try best to migrate misplaced pages, if some of the pages could not be
+>> migrated, then return -EIO.
 >>
->> kernel BUG at mm/huge_memory.c:2124!
->> invalid opcode: 0000 [#1] SMP KASAN
->> Dumping ftrace buffer:
->>     (ftrace buffer empty)
->> Modules linked in:
->> CPU: 0 PID: 1518 Comm: syz-executor107 Not tainted 4.9.168+ #2
->> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 0.5.1 01/01/2011
->> task: ffff880067b34900 task.stack: ffff880068998000
->> RIP: 0010:[<ffffffff81895d6b>]  [<ffffffff81895d6b>] split_huge_page_to_list+0x8fb/0x1030 mm/huge_memory.c:2124
->> RSP: 0018:ffff88006899f980  EFLAGS: 00010286
->> RAX: 0000000000000000 RBX: ffffea00018f1700 RCX: 0000000000000000
->> RDX: 1ffffd400031e2e7 RSI: 0000000000000001 RDI: ffffea00018f1738
->> RBP: ffff88006899f9e8 R08: 0000000000000001 R09: 0000000000000000
->> R10: 0000000000000000 R11: fffffbfff0d8b13e R12: ffffea00018f1400
->> R13: ffffea00018f1400 R14: ffffea00018f1720 R15: ffffea00018f1401
->> FS:  00007fa333996740(0000) GS:ffff88006c600000(0000) knlGS:0000000000000000
->> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->> CR2: 0000000020000040 CR3: 0000000066b9c000 CR4: 00000000000606f0
->> Stack:
->>   0000000000000246 ffff880067b34900 0000000000000000 ffff88007ffdc000
->>   0000000000000000 ffff88006899f9e8 ffffffff812b4015 ffff880064c64e18
->>   ffffea00018f1401 dffffc0000000000 ffffea00018f1700 0000000020ffd000
->> Call Trace:
->>   [<ffffffff818490f1>] split_huge_page include/linux/huge_mm.h:100 [inline]
->>   [<ffffffff818490f1>] queue_pages_pte_range+0x7e1/0x1480 mm/mempolicy.c:538
->>   [<ffffffff817ed0da>] walk_pmd_range mm/pagewalk.c:50 [inline]
->>   [<ffffffff817ed0da>] walk_pud_range mm/pagewalk.c:90 [inline]
->>   [<ffffffff817ed0da>] walk_pgd_range mm/pagewalk.c:116 [inline]
->>   [<ffffffff817ed0da>] __walk_page_range+0x44a/0xdb0 mm/pagewalk.c:208
->>   [<ffffffff817edb94>] walk_page_range+0x154/0x370 mm/pagewalk.c:285
->>   [<ffffffff81844515>] queue_pages_range+0x115/0x150 mm/mempolicy.c:694
->>   [<ffffffff8184f493>] do_mbind mm/mempolicy.c:1241 [inline]
->>   [<ffffffff8184f493>] SYSC_mbind+0x3c3/0x1030 mm/mempolicy.c:1370
->>   [<ffffffff81850146>] SyS_mbind+0x46/0x60 mm/mempolicy.c:1352
->>   [<ffffffff810097e2>] do_syscall_64+0x1d2/0x600 arch/x86/entry/common.c:282
->>   [<ffffffff82ff6f93>] entry_SYSCALL_64_after_swapgs+0x5d/0xdb
->> Code: c7 80 1c 02 00 e8 26 0a 76 01 <0f> 0b 48 c7 c7 40 46 45 84 e8 4c
->> RIP  [<ffffffff81895d6b>] split_huge_page_to_list+0x8fb/0x1030 mm/huge_memory.c:2124
->>   RSP <ffff88006899f980>
+>> There are three different sub-cases:
+>> 1. vma is not migratable
+>> 2. vma is migratable, but there are unmovable pages
+>> 3. vma is migratable, pages are movable, but migrate_pages() fails
+>>
+>> If #1 happens, kernel would just abort immediately, then return -EIO,
+>> after the commit a7f40cfe3b7ada57af9b62fd28430eeb4a7cfcb7 ("mm:
+>> mempolicy: make mbind() return -EIO when MPOL_MF_STRICT is specified").
+>>
+>> If #3 happens, kernel would set policy and migrate pages with best-effort,
+>> but won't rollback the migrated pages and reset the policy back.
+>>
+>> Before that commit, they behaves in the same way.  It'd better to keep
+>> their behavior consistent.  But, rolling back the migrated pages and
+>> resetting the policy back sounds not feasible, so just make #1 behave as
+>> same as #3.
+>>
+>> Userspace will know that not everything was successfully migrated (via
+>> -EIO), and can take whatever steps it deems necessary - attempt rollback,
+>> determine which exact page(s) are violating the policy, etc.
+>>
+>> Make queue_pages_range() return 1 to indicate there are unmovable pages
+>> or vma is not migratable.
+>>
+>> The #2 is not handled correctly in the current kernel, the following
+>> patch will fix it.
+>>
+>> Cc: Vlastimil Babka <vbabka@suse.cz>
+>> Cc: Michal Hocko <mhocko@suse.com>
+>> Cc: Mel Gorman <mgorman@techsingularity.net>
+>> Signed-off-by: Yang Shi <yang.shi@linux.alibaba.com>
+> Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
+>
+> Some nits below (I guess Andrew can incorporate them, no need to resend)
+>
 > ...
 >
->> @@ -532,7 +531,14 @@ static int queue_pages_pte_range(pmd_t *pmd, unsigned long addr,
->>   				has_unmovable |= true;
->>   				break;
->>   			}
->> -			migrate_page_add(page, qp->pagelist, flags);
->> +
->> +			/*
->> +			 * Do not abort immediately since there may be
->> +			 * temporary off LRU pages in the range.  Still
->> +			 * need migrate other LRU pages.
->> +			 */
->> +			if (migrate_page_add(page, qp->pagelist, flags))
->> +				has_unmovable |= true;
-> Also = instead of |=
-
-OK
-
+>> @@ -488,15 +496,15 @@ static int queue_pages_pte_range(pmd_t *pmd, unsigned long addr,
+>>   	struct queue_pages *qp = walk->private;
+>>   	unsigned long flags = qp->flags;
+>>   	int ret;
+>> +	bool has_unmovable = false;
+>>   	pte_t *pte;
+>>   	spinlock_t *ptl;
+>>   
+>>   	ptl = pmd_trans_huge_lock(pmd, vma);
+>>   	if (ptl) {
+>>   		ret = queue_pages_pmd(pmd, ptl, addr, end, walk);
+>> -		if (ret > 0)
+>> -			return 0;
+>> -		else if (ret < 0)
+>> +		/* THP was split, fall through to pte walk */
+>> +		if (ret != 2)
+>>   			return ret;
+> The comment should better go here after the if, as that's where fall through
+> happens.
 >
+>>   	}
+>>   
+>> @@ -519,14 +527,21 @@ static int queue_pages_pte_range(pmd_t *pmd, unsigned long addr,
+>>   		if (!queue_pages_required(page, qp))
+>>   			continue;
+>>   		if (flags & (MPOL_MF_MOVE | MPOL_MF_MOVE_ALL)) {
+>> -			if (!vma_migratable(vma))
+>> +			/* MPOL_MF_STRICT must be specified if we get here */
+>> +			if (!vma_migratable(vma)) {
+>> +				has_unmovable |= true;
+> '|=' is weird, just use '='
+>
+>>   				break;
+>> +			}
+>>   			migrate_page_add(page, qp->pagelist, flags);
 >>   		} else
 >>   			break;
 >>   	}
->> @@ -961,10 +967,21 @@ static long do_get_mempolicy(int *policy, nodemask_t *nmask,
->>   /*
->>    * page migration, thp tail pages can be passed.
->>    */
->> -static void migrate_page_add(struct page *page, struct list_head *pagelist,
->> +static int migrate_page_add(struct page *page, struct list_head *pagelist,
->>   				unsigned long flags)
->>   {
->>   	struct page *head = compound_head(page);
+>>   	pte_unmap_unlock(pte - 1, ptl);
+>>   	cond_resched();
 >> +
->> +	/*
->> +	 * Non-movable page may reach here.  And, there may be
->> +	 * temporary off LRU pages or non-LRU movable pages.
->> +	 * Treat them as unmovable pages since they can't be
->> +	 * isolated, so they can't be moved at the moment.  It
->> +	 * should return -EIO for this case too.
->> +	 */
->> +	if (!PageLRU(head) && (flags & MPOL_MF_STRICT))
->> +		return -EIO;
-> As this test is racy, why not just use the result of isolate_lru_page().
+>> +	if (has_unmovable)
+>> +		return 1;
+>> +
+>>   	return addr != end ? -EIO : 0;
+>>   }
+>>   
+> ...
+>> @@ -1259,11 +1286,12 @@ static long do_mbind(unsigned long start, unsigned long len,
+>>   				putback_movable_pages(&pagelist);
+>>   		}
+>>   
+>> -		if (nr_failed && (flags & MPOL_MF_STRICT))
+>> +		if ((ret > 0) || (nr_failed && (flags & MPOL_MF_STRICT)))
+>>   			err = -EIO;
+>>   	} else
+>>   		putback_movable_pages(&pagelist);
+>>   
+>> +up_out:
+>>   	up_write(&mm->mmap_sem);
+>>    mpol_out:
+> The new label made the wrong identation of this one stand out, so I'd just fix
+> it up while here.
 
-Sounds good to me. Will fix in v4.
+Thanks, will fix all of these. I will resend this patch along with patch 
+2/2 which has to be resent anyway.
 
-Thanks,
 Yang
 
+> Thanks!
 >
->> +
->>   	/*
->>   	 * Avoid migrating a page that is shared with others.
->>   	 */
->> @@ -976,6 +993,8 @@ static void migrate_page_add(struct page *page, struct list_head *pagelist,
->>   				hpage_nr_pages(head));
->>   		}
->>   	}
->> +
->> +	return 0;
->>   }
->>   
->>   /* page allocation callback for NUMA node migration */
->> @@ -1178,9 +1197,10 @@ static struct page *new_page(struct page *page, unsigned long start)
->>   }
->>   #else
->>   
->> -static void migrate_page_add(struct page *page, struct list_head *pagelist,
->> +static int migrate_page_add(struct page *page, struct list_head *pagelist,
->>   				unsigned long flags)
->>   {
->> +	return -EIO;
->>   }
->>   
->>   int do_migrate_pages(struct mm_struct *mm, const nodemask_t *from,
+>>   	mpol_put(new);
 >>
 
