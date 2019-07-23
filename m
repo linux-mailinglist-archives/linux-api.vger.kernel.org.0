@@ -2,185 +2,250 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5690F71B23
-	for <lists+linux-api@lfdr.de>; Tue, 23 Jul 2019 17:11:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D735071DE1
+	for <lists+linux-api@lfdr.de>; Tue, 23 Jul 2019 19:39:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388480AbfGWPLa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 23 Jul 2019 11:11:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58306 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388312AbfGWPLa (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 23 Jul 2019 11:11:30 -0400
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EECF1227BE
-        for <linux-api@vger.kernel.org>; Tue, 23 Jul 2019 15:11:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563894689;
-        bh=7j1bpwOtchxmNmpyJwIt/hzbvJKG5hZjfYmVjkpnc/I=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=rFXu+sTWkD/54l70rzbB+dUx4OauzntmqViEq/zcU2+O2D80EbxIRyrdyerywJBPR
-         GMQvKxx0TIk1MtBG6b+6ZDNsBtjkbPRapdXfPScETmsEK2q2YZ3dEN6eSPfAjq4FJT
-         VHnBzKNRB2zBoAYaJX2rLGp9Ssx4hmHZO0EFuVMY=
-Received: by mail-wr1-f43.google.com with SMTP id n9so18524060wrr.4
-        for <linux-api@vger.kernel.org>; Tue, 23 Jul 2019 08:11:28 -0700 (PDT)
-X-Gm-Message-State: APjAAAWWJNf+1sghjoEAT9WDTSB7eu3ZtQBik0FCyTmXqLX4GNYIGVJG
-        3ARWHYXjibev2YxlR/JQFk/Icbol4DPjnlUEHPgkCg==
-X-Google-Smtp-Source: APXvYqx2W1npMbyvmugkZS82BmvrcI+iJu+ihy6mqs7TXZ2QycMn1wC9RACywYA+kE8/OO3iaRcMH0r6tsUUtWyiHXE=
-X-Received: by 2002:adf:cf02:: with SMTP id o2mr62485122wrj.352.1563894687396;
- Tue, 23 Jul 2019 08:11:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190627201923.2589391-1-songliubraving@fb.com>
- <20190627201923.2589391-2-songliubraving@fb.com> <21894f45-70d8-dfca-8c02-044f776c5e05@kernel.org>
- <3C595328-3ABE-4421-9772-8D41094A4F57@fb.com> <CALCETrWBnH4Q43POU8cQ7YMjb9LioK28FDEQf7aHZbdf1eBZWg@mail.gmail.com>
- <0DE7F23E-9CD2-4F03-82B5-835506B59056@fb.com> <CALCETrWBWbNFJvsTCeUchu3BZJ3SH3dvtXLUB2EhnPrzFfsLNA@mail.gmail.com>
- <201907021115.DCD56BBABB@keescook> <CALCETrXTta26CTtEDnzvtd03-WOGdXcnsAogP8JjLkcj4-mHvg@mail.gmail.com>
- <4A7A225A-6C23-4C0F-9A95-7C6C56B281ED@fb.com>
-In-Reply-To: <4A7A225A-6C23-4C0F-9A95-7C6C56B281ED@fb.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Tue, 23 Jul 2019 08:11:15 -0700
-X-Gmail-Original-Message-ID: <CALCETrX2bMnwC6_t4b_G-hzJSfMPrkK4YKs5ebcecv2LJ0rt3w@mail.gmail.com>
-Message-ID: <CALCETrX2bMnwC6_t4b_G-hzJSfMPrkK4YKs5ebcecv2LJ0rt3w@mail.gmail.com>
-Subject: Re: [PATCH v2 bpf-next 1/4] bpf: unprivileged BPF access via /dev/bpf
-To:     Song Liu <songliubraving@fb.com>
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        "linux-security@vger.kernel.org" <linux-security@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Kernel Team <Kernel-team@fb.com>,
-        Lorenz Bauer <lmb@cloudflare.com>,
-        Jann Horn <jannh@google.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Linux API <linux-api@vger.kernel.org>
+        id S2391122AbfGWRjW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 23 Jul 2019 13:39:22 -0400
+Received: from mail-pf1-f202.google.com ([209.85.210.202]:33025 "EHLO
+        mail-pf1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388568AbfGWRjW (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 23 Jul 2019 13:39:22 -0400
+Received: by mail-pf1-f202.google.com with SMTP id d190so26618066pfa.0
+        for <linux-api@vger.kernel.org>; Tue, 23 Jul 2019 10:39:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=Bhkyr65PWig7V2UMGHCo0cxijfHVoKxbUiv9lGXzUM8=;
+        b=YQcDzV9Q/v7HZAHl3l9BZTP39zZXT6tb36JYGbXnH4hat3gEA/Idtf5+I6WRzqomuS
+         cBOYMbt45BUXXkpn5OJBOSPq9Zr9BNHASbiMuvA4s6LuOvFHEDhSVps3pamd1/YetUh3
+         cj4LcYqIa3i8vW9CwlpoJK3v3GJqhzlrzM6HgcKgmXCdubpqfuSLJCWjFOcKil0VTvo9
+         h2EerRnxNJaACALbTPuolIhZYoqXuojiIIP3e9gq/2jP4oe8dH/SmCaQK2Qny3ymoZSv
+         xJDc2gtyrYAEZ7hoq9QIGdHbkr8uS0/RYWheWMMSMnTZvsOpllLFA3W/EM0LoV1s3VKG
+         vWSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=Bhkyr65PWig7V2UMGHCo0cxijfHVoKxbUiv9lGXzUM8=;
+        b=ZC4UvlpWNhuqBuhXwwh0GNMfLur2v9uuA3fBKopS08OQCk7Lo1/x/um6H5mhftgPKF
+         OFQy5JtJxMIYdR3kjHDiLZQtjO+PIvstE/YGVOW8wFktDVV5pXfzzP3GH/s/2eeuHeEL
+         0CVW0VsWmD24rvntVtRL+YW2f7iYw9z2HoCdWO4vAyxl2X1qzfUdTE1cAE6KOxE7mccX
+         3/sKZ0CNAnaN5rIVK1JrGkH2N4zeds0qjhlHH1qoXnoXlKTUAt+qg1CWCCXWDP3zS4Wu
+         /2NtLScNXijGkcWV1O/8nvmxGxU99r0zGUbLMaEHSS98Yzk98evIsetWjk3tXSRo9Rva
+         VFEQ==
+X-Gm-Message-State: APjAAAXvEKw/CJY2EbpEGfHiLcKhenk+QS/p//rF5fmjZ97oADpDa1BU
+        oKQsDSanWFdEU0DHkeoca2+DdnFINkU=
+X-Google-Smtp-Source: APXvYqxCEUS0ay+6fyizL+W6c9ubqvMx5B72zDA5GEggCuUSf1pzL7kzFyZyu3VIPP8mD85/TMpJvspZihQ=
+X-Received: by 2002:a63:6f41:: with SMTP id k62mr31630681pgc.32.1563903561143;
+ Tue, 23 Jul 2019 10:39:21 -0700 (PDT)
+Date:   Tue, 23 Jul 2019 10:39:07 -0700
+Message-Id: <20190723173907.196488-1-surenb@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.22.0.657.g960e92d24f-goog
+Subject: [PATCH 1/1] tests: add pidfd poll tests
+From:   Suren Baghdasaryan <surenb@google.com>
+To:     surenb@google.com
+Cc:     christian@brauner.io, arnd@arndb.de, ebiederm@xmission.com,
+        keescook@chromium.org, joel@joelfernandes.org, dancol@google.com,
+        tglx@linutronix.de, jannh@google.com, dhowells@redhat.com,
+        mtk.manpages@gmail.com, luto@kernel.org, akpm@linux-foundation.org,
+        oleg@redhat.com, cyphar@cyphar.com, torvalds@linux-foundation.org,
+        viro@zeniv.linux.org.uk, linux-api@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, kernel-team@android.com
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jul 22, 2019 at 1:54 PM Song Liu <songliubraving@fb.com> wrote:
->
-> Hi Andy, Lorenz, and all,
->
-> > On Jul 2, 2019, at 2:32 PM, Andy Lutomirski <luto@kernel.org> wrote:
-> >
-> > On Tue, Jul 2, 2019 at 2:04 PM Kees Cook <keescook@chromium.org> wrote:
-> >>
-> >> On Mon, Jul 01, 2019 at 06:59:13PM -0700, Andy Lutomirski wrote:
-> >>> I think I'm understanding your motivation.  You're not trying to make
-> >>> bpf() generically usable without privilege -- you're trying to create
-> >>> a way to allow certain users to access dangerous bpf functionality
-> >>> within some limits.
-> >>>
-> >>> That's a perfectly fine goal, but I think you're reinventing the
-> >>> wheel, and the wheel you're reinventing is quite complicated and
-> >>> already exists.  I think you should teach bpftool to be secure when
-> >>> installed setuid root or with fscaps enabled and put your policy in
-> >>> bpftool.  If you want to harden this a little bit, it would seem
-> >>> entirely reasonable to add a new CAP_BPF_ADMIN and change some, but
-> >>> not all, of the capable() checks to check CAP_BPF_ADMIN instead of the
-> >>> capabilities that they currently check.
-> >>
-> >> If finer grained controls are wanted, it does seem like the /dev/bpf
-> >> path makes the most sense. open, request abilities, use fd. The open can
-> >> be mediated by DAC and LSM. The request can be mediated by LSM. This
-> >> provides a way to add policy at the LSM level and at the tool level.
-> >> (i.e. For tool-level controls: leave LSM wide open, make /dev/bpf owned
-> >> by "bpfadmin" and bpftool becomes setuid "bpfadmin". For fine-grained
-> >> controls, leave /dev/bpf wide open and add policy to SELinux, etc.)
-> >>
-> >> With only a new CAP, you don't get the fine-grained controls. (The
-> >> "request abilities" part is the key there.)
-> >
-> > Sure you do: the effective set.  It has somewhat bizarre defaults, but
-> > I don't think that's a real problem.  Also, this wouldn't be like
-> > CAP_DAC_READ_SEARCH -- you can't accidentally use your BPF caps.
-> >
-> > I think that a /dev capability-like object isn't totally nuts, but I
-> > think we should do it well, and this patch doesn't really achieve
-> > that.  But I don't think bpf wants fine-grained controls like this at
-> > all -- as I pointed upthread, a fine-grained solution really wants
-> > different treatment for the different capable() checks, and a bunch of
-> > them won't resemble capabilities or /dev/bpf at all.
->
-> With 5.3-rc1 out, I am back on this. :)
->
-> How about we modify the set as:
->   1. Introduce sys_bpf_with_cap() that takes fd of /dev/bpf.
+This adds testing for polling on pidfd of a process being killed. Test runs
+10000 iterations by default to stress test pidfd polling functionality.
+It accepts an optional command-line parameter to override the number or
+iterations to run.
+Specifically, it tests for:
+- pidfd_open on a child process succeeds
+- pidfd_send_signal on a child process succeeds
+- polling on pidfd succeeds and returns exactly one event
+- returned event is POLLIN
+- event is received within 3 secs of the process being killed
 
-I'm fine with this in principle, but:
+10000 iterations was chosen because of the race condition being tested
+which is not consistently reproducible but usually is revealed after less
+than 2000 iterations.
+Reveals race fixed by commit b191d6491be6 ("pidfd: fix a poll race when setting exit_state")
 
->   2. Better handling of capable() calls through bpf code. I guess the
->      biggest problem here is is_priv in verifier.c:bpf_check().
+Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+---
+ tools/testing/selftests/pidfd/.gitignore      |   1 +
+ tools/testing/selftests/pidfd/Makefile        |   2 +-
+ .../testing/selftests/pidfd/pidfd_poll_test.c | 137 ++++++++++++++++++
+ 3 files changed, 139 insertions(+), 1 deletion(-)
+ create mode 100644 tools/testing/selftests/pidfd/pidfd_poll_test.c
 
-I think it would be good to understand exactly what /dev/bpf will
-enable one to do.  Without some care, it would just become the next
-CAP_SYS_ADMIN: if you can open it, sure, you're not root, but you can
-intercept network traffic, modify cgroup behavior, and do plenty of
-other things, any of which can probably be used to completely take
-over the system.
+diff --git a/tools/testing/selftests/pidfd/.gitignore b/tools/testing/selftests/pidfd/.gitignore
+index 16d84d117bc0..a67896347d34 100644
+--- a/tools/testing/selftests/pidfd/.gitignore
++++ b/tools/testing/selftests/pidfd/.gitignore
+@@ -1,2 +1,3 @@
+ pidfd_open_test
++pidfd_poll_test
+ pidfd_test
+diff --git a/tools/testing/selftests/pidfd/Makefile b/tools/testing/selftests/pidfd/Makefile
+index 720b2d884b3c..ed58b7108d18 100644
+--- a/tools/testing/selftests/pidfd/Makefile
++++ b/tools/testing/selftests/pidfd/Makefile
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ CFLAGS += -g -I../../../../usr/include/ -lpthread
+ 
+-TEST_GEN_PROGS := pidfd_test pidfd_open_test
++TEST_GEN_PROGS := pidfd_test pidfd_open_test pidfd_poll_test
+ 
+ include ../lib.mk
+ 
+diff --git a/tools/testing/selftests/pidfd/pidfd_poll_test.c b/tools/testing/selftests/pidfd/pidfd_poll_test.c
+new file mode 100644
+index 000000000000..f2934aa070ae
+--- /dev/null
++++ b/tools/testing/selftests/pidfd/pidfd_poll_test.c
+@@ -0,0 +1,137 @@
++// SPDX-License-Identifier: GPL-2.0
++
++#define _GNU_SOURCE
++#include <errno.h>
++#include <linux/types.h>
++#include <linux/wait.h>
++#include <poll.h>
++#include <signal.h>
++#include <stdbool.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <syscall.h>
++#include <sys/wait.h>
++#include <unistd.h>
++
++#include "pidfd.h"
++#include "../kselftest.h"
++
++#define __NR_pidfd_send_signal 424
++#define __NR_pidfd_open 434
++
++static inline int sys_pidfd_open(pid_t pid, unsigned int flags)
++{
++	return syscall(__NR_pidfd_open, pid, flags);
++}
++
++static inline int sys_pidfd_send_signal(int pidfd, int sig, siginfo_t *info,
++					unsigned int flags)
++{
++	return syscall(__NR_pidfd_send_signal, pidfd, sig, info, flags);
++}
++
++static bool timeout;
++
++static void handle_alarm(int sig)
++{
++	timeout = true;
++}
++
++int main(int argc, char **argv)
++{
++	int ret = 1;
++	int pidfd = -1;
++	struct pollfd fds;
++	int iter, nevents;
++	int nr_iterations = 10000;
++
++	fds.events = POLLIN;
++	if (argc > 1) {
++		nr_iterations = atoi(argv[1]);
++		if (!nr_iterations) {
++			ksft_test_result_fail("invalid input parameter %s\n",
++				argv[1]);
++			return ksft_exit_fail();
++		}
++	}
++
++	ksft_print_msg("running pidfd poll test for %d iterations\n",
++		nr_iterations);
++
++	for (iter = 0; iter < nr_iterations; iter++) {
++		int child_pid = fork();
++
++		if (!child_pid) {
++			/* Child process just sleeps for a min */
++			sleep(60);
++			exit(0);
++		}
++
++		/* Parent kills the child and waits for its death */
++		if (child_pid < 0) {
++			if (errno == EAGAIN) {
++				iter--;
++				continue;
++			}
++			ksft_print_msg("%s - failed to fork a child process\n",
++				strerror(errno));
++		}
++		pidfd = sys_pidfd_open(child_pid, 0);
++		if (pidfd < 0) {
++			ksft_print_msg("%s - pidfd_open failed\n",
++				strerror(errno));
++			goto on_error;
++		}
++		/* Setup 3 sec alarm - plenty of time */
++		if (signal(SIGALRM, handle_alarm) == SIG_ERR) {
++			ksft_print_msg("%s - signal failed\n",
++				strerror(errno));
++			goto on_error;
++		}
++		alarm(3);
++		/* Send SIGKILL to the child */
++		if (sys_pidfd_send_signal(pidfd, SIGKILL, NULL, 0)) {
++			ksft_print_msg("%s - pidfd_send_signal failed\n",
++				strerror(errno));
++			goto on_error;
++		}
++		/* Wait for the death notification */
++		fds.fd = pidfd;
++		nevents = poll(&fds, 1, -1);
++		if (nevents < 0) {
++			ksft_print_msg("%s - poll failed\n",
++				strerror(errno));
++			goto on_error;
++		}
++		if (nevents != 1) {
++			ksft_print_msg("unexpected poll result: %d\n",
++				nevents);
++			goto on_error;
++		}
++		if (!(fds.revents & POLLIN)) {
++			ksft_print_msg(
++				"unexpected event type received: 0x%x\n",
++				fds.revents);
++			goto on_error;
++		}
++		if (timeout) {
++			ksft_print_msg("death notification wait timeout\n");
++			goto on_error;
++		}
++		close(pidfd);
++	}
++	ret = 0;
++
++on_error:
++	if (pidfd)
++		close(pidfd);
++
++	if (ret) {
++		ksft_test_result_fail("failed after %d retries\n", iter);
++		return ksft_exit_fail();
++	}
++
++	ksft_test_result_pass("pidfd poll test: pass\n");
++	return ksft_exit_pass();
++}
+-- 
+2.22.0.657.g960e92d24f-goog
 
-It would also be nice to understand why you can't do what you need to
-do entirely in user code using setuid or fscaps.
-
-Finally, at risk of rehashing some old arguments, I'll point out that
-the bpf() syscall is an unusual design to begin with.  As an example,
-consider bpf_prog_attach().  Outside of bpf(), if I want to change the
-behavior of a cgroup, I would write to a file in
-/sys/kernel/cgroup/unified/whatever/, and normal DAC and MAC rules
-apply.  With bpf(), however, I just call bpf() to attach a program to
-the cgroup.  bpf() says "oh, you are capable(CAP_NET_ADMIN) -- go for
-it!".  Unless I missed something major, and I just re-read the code,
-there is no check that the caller has write or LSM permission to
-anything at all in cgroupfs, and the existing API would make it very
-awkward to impose any kind of DAC rules here.
-
-So I think it might actually be time to repay some techincal debt and
-come up with a real fix.  As a less intrusive approach, you could see
-about requiring ownership of the cgroup directory instead of
-CAP_NET_ADMIN.  As a more intrusive but perhaps better approach, you
-could invert the logic to to make it work like everything outside of
-cgroup: add pseudo-files like bpf.inet_ingress to the cgroup
-directories, and require a writable fd to *that* to a new improved
-attach API.  If a user could do:
-
-int fd = open("/sys/fs/cgroup/.../bpf.inet_attach", O_RDWR);  /* usual
-DAC and MAC policy applies */
-int bpf_fd = setup the bpf stuff;  /* no privilege required, unless
-the program is huge or needs is_priv */
-bpf(BPF_IMPROVED_ATTACH, target = fd, program = bpf_fd);
-
-there would be no capabilities or global privilege at all required for
-this.  It would just work with cgroup delegation, containers, etc.
-
-I think you could even pull off this type of API change with only
-libbpf changes.  In particular, there's this code:
-
-int bpf_prog_attach(int prog_fd, int target_fd, enum bpf_attach_type type,
-                    unsigned int flags)
-{
-        union bpf_attr attr;
-
-        memset(&attr, 0, sizeof(attr));
-        attr.target_fd     = target_fd;
-        attr.attach_bpf_fd = prog_fd;
-        attr.attach_type   = type;
-        attr.attach_flags  = flags;
-
-        return sys_bpf(BPF_PROG_ATTACH, &attr, sizeof(attr));
-}
-
-This would instead do something like:
-
-int specific_target_fd = openat(target_fd, bpf_type_to_target[type], O_RDWR);
-attr.target_fd = specific_target_fd;
-...
-
-return sys_bpf(BPF_PROG_IMPROVED_ATTACH, &attr, sizeof(attr));
-
-Would this solve your problem without needing /dev/bpf at all?
-
---Andy
