@@ -2,147 +2,185 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 031BF71A78
-	for <lists+linux-api@lfdr.de>; Tue, 23 Jul 2019 16:35:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5690F71B23
+	for <lists+linux-api@lfdr.de>; Tue, 23 Jul 2019 17:11:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732803AbfGWOfA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 23 Jul 2019 10:35:00 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:38861 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728318AbfGWOe7 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 23 Jul 2019 10:34:59 -0400
-Received: by mail-pg1-f196.google.com with SMTP id f5so10710267pgu.5
-        for <linux-api@vger.kernel.org>; Tue, 23 Jul 2019 07:34:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=11EGKG6b5hoi9YzMa3B9zcamZozuOz9TYFdeDHSi/VQ=;
-        b=WLqofMgKgwX+GBBcQ17R0iUnyDTfMjIuZc7IpLN2ckGPX+hUVUkkKoMZj9FhwUiZKT
-         AdminwPznOb1OAPsVPVbdpz5CvE0xheQ+a2Fa7GnwReA17UPZf46ynImqYVTMnImoysB
-         TvEXipsHmJVKm9XkI32JDbIEWcb+EWSJ+gYkY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=11EGKG6b5hoi9YzMa3B9zcamZozuOz9TYFdeDHSi/VQ=;
-        b=PJH1OBd9sULqzqalBMhOsBq4rk+6549uCp9zGYmnBfIv1G9za68iDycuJcSJrh0j13
-         3RGwC+4RUMLolBOlmERrtymrkujPCi2gIQbpkRwxU70ndsx0+yKlT2i6yooKOzMKUw0J
-         6vVGdAbAU/ewvOVnXlwf4ncEBS1+vGS7/kG35PEmW8KnEL6dDUo5SpIgTLapreBptFs2
-         8/VKof0GSRGfFa58ZjR6epax9ZvpKDa0XkZmk1VQj8i/Q31Aw75cJGUa0dl2mDXHjlNb
-         8UEj4AnC2F8/1f7BRd4tEyg9L6SGOZUUEPQA+wn/SWLNuXb7az86/iLj3UxhUpjBsd66
-         rTHg==
-X-Gm-Message-State: APjAAAXdc88IMqL7HSlL7U58Y4jYs2x4/fbkzKk+ldzmXotZ7/9lAO4U
-        re6q8n8Wg9YVIPCZnB2RAsI=
-X-Google-Smtp-Source: APXvYqxOGRZiTbW/QTUYHoxI40F9UeoHJjkS/MqxYprvHRJGH4uUkNovTWILl0d4sr9ylHebOwhw0w==
-X-Received: by 2002:a63:d852:: with SMTP id k18mr5381517pgj.313.1563892498725;
-        Tue, 23 Jul 2019 07:34:58 -0700 (PDT)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id r1sm48527298pfq.100.2019.07.23.07.34.57
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 23 Jul 2019 07:34:57 -0700 (PDT)
-Date:   Tue, 23 Jul 2019 10:34:56 -0400
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Michal Hocko <mhocko@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, vdavydov.dev@gmail.com,
-        Brendan Gregg <bgregg@netflix.com>, kernel-team@android.com,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        carmenjackson@google.com, Christian Hansen <chansen3@cisco.com>,
-        Colin Ian King <colin.king@canonical.com>, dancol@google.com,
-        David Howells <dhowells@redhat.com>, fmayer@google.com,
-        joaodias@google.com, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Kirill Tkhai <ktkhai@virtuozzo.com>,
-        Konstantin Khlebnikov <khlebnikov@yandex-team.ru>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, Mike Rapoport <rppt@linux.ibm.com>,
-        minchan@google.com, minchan@kernel.org, namhyung@google.com,
-        sspatil@google.com, surenb@google.com,
-        Thomas Gleixner <tglx@linutronix.de>, timmurray@google.com,
-        tkjos@google.com, Vlastimil Babka <vbabka@suse.cz>, wvw@google.com,
-        linux-api@vger.kernel.org
-Subject: Re: [PATCH v1 1/2] mm/page_idle: Add support for per-pid page_idle
- using virtual indexing
-Message-ID: <20190723143456.GE104199@google.com>
-References: <20190722213205.140845-1-joel@joelfernandes.org>
- <20190723060525.GA4552@dhcp22.suse.cz>
+        id S2388480AbfGWPLa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 23 Jul 2019 11:11:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58306 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388312AbfGWPLa (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 23 Jul 2019 11:11:30 -0400
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id EECF1227BE
+        for <linux-api@vger.kernel.org>; Tue, 23 Jul 2019 15:11:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1563894689;
+        bh=7j1bpwOtchxmNmpyJwIt/hzbvJKG5hZjfYmVjkpnc/I=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=rFXu+sTWkD/54l70rzbB+dUx4OauzntmqViEq/zcU2+O2D80EbxIRyrdyerywJBPR
+         GMQvKxx0TIk1MtBG6b+6ZDNsBtjkbPRapdXfPScETmsEK2q2YZ3dEN6eSPfAjq4FJT
+         VHnBzKNRB2zBoAYaJX2rLGp9Ssx4hmHZO0EFuVMY=
+Received: by mail-wr1-f43.google.com with SMTP id n9so18524060wrr.4
+        for <linux-api@vger.kernel.org>; Tue, 23 Jul 2019 08:11:28 -0700 (PDT)
+X-Gm-Message-State: APjAAAWWJNf+1sghjoEAT9WDTSB7eu3ZtQBik0FCyTmXqLX4GNYIGVJG
+        3ARWHYXjibev2YxlR/JQFk/Icbol4DPjnlUEHPgkCg==
+X-Google-Smtp-Source: APXvYqx2W1npMbyvmugkZS82BmvrcI+iJu+ihy6mqs7TXZ2QycMn1wC9RACywYA+kE8/OO3iaRcMH0r6tsUUtWyiHXE=
+X-Received: by 2002:adf:cf02:: with SMTP id o2mr62485122wrj.352.1563894687396;
+ Tue, 23 Jul 2019 08:11:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190723060525.GA4552@dhcp22.suse.cz>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20190627201923.2589391-1-songliubraving@fb.com>
+ <20190627201923.2589391-2-songliubraving@fb.com> <21894f45-70d8-dfca-8c02-044f776c5e05@kernel.org>
+ <3C595328-3ABE-4421-9772-8D41094A4F57@fb.com> <CALCETrWBnH4Q43POU8cQ7YMjb9LioK28FDEQf7aHZbdf1eBZWg@mail.gmail.com>
+ <0DE7F23E-9CD2-4F03-82B5-835506B59056@fb.com> <CALCETrWBWbNFJvsTCeUchu3BZJ3SH3dvtXLUB2EhnPrzFfsLNA@mail.gmail.com>
+ <201907021115.DCD56BBABB@keescook> <CALCETrXTta26CTtEDnzvtd03-WOGdXcnsAogP8JjLkcj4-mHvg@mail.gmail.com>
+ <4A7A225A-6C23-4C0F-9A95-7C6C56B281ED@fb.com>
+In-Reply-To: <4A7A225A-6C23-4C0F-9A95-7C6C56B281ED@fb.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Tue, 23 Jul 2019 08:11:15 -0700
+X-Gmail-Original-Message-ID: <CALCETrX2bMnwC6_t4b_G-hzJSfMPrkK4YKs5ebcecv2LJ0rt3w@mail.gmail.com>
+Message-ID: <CALCETrX2bMnwC6_t4b_G-hzJSfMPrkK4YKs5ebcecv2LJ0rt3w@mail.gmail.com>
+Subject: Re: [PATCH v2 bpf-next 1/4] bpf: unprivileged BPF access via /dev/bpf
+To:     Song Liu <songliubraving@fb.com>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        "linux-security@vger.kernel.org" <linux-security@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Kernel Team <Kernel-team@fb.com>,
+        Lorenz Bauer <lmb@cloudflare.com>,
+        Jann Horn <jannh@google.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jul 23, 2019 at 08:05:25AM +0200, Michal Hocko wrote:
-> [Cc linux-api - please always do CC this list when introducing a user
->  visible API]
+On Mon, Jul 22, 2019 at 1:54 PM Song Liu <songliubraving@fb.com> wrote:
+>
+> Hi Andy, Lorenz, and all,
+>
+> > On Jul 2, 2019, at 2:32 PM, Andy Lutomirski <luto@kernel.org> wrote:
+> >
+> > On Tue, Jul 2, 2019 at 2:04 PM Kees Cook <keescook@chromium.org> wrote:
+> >>
+> >> On Mon, Jul 01, 2019 at 06:59:13PM -0700, Andy Lutomirski wrote:
+> >>> I think I'm understanding your motivation.  You're not trying to make
+> >>> bpf() generically usable without privilege -- you're trying to create
+> >>> a way to allow certain users to access dangerous bpf functionality
+> >>> within some limits.
+> >>>
+> >>> That's a perfectly fine goal, but I think you're reinventing the
+> >>> wheel, and the wheel you're reinventing is quite complicated and
+> >>> already exists.  I think you should teach bpftool to be secure when
+> >>> installed setuid root or with fscaps enabled and put your policy in
+> >>> bpftool.  If you want to harden this a little bit, it would seem
+> >>> entirely reasonable to add a new CAP_BPF_ADMIN and change some, but
+> >>> not all, of the capable() checks to check CAP_BPF_ADMIN instead of the
+> >>> capabilities that they currently check.
+> >>
+> >> If finer grained controls are wanted, it does seem like the /dev/bpf
+> >> path makes the most sense. open, request abilities, use fd. The open can
+> >> be mediated by DAC and LSM. The request can be mediated by LSM. This
+> >> provides a way to add policy at the LSM level and at the tool level.
+> >> (i.e. For tool-level controls: leave LSM wide open, make /dev/bpf owned
+> >> by "bpfadmin" and bpftool becomes setuid "bpfadmin". For fine-grained
+> >> controls, leave /dev/bpf wide open and add policy to SELinux, etc.)
+> >>
+> >> With only a new CAP, you don't get the fine-grained controls. (The
+> >> "request abilities" part is the key there.)
+> >
+> > Sure you do: the effective set.  It has somewhat bizarre defaults, but
+> > I don't think that's a real problem.  Also, this wouldn't be like
+> > CAP_DAC_READ_SEARCH -- you can't accidentally use your BPF caps.
+> >
+> > I think that a /dev capability-like object isn't totally nuts, but I
+> > think we should do it well, and this patch doesn't really achieve
+> > that.  But I don't think bpf wants fine-grained controls like this at
+> > all -- as I pointed upthread, a fine-grained solution really wants
+> > different treatment for the different capable() checks, and a bunch of
+> > them won't resemble capabilities or /dev/bpf at all.
+>
+> With 5.3-rc1 out, I am back on this. :)
+>
+> How about we modify the set as:
+>   1. Introduce sys_bpf_with_cap() that takes fd of /dev/bpf.
 
-Sorry, will do.
+I'm fine with this in principle, but:
 
-> On Mon 22-07-19 17:32:04, Joel Fernandes (Google) wrote:
-> > The page_idle tracking feature currently requires looking up the pagemap
-> > for a process followed by interacting with /sys/kernel/mm/page_idle.
-> > This is quite cumbersome and can be error-prone too. If between
-> > accessing the per-PID pagemap and the global page_idle bitmap, if
-> > something changes with the page then the information is not accurate.
-> > More over looking up PFN from pagemap in Android devices is not
-> > supported by unprivileged process and requires SYS_ADMIN and gives 0 for
-> > the PFN.
-> > 
-> > This patch adds support to directly interact with page_idle tracking at
-> > the PID level by introducing a /proc/<pid>/page_idle file. This
-> > eliminates the need for userspace to calculate the mapping of the page.
-> > It follows the exact same semantics as the global
-> > /sys/kernel/mm/page_idle, however it is easier to use for some usecases
-> > where looking up PFN is not needed and also does not require SYS_ADMIN.
-> > It ended up simplifying userspace code, solving the security issue
-> > mentioned and works quite well. SELinux does not need to be turned off
-> > since no pagemap look up is needed.
-> > 
-> > In Android, we are using this for the heap profiler (heapprofd) which
-> > profiles and pin points code paths which allocates and leaves memory
-> > idle for long periods of time.
-> > 
-> > Documentation material:
-> > The idle page tracking API for virtual address indexing using virtual page
-> > frame numbers (VFN) is located at /proc/<pid>/page_idle. It is a bitmap
-> > that follows the same semantics as /sys/kernel/mm/page_idle/bitmap
-> > except that it uses virtual instead of physical frame numbers.
-> > 
-> > This idle page tracking API can be simpler to use than physical address
-> > indexing, since the pagemap for a process does not need to be looked up
-> > to mark or read a page's idle bit. It is also more accurate than
-> > physical address indexing since in physical address indexing, address
-> > space changes can occur between reading the pagemap and reading the
-> > bitmap. In virtual address indexing, the process's mmap_sem is held for
-> > the duration of the access.
-> 
-> I didn't get to read the actual code but the overall idea makes sense to
-> me. I can see this being useful for userspace memory management (along
-> with remote MADV_PAGEOUT, MADV_COLD).
+>   2. Better handling of capable() calls through bpf code. I guess the
+>      biggest problem here is is_priv in verifier.c:bpf_check().
 
-Thanks.
+I think it would be good to understand exactly what /dev/bpf will
+enable one to do.  Without some care, it would just become the next
+CAP_SYS_ADMIN: if you can open it, sure, you're not root, but you can
+intercept network traffic, modify cgroup behavior, and do plenty of
+other things, any of which can probably be used to completely take
+over the system.
 
-> Normally I would object that a cumbersome nature of the existing
-> interface can be hidden in a userspace but I do agree that rowhammer has
-> made this one close to unusable for anything but a privileged process.
+It would also be nice to understand why you can't do what you need to
+do entirely in user code using setuid or fscaps.
 
-Agreed, this is one of the primary motivations for the patch as you said.
+Finally, at risk of rehashing some old arguments, I'll point out that
+the bpf() syscall is an unusual design to begin with.  As an example,
+consider bpf_prog_attach().  Outside of bpf(), if I want to change the
+behavior of a cgroup, I would write to a file in
+/sys/kernel/cgroup/unified/whatever/, and normal DAC and MAC rules
+apply.  With bpf(), however, I just call bpf() to attach a program to
+the cgroup.  bpf() says "oh, you are capable(CAP_NET_ADMIN) -- go for
+it!".  Unless I missed something major, and I just re-read the code,
+there is no check that the caller has write or LSM permission to
+anything at all in cgroupfs, and the existing API would make it very
+awkward to impose any kind of DAC rules here.
 
-> I do not think you can make any argument about accuracy because
-> the information will never be accurate. Sure the race window is smaller
-> in principle but you can hardly say anything about how much or whether
-> at all.
+So I think it might actually be time to repay some techincal debt and
+come up with a real fix.  As a less intrusive approach, you could see
+about requiring ownership of the cgroup directory instead of
+CAP_NET_ADMIN.  As a more intrusive but perhaps better approach, you
+could invert the logic to to make it work like everything outside of
+cgroup: add pseudo-files like bpf.inet_ingress to the cgroup
+directories, and require a writable fd to *that* to a new improved
+attach API.  If a user could do:
 
-Sure, fair enough. That is why I wasn't beating the drum too much on the
-accuracy point. However, this surprisingly does work quite well.
+int fd = open("/sys/fs/cgroup/.../bpf.inet_attach", O_RDWR);  /* usual
+DAC and MAC policy applies */
+int bpf_fd = setup the bpf stuff;  /* no privilege required, unless
+the program is huge or needs is_priv */
+bpf(BPF_IMPROVED_ATTACH, target = fd, program = bpf_fd);
 
-thanks,
+there would be no capabilities or global privilege at all required for
+this.  It would just work with cgroup delegation, containers, etc.
 
- - Joel
+I think you could even pull off this type of API change with only
+libbpf changes.  In particular, there's this code:
 
+int bpf_prog_attach(int prog_fd, int target_fd, enum bpf_attach_type type,
+                    unsigned int flags)
+{
+        union bpf_attr attr;
+
+        memset(&attr, 0, sizeof(attr));
+        attr.target_fd     = target_fd;
+        attr.attach_bpf_fd = prog_fd;
+        attr.attach_type   = type;
+        attr.attach_flags  = flags;
+
+        return sys_bpf(BPF_PROG_ATTACH, &attr, sizeof(attr));
+}
+
+This would instead do something like:
+
+int specific_target_fd = openat(target_fd, bpf_type_to_target[type], O_RDWR);
+attr.target_fd = specific_target_fd;
+...
+
+return sys_bpf(BPF_PROG_IMPROVED_ATTACH, &attr, sizeof(attr));
+
+Would this solve your problem without needing /dev/bpf at all?
+
+--Andy
