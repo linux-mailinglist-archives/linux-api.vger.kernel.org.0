@@ -2,144 +2,147 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 42CFF719A7
-	for <lists+linux-api@lfdr.de>; Tue, 23 Jul 2019 15:45:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 031BF71A78
+	for <lists+linux-api@lfdr.de>; Tue, 23 Jul 2019 16:35:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732976AbfGWNpy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 23 Jul 2019 09:45:54 -0400
-Received: from www262.sakura.ne.jp ([202.181.97.72]:59826 "EHLO
-        www262.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726260AbfGWNpy (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 23 Jul 2019 09:45:54 -0400
-Received: from fsav104.sakura.ne.jp (fsav104.sakura.ne.jp [27.133.134.231])
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id x6NDjRP2042320;
-        Tue, 23 Jul 2019 22:45:27 +0900 (JST)
-        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav104.sakura.ne.jp (F-Secure/fsigk_smtp/530/fsav104.sakura.ne.jp);
- Tue, 23 Jul 2019 22:45:27 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/530/fsav104.sakura.ne.jp)
-Received: from [192.168.1.8] (softbank126012062002.bbtec.net [126.12.62.2])
-        (authenticated bits=0)
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id x6NDjQiU042312
-        (version=TLSv1.2 cipher=AES256-SHA bits=256 verify=NO);
-        Tue, 23 Jul 2019 22:45:27 +0900 (JST)
-        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Subject: Re: [PATCH 02/10] vfs: syscall: Add move_mount(2) to move mounts
- around
-To:     Al Viro <viro@zeniv.linux.org.uk>
-Cc:     John Johansen <john.johansen@canonical.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        David Howells <dhowells@redhat.com>, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, torvalds@linux-foundation.org,
-        linux-security-module@vger.kernel.org
-References: <155059610368.17079.2220554006494174417.stgit@warthog.procyon.org.uk>
- <155059611887.17079.12991580316407924257.stgit@warthog.procyon.org.uk>
- <c5b901ca-c243-bf80-91be-a794c4433415@I-love.SAKURA.ne.jp>
- <20190708131831.GT17978@ZenIV.linux.org.uk> <874l3wo3gq.fsf@xmission.com>
- <20190708180132.GU17978@ZenIV.linux.org.uk>
- <20190708202124.GX17978@ZenIV.linux.org.uk> <87pnmkhxoy.fsf@xmission.com>
- <5802b8b1-f734-1670-f83b-465eda133936@i-love.sakura.ne.jp>
- <1698ec76-f56c-1e65-2f11-318c0ed225bb@i-love.sakura.ne.jp>
- <e75d4a66-cfcf-2ce8-e82a-fdc80f01723d@canonical.com>
-From:   Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Message-ID: <7eb7378e-2eb8-c1ba-4e1f-ea8f5611f42b@i-love.sakura.ne.jp>
-Date:   Tue, 23 Jul 2019 22:45:29 +0900
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1732803AbfGWOfA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 23 Jul 2019 10:35:00 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:38861 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728318AbfGWOe7 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 23 Jul 2019 10:34:59 -0400
+Received: by mail-pg1-f196.google.com with SMTP id f5so10710267pgu.5
+        for <linux-api@vger.kernel.org>; Tue, 23 Jul 2019 07:34:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=11EGKG6b5hoi9YzMa3B9zcamZozuOz9TYFdeDHSi/VQ=;
+        b=WLqofMgKgwX+GBBcQ17R0iUnyDTfMjIuZc7IpLN2ckGPX+hUVUkkKoMZj9FhwUiZKT
+         AdminwPznOb1OAPsVPVbdpz5CvE0xheQ+a2Fa7GnwReA17UPZf46ynImqYVTMnImoysB
+         TvEXipsHmJVKm9XkI32JDbIEWcb+EWSJ+gYkY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=11EGKG6b5hoi9YzMa3B9zcamZozuOz9TYFdeDHSi/VQ=;
+        b=PJH1OBd9sULqzqalBMhOsBq4rk+6549uCp9zGYmnBfIv1G9za68iDycuJcSJrh0j13
+         3RGwC+4RUMLolBOlmERrtymrkujPCi2gIQbpkRwxU70ndsx0+yKlT2i6yooKOzMKUw0J
+         6vVGdAbAU/ewvOVnXlwf4ncEBS1+vGS7/kG35PEmW8KnEL6dDUo5SpIgTLapreBptFs2
+         8/VKof0GSRGfFa58ZjR6epax9ZvpKDa0XkZmk1VQj8i/Q31Aw75cJGUa0dl2mDXHjlNb
+         8UEj4AnC2F8/1f7BRd4tEyg9L6SGOZUUEPQA+wn/SWLNuXb7az86/iLj3UxhUpjBsd66
+         rTHg==
+X-Gm-Message-State: APjAAAXdc88IMqL7HSlL7U58Y4jYs2x4/fbkzKk+ldzmXotZ7/9lAO4U
+        re6q8n8Wg9YVIPCZnB2RAsI=
+X-Google-Smtp-Source: APXvYqxOGRZiTbW/QTUYHoxI40F9UeoHJjkS/MqxYprvHRJGH4uUkNovTWILl0d4sr9ylHebOwhw0w==
+X-Received: by 2002:a63:d852:: with SMTP id k18mr5381517pgj.313.1563892498725;
+        Tue, 23 Jul 2019 07:34:58 -0700 (PDT)
+Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id r1sm48527298pfq.100.2019.07.23.07.34.57
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Tue, 23 Jul 2019 07:34:57 -0700 (PDT)
+Date:   Tue, 23 Jul 2019 10:34:56 -0400
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     Michal Hocko <mhocko@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, vdavydov.dev@gmail.com,
+        Brendan Gregg <bgregg@netflix.com>, kernel-team@android.com,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        carmenjackson@google.com, Christian Hansen <chansen3@cisco.com>,
+        Colin Ian King <colin.king@canonical.com>, dancol@google.com,
+        David Howells <dhowells@redhat.com>, fmayer@google.com,
+        joaodias@google.com, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Kirill Tkhai <ktkhai@virtuozzo.com>,
+        Konstantin Khlebnikov <khlebnikov@yandex-team.ru>,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, Mike Rapoport <rppt@linux.ibm.com>,
+        minchan@google.com, minchan@kernel.org, namhyung@google.com,
+        sspatil@google.com, surenb@google.com,
+        Thomas Gleixner <tglx@linutronix.de>, timmurray@google.com,
+        tkjos@google.com, Vlastimil Babka <vbabka@suse.cz>, wvw@google.com,
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH v1 1/2] mm/page_idle: Add support for per-pid page_idle
+ using virtual indexing
+Message-ID: <20190723143456.GE104199@google.com>
+References: <20190722213205.140845-1-joel@joelfernandes.org>
+ <20190723060525.GA4552@dhcp22.suse.cz>
 MIME-Version: 1.0
-In-Reply-To: <e75d4a66-cfcf-2ce8-e82a-fdc80f01723d@canonical.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190723060525.GA4552@dhcp22.suse.cz>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Al, will you send this patch to 5.3-rcX via vfs.git tree?
+On Tue, Jul 23, 2019 at 08:05:25AM +0200, Michal Hocko wrote:
+> [Cc linux-api - please always do CC this list when introducing a user
+>  visible API]
 
-On 2019/07/23 13:16, John Johansen wrote:
-> On 7/22/19 3:12 AM, Tetsuo Handa wrote:
->> I did not see AppArmor patch for this problem in 5.3-rc1. 
->> John, are you OK with this patch for 5.2-stable and 5.3 ?
->>
-> yes, I have some larger mount rework and clean-up to do and an apparmor
-> patch for this is waiting on that. Looking at the thread I am wondering
-> where my previous reply is, probably lost in a mail client crash, I have
-> had a few of those lately.
+Sorry, will do.
+
+> On Mon 22-07-19 17:32:04, Joel Fernandes (Google) wrote:
+> > The page_idle tracking feature currently requires looking up the pagemap
+> > for a process followed by interacting with /sys/kernel/mm/page_idle.
+> > This is quite cumbersome and can be error-prone too. If between
+> > accessing the per-PID pagemap and the global page_idle bitmap, if
+> > something changes with the page then the information is not accurate.
+> > More over looking up PFN from pagemap in Android devices is not
+> > supported by unprivileged process and requires SYS_ADMIN and gives 0 for
+> > the PFN.
+> > 
+> > This patch adds support to directly interact with page_idle tracking at
+> > the PID level by introducing a /proc/<pid>/page_idle file. This
+> > eliminates the need for userspace to calculate the mapping of the page.
+> > It follows the exact same semantics as the global
+> > /sys/kernel/mm/page_idle, however it is easier to use for some usecases
+> > where looking up PFN is not needed and also does not require SYS_ADMIN.
+> > It ended up simplifying userspace code, solving the security issue
+> > mentioned and works quite well. SELinux does not need to be turned off
+> > since no pagemap look up is needed.
+> > 
+> > In Android, we are using this for the heap profiler (heapprofd) which
+> > profiles and pin points code paths which allocates and leaves memory
+> > idle for long periods of time.
+> > 
+> > Documentation material:
+> > The idle page tracking API for virtual address indexing using virtual page
+> > frame numbers (VFN) is located at /proc/<pid>/page_idle. It is a bitmap
+> > that follows the same semantics as /sys/kernel/mm/page_idle/bitmap
+> > except that it uses virtual instead of physical frame numbers.
+> > 
+> > This idle page tracking API can be simpler to use than physical address
+> > indexing, since the pagemap for a process does not need to be looked up
+> > to mark or read a page's idle bit. It is also more accurate than
+> > physical address indexing since in physical address indexing, address
+> > space changes can occur between reading the pagemap and reading the
+> > bitmap. In virtual address indexing, the process's mmap_sem is held for
+> > the duration of the access.
 > 
-> Acked-by: John Johansen <john.johansen@canonical.com>
-> 
-> 
->> On 2019/07/09 19:51, Tetsuo Handa wrote:
->>> For now, can we apply this patch for 5.2-stable ?
->>>
->>>
->>> >From dd62fab0592e02580fd5a34222a2d11bfc179f61 Mon Sep 17 00:00:00 2001
->>> From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
->>> Date: Tue, 9 Jul 2019 19:05:49 +0900
->>> Subject: [PATCH] LSM: Disable move_mount() syscall when TOMOYO or AppArmor is enabled.
->>>
->>> Commit 2db154b3ea8e14b0 ("vfs: syscall: Add move_mount(2) to move mounts
->>> around") introduced security_move_mount() LSM hook, but we missed that
->>> TOMOYO and AppArmor did not implement hooks for checking move_mount(2).
->>> For pathname based access controls like TOMOYO and AppArmor, unchecked
->>> mount manipulation is not acceptable. Therefore, until TOMOYO and AppArmor
->>> implement hooks, in order to avoid unchecked mount manipulation, pretend
->>> as if move_mount(2) is unavailable when either TOMOYO or AppArmor is
->>> enabled.
->>>
->>> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
->>> Fixes: 2db154b3ea8e14b0 ("vfs: syscall: Add move_mount(2) to move mounts around")
->>> Cc: stable@vger.kernel.org # 5.2
->>> ---
->>>  include/linux/lsm_hooks.h | 6 ++++++
->>>  security/apparmor/lsm.c   | 1 +
->>>  security/tomoyo/tomoyo.c  | 1 +
->>>  3 files changed, 8 insertions(+)
->>>
->>> diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
->>> index 47f58cf..cd411b7 100644
->>> --- a/include/linux/lsm_hooks.h
->>> +++ b/include/linux/lsm_hooks.h
->>> @@ -2142,4 +2142,10 @@ static inline void security_delete_hooks(struct security_hook_list *hooks,
->>>  
->>>  extern int lsm_inode_alloc(struct inode *inode);
->>>  
->>> +static inline int no_move_mount(const struct path *from_path,
->>> +				const struct path *to_path)
->>> +{
->>> +	return -ENOSYS;
->>> +}
->>> +
->>>  #endif /* ! __LINUX_LSM_HOOKS_H */
->>> diff --git a/security/apparmor/lsm.c b/security/apparmor/lsm.c
->>> index ec3a928..5cdf63b 100644
->>> --- a/security/apparmor/lsm.c
->>> +++ b/security/apparmor/lsm.c
->>> @@ -1158,6 +1158,7 @@ struct lsm_blob_sizes apparmor_blob_sizes __lsm_ro_after_init = {
->>>  	LSM_HOOK_INIT(capable, apparmor_capable),
->>>  
->>>  	LSM_HOOK_INIT(sb_mount, apparmor_sb_mount),
->>> +	LSM_HOOK_INIT(move_mount, no_move_mount),
->>>  	LSM_HOOK_INIT(sb_umount, apparmor_sb_umount),
->>>  	LSM_HOOK_INIT(sb_pivotroot, apparmor_sb_pivotroot),
->>>  
->>> diff --git a/security/tomoyo/tomoyo.c b/security/tomoyo/tomoyo.c
->>> index 716c92e..be1b1a1 100644
->>> --- a/security/tomoyo/tomoyo.c
->>> +++ b/security/tomoyo/tomoyo.c
->>> @@ -558,6 +558,7 @@ static void tomoyo_task_free(struct task_struct *task)
->>>  	LSM_HOOK_INIT(path_chown, tomoyo_path_chown),
->>>  	LSM_HOOK_INIT(path_chroot, tomoyo_path_chroot),
->>>  	LSM_HOOK_INIT(sb_mount, tomoyo_sb_mount),
->>> +	LSM_HOOK_INIT(move_mount, no_move_mount),
->>>  	LSM_HOOK_INIT(sb_umount, tomoyo_sb_umount),
->>>  	LSM_HOOK_INIT(sb_pivotroot, tomoyo_sb_pivotroot),
->>>  	LSM_HOOK_INIT(socket_bind, tomoyo_socket_bind),
->>>
->>
-> 
-> 
+> I didn't get to read the actual code but the overall idea makes sense to
+> me. I can see this being useful for userspace memory management (along
+> with remote MADV_PAGEOUT, MADV_COLD).
+
+Thanks.
+
+> Normally I would object that a cumbersome nature of the existing
+> interface can be hidden in a userspace but I do agree that rowhammer has
+> made this one close to unusable for anything but a privileged process.
+
+Agreed, this is one of the primary motivations for the patch as you said.
+
+> I do not think you can make any argument about accuracy because
+> the information will never be accurate. Sure the race window is smaller
+> in principle but you can hardly say anything about how much or whether
+> at all.
+
+Sure, fair enough. That is why I wasn't beating the drum too much on the
+accuracy point. However, this surprisingly does work quite well.
+
+thanks,
+
+ - Joel
 
