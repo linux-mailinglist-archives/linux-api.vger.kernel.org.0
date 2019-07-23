@@ -2,91 +2,144 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 37ADE71676
-	for <lists+linux-api@lfdr.de>; Tue, 23 Jul 2019 12:45:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 42CFF719A7
+	for <lists+linux-api@lfdr.de>; Tue, 23 Jul 2019 15:45:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728762AbfGWKp5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 23 Jul 2019 06:45:57 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:35009 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726997AbfGWKp5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 23 Jul 2019 06:45:57 -0400
-Received: by mail-ot1-f66.google.com with SMTP id j19so5084231otq.2
-        for <linux-api@vger.kernel.org>; Tue, 23 Jul 2019 03:45:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cloudflare.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ifAD5o3qC0LZV0jAWB/3GFzhZCIz1BYd08PtJdgAdx8=;
-        b=plT5+LfTWIAyl1BLAY07aLvlbnitnwqFPCZSoEKnOa8mUKbGO3ZWEjEBPSQYLe6VvQ
-         t/q8Pvz7lgl6b/auYIQLqlRUqoorBD4LaeEKUg1bJwhnNUyBpyjFS/PABWvc/sG9jSQh
-         RZuQVPh5d2kcDVg3NOPkiDWaMLp1dElI6mavg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ifAD5o3qC0LZV0jAWB/3GFzhZCIz1BYd08PtJdgAdx8=;
-        b=eO91od+8yQcdXt3w7vy/WoYFV1W2lulfxf7uVkfYppNupR92Xv8GS7im+MUKB9clqq
-         5zWwxWykaH5HDM/IS7WH6GwF2mi2Xv7hn7caBVvw61E4TfpHyljTpqBvzBJy9yTGVxrY
-         hGADSW7uiEWcybeGXeFFLoAHZrfM80k+rE8xSZeP89KljxuQcCdcXDmSwm8vERvT4K2+
-         OBO5G/lWimGYhPIwi2S9jWn5qson9IUpl+NJX4i7VyUz3aKox6ADHyOuLErDNHajnFN3
-         abrSa1+FswXA/YnHov4nfcDw6QNPmzP6h+NUGtezaJHcLcqI3jcZ+2XGSsLRdj+nICij
-         iFjg==
-X-Gm-Message-State: APjAAAXpJVnboV7zXNwMVUuxVNaSX67apfom8Dq2syrJ0mOvNOFTch8W
-        mSQFXKd595GcQjuB4s5OohSfUiqkEYGbXj0huLNCOQ==
-X-Google-Smtp-Source: APXvYqxDWD4Oz++4AvfSh24LvjhQx2ERmvlZYFc/l8I5PvD+pZinSRjfcSsUuBWZxY6TlKeZDdZWcIQb5zjshPCsiZ0=
-X-Received: by 2002:a9d:1b21:: with SMTP id l30mr25934501otl.5.1563878756320;
- Tue, 23 Jul 2019 03:45:56 -0700 (PDT)
+        id S1732976AbfGWNpy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 23 Jul 2019 09:45:54 -0400
+Received: from www262.sakura.ne.jp ([202.181.97.72]:59826 "EHLO
+        www262.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726260AbfGWNpy (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 23 Jul 2019 09:45:54 -0400
+Received: from fsav104.sakura.ne.jp (fsav104.sakura.ne.jp [27.133.134.231])
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id x6NDjRP2042320;
+        Tue, 23 Jul 2019 22:45:27 +0900 (JST)
+        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav104.sakura.ne.jp (F-Secure/fsigk_smtp/530/fsav104.sakura.ne.jp);
+ Tue, 23 Jul 2019 22:45:27 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/530/fsav104.sakura.ne.jp)
+Received: from [192.168.1.8] (softbank126012062002.bbtec.net [126.12.62.2])
+        (authenticated bits=0)
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id x6NDjQiU042312
+        (version=TLSv1.2 cipher=AES256-SHA bits=256 verify=NO);
+        Tue, 23 Jul 2019 22:45:27 +0900 (JST)
+        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Subject: Re: [PATCH 02/10] vfs: syscall: Add move_mount(2) to move mounts
+ around
+To:     Al Viro <viro@zeniv.linux.org.uk>
+Cc:     John Johansen <john.johansen@canonical.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        David Howells <dhowells@redhat.com>, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, torvalds@linux-foundation.org,
+        linux-security-module@vger.kernel.org
+References: <155059610368.17079.2220554006494174417.stgit@warthog.procyon.org.uk>
+ <155059611887.17079.12991580316407924257.stgit@warthog.procyon.org.uk>
+ <c5b901ca-c243-bf80-91be-a794c4433415@I-love.SAKURA.ne.jp>
+ <20190708131831.GT17978@ZenIV.linux.org.uk> <874l3wo3gq.fsf@xmission.com>
+ <20190708180132.GU17978@ZenIV.linux.org.uk>
+ <20190708202124.GX17978@ZenIV.linux.org.uk> <87pnmkhxoy.fsf@xmission.com>
+ <5802b8b1-f734-1670-f83b-465eda133936@i-love.sakura.ne.jp>
+ <1698ec76-f56c-1e65-2f11-318c0ed225bb@i-love.sakura.ne.jp>
+ <e75d4a66-cfcf-2ce8-e82a-fdc80f01723d@canonical.com>
+From:   Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Message-ID: <7eb7378e-2eb8-c1ba-4e1f-ea8f5611f42b@i-love.sakura.ne.jp>
+Date:   Tue, 23 Jul 2019 22:45:29 +0900
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20190627201923.2589391-1-songliubraving@fb.com>
- <20190627201923.2589391-2-songliubraving@fb.com> <21894f45-70d8-dfca-8c02-044f776c5e05@kernel.org>
- <3C595328-3ABE-4421-9772-8D41094A4F57@fb.com> <CALCETrWBnH4Q43POU8cQ7YMjb9LioK28FDEQf7aHZbdf1eBZWg@mail.gmail.com>
- <0DE7F23E-9CD2-4F03-82B5-835506B59056@fb.com> <CALCETrWBWbNFJvsTCeUchu3BZJ3SH3dvtXLUB2EhnPrzFfsLNA@mail.gmail.com>
- <201907021115.DCD56BBABB@keescook> <CALCETrXTta26CTtEDnzvtd03-WOGdXcnsAogP8JjLkcj4-mHvg@mail.gmail.com>
- <4A7A225A-6C23-4C0F-9A95-7C6C56B281ED@fb.com>
-In-Reply-To: <4A7A225A-6C23-4C0F-9A95-7C6C56B281ED@fb.com>
-From:   Lorenz Bauer <lmb@cloudflare.com>
-Date:   Tue, 23 Jul 2019 11:45:45 +0100
-Message-ID: <CACAyw9-YdqBYP7_vzDVH_AQ6Ko71XrDb5-+ZxkASMw-eHJa05A@mail.gmail.com>
-Subject: Re: [PATCH v2 bpf-next 1/4] bpf: unprivileged BPF access via /dev/bpf
-To:     Song Liu <songliubraving@fb.com>
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        "linux-security@vger.kernel.org" <linux-security@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Kernel Team <Kernel-team@fb.com>, Jann Horn <jannh@google.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <e75d4a66-cfcf-2ce8-e82a-fdc80f01723d@canonical.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, 22 Jul 2019 at 21:54, Song Liu <songliubraving@fb.com> wrote:
->
-> Hi Andy, Lorenz, and all,
->
-> With 5.3-rc1 out, I am back on this. :)
->
-> How about we modify the set as:
->   1. Introduce sys_bpf_with_cap() that takes fd of /dev/bpf.
->   2. Better handling of capable() calls through bpf code. I guess the
->      biggest problem here is is_priv in verifier.c:bpf_check().
->
-> With this approach, we will be able to pass the fd around, so it should
-> also solve problem for Go.
+Al, will you send this patch to 5.3-rcX via vfs.git tree?
 
-Thanks for picking this up again. I need to figure out what the API
-for this would
-look like on the Go side, but I think it's a nice solution!
+On 2019/07/23 13:16, John Johansen wrote:
+> On 7/22/19 3:12 AM, Tetsuo Handa wrote:
+>> I did not see AppArmor patch for this problem in 5.3-rc1. 
+>> John, are you OK with this patch for 5.2-stable and 5.3 ?
+>>
+> yes, I have some larger mount rework and clean-up to do and an apparmor
+> patch for this is waiting on that. Looking at the thread I am wondering
+> where my previous reply is, probably lost in a mail client crash, I have
+> had a few of those lately.
+> 
+> Acked-by: John Johansen <john.johansen@canonical.com>
+> 
+> 
+>> On 2019/07/09 19:51, Tetsuo Handa wrote:
+>>> For now, can we apply this patch for 5.2-stable ?
+>>>
+>>>
+>>> >From dd62fab0592e02580fd5a34222a2d11bfc179f61 Mon Sep 17 00:00:00 2001
+>>> From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+>>> Date: Tue, 9 Jul 2019 19:05:49 +0900
+>>> Subject: [PATCH] LSM: Disable move_mount() syscall when TOMOYO or AppArmor is enabled.
+>>>
+>>> Commit 2db154b3ea8e14b0 ("vfs: syscall: Add move_mount(2) to move mounts
+>>> around") introduced security_move_mount() LSM hook, but we missed that
+>>> TOMOYO and AppArmor did not implement hooks for checking move_mount(2).
+>>> For pathname based access controls like TOMOYO and AppArmor, unchecked
+>>> mount manipulation is not acceptable. Therefore, until TOMOYO and AppArmor
+>>> implement hooks, in order to avoid unchecked mount manipulation, pretend
+>>> as if move_mount(2) is unavailable when either TOMOYO or AppArmor is
+>>> enabled.
+>>>
+>>> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+>>> Fixes: 2db154b3ea8e14b0 ("vfs: syscall: Add move_mount(2) to move mounts around")
+>>> Cc: stable@vger.kernel.org # 5.2
+>>> ---
+>>>  include/linux/lsm_hooks.h | 6 ++++++
+>>>  security/apparmor/lsm.c   | 1 +
+>>>  security/tomoyo/tomoyo.c  | 1 +
+>>>  3 files changed, 8 insertions(+)
+>>>
+>>> diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
+>>> index 47f58cf..cd411b7 100644
+>>> --- a/include/linux/lsm_hooks.h
+>>> +++ b/include/linux/lsm_hooks.h
+>>> @@ -2142,4 +2142,10 @@ static inline void security_delete_hooks(struct security_hook_list *hooks,
+>>>  
+>>>  extern int lsm_inode_alloc(struct inode *inode);
+>>>  
+>>> +static inline int no_move_mount(const struct path *from_path,
+>>> +				const struct path *to_path)
+>>> +{
+>>> +	return -ENOSYS;
+>>> +}
+>>> +
+>>>  #endif /* ! __LINUX_LSM_HOOKS_H */
+>>> diff --git a/security/apparmor/lsm.c b/security/apparmor/lsm.c
+>>> index ec3a928..5cdf63b 100644
+>>> --- a/security/apparmor/lsm.c
+>>> +++ b/security/apparmor/lsm.c
+>>> @@ -1158,6 +1158,7 @@ struct lsm_blob_sizes apparmor_blob_sizes __lsm_ro_after_init = {
+>>>  	LSM_HOOK_INIT(capable, apparmor_capable),
+>>>  
+>>>  	LSM_HOOK_INIT(sb_mount, apparmor_sb_mount),
+>>> +	LSM_HOOK_INIT(move_mount, no_move_mount),
+>>>  	LSM_HOOK_INIT(sb_umount, apparmor_sb_umount),
+>>>  	LSM_HOOK_INIT(sb_pivotroot, apparmor_sb_pivotroot),
+>>>  
+>>> diff --git a/security/tomoyo/tomoyo.c b/security/tomoyo/tomoyo.c
+>>> index 716c92e..be1b1a1 100644
+>>> --- a/security/tomoyo/tomoyo.c
+>>> +++ b/security/tomoyo/tomoyo.c
+>>> @@ -558,6 +558,7 @@ static void tomoyo_task_free(struct task_struct *task)
+>>>  	LSM_HOOK_INIT(path_chown, tomoyo_path_chown),
+>>>  	LSM_HOOK_INIT(path_chroot, tomoyo_path_chroot),
+>>>  	LSM_HOOK_INIT(sb_mount, tomoyo_sb_mount),
+>>> +	LSM_HOOK_INIT(move_mount, no_move_mount),
+>>>  	LSM_HOOK_INIT(sb_umount, tomoyo_sb_umount),
+>>>  	LSM_HOOK_INIT(sb_pivotroot, tomoyo_sb_pivotroot),
+>>>  	LSM_HOOK_INIT(socket_bind, tomoyo_socket_bind),
+>>>
+>>
+> 
+> 
 
-Lorenz
-
--- 
-Lorenz Bauer  |  Systems Engineer
-6th Floor, County Hall/The Riverside Building, SE1 7PB, UK
-
-www.cloudflare.com
