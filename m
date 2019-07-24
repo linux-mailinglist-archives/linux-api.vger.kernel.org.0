@@ -2,48 +2,48 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C0F2173214
-	for <lists+linux-api@lfdr.de>; Wed, 24 Jul 2019 16:47:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A5B07321A
+	for <lists+linux-api@lfdr.de>; Wed, 24 Jul 2019 16:48:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728081AbfGXOrw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 24 Jul 2019 10:47:52 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:45837 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727609AbfGXOrv (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 24 Jul 2019 10:47:51 -0400
-Received: by mail-pl1-f195.google.com with SMTP id y8so22107152plr.12
-        for <linux-api@vger.kernel.org>; Wed, 24 Jul 2019 07:47:51 -0700 (PDT)
+        id S1728251AbfGXOsA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 24 Jul 2019 10:48:00 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:36518 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728069AbfGXOsA (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 24 Jul 2019 10:48:00 -0400
+Received: by mail-pg1-f193.google.com with SMTP id l21so21351919pgm.3
+        for <linux-api@vger.kernel.org>; Wed, 24 Jul 2019 07:47:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=brauner.io; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=x1ubznM31Zi+8TITQjBWLaj+FG6dvDHIz+J1DjDCti4=;
-        b=apUb95+UUHbfjQGu5THqimf7upSpdEPG3EOBuYncXw3es/N64Gofs9902QeBgnzEMP
-         1djLkK5QF9ik7aPuwoGym8cZ+Dpi/ZTHp5G4mq9wudiK6uoveKfnJ8Xc1GC+KMwpPbJw
-         lmboN5MR2PSUcGWjGBpyBm27lDjuB+MWW/3VwXOJps0Wh2xhby9nQBNafEZBDjKD26dx
-         jFFH45TLUM4KUozPm/9zlH2q8XZ3KODsH3x4OiYEinpIx9i6CAd1TGWo7aogWwdCFtAX
-         rUedAODkq0ZdmF0CFiYi/YWMtt/10vn4TWyRXo7Weufp159jqwO8KOBZIKQqw912DazD
-         2XEg==
+        bh=mBTl4EOXHZ71oG8dRPzQKN+4olExLO4T099FLNi+kAE=;
+        b=VxeftMgEfyaGpnYIggVLKpk5Jy6dCbINbsRb875Jknt+NYx4nXnox39mXMwRz1hznx
+         aNgyalVejrzh0SdQwZA1ehK5f2Ti/vwx2y+45Sgo3/vS7u1KaR57h8ilowcTEITJ7KK7
+         hhCCj3PRwvABi9Qn1vzWZD7noBehNAzjRoahnT2/EsgoTN/oG+BrAB5NOyT/Do/Ll2u6
+         cX6MyqUdnHW20LKy2/gwC3uBZN8mxe8/vw2p75JxjAuF0DUFbkrWCrGYmrbgPqJdY1Uq
+         iHkQNa+Z8mL11k24eKBmiLVmiZUmjCMDEV3Vma7fDNU/Kp6pk5PnFKGnOdWpVSlzfOqb
+         nhwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=x1ubznM31Zi+8TITQjBWLaj+FG6dvDHIz+J1DjDCti4=;
-        b=VxyhsOMp+Ymfgi7U1xphoUzz5OQGpwQdefy2kCTWuAXr6h9EQRpPXQ/3dlhSdH3s5z
-         LTfWDfnTSAv8P+MQQZXokrbxggrMATIWBcnwrYbRdCmM7Q6m4ROPqAl+WQy4BI7MVcbI
-         5iDz7ArDh7wFw85UAtZdk+EbZ9iG00b4E5wPYTZ1Gii/OiaNIRJXMMqTiA2pX9lpn99R
-         QjH26osB4XuFXl46CCIYwNHEXTcgBBrx26uuDwk1Vm5dNBwrTAbLWpampCGaT8pU9OsW
-         7jDHVX4GL6Teho9tpdBr+UtpjM/rH2EdcbCK+pfdtQYwiDZ8ygGKORQyCi1bnMJQHQKD
-         8bLg==
-X-Gm-Message-State: APjAAAVHr94NfPeCMri3BRRK1W0jSrBAEFXP2MTYaDqwAAKixKhUp3iu
-        TKyTgHRWVDYBUcvh9kdhg4I=
-X-Google-Smtp-Source: APXvYqxgsIhm+uDW9ChjMulVpCeodED60MY1Gj7ZmMvRCcYNs3AH9HQpm4Dxz3xwlUn5xHzOEPau2g==
-X-Received: by 2002:a17:902:2ec5:: with SMTP id r63mr85107148plb.21.1563979670908;
-        Wed, 24 Jul 2019 07:47:50 -0700 (PDT)
+        bh=mBTl4EOXHZ71oG8dRPzQKN+4olExLO4T099FLNi+kAE=;
+        b=hywlgPLscBaxjkNOdypU6X43OvHAqLBw8sB+Odk7/dNuqg5HYCrlLSJNhtYpHsSVsd
+         sjw2abE1azoeVermYJh6d8gIsJ6BteamA7wJl1RASqSHyaxrdLIdcnrhF/qcR9cg6Q99
+         pnv0FPSrnCqFCPiQpu6l/WZ3tYlGBxF7n1n96FaOl8Rq9N2YI5JJL0iyCj9lNFLu13zd
+         tBnI0fQU/gOGbvOB2+luE1WaP0D1H8pw2UtsoS85t2i2oSZiGP6ECHP216xkQvk6804t
+         srKp05v6AHSFVVkrvosB4nI+oQ3xg+YF1fUiUR038zhnSv1cYrSIH2O/mEs57vAZztJs
+         lkIw==
+X-Gm-Message-State: APjAAAWVxg3BsUatDWwSFFXjkq6QIToMB37G1i33WYbhDBF86ZLoyqOR
+        Bldn3cfE4H8CECfI519Fq5o=
+X-Google-Smtp-Source: APXvYqz+Enq2/NcPy88WMMAnNrBgBpGN4SxupV5kpEOM4+HykjBi7Trcfsyp6kBKb/Ez904IoMQBXQ==
+X-Received: by 2002:a63:2004:: with SMTP id g4mr78265918pgg.97.1563979679360;
+        Wed, 24 Jul 2019 07:47:59 -0700 (PDT)
 Received: from localhost.localdomain ([172.58.27.54])
-        by smtp.gmail.com with ESMTPSA id g6sm41125644pgh.64.2019.07.24.07.47.39
+        by smtp.gmail.com with ESMTPSA id g6sm41125644pgh.64.2019.07.24.07.47.51
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 24 Jul 2019 07:47:50 -0700 (PDT)
+        Wed, 24 Jul 2019 07:47:58 -0700 (PDT)
 From:   Christian Brauner <christian@brauner.io>
 To:     linux-kernel@vger.kernel.org, oleg@redhat.com
 Cc:     arnd@arndb.de, ebiederm@xmission.com, keescook@chromium.org,
@@ -52,16 +52,12 @@ Cc:     arnd@arndb.de, ebiederm@xmission.com, keescook@chromium.org,
         akpm@linux-foundation.org, cyphar@cyphar.com,
         torvalds@linux-foundation.org, viro@zeniv.linux.org.uk,
         kernel-team@android.com, Christian Brauner <christian@brauner.io>,
-        linux-api@vger.kernel.org, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-        linux-arch@vger.kernel.org, x86@kernel.org
-Subject: [PATCH 3/5] arch: wire-up pidfd_wait()
-Date:   Wed, 24 Jul 2019 16:46:49 +0200
-Message-Id: <20190724144651.28272-4-christian@brauner.io>
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        linux-api@vger.kernel.org
+Subject: [PATCH 4/5] pidfd: add CLONE_WAIT_PID
+Date:   Wed, 24 Jul 2019 16:46:50 +0200
+Message-Id: <20190724144651.28272-5-christian@brauner.io>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190724144651.28272-1-christian@brauner.io>
 References: <20190724144651.28272-1-christian@brauner.io>
@@ -72,7 +68,61 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This wires up the pidfd_wait() syscall into all arches at once.
+If CLONE_WAIT_PID is set the newly created process will not be
+considered by process wait requests that wait generically on children
+such as:
+
+	syscall(__NR_wait4, -1, wstatus, options, rusage)
+	syscall(__NR_waitpid, -1, wstatus, options)
+	syscall(__NR_waitid, P_ALL, -1, siginfo, options, rusage)
+	syscall(__NR_waitid, P_PGID, -1, siginfo, options, rusage)
+	syscall(__NR_waitpid, -pid, wstatus, options)
+	syscall(__NR_wait4, -pid, wstatus, options, rusage)
+
+A process created with CLONE_WAIT_PID can only be waited upon with a
+focussed wait call. This ensures that processes can be reaped even if
+all file descriptors referring to it are closed.
+
+/* Usecases */
+This feature has been requested in discussions when I presented this
+work multiple times. Here are concrete use cases people have:
+1. Process managers that would like to use pidfd for all process
+   watching needs require this feature.
+   A process manager (e.g. PID 1) that needs to reap all children
+   assigned to it needs to invoke some form of waitall request as
+   outlined above.  This has to be done since the process manager might
+   not know about processes that got re-parented to it. Without
+   CLONE_WAIT_PID the process manager will end up reaping processes it
+   uses pidfds to watch for since they are crucial internal processes.
+2. Various libraries want to be able to fork off helper processes
+   internally that do not otherwise affect the program they are used in.
+   This is currently not possible.
+   However, if a process invokes a waitall request the internal
+   helper process of the library might get reaped, confusing the library
+   which expected it to reap it itself.
+   Careful programs will thus generally avoid waitall requests which is
+   inefficient.
+3. A general class of programs are ones that use event loops (e.g. GLib,
+   systemd, and LXC etc.). Such event loops currently call focused wait
+   requests iteratively on all processes they are configured to watch to
+   avoid waitall request pitfalls.
+   This is ugly and inefficient since it cannot be used to watch large
+   numbers of file descriptors without paying the O(n) cost on each
+   event loop iteration.
+
+/* Prior art */
+FreeBSD has a similar concept (cf. [1], [2]). They are currently doing
+it the other way around, i.e. by default all procdescs are not visible
+in waitall requests. Howver, originally, they allowed procdescs to
+appear in waitall and changed it later (cf. [1]).
+
+Currently, CLONE_WAIT_PID can only be used in conjunction with
+CLONE_PIDFD since the usecases above only make sense when used in
+combination with both.
+
+/* References */
+[1]: https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=201054
+[2]: https://svnweb.freebsd.org/base/head/sys/kern/kern_exit.c
 
 Signed-off-by: Christian Brauner <christian@brauner.io>
 Cc: Arnd Bergmann <arnd@arndb.de>
@@ -80,258 +130,99 @@ Cc: "Eric W. Biederman" <ebiederm@xmission.com>
 Cc: Kees Cook <keescook@chromium.org>
 Cc: Joel Fernandes (Google) <joel@joelfernandes.org>
 Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Jann Horn <jannh@google.com>
+Cc: Tejun Heo <tj@kernel.org>
 Cc: David Howells <dhowells@redhat.com>
+Cc: Jann Horn <jannh@google.com>
 Cc: Andy Lutomirsky <luto@kernel.org>
+Cc: Ingo Molnar <mingo@redhat.com>
 Cc: Andrew Morton <akpm@linux-foundation.org>
 Cc: Oleg Nesterov <oleg@redhat.com>
 Cc: Aleksa Sarai <cyphar@cyphar.com>
 Cc: Linus Torvalds <torvalds@linux-foundation.org>
 Cc: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Peter Zijlstra <peterz@infradead.org>
 Cc: linux-api@vger.kernel.org
-Cc: linux-alpha@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-ia64@vger.kernel.org
-Cc: linux-m68k@lists.linux-m68k.org
-Cc: linux-mips@vger.kernel.org
-Cc: linux-parisc@vger.kernel.org
-Cc: linuxppc-dev@lists.ozlabs.org
-Cc: linux-s390@vger.kernel.org
-Cc: linux-sh@vger.kernel.org
-Cc: sparclinux@vger.kernel.org
-Cc: linux-xtensa@linux-xtensa.org
-Cc: linux-arch@vger.kernel.org
-Cc: x86@kernel.org
 ---
- arch/alpha/kernel/syscalls/syscall.tbl      | 1 +
- arch/arm/tools/syscall.tbl                  | 1 +
- arch/arm64/include/asm/unistd.h             | 2 +-
- arch/arm64/include/asm/unistd32.h           | 4 +++-
- arch/ia64/kernel/syscalls/syscall.tbl       | 1 +
- arch/m68k/kernel/syscalls/syscall.tbl       | 1 +
- arch/microblaze/kernel/syscalls/syscall.tbl | 1 +
- arch/mips/kernel/syscalls/syscall_n32.tbl   | 1 +
- arch/mips/kernel/syscalls/syscall_n64.tbl   | 1 +
- arch/mips/kernel/syscalls/syscall_o32.tbl   | 1 +
- arch/parisc/kernel/syscalls/syscall.tbl     | 1 +
- arch/powerpc/kernel/syscalls/syscall.tbl    | 1 +
- arch/s390/kernel/syscalls/syscall.tbl       | 1 +
- arch/sh/kernel/syscalls/syscall.tbl         | 1 +
- arch/sparc/kernel/syscalls/syscall.tbl      | 1 +
- arch/x86/entry/syscalls/syscall_32.tbl      | 1 +
- arch/x86/entry/syscalls/syscall_64.tbl      | 1 +
- arch/xtensa/kernel/syscalls/syscall.tbl     | 1 +
- include/linux/syscalls.h                    | 4 ++++
- include/uapi/asm-generic/unistd.h           | 4 +++-
- 20 files changed, 27 insertions(+), 3 deletions(-)
+ include/linux/sched.h      |  1 +
+ include/uapi/linux/sched.h |  1 +
+ kernel/exit.c              |  3 +++
+ kernel/fork.c              | 11 ++++++++++-
+ 4 files changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/arch/alpha/kernel/syscalls/syscall.tbl b/arch/alpha/kernel/syscalls/syscall.tbl
-index 728fe028c02c..ca3e593f0c7a 100644
---- a/arch/alpha/kernel/syscalls/syscall.tbl
-+++ b/arch/alpha/kernel/syscalls/syscall.tbl
-@@ -475,3 +475,4 @@
- 543	common	fspick				sys_fspick
- 544	common	pidfd_open			sys_pidfd_open
- # 545 reserved for clone3
-+548	common	pidfd_wait			sys_pidfd_wait
-diff --git a/arch/arm/tools/syscall.tbl b/arch/arm/tools/syscall.tbl
-index 6da7dc4d79cc..5e448d915b2f 100644
---- a/arch/arm/tools/syscall.tbl
-+++ b/arch/arm/tools/syscall.tbl
-@@ -449,3 +449,4 @@
- 433	common	fspick				sys_fspick
- 434	common	pidfd_open			sys_pidfd_open
- 435	common	clone3				sys_clone3
-+438	common	pidfd_wait			sys_pidfd_wait
-diff --git a/arch/arm64/include/asm/unistd.h b/arch/arm64/include/asm/unistd.h
-index 2629a68b8724..b722e47377a5 100644
---- a/arch/arm64/include/asm/unistd.h
-+++ b/arch/arm64/include/asm/unistd.h
-@@ -38,7 +38,7 @@
- #define __ARM_NR_compat_set_tls		(__ARM_NR_COMPAT_BASE + 5)
- #define __ARM_NR_COMPAT_END		(__ARM_NR_COMPAT_BASE + 0x800)
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index 8dc1811487f5..f0166f630a1a 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -1468,6 +1468,7 @@ extern struct pid *cad_pid;
+ #define PF_NO_SETAFFINITY	0x04000000	/* Userland is not allowed to meddle with cpus_mask */
+ #define PF_MCE_EARLY		0x08000000      /* Early kill for mce process policy */
+ #define PF_MEMALLOC_NOCMA	0x10000000	/* All allocation request will have _GFP_MOVABLE cleared */
++#define PF_WAIT_PID		0x20000000	/* This task will not appear in generic wait requests */
+ #define PF_FREEZER_SKIP		0x40000000	/* Freezer should not count it as freezable */
+ #define PF_SUSPEND_TASK		0x80000000      /* This thread called freeze_processes() and should not be frozen */
  
--#define __NR_compat_syscalls		436
-+#define __NR_compat_syscalls		439
- #endif
- 
- #define __ARCH_WANT_SYS_CLONE
-diff --git a/arch/arm64/include/asm/unistd32.h b/arch/arm64/include/asm/unistd32.h
-index 94ab29cf4f00..ca77c9d4f7a1 100644
---- a/arch/arm64/include/asm/unistd32.h
-+++ b/arch/arm64/include/asm/unistd32.h
-@@ -877,7 +877,9 @@ __SYSCALL(__NR_fsmount, sys_fsmount)
- __SYSCALL(__NR_fspick, sys_fspick)
- #define __NR_pidfd_open 434
- __SYSCALL(__NR_pidfd_open, sys_pidfd_open)
--#define __NR_clone3 435
-+#define __NR_pidfd_wait 438
-+__SYSCALL(__NR_pidfd_wait, sys_pidfd_wait)
-+#define __NR_clone3 439
- __SYSCALL(__NR_clone3, sys_clone3)
+diff --git a/include/uapi/linux/sched.h b/include/uapi/linux/sched.h
+index b3105ac1381a..ffb1cac18e4e 100644
+--- a/include/uapi/linux/sched.h
++++ b/include/uapi/linux/sched.h
+@@ -32,6 +32,7 @@
+ #define CLONE_NEWPID		0x20000000	/* New pid namespace */
+ #define CLONE_NEWNET		0x40000000	/* New network namespace */
+ #define CLONE_IO		0x80000000	/* Clone io context */
++#define CLONE_WAIT_PID		0x200000000ULL  /* set if process should not appear in generic wait requests */
  
  /*
-diff --git a/arch/ia64/kernel/syscalls/syscall.tbl b/arch/ia64/kernel/syscalls/syscall.tbl
-index 36d5faf4c86c..f038afaced9b 100644
---- a/arch/ia64/kernel/syscalls/syscall.tbl
-+++ b/arch/ia64/kernel/syscalls/syscall.tbl
-@@ -356,3 +356,4 @@
- 433	common	fspick				sys_fspick
- 434	common	pidfd_open			sys_pidfd_open
- # 435 reserved for clone3
-+438	common	pidfd_wait			sys_pidfd_wait
-diff --git a/arch/m68k/kernel/syscalls/syscall.tbl b/arch/m68k/kernel/syscalls/syscall.tbl
-index a88a285a0e5f..51f86f7b4cec 100644
---- a/arch/m68k/kernel/syscalls/syscall.tbl
-+++ b/arch/m68k/kernel/syscalls/syscall.tbl
-@@ -435,3 +435,4 @@
- 433	common	fspick				sys_fspick
- 434	common	pidfd_open			sys_pidfd_open
- # 435 reserved for clone3
-+438	common	pidfd_wait			sys_pidfd_wait
-diff --git a/arch/microblaze/kernel/syscalls/syscall.tbl b/arch/microblaze/kernel/syscalls/syscall.tbl
-index 09b0cd7dab0a..24f912ac5dfa 100644
---- a/arch/microblaze/kernel/syscalls/syscall.tbl
-+++ b/arch/microblaze/kernel/syscalls/syscall.tbl
-@@ -441,3 +441,4 @@
- 433	common	fspick				sys_fspick
- 434	common	pidfd_open			sys_pidfd_open
- 435	common	clone3				sys_clone3
-+438	common	pidfd_wait			sys_pidfd_wait
-diff --git a/arch/mips/kernel/syscalls/syscall_n32.tbl b/arch/mips/kernel/syscalls/syscall_n32.tbl
-index c9c879ec9b6d..edc144c4040c 100644
---- a/arch/mips/kernel/syscalls/syscall_n32.tbl
-+++ b/arch/mips/kernel/syscalls/syscall_n32.tbl
-@@ -374,3 +374,4 @@
- 433	n32	fspick				sys_fspick
- 434	n32	pidfd_open			sys_pidfd_open
- # 435 reserved for clone3
-+438	n32	pidfd_wait			sys_pidfd_wait
-diff --git a/arch/mips/kernel/syscalls/syscall_n64.tbl b/arch/mips/kernel/syscalls/syscall_n64.tbl
-index bbce9159caa1..da4486ea0f4f 100644
---- a/arch/mips/kernel/syscalls/syscall_n64.tbl
-+++ b/arch/mips/kernel/syscalls/syscall_n64.tbl
-@@ -350,3 +350,4 @@
- 433	n64	fspick				sys_fspick
- 434	n64	pidfd_open			sys_pidfd_open
- # 435 reserved for clone3
-+438	n64	pidfd_wait			sys_pidfd_wait
-diff --git a/arch/mips/kernel/syscalls/syscall_o32.tbl b/arch/mips/kernel/syscalls/syscall_o32.tbl
-index 9653591428ec..d738688e50d8 100644
---- a/arch/mips/kernel/syscalls/syscall_o32.tbl
-+++ b/arch/mips/kernel/syscalls/syscall_o32.tbl
-@@ -423,3 +423,4 @@
- 433	o32	fspick				sys_fspick
- 434	o32	pidfd_open			sys_pidfd_open
- # 435 reserved for clone3
-+438	o32	pidfd_wait			sys_pidfd_wait
-diff --git a/arch/parisc/kernel/syscalls/syscall.tbl b/arch/parisc/kernel/syscalls/syscall.tbl
-index 670d1371aca1..d60f44d8145c 100644
---- a/arch/parisc/kernel/syscalls/syscall.tbl
-+++ b/arch/parisc/kernel/syscalls/syscall.tbl
-@@ -432,3 +432,4 @@
- 433	common	fspick				sys_fspick
- 434	common	pidfd_open			sys_pidfd_open
- 435	common	clone3				sys_clone3_wrapper
-+438	common	pidfd_wait			sys_pidfd_wait
-diff --git a/arch/powerpc/kernel/syscalls/syscall.tbl b/arch/powerpc/kernel/syscalls/syscall.tbl
-index 3331749aab20..3309bf5f5370 100644
---- a/arch/powerpc/kernel/syscalls/syscall.tbl
-+++ b/arch/powerpc/kernel/syscalls/syscall.tbl
-@@ -517,3 +517,4 @@
- 433	common	fspick				sys_fspick
- 434	common	pidfd_open			sys_pidfd_open
- # 435 reserved for clone3
-+438	common	pidfd_wait			sys_pidfd_wait
-diff --git a/arch/s390/kernel/syscalls/syscall.tbl b/arch/s390/kernel/syscalls/syscall.tbl
-index a90d3e945445..ef8ba9a9c3bb 100644
---- a/arch/s390/kernel/syscalls/syscall.tbl
-+++ b/arch/s390/kernel/syscalls/syscall.tbl
-@@ -438,3 +438,4 @@
- 433  common	fspick			sys_fspick			sys_fspick
- 434  common	pidfd_open		sys_pidfd_open			sys_pidfd_open
- # 435 reserved for clone3
-+438  common	pidfd_wait		sys_pidfd_wait			sys_pidfd_wait
-diff --git a/arch/sh/kernel/syscalls/syscall.tbl b/arch/sh/kernel/syscalls/syscall.tbl
-index b5ed26c4c005..9e786a198bfd 100644
---- a/arch/sh/kernel/syscalls/syscall.tbl
-+++ b/arch/sh/kernel/syscalls/syscall.tbl
-@@ -438,3 +438,4 @@
- 433	common	fspick				sys_fspick
- 434	common	pidfd_open			sys_pidfd_open
- # 435 reserved for clone3
-+438	common	pidfd_wait			sys_pidfd_wait
-diff --git a/arch/sparc/kernel/syscalls/syscall.tbl b/arch/sparc/kernel/syscalls/syscall.tbl
-index 8c8cc7537fb2..ef4f13907894 100644
---- a/arch/sparc/kernel/syscalls/syscall.tbl
-+++ b/arch/sparc/kernel/syscalls/syscall.tbl
-@@ -481,3 +481,4 @@
- 433	common	fspick				sys_fspick
- 434	common	pidfd_open			sys_pidfd_open
- # 435 reserved for clone3
-+438	common	pidfd_wait			sys_pidfd_wait
-diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
-index c00019abd076..76ec8c905745 100644
---- a/arch/x86/entry/syscalls/syscall_32.tbl
-+++ b/arch/x86/entry/syscalls/syscall_32.tbl
-@@ -440,3 +440,4 @@
- 433	i386	fspick			sys_fspick			__ia32_sys_fspick
- 434	i386	pidfd_open		sys_pidfd_open			__ia32_sys_pidfd_open
- 435	i386	clone3			sys_clone3			__ia32_sys_clone3
-+438	i386	pidfd_wait		sys_pidfd_wait			__ia32_sys_pidfd_wait
-diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
-index c29976eca4a8..733c206130f8 100644
---- a/arch/x86/entry/syscalls/syscall_64.tbl
-+++ b/arch/x86/entry/syscalls/syscall_64.tbl
-@@ -357,6 +357,7 @@
- 433	common	fspick			__x64_sys_fspick
- 434	common	pidfd_open		__x64_sys_pidfd_open
- 435	common	clone3			__x64_sys_clone3/ptregs
-+438	common	pidfd_wait		__x64_sys_pidfd_wait
+  * Arguments for the clone3 syscall
+diff --git a/kernel/exit.c b/kernel/exit.c
+index 8086c76e1959..aa15de1108b2 100644
+--- a/kernel/exit.c
++++ b/kernel/exit.c
+@@ -1019,6 +1019,9 @@ eligible_child(struct wait_opts *wo, bool ptrace, struct task_struct *p)
+ 	if (!eligible_pid(wo, p))
+ 		return 0;
  
- #
- # x32-specific system call numbers start at 512 to avoid cache impact
-diff --git a/arch/xtensa/kernel/syscalls/syscall.tbl b/arch/xtensa/kernel/syscalls/syscall.tbl
-index 25f4de729a6d..417203971292 100644
---- a/arch/xtensa/kernel/syscalls/syscall.tbl
-+++ b/arch/xtensa/kernel/syscalls/syscall.tbl
-@@ -406,3 +406,4 @@
- 433	common	fspick				sys_fspick
- 434	common	pidfd_open			sys_pidfd_open
- 435	common	clone3				sys_clone3
-+438	common	pidfd_wait			sys_pidfd_wait
-diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-index 88145da7d140..760e8eacb93c 100644
---- a/include/linux/syscalls.h
-+++ b/include/linux/syscalls.h
-@@ -932,6 +932,10 @@ asmlinkage long sys_clock_adjtime32(clockid_t which_clock,
- asmlinkage long sys_syncfs(int fd);
- asmlinkage long sys_setns(int fd, int nstype);
- asmlinkage long sys_pidfd_open(pid_t pid, unsigned int flags);
-+asmlinkage long sys_pidfd_wait(int pidfd, int __user *stat_addr,
-+			       struct siginfo __user *info,
-+			       struct rusage __user *ru, unsigned int states,
-+			       unsigned int flags);
- asmlinkage long sys_sendmmsg(int fd, struct mmsghdr __user *msg,
- 			     unsigned int vlen, unsigned flags);
- asmlinkage long sys_process_vm_readv(pid_t pid,
-diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
-index 1be0e798e362..0dd5b9d4dba0 100644
---- a/include/uapi/asm-generic/unistd.h
-+++ b/include/uapi/asm-generic/unistd.h
-@@ -850,9 +850,11 @@ __SYSCALL(__NR_pidfd_open, sys_pidfd_open)
- #define __NR_clone3 435
- __SYSCALL(__NR_clone3, sys_clone3)
- #endif
-+#define __NR_pidfd_wait 438
-+__SYSCALL(__NR_pidfd_wait, sys_pidfd_wait)
++	if ((p->flags & PF_WAIT_PID) && (wo->wo_type != PIDTYPE_PID))
++		return 0;
++
+ 	/*
+ 	 * Wait for all children (clone and not) if __WALL is set or
+ 	 * if it is traced by us.
+diff --git a/kernel/fork.c b/kernel/fork.c
+index baaff6570517..a067f3876e2e 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -1910,6 +1910,8 @@ static __latent_entropy struct task_struct *copy_process(
+ 	delayacct_tsk_init(p);	/* Must remain after dup_task_struct() */
+ 	p->flags &= ~(PF_SUPERPRIV | PF_WQ_WORKER | PF_IDLE);
+ 	p->flags |= PF_FORKNOEXEC;
++	if (clone_flags & CLONE_WAIT_PID)
++		p->flags |= PF_WAIT_PID;
+ 	INIT_LIST_HEAD(&p->children);
+ 	INIT_LIST_HEAD(&p->sibling);
+ 	rcu_copy_process(p);
+@@ -2590,7 +2592,7 @@ static bool clone3_args_valid(const struct kernel_clone_args *kargs)
+ 	 * All lower bits of the flag word are taken.
+ 	 * Verify that no other unknown flags are passed along.
+ 	 */
+-	if (kargs->flags & ~CLONE_LEGACY_FLAGS)
++	if (kargs->flags & ~(CLONE_LEGACY_FLAGS | CLONE_WAIT_PID))
+ 		return false;
  
- #undef __NR_syscalls
--#define __NR_syscalls 436
-+#define __NR_syscalls 439
+ 	/*
+@@ -2600,6 +2602,13 @@ static bool clone3_args_valid(const struct kernel_clone_args *kargs)
+ 	if (kargs->flags & (CLONE_DETACHED | CSIGNAL))
+ 		return false;
  
- /*
-  * 32 bit systems traditionally used different
++	/*
++	 * Currently only allow CLONE_WAIT_PID for processes created as
++	 * pidfds until someone needs this feature for regular pids too.
++	 */
++	if ((kargs->flags & CLONE_WAIT_PID) && !(kargs->flags & CLONE_PIDFD))
++		return false;
++
+ 	if ((kargs->flags & (CLONE_THREAD | CLONE_PARENT)) &&
+ 	    kargs->exit_signal)
+ 		return false;
 -- 
 2.22.0
 
