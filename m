@@ -2,103 +2,268 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 55F5D72315
-	for <lists+linux-api@lfdr.de>; Wed, 24 Jul 2019 01:30:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 723F9723D1
+	for <lists+linux-api@lfdr.de>; Wed, 24 Jul 2019 03:40:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726956AbfGWXae (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 23 Jul 2019 19:30:34 -0400
-Received: from zeniv.linux.org.uk ([195.92.253.2]:50106 "EHLO
-        ZenIV.linux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726888AbfGWXad (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 23 Jul 2019 19:30:33 -0400
-Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92 #3 (Red Hat Linux))
-        id 1hq4Ea-00010p-D2; Tue, 23 Jul 2019 23:30:16 +0000
-Date:   Wed, 24 Jul 2019 00:30:16 +0100
-From:   Al Viro <viro@zeniv.linux.org.uk>
-To:     James Morris <jmorris@namei.org>
-Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        David Howells <dhowells@redhat.com>, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, torvalds@linux-foundation.org,
-        linux-security-module@vger.kernel.org
-Subject: Re: [PATCH 02/10] vfs: syscall: Add move_mount(2) to move mounts
- around
-Message-ID: <20190723233016.GD1131@ZenIV.linux.org.uk>
-References: <155059610368.17079.2220554006494174417.stgit@warthog.procyon.org.uk>
- <155059611887.17079.12991580316407924257.stgit@warthog.procyon.org.uk>
- <c5b901ca-c243-bf80-91be-a794c4433415@I-love.SAKURA.ne.jp>
- <20190708131831.GT17978@ZenIV.linux.org.uk>
- <874l3wo3gq.fsf@xmission.com>
- <20190708180132.GU17978@ZenIV.linux.org.uk>
- <20190708202124.GX17978@ZenIV.linux.org.uk>
- <alpine.LRH.2.21.1907240744080.16974@namei.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <alpine.LRH.2.21.1907240744080.16974@namei.org>
-User-Agent: Mutt/1.12.0 (2019-05-25)
+        id S1728422AbfGXBkd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 23 Jul 2019 21:40:33 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:32798 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728420AbfGXBkc (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 23 Jul 2019 21:40:32 -0400
+Received: by mail-pl1-f193.google.com with SMTP id c14so21252266plo.0
+        for <linux-api@vger.kernel.org>; Tue, 23 Jul 2019 18:40:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=fugMyQialasQg77i1MwbSB/hy058oIuvmQv9Y6tRr8I=;
+        b=hferate5+QJcLPj2tAGig4LvzjyxwA7qbAq+ZZYnyGQsHCf0vtfGC2nYAcoCq/ubtt
+         g9J065NnEX5JYfhjXkzw+JksQc3nSV+fUISqXdOjqNIM3o471s6CIOD9nN4ZqmuCv+t2
+         cjKhj4jA4OBb6VxlsCkziQ99TueAg0cXav6rh6Eqemal0op1Ua63R+nYU0R66gL+T7Z4
+         3te++RkMDL0hFZf8QI6GQvddpT14rjbTeLdK/zad5CMPRrVpqaMGl08KZnhsi7ap41u9
+         w28qSz8DnrLLiG25UPaQtkN5trn9t4tnn8TyXb5Crr+/S6JgBin4OpZnVE7+UFZZZOnX
+         rWOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=fugMyQialasQg77i1MwbSB/hy058oIuvmQv9Y6tRr8I=;
+        b=dk6tyH41zTlonQsB/irxkqp8qf8XHMmezWI9V6PCRjyISz16mpPIYhBovkVsvRomLw
+         ZBVPvEHFJYuJUKgrZVxSKVwvj5C0M3/ScEl2RC5btOdKIxOWF2eyANQyTzlxeafJlZrf
+         fBXK+dbyqoieerMQhg6m0uVyuigIO60zQwLaqA1qO8Ko50qa5R31F0WvzRP6nWhwJoDr
+         O7w7OIxk6l+xuuh+qKOruFYPrF1nM7mUHiH90XcoYxQEDVnjw2pQMBYgbjKcbg+STl7y
+         y+pkSFgGU5cNVhZPMWA6j7625HKf9+Er9uH/LIO9s4DcHXdwrFJTj/UJfSPvwmSQNQGl
+         ZnhA==
+X-Gm-Message-State: APjAAAXl75fE7b+6IZAjnxhqDYw1w3U/L/vQccQ2WgOD8aNTlbfbmu+9
+        lhMNDGkD3/40TqsFsciFwRRT0w==
+X-Google-Smtp-Source: APXvYqxDgG1VQC8Z4Kl+Efc0w8MxVrAvet4CeE5c0galulRK0so/jOD5qMSdZrhm0Y2qhb3f7NJ4QA==
+X-Received: by 2002:a17:902:1486:: with SMTP id k6mr81977059pla.177.1563932431622;
+        Tue, 23 Jul 2019 18:40:31 -0700 (PDT)
+Received: from ?IPv6:2600:1010:b055:19e0:81e6:db78:9a51:8f05? ([2600:1010:b055:19e0:81e6:db78:9a51:8f05])
+        by smtp.gmail.com with ESMTPSA id t8sm48118442pfq.31.2019.07.23.18.40.30
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 23 Jul 2019 18:40:30 -0700 (PDT)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH v2 bpf-next 1/4] bpf: unprivileged BPF access via /dev/bpf
+From:   Andy Lutomirski <luto@amacapital.net>
+X-Mailer: iPhone Mail (16F203)
+In-Reply-To: <514D5453-0AEE-420F-AEB6-3F4F58C62E7E@fb.com>
+Date:   Tue, 23 Jul 2019 18:40:28 -0700
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        "linux-security@vger.kernel.org" <linux-security@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Kernel Team <Kernel-team@fb.com>,
+        Lorenz Bauer <lmb@cloudflare.com>,
+        Jann Horn <jannh@google.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <1DE886F3-3982-45DE-B545-67AD6A4871AB@amacapital.net>
+References: <20190627201923.2589391-1-songliubraving@fb.com> <20190627201923.2589391-2-songliubraving@fb.com> <21894f45-70d8-dfca-8c02-044f776c5e05@kernel.org> <3C595328-3ABE-4421-9772-8D41094A4F57@fb.com> <CALCETrWBnH4Q43POU8cQ7YMjb9LioK28FDEQf7aHZbdf1eBZWg@mail.gmail.com> <0DE7F23E-9CD2-4F03-82B5-835506B59056@fb.com> <CALCETrWBWbNFJvsTCeUchu3BZJ3SH3dvtXLUB2EhnPrzFfsLNA@mail.gmail.com> <201907021115.DCD56BBABB@keescook> <CALCETrXTta26CTtEDnzvtd03-WOGdXcnsAogP8JjLkcj4-mHvg@mail.gmail.com> <4A7A225A-6C23-4C0F-9A95-7C6C56B281ED@fb.com> <CALCETrX2bMnwC6_t4b_G-hzJSfMPrkK4YKs5ebcecv2LJ0rt3w@mail.gmail.com> <514D5453-0AEE-420F-AEB6-3F4F58C62E7E@fb.com>
+To:     Song Liu <songliubraving@fb.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jul 24, 2019 at 07:45:07AM +1000, James Morris wrote:
-> On Mon, 8 Jul 2019, Al Viro wrote:
-> 
-> > On Mon, Jul 08, 2019 at 07:01:32PM +0100, Al Viro wrote:
-> > > On Mon, Jul 08, 2019 at 12:12:21PM -0500, Eric W. Biederman wrote:
-> > > 
-> > > > Al you do realize that the TOCTOU you are talking about comes the system
-> > > > call API.  TOMOYO can only be faulted for not playing in their own
-> > > > sandbox and not reaching out and fixing the vfs implementation details.
-> > 
-> > PS: the fact that mount(2) has been overloaded to hell and back (including
-> > MS_MOVE, which goes back to v2.5.0.5) predates the introduction of ->sb_mount()
-> > and LSM in general (2.5.27).  MS_BIND is 2.4.0-test9pre2.
-> > 
-> > In all the years since the introduction of ->sb_mount() I've seen zero
-> > questions from LSM folks regarding a sane place for those checks.  What I have
-> > seen was "we want it immediately upon the syscall entry, let the module
-> > figure out what to do" in reply to several times I tried to tell them "folks,
-> > it's called in a bad place; you want the checks applied to objects, not to
-> > raw string arguments".
-> > 
-> > As it is, we have easily bypassable checks on mount(2) (by way of ->sb_mount();
-> > there are other hooks also in the game for remounts and new mounts).
-> 
-> What are your recommendations for placing these checks?
 
-For MS_MOVE: do_move_mount(), after lock_mount(), when the mount tree is stable
-and pathnames are resolved.
-For MS_BIND: do_loopback(), ditto.
-Incidentally, for pivot_root(2) I would also suggest moving that past the
-lock_mount(), for the same reasons.
-For propagation flag changes: do_change_type(), after namespace_lock().
-For per-mount flag changes: do_reconfigure_mnt(), possibly after having
-grabbed ->s_umount.
-For fs remount: IMO it should be handled purely in ->sb_remount().
 
-For new mount: really depends upon the filesystem type, I'm afraid.  There's
-nothing type-independent that can be done - in the best case you can say
-"no mounting block filesystems from that device"; note that for NFS the
-meaning of the argument is entirely different and you *can* have something
-like foo.local.org: as a name of symlink (or directory), so blanket "you can
-mount foo.local.org:/srv/nfs/blah" is asking for trouble -
-mount -t ext4 foo.local.org:/srv/nfs/blah /mnt can bloody well end up
-successfully mounting a very untrusted usb disk.
+> On Jul 23, 2019, at 3:56 PM, Song Liu <songliubraving@fb.com> wrote:
+>=20
+>=20
+>=20
+>> On Jul 23, 2019, at 8:11 AM, Andy Lutomirski <luto@kernel.org> wrote:
+>>=20
+>> On Mon, Jul 22, 2019 at 1:54 PM Song Liu <songliubraving@fb.com> wrote:
+>>>=20
+>>> Hi Andy, Lorenz, and all,
+>>>=20
+>>>> On Jul 2, 2019, at 2:32 PM, Andy Lutomirski <luto@kernel.org> wrote:
+>>>>=20
+>>>> On Tue, Jul 2, 2019 at 2:04 PM Kees Cook <keescook@chromium.org> wrote:=
 
-Note, BTW, that things like cramfs can be given
-	* mtd:mtd_device_name
-	* mtd<decimal number>
-	* block device pathname
-The last one needs to be resolved/canonicalized/whatnot.
-The other two must *NOT* - there's nothing to stop the
-attacker from ln -s /dev/mtdblock0 ./mtd12 and confusing
-the fsck out of your LSM (it would assume that we are
-trying to get mtd0 when in reality it'll mount mtd12).
+>>>>>=20
+>>>>>> On Mon, Jul 01, 2019 at 06:59:13PM -0700, Andy Lutomirski wrote:
+>>>>>> I think I'm understanding your motivation.  You're not trying to make=
 
-The rules really need to be type-dependent; ->sb_set_mnt_opts() has the
-state after the fs has been initialized to work with, but anything trying
-to stop the attempt to set the damn thing up in the first place (as
-current ->sb_mount() would) must be called from the inside of individual
-->get_tree()/->mount() instance (or a helper used by such).
+>>>>>> bpf() generically usable without privilege -- you're trying to create=
+
+>>>>>> a way to allow certain users to access dangerous bpf functionality
+>>>>>> within some limits.
+>>>>>>=20
+>>>>>> That's a perfectly fine goal, but I think you're reinventing the
+>>>>>> wheel, and the wheel you're reinventing is quite complicated and
+>>>>>> already exists.  I think you should teach bpftool to be secure when
+>>>>>> installed setuid root or with fscaps enabled and put your policy in
+>>>>>> bpftool.  If you want to harden this a little bit, it would seem
+>>>>>> entirely reasonable to add a new CAP_BPF_ADMIN and change some, but
+>>>>>> not all, of the capable() checks to check CAP_BPF_ADMIN instead of th=
+e
+>>>>>> capabilities that they currently check.
+>>>>>=20
+>>>>> If finer grained controls are wanted, it does seem like the /dev/bpf
+>>>>> path makes the most sense. open, request abilities, use fd. The open c=
+an
+>>>>> be mediated by DAC and LSM. The request can be mediated by LSM. This
+>>>>> provides a way to add policy at the LSM level and at the tool level.
+>>>>> (i.e. For tool-level controls: leave LSM wide open, make /dev/bpf owne=
+d
+>>>>> by "bpfadmin" and bpftool becomes setuid "bpfadmin". For fine-grained
+>>>>> controls, leave /dev/bpf wide open and add policy to SELinux, etc.)
+>>>>>=20
+>>>>> With only a new CAP, you don't get the fine-grained controls. (The
+>>>>> "request abilities" part is the key there.)
+>>>>=20
+>>>> Sure you do: the effective set.  It has somewhat bizarre defaults, but
+>>>> I don't think that's a real problem.  Also, this wouldn't be like
+>>>> CAP_DAC_READ_SEARCH -- you can't accidentally use your BPF caps.
+>>>>=20
+>>>> I think that a /dev capability-like object isn't totally nuts, but I
+>>>> think we should do it well, and this patch doesn't really achieve
+>>>> that.  But I don't think bpf wants fine-grained controls like this at
+>>>> all -- as I pointed upthread, a fine-grained solution really wants
+>>>> different treatment for the different capable() checks, and a bunch of
+>>>> them won't resemble capabilities or /dev/bpf at all.
+>>>=20
+>>> With 5.3-rc1 out, I am back on this. :)
+>>>=20
+>>> How about we modify the set as:
+>>> 1. Introduce sys_bpf_with_cap() that takes fd of /dev/bpf.
+>>=20
+>> I'm fine with this in principle, but:
+>>=20
+>>> 2. Better handling of capable() calls through bpf code. I guess the
+>>>    biggest problem here is is_priv in verifier.c:bpf_check().
+>>=20
+>> I think it would be good to understand exactly what /dev/bpf will
+>> enable one to do.  Without some care, it would just become the next
+>> CAP_SYS_ADMIN: if you can open it, sure, you're not root, but you can
+>> intercept network traffic, modify cgroup behavior, and do plenty of
+>> other things, any of which can probably be used to completely take
+>> over the system.
+>=20
+> Well, yes. sys_bpf() is pretty powerful.=20
+>=20
+> The goal of /dev/bpf is to enable special users to call sys_bpf(). In=20
+> the meanwhile, such users should not take down the whole system easily
+> by accident, e.g., with rm -rf /.
+
+That=E2=80=99s easy, though =E2=80=94 bpftool could learn to read /etc/bpfus=
+ers before allowing ruid !=3D 0.
+
+>=20
+> It is similar to CAP_BPF_ADMIN, without really adding the CAP_. =20
+>=20
+> I think adding new CAP_ requires much more effort.=20
+>=20
+
+A new CAP_ is straightforward =E2=80=94 add the definition and change the ma=
+x cap.
+
+>>=20
+>> It would also be nice to understand why you can't do what you need to
+>> do entirely in user code using setuid or fscaps.
+>=20
+> It is not very easy to achieve the same control: only certain users can
+> run certain tools (bpftool, etc.).=20
+>=20
+> The closest approach I can find is:
+>  1. use libcap (pam_cap) to give CAP_SETUID to certain users;
+>  2. add setuid(0) to bpftool.
+>=20
+> The difference between this approach and /dev/bpf is that certain users
+> would be able to run other tools that call setuid(). Though I am not=20
+> sure how many tools call setuid(), and how risky they are.=20
+
+I think you=E2=80=99re misunderstanding me. Install bpftool with either the s=
+etuid (S_ISUID) mode or with an appropriate fscap bit =E2=80=94 see the setc=
+ap(8) manpage.
+
+The downside of this approach is that it won=E2=80=99t work well in a contai=
+ner, and containers are cool these days :)
+
+>=20
+>>=20
+>> Finally, at risk of rehashing some old arguments, I'll point out that
+>> the bpf() syscall is an unusual design to begin with.  As an example,
+>> consider bpf_prog_attach().  Outside of bpf(), if I want to change the
+>> behavior of a cgroup, I would write to a file in
+>> /sys/kernel/cgroup/unified/whatever/, and normal DAC and MAC rules
+>> apply.  With bpf(), however, I just call bpf() to attach a program to
+>> the cgroup.  bpf() says "oh, you are capable(CAP_NET_ADMIN) -- go for
+>> it!".  Unless I missed something major, and I just re-read the code,
+>> there is no check that the caller has write or LSM permission to
+>> anything at all in cgroupfs, and the existing API would make it very
+>> awkward to impose any kind of DAC rules here.
+>>=20
+>> So I think it might actually be time to repay some techincal debt and
+>> come up with a real fix.  As a less intrusive approach, you could see
+>> about requiring ownership of the cgroup directory instead of
+>> CAP_NET_ADMIN.  As a more intrusive but perhaps better approach, you
+>> could invert the logic to to make it work like everything outside of
+>> cgroup: add pseudo-files like bpf.inet_ingress to the cgroup
+>> directories, and require a writable fd to *that* to a new improved
+>> attach API.  If a user could do:
+>>=20
+>> int fd =3D open("/sys/fs/cgroup/.../bpf.inet_attach", O_RDWR);  /* usual
+>> DAC and MAC policy applies */
+>> int bpf_fd =3D setup the bpf stuff;  /* no privilege required, unless
+>> the program is huge or needs is_priv */
+>> bpf(BPF_IMPROVED_ATTACH, target =3D fd, program =3D bpf_fd);
+>>=20
+>> there would be no capabilities or global privilege at all required for
+>> this.  It would just work with cgroup delegation, containers, etc.
+>>=20
+>> I think you could even pull off this type of API change with only
+>> libbpf changes.  In particular, there's this code:
+>>=20
+>> int bpf_prog_attach(int prog_fd, int target_fd, enum bpf_attach_type type=
+,
+>>                   unsigned int flags)
+>> {
+>>       union bpf_attr attr;
+>>=20
+>>       memset(&attr, 0, sizeof(attr));
+>>       attr.target_fd     =3D target_fd;
+>>       attr.attach_bpf_fd =3D prog_fd;
+>>       attr.attach_type   =3D type;
+>>       attr.attach_flags  =3D flags;
+>>=20
+>>       return sys_bpf(BPF_PROG_ATTACH, &attr, sizeof(attr));
+>> }
+>>=20
+>> This would instead do something like:
+>>=20
+>> int specific_target_fd =3D openat(target_fd, bpf_type_to_target[type], O_=
+RDWR);
+>> attr.target_fd =3D specific_target_fd;
+>> ...
+>>=20
+>> return sys_bpf(BPF_PROG_IMPROVED_ATTACH, &attr, sizeof(attr));
+>>=20
+>> Would this solve your problem without needing /dev/bpf at all?
+>=20
+> This gives fine grain access control. I think it solves the problem.=20
+> But it also requires a lot of rework to sys_bpf(). And it may also=20
+> break backward/forward compatibility?
+>=20
+
+I think the compatibility issue is manageable. The current bpf() interface w=
+ould be supported for at least several years, and libbpf could detect that t=
+he new interface isn=E2=80=99t supported and fall back the old interface
+
+> Personally, I think it is an overkill for the original motivation:=20
+> call sys_bpf() with special user instead of root.=20
+
+It=E2=80=99s overkill for your specific use case, but I=E2=80=99m trying to e=
+ncourage you to either solve your problem entirely in userspace or to solve a=
+ more general problem in the kernel :)
+
+In furtherance of bpf=E2=80=99s goal of world domination, I think it would b=
+e great if it Just Worked in a container. My proposal does this.
