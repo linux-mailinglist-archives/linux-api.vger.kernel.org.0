@@ -2,107 +2,109 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CC217361E
-	for <lists+linux-api@lfdr.de>; Wed, 24 Jul 2019 19:52:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18B0473666
+	for <lists+linux-api@lfdr.de>; Wed, 24 Jul 2019 20:14:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726864AbfGXRwR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 24 Jul 2019 13:52:17 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:43438 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726492AbfGXRwR (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 24 Jul 2019 13:52:17 -0400
-Received: by mail-pg1-f194.google.com with SMTP id f25so21578767pgv.10
-        for <linux-api@vger.kernel.org>; Wed, 24 Jul 2019 10:52:17 -0700 (PDT)
+        id S1726298AbfGXSOy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 24 Jul 2019 14:14:54 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:35636 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728027AbfGXSOx (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 24 Jul 2019 14:14:53 -0400
+Received: by mail-ot1-f65.google.com with SMTP id j19so10375204otq.2
+        for <linux-api@vger.kernel.org>; Wed, 24 Jul 2019 11:14:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brauner.io; s=google;
-        h=date:user-agent:in-reply-to:references:mime-version
-         :content-transfer-encoding:subject:to:cc:from:message-id;
-        bh=LTjRTgv0sSmtdgDvRAyQuDy9Soq0qaA8z85xb1R02ko=;
-        b=LVjyjijHQHfKDB6TTxxNkMKbqO6LZ3oZ9xr6a+Lk5e9HTmzvFnjYdxJpij+ZfGWRwO
-         Zw2lmgqEgTRRQotlMWUsu3n2j2Vq3MVfj+Ghb4xfgNigDe4VfBSvM+699iujfFLG4hfQ
-         1Bz2Uqco9uS3hLa+qE7rWLO8OSXOsa8pfHZFvlD5+Z6+S47ULGO+utVcPZLVMc0Khg5A
-         B3Vvp3vvJnhGHCPrH7wPWhgWtdjZpMRSsK9KG5AsOEbsr63+Ra2ww8viC308puOrXrC8
-         ft8fq94RETHXmbkgAvaWy5REviRNtrsFGY3WStZNOi8HuaUP+RZnWui5qA1QdSKayO+j
-         tbsQ==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=qBB4NIUezJfffKo6WArQqxSmCR6R1iK7nA9Imt65nrA=;
+        b=lWNkNy2HocdqrSPSjM86VbsoPLqsarjkWdpIa+rbyfMi2VVwhNVXgnmJbHOpO1W7FT
+         LQMzXGrgksgL9tGb50G9TiUwzlVWVbhzfAN6YgzYvj9m0yrQTGiGJQ6UBv0FRFiUeI0Y
+         0Pu6bKOZZAfkCCJlOZkDOX7Sot7v/XhX7gKi7M6McIRW/+SPegOlDe8lp/F2tcsjSooD
+         yoc081wlkW7WCUVG3wHzzrnhXOxIHoMB4QEeSlGWs5yVG93jDJsFjxlbNrryYK6ptn6i
+         6hV19p7RkJbrSN7B0r9AaIRRx/7XrpljhjtHs8tAhBqO1U4zdzM1POwxhMmkzWwsle0x
+         TalA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:user-agent:in-reply-to:references
-         :mime-version:content-transfer-encoding:subject:to:cc:from
-         :message-id;
-        bh=LTjRTgv0sSmtdgDvRAyQuDy9Soq0qaA8z85xb1R02ko=;
-        b=lssV+HivpklKQVJmNL3iYPp76agvt2NfAhMiyDhIeDjXI6Ewun3J8I97oSUV5YNDXq
-         a5ffsSO9Jx4VgBxJEI2rcMs6NXzg1jMntWI2h7Lm1gUeTpZ8HlaSWi7Ep5b2wORh4+vu
-         J+aippdE90EVZAcGZbz8EuKy9W/xueUtsfmWJvjttke459qUU7IenSzcX8N9jevZE9Ju
-         m+VfT3io288jvwKs38XGi+o0TQYmWdoGnjwjlLfRllp+tvsGPSI76D3sXbJKx86ezJFq
-         wsxCDKXUNJPiwIR538zRGH5/DYRWBfbCQCekQsm20xdbhysPggymGG1vytA6UN+tNFjp
-         sOQw==
-X-Gm-Message-State: APjAAAV/uWddPjq9f7pvMlGBYjiNSZaZSRvVNV0Ix6pSUTaotfQFrqb3
-        MeJWKXnHxyRzWIl3XKgeZ2razRqpUF4=
-X-Google-Smtp-Source: APXvYqx7+JaUSwr8oNVFzhmI++HcH6nim4+KpKUYTgfT7PR5Hc6bp0HuElxuSpi3e2JwPJevG2BIaQ==
-X-Received: by 2002:a17:90a:6546:: with SMTP id f6mr42634439pjs.11.1563990736774;
-        Wed, 24 Jul 2019 10:52:16 -0700 (PDT)
-Received: from [25.171.251.59] ([172.58.27.54])
-        by smtp.gmail.com with ESMTPSA id g2sm78654497pfq.88.2019.07.24.10.52.15
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 24 Jul 2019 10:52:16 -0700 (PDT)
-Date:   Wed, 24 Jul 2019 19:52:08 +0200
-User-Agent: K-9 Mail for Android
-In-Reply-To: <95CD0533-576F-4B3A-8E80-D3D89967EE2C@brauner.io>
-References: <20190724144651.28272-1-christian@brauner.io> <20190724144651.28272-3-christian@brauner.io> <CAHk-=whZPKzbPQftNGFB=iaSZGTSXNkhUASWF2V53MwB+A4zAQ@mail.gmail.com> <95CD0533-576F-4B3A-8E80-D3D89967EE2C@brauner.io>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qBB4NIUezJfffKo6WArQqxSmCR6R1iK7nA9Imt65nrA=;
+        b=dJhTG733A6Cdbn/tRe1P86g9W+dNXkWTCloVlu5Qo3x/jPX+tJHxA088X94CX4xGtz
+         Cwr/T/MykTl3vIyyoGT15O9pHw87HIIfRcakkTZ2jUEyLuzfvBe25nsUhrh7brWNeJdx
+         CgMlDO/claiAUpHSr4sMkA5ntVyGWtTsxYJ5fnrRBGmHo0B4a4PqDxaUce96Ip8RemDg
+         pkvLx/rbBnJAKpCrz7/DWspHNoJ4qh8fc58BkBRU0e12P65NsucyYpbFx12FneCIz/Rb
+         ndMvREzpall7IOkHkleokZuxA/Q+/gOTkAGquIhwJh4x0CwnmXH1VAfqSueJKSGDyzzN
+         nThA==
+X-Gm-Message-State: APjAAAUa6ADh0b+0VECPNeMjqOJpuwq+HZDfUr7NwgBBS/UeuVNCncv0
+        8EhiGW+JnmhuXDyVQbndtOl2Ab5+U0sZNE9yIXgKQg==
+X-Google-Smtp-Source: APXvYqwHy5zLM+W8es+5EDo+pppJ0LUeZRmJbRYgUyIKhGpRl4E7tMR2+zkmduhMX/+diAhhSgIEktJcOUDM+vPLN9k=
+X-Received: by 2002:a05:6830:15cd:: with SMTP id j13mr44476599otr.110.1563992092278;
+ Wed, 24 Jul 2019 11:14:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 2/5] pidfd: add pidfd_wait()
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-CC:     Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
+References: <20190724144651.28272-1-christian@brauner.io> <20190724144651.28272-5-christian@brauner.io>
+In-Reply-To: <20190724144651.28272-5-christian@brauner.io>
+From:   Jann Horn <jannh@google.com>
+Date:   Wed, 24 Jul 2019 20:14:26 +0200
+Message-ID: <CAG48ez3nuY__qvctoOnX7mQbjjP4chEs4K-OPxSQficiPLS18w@mail.gmail.com>
+Subject: Re: [PATCH 4/5] pidfd: add CLONE_WAIT_PID
+To:     Christian Brauner <christian@brauner.io>
+Cc:     kernel list <linux-kernel@vger.kernel.org>,
         Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
         "Eric W. Biederman" <ebiederm@xmission.com>,
         Kees Cook <keescook@chromium.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Tejun Heo <tj@kernel.org>, David Howells <dhowells@redhat.com>,
-        Jann Horn <jannh@google.com>,
-        Andrew Lutomirski <luto@kernel.org>,
+        Andy Lutomirski <luto@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Aleksa Sarai <cyphar@cyphar.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         Al Viro <viro@zeniv.linux.org.uk>,
-        Android Kernel Team <kernel-team@android.com>,
+        kernel-team <kernel-team@android.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
         Linux API <linux-api@vger.kernel.org>
-From:   Christian Brauner <christian@brauner.io>
-Message-ID: <D9BD06E2-576A-4627-8047-0AA86B6CCDA9@brauner.io>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On July 24, 2019 7:50:49 PM GMT+02:00, Christian Brauner <christian@brauner=
-=2Eio> wrote:
->On July 24, 2019 7:45:38 PM GMT+02:00, Linus Torvalds
-><torvalds@linux-foundation=2Eorg> wrote:
->>On Wed, Jul 24, 2019 at 7:47 AM Christian Brauner
->><christian@brauner=2Eio> wrote:
->>>
->>> This adds the pidfd_wait() syscall=2E
->>
->>I despise this patch=2E
->>
->>Why can't this just be a new P_PIDFD flag, and then use
->>"waitid(P_PIDFD, pidfd, =2E=2E=2E);"
->>
->>Yes, yes, yes, I realize that "pidfd" is of type "int", and waitid()
->>takes an argument of type pid_t, but it's the same type in the end,
->>and it does seem like the whole *point* of "waitid()" is that
->>"idtype_t idtype" which tells you what kind of ID you're passing it=2E
->>
->>               Linus
+On Wed, Jul 24, 2019 at 4:48 PM Christian Brauner <christian@brauner.io> wrote:
+> If CLONE_WAIT_PID is set the newly created process will not be
+> considered by process wait requests that wait generically on children
+> such as:
 >
->Well in that case we could add P_PIDFD=2E
->But then I would like to _only_ enable it for waitid()=2E How's that
->sound?
+>         syscall(__NR_wait4, -1, wstatus, options, rusage)
+>         syscall(__NR_waitpid, -1, wstatus, options)
+>         syscall(__NR_waitid, P_ALL, -1, siginfo, options, rusage)
+>         syscall(__NR_waitid, P_PGID, -1, siginfo, options, rusage)
+>         syscall(__NR_waitpid, -pid, wstatus, options)
+>         syscall(__NR_wait4, -pid, wstatus, options, rusage)
 >
->Christian
+> A process created with CLONE_WAIT_PID can only be waited upon with a
+> focussed wait call. This ensures that processes can be reaped even if
+> all file descriptors referring to it are closed.
+[...]
+> diff --git a/kernel/fork.c b/kernel/fork.c
+> index baaff6570517..a067f3876e2e 100644
+> --- a/kernel/fork.c
+> +++ b/kernel/fork.c
+> @@ -1910,6 +1910,8 @@ static __latent_entropy struct task_struct *copy_process(
+>         delayacct_tsk_init(p);  /* Must remain after dup_task_struct() */
+>         p->flags &= ~(PF_SUPERPRIV | PF_WQ_WORKER | PF_IDLE);
+>         p->flags |= PF_FORKNOEXEC;
+> +       if (clone_flags & CLONE_WAIT_PID)
+> +               p->flags |= PF_WAIT_PID;
+>         INIT_LIST_HEAD(&p->children);
+>         INIT_LIST_HEAD(&p->sibling);
+>         rcu_copy_process(p);
 
-Ah, sorry, just saw that that's what you suggested=2E
-
-Christian
+This means that if a process with PF_WAIT_PID forks, the child
+inherits the flag, right? That seems unintended? You might have to add
+something like "if (clone_flags & CLONE_THREAD == 0) p->flags &=
+~PF_WAIT_PID;" before this. (I think threads do have to inherit the
+flag so that the case where a non-leader thread of the child goes
+through execve and steals the leader's identity is handled properly.)
+Or you could cram it somewhere into signal_struct instead of on the
+task - that might be a more logical place for it?
