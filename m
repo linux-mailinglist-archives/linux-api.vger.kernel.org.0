@@ -2,165 +2,77 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D02B74CF7
-	for <lists+linux-api@lfdr.de>; Thu, 25 Jul 2019 13:23:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4FB774D01
+	for <lists+linux-api@lfdr.de>; Thu, 25 Jul 2019 13:25:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391781AbfGYLXy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 25 Jul 2019 07:23:54 -0400
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:45974 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389393AbfGYLXy (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 25 Jul 2019 07:23:54 -0400
-Received: by mail-ed1-f66.google.com with SMTP id x19so43970701eda.12
-        for <linux-api@vger.kernel.org>; Thu, 25 Jul 2019 04:23:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brauner.io; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=R4X4dIvgC7aHDnggel6jNUiHPO07ZamRAm1AnpEU6C4=;
-        b=B7SEKAH2l3txcMK9IQ8ysWmU/wtKk0uJqs1w331GUvqy2Lfz/cvtyyyV+c9wSyXfOJ
-         auTKJ2ERAPRPE+7EGT0NpeUEbX3QORh42rwZY/kJFyu1BYlBRtqhwZqk8vdlG88IW6Np
-         Yw9eSmF0PPz7t45gLoBb7wUjLaCmeMQkhLHUc/o0NvZ4lefuvTTpzKGEyb8AeElPA1Ie
-         F2DWs0hH1+Ff/BnXvG6NCJg7ikyn7iU1oa6cdnoDjoRXbnp4ch6lfvqoSM4Mow2SiMp2
-         IDeBWtqNF9bii5b5MqS8iTZs/KxkWmeJUcW+E9qG/JTqB1IQa/xLwDABlqBMmqR6AJji
-         R65A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=R4X4dIvgC7aHDnggel6jNUiHPO07ZamRAm1AnpEU6C4=;
-        b=QSAnoaNUMRUo6xKUkKo9J7/pYO8W8HgSsD3yOoYYbqjoht1ZCnlQ7aOVfv6UP4QjwF
-         4ytWbUtDBJ5rZb77rk/VSyjX8wxXFATRAL9cv5MNIZcDmRgDCU7S3iaOvI/8kkvto2N0
-         DnnGosYqBc9OpzvKqeGa77p6eQ62Z7GKfilJpjYkXuOYgH7AmOY3/eUeN22unAIkXYuG
-         WcQheXMADCeFS3RgqpknLmKFezGCuUect7rV5nG0M+AOLNZKvXSXJxDFBEBoaH3EL2P3
-         a+y0KemIFshh1qP2U+rz5ktBn/Cxl+tf/Vi9Gx2w1nbAj2OCwC9UdPCORU+VVRJVe6mC
-         WRPw==
-X-Gm-Message-State: APjAAAW7OWhk61zx+PxzWfNOA33KUKy5lC0fcgAwXiB0W/tee4ynaOlN
-        kO2rcooMWXzzXe5oOCC86QM=
-X-Google-Smtp-Source: APXvYqxUAFmz4cYMDK6MBsWYvmxoGli2NOMyXBcsXSZuxTH6/fv4cqIIp3v8wen2g1a7iIqYxpE11Q==
-X-Received: by 2002:a50:a56d:: with SMTP id z42mr77579614edb.241.1564053832148;
-        Thu, 25 Jul 2019 04:23:52 -0700 (PDT)
-Received: from brauner.io (ip5b40f7ec.dynamic.kabel-deutschland.de. [91.64.247.236])
-        by smtp.gmail.com with ESMTPSA id ni7sm6444396ejb.57.2019.07.25.04.23.51
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 25 Jul 2019 04:23:52 -0700 (PDT)
-Date:   Thu, 25 Jul 2019 13:23:50 +0200
-From:   Christian Brauner <christian@brauner.io>
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     arnd@arndb.de, ebiederm@xmission.com, keescook@chromium.org,
-        joel@joelfernandes.org, dancol@google.com, tglx@linutronix.de,
-        jannh@google.com, dhowells@redhat.com, mtk.manpages@gmail.com,
-        luto@kernel.org, akpm@linux-foundation.org, oleg@redhat.com,
-        cyphar@cyphar.com, torvalds@linux-foundation.org,
-        viro@zeniv.linux.org.uk, linux-api@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, kernel-team@android.com
-Subject: Re: [PATCH v2 1/2] tests: move common definitions and functions into
- pidfd.h
-Message-ID: <20190725112350.fspfvv7encmmdvqv@brauner.io>
-References: <20190725002204.185225-1-surenb@google.com>
+        id S1728530AbfGYLZL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 25 Jul 2019 07:25:11 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49411 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728468AbfGYLZL (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 25 Jul 2019 07:25:11 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id A6F122F8BD7;
+        Thu, 25 Jul 2019 11:25:10 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.43.17.136])
+        by smtp.corp.redhat.com (Postfix) with SMTP id A47D819D71;
+        Thu, 25 Jul 2019 11:25:04 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+        oleg@redhat.com; Thu, 25 Jul 2019 13:25:10 +0200 (CEST)
+Date:   Thu, 25 Jul 2019 13:25:03 +0200
+From:   Oleg Nesterov <oleg@redhat.com>
+To:     Christian Brauner <christian@brauner.io>
+Cc:     linux-kernel@vger.kernel.org, arnd@arndb.de, ebiederm@xmission.com,
+        keescook@chromium.org, joel@joelfernandes.org, tglx@linutronix.de,
+        tj@kernel.org, dhowells@redhat.com, jannh@google.com,
+        luto@kernel.org, akpm@linux-foundation.org, cyphar@cyphar.com,
+        torvalds@linux-foundation.org, viro@zeniv.linux.org.uk,
+        kernel-team@android.com, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH 4/5] pidfd: add CLONE_WAIT_PID
+Message-ID: <20190725112503.GG4707@redhat.com>
+References: <20190724144651.28272-1-christian@brauner.io>
+ <20190724144651.28272-5-christian@brauner.io>
+ <20190725103543.GF4707@redhat.com>
+ <20190725104006.7myahvjtnbcgu3in@brauner.io>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190725002204.185225-1-surenb@google.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20190725104006.7myahvjtnbcgu3in@brauner.io>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.38]); Thu, 25 Jul 2019 11:25:10 +0000 (UTC)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jul 24, 2019 at 05:22:03PM -0700, Suren Baghdasaryan wrote:
-> Move definitions and functions used across different pidfd tests into
-> pidfd.h header.
-> 
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+On 07/25, Christian Brauner wrote:
+>
+> On Thu, Jul 25, 2019 at 12:35:44PM +0200, Oleg Nesterov wrote:
+> >
+> > I have to admit this feature looks a bit exotic to me...
+>
+> It might look like it from the kernels perspective but from the feedback
+> on this when presenting on this userspace has real usecases for this.
 
-Reviewed-by: Christian Brauner <christian@brauner.io>
+OK...
 
-> ---
->  tools/testing/selftests/pidfd/pidfd.h          | 18 ++++++++++++++++++
->  .../testing/selftests/pidfd/pidfd_open_test.c  |  5 -----
->  tools/testing/selftests/pidfd/pidfd_test.c     | 10 ----------
->  3 files changed, 18 insertions(+), 15 deletions(-)
-> 
-> diff --git a/tools/testing/selftests/pidfd/pidfd.h b/tools/testing/selftests/pidfd/pidfd.h
-> index 8452e910463f..db4377af6be7 100644
-> --- a/tools/testing/selftests/pidfd/pidfd.h
-> +++ b/tools/testing/selftests/pidfd/pidfd.h
-> @@ -16,6 +16,14 @@
->  
->  #include "../kselftest.h"
->  
-> +#ifndef __NR_pidfd_open
-> +#define __NR_pidfd_open -1
-> +#endif
-> +
-> +#ifndef __NR_pidfd_send_signal
-> +#define __NR_pidfd_send_signal -1
-> +#endif
-> +
->  /*
->   * The kernel reserves 300 pids via RESERVED_PIDS in kernel/pid.c
->   * That means, when it wraps around any pid < 300 will be skipped.
-> @@ -53,5 +61,15 @@ int wait_for_pid(pid_t pid)
->  	return WEXITSTATUS(status);
->  }
->  
-> +static inline int sys_pidfd_open(pid_t pid, unsigned int flags)
-> +{
-> +	return syscall(__NR_pidfd_open, pid, flags);
-> +}
-> +
-> +static inline int sys_pidfd_send_signal(int pidfd, int sig, siginfo_t *info,
-> +					unsigned int flags)
-> +{
-> +	return syscall(__NR_pidfd_send_signal, pidfd, sig, info, flags);
-> +}
->  
->  #endif /* __PIDFD_H */
-> diff --git a/tools/testing/selftests/pidfd/pidfd_open_test.c b/tools/testing/selftests/pidfd/pidfd_open_test.c
-> index 0377133dd6dc..b9fe75fc3e51 100644
-> --- a/tools/testing/selftests/pidfd/pidfd_open_test.c
-> +++ b/tools/testing/selftests/pidfd/pidfd_open_test.c
-> @@ -22,11 +22,6 @@
->  #include "pidfd.h"
->  #include "../kselftest.h"
->  
-> -static inline int sys_pidfd_open(pid_t pid, unsigned int flags)
-> -{
-> -	return syscall(__NR_pidfd_open, pid, flags);
-> -}
-> -
->  static int safe_int(const char *numstr, int *converted)
->  {
->  	char *err = NULL;
-> diff --git a/tools/testing/selftests/pidfd/pidfd_test.c b/tools/testing/selftests/pidfd/pidfd_test.c
-> index 7eaa8a3de262..17b2fd621726 100644
-> --- a/tools/testing/selftests/pidfd/pidfd_test.c
-> +++ b/tools/testing/selftests/pidfd/pidfd_test.c
-> @@ -21,10 +21,6 @@
->  #include "pidfd.h"
->  #include "../kselftest.h"
->  
-> -#ifndef __NR_pidfd_send_signal
-> -#define __NR_pidfd_send_signal -1
-> -#endif
-> -
->  #define str(s) _str(s)
->  #define _str(s) #s
->  #define CHILD_THREAD_MIN_WAIT 3 /* seconds */
-> @@ -47,12 +43,6 @@ static pid_t pidfd_clone(int flags, int *pidfd, int (*fn)(void *))
->  #endif
->  }
->  
-> -static inline int sys_pidfd_send_signal(int pidfd, int sig, siginfo_t *info,
-> -					unsigned int flags)
-> -{
-> -	return syscall(__NR_pidfd_send_signal, pidfd, sig, info, flags);
-> -}
-> -
->  static int signal_received;
->  
->  static void set_signal_received_on_sigusr1(int sig)
-> -- 
-> 2.22.0.709.g102302147b-goog
-> 
+but then perhaps we can make PF_WAIT_PID more flexible.
+
+Say, we can add the new WXXX wait option and change eligible_child()
+
+	if ((p->flags & PF_WAIT_PID) && (wo->options & WXXX))
+		return 0;
+
+this way the parent can tell waitid() whether the PF_WAIT_PID tasks should
+be filtered or not.
+
+And if we do this we can even add PR_SET_WAIT_PID/PR_CLR_WAIT_PID instead
+of the new CLONE_ flag.
+
+Oleg.
+
