@@ -2,116 +2,91 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D3EE574D54
-	for <lists+linux-api@lfdr.de>; Thu, 25 Jul 2019 13:41:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CADD574D5C
+	for <lists+linux-api@lfdr.de>; Thu, 25 Jul 2019 13:44:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404163AbfGYLls (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 25 Jul 2019 07:41:48 -0400
-Received: from mx2.suse.de ([195.135.220.15]:58006 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2404095AbfGYLlr (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 25 Jul 2019 07:41:47 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 5F5EBAD4C;
-        Thu, 25 Jul 2019 11:41:45 +0000 (UTC)
-Date:   Thu, 25 Jul 2019 13:41:37 +0200
-From:   Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
-To:     Patrick Bellasi <patrick.bellasi@arm.com>
-Cc:     cgroups@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-        Alessio Balsini <balsini@android.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Morten Rasmussen <morten.rasmussen@arm.com>,
-        Quentin Perret <quentin.perret@arm.com>,
-        Joel Fernandes <joelaf@google.com>,
-        Paul Turner <pjt@google.com>,
-        Steve Muckle <smuckle@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Todd Kjos <tkjos@google.com>,
+        id S2404206AbfGYLoN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 25 Jul 2019 07:44:13 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45212 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388154AbfGYLoM (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 25 Jul 2019 07:44:12 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 92FC37BEE3;
+        Thu, 25 Jul 2019 11:44:03 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.43.17.136])
+        by smtp.corp.redhat.com (Postfix) with SMTP id 34D3A60BEC;
+        Thu, 25 Jul 2019 11:44:00 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+        oleg@redhat.com; Thu, 25 Jul 2019 13:44:03 +0200 (CEST)
+Date:   Thu, 25 Jul 2019 13:43:59 +0200
+From:   Oleg Nesterov <oleg@redhat.com>
+To:     Christian Brauner <christian@brauner.io>
+Cc:     linux-kernel@vger.kernel.org, arnd@arndb.de, ebiederm@xmission.com,
+        keescook@chromium.org, joel@joelfernandes.org, tglx@linutronix.de,
+        tj@kernel.org, dhowells@redhat.com, jannh@google.com,
+        luto@kernel.org, akpm@linux-foundation.org, cyphar@cyphar.com,
+        torvalds@linux-foundation.org, viro@zeniv.linux.org.uk,
+        kernel-team@android.com, Ingo Molnar <mingo@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-        Tejun Heo <tj@kernel.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Ingo Molnar <mingo@redhat.com>
-Subject: Re: [PATCH v12 3/6] sched/core: uclamp: Propagate system defaults to
- root group
-Message-ID: <20190725114126.GA4130@blackbody.suse.cz>
-References: <20190718181748.28446-1-patrick.bellasi@arm.com>
- <20190718181748.28446-4-patrick.bellasi@arm.com>
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH 4/5] pidfd: add CLONE_WAIT_PID
+Message-ID: <20190725114359.GH4707@redhat.com>
+References: <20190724144651.28272-1-christian@brauner.io>
+ <20190724144651.28272-5-christian@brauner.io>
+ <20190725103543.GF4707@redhat.com>
+ <20190725104006.7myahvjtnbcgu3in@brauner.io>
+ <20190725112503.GG4707@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="wzJLGUyc3ArbnUjN"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190718181748.28446-4-patrick.bellasi@arm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190725112503.GG4707@redhat.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.28]); Thu, 25 Jul 2019 11:44:11 +0000 (UTC)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+Or. We can change wait_consider_task() to not clear ->notask_error if
+WXXX and the child is PF_WAIT_PID.
 
---wzJLGUyc3ArbnUjN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This way you can "safely" use wait() without WNOHANG, it won't block if
+all the children which can report an even are PF_WAIT_PID.
 
-On Thu, Jul 18, 2019 at 07:17:45PM +0100, Patrick Bellasi <patrick.bellasi@=
-arm.com> wrote:
-> The clamp values are not tunable at the level of the root task group.
-> That's for two main reasons:
->=20
->  - the root group represents "system resources" which are always
->    entirely available from the cgroup standpoint.
->=20
->  - when tuning/restricting "system resources" makes sense, tuning must
->    be done using a system wide API which should also be available when
->    control groups are not.
->=20
-> When a system wide restriction is available, cgroups should be aware of
-> its value in order to know exactly how much "system resources" are
-> available for the subgroups.
-IIUC, the global default would apply in uclamp_eff_get(), so this
-propagation isn't strictly necessary in order to apply to tasks (that's
-how it works under !CONFIG_UCLAMP_TASK_GROUP).
-The reason is that effective value (which isn't exposed currently) in a
-group takes into account this global restriction, right?
+But I do not understand your use-cases, I have no idea if this can help
+or not. Just I think the more discussion is always better when we are
+going to add the new API.
 
 
-> @@ -1043,12 +1063,17 @@ int sysctl_sched_uclamp_handler(struct ctl_table =
-*table, int write,
-> [...]
-> +	if (update_root_tg)
-> +		uclamp_update_root_tg();
-> +
->  	/*
->  	 * Updating all the RUNNABLE task is expensive, keep it simple and do
->  	 * just a lazy update at each next enqueue time.
-Since uclamp_update_root_tg() traverses down to
-uclamp_update_active_tasks() is this comment half true now?
+On 07/25, Oleg Nesterov wrote:
+>
+> On 07/25, Christian Brauner wrote:
+> >
+> > On Thu, Jul 25, 2019 at 12:35:44PM +0200, Oleg Nesterov wrote:
+> > >
+> > > I have to admit this feature looks a bit exotic to me...
+> >
+> > It might look like it from the kernels perspective but from the feedback
+> > on this when presenting on this userspace has real usecases for this.
+> 
+> OK...
+> 
+> but then perhaps we can make PF_WAIT_PID more flexible.
+> 
+> Say, we can add the new WXXX wait option and change eligible_child()
+> 
+> 	if ((p->flags & PF_WAIT_PID) && (wo->options & WXXX))
+> 		return 0;
+> 
+> this way the parent can tell waitid() whether the PF_WAIT_PID tasks should
+> be filtered or not.
+> 
+> And if we do this we can even add PR_SET_WAIT_PID/PR_CLR_WAIT_PID instead
+> of the new CLONE_ flag.
+> 
+> Oleg.
 
-
---wzJLGUyc3ArbnUjN
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEE+amhwRV4jZeXdUhoK2l36XSZ9y4FAl05lXAACgkQK2l36XSZ
-9y5cgw//QQud17T2NvswG8hJs4iqq9hLqZdoEQh3auHGt5gBhY//Pre7fKieLaeQ
-twqmtcup1hN8T5n1s3J88mCC/Hl7uRlvQyHj2TrN5kFbRgrPRExi6desTMWU6hGp
-nyfsenwH7NvPPUWlO7RhIQtRJRc23cHen01DxTWDJZrg48oeZnoJV533Sj9Qf6tV
-qGTj1ZikLeyPzlVvHwnP1Vb+kBIQ1VTU8dZCkV+0RW4qFtnin7nmYca57/ARC8RV
-KnE/DZNVETsikE/J/3dyvxw/5cJGYoZssikqIjnSrmF9eoXvWzkEnUsg2WFO6Rtl
-UuFllWgrPScfjBlq1KfsD4WOCGgMtiuUtaOSe3SSnH2dVALsHfgmW5pqnMC38N3O
-kEV1abGka6x2VTX1HJyXW/buNP5WQY2fh2dWFm06oe1iC80NiLmIULpTKZYIVdtZ
-LWZfAOjcXU3fwdAu8daZOKnizG0mOfQxT7PiaX/A74ucc0DV0C2JnM+MszR3pWIp
-huSGQ3AU4V2+OGbJPO7/rht//Du47t77tzF1RXjpjONMq8ONGIeFQ4Ansp3hSQS3
-98shobgsl2Be0MUm7nWKHSOay48IoJJuZoKwvoi/rFE3Elnlbs6fcJE5IWdM3PW4
-EmmxngweF0LmvVlDGLZ4JP6utbdgvGEUpJ1DUfmkKOnE4bKT60o=
-=lOBr
------END PGP SIGNATURE-----
-
---wzJLGUyc3ArbnUjN--
