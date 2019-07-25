@@ -2,28 +2,51 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CADD574D5C
-	for <lists+linux-api@lfdr.de>; Thu, 25 Jul 2019 13:44:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BDE474D7E
+	for <lists+linux-api@lfdr.de>; Thu, 25 Jul 2019 13:50:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404206AbfGYLoN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 25 Jul 2019 07:44:13 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45212 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388154AbfGYLoM (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 25 Jul 2019 07:44:12 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 92FC37BEE3;
-        Thu, 25 Jul 2019 11:44:03 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.43.17.136])
-        by smtp.corp.redhat.com (Postfix) with SMTP id 34D3A60BEC;
-        Thu, 25 Jul 2019 11:44:00 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Thu, 25 Jul 2019 13:44:03 +0200 (CEST)
-Date:   Thu, 25 Jul 2019 13:43:59 +0200
-From:   Oleg Nesterov <oleg@redhat.com>
-To:     Christian Brauner <christian@brauner.io>
+        id S2404286AbfGYLtv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 25 Jul 2019 07:49:51 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:36253 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404287AbfGYLtu (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 25 Jul 2019 07:49:50 -0400
+Received: by mail-ed1-f65.google.com with SMTP id k21so49989985edq.3
+        for <linux-api@vger.kernel.org>; Thu, 25 Jul 2019 04:49:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=brauner.io; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=Qb0U4o7YT9U0VbrF0QHOhn7J92nY/IJnK+dtiIpPk2s=;
+        b=W8nZcCuIC42LTrQ+cXgC4rxIwaAgupXOYclF8q9Uu2sxmkv1TzOar8yCZb7d9cQj+L
+         qb65n8bo59k4q9hp/sekLL69Gy+kti/bnHpRcw2CQknDwHyoxGOfvszmlujPCoAJvMzd
+         hDvWBRn2M9oAlz8ZVK+DWvKczNPv0mEyebMimsuzoX89P2SR30WuY3RQqvu78hAY5NE/
+         01wwwmr1XenQs8XxVBJiHfvWKhUs0UL8awthAA43ims7jr9gWaSZmU/HsKtHX2vDCUQK
+         gSPnY6wRmn/lTk2DTSjusR1dLjqOFFXjnrZtaMhICzk4Ot3QgUeZhyIWyMxZTzYXpngk
+         j3rQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=Qb0U4o7YT9U0VbrF0QHOhn7J92nY/IJnK+dtiIpPk2s=;
+        b=cttb2SSODdrwh0p6JzrS9xXxGynvM9ybBEwbrCK2JADe8UkMGr9BTNiKt4T1kCV4KI
+         XkJ/kmy6b37hM/ED78EioL7UJehhA04yCmqKzNA5A5Skae8SJrOyqvIq00XCGBbj27B0
+         IjhBqU93fobKi3vSAApbMwG7mtkm63nfEO6EDZplehomidGtUD4+1VZUommgQDWwfdxK
+         /0YN0ERzPTUv9AEyaeMZUA2RfCGsmPNOdPSv1AEc7LbM3xMHihmmmdN3zoPB0ryDJsUM
+         V/OQ1P3lDQqLFYLywRTio77dfg7rrfyWdzYda7exSiL0gDz6xMdyrnRutfAK58OoY8Bb
+         AaLQ==
+X-Gm-Message-State: APjAAAVlykDMfInjgSGcvf1gVzZTcfPJyi6f0Si3z2C0Mj9Pe+wnxgIS
+        gkDJ2gYUCSsLpgGaT893/RE=
+X-Google-Smtp-Source: APXvYqzta/C7mytsF/sYtTrTny6c5TAQI5i2DpRjUhOVT1P3aLCxDWl2HWiq25oPh0cTbNwujbNFTg==
+X-Received: by 2002:a50:871c:: with SMTP id i28mr76751011edb.29.1564054911890;
+        Thu, 25 Jul 2019 04:41:51 -0700 (PDT)
+Received: from brauner.io (ip5b40f7ec.dynamic.kabel-deutschland.de. [91.64.247.236])
+        by smtp.gmail.com with ESMTPSA id r10sm13245342edp.25.2019.07.25.04.41.50
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Thu, 25 Jul 2019 04:41:50 -0700 (PDT)
+Date:   Thu, 25 Jul 2019 13:41:49 +0200
+From:   Christian Brauner <christian@brauner.io>
+To:     Oleg Nesterov <oleg@redhat.com>
 Cc:     linux-kernel@vger.kernel.org, arnd@arndb.de, ebiederm@xmission.com,
         keescook@chromium.org, joel@joelfernandes.org, tglx@linutronix.de,
         tj@kernel.org, dhowells@redhat.com, jannh@google.com,
@@ -33,37 +56,23 @@ Cc:     linux-kernel@vger.kernel.org, arnd@arndb.de, ebiederm@xmission.com,
         Peter Zijlstra <peterz@infradead.org>,
         linux-api@vger.kernel.org
 Subject: Re: [PATCH 4/5] pidfd: add CLONE_WAIT_PID
-Message-ID: <20190725114359.GH4707@redhat.com>
+Message-ID: <20190725114148.bgm37lpiqli7g3ti@brauner.io>
 References: <20190724144651.28272-1-christian@brauner.io>
  <20190724144651.28272-5-christian@brauner.io>
  <20190725103543.GF4707@redhat.com>
  <20190725104006.7myahvjtnbcgu3in@brauner.io>
  <20190725112503.GG4707@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 In-Reply-To: <20190725112503.GG4707@redhat.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.28]); Thu, 25 Jul 2019 11:44:11 +0000 (UTC)
+User-Agent: NeoMutt/20180716
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Or. We can change wait_consider_task() to not clear ->notask_error if
-WXXX and the child is PF_WAIT_PID.
-
-This way you can "safely" use wait() without WNOHANG, it won't block if
-all the children which can report an even are PF_WAIT_PID.
-
-But I do not understand your use-cases, I have no idea if this can help
-or not. Just I think the more discussion is always better when we are
-going to add the new API.
-
-
-On 07/25, Oleg Nesterov wrote:
->
+On Thu, Jul 25, 2019 at 01:25:03PM +0200, Oleg Nesterov wrote:
 > On 07/25, Christian Brauner wrote:
 > >
 > > On Thu, Jul 25, 2019 at 12:35:44PM +0200, Oleg Nesterov wrote:
@@ -76,6 +85,10 @@ On 07/25, Oleg Nesterov wrote:
 > OK...
 > 
 > but then perhaps we can make PF_WAIT_PID more flexible.
+
+I've changed this to be a property on signal_struct, i.e. a bitfield
+entry following the {is,has}_child_subreaper entries.
+
 > 
 > Say, we can add the new WXXX wait option and change eligible_child()
 > 
@@ -87,6 +100,10 @@ On 07/25, Oleg Nesterov wrote:
 > 
 > And if we do this we can even add PR_SET_WAIT_PID/PR_CLR_WAIT_PID instead
 > of the new CLONE_ flag.
-> 
-> Oleg.
 
+Hm, I prefer to not do this.
+The idea is that this is a property of the pidfd itself and not of the
+waitid() call. And currently, I don't think it makes sense to change
+this property at runtime.
+What might make sense is to remove this property when a task gets
+reparented, i.e. when its parent has died.
