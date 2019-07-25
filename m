@@ -2,170 +2,89 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 27F0F74295
-	for <lists+linux-api@lfdr.de>; Thu, 25 Jul 2019 02:34:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F1A6742A2
+	for <lists+linux-api@lfdr.de>; Thu, 25 Jul 2019 02:44:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728879AbfGYAeS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 24 Jul 2019 20:34:18 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:46854 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726430AbfGYAeS (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 24 Jul 2019 20:34:18 -0400
-Received: by mail-wr1-f68.google.com with SMTP id z1so48756025wru.13
-        for <linux-api@vger.kernel.org>; Wed, 24 Jul 2019 17:34:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=FVjahqrOAsC+5k2LwQtzoiwOqD0DAUgbl8M0M6/MVtI=;
-        b=tdSs3a/NsJXHkdnAxSHm2b3gXTNA+re5rO6dufp3Qs4u0GLKdvlr0Rz1lrX9S8qwVB
-         Cfh2peXuKKrYf0slMJXvf+CS8q7URxyZ3cywWFyU6XIiaJPjMrMEY8qWKrUtWrhnka6v
-         d9a+BrVW7hUuqK9BX3il4uAHXL5/FGapH2pBeQT4K34/NlKyahIjSdasLXyqgn/BVEHL
-         uO6Qs/OdE3NcXQZGkd+BRRZl/BU8S1a4Ig+lgXzv9FqLJ5QpcJYtOjxygAqCK/FqXMf/
-         gOjfhFYbf7IPIgX3+bzL+gVMV407g4uadyU2TPvORHVnoFlfXmZM9dlSsoON/tlPa1n7
-         H4Ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=FVjahqrOAsC+5k2LwQtzoiwOqD0DAUgbl8M0M6/MVtI=;
-        b=a9l/1yuONtdRqMposJOPQNHNxJMoes2P/ctQGoLSJOvW5FtkkDnKEo5cIDG63zjlhf
-         ZxnD3atT7CKo/QsvCuDfTsrm/Ybrb6/pWlzttiU4BZZrkcDKqpwE4bRNhTT0b1/0Dk5d
-         8Ece2kDW+V9olOdTXp0QSWrzoFO9D9OGLCNhMI2AZtrqwGaRkCYBkl2IQYMz2ZEIqghg
-         O0ZUaj5xdbdQk6ijHR06KJ53DNiPhbWSGoSoZa05OYGWwVH2I6wVj64lUph6l1OvBoBG
-         zy9NLSB07CJrQkphsCLDhQZiKMHJDRH8yFHaM316tsnfORQrbHlk/4GeSSOxptnatDES
-         mcLA==
-X-Gm-Message-State: APjAAAWnhokO1SGPtWgDjVQ5uUGEbh099Orq5YPuEXmiUTqL4e/Uh5Zt
-        4ecjIuaiPRoAC8jGnpHcutX7B5OWF1CJ0yyAAVz3Sg==
-X-Google-Smtp-Source: APXvYqx/86yi7bEi9+JJhF5n5XngaGtwIVcG3LHZ4rytdP5yc0EcYVzPipybTTrBoJ6laKO37sAwg3IlQK7g4PhU1f8=
-X-Received: by 2002:a5d:46cf:: with SMTP id g15mr93568749wrs.93.1564014855955;
- Wed, 24 Jul 2019 17:34:15 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190725002204.185225-1-surenb@google.com>
-In-Reply-To: <20190725002204.185225-1-surenb@google.com>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Wed, 24 Jul 2019 17:34:04 -0700
-Message-ID: <CAJuCfpH0OVCjA7ST4dtQ839+gEHKT_T=t-SN=ghPO4ev-GEfYg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] tests: move common definitions and functions into pidfd.h
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     Christian Brauner <christian@brauner.io>, arnd@arndb.de,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Kees Cook <keescook@chromium.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Daniel Colascione <dancol@google.com>, tglx@linutronix.de,
-        Jann Horn <jannh@google.com>, dhowells@redhat.com,
-        mtk.manpages@gmail.com, luto@kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Oleg Nesterov <oleg@redhat.com>, cyphar@cyphar.com,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        viro@zeniv.linux.org.uk, linux-api@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        kernel-team <kernel-team@android.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S2387735AbfGYAoZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 24 Jul 2019 20:44:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51188 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387421AbfGYAoZ (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 24 Jul 2019 20:44:25 -0400
+Received: from localhost.localdomain (c-73-223-200-170.hsd1.ca.comcast.net [73.223.200.170])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 251A921901;
+        Thu, 25 Jul 2019 00:44:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1564015464;
+        bh=BnJm16XIJ4U5h0/wFfNFjUiyQUQlm05rCuTqzXG01x0=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=DTMevEAy6MsZBxplreEMB+bJxmKA1GsWpZtLmWP6cVbMq2QKKqVCfOMcytQ8gUcHi
+         2JRtFP16ImDGp/MasraDgzI0X9ruqK1X25hWfedDjzH+kLP0i3V4/xHmTmNp9rmAY5
+         OHff/q50Keh8KHkK1MMdNgOMrgVrKIzoTZZ1Fr0Y=
+Date:   Wed, 24 Jul 2019 17:44:23 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Vlastimil Babka <vbabka@suse.cz>
+Cc:     Yang Shi <yang.shi@linux.alibaba.com>, mhocko@kernel.org,
+        mgorman@techsingularity.net, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: [v4 PATCH 2/2] mm: mempolicy: handle vma with unmovable pages
+ mapped correctly in mbind
+Message-Id: <20190724174423.1826c92f72ce9c815ebc72d9@linux-foundation.org>
+In-Reply-To: <6aeca7cf-d9da-95cc-e6dc-a10c2978c523@suse.cz>
+References: <1563556862-54056-1-git-send-email-yang.shi@linux.alibaba.com>
+        <1563556862-54056-3-git-send-email-yang.shi@linux.alibaba.com>
+        <6c948a96-7af1-c0d2-b3df-5fe613284d4f@suse.cz>
+        <20190722180231.b7abbe8bdb046d725bdd9e6b@linux-foundation.org>
+        <a9b8cae7-4bca-3c98-99f9-6b92de7e5909@linux.alibaba.com>
+        <6aeca7cf-d9da-95cc-e6dc-a10c2978c523@suse.cz>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-I'm terribly sorry. I forgot to add a link to the original version of
-this patch with Christian's comments. It's at:
-https://lore.kernel.org/linux-kselftest/20190723173907.196488-1-surenb@google.com
-and I think I addressed all comments there.
-The patch should apply cleanly to the latest Linus' ToT (v5.3-rc1).
-Thanks,
-Suren.
+On Wed, 24 Jul 2019 10:19:34 +0200 Vlastimil Babka <vbabka@suse.cz> wrote:
 
-On Wed, Jul 24, 2019 at 5:22 PM Suren Baghdasaryan <surenb@google.com> wrote:
->
-> Move definitions and functions used across different pidfd tests into
-> pidfd.h header.
->
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> ---
->  tools/testing/selftests/pidfd/pidfd.h          | 18 ++++++++++++++++++
->  .../testing/selftests/pidfd/pidfd_open_test.c  |  5 -----
->  tools/testing/selftests/pidfd/pidfd_test.c     | 10 ----------
->  3 files changed, 18 insertions(+), 15 deletions(-)
->
-> diff --git a/tools/testing/selftests/pidfd/pidfd.h b/tools/testing/selftests/pidfd/pidfd.h
-> index 8452e910463f..db4377af6be7 100644
-> --- a/tools/testing/selftests/pidfd/pidfd.h
-> +++ b/tools/testing/selftests/pidfd/pidfd.h
-> @@ -16,6 +16,14 @@
->
->  #include "../kselftest.h"
->
-> +#ifndef __NR_pidfd_open
-> +#define __NR_pidfd_open -1
-> +#endif
-> +
-> +#ifndef __NR_pidfd_send_signal
-> +#define __NR_pidfd_send_signal -1
-> +#endif
-> +
->  /*
->   * The kernel reserves 300 pids via RESERVED_PIDS in kernel/pid.c
->   * That means, when it wraps around any pid < 300 will be skipped.
-> @@ -53,5 +61,15 @@ int wait_for_pid(pid_t pid)
->         return WEXITSTATUS(status);
->  }
->
-> +static inline int sys_pidfd_open(pid_t pid, unsigned int flags)
-> +{
-> +       return syscall(__NR_pidfd_open, pid, flags);
-> +}
-> +
-> +static inline int sys_pidfd_send_signal(int pidfd, int sig, siginfo_t *info,
-> +                                       unsigned int flags)
-> +{
-> +       return syscall(__NR_pidfd_send_signal, pidfd, sig, info, flags);
-> +}
->
->  #endif /* __PIDFD_H */
-> diff --git a/tools/testing/selftests/pidfd/pidfd_open_test.c b/tools/testing/selftests/pidfd/pidfd_open_test.c
-> index 0377133dd6dc..b9fe75fc3e51 100644
-> --- a/tools/testing/selftests/pidfd/pidfd_open_test.c
-> +++ b/tools/testing/selftests/pidfd/pidfd_open_test.c
-> @@ -22,11 +22,6 @@
->  #include "pidfd.h"
->  #include "../kselftest.h"
->
-> -static inline int sys_pidfd_open(pid_t pid, unsigned int flags)
-> -{
-> -       return syscall(__NR_pidfd_open, pid, flags);
-> -}
-> -
->  static int safe_int(const char *numstr, int *converted)
->  {
->         char *err = NULL;
-> diff --git a/tools/testing/selftests/pidfd/pidfd_test.c b/tools/testing/selftests/pidfd/pidfd_test.c
-> index 7eaa8a3de262..17b2fd621726 100644
-> --- a/tools/testing/selftests/pidfd/pidfd_test.c
-> +++ b/tools/testing/selftests/pidfd/pidfd_test.c
-> @@ -21,10 +21,6 @@
->  #include "pidfd.h"
->  #include "../kselftest.h"
->
-> -#ifndef __NR_pidfd_send_signal
-> -#define __NR_pidfd_send_signal -1
-> -#endif
-> -
->  #define str(s) _str(s)
->  #define _str(s) #s
->  #define CHILD_THREAD_MIN_WAIT 3 /* seconds */
-> @@ -47,12 +43,6 @@ static pid_t pidfd_clone(int flags, int *pidfd, int (*fn)(void *))
->  #endif
->  }
->
-> -static inline int sys_pidfd_send_signal(int pidfd, int sig, siginfo_t *info,
-> -                                       unsigned int flags)
-> -{
-> -       return syscall(__NR_pidfd_send_signal, pidfd, sig, info, flags);
-> -}
-> -
->  static int signal_received;
->
->  static void set_signal_received_on_sigusr1(int sig)
-> --
-> 2.22.0.709.g102302147b-goog
->
+> On 7/23/19 7:35 AM, Yang Shi wrote:
+> > 
+> > 
+> > On 7/22/19 6:02 PM, Andrew Morton wrote:
+> >> On Mon, 22 Jul 2019 09:25:09 +0200 Vlastimil Babka <vbabka@suse.cz> wrote:
+> >>
+> >>>> since there may be pages off LRU temporarily.  We should migrate other
+> >>>> pages if MPOL_MF_MOVE* is specified.  Set has_unmovable flag if some
+> >>>> paged could not be not moved, then return -EIO for mbind() eventually.
+> >>>>
+> >>>> With this change the above test would return -EIO as expected.
+> >>>>
+> >>>> Cc: Vlastimil Babka <vbabka@suse.cz>
+> >>>> Cc: Michal Hocko <mhocko@suse.com>
+> >>>> Cc: Mel Gorman <mgorman@techsingularity.net>
+> >>>> Signed-off-by: Yang Shi <yang.shi@linux.alibaba.com>
+> >>> Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
+> >> Thanks.
+> >>
+> >> I'm a bit surprised that this doesn't have a cc:stable.  Did we
+> >> consider that?
+> > 
+> > The VM_BUG just happens on 4.9, and it is enabled only by CONFIG_VM. For 
+> > post-4.9 kernel, this fixes the semantics of mbind which should be not a 
+> > regression IMHO.
+> 
+> 4.9 is a LTS kernel, so perhaps worth trying?
+> 
+
+OK, I'll add cc:stable to 
+
+mm-mempolicy-make-the-behavior-consistent-when-mpol_mf_move-and-mpol_mf_strict-were-specified.patch
+
+and
+
+mm-mempolicy-handle-vma-with-unmovable-pages-mapped-correctly-in-mbind.patch
+
+Do we have a Fixes: for these patches?
