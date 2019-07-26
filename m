@@ -2,153 +2,160 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E525476C8B
-	for <lists+linux-api@lfdr.de>; Fri, 26 Jul 2019 17:23:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C13476EE7
+	for <lists+linux-api@lfdr.de>; Fri, 26 Jul 2019 18:22:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728419AbfGZPXd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 26 Jul 2019 11:23:33 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:42877 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728415AbfGZPXd (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 26 Jul 2019 11:23:33 -0400
-Received: by mail-pl1-f193.google.com with SMTP id ay6so24925492plb.9
-        for <linux-api@vger.kernel.org>; Fri, 26 Jul 2019 08:23:32 -0700 (PDT)
+        id S1727616AbfGZQWc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 26 Jul 2019 12:22:32 -0400
+Received: from mail-pl1-f201.google.com ([209.85.214.201]:43461 "EHLO
+        mail-pl1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727646AbfGZQWc (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 26 Jul 2019 12:22:32 -0400
+Received: by mail-pl1-f201.google.com with SMTP id t2so28707806plo.10
+        for <linux-api@vger.kernel.org>; Fri, 26 Jul 2019 09:22:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=dWQZR/3W1JJGAqPUD7hTWyfWfaLoNTQhqklPLc/rCo0=;
-        b=NSm723gHApWanD6yeW4J2Hod3LusoD9q5rDYeMMOfmnvzy1V6IW8Ik70kYPIywWp+5
-         ePTv11kUJPhco3rtrxGscl1Xvn/9LGCfMjCA63hEQGhn0+RLeCWphNUjv25+mG/EUvI5
-         IipB8N+66gykX0zBQeBiqZbzJqprH2vYSF24M=
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=tjhcSRmIRXUILRS/jy/QiJdV3Z5E1s7xQzD5RJUqH7Q=;
+        b=UO4hLjUItbB6ULBWQOmwqIJJ0t3923sVzDDDeStO7mSA/Bh+vF+0trnk/xlQZkqI5C
+         iwYyPjMiVPlMRR5k+6Hrq87bXuZjU3ZDHWJSBrvBn0Ez1BWq6Rc9z0Ys3mLzmdFxg25y
+         duGoe/AzBtiUob6yFfepgE9R9RJ0LITqZpkSpPt8YAfB2ZPGq1tjefoHVcNcwUqg9l7U
+         Od5f5FjeOMOVeX5z4wWU8swRAndpFG7hfnKGzp/yOUAzC3sBjyITLPaYlUI8uUTOnwDt
+         LV6seuE0PvYIcvQJkpR7uceH3Xr9cOOomgV23HvZjLFmQZdHjT0AMWLagTetoWDrTUxC
+         OKcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=dWQZR/3W1JJGAqPUD7hTWyfWfaLoNTQhqklPLc/rCo0=;
-        b=fSdcJfcY0+TtLRbrr41ay7d2RlxKpoMhu8mw6GbNL1tkF2/NJMGB/MmH12h1eIR5l7
-         5pgtd768cPJhJznf3t4bt4viELEbR1CjTHdYM+wPqtHAezvc4lYwJnD0xHFFmLtLttvI
-         esGin5e01LVapLry6EhdsBDP1njAGvpg0O4NG7dqqSESTu31lnyyQBKuBfRzq6rSHaER
-         iywuG+7ZKC5cfWrihILf8LHKTrzF6OqnFER/7jdO3WYP7Ty38LPP93DtX1upYnluOG+R
-         /xkdyDlq45XNebuTCDlEUidFdNRXd/pahMYvzzm3JdwTU7G8BCxReSw0OmTZUa2EFTG4
-         o/aw==
-X-Gm-Message-State: APjAAAXYSqOKp7Sx06xduVPhP7fuzDM4byKZ6IKzNPghyy6+bhJspDYD
-        iBOm4knMZ55Gv+zMdKH6T/w=
-X-Google-Smtp-Source: APXvYqxDFJfffeebJNKJPBtRQh+QrCwtMX6C8cQ3ucTqzwQ23dCczXPmGvaj1O0CVDvfDxhY8WADAQ==
-X-Received: by 2002:a17:902:be03:: with SMTP id r3mr97943466pls.156.1564154612178;
-        Fri, 26 Jul 2019 08:23:32 -0700 (PDT)
-Received: from joelaf.cam.corp.google.com ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id w132sm55268640pfd.78.2019.07.26.08.23.28
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 26 Jul 2019 08:23:31 -0700 (PDT)
-From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Brendan Gregg <bgregg@netflix.com>,
-        Christian Hansen <chansen3@cisco.com>, dancol@google.com,
-        fmayer@google.com, joaodias@google.com, joelaf@google.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Rapoport <rppt@linux.ibm.com>, minchan@kernel.org,
-        namhyung@google.com, Roman Gushchin <guro@fb.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>, surenb@google.com,
-        tkjos@google.com, Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Vlastimil Babka <vbabka@suse.cz>, wvw@google.com
-Subject: [PATCH v3 2/2] doc: Update documentation for page_idle virtual address indexing
-Date:   Fri, 26 Jul 2019 11:23:19 -0400
-Message-Id: <20190726152319.134152-2-joel@joelfernandes.org>
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=tjhcSRmIRXUILRS/jy/QiJdV3Z5E1s7xQzD5RJUqH7Q=;
+        b=f5iMmyR/gCkl62KGi9Gym9hBH2Wq1rIIo9BwmpR5EC6Rtd7ngmL/dBsX81i8Elt4Ba
+         IjWkgUI60n/BoDqlubl7jP6V+7Hj1Tkrn1DrzSxO5ko4ejfBJl0IdBp6hk/+vCRSYa0E
+         vpsu9EfyOPIPv44c9WZBF48ePLYN0f4Lgia03Or0OABKGBUd/nvIO6SWun2xfgWVHxx4
+         WEETFzgUQoj3h/H9d+gh9pGhurvLX6h6I/Ke1ap9qbKBHMRzBeNqk1jmFxkAMCFUtdOY
+         r0fx5uaD/I/iXbybOXinZQGCwxoQ84YOVpAPMaoVvQCyP6Iwl0XghorE/3vz1RRd+zXq
+         gt9w==
+X-Gm-Message-State: APjAAAXcJN3YCtZ96n+0gTQp8/ZCoISTIilLfjfLhv8fsS3bQ7Jj+JL/
+        bvkZOEA8zVaa7PHAfY+rgcGlNvRqTWU=
+X-Google-Smtp-Source: APXvYqwRGZjimDoN0Ifg4KsikRTFzC8uTbFRXzYuLY+8ZFeCLXhnSEodDmSJP55fWDQxYndQvdCSxD1e+sQ=
+X-Received: by 2002:a65:4808:: with SMTP id h8mr91147086pgs.22.1564158150843;
+ Fri, 26 Jul 2019 09:22:30 -0700 (PDT)
+Date:   Fri, 26 Jul 2019 09:22:25 -0700
+Message-Id: <20190726162226.252750-1-surenb@google.com>
+Mime-Version: 1.0
 X-Mailer: git-send-email 2.22.0.709.g102302147b-goog
-In-Reply-To: <20190726152319.134152-1-joel@joelfernandes.org>
-References: <20190726152319.134152-1-joel@joelfernandes.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: [PATCH v3 1/2] tests: move common definitions and functions into pidfd.h
+From:   Suren Baghdasaryan <surenb@google.com>
+To:     surenb@google.com
+Cc:     christian@brauner.io, arnd@arndb.de, ebiederm@xmission.com,
+        keescook@chromium.org, joel@joelfernandes.org, dancol@google.com,
+        tglx@linutronix.de, jannh@google.com, dhowells@redhat.com,
+        mtk.manpages@gmail.com, luto@kernel.org, akpm@linux-foundation.org,
+        oleg@redhat.com, cyphar@cyphar.com, torvalds@linux-foundation.org,
+        viro@zeniv.linux.org.uk, linux-api@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This patch updates the documentation with the new page_idle tracking
-feature which uses virtual address indexing.
+Move definitions and functions used across different pidfd tests into
+pidfd.h header.
 
-Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+Reviewed-by: Christian Brauner <christian@brauner.io>
 ---
- .../admin-guide/mm/idle_page_tracking.rst     | 43 ++++++++++++++++---
- 1 file changed, 36 insertions(+), 7 deletions(-)
+Changes since v1 (https://lore.kernel.org/linux-kselftest/20190723173907.196488-1-surenb@google.com)
+	- Move common test definitions and functions into pidfd.h as per Christian Brauner
+	- Code cleanup and additional error handling as per Christian Brauner
+Changes since v2 (https://lore.kernel.org/linux-kselftest/20190725002204.185225-2-surenb@google.com)
+	- Added waitpid to prevent zombies as per Yann Droneaud
 
-diff --git a/Documentation/admin-guide/mm/idle_page_tracking.rst b/Documentation/admin-guide/mm/idle_page_tracking.rst
-index df9394fb39c2..1eeac78c94a7 100644
---- a/Documentation/admin-guide/mm/idle_page_tracking.rst
-+++ b/Documentation/admin-guide/mm/idle_page_tracking.rst
-@@ -19,10 +19,14 @@ It is enabled by CONFIG_IDLE_PAGE_TRACKING=y.
+Patches are based on v5.3-rc1 in Linus' tree.
+---
+ tools/testing/selftests/pidfd/pidfd.h          | 18 ++++++++++++++++++
+ .../testing/selftests/pidfd/pidfd_open_test.c  |  5 -----
+ tools/testing/selftests/pidfd/pidfd_test.c     | 10 ----------
+ 3 files changed, 18 insertions(+), 15 deletions(-)
+
+diff --git a/tools/testing/selftests/pidfd/pidfd.h b/tools/testing/selftests/pidfd/pidfd.h
+index 8452e910463f..db4377af6be7 100644
+--- a/tools/testing/selftests/pidfd/pidfd.h
++++ b/tools/testing/selftests/pidfd/pidfd.h
+@@ -16,6 +16,14 @@
  
- User API
- ========
-+There are 2 ways to access the idle page tracking API. One uses physical
-+address indexing, another uses a simpler virtual address indexing scheme.
+ #include "../kselftest.h"
  
--The idle page tracking API is located at ``/sys/kernel/mm/page_idle``.
--Currently, it consists of the only read-write file,
--``/sys/kernel/mm/page_idle/bitmap``.
-+Physical address indexing
-+-------------------------
-+The idle page tracking API for physical address indexing using page frame
-+numbers (PFN) is located at ``/sys/kernel/mm/page_idle``.  Currently, it
-+consists of the only read-write file, ``/sys/kernel/mm/page_idle/bitmap``.
- 
- The file implements a bitmap where each bit corresponds to a memory page. The
- bitmap is represented by an array of 8-byte integers, and the page at PFN #i is
-@@ -74,6 +78,31 @@ See :ref:`Documentation/admin-guide/mm/pagemap.rst <pagemap>` for more
- information about ``/proc/pid/pagemap``, ``/proc/kpageflags``, and
- ``/proc/kpagecgroup``.
- 
-+Virtual address indexing
-+------------------------
-+The idle page tracking API for virtual address indexing using virtual page
-+frame numbers (VFN) is located at ``/proc/<pid>/page_idle``. It is a bitmap
-+that follows the same semantics as ``/sys/kernel/mm/page_idle/bitmap``
-+except that it uses virtual instead of physical frame numbers.
++#ifndef __NR_pidfd_open
++#define __NR_pidfd_open -1
++#endif
 +
-+This idle page tracking API does not need deal with PFN so it does not require
-+prior lookups of ``pagemap`` in order to find if page is idle or not. This is
-+an advantage on some systems where looking up PFN is considered a security
-+issue.  Also in some cases, this interface could be slightly more reliable to
-+use than physical address indexing, since in physical address indexing, address
-+space changes can occur between reading the ``pagemap`` and reading the
-+``bitmap``, while in virtual address indexing, the process's ``mmap_sem`` is
-+held for the duration of the access.
++#ifndef __NR_pidfd_send_signal
++#define __NR_pidfd_send_signal -1
++#endif
 +
-+To estimate the amount of pages that are not used by a workload one should:
-+
-+ 1. Mark all the workload's pages as idle by setting corresponding bits in
-+    ``/proc/<pid>/page_idle``.
-+
-+ 2. Wait until the workload accesses its working set.
-+
-+ 3. Read ``/proc/<pid>/page_idle`` and count the number of bits set.
-+
- .. _impl_details:
+ /*
+  * The kernel reserves 300 pids via RESERVED_PIDS in kernel/pid.c
+  * That means, when it wraps around any pid < 300 will be skipped.
+@@ -53,5 +61,15 @@ int wait_for_pid(pid_t pid)
+ 	return WEXITSTATUS(status);
+ }
  
- Implementation Details
-@@ -99,10 +128,10 @@ When a dirty page is written to swap or disk as a result of memory reclaim or
- exceeding the dirty memory limit, it is not marked referenced.
++static inline int sys_pidfd_open(pid_t pid, unsigned int flags)
++{
++	return syscall(__NR_pidfd_open, pid, flags);
++}
++
++static inline int sys_pidfd_send_signal(int pidfd, int sig, siginfo_t *info,
++					unsigned int flags)
++{
++	return syscall(__NR_pidfd_send_signal, pidfd, sig, info, flags);
++}
  
- The idle memory tracking feature adds a new page flag, the Idle flag. This flag
--is set manually, by writing to ``/sys/kernel/mm/page_idle/bitmap`` (see the
--:ref:`User API <user_api>`
--section), and cleared automatically whenever a page is referenced as defined
--above.
-+is set manually, by writing to ``/sys/kernel/mm/page_idle/bitmap`` for physical
-+addressing or by writing to ``/proc/<pid>/page_idle`` for virtual
-+addressing (see the :ref:`User API <user_api>` section), and cleared
-+automatically whenever a page is referenced as defined above.
+ #endif /* __PIDFD_H */
+diff --git a/tools/testing/selftests/pidfd/pidfd_open_test.c b/tools/testing/selftests/pidfd/pidfd_open_test.c
+index 0377133dd6dc..b9fe75fc3e51 100644
+--- a/tools/testing/selftests/pidfd/pidfd_open_test.c
++++ b/tools/testing/selftests/pidfd/pidfd_open_test.c
+@@ -22,11 +22,6 @@
+ #include "pidfd.h"
+ #include "../kselftest.h"
  
- When a page is marked idle, the Accessed bit must be cleared in all PTEs it is
- mapped to, otherwise we will not be able to detect accesses to the page coming
+-static inline int sys_pidfd_open(pid_t pid, unsigned int flags)
+-{
+-	return syscall(__NR_pidfd_open, pid, flags);
+-}
+-
+ static int safe_int(const char *numstr, int *converted)
+ {
+ 	char *err = NULL;
+diff --git a/tools/testing/selftests/pidfd/pidfd_test.c b/tools/testing/selftests/pidfd/pidfd_test.c
+index 7eaa8a3de262..17b2fd621726 100644
+--- a/tools/testing/selftests/pidfd/pidfd_test.c
++++ b/tools/testing/selftests/pidfd/pidfd_test.c
+@@ -21,10 +21,6 @@
+ #include "pidfd.h"
+ #include "../kselftest.h"
+ 
+-#ifndef __NR_pidfd_send_signal
+-#define __NR_pidfd_send_signal -1
+-#endif
+-
+ #define str(s) _str(s)
+ #define _str(s) #s
+ #define CHILD_THREAD_MIN_WAIT 3 /* seconds */
+@@ -47,12 +43,6 @@ static pid_t pidfd_clone(int flags, int *pidfd, int (*fn)(void *))
+ #endif
+ }
+ 
+-static inline int sys_pidfd_send_signal(int pidfd, int sig, siginfo_t *info,
+-					unsigned int flags)
+-{
+-	return syscall(__NR_pidfd_send_signal, pidfd, sig, info, flags);
+-}
+-
+ static int signal_received;
+ 
+ static void set_signal_received_on_sigusr1(int sig)
 -- 
 2.22.0.709.g102302147b-goog
 
