@@ -2,415 +2,118 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F3969775A8
-	for <lists+linux-api@lfdr.de>; Sat, 27 Jul 2019 03:40:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DBBE775F0
+	for <lists+linux-api@lfdr.de>; Sat, 27 Jul 2019 04:23:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726469AbfG0Bky (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 26 Jul 2019 21:40:54 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:45984 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726167AbfG0Bky (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 26 Jul 2019 21:40:54 -0400
-Received: by mail-pg1-f194.google.com with SMTP id o13so25531341pgp.12;
-        Fri, 26 Jul 2019 18:40:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=gK35F/yyyAGVAhDCeXp9WzvvG/sG2XiEcs/uV4YadWQ=;
-        b=LFVyyOjfNHS5klS8qdwlzS4nlK50X8hlkagr8LMzc/jV9zfcPf4cOen+5zHp4Tqm+p
-         qDI6j9lBnC+tgufQduGMWfWJA5ZNNv1Zf7/dibwt7LKluGEjk85yTQBeeTxXFXj6nbYV
-         NT3q35KGzXjUKF6B2+cCK5t65hrg0ok5w6KpWbHMHlrBlJ0YC+c0apMVvixIu+Kw4295
-         jmsN2sbEdyTRYqU0UWPsk40yMYuDK/xW2q817rNs/Zup4cLvopBeVDczhLmFOlgtuDSF
-         AN04Ei7iPrlm6VdrHjVV/ARocEADLTQHgQo1+0mhRgvXBpqJSQv+aaLejP7VGpgJoriB
-         O1cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=gK35F/yyyAGVAhDCeXp9WzvvG/sG2XiEcs/uV4YadWQ=;
-        b=qZgEYpXJ6BIy5VhMtxveddgTPwtWiGvEfh9AydsEzwfnSdXkFA2H05fubJu+UQ+ctO
-         YTjF6V8vYhG5ai2p9O/tSLJ+meG7UnorjYUYMdYjMC8ityIx7tloNJXq9ZeTUuLUDxTe
-         e+iAQoTq95XSjOvkVBaW7mTcHh63LEWIintdRab02r9gie+4eTd6gVFSmD5kSSXtjgCL
-         1bvz7B9W/zXh2pKGdYVNSAqcH0c7OEQ2K36AQ0hj3VWLcwneTi+KGAAbao8yrvTXiZzn
-         u5VvYu42mYP9iaNT7VOqfGw//JogT+drx1e4QFJ1/Fpsf+RbtJTh4rhGQuQOuBm180Is
-         2hQw==
-X-Gm-Message-State: APjAAAXpRHSJ6PhY99+tuire7vAy3fYoNqK+UuFDzaElgMCv4c7qTwYg
-        gasdg9BZHSnbsjAnoJGQgb4=
-X-Google-Smtp-Source: APXvYqzzDzj6NQHlQ79JDLA4ABdSdbB/e7wCK4Qm80OR/rDXBPszVKWLf1Y0e+y3qWjFWx3BKK2zzg==
-X-Received: by 2002:a63:5754:: with SMTP id h20mr53429148pgm.195.1564191652726;
-        Fri, 26 Jul 2019 18:40:52 -0700 (PDT)
-Received: from ast-mbp.dhcp.thefacebook.com ([2620:10d:c090:200::2:2eeb])
-        by smtp.gmail.com with ESMTPSA id t26sm42188028pgu.43.2019.07.26.18.40.50
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 26 Jul 2019 18:40:51 -0700 (PDT)
-Date:   Fri, 26 Jul 2019 18:40:50 -0700
-From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
-To:     =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-Cc:     linux-kernel@vger.kernel.org,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        David Drysdale <drysdale@google.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        James Morris <jmorris@namei.org>, Jann Horn <jann@thejh.net>,
-        John Johansen <john.johansen@canonical.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mickael.salaun@ssi.gouv.fr>,
-        Paul Moore <paul@paul-moore.com>,
-        Sargun Dhillon <sargun@sargun.me>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Stephen Smalley <sds@tycho.nsa.gov>, Tejun Heo <tj@kernel.org>,
-        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
-        Thomas Graf <tgraf@suug.ch>, Tycho Andersen <tycho@tycho.ws>,
-        Will Drewry <wad@chromium.org>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org,
-        linux-security-module@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH bpf-next v10 06/10] bpf,landlock: Add a new map type:
- inode
-Message-ID: <20190727014048.3czy3n2hi6hfdy3m@ast-mbp.dhcp.thefacebook.com>
-References: <20190721213116.23476-1-mic@digikod.net>
- <20190721213116.23476-7-mic@digikod.net>
+        id S1726613AbfG0CXu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 26 Jul 2019 22:23:50 -0400
+Received: from zeniv.linux.org.uk ([195.92.253.2]:50082 "EHLO
+        ZenIV.linux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728033AbfG0CXt (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 26 Jul 2019 22:23:49 -0400
+Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92 #3 (Red Hat Linux))
+        id 1hrCN7-0003zA-HP; Sat, 27 Jul 2019 02:23:45 +0000
+Date:   Sat, 27 Jul 2019 03:23:45 +0100
+From:   Al Viro <viro@zeniv.linux.org.uk>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Christian Brauner <christian@brauner.io>,
+        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
+        David Howells <dhowells@redhat.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: Regression in 5.3 for some FS_USERNS_MOUNT (aka
+ user-namespace-mountable) filesystems
+Message-ID: <20190727022345.GN1131@ZenIV.linux.org.uk>
+References: <20190726115956.ifj5j4apn3tmwk64@brauner.io>
+ <CAHk-=wgK254RkZg9oAv+Wt4V9zqYJMm3msTofvTUfA9dJw6piQ@mail.gmail.com>
+ <20190726232220.GM1131@ZenIV.linux.org.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190721213116.23476-7-mic@digikod.net>
-User-Agent: NeoMutt/20180223
+In-Reply-To: <20190726232220.GM1131@ZenIV.linux.org.uk>
+User-Agent: Mutt/1.12.0 (2019-05-25)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sun, Jul 21, 2019 at 11:31:12PM +0200, Mickaël Salaün wrote:
-> FIXME: 64-bits in the doc
+On Sat, Jul 27, 2019 at 12:22:20AM +0100, Al Viro wrote:
+> On Fri, Jul 26, 2019 at 03:47:02PM -0700, Linus Torvalds wrote:
 > 
-> This new map store arbitrary values referenced by inode keys.  The map
-> can be updated from user space with file descriptor pointing to inodes
-> tied to a file system.  From an eBPF (Landlock) program point of view,
-> such a map is read-only and can only be used to retrieved a value tied
-> to a given inode.  This is useful to recognize an inode tagged by user
-> space, without access right to this inode (i.e. no need to have a write
-> access to this inode).
+> > Of course, then later on, commit 20284ab7427f ("switch mount_capable()
+> > to fs_context") drops that argument entirely, and hardcodes the
+> > decision to look at fc->global.
+> > 
+> > But that fc->global decision wasn't there originally, and is incorrect
+> > since it breaks existing users.
+> > 
+> > What gets much more confusing about this is that the two different
+> > users then moved around. The sget_userns() case got moved to
+> > legacy_get_tree(), and then joined together in vfs_get_tree(), and
+> > then split and moved out to do_new_mount() and vfs_fsconfig_locked().
+> > 
+> > And that "joined together into vfs_get_tree()" must be wrong, because
+> > the two cases used two different namespace rules. The sget_userns()
+> > case *did* have that "global" flag check, while the sget_fc() did not.
+> > 
+> > Messy. Al?
 > 
-> Add dedicated BPF functions to handle this type of map:
-> * bpf_inode_htab_map_update_elem()
-> * bpf_inode_htab_map_lookup_elem()
-> * bpf_inode_htab_map_delete_elem()
-> 
-> This new map require a dedicated helper inode_map_lookup_elem() because
-> of the key which is a pointer to an opaque data (only provided by the
-> kernel).  This act like a (physical or cryptographic) key, which is why
-> it is also not allowed to get the next key.
-> 
-> Signed-off-by: Mickaël Salaün <mic@digikod.net>
+> Digging through that mess...  It's my fuckup, and we obviously need to
+> restore the old behaviour, but I really hope to manage that with
+> checks _not_ in superblock allocator ;-/
 
-there are too many things to comment on.
-Let's do this patch.
+It shouldn't have looked at fc->global for those checks.  In any cases.
+sget_fc() should indeed have been passing fc->user_ns, not userns.
+And as for sget_userns(), by the time of 20284ab7427f
+its checks had been moved to legacy_get_tree().  In form of
+	if (!mount_capable(fc->fs_type, fc->user_ns))
+as it bloody well ought to.
 
-imo inode_map concept is interesting, but see below...
+So the first mistake (wrong argument passed to mount_capable() by sget_fc()
+in 0ce0cf12fc4c) has been completed by 20284ab7427f - that conversion was,
+actually, an equivalent transformation (callers of legacy_get_tree() never
+have fc->global set, so it's all the same).  However, the bug introduced in
+the earlier commit was now spelled out in mount_capable() itself.
 
-> +
-> +	/*
-> +	 * Limit number of entries in an inode map to the maximum number of
-> +	 * open files for the current process. The maximum number of file
-> +	 * references (including all inode maps) for a process is then
-> +	 * (RLIMIT_NOFILE - 1) * RLIMIT_NOFILE. If the process' RLIMIT_NOFILE
-> +	 * is 0, then any entry update is forbidden.
-> +	 *
-> +	 * An eBPF program can inherit all the inode map FD. The worse case is
-> +	 * to fill a bunch of arraymaps, create an eBPF program, close the
-> +	 * inode map FDs, and start again. The maximum number of inode map
-> +	 * entries can then be close to RLIMIT_NOFILE^3.
-> +	 */
-> +	if (attr->max_entries > rlimit(RLIMIT_NOFILE))
-> +		return -EMFILE;
+IOW, the minimal fix should be as below.  In principle, I'm not against
+Eric's "add a method instead of setting FS_USERNS_MOUNT", but note that
+in *all* cases the instances of his method end up being equivalent to
+	return ns_capable(fc->user_ns, CAP_SYS_ADMIN) ? 0 : -EPERM;
 
-rlimit is checked, but no fd are consumed.
-Once created such inode map_fd can be passed to a different process.
-map_fd can be pinned into bpffs.
-etc.
-what the value of the check?
+Anyway, AFAICS the regression fix should be simply this:
 
-> +
-> +	/* decorelate UAPI from kernel API */
-> +	attr->key_size = sizeof(struct inode *);
-> +
-> +	return htab_map_alloc_check(attr);
-> +}
-> +
-> +static void inode_htab_put_key(void *key)
-> +{
-> +	struct inode **inode = key;
-> +
-> +	if ((*inode)->i_state & I_FREEING)
-> +		return;
+Unbreak mount_capable()
 
-checking the state without take a lock? isn't it racy?
+In "consolidate the capability checks in sget_{fc,userns}())" the
+wrong argument had been passed to mount_capable() by sget_fc().
+That mistake had been further obscured later, when switching
+mount_capable() to fs_context has moved the calculation of
+bogus argument from sget_fc() to mount_capable() itself.  It
+should've been fc->user_ns all along.
 
-> +	iput(*inode);
-> +}
-> +
-> +/* called from syscall or (never) from eBPF program */
-> +static int map_get_next_no_key(struct bpf_map *map, void *key, void *next_key)
-> +{
-> +	/* do not leak a file descriptor */
-
-what this comment suppose to mean?
-
-> +	return -ENOTSUPP;
-> +}
-> +
-> +/* must call iput(inode) after this call */
-> +static struct inode *inode_from_fd(int ufd, bool check_access)
-> +{
-> +	struct inode *ret;
-> +	struct fd f;
-> +	int deny;
-> +
-> +	f = fdget(ufd);
-> +	if (unlikely(!f.file))
-> +		return ERR_PTR(-EBADF);
-> +	/* TODO?: add this check when called from an eBPF program too (already
-> +	* checked by the LSM parent hooks anyway) */
-> +	if (unlikely(IS_PRIVATE(file_inode(f.file)))) {
-> +		ret = ERR_PTR(-EINVAL);
-> +		goto put_fd;
-> +	}
-> +	/* check if the FD is tied to a mount point */
-> +	/* TODO?: add this check when called from an eBPF program too */
-> +	if (unlikely(f.file->f_path.mnt->mnt_flags & MNT_INTERNAL)) {
-> +		ret = ERR_PTR(-EINVAL);
-> +		goto put_fd;
-> +	}
-
-a bunch of TODOs do not inspire confidence.
-
-> +	if (check_access) {
-> +		/*
-> +		* must be allowed to access attributes from this file to then
-> +		* be able to compare an inode to its map entry
-> +		*/
-> +		deny = security_inode_getattr(&f.file->f_path);
-> +		if (deny) {
-> +			ret = ERR_PTR(deny);
-> +			goto put_fd;
-> +		}
-> +	}
-> +	ret = file_inode(f.file);
-> +	ihold(ret);
-> +
-> +put_fd:
-> +	fdput(f);
-> +	return ret;
-> +}
-> +
-> +/*
-> + * The key is a FD when called from a syscall, but an inode address when called
-> + * from an eBPF program.
-> + */
-> +
-> +/* called from syscall */
-> +int bpf_inode_fd_htab_map_lookup_elem(struct bpf_map *map, int *key, void *value)
-> +{
-> +	void *ptr;
-> +	struct inode *inode;
-> +	int ret;
-> +
-> +	/* check inode access */
-> +	inode = inode_from_fd(*key, true);
-> +	if (IS_ERR(inode))
-> +		return PTR_ERR(inode);
-> +
-> +	rcu_read_lock();
-> +	ptr = htab_map_lookup_elem(map, &inode);
-> +	iput(inode);
-> +	if (IS_ERR(ptr)) {
-> +		ret = PTR_ERR(ptr);
-> +	} else if (!ptr) {
-> +		ret = -ENOENT;
-> +	} else {
-> +		ret = 0;
-> +		copy_map_value(map, value, ptr);
-> +	}
-> +	rcu_read_unlock();
-> +	return ret;
-> +}
-> +
-> +/* called from kernel */
-
-wrong comment?
-kernel side cannot call it, right?
-
-> +int bpf_inode_ptr_locked_htab_map_delete_elem(struct bpf_map *map,
-> +		struct inode **key, bool remove_in_inode)
-> +{
-> +	if (remove_in_inode)
-> +		landlock_inode_remove_map(*key, map);
-> +	return htab_map_delete_elem(map, key);
-> +}
-> +
-> +/* called from syscall */
-> +int bpf_inode_fd_htab_map_delete_elem(struct bpf_map *map, int *key)
-> +{
-> +	struct inode *inode;
-> +	int ret;
-> +
-> +	/* do not check inode access (similar to directory check) */
-> +	inode = inode_from_fd(*key, false);
-> +	if (IS_ERR(inode))
-> +		return PTR_ERR(inode);
-> +	ret = bpf_inode_ptr_locked_htab_map_delete_elem(map, &inode, true);
-> +	iput(inode);
-> +	return ret;
-> +}
-> +
-> +/* called from syscall */
-> +int bpf_inode_fd_htab_map_update_elem(struct bpf_map *map, int *key, void *value,
-> +		u64 map_flags)
-> +{
-> +	struct inode *inode;
-> +	int ret;
-> +
-> +	WARN_ON_ONCE(!rcu_read_lock_held());
-> +
-> +	/* check inode access */
-> +	inode = inode_from_fd(*key, true);
-> +	if (IS_ERR(inode))
-> +		return PTR_ERR(inode);
-> +	ret = htab_map_update_elem(map, &inode, value, map_flags);
-> +	if (!ret)
-> +		ret = landlock_inode_add_map(inode, map);
-> +	iput(inode);
-> +	return ret;
-> +}
-> +
-> +static void inode_htab_map_free(struct bpf_map *map)
-> +{
-> +	struct bpf_htab *htab = container_of(map, struct bpf_htab, map);
-> +	struct hlist_nulls_node *n;
-> +	struct hlist_nulls_head *head;
-> +	struct htab_elem *l;
-> +	int i;
-> +
-> +	for (i = 0; i < htab->n_buckets; i++) {
-> +		head = select_bucket(htab, i);
-> +		hlist_nulls_for_each_entry_safe(l, n, head, hash_node) {
-> +			landlock_inode_remove_map(*((struct inode **)l->key), map);
-> +		}
-> +	}
-> +	htab_map_free(map);
-> +}
-
-user space can delete the map.
-that will trigger inode_htab_map_free() which will call
-landlock_inode_remove_map().
-which will simply itereate the list and delete from the list.
-
-While in parallel inode can be destoyed and hook_inode_free_security()
-will be called.
-I think nothing that protects from this race.
-
-> +
-> +/*
-> + * We need a dedicated helper to deal with inode maps because the key is a
-> + * pointer to an opaque data, only provided by the kernel.  This really act
-> + * like a (physical or cryptographic) key, which is why it is also not allowed
-> + * to get the next key with map_get_next_key().
-
-inode pointer is like cryptographic key? :)
-
-> + */
-> +BPF_CALL_2(bpf_inode_map_lookup_elem, struct bpf_map *, map, void *, key)
-> +{
-> +	WARN_ON_ONCE(!rcu_read_lock_held());
-> +	return (unsigned long)htab_map_lookup_elem(map, &key);
-> +}
-> +
-> +const struct bpf_func_proto bpf_inode_map_lookup_elem_proto = {
-> +	.func		= bpf_inode_map_lookup_elem,
-> +	.gpl_only	= false,
-> +	.pkt_access	= true,
-
-pkt_access ? :)
-
-> +	.ret_type	= RET_PTR_TO_MAP_VALUE_OR_NULL,
-> +	.arg1_type	= ARG_CONST_MAP_PTR,
-> +	.arg2_type	= ARG_PTR_TO_INODE,
-> +};
-> diff --git a/kernel/bpf/syscall.c b/kernel/bpf/syscall.c
-> index b2a8cb14f28e..e46441c42b68 100644
-> --- a/kernel/bpf/syscall.c
-> +++ b/kernel/bpf/syscall.c
-> @@ -801,6 +801,8 @@ static int map_lookup_elem(union bpf_attr *attr)
->  	} else if (map->map_type == BPF_MAP_TYPE_QUEUE ||
->  		   map->map_type == BPF_MAP_TYPE_STACK) {
->  		err = map->ops->map_peek_elem(map, value);
-> +	} else if (map->map_type == BPF_MAP_TYPE_INODE) {
-> +		err = bpf_inode_fd_htab_map_lookup_elem(map, key, value);
->  	} else {
->  		rcu_read_lock();
->  		if (map->ops->map_lookup_elem_sys_only)
-> @@ -951,6 +953,10 @@ static int map_update_elem(union bpf_attr *attr)
->  	} else if (map->map_type == BPF_MAP_TYPE_QUEUE ||
->  		   map->map_type == BPF_MAP_TYPE_STACK) {
->  		err = map->ops->map_push_elem(map, value, attr->flags);
-> +	} else if (map->map_type == BPF_MAP_TYPE_INODE) {
-> +		rcu_read_lock();
-> +		err = bpf_inode_fd_htab_map_update_elem(map, key, value, attr->flags);
-> +		rcu_read_unlock();
->  	} else {
->  		rcu_read_lock();
->  		err = map->ops->map_update_elem(map, key, value, attr->flags);
-> @@ -1006,7 +1012,10 @@ static int map_delete_elem(union bpf_attr *attr)
->  	preempt_disable();
->  	__this_cpu_inc(bpf_prog_active);
->  	rcu_read_lock();
-> -	err = map->ops->map_delete_elem(map, key);
-> +	if (map->map_type == BPF_MAP_TYPE_INODE)
-> +		err = bpf_inode_fd_htab_map_delete_elem(map, key);
-> +	else
-> +		err = map->ops->map_delete_elem(map, key);
->  	rcu_read_unlock();
->  	__this_cpu_dec(bpf_prog_active);
->  	preempt_enable();
-> @@ -1018,6 +1027,22 @@ static int map_delete_elem(union bpf_attr *attr)
->  	return err;
->  }
->  
-> +int bpf_inode_ptr_unlocked_htab_map_delete_elem(struct bpf_map *map,
-> +						struct inode **key, bool remove_in_inode)
-> +{
-> +	int err;
-> +
-> +	preempt_disable();
-> +	__this_cpu_inc(bpf_prog_active);
-> +	rcu_read_lock();
-> +	err = bpf_inode_ptr_locked_htab_map_delete_elem(map, key, remove_in_inode);
-> +	rcu_read_unlock();
-> +	__this_cpu_dec(bpf_prog_active);
-> +	preempt_enable();
-> +	maybe_wait_bpf_programs(map);
-
-if that function was actually doing synchronize_rcu() the consequences
-would have been unpleasant. Fortunately it's a nop in this case.
-Please read the code carefully before copy-paste.
-Also what do you think the reason of bpf_prog_active above?
-What is the reason of rcu_read_lock above?
-
-I think the patch set needs to shrink at least in half to be reviewable.
-The way you tie seccomp and lsm is probably the biggest obstacle
-than any of the bugs above.
-Can you drop seccomp ? and do it as normal lsm ?
+Screwed-up-by: Al Viro <viro@zeniv.linux.org.uk>
+Reported-by: Christian Brauner <christian@brauner.io>
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+---
+diff --git a/fs/super.c b/fs/super.c
+index 113c58f19425..5960578a4076 100644
+--- a/fs/super.c
++++ b/fs/super.c
+@@ -478,13 +478,10 @@ EXPORT_SYMBOL(generic_shutdown_super);
+ 
+ bool mount_capable(struct fs_context *fc)
+ {
+-	struct user_namespace *user_ns = fc->global ? &init_user_ns
+-						    : fc->user_ns;
+-
+ 	if (!(fc->fs_type->fs_flags & FS_USERNS_MOUNT))
+ 		return capable(CAP_SYS_ADMIN);
+ 	else
+-		return ns_capable(user_ns, CAP_SYS_ADMIN);
++		return ns_capable(fc->user_ns, CAP_SYS_ADMIN);
+ }
+ 
+ /**
 
