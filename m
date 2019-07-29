@@ -2,50 +2,50 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C378079C0F
-	for <lists+linux-api@lfdr.de>; Tue, 30 Jul 2019 00:03:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 589B079BBB
+	for <lists+linux-api@lfdr.de>; Tue, 30 Jul 2019 00:00:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726197AbfG2WBR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 29 Jul 2019 18:01:17 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:34682 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730291AbfG2V6a (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Jul 2019 17:58:30 -0400
-Received: by mail-wr1-f67.google.com with SMTP id 31so63498841wrm.1
-        for <linux-api@vger.kernel.org>; Mon, 29 Jul 2019 14:58:28 -0700 (PDT)
+        id S1730354AbfG2V6d (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 29 Jul 2019 17:58:33 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:54243 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727460AbfG2V6b (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Jul 2019 17:58:31 -0400
+Received: by mail-wm1-f67.google.com with SMTP id x15so55203233wmj.3
+        for <linux-api@vger.kernel.org>; Mon, 29 Jul 2019 14:58:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=arista.com; s=googlenew;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=4hqwZO1zYMZbMHDNBtpMYOg7fTFxraqQn2eOANEclVY=;
-        b=m3yFpZ8poaRzOa/MxADE5K5sL/TnKgMt4BEe+aPbbp8xHRDgN5aLl6Miohq5KIwQMB
-         G+7Rad8bup04SNcaHQuvFDtcpH+h+RKHJ6cdoaLpI6iqv2yE8YU5RMb1T28NEc7vupeR
-         x/o+VMnd7pXmwe5LR/+Ux0XFjw3nxAQzGttiZhO3t4A2nzeSHT2hNqngOTEIGwsXogNV
-         99T52Ddl/ix0LFWVXSQT7hAXKfeoTmbWC7RXXAOnYJzEwH2ru0spwMiyxpNxYmU+ucR5
-         q373gy7peX1g4cMgt/NDPrh/QhOJZBa5WXbOwvjHFkw0k7XEeqgNn2NJIr3F2qmFzFrV
-         o7ow==
+        bh=3MjEHvnSKKqtqfjPruFAI4NMd2j71wVzmmWx9wAlQuc=;
+        b=K3YZLTWnOhf9uJPUr1iQ87BSk5m9pfk0LQyZSfVvG/3zHnum6jcfJs/niIFFRVn7Wk
+         ZyiuRJE0z3pZSrJZnl3vJoU7znYGhcJZU016YnXI5L8d9FBV5wqmKUDLVJGnNlshvmU6
+         ln5pxw4cUpvOEp2RAoz2B85ngRKuO/0iRLtUsRDz9uUnjdciIXp7L9Fchfdu2ip6BT5H
+         Gt0iObe/GQoNpJjwmZBroAmMmOcGibN5hPgsQkiqsbGb0x71aexNdlve45nROsPPgSla
+         TSDYviucQQHMJ+z+AvlR1at+BZFIausmWWI55UK9BTk8jaJmJiW40eFE/R9gldOycy2s
+         qJ4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=4hqwZO1zYMZbMHDNBtpMYOg7fTFxraqQn2eOANEclVY=;
-        b=ucPi+Xz+cxokXoKE9iO7zZwnjzRLxIcqdaWt7bvWwmEBgd2nGfcJL5hp0hIDc4eeAG
-         zJvNQUsdeUHpHAQfYv6XAxFjpjPi4SEvSfxXu3MKXY2+LBCkMP6pjOAN3oqZsbGmk36z
-         e3pi9FtVRpI8OFGGZ226RRUrYIEz8R2XEgW0o3+vTovo3MVBXu/JJuWMYQaVH+naViN+
-         +4BzkekxsmxbSSztp+/CqukJLdU40ydvBgFgXqPFZR6SWldm6/v9FWnUe87GqX36zFce
-         /EG04APaCP/pHF8nviXv7ikyi99XJ4vczgBwSaLVprQT5XD5vLrx1yY5PWbjMkoTeW/z
-         xMVQ==
-X-Gm-Message-State: APjAAAU1SJQc9t6o2urQZYPtsLOPzZsUv0fs0sAAb06fJ40/NOM/tPEE
-        C2YwP06G3/MkA4YplQ5Pwv2kSgq33ROx9uyK9Dr1ekb+GXuQqDJarTGZ1O1DdWsuXf9kzCSJAor
-        Yw1/F3KuSl1DJgGmkJyxo/vEU0bOO+VeM5UY2sLXSRMdgP+VQFn3O7+BIqbdK17k4oKS0q0OTOz
-        PYTrUV6Z8ZrTTivhA+/irKPPzaaQ==
-X-Google-Smtp-Source: APXvYqxe140732//L/bynIz7NqQJ73mBM6Qqjk+350TEqAjF0B3mriLWFXVhnez+lkDIkgz5G7FeGA==
-X-Received: by 2002:adf:d4c1:: with SMTP id w1mr50896110wrk.229.1564437507897;
-        Mon, 29 Jul 2019 14:58:27 -0700 (PDT)
+        bh=3MjEHvnSKKqtqfjPruFAI4NMd2j71wVzmmWx9wAlQuc=;
+        b=I5/xtELNijfItESIJuDYAew18Zu6N7G/KksLTqWVN1U5eN4tN67TukruWbOxGZlyjY
+         K4mXosAWugWY2ySUCa6Hd9w1q26pKV+8k8+sFY+DYqheqX2y9DojlrPp9OBgzd4xiTkV
+         vEhsLqajwXcQReW9c5RpU26dOcBJUHYa3SJbji7D1YgegJdX5rie9RZD0CXk6NC49s+A
+         jgA9OCScHVtH6LCKEt4yRDFGWsRKwokrR3ZkQTyOSdkED2/DoqoLpBgncW08o8ILTaQN
+         2dVm6FePtukcyNi/692RlSLb6zuPXDa57m64a7mAlCZc8zzxJeZTK/3RS2bfUrVrD5rM
+         x05g==
+X-Gm-Message-State: APjAAAWTzkIYTuCCArVPofajv6IUOJj8xfk/BiNWJpowdqTDwLIJfUWN
+        zdv8+o7WORrn/IUmOmQq2e3DrpBh0tzadnzIa3p0vgvy3p03kv8irfIRC8PeVriQufx+p5VY0sP
+        PTCdx4EUjjouOrky/RUdkE4grtYGhjePLYtv1I+l+1SqXVRBlMr9Gloa1Np08rox9L6iPvYVvm5
+        T17EtGUnTfiHbr9EW29Xwk8DNMKw==
+X-Google-Smtp-Source: APXvYqy+v04cNfd4RJctLqUo6ZeyXSD8ECZHh591uGR9Ntn/QZseT7nfkt1SZHQmdPRXi4AKP1fgPg==
+X-Received: by 2002:a1c:6555:: with SMTP id z82mr103936726wmb.129.1564437509377;
+        Mon, 29 Jul 2019 14:58:29 -0700 (PDT)
 Received: from Mindolluin.ire.aristanetworks.com ([217.173.96.166])
-        by smtp.gmail.com with ESMTPSA id x20sm49230728wmc.1.2019.07.29.14.58.26
+        by smtp.gmail.com with ESMTPSA id x20sm49230728wmc.1.2019.07.29.14.58.28
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 29 Jul 2019 14:58:27 -0700 (PDT)
+        Mon, 29 Jul 2019 14:58:28 -0700 (PDT)
 From:   Dmitry Safonov <dima@arista.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     Dmitry Safonov <0x7f454c46@gmail.com>,
@@ -66,9 +66,9 @@ Cc:     Dmitry Safonov <0x7f454c46@gmail.com>,
         Vincenzo Frascino <vincenzo.frascino@arm.com>,
         containers@lists.linux-foundation.org, criu@openvz.org,
         linux-api@vger.kernel.org, x86@kernel.org
-Subject: [PATCHv5 20/37] x86/vdso/Makefile: Add vobjs32
-Date:   Mon, 29 Jul 2019 22:57:02 +0100
-Message-Id: <20190729215758.28405-21-dima@arista.com>
+Subject: [PATCHv5 21/37] x86/vdso: Restrict splitting VVAR VMA
+Date:   Mon, 29 Jul 2019 22:57:03 +0100
+Message-Id: <20190729215758.28405-22-dima@arista.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190729215758.28405-1-dima@arista.com>
 References: <20190729215758.28405-1-dima@arista.com>
@@ -83,68 +83,51 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Treat ia32/i386 objects in array the same As for 64-bit vdso objects.
-This is a preparation ground to avoid code duplication on introduction
-timens vdso.
+Although, time namespace can work with VVAR VMA split, it seems worth
+to forbid splitting VVAR resulting in stricter ABI and reducing amount
+of corner-cases to consider while working further on VDSO.
+
+I don't think there is any use-case for partial mremap() of vvar,
+but if there is any - this patch can be easily reverted.
 
 Co-developed-by: Andrei Vagin <avagin@openvz.org>
 Signed-off-by: Andrei Vagin <avagin@openvz.org>
 Signed-off-by: Dmitry Safonov <dima@arista.com>
 ---
- arch/x86/entry/vdso/Makefile | 15 +++++----------
- 1 file changed, 5 insertions(+), 10 deletions(-)
+ arch/x86/entry/vdso/vma.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/arch/x86/entry/vdso/Makefile b/arch/x86/entry/vdso/Makefile
-index 8df549138193..d4bffc4cabd1 100644
---- a/arch/x86/entry/vdso/Makefile
-+++ b/arch/x86/entry/vdso/Makefile
-@@ -24,6 +24,8 @@ VDSO32-$(CONFIG_IA32_EMULATION)	:= y
+diff --git a/arch/x86/entry/vdso/vma.c b/arch/x86/entry/vdso/vma.c
+index 349a61d8bf34..3f05418642a8 100644
+--- a/arch/x86/entry/vdso/vma.c
++++ b/arch/x86/entry/vdso/vma.c
+@@ -84,6 +84,18 @@ static int vdso_mremap(const struct vm_special_mapping *sm,
+ 	return 0;
+ }
  
- # files to link into the vdso
- vobjs-y := vdso-note.o vclock_gettime.o vgetcpu.o
-+vobjs32-y := vdso32/note.o vdso32/system_call.o vdso32/sigreturn.o
-+vobjs32-y += vdso32/vclock_gettime.o
++static int vvar_mremap(const struct vm_special_mapping *sm,
++		struct vm_area_struct *new_vma)
++{
++	unsigned long new_size = new_vma->vm_end - new_vma->vm_start;
++	const struct vdso_image *image = new_vma->vm_mm->context.vdso_image;
++
++	if (new_size != -image->sym_vvar_start)
++		return -EINVAL;
++
++	return 0;
++}
++
+ static vm_fault_t vvar_fault(const struct vm_special_mapping *sm,
+ 		      struct vm_area_struct *vma, struct vm_fault *vmf)
+ {
+@@ -136,6 +148,7 @@ static const struct vm_special_mapping vdso_mapping = {
+ static const struct vm_special_mapping vvar_mapping = {
+ 	.name = "[vvar]",
+ 	.fault = vvar_fault,
++	.mremap = vvar_mremap,
+ };
  
- # files to link into kernel
- obj-y				+= vma.o
-@@ -37,10 +39,12 @@ vdso_img-$(VDSO32-y)		+= 32
- obj-$(VDSO32-y)			+= vdso32-setup.o
- 
- vobjs := $(foreach F,$(vobjs-y),$(obj)/$F)
-+vobjs32 := $(foreach F,$(vobjs32-y),$(obj)/$F)
- 
- $(obj)/vdso.o: $(obj)/vdso.so
- 
- targets += vdso.lds $(vobjs-y)
-+targets += vdso32/vdso32.lds $(vobjs32-y)
- 
- # Build the vDSO image C files and link them in.
- vdso_img_objs := $(vdso_img-y:%=vdso-image-%.o)
-@@ -131,10 +135,6 @@ $(obj)/vdsox32.so.dbg: $(obj)/vdsox32.lds $(vobjx32s) FORCE
- CPPFLAGS_vdso32.lds = $(CPPFLAGS_vdso.lds)
- VDSO_LDFLAGS_vdso32.lds = -m elf_i386 -soname linux-gate.so.1
- 
--targets += vdso32/vdso32.lds
--targets += vdso32/note.o vdso32/system_call.o vdso32/sigreturn.o
--targets += vdso32/vclock_gettime.o
--
- KBUILD_AFLAGS_32 := $(filter-out -m64,$(KBUILD_AFLAGS)) -DBUILD_VDSO
- $(obj)/vdso32.so.dbg: KBUILD_AFLAGS = $(KBUILD_AFLAGS_32)
- $(obj)/vdso32.so.dbg: asflags-$(CONFIG_X86_64) += -m32
-@@ -159,12 +159,7 @@ endif
- 
- $(obj)/vdso32.so.dbg: KBUILD_CFLAGS = $(KBUILD_CFLAGS_32)
- 
--$(obj)/vdso32.so.dbg: FORCE \
--		      $(obj)/vdso32/vdso32.lds \
--		      $(obj)/vdso32/vclock_gettime.o \
--		      $(obj)/vdso32/note.o \
--		      $(obj)/vdso32/system_call.o \
--		      $(obj)/vdso32/sigreturn.o
-+$(obj)/vdso32.so.dbg: $(obj)/vdso32/vdso32.lds $(vobjs32) FORCE
- 	$(call if_changed,vdso_and_check)
- 
- #
+ /*
 -- 
 2.22.0
 
