@@ -2,57 +2,52 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BBD1479BD2
-	for <lists+linux-api@lfdr.de>; Tue, 30 Jul 2019 00:00:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7228179C33
+	for <lists+linux-api@lfdr.de>; Tue, 30 Jul 2019 00:07:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389521AbfG2V7O (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 29 Jul 2019 17:59:14 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:35877 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389495AbfG2V7N (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Jul 2019 17:59:13 -0400
-Received: by mail-wr1-f67.google.com with SMTP id n4so63546719wrs.3
-        for <linux-api@vger.kernel.org>; Mon, 29 Jul 2019 14:59:12 -0700 (PDT)
+        id S1729959AbfG2WH6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 29 Jul 2019 18:07:58 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:42013 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727562AbfG2WH6 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Jul 2019 18:07:58 -0400
+Received: by mail-wr1-f66.google.com with SMTP id x1so13582180wrr.9;
+        Mon, 29 Jul 2019 15:07:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=arista.com; s=googlenew;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=aoCU6uPiHr0PzNNlgylsAXV9auaD7Fl9k+QB3VPTwmU=;
-        b=lyIFFZOD5gGnj2VKFbxI8Hxm8GCuaJLZOdM1TyAWTYxIPvJazlmaSBv32iCYrkk9A5
-         DfFEvqo6cOZTHKDRnFIdSlBt8YD/QZ8veboYXgj4rB+mpr//AYCUP4yKtAAzfbm+Nw14
-         mJ03K6t68W5ENcS05b+wwnmCMlkOaDoX6b03Qe8GTZOa9fy7qFMb3+H7oFCig63RkBEn
-         rlQ36OfCpIKR4G/fJWpg/Qs2MUcYqJTKypbbp4nl7UKrVyZwUDn559vkbLSVW6GIb2F9
-         jHRXiTd2wswHPS5WdJTjC2JHRc9AQmguOe9J1Xz+EfKWXT4WtQree65HPLVX3qjngW3I
-         o1MA==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=ALxzhNopH+Mhn0yl7f2Aj425+SEQTfEqix8fAEcqb8g=;
+        b=bgSfchK7ozJssLuzSTL7NB2O+UhqdI4MFBKgb5ni0f8lJJyfimQQeWFcpn9xbO46pY
+         A/txAKODLhs6iwOYNrmj4z59MjzdNexCXXELfcNOAvl2lTAMBb49tPTMp9fZ3xrWRyAd
+         yXJp8VWoqDR2qM7kGtEMSgIJKKbrIsep3OnEC3cOcFIgERtCAyy5fgC1+QrjqsqFbsGf
+         WyULjV9tENtZLHWWuDPao//j5KeFRlg7/iB2FKUvA7aUuG2s8btzBR4HyhMozn5g1TsN
+         KnQH/4Lqkt0KVdDXBkRvwa/Yf7yg8Mr9z3LgrYGa0kVY1rwzxoP/z6XHlJ76FRhOfrOG
+         1fog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=aoCU6uPiHr0PzNNlgylsAXV9auaD7Fl9k+QB3VPTwmU=;
-        b=NsyNOBr9ATvxyboGX8/SZKthzI/RNybbPDP72iY8xFoFOTQyA5RuN0yu45PMyQ0TNr
-         1Jmm7JEmwKA8EKJlBWodL8RuYlHdpLBKGF2kGw/oa2KPLIea6SjTY1OTH1Cv2r9A/9PP
-         dePvujm/rStfAK4dANdvkgXYaJCoI7Y8/vtSY75vbY3s8Gfu5Lg7ziq1zQIXiKsH1Rd8
-         NvpSrsuWL/8o2322tGynf3N4Z0Ny8m16+q8QPy19wblevczsBCkbKZf+tVc+T9kTdNei
-         olijRZR49uUgiL4WZSC1YOpRmni0J0C+fRkyNvMluKxYv8ohMJSuL3FF3e7nDqsu4AdY
-         466Q==
-X-Gm-Message-State: APjAAAUZHVuyX0N357jyoZ9fSOLwWMqrCAss5rE/j5yxxV79RUZVMCBj
-        WJAKeS7QwCGacu0nlbo9fcWoYat20eCAcnmknGc0ipkfs/cM0BXxgDIMZ2raw05Em6Oa3KT8AZ8
-        FxJSL8kjSjYBBCaB3KEvdaNxsE9qZXRdolDXOGWOc84BLmxh/qU9h2Wn0g5O2HTLu2+3mTACm5P
-        OXCGKIIdC5WBEwYfaZ7qKWil0/+A==
-X-Google-Smtp-Source: APXvYqwo+T0JZn8gYaWYPlQ7YHb0W1CWyxIgG9rZ2SMtPY56m1Y6nTv2AwANMMtSkZjoHgHSB+0fqg==
-X-Received: by 2002:adf:aac8:: with SMTP id i8mr17425wrc.56.1564437551664;
-        Mon, 29 Jul 2019 14:59:11 -0700 (PDT)
-Received: from Mindolluin.ire.aristanetworks.com ([217.173.96.166])
-        by smtp.gmail.com with ESMTPSA id x20sm49230728wmc.1.2019.07.29.14.59.10
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 29 Jul 2019 14:59:11 -0700 (PDT)
-From:   Dmitry Safonov <dima@arista.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Dmitry Safonov <0x7f454c46@gmail.com>,
-        Andrei Vagin <avagin@gmail.com>,
-        Dmitry Safonov <dima@arista.com>,
-        Adrian Reber <adrian@lisas.de>,
-        Andrei Vagin <avagin@openvz.org>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ALxzhNopH+Mhn0yl7f2Aj425+SEQTfEqix8fAEcqb8g=;
+        b=MZ7yWddAGe+B2Znpbb5JgZ2k47h6Uxl2yFsGZ8dNxL3C9dbk9QTO0cAuEDVnPh0f7d
+         YtGv/aXKkogx+6PY1C9xvut20ocVUuCqucgAf4/Rmr7kePx1JLbsmoYQqjwwH9xpL8z9
+         KTLODr2kMFLIiYVC7sLOuJLenDJKDXSoWk1taF/w3cBM5XRyoQwktPMYj/FeA92GwRep
+         iY45AbOgMgSte9PG6ev5YOj8Pbm44THaVOMFHZy+kmVQ9DPAW6Gna5vwt//9jnkyC4ps
+         OkAQK/LFBK186CHGQkpqb+f1hBl1H+yos6pgS0I0m2zjq8aRrgVWFH75944lJq6QFduz
+         t/YA==
+X-Gm-Message-State: APjAAAUnB+iZr2kecjPudmrIbXiStdlPZMFmPHIOkm8v3IpSrEud7Jcz
+        n2PYXc+R72A1cwHKkdatdeY=
+X-Google-Smtp-Source: APXvYqzjFNi2htEk9WhmVZ2PQgfkTnO69p8V49IH9yfhwiwCnyIdrrqgBDFCT6dU9ob4s5iMAQacbA==
+X-Received: by 2002:adf:f050:: with SMTP id t16mr115255555wro.99.1564438075998;
+        Mon, 29 Jul 2019 15:07:55 -0700 (PDT)
+Received: from [10.83.36.153] ([217.173.96.166])
+        by smtp.gmail.com with ESMTPSA id 18sm52878888wmg.43.2019.07.29.15.07.53
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Mon, 29 Jul 2019 15:07:54 -0700 (PDT)
+Subject: Re: [PATCHv5 00/37] kernel: Introduce Time Namespace
+To:     Dmitry Safonov <dima@arista.com>, linux-kernel@vger.kernel.org
+Cc:     Adrian Reber <adrian@lisas.de>, Andrei Vagin <avagin@openvz.org>,
         Andy Lutomirski <luto@kernel.org>,
         Arnd Bergmann <arnd@arndb.de>,
         Christian Brauner <christian.brauner@ubuntu.com>,
@@ -66,59 +61,40 @@ Cc:     Dmitry Safonov <0x7f454c46@gmail.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Vincenzo Frascino <vincenzo.frascino@arm.com>,
         containers@lists.linux-foundation.org, criu@openvz.org,
-        linux-api@vger.kernel.org, x86@kernel.org
-Subject: [PATCHv5 13/37] posix-timers: Make timer_settime() time namespace aware
-Date:   Mon, 29 Jul 2019 22:57:33 +0100
-Message-Id: <20190729215758.28405-52-dima@arista.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190729215758.28405-1-dima@arista.com>
+        linux-api@vger.kernel.org, x86@kernel.org,
+        Andrei Vagin <avagin@gmail.com>
 References: <20190729215758.28405-1-dima@arista.com>
+ <20190729215758.28405-39-dima@arista.com>
+From:   Dmitry Safonov <0x7f454c46@gmail.com>
+Message-ID: <4d53ebc7-d5b2-346e-c383-606401d19d3a@gmail.com>
+Date:   Mon, 29 Jul 2019 23:07:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CLOUD-SEC-AV-Info: arista,google_mail,monitor
-X-CLOUD-SEC-AV-Sent: true
-X-Gm-Spam: 0
-X-Gm-Phishy: 0
+In-Reply-To: <20190729215758.28405-39-dima@arista.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Andrei Vagin <avagin@gmail.com>
+Sorry for spamming this twice.
 
-Wire timer_settime() syscall into time namespace virtualization.
+I did `git send-email --to linux-kernel@vger.kernel.org /tmp/timens/
+--cc 'Dmitry Safonov <0x7f454c46@gmail.com>' /tmp/timens/`
 
-sys_timer_settime() calls the ktime->timer_set() callback. Right now,
-common_timer_set() is the only implementation for the callback.
+And didn't notice that I've put the same folder ^^ twice :(
 
-There user-supplied timer's value is converted from timespec64 to ktime
-and then timens_ktime_to_host() can be used to convert namespace's time
-to the host time.
+Pardon again.
 
-Inside a time namespace kernel's time differ on a fixed offset from
-a user-supplied, but only absolute values (TIMER_ABSTIME) must
-be converted.
+On 7/29/19 10:57 PM, Dmitry Safonov wrote:
+> Discussions around time namespace are there for a long time. The first
+> attempt to implement it was in 2006 by Jeff Dike. From that time, the
+> topic appears on and off in various discussions.
+> 
+[..]
 
-Signed-off-by: Andrei Vagin <avagin@openvz.org>
-Co-developed-by: Dmitry Safonov <dima@arista.com>
-Signed-off-by: Dmitry Safonov <dima@arista.com>
----
- kernel/time/posix-timers.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/kernel/time/posix-timers.c b/kernel/time/posix-timers.c
-index 265fbc816520..c979e720a5a1 100644
---- a/kernel/time/posix-timers.c
-+++ b/kernel/time/posix-timers.c
-@@ -857,6 +857,8 @@ int common_timer_set(struct k_itimer *timr, int flags,
- 
- 	timr->it_interval = timespec64_to_ktime(new_setting->it_interval);
- 	expires = timespec64_to_ktime(new_setting->it_value);
-+	if (flags & TIMER_ABSTIME)
-+		expires = timens_ktime_to_host(timr->it_clock, expires);
- 	sigev_none = timr->it_sigev_notify == SIGEV_NONE;
- 
- 	kc->timer_arm(timr, expires, flags & TIMER_ABSTIME, sigev_none);
--- 
-2.22.0
-
+Thanks,
+          Dmitry
