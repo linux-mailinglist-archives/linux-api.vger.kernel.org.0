@@ -2,62 +2,73 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3AF7B781D1
-	for <lists+linux-api@lfdr.de>; Sun, 28 Jul 2019 23:24:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E339B782B6
+	for <lists+linux-api@lfdr.de>; Mon, 29 Jul 2019 02:09:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726139AbfG1VYu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 28 Jul 2019 17:24:50 -0400
-Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:36706 "EHLO
-        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726103AbfG1VYu (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 28 Jul 2019 17:24:50 -0400
-Received: from callcc.thunk.org (96-72-102-169-static.hfc.comcastbusiness.net [96.72.102.169] (may be forged))
-        (authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id x6SLOWWh013667
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sun, 28 Jul 2019 17:24:33 -0400
-Received: by callcc.thunk.org (Postfix, from userid 15806)
-        id 67A664202F5; Sun, 28 Jul 2019 17:24:31 -0400 (EDT)
-Date:   Sun, 28 Jul 2019 17:24:31 -0400
-From:   "Theodore Y. Ts'o" <tytso@mit.edu>
-To:     Eric Biggers <ebiggers@kernel.org>
-Cc:     linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-mtd@lists.infradead.org, linux-api@vger.kernel.org,
-        linux-crypto@vger.kernel.org, keyrings@vger.kernel.org,
-        Paul Crowley <paulcrowley@google.com>,
-        Satya Tangirala <satyat@google.com>
-Subject: Re: [PATCH v7 13/16] ext4: wire up new fscrypt ioctls
-Message-ID: <20190728212431.GN6088@mit.edu>
-References: <20190726224141.14044-1-ebiggers@kernel.org>
- <20190726224141.14044-14-ebiggers@kernel.org>
+        id S1726370AbfG2AJ1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 28 Jul 2019 20:09:27 -0400
+Received: from mail-vs1-f66.google.com ([209.85.217.66]:34363 "EHLO
+        mail-vs1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726417AbfG2AJ0 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 28 Jul 2019 20:09:26 -0400
+Received: by mail-vs1-f66.google.com with SMTP id m23so39662809vso.1
+        for <linux-api@vger.kernel.org>; Sun, 28 Jul 2019 17:09:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=BrTkYGT/CoRQ7U7g4N9efxmX5N2ln4oVBYUSCIHtobA=;
+        b=nA6g8ZBtncN4gxkSkXwacC6U0ZLzBqHalX2ch3+Uubgj9Ie81xWMI13LULGvwuLB6r
+         qHOjRzIux4PWx/g/MWkezj24wVkLAM+rrd+WT5+RohqJQ9H7N9yv8W6YfSg4wF/g9ftM
+         oh86ij7mnvAE3zqYPD7CgYiUGMHPfCyZCGDcjAfx1C33NyJk7D3w4La9a95UTsjt5XYF
+         xSm7n6irbOKUdOm+C0d9me/kFR76C0ULt2M8ACWuaYeFS267A8AKpemLOO3gGFVDzVOV
+         5K0Mp+SFu6zaMgsMHZdDvL8vTOVhu8AbYC3f7Kg/kcokf6gXY9LlntnkEi6cTOmJ7gel
+         IPPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=BrTkYGT/CoRQ7U7g4N9efxmX5N2ln4oVBYUSCIHtobA=;
+        b=diaPbiUebmsLYd48dGNhQkYwu+yKZq1Kxh/audvJcb3L8uAL+eb55CKjgav8nblT1y
+         EpgaHhU2TeH32a2gYyMfeVtIq6hmZq1GIXu8iWLqqBht6N/MoxE03XBeFJsFyBDNxX4O
+         VnIYPx2BSFjDUQV7hwV+un0o9jtuD9ONHPSk//y3DiBIv+/GEGsHBZaFAzFkGoLSF1vt
+         OpCbY95omeD70CziEFy1T/5UFMCr18fPqnmwMKzThYRQrocFO6rAuH6qfkT0PAx8k7wX
+         Fnvepnuft7Ek/zcR6Ci3jVlNgmbYzGbiJcLkvqRt3xt8iZ49ad4bucoL3u16k+4NTO6W
+         fycQ==
+X-Gm-Message-State: APjAAAUg6epLbo9fhEpIQwS4lR3LpnT18zPPjAzQwRTyvufTuIMLsNLa
+        10w/QACx/JGDJ9L4r+WPoAEG0tHVelL6JFgRDoc=
+X-Google-Smtp-Source: APXvYqzs0WizS8rAMSQB8gpo/d1NKXr6IgEv85hMwvJw7YK4dwqNUFe3AXMg3+Lmt6lZYGQUgkDIOHngCppe6bxfBS0=
+X-Received: by 2002:a67:db02:: with SMTP id z2mr61864948vsj.211.1564358966188;
+ Sun, 28 Jul 2019 17:09:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190726224141.14044-14-ebiggers@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Received: by 2002:a67:80c8:0:0:0:0:0 with HTTP; Sun, 28 Jul 2019 17:09:25
+ -0700 (PDT)
+Reply-To: williamrobert416@gmail.com
+From:   "Mr. Robert William" <officialuse87@gmail.com>
+Date:   Mon, 29 Jul 2019 01:09:25 +0100
+Message-ID: <CAD00q09_CPtbbwEXjTJaNiaaGEbP_-Er7hzSsjO53Fz1uAyHtA@mail.gmail.com>
+Subject: Its Urgent
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jul 26, 2019 at 03:41:38PM -0700, Eric Biggers wrote:
-> From: Eric Biggers <ebiggers@google.com>
-> 
-> Wire up the new ioctls for adding and removing fscrypt keys to/from the
-> filesystem, and the new ioctl for retrieving v2 encryption policies.
-> 
-> FS_IOC_REMOVE_ENCRYPTION_KEY also required making ext4_drop_inode() call
-> fscrypt_drop_inode().
-> 
-> For more details see Documentation/filesystems/fscrypt.rst and the
-> fscrypt patches that added the implementation of these ioctls.
-> 
-> Signed-off-by: Eric Biggers <ebiggers@google.com>
+-- 
+Hello,
 
-Looks good, feel free to add:
+I am Eng. Robert William, a retired Marine Engineer residing in
+Trinidad & Tobago.
+Unfortunately i am admitted to the hospital for a cancer (Sickness)
+over a year now,my doctor reported that i have only few months to pass
+away. Please i need your consent to invest my money (USD$1.8 Million)
+in any business of your
 
-Reviewed-by: Theodore Ts'o <tytso@mit.edu>
+choice in your country before i die, i have no other relatives not
+even children because i lost my family in a fire disaster in 2005.
+Please i need your urgent and
 
-						- Ted
+kind response to enable me send you more information on how to contact
+my bank as my next of kin to process the fund into your bank account.
+
+Mr Robert William
