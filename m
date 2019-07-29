@@ -2,89 +2,88 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 542277988B
-	for <lists+linux-api@lfdr.de>; Mon, 29 Jul 2019 22:09:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B740279839
+	for <lists+linux-api@lfdr.de>; Mon, 29 Jul 2019 22:06:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388756AbfG2Thp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 29 Jul 2019 15:37:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52608 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388750AbfG2Tho (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 29 Jul 2019 15:37:44 -0400
-Received: from gmail.com (unknown [104.132.1.77])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6E126206DD;
-        Mon, 29 Jul 2019 19:37:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1564429063;
-        bh=35ZwmfXjVkjcTD49ueQekrtcYmxgdRwDGATcxQouXLg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=QgTCz2CWqZ9GLFMzgaQtbnyPki0Oxg8qrvTR97l00Gc8CQzx+zc2oXmp7EWb24DL7
-         lqI1c/qw8hCySTW9XZjhkJGofi5da7NFa4tbNNzKq3SlAVuvZteu0lZkG1ZnucaL4j
-         QUyqoTdTCGY36VS+Fv9/JDNLvuGsN+DnFosM0q6c=
-Date:   Mon, 29 Jul 2019 12:37:42 -0700
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     "Theodore Y. Ts'o" <tytso@mit.edu>
-Cc:     linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-mtd@lists.infradead.org, linux-api@vger.kernel.org,
-        linux-crypto@vger.kernel.org, keyrings@vger.kernel.org,
-        Paul Crowley <paulcrowley@google.com>,
-        Satya Tangirala <satyat@google.com>
-Subject: Re: [PATCH v7 05/16] fscrypt: refactor v1 policy key setup into
- keysetup_legacy.c
-Message-ID: <20190729193740.GD169027@gmail.com>
-Mail-Followup-To: "Theodore Y. Ts'o" <tytso@mit.edu>,
-        linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-mtd@lists.infradead.org, linux-api@vger.kernel.org,
-        linux-crypto@vger.kernel.org, keyrings@vger.kernel.org,
-        Paul Crowley <paulcrowley@google.com>,
-        Satya Tangirala <satyat@google.com>
-References: <20190726224141.14044-1-ebiggers@kernel.org>
- <20190726224141.14044-6-ebiggers@kernel.org>
- <20190728154032.GE6088@mit.edu>
+        id S2389750AbfG2UGM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 29 Jul 2019 16:06:12 -0400
+Received: from mail-pg1-f174.google.com ([209.85.215.174]:44342 "EHLO
+        mail-pg1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389378AbfG2UGK (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Jul 2019 16:06:10 -0400
+Received: by mail-pg1-f174.google.com with SMTP id i18so28787178pgl.11;
+        Mon, 29 Jul 2019 13:06:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=P3EUM+tzT2Mr9lYyH9h+ka7j8G70ef8Dl2l22x1qowY=;
+        b=e68jNLw0799EKEVQytct+JZQNey8bkPM//gc4ZFMDQZt6EuWjdKKRGpVlCTMWq7Iqo
+         A+dcRsjM4FizcWmU+Pe5CRlrHn1pVvJyOmfNMEJfMlsdrGvxgecpZ/Vz2EjV+oGs4zZv
+         caDGsF7LjY/bt2zUP/pfgLlCSthMkMgm0P30KycyqAo/vHsx4JIUHzrLR6z1YlWrQHF2
+         Z/O54RfdGRdkJdCERpIQTbLh8SD1teL8PkDFWC337LABr2NOIPBHPVBaqvBIZ+Fjr6S9
+         FQfjphUq5UIZmZbQAPaqMS0yFAL1KgtnRWEoarVjXw+oyOU2oF5/pLul9G4CyNiLufzV
+         Aw4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=P3EUM+tzT2Mr9lYyH9h+ka7j8G70ef8Dl2l22x1qowY=;
+        b=K0G2ea8spd/u+MUgfpYWYg15RnGE/neEKE6wyFmPyvIRcrlQ2cX9ZjA0sf2Fh3gFb2
+         KKpRoRJhrPDIFTcbP62EK/mYDyI/n61X8dH2+Nmcu6bUVd/ictAjHYzRb/iyRhwInc2J
+         VfT3FSH2d5lZRUTo6vLAJdkyI7lgQ4Bdjr2LAbijwcxgSI7Xjx5nuL7tkZioFRb3ciX2
+         WRFkFvARUd9WE15K8+6sQ5VpkuqWOAwb5x2xAeO3Jrk7HucqJlS0W0ayOYeAByDn4Rjc
+         kJ65WBBjp8wdL0pQeXDQVdmq3/QWrD3UPygf1K07SI8xZqbpNgtCWMssI+/HcZ+RdSRP
+         af5Q==
+X-Gm-Message-State: APjAAAWUtjO+Yqq1eWoCTqKnLVytZN8G9wQ8GPkwUnh51pPtmuN+rNpc
+        Gb33s1Vp7AChrDyQifW3x9k=
+X-Google-Smtp-Source: APXvYqx8/ZCCakSV0L+VbVZZR4VTz4XJbOiCwNm038NWGAf8GVPi+6hwZfOg57M6dniSlHu1GcB3ag==
+X-Received: by 2002:a63:ab08:: with SMTP id p8mr16604294pgf.340.1564430768869;
+        Mon, 29 Jul 2019 13:06:08 -0700 (PDT)
+Received: from localhost ([2620:10d:c091:500::1:309b])
+        by smtp.gmail.com with ESMTPSA id b24sm31938348pfd.91.2019.07.29.13.06.07
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 29 Jul 2019 13:06:08 -0700 (PDT)
+Date:   Mon, 29 Jul 2019 13:06:06 -0700
+From:   Tejun Heo <tj@kernel.org>
+To:     Patrick Bellasi <patrick.bellasi@arm.com>
+Cc:     linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-api@vger.kernel.org, cgroups@vger.kernel.org,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Paul Turner <pjt@google.com>, Michal Koutny <mkoutny@suse.com>,
+        Quentin Perret <quentin.perret@arm.com>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Morten Rasmussen <morten.rasmussen@arm.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Todd Kjos <tkjos@google.com>,
+        Joel Fernandes <joelaf@google.com>,
+        Steve Muckle <smuckle@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Alessio Balsini <balsini@android.com>
+Subject: Re: [PATCH v12 0/6] Add utilization clamping support (CGroups API)
+Message-ID: <20190729200606.GA136335@devbig004.ftw2.facebook.com>
+References: <20190718181748.28446-1-patrick.bellasi@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190728154032.GE6088@mit.edu>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190718181748.28446-1-patrick.bellasi@arm.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Ted, thanks for the review!
+Hello,
 
-On Sun, Jul 28, 2019 at 11:40:32AM -0400, Theodore Y. Ts'o wrote:
-> On Fri, Jul 26, 2019 at 03:41:30PM -0700, Eric Biggers wrote:
-> > From: Eric Biggers <ebiggers@google.com>
-> > 
-> > In preparation for introducing v2 encryption policies which will find
-> > and derive encryption keys differently from the current v1 encryption
-> > policies, refactor the v1 policy-specific key setup code from keyinfo.c
-> > into keysetup_legacy.c.  Then rename keyinfo.c to keysetup.c.
-> 
-> I'd use keysetup_v1.c, myself.  We can hope that we've gotten it right
-> with v2 and we'll never need to do another version, but *something* is
-> going to come up eventually which will require a v3 keysetup , whether
-> it's post-quantuum cryptography or something else we can't anticipate
-> right now.
-> 
-> For an example of the confusion that can result, one good example is
-> in the fs/quota subsystem, where QFMT_VFS_OLD, QFMT_VFS_V0, and
-> QFMT_VFS_V1 maps to quota_v1 and quota_v2 in an amusing and
-> non-obvious way.  (Go ahead, try to guess before you go look at the
-> code.  :-)
-> 
-> Other than that, looks good.  We can always move code around or rename
-> files in the future, so I'm not going to insist on doing it now (but
-> it would be my preference).
-> 
-> Reviewed-by: Theodore Ts'o <tytso@mit.edu>
-> 
+Looks good to me.  On cgroup side,
 
-Agreed, I'll call it keysetup_v1.c instead.
+Acked-by: Tejun Heo <tj@kernel.org>
 
-- Eric
+Thanks.
+
+-- 
+tejun
