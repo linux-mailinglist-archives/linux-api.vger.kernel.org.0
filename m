@@ -2,88 +2,64 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B740279839
-	for <lists+linux-api@lfdr.de>; Mon, 29 Jul 2019 22:06:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2585579961
+	for <lists+linux-api@lfdr.de>; Mon, 29 Jul 2019 22:15:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389750AbfG2UGM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 29 Jul 2019 16:06:12 -0400
-Received: from mail-pg1-f174.google.com ([209.85.215.174]:44342 "EHLO
-        mail-pg1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389378AbfG2UGK (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Jul 2019 16:06:10 -0400
-Received: by mail-pg1-f174.google.com with SMTP id i18so28787178pgl.11;
-        Mon, 29 Jul 2019 13:06:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=P3EUM+tzT2Mr9lYyH9h+ka7j8G70ef8Dl2l22x1qowY=;
-        b=e68jNLw0799EKEVQytct+JZQNey8bkPM//gc4ZFMDQZt6EuWjdKKRGpVlCTMWq7Iqo
-         A+dcRsjM4FizcWmU+Pe5CRlrHn1pVvJyOmfNMEJfMlsdrGvxgecpZ/Vz2EjV+oGs4zZv
-         caDGsF7LjY/bt2zUP/pfgLlCSthMkMgm0P30KycyqAo/vHsx4JIUHzrLR6z1YlWrQHF2
-         Z/O54RfdGRdkJdCERpIQTbLh8SD1teL8PkDFWC337LABr2NOIPBHPVBaqvBIZ+Fjr6S9
-         FQfjphUq5UIZmZbQAPaqMS0yFAL1KgtnRWEoarVjXw+oyOU2oF5/pLul9G4CyNiLufzV
-         Aw4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=P3EUM+tzT2Mr9lYyH9h+ka7j8G70ef8Dl2l22x1qowY=;
-        b=K0G2ea8spd/u+MUgfpYWYg15RnGE/neEKE6wyFmPyvIRcrlQ2cX9ZjA0sf2Fh3gFb2
-         KKpRoRJhrPDIFTcbP62EK/mYDyI/n61X8dH2+Nmcu6bUVd/ictAjHYzRb/iyRhwInc2J
-         VfT3FSH2d5lZRUTo6vLAJdkyI7lgQ4Bdjr2LAbijwcxgSI7Xjx5nuL7tkZioFRb3ciX2
-         WRFkFvARUd9WE15K8+6sQ5VpkuqWOAwb5x2xAeO3Jrk7HucqJlS0W0ayOYeAByDn4Rjc
-         kJ65WBBjp8wdL0pQeXDQVdmq3/QWrD3UPygf1K07SI8xZqbpNgtCWMssI+/HcZ+RdSRP
-         af5Q==
-X-Gm-Message-State: APjAAAWUtjO+Yqq1eWoCTqKnLVytZN8G9wQ8GPkwUnh51pPtmuN+rNpc
-        Gb33s1Vp7AChrDyQifW3x9k=
-X-Google-Smtp-Source: APXvYqx8/ZCCakSV0L+VbVZZR4VTz4XJbOiCwNm038NWGAf8GVPi+6hwZfOg57M6dniSlHu1GcB3ag==
-X-Received: by 2002:a63:ab08:: with SMTP id p8mr16604294pgf.340.1564430768869;
-        Mon, 29 Jul 2019 13:06:08 -0700 (PDT)
-Received: from localhost ([2620:10d:c091:500::1:309b])
-        by smtp.gmail.com with ESMTPSA id b24sm31938348pfd.91.2019.07.29.13.06.07
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 29 Jul 2019 13:06:08 -0700 (PDT)
-Date:   Mon, 29 Jul 2019 13:06:06 -0700
-From:   Tejun Heo <tj@kernel.org>
-To:     Patrick Bellasi <patrick.bellasi@arm.com>
-Cc:     linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-api@vger.kernel.org, cgroups@vger.kernel.org,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Paul Turner <pjt@google.com>, Michal Koutny <mkoutny@suse.com>,
-        Quentin Perret <quentin.perret@arm.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Morten Rasmussen <morten.rasmussen@arm.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Todd Kjos <tkjos@google.com>,
-        Joel Fernandes <joelaf@google.com>,
-        Steve Muckle <smuckle@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Alessio Balsini <balsini@android.com>
-Subject: Re: [PATCH v12 0/6] Add utilization clamping support (CGroups API)
-Message-ID: <20190729200606.GA136335@devbig004.ftw2.facebook.com>
-References: <20190718181748.28446-1-patrick.bellasi@arm.com>
+        id S1730288AbfG2UPP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 29 Jul 2019 16:15:15 -0400
+Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:41355 "EHLO
+        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1729147AbfG2UPK (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Jul 2019 16:15:10 -0400
+Received: from callcc.thunk.org (96-72-102-169-static.hfc.comcastbusiness.net [96.72.102.169] (may be forged))
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id x6TKElfw026772
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 29 Jul 2019 16:14:48 -0400
+Received: by callcc.thunk.org (Postfix, from userid 15806)
+        id AC8394202F5; Mon, 29 Jul 2019 16:14:45 -0400 (EDT)
+Date:   Mon, 29 Jul 2019 16:14:45 -0400
+From:   "Theodore Y. Ts'o" <tytso@mit.edu>
+To:     linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+        linux-mtd@lists.infradead.org, linux-api@vger.kernel.org,
+        linux-crypto@vger.kernel.org, keyrings@vger.kernel.org,
+        Paul Crowley <paulcrowley@google.com>,
+        Satya Tangirala <satyat@google.com>
+Subject: Re: [PATCH v7 06/16] fscrypt: add FS_IOC_ADD_ENCRYPTION_KEY ioctl
+Message-ID: <20190729201445.GA16445@mit.edu>
+References: <20190726224141.14044-1-ebiggers@kernel.org>
+ <20190726224141.14044-7-ebiggers@kernel.org>
+ <20190728185003.GF6088@mit.edu>
+ <20190729194644.GE169027@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190718181748.28446-1-patrick.bellasi@arm.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <20190729194644.GE169027@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hello,
+On Mon, Jul 29, 2019 at 12:46:45PM -0700, Eric Biggers wrote:
+> > For that matter, we could just add a new ioctl which returns the file
+> > system's keyring id.  That way an application program won't have to
+> > try to figure out what a file's underlying sb->s_id happens to be.
+> > (Especially if things like overlayfs are involved.)
+> 
+> Keep in mind that the new ioctls (FS_IOC_ADD_ENCRYPTION_KEY,
+> FS_IOC_REMOVE_ENCRYPTION_KEY, FS_IOC_GET_ENCRYPTION_KEY_STATUS) don't take the
+> keyring ID as a parameter, since it's already known from the filesystem the
+> ioctl is executed on.  So there actually isn't much that can be done with the
+> keyring ID.  But sure, if it's needed later we can add an API to get it.
 
-Looks good to me.  On cgroup side,
+Yeah, I was thinking about for testing/debugging purposes so that we
+could use keyctl to examine the per-file system keyring and see what
+keys are attached to a file system.  This is only going to be usable
+by root, so I guess we can just try to figure it out by going through
+/proc/keys and searching by sb->s_id.  If there are ambiguities that
+make this hard to do, we can add an interface to make this easier.
 
-Acked-by: Tejun Heo <tj@kernel.org>
-
-Thanks.
-
--- 
-tejun
+     	       	      	     - Ted
