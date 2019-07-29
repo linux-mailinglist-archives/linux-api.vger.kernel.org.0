@@ -2,61 +2,59 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C57379B65
-	for <lists+linux-api@lfdr.de>; Mon, 29 Jul 2019 23:47:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8914479B73
+	for <lists+linux-api@lfdr.de>; Mon, 29 Jul 2019 23:48:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728709AbfG2VrQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 29 Jul 2019 17:47:16 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:33085 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728697AbfG2VrP (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Jul 2019 17:47:15 -0400
-Received: by mail-io1-f68.google.com with SMTP id z3so4603734iog.0
-        for <linux-api@vger.kernel.org>; Mon, 29 Jul 2019 14:47:15 -0700 (PDT)
+        id S1725209AbfG2VsM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 29 Jul 2019 17:48:12 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:34359 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727381AbfG2VsJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Jul 2019 17:48:09 -0400
+Received: by mail-io1-f66.google.com with SMTP id k8so123507591iot.1
+        for <linux-api@vger.kernel.org>; Mon, 29 Jul 2019 14:48:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=j10iEndEcfl7GFmx0FBUfHkT/DIF6Lz0Je3WuUXspf4=;
-        b=JX9vGziMLV0bTzWdDEXuN2wORxj61dz7dEOXT8Y9SKYKtqwU+xD6ErVpMeRWiEzuI9
-         98yyj3qE8qXIZZMfgOvU/ScnBtJ2CDT7V5DT0pjTOgpoyLSl95jt69WDW0iNODp2cmw9
-         oF09HKKjSA6zgwa6539xg9dw/7oNc3Q6Debx/rjZCXOUFxjL/1CUBhy5gRGjz0EDELiY
-         9DcD3CI1ee7sVs5VlAd44Xw0XZ16251YPtko3DyygrdJoTjMekRrdWrFZ1Nb2c4cLzEf
-         KpxJZbxyRTy9MEYf/AHlJ0Sd8kVCJIC6j3PJvb19FoT65p1ROCUKwFKE9pqk9jvoKbBq
-         E1eg==
+        bh=piQh2aqA30RCLiw+cIf1d6IHR82wSEf3qDisOX1wwys=;
+        b=l/RL7Y2Kyz2I8kqXJkJw/9E/ltkRzEbVMXQD38G56U8PUZAmwtnkKyk1cYdnW4RkE/
+         BRx+ImBhz8Kd0e72PSmi6DzIFPzZz64kGMHUiXYdecWyOMNgVaC54BmGAJFKRoNTuut8
+         PZd4JDjulvHHx4sqTgtjDyqilDAzhxkxGuPCGpSJoxbcIGu7fdFKOObX4H8TdzQlWyCM
+         G23CxF+/n1MtU/bkyCuBe7R2qSG66UQrAnRhW82VgKpIhP1sJHF6XJdewBfIXFoJb6tR
+         EDp+Xzcfwt3MI6laa6/wlpnuRJwSVMA/8v0UeVucDpQ8IOX0/R1elEKP78IJ2z5WBQ0k
+         ESlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=j10iEndEcfl7GFmx0FBUfHkT/DIF6Lz0Je3WuUXspf4=;
-        b=kLs5AyklADmB3es0Z0NsenmX+6Oo7sWIW7hiOiTNo5+eACcX6x2Vyiun8evfWF0m4i
-         k+pf338Z4UQvzfyjndwUUMpokZ0t/tuNE4X6+dwelEevNGH/pfg1Tn0TY4RZrlJQVupq
-         Yp44gS3EDX+iEBHP9CLDJfLNk3Gh8fwkcwTQ5iAo4GuYHhJs/I4UohDxggWltTNoUmam
-         dQHwP0Br2aQcRnJz3ut4/6DXNTQZ8ghzDBY+wVDotmzuTlhDkC7cGuStUHTa4MF+E78d
-         5I6M8kkZ2jzGahmtzKGLgOf+XPTLJt1pTgLVlRrA1+u08YBNEg/wEpFNPtNwcYOqZb3c
-         w2cw==
-X-Gm-Message-State: APjAAAUOprIBpj1kqTt+SSwAz7POWy5zodZNGV7HKS49nFlkvpYZkm9X
-        mb28HKuuOMkKlWgybLH4YdH2P6zmTBa2AF96yPMSyA==
-X-Google-Smtp-Source: APXvYqzm3EZUnnvVpNns0C5pcvCXqaLAcYBywGrdM9ZfVRZDiZMOV9R7ercGbfHFqw5oA66zZL1UqInfPCyK99Izl1k=
-X-Received: by 2002:a5e:8c11:: with SMTP id n17mr35080222ioj.64.1564436834661;
- Mon, 29 Jul 2019 14:47:14 -0700 (PDT)
+        bh=piQh2aqA30RCLiw+cIf1d6IHR82wSEf3qDisOX1wwys=;
+        b=G4BG3Y8Nzb+E42ZMAQYqgibqei14pZcMbURi/QHrMc81jPQs9qzbdU6qxF9Y4IkMSC
+         oSaoPuAFisvIeIKvoOlrU2Hxhv0Q7iJpAHmdZ3c/O0+/ZzzMwZ0dDtM4x4r853faV+0X
+         3GJZHMwBeGMY+JaGzxM4pgdbbHCqThgb/uxI4IqPnv34lusv4yAr0sweKRLTkoIhSJq2
+         4VbaePAzX83iALUWC9vhgKLHklfJFmEwdPxc3iI9kqlMm+ym0XWVUS2wAOt2vxIwSslq
+         fiJ25Miw4pUYlq2Uq3ZHYbs3h/tbJ7vDbDCBNuJjEBjOo/iw+pk3iBZibcA9Gbr2AzeJ
+         UN9w==
+X-Gm-Message-State: APjAAAVJ0qD7rS0O9gyRK7RIh4Q9QNMI/JJkSFjtSvVU5hpEMt367geg
+        c0HEFBzHkxYb4C+edK4RBvLIYfIK8wUXFQGv+Jbh/g==
+X-Google-Smtp-Source: APXvYqxS/upLfLcv1Opnwp9lYxlnoZ2TkKlbL41OpS0AiGsoLM5gWBwfxkyYcoAUnk0nANWmnZfxFJngb/NBSwuBQkk=
+X-Received: by 2002:a5e:9404:: with SMTP id q4mr42722436ioj.46.1564436887846;
+ Mon, 29 Jul 2019 14:48:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190718194415.108476-1-matthewgarrett@google.com> <20190718194415.108476-24-matthewgarrett@google.com>
-In-Reply-To: <20190718194415.108476-24-matthewgarrett@google.com>
+References: <20190718194415.108476-1-matthewgarrett@google.com> <20190718194415.108476-20-matthewgarrett@google.com>
+In-Reply-To: <20190718194415.108476-20-matthewgarrett@google.com>
 From:   Matthew Garrett <mjg59@google.com>
-Date:   Mon, 29 Jul 2019 14:47:03 -0700
-Message-ID: <CACdnJuvFBQCpR4hk1YBQ2HSxJcweB0_XBqYZxn=LpG6NFU7S6w@mail.gmail.com>
-Subject: Re: [PATCH V36 23/29] bpf: Restrict bpf when kernel lockdown is in
- confidentiality mode
+Date:   Mon, 29 Jul 2019 14:47:56 -0700
+Message-ID: <CACdnJute8aakro+Cb7oNrxgCiZTYj2BOt2WMc1dYF-xktxBucQ@mail.gmail.com>
+Subject: Re: [PATCH V36 19/29] Lock down module params that specify hardware
+ parameters (eg. ioport)
 To:     James Morris <jmorris@namei.org>
 Cc:     LSM List <linux-security-module@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
         David Howells <dhowells@redhat.com>,
-        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-        Network Development <netdev@vger.kernel.org>,
-        Chun-Yi Lee <jlee@suse.com>,
-        Daniel Borkmann <daniel@iogearbox.net>
+        Alan Cox <gnomes@lxorguk.ukuu.org.uk>,
+        Kees Cook <keescook@chromium.org>, Jessica Yu <jeyu@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
@@ -65,15 +63,17 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 On Thu, Jul 18, 2019 at 12:45 PM Matthew Garrett
 <matthewgarrett@google.com> wrote:
-> bpf_read() and bpf_read_str() could potentially be abused to (eg) allow
-> private keys in kernel memory to be leaked. Disable them if the kernel
-> has been locked down in confidentiality mode.
 >
-> Suggested-by: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+> From: David Howells <dhowells@redhat.com>
+>
+> Provided an annotation for module parameters that specify hardware
+> parameters (such as io ports, iomem addresses, irqs, dma channels, fixed
+> dma buffers and other types).
+>
+> Suggested-by: Alan Cox <gnomes@lxorguk.ukuu.org.uk>
+> Signed-off-by: David Howells <dhowells@redhat.com>
 > Signed-off-by: Matthew Garrett <mjg59@google.com>
-> cc: netdev@vger.kernel.org
-> cc: Chun-Yi Lee <jlee@suse.com>
-> cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-> Cc: Daniel Borkmann <daniel@iogearbox.net>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> Cc: Jessica Yu <jeyu@kernel.org>
 
-Any further feedback on this?
+Jessica, any feedback on this?
