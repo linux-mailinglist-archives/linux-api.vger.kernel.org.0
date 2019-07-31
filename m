@@ -2,52 +2,52 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 243B37D0F6
-	for <lists+linux-api@lfdr.de>; Thu,  1 Aug 2019 00:19:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 056047D09E
+	for <lists+linux-api@lfdr.de>; Thu,  1 Aug 2019 00:17:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730546AbfGaWTO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 31 Jul 2019 18:19:14 -0400
-Received: from mail-pg1-f202.google.com ([209.85.215.202]:41768 "EHLO
-        mail-pg1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731273AbfGaWRA (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 31 Jul 2019 18:17:00 -0400
-Received: by mail-pg1-f202.google.com with SMTP id b18so43750908pgg.8
-        for <linux-api@vger.kernel.org>; Wed, 31 Jul 2019 15:16:59 -0700 (PDT)
+        id S1731291AbfGaWRD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 31 Jul 2019 18:17:03 -0400
+Received: from mail-pf1-f202.google.com ([209.85.210.202]:34731 "EHLO
+        mail-pf1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731289AbfGaWRD (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 31 Jul 2019 18:17:03 -0400
+Received: by mail-pf1-f202.google.com with SMTP id i2so44194596pfe.1
+        for <linux-api@vger.kernel.org>; Wed, 31 Jul 2019 15:17:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=q3etb4lqcpfoYcLMBUBDWWlC5fl/teVFWCZH3Y1QNdw=;
-        b=quGzWel87vKpTW4m4ti6UC5lPNM8poQ5r/5Gcx2k+UB1of3DzW/ygjWMG+qe/Fd4uM
-         cDTpYU+PDwUIfPSRoB6CQIQj14vfKG771ql+UsouBTpmPik0ygjY67XRnFdi9Kxcg7ZS
-         +bQ9M+2CNh/LhLV+HYPRlRvvArey+z6EEfT82xg/+VTjZ6i//Lq5auWIhNehcWDM1krg
-         UtiiHS1J2R7eUNf8pXRVBs907DgLQKa70qAYzpZJfVOFrM+OBJyVIDoMThdLqXErL6Do
-         Um1IJ+0Apei97QMgGp8BKBMTadz8Hvrz8eHjCdW6y1/DwlwDIl4hwCQ7BCxBPWQ+qcdb
-         GZIA==
+        bh=HYGYby6crp40dCLBmhgwCvdnfCZZwxit6AHkXOrrVgc=;
+        b=vEIr33UIHvwt3NqWIeZrb/59ulOIkcz7rfoXwf/T7Bm7ES4NLBQqA6eXizkSfE5vv3
+         FVEAfneKoLgNu2aaC4bzbB6LYw3f5NFnjVqP9s+oObZTrYzSawiE4g5T+5pK9LWkPzUl
+         7xNScG5swOXfYyB94pVc7cUTPklTEBfex/kk3GW9Dg8+hjfhm1+QG3rYI58FWSo1tnd4
+         UeCcXHE0/5Ni3ftiD+G+C/RFLw00Rz2lckGBrmAO/B7jRyjVzhQxOkSNAX9TQgQB3NmR
+         7rl0+tiA/WMA9OSfgrZdMhc7qhOUYeikze2HYm/uZdry/tyxh+9xAwJQvnLL40YFd70T
+         P3sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=q3etb4lqcpfoYcLMBUBDWWlC5fl/teVFWCZH3Y1QNdw=;
-        b=mHQSoeEol5WYB4/o4i2JJ7aM4568fdq7z0YZE+WknYSYyHmYugjNZhx/GK96Ib4rLS
-         LECvh6J4l8KfcaSdht4mS9OXp78NJROlW/58ato1rJhtZcjcdSG420PwW5zUZfQ63xQa
-         xrXHyKchm1WydOomvG5ODlW8Up4Qo1HRRL+NCseTh4X1/Ard5CQUH29DRET2D4fNcnEV
-         XOVv5E3MEHbqrGhs1hlEvhksFlFKQqYqVnMq5GqcQFrjYaT5wdscV0i8fwcKkUjERE92
-         eauMAGa2eRQmzW9SeEClDOYCOmoA6+jxtW1rN3lY2hkp2lkuCZWY17XoUjF/0KaugjSu
-         QlLQ==
-X-Gm-Message-State: APjAAAUbgcykHqvilBAZ0nLnwpbM4zmsoWR3kmZgugDHzvtVvlqx9jyf
-        KhCVgxu3vvsLwFZ1EhRiZ2i3uBA4dP4AwikPP9iF3g==
-X-Google-Smtp-Source: APXvYqy4ds11BOZ1ZwNIDQc3p6kAWpXPQHkBqVxVp8RzbiUM4j34Y4iiH1c07QLZF/c58qzuumf7YAJNTWdC2BSj0z0cCw==
-X-Received: by 2002:a63:ab08:: with SMTP id p8mr26982787pgf.340.1564611419264;
- Wed, 31 Jul 2019 15:16:59 -0700 (PDT)
-Date:   Wed, 31 Jul 2019 15:16:01 -0700
+        bh=HYGYby6crp40dCLBmhgwCvdnfCZZwxit6AHkXOrrVgc=;
+        b=oemmtluOdLCJXbsJOGRfi3//j07q7QRLWrDPgBUXn11L1xljvbQJNuG29VxkmVnyCp
+         MtOeQ+eLnvnR55qQbAfcTA7o0CZ47G62dGoG2Wnr7/yzCSAS0zVT553PSSElCIeEsIxA
+         qbpoNHMaLaigS7BwvKlmAHHuNt98kfPL4kzj7bMqAm2mq8mNqOJB4DwFzvdMoQDpiWp8
+         hc9ru41gtXJZ+8olEfeu3J/uTE6HYiR1IE0Dp4tbGGSDXxPXtYJXZX+UZt7oG4yQeKeu
+         YBWr1CHn1dR922DQL4aeYUnqLVR+9z8G4PFf2T1YFMwlj9Y8KbN3YLIgOKmhyxxHPki5
+         Af6A==
+X-Gm-Message-State: APjAAAWDHjD8OyhKWgQUo8d1PATyhXaX20qAbEh/Obd3ekpKAOUr2sgN
+        STMJPin4/fCGla3sSK77xcvI420HMRtVeBFazI7o+A==
+X-Google-Smtp-Source: APXvYqyQZy9xxO83dP4iiWV5yfSeSzijFuI+zHtpaDtjdJ7UzaPhV7163QoMF0NcR4Ie34IrDesajYUwC/D45vF1v4y3aQ==
+X-Received: by 2002:a65:458d:: with SMTP id o13mr114131617pgq.34.1564611421758;
+ Wed, 31 Jul 2019 15:17:01 -0700 (PDT)
+Date:   Wed, 31 Jul 2019 15:16:02 -0700
 In-Reply-To: <20190731221617.234725-1-matthewgarrett@google.com>
-Message-Id: <20190731221617.234725-14-matthewgarrett@google.com>
+Message-Id: <20190731221617.234725-15-matthewgarrett@google.com>
 Mime-Version: 1.0
 References: <20190731221617.234725-1-matthewgarrett@google.com>
 X-Mailer: git-send-email 2.22.0.770.g0f2c4a37fd-goog
-Subject: [PATCH V37 13/29] x86/msr: Restrict MSR access when the kernel is
- locked down
+Subject: [PATCH V37 14/29] ACPI: Limit access to custom_method when the kernel
+ is locked down
 From:   Matthew Garrett <matthewgarrett@google.com>
 To:     jmorris@namei.org
 Cc:     linux-security-module@vger.kernel.org,
@@ -55,8 +55,7 @@ Cc:     linux-security-module@vger.kernel.org,
         Matthew Garrett <mjg59@srcf.ucam.org>,
         Matthew Garrett <mjg59@google.com>,
         David Howells <dhowells@redhat.com>,
-        Kees Cook <keescook@chromium.org>,
-        Thomas Gleixner <tglx@linutronix.de>, x86@kernel.org
+        Kees Cook <keescook@chromium.org>, linux-acpi@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
@@ -65,75 +64,65 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 From: Matthew Garrett <mjg59@srcf.ucam.org>
 
-Writing to MSRs should not be allowed if the kernel is locked down, since
-it could lead to execution of arbitrary code in kernel mode.  Based on a
-patch by Kees Cook.
+custom_method effectively allows arbitrary access to system memory, making
+it possible for an attacker to circumvent restrictions on module loading.
+Disable it if the kernel is locked down.
 
 Signed-off-by: Matthew Garrett <mjg59@google.com>
 Signed-off-by: David Howells <dhowells@redhat.com>
-Acked-by: Kees Cook <keescook@chromium.org>
-Reviewed-by: Thomas Gleixner <tglx@linutronix.de>
-cc: x86@kernel.org
+Reviewed-by: Kees Cook <keescook@chromium.org>
+cc: linux-acpi@vger.kernel.org
 ---
- arch/x86/kernel/msr.c        | 8 ++++++++
+ drivers/acpi/custom_method.c | 6 ++++++
  include/linux/security.h     | 1 +
  security/lockdown/lockdown.c | 1 +
- 3 files changed, 10 insertions(+)
+ 3 files changed, 8 insertions(+)
 
-diff --git a/arch/x86/kernel/msr.c b/arch/x86/kernel/msr.c
-index 3db2252b958d..1547be359d7f 100644
---- a/arch/x86/kernel/msr.c
-+++ b/arch/x86/kernel/msr.c
-@@ -34,6 +34,7 @@
- #include <linux/notifier.h>
+diff --git a/drivers/acpi/custom_method.c b/drivers/acpi/custom_method.c
+index b2ef4c2ec955..7031307becd7 100644
+--- a/drivers/acpi/custom_method.c
++++ b/drivers/acpi/custom_method.c
+@@ -9,6 +9,7 @@
  #include <linux/uaccess.h>
- #include <linux/gfp.h>
+ #include <linux/debugfs.h>
+ #include <linux/acpi.h>
 +#include <linux/security.h>
  
- #include <asm/cpufeature.h>
- #include <asm/msr.h>
-@@ -79,6 +80,10 @@ static ssize_t msr_write(struct file *file, const char __user *buf,
- 	int err = 0;
- 	ssize_t bytes = 0;
+ #include "internal.h"
  
-+	err = security_locked_down(LOCKDOWN_MSR);
-+	if (err)
-+		return err;
+@@ -29,6 +30,11 @@ static ssize_t cm_write(struct file *file, const char __user * user_buf,
+ 
+ 	struct acpi_table_header table;
+ 	acpi_status status;
++	int ret;
 +
- 	if (count % 8)
- 		return -EINVAL;	/* Invalid chunk size */
++	ret = security_locked_down(LOCKDOWN_ACPI_TABLES);
++	if (ret)
++		return ret;
  
-@@ -130,6 +135,9 @@ static long msr_ioctl(struct file *file, unsigned int ioc, unsigned long arg)
- 			err = -EFAULT;
- 			break;
- 		}
-+		err = security_locked_down(LOCKDOWN_MSR);
-+		if (err)
-+			break;
- 		err = wrmsr_safe_regs_on_cpu(cpu, regs);
- 		if (err)
- 			break;
+ 	if (!(*ppos)) {
+ 		/* parse the table header to get the table length */
 diff --git a/include/linux/security.h b/include/linux/security.h
-index 79250b2ffb8f..155ff026eca4 100644
+index 155ff026eca4..1c32522b3c5a 100644
 --- a/include/linux/security.h
 +++ b/include/linux/security.h
-@@ -109,6 +109,7 @@ enum lockdown_reason {
- 	LOCKDOWN_HIBERNATION,
+@@ -110,6 +110,7 @@ enum lockdown_reason {
  	LOCKDOWN_PCI_ACCESS,
  	LOCKDOWN_IOPORT,
-+	LOCKDOWN_MSR,
+ 	LOCKDOWN_MSR,
++	LOCKDOWN_ACPI_TABLES,
  	LOCKDOWN_INTEGRITY_MAX,
  	LOCKDOWN_CONFIDENTIALITY_MAX,
  };
 diff --git a/security/lockdown/lockdown.c b/security/lockdown/lockdown.c
-index 316f7cf4e996..d99c0bee739d 100644
+index d99c0bee739d..ecb51b1a5c03 100644
 --- a/security/lockdown/lockdown.c
 +++ b/security/lockdown/lockdown.c
-@@ -24,6 +24,7 @@ static char *lockdown_reasons[LOCKDOWN_CONFIDENTIALITY_MAX+1] = {
- 	[LOCKDOWN_HIBERNATION] = "hibernation",
+@@ -25,6 +25,7 @@ static char *lockdown_reasons[LOCKDOWN_CONFIDENTIALITY_MAX+1] = {
  	[LOCKDOWN_PCI_ACCESS] = "direct PCI access",
  	[LOCKDOWN_IOPORT] = "raw io port access",
-+	[LOCKDOWN_MSR] = "raw MSR access",
+ 	[LOCKDOWN_MSR] = "raw MSR access",
++	[LOCKDOWN_ACPI_TABLES] = "modifying ACPI tables",
  	[LOCKDOWN_INTEGRITY_MAX] = "integrity",
  	[LOCKDOWN_CONFIDENTIALITY_MAX] = "confidentiality",
  };
