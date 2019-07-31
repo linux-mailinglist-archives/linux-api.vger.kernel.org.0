@@ -2,146 +2,121 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BB667CB1E
-	for <lists+linux-api@lfdr.de>; Wed, 31 Jul 2019 19:58:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A78C47CC1F
+	for <lists+linux-api@lfdr.de>; Wed, 31 Jul 2019 20:38:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726469AbfGaR5y (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 31 Jul 2019 13:57:54 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:36155 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726377AbfGaR5y (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 31 Jul 2019 13:57:54 -0400
-Received: by mail-wm1-f67.google.com with SMTP id g67so56530850wme.1;
-        Wed, 31 Jul 2019 10:57:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=T31WwXYsxgU8fO97C5XG4W+sh6cfy84Mun+fk+tA2/o=;
-        b=sX/iidQk0dUvgAG6y3YxYqtNQUGhiSU4kesR+IvEkmGd43zb5yH6iziI4AciHJLuB8
-         jq27iR560vhwkgZCmbqw2Je1yW+Glpfp0dKwf5KLywXz2ZSn8Li2tBGqOqePW+xGWTT9
-         9zRVLdAq1jm2GwIvZDS6GGhcZ4E66o84q9qvMCvAkS7epxWPvj9ObnL1irGDJ5nSAuSD
-         b/ugzxNL8zkMW5ROxvQLKq3Ijn6bhJJUPFv/M3qXMItq8ZqEPNdPSP05qYSRkm46NAXH
-         ZbgOwyH25TbHMsHaiGcmUGz54DBcaBKXGptYzB76c6vs524bh+5aO3gkpwluOh9QpN6/
-         b7qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=T31WwXYsxgU8fO97C5XG4W+sh6cfy84Mun+fk+tA2/o=;
-        b=mJBidjI7Z7nO54tn1mF0Kg7WpBVcA6AKE08EliHXVHB6dRdF313sNTV3OKLbVSObXy
-         6Yc3v5f2X2rYwNqo4Cxb+FLdKDXg0AKDuBDOmpujdlsJZnsPMiqaW8OizX/rW9Oej0cT
-         pbfIRqAsG4OGcsm+4+MZoKOT/WAc4oJHOteaH2ngultyY97CaHYFB9KjcpdaaY5O1SAn
-         XL+F6Ac/4Ny8X0j3biEvauuchPpg60qbVVjDMphQWK36h8MpJjCP+AJNstnRVevnlcYR
-         mbA5k9my3XTLMTNjR+yy9xHIGsQRCfM1zvoIP6ooDIrLkS9BHgQ7rT6V7QnHH8/BM7Kt
-         bhRg==
-X-Gm-Message-State: APjAAAV/cGj0oPYBqcqb/ABv0L7Nqq21AQmrN6+a7a4WH4s4nHi9vLM3
-        6uFcqI/zJjb5GeebBodnr2A=
-X-Google-Smtp-Source: APXvYqws+uruLILu52nsmChy6L/7Y5vDVpAORnwVLHjBO84u5ZfNuvY1CLOr83vx9GkjBUtLI/QOlw==
-X-Received: by 2002:a7b:c081:: with SMTP id r1mr62622176wmh.76.1564595871090;
-        Wed, 31 Jul 2019 10:57:51 -0700 (PDT)
-Received: from archlinux-threadripper ([2a01:4f8:222:2f1b::2])
-        by smtp.gmail.com with ESMTPSA id c6sm70486993wma.25.2019.07.31.10.57.50
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 31 Jul 2019 10:57:50 -0700 (PDT)
-Date:   Wed, 31 Jul 2019 10:57:48 -0700
-From:   Nathan Chancellor <natechancellor@gmail.com>
-To:     Daniel Rosenberg <drosen@google.com>
-Cc:     Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <yuchao0@huawei.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        id S1730376AbfGaSiG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 31 Jul 2019 14:38:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51682 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730372AbfGaSiF (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 31 Jul 2019 14:38:05 -0400
+Received: from sol.localdomain (c-24-5-143-220.hsd1.ca.comcast.net [24.5.143.220])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 196BF206A3;
+        Wed, 31 Jul 2019 18:38:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1564598284;
+        bh=mwf/L4kawPnA1+kq4IqMkos0fqY4xHcvedV1SVvmgr4=;
+        h=Date:From:To:Subject:References:In-Reply-To:From;
+        b=0SBhBqvGEFIUO9Q+X1GiRxRfAhxkriFVan66HT0bGDPhuMdNTX8kCHLadzRChzP4O
+         OKShL0aapWqVZ6CtauvlQDheMoSsBzO54aB87yx0xEz7IKpbCUA8GYPua8suG6ultw
+         koL6k+O0wO1Ftp9+M/dFACaiJQwyP8yBpRpTOjac=
+Date:   Wed, 31 Jul 2019 11:38:02 -0700
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     "Theodore Y. Ts'o" <tytso@mit.edu>, linux-fscrypt@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
         linux-f2fs-devel@lists.sourceforge.net,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        kernel-team@android.com
-Subject: Re: [PATCH v4 3/3] f2fs: Support case-insensitive file name lookups
-Message-ID: <20190731175748.GA48637@archlinux-threadripper>
-References: <20190723230529.251659-1-drosen@google.com>
- <20190723230529.251659-4-drosen@google.com>
+        linux-mtd@lists.infradead.org, linux-api@vger.kernel.org,
+        linux-crypto@vger.kernel.org, keyrings@vger.kernel.org,
+        Paul Crowley <paulcrowley@google.com>,
+        Satya Tangirala <satyat@google.com>
+Subject: Re: [PATCH v7 07/16] fscrypt: add FS_IOC_REMOVE_ENCRYPTION_KEY ioctl
+Message-ID: <20190731183802.GA687@sol.localdomain>
+Mail-Followup-To: "Theodore Y. Ts'o" <tytso@mit.edu>,
+        linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+        linux-mtd@lists.infradead.org, linux-api@vger.kernel.org,
+        linux-crypto@vger.kernel.org, keyrings@vger.kernel.org,
+        Paul Crowley <paulcrowley@google.com>,
+        Satya Tangirala <satyat@google.com>
+References: <20190726224141.14044-1-ebiggers@kernel.org>
+ <20190726224141.14044-8-ebiggers@kernel.org>
+ <20190728192417.GG6088@mit.edu>
+ <20190729195827.GF169027@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190723230529.251659-4-drosen@google.com>
+In-Reply-To: <20190729195827.GF169027@gmail.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi all,
+On Mon, Jul 29, 2019 at 12:58:28PM -0700, Eric Biggers wrote:
+> On Sun, Jul 28, 2019 at 03:24:17PM -0400, Theodore Y. Ts'o wrote:
+> > > +
+> > > +/*
+> > > + * Try to remove an fscrypt master encryption key.  If other users have also
+> > > + * added the key, we'll remove the current user's usage of the key, then return
+> > > + * -EUSERS.  Otherwise we'll continue on and try to actually remove the key.
+> > 
+> > Nit: this should be moved to patch #11
+> > 
+> > Also, perror(EUSERS) will display "Too many users" which is going to
+> > be confusing.  I understand why you chose this; we would like to
+> > distinguish between there are still inodes using this key, and there
+> > are other users using this key.
+> > 
+> > Do we really need to return EUSERS in this case?  It's actually not an
+> > *error* that other users are using the key.  After all, the unlink(2)
+> > system call doesn't return an advisory error when you delete a file
+> > which has other hard links.  And an application which does care about
+> > this detail can always call FS_IOC_ENCRYPTION_KEY_STATUS() and check
+> > user_count.
+> > 
+> 
+> Returning 0 when the key wasn't fully removed might also be confusing.  But I
+> guess you're right that returning an error doesn't match how syscalls usually
+> work.  It did remove the current user's usage of the key, after all, rather than
+> completely fail.  And as you point out, if someone cares about other users
+> having added the key, they can use FS_IOC_GET_ENCRYPTION_KEY_STATUS.
+> 
+> So I guess I'll change it to 0.
+> 
 
-<snip>
+So after making this change and thinking about it some more, I'm not sure it's
+actually an improvement.
 
-> diff --git a/fs/f2fs/hash.c b/fs/f2fs/hash.c
-> index cc82f142f811f..99e79934f5088 100644
-> --- a/fs/f2fs/hash.c
-> +++ b/fs/f2fs/hash.c
-> @@ -14,6 +14,7 @@
->  #include <linux/f2fs_fs.h>
->  #include <linux/cryptohash.h>
->  #include <linux/pagemap.h>
-> +#include <linux/unicode.h>
->  
->  #include "f2fs.h"
->  
-> @@ -67,7 +68,7 @@ static void str2hashbuf(const unsigned char *msg, size_t len,
->  		*buf++ = pad;
->  }
->  
-> -f2fs_hash_t f2fs_dentry_hash(const struct qstr *name_info,
-> +static f2fs_hash_t __f2fs_dentry_hash(const struct qstr *name_info,
->  				struct fscrypt_name *fname)
->  {
->  	__u32 hash;
-> @@ -103,3 +104,35 @@ f2fs_hash_t f2fs_dentry_hash(const struct qstr *name_info,
->  	f2fs_hash = cpu_to_le32(hash & ~F2FS_HASH_COL_BIT);
->  	return f2fs_hash;
->  }
-> +
-> +f2fs_hash_t f2fs_dentry_hash(const struct inode *dir,
-> +		const struct qstr *name_info, struct fscrypt_name *fname)
-> +{
-> +#ifdef CONFIG_UNICODE
-> +	struct f2fs_sb_info *sbi = F2FS_SB(dir->i_sb);
-> +	const struct unicode_map *um = sbi->s_encoding;
-> +	int r, dlen;
-> +	unsigned char *buff;
-> +	struct qstr *folded;
-> +
-> +	if (name_info->len && IS_CASEFOLDED(dir)) {
-> +		buff = f2fs_kzalloc(sbi, sizeof(char) * PATH_MAX, GFP_KERNEL);
-> +		if (!buff)
-> +			return -ENOMEM;
-> +
-> +		dlen = utf8_casefold(um, name_info, buff, PATH_MAX);
-> +		if (dlen < 0) {
-> +			kvfree(buff);
-> +			goto opaque_seq;
-> +		}
-> +		folded->name = buff;
-> +		folded->len = dlen;
-> +		r = __f2fs_dentry_hash(folded, fname);
-> +
-> +		kvfree(buff);
-> +		return r;
-> +	}
-> +opaque_seq:
-> +#endif
-> +	return __f2fs_dentry_hash(name_info, fname);
-> +}
+The normal use case for this ioctl is to "lock" some encrypted directory(s).  If
+it returns 0 and doesn't lock the directory(s), that's unexpected.
 
-Clang now warns:
+This is perhaps different from what users expect from unlink().  It's well known
+that unlink() just deletes the filename, not the file itself if it's still open
+or has other links.  And unlink() by itself isn't meant for use cases where the
+file absolutely must be securely erased.  But FS_IOC_REMOVE_ENCRYPTION_KEY
+really is meant primarily for that sort of thing.
 
-fs/f2fs/hash.c:128:3: warning: variable 'folded' is uninitialized when used here [-Wuninitialized]
-                folded->name = buff;
-                ^~~~~~
-fs/f2fs/hash.c:116:21: note: initialize the variable 'folded' to silence this warning
-        struct qstr *folded;
-                           ^
-                            = NULL
-1 warning generated.
+To give a concrete example: my patch for the userspace tool
+https://github.com/google/fscrypt adds a command 'fscrypt lock' which locks an
+encrypted directory.  If, say, someone runs 'fscrypt unlock' as uid 0 and then
+'fscrypt lock' as uid 1000, then FS_IOC_REMOVE_ENCRYPTION_KEY can't actually
+remove the key.  I need to make the tool show a proper error message in this
+case.  To do so, it would help to get a unique error code (e.g. EUSERS) from
+FS_IOC_REMOVE_ENCRYPTION_KEY, rather than get the ambiguous error code ENOKEY
+and have to call FS_IOC_GET_ENCRYPTION_KEY_STATUS to get the real status.
 
-I assume that it wants to be initialized with f2fs_kzalloc as well but
-I am not familiar with this code and what it expects to do.
+Also, we already have the EBUSY case.  This means that the ioctl removed the
+master key secret itself; however, some files were still in-use, so the key
+remains in the "incompletely removed" state.  If we were actually going for
+unlink() semantics, then for consistency this case really ought to return 0 and
+unlink the key object, and people who care about in-use files would need to use
+FS_IOC_GET_ENCRYPTION_KEY_STATUS.  But most people *will* care about this, and
+may even want to retry the ioctl later, which isn't something you can do with
+pure unlink() semantics.
 
-Please look into this when you get a chance!
-Nathan
+So I'm leaning towards keeping the EUSERS and EBUSY errors.
+
+- Eric
