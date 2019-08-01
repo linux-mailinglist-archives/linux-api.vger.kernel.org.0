@@ -2,132 +2,198 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B82F7E4E5
-	for <lists+linux-api@lfdr.de>; Thu,  1 Aug 2019 23:40:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 09B367E527
+	for <lists+linux-api@lfdr.de>; Fri,  2 Aug 2019 00:04:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730228AbfHAVkO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 1 Aug 2019 17:40:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35686 "EHLO mail.kernel.org"
+        id S1728559AbfHAWEi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 1 Aug 2019 18:04:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40106 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731839AbfHAVkI (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 1 Aug 2019 17:40:08 -0400
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1727987AbfHAWEh (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 1 Aug 2019 18:04:37 -0400
+Received: from gmail.com (unknown [104.132.1.77])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5F78D21842
-        for <linux-api@vger.kernel.org>; Thu,  1 Aug 2019 21:40:07 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id E97252080C;
+        Thu,  1 Aug 2019 22:04:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1564695607;
-        bh=gHeVvR22yg/BEAVWLA5zkJGRlEoRdzJ5A+Yzt/2dnxc=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=NtMQT5fXo/74GzIyI1VE43vabQS7WFJzCY0+l1Q5Wv3Qsgk38luobyHRYi6tJ2ofk
-         q7DBbxQJOh9ovp9JIKqrPk4tHB4+ClHHHotvoJb1Sh8+eKoE8IRRYn1608zYH0JayZ
-         IJYXnm4h3EWXyLgIEh6SyQ1e8EFMinwfuHOnTVnc=
-Received: by mail-wr1-f52.google.com with SMTP id g17so75081627wrr.5
-        for <linux-api@vger.kernel.org>; Thu, 01 Aug 2019 14:40:07 -0700 (PDT)
-X-Gm-Message-State: APjAAAVRqyf6watlmpw14W/zUd8jSeQXcem3qI/byw1SMbXGURBCCyKB
-        m8CpRvLOTpPw+ECFA/gdFsdT3x0+y+BpCYwVuxzoZw==
-X-Google-Smtp-Source: APXvYqzRdGfLbWWwLeGDFVSRIa19VFXJT9LM81VsTWCkFZlOUlj7YmlSRI4JMEXaM3T3twojRBcPU0Iog/L8Gh39gHU=
-X-Received: by 2002:adf:f2d0:: with SMTP id d16mr45723172wrp.221.1564695603860;
- Thu, 01 Aug 2019 14:40:03 -0700 (PDT)
+        s=default; t=1564697076;
+        bh=07USxmiW0wtvQgurj28XmaQedZTzoWvNahQ2mQLPE40=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=VyQIbpB73/IBrBsSm9YeYQnFLmTIy28sYuRF8s6RYL7nqJKJ112SS0SRAy86NcU0Y
+         NUoU7/xJWwMVS7ybkxaoN3+1sgnzVsFJAVHL2LeNghpDv4XI/jzN86P/Jh7cd3rr4s
+         z0PmTWHZGt4c9txOtJfO/FZcPvn5tty+jGDMKHLc=
+Date:   Thu, 1 Aug 2019 15:04:34 -0700
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     "Theodore Y. Ts'o" <tytso@mit.edu>
+Cc:     linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+        linux-mtd@lists.infradead.org, linux-api@vger.kernel.org,
+        linux-crypto@vger.kernel.org, keyrings@vger.kernel.org,
+        Paul Crowley <paulcrowley@google.com>,
+        Satya Tangirala <satyat@google.com>
+Subject: Re: [PATCH v7 07/16] fscrypt: add FS_IOC_REMOVE_ENCRYPTION_KEY ioctl
+Message-ID: <20190801220432.GC223822@gmail.com>
+Mail-Followup-To: "Theodore Y. Ts'o" <tytso@mit.edu>,
+        linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+        linux-mtd@lists.infradead.org, linux-api@vger.kernel.org,
+        linux-crypto@vger.kernel.org, keyrings@vger.kernel.org,
+        Paul Crowley <paulcrowley@google.com>,
+        Satya Tangirala <satyat@google.com>
+References: <20190726224141.14044-1-ebiggers@kernel.org>
+ <20190726224141.14044-8-ebiggers@kernel.org>
+ <20190728192417.GG6088@mit.edu>
+ <20190729195827.GF169027@gmail.com>
+ <20190731183802.GA687@sol.localdomain>
+ <20190731233843.GA2769@mit.edu>
+ <20190801011140.GB687@sol.localdomain>
+ <20190801053108.GD2769@mit.edu>
 MIME-Version: 1.0
-References: <20190729215758.28405-1-dima@arista.com> <20190729215758.28405-26-dima@arista.com>
- <CALCETrUpOhTCQkhB3S73LBFAiTp07PwXP32Q6Bn0m2LTqiw9hA@mail.gmail.com> <4D0E6734-066D-4A72-A119-2FD6482F857D@zytor.com>
-In-Reply-To: <4D0E6734-066D-4A72-A119-2FD6482F857D@zytor.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Thu, 1 Aug 2019 14:39:51 -0700
-X-Gmail-Original-Message-ID: <CALCETrUfGb8VcgdyCme=n755OB_qaGqS9QATpn8wqQ3XCqUgAA@mail.gmail.com>
-Message-ID: <CALCETrUfGb8VcgdyCme=n755OB_qaGqS9QATpn8wqQ3XCqUgAA@mail.gmail.com>
-Subject: Re: [PATCHv5 25/37] x86/vdso: Switch image on setns()/clone()
-To:     "H. Peter Anvin" <hpa@zytor.com>
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        Dmitry Safonov <dima@arista.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Dmitry Safonov <0x7f454c46@gmail.com>,
-        Adrian Reber <adrian@lisas.de>,
-        Andrei Vagin <avagin@openvz.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Cyrill Gorcunov <gorcunov@openvz.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>,
-        Jeff Dike <jdike@addtoit.com>, Oleg Nesterov <oleg@redhat.com>,
-        Pavel Emelyanov <xemul@virtuozzo.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        criu@openvz.org, Linux API <linux-api@vger.kernel.org>,
-        X86 ML <x86@kernel.org>, Andrei Vagin <avagin@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190801053108.GD2769@mit.edu>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jul 31, 2019 at 11:09 PM <hpa@zytor.com> wrote:
->
-> On July 31, 2019 10:34:26 PM PDT, Andy Lutomirski <luto@kernel.org> wrote=
-:
-> >On Mon, Jul 29, 2019 at 2:58 PM Dmitry Safonov <dima@arista.com> wrote:
-> >>
-> >> As it has been discussed on timens RFC, adding a new conditional
-> >branch
-> >> `if (inside_time_ns)` on VDSO for all processes is undesirable.
-> >> It will add a penalty for everybody as branch predictor may
-> >mispredict
-> >> the jump. Also there are instruction cache lines wasted on cmp/jmp.
-> >
-> >
-> >>
-> >> +#ifdef CONFIG_TIME_NS
-> >> +int vdso_join_timens(struct task_struct *task)
-> >> +{
-> >> +       struct mm_struct *mm =3D task->mm;
-> >> +       struct vm_area_struct *vma;
-> >> +
-> >> +       if (down_write_killable(&mm->mmap_sem))
-> >> +               return -EINTR;
-> >> +
-> >> +       for (vma =3D mm->mmap; vma; vma =3D vma->vm_next) {
-> >> +               unsigned long size =3D vma->vm_end - vma->vm_start;
-> >> +
-> >> +               if (vma_is_special_mapping(vma, &vvar_mapping) ||
-> >> +                   vma_is_special_mapping(vma, &vdso_mapping))
-> >> +                       zap_page_range(vma, vma->vm_start, size);
-> >> +       }
-> >
-> >This is, unfortunately, fundamentally buggy.  If any thread is in the
-> >vDSO or has the vDSO on the stack (due to a signal, for example), this
-> >will crash it.  I can think of three solutions:
-> >
-> >1. Say that you can't setns() if you have other mms and ignore the
-> >signal issue.  Anything with green threads will disapprove.  It's also
-> >rather gross.
-> >
-> >2. Make it so that you can flip the static branch safely.  As in my
-> >other email, you'll need to deal with CoW somehow,
-> >
-> >3. Make it so that you can't change timens, or at least that you can't
-> >turn timens on or off, without execve() or fork().
-> >
-> >BTW, that static branch probably needs to be aligned to a cache line
-> >or something similar to avoid all the nastiness with trying to poke
-> >text that might be concurrently executing.  This will be a mess.
->
-> Since we are talking about different physical addresses I believe we shou=
-ld be okay as long as they don't cross page boundaries, and even if they do=
- it can be managed with proper page invalidation sequencing =E2=80=93 it's =
-not like the problems of having to deal with XMC on live pages like in the =
-kernel.
->
-> Still, you really need each instruction sequence to be present, with the =
-only difference being specific patch sites.
->
-> Any fundamental reason this can't be strictly data driven? Seems odd to m=
-e if it couldn't, but I might be missing something obvious.
+On Thu, Aug 01, 2019 at 01:31:08AM -0400, Theodore Y. Ts'o wrote:
+> On Wed, Jul 31, 2019 at 06:11:40PM -0700, Eric Biggers wrote:
+> > 
+> > Well, it's either
+> > 
+> > 1a. Remove the user's handle.
+> > 	OR 
+> > 1b. Remove all users' handles.  (FSCRYPT_REMOVE_KEY_FLAG_ALL_USERS)
+> > 
+> > Then
+> > 
+> > 2. If no handles remain, try to evict all inodes that use the key.
+> > 
+> > By "purge all keys" do you mean step (2)?  Note that it doesn't require root by
+> > itself; root is only required to remove other users' handles (1b).
+> 
+> No, I was talking about 1b.  I'd argue that 1a and 1b should be
+> different ioctl.  1b requires root, and 1a doesn't.
+> 
+[...]
+> > 
+> > Do you mean use a positive return value, or do you mean add an output field to
+> > the struct passed to the ioctl?
+> 
+> I meant adding an output field.  I see EBUSY and EUSERS as status bits
+> which *some* use cases might find useful.
 
-I think it can be.  There are at least two places where vDSO slow
-paths could hook without affecting fast paths: vclock_mode and the low
-bit of the sequence number.
+Ted, would you be happy with the following API?
+
+Removing keys
+-------------
+
+Two ioctls are available for removing a key that was added by
+FS_IOC_ADD_ENCRYPTION_KEY: FS_IOC_REMOVE_ENCRYPTION_KEY and
+FS_IOC_REMOVE_ENCRYPTION_KEY_ALL_USERS.  They differ only in cases
+where v2 policy keys are added or removed by non-root users.
+
+These ioctls don't work on keys that were added via the legacy
+process-subscribed keyrings mechanism.
+
+Before using these ioctls, read the `Kernel memory compromise`_
+section for a discussion of the security goals and limitations of
+these ioctls.
+
+FS_IOC_REMOVE_ENCRYPTION_KEY
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The FS_IOC_REMOVE_ENCRYPTION_KEY ioctl removes a claim to an fscrypt
+master encryption key from the filesystem, and possibly removes the
+key itself.  It can be executed on any file or directory on the target
+filesystem, but using the filesystem's root directory is recommended.
+It takes in a pointer to a :c:type:`struct fscrypt_remove_key_arg`,
+defined as follows::
+
+    struct fscrypt_remove_key_arg {
+            struct fscrypt_key_specifier key_spec;
+    #define FSCRYPT_KEY_REMOVAL_STATUS_FLAG_OTHER_USERS     0x00000001
+    #define FSCRYPT_KEY_REMOVAL_STATUS_FLAG_FILES_BUSY      0x00000002
+            __u32 removal_status_flags;     /* output */
+            __u32 __reserved[5];
+    };
+
+This structure must be zeroed, then initialized as follows:
+
+- The key to remove is specified by ``key_spec``:
+
+    - To remove a key used by v1 encryption policies, set
+      ``key_spec.type`` to FSCRYPT_KEY_SPEC_TYPE_DESCRIPTOR and fill
+      in ``key_spec.u.descriptor``.  To remove this type of key, the
+      calling process must have the CAP_SYS_ADMIN capability in the
+      initial user namespace.
+
+    - To remove a key used by v2 encryption policies, set
+      ``key_spec.type`` to FSCRYPT_KEY_SPEC_TYPE_IDENTIFIER and fill
+      in ``key_spec.u.identifier``.  To remove this type of key, no
+      privileges are needed.  However, users can only remove keys that
+      they added themselves, subject to privileged override with
+      FSCRYPT_REMOVE_KEY_FLAG_ALL_USERS.
+
+For v2 policy keys, this ioctl is usable by non-root users.  However,
+to make this possible, it actually just removes the current user's
+claim to the key, undoing a single call to FS_IOC_ADD_ENCRYPTION_KEY.
+Only after all claims are removed is the key really removed.
+
+For example, if FS_IOC_ADD_ENCRYPTION_KEY was called with uid 1000,
+then the key will be "claimed" by uid 1000, and
+FS_IOC_REMOVE_ENCRYPTION_KEY will only succeed as uid 1000.  Or, if
+both uids 1000 and 2000 added the key, then for each uid
+FS_IOC_REMOVE_ENCRYPTION_KEY will only remove their own claim.  Only
+once *both* are removed is the key really removed.  (Think of it like
+unlinking a file that may have hard links.)
+
+If FS_IOC_REMOVE_ENCRYPTION_KEY really removes the key, it will also
+try to "lock" all files that had been unlocked with the key.  It won't
+lock files that are still in-use.  If necessary, the ioctl can be
+executed again later to retry locking any remaining files.
+
+FS_IOC_REMOVE_ENCRYPTION_KEY returns 0 if either the key was removed
+(but may still have files remaining to be locked), the user's claim to
+the key was removed, or the key was already removed but had files
+remaining to be the locked so the ioctl retried locking them.  In any
+of these cases, ``removal_status_flags`` is filled in with the
+following informational status flags:
+
+- ``FSCRYPT_KEY_REMOVAL_STATUS_FLAG_OTHER_USERS``: set if only the
+  user's claim to the key was removed, not the key itself
+- ``FSCRYPT_KEY_REMOVAL_STATUS_FLAG_FILES_BUSY``: set if some file(s)
+  are still in-use.  Not guaranteed to be set in the case where only
+  the user's claim to the key was removed.
+
+FS_IOC_REMOVE_ENCRYPTION_KEY can fail with the following errors:
+
+- ``EACCES``: The FSCRYPT_KEY_SPEC_TYPE_DESCRIPTOR key specifier type
+  was specified, but the caller does not have the CAP_SYS_ADMIN
+  capability in the initial user namespace
+- ``EINVAL``: invalid flags or key specifier type, or reserved bits
+  were set
+- ``ENOKEY``: the key object was not found at all, i.e. it was never
+  added in the first place or was already fully removed including all
+  files locked; or, the user does not have a claim to the key.
+- ``ENOTTY``: this type of filesystem does not implement encryption
+- ``EOPNOTSUPP``: the kernel was not configured with encryption
+  support for this filesystem, or the filesystem superblock has not
+  had encryption enabled on it
+
+FS_IOC_REMOVE_ENCRYPTION_KEY_ALL_USERS
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+FS_IOC_REMOVE_ENCRYPTION_KEY_ALL_USERS is exactly the same as
+FS_IOC_REMOVE_ENCRYPTION_KEY, except that for v2 policy keys, the
+ALL_USERS version of the ioctl will remove all users' claims to the
+key, not just the current user's.  I.e., the key itself will always be
+removed, no matter how many users have added it.  This difference is
+only meaningful if non-root users are adding and removing keys.
+
+Because of this, FS_IOC_REMOVE_ENCRYPTION_KEY_ALL_USERS also requires
+"root", namely the CAP_SYS_ADMIN capability in the initial user
+namespace.  Otherwise it will fail with ``EACCES``.
