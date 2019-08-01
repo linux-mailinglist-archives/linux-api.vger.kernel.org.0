@@ -2,74 +2,76 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 670637E28C
-	for <lists+linux-api@lfdr.de>; Thu,  1 Aug 2019 20:46:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA91D7E46A
+	for <lists+linux-api@lfdr.de>; Thu,  1 Aug 2019 22:46:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731067AbfHASqu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 1 Aug 2019 14:46:50 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48922 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726017AbfHASqu (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 1 Aug 2019 14:46:50 -0400
-Received: from gmail.com (unknown [104.132.1.77])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BA65E20838;
-        Thu,  1 Aug 2019 18:46:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1564685209;
-        bh=HMNsHRyxcs/N2sdOx2bRjvS77biGEkdk37DWtJon/S0=;
-        h=Date:From:To:Subject:References:In-Reply-To:From;
-        b=tDGbqBQlpjlVxdQKRs9tN4nVl/E4GGr1HJxRUhFbutz827naxP1URsY0gzumfiEBK
-         E0HljneDOE5HI2QdvN0gsxf1i2d19g3e0tki+KzfatAQYi5mDw0/7nsoANX+631D6z
-         6mJLUifplnQHO4me1nYIjGVkW06ZrEAqmFiUJkE8=
-Date:   Thu, 1 Aug 2019 11:46:47 -0700
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     "Theodore Y. Ts'o" <tytso@mit.edu>, linux-fscrypt@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net,
-        linux-mtd@lists.infradead.org, linux-api@vger.kernel.org,
-        linux-crypto@vger.kernel.org, keyrings@vger.kernel.org,
-        Paul Crowley <paulcrowley@google.com>,
-        Satya Tangirala <satyat@google.com>
-Subject: Re: [PATCH v7 07/16] fscrypt: add FS_IOC_REMOVE_ENCRYPTION_KEY ioctl
-Message-ID: <20190801184646.GB223822@gmail.com>
-Mail-Followup-To: "Theodore Y. Ts'o" <tytso@mit.edu>,
-        linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-mtd@lists.infradead.org, linux-api@vger.kernel.org,
-        linux-crypto@vger.kernel.org, keyrings@vger.kernel.org,
-        Paul Crowley <paulcrowley@google.com>,
-        Satya Tangirala <satyat@google.com>
-References: <20190726224141.14044-1-ebiggers@kernel.org>
- <20190726224141.14044-8-ebiggers@kernel.org>
- <20190728192417.GG6088@mit.edu>
- <20190729195827.GF169027@gmail.com>
- <20190731183802.GA687@sol.localdomain>
- <20190731233843.GA2769@mit.edu>
- <20190801011140.GB687@sol.localdomain>
- <20190801053108.GD2769@mit.edu>
- <20190801183554.GA223822@gmail.com>
+        id S1729846AbfHAUmo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 1 Aug 2019 16:42:44 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:46618 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726401AbfHAUmo (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 1 Aug 2019 16:42:44 -0400
+Received: by mail-io1-f66.google.com with SMTP id i10so34053252iol.13
+        for <linux-api@vger.kernel.org>; Thu, 01 Aug 2019 13:42:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=lMH0PSgx6Uw521Ile0FkmOu1AQ4AnGl2b2LD6f0V7lw=;
+        b=Mv6z0bTWhcWzmPMAa8WNgTytLenPwtsKNMFXZbhEFXwGK9nEL4W7vFZkrsetALCbR5
+         1UflM2NczBPJTIJW91GKL5lQq5uKXTi5ca9vnhB2PqvKWOiK89zTHeshqpXAFDCL7GP3
+         gGXc1zgIXdCQxmZly30bpM177mxVOUDZ8gu9XBpVtobSV3JEob0ErTrX059NXvy/H712
+         osyOy8nMACpzq+vrxTk9JljUUTn/bsD9s703uJBNV1960EiqM5aO44zhny6vx8iJuiH4
+         zOfSQmiqdyo/LZ0ZZkbuqV44qbcCj7cYppuARx7uUHsNlY2J3ThTI1h7aZO5rG7JDe98
+         s0TA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=lMH0PSgx6Uw521Ile0FkmOu1AQ4AnGl2b2LD6f0V7lw=;
+        b=sqcvuV5I2VEupljZRu2jvQHpI1X2OmH2p6W5C7uuDf6ugBr9EjVzFjXRiIb13qZ/d8
+         PDZcZdOMNgHRe/XuWT5YO669Fl7FDRuwQl+RwRmw+tGMKJMaiExhBI365NJ4pgI/C9wr
+         IjKeQrVtzxaQdIsVZPwQuA27cO3+hyDxAE5kkxo8SiAuiLT2OX14cPNkEBF0abAukTmT
+         HSuonkjs+Sjm6cvBF/hCO+YC0DoAcqvDsHQ0y2XESKGvrK4wS4hk4AokqibXA1u+ng+q
+         PSobbFrBbHiYWaRVBb3Xe/aauXapBfHjWPZYzoQBwRle1r+YB4lDUjOI33MkjT8b93A8
+         Zy2w==
+X-Gm-Message-State: APjAAAWCIQzWJHVcV37+SvDU/XBMjqnPu6BsjHILClujbXU++wzGNLv/
+        CGbaL901Rwh7R9/4J2Dw6e/yWU7vXa/x3KxC+r+wNR2BU5s=
+X-Google-Smtp-Source: APXvYqyNsdIo5cG3iRn2E0sXHOsTfshbx+8l5Wey772GDb6fRSzjMH0UCH36mDLfCqY4G9IrrYkaCqzTJWi0i8V9iYc=
+X-Received: by 2002:a5d:968b:: with SMTP id m11mr74306975ion.16.1564692162904;
+ Thu, 01 Aug 2019 13:42:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190801183554.GA223822@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20190731221617.234725-1-matthewgarrett@google.com>
+ <20190731221617.234725-5-matthewgarrett@google.com> <20190801142157.GA5834@linux-8ccs>
+In-Reply-To: <20190801142157.GA5834@linux-8ccs>
+From:   Matthew Garrett <mjg59@google.com>
+Date:   Thu, 1 Aug 2019 13:42:31 -0700
+Message-ID: <CACdnJusD_9W9tFqwKptDTA8fZU8HrSvsEQhKo0WS9QxLpgz5tA@mail.gmail.com>
+Subject: Re: [PATCH V37 04/29] Enforce module signatures if the kernel is
+ locked down
+To:     Jessica Yu <jeyu@kernel.org>
+Cc:     James Morris <jmorris@namei.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        David Howells <dhowells@redhat.com>,
+        Kees Cook <keescook@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Aug 01, 2019 at 11:35:56AM -0700, Eric Biggers wrote:
-> 
-> "fscrypt lock" actually doesn't exist yet; it's a missing feature.  My patch to
-> the fscrypt tool adds it.  So we get to decide on the semantics.  We don't want
-> to require root, though; so for v2 policy keys, the real semantics have to be
-> that "fscrypt lock" registers the key for the user, and "fscrypt unlock"
-> unregisters it for the user.
-> 
+On Thu, Aug 1, 2019 at 7:22 AM Jessica Yu <jeyu@kernel.org> wrote:
+> Apologies if this was addressed in another patch in your series (I've
+> only skimmed the first few), but what should happen if the kernel is
+> locked down, but CONFIG_MODULE_SIG=n? Or shouldn't CONFIG_SECURITY_LOCKDOWN_LSM
+> depend on CONFIG_MODULE_SIG? Otherwise I think we'll end up calling
+> the empty !CONFIG_MODULE_SIG module_sig_check() stub even though
+> lockdown is enabled.
 
-I meant the other way around, of course: "fscrypt unlock" registers the key for
-the user, and "fscrypt lock" unregisters it for the user.
-
-- Eric
+Hm. Someone could certainly configure their kernel in that way. I'm
+not sure that tying CONFIG_SECURITY_LOCKDOWN_LSM to CONFIG_MODULE_SIG
+is the right solution, since the new LSM approach means that any other
+LSM could also impose the same policy. Perhaps we should just document
+this?
