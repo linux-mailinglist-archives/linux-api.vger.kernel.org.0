@@ -2,98 +2,100 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DCCA580A25
-	for <lists+linux-api@lfdr.de>; Sun,  4 Aug 2019 11:42:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EED380A71
+	for <lists+linux-api@lfdr.de>; Sun,  4 Aug 2019 12:37:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726118AbfHDJmS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 4 Aug 2019 05:42:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49874 "EHLO mail.kernel.org"
+        id S1726017AbfHDKhq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 4 Aug 2019 06:37:46 -0400
+Received: from mga01.intel.com ([192.55.52.88]:31912 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726037AbfHDJmR (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Sun, 4 Aug 2019 05:42:17 -0400
-Received: from [192.168.0.101] (unknown [180.111.32.87])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4A5C02070D;
-        Sun,  4 Aug 2019 09:42:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1564911736;
-        bh=eHZ3LbVmL56YmqVlqrvOvSSJqzheWzSMhiY9l05NP2o=;
-        h=From:Subject:To:References:Date:In-Reply-To:From;
-        b=cLRH8T6ZTkrZK5qS1nnzFT8DjeL2x+uywKyjzjXJH2irPLsvRPe4dqQc6Tk1XuxHC
-         6Y7KEfgh9+Y+tAVpgnfmZoe7NCQJeOKo/g4Y1DJ1F/afQry2WGDSwmae1pj6bLGNCO
-         QJsggE08iTcD2KYJ7TcVNyDvJjt5HHfWLe/X0wDI=
-From:   Chao Yu <chao@kernel.org>
-Subject: [f2fs-dev] [PATCH v7 14/16] f2fs: wire up new fscrypt ioctls
-To:     Chao Yu <yuchao0@huawei.com>, linux-fscrypt@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net,
-        linux-mtd@lists.infradead.org, linux-api@vger.kernel.org,
-        linux-crypto@vger.kernel.org, keyrings@vger.kernel.org,
-        Paul Crowley <paulcrowley@google.com>,
-        Satya Tangirala <satyat@google.com>
-References: <20190726224141.14044-1-ebiggers@kernel.org>
- <20190726224141.14044-15-ebiggers@kernel.org>
- <e3cf53a7-faf2-0321-22de-07d2e2783752@huawei.com>
- <20190802173148.GA51937@gmail.com>
-Message-ID: <88479efb-6625-8778-f802-e159ec60a374@kernel.org>
-Date:   Sun, 4 Aug 2019 17:42:11 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <20190802173148.GA51937@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S1725941AbfHDKhq (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Sun, 4 Aug 2019 06:37:46 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Aug 2019 03:37:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,345,1559545200"; 
+   d="scan'208";a="167678913"
+Received: from hao-dev.bj.intel.com ([10.238.157.65])
+  by orsmga008.jf.intel.com with ESMTP; 04 Aug 2019 03:37:43 -0700
+From:   Wu Hao <hao.wu@intel.com>
+To:     gregkh@linuxfoundation.org, mdf@kernel.org,
+        linux-fpga@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, atull@kernel.org,
+        Wu Hao <hao.wu@intel.com>
+Subject: [PATCH v4 00/12] FPGA DFL updates
+Date:   Sun,  4 Aug 2019 18:20:10 +0800
+Message-Id: <1564914022-3710-1-git-send-email-hao.wu@intel.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2019-8-3 1:31, Eric Biggers wrote:
-> On Fri, Aug 02, 2019 at 04:10:15PM +0800, Chao Yu wrote:
->> Hi Eric,
->>
->> On 2019/7/27 6:41, Eric Biggers wrote:
->>> From: Eric Biggers <ebiggers@google.com>
->>>
->>> Wire up the new ioctls for adding and removing fscrypt keys to/from the
->>> filesystem, and the new ioctl for retrieving v2 encryption policies.
->>>
->>> FS_IOC_REMOVE_ENCRYPTION_KEY also required making f2fs_drop_inode() call
->>> fscrypt_drop_inode().
->>>
->>> For more details see Documentation/filesystems/fscrypt.rst and the
->>> fscrypt patches that added the implementation of these ioctls.
->>>
->>> Signed-off-by: Eric Biggers <ebiggers@google.com>
->>
->> Reviewed-by: Chao Yu <yuchao0@huawei.com>
->>
->> BTW, do you think it needs to make xxfs_has_support_encrypt() function be a
->> common interface defined in struct fscrypt_operations, as I see all
->> fscrypt_ioctl_*() needs to check with it, tho such cleanup is minor...
->>
-> 
-> Maybe.  It would work nicely for ext4 and f2fs, but ubifs does things
-> differently since it automatically enables the encryption feature if needed.
-> So we'd have to make the callback optional.
+Hi Greg,
 
-Correct, ubifs can leave the callback as NULL function pointer.
+This is v4 patchset which adds more features to FPGA DFL. The avx512
+partial reconfiguration support patch is dropped for now as need
+to address some opens first.
 
-> 
-> In any case, I think this should be separate from this patchset.
+Main changes from v3:
+  - drop avx512 partail reconfiguration patch for now.
+  - split dfl_fpga_cdev_config_port to 2 functions *_release/assign_port
+    (#1).
+  - split __dfl_fpga_cdev_config_port_vf into 2 functions with locking
+    added (#2).
+  - improve description in sysfs doc to avoid misunderstanding (#3).
+  - switch to boolean in sysfs entry store function (#3).
+  - remove dev_dbg in init/uinit callback function (#7, #9, #11).
+  - remove uinit callback which does does nothing (#8, #9)
 
-Yup, it can be done in a separated patch if need.
+Main changes from v2:
+  - update kernel version/date in sysfs doc (patch #4, #5, #8, #10, #11).
+  - add back Documentation patch (patch #12).
 
-Thanks,
+Main changes from v1:
+  - remove DRV/MODULE_VERSION modifications. (patch #1, #3, #4, #6)
+  - remove argsz from new ioctls. (patch #2)
+  - replace sysfs_create/remove_* with device_add/remove_* for sysfs entries.
+    (patch #5, #8, #11)
 
-> 
-> - Eric
-> 
-> 
-> _______________________________________________
-> Linux-f2fs-devel mailing list
-> Linux-f2fs-devel@lists.sourceforge.net
-> https://lists.sourceforge.net/lists/listinfo/linux-f2fs-devel
-> 
+Wu Hao (12):
+  fpga: dfl: fme: add DFL_FPGA_FME_PORT_RELEASE/ASSIGN ioctl support.
+  fpga: dfl: pci: enable SRIOV support.
+  fpga: dfl: afu: add AFU state related sysfs interfaces
+  fpga: dfl: afu: add userclock sysfs interfaces.
+  fpga: dfl: add id_table for dfl private feature driver
+  fpga: dfl: afu: export __port_enable/disable function.
+  fpga: dfl: afu: add error reporting support.
+  fpga: dfl: make uinit callback optional
+  fpga: dfl: afu: add STP (SignalTap) support
+  fpga: dfl: fme: add capability sysfs interfaces
+  fpga: dfl: fme: add global error reporting support
+  Documentation: fpga: dfl: add descriptions for virtualization and new
+    interfaces.
+
+ Documentation/ABI/testing/sysfs-platform-dfl-fme  |  98 ++++++
+ Documentation/ABI/testing/sysfs-platform-dfl-port | 106 ++++++
+ Documentation/fpga/dfl.rst                        | 105 ++++++
+ drivers/fpga/Makefile                             |   3 +-
+ drivers/fpga/dfl-afu-error.c                      | 221 +++++++++++++
+ drivers/fpga/dfl-afu-main.c                       | 319 +++++++++++++++++-
+ drivers/fpga/dfl-afu.h                            |   7 +
+ drivers/fpga/dfl-fme-error.c                      | 381 ++++++++++++++++++++++
+ drivers/fpga/dfl-fme-main.c                       | 105 +++++-
+ drivers/fpga/dfl-fme-pr.c                         |   7 +-
+ drivers/fpga/dfl-fme.h                            |   5 +-
+ drivers/fpga/dfl-pci.c                            |  36 ++
+ drivers/fpga/dfl.c                                | 216 +++++++++++-
+ drivers/fpga/dfl.h                                |  54 ++-
+ include/uapi/linux/fpga-dfl.h                     |  18 +
+ 15 files changed, 1640 insertions(+), 41 deletions(-)
+ create mode 100644 drivers/fpga/dfl-afu-error.c
+ create mode 100644 drivers/fpga/dfl-fme-error.c
+
+-- 
+1.8.3.1
+
