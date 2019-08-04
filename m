@@ -2,159 +2,150 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3713980CE7
-	for <lists+linux-api@lfdr.de>; Mon,  5 Aug 2019 00:17:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED70780F7E
+	for <lists+linux-api@lfdr.de>; Mon,  5 Aug 2019 01:56:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726826AbfHDWRC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 4 Aug 2019 18:17:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33704 "EHLO mail.kernel.org"
+        id S1726822AbfHDX4O (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 4 Aug 2019 19:56:14 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51982 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726825AbfHDWRA (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Sun, 4 Aug 2019 18:17:00 -0400
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+        id S1726526AbfHDX4O (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Sun, 4 Aug 2019 19:56:14 -0400
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B883F217F5
-        for <linux-api@vger.kernel.org>; Sun,  4 Aug 2019 22:16:58 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id B3A5D2089F
+        for <linux-api@vger.kernel.org>; Sun,  4 Aug 2019 23:56:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1564957019;
-        bh=NOsxGe27UUkBUODosCJyRGgFS2Jq9IOxrPzUq8LIvcM=;
+        s=default; t=1564962973;
+        bh=hacK3bFBwtrAv/U9OhwzLwLEIvnI+bjiQ7pJZVwvUsc=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Fqyy0NvLusu14az8Ov3YCYwhYCJ6lIV59Nr7t0tWwPT95pEWhNvy5Vi4+s9QecAYm
-         KL7LsFVc0TgpSvXtY8Eoq2AejrCZqE6en3NVi0TjLUU/G/SL8FYDm0XzZbbjnCSZHB
-         Z099ygyZifFp7av1c8XyGftglwxrcNNo/TCT4bXg=
-Received: by mail-wr1-f47.google.com with SMTP id n9so82579556wru.0
-        for <linux-api@vger.kernel.org>; Sun, 04 Aug 2019 15:16:58 -0700 (PDT)
-X-Gm-Message-State: APjAAAX1ZLkUq+NfhCGazHSUpmGN3HaeYq4MJ9A5NNX0zQH9PH2AXCQX
-        E2XuhO6GeOdjZnl5nQJLz5FlM4T8QjHVZrai89RfYA==
-X-Google-Smtp-Source: APXvYqxpYh/r8L67Yq8wytHQI4oN79Aw0hUduH+jnQG7PwmNVjSC50w0B3l5qWCsOFZlpSgQcSB+ucGe4OkPF/pYd34=
-X-Received: by 2002:adf:f28a:: with SMTP id k10mr81834684wro.343.1564957017128;
- Sun, 04 Aug 2019 15:16:57 -0700 (PDT)
+        b=HE6lxrmjjgnSG6WMJBYy7hwTcselKZPNXoRvcHYGTFNp3d++lIEJWhIZhGyVTS0ij
+         H5FuIRXvlb9WQVf0AEMhzx6VdSK1wG/sCITYb3PR/VuWOOcW49nSAPUIywi/xC3Yyi
+         uwJfifblUxcnxoOJG8iVwLXlt2VK74AOKZDUbEtI=
+Received: by mail-wr1-f54.google.com with SMTP id n9so57493187wrr.4
+        for <linux-api@vger.kernel.org>; Sun, 04 Aug 2019 16:56:12 -0700 (PDT)
+X-Gm-Message-State: APjAAAVU2Onr/lKfRMujKovNN8h2heWI5N0shY6/Kdco23sm9m/c+XTs
+        ducG73qwE28kUDvPje7/jaMgVEq0Ziv23jbyXimdgg==
+X-Google-Smtp-Source: APXvYqxn3tZqaoihIH7prfCxvRtZSNWX//uET+sc6tDLm69XbTAHCOuntBreYunR4c+HxPSsMOCqCHJjQE50/g3L7Sc=
+X-Received: by 2002:adf:dd0f:: with SMTP id a15mr3574634wrm.265.1564962969300;
+ Sun, 04 Aug 2019 16:56:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190627201923.2589391-1-songliubraving@fb.com>
- <20190627201923.2589391-2-songliubraving@fb.com> <21894f45-70d8-dfca-8c02-044f776c5e05@kernel.org>
- <3C595328-3ABE-4421-9772-8D41094A4F57@fb.com> <CALCETrWBnH4Q43POU8cQ7YMjb9LioK28FDEQf7aHZbdf1eBZWg@mail.gmail.com>
- <0DE7F23E-9CD2-4F03-82B5-835506B59056@fb.com> <CALCETrWBWbNFJvsTCeUchu3BZJ3SH3dvtXLUB2EhnPrzFfsLNA@mail.gmail.com>
- <201907021115.DCD56BBABB@keescook> <CALCETrXTta26CTtEDnzvtd03-WOGdXcnsAogP8JjLkcj4-mHvg@mail.gmail.com>
- <4A7A225A-6C23-4C0F-9A95-7C6C56B281ED@fb.com> <CALCETrX2bMnwC6_t4b_G-hzJSfMPrkK4YKs5ebcecv2LJ0rt3w@mail.gmail.com>
- <514D5453-0AEE-420F-AEB6-3F4F58C62E7E@fb.com> <1DE886F3-3982-45DE-B545-67AD6A4871AB@amacapital.net>
- <7F51F8B8-CF4C-4D82-AAE1-F0F28951DB7F@fb.com> <77354A95-4107-41A7-8936-D144F01C3CA4@fb.com>
- <369476A8-4CE1-43DA-9239-06437C0384C7@fb.com> <CALCETrUpVMrk7aaf0trfg9AfZ4fy279uJgZH7V+gZzjFw=hUxA@mail.gmail.com>
- <D4040C0C-47D6-4852-933C-59EB53C05242@fb.com> <CALCETrVoZL1YGUxx3kM-d21TWVRKdKw=f2B8aE5wc2zmX1cQ4g@mail.gmail.com>
- <5A2FCD7E-7F54-41E5-BFAE-BB9494E74F2D@fb.com>
-In-Reply-To: <5A2FCD7E-7F54-41E5-BFAE-BB9494E74F2D@fb.com>
+References: <20181212081712.32347-1-mic@digikod.net> <20181212081712.32347-2-mic@digikod.net>
+ <20181212144306.GA19945@quack2.suse.cz>
+In-Reply-To: <20181212144306.GA19945@quack2.suse.cz>
 From:   Andy Lutomirski <luto@kernel.org>
-Date:   Sun, 4 Aug 2019 15:16:46 -0700
-X-Gmail-Original-Message-ID: <CALCETrU7NbBnXXsw1B+DvTkfTVRBFWXuJ8cZERCCNvdFG6KqRw@mail.gmail.com>
-Message-ID: <CALCETrU7NbBnXXsw1B+DvTkfTVRBFWXuJ8cZERCCNvdFG6KqRw@mail.gmail.com>
-Subject: Re: [PATCH v2 bpf-next 1/4] bpf: unprivileged BPF access via /dev/bpf
-To:     Song Liu <songliubraving@fb.com>
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+Date:   Sun, 4 Aug 2019 16:55:58 -0700
+X-Gmail-Original-Message-ID: <CALCETrVeZ0eufFXwfhtaG_j+AdvbzEWE0M3wjXMWVEO7pj+xkw@mail.gmail.com>
+Message-ID: <CALCETrVeZ0eufFXwfhtaG_j+AdvbzEWE0M3wjXMWVEO7pj+xkw@mail.gmail.com>
+Subject: Re: [RFC PATCH v1 1/5] fs: Add support for an O_MAYEXEC flag on sys_open()
+To:     Jan Kara <jack@suse.cz>, Song Liu <songliubraving@fb.com>,
         Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Kernel Team <Kernel-team@fb.com>,
-        Lorenz Bauer <lmb@cloudflare.com>,
-        Jann Horn <jannh@google.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
+        Daniel Borkmann <daniel@iogearbox.net>
+Cc:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        James Morris <jmorris@namei.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Matthew Garrett <mjg59@google.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mickael.salaun@ssi.gouv.fr>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        =?UTF-8?Q?Philippe_Tr=C3=A9buchet?= 
+        <philippe.trebuchet@ssi.gouv.fr>, Shuah Khan <shuah@kernel.org>,
+        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
+        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
+        Yves-Alexis Perez <yves-alexis.perez@ssi.gouv.fr>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
         Linux API <linux-api@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>
+        LSM List <linux-security-module@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        Steve Grubb <sgrubb@redhat.com>,
+        Matthew Bobrowski <mbobrowski@mbobrowski.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Aug 2, 2019 at 12:22 AM Song Liu <songliubraving@fb.com> wrote:
+On Wed, Dec 12, 2018 at 6:43 AM Jan Kara <jack@suse.cz> wrote:
 >
-> Hi Andy,
->
- >> I actually agree CAP_BPF_ADMIN makes sense. The hard part is to make
-> >> existing tools (setcap, getcap, etc.) and libraries aware of the new CAP.
+> On Wed 12-12-18 09:17:08, Micka=C3=ABl Sala=C3=BCn wrote:
+> > When the O_MAYEXEC flag is passed, sys_open() may be subject to
+> > additional restrictions depending on a security policy implemented by a=
+n
+> > LSM through the inode_permission hook.
 > >
-> > It's been done before -- it's not that hard.  IMO the main tricky bit
-> > would be try be somewhat careful about defining exactly what
-> > CAP_BPF_ADMIN does.
->
-> Agreed. I think defining CAP_BPF_ADMIN could be a good topic for the
-> Plumbers conference.
->
-> OTOH, I don't think we have to wait for CAP_BPF_ADMIN to allow daemons
-> like systemd to do sys_bpf() without root.
-
-I don't understand the use case here.  Are you talking about systemd
---user?  As far as I know, a user is expected to be able to fully
-control their systemd --user process, so giving it unrestricted bpf
-access is very close to giving it superuser access, and this doesn't
-sound like a good idea.  I think that, if systemd --user needs bpf(),
-it either needs real unprivileged bpf() or it needs a privileged
-helper (SUID or a daemon) to intermediate this access.
-
->
+> > The underlying idea is to be able to restrict scripts interpretation
+> > according to a policy defined by the system administrator.  For this to
+> > be possible, script interpreters must use the O_MAYEXEC flag
+> > appropriately.  To be fully effective, these interpreters also need to
+> > handle the other ways to execute code (for which the kernel can't help)=
+:
+> > command line parameters (e.g., option -e for Perl), module loading
+> > (e.g., option -m for Python), stdin, file sourcing, environment
+> > variables, configuration files...  According to the threat model, it ma=
+y
+> > be acceptable to allow some script interpreters (e.g. Bash) to interpre=
+t
+> > commands from stdin, may it be a TTY or a pipe, because it may not be
+> > enough to (directly) perform syscalls.
 > >
-> >>> I don't see why you need to invent a whole new mechanism for this.
-> >>> The entire cgroup ecosystem outside bpf() does just fine using the
-> >>> write permission on files in cgroupfs to control access.  Why can't
-> >>> bpf() do the same thing?
-> >>
-> >> It is easier to use write permission for BPF_PROG_ATTACH. But it is
-> >> not easy to do the same for other bpf commands: BPF_PROG_LOAD and
-> >> BPF_MAP_*. A lot of these commands don't have target concept. Maybe
-> >> we should have target concept for all these commands. But that is a
-> >> much bigger project. OTOH, "all or nothing" model allows all these
-> >> commands at once.
+> > A simple security policy implementation is available in a following
+> > patch for Yama.
 > >
-> > For BPF_PROG_LOAD, I admit I've never understood why permission is
-> > required at all.  I think that CAP_SYS_ADMIN or similar should be
-> > needed to get is_priv in the verifier, but I think that should mainly
-> > be useful for tracing, and that requires lots of privilege anyway.
-> > BPF_MAP_* is probably the trickiest part.  One solution would be some
-> > kind of bpffs, but I'm sure other solutions are possible.
+> > This is an updated subset of the patch initially written by Vincent
+> > Strubel for CLIP OS:
+> > https://github.com/clipos-archive/src_platform_clip-patches/blob/f5cb33=
+0d6b684752e403b4e41b39f7004d88e561/1901_open_mayexec.patch
+> > This patch has been used for more than 10 years with customized script
+> > interpreters.  Some examples can be found here:
+> > https://github.com/clipos-archive/clipos4_portage-overlay/search?q=3DO_=
+MAYEXEC
+> >
+> > Signed-off-by: Micka=C3=ABl Sala=C3=BCn <mic@digikod.net>
+> > Signed-off-by: Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>
+> > Signed-off-by: Vincent Strubel <vincent.strubel@ssi.gouv.fr>
+> > Reviewed-by: Philippe Tr=C3=A9buchet <philippe.trebuchet@ssi.gouv.fr>
+> > Cc: Al Viro <viro@zeniv.linux.org.uk>
+> > Cc: Kees Cook <keescook@chromium.org>
+> > Cc: Micka=C3=ABl Sala=C3=BCn <mickael.salaun@ssi.gouv.fr>
 >
-> Improving permission management of cgroup_bpf is another good topic to
-> discuss. However, it is also an overkill for current use case.
+> ...
+>
+> > diff --git a/fs/open.c b/fs/open.c
+> > index 0285ce7dbd51..75479b79a58f 100644
+> > --- a/fs/open.c
+> > +++ b/fs/open.c
+> > @@ -974,6 +974,10 @@ static inline int build_open_flags(int flags, umod=
+e_t mode, struct open_flags *o
+> >       if (flags & O_APPEND)
+> >               acc_mode |=3D MAY_APPEND;
+> >
+> > +     /* Check execution permissions on open. */
+> > +     if (flags & O_MAYEXEC)
+> > +             acc_mode |=3D MAY_OPENEXEC;
+> > +
+> >       op->acc_mode =3D acc_mode;
+> >
+> >       op->intent =3D flags & O_PATH ? 0 : LOOKUP_OPEN;
+>
+> I don't feel experienced enough in security to tell whether we want this
+> functionality or not. But if we do this, shouldn't we also set FMODE_EXEC
+> on the resulting struct file? That way also security_file_open() can be
+> used to arbitrate such executable opens and in particular
+> fanotify permission event FAN_OPEN_EXEC will get properly generated which=
+ I
+> guess is desirable (support for it is sitting in my tree waiting for the
+> merge window) - adding some audit people involved in FAN_OPEN_EXEC to
+> CC. Just an idea...
 >
 
-I looked at the code some more, and I don't think this is so hard
-after all.  As I understand it, all of the map..by_id stuff is, to
-some extent, deprecated in favor of persistent maps.  As I see it, the
-map..by_id calls should require privilege forever, although I can
-imagine ways to scope that privilege to a namespace if the maps
-themselves were to be scoped to a namespace.
+I would really like to land this patch.  I'm fiddling with making
+bpffs handle permissions intelligently, and the lack of a way to say
+"hey, I want to open this bpf program so that I can run it" is
+annoying.
 
-Instead, unprivileged tools would use the persistent map interface
-roughly like this:
-
-$ bpftool map create /sys/fs/bpf/my_dir/filename type hash key 8 value
-8 entries 64 name mapname
-
-This would require that the caller have either CAP_DAC_OVERRIDE or
-that the caller have permission to create files in /sys/fs/bpf/my_dir
-(using the same rules as for any filesystem), and the resulting map
-would end up owned by the creating user and have mode 0600 (or maybe
-0666, or maybe a new bpf_attr parameter) modified by umask.  Then all
-the various capable() checks that are currently involved in accessing
-a persistent map would instead check FMODE_READ or FMODE_WRITE on the
-map file as appropriate.
-
-Half of this stuff already works.  I just set my system up like this:
-
-$ ls -l /sys/fs/bpf
-total 0
-drwxr-xr-x. 3 luto luto 0 Aug  4 15:10 luto
-
-$ mkdir /sys/fs/bpf/luto/test
-
-$ ls -l /sys/fs/bpf/luto
-total 0
-drwxrwxr-x. 2 luto luto 0 Aug  4 15:10 test
-
-I bet that making the bpf() syscalls work appropriately in this
-context without privilege would only be a couple of hours of work.
-The hard work, creating bpffs and making it function, is already done
-:)
-
-P.S. The docs for bpftool create are less than fantastic.  The
-complete lack of any error message at all when the syscall returns
--EACCES is also not fantastic.
+--Andy
