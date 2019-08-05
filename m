@@ -2,322 +2,284 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5239F8138D
-	for <lists+linux-api@lfdr.de>; Mon,  5 Aug 2019 09:37:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 70C56813B6
+	for <lists+linux-api@lfdr.de>; Mon,  5 Aug 2019 09:55:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727559AbfHEHhR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 5 Aug 2019 03:37:17 -0400
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30]:15114 "EHLO
-        mx0a-00082601.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726394AbfHEHhR (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 5 Aug 2019 03:37:17 -0400
-Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
-        by m0001303.ppops.net (8.16.0.27/8.16.0.27) with SMTP id x757VSn0003935;
-        Mon, 5 Aug 2019 00:36:53 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=facebook;
- bh=omjDMBNfqUxM0LXx5+WLNfPqkBvrFjhTpCvj6pVmqX0=;
- b=hWa63ADyWIAumFH6iPhNu/HTqwReaOEfmpBdqSaNaA5V3qCL3DxnXDDSu+6u+hNp7R8r
- 13FH8pm5T0jkFfxHhiGZoeTv7wv7crfgOjdcHEuOcD18ypS6lCpaHZbY7GTWGLJchjvp
- zWCmJpaAqDN7X59M7dg7eIAzXD2WR6nRo/M= 
-Received: from maileast.thefacebook.com ([163.114.130.16])
-        by m0001303.ppops.net with ESMTP id 2u55xdw7cj-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-        Mon, 05 Aug 2019 00:36:53 -0700
-Received: from ash-exhub102.TheFacebook.com (2620:10d:c0a8:82::f) by
- ash-exhub102.TheFacebook.com (2620:10d:c0a8:82::f) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Mon, 5 Aug 2019 00:36:52 -0700
-Received: from NAM01-BN3-obe.outbound.protection.outlook.com (100.104.31.183)
- by o365-in.thefacebook.com (100.104.35.172) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
- via Frontend Transport; Mon, 5 Aug 2019 00:36:51 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KtzVV7ek7qN4qp0MH9SMHhFbw5Hahj2eFN8usVAOxRWlrAF8xFEg8LJUr7RTqFKqpn2CFovg9lhZXlb/2X6cLx9L37NY7MBSCHkowb/IR/RYsqY0zg5RtkhpMEbEa4aZJ1dfahSp2Rcaa0qQ7ta9A/TMfdFc2w5oexvZSE8NkfFUG+nLL5YrPK6GR0KDFumlVw0t3Eu+80ihwcigiSSDEna1L2razLCIRatP6QESUGe20c27uwL0nP/+orrUCUcplBhQnF8nwZUpDqPar3bk0E/hARzGqJEVbgMp8LO74RZLpSJHeu5O/9Qwx/DbXaQxFtKEzGQaKHSMd+fzgFwQow==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=omjDMBNfqUxM0LXx5+WLNfPqkBvrFjhTpCvj6pVmqX0=;
- b=XG8JeLIYgq9JJ8ayDR2Unlg9JGbQBJX0kszl3vwmjnzOhL/ZkAIF7mpubxqIyEUmEbXSD3YXQJq6sAzTUXGVLvAZ0sqaytdpGopd1IlmQMlE+H3QB3cG6nv1cAbNlyhd785uv4DnZ3qCIQLwkRuHNuzQq/SrDsbxW3qP4LCOYof5XTgYbRmDIPQzkpgr8jCzZxGp7HMbE8YnDzemY1tQxXP+6ssBMlbEAm/MuhC65k2vEXBwgphcspRXAcF9jb65yDyl1QZkp4xW9utHyWn5TUW4poeJQKOJurC+wJlQ9upWM1hROptsR+G7FA6C8cK0n5Jz4qPZLx8kH49XIygEoQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
- smtp.mailfrom=fb.com;dmarc=pass action=none header.from=fb.com;dkim=pass
- header.d=fb.com;arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
- s=selector2-fb-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=omjDMBNfqUxM0LXx5+WLNfPqkBvrFjhTpCvj6pVmqX0=;
- b=gcQE4cH6vtVp2SsNjPhAL3rFd4EPMSd5CxnmyUa/D8iicN8nlgz3b7asJBJSF6KkcflYoE8HxamGGGHlTY+p2WAyxOyqZQlYU70f4lypS4m+jbVt+BI17fbkZJp/kBORQKBw9KudUO7CNbR/tb+n4NvOtgd1jhKKEHkwB0i1Ssc=
-Received: from MWHPR15MB1165.namprd15.prod.outlook.com (10.175.3.22) by
- MWHPR15MB1822.namprd15.prod.outlook.com (10.174.98.7) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2136.19; Mon, 5 Aug 2019 07:36:50 +0000
-Received: from MWHPR15MB1165.namprd15.prod.outlook.com
- ([fe80::79c8:442d:b528:802d]) by MWHPR15MB1165.namprd15.prod.outlook.com
- ([fe80::79c8:442d:b528:802d%9]) with mapi id 15.20.2136.010; Mon, 5 Aug 2019
- 07:36:50 +0000
-From:   Song Liu <songliubraving@fb.com>
-To:     Andy Lutomirski <luto@kernel.org>
-CC:     Kees Cook <keescook@chromium.org>,
-        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        "Daniel Borkmann" <daniel@iogearbox.net>,
-        Kernel Team <Kernel-team@fb.com>,
-        "Lorenz Bauer" <lmb@cloudflare.com>, Jann Horn <jannh@google.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>
-Subject: Re: [PATCH v2 bpf-next 1/4] bpf: unprivileged BPF access via /dev/bpf
-Thread-Topic: [PATCH v2 bpf-next 1/4] bpf: unprivileged BPF access via
- /dev/bpf
-Thread-Index: AQHVLSW5611trSWWQEuGSg4xXBva46awKSYAgAFFJoCAAehSgIACJsgAgAEbzICAARNPgIAANGYAgB9j6wCAATKggIAAgfQAgAAt2QCAAFEqAIAFfSwAgAPZeACAAQAYAIAAxVOAgAC4LoCAAl7hgIAEHsgAgAAfGQCAAF7NAIAAHpUA
-Date:   Mon, 5 Aug 2019 07:36:50 +0000
-Message-ID: <EE7B7AE1-3D44-4561-94B9-E97A626A251D@fb.com>
-References: <20190627201923.2589391-1-songliubraving@fb.com>
- <20190627201923.2589391-2-songliubraving@fb.com>
- <21894f45-70d8-dfca-8c02-044f776c5e05@kernel.org>
- <3C595328-3ABE-4421-9772-8D41094A4F57@fb.com>
- <CALCETrWBnH4Q43POU8cQ7YMjb9LioK28FDEQf7aHZbdf1eBZWg@mail.gmail.com>
- <0DE7F23E-9CD2-4F03-82B5-835506B59056@fb.com>
- <CALCETrWBWbNFJvsTCeUchu3BZJ3SH3dvtXLUB2EhnPrzFfsLNA@mail.gmail.com>
- <201907021115.DCD56BBABB@keescook>
- <CALCETrXTta26CTtEDnzvtd03-WOGdXcnsAogP8JjLkcj4-mHvg@mail.gmail.com>
- <4A7A225A-6C23-4C0F-9A95-7C6C56B281ED@fb.com>
- <CALCETrX2bMnwC6_t4b_G-hzJSfMPrkK4YKs5ebcecv2LJ0rt3w@mail.gmail.com>
- <514D5453-0AEE-420F-AEB6-3F4F58C62E7E@fb.com>
- <1DE886F3-3982-45DE-B545-67AD6A4871AB@amacapital.net>
- <7F51F8B8-CF4C-4D82-AAE1-F0F28951DB7F@fb.com>
- <77354A95-4107-41A7-8936-D144F01C3CA4@fb.com>
- <369476A8-4CE1-43DA-9239-06437C0384C7@fb.com>
- <CALCETrUpVMrk7aaf0trfg9AfZ4fy279uJgZH7V+gZzjFw=hUxA@mail.gmail.com>
- <D4040C0C-47D6-4852-933C-59EB53C05242@fb.com>
- <CALCETrVoZL1YGUxx3kM-d21TWVRKdKw=f2B8aE5wc2zmX1cQ4g@mail.gmail.com>
- <5A2FCD7E-7F54-41E5-BFAE-BB9494E74F2D@fb.com>
- <CALCETrU7NbBnXXsw1B+DvTkfTVRBFWXuJ8cZERCCNvdFG6KqRw@mail.gmail.com>
- <CALCETrUjh6DdgW1qSuSRd1_=0F9CqB8+sNj__e_6AHEvh_BaxQ@mail.gmail.com>
- <CALCETrWtE2U4EvZVYeq8pSmQjBzF2PHH+KxYW8FSeF+W=1FYjw@mail.gmail.com>
-In-Reply-To: <CALCETrWtE2U4EvZVYeq8pSmQjBzF2PHH+KxYW8FSeF+W=1FYjw@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3445.104.11)
-x-originating-ip: [2620:10d:c090:180::57fe]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 544029af-a631-429e-99a2-08d71977ae06
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:MWHPR15MB1822;
-x-ms-traffictypediagnostic: MWHPR15MB1822:
-x-ms-exchange-purlcount: 1
-x-microsoft-antispam-prvs: <MWHPR15MB182283AE5E82D8588A598536B3DA0@MWHPR15MB1822.namprd15.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 01208B1E18
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(376002)(136003)(366004)(39860400002)(346002)(396003)(199004)(189003)(51444003)(6512007)(966005)(14454004)(68736007)(5024004)(14444005)(256004)(486006)(186003)(25786009)(46003)(99286004)(71190400001)(71200400001)(2616005)(476003)(446003)(11346002)(4326008)(86362001)(478600001)(6306002)(76116006)(66946007)(91956017)(66446008)(57306001)(229853002)(66556008)(53546011)(6506007)(64756008)(316002)(54906003)(102836004)(5660300002)(33656002)(76176011)(7416002)(6486002)(6436002)(66476007)(6916009)(36756003)(53936002)(6246003)(50226002)(81166006)(81156014)(8676002)(6116002)(8936002)(305945005)(2906002)(7736002);DIR:OUT;SFP:1102;SCL:1;SRVR:MWHPR15MB1822;H:MWHPR15MB1165.namprd15.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: fb.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: PznA9JhQTUSvduI8FzKd3fMspUBEFdykwKWtfmaGBwvgIBGJ6t0DVJPTVknjehC+fg5ItCQOBJhqcERZ70jpvRTu2cgoV33wm3USF7dM5mzq81yHaGnVSciPhfG+NgLnS/KRTiH4N0/0HKeia6ydW52lfdxiz2ItRW7lxMGdNfJUZzl8GbZarp7EyjOpdmJ4Ux37yQvdPatiRBIUN9EOEJH87OTmZ9UAc5OsXvu51megkOqMHtrWqbwt5SJ3VNeRQLy1HnhDMGsxs8/HJDk/m0em8humRaJnlzuXVZOMLfAekwBbjNMTi6VU6dQkDf+G3zKiU45hFlTRi76hwQUJi16DtRjS0hSdpHFbUy0sxBKSILNptpCq/IKFqKqjLhiRFj4BljEIC49apjBzexv4zCdRB4RNv4HR0wqllCunJRA=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <929F87C777254648A2737B8F6F5EF976@namprd15.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+        id S1726656AbfHEHz5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 5 Aug 2019 03:55:57 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:40266 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726394AbfHEHz5 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 5 Aug 2019 03:55:57 -0400
+Received: by mail-pl1-f195.google.com with SMTP id a93so36087898pla.7;
+        Mon, 05 Aug 2019 00:55:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=GBNssX1bMqNwZuTT2aXjIxOqWduoE+LBh8Ztzf4N6oQ=;
+        b=tm6N87dhYHIAEbxEoy1HHkioi5rH39Ke3r/VrlQqfkwdGu1vwyKT4LOes5F3vdfzRZ
+         QXx6rq30FRBNIUF3tG4TcybP/rP/ADn3UWG54enC6hq5D4PWuLkfjvgKa5Wo+xt5GeIS
+         UUWEyThwWTZ8b96DfSdDD+im57ytDv+o9v9QpWWXMG1dQ3fGMa3XfHtp54FktA2xO/0q
+         NLiBXKd7Jrs2mJxD1aRn5yDijrYQ1iH2gAFLgbSDXb1o/n0TYYt9yedrcGYp2a+Xc+YQ
+         hBBbcpZGFswP55MSgnjuHvZKFbQ4h0/5H5b+SD6Igezo9aOdxOqXFka++m0zGSLmjasD
+         0cfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=GBNssX1bMqNwZuTT2aXjIxOqWduoE+LBh8Ztzf4N6oQ=;
+        b=uQSX9MwqjnQ528EIc34IP/AMawzmkfdB8I+sEQv7rDeajjnx7pD2xiZ0iYfofNHvdk
+         b/ppnIp71fr2nnWR0dLXH8BuFRl+BdXoNZjdj0gRVGrsRzWHMlXbLLRD/Pd3nzwMapkL
+         eQb7bnwmd1IQhODPqMgbrYv11ZlgTN8ygGI24byC6QJCE1S8knzUT6RJKzvn3m2fBDux
+         avgiGZNpOlwkMlN5gLKtR2LnqCxYo/fs/Wts3iAB4NvtZUfQtFINlNfufN9QMEBr/P55
+         igTZW10yFAw2w+vwxDq87HmNPmwM5c23eKI+zpdTPbE4OXP9L8N+78L3+nLB9YMJDbtz
+         d4jw==
+X-Gm-Message-State: APjAAAWkBrHO7DzYSU3gofgIN1ov6Sph6QAKwSxHqcDTbVwqZ/tPjrK9
+        LQs53hDCm/Bl37lvGQ9zk9I=
+X-Google-Smtp-Source: APXvYqwrIdb5V4XLj2mWxoROgMr9ehjgpGMOkAhx5G5NUWMC3q3ieyB2ylBmkKu83M7kCJtegUPuPA==
+X-Received: by 2002:a17:902:124:: with SMTP id 33mr146390064plb.145.1564991755961;
+        Mon, 05 Aug 2019 00:55:55 -0700 (PDT)
+Received: from google.com ([2401:fa00:d:0:98f1:8b3d:1f37:3e8])
+        by smtp.gmail.com with ESMTPSA id e5sm13241222pgt.91.2019.08.05.00.55.49
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Mon, 05 Aug 2019 00:55:54 -0700 (PDT)
+Date:   Mon, 5 Aug 2019 16:55:47 +0900
+From:   Minchan Kim <minchan@kernel.org>
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Brendan Gregg <bgregg@netflix.com>,
+        Christian Hansen <chansen3@cisco.com>, dancol@google.com,
+        fmayer@google.com, joaodias@google.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Rapoport <rppt@linux.ibm.com>, namhyung@google.com,
+        Roman Gushchin <guro@fb.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>, surenb@google.com,
+        tkjos@google.com, Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Vlastimil Babka <vbabka@suse.cz>, wvw@google.com
+Subject: Re: [PATCH v3 1/2] mm/page_idle: Add per-pid idle page tracking
+ using virtual indexing
+Message-ID: <20190805075547.GA196934@google.com>
+References: <20190726152319.134152-1-joel@joelfernandes.org>
+ <20190731085335.GD155569@google.com>
+ <20190731171937.GA75376@google.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 544029af-a631-429e-99a2-08d71977ae06
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Aug 2019 07:36:50.5506
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: songliubraving@fb.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR15MB1822
-X-OriginatorOrg: fb.com
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-08-05_03:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1906280000 definitions=main-1908050087
-X-FB-Internal: deliver
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190731171937.GA75376@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Andy,=20
+Hi Joel,
 
-> On Aug 4, 2019, at 10:47 PM, Andy Lutomirski <luto@kernel.org> wrote:
->=20
-> On Sun, Aug 4, 2019 at 5:08 PM Andy Lutomirski <luto@kernel.org> wrote:
->>=20
->> On Sun, Aug 4, 2019 at 3:16 PM Andy Lutomirski <luto@kernel.org> wrote:
->>>=20
->>> On Fri, Aug 2, 2019 at 12:22 AM Song Liu <songliubraving@fb.com> wrote:
->>>>=20
->>>> Hi Andy,
->>>>=20
->>>>> I actually agree CAP_BPF_ADMIN makes sense. The hard part is to make
->>>>>> existing tools (setcap, getcap, etc.) and libraries aware of the new=
- CAP.
->>>>>=20
->>>>> It's been done before -- it's not that hard.  IMO the main tricky bit
->>>>> would be try be somewhat careful about defining exactly what
->>>>> CAP_BPF_ADMIN does.
->>>>=20
->>>> Agreed. I think defining CAP_BPF_ADMIN could be a good topic for the
->>>> Plumbers conference.
->>>>=20
->>>> OTOH, I don't think we have to wait for CAP_BPF_ADMIN to allow daemons
->>>> like systemd to do sys_bpf() without root.
->>>=20
->>> I don't understand the use case here.  Are you talking about systemd
->>> --user?  As far as I know, a user is expected to be able to fully
->>> control their systemd --user process, so giving it unrestricted bpf
->>> access is very close to giving it superuser access, and this doesn't
->>> sound like a good idea.  I think that, if systemd --user needs bpf(),
->>> it either needs real unprivileged bpf() or it needs a privileged
->>> helper (SUID or a daemon) to intermediate this access.
->>>=20
->>>>=20
->>>>>=20
->>>>>>> I don't see why you need to invent a whole new mechanism for this.
->>>>>>> The entire cgroup ecosystem outside bpf() does just fine using the
->>>>>>> write permission on files in cgroupfs to control access.  Why can't
->>>>>>> bpf() do the same thing?
->>>>>>=20
->>>>>> It is easier to use write permission for BPF_PROG_ATTACH. But it is
->>>>>> not easy to do the same for other bpf commands: BPF_PROG_LOAD and
->>>>>> BPF_MAP_*. A lot of these commands don't have target concept. Maybe
->>>>>> we should have target concept for all these commands. But that is a
->>>>>> much bigger project. OTOH, "all or nothing" model allows all these
->>>>>> commands at once.
->>>>>=20
->>>>> For BPF_PROG_LOAD, I admit I've never understood why permission is
->>>>> required at all.  I think that CAP_SYS_ADMIN or similar should be
->>>>> needed to get is_priv in the verifier, but I think that should mainly
->>>>> be useful for tracing, and that requires lots of privilege anyway.
->>>>> BPF_MAP_* is probably the trickiest part.  One solution would be some
->>>>> kind of bpffs, but I'm sure other solutions are possible.
->>>>=20
->>>> Improving permission management of cgroup_bpf is another good topic to
->>>> discuss. However, it is also an overkill for current use case.
->>>>=20
->>>=20
->>> I looked at the code some more, and I don't think this is so hard
->>> after all.  As I understand it, all of the map..by_id stuff is, to
->>> some extent, deprecated in favor of persistent maps.  As I see it, the
->>> map..by_id calls should require privilege forever, although I can
->>> imagine ways to scope that privilege to a namespace if the maps
->>> themselves were to be scoped to a namespace.
->>>=20
->>> Instead, unprivileged tools would use the persistent map interface
->>> roughly like this:
->>>=20
->>> $ bpftool map create /sys/fs/bpf/my_dir/filename type hash key 8 value
->>> 8 entries 64 name mapname
->>>=20
->>> This would require that the caller have either CAP_DAC_OVERRIDE or
->>> that the caller have permission to create files in /sys/fs/bpf/my_dir
->>> (using the same rules as for any filesystem), and the resulting map
->>> would end up owned by the creating user and have mode 0600 (or maybe
->>> 0666, or maybe a new bpf_attr parameter) modified by umask.  Then all
->>> the various capable() checks that are currently involved in accessing
->>> a persistent map would instead check FMODE_READ or FMODE_WRITE on the
->>> map file as appropriate.
->>>=20
->>> Half of this stuff already works.  I just set my system up like this:
->>>=20
->>> $ ls -l /sys/fs/bpf
->>> total 0
->>> drwxr-xr-x. 3 luto luto 0 Aug  4 15:10 luto
->>>=20
->>> $ mkdir /sys/fs/bpf/luto/test
->>>=20
->>> $ ls -l /sys/fs/bpf/luto
->>> total 0
->>> drwxrwxr-x. 2 luto luto 0 Aug  4 15:10 test
->>>=20
->>> I bet that making the bpf() syscalls work appropriately in this
->>> context without privilege would only be a couple of hours of work.
->>> The hard work, creating bpffs and making it function, is already done
->>> :)
->>>=20
->>> P.S. The docs for bpftool create are less than fantastic.  The
->>> complete lack of any error message at all when the syscall returns
->>> -EACCES is also not fantastic.
->>=20
->> This isn't remotely finished, but I spent a bit of time fiddling with th=
-is:
->>=20
->> https://git.kernel.org/pub/scm/linux/kernel/git/luto/linux.git/commit/?h=
-=3Dbpf/perms
->>=20
->> What do you think?  (It's obviously not done.  It doesn't compile, and
->> I haven't gotten to the permissions needed to do map operations.  I
->> also haven't touched the capable() checks.)
->=20
-> I updated the branch.  It compiles, and basic map functionality works!
+On Wed, Jul 31, 2019 at 01:19:37PM -0400, Joel Fernandes wrote:
+> > > -static struct page *page_idle_get_page(unsigned long pfn)
+> > > +static struct page *page_idle_get_page(struct page *page_in)
+> > 
+> > Looks weird function name after you changed the argument.
+> > Maybe "bool check_valid_page(struct page *page)"?
+> 
+> 
+> I don't think so, this function does a get_page_unless_zero() on the page as well.
+> 
+> > >  {
+> > >  	struct page *page;
+> > >  	pg_data_t *pgdat;
+> > >  
+> > > -	if (!pfn_valid(pfn))
+> > > -		return NULL;
+> > > -
+> > > -	page = pfn_to_page(pfn);
+> > > +	page = page_in;
+> > >  	if (!page || !PageLRU(page) ||
+> > >  	    !get_page_unless_zero(page))
+> > >  		return NULL;
+> > > @@ -51,6 +49,18 @@ static struct page *page_idle_get_page(unsigned long pfn)
+> > >  	return page;
+> > >  }
+> > >  
+> > > +/*
+> > > + * This function tries to get a user memory page by pfn as described above.
+> > > + */
+> > > +static struct page *page_idle_get_page_pfn(unsigned long pfn)
+> > 
+> > So we could use page_idle_get_page name here.
+> 
+> 
+> Based on above comment, I prefer to keep same name. Do you agree?
 
-Thanks a lot for trying this out. This is a very interesting direction
-that we will explore.=20
+Yes, I agree. Just please add a comment about refcount in the description
+on page_idle_get_page.
 
->=20
-> # mount -t bpf bpf /sys/fs/bpf
-> # cd /sys/fs/bpf
-> # mkdir luto
-> # chown luto: luto
-> # setpriv --euid=3D1000 --ruid=3D1000 bash
-> $ pwd
-> /sys/fs/bpf
-> bash-5.0$ ls -l
-> total 0
-> drwxr-xr-x 2 luto luto 0 Aug  4 22:41 luto
-> bash-5.0$ bpftool map create /sys/fs/bpf/luto/filename type hash key 8
-> value 8 entries 64 name mapname
-> bash-5.0$ bpftool map dump pinned /sys/fs/bpf/luto/filename
-> Found 0 elements
->=20
-> # chown root: /sys/fs/bpf/luto/filename
->=20
-> $ bpftool map dump pinned /sys/fs/bpf/luto/filename
-> Error: bpf obj get (/sys/fs/bpf/luto): Permission denied
->=20
-> So I think it's possible to get a respectable subset of bpf()
-> functionality working without privilege in short order :)
+> 
+> 
+> > > +	return page_idle_get_page(pfn_to_page(pfn));
+> > > +}
+> > > +
+> > >  static bool page_idle_clear_pte_refs_one(struct page *page,
+> > >  					struct vm_area_struct *vma,
+> > >  					unsigned long addr, void *arg)
+> > > @@ -118,6 +128,47 @@ static void page_idle_clear_pte_refs(struct page *page)
+> > >  		unlock_page(page);
+> > >  }
+> > >  
+> > > +/* Helper to get the start and end frame given a pos and count */
+> > > +static int page_idle_get_frames(loff_t pos, size_t count, struct mm_struct *mm,
+> > > +				unsigned long *start, unsigned long *end)
+> > > +{
+> > > +	unsigned long max_frame;
+> > > +
+> > > +	/* If an mm is not given, assume we want physical frames */
+> > > +	max_frame = mm ? (mm->task_size >> PAGE_SHIFT) : max_pfn;
+> > > +
+> > > +	if (pos % BITMAP_CHUNK_SIZE || count % BITMAP_CHUNK_SIZE)
+> > > +		return -EINVAL;
+> > > +
+> > > +	*start = pos * BITS_PER_BYTE;
+> > > +	if (*start >= max_frame)
+> > > +		return -ENXIO;
+> > > +
+> > > +	*end = *start + count * BITS_PER_BYTE;
+> > > +	if (*end > max_frame)
+> > > +		*end = max_frame;
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static bool page_really_idle(struct page *page)
+> > 
+> > Just minor:
+> > Instead of creating new API, could we combine page_is_idle with
+> > introducing furthere argument pte_check?
+> 
+> 
+> I cannot see in the code where pte_check will be false when this is called? I
+> could rename the function to page_idle_check_ptes() if that's Ok with you.
 
-I think we have two key questions to answer:=20
-  1. What subset of bpf() functionality will the users need?
-  2. Who are the users?=20
+What I don't like is _*really*_ part of the funcion name.
 
-Different answers to these two questions lead to different directions.
+I see several page_is_idle calls in huge_memory.c, migration.c, swap.c.
+They could just check only page flag so they could use "false" with pte_check.
 
+< snip >
+ 
+> > > +ssize_t page_idle_proc_generic(struct file *file, char __user *ubuff,
+> > > +			       size_t count, loff_t *pos,
+> > > +			       struct task_struct *tsk, int write)
+> > > +{
+> > > +	int ret;
+> > > +	char *buffer;
+> > > +	u64 *out;
+> > > +	unsigned long start_addr, end_addr, start_frame, end_frame;
+> > > +	struct mm_struct *mm = file->private_data;
+> > > +	struct mm_walk walk = { .pmd_entry = pte_page_idle_proc_range, };
+> > > +	struct page_node *cur;
+> > > +	struct page_idle_proc_priv priv;
+> > > +	bool walk_error = false;
+> > > +	LIST_HEAD(idle_page_list);
+> > > +
+> > > +	if (!mm || !mmget_not_zero(mm))
+> > > +		return -EINVAL;
+> > > +
+> > > +	if (count > PAGE_SIZE)
+> > > +		count = PAGE_SIZE;
+> > > +
+> > > +	buffer = kzalloc(PAGE_SIZE, GFP_KERNEL);
+> > > +	if (!buffer) {
+> > > +		ret = -ENOMEM;
+> > > +		goto out_mmput;
+> > > +	}
+> > > +	out = (u64 *)buffer;
+> > > +
+> > > +	if (write && copy_from_user(buffer, ubuff, count)) {
+> > > +		ret = -EFAULT;
+> > > +		goto out;
+> > > +	}
+> > > +
+> > > +	ret = page_idle_get_frames(*pos, count, mm, &start_frame, &end_frame);
+> > > +	if (ret)
+> > > +		goto out;
+> > > +
+> > > +	start_addr = (start_frame << PAGE_SHIFT);
+> > > +	end_addr = (end_frame << PAGE_SHIFT);
+> > > +	priv.buffer = buffer;
+> > > +	priv.start_addr = start_addr;
+> > > +	priv.write = write;
+> > > +
+> > > +	priv.idle_page_list = &idle_page_list;
+> > > +	priv.cur_page_node = 0;
+> > > +	priv.page_nodes = kzalloc(sizeof(struct page_node) *
+> > > +				  (end_frame - start_frame), GFP_KERNEL);
+> > > +	if (!priv.page_nodes) {
+> > > +		ret = -ENOMEM;
+> > > +		goto out;
+> > > +	}
+> > > +
+> > > +	walk.private = &priv;
+> > > +	walk.mm = mm;
+> > > +
+> > > +	down_read(&mm->mmap_sem);
+> > > +
+> > > +	/*
+> > > +	 * idle_page_list is needed because walk_page_vma() holds ptlock which
+> > > +	 * deadlocks with page_idle_clear_pte_refs(). So we have to collect all
+> > > +	 * pages first, and then call page_idle_clear_pte_refs().
+> > > +	 */
+> > 
+> > Thanks for the comment, I was curious why you want to have
+> > idle_page_list and the reason is here.
+> > 
+> > How about making this /proc/<pid>/page_idle per-process granuariy,
+> > unlike system level /sys/xxx/page_idle? What I meant is not to check
+> > rmap to see any reference from random process but just check only
+> > access from the target process. It would be more proper as /proc/
+> > <pid>/ interface and good for per-process tracking as well as
+> > fast.
+> 
+> 
+> I prefer not to do this for the following reasons:
+> (1) It makes a feature lost, now accesses to shared pages will not be
+> accounted properly. 
 
-In our use case, the answers are=20
-  1) almost all bpf() functionality
-  2) highly trusted users (sudoers)
+Do you really want to check global attribute by per-process interface?
+That would be doable with existing idle page tracking feature and that's
+the one of reasons page idle tracking was born(e.g. even, page cache
+for non-mapped) unlike clear_refs.
+Once we create a new interface by per-process, just checking the process
+-granuariy access check sounds more reasonable to me.
 
-So our initial approach of /dev/bpf allows all bpf() functionality
-in one bit in task_struct. (Yes, we can just sudo. But, we would=20
-rather not use sudo when possible.)
+With that, we could catch only idle pages of the target process even though
+the page was touched by several other processes.
+If the user want to know global level access point, they could use
+exisint interface(If there is a concern(e.g., security) to use existing
+idle page tracking, let's discuss it as other topic how we could make
+existing feature more useful).
 
+IOW, my point is that we already have global access check(1. from ptes
+among several processes, 2. from page flag for non-mapped pages) feature
+from from existing idle page tracking interface and now we are about to create
+new interface for per-process wise so I wanted to create a particular
+feature which cannot be covered by existing iterface.
 
-"cgroup management" use case may have answers like:
-  1) cgroup_bpf only
-  2) users in their own containers
+> 
+> (2) It makes it inconsistent with other idle page tracking mechanism. I
 
-For this case, getting cgroup_bpf related features (cgroup_bpf progs;=20
-some map types, etc.) work with unprivileged users would be the right=20
-direction.=20
+That's the my comment to create different idle page tracking we couldn't
+do with existing interface.
 
+> prefer if post per-process. At the heart of it, the tracking is always at the
 
-"USDT tracing" use case may have answers like:
-  1) uprobe, stockmap, histogram, etc.
-  2) unprivileged user, w/ or w/o containers
+What does it mean "post per-process"?
 
-For this case, the first step is likely hacking sys_perf_event_open().=20
+> physical page level -- I feel that is how it should be. Other drawback, is
+> also we have to document this subtlety.
 
-
-I guess we will need more discussions to decide how to make bpf()=20
-work better for all these (and more) use cases.=20
-
-Thanks,
-Song
-
+Sorry, Could you elaborate it a bit?
