@@ -2,162 +2,154 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C0960823A2
-	for <lists+linux-api@lfdr.de>; Mon,  5 Aug 2019 19:05:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F2F1823EA
+	for <lists+linux-api@lfdr.de>; Mon,  5 Aug 2019 19:23:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730148AbfHERFV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 5 Aug 2019 13:05:21 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:42055 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730096AbfHERFU (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 5 Aug 2019 13:05:20 -0400
-Received: by mail-pl1-f194.google.com with SMTP id ay6so36756858plb.9
-        for <linux-api@vger.kernel.org>; Mon, 05 Aug 2019 10:05:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=EpW+/zsfaWUWqnp/CzJ8iSD2ZsdUd34jJeLFlQmjMJk=;
-        b=hgyWzkgSkWIkAiyvGZ+G+xjb4IZCoTupPLFm8KMlB2b4hKbMxa1b+uIr1iRdua+wqE
-         QC4A3wju5EZMPMzUeRrpvG6gxy5MEYfQ82W1fGN8SHtXC5yuCxMcBGlIpCV6ZH3OP4zQ
-         UMkuRWp/Da9107v0m9+9yab3KvcgH65HHQUcA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=EpW+/zsfaWUWqnp/CzJ8iSD2ZsdUd34jJeLFlQmjMJk=;
-        b=oHm1Fd89+nCvipbd1JPwhM5e6uB3duGoHl7VPU4NzvRreFTPOKCPvY25PHUXgEu5ae
-         PzhlqrIXVgJlBy7OBz3W2gBU9Mxrbu0R0tiDGwuU0n+HRL6NeJmaWSuwjo1pebR0RXEV
-         FUDcM0IjoBujQI/nvgNu28YtuM4rxIA8v05DJkR4tliIjkUKRP+R5EI3m+oG2aWDlgOo
-         x0SNIuGeTE5IPAvHTP3WNviy4s968pV3vKlTkfcINj54jvwaNNdAEJn8q1Gg/mt0AyhP
-         x1xdHjpl6FtglpiE4Lj0eVphvUIEfcG1pASj4hA1gr2IAbUqE7BsOBmnBzCCUlgH60U8
-         CIgA==
-X-Gm-Message-State: APjAAAVhC2/yw0AlNW7+BrSE2nyS6e5hSoA35W3lplviTcdVYOEb1kSo
-        fnzpCK7VpdWYv+aJIRhNkMk=
-X-Google-Smtp-Source: APXvYqza5nQrNDdoUqGT6kyvYnC1EmmsZrzblP42jhwdV0CyAlqgihwZyUT70kUG+iUloT382Cjx7g==
-X-Received: by 2002:a17:902:9a95:: with SMTP id w21mr61715428plp.126.1565024719760;
-        Mon, 05 Aug 2019 10:05:19 -0700 (PDT)
-Received: from joelaf.cam.corp.google.com ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id p23sm89832934pfn.10.2019.08.05.10.05.16
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 05 Aug 2019 10:05:19 -0700 (PDT)
-From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Brendan Gregg <bgregg@netflix.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christian Hansen <chansen3@cisco.com>, dancol@google.com,
-        fmayer@google.com, "H. Peter Anvin" <hpa@zytor.com>,
-        Ingo Molnar <mingo@redhat.com>, joelaf@google.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        Michal Hocko <mhocko@suse.com>, minchan@kernel.org,
-        namhyung@google.com, paulmck@linux.ibm.com,
-        Robin Murphy <robin.murphy@arm.com>,
-        Roman Gushchin <guro@fb.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>, surenb@google.com,
-        Thomas Gleixner <tglx@linutronix.de>, tkjos@google.com,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>
-Subject: [PATCH v4 5/5] doc: Update documentation for page_idle virtual address indexing
-Date:   Mon,  5 Aug 2019 13:04:51 -0400
-Message-Id: <20190805170451.26009-5-joel@joelfernandes.org>
-X-Mailer: git-send-email 2.22.0.770.g0f2c4a37fd-goog
-In-Reply-To: <20190805170451.26009-1-joel@joelfernandes.org>
-References: <20190805170451.26009-1-joel@joelfernandes.org>
+        id S1728800AbfHERXZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 5 Aug 2019 13:23:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52736 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728701AbfHERXZ (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 5 Aug 2019 13:23:25 -0400
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id B6EB021871
+        for <linux-api@vger.kernel.org>; Mon,  5 Aug 2019 17:23:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1565025805;
+        bh=/jV+MMgIe5IgN16Vzs40LMFftcAjXyreuD0IqIMo9k0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=B72Y/3R4HCComSn5WRjVAxflCkHa9A3+RoV1i5m3VmdUbIr3pAFRlfXvj9AmiOKXw
+         JZjn1Sfub6F/xyhkgEWRvuhYMOEeF9pvxJrQK6KK/OTqKb3HwwpFGC47XTDdfbs505
+         K+PefjJWUi2Y+jjC/GWpASwuFD+TYO96+8HeTc0I=
+Received: by mail-wm1-f44.google.com with SMTP id l2so73742051wmg.0
+        for <linux-api@vger.kernel.org>; Mon, 05 Aug 2019 10:23:24 -0700 (PDT)
+X-Gm-Message-State: APjAAAVYUYv4bWuQoVHMLYcTxNQqsn+aVM+r/FNS/erOqeFsW+/CxX9d
+        EZn4Ph8yOuelsHYCzId1rcaXo7p8HKV7/d03Pctt9A==
+X-Google-Smtp-Source: APXvYqzbrZNl+et5W20TDUNPb9shoQcGV833hyVQWOpteUGntxDDkdbnf5VAC+8dawOZT/6K97LFH/mKfkzXIQNNQ3A=
+X-Received: by 2002:a1c:a942:: with SMTP id s63mr19397879wme.76.1565025803035;
+ Mon, 05 Aug 2019 10:23:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20190627201923.2589391-1-songliubraving@fb.com>
+ <20190627201923.2589391-2-songliubraving@fb.com> <21894f45-70d8-dfca-8c02-044f776c5e05@kernel.org>
+ <3C595328-3ABE-4421-9772-8D41094A4F57@fb.com> <CALCETrWBnH4Q43POU8cQ7YMjb9LioK28FDEQf7aHZbdf1eBZWg@mail.gmail.com>
+ <0DE7F23E-9CD2-4F03-82B5-835506B59056@fb.com> <CALCETrWBWbNFJvsTCeUchu3BZJ3SH3dvtXLUB2EhnPrzFfsLNA@mail.gmail.com>
+ <201907021115.DCD56BBABB@keescook> <CALCETrXTta26CTtEDnzvtd03-WOGdXcnsAogP8JjLkcj4-mHvg@mail.gmail.com>
+ <4A7A225A-6C23-4C0F-9A95-7C6C56B281ED@fb.com> <CALCETrX2bMnwC6_t4b_G-hzJSfMPrkK4YKs5ebcecv2LJ0rt3w@mail.gmail.com>
+ <514D5453-0AEE-420F-AEB6-3F4F58C62E7E@fb.com> <1DE886F3-3982-45DE-B545-67AD6A4871AB@amacapital.net>
+ <7F51F8B8-CF4C-4D82-AAE1-F0F28951DB7F@fb.com> <77354A95-4107-41A7-8936-D144F01C3CA4@fb.com>
+ <369476A8-4CE1-43DA-9239-06437C0384C7@fb.com> <CALCETrUpVMrk7aaf0trfg9AfZ4fy279uJgZH7V+gZzjFw=hUxA@mail.gmail.com>
+ <D4040C0C-47D6-4852-933C-59EB53C05242@fb.com> <CALCETrVoZL1YGUxx3kM-d21TWVRKdKw=f2B8aE5wc2zmX1cQ4g@mail.gmail.com>
+ <5A2FCD7E-7F54-41E5-BFAE-BB9494E74F2D@fb.com> <CALCETrU7NbBnXXsw1B+DvTkfTVRBFWXuJ8cZERCCNvdFG6KqRw@mail.gmail.com>
+ <CALCETrUjh6DdgW1qSuSRd1_=0F9CqB8+sNj__e_6AHEvh_BaxQ@mail.gmail.com>
+ <CALCETrWtE2U4EvZVYeq8pSmQjBzF2PHH+KxYW8FSeF+W=1FYjw@mail.gmail.com> <EE7B7AE1-3D44-4561-94B9-E97A626A251D@fb.com>
+In-Reply-To: <EE7B7AE1-3D44-4561-94B9-E97A626A251D@fb.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Mon, 5 Aug 2019 10:23:10 -0700
+X-Gmail-Original-Message-ID: <CALCETrXX-Jeb4wiQuL6FUai4wNMmMiUxuLLh_Lb9mT7h=0GgAw@mail.gmail.com>
+Message-ID: <CALCETrXX-Jeb4wiQuL6FUai4wNMmMiUxuLLh_Lb9mT7h=0GgAw@mail.gmail.com>
+Subject: Re: [PATCH v2 bpf-next 1/4] bpf: unprivileged BPF access via /dev/bpf
+To:     Song Liu <songliubraving@fb.com>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Kernel Team <Kernel-team@fb.com>,
+        Lorenz Bauer <lmb@cloudflare.com>,
+        Jann Horn <jannh@google.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This patch updates the documentation with the new page_idle tracking
-feature which uses virtual address indexing.
+On Mon, Aug 5, 2019 at 12:37 AM Song Liu <songliubraving@fb.com> wrote:
+>
+> Hi Andy,
+>
 
-Reviewed-by: Mike Rapoport <rppt@linux.ibm.com>
-Reviewed-by: Sandeep Patil <sspatil@google.com>
-Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
----
- .../admin-guide/mm/idle_page_tracking.rst     | 43 ++++++++++++++++---
- 1 file changed, 36 insertions(+), 7 deletions(-)
+> >
+> > # mount -t bpf bpf /sys/fs/bpf
+> > # cd /sys/fs/bpf
+> > # mkdir luto
+> > # chown luto: luto
+> > # setpriv --euid=1000 --ruid=1000 bash
+> > $ pwd
+> > /sys/fs/bpf
+> > bash-5.0$ ls -l
+> > total 0
+> > drwxr-xr-x 2 luto luto 0 Aug  4 22:41 luto
+> > bash-5.0$ bpftool map create /sys/fs/bpf/luto/filename type hash key 8
+> > value 8 entries 64 name mapname
+> > bash-5.0$ bpftool map dump pinned /sys/fs/bpf/luto/filename
+> > Found 0 elements
+> >
+> > # chown root: /sys/fs/bpf/luto/filename
+> >
+> > $ bpftool map dump pinned /sys/fs/bpf/luto/filename
+> > Error: bpf obj get (/sys/fs/bpf/luto): Permission denied
+> >
+> > So I think it's possible to get a respectable subset of bpf()
+> > functionality working without privilege in short order :)
+>
+> I think we have two key questions to answer:
+>   1. What subset of bpf() functionality will the users need?
+>   2. Who are the users?
+>
+> Different answers to these two questions lead to different directions.
+>
+>
+> In our use case, the answers are
+>   1) almost all bpf() functionality
+>   2) highly trusted users (sudoers)
+>
+> So our initial approach of /dev/bpf allows all bpf() functionality
+> in one bit in task_struct. (Yes, we can just sudo. But, we would
+> rather not use sudo when possible.)
 
-diff --git a/Documentation/admin-guide/mm/idle_page_tracking.rst b/Documentation/admin-guide/mm/idle_page_tracking.rst
-index df9394fb39c2..9eef32000f5e 100644
---- a/Documentation/admin-guide/mm/idle_page_tracking.rst
-+++ b/Documentation/admin-guide/mm/idle_page_tracking.rst
-@@ -19,10 +19,14 @@ It is enabled by CONFIG_IDLE_PAGE_TRACKING=y.
- 
- User API
- ========
-+There are 2 ways to access the idle page tracking API. One uses physical
-+address indexing, another uses a simpler virtual address indexing scheme.
- 
--The idle page tracking API is located at ``/sys/kernel/mm/page_idle``.
--Currently, it consists of the only read-write file,
--``/sys/kernel/mm/page_idle/bitmap``.
-+Physical address indexing
-+-------------------------
-+The idle page tracking API for physical address indexing using page frame
-+numbers (PFN) is located at ``/sys/kernel/mm/page_idle``.  Currently, it
-+consists of the only read-write file, ``/sys/kernel/mm/page_idle/bitmap``.
- 
- The file implements a bitmap where each bit corresponds to a memory page. The
- bitmap is represented by an array of 8-byte integers, and the page at PFN #i is
-@@ -74,6 +78,31 @@ See :ref:`Documentation/admin-guide/mm/pagemap.rst <pagemap>` for more
- information about ``/proc/pid/pagemap``, ``/proc/kpageflags``, and
- ``/proc/kpagecgroup``.
- 
-+Virtual address indexing
-+------------------------
-+The idle page tracking API for virtual address indexing using virtual frame
-+numbers (VFN) for a process ``<pid>`` is located at ``/proc/<pid>/page_idle``.
-+It is a bitmap that follows the same semantics as
-+``/sys/kernel/mm/page_idle/bitmap`` except that it uses virtual instead of
-+physical frame numbers.
-+
-+This idle page tracking API does not deal with PFN so it does not require prior
-+lookups of ``pagemap``. This is an advantage on some systems where looking up
-+PFN is considered a security issue.  Also in some cases, this interface could
-+be slightly more reliable to use than physical address indexing, since in
-+physical address indexing, address space changes can occur between reading the
-+``pagemap`` and reading the ``bitmap``, while in virtual address indexing, the
-+process's ``mmap_sem`` is held for the duration of the access.
-+
-+To estimate the amount of pages that are not used by a workload one should:
-+
-+ 1. Mark all the workload's pages as idle by setting corresponding bits in
-+    ``/proc/<pid>/page_idle``.
-+
-+ 2. Wait until the workload accesses its working set.
-+
-+ 3. Read ``/proc/<pid>/page_idle`` and count the number of bits set.
-+
- .. _impl_details:
- 
- Implementation Details
-@@ -99,10 +128,10 @@ When a dirty page is written to swap or disk as a result of memory reclaim or
- exceeding the dirty memory limit, it is not marked referenced.
- 
- The idle memory tracking feature adds a new page flag, the Idle flag. This flag
--is set manually, by writing to ``/sys/kernel/mm/page_idle/bitmap`` (see the
--:ref:`User API <user_api>`
--section), and cleared automatically whenever a page is referenced as defined
--above.
-+is set manually, by writing to ``/sys/kernel/mm/page_idle/bitmap`` for physical
-+addressing or by writing to ``/proc/<pid>/page_idle`` for virtual
-+addressing (see the :ref:`User API <user_api>` section), and cleared
-+automatically whenever a page is referenced as defined above.
- 
- When a page is marked idle, the Accessed bit must be cleared in all PTEs it is
- mapped to, otherwise we will not be able to detect accesses to the page coming
--- 
-2.22.0.770.g0f2c4a37fd-goog
+For this, I think some compelling evidence is needed that a new kernel
+mechanism is actually better than sudo and better than making bpftool
+privileged as previously discussed :)
 
+>
+>
+> "cgroup management" use case may have answers like:
+>   1) cgroup_bpf only
+>   2) users in their own containers
+>
+> For this case, getting cgroup_bpf related features (cgroup_bpf progs;
+> some map types, etc.) work with unprivileged users would be the right
+> direction.
+
+:)
+
+>
+>
+> "USDT tracing" use case may have answers like:
+>   1) uprobe, stockmap, histogram, etc.
+>   2) unprivileged user, w/ or w/o containers
+>
+> For this case, the first step is likely hacking sys_perf_event_open().
+>
+
+This would be nice.
+
+>
+> I guess we will need more discussions to decide how to make bpf()
+> work better for all these (and more) use cases.
+>
+
+I refreshed the branch again.  I had a giant hole in my previous idea
+that we could deprivilege program loading: some BPF functions need
+privilege.  Now I have a changelog comment to that effect and a patch
+that sketches out a way to addressing this.
+
+I don't think I'm going to have time soon to actually get any of this
+stuff mergeable, and it would be fantastic if you or someone else who
+likes working of bpf were to take this code and run with it.  Feel
+free to add my Signed-off-by, and I'd be happy to help review.
