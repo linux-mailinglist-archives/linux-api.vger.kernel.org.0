@@ -2,338 +2,280 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E47181AF9
-	for <lists+linux-api@lfdr.de>; Mon,  5 Aug 2019 15:11:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 407C8820C1
+	for <lists+linux-api@lfdr.de>; Mon,  5 Aug 2019 17:51:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730036AbfHENK5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 5 Aug 2019 09:10:57 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:44970 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730078AbfHENKz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 5 Aug 2019 09:10:55 -0400
-Received: by mail-pf1-f196.google.com with SMTP id t16so39603165pfe.11
-        for <linux-api@vger.kernel.org>; Mon, 05 Aug 2019 06:10:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=iKjp1sxUDmAX2wgfYH2j9XCohNundn8m7dMqKgSLwMI=;
-        b=saBskzTkvd5+FOutbmH6Dqo7LDxB6j1lLBCs9c9SMjidr9mCGA3JZWUpgJ24D1jEWP
-         BYegX6h+4En4gHMNnjD2hkiM6LzR+gIgnvCH+Qv7kghjhnQ196JBcG8u6X82QA91+dxZ
-         AT0bQGPEEfkSIGpd4JlN2XA3pwAzzkgJGuH/g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=iKjp1sxUDmAX2wgfYH2j9XCohNundn8m7dMqKgSLwMI=;
-        b=FTRgdZpGJkKCVEjUePfH/k9zkLJhqPhXoUywkt34JpA3TfAmKk8X4G9WOBMaY68Dli
-         /WCjmUB5jaRSsUpubTOYE0pdOclxterr5qyvFp4JUMX94OqFQWrhttkRuOsQ/zI+dwu/
-         /qyFK657AmNZeQJLA9xRiGSFrv70jKeDn5Vx5ShgDDpU0fYrTiGR7dD1G7d3K9C5eH1O
-         bX38YM2MyPvhcyKGc1ZPlgV41BcydDqRLRunlxq2nm7KvWlL3Vw/ptbY7xbWi79qSUiQ
-         8S5tqGRYmv5NgZWvr6VJOc6OJWeur9Ho4AJ6XVlCIFuhIukq5sMbMNVLMV2pGmqIjshg
-         7FEA==
-X-Gm-Message-State: APjAAAWIH7wkM2LxNZzl+cfFvWHlYAVZnzzbTV4WfrVUAN4OZGeOyKCZ
-        /u1aOpaqxHgCAzCueG8nafg=
-X-Google-Smtp-Source: APXvYqz6u3cCDYJg+E3Gaw42gMUYLq5q2x4d2s7eKbbvOoyG04W78eoEyJ1/Ww27pKnvOKH8Zeg+QQ==
-X-Received: by 2002:a63:3006:: with SMTP id w6mr14611039pgw.440.1565010654596;
-        Mon, 05 Aug 2019 06:10:54 -0700 (PDT)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id d129sm89649753pfc.168.2019.08.05.06.10.53
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 05 Aug 2019 06:10:53 -0700 (PDT)
-Date:   Mon, 5 Aug 2019 09:10:52 -0400
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Minchan Kim <minchan@kernel.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Brendan Gregg <bgregg@netflix.com>,
-        Christian Hansen <chansen3@cisco.com>, dancol@google.com,
-        fmayer@google.com, joaodias@google.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Rapoport <rppt@linux.ibm.com>, namhyung@google.com,
-        Roman Gushchin <guro@fb.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>, surenb@google.com,
-        tkjos@google.com, Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Vlastimil Babka <vbabka@suse.cz>, wvw@google.com
-Subject: Re: [PATCH v3 1/2] mm/page_idle: Add per-pid idle page tracking
- using virtual indexing
-Message-ID: <20190805131052.GA208558@google.com>
-References: <20190726152319.134152-1-joel@joelfernandes.org>
- <20190731085335.GD155569@google.com>
- <20190731171937.GA75376@google.com>
- <20190805075547.GA196934@google.com>
+        id S1728848AbfHEPvR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 5 Aug 2019 11:51:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48188 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728801AbfHEPvR (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 5 Aug 2019 11:51:17 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 44B6F2086D;
+        Mon,  5 Aug 2019 15:51:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1565020275;
+        bh=ufgCmu/A4v9haBJGKFuBmcxYVPFmVGeakr48qjqK+Yc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=xUWLnLBPL8KE/lcN1CXZ4WeUISjEgnqhDH+TY5l3Kr1hDyI+2lkBgxim7ey1t1omv
+         t02giwwFl7XCYGDUvL5H+/SvpE1iS8wCTB2ERd21FVs36HcX2OOPLAVb+Mo1Pt27me
+         PDyWNHerWRQ/pKrc1MEFDn8iZzfGHycXEC9x8FCQ=
+Date:   Mon, 5 Aug 2019 17:51:13 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Wu Hao <hao.wu@intel.com>
+Cc:     mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, atull@kernel.org,
+        Ananda Ravuri <ananda.ravuri@intel.com>,
+        Russ Weight <russell.h.weight@intel.com>,
+        Xu Yilun <yilun.xu@intel.com>
+Subject: Re: [PATCH v4 04/12] fpga: dfl: afu: add userclock sysfs interfaces.
+Message-ID: <20190805155113.GA8107@kroah.com>
+References: <1564914022-3710-1-git-send-email-hao.wu@intel.com>
+ <1564914022-3710-5-git-send-email-hao.wu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190805075547.GA196934@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <1564914022-3710-5-git-send-email-hao.wu@intel.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Aug 05, 2019 at 04:55:47PM +0900, Minchan Kim wrote:
-> Hi Joel,
-
-Hi Minchan,
-
-> On Wed, Jul 31, 2019 at 01:19:37PM -0400, Joel Fernandes wrote:
-> > > > -static struct page *page_idle_get_page(unsigned long pfn)
-> > > > +static struct page *page_idle_get_page(struct page *page_in)
-> > > 
-> > > Looks weird function name after you changed the argument.
-> > > Maybe "bool check_valid_page(struct page *page)"?
-> > 
-> > 
-> > I don't think so, this function does a get_page_unless_zero() on the page as well.
-> > 
-> > > >  {
-> > > >  	struct page *page;
-> > > >  	pg_data_t *pgdat;
-> > > >  
-> > > > -	if (!pfn_valid(pfn))
-> > > > -		return NULL;
-> > > > -
-> > > > -	page = pfn_to_page(pfn);
-> > > > +	page = page_in;
-> > > >  	if (!page || !PageLRU(page) ||
-> > > >  	    !get_page_unless_zero(page))
-> > > >  		return NULL;
-> > > > @@ -51,6 +49,18 @@ static struct page *page_idle_get_page(unsigned long pfn)
-> > > >  	return page;
-> > > >  }
-> > > >  
-> > > > +/*
-> > > > + * This function tries to get a user memory page by pfn as described above.
-> > > > + */
-> > > > +static struct page *page_idle_get_page_pfn(unsigned long pfn)
-> > > 
-> > > So we could use page_idle_get_page name here.
-> > 
-> > 
-> > Based on above comment, I prefer to keep same name. Do you agree?
+On Sun, Aug 04, 2019 at 06:20:14PM +0800, Wu Hao wrote:
+> This patch introduces userclock sysfs interfaces for AFU, user
+> could use these interfaces for clock setting to AFU.
 > 
-> Yes, I agree. Just please add a comment about refcount in the description
-> on page_idle_get_page.
-
-Ok.
-
-
-> > > > +	return page_idle_get_page(pfn_to_page(pfn));
-> > > > +}
-> > > > +
-> > > >  static bool page_idle_clear_pte_refs_one(struct page *page,
-> > > >  					struct vm_area_struct *vma,
-> > > >  					unsigned long addr, void *arg)
-> > > > @@ -118,6 +128,47 @@ static void page_idle_clear_pte_refs(struct page *page)
-> > > >  		unlock_page(page);
-> > > >  }
-> > > >  
-> > > > +/* Helper to get the start and end frame given a pos and count */
-> > > > +static int page_idle_get_frames(loff_t pos, size_t count, struct mm_struct *mm,
-> > > > +				unsigned long *start, unsigned long *end)
-> > > > +{
-> > > > +	unsigned long max_frame;
-> > > > +
-> > > > +	/* If an mm is not given, assume we want physical frames */
-> > > > +	max_frame = mm ? (mm->task_size >> PAGE_SHIFT) : max_pfn;
-> > > > +
-> > > > +	if (pos % BITMAP_CHUNK_SIZE || count % BITMAP_CHUNK_SIZE)
-> > > > +		return -EINVAL;
-> > > > +
-> > > > +	*start = pos * BITS_PER_BYTE;
-> > > > +	if (*start >= max_frame)
-> > > > +		return -ENXIO;
-> > > > +
-> > > > +	*end = *start + count * BITS_PER_BYTE;
-> > > > +	if (*end > max_frame)
-> > > > +		*end = max_frame;
-> > > > +	return 0;
-> > > > +}
-> > > > +
-> > > > +static bool page_really_idle(struct page *page)
-> > > 
-> > > Just minor:
-> > > Instead of creating new API, could we combine page_is_idle with
-> > > introducing furthere argument pte_check?
-> > 
-> > 
-> > I cannot see in the code where pte_check will be false when this is called? I
-> > could rename the function to page_idle_check_ptes() if that's Ok with you.
+> Please note that, this is only working for port header feature
+> with revision 0, for later revisions, userclock setting is moved
+> to a separated private feature, so one revision sysfs interface
+> is exposed to userspace application for this purpose too.
 > 
-> What I don't like is _*really*_ part of the funcion name.
+> Signed-off-by: Ananda Ravuri <ananda.ravuri@intel.com>
+> Signed-off-by: Russ Weight <russell.h.weight@intel.com>
+> Signed-off-by: Xu Yilun <yilun.xu@intel.com>
+> Signed-off-by: Wu Hao <hao.wu@intel.com>
+> Acked-by: Alan Tull <atull@kernel.org>
+> Signed-off-by: Moritz Fischer <mdf@kernel.org>
+> ---
+> v2: rebased, and switched to use device_add/remove_groups for sysfs
+> v3: update kernel version and date in sysfs doc
+> v4: rebased.
+> ---
+>  Documentation/ABI/testing/sysfs-platform-dfl-port |  35 +++++++
+>  drivers/fpga/dfl-afu-main.c                       | 114 +++++++++++++++++++++-
+>  drivers/fpga/dfl.h                                |   9 ++
+>  3 files changed, 157 insertions(+), 1 deletion(-)
 > 
-> I see several page_is_idle calls in huge_memory.c, migration.c, swap.c.
-> They could just check only page flag so they could use "false" with pte_check.
+> diff --git a/Documentation/ABI/testing/sysfs-platform-dfl-port b/Documentation/ABI/testing/sysfs-platform-dfl-port
+> index 1ab3e6f..5663441 100644
+> --- a/Documentation/ABI/testing/sysfs-platform-dfl-port
+> +++ b/Documentation/ABI/testing/sysfs-platform-dfl-port
+> @@ -46,3 +46,38 @@ Contact:	Wu Hao <hao.wu@intel.com>
+>  Description:	Read-write. Read or set AFU latency tolerance reporting value.
+>  		Set ltr to 1 if the AFU can tolerate latency >= 40us or set it
+>  		to 0 if it is latency sensitive.
+> +
+> +What:		/sys/bus/platform/devices/dfl-port.0/revision
+> +Date:		August 2019
+> +KernelVersion:	5.4
+> +Contact:	Wu Hao <hao.wu@intel.com>
+> +Description:	Read-only. Read this file to get the revision of port header
+> +		feature.
 
-I will rename it to page_idle_check_ptes(). If you want pte_check argument,
-that can be a later patch if/when there are other users for it in other
-files. Hope that's reasonable.
+What does "revision" mean?
 
+It feels like you are creating a different set of sysfs files depending
+on the revision field.  Which is fine, sysfs is one-value-per-file and
+userspace needs to handle if the file is present or not.  So why not
+just rely on that and not have to mess with 'revision' at all?  What is
+userspace going to do with that information?
 
-> > > > +ssize_t page_idle_proc_generic(struct file *file, char __user *ubuff,
-> > > > +			       size_t count, loff_t *pos,
-> > > > +			       struct task_struct *tsk, int write)
-> > > > +{
-> > > > +	int ret;
-> > > > +	char *buffer;
-> > > > +	u64 *out;
-> > > > +	unsigned long start_addr, end_addr, start_frame, end_frame;
-> > > > +	struct mm_struct *mm = file->private_data;
-> > > > +	struct mm_walk walk = { .pmd_entry = pte_page_idle_proc_range, };
-> > > > +	struct page_node *cur;
-> > > > +	struct page_idle_proc_priv priv;
-> > > > +	bool walk_error = false;
-> > > > +	LIST_HEAD(idle_page_list);
-> > > > +
-> > > > +	if (!mm || !mmget_not_zero(mm))
-> > > > +		return -EINVAL;
-> > > > +
-> > > > +	if (count > PAGE_SIZE)
-> > > > +		count = PAGE_SIZE;
-> > > > +
-> > > > +	buffer = kzalloc(PAGE_SIZE, GFP_KERNEL);
-> > > > +	if (!buffer) {
-> > > > +		ret = -ENOMEM;
-> > > > +		goto out_mmput;
-> > > > +	}
-> > > > +	out = (u64 *)buffer;
-> > > > +
-> > > > +	if (write && copy_from_user(buffer, ubuff, count)) {
-> > > > +		ret = -EFAULT;
-> > > > +		goto out;
-> > > > +	}
-> > > > +
-> > > > +	ret = page_idle_get_frames(*pos, count, mm, &start_frame, &end_frame);
-> > > > +	if (ret)
-> > > > +		goto out;
-> > > > +
-> > > > +	start_addr = (start_frame << PAGE_SHIFT);
-> > > > +	end_addr = (end_frame << PAGE_SHIFT);
-> > > > +	priv.buffer = buffer;
-> > > > +	priv.start_addr = start_addr;
-> > > > +	priv.write = write;
-> > > > +
-> > > > +	priv.idle_page_list = &idle_page_list;
-> > > > +	priv.cur_page_node = 0;
-> > > > +	priv.page_nodes = kzalloc(sizeof(struct page_node) *
-> > > > +				  (end_frame - start_frame), GFP_KERNEL);
-> > > > +	if (!priv.page_nodes) {
-> > > > +		ret = -ENOMEM;
-> > > > +		goto out;
-> > > > +	}
-> > > > +
-> > > > +	walk.private = &priv;
-> > > > +	walk.mm = mm;
-> > > > +
-> > > > +	down_read(&mm->mmap_sem);
-> > > > +
-> > > > +	/*
-> > > > +	 * idle_page_list is needed because walk_page_vma() holds ptlock which
-> > > > +	 * deadlocks with page_idle_clear_pte_refs(). So we have to collect all
-> > > > +	 * pages first, and then call page_idle_clear_pte_refs().
-> > > > +	 */
-> > > 
-> > > Thanks for the comment, I was curious why you want to have
-> > > idle_page_list and the reason is here.
-> > > 
-> > > How about making this /proc/<pid>/page_idle per-process granuariy,
-> > > unlike system level /sys/xxx/page_idle? What I meant is not to check
-> > > rmap to see any reference from random process but just check only
-> > > access from the target process. It would be more proper as /proc/
-> > > <pid>/ interface and good for per-process tracking as well as
-> > > fast.
-> > 
-> > 
-> > I prefer not to do this for the following reasons:
-> > (1) It makes a feature lost, now accesses to shared pages will not be
-> > accounted properly. 
-> 
-> Do you really want to check global attribute by per-process interface?
+> +
+> +What:		/sys/bus/platform/devices/dfl-port.0/userclk_freqcmd
+> +Date:		August 2019
+> +KernelVersion:	5.4
+> +Contact:	Wu Hao <hao.wu@intel.com>
+> +Description:	Write-only. User writes command to this interface to set
+> +		userclock to AFU.
+> +
+> +What:		/sys/bus/platform/devices/dfl-port.0/userclk_freqsts
+> +Date:		August 2019
+> +KernelVersion:	5.4
+> +Contact:	Wu Hao <hao.wu@intel.com>
+> +Description:	Read-only. Read this file to get the status of issued command
+> +		to userclck_freqcmd.
+> +
+> +What:		/sys/bus/platform/devices/dfl-port.0/userclk_freqcntrcmd
+> +Date:		August 2019
+> +KernelVersion:	5.4
+> +Contact:	Wu Hao <hao.wu@intel.com>
+> +Description:	Write-only. User writes command to this interface to set
+> +		userclock counter.
+> +
+> +What:		/sys/bus/platform/devices/dfl-port.0/userclk_freqcntrsts
+> +Date:		August 2019
+> +KernelVersion:	5.4
+> +Contact:	Wu Hao <hao.wu@intel.com>
+> +Description:	Read-only. Read this file to get the status of issued command
+> +		to userclck_freqcntrcmd.
+> diff --git a/drivers/fpga/dfl-afu-main.c b/drivers/fpga/dfl-afu-main.c
+> index 12175bb..407c97d 100644
+> --- a/drivers/fpga/dfl-afu-main.c
+> +++ b/drivers/fpga/dfl-afu-main.c
+> @@ -142,6 +142,17 @@ static int port_get_id(struct platform_device *pdev)
+>  static DEVICE_ATTR_RO(id);
+>  
+>  static ssize_t
+> +revision_show(struct device *dev, struct device_attribute *attr, char *buf)
+> +{
+> +	void __iomem *base;
+> +
+> +	base = dfl_get_feature_ioaddr_by_id(dev, PORT_FEATURE_ID_HEADER);
+> +
+> +	return sprintf(buf, "%x\n", dfl_feature_revision(base));
+> +}
+> +static DEVICE_ATTR_RO(revision);
+> +
+> +static ssize_t
+>  ltr_show(struct device *dev, struct device_attribute *attr, char *buf)
+>  {
+>  	struct dfl_feature_platform_data *pdata = dev_get_platdata(dev);
+> @@ -276,6 +287,7 @@ static int port_get_id(struct platform_device *pdev)
+>  
+>  static struct attribute *port_hdr_attrs[] = {
+>  	&dev_attr_id.attr,
+> +	&dev_attr_revision.attr,
+>  	&dev_attr_ltr.attr,
+>  	&dev_attr_ap1_event.attr,
+>  	&dev_attr_ap2_event.attr,
+> @@ -284,14 +296,113 @@ static int port_get_id(struct platform_device *pdev)
+>  };
+>  ATTRIBUTE_GROUPS(port_hdr);
+>  
+> +static ssize_t
+> +userclk_freqcmd_store(struct device *dev, struct device_attribute *attr,
+> +		      const char *buf, size_t count)
+> +{
+> +	struct dfl_feature_platform_data *pdata = dev_get_platdata(dev);
+> +	u64 userclk_freq_cmd;
+> +	void __iomem *base;
+> +
+> +	if (kstrtou64(buf, 0, &userclk_freq_cmd))
+> +		return -EINVAL;
+> +
+> +	base = dfl_get_feature_ioaddr_by_id(dev, PORT_FEATURE_ID_HEADER);
+> +
+> +	mutex_lock(&pdata->lock);
+> +	writeq(userclk_freq_cmd, base + PORT_HDR_USRCLK_CMD0);
+> +	mutex_unlock(&pdata->lock);
+> +
+> +	return count;
+> +}
+> +static DEVICE_ATTR_WO(userclk_freqcmd);
+> +
+> +static ssize_t
+> +userclk_freqcntrcmd_store(struct device *dev, struct device_attribute *attr,
+> +			  const char *buf, size_t count)
+> +{
+> +	struct dfl_feature_platform_data *pdata = dev_get_platdata(dev);
+> +	u64 userclk_freqcntr_cmd;
+> +	void __iomem *base;
+> +
+> +	if (kstrtou64(buf, 0, &userclk_freqcntr_cmd))
+> +		return -EINVAL;
+> +
+> +	base = dfl_get_feature_ioaddr_by_id(dev, PORT_FEATURE_ID_HEADER);
+> +
+> +	mutex_lock(&pdata->lock);
+> +	writeq(userclk_freqcntr_cmd, base + PORT_HDR_USRCLK_CMD1);
+> +	mutex_unlock(&pdata->lock);
+> +
+> +	return count;
+> +}
+> +static DEVICE_ATTR_WO(userclk_freqcntrcmd);
+> +
+> +static ssize_t
+> +userclk_freqsts_show(struct device *dev, struct device_attribute *attr,
+> +		     char *buf)
+> +{
+> +	u64 userclk_freqsts;
+> +	void __iomem *base;
+> +
+> +	base = dfl_get_feature_ioaddr_by_id(dev, PORT_FEATURE_ID_HEADER);
+> +
+> +	userclk_freqsts = readq(base + PORT_HDR_USRCLK_STS0);
+> +
+> +	return sprintf(buf, "0x%llx\n", (unsigned long long)userclk_freqsts);
+> +}
+> +static DEVICE_ATTR_RO(userclk_freqsts);
+> +
+> +static ssize_t
+> +userclk_freqcntrsts_show(struct device *dev, struct device_attribute *attr,
+> +			 char *buf)
+> +{
+> +	u64 userclk_freqcntrsts;
+> +	void __iomem *base;
+> +
+> +	base = dfl_get_feature_ioaddr_by_id(dev, PORT_FEATURE_ID_HEADER);
+> +
+> +	userclk_freqcntrsts = readq(base + PORT_HDR_USRCLK_STS1);
+> +
+> +	return sprintf(buf, "0x%llx\n",
+> +		       (unsigned long long)userclk_freqcntrsts);
+> +}
+> +static DEVICE_ATTR_RO(userclk_freqcntrsts);
+> +
+> +static struct attribute *port_hdr_userclk_attrs[] = {
+> +	&dev_attr_userclk_freqcmd.attr,
+> +	&dev_attr_userclk_freqcntrcmd.attr,
+> +	&dev_attr_userclk_freqsts.attr,
+> +	&dev_attr_userclk_freqcntrsts.attr,
+> +	NULL,
+> +};
+> +ATTRIBUTE_GROUPS(port_hdr_userclk);
+> +
+>  static int port_hdr_init(struct platform_device *pdev,
+>  			 struct dfl_feature *feature)
+>  {
+> +	int ret;
+> +
+>  	dev_dbg(&pdev->dev, "PORT HDR Init.\n");
+>  
+>  	port_reset(pdev);
+>  
+> -	return device_add_groups(&pdev->dev, port_hdr_groups);
+> +	ret = device_add_groups(&pdev->dev, port_hdr_groups);
 
-Pages are inherrently not per-process, they are global. A page does not
-necessarily belong to a process. An anonymous page can be shared. We are
-operating on pages in the end of the day.
+This all needs to be reworked based on the ability for devices to
+properly add groups when they are bound on probe (the core does it for
+you, no need for the driver to do it.)  But until then, you should at
+least consider:
 
-I think you are confusing the per-process file interface with the core
-mechanism. The core mechanism always operations on physical PAGES.
+> +	if (ret)
+> +		return ret;
+> +
+> +	/*
+> +	 * if revision > 0, the userclock will be moved from port hdr register
+> +	 * region to a separated private feature.
+> +	 */
+> +	if (dfl_feature_revision(feature->ioaddr) > 0)
+> +		return 0;
+> +
+> +	ret = device_add_groups(&pdev->dev, port_hdr_userclk_groups);
+> +	if (ret)
+> +		device_remove_groups(&pdev->dev, port_hdr_groups);
 
-
-> That would be doable with existing idle page tracking feature and that's
-> the one of reasons page idle tracking was born(e.g. even, page cache
-> for non-mapped) unlike clear_refs.
-
-I think you are misunderstanding the patch, the patch does not want to change
-the core mechanism. That is a bit out of scope for the patch. Page
-idle-tracking at the core of it looks at PTE of all processes. We are just
-using the VFN (virtual frame) interface to skip the need for separate pagemap
-look up -- that's it.
-
-
-> Once we create a new interface by per-process, just checking the process
-> -granuariy access check sounds more reasonable to me.
-
-It sounds reasonable but there is no reason to not do the full and proper
-page tracking for now, including shared pages. Otherwise it makes it
-inconsistent with the existing mechanism and can confuse the user about what
-to expect (especially for shared pages).
-
-
-> With that, we could catch only idle pages of the target process even though
-> the page was touched by several other processes.
-> If the user want to know global level access point, they could use
-> exisint interface(If there is a concern(e.g., security) to use existing
-> idle page tracking, let's discuss it as other topic how we could make
-> existing feature more useful).
-> 
-> IOW, my point is that we already have global access check(1. from ptes
-> among several processes, 2. from page flag for non-mapped pages) feature
-> from from existing idle page tracking interface and now we are about to create
-> new interface for per-process wise so I wanted to create a particular
-> feature which cannot be covered by existing iterface.
-
-Yes, it sounds like you want to create a different feature. Then that can be
-a follow-up different patch, and that is out of scope for this patch.
-
-
-> > (2) It makes it inconsistent with other idle page tracking mechanism. I
-> 
-> That's the my comment to create different idle page tracking we couldn't
-> do with existing interface.
-
-Yes, sure. But that can be a different patch and we can weigh the benefits of
-it at that time. I don't want to introduce a new page tracking mechanism, I
-am just trying to reuse the existing one.
-
-
-> > prefer if post per-process. At the heart of it, the tracking is always at the
-> 
-> What does it mean "post per-process"?
-
-Sorry it was a typo, I meant "the core mechanism should not be a per-process
-one, but a global one". We are just changing the interface in this patch, we
-are not changing the existing core mechanism. That gives us all the benefits
-of the existing code such as non-interference with page reclaim code, without
-introducing any new bugs. By the way I did fix a bug in the existing original
-code as well!
-
-
-> > physical page level -- I feel that is how it should be. Other drawback, is
-> > also we have to document this subtlety.
-> 
-> Sorry, Could you elaborate it a bit?
-
-I meant, with a new mechanism as the one you are proposing, we have to
-document that now shared pages will not be tracked properly. That is a
-'subtle difference' and will have to be documented appropriated in the
-'internals' section of the idle page tracking document.
+struct attribute_group has is_visible() as a callback to have the core
+show or not show, individual attributes when they are created.  So no
+need for a second group of attributes and you needing to add/remove
+them, just add them all and let the callback handle the "is visible"
+logic.  Makes cleanup _so_ much easier (i.e. you don't have to do it.)
 
 thanks,
 
- - Joel
-
+greg k-h
