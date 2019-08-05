@@ -2,41 +2,73 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A53F821F0
-	for <lists+linux-api@lfdr.de>; Mon,  5 Aug 2019 18:28:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DFE2282390
+	for <lists+linux-api@lfdr.de>; Mon,  5 Aug 2019 19:05:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728842AbfHEQ2o (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 5 Aug 2019 12:28:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60448 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730013AbfHEQ2n (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 5 Aug 2019 12:28:43 -0400
-Received: from ebiggers-linuxstation.mtv.corp.google.com (unknown [104.132.1.77])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1E13D218A3;
-        Mon,  5 Aug 2019 16:28:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1565022520;
-        bh=2AloJBinTjzwNsMrY1X/G3is5mRIOXWue9Asbg1sEgo=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bmfhRM33eSKXfrJQIJEMq5Qdmu0/7rCbBw++DlR9/CKjsM7M6rn09tnqcca3sSX/g
-         zAGqZBxl2zYNjQnpa1WghdYlIkxQUPddcKI3n0CpNZhvt0TXlhgpQAOD1cxIkYaXpy
-         ZfIAnbYngIRdrt6KWN2weSM6IIL/TqDQFJjom6d8=
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     linux-fscrypt@vger.kernel.org
-Cc:     linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-mtd@lists.infradead.org, linux-fsdevel@vger.kernel.org,
-        linux-crypto@vger.kernel.org, keyrings@vger.kernel.org,
-        linux-api@vger.kernel.org, Satya Tangirala <satyat@google.com>,
-        Paul Crowley <paulcrowley@google.com>,
-        Theodore Ts'o <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>
-Subject: [PATCH v8 20/20] fscrypt: document the new ioctls and policy version
-Date:   Mon,  5 Aug 2019 09:25:21 -0700
-Message-Id: <20190805162521.90882-21-ebiggers@kernel.org>
+        id S1728940AbfHERFG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 5 Aug 2019 13:05:06 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:34898 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728974AbfHERFG (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 5 Aug 2019 13:05:06 -0400
+Received: by mail-pl1-f193.google.com with SMTP id w24so36712757plp.2
+        for <linux-api@vger.kernel.org>; Mon, 05 Aug 2019 10:05:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=I6enbaRgCy1S7rDBZDVFGQw1ilVeWELi091dal/0bsE=;
+        b=Jd/oDqqYqEEx6bAkYfJ03zB6NioQX2VAZMqUJC5xLJHmgZUu1k3uKRc3upFfPicpph
+         d1Ve6CbjaKxcRigKMThMiCfZjZRpAtt2NWtIMRO0biXI7wI9MUN2CeSK4Ogvk0sd6nu1
+         H0PefrTdNZNPee+9n+GQBlegHmjSaE9fGdVEA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=I6enbaRgCy1S7rDBZDVFGQw1ilVeWELi091dal/0bsE=;
+        b=q/YYD4BDdBXi5CsJksOnJGo4zGOZiq5/hD6SusWe8Q0BnjKi5BwMp8kBBkKa2Oo9th
+         M7dHiZU0/5jdh216Y85w5g7EOXTsahIbwux8UpL9Co6YbQUysN/eLpQzPCdanZi2cl0W
+         Bi6IqLPHh6NZtGj0/xrkkNBNnv7ZYj+qWsWSVvC8M/O8PnH390znGnMGe/Y7b2R9d1FO
+         ba5h1ziGSUir6Of1t8ADzCNYmUNzRmKLAbNMihcV5eJzAEsMW9MzsaRsGduoF2p4hjMs
+         VEqPg9f4JF/09LOaxWH2N7QvVaN99BrgF2JzvN6Sd9GKEcz5ZqTeSnaJksaoYcyIrsbW
+         hznA==
+X-Gm-Message-State: APjAAAXM+Z5sbmnbpAloER5K4oKRlIlExapzs6SGK/lciyrY3kn2FSJR
+        TniSvJpYnEu4FFJtjr23iMU=
+X-Google-Smtp-Source: APXvYqwSCqsoisfaWyCSJh4gcO6tQVWxuNAzv4r7rc01gy8/qv4CayOnZvwQwv9S/jT0suuw4ucWEQ==
+X-Received: by 2002:a17:902:9346:: with SMTP id g6mr145121799plp.61.1565024704990;
+        Mon, 05 Aug 2019 10:05:04 -0700 (PDT)
+Received: from joelaf.cam.corp.google.com ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id p23sm89832934pfn.10.2019.08.05.10.05.01
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Mon, 05 Aug 2019 10:05:04 -0700 (PDT)
+From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Brendan Gregg <bgregg@netflix.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christian Hansen <chansen3@cisco.com>, dancol@google.com,
+        fmayer@google.com, "H. Peter Anvin" <hpa@zytor.com>,
+        Ingo Molnar <mingo@redhat.com>, joelaf@google.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Rapoport <rppt@linux.ibm.com>, minchan@kernel.org,
+        namhyung@google.com, paulmck@linux.ibm.com,
+        Robin Murphy <robin.murphy@arm.com>,
+        Roman Gushchin <guro@fb.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>, surenb@google.com,
+        Thomas Gleixner <tglx@linutronix.de>, tkjos@google.com,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>
+Subject: [PATCH v4 1/5] mm/page_idle: Add per-pid idle page tracking using virtual indexing
+Date:   Mon,  5 Aug 2019 13:04:47 -0400
+Message-Id: <20190805170451.26009-1-joel@joelfernandes.org>
 X-Mailer: git-send-email 2.22.0.770.g0f2c4a37fd-goog
-In-Reply-To: <20190805162521.90882-1-ebiggers@kernel.org>
-References: <20190805162521.90882-1-ebiggers@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
@@ -44,899 +76,628 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Eric Biggers <ebiggers@google.com>
+The page_idle tracking feature currently requires looking up the pagemap
+for a process followed by interacting with /sys/kernel/mm/page_idle.
+Looking up PFN from pagemap in Android devices is not supported by
+unprivileged process and requires SYS_ADMIN and gives 0 for the PFN.
 
-Update the fscrypt documentation file to catch up to all the latest
-changes, including the new ioctls to manage master encryption keys in
-the filesystem-level keyring and the support for v2 encryption policies.
+This patch adds support to directly interact with page_idle tracking at
+the PID level by introducing a /proc/<pid>/page_idle file.  It follows
+the exact same semantics as the global /sys/kernel/mm/page_idle, but now
+looking up PFN through pagemap is not needed since the interface uses
+virtual frame numbers, and at the same time also does not require
+SYS_ADMIN.
 
-Signed-off-by: Eric Biggers <ebiggers@google.com>
+In Android, we are using this for the heap profiler (heapprofd) which
+profiles and pin points code paths which allocates and leaves memory
+idle for long periods of time. This method solves the security issue
+with userspace learning the PFN, and while at it is also shown to yield
+better results than the pagemap lookup, the theory being that the window
+where the address space can change is reduced by eliminating the
+intermediate pagemap look up stage. In virtual address indexing, the
+process's mmap_sem is held for the duration of the access.
+
+Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 ---
- Documentation/filesystems/fscrypt.rst | 729 ++++++++++++++++++++++----
- 1 file changed, 613 insertions(+), 116 deletions(-)
+v3->v4: Minor fixups (Minchan)
+        Add swap pte handling (Konstantin, Minchan)
+v2->v3:
+Fixed a bug where I was doing a kfree that is not needed due to not
+needing to do GFP_ATOMIC allocations.
 
-diff --git a/Documentation/filesystems/fscrypt.rst b/Documentation/filesystems/fscrypt.rst
-index d60b885c402401..4289c29d7c5a2c 100644
---- a/Documentation/filesystems/fscrypt.rst
-+++ b/Documentation/filesystems/fscrypt.rst
-@@ -72,6 +72,9 @@ Online attacks
- fscrypt (and storage encryption in general) can only provide limited
- protection, if any at all, against online attacks.  In detail:
+v1->v2:
+Mark swap ptes as idle (Minchan)
+Avoid need for GFP_ATOMIC (Andrew)
+Get rid of idle_page_list lock by moving list to stack
+
+Internal review -> v1:
+Fixes from Suren.
+Corrections to change log, docs (Florian, Sandeep)
+
+ arch/Kconfig                  |   3 +
+ fs/proc/base.c                |   3 +
+ fs/proc/internal.h            |   1 +
+ fs/proc/task_mmu.c            |  43 ++++
+ include/asm-generic/pgtable.h |   6 +
+ include/linux/page_idle.h     |   4 +
+ mm/page_idle.c                | 359 +++++++++++++++++++++++++++++-----
+ mm/rmap.c                     |   2 +
+ 8 files changed, 376 insertions(+), 45 deletions(-)
+
+diff --git a/arch/Kconfig b/arch/Kconfig
+index a7b57dd42c26..3aa121ce824e 100644
+--- a/arch/Kconfig
++++ b/arch/Kconfig
+@@ -575,6 +575,9 @@ config ARCH_WANT_HUGE_PMD_SHARE
+ config HAVE_ARCH_SOFT_DIRTY
+ 	bool
  
-+Side-channel attacks
-+~~~~~~~~~~~~~~~~~~~~
++config HAVE_ARCH_PTE_SWP_PGIDLE
++	bool
 +
- fscrypt is only resistant to side-channel attacks, such as timing or
- electromagnetic attacks, to the extent that the underlying Linux
- Cryptographic API algorithms are.  If a vulnerable algorithm is used,
-@@ -80,29 +83,90 @@ attacker to mount a side channel attack against the online system.
- Side channel attacks may also be mounted against applications
- consuming decrypted data.
+ config HAVE_MOD_ARCH_SPECIFIC
+ 	bool
+ 	help
+diff --git a/fs/proc/base.c b/fs/proc/base.c
+index ebea9501afb8..fd2f74bd4e35 100644
+--- a/fs/proc/base.c
++++ b/fs/proc/base.c
+@@ -3039,6 +3039,9 @@ static const struct pid_entry tgid_base_stuff[] = {
+ 	REG("smaps",      S_IRUGO, proc_pid_smaps_operations),
+ 	REG("smaps_rollup", S_IRUGO, proc_pid_smaps_rollup_operations),
+ 	REG("pagemap",    S_IRUSR, proc_pagemap_operations),
++#ifdef CONFIG_IDLE_PAGE_TRACKING
++	REG("page_idle", S_IRUSR|S_IWUSR, proc_page_idle_operations),
++#endif
+ #endif
+ #ifdef CONFIG_SECURITY
+ 	DIR("attr",       S_IRUGO|S_IXUGO, proc_attr_dir_inode_operations, proc_attr_dir_operations),
+diff --git a/fs/proc/internal.h b/fs/proc/internal.h
+index cd0c8d5ce9a1..bc9371880c63 100644
+--- a/fs/proc/internal.h
++++ b/fs/proc/internal.h
+@@ -293,6 +293,7 @@ extern const struct file_operations proc_pid_smaps_operations;
+ extern const struct file_operations proc_pid_smaps_rollup_operations;
+ extern const struct file_operations proc_clear_refs_operations;
+ extern const struct file_operations proc_pagemap_operations;
++extern const struct file_operations proc_page_idle_operations;
  
--After an encryption key has been provided, fscrypt is not designed to
--hide the plaintext file contents or filenames from other users on the
--same system, regardless of the visibility of the keyring key.
--Instead, existing access control mechanisms such as file mode bits,
--POSIX ACLs, LSMs, or mount namespaces should be used for this purpose.
--Also note that as long as the encryption keys are *anywhere* in
--memory, an online attacker can necessarily compromise them by mounting
--a physical attack or by exploiting any kernel security vulnerability
--which provides an arbitrary memory read primitive.
+ extern unsigned long task_vsize(struct mm_struct *);
+ extern unsigned long task_statm(struct mm_struct *,
+diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+index 582c5e680176..a9003fe8d267 100644
+--- a/fs/proc/task_mmu.c
++++ b/fs/proc/task_mmu.c
+@@ -1650,6 +1650,49 @@ const struct file_operations proc_pagemap_operations = {
+ 	.open		= pagemap_open,
+ 	.release	= pagemap_release,
+ };
++
++#ifdef CONFIG_IDLE_PAGE_TRACKING
++static ssize_t proc_page_idle_read(struct file *file, char __user *buf,
++				   size_t count, loff_t *ppos)
++{
++	return page_idle_proc_read(file, buf, count, ppos);
++}
++
++static ssize_t proc_page_idle_write(struct file *file, const char __user *buf,
++				 size_t count, loff_t *ppos)
++{
++	return page_idle_proc_write(file, (char __user *)buf, count, ppos);
++}
++
++static int proc_page_idle_open(struct inode *inode, struct file *file)
++{
++	struct mm_struct *mm;
++
++	mm = proc_mem_open(inode, PTRACE_MODE_READ);
++	if (IS_ERR(mm))
++		return PTR_ERR(mm);
++	file->private_data = mm;
++	return 0;
++}
++
++static int proc_page_idle_release(struct inode *inode, struct file *file)
++{
++	struct mm_struct *mm = file->private_data;
++
++	if (mm)
++		mmdrop(mm);
++	return 0;
++}
++
++const struct file_operations proc_page_idle_operations = {
++	.llseek		= mem_lseek, /* borrow this */
++	.read		= proc_page_idle_read,
++	.write		= proc_page_idle_write,
++	.open		= proc_page_idle_open,
++	.release	= proc_page_idle_release,
++};
++#endif /* CONFIG_IDLE_PAGE_TRACKING */
++
+ #endif /* CONFIG_PROC_PAGE_MONITOR */
+ 
+ #ifdef CONFIG_NUMA
+diff --git a/include/asm-generic/pgtable.h b/include/asm-generic/pgtable.h
+index 75d9d68a6de7..6d51d0a355a7 100644
+--- a/include/asm-generic/pgtable.h
++++ b/include/asm-generic/pgtable.h
+@@ -712,6 +712,12 @@ static inline void ptep_modify_prot_commit(struct vm_area_struct *vma,
+ #define arch_start_context_switch(prev)	do {} while (0)
+ #endif
+ 
++#ifndef CONFIG_HAVE_ARCH_PTE_SWP_PGIDLE
++static inline pte_t pte_swp_mkpage_idle(pte_t pte) { return pte; }
++static inline int pte_swp_page_idle(pte_t pte) { return 0; }
++static inline pte_t pte_swp_clear_mkpage_idle(pte_t pte) { return pte; }
++#endif
++
+ #ifdef CONFIG_HAVE_ARCH_SOFT_DIRTY
+ #ifndef CONFIG_ARCH_ENABLE_THP_MIGRATION
+ static inline pmd_t pmd_swp_mksoft_dirty(pmd_t pmd)
+diff --git a/include/linux/page_idle.h b/include/linux/page_idle.h
+index 1e894d34bdce..f1bc2640d85e 100644
+--- a/include/linux/page_idle.h
++++ b/include/linux/page_idle.h
+@@ -106,6 +106,10 @@ static inline void clear_page_idle(struct page *page)
+ }
+ #endif /* CONFIG_64BIT */
+ 
++ssize_t page_idle_proc_write(struct file *file,
++	char __user *buf, size_t count, loff_t *ppos, struct task_struct *tsk);
++ssize_t page_idle_proc_read(struct file *file,
++	char __user *buf, size_t count, loff_t *ppos, struct task_struct *tsk);
+ #else /* !CONFIG_IDLE_PAGE_TRACKING */
+ 
+ static inline bool page_is_young(struct page *page)
+diff --git a/mm/page_idle.c b/mm/page_idle.c
+index 295512465065..a5b00d63216c 100644
+--- a/mm/page_idle.c
++++ b/mm/page_idle.c
+@@ -5,17 +5,22 @@
+ #include <linux/sysfs.h>
+ #include <linux/kobject.h>
+ #include <linux/mm.h>
+-#include <linux/mmzone.h>
+-#include <linux/pagemap.h>
+-#include <linux/rmap.h>
+ #include <linux/mmu_notifier.h>
++#include <linux/mmzone.h>
+ #include <linux/page_ext.h>
+ #include <linux/page_idle.h>
++#include <linux/pagemap.h>
++#include <linux/rmap.h>
++#include <linux/sched/mm.h>
++#include <linux/swap.h>
++#include <linux/swapops.h>
+ 
+ #define BITMAP_CHUNK_SIZE	sizeof(u64)
+ #define BITMAP_CHUNK_BITS	(BITMAP_CHUNK_SIZE * BITS_PER_BYTE)
+ 
+ /*
++ * Get a reference to a page for idle tracking purposes, with additional checks.
++ *
+  * Idle page tracking only considers user memory pages, for other types of
+  * pages the idle flag is always unset and an attempt to set it is silently
+  * ignored.
+@@ -25,18 +30,13 @@
+  * page tracking. With such an indicator of user pages we can skip isolated
+  * pages, but since there are not usually many of them, it will hardly affect
+  * the overall result.
+- *
+- * This function tries to get a user memory page by pfn as described above.
+  */
+-static struct page *page_idle_get_page(unsigned long pfn)
++static struct page *page_idle_get_page(struct page *page_in)
+ {
+ 	struct page *page;
+ 	pg_data_t *pgdat;
+ 
+-	if (!pfn_valid(pfn))
+-		return NULL;
 -
--While it is ostensibly possible to "evict" keys from the system,
--recently accessed encrypted files will remain accessible at least
--until the filesystem is unmounted or the VFS caches are dropped, e.g.
--using ``echo 2 > /proc/sys/vm/drop_caches``.  Even after that, if the
--RAM is compromised before being powered off, it will likely still be
--possible to recover portions of the plaintext file contents, if not
--some of the encryption keys as well.  (Since Linux v4.12, all
--in-kernel keys related to fscrypt are sanitized before being freed.
--However, userspace would need to do its part as well.)
+-	page = pfn_to_page(pfn);
++	page = page_in;
+ 	if (!page || !PageLRU(page) ||
+ 	    !get_page_unless_zero(page))
+ 		return NULL;
+@@ -51,6 +51,18 @@ static struct page *page_idle_get_page(unsigned long pfn)
+ 	return page;
+ }
+ 
++/*
++ * This function tries to get a user memory page by pfn as described above.
++ */
++static struct page *page_idle_get_page_pfn(unsigned long pfn)
++{
++
++	if (!pfn_valid(pfn))
++		return NULL;
++
++	return page_idle_get_page(pfn_to_page(pfn));
++}
++
+ static bool page_idle_clear_pte_refs_one(struct page *page,
+ 					struct vm_area_struct *vma,
+ 					unsigned long addr, void *arg)
+@@ -118,6 +130,47 @@ static void page_idle_clear_pte_refs(struct page *page)
+ 		unlock_page(page);
+ }
+ 
++/* Helper to get the start and end frame given a pos and count */
++static int page_idle_get_frames(loff_t pos, size_t count, struct mm_struct *mm,
++				unsigned long *start, unsigned long *end)
++{
++	unsigned long max_frame;
++
++	/* If an mm is not given, assume we want physical frames */
++	max_frame = mm ? (mm->task_size >> PAGE_SHIFT) : max_pfn;
++
++	if (pos % BITMAP_CHUNK_SIZE || count % BITMAP_CHUNK_SIZE)
++		return -EINVAL;
++
++	*start = pos * BITS_PER_BYTE;
++	if (*start >= max_frame)
++		return -ENXIO;
++
++	*end = *start + count * BITS_PER_BYTE;
++	if (*end > max_frame)
++		*end = max_frame;
++	return 0;
++}
++
++static bool page_idle_pte_check(struct page *page)
++{
++	if (!page)
++		return false;
++
++	if (page_is_idle(page)) {
++		/*
++		 * The page might have been referenced via a
++		 * pte, in which case it is not idle. Clear
++		 * refs and recheck.
++		 */
++		page_idle_clear_pte_refs(page);
++		if (page_is_idle(page))
++			return true;
++	}
++
++	return false;
++}
++
+ static ssize_t page_idle_bitmap_read(struct file *file, struct kobject *kobj,
+ 				     struct bin_attribute *attr, char *buf,
+ 				     loff_t pos, size_t count)
+@@ -125,35 +178,21 @@ static ssize_t page_idle_bitmap_read(struct file *file, struct kobject *kobj,
+ 	u64 *out = (u64 *)buf;
+ 	struct page *page;
+ 	unsigned long pfn, end_pfn;
+-	int bit;
++	int bit, ret;
+ 
+-	if (pos % BITMAP_CHUNK_SIZE || count % BITMAP_CHUNK_SIZE)
+-		return -EINVAL;
 -
--Currently, fscrypt does not prevent a user from maliciously providing
--an incorrect key for another user's existing encrypted files.  A
--protection against this is planned.
-+Unauthorized file access
-+~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+After an encryption key has been added, fscrypt does not hide the
-+plaintext file contents or filenames from other users on the same
-+system.  Instead, existing access control mechanisms such as file mode
-+bits, POSIX ACLs, LSMs, or namespaces should be used for this purpose.
-+
-+(For the reasoning behind this, understand that while the key is
-+added, the confidentiality of the data, from the perspective of the
-+system itself, is *not* protected by the mathematical properties of
-+encryption but rather only by the correctness of the kernel.
-+Therefore, any encryption-specific access control checks would merely
-+be enforced by kernel *code* and therefore would be largely redundant
-+with the wide variety of access control mechanisms already available.)
-+
-+Kernel memory compromise
-+~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+An attacker who compromises the system enough to read from arbitrary
-+memory, e.g. by mounting a physical attack or by exploiting a kernel
-+security vulnerability, can compromise all encryption keys that are
-+currently in use.
-+
-+However, fscrypt allows encryption keys to be removed from the kernel,
-+which may protect them from later compromise.
-+
-+In more detail, the FS_IOC_REMOVE_ENCRYPTION_KEY ioctl (or the
-+FS_IOC_REMOVE_ENCRYPTION_KEY_ALL_USERS ioctl) can wipe a master
-+encryption key from kernel memory.  If it does so, it will also try to
-+evict all cached inodes which had been "unlocked" using the key,
-+thereby wiping their per-file keys and making them once again appear
-+"locked", i.e. in ciphertext or encrypted form.
-+
-+However, these ioctls have some limitations:
-+
-+- Per-file keys for in-use files will *not* be removed or wiped.
-+  Therefore, for maximum effect, userspace should close the relevant
-+  encrypted files and directories before removing a master key, as
-+  well as kill any processes whose working directory is in an affected
-+  encrypted directory.
-+
-+- The kernel cannot magically wipe copies of the master key(s) that
-+  userspace might have as well.  Therefore, userspace must wipe all
-+  copies of the master key(s) it makes as well; normally this should
-+  be done immediately after FS_IOC_ADD_ENCRYPTION_KEY, without waiting
-+  for FS_IOC_REMOVE_ENCRYPTION_KEY.  Naturally, the same also applies
-+  to all higher levels in the key hierarchy.  Userspace should also
-+  follow other security precautions such as mlock()ing memory
-+  containing keys to prevent it from being swapped out.
-+
-+- In general, decrypted contents and filenames in the kernel VFS
-+  caches are freed but not wiped.  Therefore, portions thereof may be
-+  recoverable from freed memory, even after the corresponding key(s)
-+  were wiped.  To partially solve this, you can set
-+  CONFIG_PAGE_POISONING=y in your kernel config and add page_poison=1
-+  to your kernel command line.  However, this has a performance cost.
-+
-+- Secret keys might still exist in CPU registers, in crypto
-+  accelerator hardware (if used by the crypto API to implement any of
-+  the algorithms), or in other places not explicitly considered here.
-+
-+Limitations of v1 policies
-+~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+v1 encryption policies have some weaknesses with respect to online
-+attacks:
-+
-+- There is no verification that the provided master key is correct.
-+  Therefore, a malicious user can temporarily associate the wrong key
-+  with another user's encrypted files to which they have read-only
-+  access.  Because of filesystem caching, the wrong key will then be
-+  used by the other user's accesses to those files, even if the other
-+  user has the correct key in their own keyring.  This violates the
-+  meaning of "read-only access".
-+
-+- A compromise of a per-file key also compromises the master key from
-+  which it was derived.
-+
-+- Non-root users cannot securely remove encryption keys.
-+
-+All the above problems are fixed with v2 encryption policies.  For
-+this reason among others, it is recommended to use v2 encryption
-+policies on all new encrypted directories.
- 
- Key hierarchy
- =============
-@@ -123,11 +187,52 @@ appropriate master key.  There can be any number of master keys, each
- of which protects any number of directory trees on any number of
- filesystems.
- 
--Userspace should generate master keys either using a cryptographically
--secure random number generator, or by using a KDF (Key Derivation
--Function).  Note that whenever a KDF is used to "stretch" a
--lower-entropy secret such as a passphrase, it is critical that a KDF
--designed for this purpose be used, such as scrypt, PBKDF2, or Argon2.
-+Master keys must be real cryptographic keys, i.e. indistinguishable
-+from random bytestrings of the same length.  This implies that users
-+**must not** directly use a password as a master key, zero-pad a
-+shorter key, or repeat a shorter key.  Security cannot be guaranteed
-+if userspace makes any such error, as the cryptographic proofs and
-+analysis would no longer apply.
-+
-+Instead, users should generate master keys either using a
-+cryptographically secure random number generator, or by using a KDF
-+(Key Derivation Function).  The kernel does not do any key stretching;
-+therefore, if userspace derives the key from a low-entropy secret such
-+as a passphrase, it is critical that a KDF designed for this purpose
-+be used, such as scrypt, PBKDF2, or Argon2.
-+
-+Key derivation function
-+-----------------------
-+
-+With one exception, fscrypt never uses the master key(s) for
-+encryption directly.  Instead, they are only used as input to a KDF
-+(Key Derivation Function) to derive the actual keys.
-+
-+The KDF used for a particular master key differs depending on whether
-+the key is used for v1 encryption policies or for v2 encryption
-+policies.  Users **must not** use the same key for both v1 and v2
-+encryption policies.  (No real-world attack is currently known on this
-+specific case of key reuse, but its security cannot be guaranteed
-+since the cryptographic proofs and analysis would no longer apply.)
-+
-+For v1 encryption policies, the KDF only supports deriving per-file
-+encryption keys.  It works by encrypting the master key with
-+AES-128-ECB, using the file's 16-byte nonce as the AES key.  The
-+resulting ciphertext is used as the derived key.  If the ciphertext is
-+longer than needed, then it is truncated to the needed length.
-+
-+For v2 encryption policies, the KDF is HKDF-SHA512.  The master key is
-+passed as the "input keying material", no salt is used, and a distinct
-+"application-specific information string" is used for each distinct
-+key to be derived.  For example, when a per-file encryption key is
-+derived, the application-specific information string is the file's
-+nonce prefixed with "fscrypt\\0" and a context byte.  Different
-+context bytes are used for other types of derived keys.
-+
-+HKDF-SHA512 is preferred to the original AES-128-ECB based KDF because
-+HKDF is more flexible, is nonreversible, and evenly distributes
-+entropy from the master key.  HKDF is also standardized and widely
-+used by other software, whereas the AES-128-ECB based KDF is ad-hoc.
- 
- Per-file keys
- -------------
-@@ -138,29 +243,9 @@ files doesn't map to the same ciphertext, or vice versa.  In most
- cases, fscrypt does this by deriving per-file keys.  When a new
- encrypted inode (regular file, directory, or symlink) is created,
- fscrypt randomly generates a 16-byte nonce and stores it in the
--inode's encryption xattr.  Then, it uses a KDF (Key Derivation
--Function) to derive the file's key from the master key and nonce.
+-	pfn = pos * BITS_PER_BYTE;
+-	if (pfn >= max_pfn)
+-		return 0;
 -
--The Adiantum encryption mode (see `Encryption modes and usage`_) is
--special, since it accepts longer IVs and is suitable for both contents
--and filenames encryption.  For it, a "direct key" option is offered
--where the file's nonce is included in the IVs and the master key is
--used for encryption directly.  This improves performance; however,
--users must not use the same master key for any other encryption mode.
+-	end_pfn = pfn + count * BITS_PER_BYTE;
+-	if (end_pfn > max_pfn)
+-		end_pfn = max_pfn;
++	ret = page_idle_get_frames(pos, count, NULL, &pfn, &end_pfn);
++	if (ret == -ENXIO)
++		return 0;  /* Reads beyond max_pfn do nothing */
++	else if (ret)
++		return ret;
+ 
+ 	for (; pfn < end_pfn; pfn++) {
+ 		bit = pfn % BITMAP_CHUNK_BITS;
+ 		if (!bit)
+ 			*out = 0ULL;
+-		page = page_idle_get_page(pfn);
+-		if (page) {
+-			if (page_is_idle(page)) {
+-				/*
+-				 * The page might have been referenced via a
+-				 * pte, in which case it is not idle. Clear
+-				 * refs and recheck.
+-				 */
+-				page_idle_clear_pte_refs(page);
+-				if (page_is_idle(page))
+-					*out |= 1ULL << bit;
+-			}
++		page = page_idle_get_page_pfn(pfn);
++		if (page && page_idle_pte_check(page)) {
++			*out |= 1ULL << bit;
+ 			put_page(page);
+ 		}
+ 		if (bit == BITMAP_CHUNK_BITS - 1)
+@@ -170,23 +209,16 @@ static ssize_t page_idle_bitmap_write(struct file *file, struct kobject *kobj,
+ 	const u64 *in = (u64 *)buf;
+ 	struct page *page;
+ 	unsigned long pfn, end_pfn;
+-	int bit;
 -
--Below, the KDF and design considerations are described in more detail.
+-	if (pos % BITMAP_CHUNK_SIZE || count % BITMAP_CHUNK_SIZE)
+-		return -EINVAL;
++	int bit, ret;
+ 
+-	pfn = pos * BITS_PER_BYTE;
+-	if (pfn >= max_pfn)
+-		return -ENXIO;
 -
--The current KDF works by encrypting the master key with AES-128-ECB,
--using the file's nonce as the AES key.  The output is used as the
--derived key.  If the output is longer than needed, then it is
--truncated to the needed length.
--
--Note: this KDF meets the primary security requirement, which is to
--produce unique derived keys that preserve the entropy of the master
--key, assuming that the master key is already a good pseudorandom key.
--However, it is nonstandard and has some problems such as being
--reversible, so it is generally considered to be a mistake!  It may be
--replaced with HKDF or another more standard KDF in the future.
-+inode's encryption xattr.  Then, it uses a KDF (as described in `Key
-+derivation function`_) to derive the file's key from the master key
-+and nonce.
+-	end_pfn = pfn + count * BITS_PER_BYTE;
+-	if (end_pfn > max_pfn)
+-		end_pfn = max_pfn;
++	ret = page_idle_get_frames(pos, count, NULL, &pfn, &end_pfn);
++	if (ret)
++		return ret;
  
- Key derivation was chosen over key wrapping because wrapped keys would
- require larger xattrs which would be less likely to fit in-line in the
-@@ -176,6 +261,37 @@ rejected as it would have prevented ext4 filesystems from being
- resized, and by itself still wouldn't have been sufficient to prevent
- the same key from being directly reused for both XTS and CTS-CBC.
+ 	for (; pfn < end_pfn; pfn++) {
+ 		bit = pfn % BITMAP_CHUNK_BITS;
+ 		if ((*in >> bit) & 1) {
+-			page = page_idle_get_page(pfn);
++			page = page_idle_get_page_pfn(pfn);
+ 			if (page) {
+ 				page_idle_clear_pte_refs(page);
+ 				set_page_idle(page);
+@@ -224,6 +256,243 @@ struct page_ext_operations page_idle_ops = {
+ };
+ #endif
  
-+DIRECT_KEY and per-mode keys
-+----------------------------
-+
-+The Adiantum encryption mode (see `Encryption modes and usage`_) is
-+suitable for both contents and filenames encryption, and it accepts
-+long IVs --- long enough to hold both an 8-byte logical block number
-+and a 16-byte per-file nonce.  Also, the overhead of each Adiantum key
-+is greater than that of an AES-256-XTS key.
-+
-+Therefore, to improve performance and save memory, for Adiantum a
-+"direct key" configuration is supported.  When the user has enabled
-+this by setting FSCRYPT_POLICY_FLAG_DIRECT_KEY in the fscrypt policy,
-+per-file keys are not used.  Instead, whenever any data (contents or
-+filenames) is encrypted, the file's 16-byte nonce is included in the
-+IV.  Moreover:
-+
-+- For v1 encryption policies, the encryption is done directly with the
-+  master key.  Because of this, users **must not** use the same master
-+  key for any other purpose, even for other v1 policies.
-+
-+- For v2 encryption policies, the encryption is done with a per-mode
-+  key derived using the KDF.  Users may use the same master key for
-+  other v2 encryption policies.
-+
-+Key identifiers
-+---------------
-+
-+For master keys used for v2 encryption policies, a unique 16-byte "key
-+identifier" is also derived using the KDF.  This value is stored in
-+the clear, since it is needed to reliably identify the key itself.
-+
- Encryption modes and usage
- ==========================
- 
-@@ -270,24 +386,44 @@ User API
- Setting an encryption policy
- ----------------------------
- 
-+FS_IOC_SET_ENCRYPTION_POLICY
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
- The FS_IOC_SET_ENCRYPTION_POLICY ioctl sets an encryption policy on an
- empty directory or verifies that a directory or regular file already
- has the specified encryption policy.  It takes in a pointer to a
--:c:type:`struct fscrypt_policy`, defined as follows::
-+:c:type:`struct fscrypt_policy_v1` or a :c:type:`struct
-+fscrypt_policy_v2`, defined as follows::
- 
--    #define FSCRYPT_KEY_DESCRIPTOR_SIZE  8
--
--    struct fscrypt_policy {
-+    #define FSCRYPT_POLICY_V1               0
-+    #define FSCRYPT_KEY_DESCRIPTOR_SIZE     8
-+    struct fscrypt_policy_v1 {
-             __u8 version;
-             __u8 contents_encryption_mode;
-             __u8 filenames_encryption_mode;
-             __u8 flags;
-             __u8 master_key_descriptor[FSCRYPT_KEY_DESCRIPTOR_SIZE];
-     };
-+    #define fscrypt_policy  fscrypt_policy_v1
-+
-+    #define FSCRYPT_POLICY_V2               2
-+    #define FSCRYPT_KEY_IDENTIFIER_SIZE     16
-+    struct fscrypt_policy_v2 {
-+            __u8 version;
-+            __u8 contents_encryption_mode;
-+            __u8 filenames_encryption_mode;
-+            __u8 flags;
-+            __u8 __reserved[4];
-+            __u8 master_key_identifier[FSCRYPT_KEY_IDENTIFIER_SIZE];
-+    };
- 
- This structure must be initialized as follows:
- 
--- ``version`` must be 0.
-+- ``version`` must be FSCRYPT_POLICY_V1 (0) if the struct is
-+  :c:type:`fscrypt_policy_v1` or FSCRYPT_POLICY_V2 (2) if the struct
-+  is :c:type:`fscrypt_policy_v2`.  (Note: we refer to the original
-+  policy version as "v1", though its version code is really 0.)  For
-+  new encrypted directories, use v2 policies.
- 
- - ``contents_encryption_mode`` and ``filenames_encryption_mode`` must
-   be set to constants from ``<linux/fscrypt.h>`` which identify the
-@@ -297,21 +433,30 @@ This structure must be initialized as follows:
- 
- - ``flags`` must contain a value from ``<linux/fscrypt.h>`` which
-   identifies the amount of NUL-padding to use when encrypting
--  filenames.  If unsure, use FSCRYPT_POLICY_FLAGS_PAD_32 (0x3).  In
--  addition, if the chosen encryption modes are both
-+  filenames.  If unsure, use FSCRYPT_POLICY_FLAGS_PAD_32 (0x3).
-+  Additionally, if the encryption modes are both
-   FSCRYPT_MODE_ADIANTUM, this can contain
--  FSCRYPT_POLICY_FLAG_DIRECT_KEY to specify that the master key should
--  be used directly, without key derivation.
-+  FSCRYPT_POLICY_FLAG_DIRECT_KEY; see `DIRECT_KEY and per-mode keys`_.
-+
-+- For v2 encryption policies, ``__reserved`` must be zeroed.
- 
--- ``master_key_descriptor`` specifies how to find the master key in
--  the keyring; see `Adding keys`_.  It is up to userspace to choose a
--  unique ``master_key_descriptor`` for each master key.  The e4crypt
--  and fscrypt tools use the first 8 bytes of
-+- For v1 encryption policies, ``master_key_descriptor`` specifies how
-+  to find the master key in a keyring; see `Adding keys`_.  It is up
-+  to userspace to choose a unique ``master_key_descriptor`` for each
-+  master key.  The e4crypt and fscrypt tools use the first 8 bytes of
-   ``SHA-512(SHA-512(master_key))``, but this particular scheme is not
-   required.  Also, the master key need not be in the keyring yet when
-   FS_IOC_SET_ENCRYPTION_POLICY is executed.  However, it must be added
-   before any files can be created in the encrypted directory.
- 
-+  For v2 encryption policies, ``master_key_descriptor`` has been
-+  replaced with ``master_key_identifier``, which is longer and cannot
-+  be arbitrarily chosen.  Instead, the key must first be added using
-+  `FS_IOC_ADD_ENCRYPTION_KEY`_.  Then, the ``key_spec.u.identifier``
-+  the kernel returned in the :c:type:`struct fscrypt_add_key_arg` must
-+  be used as the ``master_key_identifier`` in the :c:type:`struct
-+  fscrypt_policy_v2`.
-+
- If the file is not yet encrypted, then FS_IOC_SET_ENCRYPTION_POLICY
- verifies that the file is an empty directory.  If so, the specified
- encryption policy is assigned to the directory, turning it into an
-@@ -327,6 +472,15 @@ policy exactly matches the actual one.  If they match, then the ioctl
- returns 0.  Otherwise, it fails with EEXIST.  This works on both
- regular files and directories, including nonempty directories.
- 
-+When a v2 encryption policy is assigned to a directory, it is also
-+required that either the specified key has been added by the current
-+user or that the caller has CAP_FOWNER in the initial user namespace.
-+(This is needed to prevent a user from encrypting their data with
-+another user's key.)  The key must remain added while
-+FS_IOC_SET_ENCRYPTION_POLICY is executing.  However, if the new
-+encrypted directory does not need to be accessed immediately, then the
-+key can be removed right away afterwards.
-+
- Note that the ext4 filesystem does not allow the root directory to be
- encrypted, even if it is empty.  Users who want to encrypt an entire
- filesystem with one key should consider using dm-crypt instead.
-@@ -339,7 +493,11 @@ FS_IOC_SET_ENCRYPTION_POLICY can fail with the following errors:
- - ``EEXIST``: the file is already encrypted with an encryption policy
-   different from the one specified
- - ``EINVAL``: an invalid encryption policy was specified (invalid
--  version, mode(s), or flags)
-+  version, mode(s), or flags; or reserved bits were set)
-+- ``ENOKEY``: a v2 encryption policy was specified, but the key with
-+  the specified ``master_key_identifier`` has not been added, nor does
-+  the process have the CAP_FOWNER capability in the initial user
-+  namespace
- - ``ENOTDIR``: the file is unencrypted and is a regular file, not a
-   directory
- - ``ENOTEMPTY``: the file is unencrypted and is a nonempty directory
-@@ -358,25 +516,78 @@ FS_IOC_SET_ENCRYPTION_POLICY can fail with the following errors:
- Getting an encryption policy
- ----------------------------
- 
--The FS_IOC_GET_ENCRYPTION_POLICY ioctl retrieves the :c:type:`struct
--fscrypt_policy`, if any, for a directory or regular file.  See above
--for the struct definition.  No additional permissions are required
--beyond the ability to open the file.
-+Two ioctls are available to get a file's encryption policy:
-+
-+- `FS_IOC_GET_ENCRYPTION_POLICY_EX`_
-+- `FS_IOC_GET_ENCRYPTION_POLICY`_
-+
-+The extended (_EX) version of the ioctl is more general and is
-+recommended to use when possible.  However, on older kernels only the
-+original ioctl is available.  Applications should try the extended
-+version, and if it fails with ENOTTY fall back to the original
-+version.
-+
-+FS_IOC_GET_ENCRYPTION_POLICY_EX
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+The FS_IOC_GET_ENCRYPTION_POLICY_EX ioctl retrieves the encryption
-+policy, if any, for a directory or regular file.  No additional
-+permissions are required beyond the ability to open the file.  It
-+takes in a pointer to a :c:type:`struct fscrypt_get_policy_ex_arg`,
-+defined as follows::
-+
-+    struct fscrypt_get_policy_ex_arg {
-+            __u64 policy_size; /* input/output */
-+            union {
-+                    __u8 version;
-+                    struct fscrypt_policy_v1 v1;
-+                    struct fscrypt_policy_v2 v2;
-+            } policy; /* output */
-+    };
-+
-+The caller must initialize ``policy_size`` to the size available for
-+the policy struct, i.e. ``sizeof(arg.policy)``.
-+
-+On success, the policy struct is returned in ``policy``, and its
-+actual size is returned in ``policy_size``.  ``policy.version`` should
-+be checked to determine the version of policy returned.  Note that the
-+version code for the "v1" policy is actually 0 (FSCRYPT_POLICY_V1).
- 
--FS_IOC_GET_ENCRYPTION_POLICY can fail with the following errors:
-+FS_IOC_GET_ENCRYPTION_POLICY_EX can fail with the following errors:
- 
- - ``EINVAL``: the file is encrypted, but it uses an unrecognized
--  encryption context format
-+  encryption policy version
- - ``ENODATA``: the file is not encrypted
--- ``ENOTTY``: this type of filesystem does not implement encryption
-+- ``ENOTTY``: this type of filesystem does not implement encryption,
-+  or this kernel is too old to support FS_IOC_GET_ENCRYPTION_POLICY_EX
-+  (try FS_IOC_GET_ENCRYPTION_POLICY instead)
- - ``EOPNOTSUPP``: the kernel was not configured with encryption
-   support for this filesystem
-+- ``EOVERFLOW``: the file is encrypted and uses a recognized
-+  encryption policy version, but the policy struct does not fit into
-+  the provided buffer
- 
- Note: if you only need to know whether a file is encrypted or not, on
- most filesystems it is also possible to use the FS_IOC_GETFLAGS ioctl
- and check for FS_ENCRYPT_FL, or to use the statx() system call and
- check for STATX_ATTR_ENCRYPTED in stx_attributes.
- 
-+FS_IOC_GET_ENCRYPTION_POLICY
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+The FS_IOC_GET_ENCRYPTION_POLICY ioctl can also retrieve the
-+encryption policy, if any, for a directory or regular file.  However,
-+unlike `FS_IOC_GET_ENCRYPTION_POLICY_EX`_,
-+FS_IOC_GET_ENCRYPTION_POLICY only supports the original policy
-+version.  It takes in a pointer directly to a :c:type:`struct
-+fscrypt_policy_v1` rather than a :c:type:`struct
-+fscrypt_get_policy_ex_arg`.
-+
-+The error codes for FS_IOC_GET_ENCRYPTION_POLICY are the same as those
-+for FS_IOC_GET_ENCRYPTION_POLICY_EX, except that
-+FS_IOC_GET_ENCRYPTION_POLICY also returns ``EINVAL`` if the file is
-+encrypted using a newer encryption policy version.
-+
- Getting the per-filesystem salt
- -------------------------------
- 
-@@ -392,8 +603,115 @@ generate and manage any needed salt(s) in userspace.
- Adding keys
- -----------
- 
--To provide a master key, userspace must add it to an appropriate
--keyring using the add_key() system call (see:
-+FS_IOC_ADD_ENCRYPTION_KEY
-+~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+The FS_IOC_ADD_ENCRYPTION_KEY ioctl adds a master encryption key to
-+the filesystem, making all files on the filesystem which were
-+encrypted using that key appear "unlocked", i.e. in plaintext form.
-+It can be executed on any file or directory on the target filesystem,
-+but using the filesystem's root directory is recommended.  It takes in
-+a pointer to a :c:type:`struct fscrypt_add_key_arg`, defined as
-+follows::
-+
-+    struct fscrypt_add_key_arg {
-+            struct fscrypt_key_specifier key_spec;
-+            __u32 raw_size;
-+            __u32 __reserved[9];
-+            __u8 raw[];
-+    };
-+
-+    #define FSCRYPT_KEY_SPEC_TYPE_DESCRIPTOR        1
-+    #define FSCRYPT_KEY_SPEC_TYPE_IDENTIFIER        2
-+
-+    struct fscrypt_key_specifier {
-+            __u32 type;     /* one of FSCRYPT_KEY_SPEC_TYPE_* */
-+            __u32 __reserved;
-+            union {
-+                    __u8 __reserved[32]; /* reserve some extra space */
-+                    __u8 descriptor[FSCRYPT_KEY_DESCRIPTOR_SIZE];
-+                    __u8 identifier[FSCRYPT_KEY_IDENTIFIER_SIZE];
-+            } u;
-+    };
-+
-+:c:type:`struct fscrypt_add_key_arg` must be zeroed, then initialized
-+as follows:
-+
-+- If the key is being added for use by v1 encryption policies, then
-+  ``key_spec.type`` must contain FSCRYPT_KEY_SPEC_TYPE_DESCRIPTOR, and
-+  ``key_spec.u.descriptor`` must contain the descriptor of the key
-+  being added, corresponding to the value in the
-+  ``master_key_descriptor`` field of :c:type:`struct
-+  fscrypt_policy_v1`.  To add this type of key, the calling process
-+  must have the CAP_SYS_ADMIN capability in the initial user
-+  namespace.
-+
-+  Alternatively, if the key is being added for use by v2 encryption
-+  policies, then ``key_spec.type`` must contain
-+  FSCRYPT_KEY_SPEC_TYPE_IDENTIFIER, and ``key_spec.u.identifier`` is
-+  an *output* field which the kernel fills in with a cryptographic
-+  hash of the key.  To add this type of key, the calling process does
-+  not need any privileges.  However, the number of keys that can be
-+  added is limited by the user's quota for the keyrings service (see
-+  ``Documentation/security/keys/core.rst``).
-+
-+- ``raw_size`` must be the size of the ``raw`` key provided, in bytes.
-+
-+- ``raw`` is a variable-length field which must contain the actual
-+  key, ``raw_size`` bytes long.
-+
-+For v2 policy keys, the kernel keeps track of which user (identified
-+by effective user ID) added the key, and only allows the key to be
-+removed by that user --- or by "root", if they use
-+`FS_IOC_REMOVE_ENCRYPTION_KEY_ALL_USERS`_.
-+
-+However, if another user has added the key, it may be desirable to
-+prevent that other user from unexpectedly removing it.  Therefore,
-+FS_IOC_ADD_ENCRYPTION_KEY may also be used to add a v2 policy key
-+*again*, even if it's already added by other user(s).  In this case,
-+FS_IOC_ADD_ENCRYPTION_KEY will just install a claim to the key for the
-+current user, rather than actually add the key again (but the raw key
-+must still be provided, as a proof of knowledge).
-+
-+FS_IOC_ADD_ENCRYPTION_KEY returns 0 if either the key or a claim to
-+the key was either added or already exists.
-+
-+FS_IOC_ADD_ENCRYPTION_KEY can fail with the following errors:
-+
-+- ``EACCES``: FSCRYPT_KEY_SPEC_TYPE_DESCRIPTOR was specified, but the
-+  caller does not have the CAP_SYS_ADMIN capability in the initial
-+  user namespace
-+- ``EDQUOT``: the key quota for this user would be exceeded by adding
-+  the key
-+- ``EINVAL``: invalid key size or key specifier type, or reserved bits
-+  were set
-+- ``ENOTTY``: this type of filesystem does not implement encryption
-+- ``EOPNOTSUPP``: the kernel was not configured with encryption
-+  support for this filesystem, or the filesystem superblock has not
-+  had encryption enabled on it
-+
-+Legacy method
-+~~~~~~~~~~~~~
-+
-+For v1 encryption policies, a master encryption key can also be
-+provided by adding it to a process-subscribed keyring, e.g. to a
-+session keyring, or to a user keyring if the user keyring is linked
-+into the session keyring.
-+
-+This method is deprecated (and not supported for v2 encryption
-+policies) for several reasons.  First, it cannot be used in
-+combination with FS_IOC_REMOVE_ENCRYPTION_KEY (see `Removing keys`_),
-+so for removing a key a workaround such as keyctl_unlink() in
-+combination with ``sync; echo 2 > /proc/sys/vm/drop_caches`` would
-+have to be used.  Second, it doesn't match the fact that the
-+locked/unlocked status of encrypted files (i.e. whether they appear to
-+be in plaintext form or in ciphertext form) is global.  This mismatch
-+has caused much confusion as well as real problems when processes
-+running under different UIDs, such as a ``sudo`` command, need to
-+access encrypted files.
-+
-+Nevertheless, to add a key to one of the process-subscribed keyrings,
-+the add_key() system call can be used (see:
- ``Documentation/security/keys/core.rst``).  The key type must be
- "logon"; keys of this type are kept in kernel memory and cannot be
- read back by userspace.  The key description must be "fscrypt:"
-@@ -401,12 +719,12 @@ followed by the 16-character lower case hex representation of the
- ``master_key_descriptor`` that was set in the encryption policy.  The
- key payload must conform to the following structure::
- 
--    #define FSCRYPT_MAX_KEY_SIZE 64
-+    #define FSCRYPT_MAX_KEY_SIZE            64
- 
-     struct fscrypt_key {
--            u32 mode;
--            u8 raw[FSCRYPT_MAX_KEY_SIZE];
--            u32 size;
-+            __u32 mode;
-+            __u8 raw[FSCRYPT_MAX_KEY_SIZE];
-+            __u32 size;
-     };
- 
- ``mode`` is ignored; just set it to 0.  The actual key is provided in
-@@ -418,26 +736,194 @@ with a filesystem-specific prefix such as "ext4:".  However, the
- filesystem-specific prefixes are deprecated and should not be used in
- new programs.
- 
--There are several different types of keyrings in which encryption keys
--may be placed, such as a session keyring, a user session keyring, or a
--user keyring.  Each key must be placed in a keyring that is "attached"
--to all processes that might need to access files encrypted with it, in
--the sense that request_key() will find the key.  Generally, if only
--processes belonging to a specific user need to access a given
--encrypted directory and no session keyring has been installed, then
--that directory's key should be placed in that user's user session
--keyring or user keyring.  Otherwise, a session keyring should be
--installed if needed, and the key should be linked into that session
--keyring, or in a keyring linked into that session keyring.
--
--Note: introducing the complex visibility semantics of keyrings here
--was arguably a mistake --- especially given that by design, after any
--process successfully opens an encrypted file (thereby setting up the
--per-file key), possessing the keyring key is not actually required for
--any process to read/write the file until its in-memory inode is
--evicted.  In the future there probably should be a way to provide keys
--directly to the filesystem instead, which would make the intended
--semantics clearer.
-+Removing keys
-+-------------
-+
-+Two ioctls are available for removing a key that was added by
-+`FS_IOC_ADD_ENCRYPTION_KEY`_:
-+
-+- `FS_IOC_REMOVE_ENCRYPTION_KEY`_
-+- `FS_IOC_REMOVE_ENCRYPTION_KEY_ALL_USERS`_
-+
-+These two ioctls differ only in cases where v2 policy keys are added
-+or removed by non-root users.
-+
-+These ioctls don't work on keys that were added via the legacy
-+process-subscribed keyrings mechanism.
-+
-+Before using these ioctls, read the `Kernel memory compromise`_
-+section for a discussion of the security goals and limitations of
-+these ioctls.
-+
-+FS_IOC_REMOVE_ENCRYPTION_KEY
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+The FS_IOC_REMOVE_ENCRYPTION_KEY ioctl removes a claim to a master
-+encryption key from the filesystem, and possibly removes the key
-+itself.  It can be executed on any file or directory on the target
-+filesystem, but using the filesystem's root directory is recommended.
-+It takes in a pointer to a :c:type:`struct fscrypt_remove_key_arg`,
-+defined as follows::
-+
-+    struct fscrypt_remove_key_arg {
-+            struct fscrypt_key_specifier key_spec;
-+    #define FSCRYPT_KEY_REMOVAL_STATUS_FLAG_FILES_BUSY      0x00000001
-+    #define FSCRYPT_KEY_REMOVAL_STATUS_FLAG_OTHER_USERS     0x00000002
-+            __u32 removal_status_flags;     /* output */
-+            __u32 __reserved[5];
-+    };
-+
-+This structure must be zeroed, then initialized as follows:
-+
-+- The key to remove is specified by ``key_spec``:
-+
-+    - To remove a key used by v1 encryption policies, set
-+      ``key_spec.type`` to FSCRYPT_KEY_SPEC_TYPE_DESCRIPTOR and fill
-+      in ``key_spec.u.descriptor``.  To remove this type of key, the
-+      calling process must have the CAP_SYS_ADMIN capability in the
-+      initial user namespace.
-+
-+    - To remove a key used by v2 encryption policies, set
-+      ``key_spec.type`` to FSCRYPT_KEY_SPEC_TYPE_IDENTIFIER and fill
-+      in ``key_spec.u.identifier``.
-+
-+For v2 policy keys, this ioctl is usable by non-root users.  However,
-+to make this possible, it actually just removes the current user's
-+claim to the key, undoing a single call to FS_IOC_ADD_ENCRYPTION_KEY.
-+Only after all claims are removed is the key really removed.
-+
-+For example, if FS_IOC_ADD_ENCRYPTION_KEY was called with uid 1000,
-+then the key will be "claimed" by uid 1000, and
-+FS_IOC_REMOVE_ENCRYPTION_KEY will only succeed as uid 1000.  Or, if
-+both uids 1000 and 2000 added the key, then for each uid
-+FS_IOC_REMOVE_ENCRYPTION_KEY will only remove their own claim.  Only
-+once *both* are removed is the key really removed.  (Think of it like
-+unlinking a file that may have hard links.)
-+
-+If FS_IOC_REMOVE_ENCRYPTION_KEY really removes the key, it will also
-+try to "lock" all files that had been unlocked with the key.  It won't
-+lock files that are still in-use, so this ioctl is expected to be used
-+in cooperation with userspace ensuring that none of the files are
-+still open.  However, if necessary, this ioctl can be executed again
-+later to retry locking any remaining files.
-+
-+FS_IOC_REMOVE_ENCRYPTION_KEY returns 0 if either the key was removed
-+(but may still have files remaining to be locked), the user's claim to
-+the key was removed, or the key was already removed but had files
-+remaining to be the locked so the ioctl retried locking them.  In any
-+of these cases, ``removal_status_flags`` is filled in with the
-+following informational status flags:
-+
-+- ``FSCRYPT_KEY_REMOVAL_STATUS_FLAG_FILES_BUSY``: set if some file(s)
-+  are still in-use.  Not guaranteed to be set in the case where only
-+  the user's claim to the key was removed.
-+- ``FSCRYPT_KEY_REMOVAL_STATUS_FLAG_OTHER_USERS``: set if only the
-+  user's claim to the key was removed, not the key itself
-+
-+FS_IOC_REMOVE_ENCRYPTION_KEY can fail with the following errors:
-+
-+- ``EACCES``: The FSCRYPT_KEY_SPEC_TYPE_DESCRIPTOR key specifier type
-+  was specified, but the caller does not have the CAP_SYS_ADMIN
-+  capability in the initial user namespace
-+- ``EINVAL``: invalid key specifier type, or reserved bits were set
-+- ``ENOKEY``: the key object was not found at all, i.e. it was never
-+  added in the first place or was already fully removed including all
-+  files locked; or, the user does not have a claim to the key (but
-+  someone else does).
-+- ``ENOTTY``: this type of filesystem does not implement encryption
-+- ``EOPNOTSUPP``: the kernel was not configured with encryption
-+  support for this filesystem, or the filesystem superblock has not
-+  had encryption enabled on it
-+
-+FS_IOC_REMOVE_ENCRYPTION_KEY_ALL_USERS
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+FS_IOC_REMOVE_ENCRYPTION_KEY_ALL_USERS is exactly the same as
-+`FS_IOC_REMOVE_ENCRYPTION_KEY`_, except that for v2 policy keys, the
-+ALL_USERS version of the ioctl will remove all users' claims to the
-+key, not just the current user's.  I.e., the key itself will always be
-+removed, no matter how many users have added it.  This difference is
-+only meaningful if non-root users are adding and removing keys.
-+
-+Because of this, FS_IOC_REMOVE_ENCRYPTION_KEY_ALL_USERS also requires
-+"root", namely the CAP_SYS_ADMIN capability in the initial user
-+namespace.  Otherwise it will fail with EACCES.
-+
-+Getting key status
-+------------------
-+
-+FS_IOC_GET_ENCRYPTION_KEY_STATUS
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+The FS_IOC_GET_ENCRYPTION_KEY_STATUS ioctl retrieves the status of a
-+master encryption key.  It can be executed on any file or directory on
-+the target filesystem, but using the filesystem's root directory is
-+recommended.  It takes in a pointer to a :c:type:`struct
-+fscrypt_get_key_status_arg`, defined as follows::
-+
-+    struct fscrypt_get_key_status_arg {
-+            /* input */
-+            struct fscrypt_key_specifier key_spec;
-+            __u32 __reserved[6];
-+
-+            /* output */
-+    #define FSCRYPT_KEY_STATUS_ABSENT               1
-+    #define FSCRYPT_KEY_STATUS_PRESENT              2
-+    #define FSCRYPT_KEY_STATUS_INCOMPLETELY_REMOVED 3
-+            __u32 status;
-+    #define FSCRYPT_KEY_STATUS_FLAG_ADDED_BY_SELF   0x00000001
-+            __u32 status_flags;
-+            __u32 user_count;
-+            __u32 __out_reserved[13];
-+    };
-+
-+The caller must zero all input fields, then fill in ``key_spec``:
-+
-+    - To get the status of a key for v1 encryption policies, set
-+      ``key_spec.type`` to FSCRYPT_KEY_SPEC_TYPE_DESCRIPTOR and fill
-+      in ``key_spec.u.descriptor``.
-+
-+    - To get the status of a key for v2 encryption policies, set
-+      ``key_spec.type`` to FSCRYPT_KEY_SPEC_TYPE_IDENTIFIER and fill
-+      in ``key_spec.u.identifier``.
-+
-+On success, 0 is returned and the kernel fills in the output fields:
-+
-+- ``status`` indicates whether the key is absent, present, or
-+  incompletely removed.  Incompletely removed means that the master
-+  secret has been removed, but some files are still in use; i.e.,
-+  `FS_IOC_REMOVE_ENCRYPTION_KEY`_ returned 0 but set the informational
-+  status flag FSCRYPT_KEY_REMOVAL_STATUS_FLAG_FILES_BUSY.
-+
-+- ``status_flags`` can contain the following flags:
-+
-+    - ``FSCRYPT_KEY_STATUS_FLAG_ADDED_BY_SELF`` indicates that the key
-+      has added by the current user.  This is only set for keys
-+      identified by ``identifier`` rather than by ``descriptor``.
-+
-+- ``user_count`` specifies the number of users who have added the key.
-+  This is only set for keys identified by ``identifier`` rather than
-+  by ``descriptor``.
-+
-+FS_IOC_GET_ENCRYPTION_KEY_STATUS can fail with the following errors:
-+
-+- ``EINVAL``: invalid key specifier type, or reserved bits were set
-+- ``ENOTTY``: this type of filesystem does not implement encryption
-+- ``EOPNOTSUPP``: the kernel was not configured with encryption
-+  support for this filesystem, or the filesystem superblock has not
-+  had encryption enabled on it
-+
-+Among other use cases, FS_IOC_GET_ENCRYPTION_KEY_STATUS can be useful
-+for determining whether the key for a given encrypted directory needs
-+to be added before prompting the user for the passphrase needed to
-+derive the key.
-+
-+FS_IOC_GET_ENCRYPTION_KEY_STATUS can only get the status of keys in
-+the filesystem-level keyring, i.e. the keyring managed by
-+`FS_IOC_ADD_ENCRYPTION_KEY`_ and `FS_IOC_REMOVE_ENCRYPTION_KEY`_.  It
-+cannot get the status of a key that has only been added for use by v1
-+encryption policies using the legacy mechanism involving
-+process-subscribed keyrings.
- 
- Access semantics
- ================
-@@ -500,7 +986,7 @@ Without the key
- 
- Some filesystem operations may be performed on encrypted regular
- files, directories, and symlinks even before their encryption key has
--been provided:
-+been added, or after their encryption key has been removed:
- 
- - File metadata may be read, e.g. using stat().
- 
-@@ -565,20 +1051,20 @@ Encryption context
- ------------------
- 
- An encryption policy is represented on-disk by a :c:type:`struct
--fscrypt_context`.  It is up to individual filesystems to decide where
--to store it, but normally it would be stored in a hidden extended
--attribute.  It should *not* be exposed by the xattr-related system
--calls such as getxattr() and setxattr() because of the special
--semantics of the encryption xattr.  (In particular, there would be
--much confusion if an encryption policy were to be added to or removed
--from anything other than an empty directory.)  The struct is defined
--as follows::
-+fscrypt_context_v1` or a :c:type:`struct fscrypt_context_v2`.  It is
-+up to individual filesystems to decide where to store it, but normally
-+it would be stored in a hidden extended attribute.  It should *not* be
-+exposed by the xattr-related system calls such as getxattr() and
-+setxattr() because of the special semantics of the encryption xattr.
-+(In particular, there would be much confusion if an encryption policy
-+were to be added to or removed from anything other than an empty
-+directory.)  These structs are defined as follows::
- 
--    #define FSCRYPT_KEY_DESCRIPTOR_SIZE  8
-     #define FS_KEY_DERIVATION_NONCE_SIZE 16
- 
--    struct fscrypt_context {
--            u8 format;
-+    #define FSCRYPT_KEY_DESCRIPTOR_SIZE  8
-+    struct fscrypt_context_v1 {
-+            u8 version;
-             u8 contents_encryption_mode;
-             u8 filenames_encryption_mode;
-             u8 flags;
-@@ -586,12 +1072,23 @@ as follows::
-             u8 nonce[FS_KEY_DERIVATION_NONCE_SIZE];
-     };
- 
--Note that :c:type:`struct fscrypt_context` contains the same
--information as :c:type:`struct fscrypt_policy` (see `Setting an
--encryption policy`_), except that :c:type:`struct fscrypt_context`
--also contains a nonce.  The nonce is randomly generated by the kernel
--and is used to derive the inode's encryption key as described in
--`Per-file keys`_.
-+    #define FSCRYPT_KEY_IDENTIFIER_SIZE  16
-+    struct fscrypt_context_v2 {
-+            u8 version;
-+            u8 contents_encryption_mode;
-+            u8 filenames_encryption_mode;
-+            u8 flags;
-+            u8 __reserved[4];
-+            u8 master_key_identifier[FSCRYPT_KEY_IDENTIFIER_SIZE];
-+            u8 nonce[FS_KEY_DERIVATION_NONCE_SIZE];
-+    };
-+
-+The context structs contain the same information as the corresponding
-+policy structs (see `Setting an encryption policy`_), except that the
-+context structs also contain a nonce.  The nonce is randomly generated
-+by the kernel and is used as KDF input or as a tweak to cause
-+different files to be encrypted differently; see `Per-file keys`_ and
-+`DIRECT_KEY and per-mode keys`_.
- 
- Data path changes
- -----------------
++/*  page_idle tracking for /proc/<pid>/page_idle */
++
++struct page_node {
++	struct page *page;
++	unsigned long addr;
++	struct list_head list;
++};
++
++struct page_idle_proc_priv {
++	unsigned long start_addr;
++	char *buffer;
++	int write;
++
++	/* Pre-allocate and provide nodes to pte_page_idle_proc_add() */
++	struct page_node *page_nodes;
++	int cur_page_node;
++	struct list_head *idle_page_list;
++};
++
++/*
++ * Set a page as idle or add it to a list to be set as idle later.
++ */
++static void pte_page_idle_proc_add(struct page *page,
++			       unsigned long addr, struct mm_walk *walk)
++{
++	struct page *page_get = NULL;
++	struct page_node *pn;
++	int bit;
++	unsigned long frames;
++	struct page_idle_proc_priv *priv = walk->private;
++	u64 *chunk = (u64 *)priv->buffer;
++
++	if (priv->write) {
++		VM_BUG_ON(!page);
++
++		/* Find whether this page was asked to be marked */
++		frames = (addr - priv->start_addr) >> PAGE_SHIFT;
++		bit = frames % BITMAP_CHUNK_BITS;
++		chunk = &chunk[frames / BITMAP_CHUNK_BITS];
++		if (((*chunk >> bit) & 1) == 0)
++			return;
++	}
++
++	if (page) {
++		page_get = page_idle_get_page(page);
++		if (!page_get)
++			return;
++	} else {
++		/* For swapped pages, set output bit as idle */
++		frames = (addr - priv->start_addr) >> PAGE_SHIFT;
++		bit = frames % BITMAP_CHUNK_BITS;
++		chunk = &chunk[frames / BITMAP_CHUNK_BITS];
++		*chunk |= (1 << bit);
++		return;
++	}
++
++	/*
++	 * For all other pages, add it to a list since we have to walk rmap,
++	 * which acquires ptlock, and we cannot walk rmap right now.
++	 */
++	pn = &(priv->page_nodes[priv->cur_page_node++]);
++	pn->page = page_get;
++	pn->addr = addr;
++	list_add(&pn->list, priv->idle_page_list);
++}
++
++static int pte_page_idle_proc_range(pmd_t *pmd, unsigned long addr,
++				    unsigned long end,
++				    struct mm_walk *walk)
++{
++	pte_t *pte;
++	spinlock_t *ptl;
++	struct page *page;
++	struct vm_area_struct *vma = walk->vma;
++	struct page_idle_proc_priv *priv = walk->private;
++
++	ptl = pmd_trans_huge_lock(pmd, vma);
++	if (ptl) {
++		if (pmd_present(*pmd)) {
++			page = follow_trans_huge_pmd(vma, addr, pmd,
++						     FOLL_DUMP|FOLL_WRITE);
++			if (!IS_ERR_OR_NULL(page))
++				pte_page_idle_proc_add(page, addr, walk);
++		}
++		spin_unlock(ptl);
++		return 0;
++	}
++
++	if (pmd_trans_unstable(pmd))
++		return 0;
++
++	pte = pte_offset_map_lock(vma->vm_mm, pmd, addr, &ptl);
++	for (; addr != end; pte++, addr += PAGE_SIZE) {
++		/* For swap_pte handling, we use an idle bit in the swap pte. */
++		if (is_swap_pte(*pte)) {
++			if (priv->write) {
++				set_pte_at(walk->mm, addr, pte,
++					   pte_swp_mkpage_idle(*pte));
++			} else {
++				/* If swap pte has idle bit set, report it as idle */
++				if (pte_swp_page_idle(*pte))
++					pte_page_idle_proc_add(NULL, addr, walk);
++			}
++			continue;
++		}
++
++		if (!pte_present(*pte))
++			continue;
++
++		page = vm_normal_page(vma, addr, *pte);
++		if (page)
++			pte_page_idle_proc_add(page, addr, walk);
++	}
++
++	pte_unmap_unlock(pte - 1, ptl);
++	return 0;
++}
++
++ssize_t page_idle_proc_generic(struct file *file, char __user *ubuff,
++			       size_t count, loff_t *pos, int write)
++{
++	int ret;
++	char *buffer;
++	u64 *out;
++	unsigned long start_addr, end_addr, start_frame, end_frame;
++	struct mm_struct *mm = file->private_data;
++	struct mm_walk walk = { .pmd_entry = pte_page_idle_proc_range, };
++	struct page_node *cur;
++	struct page_idle_proc_priv priv;
++	bool walk_error = false;
++	LIST_HEAD(idle_page_list);
++
++	if (!mm || !mmget_not_zero(mm))
++		return -EINVAL;
++
++	if (count > PAGE_SIZE)
++		count = PAGE_SIZE;
++
++	buffer = kzalloc(PAGE_SIZE, GFP_KERNEL);
++	if (!buffer) {
++		ret = -ENOMEM;
++		goto out_mmput;
++	}
++	out = (u64 *)buffer;
++
++	if (write && copy_from_user(buffer, ubuff, count)) {
++		ret = -EFAULT;
++		goto out;
++	}
++
++	ret = page_idle_get_frames(*pos, count, mm, &start_frame, &end_frame);
++	if (ret)
++		goto out;
++
++	start_addr = (start_frame << PAGE_SHIFT);
++	end_addr = (end_frame << PAGE_SHIFT);
++	priv.buffer = buffer;
++	priv.start_addr = start_addr;
++	priv.write = write;
++
++	priv.idle_page_list = &idle_page_list;
++	priv.cur_page_node = 0;
++	priv.page_nodes = kzalloc(sizeof(struct page_node) *
++				  (end_frame - start_frame), GFP_KERNEL);
++	if (!priv.page_nodes) {
++		ret = -ENOMEM;
++		goto out;
++	}
++
++	walk.private = &priv;
++	walk.mm = mm;
++
++	down_read(&mm->mmap_sem);
++
++	/*
++	 * idle_page_list is needed because walk_page_vma() holds ptlock which
++	 * deadlocks with page_idle_clear_pte_refs(). So we have to collect all
++	 * pages first, and then call page_idle_clear_pte_refs().
++	 */
++	ret = walk_page_range(start_addr, end_addr, &walk);
++	if (ret)
++		walk_error = true;
++
++	list_for_each_entry(cur, &idle_page_list, list) {
++		int bit, index;
++		unsigned long off;
++		struct page *page = cur->page;
++
++		if (unlikely(walk_error))
++			goto remove_page;
++
++		if (write) {
++			if (page) {
++				page_idle_clear_pte_refs(page);
++				set_page_idle(page);
++			}
++		} else {
++			/* If page is NULL, it was swapped out */
++			if (!page || page_idle_pte_check(page)) {
++				off = ((cur->addr) >> PAGE_SHIFT) - start_frame;
++				bit = off % BITMAP_CHUNK_BITS;
++				index = off / BITMAP_CHUNK_BITS;
++				out[index] |= 1ULL << bit;
++			}
++		}
++remove_page:
++		if (page)
++			put_page(page);
++	}
++
++	if (!write && !walk_error)
++		ret = copy_to_user(ubuff, buffer, count);
++
++	up_read(&mm->mmap_sem);
++	kfree(priv.page_nodes);
++out:
++	kfree(buffer);
++out_mmput:
++	mmput(mm);
++	if (!ret)
++		ret = count;
++	return ret;
++
++}
++
++ssize_t page_idle_proc_read(struct file *file, char __user *ubuff,
++			    size_t count, loff_t *pos)
++{
++	return page_idle_proc_generic(file, ubuff, count, pos, 0);
++}
++
++ssize_t page_idle_proc_write(struct file *file, char __user *ubuff,
++			     size_t count, loff_t *pos, struct mm_struct *mm)
++{
++	return page_idle_proc_generic(file, ubuff, count, pos, 1);
++}
++
+ static int __init page_idle_init(void)
+ {
+ 	int err;
+diff --git a/mm/rmap.c b/mm/rmap.c
+index e5dfe2ae6b0d..4bd618aab402 100644
+--- a/mm/rmap.c
++++ b/mm/rmap.c
+@@ -1629,6 +1629,8 @@ static bool try_to_unmap_one(struct page *page, struct vm_area_struct *vma,
+ 			swp_pte = swp_entry_to_pte(entry);
+ 			if (pte_soft_dirty(pteval))
+ 				swp_pte = pte_swp_mksoft_dirty(swp_pte);
++			if (page_is_idle(page))
++				swp_pte = pte_swp_mkpage_idle(swp_pte);
+ 			set_pte_at(mm, address, pvmw.pte, swp_pte);
+ 			/* Invalidate as we cleared the pte */
+ 			mmu_notifier_invalidate_range(mm, address,
 -- 
 2.22.0.770.g0f2c4a37fd-goog
-
