@@ -2,48 +2,50 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 69B7D8239F
-	for <lists+linux-api@lfdr.de>; Mon,  5 Aug 2019 19:05:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0960823A2
+	for <lists+linux-api@lfdr.de>; Mon,  5 Aug 2019 19:05:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729567AbfHERFR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 5 Aug 2019 13:05:17 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:44797 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730091AbfHERFQ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 5 Aug 2019 13:05:16 -0400
-Received: by mail-pg1-f196.google.com with SMTP id i18so40059137pgl.11
-        for <linux-api@vger.kernel.org>; Mon, 05 Aug 2019 10:05:16 -0700 (PDT)
+        id S1730148AbfHERFV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 5 Aug 2019 13:05:21 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:42055 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730096AbfHERFU (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 5 Aug 2019 13:05:20 -0400
+Received: by mail-pl1-f194.google.com with SMTP id ay6so36756858plb.9
+        for <linux-api@vger.kernel.org>; Mon, 05 Aug 2019 10:05:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=joelfernandes.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=hfTT9Vyh4lJ/Mb9rTCTCYXmmzA+mBf4ub6OXNmSq8us=;
-        b=MWgO4tm5GTritoxl53gt5qNjI6dHxFHD3f2tmoGq9OJgzbnGXd/y+DqsRAV4dJJOe8
-         mYeyo0j3HZzU6Tao9ECna4T86NUvCDpvt4gexDupdIGfVRUQxbA+88ArezoiE9kyDdqN
-         Lu/GqdUdfcjbf1HEszwyMIgGK8XfBF0rg6oXU=
+        bh=EpW+/zsfaWUWqnp/CzJ8iSD2ZsdUd34jJeLFlQmjMJk=;
+        b=hgyWzkgSkWIkAiyvGZ+G+xjb4IZCoTupPLFm8KMlB2b4hKbMxa1b+uIr1iRdua+wqE
+         QC4A3wju5EZMPMzUeRrpvG6gxy5MEYfQ82W1fGN8SHtXC5yuCxMcBGlIpCV6ZH3OP4zQ
+         UMkuRWp/Da9107v0m9+9yab3KvcgH65HHQUcA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=hfTT9Vyh4lJ/Mb9rTCTCYXmmzA+mBf4ub6OXNmSq8us=;
-        b=c6mU0CY0MTzFSWql0oPe19+yQYZZ0HrPyVGCH53IRMoUHmVWZoRv22B5G6jfm8qVuZ
-         xm0nuWCfRWPaBLNYoXYyO8FWY4YX9eSMVKO6xtNS2PC1eFjlR3ddoYGbGYSIJe727XP7
-         F64/Ag4QrltZCwhXmkK2TFd5H2KYtlljSWkFSmDBqHhfJbjSDb8/L2O3HI/0Dkv0y0BN
-         SLBUSKDtovSqp31z0Ubi77uyXTvGuFro88nIc2Jtr1LXxv8HohgH9iX59W0iOhxObrs4
-         1tLuhBNln5VfjCQ1ut7Kx5lPQlBH+3vLKQNEsC0uWtRWjY+R+7hPVchq/NTMIbb7YKjD
-         WVCA==
-X-Gm-Message-State: APjAAAWy5DCwi1lx9BZThcqNGEFinZjA5b+xEsl6Pl7fOmdQYlgvfkt3
-        zZM/MHMoT+UZM1xDJpUmDUs=
-X-Google-Smtp-Source: APXvYqwNN1t4bVbzgmwIXdCDQSshCIBMOslB9kNDo+lLtbCe0bb0+FNBd/Sai0oabP93PogQiVJHkw==
-X-Received: by 2002:a62:770e:: with SMTP id s14mr71578047pfc.150.1565024716052;
-        Mon, 05 Aug 2019 10:05:16 -0700 (PDT)
+        bh=EpW+/zsfaWUWqnp/CzJ8iSD2ZsdUd34jJeLFlQmjMJk=;
+        b=oHm1Fd89+nCvipbd1JPwhM5e6uB3duGoHl7VPU4NzvRreFTPOKCPvY25PHUXgEu5ae
+         PzhlqrIXVgJlBy7OBz3W2gBU9Mxrbu0R0tiDGwuU0n+HRL6NeJmaWSuwjo1pebR0RXEV
+         FUDcM0IjoBujQI/nvgNu28YtuM4rxIA8v05DJkR4tliIjkUKRP+R5EI3m+oG2aWDlgOo
+         x0SNIuGeTE5IPAvHTP3WNviy4s968pV3vKlTkfcINj54jvwaNNdAEJn8q1Gg/mt0AyhP
+         x1xdHjpl6FtglpiE4Lj0eVphvUIEfcG1pASj4hA1gr2IAbUqE7BsOBmnBzCCUlgH60U8
+         CIgA==
+X-Gm-Message-State: APjAAAVhC2/yw0AlNW7+BrSE2nyS6e5hSoA35W3lplviTcdVYOEb1kSo
+        fnzpCK7VpdWYv+aJIRhNkMk=
+X-Google-Smtp-Source: APXvYqza5nQrNDdoUqGT6kyvYnC1EmmsZrzblP42jhwdV0CyAlqgihwZyUT70kUG+iUloT382Cjx7g==
+X-Received: by 2002:a17:902:9a95:: with SMTP id w21mr61715428plp.126.1565024719760;
+        Mon, 05 Aug 2019 10:05:19 -0700 (PDT)
 Received: from joelaf.cam.corp.google.com ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id p23sm89832934pfn.10.2019.08.05.10.05.12
+        by smtp.gmail.com with ESMTPSA id p23sm89832934pfn.10.2019.08.05.10.05.16
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 05 Aug 2019 10:05:15 -0700 (PDT)
+        Mon, 05 Aug 2019 10:05:19 -0700 (PDT)
 From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Sandeep Patil <sspatil@google.com>,
         Alexey Dobriyan <adobriyan@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Borislav Petkov <bp@alien8.de>,
@@ -56,8 +58,7 @@ Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
         Kees Cook <keescook@chromium.org>, kernel-team@android.com,
         linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Rapoport <rppt@linux.ibm.com>, minchan@kernel.org,
+        Michal Hocko <mhocko@suse.com>, minchan@kernel.org,
         namhyung@google.com, paulmck@linux.ibm.com,
         Robin Murphy <robin.murphy@arm.com>,
         Roman Gushchin <guro@fb.com>,
@@ -65,9 +66,9 @@ Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
         Thomas Gleixner <tglx@linutronix.de>, tkjos@google.com,
         Vladimir Davydov <vdavydov.dev@gmail.com>,
         Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>
-Subject: [PATCH v4 4/5] page_idle: Drain all LRU pagevec before idle tracking
-Date:   Mon,  5 Aug 2019 13:04:50 -0400
-Message-Id: <20190805170451.26009-4-joel@joelfernandes.org>
+Subject: [PATCH v4 5/5] doc: Update documentation for page_idle virtual address indexing
+Date:   Mon,  5 Aug 2019 13:04:51 -0400
+Message-Id: <20190805170451.26009-5-joel@joelfernandes.org>
 X-Mailer: git-send-email 2.22.0.770.g0f2c4a37fd-goog
 In-Reply-To: <20190805170451.26009-1-joel@joelfernandes.org>
 References: <20190805170451.26009-1-joel@joelfernandes.org>
@@ -78,46 +79,85 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-During idle tracking, we see that sometimes faulted anon pages are in
-pagevec but are not drained to LRU. Idle tracking considers pages only
-on LRU. Drain all CPU's LRU before starting idle tracking.
+This patch updates the documentation with the new page_idle tracking
+feature which uses virtual address indexing.
 
+Reviewed-by: Mike Rapoport <rppt@linux.ibm.com>
+Reviewed-by: Sandeep Patil <sspatil@google.com>
 Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 ---
- mm/page_idle.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ .../admin-guide/mm/idle_page_tracking.rst     | 43 ++++++++++++++++---
+ 1 file changed, 36 insertions(+), 7 deletions(-)
 
-diff --git a/mm/page_idle.c b/mm/page_idle.c
-index a5b00d63216c..2972367a599f 100644
---- a/mm/page_idle.c
-+++ b/mm/page_idle.c
-@@ -180,6 +180,8 @@ static ssize_t page_idle_bitmap_read(struct file *file, struct kobject *kobj,
- 	unsigned long pfn, end_pfn;
- 	int bit, ret;
+diff --git a/Documentation/admin-guide/mm/idle_page_tracking.rst b/Documentation/admin-guide/mm/idle_page_tracking.rst
+index df9394fb39c2..9eef32000f5e 100644
+--- a/Documentation/admin-guide/mm/idle_page_tracking.rst
++++ b/Documentation/admin-guide/mm/idle_page_tracking.rst
+@@ -19,10 +19,14 @@ It is enabled by CONFIG_IDLE_PAGE_TRACKING=y.
  
-+	lru_add_drain_all();
+ User API
+ ========
++There are 2 ways to access the idle page tracking API. One uses physical
++address indexing, another uses a simpler virtual address indexing scheme.
+ 
+-The idle page tracking API is located at ``/sys/kernel/mm/page_idle``.
+-Currently, it consists of the only read-write file,
+-``/sys/kernel/mm/page_idle/bitmap``.
++Physical address indexing
++-------------------------
++The idle page tracking API for physical address indexing using page frame
++numbers (PFN) is located at ``/sys/kernel/mm/page_idle``.  Currently, it
++consists of the only read-write file, ``/sys/kernel/mm/page_idle/bitmap``.
+ 
+ The file implements a bitmap where each bit corresponds to a memory page. The
+ bitmap is represented by an array of 8-byte integers, and the page at PFN #i is
+@@ -74,6 +78,31 @@ See :ref:`Documentation/admin-guide/mm/pagemap.rst <pagemap>` for more
+ information about ``/proc/pid/pagemap``, ``/proc/kpageflags``, and
+ ``/proc/kpagecgroup``.
+ 
++Virtual address indexing
++------------------------
++The idle page tracking API for virtual address indexing using virtual frame
++numbers (VFN) for a process ``<pid>`` is located at ``/proc/<pid>/page_idle``.
++It is a bitmap that follows the same semantics as
++``/sys/kernel/mm/page_idle/bitmap`` except that it uses virtual instead of
++physical frame numbers.
 +
- 	ret = page_idle_get_frames(pos, count, NULL, &pfn, &end_pfn);
- 	if (ret == -ENXIO)
- 		return 0;  /* Reads beyond max_pfn do nothing */
-@@ -211,6 +213,8 @@ static ssize_t page_idle_bitmap_write(struct file *file, struct kobject *kobj,
- 	unsigned long pfn, end_pfn;
- 	int bit, ret;
- 
-+	lru_add_drain_all();
++This idle page tracking API does not deal with PFN so it does not require prior
++lookups of ``pagemap``. This is an advantage on some systems where looking up
++PFN is considered a security issue.  Also in some cases, this interface could
++be slightly more reliable to use than physical address indexing, since in
++physical address indexing, address space changes can occur between reading the
++``pagemap`` and reading the ``bitmap``, while in virtual address indexing, the
++process's ``mmap_sem`` is held for the duration of the access.
 +
- 	ret = page_idle_get_frames(pos, count, NULL, &pfn, &end_pfn);
- 	if (ret)
- 		return ret;
-@@ -428,6 +432,8 @@ ssize_t page_idle_proc_generic(struct file *file, char __user *ubuff,
- 	walk.private = &priv;
- 	walk.mm = mm;
- 
-+	lru_add_drain_all();
++To estimate the amount of pages that are not used by a workload one should:
 +
- 	down_read(&mm->mmap_sem);
++ 1. Mark all the workload's pages as idle by setting corresponding bits in
++    ``/proc/<pid>/page_idle``.
++
++ 2. Wait until the workload accesses its working set.
++
++ 3. Read ``/proc/<pid>/page_idle`` and count the number of bits set.
++
+ .. _impl_details:
  
- 	/*
+ Implementation Details
+@@ -99,10 +128,10 @@ When a dirty page is written to swap or disk as a result of memory reclaim or
+ exceeding the dirty memory limit, it is not marked referenced.
+ 
+ The idle memory tracking feature adds a new page flag, the Idle flag. This flag
+-is set manually, by writing to ``/sys/kernel/mm/page_idle/bitmap`` (see the
+-:ref:`User API <user_api>`
+-section), and cleared automatically whenever a page is referenced as defined
+-above.
++is set manually, by writing to ``/sys/kernel/mm/page_idle/bitmap`` for physical
++addressing or by writing to ``/proc/<pid>/page_idle`` for virtual
++addressing (see the :ref:`User API <user_api>` section), and cleared
++automatically whenever a page is referenced as defined above.
+ 
+ When a page is marked idle, the Accessed bit must be cleared in all PTEs it is
+ mapped to, otherwise we will not be able to detect accesses to the page coming
 -- 
 2.22.0.770.g0f2c4a37fd-goog
 
