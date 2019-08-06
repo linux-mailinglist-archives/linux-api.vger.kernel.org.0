@@ -2,124 +2,131 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ECC4382DDA
-	for <lists+linux-api@lfdr.de>; Tue,  6 Aug 2019 10:36:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5059F82DF0
+	for <lists+linux-api@lfdr.de>; Tue,  6 Aug 2019 10:42:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732304AbfHFIgt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 6 Aug 2019 04:36:49 -0400
-Received: from mx2.suse.de ([195.135.220.15]:57862 "EHLO mx1.suse.de"
+        id S1732068AbfHFImI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 6 Aug 2019 04:42:08 -0400
+Received: from mx2.suse.de ([195.135.220.15]:59462 "EHLO mx1.suse.de"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1730068AbfHFIgs (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 6 Aug 2019 04:36:48 -0400
+        id S1728918AbfHFImI (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 6 Aug 2019 04:42:08 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id A0BBEAF90;
-        Tue,  6 Aug 2019 08:36:46 +0000 (UTC)
-Subject: Re: [PATCH] mm/mempolicy.c: Remove unnecessary nodemask check in
- kernel_migrate_pages()
-To:     Kefeng Wang <wangkefeng.wang@huawei.com>,
+        by mx1.suse.de (Postfix) with ESMTP id B55EBABC7;
+        Tue,  6 Aug 2019 08:42:05 +0000 (UTC)
+Date:   Tue, 6 Aug 2019 10:42:03 +0200
+From:   Michal Hocko <mhocko@kernel.org>
+To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org
-Cc:     Andrea Arcangeli <aarcange@redhat.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Oscar Salvador <osalvador@suse.de>, linux-mm@kvack.org,
-        Linux API <linux-api@vger.kernel.org>,
-        "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>
-References: <20190806023634.55356-1-wangkefeng.wang@huawei.com>
-From:   Vlastimil Babka <vbabka@suse.cz>
-Message-ID: <80f8da83-f425-1aab-f47e-8da41ec6dcbf@suse.cz>
-Date:   Tue, 6 Aug 2019 10:36:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Borislav Petkov <bp@alien8.de>,
+        Brendan Gregg <bgregg@netflix.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christian Hansen <chansen3@cisco.com>, dancol@google.com,
+        fmayer@google.com, "H. Peter Anvin" <hpa@zytor.com>,
+        Ingo Molnar <mingo@redhat.com>, joelaf@google.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        Mike Rapoport <rppt@linux.ibm.com>, minchan@kernel.org,
+        namhyung@google.com, paulmck@linux.ibm.com,
+        Roman Gushchin <guro@fb.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>, surenb@google.com,
+        Thomas Gleixner <tglx@linutronix.de>, tkjos@google.com,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v4 3/5] [RFC] arm64: Add support for idle bit in swap PTE
+Message-ID: <20190806084203.GJ11812@dhcp22.suse.cz>
+References: <20190805170451.26009-1-joel@joelfernandes.org>
+ <20190805170451.26009-3-joel@joelfernandes.org>
 MIME-Version: 1.0
-In-Reply-To: <20190806023634.55356-1-wangkefeng.wang@huawei.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190805170451.26009-3-joel@joelfernandes.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 8/6/19 4:36 AM, Kefeng Wang wrote:
-> 1) task_nodes = cpuset_mems_allowed(current);
->    -> cpuset_mems_allowed() guaranteed to return some non-empty
->       subset of node_states[N_MEMORY].
+On Mon 05-08-19 13:04:49, Joel Fernandes (Google) wrote:
+> This bit will be used by idle page tracking code to correctly identify
+> if a page that was swapped out was idle before it got swapped out.
+> Without this PTE bit, we lose information about if a page is idle or not
+> since the page frame gets unmapped.
 
-Right, there's an explicit guarantee.
+And why do we need that? Why cannot we simply assume all swapped out
+pages to be idle? They were certainly idle enough to be reclaimed,
+right? Or what does idle actualy mean here?
 
-> 2) nodes_and(*new, *new, task_nodes);
->    -> after nodes_and(), the 'new' should be empty or appropriate
->       nodemask(online node and with memory).
+> In this patch we reuse PTE_DEVMAP bit since idle page tracking only
+> works on user pages in the LRU. Device pages should not consitute those
+> so it should be unused and safe to use.
 > 
-> After 1) and 2), we could remove unnecessary check whether the 'new'
-> AND node_states[N_MEMORY] is empty.
-
-Yeah looks like the check is there due to evolution of the code, where initially
-it was added to prevent calling the syscall with bogus nodes, but now that's
-achieved by cpuset_mems_allowed().
-
-> Cc: Andrea Arcangeli <aarcange@redhat.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Dan Williams <dan.j.williams@intel.com>
-> Cc: Michal Hocko <mhocko@suse.com>
-> Cc: Oscar Salvador <osalvador@suse.de>
-> Cc: Vlastimil Babka <vbabka@suse.cz>
-> Cc: linux-mm@kvack.org
-> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
-
-Acked-by: Vlastimil Babka <vbabka@suse.cz>
-
+> Cc: Robin Murphy <robin.murphy@arm.com>
+> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 > ---
+>  arch/arm64/Kconfig                    |  1 +
+>  arch/arm64/include/asm/pgtable-prot.h |  1 +
+>  arch/arm64/include/asm/pgtable.h      | 15 +++++++++++++++
+>  3 files changed, 17 insertions(+)
 > 
-> [QUESTION]
-> 
-> SYSCALL_DEFINE4(migrate_pages, pid_t, pid, unsigned long, maxnode,
->                 const unsigned long __user *, old_nodes,
->                 const unsigned long __user *, new_nodes)
-> {
->         return kernel_migrate_pages(pid, maxnode, old_nodes, new_nodes);
-> }
-> 
-> The migrate_pages() takes pid argument, witch is the ID of the process
-> whose pages are to be moved. should the cpuset_mems_allowed(current) be
-> cpuset_mems_allowed(task)?
-
-The check for cpuset_mems_allowed(task) is just above the code you change, so
-the new nodes have to be subset of the target task's cpuset.
-But they also have to be allowed by the calling task's cpuset. In manpage of
-migrate_pages(2), this is hinted by the NOTES "Use get_mempolicy(2) with the
-MPOL_F_MEMS_ALLOWED flag to obtain the set of nodes that are allowed by the
-calling process's cpuset..."
-
-But perhaps the manpage should be better clarified:
-
-- the EINVAL case includes "Or, none of the node IDs specified by new_nodes are
-on-line and allowed by the process's current cpuset context, or none of the
-specified nodes contain memory." - this should probably say "calling process" to
-disambiguate
-- the EPERM case should mention that new_nodes have to be subset of the target
-process' cpuset context. The caller should also have CAP_SYS_NICE and
-ptrace_may_access()
-
->  mm/mempolicy.c | 4 ----
->  1 file changed, 4 deletions(-)
-> 
-> diff --git a/mm/mempolicy.c b/mm/mempolicy.c
-> index f48693f75b37..fceb44066184 100644
-> --- a/mm/mempolicy.c
-> +++ b/mm/mempolicy.c
-> @@ -1467,10 +1467,6 @@ static int kernel_migrate_pages(pid_t pid, unsigned long maxnode,
->  	if (nodes_empty(*new))
->  		goto out_put;
+> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> index 3adcec05b1f6..9d1412c693d7 100644
+> --- a/arch/arm64/Kconfig
+> +++ b/arch/arm64/Kconfig
+> @@ -128,6 +128,7 @@ config ARM64
+>  	select HAVE_ARCH_MMAP_RND_BITS
+>  	select HAVE_ARCH_MMAP_RND_COMPAT_BITS if COMPAT
+>  	select HAVE_ARCH_PREL32_RELOCATIONS
+> +	select HAVE_ARCH_PTE_SWP_PGIDLE
+>  	select HAVE_ARCH_SECCOMP_FILTER
+>  	select HAVE_ARCH_STACKLEAK
+>  	select HAVE_ARCH_THREAD_STRUCT_WHITELIST
+> diff --git a/arch/arm64/include/asm/pgtable-prot.h b/arch/arm64/include/asm/pgtable-prot.h
+> index 92d2e9f28f28..917b15c5d63a 100644
+> --- a/arch/arm64/include/asm/pgtable-prot.h
+> +++ b/arch/arm64/include/asm/pgtable-prot.h
+> @@ -18,6 +18,7 @@
+>  #define PTE_SPECIAL		(_AT(pteval_t, 1) << 56)
+>  #define PTE_DEVMAP		(_AT(pteval_t, 1) << 57)
+>  #define PTE_PROT_NONE		(_AT(pteval_t, 1) << 58) /* only when !PTE_VALID */
+> +#define PTE_SWP_PGIDLE		PTE_DEVMAP		 /* for idle page tracking during swapout */
 >  
-> -	nodes_and(*new, *new, node_states[N_MEMORY]);
-> -	if (nodes_empty(*new))
-> -		goto out_put;
-> -
->  	err = security_task_movememory(task);
->  	if (err)
->  		goto out_put;
-> 
+>  #ifndef __ASSEMBLY__
+>  
+> diff --git a/arch/arm64/include/asm/pgtable.h b/arch/arm64/include/asm/pgtable.h
+> index 3f5461f7b560..558f5ebd81ba 100644
+> --- a/arch/arm64/include/asm/pgtable.h
+> +++ b/arch/arm64/include/asm/pgtable.h
+> @@ -212,6 +212,21 @@ static inline pte_t pte_mkdevmap(pte_t pte)
+>  	return set_pte_bit(pte, __pgprot(PTE_DEVMAP));
+>  }
+>  
+> +static inline int pte_swp_page_idle(pte_t pte)
+> +{
+> +	return 0;
+> +}
+> +
+> +static inline pte_t pte_swp_mkpage_idle(pte_t pte)
+> +{
+> +	return set_pte_bit(pte, __pgprot(PTE_SWP_PGIDLE));
+> +}
+> +
+> +static inline pte_t pte_swp_clear_page_idle(pte_t pte)
+> +{
+> +	return clear_pte_bit(pte, __pgprot(PTE_SWP_PGIDLE));
+> +}
+> +
+>  static inline void set_pte(pte_t *ptep, pte_t pte)
+>  {
+>  	WRITE_ONCE(*ptep, pte);
+> -- 
+> 2.22.0.770.g0f2c4a37fd-goog
 
+-- 
+Michal Hocko
+SUSE Labs
