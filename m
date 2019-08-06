@@ -2,53 +2,49 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4138483042
-	for <lists+linux-api@lfdr.de>; Tue,  6 Aug 2019 13:10:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0F7183061
+	for <lists+linux-api@lfdr.de>; Tue,  6 Aug 2019 13:14:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730507AbfHFLHs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 6 Aug 2019 07:07:48 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:37839 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728845AbfHFLHs (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 6 Aug 2019 07:07:48 -0400
-Received: by mail-pf1-f195.google.com with SMTP id 19so41316496pfa.4;
-        Tue, 06 Aug 2019 04:07:48 -0700 (PDT)
+        id S1731093AbfHFLOu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 6 Aug 2019 07:14:50 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:44420 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730381AbfHFLOt (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 6 Aug 2019 07:14:49 -0400
+Received: by mail-pg1-f195.google.com with SMTP id i18so41424891pgl.11
+        for <linux-api@vger.kernel.org>; Tue, 06 Aug 2019 04:14:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=tBmS1JSg6R7dIdS7tcKHXNzn/jUBrwmVmbb/LUzYkA4=;
-        b=FKiohG4pWZeA/Wi7DBC/9npqkDrHpyRoEZz0rJr3UUucKs69b2m0OSmC0nKoqoEBW7
-         5a5fisl81W7ayWltjhWVDhYcauX5oI8qjT4HtPAD8MYvTTn2BUR7Z+/ra9jmsBm5ygxl
-         coLvx5hCepcasDv3Ne7A33Zn9x+18/WPTkwpxyTWKXEQavMv1FfQZWEk9n3vFCWxJKBz
-         8xgjqJToD3aUbClZjNybApCSYfWR+J9s7Cr5z2gCs2zn7kfaA/XDfENps51XKzcC7h+v
-         MMuNw3N9Qr5VXXVcVPES+JzklSH8uO3a+z/VBP70OotlcR+ykPpu1CCL5PGcPfSbf/4h
-         l5DA==
+        bh=KvkNmNHsbEsshqDq0R83F3R8IDaL+JW1sWF+nvR0WDc=;
+        b=KPa6QKnxrNTQGpt5Be94ogXIM0tXRuHNl0Aci8ksuKqx+9Lg0NCMbyYGZ0PixtmM1F
+         9+/1CJaHeIjkQbsXxRId0/VfGyWslK1AzTbonPe21m7278Ic8LGGTroo8d6GKLHYwRIn
+         kQu/hhkwu4/wt6irUWyPejLfppauPTVejq9Ns=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=tBmS1JSg6R7dIdS7tcKHXNzn/jUBrwmVmbb/LUzYkA4=;
-        b=n46lLmHUD02u+QOH8gDUai8ueLbAFlpSYO8K/nCKYO3wW/pzFwpn7wHPeE03XzaY1A
-         y3LxlscdgWZeYcl9V1NZa1R+BX33QRHMRdNa/5TasbN3dKiOpeefEjHtsGsHidi/u+sP
-         Q4B64GeQzjdh7+8D4gzCvqk/eGcYKRxQta3U99wbp3pipxF9rQGoqpCYxguqBBvAgLpt
-         9xBb0/x+mFT2NeR7bLhHpCKdA71crke1AGlY1h0Labj0lJClFn8+H4SkXywmG/YBeIZr
-         Gr+/B1Dac75riAfylY+PdRBOEqycsJDqyJC3IGLSvWM58msxjGTbBTJ+6+DP2LN9Fwim
-         qMwQ==
-X-Gm-Message-State: APjAAAVehhtL+8+HYdXUWxAQjhF7lJWprQ+P1magMdYfeovNdIttr39w
-        h5ZitJkQK/qwjhRT3Zcwfwo=
-X-Google-Smtp-Source: APXvYqyN06dee+YCHt2A2RzCyf1hHdHxVyVKw3mol+ZH/H3Wfu7dAX7tuJm7I+hqEodTVg3369khvw==
-X-Received: by 2002:a62:3895:: with SMTP id f143mr3075201pfa.116.1565089667635;
-        Tue, 06 Aug 2019 04:07:47 -0700 (PDT)
-Received: from google.com ([2401:fa00:d:0:98f1:8b3d:1f37:3e8])
-        by smtp.gmail.com with ESMTPSA id h129sm82492287pfb.110.2019.08.06.04.07.39
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=KvkNmNHsbEsshqDq0R83F3R8IDaL+JW1sWF+nvR0WDc=;
+        b=dewhhAxbkF9/zT2afk0QTFd5a/K4rAKa4CY3yeQXPDpkxJYoArgvEa8atyZD/N87Nc
+         ohHe3p2XnAu8vkuDIAomjivdipJiz+uDEuY6QhnQMNgGdYow8B8elgS3vGVoxXS3gKYE
+         4qlxRQS6biYv+cWAGELqaHcyF3dAxMuwgJtZ3uua8fxVh9spGwAglc69EKOm0DeitzRU
+         vlWDxTYnBUS5XwaxIDjkC0yf6H5//7xpBO/vrr/CopMhn1y9iDKV/m4z/LyA+PkNo9xW
+         d3M36hQJnwvtGy0jI/axwYUmfuIvWGIwZ1i0e93OCIKomdoidu589scPi1I7KF6jv1K0
+         Th1A==
+X-Gm-Message-State: APjAAAWZAyyfTeWEndpVElkpSu4sihYWPBINgOdydWyL/ivhEB6T3qVR
+        5VQ2MMmYMnDxzgTXUTI0Vk0Cmw==
+X-Google-Smtp-Source: APXvYqy6yyBYEGtjUPHZ5dr0UVaP823zcPxj13PdfdTPtKDAgMLJjNwSEplUX7wpUqySjdepMyEjAg==
+X-Received: by 2002:a63:1749:: with SMTP id 9mr2661368pgx.0.1565090088827;
+        Tue, 06 Aug 2019 04:14:48 -0700 (PDT)
+Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id z13sm87648050pfa.94.2019.08.06.04.14.47
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 06 Aug 2019 04:07:46 -0700 (PDT)
-Date:   Tue, 6 Aug 2019 20:07:37 +0900
-From:   Minchan Kim <minchan@kernel.org>
+        Tue, 06 Aug 2019 04:14:47 -0700 (PDT)
+Date:   Tue, 6 Aug 2019 07:14:46 -0400
+From:   Joel Fernandes <joel@joelfernandes.org>
 To:     Michal Hocko <mhocko@kernel.org>
-Cc:     Joel Fernandes <joel@joelfernandes.org>,
-        linux-kernel@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
+Cc:     linux-kernel@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
         Alexey Dobriyan <adobriyan@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Borislav Petkov <bp@alien8.de>,
@@ -61,14 +57,15 @@ Cc:     Joel Fernandes <joel@joelfernandes.org>,
         Kees Cook <keescook@chromium.org>, kernel-team@android.com,
         linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        Mike Rapoport <rppt@linux.ibm.com>, namhyung@google.com,
-        paulmck@linux.ibm.com, Roman Gushchin <guro@fb.com>,
+        Mike Rapoport <rppt@linux.ibm.com>, minchan@kernel.org,
+        namhyung@google.com, paulmck@linux.ibm.com,
+        Roman Gushchin <guro@fb.com>,
         Stephen Rothwell <sfr@canb.auug.org.au>, surenb@google.com,
         Thomas Gleixner <tglx@linutronix.de>, tkjos@google.com,
         Vladimir Davydov <vdavydov.dev@gmail.com>,
         Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>
 Subject: Re: [PATCH v4 3/5] [RFC] arm64: Add support for idle bit in swap PTE
-Message-ID: <20190806110737.GB32615@google.com>
+Message-ID: <20190806111446.GA117316@google.com>
 References: <20190805170451.26009-1-joel@joelfernandes.org>
  <20190805170451.26009-3-joel@joelfernandes.org>
  <20190806084203.GJ11812@dhcp22.suse.cz>
@@ -102,8 +99,38 @@ On Tue, Aug 06, 2019 at 12:47:55PM +0200, Michal Hocko wrote:
 > 
 > Yes and that is effectivelly making them idle, no?
 
-1. mark page-A idle which was present at that time.
-2. run workload
-3. page-A is touched several times
-4. *sudden* memory pressure happen so finally page A is finally swapped out
-5. now see the page A idle - but it's incorrect.
+That depends on how you think of it. If you are thinking of a monitoring
+process like a heap profiler, then from the heap profiler's (that only cares
+about the process it is monitoring) perspective it will look extremely odd if
+pages that are recently accessed by the process appear to be idle which would
+falsely look like those processes are leaking memory. The reality being,
+Android forced those pages into swap because of other reasons. I would like
+for the swapping mechanism, whether forced swapping or memory reclaim, not to
+interfere with the idle detection.
+
+This is just an effort to make the idle tracking a little bit better. We
+would like to not lose the 'accessed' information of the pages.
+
+Initially, I had proposed what you are suggesting as well however the above
+reasons made me to do it like this. Also Minchan and Konstantin suggested
+this, so there are more people interested in the swap idle bit. Minchan, can
+you provide more thoughts here? (He is on 2-week vacation from today so
+hopefully replies before he vanishes ;-)).
+
+Also assuming all swap pages as idle has other "semantic" issues. It is quite
+odd if a swapped page is automatically marked as idle without userspace
+telling it to. Consider the following set of events: 1. Userspace marks only
+a certain memory region as idle. 2. Userspace reads back the bits
+corresponding to a bigger region. Part of this bigger region is swapped.
+Userspace expects all of the pages it did not mark, to have idle bit set to
+'0' because it never marked them as idle. However if it is now surprised by
+what it read back (not all '0' read back). Since a page is swapped, it will
+be now marked "automatically" as idle as per your proposal, even if userspace
+never marked it explicity before. This would be quite confusing/ambiguous.
+
+I will include this and other information in future commit messages.
+
+thanks,
+
+ - Joel
+
