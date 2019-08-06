@@ -2,320 +2,101 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0927E8385E
-	for <lists+linux-api@lfdr.de>; Tue,  6 Aug 2019 20:03:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC93283A82
+	for <lists+linux-api@lfdr.de>; Tue,  6 Aug 2019 22:43:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731692AbfHFSDY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 6 Aug 2019 14:03:24 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:33920 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726713AbfHFSDY (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 6 Aug 2019 14:03:24 -0400
-Received: by mail-wm1-f65.google.com with SMTP id w9so9464803wmd.1
-        for <linux-api@vger.kernel.org>; Tue, 06 Aug 2019 11:03:22 -0700 (PDT)
+        id S1726688AbfHFUnm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 6 Aug 2019 16:43:42 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:44642 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726640AbfHFUnm (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 6 Aug 2019 16:43:42 -0400
+Received: by mail-lf1-f68.google.com with SMTP id v16so8416763lfg.11
+        for <linux-api@vger.kernel.org>; Tue, 06 Aug 2019 13:43:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=yNTTi0L5msRg8ZrDWO80ik8XmW4n67AEXe5k7CZUqus=;
-        b=bqTTjRtzHhpT5DKhF2oOChRlqk1w6XVUY+frRyXMTtkZUj3zEvYNtUcKjMQtu0WSGw
-         TIIzX2Ts9+qoahZkm0oYTQCG2D2BK2oUWCKJJJPjnjLd6gdw9YfrJm1z4OPEG1KgXqYY
-         zOq8PQ7ufmbk54AiV/lf5bk3+UlI6d8tai/M++2349YMvdXcdWZ6jwYZ8mvCrxgwMOTA
-         EtHsLM7CbBEN7eHbsvlyBacUAEFv4dGL17LRfQ+5gdTSUbUPQhKEeUKxonSFz8GSonXr
-         2mV4doUqyobQbJYlMx9EU0ozaXBYMNMLsDlzD7gmawCRXCwuByzRl7NFRCwdx5fBVDlj
-         udcQ==
+         :cc;
+        bh=VR5feK3MwIDa28M66pr8cZaax0HRBgUIy/YXtAlUVAg=;
+        b=Jcbiz/rlCveea1uGbs0To2AG2Fqr3qcVJByaj30biSJ6IGaZQU269n7UhHiJIq60zt
+         F6m/iDUTKUaAxcfbj3aNcS1UVKWh0iBATpSeFcB2HZZd4zuUH74H+0AsiAw/3vHblfhG
+         rGmoqX4hHVQvNh1Mo2WC3G6d946cIGSfRxOUfOJyomX+NAcaChMCm9wTSq80UpIDDyVy
+         Wsy0W1UJUtub0zWt+iqZy9h9oHmBFsihiepiuxbUw6MWvMUQg0sLWv0bFV1e+nhfBD57
+         VYDaUrEm2FkddHey3B0zSP911OVgsWvOlf8N8vWL7OUIPVuLGhouTH4qcL5ZHCc7EUMj
+         /u6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=yNTTi0L5msRg8ZrDWO80ik8XmW4n67AEXe5k7CZUqus=;
-        b=TA8EhKmDgnTsFRj98edNM78nGVYPOpNnfu6myS5WRdE0yCItQym6/B43S/7A3ieGYc
-         uOCmYXrAbdowha5lcvpSrp/LTHfvDJoWQ89xrNNiFoq1FC01AHgvJN7eTp/cCcxcIZfJ
-         gzvAMkeyqnQT/fbyVPaiVcxb9q0xENT+4wXHR0DXQpxWDoo9eE3uTQDS0c0e5xhaMwZL
-         gOYfsewoZjLJg2L3uvCyyHATCvmG+KFFud+UUi+wZ8z6jbkownOejcEuDCFBXApIF0Io
-         AMQkHL5ER/qjunr2SzHEIxoISnZi8jaLzkMAsMdNT4zalihmaVBMZMn8wntVPMK9YZ4k
-         a+lA==
-X-Gm-Message-State: APjAAAVEYKmIImRvR+F3rKHNXBGECRTqKI58wSz9KAlt0O5yyHNV1h0k
-        +Q84pMKt0RrmPocPACWUYa/ZuN2TcHracD4RC+nCVw==
-X-Google-Smtp-Source: APXvYqwGusU8CDdp7JNsdGsKgN+TJIc0Uhd3178RHvAQERhYawmmaVVqy+RTWHRz6CP16nm3mlmm52x7qe3d5p2F+pM=
-X-Received: by 2002:a1c:1f41:: with SMTP id f62mr5987715wmf.176.1565114601107;
- Tue, 06 Aug 2019 11:03:21 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=VR5feK3MwIDa28M66pr8cZaax0HRBgUIy/YXtAlUVAg=;
+        b=YBK9lAl/5jksMcAdICBQBw/tXnDeH2i11GKE/q0E/CvsU8orbV4CsB1WO7k2+HHbc0
+         AjbdHIA6aj1cyHycCTTYLFLBHX48nWdHuCiqrTjj3zmOH8HEI8X8iHxQpWEcTSnixVeq
+         M76DvH2Ws6mpg3E/gJ7d/QfTSM2q+OPdRcLa4BCSRkgh6OiAUVZXM0Ltlw9vQVyks200
+         NxkUswy9ccSn5UxqCBZqlWn0fIzJLCd50w6Ri7QSMBsgmf4dJT4mZrOQQ7jPPu6ScvTN
+         EbP8W2OFfPmdIx7INbQ0s3ErprHS3SYkQ0GJDaTk6s25s5beJApleFN48+sgEWYjvRnd
+         Xu5A==
+X-Gm-Message-State: APjAAAWUma9VVlXry/1y09tETYK2JhvFLtHpf2CDpFSo17r24Tl1vVuQ
+        WUDMRtT2A0DLSMjlC1XiV7Bbl0s23rziw8JMPm4lDA==
+X-Google-Smtp-Source: APXvYqzWZs8IRpgox1WFTKnJpGnBDG26DorCdtZJQD2tgXVD7zBJA6DxGWkpIBTAdKDEhuxqp2JLjofjJIxta57O938=
+X-Received: by 2002:a19:6f4b:: with SMTP id n11mr3649844lfk.163.1565124219457;
+ Tue, 06 Aug 2019 13:43:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190726162226.252750-1-surenb@google.com> <20190726162226.252750-2-surenb@google.com>
- <542deab5d3450adc004602b9b8bbb4e38824c35b.camel@opteya.com>
-In-Reply-To: <542deab5d3450adc004602b9b8bbb4e38824c35b.camel@opteya.com>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Tue, 6 Aug 2019 11:03:09 -0700
-Message-ID: <CAJuCfpGu=Or1z0UEBBfsjoiEznWbLs8vNRZumUHGSkikb7+iHQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] tests: add pidfd poll tests
-To:     Yann Droneaud <ydroneaud@opteya.com>
-Cc:     Christian Brauner <christian@brauner.io>, arnd@arndb.de,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Kees Cook <keescook@chromium.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Daniel Colascione <dancol@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jann Horn <jannh@google.com>, dhowells@redhat.com,
-        mtk.manpages@gmail.com, luto@kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Oleg Nesterov <oleg@redhat.com>, cyphar@cyphar.com,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        viro@zeniv.linux.org.uk, linux-api@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        kernel-team <kernel-team@android.com>
+References: <20190805162521.90882-1-ebiggers@kernel.org> <20190805162521.90882-13-ebiggers@kernel.org>
+In-Reply-To: <20190805162521.90882-13-ebiggers@kernel.org>
+From:   Paul Crowley <paulcrowley@google.com>
+Date:   Tue, 6 Aug 2019 13:43:27 -0700
+Message-ID: <CA+_SqcBkR_8Z9EUTpK-dEW4PN+9P5OgJnqYDHtOhG+P1LjotPA@mail.gmail.com>
+Subject: Re: [PATCH v8 12/20] fscrypt: add an HKDF-SHA512 implementation
+To:     Eric Biggers <ebiggers@kernel.org>
+Cc:     linux-fscrypt@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net,
+        linux-mtd@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+        linux-crypto@vger.kernel.org, keyrings@vger.kernel.org,
+        linux-api@vger.kernel.org, Satya Tangirala <satyat@google.com>,
+        "Theodore Ts'o" <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Jul 27, 2019 at 11:24 AM Yann Droneaud <ydroneaud@opteya.com> wrote=
-:
+On Mon, 5 Aug 2019 at 09:28, Eric Biggers <ebiggers@kernel.org> wrote:
 >
-> Hi,
+> From: Eric Biggers <ebiggers@google.com>
+>
+> Add an implementation of HKDF (RFC 5869) to fscrypt, for the purpose of
+> deriving additional key material from the fscrypt master keys for v2
+> encryption policies.  HKDF is a key derivation function built on top of
+> HMAC.  We choose SHA-512 for the underlying unkeyed hash, and use an
+> "hmac(sha512)" transform allocated from the crypto API.
+>
+> We'll be using this to replace the AES-ECB based KDF currently used to
+> derive the per-file encryption keys.  While the AES-ECB based KDF is
+> believed to meet the original security requirements, it is nonstandard
+> and has problems that don't exist in modern KDFs such as HKDF:
+>
+> 1. It's reversible.  Given a derived key and nonce, an attacker can
+>    easily compute the master key.  This is okay if the master key and
+>    derived keys are equally hard to compromise, but now we'd like to be
+>    more robust against threats such as a derived key being compromised
+>    through a timing attack, or a derived key for an in-use file being
+>    compromised after the master key has already been removed.
+>
+> 2. It doesn't evenly distribute the entropy from the master key; each 16
+>    input bytes only affects the corresponding 16 output bytes.
+>
+> 3. It isn't easily extensible to deriving other values or keys, such as
+>    a public hash for securely identifying the key, or per-mode keys.
+>    Per-mode keys will be immediately useful for Adiantum encryption, for
+>    which fscrypt currently uses the master key directly, introducing
+>    unnecessary usage constraints.  Per-mode keys will also be useful for
+>    hardware inline encryption, which is currently being worked on.
+>
+> HKDF solves all the above problems.
+>
+> Reviewed-by: Theodore Ts'o <tytso@mit.edu>
+> Signed-off-by: Eric Biggers <ebiggers@google.com>
 
-Hi Yann,
- So sorry I missed your email. My email filters were messed up and I
-fixed them now but missed a bunch of emails :(
+Looks good, feel free to add:
 
->
-> Le vendredi 26 juillet 2019 =C3=A0 09:22 -0700, Suren Baghdasaryan a =C3=
-=A9crit :
-> > This adds testing for polling on pidfd of a process being killed. Test =
-runs
-> > 10000 iterations by default to stress test pidfd polling functionality.
-> > It accepts an optional command-line parameter to override the number or
-> > iterations to run.
-> > Specifically, it tests for:
-> > - pidfd_open on a child process succeeds
-> > - pidfd_send_signal on a child process succeeds
-> > - polling on pidfd succeeds and returns exactly one event
-> > - returned event is POLLIN
-> > - event is received within 3 secs of the process being killed
-> >
-> > 10000 iterations was chosen because of the race condition being tested
-> > which is not consistently reproducible but usually is revealed after le=
-ss
-> > than 2000 iterations.
-> > Reveals race fixed by commit b191d6491be6 ("pidfd: fix a poll race when=
- setting exit_state")
-> >
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> > ---
-> >  tools/testing/selftests/pidfd/.gitignore      |   1 +
-> >  tools/testing/selftests/pidfd/Makefile        |   2 +-
-> >  .../testing/selftests/pidfd/pidfd_poll_test.c | 117 ++++++++++++++++++
-> >  3 files changed, 119 insertions(+), 1 deletion(-)
-> >  create mode 100644 tools/testing/selftests/pidfd/pidfd_poll_test.c
-> >
-> > diff --git a/tools/testing/selftests/pidfd/.gitignore b/tools/testing/s=
-elftests/pidfd/.gitignore
-> > index 16d84d117bc0..a67896347d34 100644
-> > --- a/tools/testing/selftests/pidfd/.gitignore
-> > +++ b/tools/testing/selftests/pidfd/.gitignore
-> > @@ -1,2 +1,3 @@
-> >  pidfd_open_test
-> > +pidfd_poll_test
-> >  pidfd_test
-> > diff --git a/tools/testing/selftests/pidfd/Makefile b/tools/testing/sel=
-ftests/pidfd/Makefile
-> > index 720b2d884b3c..ed58b7108d18 100644
-> > --- a/tools/testing/selftests/pidfd/Makefile
-> > +++ b/tools/testing/selftests/pidfd/Makefile
-> > @@ -1,7 +1,7 @@
-> >  # SPDX-License-Identifier: GPL-2.0-only
-> >  CFLAGS +=3D -g -I../../../../usr/include/ -lpthread
-> >
-> > -TEST_GEN_PROGS :=3D pidfd_test pidfd_open_test
-> > +TEST_GEN_PROGS :=3D pidfd_test pidfd_open_test pidfd_poll_test
-> >
-> >  include ../lib.mk
-> >
-> > diff --git a/tools/testing/selftests/pidfd/pidfd_poll_test.c b/tools/te=
-sting/selftests/pidfd/pidfd_poll_test.c
-> > new file mode 100644
-> > index 000000000000..f1b62b91e53e
-> > --- /dev/null
-> > +++ b/tools/testing/selftests/pidfd/pidfd_poll_test.c
-> > @@ -0,0 +1,117 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +
-> > +#define _GNU_SOURCE
-> > +#include <errno.h>
-> > +#include <linux/types.h>
-> > +#include <linux/wait.h>
-> > +#include <poll.h>
-> > +#include <signal.h>
-> > +#include <stdbool.h>
-> > +#include <stdio.h>
-> > +#include <stdlib.h>
-> > +#include <string.h>
-> > +#include <syscall.h>
-> > +#include <sys/wait.h>
-> > +#include <unistd.h>
-> > +
-> > +#include "pidfd.h"
-> > +#include "../kselftest.h"
-> > +
-> > +static bool timeout;
-> > +
-> > +static void handle_alarm(int sig)
-> > +{
-> > +     timeout =3D true;
-> > +}
->
-> Not needed if poll() timeout is used instead.
->
-> > +
-> > +int main(int argc, char **argv)
-> > +{
-> > +     struct pollfd fds;
-> > +     int iter, nevents;
-> > +     int nr_iterations =3D 10000;
-> > +
-> > +     fds.events =3D POLLIN;
-> > +
-> > +     if (argc > 2)
-> > +             ksft_exit_fail_msg("Unexpected command line argument\n");
-> > +
-> > +     if (argc =3D=3D 2) {
-> > +             nr_iterations =3D atoi(argv[1]);
-> > +             if (nr_iterations <=3D 0)
-> > +                     ksft_exit_fail_msg("invalid input parameter %s\n"=
-,
-> > +                                     argv[1]);
-> > +     }
-> > +
-> > +     ksft_print_msg("running pidfd poll test for %d iterations\n",
-> > +             nr_iterations);
-> > +
-> > +     for (iter =3D 0; iter < nr_iterations; iter++) {
-> > +             int pidfd;
-> > +             int child_pid =3D fork();
-> > +
-> > +             if (child_pid < 0) {
-> > +                     if (errno =3D=3D EAGAIN) {
-> > +                             iter--;
-> > +                             continue;
-> > +                     }
-> > +                     ksft_exit_fail_msg(
-> > +                             "%s - failed to fork a child process\n",
-> > +                             strerror(errno));
-> > +             }
-> > +
-> > +             if (child_pid =3D=3D 0) {
-> > +                     /* Child process just sleeps for a min and exits =
-*/
-> > +                     sleep(60);
->
-> Instead of relying on a timer for no reason, I would use the following:
->
->         while (1)
->                 pause();
->
-
-Yeah, not much difference I think. If you don't strongly object I'll
-keep it this way.
-
-> > +                     exit(EXIT_SUCCESS);
-> > +             }
-> > +
-> > +             /* Parent kills the child and waits for its death */
-> > +             pidfd =3D sys_pidfd_open(child_pid, 0);
-> > +             if (pidfd < 0)
-> > +                     ksft_exit_fail_msg("%s - pidfd_open failed\n",
-> > +                                     strerror(errno));
-> > +
-> > +             /* Setup 3 sec alarm - plenty of time */
-> > +             if (signal(SIGALRM, handle_alarm) =3D=3D SIG_ERR)
-> > +                     ksft_exit_fail_msg("%s - signal failed\n",
-> > +                                     strerror(errno));
-> > +             alarm(3);
-> > +
->
-> Would the poll() timeout be more simpler to use than relying on
-> SIGALRM: no need to setup signal, no need for handler, no need for
-> timeout variable.
-
-Unfortunately that would not work because after timeout is passed
-poll() checks for the condition one last time, it sees that the
-process is dead (the condition is satisfied) and it returns nevents=3D=3D1
-(event did happen) instead of nevents=3D=3D0 (poll timed out). I did
-implement it this way originally and was surprised that it never timed
-out even when I saw a 3 sec delay but then figured it out after going
-through the kernel code.
-
-> > +             /* Send SIGKILL to the child */
-> > +             if (sys_pidfd_send_signal(pidfd, SIGKILL, NULL, 0))
-> > +                     ksft_exit_fail_msg("%s - pidfd_send_signal failed=
-\n",
-> > +                                     strerror(errno));
-> > +
-> > +             /* Wait for the death notification */
-> > +             fds.fd =3D pidfd;
-> > +             nevents =3D poll(&fds, 1, -1);
-> > +
->
-> With
->
->         nevents =3D poll(&fds, 1, 3000);
->
-> > +             /* Check for error conditions */
-> > +             if (nevents < 0)
-> > +                     ksft_exit_fail_msg("%s - poll failed\n",
-> > +                                     strerror(errno));
-> > +
->
-> And
->         if (nevents =3D=3D 0)
->                 ksft_exit_fail_msg(
->                         "death notification wait timeout\n");
->
-> > +             if (nevents !=3D 1)
-> > +                     ksft_exit_fail_msg("unexpected poll result: %d\n"=
-,
-> > +                                     nevents);
-> > +
-> > +             if (!(fds.revents & POLLIN))
-> > +                     ksft_exit_fail_msg(
-> > +                             "unexpected event type received: 0x%x\n",
-> > +                             fds.revents);
-> > +
-> > +             if (timeout)
-> > +                     ksft_exit_fail_msg(
-> > +                             "death notification wait timeout\n");
-> > +
-> > +             close(pidfd);
-> > +             // Wait for child to prevent zombies
-> > +             if (waitpid(child_pid, NULL, 0) < 0)
-> > +                     ksft_exit_fail_msg("%s - waitpid failed\n",
-> > +                                     strerror(errno));
->
-> I feel safer now you defeated the zombies army :) Thanks.
-
-Thanks for pointing it out!
-
->
-> > +
-> > +     }
-> > +
-> > +     ksft_test_result_pass("pidfd poll test: pass\n");
-> > +     return ksft_exit_pass();
-> > +}
->
-> Regards
->
-> --
-> Yann Droneaud
-> OPTEYA
->
-
-Thanks,
-Suren.
-
->
-> --
-> To unsubscribe from this group and stop receiving emails from it, send an=
- email to kernel-team+unsubscribe@android.com.
->
+Reviewed-by: Paul Crowley <paulcrowley@google.com>
