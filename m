@@ -2,91 +2,82 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E2C08372C
-	for <lists+linux-api@lfdr.de>; Tue,  6 Aug 2019 18:41:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3812F83839
+	for <lists+linux-api@lfdr.de>; Tue,  6 Aug 2019 19:51:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732960AbfHFQlB convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Tue, 6 Aug 2019 12:41:01 -0400
-Received: from foss.arm.com ([217.140.110.172]:36768 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732917AbfHFQlB (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 6 Aug 2019 12:41:01 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 12764344;
-        Tue,  6 Aug 2019 09:41:00 -0700 (PDT)
-Received: from e110439-lin (e110439-lin.cambridge.arm.com [10.1.194.43])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7CC9F3F575;
-        Tue,  6 Aug 2019 09:40:57 -0700 (PDT)
-References: <20190802090853.4810-1-patrick.bellasi@arm.com> <20190806161206.GA20526@blackbody.suse.cz>
-User-agent: mu4e 1.3.3; emacs 26.2
-From:   Patrick Bellasi <patrick.bellasi@arm.com>
-To:     Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-Cc:     linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-api@vger.kernel.org, cgroups@vger.kernel.org,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Tejun Heo <tj@kernel.org>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-        "Vincent Guittot" <vincent.guittot@linaro.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Paul Turner <pjt@google.com>,
-        Quentin Perret <quentin.perret@arm.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Morten Rasmussen <morten.rasmussen@arm.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Todd Kjos <tkjos@google.com>,
-        Joel Fernandes <joelaf@google.com>,
-        Steve Muckle <smuckle@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Alessio Balsini <balsini@android.com>
-Subject: Re: [PATCH v13 0/6] Add utilization clamping support (CGroups API)
-In-reply-to: <20190806161206.GA20526@blackbody.suse.cz>
-Date:   Tue, 06 Aug 2019 17:40:55 +0100
-Message-ID: <87k1bqfdrc.fsf@arm.com>
+        id S1726373AbfHFRvB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 6 Aug 2019 13:51:01 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:34573 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728558AbfHFRvA (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 6 Aug 2019 13:51:00 -0400
+Received: by mail-pf1-f194.google.com with SMTP id b13so41904536pfo.1
+        for <linux-api@vger.kernel.org>; Tue, 06 Aug 2019 10:51:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=brauner.io; s=google;
+        h=from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=2EETmRt9EOQBbfhEIb5t8mf9LVzodqT5JEXYRBL8vQs=;
+        b=QRDCdElFaPyPLEkU6mKIuaw9r9hA6R9E1UgdMFkhvIow1uFsx15Hp7vXPoTETEsexl
+         6Gu7cM0C7sYqiwR3/yCTW4Jf7dp/0Eq82n3Uh9i7+TL9tA3NtG709ffpdC9ozrmH1whR
+         W26T1AIHLYKpwEkkbKkzlwo4msUA1SJMcl+wspZv/gHsQap3qPh1gC/MyvMTOv8UTI30
+         0uXHG/dJyIvWlmIjfD4OwzrSTWSDH6PH7yIhfxURftS4k745t/38kWutkxl9dYVlpHg+
+         ReDTsneBOh5h+iejRB0/tT9GTrISZoOzBWKW57/SFUOoqxI/ZPGEldfoiznDgSO70+LV
+         T0yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=2EETmRt9EOQBbfhEIb5t8mf9LVzodqT5JEXYRBL8vQs=;
+        b=KZXs84ucecifIYtwsSP4tWrpWAlYWC1jsA7Pe/wK+i9pXTADBhAD9N8s523mLDUZaE
+         HXQkecEmkfJpgVogEjRaVtPzpri+319VlAwcuscZ9UTvmSko1bQVtGtAupm9zpbb8c6+
+         jP4FynTZhGddkqznw8W4CUzulhe6Y5VEtq2O8Spb2ECWm2e7bYTE1CaYtwU8yXQHguF0
+         j22vnS1RHlufTob0kp0R7YSuFgdfxOxE+90ex0Qi1o9+70EjzsZtlnQqW+rP9M9Dr/nm
+         gJyTpaXV9QEqM0V1iBEhBbiY3qtNGNieZYcXal66xpc0XVTphwv/v4NpE1tIK1Xuq6aB
+         3YPg==
+X-Gm-Message-State: APjAAAUy5s5HswYohzsoRhxj6iWoRTgajF8FJWRVCBXwVpzhRbEeUz5b
+        gsYPfL0tZ8xiPKLNt5EOi3L7LQ==
+X-Google-Smtp-Source: APXvYqzq2kp3YRopoRLloI6d6xMJCf6nH8yiSo18UYl4X0l0Jv6xYG7hv6ysNLGHZSOp1xIn2UIu5A==
+X-Received: by 2002:a17:90a:28e4:: with SMTP id f91mr4238337pjd.99.1565113859962;
+        Tue, 06 Aug 2019 10:50:59 -0700 (PDT)
+Received: from brauner.io (c-67-180-61-213.hsd1.ca.comcast.net. [67.180.61.213])
+        by smtp.gmail.com with ESMTPSA id f7sm85627592pfd.43.2019.08.06.10.50.57
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Tue, 06 Aug 2019 10:50:59 -0700 (PDT)
+From:   Christian Brauner <christian@brauner.io>
+X-Google-Original-From: Christian Brauner <christian.brauner@ubuntu.com>
+Date:   Tue, 6 Aug 2019 19:50:56 +0200
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     christian@brauner.io, arnd@arndb.de, ebiederm@xmission.com,
+        keescook@chromium.org, joel@joelfernandes.org, dancol@google.com,
+        tglx@linutronix.de, jannh@google.com, dhowells@redhat.com,
+        mtk.manpages@gmail.com, luto@kernel.org, akpm@linux-foundation.org,
+        oleg@redhat.com, cyphar@cyphar.com, torvalds@linux-foundation.org,
+        viro@zeniv.linux.org.uk, linux-api@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, kernel-team@android.com
+Subject: Re: [PATCH v3 1/2] tests: move common definitions and functions into
+ pidfd.h
+Message-ID: <20190806175055.pazfyeyhbdbmuh6l@brauner.io>
+References: <20190726162226.252750-1-surenb@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+Content-Disposition: inline
+In-Reply-To: <20190726162226.252750-1-surenb@google.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Fri, Jul 26, 2019 at 09:22:25AM -0700, Suren Baghdasaryan wrote:
+> Move definitions and functions used across different pidfd tests into
+> pidfd.h header.
+> 
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> Reviewed-by: Christian Brauner <christian@brauner.io>
 
-On Tue, Aug 06, 2019 at 17:12:06 +0100, Michal Koutný wrote...
+Applied-to:
+https://git.kernel.org/pub/scm/linux/kernel/git/brauner/linux.git/log/?h=pidfd
 
-> On Fri, Aug 02, 2019 at 10:08:47AM +0100, Patrick Bellasi <patrick.bellasi@arm.com> wrote:
->> Patrick Bellasi (6):
->>   sched/core: uclamp: Extend CPU's cgroup controller
->>   sched/core: uclamp: Propagate parent clamps
->>   sched/core: uclamp: Propagate system defaults to root group
->>   sched/core: uclamp: Use TG's clamps to restrict TASK's clamps
->>   sched/core: uclamp: Update CPU's refcount on TG's clamp changes
->>   sched/core: uclamp: always use enum uclamp_id for clamp_id values
-
-Hi Michal!
-
-> Thank you Patrick for your patience.
-
-Thanks to you for your reviews.
-
-> I used the time to revisit the series once again and I think the RCU
-> locks can be streamlined a bit.
-
-I'll have a look at those, thanks!
-
-> If you find that correct, feel free to add my Reviewed-by to the
-> updated series (for 1/6 and legacy, I'm just asking).
-
-Sure, actually sorry for not having already added that tag in the
-current version, it will be there in v14 ;)
-
-> Michal
-
-Cheers,
-Patrick
-
---
-#include <best/regards.h>
-
-Patrick Bellasi
-
+Tracked-in:
+https://git.kernel.org/pub/scm/linux/kernel/git/brauner/linux.git/log/?h=for-next
