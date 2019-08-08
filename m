@@ -2,130 +2,104 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 72C6F8571A
-	for <lists+linux-api@lfdr.de>; Thu,  8 Aug 2019 02:10:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C363785A67
+	for <lists+linux-api@lfdr.de>; Thu,  8 Aug 2019 08:19:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389518AbfHHAJW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 7 Aug 2019 20:09:22 -0400
-Received: from mail-pg1-f201.google.com ([209.85.215.201]:37746 "EHLO
-        mail-pg1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389632AbfHHAIB (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 7 Aug 2019 20:08:01 -0400
-Received: by mail-pg1-f201.google.com with SMTP id n9so53109648pgq.4
-        for <linux-api@vger.kernel.org>; Wed, 07 Aug 2019 17:08:00 -0700 (PDT)
+        id S1726187AbfHHGSX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 8 Aug 2019 02:18:23 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:34688 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725796AbfHHGSX (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 8 Aug 2019 02:18:23 -0400
+Received: by mail-pg1-f193.google.com with SMTP id n9so37257840pgc.1;
+        Wed, 07 Aug 2019 23:18:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=HYGYby6crp40dCLBmhgwCvdnfCZZwxit6AHkXOrrVgc=;
-        b=DvXSmx2jhj8bHAJU1Vj7/I5jwoEGF0urfO5A+cbejgX5sC7HbhpImArmayvvTCoUPr
-         8CDNZqiGvkgLyIndEE2bIpdXQKsGV+IzSKMADXRvJbxdCmJzcyduT0fzwY8j8HBIeFYI
-         RvCnY4x/jhRG2B8teqWoFjV0y6rMXouhVAx17hc4EKRJbm8hEKs0tT4SIXVmOEIhLC6v
-         yTB2E30QNR055+D8sK0S4jRtnpv5pwNKN8is+YqcKHE+YQ5p6TGqyjJFMBfSxBa2sK7x
-         Ief6Shz1b+MwK7E52j+iUBDuJQ+EkUpEeD1pTIXnzK8lUWVelsBBWtqaYI9MAeyOe4cr
-         Ms6w==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=+r07c/lyTLQL7Cb4AGcka/LdpqVJd36eUIffcM8hTEI=;
+        b=sLFf/+X5t4mu5egKSTcDzlZSPbcJL6iZZvb/C1hbneK3GQewRY0r6dePKSVxXYBtcc
+         Bjc9990Yfki8ZU+cvc6XgC2m3JTSUPtOitKLi1eDo6+M/XU/hkBu5hH8teK2OHRv/Ayw
+         gccl4gGPs9zP8EdniqWEXahGiou4cVqazBRovMUEkf5QfvPI6gD5hkz4BAnSdo0yg973
+         U9NZE6qpaoZ6qodH2NbpPHjSiM4xYrFAB7myZhH4+tuvVVwDTyyAEMxOJ5wFzePDtJ1H
+         1UxHS+mvTHNt5M9YBFwSFXcxu9LeunlN9/KCoWzsFoPWmGJ6uG9gbQ0YIaSkBHJjcx6r
+         FY2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=HYGYby6crp40dCLBmhgwCvdnfCZZwxit6AHkXOrrVgc=;
-        b=ZNBqU0aVjApbarqW2hTZt2PldR4B5b6FG0TTE1AQd1GWvO2gLU83vt//+HAIrZnKBx
-         KdkzyneltEOl/lterV3P7PnVJrClbZfpXEdIHgX+B1sRocGbUJ9Qomdk0q1C4PJRX8/b
-         oau+Dxi0VMKaNaoNWADGNXHVC+wSX2s889feC30QX9zeN/4b6+1uzuaGHdOeid9KM1VX
-         g0RFj1FbLS9tftqlSxGRQU1Lpsy18qNOmmTGaaXqxDIgsul8ULrIMZX3zL5FTFpsXHwE
-         rkteQfG6O2Btl4DMOY/9GR1Scumyn92cqUPsdqe5t84F3LRve6/SrHOpJ6c7Wr0uWOee
-         Ei6w==
-X-Gm-Message-State: APjAAAW7lv4nwth0XzeOFHp5cmvCnxbuHnc5FlvAA1zHyZ7Er02fuWAz
-        lG4r48Dh3YqLcjhNbesZuNh0cbO7Fq8YsdHoiXMyGA==
-X-Google-Smtp-Source: APXvYqz6bYJHQ5sZ5xj2/KrBurgwQPt+m6iwr0ff7wAAGDBEDLTiqXvJ5XCsr10Ya8UVbvXfbW2QSyIz4Kb0tRI9b5DEzA==
-X-Received: by 2002:a63:1b56:: with SMTP id b22mr9895821pgm.265.1565222880106;
- Wed, 07 Aug 2019 17:08:00 -0700 (PDT)
-Date:   Wed,  7 Aug 2019 17:07:06 -0700
-In-Reply-To: <20190808000721.124691-1-matthewgarrett@google.com>
-Message-Id: <20190808000721.124691-15-matthewgarrett@google.com>
-Mime-Version: 1.0
-References: <20190808000721.124691-1-matthewgarrett@google.com>
-X-Mailer: git-send-email 2.22.0.770.g0f2c4a37fd-goog
-Subject: [PATCH V38 14/29] ACPI: Limit access to custom_method when the kernel
- is locked down
-From:   Matthew Garrett <matthewgarrett@google.com>
-To:     jmorris@namei.org
-Cc:     linux-security-module@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        Matthew Garrett <mjg59@srcf.ucam.org>,
-        Matthew Garrett <mjg59@google.com>,
-        David Howells <dhowells@redhat.com>,
-        Kees Cook <keescook@chromium.org>, linux-acpi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=+r07c/lyTLQL7Cb4AGcka/LdpqVJd36eUIffcM8hTEI=;
+        b=XGPLVBODUayNOy15kxTzB4z+AeR5gQ7nxZbPzaQGw1jEX/97N3RAlUKjKcbqgy4zdE
+         zBQlBbZmoaVRXJP5WRr+pvYUtD0FA5M/LCtB2RbD4LZ9CTlQZsitlH90DIB3mITwMW8E
+         GLqxD64b92io840e7iNATsTfU5oyEchqNdZFHpNYZUbyfsIc72BXS4Y4M+BED69ffZRe
+         8nTtFT+O+Mod/HKcM+GGsq5lppne+Bam7qbi7yMlJqJB5ASQ1IakLzdxo+2lo9B/L+zb
+         S5zo3W2p/jsTPLB01gVLVgcQDCd+DU+eYHW+USCLGpPfpF4EM/SGW6Aztath2VPqGhEI
+         YMmw==
+X-Gm-Message-State: APjAAAUzyuVrwxWpnFuOzZcr8/NtyF0Ba+wfhBqMtZvrQk0EB/8AIw0w
+        qalgZSOD27ewcgBI4NCyWwE=
+X-Google-Smtp-Source: APXvYqyI6sQQOLvaUkbq+xcUhJltUxl7laFmc7PhkK8VyXwXItFdpiaQtI0VtgaEzPhH6BddDmMMCw==
+X-Received: by 2002:aa7:9118:: with SMTP id 24mr13168559pfh.56.1565245102667;
+        Wed, 07 Aug 2019 23:18:22 -0700 (PDT)
+Received: from gmail.com (c-73-140-212-29.hsd1.wa.comcast.net. [73.140.212.29])
+        by smtp.gmail.com with ESMTPSA id u7sm84239482pgr.94.2019.08.07.23.18.21
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Wed, 07 Aug 2019 23:18:21 -0700 (PDT)
+Date:   Wed, 7 Aug 2019 23:18:19 -0700
+From:   Andrei Vagin <avagin@gmail.com>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     Dmitry Safonov <dima@arista.com>, linux-kernel@vger.kernel.org,
+        Dmitry Safonov <0x7f454c46@gmail.com>,
+        Adrian Reber <adrian@lisas.de>,
+        Andrei Vagin <avagin@openvz.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Cyrill Gorcunov <gorcunov@openvz.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jann Horn <jannh@google.com>, Jeff Dike <jdike@addtoit.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Pavel Emelyanov <xemul@virtuozzo.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        containers@lists.linux-foundation.org, criu@openvz.org,
+        linux-api@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCHv5 06/37] alarmtimer: Provide get_timespec() callback
+Message-ID: <20190808061819.GA20004@gmail.com>
+References: <20190729215758.28405-1-dima@arista.com>
+ <20190729215758.28405-7-dima@arista.com>
+ <alpine.DEB.2.21.1908070803030.24014@nanos.tec.linutronix.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=koi8-r
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.21.1908070803030.24014@nanos.tec.linutronix.de>
+User-Agent: Mutt/1.12.0 (2019-05-25)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Matthew Garrett <mjg59@srcf.ucam.org>
+On Wed, Aug 07, 2019 at 08:04:10AM +0200, Thomas Gleixner wrote:
+> On Mon, 29 Jul 2019, Dmitry Safonov wrote:
+> >  /**
+> > @@ -869,8 +871,10 @@ static int __init alarmtimer_init(void)
+> >  	/* Initialize alarm bases */
+> >  	alarm_bases[ALARM_REALTIME].base_clockid = CLOCK_REALTIME;
+> >  	alarm_bases[ALARM_REALTIME].get_ktime = &ktime_get_real;
+> > +	alarm_bases[ALARM_REALTIME].get_timespec = posix_get_timespec,
+> 
+> That's just wrong:
+> 
+> >  /*
+> >   * Get monotonic time for posix timers
+> >   */
+> > -static int posix_get_timespec(clockid_t which_clock, struct timespec64 *tp)
+> > +int posix_get_timespec(clockid_t which_clock, struct timespec64 *tp)
+> >  {
+> >  	ktime_get_ts64(tp);
+> >  	return 0;
+> 
+> Using a proper function name would have avoided this.
 
-custom_method effectively allows arbitrary access to system memory, making
-it possible for an attacker to circumvent restrictions on module loading.
-Disable it if the kernel is locked down.
-
-Signed-off-by: Matthew Garrett <mjg59@google.com>
-Signed-off-by: David Howells <dhowells@redhat.com>
-Reviewed-by: Kees Cook <keescook@chromium.org>
-cc: linux-acpi@vger.kernel.org
----
- drivers/acpi/custom_method.c | 6 ++++++
- include/linux/security.h     | 1 +
- security/lockdown/lockdown.c | 1 +
- 3 files changed, 8 insertions(+)
-
-diff --git a/drivers/acpi/custom_method.c b/drivers/acpi/custom_method.c
-index b2ef4c2ec955..7031307becd7 100644
---- a/drivers/acpi/custom_method.c
-+++ b/drivers/acpi/custom_method.c
-@@ -9,6 +9,7 @@
- #include <linux/uaccess.h>
- #include <linux/debugfs.h>
- #include <linux/acpi.h>
-+#include <linux/security.h>
- 
- #include "internal.h"
- 
-@@ -29,6 +30,11 @@ static ssize_t cm_write(struct file *file, const char __user * user_buf,
- 
- 	struct acpi_table_header table;
- 	acpi_status status;
-+	int ret;
-+
-+	ret = security_locked_down(LOCKDOWN_ACPI_TABLES);
-+	if (ret)
-+		return ret;
- 
- 	if (!(*ppos)) {
- 		/* parse the table header to get the table length */
-diff --git a/include/linux/security.h b/include/linux/security.h
-index 155ff026eca4..1c32522b3c5a 100644
---- a/include/linux/security.h
-+++ b/include/linux/security.h
-@@ -110,6 +110,7 @@ enum lockdown_reason {
- 	LOCKDOWN_PCI_ACCESS,
- 	LOCKDOWN_IOPORT,
- 	LOCKDOWN_MSR,
-+	LOCKDOWN_ACPI_TABLES,
- 	LOCKDOWN_INTEGRITY_MAX,
- 	LOCKDOWN_CONFIDENTIALITY_MAX,
- };
-diff --git a/security/lockdown/lockdown.c b/security/lockdown/lockdown.c
-index d99c0bee739d..ecb51b1a5c03 100644
---- a/security/lockdown/lockdown.c
-+++ b/security/lockdown/lockdown.c
-@@ -25,6 +25,7 @@ static char *lockdown_reasons[LOCKDOWN_CONFIDENTIALITY_MAX+1] = {
- 	[LOCKDOWN_PCI_ACCESS] = "direct PCI access",
- 	[LOCKDOWN_IOPORT] = "raw io port access",
- 	[LOCKDOWN_MSR] = "raw MSR access",
-+	[LOCKDOWN_ACPI_TABLES] = "modifying ACPI tables",
- 	[LOCKDOWN_INTEGRITY_MAX] = "integrity",
- 	[LOCKDOWN_CONFIDENTIALITY_MAX] = "confidentiality",
- };
--- 
-2.22.0.770.g0f2c4a37fd-goog
-
+You are right. Will fix. Thanks!
+> 
