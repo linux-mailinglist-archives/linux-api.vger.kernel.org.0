@@ -2,274 +2,111 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 35961856D3
-	for <lists+linux-api@lfdr.de>; Thu,  8 Aug 2019 02:08:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E497856D6
+	for <lists+linux-api@lfdr.de>; Thu,  8 Aug 2019 02:08:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389646AbfHHAIE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 7 Aug 2019 20:08:04 -0400
-Received: from mail-vs1-f73.google.com ([209.85.217.73]:47893 "EHLO
-        mail-vs1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389645AbfHHAIE (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 7 Aug 2019 20:08:04 -0400
-Received: by mail-vs1-f73.google.com with SMTP id l27so986451vsj.14
-        for <linux-api@vger.kernel.org>; Wed, 07 Aug 2019 17:08:03 -0700 (PDT)
+        id S2388448AbfHHAIG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 7 Aug 2019 20:08:06 -0400
+Received: from mail-pg1-f201.google.com ([209.85.215.201]:54277 "EHLO
+        mail-pg1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730681AbfHHAIG (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 7 Aug 2019 20:08:06 -0400
+Received: by mail-pg1-f201.google.com with SMTP id m17so47629079pgh.21
+        for <linux-api@vger.kernel.org>; Wed, 07 Aug 2019 17:08:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=klghF8F9jCh3lGq1PlqD6+/L30+aHC8n0RDXrpkxL3I=;
-        b=jOI6Zft91LaH5ULesiPku30JlGdDlh+e5fomVjEHP/R0JIaoCfDWnf8UtmRe25nGmp
-         YThfS4C+mvfHhvlMJRTnaXzB5tTeg8/gkjENTfsrEUxPw7NhKyyD5cal4DxEIffiRAf0
-         BMKXHkBc5DU0Rgd5I35l4RRuq0yFOAoUAs/YjQT790Nyk19vRjoqspdFeoh6PrzLv9EE
-         QWumUB/MT2t/cFS4hMeCCpBSWbk+COecWJcLm8yDgryR3pQk/ccrcY8A30l4C0Rxl8mD
-         3+CqTnfF8zaCxc7rHon+Piq1quuCtKLejUlIcNdqg1wu/Fv+Jpb1SY6r2WRO5RU461M5
-         paUg==
+        bh=Tmn4zMTjEPlUC2x7KbFrZqCSBZYi0Bx5tDyyMiSTkHI=;
+        b=Kf/lJKUGyFrHWv7boTRudlru1eDOO0jCqNVRU6s/zrZ4UBZ45Bbg1hHE2vw7Kquw/O
+         BtmrDHrQUguITMHZO1XRWt3qpTLuWh6bxlUqECbMiGx7OZtBnvpDBakjN0ycek+Ym0oT
+         VEE/nfvsA+clVcjyvYnP3yVfxBQ9QpNrgqiSN9iXWbQBKtZODoUBJE3gL1xgQP4vtAXo
+         kMtaA+zKROv6wnq4ugj/1KFMS84SGY1llsNh7tQgLT1xUYuAM/6MYMXMd0eGnvzRvPLX
+         JyMQ8QDVGqY9caZ+fSX9gEVqLuWWBd36lDPkXMHTMMeiOjGTb3iNw5XbNw5OK6wScvda
+         CO9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=klghF8F9jCh3lGq1PlqD6+/L30+aHC8n0RDXrpkxL3I=;
-        b=tO47hC04SkgkFFsnyDO5Xd0FzIOFPmvc3uZ3LS7EI4ahot5AaIaCQKaeJSc1cn0403
-         E4NQpO/md+eItgHT9DsVAafWdHUj4fmDM1D3SgTOOdtjS+m8I4hpLHsJlCxITF6C/duq
-         xvf6+NHADXvmgv/oMh/Vijvp4wBfnnULlzJKgSeL6hUwD07tdmPJkAOH6s9R6vmEo1og
-         omZe3N7zAGThQXlZADwthz8PvBOgctFBDXoKv1YMkcgg8nPCRFQGfeayFlb3sSi4lOJc
-         DkH2V77Rpmi+2eiiejHbLPH6QTy+SzAzb5jm7pGp55tbXbvXyd+1PrLg5qjqrr9mo1jn
-         eUtg==
-X-Gm-Message-State: APjAAAWh4udf/85u5q/zyKrvXf0Pu3n+JO3xxa6I3UYCUWG+gDZ7jg+a
-        3CQOBNtaighPmsyoJm9dl2QWLvCVc/5ePPE6bK4xhg==
-X-Google-Smtp-Source: APXvYqwJ1xB6kyTlnDHEY9WHkD3oS9dka9DS878naB5tdKQGwGJlDQpJe6WKtto+jaOR9A6fHDuM8bkQRGmNHFlNgxFl3Q==
-X-Received: by 2002:a1f:180a:: with SMTP id 10mr4635961vky.45.1565222882784;
- Wed, 07 Aug 2019 17:08:02 -0700 (PDT)
-Date:   Wed,  7 Aug 2019 17:07:07 -0700
+        bh=Tmn4zMTjEPlUC2x7KbFrZqCSBZYi0Bx5tDyyMiSTkHI=;
+        b=V+d7VipzvyyrQ1pwqX0MlHz2aQX3SCAr7HT+lQ6sqLZkQMigOsXiZUYxCRuhLgskk+
+         8CdppC70ww6oYvrq5JGkAgN7Ow43+k6HO58zjtzYqsuwXle7/qoV6R6ezxSN/b+f/bUu
+         Cs26plAjvkpkHEDaTZB2bHVrAbvawzTHIxiAUQwsQYbBCNO8OLxCtPiCOdtEs/Q3bJez
+         +KJVF5uNyJ6QrA94XXT5sb+YhNw8fuHZbbjoNI/VWXPeAw+WgEm+IP8M0ujL4q3JQPWd
+         tdOkGBmOKVCvnY6vQPZ8Hc0Y0HYujX5ia/si607x/9MFviV6dxJey/xr2g1Ihbh+dw62
+         R9kQ==
+X-Gm-Message-State: APjAAAUjMu/xlR6sa7EGyqQUEKm7YpM9TFmEBob9UXoqjtVvIb2KhBZF
+        mLm7zIfGaIODFZsW04o5UiKxw5q/ADePcqSTScqi1Q==
+X-Google-Smtp-Source: APXvYqwwJbX16Z8GxujpyEl8EKb14qjxjwwHWOxL57n+QSxdmTSznG4fkHV2cE5AB2mqJ3GSZPqFVdUoApC44ww6iiEddg==
+X-Received: by 2002:a65:6859:: with SMTP id q25mr9838575pgt.181.1565222885343;
+ Wed, 07 Aug 2019 17:08:05 -0700 (PDT)
+Date:   Wed,  7 Aug 2019 17:07:08 -0700
 In-Reply-To: <20190808000721.124691-1-matthewgarrett@google.com>
-Message-Id: <20190808000721.124691-16-matthewgarrett@google.com>
+Message-Id: <20190808000721.124691-17-matthewgarrett@google.com>
 Mime-Version: 1.0
 References: <20190808000721.124691-1-matthewgarrett@google.com>
 X-Mailer: git-send-email 2.22.0.770.g0f2c4a37fd-goog
-Subject: [PATCH V38 15/29] acpi: Ignore acpi_rsdp kernel param when the kernel
- has been locked down
+Subject: [PATCH V38 16/29] acpi: Disable ACPI table override if the kernel is
+ locked down
 From:   Matthew Garrett <matthewgarrett@google.com>
 To:     jmorris@namei.org
 Cc:     linux-security-module@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        Josh Boyer <jwboyer@redhat.com>,
+        Linn Crosetto <lcrosetto@gmail.com>,
         David Howells <dhowells@redhat.com>,
         Matthew Garrett <mjg59@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Dave Young <dyoung@redhat.com>, linux-acpi@vger.kernel.org
+        Kees Cook <keescook@chromium.org>, linux-acpi@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Josh Boyer <jwboyer@redhat.com>
+From: Linn Crosetto <lcrosetto@gmail.com>
 
-This option allows userspace to pass the RSDP address to the kernel, which
-makes it possible for a user to modify the workings of hardware. Reject
-the option when the kernel is locked down. This requires some reworking
-of the existing RSDP command line logic, since the early boot code also
-makes use of a command-line passed RSDP when locating the SRAT table
-before the lockdown code has been initialised. This is achieved by
-separating the command line RSDP path in the early boot code from the
-generic RSDP path, and then copying the command line RSDP into boot
-params in the kernel proper if lockdown is not enabled. If lockdown is
-enabled and an RSDP is provided on the command line, this will only be
-used when parsing SRAT (which shouldn't permit kernel code execution)
-and will be ignored in the rest of the kernel.
+From the kernel documentation (initrd_table_override.txt):
 
-(Modified by Matthew Garrett in order to handle the early boot RSDP
-environment)
+  If the ACPI_INITRD_TABLE_OVERRIDE compile option is true, it is possible
+  to override nearly any ACPI table provided by the BIOS with an
+  instrumented, modified one.
 
-Signed-off-by: Josh Boyer <jwboyer@redhat.com>
+When lockdown is enabled, the kernel should disallow any unauthenticated
+changes to kernel space.  ACPI tables contain code invoked by the kernel,
+so do not allow ACPI tables to be overridden if the kernel is locked down.
+
+Signed-off-by: Linn Crosetto <lcrosetto@gmail.com>
 Signed-off-by: David Howells <dhowells@redhat.com>
 Signed-off-by: Matthew Garrett <mjg59@google.com>
 Reviewed-by: Kees Cook <keescook@chromium.org>
-cc: Dave Young <dyoung@redhat.com>
 cc: linux-acpi@vger.kernel.org
 ---
- arch/x86/boot/compressed/acpi.c | 19 +++++++++++++------
- arch/x86/include/asm/acpi.h     |  9 +++++++++
- arch/x86/include/asm/x86_init.h |  2 ++
- arch/x86/kernel/acpi/boot.c     |  5 +++++
- arch/x86/kernel/x86_init.c      |  1 +
- drivers/acpi/osl.c              | 14 +++++++++++++-
- include/linux/acpi.h            |  6 ++++++
- 7 files changed, 49 insertions(+), 7 deletions(-)
+ drivers/acpi/tables.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/arch/x86/boot/compressed/acpi.c b/arch/x86/boot/compressed/acpi.c
-index 15255f388a85..149795c369f2 100644
---- a/arch/x86/boot/compressed/acpi.c
-+++ b/arch/x86/boot/compressed/acpi.c
-@@ -26,7 +26,7 @@ struct mem_vector immovable_mem[MAX_NUMNODES*2];
-  */
- #define MAX_ADDR_LEN 19
- 
--static acpi_physical_address get_acpi_rsdp(void)
-+static acpi_physical_address get_cmdline_acpi_rsdp(void)
- {
- 	acpi_physical_address addr = 0;
- 
-@@ -278,10 +278,7 @@ acpi_physical_address get_rsdp_addr(void)
- {
- 	acpi_physical_address pa;
- 
--	pa = get_acpi_rsdp();
--
--	if (!pa)
--		pa = boot_params->acpi_rsdp_addr;
-+	pa = boot_params->acpi_rsdp_addr;
- 
- 	/*
- 	 * Try to get EFI data from setup_data. This can happen when we're a
-@@ -311,7 +308,17 @@ static unsigned long get_acpi_srat_table(void)
- 	char arg[10];
- 	u8 *entry;
- 
--	rsdp = (struct acpi_table_rsdp *)(long)boot_params->acpi_rsdp_addr;
-+	/*
-+	 * Check whether we were given an RSDP on the command line. We don't
-+	 * stash this in boot params because the kernel itself may have
-+	 * different ideas about whether to trust a command-line parameter.
-+	 */
-+	rsdp = (struct acpi_table_rsdp *)get_cmdline_acpi_rsdp();
-+
-+	if (!rsdp)
-+		rsdp = (struct acpi_table_rsdp *)(long)
-+			boot_params->acpi_rsdp_addr;
-+
- 	if (!rsdp)
- 		return 0;
- 
-diff --git a/arch/x86/include/asm/acpi.h b/arch/x86/include/asm/acpi.h
-index aac686e1e005..bc9693c9107e 100644
---- a/arch/x86/include/asm/acpi.h
-+++ b/arch/x86/include/asm/acpi.h
-@@ -117,6 +117,12 @@ static inline bool acpi_has_cpu_in_madt(void)
- 	return !!acpi_lapic;
- }
- 
-+#define ACPI_HAVE_ARCH_SET_ROOT_POINTER
-+static inline void acpi_arch_set_root_pointer(u64 addr)
-+{
-+	x86_init.acpi.set_root_pointer(addr);
-+}
-+
- #define ACPI_HAVE_ARCH_GET_ROOT_POINTER
- static inline u64 acpi_arch_get_root_pointer(void)
- {
-@@ -125,6 +131,7 @@ static inline u64 acpi_arch_get_root_pointer(void)
- 
- void acpi_generic_reduced_hw_init(void);
- 
-+void x86_default_set_root_pointer(u64 addr);
- u64 x86_default_get_root_pointer(void);
- 
- #else /* !CONFIG_ACPI */
-@@ -138,6 +145,8 @@ static inline void disable_acpi(void) { }
- 
- static inline void acpi_generic_reduced_hw_init(void) { }
- 
-+static inline void x86_default_set_root_pointer(u64 addr) { }
-+
- static inline u64 x86_default_get_root_pointer(void)
- {
- 	return 0;
-diff --git a/arch/x86/include/asm/x86_init.h b/arch/x86/include/asm/x86_init.h
-index ac0934189017..19435858df5f 100644
---- a/arch/x86/include/asm/x86_init.h
-+++ b/arch/x86/include/asm/x86_init.h
-@@ -134,10 +134,12 @@ struct x86_hyper_init {
- 
- /**
-  * struct x86_init_acpi - x86 ACPI init functions
-+ * @set_root_poitner:		set RSDP address
-  * @get_root_pointer:		get RSDP address
-  * @reduced_hw_early_init:	hardware reduced platform early init
-  */
- struct x86_init_acpi {
-+	void (*set_root_pointer)(u64 addr);
- 	u64 (*get_root_pointer)(void);
- 	void (*reduced_hw_early_init)(void);
- };
-diff --git a/arch/x86/kernel/acpi/boot.c b/arch/x86/kernel/acpi/boot.c
-index 17b33ef604f3..04205ce127a1 100644
---- a/arch/x86/kernel/acpi/boot.c
-+++ b/arch/x86/kernel/acpi/boot.c
-@@ -1760,6 +1760,11 @@ void __init arch_reserve_mem_area(acpi_physical_address addr, size_t size)
- 	e820__update_table_print();
- }
- 
-+void x86_default_set_root_pointer(u64 addr)
-+{
-+	boot_params.acpi_rsdp_addr = addr;
-+}
-+
- u64 x86_default_get_root_pointer(void)
- {
- 	return boot_params.acpi_rsdp_addr;
-diff --git a/arch/x86/kernel/x86_init.c b/arch/x86/kernel/x86_init.c
-index 1bef687faf22..18a799c8fa28 100644
---- a/arch/x86/kernel/x86_init.c
-+++ b/arch/x86/kernel/x86_init.c
-@@ -95,6 +95,7 @@ struct x86_init_ops x86_init __initdata = {
- 	},
- 
- 	.acpi = {
-+		.set_root_pointer	= x86_default_set_root_pointer,
- 		.get_root_pointer	= x86_default_get_root_pointer,
- 		.reduced_hw_early_init	= acpi_generic_reduced_hw_init,
- 	},
-diff --git a/drivers/acpi/osl.c b/drivers/acpi/osl.c
-index 9c0edf2fc0dd..d43df3a3fa8d 100644
---- a/drivers/acpi/osl.c
-+++ b/drivers/acpi/osl.c
-@@ -26,6 +26,7 @@
- #include <linux/list.h>
- #include <linux/jiffies.h>
- #include <linux/semaphore.h>
+diff --git a/drivers/acpi/tables.c b/drivers/acpi/tables.c
+index b32327759380..180ac4329763 100644
+--- a/drivers/acpi/tables.c
++++ b/drivers/acpi/tables.c
+@@ -20,6 +20,7 @@
+ #include <linux/memblock.h>
+ #include <linux/earlycpio.h>
+ #include <linux/initrd.h>
 +#include <linux/security.h>
+ #include "internal.h"
  
- #include <asm/io.h>
- #include <linux/uaccess.h>
-@@ -180,8 +181,19 @@ acpi_physical_address __init acpi_os_get_root_pointer(void)
- 	acpi_physical_address pa;
+ #ifdef CONFIG_ACPI_CUSTOM_DSDT
+@@ -578,6 +579,11 @@ void __init acpi_table_upgrade(void)
+ 	if (table_nr == 0)
+ 		return;
  
- #ifdef CONFIG_KEXEC
--	if (acpi_rsdp)
-+	/*
-+	 * We may have been provided with an RSDP on the command line,
-+	 * but if a malicious user has done so they may be pointing us
-+	 * at modified ACPI tables that could alter kernel behaviour -
-+	 * so, we check the lockdown status before making use of
-+	 * it. If we trust it then also stash it in an architecture
-+	 * specific location (if appropriate) so it can be carried
-+	 * over further kexec()s.
-+	 */
-+	if (acpi_rsdp && !security_locked_down(LOCKDOWN_ACPI_TABLES)) {
-+		acpi_arch_set_root_pointer(acpi_rsdp);
- 		return acpi_rsdp;
++	if (security_locked_down(LOCKDOWN_ACPI_TABLES)) {
++		pr_notice("kernel is locked down, ignoring table override\n");
++		return;
 +	}
- #endif
- 	pa = acpi_arch_get_root_pointer();
- 	if (pa)
-diff --git a/include/linux/acpi.h b/include/linux/acpi.h
-index e40e1e27ed8e..6b35f2f4cab3 100644
---- a/include/linux/acpi.h
-+++ b/include/linux/acpi.h
-@@ -643,6 +643,12 @@ bool acpi_gtdt_c3stop(int type);
- int acpi_arch_timer_mem_init(struct arch_timer_mem *timer_mem, int *timer_count);
- #endif
- 
-+#ifndef ACPI_HAVE_ARCH_SET_ROOT_POINTER
-+static inline void acpi_arch_set_root_pointer(u64 addr)
-+{
-+}
-+#endif
 +
- #ifndef ACPI_HAVE_ARCH_GET_ROOT_POINTER
- static inline u64 acpi_arch_get_root_pointer(void)
- {
+ 	acpi_tables_addr =
+ 		memblock_find_in_range(0, ACPI_TABLE_UPGRADE_MAX_PHYS,
+ 				       all_tables_size, PAGE_SIZE);
 -- 
 2.22.0.770.g0f2c4a37fd-goog
 
