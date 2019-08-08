@@ -2,169 +2,185 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B16F856BD
-	for <lists+linux-api@lfdr.de>; Thu,  8 Aug 2019 02:07:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C32F856BF
+	for <lists+linux-api@lfdr.de>; Thu,  8 Aug 2019 02:07:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730505AbfHHAHb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 7 Aug 2019 20:07:31 -0400
-Received: from mail-pl1-f201.google.com ([209.85.214.201]:36391 "EHLO
-        mail-pl1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730572AbfHHAHb (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 7 Aug 2019 20:07:31 -0400
-Received: by mail-pl1-f201.google.com with SMTP id a5so54420960pla.3
-        for <linux-api@vger.kernel.org>; Wed, 07 Aug 2019 17:07:30 -0700 (PDT)
+        id S1730591AbfHHAHg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 7 Aug 2019 20:07:36 -0400
+Received: from mail-pg1-f202.google.com ([209.85.215.202]:46077 "EHLO
+        mail-pg1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730634AbfHHAHf (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 7 Aug 2019 20:07:35 -0400
+Received: by mail-pg1-f202.google.com with SMTP id 28so6076851pgm.12
+        for <linux-api@vger.kernel.org>; Wed, 07 Aug 2019 17:07:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=WTiH4YTrH3kpcM05qpaK8fMoTjQf+8p0ghLlYf37sU8=;
-        b=k5u0bIMeReHa+u8U1oaho5+bd9aZVBkqeL9pAoxaP/N2Vfv5BYLzVOAuYRJmpKdX/w
-         YCY2N8bXrxG2q5KaaEX4M8E2e94BNqAOrDA6ynwmLf7fynrtSjoX6JkHYvM/e07TQKed
-         YRWoCaLmIVkLEbdXPEkIoTEXjZBVM0FFBcsKRQFlR6n7HkvIWTWa8PXKMPyv/w9EgqHf
-         LACKT+bboiR4A3usw7+OWkBN7rH73WpzNsAbUS/33tgPYYV+KNSUUZ7KqsIpq/XUNRvv
-         2lkXE8txTKe5MwTrcCAoMsOG2+b/Cgl4yxF0ilAZKinN8gWE2Oyuht3tWnKGnogdhwEr
-         J+7Q==
+        bh=u2905WeoBzsTcUqrWVSX7p6zMJ6qFdPBK2S0ptkFjO4=;
+        b=VoR40voXGZ4r3EI7oQ5TJp8v2YX39brgb6d/zSs8ft4hklym8/Gt2a9+o//N9qLOFE
+         lL6d+hjXYM0ZfhO+JnOxPtMKcWI9ufmjAi1pqwnizkXVz3zYxdkgQjIR1X0RkHyrspZ7
+         n+ULWEiaxWUUmkq6xJrie3FKlqw8wqf8m17SkFtTyX+bobwjSvbQl+w/6TWNvSUHZKqJ
+         GAnEr/kt4WthH2MCiRcvNlAHaYXhmg0G4eRma/ptAee5bJusZYJnxdpEUf6wSgY/KjwJ
+         AkJWag1ewJUIEDQXVqTbfGIG6/Y0zDemscTSwNyJCkT6GUOWGkukpVtf/FxaDBHt7M1e
+         NSdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=WTiH4YTrH3kpcM05qpaK8fMoTjQf+8p0ghLlYf37sU8=;
-        b=kBoJGFEemnCVxFLkbtTp7cPtcORQ0PIf/58+lks3vXUCAz3k51eGnO9ZD76mJCblUj
-         uF7JoD9OhG0qfAE2Hw84BRQg9bTuWlTcp1IlShQf1pd4Ll2jSGGPLg1SCqhE72/2K8Qz
-         hZg4Ii7S6SaeutsxDZhz7MeZADyd+c12xzzKO7paC4aLf7nTf210m17rjvUv06TveCMZ
-         PM6GBTX0e4khA+i57eZz2pEXOmfKyPHNKZIEfRWBzKMQOpcXZgLwR30+kosOq/eglJWq
-         gHIkJ7y+El6EseK5J0BjCaZ+shKnxdjMkSJ1qEHUmXs3jg8IwbUguEBxdHeB112tOwkc
-         U0TA==
-X-Gm-Message-State: APjAAAVslkxAm3+u7kYkRCzpz/4fruCAXCLTtB7fRz/tajJUexaxKnSY
-        ssFJXRHXAsCVzQq9K4onN9jGrYZvav3K//NYPXJpLA==
-X-Google-Smtp-Source: APXvYqxWHpV4mvpFZRJ3iXuI2aome6WLXxXC8tZDwzQxqBjNyTSrD9vZ1m43zjxpBJARmgFJ6BoorgmzrSXy8rvXL+Mn/g==
-X-Received: by 2002:a63:7709:: with SMTP id s9mr9754003pgc.296.1565222849856;
- Wed, 07 Aug 2019 17:07:29 -0700 (PDT)
-Date:   Wed,  7 Aug 2019 17:06:54 -0700
+        bh=u2905WeoBzsTcUqrWVSX7p6zMJ6qFdPBK2S0ptkFjO4=;
+        b=Qrqfhq0UNB8dR6t7wbrcjjDfBDkxDewEbFfZrd7b3JDI7/8N4d/pTRgN6t3ubF+s4C
+         AzVkJxP2jYsE0natlUKpHP/WcFa0bsSrqR+vvbvK9upfGlKTe/Su0Eg+s2xyojeWhXFx
+         +s3oB/O/0G5q8H4hKuNBbCiNCYkK6be8+PSOO1umOQ6v1NTLK41PRo8nmJ1icgtT351a
+         Y99WZcfmKwJc4n0Sg7kGSS0bhuq0mTe9t4gDpkivfVq6CvRByxFfg+95pmtQ4x3hoMwF
+         r6eRleoiECCYJzUIeiaypICRR3qkewGuUjFgTs6TpoiNmzuxfK1AxfteY8P3EPSMZyXo
+         HKMA==
+X-Gm-Message-State: APjAAAXpSy9zAix9h5QA7hLcQ/pWIdhmlZA7PKnRle7ymeNVByQzaphM
+        UBUyauTmxcvvEJDnVO6Vt8LqtZDlPYlSIXJF/Lu4zw==
+X-Google-Smtp-Source: APXvYqyR4AfaEXJW2ENR7zwCKUIvKwO1QMtq0y+rmGIcu67Yrsi7oIJ0VRtdvsK+tFTLWpJIe/+Jj+iYyJyKasMUao2L5A==
+X-Received: by 2002:a63:9249:: with SMTP id s9mr9774501pgn.356.1565222854591;
+ Wed, 07 Aug 2019 17:07:34 -0700 (PDT)
+Date:   Wed,  7 Aug 2019 17:06:56 -0700
 In-Reply-To: <20190808000721.124691-1-matthewgarrett@google.com>
-Message-Id: <20190808000721.124691-3-matthewgarrett@google.com>
+Message-Id: <20190808000721.124691-5-matthewgarrett@google.com>
 Mime-Version: 1.0
 References: <20190808000721.124691-1-matthewgarrett@google.com>
 X-Mailer: git-send-email 2.22.0.770.g0f2c4a37fd-goog
-Subject: [PATCH V38 02/29] security: Add a "locked down" LSM hook
+Subject: [PATCH V38 04/29] Enforce module signatures if the kernel is locked down
 From:   Matthew Garrett <matthewgarrett@google.com>
 To:     jmorris@namei.org
 Cc:     linux-security-module@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        David Howells <dhowells@redhat.com>,
         Matthew Garrett <matthewgarrett@google.com>,
-        Matthew Garrett <mjg59@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Casey Schaufler <casey@schaufler-ca.com>
+        Kees Cook <keescook@chromium.org>, Jessica Yu <jeyu@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Add a mechanism to allow LSMs to make a policy decision around whether
-kernel functionality that would allow tampering with or examining the
-runtime state of the kernel should be permitted.
+From: David Howells <dhowells@redhat.com>
 
-Signed-off-by: Matthew Garrett <mjg59@google.com>
-Acked-by: Kees Cook <keescook@chromium.org>
-Acked-by: Casey Schaufler <casey@schaufler-ca.com>
+If the kernel is locked down, require that all modules have valid
+signatures that we can verify.
+
+I have adjusted the errors generated:
+
+ (1) If there's no signature (ENODATA) or we can't check it (ENOPKG,
+     ENOKEY), then:
+
+     (a) If signatures are enforced then EKEYREJECTED is returned.
+
+     (b) If there's no signature or we can't check it, but the kernel is
+	 locked down then EPERM is returned (this is then consistent with
+	 other lockdown cases).
+
+ (2) If the signature is unparseable (EBADMSG, EINVAL), the signature fails
+     the check (EKEYREJECTED) or a system error occurs (eg. ENOMEM), we
+     return the error we got.
+
+Note that the X.509 code doesn't check for key expiry as the RTC might not
+be valid or might not have been transferred to the kernel's clock yet.
+
+ [Modified by Matthew Garrett to remove the IMA integration. This will
+  be replaced with integration with the IMA architecture policy
+  patchset.]
+
+Signed-off-by: David Howells <dhowells@redhat.com>
+Signed-off-by: Matthew Garrett <matthewgarrett@google.com>
+Reviewed-by: Kees Cook <keescook@chromium.org>
+Cc: Jessica Yu <jeyu@kernel.org>
 ---
- include/linux/lsm_hooks.h |  2 ++
- include/linux/security.h  | 32 ++++++++++++++++++++++++++++++++
- security/security.c       |  6 ++++++
- 3 files changed, 40 insertions(+)
+ include/linux/security.h     |  1 +
+ kernel/module.c              | 37 +++++++++++++++++++++++++++++-------
+ security/lockdown/lockdown.c |  1 +
+ 3 files changed, 32 insertions(+), 7 deletions(-)
 
-diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
-index aebb0e032072..29c22cf40113 100644
---- a/include/linux/lsm_hooks.h
-+++ b/include/linux/lsm_hooks.h
-@@ -1807,6 +1807,7 @@ union security_list_options {
- 	int (*bpf_prog_alloc_security)(struct bpf_prog_aux *aux);
- 	void (*bpf_prog_free_security)(struct bpf_prog_aux *aux);
- #endif /* CONFIG_BPF_SYSCALL */
-+	int (*locked_down)(enum lockdown_reason what);
- };
- 
- struct security_hook_heads {
-@@ -2046,6 +2047,7 @@ struct security_hook_heads {
- 	struct hlist_head bpf_prog_alloc_security;
- 	struct hlist_head bpf_prog_free_security;
- #endif /* CONFIG_BPF_SYSCALL */
-+	struct hlist_head locked_down;
- } __randomize_layout;
- 
- /*
 diff --git a/include/linux/security.h b/include/linux/security.h
-index 66a2fcbe6ab0..c2b1204e8e26 100644
+index 54a0532ec12f..8e70063074a1 100644
 --- a/include/linux/security.h
 +++ b/include/linux/security.h
-@@ -77,6 +77,33 @@ enum lsm_event {
- 	LSM_POLICY_CHANGE,
+@@ -103,6 +103,7 @@ enum lsm_event {
+  */
+ enum lockdown_reason {
+ 	LOCKDOWN_NONE,
++	LOCKDOWN_MODULE_SIGNATURE,
+ 	LOCKDOWN_INTEGRITY_MAX,
+ 	LOCKDOWN_CONFIDENTIALITY_MAX,
  };
- 
-+/*
-+ * These are reasons that can be passed to the security_locked_down()
-+ * LSM hook. Lockdown reasons that protect kernel integrity (ie, the
-+ * ability for userland to modify kernel code) are placed before
-+ * LOCKDOWN_INTEGRITY_MAX.  Lockdown reasons that protect kernel
-+ * confidentiality (ie, the ability for userland to extract
-+ * information from the running kernel that would otherwise be
-+ * restricted) are placed before LOCKDOWN_CONFIDENTIALITY_MAX.
-+ *
-+ * LSM authors should note that the semantics of any given lockdown
-+ * reason are not guaranteed to be stable - the same reason may block
-+ * one set of features in one kernel release, and a slightly different
-+ * set of features in a later kernel release. LSMs that seek to expose
-+ * lockdown policy at any level of granularity other than "none",
-+ * "integrity" or "confidentiality" are responsible for either
-+ * ensuring that they expose a consistent level of functionality to
-+ * userland, or ensuring that userland is aware that this is
-+ * potentially a moving target. It is easy to misuse this information
-+ * in a way that could break userspace. Please be careful not to do
-+ * so.
-+ */
-+enum lockdown_reason {
-+	LOCKDOWN_NONE,
-+	LOCKDOWN_INTEGRITY_MAX,
-+	LOCKDOWN_CONFIDENTIALITY_MAX,
-+};
-+
- /* These functions are in security/commoncap.c */
- extern int cap_capable(const struct cred *cred, struct user_namespace *ns,
- 		       int cap, unsigned int opts);
-@@ -393,6 +420,7 @@ void security_inode_invalidate_secctx(struct inode *inode);
- int security_inode_notifysecctx(struct inode *inode, void *ctx, u32 ctxlen);
- int security_inode_setsecctx(struct dentry *dentry, void *ctx, u32 ctxlen);
- int security_inode_getsecctx(struct inode *inode, void **ctx, u32 *ctxlen);
-+int security_locked_down(enum lockdown_reason what);
- #else /* CONFIG_SECURITY */
- 
- static inline int call_blocking_lsm_notifier(enum lsm_event event, void *data)
-@@ -1205,6 +1233,10 @@ static inline int security_inode_getsecctx(struct inode *inode, void **ctx, u32
+diff --git a/kernel/module.c b/kernel/module.c
+index cd8df516666d..318209889e26 100644
+--- a/kernel/module.c
++++ b/kernel/module.c
+@@ -2771,8 +2771,9 @@ static inline void kmemleak_load_module(const struct module *mod,
+ #ifdef CONFIG_MODULE_SIG
+ static int module_sig_check(struct load_info *info, int flags)
  {
- 	return -EOPNOTSUPP;
- }
-+static inline int security_locked_down(enum lockdown_reason what)
-+{
-+	return 0;
-+}
- #endif	/* CONFIG_SECURITY */
+-	int err = -ENOKEY;
++	int err = -ENODATA;
+ 	const unsigned long markerlen = sizeof(MODULE_SIG_STRING) - 1;
++	const char *reason;
+ 	const void *mod = info->hdr;
  
- #ifdef CONFIG_SECURITY_NETWORK
-diff --git a/security/security.c b/security/security.c
-index 90f1e291c800..ce6c945bf347 100644
---- a/security/security.c
-+++ b/security/security.c
-@@ -2392,3 +2392,9 @@ void security_bpf_prog_free(struct bpf_prog_aux *aux)
- 	call_void_hook(bpf_prog_free_security, aux);
- }
- #endif /* CONFIG_BPF_SYSCALL */
+ 	/*
+@@ -2787,16 +2788,38 @@ static int module_sig_check(struct load_info *info, int flags)
+ 		err = mod_verify_sig(mod, info);
+ 	}
+ 
+-	if (!err) {
++	switch (err) {
++	case 0:
+ 		info->sig_ok = true;
+ 		return 0;
+-	}
+ 
+-	/* Not having a signature is only an error if we're strict. */
+-	if (err == -ENOKEY && !is_module_sig_enforced())
+-		err = 0;
++		/* We don't permit modules to be loaded into trusted kernels
++		 * without a valid signature on them, but if we're not
++		 * enforcing, certain errors are non-fatal.
++		 */
++	case -ENODATA:
++		reason = "Loading of unsigned module";
++		goto decide;
++	case -ENOPKG:
++		reason = "Loading of module with unsupported crypto";
++		goto decide;
++	case -ENOKEY:
++		reason = "Loading of module with unavailable key";
++	decide:
++		if (is_module_sig_enforced()) {
++			pr_notice("%s is rejected\n", reason);
++			return -EKEYREJECTED;
++		}
+ 
+-	return err;
++		return security_locked_down(LOCKDOWN_MODULE_SIGNATURE);
 +
-+int security_locked_down(enum lockdown_reason what)
-+{
-+	return call_int_hook(locked_down, 0, what);
-+}
-+EXPORT_SYMBOL(security_locked_down);
++		/* All other errors are fatal, including nomem, unparseable
++		 * signatures and signature check failures - even if signatures
++		 * aren't required.
++		 */
++	default:
++		return err;
++	}
+ }
+ #else /* !CONFIG_MODULE_SIG */
+ static int module_sig_check(struct load_info *info, int flags)
+diff --git a/security/lockdown/lockdown.c b/security/lockdown/lockdown.c
+index d30c4d254b5f..2c53fd9f5c9b 100644
+--- a/security/lockdown/lockdown.c
++++ b/security/lockdown/lockdown.c
+@@ -18,6 +18,7 @@ static enum lockdown_reason kernel_locked_down;
+ 
+ static char *lockdown_reasons[LOCKDOWN_CONFIDENTIALITY_MAX+1] = {
+ 	[LOCKDOWN_NONE] = "none",
++	[LOCKDOWN_MODULE_SIGNATURE] = "unsigned module loading",
+ 	[LOCKDOWN_INTEGRITY_MAX] = "integrity",
+ 	[LOCKDOWN_CONFIDENTIALITY_MAX] = "confidentiality",
+ };
 -- 
 2.22.0.770.g0f2c4a37fd-goog
 
