@@ -2,50 +2,54 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1897D888C5
-	for <lists+linux-api@lfdr.de>; Sat, 10 Aug 2019 08:08:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 81D938892E
+	for <lists+linux-api@lfdr.de>; Sat, 10 Aug 2019 09:33:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725788AbfHJGIu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 10 Aug 2019 02:08:50 -0400
-Received: from namei.org ([65.99.196.166]:39752 "EHLO namei.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725763AbfHJGIu (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Sat, 10 Aug 2019 02:08:50 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by namei.org (8.14.4/8.14.4) with ESMTP id x7A68gCg025359;
-        Sat, 10 Aug 2019 06:08:42 GMT
-Date:   Sat, 10 Aug 2019 16:08:42 +1000 (AEST)
-From:   James Morris <jmorris@namei.org>
-To:     Matthew Garrett <matthewgarrett@google.com>
-cc:     linux-security-module@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH V38 00/29] security: Add support for locking down the
- kernel
-In-Reply-To: <20190808000721.124691-1-matthewgarrett@google.com>
-Message-ID: <alpine.LRH.2.21.1908101608260.25186@namei.org>
-References: <20190808000721.124691-1-matthewgarrett@google.com>
-User-Agent: Alpine 2.21 (LRH 202 2017-01-01)
+        id S1725773AbfHJHdp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 10 Aug 2019 03:33:45 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:55950 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725497AbfHJHdo (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 10 Aug 2019 03:33:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=gJYmqx91UW51PwstFu/SbwoN2sPZyfxSlyDhyB1diYY=; b=Nf/MKbkXd9zE6PPSILwzde3Sb
+        r5lK9lMJrS0cd0kYwi5nJE4XYDJshkjQJDpSx4Jq6BZCGJNTp3JkHFiS0u5NgmoWWMnPPW02Ivrrs
+        8vSanjo2z7qY/xauq89FEx+pxdaKixlL9Hj0E8bPs2I+mRKF4gF+ljaJRUrEnofQovY4EHK67aOJc
+        LXNyItOurG0wKMKi5igKGRq0HEihdfoFsXZHEEqv4XgobUAu0UK8eSR4M3x+/aCvu6MGcO9C/LwTV
+        WX3sNw0NyYpUjoD3ONblHSpX2095qPHeA1PInJhvxFYa0jbbExDWCgNOC36VXRdZL7Mda6CBUw5/2
+        kG2IEpDkw==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.92 #3 (Red Hat Linux))
+        id 1hwLsl-0003Qy-VD; Sat, 10 Aug 2019 07:33:43 +0000
+Date:   Sat, 10 Aug 2019 00:33:43 -0700
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Theodore Ts'o <tytso@mit.edu>
+Cc:     Ext4 Developers List <linux-ext4@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: [PATCH 1/3] ext4: return the extent cache information via fiemap
+Message-ID: <20190810073343.GA12777@infradead.org>
+References: <20190809181831.10618-1-tytso@mit.edu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190809181831.10618-1-tytso@mit.edu>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, 7 Aug 2019, Matthew Garrett wrote:
 
-> Fixed an unused function parameter in patch 19, otherwise identical to
-> V37.
+On Fri, Aug 09, 2019 at 02:18:29PM -0400, Theodore Ts'o wrote:
+> For debugging reasons, it's useful to know the contents of the extent
+> cache.  Since the extent cache contains much of what is in the fiemap
+> ioctl, extend the fiemap interface to return this information via some
+> ext4-specific flags.
 
-Applied to
-git://git.kernel.org/pub/scm/linux/kernel/git/jmorris/linux-security.git next-lockdown
-and next-testing
-  
-Please verify and test, as I had to make a few minor fixups for my v5.2   
-base.
-
-
--- 
-James Morris
-<jmorris@namei.org>
-
+Nak.  No weird fs specific fiemap flags that aren't even in the uapi
+header.  Please provide your own debug only interface.
