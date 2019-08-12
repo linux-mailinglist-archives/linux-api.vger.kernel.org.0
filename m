@@ -2,191 +2,85 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 17DD28959B
-	for <lists+linux-api@lfdr.de>; Mon, 12 Aug 2019 05:08:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D3BC89585
+	for <lists+linux-api@lfdr.de>; Mon, 12 Aug 2019 05:04:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726892AbfHLDIF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 11 Aug 2019 23:08:05 -0400
-Received: from mga17.intel.com ([192.55.52.151]:12631 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726885AbfHLDIE (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Sun, 11 Aug 2019 23:08:04 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Aug 2019 20:08:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,375,1559545200"; 
-   d="scan'208";a="199987519"
-Received: from hao-dev.bj.intel.com ([10.238.157.65])
-  by fmsmga004.fm.intel.com with ESMTP; 11 Aug 2019 20:08:02 -0700
-From:   Wu Hao <hao.wu@intel.com>
-To:     gregkh@linuxfoundation.org, mdf@kernel.org,
-        linux-fpga@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, atull@kernel.org,
-        Wu Hao <hao.wu@intel.com>, Xu Yilun <yilun.xu@intel.com>
-Subject: [PATCH v5 9/9] Documentation: fpga: dfl: add descriptions for virtualization and new interfaces.
-Date:   Mon, 12 Aug 2019 10:50:04 +0800
-Message-Id: <1565578204-13969-10-git-send-email-hao.wu@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1565578204-13969-1-git-send-email-hao.wu@intel.com>
-References: <1565578204-13969-1-git-send-email-hao.wu@intel.com>
+        id S1726200AbfHLDEw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 11 Aug 2019 23:04:52 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:43249 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726011AbfHLDEw (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 11 Aug 2019 23:04:52 -0400
+Received: by mail-lj1-f194.google.com with SMTP id h15so3317852ljg.10;
+        Sun, 11 Aug 2019 20:04:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=BQiSQRNit1pwC9yi8sjcdyIjfy8y+tALvc4Wl2a4X6M=;
+        b=tiYPxybzu8GIIn46WEKhu7lCRB7l7N8izZUpw/Oxeiz5uQNLSVcbaVw7m1AeyPuw3o
+         btjJJSdY98vX9SO5ctbb2Tbb4Cp43k7kLTcRnwPeLb5Bm9+1AafnoAt6IwA+4RMN7L0/
+         nu2OSPU7f6uwGlLA8kiGAQD3KbyyfSM7n++j7oxIX4YTmwIAp3DJghzarT4P9Ouej+9r
+         Z6SmkmFr+XnUqyNFAmOrywSGttG5KRHwrmG45+YOp77gXXJsvK+NNXIOobiB7eIEgyZg
+         Sfg3g1aYT+wxonfySvVKIqvHtCrIYvSp4O59tcCssnLDc9i5NbJn2lXaUia6lkqVA1Fu
+         HlKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BQiSQRNit1pwC9yi8sjcdyIjfy8y+tALvc4Wl2a4X6M=;
+        b=sQCfN9DUYPQLfhWTp3UkDsFL85RMu72Jki7Ghlm3MgPPNkIzCJWdd1zJePbiBGMS5O
+         7s0hpfgenD14NzYgBzLdVQFbB33ThHfxNDVIiSrsJA/UPUVUq2Qsu+YokRjqgTAVGCHy
+         9gvu+7PWbV6QfgbrDlJoTMonhXgJAC1wmEaNcKJlbVF0a/YkzgFr26IsGARirirLclTx
+         vdvn0M/r7wwofzwojMV84b9R3l1Z/H8PSbDeE5Rq3LEwIlT+fc5FTOgjdaxE6KtC8yyG
+         kbXlqLGVAc09sZyOv/6PyXBBTsm/FE4ys3NhayWZDMP+kxOvv9cE9WK8o4uypvdXoVz5
+         zOmw==
+X-Gm-Message-State: APjAAAXywBCbnrKT4ZGuzuJUnU8w3occ6qpWe0JABOqBtyd9uGUvduZM
+        MRfWxdn6VeITIoj/J5PAWJ9rqjIUEv6zoYFKtfVZ7S2YZgs=
+X-Google-Smtp-Source: APXvYqwc7JFeUTTkcSgKoeMJk5mKKbkw15fD85WlI/E++FNuUlFcT6t1H0ldF4qX9i8orVfgq+R+dxg16H4WVhR5N2c=
+X-Received: by 2002:a2e:480a:: with SMTP id v10mr17026609lja.94.1565579090393;
+ Sun, 11 Aug 2019 20:04:50 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190810010758.16407-1-alistair.francis@wdc.com> <CALCETrVArr5TTbXayDZ9rz90iGoytGW2bnV5_ZOunhOsPR1u4g@mail.gmail.com>
+In-Reply-To: <CALCETrVArr5TTbXayDZ9rz90iGoytGW2bnV5_ZOunhOsPR1u4g@mail.gmail.com>
+From:   Alistair Francis <alistair23@gmail.com>
+Date:   Sun, 11 Aug 2019 20:04:22 -0700
+Message-ID: <CAKmqyKN58BfEr2R+W=08r795zRKAT1nK_G2v6U2kQSANr+90Vg@mail.gmail.com>
+Subject: Re: [PATCH] syscalls: Update the syscall #defines to match uapi
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     Alistair Francis <alistair.francis@wdc.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Deepa Dinamani <deepa.kernel@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This patch adds virtualization support description for DFL based
-FPGA devices (based on PCIe SRIOV), and introductions to new
-interfaces added by new dfl private feature drivers.
+On Sun, Aug 11, 2019 at 5:00 PM Andy Lutomirski <luto@kernel.org> wrote:
+>
+> On Fri, Aug 9, 2019 at 6:11 PM Alistair Francis
+> <alistair.francis@wdc.com> wrote:
+> >
+> > Update the #defines around sys_fstat64() and sys_fstatat64() to match
+> > the #defines around the __NR3264_fstatat and __NR3264_fstat definitions
+> > in include/uapi/asm-generic/unistd.h. This avoids compiler failures if
+> > one is defined.
+>
+> What do you mean by "if one is defined"?
 
-[mdf@kernel.org: Fixed up to make it work with new reStructuredText docs]
-Signed-off-by: Xu Yilun <yilun.xu@intel.com>
-Signed-off-by: Wu Hao <hao.wu@intel.com>
-Acked-by: Alan Tull <atull@kernel.org>
-Signed-off-by: Moritz Fischer <mdf@kernel.org>
----
- Documentation/fpga/dfl.rst | 105 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 105 insertions(+)
+Yeah, I guess that isn't clear. What I mean is that if
+__ARCH_WANT_NEW_STAT is defined but __ARCH_WANT_STAT64 isn't currently
+it will fail to build.
 
-diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
-index 2f125ab..6fa483f 100644
---- a/Documentation/fpga/dfl.rst
-+++ b/Documentation/fpga/dfl.rst
-@@ -87,6 +87,8 @@ The following functions are exposed through ioctls:
- - Get driver API version (DFL_FPGA_GET_API_VERSION)
- - Check for extensions (DFL_FPGA_CHECK_EXTENSION)
- - Program bitstream (DFL_FPGA_FME_PORT_PR)
-+- Assign port to PF (DFL_FPGA_FME_PORT_ASSIGN)
-+- Release port from PF (DFL_FPGA_FME_PORT_RELEASE)
- 
- More functions are exposed through sysfs
- (/sys/class/fpga_region/regionX/dfl-fme.n/):
-@@ -102,6 +104,10 @@ More functions are exposed through sysfs
-      one FPGA device may have more than one port, this sysfs interface indicates
-      how many ports the FPGA device has.
- 
-+ Global error reporting management (errors/)
-+     error reporting sysfs interfaces allow user to read errors detected by the
-+     hardware, and clear the logged errors.
-+
- 
- FIU - PORT
- ==========
-@@ -143,6 +149,10 @@ More functions are exposed through sysfs:
-  Read Accelerator GUID (afu_id)
-      afu_id indicates which PR bitstream is programmed to this AFU.
- 
-+ Error reporting (errors/)
-+     error reporting sysfs interfaces allow user to read port/afu errors
-+     detected by the hardware, and clear the logged errors.
-+
- 
- DFL Framework Overview
- ======================
-@@ -218,6 +228,101 @@ the compat_id exposed by the target FPGA region. This check is usually done by
- userspace before calling the reconfiguration IOCTL.
- 
- 
-+FPGA virtualization - PCIe SRIOV
-+================================
-+This section describes the virtualization support on DFL based FPGA device to
-+enable accessing an accelerator from applications running in a virtual machine
-+(VM). This section only describes the PCIe based FPGA device with SRIOV support.
-+
-+Features supported by the particular FPGA device are exposed through Device
-+Feature Lists, as illustrated below:
-+
-+::
-+
-+    +-------------------------------+  +-------------+
-+    |              PF               |  |     VF      |
-+    +-------------------------------+  +-------------+
-+        ^            ^         ^              ^
-+        |            |         |              |
-+  +-----|------------|---------|--------------|-------+
-+  |     |            |         |              |       |
-+  |  +-----+     +-------+ +-------+      +-------+   |
-+  |  | FME |     | Port0 | | Port1 |      | Port2 |   |
-+  |  +-----+     +-------+ +-------+      +-------+   |
-+  |                  ^         ^              ^       |
-+  |                  |         |              |       |
-+  |              +-------+ +------+       +-------+   |
-+  |              |  AFU  | |  AFU |       |  AFU  |   |
-+  |              +-------+ +------+       +-------+   |
-+  |                                                   |
-+  |            DFL based FPGA PCIe Device             |
-+  +---------------------------------------------------+
-+
-+FME is always accessed through the physical function (PF).
-+
-+Ports (and related AFUs) are accessed via PF by default, but could be exposed
-+through virtual function (VF) devices via PCIe SRIOV. Each VF only contains
-+1 Port and 1 AFU for isolation. Users could assign individual VFs (accelerators)
-+created via PCIe SRIOV interface, to virtual machines.
-+
-+The driver organization in virtualization case is illustrated below:
-+::
-+
-+    +-------++------++------+             |
-+    | FME   || FME  || FME  |             |
-+    | FPGA  || FPGA || FPGA |             |
-+    |Manager||Bridge||Region|             |
-+    +-------++------++------+             |
-+    +-----------------------+  +--------+ |             +--------+
-+    |          FME          |  |  AFU   | |             |  AFU   |
-+    |         Module        |  | Module | |             | Module |
-+    +-----------------------+  +--------+ |             +--------+
-+          +-----------------------+       |       +-----------------------+
-+          | FPGA Container Device |       |       | FPGA Container Device |
-+          |  (FPGA Base Region)   |       |       |  (FPGA Base Region)   |
-+          +-----------------------+       |       +-----------------------+
-+            +------------------+          |         +------------------+
-+            | FPGA PCIE Module |          | Virtual | FPGA PCIE Module |
-+            +------------------+   Host   | Machine +------------------+
-+   -------------------------------------- | ------------------------------
-+             +---------------+            |          +---------------+
-+             | PCI PF Device |            |          | PCI VF Device |
-+             +---------------+            |          +---------------+
-+
-+FPGA PCIe device driver is always loaded first once a FPGA PCIe PF or VF device
-+is detected. It:
-+
-+* Finishes enumeration on both FPGA PCIe PF and VF device using common
-+  interfaces from DFL framework.
-+* Supports SRIOV.
-+
-+The FME device driver plays a management role in this driver architecture, it
-+provides ioctls to release Port from PF and assign Port to PF. After release
-+a port from PF, then it's safe to expose this port through a VF via PCIe SRIOV
-+sysfs interface.
-+
-+To enable accessing an accelerator from applications running in a VM, the
-+respective AFU's port needs to be assigned to a VF using the following steps:
-+
-+#. The PF owns all AFU ports by default. Any port that needs to be
-+   reassigned to a VF must first be released through the
-+   DFL_FPGA_FME_PORT_RELEASE ioctl on the FME device.
-+
-+#. Once N ports are released from PF, then user can use command below
-+   to enable SRIOV and VFs. Each VF owns only one Port with AFU.
-+
-+   ::
-+
-+      echo N > $PCI_DEVICE_PATH/sriov_numvfs
-+
-+#. Pass through the VFs to VMs
-+
-+#. The AFU under VF is accessible from applications in VM (using the
-+   same driver inside the VF).
-+
-+Note that an FME can't be assigned to a VF, thus PR and other management
-+functions are only available via the PF.
-+
- Device enumeration
- ==================
- This section introduces how applications enumerate the fpga device from
--- 
-1.8.3.1
+>
+> The patch seems like it's probably okay, but I can't understand the changelog.
 
+I can send a v2 with an updated commit message.
+
+Alistair
+
+>
+> --Andy
