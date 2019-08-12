@@ -2,147 +2,81 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CEA08A1B7
-	for <lists+linux-api@lfdr.de>; Mon, 12 Aug 2019 16:56:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C5978A22F
+	for <lists+linux-api@lfdr.de>; Mon, 12 Aug 2019 17:23:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726689AbfHLO4Y (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 12 Aug 2019 10:56:24 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:33875 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726791AbfHLO4X (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 12 Aug 2019 10:56:23 -0400
-Received: by mail-pg1-f194.google.com with SMTP id n9so43393774pgc.1
-        for <linux-api@vger.kernel.org>; Mon, 12 Aug 2019 07:56:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=3NQFlI4lPYDkvZgs+SnZFXq303TlZRy3bgOdazYblNc=;
-        b=NQ/9B5p6EJnc/jGagbLM/8utrsVRGSqpApLAwGccX5pyS3J/WcnaL76DY5ZPmNj/me
-         +sOQkXutAriyMqi+oLObLZvGQLAia8jcHXEZ76S2/2iX/m6q9ZxUBAuq6hc8fExbhUE5
-         WykTmRJksJRkfuwSeyqAdKimKYBeiv/vOihXA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=3NQFlI4lPYDkvZgs+SnZFXq303TlZRy3bgOdazYblNc=;
-        b=IzD2eIMDMCUNLsc3wDVu7jHbfN44Bw38Tp2UMWBy4ExWWZSeyqvoqMQgxwTR9Uveej
-         HwDfpuJTtjw9TDo7LY4q1wVJ8cCGXMlp4Rcjdpwc8DqITO0xZ+dYdZ8cvStTr1CzX7Fn
-         vrpe5Q/1tNB7jlfH1o07Lk5h+QZo036JSuIsZGyWUCdvMlG/nPYTa6Fr/ll1sQX6+dtm
-         xfKTRvroXWScGtFWmtZFbLptvexo+iq6glg/4EJvoxdSPd5tpKFF4tGYL8O0KhCDsqbX
-         RfgonSGMAjFZoPrSFHnUO2MbReGkhW9FQFp5+nDFRrhlpIrMt/cbt95r/8LUI9KdrXR4
-         SyrQ==
-X-Gm-Message-State: APjAAAX6ESMaqWusY7cxEWT8Qx4GtnzS2oCvdZRdRW8EbeHDX+aX+ZqS
-        Y7fmMi/Luz1I3pzbFHrddVBf6w==
-X-Google-Smtp-Source: APXvYqwENYmtyILjOnl4HilVvOmaVrKuBkJ28bAMVAwHSpsNFJRH+v3wmBUJf3pYNep/OXJa+KX7pQ==
-X-Received: by 2002:a65:4786:: with SMTP id e6mr29905703pgs.448.1565621782717;
-        Mon, 12 Aug 2019 07:56:22 -0700 (PDT)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id y23sm5052754pfr.86.2019.08.12.07.56.21
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 12 Aug 2019 07:56:21 -0700 (PDT)
-Date:   Mon, 12 Aug 2019 10:56:20 -0400
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Michal Hocko <mhocko@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Brendan Gregg <bgregg@netflix.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christian Hansen <chansen3@cisco.com>, dancol@google.com,
-        fmayer@google.com, "H. Peter Anvin" <hpa@zytor.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        Mike Rapoport <rppt@linux.ibm.com>, minchan@kernel.org,
-        namhyung@google.com, paulmck@linux.ibm.com,
-        Robin Murphy <robin.murphy@arm.com>,
-        Roman Gushchin <guro@fb.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>, surenb@google.com,
-        Thomas Gleixner <tglx@linutronix.de>, tkjos@google.com,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v5 1/6] mm/page_idle: Add per-pid idle page tracking
- using virtual index
-Message-ID: <20190812145620.GB224541@google.com>
-References: <20190807171559.182301-1-joel@joelfernandes.org>
- <20190807130402.49c9ea8bf144d2f83bfeb353@linux-foundation.org>
- <20190807204530.GB90900@google.com>
- <20190807135840.92b852e980a9593fe91fbf59@linux-foundation.org>
- <20190807213105.GA14622@google.com>
- <20190808080044.GA18351@dhcp22.suse.cz>
+        id S1727037AbfHLPXl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 12 Aug 2019 11:23:41 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:50176 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726831AbfHLPXl (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 12 Aug 2019 11:23:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=j335fiiDQMBjJDi/0YItD4IEXZCw2bFlsQGThx9UUxc=; b=RFejK4MgtfOMyLRCkPcGWWTXk
+        nTXMwXgnvOqZBGhKIdS/oTSJC7Fa85pRnJpLb7/jmoDHvGt61cOj4sd/jUfzOjmAhwKkJxvFq1SaV
+        XiwPP5ctlHaLhGtfWQPjQ8/0lfftVXJfOlBjbWk+B0IDUDkXl1kii7giVW1MT54tQFaITVWSYQHgL
+        mvUbOF1EpBU8ob8+BygFFUD/GZdH7lceZc9oHRBQ+TOVrjJD1JsXp5w8kquMyGbYL3L+qYdUjt1z+
+        vo5heiTAcl4VEqb3Dmlgae8apLDPWMUyZJ0wmeKksUAfdqieEIFJqSdegrazCsWwroeB82cwHwW59
+        fLV17OjtA==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.92 #3 (Red Hat Linux))
+        id 1hxCAd-0005L5-Uf; Mon, 12 Aug 2019 15:23:39 +0000
+Date:   Mon, 12 Aug 2019 08:23:39 -0700
+From:   Christoph Hellwig <hch@infradead.org>
+To:     James Bottomley <jejb@linux.vnet.ibm.com>
+Cc:     Douglas Gilbert <dgilbert@interlog.com>,
+        linux-scsi@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-api@vger.kernel.org, martin.petersen@oracle.com,
+        hare@suse.de, bvanassche@acm.org
+Subject: Re: [PATCH v3 00/20] sg: add v4 interface
+Message-ID: <20190812152339.GA15295@infradead.org>
+References: <20190807114252.2565-1-dgilbert@interlog.com>
+ <1565291455.3435.48.camel@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190808080044.GA18351@dhcp22.suse.cz>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <1565291455.3435.48.camel@linux.vnet.ibm.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Aug 08, 2019 at 10:00:44AM +0200, Michal Hocko wrote:
-> On Wed 07-08-19 17:31:05, Joel Fernandes wrote:
-> > On Wed, Aug 07, 2019 at 01:58:40PM -0700, Andrew Morton wrote:
-> > > On Wed, 7 Aug 2019 16:45:30 -0400 Joel Fernandes <joel@joelfernandes.org> wrote:
-> > > 
-> > > > On Wed, Aug 07, 2019 at 01:04:02PM -0700, Andrew Morton wrote:
-> > > > > On Wed,  7 Aug 2019 13:15:54 -0400 "Joel Fernandes (Google)" <joel@joelfernandes.org> wrote:
-> > > > > 
-> > > > > > In Android, we are using this for the heap profiler (heapprofd) which
-> > > > > > profiles and pin points code paths which allocates and leaves memory
-> > > > > > idle for long periods of time. This method solves the security issue
-> > > > > > with userspace learning the PFN, and while at it is also shown to yield
-> > > > > > better results than the pagemap lookup, the theory being that the window
-> > > > > > where the address space can change is reduced by eliminating the
-> > > > > > intermediate pagemap look up stage. In virtual address indexing, the
-> > > > > > process's mmap_sem is held for the duration of the access.
-> > > > > 
-> > > > > So is heapprofd a developer-only thing?  Is heapprofd included in
-> > > > > end-user android loads?  If not then, again, wouldn't it be better to
-> > > > > make the feature Kconfigurable so that Android developers can enable it
-> > > > > during development then disable it for production kernels?
-> > > > 
-> > > > Almost all of this code is already configurable with
-> > > > CONFIG_IDLE_PAGE_TRACKING. If you disable it, then all of this code gets
-> > > > disabled.
-> > > > 
-> > > > Or are you referring to something else that needs to be made configurable?
-> > > 
-> > > Yes - the 300+ lines of code which this patchset adds!
-> > > 
-> > > The impacted people will be those who use the existing
-> > > idle-page-tracking feature but who will not use the new feature.  I
-> > > guess we can assume this set is small...
-> > 
-> > Yes, I think this set should be small. The code size increase of page_idle.o
-> > is from ~1KB to ~2KB. Most of the extra space is consumed by
-> > page_idle_proc_generic() function which this patch adds. I don't think adding
-> > another CONFIG option to disable this while keeping existing
-> > CONFIG_IDLE_PAGE_TRACKING enabled, is worthwhile but I am open to the
-> > addition of such an option if anyone feels strongly about it. I believe that
-> > once this patch is merged, most like this new interface being added is what
-> > will be used more than the old interface (for some of the usecases) so it
-> > makes sense to keep it alive with CONFIG_IDLE_PAGE_TRACKING.
+On Thu, Aug 08, 2019 at 12:10:55PM -0700, James Bottomley wrote:
+> Since this will be an extension of something that exists both in your
+> sg driver and in the block bsg interface (and thus needs an
+> implementation there), I added both linux-block and linux-api to the cc
+> (the latter because you're adding to an API).
 > 
-> I would tend to agree with Joel here. The functionality falls into an
-> existing IDLE_PAGE_TRACKING config option quite nicely. If there really
-> are users who want to save some space and this is standing in the way
-> then they can easily add a new config option with some justification so
-> the savings are clear. Without that an additional config simply adds to
-> the already existing configurability complexity and balkanization.
+> Simply extending sg to use the v4 header protocol in uapi/linux/bsg.h
+> is fine modulo the code being in the right form.  The problems are the
+> new ioctls you want to add that would need to be present there as well.
+>  The specific question being how we support async or non-blocking I/O
+> on the sg and bsg interfaces.  The standard way we add asynchronous I/O
+> is supposed to be via .poll on the file descriptor.  you already use
+> read and write in sg and bsg doesn't have a polling interface, but it
+> looks like we could use MSG to signal an ioctl is ready to be serviced
+> for both.  Would shifting to a non-blocking poll based interface for
+> ioctls remove the need to add these SG_IOSUBMIT/SG_IORECEIVE ioctls
+> since we could now do everything over blocking or non-blocking SG_IO?
 
-Michal, Andrew, Minchan,
+I've spent some wading through this patchset, and it is huge.  I thing
+we need to stage it a bit better and split it into multiple.
 
-Would you have any other review comments on the v5 series? This is just a new
-interface that does not disrupt existing users of the older page-idle
-tracking, so as such it is a safe change (as in, doesn't change existing
-functionality except for the draining bug fix).
-
-thanks,
-
- - Joel
-
+ 1) One (or maybe even multiple) with all the cleanups and minor
+    speedups.  That alone is a lot of changes, and will take a while
+    to settle
+ 2) extending the bsg/v4 API to /dev/sg.  I think that is very useful,
+    although I need to look at the details a bit more
+ 3) adding a new async API.  While this seems very useful from the
+    theoretical perspective, I really thing the guts need to be in
+    common code and then be used by sg and the block device nodes
+    (if it happens to be an ioctl).  What worries me a bit there
+    is that we have another way to deal with async I/O.  I wonder
+    if we can fit this into aio/io_uring somehow.  But I'd rather
+    not even thing about that much until we've done all the groundwork.
