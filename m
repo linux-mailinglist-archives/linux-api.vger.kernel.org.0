@@ -2,170 +2,147 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DD6B98A084
-	for <lists+linux-api@lfdr.de>; Mon, 12 Aug 2019 16:17:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CEA08A1B7
+	for <lists+linux-api@lfdr.de>; Mon, 12 Aug 2019 16:56:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726600AbfHLORT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 12 Aug 2019 10:17:19 -0400
-Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:33943 "EHLO
-        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726354AbfHLORS (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 12 Aug 2019 10:17:18 -0400
-Received: from callcc.thunk.org (guestnat-104-133-9-109.corp.google.com [104.133.9.109] (may be forged))
-        (authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id x7CEGtiI013115
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 12 Aug 2019 10:16:57 -0400
-Received: by callcc.thunk.org (Postfix, from userid 15806)
-        id 7E7C44218EF; Mon, 12 Aug 2019 10:16:55 -0400 (EDT)
-Date:   Mon, 12 Aug 2019 10:16:55 -0400
-From:   "Theodore Y. Ts'o" <tytso@mit.edu>
-To:     linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-mtd@lists.infradead.org, linux-api@vger.kernel.org,
-        linux-crypto@vger.kernel.org, keyrings@vger.kernel.org,
-        Paul Crowley <paulcrowley@google.com>,
-        Satya Tangirala <satyat@google.com>
-Subject: Re: [PATCH v7 07/16] fscrypt: add FS_IOC_REMOVE_ENCRYPTION_KEY ioctl
-Message-ID: <20190812141655.GA11831@mit.edu>
-References: <20190726224141.14044-1-ebiggers@kernel.org>
- <20190726224141.14044-8-ebiggers@kernel.org>
- <20190728192417.GG6088@mit.edu>
- <20190729195827.GF169027@gmail.com>
- <20190731183802.GA687@sol.localdomain>
- <20190731233843.GA2769@mit.edu>
- <20190801011140.GB687@sol.localdomain>
- <20190801053108.GD2769@mit.edu>
- <20190801220432.GC223822@gmail.com>
- <20190802043827.GA19201@sol.localdomain>
+        id S1726689AbfHLO4Y (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 12 Aug 2019 10:56:24 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:33875 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726791AbfHLO4X (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 12 Aug 2019 10:56:23 -0400
+Received: by mail-pg1-f194.google.com with SMTP id n9so43393774pgc.1
+        for <linux-api@vger.kernel.org>; Mon, 12 Aug 2019 07:56:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=3NQFlI4lPYDkvZgs+SnZFXq303TlZRy3bgOdazYblNc=;
+        b=NQ/9B5p6EJnc/jGagbLM/8utrsVRGSqpApLAwGccX5pyS3J/WcnaL76DY5ZPmNj/me
+         +sOQkXutAriyMqi+oLObLZvGQLAia8jcHXEZ76S2/2iX/m6q9ZxUBAuq6hc8fExbhUE5
+         WykTmRJksJRkfuwSeyqAdKimKYBeiv/vOihXA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=3NQFlI4lPYDkvZgs+SnZFXq303TlZRy3bgOdazYblNc=;
+        b=IzD2eIMDMCUNLsc3wDVu7jHbfN44Bw38Tp2UMWBy4ExWWZSeyqvoqMQgxwTR9Uveej
+         HwDfpuJTtjw9TDo7LY4q1wVJ8cCGXMlp4Rcjdpwc8DqITO0xZ+dYdZ8cvStTr1CzX7Fn
+         vrpe5Q/1tNB7jlfH1o07Lk5h+QZo036JSuIsZGyWUCdvMlG/nPYTa6Fr/ll1sQX6+dtm
+         xfKTRvroXWScGtFWmtZFbLptvexo+iq6glg/4EJvoxdSPd5tpKFF4tGYL8O0KhCDsqbX
+         RfgonSGMAjFZoPrSFHnUO2MbReGkhW9FQFp5+nDFRrhlpIrMt/cbt95r/8LUI9KdrXR4
+         SyrQ==
+X-Gm-Message-State: APjAAAX6ESMaqWusY7cxEWT8Qx4GtnzS2oCvdZRdRW8EbeHDX+aX+ZqS
+        Y7fmMi/Luz1I3pzbFHrddVBf6w==
+X-Google-Smtp-Source: APXvYqwENYmtyILjOnl4HilVvOmaVrKuBkJ28bAMVAwHSpsNFJRH+v3wmBUJf3pYNep/OXJa+KX7pQ==
+X-Received: by 2002:a65:4786:: with SMTP id e6mr29905703pgs.448.1565621782717;
+        Mon, 12 Aug 2019 07:56:22 -0700 (PDT)
+Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id y23sm5052754pfr.86.2019.08.12.07.56.21
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Mon, 12 Aug 2019 07:56:21 -0700 (PDT)
+Date:   Mon, 12 Aug 2019 10:56:20 -0400
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     Michal Hocko <mhocko@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Brendan Gregg <bgregg@netflix.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christian Hansen <chansen3@cisco.com>, dancol@google.com,
+        fmayer@google.com, "H. Peter Anvin" <hpa@zytor.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        Mike Rapoport <rppt@linux.ibm.com>, minchan@kernel.org,
+        namhyung@google.com, paulmck@linux.ibm.com,
+        Robin Murphy <robin.murphy@arm.com>,
+        Roman Gushchin <guro@fb.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>, surenb@google.com,
+        Thomas Gleixner <tglx@linutronix.de>, tkjos@google.com,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v5 1/6] mm/page_idle: Add per-pid idle page tracking
+ using virtual index
+Message-ID: <20190812145620.GB224541@google.com>
+References: <20190807171559.182301-1-joel@joelfernandes.org>
+ <20190807130402.49c9ea8bf144d2f83bfeb353@linux-foundation.org>
+ <20190807204530.GB90900@google.com>
+ <20190807135840.92b852e980a9593fe91fbf59@linux-foundation.org>
+ <20190807213105.GA14622@google.com>
+ <20190808080044.GA18351@dhcp22.suse.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190802043827.GA19201@sol.localdomain>
+In-Reply-To: <20190808080044.GA18351@dhcp22.suse.cz>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Aug 01, 2019 at 09:38:27PM -0700, Eric Biggers wrote:
+On Thu, Aug 08, 2019 at 10:00:44AM +0200, Michal Hocko wrote:
+> On Wed 07-08-19 17:31:05, Joel Fernandes wrote:
+> > On Wed, Aug 07, 2019 at 01:58:40PM -0700, Andrew Morton wrote:
+> > > On Wed, 7 Aug 2019 16:45:30 -0400 Joel Fernandes <joel@joelfernandes.org> wrote:
+> > > 
+> > > > On Wed, Aug 07, 2019 at 01:04:02PM -0700, Andrew Morton wrote:
+> > > > > On Wed,  7 Aug 2019 13:15:54 -0400 "Joel Fernandes (Google)" <joel@joelfernandes.org> wrote:
+> > > > > 
+> > > > > > In Android, we are using this for the heap profiler (heapprofd) which
+> > > > > > profiles and pin points code paths which allocates and leaves memory
+> > > > > > idle for long periods of time. This method solves the security issue
+> > > > > > with userspace learning the PFN, and while at it is also shown to yield
+> > > > > > better results than the pagemap lookup, the theory being that the window
+> > > > > > where the address space can change is reduced by eliminating the
+> > > > > > intermediate pagemap look up stage. In virtual address indexing, the
+> > > > > > process's mmap_sem is held for the duration of the access.
+> > > > > 
+> > > > > So is heapprofd a developer-only thing?  Is heapprofd included in
+> > > > > end-user android loads?  If not then, again, wouldn't it be better to
+> > > > > make the feature Kconfigurable so that Android developers can enable it
+> > > > > during development then disable it for production kernels?
+> > > > 
+> > > > Almost all of this code is already configurable with
+> > > > CONFIG_IDLE_PAGE_TRACKING. If you disable it, then all of this code gets
+> > > > disabled.
+> > > > 
+> > > > Or are you referring to something else that needs to be made configurable?
+> > > 
+> > > Yes - the 300+ lines of code which this patchset adds!
+> > > 
+> > > The impacted people will be those who use the existing
+> > > idle-page-tracking feature but who will not use the new feature.  I
+> > > guess we can assume this set is small...
+> > 
+> > Yes, I think this set should be small. The code size increase of page_idle.o
+> > is from ~1KB to ~2KB. Most of the extra space is consumed by
+> > page_idle_proc_generic() function which this patch adds. I don't think adding
+> > another CONFIG option to disable this while keeping existing
+> > CONFIG_IDLE_PAGE_TRACKING enabled, is worthwhile but I am open to the
+> > addition of such an option if anyone feels strongly about it. I believe that
+> > once this patch is merged, most like this new interface being added is what
+> > will be used more than the old interface (for some of the usecases) so it
+> > makes sense to keep it alive with CONFIG_IDLE_PAGE_TRACKING.
 > 
-> Here's a slightly updated version (I missed removing some stale text):
+> I would tend to agree with Joel here. The functionality falls into an
+> existing IDLE_PAGE_TRACKING config option quite nicely. If there really
+> are users who want to save some space and this is standing in the way
+> then they can easily add a new config option with some justification so
+> the savings are clear. Without that an additional config simply adds to
+> the already existing configurability complexity and balkanization.
 
-Apologies for the delaying in getting back.  Thanks, this looks great.
+Michal, Andrew, Minchan,
 
-	      	  	      	      	     - Ted
+Would you have any other review comments on the v5 series? This is just a new
+interface that does not disrupt existing users of the older page-idle
+tracking, so as such it is a safe change (as in, doesn't change existing
+functionality except for the draining bug fix).
 
-> 
-> Removing keys
-> -------------
-> 
-> Two ioctls are available for removing a key that was added by
-> `FS_IOC_ADD_ENCRYPTION_KEY`_:
-> 
-> - `FS_IOC_REMOVE_ENCRYPTION_KEY`_
-> - `FS_IOC_REMOVE_ENCRYPTION_KEY_ALL_USERS`_
-> 
-> These two ioctls differ only in cases where v2 policy keys are added
-> or removed by non-root users.
-> 
-> These ioctls don't work on keys that were added via the legacy
-> process-subscribed keyrings mechanism.
-> 
-> Before using these ioctls, read the `Kernel memory compromise`_
-> section for a discussion of the security goals and limitations of
-> these ioctls.
-> 
-> FS_IOC_REMOVE_ENCRYPTION_KEY
-> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 
-> The FS_IOC_REMOVE_ENCRYPTION_KEY ioctl removes a claim to a master
-> encryption key from the filesystem, and possibly removes the key
-> itself.  It can be executed on any file or directory on the target
-> filesystem, but using the filesystem's root directory is recommended.
-> It takes in a pointer to a :c:type:`struct fscrypt_remove_key_arg`,
-> defined as follows::
-> 
->     struct fscrypt_remove_key_arg {
->             struct fscrypt_key_specifier key_spec;
->     #define FSCRYPT_KEY_REMOVAL_STATUS_FLAG_FILES_BUSY      0x00000001
->     #define FSCRYPT_KEY_REMOVAL_STATUS_FLAG_OTHER_USERS     0x00000002
->             __u32 removal_status_flags;     /* output */
->             __u32 __reserved[5];
->     };
-> 
-> This structure must be zeroed, then initialized as follows:
-> 
-> - The key to remove is specified by ``key_spec``:
-> 
->     - To remove a key used by v1 encryption policies, set
->       ``key_spec.type`` to FSCRYPT_KEY_SPEC_TYPE_DESCRIPTOR and fill
->       in ``key_spec.u.descriptor``.  To remove this type of key, the
->       calling process must have the CAP_SYS_ADMIN capability in the
->       initial user namespace.
-> 
->     - To remove a key used by v2 encryption policies, set
->       ``key_spec.type`` to FSCRYPT_KEY_SPEC_TYPE_IDENTIFIER and fill
->       in ``key_spec.u.identifier``.
-> 
-> For v2 policy keys, this ioctl is usable by non-root users.  However,
-> to make this possible, it actually just removes the current user's
-> claim to the key, undoing a single call to FS_IOC_ADD_ENCRYPTION_KEY.
-> Only after all claims are removed is the key really removed.
-> 
-> For example, if FS_IOC_ADD_ENCRYPTION_KEY was called with uid 1000,
-> then the key will be "claimed" by uid 1000, and
-> FS_IOC_REMOVE_ENCRYPTION_KEY will only succeed as uid 1000.  Or, if
-> both uids 1000 and 2000 added the key, then for each uid
-> FS_IOC_REMOVE_ENCRYPTION_KEY will only remove their own claim.  Only
-> once *both* are removed is the key really removed.  (Think of it like
-> unlinking a file that may have hard links.)
-> 
-> If FS_IOC_REMOVE_ENCRYPTION_KEY really removes the key, it will also
-> try to "lock" all files that had been unlocked with the key.  It won't
-> lock files that are still in-use, so this ioctl is expected to be used
-> in cooperation with userspace ensuring that none of the files are
-> still open.  However, if necessary, the ioctl can be executed again
-> later to retry locking any remaining files.
-> 
-> FS_IOC_REMOVE_ENCRYPTION_KEY returns 0 if either the key was removed
-> (but may still have files remaining to be locked), the user's claim to
-> the key was removed, or the key was already removed but had files
-> remaining to be the locked so the ioctl retried locking them.  In any
-> of these cases, ``removal_status_flags`` is filled in with the
-> following informational status flags:
-> 
-> - ``FSCRYPT_KEY_REMOVAL_STATUS_FLAG_FILES_BUSY``: set if some file(s)
->   are still in-use.  Not guaranteed to be set in the case where only
->   the user's claim to the key was removed.
-> - ``FSCRYPT_KEY_REMOVAL_STATUS_FLAG_OTHER_USERS``: set if only the
->   user's claim to the key was removed, not the key itself
-> 
-> FS_IOC_REMOVE_ENCRYPTION_KEY can fail with the following errors:
-> 
-> - ``EACCES``: The FSCRYPT_KEY_SPEC_TYPE_DESCRIPTOR key specifier type
->   was specified, but the caller does not have the CAP_SYS_ADMIN
->   capability in the initial user namespace
-> - ``EINVAL``: invalid key specifier type, or reserved bits were set
-> - ``ENOKEY``: the key object was not found at all, i.e. it was never
->   added in the first place or was already fully removed including all
->   files locked; or, the user does not have a claim to the key.
-> - ``ENOTTY``: this type of filesystem does not implement encryption
-> - ``EOPNOTSUPP``: the kernel was not configured with encryption
->   support for this filesystem, or the filesystem superblock has not
->   had encryption enabled on it
-> 
-> FS_IOC_REMOVE_ENCRYPTION_KEY_ALL_USERS
-> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 
-> FS_IOC_REMOVE_ENCRYPTION_KEY_ALL_USERS is exactly the same as
-> `FS_IOC_REMOVE_ENCRYPTION_KEY`_, except that for v2 policy keys, the
-> ALL_USERS version of the ioctl will remove all users' claims to the
-> key, not just the current user's.  I.e., the key itself will always be
-> removed, no matter how many users have added it.  This difference is
-> only meaningful if non-root users are adding and removing keys.
-> 
-> Because of this, FS_IOC_REMOVE_ENCRYPTION_KEY_ALL_USERS also requires
-> "root", namely the CAP_SYS_ADMIN capability in the initial user
-> namespace.  Otherwise it will fail with ``EACCES``.
+thanks,
+
+ - Joel
+
