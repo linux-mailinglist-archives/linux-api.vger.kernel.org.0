@@ -2,151 +2,129 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 58A1E8BB6F
-	for <lists+linux-api@lfdr.de>; Tue, 13 Aug 2019 16:25:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2CE958BBD9
+	for <lists+linux-api@lfdr.de>; Tue, 13 Aug 2019 16:45:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729465AbfHMOZa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 13 Aug 2019 10:25:30 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:45136 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729331AbfHMOZa (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 13 Aug 2019 10:25:30 -0400
-Received: by mail-pl1-f196.google.com with SMTP id y8so7243542plr.12
-        for <linux-api@vger.kernel.org>; Tue, 13 Aug 2019 07:25:29 -0700 (PDT)
+        id S1729718AbfHMOpU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 13 Aug 2019 10:45:20 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:38421 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729714AbfHMOpU (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 13 Aug 2019 10:45:20 -0400
+Received: by mail-pl1-f195.google.com with SMTP id m12so10755351plt.5
+        for <linux-api@vger.kernel.org>; Tue, 13 Aug 2019 07:45:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=joelfernandes.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=cgcBlbXGFsc/om+/smWu+Pn0e+PGsj2TzOvbc6+E86U=;
-        b=C6Wd4yxwaQCT0SiFrDTxUSIkFQODTgQV7PQEXI9kmvPnDsR4HFuL/kHGspte6crI3X
-         niIRYHkysNGFVRaeTjgdQiq57VbO4gQEWfnYaaLSFYY8xqxSoVaRN0B+Y/u0fOLI71aG
-         /pLkgNgZK3s+44ARW92U42yPDfe33KSorJnyE=
+        bh=/DG06eqM38QIeCr7IhG3JFD4cD2ewwaHEcvvXfdRS3I=;
+        b=ppUSosWQ6sQWFc0IxI3Nzmy6G6kGbMK13Q7JBH1pQcc9bf+4UAFK5wkEfJuEq2XyLj
+         t9OBW+rPflJtJfIti+xJcNkoJHWUhFO5WsWzjJhB0nxVuJKsG+dJW/Jt+/IPwEjq5jsr
+         aZ9axBTFOg1N2CPyUZAQwMx0PG5wxwoentHNI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=cgcBlbXGFsc/om+/smWu+Pn0e+PGsj2TzOvbc6+E86U=;
-        b=KrLmx/o7cvFIjQWgGt5AXiRRMbBKccYT7uT3pfUUfDHeQEiK1U7jpEdRp7kOcjZKKz
-         MHEGteP2kGtcnNJFjtKUBj3KOYyJtfb05AT+qR6FXMhIMEBpgiDuveWslYVba8IIpiff
-         +9HXDnG4VGtpDxFNLgrFTskX+R/LKeSdibaOrJUIcPZKuB0L6ZthEn9d+fHNF81cnRhE
-         vz+F1vRZyx6rwqVbnid+xFUxacauf87mREXQpSex61e5V3cRQu5KSghnHcE5hWmvoOV4
-         6NbQDSlbeAEKx5KyKaAOIedTZM4ItZXlVf9kSE1W0dAowI8ZdqJpPNHKGx8/Gi161o2+
-         c34Q==
-X-Gm-Message-State: APjAAAULhpEOXGDDosS6SVwm0mTeiN2/cGkGEUryDLqpGFpVRUlFATqS
-        dvUnwfxwuPgku3TknSyfG23E6Q==
-X-Google-Smtp-Source: APXvYqwTcTitvpJ7cl19fmHfaEht6G7+vMW1EpqZcjp3DkM9u+O42KKZEWe7yKNHPpAxz/5bAy17gQ==
-X-Received: by 2002:a17:902:a508:: with SMTP id s8mr14691501plq.280.1565706329107;
-        Tue, 13 Aug 2019 07:25:29 -0700 (PDT)
+        bh=/DG06eqM38QIeCr7IhG3JFD4cD2ewwaHEcvvXfdRS3I=;
+        b=KKLupyKnn5bOqTuDIE+jLuoLG7WUeguUX7NZFJHbYibwTybCtUenvXoqkhw/hc9kD9
+         7WQUQdUyyTGK0KqU4mSES8j8yeZRYRSsqjcrmo8L896hW61De5FZVNamv75KhUAK08ZM
+         sB48vvXzaJ+o8zsybCeIczHSlv/qYU387J4nV9lKteMEMdsRml1vU5YVgadYLEpw2BQ+
+         8WrHZYJA+GVuvFCtc1/y141BlO0+FKVNSbnBK82aBpUs9dOFgD8VWJyh1yGKZYGNF+Mj
+         Ko3QupDnni035DRTZFINAnWOn/XlS2PYDRjU6Hb18coNnRqQQAYyrhm5gYST3eFF8us/
+         7ZLA==
+X-Gm-Message-State: APjAAAWnjRalLvWvFzz8VVx3n9zHcTiF58T5tjNgMaOW+5EtFdYZh3Rw
+        xkLx/H1BRWo4YEoK/4QWJn8RTA==
+X-Google-Smtp-Source: APXvYqwu2kcgtFp5t6/t0JC/c/SSw4ArhZsHerk/StDup/KwlFxIPyKBmZzPisDuPSJvG83H6RolJA==
+X-Received: by 2002:a17:902:a508:: with SMTP id s8mr14768087plq.280.1565707519367;
+        Tue, 13 Aug 2019 07:45:19 -0700 (PDT)
 Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id r137sm24048741pfc.145.2019.08.13.07.25.27
+        by smtp.gmail.com with ESMTPSA id k22sm117365235pfk.157.2019.08.13.07.45.18
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 13 Aug 2019 07:25:28 -0700 (PDT)
-Date:   Tue, 13 Aug 2019 10:25:27 -0400
+        Tue, 13 Aug 2019 07:45:18 -0700 (PDT)
+Date:   Tue, 13 Aug 2019 10:45:17 -0400
 From:   Joel Fernandes <joel@joelfernandes.org>
 To:     Michal Hocko <mhocko@kernel.org>
-Cc:     Jann Horn <jannh@google.com>,
-        kernel list <linux-kernel@vger.kernel.org>,
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org,
         Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
         Borislav Petkov <bp@alien8.de>,
         Brendan Gregg <bgregg@netflix.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
-        Christian Hansen <chansen3@cisco.com>,
-        Daniel Colascione <dancol@google.com>, fmayer@google.com,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Christian Hansen <chansen3@cisco.com>, dancol@google.com,
+        fmayer@google.com, "H. Peter Anvin" <hpa@zytor.com>,
+        Ingo Molnar <mingo@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        kernel-team <kernel-team@android.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Minchan Kim <minchan@kernel.org>, namhyung@google.com,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        Mike Rapoport <rppt@linux.ibm.com>, minchan@kernel.org,
+        namhyung@google.com, paulmck@linux.ibm.com,
         Robin Murphy <robin.murphy@arm.com>,
         Roman Gushchin <guro@fb.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Todd Kjos <tkjos@google.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>, surenb@google.com,
+        Thomas Gleixner <tglx@linutronix.de>, tkjos@google.com,
         Vladimir Davydov <vdavydov.dev@gmail.com>,
         Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>
 Subject: Re: [PATCH v5 1/6] mm/page_idle: Add per-pid idle page tracking
  using virtual index
-Message-ID: <20190813142527.GD258732@google.com>
+Message-ID: <20190813144517.GE258732@google.com>
 References: <20190807171559.182301-1-joel@joelfernandes.org>
- <CAG48ez0ysprvRiENhBkLeV9YPTN_MB18rbu2HDa2jsWo5FYR8g@mail.gmail.com>
- <20190813100856.GF17933@dhcp22.suse.cz>
+ <20190807130402.49c9ea8bf144d2f83bfeb353@linux-foundation.org>
+ <20190807204530.GB90900@google.com>
+ <20190807135840.92b852e980a9593fe91fbf59@linux-foundation.org>
+ <20190807213105.GA14622@google.com>
+ <20190808080044.GA18351@dhcp22.suse.cz>
+ <20190812145620.GB224541@google.com>
+ <20190813091430.GE17933@dhcp22.suse.cz>
+ <20190813135152.GC258732@google.com>
+ <20190813141432.GL17933@dhcp22.suse.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190813100856.GF17933@dhcp22.suse.cz>
+In-Reply-To: <20190813141432.GL17933@dhcp22.suse.cz>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Aug 13, 2019 at 12:08:56PM +0200, Michal Hocko wrote:
-> On Mon 12-08-19 20:14:38, Jann Horn wrote:
-> > On Wed, Aug 7, 2019 at 7:16 PM Joel Fernandes (Google)
-> > <joel@joelfernandes.org> wrote:
-> > > The page_idle tracking feature currently requires looking up the pagemap
-> > > for a process followed by interacting with /sys/kernel/mm/page_idle.
-> > > Looking up PFN from pagemap in Android devices is not supported by
-> > > unprivileged process and requires SYS_ADMIN and gives 0 for the PFN.
-> > >
-> > > This patch adds support to directly interact with page_idle tracking at
-> > > the PID level by introducing a /proc/<pid>/page_idle file.  It follows
-> > > the exact same semantics as the global /sys/kernel/mm/page_idle, but now
-> > > looking up PFN through pagemap is not needed since the interface uses
-> > > virtual frame numbers, and at the same time also does not require
-> > > SYS_ADMIN.
-> > >
-> > > In Android, we are using this for the heap profiler (heapprofd) which
-> > > profiles and pin points code paths which allocates and leaves memory
-> > > idle for long periods of time. This method solves the security issue
-> > > with userspace learning the PFN, and while at it is also shown to yield
-> > > better results than the pagemap lookup, the theory being that the window
-> > > where the address space can change is reduced by eliminating the
-> > > intermediate pagemap look up stage. In virtual address indexing, the
-> > > process's mmap_sem is held for the duration of the access.
+On Tue, Aug 13, 2019 at 04:14:32PM +0200, Michal Hocko wrote:
+[snip] 
+> > > If the API is flawed then this is likely going
+> > > to kick us later and will be hard to fix. I am still not convinced about
+> > > the swap part of the thing TBH.
 > > 
-> > What happens when you use this interface on shared pages, like memory
-> > inherited from the zygote, library file mappings and so on? If two
-> > profilers ran concurrently for two different processes that both map
-> > the same libraries, would they end up messing up each other's data?
+> > Ok, then let us discuss it. As I mentioned before, without this we lose the
+> > access information due to MADVISE or swapping. Minchan and Konstantin both
+> > suggested it that's why I also added it (other than me also realizing that it
+> > is neeed).
 > 
-> Yup PageIdle state is shared. That is the page_idle semantic even now
-> IIRC.
+> I have described my concerns about the general idle bit behavior after
+> unmapping pointing to discrepancy with !anon pages. And I believe those
+> haven't been addressed yet.
 
-Yes, that's right. This patch doesn't change that semantic. Idle page
-tracking at the core is a global procedure which is based on pages that can
-be shared.
+You are referring to this post right?
+https://lkml.org/lkml/2019/8/6/637
 
-One of the usecases of the heap profiler is to enable profiling of pages that
-are shared between zygote and any processes that are forked. In this case,
-I am told by our team working on the heap profiler, that the monitoring of
-shared pages will help.
+Specifically your question was:
+How are you going to handle situation when the page is unmapped  and refaulted again (e.g. a normal reclaim of a pagecache)?
 
-> > Can this be used to observe which library pages other processes are
-> > accessing, even if you don't have access to those processes, as long
-> > as you can map the same libraries? I realize that there are already a
-> > bunch of ways to do that with side channels and such; but if you're
-> > adding an interface that allows this by design, it seems to me like
-> > something that should be gated behind some sort of privilege check.
-> 
-> Hmm, you need to be priviledged to get the pfn now and without that you
-> cannot get to any page so the new interface is weakening the rules.
-> Maybe we should limit setting the idle state to processes with the write
-> status. Or do you think that even observing idle status is useful for
-> practical side channel attacks? If yes, is that a problem of the
-> profiler which does potentially dangerous things?
+Currently I don't know how to implement that. Would it work if I stored the
+page-idle bit information in the pte of the file page (after the page is
+unmapped by reclaim?).
 
-The heap profiler is currently unprivileged. Would it help the concern Jann
-raised, if the new interface was limited to only anonymous private/shared
-pages and not to file pages? Or, is this even a real concern?
+Also, this could be a future extension - the Android heap profiler does not
+need it right now. I know that's not a good argument but it is useful to say
+that it doesn't affect a real world usecase.. the swap issue on the other
+hand, is a real usecase. Since the profiler should not get affected by
+swapping or MADVISE_COLD hints.
+
+> Besides that I am still not seeing any
+> description of the usecase that would suffer from the lack of the
+> functionality in changelogs.
+
+You are talking about the swap usecase? The usecase is well layed out in v5
+2/6. Did you see it? https://lore.kernel.org/patchwork/patch/1112283/
 
 thanks,
 
