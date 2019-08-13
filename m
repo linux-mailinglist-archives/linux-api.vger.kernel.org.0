@@ -2,242 +2,169 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C334F8C496
-	for <lists+linux-api@lfdr.de>; Wed, 14 Aug 2019 01:02:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82F458C4A1
+	for <lists+linux-api@lfdr.de>; Wed, 14 Aug 2019 01:06:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727477AbfHMXCZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 13 Aug 2019 19:02:25 -0400
-Received: from mga05.intel.com ([192.55.52.43]:63294 "EHLO mga05.intel.com"
+        id S1727210AbfHMXGP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 13 Aug 2019 19:06:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34208 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726155AbfHMXCY (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 13 Aug 2019 19:02:24 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Aug 2019 16:02:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,382,1559545200"; 
-   d="scan'208";a="260271269"
-Received: from ray.jf.intel.com (HELO [10.7.201.140]) ([10.7.201.140])
-  by orsmga001.jf.intel.com with ESMTP; 13 Aug 2019 16:02:22 -0700
-Subject: Re: [PATCH v8 11/27] x86/mm: Introduce _PAGE_DIRTY_SW
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>
-References: <20190813205225.12032-1-yu-cheng.yu@intel.com>
- <20190813205225.12032-12-yu-cheng.yu@intel.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-Message-ID: <dac2d62b-9045-4767-87dd-eac12e7abafd@intel.com>
-Date:   Tue, 13 Aug 2019 16:02:22 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1727452AbfHMXGP (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 13 Aug 2019 19:06:15 -0400
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 718DC2133F
+        for <linux-api@vger.kernel.org>; Tue, 13 Aug 2019 23:06:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1565737573;
+        bh=UYu26GUQAaKNlccIn4jPZ2pz2hbDX6W5aP6WZ+L37CI=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=y0d/aeA/oHe7Ek9Oh0h0yfiYACeb5Phg6xTSU1ohEkYF/bR32GSZS2EapOSxaweNi
+         UusU+zxqOPAy6AcE5QacsqFQf8lH8PQZ4g28vhaMjjn//bb9r20NBhrO/DVTjsMK3B
+         H6NHRXiaNrBdqOT8uleZa79VQrgww+EOSzM7Tnus=
+Received: by mail-wm1-f41.google.com with SMTP id v15so2938014wml.0
+        for <linux-api@vger.kernel.org>; Tue, 13 Aug 2019 16:06:13 -0700 (PDT)
+X-Gm-Message-State: APjAAAX+Kjyd1akJXtdpqvcpr2ixBE/jkF0gzzHunXjv5ipYo/kV8LQe
+        ytnLGlZcV7HYKelQJHjCPXXn4MrePLdw0+AaCVn8uQ==
+X-Google-Smtp-Source: APXvYqzgctiSJ0eW17obIPLwzTtaflh0LjZKHtQoMzK/pi06oFlrGOU2Do83ItsTLqtVbfPkz5Pqf+2slTU2GsNMazE=
+X-Received: by 2002:a7b:c4d2:: with SMTP id g18mr5105868wmk.79.1565737571802;
+ Tue, 13 Aug 2019 16:06:11 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190813205225.12032-12-yu-cheng.yu@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <5A2FCD7E-7F54-41E5-BFAE-BB9494E74F2D@fb.com> <CALCETrU7NbBnXXsw1B+DvTkfTVRBFWXuJ8cZERCCNvdFG6KqRw@mail.gmail.com>
+ <CALCETrUjh6DdgW1qSuSRd1_=0F9CqB8+sNj__e_6AHEvh_BaxQ@mail.gmail.com>
+ <CALCETrWtE2U4EvZVYeq8pSmQjBzF2PHH+KxYW8FSeF+W=1FYjw@mail.gmail.com>
+ <EE7B7AE1-3D44-4561-94B9-E97A626A251D@fb.com> <CALCETrXX-Jeb4wiQuL6FUai4wNMmMiUxuLLh_Lb9mT7h=0GgAw@mail.gmail.com>
+ <20190805192122.laxcaz75k4vxdspn@ast-mbp> <CALCETrVtPs8gY-H4gmzSqPboid3CB++n50SvYd6RU9YVde_-Ow@mail.gmail.com>
+ <20190806011134.p5baub5l3t5fkmou@ast-mbp> <CALCETrXEHL3+NAY6P6vUj7Pvd9ZpZsYC6VCLXOaNxb90a_POGw@mail.gmail.com>
+ <20190813215823.3sfbakzzjjykyng2@ast-mbp>
+In-Reply-To: <20190813215823.3sfbakzzjjykyng2@ast-mbp>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Tue, 13 Aug 2019 16:06:00 -0700
+X-Gmail-Original-Message-ID: <CALCETrVT-dDXQGukGs5S1DkzvQv9_e=axzr_GyEd2c4T4z8Qng@mail.gmail.com>
+Message-ID: <CALCETrVT-dDXQGukGs5S1DkzvQv9_e=axzr_GyEd2c4T4z8Qng@mail.gmail.com>
+Subject: Re: [PATCH v2 bpf-next 1/4] bpf: unprivileged BPF access via /dev/bpf
+To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        Song Liu <songliubraving@fb.com>,
+        Kees Cook <keescook@chromium.org>,
+        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Kernel Team <Kernel-team@fb.com>,
+        Lorenz Bauer <lmb@cloudflare.com>,
+        Jann Horn <jannh@google.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-> +#if defined(CONFIG_X86_INTEL_SHADOW_STACK_USER)
-> +static inline pte_t pte_move_flags(pte_t pte, pteval_t from, pteval_t to)
-> +{
-> +	if (pte_flags(pte) & from)
-> +		pte = pte_set_flags(pte_clear_flags(pte, from), to);
-> +	return pte;
+On Tue, Aug 13, 2019 at 2:58 PM Alexei Starovoitov
+<alexei.starovoitov@gmail.com> wrote:
+>
+> On Tue, Aug 06, 2019 at 10:24:25PM -0700, Andy Lutomirski wrote:
+> > >
+> > > Inside containers and inside nested containers we need to start processes
+> > > that will use bpf. All of the processes are trusted.
+> >
+> > Trusted by whom?  In a non-nested container, the container manager
+> > *might* be trusted by the outside world.  In a *nested* container,
+> > unless the inner container management is controlled from outside the
+> > outer container, it's not trusted.  I don't know much about how
+> > Facebook's containers work, but the LXC/LXD/Podman world is moving
+> > very strongly toward user namespaces and maximally-untrusted
+> > containers, and I think bpf() should work in that context.
+>
+> agree that containers (namespaces) reduce amount of trust necessary
+> for apps to run, but the end goal is not security though.
+> Linux has become a single user system.
+> If user can ssh into the host they can become root.
+> If arbitrary code can run on the host it will be break out of any sandbox.
 
-Why is this conditional on the compile option and not a runtime check?
+I would argue that this is a reasonable assumption to make if you're
+designing a system using Linux, but it's not a valid assumption to
+make as kernel developers.  Otherwise we should just give everyone
+CAP_SYS_ADMIN and call it a day.  There really is a difference between
+root and non-root.
 
-> +}
-> +#else
-> +static inline pte_t pte_move_flags(pte_t pte, pteval_t from, pteval_t to)
-> +{
-> +	return pte;
-> +}
-> +#endif
+> Containers are not providing the level of security that is enough
+> to run arbitrary code. VMs can do it better, but cpu bugs don't make it easy.
+> Containers are used to make production systems safer.
+> Some people call it more 'secure', but it's clearly not secure for
+> arbitrary code and that is what kernel.unprivileged_bpf_disabled allows.
+> When we say 'unprivileged bpf' we really mean arbitrary malicious bpf program.
+> It's been a constant source of pain. The constant blinding, randomization,
+> verifier speculative analysis, all spectre v1, v2, v4 mitigations
+> are simply not worth it. It's a lot of complex kernel code without users.
 
-Why do we need this function?  It's not mentioned in the changelog or
-commented.
+Seccomp really will want eBPF some day, and it should work without
+privilege.  Maybe it should be a restricted subset of eBPF, and
+Spectre will always be an issue until dramatically better hardware
+shows up, but I think people will want the ability for regular
+programs to load eBPF seccomp programs.
 
->  static inline pte_t pte_mkclean(pte_t pte)
->  {
-> -	return pte_clear_flags(pte, _PAGE_DIRTY);
-> +	return pte_clear_flags(pte, _PAGE_DIRTY_BITS);
->  }
->  
->  static inline pte_t pte_mkold(pte_t pte)
-> @@ -322,6 +336,7 @@ static inline pte_t pte_mkold(pte_t pte)
->  
->  static inline pte_t pte_wrprotect(pte_t pte)
->  {
-> +	pte = pte_move_flags(pte, _PAGE_DIRTY_HW, _PAGE_DIRTY_SW);
->  	return pte_clear_flags(pte, _PAGE_RW);
->  }
+> Hence I prefer this /dev/bpf mechanism to be as simple a possible.
+> The applications that will use it are going to be just as trusted as systemd.
 
-Please comment what this is doing and why.
+I still don't understand your systemd example.  systemd --users is not
+trusted systemwide in any respect.  The main PID 1 systemd is root.
+No matter how you dice it, granting a user systemd instance extra bpf
+access is tantamount to granting the user extra bpf access in general.
 
-> @@ -332,9 +347,24 @@ static inline pte_t pte_mkexec(pte_t pte)
->  
->  static inline pte_t pte_mkdirty(pte_t pte)
->  {
-> +	pteval_t dirty = (!IS_ENABLED(CONFIG_X86_INTEL_SHADOW_STACK_USER) ||
-> +			   pte_write(pte)) ? _PAGE_DIRTY_HW:_PAGE_DIRTY_SW;
-
-This is *really* hard for me to read and parse.  How about:
-
-	pte_t dirty = _PAGE_DIRTY_HW;
-
-	/*
-	 * When Shadow Stacks are enabled, read-only PTEs can
-	 * not have the hardware dirty bit set and must use
-	 * the software bit.
-	 */
-	if (IS_ENABLED(CONFIG_X86_INTEL_SHADOW_STACK_USER) &&
-	    !pte_write(pte))
-		dirty = _PAGE_DIRTY_SW;
+It sounds to me like you're thinking of eBPF as a feature a bit like
+unprivileged user namespaces: *in principle*, it's supposed to be safe
+to give any unprivileged process the ability to use it, and you
+consider security flaws in it to be bugs worth fixing.  But you think
+it's a large attack surface and that most unprivileged programs
+shouldn't be allowed to use it.  Is that reasonable?
 
 
-> +	return pte_set_flags(pte, dirty | _PAGE_SOFT_DIRTY);
-> +}
-> +
-> +#ifdef CONFIG_ARCH_HAS_SHSTK
-> +static inline pte_t pte_mkdirty_shstk(pte_t pte)
-> +{
-> +	pte = pte_clear_flags(pte, _PAGE_DIRTY_SW);
->  	return pte_set_flags(pte, _PAGE_DIRTY_HW | _PAGE_SOFT_DIRTY);
->  }
-
-Why does the _PAGE_DIRTY_SW *HAVE* to be cleared on shstk pages?
-
-> +static inline bool pte_dirty_hw(pte_t pte)
-> +{
-> +	return pte_flags(pte) & _PAGE_DIRTY_HW;
-> +}
-> +#endif
-
-Why are these #ifdef'd?
-
->  static inline pte_t pte_mkyoung(pte_t pte)
->  {
->  	return pte_set_flags(pte, _PAGE_ACCESSED);
-> @@ -342,6 +372,7 @@ static inline pte_t pte_mkyoung(pte_t pte)
->  
->  static inline pte_t pte_mkwrite(pte_t pte)
->  {
-> +	pte = pte_move_flags(pte, _PAGE_DIRTY_SW, _PAGE_DIRTY_HW);
->  	return pte_set_flags(pte, _PAGE_RW);
->  }
-
-It also isn't clear to me why this *must* move bits here.  Its doubly
-unclear why you would need to do this on systems when shadow stacks are
-compiled in but disabled.
-
-<snip>
-
-Same comments for pmds and puds.
-
-> -
->  /* mprotect needs to preserve PAT bits when updating vm_page_prot */
->  #define pgprot_modify pgprot_modify
->  static inline pgprot_t pgprot_modify(pgprot_t oldprot, pgprot_t newprot)
-> @@ -1178,6 +1254,19 @@ static inline int pmd_write(pmd_t pmd)
->  	return pmd_flags(pmd) & _PAGE_RW;
->  }
->  
-> +static inline pmd_t pmd_modify(pmd_t pmd, pgprot_t newprot)
-> +{
-> +	pmdval_t val = pmd_val(pmd), oldval = val;
-> +
-> +	val &= _HPAGE_CHG_MASK;
-> +	val |= check_pgprot(newprot) & ~_HPAGE_CHG_MASK;
-> +	val = flip_protnone_guard(oldval, val, PHYSICAL_PMD_PAGE_MASK);
-> +	if ((pmd_write(pmd) && !(pgprot_val(newprot) & _PAGE_RW)))
-> +		return pmd_move_flags(__pmd(val), _PAGE_DIRTY_HW,
-> +				      _PAGE_DIRTY_SW);
-> +	return __pmd(val);
-> +}
-
-Why was this function moved?  This makes it really hard to review what
-you changed
-
-I'm going to stop reading this code now.  It needs a lot more care and
-feeding to make it reviewable.  Please go back, double-check your
-changelogs and flesh them out, then please try to make the code more
-readable and understandable by commenting it.
-
-Please take all of the compile-time checks and ask yourself whether they
-need to be or *can* be runtime checks.  Consider what the overhead is of
-non-shadowstack systems running shadowstack-required code.
-
-Please also reconcile the supervisor XSAVE portion of your patches with
-the ones that Fenghua has been sending around.  I've given quite a bit
-of feedback to improve those.  Please consolidate and agree on a common
-set of patches with him.
+>
+> > > To solve your concern of bypassing all capable checks...
+> > > How about we do /dev/bpf/full_verifier first?
+> > > It will replace capable() checks in the verifier only.
+> >
+> > I'm not convinced that "in the verifier" is the right distinction.
+> > Telling administrators that some setting lets certain users bypass
+> > bpf() verifier checks doesn't have a clear enough meaning.
+>
+> linux is a single user system. there are no administrators any more.
+> No doubt, folks will disagree, but that game is over.
+> At least on bpf side it's done.
+>
+> > I propose,
+> > instead, that the current capable() checks be divided into three
+> > categories:
+>
+> I don't see a use case for these categories.
+> All bpf programs extend the kernel in some way.
+> The kernel vs user is one category.
+> Conceptually CAP_BPF is enough. It would be similar to CAP_NET_ADMIN.
+> When application has CAP_NET_ADMIN it covers all of networking knobs.
+> There is no use case that would warrant fine grain CAP_ROUTE_ADMIN,
+> CAP_ETHTOOL_ADMIN, CAP_ETH0_ADMIN, etc.
+> Similarly CAP_BPF as the only knob is enough.
+> The only disadvantage of CAP_BPF is that it's not possible to
+> pass it from one systemd-like daemon to another systemd-like daemon.
+> Hence /dev/bpf idea and passing file descriptor.
+>
+> > This type of thing actually fits quite nicely into an idea I've been
+> > thinking about for a while called "implicit rights". In very brief
+> > summary, there would be objects called /dev/rights/xyz, where xyz is
+> > the same of a "right".  If there is a readable object of the right
+> > type at the literal path "/dev/rights/xyz", then you have right xyz.
+> > There's a bit more flexibility on top of this.  BPF could use
+> > /dev/rights/bpf/maptypes/lpm and
+> > /dev/rights/bpf/verifier/bounded_loops, for example.  Other non-BPF
+> > use cases include a biggie:
+> > /dev/rights/namespace/create_unprivileged_userns.
+> > /dev/rights/bind_port/80 would be nice, too.
+>
+> The concept of "implicit rights" is very nice and I'm sure it will
+> be a good fit somewhere, but I don't see why use it in bpf space.
+> There is no use case for fine grain partition of bpf features.
+>
