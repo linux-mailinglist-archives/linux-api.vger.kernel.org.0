@@ -2,212 +2,146 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D352F8BD68
-	for <lists+linux-api@lfdr.de>; Tue, 13 Aug 2019 17:41:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABF6C8BD6E
+	for <lists+linux-api@lfdr.de>; Tue, 13 Aug 2019 17:41:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730068AbfHMPlS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 13 Aug 2019 11:41:18 -0400
-Received: from orelay.tugraz.at ([129.27.2.230]:9262 "EHLO orelay.tugraz.at"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727177AbfHMPlS (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 13 Aug 2019 11:41:18 -0400
-X-Greylist: delayed 403 seconds by postgrey-1.27 at vger.kernel.org; Tue, 13 Aug 2019 11:41:15 EDT
-Received: from mx01.iaik.tugraz.at (blackstone.iaik.at [129.27.152.26])
-        by mrelayout.tugraz.at (Postfix) with ESMTPSA id 467Gwf54Hxz8ql3;
-        Tue, 13 Aug 2019 17:34:26 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mrelayout.tugraz.at 467Gwf54Hxz8ql3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tugraz.at;
-        s=mailrelay; t=1565710469;
-        bh=3+1uN8R8+i16Iygk+2mDQxITYNuBvydPnLHqbZMhhbE=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To:From;
-        b=cTdYhn0Di0tK/WIMpTlHZZmqSgRMH3GKc4pR9f9UTrsIFsolWnVH8/pZv9xGw/avf
-         58cPlyXko9fecMQ1reRvbev/ELiZPRfQLM6JBE6+tKyYePB2zm9l4l+cH0l7Z7PycL
-         XO/Y0A5sgtKEA7ai+83tugVJHnVdt1uPXvkiAla8=
-Received: from [10.71.23.192] (8.25.222.101) by EXCG01-INT.iaik.tugraz.at
- (2002:811b:981a::811b:981a) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Tue, 13
- Aug 2019 17:34:18 +0200
+        id S1730084AbfHMPl0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 13 Aug 2019 11:41:26 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:46449 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730081AbfHMPl0 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 13 Aug 2019 11:41:26 -0400
+Received: by mail-ot1-f66.google.com with SMTP id z17so55709923otk.13
+        for <linux-api@vger.kernel.org>; Tue, 13 Aug 2019 08:41:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=MTdtKCAFd9Jy/7ibMRAuyCjCVrja1NtEGRgDRccZP3s=;
+        b=uw9/eV5N0ZExRUVoCgJf8G+srilhjSZQGDy5IBC5b4v/wcuzr+Uw4cZNlYPOWtRP+l
+         3o5dtvf03dScoKE2SWAEtOoXv0C9YjnC0pVbiJQifIrMpUSH/roSYaqja1BcWza3cNqn
+         tmQ70HlvmL5aGUkwVK4o0q2+NXAi3mdOjN/SjouEdsZmGxcCFsCYBAfdP0Vz0NoXuURd
+         AkEbJUG2f5dTQNDs3ypBfxleNmvcO65GGXpuhvQZ4i3yRffgE/U5TP19aBcLzVtQVxu/
+         oAv467iy4QAb744hHdwVvgVVHO1RAhbxc35afTD2zkqXAXWulAa0c4vJA27HYjBSRElo
+         5e/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MTdtKCAFd9Jy/7ibMRAuyCjCVrja1NtEGRgDRccZP3s=;
+        b=tnSb+nFI0kGCsSjluu5r2y1t5eSCJXW4zjHBrztAJyURZ6bhZ5GNaqEH503M6yHOAF
+         dAqrKYRHiPw2xUXmKz2h6mEhXKeU347MpBxQXdKHcRaK4FXzjzRskBtaguQsT3B0D7xb
+         I+BxlQT9MWlB1tEDqC4J2IcUb+gf4uRTSxsuXLojhKQdYOLHa++EYMUu0U+dxlG2P80E
+         xfpY01wdB/khNZt+MJ9eTzo5z6cdyB6bmpz0NgEzxYY5WQlrrPTysWR9573oJn6pftxL
+         t70OlTsiih5FZ19GZ3rtJAYFy9irtkh01+VXx3ZJ5NAI5SyThIJdmy+lujEyyOr1/HZv
+         GZmA==
+X-Gm-Message-State: APjAAAV7EtX115zvuoz8tvB0MJBdOHolsi5KE6QOuH1hfHo9P9PMDKg8
+        wKZr5ci6eLVV0oVEEjOIbvFmXVI7jYvv7GSQ2HUvrQ==
+X-Google-Smtp-Source: APXvYqy0Gr24iQpZBx4GGZNCq6qo1HJdpVtqntwwwEkKInWAr7LkPZicBlh5Px02dy2tsSSNvomzY4JkCTDDIxQJ/k8=
+X-Received: by 2002:aca:dd55:: with SMTP id u82mr2003223oig.68.1565710885153;
+ Tue, 13 Aug 2019 08:41:25 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190807171559.182301-1-joel@joelfernandes.org>
+ <CAG48ez0ysprvRiENhBkLeV9YPTN_MB18rbu2HDa2jsWo5FYR8g@mail.gmail.com> <20190813153020.GC14622@google.com>
+In-Reply-To: <20190813153020.GC14622@google.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Tue, 13 Aug 2019 17:40:58 +0200
+Message-ID: <CAG48ez1xEt1zyMjwqS4Ysy7Vwtf4M1OOtYiPTdAmOGjViRCDvQ@mail.gmail.com>
 Subject: Re: [PATCH v5 1/6] mm/page_idle: Add per-pid idle page tracking using
  virtual index
-To:     Jann Horn <jannh@google.com>, Michal Hocko <mhocko@kernel.org>,
-        "Joel Fernandes (Google)" <joel@joelfernandes.org>
-CC:     kernel list <linux-kernel@vger.kernel.org>,
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     kernel list <linux-kernel@vger.kernel.org>,
         Alexey Dobriyan <adobriyan@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        "Borislav Petkov" <bp@alien8.de>,
+        Borislav Petkov <bp@alien8.de>,
         Brendan Gregg <bgregg@netflix.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Christian Hansen <chansen3@cisco.com>,
-        "Daniel Colascione" <dancol@google.com>, <fmayer@google.com>,
+        Daniel Colascione <dancol@google.com>, fmayer@google.com,
         "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Joel Fernandes <joelaf@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Kees Cook <keescook@chromium.org>,
         kernel-team <kernel-team@android.com>,
         Linux API <linux-api@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>,
+        linux-doc@vger.kernel.org,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
+        Linux-MM <linux-mm@kvack.org>, Michal Hocko <mhocko@suse.com>,
         Mike Rapoport <rppt@linux.ibm.com>,
-        Minchan Kim <minchan@kernel.org>, <namhyung@google.com>,
+        Minchan Kim <minchan@kernel.org>, namhyung@google.com,
         "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        "Robin Murphy" <robin.murphy@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
         Roman Gushchin <guro@fb.com>,
         Stephen Rothwell <sfr@canb.auug.org.au>,
         Suren Baghdasaryan <surenb@google.com>,
-        "Thomas Gleixner" <tglx@linutronix.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Todd Kjos <tkjos@google.com>,
         Vladimir Davydov <vdavydov.dev@gmail.com>,
         Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>
-References: <20190807171559.182301-1-joel@joelfernandes.org>
- <CAG48ez0ysprvRiENhBkLeV9YPTN_MB18rbu2HDa2jsWo5FYR8g@mail.gmail.com>
- <20190813100856.GF17933@dhcp22.suse.cz>
- <CAG48ez2cuqe_VYhhaqw8Hcyswv47cmz2XmkqNdvkXEhokMVaXg@mail.gmail.com>
-From:   Daniel Gruss <daniel.gruss@iaik.tugraz.at>
-Openpgp: preference=signencrypt
-Autocrypt: addr=daniel.gruss@iaik.tugraz.at; prefer-encrypt=mutual; keydata=
- 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
- v8D8ArI3
-Message-ID: <d6ae7f06-f0ef-ec00-a020-98e7cfada281@iaik.tugraz.at>
-Date:   Tue, 13 Aug 2019 17:34:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <CAG48ez2cuqe_VYhhaqw8Hcyswv47cmz2XmkqNdvkXEhokMVaXg@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [8.25.222.101]
-X-ClientProxiedBy: EXCG01-EXT.iaik.tugraz.at (2002:811b:98d3::811b:98d3) To
- EXCG01-INT.iaik.tugraz.at (2002:811b:981a::811b:981a)
-X-TM-AS-Product-Ver: SMEX-12.5.0.1684-8.5.1010-24844.005
-X-TM-AS-Result: No-14.382400-4.000000-10
-X-TMASE-MatchedRID: 0lhM5bBmjEPmLzc6AOD8DfHkpkyUphL9AQ8mtiWx//o/hcT28SJs8uD9
-        pOnPHAzhcUp8V3Al4iXhvj8c2bhgihvXuwv8L4HaSszr2nuUNKzbjtx2Oq4Xg/n6214PlHOFRrz
-        Ipk4noLUItWSsjLDRh2MSJ0HWAsy3eowfs+b4f+1WfOVCJoTbWh0uOLC2hwDynvxplJ6sWvDFgy
-        mj9DufcpUlXPCybjjpyUmJtMlYIk4EpTm5f4ffZSX+a5eEMES4vupteabB3fV/GXao7FChFVnbf
-        l9ZhZv90qZ9l/HrySb58zKcJ6DmacX6zzMWVMJEN19PjPJahlLUHmaN+mm9YGmycYYiBYyZLLer
-        TDWsZmYvE40xnii1XOzznoLIx35H+GfEEInjVF5l2ityh8f8aZ661eVJ1FWN2VVfO8p2c0v5ECF
-        bXGR5l6tUn36QB84O49ojshnO5h4ocApp2HQ05Y6cpbnLdja9j87/LK+2sqOA6UrbM3j3qT2j/N
-        8mMgrkle1SEYlyiKSPZSqM8MVnirhYaHW9RIv/bWsCUkrA4EkiJN3aXuV/ofa7agslQWYY+Tnzq
-        hV8NpDYw0vFR+xKH0eUcoyt6sr0EbZg2oCkmJjwoYkKJX7f8qRbM2iyYu2pwj10jtt9j+84+qrs
-        HfOFPLJna51YX1d4zF273/DE1XADpmiSD/gHbxrRZIDqhgsgAp+UH372RZVGM2uNXRqsUkOf7N3
-        I4ltrfS0Ip2eEHny+qryzYw2E8LLn+0Vm71Lcq7rFUcuGp/HCttcwYNipX4nxgmBGuBcXi+KYK1
-        c6e5b1o76zQcqLeiWEjGh+UzAiUwqpGcnw30E=
-X-TM-AS-User-Approved-Sender: Yes
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--14.382400-4.000000
-X-TMASE-Version: SMEX-12.5.0.1684-8.5.1010-24844.005
-X-TM-SNTS-SMTP: 1ECB56E9596B344772ED14E96F42C35887618A0E2F40B0E81DEE63A3AB660A7E2000:9
-X-TUG-Backscatter-control: IqAlG2Mm08USmfDJcRVXXA
-X-Spam-Scanner: SpamAssassin 3.003001 
-X-Spam-Score-relay: -1.9
-X-Scanned-By: MIMEDefang 2.74 on 129.27.10.116
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 8/13/19 5:29 PM, Jann Horn wrote:
-> On Tue, Aug 13, 2019 at 12:09 PM Michal Hocko <mhocko@kernel.org> wrote:
->> On Mon 12-08-19 20:14:38, Jann Horn wrote:
->>> On Wed, Aug 7, 2019 at 7:16 PM Joel Fernandes (Google)
->>> <joel@joelfernandes.org> wrote:
->>>> The page_idle tracking feature currently requires looking up the pagemap
->>>> for a process followed by interacting with /sys/kernel/mm/page_idle.
->>>> Looking up PFN from pagemap in Android devices is not supported by
->>>> unprivileged process and requires SYS_ADMIN and gives 0 for the PFN.
->>>>
->>>> This patch adds support to directly interact with page_idle tracking at
->>>> the PID level by introducing a /proc/<pid>/page_idle file.  It follows
->>>> the exact same semantics as the global /sys/kernel/mm/page_idle, but now
->>>> looking up PFN through pagemap is not needed since the interface uses
->>>> virtual frame numbers, and at the same time also does not require
->>>> SYS_ADMIN.
->>>>
->>>> In Android, we are using this for the heap profiler (heapprofd) which
->>>> profiles and pin points code paths which allocates and leaves memory
->>>> idle for long periods of time. This method solves the security issue
->>>> with userspace learning the PFN, and while at it is also shown to yield
->>>> better results than the pagemap lookup, the theory being that the window
->>>> where the address space can change is reduced by eliminating the
->>>> intermediate pagemap look up stage. In virtual address indexing, the
->>>> process's mmap_sem is held for the duration of the access.
->>>
->>> What happens when you use this interface on shared pages, like memory
->>> inherited from the zygote, library file mappings and so on? If two
->>> profilers ran concurrently for two different processes that both map
->>> the same libraries, would they end up messing up each other's data?
->>
->> Yup PageIdle state is shared. That is the page_idle semantic even now
->> IIRC.
->>
->>> Can this be used to observe which library pages other processes are
->>> accessing, even if you don't have access to those processes, as long
->>> as you can map the same libraries? I realize that there are already a
->>> bunch of ways to do that with side channels and such; but if you're
->>> adding an interface that allows this by design, it seems to me like
->>> something that should be gated behind some sort of privilege check.
->>
->> Hmm, you need to be priviledged to get the pfn now and without that you
->> cannot get to any page so the new interface is weakening the rules.
->> Maybe we should limit setting the idle state to processes with the write
->> status. Or do you think that even observing idle status is useful for
->> practical side channel attacks? If yes, is that a problem of the
->> profiler which does potentially dangerous things?
-> 
-> I suppose read-only access isn't a real problem as long as the
-> profiler isn't writing the idle state in a very tight loop... but I
-> don't see a usecase where you'd actually want that? As far as I can
-> tell, if you can't write the idle state, being able to read it is
-> pretty much useless.
-> 
-> If the profiler only wants to profile process-private memory, then
-> that should be implementable in a safe way in principle, I think, but
-> since Joel said that they want to profile CoW memory as well, I think
-> that's inherently somewhat dangerous.
+On Tue, Aug 13, 2019 at 5:30 PM Joel Fernandes <joel@joelfernandes.org> wrote:
+> On Mon, Aug 12, 2019 at 08:14:38PM +0200, Jann Horn wrote:
+> [snip]
+> > > +/* Helper to get the start and end frame given a pos and count */
+> > > +static int page_idle_get_frames(loff_t pos, size_t count, struct mm_struct *mm,
+> > > +                               unsigned long *start, unsigned long *end)
+> > > +{
+> > > +       unsigned long max_frame;
+> > > +
+> > > +       /* If an mm is not given, assume we want physical frames */
+> > > +       max_frame = mm ? (mm->task_size >> PAGE_SHIFT) : max_pfn;
+> > > +
+> > > +       if (pos % BITMAP_CHUNK_SIZE || count % BITMAP_CHUNK_SIZE)
+> > > +               return -EINVAL;
+> > > +
+> > > +       *start = pos * BITS_PER_BYTE;
+> > > +       if (*start >= max_frame)
+> > > +               return -ENXIO;
+> > > +
+> > > +       *end = *start + count * BITS_PER_BYTE;
+> > > +       if (*end > max_frame)
+> > > +               *end = max_frame;
+> > > +       return 0;
+> > > +}
+> >
+> > You could add some overflow checks for the multiplications. I haven't
+> > seen any place where it actually matters, but it seems unclean; and in
+> > particular, on a 32-bit architecture where the maximum user address is
+> > very high (like with a 4G:4G split), it looks like this function might
+> > theoretically return with `*start > *end`, which could be confusing to
+> > callers.
+>
+> I could store the multiplication result in unsigned long long (since we are
+> bounds checking with max_frame, start > end would not occur). Something like
+> the following (with extraneous casts). But I'll think some more about the
+> point you are raising.
 
-I agree that allowing profiling of shared pages would leak information.
-To me the use case is not entirely clear. This is not a feature that
-would normally be run in everyday computer usage, right?
+check_mul_overflow() exists and could make that a bit cleaner.
+
+
+> > This means that BITMAP_CHUNK_SIZE is UAPI on big-endian systems,
+> > right? My opinion is that it would be slightly nicer to design the
+> > UAPI such that incrementing virtual addresses are mapped to
+> > incrementing offsets in the buffer (iow, either use bytewise access or
+> > use little-endian), but I'm not going to ask you to redesign the UAPI
+> > this late.
+>
+> That would also be slow and consume more memory in userspace buffers.
+> Currently, a 64-bit (8 byte) chunk accounts for 64 pages worth or 256KB.
+
+I still wanted to use one bit per page; I just wanted to rearrange the
+bits. So the first byte would always contain 8 bits corresponding to
+the first 8 pages, instead of corresponding to pages 56-63 on some
+systems depending on endianness. Anyway, this is a moot point, since
+as you said...
+
+> Also I wanted to keep the interface consistent with the global
+> /sys/kernel/mm/page_idle interface.
+
+Sorry, I missed that this is already UAPI in the global interface. I
+agree, using a different API for the per-process interface would be a
+bad idea.
