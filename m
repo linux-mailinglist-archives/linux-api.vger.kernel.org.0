@@ -2,132 +2,78 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 252D88C17A
-	for <lists+linux-api@lfdr.de>; Tue, 13 Aug 2019 21:24:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 017CF8C1A0
+	for <lists+linux-api@lfdr.de>; Tue, 13 Aug 2019 21:41:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726116AbfHMTYT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 13 Aug 2019 15:24:19 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:37627 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726062AbfHMTYT (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 13 Aug 2019 15:24:19 -0400
-Received: by mail-ot1-f67.google.com with SMTP id f17so41323408otq.4;
-        Tue, 13 Aug 2019 12:24:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0BGADOSDNi0yEXJGYbIS7Es/7+y3WA9cMlUX5F4uA3I=;
-        b=KE3GYgXjoB+OjzuGsPmiAcRayJ6zju7RPzcdKGrMzVlkey77jjZxtEP2mh1WWv9sLH
-         ZLMlMjxt2wR2TGRUwQxDhztynGX3APXiJD1kSQjb2/KavbrOWht5m8t0cWuEoje6TxE7
-         44Huamiy10vZn8q+9xjaKC0GYqpD8w7HhTLT6L5zQu/2cugN4hbedB1kO+xS+TyMxLOv
-         bwl6kKSAXjiNinqMNDx86QfPebu18GpyViD0CXVdg4XK64TwicdGeuABSziFnP9+zdHz
-         u9cFnhGSRhgcXXGSo5Rlog586C+LQL8pZqnYwNVWTh3UrfdUpF3AseKSqw2mZ/pN7lus
-         rNRA==
+        id S1726074AbfHMTle (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 13 Aug 2019 15:41:34 -0400
+Received: from mail-qk1-f196.google.com ([209.85.222.196]:38944 "EHLO
+        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725923AbfHMTle (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 13 Aug 2019 15:41:34 -0400
+Received: by mail-qk1-f196.google.com with SMTP id 125so7613244qkl.6;
+        Tue, 13 Aug 2019 12:41:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=0BGADOSDNi0yEXJGYbIS7Es/7+y3WA9cMlUX5F4uA3I=;
-        b=HN5Q05tDUPsBZJGrOtCIJJ2IOHvG4tqbvJamrtvSjs/B8IKzIsMKh9fzRjgg7JsNpT
-         Jg2czdvnN70YDpXFc3cUXL9tnkFcAyZKPaiuHVX3yx7T+3XJc697TE4f/xoz0NPpfLYb
-         PjIZlyJDD2tXAhnD+dQd2X3NAVOckiX2sJpBb4DxDS3T+l8bV/GZDJZGZ/Ghzr4l0DTe
-         glwBuAzb9eX6hELBLVh1SltLExcXoAtKLmOEqvn7SfuZZQU1ci0Rb6RGcGXKN7LG2B9T
-         I1op26C7yMxFVAhifuqFac58A6ld2REl4NXdx8ymDqQkTr8/Snk8bAi/lvcvbjHGVIHw
-         jsHA==
-X-Gm-Message-State: APjAAAUmg0l24usH56u5cL5EE9kS5HyTGlicxIXQmEZ+Y5JYoT4imgH7
-        Y1yg7d0fkCyEnQUXROJPHfZRN5quxJ64yF91soA=
-X-Google-Smtp-Source: APXvYqyNWl6EB6hqtWOLBAyHMMulekRu0qD9+ndzTr07RTNTOCPXCYzvAypulGqjwsebgf4b+owsuwKVp8jgDKJPlE8=
-X-Received: by 2002:a6b:f406:: with SMTP id i6mr6656iog.110.1565724258526;
- Tue, 13 Aug 2019 12:24:18 -0700 (PDT)
+        bh=MCvgFN5GXnda2r43SDXMWKSjfSyNoGtkYFt/JRtKgrU=;
+        b=i4HT8YeOngNKCfhfVwlHiFADe+2dFSI1RzR2HBqrv86R/8YCik9iIDdCbzf2uJ1ZWI
+         fg2KMOUUO0KZ4f4yTFGFQ3xMmYUkvdSO4ou9Psc9UZu22Lys3tNWvv4EVIFX73Sj2dG7
+         rPszXlbhXu11+Xw7OnWu/tvupVT9ow5yan4Furx1idZqcNNnXWY4rIDdQ4IL8O0dhDR8
+         HHzA0W/79UQW+hBu1bUUPVkHET1/U5MjEn2rHcaEL+Th5419hDF2l6ApUl9r3yOz3WU2
+         8obrev341QVJ80cSbcni7e0WisAXSS6TAjdfLDvMAXRMTLzZf9Hn6gwJWxsy+ytIBXkO
+         7e9Q==
+X-Gm-Message-State: APjAAAVE1EVL2kxQa60Iy4gGuLsiyde78I3F7VM691qP+qhUvFjBLreS
+        ilwLsqRn8IP0N4AhJ/e+VhlpJPHyzfLBYDNb7O2soZmb
+X-Google-Smtp-Source: APXvYqwCYEm8WDqUZ9AXa597kLLirzp9B1fRYVLZztN7ofbKzh/wg2jhEWnoRHxLGsp8iip61vuq36gmEXTnqu6XLiw=
+X-Received: by 2002:a05:620a:b:: with SMTP id j11mr35177645qki.352.1565725293275;
+ Tue, 13 Aug 2019 12:41:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190807171559.182301-1-joel@joelfernandes.org>
- <20190807171559.182301-2-joel@joelfernandes.org> <20190813150450.GN17933@dhcp22.suse.cz>
- <20190813153659.GD14622@google.com>
-In-Reply-To: <20190813153659.GD14622@google.com>
-From:   Konstantin Khlebnikov <koct9i@gmail.com>
-Date:   Tue, 13 Aug 2019 22:24:06 +0300
-Message-ID: <CALYGNiOj4pxZAMvM_3fJZ0xJ0E5-FfSRQbGdxb4eFC37USCYvA@mail.gmail.com>
-Subject: Re: [PATCH v5 2/6] mm/page_idle: Add support for handling swapped
- PG_Idle pages
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     Michal Hocko <mhocko@kernel.org>,
-        =?UTF-8?B?0JrQvtC90YHRgtCw0L3RgtC40L0g0KXQu9C10LHQvdC40LrQvtCy?= 
-        <khlebnikov@yandex-team.ru>,
+References: <20190810010758.16407-1-alistair.francis@wdc.com>
+ <CAK8P3a2wYMsBRm1X-TFo1d7-B7Xug9gwqF77HitoE7wmOqD7rw@mail.gmail.com> <CAKmqyKNH7G=_gs2Hfc3OZMFaHzUwU8fSomfu_r92hJrnJHJT3A@mail.gmail.com>
+In-Reply-To: <CAKmqyKNH7G=_gs2Hfc3OZMFaHzUwU8fSomfu_r92hJrnJHJT3A@mail.gmail.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Tue, 13 Aug 2019 21:41:17 +0200
+Message-ID: <CAK8P3a0phB6hb=Da6V=CWWmi_oYwUcpSRi6CZTqAPz7QXKFJTA@mail.gmail.com>
+Subject: Re: [PATCH] syscalls: Update the syscall #defines to match uapi
+To:     Alistair Francis <alistair23@gmail.com>
+Cc:     Alistair Francis <alistair.francis@wdc.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Minchan Kim <minchan@kernel.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Brendan Gregg <bgregg@netflix.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christian Hansen <chansen3@cisco.com>, dancol@google.com,
-        fmayer@google.com, "H. Peter Anvin" <hpa@zytor.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
         Linux API <linux-api@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-mm@kvack.org, Mike Rapoport <rppt@linux.ibm.com>,
-        namhyung@google.com, paulmck@linux.ibm.com,
-        Robin Murphy <robin.murphy@arm.com>,
-        Roman Gushchin <guro@fb.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>, surenb@google.com,
-        Thomas Gleixner <tglx@linutronix.de>, tkjos@google.com,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>
+        Deepa Dinamani <deepa.kernel@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Aug 13, 2019 at 6:37 PM Joel Fernandes <joel@joelfernandes.org> wrote:
->
-> On Tue, Aug 13, 2019 at 05:04:50PM +0200, Michal Hocko wrote:
-> > On Wed 07-08-19 13:15:55, Joel Fernandes (Google) wrote:
-> > > Idle page tracking currently does not work well in the following
-> > > scenario:
-> > >  1. mark page-A idle which was present at that time.
-> > >  2. run workload
-> > >  3. page-A is not touched by workload
-> > >  4. *sudden* memory pressure happen so finally page A is finally swapped out
-> > >  5. now see the page A - it appears as if it was accessed (pte unmapped
-> > >     so idle bit not set in output) - but it's incorrect.
-> > >
-> > > To fix this, we store the idle information into a new idle bit of the
-> > > swap PTE during swapping of anonymous pages.
-> > >
-> > > Also in the future, madvise extensions will allow a system process
-> > > manager (like Android's ActivityManager) to swap pages out of a process
-> > > that it knows will be cold. To an external process like a heap profiler
-> > > that is doing idle tracking on another process, this procedure will
-> > > interfere with the idle page tracking similar to the above steps.
+On Tue, Aug 13, 2019 at 9:01 PM Alistair Francis <alistair23@gmail.com> wrote:
+> On Mon, Aug 12, 2019 at 2:49 AM Arnd Bergmann <arnd@arndb.de> wrote:
+
+> > > diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+> > > index 2bcef4c70183..e4bf5e480d60 100644
+> > > --- a/include/linux/syscalls.h
+> > > +++ b/include/linux/syscalls.h
+> > > @@ -512,7 +512,7 @@ asmlinkage long sys_readlinkat(int dfd, const char __user *path, char __user *bu
+> > >  asmlinkage long sys_newfstatat(int dfd, const char __user *filename,
+> > >                                struct stat __user *statbuf, int flag);
+> > >  asmlinkage long sys_newfstat(unsigned int fd, struct stat __user *statbuf);
+> > > -#if defined(__ARCH_WANT_STAT64) || defined(__ARCH_WANT_COMPAT_STAT64)
+> > > +#if defined(__ARCH_WANT_NEW_STAT) || defined(__ARCH_WANT_STAT64)
+> > >  asmlinkage long sys_fstat64(unsigned long fd, struct stat64 __user *statbuf);
+> > >  asmlinkage long sys_fstatat64(int dfd, const char __user *filename,
+> > >                                struct stat64 __user *statbuf, int flag);
 > >
-> > This could be solved by checking the !present/swapped out pages
-> > right? Whoever decided to put the page out to the swap just made it
-> > idle effectively.  So the monitor can make some educated guess for
-> > tracking. If that is fundamentally not possible then please describe
-> > why.
+> > I think this is wrong: when __ARCH_WANT_NEW_STAT is set, we are
+> > on a 64-bit architecture and only want the sys_newfstat{,at} system
+> > calls, not sys_fstat{,at}64 that gets used on 32-bit machines.
 >
-> But the monitoring process (profiler) does not have control over the 'whoever
-> made it effectively idle' process.
->
-> As you said it will be a guess, it will not be accurate.
+> Ah, that would make sense then. I don't think you will see the error then.
 
-Yep. Without saving idle bit in swap entry (and presuming that all swap is idle)
-profiler could miss access. This patch adds accurate tracking almost for free.
-After that profiler could work with any pace without races.
+So we don't need this patch to build riscv32 kernels, right? It's possible
+that it was the result of an incorrect forward port of some other patch,
+as older riscv32 kernels did provide stat64(), but newer ones only have
+statx().
 
->
-> I am curious what is your concern with using a bit in the swap PTE?
->
-> (Adding Konstantin as well since we may be interested in this, since we also
-> suggested this idea).
->
-> thanks,
->
->  - Joel
->
->
+       Arnd
