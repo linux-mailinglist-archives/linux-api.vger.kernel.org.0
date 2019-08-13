@@ -2,445 +2,159 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E3008C2B6
-	for <lists+linux-api@lfdr.de>; Tue, 13 Aug 2019 23:04:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 842168C3FF
+	for <lists+linux-api@lfdr.de>; Tue, 13 Aug 2019 23:58:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727286AbfHMVDr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 13 Aug 2019 17:03:47 -0400
-Received: from mga09.intel.com ([134.134.136.24]:18661 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727275AbfHMVDr (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 13 Aug 2019 17:03:47 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Aug 2019 14:03:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,382,1559545200"; 
-   d="scan'208";a="194276008"
-Received: from yyu32-desk1.sc.intel.com ([10.144.153.205])
-  by fmsmga001.fm.intel.com with ESMTP; 13 Aug 2019 14:03:42 -0700
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        id S1726316AbfHMV63 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 13 Aug 2019 17:58:29 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:43303 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726155AbfHMV63 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 13 Aug 2019 17:58:29 -0400
+Received: by mail-pl1-f195.google.com with SMTP id 4so42826609pld.10;
+        Tue, 13 Aug 2019 14:58:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=/Q+5s20XHMc4iuRDKXdxpzS8kzsfDj5amerE2E4kpDU=;
+        b=l/O31lke/LzDTPiubFahE36gGH9b7sra9UhQHBhE9dvYDQQDTH/b2l9ICZlbOngeiG
+         TegryTsW14+xSSlKqxEJGRUqgLx5Ojuqjzmtd6k9b0DMbr12e7DukO6cgtuKp9DWAGP+
+         hDB/+hGRyZah8sgYEeRYbDdU57uOIysYAP85b8dFxN1CbbOJiqNCj//SyJrwXRe8z3Tq
+         UmjdunPkhf52DO4F8QMLiESq+I3VHo6ECaDvHm3QxoLmlfHGe/pqPEYsy9y5JkrOBhOr
+         6iJJuQ7Dc67i3mai1CfK253Jb5OjmxmkTwQE8W6bSSt5ccQS8oFdMfXb/m6FNLEHV9sg
+         7lNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=/Q+5s20XHMc4iuRDKXdxpzS8kzsfDj5amerE2E4kpDU=;
+        b=W3QQj6zIydED18e48pnR66RyYxq0Y/rLn7Szy/2rWKqcTAYA0+KuK7uLaRHV659n8U
+         4bgbzP5LtlgQhzHglQujtWZr1UiBhJSzxOuYIrmUEJ+GUeUzAf7gLEjfh8cYItrWzddq
+         ZTOASATqz4TieK8jOa4/N6fGwMvqAZJoj2pBAIosx8Blea5Q6ExObSqX2W83UZ5aq+FF
+         G8PTF4dH5yeS5ZxQA1q/wIahzwHoAPJvZPbv5oIuRw+6j46tWgFmlDn9I0DMGC0AjHwU
+         fnpwmOHmVsESbA1hgOjHUF2QkMtpdULt2eLqk+/0qBberx+F2J6QBNBZocv7sYI2C8OP
+         4aEw==
+X-Gm-Message-State: APjAAAUctdp5l7nAE0YGC3DkynF/+FlnEZrnnJP0vnhNUTN4X+w8Txzh
+        V5AfWoPXtPUFBr4M7SOuU/E=
+X-Google-Smtp-Source: APXvYqxjiUmkl64G1tHSx+VC7+PCJACU5FiOcdV5TIbEkpKvm5x6v5eoIGUfB+eF3IlCJYHKUNBV0Q==
+X-Received: by 2002:a17:902:9889:: with SMTP id s9mr11519716plp.100.1565733508159;
+        Tue, 13 Aug 2019 14:58:28 -0700 (PDT)
+Received: from ast-mbp ([2620:10d:c090:200::3:8a34])
+        by smtp.gmail.com with ESMTPSA id t6sm35037435pgu.23.2019.08.13.14.58.26
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 13 Aug 2019 14:58:27 -0700 (PDT)
+Date:   Tue, 13 Aug 2019 14:58:25 -0700
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     Song Liu <songliubraving@fb.com>,
         Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v8 14/14] Introduce arch_prctl(ARCH_X86_CET_MARK_LEGACY_CODE)
-Date:   Tue, 13 Aug 2019 13:53:59 -0700
-Message-Id: <20190813205359.12196-15-yu-cheng.yu@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190813205359.12196-1-yu-cheng.yu@intel.com>
-References: <20190813205359.12196-1-yu-cheng.yu@intel.com>
+        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Kernel Team <Kernel-team@fb.com>,
+        Lorenz Bauer <lmb@cloudflare.com>,
+        Jann Horn <jannh@google.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>
+Subject: Re: [PATCH v2 bpf-next 1/4] bpf: unprivileged BPF access via /dev/bpf
+Message-ID: <20190813215823.3sfbakzzjjykyng2@ast-mbp>
+References: <5A2FCD7E-7F54-41E5-BFAE-BB9494E74F2D@fb.com>
+ <CALCETrU7NbBnXXsw1B+DvTkfTVRBFWXuJ8cZERCCNvdFG6KqRw@mail.gmail.com>
+ <CALCETrUjh6DdgW1qSuSRd1_=0F9CqB8+sNj__e_6AHEvh_BaxQ@mail.gmail.com>
+ <CALCETrWtE2U4EvZVYeq8pSmQjBzF2PHH+KxYW8FSeF+W=1FYjw@mail.gmail.com>
+ <EE7B7AE1-3D44-4561-94B9-E97A626A251D@fb.com>
+ <CALCETrXX-Jeb4wiQuL6FUai4wNMmMiUxuLLh_Lb9mT7h=0GgAw@mail.gmail.com>
+ <20190805192122.laxcaz75k4vxdspn@ast-mbp>
+ <CALCETrVtPs8gY-H4gmzSqPboid3CB++n50SvYd6RU9YVde_-Ow@mail.gmail.com>
+ <20190806011134.p5baub5l3t5fkmou@ast-mbp>
+ <CALCETrXEHL3+NAY6P6vUj7Pvd9ZpZsYC6VCLXOaNxb90a_POGw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CALCETrXEHL3+NAY6P6vUj7Pvd9ZpZsYC6VCLXOaNxb90a_POGw@mail.gmail.com>
+User-Agent: NeoMutt/20180223
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-When CET Indirect Branch Tracking (IBT) is enabled, the processor expects
-every branch target is an ENDBR instruction, or the target's address is
-marked as legacy in the legacy code bitmap.  The bitmap covers the whole
-user-mode address space (TASK_SIZE_MAX for 64-bit, TASK_SIZE for IA32),
-and each bit represents one page of linear address range.  The bitmap is
-located at the topmost address: (TASK_SIZE - IBT_BITMAP_SIZE).
+On Tue, Aug 06, 2019 at 10:24:25PM -0700, Andy Lutomirski wrote:
+> >
+> > Inside containers and inside nested containers we need to start processes
+> > that will use bpf. All of the processes are trusted.
+> 
+> Trusted by whom?  In a non-nested container, the container manager
+> *might* be trusted by the outside world.  In a *nested* container,
+> unless the inner container management is controlled from outside the
+> outer container, it's not trusted.  I don't know much about how
+> Facebook's containers work, but the LXC/LXD/Podman world is moving
+> very strongly toward user namespaces and maximally-untrusted
+> containers, and I think bpf() should work in that context.
 
-It is allocated only when the first time ARCH_X86_MARK_LEGACY_CODE
-is called from an application.
+agree that containers (namespaces) reduce amount of trust necessary
+for apps to run, but the end goal is not security though.
+Linux has become a single user system.
+If user can ssh into the host they can become root.
+If arbitrary code can run on the host it will be break out of any sandbox.
+Containers are not providing the level of security that is enough
+to run arbitrary code. VMs can do it better, but cpu bugs don't make it easy.
+Containers are used to make production systems safer.
+Some people call it more 'secure', but it's clearly not secure for
+arbitrary code and that is what kernel.unprivileged_bpf_disabled allows.
+When we say 'unprivileged bpf' we really mean arbitrary malicious bpf program.
+It's been a constant source of pain. The constant blinding, randomization,
+verifier speculative analysis, all spectre v1, v2, v4 mitigations
+are simply not worth it. It's a lot of complex kernel code without users.
+There is not a single use case to allow arbitrary malicious bpf
+program to be loaded and executed.
+As soon as we have /dev/bpf to allow all of bpf to be used without root
+we will set sysctl kernel.unprivileged_bpf_disabled=1
+Hence I prefer this /dev/bpf mechanism to be as simple a possible.
+The applications that will use it are going to be just as trusted as systemd.
 
-The IBT bitmap is visiable from user-mode, but not writable.
+> > To solve your concern of bypassing all capable checks...
+> > How about we do /dev/bpf/full_verifier first?
+> > It will replace capable() checks in the verifier only.
+> 
+> I'm not convinced that "in the verifier" is the right distinction.
+> Telling administrators that some setting lets certain users bypass
+> bpf() verifier checks doesn't have a clear enough meaning.  
 
-Introduce:
+linux is a single user system. there are no administrators any more.
+No doubt, folks will disagree, but that game is over.
+At least on bpf side it's done.
 
-arch_prctl(ARCH_X86_CET_MARK_LEGACY_CODE, unsigned long *buf)
-    Mark an address range as IBT legacy code.
+> I propose,
+> instead, that the current capable() checks be divided into three
+> categories:
 
-    *buf: starting linear address
-    *(buf + 1): size of the legacy code
-    *(buf + 2): set (1); clear (0)
+I don't see a use case for these categories.
+All bpf programs extend the kernel in some way.
+The kernel vs user is one category.
+Conceptually CAP_BPF is enough. It would be similar to CAP_NET_ADMIN.
+When application has CAP_NET_ADMIN it covers all of networking knobs.
+There is no use case that would warrant fine grain CAP_ROUTE_ADMIN,
+CAP_ETHTOOL_ADMIN, CAP_ETH0_ADMIN, etc.
+Similarly CAP_BPF as the only knob is enough.
+The only disadvantage of CAP_BPF is that it's not possible to
+pass it from one systemd-like daemon to another systemd-like daemon.
+Hence /dev/bpf idea and passing file descriptor.
 
-Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
----
- arch/x86/include/asm/cet.h        |   3 +
- arch/x86/include/asm/processor.h  |  13 +-
- arch/x86/include/uapi/asm/prctl.h |   1 +
- arch/x86/kernel/Makefile          |   2 +-
- arch/x86/kernel/cet_bitmap.c      | 210 ++++++++++++++++++++++++++++++
- arch/x86/kernel/cet_prctl.c       |  15 +++
- mm/memory.c                       |   8 ++
- 7 files changed, 250 insertions(+), 2 deletions(-)
- create mode 100644 arch/x86/kernel/cet_bitmap.c
+> This type of thing actually fits quite nicely into an idea I've been
+> thinking about for a while called "implicit rights". In very brief
+> summary, there would be objects called /dev/rights/xyz, where xyz is
+> the same of a "right".  If there is a readable object of the right
+> type at the literal path "/dev/rights/xyz", then you have right xyz.
+> There's a bit more flexibility on top of this.  BPF could use
+> /dev/rights/bpf/maptypes/lpm and
+> /dev/rights/bpf/verifier/bounded_loops, for example.  Other non-BPF
+> use cases include a biggie:
+> /dev/rights/namespace/create_unprivileged_userns.
+> /dev/rights/bind_port/80 would be nice, too.
 
-diff --git a/arch/x86/include/asm/cet.h b/arch/x86/include/asm/cet.h
-index 2561efe081ad..d5f693d082b0 100644
---- a/arch/x86/include/asm/cet.h
-+++ b/arch/x86/include/asm/cet.h
-@@ -4,6 +4,7 @@
- 
- #ifndef __ASSEMBLY__
- #include <linux/types.h>
-+#include <asm/processor.h>
- 
- struct task_struct;
- struct sc_ext;
-@@ -30,6 +31,7 @@ void cet_disable_free_shstk(struct task_struct *p);
- int cet_restore_signal(bool ia32, struct sc_ext *sc);
- int cet_setup_signal(bool ia32, unsigned long rstor, struct sc_ext *sc);
- int cet_setup_ibt(void);
-+int cet_mark_legacy_code(unsigned long addr, unsigned long size, unsigned long set);
- void cet_disable_ibt(void);
- #else
- static inline int prctl_cet(int option, unsigned long arg2) { return -EINVAL; }
-@@ -42,6 +44,7 @@ static inline int cet_restore_signal(bool ia32, struct sc_ext *sc) { return -EIN
- static inline int cet_setup_signal(bool ia32, unsigned long rstor,
- 				   struct sc_ext *sc) { return -EINVAL; }
- static inline int cet_setup_ibt(void) { return -EINVAL; }
-+static inline int cet_mark_legacy_code(unsigned long addr, unsigned long size, unsigned long set) { return -EINVAL; }
- static inline void cet_disable_ibt(void) {}
- #endif
- 
-diff --git a/arch/x86/include/asm/processor.h b/arch/x86/include/asm/processor.h
-index 0f9bc7fd1351..af3bdd545a55 100644
---- a/arch/x86/include/asm/processor.h
-+++ b/arch/x86/include/asm/processor.h
-@@ -888,7 +888,18 @@ static inline void spin_lock_prefetch(const void *x)
- #define TASK_SIZE_OF(child)	((test_tsk_thread_flag(child, TIF_ADDR32)) ? \
- 					IA32_PAGE_OFFSET : TASK_SIZE_MAX)
- 
--#define STACK_TOP		TASK_SIZE_LOW
-+#define MMAP_MAX		(unsigned long)(test_thread_flag(TIF_ADDR32) ? \
-+					TASK_SIZE : TASK_SIZE_MAX)
-+
-+#define IBT_BITMAP_SIZE		(round_up(MMAP_MAX, PAGE_SIZE * BITS_PER_BYTE) / \
-+					(PAGE_SIZE * BITS_PER_BYTE))
-+
-+#define IBT_BITMAP_ADDR		(TASK_SIZE - IBT_BITMAP_SIZE)
-+
-+#define STACK_TOP		(TASK_SIZE_LOW < IBT_BITMAP_ADDR - PAGE_SIZE ? \
-+					TASK_SIZE_LOW : \
-+					IBT_BITMAP_ADDR - PAGE_SIZE)
-+
- #define STACK_TOP_MAX		TASK_SIZE_MAX
- 
- #define INIT_THREAD  {						\
-diff --git a/arch/x86/include/uapi/asm/prctl.h b/arch/x86/include/uapi/asm/prctl.h
-index 02243127dcf6..da39d4bde4e1 100644
---- a/arch/x86/include/uapi/asm/prctl.h
-+++ b/arch/x86/include/uapi/asm/prctl.h
-@@ -20,5 +20,6 @@
- #define ARCH_X86_CET_ALLOC_SHSTK	0x3004
- #define ARCH_X86_CET_GET_LEGACY_BITMAP	0x3005 /* deprecated */
- #define ARCH_X86_CET_SET_LEGACY_BITMAP	0x3006 /* deprecated */
-+#define ARCH_X86_CET_MARK_LEGACY_CODE	0x3007
- 
- #endif /* _ASM_X86_PRCTL_H */
-diff --git a/arch/x86/kernel/Makefile b/arch/x86/kernel/Makefile
-index 311829335521..228906364513 100644
---- a/arch/x86/kernel/Makefile
-+++ b/arch/x86/kernel/Makefile
-@@ -140,7 +140,7 @@ obj-$(CONFIG_UNWINDER_ORC)		+= unwind_orc.o
- obj-$(CONFIG_UNWINDER_FRAME_POINTER)	+= unwind_frame.o
- obj-$(CONFIG_UNWINDER_GUESS)		+= unwind_guess.o
- 
--obj-$(CONFIG_X86_INTEL_CET)		+= cet.o cet_prctl.o
-+obj-$(CONFIG_X86_INTEL_CET)		+= cet.o cet_prctl.o cet_bitmap.o
- 
- ###
- # 64 bit specific files
-diff --git a/arch/x86/kernel/cet_bitmap.c b/arch/x86/kernel/cet_bitmap.c
-new file mode 100644
-index 000000000000..25eb441eb094
---- /dev/null
-+++ b/arch/x86/kernel/cet_bitmap.c
-@@ -0,0 +1,210 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+#include <linux/bits.h>
-+#include <linux/err.h>
-+#include <linux/memcontrol.h>
-+#include <linux/mm.h>
-+#include <linux/mman.h>
-+#include <linux/oom.h>
-+#include <linux/pagemap.h>
-+#include <linux/rmap.h>
-+#include <linux/swap.h>
-+#include <asm/cet.h>
-+#include <asm/fpu/internal.h>
-+
-+/*
-+ * For read fault, provide the zero page.  For write fault coming from
-+ * get_user_pages(), clear the page already allocated.
-+ */
-+static vm_fault_t bitmap_fault(const struct vm_special_mapping *sm,
-+			       struct vm_area_struct *vma, struct vm_fault *vmf)
-+{
-+	if (!(vmf->flags & FAULT_FLAG_WRITE)) {
-+		vmf->page = ZERO_PAGE(vmf->address);
-+		return 0;
-+	} else {
-+		vm_fault_t r;
-+
-+		if (!vmf->cow_page)
-+			return VM_FAULT_ERROR;
-+
-+		clear_user_highpage(vmf->cow_page, vmf->address);
-+		__SetPageUptodate(vmf->cow_page);
-+		r = finish_fault(vmf);
-+		return r ? r : VM_FAULT_DONE_COW;
-+	}
-+}
-+
-+static int bitmap_mremap(const struct vm_special_mapping *sm,
-+			 struct vm_area_struct *vma)
-+{
-+	return -EINVAL;
-+}
-+
-+static const struct vm_special_mapping bitmap_mapping = {
-+	.name	= "[ibt_bitmap]",
-+	.fault	= bitmap_fault,
-+	.mremap	= bitmap_mremap,
-+};
-+
-+static int alloc_bitmap(void)
-+{
-+	struct mm_struct *mm = current->mm;
-+	struct vm_area_struct *vma;
-+	u64 msr_ia32_u_cet;
-+	int r = 0;
-+
-+	if (down_write_killable(&mm->mmap_sem))
-+		return -EINTR;
-+
-+	vma = _install_special_mapping(mm, IBT_BITMAP_ADDR, IBT_BITMAP_SIZE,
-+				       VM_READ | VM_MAYREAD | VM_MAYWRITE,
-+				       &bitmap_mapping);
-+
-+	if (IS_ERR(vma))
-+		r = PTR_ERR(vma);
-+
-+	up_write(&mm->mmap_sem);
-+
-+	if (r)
-+		return r;
-+
-+	current->thread.cet.ibt_bitmap_used = 1;
-+
-+	modify_fpu_regs_begin();
-+	rdmsrl(MSR_IA32_U_CET, msr_ia32_u_cet);
-+	msr_ia32_u_cet |= (MSR_IA32_CET_LEG_IW_EN | IBT_BITMAP_ADDR);
-+	wrmsrl(MSR_IA32_U_CET, msr_ia32_u_cet);
-+	modify_fpu_regs_end();
-+	return 0;
-+}
-+
-+/*
-+ * Set bits in the IBT legacy code bitmap, which is read-only user memory.
-+ */
-+static int set_bits(unsigned long start_bit, unsigned long end_bit,
-+		    unsigned long set)
-+{
-+	unsigned long start_ul, end_ul, nr_ul;
-+	unsigned long start_ul_addr, tmp_addr, len;
-+	int i, j;
-+
-+	start_ul = start_bit / BITS_PER_LONG;
-+	end_ul = end_bit / BITS_PER_LONG;
-+	i = start_bit % BITS_PER_LONG;
-+	j = end_bit % BITS_PER_LONG;
-+
-+	start_ul_addr = IBT_BITMAP_ADDR + start_ul * sizeof(0UL);
-+	nr_ul = end_ul - start_ul + 1;
-+
-+	tmp_addr = start_ul_addr;
-+	len = nr_ul * sizeof(0UL);
-+
-+	down_read(&current->mm->mmap_sem);
-+	while (len) {
-+		unsigned long *first, *last, mask, bytes;
-+		int ret, offset;
-+		void *kern_page_addr;
-+		struct page *page = NULL;
-+
-+		ret = get_user_pages(tmp_addr, 1, FOLL_WRITE | FOLL_FORCE,
-+				     &page, NULL);
-+
-+		if (ret <= 0) {
-+			up_read(&current->mm->mmap_sem);
-+			return ret;
-+		}
-+
-+		kern_page_addr = kmap(page);
-+
-+		bytes = len;
-+		offset = tmp_addr & (PAGE_SIZE - 1);
-+
-+		/* Is end_ul in this page? */
-+		if (bytes > (PAGE_SIZE - offset)) {
-+			bytes = PAGE_SIZE - offset;
-+			last = NULL;
-+		} else {
-+			last = (unsigned long *)(kern_page_addr + offset + bytes) - 1;
-+		}
-+
-+		/* Is start_ul in this page? */
-+		if (tmp_addr == start_ul_addr)
-+			first = (unsigned long *)(kern_page_addr + offset);
-+		else
-+			first = NULL;
-+
-+		if (nr_ul == 1) {
-+			mask = GENMASK(j, i);
-+
-+			if (set)
-+				*first |= mask;
-+			else
-+				*first &= ~mask;
-+		} else {
-+			if (first) {
-+				mask = GENMASK(BITS_PER_LONG - 1, i);
-+
-+				if (set)
-+					*first |= mask;
-+				else
-+					*first &= ~mask;
-+			}
-+
-+			if (last) {
-+				mask = GENMASK(j, 0);
-+
-+				if (set)
-+					*last |= mask;
-+				else
-+					*last &= ~mask;
-+			}
-+
-+			if (nr_ul > 2) {
-+				void *p = kern_page_addr + offset;
-+				int cnt = bytes;
-+
-+				if (first) {
-+					p += sizeof(*first);
-+					cnt -= sizeof(*first);
-+				}
-+
-+				if (last)
-+					cnt -= sizeof(*last);
-+
-+				if (set)
-+					memset(p, 0xff, cnt);
-+				else
-+					memset(p, 0, cnt);
-+			}
-+		}
-+
-+		set_page_dirty_lock(page);
-+		kunmap(page);
-+		put_page(page);
-+
-+		len -= bytes;
-+		tmp_addr += bytes;
-+	}
-+	up_read(&current->mm->mmap_sem);
-+	return 0;
-+}
-+
-+int cet_mark_legacy_code(unsigned long addr, unsigned long size, unsigned long set)
-+{
-+	int r;
-+
-+	if (!current->thread.cet.ibt_enabled)
-+		return -EINVAL;
-+
-+	if ((addr >= IBT_BITMAP_ADDR) || (addr + size > IBT_BITMAP_ADDR))
-+		return -EINVAL;
-+
-+	if (!current->thread.cet.ibt_bitmap_used) {
-+		r = alloc_bitmap();
-+		if (r)
-+			return r;
-+	}
-+
-+	return set_bits(addr / PAGE_SIZE, (addr + size - 1) / PAGE_SIZE, set);
-+}
-diff --git a/arch/x86/kernel/cet_prctl.c b/arch/x86/kernel/cet_prctl.c
-index 09d8c4ea935c..eec5baf8b0da 100644
---- a/arch/x86/kernel/cet_prctl.c
-+++ b/arch/x86/kernel/cet_prctl.c
-@@ -57,6 +57,18 @@ static int handle_alloc_shstk(unsigned long arg2)
- 	return 0;
- }
- 
-+static int handle_mark_legacy_code(unsigned long arg2)
-+{
-+	unsigned long addr, size, set;
-+
-+	if (get_user(addr, (unsigned long __user *)arg2) ||
-+	    get_user(size, (unsigned long __user *)arg2 + 1) ||
-+	    get_user(set, (unsigned long __user *)arg2 + 2))
-+		return -EFAULT;
-+
-+	return cet_mark_legacy_code(addr, size, set);
-+}
-+
- int prctl_cet(int option, unsigned long arg2)
- {
- 	if (!cpu_x86_cet_enabled())
-@@ -83,6 +95,9 @@ int prctl_cet(int option, unsigned long arg2)
- 	case ARCH_X86_CET_ALLOC_SHSTK:
- 		return handle_alloc_shstk(arg2);
- 
-+	case ARCH_X86_CET_MARK_LEGACY_CODE:
-+		return handle_mark_legacy_code(arg2);
-+
- 	default:
- 		return -EINVAL;
- 	}
-diff --git a/mm/memory.c b/mm/memory.c
-index be93a73b5152..75076f727be0 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -3290,6 +3290,12 @@ vm_fault_t alloc_set_pte(struct vm_fault *vmf, struct mem_cgroup *memcg,
- 
- 	flush_icache_page(vma, page);
- 	entry = mk_pte(page, vma->vm_page_prot);
-+
-+	if (is_zero_pfn(pte_pfn(entry))) {
-+		entry = pte_mkspecial(entry);
-+		goto alloc_set_pte_out;
-+	}
-+
- 	if (write)
- 		entry = maybe_mkwrite(pte_mkdirty(entry), vma);
- 	/* copy-on-write page */
-@@ -3302,6 +3308,8 @@ vm_fault_t alloc_set_pte(struct vm_fault *vmf, struct mem_cgroup *memcg,
- 		inc_mm_counter_fast(vma->vm_mm, mm_counter_file(page));
- 		page_add_file_rmap(page, false);
- 	}
-+
-+alloc_set_pte_out:
- 	set_pte_at(vma->vm_mm, vmf->address, vmf->pte, entry);
- 
- 	/* no need to invalidate: a not-present page won't be cached */
--- 
-2.17.1
+The concept of "implicit rights" is very nice and I'm sure it will
+be a good fit somewhere, but I don't see why use it in bpf space.
+There is no use case for fine grain partition of bpf features.
 
