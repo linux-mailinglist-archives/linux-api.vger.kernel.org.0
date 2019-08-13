@@ -2,108 +2,172 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 44B038C130
-	for <lists+linux-api@lfdr.de>; Tue, 13 Aug 2019 21:01:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D7318C160
+	for <lists+linux-api@lfdr.de>; Tue, 13 Aug 2019 21:18:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726062AbfHMTBO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 13 Aug 2019 15:01:14 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:37868 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726007AbfHMTBO (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 13 Aug 2019 15:01:14 -0400
-Received: by mail-lf1-f65.google.com with SMTP id c9so77459142lfh.4;
-        Tue, 13 Aug 2019 12:01:13 -0700 (PDT)
+        id S1726260AbfHMTSO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 13 Aug 2019 15:18:14 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:43255 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726155AbfHMTSO (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 13 Aug 2019 15:18:14 -0400
+Received: by mail-pg1-f194.google.com with SMTP id k3so731302pgb.10
+        for <linux-api@vger.kernel.org>; Tue, 13 Aug 2019 12:18:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=CVOpJHPgn7fZLLPO6uI/O9bniRMMsZiS2eSUDvyGjF0=;
-        b=eibhSIM31XxD1E5+yfK7lMRwVGPXGrHLnIavFPZIBjAEVsmaFTEkBTMADv4aVVBktD
-         3gcyndT2yyBm0sFkEGy5uA7fxGjzovlzC8FytdDQXGZpe3UpzL7JtWsRsWj+jjp+qfUG
-         UIcP6A+++IdrjPKJNdl4oqF43jxS9cP02UuqssxWUCAjr49d3PBQb5jXaPhwUnr8xVAw
-         cmnHU6Tg9jK3whmmj0CLfg5dDJ6j0ZuuI/DGDjyE9Ub3SWsd1vorDTR9/xbeoAD+uRLk
-         PUhTky48a/YpBjrZapUFOLR0cFrOU8JRLByKfko3tQ7xMqtbZyRczv0i6NMuVkMRmuQl
-         vVdQ==
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=loEq7gvtH2D4YM70lSJU2t757iLjhLgW2oNM/hq7U4o=;
+        b=LTYsl0hn/4O4Lk67PS1teGli+J/CBeYjnpXfm9tfH0i+zOSgdNX5QbQB0RiV1cwLVS
+         aQFI0+M0BUTWkF6W2i1lvzo9FpttW3++ybFl0W35uihIzD7kfF8yohk6JkHdgzzXeahp
+         5DsoEkDuL4SFzvngtlmT4x1afOLWHC0l2szNo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CVOpJHPgn7fZLLPO6uI/O9bniRMMsZiS2eSUDvyGjF0=;
-        b=pUrldh05i4yKBjgU8AuLD6QUqrNyc7rIjEW5VilQhVEtiPFaRCnseHcqKBq4m7v9oG
-         Zd+CikbthmQe1XcvRbBEKHRqssVHx+Stcx2G5L10UqpOpdMV5wKGLVXZWWryw2wc7/vc
-         jc0a63Gy0v34hP0thHgPb2/fUSnWlJYthN/jeF3Izjq8qt622dejSRTZXQAeyW9joiwp
-         66rBFnPK/ZFP+e4DJQboEz+FNOdxJoIEcOZFicbCjkont66OEv13/ufnPsvBQrh3dekU
-         x3hJqUX8SHIXIy8CTssAFP6JwQLt9pfy1H2i/PE4n2+9VNCWQDieGRGP6AN+KAZz1pe6
-         mYsQ==
-X-Gm-Message-State: APjAAAWskKRzpPaZocRtAwp5st1s70SDR7oDjev/l4kta7BpeOJ49wh9
-        twtF+MtzUYBTpe3KnnbYaU//SesPpSxx+q7AgTvxKfQEy+w=
-X-Google-Smtp-Source: APXvYqy9ihD5YjQrktNuqJy73tR2xfmj1QsrkBqJo4sFuDo3kxK1ohAg5317GHr6OAVsc0nYjcyjRPrAkDZDzmVswBA=
-X-Received: by 2002:a19:7006:: with SMTP id h6mr23374733lfc.5.1565722872640;
- Tue, 13 Aug 2019 12:01:12 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190810010758.16407-1-alistair.francis@wdc.com> <CAK8P3a2wYMsBRm1X-TFo1d7-B7Xug9gwqF77HitoE7wmOqD7rw@mail.gmail.com>
-In-Reply-To: <CAK8P3a2wYMsBRm1X-TFo1d7-B7Xug9gwqF77HitoE7wmOqD7rw@mail.gmail.com>
-From:   Alistair Francis <alistair23@gmail.com>
-Date:   Tue, 13 Aug 2019 11:57:20 -0700
-Message-ID: <CAKmqyKNH7G=_gs2Hfc3OZMFaHzUwU8fSomfu_r92hJrnJHJT3A@mail.gmail.com>
-Subject: Re: [PATCH] syscalls: Update the syscall #defines to match uapi
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Alistair Francis <alistair.francis@wdc.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=loEq7gvtH2D4YM70lSJU2t757iLjhLgW2oNM/hq7U4o=;
+        b=WGstJgSEznsfI6bCqFkz4oMmknfbb1M/YYaveVP2/zRatVS5Dg6cRy9qLFcIX0Q1wh
+         XK3dm5pvhDXEBoPUQHT/31z3nMFjC2E4shETqV9yXBjLo9kgRSViBTM1+/ilayuAaCoN
+         ppl1x8WYDIGDl8Ws5u9fK7g+5uqILaB2yyWNgnajxyoFxJ09jYBt+/h95nXWABjApC2O
+         gG/Cj+CaCUPdOIZgr7VAbonCyOvac43pRC/+CklT9yCnKOqQE3HsKIzU3tYJcgrSHupA
+         Lj+PXXgzPjO2CmBKX9Ev7KPo/B1S85gmiEmI7DxZm5/Js3Q9aRlobFUV+E0DHVOEm6xD
+         vLig==
+X-Gm-Message-State: APjAAAVSFdiHGya/0MzX4NSzMFmuL3QFU4zApCfJA7itL7ZT17BBo8LZ
+        DLW1MkqypakF6Z+JUbVtd08KhQ==
+X-Google-Smtp-Source: APXvYqzbf0DAkTXWpMyHWNOrpigRmuVT0nn0g/B9jOA5EQsFqEfjFQrQjujyMw7WG/Mm+UAi7lBGJw==
+X-Received: by 2002:aa7:81d9:: with SMTP id c25mr43244542pfn.255.1565723893335;
+        Tue, 13 Aug 2019 12:18:13 -0700 (PDT)
+Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id e2sm8395527pff.49.2019.08.13.12.18.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Aug 2019 12:18:12 -0700 (PDT)
+Date:   Tue, 13 Aug 2019 15:18:11 -0400
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     Daniel Gruss <daniel.gruss@iaik.tugraz.at>
+Cc:     Jann Horn <jannh@google.com>, Michal Hocko <mhocko@kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Brendan Gregg <bgregg@netflix.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christian Hansen <chansen3@cisco.com>,
+        Daniel Colascione <dancol@google.com>, fmayer@google.com,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        kernel-team <kernel-team@android.com>,
         Linux API <linux-api@vger.kernel.org>,
-        Deepa Dinamani <deepa.kernel@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+        linux-doc@vger.kernel.org,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Minchan Kim <minchan@kernel.org>, namhyung@google.com,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Roman Gushchin <guro@fb.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Todd Kjos <tkjos@google.com>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v5 1/6] mm/page_idle: Add per-pid idle page tracking
+ using virtual index
+Message-ID: <20190813191811.GA117503@google.com>
+References: <20190807171559.182301-1-joel@joelfernandes.org>
+ <CAG48ez0ysprvRiENhBkLeV9YPTN_MB18rbu2HDa2jsWo5FYR8g@mail.gmail.com>
+ <20190813100856.GF17933@dhcp22.suse.cz>
+ <CAG48ez2cuqe_VYhhaqw8Hcyswv47cmz2XmkqNdvkXEhokMVaXg@mail.gmail.com>
+ <d6ae7f06-f0ef-ec00-a020-98e7cfada281@iaik.tugraz.at>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d6ae7f06-f0ef-ec00-a020-98e7cfada281@iaik.tugraz.at>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Aug 12, 2019 at 2:49 AM Arnd Bergmann <arnd@arndb.de> wrote:
->
-> On Sat, Aug 10, 2019 at 3:11 AM Alistair Francis
-> <alistair.francis@wdc.com> wrote:
-> >
-> > Update the #defines around sys_fstat64() and sys_fstatat64() to match
-> > the #defines around the __NR3264_fstatat and __NR3264_fstat definitions
-> > in include/uapi/asm-generic/unistd.h. This avoids compiler failures if
-> > one is defined.
->
-> What is the compiler failure you get?
+On Tue, Aug 13, 2019 at 05:34:16PM +0200, Daniel Gruss wrote:
+> On 8/13/19 5:29 PM, Jann Horn wrote:
+> > On Tue, Aug 13, 2019 at 12:09 PM Michal Hocko <mhocko@kernel.org> wrote:
+> >> On Mon 12-08-19 20:14:38, Jann Horn wrote:
+> >>> On Wed, Aug 7, 2019 at 7:16 PM Joel Fernandes (Google)
+> >>> <joel@joelfernandes.org> wrote:
+> >>>> The page_idle tracking feature currently requires looking up the pagemap
+> >>>> for a process followed by interacting with /sys/kernel/mm/page_idle.
+> >>>> Looking up PFN from pagemap in Android devices is not supported by
+> >>>> unprivileged process and requires SYS_ADMIN and gives 0 for the PFN.
+> >>>>
+> >>>> This patch adds support to directly interact with page_idle tracking at
+> >>>> the PID level by introducing a /proc/<pid>/page_idle file.  It follows
+> >>>> the exact same semantics as the global /sys/kernel/mm/page_idle, but now
+> >>>> looking up PFN through pagemap is not needed since the interface uses
+> >>>> virtual frame numbers, and at the same time also does not require
+> >>>> SYS_ADMIN.
+> >>>>
+> >>>> In Android, we are using this for the heap profiler (heapprofd) which
+> >>>> profiles and pin points code paths which allocates and leaves memory
+> >>>> idle for long periods of time. This method solves the security issue
+> >>>> with userspace learning the PFN, and while at it is also shown to yield
+> >>>> better results than the pagemap lookup, the theory being that the window
+> >>>> where the address space can change is reduced by eliminating the
+> >>>> intermediate pagemap look up stage. In virtual address indexing, the
+> >>>> process's mmap_sem is held for the duration of the access.
+> >>>
+> >>> What happens when you use this interface on shared pages, like memory
+> >>> inherited from the zygote, library file mappings and so on? If two
+> >>> profilers ran concurrently for two different processes that both map
+> >>> the same libraries, would they end up messing up each other's data?
+> >>
+> >> Yup PageIdle state is shared. That is the page_idle semantic even now
+> >> IIRC.
+> >>
+> >>> Can this be used to observe which library pages other processes are
+> >>> accessing, even if you don't have access to those processes, as long
+> >>> as you can map the same libraries? I realize that there are already a
+> >>> bunch of ways to do that with side channels and such; but if you're
+> >>> adding an interface that allows this by design, it seems to me like
+> >>> something that should be gated behind some sort of privilege check.
+> >>
+> >> Hmm, you need to be priviledged to get the pfn now and without that you
+> >> cannot get to any page so the new interface is weakening the rules.
+> >> Maybe we should limit setting the idle state to processes with the write
+> >> status. Or do you think that even observing idle status is useful for
+> >> practical side channel attacks? If yes, is that a problem of the
+> >> profiler which does potentially dangerous things?
+> > 
+> > I suppose read-only access isn't a real problem as long as the
+> > profiler isn't writing the idle state in a very tight loop... but I
+> > don't see a usecase where you'd actually want that? As far as I can
+> > tell, if you can't write the idle state, being able to read it is
+> > pretty much useless.
+> > 
+> > If the profiler only wants to profile process-private memory, then
+> > that should be implementable in a safe way in principle, I think, but
+> > since Joel said that they want to profile CoW memory as well, I think
+> > that's inherently somewhat dangerous.
+> 
+> I agree that allowing profiling of shared pages would leak information.
 
-I don't have it infornt of me but it was along the lines of
-sys_fstat64/sys_fstatat64 not being defined when __ARCH_WANT_NEW_STAT
-is defined but __ARCH_WANT_STAT64 isn't.
+Will think more about it. If we limit it to private pages, then it could
+become useless. Consider a scenario where:
+A process allocates a some memory, then forks a bunch of worker processes
+that read that memory and perform some work with them. Per-PID page idle
+tracking is now run on the parent processes. Now it should appear that the
+pages are actively accessed (not-idle). If we don't track shared pages, then
+we cannot detect if those pages are really due to memory leaking, or if they
+are there for a purpose and are actively used.
 
->
-> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > ---
-> >  include/linux/syscalls.h | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-> > index 2bcef4c70183..e4bf5e480d60 100644
-> > --- a/include/linux/syscalls.h
-> > +++ b/include/linux/syscalls.h
-> > @@ -512,7 +512,7 @@ asmlinkage long sys_readlinkat(int dfd, const char __user *path, char __user *bu
-> >  asmlinkage long sys_newfstatat(int dfd, const char __user *filename,
-> >                                struct stat __user *statbuf, int flag);
-> >  asmlinkage long sys_newfstat(unsigned int fd, struct stat __user *statbuf);
-> > -#if defined(__ARCH_WANT_STAT64) || defined(__ARCH_WANT_COMPAT_STAT64)
-> > +#if defined(__ARCH_WANT_NEW_STAT) || defined(__ARCH_WANT_STAT64)
-> >  asmlinkage long sys_fstat64(unsigned long fd, struct stat64 __user *statbuf);
-> >  asmlinkage long sys_fstatat64(int dfd, const char __user *filename,
-> >                                struct stat64 __user *statbuf, int flag);
->
-> I think this is wrong: when __ARCH_WANT_NEW_STAT is set, we are
-> on a 64-bit architecture and only want the sys_newfstat{,at} system
-> calls, not sys_fstat{,at}64 that gets used on 32-bit machines.
+> To me the use case is not entirely clear. This is not a feature that
+> would normally be run in everyday computer usage, right?
 
-Ah, that would make sense then. I don't think you will see the error then.
+Generally, this to be used as a debugging feature that helps developers
+detect memory leaks in their programs.
 
-Alistair
+thanks,
 
->
-> The #if check in the syscalls.h file also matches the definition of
-> the function.
->
->        Arnd
+ - Joel
+
