@@ -2,159 +2,113 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E93F58C43B
-	for <lists+linux-api@lfdr.de>; Wed, 14 Aug 2019 00:27:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC25A8C44C
+	for <lists+linux-api@lfdr.de>; Wed, 14 Aug 2019 00:34:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727160AbfHMW1G (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 13 Aug 2019 18:27:06 -0400
-Received: from mail-ua1-f66.google.com ([209.85.222.66]:44871 "EHLO
-        mail-ua1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727136AbfHMW1G (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 13 Aug 2019 18:27:06 -0400
-Received: by mail-ua1-f66.google.com with SMTP id m23so2903449uaq.11
-        for <linux-api@vger.kernel.org>; Tue, 13 Aug 2019 15:27:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=3TAQIgVJ77T2ZHlT5XpZJ5AnvKBJ+GDe2Kn0XBXuch8=;
-        b=EAQJU3V4SVKSDYNeLGqRom0wBQqrQg+C4KhktsSNYgA8Ep3ZWZobNQkC+JW3Ulphjb
-         WQ2zzX2iGpcNA6yWcXIIE9irpmZ1hrqw3dRA2aY3NztaPTzMB6H64uDNSeK0TXDdo3+N
-         MsDO+7b3nzB+AJV+ISLR79xy3AYHwfuowoSuSO8shdoKtDzeXHXTiVqquWDWrCRJht0f
-         d5Nfump0P8UFGugW5EnsuuiOxDx0tPYFML6/vbicqKc58pAu2/WPXn14mY4y8ihMzpvb
-         CeNj74cI5nUYrt6l44+bej4rpvEE7WzkNgNjVwPJfEhOM1P0GOGA8Nu9QF1n9qVb4dqK
-         vNRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=3TAQIgVJ77T2ZHlT5XpZJ5AnvKBJ+GDe2Kn0XBXuch8=;
-        b=qqNgmIZ5oNsACq5tK1cFM71m40ZFrp031XN30sJ64m2geQ1CuvB/bOYNvSTGMqk7cR
-         gpmaj950VgMLorzRVn1ZozIRLWsWR0/LWNme8h4kMq+lQ02gTdJfZAxtt3cI/hHzGnJA
-         ktllGoQQCWgsoRtuKX+U50IE4/jX739Wwpyf+0PnGUP8kWKQJZCGJBP8rrUwRNtWKO0z
-         rqeT9QCtyfBz/bi+pghnSvL5p2u8HGv3EdUHopCBRZ/86pPwbMT/9YdDEqi6YducZz62
-         IVwp6ZL4W7K7mG+bjTKNpy5IO5yNqRZh/Lfbn6QQ/Pg2m7VqMmsptXtDUYaTGs2dRxSv
-         Y2Ow==
-X-Gm-Message-State: APjAAAUSR1tXfjSgUCrGDAQf1WNp4L4z5WN6fWBBChfzavKCQg3IyUY3
-        JrU8RIXhXlWq0emfq8+q/BoCKdc0/MstyvgFFlZ36Q==
-X-Google-Smtp-Source: APXvYqyTUXrjuSmWAEAuLB7sGtL+kdsIoFCnEMIiLLsDSVFLkQHtXYmJXLBlN4Ffm7M0Y4tcGtM+OPCuupGxtyipDw4=
-X-Received: by 2002:ab0:7091:: with SMTP id m17mr40650ual.46.1565735224699;
- Tue, 13 Aug 2019 15:27:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <5A2FCD7E-7F54-41E5-BFAE-BB9494E74F2D@fb.com> <CALCETrU7NbBnXXsw1B+DvTkfTVRBFWXuJ8cZERCCNvdFG6KqRw@mail.gmail.com>
- <CALCETrUjh6DdgW1qSuSRd1_=0F9CqB8+sNj__e_6AHEvh_BaxQ@mail.gmail.com>
- <CALCETrWtE2U4EvZVYeq8pSmQjBzF2PHH+KxYW8FSeF+W=1FYjw@mail.gmail.com>
- <EE7B7AE1-3D44-4561-94B9-E97A626A251D@fb.com> <CALCETrXX-Jeb4wiQuL6FUai4wNMmMiUxuLLh_Lb9mT7h=0GgAw@mail.gmail.com>
- <20190805192122.laxcaz75k4vxdspn@ast-mbp> <CALCETrVtPs8gY-H4gmzSqPboid3CB++n50SvYd6RU9YVde_-Ow@mail.gmail.com>
- <20190806011134.p5baub5l3t5fkmou@ast-mbp> <CALCETrXEHL3+NAY6P6vUj7Pvd9ZpZsYC6VCLXOaNxb90a_POGw@mail.gmail.com>
- <20190813215823.3sfbakzzjjykyng2@ast-mbp>
-In-Reply-To: <20190813215823.3sfbakzzjjykyng2@ast-mbp>
-From:   Daniel Colascione <dancol@google.com>
-Date:   Tue, 13 Aug 2019 15:26:28 -0700
-Message-ID: <CAKOZuev8XY5+shG8SiWcx4z12QnkgzhcUqCHs9t+eV2z-6nzPA@mail.gmail.com>
-Subject: Re: [PATCH v2 bpf-next 1/4] bpf: unprivileged BPF access via /dev/bpf
-To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        Song Liu <songliubraving@fb.com>,
+        id S1727165AbfHMWeC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 13 Aug 2019 18:34:02 -0400
+Received: from mga17.intel.com ([192.55.52.151]:52640 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726066AbfHMWeB (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 13 Aug 2019 18:34:01 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Aug 2019 15:34:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,382,1559545200"; 
+   d="scan'208";a="260265949"
+Received: from ray.jf.intel.com (HELO [10.7.201.140]) ([10.7.201.140])
+  by orsmga001.jf.intel.com with ESMTP; 13 Aug 2019 15:34:00 -0700
+Subject: Re: [PATCH v8 09/27] mm/mmap: Prevent Shadow Stack VMA merges
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         Kees Cook <keescook@chromium.org>,
-        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Kernel Team <Kernel-team@fb.com>,
-        Lorenz Bauer <lmb@cloudflare.com>,
-        Jann Horn <jannh@google.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>
+References: <20190813205225.12032-1-yu-cheng.yu@intel.com>
+ <20190813205225.12032-10-yu-cheng.yu@intel.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+Message-ID: <5ba3d1b3-5587-e7dd-b9de-9a954172d31f@intel.com>
+Date:   Tue, 13 Aug 2019 15:34:00 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <20190813205225.12032-10-yu-cheng.yu@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Aug 13, 2019 at 2:58 PM Alexei Starovoitov
-<alexei.starovoitov@gmail.com> wrote:
->
-> On Tue, Aug 06, 2019 at 10:24:25PM -0700, Andy Lutomirski wrote:
-> > >
-> > > Inside containers and inside nested containers we need to start processes
-> > > that will use bpf. All of the processes are trusted.
-> >
-> > Trusted by whom?  In a non-nested container, the container manager
-> > *might* be trusted by the outside world.  In a *nested* container,
-> > unless the inner container management is controlled from outside the
-> > outer container, it's not trusted.  I don't know much about how
-> > Facebook's containers work, but the LXC/LXD/Podman world is moving
-> > very strongly toward user namespaces and maximally-untrusted
-> > containers, and I think bpf() should work in that context.
->
-> agree that containers (namespaces) reduce amount of trust necessary
-> for apps to run, but the end goal is not security though.
-> Linux has become a single user system.
-> If user can ssh into the host they can become root.
-> If arbitrary code can run on the host it will be break out of any sandbox.
-> Containers are not providing the level of security that is enough
-> to run arbitrary code. VMs can do it better, but cpu bugs don't make it easy.
-> Containers are used to make production systems safer.
-> Some people call it more 'secure', but it's clearly not secure for
-> arbitrary code and that is what kernel.unprivileged_bpf_disabled allows.
-> When we say 'unprivileged bpf' we really mean arbitrary malicious bpf program.
-> It's been a constant source of pain. The constant blinding, randomization,
-> verifier speculative analysis, all spectre v1, v2, v4 mitigations
-> are simply not worth it. It's a lot of complex kernel code without users.
-> There is not a single use case to allow arbitrary malicious bpf
-> program to be loaded and executed.
-> As soon as we have /dev/bpf to allow all of bpf to be used without root
-> we will set sysctl kernel.unprivileged_bpf_disabled=1
-> Hence I prefer this /dev/bpf mechanism to be as simple a possible.
-> The applications that will use it are going to be just as trusted as systemd.
->
-> > > To solve your concern of bypassing all capable checks...
-> > > How about we do /dev/bpf/full_verifier first?
-> > > It will replace capable() checks in the verifier only.
-> >
-> > I'm not convinced that "in the verifier" is the right distinction.
-> > Telling administrators that some setting lets certain users bypass
-> > bpf() verifier checks doesn't have a clear enough meaning.
->
-> linux is a single user system. there are no administrators any more.
-> No doubt, folks will disagree, but that game is over.
-> At least on bpf side it's done.
->
-> > I propose,
-> > instead, that the current capable() checks be divided into three
-> > categories:
->
-> I don't see a use case for these categories.
-> All bpf programs extend the kernel in some way.
-> The kernel vs user is one category.
-> Conceptually CAP_BPF is enough. It would be similar to CAP_NET_ADMIN.
-> When application has CAP_NET_ADMIN it covers all of networking knobs.
-> There is no use case that would warrant fine grain CAP_ROUTE_ADMIN,
-> CAP_ETHTOOL_ADMIN, CAP_ETH0_ADMIN, etc.
-> Similarly CAP_BPF as the only knob is enough.
-> The only disadvantage of CAP_BPF is that it's not possible to
-> pass it from one systemd-like daemon to another systemd-like daemon.
-> Hence /dev/bpf idea and passing file descriptor.
->
-> > This type of thing actually fits quite nicely into an idea I've been
-> > thinking about for a while called "implicit rights". In very brief
-> > summary, there would be objects called /dev/rights/xyz, where xyz is
-> > the same of a "right".  If there is a readable object of the right
-> > type at the literal path "/dev/rights/xyz", then you have right xyz.
-> > There's a bit more flexibility on top of this.  BPF could use
-> > /dev/rights/bpf/maptypes/lpm and
-> > /dev/rights/bpf/verifier/bounded_loops, for example.  Other non-BPF
-> > use cases include a biggie:
-> > /dev/rights/namespace/create_unprivileged_userns.
-> > /dev/rights/bind_port/80 would be nice, too.
->
-> The concept of "implicit rights" is very nice and I'm sure it will
-> be a good fit somewhere, but I don't see why use it in bpf space.
-> There is no use case for fine grain partition of bpf features.
+On 8/13/19 1:52 PM, Yu-cheng Yu wrote:
+> To prevent function call/return spills into the next shadow stack
+> area, do not merge shadow stack areas.
 
-Isn't this "implicit rights" model just another kind of ambient
-authority --- one that constrains the otherwise-free filesystem
-namespace to boot? IMHO, the kernel should be moving toward explicit
-authorization tokens modeled by file descriptors and away from
-contextual authorization decisions.
+How does this prevent call/return spills?
