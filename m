@@ -2,139 +2,120 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9728C8CD4A
-	for <lists+linux-api@lfdr.de>; Wed, 14 Aug 2019 09:56:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6FF38CD99
+	for <lists+linux-api@lfdr.de>; Wed, 14 Aug 2019 10:05:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726466AbfHNH4G (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 14 Aug 2019 03:56:06 -0400
-Received: from mx2.suse.de ([195.135.220.15]:33080 "EHLO mx1.suse.de"
+        id S1727157AbfHNIFf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 14 Aug 2019 04:05:35 -0400
+Received: from mx2.suse.de ([195.135.220.15]:36094 "EHLO mx1.suse.de"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725928AbfHNH4G (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 14 Aug 2019 03:56:06 -0400
+        id S1725265AbfHNIFf (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 14 Aug 2019 04:05:35 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 2336EACBA;
-        Wed, 14 Aug 2019 07:56:03 +0000 (UTC)
-Date:   Wed, 14 Aug 2019 09:56:01 +0200
+        by mx1.suse.de (Postfix) with ESMTP id 818D6AFB0;
+        Wed, 14 Aug 2019 08:05:32 +0000 (UTC)
+Date:   Wed, 14 Aug 2019 10:05:31 +0200
 From:   Michal Hocko <mhocko@kernel.org>
-To:     Jann Horn <jannh@google.com>
-Cc:     Daniel Gruss <daniel.gruss@iaik.tugraz.at>,
-        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     khlebnikov@yandex-team.ru, linux-kernel@vger.kernel.org,
+        Minchan Kim <minchan@kernel.org>,
         Alexey Dobriyan <adobriyan@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Borislav Petkov <bp@alien8.de>,
         Brendan Gregg <bgregg@netflix.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
-        Christian Hansen <chansen3@cisco.com>,
-        Daniel Colascione <dancol@google.com>, fmayer@google.com,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Joel Fernandes <joelaf@google.com>,
+        Christian Hansen <chansen3@cisco.com>, dancol@google.com,
+        fmayer@google.com, "H. Peter Anvin" <hpa@zytor.com>,
+        Ingo Molnar <mingo@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        kernel-team <kernel-team@android.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Minchan Kim <minchan@kernel.org>, namhyung@google.com,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
+        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        Mike Rapoport <rppt@linux.ibm.com>, namhyung@google.com,
+        paulmck@linux.ibm.com, Robin Murphy <robin.murphy@arm.com>,
         Roman Gushchin <guro@fb.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Todd Kjos <tkjos@google.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>, surenb@google.com,
+        Thomas Gleixner <tglx@linutronix.de>, tkjos@google.com,
         Vladimir Davydov <vdavydov.dev@gmail.com>,
         Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v5 1/6] mm/page_idle: Add per-pid idle page tracking
- using virtual index
-Message-ID: <20190814075601.GO17933@dhcp22.suse.cz>
+Subject: Re: [PATCH v5 2/6] mm/page_idle: Add support for handling swapped
+ PG_Idle pages
+Message-ID: <20190814080531.GP17933@dhcp22.suse.cz>
 References: <20190807171559.182301-1-joel@joelfernandes.org>
- <CAG48ez0ysprvRiENhBkLeV9YPTN_MB18rbu2HDa2jsWo5FYR8g@mail.gmail.com>
- <20190813100856.GF17933@dhcp22.suse.cz>
- <CAG48ez2cuqe_VYhhaqw8Hcyswv47cmz2XmkqNdvkXEhokMVaXg@mail.gmail.com>
+ <20190807171559.182301-2-joel@joelfernandes.org>
+ <20190813150450.GN17933@dhcp22.suse.cz>
+ <20190813153659.GD14622@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAG48ez2cuqe_VYhhaqw8Hcyswv47cmz2XmkqNdvkXEhokMVaXg@mail.gmail.com>
+In-Reply-To: <20190813153659.GD14622@google.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue 13-08-19 17:29:09, Jann Horn wrote:
-> On Tue, Aug 13, 2019 at 12:09 PM Michal Hocko <mhocko@kernel.org> wrote:
-> > On Mon 12-08-19 20:14:38, Jann Horn wrote:
-> > > On Wed, Aug 7, 2019 at 7:16 PM Joel Fernandes (Google)
-> > > <joel@joelfernandes.org> wrote:
-> > > > The page_idle tracking feature currently requires looking up the pagemap
-> > > > for a process followed by interacting with /sys/kernel/mm/page_idle.
-> > > > Looking up PFN from pagemap in Android devices is not supported by
-> > > > unprivileged process and requires SYS_ADMIN and gives 0 for the PFN.
-> > > >
-> > > > This patch adds support to directly interact with page_idle tracking at
-> > > > the PID level by introducing a /proc/<pid>/page_idle file.  It follows
-> > > > the exact same semantics as the global /sys/kernel/mm/page_idle, but now
-> > > > looking up PFN through pagemap is not needed since the interface uses
-> > > > virtual frame numbers, and at the same time also does not require
-> > > > SYS_ADMIN.
-> > > >
-> > > > In Android, we are using this for the heap profiler (heapprofd) which
-> > > > profiles and pin points code paths which allocates and leaves memory
-> > > > idle for long periods of time. This method solves the security issue
-> > > > with userspace learning the PFN, and while at it is also shown to yield
-> > > > better results than the pagemap lookup, the theory being that the window
-> > > > where the address space can change is reduced by eliminating the
-> > > > intermediate pagemap look up stage. In virtual address indexing, the
-> > > > process's mmap_sem is held for the duration of the access.
+On Tue 13-08-19 11:36:59, Joel Fernandes wrote:
+> On Tue, Aug 13, 2019 at 05:04:50PM +0200, Michal Hocko wrote:
+> > On Wed 07-08-19 13:15:55, Joel Fernandes (Google) wrote:
+> > > Idle page tracking currently does not work well in the following
+> > > scenario:
+> > >  1. mark page-A idle which was present at that time.
+> > >  2. run workload
+> > >  3. page-A is not touched by workload
+> > >  4. *sudden* memory pressure happen so finally page A is finally swapped out
+> > >  5. now see the page A - it appears as if it was accessed (pte unmapped
+> > >     so idle bit not set in output) - but it's incorrect.
+> > > 
+> > > To fix this, we store the idle information into a new idle bit of the
+> > > swap PTE during swapping of anonymous pages.
 > > >
-> > > What happens when you use this interface on shared pages, like memory
-> > > inherited from the zygote, library file mappings and so on? If two
-> > > profilers ran concurrently for two different processes that both map
-> > > the same libraries, would they end up messing up each other's data?
-> >
-> > Yup PageIdle state is shared. That is the page_idle semantic even now
-> > IIRC.
-> >
-> > > Can this be used to observe which library pages other processes are
-> > > accessing, even if you don't have access to those processes, as long
-> > > as you can map the same libraries? I realize that there are already a
-> > > bunch of ways to do that with side channels and such; but if you're
-> > > adding an interface that allows this by design, it seems to me like
-> > > something that should be gated behind some sort of privilege check.
-> >
-> > Hmm, you need to be priviledged to get the pfn now and without that you
-> > cannot get to any page so the new interface is weakening the rules.
-> > Maybe we should limit setting the idle state to processes with the write
-> > status. Or do you think that even observing idle status is useful for
-> > practical side channel attacks? If yes, is that a problem of the
-> > profiler which does potentially dangerous things?
+> > > Also in the future, madvise extensions will allow a system process
+> > > manager (like Android's ActivityManager) to swap pages out of a process
+> > > that it knows will be cold. To an external process like a heap profiler
+> > > that is doing idle tracking on another process, this procedure will
+> > > interfere with the idle page tracking similar to the above steps.
+> > 
+> > This could be solved by checking the !present/swapped out pages
+> > right? Whoever decided to put the page out to the swap just made it
+> > idle effectively.  So the monitor can make some educated guess for
+> > tracking. If that is fundamentally not possible then please describe
+> > why.
 > 
-> I suppose read-only access isn't a real problem as long as the
-> profiler isn't writing the idle state in a very tight loop... but I
-> don't see a usecase where you'd actually want that? As far as I can
-> tell, if you can't write the idle state, being able to read it is
-> pretty much useless.
+> But the monitoring process (profiler) does not have control over the 'whoever
+> made it effectively idle' process.
+
+Why does that matter? Whether it is a global/memcg reclaim or somebody
+calling MADV_PAGEOUT or whatever it is a decision to make the page not
+hot. Sure you could argue that a missing idle bit on swap entries might
+mean that the swap out decision was pre-mature/sub-optimal/wrong but is
+this the aim of the interface?
+
+> As you said it will be a guess, it will not be accurate.
+
+Yes and the point I am trying to make is that having some space and not
+giving a guarantee sounds like a safer option for this interface because
+...
 > 
-> If the profiler only wants to profile process-private memory, then
-> that should be implementable in a safe way in principle, I think, but
-> since Joel said that they want to profile CoW memory as well, I think
-> that's inherently somewhat dangerous.
+> I am curious what is your concern with using a bit in the swap PTE?
 
-I cannot really say how useful that would be but I can see that
-implementing ownership checks would be really non-trivial for
-shared pages. Reducing the interface to exclusive pages would make it
-easier as you noted but less helpful.
+... It is a promiss of the semantic I find limiting for future. The bit
+in the pte might turn out insufficient (e.g. pte reclaim) so teaching
+the userspace to consider this a hard guarantee is a ticket to problems
+later on. Maybe I am overly paranoid because I have seen so many "nice
+to have" features turning into a maintenance burden in the past.
 
-Besides that the attack vector shouldn't be really much different from
-the page cache access, right? So essentially can_do_mincore model.
+If this is really considered mostly debugging purpouse interface then a
+certain level of imprecision should be tolerateable. If there is a
+really strong real world usecase that simply has no other way to go
+then this might be added later. Adding an information is always safer
+than take it away.
 
-I guess we want to document that page idle tracking should be used with
-care because it potentially opens a side channel opportunity if used
-on sensitive data.
+That being said, if I am a minority voice here then I will not really
+stand in the way and won't nack the patch. I will not ack it neither
+though.
+
 -- 
 Michal Hocko
 SUSE Labs
