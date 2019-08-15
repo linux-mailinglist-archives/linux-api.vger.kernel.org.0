@@ -2,31 +2,32 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 31D538F784
-	for <lists+linux-api@lfdr.de>; Fri, 16 Aug 2019 01:18:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 782818F796
+	for <lists+linux-api@lfdr.de>; Fri, 16 Aug 2019 01:29:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387698AbfHOXSZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 15 Aug 2019 19:18:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45782 "EHLO mail.kernel.org"
+        id S1728766AbfHOX3f (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 15 Aug 2019 19:29:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46948 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732278AbfHOXSZ (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 15 Aug 2019 19:18:25 -0400
+        id S1728579AbfHOX3f (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 15 Aug 2019 19:29:35 -0400
 Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8579E2083B;
-        Thu, 15 Aug 2019 23:18:22 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id B9C61206C2;
+        Thu, 15 Aug 2019 23:29:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1565911104;
-        bh=iJhe6y6JGRGDCMzyg3rw4IDGMv4To3vHo/3eeEQyvLg=;
+        s=default; t=1565911774;
+        bh=z09KQTqOI+IV+jDADbs07zi7F0ekc5wG54z2cyDIZHE=;
         h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=IhO632crOR6eYMBweQJSP5H1+7IbfN4OwDJ7QF5x3ujTb3wWBdBrmZjEuNcjSeCtX
-         ftNUKBS9Ixy+M6JqOL3m2kk2aj1OdwPmXzDucHzC3E5S+WMOuhLnB3dF0WlJdE9nvE
-         5ivGmIi1O+GhXuCbfop4x9HJxqBF19zvvO6kQJRc=
-Subject: Re: [PATCHv6 30/36] selftest/timens: Add Time Namespace test for
- supported clocks
+        b=LrE54f0xQ8mcNy2rlonCs6Orsy20gQT/XvJU42aw4yc8p3JHmwewI4g9A3uf+uXIg
+         Q2mCIE7fOnCe0uCKKYeGsBPjSkuoRRx3Jt/t5SuKQFfaLsaMaa5hF6wJq//vxr0B5l
+         CEC10gNUEzfDJIjkZJMi8MabiqX5XRlEkfK4u4XM=
+Subject: Re: [PATCHv6 35/36] selftests/timens: Add a simple perf test for
+ clock_gettime()
 To:     Dmitry Safonov <dima@arista.com>, linux-kernel@vger.kernel.org
 Cc:     Dmitry Safonov <0x7f454c46@gmail.com>,
+        Andrei Vagin <avagin@gmail.com>,
         Adrian Reber <adrian@lisas.de>,
         Andrei Vagin <avagin@openvz.org>,
         Andy Lutomirski <luto@kernel.org>,
@@ -43,14 +44,14 @@ Cc:     Dmitry Safonov <0x7f454c46@gmail.com>,
         containers@lists.linux-foundation.org, criu@openvz.org,
         linux-api@vger.kernel.org, x86@kernel.org, shuah <shuah@kernel.org>
 References: <20190815163836.2927-1-dima@arista.com>
- <20190815163836.2927-31-dima@arista.com>
+ <20190815163836.2927-36-dima@arista.com>
 From:   shuah <shuah@kernel.org>
-Message-ID: <02add700-b626-a1b4-09e1-1e4d5cd242f2@kernel.org>
-Date:   Thu, 15 Aug 2019 17:18:21 -0600
+Message-ID: <0992df9a-d3b3-5ca1-e1fd-b5d9d365b32e@kernel.org>
+Date:   Thu, 15 Aug 2019 17:29:31 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190815163836.2927-31-dima@arista.com>
+In-Reply-To: <20190815163836.2927-36-dima@arista.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -59,51 +60,116 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Dmitry,
-
-Thanks for the patch.
-
 On 8/15/19 10:38 AM, Dmitry Safonov wrote:
-> A test to check that all supported clocks work on host and inside
-> a new time namespace. Use both ways to get time: through VDSO and
-> by entering the kernel with implicit syscall.
+> From: Andrei Vagin <avagin@gmail.com>
 > 
-> Introduce a new timens directory in selftests framework for
-> the next timens tests.
-> 
-> Co-developed-by: Andrei Vagin <avagin@openvz.org>
-> Signed-off-by: Andrei Vagin <avagin@openvz.org>
+> Signed-off-by: Andrei Vagin <avagin@gmail.com>
+> Co-developed-by: Dmitry Safonov <dima@arista.com>
 > Signed-off-by: Dmitry Safonov <dima@arista.com>
 > ---
->   tools/testing/selftests/Makefile          |   1 +
->   tools/testing/selftests/timens/.gitignore |   1 +
->   tools/testing/selftests/timens/Makefile   |   5 +
->   tools/testing/selftests/timens/config     |   1 +
->   tools/testing/selftests/timens/log.h      |  26 +++
->   tools/testing/selftests/timens/timens.c   | 185 ++++++++++++++++++++++
->   tools/testing/selftests/timens/timens.h   |  63 ++++++++
->   7 files changed, 282 insertions(+)
->   create mode 100644 tools/testing/selftests/timens/.gitignore
->   create mode 100644 tools/testing/selftests/timens/Makefile
->   create mode 100644 tools/testing/selftests/timens/config
->   create mode 100644 tools/testing/selftests/timens/log.h
->   create mode 100644 tools/testing/selftests/timens/timens.c
->   create mode 100644 tools/testing/selftests/timens/timens.h
+>   tools/testing/selftests/timens/.gitignore     |   2 +
+>   tools/testing/selftests/timens/Makefile       |  10 +-
+>   tools/testing/selftests/timens/gettime_perf.c | 101 +++++++++++
+>   .../selftests/timens/gettime_perf_cold.c      | 160 ++++++++++++++++++
+>   4 files changed, 271 insertions(+), 2 deletions(-)
+>   create mode 100644 tools/testing/selftests/timens/gettime_perf.c
+>   create mode 100644 tools/testing/selftests/timens/gettime_perf_cold.c
 > 
-> diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
-> index 25b43a8c2b15..6fc63b84a857 100644
-> --- a/tools/testing/selftests/Makefile
-> +++ b/tools/testing/selftests/Makefile
-> @@ -47,6 +47,7 @@ TARGETS += splice
->   TARGETS += static_keys
->   TARGETS += sync
->   TARGETS += sysctl
-> +TARGETS += timens
+> diff --git a/tools/testing/selftests/timens/.gitignore b/tools/testing/selftests/timens/.gitignore
+> index 3b7eda8f35ce..16292e4d08a5 100644
+> --- a/tools/testing/selftests/timens/.gitignore
+> +++ b/tools/testing/selftests/timens/.gitignore
+> @@ -1,4 +1,6 @@
+>   clock_nanosleep
+> +gettime_perf
+> +gettime_perf_cold
+>   procfs
+>   timens
+>   timer
+> diff --git a/tools/testing/selftests/timens/Makefile b/tools/testing/selftests/timens/Makefile
+> index ae1ffd24cc43..97e0460eaf48 100644
+> --- a/tools/testing/selftests/timens/Makefile
+> +++ b/tools/testing/selftests/timens/Makefile
+> @@ -1,6 +1,12 @@
+> -TEST_GEN_PROGS := timens timerfd timer clock_nanosleep procfs
+> +TEST_GEN_PROGS := timens timerfd timer clock_nanosleep procfs gettime_perf
+> +
+> +uname_M := $(shell uname -m 2>/dev/null || echo not)
+> +ARCH ?= $(shell echo $(uname_M) | sed -e s/i.86/i386/)
+> +ifeq ($(ARCH),x86_64)
+> +TEST_GEN_PROGS += gettime_perf_cold
+> +endif
+>   
+>   CFLAGS := -Wall -Werror
+> -LDFLAGS := -lrt
+> +LDFLAGS := -lrt -ldl
+>   
+>   include ../lib.mk
+> diff --git a/tools/testing/selftests/timens/gettime_perf.c b/tools/testing/selftests/timens/gettime_perf.c
+> new file mode 100644
+> index 000000000000..f7d7832c0293
+> --- /dev/null
+> +++ b/tools/testing/selftests/timens/gettime_perf.c
+> @@ -0,0 +1,101 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +#define _GNU_SOURCE
+> +#include <sys/types.h>
+> +#include <sys/stat.h>
+> +#include <errno.h>
+> +#include <fcntl.h>
+> +#include <sched.h>
+> +#include <time.h>
+> +#include <stdio.h>
+> +#include <unistd.h>
+> +#include <sys/syscall.h>
+> +#include <dlfcn.h>
+> +
+> +#include "log.h"
+> +#include "timens.h"
+> +
+> +//#define TEST_SYSCALL
+> +
 
-How long does this test run for? Does this test need to be run
-as root? If yes, please add a root check and skip the test.
+How is this supposed to be used? When does TEST_SYSCALL
+get defined?
 
-What does the test output looks like for skip and pass/fail cases?
+> +typedef int (*vgettime_t)(clockid_t, struct timespec *);
+> +
+> +vgettime_t vdso_clock_gettime;
+> +
+> +static void fill_function_pointers(void)
+> +{
+> +	void *vdso = dlopen("linux-vdso.so.1",
+> +			    RTLD_LAZY | RTLD_LOCAL | RTLD_NOLOAD);
+> +	if (!vdso)
+> +		vdso = dlopen("linux-gate.so.1",
+> +			      RTLD_LAZY | RTLD_LOCAL | RTLD_NOLOAD);
+> +	if (!vdso) {
+> +		pr_err("[WARN]\tfailed to find vDSO\n");
+> +		return;
+> +	}
+> +
+> +	vdso_clock_gettime = (vgettime_t)dlsym(vdso, "__vdso_clock_gettime");
+> +	if (!vdso_clock_gettime)
+> +		pr_err("Warning: failed to find clock_gettime in vDSO\n");
+> +
+> +}
+> +
+> +static void test(clock_t clockid, char *clockstr, bool in_ns)
+> +{
+> +	struct timespec tp, start;
+> +	long i = 0;
+> +	const int timeout = 3;
+> +
+> +#ifndef TEST_SYSCALL
+> +	vdso_clock_gettime(clockid, &start);
+> +#else
+> +	syscall(__NR_clock_gettime, clockid, &start);
+> +#endif
+
+Hmm. This doesn't look right. Does this test need to be compiled
+with TEST_SYSCALL. Please find a way to do this without ifdef.
 
 thanks,
 -- Shuah
+
