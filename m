@@ -2,159 +2,154 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 17E958F469
-	for <lists+linux-api@lfdr.de>; Thu, 15 Aug 2019 21:22:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DFB678F511
+	for <lists+linux-api@lfdr.de>; Thu, 15 Aug 2019 21:46:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730458AbfHOTWq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 15 Aug 2019 15:22:46 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:40680 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729820AbfHOTWq (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 15 Aug 2019 15:22:46 -0400
-Received: from pd9ef1cb8.dip0.t-ipconnect.de ([217.239.28.184] helo=nanos)
-        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <tglx@linutronix.de>)
-        id 1hyLKN-0004XU-Lb; Thu, 15 Aug 2019 21:22:27 +0200
-Date:   Thu, 15 Aug 2019 21:22:26 +0200 (CEST)
-From:   Thomas Gleixner <tglx@linutronix.de>
-To:     Dmitry Safonov <dima@arista.com>
-cc:     linux-kernel@vger.kernel.org,
-        Dmitry Safonov <0x7f454c46@gmail.com>,
-        Adrian Reber <adrian@lisas.de>,
-        Andrei Vagin <avagin@openvz.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Cyrill Gorcunov <gorcunov@openvz.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jann Horn <jannh@google.com>, Jeff Dike <jdike@addtoit.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Pavel Emelyanov <xemul@virtuozzo.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        containers@lists.linux-foundation.org, criu@openvz.org,
-        linux-api@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCHv6 28/36] posix-clocks: Add align for timens_offsets
-In-Reply-To: <20190815163836.2927-29-dima@arista.com>
-Message-ID: <alpine.DEB.2.21.1908152010230.1908@nanos.tec.linutronix.de>
-References: <20190815163836.2927-1-dima@arista.com> <20190815163836.2927-29-dima@arista.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        id S1733208AbfHOTqp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 15 Aug 2019 15:46:45 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:33461 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1733204AbfHOTqo (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 15 Aug 2019 15:46:44 -0400
+Received: by mail-pf1-f193.google.com with SMTP id g2so1862948pfq.0
+        for <linux-api@vger.kernel.org>; Thu, 15 Aug 2019 12:46:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=q9R0vNoUpwKLeu2pnfmt46PqrXtqSmivMtowXnYTOZo=;
+        b=H0/RvPSUgkXdfxxI3i5LVxFFjGoQjDU4tEClLQbXRTozuKmyG66rsuwuaQhm6opn8L
+         YfqvyrmFeGimX21lZuHDTTWFEXr8ocu9gR3Jv1WZm6e9nsPzXLaQIup05uukgtM8RKDj
+         XddoB41uZ7kY/ujqgXTjaa5ORKT5c/3HP1uYM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=q9R0vNoUpwKLeu2pnfmt46PqrXtqSmivMtowXnYTOZo=;
+        b=FQU5QuyJtACuyDk77xSsqME4+2znqstfZckDrfW053yXVaXeD2Nhg2TU2X5T/C20FW
+         nYuKBGiL2/9VYnmJh8T4weuNVYBd97un/Kcm7sTnTbMyzUXNKQpiYFt0jK1ApVP9Y5RN
+         iYtDXJpjO/3sZaIorRaI+UvJFRS/ujThnUvN8gppH2DWopjiVy/kpzLtMkU/NstwcCUp
+         rMiagVxn5k0X47DWBRrKKzfzeEh1fUAT6ol9diFeViPOCoW1BgJWWDEPGsAKnF5J6rKB
+         5w66qYt3zVsgleJ461AYcGWJvB6iaE12SKYBaljp7QQXhTmS3kQaM3twR8zB6m7pY+9u
+         Tphg==
+X-Gm-Message-State: APjAAAXUT/hV5ZhJuClzr1vP3jv/8PT2Cg8z2fnbJJqDwrRv/hRshm4T
+        DjMkxP+LCbGcReaXyIHWY3Hyag==
+X-Google-Smtp-Source: APXvYqwkdKiJuv/6WIKEpcaHaZ22PyLLwMhSfjqdJkm4PMqDnc+jsZVtxZmMArS1ytN4WQAQBH5eLg==
+X-Received: by 2002:a63:a302:: with SMTP id s2mr4777940pge.125.1565898403670;
+        Thu, 15 Aug 2019 12:46:43 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id y8sm4327185pfr.140.2019.08.15.12.46.42
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 15 Aug 2019 12:46:42 -0700 (PDT)
+Date:   Thu, 15 Aug 2019 12:46:41 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        Song Liu <songliubraving@fb.com>,
+        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Kernel Team <Kernel-team@fb.com>,
+        Lorenz Bauer <lmb@cloudflare.com>,
+        Jann Horn <jannh@google.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>
+Subject: Re: [PATCH v2 bpf-next 1/4] bpf: unprivileged BPF access via /dev/bpf
+Message-ID: <201908151203.FE87970@keescook>
+References: <CALCETrU7NbBnXXsw1B+DvTkfTVRBFWXuJ8cZERCCNvdFG6KqRw@mail.gmail.com>
+ <CALCETrUjh6DdgW1qSuSRd1_=0F9CqB8+sNj__e_6AHEvh_BaxQ@mail.gmail.com>
+ <CALCETrWtE2U4EvZVYeq8pSmQjBzF2PHH+KxYW8FSeF+W=1FYjw@mail.gmail.com>
+ <EE7B7AE1-3D44-4561-94B9-E97A626A251D@fb.com>
+ <CALCETrXX-Jeb4wiQuL6FUai4wNMmMiUxuLLh_Lb9mT7h=0GgAw@mail.gmail.com>
+ <20190805192122.laxcaz75k4vxdspn@ast-mbp>
+ <CALCETrVtPs8gY-H4gmzSqPboid3CB++n50SvYd6RU9YVde_-Ow@mail.gmail.com>
+ <20190806011134.p5baub5l3t5fkmou@ast-mbp>
+ <CALCETrXEHL3+NAY6P6vUj7Pvd9ZpZsYC6VCLXOaNxb90a_POGw@mail.gmail.com>
+ <20190813215823.3sfbakzzjjykyng2@ast-mbp>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Linutronix-Spam-Score: -1.0
-X-Linutronix-Spam-Level: -
-X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190813215823.3sfbakzzjjykyng2@ast-mbp>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, 15 Aug 2019, Dmitry Safonov wrote:
+On Tue, Aug 13, 2019 at 02:58:25PM -0700, Alexei Starovoitov wrote:
+> agree that containers (namespaces) reduce amount of trust necessary
+> for apps to run, but the end goal is not security though.
 
-> Align offsets so that time namespace will work for ia32 applications on
-> x86_64 host.
+Unsurprisingly, I totally disagree: this is the very definition of
+improved "security": reduced attack surface, confined trust, etc.
 
-That's true for any 64 bit arch which supports 32bit user space and should
-be folded into the patch which introduces the offset store.
+> Linux has become a single user system.
 
-> +/*
-> + * Time offsets need align as they're placed on VVAR page,
-> + * which is used by x86_64 and ia32 VDSO code.
-> + * On ia32 offset::tv_sec (u64) has align(4), so re-align offsets
-> + * to the same positions as 64-bit offsets.
+I hope this is just hyperbole, because it's not true in reality. I agree
+that the vast majority of Linux devices are single-user-at-a-time
+systems now (rather than the "shell servers" of yore), but the system
+still has to be expected to confine users from each other, root, and the
+hardware. Switching users on Chrome OS or a distro laptop, etc is still
+very much expected to _mean_ something.
 
-This is generic code. Please do not add x86'isms here. The alignement
-problem is more or less the same for any 64bit arch which supports 32bit
-user space. And it's even worse on BE.
+> If user can ssh into the host they can become root.
+> If arbitrary code can run on the host it will be break out of any sandbox.
+> Containers are not providing the level of security that is enough
+> to run arbitrary code. VMs can do it better, but cpu bugs don't make it easy.
 
-> + * On 64-bit big-endian systems VDSO should convert to timespec64
-> + * to timespec ...
+I'm not sure why you draw the line for VMs -- they're just as buggy
+as anything else. Regardless, I reject this line of thinking: yes,
+all software is buggy, but that isn't a reason to give up. In fact,
+we should be trying very hard to create safe code (*insert arguments
+for sane languages and toolchains here*).
 
-What?
+If you look at software safety as a binary, you will always be
+disappointed. If you look at it as it manifests in the real world,
+then there is some perspective to be had. Reachability of flaws becomes
+a major factor; exploit chain length becomes a factor. There are very
+real impacts to be had from security hardening, sandboxing, etc. Of
+course nothing is perfect, but the current state of the world isn't
+as you describe. (And I say this with the knowledge of how long
+the lifetime of bugs are in the kernel.)
 
-> ... because of a padding occurring between the fields.
+> Containers are used to make production systems safer.
 
-There is no padding between the fields.
+Yes.
 
-32bit BE (powerpc)
+> Some people call it more 'secure', but it's clearly not secure for
+> arbitrary code
 
-struct timespec64 {
-	time64_t                   tv_sec;               /*     0     8 */
-	long int                   tv_nsec;              /*     8     4 */
+Perhaps it's just a language issue. "More secure" and "safer" mean
+mostly the same thing to me. I tend to think "safer" is actually
+a superset that includes things that wreck the user experience but
+aren't actually in the privilege manipulation realm. In the traditional
+"security" triad of confidentiality, integrity, and availability, I tend
+to weigh availability less highly, but a bug that stops someone from
+doing their work but doesn't wreck data, let them switch users, etc,
+is still considered a "security" issue by many folks. The fewer bugs
+someone is exposed to improves their security, safety, whatever. The
+easiest way to do that is confinement and its associated attack surface
+reduction. tl;dr: security and safety are very use-case-specific
+continuum, not a binary state.
 
-tv_nsec is directly after tv_sec
+> When we say 'unprivileged bpf' we really mean arbitrary malicious bpf program.
+> It's been a constant source of pain. The constant blinding, randomization,
+> verifier speculative analysis, all spectre v1, v2, v4 mitigations
+> are simply not worth it. It's a lot of complex kernel code without users.
+> There is not a single use case to allow arbitrary malicious bpf
+> program to be loaded and executed.
 
-};
+The world isn't binary (safe code/malicious code), and we need to build
+systems that can be used safely even when things go wrong. Yes, probably
+no one has a system that _intentionally_ feeds eBPF into the kernel from
+a web form. But there is probably someone who does it unintentionally,
+or has a user login exposed on a system where unpriv BPF is enabled. The
+point is to create primitives as safely as possible so when things DO
+go wrong, they fail safe instead of making things worse.
 
-64bit LE and BE (x86, powerpc64)
+I'm all for a "less privileged than root" API for eBPF, but I get worried
+when I see "security" being treated as a binary state. Especially when
+it is considered an always-failed state. :)
 
-struct timespec64 {
-	time64_t                   tv_sec;               /*     0     8 */
-	long int                   tv_nsec;              /*     8     8 */
-};
-
-The problem for BE is that the 64bit host uses long int to store
-tv_nsec. So the 32bit userspace will always read 0 because it reads byte
-2/3 as seen from the 64 host side.
-
-So using struct timespec64 for the offset is wrong. You really need to open
-code that offset storage if you don't want to end up with weird workarounds
-for BE.
-
-Something like this:
-
-struct timens_offs {
-	  time64_t	tv_sec;
-	  s64		tv_nsec;
-};
-
-Then your offset store becomes:
-
-struct timens_offsets {
-	struct timens_offs	monotonic;
-	struct timens_offs	boottime;
-};
-
-which needs tweaks to your conversion functions:
-
-static inline void timens_add_monotonic(struct timespec64 *ts)
-{
-	struct timens_offsets *ns_offsets = current->nsproxy->time_ns->offsets;
-	struct timens_offs *mo = &ns_offsets->monotonic;
-
-	if (ns_offsets) {
-		set_normalized_timespec64(ts, ts->tv_sec + mo->tv_sec,
-                                	  ts->tv_nsec + mo->tv_nsec);
-	}
-}
-
-And for your to host conversion you need:
-
-	case CLOCK_MONOTONIC:
-		mo = &ns_offsets->monotonic;
-		offset = ktime_set(mo->tv_sec, mo->tv_nsec);
-		break;
-
-Similar changes are needed in the VDSO and the proc interface
-obviously. Then this works for any arch without magic BE fixups. You get
-the idea.
-
-And ideally you change that storage to:
-
-struct timens_offs {
-	  time64_t	tv_sec;
-	  s64		tv_nsec;
-	  ktime_t	nsecs;
-};
-
-and do the conversion once in the proc write. Then your to host conversion
-can use 'nsecs' and spare the multiplication on every invocation.
-
-	case CLOCK_MONOTONIC:
-    		offset = ns_offsets.monotonic.nsecs;
-
-Thanks,
-
-	tglx
+-- 
+Kees Cook
