@@ -2,76 +2,137 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BE0578E439
-	for <lists+linux-api@lfdr.de>; Thu, 15 Aug 2019 06:53:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B4EEB8EA2A
+	for <lists+linux-api@lfdr.de>; Thu, 15 Aug 2019 13:25:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726098AbfHOExj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 15 Aug 2019 00:53:39 -0400
-Received: from out30-56.freemail.mail.aliyun.com ([115.124.30.56]:41281 "EHLO
-        out30-56.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725839AbfHOExj (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 15 Aug 2019 00:53:39 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R581e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e07487;MF=yang.shi@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0TZWJOlV_1565844812;
-Received: from US-143344MP.local(mailfrom:yang.shi@linux.alibaba.com fp:SMTPD_---0TZWJOlV_1565844812)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Thu, 15 Aug 2019 12:53:36 +0800
-Subject: Re: [RESEND PATCH 1/2 -mm] mm: account lazy free pages separately
-To:     Vlastimil Babka <vbabka@suse.cz>, Michal Hocko <mhocko@kernel.org>
-Cc:     kirill.shutemov@linux.intel.com, hannes@cmpxchg.org,
-        rientjes@google.com, akpm@linux-foundation.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, Linux API <linux-api@vger.kernel.org>
-References: <1565308665-24747-1-git-send-email-yang.shi@linux.alibaba.com>
- <20190809083216.GM18351@dhcp22.suse.cz>
- <1a3c4185-c7ab-8d6f-8191-77dce02025a7@linux.alibaba.com>
- <20190809180238.GS18351@dhcp22.suse.cz>
- <79c90f6b-fcac-02e1-015a-0eaa4eafdf7d@linux.alibaba.com>
- <564a0860-94f1-6301-5527-5c2272931d8b@suse.cz>
-From:   Yang Shi <yang.shi@linux.alibaba.com>
-Message-ID: <96bd67c0-e53e-9802-a461-19ce47bba021@linux.alibaba.com>
-Date:   Wed, 14 Aug 2019 21:53:30 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
- Gecko/20100101 Thunderbird/52.7.0
+        id S1726317AbfHOLZF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 15 Aug 2019 07:25:05 -0400
+Received: from mail-40135.protonmail.ch ([185.70.40.135]:11257 "EHLO
+        mail-40135.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725875AbfHOLZF (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 15 Aug 2019 07:25:05 -0400
+Date:   Thu, 15 Aug 2019 11:24:54 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.ch;
+        s=default; t=1565868301;
+        bh=iAtcP7FshA2GtR0+YOCUr2f4BggVvEAXCTScdeBsrvc=;
+        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:
+         Feedback-ID:From;
+        b=EX6yYuIfxAu8/7RblrN9Ataw3CyhPC60P1i7RpPAEYWwjtvTkeyKzrxBDSxkEMVOG
+         g4O0QTbSKL4QqMjkJ4VwK83123YG5yl6bLkCnl11spEFo/UPte1Ra0fB2js6OCTVSV
+         FUWHQkrJiPxFCzWcSRaGfPcn9vJfbOV2+kiQ/Q2I=
+To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
+From:   Jordan Glover <Golden_Miller83@protonmail.ch>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        Daniel Colascione <dancol@google.com>,
+        Song Liu <songliubraving@fb.com>,
+        Kees Cook <keescook@chromium.org>,
+        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Kernel Team <Kernel-team@fb.com>,
+        Lorenz Bauer <lmb@cloudflare.com>,
+        Jann Horn <jannh@google.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>
+Reply-To: Jordan Glover <Golden_Miller83@protonmail.ch>
+Subject: Re: [PATCH v2 bpf-next 1/4] bpf: unprivileged BPF access via /dev/bpf
+Message-ID: <HG0x24u69mnaMFKuxHVAzHpyjwsD5-U6RpqFRua87wGWQCHg00Q8ZqPeA_5kJ9l-d6oe0cXa4HyYXMnOO0Aofp_LcPcQdG0WFV21z1MbgcE=@protonmail.ch>
+In-Reply-To: <20190814220545.co5pucyo5jk3weiv@ast-mbp.dhcp.thefacebook.com>
+References: <EE7B7AE1-3D44-4561-94B9-E97A626A251D@fb.com>
+ <CALCETrVtPs8gY-H4gmzSqPboid3CB++n50SvYd6RU9YVde_-Ow@mail.gmail.com>
+ <20190806011134.p5baub5l3t5fkmou@ast-mbp>
+ <CALCETrXEHL3+NAY6P6vUj7Pvd9ZpZsYC6VCLXOaNxb90a_POGw@mail.gmail.com>
+ <20190813215823.3sfbakzzjjykyng2@ast-mbp>
+ <CALCETrVT-dDXQGukGs5S1DkzvQv9_e=axzr_GyEd2c4T4z8Qng@mail.gmail.com>
+ <20190814005737.4qg6wh4a53vmso2v@ast-mbp>
+ <CALCETrUkqUprujww26VxHwkdXQ3DWJH8nnL2VBYpK2EU0oX_YA@mail.gmail.com>
+ <20190814220545.co5pucyo5jk3weiv@ast-mbp.dhcp.thefacebook.com>
+Feedback-ID: QEdvdaLhFJaqnofhWA-dldGwsuoeDdDw7vz0UPs8r8sanA3bIt8zJdf4aDqYKSy4gJuZ0WvFYJtvq21y6ge_uQ==:Ext:ProtonMail
 MIME-Version: 1.0
-In-Reply-To: <564a0860-94f1-6301-5527-5c2272931d8b@suse.cz>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-0.7 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO_END_DIGIT autolearn=no
+        autolearn_force=no version=3.4.2
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.protonmail.ch
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Wednesday, August 14, 2019 10:05 PM, Alexei Starovoitov <alexei.starovoi=
+tov@gmail.com> wrote:
 
-
-On 8/14/19 5:49 AM, Vlastimil Babka wrote:
-> On 8/9/19 8:26 PM, Yang Shi wrote:
->> Here the new counter is introduced for patch 2/2 to account deferred
->> split THPs into available memory since NR_ANON_THPS may contain
->> non-deferred split THPs.
->>
->> I could use an internal counter for deferred split THPs, but if it is
->> accounted by mod_node_page_state, why not just show it in /proc/meminfo?
-> The answer to "Why not" is that it becomes part of userspace API (btw this
-> patchset should have CC'd linux-api@ - please do for further iterations) and
-> even if the implementation detail of deferred splitting might change in the
-> future, we'll basically have to keep the counter (even with 0 value) in
-> /proc/meminfo forever.
+> On Wed, Aug 14, 2019 at 10:51:23AM -0700, Andy Lutomirski wrote:
 >
-> Also, quite recently we have added the following counter:
+> > If eBPF is genuinely not usable by programs that are not fully trusted
+> > by the admin, then no kernel changes at all are needed. Programs that
+> > want to reduce their own privileges can easily fork() a privileged
+> > subprocess or run a little helper to which they delegate BPF
+> > operations. This is far more flexible than anything that will ever be
+> > in the kernel because it allows the helper to verify that the rest of
+> > the program is doing exactly what it's supposed to and restrict eBPF
+> > operations to exactly the subset that is needed. So a container
+> > manager or network manager that drops some provilege could have a
+> > little bpf-helper that manages its BPF XDP, firewalling, etc
+> > configuration. The two processes would talk over a socketpair.
 >
-> KReclaimable: Kernel allocations that the kernel will attempt to reclaim
->                under memory pressure. Includes SReclaimable (below), and other
->                direct allocations with a shrinker.
+> there were three projects that tried to delegate bpf operations.
+> All of them failed.
+> bpf operational workflow is much more complex than you're imagining.
+> fork() also doesn't work for all cases.
+> I gave this example before: consider multiple systemd-like deamons
+> that need to do bpf operations that want to pass this 'bpf capability'
+> to other deamons written by other teams. Some of them will start
+> non-root, but still need to do bpf. They will be rpm installed
+> and live upgraded while running.
+> We considered to make systemd such centralized bpf delegation
+> authority too. It didn't work. bpf in kernel grows quickly.
+> libbpf part grows independently. llvm keeps evolving.
+> All of them are being changed while system overall has to stay
+> operational. Centralized approach breaks apart.
 >
-> Although THP allocations are not exactly "kernel allocations", once they are
-> unmapped, they are in fact kernel-only, so IMHO it wouldn't be a big stretch to
-> add the lazy THP pages there?
-
-Thanks a lot for the suggestion. I agree it may be a good fit. Hope 
-"kernel allocations" not cause confusion. But, we can explain in the 
-documentation.
-
+> > The interesting cases you're talking about really do involved
+> > unprivileged or less privileged eBPF, though. Let's see:
+> > systemd --user: systemd --user is not privileged at all. There's no
+> > issue of reducing privilege, since systemd --user doesn't have any
+> > privilege to begin with. But systemd supports some eBPF features, and
+> > presumably it would like to support them in the systemd --user case.
+> > This is unprivileged eBPF.
 >
->> Or we fix NR_ANON_THPS and show deferred split THPs in /proc/meminfo?
->>
+> Let's disambiguate the terminology.
+> This /dev/bpf patch set started as describing the feature as 'unprivilege=
+d bpf'.
+> I think that was a mistake.
+> Let's call systemd-like deamon usage of bpf 'less privileged bpf'.
+> This is not unprivileged.
+> 'unprivileged bpf' is what sysctl kernel.unprivileged_bpf_disabled contro=
+ls.
+>
+> There is a huge difference between the two.
+> I'm against extending 'unprivileged bpf' even a bit more than what it is
+> today for many reasons mentioned earlier.
+> The /dev/bpf is about 'less privileged'.
+> Less privileged than root. We need to split part of full root capability
+> into bpf capability. So that most of the root can be dropped.
+> This is very similar to what cap_net_admin does.
+> cap_net_amdin can bring down eth0 which is just as bad as crashing the bo=
+x.
+> cap_net_admin is very much privileged. Just 'less privileged' than root.
+> Same thing for cap_bpf.
+>
+> May be we should do both cap_bpf and /dev/bpf to make it clear that
+> this is the same thing. Two interfaces to achieve the same result.
+>
 
+systemd --user processes aren't "less privileged". The are COMPLETELY unpri=
+vileged.
+Granting them cap_bpf is the same as granting it to every other unprivilege=
+d user
+process. Also unprivileged user process can start systemd --user process wi=
+th any
+command they like.
+
+Jordan
