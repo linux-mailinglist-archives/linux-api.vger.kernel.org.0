@@ -2,48 +2,48 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 235E88F0FB
-	for <lists+linux-api@lfdr.de>; Thu, 15 Aug 2019 18:40:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E4A38F0FA
+	for <lists+linux-api@lfdr.de>; Thu, 15 Aug 2019 18:40:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729974AbfHOQkb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 15 Aug 2019 12:40:31 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:35346 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732358AbfHOQjG (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 15 Aug 2019 12:39:06 -0400
-Received: by mail-wm1-f68.google.com with SMTP id l2so1781777wmg.0
-        for <linux-api@vger.kernel.org>; Thu, 15 Aug 2019 09:39:04 -0700 (PDT)
+        id S1729687AbfHOQk3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 15 Aug 2019 12:40:29 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:46576 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732390AbfHOQjH (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 15 Aug 2019 12:39:07 -0400
+Received: by mail-wr1-f67.google.com with SMTP id z1so2730532wru.13
+        for <linux-api@vger.kernel.org>; Thu, 15 Aug 2019 09:39:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=arista.com; s=googlenew;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=eQTvfg8Tpo4N8AzFTEat5V09DvUQksH5vgyoMyK5UTo=;
-        b=hX0x2mLcA5bsmIzW02jsqVqAJD57y30G2Vk/DUTPY/WBr62ITbGKZzRRen7mbTQ5QW
-         iQRg34nzB+zUXOGHealjenzNHOmYJvO6/K42LPlPi+xKjKl4kt370L0FjhPC9by0ro3E
-         cCLq2J9qAo68i8NR645wykcHwqICtl1OjiEEDk3AAdDPgi5rwHVlsC89kQlzAN5pxCRc
-         vMeUnfrsHAuL+qpo1iqwPjCqIU/vsilK4sxdz/Su8iKOys35LBwvlC4T+QLG0/7KoqzQ
-         uWLR926Bsptye1U80TF/X2WAJzj8lbxHXSujK6O6mce/adMTPqecJYezMmyfeA2XiE2n
-         FBFQ==
+        bh=4hqwZO1zYMZbMHDNBtpMYOg7fTFxraqQn2eOANEclVY=;
+        b=h8NgnlPUTiF5wVsNev50I/YOtqJjKSy5vLIaU2eN9nCpZcTALr4MPd+FenrgztWbfv
+         3D0klacd/3elaTXqSlumajss4KRd/R5oZ6OS9naf4u5lmkLnR+uru5GMDkfmQQmYzE9g
+         /Il1I2wJNf6eZtgrGs0ONwchUkxhn+EqFcxr6UJOjay1lyzoU+2dutEiukEFk0+XJMqR
+         D7kCQ41b7rARv4kqAruadOaD6deYpxFHjNn+JDvHi1RgRxuo0BCJxOx5iofUxRpdSLPT
+         Ztf/9+xTXY7Tg4SBxmw8bmhYrFoeaz0CL6Iw5/ydI0drLrzZVL0IpsW1XBq+hU8Ps6G/
+         IVaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=eQTvfg8Tpo4N8AzFTEat5V09DvUQksH5vgyoMyK5UTo=;
-        b=GG7lnzDJtIV07cyfPAnns3uw+kray3eCHUsVHM2ctxTEIuLLVmgjsnKCyvhHtR5a9H
-         Mq4NwqZB/F8uXE1LQ95UibTNBikqkYVybkSfEK60QxMYBNoa/nUkBRlcmmVoKF3bEBVG
-         mi3mE/3oeVfUWvhsz7weJ5dKc1XOLfjge3w/JzVhcTRvlDshNI6AEyH9xJ0EBQ3lGCt8
-         ZHKEkGJ9k+SQDQ+PgwqtPvwvea8Erx5KEdxUes53vpIY+EnR0Wd0NyV4buI+s6BreBJA
-         9aTbUvF6wqLIezbRlQPzWOrqzHQwKVpXYwuA1fbQglcTgdRqkcKaqOcu47oy973ELgwe
-         5t2g==
-X-Gm-Message-State: APjAAAUaq0QhRxcfC88az1UPk8KPQi7yIIuJ/WcmKI69ttxD5Tg+ox8J
-        2WOD61YKVRZITe2NGofjebOL5w==
-X-Google-Smtp-Source: APXvYqy0tpOwOZT7R7tAsH6bWuXOaoxMrf1x3TqxWVFqxqyr7FdqIfHPpdDpdgEwHicxHLCq/aErnQ==
-X-Received: by 2002:a1c:4087:: with SMTP id n129mr3555833wma.3.1565887143868;
-        Thu, 15 Aug 2019 09:39:03 -0700 (PDT)
+        bh=4hqwZO1zYMZbMHDNBtpMYOg7fTFxraqQn2eOANEclVY=;
+        b=JgyzsGd3SkujHWjrLsUWmesj22dvLhfqn4FznCCeJh2FHIaC8wGS+iZSZ/lGdh1YJ+
+         VodWsB/Mf2lEC3WS1RkUO713EHh9+HZIiKNZ8nXIFrimTpO90Js+mKcI60h7kcxQPfKv
+         RnmQTCxhKVD63XPBW06FAMaPZz4VLBpJQJIIqEIvT4OhRhdNXovakxqNRk/0zruSgiR7
+         tUX8GN9vC+OWr0ReM5GFCNA3IZdkKYSTK35CKmxEsar7xD6/JJyJi7Rtx4o8AcoAHzQn
+         k+Ty5/DpCEdQ/4xfGghAAX/f15vPVMt89QSv2iPpCK04zspkInxd+S2N4gxgvdy1aHy8
+         7noA==
+X-Gm-Message-State: APjAAAWEGxLjgJLx1/IZw3DoRJD2dpSdZlYPUofXSZbvDpAqwmZYtb2f
+        zCOoSvNPzQW58nj4SibiQO9esg==
+X-Google-Smtp-Source: APXvYqwCIu5CCYmSqesKN8wH1344KKjZPusYqSYMWbcWtojROTGdeO5FK5una9x2h//MzJWxGG3f1A==
+X-Received: by 2002:adf:f991:: with SMTP id f17mr6087291wrr.233.1565887145365;
+        Thu, 15 Aug 2019 09:39:05 -0700 (PDT)
 Received: from Mindolluin.ire.aristanetworks.com ([217.173.96.166])
-        by smtp.gmail.com with ESMTPSA id f7sm5755046wrf.8.2019.08.15.09.39.02
+        by smtp.gmail.com with ESMTPSA id f7sm5755046wrf.8.2019.08.15.09.39.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Aug 2019 09:39:03 -0700 (PDT)
+        Thu, 15 Aug 2019 09:39:04 -0700 (PDT)
 From:   Dmitry Safonov <dima@arista.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     Dmitry Safonov <0x7f454c46@gmail.com>,
@@ -64,9 +64,9 @@ Cc:     Dmitry Safonov <0x7f454c46@gmail.com>,
         Vincenzo Frascino <vincenzo.frascino@arm.com>,
         containers@lists.linux-foundation.org, criu@openvz.org,
         linux-api@vger.kernel.org, x86@kernel.org
-Subject: [PATCHv6 18/36] x86/vdso2c: Convert iterator to unsigned
-Date:   Thu, 15 Aug 2019 17:38:18 +0100
-Message-Id: <20190815163836.2927-19-dima@arista.com>
+Subject: [PATCHv6 19/36] x86/vdso/Makefile: Add vobjs32
+Date:   Thu, 15 Aug 2019 17:38:19 +0100
+Message-Id: <20190815163836.2927-20-dima@arista.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190815163836.2927-1-dima@arista.com>
 References: <20190815163836.2927-1-dima@arista.com>
@@ -77,48 +77,68 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-i and j are used everywhere with unsigned types.
-Cleanup and prettify the code a bit.
-
-Introduce syms_nr for readability and as a preparation for allocating an
-array of vDSO entries that will be needed for creating two vdso .so's:
-one for host tasks and another for processes inside time namespace.
+Treat ia32/i386 objects in array the same As for 64-bit vdso objects.
+This is a preparation ground to avoid code duplication on introduction
+timens vdso.
 
 Co-developed-by: Andrei Vagin <avagin@openvz.org>
 Signed-off-by: Andrei Vagin <avagin@openvz.org>
 Signed-off-by: Dmitry Safonov <dima@arista.com>
 ---
- arch/x86/entry/vdso/vdso2c.h | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ arch/x86/entry/vdso/Makefile | 15 +++++----------
+ 1 file changed, 5 insertions(+), 10 deletions(-)
 
-diff --git a/arch/x86/entry/vdso/vdso2c.h b/arch/x86/entry/vdso/vdso2c.h
-index a20b134de2a8..80be339ee93e 100644
---- a/arch/x86/entry/vdso/vdso2c.h
-+++ b/arch/x86/entry/vdso/vdso2c.h
-@@ -13,7 +13,7 @@ static void BITSFUNC(go)(void *raw_addr, size_t raw_len,
- 	unsigned long load_size = -1;  /* Work around bogus warning */
- 	unsigned long mapping_size;
- 	ELF(Ehdr) *hdr = (ELF(Ehdr) *)raw_addr;
--	int i;
-+	unsigned int i, syms_nr;
- 	unsigned long j;
- 	ELF(Shdr) *symtab_hdr = NULL, *strtab_hdr, *secstrings_hdr,
- 		*alt_sec = NULL;
-@@ -86,11 +86,10 @@ static void BITSFUNC(go)(void *raw_addr, size_t raw_len,
- 	strtab_hdr = raw_addr + GET_LE(&hdr->e_shoff) +
- 		GET_LE(&hdr->e_shentsize) * GET_LE(&symtab_hdr->sh_link);
+diff --git a/arch/x86/entry/vdso/Makefile b/arch/x86/entry/vdso/Makefile
+index 8df549138193..d4bffc4cabd1 100644
+--- a/arch/x86/entry/vdso/Makefile
++++ b/arch/x86/entry/vdso/Makefile
+@@ -24,6 +24,8 @@ VDSO32-$(CONFIG_IA32_EMULATION)	:= y
  
-+	syms_nr = GET_LE(&symtab_hdr->sh_size) / GET_LE(&symtab_hdr->sh_entsize);
- 	/* Walk the symbol table */
--	for (i = 0;
--	     i < GET_LE(&symtab_hdr->sh_size) / GET_LE(&symtab_hdr->sh_entsize);
--	     i++) {
--		int k;
-+	for (i = 0; i < syms_nr; i++) {
-+		unsigned int k;
- 		ELF(Sym) *sym = raw_addr + GET_LE(&symtab_hdr->sh_offset) +
- 			GET_LE(&symtab_hdr->sh_entsize) * i;
- 		const char *sym_name = raw_addr +
+ # files to link into the vdso
+ vobjs-y := vdso-note.o vclock_gettime.o vgetcpu.o
++vobjs32-y := vdso32/note.o vdso32/system_call.o vdso32/sigreturn.o
++vobjs32-y += vdso32/vclock_gettime.o
+ 
+ # files to link into kernel
+ obj-y				+= vma.o
+@@ -37,10 +39,12 @@ vdso_img-$(VDSO32-y)		+= 32
+ obj-$(VDSO32-y)			+= vdso32-setup.o
+ 
+ vobjs := $(foreach F,$(vobjs-y),$(obj)/$F)
++vobjs32 := $(foreach F,$(vobjs32-y),$(obj)/$F)
+ 
+ $(obj)/vdso.o: $(obj)/vdso.so
+ 
+ targets += vdso.lds $(vobjs-y)
++targets += vdso32/vdso32.lds $(vobjs32-y)
+ 
+ # Build the vDSO image C files and link them in.
+ vdso_img_objs := $(vdso_img-y:%=vdso-image-%.o)
+@@ -131,10 +135,6 @@ $(obj)/vdsox32.so.dbg: $(obj)/vdsox32.lds $(vobjx32s) FORCE
+ CPPFLAGS_vdso32.lds = $(CPPFLAGS_vdso.lds)
+ VDSO_LDFLAGS_vdso32.lds = -m elf_i386 -soname linux-gate.so.1
+ 
+-targets += vdso32/vdso32.lds
+-targets += vdso32/note.o vdso32/system_call.o vdso32/sigreturn.o
+-targets += vdso32/vclock_gettime.o
+-
+ KBUILD_AFLAGS_32 := $(filter-out -m64,$(KBUILD_AFLAGS)) -DBUILD_VDSO
+ $(obj)/vdso32.so.dbg: KBUILD_AFLAGS = $(KBUILD_AFLAGS_32)
+ $(obj)/vdso32.so.dbg: asflags-$(CONFIG_X86_64) += -m32
+@@ -159,12 +159,7 @@ endif
+ 
+ $(obj)/vdso32.so.dbg: KBUILD_CFLAGS = $(KBUILD_CFLAGS_32)
+ 
+-$(obj)/vdso32.so.dbg: FORCE \
+-		      $(obj)/vdso32/vdso32.lds \
+-		      $(obj)/vdso32/vclock_gettime.o \
+-		      $(obj)/vdso32/note.o \
+-		      $(obj)/vdso32/system_call.o \
+-		      $(obj)/vdso32/sigreturn.o
++$(obj)/vdso32.so.dbg: $(obj)/vdso32/vdso32.lds $(vobjs32) FORCE
+ 	$(call if_changed,vdso_and_check)
+ 
+ #
 -- 
 2.22.0
 
