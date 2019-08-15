@@ -2,52 +2,51 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BFF178F0D5
-	for <lists+linux-api@lfdr.de>; Thu, 15 Aug 2019 18:39:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 455378F0ED
+	for <lists+linux-api@lfdr.de>; Thu, 15 Aug 2019 18:40:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732548AbfHOQjU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 15 Aug 2019 12:39:20 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:40863 "EHLO
+        id S1726865AbfHOQkB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 15 Aug 2019 12:40:01 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:54744 "EHLO
         mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732519AbfHOQjU (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 15 Aug 2019 12:39:20 -0400
-Received: by mail-wm1-f67.google.com with SMTP id v19so1777173wmj.5
-        for <linux-api@vger.kernel.org>; Thu, 15 Aug 2019 09:39:19 -0700 (PDT)
+        with ESMTP id S1732536AbfHOQjV (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 15 Aug 2019 12:39:21 -0400
+Received: by mail-wm1-f67.google.com with SMTP id p74so1784890wme.4
+        for <linux-api@vger.kernel.org>; Thu, 15 Aug 2019 09:39:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=arista.com; s=googlenew;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=BqPqoCF9OwwnTJNtZSMydqoweuFSpbF+r1CdPBMhQms=;
-        b=IPsqUtiALSxixENZ+YOzjetNwIK55oeqfzujHvoAWbrS0k+9dpxPoHDZDK1tLvNAXY
-         L9rgdYbRwLb0mSXyaVSh5aKaC+ZV6tztV/0uLPDBy8OYApxteZWbwQW6ch9Th/As4Fw8
-         6iwHHYO85x0buZ1RjlQ2x1YSBahnQzmwB3Y7ZPsv3N4MjHBdDHH6gF79GvGTJctIJzP8
-         Zdu4znWaG9dYCpgdaJaF3kouKzXkeyZIsH4Rl4/LZ6J2rG5xADGsyLsSCdNWGsDB+LUh
-         ZERVjkLmChgLG/Cj9cECGZ0am6agArhg5Inq134wz36Kuao6VgzhQYibPyhS0lJWigHG
-         2XMA==
+        bh=GnwJnGDWcqQEa8ukjqPOjGYwDlsA8+VgoLza7ivYpuU=;
+        b=VK98QHJQp58r4MG/VMQ2/X8C4g7K+jd1wWgAJGc04+4RuRF1VZprsHSpUZoJo+2Huw
+         N+xWJ1IF009s65KxEfQ4AjWRseLaM5xD2wgRTA+tMKRbA64bOWbGt2GhPXhXwNfrCzAq
+         1wsBBCDUn7k4bZs2JhPRh4/N3iEwnFfzR7bb7WNtLA1TT0OPUywTx19QzZxQPU1SFBMs
+         wlaZPPDHhQxsSxea9BklM3Iq78CSFKVlqprUPlPG29tktqAv/OF7oD47/7/vbN0HNO4h
+         azIQk+5Bpo3zU8U5veQadHFoU5vlyENj/pPKKQt6NiMf6YSd/NVGs8udSaANPvt6mM1s
+         x0dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=BqPqoCF9OwwnTJNtZSMydqoweuFSpbF+r1CdPBMhQms=;
-        b=Z86AkpJ1Lfs3WURGrdNTXjHJOKA9RYjWmmbkvOXYadKZYBGQ+b3O19r+EDqwPHvmMA
-         mp4ZEDkO979oO2jwookl7CRRZCQnG4B3RXUZrwMWVW0oC/Ar4MS67r88+z915nQ99E55
-         tP1BvPmIlTln1aMTSpS8hbgd2MzyOfifncJi1F3dcBfoWKaCxv+um37/ewmo6Yht1JPo
-         pou6jTQq+LkmI2HyHMHAQo/iHwFjNfYEtuQzEDdDZduk8SIIZ1uR4E1REP3xxwS7QTuH
-         G2D71ZwW0GfMN2QGdX9zYBncm3uL8ggK9rkHMBt6xo+yhS2+pYvp6Rcj6XOa2p19GaNe
-         B1Gg==
-X-Gm-Message-State: APjAAAV7rb2gsaXjKuOcfmUA971m8gkmLw4/PGp3XRLY4b+vgaw+nEMy
-        U1QYzvwk5HeSXqwKWjWzfx2kxA==
-X-Google-Smtp-Source: APXvYqwsyoCx++f/YMcFBOYD25UXqQGx+9Ep3OZ/9faDjObrTwCojEuBBfwp3ISWj28HlrebULgqUQ==
-X-Received: by 2002:a7b:c195:: with SMTP id y21mr3526645wmi.16.1565887158316;
-        Thu, 15 Aug 2019 09:39:18 -0700 (PDT)
+        bh=GnwJnGDWcqQEa8ukjqPOjGYwDlsA8+VgoLza7ivYpuU=;
+        b=OL8LtcXoqJ32Q7gu+B5qn7mRDT19BY4I7bJkebl3AckascDCstC0KlJH6anSRDAjWu
+         mts7e3dAzeIijWiZrudn9nDVWY7QZ6unzmqoB1ou4VGBe0l6B5e03VPP6go+2ptq0wgx
+         rdj5W8giRqFnoPc+OZNYoZDGY+IrdI4XEx7dPwPwuOKAfPG3dAcUOypeYQqsuffG/muL
+         dMnnpi75sRJ5zpYF63iS9L0HxnZ5iZGA+4UXw5IosYNybCfTplsstxNZL7kS/nv38yCX
+         UvadaHMrbYzv+Xi0CEm+s0PUcXenfKoXSdPNa3JUj21nWt+Ma6eVT8hE7tC5zKWIqQj+
+         YlIg==
+X-Gm-Message-State: APjAAAVA+BxOfq5SgtsCbHLGWUq9CbAp2iO6CmqxFSBdo69zb0ctqPFz
+        OxP82jL0cWFpQijKQme2Bsf0QA==
+X-Google-Smtp-Source: APXvYqzaWfUHfcgN30w8w/Hh8uPgfDlDg7IOhqbO0A5S0rFHYCc4oL9zwrvsgNDVlFZHev9iucu1gg==
+X-Received: by 2002:a05:600c:28c:: with SMTP id 12mr3503235wmk.157.1565887159619;
+        Thu, 15 Aug 2019 09:39:19 -0700 (PDT)
 Received: from Mindolluin.ire.aristanetworks.com ([217.173.96.166])
-        by smtp.gmail.com with ESMTPSA id f7sm5755046wrf.8.2019.08.15.09.39.17
+        by smtp.gmail.com with ESMTPSA id f7sm5755046wrf.8.2019.08.15.09.39.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Aug 2019 09:39:17 -0700 (PDT)
+        Thu, 15 Aug 2019 09:39:19 -0700 (PDT)
 From:   Dmitry Safonov <dima@arista.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     Dmitry Safonov <0x7f454c46@gmail.com>,
-        Andrei Vagin <avagin@gmail.com>,
         Dmitry Safonov <dima@arista.com>,
         Adrian Reber <adrian@lisas.de>,
         Andrei Vagin <avagin@openvz.org>,
@@ -65,9 +64,9 @@ Cc:     Dmitry Safonov <0x7f454c46@gmail.com>,
         Vincenzo Frascino <vincenzo.frascino@arm.com>,
         containers@lists.linux-foundation.org, criu@openvz.org,
         linux-api@vger.kernel.org, x86@kernel.org
-Subject: [PATCHv6 27/36] x86/vdso: Enable static branches for the timens vdso
-Date:   Thu, 15 Aug 2019 17:38:27 +0100
-Message-Id: <20190815163836.2927-28-dima@arista.com>
+Subject: [PATCHv6 28/36] posix-clocks: Add align for timens_offsets
+Date:   Thu, 15 Aug 2019 17:38:28 +0100
+Message-Id: <20190815163836.2927-29-dima@arista.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190815163836.2927-1-dima@arista.com>
 References: <20190815163836.2927-1-dima@arista.com>
@@ -78,156 +77,40 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Andrei Vagin <avagin@gmail.com>
+Align offsets so that time namespace will work for ia32 applications on
+x86_64 host.
 
-As it has been discussed on timens RFC, adding a new conditional branch
-`if (inside_time_ns)` on VDSO for all processes is undesirable.
-
-Addressing those problems, there are two versions of VDSO's .so:
-for host tasks (without any penalty) and for processes inside of time
-namespace with clk_to_ns() that subtracts offsets from host's time.
-
-The timens code in vdso looks like this:
-
-if (timens_static_branch_unlikely()) {
-       clk_to_ns(clk, ts);
-}
-
-This static branch is disabled by default. And the code generated consist
-of a single atomic 'no-op' instruction, in the straight-line code path.
-
-Enable static branches in the timens vdso: the 'no-op' instruction
-gets replaced with a 'jump' instruction to the out-of-line true branch.
-
-Signed-off-by: Andrei Vagin <avagin@gmail.com>
-Co-developed-by: Dmitry Safonov <dima@arista.com>
+Co-developed-by: Andrei Vagin <avagin@openvz.org>
+Signed-off-by: Andrei Vagin <avagin@openvz.org>
 Signed-off-by: Dmitry Safonov <dima@arista.com>
 ---
- arch/x86/entry/vdso/vma.c    | 30 ++++++++++++++++++++++++------
- arch/x86/kernel/jump_label.c | 14 ++++++++++++++
- include/linux/jump_label.h   |  8 ++++++++
- init/Kconfig                 |  1 +
- 4 files changed, 47 insertions(+), 6 deletions(-)
+ include/linux/timens_offsets.h | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/arch/x86/entry/vdso/vma.c b/arch/x86/entry/vdso/vma.c
-index 91cf5a5c8c9e..1a3eb4656eb6 100644
---- a/arch/x86/entry/vdso/vma.c
-+++ b/arch/x86/entry/vdso/vma.c
-@@ -15,6 +15,7 @@
- #include <linux/cpu.h>
- #include <linux/ptrace.h>
- #include <linux/time_namespace.h>
-+#include <linux/jump_label.h>
- #include <asm/pvclock.h>
- #include <asm/vgtod.h>
- #include <asm/proto.h>
-@@ -31,20 +32,37 @@
- unsigned int __read_mostly vdso64_enabled = 1;
- #endif
+diff --git a/include/linux/timens_offsets.h b/include/linux/timens_offsets.h
+index e93aabaa5e45..05da1b0563ce 100644
+--- a/include/linux/timens_offsets.h
++++ b/include/linux/timens_offsets.h
+@@ -2,9 +2,17 @@
+ #ifndef _LINUX_TIME_OFFSETS_H
+ #define _LINUX_TIME_OFFSETS_H
  
--void __init init_vdso_image(struct vdso_image *image)
-+#ifdef CONFIG_TIME_NS
-+static __init void init_timens(struct vdso_image *image)
- {
--	BUG_ON(image->size % PAGE_SIZE != 0);
-+	struct vdso_jump_entry *entries;
-+	unsigned long entries_nr;
-+
-+	if (WARN_ON(image->jump_table == -1UL))
-+		return;
- 
--	apply_alternatives((struct alt_instr *)(image->text + image->alt),
--			   (struct alt_instr *)(image->text + image->alt +
--						image->alt_len));
--#ifdef CONFIG_TIME_NS
- 	image->text_timens = vmalloc_32(image->size);
- 	if (WARN_ON(image->text_timens == NULL))
- 		return;
- 
- 	memcpy(image->text_timens, image->text, image->size);
-+
-+	entries = image->text_timens + image->jump_table;
-+	entries_nr = image->jump_table_len / sizeof(struct vdso_jump_entry);
-+	apply_vdso_jump_labels(entries, entries_nr);
-+}
-+#else
-+static inline void init_timens(struct vdso_image *image) {}
- #endif
-+
-+void __init init_vdso_image(struct vdso_image *image)
-+{
-+	BUG_ON(image->size % PAGE_SIZE != 0);
-+
-+	apply_alternatives((struct alt_instr *)(image->text + image->alt),
-+			   (struct alt_instr *)(image->text + image->alt +
-+						image->alt_len));
-+	init_timens(image);
- }
- 
- struct linux_binprm;
-diff --git a/arch/x86/kernel/jump_label.c b/arch/x86/kernel/jump_label.c
-index 044053235302..7820ac61b688 100644
---- a/arch/x86/kernel/jump_label.c
-+++ b/arch/x86/kernel/jump_label.c
-@@ -24,6 +24,20 @@ union jump_code_union {
- 	} __attribute__((packed));
++/*
++ * Time offsets need align as they're placed on VVAR page,
++ * which is used by x86_64 and ia32 VDSO code.
++ * On ia32 offset::tv_sec (u64) has align(4), so re-align offsets
++ * to the same positions as 64-bit offsets.
++ * On 64-bit big-endian systems VDSO should convert to timespec64
++ * to timespec because of a padding occurring between the fields.
++ */
+ struct timens_offsets {
+-	struct timespec64 monotonic;
+-	struct timespec64 boottime;
++	struct timespec64 monotonic __aligned(8);
++	struct timespec64 boottime __aligned(8);
  };
  
-+__init void apply_vdso_jump_labels(struct vdso_jump_entry *ent, unsigned long nr)
-+{
-+	while (nr--) {
-+		void *code_addr	= (void *)ent + ent->code;
-+		union jump_code_union jmp;
-+
-+		jmp.jump	= 0xe9; /* JMP rel32 */
-+		jmp.offset	= ent->target - ent->code - JUMP_LABEL_NOP_SIZE;
-+		memcpy(code_addr, &jmp, JUMP_LABEL_NOP_SIZE);
-+
-+		ent++;
-+	}
-+}
-+
- static void bug_at(unsigned char *ip, int line)
- {
- 	/*
-diff --git a/include/linux/jump_label.h b/include/linux/jump_label.h
-index 3526c0aee954..bb9d828ee49a 100644
---- a/include/linux/jump_label.h
-+++ b/include/linux/jump_label.h
-@@ -125,6 +125,11 @@ struct jump_entry {
- 	long key;	// key may be far away from the core kernel under KASLR
- };
- 
-+struct vdso_jump_entry {
-+	u16 code;
-+	u16 target;
-+};
-+
- static inline unsigned long jump_entry_code(const struct jump_entry *entry)
- {
- 	return (unsigned long)&entry->code + entry->code;
-@@ -229,6 +234,9 @@ extern void static_key_enable(struct static_key *key);
- extern void static_key_disable(struct static_key *key);
- extern void static_key_enable_cpuslocked(struct static_key *key);
- extern void static_key_disable_cpuslocked(struct static_key *key);
-+extern void apply_vdso_jump_labels(struct vdso_jump_entry *ent,
-+				   unsigned long nr);
-+
- 
- /*
-  * We should be using ATOMIC_INIT() for initializing .enabled, but
-diff --git a/init/Kconfig b/init/Kconfig
-index 7adf939eeaa8..7d2bad36a1be 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -1075,6 +1075,7 @@ config UTS_NS
- config TIME_NS
- 	bool "TIME namespace"
- 	depends on ARCH_HAS_VDSO_TIME_NS
-+	depends on JUMP_LABEL
- 	default y
- 	help
- 	  In this namespace boottime and monotonic clocks can be set.
+ #endif
 -- 
 2.22.0
 
