@@ -2,89 +2,103 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 84EDB8F238
-	for <lists+linux-api@lfdr.de>; Thu, 15 Aug 2019 19:30:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B4D28F261
+	for <lists+linux-api@lfdr.de>; Thu, 15 Aug 2019 19:38:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726545AbfHORas (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 15 Aug 2019 13:30:48 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:35242 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730598AbfHORas (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 15 Aug 2019 13:30:48 -0400
-Received: by mail-pg1-f193.google.com with SMTP id n4so1596381pgv.2;
-        Thu, 15 Aug 2019 10:30:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=QnlfD1u/saq7YabHTTJM2fFau3y80kmE4WZcEZvSBiM=;
-        b=ueGM7pgLLQOxkbaLXR1h3fvwzCdNAz6YI0mFOBYCD8CK/sfpTYeK4iWKnjjxuANFBl
-         8QtO9FRdHQQT0+Rio/tDTmZcxxbGNXX6OjjZPaahH15Pc1zJZ6dExkdWnWid3PoLT14x
-         wEqdrwngFrTPx4fdstFaRonutiZuL6H7mUWCgC507vQrhMOuey16RL+lwKlvCS1iRFSr
-         haTvAB70nbHzu06cD3+E5i89NoBDRJXDCkToGNmJz8TAZ5VZacUsgLKisSdfW054M27l
-         I8DHzGn4rzYvm6X7R3A8zbvn2QTDayDnoxK845y7LsuiaGeoO1icJzvIahkZefRxWYt6
-         rEpw==
-X-Gm-Message-State: APjAAAVed+YvHIxiHhEK0F2nJ2mw5CoLEkhEJYV6E7ut057yBlkq9YDw
-        1/tOY3Y3YumCByA00wUZXPc=
-X-Google-Smtp-Source: APXvYqzHLHWkQAegNa1jIJY7/77XgqulqNeMSvORhvP8TO0Ntzgv66iP0wjodakvJ7RdKgVabvaQFg==
-X-Received: by 2002:aa7:91d3:: with SMTP id z19mr6500679pfa.135.1565890247488;
-        Thu, 15 Aug 2019 10:30:47 -0700 (PDT)
-Received: from desktop-bart.svl.corp.google.com ([2620:15c:2cd:202:4308:52a3:24b6:2c60])
-        by smtp.gmail.com with ESMTPSA id x9sm2529062pgp.75.2019.08.15.10.30.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Aug 2019 10:30:46 -0700 (PDT)
-From:   Bart Van Assche <bvanassche@acm.org>
-Subject: Re: [PATCH v3 00/20] sg: add v4 interface
-To:     dgilbert@interlog.com, James Bottomley <jejb@linux.vnet.ibm.com>,
-        linux-scsi@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-api@vger.kernel.org
-Cc:     martin.petersen@oracle.com, hare@suse.de,
+        id S1731471AbfHORi2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 15 Aug 2019 13:38:28 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:40405 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728685AbfHORi2 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 15 Aug 2019 13:38:28 -0400
+Received: from pd9ef1cb8.dip0.t-ipconnect.de ([217.239.28.184] helo=nanos)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <tglx@linutronix.de>)
+        id 1hyJhN-0002YD-Mf; Thu, 15 Aug 2019 19:38:05 +0200
+Date:   Thu, 15 Aug 2019 19:38:04 +0200 (CEST)
+From:   Thomas Gleixner <tglx@linutronix.de>
+To:     Dmitry Safonov <dima@arista.com>
+cc:     linux-kernel@vger.kernel.org,
+        Dmitry Safonov <0x7f454c46@gmail.com>,
+        Andrei Vagin <avagin@gmail.com>,
+        Adrian Reber <adrian@lisas.de>,
+        Andrei Vagin <avagin@openvz.org>,
+        Andy Lutomirski <luto@kernel.org>,
         Arnd Bergmann <arnd@arndb.de>,
-        Tony Battersby <tonyb@cybernetics.com>,
-        Christoph Hellwig <hch@lst.de>
-References: <20190807114252.2565-1-dgilbert@interlog.com>
- <1565291455.3435.48.camel@linux.vnet.ibm.com>
- <7edab448-22cc-493a-f745-acc5be38f6a5@interlog.com>
- <1565305243.25619.27.camel@linux.vnet.ibm.com>
- <51e7cdfb-7921-9368-9b78-90ba5ac50c77@interlog.com>
-Message-ID: <6606add1-7ae7-5d8d-e660-d267164981d9@acm.org>
-Date:   Thu, 15 Aug 2019 10:30:45 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Cyrill Gorcunov <gorcunov@openvz.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jann Horn <jannh@google.com>, Jeff Dike <jdike@addtoit.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Pavel Emelyanov <xemul@virtuozzo.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        containers@lists.linux-foundation.org, criu@openvz.org,
+        linux-api@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCHv6 10/36] kernel: Add do_timens_ktime_to_host() helper
+In-Reply-To: <20190815163836.2927-11-dima@arista.com>
+Message-ID: <alpine.DEB.2.21.1908151935320.1908@nanos.tec.linutronix.de>
+References: <20190815163836.2927-1-dima@arista.com> <20190815163836.2927-11-dima@arista.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-In-Reply-To: <51e7cdfb-7921-9368-9b78-90ba5ac50c77@interlog.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
+X-Linutronix-Spam-Score: -1.0
+X-Linutronix-Spam-Level: -
+X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 8/13/19 9:19 PM, Douglas Gilbert wrote:
-> Bart Van Assche hinted at a better API design but didn't present
-> it. If he did, that would be the first time an alternate API
-> design was presented for async usage in the 20 years that I have
-> been associated with the driver.
+On Thu, 15 Aug 2019, Dmitry Safonov wrote:
+> +ktime_t do_timens_ktime_to_host(clockid_t clockid, ktime_t tim,
+> +				struct timens_offsets *ns_offsets)
+> +{
+> +	ktime_t offset;
+> +
+> +	switch (clockid) {
+> +	case CLOCK_MONOTONIC:
+> +		offset = timespec64_to_ktime(ns_offsets->monotonic);
+> +		break;
+> +	case CLOCK_BOOTTIME:
+> +	case CLOCK_BOOTTIME_ALARM:
+> +		offset = timespec64_to_ktime(ns_offsets->boottime);
+> +		break;
+> +	default:
+> +		return tim;
+> +	}
+> +
+> +	/*
+> +	 * Check that @tim value is in [offset, KTIME_MAX + offset]
+> +	 * and subtract offset.
+> +	 */
+> +	if (tim < offset) {
+> +		/*
+> +		 * User can specify @tim *absolute* value - if it's lesser than
+> +		 * the time namespace's offset - it's already expired.
+> +		 */
+> +		tim = 0;
+> +	} else if (KTIME_MAX - tim < -offset) {
+> +		/*
+> +		 * User-supplied @tim may be close or even equal KTIME_MAX
+> +		 * and time namespace offset can be negative.
+> +		 * Let's check (tim - offset) for an overflow.
+> +		 * Return KTIME_MAX in such case, as the time value is
+> +		 * thousands *years* in future anyway.
+> +		 */
+> +		tim = KTIME_MAX;
+> +	} else {
+> +		tim = ktime_sub(tim, offset);
+> +	}
 
-I would like to start from the use cases instead of the implementation 
-of a new SG/IO interface. My employer uses the SG/IO interface for 
-controlling SMR and HSMR disks. What we need is the ability to discover, 
-read, write and configure such disks, support for the non-standard HSMR 
-flex protocol, the ability to give certain users or groups access to a 
-subset of the LBAs and also the ability to make that information 
-persistent. I think that such functionality could be implemented by 
-extending LVM and by adding support for all ZBC commands we need in the 
-block layer, device mapper layer and also in the asynchronous I/O layer. 
-The block, dm and aio layers already support submitting commands 
-asynchronously but do not yet support all the ZBC commands that we use.
+While the overflow check is correct, wouldn't it be more intuitive to do:
 
-Are there any SG/IO use cases that have not yet been mentioned in this 
-e-mail thread? If SMR and HSMR are the primary use cases for SG/IO, 
-should asynchronous command support be added in the SG/IO layer or 
-should rather ZBC support in the block, dm and aio layers be improved?
+      	  	tim = ktime_sub(tim, offset);
+		if (unlikely(tim > KTIME_MAX))
+			tim = KTIME_MAX;
 
 Thanks,
 
-Bart.
+	tglx
