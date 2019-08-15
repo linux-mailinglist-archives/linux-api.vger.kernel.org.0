@@ -2,174 +2,186 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 782818F796
-	for <lists+linux-api@lfdr.de>; Fri, 16 Aug 2019 01:29:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6FF98F7B7
+	for <lists+linux-api@lfdr.de>; Fri, 16 Aug 2019 01:46:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728766AbfHOX3f (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 15 Aug 2019 19:29:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46948 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728579AbfHOX3f (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 15 Aug 2019 19:29:35 -0400
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B9C61206C2;
-        Thu, 15 Aug 2019 23:29:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1565911774;
-        bh=z09KQTqOI+IV+jDADbs07zi7F0ekc5wG54z2cyDIZHE=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=LrE54f0xQ8mcNy2rlonCs6Orsy20gQT/XvJU42aw4yc8p3JHmwewI4g9A3uf+uXIg
-         Q2mCIE7fOnCe0uCKKYeGsBPjSkuoRRx3Jt/t5SuKQFfaLsaMaa5hF6wJq//vxr0B5l
-         CEC10gNUEzfDJIjkZJMi8MabiqX5XRlEkfK4u4XM=
-Subject: Re: [PATCHv6 35/36] selftests/timens: Add a simple perf test for
- clock_gettime()
-To:     Dmitry Safonov <dima@arista.com>, linux-kernel@vger.kernel.org
-Cc:     Dmitry Safonov <0x7f454c46@gmail.com>,
-        Andrei Vagin <avagin@gmail.com>,
-        Adrian Reber <adrian@lisas.de>,
-        Andrei Vagin <avagin@openvz.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Cyrill Gorcunov <gorcunov@openvz.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jann Horn <jannh@google.com>, Jeff Dike <jdike@addtoit.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Pavel Emelyanov <xemul@virtuozzo.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        containers@lists.linux-foundation.org, criu@openvz.org,
-        linux-api@vger.kernel.org, x86@kernel.org, shuah <shuah@kernel.org>
-References: <20190815163836.2927-1-dima@arista.com>
- <20190815163836.2927-36-dima@arista.com>
-From:   shuah <shuah@kernel.org>
-Message-ID: <0992df9a-d3b3-5ca1-e1fd-b5d9d365b32e@kernel.org>
-Date:   Thu, 15 Aug 2019 17:29:31 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1726487AbfHOXq1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 15 Aug 2019 19:46:27 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:44058 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726481AbfHOXq0 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 15 Aug 2019 19:46:26 -0400
+Received: by mail-pg1-f196.google.com with SMTP id i18so1987189pgl.11;
+        Thu, 15 Aug 2019 16:46:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=8GUnlQq7sKH6YO7Fvf/HTqB1Q4SkgeH4IDU1h+ExxLo=;
+        b=Mmtmm8Q4VIDJLlr/kOqAqoc75h4zD4kQQ9Jq94zavSTSqU99jrSLGMrOAhR+ROBUaz
+         CKmJ4V78qEuQ9PHcL9oAcsbps7lQSJePMtEdJgEKgnxkF6ueXF41q/RnB3vkyNnhpVYy
+         8BcZk30FFwPzrd6EyN25ylaSDPK2aG9KGLlVe4bWu8FqJFiKUUC6bIs0EO0lRKj94LLd
+         NCZe0CF2ZTGQ+E8Lg66xwcIzUnL2lQbnEWjZDwb1bbtTgwQk7ztOMfCVBHAOrr0PAasv
+         slYhUCBvN6ugr4BGQWg8i/PfzwqlEeZhCzrrybwVywjw5Y39cGiSm3wgE86TPBZRk29j
+         HNTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=8GUnlQq7sKH6YO7Fvf/HTqB1Q4SkgeH4IDU1h+ExxLo=;
+        b=VNzPJHheDJPIHFviPtmG8GSjIcB6uHF5OWRh/YF/F6vBJw7p1cshrPQnS4mxsagkZp
+         T1aAR+j8gdFpk8kUd7/X7b/A1+esq1O0a3Q40rD+sp4lfa6+7ob5c120hglz+DaBJemh
+         6bdM8jGhGA6orZ4kZMxaZ4LFGsUKCEzqs3u64ORi1VWepCPvgcu7k04Mw40EQSY5CiVJ
+         itHPTWpZS4rgSLOUpvI7np22ZOlBHaN2fzYmtReSmsKxd+OtLvmEZiFcO/0d9c/N6VLu
+         AuP0siVwtUGG7wprT0jpVb+l/UP0c2prpSUMpSSdvQHDWtOeOMPWydK0gc4yjBfj1rSG
+         oKOQ==
+X-Gm-Message-State: APjAAAXO/frmsSXoBi91xJ1VHcl1Z59Kw9UwGB27ts6pC/9pauTS7TZs
+        ScB2hNU0WT/EURUIwUJI7LU=
+X-Google-Smtp-Source: APXvYqw+TyRqIJqEz0VpP1OYRH6xNFHUFVDLVyRM4LnSjcrFeFYcOG7soz0M8pT0kPEDicuBpjgn7w==
+X-Received: by 2002:a63:36cc:: with SMTP id d195mr5308624pga.157.1565912785467;
+        Thu, 15 Aug 2019 16:46:25 -0700 (PDT)
+Received: from ast-mbp.dhcp.thefacebook.com ([2620:10d:c090:200::e9c1])
+        by smtp.gmail.com with ESMTPSA id k25sm3465076pgt.53.2019.08.15.16.46.24
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 15 Aug 2019 16:46:24 -0700 (PDT)
+Date:   Thu, 15 Aug 2019 16:46:23 -0700
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        Song Liu <songliubraving@fb.com>,
+        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Kernel Team <Kernel-team@fb.com>,
+        Lorenz Bauer <lmb@cloudflare.com>,
+        Jann Horn <jannh@google.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>
+Subject: Re: [PATCH v2 bpf-next 1/4] bpf: unprivileged BPF access via /dev/bpf
+Message-ID: <20190815234622.t65oxm5mtfzy6fhg@ast-mbp.dhcp.thefacebook.com>
+References: <CALCETrUjh6DdgW1qSuSRd1_=0F9CqB8+sNj__e_6AHEvh_BaxQ@mail.gmail.com>
+ <CALCETrWtE2U4EvZVYeq8pSmQjBzF2PHH+KxYW8FSeF+W=1FYjw@mail.gmail.com>
+ <EE7B7AE1-3D44-4561-94B9-E97A626A251D@fb.com>
+ <CALCETrXX-Jeb4wiQuL6FUai4wNMmMiUxuLLh_Lb9mT7h=0GgAw@mail.gmail.com>
+ <20190805192122.laxcaz75k4vxdspn@ast-mbp>
+ <CALCETrVtPs8gY-H4gmzSqPboid3CB++n50SvYd6RU9YVde_-Ow@mail.gmail.com>
+ <20190806011134.p5baub5l3t5fkmou@ast-mbp>
+ <CALCETrXEHL3+NAY6P6vUj7Pvd9ZpZsYC6VCLXOaNxb90a_POGw@mail.gmail.com>
+ <20190813215823.3sfbakzzjjykyng2@ast-mbp>
+ <201908151203.FE87970@keescook>
 MIME-Version: 1.0
-In-Reply-To: <20190815163836.2927-36-dima@arista.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <201908151203.FE87970@keescook>
+User-Agent: NeoMutt/20180223
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 8/15/19 10:38 AM, Dmitry Safonov wrote:
-> From: Andrei Vagin <avagin@gmail.com>
+On Thu, Aug 15, 2019 at 12:46:41PM -0700, Kees Cook wrote:
+> On Tue, Aug 13, 2019 at 02:58:25PM -0700, Alexei Starovoitov wrote:
+> > agree that containers (namespaces) reduce amount of trust necessary
+> > for apps to run, but the end goal is not security though.
 > 
-> Signed-off-by: Andrei Vagin <avagin@gmail.com>
-> Co-developed-by: Dmitry Safonov <dima@arista.com>
-> Signed-off-by: Dmitry Safonov <dima@arista.com>
-> ---
->   tools/testing/selftests/timens/.gitignore     |   2 +
->   tools/testing/selftests/timens/Makefile       |  10 +-
->   tools/testing/selftests/timens/gettime_perf.c | 101 +++++++++++
->   .../selftests/timens/gettime_perf_cold.c      | 160 ++++++++++++++++++
->   4 files changed, 271 insertions(+), 2 deletions(-)
->   create mode 100644 tools/testing/selftests/timens/gettime_perf.c
->   create mode 100644 tools/testing/selftests/timens/gettime_perf_cold.c
+> Unsurprisingly, I totally disagree: this is the very definition of
+> improved "security": reduced attack surface, confined trust, etc.
+
+there are different ways to define the meaning of the word "security".
+Of course containers reduce attack surface, etc.
+The 'attack surface' as a mitigation from malicious users is not always the goal
+of running containers. Ask yourself why containers are used in the datacenters
+where only root can ssh into a server, only signed packages can
+ever be installed, no browsers running, and no remote code is ever downloaded?
+
+> > Linux has become a single user system.
 > 
-> diff --git a/tools/testing/selftests/timens/.gitignore b/tools/testing/selftests/timens/.gitignore
-> index 3b7eda8f35ce..16292e4d08a5 100644
-> --- a/tools/testing/selftests/timens/.gitignore
-> +++ b/tools/testing/selftests/timens/.gitignore
-> @@ -1,4 +1,6 @@
->   clock_nanosleep
-> +gettime_perf
-> +gettime_perf_cold
->   procfs
->   timens
->   timer
-> diff --git a/tools/testing/selftests/timens/Makefile b/tools/testing/selftests/timens/Makefile
-> index ae1ffd24cc43..97e0460eaf48 100644
-> --- a/tools/testing/selftests/timens/Makefile
-> +++ b/tools/testing/selftests/timens/Makefile
-> @@ -1,6 +1,12 @@
-> -TEST_GEN_PROGS := timens timerfd timer clock_nanosleep procfs
-> +TEST_GEN_PROGS := timens timerfd timer clock_nanosleep procfs gettime_perf
-> +
-> +uname_M := $(shell uname -m 2>/dev/null || echo not)
-> +ARCH ?= $(shell echo $(uname_M) | sed -e s/i.86/i386/)
-> +ifeq ($(ARCH),x86_64)
-> +TEST_GEN_PROGS += gettime_perf_cold
-> +endif
->   
->   CFLAGS := -Wall -Werror
-> -LDFLAGS := -lrt
-> +LDFLAGS := -lrt -ldl
->   
->   include ../lib.mk
-> diff --git a/tools/testing/selftests/timens/gettime_perf.c b/tools/testing/selftests/timens/gettime_perf.c
-> new file mode 100644
-> index 000000000000..f7d7832c0293
-> --- /dev/null
-> +++ b/tools/testing/selftests/timens/gettime_perf.c
-> @@ -0,0 +1,101 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +#define _GNU_SOURCE
-> +#include <sys/types.h>
-> +#include <sys/stat.h>
-> +#include <errno.h>
-> +#include <fcntl.h>
-> +#include <sched.h>
-> +#include <time.h>
-> +#include <stdio.h>
-> +#include <unistd.h>
-> +#include <sys/syscall.h>
-> +#include <dlfcn.h>
-> +
-> +#include "log.h"
-> +#include "timens.h"
-> +
-> +//#define TEST_SYSCALL
-> +
+> I hope this is just hyperbole, because it's not true in reality. I agree
+> that the vast majority of Linux devices are single-user-at-a-time
+> systems now (rather than the "shell servers" of yore), but the system
+> still has to be expected to confine users from each other, root, and the
+> hardware. Switching users on Chrome OS or a distro laptop, etc is still
+> very much expected to _mean_ something.
 
-How is this supposed to be used? When does TEST_SYSCALL
-get defined?
+of course.
 
-> +typedef int (*vgettime_t)(clockid_t, struct timespec *);
-> +
-> +vgettime_t vdso_clock_gettime;
-> +
-> +static void fill_function_pointers(void)
-> +{
-> +	void *vdso = dlopen("linux-vdso.so.1",
-> +			    RTLD_LAZY | RTLD_LOCAL | RTLD_NOLOAD);
-> +	if (!vdso)
-> +		vdso = dlopen("linux-gate.so.1",
-> +			      RTLD_LAZY | RTLD_LOCAL | RTLD_NOLOAD);
-> +	if (!vdso) {
-> +		pr_err("[WARN]\tfailed to find vDSO\n");
-> +		return;
-> +	}
-> +
-> +	vdso_clock_gettime = (vgettime_t)dlsym(vdso, "__vdso_clock_gettime");
-> +	if (!vdso_clock_gettime)
-> +		pr_err("Warning: failed to find clock_gettime in vDSO\n");
-> +
-> +}
-> +
-> +static void test(clock_t clockid, char *clockstr, bool in_ns)
-> +{
-> +	struct timespec tp, start;
-> +	long i = 0;
-> +	const int timeout = 3;
-> +
-> +#ifndef TEST_SYSCALL
-> +	vdso_clock_gettime(clockid, &start);
-> +#else
-> +	syscall(__NR_clock_gettime, clockid, &start);
-> +#endif
+> 
+> > If user can ssh into the host they can become root.
+> > If arbitrary code can run on the host it will be break out of any sandbox.
+> > Containers are not providing the level of security that is enough
+> > to run arbitrary code. VMs can do it better, but cpu bugs don't make it easy.
+> 
+> I'm not sure why you draw the line for VMs -- they're just as buggy
+> as anything else. Regardless, I reject this line of thinking: yes,
+> all software is buggy, but that isn't a reason to give up.
 
-Hmm. This doesn't look right. Does this test need to be compiled
-with TEST_SYSCALL. Please find a way to do this without ifdef.
+hmm. are you saying you want kernel community to work towards
+making containers (namespaces) being able to run arbitrary code
+downloaded from the internet?
+In other words the problems solved by user space sandboxing, gvisor, etc
+should be solved by the kernel?
+I really don't think it's a good idea.
 
-thanks,
--- Shuah
+> If you look at software safety as a binary, you will always be
+> disappointed. If you look at it as it manifests in the real world,
+> then there is some perspective to be had. Reachability of flaws becomes
+> a major factor; exploit chain length becomes a factor. There are very
+> real impacts to be had from security hardening, sandboxing, etc. Of
+> course nothing is perfect, but the current state of the world isn't
+> as you describe. (And I say this with the knowledge of how long
+> the lifetime of bugs are in the kernel.)
+
+No arguing here. Security today is mainly the number of layers.
+Hardening at all levels, sanboxing do help.
+namespaces is one of the layers provided by the kernel.
+The point that the kernel did its job already.
+All other security layers are in user space.
+Looking for bugs at every layer is still must have.
+In the kernel, systemd, qemu, OS, browsers, etc.
+Containers provide one level of security. VMs have another.
+
+> > Some people call it more 'secure', but it's clearly not secure for
+> > arbitrary code
+> 
+> Perhaps it's just a language issue. "More secure" and "safer" mean
+> mostly the same thing to me. I tend to think "safer" is actually
+> a superset that includes things that wreck the user experience but
+> aren't actually in the privilege manipulation realm. In the traditional
+> "security" triad of confidentiality, integrity, and availability, I tend
+> to weigh availability less highly, but a bug that stops someone from
+> doing their work but doesn't wreck data, let them switch users, etc,
+> is still considered a "security" issue by many folks. The fewer bugs
+> someone is exposed to improves their security, safety, whatever. The
+> easiest way to do that is confinement and its associated attack surface
+> reduction. tl;dr: security and safety are very use-case-specific
+> continuum, not a binary state.
+
+yep
+
+> 
+> > When we say 'unprivileged bpf' we really mean arbitrary malicious bpf program.
+> > It's been a constant source of pain. The constant blinding, randomization,
+> > verifier speculative analysis, all spectre v1, v2, v4 mitigations
+> > are simply not worth it. It's a lot of complex kernel code without users.
+> > There is not a single use case to allow arbitrary malicious bpf
+> > program to be loaded and executed.
+> 
+> The world isn't binary (safe code/malicious code), and we need to build
+> systems that can be used safely even when things go wrong. Yes, probably
+> no one has a system that _intentionally_ feeds eBPF into the kernel from
+> a web form. But there is probably someone who does it unintentionally,
+> or has a user login exposed on a system where unpriv BPF is enabled. The
+> point is to create primitives as safely as possible so when things DO
+> go wrong, they fail safe instead of making things worse.
+> 
+> I'm all for a "less privileged than root" API for eBPF, but I get worried
+> when I see "security" being treated as a binary state. Especially when
+> it is considered an always-failed state. :)
+
+'security as always failed state' ? hmm.
+not sure where this impression came from.
+One of the goals here is to do sysctl kernel.unprivileged_bpf_disabled=1
+which will make the system overall _more_ secure.
+I hope we can agree on that.
 
