@@ -2,53 +2,62 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CCE5911BE
-	for <lists+linux-api@lfdr.de>; Sat, 17 Aug 2019 17:42:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C8195911C4
+	for <lists+linux-api@lfdr.de>; Sat, 17 Aug 2019 17:44:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726010AbfHQPmO convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Sat, 17 Aug 2019 11:42:14 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:40662 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726013AbfHQPmN (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 17 Aug 2019 11:42:13 -0400
-Received: by mail-wm1-f65.google.com with SMTP id v19so6428637wmj.5
-        for <linux-api@vger.kernel.org>; Sat, 17 Aug 2019 08:42:12 -0700 (PDT)
+        id S1726002AbfHQPo4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 17 Aug 2019 11:44:56 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:40368 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726023AbfHQPoz (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 17 Aug 2019 11:44:55 -0400
+Received: by mail-pl1-f194.google.com with SMTP id h3so340625pls.7
+        for <linux-api@vger.kernel.org>; Sat, 17 Aug 2019 08:44:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=R2/VJq6nrOFMWOBOgnh5HWjyHIE/BDqFX+S1CeV3qAs=;
+        b=WaP7COrr+38AIFHTYCbpqcx3jLbdYVTtlCWA+1q5UPdXIiVAPDyvZf9DznDc9S8c2u
+         J2urZpD3/44z3m341acVQM9Fd6YpoHb6MV0OC587gacLZPxksqSGGC5P18a+s9X4DrC5
+         glswsfCwPe1MCUkV9D77l52MeDoV/odb8e7K4nf++wuk6JbknP2w+WFaswPoGL/LA1Ea
+         k/enOTcOZq7XAVufNnZKXMAJcjpbnfTcyP/psfuUKkaAKPmN8RMT03nLb++aubNbv05Q
+         PcFbzZBJWsHQEEzMKpsLM2OgRqPkqlP5hVihi3lo369sVowoeJmpga1fVTtsowuIKZZe
+         dmDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:user-agent:in-reply-to:references
-         :mime-version:content-transfer-encoding:subject:reply-to:to:cc:from
-         :message-id;
-        bh=Qd0oIy1nBOVm4/nqOs8e9DuBL87P48VzwG8FG+0SZ2o=;
-        b=Dd+xuxaCnbKpION6LhgBVssqrP0AkF7sNerqRGT7E9p8RxFIDr4nhtEfvB51Kjgm7n
-         gQD+iP0aGTVFnNFwdv032ru1ahaubI8kEnBHL/1b7UMBmmL159pNREWlGNeRbfpBcm2E
-         DSSgz2VjzPfEAwiuQbUUMVIvRmUmFegjZKe1CTE5Y15Nq5hdyw3pACePiT9ln8bXc+Pb
-         kNTPamt+9f3dPNRW6zDfNhoCcXe7o6xJQTM/9zHr8uqjxHgoM7JStSt5IaOcX0uxr46x
-         awSR59dAlGYVz5AlyA0lb7YOC4GI8LPEegSCtTYepmLLmrul+jv41bJSiVlvPe0/orgS
-         uN3g==
-X-Gm-Message-State: APjAAAWqUV3NJqYPm3bmOM/sctuptPI0EOCsjkGJkHFIB+Rs7yqi1+r6
-        oRwvs+4OoLt35KW7oACfGhWrZQ==
-X-Google-Smtp-Source: APXvYqxFjIpGmcyyAEpctLk8McPd205v1VaqjR/IDxwQCh8P15fRgge/4HSPRfIqlImsBZW5T1vQmw==
-X-Received: by 2002:a1c:ef18:: with SMTP id n24mr3069395wmh.29.1566056531210;
-        Sat, 17 Aug 2019 08:42:11 -0700 (PDT)
-Received: from HUAWEI-nova-2-351a175292c.fritz.box ([213.220.153.21])
-        by smtp.gmail.com with ESMTPSA id b136sm18539660wme.18.2019.08.17.08.42.10
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=R2/VJq6nrOFMWOBOgnh5HWjyHIE/BDqFX+S1CeV3qAs=;
+        b=Jbus1me6kNM40m4v+QXQVtOsuIMTocEeVz/YUNHbXPSML/IUK4HK2zcjHiUYoqIHml
+         shTkNZXmc2G3QrPWjtNn1brKBNQSJ6z8vkiVLEl+rpfkhnhoggpOR+CO1ECkhNT/Rvmp
+         9ddSTfH7yq1/bsqTHfmY0THNysHZzFCOH6Mjo3ePGa+qBEM3a9sjFZKPm++l7bJWbKq5
+         NWntIKsSr9jPo6dy/WWWQRCkkIUjGL1xwn/tv11tQiGGHWmynJnDMvtuoaQkvUHz79fI
+         w/sLwQ799LAR0VIcqk4YEkG9D4uDJLi8JaVW1Bz4DJYBzFnV+kbhPMVZZSZy6vdiZRVc
+         jvFg==
+X-Gm-Message-State: APjAAAWDjzzArSYHn2lWoZITiPiJnfDU7M87Jo0RuBzCxAlebbIUAWU1
+        JvHh/xf9RvDo3aupgzVnm1xEXA==
+X-Google-Smtp-Source: APXvYqxGPZQ32jm+v1QngNi4NkhKo4BrhhWdQ6WcwGGei+2UBkhZw6dczbdrutxMwyo4yOE9YZomEQ==
+X-Received: by 2002:a17:902:2bc8:: with SMTP id l66mr14790994plb.222.1566056694423;
+        Sat, 17 Aug 2019 08:44:54 -0700 (PDT)
+Received: from ?IPv6:2600:1010:b04e:b450:b585:791c:ba5c:79b4? ([2600:1010:b04e:b450:b585:791c:ba5c:79b4])
+        by smtp.gmail.com with ESMTPSA id m13sm9400788pgn.57.2019.08.17.08.44.53
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 17 Aug 2019 08:42:10 -0700 (PDT)
-Date:   Sat, 17 Aug 2019 17:42:08 +0200
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20190817153652.zfcsklt474j72dzm@ast-mbp.dhcp.thefacebook.com>
-References: <20190806011134.p5baub5l3t5fkmou@ast-mbp> <CALCETrXEHL3+NAY6P6vUj7Pvd9ZpZsYC6VCLXOaNxb90a_POGw@mail.gmail.com> <20190813215823.3sfbakzzjjykyng2@ast-mbp> <201908151203.FE87970@keescook> <20190815234622.t65oxm5mtfzy6fhg@ast-mbp.dhcp.thefacebook.com> <B0364660-AD6A-4E5C-B04F-3B6DA78B4BBE@amacapital.net> <20190816214542.inpt6p655whc2ejw@ast-mbp.dhcp.thefacebook.com> <20190816222252.a7zizw7azkxnv3ot@wittgenstein> <20190817150843.4vsmzpwpcvzndjld@ast-mbp> <61B88085-9FBB-41E6-9783-324E445E428D@ubuntu.com> <20190817153652.zfcsklt474j72dzm@ast-mbp.dhcp.thefacebook.com>
-MIME-Version: 1.0
+        Sat, 17 Aug 2019 08:44:53 -0700 (PDT)
 Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 8BIT
+        charset=utf-8
+Mime-Version: 1.0 (1.0)
 Subject: Re: [PATCH v2 bpf-next 1/4] bpf: unprivileged BPF access via /dev/bpf
-Reply-to: christian.brauner@ubuntu.com
-To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
-CC:     Andy Lutomirski <luto@amacapital.net>,
-        Kees Cook <keescook@chromium.org>,
+From:   Andy Lutomirski <luto@amacapital.net>
+X-Mailer: iPhone Mail (16G77)
+In-Reply-To: <20190817150245.xxzxqjpvgqsxmloe@ast-mbp>
+Date:   Sat, 17 Aug 2019 08:44:52 -0700
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Jordan Glover <Golden_Miller83@protonmail.ch>,
         Andy Lutomirski <luto@kernel.org>,
+        Daniel Colascione <dancol@google.com>,
         Song Liu <songliubraving@fb.com>,
+        Kees Cook <keescook@chromium.org>,
         Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
         Alexei Starovoitov <ast@kernel.org>,
         Daniel Borkmann <daniel@iogearbox.net>,
@@ -58,39 +67,65 @@ CC:     Andy Lutomirski <luto@amacapital.net>,
         Greg KH <gregkh@linuxfoundation.org>,
         Linux API <linux-api@vger.kernel.org>,
         LSM List <linux-security-module@vger.kernel.org>
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-Message-ID: <C3F5D971-9698-4442-8F9C-091E18E774A9@ubuntu.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <959BAF9B-F2A2-4187-A2A7-C64D675F537B@amacapital.net>
+References: <20190814220545.co5pucyo5jk3weiv@ast-mbp.dhcp.thefacebook.com> <HG0x24u69mnaMFKuxHVAzHpyjwsD5-U6RpqFRua87wGWQCHg00Q8ZqPeA_5kJ9l-d6oe0cXa4HyYXMnOO0Aofp_LcPcQdG0WFV21z1MbgcE=@protonmail.ch> <20190815172856.yoqvgu2yfrgbkowu@ast-mbp.dhcp.thefacebook.com> <CALCETrUv+g+cb79FJ1S4XuV0K=kowFkPXpzoC99svoOfs4-Kvg@mail.gmail.com> <20190815230808.2o2qe7a72cwdce2m@ast-mbp.dhcp.thefacebook.com> <fkD3fs46a1YnR4lh0tEG-g3tDnDcyZuzji7bAUR9wujPLLl75ZhI8Yk-H1jZpSugO7qChVeCwxAMmxLdeoF2QFS3ZzuYlh7zmeZOmhDJxww=@protonmail.ch> <alpine.DEB.2.21.1908161158490.1873@nanos.tec.linutronix.de> <lGGTLXBsX3V6p1Z4TkdzAjxbNywaPS2HwX5WLleAkmXNcnKjTPpWnP6DnceSsy8NKt5NBRBbuoAb0woKTcDhJXVoFb7Ygk3Skfj8j6rVfMQ=@protonmail.ch> <20190816195233.vzqqbqrivnooohq6@ast-mbp.dhcp.thefacebook.com> <alpine.DEB.2.21.1908162211270.1923@nanos.tec.linutronix.de> <20190817150245.xxzxqjpvgqsxmloe@ast-mbp>
+To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On August 17, 2019 5:36:54 PM GMT+02:00, Alexei Starovoitov <alexei.starovoitov@gmail.com> wrote:
->On Sat, Aug 17, 2019 at 05:16:53PM +0200, Christian Brauner wrote:
->> On August 17, 2019 5:08:45 PM GMT+02:00, Alexei Starovoitov
-><alexei.starovoitov@gmail.com> wrote:
->> >On Sat, Aug 17, 2019 at 12:22:53AM +0200, Christian Brauner wrote:
->> >> 
->> >> (The one usecase I'd care about is to extend seccomp to do
->> >pointer-based
->> >> syscall filtering. Whether or not that'd require (unprivileged)
->ebpf
->> >is
->> >> up for discussion at KSummit.)
->> >
->> >Kees have been always against using ebpf in seccomp. I believe he
->still
->> >holds this opinion. Until he changes his mind let's stop bringing
->> >seccomp
->> >as a use case for unpriv bpf.
->> 
->> That's why I said "whether or not".
->> For the record, I do prefer a non-unpriv-ebpf way.
->> It's still something that will most surely come up in the discussion
->though.
->
->It's very un-kernely way to defer to in-person meetings.
->If there is anything to discuss please discuss it on the public mailing
->list.
 
-https://lists.linuxfoundation.org/pipermail/ksummit-discuss/2019-July/006699.html
+
+> On Aug 17, 2019, at 8:02 AM, Alexei Starovoitov <alexei.starovoitov@gmail.=
+com> wrote:
+
+>=20
+> Can any of the mechanisms 1/2/3 address the concern in mds.rst?
+>=20
+
+seccomp() can. It=E2=80=99s straightforward to use seccomp to disable bpf() o=
+utright for a process tree.  In this regard, bpf() isn=E2=80=99t particularl=
+y unique =E2=80=94 it=E2=80=99s a system call that exposes some attack surfa=
+ce and that isn=E2=80=99t required by most programs for basic functionality.=
+
+
+At LPC this year, there will be a discussion about seccomp improvements that=
+ will, among other things, offer fiber-grained control. It=E2=80=99s quite l=
+ikely, for example, that seccomp will soon be able to enable and disable spe=
+cific map types or attach types.  The exact mechanism isn=E2=80=99t decided y=
+et,  but I think everyone expects that this is mostly a design problem, not a=
+n implementation problem.
+
+This is off topic for the current thread, but it could be useful to allow bp=
+f programs to be loaded from files directly (i.e. pass an fd to a file into b=
+pf() to load the program), which would enable LSMs to check that the file is=
+ appropriately labeled. This would dramatically raise the bar for exploitati=
+on of verifier bugs or speculation attacks, since anyone trying to exploit i=
+t would need to get the bpf payload through LSM policy first.
+
+> I believe Andy wants to expand the attack surface when
+> kernel.unprivileged_bpf_disabled=3D0
+> Before that happens I'd like the community to work on addressing the text a=
+bove.
+>=20
+
+Not by much. BPF maps are already largely exposed to unprivileged code (when=
+ unprivileged_bpf_disabled=3D0).  The attack surface is there, and they=E2=80=
+=99re arguably even more exposed than they should be.  My patch 1 earlier wa=
+s about locking these interfaces down.
+
+Similarly, my suggestions about reworking cgroup attach and program load don=
+=E2=80=99t actually allow fully unprivileged users to run arbitrary bpf() pr=
+ograms [0] =E2=80=94 under my proposal, to attach a bpf cgroup program, you n=
+eed a delegated cgroup. The mechanism could be extended by a requirement tha=
+t a privileged cgroup manager explicitly enable certain attach types for a d=
+elegated subtree.
+
+A cgroup knob to turn unprivileged bpf on and off for tasks in the cgroup mi=
+ght actually be quite useful.
+
+[0] on some thought, the test run mechanism should probably remain root-only=
+.
+
