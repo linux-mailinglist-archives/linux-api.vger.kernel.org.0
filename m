@@ -2,171 +2,164 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AF72C90B2C
-	for <lists+linux-api@lfdr.de>; Sat, 17 Aug 2019 00:47:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 01AD091119
+	for <lists+linux-api@lfdr.de>; Sat, 17 Aug 2019 17:02:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727736AbfHPWr3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 16 Aug 2019 18:47:29 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:34429 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727726AbfHPWr2 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 16 Aug 2019 18:47:28 -0400
-Received: by mail-wr1-f68.google.com with SMTP id s18so2951689wrn.1;
-        Fri, 16 Aug 2019 15:47:26 -0700 (PDT)
+        id S1725945AbfHQPCw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 17 Aug 2019 11:02:52 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:36809 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725925AbfHQPCv (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 17 Aug 2019 11:02:51 -0400
+Received: by mail-pf1-f194.google.com with SMTP id w2so4659140pfi.3;
+        Sat, 17 Aug 2019 08:02:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Gpe/LKVbz4/M4kYUOPoJAG8IhU6ZbgtwlmR7ppZ4Inw=;
-        b=hKbuhsBoNXug0idq/+f9qPqUjclbd7AykYIYr0yMsKCbQoajAV6JzTNzUdQf35qvo2
-         561SOyjclRMjlkoj0VS1RgN5rbQQu1l7eZqr8ngIAnSGm9bSwQydbi1IMuYu0WBGp1IX
-         dykERfLDHoaXtgqAtU40mZ+6KABBbn042ZB2a4dD6+Zo334rmPVEz4Oz9I+o0sbyn1UE
-         YgS8SRXzthSRWuhpajKdUoI9ucJAWQ6Uu3FB1MObYhBIOn+oJdgfqlLgqTVkIWtdRWp1
-         OpbCwcU5UJXYLR5MtjhLYe5wcmnWXWjxVaVYQoU+XTjHm8uJy0O0cDkKyY5r/fdXWObY
-         yjjw==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=1yM+3gaDT2rRc0Bnym4V9e44Bftn+Nt4gZNjCRfq0Zc=;
+        b=L5JD5xwE59YvEytmxCvXa0dMfZE56DMqONaXkYB90GeRMd9ciAEL8NDD2MlHS6sQJp
+         xwGbCcUvQjPeEZ5OMM+LLMp+enQYkbUvRd4uVqdFvGwPClNn0df5DyQwTRJqo0bcvJ5j
+         0RCjSr8Oa6Vc31vtOJjyXtSZYIF2RpcCx0hTELf9XvYcHkopAxIk8MydOuH8VojjcXui
+         PogcwXEByTJVk0HRayk6CpeoDeWjlBub9B7btPMSU/y4RbCEQYnBuASXBM/QD9U2k9h4
+         1/buHcPAIxUiX4rePL1p5wOBIlGHf6zXeCJNC4gBPVIUWsoQa9j5GslA//38We/qbrLU
+         lxnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Gpe/LKVbz4/M4kYUOPoJAG8IhU6ZbgtwlmR7ppZ4Inw=;
-        b=b3KEZKPqm81yqtHwzVmbpyzIl4LYDTDbODaqgO7vUm5FkVurY3BLEh9ZS+e79ivjpr
-         4/I0tlqLlCIbufVQUmUI3u51xspnEOnwFXK37+/y2AS4cU93EMb0SOR/JKPFLG/hb7b3
-         FWj5ZAxgn6nulpIAfN0sfuWSsGTYnkhE40kk2zX8n7fE88cvmTL+niB0VkoKncy9A/Tk
-         zHwm4tblkogAR7vgpk1aEj3rwBDd0TBwsL2b1iEP7BYLq0tUyAYAPkvfTu2AGWWBLZMa
-         uibS1RARufbZJOqiyV6KPMejHr/faYVCAtOfd48LyukaD0e6liGOxGFO3mtyWyFnYSEq
-         y1Dg==
-X-Gm-Message-State: APjAAAV35p9AL+/rk5T2EPGKq4hgHaaJa+a8qvFewOQNQ6a/mloIsym1
-        33fphXNWjkqeM2qltuXBfjQ=
-X-Google-Smtp-Source: APXvYqyDZNd7/i1LOF/mNOA6WSLzEp0lcwck6wYHqUnqDzq/pIyknxVN/KzjtD0YBXIpuh6fqNj/BQ==
-X-Received: by 2002:adf:f844:: with SMTP id d4mr13651951wrq.128.1565995645955;
-        Fri, 16 Aug 2019 15:47:25 -0700 (PDT)
-Received: from [10.83.36.153] ([217.173.96.166])
-        by smtp.gmail.com with ESMTPSA id f70sm10027354wme.22.2019.08.16.15.47.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Aug 2019 15:47:25 -0700 (PDT)
-Subject: Re: [PATCHv6 23/36] x86/vdso: Allocate timens vdso
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Andy Lutomirski <luto@kernel.org>
-Cc:     Dmitry Safonov <dima@arista.com>, linux-kernel@vger.kernel.org,
-        Adrian Reber <adrian@lisas.de>,
-        Andrei Vagin <avagin@openvz.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Cyrill Gorcunov <gorcunov@openvz.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jann Horn <jannh@google.com>, Jeff Dike <jdike@addtoit.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Pavel Emelyanov <xemul@virtuozzo.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        containers@lists.linux-foundation.org, criu@openvz.org,
-        linux-api@vger.kernel.org, x86@kernel.org
-References: <20190815163836.2927-1-dima@arista.com>
- <20190815163836.2927-24-dima@arista.com>
- <b719199a-ed91-610b-38bc-015a0749f600@kernel.org>
- <alpine.DEB.2.21.1908162208190.1923@nanos.tec.linutronix.de>
-From:   Dmitry Safonov <0x7f454c46@gmail.com>
-Message-ID: <483678c7-7687-5445-f09e-e45e9460d559@gmail.com>
-Date:   Fri, 16 Aug 2019 23:47:24 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=1yM+3gaDT2rRc0Bnym4V9e44Bftn+Nt4gZNjCRfq0Zc=;
+        b=ox3TlWcgJkHNj9zbxbdMMhBCQP5C0ggM76UBHdteh/c7XhqpiBJ20ZNe4vP0b1/Dsi
+         BVww/Tp5tFMY8PYgtsqHJ7umUKljgsL1K7OS0iroaEWR01mvkLQixm14pv4rUL+XpWkN
+         IkR9I9z4w/iq6zgdBEvq9RkKINxQdEzyPOUHtydeJG3632i1OBtFKfGjJ5DP9FUi5ckT
+         viAnvhHVBcVzTDoE2fyjIomRFVpgNc8vF8e7aqkQy1p4b4MzEjHAY8UlJU2/16sm+RNf
+         X6Zg4r5Wi/a3mhI7tGb+pv4+0w74O6dVdMbm/tGLBOwKxCaWMJL4VvbKIWSLbgpwg+4v
+         Jvag==
+X-Gm-Message-State: APjAAAWueqQuNmy8DYITaV59tt9I2hMwhHl7X6+BAWME7hMrZFuLgN94
+        L3MFkUhjob57+HkYiCa9Fk0=
+X-Google-Smtp-Source: APXvYqzL25Fka42KOBCiR2tWbSPJ47nKP4Id6XB3/20akCnmXzBuscYvgcS7HYZh6Zwbdn8j38dDeQ==
+X-Received: by 2002:a63:2043:: with SMTP id r3mr12314709pgm.311.1566054170489;
+        Sat, 17 Aug 2019 08:02:50 -0700 (PDT)
+Received: from ast-mbp ([2620:10d:c090:180::9c96])
+        by smtp.gmail.com with ESMTPSA id d18sm8153411pgi.40.2019.08.17.08.02.48
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 17 Aug 2019 08:02:49 -0700 (PDT)
+Date:   Sat, 17 Aug 2019 08:02:47 -0700
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     Jordan Glover <Golden_Miller83@protonmail.ch>,
+        Andy Lutomirski <luto@kernel.org>,
+        Daniel Colascione <dancol@google.com>,
+        Song Liu <songliubraving@fb.com>,
+        Kees Cook <keescook@chromium.org>,
+        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Kernel Team <Kernel-team@fb.com>,
+        Lorenz Bauer <lmb@cloudflare.com>,
+        Jann Horn <jannh@google.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>
+Subject: Re: [PATCH v2 bpf-next 1/4] bpf: unprivileged BPF access via /dev/bpf
+Message-ID: <20190817150245.xxzxqjpvgqsxmloe@ast-mbp>
+References: <20190814220545.co5pucyo5jk3weiv@ast-mbp.dhcp.thefacebook.com>
+ <HG0x24u69mnaMFKuxHVAzHpyjwsD5-U6RpqFRua87wGWQCHg00Q8ZqPeA_5kJ9l-d6oe0cXa4HyYXMnOO0Aofp_LcPcQdG0WFV21z1MbgcE=@protonmail.ch>
+ <20190815172856.yoqvgu2yfrgbkowu@ast-mbp.dhcp.thefacebook.com>
+ <CALCETrUv+g+cb79FJ1S4XuV0K=kowFkPXpzoC99svoOfs4-Kvg@mail.gmail.com>
+ <20190815230808.2o2qe7a72cwdce2m@ast-mbp.dhcp.thefacebook.com>
+ <fkD3fs46a1YnR4lh0tEG-g3tDnDcyZuzji7bAUR9wujPLLl75ZhI8Yk-H1jZpSugO7qChVeCwxAMmxLdeoF2QFS3ZzuYlh7zmeZOmhDJxww=@protonmail.ch>
+ <alpine.DEB.2.21.1908161158490.1873@nanos.tec.linutronix.de>
+ <lGGTLXBsX3V6p1Z4TkdzAjxbNywaPS2HwX5WLleAkmXNcnKjTPpWnP6DnceSsy8NKt5NBRBbuoAb0woKTcDhJXVoFb7Ygk3Skfj8j6rVfMQ=@protonmail.ch>
+ <20190816195233.vzqqbqrivnooohq6@ast-mbp.dhcp.thefacebook.com>
+ <alpine.DEB.2.21.1908162211270.1923@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <alpine.DEB.2.21.1908162208190.1923@nanos.tec.linutronix.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.21.1908162211270.1923@nanos.tec.linutronix.de>
+User-Agent: NeoMutt/20180223
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Andy, Thomas,
-
-thank you very much for your time and the reviews, appreciate that.
-
-On 8/16/19 9:10 PM, Thomas Gleixner wrote:
-> On Fri, 16 Aug 2019, Andy Lutomirski wrote:
-[..]
->> I'm unconvinced that any of this magic is wise.  I think you should make a
->> special timens vvar page that causes the normal fastpath to fail (using a
->> special vclock mode, a special seq value, or a special "last" value) and then
->> make the failure path detect that timens is in use and use the timens path.
-
-I see. That's so clever, it haven't come on my mind.
-Hmm, is that better because of the price of 5-byte NOP?
-I'm a bit afraid to complicate that seq/vclock logic more..
-
-So, what I'm driving at is would you change your mind if timens still
-had boot-time dynamic patching but without introducing NOP?
-
-We've got the point that you want to have no penalty at all for host
-tasks [on RFC reply] by introducing `if` as trashing cache and branch
-predictor, but I wasn't sure if NOP is also unacceptable.
-
-At that moment we had a "plan B" with something that was half-wittedly
-called "retcalls". The basic idea is that all that the timens brings
-into vdso are calls clk_to_ns(), which are all placed in tails of
-functions. So, if we could just memcpy() function returns in host vdso
-over introduced time-ns tail calls - it would be a very same code that
-lied before. There is a draft of those [1], that actually works on x86
-on both mine and Andrei's machines.
-
-Consulting with Andrei, I've decided that we better stick to
-static_branchs as they are well known and have already backends for
-other architectures. We probably mistakenly decided that a price of NOP
-on scalar machines is negligible and would be acceptable.
-
-Would those self-invented "retcalls" be something that could be reviewed
-and potentially accepted in further iterations?
-
-[1]
-https://github.com/0x7f454c46/linux/commit/ab0eeb646f43#diff-c22e1e73e7367f371e1f12e3877ea12f
-
-> My initial suggestion still stands. Do that at compile time. It really does
-> not matter whether we have another 2 or 3 variants of vdso binaries.
+On Fri, Aug 16, 2019 at 10:28:29PM +0200, Thomas Gleixner wrote:
+> Alexei,
 > 
-> Use it and be done with it. No special magic, just straight forward
-> decisions to use a timens capable VDSO or not.
+> On Fri, 16 Aug 2019, Alexei Starovoitov wrote:
+> > It's both of the above when 'systemd' is not taken literally.
+> > To earlier Thomas's point: the use case is not only about systemd.
+> > There are other containers management systems.
+> 
+> <SNIP>
+> 
+> > These daemons need to drop privileges to make the system safer == less
+> > prone to corruption due to bugs in themselves. Not necessary security
+> > bugs.
+> 
+> Let's take a step back.
+> 
+> While real usecases are helpful to understand a design decision, the design
+> needs to be usecase independent.
+> 
+> The kernel provides mechanisms, not policies. My impression of this whole
+> discussion is that it is policy driven. That's the wrong approach.
 
-I believe that was something we did in version 1 of the patches set.
-It doesn't sound like a rocket science to do, but it resulted in a
-couple of ugly patches.
+not sure what you mean by 'policy driven'.
+Proposed CAP_BPF is a policy?
 
-The post-attempt notes about downsides of doing it compile-time are:
+My desire to do kernel.unprivileged_bpf_disabled=1 is driven by
+text in Documentation/x86/mds.rst which says:
+"There is one exception, which is untrusted BPF. The functionality of
+untrusted BPF is limited, but it needs to be thoroughly investigated
+whether it can be used to create such a construct."
 
-1. There is additional .so for each vdso: 64-bit, ia32, x32. The same
-for every architecture to-be supported. It adds rules in Makefiles. [2]
-2. If we still intend to keep setns() working without exec(), function
-entries on both host/namespace vdso should be aligned to each other [3].
-That results in a patch to vdso2c to generate offsets [4, 5] and in
-linker magic to align another vdso [6].
-3. As unexpected consequence, we also need to align local functions on
-vdso [7].
+commit 6a9e52927251 ("x86/speculation/mds: Add mds_clear_cpu_buffers()")
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Reviewed-by: Borislav Petkov <bp@suse.de>
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Reviewed-by: Frederic Weisbecker <frederic@kernel.org>
+Reviewed-by: Jon Masters <jcm@redhat.com>
+Tested-by: Jon Masters <jcm@redhat.com>
 
-So, it might be all related to my lack of skills, but it seems to bring
-some big amount of complexity into build process. And in my point of
-view, major issue is that it would not scale easily when the day will
-come and there will be a need to introduce another vdso.so. As I didn't
-want to be the guy that happens to be remembered as "he wrote this
-unmaintainable pile of garbage", I've taken dynamic patching approach
-that is done once a boot time.
+The way I read this text:
+- there is a concern that mds is exploitable via bpf
+- there is a desire to investigate to address this concern
 
-Regardless, we both with Andrei want to improve the patches set and make
-it acceptable and easy to maintain in future. I hope, that our effort to
-do that is visible through evolution of patches. And we're very glad
-that we've constructive critics and such patient maintainers.
-So, if I'm mistaken in those points about compile-time vdso(s), or you
-have in mind a plan how-to avoid those, I'd appreciate and rework it to
-that direction.
+I'm committed to help with the investigation.
 
-[2] lkml.kernel.org/r/20190206001107.16488-14-dima@arista.com
-[3] lkml.kernel.org/r/20190206001107.16488-15-dima@arista.com
-[4] lkml.kernel.org/r/20190206001107.16488-16-dima@arista.com
-[5] lkml.kernel.org/r/20190206001107.16488-17-dima@arista.com
-[6] lkml.kernel.org/r/20190206001107.16488-19-dima@arista.com
-[7] lkml.kernel.org/r/20190206001107.16488-20-dima@arista.com
+In the mean time I propose a path to do
+kernel.unprivileged_bpf_disabled=1 which is CAP_BPF.
 
-Thanks,
-          Dmitry
+Can kernel.unprivileged_bpf_disabled=1 be used now?
+Yes, but it will weaken overall system security because things that
+use unpriv to load bpf and CAP_NET_ADMIN to attach bpf would need
+to move to stronger CAP_SYS_ADMIN.
+
+With CAP_BPF both load and attach would happen under CAP_BPF
+instead of CAP_SYS_ADMIN.
+
+> So let's look at the mechanisms which we have at hand:
+> 
+>  1) Capabilities
+>  
+>  2) SUID and dropping priviledges
+> 
+>  3) Seccomp and LSM
+> 
+> Now the real interesting questions are:
+> 
+>  A) What kind of restrictions does BPF allow? Is it a binary on/off or is
+>     there a more finegrained control of BPF functionality?
+> 
+>     TBH, I can't tell.
+> 
+>  B) Depending on the answer to #A what is the control possibility for
+>     #1/#2/#3 ?
+
+Can any of the mechanisms 1/2/3 address the concern in mds.rst?
+
+I believe Andy wants to expand the attack surface when
+kernel.unprivileged_bpf_disabled=0
+Before that happens I'd like the community to work on addressing the text above.
+
