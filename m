@@ -2,21 +2,21 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 79F9C917CB
-	for <lists+linux-api@lfdr.de>; Sun, 18 Aug 2019 18:24:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 23FD1917D3
+	for <lists+linux-api@lfdr.de>; Sun, 18 Aug 2019 18:29:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726743AbfHRQYk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 18 Aug 2019 12:24:40 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:44762 "EHLO
+        id S1726089AbfHRQ3m (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 18 Aug 2019 12:29:42 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:44780 "EHLO
         Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726247AbfHRQYk (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 18 Aug 2019 12:24:40 -0400
+        with ESMTP id S1726005AbfHRQ3m (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 18 Aug 2019 12:29:42 -0400
 Received: from pd9ef1cb8.dip0.t-ipconnect.de ([217.239.28.184] helo=nanos)
         by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
         (Exim 4.80)
         (envelope-from <tglx@linutronix.de>)
-        id 1hzNyd-0008Fa-TT; Sun, 18 Aug 2019 18:24:20 +0200
-Date:   Sun, 18 Aug 2019 18:24:18 +0200 (CEST)
+        id 1hzO3U-0008Nc-7D; Sun, 18 Aug 2019 18:29:20 +0200
+Date:   Sun, 18 Aug 2019 18:29:19 +0200 (CEST)
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     Dmitry Safonov <0x7f454c46@gmail.com>
 cc:     Andy Lutomirski <luto@kernel.org>,
@@ -36,10 +36,10 @@ cc:     Andy Lutomirski <luto@kernel.org>,
         containers@lists.linux-foundation.org, criu@openvz.org,
         linux-api@vger.kernel.org, x86@kernel.org
 Subject: Re: [PATCHv6 23/36] x86/vdso: Allocate timens vdso
-In-Reply-To: <alpine.DEB.2.21.1908171709360.1923@nanos.tec.linutronix.de>
-Message-ID: <alpine.DEB.2.21.1908181823010.1923@nanos.tec.linutronix.de>
+In-Reply-To: <alpine.DEB.2.21.1908181823010.1923@nanos.tec.linutronix.de>
+Message-ID: <alpine.DEB.2.21.1908181828070.1923@nanos.tec.linutronix.de>
 References: <20190815163836.2927-1-dima@arista.com> <20190815163836.2927-24-dima@arista.com> <b719199a-ed91-610b-38bc-015a0749f600@kernel.org> <alpine.DEB.2.21.1908162208190.1923@nanos.tec.linutronix.de> <483678c7-7687-5445-f09e-e45e9460d559@gmail.com>
- <alpine.DEB.2.21.1908171709360.1923@nanos.tec.linutronix.de>
+ <alpine.DEB.2.21.1908171709360.1923@nanos.tec.linutronix.de> <alpine.DEB.2.21.1908181823010.1923@nanos.tec.linutronix.de>
 User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -52,12 +52,16 @@ List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 On Sun, 18 Aug 2019, Thomas Gleixner wrote:
-> 
-> Patch below. I tested this with the normal order and by installing a
-> 'timens' page unconditionally for all processes. I'll reply with the timens
-> testing hacks so you can see what I did.
 
-First hack...
+> On Sun, 18 Aug 2019, Thomas Gleixner wrote:
+> > 
+> > Patch below. I tested this with the normal order and by installing a
+> > 'timens' page unconditionally for all processes. I'll reply with the timens
+> > testing hacks so you can see what I did.
+> 
+> First hack...
+
+And the second one.
 
 Thanks,
 
@@ -65,102 +69,72 @@ Thanks,
 
 8<-----------------
 
-Subject: x86/vdso: Hack to enable time name space  for testing
+Subject: x86/vdso: Hack to test the time namespace path
 From: Thomas Gleixner <tglx@linutronix.de>
-Date: Sun, 18 Aug 2019 16:42:26 +0200
+Date: Sun, 18 Aug 2019 16:49:00 +0200
 
-Select CONFIG_VDSO_TIMENS and prepare for the extra magic time namespace
-vvar page. The fault handler is not handling it yet as the path is never
-taken (hopefully)
+Install a special TIMENS vvar page which forces the VDSO to take the time
+namespace path for testing.
 
 Not-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 ---
- arch/x86/Kconfig                         |    1 +
- arch/x86/entry/vdso/vdso-layout.lds.S    |    3 ++-
- arch/x86/entry/vdso/vdso2c.c             |    3 +++
- arch/x86/include/asm/vdso.h              |    1 +
- arch/x86/include/asm/vdso/gettimeofday.h |    9 +++++++++
- 5 files changed, 16 insertions(+), 1 deletion(-)
+ arch/x86/entry/vdso/vma.c |   34 +++++++++++++++++++++++++++++++++-
+ 1 file changed, 33 insertions(+), 1 deletion(-)
 
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -224,6 +224,7 @@ config X86
- 	select VIRT_TO_BUS
- 	select X86_FEATURE_NAMES		if PROC_FS
- 	select PROC_PID_ARCH_STATUS		if PROC_FS
-+	select VDSO_TIMENS
- 
- config INSTRUCTION_DECODER
- 	def_bool y
---- a/arch/x86/entry/vdso/vdso-layout.lds.S
-+++ b/arch/x86/entry/vdso/vdso-layout.lds.S
-@@ -16,7 +16,7 @@ SECTIONS
- 	 * segment.
- 	 */
- 
--	vvar_start = . - 3 * PAGE_SIZE;
-+	vvar_start = . - 4 * PAGE_SIZE;
- 	vvar_page = vvar_start;
- 
- 	/* Place all vvars at the offsets in asm/vvar.h. */
-@@ -28,6 +28,7 @@ SECTIONS
- 
- 	pvclock_page = vvar_start + PAGE_SIZE;
- 	hvclock_page = vvar_start + 2 * PAGE_SIZE;
-+	timens_page = vvar_start + 3 * PAGE_SIZE;
- 
- 	. = SIZEOF_HEADERS;
- 
---- a/arch/x86/entry/vdso/vdso2c.c
-+++ b/arch/x86/entry/vdso/vdso2c.c
-@@ -75,12 +75,14 @@ enum {
- 	sym_vvar_page,
- 	sym_pvclock_page,
- 	sym_hvclock_page,
-+	sym_timens_page,
- };
- 
- const int special_pages[] = {
- 	sym_vvar_page,
- 	sym_pvclock_page,
- 	sym_hvclock_page,
-+	sym_timens_page,
- };
- 
- struct vdso_sym {
-@@ -93,6 +95,7 @@ struct vdso_sym required_syms[] = {
- 	[sym_vvar_page] = {"vvar_page", true},
- 	[sym_pvclock_page] = {"pvclock_page", true},
- 	[sym_hvclock_page] = {"hvclock_page", true},
-+	[sym_timens_page] = {"timens_page", true},
- 	{"VDSO32_NOTE_MASK", true},
- 	{"__kernel_vsyscall", true},
- 	{"__kernel_sigreturn", true},
---- a/arch/x86/include/asm/vdso.h
-+++ b/arch/x86/include/asm/vdso.h
-@@ -21,6 +21,7 @@ struct vdso_image {
- 	long sym_vvar_page;
- 	long sym_pvclock_page;
- 	long sym_hvclock_page;
-+	long sym_timens_page;
- 	long sym_VDSO32_NOTE_MASK;
- 	long sym___kernel_sigreturn;
- 	long sym___kernel_rt_sigreturn;
---- a/arch/x86/include/asm/vdso/gettimeofday.h
-+++ b/arch/x86/include/asm/vdso/gettimeofday.h
-@@ -265,6 +265,15 @@ static __always_inline const struct vdso
- 	return __vdso_data;
+--- a/arch/x86/entry/vdso/vma.c
++++ b/arch/x86/entry/vdso/vma.c
+@@ -84,6 +84,33 @@ static int vdso_mremap(const struct vm_s
+ 	return 0;
  }
  
-+/* HACK .... */
-+#define VDSO_TIMENS_PAGEOFFSET		(3 * PAGE_SIZE)
++/* Hack for testing */
++static struct page *vdso_timens_page;
 +
-+static __always_inline
-+const struct vdso_data *__arch_get_timens_vdso_data(const struct vdso_data *vd)
++static int __init init_vdso_timens(void)
 +{
-+	return (void *)vd + VDSO_TIMENS_PAGEOFFSET;
-+}
++	struct vdso_data *vdata;
++	void *va;
 +
- /*
-  * x86 specific delta calculation.
-  *
++	vdso_timens_page = alloc_page(GFP_KERNEL | __GFP_ZERO);
++	if (!vdso_timens_page)
++		return -ENOMEM;
++
++	/* Hack: vdso data is at offset 0x80 in the page ... */
++	va = page_address(vdso_timens_page);
++	vdata = (struct vdso_data *)(va + 0x80);
++
++	vdata[0].seq = 1;
++	vdata[0].clock_mode = UINT_MAX;
++	vdata[1].seq = 1;
++	vdata[1].clock_mode = UINT_MAX;
++
++	/* All offsets are zero */
++
++	return 0;
++}
++subsys_initcall(init_vdso_timens);
++
+ static vm_fault_t vvar_fault(const struct vm_special_mapping *sm,
+ 		      struct vm_area_struct *vma, struct vm_fault *vmf)
+ {
+@@ -106,7 +133,7 @@ static vm_fault_t vvar_fault(const struc
+ 	if (sym_offset == 0)
+ 		return VM_FAULT_SIGBUS;
+ 
+-	if (sym_offset == image->sym_vvar_page) {
++	if (sym_offset == image->sym_timens_page) {
+ 		return vmf_insert_pfn(vma, vmf->address,
+ 				__pa_symbol(&__vvar_page) >> PAGE_SHIFT);
+ 	} else if (sym_offset == image->sym_pvclock_page) {
+@@ -123,6 +150,11 @@ static vm_fault_t vvar_fault(const struc
+ 		if (tsc_pg && vclock_was_used(VCLOCK_HVCLOCK))
+ 			return vmf_insert_pfn(vma, vmf->address,
+ 					vmalloc_to_pfn(tsc_pg));
++	} else if (sym_offset == image->sym_vvar_page) {
++		unsigned long pfn;
++
++		pfn = page_to_pfn(vdso_timens_page);
++		return vmf_insert_pfn(vma, vmf->address, pfn);
+ 	}
+ 
+ 	return VM_FAULT_SIGBUS;
