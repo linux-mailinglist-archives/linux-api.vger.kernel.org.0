@@ -2,122 +2,179 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C77991FC5
-	for <lists+linux-api@lfdr.de>; Mon, 19 Aug 2019 11:15:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65D739264E
+	for <lists+linux-api@lfdr.de>; Mon, 19 Aug 2019 16:16:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727374AbfHSJPa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 19 Aug 2019 05:15:30 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:46607 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726661AbfHSJPa (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 19 Aug 2019 05:15:30 -0400
-Received: from pd9ef1cb8.dip0.t-ipconnect.de ([217.239.28.184] helo=nanos)
-        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <tglx@linutronix.de>)
-        id 1hzdku-00009b-Bv; Mon, 19 Aug 2019 11:15:12 +0200
-Date:   Mon, 19 Aug 2019 11:15:11 +0200 (CEST)
-From:   Thomas Gleixner <tglx@linutronix.de>
-To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
-cc:     Jordan Glover <Golden_Miller83@protonmail.ch>,
-        Andy Lutomirski <luto@kernel.org>,
-        Daniel Colascione <dancol@google.com>,
-        Song Liu <songliubraving@fb.com>,
-        Kees Cook <keescook@chromium.org>,
-        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Kernel Team <Kernel-team@fb.com>,
-        Lorenz Bauer <lmb@cloudflare.com>,
-        Jann Horn <jannh@google.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>
-Subject: Re: [PATCH v2 bpf-next 1/4] bpf: unprivileged BPF access via
- /dev/bpf
-In-Reply-To: <20190817150245.xxzxqjpvgqsxmloe@ast-mbp>
-Message-ID: <alpine.DEB.2.21.1908191103130.1923@nanos.tec.linutronix.de>
-References: <20190814220545.co5pucyo5jk3weiv@ast-mbp.dhcp.thefacebook.com> <HG0x24u69mnaMFKuxHVAzHpyjwsD5-U6RpqFRua87wGWQCHg00Q8ZqPeA_5kJ9l-d6oe0cXa4HyYXMnOO0Aofp_LcPcQdG0WFV21z1MbgcE=@protonmail.ch> <20190815172856.yoqvgu2yfrgbkowu@ast-mbp.dhcp.thefacebook.com>
- <CALCETrUv+g+cb79FJ1S4XuV0K=kowFkPXpzoC99svoOfs4-Kvg@mail.gmail.com> <20190815230808.2o2qe7a72cwdce2m@ast-mbp.dhcp.thefacebook.com> <fkD3fs46a1YnR4lh0tEG-g3tDnDcyZuzji7bAUR9wujPLLl75ZhI8Yk-H1jZpSugO7qChVeCwxAMmxLdeoF2QFS3ZzuYlh7zmeZOmhDJxww=@protonmail.ch>
- <alpine.DEB.2.21.1908161158490.1873@nanos.tec.linutronix.de> <lGGTLXBsX3V6p1Z4TkdzAjxbNywaPS2HwX5WLleAkmXNcnKjTPpWnP6DnceSsy8NKt5NBRBbuoAb0woKTcDhJXVoFb7Ygk3Skfj8j6rVfMQ=@protonmail.ch> <20190816195233.vzqqbqrivnooohq6@ast-mbp.dhcp.thefacebook.com>
- <alpine.DEB.2.21.1908162211270.1923@nanos.tec.linutronix.de> <20190817150245.xxzxqjpvgqsxmloe@ast-mbp>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        id S1726654AbfHSOP5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 19 Aug 2019 10:15:57 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:42999 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726604AbfHSOPx (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 19 Aug 2019 10:15:53 -0400
+Received: by mail-wr1-f67.google.com with SMTP id b16so8896896wrq.9;
+        Mon, 19 Aug 2019 07:15:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=j87XxrbGpr6xFNUbUB58c7Vd8US5+wAqR7A5uKkJmgg=;
+        b=KmRiagLFsj35znGS/BI79vx49mLHVAiBsEdrtjkKEci24tOhfbMClylYAC0o7GqAd5
+         QK6P1pWYW3Kf1Sqiyk8KV/sBOcsuDE25ZweOWBh7KWMsfQ2aDbkhMouqvf69mvWWkBdS
+         5ZPz5AtAhpTD5UHAfFtCQ5yx1u4XY9JVcm5YDHSETM3Ett9vxJ635AdBqUMn6lzEq4ky
+         wtEU9yAYHqWDHLJmZc2W3q0fNudoLIRObTjCRTf2jdfUKAjgMCW/k83+Z26sGnRSMWLD
+         CaU7QDAbzUeOOwboCMZzAXbeHyzYJWUqlfD60jdnlSu5Addh5MwgsT9Aex88bo2Cor+M
+         ciQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=j87XxrbGpr6xFNUbUB58c7Vd8US5+wAqR7A5uKkJmgg=;
+        b=jcIKRPUCe+BPA3+9gzTDJ5QLqRs1mtOM10F4faNkLWxk4Ek9s4YzP+Z+qnpwbdPJH7
+         mXJjJ5Th3DyuP/WimAq6CXDCdY6wZstA1yJuE/bbentAbjUV5iFoMSG5NEMzUxr/xBoQ
+         2bw6t5emJcx69esqgxaAHsvoG7KbHwcLbJxA65S/excQV4vmDoIJX8oH7I6bNf8h+OiU
+         MxIPPQC4DG1GD6c2wdbWLv2MvSCRYsvYFBNLKREmxp685WFgxHPBeFhi3PV80Ot8ivhP
+         ttBxc6kQ2u/+q7GWoJ++gHRyk67doQbyGTGASDdDWSLP9GofU0VXLQ5wfuxiskpwIx79
+         ilcw==
+X-Gm-Message-State: APjAAAW9BbUpJ9pSqDL108aNeetRpMSxOmBhJi8+BwIY8IrLSNYH4Nti
+        cFskL8bVBjnCapglaCijY2c=
+X-Google-Smtp-Source: APXvYqx+FKusv7v6ee8JIs0nlY8aRLz0wUo97s+oVdC9+ytApJ9XpJQO1AY3JozQP4fNeaL0Pt6pAQ==
+X-Received: by 2002:a5d:568e:: with SMTP id f14mr27110440wrv.167.1566224150264;
+        Mon, 19 Aug 2019 07:15:50 -0700 (PDT)
+Received: from [10.83.36.153] ([217.173.96.166])
+        by smtp.gmail.com with ESMTPSA id p10sm12196874wma.8.2019.08.19.07.15.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Aug 2019 07:15:49 -0700 (PDT)
+Subject: Re: [PATCHv6 23/36] x86/vdso: Allocate timens vdso
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Andy Lutomirski <luto@kernel.org>
+Cc:     Dmitry Safonov <dima@arista.com>, linux-kernel@vger.kernel.org,
+        Adrian Reber <adrian@lisas.de>,
+        Andrei Vagin <avagin@openvz.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Cyrill Gorcunov <gorcunov@openvz.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jann Horn <jannh@google.com>, Jeff Dike <jdike@addtoit.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Pavel Emelyanov <xemul@virtuozzo.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        containers@lists.linux-foundation.org, criu@openvz.org,
+        linux-api@vger.kernel.org, x86@kernel.org
+References: <20190815163836.2927-1-dima@arista.com>
+ <20190815163836.2927-24-dima@arista.com>
+ <b719199a-ed91-610b-38bc-015a0749f600@kernel.org>
+ <alpine.DEB.2.21.1908162208190.1923@nanos.tec.linutronix.de>
+ <483678c7-7687-5445-f09e-e45e9460d559@gmail.com>
+ <alpine.DEB.2.21.1908171709360.1923@nanos.tec.linutronix.de>
+From:   Dmitry Safonov <0x7f454c46@gmail.com>
+Message-ID: <37f08bfa-0ef8-6df9-e119-e010cdeb9a5a@gmail.com>
+Date:   Mon, 19 Aug 2019 15:15:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Linutronix-Spam-Score: -1.0
-X-Linutronix-Spam-Level: -
-X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
+In-Reply-To: <alpine.DEB.2.21.1908171709360.1923@nanos.tec.linutronix.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Alexei,
+Hi Thomas,
 
-On Sat, 17 Aug 2019, Alexei Starovoitov wrote:
-> On Fri, Aug 16, 2019 at 10:28:29PM +0200, Thomas Gleixner wrote:
-> > On Fri, 16 Aug 2019, Alexei Starovoitov wrote:
-> > While real usecases are helpful to understand a design decision, the design
-> > needs to be usecase independent.
-> > 
-> > The kernel provides mechanisms, not policies. My impression of this whole
-> > discussion is that it is policy driven. That's the wrong approach.
+On 8/18/19 5:21 PM, Thomas Gleixner wrote:
+[..]
+> I'm happy to review well written stuff which makes progress and takes
+> review comments into account or the submitter discusses them for
+> resolution.
+
+Thanks again for both your and Andy time!
+
+[..]
+> Coming back to Andy's idea. Create your time namespace page as an exact
+> copy of the vdso data page. When the page is created do:
 > 
-> not sure what you mean by 'policy driven'.
-> Proposed CAP_BPF is a policy?
-
-I was referring to the discussion as a whole.
- 
-> Can kernel.unprivileged_bpf_disabled=1 be used now?
-> Yes, but it will weaken overall system security because things that
-> use unpriv to load bpf and CAP_NET_ADMIN to attach bpf would need
-> to move to stronger CAP_SYS_ADMIN.
+>      	 memset(p->vdso_data, 0, sizeof(p->vdso_data));
+>      	 p->vdso_data[0].clock_mode = CLOCK_TIMENS;
+> 	 p->vdso_data[0].seq = 1;
+>  
+> 	 /* Store the namespace offsets in basetime */
+> 	 p->vdso_data[0].basetime[CLOCK_MONOTONIC].sec = myns->mono_sec;
+> 	 p->vdso_data[0].basetime[CLOCK_MONOTONIC].nsec = myns->mono_nsec;
+> 	 p->vdso_data[0].basetime[CLOCK_BOOTTIME].sec = myns->boot_sec;
+> 	 p->vdso_data[0].basetime[CLOCK_BOOTTIME].nsec = myns->boot_nsec;
 > 
-> With CAP_BPF both load and attach would happen under CAP_BPF
-> instead of CAP_SYS_ADMIN.
-
-I'm not arguing against that.
-
-> > So let's look at the mechanisms which we have at hand:
-> > 
-> >  1) Capabilities
-> >  
-> >  2) SUID and dropping priviledges
-> > 
-> >  3) Seccomp and LSM
-> > 
-> > Now the real interesting questions are:
-> > 
-> >  A) What kind of restrictions does BPF allow? Is it a binary on/off or is
-> >     there a more finegrained control of BPF functionality?
-> > 
-> >     TBH, I can't tell.
-> > 
-> >  B) Depending on the answer to #A what is the control possibility for
-> >     #1/#2/#3 ?
+>      	 p->vdso_data[1].clock_mode = CLOCK_TIMENS;
+> 	 p->vdso_data[1].seq = 1;
 > 
-> Can any of the mechanisms 1/2/3 address the concern in mds.rst?
+> For a normal task the VVAR pages are installed in the normal ordering:
+> 
+>        VVAR
+>        PVCLOCK
+>        HVCLOCK
+>        TIMENS	<- Not really required
+> 
+> Now for a timens task you install the pages in the following order
+> 
+>        TIMENS
+>        PVCLOCK
+>        HVCLOCK
+>        VVAR
+> 
+> The check for vdso_data->clock_mode is in the unlikely path of the now open
+> coded seq begin magic. So for the non-timens case most of the time 'seq' is
+> even, so the branch is not taken.
+> 
+> If 'seq' is odd, i.e. a concurrent update is in progress, the extra check
+> for vdso_data->clock_mode is a non-issue. The task is spin waiting for the
+> update to finish and for 'seq' to become even anyway.
+> 
+> Patch below. I tested this with the normal order and by installing a
+> 'timens' page unconditionally for all processes. I'll reply with the timens
+> testing hacks so you can see what I did.
+> 
+> The test results are pretty good.
+> 
+>     	 	 Base (upstream)  + VDSO patch	+ timens page
+> 
+> MONO		 30ns 		    30ns 	  32ns
+> REAL		 30ns		    30ns	  32ns
+> BOOT		 30ns		    30ns	  32ns
+> MONOCOARSE	  7ns		     8ns	  10ns
+> REALCOARSE	  7ns		     8ns	  10ns
+> TAI		 30ns		    30ns	  32ns
+> MONORAW		 30ns		    30ns	  32ns
+> 
+> So except for the coarse clocks there is no change when the timens page is
+> not used, i.e. the regular VVAR page is at the proper place. But that's on
+> one machine, a different one showed an effect in the noise range. I'm not
+> worried about that as the VDSO behaviour varies depending on micro
+> architecture anyway.
+> 
+> With timens enabled the performance hit (cache hot microbenchmark) is
+> somewhere in the range of 5-7% when looking at the perf counters
+> numbers. The hit for the coarse accessors is larger obviously because the
+> overhead is constant time.
+> 
+> I did a quick comparison of the array vs. switch case (what you used for
+> your clk_to_ns() helper). The switch case is slower.
+> 
+> So I rather go for the array based approach. It's simpler code and the
+> I-cache footprint is smaller and no conditional branches involved.
+> 
+> That means your timens_to_host() and host_to_timens() conversion functions
+> should just use that special VDSO page and do the same array based
+> unconditional add/sub of the clock specific offset.
 
-Well, that depends. As with any other security policy which is implemented
-via these mechanisms, the policy can be strict enough to prevent it by not
-allowing certain operations. The more fine-grained the control is, it
-allows the administrator who implements the policy to remove the
-'dangerous' parts from an untrusted user.
-
-So really question #A is important for this. Is BPF just providing a binary
-ON/OFF knob or does it allow to disable/enable certain aspects of BPF
-functionality in a more fine grained way? If the latter, then it might be
-possible to control functionality which might be abused for exploits of
-some sorts (including MDS) in a way which allows other parts of BBF to be
-exposed to less priviledged contexts.
-
-> I believe Andy wants to expand the attack surface when
-> kernel.unprivileged_bpf_disabled=0
-> Before that happens I'd like the community to work on addressing the text above.
-
-Well, that text above can be removed when the BPF wizards are entirely sure
-that BPF cannot be abused to exploit stuff. 
+I was a bit scarred that clock_mode change would result in some complex
+logic, but your patch showed me that it's definitely not so black as I
+was painting it.
+Will rework the patches set with Andrei based on your and Andy's
+suggestions and patches.
 
 Thanks,
-
-	tglx
+          Dmitry
