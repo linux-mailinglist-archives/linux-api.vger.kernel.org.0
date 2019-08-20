@@ -2,159 +2,60 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 265D19502D
-	for <lists+linux-api@lfdr.de>; Mon, 19 Aug 2019 23:53:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C27739524B
+	for <lists+linux-api@lfdr.de>; Tue, 20 Aug 2019 02:19:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728494AbfHSVwU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 19 Aug 2019 17:52:20 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:46056 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728484AbfHSVwU (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 19 Aug 2019 17:52:20 -0400
-Received: by mail-pf1-f193.google.com with SMTP id w26so1961546pfq.12
-        for <linux-api@vger.kernel.org>; Mon, 19 Aug 2019 14:52:19 -0700 (PDT)
+        id S1728351AbfHTASL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 19 Aug 2019 20:18:11 -0400
+Received: from mail-vk1-f202.google.com ([209.85.221.202]:48926 "EHLO
+        mail-vk1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728608AbfHTASL (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 19 Aug 2019 20:18:11 -0400
+Received: by mail-vk1-f202.google.com with SMTP id l3so2372782vkb.15
+        for <linux-api@vger.kernel.org>; Mon, 19 Aug 2019 17:18:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=1NM94xksOiht8RmgWrLEcFY3PgSHOoB3FnNWuwtEkT8=;
-        b=ZIz4IZobyazBKzjPdPXduiU9VmQv41GRQbby3Zhrveo6Tz9PhO7CfVQSbB/TBOqzVV
-         HKeoTTvO+/pPOZ6NjxPybqIoS90KhiOlS45PxA7pJUrdFjv/+xi3aMSn2GcoZjntjeft
-         Q/tWStO+V0j/UbB2Xya/5GYUIAa/rOxLiAaAo=
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=VwF/91o4aMHrQL5QM73+22fSApAs/2NiXgYkaBxXzFM=;
+        b=CUH1JVMihclalX5q2seurV8HS9Qtk8nNORqI67CyNzpt8f4YKj9PsBh2yhEiLjpN0N
+         Fknxxgr4PJdGVml+Jh2OhZg5E3JvdD0eGWvF5Fmj48bmwNl5sWVh0boqVtCTRu0mQHas
+         1xR/eyrBcny62z5z0RXhFDmY63lItRvyMCbNrGAku/YYgZEVoLwuK/uqG8c8z1Py5OSr
+         A6r1/J/F5nwciw7FJDr6x0eGnjeLDqYrBnU6tU/LRSjombP6Ii7IjYs4x7MFqzCatoKk
+         c5ORjqJyd7wx6vbPsu0EDtwg03Dm+tZqvDQMHo7P8iZ7nhjRLYSJI6ZiO9T9s7fsnTfy
+         eFPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=1NM94xksOiht8RmgWrLEcFY3PgSHOoB3FnNWuwtEkT8=;
-        b=EO83UQdOjxDdRbgCQmE6fBrLQ2Ugyt3ZkhYMQV4wvypD1+ZJr6vqMyd+nHmMrc3Qqq
-         NOp7NafMKKWb6OqTLd/icTnlBZRjBDynHL2ppEv1G8A+HMxl7yeXV6t7T+2xfoz670Cm
-         4XGj+SEY6YSb5NcmBL056SZMH2B03iz0xvDZqtMayXpkGXO3FbZ7MtjYhsgktVtsT3xW
-         BrPeeiYeWhaHh8oPU8835eWf45mWbIeVuEDm2BNChVEfzyopEJD879ei0t7ek70six3x
-         hB5oh3nRhLW7db3TnE8XbYetbNXYL9lJ5lnOctAQMkWHgIePwKBCqGS1M3vjOY+Dc7A7
-         CmbQ==
-X-Gm-Message-State: APjAAAXlxaHaz/HWt9Nt0tUrxrWjZ/zvPII6vKMiI9TnhINaREPDErG6
-        u8i+hqLVBdZYKbhojLnklWb7rg==
-X-Google-Smtp-Source: APXvYqwUvaI7TTB3Cq1JrLcXYfbfWpzlEsBG0HdCSLwtiPUe8V7Jo54+xeveGTu2L+fiSxLgsLREgA==
-X-Received: by 2002:a17:90a:3321:: with SMTP id m30mr23192445pjb.2.1566251538929;
-        Mon, 19 Aug 2019 14:52:18 -0700 (PDT)
-Received: from localhost ([172.19.216.18])
-        by smtp.gmail.com with ESMTPSA id v8sm19341824pjb.6.2019.08.19.14.52.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Aug 2019 14:52:18 -0700 (PDT)
-Date:   Mon, 19 Aug 2019 17:52:01 -0400
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Michal Hocko <mhocko@kernel.org>
-Cc:     Jann Horn <jannh@google.com>,
-        Daniel Gruss <daniel.gruss@iaik.tugraz.at>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Brendan Gregg <bgregg@netflix.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christian Hansen <chansen3@cisco.com>,
-        Daniel Colascione <dancol@google.com>, fmayer@google.com,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        kernel-team <kernel-team@android.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Minchan Kim <minchan@kernel.org>, namhyung@google.com,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Roman Gushchin <guro@fb.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v5 1/6] mm/page_idle: Add per-pid idle page tracking
- using virtual index
-Message-ID: <20190819215201.GG117548@google.com>
-References: <20190807171559.182301-1-joel@joelfernandes.org>
- <CAG48ez0ysprvRiENhBkLeV9YPTN_MB18rbu2HDa2jsWo5FYR8g@mail.gmail.com>
- <20190813100856.GF17933@dhcp22.suse.cz>
- <CAG48ez2cuqe_VYhhaqw8Hcyswv47cmz2XmkqNdvkXEhokMVaXg@mail.gmail.com>
- <20190814075601.GO17933@dhcp22.suse.cz>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190814075601.GO17933@dhcp22.suse.cz>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=VwF/91o4aMHrQL5QM73+22fSApAs/2NiXgYkaBxXzFM=;
+        b=OLvL5Wb+b3d2caaRd3xsot8CDYhoi7AFA4FxppT2QhQe1e0dU32DBEasIxqBoPLYzB
+         NZG3VzpVuGohhc5nHeB0sWa4oC+dXmQbgi9fhfg8R5P++WwmIbXqEjYFb3Xo/i0davyg
+         mFhjHdreMbCFjYa81iOphT3I6qtTFsdG1rHBCmSpiCtWLl1MKWmAVip4lHRfKYtMO/16
+         n/6JgidCt7U4AYYelKCjMVki43hZZ9toKvbHFX/TfO19p/90zj3bo/vWVh7e+C1IOllD
+         UYwW+OS2G0RnCLbHvyMu/XfkdlCDwNy86cKduytnkqz9oOXV1snlEAANdbhaLzZq37Fx
+         fLNQ==
+X-Gm-Message-State: APjAAAXRT0nL7PzuXo4CrAKGdfdX22LW0EUXNimtQ1MzokWrW0Tl6x1B
+        VKFhxWUXTh5sukrxYSTbFAXiS8Syn6gxJW1qYZMZ/Q==
+X-Google-Smtp-Source: APXvYqz41WMqs6ZJ50zP00x9Ki+LU6ocf63OApf5Deq/yukX6RTwToHjUAj4ZEXRYb662kA7qgoSvA9acMVNeIZGiXQafw==
+X-Received: by 2002:ac5:c801:: with SMTP id y1mr9262710vkl.41.1566260290111;
+ Mon, 19 Aug 2019 17:18:10 -0700 (PDT)
+Date:   Mon, 19 Aug 2019 17:17:36 -0700
+Message-Id: <20190820001805.241928-1-matthewgarrett@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.23.0.rc1.153.gdeed80330f-goog
+Subject: [PATCH V40 00/29] Add kernel lockdown functionality
+From:   Matthew Garrett <matthewgarrett@google.com>
+To:     jmorris@namei.org
+Cc:     linux-security-module@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Aug 14, 2019 at 09:56:01AM +0200, Michal Hocko wrote:
-[snip]
-> > > > Can this be used to observe which library pages other processes are
-> > > > accessing, even if you don't have access to those processes, as long
-> > > > as you can map the same libraries? I realize that there are already a
-> > > > bunch of ways to do that with side channels and such; but if you're
-> > > > adding an interface that allows this by design, it seems to me like
-> > > > something that should be gated behind some sort of privilege check.
-> > >
-> > > Hmm, you need to be priviledged to get the pfn now and without that you
-> > > cannot get to any page so the new interface is weakening the rules.
-> > > Maybe we should limit setting the idle state to processes with the write
-> > > status. Or do you think that even observing idle status is useful for
-> > > practical side channel attacks? If yes, is that a problem of the
-> > > profiler which does potentially dangerous things?
-> > 
-> > I suppose read-only access isn't a real problem as long as the
-> > profiler isn't writing the idle state in a very tight loop... but I
-> > don't see a usecase where you'd actually want that? As far as I can
-> > tell, if you can't write the idle state, being able to read it is
-> > pretty much useless.
-> > 
-> > If the profiler only wants to profile process-private memory, then
-> > that should be implementable in a safe way in principle, I think, but
-> > since Joel said that they want to profile CoW memory as well, I think
-> > that's inherently somewhat dangerous.
-> 
-> I cannot really say how useful that would be but I can see that
-> implementing ownership checks would be really non-trivial for
-> shared pages. Reducing the interface to exclusive pages would make it
-> easier as you noted but less helpful.
-> 
-> Besides that the attack vector shouldn't be really much different from
-> the page cache access, right? So essentially can_do_mincore model.
-> 
-> I guess we want to document that page idle tracking should be used with
-> care because it potentially opens a side channel opportunity if used
-> on sensitive data.
+After chatting with James in person, I'm resending the full set with the
+fixes merged in in order to avoid any bisect issues. There should be no
+functional changes other than avoiding build failures with some configs,
+and fixing the oops in tracefs.
 
-I have been thinking of this, and discussing with our heap profiler folks.
-Not being able to track shared pages would be a limitation, but I don't see
-any way forward considering this security concern so maybe we have to
-limit what we can do.
-
-I will look into implementing this without doing the rmap but still make it
-work on shared pages from the point of view of the process being tracked. It
-just would no longer through the PTEs of *other* processes sharing the page.
-
-My current thought is to just rely on the PTE accessed bit, and not use the
-PageIdle flag at all. But we'd still set the PageYoung flag so that the
-reclaim code still sees the page as accessed. The reason I feel like avoiding
-the PageIdle flag is:
-
-1. It looks like mark_page_accessed() can be called from other paths which
-can also result in some kind of side-channel issue if a page was shared.
-
-2. I don't think I need the PageIdle flag since the access bit alone should
-let me know, although it could be a bit slower. Since previously, I did not
-need to check every PTE and if the PageIdle flag was already cleared, then
-the page was declared as idle.
-
-At least this series resulted in a bug fix and a tonne of learning, so thank
-you everyone!
-
-Any other thoughts?
-
-thanks,
-
- - Joel
 
