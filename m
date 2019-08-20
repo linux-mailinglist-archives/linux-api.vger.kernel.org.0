@@ -2,24 +2,28 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8906C95BE1
-	for <lists+linux-api@lfdr.de>; Tue, 20 Aug 2019 12:02:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6589A96614
+	for <lists+linux-api@lfdr.de>; Tue, 20 Aug 2019 18:17:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728771AbfHTKCR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 20 Aug 2019 06:02:17 -0400
-Received: from foss.arm.com ([217.140.110.172]:37940 "EHLO foss.arm.com"
+        id S1729639AbfHTQRm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 20 Aug 2019 12:17:42 -0400
+Received: from mga07.intel.com ([134.134.136.100]:58739 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729452AbfHTKCQ (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 20 Aug 2019 06:02:16 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E6723344;
-        Tue, 20 Aug 2019 03:02:15 -0700 (PDT)
-Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5C5113F706;
-        Tue, 20 Aug 2019 03:02:12 -0700 (PDT)
-Date:   Tue, 20 Aug 2019 11:02:10 +0100
-From:   Dave Martin <Dave.Martin@arm.com>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+        id S1725971AbfHTQRm (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 20 Aug 2019 12:17:42 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 20 Aug 2019 09:17:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,408,1559545200"; 
+   d="scan'208";a="169130943"
+Received: from yyu32-desk1.sc.intel.com ([10.144.153.205])
+  by orsmga007.jf.intel.com with ESMTP; 20 Aug 2019 09:17:39 -0700
+Message-ID: <fb058c3d56bb070706aa5f8502b4d8f0da265b74.camel@intel.com>
+Subject: Re: [PATCH v8 18/27] mm: Introduce do_mmap_locked()
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Sean Christopherson <sean.j.christopherson@intel.com>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
@@ -42,59 +46,68 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Peter Zijlstra <peterz@infradead.org>,
         Randy Dunlap <rdunlap@infradead.org>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Subject: Re: [PATCH v8 22/27] binfmt_elf: Extract .note.gnu.property from an
- ELF file
-Message-ID: <20190820100208.GO10425@arm.com>
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>
+Date:   Tue, 20 Aug 2019 09:08:34 -0700
+In-Reply-To: <20190820010200.GI1916@linux.intel.com>
 References: <20190813205225.12032-1-yu-cheng.yu@intel.com>
- <20190813205225.12032-23-yu-cheng.yu@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190813205225.12032-23-yu-cheng.yu@intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+         <20190813205225.12032-19-yu-cheng.yu@intel.com>
+         <20190820010200.GI1916@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Aug 13, 2019 at 01:52:20PM -0700, Yu-cheng Yu wrote:
-> An ELF file's .note.gnu.property indicates features the executable file
-> can support.  For example, the property GNU_PROPERTY_X86_FEATURE_1_AND
-> indicates the file supports GNU_PROPERTY_X86_FEATURE_1_IBT and/or
-> GNU_PROPERTY_X86_FEATURE_1_SHSTK.
+On Mon, 2019-08-19 at 18:02 -0700, Sean Christopherson wrote:
+> On Tue, Aug 13, 2019 at 01:52:16PM -0700, Yu-cheng Yu wrote:
+> > There are a few places that need do_mmap() with mm->mmap_sem held.
+> > Create an in-line function for that.
+> > 
+> > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> > ---
+> >  include/linux/mm.h | 18 ++++++++++++++++++
+> >  1 file changed, 18 insertions(+)
+> > 
+> > diff --git a/include/linux/mm.h b/include/linux/mm.h
+> > index bc58585014c9..275c385f53c6 100644
+> > --- a/include/linux/mm.h
+> > +++ b/include/linux/mm.h
+> > @@ -2394,6 +2394,24 @@ static inline void mm_populate(unsigned long addr,
+> > unsigned long len)
+> >  static inline void mm_populate(unsigned long addr, unsigned long len) {}
+> >  #endif
+> >  
+> > +static inline unsigned long do_mmap_locked(struct file *file,
+> > +	unsigned long addr, unsigned long len, unsigned long prot,
+> > +	unsigned long flags, vm_flags_t vm_flags, struct list_head *uf)
+> > +{
+> > +	struct mm_struct *mm = current->mm;
+> > +	unsigned long populate;
+> > +
+> > +	down_write(&mm->mmap_sem);
+> > +	addr = do_mmap(file, addr, len, prot, flags, vm_flags, 0,
+> > +		       &populate, uf);
+> > +	up_write(&mm->mmap_sem);
+> > +
+> > +	if (populate)
+> > +		mm_populate(addr, populate);
+> > +
+> > +	return addr;
+> > +}
 > 
-> With this patch, if an arch needs to setup features from ELF properties,
-> it needs CONFIG_ARCH_USE_GNU_PROPERTY to be set, and specific
-> arch_parse_property() and arch_setup_property().
+> Any reason not to put this in cet.c, as suggested by PeterZ?  All of the
+> calls from CET have identical params except for @len, e.g. you can add
+> 'static unsigned long cet_mmap(unsigned long len)' and bury most of the
+> copy-paste code in there.
 > 
-> For example, for X86_64:
-> 
-> int arch_setup_property(void *ehdr, void *phdr, struct file *f, bool inter)
-> {
-> 	int r;
-> 	uint32_t property;
-> 
-> 	r = get_gnu_property(ehdr, phdr, f, GNU_PROPERTY_X86_FEATURE_1_AND,
-> 			     &property);
-> 	...
-> }
-> 
-> This patch is derived from code provided by H.J. Lu <hjl.tools@gmail.com>.
-> 
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> https://lkml.kernel.org/r/20190607074707.GD3463@hirez.programming.kicks-ass.ne
+> t
 
-[...]
+Yes, I will do that.  I thought this would be useful in other places, but
+currently only in mpx.c.
 
-For the hell of it, I tried implementing an alternate version [1] that
-tries to integrate into the existing ELF loader more directly.
-
-This may or may not be a better approach, but tries to solve some
-issues such as not repeatedly reading and parsing the properties.
-
-Cheers
----Dave
-
-
-[1] [RFC PATCH 0/2] ELF: Alternate program property parser
-https://lore.kernel.org/lkml/1566295063-7387-1-git-send-email-Dave.Martin@arm.com/
+Yu-cheng
