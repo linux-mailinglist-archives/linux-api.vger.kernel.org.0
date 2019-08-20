@@ -2,212 +2,274 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EDEDE95277
-	for <lists+linux-api@lfdr.de>; Tue, 20 Aug 2019 02:19:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9262495287
+	for <lists+linux-api@lfdr.de>; Tue, 20 Aug 2019 02:19:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729188AbfHTATS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 19 Aug 2019 20:19:18 -0400
-Received: from mail-ua1-f74.google.com ([209.85.222.74]:37868 "EHLO
-        mail-ua1-f74.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729180AbfHTATQ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 19 Aug 2019 20:19:16 -0400
-Received: by mail-ua1-f74.google.com with SMTP id p19so526900uam.4
-        for <linux-api@vger.kernel.org>; Mon, 19 Aug 2019 17:19:15 -0700 (PDT)
+        id S1729191AbfHTATT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 19 Aug 2019 20:19:19 -0400
+Received: from mail-pg1-f201.google.com ([209.85.215.201]:42638 "EHLO
+        mail-pg1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729160AbfHTATS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 19 Aug 2019 20:19:18 -0400
+Received: by mail-pg1-f201.google.com with SMTP id l12so3484563pgt.9
+        for <linux-api@vger.kernel.org>; Mon, 19 Aug 2019 17:19:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=l0D0FijjHNavvE4x6KoSMcY6aVnPYpY2dpif/cNLitk=;
-        b=Pbcszmfo0nBO9MridqaWaCmAvMTSKzWZF5bf08oJsft5Gw9UdsClZ/3l8pVt1WW3Om
-         TeGXyUuWLHjajfOp9UAv1xzvhVCFEKDt2R6Hf7PPozGHpMUpP//3XuQkUqhZQu6yWFoc
-         SD3i9b1jcaZZckls08n4PzLiiUYetxGJ9giY/QjFgDTVYN+AYAI5z4FRN0xNphj1z5BS
-         8Y4fM5nAzyU3sAOr9QG9Z0qxuksHBXeIpeg2XkOp2JBO/xlZMbp1xjBpaBVrTrm1BbW3
-         NincUSfhrlYLkkDB2M9Olx0VH03LJD82RbEe014R/lSjMxZcJylmUsPtdpN3ZNOHNslE
-         wrVQ==
+        bh=PnHD6PIrANA/H8RrQcEsi66/pL9qnyHyXS5DOBbHqXk=;
+        b=MXvX3MY2xXIWb27rgFUrxEZj52T8rGOkdqnyr+R9wm3qqZxTf2D/libZyOrajCMAtT
+         UHOJJohFD8mgBcyBvSlKSgu6K9DxhwpPrzztyrIKQtSqU7xtJIIRzhaHlFZObafIhGqd
+         fEzGMon2wCJvAetekIz4A5i87fjpdZUzNpLf69Y2eWQHrKV4Ot/OxVXXuBSty3HAjZ7J
+         ERh2quATDDJFIQ7l/eu2UUPwq6rZbs5vsCrkqDdqzKB/+3AtijCdbzZr5yA8yxIjC4Xb
+         hnmk5tjHktAptd3LDGkyCE8vAa+l1PSB2Y9/w5axi2mNHfZ3zstDLOCokbqj+oI4YhkG
+         MaYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=l0D0FijjHNavvE4x6KoSMcY6aVnPYpY2dpif/cNLitk=;
-        b=W0nk2vReq6NH1A8tuyOdDPgAsRa6kA/SoQJtL9SDO+hXps8F+tp8DGLSINuu9Qpoz/
-         1lJo/A6vEFc6StTPdBddqKfFqkFFoWLOyG2r3sST+4oRnBrNUcP/2TgmpBlvXoqZSD73
-         pFcBrv9wXSM2n30fNdWujSErO583LmIog6x6c9X0s7OkwvuVS4M+Gz/piQKsu3U/1Jmn
-         umlvYpU2oKmAEYK55rXWbCzAOPt5bU0VkZL9TNL/Jwj975SbF7pR1QJRiFJQkCTU0N2o
-         QZphKATGzkRbQQ0aYfahjmxt6uriosoULVH5A1/YXo4xUSmSojpBTqhXGGyZFEsXjjtP
-         mknA==
-X-Gm-Message-State: APjAAAWsh2TTSWOwbsa2Z1I31fPr5XKiZxxCKXgEXP2ha2X0+9R7JP85
-        rY60vSyb+yIYBa6fLxqwUZZGrdr87d50RgdhU/vh7Q==
-X-Google-Smtp-Source: APXvYqx2L3MW/1bgQUg45dA1Z91iTEEgqOs4v9WdbRnDoWq8eMf71SjwOalt9zG3ldR2tj+5WPs9XJ17SMP/l8HXZoR6rw==
-X-Received: by 2002:a1f:7c0e:: with SMTP id x14mr9606134vkc.0.1566260355122;
- Mon, 19 Aug 2019 17:19:15 -0700 (PDT)
-Date:   Mon, 19 Aug 2019 17:18:01 -0700
+        bh=PnHD6PIrANA/H8RrQcEsi66/pL9qnyHyXS5DOBbHqXk=;
+        b=mCmKKx5YDSEx55SXQ+TOo23zTvv+G6ISuBf/CUL7WYeyukfkEmDB8DnmEQuhoJKpv4
+         yI7YJhvT9ebmHMGbhGbOHNCgPFwj9F9m4/J6vnu5LnbogdPU8Gq1C/99OSSkRAYVCaQE
+         w1gI13jqYATWJ5QZB63qmf/oec3p9xs7gI9+9ZVGSpt08IJCKyjx+Y8kOjL4z0xhm3EF
+         qaS43nHvdx0gqvvBHEaUcgk0c4oYkipVOw3nVoYAdq6/JEk8WeqtyAALytjAsvy4U9IJ
+         a5LfYmKX/k6ANOcrJn7yFLZ3UN0oBPU4QmVDyiBmOozhEycuOsAXDQQx3fneHjt6db3s
+         zROQ==
+X-Gm-Message-State: APjAAAUK/xDjsup7Tf2oaPWhfdftokam6J89VXjYz0ZePI6KNkYxcwyW
+        1pre45ywU1hZhyLvc0oZvu/YT3Ztri+POY6SGcAmYw==
+X-Google-Smtp-Source: APXvYqxYNIO09gpHlcZsmiJnEho4gqR876DcMBw4jRS1UaizEx6pcOYy7tlXCRdAED26e+N9db8K0rLxA0tYqx1XrhGDJQ==
+X-Received: by 2002:a63:bf01:: with SMTP id v1mr21722751pgf.278.1566260357287;
+ Mon, 19 Aug 2019 17:19:17 -0700 (PDT)
+Date:   Mon, 19 Aug 2019 17:18:02 -0700
 In-Reply-To: <20190820001805.241928-1-matthewgarrett@google.com>
-Message-Id: <20190820001805.241928-26-matthewgarrett@google.com>
+Message-Id: <20190820001805.241928-27-matthewgarrett@google.com>
 Mime-Version: 1.0
 References: <20190820001805.241928-1-matthewgarrett@google.com>
 X-Mailer: git-send-email 2.23.0.rc1.153.gdeed80330f-goog
-Subject: [PATCH V40 25/29] kexec: Allow kexec_file() with appropriate IMA
- policy when locked down
+Subject: [PATCH V40 26/29] debugfs: Restrict debugfs when the kernel is locked down
 From:   Matthew Garrett <matthewgarrett@google.com>
 To:     jmorris@namei.org
 Cc:     linux-security-module@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        Matthew Garrett <matthewgarrett@google.com>,
-        Matthew Garrett <mjg59@google.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-        linux-integrity@vger.kernel.org
+        David Howells <dhowells@redhat.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        acpi4asus-user@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        Thomas Gleixner <tglx@linutronix.de>, Greg KH <greg@kroah.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Matthew Garrett <matthewgarrett@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Systems in lockdown mode should block the kexec of untrusted kernels.
-For x86 and ARM we can ensure that a kernel is trustworthy by validating
-a PE signature, but this isn't possible on other architectures. On those
-platforms we can use IMA digital signatures instead. Add a function to
-determine whether IMA has or will verify signatures for a given event type,
-and if so permit kexec_file() even if the kernel is otherwise locked down.
-This is restricted to cases where CONFIG_INTEGRITY_TRUSTED_KEYRING is set
-in order to prevent an attacker from loading additional keys at runtime.
+From: David Howells <dhowells@redhat.com>
 
-Signed-off-by: Matthew Garrett <mjg59@google.com>
-Acked-by: Mimi Zohar <zohar@linux.ibm.com>
-Cc: Dmitry Kasatkin <dmitry.kasatkin@gmail.com>
-Cc: linux-integrity@vger.kernel.org
+Disallow opening of debugfs files that might be used to muck around when
+the kernel is locked down as various drivers give raw access to hardware
+through debugfs.  Given the effort of auditing all 2000 or so files and
+manually fixing each one as necessary, I've chosen to apply a heuristic
+instead.  The following changes are made:
+
+ (1) chmod and chown are disallowed on debugfs objects (though the root dir
+     can be modified by mount and remount, but I'm not worried about that).
+
+ (2) When the kernel is locked down, only files with the following criteria
+     are permitted to be opened:
+
+	- The file must have mode 00444
+	- The file must not have ioctl methods
+	- The file must not have mmap
+
+ (3) When the kernel is locked down, files may only be opened for reading.
+
+Normal device interaction should be done through configfs, sysfs or a
+miscdev, not debugfs.
+
+Note that this makes it unnecessary to specifically lock down show_dsts(),
+show_devs() and show_call() in the asus-wmi driver.
+
+I would actually prefer to lock down all files by default and have the
+the files unlocked by the creator.  This is tricky to manage correctly,
+though, as there are 19 creation functions and ~1600 call sites (some of
+them in loops scanning tables).
+
+Signed-off-by: David Howells <dhowells@redhat.com>
+cc: Andy Shevchenko <andy.shevchenko@gmail.com>
+cc: acpi4asus-user@lists.sourceforge.net
+cc: platform-driver-x86@vger.kernel.org
+cc: Matthew Garrett <mjg59@srcf.ucam.org>
+cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Greg KH <greg@kroah.com>
+Cc: Rafael J. Wysocki <rafael@kernel.org>
+Signed-off-by: Matthew Garrett <matthewgarrett@google.com>
 Signed-off-by: James Morris <jmorris@namei.org>
 ---
- include/linux/ima.h                 |  9 ++++++
- kernel/kexec_file.c                 | 10 +++++-
- security/integrity/ima/ima.h        |  2 ++
- security/integrity/ima/ima_main.c   |  2 +-
- security/integrity/ima/ima_policy.c | 50 +++++++++++++++++++++++++++++
- 5 files changed, 71 insertions(+), 2 deletions(-)
+ fs/debugfs/file.c            | 30 ++++++++++++++++++++++++++++++
+ fs/debugfs/inode.c           | 32 ++++++++++++++++++++++++++++++--
+ include/linux/security.h     |  1 +
+ security/lockdown/lockdown.c |  1 +
+ 4 files changed, 62 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/ima.h b/include/linux/ima.h
-index 00036d2f57c3..8e2f324fb901 100644
---- a/include/linux/ima.h
-+++ b/include/linux/ima.h
-@@ -129,4 +129,13 @@ static inline int ima_inode_removexattr(struct dentry *dentry,
- 	return 0;
+diff --git a/fs/debugfs/file.c b/fs/debugfs/file.c
+index ddd708b09fa1..5d3e449b5988 100644
+--- a/fs/debugfs/file.c
++++ b/fs/debugfs/file.c
+@@ -19,6 +19,7 @@
+ #include <linux/atomic.h>
+ #include <linux/device.h>
+ #include <linux/poll.h>
++#include <linux/security.h>
+ 
+ #include "internal.h"
+ 
+@@ -136,6 +137,25 @@ void debugfs_file_put(struct dentry *dentry)
  }
- #endif /* CONFIG_IMA_APPRAISE */
-+
-+#if defined(CONFIG_IMA_APPRAISE) && defined(CONFIG_INTEGRITY_TRUSTED_KEYRING)
-+extern bool ima_appraise_signature(enum kernel_read_file_id func);
-+#else
-+static inline bool ima_appraise_signature(enum kernel_read_file_id func)
-+{
-+	return false;
-+}
-+#endif /* CONFIG_IMA_APPRAISE && CONFIG_INTEGRITY_TRUSTED_KEYRING */
- #endif /* _LINUX_IMA_H */
-diff --git a/kernel/kexec_file.c b/kernel/kexec_file.c
-index 43109ef4d6bf..7f4a618fc8c1 100644
---- a/kernel/kexec_file.c
-+++ b/kernel/kexec_file.c
-@@ -208,7 +208,15 @@ kimage_validate_signature(struct kimage *image)
- 			return ret;
- 		}
+ EXPORT_SYMBOL_GPL(debugfs_file_put);
  
--		return security_locked_down(LOCKDOWN_KEXEC);
-+		/* If IMA is guaranteed to appraise a signature on the kexec
-+		 * image, permit it even if the kernel is otherwise locked
-+		 * down.
-+		 */
-+		if (!ima_appraise_signature(READING_KEXEC_IMAGE) &&
-+		    security_locked_down(LOCKDOWN_KEXEC))
-+			return -EPERM;
-+
-+		return 0;
- 
- 		/* All other errors are fatal, including nomem, unparseable
- 		 * signatures and signature check failures - even if signatures
-diff --git a/security/integrity/ima/ima.h b/security/integrity/ima/ima.h
-index ca10917b5f89..874bd77d3b91 100644
---- a/security/integrity/ima/ima.h
-+++ b/security/integrity/ima/ima.h
-@@ -111,6 +111,8 @@ struct ima_kexec_hdr {
- 	u64 count;
- };
- 
-+extern const int read_idmap[];
-+
- #ifdef CONFIG_HAVE_IMA_KEXEC
- void ima_load_kexec_buffer(void);
- #else
-diff --git a/security/integrity/ima/ima_main.c b/security/integrity/ima/ima_main.c
-index 1cffda4412b7..1747bc7bcb60 100644
---- a/security/integrity/ima/ima_main.c
-+++ b/security/integrity/ima/ima_main.c
-@@ -469,7 +469,7 @@ int ima_read_file(struct file *file, enum kernel_read_file_id read_id)
- 	return 0;
- }
- 
--static const int read_idmap[READING_MAX_ID] = {
-+const int read_idmap[READING_MAX_ID] = {
- 	[READING_FIRMWARE] = FIRMWARE_CHECK,
- 	[READING_FIRMWARE_PREALLOC_BUFFER] = FIRMWARE_CHECK,
- 	[READING_MODULE] = MODULE_CHECK,
-diff --git a/security/integrity/ima/ima_policy.c b/security/integrity/ima/ima_policy.c
-index 7b53f2ca58e2..b8773f05f9da 100644
---- a/security/integrity/ima/ima_policy.c
-+++ b/security/integrity/ima/ima_policy.c
-@@ -1339,3 +1339,53 @@ int ima_policy_show(struct seq_file *m, void *v)
- 	return 0;
- }
- #endif	/* CONFIG_IMA_READ_POLICY */
-+
-+#if defined(CONFIG_IMA_APPRAISE) && defined(CONFIG_INTEGRITY_TRUSTED_KEYRING)
 +/*
-+ * ima_appraise_signature: whether IMA will appraise a given function using
-+ * an IMA digital signature. This is restricted to cases where the kernel
-+ * has a set of built-in trusted keys in order to avoid an attacker simply
-+ * loading additional keys.
++ * Only permit access to world-readable files when the kernel is locked down.
++ * We also need to exclude any file that has ways to write or alter it as root
++ * can bypass the permissions check.
 + */
-+bool ima_appraise_signature(enum kernel_read_file_id id)
++static bool debugfs_is_locked_down(struct inode *inode,
++				   struct file *filp,
++				   const struct file_operations *real_fops)
 +{
-+	struct ima_rule_entry *entry;
-+	bool found = false;
-+	enum ima_hooks func;
-+
-+	if (id >= READING_MAX_ID)
++	if ((inode->i_mode & 07777) == 0444 &&
++	    !(filp->f_mode & FMODE_WRITE) &&
++	    !real_fops->unlocked_ioctl &&
++	    !real_fops->compat_ioctl &&
++	    !real_fops->mmap)
 +		return false;
 +
-+	func = read_idmap[id] ?: FILE_CHECK;
-+
-+	rcu_read_lock();
-+	list_for_each_entry_rcu(entry, ima_rules, list) {
-+		if (entry->action != APPRAISE)
-+			continue;
-+
-+		/*
-+		 * A generic entry will match, but otherwise require that it
-+		 * match the func we're looking for
-+		 */
-+		if (entry->func && entry->func != func)
-+			continue;
-+
-+		/*
-+		 * We require this to be a digital signature, not a raw IMA
-+		 * hash.
-+		 */
-+		if (entry->flags & IMA_DIGSIG_REQUIRED)
-+			found = true;
-+
-+		/*
-+		 * We've found a rule that matches, so break now even if it
-+		 * didn't require a digital signature - a later rule that does
-+		 * won't override it, so would be a false positive.
-+		 */
-+		break;
-+	}
-+
-+	rcu_read_unlock();
-+	return found;
++	return security_locked_down(LOCKDOWN_DEBUGFS);
 +}
-+#endif /* CONFIG_IMA_APPRAISE && CONFIG_INTEGRITY_TRUSTED_KEYRING */
++
+ static int open_proxy_open(struct inode *inode, struct file *filp)
+ {
+ 	struct dentry *dentry = F_DENTRY(filp);
+@@ -147,6 +167,11 @@ static int open_proxy_open(struct inode *inode, struct file *filp)
+ 		return r == -EIO ? -ENOENT : r;
+ 
+ 	real_fops = debugfs_real_fops(filp);
++
++	r = debugfs_is_locked_down(inode, filp, real_fops);
++	if (r)
++		goto out;
++
+ 	real_fops = fops_get(real_fops);
+ 	if (!real_fops) {
+ 		/* Huh? Module did not clean up after itself at exit? */
+@@ -272,6 +297,11 @@ static int full_proxy_open(struct inode *inode, struct file *filp)
+ 		return r == -EIO ? -ENOENT : r;
+ 
+ 	real_fops = debugfs_real_fops(filp);
++
++	r = debugfs_is_locked_down(inode, filp, real_fops);
++	if (r)
++		goto out;
++
+ 	real_fops = fops_get(real_fops);
+ 	if (!real_fops) {
+ 		/* Huh? Module did not cleanup after itself at exit? */
+diff --git a/fs/debugfs/inode.c b/fs/debugfs/inode.c
+index acef14ad53db..c8613bcad252 100644
+--- a/fs/debugfs/inode.c
++++ b/fs/debugfs/inode.c
+@@ -23,6 +23,7 @@
+ #include <linux/parser.h>
+ #include <linux/magic.h>
+ #include <linux/slab.h>
++#include <linux/security.h>
+ 
+ #include "internal.h"
+ 
+@@ -32,6 +33,32 @@ static struct vfsmount *debugfs_mount;
+ static int debugfs_mount_count;
+ static bool debugfs_registered;
+ 
++/*
++ * Don't allow access attributes to be changed whilst the kernel is locked down
++ * so that we can use the file mode as part of a heuristic to determine whether
++ * to lock down individual files.
++ */
++static int debugfs_setattr(struct dentry *dentry, struct iattr *ia)
++{
++	int ret = security_locked_down(LOCKDOWN_DEBUGFS);
++
++	if (ret && (ia->ia_valid & (ATTR_MODE | ATTR_UID | ATTR_GID)))
++		return ret;
++	return simple_setattr(dentry, ia);
++}
++
++static const struct inode_operations debugfs_file_inode_operations = {
++	.setattr	= debugfs_setattr,
++};
++static const struct inode_operations debugfs_dir_inode_operations = {
++	.lookup		= simple_lookup,
++	.setattr	= debugfs_setattr,
++};
++static const struct inode_operations debugfs_symlink_inode_operations = {
++	.get_link	= simple_get_link,
++	.setattr	= debugfs_setattr,
++};
++
+ static struct inode *debugfs_get_inode(struct super_block *sb)
+ {
+ 	struct inode *inode = new_inode(sb);
+@@ -355,6 +382,7 @@ static struct dentry *__debugfs_create_file(const char *name, umode_t mode,
+ 	inode->i_mode = mode;
+ 	inode->i_private = data;
+ 
++	inode->i_op = &debugfs_file_inode_operations;
+ 	inode->i_fop = proxy_fops;
+ 	dentry->d_fsdata = (void *)((unsigned long)real_fops |
+ 				DEBUGFS_FSDATA_IS_REAL_FOPS_BIT);
+@@ -515,7 +543,7 @@ struct dentry *debugfs_create_dir(const char *name, struct dentry *parent)
+ 		return failed_creating(dentry);
+ 
+ 	inode->i_mode = S_IFDIR | S_IRWXU | S_IRUGO | S_IXUGO;
+-	inode->i_op = &simple_dir_inode_operations;
++	inode->i_op = &debugfs_dir_inode_operations;
+ 	inode->i_fop = &simple_dir_operations;
+ 
+ 	/* directory inodes start off with i_nlink == 2 (for "." entry) */
+@@ -610,7 +638,7 @@ struct dentry *debugfs_create_symlink(const char *name, struct dentry *parent,
+ 		return failed_creating(dentry);
+ 	}
+ 	inode->i_mode = S_IFLNK | S_IRWXUGO;
+-	inode->i_op = &simple_symlink_inode_operations;
++	inode->i_op = &debugfs_symlink_inode_operations;
+ 	inode->i_link = link;
+ 	d_instantiate(dentry, inode);
+ 	return end_creating(dentry);
+diff --git a/include/linux/security.h b/include/linux/security.h
+index b94f1e697537..152824b6f456 100644
+--- a/include/linux/security.h
++++ b/include/linux/security.h
+@@ -115,6 +115,7 @@ enum lockdown_reason {
+ 	LOCKDOWN_TIOCSSERIAL,
+ 	LOCKDOWN_MODULE_PARAMETERS,
+ 	LOCKDOWN_MMIOTRACE,
++	LOCKDOWN_DEBUGFS,
+ 	LOCKDOWN_INTEGRITY_MAX,
+ 	LOCKDOWN_KCORE,
+ 	LOCKDOWN_KPROBES,
+diff --git a/security/lockdown/lockdown.c b/security/lockdown/lockdown.c
+index 3d7b1039457b..edd1fff0147d 100644
+--- a/security/lockdown/lockdown.c
++++ b/security/lockdown/lockdown.c
+@@ -30,6 +30,7 @@ static char *lockdown_reasons[LOCKDOWN_CONFIDENTIALITY_MAX+1] = {
+ 	[LOCKDOWN_TIOCSSERIAL] = "reconfiguration of serial port IO",
+ 	[LOCKDOWN_MODULE_PARAMETERS] = "unsafe module parameters",
+ 	[LOCKDOWN_MMIOTRACE] = "unsafe mmio",
++	[LOCKDOWN_DEBUGFS] = "debugfs access",
+ 	[LOCKDOWN_INTEGRITY_MAX] = "integrity",
+ 	[LOCKDOWN_KCORE] = "/proc/kcore access",
+ 	[LOCKDOWN_KPROBES] = "use of kprobes",
 -- 
 2.23.0.rc1.153.gdeed80330f-goog
 
