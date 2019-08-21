@@ -2,91 +2,107 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D84896BF4
-	for <lists+linux-api@lfdr.de>; Wed, 21 Aug 2019 00:09:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BD459703E
+	for <lists+linux-api@lfdr.de>; Wed, 21 Aug 2019 05:24:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730839AbfHTWIw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 20 Aug 2019 18:08:52 -0400
-Received: from cloudserver094114.home.pl ([79.96.170.134]:50629 "EHLO
-        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730092AbfHTWIv (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 20 Aug 2019 18:08:51 -0400
-Received: from 79.184.254.79.ipv4.supernova.orange.pl (79.184.254.79) (HELO kreacher.localnet)
- by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.275)
- id 58fce0e735fe6fb1; Wed, 21 Aug 2019 00:08:49 +0200
-From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To:     Matthew Garrett <matthewgarrett@google.com>
-Cc:     jmorris@namei.org, linux-security-module@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        Linn Crosetto <lcrosetto@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Matthew Garrett <mjg59@google.com>,
-        Kees Cook <keescook@chromium.org>, linux-acpi@vger.kernel.org
-Subject: Re: [PATCH V40 16/29] acpi: Disable ACPI table override if the kernel is locked down
-Date:   Wed, 21 Aug 2019 00:08:48 +0200
-Message-ID: <18886542.jEbjgeBmpC@kreacher>
-In-Reply-To: <20190820001805.241928-17-matthewgarrett@google.com>
-References: <20190820001805.241928-1-matthewgarrett@google.com> <20190820001805.241928-17-matthewgarrett@google.com>
+        id S1727303AbfHUDYJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 20 Aug 2019 23:24:09 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:36657 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726898AbfHUDYJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 20 Aug 2019 23:24:09 -0400
+Received: by mail-pf1-f193.google.com with SMTP id w2so459803pfi.3
+        for <linux-api@vger.kernel.org>; Tue, 20 Aug 2019 20:24:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=jR0kd8E/wjsd/vD58hqG03ghBqWwRF++q3yiXcP3i4Q=;
+        b=qPX5kwf5x3sbvooqNmhtf5/qc5B1IWhjBxPynFWKkKmBzDXMCAJZWRLKvDdPArq3RI
+         Mfok0djgCd2YKvPqhUBBg9wJLXHn7I7qIZNGQ4Aif84+bF24ixmjGxnN0QiMim1vaT09
+         9GUdZ8xfh4ci9XixnyG+YcfzEG8yiWIOuK7Okx8ysjUXun8Th7uYK7oCvMfrStI+H+Ky
+         3BbqjZolqxn1DZhppI7sLhJ0IUq7C042iSyRvquLw+toahmKllNSnJ+rA6YKeexjzkSx
+         oA5XHFN5E4jUNN72kv0lit0Yhn+T1bVzwXFo7swpGEZdUhYIo+zSbXhHPT9g0YpmFqtv
+         Whng==
+X-Gm-Message-State: APjAAAUzXPvo5n/bNViG3sbBDFg7QF7Bs5In//nnx8r9Hfe3kDGwFdNe
+        AVvoNhP1a44tvAMM1c0IRCDdu+L5Lzw=
+X-Google-Smtp-Source: APXvYqx02TH2hHNKYt4nqEYXzwAFlFF9WoYyNeM00zGsD5tPI0GF1ZVQQYIRXONJRCZAIgaLN9mj5A==
+X-Received: by 2002:a62:e910:: with SMTP id j16mr34286562pfh.123.1566357848815;
+        Tue, 20 Aug 2019 20:24:08 -0700 (PDT)
+Received: from localhost ([2601:647:5b80:29f7:1bdd:d748:9a4e:8083])
+        by smtp.gmail.com with ESMTPSA id c13sm22739750pfi.17.2019.08.20.20.24.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Aug 2019 20:24:07 -0700 (PDT)
+Date:   Tue, 20 Aug 2019 20:24:06 -0700
+From:   Moritz Fischer <mdf@kernel.org>
+To:     Wu Hao <hao.wu@intel.com>
+Cc:     gregkh@linuxfoundation.org, mdf@kernel.org,
+        linux-fpga@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        atull@kernel.org
+Subject: Re: [PATCH v5 1/9] fpga: dfl: make init callback optional
+Message-ID: <20190821032406.GA28625@archbox>
+References: <1565578204-13969-1-git-send-email-hao.wu@intel.com>
+ <1565578204-13969-2-git-send-email-hao.wu@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1565578204-13969-2-git-send-email-hao.wu@intel.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tuesday, August 20, 2019 2:17:52 AM CEST Matthew Garrett wrote:
-> From: Linn Crosetto <lcrosetto@gmail.com>
-> 
-> >From the kernel documentation (initrd_table_override.txt):
-> 
->   If the ACPI_INITRD_TABLE_OVERRIDE compile option is true, it is possible
->   to override nearly any ACPI table provided by the BIOS with an
->   instrumented, modified one.
-> 
-> When lockdown is enabled, the kernel should disallow any unauthenticated
-> changes to kernel space.  ACPI tables contain code invoked by the kernel,
-> so do not allow ACPI tables to be overridden if the kernel is locked down.
-> 
-> Signed-off-by: Linn Crosetto <lcrosetto@gmail.com>
-> Signed-off-by: David Howells <dhowells@redhat.com>
-> Signed-off-by: Matthew Garrett <mjg59@google.com>
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-> cc: linux-acpi@vger.kernel.org
-> Signed-off-by: James Morris <jmorris@namei.org>
+Hi,
 
-Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+On Mon, Aug 12, 2019 at 10:49:56AM +0800, Wu Hao wrote:
+> This patch makes init callback of sub features optional. With
+> this change, people don't need to prepare any empty init callback.
+> 
+> Signed-off-by: Wu Hao <hao.wu@intel.com>
 
+Acked-by: Moritz Fischer <mdf@kernel.org>
 > ---
->  drivers/acpi/tables.c | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  drivers/fpga/dfl.c | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/acpi/tables.c b/drivers/acpi/tables.c
-> index de974322a197..b7c29a11c0c1 100644
-> --- a/drivers/acpi/tables.c
-> +++ b/drivers/acpi/tables.c
-> @@ -20,6 +20,7 @@
->  #include <linux/memblock.h>
->  #include <linux/earlycpio.h>
->  #include <linux/initrd.h>
-> +#include <linux/security.h>
->  #include "internal.h"
+> diff --git a/drivers/fpga/dfl.c b/drivers/fpga/dfl.c
+> index c0512af..96a2b82 100644
+> --- a/drivers/fpga/dfl.c
+> +++ b/drivers/fpga/dfl.c
+> @@ -271,11 +271,13 @@ static int dfl_feature_instance_init(struct platform_device *pdev,
+>  				     struct dfl_feature *feature,
+>  				     struct dfl_feature_driver *drv)
+>  {
+> -	int ret;
+> +	int ret = 0;
 >  
->  #ifdef CONFIG_ACPI_CUSTOM_DSDT
-> @@ -577,6 +578,11 @@ void __init acpi_table_upgrade(void)
->  	if (table_nr == 0)
->  		return;
->  
-> +	if (security_locked_down(LOCKDOWN_ACPI_TABLES)) {
-> +		pr_notice("kernel is locked down, ignoring table override\n");
-> +		return;
+> -	ret = drv->ops->init(pdev, feature);
+> -	if (ret)
+> -		return ret;
+> +	if (drv->ops->init) {
+> +		ret = drv->ops->init(pdev, feature);
+> +		if (ret)
+> +			return ret;
 > +	}
-> +
->  	acpi_tables_addr =
->  		memblock_find_in_range(0, ACPI_TABLE_UPGRADE_MAX_PHYS,
->  				       all_tables_size, PAGE_SIZE);
-> 
+>  
+>  	feature->ops = drv->ops;
 
+You could swap it around maybe like so:
 
+int dfl_feature_instance_init() ...
+{
+	feature->ops = drv->ops;
+	if (drv->ops->init)
+		return drv->ops->init(pdev, feature);
 
+	return 0;
+}
 
+With the caveat that feature->ops gets always set ...
+
+Your call.
+
+Thanks,
+Moritz
