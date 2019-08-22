@@ -2,94 +2,91 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A0E998A09
-	for <lists+linux-api@lfdr.de>; Thu, 22 Aug 2019 05:51:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D69119936B
+	for <lists+linux-api@lfdr.de>; Thu, 22 Aug 2019 14:30:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730606AbfHVDvo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 21 Aug 2019 23:51:44 -0400
-Received: from zeniv.linux.org.uk ([195.92.253.2]:58270 "EHLO
-        ZenIV.linux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730602AbfHVDvn (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 21 Aug 2019 23:51:43 -0400
-Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92 #3 (Red Hat Linux))
-        id 1i0e8M-0002mA-FC; Thu, 22 Aug 2019 03:51:34 +0000
-Date:   Thu, 22 Aug 2019 04:51:34 +0100
-From:   Al Viro <viro@zeniv.linux.org.uk>
-To:     Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Cc:     John Johansen <john.johansen@canonical.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        David Howells <dhowells@redhat.com>, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, torvalds@linux-foundation.org,
-        linux-security-module@vger.kernel.org
-Subject: [RFC][PATCH] fix d_absolute_path() interplay with fsmount()
-Message-ID: <20190822035134.GK1131@ZenIV.linux.org.uk>
-References: <20190708131831.GT17978@ZenIV.linux.org.uk>
- <874l3wo3gq.fsf@xmission.com>
- <20190708180132.GU17978@ZenIV.linux.org.uk>
- <20190708202124.GX17978@ZenIV.linux.org.uk>
- <87pnmkhxoy.fsf@xmission.com>
- <5802b8b1-f734-1670-f83b-465eda133936@i-love.sakura.ne.jp>
- <1698ec76-f56c-1e65-2f11-318c0ed225bb@i-love.sakura.ne.jp>
- <e75d4a66-cfcf-2ce8-e82a-fdc80f01723d@canonical.com>
- <7eb7378e-2eb8-c1ba-4e1f-ea8f5611f42b@i-love.sakura.ne.jp>
- <16ae946d-dbbe-9be9-9b22-866b3cd1cd7e@i-love.sakura.ne.jp>
+        id S1732640AbfHVM2c (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 22 Aug 2019 08:28:32 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:39732 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731393AbfHVM2c (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 22 Aug 2019 08:28:32 -0400
+Received: by mail-lj1-f194.google.com with SMTP id x4so5357708ljj.6
+        for <linux-api@vger.kernel.org>; Thu, 22 Aug 2019 05:28:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=aWwEGZ7IKPwlD1SyN53LweuoS+rG8j2WBRgPDxMagPA=;
+        b=MirhNcnxuKRQb4LeCWpUYv8gUdukmpqsCEF0IT/I/XX+SlYULBkqOWCG7TA7jJsTZe
+         9YdD8o+7tvnYl7gNI8JNUo0k9XzZwlku22XfxfjoUn00DKh2CiqmMX/JWyrNCzgQIPpS
+         KQ5evHN0icYHjGX3MaXeCYnop4G70duuS0IPGE9i/zyEQKm+RtpxXyaMBOmzl4bOXktr
+         razvbJk+k4oX7rQsv+eiVuk7SfKKQs6YwJs7c8jJtCxvDYTSmpjv1fNlPdd1Ii1mqrVy
+         Y31hV/nuaLduo7IaqJ1tkYHvnEqc9as85Yp4SKQusEbosn9yTw3avE6YRjRkgzD+3Rn1
+         Kcvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=aWwEGZ7IKPwlD1SyN53LweuoS+rG8j2WBRgPDxMagPA=;
+        b=t/PFQhwZh6KOizzenAWMAI3x6BvQ+hPBdBNxwfj+W1xC4LbtrMR9Mio/LDtpO7HI8d
+         WzNutZjyMgDVjbFHCCPIh7rfI1KPtRYxsPv2frbdmyJL1A5H+L+ushEkYVTkDR1LkogV
+         E8W2g0ojUulk7RvLqH8rWY6PDT3cbMnJ8J4+1GZQKMDdyCPE8JZM5NajlY8UhybPpnEA
+         EyjhOtQzC0WabN5ildktbwTdTnzSuGT71l/fbPxtTbHMeJkO5IvCtBa1PKIeQcJKpPBe
+         Ilx+VLHMNDxCvJ0jVIMtakKXOrsT7niegYH7GKAcA+b11EIUd4Od4z/ycDusnzQ9I73G
+         6SlQ==
+X-Gm-Message-State: APjAAAXARqYyRoKc5XcldW691ZY0MXq+1/AFOtsNrJV1vGFwkHgyMRcF
+        bN5+pgNMI87psHQwbYIe5tVM7FlkojbUbzMirfE=
+X-Google-Smtp-Source: APXvYqxe2qUA3dmMbneRVWXow425c4TUNAvY5WgbhnafKT9FldkHWMvonaXjHIo1y+B/SQWH1il/0gm16A/Ny3ozZs4=
+X-Received: by 2002:a2e:3a0e:: with SMTP id h14mr22135678lja.180.1566476909660;
+ Thu, 22 Aug 2019 05:28:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <16ae946d-dbbe-9be9-9b22-866b3cd1cd7e@i-love.sakura.ne.jp>
-User-Agent: Mutt/1.12.0 (2019-05-25)
+Received: by 2002:a19:dc4f:0:0:0:0:0 with HTTP; Thu, 22 Aug 2019 05:28:28
+ -0700 (PDT)
+Reply-To: eku.lawfirm@gmail.com
+From:   "Law firm(Eku and Associates)" <elenabaltach66@gmail.com>
+Date:   Thu, 22 Aug 2019 12:28:28 +0000
+Message-ID: <CAOGpsp68nY8kwzBk=a6QB32fX8ZPVWdgD4dq9cW2Cti_RqUi_A@mail.gmail.com>
+Subject: MY $25,000,000.00 INVESTMENT PROPOSAL WITH YOU AND IN YOUR COUNTRY.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-[bringing a private thread back to the lists]
+--=20
+Dear,
+With due respect this is not spam or Scam mail, because I have
+contacted you before and there was no response from you,I apologise if
+the contents of this mail are contrary to your moral ethics, which I
+feel may be of great disturbance to your person, but please treat this
+with absolute confidentiality, believing that this email reaches you
+in good faith. My contacting you is not a mistake or a coincidence
+because God can use any person known or unknown to accomplish great
+things.
+I am a lawyer and I have an investment business proposal to offer you.
+It is not official but should be considered as legal and confidential
+business. I have a customer's deposit of $US25 million dollars ready
+to be moved for investment if you can partner with us. We are ready to
+offer you 10% of this total amount as your compensation for supporting
+the transaction to completion. If you are interested to help me please
+reply me with your full details as stated below:
+(1) Your full names:
+(2) Your address:
+(3) Your occupation:
+(4) Your mobile telephone number:
+(5) Your nationality:
+(6) Your present location:
+(7) Your age:
+So that I will provide you more details on what to do and what is
+required for successful completion.
+Note: DO NOT REPLY ME IF YOU ARE NOT INTERESTED AND WITHOUT THE ABOVE
+MENTIONED DETAILS
 
-There's a bug in interplay of fsmount() and d_absolute_path().
-Namely, the check in d_absolute_path() treats the
-not-yet-attached mount as "reached absolute root".
-AFAICS, the right fix is this
-
-diff --git a/fs/d_path.c b/fs/d_path.c
-index a7d0a96b35ce..0f1fc1743302 100644
---- a/fs/d_path.c
-+++ b/fs/d_path.c
-@@ -116,8 +116,10 @@ static int prepend_path(const struct path *path,
- 				vfsmnt = &mnt->mnt;
- 				continue;
- 			}
--			if (!error)
--				error = is_mounted(vfsmnt) ? 1 : 2;
-+			if (is_mounted(vfsmnt) && !is_anon_ns(mnt->mnt_ns))
-+				error = 1;	// absolute root
-+			else
-+				error = 2;	// detached or not attached yet
- 			break;
- 		}
- 		parent = dentry->d_parent;
-
-but that would slightly change the behaviour in another case.
-Namely, nfs4 mount-time temporary namespaces.  There we have
-the following: mount -t nfs4 server:/foo/bar/baz /mnt
-will
-        * set a temporary namespace, matching the mount tree as
-exported by server
-        * mount the root export there
-        * traverse foo/bar/baz in that namespace, triggering
-automounts when we cross the filesystem boundaries on server.
-        * grab whatever we'd arrived at; that's what we'll
-be mounting.
-        * dissolve the temp namespace.
-
-If you trigger some LSM hook (e.g. in permission checks on
-that pathname traversal) for objects in that temp namespace,
-do you want d_absolute_path() to succeed (and give a pathname
-relative to server's root export), or should it rather fail?
-
-AFAICS, apparmor and tomoyo are the only things that might
-care either way; I would go with "fail, it's not an absolute
-path" (and that's what the patch above will end up doing),
-but it's really up to you.
-
-It definitely ought to fail for yet-to-be-attached case, though;
-it doesn't, and that's a bug that needs to be fixed.  Mea culpa.
+Sinc=C3=A8rement v=C3=B4tre,
+Avocat Etienne Eku Esq.(Lawfirm)
+Procureur principal. De Cabinet d=E2=80=99avocats de l=E2=80=99Afrique de l=
+=E2=80=99ouest.
+Skype:westafricalawfirm
