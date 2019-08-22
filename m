@@ -2,91 +2,188 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D69119936B
-	for <lists+linux-api@lfdr.de>; Thu, 22 Aug 2019 14:30:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D5FEB994FE
+	for <lists+linux-api@lfdr.de>; Thu, 22 Aug 2019 15:31:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732640AbfHVM2c (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 22 Aug 2019 08:28:32 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:39732 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731393AbfHVM2c (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 22 Aug 2019 08:28:32 -0400
-Received: by mail-lj1-f194.google.com with SMTP id x4so5357708ljj.6
-        for <linux-api@vger.kernel.org>; Thu, 22 Aug 2019 05:28:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=aWwEGZ7IKPwlD1SyN53LweuoS+rG8j2WBRgPDxMagPA=;
-        b=MirhNcnxuKRQb4LeCWpUYv8gUdukmpqsCEF0IT/I/XX+SlYULBkqOWCG7TA7jJsTZe
-         9YdD8o+7tvnYl7gNI8JNUo0k9XzZwlku22XfxfjoUn00DKh2CiqmMX/JWyrNCzgQIPpS
-         KQ5evHN0icYHjGX3MaXeCYnop4G70duuS0IPGE9i/zyEQKm+RtpxXyaMBOmzl4bOXktr
-         razvbJk+k4oX7rQsv+eiVuk7SfKKQs6YwJs7c8jJtCxvDYTSmpjv1fNlPdd1Ii1mqrVy
-         Y31hV/nuaLduo7IaqJ1tkYHvnEqc9as85Yp4SKQusEbosn9yTw3avE6YRjRkgzD+3Rn1
-         Kcvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=aWwEGZ7IKPwlD1SyN53LweuoS+rG8j2WBRgPDxMagPA=;
-        b=t/PFQhwZh6KOizzenAWMAI3x6BvQ+hPBdBNxwfj+W1xC4LbtrMR9Mio/LDtpO7HI8d
-         WzNutZjyMgDVjbFHCCPIh7rfI1KPtRYxsPv2frbdmyJL1A5H+L+ushEkYVTkDR1LkogV
-         E8W2g0ojUulk7RvLqH8rWY6PDT3cbMnJ8J4+1GZQKMDdyCPE8JZM5NajlY8UhybPpnEA
-         EyjhOtQzC0WabN5ildktbwTdTnzSuGT71l/fbPxtTbHMeJkO5IvCtBa1PKIeQcJKpPBe
-         Ilx+VLHMNDxCvJ0jVIMtakKXOrsT7niegYH7GKAcA+b11EIUd4Od4z/ycDusnzQ9I73G
-         6SlQ==
-X-Gm-Message-State: APjAAAXARqYyRoKc5XcldW691ZY0MXq+1/AFOtsNrJV1vGFwkHgyMRcF
-        bN5+pgNMI87psHQwbYIe5tVM7FlkojbUbzMirfE=
-X-Google-Smtp-Source: APXvYqxe2qUA3dmMbneRVWXow425c4TUNAvY5WgbhnafKT9FldkHWMvonaXjHIo1y+B/SQWH1il/0gm16A/Ny3ozZs4=
-X-Received: by 2002:a2e:3a0e:: with SMTP id h14mr22135678lja.180.1566476909660;
- Thu, 22 Aug 2019 05:28:29 -0700 (PDT)
+        id S2387484AbfHVN2Z (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 22 Aug 2019 09:28:25 -0400
+Received: from foss.arm.com ([217.140.110.172]:45780 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730723AbfHVN2Z (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 22 Aug 2019 09:28:25 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E3D72337;
+        Thu, 22 Aug 2019 06:28:23 -0700 (PDT)
+Received: from e110439-lin.cambridge.arm.com (e110439-lin.cambridge.arm.com [10.1.194.43])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 3FD6E3F706;
+        Thu, 22 Aug 2019 06:28:21 -0700 (PDT)
+From:   Patrick Bellasi <patrick.bellasi@arm.com>
+To:     linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-api@vger.kernel.org, cgroups@vger.kernel.org
+Cc:     Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Tejun Heo <tj@kernel.org>,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Paul Turner <pjt@google.com>, Michal Koutny <mkoutny@suse.com>,
+        Quentin Perret <quentin.perret@arm.com>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Morten Rasmussen <morten.rasmussen@arm.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Todd Kjos <tkjos@google.com>,
+        Joel Fernandes <joelaf@google.com>,
+        Steve Muckle <smuckle@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Alessio Balsini <balsini@android.com>
+Subject: [PATCH v14 0/6] Add utilization clamping support (CGroups API)
+Date:   Thu, 22 Aug 2019 14:28:05 +0100
+Message-Id: <20190822132811.31294-1-patrick.bellasi@arm.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-Received: by 2002:a19:dc4f:0:0:0:0:0 with HTTP; Thu, 22 Aug 2019 05:28:28
- -0700 (PDT)
-Reply-To: eku.lawfirm@gmail.com
-From:   "Law firm(Eku and Associates)" <elenabaltach66@gmail.com>
-Date:   Thu, 22 Aug 2019 12:28:28 +0000
-Message-ID: <CAOGpsp68nY8kwzBk=a6QB32fX8ZPVWdgD4dq9cW2Cti_RqUi_A@mail.gmail.com>
-Subject: MY $25,000,000.00 INVESTMENT PROPOSAL WITH YOU AND IN YOUR COUNTRY.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
---=20
-Dear,
-With due respect this is not spam or Scam mail, because I have
-contacted you before and there was no response from you,I apologise if
-the contents of this mail are contrary to your moral ethics, which I
-feel may be of great disturbance to your person, but please treat this
-with absolute confidentiality, believing that this email reaches you
-in good faith. My contacting you is not a mistake or a coincidence
-because God can use any person known or unknown to accomplish great
-things.
-I am a lawyer and I have an investment business proposal to offer you.
-It is not official but should be considered as legal and confidential
-business. I have a customer's deposit of $US25 million dollars ready
-to be moved for investment if you can partner with us. We are ready to
-offer you 10% of this total amount as your compensation for supporting
-the transaction to completion. If you are interested to help me please
-reply me with your full details as stated below:
-(1) Your full names:
-(2) Your address:
-(3) Your occupation:
-(4) Your mobile telephone number:
-(5) Your nationality:
-(6) Your present location:
-(7) Your age:
-So that I will provide you more details on what to do and what is
-required for successful completion.
-Note: DO NOT REPLY ME IF YOU ARE NOT INTERESTED AND WITHOUT THE ABOVE
-MENTIONED DETAILS
+Hi all, this is a respin of:
 
-Sinc=C3=A8rement v=C3=B4tre,
-Avocat Etienne Eku Esq.(Lawfirm)
-Procureur principal. De Cabinet d=E2=80=99avocats de l=E2=80=99Afrique de l=
-=E2=80=99ouest.
-Skype:westafricalawfirm
+  https://lore.kernel.org/lkml/20190802090853.4810-1-patrick.bellasi@arm.com/
+
+which introduces only a small fix suggested by Michal and adds his Reviewed-by.
+Thanks Michal for your additional review!
+
+The series is based on top of today's tip/sched/core:
+
+  commit a46d14eca7b7 ("sched/fair: Use rq_lock/unlock in online_fair_sched_group")
+
+Since there was only minor changes, I've kept Tejun ACK tag.
+
+Cheers,
+Patrick
+
+
+Series Organization
+===================
+
+The full tree is available here:
+
+   git://linux-arm.org/linux-pb.git   lkml/utilclamp_v14
+   http://www.linux-arm.org/git?p=linux-pb.git;a=shortlog;h=refs/heads/lkml/utilclamp_v14
+
+
+Newcomer's Short Abstract
+=========================
+
+The Linux scheduler tracks a "utilization" signal for each scheduling entity
+(SE), e.g. tasks, to know how much CPU time they use. This signal allows the
+scheduler to know how "big" a task is and, in principle, it can support
+advanced task placement strategies by selecting the best CPU to run a task.
+Some of these strategies are represented by the Energy Aware Scheduler [1].
+
+When the schedutil cpufreq governor is in use, the utilization signal allows
+the Linux scheduler to also drive frequency selection. The CPU utilization
+signal, which represents the aggregated utilization of tasks scheduled on that
+CPU, is used to select the frequency which best fits the workload generated by
+the tasks.
+
+The current translation of utilization values into a frequency selection is
+simple: we go to max for RT tasks or to the minimum frequency which can
+accommodate the utilization of DL+FAIR tasks.
+However, utilization values by themselves cannot convey the desired
+power/performance behaviors of each task as intended by user-space.
+As such they are not ideally suited for task placement decisions.
+
+Task placement and frequency selection policies in the kernel can be improved
+by taking into consideration hints coming from authorized user-space elements,
+like for example the Android middleware or more generally any "System
+Management Software" (SMS) framework.
+
+Utilization clamping is a mechanism which allows to "clamp" (i.e. filter) the
+utilization generated by RT and FAIR tasks within a range defined by user-space.
+The clamped utilization value can then be used, for example, to enforce a
+minimum and/or maximum frequency depending on which tasks are active on a CPU.
+
+The main use-cases for utilization clamping are:
+
+ - boosting: better interactive response for small tasks which
+   are affecting the user experience.
+
+   Consider for example the case of a small control thread for an external
+   accelerator (e.g. GPU, DSP, other devices). Here, from the task utilization
+   the scheduler does not have a complete view of what the task's requirements
+   are and, if it's a small utilization task, it keeps selecting a more energy
+   efficient CPU, with smaller capacity and lower frequency, thus negatively
+   impacting the overall time required to complete task activations.
+
+ - capping: increase energy efficiency for background tasks not affecting the
+   user experience.
+
+   Since running on a lower capacity CPU at a lower frequency is more energy
+   efficient, when the completion time is not a main goal, then capping the
+   utilization considered for certain (maybe big) tasks can have positive
+   effects, both on energy consumption and thermal headroom.
+   This feature allows also to make RT tasks more energy friendly on mobile
+   systems where running them on high capacity CPUs and at the maximum
+   frequency is not required.
+
+From these two use-cases, it's worth noticing that frequency selection
+biasing, introduced by patches 9 and 10 of this series, is just one possible
+usage of utilization clamping. Another compelling extension of utilization
+clamping is in helping the scheduler in making tasks placement decisions.
+
+Utilization is (also) a task specific property the scheduler uses to know
+how much CPU bandwidth a task requires, at least as long as there is idle time.
+Thus, the utilization clamp values, defined either per-task or per-task_group,
+can represent tasks to the scheduler as being bigger (or smaller) than what
+they actually are.
+
+Utilization clamping thus enables interesting additional optimizations, for
+example on asymmetric capacity systems like Arm big.LITTLE and DynamIQ CPUs,
+where:
+
+ - boosting: try to run small/foreground tasks on higher-capacity CPUs to
+   complete them faster despite being less energy efficient.
+
+ - capping: try to run big/background tasks on low-capacity CPUs to save power
+   and thermal headroom for more important tasks
+
+This series does not present this additional usage of utilization clamping but
+it's an integral part of the EAS feature set, where [2] is one of its main
+components.
+
+Android kernels use SchedTune, a solution similar to utilization clamping, to
+bias both 'frequency selection' and 'task placement'. This series provides the
+foundation to add similar features to mainline while focusing, for the
+time being, just on schedutil integration.
+
+
+References
+==========
+
+[1] Energy Aware Scheduling
+    https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/scheduler/sched-energy.txt?h=v5.1
+
+[2] Expressing per-task/per-cgroup performance hints
+    Linux Plumbers Conference 2018
+    https://linuxplumbersconf.org/event/2/contributions/128/
+
+
+Patrick Bellasi (6):
+  sched/core: uclamp: Extend CPU's cgroup controller
+  sched/core: uclamp: Propagate parent clamps
+  sched/core: uclamp: Propagate system defaults to root group
+  sched/core: uclamp: Use TG's clamps to restrict TASK's clamps
+  sched/core: uclamp: Update CPU's refcount on TG's clamp changes
+  sched/core: uclamp: always use enum uclamp_id for clamp_id values
+
+ Documentation/admin-guide/cgroup-v2.rst |  34 +++
+ init/Kconfig                            |  22 ++
+ kernel/sched/core.c                     | 375 ++++++++++++++++++++++--
+ kernel/sched/sched.h                    |  12 +-
+ 4 files changed, 421 insertions(+), 22 deletions(-)
+
+-- 
+2.22.0
+
