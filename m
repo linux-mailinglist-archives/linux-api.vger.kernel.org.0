@@ -2,87 +2,94 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 59FB397DBF
-	for <lists+linux-api@lfdr.de>; Wed, 21 Aug 2019 16:56:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A0E998A09
+	for <lists+linux-api@lfdr.de>; Thu, 22 Aug 2019 05:51:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727685AbfHUOzk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 21 Aug 2019 10:55:40 -0400
-Received: from mga07.intel.com ([134.134.136.100]:41312 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727286AbfHUOzk (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 21 Aug 2019 10:55:40 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Aug 2019 07:55:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,412,1559545200"; 
-   d="scan'208";a="186252384"
-Received: from yyu32-desk1.sc.intel.com ([10.144.153.205])
-  by FMSMGA003.fm.intel.com with ESMTP; 21 Aug 2019 07:55:38 -0700
-Message-ID: <8d2e5bc4496075032393ff9ae81a26f7fbc711e6.camel@intel.com>
-Subject: Re: [PATCH v8 02/27] x86/cpufeatures: Add CET CPU feature flags for
- Control-flow Enforcement Technology (CET)
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>
-Date:   Wed, 21 Aug 2019 07:46:32 -0700
-In-Reply-To: <20190821102052.GD6752@zn.tnic>
-References: <20190813205225.12032-1-yu-cheng.yu@intel.com>
-         <20190813205225.12032-3-yu-cheng.yu@intel.com>
-         <20190821102052.GD6752@zn.tnic>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1730606AbfHVDvo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 21 Aug 2019 23:51:44 -0400
+Received: from zeniv.linux.org.uk ([195.92.253.2]:58270 "EHLO
+        ZenIV.linux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730602AbfHVDvn (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 21 Aug 2019 23:51:43 -0400
+Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92 #3 (Red Hat Linux))
+        id 1i0e8M-0002mA-FC; Thu, 22 Aug 2019 03:51:34 +0000
+Date:   Thu, 22 Aug 2019 04:51:34 +0100
+From:   Al Viro <viro@zeniv.linux.org.uk>
+To:     Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Cc:     John Johansen <john.johansen@canonical.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        David Howells <dhowells@redhat.com>, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, torvalds@linux-foundation.org,
+        linux-security-module@vger.kernel.org
+Subject: [RFC][PATCH] fix d_absolute_path() interplay with fsmount()
+Message-ID: <20190822035134.GK1131@ZenIV.linux.org.uk>
+References: <20190708131831.GT17978@ZenIV.linux.org.uk>
+ <874l3wo3gq.fsf@xmission.com>
+ <20190708180132.GU17978@ZenIV.linux.org.uk>
+ <20190708202124.GX17978@ZenIV.linux.org.uk>
+ <87pnmkhxoy.fsf@xmission.com>
+ <5802b8b1-f734-1670-f83b-465eda133936@i-love.sakura.ne.jp>
+ <1698ec76-f56c-1e65-2f11-318c0ed225bb@i-love.sakura.ne.jp>
+ <e75d4a66-cfcf-2ce8-e82a-fdc80f01723d@canonical.com>
+ <7eb7378e-2eb8-c1ba-4e1f-ea8f5611f42b@i-love.sakura.ne.jp>
+ <16ae946d-dbbe-9be9-9b22-866b3cd1cd7e@i-love.sakura.ne.jp>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <16ae946d-dbbe-9be9-9b22-866b3cd1cd7e@i-love.sakura.ne.jp>
+User-Agent: Mutt/1.12.0 (2019-05-25)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, 2019-08-21 at 12:20 +0200, Borislav Petkov wrote:
-> On Tue, Aug 13, 2019 at 01:52:00PM -0700, Yu-cheng Yu wrote:
-> > Add CPU feature flags for Control-flow Enforcement Technology (CET).
-> > 
-> > [...]
-> > diff --git a/arch/x86/kernel/cpu/cpuid-deps.c b/arch/x86/kernel/cpu/cpuid-
-> > deps.c
-> > index b5353244749b..9bf35f081080 100644
-> > --- a/arch/x86/kernel/cpu/cpuid-deps.c
-> > +++ b/arch/x86/kernel/cpu/cpuid-deps.c
-> > @@ -68,6 +68,8 @@ static const struct cpuid_dep cpuid_deps[] = {
-> >  	{ X86_FEATURE_CQM_MBM_TOTAL,	X86_FEATURE_CQM_LLC   },
-> >  	{ X86_FEATURE_CQM_MBM_LOCAL,	X86_FEATURE_CQM_LLC   },
-> >  	{ X86_FEATURE_AVX512_BF16,	X86_FEATURE_AVX512VL  },
-> > +	{ X86_FEATURE_SHSTK,		X86_FEATURE_XSAVES    },
-> > +	{ X86_FEATURE_IBT,		X86_FEATURE_XSAVES    },
-> 
-> This hunk needs re-tabbing after:
-> 
-> 1e0c08e3034d ("cpu/cpuid-deps: Add a tab to cpuid dependent features")
+[bringing a private thread back to the lists]
 
-Thanks, I will fix it.
+There's a bug in interplay of fsmount() and d_absolute_path().
+Namely, the check in d_absolute_path() treats the
+not-yet-attached mount as "reached absolute root".
+AFAICS, the right fix is this
 
-Yu-cheng
+diff --git a/fs/d_path.c b/fs/d_path.c
+index a7d0a96b35ce..0f1fc1743302 100644
+--- a/fs/d_path.c
++++ b/fs/d_path.c
+@@ -116,8 +116,10 @@ static int prepend_path(const struct path *path,
+ 				vfsmnt = &mnt->mnt;
+ 				continue;
+ 			}
+-			if (!error)
+-				error = is_mounted(vfsmnt) ? 1 : 2;
++			if (is_mounted(vfsmnt) && !is_anon_ns(mnt->mnt_ns))
++				error = 1;	// absolute root
++			else
++				error = 2;	// detached or not attached yet
+ 			break;
+ 		}
+ 		parent = dentry->d_parent;
+
+but that would slightly change the behaviour in another case.
+Namely, nfs4 mount-time temporary namespaces.  There we have
+the following: mount -t nfs4 server:/foo/bar/baz /mnt
+will
+        * set a temporary namespace, matching the mount tree as
+exported by server
+        * mount the root export there
+        * traverse foo/bar/baz in that namespace, triggering
+automounts when we cross the filesystem boundaries on server.
+        * grab whatever we'd arrived at; that's what we'll
+be mounting.
+        * dissolve the temp namespace.
+
+If you trigger some LSM hook (e.g. in permission checks on
+that pathname traversal) for objects in that temp namespace,
+do you want d_absolute_path() to succeed (and give a pathname
+relative to server's root export), or should it rather fail?
+
+AFAICS, apparmor and tomoyo are the only things that might
+care either way; I would go with "fail, it's not an absolute
+path" (and that's what the patch above will end up doing),
+but it's really up to you.
+
+It definitely ought to fail for yet-to-be-attached case, though;
+it doesn't, and that's a bug that needs to be fixed.  Mea culpa.
