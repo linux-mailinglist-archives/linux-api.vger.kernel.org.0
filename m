@@ -2,187 +2,102 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 45A7A9A3D7
-	for <lists+linux-api@lfdr.de>; Fri, 23 Aug 2019 01:31:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 51F819B188
+	for <lists+linux-api@lfdr.de>; Fri, 23 Aug 2019 16:02:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726444AbfHVXbu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 22 Aug 2019 19:31:50 -0400
-Received: from mail-io1-f48.google.com ([209.85.166.48]:38750 "EHLO
-        mail-io1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726442AbfHVXbu (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 22 Aug 2019 19:31:50 -0400
-Received: by mail-io1-f48.google.com with SMTP id p12so15825673iog.5;
-        Thu, 22 Aug 2019 16:31:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=g5ev4YNyacCPm5TJniJ3SxphrLoEtQ+ucV5R5bFgZog=;
-        b=kO48W3vzJvUqY9+qybTl957Id+ZSNxe0FLDIkqYWgzLeAV5FHgAGu2QDgOy5JiITDK
-         NqfE4bAC8RUFCU4hRRUAJtWjLBZG56P3tOm2YclOQeWzlyfo6Uy9C+gwb1Id8W1hfypZ
-         qROxLZj6YL19xuhnTyj9/wlmS+eMmjjAbt2dTOoUvMwIEP0+EMuHybogaQYSmZNCCIa1
-         bZRtF5bAugZqmnlC1o8AllgKdYt5iV5IDedKt64ZlbBolu8iVSRjGYCUNozw2P1sB0yP
-         d7ww/5C7Z0TTZNgSE4XRY9iENyX514brnwqWJldZiBh+eXszXyD4q7umb+nzVOZsh6dy
-         ijmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=g5ev4YNyacCPm5TJniJ3SxphrLoEtQ+ucV5R5bFgZog=;
-        b=VYHbOCxnLvAWs9P+dnuiVPDbiYw4tgKAXgGO3Y6Yg3sqqBKnK1fu9+ZTL7NE2CsJHT
-         sfSr7H7U0MReVa1ewU54ESQpDs3ABXhIXpPROKe1VVsvKCZEOoQI6NnLfRcI7J2X4qgt
-         8pU2LMDLziTasEE0oIhVuxpNAzvRwMnPtqWjAyCfbiZRwaEkm9CFiXISDnBAdyvrA9cX
-         4/HRlGNJUjQP5SMgc+E65N21XHEZK2WRU8pgyJ7nc9Vvfv62dsIF9tQNITfI+gIv7tMo
-         Tcx3TbKNf8je46j9amMv5vm+S3OsrOlDeeKHxThNL3irinrMqlDjjK6Sx2HKnRM5NEVM
-         NgXQ==
-X-Gm-Message-State: APjAAAXlgArkkUOTYqQWiFXWFW+n+kraoTyI8KqGNlxITYUd8pH3OTYe
-        jCTtJaGIteVOLYIuOKTFdDR1UmB1
-X-Google-Smtp-Source: APXvYqwzhLctk149ll6mMhuP9SbwVeXiU3ERzqdFVfB57YGFcFm3A91KeZ7wSYWB02pl0/ycOfRneA==
-X-Received: by 2002:a63:e148:: with SMTP id h8mr1399523pgk.275.1566516384818;
-        Thu, 22 Aug 2019 16:26:24 -0700 (PDT)
-Received: from ast-mbp.dhcp.thefacebook.com ([2620:10d:c090:180::1070])
-        by smtp.gmail.com with ESMTPSA id x10sm586643pjo.4.2019.08.22.16.26.23
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 22 Aug 2019 16:26:24 -0700 (PDT)
-Date:   Thu, 22 Aug 2019 16:26:21 -0700
-From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     Daniel Borkmann <daniel@iogearbox.net>,
-        Song Liu <songliubraving@fb.com>,
+        id S2390011AbfHWOCx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 23 Aug 2019 10:02:53 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:37764 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389723AbfHWOCx (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 23 Aug 2019 10:02:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=TlgSQbGZQbJS6HSDwi/9wyBYZmrJdjzuU/XfSgcoVhk=; b=ZjSOzcnGcfW/LTdzeR/cMRrGu
+        hM5Ku9PVLtYuui8pFAfhIb6v0R6YOO5qjsMuw7dvWVbFpD+i5Z5PqZ9ahOHejsSTlE9wrd+apSRUZ
+        1r1B6ol8fjseEyO1nHBCb4O2rZ9vMWpl2zedqIxRFO1cadKFaGAE9Y1lH/npc5yz38/ld/lub0fE/
+        DC9LG7mINAvxT7HwTNVePM1CgJxvR+bPTXgQgq9bjLe4pZylvKfJQBGc0hX4lCccOU3PI2F1F0e6d
+        OWGqm8f1dndYs52YG854QIFZs9ZzNF/Prwi1z8CqHiUww9N5xeH+mB6o5TaLm7HcIvoIVnvkAMFJ0
+        c1zcqv41Q==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1i1A9E-0006Qi-4s; Fri, 23 Aug 2019 14:02:36 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 415B1305F65;
+        Fri, 23 Aug 2019 16:02:01 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id A4044202245EA; Fri, 23 Aug 2019 16:02:33 +0200 (CEST)
+Date:   Fri, 23 Aug 2019 16:02:33 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         Kees Cook <keescook@chromium.org>,
-        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Kernel Team <Kernel-team@fb.com>,
-        Lorenz Bauer <lmb@cloudflare.com>,
-        Jann Horn <jannh@google.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        Chenbo Feng <chenbofeng.kernel@gmail.com>
-Subject: Re: RFC: very rough draft of a bpf permission model
-Message-ID: <20190822232620.p5tql4rrlzlk35z7@ast-mbp.dhcp.thefacebook.com>
-References: <CALCETrWtE2U4EvZVYeq8pSmQjBzF2PHH+KxYW8FSeF+W=1FYjw@mail.gmail.com>
- <EE7B7AE1-3D44-4561-94B9-E97A626A251D@fb.com>
- <CALCETrXX-Jeb4wiQuL6FUai4wNMmMiUxuLLh_Lb9mT7h=0GgAw@mail.gmail.com>
- <20190805192122.laxcaz75k4vxdspn@ast-mbp>
- <CALCETrVtPs8gY-H4gmzSqPboid3CB++n50SvYd6RU9YVde_-Ow@mail.gmail.com>
- <20190806011134.p5baub5l3t5fkmou@ast-mbp>
- <CALCETrXEHL3+NAY6P6vUj7Pvd9ZpZsYC6VCLXOaNxb90a_POGw@mail.gmail.com>
- <98fee747-795a-ff10-fa98-10ddb5afcc03@iogearbox.net>
- <CALCETrUWQbPK3Pc6P5i_UqHPXJmZVyvuYXfq+VRtD6A3emaRhw@mail.gmail.com>
- <CALCETrWU4xJh4UBg0BboCwdGrgj+dUShsH5ETpiRgEpXJTEfQA@mail.gmail.com>
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>
+Subject: Re: [PATCH v8 11/27] x86/mm: Introduce _PAGE_DIRTY_SW
+Message-ID: <20190823140233.GC2332@hirez.programming.kicks-ass.net>
+References: <20190813205225.12032-1-yu-cheng.yu@intel.com>
+ <20190813205225.12032-12-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CALCETrWU4xJh4UBg0BboCwdGrgj+dUShsH5ETpiRgEpXJTEfQA@mail.gmail.com>
-User-Agent: NeoMutt/20180223
+In-Reply-To: <20190813205225.12032-12-yu-cheng.yu@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Aug 22, 2019 at 08:17:54AM -0700, Andy Lutomirski wrote:
-> BPF security strawman, v0.1
-> 
-> This is very rough.  Most of this, especially the API details, needs
-> work before it's ready to implement.  The whole concept also needs
-> review.
-> 
-> = Goals =
-> 
-> The overall goal is to make it possible to use eBPF without having
-> what is effectively administrator access.  For example, an eBPF user
-> should not be able to directly tamper with other processes (unless
-> this permission is explicitly granted) and should not be able to
-> read or write other users' eBPF maps.
-> 
-> It should be possible to use eBPF inside a user namespace without breaking
-> the userns security model.
-> 
-> Due to the risk of speculation attacks and such being carried out via
-> eBPF, it should not become possible to use too much of eBPF without the
-> administrator's permission.  (NB: it is already possible to use
-> *classic* BPF without any permission, and classic BPF is translated
-> internally to eBPF, so this goal can only be met to a limited extent.)
+On Tue, Aug 13, 2019 at 01:52:09PM -0700, Yu-cheng Yu wrote:
 
-agree with the goals.
+> +static inline pte_t pte_move_flags(pte_t pte, pteval_t from, pteval_t to)
+> +{
+> +	if (pte_flags(pte) & from)
+> +		pte = pte_set_flags(pte_clear_flags(pte, from), to);
+> +	return pte;
+> +}
 
-> = Definitions =
-> 
-> Global capability: A capability bit in the caller's effective mask, so
-> long as the caller is in the root user namespace.  Tasks in non-root
-> user namespaces never have global capabilibies.  This is what capable()
-> checks.
-> 
-> Namespace capability: A capability over a specific user namespace.
-> Tasks in a user namespace have all the capabilities in their effective
-> mask over their user namespace.  A namespace capability generally
-> indicates that the capability applies to the user namespace itself and
-> to all non-user namespaces that live in the user namespace.  For
-> example, CAP_NET_ADMIN means that you can configure all networks
-> namespaces in the current user namespace.  This is what ns_capable()
-> checks.
+Aside of the whole conditional thing (I agree it would be better to have
+this unconditionally); the function doesn't really do as advertised.
 
-definitions make sense too.
+That is, if @from is clear, it doesn't endeavour to make sure @to is
+also clear.
 
-> Anything that requires a global capability will not work in a non-root
-> user namespace.
-> 
-> = unprivileged_bpf_disabled =
-> 
-> Nothing in here supercedes unprivileged_bpf_disabled.  If
-> unprivileged_bpf_disabled = 1, then these proposals should not allow anything
-> that is disallowed today.  The idea is to make unprivileged_bpf_disabled=0
-> both safer and more useful.
+Now it might be sufficient, but in that case it really needs a comment
+and or different name.
 
-... a bunch of new features skipped for brevity...
+An implementation that actually moves the bit is something like:
 
-You're proposing all of the above in addition to CAP_BPF, right?
-Otherwise I don't see how it addresses the use cases I kept
-explaining for the last few weeks.
+	pteval_t a,b;
 
-I don't mind additional features if people who propose them
-actively help to maintain that new code and address inevitable
-side channel issues in the new code.
-But first things first.
-
-Here is another example of use case that CAP_BPF is solving:
-The daemon X is started by pid=1 and currently runs as root.
-It loads a bunch of tracing progs and attaches them to kprobes
-and tracepoints. It also loads cgroup-bpf progs and attaches them
-to cgroups. All progs are collecting data about the system and
-logging it for further analysis.
-There can be different bugs (not security bugs) in the daemon.
-Simple coding bugs, but due to processing running as root they
-may make the system inoperable. There is a strong desire to
-drop privileges for this daemon. Let it do all BPF things the
-way it does today and drop root, since other operations do not
-require root.
-Essentially a bunch of daemons run as root only because
-they need bpf. This tracing bpf is looking into kernel memory
-and using bpf_probe_read. Clearly it's not _secure_. But it's _safe_.
-The system is not going to crash because of BPF,
-but it can easily crash because of simple coding bugs in the user
-space bits of that daemon.
-
-Flagging functions is not going to help this case.
-bpf_probe_read is necessary.
-pointer-to-integer-conversions is also necessary.
-bypass hardening features is also necessary for speed,
-since this data collection is 24/7.
-cgroup.subtree_control idea can help some of it, but not all.
-
-I still think that CAP_BPF is the best way to split this root privilege
-universe into smaller 'bpf piece'. Just like CAP_NET_ADMIN splits
-all of root into networking specific privileges.
-
-Potentially we can go sysctl_perf_event_paranoid approach, but
-it's less flexible, since it's single sysctl for the whole system.
-
-Loading progs via FD instead of memory is something that android folks
-proposed some time ago. The need is real. Whether it's going to be
-loading via FD or some other form of signing the program is TBD.
-imo this is orthogonal.
-
-I hope I answered all points of your proposal.
+	a = native_pte_value(pte);
+	b = (a >> from_bit) & 1;
+	a &= ~((1ULL << from_bit) | (1ULL << to_bit));
+	a |= b << to_bit;
+	return make_native_pte(a);
 
