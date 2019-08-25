@@ -2,132 +2,85 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B896F9BFFA
-	for <lists+linux-api@lfdr.de>; Sat, 24 Aug 2019 22:18:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6212B9C2C5
+	for <lists+linux-api@lfdr.de>; Sun, 25 Aug 2019 11:51:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727353AbfHXUSL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 24 Aug 2019 16:18:11 -0400
-Received: from mail-ua1-f68.google.com ([209.85.222.68]:44521 "EHLO
-        mail-ua1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727740AbfHXUSL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 24 Aug 2019 16:18:11 -0400
-Received: by mail-ua1-f68.google.com with SMTP id m23so4444730uaq.11
-        for <linux-api@vger.kernel.org>; Sat, 24 Aug 2019 13:18:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0zfEO+Of97f0VCldvVRJl3jzEF01O6soGli/loZclzk=;
-        b=CiJfEFfo1GhUFTvULOmIWC5bky0UhNotA9EofhxO4+2Cd9KvnmBRPB6hGuQFhuAXwJ
-         Mf7+XdP/Zb4xXtjIaOfMfbMaQpe98nHR1WFAIDUqUl6lSfoh5N6YkchHMEss2Z7wmXRv
-         mIN1BXAFZpi+SynQvspsYrZxrH8jV01EUoqVt4oI5oVTwO6tctGVNu+Gx+DZX4YcnnWT
-         pUO0Oeafs9qrk8HXoIhQUWukfn1efWZ6t1CZQkpVU6dxRoB/3gD8bO7d0APRfzkEuP01
-         6A3Oop2AiXmYSlChvGG9uj5KK5z6ZoLIIlfJYts9owMo4k3T92eSIqfy7wB0W5m6uFPz
-         fndA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0zfEO+Of97f0VCldvVRJl3jzEF01O6soGli/loZclzk=;
-        b=WN4Q7HimogLRF85OjPFlAyTAsdA7EZlLwRVaVldFpuqzy0fr/8Z2o82aCQYcdiPHQc
-         4OkRGgidkgCBMvqlkQMD+vok/rMN4T2HSHMU1CV/JIjEQsbDQIs4x7krXqDiNDdJMuA6
-         7ANk/3euSJA8WJrkcKOUSrEPDVKaK2b7zGQVhi5bGiyCmBKP+LXWneB77xcStDs6ZVGi
-         vvBYp48vYgJFXvLZk8Ki6pxd/rbn0rNopiUm/7pq04YB/NdjvvojzFJ2MlcTFPlxbN+8
-         R/O6GmBx8jjB2PmT+Wqwvzfd+IY3zh7r5cFhjoLi4IX7l7djyP4XYMBBt79JyjQfkujx
-         0zyw==
-X-Gm-Message-State: APjAAAWrD2iCJyJWqDz/o7u2R/KiJjqflfF8JpiF1plsgUwVwHuOGWCn
-        No2xFNIy4RWxgIRA7/a9zoxUFoNXptyGYcsbJEOLTA==
-X-Google-Smtp-Source: APXvYqxjVPBCRB+CRwr4t5I/R3fEcc9xAf9hOK0mmX0eHtTD2rTNJ8/siW0Z/MdtMGoJdUYWfX/KXqMK5Snr1pytTE0=
-X-Received: by 2002:a9f:230c:: with SMTP id 12mr5623819uae.85.1566677889720;
- Sat, 24 Aug 2019 13:18:09 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190820033406.29796-1-cyphar@cyphar.com> <20190820033406.29796-8-cyphar@cyphar.com>
-In-Reply-To: <20190820033406.29796-8-cyphar@cyphar.com>
-From:   Daniel Colascione <dancol@google.com>
-Date:   Sat, 24 Aug 2019 13:17:33 -0700
-Message-ID: <CAKOZuesfxRBJe314rkTKXtjXdz6ki3uAUBYVbu5Q2rd3=ADphQ@mail.gmail.com>
-Subject: Re: [PATCH RESEND v11 7/8] open: openat2(2) syscall
-To:     Aleksa Sarai <cyphar@cyphar.com>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J. Bruce Fields" <bfields@fieldses.org>,
-        Arnd Bergmann <arnd@arndb.de>,
+        id S1725995AbfHYJvJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 25 Aug 2019 05:51:09 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:50358 "EHLO
+        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725809AbfHYJvJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 25 Aug 2019 05:51:09 -0400
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+        id 07884812E3; Sun, 25 Aug 2019 11:50:53 +0200 (CEST)
+Date:   Sun, 25 Aug 2019 11:51:06 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Matthew Garrett <matthewgarrett@google.com>
+Cc:     jmorris@namei.org, linux-security-module@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        Josh Boyer <jwboyer@fedoraproject.org>,
         David Howells <dhowells@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Christian Brauner <christian@brauner.io>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Tycho Andersen <tycho@tycho.ws>,
-        David Drysdale <drysdale@google.com>,
-        Chanho Min <chanho.min@lge.com>,
-        Oleg Nesterov <oleg@redhat.com>, Aleksa Sarai <asarai@suse.de>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        containers@lists.linux-foundation.org, linux-alpha@vger.kernel.org,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        linux-ia64@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>, linux-m68k@lists.linux-m68k.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
-        linux-sh@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-        sparclinux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Matthew Garrett <mjg59@google.com>,
+        Kees Cook <keescook@chromium.org>, rjw@rjwysocki.net,
+        linux-pm@vger.kernel.org
+Subject: Re: [PATCH V40 10/29] hibernate: Disable when the kernel is locked
+ down
+Message-ID: <20190825095106.GD1644@amd>
+References: <20190820001805.241928-1-matthewgarrett@google.com>
+ <20190820001805.241928-11-matthewgarrett@google.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="u65IjBhB3TIa72Vp"
+Content-Disposition: inline
+In-Reply-To: <20190820001805.241928-11-matthewgarrett@google.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Aug 19, 2019 at 8:37 PM Aleksa Sarai <cyphar@cyphar.com> wrote:
->
-> The most obvious syscall to add support for the new LOOKUP_* scoping
-> flags would be openat(2). However, there are a few reasons why this is
-> not the best course of action:
->
->  * The new LOOKUP_* flags are intended to be security features, and
->    openat(2) will silently ignore all unknown flags. This means that
->    users would need to avoid foot-gunning themselves constantly when
->    using this interface if it were part of openat(2). This can be fixed
->    by having userspace libraries handle this for users[1], but should be
->    avoided if possible.
->
->  * Resolution scoping feels like a different operation to the existing
->    O_* flags. And since openat(2) has limited flag space, it seems to be
->    quite wasteful to clutter it with 5 flags that are all
->    resolution-related. Arguably O_NOFOLLOW is also a resolution flag but
->    its entire purpose is to error out if you encounter a trailing
->    symlink -- not to scope resolution.
->
->  * Other systems would be able to reimplement this syscall allowing for
->    cross-OS standardisation rather than being hidden amongst O_* flags
->    which may result in it not being used by all the parties that might
->    want to use it (file servers, web servers, container runtimes, etc).
->
->  * It gives us the opportunity to iterate on the O_PATH interface. In
->    particular, the new @how->upgrade_mask field for fd re-opening is
->    only possible because we have a clean slate without needing to re-use
->    the ACC_MODE flag design nor the existing openat(2) @mode semantics.
->
-> To this end, we introduce the openat2(2) syscall. It provides all of the
-> features of openat(2) through the @how->flags argument, but also
-> also provides a new @how->resolve argument which exposes RESOLVE_* flags
-> that map to our new LOOKUP_* flags. It also eliminates the long-standing
-> ugliness of variadic-open(2) by embedding it in a struct.
->
-> In order to allow for userspace to lock down their usage of file
-> descriptor re-opening, openat2(2) has the ability for users to disallow
-> certain re-opening modes through @how->upgrade_mask. At the moment,
-> there is no UPGRADE_NOEXEC. The open_how struct is padded to 64 bytes
-> for future extensions (all of the reserved bits must be zeroed).
 
-Why pad the structure when new functionality (perhaps accommodated via
-a larger structure) could be signaled by passing a new flag? Adding
-reserved fields to a structure with a size embedded in the ABI makes a
-lot of sense --- e.g., pthread_mutex_t can't grow. But this structure
-can grow, so the reservation seems needless to me.
+--u65IjBhB3TIa72Vp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon 2019-08-19 17:17:46, Matthew Garrett wrote:
+> From: Josh Boyer <jwboyer@fedoraproject.org>
+>=20
+> There is currently no way to verify the resume image when returning
+> from hibernate.  This might compromise the signed modules trust model,
+> so until we can work with signed hibernate images we disable it when the
+> kernel is locked down.
+>=20
+> Signed-off-by: Josh Boyer <jwboyer@fedoraproject.org>
+> Signed-off-by: David Howells <dhowells@redhat.com>
+> Signed-off-by: Matthew Garrett <mjg59@google.com>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> Cc: rjw@rjwysocki.net
+> Cc: pavel@ucw.cz
+> cc: linux-pm@vger.kernel.org
+> Signed-off-by: James Morris <jmorris@namei.org>
+
+Acked-by: Pavel Machek <pavel@ucw.cz>
+
+									Pavel
+
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--u65IjBhB3TIa72Vp
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAl1iWgoACgkQMOfwapXb+vJjIgCfUZfnFSM3yMH7xIKKwWsgpi8u
+qu4An2fFN+zbwRtWr/eFuPbuIfXNlZOF
+=jHC1
+-----END PGP SIGNATURE-----
+
+--u65IjBhB3TIa72Vp--
