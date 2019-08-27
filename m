@@ -2,200 +2,98 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 10C239F5A7
-	for <lists+linux-api@lfdr.de>; Tue, 27 Aug 2019 23:55:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D54ED9F657
+	for <lists+linux-api@lfdr.de>; Wed, 28 Aug 2019 00:46:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726289AbfH0Vzz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 27 Aug 2019 17:55:55 -0400
-Received: from mga09.intel.com ([134.134.136.24]:27694 "EHLO mga09.intel.com"
+        id S1726077AbfH0Wqc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 27 Aug 2019 18:46:32 -0400
+Received: from mga09.intel.com ([134.134.136.24]:33194 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725835AbfH0Vzz (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 27 Aug 2019 17:55:55 -0400
-X-Amp-Result: UNSCANNABLE
+        id S1725992AbfH0Wqc (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 27 Aug 2019 18:46:32 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 27 Aug 2019 14:55:55 -0700
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 27 Aug 2019 15:46:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,438,1559545200"; 
-   d="scan'208";a="185426781"
-Received: from hao-dev.bj.intel.com (HELO localhost) ([10.238.157.65])
-  by orsmga006.jf.intel.com with ESMTP; 27 Aug 2019 14:55:53 -0700
-Date:   Wed, 28 Aug 2019 05:38:29 +0800
-From:   Wu Hao <hao.wu@intel.com>
-To:     Moritz Fischer <mdf@kernel.org>
-Cc:     gregkh@linuxfoundation.org, linux-fpga@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, atull@kernel.org
-Subject: Re: [PATCH v5 3/9] fpga: dfl: afu: convert platform_driver to use
- dev_groups
-Message-ID: <20190827213829.GA4237@hao-dev>
-References: <1565578204-13969-1-git-send-email-hao.wu@intel.com>
- <1565578204-13969-4-git-send-email-hao.wu@intel.com>
- <20190822150701.GB22556@archbox>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190822150701.GB22556@archbox>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+X-IronPort-AV: E=Sophos;i="5.64,439,1559545200"; 
+   d="scan'208";a="192396943"
+Received: from yyu32-desk1.sc.intel.com ([10.144.153.205])
+  by orsmga002.jf.intel.com with ESMTP; 27 Aug 2019 15:46:30 -0700
+Message-ID: <6c3dc33e16c8bbb6d45c0a6ec7c684de197fa065.camel@intel.com>
+Subject: Re: [PATCH v8 11/27] x86/mm: Introduce _PAGE_DIRTY_SW
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>
+Date:   Tue, 27 Aug 2019 15:37:12 -0700
+In-Reply-To: <20190823140233.GC2332@hirez.programming.kicks-ass.net>
+References: <20190813205225.12032-1-yu-cheng.yu@intel.com>
+         <20190813205225.12032-12-yu-cheng.yu@intel.com>
+         <20190823140233.GC2332@hirez.programming.kicks-ass.net>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Aug 22, 2019 at 08:07:01AM -0700, Moritz Fischer wrote:
-> Hi Hao,
+On Fri, 2019-08-23 at 16:02 +0200, Peter Zijlstra wrote:
+> On Tue, Aug 13, 2019 at 01:52:09PM -0700, Yu-cheng Yu wrote:
 > 
-> On Mon, Aug 12, 2019 at 10:49:58AM +0800, Wu Hao wrote:
-> > This patch takes advantage of driver core which helps to create
-> > and remove sysfs attribute files, so there is no need to register
-> > sysfs entries manually in dfl-afu platform river code.
-> Same nit: s/river/driver
-> > 
-> > Signed-off-by: Wu Hao <hao.wu@intel.com>
-> Acked-by: Moritz Fischer <mdf@kernel.org>
-
-
-Hi Moritz
-
-Thanks a lot for the review. : )
-
-Have you got a chance to look into the other patches in this patchset?
-
-Thanks
-Hao
-
-> > ---
-> >  drivers/fpga/dfl-afu-main.c | 69 +++++++++++++++++++++++----------------------
-> >  1 file changed, 36 insertions(+), 33 deletions(-)
-> > 
-> > diff --git a/drivers/fpga/dfl-afu-main.c b/drivers/fpga/dfl-afu-main.c
-> > index e50c45e..e955149 100644
-> > --- a/drivers/fpga/dfl-afu-main.c
-> > +++ b/drivers/fpga/dfl-afu-main.c
-> > @@ -282,24 +282,17 @@ static int port_get_id(struct platform_device *pdev)
-> >  	&dev_attr_power_state.attr,
-> >  	NULL,
-> >  };
-> > -ATTRIBUTE_GROUPS(port_hdr);
-> > +
-> > +static const struct attribute_group port_hdr_group = {
-> > +	.attrs = port_hdr_attrs,
-> > +};
-> >  
-> >  static int port_hdr_init(struct platform_device *pdev,
-> >  			 struct dfl_feature *feature)
-> >  {
-> > -	dev_dbg(&pdev->dev, "PORT HDR Init.\n");
-> > -
-> >  	port_reset(pdev);
-> >  
-> > -	return device_add_groups(&pdev->dev, port_hdr_groups);
-> > -}
-> > -
-> > -static void port_hdr_uinit(struct platform_device *pdev,
-> > -			   struct dfl_feature *feature)
-> > -{
-> > -	dev_dbg(&pdev->dev, "PORT HDR UInit.\n");
-> > -
-> > -	device_remove_groups(&pdev->dev, port_hdr_groups);
-> > +	return 0;
-> >  }
-> >  
-> >  static long
-> > @@ -330,7 +323,6 @@ static void port_hdr_uinit(struct platform_device *pdev,
-> >  
-> >  static const struct dfl_feature_ops port_hdr_ops = {
-> >  	.init = port_hdr_init,
-> > -	.uinit = port_hdr_uinit,
-> >  	.ioctl = port_hdr_ioctl,
-> >  };
-> >  
-> > @@ -361,32 +353,37 @@ static void port_hdr_uinit(struct platform_device *pdev,
-> >  	&dev_attr_afu_id.attr,
-> >  	NULL
-> >  };
-> > -ATTRIBUTE_GROUPS(port_afu);
-> >  
-> > -static int port_afu_init(struct platform_device *pdev,
-> > -			 struct dfl_feature *feature)
-> > +static umode_t port_afu_attrs_visible(struct kobject *kobj,
-> > +				      struct attribute *attr, int n)
-> >  {
-> > -	struct resource *res = &pdev->resource[feature->resource_index];
-> > -	int ret;
-> > -
-> > -	dev_dbg(&pdev->dev, "PORT AFU Init.\n");
-> > +	struct device *dev = kobj_to_dev(kobj);
-> >  
-> > -	ret = afu_mmio_region_add(dev_get_platdata(&pdev->dev),
-> > -				  DFL_PORT_REGION_INDEX_AFU, resource_size(res),
-> > -				  res->start, DFL_PORT_REGION_READ |
-> > -				  DFL_PORT_REGION_WRITE | DFL_PORT_REGION_MMAP);
-> > -	if (ret)
-> > -		return ret;
-> > +	/*
-> > +	 * sysfs entries are visible only if related private feature is
-> > +	 * enumerated.
-> > +	 */
-> > +	if (!dfl_get_feature_by_id(dev, PORT_FEATURE_ID_AFU))
-> > +		return 0;
-> >  
-> > -	return device_add_groups(&pdev->dev, port_afu_groups);
-> > +	return attr->mode;
-> >  }
-> >  
-> > -static void port_afu_uinit(struct platform_device *pdev,
-> > -			   struct dfl_feature *feature)
-> > +static const struct attribute_group port_afu_group = {
-> > +	.attrs      = port_afu_attrs,
-> > +	.is_visible = port_afu_attrs_visible,
-> > +};
-> > +
-> > +static int port_afu_init(struct platform_device *pdev,
-> > +			 struct dfl_feature *feature)
-> >  {
-> > -	dev_dbg(&pdev->dev, "PORT AFU UInit.\n");
-> Thanks.
-> > +	struct resource *res = &pdev->resource[feature->resource_index];
-> >  
-> > -	device_remove_groups(&pdev->dev, port_afu_groups);
-> > +	return afu_mmio_region_add(dev_get_platdata(&pdev->dev),
-> > +				   DFL_PORT_REGION_INDEX_AFU,
-> > +				   resource_size(res), res->start,
-> > +				   DFL_PORT_REGION_MMAP | DFL_PORT_REGION_READ |
-> > +				   DFL_PORT_REGION_WRITE);
-> >  }
-> >  
-> >  static const struct dfl_feature_id port_afu_id_table[] = {
-> > @@ -396,7 +393,6 @@ static void port_afu_uinit(struct platform_device *pdev,
-> >  
-> >  static const struct dfl_feature_ops port_afu_ops = {
-> >  	.init = port_afu_init,
-> > -	.uinit = port_afu_uinit,
-> >  };
-> >  
-> >  static struct dfl_feature_driver port_feature_drvs[] = {
-> > @@ -748,9 +744,16 @@ static int afu_remove(struct platform_device *pdev)
-> >  	return 0;
-> >  }
-> >  
-> > +static const struct attribute_group *afu_dev_groups[] = {
-> > +	&port_hdr_group,
-> > +	&port_afu_group,
-> > +	NULL
-> > +};
-> > +
-> >  static struct platform_driver afu_driver = {
-> >  	.driver	= {
-> > -		.name    = DFL_FPGA_FEATURE_DEV_PORT,
-> > +		.name	    = DFL_FPGA_FEATURE_DEV_PORT,
-> > +		.dev_groups = afu_dev_groups,
-> >  	},
-> >  	.probe   = afu_probe,
-> >  	.remove  = afu_remove,
-> > -- 
-> > 1.8.3.1
-> > 
+> > +static inline pte_t pte_move_flags(pte_t pte, pteval_t from, pteval_t to)
+> > +{
+> > +	if (pte_flags(pte) & from)
+> > +		pte = pte_set_flags(pte_clear_flags(pte, from), to);
+> > +	return pte;
+> > +}
 > 
-> Thanks,
-> Moritz
+> Aside of the whole conditional thing (I agree it would be better to have
+> this unconditionally); the function doesn't really do as advertised.
+> 
+> That is, if @from is clear, it doesn't endeavour to make sure @to is
+> also clear.
+> 
+> Now it might be sufficient, but in that case it really needs a comment
+> and or different name.
+> 
+> An implementation that actually moves the bit is something like:
+> 
+> 	pteval_t a,b;
+> 
+> 	a = native_pte_value(pte);
+> 	b = (a >> from_bit) & 1;
+> 	a &= ~((1ULL << from_bit) | (1ULL << to_bit));
+> 	a |= b << to_bit;
+> 	return make_native_pte(a);
+
+There can be places calling pte_wrprotect() on a PTE that is already RO +
+DIRTY_SW.  Then in pte_move_flags(pte, _PAGE_DIRTY_HW, _PAGE_DIRTY_SW) we do not
+ want to clear _PAGE_DIRTY_SW.  But, I will look into this and make it more
+obvious.
+
+Thanks,
+Yu-cheng  
