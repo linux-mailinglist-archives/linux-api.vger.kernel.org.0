@@ -2,74 +2,88 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 54C80A12C2
-	for <lists+linux-api@lfdr.de>; Thu, 29 Aug 2019 09:44:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 83CF9A16A7
+	for <lists+linux-api@lfdr.de>; Thu, 29 Aug 2019 12:50:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727528AbfH2HoW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 29 Aug 2019 03:44:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42898 "EHLO mx1.redhat.com"
+        id S1727810AbfH2KuW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 29 Aug 2019 06:50:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57550 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727426AbfH2HoV (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 29 Aug 2019 03:44:21 -0400
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com [209.85.208.69])
+        id S1727779AbfH2KuV (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 29 Aug 2019 06:50:21 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 715C2796FC
-        for <linux-api@vger.kernel.org>; Thu, 29 Aug 2019 07:44:21 +0000 (UTC)
-Received: by mail-ed1-f69.google.com with SMTP id f11so1584590edb.16
-        for <linux-api@vger.kernel.org>; Thu, 29 Aug 2019 00:44:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
-         :message-id:mime-version;
-        bh=syJ1qgGbb2nyLjAQ0BdovjtQf9fJ98FvbZ0asS0WfAc=;
-        b=BpQn5923GpHpxfRKXgH7gpWcDH1OFCGpzh0EiWvYTl/6aQL0n9Bs+PXB/U8Exn4mcs
-         5d0gzIiPP50ARaJig9X//W8hdqNk/3shvVOU0I0ArUZ6GbFlqrEs2NUrn0S41luueyRt
-         bMtfwTQPJfVpTEpGchli6s9Wm2zEfNNN5uacpwlkntI+q6Yc0MmKixVgH6uPRWPZ+TH2
-         tQi4sfRcZgHN+vxhnbSRApRlFJWPHE+8MkIcsoOIRD4E0LEsoL51EUF/jecHgEXrEZ+E
-         yRzywIbQoMEu9TT06NkNN25aDXeljMnRWkTTK5OglQ3nCf+AzYY8kYuDAbgjf9tqjUdq
-         DTRA==
-X-Gm-Message-State: APjAAAVqgK+waTZ0KzhEKW34Ldt+igRaIiXYfyz26oCq58qtCmbg8Ata
-        XjrHi/PVBTvnQNba0+TOqOwXDYGRABfmq7S4DBGJA9e2M+MlBLNfVLvExkWRa3PTIlDM0p2xHXi
-        wHEUzJVVqDl3xGO+uiZF8
-X-Received: by 2002:a17:906:841a:: with SMTP id n26mr6877700ejx.181.1567064660256;
-        Thu, 29 Aug 2019 00:44:20 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxTEgOTmPL7C6gKeK+p4p3VDmj4jaAlWchwY4AG0qidGcwqilr8Hiqay9Scqq+u8hizc7+f4A==
-X-Received: by 2002:a17:906:841a:: with SMTP id n26mr6877690ejx.181.1567064660112;
-        Thu, 29 Aug 2019 00:44:20 -0700 (PDT)
-Received: from alrua-x1.borgediget.toke.dk (borgediget.toke.dk. [85.204.121.218])
-        by smtp.gmail.com with ESMTPSA id h9sm292089edv.75.2019.08.29.00.44.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Aug 2019 00:44:19 -0700 (PDT)
-Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
-        id 7C1F2181C2E; Thu, 29 Aug 2019 09:44:18 +0200 (CEST)
-From:   Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
-To:     Alexei Starovoitov <ast@kernel.org>, luto@amacapital.net
-Cc:     davem@davemloft.net, peterz@infradead.org, rostedt@goodmis.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org, kernel-team@fb.com,
+        by mail.kernel.org (Postfix) with ESMTPSA id 8D8FF23405;
+        Thu, 29 Aug 2019 10:50:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1567075820;
+        bh=N1h7TtJ875q5awe/vvwWXc4y4CcTeulGLtMQqFmYWl0=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=q9uQNTPvcS/M5o1/b8FBvx4g52JtUU0AQ2mJfUDY26lfhczk45+sqqdPqWv7CwP9a
+         QgsZtnQ7Cimb3fcUlqmURbrv1t+r1RySAUIVdAW+Dkwj0wvKorugaseOUnwrXCx8sO
+         ukNvGBiMhnv+0BMVvChtWWbujNnefWwuu85m/1ok=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Hangbin Liu <liuhangbin@gmail.com>,
+        David Ahern <dsahern@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Sasha Levin <sashal@kernel.org>, netdev@vger.kernel.org,
         linux-api@vger.kernel.org
-Subject: Re: [PATCH v2 bpf-next 1/3] capability: introduce CAP_BPF and CAP_TRACING
-In-Reply-To: <20190829051253.1927291-1-ast@kernel.org>
-References: <20190829051253.1927291-1-ast@kernel.org>
-X-Clacks-Overhead: GNU Terry Pratchett
-Date:   Thu, 29 Aug 2019 09:44:18 +0200
-Message-ID: <87ef14iffx.fsf@toke.dk>
+Subject: [PATCH AUTOSEL 4.19 09/29] selftests: fib_rule_tests: use pre-defined DEV_ADDR
+Date:   Thu, 29 Aug 2019 06:49:49 -0400
+Message-Id: <20190829105009.2265-9-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190829105009.2265-1-sashal@kernel.org>
+References: <20190829105009.2265-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Alexei Starovoitov <ast@kernel.org> writes:
+From: Hangbin Liu <liuhangbin@gmail.com>
 
-> CAP_BPF allows the following BPF operations:
-> - Loading all types of BPF programs
-> - Creating all types of BPF maps except:
->    - stackmap that needs CAP_TRACING
->    - devmap that needs CAP_NET_ADMIN
->    - cpumap that needs CAP_SYS_ADMIN
+[ Upstream commit 34632975cafdd07ce80e85c2eda4e9c16b5f2faa ]
 
-Why CAP_SYS_ADMIN instead of CAP_NET_ADMIN for cpumap?
+DEV_ADDR is defined but not used. Use it in address setting.
+Do the same with IPv6 for consistency.
 
--Toke
+Reported-by: David Ahern <dsahern@gmail.com>
+Fixes: fc82d93e57e3 ("selftests: fib_rule_tests: fix local IPv4 address typo")
+Signed-off-by: Hangbin Liu <liuhangbin@gmail.com>
+Signed-off-by: David S. Miller <davem@davemloft.net>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ tools/testing/selftests/net/fib_rule_tests.sh | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/tools/testing/selftests/net/fib_rule_tests.sh b/tools/testing/selftests/net/fib_rule_tests.sh
+index 1ba069967fa2b..ba2d9fab28d0f 100755
+--- a/tools/testing/selftests/net/fib_rule_tests.sh
++++ b/tools/testing/selftests/net/fib_rule_tests.sh
+@@ -15,6 +15,7 @@ GW_IP6=2001:db8:1::2
+ SRC_IP6=2001:db8:1::3
+ 
+ DEV_ADDR=192.51.100.1
++DEV_ADDR6=2001:db8:1::1
+ DEV=dummy0
+ 
+ log_test()
+@@ -55,8 +56,8 @@ setup()
+ 
+ 	$IP link add dummy0 type dummy
+ 	$IP link set dev dummy0 up
+-	$IP address add 192.51.100.1/24 dev dummy0
+-	$IP -6 address add 2001:db8:1::1/64 dev dummy0
++	$IP address add $DEV_ADDR/24 dev dummy0
++	$IP -6 address add $DEV_ADDR6/64 dev dummy0
+ 
+ 	set +e
+ }
+-- 
+2.20.1
+
