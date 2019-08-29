@@ -2,27 +2,49 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C756A19D9
-	for <lists+linux-api@lfdr.de>; Thu, 29 Aug 2019 14:16:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 104A4A1AB9
+	for <lists+linux-api@lfdr.de>; Thu, 29 Aug 2019 15:05:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727345AbfH2MQJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 29 Aug 2019 08:16:09 -0400
-Received: from mx2.mailbox.org ([80.241.60.215]:28272 "EHLO mx2.mailbox.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727174AbfH2MQI (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 29 Aug 2019 08:16:08 -0400
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [80.241.60.240])
-        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
-        (No client certificate requested)
-        by mx2.mailbox.org (Postfix) with ESMTPS id 2ACB4A1069;
-        Thu, 29 Aug 2019 14:16:02 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp1.mailbox.org ([80.241.60.240])
-        by spamfilter02.heinlein-hosting.de (spamfilter02.heinlein-hosting.de [80.241.56.116]) (amavisd-new, port 10030)
-        with ESMTP id WXJzDwa0kR9t; Thu, 29 Aug 2019 14:15:51 +0200 (CEST)
-Date:   Thu, 29 Aug 2019 22:15:27 +1000
-From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     Daniel Colascione <dancol@google.com>
+        id S1727644AbfH2NFL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 29 Aug 2019 09:05:11 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:33987 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727534AbfH2NFK (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 29 Aug 2019 09:05:10 -0400
+Received: by mail-lf1-f67.google.com with SMTP id z21so2492693lfe.1
+        for <linux-api@vger.kernel.org>; Thu, 29 Aug 2019 06:05:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rasmusvillemoes.dk; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=+pz1tJCvEpXqhYntc4a+eXdQw4YkeZzY/CUqzEnQfhI=;
+        b=VwOF8bMUMlpcVPjnH7KLm7q9YPGAJyoJCaqTHg0eB7cJNs33HPtWse0a6S+38yOz8O
+         NHVqczdRdynKQIjzWAF9I3YpK+wBqgWsLCV+xSrpqG8v5x5MeuksDGvoajweRjwbjZ5a
+         38t56VL/f1C5Tbh/lNpCLIQcFzQtYKavA1iaY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=+pz1tJCvEpXqhYntc4a+eXdQw4YkeZzY/CUqzEnQfhI=;
+        b=BI6RS6XOIvlbQK4EBTidy/4Iwx/rpCOO8GpWiHFSLSSfvDlhp4J6F4FPxysaPNOXWJ
+         /w1hS+Z4Bj+q/xMV1/qp+4SAfCOgghB7Q1FNEdUl6GS8WeMkq96P64xwMqzLgHP6jsXB
+         Ff0oUJazku+4fKhwL5gdmiklTCgknCzSxfHA4xC6UpmanZ4L1PejEfEBb0DMXg5doKQ9
+         XF7CZXY0yVdguUlfTHf389Zbx0QUCKhmBilOFPzvub47V6LpgHvZDZN485/hLo/Sr1tM
+         D7p6Z7/yJvLzqOVIJefxNmOofxz5cLvt0/rdYp6hf+ngCSFitmiMCdr5MP5DxtHOFwOf
+         zFZA==
+X-Gm-Message-State: APjAAAUeTY876JM4u6fgHAvA8NZJWaLRc3ku9ZWWInTkPbrNM8rc4T1Z
+        C1FCdmhDF24frgo2N41QJ9DFgQ==
+X-Google-Smtp-Source: APXvYqzC/znEm7g6SWABzaV06VBY2y9BWKEbRXRSbaRH8cAy80Qu1m8PhCO/oz8TivPdICdvt4gS+A==
+X-Received: by 2002:a19:ef05:: with SMTP id n5mr6063058lfh.192.1567083908173;
+        Thu, 29 Aug 2019 06:05:08 -0700 (PDT)
+Received: from [172.16.11.28] ([81.216.59.226])
+        by smtp.gmail.com with ESMTPSA id j23sm346381ljc.6.2019.08.29.06.05.05
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 29 Aug 2019 06:05:07 -0700 (PDT)
+Subject: Re: [PATCH RESEND v11 7/8] open: openat2(2) syscall
+To:     Aleksa Sarai <cyphar@cyphar.com>,
+        Daniel Colascione <dancol@google.com>
 Cc:     Al Viro <viro@zeniv.linux.org.uk>,
         Jeff Layton <jlayton@kernel.org>,
         "J. Bruce Fields" <bfields@fieldses.org>,
@@ -53,125 +75,91 @@ Cc:     Al Viro <viro@zeniv.linux.org.uk>,
         linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
         linux-sh@vger.kernel.org, linux-xtensa@linux-xtensa.org,
         sparclinux@vger.kernel.org
-Subject: Re: [PATCH RESEND v11 7/8] open: openat2(2) syscall
-Message-ID: <20190829121527.u2uvdyeatme5cgkb@yavin>
 References: <20190820033406.29796-1-cyphar@cyphar.com>
  <20190820033406.29796-8-cyphar@cyphar.com>
  <CAKOZuesfxRBJe314rkTKXtjXdz6ki3uAUBYVbu5Q2rd3=ADphQ@mail.gmail.com>
+ <20190829121527.u2uvdyeatme5cgkb@yavin>
+From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Message-ID: <899401fa-ff0a-2ce9-8826-09904efab2d2@rasmusvillemoes.dk>
+Date:   Thu, 29 Aug 2019 15:05:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="ys4y6f5eyfdosi3x"
-Content-Disposition: inline
-In-Reply-To: <CAKOZuesfxRBJe314rkTKXtjXdz6ki3uAUBYVbu5Q2rd3=ADphQ@mail.gmail.com>
+In-Reply-To: <20190829121527.u2uvdyeatme5cgkb@yavin>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On 29/08/2019 14.15, Aleksa Sarai wrote:
+> On 2019-08-24, Daniel Colascione <dancol@google.com> wrote:
 
---ys4y6f5eyfdosi3x
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+>> Why pad the structure when new functionality (perhaps accommodated via
+>> a larger structure) could be signaled by passing a new flag? Adding
+>> reserved fields to a structure with a size embedded in the ABI makes a
+>> lot of sense --- e.g., pthread_mutex_t can't grow. But this structure
+>> can grow, so the reservation seems needless to me.
+> 
+> Quite a few folks have said that ->reserved is either unnecessary or
+> too big. I will be changing this, though I am not clear what the best
+> way of extending the structure is. If anyone has a strong opinion on
+> this (or an alternative to the ones listed below), please chime in. I
+> don't have any really strong attachment to this aspect of the API.
+> 
+> There appear to be a few ways we can do it (that all have precedence
+> with other syscalls):
+> 
+>  1. Use O_* flags to indicate extensions.
+>  2. A separate "version" field that is incremented when we change.
+>  3. Add a size_t argument to openat2(2).
+>  4. Reserve space (as in this patchset).
+> 
+> (My personal preference would be (3), followed closely by (2).)
 
-On 2019-08-24, Daniel Colascione <dancol@google.com> wrote:
-> On Mon, Aug 19, 2019 at 8:37 PM Aleksa Sarai <cyphar@cyphar.com> wrote:
-> >
-> > The most obvious syscall to add support for the new LOOKUP_* scoping
-> > flags would be openat(2). However, there are a few reasons why this is
-> > not the best course of action:
-> >
-> >  * The new LOOKUP_* flags are intended to be security features, and
-> >    openat(2) will silently ignore all unknown flags. This means that
-> >    users would need to avoid foot-gunning themselves constantly when
-> >    using this interface if it were part of openat(2). This can be fixed
-> >    by having userspace libraries handle this for users[1], but should be
-> >    avoided if possible.
-> >
-> >  * Resolution scoping feels like a different operation to the existing
-> >    O_* flags. And since openat(2) has limited flag space, it seems to be
-> >    quite wasteful to clutter it with 5 flags that are all
-> >    resolution-related. Arguably O_NOFOLLOW is also a resolution flag but
-> >    its entire purpose is to error out if you encounter a trailing
-> >    symlink -- not to scope resolution.
-> >
-> >  * Other systems would be able to reimplement this syscall allowing for
-> >    cross-OS standardisation rather than being hidden amongst O_* flags
-> >    which may result in it not being used by all the parties that might
-> >    want to use it (file servers, web servers, container runtimes, etc).
-> >
-> >  * It gives us the opportunity to iterate on the O_PATH interface. In
-> >    particular, the new @how->upgrade_mask field for fd re-opening is
-> >    only possible because we have a clean slate without needing to re-use
-> >    the ACC_MODE flag design nor the existing openat(2) @mode semantics.
-> >
-> > To this end, we introduce the openat2(2) syscall. It provides all of the
-> > features of openat(2) through the @how->flags argument, but also
-> > also provides a new @how->resolve argument which exposes RESOLVE_* flags
-> > that map to our new LOOKUP_* flags. It also eliminates the long-standing
-> > ugliness of variadic-open(2) by embedding it in a struct.
-> >
-> > In order to allow for userspace to lock down their usage of file
-> > descriptor re-opening, openat2(2) has the ability for users to disallow
-> > certain re-opening modes through @how->upgrade_mask. At the moment,
-> > there is no UPGRADE_NOEXEC. The open_how struct is padded to 64 bytes
-> > for future extensions (all of the reserved bits must be zeroed).
->=20
-> Why pad the structure when new functionality (perhaps accommodated via
-> a larger structure) could be signaled by passing a new flag? Adding
-> reserved fields to a structure with a size embedded in the ABI makes a
-> lot of sense --- e.g., pthread_mutex_t can't grow. But this structure
-> can grow, so the reservation seems needless to me.
+3, definitely, and instead of having to invent a new scheme for every
+new syscall, make that the default pattern by providing a helper
 
-Quite a few folks have said that ->reserved is either unnecessary or
-too big. I will be changing this, though I am not clear what the best
-way of extending the structure is. If anyone has a strong opinion on
-this (or an alternative to the ones listed below), please chime in. I
-don't have any really strong attachment to this aspect of the API.
+int __copy_abi_struct(void *kernel, size_t ksize, const void __user
+*user, size_t usize)
+{
+	size_t copy = min(ksize, usize);
 
-There appear to be a few ways we can do it (that all have precedence
-with other syscalls):
+	if (copy_from_user(kernel, user, copy))
+		return -EFAULT;
 
- 1. Use O_* flags to indicate extensions.
- 2. A separate "version" field that is incremented when we change.
- 3. Add a size_t argument to openat2(2).
- 4. Reserve space (as in this patchset).
+	if (usize > ksize) {
+		/* maybe a separate "return user_is_zero(user + ksize, usize -
+ksize);" helper */
+		char c;
+		user += ksize;
+		usize -= ksize;
+		while (usize--) {
+			if (get_user(c, user++))
+				return -EFAULT;
+			if (c)
+				return -EINVAL;
+		}
+	} else if (ksize > usize) {
+		memset(kernel + usize, 0, ksize - usize);
+	}
+	return 0;
+}
+#define copy_abi_struct(kernel, user, usize)	\
+	__copy_abi_struct(kernel, sizeof(*kernel), user, usize)
 
-(My personal preference would be (3), followed closely by (2).)
+> Both (1) and (2) have the problem that the "struct version" is inside
+> the struct so we'd need to copy_from_user() twice. This isn't the end of
+> the world, it just feels a bit less clean than is ideal. (3) fixes that
+> problem, at the cost of making the API slightly more cumbersome to use
+> directly (though again glibc could wrap that away).
 
-The main problem with (1) is that it pollutes the open(2) and openat(2)
-syscalls with new O_* flags, which is probably not a good API decision
-(syscall flags are already "bad" enough, let's not throw a bunch of
-no-ops into the mix).
+I don't see how 3 is cumbersome to use directly. Userspace code does
+struct openat_of_the_day args = {.field1 = x, .field3 = y} and passes
+&args, sizeof(args). What does glibc need to do beyond its usual munging
+of the userspace ABI registers to the syscall ABI registers?
 
-(2) is mostly fine except for a slight issue of ergonomics (glibc would
-have to auto-fill the version field or make wrappers in order to make it
-easier to use sanely). But this does have the benefit that we could
-re-arrange fields (not that this is something we'd want to do anyway).
+Rasmus
 
-Both (1) and (2) have the problem that the "struct version" is inside
-the struct so we'd need to copy_from_user() twice. This isn't the end of
-the world, it just feels a bit less clean than is ideal. (3) fixes that
-problem, at the cost of making the API slightly more cumbersome to use
-directly (though again glibc could wrap that away).
-
-And the downsides of (4) are pretty well discussed already.
-
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-<https://www.cyphar.com/>
-
---ys4y6f5eyfdosi3x
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCXWfB2wAKCRCdlLljIbnQ
-EljcAQC+BitddeHjv2a9yspU0gLaZB6nn8UBahZIqiE8+4xUoAEAuibGdlSM4ag8
-ZYal7PGiNelUZH1S6GPHj1bvVNNGOQ0=
-=OczH
------END PGP SIGNATURE-----
-
---ys4y6f5eyfdosi3x--
