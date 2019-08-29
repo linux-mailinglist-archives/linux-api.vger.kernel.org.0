@@ -2,70 +2,81 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F1739A270C
-	for <lists+linux-api@lfdr.de>; Thu, 29 Aug 2019 21:12:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 126A8A27E8
+	for <lists+linux-api@lfdr.de>; Thu, 29 Aug 2019 22:25:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727897AbfH2TMB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 29 Aug 2019 15:12:01 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42447 "EHLO mx1.redhat.com"
+        id S1727857AbfH2UZm convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Thu, 29 Aug 2019 16:25:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53814 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727798AbfH2TMB (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 29 Aug 2019 15:12:01 -0400
+        id S1727540AbfH2UZm (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 29 Aug 2019 16:25:42 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id D94FF307D868;
-        Thu, 29 Aug 2019 19:12:00 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-120-255.rdu2.redhat.com [10.10.120.255])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 1123F196B2;
-        Thu, 29 Aug 2019 19:11:57 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <03eb0974-3996-f356-5fbe-17cf598b0e31@tycho.nsa.gov>
-References: <03eb0974-3996-f356-5fbe-17cf598b0e31@tycho.nsa.gov> <156710338860.10009.12524626894838499011.stgit@warthog.procyon.org.uk> <156710348066.10009.17986469867635955040.stgit@warthog.procyon.org.uk>
-To:     Stephen Smalley <sds@tycho.nsa.gov>
-Cc:     dhowells@redhat.com, viro@zeniv.linux.org.uk,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        nicolas.dichtel@6wind.com, raven@themaw.net,
-        Christian Brauner <christian@brauner.io>,
-        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 10/11] selinux: Implement the watch_key security hook [ver #6]
+        by mx1.redhat.com (Postfix) with ESMTPS id 766F4307D91F;
+        Thu, 29 Aug 2019 20:25:41 +0000 (UTC)
+Received: from carbon (ovpn-200-29.brq.redhat.com [10.40.200.29])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 0331A196B2;
+        Thu, 29 Aug 2019 20:25:32 +0000 (UTC)
+Date:   Thu, 29 Aug 2019 22:25:30 +0200
+From:   Jesper Dangaard Brouer <brouer@redhat.com>
+To:     Toke =?UTF-8?B?SMO4aWxhbmQtSsO4cmdlbnNlbg==?= <toke@redhat.com>
+Cc:     Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Alexei Starovoitov <ast@kernel.org>, luto@amacapital.net,
+        davem@davemloft.net, peterz@infradead.org, rostedt@goodmis.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org, kernel-team@fb.com,
+        linux-api@vger.kernel.org, brouer@redhat.com
+Subject: Re: [PATCH v2 bpf-next 1/3] capability: introduce CAP_BPF and
+ CAP_TRACING
+Message-ID: <20190829222530.3c6163ac@carbon>
+In-Reply-To: <87imqfhmo2.fsf@toke.dk>
+References: <20190829051253.1927291-1-ast@kernel.org>
+        <87ef14iffx.fsf@toke.dk>
+        <20190829172410.j36gjxt6oku5zh6s@ast-mbp.dhcp.thefacebook.com>
+        <87imqfhmo2.fsf@toke.dk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <14148.1567105917.1@warthog.procyon.org.uk>
-Date:   Thu, 29 Aug 2019 20:11:57 +0100
-Message-ID: <14149.1567105917@warthog.procyon.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.48]); Thu, 29 Aug 2019 19:12:01 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.48]); Thu, 29 Aug 2019 20:25:41 +0000 (UTC)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Stephen Smalley <sds@tycho.nsa.gov> wrote:
+On Thu, 29 Aug 2019 20:05:49 +0200
+Toke Høiland-Jørgensen <toke@redhat.com> wrote:
 
-> Can watch->cred ever differ from current's cred here?  If not, why can't we
-> just use current_sid() here
+> Alexei Starovoitov <alexei.starovoitov@gmail.com> writes:
+> 
+> > On Thu, Aug 29, 2019 at 09:44:18AM +0200, Toke Høiland-Jørgensen wrote:  
+> >> Alexei Starovoitov <ast@kernel.org> writes:
+> >>   
+> >> > CAP_BPF allows the following BPF operations:
+> >> > - Loading all types of BPF programs
+> >> > - Creating all types of BPF maps except:
+> >> >    - stackmap that needs CAP_TRACING
+> >> >    - devmap that needs CAP_NET_ADMIN
+> >> >    - cpumap that needs CAP_SYS_ADMIN  
+> >> 
+> >> Why CAP_SYS_ADMIN instead of CAP_NET_ADMIN for cpumap?  
+> >
+> > Currently it's cap_sys_admin and I think it should stay this way
+> > because it creates kthreads.  
+> 
+> Ah, right. I can sorta see that makes sense because of the kthreads, but
+> it also means that you can use all of XDP *except* cpumap with
+> CAP_NET_ADMIN+CAP_BPF. That is bound to create confusion, isn't it?
+ 
+Hmm... I see 'cpumap' primarily as a network stack feature.  It is about
+starting the network stack on a specific CPU, allocating and building
+SKBs on that remote CPU.  It can only be used together with XDP_REDIRECT.
+I would prefer CAP_NET_ADMIN like the devmap, to keep the XDP
+capabilities consistent.
 
-Um.  Not currently.  I'm not sure whether its ever likely to be otherwise.
-Probably we could just use that and fix it up later if we do find otherwise.
-
-> and why do we need the watch object at all?
-
-It carries more than just the creds for the caller of keyctl_watch_key(), it
-also carries information about the queue to which notifications will be
-written, including the creds that were active when that was set up.
-
-Note that there's no requirement that the process that opened /dev/watch_queue
-be the one that sets the watch.  In the keyutils testsuite, I 'leak' a file
-descriptor from the session wrangler into the program that it runs so that
-tests running inside the test script can add watches to it.
-
-David
+-- 
+Best regards,
+  Jesper Dangaard Brouer
+  MSc.CS, Principal Kernel Engineer at Red Hat
+  LinkedIn: http://www.linkedin.com/in/brouer
