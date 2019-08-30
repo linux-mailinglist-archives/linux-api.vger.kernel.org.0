@@ -2,100 +2,102 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BA84A392F
-	for <lists+linux-api@lfdr.de>; Fri, 30 Aug 2019 16:26:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BCF02A3965
+	for <lists+linux-api@lfdr.de>; Fri, 30 Aug 2019 16:41:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727754AbfH3O0d (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 30 Aug 2019 10:26:33 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:53228 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727751AbfH3O0d (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 30 Aug 2019 10:26:33 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x7UEIFZ2004784
-        for <linux-api@vger.kernel.org>; Fri, 30 Aug 2019 10:26:32 -0400
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2uq2qjpev0-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-api@vger.kernel.org>; Fri, 30 Aug 2019 10:26:31 -0400
-Received: from localhost
-        by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-api@vger.kernel.org> from <prudo@linux.ibm.com>;
-        Fri, 30 Aug 2019 15:26:28 +0100
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
-        by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Fri, 30 Aug 2019 15:26:24 +0100
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x7UEQNcA60489974
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 30 Aug 2019 14:26:23 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 4E73E52050;
-        Fri, 30 Aug 2019 14:26:23 +0000 (GMT)
-Received: from laptop-ibm (unknown [9.152.212.29])
-        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 051935204E;
-        Fri, 30 Aug 2019 14:26:22 +0000 (GMT)
-Date:   Fri, 30 Aug 2019 16:26:22 +0200
-From:   Philipp Rudo <prudo@linux.ibm.com>
-To:     Matthew Garrett <matthewgarrett@google.com>
-Cc:     jmorris@namei.org, Jiri Bohac <jbohac@suse.cz>,
-        linux-api@vger.kernel.org, kexec@lists.infradead.org,
-        linux-kernel@vger.kernel.org, Matthew Garrett <mjg59@google.com>,
-        David Howells <dhowells@redhat.com>,
-        linux-security-module@vger.kernel.org
-Subject: Re: [PATCH V40 08/29] kexec_file: split KEXEC_VERIFY_SIG into
- KEXEC_SIG and KEXEC_SIG_FORCE
-In-Reply-To: <20190820001805.241928-9-matthewgarrett@google.com>
-References: <20190820001805.241928-1-matthewgarrett@google.com>
-        <20190820001805.241928-9-matthewgarrett@google.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1727876AbfH3Ole convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Fri, 30 Aug 2019 10:41:34 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50472 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727791AbfH3Ole (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 30 Aug 2019 10:41:34 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id A45901053717;
+        Fri, 30 Aug 2019 14:41:33 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-120-255.rdu2.redhat.com [10.10.120.255])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id F31AF414B;
+        Fri, 30 Aug 2019 14:41:30 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <21eb33e8-5624-0124-8690-bbea41a1b589@tycho.nsa.gov>
+References: <21eb33e8-5624-0124-8690-bbea41a1b589@tycho.nsa.gov> <156717343223.2204.15875738850129174524.stgit@warthog.procyon.org.uk> <156717352079.2204.16378075382991665807.stgit@warthog.procyon.org.uk>
+To:     Stephen Smalley <sds@tycho.nsa.gov>
+Cc:     dhowells@redhat.com, viro@zeniv.linux.org.uk,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        nicolas.dichtel@6wind.com, raven@themaw.net,
+        Christian Brauner <christian@brauner.io>,
+        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 10/11] selinux: Implement the watch_key security hook [ver #7]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 19083014-0008-0000-0000-0000030F0C7D
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19083014-0009-0000-0000-00004A2D5471
-Message-Id: <20190830162622.534a0b8f@laptop-ibm>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-08-30_05:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1906280000 definitions=main-1908300147
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <13307.1567176090.1@warthog.procyon.org.uk>
+Content-Transfer-Encoding: 8BIT
+Date:   Fri, 30 Aug 2019 15:41:30 +0100
+Message-ID: <13308.1567176090@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2 (mx1.redhat.com [10.5.110.66]); Fri, 30 Aug 2019 14:41:33 +0000 (UTC)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Matthew,
+How about the attached instead, then?
 
-found a typo ...
+David
+---
+commit 00444a695b35c602230ac2cabb4f1d7e94e3966d
+Author: David Howells <dhowells@redhat.com>
+Date:   Thu Aug 29 17:01:34 2019 +0100
 
-On Mon, 19 Aug 2019 17:17:44 -0700
-Matthew Garrett <matthewgarrett@google.com> wrote:
+    selinux: Implement the watch_key security hook
+    
+    Implement the watch_key security hook to make sure that a key grants the
+    caller View permission in order to set a watch on a key.
+    
+    For the moment, the watch_devices security hook is left unimplemented as
+    it's not obvious what the object should be since the queue is global and
+    didn't previously exist.
+    
+    Signed-off-by: David Howells <dhowells@redhat.com>
 
-[...]
-
-> index 6d0635ceddd0..9b4f37a4edf1 100644
-> --- a/arch/s390/kernel/kexec_elf.c
-> +++ b/arch/s390/kernel/kexec_elf.c
-> @@ -130,7 +130,7 @@ static int s390_elf_probe(const char *buf, unsigned long len)
->  const struct kexec_file_ops s390_kexec_elf_ops = {
->  	.probe = s390_elf_probe,
->  	.load = s390_elf_load,
-> -#ifdef CONFIG_KEXEC_VERIFY_SIG
-> +#ifdef CONFIG_KEXEC__SIG
-		      ^^
-... here.
->  	.verify_sig = s390_verify_sig,
-> -#endif /* CONFIG_KEXEC_VERIFY_SIG */
-> +#endif /* CONFIG_KEXEC_SIG */
->  };
-
-Thanks
-Philipp
-
+diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
+index 74dd46de01b6..88df06969bed 100644
+--- a/security/selinux/hooks.c
++++ b/security/selinux/hooks.c
+@@ -6533,6 +6533,17 @@ static int selinux_key_getsecurity(struct key *key, char **_buffer)
+ 	*_buffer = context;
+ 	return rc;
+ }
++
++#ifdef CONFIG_KEY_NOTIFICATIONS
++static int selinux_watch_key(struct key *key)
++{
++	struct key_security_struct *ksec = key->security;
++	u32 sid = current_sid();
++
++	return avc_has_perm(&selinux_state,
++			    sid, ksec->sid, SECCLASS_KEY, KEY_NEED_VIEW, NULL);
++}
++#endif
+ #endif
+ 
+ #ifdef CONFIG_SECURITY_INFINIBAND
+@@ -6965,6 +6976,9 @@ static struct security_hook_list selinux_hooks[] __lsm_ro_after_init = {
+ 	LSM_HOOK_INIT(key_free, selinux_key_free),
+ 	LSM_HOOK_INIT(key_permission, selinux_key_permission),
+ 	LSM_HOOK_INIT(key_getsecurity, selinux_key_getsecurity),
++#ifdef CONFIG_KEY_NOTIFICATIONS
++	LSM_HOOK_INIT(watch_key, selinux_watch_key),
++#endif
+ #endif
+ 
+ #ifdef CONFIG_AUDIT
