@@ -2,128 +2,145 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E2FB0A2C89
-	for <lists+linux-api@lfdr.de>; Fri, 30 Aug 2019 04:01:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE0C7A2E06
+	for <lists+linux-api@lfdr.de>; Fri, 30 Aug 2019 06:16:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727420AbfH3CBw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 29 Aug 2019 22:01:52 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:33453 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727398AbfH3CBv (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 29 Aug 2019 22:01:51 -0400
-Received: by mail-pf1-f194.google.com with SMTP id g2so3492098pfq.0
-        for <linux-api@vger.kernel.org>; Thu, 29 Aug 2019 19:01:51 -0700 (PDT)
+        id S1725838AbfH3EQz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 30 Aug 2019 00:16:55 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:33773 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725774AbfH3EQz (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 30 Aug 2019 00:16:55 -0400
+Received: by mail-lj1-f195.google.com with SMTP id z17so5179342ljz.0;
+        Thu, 29 Aug 2019 21:16:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=zO8PdeeIdG1tzfsClmI9LZenmd5UMF2AEWQotpYVtec=;
-        b=UV08w7N+5XgxFjTDWXP/3lw1pQs3F9sFih4WmrXbG9U1ct8t9lWf2ogCOxhxXaPehS
-         wA24OrTp0v0DshA8cBBQNpF3AssXMiO5fORzdCQ2I6FjT6U3h8F90v8b4SKDURnkPtVO
-         GD2Q5lxuwrOUlw6pYPSaTUbpToD/zQuObr2pfLVncswWmB+OdHrGoeAv/VOwUNIcjk0q
-         iSgKDDLJwcqC17yibYASvtIH4319ktHSVNtdJt8AJCGwS+y1UqSVCv3Q+zZd6DXBNwyU
-         sxVqGBvsnCQ7CsD5cufFmK7FGJRt436S2qTZcBlwtrfB5Ndou5BRp1SAQZ+abIKHc2re
-         67Kg==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=iCLpdRArKeEL95JPVvIj5SaZBs9XGj7yces6tTfOStA=;
+        b=NGcsYzMjskd+7OhewWqjmPfjfb9vMfaXR2uRHfS9k8f4X5oAfxYur3wU1mGw6z9Adb
+         s2vSwPdI5MgQ4eo0KXdbdByfhixSLkllBJGWIlIgnMKt/IOTvkIeaEuR6O589lzfmryA
+         6DZK5zWsARS5a4cbhaMVO1vNF8zJA+nFUYwp2FocHW1HXNjbxt1aBqC73lDqN3iU2f2l
+         ODHuasUQ55rzy4x9fiz0RvJv5FS27UAqM3MvRHxTek4Mg8HyqGD6Owic2fzaFJ8SNuhf
+         eF5ngM9Cksnm6F0m+XrxQVECHdjmoyWi/boaFCBQQ7F09g+OKrJHWXcHf6DdE01r/QEj
+         VB5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=zO8PdeeIdG1tzfsClmI9LZenmd5UMF2AEWQotpYVtec=;
-        b=kyPIfM9Cc1+G4p3WdbzlhRgYiyrT10+kimpYfeBT9ltUg/UgW8d5si+sXPg4LLXoYV
-         nGQgOX6FtegGYzUuKRSCny3AMi89oIVXd55a8fcZrJvTj/oL1w3eAh4LdwiVK95EXN5G
-         1aTnhPJ3ap3fOnM2Hpy2GvTZ+d/yOqQKe4EYzjXOXlLJBeIUWjd2D68x4ZP2XSOvY2nD
-         45vO6Tt8Vy88jIys+fSkNejXQQbGx69DFoVt+JxKUShklMH9yXWCrqFjDXjbwCdoBQDE
-         xh/iXR02LrFHcMQsokLfYiuVt9p98vJE36AfD6r9i4t9Fv2sDKAXr5OsM1+A4NyM+TpW
-         LjYw==
-X-Gm-Message-State: APjAAAWnpkbJ5KhRDH7KKBRFwWJFlwrfz/CzhkzFB+6fSSWyedwqpbiK
-        sBeaBQHg4kl11T7v39+gnTPjwg==
-X-Google-Smtp-Source: APXvYqxAKUgTUdilFGku6rp2i6CciI9SDnT1shayBd62iyV14FjbrqVjZQH30hIzVPpbyDHjOrfotQ==
-X-Received: by 2002:a65:6281:: with SMTP id f1mr10331899pgv.400.1567130511065;
-        Thu, 29 Aug 2019 19:01:51 -0700 (PDT)
-Received: from ?IPv6:2601:646:c200:1ef2:3184:4148:fbd:376a? ([2601:646:c200:1ef2:3184:4148:fbd:376a])
-        by smtp.gmail.com with ESMTPSA id c5sm4502562pfo.175.2019.08.29.19.01.50
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 29 Aug 2019 19:01:50 -0700 (PDT)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH 0/7] Rework random blocking
-From:   Andy Lutomirski <luto@amacapital.net>
-X-Mailer: iPhone Mail (16G102)
-In-Reply-To: <20190830014906.GD10779@mit.edu>
-Date:   Thu, 29 Aug 2019 19:01:49 -0700
-Cc:     Andy Lutomirski <luto@kernel.org>, Theodore Tso <tytso@google.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <B9BEDD92-7EE4-40C9-96D2-389D32B8D040@amacapital.net>
-References: <cover.1567126741.git.luto@kernel.org> <20190830014906.GD10779@mit.edu>
-To:     "Theodore Y. Ts'o" <tytso@mit.edu>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=iCLpdRArKeEL95JPVvIj5SaZBs9XGj7yces6tTfOStA=;
+        b=E7zwOCPAzSWUSb+IQDyQ7chPC/rhm/DNFR1h95z4qMNHlhfYrdMfjwBKlwt2fonFto
+         g5c5YDYsgLydq3C4pXX3tLfmUendbfdSVQ8mJCjGcKO5f/q6/lg+P0KPv247cA7zvDnV
+         dpyfTW6pLPiYLbL9E8O4s/nlJjT08GGtFEUXZgkama3kb45FvXJMarrI5hU/VWD85slT
+         aiR96an0e3ggYOzIAMRZ4SXrkCHinbbhRn+AJZgZqgF0D4F8kZDFKugSlCSphikmVi16
+         l/2HxSdFnbz765rx2SfC4Rg2Wj57/WJjcABziS0e8nEHi21uxm9EVxyj8GlMCYfr7al/
+         Ex+A==
+X-Gm-Message-State: APjAAAVnockiYd+271qgOPHwoy67wrcECitZJWx70mWBYUfcn3ljk2Ai
+        KpQyuxYfppQHq+Xkb0nhDhi9bqhbQ5Kf6zrHZPI=
+X-Google-Smtp-Source: APXvYqwckFt3LnsIIi6bT/vpq147Uo7WytBr14tQ2z3LKla/6nJ/Z4g9Ap40xGdfMuNke05PcWsONH/yRHIgQeADweg=
+X-Received: by 2002:a05:651c:1ba:: with SMTP id c26mr7511169ljn.11.1567138612764;
+ Thu, 29 Aug 2019 21:16:52 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190829051253.1927291-1-ast@kernel.org> <536636ad-0baf-31e9-85fe-2591b65068df@iogearbox.net>
+In-Reply-To: <536636ad-0baf-31e9-85fe-2591b65068df@iogearbox.net>
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date:   Thu, 29 Aug 2019 21:16:39 -0700
+Message-ID: <CAADnVQLiD_2dTWXgaC773Uo+4LPz=vFEysXUnUcsJ9FKBk5Q7g@mail.gmail.com>
+Subject: Re: [PATCH v2 bpf-next 1/3] capability: introduce CAP_BPF and CAP_TRACING
+To:     Daniel Borkmann <daniel@iogearbox.net>
+Cc:     Alexei Starovoitov <ast@kernel.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Network Development <netdev@vger.kernel.org>,
+        bpf <bpf@vger.kernel.org>, Kernel Team <kernel-team@fb.com>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Thu, Aug 29, 2019 at 8:47 AM Daniel Borkmann <daniel@iogearbox.net> wrote:
+>
+> On 8/29/19 7:12 AM, Alexei Starovoitov wrote:
+> [...]
+> >
+> > +/*
+> > + * CAP_BPF allows the following BPF operations:
+> > + * - Loading all types of BPF programs
+> > + * - Creating all types of BPF maps except:
+> > + *    - stackmap that needs CAP_TRACING
+> > + *    - devmap that needs CAP_NET_ADMIN
+> > + *    - cpumap that needs CAP_SYS_ADMIN
+> > + * - Advanced verifier features
+> > + *   - Indirect variable access
+> > + *   - Bounded loops
+> > + *   - BPF to BPF function calls
+> > + *   - Scalar precision tracking
+> > + *   - Larger complexity limits
+> > + *   - Dead code elimination
+> > + *   - And potentially other features
+> > + * - Use of pointer-to-integer conversions in BPF programs
+> > + * - Bypassing of speculation attack hardening measures
+> > + * - Loading BPF Type Format (BTF) data
+> > + * - Iterate system wide loaded programs, maps, BTF objects
+> > + * - Retrieve xlated and JITed code of BPF programs
+> > + * - Access maps and programs via id
+> > + * - Use bpf_spin_lock() helper
+>
+> This is still very wide.
 
+'still very wide' ? you make it sound like it's a bad thing.
+Covering all of bpf with single CAP_BPF is #1 goal of this set.
 
-> On Aug 29, 2019, at 6:49 PM, Theodore Y. Ts'o <tytso@mit.edu> wrote:
->=20
->> On Thu, Aug 29, 2019 at 06:11:35PM -0700, Andy Lutomirski wrote:
->> This series also removes the blocking pool and makes /dev/random
->> work just like getentropy(..., 0) and makes GRND_RANDOM a no-op.  I
->> believe that Linux's blocking pool has outlived its usefulness.
->> Linux's CRNG generates output that is good enough to use even for
->> key generation.  The blocking pool is not stronger in any material
->> way, and keeping it around requires a lot of infrastructure of
->> dubious value.
->=20
-> It's too late for the 5.4 cycle for a change of this magnitude, and
-> I'd just as soon let this wait until *after* the LTS kernel gets cut.
-> The reason for this is because at the moment, there are some PCI
-> compliance labs who believe that the "true randomness" of /dev/random
-> is necessary for PCI compliance and so they mandate the use of
-> /dev/random over /dev/urandom's "cryptographic randomness" for that
-> reason.  A lot of things which are thought to be needed for PCI
-> compliance that are about as useful as eye of newt and toe of frog,
-> but nothing says that PCI compliance (and enterprise customer
-> requirements :-) have to make sense.
->=20
-> It may be that what we might need to really support people (or stupid
-> compliance labs) who have a fetish for "true randomness" to get a
-> better interface for hardware random number generators than
-> /dev/hwrng.  Specifically, one which allows for a more sane way of
-> selecting which hardware random number generator to use if there are
-> multiple available, and also one where we mix in some CRNG as a
-> whitening step just case the hardware number generator is busted in
-> some way.  (And to fix the issue that at the moment, if someone evil
-> fakes up a USB device with the USB manufacturer and minor device
-> number for a ChosKey device that generates a insecure sequence, it
-> will still get blindly trusted by the kernel without any kind of
-> authentication of said hardware device.)
->=20
-> That probably means we need to come up with a new interface than
-> /dev/hwrng, or have some way of configuring /dev/random to use a
-> hardware RNG device for those people who really care about "true
-> randomness".  The current /dev/hwrng interface and how it is
-> configured via sysfs is pretty baroque IMO.
->=20
->                    =20
+> Consider following example: app has CAP_BPF +> CAP_NET_ADMIN. Why can't we in this case *only* allow loading networking
+> related [plus generic] maps and programs? If it doesn't have CAP_TRACING,
+> what would be a reason to allow loading it? Same vice versa. There are
+> some misc program types like the infraread stuff, but they could continue
+> to live under [CAP_BPF +] CAP_SYS_ADMIN as fallback. I think categorizing
+> a specific list of prog and map types might be more clear than disallowing
+> some helpers like below (e.g. why choice of bpf_probe_read() but not
+> bpf_probe_write_user() etc).
 
-Hmm. Does this really need to be in the kernel?  ISTM it should be straightf=
-orward to write a little CUSE program that grabs bytes from RDSEED or RDRAND=
-, TPM, ChaosKey (if enabled, with a usb slot selected!), and whatever other s=
-ources are requested and, configurable to satisfy whoever actually cares, mi=
-xes some or all with a FIPS-compliant, provably-indististinguishable-from-ra=
-ndom, definitely not Dual-EC mixer, and spits out the result.  And filters i=
-t and checks all the sources for credibility, and generally does whatever th=
-e user actually needs.
+It kinda makes sense:
+cap_bpf+cap_net_admin allows networking progs.
+cap_bpf+cap_tracing allows tracing progs.
+But what to do with cg_sysctl, cg_device, lirc ?
+They are clearly neither.
+Invent yet another cap_foo for them?
+or let them under cap_bpf alone?
+If cap_bpf alone is enough then why bother with bpf+net_admin for networking?
+It's not making anything cleaner. Only confuses users.
 
-And the really over-the-top auditors can symlink it to /dev/random.
+Also bpf_trace_printk() is using ftrace and can print arbitrary memory.
+In that sense it's no different than bpf_probe_read.
+Both should be under CAP_TRACING.
+But bpf_trace_printk() is available to all progs.
+Even to socket filters under cap_sys_admin today.
+With this patch set I'm allowing bpf_trace_printk() under CAP_TRACING.
+Same goes to bpf_probe_read.
 
-Do the PCI folks actually care that it=E2=80=99s in the kernel?
+High level description:
+cap_bpf alone allows loading of all progs except when
+later cap_net_admin or cap_tracing will _not_ be able to
+filter out the helper at attach time that shouldn't be there.
 
+Example of how this patch set works:
+- to load and attach networking progs
+both cap_bpf and cap_net_admin are necessary.
+- to load and attach tracing progs
+both cap_bpf and cap_tracing are necessary.
 
-As an aside, the first two patches could plausibly land before the rest of t=
-he series if that seems appropriate.=
+when networking prog is using bpf_trace_printk
+then cap_tracing is needed too.
+And it's checked at load time.
+If we do what you're proposing:
+"lets allow load of all networking with bpf+net_admin"
+then this won't work for bpf_trace_printk.
+Per helper function capability check is still needed.
+And since it's needed I see no reason to limit
+networking progs to bpf+net_admin at load time.
+Load time is still cap_bpf only.
+And helpers will be filtered out at attach by net_admin.
