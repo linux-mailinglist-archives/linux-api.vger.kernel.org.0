@@ -2,538 +2,136 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D6EDA5DE9
-	for <lists+linux-api@lfdr.de>; Tue,  3 Sep 2019 01:03:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B42BA640B
+	for <lists+linux-api@lfdr.de>; Tue,  3 Sep 2019 10:34:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726926AbfIBXDM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 2 Sep 2019 19:03:12 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:51187 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726945AbfIBXDM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 2 Sep 2019 19:03:12 -0400
-Received: by mail-wm1-f66.google.com with SMTP id c10so4113705wmc.0
-        for <linux-api@vger.kernel.org>; Mon, 02 Sep 2019 16:03:09 -0700 (PDT)
+        id S1726631AbfICIey (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 3 Sep 2019 04:34:54 -0400
+Received: from mail-eopbgr1400132.outbound.protection.outlook.com ([40.107.140.132]:64504
+        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726062AbfICIex (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 3 Sep 2019 04:34:53 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mFCgWPFBd7Y3p9/HJBDrnpgw6iC5YVyzOeRYh/ALxVu6AUdW814sHM2ccIQn/PzAfh+ke8tTcWfhHrRjWhMsL5eOxxtXKiT+Xud9MOERwogYLjZaCtJafFaW7um8S+L7qE8H5eUfkPAMktRmea4cPZlbXIQ+r0Qcq45+hzZUDKOiOmiG/051B7hBxSv/XSsYUfoCG1HrlDeXLE3QskfF5I7jbY+CkYjwm9ea/vGsotsWCVVKQ1DRY0jMQXQtZj+YkK6SUEhnGL6wVGyXDrqvEQFCas+T9Qr+uy9l/sEfF72n1n+mk9VTBD7wwwE3oeefQleKRtEiK9RGrTTgk5p6pw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=owoIMTIFHxts4zI2/22TtbBDvKTq3nKCuyJyvTVoFP0=;
+ b=IsrxI0vxTV0PzRCeKCSodTRv+PP5x40F0nv/qMFkb5VkNlcwvpIZg+s47g6r1SS79Z9f0uSIGDqNf5OMMHePilma/S+4h1eXjWf5B3+fge2bYzm2prpOE0qcFq1kZ7dKza0/PWmvzBZWRhHQr7z7QI/7SEL3g92xiscYklQQ1GecbB7w0CpQ9UJ4S/aniswCGobChvNp8KMe8RSLVdOyh54JEkjLKnEwdwhNoR/0OgFTWiWz//6tTnd1rgDDJiWMa9V8TNbmosXwKxtA3CbU9/xYdlARYabIBfzNcamfBDwOcqK2FvLMQ5FszO8KKgG+j7xyArNjEjxlvy1n3lOeEA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=b/VblNVBjhCk9ht4C6VUiT6zIFA+My7CdyIPrVmDrwc=;
-        b=ArQskKo0KTCyeZhYPTIdWTnHIKtr9+pVHPDjmeESnkIqcuBtP28F0nyx0Gn3ODC85o
-         3Ojzg4uIuUmHTRFy02OOGT1+dVEEPT6wbKS5JwwK2Y3ukBBhn4YaASwblobwOsNCr5kX
-         mKs8foX93xDLxIBC7ITZZRpS+EOtQROG+R3delbG0wL2RkGdZbHbmfXOct+p/0ircmYK
-         2Yhk6Ra8DfR4fDBNA8x7VktTXft3/FhPRh9UQBdc8vOl1QOzZTSBgpKaHH20yomjBqhS
-         /9wvoJkhlHPQBQE0h6yjYIyh/udPIjvBu3eFSw+0mFifmsoQPME8DZSNEqeHsFX/NoU7
-         VX1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=b/VblNVBjhCk9ht4C6VUiT6zIFA+My7CdyIPrVmDrwc=;
-        b=flGSde2xrI7CRgv9Zv1O2Gnv9ppQU/gaOR6ZMUq3iyxWvyvaSpSBGwWObj1qEGfKKQ
-         RsDotoUfj0BjY2zoSHSwI3gsidKgB1KvTKd46RGn9NQRmYA2WBVlJqx0AWrHJlit0IS3
-         6lxK/Eu10WXn2AMTgHB+4fT3IQh3cXzVx20QwUFsEdxHnPpQxQRYKTGI3ALjrOQeIY4t
-         6TP2jZVddiYRzWNEdIN7Ot0wpuIPrehvEDMyAlVEfCpOa88KOjRjDXd+asm6xbjGpxK7
-         BY23L5CPA/aPrLXoUiGPScJrJrNMFxoILWrw942OFoMiwfRVLs8/T3LPaBF4E/Vpji9L
-         30Tg==
-X-Gm-Message-State: APjAAAUvIgHHQeT2qD8x5/ZiYPzQ+Rz+TTwCU8toIIc3ffZfSjWe1tUQ
-        i1CfOM3gbT+7nw0eEZDE9DssUmY67DU1bRHw6Jgp4g==
-X-Google-Smtp-Source: APXvYqwW8DZZ2+PdmJpxYA8t+oqhRiPt6J4v1q8gTD4EQjq+XxTmbKMzAqYDff165GWyHKMDRVWBXRaBDJ3afp6olYQ=
-X-Received: by 2002:a1c:1f10:: with SMTP id f16mr39609473wmf.176.1567465388518;
- Mon, 02 Sep 2019 16:03:08 -0700 (PDT)
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=owoIMTIFHxts4zI2/22TtbBDvKTq3nKCuyJyvTVoFP0=;
+ b=NHzssr3lLtgfy4kSYZqDSvou3nFfQtgngDHM4cVe4gnFa2age8PyI84D9K/49zxeLcADuyU/cd0ehPsgyeO0RASWOgo7WBt5nRotAXUyWOn00wvfbA7Gcr3SU9z4suZwIjfypY2flxMcQtOzt451PO+x4PwZs1Oh2ejUmmYDZjE=
+Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com (20.179.175.203) by
+ TYAPR01MB4686.jpnprd01.prod.outlook.com (20.179.175.14) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2220.20; Tue, 3 Sep 2019 08:34:49 +0000
+Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com
+ ([fe80::6564:f61f:f179:facf]) by TYAPR01MB4544.jpnprd01.prod.outlook.com
+ ([fe80::6564:f61f:f179:facf%5]) with mapi id 15.20.2220.022; Tue, 3 Sep 2019
+ 08:34:49 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     David Howells <dhowells@redhat.com>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>
+CC:     Casey Schaufler <casey@schaufler-ca.com>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "nicolas.dichtel@6wind.com" <nicolas.dichtel@6wind.com>,
+        "raven@themaw.net" <raven@themaw.net>,
+        Christian Brauner <christian@brauner.io>,
+        "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH 06/11] Add a general, global device notification watch
+ list [ver #7]
+Thread-Topic: [PATCH 06/11] Add a general, global device notification watch
+ list [ver #7]
+Thread-Index: AQHVXzsE5XB2C9EKnU2KIIXOsRrw8KcZpUEg
+Date:   Tue, 3 Sep 2019 08:34:49 +0000
+Message-ID: <TYAPR01MB454492E48362BED351E797B2D8B90@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+References: <156717343223.2204.15875738850129174524.stgit@warthog.procyon.org.uk>
+ <156717348608.2204.16592073177201775472.stgit@warthog.procyon.org.uk>
+In-Reply-To: <156717348608.2204.16592073177201775472.stgit@warthog.procyon.org.uk>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
+x-originating-ip: [150.249.235.54]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 13e28461-db53-4aa3-5778-08d730499596
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:TYAPR01MB4686;
+x-ms-traffictypediagnostic: TYAPR01MB4686:
+x-microsoft-antispam-prvs: <TYAPR01MB4686EB2F5B40A5593EF2E314D8B90@TYAPR01MB4686.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-forefront-prvs: 01494FA7F7
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(376002)(396003)(136003)(39860400002)(346002)(366004)(189003)(199004)(71200400001)(74316002)(316002)(71190400001)(33656002)(6246003)(6436002)(7696005)(76176011)(26005)(25786009)(102836004)(66476007)(66946007)(66556008)(66446008)(64756008)(9686003)(86362001)(76116006)(110136005)(2906002)(6506007)(54906003)(4326008)(53936002)(3846002)(6116002)(99286004)(186003)(476003)(8936002)(7416002)(55016002)(52536014)(2501003)(305945005)(66066001)(7736002)(486006)(8676002)(81156014)(5660300002)(446003)(478600001)(81166006)(229853002)(11346002)(14454004)(256004);DIR:OUT;SFP:1102;SCL:1;SRVR:TYAPR01MB4686;H:TYAPR01MB4544.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: L3uLThTX1oWOXUg6fELZlDk2XI+1XVhKCa2ShZAg+4RRTfbaCjplxe//ZBjaBJ4ioqQOYwRuJhxZ6pxTcsNLH5Z28m5XMpBMDzqJj6akNWROtJbM+apRCUkQ6uURL5NV3I92QcUwuKG7xB/Ed8sfsdXXXsoI6N9Io1LQIhcw/KN2ktQpurBtm2smW6Gg7RDTsJorIEPgR7sZO+3YEJiwZH5LUrbhQdAyAXFmILPiGUl0Pis66cg4owp4zRVRu7XYMOX9XbpO/pHQjMy4qMXHOIFd34jWDdHtXQvH9n+o6lo9X2CJ91hl8/YXtx1rKlVbbYCzEUbmcnCnZVYluI60HL1L9/49PTwske1m25ixUkZykCXUeoRBHe7CnbCz4Lv4dSEh9KAfRUCjRgtCLBPYkmk1QJxnSwc+KHKDA5O49J4=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20190822132811.31294-1-patrick.bellasi@arm.com> <20190822132811.31294-2-patrick.bellasi@arm.com>
-In-Reply-To: <20190822132811.31294-2-patrick.bellasi@arm.com>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Mon, 2 Sep 2019 16:02:57 -0700
-Message-ID: <CAJuCfpGWtrg02LNE3PJZag9-LLVT=by2v+9x_tm1PyoXwZ8DqQ@mail.gmail.com>
-Subject: Re: [PATCH v14 1/6] sched/core: uclamp: Extend CPU's cgroup controller
-To:     Patrick Bellasi <patrick.bellasi@arm.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-pm@vger.kernel.org,
-        linux-api@vger.kernel.org,
-        cgroups mailinglist <cgroups@vger.kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Tejun Heo <tj@kernel.org>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Paul Turner <pjt@google.com>, Michal Koutny <mkoutny@suse.com>,
-        Quentin Perret <quentin.perret@arm.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Morten Rasmussen <morten.rasmussen@arm.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Todd Kjos <tkjos@google.com>,
-        Joel Fernandes <joelaf@google.com>,
-        Steve Muckle <smuckle@google.com>,
-        Alessio Balsini <balsini@android.com>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 13e28461-db53-4aa3-5778-08d730499596
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Sep 2019 08:34:49.5289
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: HCVQdtTboqLHNrezB5NrAiNvGJRZnSmFnlFo3rtiyhsh4PDUVxeikfgB831UPsp+KZPrbXlY+xFT+EsEJ7M1Pxtd8b9SyTEv8xJ2UP9DGaNl8nLNVciVPoeexWhF7x0/
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB4686
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Patrick,
-
-On Thu, Aug 22, 2019 at 6:28 AM Patrick Bellasi <patrick.bellasi@arm.com> wrote:
->
-> The cgroup CPU bandwidth controller allows to assign a specified
-> (maximum) bandwidth to the tasks of a group. However this bandwidth is
-> defined and enforced only on a temporal base, without considering the
-> actual frequency a CPU is running on. Thus, the amount of computation
-> completed by a task within an allocated bandwidth can be very different
-> depending on the actual frequency the CPU is running that task.
-> The amount of computation can be affected also by the specific CPU a
-> task is running on, especially when running on asymmetric capacity
-> systems like Arm's big.LITTLE.
->
-> With the availability of schedutil, the scheduler is now able
-> to drive frequency selections based on actual task utilization.
-> Moreover, the utilization clamping support provides a mechanism to
-> bias the frequency selection operated by schedutil depending on
-> constraints assigned to the tasks currently RUNNABLE on a CPU.
->
-> Giving the mechanisms described above, it is now possible to extend the
-> cpu controller to specify the minimum (or maximum) utilization which
-> should be considered for tasks RUNNABLE on a cpu.
-> This makes it possible to better defined the actual computational
-> power assigned to task groups, thus improving the cgroup CPU bandwidth
-> controller which is currently based just on time constraints.
->
-> Extend the CPU controller with a couple of new attributes uclamp.{min,max}
-> which allow to enforce utilization boosting and capping for all the
-> tasks in a group.
->
-> Specifically:
->
-> - uclamp.min: defines the minimum utilization which should be considered
->               i.e. the RUNNABLE tasks of this group will run at least at a
->                  minimum frequency which corresponds to the uclamp.min
->                  utilization
->
-> - uclamp.max: defines the maximum utilization which should be considered
->               i.e. the RUNNABLE tasks of this group will run up to a
->                  maximum frequency which corresponds to the uclamp.max
->                  utilization
->
-> These attributes:
->
-> a) are available only for non-root nodes, both on default and legacy
->    hierarchies, while system wide clamps are defined by a generic
->    interface which does not depends on cgroups. This system wide
->    interface enforces constraints on tasks in the root node.
->
-> b) enforce effective constraints at each level of the hierarchy which
->    are a restriction of the group requests considering its parent's
->    effective constraints. Root group effective constraints are defined
->    by the system wide interface.
->    This mechanism allows each (non-root) level of the hierarchy to:
->    - request whatever clamp values it would like to get
->    - effectively get only up to the maximum amount allowed by its parent
->
-> c) have higher priority than task-specific clamps, defined via
->    sched_setattr(), thus allowing to control and restrict task requests.
->
-> Add two new attributes to the cpu controller to collect "requested"
-> clamp values. Allow that at each non-root level of the hierarchy.
-> Keep it simple by not caring now about "effective" values computation
-> and propagation along the hierarchy.
->
-> Update sysctl_sched_uclamp_handler() to use the newly introduced
-> uclamp_mutex so that we serialize system default updates with cgroup
-> relate updates.
->
-> Signed-off-by: Patrick Bellasi <patrick.bellasi@arm.com>
-> Reviewed-by: Michal Koutny <mkoutny@suse.com>
-> Acked-by: Tejun Heo <tj@kernel.org>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Cc: Tejun Heo <tj@kernel.org>
->
-> ---
-> Changes in v14:
->  Message-ID: <20190806161133.GA18532@blackbody.suse.cz>
->  - move uclamp_mutex usage here from the following patch
-> ---
->  Documentation/admin-guide/cgroup-v2.rst |  34 +++++
->  init/Kconfig                            |  22 +++
->  kernel/sched/core.c                     | 188 +++++++++++++++++++++++-
->  kernel/sched/sched.h                    |   8 +
->  4 files changed, 248 insertions(+), 4 deletions(-)
->
-> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-> index 3b29005aa981..5f1c266131b0 100644
-> --- a/Documentation/admin-guide/cgroup-v2.rst
-> +++ b/Documentation/admin-guide/cgroup-v2.rst
-> @@ -951,6 +951,13 @@ controller implements weight and absolute bandwidth limit models for
->  normal scheduling policy and absolute bandwidth allocation model for
->  realtime scheduling policy.
->
-> +In all the above models, cycles distribution is defined only on a temporal
-> +base and it does not account for the frequency at which tasks are executed.
-> +The (optional) utilization clamping support allows to hint the schedutil
-> +cpufreq governor about the minimum desired frequency which should always be
-> +provided by a CPU, as well as the maximum desired frequency, which should not
-> +be exceeded by a CPU.
-> +
->  WARNING: cgroup2 doesn't yet support control of realtime processes and
->  the cpu controller can only be enabled when all RT processes are in
->  the root cgroup.  Be aware that system management software may already
-> @@ -1016,6 +1023,33 @@ All time durations are in microseconds.
->         Shows pressure stall information for CPU. See
->         Documentation/accounting/psi.rst for details.
->
-> +  cpu.uclamp.min
-> +        A read-write single value file which exists on non-root cgroups.
-> +        The default is "0", i.e. no utilization boosting.
-> +
-> +        The requested minimum utilization (protection) as a percentage
-> +        rational number, e.g. 12.34 for 12.34%.
-> +
-> +        This interface allows reading and setting minimum utilization clamp
-> +        values similar to the sched_setattr(2). This minimum utilization
-> +        value is used to clamp the task specific minimum utilization clamp.
-> +
-> +        The requested minimum utilization (protection) is always capped by
-> +        the current value for the maximum utilization (limit), i.e.
-> +        `cpu.uclamp.max`.
-> +
-> +  cpu.uclamp.max
-> +        A read-write single value file which exists on non-root cgroups.
-> +        The default is "max". i.e. no utilization capping
-> +
-> +        The requested maximum utilization (limit) as a percentage rational
-> +        number, e.g. 98.76 for 98.76%.
-> +
-> +        This interface allows reading and setting maximum utilization clamp
-> +        values similar to the sched_setattr(2). This maximum utilization
-> +        value is used to clamp the task specific maximum utilization clamp.
-> +
-> +
->
->  Memory
->  ------
-> diff --git a/init/Kconfig b/init/Kconfig
-> index bd7d650d4a99..ac285cfa78b6 100644
-> --- a/init/Kconfig
-> +++ b/init/Kconfig
-> @@ -928,6 +928,28 @@ config RT_GROUP_SCHED
->
->  endif #CGROUP_SCHED
->
-> +config UCLAMP_TASK_GROUP
-> +       bool "Utilization clamping per group of tasks"
-> +       depends on CGROUP_SCHED
-> +       depends on UCLAMP_TASK
-> +       default n
-> +       help
-> +         This feature enables the scheduler to track the clamped utilization
-> +         of each CPU based on RUNNABLE tasks currently scheduled on that CPU.
-> +
-> +         When this option is enabled, the user can specify a min and max
-> +         CPU bandwidth which is allowed for each single task in a group.
-> +         The max bandwidth allows to clamp the maximum frequency a task
-> +         can use, while the min bandwidth allows to define a minimum
-> +         frequency a task will always use.
-> +
-> +         When task group based utilization clamping is enabled, an eventually
-> +         specified task-specific clamp value is constrained by the cgroup
-> +         specified clamp value. Both minimum and maximum task clamping cannot
-> +         be bigger than the corresponding clamping defined at task group level.
-> +
-> +         If in doubt, say N.
-> +
->  config CGROUP_PIDS
->         bool "PIDs controller"
->         help
-> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-> index a6661852907b..7b610e1a4cda 100644
-> --- a/kernel/sched/core.c
-> +++ b/kernel/sched/core.c
-> @@ -773,6 +773,18 @@ static void set_load_weight(struct task_struct *p, bool update_load)
->  }
->
->  #ifdef CONFIG_UCLAMP_TASK
-> +/*
-> + * Serializes updates of utilization clamp values
-> + *
-> + * The (slow-path) user-space triggers utilization clamp value updates which
-> + * can require updates on (fast-path) scheduler's data structures used to
-> + * support enqueue/dequeue operations.
-> + * While the per-CPU rq lock protects fast-path update operations, user-space
-> + * requests are serialized using a mutex to reduce the risk of conflicting
-> + * updates or API abuses.
-> + */
-> +static DEFINE_MUTEX(uclamp_mutex);
-> +
->  /* Max allowed minimum utilization */
->  unsigned int sysctl_sched_uclamp_util_min = SCHED_CAPACITY_SCALE;
->
-> @@ -1010,10 +1022,9 @@ int sysctl_sched_uclamp_handler(struct ctl_table *table, int write,
->                                 loff_t *ppos)
->  {
->         int old_min, old_max;
-> -       static DEFINE_MUTEX(mutex);
->         int result;
->
-> -       mutex_lock(&mutex);
-> +       mutex_lock(&uclamp_mutex);
->         old_min = sysctl_sched_uclamp_util_min;
->         old_max = sysctl_sched_uclamp_util_max;
->
-> @@ -1048,7 +1059,7 @@ int sysctl_sched_uclamp_handler(struct ctl_table *table, int write,
->         sysctl_sched_uclamp_util_min = old_min;
->         sysctl_sched_uclamp_util_max = old_max;
->  done:
-> -       mutex_unlock(&mutex);
-> +       mutex_unlock(&uclamp_mutex);
->
->         return result;
->  }
-> @@ -1137,6 +1148,8 @@ static void __init init_uclamp(void)
->         unsigned int clamp_id;
->         int cpu;
->
-> +       mutex_init(&uclamp_mutex);
-> +
->         for_each_possible_cpu(cpu) {
->                 memset(&cpu_rq(cpu)->uclamp, 0, sizeof(struct uclamp_rq));
->                 cpu_rq(cpu)->uclamp_flags = 0;
-> @@ -1149,8 +1162,12 @@ static void __init init_uclamp(void)
->
->         /* System defaults allow max clamp values for both indexes */
->         uclamp_se_set(&uc_max, uclamp_none(UCLAMP_MAX), false);
-> -       for_each_clamp_id(clamp_id)
-> +       for_each_clamp_id(clamp_id) {
->                 uclamp_default[clamp_id] = uc_max;
-> +#ifdef CONFIG_UCLAMP_TASK_GROUP
-> +               root_task_group.uclamp_req[clamp_id] = uc_max;
-> +#endif
-> +       }
->  }
->
->  #else /* CONFIG_UCLAMP_TASK */
-> @@ -6798,6 +6815,19 @@ void ia64_set_curr_task(int cpu, struct task_struct *p)
->  /* task_group_lock serializes the addition/removal of task groups */
->  static DEFINE_SPINLOCK(task_group_lock);
->
-> +static inline void alloc_uclamp_sched_group(struct task_group *tg,
-> +                                           struct task_group *parent)
-> +{
-> +#ifdef CONFIG_UCLAMP_TASK_GROUP
-> +       int clamp_id;
-> +
-> +       for_each_clamp_id(clamp_id) {
-> +               uclamp_se_set(&tg->uclamp_req[clamp_id],
-> +                             uclamp_none(clamp_id), false);
-> +       }
-> +#endif
-> +}
-> +
->  static void sched_free_group(struct task_group *tg)
->  {
->         free_fair_sched_group(tg);
-> @@ -6821,6 +6851,8 @@ struct task_group *sched_create_group(struct task_group *parent)
->         if (!alloc_rt_sched_group(tg, parent))
->                 goto err;
->
-> +       alloc_uclamp_sched_group(tg, parent);
-> +
->         return tg;
->
->  err:
-> @@ -7037,6 +7069,126 @@ static void cpu_cgroup_attach(struct cgroup_taskset *tset)
->                 sched_move_task(task);
->  }
->
-> +#ifdef CONFIG_UCLAMP_TASK_GROUP
-> +
-> +#define _POW10(exp) ((unsigned int)1e##exp)
-> +#define POW10(exp) _POW10(exp)
-> +
-> +struct uclamp_request {
-> +#define UCLAMP_PERCENT_SHIFT   2
-> +#define UCLAMP_PERCENT_SCALE   (100 * POW10(UCLAMP_PERCENT_SHIFT))
-> +       s64 percent;
-> +       u64 util;
-> +       int ret;
-> +};
-> +
-> +static inline struct uclamp_request
-> +capacity_from_percent(char *buf)
-> +{
-> +       struct uclamp_request req = {
-> +               .percent = UCLAMP_PERCENT_SCALE,
-> +               .util = SCHED_CAPACITY_SCALE,
-> +               .ret = 0,
-> +       };
-> +
-> +       buf = strim(buf);
-> +       if (strncmp("max", buf, 4)) {
-> +               req.ret = cgroup_parse_float(buf, UCLAMP_PERCENT_SHIFT,
-> +                                            &req.percent);
-> +               if (req.ret)
-> +                       return req;
-> +               if (req.percent > UCLAMP_PERCENT_SCALE) {
-> +                       req.ret = -ERANGE;
-> +                       return req;
-> +               }
-> +
-> +               req.util = req.percent << SCHED_CAPACITY_SHIFT;
-> +               req.util = DIV_ROUND_CLOSEST_ULL(req.util, UCLAMP_PERCENT_SCALE);
-> +       }
-> +
-> +       return req;
-> +}
-> +
-> +static ssize_t cpu_uclamp_write(struct kernfs_open_file *of, char *buf,
-> +                               size_t nbytes, loff_t off,
-> +                               enum uclamp_id clamp_id)
-> +{
-> +       struct uclamp_request req;
-> +       struct task_group *tg;
-> +
-> +       req = capacity_from_percent(buf);
-> +       if (req.ret)
-> +               return req.ret;
-> +
-> +       mutex_lock(&uclamp_mutex);
-> +       rcu_read_lock();
-> +
-> +       tg = css_tg(of_css(of));
-> +       if (tg->uclamp_req[clamp_id].value != req.util)
-> +               uclamp_se_set(&tg->uclamp_req[clamp_id], req.util, false);
-> +
-> +       /*
-> +        * Because of not recoverable conversion rounding we keep track of the
-> +        * exact requested value
-> +        */
-> +       tg->uclamp_pct[clamp_id] = req.percent;
-> +
-> +       rcu_read_unlock();
-> +       mutex_unlock(&uclamp_mutex);
-> +
-> +       return nbytes;
-> +}
-> +
-> +static ssize_t cpu_uclamp_min_write(struct kernfs_open_file *of,
-> +                                   char *buf, size_t nbytes,
-> +                                   loff_t off)
-> +{
-> +       return cpu_uclamp_write(of, buf, nbytes, off, UCLAMP_MIN);
-> +}
-> +
-> +static ssize_t cpu_uclamp_max_write(struct kernfs_open_file *of,
-> +                                   char *buf, size_t nbytes,
-> +                                   loff_t off)
-> +{
-> +       return cpu_uclamp_write(of, buf, nbytes, off, UCLAMP_MAX);
-> +}
-> +
-> +static inline void cpu_uclamp_print(struct seq_file *sf,
-> +                                   enum uclamp_id clamp_id)
-> +{
-> +       struct task_group *tg;
-> +       u64 util_clamp;
-> +       u64 percent;
-> +       u32 rem;
-> +
-> +       rcu_read_lock();
-> +       tg = css_tg(seq_css(sf));
-> +       util_clamp = tg->uclamp_req[clamp_id].value;
-> +       rcu_read_unlock();
-> +
-> +       if (util_clamp == SCHED_CAPACITY_SCALE) {
-> +               seq_puts(sf, "max\n");
-> +               return;
-> +       }
-> +
-> +       percent = tg->uclamp_pct[clamp_id];
-
-You are taking RCU lock when accessing tg->uclamp_req but not when
-accessing tg->uclamp_pct. Is that intentional? Can tg be destroyed
-under you?
-
-> +       percent = div_u64_rem(percent, POW10(UCLAMP_PERCENT_SHIFT), &rem);
-> +       seq_printf(sf, "%llu.%0*u\n", percent, UCLAMP_PERCENT_SHIFT, rem);
-> +}
-> +
-> +static int cpu_uclamp_min_show(struct seq_file *sf, void *v)
-> +{
-> +       cpu_uclamp_print(sf, UCLAMP_MIN);
-> +       return 0;
-> +}
-> +
-> +static int cpu_uclamp_max_show(struct seq_file *sf, void *v)
-> +{
-> +       cpu_uclamp_print(sf, UCLAMP_MAX);
-> +       return 0;
-> +}
-> +#endif /* CONFIG_UCLAMP_TASK_GROUP */
-> +
->  #ifdef CONFIG_FAIR_GROUP_SCHED
->  static int cpu_shares_write_u64(struct cgroup_subsys_state *css,
->                                 struct cftype *cftype, u64 shareval)
-> @@ -7381,6 +7533,20 @@ static struct cftype cpu_legacy_files[] = {
->                 .read_u64 = cpu_rt_period_read_uint,
->                 .write_u64 = cpu_rt_period_write_uint,
->         },
-> +#endif
-> +#ifdef CONFIG_UCLAMP_TASK_GROUP
-> +       {
-> +               .name = "uclamp.min",
-> +               .flags = CFTYPE_NOT_ON_ROOT,
-> +               .seq_show = cpu_uclamp_min_show,
-> +               .write = cpu_uclamp_min_write,
-> +       },
-> +       {
-> +               .name = "uclamp.max",
-> +               .flags = CFTYPE_NOT_ON_ROOT,
-> +               .seq_show = cpu_uclamp_max_show,
-> +               .write = cpu_uclamp_max_write,
-> +       },
->  #endif
->         { }     /* Terminate */
->  };
-> @@ -7548,6 +7714,20 @@ static struct cftype cpu_files[] = {
->                 .seq_show = cpu_max_show,
->                 .write = cpu_max_write,
->         },
-> +#endif
-> +#ifdef CONFIG_UCLAMP_TASK_GROUP
-> +       {
-> +               .name = "uclamp.min",
-> +               .flags = CFTYPE_NOT_ON_ROOT,
-> +               .seq_show = cpu_uclamp_min_show,
-> +               .write = cpu_uclamp_min_write,
-> +       },
-> +       {
-> +               .name = "uclamp.max",
-> +               .flags = CFTYPE_NOT_ON_ROOT,
-> +               .seq_show = cpu_uclamp_max_show,
-> +               .write = cpu_uclamp_max_write,
-> +       },
->  #endif
->         { }     /* terminate */
->  };
-> diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
-> index 7111e3a1eeb4..ae1be61fb279 100644
-> --- a/kernel/sched/sched.h
-> +++ b/kernel/sched/sched.h
-> @@ -391,6 +391,14 @@ struct task_group {
->  #endif
->
->         struct cfs_bandwidth    cfs_bandwidth;
-> +
-> +#ifdef CONFIG_UCLAMP_TASK_GROUP
-> +       /* The two decimal precision [%] value requested from user-space */
-> +       unsigned int            uclamp_pct[UCLAMP_CNT];
-> +       /* Clamp values requested for a task group */
-> +       struct uclamp_se        uclamp_req[UCLAMP_CNT];
-> +#endif
-> +
->  };
->
->  #ifdef CONFIG_FAIR_GROUP_SCHED
-> --
-> 2.22.0
->
+SGksDQoNCj4gRnJvbTogRGF2aWQgSG93ZWxscywgU2VudDogRnJpZGF5LCBBdWd1c3QgMzAsIDIw
+MTkgMTA6NTggUE0NCjxzbmlwPg0KPiAtLS0NCj4gDQo+ICBEb2N1bWVudGF0aW9uL3dhdGNoX3F1
+ZXVlLnJzdCAgICAgICAgICAgICAgIHwgICAyMiArKysrKystDQo+ICBhcmNoL2FscGhhL2tlcm5l
+bC9zeXNjYWxscy9zeXNjYWxsLnRibCAgICAgIHwgICAgMQ0KPiAgYXJjaC9hcm0vdG9vbHMvc3lz
+Y2FsbC50YmwgICAgICAgICAgICAgICAgICB8ICAgIDENCj4gIGFyY2gvaWE2NC9rZXJuZWwvc3lz
+Y2FsbHMvc3lzY2FsbC50YmwgICAgICAgfCAgICAxDQoNCkl0IHNlZW1zIHRvIGxhY2sgbW9kaWZp
+Y2F0aW9uIGZvciBhcmNoL2FybTY0Lg0KDQpJJ20gbm90IHN1cmUgd2hldGhlciB0aGlzIGlzIHJl
+bGF0ZWQsIGJ1dCBteSBlbnZpcm9ubWVudCAoUi1DYXIgSDMgLyByOGE3Nzk1KQ0KY2Fubm90IGJv
+b3Qgb24gbmV4dC0yMDE5MDkwMiB3aGljaCBjb250YWlucyB0aGlzIHBhdGNoLiBJIGZvdW5kIGFu
+IGlzc3VlDQpvbiB0aGUgcGF0Y2ggMDgvMTEsIHNvIEknbGwgcmVwb3J0IG9uIHRoZSBlbWFpbCB0
+aHJlYWQgbGF0ZXIuDQoNCj4gIGFyY2gvbTY4ay9rZXJuZWwvc3lzY2FsbHMvc3lzY2FsbC50Ymwg
+ICAgICAgfCAgICAxDQo+ICBhcmNoL21pY3JvYmxhemUva2VybmVsL3N5c2NhbGxzL3N5c2NhbGwu
+dGJsIHwgICAgMQ0KPiAgYXJjaC9taXBzL2tlcm5lbC9zeXNjYWxscy9zeXNjYWxsX24zMi50Ymwg
+ICB8ICAgIDENCj4gIGFyY2gvbWlwcy9rZXJuZWwvc3lzY2FsbHMvc3lzY2FsbF9uNjQudGJsICAg
+fCAgICAxDQo+ICBhcmNoL21pcHMva2VybmVsL3N5c2NhbGxzL3N5c2NhbGxfbzMyLnRibCAgIHwg
+ICAgMQ0KPiAgYXJjaC9wYXJpc2Mva2VybmVsL3N5c2NhbGxzL3N5c2NhbGwudGJsICAgICB8ICAg
+IDENCj4gIGFyY2gvcG93ZXJwYy9rZXJuZWwvc3lzY2FsbHMvc3lzY2FsbC50YmwgICAgfCAgICAx
+DQo+ICBhcmNoL3MzOTAva2VybmVsL3N5c2NhbGxzL3N5c2NhbGwudGJsICAgICAgIHwgICAgMQ0K
+PiAgYXJjaC9zaC9rZXJuZWwvc3lzY2FsbHMvc3lzY2FsbC50YmwgICAgICAgICB8ICAgIDENCj4g
+IGFyY2gvc3BhcmMva2VybmVsL3N5c2NhbGxzL3N5c2NhbGwudGJsICAgICAgfCAgICAxDQo+ICBh
+cmNoL3g4Ni9lbnRyeS9zeXNjYWxscy9zeXNjYWxsXzMyLnRibCAgICAgIHwgICAgMQ0KPiAgYXJj
+aC94ODYvZW50cnkvc3lzY2FsbHMvc3lzY2FsbF82NC50YmwgICAgICB8ICAgIDENCj4gIGFyY2gv
+eHRlbnNhL2tlcm5lbC9zeXNjYWxscy9zeXNjYWxsLnRibCAgICAgfCAgICAxDQo+ICBkcml2ZXJz
+L2Jhc2UvS2NvbmZpZyAgICAgICAgICAgICAgICAgICAgICAgIHwgICAgOSArKysNCj4gIGRyaXZl
+cnMvYmFzZS9NYWtlZmlsZSAgICAgICAgICAgICAgICAgICAgICAgfCAgICAxDQo+ICBkcml2ZXJz
+L2Jhc2Uvd2F0Y2guYyAgICAgICAgICAgICAgICAgICAgICAgIHwgICA5MCArKysrKysrKysrKysr
+KysrKysrKysrKysrKysNCj4gIGluY2x1ZGUvbGludXgvZGV2aWNlLmggICAgICAgICAgICAgICAg
+ICAgICAgfCAgICA3ICsrDQo+ICBpbmNsdWRlL2xpbnV4L3N5c2NhbGxzLmggICAgICAgICAgICAg
+ICAgICAgIHwgICAgMQ0KPiAgaW5jbHVkZS91YXBpL2FzbS1nZW5lcmljL3VuaXN0ZC5oICAgICAg
+ICAgICB8ICAgIDQgKw0KPiAga2VybmVsL3N5c19uaS5jICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICB8ICAgIDENCj4gIDI0IGZpbGVzIGNoYW5nZWQsIDE0OSBpbnNlcnRpb25zKCspLCAyIGRl
+bGV0aW9ucygtKQ0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvYmFzZS93YXRjaC5jDQoN
+CkJlc3QgcmVnYXJkcywNCllvc2hpaGlybyBTaGltb2RhDQoNCg==
