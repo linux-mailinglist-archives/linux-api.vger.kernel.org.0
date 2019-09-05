@@ -2,152 +2,158 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D2B2DA97A7
-	for <lists+linux-api@lfdr.de>; Thu,  5 Sep 2019 02:35:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63514A97B9
+	for <lists+linux-api@lfdr.de>; Thu,  5 Sep 2019 02:53:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729963AbfIEAfe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 4 Sep 2019 20:35:34 -0400
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:27496 "EHLO
-        mx0a-00082601.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725965AbfIEAfe (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 4 Sep 2019 20:35:34 -0400
-Received: from pps.filterd (m0044012.ppops.net [127.0.0.1])
-        by mx0a-00082601.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x850Z0XM001127;
-        Wed, 4 Sep 2019 17:35:02 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=facebook;
- bh=qgFywdgXUMT7dG2neEXVf+UGKOx+1eo4eKme8x0LrhQ=;
- b=NHp+T/gjERvCMO6bkPdihmbBjuMxCYHOZq1S2qTNy/naqrRmDiI4I3i/C6lOxoxTl6qR
- syrygIUaDgF12O+QSuTLUWbKIpy4ZKRKy4xLoZcZSgpz/C2lQQPt48ghsLXJBbE0EtXD
- Gnn9MsAiHh8sj3ICFBaqkdGCWH1T07Fm+xA= 
-Received: from maileast.thefacebook.com ([163.114.130.16])
-        by mx0a-00082601.pphosted.com with ESMTP id 2utknmh4kc-2
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-        Wed, 04 Sep 2019 17:35:01 -0700
-Received: from ash-exhub203.TheFacebook.com (2620:10d:c0a8:83::5) by
- ash-exhub102.TheFacebook.com (2620:10d:c0a8:82::f) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Wed, 4 Sep 2019 17:34:37 -0700
-Received: from NAM03-DM3-obe.outbound.protection.outlook.com (100.104.31.183)
- by o365-in.thefacebook.com (100.104.36.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
- via Frontend Transport; Wed, 4 Sep 2019 17:34:37 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eN1KgJP1pn0wvQY78pyjDoXvtB07VQHPvaRJuJ01yCaxeWcKGD+kI921tfkPD2pBL7dPRsnd7g1eUUVmMm0aVWBtSyjunZGiqd5Ms/1ocbzJ+ybc9exGwMLuzKwITLqqse1cPA0k8V4dT5tA6YEpDKz3lfCO+Qz12Ee6pN6jenaSbtTzaf1tsZhJeze3FY3w5tAaB2kn2GBNP2PAgxcwkWU/QY5wZRcrQ5jVg3FFnGyhW2pFTwbDk9q9MsR0obSM1iFIcRnblsuvTXADNi+vyDnDda2aHsVnAdIpxY7jhNInQea5s3msU1LMZz5L9PNwfmdB/0+THfRDvyyIAV13ww==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qgFywdgXUMT7dG2neEXVf+UGKOx+1eo4eKme8x0LrhQ=;
- b=FxGl4RZUvsHzSr6TzIwuc1pl2NpzoEaPt7Jv92vG24mmbEKonrKl/ENj7JU+dWhCkHPUN7t/SYoZowoTotKt+io8Ri/MscUrrtw0VsCiHuU87IThxzNlbotQIyoeWXydV/OQ3TiwE4WOkgGhTNeCI0jBk9nfNSwODh1tz//APIOs0e5cuOmSTIkHjO375YlzRGCklXnJi4dDydVRjXUfwFbBf7V419Btj2rBvEckzJ4FXNQ2x3ZA18JzTETHjjAM+YaXlDbvxAR+3wPa9lGTCKVWx0lkHJtA6VaKEJLg6hqo2jPsUVeGoJ6y5TLszjdLUy2AnI6nlyroIw4IlgYzqg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
- header.d=fb.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
- s=selector2-fb-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qgFywdgXUMT7dG2neEXVf+UGKOx+1eo4eKme8x0LrhQ=;
- b=JfUMEOIQZhKdSitBhZnnJts8WTFqJVaZ58PKuk9wR2oT5rLHH5E/566Zc+r4krGQqaPW8jsy4Tx6Upx7Ylwpi9Lz92GssArKFbOjbd70yeEVU5IuZPmW4ldVAuLW/qdOny1xfR2OiIt3dz88XMVsifrYV5+Xh3CGcv4YzhAFpkU=
-Received: from MWHPR15MB1165.namprd15.prod.outlook.com (10.175.3.22) by
- MWHPR15MB1821.namprd15.prod.outlook.com (10.174.255.137) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2220.21; Thu, 5 Sep 2019 00:34:36 +0000
-Received: from MWHPR15MB1165.namprd15.prod.outlook.com
- ([fe80::a828:5750:379d:b9a1]) by MWHPR15MB1165.namprd15.prod.outlook.com
- ([fe80::a828:5750:379d:b9a1%8]) with mapi id 15.20.2220.022; Thu, 5 Sep 2019
- 00:34:36 +0000
-From:   Song Liu <songliubraving@fb.com>
-To:     Alexei Starovoitov <ast@kernel.org>
-CC:     "David S . Miller" <davem@davemloft.net>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Andy Lutomirski" <luto@amacapital.net>,
-        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
-        Kernel Team <Kernel-team@fb.com>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
-Subject: Re: [PATCH v3 bpf-next 2/3] bpf: implement CAP_BPF
-Thread-Topic: [PATCH v3 bpf-next 2/3] bpf: implement CAP_BPF
-Thread-Index: AQHVY1Cvn0QzeDIQmEifJi8CsD4pqaccPMEA
-Date:   Thu, 5 Sep 2019 00:34:36 +0000
-Message-ID: <CE3B644F-D1A5-49F7-96B6-FD663C5F8961@fb.com>
-References: <20190904184335.360074-1-ast@kernel.org>
- <20190904184335.360074-2-ast@kernel.org>
-In-Reply-To: <20190904184335.360074-2-ast@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3445.104.11)
-x-originating-ip: [2620:10d:c090:180::f079]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 98c4bd67-ea86-4ea5-0aff-08d73198d490
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:MWHPR15MB1821;
-x-ms-traffictypediagnostic: MWHPR15MB1821:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MWHPR15MB182180EAB3316536B7DCFFF1B3BB0@MWHPR15MB1821.namprd15.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3968;
-x-forefront-prvs: 015114592F
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(376002)(396003)(366004)(346002)(136003)(39860400002)(199004)(189003)(476003)(99286004)(8936002)(6916009)(6116002)(71190400001)(2616005)(71200400001)(25786009)(64756008)(81166006)(50226002)(229853002)(6486002)(36756003)(57306001)(53936002)(486006)(81156014)(2906002)(5660300002)(76176011)(6436002)(66556008)(305945005)(66476007)(66946007)(102836004)(4326008)(66446008)(6512007)(256004)(14444005)(53546011)(6506007)(6246003)(446003)(33656002)(54906003)(86362001)(478600001)(186003)(8676002)(11346002)(4744005)(316002)(76116006)(46003)(14454004)(7736002);DIR:OUT;SFP:1102;SCL:1;SRVR:MWHPR15MB1821;H:MWHPR15MB1165.namprd15.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: fb.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: P6/E5/OwzrLtM5obZSTPUITAzgQ0hx582WUIZTCDW2d0KrNZWKPrVra51w3BSMhMEYUqF8x0d3jEpLlcrIAOv6dFaoYenN8u4ymIlxe3PmaKOek816U1EmirFjuc+z3+VgBSRXvW6FyFACEipKnI2Nr18wK33QLU3XxqTkuVOy9Mtz92YxU0eoUyxxUSfHbh2ptmWV518JxeMTN7SKPFAx/Ih4cBl+NgyF43iopaeXjsOZQGggJKgmkTtaLEggKTtgHHz60v9k9Rhni6f913cIHrXnBwRUUmM/1/kOKy0VUd4QMeYH2Q9Ena1YAXzNDTHimaPHuGbskBN4sVC+TBWazuKvsFQTT9qo/ufXxl/YdwLsnTbhpZ97jJs+b7aO3+aIM88U5xH3kFFe4mgCrJpWHqRClRlsKMO0xVGXxoiv0=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <4EBF0FA92799CA46BFE7231B56ECE867@namprd15.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 98c4bd67-ea86-4ea5-0aff-08d73198d490
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Sep 2019 00:34:36.5025
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: OA1+kw8S3SlxbDayh/GDl58vcRqOKcEpXvH9Ssz7bdaaF11Dt/qkRdycKkPz6XRuvPKJkMAwitH3HGFdCFF4Tg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR15MB1821
-X-OriginatorOrg: fb.com
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.70,1.0.8
- definitions=2019-09-04_06:2019-09-04,2019-09-04 signatures=0
-X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0 clxscore=1015
- suspectscore=0 impostorscore=0 phishscore=0 malwarescore=0
- lowpriorityscore=0 mlxlogscore=999 spamscore=0 bulkscore=0 adultscore=0
- priorityscore=1501 mlxscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-1906280000 definitions=main-1909050003
-X-FB-Internal: deliver
+        id S1730074AbfIEAxX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 4 Sep 2019 20:53:23 -0400
+Received: from mail-qt1-f202.google.com ([209.85.160.202]:41194 "EHLO
+        mail-qt1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727544AbfIEAxX (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 4 Sep 2019 20:53:23 -0400
+Received: by mail-qt1-f202.google.com with SMTP id n59so674700qtd.8
+        for <linux-api@vger.kernel.org>; Wed, 04 Sep 2019 17:53:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to;
+        bh=IvnDskQJANuLQ1Pn7l1TmXAAMajXPjDT8vWcyh/XpmU=;
+        b=gO/FwIoDdL9taG9VUeNXZQNCiJk0A/0oE9ucXBj7+Xx9splScPhCR2nWU47O6fXBx6
+         C582CQtLKNx7/QnibdqXHNUq+BPpBYj+kMNkM9hCWE/sifAGYQWwwIrbl9B1O5kPARX7
+         Sk4hrqBRBNpFc/8eVaoaA6S+6GlbrF2jju0VJIEFnkoaqkZ14HUTE16i1g/8La34blCa
+         IispT1OWkLNGFO6BPlxSHoYEyubgQpgLwXCQHVVRyOawRWNAFt1M5zVim5CbTtmwNXX7
+         1nb+q+6Wam20ESgKQsDee+IilAawZft+oZApLZcpSy8fKCBxrNB/ubshRRDlxLzMKGmO
+         FD1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to;
+        bh=IvnDskQJANuLQ1Pn7l1TmXAAMajXPjDT8vWcyh/XpmU=;
+        b=oo1TO8guaPTAW+TpFUVcNhq3r6u3S2N1mXF+1gVX5sVyN3gFvK78PvoH8R8Hxz28Z1
+         h4kyAu3ZCDN9eN+Z9jmWXJwG5UYMp5Key/kFzoDXOHh/p9XyeMdz0aExJhtmyU1feiR3
+         u5T0rw/WBGPyMJhNkBQoqR4OtW2eIvqf66nNMDxyX2W6rmkktdV+bnnhPAcb1C0sfYvN
+         11yGlmeRUYNgQooCG9HXvyE8zr23OM8A0UrtjAgG9PF0sgS2vazI3GP0qa6Em7Z07zKK
+         CdRgvl4RTLeR8w2hMH9Vwh9RA0pXExXGqubQdVnWQfEef2AR2HyKqksU3buhW3Js4OSt
+         P85w==
+X-Gm-Message-State: APjAAAVaN+Xbk2Vw7mS32ic7T2dgV+ApJTTabGqdV9oHNi3dPwgGdaJS
+        Xq5SWiMftVTTzLOZNd+3zEphbmtlx3w=
+X-Google-Smtp-Source: APXvYqzu1B6DaFQ6YtDFilNWzwU62bbldfumKwkDWypKJe0Vvy6rAikoX2mOx7QuRd6Xew1uSVd9kV0JRLw=
+X-Received: by 2002:a0c:9289:: with SMTP id b9mr155958qvb.211.1567644802199;
+ Wed, 04 Sep 2019 17:53:22 -0700 (PDT)
+Date:   Wed,  4 Sep 2019 17:53:13 -0700
+Message-Id: <20190905005313.126823-1-dancol@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.23.0.187.g17f5b7556c-goog
+Subject: [RFC] Add critical process prctl
+From:   Daniel Colascione <dancol@google.com>
+To:     dancol@google.com, timmurray@google.com, surenb@google.com,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+A task with CAP_SYS_ADMIN can mark itself PR_SET_TASK_CRITICAL,
+meaning that if the task ever exits, the kernel panics. This facility
+is intended for use by low-level core system processes that cannot
+gracefully restart without a reboot. This prctl allows these processes
+to ensure that the system restarts when they die regardless of whether
+the rest of userspace is operational.
 
+Signed-off-by: Daniel Colascione <dancol@google.com>
+---
+ include/linux/sched.h      |  5 +++++
+ include/uapi/linux/prctl.h |  5 +++++
+ kernel/exit.c              |  2 ++
+ kernel/sys.c               | 19 +++++++++++++++++++
+ 4 files changed, 31 insertions(+)
 
-> On Sep 4, 2019, at 11:43 AM, Alexei Starovoitov <ast@kernel.org> wrote:
->=20
-> Implement permissions as stated in uapi/linux/capability.h
->=20
-> Signed-off-by: Alexei Starovoitov <ast@kernel.org>
->=20
-
-[...]
-
-> @@ -1648,11 +1648,11 @@ static int bpf_prog_load(union bpf_attr *attr, un=
-ion bpf_attr __user *uattr)
-> 	is_gpl =3D license_is_gpl_compatible(license);
->=20
-> 	if (attr->insn_cnt =3D=3D 0 ||
-> -	    attr->insn_cnt > (capable(CAP_SYS_ADMIN) ? BPF_COMPLEXITY_LIMIT_INS=
-NS : BPF_MAXINSNS))
-> +	    attr->insn_cnt > (capable_bpf() ? BPF_COMPLEXITY_LIMIT_INSNS : BPF_=
-MAXINSNS))
-> 		return -E2BIG;
-> 	if (type !=3D BPF_PROG_TYPE_SOCKET_FILTER &&
-> 	    type !=3D BPF_PROG_TYPE_CGROUP_SKB &&
-> -	    !capable(CAP_SYS_ADMIN))
-> +	    !capable_bpf())
-> 		return -EPERM;
-
-Do we allow load BPF_PROG_TYPE_SOCKET_FILTER and BPF_PROG_TYPE_CGROUP_SKB
-without CAP_BPF? If so, maybe highlight in the header?
-
-Thanks,
-Song
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index 9f51932bd543..29420b9ebb63 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -1526,6 +1526,7 @@ static inline bool is_percpu_thread(void)
+ #define PFA_SPEC_IB_DISABLE		5	/* Indirect branch speculation restricted */
+ #define PFA_SPEC_IB_FORCE_DISABLE	6	/* Indirect branch speculation permanently restricted */
+ #define PFA_SPEC_SSB_NOEXEC		7	/* Speculative Store Bypass clear on execve() */
++#define PFA_CRITICAL                    8       /* Panic system if process exits */
+ 
+ #define TASK_PFA_TEST(name, func)					\
+ 	static inline bool task_##func(struct task_struct *p)		\
+@@ -1568,6 +1569,10 @@ TASK_PFA_CLEAR(SPEC_IB_DISABLE, spec_ib_disable)
+ TASK_PFA_TEST(SPEC_IB_FORCE_DISABLE, spec_ib_force_disable)
+ TASK_PFA_SET(SPEC_IB_FORCE_DISABLE, spec_ib_force_disable)
+ 
++TASK_PFA_TEST(CRITICAL, critical)
++TASK_PFA_SET(CRITICAL, critical)
++TASK_PFA_CLEAR(CRITICAL, critical)
++
+ static inline void
+ current_restore_flags(unsigned long orig_flags, unsigned long flags)
+ {
+diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
+index 094bb03b9cc2..4964723bbd47 100644
+--- a/include/uapi/linux/prctl.h
++++ b/include/uapi/linux/prctl.h
+@@ -229,4 +229,9 @@ struct prctl_mm_map {
+ # define PR_PAC_APDBKEY			(1UL << 3)
+ # define PR_PAC_APGAKEY			(1UL << 4)
+ 
++/* Per-task criticality control */
++#define PR_SET_TASK_CRITICAL 55
++#define PR_CRITICAL_NOT_CRITICAL 0
++#define PR_CRITICAL_CRITICAL 1
++
+ #endif /* _LINUX_PRCTL_H */
+diff --git a/kernel/exit.c b/kernel/exit.c
+index 5b4a5dcce8f8..9b3d3411d935 100644
+--- a/kernel/exit.c
++++ b/kernel/exit.c
+@@ -788,6 +788,8 @@ void __noreturn do_exit(long code)
+ 		panic("Aiee, killing interrupt handler!");
+ 	if (unlikely(!tsk->pid))
+ 		panic("Attempted to kill the idle task!");
++	if (unlikely(task_critical(tsk)))
++		panic("Critical task died!");
+ 
+ 	/*
+ 	 * If do_exit is called because this processes oopsed, it's possible
+diff --git a/kernel/sys.c b/kernel/sys.c
+index 2969304c29fe..097e05ebaf94 100644
+--- a/kernel/sys.c
++++ b/kernel/sys.c
+@@ -2269,6 +2269,20 @@ int __weak arch_prctl_spec_ctrl_set(struct task_struct *t, unsigned long which,
+ 	return -EINVAL;
+ }
+ 
++int task_do_set_critical(struct task_struct *t, unsigned long opt)
++{
++	if (opt != PR_CRITICAL_NOT_CRITICAL &&
++	    opt != PR_CRITICAL_CRITICAL)
++		return -EINVAL;
++	if (!capable(CAP_SYS_ADMIN))
++		return -EPERM;
++	if (opt == PR_CRITICAL_NOT_CRITICAL)
++		task_clear_critical(t);
++	else
++		task_set_critical(t);
++	return 0;
++}
++
+ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
+ 		unsigned long, arg4, unsigned long, arg5)
+ {
+@@ -2492,6 +2506,11 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
+ 			return -EINVAL;
+ 		error = PAC_RESET_KEYS(me, arg2);
+ 		break;
++	case PR_SET_TASK_CRITICAL:
++		if (arg3 || arg4 || arg5)
++			return -EINVAL;
++		error = task_do_set_critical(me, arg2);
++		break;
+ 	default:
+ 		error = -EINVAL;
+ 		break;
+-- 
+2.23.0.187.g17f5b7556c-goog
 
