@@ -2,73 +2,93 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BD7BCAAB08
-	for <lists+linux-api@lfdr.de>; Thu,  5 Sep 2019 20:33:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2378FAAB27
+	for <lists+linux-api@lfdr.de>; Thu,  5 Sep 2019 20:36:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389631AbfIESdJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 5 Sep 2019 14:33:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41460 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730223AbfIESdJ (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 5 Sep 2019 14:33:09 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AC4E02070C;
-        Thu,  5 Sep 2019 18:33:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1567708389;
-        bh=jVlKfCd+qY1ZMlZKQZC0N52YZ/f64nAiresv87D2w18=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UhI+Y9mhigPn0bUCjMQereobGTo3zyer/TQE6Tnsf04J8cctxB0llAFNgQzshmgrQ
-         M6BvzjTPQGymnf7SrY1tLgz1eu3m06iQgAPqRpt36Q6sWGGqm/kq5fFWudAhTsFYQg
-         vdELB8xvMqEI9muuvwe1UlG0MhMO4T0SDSNK2A1Q=
-Date:   Thu, 5 Sep 2019 20:33:05 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     David Howells <dhowells@redhat.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>, rstrode@redhat.com,
-        swhiteho@redhat.com, nicolas.dichtel@6wind.com, raven@themaw.net,
-        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-block <linux-block@vger.kernel.org>,
+        id S2390143AbfIESgD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 5 Sep 2019 14:36:03 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:43350 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725290AbfIESgD (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 5 Sep 2019 14:36:03 -0400
+Received: from [46.114.37.115] (helo=localhost)
+        by youngberry.canonical.com with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+        (Exim 4.76)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1i5wbZ-0006Ee-52; Thu, 05 Sep 2019 18:35:37 +0000
+Date:   Thu, 5 Sep 2019 20:35:32 +0200
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Al Viro <viro@zeniv.linux.org.uk>
+Cc:     Aleksa Sarai <cyphar@cyphar.com>, Jeff Layton <jlayton@kernel.org>,
+        "J. Bruce Fields" <bfields@fieldses.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        David Howells <dhowells@redhat.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
         Christian Brauner <christian@brauner.io>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>
-Subject: Re: Why add the general notification queue and its sources
-Message-ID: <20190905183305.GA22877@kroah.com>
-References: <CAHk-=wh5ZNE9pBwrnr5MX3iqkUP4nspz17rtozrSxs5-OGygNw@mail.gmail.com>
- <156763534546.18676.3530557439501101639.stgit@warthog.procyon.org.uk>
- <17703.1567702907@warthog.procyon.org.uk>
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>, Tycho Andersen <tycho@tycho.ws>,
+        David Drysdale <drysdale@google.com>,
+        Chanho Min <chanho.min@lge.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Aleksa Sarai <asarai@suse.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        containers@lists.linux-foundation.org, linux-alpha@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        linux-xtensa@linux-xtensa.org, sparclinux@vger.kernel.org
+Subject: Re: [PATCH v12 01/12] lib: introduce copy_struct_{to,from}_user
+ helpers
+Message-ID: <20190905183532.GA25049@localhost>
+References: <20190904201933.10736-1-cyphar@cyphar.com>
+ <20190904201933.10736-2-cyphar@cyphar.com>
+ <20190905180750.GQ1131@ZenIV.linux.org.uk>
+ <20190905182303.7f6bxpa2enbgcegv@wittgenstein>
+ <20190905182801.GR1131@ZenIV.linux.org.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <17703.1567702907@warthog.procyon.org.uk>
+In-Reply-To: <20190905182801.GR1131@ZenIV.linux.org.uk>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Sep 05, 2019 at 06:01:47PM +0100, David Howells wrote:
->  (2) USB notifications.
+On Thu, Sep 05, 2019 at 07:28:01PM +0100, Al Viro wrote:
+> On Thu, Sep 05, 2019 at 08:23:03PM +0200, Christian Brauner wrote:
 > 
->      GregKH was looking for a way to do USB notifications as I was looking to
->      find additional sources to implement.  I'm not sure how he wants to use
->      them, but I'll let him speak to that himself.
+> > Because every caller of that function right now has that limit set
+> > anyway iirc. So we can either remove it from here and place it back for
+> > the individual callers or leave it in the helper.
+> > Also, I'm really asking, why not? Is it unreasonable to have an upper
+> > bound on the size (for a long time probably) or are you disagreeing with
+> > PAGE_SIZE being used? PAGE_SIZE limit is currently used by sched, perf,
+> > bpf, and clone3 and in a few other places.
+> 
+> For a primitive that can be safely used with any size (OK, any within
+> the usual 2Gb limit)?  Why push the random policy into the place where
+> it doesn't belong?
 
-We are getting people asking for all sorts of "error reporting" events
-that can happen in the USB subsystem that we have started to abuse the
-KOBJ_CHANGE uevent notification for.  At the same time your patches were
-submitted, someone else submitted yet-another-USB-error patchset.  This
-type of user/kernel interface is much easier to use than abusing uevents
-for USB errors and general notifications about what happened with USB
-devices (more than just add/remove that uevents have).
+Ah, the "not in the helper part" makes sense.
+As long as leave the check for the callers themselves.
 
-So yes, I would like this, and I am sure the ChromeOS people would like
-it too given that I rejected their patcheset with the assumption that
-this could be done with the notification queue api "soon" :)
-
-thanks,
-
-greg k-h
+> 
+> Seriously, what's the point?  If they want to have a large chunk of
+> userland memory zeroed or checked for non-zeroes - why would that
+> be a problem?
