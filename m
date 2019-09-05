@@ -2,113 +2,143 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EA64AAE38
-	for <lists+linux-api@lfdr.de>; Fri,  6 Sep 2019 00:09:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41C67AAE83
+	for <lists+linux-api@lfdr.de>; Fri,  6 Sep 2019 00:32:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727004AbfIEWJE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 5 Sep 2019 18:09:04 -0400
-Received: from mail-lj1-f181.google.com ([209.85.208.181]:45214 "EHLO
-        mail-lj1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730617AbfIEWJD (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 5 Sep 2019 18:09:03 -0400
-Received: by mail-lj1-f181.google.com with SMTP id l1so4058224lji.12
-        for <linux-api@vger.kernel.org>; Thu, 05 Sep 2019 15:09:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=3+bS8S77AzTpTBzzxsdlLs0HnCbtRjNnmkiZK0MPy0c=;
-        b=LbASCsGx0k6udtd2AsgFeBhmCaCLrlsklx+62iSSE5Gkytkq0WN1acnDpFn5oCNEQS
-         KMkfsxyWBngO5Ing5S64rk5RN/Socr904CmKtCx01r5GqFjCKXQfIr7B9uXv9DslB2br
-         7qADnXCimEFjoVvgCL5m3EkgAFlL+VHV2J5FE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=3+bS8S77AzTpTBzzxsdlLs0HnCbtRjNnmkiZK0MPy0c=;
-        b=sjp/TWdj4trp2wUjhVCcON8/nTHfMfc2ZZbdKfTtzeu0ad9Dp6tSoPedI4AQpEK+Wl
-         0m/t6MRZAeRVOw7pSaWLGsD/XFVmTW880ksCgefxzIaOGVFwsBboN4qFcjMH/exO5v8S
-         ehxBNIKsrXuchF/C8i+fGi5gryYitC87a6f7e1qCZOl1h/xTrhlMFnnd6sPkKyOgKZ5G
-         DKHV30pLU7b6xaNM5iSFcUttRafJewK6cjGRI/bUvOtL2Lp9mWtyJx0jZocWJSVrzlg0
-         dNAHmRr90gWLfEXky1japOBhMeRJ5E7sMpMfr4wuU7+WacuZ+rXHAhw69p9ATC1hNYkw
-         Sa2Q==
-X-Gm-Message-State: APjAAAUDehTuFy/9p/rllcUqLbCcQzWO3CG/+A6Dy0vVbCrpmgkysv90
-        aAYf1opQTtm8T6pCXNrrqZocAPixkNw=
-X-Google-Smtp-Source: APXvYqyQkMe+QtEpPWQ1i/CI46et/+Ojwjs41olI507HgHwhsMz+ewYvk+2PUniwmiihaRx14Ke/Ig==
-X-Received: by 2002:a2e:91c6:: with SMTP id u6mr3709982ljg.112.1567721340395;
-        Thu, 05 Sep 2019 15:09:00 -0700 (PDT)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com. [209.85.167.51])
-        by smtp.gmail.com with ESMTPSA id q19sm769328lfj.9.2019.09.05.15.08.58
-        for <linux-api@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Sep 2019 15:08:59 -0700 (PDT)
-Received: by mail-lf1-f51.google.com with SMTP id j4so3312525lfh.8
-        for <linux-api@vger.kernel.org>; Thu, 05 Sep 2019 15:08:58 -0700 (PDT)
-X-Received: by 2002:a19:f204:: with SMTP id q4mr3910741lfh.29.1567721338167;
- Thu, 05 Sep 2019 15:08:58 -0700 (PDT)
-MIME-Version: 1.0
-References: <156763534546.18676.3530557439501101639.stgit@warthog.procyon.org.uk>
- <CAHk-=wh5ZNE9pBwrnr5MX3iqkUP4nspz17rtozrSxs5-OGygNw@mail.gmail.com>
- <17703.1567702907@warthog.procyon.org.uk> <CAHk-=wjQ5Fpv0D7rxX0W=obx9xoOAxJ_Cr+pGCYOAi2S9FiCNg@mail.gmail.com>
- <CAKCoTu7ms_Mr-q08d9XB3uascpzwBa5LF9JTT2aq8uUsoFE8aQ@mail.gmail.com>
- <CAHk-=wjcsxQ8QB_v=cwBQw4pkJg7pp-bBsdWyPivFO_OeF-y+g@mail.gmail.com> <5396.1567719164@warthog.procyon.org.uk>
-In-Reply-To: <5396.1567719164@warthog.procyon.org.uk>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Thu, 5 Sep 2019 15:08:42 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgbCXea1a9OTWgMMvcsCGGiNiPp+ty-edZrBWn63NCYdw@mail.gmail.com>
-Message-ID: <CAHk-=wgbCXea1a9OTWgMMvcsCGGiNiPp+ty-edZrBWn63NCYdw@mail.gmail.com>
-Subject: Re: Why add the general notification queue and its sources
-To:     David Howells <dhowells@redhat.com>
-Cc:     Ray Strode <rstrode@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Steven Whitehouse <swhiteho@redhat.com>,
-        Nicolas Dichtel <nicolas.dichtel@6wind.com>, raven@themaw.net,
-        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-block <linux-block@vger.kernel.org>,
+        id S1730303AbfIEWc3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 5 Sep 2019 18:32:29 -0400
+Received: from zeniv.linux.org.uk ([195.92.253.2]:43054 "EHLO
+        ZenIV.linux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732639AbfIEWc2 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 5 Sep 2019 18:32:28 -0400
+Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92.1 #3 (Red Hat Linux))
+        id 1i60I9-0001pN-0U; Thu, 05 Sep 2019 22:31:49 +0000
+Date:   Thu, 5 Sep 2019 23:31:48 +0100
+From:   Al Viro <viro@zeniv.linux.org.uk>
+To:     Aleksa Sarai <cyphar@cyphar.com>
+Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J. Bruce Fields" <bfields@fieldses.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        David Howells <dhowells@redhat.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
         Christian Brauner <christian@brauner.io>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        "Ray, Debarshi" <debarshi.ray@gmail.com>,
-        Robbie Harwood <rharwood@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>, Tycho Andersen <tycho@tycho.ws>,
+        David Drysdale <drysdale@google.com>,
+        Chanho Min <chanho.min@lge.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Aleksa Sarai <asarai@suse.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        containers@lists.linux-foundation.org, linux-alpha@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        linux-xtensa@linux-xtensa.org, sparclinux@vger.kernel.org
+Subject: Re: [PATCH v12 01/12] lib: introduce copy_struct_{to,from}_user
+ helpers
+Message-ID: <20190905223148.GS1131@ZenIV.linux.org.uk>
+References: <20190904201933.10736-1-cyphar@cyphar.com>
+ <20190904201933.10736-2-cyphar@cyphar.com>
+ <20190905180750.GQ1131@ZenIV.linux.org.uk>
+ <20190905182303.7f6bxpa2enbgcegv@wittgenstein>
+ <20190905182801.GR1131@ZenIV.linux.org.uk>
+ <20190905195618.pwzgvuzadkfpznfz@yavin.dot.cyphar.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190905195618.pwzgvuzadkfpznfz@yavin.dot.cyphar.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Sep 5, 2019 at 2:32 PM David Howells <dhowells@redhat.com> wrote:
->
->  (1) /dev/watch_queue just implements locked-in-memory buffers.  It gets you
->      no events by simply opening it.
+On Fri, Sep 06, 2019 at 05:56:18AM +1000, Aleksa Sarai wrote:
+> On 2019-09-05, Al Viro <viro@zeniv.linux.org.uk> wrote:
+> > On Thu, Sep 05, 2019 at 08:23:03PM +0200, Christian Brauner wrote:
+> > 
+> > > Because every caller of that function right now has that limit set
+> > > anyway iirc. So we can either remove it from here and place it back for
+> > > the individual callers or leave it in the helper.
+> > > Also, I'm really asking, why not? Is it unreasonable to have an upper
+> > > bound on the size (for a long time probably) or are you disagreeing with
+> > > PAGE_SIZE being used? PAGE_SIZE limit is currently used by sched, perf,
+> > > bpf, and clone3 and in a few other places.
+> > 
+> > For a primitive that can be safely used with any size (OK, any within
+> > the usual 2Gb limit)?  Why push the random policy into the place where
+> > it doesn't belong?
+> > 
+> > Seriously, what's the point?  If they want to have a large chunk of
+> > userland memory zeroed or checked for non-zeroes - why would that
+> > be a problem?
+> 
+> Thinking about it some more, there isn't really any r/w amplification --
+> so there isn't much to gain by passing giant structs. Though, if we are
+> going to permit 2GB buffers, isn't that also an argument to use
+> memchr_inv()? :P
 
-Cool. In-memory buffers.
+I'm not sure I understand the last bit.  If you look at what copy_from_user()
+does on misaligned source/destination, especially on architectures that
+really, really do not like unaligned access...
 
-But I know - we *have* one of those. There's already a system call for
-it, and has been forever. One that we then extended to allow people to
-change the buffer size, and do a lot of other things with.
+Case in point: alpha (and it's not unusual in that respect).  What it boils
+down to is
+	copy bytes until the destination is aligned
+	if source and destination are both aligned
+		copy word by word
+	else
+		read word by word, storing the mix of two adjacent words
+	copy the rest byte by byte
 
-It's called "pipe()". And you can give the writing side to other user
-space processes too, in case you are running an older kernel that
-didn't have some "event pipe support". It comes with resource
-management, because people already use those things.
+The unpleasant case (to and from having different remainders modulo 8) is
+basically
 
-If you want to make a message protocol on top of it, it has cool
-atomicity guarantees for any message size less than PIPE_BUF, but to
-make things simple, maybe just say "fixed record sizes of 64 bytes" or
-something like that for events.
+	if (count >= 8) {
+		u64 *aligned = (u64 *)(from & ~7);
+		u64 *dest = (u64 *)to;
+		int bitshift = (from & 7) * 8;
+		u64 prev, next;
 
-Then you can use them from things like perl scripts, not just magical
-C programs.
+		prev = aligned[0];
+		do {   
+			next = aligned[1];
+			prev <<= bitshift;
+			prev |= next >> (64 - bitshift);
+			*dest++ = prev;
+			aligned++;  
+			prev = next;
+			from += 8;
+			to += 8;
+			count -= 8;
+		} while (count >= 8);
+	}
 
-Why do we need a new kind of super-fancy high-speed thing for event reporting?
+Now, mix that with "... and do memchr_inv() on the copy to find if we'd
+copied any non-zeroes, nevermind where" and it starts looking really
+ridiculous.
 
-If you have *so* many events that pipe handling is a performance
-issue, you have something seriously wrong going on.
+We should just read the fscking source, aligned down to word boundary
+and check each word being read.  The first and the last ones - masked.
+All there is to it.  On almost all architectures that'll work well
+enough; s390 might want something more elaborate (there even word-by-word
+copies are costly, but I'd suggest talking to them for details).
 
-So no. I'm not interested in a magical memory-mapped pipe that is
-actually more limited than the real thing.
-
-                  Linus
+Something like bool all_zeroes_user(const void __user *p, size_t count)
+would probably be a sane API...
