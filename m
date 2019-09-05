@@ -2,238 +2,212 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 39E05AA735
-	for <lists+linux-api@lfdr.de>; Thu,  5 Sep 2019 17:24:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69E0BAA7FF
+	for <lists+linux-api@lfdr.de>; Thu,  5 Sep 2019 18:09:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731609AbfIEPYH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 5 Sep 2019 11:24:07 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:33439 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388090AbfIEPYF (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 5 Sep 2019 11:24:05 -0400
-Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
- (mreue012 [212.227.15.129]) with ESMTPA (Nemesis) id
- 1N3omW-1iErpu38zI-00zlqx; Thu, 05 Sep 2019 17:23:34 +0200
-From:   Arnd Bergmann <arnd@arndb.de>
-To:     linux-kernel@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Deepa Dinamani <deepa.kernel@gmail.com>,
-        Christian Brauner <christian@brauner.io>,
-        Manfred Spraul <manfred@colorfullife.com>,
-        Davidlohr Bueso <dave@stgolabs.net>
-Cc:     linux-arch@vger.kernel.org, y2038@lists.linaro.org,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Matt Turner <mattst88@gmail.com>, stable@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-api@vger.kernel.org
-Subject: [PATCH 2/2] ipc: fix sparc64 ipc() wrapper
-Date:   Thu,  5 Sep 2019 17:21:25 +0200
-Message-Id: <20190905152155.1392871-2-arnd@arndb.de>
-X-Mailer: git-send-email 2.20.0
-In-Reply-To: <20190905152155.1392871-1-arnd@arndb.de>
-References: <20190905152155.1392871-1-arnd@arndb.de>
+        id S2388237AbfIEQJP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 5 Sep 2019 12:09:15 -0400
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30]:17000 "EHLO
+        mx0b-00082601.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2388167AbfIEQJP (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 5 Sep 2019 12:09:15 -0400
+Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
+        by mx0a-00082601.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x85G4Jwa009425;
+        Thu, 5 Sep 2019 09:08:47 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type : content-id
+ : content-transfer-encoding : mime-version; s=facebook;
+ bh=HmdCIrboWkM9rUDFDSHelcJxJIvcYEcwzcIwg5HXSv4=;
+ b=Nvr1CwMdhk5yTP752OlBaag9+s9vu7xtzAJh9L/y9KbfDZ6hBVXhBuooI2Rk5FQVq/mT
+ oSOe8zV6Y7/Qshq3LXqZf61pVDiWWTBtRMMWcToZj5tJVfBTCsLIhezMYSqhOwaEkBHa
+ 4sIS54SSPAGC2u5VcDUB6vERhCjjdztdfmc= 
+Received: from maileast.thefacebook.com ([163.114.130.16])
+        by mx0a-00082601.pphosted.com with ESMTP id 2utqxfk55h-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+        Thu, 05 Sep 2019 09:08:46 -0700
+Received: from ash-exhub101.TheFacebook.com (2620:10d:c0a8:82::e) by
+ ash-exhub102.TheFacebook.com (2620:10d:c0a8:82::f) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Thu, 5 Sep 2019 09:08:45 -0700
+Received: from NAM03-DM3-obe.outbound.protection.outlook.com (100.104.31.183)
+ by o365-in.thefacebook.com (100.104.35.173) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
+ via Frontend Transport; Thu, 5 Sep 2019 09:08:45 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TDNDT1P6NUNFaYpIJWwA2kKU98bjWpweFAphE37ukYQY7BXd53XRGBughtlG3B9smXGCjpsNKk7uFTKpoxQbBHjWs8/W2VS0/Xb+QyhZXL3Y6Z5HjksVWkPcx0PrKe7WUA5BcIBegc/FudgVvTULBWryodAy9QuxhNxJXqK3cP6J1Rt76fXooRkrdiXKLvsFId/JJcGPby96BXhb8i2bI6NE2wvu4v2Au+cPpipPJGqozRGyxldJnHbajLaCsZstEgotSEohoqNy2gWHtN4SHZpGxIYuOPZ+Y8y6gHeSAso0A2YfuovnJT8XXC8nyKdK1oyDaKbrz3z4keYJyv5WAg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HmdCIrboWkM9rUDFDSHelcJxJIvcYEcwzcIwg5HXSv4=;
+ b=QI3h//HARrEhJeUTj96jjTzSU/ffuCOnja7/rAkDZdTeKFFL71tsF2kWZA31QxyqChOsuq4fUIcAkPDfe31jPUuerVpq5utc92usAmTJT/1VanggEfymKM3Hx53QViyGCE7v3VcB6MXQ5AV2+BulVy2VH4qzdMubD9MmkAZ3L4WgkUsHtXT8/DFtBCZ0pFu1IDDPMRsqZf+bgtF2h5iQ/yVqUy0/P5YBNyEwAK4SL4+4YpXU8+ngjy8KhD7bCwGOqURdH1iQrtdsC8Eq7rLnBd6QqJql/L6UeeFO3U+yJ1wkpRyJMArgPaHzGBL2+Sk1j+WFAjzgTvh9h9qCbRs86A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
+ header.d=fb.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
+ s=selector2-fb-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HmdCIrboWkM9rUDFDSHelcJxJIvcYEcwzcIwg5HXSv4=;
+ b=IcLFG45sga9sEnTnd1KwMjFeON3NbdIcyv69Xn/iGdKRfMPs+SnMbmRwOy9JOcJOgR3YFB0u0iMF+VL0wK2HEk7y81i3BMpikyR8rgbKW9DFNtVB4JcZDXBUS4ERJNq+3+eD0NfNwK8Yn82EpA45U0FR9uWBMBn08bcCCnPE/RE=
+Received: from MWHPR15MB1165.namprd15.prod.outlook.com (10.175.3.22) by
+ MWHPR15MB1616.namprd15.prod.outlook.com (10.175.142.17) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2241.15; Thu, 5 Sep 2019 16:08:44 +0000
+Received: from MWHPR15MB1165.namprd15.prod.outlook.com
+ ([fe80::a828:5750:379d:b9a1]) by MWHPR15MB1165.namprd15.prod.outlook.com
+ ([fe80::a828:5750:379d:b9a1%8]) with mapi id 15.20.2220.022; Thu, 5 Sep 2019
+ 16:08:44 +0000
+From:   Song Liu <songliubraving@fb.com>
+To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
+CC:     Alexei Starovoitov <ast@kernel.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        Kernel Team <Kernel-team@fb.com>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
+Subject: Re: [PATCH v3 bpf-next 2/3] bpf: implement CAP_BPF
+Thread-Topic: [PATCH v3 bpf-next 2/3] bpf: implement CAP_BPF
+Thread-Index: AQHVY1Cvn0QzeDIQmEifJi8CsD4pqaccPMEAgAAQQQCAABYXAIAABpEAgADYFYA=
+Date:   Thu, 5 Sep 2019 16:08:44 +0000
+Message-ID: <A0BD5C17-3118-4C90-825F-23CE187209EA@fb.com>
+References: <20190904184335.360074-1-ast@kernel.org>
+ <20190904184335.360074-2-ast@kernel.org>
+ <CE3B644F-D1A5-49F7-96B6-FD663C5F8961@fb.com>
+ <20190905013245.wguhhcxvxt5rnc6h@ast-mbp.dhcp.thefacebook.com>
+ <E342EC2A-24F6-4581-BFDC-119B5E02B560@fb.com>
+ <20190905031518.behyq7olkh6fjsoe@ast-mbp.dhcp.thefacebook.com>
+In-Reply-To: <20190905031518.behyq7olkh6fjsoe@ast-mbp.dhcp.thefacebook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3445.104.11)
+x-originating-ip: [2620:10d:c090:200::2:b3a5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: b028d633-26dd-4ce8-53e6-08d7321b538e
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:MWHPR15MB1616;
+x-ms-traffictypediagnostic: MWHPR15MB1616:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MWHPR15MB1616B4295D5ECE5ED6D17791B3BB0@MWHPR15MB1616.namprd15.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 015114592F
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(366004)(396003)(39860400002)(346002)(376002)(136003)(189003)(199004)(71190400001)(57306001)(14444005)(316002)(256004)(54906003)(71200400001)(6916009)(76176011)(8936002)(5660300002)(102836004)(8676002)(6506007)(86362001)(81156014)(81166006)(53546011)(4326008)(50226002)(36756003)(6116002)(25786009)(446003)(46003)(476003)(7736002)(11346002)(305945005)(2616005)(2906002)(486006)(186003)(99286004)(6486002)(6512007)(6436002)(33656002)(76116006)(66446008)(64756008)(66556008)(66476007)(66946007)(229853002)(53936002)(14454004)(6246003)(478600001);DIR:OUT;SFP:1102;SCL:1;SRVR:MWHPR15MB1616;H:MWHPR15MB1165.namprd15.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: fb.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 0T38qyKJCGtdyNt7e6VdpHc4iBJ7YfkoeznQ1Q0QtcEtrCqh3bK98rKg5AIcR04Y1LwrvKrdaVcCiIcWlhRSXJGP9oHo8+kEaPqrscpqLtuRkTHp1cTaZoL4cZcqh7mbrabuP77GBKI2MZ3+lJEhT26VHnFAhUkQqlkCFFNaT8eyBGBxtBldYiBx1neCkwSOM6weo7OH3tsW8Ebo/41M/mnU3lXmGQEvTapbPzphdjqyGqLbiYEsF8RUEidKbJbzXHfB/YwVpwDXoJgFHy0Egacf3Lrpj9MxSzZ0uNNgGivn1cR+BFwcC9GyiQshNXV65rvgaJjyURGVGod0WU4Ud8BNGM4KrRTWNxFuICum0jSwOhAiUJjz0bgrS4LQhJRdeV4FT7/YBHSn2VpHuSQaAu4TSDL7CI989DoxZXiwI6s=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <4A33147E45FBAE45A2DA4C175F6E64EE@namprd15.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:J3zArHkEyY/TISMmsfP0WbJtNBFechQID0MqECzAk0ctCCZ95pR
- yxgwoT6AqRe9E3cjun1fqcvGxYNu0dhxnJv1n8TiPRO3OsLdyhUfeh5h64xInym/iWECW65
- T3KYK41gn/U20N0+cooujcbryonZ+TM85tiFbXMR/F9+C8N9NhGWEfBNKIlD3ZONOHd8yT8
- j87ugz7kTJtQ6MlGcuqgQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:x/9WiilpczI=:GUB6fhEl40TlKmebyV3VtP
- tQZX3lSk+a5TLFJKCm0hJi5iYixyH1OiciKfQkbQTvimuD44FGQ7U8hsVf5gn8KjbAxbU9iuq
- /ehYRHVo2+xqH3r5XWZEvjuEZoVxeA1HUc2pmC8p+Nj00s111rvzBulzfxNS1gSDhoKPIZ2qz
- cGMmSIc9K8luRJeIcuKCGpHLiZIri2GY2jz9UyjXZ9+QDAkc5GZ2dgiKQesN1M2r9oo5mnLdc
- kmNYWK6nA4JjoLQJXQWlcOK79fIN69hvbvaTjSvw975krZyjihDLmCBKRzRtXvMpw2a+hkO+U
- dCQ9/qDjkmGSJRfCu+zCf1Q5cl9EkK2lNTFGE7G3d0qFVuqwqF7sIUcmHSeZOuZlLOHV3cUSl
- YsKinsjpr45kL9+iQqR7BAFxsWamu/sLMLCYgJkh3Q/bDjCBHEYxReRGzxjPL309IJ+jdAbng
- Q6Axj0jiJbXC74NRsVcPtyeFCz8nr0EYBLYzH9nH+8fkbAgoXz75KfqfkXHLSsKeCAPON3h9z
- upT87m0FvgjNUoJHw5y99hjfAowzQINh7qsDHCvEpt2T13Y+1ypYTm5rV6CHP8c7OJsAC8tjI
- x4OQMcg+4ym3RHKhwTdY8J7QLLtxjxa48Wz7c+ND9PKoXw7Y9tsgXcmFA+RltXE+Gvy+cE5s2
- 1TmI+a//nrrYnyRn+D1okiKpl4dJAo9OViaw7Ae+JH5Mw+tsprds18iMpTw+Ba0bdNjbHvcLa
- 32I38a7MyVqBoVJ9CpnLLRA1b1aurNA8LNgb5CPjLv7CiQTob84/AH75xl/PHGd5eK/ex9Wid
- yCulJWrgfB9IombsP5qX21Jt/xPM0uvtvYmeLQd6wPrJIqaGJY=
+X-MS-Exchange-CrossTenant-Network-Message-Id: b028d633-26dd-4ce8-53e6-08d7321b538e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Sep 2019 16:08:44.1077
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /gIcgxvTiHOpkqKMzYgpmyxcGzEpm2hU7eD+0bHwXlyBjNBdl42sN2161iGf3h3YuznkNgXbKJo28nFpTYwj7Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR15MB1616
+X-OriginatorOrg: fb.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.70,1.0.8
+ definitions=2019-09-05_05:2019-09-04,2019-09-05 signatures=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0 mlxlogscore=999
+ spamscore=0 clxscore=1015 adultscore=0 impostorscore=0 malwarescore=0
+ phishscore=0 lowpriorityscore=0 bulkscore=0 mlxscore=0 priorityscore=1501
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1906280000 definitions=main-1909050152
+X-FB-Internal: deliver
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Matt bisected a sparc64 specific issue with semctl, shmctl and msgctl
-to a commit from my y2038 series in linux-5.1, as I missed the custom
-sys_ipc() wrapper that sparc64 uses in place of the generic version that
-I patched.
 
-The problem is that the sys_{sem,shm,msg}ctl() functions in the kernel
-now do not allow being called with the IPC_64 flag any more, resulting
-in a -EINVAL error when they don't recognize the command.
 
-Instead, the correct way to do this now is to call the internal
-ksys_old_{sem,shm,msg}ctl() functions to select the API version.
+> On Sep 4, 2019, at 8:15 PM, Alexei Starovoitov <alexei.starovoitov@gmail.=
+com> wrote:
+>=20
+> On Thu, Sep 05, 2019 at 02:51:51AM +0000, Song Liu wrote:
+>>=20
+>>=20
+>>> On Sep 4, 2019, at 6:32 PM, Alexei Starovoitov <alexei.starovoitov@gmai=
+l.com> wrote:
+>>>=20
+>>> On Thu, Sep 05, 2019 at 12:34:36AM +0000, Song Liu wrote:
+>>>>=20
+>>>>=20
+>>>>> On Sep 4, 2019, at 11:43 AM, Alexei Starovoitov <ast@kernel.org> wrot=
+e:
+>>>>>=20
+>>>>> Implement permissions as stated in uapi/linux/capability.h
+>>>>>=20
+>>>>> Signed-off-by: Alexei Starovoitov <ast@kernel.org>
+>>>>>=20
+>>>>=20
+>>>> [...]
+>>>>=20
+>>>>> @@ -1648,11 +1648,11 @@ static int bpf_prog_load(union bpf_attr *attr=
+, union bpf_attr __user *uattr)
+>>>>> 	is_gpl =3D license_is_gpl_compatible(license);
+>>>>>=20
+>>>>> 	if (attr->insn_cnt =3D=3D 0 ||
+>>>>> -	    attr->insn_cnt > (capable(CAP_SYS_ADMIN) ? BPF_COMPLEXITY_LIMIT=
+_INSNS : BPF_MAXINSNS))
+>>>>> +	    attr->insn_cnt > (capable_bpf() ? BPF_COMPLEXITY_LIMIT_INSNS : =
+BPF_MAXINSNS))
+>>>>> 		return -E2BIG;
+>>>>> 	if (type !=3D BPF_PROG_TYPE_SOCKET_FILTER &&
+>>>>> 	    type !=3D BPF_PROG_TYPE_CGROUP_SKB &&
+>>>>> -	    !capable(CAP_SYS_ADMIN))
+>>>>> +	    !capable_bpf())
+>>>>> 		return -EPERM;
+>>>>=20
+>>>> Do we allow load BPF_PROG_TYPE_SOCKET_FILTER and BPF_PROG_TYPE_CGROUP_=
+SKB
+>>>> without CAP_BPF? If so, maybe highlight in the header?
+>>>=20
+>>> of course. there is no change in behavior.
+>>> 'highlight in the header'?
+>>> you mean in commit log?
+>>> I think it's a bit weird to describe things in commit that patch
+>>> is _not_ changing vs things that patch does actually change.
+>>> This type of comment would be great in a doc though.
+>>> The doc will be coming separately in the follow up assuming
+>>> the whole thing lands. I'll remember to note that bit.
+>>=20
+>> I meant capability.h:
+>>=20
+>> + * CAP_BPF allows the following BPF operations:
+>> + * - Loading all types of BPF programs
+>>=20
+>> But CAP_BPF is not required to load all types of programs.=20
+>=20
+> yes, but above statement is still correct, right?
+>=20
+> And right below it says:
+> * CAP_BPF allows the following BPF operations:
+> * - Loading all types of BPF programs
+> * - Creating all types of BPF maps except:
+> *    - stackmap that needs CAP_TRACING
+> *    - devmap that needs CAP_NET_ADMIN
+> *    - cpumap that needs CAP_SYS_ADMIN
+> which is also correct, but CAP_BPF is not required
+> for array, hash, prog_array, percpu, map-in-map ...
+> except their lru variants...
+> and except if they contain bpf_spin_lock...
+> and if they need BTF it currently can be loaded with cap_sys_admin only..=
+.
+>=20
+> If we say something about socket_filter, cg_skb progs in capability.h
+> we should clarify maps as well, but then it will become too big for .h
+> The comments in capability.h already look too long to me.
+> All that info and a lot more belongs in the doc.
 
-As we generally move towards these functions anyway, change all of
-sparc_ipc() to consistently use those in place of the sys_*() versions,
-and move the required ksys_*() declarations into linux/syscalls.h
+Agreed. We cannot put all these details in capability.h. Doc/wikipages=20
+would be better fit for these information.=20
 
-Reported-by: Matt Turner <mattst88@gmail.com>
-Fixes: 275f22148e87 ("ipc: rename old-style shmctl/semctl/msgctl syscalls")
-Cc: stable@vger.kernel.org
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
-Hi Matt,
+Thanks,
+Song
 
-Can you check that this solves your problem?
----
- arch/sparc/kernel/sys_sparc_64.c | 30 +++++++++++++++---------------
- include/linux/syscalls.h         | 19 +++++++++++++++++++
- ipc/util.h                       | 25 ++-----------------------
- 3 files changed, 36 insertions(+), 38 deletions(-)
-
-diff --git a/arch/sparc/kernel/sys_sparc_64.c b/arch/sparc/kernel/sys_sparc_64.c
-index ccc88926bc00..5ad0494df367 100644
---- a/arch/sparc/kernel/sys_sparc_64.c
-+++ b/arch/sparc/kernel/sys_sparc_64.c
-@@ -340,21 +340,21 @@ SYSCALL_DEFINE6(sparc_ipc, unsigned int, call, int, first, unsigned long, second
- 	if (call <= SEMTIMEDOP) {
- 		switch (call) {
- 		case SEMOP:
--			err = sys_semtimedop(first, ptr,
--					     (unsigned int)second, NULL);
-+			err = ksys_semtimedop(first, ptr,
-+					      (unsigned int)second, NULL);
- 			goto out;
- 		case SEMTIMEDOP:
--			err = sys_semtimedop(first, ptr, (unsigned int)second,
-+			err = ksys_semtimedop(first, ptr, (unsigned int)second,
- 				(const struct __kernel_timespec __user *)
--					     (unsigned long) fifth);
-+					      (unsigned long) fifth);
- 			goto out;
- 		case SEMGET:
--			err = sys_semget(first, (int)second, (int)third);
-+			err = ksys_semget(first, (int)second, (int)third);
- 			goto out;
- 		case SEMCTL: {
--			err = sys_semctl(first, second,
--					 (int)third | IPC_64,
--					 (unsigned long) ptr);
-+			err = ksys_old_semctl(first, second,
-+					      (int)third | IPC_64,
-+					      (unsigned long) ptr);
- 			goto out;
- 		}
- 		default:
-@@ -365,18 +365,18 @@ SYSCALL_DEFINE6(sparc_ipc, unsigned int, call, int, first, unsigned long, second
- 	if (call <= MSGCTL) {
- 		switch (call) {
- 		case MSGSND:
--			err = sys_msgsnd(first, ptr, (size_t)second,
-+			err = ksys_msgsnd(first, ptr, (size_t)second,
- 					 (int)third);
- 			goto out;
- 		case MSGRCV:
--			err = sys_msgrcv(first, ptr, (size_t)second, fifth,
-+			err = ksys_msgrcv(first, ptr, (size_t)second, fifth,
- 					 (int)third);
- 			goto out;
- 		case MSGGET:
--			err = sys_msgget((key_t)first, (int)second);
-+			err = ksys_msgget((key_t)first, (int)second);
- 			goto out;
- 		case MSGCTL:
--			err = sys_msgctl(first, (int)second | IPC_64, ptr);
-+			err = ksys_old_msgctl(first, (int)second | IPC_64, ptr);
- 			goto out;
- 		default:
- 			err = -ENOSYS;
-@@ -396,13 +396,13 @@ SYSCALL_DEFINE6(sparc_ipc, unsigned int, call, int, first, unsigned long, second
- 			goto out;
- 		}
- 		case SHMDT:
--			err = sys_shmdt(ptr);
-+			err = ksys_shmdt(ptr);
- 			goto out;
- 		case SHMGET:
--			err = sys_shmget(first, (size_t)second, (int)third);
-+			err = ksys_shmget(first, (size_t)second, (int)third);
- 			goto out;
- 		case SHMCTL:
--			err = sys_shmctl(first, (int)second | IPC_64, ptr);
-+			err = ksys_old_shmctl(first, (int)second | IPC_64, ptr);
- 			goto out;
- 		default:
- 			err = -ENOSYS;
-diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-index 88145da7d140..f7c561c4dcdd 100644
---- a/include/linux/syscalls.h
-+++ b/include/linux/syscalls.h
-@@ -1402,4 +1402,23 @@ static inline unsigned int ksys_personality(unsigned int personality)
- 	return old;
- }
- 
-+/* for __ARCH_WANT_SYS_IPC */
-+long ksys_semtimedop(int semid, struct sembuf __user *tsops,
-+		     unsigned int nsops,
-+		     const struct __kernel_timespec __user *timeout);
-+long ksys_semget(key_t key, int nsems, int semflg);
-+long ksys_old_semctl(int semid, int semnum, int cmd, unsigned long arg);
-+long ksys_msgget(key_t key, int msgflg);
-+long ksys_old_msgctl(int msqid, int cmd, struct msqid_ds __user *buf);
-+long ksys_msgrcv(int msqid, struct msgbuf __user *msgp, size_t msgsz,
-+		 long msgtyp, int msgflg);
-+long ksys_msgsnd(int msqid, struct msgbuf __user *msgp, size_t msgsz,
-+		 int msgflg);
-+long ksys_shmget(key_t key, size_t size, int shmflg);
-+long ksys_shmdt(char __user *shmaddr);
-+long ksys_old_shmctl(int shmid, int cmd, struct shmid_ds __user *buf);
-+long compat_ksys_semtimedop(int semid, struct sembuf __user *tsems,
-+			    unsigned int nsops,
-+			    const struct old_timespec32 __user *timeout);
-+
- #endif
-diff --git a/ipc/util.h b/ipc/util.h
-index 0fcf8e719b76..5766c61aed0e 100644
---- a/ipc/util.h
-+++ b/ipc/util.h
-@@ -276,29 +276,7 @@ static inline int compat_ipc_parse_version(int *cmd)
- 	*cmd &= ~IPC_64;
- 	return version;
- }
--#endif
- 
--/* for __ARCH_WANT_SYS_IPC */
--long ksys_semtimedop(int semid, struct sembuf __user *tsops,
--		     unsigned int nsops,
--		     const struct __kernel_timespec __user *timeout);
--long ksys_semget(key_t key, int nsems, int semflg);
--long ksys_old_semctl(int semid, int semnum, int cmd, unsigned long arg);
--long ksys_msgget(key_t key, int msgflg);
--long ksys_old_msgctl(int msqid, int cmd, struct msqid_ds __user *buf);
--long ksys_msgrcv(int msqid, struct msgbuf __user *msgp, size_t msgsz,
--		 long msgtyp, int msgflg);
--long ksys_msgsnd(int msqid, struct msgbuf __user *msgp, size_t msgsz,
--		 int msgflg);
--long ksys_shmget(key_t key, size_t size, int shmflg);
--long ksys_shmdt(char __user *shmaddr);
--long ksys_old_shmctl(int shmid, int cmd, struct shmid_ds __user *buf);
--
--/* for CONFIG_ARCH_WANT_OLD_COMPAT_IPC */
--long compat_ksys_semtimedop(int semid, struct sembuf __user *tsems,
--			    unsigned int nsops,
--			    const struct old_timespec32 __user *timeout);
--#ifdef CONFIG_COMPAT
- long compat_ksys_old_semctl(int semid, int semnum, int cmd, int arg);
- long compat_ksys_old_msgctl(int msqid, int cmd, void __user *uptr);
- long compat_ksys_msgrcv(int msqid, compat_uptr_t msgp, compat_ssize_t msgsz,
-@@ -306,6 +284,7 @@ long compat_ksys_msgrcv(int msqid, compat_uptr_t msgp, compat_ssize_t msgsz,
- long compat_ksys_msgsnd(int msqid, compat_uptr_t msgp,
- 		       compat_ssize_t msgsz, int msgflg);
- long compat_ksys_old_shmctl(int shmid, int cmd, void __user *uptr);
--#endif /* CONFIG_COMPAT */
-+
-+#endif
- 
- #endif
--- 
-2.20.0
 
