@@ -2,126 +2,125 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 38FB1AADD7
-	for <lists+linux-api@lfdr.de>; Thu,  5 Sep 2019 23:32:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CDA3AAE2B
+	for <lists+linux-api@lfdr.de>; Fri,  6 Sep 2019 00:00:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390486AbfIEVct (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 5 Sep 2019 17:32:49 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:8816 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731418AbfIEVct (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 5 Sep 2019 17:32:49 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 37A8C18C4266;
-        Thu,  5 Sep 2019 21:32:49 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-120-255.rdu2.redhat.com [10.10.120.255])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id A7BBA60BE1;
-        Thu,  5 Sep 2019 21:32:45 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <CAHk-=wjcsxQ8QB_v=cwBQw4pkJg7pp-bBsdWyPivFO_OeF-y+g@mail.gmail.com>
-References: <CAHk-=wjcsxQ8QB_v=cwBQw4pkJg7pp-bBsdWyPivFO_OeF-y+g@mail.gmail.com> <156763534546.18676.3530557439501101639.stgit@warthog.procyon.org.uk> <CAHk-=wh5ZNE9pBwrnr5MX3iqkUP4nspz17rtozrSxs5-OGygNw@mail.gmail.com> <17703.1567702907@warthog.procyon.org.uk> <CAHk-=wjQ5Fpv0D7rxX0W=obx9xoOAxJ_Cr+pGCYOAi2S9FiCNg@mail.gmail.com> <CAKCoTu7ms_Mr-q08d9XB3uascpzwBa5LF9JTT2aq8uUsoFE8aQ@mail.gmail.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     dhowells@redhat.com, Ray Strode <rstrode@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Steven Whitehouse <swhiteho@redhat.com>,
-        Nicolas Dichtel <nicolas.dichtel@6wind.com>, raven@themaw.net,
-        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-block <linux-block@vger.kernel.org>,
-        Christian Brauner <christian@brauner.io>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        "Ray, Debarshi" <debarshi.ray@gmail.com>,
-        Robbie Harwood <rharwood@redhat.com>
-Subject: Re: Why add the general notification queue and its sources
+        id S1732649AbfIEWAo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 5 Sep 2019 18:00:44 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:46923 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726323AbfIEWAn (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 5 Sep 2019 18:00:43 -0400
+Received: by mail-pg1-f193.google.com with SMTP id m3so2191992pgv.13;
+        Thu, 05 Sep 2019 15:00:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=T+9biPh5RdrW3Egc82kqY4BMucKCWo26PBUBGrS3wzk=;
+        b=Vvil7N+/c/iMDJFFYPxEHJp/sebIu8IGWwqgJfTbbEweScFC1wLVuSZwWkL7u3i3fE
+         xqcYjtEkACE71xV7tRLCZNPBD8NWk0yOcdf3Ur4q6AdZmuww7xhIaU/WDwYRiEWbl8WE
+         /OpKt4n64SsDIBwT6aD1eNh7n6B8er2AbM+VoUsKwId1/fHBneBpB9Zjnau7hljToDAq
+         s+TF1ebSL5RuphLkNkXHodds6qjKVAp+U4OyaiMLkVIMVLlq2UNSKw64GNOPOrN6h11M
+         Q/6pt1Z7Wlj/g7AvpCfWCXowELkGV3hhvYiU2cYDIcx3NIaJWSzRebXpUDYE9NWDhyII
+         k9nQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=T+9biPh5RdrW3Egc82kqY4BMucKCWo26PBUBGrS3wzk=;
+        b=cSgamYVzvsvSnL18tpDPSF6cR+88myxAVb3w2V5Q5Iq8pgPKIdWyWxtn8DCOalGMGx
+         8aLHsVvov7ZeyionP/31QnKfFy4xkdHxTec1Cw+T+8s326bSNWythaOCJ3qGZT8WLFv6
+         XqEWKbe6gL5uCkq3Qc1hPxqxeHjELDUbEVWHvctzZdpMicHHmL9yPtGvE8NKLLg+Kk/j
+         jQllNuUh6yhbctrSY0vkOTRoYTItT32NeS70O8rTmsgc7MMQDl2pP4vHMgalHOiCmCtu
+         i728td7Uqx55U6mwJSP/LZN+rpP7FWWCxX1u1c8oop/WkVmb25royYjSYTdFkNZTe3yz
+         y0WA==
+X-Gm-Message-State: APjAAAX2tant3hLBFRTGQPPpJwEHHTz20FMyHwQkmn4+raLJuJPGm/Y6
+        4YvqiPHKXNOcIVaZaFzW79o=
+X-Google-Smtp-Source: APXvYqwyWsK3WYFmy64R5CSfPTnoVaKbqtPOBBjm2VGzu8inS0r9f2K/ygXlcME/GbUYJNw+o1IAmg==
+X-Received: by 2002:aa7:9343:: with SMTP id 3mr6521647pfn.145.1567720842369;
+        Thu, 05 Sep 2019 15:00:42 -0700 (PDT)
+Received: from ast-mbp.dhcp.thefacebook.com ([2620:10d:c090:200::3:267c])
+        by smtp.gmail.com with ESMTPSA id h12sm3975050pgr.8.2019.09.05.15.00.40
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 05 Sep 2019 15:00:41 -0700 (PDT)
+Date:   Thu, 5 Sep 2019 15:00:40 -0700
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+To:     Daniel Borkmann <daniel@iogearbox.net>
+Cc:     Alexei Starovoitov <ast@fb.com>,
+        "nicolas.dichtel@6wind.com" <nicolas.dichtel@6wind.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        "luto@amacapital.net" <luto@amacapital.net>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+        Kernel Team <Kernel-team@fb.com>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
+Subject: Re: [PATCH v2 bpf-next 2/3] bpf: implement CAP_BPF
+Message-ID: <20190905220038.77qqrkrqmjtco6ld@ast-mbp.dhcp.thefacebook.com>
+References: <20190829051253.1927291-1-ast@kernel.org>
+ <20190829051253.1927291-2-ast@kernel.org>
+ <ed8796f5-eaea-c87d-ddd9-9d624059e5ee@iogearbox.net>
+ <20190829173034.up5g74onaekp53zd@ast-mbp.dhcp.thefacebook.com>
+ <59ac111e-7ce7-5e00-32c9-9b55482fe701@6wind.com>
+ <46df2c36-4276-33c0-626b-c51e77b3a04f@fb.com>
+ <5e36a193-8ad9-77e7-e2ff-429fb521a79c@iogearbox.net>
+ <99acd443-69d7-f53a-1af0-263e0b73abef@fb.com>
+ <acc09eaf-5289-9457-3ce1-f27efb6013b8@iogearbox.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <5395.1567719164.1@warthog.procyon.org.uk>
-Date:   Thu, 05 Sep 2019 22:32:44 +0100
-Message-ID: <5396.1567719164@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2 (mx1.redhat.com [10.5.110.62]); Thu, 05 Sep 2019 21:32:49 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <acc09eaf-5289-9457-3ce1-f27efb6013b8@iogearbox.net>
+User-Agent: NeoMutt/20180223
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Linus Torvalds <torvalds@linux-foundation.org> wrote:
+On Thu, Sep 05, 2019 at 10:37:03AM +0200, Daniel Borkmann wrote:
+> On 9/4/19 5:21 PM, Alexei Starovoitov wrote:
+> > On 9/4/19 8:16 AM, Daniel Borkmann wrote:
+> > > opening/creating BPF maps" error="Unable to create map
+> > > /run/cilium/bpffs/tc/globals/cilium_lxc: operation not permitted"
+> > > subsys=daemon
+> > > 2019-09-04T14:11:47.28178666Z level=fatal msg="Error while creating
+> > > daemon" error="Unable to create map
+> > > /run/cilium/bpffs/tc/globals/cilium_lxc: operation not permitted"
+> > > subsys=daemon
+> > 
+> > Ok. We have to include caps in both cap_sys_admin and cap_bpf then.
+> > 
+> > > And /same/ deployment with reverted patches, hence no CAP_BPF gets it up
+> > > and running again:
+> > > 
+> > > # kubectl get pods --all-namespaces -o wide
+> > 
+> > Can you share what this magic commands do underneath?
+> 
+> What do you mean by magic commands? Latter is showing all pods in the cluster:
+> 
+> https://kubernetes.io/docs/reference/kubectl/cheatsheet/#viewing-finding-resources
 
-> Also, what is the security model here? Open a special character
-> device, and you get access to random notifications from random
-> sources?
->
-> That makes no sense. Do they have the same security permissions?
+"magic" in a sense that I have no idea how k8s "services" and "pods" map
+to kernel namespaces.
 
-Sigh.  It doesn't work like that.  I tried to describe this in the manpages I
-referred to in the cover note.  Obviously I didn't do a good enough job.  Let
-me try and explain the general workings and the security model here.
+> Checking moby go code, it seems to exec with GetAllCapabilities which returns
+> all of the capabilities it is aware of, and afaics, they seem to be using
+> the below go library to get the hard-coded list from where obviously CAP_BPF
+> is unknown which might also explain the breakage I've been seeing:
+> 
+> https://github.com/syndtr/gocapability/blob/33e07d32887e1e06b7c025f27ce52f62c7990bc0/capability/enum_gen.go
 
- (1) /dev/watch_queue just implements locked-in-memory buffers.  It gets you
-     no events by simply opening it.
+thanks for the link.
+That library is much better written than libcap.
+capability_linux.go is reading cap_last_cap dynamically and it can understand
+proposed CAP_BPF, CAP_TRACING without need o be recompiled (unlike libcap).
+So passing new caps to k8s should be trivial. The library won't know
+their names, but passing by number looks to be already supported.
+I'm still not sure which part of k8s setup clears the caps and
+why this v2 set doesn't work, but that doesn't matter any more.
+I believe I addressed this compat issue in v3 set.
+Could you please give a try just repeating your previous commands?
 
-     Each time you open it you get your own private buffer.  Buffers are not
-     shares.  Creation of buffers is limited by ENFILE, EMFILE and
-     RLIMIT_MEMLOCK.
-
- (2) A buffer is implemented as a pollable ring buffer, with the head pointer
-     belonging to the kernel and the tail pointer belonging to userspace.
-     Userspace mmaps the buffer.
-
-     The kernel *only ever* reads the head and tail pointer from a buffer; it
-     never reads anything else.
-
-     When it wants to post a message to a buffer, the kernel reads the
-     pointers and then does one of three things:
-
-	(a) If the pointers were incoherent it drops the message.
-
-	(b) If the buffer was full the kernel writes a flag to indicate this
-	    and drops the message.
-
-	(c) Otherwise, the kernel writes a message and maybe padding at the
-     	    place(s) it expects and writes the head pointer.  If userspace was
-     	    busy trashing the place, that should not cause a problem for the
-     	    kernel.
-
-     The buffer pointers are expected to run to the end and wrap naturally;
-     they're only masked off at the point of actually accessing the buffer.
-
- (3) You connect event sources to your buffer, e.g.:
-
-	fd = open("/dev/watch_queue", ...);
-	keyctl_watch_key(KEY_SPEC_SESSION_KEYRING, fd, ...);
-
-     or:
-
-	watch_mount(AT_FDCWD, "/net", 0, fd, ...);
-
-     Security is checked at the point of connection to make sure you have
-     permission to access that source.  You have to have View permission on a
-     key/keyring for key events, for example, and you have to have execute
-     permission on a directory for mount events.
-
-     The LSM gets a look-in too: Smack checks you have read permission on a
-     key for example.
-
- (4) You can connect multiple sources of different types to your buffer and a
-     source can be connected to multiple buffers at a time.
-
- (5) Security is checked when an event is delivered to make sure the triggerer
-     of the event has permission to give you that event.  Smack requires that
-     the triggerer has write permission on the opener of the buffer for
-     example.
-
- (6) poll() signals POLLIN|POLLRDNORM if there is stuff in the buffer and
-     POLLERR if the pointers are incoherent.
-
-David
