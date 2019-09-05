@@ -2,125 +2,113 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CDA3AAE2B
-	for <lists+linux-api@lfdr.de>; Fri,  6 Sep 2019 00:00:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EA64AAE38
+	for <lists+linux-api@lfdr.de>; Fri,  6 Sep 2019 00:09:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732649AbfIEWAo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 5 Sep 2019 18:00:44 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:46923 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726323AbfIEWAn (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 5 Sep 2019 18:00:43 -0400
-Received: by mail-pg1-f193.google.com with SMTP id m3so2191992pgv.13;
-        Thu, 05 Sep 2019 15:00:42 -0700 (PDT)
+        id S1727004AbfIEWJE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 5 Sep 2019 18:09:04 -0400
+Received: from mail-lj1-f181.google.com ([209.85.208.181]:45214 "EHLO
+        mail-lj1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730617AbfIEWJD (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 5 Sep 2019 18:09:03 -0400
+Received: by mail-lj1-f181.google.com with SMTP id l1so4058224lji.12
+        for <linux-api@vger.kernel.org>; Thu, 05 Sep 2019 15:09:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=T+9biPh5RdrW3Egc82kqY4BMucKCWo26PBUBGrS3wzk=;
-        b=Vvil7N+/c/iMDJFFYPxEHJp/sebIu8IGWwqgJfTbbEweScFC1wLVuSZwWkL7u3i3fE
-         xqcYjtEkACE71xV7tRLCZNPBD8NWk0yOcdf3Ur4q6AdZmuww7xhIaU/WDwYRiEWbl8WE
-         /OpKt4n64SsDIBwT6aD1eNh7n6B8er2AbM+VoUsKwId1/fHBneBpB9Zjnau7hljToDAq
-         s+TF1ebSL5RuphLkNkXHodds6qjKVAp+U4OyaiMLkVIMVLlq2UNSKw64GNOPOrN6h11M
-         Q/6pt1Z7Wlj/g7AvpCfWCXowELkGV3hhvYiU2cYDIcx3NIaJWSzRebXpUDYE9NWDhyII
-         k9nQ==
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3+bS8S77AzTpTBzzxsdlLs0HnCbtRjNnmkiZK0MPy0c=;
+        b=LbASCsGx0k6udtd2AsgFeBhmCaCLrlsklx+62iSSE5Gkytkq0WN1acnDpFn5oCNEQS
+         KMkfsxyWBngO5Ing5S64rk5RN/Socr904CmKtCx01r5GqFjCKXQfIr7B9uXv9DslB2br
+         7qADnXCimEFjoVvgCL5m3EkgAFlL+VHV2J5FE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=T+9biPh5RdrW3Egc82kqY4BMucKCWo26PBUBGrS3wzk=;
-        b=cSgamYVzvsvSnL18tpDPSF6cR+88myxAVb3w2V5Q5Iq8pgPKIdWyWxtn8DCOalGMGx
-         8aLHsVvov7ZeyionP/31QnKfFy4xkdHxTec1Cw+T+8s326bSNWythaOCJ3qGZT8WLFv6
-         XqEWKbe6gL5uCkq3Qc1hPxqxeHjELDUbEVWHvctzZdpMicHHmL9yPtGvE8NKLLg+Kk/j
-         jQllNuUh6yhbctrSY0vkOTRoYTItT32NeS70O8rTmsgc7MMQDl2pP4vHMgalHOiCmCtu
-         i728td7Uqx55U6mwJSP/LZN+rpP7FWWCxX1u1c8oop/WkVmb25royYjSYTdFkNZTe3yz
-         y0WA==
-X-Gm-Message-State: APjAAAX2tant3hLBFRTGQPPpJwEHHTz20FMyHwQkmn4+raLJuJPGm/Y6
-        4YvqiPHKXNOcIVaZaFzW79o=
-X-Google-Smtp-Source: APXvYqwyWsK3WYFmy64R5CSfPTnoVaKbqtPOBBjm2VGzu8inS0r9f2K/ygXlcME/GbUYJNw+o1IAmg==
-X-Received: by 2002:aa7:9343:: with SMTP id 3mr6521647pfn.145.1567720842369;
-        Thu, 05 Sep 2019 15:00:42 -0700 (PDT)
-Received: from ast-mbp.dhcp.thefacebook.com ([2620:10d:c090:200::3:267c])
-        by smtp.gmail.com with ESMTPSA id h12sm3975050pgr.8.2019.09.05.15.00.40
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 05 Sep 2019 15:00:41 -0700 (PDT)
-Date:   Thu, 5 Sep 2019 15:00:40 -0700
-From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
-To:     Daniel Borkmann <daniel@iogearbox.net>
-Cc:     Alexei Starovoitov <ast@fb.com>,
-        "nicolas.dichtel@6wind.com" <nicolas.dichtel@6wind.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        "luto@amacapital.net" <luto@amacapital.net>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-        Kernel Team <Kernel-team@fb.com>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
-Subject: Re: [PATCH v2 bpf-next 2/3] bpf: implement CAP_BPF
-Message-ID: <20190905220038.77qqrkrqmjtco6ld@ast-mbp.dhcp.thefacebook.com>
-References: <20190829051253.1927291-1-ast@kernel.org>
- <20190829051253.1927291-2-ast@kernel.org>
- <ed8796f5-eaea-c87d-ddd9-9d624059e5ee@iogearbox.net>
- <20190829173034.up5g74onaekp53zd@ast-mbp.dhcp.thefacebook.com>
- <59ac111e-7ce7-5e00-32c9-9b55482fe701@6wind.com>
- <46df2c36-4276-33c0-626b-c51e77b3a04f@fb.com>
- <5e36a193-8ad9-77e7-e2ff-429fb521a79c@iogearbox.net>
- <99acd443-69d7-f53a-1af0-263e0b73abef@fb.com>
- <acc09eaf-5289-9457-3ce1-f27efb6013b8@iogearbox.net>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3+bS8S77AzTpTBzzxsdlLs0HnCbtRjNnmkiZK0MPy0c=;
+        b=sjp/TWdj4trp2wUjhVCcON8/nTHfMfc2ZZbdKfTtzeu0ad9Dp6tSoPedI4AQpEK+Wl
+         0m/t6MRZAeRVOw7pSaWLGsD/XFVmTW880ksCgefxzIaOGVFwsBboN4qFcjMH/exO5v8S
+         ehxBNIKsrXuchF/C8i+fGi5gryYitC87a6f7e1qCZOl1h/xTrhlMFnnd6sPkKyOgKZ5G
+         DKHV30pLU7b6xaNM5iSFcUttRafJewK6cjGRI/bUvOtL2Lp9mWtyJx0jZocWJSVrzlg0
+         dNAHmRr90gWLfEXky1japOBhMeRJ5E7sMpMfr4wuU7+WacuZ+rXHAhw69p9ATC1hNYkw
+         Sa2Q==
+X-Gm-Message-State: APjAAAUDehTuFy/9p/rllcUqLbCcQzWO3CG/+A6Dy0vVbCrpmgkysv90
+        aAYf1opQTtm8T6pCXNrrqZocAPixkNw=
+X-Google-Smtp-Source: APXvYqyQkMe+QtEpPWQ1i/CI46et/+Ojwjs41olI507HgHwhsMz+ewYvk+2PUniwmiihaRx14Ke/Ig==
+X-Received: by 2002:a2e:91c6:: with SMTP id u6mr3709982ljg.112.1567721340395;
+        Thu, 05 Sep 2019 15:09:00 -0700 (PDT)
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com. [209.85.167.51])
+        by smtp.gmail.com with ESMTPSA id q19sm769328lfj.9.2019.09.05.15.08.58
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 Sep 2019 15:08:59 -0700 (PDT)
+Received: by mail-lf1-f51.google.com with SMTP id j4so3312525lfh.8
+        for <linux-api@vger.kernel.org>; Thu, 05 Sep 2019 15:08:58 -0700 (PDT)
+X-Received: by 2002:a19:f204:: with SMTP id q4mr3910741lfh.29.1567721338167;
+ Thu, 05 Sep 2019 15:08:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <acc09eaf-5289-9457-3ce1-f27efb6013b8@iogearbox.net>
-User-Agent: NeoMutt/20180223
+References: <156763534546.18676.3530557439501101639.stgit@warthog.procyon.org.uk>
+ <CAHk-=wh5ZNE9pBwrnr5MX3iqkUP4nspz17rtozrSxs5-OGygNw@mail.gmail.com>
+ <17703.1567702907@warthog.procyon.org.uk> <CAHk-=wjQ5Fpv0D7rxX0W=obx9xoOAxJ_Cr+pGCYOAi2S9FiCNg@mail.gmail.com>
+ <CAKCoTu7ms_Mr-q08d9XB3uascpzwBa5LF9JTT2aq8uUsoFE8aQ@mail.gmail.com>
+ <CAHk-=wjcsxQ8QB_v=cwBQw4pkJg7pp-bBsdWyPivFO_OeF-y+g@mail.gmail.com> <5396.1567719164@warthog.procyon.org.uk>
+In-Reply-To: <5396.1567719164@warthog.procyon.org.uk>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Thu, 5 Sep 2019 15:08:42 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgbCXea1a9OTWgMMvcsCGGiNiPp+ty-edZrBWn63NCYdw@mail.gmail.com>
+Message-ID: <CAHk-=wgbCXea1a9OTWgMMvcsCGGiNiPp+ty-edZrBWn63NCYdw@mail.gmail.com>
+Subject: Re: Why add the general notification queue and its sources
+To:     David Howells <dhowells@redhat.com>
+Cc:     Ray Strode <rstrode@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Steven Whitehouse <swhiteho@redhat.com>,
+        Nicolas Dichtel <nicolas.dichtel@6wind.com>, raven@themaw.net,
+        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-block <linux-block@vger.kernel.org>,
+        Christian Brauner <christian@brauner.io>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        "Ray, Debarshi" <debarshi.ray@gmail.com>,
+        Robbie Harwood <rharwood@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Sep 05, 2019 at 10:37:03AM +0200, Daniel Borkmann wrote:
-> On 9/4/19 5:21 PM, Alexei Starovoitov wrote:
-> > On 9/4/19 8:16 AM, Daniel Borkmann wrote:
-> > > opening/creating BPF maps" error="Unable to create map
-> > > /run/cilium/bpffs/tc/globals/cilium_lxc: operation not permitted"
-> > > subsys=daemon
-> > > 2019-09-04T14:11:47.28178666Z level=fatal msg="Error while creating
-> > > daemon" error="Unable to create map
-> > > /run/cilium/bpffs/tc/globals/cilium_lxc: operation not permitted"
-> > > subsys=daemon
-> > 
-> > Ok. We have to include caps in both cap_sys_admin and cap_bpf then.
-> > 
-> > > And /same/ deployment with reverted patches, hence no CAP_BPF gets it up
-> > > and running again:
-> > > 
-> > > # kubectl get pods --all-namespaces -o wide
-> > 
-> > Can you share what this magic commands do underneath?
-> 
-> What do you mean by magic commands? Latter is showing all pods in the cluster:
-> 
-> https://kubernetes.io/docs/reference/kubectl/cheatsheet/#viewing-finding-resources
+On Thu, Sep 5, 2019 at 2:32 PM David Howells <dhowells@redhat.com> wrote:
+>
+>  (1) /dev/watch_queue just implements locked-in-memory buffers.  It gets you
+>      no events by simply opening it.
 
-"magic" in a sense that I have no idea how k8s "services" and "pods" map
-to kernel namespaces.
+Cool. In-memory buffers.
 
-> Checking moby go code, it seems to exec with GetAllCapabilities which returns
-> all of the capabilities it is aware of, and afaics, they seem to be using
-> the below go library to get the hard-coded list from where obviously CAP_BPF
-> is unknown which might also explain the breakage I've been seeing:
-> 
-> https://github.com/syndtr/gocapability/blob/33e07d32887e1e06b7c025f27ce52f62c7990bc0/capability/enum_gen.go
+But I know - we *have* one of those. There's already a system call for
+it, and has been forever. One that we then extended to allow people to
+change the buffer size, and do a lot of other things with.
 
-thanks for the link.
-That library is much better written than libcap.
-capability_linux.go is reading cap_last_cap dynamically and it can understand
-proposed CAP_BPF, CAP_TRACING without need o be recompiled (unlike libcap).
-So passing new caps to k8s should be trivial. The library won't know
-their names, but passing by number looks to be already supported.
-I'm still not sure which part of k8s setup clears the caps and
-why this v2 set doesn't work, but that doesn't matter any more.
-I believe I addressed this compat issue in v3 set.
-Could you please give a try just repeating your previous commands?
+It's called "pipe()". And you can give the writing side to other user
+space processes too, in case you are running an older kernel that
+didn't have some "event pipe support". It comes with resource
+management, because people already use those things.
 
+If you want to make a message protocol on top of it, it has cool
+atomicity guarantees for any message size less than PIPE_BUF, but to
+make things simple, maybe just say "fixed record sizes of 64 bytes" or
+something like that for events.
+
+Then you can use them from things like perl scripts, not just magical
+C programs.
+
+Why do we need a new kind of super-fancy high-speed thing for event reporting?
+
+If you have *so* many events that pipe handling is a performance
+issue, you have something seriously wrong going on.
+
+So no. I'm not interested in a magical memory-mapped pipe that is
+actually more limited than the real thing.
+
+                  Linus
