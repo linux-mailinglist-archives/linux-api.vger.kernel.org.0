@@ -2,258 +2,104 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E25D3A9BE7
-	for <lists+linux-api@lfdr.de>; Thu,  5 Sep 2019 09:33:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 604D6A9D26
+	for <lists+linux-api@lfdr.de>; Thu,  5 Sep 2019 10:37:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726175AbfIEHci (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 5 Sep 2019 03:32:38 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:60790 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726032AbfIEHch (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 5 Sep 2019 03:32:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=4t74LAQ8HoNYAg0doAzYeg6TjlgtY7XOq8PTAR8Aews=; b=AJRabzewRFq+7OIffGLOihagu
-        Q6x11cx7vH4lTSeXsd4sAIih6IBnXO0V0QVaYKYPuOX5IyCWWNG/A5IpMM7XxnP5h6RLlcaHT7zAl
-        Fno/b6maUNUFsIFZfcSZQfkojE92I1guZML9x4l93b6YVf0uAT4pU5Fy9CwtrM/pmFvkV07Tl/NDH
-        UWkPdVlV3t+bv3MIvz+w7aolGCsHgXfQaMgu8S2KGM3coJTlVXl+SJRvUIqp+hXS+wtnXq+q3pBAn
-        iaVF6fnqduZ0Uuod15wKkSs509rKcOJZLU443oqaQooqsVuFFvY8MOtj86gBpYi+ToNnI/idUssy/
-        WNhx5pafw==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1i5mFW-0005ul-GL; Thu, 05 Sep 2019 07:32:10 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 73B24306038;
-        Thu,  5 Sep 2019 09:31:28 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 550C129DE6C22; Thu,  5 Sep 2019 09:32:05 +0200 (CEST)
-Date:   Thu, 5 Sep 2019 09:32:05 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Aleksa Sarai <cyphar@cyphar.com>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J. Bruce Fields" <bfields@fieldses.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        David Howells <dhowells@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Christian Brauner <christian@brauner.io>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Tycho Andersen <tycho@tycho.ws>,
-        David Drysdale <drysdale@google.com>,
-        Chanho Min <chanho.min@lge.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Aleksa Sarai <asarai@suse.de>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        containers@lists.linux-foundation.org, linux-alpha@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-ia64@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-        linux-xtensa@linux-xtensa.org, sparclinux@vger.kernel.org
-Subject: Re: [PATCH v12 01/12] lib: introduce copy_struct_{to,from}_user
- helpers
-Message-ID: <20190905073205.GY2332@hirez.programming.kicks-ass.net>
-References: <20190904201933.10736-1-cyphar@cyphar.com>
- <20190904201933.10736-2-cyphar@cyphar.com>
+        id S1731615AbfIEIhU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 5 Sep 2019 04:37:20 -0400
+Received: from www62.your-server.de ([213.133.104.62]:51468 "EHLO
+        www62.your-server.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731190AbfIEIhU (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 5 Sep 2019 04:37:20 -0400
+Received: from sslproxy06.your-server.de ([78.46.172.3])
+        by www62.your-server.de with esmtpsa (TLSv1.2:DHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.89_1)
+        (envelope-from <daniel@iogearbox.net>)
+        id 1i5nGK-0000Nk-Vz; Thu, 05 Sep 2019 10:37:05 +0200
+Received: from [2a02:120b:2c12:c120:71a0:62dd:894c:fd0e] (helo=pc-66.home)
+        by sslproxy06.your-server.de with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.89)
+        (envelope-from <daniel@iogearbox.net>)
+        id 1i5nGK-000BkL-Jd; Thu, 05 Sep 2019 10:37:04 +0200
+Subject: Re: [PATCH v2 bpf-next 2/3] bpf: implement CAP_BPF
+To:     Alexei Starovoitov <ast@fb.com>,
+        "nicolas.dichtel@6wind.com" <nicolas.dichtel@6wind.com>,
+        Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc:     Alexei Starovoitov <ast@kernel.org>,
+        "luto@amacapital.net" <luto@amacapital.net>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+        Kernel Team <Kernel-team@fb.com>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
+References: <20190829051253.1927291-1-ast@kernel.org>
+ <20190829051253.1927291-2-ast@kernel.org>
+ <ed8796f5-eaea-c87d-ddd9-9d624059e5ee@iogearbox.net>
+ <20190829173034.up5g74onaekp53zd@ast-mbp.dhcp.thefacebook.com>
+ <59ac111e-7ce7-5e00-32c9-9b55482fe701@6wind.com>
+ <46df2c36-4276-33c0-626b-c51e77b3a04f@fb.com>
+ <5e36a193-8ad9-77e7-e2ff-429fb521a79c@iogearbox.net>
+ <99acd443-69d7-f53a-1af0-263e0b73abef@fb.com>
+From:   Daniel Borkmann <daniel@iogearbox.net>
+Message-ID: <acc09eaf-5289-9457-3ce1-f27efb6013b8@iogearbox.net>
+Date:   Thu, 5 Sep 2019 10:37:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190904201933.10736-2-cyphar@cyphar.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <99acd443-69d7-f53a-1af0-263e0b73abef@fb.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Authenticated-Sender: daniel@iogearbox.net
+X-Virus-Scanned: Clear (ClamAV 0.100.3/25562/Wed Sep  4 10:23:03 2019)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Sep 05, 2019 at 06:19:22AM +1000, Aleksa Sarai wrote:
-> +/**
-> + * copy_struct_to_user: copy a struct to user space
-> + * @dst:   Destination address, in user space.
-> + * @usize: Size of @dst struct.
-> + * @src:   Source address, in kernel space.
-> + * @ksize: Size of @src struct.
-> + *
-> + * Copies a struct from kernel space to user space, in a way that guarantees
-> + * backwards-compatibility for struct syscall arguments (as long as future
-> + * struct extensions are made such that all new fields are *appended* to the
-> + * old struct, and zeroed-out new fields have the same meaning as the old
-> + * struct).
-> + *
-> + * @ksize is just sizeof(*dst), and @usize should've been passed by user space.
-> + * The recommended usage is something like the following:
-> + *
-> + *   SYSCALL_DEFINE2(foobar, struct foo __user *, uarg, size_t, usize)
-> + *   {
-> + *      int err;
-> + *      struct foo karg = {};
-> + *
-> + *      // do something with karg
-> + *
-> + *      err = copy_struct_to_user(uarg, usize, &karg, sizeof(karg));
-> + *      if (err)
-> + *        return err;
-> + *
-> + *      // ...
-> + *   }
-> + *
-> + * There are three cases to consider:
-> + *  * If @usize == @ksize, then it's copied verbatim.
-> + *  * If @usize < @ksize, then kernel space is "returning" a newer struct to an
-> + *    older user space. In order to avoid user space getting incomplete
-> + *    information (new fields might be important), all trailing bytes in @src
-> + *    (@ksize - @usize) must be zerored
+On 9/4/19 5:21 PM, Alexei Starovoitov wrote:
+> On 9/4/19 8:16 AM, Daniel Borkmann wrote:
+>> opening/creating BPF maps" error="Unable to create map
+>> /run/cilium/bpffs/tc/globals/cilium_lxc: operation not permitted"
+>> subsys=daemon
+>> 2019-09-04T14:11:47.28178666Z level=fatal msg="Error while creating
+>> daemon" error="Unable to create map
+>> /run/cilium/bpffs/tc/globals/cilium_lxc: operation not permitted"
+>> subsys=daemon
+> 
+> Ok. We have to include caps in both cap_sys_admin and cap_bpf then.
+> 
+>> And /same/ deployment with reverted patches, hence no CAP_BPF gets it up
+>> and running again:
+>>
+>> # kubectl get pods --all-namespaces -o wide
+> 
+> Can you share what this magic commands do underneath?
 
-s/zerored/zero/, right?
+What do you mean by magic commands? Latter is showing all pods in the cluster:
 
->                                          , otherwise -EFBIG is returned.
+https://kubernetes.io/docs/reference/kubectl/cheatsheet/#viewing-finding-resources
 
-'Funny' that, copy_struct_from_user() below seems to use E2BIG.
+I've only been using the normal kubeadm guide for setup, it's pretty straight
+forward, just the kubeadm init to bootstrap and then the kubectl create for
+deploying if you need to give it a spin for testing:
 
-> + *  * If @usize > @ksize, then the kernel is "returning" an older struct to a
-> + *    newer user space. The trailing bytes in @dst (@usize - @ksize) will be
-> + *    zero-filled.
-> + *
-> + * Returns (in all cases, some data may have been copied):
-> + *  * -EFBIG:  (@usize < @ksize) and there are non-zero trailing bytes in @src.
-> + *  * -EFAULT: access to user space failed.
-> + */
-> +int copy_struct_to_user(void __user *dst, size_t usize,
-> +			const void *src, size_t ksize)
-> +{
-> +	size_t size = min(ksize, usize);
-> +	size_t rest = abs(ksize - usize);
-> +
-> +	if (unlikely(usize > PAGE_SIZE))
-> +		return -EFAULT;
+https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#tabs-pod-install-4
 
-Not documented above. Implementation consistent with *from*, but see
-below.
+> What user do they pick to start under? and what caps are granted?
 
-> +	if (unlikely(!access_ok(dst, usize)))
-> +		return -EFAULT;
-> +
-> +	/* Deal with trailing bytes. */
-> +	if (usize < ksize) {
-> +		if (memchr_inv(src + size, 0, rest))
-> +			return -EFBIG;
-> +	} else if (usize > ksize) {
-> +		if (__memzero_user(dst + size, rest))
-> +			return -EFAULT;
-> +	}
-> +	/* Copy the interoperable parts of the struct. */
-> +	if (__copy_to_user(dst, src, size))
-> +		return -EFAULT;
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(copy_struct_to_user);
-> +
-> +/**
-> + * copy_struct_from_user: copy a struct from user space
-> + * @dst:   Destination address, in kernel space. This buffer must be @ksize
-> + *         bytes long.
-> + * @ksize: Size of @dst struct.
-> + * @src:   Source address, in user space.
-> + * @usize: (Alleged) size of @src struct.
-> + *
-> + * Copies a struct from user space to kernel space, in a way that guarantees
-> + * backwards-compatibility for struct syscall arguments (as long as future
-> + * struct extensions are made such that all new fields are *appended* to the
-> + * old struct, and zeroed-out new fields have the same meaning as the old
-> + * struct).
-> + *
-> + * @ksize is just sizeof(*dst), and @usize should've been passed by user space.
-> + * The recommended usage is something like the following:
-> + *
-> + *   SYSCALL_DEFINE2(foobar, const struct foo __user *, uarg, size_t, usize)
-> + *   {
-> + *      int err;
-> + *      struct foo karg = {};
-> + *
-> + *      err = copy_struct_from_user(&karg, sizeof(karg), uarg, size);
-> + *      if (err)
-> + *        return err;
-> + *
-> + *      // ...
-> + *   }
-> + *
-> + * There are three cases to consider:
-> + *  * If @usize == @ksize, then it's copied verbatim.
-> + *  * If @usize < @ksize, then the user space has passed an old struct to a
-> + *    newer kernel. The rest of the trailing bytes in @dst (@ksize - @usize)
-> + *    are to be zero-filled.
-> + *  * If @usize > @ksize, then the user space has passed a new struct to an
-> + *    older kernel. The trailing bytes unknown to the kernel (@usize - @ksize)
-> + *    are checked to ensure they are zeroed, otherwise -E2BIG is returned.
-> + *
-> + * Returns (in all cases, some data may have been copied):
-> + *  * -E2BIG:  (@usize > @ksize) and there are non-zero trailing bytes in @src.
-> + *  * -E2BIG:  @usize is "too big" (at time of writing, >PAGE_SIZE).
-> + *  * -EFAULT: access to user space failed.
-> + */
-> +int copy_struct_from_user(void *dst, size_t ksize,
-> +			  const void __user *src, size_t usize)
-> +{
-> +	size_t size = min(ksize, usize);
-> +	size_t rest = abs(ksize - usize);
-> +
-> +	if (unlikely(usize > PAGE_SIZE))
-> +		return -EFAULT;
+The deployment is using a 'securityContext' with 'privileged: true' for the
+the container spec as majority of CNIs do. My understanding is that this is
+passed down to the underlying container runtime e.g. docker as one option.
 
-Documented above as returning -E2BIG.
+Checking moby go code, it seems to exec with GetAllCapabilities which returns
+all of the capabilities it is aware of, and afaics, they seem to be using
+the below go library to get the hard-coded list from where obviously CAP_BPF
+is unknown which might also explain the breakage I've been seeing:
 
-> +	if (unlikely(!access_ok(src, usize)))
-> +		return -EFAULT;
-> +
-> +	/* Deal with trailing bytes. */
-> +	if (usize < ksize)
-> +		memset(dst + size, 0, rest);
-> +	else if (usize > ksize) {
-> +		const void __user *addr = src + size;
-> +		char buffer[BUFFER_SIZE] = {};
+https://github.com/syndtr/gocapability/blob/33e07d32887e1e06b7c025f27ce52f62c7990bc0/capability/enum_gen.go
 
-Isn't that too big for on-stack?
-
-> +
-> +		while (rest > 0) {
-> +			size_t bufsize = min(rest, sizeof(buffer));
-> +
-> +			if (__copy_from_user(buffer, addr, bufsize))
-> +				return -EFAULT;
-> +			if (memchr_inv(buffer, 0, bufsize))
-> +				return -E2BIG;
-> +
-> +			addr += bufsize;
-> +			rest -= bufsize;
-> +		}
-
-The perf implementation uses get_user(); but if that is too slow, surely
-we can do something with uaccess_try() here?
-
-> +	}
-> +	/* Copy the interoperable parts of the struct. */
-> +	if (__copy_from_user(dst, src, size))
-> +		return -EFAULT;
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(copy_struct_from_user);
-
-And personally I'm not a big fan of EXPORT_SYMBOL().
+Thanks,
+Daniel
