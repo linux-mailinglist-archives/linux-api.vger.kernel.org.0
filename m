@@ -2,75 +2,146 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 34174AAF01
-	for <lists+linux-api@lfdr.de>; Fri,  6 Sep 2019 01:18:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 43A52AAF56
+	for <lists+linux-api@lfdr.de>; Fri,  6 Sep 2019 01:52:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727521AbfIEXSd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 5 Sep 2019 19:18:33 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33794 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725945AbfIEXSd (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 5 Sep 2019 19:18:33 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 08B4DC057E9A;
-        Thu,  5 Sep 2019 23:18:33 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-120-255.rdu2.redhat.com [10.10.120.255])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 9AB5E60BE1;
-        Thu,  5 Sep 2019 23:18:29 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <CAHk-=wgbCXea1a9OTWgMMvcsCGGiNiPp+ty-edZrBWn63NCYdw@mail.gmail.com>
-References: <CAHk-=wgbCXea1a9OTWgMMvcsCGGiNiPp+ty-edZrBWn63NCYdw@mail.gmail.com> <156763534546.18676.3530557439501101639.stgit@warthog.procyon.org.uk> <CAHk-=wh5ZNE9pBwrnr5MX3iqkUP4nspz17rtozrSxs5-OGygNw@mail.gmail.com> <17703.1567702907@warthog.procyon.org.uk> <CAHk-=wjQ5Fpv0D7rxX0W=obx9xoOAxJ_Cr+pGCYOAi2S9FiCNg@mail.gmail.com> <CAKCoTu7ms_Mr-q08d9XB3uascpzwBa5LF9JTT2aq8uUsoFE8aQ@mail.gmail.com> <CAHk-=wjcsxQ8QB_v=cwBQw4pkJg7pp-bBsdWyPivFO_OeF-y+g@mail.gmail.com> <5396.1567719164@warthog.procyon.org.uk>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     dhowells@redhat.com, Ray Strode <rstrode@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Steven Whitehouse <swhiteho@redhat.com>,
-        Nicolas Dichtel <nicolas.dichtel@6wind.com>, raven@themaw.net,
-        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-block <linux-block@vger.kernel.org>,
+        id S2390066AbfIEXwK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 5 Sep 2019 19:52:10 -0400
+Received: from zeniv.linux.org.uk ([195.92.253.2]:44158 "EHLO
+        ZenIV.linux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389851AbfIEXwJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 5 Sep 2019 19:52:09 -0400
+Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92.1 #3 (Red Hat Linux))
+        id 1i61VY-0003aC-Me; Thu, 05 Sep 2019 23:49:44 +0000
+Date:   Fri, 6 Sep 2019 00:49:44 +0100
+From:   Al Viro <viro@zeniv.linux.org.uk>
+To:     Aleksa Sarai <cyphar@cyphar.com>
+Cc:     Jeff Layton <jlayton@kernel.org>,
+        "J. Bruce Fields" <bfields@fieldses.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        David Howells <dhowells@redhat.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
         Christian Brauner <christian@brauner.io>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        "Ray, Debarshi" <debarshi.ray@gmail.com>,
-        Robbie Harwood <rharwood@redhat.com>
-Subject: Re: Why add the general notification queue and its sources
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>, Tycho Andersen <tycho@tycho.ws>,
+        David Drysdale <drysdale@google.com>,
+        Chanho Min <chanho.min@lge.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Aleksa Sarai <asarai@suse.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        containers@lists.linux-foundation.org, linux-alpha@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        linux-xtensa@linux-xtensa.org, sparclinux@vger.kernel.org
+Subject: Re: [PATCH v12 01/12] lib: introduce copy_struct_{to,from}_user
+ helpers
+Message-ID: <20190905234944.GT1131@ZenIV.linux.org.uk>
+References: <20190904201933.10736-1-cyphar@cyphar.com>
+ <20190904201933.10736-2-cyphar@cyphar.com>
+ <20190905180750.GQ1131@ZenIV.linux.org.uk>
+ <20190905230003.bek7vqdvruzi4ybx@yavin.dot.cyphar.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <14882.1567725508.1@warthog.procyon.org.uk>
-Date:   Fri, 06 Sep 2019 00:18:28 +0100
-Message-ID: <14883.1567725508@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.32]); Thu, 05 Sep 2019 23:18:33 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190905230003.bek7vqdvruzi4ybx@yavin.dot.cyphar.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Linus Torvalds <torvalds@linux-foundation.org> wrote:
-
-> But I know - we *have* one of those. There's already a system call for
-> it, and has been forever. One that we then extended to allow people to
-> change the buffer size, and do a lot of other things with.
+On Fri, Sep 06, 2019 at 09:00:03AM +1000, Aleksa Sarai wrote:
+> > > +			return -EFAULT;
+> > > +	}
+> > > +	/* Copy the interoperable parts of the struct. */
+> > > +	if (__copy_to_user(dst, src, size))
+> > > +		return -EFAULT;
+> > 
+> > Why not simply clear_user() and copy_to_user()?
 > 
-> It's called "pipe()". And you can give the writing side to other user
-> space processes too, in case you are running an older kernel that
-> didn't have some "event pipe support". It comes with resource
-> management, because people already use those things.
+> I'm not sure I understand what you mean -- are you asking why we need to
+> do memchr_inv(src + size, 0, rest) earlier?
 
-Can you write into a pipe from softirq context and/or with spinlocks held
-and/or with the RCU read lock held?  That is a requirement.  Another is that
-messages get inserted whole or not at all (or if they are truncated, the size
-field gets updated).
+I'm asking why bother with __ and separate access_ok().
 
-Since one end would certainly be attached to an fd, it looks on the face of it
-that writing into the pipe would require taking pipe->mutex.
+> > 	if ((unsigned long)addr & 1) {
+> > 		u8 v;
+> > 		if (get_user(v, (__u8 __user *)addr))
+> > 			return -EFAULT;
+> > 		if (v)
+> > 			return -E2BIG;
+> > 		addr++;
+> > 	}
+> > 	if ((unsigned long)addr & 2) {
+> > 		u16 v;
+> > 		if (get_user(v, (__u16 __user *)addr))
+> > 			return -EFAULT;
+> > 		if (v)
+> > 			return -E2BIG;
+> > 		addr +=2;
+> > 	}
+> > 	if ((unsigned long)addr & 4) {
+> > 		u32 v;
+> > 		if (get_user(v, (__u32 __user *)addr))
+> > 			return -EFAULT;
+> > 		if (v)
+> > 			return -E2BIG;
+> > 	}
+> > 	<read the rest like you currently do>
 
-David
+Actually, this is a dumb way to do it - page size on anything
+is going to be a multiple of 8, so you could just as well
+read 8 bytes from an address aligned down.  Then mask the
+bytes you don't want to check out and see if there's anything
+left.
+
+You can have readability boundaries inside a page - it's either
+the entire page (let alone a single word) being readable, or
+it's EFAULT for all parts.
+
+> > would be saner, and things like x86 could trivially add an
+> > asm variant - it's not hard.  Incidentally, memchr_inv() is
+> > an overkill in this case...
+> 
+> Why is memchr_inv() overkill?
+
+Look at its implementation; you only care if there are
+non-zeroes, you don't give a damn where in the buffer
+the first one would be.  All you need is the same logics
+as in "from userland" case
+	if (!count)
+		return true;
+	offset = (unsigned long)from & 7
+	p = (u64 *)(from - offset);
+	v = *p++;
+	if (offset) {	// unaligned
+		count += offset;
+		v &= ~aligned_byte_mask(offset); // see strnlen_user.c
+	}
+	while (count > 8) {
+		if (v)
+			return false;
+		v = *p++;
+		count -= 8;
+	}
+	if (count != 8)
+		v &= aligned_byte_mask(count);
+	return v == 0;
+
+All there is to it...
