@@ -2,99 +2,90 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EAFD3ABE98
-	for <lists+linux-api@lfdr.de>; Fri,  6 Sep 2019 19:21:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88323ABEA1
+	for <lists+linux-api@lfdr.de>; Fri,  6 Sep 2019 19:23:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387491AbfIFRVA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 6 Sep 2019 13:21:00 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:54469 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729928AbfIFRVA (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Sep 2019 13:21:00 -0400
-Received: from [213.220.153.21] (helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-        (Exim 4.76)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1i6Hum-000463-IN; Fri, 06 Sep 2019 17:20:52 +0000
-Date:   Fri, 6 Sep 2019 19:20:51 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Aleksa Sarai <cyphar@cyphar.com>
-Cc:     =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mickael.salaun@ssi.gouv.fr>,
-        Florian Weimer <fweimer@redhat.com>,
-        =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>,
-        linux-kernel@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Christian Heimes <christian@python.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Eric Chiang <ericchiang@google.com>,
-        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Matthew Garrett <mjg59@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Philippe =?utf-8?Q?Tr=C3=A9buchet?= 
-        <philippe.trebuchet@ssi.gouv.fr>,
-        Scott Shell <scottsh@microsoft.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Song Liu <songliubraving@fb.com>,
-        Steve Dower <steve.dower@python.org>,
-        Steve Grubb <sgrubb@redhat.com>,
-        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
-        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
-        Yves-Alexis Perez <yves-alexis.perez@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2 1/5] fs: Add support for an O_MAYEXEC flag on
- sys_open()
-Message-ID: <20190906172050.v44f43psd6qc6awi@wittgenstein>
-References: <20190906152455.22757-1-mic@digikod.net>
- <20190906152455.22757-2-mic@digikod.net>
- <87ef0te7v3.fsf@oldenburg2.str.redhat.com>
- <75442f3b-a3d8-12db-579a-2c5983426b4d@ssi.gouv.fr>
- <20190906170739.kk3opr2phidb7ilb@yavin.dot.cyphar.com>
+        id S2389210AbfIFRXF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 6 Sep 2019 13:23:05 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:45891 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729928AbfIFRXF (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Sep 2019 13:23:05 -0400
+Received: by mail-lj1-f196.google.com with SMTP id l1so6680479lji.12;
+        Fri, 06 Sep 2019 10:23:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=nn6TPGTw/Cq8S+I4wR0SeuE0g0BvA7xFJW8E5r8GuMI=;
+        b=KV8oU3wTBVeUfjUO9qrWp30S0Cbuz71e5CDH4Mz+R19ArQ9CyYn4xrZhlo93H73waZ
+         p7rG9w74vhh/7F5gUK4PIZLxqdC8n4rtSa3dgTIyLuVHG3cWQcIU3uWtMn9Iv+hoVJEs
+         zMTPTti/x/+2IQIcUuijyicADVdHwUvkODI/gcYNRMnjoWLmBUw8kbxgFdBci/+Gqegn
+         sC5HjQy2FB0SuJ0msK66rk+e3HKzi4QvbPtbOcTt4AcLVeobky0zSyBocojL8AAYE/xg
+         Iswyc+jl3ndFJTHYDt4yzxlo5/DQt3xplVaXQt3j0b+egjCdwEIieEUDlxTAOAJWl+MO
+         zd0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nn6TPGTw/Cq8S+I4wR0SeuE0g0BvA7xFJW8E5r8GuMI=;
+        b=uaH5t7zXjY5iDAwbaAlNkDxBLEdJ8fvbCN7xTeYO+qdJWwcdyUT+NkyLP+LAmKR9C9
+         D02kuRrAlzJ0jd1I/ZILIvVvm0vDFYi7dfUYP/w2IgKn5mMN8k/rMSWxdO0Q/zlK8txC
+         13gG6j0ZX7xIXHC3KAJGRxMsSJbvg5l6eMfUoFtCTVv6vjWdf+o/y3ZC4z86gt+NIdMB
+         ltNVXgduOTcvvSNRQ8hny5b8aTKhJ7NBxruZ8/NXpV7sWlV/2wUXfX5YHKmzEgNRAQzM
+         JXu3A4K5PgnVkPUcMhXNorz+MSFSf2+Px/bcdf9lBNB16bFSMcPS67kxaw/pG4Tsfrkt
+         gHPg==
+X-Gm-Message-State: APjAAAXCi7FJ7J76PpZI4d0ic5hvJCeWII+KbASig6Axc4CHTxRrZTY/
+        D1+KGjMkSqbKZ0irPkaS0xI6Zp5AkcsfmZ2CBqU=
+X-Google-Smtp-Source: APXvYqxQheupr1KnzUmF5yhsKYroyEi/wLBbUUS031ou0X8DvBtA3ymvVS/xo3whND+ydZtvmZTSPzxLXK9wDiupNec=
+X-Received: by 2002:a2e:9955:: with SMTP id r21mr6421858ljj.58.1567790583048;
+ Fri, 06 Sep 2019 10:23:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190906170739.kk3opr2phidb7ilb@yavin.dot.cyphar.com>
-User-Agent: NeoMutt/20180716
+References: <20190904184335.360074-2-ast@kernel.org> <201909070002.v6gbdPOK%lkp@intel.com>
+In-Reply-To: <201909070002.v6gbdPOK%lkp@intel.com>
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date:   Fri, 6 Sep 2019 10:22:51 -0700
+Message-ID: <CAADnVQ+D9JTgqMbx4mfX-9ShpLEdzKpxf1R4Sq9r5-bH+aADZg@mail.gmail.com>
+Subject: Re: [PATCH v3 bpf-next 2/3] bpf: implement CAP_BPF
+To:     kbuild test robot <lkp@intel.com>
+Cc:     Alexei Starovoitov <ast@kernel.org>, kbuild-all@01.org,
+        "David S. Miller" <davem@davemloft.net>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Network Development <netdev@vger.kernel.org>,
+        bpf <bpf@vger.kernel.org>, Kernel Team <kernel-team@fb.com>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Sep 07, 2019 at 03:07:39AM +1000, Aleksa Sarai wrote:
-> On 2019-09-06, Mickaël Salaün <mickael.salaun@ssi.gouv.fr> wrote:
-> > 
-> > On 06/09/2019 17:56, Florian Weimer wrote:
-> > > Let's assume I want to add support for this to the glibc dynamic loader,
-> > > while still being able to run on older kernels.
-> > >
-> > > Is it safe to try the open call first, with O_MAYEXEC, and if that fails
-> > > with EINVAL, try again without O_MAYEXEC?
-> > 
-> > The kernel ignore unknown open(2) flags, so yes, it is safe even for
-> > older kernel to use O_MAYEXEC.
-> 
-> Depends on your definition of "safe" -- a security feature that you will
-> silently not enable on older kernels doesn't sound super safe to me.
-> Unfortunately this is a limitation of open(2) that we cannot change --
-> which is why the openat2(2) proposal I've been posting gives -EINVAL for
-> unknown O_* flags.
-> 
-> There is a way to probe for support (though unpleasant), by creating a
-> test O_MAYEXEC fd and then checking if the flag is present in
-> /proc/self/fdinfo/$n.
+On Fri, Sep 6, 2019 at 9:21 AM kbuild test robot <lkp@intel.com> wrote:
+>
+> Hi Alexei,
+>
+> I love your patch! Perhaps something to improve:
+>
+> [auto build test WARNING on bpf-next/master]
+>
+> url:    https://github.com/0day-ci/linux/commits/Alexei-Starovoitov/capability-introduce-CAP_BPF-and-CAP_TRACING/20190906-215814
+> base:   https://kernel.googlesource.com/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+> config: x86_64-allmodconfig (attached as .config)
+> compiler: gcc-7 (Debian 7.4.0-11) 7.4.0
+> reproduce:
+>         # save the attached .config to linux build tree
+>         make ARCH=x86_64
+>
+> If you fix the issue, kindly add following tag
+> Reported-by: kbuild test robot <lkp@intel.com>
+>
+> All warnings (new ones prefixed by >>):
+>
+>    kernel//bpf/syscall.c: In function 'bpf_prog_test_run':
+> >> kernel//bpf/syscall.c:2087:6: warning: the address of 'capable_bpf_net_admin' will always evaluate as 'true' [-Waddress]
+>      if (!capable_bpf_net_admin)
+>          ^
 
-Which Florian said they can't do for various reasons.
-
-It is a major painpoint if there's no easy way for userspace to probe
-for support. Especially if it's security related which usually means
-that you want to know whether this feature works or not.
-
-Christian
+argh. fixing and rebasing.
