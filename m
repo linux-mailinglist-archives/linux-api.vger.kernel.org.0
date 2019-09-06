@@ -2,159 +2,103 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BB873AC2A5
-	for <lists+linux-api@lfdr.de>; Sat,  7 Sep 2019 00:44:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 151ABAC2D4
+	for <lists+linux-api@lfdr.de>; Sat,  7 Sep 2019 01:11:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405131AbfIFWoi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 6 Sep 2019 18:44:38 -0400
-Received: from mx2.mailbox.org ([80.241.60.215]:34998 "EHLO mx2.mailbox.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2405124AbfIFWoi (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 6 Sep 2019 18:44:38 -0400
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:105:465:1:1:0])
-        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
-        (No client certificate requested)
-        by mx2.mailbox.org (Postfix) with ESMTPS id 2F49CA018F;
-        Sat,  7 Sep 2019 00:44:35 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp1.mailbox.org ([80.241.60.240])
-        by spamfilter06.heinlein-hosting.de (spamfilter06.heinlein-hosting.de [80.241.56.125]) (amavisd-new, port 10030)
-        with ESMTP id ah2HSFJ0Uz9J; Sat,  7 Sep 2019 00:44:31 +0200 (CEST)
-Date:   Sat, 7 Sep 2019 08:44:10 +1000
-From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     Andy Lutomirski <luto@amacapital.net>
-Cc:     Steve Grubb <sgrubb@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>,
-        linux-kernel@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Christian Heimes <christian@python.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Eric Chiang <ericchiang@google.com>,
-        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Matthew Garrett <mjg59@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mickael.salaun@ssi.gouv.fr>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Philippe =?utf-8?Q?Tr=C3=A9buchet?= 
-        <philippe.trebuchet@ssi.gouv.fr>,
-        Scott Shell <scottsh@microsoft.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Song Liu <songliubraving@fb.com>,
-        Steve Dower <steve.dower@python.org>,
-        Thibaut S autereau <thibaut.sautereau@ssi.gouv.fr>,
-        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
-        Yves-Alexis Perez <yves-alexis.perez@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2 0/5] Add support for O_MAYEXEC
-Message-ID: <20190906224410.lffd6l5lnm4z3hht@yavin.dot.cyphar.com>
-References: <20190906152455.22757-1-mic@digikod.net>
- <2989749.1YmIBkDdQn@x2>
- <87mufhckxv.fsf@oldenburg2.str.redhat.com>
- <1802966.yheqmZt8Si@x2>
- <C95B704C-F84F-4341-BDE7-CD70C5DDBEEF@amacapital.net>
+        id S2405246AbfIFXLB convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Fri, 6 Sep 2019 19:11:01 -0400
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30]:63268 "EHLO
+        mx0a-00082601.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2405261AbfIFXK6 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Sep 2019 19:10:58 -0400
+Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
+        by m0089730.ppops.net (8.16.0.42/8.16.0.42) with SMTP id x86N9qHC015892
+        for <linux-api@vger.kernel.org>; Fri, 6 Sep 2019 16:10:57 -0700
+Received: from mail.thefacebook.com (mailout.thefacebook.com [199.201.64.23])
+        by m0089730.ppops.net with ESMTP id 2uu6wu6qyc-3
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
+        for <linux-api@vger.kernel.org>; Fri, 06 Sep 2019 16:10:57 -0700
+Received: from mx-out.facebook.com (2620:10d:c081:10::13) by
+ mail.thefacebook.com (2620:10d:c081:35::125) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA) id 15.1.1713.5;
+ Fri, 6 Sep 2019 16:10:54 -0700
+Received: by devbig007.ftw2.facebook.com (Postfix, from userid 572438)
+        id 2A6CF760B80; Fri,  6 Sep 2019 16:10:53 -0700 (PDT)
+Smtp-Origin-Hostprefix: devbig
+From:   Alexei Starovoitov <ast@kernel.org>
+Smtp-Origin-Hostname: devbig007.ftw2.facebook.com
+To:     <davem@davemloft.net>
+CC:     <daniel@iogearbox.net>, <peterz@infradead.org>,
+        <luto@amacapital.net>, <netdev@vger.kernel.org>,
+        <bpf@vger.kernel.org>, <kernel-team@fb.com>,
+        <linux-api@vger.kernel.org>
+Smtp-Origin-Cluster: ftw2c04
+Subject: [PATCH v4 bpf-next 0/4] CAP_BPF and CAP_TRACING
+Date:   Fri, 6 Sep 2019 16:10:49 -0700
+Message-ID: <20190906231053.1276792-1-ast@kernel.org>
+X-Mailer: git-send-email 2.20.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="wklcrvy7q5jmmd7k"
-Content-Disposition: inline
-In-Reply-To: <C95B704C-F84F-4341-BDE7-CD70C5DDBEEF@amacapital.net>
+Content-Transfer-Encoding: 8BIT
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.70,1.0.8
+ definitions=2019-09-06_11:2019-09-04,2019-09-06 signatures=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0 bulkscore=0 phishscore=0
+ lowpriorityscore=0 malwarescore=0 suspectscore=1 impostorscore=0
+ adultscore=0 spamscore=0 mlxlogscore=928 clxscore=1015 priorityscore=1501
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1906280000 definitions=main-1909060226
+X-FB-Internal: deliver
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+v3->v4:
+- rebase and typo fixes
+- split selftests into separate patch
+- update perf* docs with CAP_TRACING
+- add a note to commit log that existing unpriv bpf behavior is not changing
 
---wklcrvy7q5jmmd7k
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+v2->v3:
+- dropped ftrace and kallsyms from CAP_TRACING description.
+  In the future these mechanisms can start using it too.
+- added CAP_SYS_ADMIN backward compatibility.
 
-On 2019-09-06, Andy Lutomirski <luto@amacapital.net> wrote:
-> > On Sep 6, 2019, at 12:07 PM, Steve Grubb <sgrubb@redhat.com> wrote:
-> >=20
-> >> On Friday, September 6, 2019 2:57:00 PM EDT Florian Weimer wrote:
-> >> * Steve Grubb:
-> >>> Now with LD_AUDIT
-> >>> $ LD_AUDIT=3D/home/sgrubb/test/openflags/strip-flags.so.0 strace ./te=
-st
-> >>> 2>&1 | grep passwd openat(3, "passwd", O_RDONLY)           =3D 4
-> >>>=20
-> >>> No O_CLOEXEC flag.
-> >>=20
-> >> I think you need to explain in detail why you consider this a problem.
-> >=20
-> > Because you can strip the O_MAYEXEC flag from being passed into the ker=
-nel.=20
-> > Once you do that, you defeat the security mechanism because it never ge=
-ts=20
-> > invoked. The issue is that the only thing that knows _why_ something is=
- being=20
-> > opened is user space. With this mechanism, you can attempt to pass this=
-=20
-> > reason to the kernel so that it may see if policy permits this. But you=
- can=20
-> > just remove the flag.
->=20
-> I=E2=80=99m with Florian here. Once you are executing code in a process, =
-you
-> could just emulate some other unapproved code. This series is not
-> intended to provide the kind of absolute protection you=E2=80=99re imagin=
-ing.
+Alexei Starovoitov (4):
+  capability: introduce CAP_BPF and CAP_TRACING
+  bpf: implement CAP_BPF
+  perf: implement CAP_TRACING
+  selftests/bpf: use CAP_BPF and CAP_TRACING in tests
 
-I also agree, though I think that there is a separate argument to be
-made that there are two possible problems with O_MAYEXEC (which might
-not be really big concerns):
+ Documentation/admin-guide/perf-security.rst |  4 +-
+ Documentation/admin-guide/sysctl/kernel.rst | 10 ++---
+ arch/powerpc/perf/core-book3s.c             |  4 +-
+ arch/x86/events/intel/bts.c                 |  2 +-
+ arch/x86/events/intel/core.c                |  2 +-
+ arch/x86/events/intel/p4.c                  |  2 +-
+ include/linux/capability.h                  | 18 ++++++++
+ include/uapi/linux/capability.h             | 49 ++++++++++++++++++++-
+ kernel/bpf/arraymap.c                       |  2 +-
+ kernel/bpf/cgroup.c                         |  2 +-
+ kernel/bpf/core.c                           |  4 +-
+ kernel/bpf/hashtab.c                        |  4 +-
+ kernel/bpf/lpm_trie.c                       |  2 +-
+ kernel/bpf/queue_stack_maps.c               |  2 +-
+ kernel/bpf/reuseport_array.c                |  2 +-
+ kernel/bpf/stackmap.c                       |  2 +-
+ kernel/bpf/syscall.c                        | 32 ++++++++------
+ kernel/bpf/verifier.c                       |  2 +-
+ kernel/events/core.c                        | 14 +++---
+ kernel/events/hw_breakpoint.c               |  2 +-
+ kernel/trace/bpf_trace.c                    |  2 +-
+ kernel/trace/trace_event_perf.c             |  4 +-
+ net/core/bpf_sk_storage.c                   |  2 +-
+ net/core/filter.c                           | 10 +++--
+ security/selinux/include/classmap.h         |  4 +-
+ tools/testing/selftests/bpf/test_verifier.c | 46 +++++++++++++++----
+ 26 files changed, 165 insertions(+), 64 deletions(-)
 
-  * It's very footgun-prone if you didn't call O_MAYEXEC yourself and
-    you pass the descriptor elsewhere. You need to check f_flags to see
-    if it contains O_MAYEXEC. Maybe there is an argument to be made that
-    passing O_MAYEXECs around isn't a valid use-case, but in that case
-    there should be some warnings about that.
+-- 
+2.20.0
 
-  * There's effectively a TOCTOU flaw (even if you are sure O_MAYEXEC is
-    in f_flags) -- if the filesystem becomes re-mounted noexec (or the
-    file has a-x permissions) after you've done the check you won't get
-    hit with an error when you go to use the file descriptor later.
-
-To fix both you'd need to do what you mention later:
-
-> What the kernel *could* do is prevent mmapping a non-FMODE_EXEC file
-> with PROT_EXEC, which would indeed have a real effect (in an iOS-like
-> world, for example) but would break many, many things.
-
-And I think this would be useful (with the two possible ways of
-executing .text split into FMODE_EXEC and FMODE_MAP_EXEC, as mentioned
-in a sister subthread), but would have to be opt-in for the obvious
-reason you outlined. However, we could make it the default for
-openat2(2) -- assuming we can agree on what the semantics of a
-theoretical FMODE_EXEC should be.
-
-And of course we'd need to do FMODE_UPGRADE_EXEC (which would need to
-also permit fexecve(2) though probably not PROT_EXEC -- I don't think
-you can mmap() an O_PATH descriptor).
-
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-<https://www.cyphar.com/>
-
---wklcrvy7q5jmmd7k
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCXXLhNwAKCRCdlLljIbnQ
-EqESAP4hGdjnhIiY8PqSsSWOneHYlpSs5PmQeVFEMID7L1q5eQD/VYLQV7Re28+C
-Vwi3t+FOW7oGNIMCuKekC3BbxXyYGA0=
-=kolV
------END PGP SIGNATURE-----
-
---wklcrvy7q5jmmd7k--
