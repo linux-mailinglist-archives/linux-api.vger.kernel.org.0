@@ -2,72 +2,145 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 43290AC1E9
-	for <lists+linux-api@lfdr.de>; Fri,  6 Sep 2019 23:19:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 105E7AC1F9
+	for <lists+linux-api@lfdr.de>; Fri,  6 Sep 2019 23:27:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391195AbfIFVTP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 6 Sep 2019 17:19:15 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49602 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388619AbfIFVTP (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 6 Sep 2019 17:19:15 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 067E2195DB80;
-        Fri,  6 Sep 2019 21:19:15 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-120-255.rdu2.redhat.com [10.10.120.255])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 6272C5D712;
-        Fri,  6 Sep 2019 21:19:11 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <20190906174102.GB2819@mit.edu>
-References: <20190906174102.GB2819@mit.edu> <5396.1567719164@warthog.procyon.org.uk> <CAHk-=wgbCXea1a9OTWgMMvcsCGGiNiPp+ty-edZrBWn63NCYdw@mail.gmail.com> <14883.1567725508@warthog.procyon.org.uk> <CAHk-=wjt2Eb+yEDOcQwCa0SrZ4cWu967OtQG8Vz21c=n5ZP1Nw@mail.gmail.com> <27732.1567764557@warthog.procyon.org.uk> <CAHk-=wiR1fpahgKuxSOQY6OfgjWD+MKz8UF6qUQ6V_y2TC_V6w@mail.gmail.com> <CAHk-=wioHmz69394xKRqFkhK8si86P_704KgcwjKxawLAYAiug@mail.gmail.com> <8e60555e-9247-e03f-e8b4-1d31f70f1221@redhat.com> <CAHk-=wg6=qhw0-F=2_8y=VdT+fj8k7G1+t2XNSkRYimXhampVg@mail.gmail.com> <CAHk-=wjaSzdzYNuQXUSZNkT75Wmfw2v96tekgnV8nOwBQ3h0ig@mail.gmail.com>
-To:     "Theodore Y. Ts'o" <tytso@mit.edu>
-Cc:     dhowells@redhat.com,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Steven Whitehouse <swhiteho@redhat.com>,
-        Ray Strode <rstrode@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Nicolas Dichtel <nicolas.dichtel@6wind.com>, raven@themaw.net,
-        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-block <linux-block@vger.kernel.org>,
-        Christian Brauner <christian@brauner.io>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        "Ray, Debarshi" <debarshi.ray@gmail.com>,
-        Robbie Harwood <rharwood@redhat.com>
-Subject: Re: Why add the general notification queue and its sources
+        id S2404130AbfIFV1d (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 6 Sep 2019 17:27:33 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:41283 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390346AbfIFV1d (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Sep 2019 17:27:33 -0400
+Received: by mail-wr1-f66.google.com with SMTP id h7so6943968wrw.8
+        for <linux-api@vger.kernel.org>; Fri, 06 Sep 2019 14:27:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=wrOUeKLOBiJ84ary/XbohFbZ13Zk1ML2RYjXdtdAXc8=;
+        b=r9+0Nr8WSDe0BeX/xgAvWhVEvW9tH0MuECx4aYmadpoy+3AFNgE6P9zxnYbpi57Qg7
+         oi8mXEOkBqQuZ1KEtgbaT+Pl2O1KbPwC6Vc3Hjpv81mmG+Dl0F6ElTIY2un5As6UNNd8
+         1Nr6igDyk8LhIW78BM3pgjMt6zvMStcW3LOt64HlJVN6uQhJdt6goRVp3jM5WH/6pv2S
+         bMbj9IcbdmWNBc7L0ckUq4/u2TCeVPxp8MB/7bohTe03clXVLIJki9/BahI4idCJLobh
+         H6szFVATb+QD+ne0aA7JwOOrYm0C5HsO4tg2YjOsgyf2nHjIT91yC15X7Jgl3N6l+cFz
+         GTcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=wrOUeKLOBiJ84ary/XbohFbZ13Zk1ML2RYjXdtdAXc8=;
+        b=N1iMqBC2iEunCdoTY67bUvWOJc1y1xS9relOgdAWL2xdOmT1Q5s0Qs8yG+FdU7jdxJ
+         TSLAJG6/H0+ZUFp0zcs/gXEtL+S6tBOe5BIfXhEqKjF76NCD+GkIhicZyIffxMMGKbKv
+         lDdw4Bnigp1BhSCMWKZV/g/0C7RSi/otnc+HJZlswTeP6Rfm67XJn6kWbx2YAuL26tFG
+         NWEDMaDZrRNzc2iPpjUCaySLxF2D84JnYt3ZFkvdDGi3BXqoW82c/ZWUekrd5Tls4dOg
+         DBGtphtjJTO6WxJ1XnwXSGepHZqrZK+8XRD6gqRSlo5d+XuLj4X0xtA58ulK/uZ2ZvoB
+         1GXA==
+X-Gm-Message-State: APjAAAUa/O667Nx7gJcnzmIeg219CopcsMYV3XxKnAjB/MsxxbEGWVzo
+        QaiDx1Qi02S9AGXWHjEqFZOJbTDZdbvmo2g+vpNiiA==
+X-Google-Smtp-Source: APXvYqyQvYUwaDE/LHd6zbqUqBfKDoNlGm2VDQzp7ApQIQOK1Au2qKqEKdxutbrRvuaMW9sopVqvXXG4ciLpqp7XHr8=
+X-Received: by 2002:adf:dcc4:: with SMTP id x4mr1493611wrm.221.1567805250597;
+ Fri, 06 Sep 2019 14:27:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <24429.1567804750.1@warthog.procyon.org.uk>
-Date:   Fri, 06 Sep 2019 22:19:10 +0100
-Message-ID: <24430.1567804750@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2 (mx1.redhat.com [10.5.110.62]); Fri, 06 Sep 2019 21:19:15 +0000 (UTC)
+References: <20190906152455.22757-1-mic@digikod.net> <20190906152455.22757-2-mic@digikod.net>
+ <87ef0te7v3.fsf@oldenburg2.str.redhat.com> <75442f3b-a3d8-12db-579a-2c5983426b4d@ssi.gouv.fr>
+ <f53ec45fd253e96d1c8d0ea6f9cca7f68afa51e3.camel@kernel.org>
+ <20190906171335.d7mc3no5tdrcn6r5@yavin.dot.cyphar.com> <e1ac9428e6b768ac3145aafbe19b24dd6cf410b9.camel@kernel.org>
+ <D2A57C7B-B0FD-424E-9F81-B858FFF21FF0@amacapital.net> <8dc59d585a133e96f9adaf0a148334e7f19058b9.camel@kernel.org>
+In-Reply-To: <8dc59d585a133e96f9adaf0a148334e7f19058b9.camel@kernel.org>
+From:   Andy Lutomirski <luto@amacapital.net>
+Date:   Fri, 6 Sep 2019 14:27:19 -0700
+Message-ID: <CALCETrVR5d2XTpAN8QLRv3cYDfpAdZRNNcD-TtE5H+v7-i7QhQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] fs: Add support for an O_MAYEXEC flag on sys_open()
+To:     Jeff Layton <jlayton@kernel.org>
+Cc:     Aleksa Sarai <cyphar@cyphar.com>,
+        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mickael.salaun@ssi.gouv.fr>,
+        Florian Weimer <fweimer@redhat.com>,
+        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@kernel.org>,
+        Christian Heimes <christian@python.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Eric Chiang <ericchiang@google.com>,
+        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Matthew Garrett <mjg59@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        =?UTF-8?Q?Philippe_Tr=C3=A9buchet?= 
+        <philippe.trebuchet@ssi.gouv.fr>,
+        Scott Shell <scottsh@microsoft.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Song Liu <songliubraving@fb.com>,
+        Steve Dower <steve.dower@python.org>,
+        Steve Grubb <sgrubb@redhat.com>,
+        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
+        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
+        Yves-Alexis Perez <yves-alexis.perez@ssi.gouv.fr>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Theodore Y. Ts'o <tytso@mit.edu> wrote:
+> On Sep 6, 2019, at 1:51 PM, Jeff Layton <jlayton@kernel.org> wrote:
+>
+> On Fri, 2019-09-06 at 13:06 -0700, Andy Lutomirski wrote:
+>
+>> I=E2=80=99m not at all convinced that the kernel needs to distinguish al=
+l these, but at least upgradability should be its own thing IMO.
+>
+> Good point. Upgradability is definitely orthogonal, though the idea
+> there is to alter the default behavior. If the default is NOEXEC then
+> UPGRADE_EXEC would make sense.
+>
+> In any case, I was mostly thinking about the middle two in your list
+> above. After more careful reading of the patches, I now get get that
+> Micka=C3=ABl is more interested in the first, and that's really a differe=
+nt
+> sort of use-case.
+>
+> Most opens never result in the fd being fed to fexecve or mmapped with
+> PROT_EXEC, so having userland explicitly opt-in to allowing that during
+> the open sounds like a reasonable thing to do.
+>
+> But I get that preventing execution via script interpreters of files
+> that are not executable might be something nice to have.
+>
+> Perhaps we need two flags for openat2?
+>
+> OA2_MAYEXEC : test that permissions allow execution and that the file
+> doesn't reside on a noexec mount before allowing the open
+>
+> OA2_EXECABLE : only allow fexecve or mmapping with PROT_EXEC if the fd
+> was opened with this
+>
+>
+>
 
-> Something else which we should consider up front is how to handle the
-> case where you have multiple userspace processes that want to
-> subscribe to the same notification.
+We could go one step farther and have three masks: check_perms,
+fd_perms, and upgrade_perms.  check_perms says =E2=80=9Cfail if I don=E2=80=
+=99t have
+these perms=E2=80=9D.  fd_perms is the permissions on the returned fd, and
+upgrade_perms is the upgrade mask.  (fd_perms  & ~check_perms) !=3D 0 is
+an error.  This makes it possible to say "I want to make sure the file
+is writable, but I don't actually want to write to it", which could
+plausibly be useful.
 
-I have that.
+I would argue that these things should have new, sane bits, e.g.
+FILE_READ, FILE_WRITE, and FILE_EXECUTE (or maybe FILE_MAP_EXEC and
+FILE_EXECVE).  And maybe there should be at least 16 bits for each
+mask reserved.  Windows has a lot more mode bits than Linux, and it's
+not entirely nuts.  We do *not* need any direct equivalent of O_RDWR
+for openat2().
 
-> This also implies that we'll need to have some kind of standard header
-> at the beginning to specify the source of a particular notification
-> message.
-
-That too.
-
-David
+--Andy
