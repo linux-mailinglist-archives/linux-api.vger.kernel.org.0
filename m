@@ -2,146 +2,200 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 74B04ABC56
-	for <lists+linux-api@lfdr.de>; Fri,  6 Sep 2019 17:26:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E0DA3ABCD1
+	for <lists+linux-api@lfdr.de>; Fri,  6 Sep 2019 17:43:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404296AbfIFP0i (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 6 Sep 2019 11:26:38 -0400
-Received: from smtp-sh2.infomaniak.ch ([128.65.195.6]:57071 "EHLO
-        smtp-sh2.infomaniak.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404126AbfIFP0i (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Sep 2019 11:26:38 -0400
-Received: from smtp5.infomaniak.ch (smtp5.infomaniak.ch [83.166.132.18])
-        by smtp-sh2.infomaniak.ch (8.14.4/8.14.4/Debian-8+deb8u2) with ESMTP id x86FP9Ih086018
-        (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 6 Sep 2019 17:25:09 +0200
-Received: from localhost (ns3096276.ip-94-23-54.eu [94.23.54.103])
-        (authenticated bits=0)
-        by smtp5.infomaniak.ch (8.14.5/8.14.5) with ESMTP id x86FP9Sx047701;
-        Fri, 6 Sep 2019 17:25:09 +0200
-From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
-To:     linux-kernel@vger.kernel.org
-Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Christian Heimes <christian@python.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Eric Chiang <ericchiang@google.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Matthew Garrett <mjg59@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mickael.salaun@ssi.gouv.fr>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        =?UTF-8?q?Philippe=20Tr=C3=A9buchet?= 
-        <philippe.trebuchet@ssi.gouv.fr>,
-        Scott Shell <scottsh@microsoft.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Song Liu <songliubraving@fb.com>,
-        Steve Dower <steve.dower@python.org>,
-        Steve Grubb <sgrubb@redhat.com>,
-        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
-        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
-        Yves-Alexis Perez <yves-alexis.perez@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Subject: [PATCH v2 5/5] doc: Add documentation for the fs.open_mayexec_enforce sysctl
-Date:   Fri,  6 Sep 2019 17:24:55 +0200
-Message-Id: <20190906152455.22757-6-mic@digikod.net>
-X-Mailer: git-send-email 2.23.0.rc1
-In-Reply-To: <20190906152455.22757-1-mic@digikod.net>
-References: <20190906152455.22757-1-mic@digikod.net>
+        id S2390317AbfIFPn6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 6 Sep 2019 11:43:58 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:45989 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725871AbfIFPn6 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Sep 2019 11:43:58 -0400
+Received: by mail-lj1-f196.google.com with SMTP id l1so6400056lji.12
+        for <linux-api@vger.kernel.org>; Fri, 06 Sep 2019 08:43:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=kXqD3C73hqZbQh8+pyGdwCZwxnrqPGKEEp+0kRpG5I8=;
+        b=DYc6W/hyCfxAxHbkWTmDrh+ODKc6x42+38HNklF0/ptlANxl7RT8hSgyEdfrQHi6Xh
+         5ChSGqRSbxC9ue8UUxHuvt5x60DSZdetyLFMHeKirW5J2qmzjwoayW12EsnqZorry25V
+         3FxxQI4aE2n0uiQzkRk4wz84DwPGTYa2AbbHg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kXqD3C73hqZbQh8+pyGdwCZwxnrqPGKEEp+0kRpG5I8=;
+        b=TufAcM/ugs7jg+L99J1wQ8jLMS9WgVMs27pW/MJAh889by13BcfsXbvy/jJIMmYYK8
+         tfGnwiBy7QfDfa8bfUh1sikdrF9ROhFMND0XzHPopjvWj2QSfDU5oLlswgWnCnkW2aDA
+         N80ejxLnnm/t+GBkTTTBLCyiRf5UPPuhLbrn61s/5MqIkwGd0HRC7pvpsKeVkcKJxlyt
+         m5AklLKa28/AvNTzaEwiprLfTwQGaE0Zy62Qd0FmzSvczHn/WE7Ok+xMHmAFr2mRneeK
+         o5jLhWO6KT2zf8twSQSnHLlh6P5jhmQUKRIAnY8h6WXdgFSezlWfOd8Gi35EGtqQo9Nu
+         BpXw==
+X-Gm-Message-State: APjAAAV3mrVSriTVqenwRpLJZ5Cllj5o9S9QW3fQkZhE6WX5v9/1yepw
+        LWxPTurcFmIijL3ZQ6myYowJLP98koE=
+X-Google-Smtp-Source: APXvYqwLuUTjP8ZmhGLVqoepT6nMCiox3pPlTivauzgbn9x6FYKYnu8MgnFXjAI0y9Ex49nverteug==
+X-Received: by 2002:a2e:9117:: with SMTP id m23mr6276973ljg.43.1567784634390;
+        Fri, 06 Sep 2019 08:43:54 -0700 (PDT)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com. [209.85.167.53])
+        by smtp.gmail.com with ESMTPSA id a3sm1115610ljb.36.2019.09.06.08.43.53
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Sep 2019 08:43:54 -0700 (PDT)
+Received: by mail-lf1-f53.google.com with SMTP id w67so5430250lff.4
+        for <linux-api@vger.kernel.org>; Fri, 06 Sep 2019 08:43:53 -0700 (PDT)
+X-Received: by 2002:ac2:47f8:: with SMTP id b24mr6833712lfp.134.1567784162071;
+ Fri, 06 Sep 2019 08:36:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
-X-Antivirus-Code: 0x100000
+References: <156763534546.18676.3530557439501101639.stgit@warthog.procyon.org.uk>
+ <CAHk-=wh5ZNE9pBwrnr5MX3iqkUP4nspz17rtozrSxs5-OGygNw@mail.gmail.com>
+ <17703.1567702907@warthog.procyon.org.uk> <CAHk-=wjQ5Fpv0D7rxX0W=obx9xoOAxJ_Cr+pGCYOAi2S9FiCNg@mail.gmail.com>
+ <CAKCoTu7ms_Mr-q08d9XB3uascpzwBa5LF9JTT2aq8uUsoFE8aQ@mail.gmail.com>
+ <CAHk-=wjcsxQ8QB_v=cwBQw4pkJg7pp-bBsdWyPivFO_OeF-y+g@mail.gmail.com>
+ <5396.1567719164@warthog.procyon.org.uk> <CAHk-=wgbCXea1a9OTWgMMvcsCGGiNiPp+ty-edZrBWn63NCYdw@mail.gmail.com>
+ <14883.1567725508@warthog.procyon.org.uk> <CAHk-=wjt2Eb+yEDOcQwCa0SrZ4cWu967OtQG8Vz21c=n5ZP1Nw@mail.gmail.com>
+ <27732.1567764557@warthog.procyon.org.uk>
+In-Reply-To: <27732.1567764557@warthog.procyon.org.uk>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Fri, 6 Sep 2019 08:35:46 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wiR1fpahgKuxSOQY6OfgjWD+MKz8UF6qUQ6V_y2TC_V6w@mail.gmail.com>
+Message-ID: <CAHk-=wiR1fpahgKuxSOQY6OfgjWD+MKz8UF6qUQ6V_y2TC_V6w@mail.gmail.com>
+Subject: Re: Why add the general notification queue and its sources
+To:     David Howells <dhowells@redhat.com>
+Cc:     Ray Strode <rstrode@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Steven Whitehouse <swhiteho@redhat.com>,
+        Nicolas Dichtel <nicolas.dichtel@6wind.com>, raven@themaw.net,
+        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-block <linux-block@vger.kernel.org>,
+        Christian Brauner <christian@brauner.io>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        "Ray, Debarshi" <debarshi.ray@gmail.com>,
+        Robbie Harwood <rharwood@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Changes since v1:
-* move from LSM/Yama to sysctl/fs
+On Fri, Sep 6, 2019 at 3:09 AM David Howells <dhowells@redhat.com> wrote:
+>
+> Linus Torvalds <torvalds@linux-foundation.org> wrote:
+>
+> > But it's *literally* just finding the places that work with
+> > pipe->curbuf/nrbufs and making them use atomic updates.
+>
+> No.  It really isn't.  That's two variables that describe the occupied section
+> of the buffer.  Unless you have something like a 68020 with CAS2, or put them
+> next to each other so you can use CMPXCHG8, you can't do that.
+>
+> They need converting to head/tail pointers first.
 
-Signed-off-by: Mickaël Salaün <mic@digikod.net>
-Reviewed-by: Philippe Trébuchet <philippe.trebuchet@ssi.gouv.fr>
-Reviewed-by: Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Kees Cook <keescook@chromium.org>
-Cc: Mickaël Salaün <mickael.salaun@ssi.gouv.fr>
----
- Documentation/admin-guide/sysctl/fs.rst | 43 +++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
+You misunderstand - because I phrased it badly. I meant "atomic" in
+the traditional kernel sense, as in "usable in not thread context" (eg
+GFP_ATOMIC etc).
 
-diff --git a/Documentation/admin-guide/sysctl/fs.rst b/Documentation/admin-guide/sysctl/fs.rst
-index 2a45119e3331..f2f5bbe428d6 100644
---- a/Documentation/admin-guide/sysctl/fs.rst
-+++ b/Documentation/admin-guide/sysctl/fs.rst
-@@ -37,6 +37,7 @@ Currently, these files are in /proc/sys/fs:
- - inode-nr
- - inode-state
- - nr_open
-+- open_mayexec_enforce
- - overflowuid
- - overflowgid
- - pipe-user-pages-hard
-@@ -165,6 +166,48 @@ system needs to prune the inode list instead of allocating
- more.
- 
- 
-+open_mayexec_enforce
-+--------------------
-+
-+The ``O_MAYEXEC`` flag can be passed to :manpage:`open(2)` to only open regular
-+files that are expected to be executable.  If the file is not identified as
-+executable, then the syscall returns -EACCES.  This may allow a script
-+interpreter to check executable permission before reading commands from a file.
-+One interesting use case is to enforce a "write xor execute" policy through
-+interpreters.
-+
-+Thanks to this flag, it is possible to enforce the ``noexec`` mount option
-+(i.e.  the underlying mount point of the file is mounted with MNT_NOEXEC or its
-+underlying superblock is SB_I_NOEXEC) not only on ELF binaries but also on
-+scripts.  This may be possible thanks to script interpreters using the
-+``O_MAYEXEC`` flag.  The executable permission is then checked before reading
-+commands from a file, and thus can enforce the ``noexec`` at the interpreter
-+level by propagating this security policy to the scripts.  To be fully
-+effective, these interpreters also need to handle the other ways to execute
-+code (for which the kernel can't help): command line parameters (e.g., option
-+``-e`` for Perl), module loading (e.g., option ``-m`` for Python), stdin, file
-+sourcing, environment variables, configuration files...  According to the
-+threat model, it may be acceptable to allow some script interpreters (e.g.
-+Bash) to interpret commands from stdin, may it be a TTY or a pipe, because it
-+may not be enough to (directly) perform syscalls.
-+
-+There is two complementary security policies: enforce the ``noexec`` mount
-+option, or enforce executable file permission.  These policies are handled by
-+the ``fs.open_mayexec_enforce`` sysctl (writable only with ``CAP_MAC_ADMIN``)
-+as a bitmask:
-+
-+1 - mount restriction:
-+    check that the mount options for the underlying VFS mount do not prevent
-+    execution.
-+
-+2 - file permission restriction:
-+    check that the to-be-opened file is marked as executable for the current
-+    process (e.g., POSIX permissions).
-+
-+Code samples can be found in tools/testing/selftests/exec/omayexec.c and
-+https://github.com/clipos-archive/clipos4_portage-overlay/search?q=O_MAYEXEC .
-+
-+
- overflowgid & overflowuid
- -------------------------
- 
--- 
-2.23.0
+I'd start out just using a spinlock.
 
+I do agree that we could try to be fancy and do it entirely locklessly
+too, and I mentioned that in another part:
+
+ "[..] it should not
+  be all that hard to just make the whole "curbuf/nrbufs" handling use
+  its own locking (maybe even some lockless atomics and cmpxchg)"
+
+but I also very much agree that it's much more complex.
+
+The main complexity of a lockless thing is actually almost certainly
+not in curbuf/nrbufs, because those could easily be packed as two
+16-bit values in a 32-bit entity and then regular cmpxchg works fine.
+
+No, the complexity in the lockless model is that then you have to be
+very careful with the "buf[]" array update too.  Maybe that's trivial
+(just make sure that they are NULL when not used), but it just looks
+less than wonderfully easy.
+
+So a lockless update I'm sure is _doable_ with some cleverness, but is
+probably not really worth it.
+
+That's particularly true since we already *have* a spinlock that we
+would take anyway: the we could strive to use the waitqueue spinlock
+in pipe->wait, and not even really add any new locking. That would
+require a bit of cleverness too and re-ordering things more, but we do
+that in other places (eg completions, but the fs_pin code does it too,
+and a few other cases.
+
+Look for "wake_up_locked()" and friends, which is a sure-fire sign
+that somebody is playing games and taking the wait-queue lock manually
+for their own nefarious reasons.
+
+> > They really would work with almost anything. You could even mix-and-match
+> > "data generated by kernel" and "data done by 'write()' or 'splice()' by a
+> > user process".
+>
+> Imagine that userspace writes a large message and takes the mutex.  At the
+> same time something in softirq context decides *it* wants to write a message -
+> it can't take the mutex and it can't wait, so the userspace write would have
+> to cause the kernel message to be dropped.
+
+No. You're missing the point entirely.
+
+The mutex is entirely immaterial for the "insert a message". It is
+only used for user-space synchronization. The "add message to the pipe
+buffers" would only do the low-level buffer updates (whether using a
+new spinlock, re-using the pipe waitqueue lock, or entirely
+locklessly, ends up being then just an implementation detail).
+
+Note that user-space writes are defined to be atomic, but they are (a)
+not ordered and (b) only atomic up to a single buffer entry (which is
+that PIPE_BUF limit). So you can always put in a new buffer entry at
+any time.
+
+Obviously if a user space write just fills up the whole queue (or
+_other_ messages fill up the whole queue) you'd have to drop the
+notification. But that's always true. That's true even in your thing.
+The only difference is that we _allow_ other user spaces to write to
+the notification queue too.
+
+But if you don't want to allow that, then don't give out the write
+side of the pipe to any untrusted user space.
+
+But in *general*, allowing user space to write to the pipe is a great
+feature: it means that your notification source *can* be a user space
+daemon that you gave the write side of the pipe to (possibly using fd
+passing, possibly by just forking your own user-space child or cloning
+a thread).
+
+So for example, from a consumer standpoint, you can start off doing
+these things in user space with a helper thread that feeds the pipe
+(for example, polling /proc/mounts every second), and then when you've
+prototyped it and are happy with it, you can add the system call (or
+ioctl or whatever) to make the kernel generate the messages so that
+you don't have to poll.
+
+But now, once you have the kernel patch, you already have a proven
+user, and you can show numbers ("My user-space thing works, but it
+uses up 0.1% CPU time and has that nasty up-to-one-second latency
+because of polling"). Ta-daa!
+
+End result: it's backwards compatible, it's prototypable, and it's
+fairly easily extensible. Want to add a new source of events? Just
+pass the pipe to any random piece of code you want. It needs kernel
+support only when you've proven the concept _and_ you can show that
+"yeah, this user space polling model is a real performance or
+complexity problem" or whatever.
+
+This is why I like pipes. You can use them today. They are simple, and
+extensible, and you don't need to come up with a new subsystem and
+some untested ad-hoc thing that nobody has actually used.
+
+And they work automatically with all the existing infrastructure. They
+work with whatever perl or shell scripts, they work with poll/select
+loops, they work with user-space sources of events, they are just very
+flexible.
+
+                     Linus
