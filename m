@@ -2,26 +2,34 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CB60EABD0F
-	for <lists+linux-api@lfdr.de>; Fri,  6 Sep 2019 17:56:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9E4DABD72
+	for <lists+linux-api@lfdr.de>; Fri,  6 Sep 2019 18:14:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731583AbfIFP4l (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 6 Sep 2019 11:56:41 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52954 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730955AbfIFP4k (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 6 Sep 2019 11:56:40 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id C440F3090FD1;
-        Fri,  6 Sep 2019 15:56:39 +0000 (UTC)
-Received: from oldenburg2.str.redhat.com (dhcp-192-200.str.redhat.com [10.33.192.200])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D2A95C22C;
-        Fri,  6 Sep 2019 15:56:34 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-Cc:     linux-kernel@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>,
+        id S1727884AbfIFQO1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 6 Sep 2019 12:14:27 -0400
+Received: from smtp-out.ssi.gouv.fr ([86.65.182.90]:59907 "EHLO
+        smtp-out.ssi.gouv.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726012AbfIFQO0 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Sep 2019 12:14:26 -0400
+X-Greylist: delayed 476 seconds by postgrey-1.27 at vger.kernel.org; Fri, 06 Sep 2019 12:14:25 EDT
+Received: from smtp-out.ssi.gouv.fr (localhost [127.0.0.1])
+        by smtp-out.ssi.gouv.fr (Postfix) with ESMTP id 9EB54D0007D;
+        Fri,  6 Sep 2019 18:06:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ssi.gouv.fr;
+        s=20160407; t=1567785987;
+        bh=FwyTlVCqm8aP3xoN7suXSpGig40n/ST/gCqz/6H+pJg=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To:From:Subject;
+        b=rvdNIvMbXElr2pL5DlaPYCAoEQ4gCJcigMVtxhzkc9XgVjWGP5lDlgpwyRzEDC11D
+         ozsDEfHCHPNwt6IIN/rFneyehInkshXlhaj88Mm7rEZ6fa3os/yGNCRaPfZzGt3Oe0
+         QG1Ercf9tHLDWoaBsG6/ukDLiBPrjB5Myyg4MBP0oz1q31qbtXmyp88E1gnMvKcFw2
+         LvEYL4upJAai1Aciu/tyNFtf0ptWrKOyzgVkh3LWlh6EfljZ3aS6z8I8elg+KYIquS
+         4AEBbUxmUEW87/C2ueqmJvbBNuMEWI5F+APrdwiTW9qYjGwMROhUju0SOQsCZt9+br
+         fhTtuqPfDzn2Q==
+Subject: Re: [PATCH v2 1/5] fs: Add support for an O_MAYEXEC flag on
+ sys_open()
+To:     Florian Weimer <fweimer@redhat.com>,
+        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+CC:     <linux-kernel@vger.kernel.org>, Aleksa Sarai <cyphar@cyphar.com>,
         Alexei Starovoitov <ast@kernel.org>,
         Al Viro <viro@zeniv.linux.org.uk>,
         Andy Lutomirski <luto@kernel.org>,
@@ -34,9 +42,8 @@ Cc:     linux-kernel@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>,
         Matthew Garrett <mjg59@google.com>,
         Matthew Wilcox <willy@infradead.org>,
         Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mickael.salaun@ssi.gouv.fr>,
         Mimi Zohar <zohar@linux.ibm.com>,
-        Philippe =?utf-8?Q?Tr=C3=A9buchet?= 
+        =?UTF-8?Q?Philippe_Tr=c3=a9buchet?= 
         <philippe.trebuchet@ssi.gouv.fr>,
         Scott Shell <scottsh@microsoft.com>,
         Sean Christopherson <sean.j.christopherson@intel.com>,
@@ -47,37 +54,69 @@ Cc:     linux-kernel@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>,
         Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
         Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
         Yves-Alexis Perez <yves-alexis.perez@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2 1/5] fs: Add support for an O_MAYEXEC flag on sys_open()
+        <kernel-hardening@lists.openwall.com>, <linux-api@vger.kernel.org>,
+        <linux-security-module@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>
 References: <20190906152455.22757-1-mic@digikod.net>
-        <20190906152455.22757-2-mic@digikod.net>
-Date:   Fri, 06 Sep 2019 17:56:32 +0200
-In-Reply-To: <20190906152455.22757-2-mic@digikod.net> (=?utf-8?Q?=22Micka?=
- =?utf-8?Q?=C3=ABl_Sala=C3=BCn=22's?=
-        message of "Fri, 6 Sep 2019 17:24:51 +0200")
-Message-ID: <87ef0te7v3.fsf@oldenburg2.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ <20190906152455.22757-2-mic@digikod.net>
+ <87ef0te7v3.fsf@oldenburg2.str.redhat.com>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mickael.salaun@ssi.gouv.fr>
+Message-ID: <75442f3b-a3d8-12db-579a-2c5983426b4d@ssi.gouv.fr>
+Date:   Fri, 6 Sep 2019 18:06:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.43]); Fri, 06 Sep 2019 15:56:40 +0000 (UTC)
+In-Reply-To: <87ef0te7v3.fsf@oldenburg2.str.redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Let's assume I want to add support for this to the glibc dynamic loader,
-while still being able to run on older kernels.
 
-Is it safe to try the open call first, with O_MAYEXEC, and if that fails
-with EINVAL, try again without O_MAYEXEC?
+On 06/09/2019 17:56, Florian Weimer wrote:
+> Let's assume I want to add support for this to the glibc dynamic loader,
+> while still being able to run on older kernels.
+>
+> Is it safe to try the open call first, with O_MAYEXEC, and if that fails
+> with EINVAL, try again without O_MAYEXEC?
 
-Or do I risk disabling this security feature if I do that?
+The kernel ignore unknown open(2) flags, so yes, it is safe even for
+older kernel to use O_MAYEXEC.
 
-Do we need a different way for recognizing kernel support.  (Note that
-we cannot probe paths in /proc for various reasons.)
+>
+> Or do I risk disabling this security feature if I do that?
 
-Thanks,
-Florian
+It is only a security feature if the kernel support it, otherwise it is
+a no-op.
+
+>
+> Do we need a different way for recognizing kernel support.  (Note that
+> we cannot probe paths in /proc for various reasons.)
+
+There is no need to probe for kernel support.
+
+>
+> Thanks,
+> Florian
+>
+
+--
+Micka=C3=ABl Sala=C3=BCn
+
+Les donn=C3=A9es =C3=A0 caract=C3=A8re personnel recueillies et trait=C3=A9=
+es dans le cadre de cet =C3=A9change, le sont =C3=A0 seule fin d=E2=80=99ex=
+=C3=A9cution d=E2=80=99une relation professionnelle et s=E2=80=99op=C3=A8re=
+nt dans cette seule finalit=C3=A9 et pour la dur=C3=A9e n=C3=A9cessaire =C3=
+=A0 cette relation. Si vous souhaitez faire usage de vos droits de consulta=
+tion, de rectification et de suppression de vos donn=C3=A9es, veuillez cont=
+acter contact.rgpd@sgdsn.gouv.fr. Si vous avez re=C3=A7u ce message par err=
+eur, nous vous remercions d=E2=80=99en informer l=E2=80=99exp=C3=A9diteur e=
+t de d=C3=A9truire le message. The personal data collected and processed du=
+ring this exchange aims solely at completing a business relationship and is=
+ limited to the necessary duration of that relationship. If you wish to use=
+ your rights of consultation, rectification and deletion of your data, plea=
+se contact: contact.rgpd@sgdsn.gouv.fr. If you have received this message i=
+n error, we thank you for informing the sender and destroying the message.
