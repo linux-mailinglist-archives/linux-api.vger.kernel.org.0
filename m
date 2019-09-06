@@ -2,75 +2,82 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DD3F3AB329
-	for <lists+linux-api@lfdr.de>; Fri,  6 Sep 2019 09:28:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2DFCDAB56F
+	for <lists+linux-api@lfdr.de>; Fri,  6 Sep 2019 12:09:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390869AbfIFH20 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 6 Sep 2019 03:28:26 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:37765 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390678AbfIFH2Z (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Sep 2019 03:28:25 -0400
-Received: by mail-io1-f65.google.com with SMTP id r4so10629642iop.4
-        for <linux-api@vger.kernel.org>; Fri, 06 Sep 2019 00:28:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=EPV93q9yLYIKpn8nh2t+hGtrutkW9tKqXiA9UxMOKvI=;
-        b=Rb5hjLH97fWG9p+/yNu96w9UO3OKt4FmFKmAw11vyG2iZI06iEgcHhxGgyg28O20Kr
-         Rbghe6XoI+sRXgV7YJBO/FPPQUesLs1FXAB+/9VWM553hR2QYn3uxlrlNjd/AL+/+wtr
-         kfQn6PC4J6PQJUOSyYUVi8f0h31wY1hhPDB7A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=EPV93q9yLYIKpn8nh2t+hGtrutkW9tKqXiA9UxMOKvI=;
-        b=IWpyg/w3IcGDw4JEPNSe5SJ1IYRAKnf3YuPcXUrfUiMCHeJ2uqX2Mry/Vc0FZEEXOU
-         4hkrkRE3iR4SlvyxMdfixqpgLh4bETA2y6uwzBtP/JUQtfe7BXyoa+lLLzcURRjM4kCt
-         YdDluR4jZigLWymffJU+ntk/QrARxGkL+n4VCB2GKjIwnZyYdVTvRiQGxiXP866kljE+
-         S5kCE5rIAOhcOj4BGhsXv90K3KxCSDGfMRRxtSIAwV5RAVnHRPdiGumCDf+42fVEf87y
-         mG7LWVa5k10b652EIn77ofxNR8RYiDjC0nT1T3WvpoOeKRIRS2CLFC2JOS18QssVotx1
-         ld0Q==
-X-Gm-Message-State: APjAAAVjZhG+6FPM2d45m+GaXpn7IQ3LiwGDsZkj1nY1s607WCleTW+Q
-        0B6WvArpOeoGwkniHVG+TrViAUPccXoojy1Iy+tdqA==
-X-Google-Smtp-Source: APXvYqxR3pH944s5Ok7PV+C2BDLvozfEi9oSPmHQa7sH6FfFjXkuExp6qDUMbbUZDXntpKIoHTPtClMWSvVQofi6VEw=
-X-Received: by 2002:a6b:5d18:: with SMTP id r24mr8826984iob.285.1567754905146;
- Fri, 06 Sep 2019 00:28:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190619123019.30032-1-mszeredi@redhat.com> <CAJfpegv_ezsXOLV2f7yd07=T3MenJoMKhu=MBac1-80s0BFg9A@mail.gmail.com>
- <11485.1562257188@warthog.procyon.org.uk>
-In-Reply-To: <11485.1562257188@warthog.procyon.org.uk>
-From:   Miklos Szeredi <miklos@szeredi.hu>
-Date:   Fri, 6 Sep 2019 09:28:14 +0200
-Message-ID: <CAJfpegutbB+kb8oOx5zHx38vGE90H=JdgkM-7bVE3wxypmfAuw@mail.gmail.com>
-Subject: Re: [PATCH 01/13] vfs: verify param type in vfs_parse_sb_flag()
-To:     David Howells <dhowells@redhat.com>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Ian Kent <raven@themaw.net>,
+        id S2387911AbfIFKJW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 6 Sep 2019 06:09:22 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49512 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387843AbfIFKJV (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 6 Sep 2019 06:09:21 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 9B78C3084288;
+        Fri,  6 Sep 2019 10:09:21 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-120-255.rdu2.redhat.com [10.10.120.255])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 126BB60A97;
+        Fri,  6 Sep 2019 10:09:17 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <CAHk-=wjt2Eb+yEDOcQwCa0SrZ4cWu967OtQG8Vz21c=n5ZP1Nw@mail.gmail.com>
+References: <CAHk-=wjt2Eb+yEDOcQwCa0SrZ4cWu967OtQG8Vz21c=n5ZP1Nw@mail.gmail.com> <156763534546.18676.3530557439501101639.stgit@warthog.procyon.org.uk> <CAHk-=wh5ZNE9pBwrnr5MX3iqkUP4nspz17rtozrSxs5-OGygNw@mail.gmail.com> <17703.1567702907@warthog.procyon.org.uk> <CAHk-=wjQ5Fpv0D7rxX0W=obx9xoOAxJ_Cr+pGCYOAi2S9FiCNg@mail.gmail.com> <CAKCoTu7ms_Mr-q08d9XB3uascpzwBa5LF9JTT2aq8uUsoFE8aQ@mail.gmail.com> <CAHk-=wjcsxQ8QB_v=cwBQw4pkJg7pp-bBsdWyPivFO_OeF-y+g@mail.gmail.com> <5396.1567719164@warthog.procyon.org.uk> <CAHk-=wgbCXea1a9OTWgMMvcsCGGiNiPp+ty-edZrBWn63NCYdw@mail.gmail.com> <14883.1567725508@warthog.procyon.org.uk>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     dhowells@redhat.com, Ray Strode <rstrode@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Steven Whitehouse <swhiteho@redhat.com>,
+        Nicolas Dichtel <nicolas.dichtel@6wind.com>, raven@themaw.net,
+        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-block <linux-block@vger.kernel.org>,
+        Christian Brauner <christian@brauner.io>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        "Ray, Debarshi" <debarshi.ray@gmail.com>,
+        Robbie Harwood <rharwood@redhat.com>
+Subject: Re: Why add the general notification queue and its sources
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <27731.1567764557.1@warthog.procyon.org.uk>
+Date:   Fri, 06 Sep 2019 11:09:17 +0100
+Message-ID: <27732.1567764557@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.40]); Fri, 06 Sep 2019 10:09:21 +0000 (UTC)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jul 4, 2019 at 6:20 PM David Howells <dhowells@redhat.com> wrote:
->
-> Miklos Szeredi <miklos@szeredi.hu> wrote:
->
-> > Ping?  Have you had a chance of looking at this series?
->
-> Yeah, through due to time pressure, I haven't managed to do much with it.
->
-> I don't agree with all your changes, and also I'd like them to wait till after
-> the branch of mount API filesystem conversions that I've given to Al has had a
-> chance to hopefully go in in this merge window, along with whatever changes Al
-> has made to it.
+Linus Torvalds <torvalds@linux-foundation.org> wrote:
 
-Ping?
+> But it's *literally* just finding the places that work with
+> pipe->curbuf/nrbufs and making them use atomic updates.
 
-Thanks,
-Miklos
+No.  It really isn't.  That's two variables that describe the occupied section
+of the buffer.  Unless you have something like a 68020 with CAS2, or put them
+next to each other so you can use CMPXCHG8, you can't do that.
+
+They need converting to head/tail pointers first.
+
+> They really would work with almost anything. You could even mix-and-match
+> "data generated by kernel" and "data done by 'write()' or 'splice()' by a
+> user process".
+
+Imagine that userspace writes a large message and takes the mutex.  At the
+same time something in softirq context decides *it* wants to write a message -
+it can't take the mutex and it can't wait, so the userspace write would have
+to cause the kernel message to be dropped.
+
+What I would have to do is make a write to a notification pipe go through
+post_notification() and limit the size to the maximum for a single message.
+
+Much easier to simply suppress writes and splices on pipes that have been set
+up to be notification queues - at least for now.
+
+David
