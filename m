@@ -2,108 +2,128 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1368EAC915
-	for <lists+linux-api@lfdr.de>; Sat,  7 Sep 2019 21:50:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B8301ACFAF
+	for <lists+linux-api@lfdr.de>; Sun,  8 Sep 2019 18:24:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727014AbfIGTuL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 7 Sep 2019 15:50:11 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:42642 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727012AbfIGTuL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 7 Sep 2019 15:50:11 -0400
-Received: by mail-qt1-f195.google.com with SMTP id c9so11229705qth.9;
-        Sat, 07 Sep 2019 12:50:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=br9UBkhsYmfKwHbwURIhiwHEx2D7U37IxyJBS+CBOqM=;
-        b=pnwv4tuNZ+rEoKqdMq2my6Lgk3lrXCDFBGRsI6LurPfHJ4PX5UCB5eCwCyy7drhdHT
-         +jdBo55/BV69ZL7tEJUHbos+aX4Kd+oobPzlu5lLflTJ+0v1vXdup9qcKA6RmnoKFtHc
-         UQG+I/EOi/gnIdkAFRfTZTp6rnb4zGbOxUTVVAL4RvQWVSI/Gshd8q9myh9zG7wnl+kM
-         j7dk59crHqSqLAR35EIbfYGDzGQClYfVlqeDCv7Nv0ED4d9rs8DKjEaRQoLWuorcbNbq
-         HpQX+D+MzKUIVy1avW5+sduNyrTIKsMiE0lL9Xc4MuX55C2rskapH5rCNS75/d+J7Dry
-         Xzgw==
-X-Gm-Message-State: APjAAAVBum+N26AnvuxgHDiUpD20YN/AWWFkENGnDsPflk63+F/6sFoF
-        3+5A8bz9r4Sh5hzZcVLoj727K5Rq3OO4fMRmYEMfLkmoOlY=
-X-Google-Smtp-Source: APXvYqyl+z2FYOtULkvTxobEJ/eyXJNphR9eq/S4BLy0tFekKn44sikIPCRSd1Di8uSwbGOfr/NMwGERySpoQo3jO4I=
-X-Received: by 2002:ac8:342a:: with SMTP id u39mr15931998qtb.7.1567885809360;
- Sat, 07 Sep 2019 12:50:09 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190905152155.1392871-1-arnd@arndb.de> <20190905152155.1392871-2-arnd@arndb.de>
-In-Reply-To: <20190905152155.1392871-2-arnd@arndb.de>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Sat, 7 Sep 2019 21:49:53 +0200
-Message-ID: <CAK8P3a3KkH3MeU4H0SJmrs-jQ9ZA5HksG2uGDfe-=NTXh1UeHQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] ipc: fix sparc64 ipc() wrapper
-To:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "David S. Miller" <davem@davemloft.net>,
+        id S1729239AbfIHQYs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 8 Sep 2019 12:24:48 -0400
+Received: from mx2.mailbox.org ([80.241.60.215]:20600 "EHLO mx2.mailbox.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729355AbfIHQYs (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Sun, 8 Sep 2019 12:24:48 -0400
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [80.241.60.240])
+        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
+        (No client certificate requested)
+        by mx2.mailbox.org (Postfix) with ESMTPS id F270BA10CE;
+        Sun,  8 Sep 2019 18:24:39 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from smtp1.mailbox.org ([80.241.60.240])
+        by spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de [80.241.56.122]) (amavisd-new, port 10030)
+        with ESMTP id RaAVojXx0viX; Sun,  8 Sep 2019 18:24:32 +0200 (CEST)
+Date:   Mon, 9 Sep 2019 02:24:19 +1000
+From:   Aleksa Sarai <cyphar@cyphar.com>
+To:     Jeff Layton <jlayton@kernel.org>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
+        "J. Bruce Fields" <bfields@fieldses.org>,
         Arnd Bergmann <arnd@arndb.de>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Deepa Dinamani <deepa.kernel@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
         Christian Brauner <christian@brauner.io>,
-        Manfred Spraul <manfred@colorfullife.com>,
-        Davidlohr Bueso <dave@stgolabs.net>
-Cc:     linux-arch <linux-arch@vger.kernel.org>,
-        y2038 Mailman List <y2038@lists.linaro.org>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Matt Turner <mattst88@gmail.com>,
-        "# 3.4.x" <stable@vger.kernel.org>,
-        sparclinux <sparclinux@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Anatolij Gustschin <agust@denx.de>
-Content-Type: text/plain; charset="UTF-8"
+        Eric Biederman <ebiederm@xmission.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>, Tycho Andersen <tycho@tycho.ws>,
+        David Drysdale <drysdale@google.com>,
+        Chanho Min <chanho.min@lge.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Aleksa Sarai <asarai@suse.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        containers@lists.linux-foundation.org, linux-alpha@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        linux-xtensa@linux-xtensa.org, sparclinux@vger.kernel.org
+Subject: Re: [PATCH v12 11/12] open: openat2(2) syscall
+Message-ID: <20190908162419.yrzm2s7rflqgdxig@yavin>
+References: <20190904201933.10736-1-cyphar@cyphar.com>
+ <20190904201933.10736-12-cyphar@cyphar.com>
+ <7236f382d72130f2afbbe8940e72cc67e5c6dce0.camel@kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="gzznbyzuni6ynbc5"
+Content-Disposition: inline
+In-Reply-To: <7236f382d72130f2afbbe8940e72cc67e5c6dce0.camel@kernel.org>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Sep 5, 2019 at 5:24 PM Arnd Bergmann <arnd@arndb.de> wrote:
 
-> diff --git a/arch/sparc/kernel/sys_sparc_64.c b/arch/sparc/kernel/sys_sparc_64.c
-> index ccc88926bc00..5ad0494df367 100644
-> --- a/arch/sparc/kernel/sys_sparc_64.c
-> +++ b/arch/sparc/kernel/sys_sparc_64.c
-> @@ -340,21 +340,21 @@ SYSCALL_DEFINE6(sparc_ipc, unsigned int, call, int, first, unsigned long, second
->         if (call <= SEMTIMEDOP) {
->                 switch (call) {
->                 case SEMOP:
-> -                       err = sys_semtimedop(first, ptr,
-> -                                            (unsigned int)second, NULL);
-> +                       err = ksys_semtimedop(first, ptr,
-> +                                             (unsigned int)second, NULL);
->                         goto out;
+--gzznbyzuni6ynbc5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The zero-day bot found a link error in sparc64 allnoconfig:
+On 2019-09-07, Jeff Layton <jlayton@kernel.org> wrote:
+> On Thu, 2019-09-05 at 06:19 +1000, Aleksa Sarai wrote:
+> > + * @flags: O_* flags.
+> > + * @mode: O_CREAT/O_TMPFILE file mode.
+> > + * @upgrade_mask: UPGRADE_* flags (to restrict O_PATH re-opening).
+> > + * @resolve: RESOLVE_* flags.
+> > + */
+> > +struct open_how {
+> > +	__u32 flags;
+> > +	union {
+> > +		__u16 mode;
+> > +		__u16 upgrade_mask;
+> > +	};
+> > +	__u16 resolve;
+> > +};
+> > +
+> > +#define OPEN_HOW_SIZE_VER0	8 /* sizeof first published struct */
+> > +
+>=20
+> Hmm, there is no version field. When you want to expand this in the
+> future, what is the plan? Add a new flag to indicate that it's some
+> length?
 
-   arch/sparc/kernel/sys_sparc_64.o: In function `__se_sys_sparc_ipc':
->> sys_sparc_64.c:(.text+0x724): undefined reference to `ksys_semtimedop'
->> sys_sparc_64.c:(.text+0x76c): undefined reference to `ksys_old_msgctl'
->> sys_sparc_64.c:(.text+0x7a8): undefined reference to `ksys_semget'
->> sys_sparc_64.c:(.text+0x7c8): undefined reference to `ksys_old_semctl'
->> sys_sparc_64.c:(.text+0x7e4): undefined reference to `ksys_msgsnd'
->> sys_sparc_64.c:(.text+0x7fc): undefined reference to `ksys_shmget'
->> sys_sparc_64.c:(.text+0x808): undefined reference to `ksys_shmdt'
-   sys_sparc_64.c:(.text+0x828): undefined reference to `ksys_semtimedop'
->> sys_sparc_64.c:(.text+0x844): undefined reference to `ksys_old_shmctl'
->> sys_sparc_64.c:(.text+0x858): undefined reference to `ksys_msgget'
->> sys_sparc_64.c:(.text+0x86c): undefined reference to `ksys_msgrcv'
+The "version number" is the size of the struct. Any extensions we make
+are appended to the struct (openat2 now takes a size_t argument), and
+the new copy_struct_{to,from}_user() helpers handle all of the
+permutations of {old,new} kernel and {old,new} user space.
 
-I've added this hunk to my patch and plan to send both fixes to Linus
-in the next few days, after I get a positive report from the bot as well:
+This is how clone3(), sched_[gs]etattr() and perf_event_open() all
+operate (all of the sigset syscalls operate similarly but don't
+gracefully handle different kernel vintages -- you just get -EINVAL).
 
---- a/arch/sparc/kernel/sys_sparc_64.c
-+++ b/arch/sparc/kernel/sys_sparc_64.c
-@@ -336,6 +336,9 @@ SYSCALL_DEFINE6(sparc_ipc, unsigned int, call,
-int, first, unsigned long, second
- {
-        long err;
+--=20
+Aleksa Sarai
+Senior Software Engineer (Containers)
+SUSE Linux GmbH
+<https://www.cyphar.com/>
 
-+       if (!IS_ENABLED(CONFIG_SYSVIPC))
-+               return -ENOSYS;
-+
-        /* No need for backward compatibility. We can start fresh... */
+--gzznbyzuni6ynbc5
+Content-Type: application/pgp-signature; name="signature.asc"
 
-        if (call <= SEMTIMEDOP) {
-                switch (call) {
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCXXUrMAAKCRCdlLljIbnQ
+EgC+AQCVKXVqUiPLaSjLjt+ByWrSsopM/OM3NwCHHZ5oD+CB1gD/cSuQohVmXskg
+v8dQLpd9K1QW//8GG3Aa/FRHhqPAfAU=
+=G4Hw
+-----END PGP SIGNATURE-----
+
+--gzznbyzuni6ynbc5--
