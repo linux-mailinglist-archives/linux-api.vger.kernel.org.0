@@ -2,48 +2,74 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 10117AD90F
-	for <lists+linux-api@lfdr.de>; Mon,  9 Sep 2019 14:33:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E127ADC72
+	for <lists+linux-api@lfdr.de>; Mon,  9 Sep 2019 17:49:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726687AbfIIMdz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 9 Sep 2019 08:33:55 -0400
-Received: from smtp-out.ssi.gouv.fr ([86.65.182.90]:53117 "EHLO
-        smtp-out.ssi.gouv.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726008AbfIIMdz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Sep 2019 08:33:55 -0400
-Received: from smtp-out.ssi.gouv.fr (localhost [127.0.0.1])
-        by smtp-out.ssi.gouv.fr (Postfix) with ESMTP id 1BC33D00071;
-        Mon,  9 Sep 2019 14:33:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ssi.gouv.fr;
-        s=20160407; t=1568032433;
-        bh=2i3c2h85LfgWysBXkgaRfA1GieIicnUeTJmX6tbk8zM=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To:From:Subject;
-        b=DIA1Z3Zu3HCxstRjX0+tueSAj80lWxY1sAKxeq+efi6dSgyroVTJV8OH6MRAeufM2
-         jFE4bHUfovw/uhK0wdDYgP2+dhwRTY6lYUL+c4KPWD5O2xWX9gYCW8B+9ZeaQscNh+
-         iNgmxt2dbyBbJNWSYe3IeWpG9WChnuJn7iTXN2D5pqdOiwVahCkEkHfsbElRiYoEbR
-         7Pj1qPpKDIsa7HrTYf99kTTDALyksUu+nUQbc2yA/VCMkfJf0vVKqFFu1ivBw6yyfc
-         fxvQ1UAQ/LLpN5GSOEppLqdYvl7B1vMAuA5Fc4d8ZFb2PLhIdHUywDuJuj/giF4giW
-         C85NYH4BN6ojQ==
-Subject: Re: [PATCH v2 1/5] fs: Add support for an O_MAYEXEC flag on
- sys_open()
-To:     Aleksa Sarai <cyphar@cyphar.com>
-CC:     James Morris <jmorris@namei.org>, Jeff Layton <jlayton@kernel.org>,
+        id S2388959AbfIIPti (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 9 Sep 2019 11:49:38 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:36415 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729814AbfIIPti (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Sep 2019 11:49:38 -0400
+Received: by mail-pf1-f195.google.com with SMTP id y22so9432367pfr.3
+        for <linux-api@vger.kernel.org>; Mon, 09 Sep 2019 08:49:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=TcpVRxPvSCJBDeMrd2YTMRp8Rl8PbIZu3n0i+gvGrs0=;
+        b=pyj6eZzOMQKgCMAnu5hk7YcUQt/XRn56h4r0IMODI0hyM9G9CYPIi2I36Xh8bWAswe
+         HQ69epbn6Uf9ynM4L80OZwNVT7+NKwhsVjbbBOdgZ3Sno+ciFri39Kli05LwVBVwXMO4
+         WPQPuPR8PH4DNpoQm9XN6dklzcVFGdNXqpu0a1NtCG6oZM5UZY52+iEmc5U+69aWMSDD
+         TtFXWImbrKRvBbStNAPXOn384l3qdIeXuF90JziftEWHMPomjRynDL5FJz+grsE1Ojux
+         M7UMm0N5iJ2ogZ3iHxqnGcVPcNf5bXqHXW4l+fPAohZq2BPjtEtmzX37Gd63Ig1oZN85
+         4jrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=TcpVRxPvSCJBDeMrd2YTMRp8Rl8PbIZu3n0i+gvGrs0=;
+        b=e17C1r8cvTJ/Xt4QRZWVCo298OrlVBbMS6mHuYI1cQGPzu4LBRRrCvQ26U2mEV2APt
+         FE56DQlSoLUgHLoMTLhGHtiNd3aRuNvH2Rk+w3At53rLFF8KuzMwGfJAcsCXkAUXfb5j
+         O22PvbQPyfhDoADd2GDFZ/+zPCL7WrY85uovsv7UnDUCy+rMQb9UEVPqdmeEQnAEqXy/
+         fnurGLkEP5eSsfJl5qGwT8KCLf/9nh3YPQZMjzykOBL99eFcphYRXzIIE7Sz4Ws9zyL0
+         KeZDkvdgfEEPrw8JPu0MgClkE3HaIiGCXXaICGXn6FA8aXBNXMKm5KxF86TLH5gmQrxo
+         0MtQ==
+X-Gm-Message-State: APjAAAVfdU7/N0+m8m6mmETktSXUKa2aOufukLEhpHko7BrxQWhYpRgz
+        Hv2ki+gnGVtx81zUwYcvs1l6MA==
+X-Google-Smtp-Source: APXvYqySGg+p3Dw7cgCsaiUZVu10eDMnz9rdqxHXA7Nhsj2dAxRpToTiDCtfq8sckKTaoarNWjC1Vw==
+X-Received: by 2002:a63:df06:: with SMTP id u6mr21484642pgg.96.1568044176881;
+        Mon, 09 Sep 2019 08:49:36 -0700 (PDT)
+Received: from ?IPv6:2601:646:c200:1ef2:75ae:6074:df59:7e95? ([2601:646:c200:1ef2:75ae:6074:df59:7e95])
+        by smtp.gmail.com with ESMTPSA id d15sm15407841pfo.118.2019.09.09.08.49.32
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 09 Sep 2019 08:49:33 -0700 (PDT)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH v2 1/5] fs: Add support for an O_MAYEXEC flag on sys_open()
+From:   Andy Lutomirski <luto@amacapital.net>
+X-Mailer: iPhone Mail (16G102)
+In-Reply-To: <9e43ca3f-04c0-adba-1ab4-bbc8ed487934@ssi.gouv.fr>
+Date:   Mon, 9 Sep 2019 08:49:32 -0700
+Cc:     Jeff Layton <jlayton@kernel.org>,
         Florian Weimer <fweimer@redhat.com>,
-        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>,
-        <linux-kernel@vger.kernel.org>,
+        =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>,
+        linux-kernel@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>,
         Alexei Starovoitov <ast@kernel.org>,
         Al Viro <viro@zeniv.linux.org.uk>,
         Andy Lutomirski <luto@kernel.org>,
         Christian Heimes <christian@python.org>,
         Daniel Borkmann <daniel@iogearbox.net>,
-        Eric Chiang <ericchiang@google.com>, Jan Kara <jack@suse.cz>,
+        Eric Chiang <ericchiang@google.com>,
+        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
         Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
         Kees Cook <keescook@chromium.org>,
         Matthew Garrett <mjg59@google.com>,
         Matthew Wilcox <willy@infradead.org>,
         Michael Kerrisk <mtk.manpages@gmail.com>,
         Mimi Zohar <zohar@linux.ibm.com>,
-        =?UTF-8?Q?Philippe_Tr=c3=a9buchet?= 
+        =?utf-8?Q?Philippe_Tr=C3=A9buchet?= 
         <philippe.trebuchet@ssi.gouv.fr>,
         Scott Shell <scottsh@microsoft.com>,
         Sean Christopherson <sean.j.christopherson@intel.com>,
@@ -54,104 +80,164 @@ CC:     James Morris <jmorris@namei.org>, Jeff Layton <jlayton@kernel.org>,
         Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
         Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
         Yves-Alexis Perez <yves-alexis.perez@ssi.gouv.fr>,
-        <kernel-hardening@lists.openwall.com>, <linux-api@vger.kernel.org>,
-        <linux-security-module@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>
-References: <20190906152455.22757-2-mic@digikod.net>
- <87ef0te7v3.fsf@oldenburg2.str.redhat.com>
- <75442f3b-a3d8-12db-579a-2c5983426b4d@ssi.gouv.fr>
- <f53ec45fd253e96d1c8d0ea6f9cca7f68afa51e3.camel@kernel.org>
- <1fbf54f6-7597-3633-a76c-11c4b2481add@ssi.gouv.fr>
- <5a59b309f9d0603d8481a483e16b5d12ecb77540.camel@kernel.org>
- <alpine.LRH.2.21.1909061202070.18660@namei.org>
- <49e98ece-e85f-3006-159b-2e04ba67019e@ssi.gouv.fr>
- <alpine.LRH.2.21.1909090309260.27895@namei.org>
- <073cb831-7c6b-1882-9b7d-eb810a2ef955@ssi.gouv.fr>
- <20190909122802.imfx6wp4zeroktuz@yavin>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mickael.salaun@ssi.gouv.fr>
-Message-ID: <045db737-107f-d06a-04ea-fdd0758de062@ssi.gouv.fr>
-Date:   Mon, 9 Sep 2019 14:33:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux i686; rv:52.0) Gecko/20100101
- Thunderbird/52.9.0
-MIME-Version: 1.0
-In-Reply-To: <20190909122802.imfx6wp4zeroktuz@yavin>
-Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
 Content-Transfer-Encoding: quoted-printable
+Message-Id: <D3D3F165-F562-4090-831D-D8E39F9C5246@amacapital.net>
+References: <20190906152455.22757-1-mic@digikod.net> <20190906152455.22757-2-mic@digikod.net> <87ef0te7v3.fsf@oldenburg2.str.redhat.com> <75442f3b-a3d8-12db-579a-2c5983426b4d@ssi.gouv.fr> <f53ec45fd253e96d1c8d0ea6f9cca7f68afa51e3.camel@kernel.org> <1fbf54f6-7597-3633-a76c-11c4b2481add@ssi.gouv.fr> <5a59b309f9d0603d8481a483e16b5d12ecb77540.camel@kernel.org> <D1212E06-773B-42B9-B7C3-C4C1C2A6111D@amacapital.net> <9e43ca3f-04c0-adba-1ab4-bbc8ed487934@ssi.gouv.fr>
+To:     =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mickael.salaun@ssi.gouv.fr>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 
-On 09/09/2019 14:28, Aleksa Sarai wrote:
-> On 2019-09-09, Micka=EBl Sala=FCn <mickael.salaun@ssi.gouv.fr> wrote:
->> On 09/09/2019 12:12, James Morris wrote:
->>> On Mon, 9 Sep 2019, Micka=EBl Sala=FCn wrote:
->>>> As I said, O_MAYEXEC should be ignored if it is not supported by the
->>>> kernel, which perfectly fit with the current open(2) flags behavior, a=
-nd
->>>> should also behave the same with openat2(2).
->>>
->>> The problem here is programs which are already using the value of
->>> O_MAYEXEC, which will break.  Hence, openat2(2).
->>
->> Well, it still depends on the sysctl, which doesn't enforce anything by
->> default, hence doesn't break existing behavior, and this unused flags
->> could be fixed/removed or reported by sysadmins or distro developers.
->
-> Okay, but then this means that new programs which really want to enforce
-> O_MAYEXEC (and know that they really do want this feature) won't be able
-> to unless an admin has set the relevant sysctl. Not to mention that the
-> old-kernel fallback will not cover the "it's disabled by the sysctl"
-> case -- so the fallback handling would need to be:
->
->     int fd =3D open("foo", O_MAYEXEC|O_RDONLY);
->     if (!(fcntl(fd, F_GETFL) & O_MAYEXEC))
->         fallback();
->     if (!sysctl_feature_is_enabled)
->         fallback();
->
-> However, there is still a race here -- if an administrator enables
-> O_MAYEXEC after the program gets the fd, then you still won't hit the
-> fallback (and you can't tell that O_MAYEXEC checks weren't done).
+> On Sep 9, 2019, at 2:18 AM, Micka=C3=ABl Sala=C3=BCn <mickael.salaun@ssi.g=
+ouv.fr> wrote:
+>=20
+>=20
+>> On 06/09/2019 20:41, Andy Lutomirski wrote:
+>>=20
+>>=20
+>>>> On Sep 6, 2019, at 11:38 AM, Jeff Layton <jlayton@kernel.org> wrote:
+>>>>=20
+>>>>> On Fri, 2019-09-06 at 19:14 +0200, Micka=C3=ABl Sala=C3=BCn wrote:
+>>>>>> On 06/09/2019 18:48, Jeff Layton wrote:
+>>>>>>> On Fri, 2019-09-06 at 18:06 +0200, Micka=C3=ABl Sala=C3=BCn wrote:
+>>>>>>> On 06/09/2019 17:56, Florian Weimer wrote:
+>>>>>>> Let's assume I want to add support for this to the glibc dynamic loa=
+der,
+>>>>>>> while still being able to run on older kernels.
+>>>>>>>=20
+>>>>>>> Is it safe to try the open call first, with O_MAYEXEC, and if that f=
+ails
+>>>>>>> with EINVAL, try again without O_MAYEXEC?
+>>>>>>=20
+>>>>>> The kernel ignore unknown open(2) flags, so yes, it is safe even for
+>>>>>> older kernel to use O_MAYEXEC.
+>>>>>>=20
+>>>>>=20
+>>>>> Well...maybe. What about existing programs that are sending down bogus=
 
-I just replied to this concern here:
-https://lore.kernel.org/lkml/70e4244e-4dfb-6e67-416b-445e383aa1b5@ssi.gouv.=
-fr/
+>>>>> open flags? Once you turn this on, they may break...or provide a way t=
+o
+>>>>> circumvent the protections this gives.
+>>>>=20
+>>>> Well, I don't think we should nor could care about bogus programs that
+>>>> do not conform to the Linux ABI.
+>>>>=20
+>>>=20
+>>> But they do conform. The ABI is just undefined here. Unknown flags are
+>>> ignored so we never really know if $random_program may be setting them.
+>>>=20
+>>>>> Maybe this should be a new flag that is only usable in the new openat2=
+()
+>>>>> syscall that's still under discussion? That syscall will enforce that
+>>>>> all flags are recognized. You presumably wouldn't need the sysctl if y=
+ou
+>>>>> went that route too.
+>>>>=20
+>>>> Here is a thread about a new syscall:
+>>>> https://lore.kernel.org/lkml/1544699060.6703.11.camel@linux.ibm.com/
+>>>>=20
+>>>> I don't think it fit well with auditing nor integrity. Moreover using
+>>>> the current open(2) behavior of ignoring unknown flags fit well with th=
+e
+>>>> usage of O_MAYEXEC (because it is only a hint to the kernel about the
+>>>> use of the *opened* file).
+>>>>=20
+>>>=20
+>>> The fact that open and openat didn't vet unknown flags is really a bug.
+>>>=20
+>>> Too late to fix it now, of course, and as Aleksa points out, we've
+>>> worked around that in the past. Now though, we have a new openat2
+>>> syscall on the horizon. There's little need to continue these sorts of
+>>> hacks.
+>>>=20
+>>> New open flags really have no place in the old syscalls, IMO.
+>>>=20
+>>>>> Anyone that wants to use this will have to recompile anyway. If the
+>>>>> kernel doesn't support openat2 or if the flag is rejected then you kno=
+w
+>>>>> that you have no O_MAYEXEC support and can decide what to do.
+>>>>=20
+>>>> If we want to enforce a security policy, we need to either be the syste=
+m
+>>>> administrator or the distro developer. If a distro ship interpreters
+>>>> using this flag, we don't need to recompile anything, but we need to be=
 
->
-> You could fix the issue with the sysctl by clearing O_MAYEXEC from
-> f_flags if the sysctl is disabled. You could also avoid some of the
-> problems with it being a global setting by making it a prctl(2) which
-> processes can opt-in to (though this has its own major problems).
+>>>> able to control the enforcement according to the mount point
+>>>> configuration (or an advanced MAC, or an IMA config). I don't see why a=
+n
+>>>> userspace process should check if this flag is supported or not, it
+>>>> should simply use it, and the sysadmin will enable an enforcement if it=
 
-Security definition and enforcement should be manageable by sysadmins
-and distro developers.
+>>>> makes sense for the whole system.
+>>>>=20
+>>>=20
+>>> A userland program may need to do other risk mitigation if it sets
+>>> O_MAYEXEC and the kernel doesn't recognize it.
+>>>=20
+>>> Personally, here's what I'd suggest:
+>>>=20
+>>> - Base this on top of the openat2 set
+>>> - Change it that so that openat2() files are non-executable by default. A=
+nyone wanting to do that needs to set O_MAYEXEC or upgrade the fd somehow.
+>>> - Only have the openat2 syscall pay attention to O_MAYEXEC. Let open and=
+ openat continue ignoring the new flag.
+>>>=20
+>>> That works around a whole pile of potential ABI headaches. Note that
+>>> we'd need to make that decision before the openat2 patches are merged.
+>>>=20
+>>> Even better would be to declare the new flag in some openat2-only flag
+>>> space, so there's no confusion about it being supported by legacy open
+>>> calls.
+>>>=20
+>>> If glibc wants to implement an open -> openat2 wrapper in userland
+>>> later, it can set that flag in the wrapper implicitly to emulate the old=
 
->
-> Sorry, but I'm just really not a fan of this.
+>>> behavior.
+>>>=20
+>>> Given that you're going to have to recompile software to take advantage
+>>> of this anyway, what's the benefit to changing legacy syscalls?
+>>>=20
+>>>>>>> Or do I risk disabling this security feature if I do that?
+>>>>>>=20
+>>>>>> It is only a security feature if the kernel support it, otherwise it i=
+s
+>>>>>> a no-op.
+>>>>>>=20
+>>>>>=20
+>>>>> With a security feature, I think we really want userland to aware of
+>>>>> whether it works.
+>>>>=20
+>>>> If userland would like to enforce something, it can already do it
+>>>> without any kernel modification. The goal of the O_MAYEXEC flag is to
+>>>> enable the kernel, hence sysadmins or system designers, to enforce a
+>>>> global security policy that makes sense.
+>>>>=20
+>>>=20
+>>> I don't see how this helps anything if you can't tell whether the kernel=
 
-I guess there is some misunderstanding. I just replied to another thread
-and I think it should answer your concerns (especially about the PDP and
-PEP):
-https://lore.kernel.org/lkml/70e4244e-4dfb-6e67-416b-445e383aa1b5@ssi.gouv.=
-fr/
+>>> recognizes the damned thing. Also, our track record with global sysctl
+>>> switches like this is pretty poor. They're an administrative headache as=
 
+>>> well as a potential attack vector.
+>>=20
+>> I tend to agree. The sysctl seems like it=E2=80=99s asking for trouble. I=
+ can see an ld.so.conf option to turn this thing off making sense.
+>=20
+> The sysctl is required to enable the adoption of this flag without
+> breaking existing systems. Current systems may have "noexec" on mount
+> points containing scripts. Without giving the ability to the sysadmin to
+> control that behavior, updating to a newer version of an interpreter
+> using O_MAYEXEC may break such systems.
+>=20
+> How would you do this with ld.so.conf ?
+>=20
 
---
-Micka=EBl Sala=FCn
+By telling user code not to use O_MAYEXEC?
 
-Les donn=E9es =E0 caract=E8re personnel recueillies et trait=E9es dans le c=
-adre de cet =E9change, le sont =E0 seule fin d=92ex=E9cution d=92une relati=
-on professionnelle et s=92op=E8rent dans cette seule finalit=E9 et pour la =
-dur=E9e n=E9cessaire =E0 cette relation. Si vous souhaitez faire usage de v=
-os droits de consultation, de rectification et de suppression de vos donn=
-=E9es, veuillez contacter contact.rgpd@sgdsn.gouv.fr. Si vous avez re=E7u c=
-e message par erreur, nous vous remercions d=92en informer l=92exp=E9diteur=
- et de d=E9truire le message. The personal data collected and processed dur=
-ing this exchange aims solely at completing a business relationship and is =
-limited to the necessary duration of that relationship. If you wish to use =
-your rights of consultation, rectification and deletion of your data, pleas=
-e contact: contact.rgpd@sgdsn.gouv.fr. If you have received this message in=
- error, we thank you for informing the sender and destroying the message.
+Alternatively, you could allow O_MAYEXEC even on a noexec mount and have a s=
+trong_noexec option that blocks it.=
