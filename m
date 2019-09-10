@@ -2,115 +2,107 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D4AF9AF0F0
-	for <lists+linux-api@lfdr.de>; Tue, 10 Sep 2019 20:15:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B9ABBAF1E2
+	for <lists+linux-api@lfdr.de>; Tue, 10 Sep 2019 21:29:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730700AbfIJSPm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 10 Sep 2019 14:15:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37288 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730558AbfIJSPl (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 10 Sep 2019 14:15:41 -0400
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EE34021019
-        for <linux-api@vger.kernel.org>; Tue, 10 Sep 2019 18:15:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1568139340;
-        bh=TbdlhZkrweZdHKGE1NQH7yEXlVoEq3NfZbuSOSqhbCM=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=rN2F8zsxzmxz2KarfrEIXKiBBT2f8WDBd9D/EXnyYsK2Es56VlNHQESD9HBpZtbne
-         OlMlW1p4H/l6woQmeyJqdrkBWSC0SVLThH/EhiSRUEgoknaPRjl1vImIb2luEzey6G
-         7XzBl4rucaM3RKi9zWkI3l5Qt/JE6MteSIPYFafs=
-Received: by mail-wr1-f43.google.com with SMTP id i1so21069405wro.4
-        for <linux-api@vger.kernel.org>; Tue, 10 Sep 2019 11:15:39 -0700 (PDT)
-X-Gm-Message-State: APjAAAV56odWbNecvkMnWMvi1yM8H8c7L7HL6l/NfKWqJrAMKbRpLtf0
-        0QLadbmT85DbnHCUJn6BVFpNznZMySO4XvEr8N1TJQ==
-X-Google-Smtp-Source: APXvYqzPkgsVik2Cs3pixh3Amc4mMGJ8Rvy3kWMY1onuSjAveSUtJLMLPX4xZ/zag8RZ9EM6aBowi2WKnJYo3cuatds=
-X-Received: by 2002:adf:ee10:: with SMTP id y16mr498827wrn.47.1568139338433;
- Tue, 10 Sep 2019 11:15:38 -0700 (PDT)
+        id S1726421AbfIJT3U (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 10 Sep 2019 15:29:20 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:38469 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726139AbfIJT3U (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 10 Sep 2019 15:29:20 -0400
+Received: by mail-pg1-f193.google.com with SMTP id d10so10239297pgo.5;
+        Tue, 10 Sep 2019 12:29:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=5sU4FATKSdq7FcyJmj+pLm2LM0y8e7tk5v+hc/S6Bwo=;
+        b=otoUnmP89xn5ExMTo/yCmQM2MzKldq8+a1fHc8iH9zZUuyzjvfPW9xvg1b/+ulRY/H
+         uxLSsz9xDgGHjHk0XHyyTiaB9qO7vTnEDpxfU4KtFe1XJqrUZAT2U/6mlOslIC3Fh79C
+         s/VQBlrs+W/Ixahy9D0nnTa7t0/iHx4hprCDVknEbVjNeV6EHE8FKJ6I/Yd8VqtNERzz
+         sf61l821JJo3y8f8hzouVcPkH1xDLTiZcjJ9Hqsl71Ti0SgYQwf83b30R9qjCayfYUpj
+         hcFIAbgCXG+WEH5BdmOoP390tFFFeDINAZcs85omS6F4yY+KKQdHMneE+CZtU3ExpKKL
+         f2vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=5sU4FATKSdq7FcyJmj+pLm2LM0y8e7tk5v+hc/S6Bwo=;
+        b=ZsNVdCgztoww0DdBzIrK/oDyoGc0jLU381phTkcTkzCLojqQCdBu1rmj+WwUOZycLB
+         nlEkWpEh/6TeotIb8Y05KBr1BAKpJQnOAUbXlSJPh8lyIWGHnL/sZhp0FghYlSz8M/L6
+         tSDz5v9accgGtvypMncuTJyl/ruNqipugNg7Sd/kKSQ58z06LV4kpKuh2fXn15XlAYET
+         OJv+v8AJqVI8pNXwKJyPIdEFK+f4MfnaiCHlEmXg7ocYkxfgH7jNUXeGNyEbDWYc387Y
+         9g4B/vo85cU7ezG6sj9zyPhemOuLC3xZLN3WQD7uqbEJ81Xjj5jrmQqexCltn1AqhrF0
+         lBpA==
+X-Gm-Message-State: APjAAAUY8yvbJFkYbdYsDJz/txalm65aieYNH2ZTNFpA8TwmSr3w6SFP
+        1436zXnb37DM31KsvgPeyVs=
+X-Google-Smtp-Source: APXvYqxHJOAfpDxbE1hET42fE9TQK88XLgFDINMO/wv5kSZ019o6h8r3bunZzpdBLSy/8YXrhx7cIA==
+X-Received: by 2002:a63:b102:: with SMTP id r2mr28964997pgf.370.1568143759346;
+        Tue, 10 Sep 2019 12:29:19 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id s21sm379706pjr.24.2019.09.10.12.29.17
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 10 Sep 2019 12:29:18 -0700 (PDT)
+Date:   Tue, 10 Sep 2019 12:29:17 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Wu Hao <hao.wu@intel.com>
+Cc:     mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, jdelvare@suse.com,
+        gregkh@linuxfoundation.org, Xu Yilun <yilun.xu@intel.com>
+Subject: Re: [PATCH v6 1/3] Documentation: fpga: dfl: add descriptions for
+ thermal/power management interfaces
+Message-ID: <20190910192917.GA1566@roeck-us.net>
+References: <1568094640-4920-1-git-send-email-hao.wu@intel.com>
+ <1568094640-4920-2-git-send-email-hao.wu@intel.com>
 MIME-Version: 1.0
-References: <20190905005313.126823-1-dancol@google.com> <CALCETrU2Wycgdfo8vLZQUnx1J9ro=6ddSkP37BhsfBkKL1mbMA@mail.gmail.com>
- <CAKOZuevMiomDQwzrHVb4qU6nhKOiENWsEmFhVKrBvjVNa0ff+w@mail.gmail.com>
-In-Reply-To: <CAKOZuevMiomDQwzrHVb4qU6nhKOiENWsEmFhVKrBvjVNa0ff+w@mail.gmail.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Tue, 10 Sep 2019 11:15:27 -0700
-X-Gmail-Original-Message-ID: <CALCETrWyDx+YiNpJn91TO2s6SMt3v+94L9aDY2nsW+KdG7pOWA@mail.gmail.com>
-Message-ID: <CALCETrWyDx+YiNpJn91TO2s6SMt3v+94L9aDY2nsW+KdG7pOWA@mail.gmail.com>
-Subject: Re: [RFC] Add critical process prctl
-To:     Daniel Colascione <dancol@google.com>
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        Tim Murray <timmurray@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1568094640-4920-2-git-send-email-hao.wu@intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Sep 10, 2019 at 10:43 AM Daniel Colascione <dancol@google.com> wrote:
->
-> On Tue, Sep 10, 2019 at 9:57 AM Andy Lutomirski <luto@kernel.org> wrote:
-> >
-> > On Wed, Sep 4, 2019 at 5:53 PM Daniel Colascione <dancol@google.com> wrote:
-> > >
-> > > A task with CAP_SYS_ADMIN can mark itself PR_SET_TASK_CRITICAL,
-> > > meaning that if the task ever exits, the kernel panics. This facility
-> > > is intended for use by low-level core system processes that cannot
-> > > gracefully restart without a reboot. This prctl allows these processes
-> > > to ensure that the system restarts when they die regardless of whether
-> > > the rest of userspace is operational.
-> >
-> > The kind of panic produced by init crashing is awful -- logs don't get
-> > written, etc.
->
-> True today --- but that's a separate problem, and one that can be
-> solved in a few ways, e.g., pre-registering log buffers to be
-> incorporated into any kexec kernel memory dumps. If a system aiming
-> for reliability can't diagnose panics, that's a problem with or
-> without my patch.
+On Tue, Sep 10, 2019 at 01:50:38PM +0800, Wu Hao wrote:
+> From: Xu Yilun <yilun.xu@intel.com>
+> 
+> This patch add introductions to thermal/power interfaces. They are
+> implemented as hwmon sysfs interfaces by thermal/power private
+> feature drivers.
+> 
+> Signed-off-by: Xu Yilun <yilun.xu@intel.com>
+> Signed-off-by: Wu Hao <hao.wu@intel.com>
 
-It's been a problem for years and years and no one has convincingly
-fixed it.  But the particular type of failure you're handling is
-unlike most panics: no locks are held, nothing is corrupt, and the
-kernel is generally functional.
+Acked-by: Guenter Roeck <linux@roeck-us.net>
 
->
-> > I'm wondering if you would be better off with a new
-> > watchdog-like device that, when closed, kills the system in a
-> > configurable way (e.g. after a certain amount of time, while still
-> > logging something and having a decent chance of getting the logs
-> > written out.)  This could plausibly even be an extension to the
-> > existing /dev/watchdog API.
->
-> There are lots of approaches that work today: a few people have
-> suggested just having init watch processes, perhaps with pidfds. What
-> I worry about is increasing the length (both in terms of time and
-> complexity) of the critical path between something going wrong in a
-> critical process and the system getting back into a known-good state.
-> A panic at the earliest moment we know that a marked-critical process
-> has become doomed seems like the most reliable approach, especially
-> since alternatives can get backed up behind things like file
-> descriptor closing and various forms of scheduling delay.
-
-I think this all depends on exactly what types of failures you care
-about.  If the kernel is dead (actually crashed, deadlocked, or merely
-livelocked or otherwise failing to make progress) then you have no
-particular guarantee that your critical task will make it to do_exit()
-in the first place.  Otherwise, I see no real reason that you should
-panic immediately in do_exit() rather than waiting the tiny amount of
-time it would take for a watchdog driver to notice that the descriptor
-was closed.
-
-So, if I were designing this, I think I would want to use a watchdog.
-Program it to die immediately if the descriptor is closed and also
-program it to die if the descriptor isn't pinged periodically.  The
-latter catches the case where the system is failing to make progress.
-And "die" can mean "notify a logging daemon and give it five seconds
-to do it's thing and declare it's done; panic or reboot after five
-seconds if it doesn't declare that it's done."
-
---Andy
+> ---
+>  Documentation/fpga/dfl.rst | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
+> index 6fa483f..094fc8a 100644
+> --- a/Documentation/fpga/dfl.rst
+> +++ b/Documentation/fpga/dfl.rst
+> @@ -108,6 +108,16 @@ More functions are exposed through sysfs
+>       error reporting sysfs interfaces allow user to read errors detected by the
+>       hardware, and clear the logged errors.
+>  
+> + Power management (dfl_fme_power hwmon)
+> +     power management hwmon sysfs interfaces allow user to read power management
+> +     information (power consumption, thresholds, threshold status, limits, etc.)
+> +     and configure power thresholds for different throttling levels.
+> +
+> + Thermal management (dfl_fme_thermal hwmon)
+> +     thermal management hwmon sysfs interfaces allow user to read thermal
+> +     management information (current temperature, thresholds, threshold status,
+> +     etc.).
+> +
+>  
+>  FIU - PORT
+>  ==========
+> -- 
+> 1.8.3.1
+> 
