@@ -2,197 +2,239 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C904B675E
-	for <lists+linux-api@lfdr.de>; Wed, 18 Sep 2019 17:46:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02919B705F
+	for <lists+linux-api@lfdr.de>; Thu, 19 Sep 2019 03:20:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729604AbfIRPqh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 18 Sep 2019 11:46:37 -0400
-Received: from mx1.mailbox.org ([80.241.60.212]:18286 "EHLO mx1.mailbox.org"
+        id S1731488AbfISBTs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 18 Sep 2019 21:19:48 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48704 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726676AbfIRPqg (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 18 Sep 2019 11:46:36 -0400
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [80.241.60.240])
-        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
+        id S1727114AbfISBTs (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 18 Sep 2019 21:19:48 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.mailbox.org (Postfix) with ESMTPS id A4F6050D4B;
-        Wed, 18 Sep 2019 17:46:30 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp1.mailbox.org ([80.241.60.240])
-        by spamfilter06.heinlein-hosting.de (spamfilter06.heinlein-hosting.de [80.241.56.125]) (amavisd-new, port 10030)
-        with ESMTP id ZgCJrYNr5TyO; Wed, 18 Sep 2019 17:46:22 +0200 (CEST)
-Date:   Wed, 18 Sep 2019 17:46:15 +0200
-From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     Jann Horn <jannh@google.com>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J. Bruce Fields" <bfields@fieldses.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        David Howells <dhowells@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Christian Brauner <christian@brauner.io>,
-        Andy Lutomirski <luto@kernel.org>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Tycho Andersen <tycho@tycho.ws>,
-        David Drysdale <drysdale@google.com>,
-        Chanho Min <chanho.min@lge.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Aleksa Sarai <asarai@suse.de>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
+        by mx1.redhat.com (Postfix) with ESMTPS id E6F8D308FC4A;
+        Thu, 19 Sep 2019 01:19:46 +0000 (UTC)
+Received: from madcap2.tricolour.ca (ovpn-112-19.phx2.redhat.com [10.3.112.19])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 9723A60C18;
+        Thu, 19 Sep 2019 01:19:31 +0000 (UTC)
+Date:   Wed, 18 Sep 2019 21:19:28 -0400
+From:   Richard Guy Briggs <rgb@redhat.com>
+To:     cgroups@vger.kernel.org,
         Linux Containers <containers@lists.linux-foundation.org>,
-        linux-alpha@vger.kernel.org, Linux API <linux-api@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-ia64@vger.kernel.org,
-        kernel list <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>, linux-m68k@lists.linux-m68k.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        linux-sh@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-        sparclinux@vger.kernel.org
-Subject: Re: [PATCH v12 05/12] namei: obey trailing magic-link DAC permissions
-Message-ID: <20190918154615.suruy5v5xjftfwyl@yavin.microfocus.com>
-References: <20190904201933.10736-1-cyphar@cyphar.com>
- <20190904201933.10736-6-cyphar@cyphar.com>
- <CAG48ez1_64249RdX6Nj_32YS+jhuXZBAd_ZL9ozggbSQy+cc-A@mail.gmail.com>
- <20190918135100.sdxdmdluq6wlwryv@yavin.microfocus.com>
+        Linux API <linux-api@vger.kernel.org>,
+        Linux Audit <linux-audit@redhat.com>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        Linux Kernel <linux-kernel@vger.kernel.org>,
+        Linux Network Development <netdev@vger.kernel.org>
+Cc:     mszeredi@redhat.com, Andy Lutomirski <luto@kernel.org>,
+        jlayton@redhat.com, Carlos O'Donell <carlos@redhat.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        David Howells <dhowells@redhat.com>,
+        Simo Sorce <simo@redhat.com>, trondmy@primarydata.com,
+        Eric Paris <eparis@parisplace.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>, dwalsh@redhat.com,
+        mpatel@redhat.com
+Subject: RFC(V4): Audit Kernel Container IDs
+Message-ID: <20190919011928.nsr4leqnomgumaac@madcap2.tricolour.ca>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="blplt4ksioniygek"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190918135100.sdxdmdluq6wlwryv@yavin.microfocus.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.43]); Thu, 19 Sep 2019 01:19:47 +0000 (UTC)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+Containers are a userspace concept.  The kernel knows nothing of them.
 
---blplt4ksioniygek
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The Linux audit system needs a way to be able to track the container
+provenance of events and actions.  Audit needs the kernel's help to do
+this.
 
-On 2019-09-18, Aleksa Sarai <cyphar@cyphar.com> wrote:
-> On 2019-09-17, Jann Horn <jannh@google.com> wrote:
-> > On Wed, Sep 4, 2019 at 10:21 PM Aleksa Sarai <cyphar@cyphar.com> wrote:
-> > > The ability for userspace to "re-open" file descriptors through
-> > > /proc/self/fd has been a very useful tool for all sorts of usecases
-> > > (container runtimes are one common example). However, the current
-> > > interface for doing this has resulted in some pretty subtle security
-> > > holes. Userspace can re-open a file descriptor with more permissions
-> > > than the original, which can result in cases such as /proc/$pid/exe
-> > > being re-opened O_RDWR at a later date even though (by definition)
-> > > /proc/$pid/exe cannot be opened for writing. When combined with O_PATH
-> > > the results can get even more confusing.
-> > [...]
-> > > Instead we have to restrict it in such a way that it doesn't break
-> > > (good) users but does block potential attackers. The solution applied=
- in
-> > > this patch is to restrict *re-opening* (not resolution through)
-> > > magic-links by requiring that mode of the link be obeyed. Normal
-> > > symlinks have modes of a+rwx but magic-links have other modes. These
-> > > magic-link modes were historically ignored during path resolution, but
-> > > they've now been re-purposed for more useful ends.
-> >=20
-> > Thanks for dealing with this issue!
-> >=20
-> > [...]
-> > > diff --git a/fs/namei.c b/fs/namei.c
-> > > index 209c51a5226c..54d57dad0f91 100644
-> > > --- a/fs/namei.c
-> > > +++ b/fs/namei.c
-> > > @@ -872,7 +872,7 @@ void nd_jump_link(struct path *path)
-> > >
-> > >         nd->path =3D *path;
-> > >         nd->inode =3D nd->path.dentry->d_inode;
-> > > -       nd->flags |=3D LOOKUP_JUMPED;
-> > > +       nd->flags |=3D LOOKUP_JUMPED | LOOKUP_MAGICLINK_JUMPED;
-> > >  }
-> > [...]
-> > > +static int trailing_magiclink(struct nameidata *nd, int acc_mode,
-> > > +                             fmode_t *opath_mask)
-> > > +{
-> > > +       struct inode *inode =3D nd->link_inode;
-> > > +       fmode_t upgrade_mask =3D 0;
-> > > +
-> > > +       /* Was the trailing_symlink() a magic-link? */
-> > > +       if (!(nd->flags & LOOKUP_MAGICLINK_JUMPED))
-> > > +               return 0;
-> > > +
-> > > +       /*
-> > > +        * Figure out the upgrade-mask of the link_inode. Since these=
- aren't
-> > > +        * strictly POSIX semantics we don't do an acl_permission_che=
-ck() here,
-> > > +        * so we only care that at least one bit is set for each upgr=
-ade-mode.
-> > > +        */
-> > > +       if (inode->i_mode & S_IRUGO)
-> > > +               upgrade_mask |=3D FMODE_PATH_READ;
-> > > +       if (inode->i_mode & S_IWUGO)
-> > > +               upgrade_mask |=3D FMODE_PATH_WRITE;
-> > > +       /* Restrict the O_PATH upgrade-mask of the caller. */
-> > > +       if (opath_mask)
-> > > +               *opath_mask &=3D upgrade_mask;
-> > > +       return may_open_magiclink(upgrade_mask, acc_mode);
-> > >  }
-> >=20
-> > This looks racy because entries in the file descriptor table can be
-> > switched out as long as task->files->file_lock isn't held. Unless I'm
-> > missing something, something like the following (untested) would
-> > bypass this restriction:
->=20
-> You're absolutely right -- good catch!
->=20
-> > Perhaps you could change nd_jump_link() to "void nd_jump_link(struct
-> > path *path, umode_t link_mode)", and let proc_pid_get_link() pass the
-> > link_mode through from an out-argument of .proc_get_link()? Then
-> > proc_fd_link() could grab the proper mode in a race-free manner. And
-> > nd_jump_link() could stash the mode in the nameidata.
->=20
-> This indeed does appear to be the simplest solution -- I'm currently
-> testing a variation of the patch you proposed (with a few extra bits to
-> deal with nd_jump_link and proc_get_link being used elsewhere).
->=20
-> I'll include this change (assuming it fixes the flaw you found) in the
-> v13 series I'll send around next week. Thanks, Jann!
+The motivations are:
 
-In case you're interested -- I've also included a selftest based on this
-attack in my series (though it uses CLONE_FILES so that we could also
-test O_EMPTYPATH, which wasn't affected because it didn't go through
-procfs and thus couldn't hit the "outdated inode->i_mode" problem).
+- A sysadmin needs to be able to filter unwanted, irrelevant or
+  unimportant messages before they fill the queue so that important
+  messages don't get lost.  This is a certification requirement.
 
-The attack script succeeds around 20% of the time on the original
-patchset, and with the updated patchset it doesn't succeed in several
-hundred thousand attempts (which I've repeated a few times).
+- Security claims need to be made about containers, requiring tracking
+  of actions within those containers to ensure compliance with
+  established security policies.
 
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-<https://www.cyphar.com/>
+- It will be required to route messages from events local to an audit
+  daemon instance or host audit daemon instance.
 
---blplt4ksioniygek
-Content-Type: application/pgp-signature; name="signature.asc"
+- nsIDs were considered seriously, but turns out to be insufficient for
+  efficient filtering, routing, and tracking.
 
------BEGIN PGP SIGNATURE-----
+Since the concept of a container is entirely a userspace concept, a
+registration from the userspace container orchestration system initiates
+this.  This will define a point in time and a set of resources
+associated with a particular container with an audit container
+identifier.
 
-iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCXYJRRAAKCRCdlLljIbnQ
-Ep3WAP0cvG8YTD9aS1zuiIbFfMQLKt1nuxBciHwn7LaCHk9Z0QEAtNdPaxztVO/p
-utsBd24Q6vZYzx6vj8OnW5nGpjaLpQA=
-=rL8c
------END PGP SIGNATURE-----
+The registration is a u64 representing the audit container identifier.
 
---blplt4ksioniygek--
+This is written to a special file in a pseudo filesystem (proc, since
+PID tree already exists) representing a process that will become a
+parent process in that container.  This write might place restrictions
+on mount namespaces required to define a container, or at least careful
+checking of namespaces in the kernel to verify permissions of the
+orchestrator so it can't change its own container ID.  A bind mount of
+nsfs may be necessary in the container orchestrator's mount namespace.
+This write can only happen once per process.
+
+Note: The justification for using a u64 is that it minimizes the
+information printed in every audit record, reducing bandwidth and limits
+comparisons to a single u64 which will be faster and less error-prone.
+
+[ALT:
+The registration is a
+netlink message to the audit subsystem of type AUDIT_SET_CONTID with a
+data structure including a u32 representing the PID of the target
+process to become the parent process in that container and a
+u64 representing the audit container identifier.
+:ALT]
+
+Require CAP_AUDIT_CONTROL to be able to carry out the registration.  At
+that time, record the target container's user-supplied audit container
+identifier along with a target container's parent process (which may
+become the target container's "init" process) process ID (referenced
+from the initial PID namespace) in a new record AUDIT_CONTAINER_OP with
+a qualifying op=$action field.
+
+Issue a new auxilliary record AUDIT_CONTAINER_ID for each valid
+audit container identifier present on an auditable action or event.
+
+Forked and cloned processes inherit their parent's audit container
+identifier, referenced from the process' task_struct indirectly in the
+audit pointer to a struct audit_task_info.  Since the audit
+container identifier is inherited rather than written, it can still be
+written once.  This will prevent tampering while allowing nesting.
+
+Mimic setns(2) and return an error if the process has already initiated
+threading or forked since this registration should happen before the
+process execution is started by the orchestrator and hence should not
+yet have any threads or children.  If this is deemed overly restrictive,
+switch all of the target's threads and children to the new containerID.
+
+Trust the orchestrator to judiciously use and restrict CAP_AUDIT_CONTROL.
+
+The audit container identifier will be stored in a refcounted kernel
+object that is searchable in a hashtabled list for efficient access.
+This is so that multiple container orchestrators/engines can operate on
+one machine without danger of them trampling each other's audit
+container identifiers.  The owner of each container will also be stored
+to be able to permit tasks to be injected into an existing container
+only by its owner.
+
+The total number of containers can be restricted by a total count.
+
+To permit nesting containers, the target container must be a descendant
+process of the container orchestrator and the container's parent
+container (if set) will be stored in the audit container identifier
+kernel object.  Report the chain of contids back to the top level
+container of a process.  Filters will check the chain of contids back to
+the top container.
+
+The total depth of container nesting can be restricted.
+
+When a container ceases to exist because the last process in that
+container has exited log the fact to balance the registration action.  
+(This is likely needed for certification accountability.)
+
+At this point it appears unnecessary to add a container session
+identifier since this is all tracked from loginuid and sessionid to
+communicate with the container orchestrator to spawn an additional
+session into an existing container which would be logged.  It can be
+added at a later date without breaking API should it be deemed
+necessary.
+
+To permit container nesting beyond the initial user namespace, add a
+capcontid flag per process in its audit audit_task_info struct to store
+this ability communicated either via /proc/PID/capcontid or an audit
+netlink message type AUDIT_SET_CAPCONTID.
+
+The following namespace logging actions are not needed for certification
+purposes at this point, but are helpful for tracking namespace activity.
+These are auxilliary records that are associated with namespace
+manipulation syscalls unshare(2), clone(2) and setns(2), so the records
+will only show up if explicit syscall rules have been added to document
+this activity.
+
+Log the creation of every namespace, inheriting/adding its spawning
+process' audit container identifier(s), if applicable.  Include the
+spawning and spawned namespace IDs (device and inode number tuples).
+[AUDIT_NS_CREATE, AUDIT_NS_DESTROY] [clone(2), unshare(2), setns(2)]
+Note: At this point it appears only network namespaces may need to track
+container IDs apart from processes since incoming packets may cause an
+auditable event before being associated with a process.  Since a
+namespace can be shared by processes in different containers, the
+namespace will need to track all containers to which it has been
+assigned.
+
+Upon registration, the target process' namespace IDs (in the form of a
+nsfs device number and inode number tuple) will be recorded in an
+AUDIT_NS_INFO auxilliary record.
+
+Log the destruction of every namespace that is no longer used by any
+process, including the namespace IDs (device and inode number tuples).
+[AUDIT_NS_DESTROY] [process exit, unshare(2), setns(2)]
+
+Issue a new auxilliary record AUDIT_NS_CHANGE listing (opt: op=$action)
+the parent and child namespace IDs for any changes to a process'
+namespaces. [setns(2)]
+Note: It may be possible to combine AUDIT_NS_* record formats and
+distinguish them with an op=$action field depending on the fields
+required for each message type.
+
+The audit container identifier will need to be reaped from all
+implicated namespaces upon the destruction of a container.
+
+This namespace information adds supporting information for tracking
+events not attributable to specific processes.
+
+Changelog:
+
+(Upstream V4)
+- Add elaborated motivations.
+- Switch AUDIT_CONTAINER to AUDIT_CONTAINER_OP
+- Switch AUDIT_CONTAINER_INFO to AUDIT_CONTAINER_ID
+- Add capcontid to mimic CAP_AUDIT_CONTROL in non-init user namespaces
+- Check for max contid depth
+- Check for max contid quantity
+- Store the contid in a refcounted kernel object filed by hashtable
+  lists
+- Mediate contid registration between peer orchestrators
+- Allow injection of processes into an existing container by container
+  owner
+
+(Upstream V3)
+- switch back to u64 (from pmoore, can be expanded to u128 in future if
+  need arises without breaking API.  u32 was originally proposed, up to
+  c36 discussed)
+- write-once, but children inherit audit container identifier and can
+  then still be written once
+- switch to CAP_AUDIT_CONTROL
+- group namespace actions together, auxilliary records to namespace
+  operations.
+
+(Upstream V2)
+- switch from u64 to u128 UUID
+- switch from "signal" and "trigger" to "register"
+- restrict registration to single process or force all threads and
+  children into same container
+
+- RGB
+
+--
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems
+Remote, Ottawa, Red Hat Canada
+IRC: rgb, SunRaycer
+Voice: +1.647.777.2635, Internal: (81) 32635
