@@ -2,123 +2,121 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 74321B9599
-	for <lists+linux-api@lfdr.de>; Fri, 20 Sep 2019 18:25:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E4662B95AB
+	for <lists+linux-api@lfdr.de>; Fri, 20 Sep 2019 18:30:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393651AbfITQZI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 20 Sep 2019 12:25:08 -0400
-Received: from mail-io1-f66.google.com ([209.85.166.66]:39583 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2393409AbfITQZI (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 20 Sep 2019 12:25:08 -0400
-Received: by mail-io1-f66.google.com with SMTP id a1so17507336ioc.6
-        for <linux-api@vger.kernel.org>; Fri, 20 Sep 2019 09:25:07 -0700 (PDT)
+        id S2387935AbfITQaM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 20 Sep 2019 12:30:12 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:38753 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729019AbfITQaM (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 20 Sep 2019 12:30:12 -0400
+Received: by mail-lj1-f194.google.com with SMTP id b20so2301821ljj.5
+        for <linux-api@vger.kernel.org>; Fri, 20 Sep 2019 09:30:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=mdvYxDHDS8hqK4Ot9ARyH0M5hxcRfC/pXtaEBErAd8Q=;
-        b=dFMPSpTQUpDPcVQWAqEZI/cbI+4Z0LB4fZE7fL3JiXgGmvfgvgqrv1s8ZWrMOdvDvc
-         YDddmJi8POfbG+klNJzG4TfQAbRHXTJUWzuSqyPbE3uuGFvnXX7xTW4qj6O2f5cmCQvz
-         B3shagy3lkokbk0bG+3kjDFEMC+I5pxed1t0U+i847eE2fepTDSfJx26d9Lr7kgc232q
-         u6ZGobYG1E+RQyg3obngkIhvbZwE4JdszSBC1/zb3WXXuJAmBcUsF9j3zqS4jkhhFCyb
-         +CoZsVO55/O/LrNnvGnBy8PXhU59T0spyAu3ZbAJudB/b5J+f5x0e7UoW/vTJl3R9H5t
-         4mrw==
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3qfHDj62HozW8w7YWwj9CkN9/sQfc3fOAZsNubcgArY=;
+        b=ZQIGHEoM2VE/RUJCyR8wJqhG4SoL3m5ky7t1mnKhLv11uqJxbD6lRJm5k/4ajS8Sdo
+         UMhvXa/MmA5zyCc/ENaP9s79+xZOTrHtnrS7z9ra7Xe2HT/ekZVmC2KO+GbdBvDc35H9
+         t5l05A8TLonE+2sI7SlSpw7F1/5/t4r9zscBw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=mdvYxDHDS8hqK4Ot9ARyH0M5hxcRfC/pXtaEBErAd8Q=;
-        b=la/HaFttet+JQeA0aalrSy1By1FqWISFAb6CZLsqk7Hl9zpQl+N6NlksZhu3E27A9H
-         xyV+6RQ56iggyzl9ggZddc4ujG+dYBfUwhR8mZ2fuWe0/MOWz8MKfLc18s6hQTWzCQom
-         5GbJHrfd7fOHcfnHKc6ChmA5liVKkGGxI8XqYmQUQIyJqcf5S27/VeveNr+yrmeGMzPY
-         dwvrvTW3pkHjWqAq/A551Csx6+gFV+H6fdZ7iACPOMGSB3DOKpshRtvs63km1OSTyz4M
-         vzXviqnRqBJh8nC8MFYdjiiEXD9kn1ADdg5XL3DmLWxK5KpfJGlpQgoxIMqwPQVJxWvB
-         IOAg==
-X-Gm-Message-State: APjAAAXPv3pPGPbRQri6UhHm+3yV7BZOUcbPa7A+zHQ8bQi4S5l9kZvQ
-        JNHSB0PrwW60kY+XLROOf0NOiQ==
-X-Google-Smtp-Source: APXvYqxeolQgNgsjFuOEJ/gxDgrgRtD++wvNZnY8Znc9LZZnmG8V6YaMbF0xzS/qUvoW8STGJ7ldbg==
-X-Received: by 2002:a5d:9619:: with SMTP id w25mr1431266iol.158.1568996707089;
-        Fri, 20 Sep 2019 09:25:07 -0700 (PDT)
-Received: from [192.168.1.50] ([65.144.74.34])
-        by smtp.gmail.com with ESMTPSA id n17sm2288749ioj.73.2019.09.20.09.25.04
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 20 Sep 2019 09:25:05 -0700 (PDT)
-Subject: Re: [RFC PATCH 2/3] fs: add RWF_ENCODED for writing compressed data
-To:     Jann Horn <jannh@google.com>, Omar Sandoval <osandov@osandov.com>
-Cc:     linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-btrfs@vger.kernel.org, Dave Chinner <david@fromorbit.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Kernel Team <kernel-team@fb.com>,
-        Andy Lutomirski <luto@kernel.org>
-References: <cover.1568875700.git.osandov@fb.com>
- <230a76e65372a8fb3ec62ce167d9322e5e342810.1568875700.git.osandov@fb.com>
- <CAG48ez2GKv15Uj6Wzv0sG5v2bXyrSaCtRTw5Ok_ovja_CiO_fQ@mail.gmail.com>
-From:   Jens Axboe <axboe@kernel.dk>
-Message-ID: <cf85b314-2cf7-4fcb-c116-21a271ab50fc@kernel.dk>
-Date:   Fri, 20 Sep 2019 10:25:04 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3qfHDj62HozW8w7YWwj9CkN9/sQfc3fOAZsNubcgArY=;
+        b=UzOaPmTz+JTSWyXsldF5qCCobi1LPu0/QhKZQJLsRgjhg56aKKDLIfukbCietpQfCH
+         tCKvBD2rONO2NRPfCIO/gBs1S26PAfvob335OSHC4ZummKp503LMlnW8raPlN3xxPQD0
+         y5Y0+O3i0SHqFlj+n0phN45aGt4sSFzJkmhYIc3SGhDVIj6Eltvop+gIsA/TilHA9bAe
+         +s/2nM7czlDIWkPIUwKyJ65HxRYaWYH5Zk33lcvHYoDedTkHYtGdlW7sYsQ52wghkRYY
+         7Ds5p1DLjk2ep9QG0tC54gvr03vqWS+28JK2yG7/0/jVDAbUH/LwdCJgIEmuBD4AEfYy
+         3ruA==
+X-Gm-Message-State: APjAAAXci/qfaylb2mFFtbFLFA1YTXMqiuHPSBeXvMma6eZpRo+8Elf2
+        6kCcGPHwCNY69e1QGddLxL48RoicDk4=
+X-Google-Smtp-Source: APXvYqxLF8wAKOsU3v4WbyRqDb5SMDGF+JQqs7DcAy+gn/hNHN9OqROMrVMqzoX71wVvw5T8UE4BkQ==
+X-Received: by 2002:a2e:9ac4:: with SMTP id p4mr9324376ljj.206.1568997009445;
+        Fri, 20 Sep 2019 09:30:09 -0700 (PDT)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com. [209.85.208.180])
+        by smtp.gmail.com with ESMTPSA id x3sm544467ljm.103.2019.09.20.09.30.07
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Sep 2019 09:30:08 -0700 (PDT)
+Received: by mail-lj1-f180.google.com with SMTP id j19so6194774lja.1
+        for <linux-api@vger.kernel.org>; Fri, 20 Sep 2019 09:30:07 -0700 (PDT)
+X-Received: by 2002:a2e:96d3:: with SMTP id d19mr411864ljj.165.1568997007674;
+ Fri, 20 Sep 2019 09:30:07 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAG48ez2GKv15Uj6Wzv0sG5v2bXyrSaCtRTw5Ok_ovja_CiO_fQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20190912034421.GA2085@darwi-home-pc> <20190912082530.GA27365@mit.edu>
+ <CAHk-=wjyH910+JRBdZf_Y9G54c1M=LBF8NKXB6vJcm9XjLnRfg@mail.gmail.com>
+ <20190914122500.GA1425@darwi-home-pc> <008f17bc-102b-e762-a17c-e2766d48f515@gmail.com>
+ <20190915052242.GG19710@mit.edu> <CAHk-=wgg2T=3KxrO-BY3nHJgMEyApjnO3cwbQb_0vxsn9qKN8Q@mail.gmail.com>
+ <20190918211503.GA1808@darwi-home-pc> <20190918211713.GA2225@darwi-home-pc>
+ <CAHk-=wiCqDiU7SE3FLn2W26MS_voUAuqj5XFa1V_tiGTrrW-zQ@mail.gmail.com>
+ <20190920134609.GA2113@pc> <CALCETrWvE5es3i+to33y6jw=Yf0Tw6ZfV-6QWjZT5v0fo76tWw@mail.gmail.com>
+In-Reply-To: <CALCETrWvE5es3i+to33y6jw=Yf0Tw6ZfV-6QWjZT5v0fo76tWw@mail.gmail.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Fri, 20 Sep 2019 09:29:51 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgW8rN2EVL_Rdn63V9vQO0GkZ=RQFeqqsYJM==8fujpPg@mail.gmail.com>
+Message-ID: <CAHk-=wgW8rN2EVL_Rdn63V9vQO0GkZ=RQFeqqsYJM==8fujpPg@mail.gmail.com>
+Subject: Re: [PATCH RFC v4 1/1] random: WARN on large getrandom() waits and
+ introduce getrandom2()
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     "Ahmed S. Darwish" <darwish.07@gmail.com>,
+        Lennart Poettering <mzxreary@0pointer.de>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "Alexander E. Patrakov" <patrakov@gmail.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Willy Tarreau <w@1wt.eu>,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Ext4 Developers List <linux-ext4@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-man <linux-man@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 9/19/19 9:44 AM, Jann Horn wrote:
-> On Thu, Sep 19, 2019 at 8:54 AM Omar Sandoval <osandov@osandov.com> wrote:
->> Btrfs can transparently compress data written by the user. However, we'd
->> like to add an interface to write pre-compressed data directly to the
->> filesystem. This adds support for so-called "encoded writes" via
->> pwritev2().
->>
->> A new RWF_ENCODED flags indicates that a write is "encoded". If this
->> flag is set, iov[0].iov_base points to a struct encoded_iov which
->> contains metadata about the write: namely, the compression algorithm and
->> the unencoded (i.e., decompressed) length of the extent. iov[0].iov_len
->> must be set to sizeof(struct encoded_iov), which can be used to extend
->> the interface in the future. The remaining iovecs contain the encoded
->> extent.
->>
->> A similar interface for reading encoded data can be added to preadv2()
->> in the future.
->>
->> Filesystems must indicate that they support encoded writes by setting
->> FMODE_ENCODED_IO in ->file_open().
-> [...]
->> +int import_encoded_write(struct kiocb *iocb, struct encoded_iov *encoded,
->> +                        struct iov_iter *from)
->> +{
->> +       if (iov_iter_single_seg_count(from) != sizeof(*encoded))
->> +               return -EINVAL;
->> +       if (copy_from_iter(encoded, sizeof(*encoded), from) != sizeof(*encoded))
->> +               return -EFAULT;
->> +       if (encoded->compression == ENCODED_IOV_COMPRESSION_NONE &&
->> +           encoded->encryption == ENCODED_IOV_ENCRYPTION_NONE) {
->> +               iocb->ki_flags &= ~IOCB_ENCODED;
->> +               return 0;
->> +       }
->> +       if (encoded->compression > ENCODED_IOV_COMPRESSION_TYPES ||
->> +           encoded->encryption > ENCODED_IOV_ENCRYPTION_TYPES)
->> +               return -EINVAL;
->> +       if (!capable(CAP_SYS_ADMIN))
->> +               return -EPERM;
-> 
-> How does this capable() check interact with io_uring? Without having
-> looked at this in detail, I suspect that when an encoded write is
-> requested through io_uring, the capable() check might be executed on
-> something like a workqueue worker thread, which is probably running
-> with a full capability set.
+On Fri, Sep 20, 2019 at 7:34 AM Andy Lutomirski <luto@kernel.org> wrote:
+>
+> What is this GRND_EXPLICIT thing?
 
-If we can hit -EAGAIN before doing the import in io_uring, then yes,
-this will probably bypass the check as it'll only happen from the
-worker.
+Your own email gives the explanation:
 
--- 
-Jens Axboe
+> Linus, I disagree that blocking while waiting for randomness is an
+> error.  Sometimes you want to generate a key
 
+That's *exactly* why GRND_EXPLICIT needs to be done regardless.
+
+The keyword there is "Sometimes".
+
+But people currently use "getrandom(0)" when they DO NOT want a key,
+they just want some miscellaneous random numbers for some totally
+non-security-related reason.
+
+And that will continue. Exactly because the people who do not want a
+key by definition aren't thinking about it very hard.
+
+So the interface was very much mis-designed from the get-go. It was
+designed purely for key people, even though generating keys is by no
+means the most common reason for wanting a block of "random" numbers.
+
+So GRND_EXPLICIT is there very much to make sure people who want true
+secure keys will say so, and five years from now we will not have the
+confusion between "Oh, I wasn't thinking about bootup". Because at a
+minimum, in the near future getrandom(0) will warn about the
+ambiguity. Or it will use some questionable jitter entropy that some
+real key users will look at sideways and go "I don't want that".
+
+This is an ABI design issue. The old ABI was fundamentally misdesigned
+and actively encouraged the current situation of mixing secure and
+insecure callers for that getrandom(0).
+
+And it's entirely orthogonal to _any_ actual technical change we will
+do (like removing the old GRND_RANDOM behavior entirely, which is
+insane for other reasons and nobody ever wanted or likely used).
+
+            Linus
