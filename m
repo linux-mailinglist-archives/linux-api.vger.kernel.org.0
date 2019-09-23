@@ -2,104 +2,106 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B8E4BB70E
-	for <lists+linux-api@lfdr.de>; Mon, 23 Sep 2019 16:47:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6203FBBBA2
+	for <lists+linux-api@lfdr.de>; Mon, 23 Sep 2019 20:33:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2440058AbfIWOrk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 23 Sep 2019 10:47:40 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:42280 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2438206AbfIWOrj (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 23 Sep 2019 10:47:39 -0400
-Received: from [172.58.27.190] (helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1iCPcd-000393-Is; Mon, 23 Sep 2019 14:47:28 +0000
-Date:   Mon, 23 Sep 2019 16:47:13 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Florian Weimer <fw@deneb.enyo.de>
-Cc:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
-        Christian Brauner <christian@brauner.io>,
-        Jann Horn <jannh@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        linux-man <linux-man@vger.kernel.org>,
-        Oleg Nesterov <oleg@redhat.com>
-Subject: Re: For review: pidfd_open(2) manual page
-Message-ID: <20190923144711.ssbrg6bdquhewo7q@wittgenstein>
-References: <90399dee-53d8-a82c-3871-9ec8f94601ce@gmail.com>
- <87tv939td6.fsf@mid.deneb.enyo.de>
+        id S1727281AbfIWSdf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 23 Sep 2019 14:33:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60836 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727116AbfIWSdf (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 23 Sep 2019 14:33:35 -0400
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 81C6421850
+        for <linux-api@vger.kernel.org>; Mon, 23 Sep 2019 18:33:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1569263614;
+        bh=Fie3J0526jnQEvDaVDkC2sqZvgFQ5cq4HZDj0LraLR4=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=ricmx6tsBotMizJ+zHuuwiK2sol3/KXTKuRSEaSbi4iNFGpYtcgU8fx6hbXIOtwaX
+         P9gJoaBeCHGASmi/tA+dwD5hiyK6FCTQ3UDeDeOQLhImRntdL3JnvsM11Rg41te5yB
+         kX1HIBhO+w7V09bFtjrwR/YRPapbcuUrcR3ps7/Y=
+Received: by mail-wr1-f45.google.com with SMTP id q17so15104302wrx.10
+        for <linux-api@vger.kernel.org>; Mon, 23 Sep 2019 11:33:34 -0700 (PDT)
+X-Gm-Message-State: APjAAAXckQkc3CEqT97fXJWtJz8JcaCwTojSo6b7/EUKaUo8lRNxPdPU
+        VrC/FgzNK2dVPQP5bRpQb7pMpQSXvm9HcHgWA/LDBg==
+X-Google-Smtp-Source: APXvYqw4487lN/sv3jAQj37UY8zoRCqY7v0vsTXZ2t6ri4Fp48K86SQBOeh3CooGzzPErjZR5xwdGy1Bm2skBTf77KQ=
+X-Received: by 2002:adf:dbc6:: with SMTP id e6mr562368wrj.149.1569263612970;
+ Mon, 23 Sep 2019 11:33:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87tv939td6.fsf@mid.deneb.enyo.de>
-User-Agent: NeoMutt/20180716
+References: <20190912034421.GA2085@darwi-home-pc> <20190912082530.GA27365@mit.edu>
+ <CAHk-=wjyH910+JRBdZf_Y9G54c1M=LBF8NKXB6vJcm9XjLnRfg@mail.gmail.com>
+ <20190914122500.GA1425@darwi-home-pc> <008f17bc-102b-e762-a17c-e2766d48f515@gmail.com>
+ <20190915052242.GG19710@mit.edu> <CAHk-=wgg2T=3KxrO-BY3nHJgMEyApjnO3cwbQb_0vxsn9qKN8Q@mail.gmail.com>
+ <20190918211503.GA1808@darwi-home-pc> <20190918211713.GA2225@darwi-home-pc>
+ <CAHk-=wiCqDiU7SE3FLn2W26MS_voUAuqj5XFa1V_tiGTrrW-zQ@mail.gmail.com>
+ <20190920134609.GA2113@pc> <CALCETrWvE5es3i+to33y6jw=Yf0Tw6ZfV-6QWjZT5v0fo76tWw@mail.gmail.com>
+ <CAHk-=wgW8rN2EVL_Rdn63V9vQO0GkZ=RQFeqqsYJM==8fujpPg@mail.gmail.com>
+ <CALCETrV=4TX2a4uV5t2xOFzv+zM_jnOtMLJna8Vb7uXz6S=wSw@mail.gmail.com>
+ <CAHk-=wjpTWgpo6d24pTv+ubfea_uEomX-sHjjOkdACfV-8Nmkg@mail.gmail.com> <87blvefai7.fsf@oldenburg2.str.redhat.com>
+In-Reply-To: <87blvefai7.fsf@oldenburg2.str.redhat.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Mon, 23 Sep 2019 11:33:21 -0700
+X-Gmail-Original-Message-ID: <CALCETrWM9opVj+BBrHnnTakTLunW_fB9RM+VSNpNSkR9drDjMw@mail.gmail.com>
+Message-ID: <CALCETrWM9opVj+BBrHnnTakTLunW_fB9RM+VSNpNSkR9drDjMw@mail.gmail.com>
+Subject: Re: [PATCH RFC v4 1/1] random: WARN on large getrandom() waits and
+ introduce getrandom2()
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        "Ahmed S. Darwish" <darwish.07@gmail.com>,
+        Lennart Poettering <mzxreary@0pointer.de>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "Alexander E. Patrakov" <patrakov@gmail.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Willy Tarreau <w@1wt.eu>,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Ext4 Developers List <linux-ext4@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-man <linux-man@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Sep 23, 2019 at 12:53:09PM +0200, Florian Weimer wrote:
-> * Michael Kerrisk:
-> 
-> > SYNOPSIS
-> >        int pidfd_open(pid_t pid, unsigned int flags);
-> 
-> Should this mention <sys/types.h> for pid_t?
-> 
-> > ERRORS
-> >        EINVAL flags is not 0.
+On Fri, Sep 20, 2019 at 11:07 PM Florian Weimer <fweimer@redhat.com> wrote:
+>
+> * Linus Torvalds:
+>
+> > Violently agreed. And that's kind of what the GRND_EXPLICIT is really
+> > aiming for.
 > >
-> >        EINVAL pid is not valid.
-> >
-> >        ESRCH  The process specified by pid does not exist.
-> 
-> Presumably, EMFILE and ENFILE are also possible errors, and so is
-> ENOMEM.
+> > However, it's worth noting that nobody should ever use GRND_EXPLICIT
+> > directly. That's just the name for the bit. The actual users would use
+> > GRND_INSECURE or GRND_SECURE.
+>
+> Should we switch glibc's getentropy to GRND_EXPLICIT?  Or something
+> else?
+>
+> I don't think we want to print a kernel warning for this function.
+>
 
-So, error codes that could surface are:
-EMFILE: too many open files
-ENODEV: the anon inode filesystem is not available in this kernel (unlikely)
-ENOMEM: not enough memory (to allocate the backing struct file)
-ENFILE: you're over the max_files limit which can be set through proc
+Contemplating this question, I think the answer is that we should just
+not introduce GRND_EXPLICIT or anything like it.  glibc is going to
+have to do *something*, and getentropy() is unlikely to just go away.
+The explicitly documented semantics are that it blocks if the RNG
+isn't seeded.
 
-I think that should be it.
+Similarly, FreeBSD has getrandom():
 
-> 
-> >        A  PID  file descriptor can be monitored using poll(2), select(2),
-> >        and epoll(7).  When the process that it refers to terminates,  the
-> >        file descriptor indicates as readable.  Note, however, that in the
-> >        current implementation, nothing can be read from the file descrip‐
-> >        tor.
-> 
-> “is indicated as readable” or “becomes readable”?  Will reading block?
-> 
-> >        The  pidfd_open()  system call is the preferred way of obtaining a
-> >        PID file descriptor.  The alternative is to obtain a file descrip‐
-> >        tor by opening a /proc/[pid] directory.  However, the latter tech‐
-> >        nique is possible only if the proc(5) file system is mounted; fur‐
-> >        thermore,  the  file  descriptor  obtained in this way is not pol‐
-> >        lable.
-> 
-> One question is whether the glibc wrapper should fall back back to the
-> /proc subdirectory if it is not available.  Probably not.
+https://www.freebsd.org/cgi/man.cgi?query=getrandom&sektion=2&manpath=freebsd-release-ports
 
-No, that would not be transparent to userspace. Especially because both
-fds differ in what can be done with them.
+and if we make getrandom(..., 0) warn, then we have a situation where
+the *correct* (if regrettable) way to use the function on FreeBSD
+causes a warning on Linux.
 
-> 
-> >        static
-> >        int pidfd_open(pid_t pid, unsigned int flags)
-> >        {
-> >            return syscall(__NR_pidfd_open, pid, flags);
-> >        }
-> 
-> Please call this function something else (not pidfd_open), so that the
-> example continues to work if glibc provides the system call wrapper.
-
-Agreed!
+Let's just add GRND_INSECURE, make the blocking mode work better, and,
+if we're feeling a bit more adventurous, add GRND_SECURE_BLOCKING as a
+better replacement for 0, convince FreeBSD to add it too, and then
+worry about deprecating 0 once we at least get some agreement from the
+FreeBSD camp.
