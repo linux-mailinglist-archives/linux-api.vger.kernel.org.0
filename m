@@ -2,51 +2,51 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E642BB6BC
-	for <lists+linux-api@lfdr.de>; Mon, 23 Sep 2019 16:29:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 93028BB6F3
+	for <lists+linux-api@lfdr.de>; Mon, 23 Sep 2019 16:39:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393222AbfIWO3y (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 23 Sep 2019 10:29:54 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:41335 "EHLO
+        id S2438183AbfIWOjG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 23 Sep 2019 10:39:06 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:41780 "EHLO
         youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389590AbfIWO3y (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 23 Sep 2019 10:29:54 -0400
+        with ESMTP id S2438136AbfIWOjG (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 23 Sep 2019 10:39:06 -0400
 Received: from [172.58.27.190] (helo=wittgenstein)
         by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
         (Exim 4.86_2)
         (envelope-from <christian.brauner@ubuntu.com>)
-        id 1iCPLW-0001df-Gy; Mon, 23 Sep 2019 14:29:47 +0000
-Date:   Mon, 23 Sep 2019 16:29:34 +0200
+        id 1iCPUR-0002WM-SY; Mon, 23 Sep 2019 14:39:00 +0000
+Date:   Mon, 23 Sep 2019 16:38:48 +0200
 From:   Christian Brauner <christian.brauner@ubuntu.com>
 To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc:     Oleg Nesterov <oleg@redhat.com>,
-        Christian Brauner <christian@brauner.io>,
+Cc:     Christian Brauner <christian@brauner.io>,
         Jann Horn <jannh@google.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
         Daniel Colascione <dancol@google.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
         Joel Fernandes <joel@joelfernandes.org>,
-        linux-man <linux-man@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Subject: Re: For review: pidfd_send_signal(2) manual page
-Message-ID: <20190923142932.2gujbddnzyp4ujeu@wittgenstein>
-References: <f21dbd73-5ef4-fb5b-003f-ff4fec34a1de@gmail.com>
+        lkml <linux-kernel@vger.kernel.org>,
+        linux-man <linux-man@vger.kernel.org>,
+        Oleg Nesterov <oleg@redhat.com>
+Subject: Re: For review: pidfd_open(2) manual page
+Message-ID: <20190923143846.u7miwgmszecankof@wittgenstein>
+References: <90399dee-53d8-a82c-3871-9ec8f94601ce@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <f21dbd73-5ef4-fb5b-003f-ff4fec34a1de@gmail.com>
+In-Reply-To: <90399dee-53d8-a82c-3871-9ec8f94601ce@gmail.com>
 User-Agent: NeoMutt/20180716
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Sep 23, 2019 at 11:12:00AM +0200, Michael Kerrisk (man-pages) wrote:
+On Mon, Sep 23, 2019 at 11:11:53AM +0200, Michael Kerrisk (man-pages) wrote:
 > Hello Christian and all,
 > 
 > Below, I have the rendered version of the current draft of
-> the pidfd_send_signal(2) manual page that I have written.
+> the pidfd_open(2) manual page that I have written.
 > The page source can be found in a Git branch at:
 > https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/log/?h=draft_pidfd
 > 
@@ -56,10 +56,7 @@ On Mon, Sep 23, 2019 at 11:12:00AM +0200, Michael Kerrisk (man-pages) wrote:
 > 
 > Would you be able to review please?
 
-Michael,
-
-A big big thank you for doing this! Really appreciated.
-I'm happy to review this!
+Again, thank you Michael for doing this!
 
 > 
 > Thanks,
@@ -68,167 +65,157 @@ I'm happy to review this!
 > 
 > 
 > NAME
->        pidfd_send_signal - send a signal to a process specified by a file
->        descriptor
+>        pidfd_open - obtain a file descriptor that refers to a process
 > 
 > SYNOPSIS
->        int pidfd_send_signal(int pidfd, int sig, siginfo_t info,
->                              unsigned int flags);
+>        int pidfd_open(pid_t pid, unsigned int flags);
 > 
 > DESCRIPTION
->        The pidfd_send_signal() system call sends the signal  sig  to  the
->        target  process  referred  to by pidfd, a PID file descriptor that
->        refers to a process.
-> 
->        If the info argument points to a  siginfo_t  buffer,  that  buffer
->        should be populated as described in rt_sigqueueinfo(2).
-> 
->        If  the  info  argument  is  a NULL pointer, this is equivalent to
->        specifying a pointer to a siginfo_t buffer whose fields match  the
->        values  that  are  implicitly supplied when a signal is sent using
->        kill(2):
-> 
->        *  si_signo is set to the signal number;
->        *  si_errno is set to 0;
->        *  si_code is set to SI_USER;
->        *  si_pid is set to the caller's PID; and
->        *  si_uid is set to the caller's real user ID.
-> 
->        The calling process must either be in the same  PID  namespace  as
->        the  process  referred  to  by pidfd, or be in an ancestor of that
->        namespace.
+>        The  pidfd_open()  system creates a file descriptor that refers to
+
+s/system/system call/
+
+>        the process whose PID is specified in pid.  The file descriptor is
+>        returned  as the function result; the close-on-exec flag is set on
+>        the file descriptor.
 > 
 >        The flags argument is reserved for  future  use;  currently,  this
 >        argument must be specified as 0.
 > 
 > RETURN VALUE
->        On  success,  pidfd_send_signal()  returns  0.   On success, -1 is
+>        On  success,  pidfd_open()  returns a nonnegative file descriptor.
+>        On success, -1 is returned and errno is set to indicate the  cause
 
-This should probably be "On error, -1 is [...]".
+s/On success/On error/g
 
->        returned and errno is set to indicate the cause of the error.
+>        of the error.
 > 
 > ERRORS
->        EBADF  pidfd is not a valid PID file descriptor.
-> 
->        EINVAL sig is not a valid signal.
-> 
->        EINVAL The calling process is not in a PID namespace from which it
->               can send a signal to the target process.
-> 
 >        EINVAL flags is not 0.
 > 
->        EPERM  The  calling  process  does not have permission to send the
->               signal to the target process.
+>        EINVAL pid is not valid.
 > 
->        EPERM  pidfd  doesn't  refer   to   the   calling   process,   and
->               info.si_code is invalid (see rt_sigqueueinfo(2)).
-> 
->        ESRCH  The target process does not exist.
+>        ESRCH  The process specified by pid does not exist.
 > 
 > VERSIONS
->        pidfd_send_signal() first appeared in Linux 5.1.
+>        pidfd_open() first appeared in Linux 5.3.
 > 
 > CONFORMING TO
->        pidfd_send_signal() is Linux specific.
+>        pidfd_open() is Linux specific.
 > 
 > NOTES
 >        Currently, there is no glibc wrapper for this system call; call it
 >        using syscall(2).
 > 
->    PID file descriptors
->        The pidfd argument is a PID file  descriptor,  a  file  descriptor
->        that  refers  to  process.  Such a file descriptor can be obtained
->        in any of the following ways:
+>        The pidfd_send_signal(2) system call can be used to send a  signal
+>        to the process referred to by a PID file descriptor.
 > 
->        *  by opening a /proc/[pid] directory;
+>        A  PID  file descriptor can be monitored using poll(2), select(2),
+>        and epoll(7).  When the process that it refers to terminates,  the
+>        file descriptor indicates as readable.  Note, however, that in the
+
+Not a native English speaker but should this be "indicates it is
+readable"?
+
+>        current implementation, nothing can be read from the file descrip‐
+>        tor.
 > 
->        *  using pidfd_open(2); or
+>        The  pidfd_open()  system call is the preferred way of obtaining a
+>        PID file descriptor.  The alternative is to obtain a file descrip‐
+>        tor by opening a /proc/[pid] directory.  However, the latter tech‐
+>        nique is possible only if the proc(5) file system is mounted; fur‐
+>        thermore,  the  file  descriptor  obtained in this way is not pol‐
+>        lable.
+
+I mentioned this already in the CLONE_PIDFD manpage, we should probably
+not make a big deal out of this and not mention /proc/<pid> here at all.
+(Crazy idea, but we could also have a config option that allows you to
+turn of proc-pid-dirfds as pidfds if we start to feel really strongly
+about this or a sysctl whatever...)
+
 > 
->        *  via the PID file descriptor that  is  returned  by  a  call  to
->           clone(2) or clone3(2) that specifies the CLONE_PIDFD flag.
-> 
->        The  pidfd_send_signal()  system call allows the avoidance of race
->        conditions that occur when using traditional interfaces  (such  as
->        kill(2)) to signal a process.  The problem is that the traditional
->        interfaces specify the target process via a process ID (PID), with
->        the  result  that the sender may accidentally send a signal to the
->        wrong process if the originally intended target process has termi‐
->        nated  and its PID has been recycled for another process.  By con‐
->        trast, a PID file descriptor is a stable reference to  a  specific
->        process;  if  that  process  terminates,  then the file descriptor
->        ceases to be  valid  and  the  caller  of  pidfd_send_signal()  is
->        informed of this fact via an ESRCH error.
+>        See also the discussion of the CLONE_PIDFD flag in clone(2).
 > 
 > EXAMPLE
->        #define _GNU_SOURCE
->        #include <limits.h>
->        #include <signal.h>
->        #include <fcntl.h>
->        #include <stdio.h>
->        #include <string.h>
->        #include <stdlib.h>
->        #include <unistd.h>
->        #include <sys/syscall.h>
+>        The program below opens a PID  file  descriptor  for  the  process
+>        whose PID is specified as its command-line argument.  It then mon‐
+>        itors the file descriptor for readability (POLLIN) using  poll(2).
+
+Yeah, maybe say "monitors the file descriptor for process exit indicated
+by an EPOLLIN event" or something. Readability might be confusing.
+
+>        When  the  process  with  the specified by PID terminates, poll(2)
+>        returns, and indicates that the file descriptor is readable.
+
+See comment above "readable". (I'm on my phone and I think someone
+pointed this out already.)
+
 > 
->        #ifndef __NR_pidfd_send_signal
->        #define __NR_pidfd_send_signal 424
+>    Program source
+> 
+>        #define _GNU_SOURCE
+>        #include <sys/syscall.h>
+>        #include <unistd.h>
+>        #include <poll.h>
+>        #include <stdlib.h>
+>        #include <stdio.h>
+> 
+>        #ifndef __NR_pidfd_open
+>        #define __NR_pidfd_open 434
 >        #endif
+
+Alpha is special... (and not in a good way).
+So you would need to special case Alpha since that's the only arch where
+we haven't been able to unify syscall numbering. :D
+But it's not super important.
+
+I like the program example.
+
 > 
 >        static
->        int pidfd_send_signal(int pidfd, int sig, siginfo_t *info,
->                unsigned int flags)
+>        int pidfd_open(pid_t pid, unsigned int flags)
 >        {
->            return syscall(__NR_pidfd_send_signal, pidfd, sig, info, flags);
+>            return syscall(__NR_pidfd_open, pid, flags);
 >        }
 > 
 >        int
 >        main(int argc, char *argv[])
 >        {
->            siginfo_t info;
->            char path[PATH_MAX];
->            int pidfd, sig;
+>            struct pollfd pollfd;
+>            int pidfd, ready;
 > 
->            if (argc != 3) {
->                fprintf(stderr, "Usage: %s <pid> <signal>\n", argv[0]);
->                exit(EXIT_FAILURE);
+>            if (argc != 2) {
+>                fprintf(stderr, "Usage: %s <pid>\n", argv[0]);
+>                exit(EXIT_SUCCESS);
 >            }
 > 
->            sig = atoi(argv[2]);
-> 
->            /* Obtain a PID file descriptor by opening the /proc/PID directory
->               of the target process */
-> 
->            snprintf(path, sizeof(path), "/proc/%s", argv[1]);
-> 
->            pidfd = open(path, O_RDONLY);
+>            pidfd = pidfd_open(atoi(argv[1]), 0);
 >            if (pidfd == -1) {
->                perror("open");
+>                perror("pidfd_open");
 >                exit(EXIT_FAILURE);
 >            }
 > 
->            /* Populate a 'siginfo_t' structure for use with
->               pidfd_send_signal() */
+>            pollfd.fd = pidfd;
+>            pollfd.events = POLLIN;
 > 
->            memset(&info, 0, sizeof(info));
->            info.si_code = SI_QUEUE;
->            info.si_signo = sig;
->            info.si_errno = 0;
->            info.si_uid = getuid();
->            info.si_pid = getpid();
->            info.si_value.sival_int = 1234;
-> 
->            /* Send the signal */
-> 
->            if (pidfd_send_signal(pidfd, sig, &info, 0) == -1) {
->                perror("pidfd_send_signal");
+>            ready = poll(&pollfd, 1, -1);
+>            if (ready == -1) {
+>                perror("poll");
 >                exit(EXIT_FAILURE);
 >            }
+> 
+>            printf("Events (0x%x): POLLIN is %sset\n", pollfd.revents,
+>                    (pollfd.revents & POLLIN) ? "" : "not ");
 > 
 >            exit(EXIT_SUCCESS);
 >        }
 > 
 > SEE ALSO
->        clone(2),   kill(2),   pidfd_open(2),  rt_sigqueueinfo(2),  sigac‐
->        tion(2), pid_namespaces(7), signal(7)
+>        clone(2),  kill(2),  pidfd_send_signal(2),   poll(2),   select(2),
+>        epoll(7)
 > 
+> 
+> -- 
+> Michael Kerrisk
+> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+> Linux/UNIX System Programming Training: http://man7.org/training/
