@@ -2,83 +2,118 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BB46BC2C8
-	for <lists+linux-api@lfdr.de>; Tue, 24 Sep 2019 09:38:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF01FBD068
+	for <lists+linux-api@lfdr.de>; Tue, 24 Sep 2019 19:15:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2502714AbfIXHif (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 24 Sep 2019 03:38:35 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:38148 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388489AbfIXHif (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 24 Sep 2019 03:38:35 -0400
-Received: from [185.81.136.22] (helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1iCfOv-0004Up-Tc; Tue, 24 Sep 2019 07:38:22 +0000
-Date:   Tue, 24 Sep 2019 09:38:18 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Florian Weimer <fw@deneb.enyo.de>
-Cc:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
-        Jann Horn <jannh@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
+        id S2437566AbfIXRPZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 24 Sep 2019 13:15:25 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:41790 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2437098AbfIXRPZ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 24 Sep 2019 13:15:25 -0400
+Received: by mail-pl1-f193.google.com with SMTP id t10so1262016plr.8
+        for <linux-api@vger.kernel.org>; Tue, 24 Sep 2019 10:15:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=osandov-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=jOVfFic0aC/sB5K6AnmSRgDO07i2M/QIEQDEL1PuVhk=;
+        b=x26N3942+DmdIQ1sRCqJ5F/bC1YLtOK5gp0j4tDmpD+uDTrXssvHxQG2YVcjD6HfhK
+         yGEn0BAnN0cthtBy8XQxssnVwU0+80GxpDUVBft0NWqtm/3SvG9yQ/0R8otMOW1ebbPo
+         KgbvajiW6NpTG/Ke9C6fDCw4dx7XBFd551aG9Nr+cFx75/J6LD9udfgGgAhG93OIQRBT
+         Wvs1Y+gFMgIc+36WAO8VIxAGGxBd5RhKysLpKsKjKIxSw85jDw12ySAAfi6q7Z2Oe7Ss
+         AdnWoT0zf6xW24PSiVracGyY6tJD2skJVr/01ls8Osjo2M2B7NpL6R2OIJdlvueiBe1J
+         duvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=jOVfFic0aC/sB5K6AnmSRgDO07i2M/QIEQDEL1PuVhk=;
+        b=TcLFeTTKEMSnTOTCwTUhMSzeEGtvLNvSEYQ6MEAE/1xI9EMZ1b9cAEQzttyV9FQu7T
+         v6qOV2IMLpomSFScfbcChkNXQsW1g0BFyo8bMfVOdk+fE8Z9Ejxpji2tr7VIWC4cwBiB
+         FqXV+QJ6nJfaHD+CIknbHLLA3PsfdoPt/cP5Q2PXpyWMnY7hWN2Soq3rTeIkcIyopdy9
+         QCou5eKBfMw9+Tm6HGAUDQH7NICLIe84wKLpkbLF+qqLhX4rp6ssfoMupbDsPsKWkaaB
+         bdo5u+pAqqnKvzz7fgCywYtaoVpmrNcLpqwXe4ny9Jda7qFYukRYZe5kusNzdnslMjkN
+         Y7Pw==
+X-Gm-Message-State: APjAAAWdCk6QvvAdOWBv2WVGnOhtkHQh2eSkOU87YhK8w8etWFnqurpm
+        JSp6f6JNQgokQtmi+Ov7guPgI8bY0go=
+X-Google-Smtp-Source: APXvYqzhc8tgADrAilSYxLfDN1ihN4fhwbQt1mfpzzPgaSyk/mADAci8CMyfKd00aTDwYc7EgZq7tg==
+X-Received: by 2002:a17:902:7002:: with SMTP id y2mr4112884plk.303.1569345315655;
+        Tue, 24 Sep 2019 10:15:15 -0700 (PDT)
+Received: from vader ([2620:10d:c090:200::3:f972])
+        by smtp.gmail.com with ESMTPSA id l7sm491697pjy.12.2019.09.24.10.15.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Sep 2019 10:15:15 -0700 (PDT)
+Date:   Tue, 24 Sep 2019 10:15:13 -0700
+From:   Omar Sandoval <osandov@osandov.com>
+To:     Jann Horn <jannh@google.com>
+Cc:     Jens Axboe <axboe@kernel.dk>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-btrfs@vger.kernel.org, Dave Chinner <david@fromorbit.com>,
         Linux API <linux-api@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        linux-man <linux-man@vger.kernel.org>,
-        Oleg Nesterov <oleg@redhat.com>
-Subject: Re: For review: pidfd_open(2) manual page
-Message-ID: <20190924073817.zb7vr5he4wbibl7j@wittgenstein>
-References: <90399dee-53d8-a82c-3871-9ec8f94601ce@gmail.com>
- <87tv939td6.fsf@mid.deneb.enyo.de>
- <63566f1f-667d-50ca-ae85-784924d09af4@gmail.com>
- <874l12924w.fsf@mid.deneb.enyo.de>
+        Kernel Team <kernel-team@fb.com>,
+        Andy Lutomirski <luto@kernel.org>
+Subject: Re: [RFC PATCH 2/3] fs: add RWF_ENCODED for writing compressed data
+Message-ID: <20190924171513.GA39872@vader>
+References: <cover.1568875700.git.osandov@fb.com>
+ <230a76e65372a8fb3ec62ce167d9322e5e342810.1568875700.git.osandov@fb.com>
+ <CAG48ez2GKv15Uj6Wzv0sG5v2bXyrSaCtRTw5Ok_ovja_CiO_fQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <874l12924w.fsf@mid.deneb.enyo.de>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <CAG48ez2GKv15Uj6Wzv0sG5v2bXyrSaCtRTw5Ok_ovja_CiO_fQ@mail.gmail.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Sep 23, 2019 at 10:41:19PM +0200, Florian Weimer wrote:
-> * Michael Kerrisk:
-> 
-> >>>        static
-> >>>        int pidfd_open(pid_t pid, unsigned int flags)
-> >>>        {
-> >>>            return syscall(__NR_pidfd_open, pid, flags);
-> >>>        }
-> >> 
-> >> Please call this function something else (not pidfd_open), so that the
-> >> example continues to work if glibc provides the system call wrapper.
+On Thu, Sep 19, 2019 at 05:44:12PM +0200, Jann Horn wrote:
+> On Thu, Sep 19, 2019 at 8:54 AM Omar Sandoval <osandov@osandov.com> wrote:
+> > Btrfs can transparently compress data written by the user. However, we'd
+> > like to add an interface to write pre-compressed data directly to the
+> > filesystem. This adds support for so-called "encoded writes" via
+> > pwritev2().
 > >
-> > I figured that if the syscall does get added to glibc, then I would
-> > modify the example. In the meantime, this does seem the most natural
-> > way of doing things, since the example then uses the real syscall
-> > name as it would be used if there were a wrapper function.
+> > A new RWF_ENCODED flags indicates that a write is "encoded". If this
+> > flag is set, iov[0].iov_base points to a struct encoded_iov which
+> > contains metadata about the write: namely, the compression algorithm and
+> > the unencoded (i.e., decompressed) length of the extent. iov[0].iov_len
+> > must be set to sizeof(struct encoded_iov), which can be used to extend
+> > the interface in the future. The remaining iovecs contain the encoded
+> > extent.
+> >
+> > A similar interface for reading encoded data can be added to preadv2()
+> > in the future.
+> >
+> > Filesystems must indicate that they support encoded writes by setting
+> > FMODE_ENCODED_IO in ->file_open().
+> [...]
+> > +int import_encoded_write(struct kiocb *iocb, struct encoded_iov *encoded,
+> > +                        struct iov_iter *from)
+> > +{
+> > +       if (iov_iter_single_seg_count(from) != sizeof(*encoded))
+> > +               return -EINVAL;
+> > +       if (copy_from_iter(encoded, sizeof(*encoded), from) != sizeof(*encoded))
+> > +               return -EFAULT;
+> > +       if (encoded->compression == ENCODED_IOV_COMPRESSION_NONE &&
+> > +           encoded->encryption == ENCODED_IOV_ENCRYPTION_NONE) {
+> > +               iocb->ki_flags &= ~IOCB_ENCODED;
+> > +               return 0;
+> > +       }
+> > +       if (encoded->compression > ENCODED_IOV_COMPRESSION_TYPES ||
+> > +           encoded->encryption > ENCODED_IOV_ENCRYPTION_TYPES)
+> > +               return -EINVAL;
+> > +       if (!capable(CAP_SYS_ADMIN))
+> > +               return -EPERM;
 > 
-> The problem is that programs do this as well, so they fail to build
-> once they are built on a newer glibc version.
-> 
-> > But, this leads to the question: what do you think the likelihood
-> > is that this system call will land in glibc?
-> 
-> Quite likely.  It's easy enough to document, there are no P&C issues,
-> and it doesn't need any new types.
+> How does this capable() check interact with io_uring? Without having
+> looked at this in detail, I suspect that when an encoded write is
+> requested through io_uring, the capable() check might be executed on
+> something like a workqueue worker thread, which is probably running
+> with a full capability set.
 
-My previous mail probably didn't make it so here it is again: I think
-especially with the recently established glibc consensus to provide
-wrappers for all new system calls (with some sensible exceptions) I'd
-expect this to be the case.
-
-> 
-> pidfd_send_signal is slightly more difficult because we probably need
-> to add rt_sigqueueinfo first, for consistency.
-
-Oh, huh. Somehow I thought we already provide that.
-
-Christian
+I discussed this more with Jens. You're right, per-IO permission checks
+aren't going to work. In fully-polled mode, we never get an opportunity
+to check capabilities in right context. So, this will probably require a
+new open flag.
