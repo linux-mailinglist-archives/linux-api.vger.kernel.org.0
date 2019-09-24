@@ -2,124 +2,113 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B6A4ABD2BB
-	for <lists+linux-api@lfdr.de>; Tue, 24 Sep 2019 21:35:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC6F6BD2EC
+	for <lists+linux-api@lfdr.de>; Tue, 24 Sep 2019 21:42:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730035AbfIXTfQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 24 Sep 2019 15:35:16 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:39940 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730010AbfIXTfP (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 24 Sep 2019 15:35:15 -0400
-Received: by mail-pf1-f193.google.com with SMTP id x127so1944275pfb.7
-        for <linux-api@vger.kernel.org>; Tue, 24 Sep 2019 12:35:15 -0700 (PDT)
+        id S2441930AbfIXTmn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 24 Sep 2019 15:42:43 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:53840 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731683AbfIXTmm (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 24 Sep 2019 15:42:42 -0400
+Received: by mail-wm1-f68.google.com with SMTP id i16so1588470wmd.3;
+        Tue, 24 Sep 2019 12:42:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=osandov-com.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=3f66Rj6t9yfmXpUykMropMdqjP5kdr+L5bVpyG392ls=;
-        b=MQ055M4OlnDEj799heTXTwZC1I2f0SHMqCrNU5V0DSu7gpbnMHxOXv1wwE4sSSXwaN
-         tGkc2Swd7BHhjID9Cka6h7rnj4GDQNzYJ7WS4oSFNNBihZRnCsUiZPhD9PzoKyH56MhA
-         T8a2oPqRmA2wDe98R6sg4c4PAAGaPSo4q478QqZK7GLAbps8l1b9J4ji0J7MOKXfQaRD
-         qQb0VC1pzjCfGvOkx+VlixaJjgA7PAG/09tkB6zIgAqKjHO18TuVFrYHWk3zgXW3P6Sd
-         6yD+JyzZ0po+ePjPH8odkzH9bbvsKDL6hymdVsHe4Vsu/0FAJN/Ko+GG2HNfeVwqizT+
-         +leQ==
+        d=gmail.com; s=20161025;
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=b7EGVdn+nnErrmGv5RJiQcuJyaitYDwDzx3KEC+djho=;
+        b=uj3bWR2VmK/66QR3ZlIpHLNCWKskaomPDlxA986ZhyJdIkhOF543pFW+O9RG/fbmQX
+         rbqG9SKkRXDpU5j1GeHSYEZVNPdfTudYeFd5/QPixtahL3wobxZsc3DmlQl4DztOGP+b
+         LEp3h2FPigjl4dn5VlDB/aokilgqvkSA+tPElAh7v5V5+AyNV7/7vE/RiZjBcpdF5APG
+         aEcTgvHRM92XkEKNbuPgde/IL6FmHLB/+r76Pfnzf/KiwtcVuJJS41jaOycM1UoNuAXz
+         6bT5xCras6yas1HVSbanZ9XyE5KbrLEs/SuljQD5bdr6Gl/kHtsCSHTzUYEcjvA0kYI/
+         EbWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=3f66Rj6t9yfmXpUykMropMdqjP5kdr+L5bVpyG392ls=;
-        b=ZDKtFvyKXZ4FDFtLtW655RvHnT2eEQUnwU8HW1BAZSrdDLp0X7Irgpghf/a+3KdtaX
-         gHhSjRW115jBDhEcDJTLhPSTzouxvJtw7YdkBT3KT/jfEhz18x06IrXiiflF0YOPV+wp
-         KxkU0wEwC4YXtMlhroHZ4ZY4LrsI2PsZDDq7AiHzxmC6nkRQU0rQzH5VF31EVVTm+j0S
-         bEQP55UGJKTrmE6ZApHKgQw4MTDi92otTWVog8LjY+y8fI9cuRQJM2bEH9T6IQB5u9+F
-         ywymuPUJiE2XYkMtN1eBKulAqymx3PJs+3f/L75TcIiJDVFcXbvuSPk0csy2LBNCz7Pw
-         992w==
-X-Gm-Message-State: APjAAAWHjSa5u5mDP7XwHdU6Z7XgMYTvOBDtDeVv55Gz5HcVlSHoumgO
-        xS9XcesxRJt3LL0DllCpKiEOsw==
-X-Google-Smtp-Source: APXvYqxIwMr4QmyPQYW76tCt8RGLj4PVLGtrh11MlsIv0OIUIKz+wghKlzvnoSEpvnnnvaVK3PHx+g==
-X-Received: by 2002:a63:1749:: with SMTP id 9mr4498860pgx.387.1569353714555;
-        Tue, 24 Sep 2019 12:35:14 -0700 (PDT)
-Received: from vader ([2620:10d:c090:200::3:f972])
-        by smtp.gmail.com with ESMTPSA id fa24sm735498pjb.13.2019.09.24.12.35.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Sep 2019 12:35:13 -0700 (PDT)
-Date:   Tue, 24 Sep 2019 12:35:13 -0700
-From:   Omar Sandoval <osandov@osandov.com>
-To:     Jann Horn <jannh@google.com>
-Cc:     Jens Axboe <axboe@kernel.dk>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-btrfs@vger.kernel.org, Dave Chinner <david@fromorbit.com>,
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=b7EGVdn+nnErrmGv5RJiQcuJyaitYDwDzx3KEC+djho=;
+        b=a0ht4fG69t5tK2Q3FANstXJGd8x9gAgOayyfBxNVCBeuCXJhN1BpjaDwU8Km3gQpPu
+         tJJt+XVlXiK1QAcX3hQVw6PbcGOje4nDgUfhll530tAbTb7++XLcFrHn3+OF9wCZpzT1
+         f2hkc8xa8QvN5COOjmxAZH33+wbWVko7pZlpbMslGzd2urYdJX8Kh8tXXj0kWQ/57xmj
+         +4fdblRICLPB1NK/WuzJrq89KEwJbn+fmwIQIRCgiw7sNllp4whUHt4Ys8D6wH7SsSRn
+         8jByKeegkRDR5M4COJ1wQ9vfM+FWWJIwx5cgPpulnDzDW7wjatYseweKYdZjPqxRxAGM
+         XJiA==
+X-Gm-Message-State: APjAAAWnSLn+xJCPZO+Gtz6JqEh1NcUK76IJMh/r4hqk2P9z8EmZCeNh
+        hT5CsWDxukE1DYB4amUxbUodGN3P
+X-Google-Smtp-Source: APXvYqzIcQwSY3wPxHgBCsVt3NLor66+QqJSNXyJJRRatW3wyaSbihFydYjkwvJs4CeUb2ZWCmZi2g==
+X-Received: by 2002:a05:600c:24cf:: with SMTP id 15mr2192579wmu.112.1569354159344;
+        Tue, 24 Sep 2019 12:42:39 -0700 (PDT)
+Received: from ?IPv6:2001:a61:24d6:4e01:ef75:e978:47cd:1c50? ([2001:a61:24d6:4e01:ef75:e978:47cd:1c50])
+        by smtp.gmail.com with ESMTPSA id d193sm1542839wmd.0.2019.09.24.12.42.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Sep 2019 12:42:38 -0700 (PDT)
+Cc:     mtk.manpages@gmail.com, Oleg Nesterov <oleg@redhat.com>,
+        Christian Brauner <christian@brauner.io>,
+        Jann Horn <jannh@google.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        linux-man <linux-man@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
-        Kernel Team <kernel-team@fb.com>,
-        Andy Lutomirski <luto@kernel.org>
-Subject: Re: [RFC PATCH 2/3] fs: add RWF_ENCODED for writing compressed data
-Message-ID: <20190924193513.GA45540@vader>
-References: <cover.1568875700.git.osandov@fb.com>
- <230a76e65372a8fb3ec62ce167d9322e5e342810.1568875700.git.osandov@fb.com>
- <CAG48ez2GKv15Uj6Wzv0sG5v2bXyrSaCtRTw5Ok_ovja_CiO_fQ@mail.gmail.com>
- <20190924171513.GA39872@vader>
+        lkml <linux-kernel@vger.kernel.org>
+Subject: Re: For review: pidfd_send_signal(2) manual page
+To:     Daniel Colascione <dancol@google.com>
+References: <f21dbd73-5ef4-fb5b-003f-ff4fec34a1de@gmail.com>
+ <CAKOZuetMK0eRxBrR8wXo_qCaQ7OGKQHqAy15cX437+Q+cvbbvA@mail.gmail.com>
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Message-ID: <27cc0db0-f3b4-e4c5-70cc-2f93814c460b@gmail.com>
+Date:   Tue, 24 Sep 2019 21:42:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190924171513.GA39872@vader>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <CAKOZuetMK0eRxBrR8wXo_qCaQ7OGKQHqAy15cX437+Q+cvbbvA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Sep 24, 2019 at 10:15:13AM -0700, Omar Sandoval wrote:
-> On Thu, Sep 19, 2019 at 05:44:12PM +0200, Jann Horn wrote:
-> > On Thu, Sep 19, 2019 at 8:54 AM Omar Sandoval <osandov@osandov.com> wrote:
-> > > Btrfs can transparently compress data written by the user. However, we'd
-> > > like to add an interface to write pre-compressed data directly to the
-> > > filesystem. This adds support for so-called "encoded writes" via
-> > > pwritev2().
-> > >
-> > > A new RWF_ENCODED flags indicates that a write is "encoded". If this
-> > > flag is set, iov[0].iov_base points to a struct encoded_iov which
-> > > contains metadata about the write: namely, the compression algorithm and
-> > > the unencoded (i.e., decompressed) length of the extent. iov[0].iov_len
-> > > must be set to sizeof(struct encoded_iov), which can be used to extend
-> > > the interface in the future. The remaining iovecs contain the encoded
-> > > extent.
-> > >
-> > > A similar interface for reading encoded data can be added to preadv2()
-> > > in the future.
-> > >
-> > > Filesystems must indicate that they support encoded writes by setting
-> > > FMODE_ENCODED_IO in ->file_open().
-> > [...]
-> > > +int import_encoded_write(struct kiocb *iocb, struct encoded_iov *encoded,
-> > > +                        struct iov_iter *from)
-> > > +{
-> > > +       if (iov_iter_single_seg_count(from) != sizeof(*encoded))
-> > > +               return -EINVAL;
-> > > +       if (copy_from_iter(encoded, sizeof(*encoded), from) != sizeof(*encoded))
-> > > +               return -EFAULT;
-> > > +       if (encoded->compression == ENCODED_IOV_COMPRESSION_NONE &&
-> > > +           encoded->encryption == ENCODED_IOV_ENCRYPTION_NONE) {
-> > > +               iocb->ki_flags &= ~IOCB_ENCODED;
-> > > +               return 0;
-> > > +       }
-> > > +       if (encoded->compression > ENCODED_IOV_COMPRESSION_TYPES ||
-> > > +           encoded->encryption > ENCODED_IOV_ENCRYPTION_TYPES)
-> > > +               return -EINVAL;
-> > > +       if (!capable(CAP_SYS_ADMIN))
-> > > +               return -EPERM;
-> > 
-> > How does this capable() check interact with io_uring? Without having
-> > looked at this in detail, I suspect that when an encoded write is
-> > requested through io_uring, the capable() check might be executed on
-> > something like a workqueue worker thread, which is probably running
-> > with a full capability set.
+On 9/23/19 1:31 PM, Daniel Colascione wrote:
+> On Mon, Sep 23, 2019 at 2:12 AM Michael Kerrisk (man-pages)
+> <mtk.manpages@gmail.com> wrote:
+>>        The  pidfd_send_signal()  system call allows the avoidance of race
+>>        conditions that occur when using traditional interfaces  (such  as
+>>        kill(2)) to signal a process.  The problem is that the traditional
+>>        interfaces specify the target process via a process ID (PID), with
+>>        the  result  that the sender may accidentally send a signal to the
+>>        wrong process if the originally intended target process has termi‐
+>>        nated  and its PID has been recycled for another process.  By con‐
+>>        trast, a PID file descriptor is a stable reference to  a  specific
+>>        process;  if  that  process  terminates,  then the file descriptor
+>>        ceases to be  valid
 > 
-> I discussed this more with Jens. You're right, per-IO permission checks
-> aren't going to work. In fully-polled mode, we never get an opportunity
-> to check capabilities in right context. So, this will probably require a
-> new open flag.
+> The file *descriptor* remains valid even after the process to which it
+> refers exits. You can close(2) the file descriptor without getting
+> EBADF. I'd say, instead, that "a PID file descriptor is a stable
+> reference to a specific process; process-related operations on a PID
+> file descriptor fail after that process exits".
 
-Actually, file_ns_capable() accomplishes the same thing without a new
-open flag. Changing the capable() check to file_ns_capable() in
-init_user_ns should be enough.
+Thanks, Daniel. I like that rephrasing, but, since pidfd_send_signal()
+is (so far as I know) currently the only relevant process-related
+operation (and because this is the manual page describing that
+syscall), I made it:
+
+[[
+By contrast, a PID file descriptor is a stable reference to a
+specific process; if that process terminates, pidfd_send_signal()
+fails with the error ESRCH.
+]]
+
+Thanks,
+
+Michael
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
