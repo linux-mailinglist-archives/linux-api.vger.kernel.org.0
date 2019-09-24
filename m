@@ -2,85 +2,153 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B71FABD39A
-	for <lists+linux-api@lfdr.de>; Tue, 24 Sep 2019 22:31:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C1969BD3AE
+	for <lists+linux-api@lfdr.de>; Tue, 24 Sep 2019 22:38:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436839AbfIXUbZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 24 Sep 2019 16:31:25 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:45432 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404628AbfIXUbY (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 24 Sep 2019 16:31:24 -0400
-Received: by mail-oi1-f196.google.com with SMTP id o205so2862526oib.12
-        for <linux-api@vger.kernel.org>; Tue, 24 Sep 2019 13:31:22 -0700 (PDT)
+        id S2441978AbfIXUib (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 24 Sep 2019 16:38:31 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:44834 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727071AbfIXUia (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 24 Sep 2019 16:38:30 -0400
+Received: by mail-pf1-f195.google.com with SMTP id q21so2014962pfn.11
+        for <linux-api@vger.kernel.org>; Tue, 24 Sep 2019 13:38:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=gnH1hIumhjs1U65zhqlbJaNofnYNZHTIm6gh8mVIcKU=;
-        b=hGoESwSUjxVfPEzR+jVxVH90xU0VZFNySAY+QJr5Ig7OAEMxPiAhSXT0T5BVxUmAON
-         VeaFnceD+Y/2frLM2/SFPSS80AfXO3O2CqmUUKXKLeUurtYf7ndNfA3zU2UpsaJVFyPo
-         tprbtU/jvGMX+1vWgsJRahVfj6VrP51gYcXGbyCHpHI4qkIFkxHULr/BbaJ5ej1FKdAy
-         DQRIc3RPA5rzPl+p49+FX4vqtsuuw3f3qZ3u+WfAzgJlG8DVL8SfewF48oKDKpEbdUxg
-         pkoaPhcDUFMLh2oY7vayI6feQ9fDc9r+hkRU4u7hZIfnRfYypAxa5W5SR+o+S/ARfowd
-         3Rcw==
+        d=osandov-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=XXpB+n/Qq9mbpz8JXknmFvdDRIH2ZnerYAdSnNglnD8=;
+        b=Gd5fC4ze5JKmHWdFj3mKAMzd1akYwuSIF1UCnUdjRSganaQLFo1YVQf71WGQojfnTS
+         FCtix9g9Xcit4JYPaddfFeeTSBEeZqAx4ZMNthWgfDjM6bi9TclET/34PwAV95PtuSV6
+         0OAHi/xAMztLd/HSi5RhwrwwbmBfbpLrMD4XLhRIHrA6lZypfdw2wrp7Q8eOmoXDC+ME
+         il9DsTt5y3gu8lqarWuxrtEv4fAcPkqCP5IkAcbhio/mzUAkcnhLSAdwYooW4IMvpwuE
+         unu16lT0Mgm/hqEVNXhtvLT2H4SEMK/JZBpZRu5fzwlyXffojnts7md67sPN7UgdIe5v
+         wrSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gnH1hIumhjs1U65zhqlbJaNofnYNZHTIm6gh8mVIcKU=;
-        b=ktkHclqDOJg++AKUeR2dkDIWv2bxDPEAb/iOjJ0ZF/GHEzzsARxLDlyUpfmmuvKut8
-         FwJRhnnWA6hKuURJRXBwHxt4L/wM1Oj3/s43FSjLkNZXRUCRwSLju93Rmpnxb5Iox6hU
-         YLaLj4iuiEM+IsZ7HEjpwT4tkPcXMNfsLlClKwZmf26KOrfRUh+urTOhj6y7LLCKVWOA
-         kAhM9NdCzThm0W/OksFa4gO6TmYDi5FtzCA/pMqrqcUF65EJahyYiQ4zhA3Ap7U7p8nf
-         WAWp87o4lePdRr4j0VJQ2/GpYtWaQ8lP8F0qhiZuvs5OKyFg5Gv5xzMJp7bg5rlKY5uJ
-         PMVQ==
-X-Gm-Message-State: APjAAAXs7D1Hkw4gHxl9j2wJ/rFATC2n4sSsuEWFb+wqOtDtERvDbt/j
-        0UKFhkzlLoON4mFVymHMXHNFx53L0MbLqWWfW0C8TA==
-X-Google-Smtp-Source: APXvYqxniVpvMNA+bj/yUEKpmVq/ao8OQjFhfGsHKuXQQKykILeLG60EsYREEBp+78hGREeG2Q58F/qZGtcpArkKizM=
-X-Received: by 2002:aca:b506:: with SMTP id e6mr1794758oif.39.1569357081429;
- Tue, 24 Sep 2019 13:31:21 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1568990048.git.luto@kernel.org> <66b16acf2953fc033abc9641b9cf43d23e75a8e9.1568990048.git.luto@kernel.org>
-In-Reply-To: <66b16acf2953fc033abc9641b9cf43d23e75a8e9.1568990048.git.luto@kernel.org>
-From:   Jann Horn <jannh@google.com>
-Date:   Tue, 24 Sep 2019 22:30:55 +0200
-Message-ID: <CAG48ez2tnJzLNCgAqCC+AOKuLGBSvBRi2_HZ97bEJ0zP1kWLHg@mail.gmail.com>
-Subject: Re: [PATCH v2 7/7] random: Remove kernel.random.read_wakeup_threshold
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     Theodore Tso <tytso@google.com>,
-        LKML <linux-kernel@vger.kernel.org>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=XXpB+n/Qq9mbpz8JXknmFvdDRIH2ZnerYAdSnNglnD8=;
+        b=rDSa2xYaD4gtkEjX5CUUKa0ucXK4qVpvgdsKOtR+7wVzBTKE0fdFMILCJPzjkdl09/
+         Z5VLkdWq8PNGJ+PHGuaB7zOdXbzF98+LZUtt5ASlM9fqOLexrKhTHYxs/HYCRZnbdguy
+         1PmTJYZUfZHlx2G1+nMmLEsLSCOzpfjfxqvRFHO74ySQ2NCrm+hzFR6FABEUvg1HgQ3l
+         58SuEafy8TBzRP45dBYC40ve8tk5llaUjsUb7gZCZ8DijU7EAob3vPZ1f33rw1w8ASo5
+         4dcwM0L1Nq7tLOInQEyEs8VxD2HA1ueURS8Z5qlkJ7imFIJb6SVx238NyzEuwrNXu/iE
+         gk5A==
+X-Gm-Message-State: APjAAAUN+Ysa0nMhSNFQ7WSON0UL1i4531rJ70YSJv5HQg769FaFtECW
+        ZzVFAQlB98tzzYDzUXW3blxx9Q==
+X-Google-Smtp-Source: APXvYqzCH5xnEzpQvW+6HYgcR0Hnm409iWIA7nsnBfvYyPFk3aNTXpcTCq9Nh30S0XuXtOFujIrV1w==
+X-Received: by 2002:a65:530c:: with SMTP id m12mr4977050pgq.309.1569357509244;
+        Tue, 24 Sep 2019 13:38:29 -0700 (PDT)
+Received: from vader ([2620:10d:c090:200::3:f972])
+        by smtp.gmail.com with ESMTPSA id 22sm3106844pfj.139.2019.09.24.13.38.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Sep 2019 13:38:28 -0700 (PDT)
+Date:   Tue, 24 Sep 2019 13:38:27 -0700
+From:   Omar Sandoval <osandov@osandov.com>
+To:     Jann Horn <jannh@google.com>
+Cc:     Aleksa Sarai <cyphar@cyphar.com>, Jens Axboe <axboe@kernel.dk>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-btrfs@vger.kernel.org, Dave Chinner <david@fromorbit.com>,
         Linux API <linux-api@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        "Ahmed S. Darwish" <darwish.07@gmail.com>,
-        Lennart Poettering <mzxreary@0pointer.de>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        "Alexander E. Patrakov" <patrakov@gmail.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Willy Tarreau <w@1wt.eu>,
-        Matthew Garrett <mjg59@srcf.ucam.org>,
-        Ext4 Developers List <linux-ext4@vger.kernel.org>,
-        linux-man <linux-man@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Kernel Team <kernel-team@fb.com>,
+        Andy Lutomirski <luto@kernel.org>
+Subject: Re: [RFC PATCH 2/3] fs: add RWF_ENCODED for writing compressed data
+Message-ID: <20190924203827.GA46556@vader>
+References: <cover.1568875700.git.osandov@fb.com>
+ <230a76e65372a8fb3ec62ce167d9322e5e342810.1568875700.git.osandov@fb.com>
+ <CAG48ez2GKv15Uj6Wzv0sG5v2bXyrSaCtRTw5Ok_ovja_CiO_fQ@mail.gmail.com>
+ <20190924171513.GA39872@vader>
+ <20190924193513.GA45540@vader>
+ <CAG48ez1NQBNR1XeVQYGoopEk=g_KedUr+7jxLQTaO+V8JCeweQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAG48ez1NQBNR1XeVQYGoopEk=g_KedUr+7jxLQTaO+V8JCeweQ@mail.gmail.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Sep 20, 2019 at 4:37 PM Andy Lutomirski <luto@kernel.org> wrote:
-> It has no effect any more, so remove it.  We can revert this if
-> there is some user code that expects to be able to set this sysctl.
->
-> Signed-off-by: Andy Lutomirski <luto@kernel.org>
-> ---
->  drivers/char/random.c | 18 +-----------------
->  1 file changed, 1 insertion(+), 17 deletions(-)
->
-> diff --git a/drivers/char/random.c b/drivers/char/random.c
-[...]
-> -       {
-> -               .procname       = "read_wakeup_threshold",
+On Tue, Sep 24, 2019 at 10:01:41PM +0200, Jann Horn wrote:
+> On Tue, Sep 24, 2019 at 9:35 PM Omar Sandoval <osandov@osandov.com> wrote:
+> > On Tue, Sep 24, 2019 at 10:15:13AM -0700, Omar Sandoval wrote:
+> > > On Thu, Sep 19, 2019 at 05:44:12PM +0200, Jann Horn wrote:
+> > > > On Thu, Sep 19, 2019 at 8:54 AM Omar Sandoval <osandov@osandov.com> wrote:
+> > > > > Btrfs can transparently compress data written by the user. However, we'd
+> > > > > like to add an interface to write pre-compressed data directly to the
+> > > > > filesystem. This adds support for so-called "encoded writes" via
+> > > > > pwritev2().
+> > > > >
+> > > > > A new RWF_ENCODED flags indicates that a write is "encoded". If this
+> > > > > flag is set, iov[0].iov_base points to a struct encoded_iov which
+> > > > > contains metadata about the write: namely, the compression algorithm and
+> > > > > the unencoded (i.e., decompressed) length of the extent. iov[0].iov_len
+> > > > > must be set to sizeof(struct encoded_iov), which can be used to extend
+> > > > > the interface in the future. The remaining iovecs contain the encoded
+> > > > > extent.
+> > > > >
+> > > > > A similar interface for reading encoded data can be added to preadv2()
+> > > > > in the future.
+> > > > >
+> > > > > Filesystems must indicate that they support encoded writes by setting
+> > > > > FMODE_ENCODED_IO in ->file_open().
+> > > > [...]
+> > > > > +int import_encoded_write(struct kiocb *iocb, struct encoded_iov *encoded,
+> > > > > +                        struct iov_iter *from)
+> > > > > +{
+> > > > > +       if (iov_iter_single_seg_count(from) != sizeof(*encoded))
+> > > > > +               return -EINVAL;
+> > > > > +       if (copy_from_iter(encoded, sizeof(*encoded), from) != sizeof(*encoded))
+> > > > > +               return -EFAULT;
+> > > > > +       if (encoded->compression == ENCODED_IOV_COMPRESSION_NONE &&
+> > > > > +           encoded->encryption == ENCODED_IOV_ENCRYPTION_NONE) {
+> > > > > +               iocb->ki_flags &= ~IOCB_ENCODED;
+> > > > > +               return 0;
+> > > > > +       }
+> > > > > +       if (encoded->compression > ENCODED_IOV_COMPRESSION_TYPES ||
+> > > > > +           encoded->encryption > ENCODED_IOV_ENCRYPTION_TYPES)
+> > > > > +               return -EINVAL;
+> > > > > +       if (!capable(CAP_SYS_ADMIN))
+> > > > > +               return -EPERM;
+> > > >
+> > > > How does this capable() check interact with io_uring? Without having
+> > > > looked at this in detail, I suspect that when an encoded write is
+> > > > requested through io_uring, the capable() check might be executed on
+> > > > something like a workqueue worker thread, which is probably running
+> > > > with a full capability set.
+> > >
+> > > I discussed this more with Jens. You're right, per-IO permission checks
+> > > aren't going to work. In fully-polled mode, we never get an opportunity
+> > > to check capabilities in right context. So, this will probably require a
+> > > new open flag.
+> >
+> > Actually, file_ns_capable() accomplishes the same thing without a new
+> > open flag. Changing the capable() check to file_ns_capable() in
+> > init_user_ns should be enough.
+> 
+> +Aleksa for openat2() and open() space
+> 
+> Mmh... but if the file descriptor has been passed through a privilege
+> boundary, it isn't really clear whether the original opener of the
+> file intended for this to be possible. For example, if (as a
+> hypothetical example) the init process opens a service's logfile with
+> root privileges, then passes the file descriptor to that logfile to
+> the service on execve(), that doesn't mean that the service should be
+> able to perform compressed writes into that file, I think.
 
-There's a line in bin_random_table in kernel/sysctl_binary.c that
-refers to this sysctl, that should probably also be deleted?
+Ahh, you're right.
+
+> I think that an open flag (as you already suggested) or an fcntl()
+> operation would do the job; but AFAIK the open() flag space has run
+> out, so if you hook it up that way, I think you might have to wait for
+> Aleksa Sarai to get something like his sys_openat2() suggestion
+> (https://lore.kernel.org/lkml/20190904201933.10736-12-cyphar@cyphar.com/)
+> merged?
+
+If I counted correctly, there's still space for a new O_ flag. One of
+the problems that Aleksa is solving is that unknown O_ flags are
+silently ignored, which isn't an issue for an O_ENCODED flag. If the
+kernel doesn't support it, it won't support RWF_ENCODED, either, so
+you'll get EOPNOTSUPP from pwritev2(). So, open flag it is...
