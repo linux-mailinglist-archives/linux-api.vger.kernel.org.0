@@ -2,95 +2,98 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C15ABE881
-	for <lists+linux-api@lfdr.de>; Thu, 26 Sep 2019 00:52:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 56A21BE8B1
+	for <lists+linux-api@lfdr.de>; Thu, 26 Sep 2019 01:04:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729915AbfIYWww (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 25 Sep 2019 18:52:52 -0400
-Received: from mail105.syd.optusnet.com.au ([211.29.132.249]:56809 "EHLO
-        mail105.syd.optusnet.com.au" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729604AbfIYWww (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 25 Sep 2019 18:52:52 -0400
-Received: from dread.disaster.area (pa49-181-226-196.pa.nsw.optusnet.com.au [49.181.226.196])
-        by mail105.syd.optusnet.com.au (Postfix) with ESMTPS id A96B2362AFF;
-        Thu, 26 Sep 2019 08:52:44 +1000 (AEST)
-Received: from dave by dread.disaster.area with local (Exim 4.92.2)
-        (envelope-from <david@fromorbit.com>)
-        id 1iDG9L-0006ca-Lw; Thu, 26 Sep 2019 08:52:43 +1000
-Date:   Thu, 26 Sep 2019 08:52:43 +1000
-From:   Dave Chinner <david@fromorbit.com>
-To:     Colin Walters <walters@verbum.org>
-Cc:     Jann Horn <jannh@google.com>, Omar Sandoval <osandov@osandov.com>,
-        Aleksa Sarai <cyphar@cyphar.com>, Jens Axboe <axboe@kernel.dk>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-btrfs@vger.kernel.org, Linux API <linux-api@vger.kernel.org>,
-        Kernel Team <kernel-team@fb.com>,
-        Andy Lutomirski <luto@kernel.org>
-Subject: Re: [RFC PATCH 2/3] fs: add RWF_ENCODED for writing compressed data
-Message-ID: <20190925225243.GF804@dread.disaster.area>
-References: <cover.1568875700.git.osandov@fb.com>
- <230a76e65372a8fb3ec62ce167d9322e5e342810.1568875700.git.osandov@fb.com>
- <CAG48ez2GKv15Uj6Wzv0sG5v2bXyrSaCtRTw5Ok_ovja_CiO_fQ@mail.gmail.com>
- <20190924171513.GA39872@vader>
- <20190924193513.GA45540@vader>
- <CAG48ez1NQBNR1XeVQYGoopEk=g_KedUr+7jxLQTaO+V8JCeweQ@mail.gmail.com>
- <20190925071129.GB804@dread.disaster.area>
- <60c48ac5-b215-44e1-a628-6145d84a4ce3@www.fastmail.com>
+        id S1729338AbfIYXEQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 25 Sep 2019 19:04:16 -0400
+Received: from mx2.mailbox.org ([80.241.60.215]:26388 "EHLO mx2.mailbox.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726206AbfIYXEQ (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 25 Sep 2019 19:04:16 -0400
+Received: from smtp2.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:105:465:1:1:0])
+        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
+        (No client certificate requested)
+        by mx2.mailbox.org (Postfix) with ESMTPS id 690E0A2271;
+        Thu, 26 Sep 2019 01:04:13 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from smtp2.mailbox.org ([80.241.60.240])
+        by spamfilter02.heinlein-hosting.de (spamfilter02.heinlein-hosting.de [80.241.56.116]) (amavisd-new, port 10030)
+        with ESMTP id dnEiLNSDRYRu; Thu, 26 Sep 2019 01:04:10 +0200 (CEST)
+From:   Aleksa Sarai <cyphar@cyphar.com>
+To:     Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Christian Brauner <christian@brauner.io>
+Cc:     Aleksa Sarai <cyphar@cyphar.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        libc-alpha@sourceware.org, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/4] lib: introduce copy_struct_from_user() helper
+Date:   Thu, 26 Sep 2019 01:03:28 +0200
+Message-Id: <20190925230332.18690-1-cyphar@cyphar.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <60c48ac5-b215-44e1-a628-6145d84a4ce3@www.fastmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Optus-CM-Score: 0
-X-Optus-CM-Analysis: v=2.2 cv=FNpr/6gs c=1 sm=1 tr=0
-        a=dRuLqZ1tmBNts2YiI0zFQg==:117 a=dRuLqZ1tmBNts2YiI0zFQg==:17
-        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=J70Eh1EUuV4A:10
-        a=7-415B0cAAAA:8 a=ao4zJSXK-2lq-feLaEsA:9 a=CjuIK1q_8ugA:10
-        a=biEYGPWJfzWAr4FL6Ov7:22
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Sep 25, 2019 at 08:07:12AM -0400, Colin Walters wrote:
-> 
-> 
-> On Wed, Sep 25, 2019, at 3:11 AM, Dave Chinner wrote:
-> >
-> > We're talking about user data read/write access here, not some
-> > special security capability. Access to the data has already been
-> > permission checked, so why should the format that the data is
-> > supplied to the kernel in suddenly require new privilege checks?
-> 
-> What happens with BTRFS today if userspace provides invalid compressed
-> data via this interface?
+Patch changelog:
+ v2:
+  * Switch to less buggy handling of alignment. [Linus Torvalds, Al Viro]
+  * Move is_zeroed_user() to lib/usercopy.c. [kbuild test robot]
+  * Move copy_struct_to_user() to lib/usercopy.c. [Christian Brauner]
+  * Add self-tests for is_zeroed_user() to lib/test_user_copy.c.
+    [Christian Brauner]
+ v1: <https://lore.kernel.org/lkml/20190925165915.8135-1-cyphar@cyphar.com/>
 
-Then the filesystem returns EIO or ENODATA on read because it can't
-decompress it.
+This series was split off from the openat2(2) syscall discussion[1].
+However, the copy_struct_to_user() helper has been dropped, because
+after some discussion it appears that there is no really obvious
+semantics for how copy_struct_to_user() should work on mixed-vintages
+(for instance, whether [2] is the correct semantics for all syscalls).
 
-User can read it back in compressed format (i.e. same way they wrote
-it), try to fix it themselves.
+A common pattern for syscall extensions is increasing the size of a
+struct passed from userspace, such that the zero-value of the new fields
+result in the old kernel behaviour (allowing for a mix of userspace and
+kernel vintages to operate on one another in most cases).
 
-> Does that show up as filesystem corruption later?
+Previously there was no common lib/ function that implemented
+the necessary extension-checking semantics (and different syscalls
+implemented them slightly differently or incompletely[3]). This series
+implements the helper and ports several syscalls to use it.
 
-Nope. Just bad user data.
+[1]: https://lore.kernel.org/lkml/20190904201933.10736-1-cyphar@cyphar.com/
 
-> If the data is verified at write time, wouldn't that be losing most of the speed advantages of providing pre-compressed data?
+[2]: commit 1251201c0d34 ("sched/core: Fix uclamp ABI bug, clean up and
+     robustify sched_read_attr() ABI logic and code")
 
-It's a direct IO interface. User writes garbage, then they get
-garbage back. The user can still retreive the compressed data
-directly, so the data is not lost....
+[3]: For instance {sched_setattr,perf_event_open,clone3}(2) all do do
+     similar checks to copy_struct_from_user() while rt_sigprocmask(2)
+     always rejects differently-sized struct arguments.
 
-> Ability for a user to cause fsck errors later would be a new thing
-> that would argue for a privilege check I think.
+Aleksa Sarai (4):
+  lib: introduce copy_struct_from_user() helper
+  clone3: switch to copy_struct_from_user()
+  sched_setattr: switch to copy_struct_from_user()
+  perf_event_open: switch to copy_struct_from_user()
 
-fsck doesn't validate the correctness of user data - it validates
-the filesystem structure is consistent. i.e. user data in unreadable
-format != corrupt filesystem structure.
+ include/linux/bitops.h     |   7 +++
+ include/linux/uaccess.h    |   4 ++
+ include/uapi/linux/sched.h |   2 +
+ kernel/events/core.c       |  47 +++------------
+ kernel/fork.c              |  34 +++--------
+ kernel/sched/core.c        |  43 +++-----------
+ lib/strnlen_user.c         |   8 +--
+ lib/test_user_copy.c       |  59 +++++++++++++++++--
+ lib/usercopy.c             | 115 +++++++++++++++++++++++++++++++++++++
+ 9 files changed, 205 insertions(+), 114 deletions(-)
 
-Cheers,
-
-Dave.
 -- 
-Dave Chinner
-david@fromorbit.com
+2.23.0
+
