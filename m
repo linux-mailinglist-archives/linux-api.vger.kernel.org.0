@@ -2,211 +2,153 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A784EBDFFE
-	for <lists+linux-api@lfdr.de>; Wed, 25 Sep 2019 16:30:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78808BE0AE
+	for <lists+linux-api@lfdr.de>; Wed, 25 Sep 2019 16:58:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437094AbfIYOaB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 25 Sep 2019 10:30:01 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:37841 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2437087AbfIYOaB (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 25 Sep 2019 10:30:01 -0400
-Received: by mail-wm1-f67.google.com with SMTP id f22so5228834wmc.2;
-        Wed, 25 Sep 2019 07:29:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=rHX/ur7cCMPcfNJyelmVApXQMGAEU/oOAeQWFzD3xRQ=;
-        b=Jt3fpjUo2rJ9SM5erC/Hv26iH+wvWmTwxNt/LIvZJgjSQiZUK2fkCr5e0Ey3cFvBVz
-         //SnbocygEF7cZ8XL/HABZn5BV2vo/9HTBUgWHntfO9o/IWa1B3ZpCyHhMv/3oY1I/HD
-         KEFDJq5dwC7VrK4PWdTYTRlCPzf36migTvh6kawtTeoGXQ2ZfwKLZ2tnD/vvGXODW7mW
-         JvafIdjt7CkyX3uizAV0EATzOS07pUfH84Iggg0cWR5Y4M94qlcewa4ni7LaiTsAVUqc
-         Sxq2nCWcgWbSUOLZ4CTPF40bbB2d4sU4VoKmpd3zRSBD7Hsq9BmEyMGFEXAbE/6YfwlF
-         UeKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=rHX/ur7cCMPcfNJyelmVApXQMGAEU/oOAeQWFzD3xRQ=;
-        b=kXNEywU0/Bord7K7dy8aFcJ7yb5XRIE2f5RcQ/U0OGdI45/CX3B5Gd2zXLqTzyG8Na
-         d1SZI+a4qdw0McnKL13ujx64JzWejqFTpw7d4c/2d/1CGdJS/Fch6sVEglBwU5g0JY57
-         vxi0gB1inp4wQWYJHIYyeEXD7TCYqJ0y4iGzIM/y8fGH5n9+N0rC+RTV5jOoX44T5N2V
-         UjF/woURwcowIE+L6iqcGl5SRZpEaDz/sbI3hztm5ZmFS3rJ66uQUp02TXG2XW1FNQni
-         LV/NKMQrljtN0iB04IUgM/SExlU/ms1BNxqx5LkHebrhFsM0MAf8duewVpKjsG8ILC1h
-         V18g==
-X-Gm-Message-State: APjAAAWU/TULx7iLWVlrvMlPhUz80Q7cGYDCG727SOydIrjxYZnwtv0A
-        TT68luVgLBo13lddrGUzIRe106CW
-X-Google-Smtp-Source: APXvYqxxNUHkNWhgaX1+X8cYZgP+kRS6Ov4k4YAwW/TS93oC6n+S/KllUPhJfRn4cEjECg68ER0KCw==
-X-Received: by 2002:a1c:bcd6:: with SMTP id m205mr7822091wmf.129.1569421798223;
-        Wed, 25 Sep 2019 07:29:58 -0700 (PDT)
-Received: from [10.0.20.253] ([95.157.63.22])
-        by smtp.gmail.com with ESMTPSA id a10sm6632323wrv.64.2019.09.25.07.29.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Sep 2019 07:29:56 -0700 (PDT)
-Cc:     mtk.manpages@gmail.com, Florian Weimer <fw@deneb.enyo.de>,
-        Oleg Nesterov <oleg@redhat.com>, Jann Horn <jannh@google.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Daniel Colascione <dancol@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        linux-man <linux-man@vger.kernel.org>,
+        id S2438220AbfIYO6J (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 25 Sep 2019 10:58:09 -0400
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:8796 "EHLO
+        mx0a-00082601.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728575AbfIYO6I (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 25 Sep 2019 10:58:08 -0400
+Received: from pps.filterd (m0109333.ppops.net [127.0.0.1])
+        by mx0a-00082601.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x8PEfe6G030198;
+        Wed, 25 Sep 2019 07:57:39 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=facebook;
+ bh=Q6YZx+cNLo8QIs+sj0sS+JecN9PrgzOB+8KM/mQ2pNo=;
+ b=ABjsPKjln44zoTDNZATt+6gU3mbYnOxJrZA4GeWtPuuPk9VPLCennEBBqr7DfzOYNuY/
+ qqkrjAoOPVsg/aMk4yS1v8S5o1OiCUfBFw3m8mE0q+3jHTGI29BOjGWSMATddIolhUw4
+ BbbJXWjInTUMJ9v5oTmPls3hZ2y4VMqg4zI= 
+Received: from mail.thefacebook.com (mailout.thefacebook.com [199.201.64.23])
+        by mx0a-00082601.pphosted.com with ESMTP id 2v7q74cwcw-15
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+        Wed, 25 Sep 2019 07:57:39 -0700
+Received: from prn-mbx04.TheFacebook.com (2620:10d:c081:6::18) by
+ prn-hub06.TheFacebook.com (2620:10d:c081:35::130) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.1.1713.5; Wed, 25 Sep 2019 07:57:11 -0700
+Received: from prn-hub03.TheFacebook.com (2620:10d:c081:35::127) by
+ prn-mbx04.TheFacebook.com (2620:10d:c081:6::18) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.1.1713.5; Wed, 25 Sep 2019 07:57:02 -0700
+Received: from NAM05-CO1-obe.outbound.protection.outlook.com (192.168.54.28)
+ by o365-in.thefacebook.com (192.168.16.27) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.1.1713.5
+ via Frontend Transport; Wed, 25 Sep 2019 07:57:02 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oCpWGyRaq3cT7MaLHvDKWSd8iyxpSpqR+EZMDoNzVxvfLJkgRQWcDZLhkklrHk1BFsBxHMXKY+qXxFACHD1jijM0nbRxrLzu/VVGE9TifoaPum36DmLuzgyT1xZJnbzGAu8d2DF/D8PZ9VMW+A2fvHVe/naxnuOgDwszTw0l5udAthVs3cSXWA7KuBJyKuNPMo4iJUbbBWECRs3L3sofsF6AZN610g+UTslgfMMA2b5zUdusc24jy5CkPnhJO0y2tZ4EnnVf8V9bzYufOz3aepXK4WMvZi71rL1b+vtdlAcp/JlJHdtCzH3+1WBWeryWVFavoRWO37p1jrgfPlIiVg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Q6YZx+cNLo8QIs+sj0sS+JecN9PrgzOB+8KM/mQ2pNo=;
+ b=GpSedhn3FNkXjcF2QehuSYbRNpxQrOFpDC3CqHrExk0+vQGbMQ4yvRAwUx7aGqI/lZP/w45qIrKTKTyafX/OrB63Elrm6I79Kpmrex+T5ctpGr5iQemqR2f5q04YW2/kE1t4e/+KPE4ilkGOfNekKUqN1qsX7VrChIgIkIuVJ5c+0b/n1BWwdvQ93SBobk2rtsmzMDGkZqNyvWR1xLHZuLlQY4ITZnzipHg5H16/2UjBILUFAySFxeVt8LbBUTGuh3/FXRq6+XjhrBUcvUN5/Rz3knlR8U0PQJkTVSeB4ekR1eSwAtsnCDnnX7oPphii4jzl311obw/senjPvqKSYw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
+ header.d=fb.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
+ s=selector2-fb-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Q6YZx+cNLo8QIs+sj0sS+JecN9PrgzOB+8KM/mQ2pNo=;
+ b=Fhf18WxVpHYJXSri+2NPKSo6JZ5XYPXUbLlM89Qqj3zy7Jd4xC4MNEoZ1AihCOYBwRktJ1xOpNRbW7m7A4UTxdMuH3LuO83POd6YUE4+5UaF9B8WO19zSCOm1yeuduIiT/et6oqlHl/8OIHw6hDX+EiHQY4+/r3tlkvzIWGSz5k=
+Received: from DM5PR15MB1290.namprd15.prod.outlook.com (10.173.212.17) by
+ DM5PR15MB1177.namprd15.prod.outlook.com (10.173.209.7) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2284.18; Wed, 25 Sep 2019 14:56:15 +0000
+Received: from DM5PR15MB1290.namprd15.prod.outlook.com
+ ([fe80::49e0:1c1c:5b16:8cc8]) by DM5PR15MB1290.namprd15.prod.outlook.com
+ ([fe80::49e0:1c1c:5b16:8cc8%7]) with mapi id 15.20.2284.023; Wed, 25 Sep 2019
+ 14:56:15 +0000
+From:   Chris Mason <clm@fb.com>
+To:     Colin Walters <walters@verbum.org>
+CC:     Dave Chinner <david@fromorbit.com>, Jann Horn <jannh@google.com>,
+        "Omar Sandoval" <osandov@osandov.com>,
+        Aleksa Sarai <cyphar@cyphar.com>, Jens Axboe <axboe@kernel.dk>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Subject: Re: For review: pidfd_send_signal(2) manual page
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-References: <f21dbd73-5ef4-fb5b-003f-ff4fec34a1de@gmail.com>
- <87pnjr9rth.fsf@mid.deneb.enyo.de>
- <20190923142325.jowzbnwjw7g7si7j@wittgenstein>
- <90dd38d5-34b3-b72f-8e5a-b51f944f22fb@gmail.com>
- <20190924195701.7pw2olbviieqsg5q@wittgenstein>
- <b76adb4c-826b-6493-ba75-a9863066d3b1@gmail.com>
- <20190924215316.gxev2anuqffegocw@wittgenstein>
- <331cc245-3f70-dd43-31f9-8c1680ca6b20@gmail.com>
- <20190925135308.rev5tczcigyuchae@wittgenstein>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <1d413e4b-30a6-9ab5-546d-a4db95b4b6eb@gmail.com>
-Date:   Wed, 25 Sep 2019 16:29:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <20190925135308.rev5tczcigyuchae@wittgenstein>
-Content-Type: text/plain; charset=utf-8
+        Kernel Team <Kernel-team@fb.com>,
+        "Andy Lutomirski" <luto@kernel.org>
+Subject: Re: [RFC PATCH 2/3] add RWF_ENCODED for writing compressed data
+Thread-Topic: [RFC PATCH 2/3] add RWF_ENCODED for writing compressed data
+Thread-Index: AQHVc7FhwISisFCeRE+U/nwK1a+Utw==
+Date:   Wed, 25 Sep 2019 14:56:15 +0000
+Message-ID: <FF3F534F-B40D-4D7D-956B-F1B63C4751CC@fb.com>
+References: <cover.1568875700.git.osandov@fb.com>
+ <230a76e65372a8fb3ec62ce167d9322e5e342810.1568875700.git.osandov@fb.com>
+ <CAG48ez2GKv15Uj6Wzv0sG5v2bXyrSaCtRTw5Ok_ovja_CiO_fQ@mail.gmail.com>
+ <20190924171513.GA39872@vader> <20190924193513.GA45540@vader>
+ <CAG48ez1NQBNR1XeVQYGoopEk=g_KedUr+7jxLQTaO+V8JCeweQ@mail.gmail.com>
+ <20190925071129.GB804@dread.disaster.area>
+ <60c48ac5-b215-44e1-a628-6145d84a4ce3@www.fastmail.com>
+In-Reply-To: <60c48ac5-b215-44e1-a628-6145d84a4ce3@www.fastmail.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: MailMate (1.12.5r5635)
+x-clientproxiedby: BL0PR02CA0016.namprd02.prod.outlook.com
+ (2603:10b6:207:3c::29) To DM5PR15MB1290.namprd15.prod.outlook.com
+ (2603:10b6:3:b8::17)
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [2620:10d:c091:480::b4ee]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: e68d34ff-d512-4345-b67d-08d741c883c0
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600167)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:DM5PR15MB1177;
+x-ms-traffictypediagnostic: DM5PR15MB1177:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DM5PR15MB11775493BABC5AF6378F8E9AD3870@DM5PR15MB1177.namprd15.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-forefront-prvs: 01713B2841
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(376002)(366004)(136003)(39860400002)(396003)(346002)(199004)(189003)(4326008)(36756003)(14454004)(6116002)(7736002)(66556008)(7416002)(66476007)(478600001)(446003)(256004)(305945005)(52116002)(5660300002)(71190400001)(71200400001)(66946007)(25786009)(76176011)(6506007)(186003)(53546011)(386003)(2906002)(102836004)(486006)(476003)(2616005)(46003)(11346002)(81166006)(64756008)(33656002)(99286004)(14444005)(8676002)(81156014)(50226002)(8936002)(6436002)(86362001)(6486002)(229853002)(6512007)(66446008)(54906003)(316002)(6246003)(6916009);DIR:OUT;SFP:1102;SCL:1;SRVR:DM5PR15MB1177;H:DM5PR15MB1290.namprd15.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: fb.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: XZauVGjmIkjqyToOAhQyTi4GpdsP9DABPvSpUd9Hvv3dpZ0wtjMpzmFU4s3mtqC4dQ2846FjPzLgbo2OSxAsaM/AayssbZlWVY6yEPp0EeptirirecoqvH4NkRyKwvRGe0H3Q+Q2w95marY9B8RNKgqWqzRmUySrvsxQ6FYkQjHoozcbCp/NTCg4p1my1N0j43Gz0Ea7i5cavsghvrwjMzhtVJTS8SWm85wYJxVMPjfz8BKwwE/MoG3o6Xfn2unlrcF5grthFZJncZlC7US3hnywBVbtbT+Gg64kRFYHk0MXlZ/hJKuieElDYHeLdbdo1TWozSBHXvRRlSTqoyeASYG0wwfNsPXVEh8IUtqWwV4q1/Jv+NksGysyS2KMw6++WIkuQQnN37DXGPVyUoymf2bfv3Q4ju+ZV7ZCSf177HA=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-Network-Message-Id: e68d34ff-d512-4345-b67d-08d741c883c0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Sep 2019 14:56:15.8173
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: J6SnwsgkvkhC2aEw8p5IhNQyobo7SkwV5xEruzpyUG8wp52ui1l4vDUFd4OjduL0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR15MB1177
+X-OriginatorOrg: fb.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
+ definitions=2019-09-25_06:2019-09-25,2019-09-25 signatures=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0 malwarescore=0
+ clxscore=1011 priorityscore=1501 suspectscore=0 lowpriorityscore=0
+ mlxscore=0 impostorscore=0 phishscore=0 bulkscore=0 adultscore=0
+ spamscore=0 mlxlogscore=942 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-1908290000 definitions=main-1909250143
+X-FB-Internal: deliver
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hello Christian,
+On 25 Sep 2019, at 8:07, Colin Walters wrote:
 
-On 9/25/19 3:53 PM, Christian Brauner wrote:
-> On Wed, Sep 25, 2019 at 03:46:26PM +0200, Michael Kerrisk (man-pages) wrote:
->> On 9/24/19 11:53 PM, Christian Brauner wrote:
->>> On Tue, Sep 24, 2019 at 11:00:03PM +0200, Michael Kerrisk (man-pages) wrote:
->>>> Hello Christian,
->>>>
->>>>>>> If you're the parent of the process you can do this without CLONE_PIDFD:
->>>>>>> pid = fork();
->>>>>>> pidfd = pidfd_open();
->>>>>>> ret = pidfd_send_signal(pidfd, 0, NULL, 0);
->>>>>>> if (ret < 0 && errno == ESRCH)
->>>>>>> 	/* pidfd refers to another, recycled process */
->>>>>>
->>>>>> Although there is still the race between the fork() and the
->>>>>> pidfd_open(), right?
->>>>>
->>>>> Actually no and my code is even too complex.
->>>>> If you are the parent, and this is really a sequence that obeys the
->>>>> ordering pidfd_open() before waiting:
->>>>>
->>>>> pid = fork();
->>>>> if (pid == 0)
->>>>> 	exit(EXIT_SUCCESS);
->>>>> pidfd = pidfd_open(pid, 0);
->>>>> waitid(pid, ...);
->>>>>
->>>>> Then you are guaranteed that pidfd will refer to pid. No recycling can
->>>>> happen since the process has not been waited upon yet (That is,
->>>>
->>>> D'oh! Yes, of course. 
->>>>
->>>>> excluding special cases such as where you have a mainloop where a
->>>>> callback reacts to a SIGCHLD event and waits on the child behind your
->>>>> back and your next callback in the mainloop calls pidfd_open() while the
->>>>> pid has been recycled etc.).
->>>>> A race could only appear in sequences where waiting happens before
->>>>> pidfd_open():
->>>>>
->>>>> pid = fork();
->>>>> if (pid == 0)
->>>>> 	exit(EXIT_SUCCESS);
->>>>> waitid(pid, ...);
->>>>> pidfd = pidfd_open(pid, 0);
->>>>>
->>>>> which honestly simply doesn't make any sense. So if you're the parent
->>>>> and you combine fork() + pidfd_open() correctly things should be fine
->>>>> without even having to verify via pidfd_send_signal() (I missed that in
->>>>> my first mail.).
->>>>
->>>> Thanks for the additional detail.
->>>
->>> You're very welcome.
->>>
->>>>
->>>> I added the following to the pidfd_open() page, to
->>>> prevent people making the same thinko as me:
->>>>
->>>>        The following code sequence can be used to obtain a file  descrip‐
->>>>        tor for the child of fork(2):
->>>>
->>>>            pid = fork();
->>>>            if (pid > 0) {     /* If parent */
->>>>                pidfd = pidfd_open(pid, 0);
->>>>                ...
->>>>            }
->>>>
->>>>        Even  if  the  child process has already terminated by the time of
->>>>        the pidfd_open() call, the returned file descriptor is  guaranteed
->>>>        to refer to the child because the parent has not yet waited on the
->>>>        child (and therefore, the child's ID has not been recycled).
->>>
->>> Thanks! I'm fine with the example. The code illustrates the basics. If
->>> you want to go overboard, you can mention my callback example and put my
->>> SIG_IGN code snippet from my earlier mails (cf. [1] and [2]) in there.
->>> But imho, that'll complicate the manpage and I'm not sure it's worth it.
+> On Wed, Sep 25, 2019, at 3:11 AM, Dave Chinner wrote:
 >>
->> I agree that we should not complicate this discussion with more code,
->> but how about we refine the text as follows:
->>
->>        The following code sequence can be used to obtain a file  descrip‐
->>        tor for the child of fork(2):
->>
->>            pid = fork();
->>            if (pid > 0) {     /* If parent */
->>                pidfd = pidfd_open(pid, 0);
->>                ...
->>            }
->>
->>        Even  if  the  child  has  already  terminated  by the time of the
->>        pidfd_open() call, its PID will not have  been  recycled  and  the
->>        returned  file  descriptor  will  refer  to  the  resulting zombie
->>        process.  Note, however, that this is guaranteed only if the  fol‐
->>        lowing conditions hold true:
->>
->>        *  the  disposition  of  SIGCHLD  has  not  been explicitly set to
->>           SIG_IGN (see sigaction(2)); and
-> 
-> Ugh, I forgot a third one. There's also SA_NOCLDWAIT. When set and
-> the SIGCHLD handler is set to SIG_DFL then no zombie processes are
-> created and no SIGCHLD signal is sent. When an explicit handler for
-> SIGCHLD is set then a SIGCHLD signal is generated but the process will
-> still not be turned into a zombie...
+>> We're talking about user data read/write access here, not some
+>> special security capability. Access to the data has already been
+>> permission checked, so why should the format that the data is
+>> supplied to the kernel in suddenly require new privilege checks?
+>
+> What happens with BTRFS today if userspace provides invalid compressed=20
+> data via this interface?  Does that show up as filesystem corruption=20
+> later?  If the data is verified at write time, wouldn't that be losing=20
+> most of the speed advantages of providing pre-compressed data?
 
-Oh, yes. I added:
+The data is verified while being decompressed, but that's a fairly large=20
+fuzzing surface (all of zstd, zlib, and lzo).  A lot of people will=20
+correctly argue that we already have that fuzzing surface today, but I'd=20
+rather not make a really easy way to stuff arbitrary bytes through the=20
+kernel decompression code until all the projects involved sign off.
 
-       *  the SA_NOCLDSTOP flag was not specified  while  establishing  a
-          handler  for  SIGCHLD  or while setting the disposition of that
-          signal to SIG_DFL (see sigaction(2));
-
->>        *  the zombie process was not  reaped  elsewhere  in  the  program
->>           (e.g.,  either  by an asynchronously executed signal handler or
->>           by wait(2) or similar in another thread).
->>
->>        If these conditions don't hold true, then the child process should
-> 
-> "If any of these conditions does not hold, the child process..."
-> 
-> That might be clearer. But I leave the call on that to you. :)
-
-Yep, your wording is better. Fixed.
-
-Thanks,
-
-Michael
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+-chris
