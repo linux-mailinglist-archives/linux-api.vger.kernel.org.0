@@ -2,126 +2,135 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AB98CBD4A8
-	for <lists+linux-api@lfdr.de>; Tue, 24 Sep 2019 23:53:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B543BD62F
+	for <lists+linux-api@lfdr.de>; Wed, 25 Sep 2019 03:49:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388731AbfIXVx0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 24 Sep 2019 17:53:26 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:40800 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728183AbfIXVxZ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 24 Sep 2019 17:53:25 -0400
-Received: from mon75-17-88-175-211-167.fbx.proxad.net ([88.175.211.167] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1iCskI-0008Sw-H1; Tue, 24 Sep 2019 21:53:18 +0000
-Date:   Tue, 24 Sep 2019 23:53:17 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc:     Florian Weimer <fw@deneb.enyo.de>, Oleg Nesterov <oleg@redhat.com>,
-        Jann Horn <jannh@google.com>,
+        id S1729972AbfIYBtO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 24 Sep 2019 21:49:14 -0400
+Received: from mail-ot1-f48.google.com ([209.85.210.48]:43983 "EHLO
+        mail-ot1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727329AbfIYBtN (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 24 Sep 2019 21:49:13 -0400
+Received: by mail-ot1-f48.google.com with SMTP id o44so3329858ota.10
+        for <linux-api@vger.kernel.org>; Tue, 24 Sep 2019 18:49:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=S4K/lKtY3ak6usXvOj/zR7olHkBAUy+2MMM8LlZmBf8=;
+        b=n7ZBNZkX5ZlJmns7GrfnHL+C8hY/tL7+nHpK2ob+7tBetXEnZ7SdiyMDbRdIhdzw34
+         5/JLCJyXoodut+gqhbESE1sQQILap2nzKtISNRyYiPnXINIFRfZ53CXaLWA4yZKFJcZ6
+         tg7BATsohc/5kAc8Y9Hc//n1wwutMBxMRYiPUEbV7jCiRklTmUf/0keISGTKhe5wXb+F
+         NNWBSo+L+cYdXrWp3Yjr6ljwGMz6xrGImTbaVW5+7l0jNLT5K0S8oM1VKm5fe3gHemJZ
+         ztEz8yu8nqOmaYPKARLXSchUw5gZs72VdAepRjvB5sanuVUX3gE6sN5Sm9Zfv/avYp+0
+         IF9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=S4K/lKtY3ak6usXvOj/zR7olHkBAUy+2MMM8LlZmBf8=;
+        b=sY1dHKyP+CB4CKKrjJGHW9B/OVkpsf8Vp4YxVZumfC+bP0+ClceNjN3LDCkamX/dyt
+         ZW5ud982F33YUrXgdaTGl8o1hUaOJGUbJaVgXXs2Gl5dmc12iwJEdsn+mQI/8FEEjWsq
+         7WVwHrTUP0QFcZktgtrcpNyaqod9ebx2lt9WqbEzmMmPDzgybUfpO1fcXVq9lMkD4KxE
+         IlGTs0/FGbTCwZfWEkCiZ8UjQ+hLe4CnWxVqXnsiZzKiajTl8D5xqDbD5TkBTjtGqcpO
+         RVdeHTm9JYGK7voFdyKAElGZRvGYOFswR5RF5o5FbeCb31/8QoEauY+RMRHO7kQSo8iJ
+         12Ng==
+X-Gm-Message-State: APjAAAVpM+y4zSoIgIt7MhxJYUcSZaKHoK/HhjyEVjxANqMt4725mKpS
+        +RIviG8YHmtHp1obujAEQ39s9Vzqhl1LvC/SW5J6AQ==
+X-Google-Smtp-Source: APXvYqwPrvSj/06Aha2RRdJjgRXtUe0Y7rxGGyABjaWC9T328v20er7xQqVtyaKaTfRie45QpZfRJqwc/ZSUkKalazY=
+X-Received: by 2002:a05:6830:1096:: with SMTP id y22mr4317897oto.32.1569376152044;
+ Tue, 24 Sep 2019 18:49:12 -0700 (PDT)
+MIME-Version: 1.0
+References: <f21dbd73-5ef4-fb5b-003f-ff4fec34a1de@gmail.com> <87pnjr9rth.fsf@mid.deneb.enyo.de>
+In-Reply-To: <87pnjr9rth.fsf@mid.deneb.enyo.de>
+From:   Jann Horn <jannh@google.com>
+Date:   Wed, 25 Sep 2019 03:48:45 +0200
+Message-ID: <CAG48ez17sqfpmzDKyPBm+h4P8LtCC8_V=StySK2gXcxGaD4mxg@mail.gmail.com>
+Subject: Re: For review: pidfd_send_signal(2) manual page
+To:     Florian Weimer <fw@deneb.enyo.de>
+Cc:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Christian Brauner <christian@brauner.io>,
         "Eric W. Biederman" <ebiederm@xmission.com>,
         Daniel Colascione <dancol@google.com>,
         Joel Fernandes <joel@joelfernandes.org>,
         linux-man <linux-man@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
         lkml <linux-kernel@vger.kernel.org>
-Subject: Re: For review: pidfd_send_signal(2) manual page
-Message-ID: <20190924215316.gxev2anuqffegocw@wittgenstein>
-References: <f21dbd73-5ef4-fb5b-003f-ff4fec34a1de@gmail.com>
- <87pnjr9rth.fsf@mid.deneb.enyo.de>
- <20190923142325.jowzbnwjw7g7si7j@wittgenstein>
- <90dd38d5-34b3-b72f-8e5a-b51f944f22fb@gmail.com>
- <20190924195701.7pw2olbviieqsg5q@wittgenstein>
- <b76adb4c-826b-6493-ba75-a9863066d3b1@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b76adb4c-826b-6493-ba75-a9863066d3b1@gmail.com>
-User-Agent: NeoMutt/20180716
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Sep 24, 2019 at 11:00:03PM +0200, Michael Kerrisk (man-pages) wrote:
-> Hello Christian,
-> 
-> >>> If you're the parent of the process you can do this without CLONE_PIDFD:
-> >>> pid = fork();
-> >>> pidfd = pidfd_open();
-> >>> ret = pidfd_send_signal(pidfd, 0, NULL, 0);
-> >>> if (ret < 0 && errno == ESRCH)
-> >>> 	/* pidfd refers to another, recycled process */
-> >>
-> >> Although there is still the race between the fork() and the
-> >> pidfd_open(), right?
-> > 
-> > Actually no and my code is even too complex.
-> > If you are the parent, and this is really a sequence that obeys the
-> > ordering pidfd_open() before waiting:
-> > 
-> > pid = fork();
-> > if (pid == 0)
-> > 	exit(EXIT_SUCCESS);
-> > pidfd = pidfd_open(pid, 0);
-> > waitid(pid, ...);
-> > 
-> > Then you are guaranteed that pidfd will refer to pid. No recycling can
-> > happen since the process has not been waited upon yet (That is,
-> 
-> D'oh! Yes, of course. 
-> 
-> > excluding special cases such as where you have a mainloop where a
-> > callback reacts to a SIGCHLD event and waits on the child behind your
-> > back and your next callback in the mainloop calls pidfd_open() while the
-> > pid has been recycled etc.).
-> > A race could only appear in sequences where waiting happens before
-> > pidfd_open():
-> > 
-> > pid = fork();
-> > if (pid == 0)
-> > 	exit(EXIT_SUCCESS);
-> > waitid(pid, ...);
-> > pidfd = pidfd_open(pid, 0);
-> > 
-> > which honestly simply doesn't make any sense. So if you're the parent
-> > and you combine fork() + pidfd_open() correctly things should be fine
-> > without even having to verify via pidfd_send_signal() (I missed that in
-> > my first mail.).
-> 
-> Thanks for the additional detail.
+On Mon, Sep 23, 2019 at 1:26 PM Florian Weimer <fw@deneb.enyo.de> wrote:
+> * Michael Kerrisk:
+> >        The  pidfd_send_signal()  system call allows the avoidance of ra=
+ce
+> >        conditions that occur when using traditional interfaces  (such  =
+as
+> >        kill(2)) to signal a process.  The problem is that the tradition=
+al
+> >        interfaces specify the target process via a process ID (PID), wi=
+th
+> >        the  result  that the sender may accidentally send a signal to t=
+he
+> >        wrong process if the originally intended target process has term=
+i=E2=80=90
+> >        nated  and its PID has been recycled for another process.  By co=
+n=E2=80=90
+> >        trast, a PID file descriptor is a stable reference to  a  specif=
+ic
+> >        process;  if  that  process  terminates,  then the file descript=
+or
+> >        ceases to be  valid  and  the  caller  of  pidfd_send_signal()  =
+is
+> >        informed of this fact via an ESRCH error.
+>
+> It would be nice to explain somewhere how you can avoid the race using
+> a PID descriptor.  Is there anything else besides CLONE_PIDFD?
 
-You're very welcome.
+My favorite example here is that you could implement "killall" without
+PID reuse races. With /proc/$pid file descriptors, you could do it
+like this (rough pseudocode with missing error handling and resource
+leaks and such):
 
-> 
-> I added the following to the pidfd_open() page, to
-> prevent people making the same thinko as me:
-> 
->        The following code sequence can be used to obtain a file  descrip‐
->        tor for the child of fork(2):
-> 
->            pid = fork();
->            if (pid > 0) {     /* If parent */
->                pidfd = pidfd_open(pid, 0);
->                ...
->            }
-> 
->        Even  if  the  child process has already terminated by the time of
->        the pidfd_open() call, the returned file descriptor is  guaranteed
->        to refer to the child because the parent has not yet waited on the
->        child (and therefore, the child's ID has not been recycled).
+for each pid {
+  procfs_pid_fd =3D open("/proc/"+pid);
+  if (procfs_pid_fd =3D=3D -1) continue;
+  comm_fd =3D openat(procfs_pid_fd, "comm");
+  if (comm_fd =3D=3D -1) continue;
+  char buf[1000];
+  int n =3D read(comm_fd, buf, sizeof(buf)-1);
+  buf[n] =3D 0;
+  if (strcmp(buf, expected_comm) =3D=3D 0) {
+    pidfd_send_signal(procfs_pid_fd, SIGKILL, NULL, 0);
+  }
+}
 
-Thanks! I'm fine with the example. The code illustrates the basics. If
-you want to go overboard, you can mention my callback example and put my
-SIG_IGN code snippet from my earlier mails (cf. [1] and [2]) in there.
-But imho, that'll complicate the manpage and I'm not sure it's worth it.
+If you want to avoid using a procfs fd for this, I think you can still
+do it, the dance just gets more complicated:
 
-Thanks!
-Christian
+for each pid {
+  procfs_pid_fd =3D open("/proc/"+pid);
+  if (procfs_pid_fd =3D=3D -1) continue;
+  pid_fd =3D pidfd_open(pid, 0);
+  if (pid_fd =3D=3D -1) continue;
+  /* at this point procfs_pid_fd and pid_fd may refer to different processe=
+s */
+  comm_fd =3D openat(procfs_pid_fd, "comm");
+  if (comm_fd =3D=3D -1) continue;
+  /* at this point we know that procfs_pid_fd and pid_fd refer to the
+same struct pid, because otherwise the procfs_pid_fd must point to a
+directory that throws -ESRCH for everything */
+  char buf[1000];
+  int n =3D read(comm_fd, buf, sizeof(buf)-1);
+  buf[n] =3D 0;
+  if (strcmp(buf, expected_comm) =3D=3D 0) {
+    pidfd_send_signal(pid_fd, SIGKILL, NULL, 0);
+  }
+}
 
-/* References */
-[1]: https://lore.kernel.org/r/20190924195701.7pw2olbviieqsg5q@wittgenstein
-[2]: https://lore.kernel.org/r/20190924200735.2dvqhan7ynnmfc7s@wittgenstein
+But I don't think anyone is actually interested in using pidfds for
+this kind of usecase right now.
