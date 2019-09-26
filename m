@@ -2,111 +2,144 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 52294BF7D0
-	for <lists+linux-api@lfdr.de>; Thu, 26 Sep 2019 19:46:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0512BFAAE
+	for <lists+linux-api@lfdr.de>; Thu, 26 Sep 2019 22:42:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727745AbfIZRqO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 26 Sep 2019 13:46:14 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:33487 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727652AbfIZRqO (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 26 Sep 2019 13:46:14 -0400
-Received: by mail-pg1-f195.google.com with SMTP id i30so1975551pgl.0
-        for <linux-api@vger.kernel.org>; Thu, 26 Sep 2019 10:46:13 -0700 (PDT)
+        id S1728825AbfIZUm3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 26 Sep 2019 16:42:29 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:42283 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727948AbfIZUm3 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 26 Sep 2019 16:42:29 -0400
+Received: by mail-wr1-f68.google.com with SMTP id n14so262150wrw.9;
+        Thu, 26 Sep 2019 13:42:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=osandov-com.20150623.gappssmtp.com; s=20150623;
+        d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=flT9fBZ3P9UgjuIhDnrmFe1JBs07Z3/pZQTsLWyd9cQ=;
-        b=hEt+uhNndXeewILcwlsE0TLOnrSKZMugFJU1eiZSqB+9MpBdP1TNUXRaQk4MKDMVZe
-         l+iETQcCMKckv0by/kdrKrx5vgnqqAZ1eY2VCLlixwoZVvUIevQPtFgpPcp5qEmvG9OS
-         zr+j9hKna+ZSWp20G79kebYIopAXtWbAlN3lMtavfj1eybsIK1XWtGc03ZQVYq+IDa28
-         oPZAIzblukGGNl7tqEemMXQE1FkI8q8Lq16TRLnolZXgKovKmHQ7pBZ0LidOlaMomb8A
-         UqgkOIbb/y/meCLWSxqb6JZPpJNWCfx9mCbOGGOlqZr5XT+7vjocl5+tG5ronTksUcpp
-         GwDA==
+        bh=v7VtkEEG2LAz9vVB8MM5QKckRl92FYJ98jBUqUE9BwA=;
+        b=u5spxzCLQa36RysMhpR/QTwiffH9apHOymwGEfBlshrnSYnVSdLYQTuKSRlBahGMTW
+         kljWooiuX6R0VxnZ0cUGreGtbkLL9qX/hR9bgMaaO6BjvUQ2aXWDK1tGQ9rfNxbwiSSq
+         fFKbhVrD0RlruSVqYVz4o7GMqXxhsRmZSh5NM7ExWQGIb1vFcF9k/a6uJppHVwmJvoAI
+         DxBgnAhlPvJgoCw4QX6sBYfSFqmbXaqFKW0euCCzG5haAewy1g588lLp/JBDHpxMifyq
+         hpWz6Qe4YXpxYViS+EpdOMW0DgRg2lSQ2sQAGcNWsWwEIQD/GGh4NnFfY4+bvjmZdkId
+         VAPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=flT9fBZ3P9UgjuIhDnrmFe1JBs07Z3/pZQTsLWyd9cQ=;
-        b=Pu1ayL90Fy0bapcObsNcPuScJdgYHlQl/lnbB0B/gh6lsad2c//lcusA73APmu3Y5P
-         GM135+K+9tfE5azr87ejVfWpesEnQlSaESk7oUI68TCQSmDQuWZpS7XMm4Usj1HnKV3O
-         OJMxGvAq7W/s5BEZeVKeP4MGhRu+awd7mBu1dkHPp+GJARVoN/bYqe5w6PETXNebJ5pK
-         takPYTYmOw/YTpVgGX0zUDJNjaY0CnZVzP0rrmgfq8GaxHvs3TH1Sy+mVc8Ub4+yvmfm
-         6s0or6Uxve5yBcOSz6Oy/eQBJ7RKt98WOlsB2XpsofQpqTNJw2niMquiNUPQgpexzW1P
-         kfeg==
-X-Gm-Message-State: APjAAAUy2v5rxYDi75yAry9YzAhJDyXzewl6I6IBUEJ2JX8uQurmF7rN
-        GLOC5bddn4qUHU2p6IO//sL7Gg==
-X-Google-Smtp-Source: APXvYqwikFaK5XBjZGwGMstfgfcvJbjtYSKlxkonOjE0aRskm6PvRu3wUykQUKZN0mIO/lfXIu2qNA==
-X-Received: by 2002:a17:90a:3748:: with SMTP id u66mr4906667pjb.4.1569519973085;
-        Thu, 26 Sep 2019 10:46:13 -0700 (PDT)
-Received: from vader ([2620:10d:c090:200::e132])
-        by smtp.gmail.com with ESMTPSA id w189sm3852504pfw.101.2019.09.26.10.46.11
+        bh=v7VtkEEG2LAz9vVB8MM5QKckRl92FYJ98jBUqUE9BwA=;
+        b=ub8Q4e+gZZdS9Nb6S/YJKur5BZAIO11nucv7TYsw/TAi8u7Tis42rYwKFKqMXrz92a
+         rT3O5eybi4b0wacHVAc+ZE+rBPOMXXM/kMTNn46qY7XlAjzYwNQdoha+/IhyKgaWS5id
+         2y/edRJd2qZFjmfkjoIDJJCSXuD0W+XFn4600+F3Jw4pAwsZq9ScMq/CjrBK2xRyEfjB
+         ZoYtnchxbnmwdP8TnnVSAqZoBs1FXLOP/qrAaNBbYr1tdOqTF8jK08RLvWopXR7tCMOK
+         347i6wZePfwJM4gYAEsnnun7TD+fv9p2zn24eKCtq0tE060JmnxvG3CZp1HRICpj4Xby
+         jYzg==
+X-Gm-Message-State: APjAAAUuljqjaiGOTiPGguWGVUrisM0Ymuf4TvtPjpVTlLIsg+55EgXj
+        ROHA1APvgZpDQMIam0f3Vmk=
+X-Google-Smtp-Source: APXvYqx3sIDOdlofsaPVb8yY8fHJlIBsTAzoi31CxPZQoIgTKNLCuIpHCtrMLYLGQD0LcwEvLq25Nw==
+X-Received: by 2002:a5d:6306:: with SMTP id i6mr243312wru.323.1569530546588;
+        Thu, 26 Sep 2019 13:42:26 -0700 (PDT)
+Received: from pc ([5.158.153.52])
+        by smtp.gmail.com with ESMTPSA id r2sm5722658wma.1.2019.09.26.13.42.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Sep 2019 10:46:12 -0700 (PDT)
-Date:   Thu, 26 Sep 2019 10:46:09 -0700
-From:   Omar Sandoval <osandov@osandov.com>
-To:     Colin Walters <walters@verbum.org>
-Cc:     Chris Mason <clm@fb.com>, Dave Chinner <david@fromorbit.com>,
-        Jann Horn <jannh@google.com>, Aleksa Sarai <cyphar@cyphar.com>,
-        Jens Axboe <axboe@kernel.dk>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Kernel Team <Kernel-team@fb.com>,
-        Andy Lutomirski <luto@kernel.org>
-Subject: Re: [RFC PATCH 2/3] add RWF_ENCODED for writing compressed data
-Message-ID: <20190926174609.GA18238@vader>
-References: <cover.1568875700.git.osandov@fb.com>
- <230a76e65372a8fb3ec62ce167d9322e5e342810.1568875700.git.osandov@fb.com>
- <CAG48ez2GKv15Uj6Wzv0sG5v2bXyrSaCtRTw5Ok_ovja_CiO_fQ@mail.gmail.com>
- <20190924171513.GA39872@vader>
- <20190924193513.GA45540@vader>
- <CAG48ez1NQBNR1XeVQYGoopEk=g_KedUr+7jxLQTaO+V8JCeweQ@mail.gmail.com>
- <20190925071129.GB804@dread.disaster.area>
- <60c48ac5-b215-44e1-a628-6145d84a4ce3@www.fastmail.com>
- <FF3F534F-B40D-4D7D-956B-F1B63C4751CC@fb.com>
- <4e6e03c1-b2f4-4841-99af-cbb75f33c14d@www.fastmail.com>
+        Thu, 26 Sep 2019 13:42:25 -0700 (PDT)
+Date:   Thu, 26 Sep 2019 22:42:17 +0200
+From:   "Ahmed S. Darwish" <darwish.07@gmail.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>
+Cc:     Florian Weimer <fweimer@redhat.com>, Willy Tarreau <w@1wt.eu>,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Lennart Poettering <mzxreary@0pointer.de>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "Alexander E. Patrakov" <patrakov@gmail.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        lkml <linux-kernel@vger.kernel.org>,
+        linux-ext4 <linux-ext4@vger.kernel.org>,
+        linux-api <linux-api@vger.kernel.org>,
+        linux-man <linux-man@vger.kernel.org>
+Subject: [PATCH v5 0/1] random: getrandom(2): warn on large CRNG waits,
+ introduce new flags
+Message-ID: <20190926204217.GA1366@pc>
+References: <20190912034421.GA2085@darwi-home-pc>
+ <20190912082530.GA27365@mit.edu>
+ <CAHk-=wjyH910+JRBdZf_Y9G54c1M=LBF8NKXB6vJcm9XjLnRfg@mail.gmail.com>
+ <20190914122500.GA1425@darwi-home-pc>
+ <008f17bc-102b-e762-a17c-e2766d48f515@gmail.com>
+ <20190915052242.GG19710@mit.edu>
+ <CAHk-=wgg2T=3KxrO-BY3nHJgMEyApjnO3cwbQb_0vxsn9qKN8Q@mail.gmail.com>
+ <20190918211503.GA1808@darwi-home-pc>
+ <20190918211713.GA2225@darwi-home-pc>
+ <CAHk-=wiCqDiU7SE3FLn2W26MS_voUAuqj5XFa1V_tiGTrrW-zQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4e6e03c1-b2f4-4841-99af-cbb75f33c14d@www.fastmail.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <CAHk-=wiCqDiU7SE3FLn2W26MS_voUAuqj5XFa1V_tiGTrrW-zQ@mail.gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Sep 26, 2019 at 08:17:12AM -0400, Colin Walters wrote:
-> 
-> 
-> On Wed, Sep 25, 2019, at 10:56 AM, Chris Mason wrote:
-> 
-> > The data is verified while being decompressed, but that's a fairly large 
-> > fuzzing surface (all of zstd, zlib, and lzo).  A lot of people will 
-> > correctly argue that we already have that fuzzing surface today, but I'd 
-> > rather not make a really easy way to stuff arbitrary bytes through the 
-> > kernel decompression code until all the projects involved sign off.
-> 
-> Right.  So maybe have this start of as a BTRFS ioctl and require
-> privileges?   I assume that's sufficient for what Omar wants.
+Summary / Changelog-v5:
 
-That was the first version of this series, but Dave requested that I
-make it generic [1].
+  - Add the new flags GRND_INSECURE and GRND_SECURE_UNBOUNDED_INITIAL_WAIT
+    to getrandom(2), instead of introducing a new getrandom2(2) system
+    call, which nobody liked.
 
-> (Are there actually any other popular Linux filesystems that do transparent compression anyways?)
+  - Fix a bug discovered through testing where "int ret =
+    wait_event_interruptible_timeout(waitq, true, MAX_SCHEDULE_TIMEOUT)"
+    returns failure (-1) due to implicit LONG_MAX => int truncation
 
-A scan over the kernel tree shows that a few other filesystems do
-compression:
+  - WARN if a process is stuck on getrandom(,,flags=0) for more than 30
+    seconds ... defconfig and bootparam configurable
 
-- jffs2
-- pstore (if you can call that a filesystem)
-- ubifs
-- cramfs (read-only)
-- erofs (read-only)
-- squashfs (read-only)
+  - Add documentation for "random.getrandom_wait_threshold" kernel param
 
-None of the "mainstream" general-purpose filesystems have support, but
-that was also the case for reflink/dedupe before XFS added support.
+  - Extra comments @ include/uapi/linux/random.h and random.c::getrandom.
+    Explicit recommendations to *exclusively* use the new flags.
 
-1: https://lore.kernel.org/linux-fsdevel/20190905021012.GL7777@dread.disaster.area/
+  - GRND_INSECURE never issue any warning, even if CRNG is not inited.
+    Similarly for GRND_SECURE_UNBOUNDED_INITIAL_WAIT, no matter how
+    big the unbounded wait is.
+
+In a reply to the V4 patch, Linus posted a related patch [*] with the
+following additions:
+
+  - Drop the original random.c behavior of having each /dev/urandom
+    "CRNG not inited" warning also _reset_ the crng_init_cnt entropy.
+
+    This is not included in this patch, as IMHO this can be done as a
+    separate patch on top.
+
+ - Limit GRND_RANDOM max count/buflen to 32MB instead of 2GB.  This
+   is very sane obviously, and can be done in a separate patch on
+   top.
+
+   This V5 patch just tries to be as conservative as possible.
+
+ - GRND_WAIT_ENTROPY and GRND_EXCPLICIT: AFAIK these were primarily
+   added so that getrandom(,,flags=0) can be changed to return
+   weaker non-blocking crypto from non-inited CRG in a possible
+   future.
+
+   I hope we don't have to resort to that extreme measure.. Hopefully
+   the WARN() on this patch will be enough in nudging distributions to
+   enable more hwrng sources (RDRAND, etc.) .. and also for the
+   user-space developres badly pointed at (hi GDM and Qt) to fix their
+   code.
+
+[*] https://lkml.kernel.org/r/CAHk-=wiCqDiU7SE3FLn2W26MS_voUAuqj5XFa1V_tiGTrrW-zQ@mail.gmail.com
+
+Ahmed S. Darwish (1):
+  random: getrandom(2): warn on large CRNG waits, introduce new flags
+
+ .../admin-guide/kernel-parameters.txt         |   7 ++
+ drivers/char/Kconfig                          |  60 ++++++++++-
+ drivers/char/random.c                         | 102 +++++++++++++++---
+ include/uapi/linux/random.h                   |  27 ++++-
+ 4 files changed, 177 insertions(+), 19 deletions(-)
+
+--
+2.23.0
