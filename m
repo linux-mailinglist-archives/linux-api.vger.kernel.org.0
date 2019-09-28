@@ -2,126 +2,173 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DA51BC05BF
-	for <lists+linux-api@lfdr.de>; Fri, 27 Sep 2019 14:52:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECD1DC1061
+	for <lists+linux-api@lfdr.de>; Sat, 28 Sep 2019 11:31:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727076AbfI0MwD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 27 Sep 2019 08:52:03 -0400
-Received: from charlotte.tuxdriver.com ([70.61.120.58]:43340 "EHLO
-        smtp.tuxdriver.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725992AbfI0MwC (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 27 Sep 2019 08:52:02 -0400
-Received: from cpe-2606-a000-111b-43ee-0-0-0-115f.dyn6.twc.com ([2606:a000:111b:43ee::115f] helo=localhost)
-        by smtp.tuxdriver.com with esmtpsa (TLSv1:AES256-SHA:256)
-        (Exim 4.63)
-        (envelope-from <nhorman@tuxdriver.com>)
-        id 1iDpiu-0003PC-9y; Fri, 27 Sep 2019 08:51:55 -0400
-Date:   Fri, 27 Sep 2019 08:51:42 -0400
-From:   Neil Horman <nhorman@tuxdriver.com>
-To:     Richard Guy Briggs <rgb@redhat.com>
-Cc:     containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
-        Linux-Audit Mailing List <linux-audit@redhat.com>,
-        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
-        Paul Moore <paul@paul-moore.com>, sgrubb@redhat.com,
-        omosnace@redhat.com, dhowells@redhat.com, simo@redhat.com,
-        eparis@parisplace.org, serge@hallyn.com, ebiederm@xmission.com,
-        dwalsh@redhat.com, mpatel@redhat.com
-Subject: Re: [PATCH ghak90 V7 06/21] audit: contid limit of 32k imposed to
- avoid DoS
-Message-ID: <20190927125142.GA25764@hmswarspite.think-freely.org>
-References: <cover.1568834524.git.rgb@redhat.com>
- <230e91cd3e50a3d8015daac135c24c4c58cf0a21.1568834524.git.rgb@redhat.com>
+        id S1725872AbfI1JbC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 28 Sep 2019 05:31:02 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:54027 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725856AbfI1JbB (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 28 Sep 2019 05:31:01 -0400
+Received: by mail-wm1-f66.google.com with SMTP id i16so8294644wmd.3;
+        Sat, 28 Sep 2019 02:30:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=TCs/8nlpXbSdnRhoVRZAnKrxE2CTT3D9lBs8voTjYNs=;
+        b=rVWQuWjy036UQ2W5RkKo4ubOfrcqumSywP0JeXL5bNOPIyACFAcFnAc4haFoj8WO/G
+         eB4RdWcEIoCVjTEH93C3rJuuC+hAg1w8EPfKIsgU//w4E15Mj8AR6+RUhwSM62RtNUFD
+         kmCsYOV6JVYv604pW1YcAyR9B69FEx1gj4KkZNL8u0HlOB4y7LZilUGxX39GLsX9oIPn
+         pS4iDY3wZd0efd8sljR24a3/76TCunEa3UcLdZeYVdCjDAohOIVkFd3vlP8swFeR0Qf1
+         Gc7iG4aFMn39NtYwmjlRPaM2x1XZo66KWvvjWO9FC6qm/d1Ayz0UClwdAIcd3+Q/EqLg
+         29dA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=TCs/8nlpXbSdnRhoVRZAnKrxE2CTT3D9lBs8voTjYNs=;
+        b=Ex8jtlbuLAQ9wc0JirI6bQm1e3hIzXFvn8NACQdXWDIaN2cKBqGmogRoDdLEkbaUvB
+         jS40pC1NGzv32huknfJ6+tZfxFfs9mTaQ1MthK5fpVvxmRedRIz6DFssfZMUGcQMwvap
+         BYMvjDmNZ/VXVOAAk0J9zdLHgyBCJTzwZuaEfxxnYutufJz6LKesgHmVt5yBAB8IDE+Q
+         GuaSbs3McFdJCta+FrYQaJVHWi7Qc2YRtVrwA0OxM2Xj8hyoEvQUbZKGWbmpG5hRci8G
+         MfC6633f7JX4d0rHjcEZJijpgjs16BCjfxDhZW9r/WFeU/dzmGZVPm7XUfJG0BqWM5yO
+         k/ag==
+X-Gm-Message-State: APjAAAV4PSVQjyyNWyw1RYUHAnDPFtJyoeNdkTXcsB0A6Pz95Eh52wA7
+        dayjkLSTU3OlQYLESGIVZsAAw6anZWFyyw==
+X-Google-Smtp-Source: APXvYqwPv49Z9qq8s4Li6UkyxiroJ52geU4gAaCCVqsL9cci41z6vRBV3TqjGf0oFg0mcukKWLpMng==
+X-Received: by 2002:a05:600c:284:: with SMTP id 4mr9742207wmk.107.1569663058527;
+        Sat, 28 Sep 2019 02:30:58 -0700 (PDT)
+Received: from darwi-home-pc (ip-109-42-2-0.web.vodafone.de. [109.42.2.0])
+        by smtp.gmail.com with ESMTPSA id f18sm6349267wmh.43.2019.09.28.02.30.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Sep 2019 02:30:57 -0700 (PDT)
+Date:   Sat, 28 Sep 2019 11:30:46 +0200
+From:   "Ahmed S. Darwish" <darwish.07@gmail.com>
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Florian Weimer <fweimer@redhat.com>, Willy Tarreau <w@1wt.eu>,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        Lennart Poettering <mzxreary@0pointer.de>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "Alexander E. Patrakov" <patrakov@gmail.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        lkml <linux-kernel@vger.kernel.org>,
+        linux-ext4 <linux-ext4@vger.kernel.org>,
+        linux-api <linux-api@vger.kernel.org>,
+        linux-man <linux-man@vger.kernel.org>
+Subject: Re: [PATCH v5 1/1] random: getrandom(2): warn on large CRNG waits,
+ introduce new flags
+Message-ID: <20190928093046.GA1039@darwi-home-pc>
+References: <20190914122500.GA1425@darwi-home-pc>
+ <008f17bc-102b-e762-a17c-e2766d48f515@gmail.com>
+ <20190915052242.GG19710@mit.edu>
+ <CAHk-=wgg2T=3KxrO-BY3nHJgMEyApjnO3cwbQb_0vxsn9qKN8Q@mail.gmail.com>
+ <20190918211503.GA1808@darwi-home-pc>
+ <20190918211713.GA2225@darwi-home-pc>
+ <CAHk-=wiCqDiU7SE3FLn2W26MS_voUAuqj5XFa1V_tiGTrrW-zQ@mail.gmail.com>
+ <20190926204217.GA1366@pc>
+ <20190926204425.GA2198@pc>
+ <9a9715dc-e30b-24fb-a754-464449cafb2f@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <230e91cd3e50a3d8015daac135c24c4c58cf0a21.1568834524.git.rgb@redhat.com>
+In-Reply-To: <9a9715dc-e30b-24fb-a754-464449cafb2f@kernel.org>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Spam-Score: -2.9 (--)
-X-Spam-Status: No
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Sep 18, 2019 at 09:22:23PM -0400, Richard Guy Briggs wrote:
-> Set an arbitrary limit on the number of audit container identifiers to
-> limit abuse.
+On Thu, Sep 26, 2019 at 02:39:44PM -0700, Andy Lutomirski wrote:
+> On 9/26/19 1:44 PM, Ahmed S. Darwish wrote:
+> > Since Linux v3.17, getrandom(2) has been created as a new and more
+> > secure interface for pseudorandom data requests.  It attempted to
+> > solve three problems, as compared to /dev/urandom:
+> > 
+> >    1. the need to access filesystem paths, which can fail, e.g. under a
+> >       chroot
+> > 
+> >    2. the need to open a file descriptor, which can fail under file
+> >       descriptor exhaustion attacks
+> > 
+> >    3. the possibility of getting not-so-random data from /dev/urandom,
+> >       due to an incompletely initialized kernel entropy pool
+> > 
+> > To solve the third point, getrandom(2) was made to block until a
+> > proper amount of entropy has been accumulated to initialize the CRNG
+> > ChaCha20 cipher.  This made the system call have no guaranteed
+> > upper-bound for its initial waiting time.
+> > 
+> > Thus when it was introduced at c6e9d6f38894 ("random: introduce
+> > getrandom(2) system call"), it came with a clear warning: "Any
+> > userspace program which uses this new functionality must take care to
+> > assure that if it is used during the boot process, that it will not
+> > cause the init scripts or other portions of the system startup to hang
+> > indefinitely."
+> > 
+> > Unfortunately, due to multiple factors, including not having this
+> > warning written in a scary-enough language in the manpages, and due to
+> > glibc since v2.25 implementing a BSD-like getentropy(3) in terms of
+> > getrandom(2), modern user-space is calling getrandom(2) in the boot
+> > path everywhere (e.g. Qt, GDM, etc.)
+> > 
+> > Embedded Linux systems were first hit by this, and reports of embedded
+> > systems "getting stuck at boot" began to be common.  Over time, the
+> > issue began to even creep into consumer-level x86 laptops: mainstream
+> > distributions, like Debian Buster, began to recommend installing
+> > haveged as a duct-tape workaround... just to let the system boot.
+> > 
+> > Moreover, filesystem optimizations in EXT4 and XFS, e.g. b03755ad6f33
+> > ("ext4: make __ext4_get_inode_loc plug"), which merged directory
+> > lookup code inode table IO, and very fast systemd boots, further
+> > exaggerated the problem by limiting interrupt-based entropy sources.
+> > This led to large delays until the kernel's cryptographic random
+> > number generator (CRNG) got initialized.
+> > 
+> > On a Thinkpad E480 x86 laptop and an ArchLinux user-space, the ext4
+> > commit earlier mentioned reliably blocked the system on GDM boot.
+> > Mitigate the problem, as a first step, in two ways:
+> > 
+> >    1. Issue a big WARN_ON when any process gets stuck on getrandom(2)
+> >       for more than CONFIG_GETRANDOM_WAIT_THRESHOLD_SEC seconds.
+> > 
+> >    2. Introduce new getrandom(2) flags, with clear semantics that can
+> >       hopefully guide user-space in doing the right thing.
+> > 
+> > Set CONFIG_GETRANDOM_WAIT_THRESHOLD_SEC to a heuristic 30-second
+> > default value. System integrators and distribution builders are deeply
+> > encouraged not to increase it much: during system boot, you either
+> > have entropy, or you don't. And if you didn't have entropy, it will
+> > stay like this forever, because if you had, you wouldn't have blocked
+> > in the first place. It's an atomic "either/or" situation, with no
+> > middle ground. Please think twice.
 > 
-> Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-> ---
->  kernel/audit.c | 8 ++++++++
->  kernel/audit.h | 4 ++++
->  2 files changed, 12 insertions(+)
-> 
-> diff --git a/kernel/audit.c b/kernel/audit.c
-> index 53d13d638c63..329916534dd2 100644
-> --- a/kernel/audit.c
-> +++ b/kernel/audit.c
-> @@ -139,6 +139,7 @@ struct audit_net {
->  struct list_head audit_inode_hash[AUDIT_INODE_BUCKETS];
->  /* Hash for contid-based rules */
->  struct list_head audit_contid_hash[AUDIT_CONTID_BUCKETS];
-> +int audit_contid_count = 0;
->  
->  static struct kmem_cache *audit_buffer_cache;
->  
-> @@ -2384,6 +2385,7 @@ void audit_cont_put(struct audit_cont *cont)
->  		put_task_struct(cont->owner);
->  		list_del_rcu(&cont->list);
->  		kfree_rcu(cont, rcu);
-> +		audit_contid_count--;
->  	}
->  }
->  
-> @@ -2456,6 +2458,11 @@ int audit_set_contid(struct task_struct *task, u64 contid)
->  					goto conterror;
->  				}
->  			}
-> +		/* Set max contids */
-> +		if (audit_contid_count > AUDIT_CONTID_COUNT) {
-> +			rc = -ENOSPC;
-> +			goto conterror;
-> +		}
-You should check for audit_contid_count == AUDIT_CONTID_COUNT here, no?
-or at least >=, since you increment it below.  Otherwise its possible
-that you will exceed it by one in the full condition.
+> So what do we expect glibc's getentropy() to do?  If it just adds the new
+> flag to shut up the warning, we haven't really accomplished much.
 
->  		if (!newcont) {
->  			newcont = kmalloc(sizeof(struct audit_cont), GFP_ATOMIC);
->  			if (newcont) {
-> @@ -2465,6 +2472,7 @@ int audit_set_contid(struct task_struct *task, u64 contid)
->  				newcont->owner = current;
->  				refcount_set(&newcont->refcount, 1);
->  				list_add_rcu(&newcont->list, &audit_contid_hash[h]);
-> +				audit_contid_count++;
->  			} else {
->  				rc = -ENOMEM;
->  				goto conterror;
-> diff --git a/kernel/audit.h b/kernel/audit.h
-> index 162de8366b32..543f1334ba47 100644
-> --- a/kernel/audit.h
-> +++ b/kernel/audit.h
-> @@ -219,6 +219,10 @@ static inline int audit_hash_contid(u64 contid)
->  	return (contid & (AUDIT_CONTID_BUCKETS-1));
->  }
->  
-> +extern int audit_contid_count;
-> +
-> +#define AUDIT_CONTID_COUNT	1 << 16
-> +
-Just to ask the question, since it wasn't clear in the changelog, what
-abuse are you avoiding here?  Ostensibly you should be able to create as
-many container ids as you have space for, and the simple creation of
-container ids doesn't seem like the resource strain I would be concerned
-about here, given that an orchestrator can still create as many
-containers as the system will otherwise allow, which will consume
-significantly more ram/disk/etc.
+Yes, if glibc adds GRND_SECURE_UNBOUNDED_INITIAL_WAIT to gentropy(3),
+then this exercise would indeed be invalidated. Hopefully,
+coordination with glibc will be done so it won't happen... @Florian?
 
->  /* Indicates that audit should log the full pathname. */
->  #define AUDIT_NAME_FULL -1
->  
-> -- 
-> 1.8.3.1
-> 
-> 
+Afterwards, a sane approach would be for gentropy(3) to be deprecated,
+and to add getentropy_secure_unbounded_initial_wait(3) and
+getentropy_insecure(3).
+
+Note that this V5 patch does not claim to fully solve the problem, but
+it will:
+
+  1. Pinpoint to the processes causing system boots to block
+  
+  2. Tell people what correct alternative to use when facing problem
+     #1 above, through the proposed getrandom_wait(7) manpage. That
+     manpage page will fully describe the problem, and advise
+     user-space to either use the new getrandom flags, or the new
+     glibc gentropy_*() variants.
+
+thanks,
+
+--
+Ahmed Darwish
