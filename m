@@ -2,24 +2,24 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B07BC277B
-	for <lists+linux-api@lfdr.de>; Mon, 30 Sep 2019 22:58:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA516C2780
+	for <lists+linux-api@lfdr.de>; Mon, 30 Sep 2019 22:58:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730876AbfI3U6O (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 30 Sep 2019 16:58:14 -0400
-Received: from mx2.mailbox.org ([80.241.60.215]:54494 "EHLO mx2.mailbox.org"
+        id S1731887AbfI3U6R (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 30 Sep 2019 16:58:17 -0400
+Received: from mx2.mailbox.org ([80.241.60.215]:54492 "EHLO mx2.mailbox.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727118AbfI3U6O (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 30 Sep 2019 16:58:14 -0400
-Received: from smtp2.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:105:465:1:1:0])
+        id S1727720AbfI3U6P (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 30 Sep 2019 16:58:15 -0400
+Received: from smtp2.mailbox.org (smtp1.mailbox.org [80.241.60.240])
         (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
         (No client certificate requested)
-        by mx2.mailbox.org (Postfix) with ESMTPS id 54DF3A19C6;
-        Mon, 30 Sep 2019 20:28:54 +0200 (CEST)
+        by mx2.mailbox.org (Postfix) with ESMTPS id 9BD9BA19E0;
+        Mon, 30 Sep 2019 20:29:01 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at heinlein-support.de
 Received: from smtp2.mailbox.org ([80.241.60.240])
         by spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de [80.241.56.122]) (amavisd-new, port 10030)
-        with ESMTP id URdz_XAhm__8; Mon, 30 Sep 2019 20:28:51 +0200 (CEST)
+        with ESMTP id WwW3ga-GIaWF; Mon, 30 Sep 2019 20:28:58 +0200 (CEST)
 From:   Aleksa Sarai <cyphar@cyphar.com>
 To:     Ingo Molnar <mingo@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
@@ -34,9 +34,9 @@ Cc:     Aleksa Sarai <cyphar@cyphar.com>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         libc-alpha@sourceware.org, linux-api@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/4] clone3: switch to copy_struct_from_user()
-Date:   Tue,  1 Oct 2019 04:28:08 +1000
-Message-Id: <20190930182810.6090-3-cyphar@cyphar.com>
+Subject: [PATCH v3 3/4] sched_setattr: switch to copy_struct_from_user()
+Date:   Tue,  1 Oct 2019 04:28:09 +1000
+Message-Id: <20190930182810.6090-4-cyphar@cyphar.com>
 In-Reply-To: <20190930182810.6090-1-cyphar@cyphar.com>
 References: <20190930182810.6090-1-cyphar@cyphar.com>
 MIME-Version: 1.0
@@ -47,80 +47,95 @@ List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 The change is very straightforward, and helps unify the syscall
-interface for struct-from-userspace syscalls. Additionally, explicitly
-define CLONE_ARGS_SIZE_VER0 to match the other users of the
-struct-extension pattern.
+interface for struct-from-userspace syscalls. Ideally we could also
+unify sched_getattr(2)-style syscalls as well, but unfortunately the
+correct semantics for such syscalls are much less clear (see [1] for
+more detail). In future we could come up with a more sane idea for how
+the syscall interface should look.
+
+[1]: commit 1251201c0d34 ("sched/core: Fix uclamp ABI bug, clean up and
+     robustify sched_read_attr() ABI logic and code")
 
 Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
 ---
- include/uapi/linux/sched.h |  2 ++
- kernel/fork.c              | 34 +++++++---------------------------
- 2 files changed, 9 insertions(+), 27 deletions(-)
+ kernel/sched/core.c | 43 +++++++------------------------------------
+ 1 file changed, 7 insertions(+), 36 deletions(-)
 
-diff --git a/include/uapi/linux/sched.h b/include/uapi/linux/sched.h
-index b3105ac1381a..0945805982b4 100644
---- a/include/uapi/linux/sched.h
-+++ b/include/uapi/linux/sched.h
-@@ -47,6 +47,8 @@ struct clone_args {
- 	__aligned_u64 tls;
- };
+diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+index 7880f4f64d0e..dd05a378631a 100644
+--- a/kernel/sched/core.c
++++ b/kernel/sched/core.c
+@@ -5106,9 +5106,6 @@ static int sched_copy_attr(struct sched_attr __user *uattr, struct sched_attr *a
+ 	u32 size;
+ 	int ret;
  
-+#define CLONE_ARGS_SIZE_VER0 64 /* sizeof first published struct */
-+
- /*
-  * Scheduling policies
-  */
-diff --git a/kernel/fork.c b/kernel/fork.c
-index f9572f416126..2ef529869c64 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -2525,39 +2525,19 @@ SYSCALL_DEFINE5(clone, unsigned long, clone_flags, unsigned long, newsp,
- #ifdef __ARCH_WANT_SYS_CLONE3
- noinline static int copy_clone_args_from_user(struct kernel_clone_args *kargs,
- 					      struct clone_args __user *uargs,
--					      size_t size)
-+					      size_t usize)
- {
-+	int err;
- 	struct clone_args args;
- 
--	if (unlikely(size > PAGE_SIZE))
-+	if (unlikely(usize > PAGE_SIZE))
- 		return -E2BIG;
--
--	if (unlikely(size < sizeof(struct clone_args)))
-+	if (unlikely(usize < CLONE_ARGS_SIZE_VER0))
- 		return -EINVAL;
- 
--	if (unlikely(!access_ok(uargs, size)))
+-	if (!access_ok(uattr, SCHED_ATTR_SIZE_VER0))
 -		return -EFAULT;
 -
--	if (size > sizeof(struct clone_args)) {
+ 	/* Zero the full structure, so that a short copy will be nice: */
+ 	memset(attr, 0, sizeof(*attr));
+ 
+@@ -5116,45 +5113,19 @@ static int sched_copy_attr(struct sched_attr __user *uattr, struct sched_attr *a
+ 	if (ret)
+ 		return ret;
+ 
+-	/* Bail out on silly large: */
+-	if (size > PAGE_SIZE)
+-		goto err_size;
+-
+ 	/* ABI compatibility quirk: */
+ 	if (!size)
+ 		size = SCHED_ATTR_SIZE_VER0;
+-
+-	if (size < SCHED_ATTR_SIZE_VER0)
++	if (size < SCHED_ATTR_SIZE_VER0 || size > PAGE_SIZE)
+ 		goto err_size;
+ 
+-	/*
+-	 * If we're handed a bigger struct than we know of,
+-	 * ensure all the unknown bits are 0 - i.e. new
+-	 * user-space does not rely on any kernel feature
+-	 * extensions we dont know about yet.
+-	 */
+-	if (size > sizeof(*attr)) {
 -		unsigned char __user *addr;
 -		unsigned char __user *end;
 -		unsigned char val;
 -
--		addr = (void __user *)uargs + sizeof(struct clone_args);
--		end = (void __user *)uargs + size;
+-		addr = (void __user *)uattr + sizeof(*attr);
+-		end  = (void __user *)uattr + size;
 -
 -		for (; addr < end; addr++) {
--			if (get_user(val, addr))
--				return -EFAULT;
+-			ret = get_user(val, addr);
+-			if (ret)
+-				return ret;
 -			if (val)
--				return -E2BIG;
+-				goto err_size;
 -		}
--
--		size = sizeof(struct clone_args);
--	}
--
--	if (copy_from_user(&args, uargs, size))
--		return -EFAULT;
-+	err = copy_struct_from_user(&args, sizeof(args), uargs, usize);
-+	if (err)
-+		return err;
+-		size = sizeof(*attr);
++	ret = copy_struct_from_user(attr, sizeof(*attr), uattr, size);
++	if (ret) {
++		if (ret == -E2BIG)
++			goto err_size;
++		return ret;
+ 	}
  
- 	/*
- 	 * Verify that higher 32bits of exit_signal are unset and that
+-	ret = copy_from_user(attr, uattr, size);
+-	if (ret)
+-		return -EFAULT;
+-
+ 	if ((attr->sched_flags & SCHED_FLAG_UTIL_CLAMP) &&
+ 	    size < SCHED_ATTR_SIZE_VER1)
+ 		return -EINVAL;
+@@ -5354,7 +5325,7 @@ sched_attr_copy_to_user(struct sched_attr __user *uattr,
+  * sys_sched_getattr - similar to sched_getparam, but with sched_attr
+  * @pid: the pid in question.
+  * @uattr: structure containing the extended parameters.
+- * @usize: sizeof(attr) that user-space knows about, for forwards and backwards compatibility.
++ * @usize: sizeof(attr) for fwd/bwd comp.
+  * @flags: for future extension.
+  */
+ SYSCALL_DEFINE4(sched_getattr, pid_t, pid, struct sched_attr __user *, uattr,
 -- 
 2.23.0
 
