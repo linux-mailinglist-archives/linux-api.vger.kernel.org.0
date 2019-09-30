@@ -2,46 +2,46 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 153F0C2B08
-	for <lists+linux-api@lfdr.de>; Tue,  1 Oct 2019 01:43:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 23079C2B0C
+	for <lists+linux-api@lfdr.de>; Tue,  1 Oct 2019 01:44:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729612AbfI3Xmo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 30 Sep 2019 19:42:44 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:45084 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726425AbfI3Xmm (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 30 Sep 2019 19:42:42 -0400
-Received: by mail-pl1-f196.google.com with SMTP id u12so4521849pls.12
-        for <linux-api@vger.kernel.org>; Mon, 30 Sep 2019 16:42:42 -0700 (PDT)
+        id S1732428AbfI3XoC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 30 Sep 2019 19:44:02 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:37183 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726425AbfI3XoB (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 30 Sep 2019 19:44:01 -0400
+Received: by mail-pf1-f195.google.com with SMTP id y5so6536307pfo.4
+        for <linux-api@vger.kernel.org>; Mon, 30 Sep 2019 16:43:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=wLr0Vt1uSURCynHd+D4IDsYdXD0Hdb1LJEHAhkiX/7E=;
-        b=mZNGk+x3kv2moNk1c6RdHZOB0UU5sAU0q9JBjluoBUvDvNH/Lmpq4eOCBGv+MGh9HI
-         v1KPLnIl7veKR6Q9e3kxUbtQbhQkwn+IT+g6quH9axLM/w/qnnEUxnjJTaw8w+yQiIGH
-         42MTn25g0mYOn/CoJPJhttFlMW89mPwGRjYyQ=
+        bh=rt01Jv8ohzIRqssmjcdymlBJksS/BQ9v/XBsfaX3lHA=;
+        b=miT9e73NNApEZbLYrEaknoY7YM8uVcN5fnsZnjpIrEzwOEpxoPYU23GlA3VgcYud6f
+         DPNzRxrf1ONCAhCm1nIrKgbkQ9xMsDEDF0qoErLdhvCj1yt5WGO0vYyhF7/+q2tJD3Sa
+         UNaCV/MjnUznz5scAs1KrNBrj8PlxQPi0HQrA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=wLr0Vt1uSURCynHd+D4IDsYdXD0Hdb1LJEHAhkiX/7E=;
-        b=D7oUvwX0ok+SNlFCv5X89BIpLLKM3XpPukvvQeYroSbDSDjJw04qBxU925CpWsbiVy
-         ky6ctJdeCMGgUasmZADr81XtLqdx60XONLw2G1Ber0AKsyIfZWODpLgEU/hwptUzoD2T
-         XVY/Su7ursMZlyO21gM4e0WM3GTCEhKSWt42BNAHeFhwWtjUkB9IC52eMKgYEpbM4QAh
-         VJ7NVLZ5wnMkOFlElkAlfP8y/HfbUhgjxn7kM7zYJtrB7qquSzdF3h6S2kvMN/woggGN
-         ANtmu93XYs51pAghrthx+o5cWD/weftTm/WAsQLSY2irgPu7nChD9JZfWwP5w+O0OyOX
-         x0Iw==
-X-Gm-Message-State: APjAAAUl1JV7n0cWgXMWujWjsUjuEKNMrxVWbYXsdLrk856Uzl8b1o4Z
-        Fb2WjguOXOZtU/5kJNXLShTphg==
-X-Google-Smtp-Source: APXvYqwMVMi1uRTZbg67FldsawD6kjq0VUepruCztzLpLU1ZrQ4YIs4p+vjoMFhn/fIDskfcKzAAsg==
-X-Received: by 2002:a17:902:b603:: with SMTP id b3mr15122196pls.29.1569886960701;
-        Mon, 30 Sep 2019 16:42:40 -0700 (PDT)
+        bh=rt01Jv8ohzIRqssmjcdymlBJksS/BQ9v/XBsfaX3lHA=;
+        b=nQjTTpLq7+L9UeTAGkzNl76CbihCFIFsBZO+rzwIwZ4yPaO9NbIilfTGi0ugOiQrPi
+         zWM5ht2/e1+h+OF6ngmuH0rzqVpqGU3SoxA23CdUXBytDMXfC2GUzeDqTV9EfnVZHZ75
+         rucn3xFo8mZebKUCK9mV4Ph8XbJKm2451FIJNSRbD0tPD9Yel/hL2672I7RNzRwhdCxT
+         BqRrGaLdCd7ks9KUFnhBdPV8KTIKFb703LG2JATCOXisEki/AuErgmOm/xa1iG99FEfl
+         CTTiyJxMUn9E7Kx3cwy2Cbje0Yd6TzQ9zUWYcHI5oRAxrYVWZS0GZ1nM7yP/wcy8bHlO
+         KFUQ==
+X-Gm-Message-State: APjAAAXbGGDIcSQX/qOGUz0YKPJsqsKtwFBJcV1V4nk1apd/Z2LpzR4q
+        UfeT2XFVuzexz7TumrZgGsWtvg==
+X-Google-Smtp-Source: APXvYqx31HYPawEqqTl+T6ScG/0l9lMgmK87gqYX4ESnkDUDt3+RsBLgU5VhYncUSDRS2rKTq2nMmA==
+X-Received: by 2002:a63:fc5f:: with SMTP id r31mr26708650pgk.55.1569887038935;
+        Mon, 30 Sep 2019 16:43:58 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id g7sm22247124pfm.176.2019.09.30.16.42.39
+        by smtp.gmail.com with ESMTPSA id t14sm12804335pgv.84.2019.09.30.16.43.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2019 16:42:39 -0700 (PDT)
-Date:   Mon, 30 Sep 2019 16:42:38 -0700
+        Mon, 30 Sep 2019 16:43:58 -0700 (PDT)
+Date:   Mon, 30 Sep 2019 16:43:57 -0700
 From:   Kees Cook <keescook@chromium.org>
 To:     Aleksa Sarai <asarai@suse.de>
 Cc:     Ingo Molnar <mingo@redhat.com>,
@@ -56,108 +56,118 @@ Cc:     Ingo Molnar <mingo@redhat.com>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         libc-alpha@sourceware.org, linux-api@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND v3 2/4] clone3: switch to copy_struct_from_user()
-Message-ID: <201909301640.4FC92294FF@keescook>
+Subject: Re: [PATCH RESEND v3 3/4] sched_setattr: switch to
+ copy_struct_from_user()
+Message-ID: <201909301643.570C02E@keescook>
 References: <20190930191526.19544-1-asarai@suse.de>
- <20190930191526.19544-3-asarai@suse.de>
+ <20190930191526.19544-4-asarai@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190930191526.19544-3-asarai@suse.de>
+In-Reply-To: <20190930191526.19544-4-asarai@suse.de>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Oct 01, 2019 at 05:15:24AM +1000, Aleksa Sarai wrote:
+On Tue, Oct 01, 2019 at 05:15:25AM +1000, Aleksa Sarai wrote:
 > From: Aleksa Sarai <cyphar@cyphar.com>
 > 
 > The change is very straightforward, and helps unify the syscall
-> interface for struct-from-userspace syscalls. Additionally, explicitly
-> define CLONE_ARGS_SIZE_VER0 to match the other users of the
-> struct-extension pattern.
+> interface for struct-from-userspace syscalls. Ideally we could also
+> unify sched_getattr(2)-style syscalls as well, but unfortunately the
+> correct semantics for such syscalls are much less clear (see [1] for
+> more detail). In future we could come up with a more sane idea for how
+> the syscall interface should look.
+> 
+> [1]: commit 1251201c0d34 ("sched/core: Fix uclamp ABI bug, clean up and
+>      robustify sched_read_attr() ABI logic and code")
 > 
 > Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
-> ---
->  include/uapi/linux/sched.h |  2 ++
->  kernel/fork.c              | 34 +++++++---------------------------
->  2 files changed, 9 insertions(+), 27 deletions(-)
-> 
-> diff --git a/include/uapi/linux/sched.h b/include/uapi/linux/sched.h
-> index b3105ac1381a..0945805982b4 100644
-> --- a/include/uapi/linux/sched.h
-> +++ b/include/uapi/linux/sched.h
-> @@ -47,6 +47,8 @@ struct clone_args {
->  	__aligned_u64 tls;
->  };
->  
-> +#define CLONE_ARGS_SIZE_VER0 64 /* sizeof first published struct */
-> +
->  /*
->   * Scheduling policies
->   */
-> diff --git a/kernel/fork.c b/kernel/fork.c
-> index f9572f416126..2ef529869c64 100644
-> --- a/kernel/fork.c
-> +++ b/kernel/fork.c
-> @@ -2525,39 +2525,19 @@ SYSCALL_DEFINE5(clone, unsigned long, clone_flags, unsigned long, newsp,
->  #ifdef __ARCH_WANT_SYS_CLONE3
->  noinline static int copy_clone_args_from_user(struct kernel_clone_args *kargs,
->  					      struct clone_args __user *uargs,
-> -					      size_t size)
-> +					      size_t usize)
->  {
-> +	int err;
->  	struct clone_args args;
->  
-> -	if (unlikely(size > PAGE_SIZE))
-> +	if (unlikely(usize > PAGE_SIZE))
->  		return -E2BIG;
-
-I quickly looked through the earlier threads and couldn't find it, but
-I have a memory of some discussion about moving this test into the
-copy_struct_from_user() function itself? That would seems like a
-reasonable idea? ("4k should be enough for any structure!")
-
-Either way:
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
 
+-Kees
 
-> -
-> -	if (unlikely(size < sizeof(struct clone_args)))
-> +	if (unlikely(usize < CLONE_ARGS_SIZE_VER0))
->  		return -EINVAL;
+> ---
+>  kernel/sched/core.c | 43 +++++++------------------------------------
+>  1 file changed, 7 insertions(+), 36 deletions(-)
+> 
+> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+> index 7880f4f64d0e..dd05a378631a 100644
+> --- a/kernel/sched/core.c
+> +++ b/kernel/sched/core.c
+> @@ -5106,9 +5106,6 @@ static int sched_copy_attr(struct sched_attr __user *uattr, struct sched_attr *a
+>  	u32 size;
+>  	int ret;
 >  
-> -	if (unlikely(!access_ok(uargs, size)))
+> -	if (!access_ok(uattr, SCHED_ATTR_SIZE_VER0))
 > -		return -EFAULT;
 > -
-> -	if (size > sizeof(struct clone_args)) {
+>  	/* Zero the full structure, so that a short copy will be nice: */
+>  	memset(attr, 0, sizeof(*attr));
+>  
+> @@ -5116,45 +5113,19 @@ static int sched_copy_attr(struct sched_attr __user *uattr, struct sched_attr *a
+>  	if (ret)
+>  		return ret;
+>  
+> -	/* Bail out on silly large: */
+> -	if (size > PAGE_SIZE)
+> -		goto err_size;
+> -
+>  	/* ABI compatibility quirk: */
+>  	if (!size)
+>  		size = SCHED_ATTR_SIZE_VER0;
+> -
+> -	if (size < SCHED_ATTR_SIZE_VER0)
+> +	if (size < SCHED_ATTR_SIZE_VER0 || size > PAGE_SIZE)
+>  		goto err_size;
+>  
+> -	/*
+> -	 * If we're handed a bigger struct than we know of,
+> -	 * ensure all the unknown bits are 0 - i.e. new
+> -	 * user-space does not rely on any kernel feature
+> -	 * extensions we dont know about yet.
+> -	 */
+> -	if (size > sizeof(*attr)) {
 > -		unsigned char __user *addr;
 > -		unsigned char __user *end;
 > -		unsigned char val;
 > -
-> -		addr = (void __user *)uargs + sizeof(struct clone_args);
-> -		end = (void __user *)uargs + size;
+> -		addr = (void __user *)uattr + sizeof(*attr);
+> -		end  = (void __user *)uattr + size;
 > -
 > -		for (; addr < end; addr++) {
-> -			if (get_user(val, addr))
-> -				return -EFAULT;
+> -			ret = get_user(val, addr);
+> -			if (ret)
+> -				return ret;
 > -			if (val)
-> -				return -E2BIG;
+> -				goto err_size;
 > -		}
-> -
-> -		size = sizeof(struct clone_args);
-> -	}
-> -
-> -	if (copy_from_user(&args, uargs, size))
-> -		return -EFAULT;
-> +	err = copy_struct_from_user(&args, sizeof(args), uargs, usize);
-> +	if (err)
-> +		return err;
+> -		size = sizeof(*attr);
+> +	ret = copy_struct_from_user(attr, sizeof(*attr), uattr, size);
+> +	if (ret) {
+> +		if (ret == -E2BIG)
+> +			goto err_size;
+> +		return ret;
+>  	}
 >  
->  	/*
->  	 * Verify that higher 32bits of exit_signal are unset and that
+> -	ret = copy_from_user(attr, uattr, size);
+> -	if (ret)
+> -		return -EFAULT;
+> -
+>  	if ((attr->sched_flags & SCHED_FLAG_UTIL_CLAMP) &&
+>  	    size < SCHED_ATTR_SIZE_VER1)
+>  		return -EINVAL;
+> @@ -5354,7 +5325,7 @@ sched_attr_copy_to_user(struct sched_attr __user *uattr,
+>   * sys_sched_getattr - similar to sched_getparam, but with sched_attr
+>   * @pid: the pid in question.
+>   * @uattr: structure containing the extended parameters.
+> - * @usize: sizeof(attr) that user-space knows about, for forwards and backwards compatibility.
+> + * @usize: sizeof(attr) for fwd/bwd comp.
+>   * @flags: for future extension.
+>   */
+>  SYSCALL_DEFINE4(sched_getattr, pid_t, pid, struct sched_attr __user *, uattr,
 > -- 
 > 2.23.0
 > 
