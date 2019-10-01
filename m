@@ -2,88 +2,108 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 469C5C39AA
-	for <lists+linux-api@lfdr.de>; Tue,  1 Oct 2019 17:58:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E657C39C7
+	for <lists+linux-api@lfdr.de>; Tue,  1 Oct 2019 18:03:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389757AbfJAP6C (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 1 Oct 2019 11:58:02 -0400
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:37738 "EHLO
-        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727236AbfJAP6B (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 1 Oct 2019 11:58:01 -0400
-Received: by mail-qt1-f193.google.com with SMTP id l3so22249698qtr.4;
-        Tue, 01 Oct 2019 08:57:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=SOSJCMXkn6+n8RHqpUdKI466CjMeIh5mDOaAgCCmVlg=;
-        b=loI2JWR5h5tZIOWBn0DgIw42qDFg7O+mKC6pn7BgO+rP/1pJc57bJEKQf7p7UTi5sU
-         qMOSeXvnRi0NEl1BXjtYRsWkPUxDampw0o0/F2dlpDkudngz4pgVsRw6V3JHGnfLPOeX
-         dVHDlE3aNgQXDjop8kCd44C2hD2kzfy0/G7gbfshX01K2gugBcB5cVwWUQAtzyVd+9qc
-         CKPwy0WnkDd6jyC0IpyK1N/CZttDfs6gG4fTyusRDKtTS7IuSlF61Q0x0uTGQfOkpTVC
-         jtjnFgeCwT0aEYSDvGyZfRfYxl8p+htQSX1pD6+LTgpoTwA8qrh16sB/b8DbSJuZlxlu
-         zr2w==
-X-Gm-Message-State: APjAAAWAMafiW0ZHmntpM+0OTcKT5htfiUltnCJRTBb9bIjtgICkl0cR
-        5nfMOTz4LfEo0vmPgI8UJCJztkX/5A1S7RruBms=
-X-Google-Smtp-Source: APXvYqxDQhvqeIreS0WTIiG2aM/W3oAbsLqBVTy4w3yhOpMo0LHRRJJRgTxpU/lGmDQuUe1Zu70sAjxTPS5wJsH3rvk=
-X-Received: by 2002:a0c:d084:: with SMTP id z4mr25699088qvg.63.1569945479216;
- Tue, 01 Oct 2019 08:57:59 -0700 (PDT)
+        id S1728360AbfJAQCF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 1 Oct 2019 12:02:05 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:43234 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728249AbfJAQCE (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 1 Oct 2019 12:02:04 -0400
+Received: from [213.220.153.21] (helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1iFKaw-0000Ns-A7; Tue, 01 Oct 2019 16:01:46 +0000
+Date:   Tue, 1 Oct 2019 18:01:45 +0200
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Aleksa Sarai <cyphar@cyphar.com>, Kees Cook <keescook@chromium.org>
+Cc:     Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        libc-alpha@sourceware.org, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 0/4] lib: introduce copy_struct_from_user() helper
+Message-ID: <20191001160144.z4y7gz4yla76apq4@wittgenstein>
+References: <20191001011055.19283-1-cyphar@cyphar.com>
 MIME-Version: 1.0
-References: <20190930202055.1748710-1-arnd@arndb.de> <8d5d34da-e1f0-1ab5-461e-f3145e52c48a@kernel.dk>
- <623e1d27-d3b1-3241-bfd4-eb94ce70da14@kernel.dk> <CAK8P3a3AAFXNmpQwuirzM+jgEQGj9tMC_5oaSs4CfiEVGmTkZg@mail.gmail.com>
- <ca0a5bbe-c20e-d5be-110e-942c604ad2d7@kernel.dk>
-In-Reply-To: <ca0a5bbe-c20e-d5be-110e-942c604ad2d7@kernel.dk>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Tue, 1 Oct 2019 17:57:42 +0200
-Message-ID: <CAK8P3a19TDk0uo1eu4CcaKHvQCPUJGMjBV8Txtpgvg1ifAgW_A@mail.gmail.com>
-Subject: Re: [PATCH] io_uring: use __kernel_timespec in timeout ABI
-To:     Jens Axboe <axboe@kernel.dk>
-Cc:     y2038 Mailman List <y2038@lists.linaro.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        =?UTF-8?Q?Stefan_B=C3=BChler?= <source@stbuehler.de>,
-        Hannes Reinecke <hare@suse.com>,
-        Jackie Liu <liuyun01@kylinos.cn>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Hristo Venev <hristo@venev.name>,
-        linux-block <linux-block@vger.kernel.org>,
-        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20191001011055.19283-1-cyphar@cyphar.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Oct 1, 2019 at 5:52 PM Jens Axboe <axboe@kernel.dk> wrote:
-> On 10/1/19 9:49 AM, Arnd Bergmann wrote:
-> > On Tue, Oct 1, 2019 at 5:38 PM Jens Axboe <axboe@kernel.dk> wrote:
+On Tue, Oct 01, 2019 at 11:10:51AM +1000, Aleksa Sarai wrote:
+> Patch changelog:
+>  v4:
+>   * __always_inline copy_struct_from_user(). [Kees Cook]
+>   * Rework test_user_copy.ko changes. [Kees Cook]
+>  v3: <https://lore.kernel.org/lkml/20190930182810.6090-1-cyphar@cyphar.com/>
+>      <https://lore.kernel.org/lkml/20190930191526.19544-1-asarai@suse.de/>
+>  v2: <https://lore.kernel.org/lkml/20190925230332.18690-1-cyphar@cyphar.com/>
+>  v1: <https://lore.kernel.org/lkml/20190925165915.8135-1-cyphar@cyphar.com/>
+> 
+> This series was split off from the openat2(2) syscall discussion[1].
+> However, the copy_struct_to_user() helper has been dropped, because
+> after some discussion it appears that there is no really obvious
+> semantics for how copy_struct_to_user() should work on mixed-vintages
+> (for instance, whether [2] is the correct semantics for all syscalls).
+> 
+> A common pattern for syscall extensions is increasing the size of a
+> struct passed from userspace, such that the zero-value of the new fields
+> result in the old kernel behaviour (allowing for a mix of userspace and
+> kernel vintages to operate on one another in most cases).
+> 
+> Previously there was no common lib/ function that implemented
+> the necessary extension-checking semantics (and different syscalls
+> implemented them slightly differently or incompletely[3]). This series
+> implements the helper and ports several syscalls to use it.
+> 
+> Some in-kernel selftests are included in this patch. More complete
+> self-tests for copy_struct_from_user() are included in the openat2()
+> patchset.
+> 
+> [1]: https://lore.kernel.org/lkml/20190904201933.10736-1-cyphar@cyphar.com/
+> 
+> [2]: commit 1251201c0d34 ("sched/core: Fix uclamp ABI bug, clean up and
+>      robustify sched_read_attr() ABI logic and code")
+> 
+> [3]: For instance {sched_setattr,perf_event_open,clone3}(2) all do do
+>      similar checks to copy_struct_from_user() while rt_sigprocmask(2)
+>      always rejects differently-sized struct arguments.
+> 
+> Aleksa Sarai (4):
+>   lib: introduce copy_struct_from_user() helper
+>   clone3: switch to copy_struct_from_user()
+>   sched_setattr: switch to copy_struct_from_user()
+>   perf_event_open: switch to copy_struct_from_user()
+> 
+>  include/linux/bitops.h     |   7 ++
+>  include/linux/uaccess.h    |  70 +++++++++++++++++++
+>  include/uapi/linux/sched.h |   2 +
+>  kernel/events/core.c       |  47 +++----------
+>  kernel/fork.c              |  34 ++--------
+>  kernel/sched/core.c        |  43 ++----------
+>  lib/strnlen_user.c         |   8 +--
+>  lib/test_user_copy.c       | 136 +++++++++++++++++++++++++++++++++++--
+>  lib/usercopy.c             |  55 +++++++++++++++
+>  9 files changed, 288 insertions(+), 114 deletions(-)
 
-> > What's wrong with using __kernel_timespec? Just the name?
-> > I suppose liburing could add a macro to give it a different name
-> > for its users.
->
-> Just that it seems I need to make it available through liburing on
-> systems that don't have it yet. Not a big deal, though.
+I've picked this up now and it's sitting in
+https://git.kernel.org/pub/scm/linux/kernel/git/brauner/linux.git/log/?h=copy_struct_from_user
 
-Ah, right. I t would not cover the case of building against kernel
-headers earlier than linux-5.1 but running on a 5.4+ kernel.
+It should show up in linux-next tomorrow. I will let this sit there for
+a few days but overall this seems good to have in rc2.
+If someone objects and prefers to take it through their tree I can drop
+it.
 
-I assumed that that you would require new kernel headers anyway,
-but if you have a copy of the io_uring header, that is not necessary.
-
-> One thing that struck me about this approach - we then lose the ability to
-> differentiate between "don't want a timed timeout" with ts == NULL, vs
-> tv_sec and tv_nsec both being 0.
-
-You could always define a special constant such as
-'#define IO_URING_TIMEOUT_NEVER -1ull' if you want to
-support for 'never wait if it's not already done' and 'wait indefinitely'.
-
-> I think I'll stuck with that you had and just use __kernel_timespec in
-> liburing.
-
-Ok.
-
-       Arnd
+Christian
