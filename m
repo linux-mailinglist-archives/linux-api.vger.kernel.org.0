@@ -2,121 +2,108 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 37DDDC405A
-	for <lists+linux-api@lfdr.de>; Tue,  1 Oct 2019 20:47:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 887EBC4390
+	for <lists+linux-api@lfdr.de>; Wed,  2 Oct 2019 00:10:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726043AbfJASqs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 1 Oct 2019 14:46:48 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:34538 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726020AbfJASqs (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 1 Oct 2019 14:46:48 -0400
-Received: by mail-pg1-f195.google.com with SMTP id y35so10314933pgl.1
-        for <linux-api@vger.kernel.org>; Tue, 01 Oct 2019 11:46:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=mxe0c+vkfTxTPI/lCIAC+7CvdlZWYOh086O484Rpftk=;
-        b=fCc3abs0hkgn+uL2s0AFi4DSOOt3h4SozmAECb/n3o3xXvcyCF1PlHlb639eFrT5wE
-         dsIylNlNSoxdeH79i+AlH55WksngorSLCQvqzpNtVEK62w4rh/pfaEgmfyzTjOxqmNKV
-         JzZJ+Q9UJZtr4aoW4JIcMiqRaFnvUl5nffIMA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=mxe0c+vkfTxTPI/lCIAC+7CvdlZWYOh086O484Rpftk=;
-        b=Eie+uqMvs877+4SwGPmd7hoZAUWYYKxZ+2X71z8kDmuNs4NKsiiAc53AvFodc/5gI3
-         tv2HogI4KvS8U0X0eWaJprphbEbIhfIs8hXUElcST9bDl7eePDf0XQEHMY+cKssTqh57
-         1lstdtqLwGEVn+1czr8oHLCDLiQ53P4UerbxvZOhqOzJcN2/cXqF29ove9KZfg4CqVAt
-         bt9LwY9lXyhNX4xu9QETdil0+hmuXjq5Uy6TslZNXiHnMO0ftm7stGjOBouhCkoszOn/
-         hbr7c5/msfo+ysDF9QbsIV3xKRwcVYzVFnNVRBm5+1q7tdfCOnoFmyfa1M42GbJw7x8u
-         EL+A==
-X-Gm-Message-State: APjAAAXqFXiw9F4dG9OsmZnk2O8zTqKyWc6E6NBAuzbT5AV7Uot2B1EF
-        iWRD0wqvn5prlFNdnSaXB4ZrGA==
-X-Google-Smtp-Source: APXvYqzkZUi1wRq28kH7tBwMjb8Eq+5VSPTImorMe/hF6ICk4a/PEf32C3ZJvkiDm/2R9ZCwKpPeoQ==
-X-Received: by 2002:a63:4cf:: with SMTP id 198mr31798060pge.105.1569955607566;
-        Tue, 01 Oct 2019 11:46:47 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id g24sm16750072pfi.81.2019.10.01.11.46.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Oct 2019 11:46:46 -0700 (PDT)
-Date:   Tue, 1 Oct 2019 11:46:45 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andi Kleen <andi@firstfloor.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Cong Wang <xiyou.wangcong@gmail.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Alex Smith <alex.smith@imgtec.com>,
-        Anders Berg <anders.berg@lsi.com>,
-        Apelete Seketeli <apelete@seketeli.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Chee Nouk Phoon <cnphoon@altera.com>,
-        Chris Zankel <chris@zankel.net>,
-        Christian Ruppert <christian.ruppert@abilis.com>,
-        Greg Ungerer <gerg@uclinux.org>,
-        Harvey Hunt <harvey.hunt@imgtec.com>,
-        Helge Deller <deller@gmx.de>, Hongliang Tao <taohl@lemote.com>,
-        Hua Yan <yanh@lemote.com>, Huacai Chen <chenhc@lemote.com>,
-        John Crispin <blogic@openwrt.org>,
-        Jonas Jensen <jonas.jensen@gmail.com>,
-        Josh Boyer <jwboyer@gmail.com>, Jun Nie <jun.nie@linaro.org>,
-        Kevin Hilman <khilman@linaro.org>,
-        Kevin Wells <kevin.wells@nxp.com>,
-        Kumar Gala <galak@codeaurora.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Ley Foon Tan <lftan@altera.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Markos Chandras <markos.chandras@imgtec.com>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Noam Camus <noamc@ezchip.com>, Olof Johansson <olof@lixom.net>,
-        Paul Burton <paul.burton@mips.com>,
-        Paul Mundt <lethal@linux-sh.org>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Pierrick Hascoet <pierrick.hascoet@abilis.com>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Roland Stigge <stigge@antcom.de>,
-        Santosh Shilimkar <santosh.shilimkar@ti.com>,
-        Scott Telford <stelford@cadence.com>,
-        Stephen Boyd <sboyd@codeaurora.org>,
-        "Steven J. Hill" <Steven.Hill@imgtec.com>,
-        Tanmay Inamdar <tinamdar@apm.com>,
-        Vineet Gupta <vgupta@synopsys.com>
-Subject: Re: [RFC][PATCH] sysctl: Remove the sysctl system call
-Message-ID: <201910011140.EA0181F13@keescook>
-References: <8736gcjosv.fsf@x220.int.ebiederm.org>
+        id S1728062AbfJAWK4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 1 Oct 2019 18:10:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42102 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726392AbfJAWKz (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 1 Oct 2019 18:10:55 -0400
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 009AE20873;
+        Tue,  1 Oct 2019 22:10:53 +0000 (UTC)
+Date:   Tue, 1 Oct 2019 18:10:52 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Andy Lutomirski <luto@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Network Development <netdev@vger.kernel.org>,
+        bpf <bpf@vger.kernel.org>, kernel-team <kernel-team@fb.com>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [PATCH bpf-next] bpf, capabilities: introduce CAP_BPF
+Message-ID: <20191001181052.43c9fabb@gandalf.local.home>
+In-Reply-To: <20191001012226.vwpe56won5r7gbrz@ast-mbp.dhcp.thefacebook.com>
+References: <CALCETrV8iJv9+Ai11_1_r6MapPhhwt9hjxi=6EoixytabTScqg@mail.gmail.com>
+        <20190828003447.htgzsxs5oevn3eys@ast-mbp.dhcp.thefacebook.com>
+        <CALCETrVbPPPr=BdPAx=tJKxD3oLXP4OVSgCYrB_E4vb6idELow@mail.gmail.com>
+        <20190828044340.zeha3k3cmmxgfqj7@ast-mbp.dhcp.thefacebook.com>
+        <CALCETrW1o+Lazi2Ng6b9JN6jeJffgdW9f3HvqYhNo4TpHRXW=g@mail.gmail.com>
+        <20190828225512.q6qbvkdiqih2iewk@ast-mbp.dhcp.thefacebook.com>
+        <DA52992F-4862-4945-8482-FE619A04C753@amacapital.net>
+        <20190829040721.ef6rumbaunkavyrr@ast-mbp.dhcp.thefacebook.com>
+        <20190928193727.1769e90c@oasis.local.home>
+        <201909301129.5A1129C@keescook>
+        <20191001012226.vwpe56won5r7gbrz@ast-mbp.dhcp.thefacebook.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8736gcjosv.fsf@x220.int.ebiederm.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Oct 01, 2019 at 01:36:32PM -0500, Eric W. Biederman wrote:
+On Mon, 30 Sep 2019 18:22:28 -0700
+Alexei Starovoitov <alexei.starovoitov@gmail.com> wrote:
+
+> tracefs is a file system, so clearly file based acls are much better fit
+> for all tracefs operations.
+> But that is not the case for ftrace overall.
+> bpf_trace_printk() calls trace_printk() that dumps into trace pipe.
+> Technically it's ftrace operation, but it cannot be controlled by tracefs
+> and by file permissions. That's the motivation to guard bpf_trace_printk()
+> usage from bpf program with CAP_TRACING.
+
+BTW, I'd rather have bpf use an event that records a string than using
+trace printk itself.
+
+Perhaps something like "bpf_print" event? That could be defined like:
+
+TRACE_EVENT(bpf_print,
+	TP_PROTO(const char *msg),
+	TP_ARGS(msg),
+	TP_STRUCT__entry(
+		__string(msg, msg)
+	),
+	TP_fast_assign(
+		__assign_str(msg, msg)
+	),
+	TP_printk("msg=%s", __get_str(msg))
+);
+
+And then you can just format the string from the bpf_trace_printk()
+into msg, and then have:
+
+	trace_bpf_print(msg);
+
+The user could then just enable the trace event from the file system. I
+could also work on making instances work like /tmp does (with the
+sticky bit) in creation. That way people with write access to the
+instances directory, can make their own buffers that they can use (and
+others can't access).
+
+
 > 
-> This system call has been deprecated almost since it was introduced, and
-> in a survey of the linux distributions I can no longer find any of them
-> that enable CONFIG_SYSCTL_SYSCALL.  The only indication that I can find
-> that anyone might care is that a few of the defconfigs in the kernel
-> enable CONFIG_SYSCTL_SYSCALL.  However this appears in only 31 of 414
-> defconfigs in the kernel, so I suspect this symbols presence is simply
-> because it is harmless to include rather than because it is necessary.
-> 
-> As there appear to be no users of the sysctl system call, remove the
-> code.  As this removes one of the few uses of the internal kernel mount
-> of proc I hope this allows for even more simplifications of the proc
-> filesystem.
+> Both 'trace' and 'trace_pipe' have quirky side effects.
+> Like opening 'trace' file will make all parallel trace_printk() to be ignored.
+> While reading 'trace_pipe' file will clear it.
+> The point that traditional 'read' and 'write' ACLs don't map as-is
+> to tracefs, so I would be careful categorizing things into
+> confidentiality vs integrity only based on access type.
 
-I'm for it. :) I tripped over this being deprecated over a decade ago. :P
+What exactly is the bpf_trace_printk() used for? I may have other ideas
+that can help.
 
-I think you can actually take this further and remove (or at least
-empty) the uapi/linux/sysctl.h file too.
-
--- 
-Kees Cook
+-- Steve
