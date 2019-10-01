@@ -2,88 +2,125 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F380FC3A7B
-	for <lists+linux-api@lfdr.de>; Tue,  1 Oct 2019 18:29:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6747C3F6C
+	for <lists+linux-api@lfdr.de>; Tue,  1 Oct 2019 20:08:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389922AbfJAQ2w (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 1 Oct 2019 12:28:52 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:35415 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389921AbfJAQ2w (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 1 Oct 2019 12:28:52 -0400
-Received: by mail-pf1-f194.google.com with SMTP id 205so8382130pfw.2
-        for <linux-api@vger.kernel.org>; Tue, 01 Oct 2019 09:28:50 -0700 (PDT)
+        id S1731575AbfJASIU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 1 Oct 2019 14:08:20 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:35530 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729832AbfJASIU (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 1 Oct 2019 14:08:20 -0400
+Received: by mail-io1-f66.google.com with SMTP id q10so50482579iop.2
+        for <linux-api@vger.kernel.org>; Tue, 01 Oct 2019 11:08:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=i0vYOnNzNl23wM5oAHQgXQknCy7kFcbZ26kS9YCoHBU=;
-        b=n5fjg1bqcekd+hNTKhsmR269yN2JoDYT7RNHZANM0CG3KvJR4l0sKewNwj5Cl+7/R4
-         lAyx5LnFBIt1px6L05UmEZPA9i2zOAJkpjn/cjD7aaFAwAdjVxTREahP7BB/PM3xPtIp
-         zjjyDFWC3J3WfPK3n+0rHoaP3GdV6ByAiWF14=
+        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=+XTOX0LQOUFg1m/meFnFguM93CeUXC33Mlpt/kQ0ZE0=;
+        b=GARLG2Ouib+fEjPWYSCXvvfu3OfCRZi730mbD0+dZ186MBMZHSPxwhotmH5XCSHR8P
+         bPbRXnddKRjogEM4mAXSW2f6vOT0Q2waddY7qfzP6AtPJ5PYjJm89fP423Oa3J0DUVt3
+         4epIL2EUS0N2LO+lwKRz9mtfDHbLNCxbUurulgOghvlp+Rd9mVNrj4d+GpA+iDzzpP+x
+         tu9+IegCJllRbIlMJDlXxdybnHMYc2slMt66yvF4a+OcVvBZwP3SX4PeqaeruYAZgWVo
+         ZCwfqvGpecrHjjfKZymPt3JYUbXeKdfqMp3WKZSQd9VFvp+nEShxNlVJAMBCBwDGMp6j
+         tqQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=i0vYOnNzNl23wM5oAHQgXQknCy7kFcbZ26kS9YCoHBU=;
-        b=FRM6hR3Pe0Ew+E3dPxbQ+5zcjvcuDI9hNDM0e/pZehGLAMu1fIBG8v2NohJZlMQa3G
-         OGWr7PPCTCoAIcmfwElmTr9IIWk1IUHItWkPV5vi6EXgheyrwsIwTDzcoLl/TOcRxbZV
-         N/+faw03cUHNxV6Sa3VgR+nUn8PaWBn4YykOee5vcLQEJkSLe70KwdeTcLz6ruVFlc29
-         E4VWXUYHERyI1g1lkB4hE151W6nvdY0nenEyzOXUH5qW0Fw+zeCvrsjjpFG+wrzwZazl
-         9UP9wnd7amRvnb47P5e97b56lNY3U315k7fvCAyYj4dOX/1Q016sqIN8TAgz6OfD46ul
-         1YoA==
-X-Gm-Message-State: APjAAAUJcqE0+nPMWehZBe6Z9f1HTPtgzis1J3F5VU4/zTi5oBsjTxPi
-        AaXczT+OFbxJUpYtCpLMYZt0NHN/k+Q=
-X-Google-Smtp-Source: APXvYqxsBvaB4PwyrQX1efSVDTYBbjVuirkKmUqj8X/jNHPZhagjzfCPkrTmQzSXjn9MZFUDVhtoTQ==
-X-Received: by 2002:a63:cb:: with SMTP id 194mr30303545pga.172.1569947330613;
-        Tue, 01 Oct 2019 09:28:50 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id i6sm26975081pfq.20.2019.10.01.09.28.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Oct 2019 09:28:49 -0700 (PDT)
-Date:   Tue, 1 Oct 2019 09:28:42 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     Aleksa Sarai <cyphar@cyphar.com>, Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        libc-alpha@sourceware.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/4] lib: introduce copy_struct_from_user() helper
-Message-ID: <201910010928.243849D@keescook>
-References: <20191001011055.19283-1-cyphar@cyphar.com>
- <20191001011055.19283-2-cyphar@cyphar.com>
- <201909301856.01255535BD@keescook>
- <20191001023126.qhzeiwmtoo4agy7t@wittgenstein>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=+XTOX0LQOUFg1m/meFnFguM93CeUXC33Mlpt/kQ0ZE0=;
+        b=IK/Z8HPHjxTlM1NXh6iOkus7Ku6y3v+RpemB4BqgCAUL6HnAOrqrGJ96QqwLssdest
+         mo21Q1WZ7XUKQDhmFmuJLUxvyjjFtujsDRgvtLQnvFKfqF3WHvrv2K9Z+gMNsNv89vgM
+         GvOHFNl+53voerdupdR8x/I9YbNPS/tqku45VSTebb3xcP0rJX95lBfIO9IGzc65mbmA
+         7AoC55KjW4Fm30sqLplHm/h1LkF8AD9rx1DZ9qL4ZNcjP3EVH6/zjEf0pOvrDBvHYk0n
+         CRXOzsCN8hmrF8YtdJd9/66ZjG3iqgIUcPy/YlGy4vPFssnXqQhDUg3Eo0ILSknOWdgg
+         r0yw==
+X-Gm-Message-State: APjAAAWL1gzgQaD/4QwKWdrUKLkjYFqLJhi+r4ii+5YohKQrm/YSNs+2
+        zWjhd+Gzi4LL5NvvcB6A0au1ipLdWvxnig==
+X-Google-Smtp-Source: APXvYqyYmHX6/zLaE9okaUhuWyOFD2Ih0X+Dl7fjQ0c7EaHsFKjqIA19qZuoFdj+AKRw1Tu3DrRmJQ==
+X-Received: by 2002:a92:5a14:: with SMTP id o20mr27872935ilb.71.1569953299642;
+        Tue, 01 Oct 2019 11:08:19 -0700 (PDT)
+Received: from [192.168.1.50] ([65.144.74.34])
+        by smtp.gmail.com with ESMTPSA id k7sm7181020iob.80.2019.10.01.11.08.18
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 01 Oct 2019 11:08:18 -0700 (PDT)
+Subject: Re: [PATCH] io_uring: use __kernel_timespec in timeout ABI
+To:     Florian Weimer <fweimer@redhat.com>, Arnd Bergmann <arnd@arndb.de>
+Cc:     y2038 Mailman List <y2038@lists.linaro.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        =?UTF-8?Q?Stefan_B=c3=bchler?= <source@stbuehler.de>,
+        Hannes Reinecke <hare@suse.com>,
+        Jackie Liu <liuyun01@kylinos.cn>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Hristo Venev <hristo@venev.name>,
+        linux-block <linux-block@vger.kernel.org>,
+        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20190930202055.1748710-1-arnd@arndb.de>
+ <8d5d34da-e1f0-1ab5-461e-f3145e52c48a@kernel.dk>
+ <623e1d27-d3b1-3241-bfd4-eb94ce70da14@kernel.dk>
+ <CAK8P3a3AAFXNmpQwuirzM+jgEQGj9tMC_5oaSs4CfiEVGmTkZg@mail.gmail.com>
+ <874l0stpog.fsf@oldenburg2.str.redhat.com>
+From:   Jens Axboe <axboe@kernel.dk>
+Message-ID: <dc4fc8dc-0a6b-19a2-e85b-71fd1ad4c4ca@kernel.dk>
+Date:   Tue, 1 Oct 2019 12:08:16 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191001023126.qhzeiwmtoo4agy7t@wittgenstein>
+In-Reply-To: <874l0stpog.fsf@oldenburg2.str.redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Oct 01, 2019 at 04:31:27AM +0200, Christian Brauner wrote:
-> On Mon, Sep 30, 2019 at 06:58:39PM -0700, Kees Cook wrote:
-> > On Tue, Oct 01, 2019 at 11:10:52AM +1000, Aleksa Sarai wrote:
-> > > +static __always_inline
-> > > +int copy_struct_from_user(void *dst, size_t ksize,
-> > > +			  const void __user *src, size_t usize)
-> > 
-> > And of course I forgot to realize both this and check_zeroed_user()
-> > should also have the __must_check attribute. Sorry for forgetting that
-> > earlier!
+On 10/1/19 10:07 AM, Florian Weimer wrote:
+> * Arnd Bergmann:
 > 
-> Just said to Aleksa that I'll just fix this up when I apply so he
-> doesn't have to resend. You ok with this, Kees?
+>> On Tue, Oct 1, 2019 at 5:38 PM Jens Axboe <axboe@kernel.dk> wrote:
+>>>
+>>> On 10/1/19 8:09 AM, Jens Axboe wrote:
+>>>> On 9/30/19 2:20 PM, Arnd Bergmann wrote:
+>>>>> All system calls use struct __kernel_timespec instead of the old struct
+>>>>> timespec, but this one was just added with the old-style ABI. Change it
+>>>>> now to enforce the use of __kernel_timespec, avoiding ABI confusion and
+>>>>> the need for compat handlers on 32-bit architectures.
+>>>>>
+>>>>> Any user space caller will have to use __kernel_timespec now, but this
+>>>>> is unambiguous and works for any C library regardless of the time_t
+>>>>> definition. A nicer way to specify the timeout would have been a less
+>>>>> ambiguous 64-bit nanosecond value, but I suppose it's too late now to
+>>>>> change that as this would impact both 32-bit and 64-bit users.
+>>>>
+>>>> Thanks for catching that, Arnd. Applied.
+>>>
+>>> On second thought - since there appears to be no good 64-bit timespec
+>>> available to userspace, the alternative here is including on in liburing.
+>>
+>> What's wrong with using __kernel_timespec? Just the name?
+>> I suppose liburing could add a macro to give it a different name
+>> for its users.
+> 
+> Yes, mostly the name.
+> 
+> __ names are reserved for the C/C++ implementation (which does not
+> include the kernel).  __kernel_timespec looks like an internal kernel
+> type to the uninitiated, not a UAPI type.
+> 
+> Once we have struct timespec64 in userspace, you also end up with
+> copying stuff around or introducing aliasing violations.
+> 
+> I'm not saying those concerns are valid, but you asked what's wrong with
+> it. 8-)
 
-Yup; that's totally fine. Thanks!
+FWIW, I do agree, __kernel_timespec sounds like an internal type, not
+something apps should be using. timespec64 works a lot better for that.
+Oh well.
 
 -- 
-Kees Cook
+Jens Axboe
+
