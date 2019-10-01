@@ -2,111 +2,133 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A80BC43ED
-	for <lists+linux-api@lfdr.de>; Wed,  2 Oct 2019 00:47:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BBF09C440C
+	for <lists+linux-api@lfdr.de>; Wed,  2 Oct 2019 00:54:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728303AbfJAWrg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 1 Oct 2019 18:47:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48860 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727111AbfJAWrg (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 1 Oct 2019 18:47:36 -0400
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 33E40215EA;
-        Tue,  1 Oct 2019 22:47:33 +0000 (UTC)
-Date:   Tue, 1 Oct 2019 18:47:31 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Alexei Starovoitov <ast@fb.com>
-Cc:     Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-        Kees Cook <keescook@chromium.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Andy Lutomirski <luto@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        "LSM List" <linux-security-module@vger.kernel.org>,
-        James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Network Development <netdev@vger.kernel.org>,
-        bpf <bpf@vger.kernel.org>, Kernel Team <Kernel-team@fb.com>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: [PATCH bpf-next] bpf, capabilities: introduce CAP_BPF
-Message-ID: <20191001184731.0ec98c7a@gandalf.local.home>
-In-Reply-To: <6e8b910c-a739-857d-4867-395bd369bc6a@fb.com>
-References: <CALCETrV8iJv9+Ai11_1_r6MapPhhwt9hjxi=6EoixytabTScqg@mail.gmail.com>
-        <20190828003447.htgzsxs5oevn3eys@ast-mbp.dhcp.thefacebook.com>
-        <CALCETrVbPPPr=BdPAx=tJKxD3oLXP4OVSgCYrB_E4vb6idELow@mail.gmail.com>
-        <20190828044340.zeha3k3cmmxgfqj7@ast-mbp.dhcp.thefacebook.com>
-        <CALCETrW1o+Lazi2Ng6b9JN6jeJffgdW9f3HvqYhNo4TpHRXW=g@mail.gmail.com>
-        <20190828225512.q6qbvkdiqih2iewk@ast-mbp.dhcp.thefacebook.com>
-        <DA52992F-4862-4945-8482-FE619A04C753@amacapital.net>
-        <20190829040721.ef6rumbaunkavyrr@ast-mbp.dhcp.thefacebook.com>
-        <20190928193727.1769e90c@oasis.local.home>
-        <201909301129.5A1129C@keescook>
-        <20191001012226.vwpe56won5r7gbrz@ast-mbp.dhcp.thefacebook.com>
-        <20191001181052.43c9fabb@gandalf.local.home>
-        <6e8b910c-a739-857d-4867-395bd369bc6a@fb.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1726070AbfJAWyV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 1 Oct 2019 18:54:21 -0400
+Received: from out01.mta.xmission.com ([166.70.13.231]:35958 "EHLO
+        out01.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726050AbfJAWyV (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 1 Oct 2019 18:54:21 -0400
+Received: from in02.mta.xmission.com ([166.70.13.52])
+        by out01.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.87)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1iFR24-00043h-FL; Tue, 01 Oct 2019 16:54:12 -0600
+Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
+        by in02.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.87)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1iFR1y-00061d-Ku; Tue, 01 Oct 2019 16:54:12 -0600
+From:   ebiederm@xmission.com (Eric W. Biederman)
+To:     Kees Cook <keescook@chromium.org>
+Cc:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andi Kleen <andi@firstfloor.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Cong Wang <xiyou.wangcong@gmail.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Apelete Seketeli <apelete@seketeli.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Chee Nouk Phoon <cnphoon@altera.com>,
+        Chris Zankel <chris@zankel.net>,
+        Christian Ruppert <christian.ruppert@abilis.com>,
+        Greg Ungerer <gerg@uclinux.org>, Helge Deller <deller@gmx.de>,
+        Hongliang Tao <taohl@lemote.com>,
+        Huacai Chen <chenhc@lemote.com>,
+        Jonas Jensen <jonas.jensen@gmail.com>,
+        Josh Boyer <jwboyer@gmail.com>, Jun Nie <jun.nie@linaro.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Ley Foon Tan <lftan@altera.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Olof Johansson <olof@lixom.net>,
+        Paul Burton <paul.burton@mips.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Pierrick Hascoet <pierrick.hascoet@abilis.com>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Roland Stigge <stigge@antcom.de>,
+        Vineet Gupta <vgupta@synopsys.com>
+References: <8736gcjosv.fsf@x220.int.ebiederm.org>
+        <201910011140.EA0181F13@keescook>
+Date:   Tue, 01 Oct 2019 17:53:27 -0500
+In-Reply-To: <201910011140.EA0181F13@keescook> (Kees Cook's message of "Tue, 1
+        Oct 2019 11:46:45 -0700")
+Message-ID: <87imp8hyc8.fsf@x220.int.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-XM-SPF: eid=1iFR1y-00061d-Ku;;;mid=<87imp8hyc8.fsf@x220.int.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX1890sJnTfB2radGtM5zpN9fbLEpYr3LK/s=
+X-SA-Exim-Connect-IP: 68.227.160.95
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa01.xmission.com
+X-Spam-Level: *
+X-Spam-Status: No, score=1.3 required=8.0 tests=ALL_TRUSTED,BAYES_50,
+        DCC_CHECK_NEGATIVE,TR_Symld_Words,T_TM2_M_HEADER_IN_MSG
+        autolearn=disabled version=3.4.2
+X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4785]
+        *  1.5 TR_Symld_Words too many words that have symbols inside
+        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
+        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
+        *      [sa01 1397; Body=1 Fuz1=1 Fuz2=1]
+X-Spam-DCC: XMission; sa01 1397; Body=1 Fuz1=1 Fuz2=1 
+X-Spam-Combo: *;Kees Cook <keescook@chromium.org>
+X-Spam-Relay-Country: 
+X-Spam-Timing: total 341 ms - load_scoreonly_sql: 0.10 (0.0%),
+        signal_user_changed: 3.4 (1.0%), b_tie_ro: 2.8 (0.8%), parse: 0.72
+        (0.2%), extract_message_metadata: 9 (2.5%), get_uri_detail_list: 0.91
+        (0.3%), tests_pri_-1000: 11 (3.3%), tests_pri_-950: 1.02 (0.3%),
+        tests_pri_-900: 0.96 (0.3%), tests_pri_-90: 23 (6.7%), check_bayes: 22
+        (6.4%), b_tokenize: 7 (2.1%), b_tok_get_all: 7 (2.2%), b_comp_prob:
+        1.78 (0.5%), b_tok_touch_all: 3.8 (1.1%), b_finish: 0.54 (0.2%),
+        tests_pri_0: 283 (83.0%), check_dkim_signature: 0.52 (0.2%),
+        check_dkim_adsp: 2.6 (0.8%), poll_dns_idle: 0.19 (0.1%), tests_pri_10:
+        1.78 (0.5%), tests_pri_500: 4.8 (1.4%), rewrite_mail: 0.00 (0.0%)
+Subject: Re: [RFC][PATCH] sysctl: Remove the sysctl system call
+X-Spam-Flag: No
+X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
+X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, 1 Oct 2019 22:18:18 +0000
-Alexei Starovoitov <ast@fb.com> wrote:
+Kees Cook <keescook@chromium.org> writes:
 
-> > And then you can just format the string from the bpf_trace_printk()
-> > into msg, and then have:
-> > 
-> > 	trace_bpf_print(msg);  
-> 
-> It's an interesting idea, but I don't think it can work.
-> Please see bpf_trace_printk implementation in kernel/trace/bpf_trace.c
-> It's a lot more than string printing.
+> On Tue, Oct 01, 2019 at 01:36:32PM -0500, Eric W. Biederman wrote:
+>> 
+>> This system call has been deprecated almost since it was introduced, and
+>> in a survey of the linux distributions I can no longer find any of them
+>> that enable CONFIG_SYSCTL_SYSCALL.  The only indication that I can find
+>> that anyone might care is that a few of the defconfigs in the kernel
+>> enable CONFIG_SYSCTL_SYSCALL.  However this appears in only 31 of 414
+>> defconfigs in the kernel, so I suspect this symbols presence is simply
+>> because it is harmless to include rather than because it is necessary.
+>> 
+>> As there appear to be no users of the sysctl system call, remove the
+>> code.  As this removes one of the few uses of the internal kernel mount
+>> of proc I hope this allows for even more simplifications of the proc
+>> filesystem.
+>
+> I'm for it. :) I tripped over this being deprecated over a decade ago. :P
+>
+> I think you can actually take this further and remove (or at least
+> empty) the uapi/linux/sysctl.h file too.
 
-Well, trace_printk() is just string printing. I was thinking that the
-bpf_trace_printk() could just use a vsnprintf() into a temporary buffer
-(like trace_printk() does), and then call the trace event to write it
-out.
+I copied everyone who had put this into a defconfig and I will wait a
+little more to see if anyone screams.  I think it is a safe guess that
+several of the affected configurations are dead (or at least
+unmaintained) as I received 17 bounces when copying everyone.
 
-> 
-> > The user could then just enable the trace event from the file system. I
-> > could also work on making instances work like /tmp does (with the
-> > sticky bit) in creation. That way people with write access to the
-> > instances directory, can make their own buffers that they can use (and
-> > others can't access).  
-> 
-> We tried instances in bcc in the past and eventually removed all the 
-> support. The overhead of instances is too high to be usable.
+I would make it a followup that removes uapi/linux/sysctl.h.  I don't
+see anything in it that isn't about the sysctl system call.  I will keep
+it a separate patch as I can imagine something silly that needs the
+header file to compile.  A separate patch would make a revert easier
+if we find something like that.
 
-What overhead? An ftrace instance should not have any more overhead than
-the root one does (it's the same code). Or are you talking about memory
-overhead?
-
-> 
-> > 
-> >   
-> >>
-> >> Both 'trace' and 'trace_pipe' have quirky side effects.
-> >> Like opening 'trace' file will make all parallel trace_printk() to be ignored.
-> >> While reading 'trace_pipe' file will clear it.
-> >> The point that traditional 'read' and 'write' ACLs don't map as-is
-> >> to tracefs, so I would be careful categorizing things into
-> >> confidentiality vs integrity only based on access type.  
-> > 
-> > What exactly is the bpf_trace_printk() used for? I may have other ideas
-> > that can help.  
-> 
-> It's debugging of bpf programs. Same is what printk() is used for
-> by kernel developers.
-> 
-
-How is it extracted? Just read from the trace or trace_pipe file?
-
--- Steve
+Eric
