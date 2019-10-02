@@ -2,111 +2,158 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F0C5C9127
-	for <lists+linux-api@lfdr.de>; Wed,  2 Oct 2019 20:53:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 67552C948D
+	for <lists+linux-api@lfdr.de>; Thu,  3 Oct 2019 01:00:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728987AbfJBSxx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 2 Oct 2019 14:53:53 -0400
-Received: from mout.gmx.net ([212.227.17.20]:33339 "EHLO mout.gmx.net"
+        id S1728214AbfJBXAb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 2 Oct 2019 19:00:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39270 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727624AbfJBSxx (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 2 Oct 2019 14:53:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1570042349;
-        bh=gf50tgCxneL5EMyZp44NI1YZQOPxU5aMdpSenTmvcmo=;
-        h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
-        b=DeM9KzWeINTccN0apbwbQA0VgoA5iZYZVaOVbR0wi+9JSZPSYhljhs8WcIGgyXwmy
-         wwkszvWm8nGEVnGGP9X4EDQbmg75Y3WzfITVdaj862afHrIK7P0CwoFJozLvo3525+
-         CQ0oLHYknGUyvoWOuK7johO1UU4Saqw5ArIwjGgQ=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.134.72]) by mail.gmx.com (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1Md6R1-1hhE8F3b8N-00aFk6; Wed, 02
- Oct 2019 20:52:29 +0200
-Subject: Re: [RFC][PATCH] sysctl: Remove the sysctl system call
-To:     "Eric W. Biederman" <ebiederm@xmission.com>,
-        Kees Cook <keescook@chromium.org>
-Cc:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andi Kleen <andi@firstfloor.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Cong Wang <xiyou.wangcong@gmail.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Apelete Seketeli <apelete@seketeli.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Chee Nouk Phoon <cnphoon@altera.com>,
-        Chris Zankel <chris@zankel.net>,
-        Christian Ruppert <christian.ruppert@abilis.com>,
-        Greg Ungerer <gerg@uclinux.org>,
-        Hongliang Tao <taohl@lemote.com>,
-        Huacai Chen <chenhc@lemote.com>,
-        Jonas Jensen <jonas.jensen@gmail.com>,
-        Josh Boyer <jwboyer@gmail.com>, Jun Nie <jun.nie@linaro.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Ley Foon Tan <lftan@altera.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Olof Johansson <olof@lixom.net>,
-        Paul Burton <paul.burton@mips.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Pierrick Hascoet <pierrick.hascoet@abilis.com>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Roland Stigge <stigge@antcom.de>,
-        Vineet Gupta <vgupta@synopsys.com>
-References: <8736gcjosv.fsf@x220.int.ebiederm.org>
- <201910011140.EA0181F13@keescook> <87imp8hyc8.fsf@x220.int.ebiederm.org>
-From:   Helge Deller <deller@gmx.de>
-Message-ID: <1dc9f6c4-d1ff-8add-4d42-1c2d1ae685f6@gmx.de>
-Date:   Wed, 2 Oct 2019 20:52:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+        id S1728208AbfJBXAb (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 2 Oct 2019 19:00:31 -0400
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6CC4F21848;
+        Wed,  2 Oct 2019 23:00:28 +0000 (UTC)
+Date:   Wed, 2 Oct 2019 19:00:27 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Alexei Starovoitov <ast@fb.com>
+Cc:     Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Kees Cook <keescook@chromium.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        "Andy Lutomirski" <luto@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Masami Hiramatsu" <mhiramat@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Network Development <netdev@vger.kernel.org>,
+        bpf <bpf@vger.kernel.org>, Kernel Team <Kernel-team@fb.com>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [PATCH bpf-next] bpf, capabilities: introduce CAP_BPF
+Message-ID: <20191002190027.4e204ea8@gandalf.local.home>
+In-Reply-To: <a98725c6-a7db-1d9f-7033-5ecd96438c8d@fb.com>
+References: <CALCETrV8iJv9+Ai11_1_r6MapPhhwt9hjxi=6EoixytabTScqg@mail.gmail.com>
+        <20190828003447.htgzsxs5oevn3eys@ast-mbp.dhcp.thefacebook.com>
+        <CALCETrVbPPPr=BdPAx=tJKxD3oLXP4OVSgCYrB_E4vb6idELow@mail.gmail.com>
+        <20190828044340.zeha3k3cmmxgfqj7@ast-mbp.dhcp.thefacebook.com>
+        <CALCETrW1o+Lazi2Ng6b9JN6jeJffgdW9f3HvqYhNo4TpHRXW=g@mail.gmail.com>
+        <20190828225512.q6qbvkdiqih2iewk@ast-mbp.dhcp.thefacebook.com>
+        <DA52992F-4862-4945-8482-FE619A04C753@amacapital.net>
+        <20190829040721.ef6rumbaunkavyrr@ast-mbp.dhcp.thefacebook.com>
+        <20190928193727.1769e90c@oasis.local.home>
+        <201909301129.5A1129C@keescook>
+        <20191001012226.vwpe56won5r7gbrz@ast-mbp.dhcp.thefacebook.com>
+        <20191001181052.43c9fabb@gandalf.local.home>
+        <6e8b910c-a739-857d-4867-395bd369bc6a@fb.com>
+        <20191001184731.0ec98c7a@gandalf.local.home>
+        <a98725c6-a7db-1d9f-7033-5ecd96438c8d@fb.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <87imp8hyc8.fsf@x220.int.ebiederm.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:DQAGMh4Ko5P2cI/wLHpPo6oM3QodYNWeRmH706TaNGo2oNxaQq8
- yBfKyzR1b/uToJX8hDwMlwWTaX/onk/j3TXNptxpDALp14iKhHJ4aocZoGm2bC7iBkIdz5q
- bNdH1B4HD3l5vl/ryWt4twHoTJAsf6GitjZtqsTqYjVFGGejjFfWStfvPpF7fGBKKyNYe4+
- QsvCqC6P+fBDzGQtwg1Dg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:WomUAVeJBRA=:n9zCVEbUl4dS4bqaFBvX3H
- on+raA1uvEXl1I0A+uZkYyEweFIH0qn1+PjkYLCqphuq29Y6wb4y6hPHeSRhCIutvLYDUo0rA
- hfWl30UdiDBzkgM3UcPcc1NDIuuewKMG7zgjrHNXPpPJsLRDQuS4UZlCcsD3WgtMqQO4BcSDv
- X4u00vVhHTJDWyAozjOp314i4KIoHJ/tgl1sUb/iJZE8g+PAWNtUi3f1A7tT6ZfJNIMDl1Ub8
- JCl/4XdMOfGC5Z8fSUbXUpIM6H0PFFv3nxsQwEii+W9rUl98gxT9NqifkbVZD8wqgBv0lvQYy
- Z9U0ToPf9hFw9Y9PpKF+QZjD8ZLjiNZ4IgMtYsoqP22q1rRtjwdYKzs4osZXZIMNmfXP9ecHr
- KYk6ootsiSM2WNxRH5OsB27z+OIoVFyjJm9gZ3T1Z0CE9kJbLgxagbMnnjtn6JRMSgLJUUkBf
- wN2oxZSuvjx73NVv4pnav1xHu8NJHBbZ6mb87MxgY8JW0bXcxhjRLGsOHSitUrdECJ2ZDj5lX
- Mds+FH8jW+gRFO1y5YIPcuIxcYetgv/mpK49RCElNuZCSpStxXxKqM8nGDZJDPTxKH+5zuOuz
- MIoMxLS+WbfhGGWOysB31SK6uYw0yDyb0HJ8FZZKG5i+wIOR1kOghTXrGxc/phGdo5yax+Ucp
- tQWpK8vI6faH8Sd5ElO8JMaoLAASz3C8zy37HC7jJz70kdo3ABXtTl7cNCByWNZ0fb3BkllQv
- KBcMIsBWjVB7ZWxJgy/i650wrfzTLLolyFWW2bxIWTe8w4bRaDlSbVuMx/xB4rHdH+jkObInk
- CHLMdXu+OqRw7iFCctimriEQ6M24A5h+tqXl7lcdVeBIcdpKi7gSALRbj3T3WF8xFuRom1rj/
- mDXdAfHshk5+/sz8zHZVPqZ6uMy3NPXhuukA/qLKIQFWrqugqk67S5LBhGla0Ic1/i22tTgxq
- Nzp99T4fO/YpziLuUdAq9YiWl3eZ0JSYxQSD+1nzBS4shb8/F+TB7onTCKM22dK/vVt57fsEf
- Vh9MtayaH3jL/JCfRSePke9nEeAyhN+sZm8+ANxe3m5o8UJjyzseZeIGA1ha1WqtbsmEzRVvk
- 6MP4h7WwQxU9odDq8H7E9gcBqxl0il1TJ6zS2VPjADYQS0TbrS6xn0Y9RagcX1paYjqVnYRkQ
- T9UbHZWu0qbWJTJuU7IeM0HHWGgX0ETuTC/B7Y+3coLI4a9my7Nj7VHmQSKWtCTD3+tN/goqM
- JIzpeGqkAiMfX06ERkLoEgP7S/E5cGXK/Hq9DYw==
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 02.10.19 00:53, Eric W. Biederman wrote:
-> Kees Cook <keescook@chromium.org> writes:
->>> As there appear to be no users of the sysctl system call, remove the
->>> code....>...
-> I copied everyone who had put this into a defconfig and I will wait a
-> little more to see if anyone screams.  I think it is a safe guess that
-> several of the affected configurations are dead (or at least
-> unmaintained) as I received 17 bounces when copying everyone.
+On Wed, 2 Oct 2019 17:18:21 +0000
+Alexei Starovoitov <ast@fb.com> wrote:
 
-  arch/parisc/configs/c8000_defconfig         |    1 -
-  arch/parisc/configs/generic-32bit_defconfig |    1 -
+> >> It's an interesting idea, but I don't think it can work.
+> >> Please see bpf_trace_printk implementation in kernel/trace/bpf_trace.c
+> >> It's a lot more than string printing.  
+> > 
+> > Well, trace_printk() is just string printing. I was thinking that the
+> > bpf_trace_printk() could just use a vsnprintf() into a temporary buffer
+> > (like trace_printk() does), and then call the trace event to write it
+> > out.  
+> 
+> are you proposing to replicate get_trace_buf() functionality
+> into bpf_trace_printk?
 
-I'm not aware that we require the sysctl syscall somewhere on parisc,
-so I think it's safe to remove the code.
+No, do you need bpf_trace_printk() to run in all contexts?
+trace_printk() does the get_trace_buf() dance so that it can be called
+without locks and from any context including NMIs.
 
-Helge
+> So print into temp string buffer is done twice?
+> I'm not excited about such hack.
+> And what's the goal? so that trace_bpf_print(string_msg);
+> can go through _run-time_ check whether that particular trace event
+> was allowed in tracefs ?
+
+No, just to use a standard event instead of hacking into
+trace_printk().
+
+> That's not how file system acls are typically designed.
+> The permission check is at open(). Not at write().
+> If I understood you correctly you're proposing to check permissions
+> at bpf program run-time which is no good.
+> 
+> bpf_trace_printk() already has one small buffer for
+> probe_kernel_read-ing an unknown string to pass into %s.
+> That's not ftrace. That's core tracing. That aspect is covered by 
+> CAP_TRACING as well.
+
+Then use that buffer.
+
+> 
+> 
+> >>  
+> >>> The user could then just enable the trace event from the file system. I
+> >>> could also work on making instances work like /tmp does (with the
+> >>> sticky bit) in creation. That way people with write access to the
+> >>> instances directory, can make their own buffers that they can use (and
+> >>> others can't access).  
+> >>
+> >> We tried instances in bcc in the past and eventually removed all the
+> >> support. The overhead of instances is too high to be usable.  
+> > 
+> > What overhead? An ftrace instance should not have any more overhead than
+> > the root one does (it's the same code). Or are you talking about memory
+> > overhead?  
+> 
+> Yes. Memory overhead. Human users doing cat/echo into tracefs won't be
+> creating many instances, so that's the only practical usage of them.
+
+If it's a real event, it can go into any of the ftrace buffers (top
+level or instance), but it gives you the choice.
+
+> 
+> >   
+> >>  
+> >>>
+> >>>      
+> >>>>
+> >>>> Both 'trace' and 'trace_pipe' have quirky side effects.
+> >>>> Like opening 'trace' file will make all parallel trace_printk() to be ignored.
+> >>>> While reading 'trace_pipe' file will clear it.
+> >>>> The point that traditional 'read' and 'write' ACLs don't map as-is
+> >>>> to tracefs, so I would be careful categorizing things into
+> >>>> confidentiality vs integrity only based on access type.  
+> >>>
+> >>> What exactly is the bpf_trace_printk() used for? I may have other ideas
+> >>> that can help.  
+> >>
+> >> It's debugging of bpf programs. Same is what printk() is used for
+> >> by kernel developers.
+> >>  
+> > 
+> > How is it extracted? Just read from the trace or trace_pipe file?  
+> 
+> yep. Just like kernel devs look at dmesg when they sprinkle printk.
+> btw, if you can fix 'trace' file issue that stops all trace_printk
+> while 'trace' file is open that would be great.
+> Some users have been bitten by this behavior. We even documented it.
+
+The behavior is documented as well in the ftrace documentation. That's
+why we suggest the trace_pipe redirected into a file so that you don't
+lose data (unless the writer goes too fast). If you prefer a producer
+consumer where you lose newer events (like perf does), you can turn off
+overwrite mode, and it will drop events when the buffer is full (see
+options/overwrite).
+
+-- Steve
