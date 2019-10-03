@@ -2,24 +2,24 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E41FECA0C0
-	for <lists+linux-api@lfdr.de>; Thu,  3 Oct 2019 16:56:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C3930CA0C2
+	for <lists+linux-api@lfdr.de>; Thu,  3 Oct 2019 16:56:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730427AbfJCO42 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 3 Oct 2019 10:56:28 -0400
-Received: from mx2.mailbox.org ([80.241.60.215]:11590 "EHLO mx2.mailbox.org"
+        id S1729997AbfJCO4c (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 3 Oct 2019 10:56:32 -0400
+Received: from mx2.mailbox.org ([80.241.60.215]:11816 "EHLO mx2.mailbox.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726364AbfJCO41 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 3 Oct 2019 10:56:27 -0400
+        id S1726364AbfJCO4c (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 3 Oct 2019 10:56:32 -0400
 Received: from smtp2.mailbox.org (smtp1.mailbox.org [80.241.60.240])
         (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
         (No client certificate requested)
-        by mx2.mailbox.org (Postfix) with ESMTPS id 3A0BEA34F4;
-        Thu,  3 Oct 2019 16:56:24 +0200 (CEST)
+        by mx2.mailbox.org (Postfix) with ESMTPS id 15597A2693;
+        Thu,  3 Oct 2019 16:56:29 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at heinlein-support.de
 Received: from smtp2.mailbox.org ([80.241.60.240])
         by gerste.heinlein-support.de (gerste.heinlein-support.de [91.198.250.173]) (amavisd-new, port 10030)
-        with ESMTP id F8iJo-L6HAKE; Thu,  3 Oct 2019 16:56:20 +0200 (CEST)
+        with ESMTP id rdPXOhepP3dm; Thu,  3 Oct 2019 16:56:25 +0200 (CEST)
 From:   Aleksa Sarai <cyphar@cyphar.com>
 To:     Al Viro <viro@zeniv.linux.org.uk>,
         Michael Kerrisk <mtk.manpages@gmail.com>
@@ -27,9 +27,9 @@ Cc:     Aleksa Sarai <cyphar@cyphar.com>,
         Christian Brauner <christian@brauner.io>,
         Aleksa Sarai <asarai@suse.de>, linux-man@vger.kernel.org,
         linux-api@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH RFC 3/3] openat2.2: document new openat2(2) syscall
-Date:   Fri,  4 Oct 2019 00:55:41 +1000
-Message-Id: <20191003145542.17490-4-cyphar@cyphar.com>
+Subject: [PATCH RFC 3/3] openat2.2: document new syscall
+Date:   Fri,  4 Oct 2019 00:55:42 +1000
+Message-Id: <20191003145542.17490-5-cyphar@cyphar.com>
 In-Reply-To: <20191003145542.17490-1-cyphar@cyphar.com>
 References: <20191003145542.17490-1-cyphar@cyphar.com>
 MIME-Version: 1.0
@@ -38,12 +38,6 @@ Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
-
-Rather than trying to merge the new syscall documentation into open.2
-(which would probably result in the man-page being incomprehensible),
-instead the new syscall gets its own dedicated page with links between
-open(2) and openat2(2) to avoid duplicating information such as the list
-of O_* flags or common errors.
 
 Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
 ---
