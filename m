@@ -2,186 +2,101 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DC9DCA9A3
-	for <lists+linux-api@lfdr.de>; Thu,  3 Oct 2019 19:21:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F3550CAA53
+	for <lists+linux-api@lfdr.de>; Thu,  3 Oct 2019 19:25:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387711AbfJCQpp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 3 Oct 2019 12:45:45 -0400
-Received: from ms.lwn.net ([45.79.88.28]:33128 "EHLO ms.lwn.net"
+        id S1732463AbfJCRDa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 3 Oct 2019 13:03:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52490 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730740AbfJCQpo (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 3 Oct 2019 12:45:44 -0400
-Received: from lwn.net (localhost [127.0.0.1])
+        id S2392519AbfJCQlx (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 3 Oct 2019 12:41:53 -0400
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 979E2300
-        for <linux-api@vger.kernel.org>; Thu,  3 Oct 2019 16:45:43 +0000 (UTC)
-Date:   Thu, 3 Oct 2019 10:39:31 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     linux-kernel@vger.kernel.org, libc-alpha@sourceware.org,
-        Christian Brauner <christian@brauner.io>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Alessia Mantegazza <amantegazza@vaga.pv.it>,
-        Guillaume Dore <corwin@poussif.eu>, linux-doc@vger.kernel.org,
-        Aleksa Sarai <cyphar@cyphar.com>, linux-abi@vger.kernel.org,
-        Michael Kerrisk <mtk.manpages@gmail.com>
-Message-ID: <20191003103931.52683cb6@lwn.net>
-In-Reply-To: <20191002151437.5367-1-christian.brauner@ubuntu.com>
-References: <20191002151437.5367-1-christian.brauner@ubuntu.com>
-Organization: LWN.net
+        by mail.kernel.org (Postfix) with ESMTPSA id 1F81D206BB;
+        Thu,  3 Oct 2019 16:41:50 +0000 (UTC)
+Date:   Thu, 3 Oct 2019 12:41:48 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc:     Alexei Starovoitov <ast@fb.com>, Kees Cook <keescook@chromium.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Andy Lutomirski <luto@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Network Development <netdev@vger.kernel.org>,
+        bpf <bpf@vger.kernel.org>, Kernel Team <Kernel-team@fb.com>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: trace_printk issue. Was: [PATCH bpf-next] bpf, capabilities:
+ introduce CAP_BPF
+Message-ID: <20191003124148.4b94a720@gandalf.local.home>
+In-Reply-To: <20191003161838.7lz746aa2lzl7qi4@ast-mbp.dhcp.thefacebook.com>
+References: <DA52992F-4862-4945-8482-FE619A04C753@amacapital.net>
+        <20190829040721.ef6rumbaunkavyrr@ast-mbp.dhcp.thefacebook.com>
+        <20190928193727.1769e90c@oasis.local.home>
+        <201909301129.5A1129C@keescook>
+        <20191001012226.vwpe56won5r7gbrz@ast-mbp.dhcp.thefacebook.com>
+        <20191001181052.43c9fabb@gandalf.local.home>
+        <6e8b910c-a739-857d-4867-395bd369bc6a@fb.com>
+        <20191001184731.0ec98c7a@gandalf.local.home>
+        <a98725c6-a7db-1d9f-7033-5ecd96438c8d@fb.com>
+        <20191002190027.4e204ea8@gandalf.local.home>
+        <20191003161838.7lz746aa2lzl7qi4@ast-mbp.dhcp.thefacebook.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] Documentation: update about adding syscalls
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-[Expanding CC a bit; this is the sort of change I'm reluctant to take
-without being sure it reflects what the community thinks.]
+On Thu, 3 Oct 2019 09:18:40 -0700
+Alexei Starovoitov <alexei.starovoitov@gmail.com> wrote:
 
-On Wed,  2 Oct 2019 17:14:37 +0200
-Christian Brauner <christian.brauner@ubuntu.com> wrote:
+> I think dropping last events is just as bad. Is there a mode to overwrite old
+> and keep the last N (like perf does) ?
 
-> Add additional information on how to ensure that syscalls with structure
-> arguments are extensible and add a section about naming conventions to
-> follow when adding revised versions of already existing syscalls.
-> 
-> Co-Developed-by: Aleksa Sarai <cyphar@cyphar.com>
-> Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
-> Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
-> ---
->  Documentation/process/adding-syscalls.rst | 82 +++++++++++++++++++----
->  1 file changed, 70 insertions(+), 12 deletions(-)
-> 
-> diff --git a/Documentation/process/adding-syscalls.rst b/Documentation/process/adding-syscalls.rst
-> index 1c3a840d06b9..93e0221fbb9a 100644
-> --- a/Documentation/process/adding-syscalls.rst
-> +++ b/Documentation/process/adding-syscalls.rst
-> @@ -79,7 +79,7 @@ flags, and reject the system call (with ``EINVAL``) if it does::
->  For more sophisticated system calls that involve a larger number of arguments,
->  it's preferred to encapsulate the majority of the arguments into a structure
->  that is passed in by pointer.  Such a structure can cope with future extension
-> -by including a size argument in the structure::
-> +by either including a size argument in the structure::
->  
->      struct xyzzy_params {
->          u32 size; /* userspace sets p->size = sizeof(struct xyzzy_params) */
-> @@ -87,20 +87,56 @@ by including a size argument in the structure::
->          u64 param_2;
->          u64 param_3;
->      };
-> +    int sys_xyzzy(struct xyzzy_params __user *uarg);
-> +    /* in case of -E2BIG, p->size is set to the in-kernel size and thus all
-> +       extensions after that offset are unsupported. */
+Well, it drops it by pages. Thus you should always have the last page
+of events.
 
-That comment kind of threw me for a loop - this is the first mention of
-E2BIG and readers may not just know what's being talked about.  Especially
-since the comment suggests *not* actually returning an error.
+> Peter Wu brought this issue to my attention in
+> commit 55c33dfbeb83 ("bpf: clarify when bpf_trace_printk discards lines").
+> And later sent similar doc fix to ftrace.rst.
 
-> -As long as any subsequently added field, say ``param_4``, is designed so that a
-> -zero value gives the previous behaviour, then this allows both directions of
-> -version mismatch:
-> +or by including a separate argument that specifies the size::
->  
-> - - To cope with a later userspace program calling an older kernel, the kernel
-> -   code should check that any memory beyond the size of the structure that it
-> -   expects is zero (effectively checking that ``param_4 == 0``).
-> - - To cope with an older userspace program calling a newer kernel, the kernel
-> -   code can zero-extend a smaller instance of the structure (effectively
-> -   setting ``param_4 = 0``).
-> +    struct xyzzy_params {
-> +        u32 param_1;
-> +        u64 param_2;
-> +        u64 param_3;
-> +    };
-> +    /* userspace sets @usize = sizeof(struct xyzzy_params) */
-> +    int sys_xyzzy(struct xyzzy_params __user *uarg, size_t usize);
-> +    /* in case of -E2BIG, userspace has to attempt smaller @usize values
-> +       to figure out which extensions are unsupported. */
+It was documented there, he just elaborated on it more:
 
-Here too.  But what I'm really wondering about now is: you're describing
-different behavior for what are essentially two cases of the same thing.
-Why should the kernel simply accept the smaller size if the size is
-embedded in the structure itself, but return an error and force user space
-to retry if it's a separate argument?
+        This file holds the output of the trace in a human
+        readable format (described below). Note, tracing is temporarily
+-       disabled while this file is being read (opened).
++       disabled when the file is open for reading. Once all readers
++       are closed, tracing is re-enabled.
 
-I guess maybe because in the latter case the kernel can't easily return
-the size it's actually using?  I think that should be explicit if so.
 
-Thanks,
+> To be honest if I knew of this trace_printk quirk I would not have picked it
+> as a debugging mechanism for bpf.
+> I urge you to fix it.
 
-jon
+It's not a trivial fix by far.
 
-[Rest left untrimmed for context]
+Note, trying to read the trace file without disabling the writes to it,
+will most likely make reading it when function tracing enabled totally
+garbage, as the buffer will most likely be filled for every read event.
+That is, each read event will not be related to the next event that is
+read, making it very confusing.
 
-> +Which model you choose to use is down to personal taste. However, please only
-> +pick one (for a counter-example, see :manpage:`sched_getattr(2)`).
-> +
-> +Then, any extensions can be implemented by appending fields to the structure.
-> +However, all new fields must be designed such that their zero value results in
-> +identical behaviour to the pre-extension syscall. This allows for compatibility
-> +between different-vintage kernels and userspace, no matter which is newer:
-> +
-> + - If the userspace is newer, then the older kernel can check whether the
-> +   fields it doesn't understand are zero-valued. If they are, then it can
-> +   safely ignore them (since any future extensions will be backwards-compatible
-> +   as described above). If they aren't, then the kernel doesn't support the
-> +   feature and can give an error (``-E2BIG`` is traditional).
-> +
-> + - If the userspace is older, then the kernel can treat all extensions that
-> +   userspace is unaware of as having their zero-value (and effectively
-> +   zero-extend the userspace structure when copying it for in-kernel usage).
->  
-> -See :manpage:`perf_event_open(2)` and the ``perf_copy_attr()`` function (in
-> -``kernel/events/core.c``) for an example of this approach.
-> + - If they're the same version, just use the structure as-is.
-> +
-> +As with the simpler flag-only syscalls, you must always check that any unknown
-> +values for flag-like parameters in the passed structure are zeroed.
-> +
-> +It is also critical to ensure your syscall handles larger-sized arguments from
-> +the outset, otherwise userspace will have to do additional (fairly pointless)
-> +fallbacks for some old kernels. An example where this mistake was made is
-> +:manpage:`rt_sigprocmask(2)` (where any unknown-sized arguments are
-> +unconditionally rejected).
-> +
-> +To help implement this correctly, there is a helper function
-> +``copy_struct_from_user()`` which handles the compatibility requirements for
-> +you. For examples using this helper, see :manpage:`perf_event_open(2)` (which
-> +uses the embedded-size model) and :manpage:`clone3(2)` (which uses the
-> +separate-argument model).
->  
->  
->  Designing the API: Other Considerations
-> @@ -173,6 +209,28 @@ registers.  (This concern does not apply if the arguments are part of a
->  structure that's passed in by pointer.)
->  
->  
-> +Designing the API: Revisions of syscalls
-> +-----------------------------------------------
-> +
-> +Syscalls that were not designed to be extensible or syscalls that use a flag
-> +argument for extensions running out of bits (e.g. :manpage:`clone(2)`)
-> +sometimes need to be replaced.
-> +
-> +If the revised syscall provides a superset (or a reasonably large subset, such
-> +as when a feature that turned out to be a design mistake is dropped) of the
-> +features of the old syscall it is common practice to give it the same name with
-> +a number appended. Examples for this include ``dup2``/``dup3``,
-> +``epoll_create``/``epoll_create1`` and others.
-> +
-> +For some syscalls the appended number indicates the number of arguments
-> +(``accept``/``accept4``) for others the number of the revision
-> +(``clone``/``clone3``, ``epoll_create``/``epoll_create1``). Recent discussions
-> +around new syscalls (such as ``clone3``) have pointed to a consensus around
-> +naming syscalls revisions by appending the number of the revision to the
-> +syscall name. That means, if you were to post a revised version of the
-> +``openat`` syscall it should be named ``openat2``.
-> +
-> +
->  Proposing the API
->  -----------------
->  
+Although, I may be able to make it work per page. That way you get at
+least a page worth of events.
+
+Now, I could also make it where you have to stop tracing to read the
+trace file. That is, if you try to open the trace files while the
+buffer is active, it will error -EBUSY. Forcing you to stop tracing to
+read it, otherwise you would need to read the trace_pipe. At least this
+way you will not get surprised that events were dropped.
+
+-- Steve
