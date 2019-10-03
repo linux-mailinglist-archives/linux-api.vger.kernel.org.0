@@ -2,159 +2,186 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F1027CAA29
-	for <lists+linux-api@lfdr.de>; Thu,  3 Oct 2019 19:25:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DC9DCA9A3
+	for <lists+linux-api@lfdr.de>; Thu,  3 Oct 2019 19:21:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388250AbfJCQUW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 3 Oct 2019 12:20:22 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:44934 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389858AbfJCQUV (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 3 Oct 2019 12:20:21 -0400
-Received: by mail-pl1-f195.google.com with SMTP id q15so1735753pll.11;
-        Thu, 03 Oct 2019 09:20:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=MG/uLz4SZESf1T6JsOhjytWUwwylG/7dnOv+CW4DjNk=;
-        b=oGNLjsrcGkDwmNGN6jFGRgrg8PebuBK4+SzFVVNJ39DEk6EbR6+EDsuzazqitQe5KT
-         vjkwLIHZoYuLJOWirv43T80diWz1JpD3OCVyWkHKZ6YMU9Kh6p2a9TD2gyKNeM0Dt+V2
-         PQp2xVxZa9xJXHja1d/Y4+5OpW1Z9GPoDR3bfVoEyMOkO0tsJ26gMy4VJvGrkF8Xq11l
-         Rt0wxADAC1vZZfCX7K+Fz6N2YCSvYBglNUtXyGq/KYWq/6RPZm48VtqTssGoE/c3p30Q
-         sUJChgn4k4foLFYqQ01B1xtq4b7GxPUDDfXh31B2z/3ZgXqDqBZZce2J8oKwFTqv2XCe
-         oHiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=MG/uLz4SZESf1T6JsOhjytWUwwylG/7dnOv+CW4DjNk=;
-        b=YGSP+sN5A9V8CCHYTdb2toDm6+5JgV+QjK5NXpV/aUQTh9+0QPb7uhwpF1YMtePYK1
-         FvCzrWEC9c5IraBkpzSrCaEH2skm0ibZvZk+xdycpKD3XrT7WDJvV3I0hG2gwuuhgBkX
-         vQu1/4hT1oCSZfZqfMRgdJ7dp7p+sWqxpkqK6Ysl4MFOFqeEHw82IIekqxG2KwHlC5Bg
-         qa6BYj2a64JEP5y9nWwvifpvDrHDiVjorsaVl9Wzucwt5j0jbKV+/OlidQE5uQ0J2ayd
-         ivsLry+E0ZOuxhjqhGm2M2qxQr54xTohP4JpTRHFfndSVUKfgM/tv7ip0Rq9UHamZRtw
-         rPQg==
-X-Gm-Message-State: APjAAAVSDQVAZ7R+8FkoqYiQDu+IavzWaSQVU0mdXCl6Y62M7CNKx/m7
-        N4DaiiGlnNZmzokTbKLMLp4mR3V5
-X-Google-Smtp-Source: APXvYqwo0fuKkijfAeUsnw6Bgl7uNYpjzbrqdZXJGut8Zbmi7u1dEjGhAYPti48JxqcpLH5wegjvWQ==
-X-Received: by 2002:a17:902:121:: with SMTP id 30mr10099118plb.163.1570119620166;
-        Thu, 03 Oct 2019 09:20:20 -0700 (PDT)
-Received: from ast-mbp.dhcp.thefacebook.com ([2620:10d:c090:200::2:535c])
-        by smtp.gmail.com with ESMTPSA id f89sm5436846pje.20.2019.10.03.09.20.18
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 03 Oct 2019 09:20:19 -0700 (PDT)
-Date:   Thu, 3 Oct 2019 09:20:17 -0700
-From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
-To:     Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Andy Lutomirski <luto@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Network Development <netdev@vger.kernel.org>,
-        bpf <bpf@vger.kernel.org>, kernel-team <kernel-team@fb.com>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: [PATCH bpf-next] bpf, capabilities: introduce CAP_BPF
-Message-ID: <20191003162015.7bpyik3z5zulpqon@ast-mbp.dhcp.thefacebook.com>
-References: <20190828003447.htgzsxs5oevn3eys@ast-mbp.dhcp.thefacebook.com>
- <CALCETrVbPPPr=BdPAx=tJKxD3oLXP4OVSgCYrB_E4vb6idELow@mail.gmail.com>
- <20190828044340.zeha3k3cmmxgfqj7@ast-mbp.dhcp.thefacebook.com>
- <CALCETrW1o+Lazi2Ng6b9JN6jeJffgdW9f3HvqYhNo4TpHRXW=g@mail.gmail.com>
- <20190828225512.q6qbvkdiqih2iewk@ast-mbp.dhcp.thefacebook.com>
- <DA52992F-4862-4945-8482-FE619A04C753@amacapital.net>
- <20190829040721.ef6rumbaunkavyrr@ast-mbp.dhcp.thefacebook.com>
- <20190928193727.1769e90c@oasis.local.home>
- <201909301129.5A1129C@keescook>
- <20191003151204.5857bb24245f9c3355f27e0d@kernel.org>
+        id S2387711AbfJCQpp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 3 Oct 2019 12:45:45 -0400
+Received: from ms.lwn.net ([45.79.88.28]:33128 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730740AbfJCQpo (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 3 Oct 2019 12:45:44 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 979E2300
+        for <linux-api@vger.kernel.org>; Thu,  3 Oct 2019 16:45:43 +0000 (UTC)
+Date:   Thu, 3 Oct 2019 10:39:31 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     linux-kernel@vger.kernel.org, libc-alpha@sourceware.org,
+        Christian Brauner <christian@brauner.io>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Alessia Mantegazza <amantegazza@vaga.pv.it>,
+        Guillaume Dore <corwin@poussif.eu>, linux-doc@vger.kernel.org,
+        Aleksa Sarai <cyphar@cyphar.com>, linux-abi@vger.kernel.org,
+        Michael Kerrisk <mtk.manpages@gmail.com>
+Message-ID: <20191003103931.52683cb6@lwn.net>
+In-Reply-To: <20191002151437.5367-1-christian.brauner@ubuntu.com>
+References: <20191002151437.5367-1-christian.brauner@ubuntu.com>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191003151204.5857bb24245f9c3355f27e0d@kernel.org>
-User-Agent: NeoMutt/20180223
+Subject: Re: [PATCH] Documentation: update about adding syscalls
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Oct 03, 2019 at 03:12:04PM +0900, Masami Hiramatsu wrote:
-> On Mon, 30 Sep 2019 11:31:29 -0700
-> Kees Cook <keescook@chromium.org> wrote:
-> 
-> > On Sat, Sep 28, 2019 at 07:37:27PM -0400, Steven Rostedt wrote:
-> > > On Wed, 28 Aug 2019 21:07:24 -0700
-> > > Alexei Starovoitov <alexei.starovoitov@gmail.com> wrote:
-> > > > > 
-> > > > > This won’t make me much more comfortable, since CAP_BPF lets it do an ever-growing set of nasty things. I’d much rather one or both of two things happen:
-> > > > > 
-> > > > > 1. Give it CAP_TRACING only. It can leak my data, but it’s rather hard for it to crash my laptop, lose data, or cause other shenanigans.
-> > > > > 
-> > > > > 2. Improve it a bit do all the privileged ops are wrapped by capset().
-> > > > > 
-> > > > > Does this make sense?  I’m a security person on occasion. I find
-> > > > > vulnerabilities and exploit them deliberately and I break things by
-> > > > > accident on a regular basis. In my considered opinion, CAP_TRACING
-> > > > > alone, even extended to cover part of BPF as I’ve described, is
-> > > > > decently safe. Getting root with just CAP_TRACING will be decently
-> > > > > challenging, especially if I don’t get to read things like sshd’s
-> > > > > memory, and improvements to mitigate even that could be added.  I
-> > > > > am quite confident that attacks starting with CAP_TRACING will have
-> > > > > clear audit signatures if auditing is on.  I am also confident that
-> > > > > CAP_BPF *will* allow DoS and likely privilege escalation, and this
-> > > > > will only get more likely as BPF gets more widely used. And, if
-> > > > > BPF-based auditing ever becomes a thing, writing to the audit
-> > > > > daemon’s maps will be a great way to cover one’s tracks.  
-> > > > 
-> > > > CAP_TRACING, as I'm proposing it, will allow full tracefs access.
-> > > > I think Steven and Massami prefer that as well.
-> > > > That includes kprobe with probe_kernel_read.
-> > > > That also means mini-DoS by installing kprobes everywhere or running
-> > > > too much ftrace.
-> > > 
-> > > I was talking with Kees at Plumbers about this, and we were talking
-> > > about just using simple file permissions. I started playing with some
-> > > patches to allow the tracefs be visible but by default it would only be
-> > > visible by root.
-> > > 
-> > >  rwx------
-> > > 
-> > > Then a start up script (or perhaps mount options) could change the
-> > > group owner, and change this to:
-> > > 
-> > >  rwxrwx---
-> > > 
-> > > Where anyone in the group assigned (say "tracing") gets full access to
-> > > the file system.
-> 
-> Does it for "all" files under tracefs?
-> 
-> > > 
-> > > The more I was playing with this, the less I see the need for
-> > > CAP_TRACING for ftrace and reading the format files.
-> > 
-> > Nice! Thanks for playing with this. I like it because it gives us a way
-> > to push policy into userspace (group membership, etc), and provides a
-> > clean way (hopefully) do separate "read" (kernel memory confidentiality)
-> > from "write" (kernel memory integrity), which wouldn't have been possible
-> > with a single new CAP_...
-> 
->  From the confidentiality point of view, if tracefs exposes traced data,
-> it might include in-kernel pointer and symbols, but the user still can't
-> see /proc/kallsyms. This means we still have several different confidentiality
-> for each interface.
-> 
-> Anyway, adding a tracefs mount option for allowing a user group to access
-> event format data will be a good idea. But even though, I  think we still
-> need the CAP_TRACING for allowing control of intrusive tracing, like kprobes
-> and bpf etc. (Or, do we keep those for CAP_SYS_ADMIN??)
+[Expanding CC a bit; this is the sort of change I'm reluctant to take
+without being sure it reflects what the community thinks.]
 
-No doubt. This thread is only about tracefs wanting to do its own fs based controls.
+On Wed,  2 Oct 2019 17:14:37 +0200
+Christian Brauner <christian.brauner@ubuntu.com> wrote:
 
+> Add additional information on how to ensure that syscalls with structure
+> arguments are extensible and add a section about naming conventions to
+> follow when adding revised versions of already existing syscalls.
+> 
+> Co-Developed-by: Aleksa Sarai <cyphar@cyphar.com>
+> Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
+> Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
+> ---
+>  Documentation/process/adding-syscalls.rst | 82 +++++++++++++++++++----
+>  1 file changed, 70 insertions(+), 12 deletions(-)
+> 
+> diff --git a/Documentation/process/adding-syscalls.rst b/Documentation/process/adding-syscalls.rst
+> index 1c3a840d06b9..93e0221fbb9a 100644
+> --- a/Documentation/process/adding-syscalls.rst
+> +++ b/Documentation/process/adding-syscalls.rst
+> @@ -79,7 +79,7 @@ flags, and reject the system call (with ``EINVAL``) if it does::
+>  For more sophisticated system calls that involve a larger number of arguments,
+>  it's preferred to encapsulate the majority of the arguments into a structure
+>  that is passed in by pointer.  Such a structure can cope with future extension
+> -by including a size argument in the structure::
+> +by either including a size argument in the structure::
+>  
+>      struct xyzzy_params {
+>          u32 size; /* userspace sets p->size = sizeof(struct xyzzy_params) */
+> @@ -87,20 +87,56 @@ by including a size argument in the structure::
+>          u64 param_2;
+>          u64 param_3;
+>      };
+> +    int sys_xyzzy(struct xyzzy_params __user *uarg);
+> +    /* in case of -E2BIG, p->size is set to the in-kernel size and thus all
+> +       extensions after that offset are unsupported. */
+
+That comment kind of threw me for a loop - this is the first mention of
+E2BIG and readers may not just know what's being talked about.  Especially
+since the comment suggests *not* actually returning an error.
+
+> -As long as any subsequently added field, say ``param_4``, is designed so that a
+> -zero value gives the previous behaviour, then this allows both directions of
+> -version mismatch:
+> +or by including a separate argument that specifies the size::
+>  
+> - - To cope with a later userspace program calling an older kernel, the kernel
+> -   code should check that any memory beyond the size of the structure that it
+> -   expects is zero (effectively checking that ``param_4 == 0``).
+> - - To cope with an older userspace program calling a newer kernel, the kernel
+> -   code can zero-extend a smaller instance of the structure (effectively
+> -   setting ``param_4 = 0``).
+> +    struct xyzzy_params {
+> +        u32 param_1;
+> +        u64 param_2;
+> +        u64 param_3;
+> +    };
+> +    /* userspace sets @usize = sizeof(struct xyzzy_params) */
+> +    int sys_xyzzy(struct xyzzy_params __user *uarg, size_t usize);
+> +    /* in case of -E2BIG, userspace has to attempt smaller @usize values
+> +       to figure out which extensions are unsupported. */
+
+Here too.  But what I'm really wondering about now is: you're describing
+different behavior for what are essentially two cases of the same thing.
+Why should the kernel simply accept the smaller size if the size is
+embedded in the structure itself, but return an error and force user space
+to retry if it's a separate argument?
+
+I guess maybe because in the latter case the kernel can't easily return
+the size it's actually using?  I think that should be explicit if so.
+
+Thanks,
+
+jon
+
+[Rest left untrimmed for context]
+
+> +Which model you choose to use is down to personal taste. However, please only
+> +pick one (for a counter-example, see :manpage:`sched_getattr(2)`).
+> +
+> +Then, any extensions can be implemented by appending fields to the structure.
+> +However, all new fields must be designed such that their zero value results in
+> +identical behaviour to the pre-extension syscall. This allows for compatibility
+> +between different-vintage kernels and userspace, no matter which is newer:
+> +
+> + - If the userspace is newer, then the older kernel can check whether the
+> +   fields it doesn't understand are zero-valued. If they are, then it can
+> +   safely ignore them (since any future extensions will be backwards-compatible
+> +   as described above). If they aren't, then the kernel doesn't support the
+> +   feature and can give an error (``-E2BIG`` is traditional).
+> +
+> + - If the userspace is older, then the kernel can treat all extensions that
+> +   userspace is unaware of as having their zero-value (and effectively
+> +   zero-extend the userspace structure when copying it for in-kernel usage).
+>  
+> -See :manpage:`perf_event_open(2)` and the ``perf_copy_attr()`` function (in
+> -``kernel/events/core.c``) for an example of this approach.
+> + - If they're the same version, just use the structure as-is.
+> +
+> +As with the simpler flag-only syscalls, you must always check that any unknown
+> +values for flag-like parameters in the passed structure are zeroed.
+> +
+> +It is also critical to ensure your syscall handles larger-sized arguments from
+> +the outset, otherwise userspace will have to do additional (fairly pointless)
+> +fallbacks for some old kernels. An example where this mistake was made is
+> +:manpage:`rt_sigprocmask(2)` (where any unknown-sized arguments are
+> +unconditionally rejected).
+> +
+> +To help implement this correctly, there is a helper function
+> +``copy_struct_from_user()`` which handles the compatibility requirements for
+> +you. For examples using this helper, see :manpage:`perf_event_open(2)` (which
+> +uses the embedded-size model) and :manpage:`clone3(2)` (which uses the
+> +separate-argument model).
+>  
+>  
+>  Designing the API: Other Considerations
+> @@ -173,6 +209,28 @@ registers.  (This concern does not apply if the arguments are part of a
+>  structure that's passed in by pointer.)
+>  
+>  
+> +Designing the API: Revisions of syscalls
+> +-----------------------------------------------
+> +
+> +Syscalls that were not designed to be extensible or syscalls that use a flag
+> +argument for extensions running out of bits (e.g. :manpage:`clone(2)`)
+> +sometimes need to be replaced.
+> +
+> +If the revised syscall provides a superset (or a reasonably large subset, such
+> +as when a feature that turned out to be a design mistake is dropped) of the
+> +features of the old syscall it is common practice to give it the same name with
+> +a number appended. Examples for this include ``dup2``/``dup3``,
+> +``epoll_create``/``epoll_create1`` and others.
+> +
+> +For some syscalls the appended number indicates the number of arguments
+> +(``accept``/``accept4``) for others the number of the revision
+> +(``clone``/``clone3``, ``epoll_create``/``epoll_create1``). Recent discussions
+> +around new syscalls (such as ``clone3``) have pointed to a consensus around
+> +naming syscalls revisions by appending the number of the revision to the
+> +syscall name. That means, if you were to post a revised version of the
+> +``openat`` syscall it should be named ``openat2``.
+> +
+> +
+>  Proposing the API
+>  -----------------
+>  
