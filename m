@@ -2,24 +2,24 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 64BAACA0BD
-	for <lists+linux-api@lfdr.de>; Thu,  3 Oct 2019 16:56:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F2B23CA0BA
+	for <lists+linux-api@lfdr.de>; Thu,  3 Oct 2019 16:56:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730319AbfJCO4W (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 3 Oct 2019 10:56:22 -0400
-Received: from mx2.mailbox.org ([80.241.60.215]:11276 "EHLO mx2.mailbox.org"
+        id S1730090AbfJCO4U (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 3 Oct 2019 10:56:20 -0400
+Received: from mx2.mailbox.org ([80.241.60.215]:11298 "EHLO mx2.mailbox.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726364AbfJCO4V (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 3 Oct 2019 10:56:21 -0400
-Received: from smtp2.mailbox.org (smtp1.mailbox.org [80.241.60.240])
+        id S1729763AbfJCO4U (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 3 Oct 2019 10:56:20 -0400
+Received: from smtp2.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:105:465:1:1:0])
         (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
         (No client certificate requested)
-        by mx2.mailbox.org (Postfix) with ESMTPS id C800FA1DD9;
+        by mx2.mailbox.org (Postfix) with ESMTPS id F038FA2053;
         Thu,  3 Oct 2019 16:56:18 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at heinlein-support.de
 Received: from smtp2.mailbox.org ([80.241.60.240])
-        by gerste.heinlein-support.de (gerste.heinlein-support.de [91.198.250.173]) (amavisd-new, port 10030)
-        with ESMTP id sQCs1Y8x6r5z; Thu,  3 Oct 2019 16:56:15 +0200 (CEST)
+        by spamfilter06.heinlein-hosting.de (spamfilter06.heinlein-hosting.de [80.241.56.125]) (amavisd-new, port 10030)
+        with ESMTP id yutPT4LhNCyR; Thu,  3 Oct 2019 16:56:15 +0200 (CEST)
 From:   Aleksa Sarai <cyphar@cyphar.com>
 To:     Al Viro <viro@zeniv.linux.org.uk>,
         Michael Kerrisk <mtk.manpages@gmail.com>
@@ -27,9 +27,9 @@ Cc:     Aleksa Sarai <cyphar@cyphar.com>,
         Christian Brauner <christian@brauner.io>,
         Aleksa Sarai <asarai@suse.de>, linux-man@vger.kernel.org,
         linux-api@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH RFC 1/3] symlink.7: document magic-links more completely
-Date:   Fri,  4 Oct 2019 00:55:39 +1000
-Message-Id: <20191003145542.17490-2-cyphar@cyphar.com>
+Subject: [PATCH RFC 2/3] open.2: add O_EMPTYPATH documentation
+Date:   Fri,  4 Oct 2019 00:55:40 +1000
+Message-Id: <20191003145542.17490-3-cyphar@cyphar.com>
 In-Reply-To: <20191003145542.17490-1-cyphar@cyphar.com>
 References: <20191003145542.17490-1-cyphar@cyphar.com>
 MIME-Version: 1.0
@@ -39,101 +39,131 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Traditionally, magic-links have not been a well-understood topic in
-Linux. Given the new changes in their semantics (related to the link
-mode of trailing magic-links), it seems like a good opportunity to shine
-more light on magic-links and their semantics.
+Some of the wording around empty paths in path_resolution(7) also needed
+to be reworked since it's now legal (if you pass O_EMPTYPATH).
 
 Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
 ---
- man7/path_resolution.7 | 15 +++++++++++++++
- man7/symlink.7         | 39 ++++++++++++++++++++++++++++++---------
- 2 files changed, 45 insertions(+), 9 deletions(-)
+ man2/open.2            | 42 +++++++++++++++++++++++++++++++++++++++++-
+ man7/path_resolution.7 | 17 ++++++++++++++++-
+ 2 files changed, 57 insertions(+), 2 deletions(-)
 
+diff --git a/man2/open.2 b/man2/open.2
+index b0f485b41589..7217fe056e5e 100644
+--- a/man2/open.2
++++ b/man2/open.2
+@@ -48,7 +48,7 @@
+ .\" FIXME . Apr 08: The next POSIX revision has O_EXEC, O_SEARCH, and
+ .\" O_TTYINIT.  Eventually these may need to be documented.  --mtk
+ .\"
+-.TH OPEN 2 2018-04-30 "Linux" "Linux Programmer's Manual"
++.TH OPEN 2 2019-10-03 "Linux" "Linux Programmer's Manual"
+ .SH NAME
+ open, openat, creat \- open and possibly create a file
+ .SH SYNOPSIS
+@@ -421,6 +421,21 @@ was followed by a call to
+ .BR fdatasync (2)).
+ .IR "See NOTES below" .
+ .TP
++.BR O_EMPTYPATH " (since Linux 5.FOO)"
++If \fIpathname\fP is an empty string, re-open the the file descriptor given as
++the \fIdirfd\fP argument to
++.BR openat (2).
++This can be used with both ordinary (file and directory) and \fBO_PATH\fP file
++descriptors, but cannot be used with
++.BR AT_FDCWD
++(or as an argument to plain
++.BR open (2).) When re-opening an \fBO_PATH\fP file descriptor, the same "link
++mode" restrictions apply as with re-opening through
++.BR proc (5)
++(see
++.BR path_resolution "(7) and " symlink (7)
++for more details.)
++.TP
+ .B O_EXCL
+ Ensure that this call creates the file:
+ if this flag is specified in conjunction with
+@@ -668,6 +683,13 @@ with
+ (or via procfs using
+ .BR AT_SYMLINK_FOLLOW )
+ even if the file is not a directory.
++You can even "re-open" (or upgrade) an
++.BR O_PATH
++file descriptor by using
++.BR O_EMPTYPATH
++(see the section for
++.BR O_EMPTYPATH
++for more details.)
+ .IP *
+ Passing the file descriptor to another process via a UNIX domain socket
+ (see
+@@ -958,6 +980,15 @@ is not allowed.
+ (See also
+ .BR path_resolution (7).)
+ .TP
++.B EBADF
++.I pathname
++was an empty string (and
++.B O_EMPTYPATH
++was passed) with
++.BR open (2)
++(instead of
++.BR openat (2).)
++.TP
+ .B EDQUOT
+ Where
+ .B O_CREAT
+@@ -1203,6 +1234,15 @@ The following additional errors can occur for
+ .I dirfd
+ is not a valid file descriptor.
+ .TP
++.B EBADF
++.I pathname
++was an empty string (and
++.B O_EMPTYPATH
++was passed), but the provided
++.I dirfd
++was an invalid file descriptor (or was
++.BR AT_FDCWD .)
++.TP
+ .B ENOTDIR
+ .I pathname
+ is a relative pathname and
 diff --git a/man7/path_resolution.7 b/man7/path_resolution.7
-index 07664ed8faec..46f25ec4cdfa 100644
+index 46f25ec4cdfa..85dd354e9a93 100644
 --- a/man7/path_resolution.7
 +++ b/man7/path_resolution.7
-@@ -136,6 +136,21 @@ we are just creating it.
- The details on the treatment
- of the final entry are described in the manual pages of the specific
- system calls.
-+.PP
-+Since Linux 5.FOO, if the final entry is a "magic-link" (see
-+.BR symlink (7)),
-+and the user is attempting to
-+.BR open (2)
-+it, then there is an additional permission-related restriction applied to the
-+operation: the requested access mode must not exceed the "link mode" of the
-+magic-link (unlike ordinary symlinks, magic-links have their own file mode.)
-+For example, if
-+.I /proc/[pid]/fd/[num]
-+has a link mode of
-+.BR 0500 ,
-+unprivileged users are not permitted to
-+.BR open ()
-+the magic-link for writing.
- .SS . and ..
- By convention, every directory has the entries "." and "..",
- which refer to the directory itself and to its parent directory,
-diff --git a/man7/symlink.7 b/man7/symlink.7
-index 9f5bddd5dc21..33f0ec703acd 100644
---- a/man7/symlink.7
-+++ b/man7/symlink.7
-@@ -84,6 +84,25 @@ as they are implemented on Linux and other systems,
- are outlined here.
- It is important that site-local applications also conform to these rules,
- so that the user interface can be as consistent as possible.
-+.SS Magic-links
-+There is a special class of symlink-like objects known as "magic-links" which
-+can be found in certain pseudo-filesystems such as
-+.BR proc (5)
-+(examples include
-+.IR /proc/[pid]/exe " and " /proc/[pid]/fd/* .)
-+Unlike normal symlinks, magic-links are not resolved through
-+pathname-expansion, but instead act as direct references to the kernel's own
-+representation of a file handle. As such, these magic-links allow users to
-+access files which cannot be referenced with normal paths (such as unlinked
-+files still referenced by a running program.)
-+.PP
-+Because they can bypass ordinary
-+.BR mount_namespaces (7)-based
-+restrictions, magic-links have been used as attack vectors in various exploits.
-+As such (since Linux 5.FOO), there are additional restrictions placed on the
-+re-opening of magic-links (see
-+.BR path_resolution (7)
-+for more details.)
- .SS Symbolic link ownership, permissions, and timestamps
- The owner and group of an existing symbolic link can be changed
- using
-@@ -99,16 +118,18 @@ of a symbolic link can be changed using
- or
- .BR lutimes (3).
- .PP
--On Linux, the permissions of a symbolic link are not used
--in any operations; the permissions are always
--0777 (read, write, and execute for all user categories),
- .\" Linux does not currently implement an lchmod(2).
--and can't be changed.
--(Note that there are some "magic" symbolic links in the
--.I /proc
--directory tree\(emfor example, the
--.IR /proc/[pid]/fd/*
--files\(emthat have different permissions.)
-+On Linux, the permissions of an ordinary symbolic link are not used in any
-+operations; the permissions are always 0777 (read, write, and execute for all
-+user categories), and can't be changed.
-+.PP
-+However, magic-links do not follow this rule. They can have a non-0777 mode,
-+which is used for permission checks when the final
-+component of an
-+.BR open (2)'s
-+path is a magic-link (see
-+.BR path_resolution (7).)
-+
+@@ -22,7 +22,7 @@
+ .\" the source, must acknowledge the copyright and authors of this work.
+ .\" %%%LICENSE_END
  .\"
- .\" The
- .\" 4.4BSD
+-.TH PATH_RESOLUTION 7 2017-11-26 "Linux" "Linux Programmer's Manual"
++.TH PATH_RESOLUTION 7 2019-10-03 "Linux" "Linux Programmer's Manual"
+ .SH NAME
+ path_resolution \- how a pathname is resolved to a file
+ .SH DESCRIPTION
+@@ -198,6 +198,21 @@ successfully.
+ Linux returns
+ .B ENOENT
+ in this case.
++.PP
++As of Linux 5.FOO, an empty path argument can be used to indicate the "re-open"
++an existing file descriptor if
++.B O_EMPTYPATH
++is passed as a flag argument to
++.BR openat (2),
++with the
++.I dfd
++argument indicating which file descriptor to "re-open". This is approximately
++equivalent to opening
++.I /proc/self/fd/$fd
++where
++.I $fd
++is the open file descriptor to be "re-opened".
++
+ .SS Permissions
+ The permission bits of a file consist of three groups of three bits; see
+ .BR chmod (1)
 -- 
 2.23.0
 
