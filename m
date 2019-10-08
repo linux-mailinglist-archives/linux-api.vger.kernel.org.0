@@ -2,141 +2,103 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 295ABCF090
-	for <lists+linux-api@lfdr.de>; Tue,  8 Oct 2019 03:34:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FA47CF70A
+	for <lists+linux-api@lfdr.de>; Tue,  8 Oct 2019 12:30:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729389AbfJHBeF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 7 Oct 2019 21:34:05 -0400
-Received: from mx2.mailbox.org ([80.241.60.215]:31464 "EHLO mx2.mailbox.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726917AbfJHBeF (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 7 Oct 2019 21:34:05 -0400
-Received: from smtp2.mailbox.org (smtp1.mailbox.org [80.241.60.240])
-        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
-        (No client certificate requested)
-        by mx2.mailbox.org (Postfix) with ESMTPS id D7967A33B3;
-        Tue,  8 Oct 2019 03:34:01 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp2.mailbox.org ([80.241.60.240])
-        by spamfilter01.heinlein-hosting.de (spamfilter01.heinlein-hosting.de [80.241.56.115]) (amavisd-new, port 10030)
-        with ESMTP id oK7UU0kzyVpP; Tue,  8 Oct 2019 03:33:57 +0200 (CEST)
-Date:   Tue, 8 Oct 2019 12:33:46 +1100
-From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     Jann Horn <jannh@google.com>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Christian Brauner <christian@brauner.io>,
-        Aleksa Sarai <asarai@suse.de>,
-        linux-man <linux-man@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH RFC 1/3] symlink.7: document magic-links more completely
-Message-ID: <20191008013346.7qft2qqz4wz7ld35@yavin.dot.cyphar.com>
-References: <20191003145542.17490-1-cyphar@cyphar.com>
- <20191003145542.17490-2-cyphar@cyphar.com>
- <CAG48ez2LuOGAXgKftZKfDKxhdb6xcBTdoK468-HXdcpxCW4r4w@mail.gmail.com>
+        id S1729893AbfJHKam (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 8 Oct 2019 06:30:42 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:45668 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729790AbfJHKam (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 8 Oct 2019 06:30:42 -0400
+Received: by mail-wr1-f66.google.com with SMTP id r5so18693423wrm.12;
+        Tue, 08 Oct 2019 03:30:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=i5lHuAeIrDG9VP/johzYKtAJHBG0Gx+vdNgMDdNvGZQ=;
+        b=mxq2c0dMge/WK1ONqF82XxHe1rQ7f+zlZ5qJCMPruXYMOoRJ9qrjamUNh7a4vMdQnb
+         9W9cDxcFW3X6yal6DHbnclcKC5ZkD4hff8iWM8RKiC2m8LIwxtquR7yNgZ1IRql057ai
+         ZD/UuqPD7nN+B4Q70m3rmnfh4Jq/nELSt7QCBPvOwVecrAqDE/VZOW9sWFMLf5z8dRni
+         P60yUn2Sg3dIBNbKKyZZFuiRdxdlUBfXml5Mu2GY8V7bdwYm8BGy+NVXAsm7Pt7IAnus
+         7Z7tzRPlrCgGJZQw23REqSLUvE1DJsAl/H4V+iulWzXFCm8lCyA9iM5mFpjHEeRiF8Yb
+         oYUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=i5lHuAeIrDG9VP/johzYKtAJHBG0Gx+vdNgMDdNvGZQ=;
+        b=eb+qEqpyOO/miTJxPcJRVTKsuf6Okmd1ksiNH8iKY+ad9471vH031W8gevvMqcXI16
+         CXuTh3I1o99Q4hFsEGnFpTdiS6RMJlGRI6SmAbztD2dpP7WObb8NN7GmIWoc2g2XRxQy
+         q0bZL8+azdeN2oIwmgoU0wimH7cm+Mucv3P7pfDWhhQGbQGoTExYLAWXcgoy/7qaGGKC
+         x7ddeW0pIS9QjuDTGAB9bMN4LFC9rqdR5MYJzxUXRDI4tVrsSWEroO213yi5qNzfdjQH
+         0+1ROS3vviLNYRbIZ4pKLVhui7y+bfTO8YDxREuZ2/Qtpluvi7M1gkb4oRZggnOGy3yn
+         g66w==
+X-Gm-Message-State: APjAAAX2dc3iER7RFEfa95j/sJTeZrbTzeuOZWpWyvN9clIsZ4onE8te
+        Eu5ZLVa2XjU0NbJlYl6paWk=
+X-Google-Smtp-Source: APXvYqx+yLmhVo59qtrHGg3BJsPgVadeghZtSHm6NsEerDLDJhE4SG+UH+62s8R4IJSQ4PaE9AvalQ==
+X-Received: by 2002:adf:d1a4:: with SMTP id w4mr23331419wrc.331.1570530638027;
+        Tue, 08 Oct 2019 03:30:38 -0700 (PDT)
+Received: from [10.0.20.253] ([95.157.63.22])
+        by smtp.gmail.com with ESMTPSA id p7sm1825629wma.34.2019.10.08.03.30.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Oct 2019 03:30:36 -0700 (PDT)
+Cc:     mtk.manpages@gmail.com, Florian Weimer <fw@deneb.enyo.de>,
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, Jann Horn <jannh@google.com>,
+        Arnd Bergmann <arnd@arndb.de>, Helge Deller <deller@gmx.de>
+Subject: Re: [REPOST][RFC][PATCH] sysctl: Remove the sysctl system call
+To:     Kees Cook <keescook@chromium.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>
+References: <8736gcjosv.fsf@x220.int.ebiederm.org>
+ <201910011140.EA0181F13@keescook> <87y2y271ws.fsf@mid.deneb.enyo.de>
+ <87tv8pftjj.fsf_-_@x220.int.ebiederm.org> <201910031404.C30A0F16@keescook>
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Message-ID: <4c3e4883-706e-fd1b-4f4f-0653eabeb027@gmail.com>
+Date:   Tue, 8 Oct 2019 12:30:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="2q45tajd22yttzl5"
-Content-Disposition: inline
-In-Reply-To: <CAG48ez2LuOGAXgKftZKfDKxhdb6xcBTdoK468-HXdcpxCW4r4w@mail.gmail.com>
+In-Reply-To: <201910031404.C30A0F16@keescook>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On 10/3/19 11:05 PM, Kees Cook wrote:
+> On Thu, Oct 03, 2019 at 03:44:32PM -0500, Eric W. Biederman wrote:
+>>
+>> This system call has been deprecated almost since it was introduced, and none
+>> of the common distributions enable it.  The only indication that I can find that
+>> anyone might care is that a few of the defconfigs in the kernel enable it.  However
+>> that is a small fractions of the defconfigs so I suspect it just a lack of care
+>> rather than a reflection of software using the the sysctl system call.
+>>
+>> As there appear to be no users of the sysctl system call, remove the
+>> code so that the proc filesystem can be simplified.
+> 
+> nitpick: line lengths near 80 characters
+> 
+>> Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
+> 
+> But, yes, I would love to see this gone. :)
+> 
+> Reviewed-by: Kees Cook <keescook@chromium.org>
 
---2q45tajd22yttzl5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+And for the record, the manual page has since 2007 documented that 
+this system call is likely to go away in the future.
 
-On 2019-10-07, Jann Horn <jannh@google.com> wrote:
-> On Thu, Oct 3, 2019 at 4:56 PM Aleksa Sarai <cyphar@cyphar.com> wrote:
-> > Traditionally, magic-links have not been a well-understood topic in
-> > Linux. Given the new changes in their semantics (related to the link
-> > mode of trailing magic-links), it seems like a good opportunity to shine
-> > more light on magic-links and their semantics.
-> [...]
-> > +++ b/man7/symlink.7
-> > @@ -84,6 +84,25 @@ as they are implemented on Linux and other systems,
-> >  are outlined here.
-> >  It is important that site-local applications also conform to these rul=
-es,
-> >  so that the user interface can be as consistent as possible.
-> > +.SS Magic-links
-> > +There is a special class of symlink-like objects known as "magic-links=
-" which
->=20
-> I think names like that normally aren't hypenated in english, and
-> instead of "magic-links", it'd be "magic links"? Just like how you
-> wouldn't write "symbolic-link", but "symbolic link". But this is
-> bikeshedding, and if you disagree, feel free to ignore this comment.
+Cheers,
 
-Looking at it now, I think you're right -- I hyphenated it here because
-that's how I wrote it when documenting the feature in comments. But I
-think that's because "symlink" and "magic-link" (the "abbreviated"
-versions) seem to match better than "symlink" and "magic link".
+Michael
 
-I'll use "magic link" in documentation, but "magic-link" for all cases
-where I would normally write "symlink".
 
-> > +can be found in certain pseudo-filesystems such as
-> > +.BR proc (5)
-> > +(examples include
-> > +.IR /proc/[pid]/exe " and " /proc/[pid]/fd/* .)
-> > +Unlike normal symlinks, magic-links are not resolved through
->=20
-> nit: AFAICS symlinks are always referred to as "symbolic links"
-> throughout the manpages.
-
-:+1:
-
-> > +pathname-expansion, but instead act as direct references to the kernel=
-'s own
-> > +representation of a file handle. As such, these magic-links allow user=
-s to
-> > +access files which cannot be referenced with normal paths (such as unl=
-inked
-> > +files still referenced by a running program.)
->=20
-> Could maybe add "and files in different mount namespaces" as another
-> example here; at least for me, that's the main usecases for
-> /proc/*/root.
-
-Will do.
-
-> [...]
-> > +However, magic-links do not follow this rule. They can have a non-0777=
- mode,
-> > +which is used for permission checks when the final
-> > +component of an
-> > +.BR open (2)'s
->=20
-> Maybe leave out the "open" part, since the same restriction has to
-> also apply to other syscalls operating on files, like truncate() and
-> so on?
-
-Yes (though I've just realised I hadn't implemented that -- oops.) Given
-how expansive this patchset will get -- I might end up splitting it into
-the magic-link stuff (and O_EMPTYPATH) and a separate series for
-openat2(2) and the path resolution restrictions.
-
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-<https://www.cyphar.com/>
-
---2q45tajd22yttzl5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCXZvndgAKCRCdlLljIbnQ
-Em8rAP9zDYU4BspEqrhHWm9St1g7MKKDDBGjzIBK742FA4EA6gD9FXqkmZPXhZHY
-m/PlSBGP4lC67Pms1YwaoDM1pk2x+Ak=
-=dsvW
------END PGP SIGNATURE-----
-
---2q45tajd22yttzl5--
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
