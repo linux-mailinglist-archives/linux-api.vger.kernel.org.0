@@ -2,83 +2,168 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D7BDD2EBA
-	for <lists+linux-api@lfdr.de>; Thu, 10 Oct 2019 18:43:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A871FD2F5D
+	for <lists+linux-api@lfdr.de>; Thu, 10 Oct 2019 19:14:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726416AbfJJQnb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 10 Oct 2019 12:43:31 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:36240 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726290AbfJJQna (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 10 Oct 2019 12:43:30 -0400
-Received: by mail-pf1-f193.google.com with SMTP id y22so4266486pfr.3
-        for <linux-api@vger.kernel.org>; Thu, 10 Oct 2019 09:43:28 -0700 (PDT)
+        id S1726007AbfJJROG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 10 Oct 2019 13:14:06 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:42236 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726687AbfJJROF (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 10 Oct 2019 13:14:05 -0400
+Received: by mail-lj1-f193.google.com with SMTP id y23so6973708lje.9
+        for <linux-api@vger.kernel.org>; Thu, 10 Oct 2019 10:14:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=WcFO8qPZ/AFTCPgcIosbPBf6WzJZhu5LC0txwMdDqq0=;
-        b=mHXoFaiWr2KtDyo6AUfULISKrSL60dcxTqzjwiK6Uaub6ukWcxzvR35aRbJ/vlu4UK
-         btOqmAHm7PlUoeM5gAlSvg067gi9jVrpkKoXlKtP6V0vU2ST37HIbIHFg92Bf8qEYVHH
-         +sfpnRnP7n2dw4DiSrshnBTPiQgOvR4ZRzhEw=
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=bqvz+afB1Rg3ieCrlwoBKML7ipcOdiXJ/q/XXxTUovI=;
+        b=Xol/3a0t0AtCulvKJeuAKS1uo5PWCjeyeDeHYLSA1FXKSnOkgSTF276gwVNHa4nPiN
+         l58RJ3zV8SDjz5HcQUbk/k9PwAg2ytkBSxmhuzf7L/EFmiieyqeQcJuKFBVQbWUjfXE1
+         U4t1RhqK0BT10C1Atodrl5m0eWGZPM7fTB2Dk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=WcFO8qPZ/AFTCPgcIosbPBf6WzJZhu5LC0txwMdDqq0=;
-        b=EV+K2sF3T0Mp25VcZHUmpGq/4bJAV/PmLeog0FZq3j0f9QDLihYwLO/yP0y3Ljl6gf
-         kvPVa2He4giTzF0nwZLE9Ctgb7+FwqTSG1xcg+lCHvOuzOvH94NJxvno2DwVNfGVXaPQ
-         lVDasfzFHzO8jZMY4cA6ZVtDJdA5Fuz4yytVAgeS20r0Ft47KFREQPyPhhdEXwmQjU5l
-         YiyxQb2hSfQjr3J43CObXHl3paU7u/XfsrDVoPInN1e1CZPkJB4CEbVU/D2opE+Qon1+
-         P5lhnBLAqsQvWuFtK7q3m3js+ZkLdbDl0VXowZ+nOvJawxJFwtgSlfK6MnFiZ31GTXPF
-         Tu0w==
-X-Gm-Message-State: APjAAAU6z+6KxrmF7z1gNYkkrksMT//nd53x4WAEZTGJwvR9u2D4+ZoY
-        8dM0IjFYNLHw2KblYpBjpfHsyg==
-X-Google-Smtp-Source: APXvYqxsqHZmX3PXU0VomobcpD35C37svv1v7Kpb0+mVbvks+MlYD9SD3jPPE8rJ5DviVJ/s9RX1pQ==
-X-Received: by 2002:a62:ed01:: with SMTP id u1mr11730140pfh.122.1570725808519;
-        Thu, 10 Oct 2019 09:43:28 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id l62sm8332515pfl.167.2019.10.10.09.43.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Oct 2019 09:43:27 -0700 (PDT)
-Date:   Thu, 10 Oct 2019 09:43:26 -0700
-From:   Kees Cook <keescook@chromium.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=bqvz+afB1Rg3ieCrlwoBKML7ipcOdiXJ/q/XXxTUovI=;
+        b=CYoulEQeEUR/J01OZJXLDaPmkmGgGXAUdc+hkStfN7beZ4hhC03NynG43Tb7Yy7Z6w
+         MB4jVwLPvQnyc8DeOWprcN4wiGNjTyEh0+MUe166Nx5Fy5FAO23yuy2spbeLL9lqYWhF
+         3Z7cKkLDQRCRXQb3dYRiAQ7G8P6qxs6rpro6sm0SXwnHSnC3gsgFroOpohVJBbbd9Wdh
+         23nfs0YKPibqAU2muXyWoDkA8MUWAcOJ6zuAekeL2azJfkYSRXSuA2czorgtqjZxfqce
+         eAY4QF3LLQnY77sB3c1BxydNs5Fw6JGzvtky6jU6G4IlyA8YIiRY9X5iAJGOzSGiJepg
+         WSbQ==
+X-Gm-Message-State: APjAAAWvkSOCnX0BNDVzFPFm8BLHdbplYAwwtO8Xlze5ecfVXIcw1eNs
+        i10wffK/GM812YsSaxBLw3BBTQG5vAY=
+X-Google-Smtp-Source: APXvYqxrJRcg/dpmS+ItZHpvf6GNiCLnCSSR5Nt08EcY0ZaK+ElXQs6/VE+kyufSzlmq+HQs+ZS1fw==
+X-Received: by 2002:a2e:2942:: with SMTP id u63mr7159581lje.94.1570727642624;
+        Thu, 10 Oct 2019 10:14:02 -0700 (PDT)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com. [209.85.167.46])
+        by smtp.gmail.com with ESMTPSA id m6sm1345591ljj.3.2019.10.10.10.14.02
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 10 Oct 2019 10:14:02 -0700 (PDT)
+Received: by mail-lf1-f46.google.com with SMTP id 72so4977133lfh.6
+        for <linux-api@vger.kernel.org>; Thu, 10 Oct 2019 10:14:02 -0700 (PDT)
+X-Received: by 2002:a19:f709:: with SMTP id z9mr6611392lfe.170.1570727268603;
+ Thu, 10 Oct 2019 10:07:48 -0700 (PDT)
+MIME-Version: 1.0
+References: <20191010054140.8483-1-cyphar@cyphar.com> <20191010054140.8483-3-cyphar@cyphar.com>
+In-Reply-To: <20191010054140.8483-3-cyphar@cyphar.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Thu, 10 Oct 2019 10:07:32 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wh8L50f31vW8BwRUXhLiq3eoCQ3tg8ER4Yp2dzuU1w5rQ@mail.gmail.com>
+Message-ID: <CAHk-=wh8L50f31vW8BwRUXhLiq3eoCQ3tg8ER4Yp2dzuU1w5rQ@mail.gmail.com>
+Subject: Re: [PATCH v14 2/6] namei: LOOKUP_IN_ROOT: chroot-like path resolution
 To:     Aleksa Sarai <cyphar@cyphar.com>
-Cc:     Michael Ellerman <mpe@ellerman.id.au>,
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J. Bruce Fields" <bfields@fieldses.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        David Howells <dhowells@redhat.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
         Ingo Molnar <mingo@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>, Tycho Andersen <tycho@tycho.ws>,
+        David Drysdale <drysdale@google.com>,
+        Chanho Min <chanho.min@lge.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         Alexander Shishkin <alexander.shishkin@linux.intel.com>,
         Jiri Olsa <jolsa@redhat.com>,
         Namhyung Kim <namhyung@kernel.org>,
         Christian Brauner <christian@brauner.io>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        libc-alpha@sourceware.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/4] lib: introduce copy_struct_from_user() helper
-Message-ID: <201910100943.4C6AB66@keescook>
-References: <20191001011055.19283-1-cyphar@cyphar.com>
- <20191001011055.19283-2-cyphar@cyphar.com>
- <87eezkx2y7.fsf@mpe.ellerman.id.au>
- <20191010114007.o3bygjf4jlfk242e@yavin.dot.cyphar.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191010114007.o3bygjf4jlfk242e@yavin.dot.cyphar.com>
+        Aleksa Sarai <asarai@suse.de>,
+        Linux Containers <containers@lists.linux-foundation.org>,
+        alpha <linux-alpha@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        GNU C Library <libc-alpha@sourceware.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-ia64@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-m68k <linux-m68k@lists.linux-m68k.org>,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        Linux-sh list <linux-sh@vger.kernel.org>,
+        linux-xtensa@linux-xtensa.org, sparclinux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Oct 10, 2019 at 10:40:07PM +1100, Aleksa Sarai wrote:
-> Yeah, it takes about 5-10s on my laptop. We could switch it to just
-> everything within a 4K block, but the main reason for testing with
-> 2*PAGE_SIZE is to make sure that check_nonzero_user() works across page
-> boundaries. Though we could only do check_nonzero_user() in the region
-> of the page boundary (maybe i E (PAGE_SIZE-512,PAGE_SIZE+512]?)
+On Wed, Oct 9, 2019 at 10:42 PM Aleksa Sarai <cyphar@cyphar.com> wrote:
+>
+> --- a/fs/namei.c
+> +++ b/fs/namei.c
+> @@ -2277,6 +2277,11 @@ static const char *path_init(struct nameidata *nd, unsigned flags)
+>
+>         nd->m_seq = read_seqbegin(&mount_lock);
+>
+> +       /* LOOKUP_IN_ROOT treats absolute paths as being relative-to-dirfd. */
+> +       if (flags & LOOKUP_IN_ROOT)
+> +               while (*s == '/')
+> +                       s++;
+> +
+>         /* Figure out the starting path and root (if needed). */
+>         if (*s == '/') {
+>                 error = nd_jump_root(nd);
 
-Yeah, I like this idea: just poke at the specific edge-case.
+Hmm. Wouldn't this make more sense all inside the if (*s =- '/') test?
+That way if would be where we check for "should we start at the root",
+which seems to make more sense conceptually.
 
--- 
-Kees Cook
+That test for '/' currently has a "} else if (..)", but that's
+pointless since it ends with a "return" anyway. So the "else" logic is
+just noise.
+
+And if you get rid of the unnecessary else, moving the LOOKUP_IN_ROOT
+inside the if-statement works fine.
+
+So this could be something like
+
+    --- a/fs/namei.c
+    +++ b/fs/namei.c
+    @@ -2194,11 +2196,19 @@ static const char *path_init(struct
+nameidata *nd, unsigned flags)
+
+        nd->m_seq = read_seqbegin(&mount_lock);
+        if (*s == '/') {
+    -           set_root(nd);
+    -           if (likely(!nd_jump_root(nd)))
+    -                   return s;
+    -           return ERR_PTR(-ECHILD);
+    -   } else if (nd->dfd == AT_FDCWD) {
+    +           /* LOOKUP_IN_ROOT treats absolute paths as being
+relative-to-dirfd. */
+    +           if (!(flags & LOOKUP_IN_ROOT)) {
+    +                   set_root(nd);
+    +                   if (likely(!nd_jump_root(nd)))
+    +                           return s;
+    +                   return ERR_PTR(-ECHILD);
+    +           }
+    +
+    +           /* Skip initial '/' for LOOKUP_IN_ROOT */
+    +           do { s++; } while (*s == '/');
+    +   }
+    +
+    +   if (nd->dfd == AT_FDCWD) {
+                if (flags & LOOKUP_RCU) {
+                        struct fs_struct *fs = current->fs;
+                        unsigned seq;
+
+instead. The patch ends up slightly bigger (due to the re-indentation)
+but now it handles all the "start at root" in the same place. Doesn't
+that make sense?
+
+             Linus
