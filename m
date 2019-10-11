@@ -2,51 +2,52 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E3EED3665
-	for <lists+linux-api@lfdr.de>; Fri, 11 Oct 2019 02:41:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 39979D3669
+	for <lists+linux-api@lfdr.de>; Fri, 11 Oct 2019 02:41:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727695AbfJKAkw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 10 Oct 2019 20:40:52 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:41853 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728049AbfJKAku (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 10 Oct 2019 20:40:50 -0400
-Received: by mail-lj1-f193.google.com with SMTP id f5so8047893ljg.8
-        for <linux-api@vger.kernel.org>; Thu, 10 Oct 2019 17:40:48 -0700 (PDT)
+        id S1728086AbfJKAlG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 10 Oct 2019 20:41:06 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:46075 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728071AbfJKAlB (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 10 Oct 2019 20:41:01 -0400
+Received: by mail-lj1-f194.google.com with SMTP id q64so8010407ljb.12
+        for <linux-api@vger.kernel.org>; Thu, 10 Oct 2019 17:40:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=H2FS1xOZd/52wDxpWUrAmpLbVkhqrk6X7y4KWQdphOQ=;
-        b=excfJ/xPWZ2+jilbteJY4Vi+c9HHFbmh8FkB0VkVQqsRNzfaN29He3nWLonU+RXfhK
-         3pXMA0TLVwHppNQr0AUdUG53U42HF+9GxxpGlj/4kcIRtN2pAGAhjypJkZNwf6iE4U2K
-         QnDU6KwbkTBSAhWjCsQuxo6Yvo3mAnUXyeDgSEkA6Cy+jFD7qJ0JXa3ufc+Z8Ubil/UN
-         0Cdjgen9Fv8pItZNyHwfvmTyOXAjZeb7m1pS8EB6mZ+mIjfO5jq4nE77VYMmJNXOtxB7
-         kvPLp8grvYwauQ5k1eqQDdg2eooaCdMYqVLWUpqPOHk/o0cD7moYJjQphs+tsLLeny72
-         W+eg==
+        bh=CfDaZT4bXkWgxnluWp+WhmE+OpX1r8BSHHGhbM539S4=;
+        b=G3J9DjEzJwvLYCWfemWN27LvdJrNNcUTEOJesbm+hDT6nSc4AxxnauaNC5OPkYNWHv
+         EwPZHD9Hg/H8ArC5g3+ik5/9zXU1YiSGtHEwF2ExCsLHGakwfvrA0Ss46FpefN5CZre8
+         cUJMn5kmLSF2zvecYGh+jg7shNGju9rCNctKgpBJFWyc6C3B7IH4U92epYuprDdI76Oj
+         Tz27IJHKhtslTrB9KtusXYzKqXkPMFJZDZG+8oUypn/sHfPJnp3q981Jw25+qra8yJxN
+         QY9kgc07gEjemDQPV77JrgVmoJ9X1PfcEz9wdswo05ZA7ud1WugjIM3O6/+JaEug5MVn
+         IDvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=H2FS1xOZd/52wDxpWUrAmpLbVkhqrk6X7y4KWQdphOQ=;
-        b=NR71Meap9smm1UDnjd+LMbEs1fpVwBlot+Zs9EbxAoEpUxEfUMMkviAZKGGfmFZptH
-         WTkV7XYGliTaQlWVM6Dy0P/kU5EPfFjhf6kx4wCuP4rkL9RRsxhrXvaaN+ZGm2TbrbAB
-         chDcAVONO0AqdNqLdJUyKrd7/FjFJftH5Zqhj8JV2r61IUXWPuuRihZ4phB7U23YboA2
-         KgRXrU88/N0bMXAozNYpkV/GKOxlcKKBTYgIdNyndkbMbVx8kFDjNEizWI/fstji1S7V
-         barR1AumF1WyDzF7qfKNQb6vjrCXPj72ipCgeobHCotf7nTzJDi887dcM/eftK9/hxtq
-         F58w==
-X-Gm-Message-State: APjAAAUHb5GbGVdFmaj/8WrmwU/E9YsEYsxz3o5FFz4Jck+I9isecUil
-        giXaVckEAaD18sB4jfqRDpkscs73sPuWTfcwTdmk
-X-Google-Smtp-Source: APXvYqxJgQInWarY5/M7kUO7HpwvMg1Nlpj/lgKKRdJtv+USUKJpyXPsrOQoku+hafT+CZ2zq5wB40bIA3VRiBrUbu8=
-X-Received: by 2002:a2e:8ec2:: with SMTP id e2mr7129095ljl.126.1570754447449;
- Thu, 10 Oct 2019 17:40:47 -0700 (PDT)
+        bh=CfDaZT4bXkWgxnluWp+WhmE+OpX1r8BSHHGhbM539S4=;
+        b=IFS3iQ6DkARZHBovbdRjNYlqrCg40nD14P2tSukKtqboD1pkPhFQ2PwM9SGZSQloj5
+         /t6NHcGPOAmu117hdLqV+YCK+VDBAEqkN6SSQ8+J1Lo72/6zKbFW+4Rz6hm1i+i74k/W
+         eQjRVQfZIbOMsUXrTDHjKFMbGNMhhE8NFdZbQXQCt6yhmKhZ1aWmmaaQPcjtl6S4EL+C
+         W2PXeZXc9z8gni6oSXVmHVzZmvedy8uKD+xiKR1yH9Tf1QTzB/bwug74jeJmV59UhqDe
+         UZNpWiPa9xEss5DQBEJOr3GfiUvF6/1m2drSi6I/PUg4rCdqwO8bYHt0eUe1p/O+czCg
+         34zQ==
+X-Gm-Message-State: APjAAAUJYddQLaMdktvLfZnAMoAUuk3BSxMLLX84yPo5zj7OlpDiOFi7
+        qMe8yvciuqE+3CJfGyi+QTyoZ/JFzXyerajunB7Q
+X-Google-Smtp-Source: APXvYqzYZFKZde2jj/9GQoDK0Z4ns4uY9vTPu7Bp/zGHrqgX2RFr1p2j3XCc2e9Pvk/AmyCJXkusYSvrW8G5t9z7Nts=
+X-Received: by 2002:a2e:286:: with SMTP id y6mr8034574lje.184.1570754459003;
+ Thu, 10 Oct 2019 17:40:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1568834524.git.rgb@redhat.com> <ea4e8352fd1671f91d1b015a15abee785ea17136.1568834525.git.rgb@redhat.com>
-In-Reply-To: <ea4e8352fd1671f91d1b015a15abee785ea17136.1568834525.git.rgb@redhat.com>
+References: <cover.1568834524.git.rgb@redhat.com> <6cef16c2a019e61e49f4d62497b5ca8dab79b45f.1568834525.git.rgb@redhat.com>
+In-Reply-To: <6cef16c2a019e61e49f4d62497b5ca8dab79b45f.1568834525.git.rgb@redhat.com>
 From:   Paul Moore <paul@paul-moore.com>
-Date:   Thu, 10 Oct 2019 20:40:36 -0400
-Message-ID: <CAHC9VhRUmHiuRH6xYZo36hoV34ouNv4Ny0sWZYcz2dnEhx9nsA@mail.gmail.com>
-Subject: Re: [PATCH ghak90 V7 16/21] audit: add support for contid set/get by netlink
+Date:   Thu, 10 Oct 2019 20:40:47 -0400
+Message-ID: <CAHC9VhRtZc0R6Lo9Ea4pz+h8XtOD5LE2wKuCpnQHeb8aTBerWg@mail.gmail.com>
+Subject: Re: [PATCH ghak90 V7 17/21] audit: add support for loginuid/sessionid
+ set/get by netlink
 To:     Richard Guy Briggs <rgb@redhat.com>
 Cc:     containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
         Linux-Audit Mailing List <linux-audit@redhat.com>,
@@ -63,29 +64,20 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Sep 18, 2019 at 9:26 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> Add the ability to get and set the audit container identifier using an
-> audit netlink message using message types AUDIT_SET_CONTID 1023 and
-> AUDIT_GET_CONTID 1022 in addition to using the proc filesystem.  The
-> message format includes the data structure:
->
-> struct audit_contid_status {
->        pid_t   pid;
->        u64     id;
-> };
+On Wed, Sep 18, 2019 at 9:27 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> Add the ability to get and set the login uid and to get the session id
+> using an audit netlink message using message types AUDIT_GET_LOGINUID
+> 1024, AUDIT_SET_LOGINUID 1025 and AUDIT_GET_SESSIONID 1026 in addition
+> to using the proc filesystem.
 >
 > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
 > ---
->  include/uapi/linux/audit.h |  2 ++
->  kernel/audit.c             | 40 ++++++++++++++++++++++++++++++++++++++++
->  kernel/audit.h             |  5 +++++
->  3 files changed, 47 insertions(+)
+>  include/uapi/linux/audit.h |  3 +++
+>  kernel/audit.c             | 62 ++++++++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 65 insertions(+)
 
-I'm not a fan of having multiple interfaces to do one thing if it can
-be avoided.  Presumably the argument for the netlink API is the
-container folks don't want to have to mount /proc inside containers
-which are going to host nested orchestrators?  Can you reasonably run
-a fully fledged orchestrator without a valid /proc?
+This is completely independent of the audit container ID work, yes?
+If so, it shouldn't be part of this patchset.
 
 --
 paul moore
