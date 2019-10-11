@@ -2,147 +2,149 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 29397D3802
-	for <lists+linux-api@lfdr.de>; Fri, 11 Oct 2019 05:48:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF9FCD3AE1
+	for <lists+linux-api@lfdr.de>; Fri, 11 Oct 2019 10:22:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726034AbfJKDsa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 10 Oct 2019 23:48:30 -0400
-Received: from mx2a.mailbox.org ([80.241.60.219]:54977 "EHLO mx2a.mailbox.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726025AbfJKDsa (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 10 Oct 2019 23:48:30 -0400
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:105:465:1:2:0])
-        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
-        (No client certificate requested)
-        by mx2a.mailbox.org (Postfix) with ESMTPS id 4C0B5A184E;
-        Fri, 11 Oct 2019 05:48:26 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp2.mailbox.org ([80.241.60.241])
-        by spamfilter02.heinlein-hosting.de (spamfilter02.heinlein-hosting.de [80.241.56.116]) (amavisd-new, port 10030)
-        with ESMTP id FAJIvPNj8lRh; Fri, 11 Oct 2019 05:48:21 +0200 (CEST)
-Date:   Fri, 11 Oct 2019 14:48:10 +1100
-From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     Michael Ellerman <mpe@ellerman.id.au>
-Cc:     mingo@redhat.com, peterz@infradead.org,
-        alexander.shishkin@linux.intel.com, jolsa@redhat.com,
-        namhyung@kernel.org, christian@brauner.io, keescook@chromium.org,
-        linux@rasmusvillemoes.dk, viro@zeniv.linux.org.uk,
-        torvalds@linux-foundation.org, libc-alpha@sourceware.org,
-        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usercopy: Avoid soft lockups in test_check_nonzero_user()
-Message-ID: <20191011034810.xkmz3e4l5ezxvq57@yavin.dot.cyphar.com>
-References: <20191010114007.o3bygjf4jlfk242e@yavin.dot.cyphar.com>
- <20191011022447.24249-1-mpe@ellerman.id.au>
+        id S1726521AbfJKIVY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 11 Oct 2019 04:21:24 -0400
+Received: from mx2.suse.de ([195.135.220.15]:36342 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726885AbfJKIVY (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 11 Oct 2019 04:21:24 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 5E9C6B124;
+        Fri, 11 Oct 2019 08:21:21 +0000 (UTC)
+Date:   Fri, 11 Oct 2019 10:21:18 +0200
+From:   Michal Hocko <mhocko@kernel.org>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     linux-kernel@vger.kernel.org, Oleg Nesterov <oleg@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>, libc-alpha@sourceware.org,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Shuah Khan <shuah@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Roman Gushchin <guro@fb.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: [PATCH 1/2] clone3: add CLONE3_CLEAR_SIGHAND
+Message-ID: <20191011082118.GA26368@dhcp22.suse.cz>
+References: <20191010133518.5420-1-christian.brauner@ubuntu.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="xu7xtsni3al6cjf6"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191011022447.24249-1-mpe@ellerman.id.au>
+In-Reply-To: <20191010133518.5420-1-christian.brauner@ubuntu.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+[Cc linux-api]
 
---xu7xtsni3al6cjf6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On 2019-10-11, Michael Ellerman <mpe@ellerman.id.au> wrote:
-> On a machine with a 64K PAGE_SIZE, the nested for loops in
-> test_check_nonzero_user() can lead to soft lockups, eg:
->=20
->   watchdog: BUG: soft lockup - CPU#4 stuck for 22s! [modprobe:611]
->   Modules linked in: test_user_copy(+) vmx_crypto gf128mul crc32c_vpmsum =
-virtio_balloon ip_tables x_tables autofs4
->   CPU: 4 PID: 611 Comm: modprobe Tainted: G             L    5.4.0-rc1-gc=
-c-8.2.0-00001-gf5a1a536fa14-dirty #1151
->   ...
->   NIP __might_sleep+0x20/0xc0
->   LR  __might_fault+0x40/0x60
->   Call Trace:
->     check_zeroed_user+0x12c/0x200
->     test_user_copy_init+0x67c/0x1210 [test_user_copy]
->     do_one_initcall+0x60/0x340
->     do_init_module+0x7c/0x2f0
->     load_module+0x2d94/0x30e0
->     __do_sys_finit_module+0xc8/0x150
->     system_call+0x5c/0x68
->=20
-> Even with a 4K PAGE_SIZE the test takes multiple seconds. Instead
-> tweak it to only scan a 1024 byte region, but make it cross the
-> page boundary.
->=20
-> Fixes: f5a1a536fa14 ("lib: introduce copy_struct_from_user() helper")
-> Suggested-by: Aleksa Sarai <cyphar@cyphar.com>
-> Signed-off-by: Michael Ellerman <mpe@ellerman.id.au>
+On Thu 10-10-19 15:35:17, Christian Brauner wrote:
+> Reset all signal handlers of the child not set to SIG_IGN to SIG_DFL.
+> Mutually exclusive with CLONE_SIGHAND to not disturb other thread's
+> signal handler.
+> 
+> In the spirit of closer cooperation between glibc developers and kernel
+> developers (cf. [2]) this patchset came out of a discussion on the glibc
+> mailing list for improving posix_spawn() (cf. [1], [3], [4]). Kernel
+> support for this feature has been explicitly requested by glibc and I
+> see no reason not to help them with this.
+> 
+> The child helper process on Linux posix_spawn must ensure that no signal
+> handlers are enabled, so the signal disposition must be either SIG_DFL
+> or SIG_IGN. However, it requires a sigprocmask to obtain the current
+> signal mask and at least _NSIG sigaction calls to reset the signal
+> handlers for each posix_spawn call or complex state tracking that might
+> lead to data corruption in glibc. Adding this flags lets glibc avoid
+> these problems.
+> 
+> [1]: https://www.sourceware.org/ml/libc-alpha/2019-10/msg00149.html
+> [3]: https://www.sourceware.org/ml/libc-alpha/2019-10/msg00158.html
+> [4]: https://www.sourceware.org/ml/libc-alpha/2019-10/msg00160.html
+> [2]: https://lwn.net/Articles/799331/
+>      '[...] by asking for better cooperation with the C-library projects
+>      in general. They should be copied on patches containing ABI
+>      changes, for example. I noted that there are often times where
+>      C-library developers wish the kernel community had done things
+>      differently; how could those be avoided in the future? Members of
+>      the audience suggested that more glibc developers should perhaps
+>      join the linux-api list. The other suggestion was to "copy Florian
+>      on everything".'
+> Cc: Oleg Nesterov <oleg@redhat.com>
+> Cc: Florian Weimer <fweimer@redhat.com>
+> Cc: libc-alpha@sourceware.org
+> Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
 > ---
->  lib/test_user_copy.c | 23 ++++++++++++++++++++---
->  1 file changed, 20 insertions(+), 3 deletions(-)
->=20
-> How does this look? It runs in < 1s on my machine here.
->=20
-> cheers
->=20
-> diff --git a/lib/test_user_copy.c b/lib/test_user_copy.c
-> index 950ee88cd6ac..9fb6bc609d4c 100644
-> --- a/lib/test_user_copy.c
-> +++ b/lib/test_user_copy.c
-> @@ -47,9 +47,26 @@ static bool is_zeroed(void *from, size_t size)
->  static int test_check_nonzero_user(char *kmem, char __user *umem, size_t=
- size)
->  {
->  	int ret =3D 0;
-> -	size_t start, end, i;
-> -	size_t zero_start =3D size / 4;
-> -	size_t zero_end =3D size - zero_start;
-> +	size_t start, end, i, zero_start, zero_end;
+>  include/uapi/linux/sched.h |  3 +++
+>  kernel/fork.c              | 11 ++++++++++-
+>  2 files changed, 13 insertions(+), 1 deletion(-)
+> 
+> diff --git a/include/uapi/linux/sched.h b/include/uapi/linux/sched.h
+> index 99335e1f4a27..c583720f689f 100644
+> --- a/include/uapi/linux/sched.h
+> +++ b/include/uapi/linux/sched.h
+> @@ -33,6 +33,9 @@
+>  #define CLONE_NEWNET		0x40000000	/* New network namespace */
+>  #define CLONE_IO		0x80000000	/* Clone io context */
+>  
+> +/* Flags for the clone3() syscall */
+> +#define CLONE3_CLEAR_SIGHAND 0x100000000ULL /* Clear any signal handler and reset to SIG_DFL. */
 > +
-> +	if (test(size < 1024, "buffer too small"))
-> +		return -EINVAL;
+>  #ifndef __ASSEMBLY__
+>  /**
+>   * struct clone_args - arguments for the clone3 syscall
+> diff --git a/kernel/fork.c b/kernel/fork.c
+> index 1f6c45f6a734..661f8d1f3881 100644
+> --- a/kernel/fork.c
+> +++ b/kernel/fork.c
+> @@ -1517,6 +1517,11 @@ static int copy_sighand(unsigned long clone_flags, struct task_struct *tsk)
+>  	spin_lock_irq(&current->sighand->siglock);
+>  	memcpy(sig->action, current->sighand->action, sizeof(sig->action));
+>  	spin_unlock_irq(&current->sighand->siglock);
 > +
-> +	/*
-> +	 * We want to cross a page boundary to exercise the code more
-> +	 * effectively. We assume the buffer we're passed has a page boundary at
-> +	 * size / 2. We also don't want to make the size we scan too large,
-> +	 * otherwise the test can take a long time and cause soft lockups. So
-> +	 * scan a 1024 byte region across the page boundary.
-> +	 */
-> +	start =3D size / 2 - 512;
-> +	size =3D 1024;
-
-I don't think it's necessary to do "size / 2" here -- you can just use
-PAGE_SIZE directly and check above that "size =3D=3D 2*PAGE_SIZE" (not that
-this check is exceptionally necessary -- since there's only one caller
-of this function and it's in the same file).
-
+> +	/* Reset all signal handler not set to SIG_IGN to SIG_DFL. */
+> +	if (clone_flags & CLONE3_CLEAR_SIGHAND)
+> +		flush_signal_handlers(tsk, 0);
 > +
-> +	kmem +=3D start;
-> +	umem +=3D start;
-> +
-> +	zero_start =3D size / 4;
-> +	zero_end =3D size - zero_start;
-> =20
+>  	return 0;
+>  }
+>  
+> @@ -2567,7 +2572,7 @@ static bool clone3_args_valid(const struct kernel_clone_args *kargs)
+>  	 * All lower bits of the flag word are taken.
+>  	 * Verify that no other unknown flags are passed along.
+>  	 */
+> -	if (kargs->flags & ~CLONE_LEGACY_FLAGS)
+> +	if (kargs->flags & ~(CLONE_LEGACY_FLAGS | CLONE3_CLEAR_SIGHAND))
+>  		return false;
+>  
 >  	/*
->  	 * We conduct a series of check_nonzero_user() tests on a block of memo=
-ry
+> @@ -2577,6 +2582,10 @@ static bool clone3_args_valid(const struct kernel_clone_args *kargs)
+>  	if (kargs->flags & (CLONE_DETACHED | CSIGNAL))
+>  		return false;
+>  
+> +	if ((kargs->flags & (CLONE_SIGHAND | CLONE3_CLEAR_SIGHAND)) ==
+> +	    (CLONE_SIGHAND | CLONE3_CLEAR_SIGHAND))
+> +		return false;
+> +
+>  	if ((kargs->flags & (CLONE_THREAD | CLONE_PARENT)) &&
+>  	    kargs->exit_signal)
+>  		return false;
+> -- 
+> 2.23.0
 
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-<https://www.cyphar.com/>
-
---xu7xtsni3al6cjf6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCXZ/7dgAKCRCdlLljIbnQ
-EgboAQDJ8CE0F2TLUINi1TVmrSnff05vx9rNqKgWqX6FRhmwZQD/fTHxCU6/MBBj
-t/OvAUCvDgAeGUi++GX8ZCl5uljK2AE=
-=DY8J
------END PGP SIGNATURE-----
-
---xu7xtsni3al6cjf6--
+-- 
+Michal Hocko
+SUSE Labs
