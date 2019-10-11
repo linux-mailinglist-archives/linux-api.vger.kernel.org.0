@@ -2,168 +2,391 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A871FD2F5D
-	for <lists+linux-api@lfdr.de>; Thu, 10 Oct 2019 19:14:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 67DE4D362B
+	for <lists+linux-api@lfdr.de>; Fri, 11 Oct 2019 02:38:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726007AbfJJROG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 10 Oct 2019 13:14:06 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:42236 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726687AbfJJROF (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 10 Oct 2019 13:14:05 -0400
-Received: by mail-lj1-f193.google.com with SMTP id y23so6973708lje.9
-        for <linux-api@vger.kernel.org>; Thu, 10 Oct 2019 10:14:03 -0700 (PDT)
+        id S1727580AbfJKAit (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 10 Oct 2019 20:38:49 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:35672 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727522AbfJKAit (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 10 Oct 2019 20:38:49 -0400
+Received: by mail-lf1-f67.google.com with SMTP id w6so5743243lfl.2
+        for <linux-api@vger.kernel.org>; Thu, 10 Oct 2019 17:38:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
+        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=bqvz+afB1Rg3ieCrlwoBKML7ipcOdiXJ/q/XXxTUovI=;
-        b=Xol/3a0t0AtCulvKJeuAKS1uo5PWCjeyeDeHYLSA1FXKSnOkgSTF276gwVNHa4nPiN
-         l58RJ3zV8SDjz5HcQUbk/k9PwAg2ytkBSxmhuzf7L/EFmiieyqeQcJuKFBVQbWUjfXE1
-         U4t1RhqK0BT10C1Atodrl5m0eWGZPM7fTB2Dk=
+        bh=8R/eBx6NvZFxWNxVIYlfJkIW02oJ5zpbsmf6mm7nZ9s=;
+        b=PVIaSCVsKoCSioNO1daQB3ogqBQmVD3fhqQo4gIUtxKKoYuLTwFMbHK9RhP3eWO8EI
+         Sr27B+bTJnYiu57nb0HzGL8v5YSu8KyEgsQePndcV6s1X1xKoEpg2sEy65gP3Dzwrkmf
+         8lMEoOvvlOjP0p1jwOektA10DSHG+MEbsWZHevWEGU3+YsaFOxOmztILHH7KtAMVF137
+         7d0i2/TQUYZ4JzR8GQ3eYX3C/MfCuJm/SqpW2Mw2wFvfj9OtlsoHTvv49hgTnDyQZRwq
+         2KmtuIKbReoDsybnK+ymQGg8Zv7msFnsJkQRrurtEeLYeftHey/w7tDkvx3OBHDTLubQ
+         lgFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=bqvz+afB1Rg3ieCrlwoBKML7ipcOdiXJ/q/XXxTUovI=;
-        b=CYoulEQeEUR/J01OZJXLDaPmkmGgGXAUdc+hkStfN7beZ4hhC03NynG43Tb7Yy7Z6w
-         MB4jVwLPvQnyc8DeOWprcN4wiGNjTyEh0+MUe166Nx5Fy5FAO23yuy2spbeLL9lqYWhF
-         3Z7cKkLDQRCRXQb3dYRiAQ7G8P6qxs6rpro6sm0SXwnHSnC3gsgFroOpohVJBbbd9Wdh
-         23nfs0YKPibqAU2muXyWoDkA8MUWAcOJ6zuAekeL2azJfkYSRXSuA2czorgtqjZxfqce
-         eAY4QF3LLQnY77sB3c1BxydNs5Fw6JGzvtky6jU6G4IlyA8YIiRY9X5iAJGOzSGiJepg
-         WSbQ==
-X-Gm-Message-State: APjAAAWvkSOCnX0BNDVzFPFm8BLHdbplYAwwtO8Xlze5ecfVXIcw1eNs
-        i10wffK/GM812YsSaxBLw3BBTQG5vAY=
-X-Google-Smtp-Source: APXvYqxrJRcg/dpmS+ItZHpvf6GNiCLnCSSR5Nt08EcY0ZaK+ElXQs6/VE+kyufSzlmq+HQs+ZS1fw==
-X-Received: by 2002:a2e:2942:: with SMTP id u63mr7159581lje.94.1570727642624;
-        Thu, 10 Oct 2019 10:14:02 -0700 (PDT)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com. [209.85.167.46])
-        by smtp.gmail.com with ESMTPSA id m6sm1345591ljj.3.2019.10.10.10.14.02
-        for <linux-api@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Oct 2019 10:14:02 -0700 (PDT)
-Received: by mail-lf1-f46.google.com with SMTP id 72so4977133lfh.6
-        for <linux-api@vger.kernel.org>; Thu, 10 Oct 2019 10:14:02 -0700 (PDT)
-X-Received: by 2002:a19:f709:: with SMTP id z9mr6611392lfe.170.1570727268603;
- Thu, 10 Oct 2019 10:07:48 -0700 (PDT)
+        bh=8R/eBx6NvZFxWNxVIYlfJkIW02oJ5zpbsmf6mm7nZ9s=;
+        b=XffIA1Q1bTpRtkiyv1p73IJgjvY3M9YCITVLPGwRE16aJevKYy5j7nlA1mHVQwJ0UW
+         5n2PkqQpQHAEJHTOgT08Rcxi6+CY5JM9FNZoXgXgIug0lk/9H6l5qeRvoC322V1bs948
+         Q/cQDcjeJ9wHIZvrc+uhSJ3CUN/8H71i7HeESuYaSBIS8eUKRftKjRR0fI/l73hUbsiw
+         IMiFmf9Nt8pZ44hYycHtdHRvfjjXOCK48cHEmTR7XC0Kd2+d7PN5eh7oPc726tY0L9je
+         NAv9iY7RZ32D9TOmv8laMnH1+ni0EVXNjDrT0EH/1pSPA5Dr9HBtBqpcdOhoF622Ik6D
+         zqrQ==
+X-Gm-Message-State: APjAAAWe8eKv1+YV8zUdKYfMtAA5luUIteDuf9ksSlzX7UWdSnvHeYEB
+        Siq8ngVif6ko6aJdLkHSSVcEDS5ud3L0RdB2n195
+X-Google-Smtp-Source: APXvYqw0Yt32wE7spq2vSD4AfWdE6Sx9fE0xUf8vD/PbZQdv7a66StbcusgQqkSXaDuSAxoGBdQc3ElK5F9N13YICOc=
+X-Received: by 2002:ac2:51b6:: with SMTP id f22mr7271786lfk.175.1570754325948;
+ Thu, 10 Oct 2019 17:38:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191010054140.8483-1-cyphar@cyphar.com> <20191010054140.8483-3-cyphar@cyphar.com>
-In-Reply-To: <20191010054140.8483-3-cyphar@cyphar.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Thu, 10 Oct 2019 10:07:32 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wh8L50f31vW8BwRUXhLiq3eoCQ3tg8ER4Yp2dzuU1w5rQ@mail.gmail.com>
-Message-ID: <CAHk-=wh8L50f31vW8BwRUXhLiq3eoCQ3tg8ER4Yp2dzuU1w5rQ@mail.gmail.com>
-Subject: Re: [PATCH v14 2/6] namei: LOOKUP_IN_ROOT: chroot-like path resolution
-To:     Aleksa Sarai <cyphar@cyphar.com>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J. Bruce Fields" <bfields@fieldses.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        David Howells <dhowells@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Tycho Andersen <tycho@tycho.ws>,
-        David Drysdale <drysdale@google.com>,
-        Chanho Min <chanho.min@lge.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Christian Brauner <christian@brauner.io>,
-        Aleksa Sarai <asarai@suse.de>,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        alpha <linux-alpha@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        GNU C Library <libc-alpha@sourceware.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-ia64@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-m68k <linux-m68k@lists.linux-m68k.org>,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        linux-xtensa@linux-xtensa.org, sparclinux@vger.kernel.org
+References: <cover.1568834524.git.rgb@redhat.com> <6fb4e270bfafef3d0477a06b0365fdcc5a5305b5.1568834524.git.rgb@redhat.com>
+In-Reply-To: <6fb4e270bfafef3d0477a06b0365fdcc5a5305b5.1568834524.git.rgb@redhat.com>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Thu, 10 Oct 2019 20:38:34 -0400
+Message-ID: <CAHC9VhS2111YTQ_rbHKe6+n9coPNbcTJqf5wnBx9LYHSf69THA@mail.gmail.com>
+Subject: Re: [PATCH ghak90 V7 04/21] audit: convert to contid list to check
+ for orch/engine ownership
+To:     Richard Guy Briggs <rgb@redhat.com>
+Cc:     containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
+        Linux-Audit Mailing List <linux-audit@redhat.com>,
+        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
+        sgrubb@redhat.com, omosnace@redhat.com, dhowells@redhat.com,
+        simo@redhat.com, Eric Paris <eparis@parisplace.org>,
+        Serge Hallyn <serge@hallyn.com>, ebiederm@xmission.com,
+        nhorman@tuxdriver.com, Dan Walsh <dwalsh@redhat.com>,
+        mpatel@redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Oct 9, 2019 at 10:42 PM Aleksa Sarai <cyphar@cyphar.com> wrote:
+On Wed, Sep 18, 2019 at 9:24 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> Store the audit container identifier in a refcounted kernel object that
+> is added to the master list of audit container identifiers.  This will
+> allow multiple container orchestrators/engines to work on the same
+> machine without danger of inadvertantly re-using an existing identifier.
+> It will also allow an orchestrator to inject a process into an existing
+> container by checking if the original container owner is the one
+> injecting the task.  A hash table list is used to optimize searches.
 >
-> --- a/fs/namei.c
-> +++ b/fs/namei.c
-> @@ -2277,6 +2277,11 @@ static const char *path_init(struct nameidata *nd, unsigned flags)
+> Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+> ---
+>  include/linux/audit.h | 26 ++++++++++++++--
+>  kernel/audit.c        | 86 ++++++++++++++++++++++++++++++++++++++++++++++++---
+>  kernel/audit.h        |  8 +++++
+>  3 files changed, 112 insertions(+), 8 deletions(-)
+
+One general comment before we go off into the weeds on this ... I can
+understand why you wanted to keep this patch separate from the earlier
+patches, but as we get closer to having mergeable code this should get
+folded into the previous patches.  For example, there shouldn't be a
+change in audit_task_info where you change the contid field from a u64
+to struct pointer, it should be a struct pointer from the start.
+
+It's also disappointing that idr appears to only be for 32-bit ID
+values, if we had a 64-bit idr I think we could simplify this greatly.
+
+> diff --git a/include/linux/audit.h b/include/linux/audit.h
+> index f2e3b81f2942..e317807cdd3e 100644
+> --- a/include/linux/audit.h
+> +++ b/include/linux/audit.h
+> @@ -95,10 +95,18 @@ struct audit_ntp_data {
+>  struct audit_ntp_data {};
+>  #endif
 >
->         nd->m_seq = read_seqbegin(&mount_lock);
+> +struct audit_cont {
+> +       struct list_head        list;
+> +       u64                     id;
+> +       struct task_struct      *owner;
+> +       refcount_t              refcount;
+> +       struct rcu_head         rcu;
+> +};
+
+It seems as though in most of the code you are using "contid", any
+reason why didn't stick with that naming scheme here, e.g. "struct
+audit_contid"?
+
+>  struct audit_task_info {
+>         kuid_t                  loginuid;
+>         unsigned int            sessionid;
+> -       u64                     contid;
+> +       struct audit_cont       *cont;
+
+Same, why not stick with "contid"?
+
+>  #ifdef CONFIG_AUDITSYSCALL
+>         struct audit_context    *ctx;
+>  #endif
+> @@ -203,11 +211,15 @@ static inline unsigned int audit_get_sessionid(struct task_struct *tsk)
 >
-> +       /* LOOKUP_IN_ROOT treats absolute paths as being relative-to-dirfd. */
-> +       if (flags & LOOKUP_IN_ROOT)
-> +               while (*s == '/')
-> +                       s++;
+>  static inline u64 audit_get_contid(struct task_struct *tsk)
+>  {
+> -       if (!tsk->audit)
+> +       if (!tsk->audit || !tsk->audit->cont)
+>                 return AUDIT_CID_UNSET;
+> -       return tsk->audit->contid;
+> +       return tsk->audit->cont->id;
+>  }
+
+Assuming for a moment that we implement an audit_contid_get() (see
+Neil's comment as well as mine below), we probably need to name this
+something different so we don't all lose our minds when we read this
+code.  On the plus side we can probably preface it with an underscore
+since it is a static, in which case _audit_contid_get() might be okay,
+but I'm open to suggestions.
+
+> +extern struct audit_cont *audit_cont(struct task_struct *tsk);
 > +
->         /* Figure out the starting path and root (if needed). */
->         if (*s == '/') {
->                 error = nd_jump_root(nd);
+> +extern void audit_cont_put(struct audit_cont *cont);
 
-Hmm. Wouldn't this make more sense all inside the if (*s =- '/') test?
-That way if would be where we check for "should we start at the root",
-which seems to make more sense conceptually.
+More of the "contid" vs "cont".
 
-That test for '/' currently has a "} else if (..)", but that's
-pointless since it ends with a "return" anyway. So the "else" logic is
-just noise.
+>  extern u32 audit_enabled;
+>
+>  extern int audit_signal_info(int sig, struct task_struct *t);
+> @@ -277,6 +289,14 @@ static inline u64 audit_get_contid(struct task_struct *tsk)
+>         return AUDIT_CID_UNSET;
+>  }
+>
+> +static inline struct audit_cont *audit_cont(struct task_struct *tsk)
+> +{
+> +       return NULL;
+> +}
+> +
+> +static inline void audit_cont_put(struct audit_cont *cont)
+> +{ }
+> +
+>  #define audit_enabled AUDIT_OFF
+>
+>  static inline int audit_signal_info(int sig, struct task_struct *t)
+> diff --git a/kernel/audit.c b/kernel/audit.c
+> index a36ea57cbb61..ea0899130cc1 100644
+> --- a/kernel/audit.c
+> +++ b/kernel/audit.c
+> @@ -137,6 +137,8 @@ struct audit_net {
+>
+>  /* Hash for inode-based rules */
+>  struct list_head audit_inode_hash[AUDIT_INODE_BUCKETS];
+> +/* Hash for contid-based rules */
+> +struct list_head audit_contid_hash[AUDIT_CONTID_BUCKETS];
+>
+>  static struct kmem_cache *audit_buffer_cache;
+>
+> @@ -204,6 +206,8 @@ struct audit_reply {
+>
+>  static struct kmem_cache *audit_task_cache;
+>
+> +static DEFINE_SPINLOCK(audit_contid_list_lock);
 
-And if you get rid of the unnecessary else, moving the LOOKUP_IN_ROOT
-inside the if-statement works fine.
+Since it looks like this protectects audit_contid_hash, I think it
+would be better to move it up underneath audit_contid_hash.
 
-So this could be something like
+>  void __init audit_task_init(void)
+>  {
+>         audit_task_cache = kmem_cache_create("audit_task",
+> @@ -231,7 +235,9 @@ int audit_alloc(struct task_struct *tsk)
+>         }
+>         info->loginuid = audit_get_loginuid(current);
+>         info->sessionid = audit_get_sessionid(current);
+> -       info->contid = audit_get_contid(current);
+> +       info->cont = audit_cont(current);
+> +       if (info->cont)
+> +               refcount_inc(&info->cont->refcount);
 
-    --- a/fs/namei.c
-    +++ b/fs/namei.c
-    @@ -2194,11 +2196,19 @@ static const char *path_init(struct
-nameidata *nd, unsigned flags)
+See the other comments about a "get" function, but I think we need a
+RCU read lock around the above, no?
 
-        nd->m_seq = read_seqbegin(&mount_lock);
-        if (*s == '/') {
-    -           set_root(nd);
-    -           if (likely(!nd_jump_root(nd)))
-    -                   return s;
-    -           return ERR_PTR(-ECHILD);
-    -   } else if (nd->dfd == AT_FDCWD) {
-    +           /* LOOKUP_IN_ROOT treats absolute paths as being
-relative-to-dirfd. */
-    +           if (!(flags & LOOKUP_IN_ROOT)) {
-    +                   set_root(nd);
-    +                   if (likely(!nd_jump_root(nd)))
-    +                           return s;
-    +                   return ERR_PTR(-ECHILD);
-    +           }
-    +
-    +           /* Skip initial '/' for LOOKUP_IN_ROOT */
-    +           do { s++; } while (*s == '/');
-    +   }
-    +
-    +   if (nd->dfd == AT_FDCWD) {
-                if (flags & LOOKUP_RCU) {
-                        struct fs_struct *fs = current->fs;
-                        unsigned seq;
+>         tsk->audit = info;
+>
+>         ret = audit_alloc_syscall(tsk);
+> @@ -246,7 +252,7 @@ int audit_alloc(struct task_struct *tsk)
+>  struct audit_task_info init_struct_audit = {
+>         .loginuid = INVALID_UID,
+>         .sessionid = AUDIT_SID_UNSET,
+> -       .contid = AUDIT_CID_UNSET,
+> +       .cont = NULL,
 
-instead. The patch ends up slightly bigger (due to the re-indentation)
-but now it handles all the "start at root" in the same place. Doesn't
-that make sense?
+More "cont" vs "contid".
 
-             Linus
+>  #ifdef CONFIG_AUDITSYSCALL
+>         .ctx = NULL,
+>  #endif
+> @@ -266,6 +272,9 @@ void audit_free(struct task_struct *tsk)
+>         /* Freeing the audit_task_info struct must be performed after
+>          * audit_log_exit() due to need for loginuid and sessionid.
+>          */
+> +       spin_lock(&audit_contid_list_lock);
+> +       audit_cont_put(tsk->audit->cont);
+> +       spin_unlock(&audit_contid_list_lock);
+
+Perhaps this will make sense as I get further into the patchset, but
+why not move the spin lock operations into audit_[cont/contid]_put()?
+
+>         info = tsk->audit;
+>         tsk->audit = NULL;
+>         kmem_cache_free(audit_task_cache, info);
+> @@ -1657,6 +1666,9 @@ static int __init audit_init(void)
+>         for (i = 0; i < AUDIT_INODE_BUCKETS; i++)
+>                 INIT_LIST_HEAD(&audit_inode_hash[i]);
+>
+> +       for (i = 0; i < AUDIT_CONTID_BUCKETS; i++)
+> +               INIT_LIST_HEAD(&audit_contid_hash[i]);
+> +
+>         mutex_init(&audit_cmd_mutex.lock);
+>         audit_cmd_mutex.owner = NULL;
+>
+> @@ -2356,6 +2368,32 @@ int audit_signal_info(int sig, struct task_struct *t)
+>         return audit_signal_info_syscall(t);
+>  }
+>
+> +struct audit_cont *audit_cont(struct task_struct *tsk)
+> +{
+> +       if (!tsk->audit || !tsk->audit->cont)
+> +               return NULL;
+> +       return tsk->audit->cont;
+> +}
+> +
+> +/* audit_contid_list_lock must be held by caller */
+> +void audit_cont_put(struct audit_cont *cont)
+> +{
+> +       if (!cont)
+> +               return;
+> +       if (refcount_dec_and_test(&cont->refcount)) {
+> +               put_task_struct(cont->owner);
+> +               list_del_rcu(&cont->list);
+> +               kfree_rcu(cont, rcu);
+> +       }
+> +}
+
+I tend to agree with Neil's previous comment; if we've got a
+audit_[cont/contid]_put(), why not an audit_[cont/contid]_get()?
+
+> +static struct task_struct *audit_cont_owner(struct task_struct *tsk)
+> +{
+> +       if (tsk->audit && tsk->audit->cont)
+> +               return tsk->audit->cont->owner;
+> +       return NULL;
+> +}
+
+I'm not sure if this is possible (I haven't make my way through the
+entire patchset) and the function above isn't used in this patch (why
+is it here?), but it seems like it would be safer to convert this into
+an audit_contid_isowner() function that simply returns 1/0 depending
+on if the passed task_struct is the owner or not of a passed audit
+container ID value?
+
+>  /*
+>   * audit_set_contid - set current task's audit contid
+>   * @task: target task
+> @@ -2382,9 +2420,12 @@ int audit_set_contid(struct task_struct *task, u64 contid)
+>         }
+>         oldcontid = audit_get_contid(task);
+>         read_lock(&tasklist_lock);
+> -       /* Don't allow the audit containerid to be unset */
+> +       /* Don't allow the contid to be unset */
+>         if (!audit_contid_valid(contid))
+>                 rc = -EINVAL;
+> +       /* Don't allow the contid to be set to the same value again */
+> +       else if (contid == oldcontid) {
+> +               rc = -EADDRINUSE;
+>         /* if we don't have caps, reject */
+>         else if (!capable(CAP_AUDIT_CONTROL))
+>                 rc = -EPERM;
+
+RCU read lock?  It's a bit dicey since I believe the tasklist_lock is
+going to provide us the safety we need, but if we are going to claim
+that the audit container ID list is protected by RCU we should
+probably use it.
+
+> @@ -2397,8 +2438,43 @@ int audit_set_contid(struct task_struct *task, u64 contid)
+>         else if (audit_contid_set(task))
+>                 rc = -ECHILD;
+>         read_unlock(&tasklist_lock);
+> -       if (!rc)
+> -               task->audit->contid = contid;
+> +       if (!rc) {
+> +               struct audit_cont *oldcont = audit_cont(task);
+
+Previously we held the tasklist_lock to protect the audit container ID
+associated with the struct, should we still be holding it here?
+
+Regardless, I worry that the lock dependencies between the
+tasklist_lock and the audit_contid_list_lock are going to be tricky.
+It might be nice to document the relationship in a comment up near
+where you declare audit_contid_list_lock.
+
+> +               struct audit_cont *cont = NULL;
+> +               struct audit_cont *newcont = NULL;
+> +               int h = audit_hash_contid(contid);
+> +
+> +               spin_lock(&audit_contid_list_lock);
+> +               list_for_each_entry_rcu(cont, &audit_contid_hash[h], list)
+> +                       if (cont->id == contid) {
+> +                               /* task injection to existing container */
+> +                               if (current == cont->owner) {
+
+I understand the desire to limit a given audit container ID to the
+orchestrator that created it, but are we certain that we can track
+audit container ID "ownership" via a single instance of a task_struct?
+ What happens when the orchestrator stops/restarts/crashes?  Do we
+even care?
+
+> +                                       refcount_inc(&cont->refcount);
+> +                                       newcont = cont;
+
+We can bail out of the loop here, yes?
+
+> +                               } else {
+> +                                       rc = -ENOTUNIQ;
+> +                                       goto conterror;
+> +                               }
+> +                       }
+> +               if (!newcont) {
+> +                       newcont = kmalloc(sizeof(struct audit_cont), GFP_ATOMIC);
+> +                       if (newcont) {
+> +                               INIT_LIST_HEAD(&newcont->list);
+> +                               newcont->id = contid;
+> +                               get_task_struct(current);
+> +                               newcont->owner = current;
+> +                               refcount_set(&newcont->refcount, 1);
+> +                               list_add_rcu(&newcont->list, &audit_contid_hash[h]);
+> +                       } else {
+> +                               rc = -ENOMEM;
+> +                               goto conterror;
+> +                       }
+> +               }
+> +               task->audit->cont = newcont;
+> +               audit_cont_put(oldcont);
+> +conterror:
+> +               spin_unlock(&audit_contid_list_lock);
+> +       }
+>         task_unlock(task);
+>
+>         if (!audit_enabled)
+> diff --git a/kernel/audit.h b/kernel/audit.h
+> index 16bd03b88e0d..e4a31aa92dfe 100644
+> --- a/kernel/audit.h
+> +++ b/kernel/audit.h
+> @@ -211,6 +211,14 @@ static inline int audit_hash_ino(u32 ino)
+>         return (ino & (AUDIT_INODE_BUCKETS-1));
+>  }
+>
+> +#define AUDIT_CONTID_BUCKETS   32
+> +extern struct list_head audit_contid_hash[AUDIT_CONTID_BUCKETS];
+> +
+> +static inline int audit_hash_contid(u64 contid)
+> +{
+> +       return (contid & (AUDIT_CONTID_BUCKETS-1));
+> +}
+> +
+>  /* Indicates that audit should log the full pathname. */
+>  #define AUDIT_NAME_FULL -1
+>
+
+--
+paul moore
+www.paul-moore.com
