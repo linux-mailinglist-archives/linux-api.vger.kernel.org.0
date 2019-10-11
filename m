@@ -2,60 +2,23 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 79E38D4996
-	for <lists+linux-api@lfdr.de>; Fri, 11 Oct 2019 23:01:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E66A1D49AD
+	for <lists+linux-api@lfdr.de>; Fri, 11 Oct 2019 23:08:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726281AbfJKVBM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 11 Oct 2019 17:01:12 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:39123 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729133AbfJKVBM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 11 Oct 2019 17:01:12 -0400
-Received: by mail-lf1-f67.google.com with SMTP id 72so7969962lfh.6
-        for <linux-api@vger.kernel.org>; Fri, 11 Oct 2019 14:01:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=SKr4WHC3iR8iedd+96HoEDT1mA0iwz01QLINNBDqvTA=;
-        b=AjD32CNEE5D2mrL1SxTGTAcIg8rDu5TsWXuC3JWTpw/d7RSutnwDdzYzC2ZDXXNEQs
-         xbRUdI2G9Bdey7J+lF7C19PmyyR/h7paQAvoZ3B7DeLBGHQM7JosujRghPkyJaObtcaK
-         WflPEvqjO32pHzc6ziczhzVrcfZHPdGY8qVxg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=SKr4WHC3iR8iedd+96HoEDT1mA0iwz01QLINNBDqvTA=;
-        b=uTFATHYKwaTVcB1MK7PCOXbUC/cl7aGxaacSIk6ZtOgwVue93BDeRxLqiEVhbefvVz
-         KU7g0+aeLLkQdu9dWVRxa2EKkglW8liI57of/qKkTAKuH4/hBND48lHRi9jxMBTQnwy5
-         brdyb2sZkicUra+HnVRxQ8oKsPGJcX+7N/AXf6dsZ3iB4yViaUSsh5MFzAX9n0C8gQAq
-         DRy1hiUxJoIIZQqVFa92emJIumXfs/mIEtDZGpNe64Xg4RTcCMcllUmjEO4KIozyOaYB
-         bm60awtS0eh0UI2JzwOriIwY5k1a8gRCKt9vLQlGys5Tf+iWF+j2ljJ/FFvrNKdBmGwU
-         NR9A==
-X-Gm-Message-State: APjAAAWYNV1+4qdYdfb36nlA4Z/MyPyItlcuqnH3wGLfLaCRUbGzzWi8
-        TsvQ/qMwqPJRQ0sLzky/GEN2S3J8HoA=
-X-Google-Smtp-Source: APXvYqzcwAwCz2i7WqsoNAZKOX8p5yyhH/WU5pRTqw0rogDwt7Rb6AUtcYpC1u/NHLPJMB6wjBBDNQ==
-X-Received: by 2002:ac2:43d9:: with SMTP id u25mr10240083lfl.142.1570827668472;
-        Fri, 11 Oct 2019 14:01:08 -0700 (PDT)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com. [209.85.167.45])
-        by smtp.gmail.com with ESMTPSA id t24sm2153014ljc.23.2019.10.11.14.01.07
-        for <linux-api@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Oct 2019 14:01:07 -0700 (PDT)
-Received: by mail-lf1-f45.google.com with SMTP id r2so7947515lfn.8
-        for <linux-api@vger.kernel.org>; Fri, 11 Oct 2019 14:01:07 -0700 (PDT)
-X-Received: by 2002:ac2:5924:: with SMTP id v4mr9785397lfi.29.1570827666846;
- Fri, 11 Oct 2019 14:01:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191011135458.7399da44@gandalf.local.home> <CAHk-=wj7fGPKUspr579Cii-w_y60PtRaiDgKuxVtBAMK0VNNkA@mail.gmail.com>
- <20191011162518.2f8c99ca@gandalf.local.home> <20191011165455.32666d53@gandalf.local.home>
-In-Reply-To: <20191011165455.32666d53@gandalf.local.home>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Fri, 11 Oct 2019 14:00:50 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wiGtEDhwJab7+tQzmjDssynBruRvgj9NJY2bzNrVzw+0Q@mail.gmail.com>
-Message-ID: <CAHk-=wiGtEDhwJab7+tQzmjDssynBruRvgj9NJY2bzNrVzw+0Q@mail.gmail.com>
-Subject: Re: [PATCH] tracefs: Do not allocate and free proxy_ops for lockdown
-To:     Steven Rostedt <rostedt@goodmis.org>
+        id S1727654AbfJKVIh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 11 Oct 2019 17:08:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54282 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726642AbfJKVIh (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 11 Oct 2019 17:08:37 -0400
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A32092084C;
+        Fri, 11 Oct 2019 21:08:35 +0000 (UTC)
+Date:   Fri, 11 Oct 2019 17:08:33 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
 Cc:     LKML <linux-kernel@vger.kernel.org>,
         Matthew Garrett <matthewgarrett@google.com>,
         James Morris James Morris <jmorris@namei.org>,
@@ -63,26 +26,117 @@ Cc:     LKML <linux-kernel@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
         Ben Hutchings <ben@decadent.org.uk>,
         Al Viro <viro@zeniv.linux.org.uk>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH] tracefs: Do not allocate and free proxy_ops for
+ lockdown
+Message-ID: <20191011170833.2312857c@gandalf.local.home>
+In-Reply-To: <CAHk-=whC6Ji=fWnjh2+eS4b15TnbsS4VPVtvBOwCy1jjEG_JHQ@mail.gmail.com>
+References: <20191011135458.7399da44@gandalf.local.home>
+        <CAHk-=wj7fGPKUspr579Cii-w_y60PtRaiDgKuxVtBAMK0VNNkA@mail.gmail.com>
+        <20191011162518.2f8c99ca@gandalf.local.home>
+        <CAHk-=whC6Ji=fWnjh2+eS4b15TnbsS4VPVtvBOwCy1jjEG_JHQ@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Oct 11, 2019 at 1:55 PM Steven Rostedt <rostedt@goodmis.org> wrote:
->
-> I guess I can keep it this way. Thoughts?
+On Fri, 11 Oct 2019 13:46:11 -0700
+Linus Torvalds <torvalds@linux-foundation.org> wrote:
 
-That looks fine to me. I'm still not sure you actually need to do all
-this, but it doesn't look _wrong_.
+> On Fri, Oct 11, 2019 at 1:25 PM Steven Rostedt <rostedt@goodmis.org> wrote:
+> >
+> > OK, so I tried this approach, and there's a bit more than just a "few"
+> > extra cases that use tracing_open_generic().  
+> 
+> Yeah, that's more than I would have expected.
+> 
+> That said, you also did what I consider a somewhat over-done conversion.
+> 
+> Just do
+> 
+>    static inline bool tracefs_lockdown_or_disabled(void)
+>    { return tracing_disabled || security_locked_down(LOCKDOWN_TRACEFS); }
+> 
+> and ignore the pointless return value (we know it's EPERM, and we
+> really don't care).
+> 
+> And then several of those conversions just turn into oneliner
+> 
+> -       if (tracing_disabled)
+> +       if (tracefs_lockdown_or_disabled())
+>                  return -ENODEV;
 
-That said, I still do think that if things are locked down from the
-very get-go, tracefs_create_file() shouldn't even create the files.
+OK, so this is similar to what I just sent. But instead I made it into
+a function that combines tracing_disabled and the locked_down, plus, it
+did the reference update for the trace_array if needed (which in doing
+this exercise, I think I found a couple of places that need the ref
+count update).
 
-That's mostly an independent thing from the "what about if they exists
-and things got locked down afterwards", though.
+> 
+> patches instead.
+> 
+> I'm also not sure why you bothered with a lot of the files that don't
+> currently even have that "tracing_disabled" logic at all. Yeah, they
+> show pre-existing tracing info, but even if you locked down _after_
+> starting some tracing, that's probably what you want. You just don't
+> want people to be able to add new trace events.
 
-I do wonder about the whole "well, if you started tracing before
-locking things down, don't you want to see the end results"?
+I guess just preventing new traces would be good enough (or anything
+that records data), as well as seeing that recorded data.
 
-             Linus
+Note, the tracing_disabled was added in case the ring buffer got
+corrupted, and we wanted to prevent the system from crashing if someone
+read the corrupted ring buffer. In the over 10 years of having that
+check, I don't recall a single instance of someone triggering it :-/
+
+
+> 
+> For example, maybe you want to have lockdown after you've booted, but
+> still show boot time traces?
+> 
+> I dunno. I feel like you re-did the original patch, and the original
+> patch was designed for "least line impact" rather than for anything
+> else.
+> 
+> I also suspect that if you *actually* do lockdown at early boot (which
+> is presumably one common case), then all you need is to do
+> 
+>     --- a/fs/tracefs/inode.c
+>     +++ b/fs/tracefs/inode.c
+>     @@ -418,6 +418,9 @@ struct dentry *tracefs_create_file(
+>         struct dentry *dentry;
+>         struct inode *inode;
+> 
+>     +   if (security_locked_down(LOCKDOWN_TRACEFS))
+>     +           return NULL;
+>     +
+
+Sounds reasonable.
+
+>         if (!(mode & S_IFMT))
+>                 mode |= S_IFREG;
+>         BUG_ON(!S_ISREG(mode));
+> 
+> and the "open-time check" is purely for "we did lockdown _after_ boot,
+> but then you might well want to be able to read the existing trace
+> information that you did before you locked down.
+> 
+> Again - I think trying to emulate exactly what that broken lockdown
+> patch did is not really what you should aim for.
+> 
+> That patch was not only buggy, it really wasn't about what people
+> really necessarily _want_, as about "we don't want to deal with
+> tracing, so here's a minimal patch that doesn't even work".
+
+OK. My new approach is to:
+
+1) revert the tracefs lockdown patch
+2) Add my tracing_check_open_get_tr() patch (and consolidate the calls)
+ (fix up anything that should have this too)
+3) Add the lockdown to the tracing_check_open_get_tr() routine, and be
+   done with it.
+
+-- Steve
