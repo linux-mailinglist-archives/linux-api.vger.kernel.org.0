@@ -2,372 +2,113 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 651C1D46FC
-	for <lists+linux-api@lfdr.de>; Fri, 11 Oct 2019 19:55:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E0D0D4773
+	for <lists+linux-api@lfdr.de>; Fri, 11 Oct 2019 20:20:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728730AbfJKRzC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 11 Oct 2019 13:55:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38012 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728689AbfJKRzC (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 11 Oct 2019 13:55:02 -0400
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3F2ED206A1;
-        Fri, 11 Oct 2019 17:55:00 +0000 (UTC)
-Date:   Fri, 11 Oct 2019 13:54:58 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     LKML <linux-kernel@vger.kernel.org>
-Cc:     Matthew Garrett <matthewgarrett@google.com>, jmorris@namei.org,
-        linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
-        Ben Hutchings <ben@decadent.org.uk>,
-        Al Viro <viro@ZenIV.linux.org.uk>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Subject: [PATCH] tracefs: Do not allocate and free proxy_ops for lockdown
-Message-ID: <20191011135458.7399da44@gandalf.local.home>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1728689AbfJKSUv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 11 Oct 2019 14:20:51 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:37562 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728703AbfJKSUv (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 11 Oct 2019 14:20:51 -0400
+Received: by mail-lf1-f68.google.com with SMTP id w67so7702926lff.4
+        for <linux-api@vger.kernel.org>; Fri, 11 Oct 2019 11:20:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=YtOmkJTgWRCiTrhHWdgBsH5ShPsUcHo7wVkWA6GbOWw=;
+        b=EJ30jg4up9E+EQq6XyhxqytCcLcjMUfxQCZiv0SKtis+tP16d1Y2taYObSlT7PNzA1
+         LGvyUzk0LpW338viCdWts370M1zgQU++Pz96/cPXXnweOuhIbBFPJd8E204RnpU17teD
+         QyB1KSmlKzHIBlccl6i4fb67lW6F+y5JeJUAQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=YtOmkJTgWRCiTrhHWdgBsH5ShPsUcHo7wVkWA6GbOWw=;
+        b=mHBl6kqgqAJOOeB5V1nS4uFAy1fG9lpJ0MVzcA9aV/0vbDOvrHtJfgyLBdEEDH56sk
+         QdatGE6Oym/RWRNKpmENzF8lz6mwH5JCoo06o6YBoqfCglmofLWzxes6ropnB8QYFjZ+
+         KCqN045/NJb9jQ7daXAmMpWGn45gum4AVfLxsxYkd4FLADwt7FjWsig3L45yzQuOE7hp
+         loIT2aCfACfB+IbqxbUcsNoyWrK99mBL166jUryvFU7ySAG9JvQZyx1PL+mFluaO/RA7
+         Wn1YRxfzMh/xu3rZKdq4booCVhKozKRX3BFzO+sygnpVlrxEAzMZEfg6F/tEmE5tmsEK
+         Zsgw==
+X-Gm-Message-State: APjAAAU1rFgwpBCc9pJC8RIPbIAPkHVFsSygliHcJw3ZNwQOZGZ34DDJ
+        ydN4gimwDvBGQfA1uCvMJciDO8O7zQg=
+X-Google-Smtp-Source: APXvYqxldNs19rDi1KUUbdh7KnobugrawfGKHWd52V3OOej2S32uSOcabTdNk8+yV+i+bT763143rA==
+X-Received: by 2002:ac2:5bc1:: with SMTP id u1mr9768719lfn.182.1570818047422;
+        Fri, 11 Oct 2019 11:20:47 -0700 (PDT)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com. [209.85.208.176])
+        by smtp.gmail.com with ESMTPSA id h2sm2098499ljb.11.2019.10.11.11.20.46
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Oct 2019 11:20:46 -0700 (PDT)
+Received: by mail-lj1-f176.google.com with SMTP id q64so10698956ljb.12
+        for <linux-api@vger.kernel.org>; Fri, 11 Oct 2019 11:20:46 -0700 (PDT)
+X-Received: by 2002:a2e:8315:: with SMTP id a21mr598855ljh.133.1570818045940;
+ Fri, 11 Oct 2019 11:20:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="MP_/S_xZo.4ffMMJN//_08r1b1i"
+References: <20191011135458.7399da44@gandalf.local.home>
+In-Reply-To: <20191011135458.7399da44@gandalf.local.home>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Fri, 11 Oct 2019 11:20:30 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wj7fGPKUspr579Cii-w_y60PtRaiDgKuxVtBAMK0VNNkA@mail.gmail.com>
+Message-ID: <CAHk-=wj7fGPKUspr579Cii-w_y60PtRaiDgKuxVtBAMK0VNNkA@mail.gmail.com>
+Subject: Re: [PATCH] tracefs: Do not allocate and free proxy_ops for lockdown
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Matthew Garrett <matthewgarrett@google.com>,
+        James Morris James Morris <jmorris@namei.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Ben Hutchings <ben@decadent.org.uk>,
+        Al Viro <viro@zeniv.linux.org.uk>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
---MP_/S_xZo.4ffMMJN//_08r1b1i
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+On Fri, Oct 11, 2019 at 10:55 AM Steven Rostedt <rostedt@goodmis.org> wrote:
+>
+> I bisected this down to the addition of the proxy_ops into tracefs for
+> lockdown. It appears that the allocation of the proxy_ops and then freeing
+> it in the destroy_inode callback, is causing havoc with the memory system.
+> Reading the documentation about destroy_inode, I'm not sure that this is the
+> proper way to handle allocating and then freeing the fops of the inode.
 
+What is happening is that *because* it has a "destroy_inode()"
+callback, it now expects destroy_inode to not just free free the proxy
+ops, but to also schedule the inode itself for freeing.
 
-[ Attached the reproducers to this email ]
+Which that tracefs)destroy_inode() doesn't do.
 
-From: "Steven Rostedt (VMware)" <rostedt@goodmis.org>
+So the inode never gets free'd at all - and you eventually run out of
+memory due to the inode leak.
 
-Running the latest kernel through my "make instances" stress tests, I
-triggered the following bug (with KASAN and kmemleak enabled):
+The trivial fix would be to instead use the "free_inode()" callback
+(which is called after the required RCU grace period) and then free
+the proxy op there _and_ call free_inode_nonrcu() too.
 
-mkdir invoked oom-killer:
-gfp_mask=0x40cd0(GFP_KERNEL|__GFP_COMP|__GFP_RECLAIMABLE), order=0,
-oom_score_adj=0
-CPU: 1 PID: 2229 Comm: mkdir Not tainted 5.4.0-rc2-test #325
-Hardware name: MSI MS-7823/CSM-H87M-G43 (MS-7823), BIOS V1.6 02/22/2014
-Call Trace:
- dump_stack+0x64/0x8c
- dump_header+0x43/0x3b7
- ? trace_hardirqs_on+0x48/0x4a
- oom_kill_process+0x68/0x2d5
- out_of_memory+0x2aa/0x2d0
- __alloc_pages_nodemask+0x96d/0xb67
- __alloc_pages_node+0x19/0x1e
- alloc_slab_page+0x17/0x45
- new_slab+0xd0/0x234
- ___slab_alloc.constprop.86+0x18f/0x336
- ? alloc_inode+0x2c/0x74
- ? irq_trace+0x12/0x1e
- ? tracer_hardirqs_off+0x1d/0xd7
- ? __slab_alloc.constprop.85+0x21/0x53
- __slab_alloc.constprop.85+0x31/0x53
- ? __slab_alloc.constprop.85+0x31/0x53
- ? alloc_inode+0x2c/0x74
- kmem_cache_alloc+0x50/0x179
- ? alloc_inode+0x2c/0x74
- alloc_inode+0x2c/0x74
- new_inode_pseudo+0xf/0x48
- new_inode+0x15/0x25
- tracefs_get_inode+0x23/0x7c
- ? lookup_one_len+0x54/0x6c
- tracefs_create_file+0x53/0x11d
- trace_create_file+0x15/0x33
- event_create_dir+0x2a3/0x34b
- __trace_add_new_event+0x1c/0x26
- event_trace_add_tracer+0x56/0x86
- trace_array_create+0x13e/0x1e1
- instance_mkdir+0x8/0x17
- tracefs_syscall_mkdir+0x39/0x50
- ? get_dname+0x31/0x31
- vfs_mkdir+0x78/0xa3
- do_mkdirat+0x71/0xb0
- sys_mkdir+0x19/0x1b
- do_fast_syscall_32+0xb0/0xed
+But I think your patch to not need a proxy op allocation at all is
+probably better.
 
-I bisected this down to the addition of the proxy_ops into tracefs for
-lockdown. It appears that the allocation of the proxy_ops and then freeing
-it in the destroy_inode callback, is causing havoc with the memory system.
-Reading the documentation about destroy_inode, I'm not sure that this is the
-proper way to handle allocating and then freeing the fops of the inode.
+That said, I think the _best_ option would be to just getting rid of
+the proxy fops _entirely_, and just make the (very few)
+tracefs_create_file() cases do that LOCKDOWN_TRACEFS in their open in
+the first place.
 
-Instead of allocating the proxy_ops (and then having to free it), I created
-a static proxy_ops. As tracefs only uses a subset of all the file_operations
-methods, that subset can be defined in the static proxy_ops, and then the
-passed in fops during the creation of the inode is saved in the dentry, and
-that is use to call the real functions by the proxy_ops.
+The proxy_fops was a hacky attempt to make the patch smaller. Your
+"just wrap all ops" thing now made the patch bigger than just doing
+the lockdown thing in all the callers.
 
-Fixes: ccbd54ff54e8 ("tracefs: Restrict tracefs when the kernel is locked down")
-Signed-off-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
----
- fs/tracefs/inode.c | 153 +++++++++++++++++++++++++++++++++++++++------
- 1 file changed, 135 insertions(+), 18 deletions(-)
+In fact, many of them use tracing_open_generic(). And others - like
+subsystem_open() already call tracing_open_generic() as part of their
+open.
 
-diff --git a/fs/tracefs/inode.c b/fs/tracefs/inode.c
-index 9fc14e38927f..d0e8e4a16812 100644
---- a/fs/tracefs/inode.c
-+++ b/fs/tracefs/inode.c
-@@ -20,6 +20,7 @@
- #include <linux/parser.h>
- #include <linux/magic.h>
- #include <linux/slab.h>
-+#include <linux/poll.h>
- #include <linux/security.h>
- 
- #define TRACEFS_DEFAULT_MODE	0700
-@@ -28,7 +29,7 @@ static struct vfsmount *tracefs_mount;
- static int tracefs_mount_count;
- static bool tracefs_registered;
- 
--static int default_open_file(struct inode *inode, struct file *filp)
-+static int proxy_open(struct inode *inode, struct file *filp)
- {
- 	struct dentry *dentry = filp->f_path.dentry;
- 	struct file_operations *real_fops;
-@@ -47,6 +48,138 @@ static int default_open_file(struct inode *inode, struct file *filp)
- 	return real_fops->open(inode, filp);
- }
- 
-+static ssize_t proxy_read(struct file *file, char __user *buf,
-+			  size_t count, loff_t *pos)
-+{
-+	struct dentry *dentry = file->f_path.dentry;
-+	struct file_operations *real_fops;
-+
-+	if (!dentry)
-+		return -EINVAL;
-+
-+	real_fops = dentry->d_fsdata;
-+
-+	if (real_fops->read)
-+		return real_fops->read(file, buf, count, pos);
-+	else
-+		return -EINVAL;
-+}
-+
-+static ssize_t proxy_write(struct file *file, const char __user *p,
-+			   size_t count, loff_t *pos)
-+{
-+	struct dentry *dentry = file->f_path.dentry;
-+	struct file_operations *real_fops;
-+
-+	if (!dentry)
-+		return -EINVAL;
-+
-+	real_fops = dentry->d_fsdata;
-+
-+	if (real_fops->write)
-+		return real_fops->write(file, p, count, pos);
-+	else
-+		return -EINVAL;
-+}
-+
-+static loff_t proxy_llseek(struct file *file, loff_t offset, int whence)
-+{
-+	struct dentry *dentry = file->f_path.dentry;
-+	struct file_operations *real_fops;
-+	loff_t (*fn)(struct file *, loff_t, int);
-+
-+	if (!dentry)
-+		return -EINVAL;
-+
-+	real_fops = dentry->d_fsdata;
-+
-+	fn = no_llseek;
-+	if (file->f_mode & FMODE_LSEEK) {
-+		if (real_fops->llseek)
-+			fn = real_fops->llseek;
-+	}
-+	return fn(file, offset, whence);
-+}
-+
-+static int proxy_release(struct inode *inode, struct file *filp)
-+{
-+	struct dentry *dentry = filp->f_path.dentry;
-+	struct file_operations *real_fops;
-+
-+	if (!dentry)
-+		return 0;
-+
-+	real_fops = dentry->d_fsdata;
-+
-+	if (real_fops->release)
-+		return real_fops->release(inode, filp);
-+	return 0;
-+}
-+
-+static __poll_t proxy_poll(struct file *file, struct poll_table_struct *pt)
-+{
-+	struct dentry *dentry = file->f_path.dentry;
-+	struct file_operations *real_fops;
-+
-+	if (!dentry)
-+		return 0;
-+
-+	real_fops = dentry->d_fsdata;
-+
-+	if (unlikely(!real_fops->poll))
-+		return DEFAULT_POLLMASK;
-+	return real_fops->poll(file, pt);
-+}
-+
-+static ssize_t proxy_splice_read(struct file *in, loff_t *ppos,
-+				 struct pipe_inode_info *pipe, size_t len,
-+				 unsigned int flags)
-+{
-+	struct dentry *dentry = in->f_path.dentry;
-+	struct file_operations *real_fops;
-+	ssize_t (*splice_read)(struct file *, loff_t *,
-+			       struct pipe_inode_info *, size_t, unsigned int);
-+
-+	if (!dentry)
-+		return 0;
-+
-+	real_fops = dentry->d_fsdata;
-+
-+	if (real_fops->splice_read)
-+		splice_read = real_fops->splice_read;
-+	else
-+		splice_read = generic_file_splice_read;
-+
-+	return splice_read(in, ppos, pipe, len, flags);
-+}
-+
-+static int proxy_mmap(struct file *file, struct vm_area_struct *vma)
-+{
-+	struct dentry *dentry = file->f_path.dentry;
-+	struct file_operations *real_fops;
-+
-+	if (!dentry)
-+		return 0;
-+
-+	real_fops = dentry->d_fsdata;
-+
-+	if (!real_fops->mmap)
-+		return -ENODEV;
-+
-+	return real_fops->mmap(file, vma);
-+}
-+
-+static const struct file_operations proxy_fops = {
-+	.open		= proxy_open,
-+	.read		= proxy_read,
-+	.write		= proxy_write,
-+	.llseek		= proxy_llseek,
-+	.release	= proxy_release,
-+	.poll		= proxy_poll,
-+	.splice_read	= proxy_splice_read,
-+	.mmap		= proxy_mmap,
-+};
-+
- static ssize_t default_read_file(struct file *file, char __user *buf,
- 				 size_t count, loff_t *ppos)
- {
-@@ -241,12 +374,6 @@ static int tracefs_apply_options(struct super_block *sb)
- 	return 0;
- }
- 
--static void tracefs_destroy_inode(struct inode *inode)
--{
--	if (S_ISREG(inode->i_mode))
--		kfree(inode->i_fop);
--}
--
- static int tracefs_remount(struct super_block *sb, int *flags, char *data)
- {
- 	int err;
-@@ -283,7 +410,6 @@ static int tracefs_show_options(struct seq_file *m, struct dentry *root)
- static const struct super_operations tracefs_super_operations = {
- 	.statfs		= simple_statfs,
- 	.remount_fs	= tracefs_remount,
--	.destroy_inode  = tracefs_destroy_inode,
- 	.show_options	= tracefs_show_options,
- };
- 
-@@ -414,7 +540,6 @@ struct dentry *tracefs_create_file(const char *name, umode_t mode,
- 				   struct dentry *parent, void *data,
- 				   const struct file_operations *fops)
- {
--	struct file_operations *proxy_fops;
- 	struct dentry *dentry;
- 	struct inode *inode;
- 
-@@ -430,20 +555,12 @@ struct dentry *tracefs_create_file(const char *name, umode_t mode,
- 	if (unlikely(!inode))
- 		return failed_creating(dentry);
- 
--	proxy_fops = kzalloc(sizeof(struct file_operations), GFP_KERNEL);
--	if (unlikely(!proxy_fops)) {
--		iput(inode);
--		return failed_creating(dentry);
--	}
--
- 	if (!fops)
- 		fops = &tracefs_file_operations;
- 
- 	dentry->d_fsdata = (void *)fops;
--	memcpy(proxy_fops, fops, sizeof(*proxy_fops));
--	proxy_fops->open = default_open_file;
- 	inode->i_mode = mode;
--	inode->i_fop = proxy_fops;
-+	inode->i_fop = &proxy_fops;
- 	inode->i_private = data;
- 	d_instantiate(dentry, inode);
- 	fsnotify_create(dentry->d_parent->d_inode, dentry);
--- 
-2.20.1
+So from a quick glance, just making tracing_open_generic() do the
+lockdown testing will take care of most cases.  Add a few other cases
+to fill up the whole set, and your'e done.
 
+Willing to do that instead?
 
---MP_/S_xZo.4ffMMJN//_08r1b1i
-Content-Type: application/octet-stream; name=ftrace-test-mkinstances
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename=ftrace-test-mkinstances
-
-IyEvYmluL2Jhc2gKCnRyYWNlZnM9YGNhdCAvcHJvYy9tb3VudHMgIHxncmVwIHRyYWNlZnN8IGhl
-YWQgLTEgfCBjdXQgLWQnICcgLWYyYAoKaWYgWyAteiAiJHRyYWNlZnMiIF07IHRoZW4KCWVjaG8g
-InRyYWNlZnMgbm90IG1vdW50ZWQiCglleGl0IDAKZmkKCmlmIFsgISAtZCAkdHJhY2Vmcy9pbnN0
-YW5jZXMgXTsgdGhlbgoJZWNobyAiTm8gaW5zdGFuY2VzIGRpcmVjdG9yeSIKCWV4aXQgMApmaQoK
-Y2QgJHRyYWNlZnMvaW5zdGFuY2VzCgpta2RpciB4CnJtZGlyIHgKcmVzdWx0PSQ/CgppZiBbICRy
-ZXN1bHQgLW5lIDAgXTsgdGhlbgoJZWNobyAiaW5zdGFuY2Ugcm1kaXIgbm90IHN1cHBvcnRlZCwg
-c2tpcHBpbmcgdGhpcyB0ZXN0IgoJZXhpdCAwCmZpCgppbnN0YW5jZV9zbGFtKCkgewoJd2hpbGUg
-OjsgZG8KCQlta2RpciB4CgkJbWtkaXIgeQoJCW1rZGlyIHoKCQlybWRpciB4CgkJcm1kaXIgeQoJ
-CXJtZGlyIHoKCWRvbmUgMj4vZGV2L251bGwKfQoKaW5zdGFuY2Vfc2xhbSAmCnAxPSQhCmVjaG8g
-JHAxCgppbnN0YW5jZV9zbGFtICYKcDI9JCEKZWNobyAkcDIKCmluc3RhbmNlX3NsYW0gJgpwMz0k
-IQplY2hvICRwMwoKaW5zdGFuY2Vfc2xhbSAmCnA0PSQhCmVjaG8gJHA0CgppbnN0YW5jZV9zbGFt
-ICYKcDU9JCEKZWNobyAkcDUKCmZvciBpIGluIGBzZXEgMTBgOyBkbwoJbHMKCXNsZWVwIDEKZG9u
-ZQpraWxsIC0xICRwMSAKa2lsbCAtMSAkcDIKa2lsbCAtMSAkcDMKa2lsbCAtMSAkcDQKa2lsbCAt
-MSAkcDUKCmVjaG8gIldhaXQgZm9yIHByb2Nlc3NlcyB0byBmaW5pc2giCndhaXQgJHAxICRwMiAk
-cDMgJHA0ICRwNQplY2hvICJhbGwgcHJvY2Vzc2VzIGZpbmlzaGVkLCB3YWl0IGZvciBjbGVhbnVw
-IgpzbGVlcCAyCgpta2RpciB4IHkgegpscyB4IHkgegpybWRpciB4IHkgegpmb3IgZCBpbiB4IHkg
-ejsgZG8KCWlmIFsgLWQgJGQgXTsgdGhlbgoJCWVjaG8gJGQgc3RpbGwgZXhpc3RzCgkJZXhpdCAt
-MQoJZmkKZG9uZQplY2hvIFNVQ0NFU1MKZXhpdCAwCg==
-
---MP_/S_xZo.4ffMMJN//_08r1b1i
-Content-Type: application/octet-stream; name=ftrace-test-mkinstances-2
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename=ftrace-test-mkinstances-2
-
-IyEvYmluL2Jhc2gKCnRyYWNlZnM9YGNhdCAvcHJvYy9tb3VudHMgIHxncmVwIHRyYWNlZnN8IGhl
-YWQgLTEgfCBjdXQgLWQnICcgLWYyYAoKaWYgWyAteiAiJHRyYWNlZnMiIF07IHRoZW4KCWVjaG8g
-InRyYWNlZnMgbm90IG1vdW50ZWQiCglleGl0IDAKZmkKCmlmIFsgISAtZCAkdHJhY2Vmcy9pbnN0
-YW5jZXMgXTsgdGhlbgoJZWNobyAiTm8gaW5zdGFuY2VzIGRpcmVjdG9yeSIKCWV4aXQgMApmaQoK
-Y2QgJHRyYWNlZnMvaW5zdGFuY2VzCgppbnN0YW5jZV9zbGFtKCkgewoJd2hpbGUgOjsgZG8KCQlt
-a2RpciBmb28gJj4gL2Rldi9udWxsCgkJcm1kaXIgZm9vICY+IC9kZXYvbnVsbAoJZG9uZQp9Cgpp
-bnN0YW5jZV9yZWFkKCkgewoJd2hpbGUgOjsgZG8KCQljYXQgZm9vL3RyYWNlICY+IC9kZXYvbnVs
-bAoJZG9uZQp9CgppbnN0YW5jZV9zZXQoKSB7Cgl3aGlsZSA6OyBkbwoJCWVjaG8gMSA+IGZvby9l
-dmVudHMvc2NoZWQvc2NoZWRfc3dpdGNoCglkb25lIDI+IC9kZXYvbnVsbAp9CgppbnN0YW5jZV9z
-bGFtICYKeD1gam9icyAtbGAKcDE9YGVjaG8gJHggfCBjdXQgLWQnICcgLWYyYAplY2hvICRwMQoK
-aW5zdGFuY2Vfc2V0ICYKeD1gam9icyAtbCB8IHRhaWwgLTFgCnAyPWBlY2hvICR4IHwgY3V0IC1k
-JyAnIC1mMmAKZWNobyAkcDIKCnNsZWVwIDEwCgpraWxsIC0xICRwMSAKa2lsbCAtMSAkcDIKCmVj
-aG8gIldhaXQgZm9yIHByb2Nlc3NlcyB0byBmaW5pc2giCndhaXQgJHAxICRwMgplY2hvICJhbGwg
-cHJvY2Vzc2VzIGZpbmlzaGVkLCB3YWl0IGZvciBjbGVhbnVwIgpzbGVlcCAyCgpta2RpciBmb28K
-bHMgZm9vCnJtZGlyIGZvbwppZiBbIC1kIGZvbyBdOyB0aGVuCgllY2hvIGZvbyBzdGlsbCBleGlz
-dHMKCWV4aXQgLTEKZmkKZWNobyBTVUNDRVNTCmV4aXQgMAo=
-
---MP_/S_xZo.4ffMMJN//_08r1b1i--
+                Linus
