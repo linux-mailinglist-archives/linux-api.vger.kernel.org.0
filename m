@@ -2,56 +2,58 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A96CED4385
-	for <lists+linux-api@lfdr.de>; Fri, 11 Oct 2019 16:56:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BFE2DD43D8
+	for <lists+linux-api@lfdr.de>; Fri, 11 Oct 2019 17:10:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727199AbfJKO42 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 11 Oct 2019 10:56:28 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:37652 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726328AbfJKO42 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 11 Oct 2019 10:56:28 -0400
-Received: by mail-ot1-f65.google.com with SMTP id k32so8206014otc.4
-        for <linux-api@vger.kernel.org>; Fri, 11 Oct 2019 07:56:28 -0700 (PDT)
+        id S1727032AbfJKPJ5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 11 Oct 2019 11:09:57 -0400
+Received: from mail-oi1-f179.google.com ([209.85.167.179]:38414 "EHLO
+        mail-oi1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726827AbfJKPJ4 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 11 Oct 2019 11:09:56 -0400
+Received: by mail-oi1-f179.google.com with SMTP id m16so8270081oic.5
+        for <linux-api@vger.kernel.org>; Fri, 11 Oct 2019 08:09:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Cpz0OPVdz0lvY7YxjxR86HQw6Mhe0P0KSoHxNBSYZCk=;
-        b=ijTDwhFlFn4QfgOlhEtom29w42EeeTy7Ujy2bs4ItZsaR8Uf8Uno5gRFSvhqw8UfLh
-         JyrIBHwR68u6KRVzMacEGroyDb1oe2yfyTTgXNBG5wy0IfsCQDTf3GxLZdzOmQKsT3p/
-         sn4OIbiIKgDNQS2WgatN3wXKK9MP997vKqjwv4CsSQ1ab0hnXuaLYjMjxTDYHPVopj7W
-         9WH7yFFRzB2eidrgZaGHSST/gLbYkid2jVy7IVBpExnz0hzFdoMYnDhcnllKnil37Z5a
-         7Mj7hbQzCoOWDI4ymSTAEDc9/rbnGROoTCpVJx9oLV8wy+rLTuHd3k9y2cri1mZaoWMN
-         Ap/Q==
+        bh=ZJr8HBzMfU7kmiZCz9sHwsjTkr7yVBKTvuMk3ztn6oM=;
+        b=bbv7ZbvPGd2Vy+OW6XTx5v8DO1t5PRQQIoAJ3CmOQOCFC+f4NEnTZbLbCAVKBxwxcH
+         IIngYatL20o7Of46857CmUx5iKZmPTbazlS1+ULBxf1QsIdSeP/YDKCiDFIN++VIzLKG
+         0g2Ja9ORAfWqhWGb2EM0A/6k18qXtfm4iKtWkLaCsxVA8Gv/gw+bMvouYSK8in6vYkDO
+         czztQZBwBaxe89EtKiMuvMo6XGe728fyynOUlLtMgZ/Tc968p3+fuly7UgUqljSMnyoH
+         LefxFFqhTB19GCYmjNMV6wrAZXtwJg9/Sf8cJapx9ICK8FfZCaBpmPvzdAiF48oOBs3m
+         v7Sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Cpz0OPVdz0lvY7YxjxR86HQw6Mhe0P0KSoHxNBSYZCk=;
-        b=Jh1gHH99yAmVU8CTx3UoYl7yn3pJJVioJvgpcuN+dPqp4h1UtgyyUYTIWvswLvJuf3
-         XoRVwCMtko5PUAHVvMosBzxn1d4pu0UiOsyd2jY81Dixy/xsUeG0tIhdtVsHKEvBshHk
-         CnUtaH0PG+r8E579YTHsT0G7osgxWBQQIq43CsUCIpW/Hn+/rmnC+7RXbo9bWwE57+OV
-         eqetR1u85ZOD0jfJiqgoFPiAowFX7lNGYG7r7Z+QYJfgBpV0d+Y2rMw75EH3x3PmTLdH
-         xQ8KfVDNJJd2m0YxXTugEb5lZWqFkxIKMMcfsQ73e12fZKgf2cwTVYuYNTHW2q2dTzPK
-         Iyqg==
-X-Gm-Message-State: APjAAAUaeVN96IGlZxrbtUASD4plo0p24K4J+czUihWy7whYtBmy2ciH
-        Ol/8og5WyqhYD6+Fkb2yq5aSzRwkHeIKMQ4lI0zcuA==
-X-Google-Smtp-Source: APXvYqw6vJaIgJV5OcazEiTO8PBUI5gTRcpIkg06EF4EC53A7GIFnCN+6UJXJ/RMcUIwr5wyKR5qkK6DAeZoUpkSpvI=
-X-Received: by 2002:a05:6830:10cc:: with SMTP id z12mr5196034oto.110.1570805787289;
- Fri, 11 Oct 2019 07:56:27 -0700 (PDT)
+        bh=ZJr8HBzMfU7kmiZCz9sHwsjTkr7yVBKTvuMk3ztn6oM=;
+        b=aq7Drz+6lvaidfZW1llHPQHk7y8efro3ttT36d+NMG/7t6a2TFPDX69B1VqfHpu9lu
+         uOgDMUodGVb75cNcJ1wspSlCyFQ9kiom9cvoiehKF04lIIIdWvpU/bL0CL+gHrKSIFmn
+         Ziw6cZ6F/DDMlW/v9E0abqaUkESdb+Noxj+Lp5SVAjZmTfMWyF0eOqsGxgfbpyhjjxg+
+         6Lo5STWZ/I/zFPqPBvttL+KDhZS0yS7DJCDWr0cFrBWIxNetPOT6j/j/IXMKndgUIJlp
+         yjav4zYETVGdazAklkjQbG4HSIdpW/0ACNsNetbNpr6Pd+O6BqSv0FEB6RxpekUrjR5i
+         V7IQ==
+X-Gm-Message-State: APjAAAW+zQcH3fKZyl/Rvce7Zgmc3XhzS4wEDfWicZT+JaQXxyT79ego
+        02sLUh7XciONqmhqdIoWUurc99iXbiZ+NCQEEu1UWQ==
+X-Google-Smtp-Source: APXvYqxiUBiNWI0ojBaKuc9Wss6TByn/XWZWY72Z0YR+e6hD15VDtY6gxIhOQWm62gzHt+xWgxTf/fn46FfNp0cj1p4=
+X-Received: by 2002:a05:6808:95:: with SMTP id s21mr12669138oic.68.1570806595398;
+ Fri, 11 Oct 2019 08:09:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191009160532.20674-1-ckellner@redhat.com> <20191011122323.7770-1-ckellner@redhat.com>
-In-Reply-To: <20191011122323.7770-1-ckellner@redhat.com>
+References: <20191008133641.23019-1-ckellner@redhat.com> <20191009160532.20674-1-ckellner@redhat.com>
+ <20191009160532.20674-2-ckellner@redhat.com>
+In-Reply-To: <20191009160532.20674-2-ckellner@redhat.com>
 From:   Jann Horn <jannh@google.com>
-Date:   Fri, 11 Oct 2019 16:55:59 +0200
-Message-ID: <CAG48ez1xNonmxwa3DRD44WJiComOHRxdHud5+LWea3OXzr4hkg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] pidfd: show pids for nested pid namespaces in fdinfo
-To:     Christian Kellner <ckellner@redhat.com>,
-        Christian Brauner <christian@brauner.io>
+Date:   Fri, 11 Oct 2019 17:09:29 +0200
+Message-ID: <CAG48ez0MyiTKO2MpNVQqavoTKo7FZXYAyohx1JTR=M9Uw=QJWQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] pidfd: add tests for NSpid info in fdinfo
+To:     Christian Kellner <ckellner@redhat.com>
 Cc:     kernel list <linux-kernel@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
         Christian Kellner <christian@kellner.me>,
+        Christian Brauner <christian@brauner.io>,
+        Shuah Khan <shuah@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         "Peter Zijlstra (Intel)" <peterz@infradead.org>,
         Ingo Molnar <mingo@kernel.org>, Michal Hocko <mhocko@suse.com>,
@@ -59,58 +61,58 @@ Cc:     kernel list <linux-kernel@vger.kernel.org>,
         Elena Reshetova <elena.reshetova@intel.com>,
         Roman Gushchin <guro@fb.com>,
         Andrea Arcangeli <aarcange@redhat.com>,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
         Al Viro <viro@zeniv.linux.org.uk>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Oct 11, 2019 at 2:23 PM Christian Kellner <ckellner@redhat.com> wrote:
-> The fdinfo file for a process file descriptor already contains the
-> pid of the process in the callers namespaces. Additionally, if pid
-> namespaces are configured, show the process ids of the process in
-> all nested namespaces in the same format as in the procfs status
-> file, i.e. "NSPid:\t%d\%d...". This allows the easy identification
-> of the processes in nested namespaces.
+On Wed, Oct 9, 2019 at 6:10 PM Christian Kellner <ckellner@redhat.com> wrote:
+> Add tests that check that if pid namespaces are configured the fdinfo
+> file of a pidfd contains an NSpid: entry containing the process id
+> in the current and additionally all nested namespaces.
 [...]
->  #ifdef CONFIG_PROC_FS
-> +static inline void print_pidfd_nspid(struct seq_file *m, struct pid *pid,
-> +                                    struct pid_namespace *ns)
-
-`ns` is the namespace of the PID namespace of the procfs instance
-through which the file descriptor is being viewed.
-
+> +static int compare_fdinfo_nspid(int pidfd, char *expect, size_t len)
 > +{
-> +#ifdef CONFIG_PID_NS
-> +       int i;
+> +       char path[512];
+> +       FILE *f;
+> +       size_t n = 0;
+> +       ssize_t k;
+> +       char *line = NULL;
+> +       int r = -1;
 > +
-> +       seq_puts(m, "\nNSpid:");
-> +       for (i = ns->level; i <= pid->level; i++) {
+> +       snprintf(path, sizeof(path), "/proc/self/fdinfo/%d", pidfd);
 
-ns->level is the level of the PID namespace associated with the procfs
-instance through which the file descriptor is being viewed. pid->level
-is the level of the PID associated with the pidfd.
+(Maybe at some point the selftests code should add some more concise
+alternative to snprintf() calls on separate lines. A macro or
+something like that so that you can write stuff like `f =
+fopen(tprintf("/proc/self/fdinfo/%d", pidfd), "re")`.)
 
-> +               ns = pid->numbers[i].ns;
-> +               seq_put_decimal_ull(m, "\t", pid_nr_ns(pid, ns));
-> +       }
-> +#endif
-> +}
+> +       f = fopen(path, "re");
+> +       if (!f)
+> +               return -1;
+> +
+> +       while ((k = getline(&line, &n, f)) != -1) {
+> +               if (strncmp(line, "NSpid:", 6))
+> +                       continue;
+> +
+> +               line[k - 1] = '\0';
+> +               ksft_print_msg("Child: fdinfo NSpid line: '%s'.\n", line);
+> +               r = strncmp(line + 6, expect, len);
 
-I think you assumed that `ns` is always going to contain `pid`.
-However, that's not the case. Consider the following scenario:
+Wouldn't it be better to get rid of the nullbyte assignment and change
+the strncmp() into a strcmp() here...
 
- - the init_pid_ns has two child PID namespaces, A and B (each with
-its own mount namespace and procfs instance)
- - process P1 lives in A
- - process P2 lives in B
- - P1 opens a pidfd for itself
- - P1 passes the pidfd to P2 (e.g. via a unix domain socket)
- - P2 reads /proc/self/fdinfo/$pidfd
+[...]
+> +       /* The child will have pid 1 in the new pid namespace,
+> +        * so the line must be 'NSPid:\t<pid>\t1'
+> +        */
+> +       n = snprintf(expect, sizeof(expect), "\t%d\t%d", pid, 1);
 
-Now the loop will print the ID of P1 in A. I don't think that's what
-you intended? You might want to bail out if "pid_nr_ns(pid, ns) == 0",
-or something like that.
+... and add a "\n" to the format string? It's shorter and doesn't
+silently ignore it if the line doesn't end at that point.
