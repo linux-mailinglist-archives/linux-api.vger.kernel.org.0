@@ -2,51 +2,51 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 905ACD365C
-	for <lists+linux-api@lfdr.de>; Fri, 11 Oct 2019 02:40:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E3EED3665
+	for <lists+linux-api@lfdr.de>; Fri, 11 Oct 2019 02:41:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727515AbfJKAke (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 10 Oct 2019 20:40:34 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:35757 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727788AbfJKAkb (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 10 Oct 2019 20:40:31 -0400
-Received: by mail-lf1-f67.google.com with SMTP id w6so5745257lfl.2
-        for <linux-api@vger.kernel.org>; Thu, 10 Oct 2019 17:40:29 -0700 (PDT)
+        id S1727695AbfJKAkw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 10 Oct 2019 20:40:52 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:41853 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728049AbfJKAku (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 10 Oct 2019 20:40:50 -0400
+Received: by mail-lj1-f193.google.com with SMTP id f5so8047893ljg.8
+        for <linux-api@vger.kernel.org>; Thu, 10 Oct 2019 17:40:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=LCEP7qB3GzqBwKUjXrPpebibZKO1XQqLNLbhlrB2o3E=;
-        b=Ode2StGqxHsnxHEGGTE3HLNMobXIF5IZ/OqxGpl8IF35NIz+jdNAY4QmhCTeZt7bzf
-         RIouuQ5ZFY9iPPPH6W+K/p/hXGh4cgkT0H7toCQy7pVdb68g3Z4YUM9zznH9VgEl21VC
-         XzFbi3oO9JsfFbBfkQV5GyaSud7A0V8C75pIKhGNO43vlfbqDiWVkDN78XfMVcsJxpkT
-         uWX+QkjYEo6I8kcxtCgFJfmzpIeQoHkwHpG2iQnCFeHE6uu2dpDnWEIYBfJubRp3kgZ4
-         MDFwyruRud7cN3h62qeSkmLZgf58oqDvxgGRlvkFbA3m2Wge2p8u4totjJ9iUBQVeSwQ
-         iH0w==
+        bh=H2FS1xOZd/52wDxpWUrAmpLbVkhqrk6X7y4KWQdphOQ=;
+        b=excfJ/xPWZ2+jilbteJY4Vi+c9HHFbmh8FkB0VkVQqsRNzfaN29He3nWLonU+RXfhK
+         3pXMA0TLVwHppNQr0AUdUG53U42HF+9GxxpGlj/4kcIRtN2pAGAhjypJkZNwf6iE4U2K
+         QnDU6KwbkTBSAhWjCsQuxo6Yvo3mAnUXyeDgSEkA6Cy+jFD7qJ0JXa3ufc+Z8Ubil/UN
+         0Cdjgen9Fv8pItZNyHwfvmTyOXAjZeb7m1pS8EB6mZ+mIjfO5jq4nE77VYMmJNXOtxB7
+         kvPLp8grvYwauQ5k1eqQDdg2eooaCdMYqVLWUpqPOHk/o0cD7moYJjQphs+tsLLeny72
+         W+eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=LCEP7qB3GzqBwKUjXrPpebibZKO1XQqLNLbhlrB2o3E=;
-        b=kkjPPnfOHbZ08XIa6fFUqN8mg1gHeUvcsEMwOivimN7p6JENYBRvUkVGX3gXQSeDfI
-         NPgUsHxd4BysyCsJGPcqJR7tl/5nyzWPduKYj0CeqMvXL3K6R7ZB52tCL5NL5niTtGPb
-         kSmLipzKnVaf06UVWcQCU7cBcmhT4zCmUYaYw5Qn7ucTo8fFuDQqhP9jmnPEPNMeltfe
-         TDs24UpsoBuDzPjGzZq9Nyq9h/6wxOyQHH6cDUzx9cccwG+yKlXy1OsEKNeoppDcJ4LQ
-         RVg0CH3IuO+MUnumXb53LzITbWUfmwuMRBeINBqqoNAs+29I/VlMVUQhGUnoSQAMjEzl
-         3RQQ==
-X-Gm-Message-State: APjAAAVnrZM7q2yI9wlFuhUXHzqzmEl+vhfrugFkiNlCUqFqvI8DXLKV
-        lLQg2Gwl4+3jMkPSOec2DYQAap2ExZW7f8jA4pRy
-X-Google-Smtp-Source: APXvYqz16bFvgvk/JkcjSMw56nSPRPd44/zVDjOFHMxgu5aRVm+fbiLkj2RCNM3iXc/7qoqooc4/nPHxYsWCtiTm0X8=
-X-Received: by 2002:ac2:428b:: with SMTP id m11mr7385787lfh.64.1570754428347;
- Thu, 10 Oct 2019 17:40:28 -0700 (PDT)
+        bh=H2FS1xOZd/52wDxpWUrAmpLbVkhqrk6X7y4KWQdphOQ=;
+        b=NR71Meap9smm1UDnjd+LMbEs1fpVwBlot+Zs9EbxAoEpUxEfUMMkviAZKGGfmFZptH
+         WTkV7XYGliTaQlWVM6Dy0P/kU5EPfFjhf6kx4wCuP4rkL9RRsxhrXvaaN+ZGm2TbrbAB
+         chDcAVONO0AqdNqLdJUyKrd7/FjFJftH5Zqhj8JV2r61IUXWPuuRihZ4phB7U23YboA2
+         KgRXrU88/N0bMXAozNYpkV/GKOxlcKKBTYgIdNyndkbMbVx8kFDjNEizWI/fstji1S7V
+         barR1AumF1WyDzF7qfKNQb6vjrCXPj72ipCgeobHCotf7nTzJDi887dcM/eftK9/hxtq
+         F58w==
+X-Gm-Message-State: APjAAAUHb5GbGVdFmaj/8WrmwU/E9YsEYsxz3o5FFz4Jck+I9isecUil
+        giXaVckEAaD18sB4jfqRDpkscs73sPuWTfcwTdmk
+X-Google-Smtp-Source: APXvYqxJgQInWarY5/M7kUO7HpwvMg1Nlpj/lgKKRdJtv+USUKJpyXPsrOQoku+hafT+CZ2zq5wB40bIA3VRiBrUbu8=
+X-Received: by 2002:a2e:8ec2:: with SMTP id e2mr7129095ljl.126.1570754447449;
+ Thu, 10 Oct 2019 17:40:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1568834524.git.rgb@redhat.com> <ff8a73c7841ef788c60f13f90d036b321af0e431.1568834524.git.rgb@redhat.com>
-In-Reply-To: <ff8a73c7841ef788c60f13f90d036b321af0e431.1568834524.git.rgb@redhat.com>
+References: <cover.1568834524.git.rgb@redhat.com> <ea4e8352fd1671f91d1b015a15abee785ea17136.1568834525.git.rgb@redhat.com>
+In-Reply-To: <ea4e8352fd1671f91d1b015a15abee785ea17136.1568834525.git.rgb@redhat.com>
 From:   Paul Moore <paul@paul-moore.com>
-Date:   Thu, 10 Oct 2019 20:40:17 -0400
-Message-ID: <CAHC9VhRSpuNZTFvFmZ50M4bQS8raAJb_mX5qvnPWdPM71YqUwg@mail.gmail.com>
-Subject: Re: [PATCH ghak90 V7 15/21] sched: pull task_is_descendant into kernel/sched/core.c
+Date:   Thu, 10 Oct 2019 20:40:36 -0400
+Message-ID: <CAHC9VhRUmHiuRH6xYZo36hoV34ouNv4Ny0sWZYcz2dnEhx9nsA@mail.gmail.com>
+Subject: Re: [PATCH ghak90 V7 16/21] audit: add support for contid set/get by netlink
 To:     Richard Guy Briggs <rgb@redhat.com>
 Cc:     containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
         Linux-Audit Mailing List <linux-audit@redhat.com>,
@@ -64,165 +64,28 @@ List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 On Wed, Sep 18, 2019 at 9:26 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> Since the task_is_descendant() function is used in YAMA and in audit,
-> pull the function into kernel/core/sched.c
+> Add the ability to get and set the audit container identifier using an
+> audit netlink message using message types AUDIT_SET_CONTID 1023 and
+> AUDIT_GET_CONTID 1022 in addition to using the proc filesystem.  The
+> message format includes the data structure:
+>
+> struct audit_contid_status {
+>        pid_t   pid;
+>        u64     id;
+> };
 >
 > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
 > ---
->  include/linux/sched.h    |  3 +++
->  kernel/audit.c           | 33 ---------------------------------
->  kernel/sched/core.c      | 33 +++++++++++++++++++++++++++++++++
->  security/yama/yama_lsm.c | 33 ---------------------------------
->  4 files changed, 36 insertions(+), 66 deletions(-)
+>  include/uapi/linux/audit.h |  2 ++
+>  kernel/audit.c             | 40 ++++++++++++++++++++++++++++++++++++++++
+>  kernel/audit.h             |  5 +++++
+>  3 files changed, 47 insertions(+)
 
-I'm not really reviewing this as I'm still a little confused from
-patch 14/21, but if 14/21 works out as correct this patch should be
-squashed into that one.
-
-> diff --git a/include/linux/sched.h b/include/linux/sched.h
-> index a936d162513a..b251f018f4db 100644
-> --- a/include/linux/sched.h
-> +++ b/include/linux/sched.h
-> @@ -1988,4 +1988,7 @@ static inline void rseq_syscall(struct pt_regs *regs)
->
->  const struct cpumask *sched_trace_rd_span(struct root_domain *rd);
->
-> +extern int task_is_descendant(struct task_struct *parent,
-> +                             struct task_struct *child);
-> +
->  #endif
-> diff --git a/kernel/audit.c b/kernel/audit.c
-> index 69fe1e9af7cb..4fe7678304dd 100644
-> --- a/kernel/audit.c
-> +++ b/kernel/audit.c
-> @@ -2560,39 +2560,6 @@ static struct task_struct *audit_cont_owner(struct task_struct *tsk)
->  }
->
->  /*
-> - * task_is_descendant - walk up a process family tree looking for a match
-> - * @parent: the process to compare against while walking up from child
-> - * @child: the process to start from while looking upwards for parent
-> - *
-> - * Returns 1 if child is a descendant of parent, 0 if not.
-> - */
-> -static int task_is_descendant(struct task_struct *parent,
-> -                             struct task_struct *child)
-> -{
-> -       int rc = 0;
-> -       struct task_struct *walker = child;
-> -
-> -       if (!parent || !child)
-> -               return 0;
-> -
-> -       rcu_read_lock();
-> -       if (!thread_group_leader(parent))
-> -               parent = rcu_dereference(parent->group_leader);
-> -       while (walker->pid > 0) {
-> -               if (!thread_group_leader(walker))
-> -                       walker = rcu_dereference(walker->group_leader);
-> -               if (walker == parent) {
-> -                       rc = 1;
-> -                       break;
-> -               }
-> -               walker = rcu_dereference(walker->real_parent);
-> -       }
-> -       rcu_read_unlock();
-> -
-> -       return rc;
-> -}
-> -
-> -/*
->   * audit_set_contid - set current task's audit contid
->   * @task: target task
->   * @contid: contid value
-> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-> index 2b037f195473..7ba9e07381fa 100644
-> --- a/kernel/sched/core.c
-> +++ b/kernel/sched/core.c
-> @@ -7509,6 +7509,39 @@ void dump_cpu_task(int cpu)
->  }
->
->  /*
-> + * task_is_descendant - walk up a process family tree looking for a match
-> + * @parent: the process to compare against while walking up from child
-> + * @child: the process to start from while looking upwards for parent
-> + *
-> + * Returns 1 if child is a descendant of parent, 0 if not.
-> + */
-> +int task_is_descendant(struct task_struct *parent,
-> +                             struct task_struct *child)
-> +{
-> +       int rc = 0;
-> +       struct task_struct *walker = child;
-> +
-> +       if (!parent || !child)
-> +               return 0;
-> +
-> +       rcu_read_lock();
-> +       if (!thread_group_leader(parent))
-> +               parent = rcu_dereference(parent->group_leader);
-> +       while (walker->pid > 0) {
-> +               if (!thread_group_leader(walker))
-> +                       walker = rcu_dereference(walker->group_leader);
-> +               if (walker == parent) {
-> +                       rc = 1;
-> +                       break;
-> +               }
-> +               walker = rcu_dereference(walker->real_parent);
-> +       }
-> +       rcu_read_unlock();
-> +
-> +       return rc;
-> +}
-> +
-> +/*
->   * Nice levels are multiplicative, with a gentle 10% change for every
->   * nice level changed. I.e. when a CPU-bound task goes from nice 0 to
->   * nice 1, it will get ~10% less CPU time than another CPU-bound task
-> diff --git a/security/yama/yama_lsm.c b/security/yama/yama_lsm.c
-> index 94dc346370b1..25eae205eae8 100644
-> --- a/security/yama/yama_lsm.c
-> +++ b/security/yama/yama_lsm.c
-> @@ -263,39 +263,6 @@ static int yama_task_prctl(int option, unsigned long arg2, unsigned long arg3,
->  }
->
->  /**
-> - * task_is_descendant - walk up a process family tree looking for a match
-> - * @parent: the process to compare against while walking up from child
-> - * @child: the process to start from while looking upwards for parent
-> - *
-> - * Returns 1 if child is a descendant of parent, 0 if not.
-> - */
-> -static int task_is_descendant(struct task_struct *parent,
-> -                             struct task_struct *child)
-> -{
-> -       int rc = 0;
-> -       struct task_struct *walker = child;
-> -
-> -       if (!parent || !child)
-> -               return 0;
-> -
-> -       rcu_read_lock();
-> -       if (!thread_group_leader(parent))
-> -               parent = rcu_dereference(parent->group_leader);
-> -       while (walker->pid > 0) {
-> -               if (!thread_group_leader(walker))
-> -                       walker = rcu_dereference(walker->group_leader);
-> -               if (walker == parent) {
-> -                       rc = 1;
-> -                       break;
-> -               }
-> -               walker = rcu_dereference(walker->real_parent);
-> -       }
-> -       rcu_read_unlock();
-> -
-> -       return rc;
-> -}
-> -
-> -/**
->   * ptracer_exception_found - tracer registered as exception for this tracee
->   * @tracer: the task_struct of the process attempting ptrace
->   * @tracee: the task_struct of the process to be ptraced
+I'm not a fan of having multiple interfaces to do one thing if it can
+be avoided.  Presumably the argument for the netlink API is the
+container folks don't want to have to mount /proc inside containers
+which are going to host nested orchestrators?  Can you reasonably run
+a fully fledged orchestrator without a valid /proc?
 
 --
 paul moore
