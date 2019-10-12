@@ -2,171 +2,195 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AC52D4C07
-	for <lists+linux-api@lfdr.de>; Sat, 12 Oct 2019 04:09:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41FB1D4C95
+	for <lists+linux-api@lfdr.de>; Sat, 12 Oct 2019 06:08:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727721AbfJLCJo convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Fri, 11 Oct 2019 22:09:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38250 "EHLO mail.kernel.org"
+        id S1727115AbfJLEIz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 12 Oct 2019 00:08:55 -0400
+Received: from mx2a.mailbox.org ([80.241.60.219]:42745 "EHLO mx2a.mailbox.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727016AbfJLCJo (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 11 Oct 2019 22:09:44 -0400
-Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1727440AbfJLEIy (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Sat, 12 Oct 2019 00:08:54 -0400
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [80.241.60.241])
+        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7982220679;
-        Sat, 12 Oct 2019 02:09:41 +0000 (UTC)
-Date:   Fri, 11 Oct 2019 22:09:40 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
+        by mx2a.mailbox.org (Postfix) with ESMTPS id 0485AA1104;
+        Sat, 12 Oct 2019 06:08:47 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from smtp2.mailbox.org ([80.241.60.241])
+        by hefe.heinlein-support.de (hefe.heinlein-support.de [91.198.250.172]) (amavisd-new, port 10030)
+        with ESMTP id WQcjjXFgeVVi; Sat, 12 Oct 2019 06:08:40 +0200 (CEST)
+Date:   Sat, 12 Oct 2019 15:08:15 +1100
+From:   Aleksa Sarai <cyphar@cyphar.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J. Bruce Fields" <bfields@fieldses.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        David Howells <dhowells@redhat.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Andy Lutomirski <luto@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Matthew Garrett <matthewgarrett@google.com>,
-        James Morris James Morris <jmorris@namei.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>, Tycho Andersen <tycho@tycho.ws>,
+        David Drysdale <drysdale@google.com>,
+        Chanho Min <chanho.min@lge.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Christian Brauner <christian@brauner.io>,
+        Aleksa Sarai <asarai@suse.de>,
+        Linux Containers <containers@lists.linux-foundation.org>,
+        alpha <linux-alpha@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
-        Ben Hutchings <ben@decadent.org.uk>,
-        Al Viro <viro@zeniv.linux.org.uk>
-Subject: Re: [PATCH 4/7 v2] tracing: Have trace events system open call
- tracing_open_generic_tr()
-Message-ID: <20191011220940.3aeee7a5@oasis.local.home>
-In-Reply-To: <20191012005921.091872328@goodmis.org>
-References: <20191012005747.210722465@goodmis.org>
-        <20191012005921.091872328@goodmis.org>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        GNU C Library <libc-alpha@sourceware.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-ia64@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-m68k <linux-m68k@lists.linux-m68k.org>,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        Linux-sh list <linux-sh@vger.kernel.org>,
+        linux-xtensa@linux-xtensa.org, sparclinux@vger.kernel.org
+Subject: Re: [PATCH v14 2/6] namei: LOOKUP_IN_ROOT: chroot-like path
+ resolution
+Message-ID: <20191012040815.gnc43cfmo5mnv67u@yavin.dot.cyphar.com>
+References: <20191010054140.8483-1-cyphar@cyphar.com>
+ <20191010054140.8483-3-cyphar@cyphar.com>
+ <CAHk-=wh8L50f31vW8BwRUXhLiq3eoCQ3tg8ER4Yp2dzuU1w5rQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8BIT
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="t2fxesclfr677pzw"
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wh8L50f31vW8BwRUXhLiq3eoCQ3tg8ER4Yp2dzuU1w5rQ@mail.gmail.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, 11 Oct 2019 20:57:51 -0400
-Steven Rostedt <rostedt@goodmis.org> wrote:
 
-> --- a/kernel/trace/trace_events.c
-> +++ b/kernel/trace/trace_events.c
-> @@ -1391,9 +1391,6 @@ static int subsystem_open(struct inode *inode, struct file *filp)
->  	struct trace_array *tr;
->  	int ret;
->  
-> -	if (tracing_is_disabled())
-> -		return -ENODEV;
-> -
->  	/* Make sure the system still exists */
->  	mutex_lock(&event_mutex);
->  	mutex_lock(&trace_types_lock);
-> @@ -1420,16 +1417,9 @@ static int subsystem_open(struct inode *inode, struct file *filp)
->  	WARN_ON(!dir);
->  
->  	/* Still need to increment the ref count of the system */
-> -	if (trace_array_get(tr) < 0) {
-> -		put_system(dir);
-> -		return -ENODEV;
-> -	}
-> -
-> -	ret = tracing_open_generic(inode, filp);
-> -	if (ret < 0) {
-> -		trace_array_put(tr);
-> +	ret = tracing_open_generic_tr(inode, filp);
-> +	if (ret < 0)
->  		put_system(dir);
-> -	}
->  
->  	return ret;
->  }
+--t2fxesclfr677pzw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I got a bit too aggressive on this patch. The subsystem_open() gets the
-tr from a search, not from the inode. Thus it can't use the
-tracing_open_generic_tr() call. It needs to do the trace_array_get()
-directly.
+On 2019-10-10, Linus Torvalds <torvalds@linux-foundation.org> wrote:
+> On Wed, Oct 9, 2019 at 10:42 PM Aleksa Sarai <cyphar@cyphar.com> wrote:
+> >
+> > --- a/fs/namei.c
+> > +++ b/fs/namei.c
+> > @@ -2277,6 +2277,11 @@ static const char *path_init(struct nameidata *n=
+d, unsigned flags)
+> >
+> >         nd->m_seq =3D read_seqbegin(&mount_lock);
+> >
+> > +       /* LOOKUP_IN_ROOT treats absolute paths as being relative-to-di=
+rfd. */
+> > +       if (flags & LOOKUP_IN_ROOT)
+> > +               while (*s =3D=3D '/')
+> > +                       s++;
+> > +
+> >         /* Figure out the starting path and root (if needed). */
+> >         if (*s =3D=3D '/') {
+> >                 error =3D nd_jump_root(nd);
+>=20
+> Hmm. Wouldn't this make more sense all inside the if (*s =3D- '/') test?
+> That way if would be where we check for "should we start at the root",
+> which seems to make more sense conceptually.
 
-V2 of this patch:
+I don't really agree (though I do think that both options are pretty
+ugly). Doing it before the block makes it clear that absolute paths are
+just treated relative-to-dirfd -- doing it inside the block makes it
+look more like "/" is a special-case for nd_jump_root(). And while that
+is somewhat true, this is just a side-effect of making the code more
+clean -- my earlier versions reworked the dirfd handling to always grab
+nd->root first if LOOKUP_IS_SCOPED. I switched to this method based on
+Al's review.
 
--- Steve
+In fairness, I do agree that the lonely while loop looks ugly.
 
-From b69083301044f587afefd5a4ac754a8c43ba0f0d Mon Sep 17 00:00:00 2001
-From: "Steven Rostedt (VMware)" <rostedt@goodmis.org>
-Date: Fri, 11 Oct 2019 19:12:21 -0400
-Subject: [PATCH] tracing: Have trace events system open call
- tracing_open_generic_tr()
+> That test for '/' currently has a "} else if (..)", but that's
+> pointless since it ends with a "return" anyway. So the "else" logic is
+> just noise.
 
-Instead of having the trace events system open calls open code the taking of
-the trace_array descriptor (with trace_array_get()) and then calling
-trace_open_generic(), have it use the tracing_open_generic_tr() that does
-the combination of the two. This requires making tracing_open_generic_tr()
-global.
+This depends on the fact that LOOKUP_BENEATH always triggers -EXDEV for
+nd_jump_root() -- if we ever add another "scoped lookup" flag then the
+logic will have to be further reworked.
 
-Signed-off-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
----
- kernel/trace/trace.c        |  2 +-
- kernel/trace/trace.h        |  1 +
- kernel/trace/trace_events.c | 17 +++--------------
- 3 files changed, 5 insertions(+), 15 deletions(-)
+(It should be noted that the new version doesn't always end with a
+"return", but you could change it to act that way given the above
+assumption.)
 
-diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
-index fa7d813b04c6..94f1b9124939 100644
---- a/kernel/trace/trace.c
-+++ b/kernel/trace/trace.c
-@@ -4156,7 +4156,7 @@ bool tracing_is_disabled(void)
-  * Open and update trace_array ref count.
-  * Must have the current trace_array passed to it.
-  */
--static int tracing_open_generic_tr(struct inode *inode, struct file *filp)
-+int tracing_open_generic_tr(struct inode *inode, struct file *filp)
- {
- 	struct trace_array *tr = inode->i_private;
- 
-diff --git a/kernel/trace/trace.h b/kernel/trace/trace.h
-index f801d154ff6a..854dbf4050f8 100644
---- a/kernel/trace/trace.h
-+++ b/kernel/trace/trace.h
-@@ -681,6 +681,7 @@ void tracing_reset_online_cpus(struct trace_buffer *buf);
- void tracing_reset_current(int cpu);
- void tracing_reset_all_online_cpus(void);
- int tracing_open_generic(struct inode *inode, struct file *filp);
-+int tracing_open_generic_tr(struct inode *inode, struct file *filp);
- bool tracing_is_disabled(void);
- bool tracer_tracing_is_on(struct trace_array *tr);
- void tracer_tracing_on(struct trace_array *tr);
-diff --git a/kernel/trace/trace_events.c b/kernel/trace/trace_events.c
-index b89cdfe20bc1..9613a757c902 100644
---- a/kernel/trace/trace_events.c
-+++ b/kernel/trace/trace_events.c
-@@ -1440,28 +1440,17 @@ static int system_tr_open(struct inode *inode, struct file *filp)
- 	struct trace_array *tr = inode->i_private;
- 	int ret;
- 
--	if (tracing_is_disabled())
--		return -ENODEV;
--
--	if (trace_array_get(tr) < 0)
--		return -ENODEV;
--
- 	/* Make a temporary dir that has no system but points to tr */
- 	dir = kzalloc(sizeof(*dir), GFP_KERNEL);
--	if (!dir) {
--		trace_array_put(tr);
-+	if (!dir)
- 		return -ENOMEM;
--	}
--
--	dir->tr = tr;
- 
--	ret = tracing_open_generic(inode, filp);
-+	ret = tracing_open_generic_tr(inode, filp);
- 	if (ret < 0) {
--		trace_array_put(tr);
- 		kfree(dir);
- 		return ret;
- 	}
--
-+	dir->tr = tr;
- 	filp->private_data = dir;
- 
- 	return 0;
--- 
-2.20.1
+> And if you get rid of the unnecessary else, moving the LOOKUP_IN_ROOT
+> inside the if-statement works fine.
+>=20
+> So this could be something like
+>=20
+>     --- a/fs/namei.c
+>     +++ b/fs/namei.c
+>     @@ -2194,11 +2196,19 @@ static const char *path_init(struct
+> nameidata *nd, unsigned flags)
+>=20
+>         nd->m_seq =3D read_seqbegin(&mount_lock);
+>         if (*s =3D=3D '/') {
+>     -           set_root(nd);
+>     -           if (likely(!nd_jump_root(nd)))
+>     -                   return s;
+>     -           return ERR_PTR(-ECHILD);
+>     -   } else if (nd->dfd =3D=3D AT_FDCWD) {
+>     +           /* LOOKUP_IN_ROOT treats absolute paths as being
+> relative-to-dirfd. */
+>     +           if (!(flags & LOOKUP_IN_ROOT)) {
+>     +                   set_root(nd);
+>     +                   if (likely(!nd_jump_root(nd)))
+>     +                           return s;
+>     +                   return ERR_PTR(-ECHILD);
+>     +           }
+>     +
+>     +           /* Skip initial '/' for LOOKUP_IN_ROOT */
+>     +           do { s++; } while (*s =3D=3D '/');
+>     +   }
+>     +
+>     +   if (nd->dfd =3D=3D AT_FDCWD) {
+>                 if (flags & LOOKUP_RCU) {
+>                         struct fs_struct *fs =3D current->fs;
+>                         unsigned seq;
+>=20
+> instead. The patch ends up slightly bigger (due to the re-indentation)
+> but now it handles all the "start at root" in the same place. Doesn't
+> that make sense?
 
+It is correct (though I'd need to clean it up a bit to handle
+nd_jump_root() correctly), and if you really would like me to change it
+I will -- but I just don't agree that it's cleaner.
+
+--=20
+Aleksa Sarai
+Senior Software Engineer (Containers)
+SUSE Linux GmbH
+<https://www.cyphar.com/>
+
+--t2fxesclfr677pzw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCXaFRqQAKCRCdlLljIbnQ
+El00AQDKyu1GNvL91tAxvDZP/2rrqVrUf7Ad1T8uobD+aKQbgwEAvz9eeuLveRVq
+aqnd3Ifu8HO4SYcqYn+hDFgDz5D5Kwo=
+=XXCi
+-----END PGP SIGNATURE-----
+
+--t2fxesclfr677pzw--
