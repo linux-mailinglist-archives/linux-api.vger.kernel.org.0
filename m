@@ -2,151 +2,186 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 595AAD4EEC
-	for <lists+linux-api@lfdr.de>; Sat, 12 Oct 2019 12:12:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4DE9D4EF0
+	for <lists+linux-api@lfdr.de>; Sat, 12 Oct 2019 12:19:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727231AbfJLKMY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 12 Oct 2019 06:12:24 -0400
-Received: from mx2a.mailbox.org ([80.241.60.219]:48631 "EHLO mx2a.mailbox.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726839AbfJLKMY (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Sat, 12 Oct 2019 06:12:24 -0400
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [80.241.60.241])
-        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
-        (No client certificate requested)
-        by mx2a.mailbox.org (Postfix) with ESMTPS id 53317A3733;
-        Sat, 12 Oct 2019 12:12:20 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp2.mailbox.org ([80.241.60.241])
-        by spamfilter06.heinlein-hosting.de (spamfilter06.heinlein-hosting.de [80.241.56.125]) (amavisd-new, port 10030)
-        with ESMTP id YvIH0-myk1cl; Sat, 12 Oct 2019 12:12:16 +0200 (CEST)
-Date:   Sat, 12 Oct 2019 21:12:05 +1100
-From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     Michael Ellerman <mpe@ellerman.id.au>
-Cc:     mingo@redhat.com, peterz@infradead.org,
-        alexander.shishkin@linux.intel.com, jolsa@redhat.com,
-        namhyung@kernel.org, christian@brauner.io, keescook@chromium.org,
-        linux@rasmusvillemoes.dk, viro@zeniv.linux.org.uk,
-        torvalds@linux-foundation.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usercopy: Avoid soft lockups in test_check_nonzero_user()
-Message-ID: <20191012101205.px6ocxg4lkuc3gia@yavin.dot.cyphar.com>
-References: <20191010114007.o3bygjf4jlfk242e@yavin.dot.cyphar.com>
- <20191011022447.24249-1-mpe@ellerman.id.au>
- <20191011034810.xkmz3e4l5ezxvq57@yavin.dot.cyphar.com>
- <87tv8euw44.fsf@mpe.ellerman.id.au>
+        id S1727068AbfJLKTw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 12 Oct 2019 06:19:52 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:49692 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726839AbfJLKTv (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 12 Oct 2019 06:19:51 -0400
+Received: from [185.81.136.17] (helo=localhost.localdomain)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1iJEUq-0006mw-IO; Sat, 12 Oct 2019 10:19:36 +0000
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     jannh@google.com
+Cc:     aarcange@redhat.com, akpm@linux-foundation.org,
+        christian.brauner@ubuntu.com, christian@kellner.me,
+        ckellner@redhat.com, cyphar@cyphar.com, elena.reshetova@intel.com,
+        guro@fb.com, ldv@altlinux.org, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mhocko@suse.com, mingo@kernel.org,
+        peterz@infradead.org, tglx@linutronix.de, viro@zeniv.linux.org.uk
+Subject: [PATCH] pidfd: add NSpid entries to fdinfo
+Date:   Sat, 12 Oct 2019 12:19:22 +0200
+Message-Id: <20191012101922.24168-1-christian.brauner@ubuntu.com>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <CAG48ez1hk9d-qAPcRy9QOgNuO8u3Y_hu_3=GZoFYLY+oMdo8xg@mail.gmail.com>
+References: <CAG48ez1hk9d-qAPcRy9QOgNuO8u3Y_hu_3=GZoFYLY+oMdo8xg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="6w5sfp6n6zzwxgln"
-Content-Disposition: inline
-In-Reply-To: <87tv8euw44.fsf@mpe.ellerman.id.au>
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+Currently, the fdinfo file of contains the field Pid:
+It contains the pid a given pidfd refers to in the pid namespace of the
+opener's procfs instance.
+If the pid namespace of the process is not a descendant of the pid
+namespace of the procfs instance 0 will be shown as its pid. This is
+similar to calling getppid() on a process who's parent is out of it's
+pid namespace (e.g. when moving a process into a sibling pid namespace
+via setns()).
 
---6w5sfp6n6zzwxgln
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Add an NSpid field for easy retrieval of the pid in all descendant pid
+namespaces:
+If pid namespaces are supported this field will contain the pid a given
+pidfd refers to for all descendant pid namespaces starting from the
+current pid namespace of the opener's procfs instance, i.e. the first
+pid entry for Pid and NSpid will be identical.
+If the pid namespace of the process is not a descendant of the pid
+namespace of the procfs instance 0 will be shown as its first NSpid and
+no other NSpid entries will be shown.
+Note that this differs from the Pid and NSpid fields in
+/proc/<pid>/status where Pid and NSpid are always shown relative to the
+pid namespace of the opener's procfs instace. The difference becomes
+obvious when sending around a pidfd between pid namespaces from
+different trees, i.e. where no ancestoral relation is present between
+the pid namespaces:
+1. sending around pidfd:
+- create two new pid namespaces ns1 and ns2 in the initial pid namespace
+  (Also take care to create new mount namespaces in the new pid
+  namespace and mount procfs.)
+- create a process with a pidfd in ns1
+- send pidfd from ns1 to ns2
+- read /proc/self/fdinfo/<pidfd> and observe that Pid and NSpid entry
+  are 0
+- create a process with a pidfd in
+- open a pidfd for a process in the initial pid namespace
+2. sending around /proc/<pid>/status fd:
+- create two new pid namespaces ns1 and ns2 in the initial pid namespace
+  (Also take care to create new mount namespaces in the new pid
+  namespace and mount procfs.)
+- create a process in ns1
+- open /proc/<pid>/status in the initial pid namespace for the process
+  you created in ns1
+- send statusfd from initial pid namespace to ns2
+- read statusfd and observe:
+  - that Pid will contain the pid of the process as seen from the init
+  - that NSpid will contain the pids of the process for all descendant
+    pid namespaces starting from the initial pid namespace
 
-On 2019-10-12, Michael Ellerman <mpe@ellerman.id.au> wrote:
-> Aleksa Sarai <cyphar@cyphar.com> writes:
-> > On 2019-10-11, Michael Ellerman <mpe@ellerman.id.au> wrote:
-> >> On a machine with a 64K PAGE_SIZE, the nested for loops in
-> >> test_check_nonzero_user() can lead to soft lockups, eg:
-> ...
-> >> diff --git a/lib/test_user_copy.c b/lib/test_user_copy.c
-> >> index 950ee88cd6ac..9fb6bc609d4c 100644
-> >> --- a/lib/test_user_copy.c
-> >> +++ b/lib/test_user_copy.c
-> >> @@ -47,9 +47,26 @@ static bool is_zeroed(void *from, size_t size)
-> >>  static int test_check_nonzero_user(char *kmem, char __user *umem, siz=
-e_t size)
-> >>  {
-> >>  	int ret =3D 0;
-> >> -	size_t start, end, i;
-> >> -	size_t zero_start =3D size / 4;
-> >> -	size_t zero_end =3D size - zero_start;
-> >> +	size_t start, end, i, zero_start, zero_end;
-> >> +
-> >> +	if (test(size < 1024, "buffer too small"))
-> >> +		return -EINVAL;
-> >> +
-> >> +	/*
-> >> +	 * We want to cross a page boundary to exercise the code more
-> >> +	 * effectively. We assume the buffer we're passed has a page boundar=
-y at
-> >> +	 * size / 2. We also don't want to make the size we scan too large,
-> >> +	 * otherwise the test can take a long time and cause soft lockups. So
-> >> +	 * scan a 1024 byte region across the page boundary.
-> >> +	 */
-> >> +	start =3D size / 2 - 512;
-> >> +	size =3D 1024;
-> >
-> > I don't think it's necessary to do "size / 2" here -- you can just use
-> > PAGE_SIZE directly and check above that "size =3D=3D 2*PAGE_SIZE" (not =
-that
-> > this check is exceptionally necessary -- since there's only one caller
-> > of this function and it's in the same file).
->=20
-> OK, like this?
+Cc: Jann Horn <jannh@google.com>
+Cc: linux-api@vger.kernel.org
+Co-Developed-by: Christian Kellner <christian@kellner.me>
+Signed-off-by: Christian Kellner <christian@kellner.me>
+Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
+---
+ kernel/fork.c | 73 ++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 72 insertions(+), 1 deletion(-)
 
-Yup -- that looks good. I'll give it a Reviewed-by once you resend it.
+diff --git a/kernel/fork.c b/kernel/fork.c
+index 1f6c45f6a734..b155bad92d9c 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -1695,12 +1695,83 @@ static int pidfd_release(struct inode *inode, struct file *file)
+ }
+ 
+ #ifdef CONFIG_PROC_FS
++/**
++ * pidfd_show_fdinfo - print information about a pidfd
++ * @m: proc fdinfo file
++ * @f: file referencing a pidfd
++ *
++ * Pid:
++ * This function will print the pid a given pidfd refers to in the pid
++ * namespace of the opener's procfs instance.
++ * If the pid namespace of the process is not a descendant of the pid
++ * namespace of the procfs instance 0 will be shown as its pid. This is
++ * similar to calling getppid() on a process who's parent is out of it's
++ * pid namespace (e.g. when moving a process into a sibling pid namespace
++ * via setns()).
++ *
++ * NSpid:
++ * If pid namespaces are supported then this function will also print the
++ * pid a given pidfd refers to for all descendant pid namespaces starting
++ * from the current pid namespace of the opener's procfs instance, i.e. the
++ * first pid entry for Pid and NSpid will be identical.
++ * If the pid namespace of the process is not a descendant of the pid
++ * namespace of the procfs instance 0 will be shown as its first NSpid and
++ * no other NSpid entries will be shown.
++ * Note that this differs from the Pid and NSpid fields in
++ * /proc/<pid>/status where Pid and NSpid are always shown relative to the
++ * pid namespace of the opener's procfs instace. The difference becomes
++ * obvious when sending around a pidfd between pid namespaces from
++ * different trees, i.e. where no ancestoral relation is present between
++ * the pid namespaces:
++ * 1. sending around pidfd:
++ * - create two new pid namespaces ns1 and ns2 in the initial pid namespace
++ *   (Also take care to create new mount namespaces in the new pid
++ *   namespace and mount procfs.)
++ * - create a process with a pidfd in ns1
++ * - send pidfd from ns1 to ns2
++ * - read /proc/self/fdinfo/<pidfd> and observe that Pid and NSpid entry
++ *   are 0
++ * - create a process with a pidfd in
++ * - open a pidfd for a process in the initial pid namespace
++ * 2. sending around /proc/<pid>/status fd:
++ * - create two new pid namespaces ns1 and ns2 in the initial pid namespace
++ *   (Also take care to create new mount namespaces in the new pid
++ *   namespace and mount procfs.)
++ * - create a process in ns1
++ * - open /proc/<pid>/status in the initial pid namespace for the process
++ *   you created in ns1
++ * - send statusfd from initial pid namespace to ns2
++ * - read statusfd and observe:
++ *   - that Pid will contain the pid of the process as seen from the init
++ *   - that NSpid will contain the pids of the process for all descendant
++ *     pid namespaces starting from the initial pid namespace
++ */
+ static void pidfd_show_fdinfo(struct seq_file *m, struct file *f)
+ {
+ 	struct pid_namespace *ns = proc_pid_ns(file_inode(m->file));
+ 	struct pid *pid = f->private_data;
++	pid_t nr = pid_nr_ns(pid, ns);
++
++	seq_put_decimal_ull(m, "Pid:\t", nr);
++
++#ifdef CONFIG_PID_NS
++	seq_puts(m, "\nNSpid:");
++	if (nr == 0) {
++		/*
++		 * If nr is zero the pid namespace of the procfs and the
++		 * pid namespace of the pidfd are neither the same pid
++		 * namespace nor are they ancestors. Since NSpid and Pid
++		 * are always identical in their first entry shortcut it
++		 * and simply print 0.
++		 */
++		seq_put_decimal_ull(m, "\t", nr);
++	} else {
++		int i;
++		for (i = ns->level; i <= pid->level; i++)
++			seq_put_decimal_ull(m, "\t", pid_nr_ns(pid, pid->numbers[i].ns));
++	}
++#endif
+ 
+-	seq_put_decimal_ull(m, "Pid:\t", pid_nr_ns(pid, ns));
+ 	seq_putc(m, '\n');
+ }
+ #endif
+-- 
+2.23.0
 
-> diff --git a/lib/test_user_copy.c b/lib/test_user_copy.c
-> index 950ee88cd6ac..48bc669b2549 100644
-> --- a/lib/test_user_copy.c
-> +++ b/lib/test_user_copy.c
-> @@ -47,9 +47,25 @@ static bool is_zeroed(void *from, size_t size)
->  static int test_check_nonzero_user(char *kmem, char __user *umem, size_t=
- size)
->  {
->  	int ret =3D 0;
-> -	size_t start, end, i;
-> -	size_t zero_start =3D size / 4;
-> -	size_t zero_end =3D size - zero_start;
-> +	size_t start, end, i, zero_start, zero_end;
-> +
-> +	if (test(size < 2 * PAGE_SIZE, "buffer too small"))
-> +		return -EINVAL;
-> +
-> +	/*
-> +	 * We want to cross a page boundary to exercise the code more
-> +	 * effectively. We also don't want to make the size we scan too large,
-> +	 * otherwise the test can take a long time and cause soft lockups. So
-> +	 * scan a 1024 byte region across the page boundary.
-> +	 */
-> +	size =3D 1024;
-> +	start =3D PAGE_SIZE - (size / 2);
-> +
-> +	kmem +=3D start;
-> +	umem +=3D start;
-> +
-> +	zero_start =3D size / 4;
-> +	zero_end =3D size - zero_start;
-> =20
->  	/*
->  	 * We conduct a series of check_nonzero_user() tests on a block of memo=
-ry
-
-
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-<https://www.cyphar.com/>
-
---6w5sfp6n6zzwxgln
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCXaGm8gAKCRCdlLljIbnQ
-Emn4AP41igjRH0F5DHCfmErfNAUW5/gBhcs02P7qsfK/94ZEVQEAtLiYGeydbgdt
-XejHbb0dVmtijotI9qFDCyYPp0ix4Ag=
-=Wb1Y
------END PGP SIGNATURE-----
-
---6w5sfp6n6zzwxgln--
