@@ -2,200 +2,97 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D162DD4EF5
-	for <lists+linux-api@lfdr.de>; Sat, 12 Oct 2019 12:21:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A1E9D51F8
+	for <lists+linux-api@lfdr.de>; Sat, 12 Oct 2019 21:16:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728977AbfJLKVh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 12 Oct 2019 06:21:37 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:49726 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726555AbfJLKVg (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 12 Oct 2019 06:21:36 -0400
-Received: from [185.81.136.17] (helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1iJEWZ-0006w3-Ut; Sat, 12 Oct 2019 10:21:24 +0000
-Date:   Sat, 12 Oct 2019 12:21:20 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     jannh@google.com
-Cc:     aarcange@redhat.com, akpm@linux-foundation.org,
-        christian@kellner.me, ckellner@redhat.com, cyphar@cyphar.com,
-        elena.reshetova@intel.com, guro@fb.com, ldv@altlinux.org,
-        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mhocko@suse.com, mingo@kernel.org, peterz@infradead.org,
-        tglx@linutronix.de, viro@zeniv.linux.org.uk
-Subject: Re: [PATCH] pidfd: add NSpid entries to fdinfo
-Message-ID: <20191012102119.qq2adlnxjxrkslca@wittgenstein>
-References: <CAG48ez1hk9d-qAPcRy9QOgNuO8u3Y_hu_3=GZoFYLY+oMdo8xg@mail.gmail.com>
- <20191012101922.24168-1-christian.brauner@ubuntu.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20191012101922.24168-1-christian.brauner@ubuntu.com>
-User-Agent: NeoMutt/20180716
+        id S1729605AbfJLTQM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 12 Oct 2019 15:16:12 -0400
+Received: from mail-vk1-f201.google.com ([209.85.221.201]:44958 "EHLO
+        mail-vk1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729559AbfJLTQM (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 12 Oct 2019 15:16:12 -0400
+Received: by mail-vk1-f201.google.com with SMTP id b204so5094360vkb.11
+        for <linux-api@vger.kernel.org>; Sat, 12 Oct 2019 12:16:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=cgGZvwJnEGZisI4Gx+FEE0RSIkczOwq/CnutrrsIPDg=;
+        b=hY5IoaetYla5K4CZDUJpZfqMB6tRT69RksToZe2ITHKt/cs8UmADkqTQoSBtcjeu1X
+         YjZa4cdGK7/lcQMgB+dwIHcDpii68wltQCkm1GHVA+l7koQ0HEnCkeQJDP5IiKUzqh4q
+         gF68dv50l1radXHZ1RYp/XJ59VBdure8blXWxxCico6NvisHkGupjXsp3mL9f+xUhSiz
+         Cg+lNORj8vEhDRJ1EdztXASNmJCL79Y5bDd0uNpi3gMm3mYuy2vFdkEpXGDed+W5YoVI
+         p3wTX1AMC6r9lPoKLPZC4dqM1LWspSSf+43Ec/LnWiJeC9xfFHNkxpVkYghRtGqiIS0G
+         uu1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=cgGZvwJnEGZisI4Gx+FEE0RSIkczOwq/CnutrrsIPDg=;
+        b=p2aOPkA++ip2++HLz1BZMmJ4fOlD4pKZnovlqAR4dXUibz25ITEVpbhhCGwpjlilUF
+         dg/0E13zZij2axCuOyRwBskgmBEP7AsvniXwzUO6MTqVgCqtfxoedfNAphK3DzHMMkTj
+         Mtrj04y4FxGhTMndmXStKL2aWtStbK2D/z38e6+sMnJ5Pvhy5vwFBQ3W8kkRphewB6JR
+         R9/r5onHozvdWPKt8hGlv8J4Sf0XJV3esVlb8S478FmVSrqNEYJsQCKOLiz603yWxLKC
+         7Y3Aef6QC0v8keHyaUu6S69FA2uXAlATaTLqjeJrlQLRuvZLDU7S4B0ojLcRvfgyT5Yw
+         vu5g==
+X-Gm-Message-State: APjAAAUc45tEvS3FwnSUWMxFHYfdQza0TMHqnxzxgjIcbZnbVG8BBtt5
+        w7N2oT6RaLdBehaHH9DdNep1OkES1ZwQ7tGPGosvnxN3uQxTCF8dogKM40obe9Kp4P3ycq1TUAn
+        UNLMkfknpMZfsQEcQlr6KOLUW4ZjeFdtyZSKPqF4dGVuzjzXnHGGppa4ytKaBV4E2Cg==
+X-Google-Smtp-Source: APXvYqwaUeRJ6x02z8elU1C3NDl027logw1VDhmfR9ix2GcHCirPapDVMNBMBWC+M+dd6v9o18pHv5gMNXM=
+X-Received: by 2002:a67:ad0c:: with SMTP id t12mr12732593vsl.82.1570907771122;
+ Sat, 12 Oct 2019 12:16:11 -0700 (PDT)
+Date:   Sat, 12 Oct 2019 12:15:55 -0700
+Message-Id: <20191012191602.45649-1-dancol@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.23.0.700.g56cf767bdb-goog
+Subject: [PATCH 0/7] Harden userfaultfd
+From:   Daniel Colascione <dancol@google.com>
+To:     linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+        lokeshgidra@google.com, dancol@google.com, nnk@google.com
+Cc:     nosh@google.com, timmurray@google.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Oct 12, 2019 at 12:19:22PM +0200, Christian Brauner wrote:
-> Currently, the fdinfo file of contains the field Pid:
-> It contains the pid a given pidfd refers to in the pid namespace of the
-> opener's procfs instance.
-> If the pid namespace of the process is not a descendant of the pid
-> namespace of the procfs instance 0 will be shown as its pid. This is
-> similar to calling getppid() on a process who's parent is out of it's
-> pid namespace (e.g. when moving a process into a sibling pid namespace
-> via setns()).
-> 
-> Add an NSpid field for easy retrieval of the pid in all descendant pid
-> namespaces:
-> If pid namespaces are supported this field will contain the pid a given
-> pidfd refers to for all descendant pid namespaces starting from the
-> current pid namespace of the opener's procfs instance, i.e. the first
-> pid entry for Pid and NSpid will be identical.
-> If the pid namespace of the process is not a descendant of the pid
-> namespace of the procfs instance 0 will be shown as its first NSpid and
-> no other NSpid entries will be shown.
-> Note that this differs from the Pid and NSpid fields in
-> /proc/<pid>/status where Pid and NSpid are always shown relative to the
-> pid namespace of the opener's procfs instace. The difference becomes
-> obvious when sending around a pidfd between pid namespaces from
-> different trees, i.e. where no ancestoral relation is present between
-> the pid namespaces:
-> 1. sending around pidfd:
-> - create two new pid namespaces ns1 and ns2 in the initial pid namespace
->   (Also take care to create new mount namespaces in the new pid
->   namespace and mount procfs.)
-> - create a process with a pidfd in ns1
-> - send pidfd from ns1 to ns2
-> - read /proc/self/fdinfo/<pidfd> and observe that Pid and NSpid entry
->   are 0
-> - create a process with a pidfd in
-> - open a pidfd for a process in the initial pid namespace
-> 2. sending around /proc/<pid>/status fd:
-> - create two new pid namespaces ns1 and ns2 in the initial pid namespace
->   (Also take care to create new mount namespaces in the new pid
->   namespace and mount procfs.)
-> - create a process in ns1
-> - open /proc/<pid>/status in the initial pid namespace for the process
->   you created in ns1
-> - send statusfd from initial pid namespace to ns2
-> - read statusfd and observe:
->   - that Pid will contain the pid of the process as seen from the init
->   - that NSpid will contain the pids of the process for all descendant
->     pid namespaces starting from the initial pid namespace
-> 
-> Cc: Jann Horn <jannh@google.com>
-> Cc: linux-api@vger.kernel.org
-> Co-Developed-by: Christian Kellner <christian@kellner.me>
-> Signed-off-by: Christian Kellner <christian@kellner.me>
-> Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
+Userfaultfd in unprivileged contexts could be potentially very
+useful. We'd like to harden userfaultfd to make such unprivileged use
+less risky. This patch series allows SELinux to manage userfaultfd
+file descriptors (via a new flag, for compatibility with existing
+code) and allows administrators to limit userfaultfd to servicing
+user-mode faults, increasing the difficulty of using userfaultfd in
+exploit chains invoking delaying kernel faults.
 
-I think this might be more what we want.
-I tried to think of cases where the first entry of Pid is not identical
-to the first entry of NSpid but I came up with none. Maybe you do, Jann?
+A new anon_inodes interface allows callers to opt into SELinux
+management of anonymous file objects. In this mode, anon_inodes
+creates new ephemeral inodes for anonymous file objects instead of
+reusing a singleton dummy inode. A new LSM hook gives security modules
+an opportunity to configure and veto these ephemeral inodes.
 
-Christian, this is just a quick stab I took. Feel free to pick this up
-as a template.
+Existing anon_inodes users must opt into the new functionality.
 
-Thanks!
-Christian
+Daniel Colascione (7):
+  Add a new flags-accepting interface for anonymous inodes
+  Add a concept of a "secure" anonymous file
+  Add a UFFD_SECURE flag to the userfaultfd API.
+  Teach SELinux about a new userfaultfd class
+  Let userfaultfd opt out of handling kernel-mode faults
+  Allow users to require UFFD_SECURE
+  Add a new sysctl for limiting userfaultfd to user mode faults
 
-> ---
->  kernel/fork.c | 73 ++++++++++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 72 insertions(+), 1 deletion(-)
-> 
-> diff --git a/kernel/fork.c b/kernel/fork.c
-> index 1f6c45f6a734..b155bad92d9c 100644
-> --- a/kernel/fork.c
-> +++ b/kernel/fork.c
-> @@ -1695,12 +1695,83 @@ static int pidfd_release(struct inode *inode, struct file *file)
->  }
->  
->  #ifdef CONFIG_PROC_FS
-> +/**
-> + * pidfd_show_fdinfo - print information about a pidfd
-> + * @m: proc fdinfo file
-> + * @f: file referencing a pidfd
-> + *
-> + * Pid:
-> + * This function will print the pid a given pidfd refers to in the pid
-> + * namespace of the opener's procfs instance.
-> + * If the pid namespace of the process is not a descendant of the pid
-> + * namespace of the procfs instance 0 will be shown as its pid. This is
-> + * similar to calling getppid() on a process who's parent is out of it's
-> + * pid namespace (e.g. when moving a process into a sibling pid namespace
-> + * via setns()).
-> + *
-> + * NSpid:
-> + * If pid namespaces are supported then this function will also print the
-> + * pid a given pidfd refers to for all descendant pid namespaces starting
-> + * from the current pid namespace of the opener's procfs instance, i.e. the
-> + * first pid entry for Pid and NSpid will be identical.
-> + * If the pid namespace of the process is not a descendant of the pid
-> + * namespace of the procfs instance 0 will be shown as its first NSpid and
-> + * no other NSpid entries will be shown.
-> + * Note that this differs from the Pid and NSpid fields in
-> + * /proc/<pid>/status where Pid and NSpid are always shown relative to the
-> + * pid namespace of the opener's procfs instace. The difference becomes
-> + * obvious when sending around a pidfd between pid namespaces from
-> + * different trees, i.e. where no ancestoral relation is present between
-> + * the pid namespaces:
-> + * 1. sending around pidfd:
-> + * - create two new pid namespaces ns1 and ns2 in the initial pid namespace
-> + *   (Also take care to create new mount namespaces in the new pid
-> + *   namespace and mount procfs.)
-> + * - create a process with a pidfd in ns1
-> + * - send pidfd from ns1 to ns2
-> + * - read /proc/self/fdinfo/<pidfd> and observe that Pid and NSpid entry
-> + *   are 0
-> + * - create a process with a pidfd in
-> + * - open a pidfd for a process in the initial pid namespace
-> + * 2. sending around /proc/<pid>/status fd:
-> + * - create two new pid namespaces ns1 and ns2 in the initial pid namespace
-> + *   (Also take care to create new mount namespaces in the new pid
-> + *   namespace and mount procfs.)
-> + * - create a process in ns1
-> + * - open /proc/<pid>/status in the initial pid namespace for the process
-> + *   you created in ns1
-> + * - send statusfd from initial pid namespace to ns2
-> + * - read statusfd and observe:
-> + *   - that Pid will contain the pid of the process as seen from the init
-> + *   - that NSpid will contain the pids of the process for all descendant
-> + *     pid namespaces starting from the initial pid namespace
-> + */
->  static void pidfd_show_fdinfo(struct seq_file *m, struct file *f)
->  {
->  	struct pid_namespace *ns = proc_pid_ns(file_inode(m->file));
->  	struct pid *pid = f->private_data;
-> +	pid_t nr = pid_nr_ns(pid, ns);
-> +
-> +	seq_put_decimal_ull(m, "Pid:\t", nr);
-> +
-> +#ifdef CONFIG_PID_NS
-> +	seq_puts(m, "\nNSpid:");
-> +	if (nr == 0) {
-> +		/*
-> +		 * If nr is zero the pid namespace of the procfs and the
-> +		 * pid namespace of the pidfd are neither the same pid
-> +		 * namespace nor are they ancestors. Since NSpid and Pid
-> +		 * are always identical in their first entry shortcut it
-> +		 * and simply print 0.
-> +		 */
-> +		seq_put_decimal_ull(m, "\t", nr);
-> +	} else {
-> +		int i;
-> +		for (i = ns->level; i <= pid->level; i++)
-> +			seq_put_decimal_ull(m, "\t", pid_nr_ns(pid, pid->numbers[i].ns));
-> +	}
-> +#endif
->  
-> -	seq_put_decimal_ull(m, "Pid:\t", pid_nr_ns(pid, ns));
->  	seq_putc(m, '\n');
->  }
->  #endif
-> -- 
-> 2.23.0
-> 
+ Documentation/admin-guide/sysctl/vm.rst | 19 +++++-
+ fs/anon_inodes.c                        | 89 +++++++++++++++++--------
+ fs/userfaultfd.c                        | 47 +++++++++++--
+ include/linux/anon_inodes.h             | 27 ++++++--
+ include/linux/lsm_hooks.h               |  8 +++
+ include/linux/security.h                |  2 +
+ include/linux/userfaultfd_k.h           |  3 +
+ include/uapi/linux/userfaultfd.h        | 14 ++++
+ kernel/sysctl.c                         |  9 +++
+ security/security.c                     |  8 +++
+ security/selinux/hooks.c                | 68 +++++++++++++++++++
+ security/selinux/include/classmap.h     |  2 +
+ 12 files changed, 256 insertions(+), 40 deletions(-)
+
+-- 
+2.23.0.700.g56cf767bdb-goog
+
