@@ -2,166 +2,87 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D8006D5205
-	for <lists+linux-api@lfdr.de>; Sat, 12 Oct 2019 21:18:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 77CEAD5332
+	for <lists+linux-api@lfdr.de>; Sun, 13 Oct 2019 00:56:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729739AbfJLTQ2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 12 Oct 2019 15:16:28 -0400
-Received: from mail-pf1-f201.google.com ([209.85.210.201]:54473 "EHLO
-        mail-pf1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729732AbfJLTQ1 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 12 Oct 2019 15:16:27 -0400
-Received: by mail-pf1-f201.google.com with SMTP id s139so10211068pfc.21
-        for <linux-api@vger.kernel.org>; Sat, 12 Oct 2019 12:16:25 -0700 (PDT)
+        id S1727188AbfJLW4g (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 12 Oct 2019 18:56:36 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:33762 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727340AbfJLW4f (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 12 Oct 2019 18:56:35 -0400
+Received: by mail-lj1-f193.google.com with SMTP id a22so13164201ljd.0
+        for <linux-api@vger.kernel.org>; Sat, 12 Oct 2019 15:56:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=JzOfukPeifzyE+Hzh6AM1ECnC48wv32Xd/UndNRDiTo=;
-        b=kDQcXQa0VYmk2lf9nJ7jqZxWRDVdkQVg+UBXlTJRuKtd7I68txAG3zAAgGzWHZffIz
-         ACbU48iFgUzzey52gZXZhwXb/RlhFw/BAkjTItM87AJ6j0JppA2oWS/FARYCx8qDlkcS
-         C6MPV7I/5wSKFvYULa1jc8EpbWv4WQqH4r2xf84JPOREQyzXwh9pd5BY2PzMQsdzULzf
-         Na3ZxHH93Li1yqBwI9w1X881rwDx1lxUmC/T76qqIFsCPHyxai4EgzSUeQ5uvT8BkZjx
-         MtlrBaaEFRezoYk0J6qwwXL0aicSKjGgU8B/V9/ZbeQpeV42NsFzOkQl/bKFzOD5Rxfl
-         Eoyw==
+        bh=DS67+YtCVu11SuWVZgu6Ket3y4/O2UgURNPso78w8e8=;
+        b=Z8HBphVPrHzEotVK6GhCCdwuVASP2gvXWc76WJqSndGHM9/B/9mi8kNS+A5t2InmtF
+         MSVj/sXqsezE6utbTZrIaBDDElGeUbMDMKgEzYvCnBg0wzL77Air9Ng/uDpX3dFDH/M6
+         +8ki0dUOVg8W1BriNCEuKJeWIJUE+8QWI0I6M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=JzOfukPeifzyE+Hzh6AM1ECnC48wv32Xd/UndNRDiTo=;
-        b=t4/M7Aa9f/nOyBIxW+w/Qg+kE2JE8D0pqW9o1Ok6vG12ZFk1Av9QsQf2Obb0z9H/di
-         lcEDi8hOrD8w3Dln1+JsQDyYNhfaD/zg71valpwG3zkDHgbqDpzxaARjK48qYBzVPA2H
-         YeF8NPCCpIjUdFXb4us6fmB/UyDHGi1Q11E1CVL1zkWjkSbzV294sN4nJhcmcIExOt7y
-         /BpYkmdjEjOGYADMCm1Bq3DlFJKQZspGhG/QtY1mHYym0eD05svTh2NBk7GFSLh9nQWt
-         TOutyGqEs4RhhQd506U9UOkriCOiRDEipMANG/Hu/BJ1/JJruX4/3S2DXAAEaQB6roj1
-         P01w==
-X-Gm-Message-State: APjAAAXmizTs1Otm1q8PvB8NT6eLzxCRDKpc8zsUFAiwYGp+4zJEWIRz
-        ALqCEycpLjV32SGIszREMHnnoIC8Rm31et9ZdFdEHSXI+NHzcjJBOhHd70GUly8NLgeO1Zsr96P
-        vnqDCCeIPOn5pHqeFkVUUYpbg7qzHehZhCZMD/KPdL8il6dmWmlrOEGHC2ng4jHIrPg==
-X-Google-Smtp-Source: APXvYqzw7iabkWhemyxvTnIX/T9BzR5SF73Fi8qy/bKbaOnBvZx+inukMBWdgUDNzzaCq9k8abBUkjs0hT8=
-X-Received: by 2002:a65:498c:: with SMTP id r12mr24547774pgs.280.1570907784749;
- Sat, 12 Oct 2019 12:16:24 -0700 (PDT)
-Date:   Sat, 12 Oct 2019 12:16:02 -0700
-In-Reply-To: <20191012191602.45649-1-dancol@google.com>
-Message-Id: <20191012191602.45649-8-dancol@google.com>
-Mime-Version: 1.0
-References: <20191012191602.45649-1-dancol@google.com>
-X-Mailer: git-send-email 2.23.0.700.g56cf767bdb-goog
-Subject: [PATCH 7/7] Add a new sysctl for limiting userfaultfd to user mode faults
-From:   Daniel Colascione <dancol@google.com>
-To:     linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        lokeshgidra@google.com, dancol@google.com, nnk@google.com
-Cc:     nosh@google.com, timmurray@google.com
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=DS67+YtCVu11SuWVZgu6Ket3y4/O2UgURNPso78w8e8=;
+        b=NKMvSmz0JTDDUMbMLnD5qmHNWT6J2kzlyDGLaNAZNErxO+SjN46QhZW4JY51lm+EX1
+         Go21zGSgYMpdNmeFJB3qydi24d+NpxlUKYRmfgS1HnZwlbiyqTw0/oeXGS9G4suKvZ7l
+         zVgMbNzf09LbMwNw7mPsOJ+yo3h6yhCxp+pfWtDaGwgiyx19/qTLsNybr5aUvPVdmVFw
+         UdAgJiAPc1kJFkpQNa0b072yWedH0pLfSShcBle8E8FGZhhizGnVFHLhP0qqhU3c3D0w
+         aDd8XeY7rEJsUi6H1pi0Z8YIoPoM72J7TieeBzps8BnieOXE942UAZ4Nqk9Nit22aVhs
+         S+6A==
+X-Gm-Message-State: APjAAAVJL1jQdxE8eDZ4+ggO9FpkTPVmVQ5sv230zl6211PkDt04xyF0
+        63jRQ8gINHOUhnnSaHYUeT7RWmqKjo0=
+X-Google-Smtp-Source: APXvYqw3jY7nqBGszkvTKC45LdRm6rPlvf4tQQTEh7tcKZ1+oJ2Ty/6TFnSILOcgACpmh9uoES4mWQ==
+X-Received: by 2002:a2e:331a:: with SMTP id d26mr13088971ljc.231.1570920994011;
+        Sat, 12 Oct 2019 15:56:34 -0700 (PDT)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com. [209.85.167.46])
+        by smtp.gmail.com with ESMTPSA id w18sm288000ljd.99.2019.10.12.15.56.31
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 12 Oct 2019 15:56:32 -0700 (PDT)
+Received: by mail-lf1-f46.google.com with SMTP id w67so9377373lff.4
+        for <linux-api@vger.kernel.org>; Sat, 12 Oct 2019 15:56:31 -0700 (PDT)
+X-Received: by 2002:a19:6f0e:: with SMTP id k14mr12727917lfc.79.1570920991283;
+ Sat, 12 Oct 2019 15:56:31 -0700 (PDT)
+MIME-Version: 1.0
+References: <20191012005747.210722465@goodmis.org> <20191012005920.630331484@goodmis.org>
+In-Reply-To: <20191012005920.630331484@goodmis.org>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Sat, 12 Oct 2019 15:56:15 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whE7GjKz9LtEVNw=zEgWr65N1mU7t2rA4MLiia8Zit6DQ@mail.gmail.com>
+Message-ID: <CAHk-=whE7GjKz9LtEVNw=zEgWr65N1mU7t2rA4MLiia8Zit6DQ@mail.gmail.com>
+Subject: Re: [PATCH 1/7 v2] tracefs: Revert ccbd54ff54e8 ("tracefs: Restrict
+ tracefs when the kernel is locked down")
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Matthew Garrett <matthewgarrett@google.com>,
+        James Morris James Morris <jmorris@namei.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Ben Hutchings <ben@decadent.org.uk>,
+        Al Viro <viro@zeniv.linux.org.uk>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Add a new sysctl knob unprivileged_userfaultfd_user_mode_only.
-This sysctl can be set to either zero or one. When zero (the default)
-the system lets all users call userfaultfd with or without
-UFFD_USER_MODE_ONLY, modulo other access controls. When
-unprivileged_userfaultfd_user_mode_only is set to one, users without
-CAP_SYS_PTRACE must pass UFFD_USER_MODE_ONLY to userfaultfd or the API
-will fail with EPERM. This facility allows administrators to reduce
-the likelihood that an attacker with access to userfaultfd can delay
-faulting kernel code to widen timing windows for other exploits.
+On Fri, Oct 11, 2019 at 5:59 PM Steven Rostedt <rostedt@goodmis.org> wrote:
+>
+>
+> I bisected this down to the addition of the proxy_ops into tracefs for
+> lockdown. It appears that the allocation of the proxy_ops and then freeing
+> it in the destroy_inode callback, is causing havoc with the memory system.
+> Reading the documentation about destroy_inode and talking with Linus about
+> this, this is buggy and wrong.
 
-Signed-off-by: Daniel Colascione <dancol@google.com>
----
- Documentation/admin-guide/sysctl/vm.rst | 13 +++++++++++++
- fs/userfaultfd.c                        | 12 ++++++++++--
- include/linux/userfaultfd_k.h           |  1 +
- kernel/sysctl.c                         |  9 +++++++++
- 4 files changed, 33 insertions(+), 2 deletions(-)
+Can you still add the explanation about the inode memory leak to this message?
 
-diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-index 6664eec7bd35..330fd82b3f4e 100644
---- a/Documentation/admin-guide/sysctl/vm.rst
-+++ b/Documentation/admin-guide/sysctl/vm.rst
-@@ -849,6 +849,19 @@ they pass the UFFD_SECURE, enabling MAC security checks.
- 
- The default value is 1.
- 
-+unprivileged_userfaultfd_user_mode_only
-+========================================
-+
-+This flag controls whether unprivileged users can use the userfaultfd
-+system calls to handle page faults in kernel mode.  If set to zero,
-+userfaultfd works with or without UFFD_USER_MODE_ONLY, modulo
-+unprivileged_userfaultfd above.  If set to one, users without
-+SYS_CAP_PTRACE must pass UFFD_USER_MODE_ONLY in order for userfaultfd
-+to succeed.  Prohibiting use of userfaultfd for handling faults from
-+kernel mode may make certain vulnerabilities more difficult
-+to exploit.
-+
-+The default value is 0.
- 
- user_reserve_kbytes
- ===================
-diff --git a/fs/userfaultfd.c b/fs/userfaultfd.c
-index aaed9347973e..02addd425ab7 100644
---- a/fs/userfaultfd.c
-+++ b/fs/userfaultfd.c
-@@ -29,6 +29,7 @@
- #include <linux/hugetlb.h>
- 
- int sysctl_unprivileged_userfaultfd __read_mostly = 1;
-+int sysctl_unprivileged_userfaultfd_user_mode_only __read_mostly = 0;
- 
- static struct kmem_cache *userfaultfd_ctx_cachep __read_mostly;
- 
-@@ -1963,8 +1964,15 @@ SYSCALL_DEFINE1(userfaultfd, int, flags)
- 	struct userfaultfd_ctx *ctx;
- 	int fd;
- 	static const int uffd_flags = UFFD_SECURE | UFFD_USER_MODE_ONLY;
--	bool need_cap_check = sysctl_unprivileged_userfaultfd == 0 ||
--		(sysctl_unprivileged_userfaultfd == 2 && !(flags & UFFD_SECURE));
-+	bool need_cap_check = false;
-+
-+	if (sysctl_unprivileged_userfaultfd == 0 ||
-+	    (sysctl_unprivileged_userfaultfd == 2 && !(flags & UFFD_SECURE)))
-+		need_cap_check = true;
-+
-+	if (sysctl_unprivileged_userfaultfd_user_mode_only &&
-+	    (flags & UFFD_USER_MODE_ONLY) == 0)
-+		need_cap_check = true;
- 
- 	if (need_cap_check && !capable(CAP_SYS_PTRACE))
- 		return -EPERM;
-diff --git a/include/linux/userfaultfd_k.h b/include/linux/userfaultfd_k.h
-index 549c8b0cca52..efe14abb2dc8 100644
---- a/include/linux/userfaultfd_k.h
-+++ b/include/linux/userfaultfd_k.h
-@@ -29,6 +29,7 @@
- #define UFFD_FLAGS_SET (EFD_SHARED_FCNTL_FLAGS)
- 
- extern int sysctl_unprivileged_userfaultfd;
-+extern int sysctl_unprivileged_userfaultfd_user_mode_only;
- 
- extern const struct file_operations userfaultfd_fops;
- 
-diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-index fc98d5df344e..4f296676c0ac 100644
---- a/kernel/sysctl.c
-+++ b/kernel/sysctl.c
-@@ -1740,6 +1740,15 @@ static struct ctl_table vm_table[] = {
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= &two,
- 	},
-+	{
-+		.procname	= "unprivileged_userfaultfd_user_mode_only",
-+		.data		= &sysctl_unprivileged_userfaultfd_user_mode_only,
-+		.maxlen		= sizeof(sysctl_unprivileged_userfaultfd_user_mode_only),
-+		.mode		= 0644,
-+		.proc_handler	= proc_dointvec_minmax,
-+		.extra1		= SYSCTL_ZERO,
-+		.extra2		= SYSCTL_ONE,
-+	},
- #endif
- 	{ }
- };
--- 
-2.23.0.700.g56cf767bdb-goog
+Right now it just says "it's buggy and wrong". True. But doesn't
+explain _why_ it is buggy and wrong.
 
+          Linus
