@@ -2,46 +2,58 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E7A66D533C
-	for <lists+linux-api@lfdr.de>; Sun, 13 Oct 2019 01:13:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26A69D535E
+	for <lists+linux-api@lfdr.de>; Sun, 13 Oct 2019 02:12:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727499AbfJLXND (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 12 Oct 2019 19:13:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49378 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727492AbfJLXNC (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Sat, 12 Oct 2019 19:13:02 -0400
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 26E1621929
-        for <linux-api@vger.kernel.org>; Sat, 12 Oct 2019 23:13:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1570921982;
-        bh=+wHs2Y/Qg5mogbSpED8FXiNC/fGFHyhQ+Ml3FmkKkSo=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=WwC2Zd/EElIEXkBTdXusEwwsN4TJ4e5D5MZxTtfywIxcnPXQrwGl5L6KJELMbxZCM
-         S2pRWM8koBpwKPoErCqpDh/JoZER3vtzcv1N90m4xpbH+WN/fw1KTsMGpT5lRl4XwD
-         HHBuNFJU67xnwaOi7vgnJujwYccyolwUM8aW4WPE=
-Received: by mail-wr1-f46.google.com with SMTP id n14so15528722wrw.9
-        for <linux-api@vger.kernel.org>; Sat, 12 Oct 2019 16:13:02 -0700 (PDT)
-X-Gm-Message-State: APjAAAUUJ5A2WPKog5NHXt+JIxma9qVsJ+cKyfNQWdiaYYSWTplyyDAH
-        FHpj6n5qtAIP3DRMtWB4/n8bbyiPhk1FW8Nte3a1rA==
-X-Google-Smtp-Source: APXvYqw7HEa5GYoH47kjNp12sTWsxaiCKc6Zk/2lzuijVQxR+tnPNkLDBsht+XtGjda/KjufIv6NxSXSW8gqONbWoYA=
-X-Received: by 2002:adf:f9cf:: with SMTP id w15mr20086297wrr.61.1570921980646;
- Sat, 12 Oct 2019 16:13:00 -0700 (PDT)
+        id S1727848AbfJMAMR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 12 Oct 2019 20:12:17 -0400
+Received: from mail-vs1-f65.google.com ([209.85.217.65]:40247 "EHLO
+        mail-vs1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727747AbfJMAMR (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 12 Oct 2019 20:12:17 -0400
+Received: by mail-vs1-f65.google.com with SMTP id v10so8610558vsc.7
+        for <linux-api@vger.kernel.org>; Sat, 12 Oct 2019 17:12:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=XEI0RfuwpmYZ28QC0mx//1lBf0qrUdX1GPcBJkQZa9U=;
+        b=rpQ9RwrNqsQGBr1oAkL/gitja6UMt6gVklBif64wqVq6Tgon/KznC+ZgL6HK3q8QX3
+         C5rIWw3jGcpmWJiH7tmNg6HVbxIpaTuTDMFQyG49BEqqu7TsMehEeFFy7QEhCVmrk1eu
+         yv7fTAAISHN9cePomO4qg+l1yIKdebEmQSqT3sabeudcw6FlJok25HOFFDhudW/DRsTW
+         Ycmrjd/NNLbIo4Yx7FCFBzN5/E+A70AJMna05Lh3GlMj9sBTbGx9gg+epSY2/S6t9ifo
+         pjCe5FLiRv5/ZCC1POwOAbnKC/3bAoNmBWoEJvzPfHzp7JxnG0jD/SpNptQe45Jb8aCw
+         GEJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=XEI0RfuwpmYZ28QC0mx//1lBf0qrUdX1GPcBJkQZa9U=;
+        b=sVUj+D3kWZD/DwBPXDrdTxbDbddx+RKhR7AapL66QRrqeVksTvIz06BiAWqNBO/tOh
+         MmqmJru/DwtnfjXtmWQDAtMcwPTBaGrSrKAKYkvdo67kKdfa6Bu4Mn9Tc+FqzQL4/PPa
+         LVfMndwSqd5rmJXaRFMNWHtUjpEtATP/SIlcj5BQz65OYcjjJzA7N13w8czXLYdXTfnF
+         LQDe7dTt2vg/cT1pYHthcEcQVIotw6YCmI6Cqs1TJTBY/DijH8aFnZi6UeNoBWadOUr9
+         MzIMzpfW2zD4o/R9m1gv1pfOoV2jgwlSrs8mZLtm2stQ/uwfBhmynWnc4Kuqp5SDtU00
+         yJCA==
+X-Gm-Message-State: APjAAAUVMxIWIEQSPyGxaZLFtMjqfrh03dxL/Mjsyd/DkbhzHzrpVnzp
+        qbgLngr6NNj4g584JXhnXDGTr6sflW2jf8UhJEW1qRsbyfk=
+X-Google-Smtp-Source: APXvYqxj5NmmNy49o6iB7yqJhqzkcQYhEtu5i1Mv03KaNdvvSxlYaJl2qsOIZ5v4l7hTNSnU1Q4nTOVljy2cDmWu+/M=
+X-Received: by 2002:a67:db16:: with SMTP id z22mr13135311vsj.171.1570925536096;
+ Sat, 12 Oct 2019 17:12:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191012191602.45649-1-dancol@google.com> <20191012191602.45649-7-dancol@google.com>
-In-Reply-To: <20191012191602.45649-7-dancol@google.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Sat, 12 Oct 2019 16:12:49 -0700
-X-Gmail-Original-Message-ID: <CALCETrWF61dmSpMEYvqa2FHWL8Zj6GJtevFTfymV20CCjiqRcg@mail.gmail.com>
-Message-ID: <CALCETrWF61dmSpMEYvqa2FHWL8Zj6GJtevFTfymV20CCjiqRcg@mail.gmail.com>
-Subject: Re: [PATCH 6/7] Allow users to require UFFD_SECURE
-To:     Daniel Colascione <dancol@google.com>
+References: <20191012191602.45649-1-dancol@google.com> <20191012191602.45649-5-dancol@google.com>
+ <CALCETrVmYQ9xikif--RSAWhboY1yj=piEAEuPzisf+b+qEX4uA@mail.gmail.com>
+In-Reply-To: <CALCETrVmYQ9xikif--RSAWhboY1yj=piEAEuPzisf+b+qEX4uA@mail.gmail.com>
+From:   Daniel Colascione <dancol@google.com>
+Date:   Sat, 12 Oct 2019 17:11:40 -0700
+Message-ID: <CAKOZuevQD-xsy_PrvT7F3Pqaoo5apZFukj2ZKLLQKup1cwgZ-A@mail.gmail.com>
+Subject: Re: [PATCH 4/7] Teach SELinux about a new userfaultfd class
+To:     Andy Lutomirski <luto@kernel.org>
 Cc:     Linux API <linux-api@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, lokeshgidra@google.com,
-        Nick Kralevich <nnk@google.com>, nosh@google.com,
+        LKML <linux-kernel@vger.kernel.org>,
+        Lokesh Gidra <lokeshgidra@google.com>,
+        Nick Kralevich <nnk@google.com>,
+        Nosh Minwalla <nosh@google.com>,
         Tim Murray <timmurray@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
@@ -49,14 +61,28 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Oct 12, 2019 at 12:16 PM Daniel Colascione <dancol@google.com> wrote:
+On Sat, Oct 12, 2019 at 4:09 PM Andy Lutomirski <luto@kernel.org> wrote:
 >
-> This change adds 2 as an allowable value for
-> unprivileged_userfaultfd. (Previously, this sysctl could be either 0
-> or 1.) When unprivileged_userfaultfd is 2, users with CAP_SYS_PTRACE
-> may create userfaultfd with or without UFFD_SECURE, but users without
-> CAP_SYS_PTRACE must pass UFFD_SECURE to userfaultfd in order for the
-> system call to succeed, effectively forcing them to opt into
-> additional security checks.
+> On Sat, Oct 12, 2019 at 12:16 PM Daniel Colascione <dancol@google.com> wrote:
+> >
+> > Use the secure anonymous inode LSM hook we just added to let SELinux
+> > policy place restrictions on userfaultfd use. The create operation
+> > applies to processes creating new instances of these file objects;
+> > transfer between processes is covered by restrictions on read, write,
+> > and ioctl access already checked inside selinux_file_receive.
+>
+> This is great, and I suspect we'll want it for things like SGX, too.
+> But the current design seems like it will make it essentially
+> impossible for SELinux to reference an anon_inode class whose
+> file_operations are in a module, and moving file_operations out of a
+> module would be nasty.
+>
+> Could this instead be keyed off a new struct anon_inode_class, an
+> enum, or even just a string?
 
-This patch can go away entirely if you make UFFD_SECURE automatic.
+The new LSM hook already receives the string that callers pass to the
+anon_inode APIs; modules can look at that instead of the fops if they
+want. The reason to pass both the name and the fops through the hook
+is to allow LSMs to match using fops comparison (which seems less
+prone to breakage) when possible and rely on string matching when it
+isn't.
