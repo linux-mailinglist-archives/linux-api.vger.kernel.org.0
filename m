@@ -2,56 +2,63 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7291DD6641
-	for <lists+linux-api@lfdr.de>; Mon, 14 Oct 2019 17:39:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A09A5D66CF
+	for <lists+linux-api@lfdr.de>; Mon, 14 Oct 2019 18:04:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731275AbfJNPjQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 14 Oct 2019 11:39:16 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:41717 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731234AbfJNPjP (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 14 Oct 2019 11:39:15 -0400
-Received: by mail-oi1-f193.google.com with SMTP id w65so14099087oiw.8
-        for <linux-api@vger.kernel.org>; Mon, 14 Oct 2019 08:39:13 -0700 (PDT)
+        id S1733033AbfJNQEu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 14 Oct 2019 12:04:50 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:43187 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732906AbfJNQEu (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 14 Oct 2019 12:04:50 -0400
+Received: by mail-oi1-f196.google.com with SMTP id t84so14171963oih.10
+        for <linux-api@vger.kernel.org>; Mon, 14 Oct 2019 09:04:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=hUnyvpuP6/HkBMSiwtb5MS7vmorhboIr5Cucxcuf8O4=;
-        b=tf3Get4qoIzO39iWyOCRegFp1wY/dzAobHeBdf2VA+8pw3oS7q1F2IvIw6nkg3OFX8
-         F52Y2qTRW1vOzUC69B3PjcYdqNMNkS8ARtcRvIhTZhp0Y9EvPL3iiCtc3KuWJUMDZBbr
-         4KjUbkltVWZcLU3sPz2wnmO7B8UNdUOXLyK3DcO+64luJBp44YYRzG3XBXo+PPoIvusg
-         aMefEtXMJnH1iBF71IodEUiM/Q1k0gqyau8N9LGuq7lcmSrtL8I1gGq0Pn5RjwpM3+hS
-         i1FPYiz/Ahj0pNmlgA1mBNABGuSVs+2gCKHOWqwIa871YMYgf/FRN55VJS4lUKxCsi5B
-         0WZQ==
+        bh=1/oA4GHUe8fryr8ogyJYGS6yhaGsA/XmoYYSjCn5tG8=;
+        b=BTLGihW/wv2eV8aWLaXAVOYXato+DzxslEWCR5heglTYrXl+jI4hPaIoSH3kOBgJmA
+         x8Pb0mSiFMK6BK/4u7lkzo63BHz4/wCrWJbqaxFaCIwHJnx/wUEwiSjI8TeYQXX8Rikq
+         2nudpNpEZyLND2Iil3SoZtJqHd0tcSPoS3AL7KVyUl830l7RaWy/YfZDlPSxoztcwSo/
+         47jRyNacS9iNk9zSxk1nef8kjTs12q1rGV2++B624mMUtpT3B/xyUyB2xZ74KB1JniQ0
+         MQo3UcmfRiAoIpkqML8//EDr3SaPPuu4JSwn2AJOM13TmQ0KUqPOwmNW5W77upXOY5X3
+         FZxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=hUnyvpuP6/HkBMSiwtb5MS7vmorhboIr5Cucxcuf8O4=;
-        b=kRkI/E4IF07sWHSon2gZg5Joe0L5H2TDJZ0OAkpHevqeMpxO4wJmJGrOy6Y9F01R/C
-         N7M4VIXLohy7ewirY/+1zraf7sSyS0H9RDCRlnd+QLoqyaaNbGmZX+7AQhB2/NkTFnYo
-         +bcJ/P9jjV9hrx4H2WrPH8YdtXR6Jbmk6X3BDneSGizn2pAL2yqd24e2V+I7xiMSVcZP
-         QWP+Mvzb6cO7IGG6uQVH5zGIWRx5eLr9V9lOHUYjSWXBlrq/oM3fuDc6tvOa5P8gmJBQ
-         +hiMjnLpR9KEF6E9CcumKN2h6b8vtsmQppeMGqoNO9NXm9pedor2D6plwh7sCaI66V3p
-         ZUrQ==
-X-Gm-Message-State: APjAAAXZBJIV/oOmDKnYurVaxwheQhfSUu82aAYDnK0ij1y89DR1lPvc
-        8C4D86iPFPUVkC5+xB5NxRl9ckLtVvonmGN/k0M/PQ==
-X-Google-Smtp-Source: APXvYqzlapnRWtDbK3b6aprG708THmDneKBseQVBxn9YWloRQP7Qc5j44+rxOMdffE3xnRJL3og0OsxxQYOLitd7CLk=
-X-Received: by 2002:aca:da41:: with SMTP id r62mr24035154oig.47.1571067553182;
- Mon, 14 Oct 2019 08:39:13 -0700 (PDT)
+        bh=1/oA4GHUe8fryr8ogyJYGS6yhaGsA/XmoYYSjCn5tG8=;
+        b=k5P+C4QFXBJ0rcSMnCmaLpkILY8WY5YMqaLAotggg3j1y4oRwLZ1VFcCYjFg9AFm8/
+         f0QBb9C+FmXZkKiOg0KnfriD0WdON1RnoSfXRAtK6RZClvsEaDggwKf/W9YiVeP/mSM4
+         Siaf3f2cYPASBRbJfemNOMAkBvBFdx3vjmypZcux4tppbHuKR4qCsCancNc7frIwXlmi
+         QkwpxrqtiwjiC9OJHJeWSzw5k/vc8vYsTtpQ+92Y5pMLu9vwMIT0imrbtjFClApzupnD
+         bQahsZCVqqHsPeRbxAYrX1D0VyYiE3m8Tq4i/AdC3mw+ZbWLeD9LXaDkkLECUjbUqBlN
+         8zqw==
+X-Gm-Message-State: APjAAAUiFo7HL6bIQdaA2xNdjjtFSuHS8FzHjreQuEJ00z8GNI6yufeX
+        wvbfwwilX+vUiGkxryIdPH0Ccojt95Y2h3PuZ39SdA==
+X-Google-Smtp-Source: APXvYqxXR3roLEhM1Q1pM7JBpKepo96dBtV/cwrCg3P9n58AzmtIzESZTptd3g+9Psex6LMGksnCpsKWDzYzpyzvh7s=
+X-Received: by 2002:a05:6808:95:: with SMTP id s21mr25291295oic.68.1571069089126;
+ Mon, 14 Oct 2019 09:04:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191012191602.45649-1-dancol@google.com> <20191012191602.45649-2-dancol@google.com>
-In-Reply-To: <20191012191602.45649-2-dancol@google.com>
+References: <20191012191602.45649-1-dancol@google.com> <20191012191602.45649-4-dancol@google.com>
+ <CALCETrVZHd+csdRL-uKbVN3Z7yeNNtxiDy-UsutMi=K3ZgCiYw@mail.gmail.com>
+ <CAKOZuevUqs_Oe1UEwguQK7Ate3ai1DSVSij=0R=vmz9LzX4k6Q@mail.gmail.com> <CALCETrUyq=J37gU-MYXqLdoi7uH7iNNVRjvcGUT11JA1QuTFyg@mail.gmail.com>
+In-Reply-To: <CALCETrUyq=J37gU-MYXqLdoi7uH7iNNVRjvcGUT11JA1QuTFyg@mail.gmail.com>
 From:   Jann Horn <jannh@google.com>
-Date:   Mon, 14 Oct 2019 17:38:45 +0200
-Message-ID: <CAG48ez3yOPAC3mTJdQ5_8aARQPe+siid5jaa8U+aMtfj-bUJ2g@mail.gmail.com>
-Subject: Re: [PATCH 1/7] Add a new flags-accepting interface for anonymous inodes
-To:     Daniel Colascione <dancol@google.com>
-Cc:     Linux API <linux-api@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
+Date:   Mon, 14 Oct 2019 18:04:22 +0200
+Message-ID: <CAG48ez3P27-xqdjKLqfP_0Q_v9K92CgEjU4C=kob2Ax7=NoZbA@mail.gmail.com>
+Subject: Re: [PATCH 3/7] Add a UFFD_SECURE flag to the userfaultfd API.
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     Daniel Colascione <dancol@google.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Pavel Emelyanov <xemul@parallels.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
         Lokesh Gidra <lokeshgidra@google.com>,
-        Nick Kralevich <nnk@google.com>, nosh@google.com,
+        Nick Kralevich <nnk@google.com>,
+        Nosh Minwalla <nosh@google.com>,
         Tim Murray <timmurray@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
@@ -59,66 +66,49 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Oct 12, 2019 at 9:16 PM Daniel Colascione <dancol@google.com> wrote:
-> Add functions forwarding from the old names to the new ones so we
-> don't need to change any callers.
-
-This patch does more than the commit message says; it also refactors
-the body of the function. (I would've moved that refactoring over into
-patch 2, but I guess this works, too.)
-
+On Sun, Oct 13, 2019 at 3:14 AM Andy Lutomirski <luto@kernel.org> wrote:
+> [adding more people because this is going to be an ABI break, sigh]
+> On Sat, Oct 12, 2019 at 5:52 PM Daniel Colascione <dancol@google.com> wrote:
+> > On Sat, Oct 12, 2019 at 4:10 PM Andy Lutomirski <luto@kernel.org> wrote:
+> > > On Sat, Oct 12, 2019 at 12:16 PM Daniel Colascione <dancol@google.com> wrote:
+> > > > The new secure flag makes userfaultfd use a new "secure" anonymous
+> > > > file object instead of the default one, letting security modules
+> > > > supervise userfaultfd use.
+> > > >
+> > > > Requiring that users pass a new flag lets us avoid changing the
+> > > > semantics for existing callers.
+> > >
+> > > Is there any good reason not to make this be the default?
+> > >
+> > >
+> > > The only downside I can see is that it would increase the memory usage
+> > > of userfaultfd(), but that doesn't seem like such a big deal.  A
+> > > lighter-weight alternative would be to have a single inode shared by
+> > > all userfaultfd instances, which would require a somewhat different
+> > > internal anon_inode API.
+> >
+> > I'd also prefer to just make SELinux use mandatory, but there's a
+> > nasty interaction with UFFD_EVENT_FORK. Adding a new UFFD_SECURE mode
+> > which blocks UFFD_EVENT_FORK sidesteps this problem. Maybe you know a
+> > better way to deal with it.
 [...]
-> -struct file *anon_inode_getfile(const char *name,
-> -                               const struct file_operations *fops,
-> -                               void *priv, int flags)
-> +struct file *anon_inode_getfile2(const char *name,
-> +                                const struct file_operations *fops,
-> +                                void *priv, int flags, int anon_inode_flags)
-
-(AFAIK, normal kernel style is to slap a "__" prefix in front of the
-function name instead of appending a digit, but I guess it doesn't
-really matter.)
-
->  {
-> +       struct inode *inode;
->         struct file *file;
+> Now that you've pointed this mechanism out, it is utterly and
+> completely broken and should be removed from the kernel outright or at
+> least severely restricted.  A .read implementation MUST NOT ACT ON THE
+> CALLING TASK.  Ever.  Just imagine the effect of passing a userfaultfd
+> as stdin to a setuid program.
 >
-> -       if (IS_ERR(anon_inode_inode))
-> -               return ERR_PTR(-ENODEV);
-> -
-> -       if (fops->owner && !try_module_get(fops->owner))
-> -               return ERR_PTR(-ENOENT);
-> +       if (anon_inode_flags)
-> +               return ERR_PTR(-EINVAL);
->
-> +       inode = anon_inode_inode;
-> +       if (IS_ERR(inode))
-> +               return ERR_PTR(-ENODEV);
->         /*
-> -        * We know the anon_inode inode count is always greater than zero,
-> -        * so ihold() is safe.
-> +        * We know the anon_inode inode count is always
-> +        * greater than zero, so ihold() is safe.
->          */
+> So I think the right solution might be to attempt to *remove*
+> UFFD_EVENT_FORK.  Maybe the solution is to say that, unless the
+> creator of a userfaultfd() has global CAP_SYS_ADMIN, then it cannot
+> use UFFD_FEATURE_EVENT_FORK) and print a warning (once) when
+> UFFD_FEATURE_EVENT_FORK is allowed.  And, after some suitable
+> deprecation period, just remove it.  If it's genuinely useful, it
+> needs an entirely new API based on ioctl() or a syscall.  Or even
+> recvmsg() :)
 
-This looks like maybe you started editing the comment, then un-did the
-change, but left the modified line wrapping in your patch? Please
-avoid that - code changes with no real reason make "git blame" output
-more annoying and create trouble when porting patches between kernel
-versions.
-
-[...]
->  EXPORT_SYMBOL_GPL(anon_inode_getfile);
-> +EXPORT_SYMBOL_GPL(anon_inode_getfile2);
-[...]
->  EXPORT_SYMBOL_GPL(anon_inode_getfd);
-> +EXPORT_SYMBOL_GPL(anon_inode_getfd2);
-
-Since anon_inode_getfd() is now a static inline function in
-include/linux/anon_inodes.h, exporting it doesn't make sense anymore.
-Same for anon_inode_getfile().
-
-[...]
-> +#define ANON_INODE_SECURE 1
-
-That #define belongs in a later patch, right?
+FWIW, <https://codesearch.debian.net/search?q=UFFD_FEATURE_EVENT_FORK&literal=1>
+just shows the kernel, kernel selftests, and strace code for decoding
+syscall arguments. CRIU uses it though (probably for postcopy live
+migration / lazy migration?), I guess that code isn't in debian for
+some reason.
