@@ -2,56 +2,59 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D652D65EE
-	for <lists+linux-api@lfdr.de>; Mon, 14 Oct 2019 17:10:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 54AFCD6608
+	for <lists+linux-api@lfdr.de>; Mon, 14 Oct 2019 17:21:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733243AbfJNPK3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 14 Oct 2019 11:10:29 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:46372 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732647AbfJNPK2 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 14 Oct 2019 11:10:28 -0400
-Received: by mail-oi1-f194.google.com with SMTP id k25so13995038oiw.13
-        for <linux-api@vger.kernel.org>; Mon, 14 Oct 2019 08:10:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=n8mZzQYgCJoh/U/LtDTWoqHWL38rFTI9nqBb83t1F0I=;
-        b=eL0KkC/qG5Sqdy3584kkE+iz33uqISxvsXEGdERUa7Qba35awyW4wPPpCaQDK4Vf1r
-         A3DLF2XrRN3Lwh4n2M6qxwxu2T46oy32FbABZOdyiBDH2LNz67ggJr+I5OhDY4eeapth
-         bIGYmB1CSf53TZI51DGqJab6Wjwy5z7eYIb7P7XsOHgHr1mbV/Jf08+om+Jr88+Wba5R
-         oTzg3htSuDlhpSRZS3B1U76DkyOGgI+M99HxgN9w9xoR6tCXMFWhLG44qctxm9vFjIrm
-         5i5FtAqJuGamLA8VvOY1RqJRFB8jEkEhrNIziL8n1p3hBxPQloscS8mtFR/Ak1n5qkBB
-         6+dQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=n8mZzQYgCJoh/U/LtDTWoqHWL38rFTI9nqBb83t1F0I=;
-        b=Jbtr5GzbfXI1OC4iZ50f3fuhpv107H9V2n0MRqG3MwKxcSdlvFSVYAQr4LssASou/+
-         9V+HVsmVaoIuBLDhLMIH//0Drkdg9f5b/S5t0wmSZlYuWyOCrpf+I/3EysG7EXZuFWSK
-         JwVU1yVQJSRK7dCpV4tSf/uWIXGNcVVh3HEzHwZgq2ObQOZPqoTZKuxF5VNSNQG3Sfba
-         ZojIvs/v4Chb2aj6S8S8DlM8QqTAX99lSByy32vdkhi4vLpQW6rIu3O4lNWvA7snoLHD
-         SsgiCfA1Xmz55qcVZzspIRyGTLJCfzKSXqAWIdRp7Y3d3eRdwUZp/VwYEGYxJPjW+Zy9
-         wSbw==
-X-Gm-Message-State: APjAAAXTmmRwXD8srwNflsA4rZaJJ8pbMdRTpv45iLB15kS/2RzyfxB1
-        p9qhMFHkKHbooOu+vtVqnRdFau3Q4FN/8iYJzdrXZw==
-X-Google-Smtp-Source: APXvYqzcVFFImqZI58K41aEG21TM6C60Hd0B7GL6/+3YeLE94vV5SzMbABckyJbt3DVKWbg2bM0mT6UlrjQp+Ume+Q4=
-X-Received: by 2002:a05:6808:95:: with SMTP id s21mr25075773oic.68.1571065827544;
- Mon, 14 Oct 2019 08:10:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAG48ez1hk9d-qAPcRy9QOgNuO8u3Y_hu_3=GZoFYLY+oMdo8xg@mail.gmail.com>
- <20191012101922.24168-1-christian.brauner@ubuntu.com> <20191012102119.qq2adlnxjxrkslca@wittgenstein>
- <abc477fb3bd8fbf7b4d7e53d079dd1d8902e54af.camel@kellner.me> <20191014103157.h2wph2ujjidsrhyw@wittgenstein>
-In-Reply-To: <20191014103157.h2wph2ujjidsrhyw@wittgenstein>
-From:   Jann Horn <jannh@google.com>
-Date:   Mon, 14 Oct 2019 17:10:01 +0200
-Message-ID: <CAG48ez1Yf05j2irdZxT2TA=2n3xo25KN48nRQdp_F8j14K36rA@mail.gmail.com>
+        id S1733207AbfJNPVK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 14 Oct 2019 11:21:10 -0400
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:37361 "EHLO
+        wnew1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1732422AbfJNPVK (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 14 Oct 2019 11:21:10 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailnew.west.internal (Postfix) with ESMTP id 33E4528A;
+        Mon, 14 Oct 2019 11:21:08 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Mon, 14 Oct 2019 11:21:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kellner.me; h=
+        message-id:subject:from:to:cc:date:in-reply-to:references
+        :content-type:mime-version:content-transfer-encoding; s=mesmtp;
+         bh=Bpli2FWy4jaHCUTgQsgpxLtikyXA6zeohU0YjZLav+0=; b=cnTdk+aPBhLQ
+        RB9mkNzWt1BbAsarP5ESPmvVG5xVA4jJGnH+3xZKOTziUD5IP4+WNda1ygjP8y+O
+        DdlVxYEAPChb50nWfJBwjBUqx7NabNPKRnzo5+4IlDB5vkzloR7lbFtZS6/kC47c
+        TRGRryefE+TAjib5H+Gn5XGS9q/L/Fs=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:in-reply-to:message-id:mime-version:references
+        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm1; bh=Bpli2FWy4jaHCUTgQsgpxLtikyXA6zeohU0YjZLav
+        +0=; b=GxnClzyXLTyOCtlZSuewxWNVbdkJeCwQPJcxZvb+k2BBdF63NKVYfn1Og
+        +s9hkpmfO6Uo5zibJu3n1PfRcCaLS7X2GjVqclXZge1p3Wq+j+PHBaKfkAj5xonQ
+        vCNbGti9eitwO5re39TcLw9VzZ1mykm6jHrOgsoro+IWx5FXIvr58zzxuNPgpfqm
+        WQMHlR4TDWXd4JYyFCttqeSPLVJRHQqpkUjjewQykI5PJiuutfZ39/IfHmQngcAm
+        GltldxS+qZeginB1cAs7jWf+xw+F/dCqTvchFEEGM30GFxxTMG7pf78tjxszMH2R
+        m2UAiddZcHygd8JMibe7pxzIOOGrw==
+X-ME-Sender: <xms:YZKkXespN5Z2dZkG56i25yWI23XZrnlaGCO9gLLXApNysBl9sfHNgA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrjedugdekkecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefkuffhvfffjghftggfggfgsehtjeertddtreejnecuhfhrohhmpeevhhhrihhs
+    thhirghnucfmvghllhhnvghruceotghhrhhishhtihgrnheskhgvlhhlnhgvrhdrmhgvqe
+    enucfkphepkeelrdduiedrudehfedrudelieenucfrrghrrghmpehmrghilhhfrhhomhep
+    tghhrhhishhtihgrnheskhgvlhhlnhgvrhdrmhgvnecuvehluhhsthgvrhfuihiivgeptd
+X-ME-Proxy: <xmx:YZKkXWsDSCi96XxkaLPYxbm-YRdtRrJPeklcLGqkpFpxi4J-QPPqFg>
+    <xmx:YZKkXTMaKrOaW1aCoPC5BF8uzxnqSlVrC9AXNQD_r4MxkygbOrdZOA>
+    <xmx:YZKkXU113Of1FbUAl3z8_fIxuX-86l8714lG-aL9gsJ6h8mQYIwaAg>
+    <xmx:Y5KkXYBS8kn1Hvt5CXWDbzf4p_QMSbziZoBP7UYgsGAQWFPM7yZhW5j8AYY>
+Received: from hanada.ber.coreos.systems (cable-89-16-153-196.cust.telecolumbus.net [89.16.153.196])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 68FD1D6005D;
+        Mon, 14 Oct 2019 11:21:02 -0400 (EDT)
+Message-ID: <3159d545105613416961ff50572f6686cdee03ee.camel@kellner.me>
 Subject: Re: [PATCH] pidfd: add NSpid entries to fdinfo
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     Christian Kellner <christian@kellner.me>,
-        Andrea Arcangeli <aarcange@redhat.com>,
+From:   Christian Kellner <christian@kellner.me>
+To:     Jann Horn <jannh@google.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Andrea Arcangeli <aarcange@redhat.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Aleksa Sarai <cyphar@cyphar.com>,
         Elena Reshetova <elena.reshetova@intel.com>,
@@ -63,35 +66,55 @@ Cc:     Christian Kellner <christian@kellner.me>,
         Peter Zijlstra <peterz@infradead.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Al Viro <viro@zeniv.linux.org.uk>
+Date:   Mon, 14 Oct 2019 17:20:57 +0200
+In-Reply-To: <CAG48ez1Yf05j2irdZxT2TA=2n3xo25KN48nRQdp_F8j14K36rA@mail.gmail.com>
+References: <CAG48ez1hk9d-qAPcRy9QOgNuO8u3Y_hu_3=GZoFYLY+oMdo8xg@mail.gmail.com>
+         <20191012101922.24168-1-christian.brauner@ubuntu.com>
+         <20191012102119.qq2adlnxjxrkslca@wittgenstein>
+         <abc477fb3bd8fbf7b4d7e53d079dd1d8902e54af.camel@kellner.me>
+         <20191014103157.h2wph2ujjidsrhyw@wittgenstein>
+         <CAG48ez1Yf05j2irdZxT2TA=2n3xo25KN48nRQdp_F8j14K36rA@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Oct 14, 2019 at 12:32 PM Christian Brauner
-<christian.brauner@ubuntu.com> wrote:
-> On Mon, Oct 14, 2019 at 11:43:01AM +0200, Christian Kellner wrote:
-> > On Sat, 2019-10-12 at 12:21 +0200, Christian Brauner wrote:
-> > > I tried to think of cases where the first entry of Pid is not
-> > > identical
-> > > to the first entry of NSpid but I came up with none. Maybe you do,
-> > > Jann?
-> > Yeah, I don't think that can be the case. By looking at the source of
-> > 'pid_nr_ns(pid, ns)' a non-zero return means that a) 'pid' valid, ie.
-> > non-null and b) 'ns' is in the pid namespace hierarchy of 'pid' (at
-> > pid->level, i.e. "pid->numbers[ns->level].ns == ns").
+On Mon, 2019-10-14 at 17:10 +0200, Jann Horn wrote:
+> On Mon, Oct 14, 2019 at 12:32 PM Christian Brauner wrote:
+> > On Mon, Oct 14, 2019 at 11:43:01AM +0200, Christian Kellner wrote:
+> > You could probably do:
+> > 
+> > #ifdef CONFIG_PID_NS
+> > seq_put_decimal_ull(m, "\nNSpid:\t", nr);
+> > for (i = ns->level + 1; i <= pid->level && nr; i++)
+> >         seq_put_decimal_ull(m, "\t", pid->numbers[i].nr);
+> > #endif
+> 
+> Personally, I dislike hiding the precondition for running the loop in
+> the loop statement like that. While it makes the code more concise,
+> it somewhat obfuscates the high-level logic at a first glance.
+I agree and it has the side-effect of needing another #ifdef at the end
+of the variable block for "i". I think I will go with:
 
-Agreed.
+if (nr) {
+	int i;
 
-> You could probably do:
->
-> #ifdef CONFIG_PID_NS
-> seq_put_decimal_ull(m, "\nNSpid:\t", nr);
-> for (i = ns->level + 1; i <= pid->level && nr; i++)
->         seq_put_decimal_ull(m, "\t", pid->numbers[i].nr);
-> #endif
+	/* If nr is non-zero it means that 'pid' is valid and that
+	 * ns, i.e. the pid namespace associated with the procfs
+	 * instance, is in the pid namespace hierarchy of pid.
+	 * Start at one below the already printed level.
+	 */
+	for (i = ns->level + 1; i <= pid->level; i++)
+		seq_put_decimal_ull(m, "\t", pid->numbers[i].nr);
+}
 
-Personally, I dislike hiding the precondition for running the loop in
-the loop statement like that. While it makes the code more concise, it
-somewhat obfuscates the high-level logic at a first glance.
+I will re-work the comment block and then send a new version of
+the patch.
+
+Thanks,
+Christian
+
