@@ -2,316 +2,215 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9554BD607E
-	for <lists+linux-api@lfdr.de>; Mon, 14 Oct 2019 12:46:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D27C3D65EC
+	for <lists+linux-api@lfdr.de>; Mon, 14 Oct 2019 17:10:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731235AbfJNKp6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 14 Oct 2019 06:45:58 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:34519 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731305AbfJNKp6 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 14 Oct 2019 06:45:58 -0400
-Received: from [212.86.36.32] (helo=localhost.localdomain)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1iJxrO-0002lB-PW; Mon, 14 Oct 2019 10:45:55 +0000
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     linux-kernel@vger.kernel.org, Oleg Nesterov <oleg@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, libc-alpha@sourceware.org
-Cc:     David Howells <dhowells@redhat.com>, Jann Horn <jannh@google.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Shuah Khan <shuah@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Roman Gushchin <guro@fb.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        linux-kselftest@vger.kernel.org,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        linux-api@vger.kernel.org
-Subject: [PATCH v3 2/2] tests: test CLONE_CLEAR_SIGHAND
-Date:   Mon, 14 Oct 2019 12:45:38 +0200
-Message-Id: <20191014104538.3096-2-christian.brauner@ubuntu.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191014104538.3096-1-christian.brauner@ubuntu.com>
-References: <20191014104538.3096-1-christian.brauner@ubuntu.com>
+        id S1732983AbfJNPK1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 14 Oct 2019 11:10:27 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:36030 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732862AbfJNPK0 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 14 Oct 2019 11:10:26 -0400
+Received: by mail-oi1-f196.google.com with SMTP id k20so14029994oih.3
+        for <linux-api@vger.kernel.org>; Mon, 14 Oct 2019 08:10:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hu8Yhu1dG5x2/sxZOgW+fGVZWm5nOL8RLM6NxRrm9l0=;
+        b=irihhdtCoJ00M0IblFdd5syP/fq3aYa9IW6f96WKv0Y8g+0kG5OZzWwJg/e9aulJz9
+         +Czl87cK+4NMVqCtZPXaQYGsFhqTOCeDgrU9Bu+doIdrW2b6FDnjdI6kLkpxO9ZlU1gn
+         OcAI3fAZql6up7es1jIfjWz6QfXGT2AGMzvZOKSEy8Ab1lezC8/1Wg2IuZMJLy8/oG2I
+         91UovkoFjQ9hmkIpeAvZ2hVqRY0894cSK/P4/8HKR5yXq5uZO7nt8gbOqqdWB+5md6KF
+         uRPY0eRgQTu2jNYlMt7nayxBWml0N9RWBUDDt3vRzJgtFGSrgdtU3v64A/oPOJ3AKPms
+         zDqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hu8Yhu1dG5x2/sxZOgW+fGVZWm5nOL8RLM6NxRrm9l0=;
+        b=jtqqa+ZZ7P1fu/CPelrbhAnQ9eEQihPN9SKT8+4bp5dSrnysB7fyuwWdoGA6B5/7DX
+         bP8JVuDnZ65x36oN/evWDaL8dpGnHmBkY355aLF43lRBwuBteoeKOUUpyiPrwALRN763
+         /tt97D248PyQQbsah0XFknBd3XOVPS2tMEqLIDmckIlExK9Y12XjAIl8+qhQHNFM9Lzw
+         JuXCjj2Phlom5pKW7cxSaNC6sBudyMLEu/lQSEUIarJf1mYROgSwdUOecF3C7nwCXzqA
+         bvksNz6z4IOd7FoV2qV6MyEI0ZWMbKU2dIjOpWlhX7VPaMupR7dxQlkvVV6AWtMZtdUX
+         ImmQ==
+X-Gm-Message-State: APjAAAWYttk/Ma8s8ooNeH72XzOFt6aK7VUn6iOKSJN0O8BHN8zryyCQ
+        waiVv9aZV6CoRwJrtzRXYRp3vhhqaCpECIhiQ97l3A==
+X-Google-Smtp-Source: APXvYqxgRBO57ccMJoXF7XohpTUDe0dTwguN7yslAg2GdNHydkihJbtuUSbU0W76MqJQutAlMTQAt97Y2DYP5/nF3/M=
+X-Received: by 2002:aca:5c06:: with SMTP id q6mr25208555oib.175.1571065824954;
+ Mon, 14 Oct 2019 08:10:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAG48ez1hk9d-qAPcRy9QOgNuO8u3Y_hu_3=GZoFYLY+oMdo8xg@mail.gmail.com>
+ <20191012101922.24168-1-christian.brauner@ubuntu.com>
+In-Reply-To: <20191012101922.24168-1-christian.brauner@ubuntu.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Mon, 14 Oct 2019 17:09:58 +0200
+Message-ID: <CAG48ez0SG3LLeLtqmf5Q8aZL3J8b5XwgNbgDr72jSnq2QBac8Q@mail.gmail.com>
+Subject: Re: [PATCH] pidfd: add NSpid entries to fdinfo
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Andrea Arcangeli <aarcange@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Christian Kellner <christian@kellner.me>,
+        Christian Kellner <ckellner@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        Roman Gushchin <guro@fb.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        Michal Hocko <mhocko@suse.com>, Ingo Molnar <mingo@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Al Viro <viro@zeniv.linux.org.uk>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Test that CLONE_CLEAR_SIGHAND resets signal handlers to SIG_DFL for the
-child process and that CLONE_CLEAR_SIGHAND and CLONE_SIGHAND are
-mutually exclusive.
+On Sat, Oct 12, 2019 at 12:19 PM Christian Brauner
+<christian.brauner@ubuntu.com> wrote:
+> Currently, the fdinfo file of contains the field Pid:
 
-Cc: Florian Weimer <fweimer@redhat.com>
-Cc: libc-alpha@sourceware.org
-Cc: linux-api@vger.kernel.org
-Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
----
-/* v1 */
-Link: https://lore.kernel.org/r/20191010133518.5420-2-christian.brauner@ubuntu.com
+nit: something missing after "of"?
 
-/* v2 */
-Link: https://lore.kernel.org/r/20191011102537.27502-2-christian.brauner@ubuntu.com
-- Christian Brauner <christian.brauner@ubuntu.com>:
-  - remove unused variable
-  - reuse variable in child process instead od declaring a new one
-  - move check for mutual exclusivity of CLONE_SIGHAND and
-    CLONE3_CLEAR_SIGHAND to top of test before setting up signal
-    handlers
-  - rename variables
+> It contains the pid a given pidfd refers to in the pid namespace of the
+> opener's procfs instance.
 
-/* v3 */
-- Christian Brauner <christian.brauner@ubuntu.com>:
-  - s/CLONE3_CLEAR_SIGHAND/CLONE_CLEAR_SIGHAND/g
----
- MAINTAINERS                                   |   1 +
- tools/testing/selftests/Makefile              |   1 +
- tools/testing/selftests/clone3/.gitignore     |   1 +
- tools/testing/selftests/clone3/Makefile       |   7 +
- .../selftests/clone3/clone3_clear_sighand.c   | 172 ++++++++++++++++++
- 5 files changed, 182 insertions(+)
- create mode 100644 tools/testing/selftests/clone3/.gitignore
- create mode 100644 tools/testing/selftests/clone3/Makefile
- create mode 100644 tools/testing/selftests/clone3/clone3_clear_sighand.c
+s/opener's // here and in various places below? "the opener's" is
+kinda misleading since it sounds as if it has something to do with
+task identity.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 55199ef7fa74..582275d85607 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12828,6 +12828,7 @@ S:	Maintained
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/brauner/linux.git
- F:	samples/pidfd/
- F:	tools/testing/selftests/pidfd/
-+F:	tools/testing/selftests/clone3/
- K:	(?i)pidfd
- K:	(?i)clone3
- K:	\b(clone_args|kernel_clone_args)\b
-diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
-index c3feccb99ff5..6bf7aeb47650 100644
---- a/tools/testing/selftests/Makefile
-+++ b/tools/testing/selftests/Makefile
-@@ -4,6 +4,7 @@ TARGETS += bpf
- TARGETS += breakpoints
- TARGETS += capabilities
- TARGETS += cgroup
-+TARGETS += clone3
- TARGETS += cpufreq
- TARGETS += cpu-hotplug
- TARGETS += drivers/dma-buf
-diff --git a/tools/testing/selftests/clone3/.gitignore b/tools/testing/selftests/clone3/.gitignore
-new file mode 100644
-index 000000000000..6c9f98097774
---- /dev/null
-+++ b/tools/testing/selftests/clone3/.gitignore
-@@ -0,0 +1 @@
-+clone3_clear_sighand
-diff --git a/tools/testing/selftests/clone3/Makefile b/tools/testing/selftests/clone3/Makefile
-new file mode 100644
-index 000000000000..3ecd56ebc99d
---- /dev/null
-+++ b/tools/testing/selftests/clone3/Makefile
-@@ -0,0 +1,7 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+CFLAGS += -g -I../../../../usr/include/
-+
-+TEST_GEN_PROGS := clone3_clear_sighand
-+
-+include ../lib.mk
-+
-diff --git a/tools/testing/selftests/clone3/clone3_clear_sighand.c b/tools/testing/selftests/clone3/clone3_clear_sighand.c
-new file mode 100644
-index 000000000000..0d957be1bdc5
---- /dev/null
-+++ b/tools/testing/selftests/clone3/clone3_clear_sighand.c
-@@ -0,0 +1,172 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+#define _GNU_SOURCE
-+#include <errno.h>
-+#include <sched.h>
-+#include <signal.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <unistd.h>
-+#include <linux/sched.h>
-+#include <linux/types.h>
-+#include <sys/syscall.h>
-+#include <sys/wait.h>
-+
-+#include "../kselftest.h"
-+
-+#ifndef CLONE_CLEAR_SIGHAND
-+#define CLONE_CLEAR_SIGHAND 0x100000000ULL
-+#endif
-+
-+#ifndef __NR_clone3
-+#define __NR_clone3 -1
-+struct clone_args {
-+	__aligned_u64 flags;
-+	__aligned_u64 pidfd;
-+	__aligned_u64 child_tid;
-+	__aligned_u64 parent_tid;
-+	__aligned_u64 exit_signal;
-+	__aligned_u64 stack;
-+	__aligned_u64 stack_size;
-+	__aligned_u64 tls;
-+};
-+#endif
-+
-+static pid_t sys_clone3(struct clone_args *args, size_t size)
-+{
-+	return syscall(__NR_clone3, args, size);
-+}
-+
-+static void test_clone3_supported(void)
-+{
-+	pid_t pid;
-+	struct clone_args args = {};
-+
-+	if (__NR_clone3 < 0)
-+		ksft_exit_skip("clone3() syscall is not supported\n");
-+
-+	/* Set to something that will always cause EINVAL. */
-+	args.exit_signal = -1;
-+	pid = sys_clone3(&args, sizeof(args));
-+	if (!pid)
-+		exit(EXIT_SUCCESS);
-+
-+	if (pid > 0) {
-+		wait(NULL);
-+		ksft_exit_fail_msg(
-+			"Managed to create child process with invalid exit_signal\n");
-+	}
-+
-+	if (errno == ENOSYS)
-+		ksft_exit_skip("clone3() syscall is not supported\n");
-+
-+	ksft_print_msg("clone3() syscall supported\n");
-+}
-+
-+static void nop_handler(int signo)
-+{
-+}
-+
-+static int wait_for_pid(pid_t pid)
-+{
-+	int status, ret;
-+
-+again:
-+	ret = waitpid(pid, &status, 0);
-+	if (ret == -1) {
-+		if (errno == EINTR)
-+			goto again;
-+
-+		return -1;
-+	}
-+
-+	if (!WIFEXITED(status))
-+		return -1;
-+
-+	return WEXITSTATUS(status);
-+}
-+
-+static void test_clone3_clear_sighand(void)
-+{
-+	int ret;
-+	pid_t pid;
-+	struct clone_args args = {};
-+	struct sigaction act;
-+
-+	/*
-+	 * Check that CLONE_CLEAR_SIGHAND and CLONE_SIGHAND are mutually
-+	 * exclusive.
-+	 */
-+	args.flags |= CLONE_CLEAR_SIGHAND | CLONE_SIGHAND;
-+	args.exit_signal = SIGCHLD;
-+	pid = sys_clone3(&args, sizeof(args));
-+	if (pid > 0)
-+		ksft_exit_fail_msg(
-+			"clone3(CLONE_CLEAR_SIGHAND | CLONE_SIGHAND) succeeded\n");
-+
-+	act.sa_handler = nop_handler;
-+	ret = sigemptyset(&act.sa_mask);
-+	if (ret < 0)
-+		ksft_exit_fail_msg("%s - sigemptyset() failed\n",
-+				   strerror(errno));
-+
-+	act.sa_flags = 0;
-+
-+	/* Register signal handler for SIGUSR1 */
-+	ret = sigaction(SIGUSR1, &act, NULL);
-+	if (ret < 0)
-+		ksft_exit_fail_msg(
-+			"%s - sigaction(SIGUSR1, &act, NULL) failed\n",
-+			strerror(errno));
-+
-+	/* Register signal handler for SIGUSR2 */
-+	ret = sigaction(SIGUSR2, &act, NULL);
-+	if (ret < 0)
-+		ksft_exit_fail_msg(
-+			"%s - sigaction(SIGUSR2, &act, NULL) failed\n",
-+			strerror(errno));
-+
-+	/* Check that CLONE_CLEAR_SIGHAND works. */
-+	args.flags = CLONE_CLEAR_SIGHAND;
-+	pid = sys_clone3(&args, sizeof(args));
-+	if (pid < 0)
-+		ksft_exit_fail_msg("%s - clone3(CLONE_CLEAR_SIGHAND) failed\n",
-+				   strerror(errno));
-+
-+	if (pid == 0) {
-+		ret = sigaction(SIGUSR1, NULL, &act);
-+		if (ret < 0)
-+			exit(EXIT_FAILURE);
-+
-+		if (act.sa_handler != SIG_DFL)
-+			exit(EXIT_FAILURE);
-+
-+		ret = sigaction(SIGUSR2, NULL, &act);
-+		if (ret < 0)
-+			exit(EXIT_FAILURE);
-+
-+		if (act.sa_handler != SIG_DFL)
-+			exit(EXIT_FAILURE);
-+
-+		exit(EXIT_SUCCESS);
-+	}
-+
-+	ret = wait_for_pid(pid);
-+	if (ret)
-+		ksft_exit_fail_msg(
-+			"Failed to clear signal handler for child process\n");
-+
-+	ksft_test_result_pass("Cleared signal handlers for child process\n");
-+}
-+
-+int main(int argc, char **argv)
-+{
-+	ksft_print_header();
-+	ksft_set_plan(1);
-+
-+	test_clone3_supported();
-+	test_clone3_clear_sighand();
-+
-+	return ksft_exit_pass();
-+}
--- 
-2.23.0
+> If the pid namespace of the process is not a descendant of the pid
+> namespace of the procfs instance 0 will be shown as its pid. This is
+> similar to calling getppid() on a process who's parent is out of it's
 
+nit: s/who's/whose/
+
+nit: s/it's/its/
+
+> pid namespace (e.g. when moving a process into a sibling pid namespace
+> via setns()).
+
+You can't move a process into a PID namespace via setns(), you can
+only set the PID namespace for its children; and even then, you can't
+set that to a sibling PID namespace, you can only move into descendant
+PID namespaces.
+
+> Add an NSpid field for easy retrieval of the pid in all descendant pid
+> namespaces:
+> If pid namespaces are supported this field will contain the pid a given
+> pidfd refers to for all descendant pid namespaces starting from the
+> current pid namespace of the opener's procfs instance, i.e. the first
+
+s/current // - neither tasks nor procfs instances can change which pid
+namespace they're associated with
+
+> pid entry for Pid and NSpid will be identical.
+
+*the Pid field and the first entry in the NSpid field?
+
+> If the pid namespace of the process is not a descendant of the pid
+> namespace of the procfs instance 0 will be shown as its first NSpid and
+> no other NSpid entries will be shown.
+> Note that this differs from the Pid and NSpid fields in
+> /proc/<pid>/status where Pid and NSpid are always shown relative to the
+> pid namespace of the opener's procfs instace. The difference becomes
+> obvious when sending around a pidfd between pid namespaces from
+> different trees, i.e. where no ancestoral relation is present between
+> the pid namespaces:
+> 1. sending around pidfd:
+> - create two new pid namespaces ns1 and ns2 in the initial pid namespace
+>   (Also take care to create new mount namespaces in the new pid
+>   namespace and mount procfs.)
+> - create a process with a pidfd in ns1
+> - send pidfd from ns1 to ns2
+> - read /proc/self/fdinfo/<pidfd> and observe that Pid and NSpid entry
+>   are 0
+> - create a process with a pidfd in
+
+truncated phrase?
+
+> - open a pidfd for a process in the initial pid namespace
+> 2. sending around /proc/<pid>/status fd:
+> - create two new pid namespaces ns1 and ns2 in the initial pid namespace
+>   (Also take care to create new mount namespaces in the new pid
+>   namespace and mount procfs.)
+> - create a process in ns1
+> - open /proc/<pid>/status in the initial pid namespace for the process
+>   you created in ns1
+> - send statusfd from initial pid namespace to ns2
+> - read statusfd and observe:
+>   - that Pid will contain the pid of the process as seen from the init
+>   - that NSpid will contain the pids of the process for all descendant
+>     pid namespaces starting from the initial pid namespace
+
+You don't need fd passing for case 2, you can just look at the procfs
+instance that's mounted in the initial mount namespace. Using fd
+passing in this example kinda obfuscates what's going on, in my
+opinion.
+
+
+> +/**
+> + * pidfd_show_fdinfo - print information about a pidfd
+> + * @m: proc fdinfo file
+> + * @f: file referencing a pidfd
+> + *
+> + * Pid:
+> + * This function will print the pid a given pidfd refers to in the pid
+> + * namespace of the opener's procfs instance.
+> + * If the pid namespace of the process is not a descendant of the pid
+> + * namespace of the procfs instance 0 will be shown as its pid. This is
+> + * similar to calling getppid() on a process who's parent is out of it's
+> + * pid namespace (e.g. when moving a process into a sibling pid namespace
+> + * via setns()).
+> + * NSpid:
+> + * If pid namespaces are supported then this function will also print the
+> + * pid a given pidfd refers to for all descendant pid namespaces starting
+> + * from the current pid namespace of the opener's procfs instance, i.e. the
+> + * first pid entry for Pid and NSpid will be identical.
+> + * If the pid namespace of the process is not a descendant of the pid
+> + * namespace of the procfs instance 0 will be shown as its first NSpid and
+> + * no other NSpid entries will be shown.
+> + * Note that this differs from the Pid and NSpid fields in
+> + * /proc/<pid>/status where Pid and NSpid are always shown relative to the
+> + * pid namespace of the opener's procfs instace. The difference becomes
+> + * obvious when sending around a pidfd between pid namespaces from
+> + * different trees, i.e. where no ancestoral relation is present between
+> + * the pid namespaces:
+> + * 1. sending around pidfd:
+> + * - create two new pid namespaces ns1 and ns2 in the initial pid namespace
+> + *   (Also take care to create new mount namespaces in the new pid
+> + *   namespace and mount procfs.)
+> + * - create a process with a pidfd in ns1
+> + * - send pidfd from ns1 to ns2
+> + * - read /proc/self/fdinfo/<pidfd> and observe that Pid and NSpid entry
+> + *   are 0
+> + * - create a process with a pidfd in
+> + * - open a pidfd for a process in the initial pid namespace
+> + * 2. sending around /proc/<pid>/status fd:
+> + * - create two new pid namespaces ns1 and ns2 in the initial pid namespace
+> + *   (Also take care to create new mount namespaces in the new pid
+> + *   namespace and mount procfs.)
+> + * - create a process in ns1
+> + * - open /proc/<pid>/status in the initial pid namespace for the process
+> + *   you created in ns1
+> + * - send statusfd from initial pid namespace to ns2
+> + * - read statusfd and observe:
+> + *   - that Pid will contain the pid of the process as seen from the init
+> + *   - that NSpid will contain the pids of the process for all descendant
+> + *     pid namespaces starting from the initial pid namespace
+> + */
+
+See above, same problems as in the commit message. Actually, since you
+have a big comment block with this text, there's no reason to repeat
+it in the commit message, right?
+
+(By the way, only slightly related to this patch: At the moment, if
+you have a pidfd to a task that has already been reaped, and the PID
+has been reallocated to another task, the pidfd will still show up in
+/proc/*/fdinfo/* as if it referred to a non-dead process, right? Might
+be worth considering whether you want to probe ->tasks[PIDTYPE_PID] or
+->tasks[PIDTYPE_TGID] for NULL-ness when printing fdinfo, or something
+like that.)
