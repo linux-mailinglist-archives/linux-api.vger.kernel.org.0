@@ -2,37 +2,36 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 19764D5916
-	for <lists+linux-api@lfdr.de>; Mon, 14 Oct 2019 02:40:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 01E8DD5921
+	for <lists+linux-api@lfdr.de>; Mon, 14 Oct 2019 02:51:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728848AbfJNAkD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 13 Oct 2019 20:40:03 -0400
-Received: from mga14.intel.com ([192.55.52.115]:10776 "EHLO mga14.intel.com"
+        id S1729659AbfJNAvJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 13 Oct 2019 20:51:09 -0400
+Received: from mga05.intel.com ([192.55.52.43]:18785 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729384AbfJNAkD (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Sun, 13 Oct 2019 20:40:03 -0400
+        id S1729495AbfJNAvI (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Sun, 13 Oct 2019 20:51:08 -0400
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Oct 2019 17:40:02 -0700
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Oct 2019 17:51:07 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.67,294,1566889200"; 
-   d="gz'50?scan'50,208,50";a="201336583"
+   d="gz'50?scan'50,208,50";a="207053337"
 Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 13 Oct 2019 17:39:58 -0700
+  by orsmga002.jf.intel.com with ESMTP; 13 Oct 2019 17:51:02 -0700
 Received: from kbuild by lkp-server01 with local (Exim 4.89)
         (envelope-from <lkp@intel.com>)
-        id 1iJoOz-000Ibp-ID; Mon, 14 Oct 2019 08:39:57 +0800
-Date:   Mon, 14 Oct 2019 08:36:20 +0800
+        id 1iJoZh-00044h-Mt; Mon, 14 Oct 2019 08:51:01 +0800
+Date:   Mon, 14 Oct 2019 08:50:12 +0800
 From:   kbuild test robot <lkp@intel.com>
 To:     Dmitry Safonov <dima@arista.com>
 Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
         Dmitry Safonov <0x7f454c46@gmail.com>,
-        Andrei Vagin <avagin@gmail.com>,
+        Andrei Vagin <avagin@openvz.org>,
         Dmitry Safonov <dima@arista.com>,
         Adrian Reber <adrian@lisas.de>,
-        Andrei Vagin <avagin@openvz.org>,
         Andy Lutomirski <luto@kernel.org>,
         Arnd Bergmann <arnd@arndb.de>,
         Christian Brauner <christian.brauner@ubuntu.com>,
@@ -47,13 +46,14 @@ Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
         Vincenzo Frascino <vincenzo.frascino@arm.com>,
         containers@lists.linux-foundation.org, criu@openvz.org,
         linux-api@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCHv7 06/33] alarmtimer: Provide get_timespec() callback
-Message-ID: <201910140815.JxHBzda9%lkp@intel.com>
-References: <20191011012341.846266-7-dima@arista.com>
+Subject: Re: [PATCHv7 15/33] posix-timers: Make clock_nanosleep() time
+ namespace aware
+Message-ID: <201910140837.KeMhhSqY%lkp@intel.com>
+References: <20191011012341.846266-16-dima@arista.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="i5eyv2ux6zqcclxv"
+Content-Type: multipart/mixed; boundary="2xz24g67pdqucyrn"
 Content-Disposition: inline
-In-Reply-To: <20191011012341.846266-7-dima@arista.com>
+In-Reply-To: <20191011012341.846266-16-dima@arista.com>
 X-Patchwork-Hint: ignore
 User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-api-owner@vger.kernel.org
@@ -62,7 +62,7 @@ List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 
---i5eyv2ux6zqcclxv
+--2xz24g67pdqucyrn
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
@@ -88,20 +88,132 @@ Reported-by: kbuild test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
-   ld: kernel/time/alarmtimer.o: in function `alarmtimer_init':
->> alarmtimer.c:(.init.text+0x26): undefined reference to `posix_get_realtime_timespec'
->> ld: alarmtimer.c:(.init.text+0x44): undefined reference to `posix_get_boottime_timespec'
+   kernel/time/posix-stubs.c: In function '__do_sys_clock_nanosleep':
+>> kernel/time/posix-stubs.c:153:31: error: 'clockid' undeclared (first use in this function); did you mean 'clock_t'?
+      texp = timens_ktime_to_host(clockid, texp);
+                                  ^~~~~~~
+                                  clock_t
+   kernel/time/posix-stubs.c:153:31: note: each undeclared identifier is reported only once for each function it appears in
+   kernel/time/posix-stubs.c: In function '__do_sys_clock_nanosleep_time32':
+>> kernel/time/posix-stubs.c:222:2: error: unknown type name 'ktime'; did you mean 'ktime_t'?
+     ktime texp;
+     ^~~~~
+     ktime_t
+   kernel/time/posix-stubs.c:243:31: error: 'clockid' undeclared (first use in this function); did you mean 'clock_t'?
+      texp = timens_ktime_to_host(clockid, texp);
+                                  ^~~~~~~
+                                  clock_t
+
+vim +153 kernel/time/posix-stubs.c
+
+   126	
+   127	SYSCALL_DEFINE4(clock_nanosleep, const clockid_t, which_clock, int, flags,
+   128			const struct __kernel_timespec __user *, rqtp,
+   129			struct __kernel_timespec __user *, rmtp)
+   130	{
+   131		struct timespec64 t;
+   132		ktime_t texp;
+   133	
+   134		switch (which_clock) {
+   135		case CLOCK_REALTIME:
+   136		case CLOCK_MONOTONIC:
+   137		case CLOCK_BOOTTIME:
+   138			break;
+   139		default:
+   140			return -EINVAL;
+   141		}
+   142	
+   143		if (get_timespec64(&t, rqtp))
+   144			return -EFAULT;
+   145		if (!timespec64_valid(&t))
+   146			return -EINVAL;
+   147		if (flags & TIMER_ABSTIME)
+   148			rmtp = NULL;
+   149		current->restart_block.nanosleep.type = rmtp ? TT_NATIVE : TT_NONE;
+   150		current->restart_block.nanosleep.rmtp = rmtp;
+   151		texp = timespec64_to_ktime(t);
+   152		if (flags & TIMER_ABSTIME)
+ > 153			texp = timens_ktime_to_host(clockid, texp);
+   154		return hrtimer_nanosleep(texp, flags & TIMER_ABSTIME ?
+   155					 HRTIMER_MODE_ABS : HRTIMER_MODE_REL,
+   156					 which_clock);
+   157	}
+   158	
+   159	#ifdef CONFIG_COMPAT
+   160	COMPAT_SYS_NI(timer_create);
+   161	COMPAT_SYS_NI(getitimer);
+   162	COMPAT_SYS_NI(setitimer);
+   163	#endif
+   164	
+   165	#ifdef CONFIG_COMPAT_32BIT_TIME
+   166	SYS_NI(timer_settime32);
+   167	SYS_NI(timer_gettime32);
+   168	
+   169	SYSCALL_DEFINE2(clock_settime32, const clockid_t, which_clock,
+   170			struct old_timespec32 __user *, tp)
+   171	{
+   172		struct timespec64 new_tp;
+   173	
+   174		if (which_clock != CLOCK_REALTIME)
+   175			return -EINVAL;
+   176		if (get_old_timespec32(&new_tp, tp))
+   177			return -EFAULT;
+   178	
+   179		return do_sys_settimeofday64(&new_tp, NULL);
+   180	}
+   181	
+   182	SYSCALL_DEFINE2(clock_gettime32, clockid_t, which_clock,
+   183			struct old_timespec32 __user *, tp)
+   184	{
+   185		int ret;
+   186		struct timespec64 kernel_tp;
+   187	
+   188		ret = do_clock_gettime(which_clock, &kernel_tp);
+   189		if (ret)
+   190			return ret;
+   191	
+   192		if (put_old_timespec32(&kernel_tp, tp))
+   193			return -EFAULT;
+   194		return 0;
+   195	}
+   196	
+   197	SYSCALL_DEFINE2(clock_getres_time32, clockid_t, which_clock,
+   198			struct old_timespec32 __user *, tp)
+   199	{
+   200		struct timespec64 rtn_tp = {
+   201			.tv_sec = 0,
+   202			.tv_nsec = hrtimer_resolution,
+   203		};
+   204	
+   205		switch (which_clock) {
+   206		case CLOCK_REALTIME:
+   207		case CLOCK_MONOTONIC:
+   208		case CLOCK_BOOTTIME:
+   209			if (put_old_timespec32(&rtn_tp, tp))
+   210				return -EFAULT;
+   211			return 0;
+   212		default:
+   213			return -EINVAL;
+   214		}
+   215	}
+   216	
+   217	SYSCALL_DEFINE4(clock_nanosleep_time32, clockid_t, which_clock, int, flags,
+   218			struct old_timespec32 __user *, rqtp,
+   219			struct old_timespec32 __user *, rmtp)
+   220	{
+   221		struct timespec64 t;
+ > 222		ktime texp;
 
 ---
 0-DAY kernel test infrastructure                Open Source Technology Center
 https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
 
---i5eyv2ux6zqcclxv
+--2xz24g67pdqucyrn
 Content-Type: application/gzip
 Content-Disposition: attachment; filename=".config.gz"
 Content-Transfer-Encoding: base64
 
-H4sICPS+o10AAy5jb25maWcAlDxrc+M2kt/3V7CSqquZ2krisT2O9678AQIhCTFJcAhSD39h
+H4sICGbEo10AAy5jb25maWcAlDxrc+M2kt/3V7CSqquZ2krisT2O9678AQIhCTFJcAhSD39h
 KTLtUcWWfJK8O/PvrxsgRZBsaHJbm8RGP/Bq9Jv++R8/B+z9uHtdHTfr1cvL9+C52lb71bF6
 DJ42L9X/BKEKEpUHIpT5r4Acbbbv337bXN3eBJ9/vf714pf9+jK4r/bb6iXgu+3T5vkdqDe7
 7T9+/gf8/2cYfH0DRvv/Dp7X619+Dz6E1Z+b1Tb43VB/uvpofwJcrpKxnJScl1KXE87vvjdD
@@ -236,4 +348,4 @@ pDYHQMBmSePCkO5OpaiNM41pQOSagAbVO6yUtXzNwVx4XZ3XreLZmLTWtT5ZLNIinFte9Zy4
 rrg81Lv9gsVfN5dffveElzqGRAYMNh6riarM3vjkGr0oLqOBwwhuCPBv5fIbdb/NVIlqq3yd
 5mgEVbkzdIRqp8fWCQ4UfgDhSF/VDWgAAA==
 
---i5eyv2ux6zqcclxv--
+--2xz24g67pdqucyrn--
