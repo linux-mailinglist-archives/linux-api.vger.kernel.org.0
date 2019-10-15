@@ -2,456 +2,328 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1933CD7F4D
-	for <lists+linux-api@lfdr.de>; Tue, 15 Oct 2019 20:43:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 01CCFD826D
+	for <lists+linux-api@lfdr.de>; Tue, 15 Oct 2019 23:48:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727784AbfJOSnO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 15 Oct 2019 14:43:14 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:42238 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389249AbfJOSnK (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 15 Oct 2019 14:43:10 -0400
-Received: by mail-pl1-f195.google.com with SMTP id e5so9990605pls.9
-        for <linux-api@vger.kernel.org>; Tue, 15 Oct 2019 11:43:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=osandov-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=2P4yK7ExLp5umtVjGj04165cdN5E9l7hwsUvPQgbWHc=;
-        b=zN2+N8js0beCW4Vj2hQN8LEC23pgf7H2OmdYrYNfaabjotPpQS0uSkT3EhzOfimCxg
-         pcerRmoRUadz2yhmCHU8mL6OKfD+Wm3mLLbskaIRQeoBGaj4r95kLd2t0FucJDuGgjan
-         Yxw2JuW5lU8yjnpEZ+3L5oURi6FIIxfqU8TAgtm8rVcL7TK3LR6G6gXztnWwoEUqPaF0
-         Zuz7/Ejld1cEvDWeFvWyI5wjlDSwJ+u7K/8qaWEN+zvSp5wXQrDjPK2Y5S0zjBsNvLZ/
-         0niSZ45eP4uIlEh996/ohtaj/zWNf7D74bMVU7LOAD/yI/acV8Wub5UPI/3vB2cP/+OG
-         Yh+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=2P4yK7ExLp5umtVjGj04165cdN5E9l7hwsUvPQgbWHc=;
-        b=GIS8GV/km9IOGBSMR4siMtn7m3a1E8Nktbjj9ZoZYNxWqnbOgiY7quG5Wpe2iiegPe
-         HQPfgoec4r9QDBw4L0+2PeD3HYxWQ3vWNRjp1vL0dng3KV0fgg8/KIquf1G4TWo2Nn4V
-         hD7u/PjAePnC5kCu5xrUCnQ9khetg86/O+ZPILqrcgTtY4u5PJj6HS3/Na9sgnLHZuoI
-         JpBcZneja8knHAvhGmezz1NqpgxvpULYuQkTlmlcFH2Et5rNTwi1ED6MT0nCh4KXsI4F
-         4sCESNVYHtt3VAQ7L8dIH2feOzczF8VTST60MjU4OiZG+DNpB2RJQJSEfNWKNY4O7Gv0
-         EtmA==
-X-Gm-Message-State: APjAAAVVf6flZhgV7aHFzMplCqySJUAE3+6EDCPcEHfTpBkg8W5ds4dt
-        +wu30YdWFLHLMbOe5ysi0+RNVw==
-X-Google-Smtp-Source: APXvYqxkHh8h3sSzm9pE95/SiBuhGn2lle0uaAmCiDVzwHIt/vUphw6mmRvl8dfu25K9gYBKhOb38Q==
-X-Received: by 2002:a17:902:8216:: with SMTP id x22mr37862515pln.232.1571164989392;
-        Tue, 15 Oct 2019 11:43:09 -0700 (PDT)
-Received: from vader.thefacebook.com ([2620:10d:c090:200::2:3e5e])
-        by smtp.gmail.com with ESMTPSA id z3sm40396pjd.25.2019.10.15.11.43.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2019 11:43:08 -0700 (PDT)
-From:   Omar Sandoval <osandov@osandov.com>
-To:     linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org
-Cc:     Dave Chinner <david@fromorbit.com>, Jann Horn <jannh@google.com>,
-        linux-api@vger.kernel.org, kernel-team@fb.com
-Subject: [RFC PATCH v2 5/5] btrfs: implement RWF_ENCODED writes
-Date:   Tue, 15 Oct 2019 11:42:43 -0700
-Message-Id: <904de93d9bbe630aff7f725fd587810c6eb48344.1571164762.git.osandov@fb.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <cover.1571164762.git.osandov@fb.com>
-References: <cover.1571164762.git.osandov@fb.com>
+        id S1730502AbfJOVry (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 15 Oct 2019 17:47:54 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44802 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730483AbfJOVry (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 15 Oct 2019 17:47:54 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 2F49E10DCC81;
+        Tue, 15 Oct 2019 21:47:53 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-121-84.rdu2.redhat.com [10.10.121.84])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id A8CA560852;
+        Tue, 15 Oct 2019 21:47:49 +0000 (UTC)
+Subject: [RFC PATCH 00/21] pipe: Keyrings, Block and USB notifications
+From:   David Howells <dhowells@redhat.com>
+To:     torvalds@linux-foundation.org
+Cc:     dhowells@redhat.com, Casey Schaufler <casey@schaufler-ca.com>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        nicolas.dichtel@6wind.com, raven@themaw.net,
+        Christian Brauner <christian@brauner.io>, dhowells@redhat.com,
+        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-security-module@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Tue, 15 Oct 2019 22:47:48 +0100
+Message-ID: <157117606853.15019.15459271147790470307.stgit@warthog.procyon.org.uk>
+User-Agent: StGit/unknown-version
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2 (mx1.redhat.com [10.5.110.64]); Tue, 15 Oct 2019 21:47:53 +0000 (UTC)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Omar Sandoval <osandov@fb.com>
 
-The implementation resembles direct I/O: we have to flush any ordered
-extents, invalidate the page cache, and do the io tree/delalloc/extent
-map/ordered extent dance. From there, we can reuse the compression code
-with a minor modification to distinguish the write from writeback.
+Here's a set of patches to add a general notification queue concept and to
+add event sources such as:
 
-Now that read and write are implemented, this also sets the
-FMODE_ENCODED_IO flag in btrfs_file_open().
+ (1) Keys/keyrings, such as linking and unlinking keys and changing their
+     attributes.
 
-Signed-off-by: Omar Sandoval <osandov@fb.com>
+ (2) General device events (single common queue) including:
+
+     - Block layer events, such as device errors
+
+     - USB subsystem events, such as device attach/remove, device reset,
+       device errors.
+
+I have patches for adding superblock and mount topology watches also,
+though those are not in this set as there are other dependencies.
+
+LSM hooks are included:
+
+ (1) A set of hooks are provided that allow an LSM to rule on whether or
+     not a watch may be set.  Each of these hooks takes a different
+     "watched object" parameter, so they're not really shareable.  The LSM
+     should use current's credentials.  [Wanted by SELinux & Smack]
+
+ (2) A hook is provided to allow an LSM to rule on whether or not a
+     particular message may be posted to a particular queue.  This is given
+     the credentials from the event generator (which may be the system) and
+     the watch setter.  [Wanted by Smack]
+
+I've provided SELinux and Smack with implementations of some of these hooks.
+
+
+Design decisions:
+
+ (1) The notification queue is built on top of a standard pipe.  Messages are
+     effectively spliced in.
+
+	pipe2(fds, O_TMPFILE); // Note that O_TMPFILE is just hacked in atm
+
+     which is then configured::
+
+	ioctl(fds[1], IOC_WATCH_QUEUE_SET_SIZE, queue_depth);
+	ioctl(fds[1], IOC_WATCH_QUEUE_SET_FILTER, &filter);
+
+     Messages are then read out of the pipe using read().
+
+ (2) It should be possible to allow write() to insert data into the
+     notification pipes too, but this is currently disabled as the kernel has
+     to be able to insert messages into the pipe *without* holding pipe->mutex
+     and the code to make this work needs careful auditing.
+
+ (3) sendfile(), splice() and vmsplice() are disabled on notification pipes
+     because of the pipe->mutex issue and also because they sometimes want to
+     revert what they just did - but one or more notification messages
+     might've been interleaved in the ring.
+
+ (4) The kernel inserts messages with the wait queue spinlock held.  This
+     means that pipe_read() and pipe_write() have to take the spinlock to
+     update the queue pointers.
+
+ (5) Records in the buffer are binary, typed and have a length so that they
+     can be of varying size.
+
+     This allows multiple heterogeneous sources to share a common buffer;
+     there are 16 million types available, of which I've used just a few,
+     so there is scope for others to be used.  Tags may be specified when a
+     watchpoint is created to help distinguish the sources.
+
+ (6) Records are filterable as types have up to 256 subtypes that can be
+     individually filtered.  Other filtration is also available.
+
+ (7) Notification pipes don't interfere with each other; each may be bound to
+     a different set of watches.  Any particular notification will be copied
+     to all the queues that are currently watching for it - and only those
+     that are watching for it.
+
+ (8) When recording a notification, the kernel will not sleep, but will rather
+     mark a queue as having lost a message if there's insufficient space.
+     read() will fabricate a loss notification message at an appropriate point
+     later.
+
+ (9) The notification pipe is created and then watchpoints are attached to it,
+     using one of:
+
+	keyctl_watch_key(KEY_SPEC_SESSION_KEYRING, fds[1], 0x01);
+	watch_devices(fds[1], 0x02, 0);
+
+     where in both cases, fd indicates the queue and the number after is a
+     tag between 0 and 255.
+
+(10) Watches are removed if either the notification pipe is destroyed or the
+     watched object is destroyed.  In the latter case, a message will be
+     generated indicating the enforced watch removal.
+
+
+Things I want to avoid:
+
+ (1) Introducing features that make the core VFS dependent on the network
+     stack or networking namespaces (ie. usage of netlink).
+
+ (2) Dumping all this stuff into dmesg and having a daemon that sits there
+     parsing the output and distributing it as this then puts the
+     responsibility for security into userspace and makes handling
+     namespaces tricky.  Further, dmesg might not exist or might be
+     inaccessible inside a container.
+
+ (3) Letting users see events they shouldn't be able to see.
+
+
+Benchmarks:
+
+PATCHES BENCHMARK	BEST		TOTAL BYTES	AVG BYTES	STDDEV
+======= =============== =============== =============== =============== ===============
+0	pipe		      305798752	    36324188187	      302701568		6128384
+0	vmsplice	      432261032	    49377769035	      411481408	       60638553
+0	splice		      284943309	    27769149338	      231409577	      171374033
+
+prelock pipe		      307500893	    36470120589	      303917671		9970065
+prelock vmsplice	      437991897	    51502859114	      429190492	       22841773
+prelock splice		      285469128	    28158931451	      234657762	      138350254
+
+ht	pipe		      304526362	    35934813852	      299456782	       14371537
+ht	vmsplice	      437819690	    51481865190	      429015543	       25713854
+ht	splice		      242954439	    23296773094	      194139775	      148906490
+
+r	pipe		      306166161	    36117069156	      300975576	       11493141
+r	vmsplice	      335931911	    39837793527	      331981612		9098195
+r	splice		      282334654	    27472565449	      228938045	      219399557
+
+rx	pipe		      304664843	    36059231110	      300493592		9800700
+rx	vmsplice	      446602247	    52216984680	      435141539	       31456017
+rx	splice		      277978890	    26516522263	      220971018	      199170870
+
+rxw	pipe		      304180415	    36317294286	      302644119		5967557
+rxw	vmsplice	      447361082	    51238998643	      426991655	       62191270
+rxw	splice		      277213923	    27627387718	      230228230	      173675370
+
+rxwx	pipe		      305390974	    36110185475	      300918212	       11895583
+rxwx	vmsplice	      445372781	    50668744616	      422239538	       63133543
+rxwx	splice		      280218603	    27677264384	      230643869	      196958675
+
+rxwxf	pipe		      305001592	    36325565843	      302713048		7551300
+rxwxf	vmsplice	      444316544	    50213093070	      418442442	       77117994
+rxwxf	splice		      278371338	    28859765396	      240498044	      160245812
+
+all	pipe		      298858861	    35543407781	      296195064		5173617
+all	vmsplice	      453414388	    53792295991	      448269133	       10914547
+all	splice		      279264055	    26812726990	      223439391	      212421416
+
+The patches column indicates the point in the patchset at which the benchmarks
+were taken:
+
+	0	No patches
+	prelock "Add a prelocked wake-up"
+	hr	"pipe: Use head and tail pointers for the ring, not cursor and length"
+	r	"pipe: Advance tail pointer inside of wait spinlock in pipe_read()"
+	rx	"pipe: Conditionalise wakeup in pipe_read()"
+	rxw	"pipe: Rearrange sequence in pipe_write() to preallocate slot"
+	rxwx	"pipe: Remove redundant wakeup from pipe_write()"
+	rxwxf	"pipe: Check for ring full inside of the spinlock in pipe_write()"
+	all	All of the patches
+
+The benchmark programs can be found here:
+
+	http://people.redhat.com/dhowells/pipe-bench.c
+	http://people.redhat.com/dhowells/vmsplice-bench.c
+	http://people.redhat.com/dhowells/splice-bench.c
+
+The patches can be found here also:
+
+	http://git.kernel.org/cgit/linux/kernel/git/dhowells/linux-fs.git/log/?h=pipe-experimental
+
+Changes:
+
+ ver #1:
+
+ (*) Build on top of standard pipes instead of having a driver.
+
+David
 ---
- fs/btrfs/compression.c |   6 +-
- fs/btrfs/compression.h |   5 +-
- fs/btrfs/ctree.h       |   2 +
- fs/btrfs/file.c        |  40 +++++++--
- fs/btrfs/inode.c       | 197 ++++++++++++++++++++++++++++++++++++++++-
- 5 files changed, 237 insertions(+), 13 deletions(-)
+David Howells (21):
+      pipe: Reduce #inclusion of pipe_fs_i.h
+      Add a prelocked wake-up
+      pipe: Use head and tail pointers for the ring, not cursor and length
+      pipe: Advance tail pointer inside of wait spinlock in pipe_read()
+      pipe: Conditionalise wakeup in pipe_read()
+      pipe: Rearrange sequence in pipe_write() to preallocate slot
+      pipe: Remove redundant wakeup from pipe_write()
+      pipe: Check for ring full inside of the spinlock in pipe_write()
+      uapi: General notification queue definitions
+      security: Add hooks to rule on setting a watch
+      security: Add a hook for the point of notification insertion
+      pipe: Add general notification queue support
+      keys: Add a notification facility
+      Add sample notification program
+      pipe: Allow buffers to be marked read-whole-or-error for notifications
+      pipe: Add notification lossage handling
+      Add a general, global device notification watch list
+      block: Add block layer notifications
+      usb: Add USB subsystem notifications
+      selinux: Implement the watch_key security hook
+      smack: Implement the watch_key and post_notification hooks
 
-diff --git a/fs/btrfs/compression.c b/fs/btrfs/compression.c
-index b05b361e2062..6632dd8d2e4d 100644
---- a/fs/btrfs/compression.c
-+++ b/fs/btrfs/compression.c
-@@ -276,7 +276,8 @@ static void end_compressed_bio_write(struct bio *bio)
- 			bio->bi_status == BLK_STS_OK);
- 	cb->compressed_pages[0]->mapping = NULL;
- 
--	end_compressed_writeback(inode, cb);
-+	if (cb->writeback)
-+		end_compressed_writeback(inode, cb);
- 	/* note, our inode could be gone now */
- 
- 	/*
-@@ -311,7 +312,7 @@ blk_status_t btrfs_submit_compressed_write(struct inode *inode, u64 start,
- 				 unsigned long compressed_len,
- 				 struct page **compressed_pages,
- 				 unsigned long nr_pages,
--				 unsigned int write_flags)
-+				 unsigned int write_flags, bool writeback)
- {
- 	struct btrfs_fs_info *fs_info = btrfs_sb(inode->i_sb);
- 	struct bio *bio = NULL;
-@@ -336,6 +337,7 @@ blk_status_t btrfs_submit_compressed_write(struct inode *inode, u64 start,
- 	cb->mirror_num = 0;
- 	cb->compressed_pages = compressed_pages;
- 	cb->compressed_len = compressed_len;
-+	cb->writeback = writeback;
- 	cb->orig_bio = NULL;
- 	cb->nr_pages = nr_pages;
- 
-diff --git a/fs/btrfs/compression.h b/fs/btrfs/compression.h
-index 4cb8be9ff88b..d4176384ec15 100644
---- a/fs/btrfs/compression.h
-+++ b/fs/btrfs/compression.h
-@@ -47,6 +47,9 @@ struct compressed_bio {
- 	/* the compression algorithm for this bio */
- 	int compress_type;
- 
-+	/* Whether this is a write for writeback. */
-+	bool writeback;
-+
- 	/* number of compressed pages in the array */
- 	unsigned long nr_pages;
- 
-@@ -93,7 +96,7 @@ blk_status_t btrfs_submit_compressed_write(struct inode *inode, u64 start,
- 				  unsigned long compressed_len,
- 				  struct page **compressed_pages,
- 				  unsigned long nr_pages,
--				  unsigned int write_flags);
-+				  unsigned int write_flags, bool writeback);
- blk_status_t btrfs_submit_compressed_read(struct inode *inode, struct bio *bio,
- 				 int mirror_num, unsigned long bio_flags);
- 
-diff --git a/fs/btrfs/ctree.h b/fs/btrfs/ctree.h
-index 3b2aa1c7218c..9e1719e82cc8 100644
---- a/fs/btrfs/ctree.h
-+++ b/fs/btrfs/ctree.h
-@@ -2907,6 +2907,8 @@ int btrfs_writepage_cow_fixup(struct page *page, u64 start, u64 end);
- void btrfs_writepage_endio_finish_ordered(struct page *page, u64 start,
- 					  u64 end, int uptodate);
- ssize_t btrfs_encoded_read(struct kiocb *iocb, struct iov_iter *iter);
-+ssize_t btrfs_encoded_write(struct kiocb *iocb, struct iov_iter *from,
-+			    struct encoded_iov *encoded);
- 
- extern const struct dentry_operations btrfs_dentry_operations;
- 
-diff --git a/fs/btrfs/file.c b/fs/btrfs/file.c
-index 51740cee39fc..8de6ac9b4b9c 100644
---- a/fs/btrfs/file.c
-+++ b/fs/btrfs/file.c
-@@ -1893,8 +1893,7 @@ static void update_time_for_write(struct inode *inode)
- 		inode_inc_iversion(inode);
- }
- 
--static ssize_t btrfs_file_write_iter(struct kiocb *iocb,
--				    struct iov_iter *from)
-+static ssize_t btrfs_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
- {
- 	struct file *file = iocb->ki_filp;
- 	struct inode *inode = file_inode(file);
-@@ -1904,14 +1903,22 @@ static ssize_t btrfs_file_write_iter(struct kiocb *iocb,
- 	u64 end_pos;
- 	ssize_t num_written = 0;
- 	const bool sync = iocb->ki_flags & IOCB_DSYNC;
-+	struct encoded_iov encoded;
- 	ssize_t err;
- 	loff_t pos;
- 	size_t count;
- 	loff_t oldsize;
- 	int clean_page = 0;
- 
--	if (!(iocb->ki_flags & IOCB_DIRECT) &&
--	    (iocb->ki_flags & IOCB_NOWAIT))
-+	if (iocb->ki_flags & IOCB_ENCODED) {
-+		err = import_encoded_write(iocb, &encoded, from);
-+		if (err)
-+			return err;
-+	}
-+
-+	if ((iocb->ki_flags & IOCB_NOWAIT) &&
-+	    (!(iocb->ki_flags & IOCB_DIRECT) ||
-+	     (iocb->ki_flags & IOCB_ENCODED)))
- 		return -EOPNOTSUPP;
- 
- 	if (!inode_trylock(inode)) {
-@@ -1920,14 +1927,27 @@ static ssize_t btrfs_file_write_iter(struct kiocb *iocb,
- 		inode_lock(inode);
- 	}
- 
--	err = generic_write_checks(iocb, from);
--	if (err <= 0) {
-+	if (iocb->ki_flags & IOCB_ENCODED) {
-+		err = generic_encoded_write_checks(iocb, &encoded);
-+		if (err) {
-+			inode_unlock(inode);
-+			return err;
-+		}
-+		count = encoded.len;
-+	} else {
-+		err = generic_write_checks(iocb, from);
-+		if (err < 0) {
-+			inode_unlock(inode);
-+			return err;
-+		}
-+		count = iov_iter_count(from);
-+	}
-+	if (count == 0) {
- 		inode_unlock(inode);
- 		return err;
- 	}
- 
- 	pos = iocb->ki_pos;
--	count = iov_iter_count(from);
- 	if (iocb->ki_flags & IOCB_NOWAIT) {
- 		/*
- 		 * We will allocate space in case nodatacow is not set,
-@@ -1986,7 +2006,9 @@ static ssize_t btrfs_file_write_iter(struct kiocb *iocb,
- 	if (sync)
- 		atomic_inc(&BTRFS_I(inode)->sync_writers);
- 
--	if (iocb->ki_flags & IOCB_DIRECT) {
-+	if (iocb->ki_flags & IOCB_ENCODED) {
-+		num_written = btrfs_encoded_write(iocb, from, &encoded);
-+	} else if (iocb->ki_flags & IOCB_DIRECT) {
- 		num_written = __btrfs_direct_write(iocb, from);
- 	} else {
- 		num_written = btrfs_buffered_write(iocb, from);
-@@ -3461,7 +3483,7 @@ static loff_t btrfs_file_llseek(struct file *file, loff_t offset, int whence)
- 
- static int btrfs_file_open(struct inode *inode, struct file *filp)
- {
--	filp->f_mode |= FMODE_NOWAIT;
-+	filp->f_mode |= FMODE_NOWAIT | FMODE_ENCODED_IO;
- 	return generic_file_open(inode, filp);
- }
- 
-diff --git a/fs/btrfs/inode.c b/fs/btrfs/inode.c
-index 174d0738d2c9..bcc5a2bed22b 100644
---- a/fs/btrfs/inode.c
-+++ b/fs/btrfs/inode.c
-@@ -865,7 +865,7 @@ static noinline void submit_compressed_extents(struct async_chunk *async_chunk)
- 				    ins.objectid,
- 				    ins.offset, async_extent->pages,
- 				    async_extent->nr_pages,
--				    async_chunk->write_flags)) {
-+				    async_chunk->write_flags, true)) {
- 			struct page *p = async_extent->pages[0];
- 			const u64 start = async_extent->start;
- 			const u64 end = start + async_extent->ram_size - 1;
-@@ -11055,6 +11055,201 @@ ssize_t btrfs_encoded_read(struct kiocb *iocb, struct iov_iter *iter)
- 	return ret;
- }
- 
-+ssize_t btrfs_encoded_write(struct kiocb *iocb, struct iov_iter *from,
-+			    struct encoded_iov *encoded)
-+{
-+	struct inode *inode = file_inode(iocb->ki_filp);
-+	struct btrfs_fs_info *fs_info = btrfs_sb(inode->i_sb);
-+	struct btrfs_root *root = BTRFS_I(inode)->root;
-+	struct extent_io_tree *io_tree = &BTRFS_I(inode)->io_tree;
-+	struct extent_changeset *data_reserved = NULL;
-+	struct extent_state *cached_state = NULL;
-+	int compression;
-+	size_t orig_count;
-+	u64 disk_num_bytes, num_bytes;
-+	u64 start, end;
-+	unsigned long nr_pages, i;
-+	struct page **pages;
-+	struct btrfs_key ins;
-+	struct extent_map *em;
-+	ssize_t ret;
-+
-+	switch (encoded->compression) {
-+	case ENCODED_IOV_COMPRESSION_ZLIB:
-+		compression = BTRFS_COMPRESS_ZLIB;
-+		break;
-+	case ENCODED_IOV_COMPRESSION_LZO:
-+		compression = BTRFS_COMPRESS_LZO;
-+		break;
-+	case ENCODED_IOV_COMPRESSION_ZSTD:
-+		compression = BTRFS_COMPRESS_ZSTD;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	disk_num_bytes = orig_count = iov_iter_count(from);
-+
-+	/* For now, it's too hard to support bookend extents. */
-+	if (encoded->unencoded_len != encoded->len ||
-+	    encoded->unencoded_offset != 0)
-+		return -EINVAL;
-+
-+	/* The extent size must be sane. */
-+	if (encoded->unencoded_len > BTRFS_MAX_UNCOMPRESSED ||
-+	    disk_num_bytes > BTRFS_MAX_COMPRESSED || disk_num_bytes == 0)
-+		return -EINVAL;
-+
-+	/*
-+	 * The compressed data on disk must be sector-aligned. For convenience,
-+	 * we extend it with zeroes if it isn't.
-+	 */
-+	disk_num_bytes = ALIGN(disk_num_bytes, fs_info->sectorsize);
-+
-+	/*
-+	 * The extent in the file must also be sector-aligned. However, we allow
-+	 * a write which ends at or extends i_size to have an unaligned length;
-+	 * we round up the extent size and set i_size to the given length.
-+	 */
-+	start = iocb->ki_pos;
-+	if (!IS_ALIGNED(start, fs_info->sectorsize))
-+		return -EINVAL;
-+	if (start + encoded->len >= inode->i_size) {
-+		num_bytes = ALIGN(encoded->len, fs_info->sectorsize);
-+	} else {
-+		num_bytes = encoded->len;
-+		if (!IS_ALIGNED(num_bytes, fs_info->sectorsize))
-+			return -EINVAL;
-+	}
-+
-+	/*
-+	 * It's valid to have compressed data which is larger than or the same
-+	 * size as the decompressed data. However, for buffered I/O, we fall
-+	 * back to writing the decompressed data if compression didn't shrink
-+	 * it. So, for now, let's not allow creating such extents.
-+	 *
-+	 * Note that for now this also implicitly prevents writing data that
-+	 * would fit in an inline extent.
-+	 */
-+	if (disk_num_bytes >= num_bytes)
-+		return -EINVAL;
-+
-+	end = start + num_bytes - 1;
-+
-+	nr_pages = (disk_num_bytes + PAGE_SIZE - 1) >> PAGE_SHIFT;
-+	pages = kvcalloc(nr_pages, sizeof(struct page *), GFP_USER);
-+	if (!pages)
-+		return -ENOMEM;
-+	for (i = 0; i < nr_pages; i++) {
-+		size_t bytes = min_t(size_t, PAGE_SIZE, iov_iter_count(from));
-+		char *kaddr;
-+
-+		pages[i] = alloc_page(GFP_HIGHUSER);
-+		if (!pages[i]) {
-+			ret = -ENOMEM;
-+			goto out_pages;
-+		}
-+		kaddr = kmap(pages[i]);
-+		if (copy_from_iter(kaddr, bytes, from) != bytes) {
-+			kunmap(pages[i]);
-+			ret = -EFAULT;
-+			goto out_pages;
-+		}
-+		if (bytes < PAGE_SIZE)
-+			memset(kaddr + bytes, 0, PAGE_SIZE - bytes);
-+		kunmap(pages[i]);
-+	}
-+
-+	for (;;) {
-+		struct btrfs_ordered_extent *ordered;
-+
-+		ret = btrfs_wait_ordered_range(inode, start, end - start + 1);
-+		if (ret)
-+			goto out_pages;
-+		ret = invalidate_inode_pages2_range(inode->i_mapping,
-+						    start >> PAGE_SHIFT,
-+						    end >> PAGE_SHIFT);
-+		if (ret)
-+			goto out_pages;
-+		lock_extent_bits(io_tree, start, end, &cached_state);
-+		ordered = btrfs_lookup_ordered_range(BTRFS_I(inode), start,
-+						     end - start + 1);
-+		if (!ordered &&
-+		    !filemap_range_has_page(inode->i_mapping, start, end))
-+			break;
-+		if (ordered)
-+			btrfs_put_ordered_extent(ordered);
-+		unlock_extent_cached(io_tree, start, end, &cached_state);
-+		cond_resched();
-+	}
-+
-+	ret = btrfs_delalloc_reserve_space(inode, &data_reserved, start,
-+					   num_bytes);
-+	if (ret)
-+		goto out_unlock;
-+
-+	ret = btrfs_reserve_extent(root, num_bytes, disk_num_bytes,
-+				   disk_num_bytes, 0, 0, &ins, 1, 1);
-+	if (ret)
-+		goto out_delalloc_release;
-+
-+	em = create_io_em(inode, start, num_bytes, start, ins.objectid,
-+			  ins.offset, ins.offset, num_bytes, compression,
-+			  BTRFS_ORDERED_COMPRESSED);
-+	if (IS_ERR(em)) {
-+		ret = PTR_ERR(em);
-+		goto out_free_reserve;
-+	}
-+	free_extent_map(em);
-+
-+	ret = btrfs_add_ordered_extent_compress(inode, start, ins.objectid,
-+						num_bytes, ins.offset,
-+						BTRFS_ORDERED_COMPRESSED,
-+						compression);
-+	if (ret) {
-+		btrfs_drop_extent_cache(BTRFS_I(inode), start, end, 0);
-+		goto out_free_reserve;
-+	}
-+	btrfs_dec_block_group_reservations(fs_info, ins.objectid);
-+
-+	if (start + encoded->len > inode->i_size)
-+		i_size_write(inode, start + encoded->len);
-+
-+	unlock_extent_cached(io_tree, start, end, &cached_state);
-+
-+	btrfs_delalloc_release_extents(BTRFS_I(inode), num_bytes, false);
-+
-+	if (btrfs_submit_compressed_write(inode, start, num_bytes, ins.objectid,
-+					  ins.offset, pages, nr_pages, 0,
-+					  false)) {
-+		struct page *page = pages[0];
-+
-+		page->mapping = inode->i_mapping;
-+		btrfs_writepage_endio_finish_ordered(page, start, end, 0);
-+		page->mapping = NULL;
-+		ret = -EIO;
-+		goto out_pages;
-+	}
-+	iocb->ki_pos += encoded->len;
-+	return orig_count;
-+
-+out_free_reserve:
-+	btrfs_dec_block_group_reservations(fs_info, ins.objectid);
-+	btrfs_free_reserved_extent(fs_info, ins.objectid, ins.offset, 1);
-+out_delalloc_release:
-+	btrfs_delalloc_release_space(inode, data_reserved, start, num_bytes,
-+				     true);
-+out_unlock:
-+	unlock_extent_cached(io_tree, start, end, &cached_state);
-+out_pages:
-+	for (i = 0; i < nr_pages; i++) {
-+		if (pages[i])
-+			put_page(pages[i]);
-+	}
-+	kvfree(pages);
-+	return ret;
-+}
-+
- #ifdef CONFIG_SWAP
- /*
-  * Add an entry indicating a block group or device which is pinned by a
--- 
-2.23.0
+
+ Documentation/ioctl/ioctl-number.rst        |    1 
+ Documentation/security/keys/core.rst        |   58 ++
+ Documentation/watch_queue.rst               |  385 ++++++++++++++++
+ arch/alpha/kernel/syscalls/syscall.tbl      |    1 
+ arch/arm/tools/syscall.tbl                  |    1 
+ arch/arm64/include/asm/unistd.h             |    2 
+ arch/arm64/include/asm/unistd32.h           |    2 
+ arch/ia64/kernel/syscalls/syscall.tbl       |    1 
+ arch/m68k/kernel/syscalls/syscall.tbl       |    1 
+ arch/microblaze/kernel/syscalls/syscall.tbl |    1 
+ arch/mips/kernel/syscalls/syscall_n32.tbl   |    1 
+ arch/mips/kernel/syscalls/syscall_n64.tbl   |    1 
+ arch/mips/kernel/syscalls/syscall_o32.tbl   |    1 
+ arch/parisc/kernel/syscalls/syscall.tbl     |    1 
+ arch/powerpc/kernel/syscalls/syscall.tbl    |    1 
+ arch/s390/kernel/syscalls/syscall.tbl       |    1 
+ arch/sh/kernel/syscalls/syscall.tbl         |    1 
+ arch/sparc/kernel/syscalls/syscall.tbl      |    1 
+ arch/x86/entry/syscalls/syscall_32.tbl      |    1 
+ arch/x86/entry/syscalls/syscall_64.tbl      |    1 
+ arch/xtensa/kernel/syscalls/syscall.tbl     |    1 
+ block/Kconfig                               |    9 
+ block/blk-core.c                            |   29 +
+ drivers/base/Kconfig                        |    9 
+ drivers/base/Makefile                       |    1 
+ drivers/base/watch.c                        |   90 ++++
+ drivers/usb/core/Kconfig                    |    9 
+ drivers/usb/core/devio.c                    |   47 ++
+ drivers/usb/core/hub.c                      |    4 
+ fs/exec.c                                   |    1 
+ fs/fuse/dev.c                               |   31 +
+ fs/ocfs2/aops.c                             |    1 
+ fs/pipe.c                                   |  392 +++++++++++-----
+ fs/splice.c                                 |  195 +++++---
+ include/linux/blkdev.h                      |   15 +
+ include/linux/device.h                      |    7 
+ include/linux/key.h                         |    3 
+ include/linux/lsm_audit.h                   |    1 
+ include/linux/lsm_hooks.h                   |   38 ++
+ include/linux/pipe_fs_i.h                   |   63 ++-
+ include/linux/security.h                    |   32 +
+ include/linux/syscalls.h                    |    1 
+ include/linux/uio.h                         |    4 
+ include/linux/usb.h                         |   18 +
+ include/linux/wait.h                        |    2 
+ include/linux/watch_queue.h                 |  127 +++++
+ include/uapi/asm-generic/unistd.h           |    4 
+ include/uapi/linux/keyctl.h                 |    2 
+ include/uapi/linux/watch_queue.h            |  155 ++++++
+ init/Kconfig                                |   12 
+ kernel/Makefile                             |    1 
+ kernel/sched/wait.c                         |    7 
+ kernel/sys_ni.c                             |    1 
+ kernel/watch_queue.c                        |  660 +++++++++++++++++++++++++++
+ lib/iov_iter.c                              |  274 +++++++----
+ samples/Kconfig                             |    7 
+ samples/Makefile                            |    1 
+ samples/watch_queue/Makefile                |    7 
+ samples/watch_queue/watch_test.c            |  252 ++++++++++
+ security/keys/Kconfig                       |    9 
+ security/keys/compat.c                      |    3 
+ security/keys/gc.c                          |    5 
+ security/keys/internal.h                    |   30 +
+ security/keys/key.c                         |   38 +-
+ security/keys/keyctl.c                      |   99 ++++
+ security/keys/keyring.c                     |   20 +
+ security/keys/request_key.c                 |    4 
+ security/security.c                         |   23 +
+ security/selinux/hooks.c                    |   14 +
+ security/smack/smack_lsm.c                  |   83 +++
+ 70 files changed, 2927 insertions(+), 377 deletions(-)
+ create mode 100644 Documentation/watch_queue.rst
+ create mode 100644 drivers/base/watch.c
+ create mode 100644 include/linux/watch_queue.h
+ create mode 100644 include/uapi/linux/watch_queue.h
+ create mode 100644 kernel/watch_queue.c
+ create mode 100644 samples/watch_queue/Makefile
+ create mode 100644 samples/watch_queue/watch_test.c
 
