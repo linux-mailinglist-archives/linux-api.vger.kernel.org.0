@@ -2,23 +2,29 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DC65CD7820
-	for <lists+linux-api@lfdr.de>; Tue, 15 Oct 2019 16:14:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5D62D78F6
+	for <lists+linux-api@lfdr.de>; Tue, 15 Oct 2019 16:44:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732558AbfJOONn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 15 Oct 2019 10:13:43 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:39662 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732547AbfJOONm (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 15 Oct 2019 10:13:42 -0400
-Received: from [213.220.153.21] (helo=localhost.localdomain)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1iKNZy-0004YA-L2; Tue, 15 Oct 2019 14:13:38 +0000
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Shuah Khan <shuah@kernel.org>,
+        id S1732747AbfJOOoD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 15 Oct 2019 10:44:03 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59290 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732636AbfJOOoD (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 15 Oct 2019 10:44:03 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id C88DE811DC;
+        Tue, 15 Oct 2019 14:44:02 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.43.17.44])
+        by smtp.corp.redhat.com (Postfix) with SMTP id 2104D5D6A9;
+        Tue, 15 Oct 2019 14:43:58 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+        oleg@redhat.com; Tue, 15 Oct 2019 16:44:01 +0200 (CEST)
+Date:   Tue, 15 Oct 2019 16:43:57 +0200
+From:   Oleg Nesterov <oleg@redhat.com>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     linux-kernel@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         "Peter Zijlstra (Intel)" <peterz@infradead.org>,
         Ingo Molnar <mingo@kernel.org>, Michal Hocko <mhocko@suse.com>,
@@ -30,118 +36,58 @@ Cc:     Shuah Khan <shuah@kernel.org>,
         Al Viro <viro@zeniv.linux.org.uk>,
         Aleksa Sarai <cyphar@cyphar.com>,
         "Dmitry V. Levin" <ldv@altlinux.org>,
-        linux-kselftest@vger.kernel.org,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Jann Horn <jannh@google.com>, Oleg Nesterov <oleg@redhat.com>,
+        linux-kselftest@vger.kernel.org, Jann Horn <jannh@google.com>,
         linux-api@vger.kernel.org
-Subject: [PATCH 1/2] pidfd: verify task is alive when printing fdinfo
-Date:   Tue, 15 Oct 2019 16:13:31 +0200
-Message-Id: <20191015141332.4055-1-christian.brauner@ubuntu.com>
-X-Mailer: git-send-email 2.23.0
+Subject: Re: [PATCH 1/2] pidfd: verify task is alive when printing fdinfo
+Message-ID: <20191015144356.GA16978@redhat.com>
+References: <20191015141332.4055-1-christian.brauner@ubuntu.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191015141332.4055-1-christian.brauner@ubuntu.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.27]); Tue, 15 Oct 2019 14:44:03 +0000 (UTC)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Currently, when a task is dead we still print the pid it used to use in
-the fdinfo files of its pidfds. This doesn't make much sense since the
-pid may have already been reused. So verify that the task is still
-alive. If the task is not alive anymore, we will print -1. This allows
-us to differentiate between a task not being present in a given pid
-namespace - in which case we already print 0 - and a task having been
-reaped.
+On 10/15, Christian Brauner wrote:
+>
+> +static inline bool task_alive(struct pid *pid)
+> +{
+> +	bool alive = true;
+> +
+> +	rcu_read_lock();
+> +	if (!pid_task(pid, PIDTYPE_PID))
+> +		alive = false;
+> +	rcu_read_unlock();
+> +
+> +	return alive;
+> +}
 
-Note that this uses PIDTYPE_PID for the check. Technically, we could've
-checked PIDTYPE_TGID since pidfds currently only refer to thread-group
-leaders but if they won't anymore in the future then this check becomes
-problematic without it being immediately obvious to non-experts imho. If
-a thread is created via clone(CLONE_THREAD) than struct pid has a single
-non-empty list pid->tasks[PIDTYPE_PID] and this pid can't be used as a
-PIDTYPE_TGID meaning pid->tasks[PIDTYPE_TGID] will return NULL even
-though the thread-group leader might still be very much alive. We could
-be more complicated and do something like:
+Well, the usage of rcu_read_lock/unlock looks confusing to me...
 
-bool alive = false;
-rcu_read_lock();
-struct task_struct *tsk = pid_task(pid, PIDTYPE_PID);
-if (tsk && task_tgid(tsk))
-	alive = true;
-rcu_read_unlock();
+I mean, this helper does not need rcu lock at all. Except
+rcu_dereference_check() will complain.
 
-but it's really not worth it. We already have created a pidfd and we
-thus know it refers to a thread-group leader. Checking PIDTYPE_PID is
-fine and is easier to maintain should we ever allow pidfds to refer to
-threads.
+	static inline bool task_alive(struct pid *pid)
+	{
+		bool alive;
 
-Cc: Jann Horn <jannh@google.com>
-Cc: Christian Kellner <christian@kellner.me>
-Cc: Oleg Nesterov <oleg@redhat.com>
-Cc: linux-api@vger.kernel.org
-Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
----
- kernel/fork.c | 29 +++++++++++++++++++++++------
- 1 file changed, 23 insertions(+), 6 deletions(-)
+		/* shut up rcu_dereference_check() */
+		rcu_lock_acquire(&rcu_lock_map);
+		alive = !!pid_task(pid, PIDTYPE_PID));
+		rcu_lock_release(&rcu_lock_map);
 
-diff --git a/kernel/fork.c b/kernel/fork.c
-index 782986962d47..a67944a5e542 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -1695,6 +1695,18 @@ static int pidfd_release(struct inode *inode, struct file *file)
- }
- 
- #ifdef CONFIG_PROC_FS
-+static inline bool task_alive(struct pid *pid)
-+{
-+	bool alive = true;
-+
-+	rcu_read_lock();
-+	if (!pid_task(pid, PIDTYPE_PID))
-+		alive = false;
-+	rcu_read_unlock();
-+
-+	return alive;
-+}
-+
- /**
-  * pidfd_show_fdinfo - print information about a pidfd
-  * @m: proc fdinfo file
-@@ -1732,15 +1744,20 @@ static int pidfd_release(struct inode *inode, struct file *file)
-  */
- static void pidfd_show_fdinfo(struct seq_file *m, struct file *f)
- {
--	struct pid_namespace *ns = proc_pid_ns(file_inode(m->file));
- 	struct pid *pid = f->private_data;
--	pid_t nr = pid_nr_ns(pid, ns);
-+	struct pid_namespace *ns;
-+	pid_t nr = -1;
-+
-+	if (likely(task_alive(pid))) {
-+		ns = proc_pid_ns(file_inode(m->file));
-+		nr = pid_nr_ns(pid, ns);
-+	}
- 
--	seq_put_decimal_ull(m, "Pid:\t", nr);
-+	seq_put_decimal_ll(m, "Pid:\t", nr);
- 
- #ifdef CONFIG_PID_NS
--	seq_put_decimal_ull(m, "\nNSpid:\t", nr);
--	if (nr) {
-+	seq_put_decimal_ll(m, "\nNSpid:\t", nr);
-+	if (nr > 0) {
- 		int i;
- 
- 		/* If nr is non-zero it means that 'pid' is valid and that
-@@ -1749,7 +1766,7 @@ static void pidfd_show_fdinfo(struct seq_file *m, struct file *f)
- 		 * Start at one below the already printed level.
- 		 */
- 		for (i = ns->level + 1; i <= pid->level; i++)
--			seq_put_decimal_ull(m, "\t", pid->numbers[i].nr);
-+			seq_put_decimal_ll(m, "\t", pid->numbers[i].nr);
- 	}
- #endif
- 	seq_putc(m, '\n');
--- 
-2.23.0
+		return alive;
+	}
+
+looks more clear imo.
+
+But in fact I'd suggest to simply use !hlist_empty(&pid->tasks[PIDTYPE_PID])
+in pidfd_show_fdinfo() and do not add a new helper.
+
+Oleg.
 
