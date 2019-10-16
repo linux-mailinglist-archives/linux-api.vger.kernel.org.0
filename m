@@ -2,95 +2,137 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 63D79D95A1
-	for <lists+linux-api@lfdr.de>; Wed, 16 Oct 2019 17:32:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 637F1D95C4
+	for <lists+linux-api@lfdr.de>; Wed, 16 Oct 2019 17:37:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404947AbfJPPcL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 16 Oct 2019 11:32:11 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:39563 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726332AbfJPPcK (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 16 Oct 2019 11:32:10 -0400
-Received: by mail-lj1-f196.google.com with SMTP id y3so24502068ljj.6
-        for <linux-api@vger.kernel.org>; Wed, 16 Oct 2019 08:32:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=x4sUXBF9N+gOqGoXUSe/0E2VksmAjHdkiv7KSR2ftGI=;
-        b=KN++Zn81C01LK7bngv2WQhecCB2pvDWa6MiPOCNK9giCb55GzPd38NprLWCi9y4Rmp
-         G5JVpEFhN07gxtvQKkcodZ0c/iin5yb7op+6svXAeHTJxJPM5HZz2LuFX2hGczINIWnp
-         zjAlhPJ3IIlR8ZNhwPZ4TPeH42AI6XYGcDMmI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=x4sUXBF9N+gOqGoXUSe/0E2VksmAjHdkiv7KSR2ftGI=;
-        b=nx1IwjyxfnoXYTmyu4M5B0J0DBmQ33YZa5ZUGCWRWjc0SsFwU6fdvvrfVdnKqLNvFp
-         LpEqqeOXh7JUmrzYTeC23jwqTAKxkMzOyp4NK24PaeIapM9+zAFxnGja5/UJf60h2pku
-         t+KYwANA4OjzJB8w/vLQFReNvrCshHRVdQSPdvCbjXTTNgSUL3QNaeiJ/KK/8oez3rOC
-         yzwiX2CAoP1fjk0Gh/EAie14Z5+kzAFSgLmZncny7kdOn0lb1LtoxJNnf/MURqMNiBmU
-         eGudc2pKAwklX3gJYQvlFzKZg8HvQhbBZaVoNUaBKBcYRoEelIyuH1LrnNtpatQkTdDf
-         FIzw==
-X-Gm-Message-State: APjAAAWaf1C008IM/IOmfad/+9j0bU33LR0R1DjHUcwGdOu2ozuSLHf3
-        3hd83xkBk3FhmG+2OADLZsvIevWsh8k=
-X-Google-Smtp-Source: APXvYqwrpHD+KN3kzBgaRAHPR9y4AXE2HdHYpfUSwhaFeZ+chdjTnoFl6ZbH+RLIQdZyB+mzhvVEpw==
-X-Received: by 2002:a2e:8183:: with SMTP id e3mr26475307ljg.14.1571239927486;
-        Wed, 16 Oct 2019 08:32:07 -0700 (PDT)
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com. [209.85.208.176])
-        by smtp.gmail.com with ESMTPSA id h3sm7710642ljf.12.2019.10.16.08.32.05
-        for <linux-api@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Oct 2019 08:32:06 -0700 (PDT)
-Received: by mail-lj1-f176.google.com with SMTP id 7so24485943ljw.7
-        for <linux-api@vger.kernel.org>; Wed, 16 Oct 2019 08:32:05 -0700 (PDT)
-X-Received: by 2002:a2e:545:: with SMTP id 66mr4189350ljf.133.1571239925218;
- Wed, 16 Oct 2019 08:32:05 -0700 (PDT)
+        id S2405175AbfJPPhU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 16 Oct 2019 11:37:20 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:47472 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2405139AbfJPPhT (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 16 Oct 2019 11:37:19 -0400
+Received: from [213.220.153.21] (helo=localhost.localdomain)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1iKlMS-00050w-2l; Wed, 16 Oct 2019 15:37:16 +0000
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     oleg@redhat.com, linux-kernel@vger.kernel.org
+Cc:     aarcange@redhat.com, akpm@linux-foundation.org,
+        christian@kellner.me, cyphar@cyphar.com, elena.reshetova@intel.com,
+        guro@fb.com, jannh@google.com, ldv@altlinux.org,
+        linux-api@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        mhocko@suse.com, mingo@kernel.org, peterz@infradead.org,
+        shuah@kernel.org, tglx@linutronix.de, viro@zeniv.linux.org.uk,
+        Christian Brauner <christian.brauner@ubuntu.com>
+Subject: [PATCH v2 1/5] pidfd: verify task is alive when printing fdinfo
+Date:   Wed, 16 Oct 2019 17:36:02 +0200
+Message-Id: <20191016153606.2326-1-christian.brauner@ubuntu.com>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191015141332.4055-1-christian.brauner@ubuntu.com>
+References: <20191015141332.4055-1-christian.brauner@ubuntu.com>
 MIME-Version: 1.0
-References: <157117606853.15019.15459271147790470307.stgit@warthog.procyon.org.uk>
- <157117608708.15019.1998141309054662114.stgit@warthog.procyon.org.uk>
- <CAHk-=whiz1sHXu8SVZKEC2dup=r5JMrftPtEt6ff9Ea8dyH8yQ@mail.gmail.com> <6900.1571235985@warthog.procyon.org.uk>
-In-Reply-To: <6900.1571235985@warthog.procyon.org.uk>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Wed, 16 Oct 2019 08:31:48 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgMZR8TWpmRBPytGmWJX=C=-bCb5D2PsCx0LUNemAPexA@mail.gmail.com>
-Message-ID: <CAHk-=wgMZR8TWpmRBPytGmWJX=C=-bCb5D2PsCx0LUNemAPexA@mail.gmail.com>
-Subject: Re: [RFC PATCH 02/21] Add a prelocked wake-up
-To:     David Howells <dhowells@redhat.com>
-Cc:     Tim Chen <tim.c.chen@linux.intel.com>,
-        Kan Liang <kan.liang@intel.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Nicolas Dichtel <nicolas.dichtel@6wind.com>, raven@themaw.net,
-        Christian Brauner <christian@brauner.io>,
-        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-block <linux-block@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Oct 16, 2019 at 7:26 AM David Howells <dhowells@redhat.com> wrote:
->
-> Btw, is there any point in __wake_up_sync_key() taking a nr_exclusive
-> argument since it clears WF_SYNC if nr_exclusive != 1 and doesn't make sense
-> to be >1 anyway.
+Currently, when a task is dead we still print the pid it used to use in
+the fdinfo files of its pidfds. This doesn't make much sense since the
+pid may have already been reused. So verify that the task is still
+alive by introducing the task_alive() helper which will be used by other
+callers in follow-up patches.
+If the task is not alive anymore, we will print -1. This allows us to
+differentiate between a task not being present in a given pid namespace
+- in which case we already print 0 - and a task having been reaped.
 
-Ack, looks sane to me.
+Note that this uses PIDTYPE_PID for the check. Technically, we could've
+checked PIDTYPE_TGID since pidfds currently only refer to thread-group
+leaders but if they won't anymore in the future then this check becomes
+problematic without it being immediately obvious to non-experts imho. If
+a thread is created via clone(CLONE_THREAD) than struct pid has a single
+non-empty list pid->tasks[PIDTYPE_PID] and this pid can't be used as a
+PIDTYPE_TGID meaning pid->tasks[PIDTYPE_TGID] will return NULL even
+though the thread-group leader might still be very much alive. So
+checking PIDTYPE_PID is fine and is easier to maintain should we ever
+allow pidfds to refer to threads.
 
-We have _very_ few users of nr_exclusive. I wonder if it's even worth
-having at all, but it's definitely not worth it here.
+Cc: Jann Horn <jannh@google.com>
+Cc: Christian Kellner <christian@kellner.me>
+Cc: Oleg Nesterov <oleg@redhat.com>
+Cc: linux-api@vger.kernel.org
+Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
+---
+/* v1 */
+Link: https://lore.kernel.org/r/20191015141332.4055-1-christian.brauner@ubuntu.com
 
-I'd love for nr_exclusive to go away and be replaced by WF_ALL
-instead. Right now it looks like there is one SGI driver that uses it,
-and the sbitmap code. That was all I could find.
+/* v2 */
+- Oleg Nesterov <oleg@redhat.com>:
+  - simplify check whether task is still alive to hlist_empty()
+  - optionally introduce generic helper to replace open coded
+    hlist_emtpy() checks whether or not a task is alive
+- Christian Brauner <christian.brauner@ubuntu.com>:
+  - introduce task_alive() helper and use in pidfd_show_fdinfo()
+---
+ include/linux/pid.h |  4 ++++
+ kernel/fork.c       | 17 +++++++++++------
+ 2 files changed, 15 insertions(+), 6 deletions(-)
 
-Oh well. You removing one case is at last a small amount of progress.
+diff --git a/include/linux/pid.h b/include/linux/pid.h
+index 9645b1194c98..5f1c8ce10b71 100644
+--- a/include/linux/pid.h
++++ b/include/linux/pid.h
+@@ -85,6 +85,10 @@ static inline struct pid *get_pid(struct pid *pid)
+ 
+ extern void put_pid(struct pid *pid);
+ extern struct task_struct *pid_task(struct pid *pid, enum pid_type);
++static inline bool task_alive(struct pid *pid, enum pid_type type)
++{
++	return !hlist_empty(&pid->tasks[type]);
++}
+ extern struct task_struct *get_pid_task(struct pid *pid, enum pid_type);
+ 
+ extern struct pid *get_task_pid(struct task_struct *task, enum pid_type type);
+diff --git a/kernel/fork.c b/kernel/fork.c
+index 782986962d47..ef9a9d661079 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -1732,15 +1732,20 @@ static int pidfd_release(struct inode *inode, struct file *file)
+  */
+ static void pidfd_show_fdinfo(struct seq_file *m, struct file *f)
+ {
+-	struct pid_namespace *ns = proc_pid_ns(file_inode(m->file));
+ 	struct pid *pid = f->private_data;
+-	pid_t nr = pid_nr_ns(pid, ns);
++	struct pid_namespace *ns;
++	pid_t nr = -1;
+ 
+-	seq_put_decimal_ull(m, "Pid:\t", nr);
++	if (likely(task_alive(pid, PIDTYPE_PID))) {
++		ns = proc_pid_ns(file_inode(m->file));
++		nr = pid_nr_ns(pid, ns);
++	}
++
++	seq_put_decimal_ll(m, "Pid:\t", nr);
+ 
+ #ifdef CONFIG_PID_NS
+-	seq_put_decimal_ull(m, "\nNSpid:\t", nr);
+-	if (nr) {
++	seq_put_decimal_ll(m, "\nNSpid:\t", nr);
++	if (nr > 0) {
+ 		int i;
+ 
+ 		/* If nr is non-zero it means that 'pid' is valid and that
+@@ -1749,7 +1754,7 @@ static void pidfd_show_fdinfo(struct seq_file *m, struct file *f)
+ 		 * Start at one below the already printed level.
+ 		 */
+ 		for (i = ns->level + 1; i <= pid->level; i++)
+-			seq_put_decimal_ull(m, "\t", pid->numbers[i].nr);
++			seq_put_decimal_ll(m, "\t", pid->numbers[i].nr);
+ 	}
+ #endif
+ 	seq_putc(m, '\n');
+-- 
+2.23.0
 
-         Linus
