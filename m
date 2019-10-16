@@ -2,257 +2,98 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D4F9CD8A22
-	for <lists+linux-api@lfdr.de>; Wed, 16 Oct 2019 09:46:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C3E3D8C6D
+	for <lists+linux-api@lfdr.de>; Wed, 16 Oct 2019 11:22:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391270AbfJPHqQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 16 Oct 2019 03:46:16 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:33414 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391265AbfJPHqP (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 16 Oct 2019 03:46:15 -0400
-Received: by mail-lf1-f67.google.com with SMTP id y127so16621343lfc.0
-        for <linux-api@vger.kernel.org>; Wed, 16 Oct 2019 00:46:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=QvRi7PNoggQszDfre8D+FBzcsSh0CBoNlDWz8tev6yQ=;
-        b=RU4N7tUwuMfI1VibR44SQ9yks8vKVb5eF1y46S/6t3LFTW4cFYnE80Pk+GUbw9adiY
-         7pkUda9TFfJCZh0Qnm9cHSUhUFa+fL1/80R0Qg8cq0fEMSiE/3ZYOfVy582xWOfe7GAx
-         BtuoalHwtq4x9rd3dhU0C8u0WLYIKTsURlQ7Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=QvRi7PNoggQszDfre8D+FBzcsSh0CBoNlDWz8tev6yQ=;
-        b=AmTZB+Su+u9i4wO59gHNDsDU2kQ/iahitBsBghiHd8pK6H5j3PtZR6fIS7JdemspNb
-         wab0vV8WYnQSpSdhabPrkimbruek9isKxiEEi/YS8VkeFDfseU6YqjoSpLiVGtEvJG9X
-         rMLIvqEoPM54H+iTIhCUIcGfpFLJZw9IG3+o+81qpRwJpT7/rd41m+oUOOjUQMtAqVic
-         cioUqhsqPc5hiwt2FG51qCSThhibYRGAw7Gl2YMVWTJ7NoulEJ7luxTncY1emtXefaIm
-         /zVDd1lrqmsHcsysj9dT9dUTGUEN3d+WGr5l1s3FpBqx0MkfP5DVGojAgDRflAfcDiEQ
-         RvdQ==
-X-Gm-Message-State: APjAAAWvmgIoe6zGsAw8z6nIvT6yjdcWXRcRMUMZ3+WpflILAx5tebx0
-        /D/Q5KxDBWHsfD9fls0jc0rMFg==
-X-Google-Smtp-Source: APXvYqyBmqGfoeKFBJH4OrBLDBFGebGhLmDfJwIYHLGKut9DDipI1Qyw/3UVrk5mWZI3oDJFyaWWGQ==
-X-Received: by 2002:a19:6759:: with SMTP id e25mr3829669lfj.80.1571211973028;
-        Wed, 16 Oct 2019 00:46:13 -0700 (PDT)
-Received: from [172.16.11.28] ([81.216.59.226])
-        by smtp.gmail.com with ESMTPSA id q26sm5650578lfd.53.2019.10.16.00.46.10
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 16 Oct 2019 00:46:12 -0700 (PDT)
-Subject: Re: [RFC PATCH 03/21] pipe: Use head and tail pointers for the ring,
- not cursor and length
-To:     David Howells <dhowells@redhat.com>, torvalds@linux-foundation.org
-Cc:     Casey Schaufler <casey@schaufler-ca.com>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        nicolas.dichtel@6wind.com, raven@themaw.net,
-        Christian Brauner <christian@brauner.io>,
-        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-security-module@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <157117606853.15019.15459271147790470307.stgit@warthog.procyon.org.uk>
- <157117609543.15019.17103851546424902507.stgit@warthog.procyon.org.uk>
-From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Message-ID: <b8799179-d389-8005-4f6d-845febc3bb23@rasmusvillemoes.dk>
-Date:   Wed, 16 Oct 2019 09:46:10 +0200
+        id S2388878AbfJPJWi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 16 Oct 2019 05:22:38 -0400
+Received: from mx2.suse.de ([195.135.220.15]:49446 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726480AbfJPJWi (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 16 Oct 2019 05:22:38 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 29D91B1D7;
+        Wed, 16 Oct 2019 09:22:36 +0000 (UTC)
+Subject: Re: [RFC PATCH v2 3/5] btrfs: generalize btrfs_lookup_bio_sums_dio()
+To:     Omar Sandoval <osandov@osandov.com>, linux-btrfs@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Cc:     kernel-team@fb.com, Dave Chinner <david@fromorbit.com>,
+        Jann Horn <jannh@google.com>, linux-api@vger.kernel.org
+References: <cover.1571164762.git.osandov@fb.com>
+ <01fdb646d7572f7d0d123937835db5c605e25a5e.1571164762.git.osandov@fb.com>
+From:   Nikolay Borisov <nborisov@suse.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=nborisov@suse.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <aa49f032-f6be-8594-7c80-7101a0c6bcd0@suse.com>
+Date:   Wed, 16 Oct 2019 12:22:33 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <157117609543.15019.17103851546424902507.stgit@warthog.procyon.org.uk>
+In-Reply-To: <01fdb646d7572f7d0d123937835db5c605e25a5e.1571164762.git.osandov@fb.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 15/10/2019 23.48, David Howells wrote:
-> Convert pipes to use head and tail pointers for the buffer ring rather than
-> pointer and length as the latter requires two atomic ops to update (or a
-> combined op) whereas the former only requires one.
+
+
+On 15.10.19 г. 21:42 ч., Omar Sandoval wrote:
+> From: Omar Sandoval <osandov@fb.com>
 > 
->  (1) The head pointer is the point at which production occurs and points to
->      the slot in which the next buffer will be placed.  This is equivalent
->      to pipe->curbuf + pipe->nrbufs.
-> 
->      The head pointer belongs to the write-side.
-> 
->  (2) The tail pointer is the point at which consumption occurs.  It points
->      to the next slot to be consumed.  This is equivalent to pipe->curbuf.
-> 
->      The tail pointer belongs to the read-side.
-> 
->  (3) head and tail are allowed to run to UINT_MAX and wrap naturally.  They
->      are only masked off when the array is being accessed, e.g.:
-> 
-> 	pipe->bufs[head & mask]
-> 
->      This means that it is not necessary to have a dead slot in the ring as
->      head == tail isn't ambiguous.
-> 
->  (4) The ring is empty if "head == tail".
-> 
->  (5) The occupancy of the ring is "head - tail".
-> 
->  (6) The number of free slots in the ring is "(tail + pipe->ring_size) -
->      head".
+> This isn't actually dio-specific; it just looks up the csums starting at
+> the given offset instead of using the page index. Rename it to
+> btrfs_lookup_bio_sums_at_offset() and add the dst parameter. We might
+> even want to expose __btrfs_lookup_bio_sums() as the public API instead
+> of having two trivial wrappers, but I'll leave that for another day.
 
-Seems an odd way of writing pipe->ring_size - (head - tail) ; i.e.
-obviously #free slots is #size minus #occupancy.
+IMO exposing btrfs_lookup_bio_sums and adding proper kernel doc for its
+parameters is the correct way forward. Consider doing this if the
+general direction of this patchset is accepted and before sending the
+final revision.
 
->  (7) The ring is full if "head >= (tail + pipe->ring_size)", which can also
->      be written as "head - tail >= pipe->ring_size".
->
 
-No it cannot, it _must_ be written in the latter form. Assuming
-sizeof(int)==1 for simplicity, consider ring_size = 16, tail = 240.
-Regardless whether head is 240, 241, ..., 255, 0, tail + ring_size wraps
-to 0, so the former expression states the ring is full in all cases.
-
-Better spell out somewhere that while head and tail are free-running, at
-any point in time they satisfy the invariant head - tail <= pipe_size
-(and also 0 <= head - tail, but that's a tautology for unsigned
-ints...). Then it's a matter of taste if one wants to write "full" as
-head-tail == pipe_size or head-tail >= pipe_size.
-
-> Also split pipe->buffers into pipe->ring_size (which indicates the size of the
-> ring) and pipe->max_usage (which restricts the amount of ring that write() is
-> allowed to fill).  This allows for a pipe that is both writable by the kernel
-> notification facility and by userspace, allowing plenty of ring space for
-> notifications to be added whilst preventing userspace from being able to use
-> up too much buffer space.
-
-That seems like something that should be added in a separate patch -
-adding ->max_usage and switching appropriate users of ->ring_size over,
-so it's more clear where you're using one or the other.
-
-> @@ -1949,8 +1950,12 @@ static ssize_t fuse_dev_splice_write(struct pipe_inode_info *pipe,
->  
->  	pipe_lock(pipe);
->  
-> -	bufs = kvmalloc_array(pipe->nrbufs, sizeof(struct pipe_buffer),
-> -			      GFP_KERNEL);
-> +	head = pipe->head;
-> +	tail = pipe->tail;
-> +	mask = pipe->ring_size - 1;
-> +	count = head - tail;
-> +
-> +	bufs = kvmalloc_array(count, sizeof(struct pipe_buffer), GFP_KERNEL);
->  	if (!bufs) {
->  		pipe_unlock(pipe);
->  		return -ENOMEM;
-> @@ -1958,8 +1963,8 @@ static ssize_t fuse_dev_splice_write(struct pipe_inode_info *pipe,
->  
->  	nbuf = 0;
->  	rem = 0;
-> -	for (idx = 0; idx < pipe->nrbufs && rem < len; idx++)
-> -		rem += pipe->bufs[(pipe->curbuf + idx) & (pipe->buffers - 1)].len;
-> +	for (idx = tail; idx < head && rem < len; idx++)
-> +		rem += pipe->bufs[idx & mask].len;
->  
->  	ret = -EINVAL;
->  	if (rem < len)
-> @@ -1970,16 +1975,16 @@ static ssize_t fuse_dev_splice_write(struct pipe_inode_info *pipe,
->  		struct pipe_buffer *ibuf;
->  		struct pipe_buffer *obuf;
->  
-> -		BUG_ON(nbuf >= pipe->buffers);
-> -		BUG_ON(!pipe->nrbufs);
-> -		ibuf = &pipe->bufs[pipe->curbuf];
-> +		BUG_ON(nbuf >= pipe->ring_size);
-> +		BUG_ON(tail == head);
-> +		ibuf = &pipe->bufs[tail];
-
-I don't see where tail gets masked between tail = pipe->tail; above and
-here, but I may be missing it. In any case, how about seeding head and
-tail with something like 1<<20 when creating the pipe so bugs like that
-are hit more quickly.
-
-> @@ -515,17 +525,19 @@ pipe_write(struct kiocb *iocb, struct iov_iter *from)
->  static long pipe_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
->  {
->  	struct pipe_inode_info *pipe = filp->private_data;
-> -	int count, buf, nrbufs;
-> +	int count, head, tail, mask;
->  
->  	switch (cmd) {
->  		case FIONREAD:
->  			__pipe_lock(pipe);
->  			count = 0;
-> -			buf = pipe->curbuf;
-> -			nrbufs = pipe->nrbufs;
-> -			while (--nrbufs >= 0) {
-> -				count += pipe->bufs[buf].len;
-> -				buf = (buf+1) & (pipe->buffers - 1);
-> +			head = pipe->head;
-> +			tail = pipe->tail;
-> +			mask = pipe->ring_size - 1;
-> +
-> +			while (tail < head) {
-> +				count += pipe->bufs[tail & mask].len;
-> +				tail++;
->  			}
-
-This is broken if head has wrapped but tail has not. It has to be "while
-(head - tail)" or perhaps just "while (tail != head)" or something along
-those lines.
-
-> @@ -1086,17 +1104,21 @@ static long pipe_set_size(struct pipe_inode_info *pipe, unsigned long arg)
->  	}
->  
->  	/*
-> -	 * We can shrink the pipe, if arg >= pipe->nrbufs. Since we don't
-> -	 * expect a lot of shrink+grow operations, just free and allocate
-> -	 * again like we would do for growing. If the pipe currently
-> +	 * We can shrink the pipe, if arg is greater than the ring occupancy.
-> +	 * Since we don't expect a lot of shrink+grow operations, just free and
-> +	 * allocate again like we would do for growing.  If the pipe currently
->  	 * contains more buffers than arg, then return busy.
->  	 */
-> -	if (nr_pages < pipe->nrbufs) {
-> +	mask = pipe->ring_size - 1;
-> +	head = pipe->head & mask;
-> +	tail = pipe->tail & mask;
-> +	n = pipe->head - pipe->tail;
-
-I think it's confusing to "premask" head and tail here. Can you either
-drop that (pipe_set_size should hardly be a hot path?), or perhaps call
-them something else to avoid a future reader seeing an unmasked
-bufs[head] and thinking that's a bug?
-
-> @@ -1254,9 +1290,10 @@ static ssize_t pipe_get_pages(struct iov_iter *i,
->  		   struct page **pages, size_t maxsize, unsigned maxpages,
->  		   size_t *start)
->  {
-> +	unsigned int p_tail;
-> +	unsigned int i_head;
->  	unsigned npages;
->  	size_t capacity;
-> -	int idx;
->  
->  	if (!maxsize)
->  		return 0;
-> @@ -1264,12 +1301,15 @@ static ssize_t pipe_get_pages(struct iov_iter *i,
->  	if (!sanity(i))
->  		return -EFAULT;
->  
-> -	data_start(i, &idx, start);
-> -	/* some of this one + all after this one */
-> -	npages = ((i->pipe->curbuf - idx - 1) & (i->pipe->buffers - 1)) + 1;
-> -	capacity = min(npages,maxpages) * PAGE_SIZE - *start;
-> +	data_start(i, &i_head, start);
-> +	p_tail = i->pipe->tail;
-> +	/* Amount of free space: some of this one + all after this one */
-> +	npages = (p_tail + i->pipe->ring_size) - i_head;
-
-Hm, it's not clear that this is equivalent to the old computation. Since
-it seems repeated in a few places, could it be factored to a little
-helper (before this patch) and the "some of this one + all after this
-one" comment perhaps expanded to explain what is going on?
-
-Rasmus
