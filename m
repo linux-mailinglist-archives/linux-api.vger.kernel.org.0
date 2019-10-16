@@ -2,350 +2,723 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E5F4D8CE8
-	for <lists+linux-api@lfdr.de>; Wed, 16 Oct 2019 11:50:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 231A4D8DDA
+	for <lists+linux-api@lfdr.de>; Wed, 16 Oct 2019 12:25:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387985AbfJPJuy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 16 Oct 2019 05:50:54 -0400
-Received: from mx2.suse.de ([195.135.220.15]:37884 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727434AbfJPJuy (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 16 Oct 2019 05:50:54 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 70157B2F6;
-        Wed, 16 Oct 2019 09:50:50 +0000 (UTC)
-Subject: Re: [RFC PATCH v2 2/5] fs: add RWF_ENCODED for reading/writing
- compressed data
-To:     Omar Sandoval <osandov@osandov.com>, linux-btrfs@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Cc:     kernel-team@fb.com, Dave Chinner <david@fromorbit.com>,
-        Jann Horn <jannh@google.com>, linux-api@vger.kernel.org
-References: <cover.1571164762.git.osandov@fb.com>
- <7f98cf5409cf2b583cd5b3451fc739fd3428873b.1571164762.git.osandov@fb.com>
-From:   Nikolay Borisov <nborisov@suse.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=nborisov@suse.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <17ed54f3-40c2-2aea-ed9f-9c1307bdf806@suse.com>
-Date:   Wed, 16 Oct 2019 12:50:48 +0300
+        id S2389246AbfJPKZ0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 16 Oct 2019 06:25:26 -0400
+Received: from foss.arm.com ([217.140.110.172]:35230 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389010AbfJPKZ0 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 16 Oct 2019 06:25:26 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DB49E28;
+        Wed, 16 Oct 2019 03:25:24 -0700 (PDT)
+Received: from [10.37.9.204] (unknown [10.37.9.204])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D8EF53F6C4;
+        Wed, 16 Oct 2019 03:25:17 -0700 (PDT)
+Subject: Re: [PATCHv7 01/33] ns: Introduce Time Namespace
+To:     Dmitry Safonov <dima@arista.com>, linux-kernel@vger.kernel.org
+Cc:     Dmitry Safonov <0x7f454c46@gmail.com>,
+        Andrei Vagin <avagin@openvz.org>,
+        Adrian Reber <adrian@lisas.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Cyrill Gorcunov <gorcunov@openvz.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jann Horn <jannh@google.com>, Jeff Dike <jdike@addtoit.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Pavel Emelyanov <xemul@virtuozzo.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        containers@lists.linux-foundation.org, criu@openvz.org,
+        linux-api@vger.kernel.org, x86@kernel.org,
+        Andrei Vagin <avagin@gmail.com>
+References: <20191011012341.846266-1-dima@arista.com>
+ <20191011012341.846266-2-dima@arista.com>
+From:   Vincenzo Frascino <vincenzo.frascino@arm.com>
+Message-ID: <80af93da-d497-81de-2a2a-179bb3bc852d@arm.com>
+Date:   Wed, 16 Oct 2019 11:27:16 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <7f98cf5409cf2b583cd5b3451fc739fd3428873b.1571164762.git.osandov@fb.com>
+In-Reply-To: <20191011012341.846266-2-dima@arista.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+Hi Andrei and Dmitry,
 
-
-On 15.10.19 г. 21:42 ч., Omar Sandoval wrote:
-> From: Omar Sandoval <osandov@fb.com>
+On 10/11/19 2:23 AM, Dmitry Safonov wrote:
+> From: Andrei Vagin <avagin@openvz.org>
 > 
-> Btrfs supports transparent compression: data written by the user can be
-> compressed when written to disk and decompressed when read back.
-> However, we'd like to add an interface to write pre-compressed data
-> directly to the filesystem, and the matching interface to read
-> compressed data without decompressing it. This adds support for
-> so-called "encoded I/O" via preadv2() and pwritev2().
+> Time Namespace isolates clock values.
 > 
-> A new RWF_ENCODED flags indicates that a read or write is "encoded". If
-> this flag is set, iov[0].iov_base points to a struct encoded_iov which
-> is used for metadata: namely, the compression algorithm, unencoded
-> (i.e., decompressed) length, and what subrange of the unencoded data
-
-In the future when encryption is also supported. What should be the
-mechanism to enforce ordering of encoding operations i.e. first compress
-then encrypt => uncoded_len should be the resulting size after the
-encrypt operation. To me (not being a cryptographer) this seems the
-sensible thing to do since compression will be effective that way.
-However, what if , for whatever reasons, a different filesystem wants to
-support this interface but chooses to do it the other around -> encrypt,
-then compress?
-
-> should be used (needed for truncated or hole-punched extents and when
-> reading in the middle of an extent). For reads, the filesystem returns
-> this information; for writes, the caller provides it to the filesystem.
-> iov[0].iov_len must be set to sizeof(struct encoded_iov), which can be
-> used to extend the interface in the future. The remaining iovecs contain
-> the encoded extent.
+> The kernel provides access to several clocks CLOCK_REALTIME,
+> CLOCK_MONOTONIC, CLOCK_BOOTTIME, etc.
 > 
-> Filesystems must indicate that they support encoded writes by setting
-> FMODE_ENCODED_IO in ->file_open().
+> CLOCK_REALTIME
+>       System-wide clock that measures real (i.e., wall-clock) time.
 > 
-> Signed-off-by: Omar Sandoval <osandov@fb.com>
+> CLOCK_MONOTONIC
+>       Clock that cannot be set and represents monotonic time since
+>       some unspecified starting point.
+> 
+> CLOCK_BOOTTIME
+>       Identical to CLOCK_MONOTONIC, except it also includes any time
+>       that the system is suspended.
+> 
+> For many users, the time namespace means the ability to changes date and
+> time in a container (CLOCK_REALTIME).
+> 
+> But in a context of the checkpoint/restore functionality, monotonic and
+> bootime clocks become interesting. Both clocks are monotonic with
+> unspecified staring points. These clocks are widely used to measure time
+> slices and set timers. After restoring or migrating processes, we have to
+> guarantee that they never go backward. In an ideal case, the behavior of
+> these clocks should be the same as for a case when a whole system is
+> suspended. All this means that we need to be able to set CLOCK_MONOTONIC
+> and CLOCK_BOOTTIME clocks, what can be done by adding per-namespace
+> offsets for clocks.
+> 
+> A time namespace is similar to a pid namespace in a way how it is
+> created: unshare(CLONE_NEWTIME) system call creates a new time namespace,
+> but doesn't set it to the current process. Then all children of
+> the process will be born in the new time namespace, or a process can
+> use the setns() system call to join a namespace.
+> 
+> This scheme allows setting clock offsets for a namespace, before any
+> processes appear in it.
+> 
+> All available clone flags have been used, so CLONE_NEWTIME uses the
+> highest bit of CSIGNAL. It means that we can use it with the unshare()
+> system call only. Rith now, this works for us, because time namespace
+> offsets can be set only when a new time namespace is not populated. In a
+> future, we will have the clone3() system call [1] which will allow to use
+> the CSIGNAL mask for clone flags.
+> 
+> [1]: httmps://lkml.kernel.org/r/20190604160944.4058-1-christian@brauner.io
+> 
+> Link: https://criu.org/Time_namespace
+> Link: https://lists.openvz.org/pipermail/criu/2018-June/041504.html
+> Signed-off-by: Andrei Vagin <avagin@gmail.com>
+> Co-developed-by: Dmitry Safonov <dima@arista.com>
+> Signed-off-by: Dmitry Safonov <dima@arista.com>
 > ---
->  include/linux/fs.h      | 14 +++++++
->  include/uapi/linux/fs.h | 26 ++++++++++++-
->  mm/filemap.c            | 82 ++++++++++++++++++++++++++++++++++-------
->  3 files changed, 108 insertions(+), 14 deletions(-)
+>  MAINTAINERS                    |   2 +
+>  fs/proc/namespaces.c           |   4 +
+>  include/linux/nsproxy.h        |   2 +
+>  include/linux/proc_ns.h        |   3 +
+>  include/linux/time_namespace.h |  66 ++++++++++
+>  include/linux/user_namespace.h |   1 +
+>  include/uapi/linux/sched.h     |   6 +
+>  init/Kconfig                   |   7 ++
+>  kernel/fork.c                  |  16 ++-
+>  kernel/nsproxy.c               |  41 +++++--
+>  kernel/time/Makefile           |   1 +
+>  kernel/time/namespace.c        | 217 +++++++++++++++++++++++++++++++++
+>  12 files changed, 356 insertions(+), 10 deletions(-)
+>  create mode 100644 include/linux/time_namespace.h
+>  create mode 100644 kernel/time/namespace.c
 > 
-> diff --git a/include/linux/fs.h b/include/linux/fs.h
-> index e0d909d35763..54681f21e05e 100644
-> --- a/include/linux/fs.h
-> +++ b/include/linux/fs.h
-> @@ -175,6 +175,9 @@ typedef int (dio_iodone_t)(struct kiocb *iocb, loff_t offset,
->  /* File does not contribute to nr_files count */
->  #define FMODE_NOACCOUNT		((__force fmode_t)0x20000000)
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index d44d6732510d..cabe7bddbf69 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -13009,6 +13009,8 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git timers/core
+>  S:	Maintained
+>  F:	fs/timerfd.c
+>  F:	include/linux/timer*
+> +F:	include/linux/time_namespace.h
+> +F:	kernel/time_namespace.c
+>  F:	kernel/time/*timer*
 >  
-> +/* File supports encoded IO */
-> +#define FMODE_ENCODED_IO	((__force fmode_t)0x40000000)
-> +
+>  POWER MANAGEMENT CORE
+> diff --git a/fs/proc/namespaces.c b/fs/proc/namespaces.c
+> index dd2b35f78b09..8b5c720fe5d7 100644
+> --- a/fs/proc/namespaces.c
+> +++ b/fs/proc/namespaces.c
+> @@ -33,6 +33,10 @@ static const struct proc_ns_operations *ns_entries[] = {
+>  #ifdef CONFIG_CGROUPS
+>  	&cgroupns_operations,
+>  #endif
+> +#ifdef CONFIG_TIME_NS
+> +	&timens_operations,
+> +	&timens_for_children_operations,
+> +#endif
+>  };
+>  
+>  static const char *proc_ns_get_link(struct dentry *dentry,
+> diff --git a/include/linux/nsproxy.h b/include/linux/nsproxy.h
+> index 2ae1b1a4d84d..074f395b9ad2 100644
+> --- a/include/linux/nsproxy.h
+> +++ b/include/linux/nsproxy.h
+> @@ -35,6 +35,8 @@ struct nsproxy {
+>  	struct mnt_namespace *mnt_ns;
+>  	struct pid_namespace *pid_ns_for_children;
+>  	struct net 	     *net_ns;
+> +	struct time_namespace *time_ns;
+> +	struct time_namespace *time_ns_for_children;
+>  	struct cgroup_namespace *cgroup_ns;
+>  };
+>  extern struct nsproxy init_nsproxy;
+> diff --git a/include/linux/proc_ns.h b/include/linux/proc_ns.h
+> index d31cb6215905..d312e6281e69 100644
+> --- a/include/linux/proc_ns.h
+> +++ b/include/linux/proc_ns.h
+> @@ -32,6 +32,8 @@ extern const struct proc_ns_operations pidns_for_children_operations;
+>  extern const struct proc_ns_operations userns_operations;
+>  extern const struct proc_ns_operations mntns_operations;
+>  extern const struct proc_ns_operations cgroupns_operations;
+> +extern const struct proc_ns_operations timens_operations;
+> +extern const struct proc_ns_operations timens_for_children_operations;
+>  
 >  /*
->   * Flag for rw_copy_check_uvector and compat_rw_copy_check_uvector
->   * that indicates that they should check the contents of the iovec are
-> @@ -314,6 +317,7 @@ enum rw_hint {
->  #define IOCB_SYNC		(1 << 5)
->  #define IOCB_WRITE		(1 << 6)
->  #define IOCB_NOWAIT		(1 << 7)
-> +#define IOCB_ENCODED		(1 << 8)
+>   * We always define these enumerators
+> @@ -43,6 +45,7 @@ enum {
+>  	PROC_USER_INIT_INO	= 0xEFFFFFFDU,
+>  	PROC_PID_INIT_INO	= 0xEFFFFFFCU,
+>  	PROC_CGROUP_INIT_INO	= 0xEFFFFFFBU,
+> +	PROC_TIME_INIT_INO	= 0xEFFFFFFAU,
+>  };
 >  
->  struct kiocb {
->  	struct file		*ki_filp;
-> @@ -3088,6 +3092,11 @@ extern int sb_min_blocksize(struct super_block *, int);
->  extern int generic_file_mmap(struct file *, struct vm_area_struct *);
->  extern int generic_file_readonly_mmap(struct file *, struct vm_area_struct *);
->  extern ssize_t generic_write_checks(struct kiocb *, struct iov_iter *);
-> +struct encoded_iov;
-> +extern int generic_encoded_write_checks(struct kiocb *, struct encoded_iov *);
-> +extern ssize_t check_encoded_read(struct kiocb *, struct iov_iter *);
-> +extern int import_encoded_write(struct kiocb *, struct encoded_iov *,
-> +				struct iov_iter *);
->  extern int generic_remap_checks(struct file *file_in, loff_t pos_in,
->  				struct file *file_out, loff_t pos_out,
->  				loff_t *count, unsigned int remap_flags);
-> @@ -3403,6 +3412,11 @@ static inline int kiocb_set_rw_flags(struct kiocb *ki, rwf_t flags)
->  			return -EOPNOTSUPP;
->  		ki->ki_flags |= IOCB_NOWAIT;
->  	}
-> +	if (flags & RWF_ENCODED) {
-> +		if (!(ki->ki_filp->f_mode & FMODE_ENCODED_IO))
-> +			return -EOPNOTSUPP;
-> +		ki->ki_flags |= IOCB_ENCODED;
+>  #ifdef CONFIG_PROC_FS
+> diff --git a/include/linux/time_namespace.h b/include/linux/time_namespace.h
+> new file mode 100644
+> index 000000000000..873b908c9ba8
+> --- /dev/null
+> +++ b/include/linux/time_namespace.h
+> @@ -0,0 +1,66 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#ifndef _LINUX_TIMENS_H
+> +#define _LINUX_TIMENS_H
+> +
+> +
+> +#include <linux/sched.h>
+> +#include <linux/kref.h>
+> +#include <linux/nsproxy.h>
+> +#include <linux/ns_common.h>
+> +#include <linux/err.h>
+> +
+> +struct user_namespace;
+> +extern struct user_namespace init_user_ns;
+> +
+> +struct time_namespace {
+> +	struct kref kref;
+> +	struct user_namespace *user_ns;
+> +	struct ucounts *ucounts;
+> +	struct ns_common ns;
+> +} __randomize_layout;
+> +extern struct time_namespace init_time_ns;
+> +
+> +#ifdef CONFIG_TIME_NS
+> +static inline struct time_namespace *get_time_ns(struct time_namespace *ns)
+> +{
+> +	kref_get(&ns->kref);
+> +	return ns;
+> +}
+> +
+> +extern struct time_namespace *copy_time_ns(unsigned long flags,
+> +	struct user_namespace *user_ns, struct time_namespace *old_ns);
+> +extern void free_time_ns(struct kref *kref);
+> +extern int timens_on_fork(struct nsproxy *nsproxy, struct task_struct *tsk);
+> +
+> +static inline void put_time_ns(struct time_namespace *ns)
+> +{
+> +	kref_put(&ns->kref, free_time_ns);
+> +}
+> +
+> +#else
+> +static inline struct time_namespace *get_time_ns(struct time_namespace *ns)
+> +{
+> +	return NULL;
+> +}
+> +
+> +static inline void put_time_ns(struct time_namespace *ns)
+> +{
+> +}
+> +
+> +static inline struct time_namespace *copy_time_ns(unsigned long flags,
+> +	struct user_namespace *user_ns, struct time_namespace *old_ns)
+> +{
+> +	if (flags & CLONE_NEWTIME)
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	return old_ns;
+> +}
+> +
+> +static inline int timens_on_fork(struct nsproxy *nsproxy, struct task_struct *tsk)
+> +{
+> +	return 0;
+> +}
+> +
+> +#endif
+> +
+> +#endif /* _LINUX_TIMENS_H */
+> diff --git a/include/linux/user_namespace.h b/include/linux/user_namespace.h
+> index fb9f4f799554..6ef1c7109fc4 100644
+> --- a/include/linux/user_namespace.h
+> +++ b/include/linux/user_namespace.h
+> @@ -45,6 +45,7 @@ enum ucount_type {
+>  	UCOUNT_NET_NAMESPACES,
+>  	UCOUNT_MNT_NAMESPACES,
+>  	UCOUNT_CGROUP_NAMESPACES,
+> +	UCOUNT_TIME_NAMESPACES,
+>  #ifdef CONFIG_INOTIFY_USER
+>  	UCOUNT_INOTIFY_INSTANCES,
+>  	UCOUNT_INOTIFY_WATCHES,
+> diff --git a/include/uapi/linux/sched.h b/include/uapi/linux/sched.h
+> index 99335e1f4a27..5b7511ac2005 100644
+> --- a/include/uapi/linux/sched.h
+> +++ b/include/uapi/linux/sched.h
+> @@ -33,6 +33,12 @@
+>  #define CLONE_NEWNET		0x40000000	/* New network namespace */
+>  #define CLONE_IO		0x80000000	/* Clone io context */
+>  
+> +/*
+> + * cloning flags intersect with CSIGNAL so can be used with unshare and clone3
+> + * syscalls only:
+> + */
+> +#define CLONE_NEWTIME	0x00000080	/* New time namespace */
+> +
+>  #ifndef __ASSEMBLY__
+>  /**
+>   * struct clone_args - arguments for the clone3 syscall
+> diff --git a/init/Kconfig b/init/Kconfig
+> index b4daad2bac23..bc2ee93408ad 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -1096,6 +1096,13 @@ config UTS_NS
+>  	  In this namespace tasks see different info provided with the
+>  	  uname() system call
+>  
+> +config TIME_NS
+> +	bool "TIME namespace"
+> +	default y
+
+Having CONFIG_TIME_NS "default y" makes so that the option is selected even on
+the architectures that have no support for time namespaces.
+The direct consequence is that the fallbacks defined in this patch are never
+selected and this ends up in kernel compilation errors due to missing symbols.
+
+The error below shows what happens on arm64 (similar behavior on other
+architectures):
+
+aarch64-linux-gnu-ld: kernel/time/namespace.o: in function `timens_on_fork':
+kernel/time/namespace.c:321: undefined reference to `vdso_join_timens'
+
+aarch64-linux-gnu-ld: kernel/time/namespace.o: in function
+`timens_set_vvar_page': kernel/time/namespace.c:218: undefined reference to
+`arch_get_vdso_
+data'
+
+aarch64-linux-gnu-ld: kernel/time/namespace.o: in function `timens_install':
+/data1/Projects/LinuxKernel/linux/kernel/time/namespace.c:295: undefined
+reference to `vdso_join_time
+ns'
+/data1/Projects/LinuxKernel/linux/Makefile:1074: recipe for target 'vmlinux'
+failed
+make[1]: *** [vmlinux] Error 1
+make[1]: Leaving directory '/data1/Projects/LinuxKernel/linux-out'
+                    Makefile:179: recipe for target 'sub-make' failed
+make: *** [sub-make] Error 2
+
+My proposal is to keep TIME_NS "default n" (just remove "default y"), let the
+architectures that enable time namespaces select it and make CONFIG_TIME_NS
+select GENERIC_VDSO_TIME_NS if arch has HAVE_GENERIC_VDSO.
+
+What do you think?
+
+Thanks,
+Vincenzo
+
+> +	help
+> +	  In this namespace boottime and monotonic clocks can be set.
+> +	  The time will keep going with the same pace.
+> +
+>  config IPC_NS
+>  	bool "IPC namespace"
+>  	depends on (SYSVIPC || POSIX_MQUEUE)
+> diff --git a/kernel/fork.c b/kernel/fork.c
+> index bcdf53125210..aa65333dbc45 100644
+> --- a/kernel/fork.c
+> +++ b/kernel/fork.c
+> @@ -1772,6 +1772,7 @@ static __latent_entropy struct task_struct *copy_process(
+>  	struct multiprocess_signals delayed;
+>  	struct file *pidfile = NULL;
+>  	u64 clone_flags = args->flags;
+> +	struct nsproxy *nsp = current->nsproxy;
+>  
+>  	/*
+>  	 * Don't allow sharing the root directory with processes in a different
+> @@ -1814,8 +1815,16 @@ static __latent_entropy struct task_struct *copy_process(
+>  	 */
+>  	if (clone_flags & CLONE_THREAD) {
+>  		if ((clone_flags & (CLONE_NEWUSER | CLONE_NEWPID)) ||
+> -		    (task_active_pid_ns(current) !=
+> -				current->nsproxy->pid_ns_for_children))
+> +		    (task_active_pid_ns(current) != nsp->pid_ns_for_children))
+> +			return ERR_PTR(-EINVAL);
 > +	}
->  	if (flags & RWF_HIPRI)
->  		ki->ki_flags |= IOCB_HIPRI;
->  	if (flags & RWF_DSYNC)
-> diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
-> index 379a612f8f1d..ed92a8a257cb 100644
-> --- a/include/uapi/linux/fs.h
-> +++ b/include/uapi/linux/fs.h
-> @@ -284,6 +284,27 @@ struct fsxattr {
->  
->  typedef int __bitwise __kernel_rwf_t;
->  
-> +enum {
-> +	ENCODED_IOV_COMPRESSION_NONE,
-> +	ENCODED_IOV_COMPRESSION_ZLIB,
-> +	ENCODED_IOV_COMPRESSION_LZO,
-> +	ENCODED_IOV_COMPRESSION_ZSTD,
-> +	ENCODED_IOV_COMPRESSION_TYPES = ENCODED_IOV_COMPRESSION_ZSTD,
-> +};
 > +
-> +enum {
-> +	ENCODED_IOV_ENCRYPTION_NONE,
-> +	ENCODED_IOV_ENCRYPTION_TYPES = ENCODED_IOV_ENCRYPTION_NONE,
-> +};
-> +
-> +struct encoded_iov {
-> +	__u64 len;
-> +	__u64 unencoded_len;
-> +	__u64 unencoded_offset;
-> +	__u32 compression;
-> +	__u32 encryption;
-> +};
-> +
->  /* high priority request, poll if possible */
->  #define RWF_HIPRI	((__force __kernel_rwf_t)0x00000001)
+> +	/*
+> +	 * If the new process will be in a different time namespace
+> +	 * do not allow it to share VM or a thread group with the forking task.
+> +	 */
+> +	if (clone_flags & (CLONE_THREAD | CLONE_VM)) {
+> +		if (nsp->time_ns != nsp->time_ns_for_children)
+>  			return ERR_PTR(-EINVAL);
+>  	}
 >  
-> @@ -299,8 +320,11 @@ typedef int __bitwise __kernel_rwf_t;
->  /* per-IO O_APPEND */
->  #define RWF_APPEND	((__force __kernel_rwf_t)0x00000010)
+> @@ -2703,7 +2712,8 @@ static int check_unshare_flags(unsigned long unshare_flags)
+>  	if (unshare_flags & ~(CLONE_THREAD|CLONE_FS|CLONE_NEWNS|CLONE_SIGHAND|
+>  				CLONE_VM|CLONE_FILES|CLONE_SYSVSEM|
+>  				CLONE_NEWUTS|CLONE_NEWIPC|CLONE_NEWNET|
+> -				CLONE_NEWUSER|CLONE_NEWPID|CLONE_NEWCGROUP))
+> +				CLONE_NEWUSER|CLONE_NEWPID|CLONE_NEWCGROUP|
+> +				CLONE_NEWTIME))
+>  		return -EINVAL;
+>  	/*
+>  	 * Not implemented, but pretend it works if there is nothing
+> diff --git a/kernel/nsproxy.c b/kernel/nsproxy.c
+> index c815f58e6bc0..ed9882108cd2 100644
+> --- a/kernel/nsproxy.c
+> +++ b/kernel/nsproxy.c
+> @@ -18,6 +18,7 @@
+>  #include <linux/pid_namespace.h>
+>  #include <net/net_namespace.h>
+>  #include <linux/ipc_namespace.h>
+> +#include <linux/time_namespace.h>
+>  #include <linux/proc_ns.h>
+>  #include <linux/file.h>
+>  #include <linux/syscalls.h>
+> @@ -40,6 +41,10 @@ struct nsproxy init_nsproxy = {
+>  #ifdef CONFIG_CGROUPS
+>  	.cgroup_ns		= &init_cgroup_ns,
+>  #endif
+> +#ifdef CONFIG_TIME_NS
+> +	.time_ns		= &init_time_ns,
+> +	.time_ns_for_children	= &init_time_ns,
+> +#endif
+>  };
 >  
-> +/* encoded (e.g., compressed or encrypted) IO */
-
-nit: s/or/and\/or/ or both are exclusive?
-
-> +#define RWF_ENCODED	((__force __kernel_rwf_t)0x00000020)
+>  static inline struct nsproxy *create_nsproxy(void)
+> @@ -106,8 +111,18 @@ static struct nsproxy *create_new_namespaces(unsigned long flags,
+>  		goto out_net;
+>  	}
+>  
+> +	new_nsp->time_ns_for_children = copy_time_ns(flags, user_ns,
+> +					tsk->nsproxy->time_ns_for_children);
+> +	if (IS_ERR(new_nsp->time_ns_for_children)) {
+> +		err = PTR_ERR(new_nsp->time_ns_for_children);
+> +		goto out_time;
+> +	}
+> +	new_nsp->time_ns = get_time_ns(tsk->nsproxy->time_ns);
 > +
->  /* mask of flags supported by the kernel */
->  #define RWF_SUPPORTED	(RWF_HIPRI | RWF_DSYNC | RWF_SYNC | RWF_NOWAIT |\
-> -			 RWF_APPEND)
-> +			 RWF_APPEND | RWF_ENCODED)
+>  	return new_nsp;
 >  
->  #endif /* _UAPI_LINUX_FS_H */
-> diff --git a/mm/filemap.c b/mm/filemap.c
-> index 1146fcfa3215..d2e6d9caf353 100644
-> --- a/mm/filemap.c
-> +++ b/mm/filemap.c
-> @@ -2948,24 +2948,15 @@ static int generic_write_check_limits(struct file *file, loff_t pos,
+> +out_time:
+> +	put_net(new_nsp->net_ns);
+>  out_net:
+>  	put_cgroup_ns(new_nsp->cgroup_ns);
+>  out_cgroup:
+> @@ -136,15 +151,16 @@ int copy_namespaces(unsigned long flags, struct task_struct *tsk)
+>  	struct nsproxy *old_ns = tsk->nsproxy;
+>  	struct user_namespace *user_ns = task_cred_xxx(tsk, user_ns);
+>  	struct nsproxy *new_ns;
+> +	int ret;
+>  
+>  	if (likely(!(flags & (CLONE_NEWNS | CLONE_NEWUTS | CLONE_NEWIPC |
+>  			      CLONE_NEWPID | CLONE_NEWNET |
+> -			      CLONE_NEWCGROUP)))) {
+> -		get_nsproxy(old_ns);
+> -		return 0;
+> -	}
+> -
+> -	if (!ns_capable(user_ns, CAP_SYS_ADMIN))
+> +			      CLONE_NEWCGROUP | CLONE_NEWTIME)))) {
+> +		if (likely(old_ns->time_ns_for_children == old_ns->time_ns)) {
+> +			get_nsproxy(old_ns);
+> +			return 0;
+> +		}
+> +	} else if (!ns_capable(user_ns, CAP_SYS_ADMIN))
+>  		return -EPERM;
+>  
+>  	/*
+> @@ -162,6 +178,12 @@ int copy_namespaces(unsigned long flags, struct task_struct *tsk)
+>  	if (IS_ERR(new_ns))
+>  		return  PTR_ERR(new_ns);
+>  
+> +	ret = timens_on_fork(new_ns, tsk);
+> +	if (ret) {
+> +		free_nsproxy(new_ns);
+> +		return ret;
+> +	}
+> +
+>  	tsk->nsproxy = new_ns;
 >  	return 0;
 >  }
+> @@ -176,6 +198,10 @@ void free_nsproxy(struct nsproxy *ns)
+>  		put_ipc_ns(ns->ipc_ns);
+>  	if (ns->pid_ns_for_children)
+>  		put_pid_ns(ns->pid_ns_for_children);
+> +	if (ns->time_ns)
+> +		put_time_ns(ns->time_ns);
+> +	if (ns->time_ns_for_children)
+> +		put_time_ns(ns->time_ns_for_children);
+>  	put_cgroup_ns(ns->cgroup_ns);
+>  	put_net(ns->net_ns);
+>  	kmem_cache_free(nsproxy_cachep, ns);
+> @@ -192,7 +218,8 @@ int unshare_nsproxy_namespaces(unsigned long unshare_flags,
+>  	int err = 0;
 >  
-> -/*
-> - * Performs necessary checks before doing a write
-> - *
-> - * Can adjust writing position or amount of bytes to write.
-> - * Returns appropriate error code that caller should return or
-> - * zero in case that write should be allowed.
-> - */
-> -inline ssize_t generic_write_checks(struct kiocb *iocb, struct iov_iter *from)
-> +static int generic_write_checks_common(struct kiocb *iocb, loff_t *count)
->  {
->  	struct file *file = iocb->ki_filp;
->  	struct inode *inode = file->f_mapping->host;
-> -	loff_t count;
-> -	int ret;
->  
->  	if (IS_SWAPFILE(inode))
->  		return -ETXTBSY;
->  
-> -	if (!iov_iter_count(from))
-> +	if (!*count)
+>  	if (!(unshare_flags & (CLONE_NEWNS | CLONE_NEWUTS | CLONE_NEWIPC |
+> -			       CLONE_NEWNET | CLONE_NEWPID | CLONE_NEWCGROUP)))
+> +			       CLONE_NEWNET | CLONE_NEWPID | CLONE_NEWCGROUP |
+> +			       CLONE_NEWTIME)))
 >  		return 0;
 >  
->  	/* FIXME: this is for backwards compatibility with 2.4 */
-> @@ -2975,8 +2966,21 @@ inline ssize_t generic_write_checks(struct kiocb *iocb, struct iov_iter *from)
->  	if ((iocb->ki_flags & IOCB_NOWAIT) && !(iocb->ki_flags & IOCB_DIRECT))
->  		return -EINVAL;
->  
-> -	count = iov_iter_count(from);
-> -	ret = generic_write_check_limits(file, iocb->ki_pos, &count);
-> +	return generic_write_check_limits(iocb->ki_filp, iocb->ki_pos, count);
-> +}
-> +
+>  	user_ns = new_cred ? new_cred->user_ns : current_user_ns();
+> diff --git a/kernel/time/Makefile b/kernel/time/Makefile
+> index 1867044800bb..c8f00168afe8 100644
+> --- a/kernel/time/Makefile
+> +++ b/kernel/time/Makefile
+> @@ -19,3 +19,4 @@ obj-$(CONFIG_TICK_ONESHOT)			+= tick-oneshot.o tick-sched.o
+>  obj-$(CONFIG_HAVE_GENERIC_VDSO)			+= vsyscall.o
+>  obj-$(CONFIG_DEBUG_FS)				+= timekeeping_debug.o
+>  obj-$(CONFIG_TEST_UDELAY)			+= test_udelay.o
+> +obj-$(CONFIG_TIME_NS)				+= namespace.o
+> diff --git a/kernel/time/namespace.c b/kernel/time/namespace.c
+> new file mode 100644
+> index 000000000000..2662a69e0382
+> --- /dev/null
+> +++ b/kernel/time/namespace.c
+> @@ -0,0 +1,217 @@
+> +// SPDX-License-Identifier: GPL-2.0
 > +/*
-> + * Performs necessary checks before doing a write
-> + *
-> + * Can adjust writing position or amount of bytes to write.
-> + * Returns a negative errno or the new number of bytes to write.
+> + * Author: Andrei Vagin <avagin@openvz.org>
+> + * Author: Dmitry Safonov <dima@arista.com>
 > + */
-> +inline ssize_t generic_write_checks(struct kiocb *iocb, struct iov_iter *from)
+> +
+> +#include <linux/time_namespace.h>
+> +#include <linux/user_namespace.h>
+> +#include <linux/sched/signal.h>
+> +#include <linux/sched/task.h>
+> +#include <linux/proc_ns.h>
+> +#include <linux/export.h>
+> +#include <linux/time.h>
+> +#include <linux/slab.h>
+> +#include <linux/cred.h>
+> +#include <linux/err.h>
+> +
+> +static struct ucounts *inc_time_namespaces(struct user_namespace *ns)
 > +{
-> +	loff_t count = iov_iter_count(from);
-> +	int ret;
+> +	return inc_ucount(ns, current_euid(), UCOUNT_TIME_NAMESPACES);
+> +}
 > +
-> +	ret = generic_write_checks_common(iocb, &count);
->  	if (ret)
->  		return ret;
->  
-> @@ -2985,6 +2989,58 @@ inline ssize_t generic_write_checks(struct kiocb *iocb, struct iov_iter *from)
->  }
->  EXPORT_SYMBOL(generic_write_checks);
->  
-> +int generic_encoded_write_checks(struct kiocb *iocb,
-> +				 struct encoded_iov *encoded)
+> +static void dec_time_namespaces(struct ucounts *ucounts)
 > +{
-> +	loff_t count = encoded->unencoded_len;
-> +	int ret;
+> +	dec_ucount(ucounts, UCOUNT_TIME_NAMESPACES);
+> +}
 > +
-> +	ret = generic_write_checks_common(iocb, &count);
-
-That's a bit confusing. You will only ever write encoded len bytes, yet
-you check the unencoded len. Presumably that's to ensure the data can be
-read back successfully? Still it feels a bit odd. IMO this warrants a
-comment.
-
-When you use this function in patch 5 all the checks are performed
-against unencoded_len yet you do :
-
-count = encoded.len;
-
-> +	if (ret)
-> +		return ret;
+> +/**
+> + * clone_time_ns - Clone a time namespace
+> + * @user_ns:	User namespace which owns a new namespace.
+> + * @old_ns:	Namespace to clone
+> + *
+> + * Clone @old_ns and set the clone refcount to 1
+> + *
+> + * Return: The new namespace or ERR_PTR.
+> + */
+> +static struct time_namespace *clone_time_ns(struct user_namespace *user_ns,
+> +					  struct time_namespace *old_ns)
+> +{
+> +	struct time_namespace *ns;
+> +	struct ucounts *ucounts;
+> +	int err;
 > +
-> +	if (count != encoded->unencoded_len) {
-> +		/*
-> +		 * The write got truncated by generic_write_checks_common(). We
-> +		 * can't do a partial encoded write.
-> +		 */
-> +		return -EFBIG;
+> +	err = -ENOSPC;
+> +	ucounts = inc_time_namespaces(user_ns);
+> +	if (!ucounts)
+> +		goto fail;
+> +
+> +	err = -ENOMEM;
+> +	ns = kmalloc(sizeof(*ns), GFP_KERNEL);
+> +	if (!ns)
+> +		goto fail_dec;
+> +
+> +	kref_init(&ns->kref);
+> +
+> +	err = ns_alloc_inum(&ns->ns);
+> +	if (err)
+> +		goto fail_free;
+> +
+> +	ns->ucounts = ucounts;
+> +	ns->ns.ops = &timens_operations;
+> +	ns->user_ns = get_user_ns(user_ns);
+> +	return ns;
+> +
+> +fail_free:
+> +	kfree(ns);
+> +fail_dec:
+> +	dec_time_namespaces(ucounts);
+> +fail:
+> +	return ERR_PTR(err);
+> +}
+> +
+> +/**
+> + * copy_time_ns - Create timens_for_children from @old_ns
+> + * @flags:	Cloning flags
+> + * @user_ns:	User namespace which owns a new namespace.
+> + * @old_ns:	Namespace to clone
+> + *
+> + * If CLONE_NEWTIME specified in @flags, creates a new timens_for_children;
+> + * adds a refcounter to @old_ns otherwise.
+> + *
+> + * Return: timens_for_children namespace or ERR_PTR.
+> + */
+> +struct time_namespace *copy_time_ns(unsigned long flags,
+> +	struct user_namespace *user_ns, struct time_namespace *old_ns)
+> +{
+> +	if (!(flags & CLONE_NEWTIME))
+> +		return get_time_ns(old_ns);
+> +
+> +	return clone_time_ns(user_ns, old_ns);
+> +}
+> +
+> +void free_time_ns(struct kref *kref)
+> +{
+> +	struct time_namespace *ns;
+> +
+> +	ns = container_of(kref, struct time_namespace, kref);
+> +	dec_time_namespaces(ns->ucounts);
+> +	put_user_ns(ns->user_ns);
+> +	ns_free_inum(&ns->ns);
+> +	kfree(ns);
+> +}
+> +
+> +static struct time_namespace *to_time_ns(struct ns_common *ns)
+> +{
+> +	return container_of(ns, struct time_namespace, ns);
+> +}
+> +
+> +static struct ns_common *timens_get(struct task_struct *task)
+> +{
+> +	struct time_namespace *ns = NULL;
+> +	struct nsproxy *nsproxy;
+> +
+> +	task_lock(task);
+> +	nsproxy = task->nsproxy;
+> +	if (nsproxy) {
+> +		ns = nsproxy->time_ns;
+> +		get_time_ns(ns);
 > +	}
+> +	task_unlock(task);
+> +
+> +	return ns ? &ns->ns : NULL;
+> +}
+> +
+> +static struct ns_common *timens_for_children_get(struct task_struct *task)
+> +{
+> +	struct time_namespace *ns = NULL;
+> +	struct nsproxy *nsproxy;
+> +
+> +	task_lock(task);
+> +	nsproxy = task->nsproxy;
+> +	if (nsproxy) {
+> +		ns = nsproxy->time_ns_for_children;
+> +		get_time_ns(ns);
+> +	}
+> +	task_unlock(task);
+> +
+> +	return ns ? &ns->ns : NULL;
+> +}
+> +
+> +static void timens_put(struct ns_common *ns)
+> +{
+> +	put_time_ns(to_time_ns(ns));
+> +}
+> +
+> +static int timens_install(struct nsproxy *nsproxy, struct ns_common *new)
+> +{
+> +	struct time_namespace *ns = to_time_ns(new);
+> +
+> +	if (!current_is_single_threaded())
+> +		return -EUSERS;
+> +
+> +	if (!ns_capable(ns->user_ns, CAP_SYS_ADMIN) ||
+> +	    !ns_capable(current_user_ns(), CAP_SYS_ADMIN))
+> +		return -EPERM;
+> +
+> +	get_time_ns(ns);
+> +	put_time_ns(nsproxy->time_ns);
+> +	nsproxy->time_ns = ns;
+> +
+> +	get_time_ns(ns);
+> +	put_time_ns(nsproxy->time_ns_for_children);
+> +	nsproxy->time_ns_for_children = ns;
 > +	return 0;
 > +}
-> +EXPORT_SYMBOL(generic_encoded_write_checks);
 > +
-> +ssize_t check_encoded_read(struct kiocb *iocb, struct iov_iter *iter)
+> +int timens_on_fork(struct nsproxy *nsproxy, struct task_struct *tsk)
 > +{
-> +	if (!(iocb->ki_filp->f_flags & O_ENCODED))
-> +		return -EPERM;
-> +	if (iov_iter_single_seg_count(iter) != sizeof(struct encoded_iov))
-> +		return -EINVAL;
-> +	return iov_iter_count(iter) - sizeof(struct encoded_iov);
-> +}
-> +EXPORT_SYMBOL(check_encoded_read);
+> +	struct ns_common *nsc = &nsproxy->time_ns_for_children->ns;
+> +	struct time_namespace *ns = to_time_ns(nsc);
 > +
-> +int import_encoded_write(struct kiocb *iocb, struct encoded_iov *encoded,
-
-nit: This might be just me but 'import' doesn't sound right, how about
-parse_encoded_write ?
-
-
-> +			 struct iov_iter *from)
-> +{
-> +	if (!(iocb->ki_filp->f_flags & O_ENCODED))
-> +		return -EPERM;
-> +	if (iov_iter_single_seg_count(from) != sizeof(*encoded))
-> +		return -EINVAL;
-> +	if (copy_from_iter(encoded, sizeof(*encoded), from) != sizeof(*encoded))
-> +		return -EFAULT;
-> +	if (encoded->compression == ENCODED_IOV_COMPRESSION_NONE &&
-> +	    encoded->encryption == ENCODED_IOV_ENCRYPTION_NONE)
-> +		return -EINVAL;
-> +	if (encoded->compression > ENCODED_IOV_COMPRESSION_TYPES ||
-> +	    encoded->encryption > ENCODED_IOV_ENCRYPTION_TYPES)
-> +		return -EINVAL;
-> +	if (encoded->unencoded_offset >= encoded->unencoded_len)
-> +		return -EINVAL;
+> +	/* create_new_namespaces() already incremented the ref counter */
+> +	if (nsproxy->time_ns == nsproxy->time_ns_for_children)
+> +		return 0;
+> +
+> +	get_time_ns(ns);
+> +	put_time_ns(nsproxy->time_ns);
+> +	nsproxy->time_ns = ns;
+> +
 > +	return 0;
 > +}
-> +EXPORT_SYMBOL(import_encoded_write);
 > +
->  /*
->   * Performs necessary checks before doing a clone.
->   *
+> +static struct user_namespace *timens_owner(struct ns_common *ns)
+> +{
+> +	return to_time_ns(ns)->user_ns;
+> +}
+> +
+> +const struct proc_ns_operations timens_operations = {
+> +	.name		= "time",
+> +	.type		= CLONE_NEWTIME,
+> +	.get		= timens_get,
+> +	.put		= timens_put,
+> +	.install	= timens_install,
+> +	.owner		= timens_owner,
+> +};
+> +
+> +const struct proc_ns_operations timens_for_children_operations = {
+> +	.name		= "time_for_children",
+> +	.type		= CLONE_NEWTIME,
+> +	.get		= timens_for_children_get,
+> +	.put		= timens_put,
+> +	.install	= timens_install,
+> +	.owner		= timens_owner,
+> +};
+> +
+> +struct time_namespace init_time_ns = {
+> +	.kref		= KREF_INIT(3),
+> +	.user_ns	= &init_user_ns,
+> +	.ns.inum	= PROC_TIME_INIT_INO,
+> +	.ns.ops		= &timens_operations,
+> +};
+> +
+> +static int __init time_ns_init(void)
+> +{
+> +	return 0;
+> +}
+> +subsys_initcall(time_ns_init);
 > 
+
+-- 
+Regards,
+Vincenzo
