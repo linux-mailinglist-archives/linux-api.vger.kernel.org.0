@@ -2,105 +2,151 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D2DAD9328
-	for <lists+linux-api@lfdr.de>; Wed, 16 Oct 2019 15:58:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 666E4D93CB
+	for <lists+linux-api@lfdr.de>; Wed, 16 Oct 2019 16:26:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405641AbfJPN6J (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 16 Oct 2019 09:58:09 -0400
-Received: from mail-wr1-f43.google.com ([209.85.221.43]:41840 "EHLO
-        mail-wr1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404397AbfJPN6J (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 16 Oct 2019 09:58:09 -0400
-Received: by mail-wr1-f43.google.com with SMTP id p4so12321111wrm.8;
-        Wed, 16 Oct 2019 06:58:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=agNGM0+r0bRpxGyTFrM8CjOeywto3DlsON2jMxMZt2M=;
-        b=oP1xASFk9dN3PSvh14079JkszzhkjMvZ6q3lgP2Jn8Ww1RnJDvkibuyQfPyENnAi+I
-         bf6QTPJVAsMPMInvHnwriUJkzIjzx4NyMPGIkBG0wXBexm5W0p9VpxWAyse77EH7oiBt
-         Nq6oL3M4axfYgnl1jB8q6juwDJ8DwZVKpQCC3+axJtxrkc/Kdctt8odRYMP4pb4CwaCq
-         nirPHfIVUNmrsnzwC1g8BljSEUpxM/WO+Qqk6eCreIws/gD5lQ2C3Jyr3A0Yj6oWuIRM
-         qZ6KGR7saf4DcCdtNunNLdkwFSVj46y4TVeLaaB3X+CcUxkKCXPkZftaQjCABNaE3a0k
-         9OGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=agNGM0+r0bRpxGyTFrM8CjOeywto3DlsON2jMxMZt2M=;
-        b=BXWSELem8U+QNKLFcuew6bIA5+Gr0iiyns+cI6MYao3qiivTMNtGJo0GOod55c2QJ1
-         XHI/o2HFJOLcxzSAkseSvwnPNOik/7wQeMi0sxD2qJHHJ4UHSfeftOscENu/xwihT/00
-         gMgEXjiK7utDKOqyqUQ5VdQ+tgoVpWeWGek2pkxH4/8h5Gus6lWc8iujUDzZiVBsMhwd
-         eupMFCLdDx9C84UzsY2gUl6WSSc0IN55i+dVjwayJBjuyk6pK1bazAMMROecVNM5QDrq
-         YwJ93GF4yKjLtiije10/UjEkg2c+NTGOhB1X4GUt2Mywhvqxh7eSRFJ6ENaBaJ+GzIsi
-         Y/Yg==
-X-Gm-Message-State: APjAAAWpzv5sTmYFN5wHCWS2ZwxHMW3c6962ckGQyp4oHShqcc/9bGr1
-        FXfrhAnVE+YWZtmAKMUKiYg=
-X-Google-Smtp-Source: APXvYqwIUeLdkrCtFN83aAWf5o/i8xnN8NWxaxm7VurNt8Jl1QU49l59jzklvxt1Qe25mD+xUO5j+A==
-X-Received: by 2002:a05:6000:11d2:: with SMTP id i18mr2966444wrx.109.1571234286960;
-        Wed, 16 Oct 2019 06:58:06 -0700 (PDT)
-Received: from [10.83.36.153] ([217.173.96.166])
-        by smtp.gmail.com with ESMTPSA id w125sm4831016wmg.32.2019.10.16.06.58.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Oct 2019 06:58:06 -0700 (PDT)
-Subject: Re: [PATCHv7 01/33] ns: Introduce Time Namespace
-To:     Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>
-Cc:     Dmitry Safonov <dima@arista.com>, linux-kernel@vger.kernel.org,
-        Andrei Vagin <avagin@openvz.org>,
-        Adrian Reber <adrian@lisas.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Cyrill Gorcunov <gorcunov@openvz.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jann Horn <jannh@google.com>, Jeff Dike <jdike@addtoit.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Pavel Emelyanov <xemul@virtuozzo.com>,
-        Shuah Khan <shuah@kernel.org>,
-        containers@lists.linux-foundation.org, criu@openvz.org,
-        linux-api@vger.kernel.org, x86@kernel.org,
-        Andrei Vagin <avagin@gmail.com>
-References: <20191011012341.846266-1-dima@arista.com>
- <20191011012341.846266-2-dima@arista.com>
- <80af93da-d497-81de-2a2a-179bb3bc852d@arm.com>
- <alpine.DEB.2.21.1910161230070.2046@nanos.tec.linutronix.de>
- <5f4c2f29-ca68-b19c-017f-d23730f6e871@arm.com>
-From:   Dmitry Safonov <0x7f454c46@gmail.com>
-Message-ID: <4f60ac96-c684-e4a8-e60d-e90c658db025@gmail.com>
-Date:   Wed, 16 Oct 2019 14:57:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+        id S2392308AbfJPO0a convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Wed, 16 Oct 2019 10:26:30 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40738 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387995AbfJPO0a (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 16 Oct 2019 10:26:30 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 830493086E27;
+        Wed, 16 Oct 2019 14:26:29 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-121-84.rdu2.redhat.com [10.10.121.84])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 35D195D9DC;
+        Wed, 16 Oct 2019 14:26:26 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <CAHk-=whiz1sHXu8SVZKEC2dup=r5JMrftPtEt6ff9Ea8dyH8yQ@mail.gmail.com>
+References: <CAHk-=whiz1sHXu8SVZKEC2dup=r5JMrftPtEt6ff9Ea8dyH8yQ@mail.gmail.com> <157117606853.15019.15459271147790470307.stgit@warthog.procyon.org.uk> <157117608708.15019.1998141309054662114.stgit@warthog.procyon.org.uk>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     dhowells@redhat.com, Tim Chen <tim.c.chen@linux.intel.com>,
+        Kan Liang <kan.liang@intel.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Nicolas Dichtel <nicolas.dichtel@6wind.com>, raven@themaw.net,
+        Christian Brauner <christian@brauner.io>,
+        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-block <linux-block@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC PATCH 02/21] Add a prelocked wake-up
 MIME-Version: 1.0
-In-Reply-To: <5f4c2f29-ca68-b19c-017f-d23730f6e871@arm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <6899.1571235985.1@warthog.procyon.org.uk>
+Content-Transfer-Encoding: 8BIT
+Date:   Wed, 16 Oct 2019 15:26:25 +0100
+Message-ID: <6900.1571235985@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.44]); Wed, 16 Oct 2019 14:26:30 +0000 (UTC)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 10/16/19 11:44 AM, Vincenzo Frascino wrote:
-> On 10/16/19 11:39 AM, Thomas Gleixner wrote:
-[..]
->> config TIME_NS
->> 	bool "TIME namespace"
->> 	depends on GENERIC_VDSO_TIME_NS
->> 	default y
->>
->> and in lib/vdso/Kconfig
->>
->> config GENERIC_VDSO_TIME_NS
->> 	bool
->>
->> and let architectures which have support for the VDSO bits select it.
->>
-> 
-> Agreed, this is even better.
+Btw, is there any point in __wake_up_sync_key() taking a nr_exclusive
+argument since it clears WF_SYNC if nr_exclusive != 1 and doesn't make sense
+to be >1 anyway.
 
-Thanks, will fix in v8,
-          Dmitry
+David
+---
+diff --git a/include/linux/wait.h b/include/linux/wait.h
+index 3eb7cae8206c..bb7676d396cd 100644
+--- a/include/linux/wait.h
++++ b/include/linux/wait.h
+@@ -201,9 +201,9 @@ void __wake_up(struct wait_queue_head *wq_head, unsigned int mode, int nr, void
+ void __wake_up_locked_key(struct wait_queue_head *wq_head, unsigned int mode, void *key);
+ void __wake_up_locked_key_bookmark(struct wait_queue_head *wq_head,
+ 		unsigned int mode, void *key, wait_queue_entry_t *bookmark);
+-void __wake_up_sync_key(struct wait_queue_head *wq_head, unsigned int mode, int nr, void *key);
++void __wake_up_sync_key(struct wait_queue_head *wq_head, unsigned int mode, void *key);
+ void __wake_up_locked(struct wait_queue_head *wq_head, unsigned int mode, int nr);
+-void __wake_up_sync(struct wait_queue_head *wq_head, unsigned int mode, int nr);
++void __wake_up_sync(struct wait_queue_head *wq_head, unsigned int mode);
+ 
+ #define wake_up(x)			__wake_up(x, TASK_NORMAL, 1, NULL)
+ #define wake_up_nr(x, nr)		__wake_up(x, TASK_NORMAL, nr, NULL)
+@@ -214,7 +214,7 @@ void __wake_up_sync(struct wait_queue_head *wq_head, unsigned int mode, int nr);
+ #define wake_up_interruptible(x)	__wake_up(x, TASK_INTERRUPTIBLE, 1, NULL)
+ #define wake_up_interruptible_nr(x, nr)	__wake_up(x, TASK_INTERRUPTIBLE, nr, NULL)
+ #define wake_up_interruptible_all(x)	__wake_up(x, TASK_INTERRUPTIBLE, 0, NULL)
+-#define wake_up_interruptible_sync(x)	__wake_up_sync((x), TASK_INTERRUPTIBLE, 1)
++#define wake_up_interruptible_sync(x)	__wake_up_sync((x), TASK_INTERRUPTIBLE)
+ 
+ /*
+  * Wakeup macros to be used to report events to the targets.
+@@ -228,7 +228,7 @@ void __wake_up_sync(struct wait_queue_head *wq_head, unsigned int mode, int nr);
+ #define wake_up_interruptible_poll(x, m)					\
+ 	__wake_up(x, TASK_INTERRUPTIBLE, 1, poll_to_key(m))
+ #define wake_up_interruptible_sync_poll(x, m)					\
+-	__wake_up_sync_key((x), TASK_INTERRUPTIBLE, 1, poll_to_key(m))
++	__wake_up_sync_key((x), TASK_INTERRUPTIBLE, poll_to_key(m))
+ 
+ #define ___wait_cond_timeout(condition)						\
+ ({										\
+diff --git a/kernel/exit.c b/kernel/exit.c
+index a46a50d67002..a1ff25ef050e 100644
+--- a/kernel/exit.c
++++ b/kernel/exit.c
+@@ -1435,7 +1435,7 @@ static int child_wait_callback(wait_queue_entry_t *wait, unsigned mode,
+ void __wake_up_parent(struct task_struct *p, struct task_struct *parent)
+ {
+ 	__wake_up_sync_key(&parent->signal->wait_chldexit,
+-				TASK_INTERRUPTIBLE, 1, p);
++			   TASK_INTERRUPTIBLE, p);
+ }
+ 
+ static long do_wait(struct wait_opts *wo)
+diff --git a/kernel/sched/wait.c b/kernel/sched/wait.c
+index c1e566a114ca..b4b52361dab7 100644
+--- a/kernel/sched/wait.c
++++ b/kernel/sched/wait.c
+@@ -169,7 +169,6 @@ EXPORT_SYMBOL_GPL(__wake_up_locked_key_bookmark);
+  * __wake_up_sync_key - wake up threads blocked on a waitqueue.
+  * @wq_head: the waitqueue
+  * @mode: which threads
+- * @nr_exclusive: how many wake-one or wake-many threads to wake up
+  * @key: opaque value to be passed to wakeup targets
+  *
+  * The sync wakeup differs that the waker knows that it will schedule
+@@ -183,26 +182,21 @@ EXPORT_SYMBOL_GPL(__wake_up_locked_key_bookmark);
+  * accessing the task state.
+  */
+ void __wake_up_sync_key(struct wait_queue_head *wq_head, unsigned int mode,
+-			int nr_exclusive, void *key)
++			void *key)
+ {
+-	int wake_flags = 1; /* XXX WF_SYNC */
+-
+ 	if (unlikely(!wq_head))
+ 		return;
+ 
+-	if (unlikely(nr_exclusive != 1))
+-		wake_flags = 0;
+-
+-	__wake_up_common_lock(wq_head, mode, nr_exclusive, wake_flags, key);
++	__wake_up_common_lock(wq_head, mode, 1, WF_SYNC, key);
+ }
+ EXPORT_SYMBOL_GPL(__wake_up_sync_key);
+ 
+ /*
+  * __wake_up_sync - see __wake_up_sync_key()
+  */
+-void __wake_up_sync(struct wait_queue_head *wq_head, unsigned int mode, int nr_exclusive)
++void __wake_up_sync(struct wait_queue_head *wq_head, unsigned int mode)
+ {
+-	__wake_up_sync_key(wq_head, mode, nr_exclusive, NULL);
++	__wake_up_sync_key(wq_head, mode, NULL);
+ }
+ EXPORT_SYMBOL_GPL(__wake_up_sync);	/* For internal use only */
+ 
