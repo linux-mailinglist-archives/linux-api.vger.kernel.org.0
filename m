@@ -2,82 +2,127 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5558DD9EBE
-	for <lists+linux-api@lfdr.de>; Thu, 17 Oct 2019 00:04:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5741DA240
+	for <lists+linux-api@lfdr.de>; Thu, 17 Oct 2019 01:33:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438927AbfJPWBA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 16 Oct 2019 18:01:00 -0400
-Received: from ozlabs.org ([203.11.71.1]:41521 "EHLO ozlabs.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2438917AbfJPWA7 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 16 Oct 2019 18:00:59 -0400
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 46tmT01FSSz9sRX;
-        Thu, 17 Oct 2019 09:00:51 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ellerman.id.au;
-        s=201909; t=1571263256;
-        bh=4MsmL64dyZAIeoPnH7Xa/yFXBwCvuSkYKcnGrR7vIrs=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=QFObH92PJgBMlT3l42RO6dn04vkLru885Ofz29/erFVxqrgij3GfB4TRcqOBFetjj
-         3Vrac09I7jEjIbSdKe7Aq8lgAPD7olJMcrypLTjI8X0lFSgu6GOKLOAgkWODtK7glp
-         6uu8lRYFIBwbomqe79Td0dgUaBEpo9vJUArQ+hjqjB7SYIWDiYtyUg503uGRrXn9Sd
-         Ney8b05Sc0mOpi3+MmhElvZnYeqU6QnABvpSYVOSc6WJShTCqalBrd60mzt2N/OGsH
-         8BZ4tQSGU5xsXnLyhFnE+cvG415V0ePFa8smqfUFBpnVxELOdNp2lZyGUZN2K+Y/jy
-         MuQemmbUXh4TQ==
-From:   Michael Ellerman <mpe@ellerman.id.au>
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     cyphar@cyphar.com, mingo@redhat.com, peterz@infradead.org,
-        alexander.shishkin@linux.intel.com, jolsa@redhat.com,
-        namhyung@kernel.org, christian@brauner.io, keescook@chromium.org,
-        linux@rasmusvillemoes.dk, viro@zeniv.linux.org.uk,
-        torvalds@linux-foundation.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] usercopy: Avoid soft lockups in test_check_nonzero_user()
-In-Reply-To: <20191016130319.vcc2mqac3ta5jjat@wittgenstein>
-References: <20191011022447.24249-1-mpe@ellerman.id.au> <20191016122732.13467-1-mpe@ellerman.id.au> <20191016130319.vcc2mqac3ta5jjat@wittgenstein>
-Date:   Thu, 17 Oct 2019 09:00:48 +1100
-Message-ID: <871rvctkof.fsf@mpe.ellerman.id.au>
+        id S2438694AbfJPXdr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 16 Oct 2019 19:33:47 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:34591 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732849AbfJPXdr (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 16 Oct 2019 19:33:47 -0400
+Received: by mail-pl1-f193.google.com with SMTP id k7so187062pll.1;
+        Wed, 16 Oct 2019 16:33:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=uh+Y61FIuHN11ISk5EOVmKLQiLwCogVrs+eoUekVmbI=;
+        b=E4oqhMJ1fkqY/nLBITYRXBbOjqI9ON1Q10rXROB3hT0lUN+Jgf/PA36PavG2+dwmwt
+         dsaXeSWss5XL2F2+DtQqVbc02C1kK2HNTYq7zpIJLUngiGQzTirMOC4/cvsmNneyct5I
+         bo5YAEnPLSeghUTOs4fEo2Gs6j9nUNd93vW3iVDBLqsQhBM3ovr9dC22IF8mPeZGv5pf
+         du8wuRd0rvlpQ2EKADoKgrPqGmi/XkdPBoJUFWigIjBNMOVj4YQs/SzM1KgVo9WB89+4
+         lhrQ1EJFvrYnaxf7ulXiQm3yXCnm051u0r586KHq05nY8O0eMJ2PdxVTfx9B7I8QGDg/
+         IqTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=uh+Y61FIuHN11ISk5EOVmKLQiLwCogVrs+eoUekVmbI=;
+        b=mMGHVZKaKyswjrDNqfctwS147y2ofGblUDnY42MXu9GLXt8M0363I5oVRlFrlsiZ2R
+         HRl0LCfpfSkw4xnsULKC1ZUdnWph2jTeGNn4LZrOOdPithiyn0VrQBJcjfxocpFmTggc
+         ye8lcZHG050Y47DjO0XeMKpUYl6B22fN8rJqGsQ3w68MYSjDr66jIDCE9Ntvn4oTZWVK
+         E4A7brsJAq+wGkmX6clScimjbGjwBTZK9S/U1L+lF467+A34hCJZPk42TgkPyRhR1s3y
+         3ZXFTrPXrV2DushQ2RbDheBAa1T8xM/paQfLkk69ey0KcjnOJb30Um4tt3oOqhVP2LY6
+         S8uQ==
+X-Gm-Message-State: APjAAAUUepa1Ce0amrEsxzS6pk9oa5kucrXOj99vdYEm8ZxFO8diAl7X
+        EOSqZHzKB7Gn0NGJTqsUDDc=
+X-Google-Smtp-Source: APXvYqwAUpwEd27UuLkUyCjrYO6Q7JAFflB2zGWMEFUWNVDOWgFS4sWp+jKLbkK6PDMu6E4vtaW+hw==
+X-Received: by 2002:a17:902:7798:: with SMTP id o24mr843574pll.108.1571268826019;
+        Wed, 16 Oct 2019 16:33:46 -0700 (PDT)
+Received: from gmail.com ([2620:0:1008:fd00:25a6:3140:768c:a64d])
+        by smtp.gmail.com with ESMTPSA id s18sm227268pji.30.2019.10.16.16.33.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Oct 2019 16:33:44 -0700 (PDT)
+Date:   Wed, 16 Oct 2019 16:33:42 -0700
+From:   Andrei Vagin <avagin@gmail.com>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Dmitry Safonov <dima@arista.com>, linux-kernel@vger.kernel.org,
+        Dmitry Safonov <0x7f454c46@gmail.com>,
+        Andrei Vagin <avagin@openvz.org>,
+        Adrian Reber <adrian@lisas.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Cyrill Gorcunov <gorcunov@openvz.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jann Horn <jannh@google.com>, Jeff Dike <jdike@addtoit.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Pavel Emelyanov <xemul@virtuozzo.com>,
+        Shuah Khan <shuah@kernel.org>,
+        containers@lists.linux-foundation.org, criu@openvz.org,
+        linux-api@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCHv7 01/33] ns: Introduce Time Namespace
+Message-ID: <20191016233342.GA3075@gmail.com>
+References: <20191011012341.846266-1-dima@arista.com>
+ <20191011012341.846266-2-dima@arista.com>
+ <80af93da-d497-81de-2a2a-179bb3bc852d@arm.com>
+ <alpine.DEB.2.21.1910161230070.2046@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=koi8-r
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.21.1910161230070.2046@nanos.tec.linutronix.de>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Christian Brauner <christian.brauner@ubuntu.com> writes:
-> On Wed, Oct 16, 2019 at 11:27:32PM +1100, Michael Ellerman wrote:
->> On a machine with a 64K PAGE_SIZE, the nested for loops in
->> test_check_nonzero_user() can lead to soft lockups, eg:
->> 
->>   watchdog: BUG: soft lockup - CPU#4 stuck for 22s! [modprobe:611]
->>   Modules linked in: test_user_copy(+) vmx_crypto gf128mul crc32c_vpmsum virtio_balloon ip_tables x_tables autofs4
->>   CPU: 4 PID: 611 Comm: modprobe Tainted: G             L    5.4.0-rc1-gcc-8.2.0-00001-gf5a1a536fa14-dirty #1151
->>   ...
->>   NIP __might_sleep+0x20/0xc0
->>   LR  __might_fault+0x40/0x60
->>   Call Trace:
->>     check_zeroed_user+0x12c/0x200
->>     test_user_copy_init+0x67c/0x1210 [test_user_copy]
->>     do_one_initcall+0x60/0x340
->>     do_init_module+0x7c/0x2f0
->>     load_module+0x2d94/0x30e0
->>     __do_sys_finit_module+0xc8/0x150
->>     system_call+0x5c/0x68
->> 
->> Even with a 4K PAGE_SIZE the test takes multiple seconds. Instead
->> tweak it to only scan a 1024 byte region, but make it cross the
->> page boundary.
->> 
->> Fixes: f5a1a536fa14 ("lib: introduce copy_struct_from_user() helper")
->> Suggested-by: Aleksa Sarai <cyphar@cyphar.com>
->> Signed-off-by: Michael Ellerman <mpe@ellerman.id.au>
->
-> With Aleksa's Reviewed-by I've picked this up:
-> https://git.kernel.org/pub/scm/linux/kernel/git/brauner/linux.git/log/?h=copy_struct_from_user
+On Wed, Oct 16, 2019 at 12:39:11PM +0200, Thomas Gleixner wrote:
+> On Wed, 16 Oct 2019, Vincenzo Frascino wrote:
+> 
+> < Trim 250+ lines ( 3+ pages) of pointlessly wasted electrons >
+> 
+> > > --- a/init/Kconfig
+> > > +++ b/init/Kconfig
+> > > @@ -1096,6 +1096,13 @@ config UTS_NS
+> > >  	  In this namespace tasks see different info provided with the
+> > >  	  uname() system call
+> > >  
+> > > +config TIME_NS
+> > > +	bool "TIME namespace"
+> > > +	default y
+> > 
+> > Having CONFIG_TIME_NS "default y" makes so that the option is selected even on
+> > the architectures that have no support for time namespaces.
+> > The direct consequence is that the fallbacks defined in this patch are never
+> > selected and this ends up in kernel compilation errors due to missing symbols.
+> > 
+> > The error below shows what happens on arm64 (similar behavior on other
+> > architectures):
+> > 
+> > aarch64-linux-gnu-ld: kernel/time/namespace.o: in function `timens_on_fork':
+> > kernel/time/namespace.c:321: undefined reference to `vdso_join_timens'
+> > 
+> > My proposal is to keep TIME_NS "default n" (just remove "default y"), let the
+> > architectures that enable time namespaces select it and make CONFIG_TIME_NS
+> > select GENERIC_VDSO_TIME_NS if arch has HAVE_GENERIC_VDSO.
+> 
+> Nah.
+> 
+> config TIME_NS
+> 	bool "TIME namespace"
+> 	depends on GENERIC_VDSO_TIME_NS
 
-Thanks. Are you planning to send that to Linus for v5.4 or v5.5 ?
+I was thinking to fix this by the same way with a small difference.
 
-cheers
+If GENERIC_GETTIMEOFDAY isn't set, it should be safe to allow enabling
+TIME_NS. In this case, clock_gettime works via system call and we don't
+have arch-specific code in this case. Does this sound reasonable?
+
+        depends on (!GENERIC_GETTIMEOFDAY || GENERIC_VDSO_TIME_NS)
+
+Thanks,
+Andrei
