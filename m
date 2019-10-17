@@ -2,178 +2,233 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 174F3DAA9A
-	for <lists+linux-api@lfdr.de>; Thu, 17 Oct 2019 12:53:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4D21DBA4B
+	for <lists+linux-api@lfdr.de>; Fri, 18 Oct 2019 01:48:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393109AbfJQKxY convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Thu, 17 Oct 2019 06:53:24 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44520 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391322AbfJQKxY (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 17 Oct 2019 06:53:24 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id DFFC78553F;
-        Thu, 17 Oct 2019 10:53:23 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-121-84.rdu2.redhat.com [10.10.121.84])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 70158600C4;
-        Thu, 17 Oct 2019 10:53:20 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <b8799179-d389-8005-4f6d-845febc3bb23@rasmusvillemoes.dk>
-References: <b8799179-d389-8005-4f6d-845febc3bb23@rasmusvillemoes.dk> <157117606853.15019.15459271147790470307.stgit@warthog.procyon.org.uk> <157117609543.15019.17103851546424902507.stgit@warthog.procyon.org.uk>
-To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc:     dhowells@redhat.com, torvalds@linux-foundation.org,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        nicolas.dichtel@6wind.com, raven@themaw.net,
-        Christian Brauner <christian@brauner.io>,
-        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-security-module@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 03/21] pipe: Use head and tail pointers for the ring, not cursor and length
+        id S2441820AbfJQXrx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 17 Oct 2019 19:47:53 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:35054 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2441818AbfJQXrx (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 17 Oct 2019 19:47:53 -0400
+Received: by mail-pf1-f194.google.com with SMTP id 205so2650246pfw.2;
+        Thu, 17 Oct 2019 16:47:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=7mNsONhNkHkS51dautMbOQ4W+l8wA8470+lyf5fBUAg=;
+        b=Z/M9G1fvbwEa9vfs4Pij8IMfXklioaVs/lSyODsaMcWvj55ZQe9uxSZKsw13SU8PUY
+         cyMDyR+cctVfhtcA5lFY8Heiz7hnTbRyEmhZ0XlqZfbIh2fIOJFj/I1VwRZmpxkOp9Fz
+         u9mxGuolhCFqhbESZvO4fX8/kwFgYu1etwlSYH/4hQywezF7RI1AwqYcoQi5gO5YIUgo
+         sUhFTQEvwbWegqc5opPpxQtpYBSH+u60kKpri2rVG+8mU7auw5cEBzSXKs7/GwZFcww4
+         BUrnQc5ujJmJ20jn24aYazylFuXhaCzS3JR5TrQbsbix/XJtNCQpjkzg5xSwC67bsBng
+         6LRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=7mNsONhNkHkS51dautMbOQ4W+l8wA8470+lyf5fBUAg=;
+        b=UTtfBItK+XY6ReTfQVa9r8h2Eo1SC17FZE4Gq8eSA89b1U53vshZxI1Oh4IPnGgsJs
+         FyKTPFnzPrzsGmX3h2lLKttZgEh7CD3LwRg/5SUVNBm/zPfTtqw5Xk1L/EtHkGBUSLH8
+         iMTIUVjFFQp7O5TTeTVB6ZRSdvZiyEJGuxM/PmYgKwYL6xRfL+QXEqkQWwNTMrs5wh9B
+         afqWe8oxhGj0tmI4yGbXa0c7Ssgvtd7ks+Z+92Zdt7NkvGcrYtp/ZghDbwRJmiBtApLl
+         CT1/t1MvWH6fpEWWKvIDthzCJjsbEekWuxaL3AVSOs8iA0+Q7YYoZYEC9uI6LryeuG+g
+         ZagQ==
+X-Gm-Message-State: APjAAAWiLDShnOAasanuOtKtpOCoDIQfq1eo0S7EIJ7HwzzdTEH1ZRbq
+        Oo4XxJlForu566kk65fOJ34=
+X-Google-Smtp-Source: APXvYqzIh7d8nuP1RIXa8GAwaElvhG+RytvLlsiq9StzCHLSuvg3y2V16dnUVP4re0ZLEoNy3JJGFQ==
+X-Received: by 2002:a17:90a:8c14:: with SMTP id a20mr7442781pjo.77.1571356071565;
+        Thu, 17 Oct 2019 16:47:51 -0700 (PDT)
+Received: from gmail.com ([2620:0:1008:fd00:25a6:3140:768c:a64d])
+        by smtp.gmail.com with ESMTPSA id j26sm3712353pgl.38.2019.10.17.16.47.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Oct 2019 16:47:50 -0700 (PDT)
+Date:   Thu, 17 Oct 2019 16:47:48 -0700
+From:   Andrei Vagin <avagin@gmail.com>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     Dmitry Safonov <dima@arista.com>, linux-kernel@vger.kernel.org,
+        Dmitry Safonov <0x7f454c46@gmail.com>,
+        Adrian Reber <adrian@lisas.de>,
+        Andrei Vagin <avagin@openvz.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Cyrill Gorcunov <gorcunov@openvz.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jann Horn <jannh@google.com>, Jeff Dike <jdike@addtoit.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Pavel Emelyanov <xemul@virtuozzo.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        containers@lists.linux-foundation.org, criu@openvz.org,
+        linux-api@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCHv7 00/33] kernel: Introduce Time Namespace
+Message-ID: <20191017234748.GA26011@gmail.com>
+References: <20191011012341.846266-1-dima@arista.com>
+ <alpine.DEB.2.21.1910171122030.1824@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <8693.1571309599.1@warthog.procyon.org.uk>
-Content-Transfer-Encoding: 8BIT
-Date:   Thu, 17 Oct 2019 11:53:19 +0100
-Message-ID: <8694.1571309599@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.28]); Thu, 17 Oct 2019 10:53:24 +0000 (UTC)
+Content-Type: text/plain; charset=koi8-r
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.21.1910171122030.1824@nanos.tec.linutronix.de>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Rasmus Villemoes <linux@rasmusvillemoes.dk> wrote:
-
-> >  (6) The number of free slots in the ring is "(tail + pipe->ring_size) -
-> >      head".
+On Thu, Oct 17, 2019 at 11:24:45AM +0200, Thomas Gleixner wrote:
+> On Fri, 11 Oct 2019, Dmitry Safonov wrote:
+> > We wrote two small benchmarks. The first one gettime_perf.c calls
+> > clock_gettime() in a loop for 3 seconds. It shows us performance with
+> > a hot CPU cache (more clock_gettime() cycles - the better):
+> > 
+> >         | before    | CONFIG_TIME_NS=n | host      | inside timens
+> > --------------------------------------------------------------
+> >         | 153242367 | 153567617        | 150933203 | 139310914
+> >         | 153324800 | 153115132        | 150919828 | 139299761
+> >         | 153125401 | 153686868        | 150930471 | 139273917
+> >         | 153399355 | 153694866        | 151083410 | 139286081
+> >         | 153489417 | 153739716        | 150997262 | 139146403
+> >         | 153494270 | 153724332        | 150035651 | 138835612
+> > -----------------------------------------------------------
+> > avg     | 153345935 | 153588088        | 150816637 | 139192114
+> > diff %  | 100       | 100.1            | 98.3      | 90.7
 > 
-> Seems an odd way of writing pipe->ring_size - (head - tail) ; i.e.
-> obviously #free slots is #size minus #occupancy.
-
-Perhaps so.  The way I was looking at it is the window into which things can
-be written is tail...tail+ring_size; the number of free slots is the distance
-from head to the end of the window.
-
-Anyway, I now have a helper that does it your way.
-
-> >  (7) The ring is full if "head >= (tail + pipe->ring_size)", which can also
-> >      be written as "head - tail >= pipe->ring_size".
-> >
 > 
-> No it cannot, it _must_ be written in the latter form.
+> That host 98.3% number is weird and does not match the tests I did with the
+> fallback code I provided you. On my limited testing that fallback hidden in
+> the slowpath did not show any difference to the TIME_NS=n case when not
+> inside a time namespace.
 
-Ah, you're right.  I have a helper now for that too.
+You did your experiments without a small optimization that we introduced
+in the 18-th patch:
 
-> head-tail == pipe_size or head-tail >= pipe_size
+[PATCHv7 18/33] lib/vdso: Add unlikely() hint into vdso_read_begin()
 
-In general, I'd prefer ">=" just in case tail gets in front of head.
+When I did my measurements in the first time, I found that with this
+timens change clock_gettime() shows a better performance when
+CONFIG_TIME_NS isn't set. This looked weird for me, because I don't
+expect to see this improvement. After analyzing a disassembled code of
+vdso.so, I found that we can add the unlikely() hint into
+vdso_read_begin() and this gives us 2% improvement of clock_gettime
+performance on the upsteam kernel.
 
-Rasmus Villemoes <linux@rasmusvillemoes.dk> wrote:
+In my table, the "before" column is actually for the upstream kernel
+with the 18-th patch. Here is the table with the real "before" column:
 
-> > Also split pipe->buffers into pipe->ring_size (which indicates the size of
-> > the ring) and pipe->max_usage (which restricts the amount of ring that
-> > write() is allowed to fill).  This allows for a pipe that is both writable
-> > by the kernel notification facility and by userspace, allowing plenty of
-> > ring space for notifications to be added whilst preventing userspace from
-> > being able to use up too much buffer space.
-> 
-> That seems like something that should be added in a separate patch -
-> adding ->max_usage and switching appropriate users of ->ring_size over,
-> so it's more clear where you're using one or the other.
+        | before    | with 18/33 | CONFIG_TIME_NS=n | host      | inside timens
+------------------------------------------------------------------------------
+avg     | 150331408 | 153345935  | 153588088        | 150816637 | 139192114
+------------------------------------------------------------------------------
+diff %  |       98  |      100   | 100.1            | 98.3      | 90.7
+------------------------------------------------------------------------------
+stdev % |       0.3 |     0.09   | 0.15             | 0.25      | 0.13
 
-Okay.
+If we compare numbers in "before", "host" and "inside timens" columns, we
+see the same results that you had. clock_gettime() works with the
+same performance in the host namespace and 7% slower in a time
+namespace.
 
-> > +		ibuf = &pipe->bufs[tail];
-> 
-> I don't see where tail gets masked between tail = pipe->tail;
+Now let's look why we have these 2% degradation in the host time
+namespace. For that, we cat look at disassembled code of do_hres:
 
-Yeah - I missed that one.
+Before:
+   0:   55                      push   %rbp
+   1:   48 63 f6                movslq %esi,%rsi
+   4:   49 89 d1                mov    %rdx,%r9
+   7:   49 89 c8                mov    %rcx,%r8
+   a:   48 c1 e6 04             shl    $0x4,%rsi
+   e:   48 01 fe                add    %rdi,%rsi
+  11:   48 89 e5                mov    %rsp,%rbp
+  14:   41 54                   push   %r12
+  16:   53                      push   %rbx
+  17:   44 8b 17                mov    (%rdi),%r10d
+  1a:   41 f6 c2 01             test   $0x1,%r10b
+  1e:   0f 85 fb 00 00 00       jne    11f <do_hres.isra.0+0x11f>
+  24:   8b 47 04                mov    0x4(%rdi),%eax
+  27:   83 f8 01                cmp    $0x1,%eax
+  2a:   74 0f                   je     3b <do_hres.isra.0+0x3b>
+  2c:   83 f8 02                cmp    $0x2,%eax
+  2f:   74 72                   je     a3 <do_hres.isra.0+0xa3>
+  31:   5b                      pop    %rbx
+  32:   b8 ff ff ff ff          mov    $0xffffffff,%eax
+  37:   41 5c                   pop    %r12
+  39:   5d                      pop    %rbp
+  3a:   c3                      retq
+...
 
-> In any case, how about seeding head and tail with something like 1<<20 when
-> creating the pipe so bugs like that are hit more quickly.
+After:
+   0:   55                      push   %rbp
+   1:   4c 63 ce                movslq %esi,%r9
+   4:   49 89 d0                mov    %rdx,%r8
+   7:   49 c1 e1 04             shl    $0x4,%r9
+   b:   49 01 f9                add    %rdi,%r9
+   e:   48 89 e5                mov    %rsp,%rbp
+  11:   41 56                   push   %r14
+  13:   41 55                   push   %r13
+  15:   41 54                   push   %r12
+  17:   53                      push   %rbx
+  18:   44 8b 17                mov    (%rdi),%r10d
+  1b:   44 89 d0                mov    %r10d,%eax
+  1e:   f7 d0                   not    %eax
+  20:   83 e0 01                and    $0x1,%eax
+  23:   89 c3                   mov    %eax,%ebx
+  25:   0f 84 03 01 00 00       je     12e <do_hres+0x12e>
+  2b:   8b 47 04                mov    0x4(%rdi),%eax
+  2e:   83 f8 01                cmp    $0x1,%eax
+  31:   74 13                   je     46 <do_hres+0x46>
+  33:   83 f8 02                cmp    $0x2,%eax
+  36:   74 7b                   je     b3 <do_hres+0xb3>
+  38:   b8 ff ff ff ff          mov    $0xffffffff,%eax
+  3d:   5b                      pop    %rbx
+  3e:   41 5c                   pop    %r12
+  40:   41 5d                   pop    %r13
+  42:   41 5e                   pop    %r14
+  44:   5d                      pop    %rbp
+  45:   c3                      retq
+...
 
-That's sounds like a good idea.
+So I think we see these 2% degradation in the host time namespace,
+because we need to save to extra registers on stack. If we want to avoid
+this degradation, we can mark do_hres_timens as noinline. In this case,
+the disassembled code will be the same as before these changes:
 
-> > +			while (tail < head) {
-> > +				count += pipe->bufs[tail & mask].len;
-> > +				tail++;
-> >  			}
-> 
-> This is broken if head has wrapped but tail has not. It has to be "while
-> (head - tail)" or perhaps just "while (tail != head)" or something along
-> those lines.
+  0000000000000160 <do_hres>:
+  do_hres():
+   160:   55                      push   %rbp
+   161:   4c 63 ce                movslq %esi,%r9
+   164:   49 89 d0                mov    %rdx,%r8
+   167:   49 c1 e1 04             shl    $0x4,%r9
+   16b:   49 01 f9                add    %rdi,%r9
+   16e:   48 89 e5                mov    %rsp,%rbp
+   171:   41 54                   push   %r12
+   173:   53                      push   %rbx
+   174:   44 8b 17                mov    (%rdi),%r10d
+   177:   41 f6 c2 01             test   $0x1,%r10b
+   17b:   0f 85 fc 00 00 00       jne    27d <do_hres+0x11d>
+   181:   8b 47 04                mov    0x4(%rdi),%eax
+   184:   83 f8 01                cmp    $0x1,%eax
+   187:   74 0f                   je     198 <do_hres+0x38>
+   189:   83 f8 02                cmp    $0x2,%eax
+   18c:   74 73                   je     201 <do_hres+0xa1>
+   18e:   5b                      pop    %rbx
+   18f:   b8 ff ff ff ff          mov    $0xffffffff,%eax
+   194:   41 5c                   pop    %r12
+   196:   5d                      pop    %rbp
+   197:   c3                      retq
+...
 
-Yeah...  It's just too easy to overlook this and use ordinary comparisons.
-I've switched to "while (tail != head)".
+But this change will affect the performance of clock_gettime in a time
+namespace.
 
-> > +	mask = pipe->ring_size - 1;
-> > +	head = pipe->head & mask;
-> > +	tail = pipe->tail & mask;
-> > +	n = pipe->head - pipe->tail;
-> 
-> I think it's confusing to "premask" head and tail here. Can you either
-> drop that (pipe_set_size should hardly be a hot path?), or perhaps call
-> them something else to avoid a future reader seeing an unmasked
-> bufs[head] and thinking that's a bug?
+My experiments shows that with the noinline annotation for
+do_hres_timens, clock_gettime will work with the same performance in the
+host time namespace, but it will be slower on 11% in a time namespace.
 
-I've made it now do the masking right before doing the memcpy calls and used
-different variable names for it:
+Thomas, what do you think about this? Do we need to mark do_hres_timens
+as noinline?
 
-	if (n > 0) {
-		unsigned int h = head & mask;
-		unsigned int t = tail & mask;
-		if (h > t) {
-			memcpy(bufs, &pipe->bufs + t,
-			       n * sizeof(struct pipe_buffer));
-		} else {
-			unsigned int tsize = pipe->ring_size - t;
-			if (h > 0)
-				memcpy(bufs + tsize, pipe->bufs,
-				       h * sizeof(struct pipe_buffer));
-			memcpy(bufs, pipe->bufs + t,
-			       tsize * sizeof(struct pipe_buffer));
-		}
-
-> > -	data_start(i, &idx, start);
-> > -	/* some of this one + all after this one */
-> > -	npages = ((i->pipe->curbuf - idx - 1) & (i->pipe->buffers - 1)) + 1;
-> > -	capacity = min(npages,maxpages) * PAGE_SIZE - *start;
-> > +	data_start(i, &i_head, start);
-> > +	p_tail = i->pipe->tail;
-> > +	/* Amount of free space: some of this one + all after this one */
-> > +	npages = (p_tail + i->pipe->ring_size) - i_head;
-> 
-> Hm, it's not clear that this is equivalent to the old computation. Since
-> it seems repeated in a few places, could it be factored to a little
-> helper (before this patch) and the "some of this one + all after this
-> one" comment perhaps expanded to explain what is going on?
-
-Yeah...  It's a bit weird, even before my changes.
-
-However, looking at it again, it seems data_start() does the appropriate
-calculations.  If there's space in the current head buffer, it returns the
-offset to that and the head of that buffer, otherwise it advances the head
-pointer and sets the offset to 0.
-
-So I think the comment may actually be retrospective - referring to the state
-that data_start() has given us, rather than talking about the next bit of
-code.
-
-I also wonder if pipe_get_pages_alloc() is broken.  It doesn't check to see
-whether the buffer is full at the point it calls data_start().  However,
-data_start() doesn't check either and, without this patch, will simply advance
-and mask off the ring index - which may wrap.
-
-The maths in the unpatched version is pretty icky and I'm not convinced it's
-correct.
-
-David
+Thanks,
+Andrei
