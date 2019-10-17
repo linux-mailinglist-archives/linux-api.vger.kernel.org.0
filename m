@@ -2,99 +2,148 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 98817DA8FF
-	for <lists+linux-api@lfdr.de>; Thu, 17 Oct 2019 11:46:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 865BCDA9B4
+	for <lists+linux-api@lfdr.de>; Thu, 17 Oct 2019 12:19:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389378AbfJQJqE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 17 Oct 2019 05:46:04 -0400
-Received: from [217.140.110.172] ([217.140.110.172]:37262 "EHLO foss.arm.com"
-        rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org with ESMTP
-        id S1727349AbfJQJqE (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 17 Oct 2019 05:46:04 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 539C519BF;
-        Thu, 17 Oct 2019 02:45:48 -0700 (PDT)
-Received: from [192.168.1.103] (unknown [172.31.20.19])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 271BD3F718;
-        Thu, 17 Oct 2019 02:45:43 -0700 (PDT)
-Subject: Re: [PATCHv7 01/33] ns: Introduce Time Namespace
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Andrei Vagin <avagin@gmail.com>
-Cc:     Dmitry Safonov <dima@arista.com>, linux-kernel@vger.kernel.org,
-        Dmitry Safonov <0x7f454c46@gmail.com>,
-        Andrei Vagin <avagin@openvz.org>,
-        Adrian Reber <adrian@lisas.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Cyrill Gorcunov <gorcunov@openvz.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jann Horn <jannh@google.com>, Jeff Dike <jdike@addtoit.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Pavel Emelyanov <xemul@virtuozzo.com>,
-        Shuah Khan <shuah@kernel.org>,
-        containers@lists.linux-foundation.org, criu@openvz.org,
-        linux-api@vger.kernel.org, x86@kernel.org
-References: <20191011012341.846266-1-dima@arista.com>
- <20191011012341.846266-2-dima@arista.com>
- <80af93da-d497-81de-2a2a-179bb3bc852d@arm.com>
- <alpine.DEB.2.21.1910161230070.2046@nanos.tec.linutronix.de>
- <20191016233342.GA3075@gmail.com>
- <alpine.DEB.2.21.1910171039500.1824@nanos.tec.linutronix.de>
-From:   Vincenzo Frascino <vincenzo.frascino@arm.com>
-Message-ID: <406b77c3-46c5-e0ff-c658-04cdb99200b4@arm.com>
-Date:   Thu, 17 Oct 2019 10:47:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S2408770AbfJQKTE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 17 Oct 2019 06:19:04 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:36455 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2408768AbfJQKTE (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 17 Oct 2019 06:19:04 -0400
+Received: from [185.81.136.22] (helo=localhost.localdomain)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1iL2ry-0007tP-TL; Thu, 17 Oct 2019 10:18:59 +0000
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     oleg@redhat.com, linux-kernel@vger.kernel.org
+Cc:     aarcange@redhat.com, akpm@linux-foundation.org,
+        christian@kellner.me, cyphar@cyphar.com, elena.reshetova@intel.com,
+        guro@fb.com, jannh@google.com, ldv@altlinux.org,
+        linux-api@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        mhocko@suse.com, mingo@kernel.org, peterz@infradead.org,
+        shuah@kernel.org, tglx@linutronix.de, viro@zeniv.linux.org.uk,
+        Christian Brauner <christian.brauner@ubuntu.com>
+Subject: [PATCH v3 1/5] pidfd: check pid has attached task in fdinfo
+Date:   Thu, 17 Oct 2019 12:18:28 +0200
+Message-Id: <20191017101832.5985-1-christian.brauner@ubuntu.com>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191016153606.2326-1-christian.brauner@ubuntu.com>
+References: <20191016153606.2326-1-christian.brauner@ubuntu.com>
 MIME-Version: 1.0
-In-Reply-To: <alpine.DEB.2.21.1910171039500.1824@nanos.tec.linutronix.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 10/17/19 10:20 AM, Thomas Gleixner wrote:
+Currently, when a task is dead we still print the pid it used to use in
+the fdinfo files of its pidfds. This doesn't make much sense since the
+pid may have already been reused. So verify that the task is still alive
+by introducing the pid_has_task() helper which will be used by other
+callers in follow-up patches.
+If the task is not alive anymore, we will print -1. This allows us to
+differentiate between a task not being present in a given pid namespace
+- in which case we already print 0 - and a task having been reaped.
 
-[...]
+Note that this uses PIDTYPE_PID for the check. Technically, we could've
+checked PIDTYPE_TGID since pidfds currently only refer to thread-group
+leaders but if they won't anymore in the future then this check becomes
+problematic without it being immediately obvious to non-experts imho. If
+a thread is created via clone(CLONE_THREAD) than struct pid has a single
+non-empty list pid->tasks[PIDTYPE_PID] and this pid can't be used as a
+PIDTYPE_TGID meaning pid->tasks[PIDTYPE_TGID] will return NULL even
+though the thread-group leader might still be very much alive. So
+checking PIDTYPE_PID is fine and is easier to maintain should we ever
+allow pidfds to refer to threads.
 
-> The architectures which implement VDSO are:
-> 
->     arm, arm64, mips, nds32, powerpc, riscv, s390, sparc, x86, um
-> 
-> arm64, mips, x86 use the generic VDSO. Patches for arm are floating
-> around. UM is special as it just traps into the syscalls. No idea about the
-> rest. Vincenzo might know.
-> 
+Cc: Jann Horn <jannh@google.com>
+Cc: Christian Kellner <christian@kellner.me>
+Cc: linux-api@vger.kernel.org
+Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
+Reviewed-by: Oleg Nesterov <oleg@redhat.com>
+---
+/* pidfd selftests */
+passed
 
-There a couple of cases: hexagon and csky that have vDSOs for signal trampolines
-if I recall correctly, but they do not fall into the category we are exploring
-at the moment.
+/* v1 */
+Link: https://lore.kernel.org/r/20191015141332.4055-1-christian.brauner@ubuntu.com
 
-> The bad news is that we have no information (except on arm which has a
-> config switch for VDSO) whether an architecture provides VDSO support or
-> not.
-> 
-> So unless you add something like
-> 
->    config HAS_VDSO
->    	  bool
-> 
-> which is selected by all architectures which provide VDSO support, the only
-> sane solution is to depend on GENERIC_VDSO_TIME_NS.
-> 
-> TBH, I would not even bother. The architectures which matter and are going
-> to use time namespaces already support VDSO and they need to move to the
-> generic implementation anyway as we discussed and agreed on in Vancouver.
-> 
-> Providing time name spaces for the non VDSO archs is a purely academic
-> exercise.
+/* v2 */
+Link: https://lore.kernel.org/r/20191016153606.2326-1-christian.brauner@ubuntu.com
+- Oleg Nesterov <oleg@redhat.com>:
+  - simplify check whether task is still alive to hlist_empty()
+  - optionally introduce generic helper to replace open coded
+    hlist_emtpy() checks whether or not a task is alive
+- Christian Brauner <christian.brauner@ubuntu.com>:
+  - introduce task_alive() helper and use in pidfd_show_fdinfo()
 
-I totally agree with this.
+/* v3 */
+- Oleg Nesterov <oleg@redhat.com>:
+  - s/task_alive/pid_has_task/g
+- Christian Brauner <christian.brauner@ubuntu.com>:
+  - reword commit message to better reflect naming switch from
+    task_alive() to pid_has_task()
+---
+ include/linux/pid.h |  4 ++++
+ kernel/fork.c       | 17 +++++++++++------
+ 2 files changed, 15 insertions(+), 6 deletions(-)
 
+diff --git a/include/linux/pid.h b/include/linux/pid.h
+index 9645b1194c98..034e3cd60dc0 100644
+--- a/include/linux/pid.h
++++ b/include/linux/pid.h
+@@ -85,6 +85,10 @@ static inline struct pid *get_pid(struct pid *pid)
+ 
+ extern void put_pid(struct pid *pid);
+ extern struct task_struct *pid_task(struct pid *pid, enum pid_type);
++static inline bool pid_has_task(struct pid *pid, enum pid_type type)
++{
++	return !hlist_empty(&pid->tasks[type]);
++}
+ extern struct task_struct *get_pid_task(struct pid *pid, enum pid_type);
+ 
+ extern struct pid *get_task_pid(struct task_struct *task, enum pid_type type);
+diff --git a/kernel/fork.c b/kernel/fork.c
+index 782986962d47..ffa314838b43 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -1732,15 +1732,20 @@ static int pidfd_release(struct inode *inode, struct file *file)
+  */
+ static void pidfd_show_fdinfo(struct seq_file *m, struct file *f)
+ {
+-	struct pid_namespace *ns = proc_pid_ns(file_inode(m->file));
+ 	struct pid *pid = f->private_data;
+-	pid_t nr = pid_nr_ns(pid, ns);
++	struct pid_namespace *ns;
++	pid_t nr = -1;
+ 
+-	seq_put_decimal_ull(m, "Pid:\t", nr);
++	if (likely(pid_has_task(pid, PIDTYPE_PID))) {
++		ns = proc_pid_ns(file_inode(m->file));
++		nr = pid_nr_ns(pid, ns);
++	}
++
++	seq_put_decimal_ll(m, "Pid:\t", nr);
+ 
+ #ifdef CONFIG_PID_NS
+-	seq_put_decimal_ull(m, "\nNSpid:\t", nr);
+-	if (nr) {
++	seq_put_decimal_ll(m, "\nNSpid:\t", nr);
++	if (nr > 0) {
+ 		int i;
+ 
+ 		/* If nr is non-zero it means that 'pid' is valid and that
+@@ -1749,7 +1754,7 @@ static void pidfd_show_fdinfo(struct seq_file *m, struct file *f)
+ 		 * Start at one below the already printed level.
+ 		 */
+ 		for (i = ns->level + 1; i <= pid->level; i++)
+-			seq_put_decimal_ull(m, "\t", pid->numbers[i].nr);
++			seq_put_decimal_ll(m, "\t", pid->numbers[i].nr);
+ 	}
+ #endif
+ 	seq_putc(m, '\n');
 -- 
-Regards,
-Vincenzo
+2.23.0
+
