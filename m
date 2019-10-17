@@ -2,114 +2,82 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 828B8DA3E2
-	for <lists+linux-api@lfdr.de>; Thu, 17 Oct 2019 04:35:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 472F4DA54D
+	for <lists+linux-api@lfdr.de>; Thu, 17 Oct 2019 08:10:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392062AbfJQCfS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 16 Oct 2019 22:35:18 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:34895 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730039AbfJQCfS (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 16 Oct 2019 22:35:18 -0400
-Received: by mail-pl1-f196.google.com with SMTP id c3so373883plo.2
-        for <linux-api@vger.kernel.org>; Wed, 16 Oct 2019 19:35:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=43Gf/yYAFtrG7sahRKNPNsaeIiTcM4HYV2zVSsTuMgM=;
-        b=D0IuGlKz0EvPvTGMxI1fE37g0ve8AEo8zNGT2x+idzMGGC/hR0yEfEakP+b+J7VZKu
-         fBVsrMVBErho6OcDMy3EDN5rVSykxhschDCHsnLHbcdFCnI+RR3sfSlWiS8jxio7PyPJ
-         c4TpRD3SA/DPo5Fvn7+PnekWbI9mv1KOwJCglwzliAxnPiLzdTHjwkmZ4Wx7qTLf7gWM
-         Osrt4mYq2njnPd99ZFN4eYB3IkBnsEfU0WWmOUWfrYzfucfKztw3VUGy113C+KtH0YmP
-         EaOZMrGH3OFOBdvmBzMBBS1Az77sZMOj/Ed2sw2E6MCNYtGQthuyy4XN04B3kNnxYujz
-         ExAw==
-X-Gm-Message-State: APjAAAUOTXvggjo+gn+k/0sgqgL3nmp1x6RhuFcl6l7xIaYsRTB+kmxw
-        zRDc43c8+Aftg23R9O6BQaQSOg==
-X-Google-Smtp-Source: APXvYqxCTrUaZ2Kzs6nPSDuu9xgpUljXDq1m15jGwEzGZUZcbW3oIL9sEqdR7CTQCU6NCtDaZLsMIg==
-X-Received: by 2002:a17:902:b20a:: with SMTP id t10mr1437108plr.277.1571279716458;
-        Wed, 16 Oct 2019 19:35:16 -0700 (PDT)
-Received: from localhost ([2601:647:5b00:424:6361:2bd9:c43a:bc72])
-        by smtp.gmail.com with ESMTPSA id f62sm442225pfg.74.2019.10.16.19.35.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Oct 2019 19:35:15 -0700 (PDT)
-Date:   Wed, 16 Oct 2019 19:35:14 -0700
-From:   Moritz Fischer <mdf@kernel.org>
-To:     Wu Hao <hao.wu@intel.com>
-Cc:     mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux@roeck-us.net, jdelvare@suse.com,
-        gregkh@linuxfoundation.org
-Subject: Re: [PATCH v7 0/3] add thermal/power management features for FPGA
- DFL drivers
-Message-ID: <20191017023514.GA31676@archbox>
-References: <1571031723-12101-1-git-send-email-hao.wu@intel.com>
+        id S2405388AbfJQGKG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 17 Oct 2019 02:10:06 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:60340 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404944AbfJQGKG (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 17 Oct 2019 02:10:06 -0400
+Received: from [213.220.153.21] (helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1iKyyi-0000zS-Pv; Thu, 17 Oct 2019 06:09:40 +0000
+Date:   Thu, 17 Oct 2019 08:09:39 +0200
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Michael Ellerman <mpe@ellerman.id.au>
+Cc:     cyphar@cyphar.com, mingo@redhat.com, peterz@infradead.org,
+        alexander.shishkin@linux.intel.com, jolsa@redhat.com,
+        namhyung@kernel.org, christian@brauner.io, keescook@chromium.org,
+        linux@rasmusvillemoes.dk, viro@zeniv.linux.org.uk,
+        torvalds@linux-foundation.org, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] usercopy: Avoid soft lockups in
+ test_check_nonzero_user()
+Message-ID: <20191017060938.p4tmr5ruv6frgse4@wittgenstein>
+References: <20191011022447.24249-1-mpe@ellerman.id.au>
+ <20191016122732.13467-1-mpe@ellerman.id.au>
+ <20191016130319.vcc2mqac3ta5jjat@wittgenstein>
+ <871rvctkof.fsf@mpe.ellerman.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1571031723-12101-1-git-send-email-hao.wu@intel.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <871rvctkof.fsf@mpe.ellerman.id.au>
+User-Agent: NeoMutt/20180716
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Oct 14, 2019 at 01:42:00PM +0800, Wu Hao wrote:
-> Hi Moritz and all,
+On Thu, Oct 17, 2019 at 09:00:48AM +1100, Michael Ellerman wrote:
+> Christian Brauner <christian.brauner@ubuntu.com> writes:
+> > On Wed, Oct 16, 2019 at 11:27:32PM +1100, Michael Ellerman wrote:
+> >> On a machine with a 64K PAGE_SIZE, the nested for loops in
+> >> test_check_nonzero_user() can lead to soft lockups, eg:
+> >> 
+> >>   watchdog: BUG: soft lockup - CPU#4 stuck for 22s! [modprobe:611]
+> >>   Modules linked in: test_user_copy(+) vmx_crypto gf128mul crc32c_vpmsum virtio_balloon ip_tables x_tables autofs4
+> >>   CPU: 4 PID: 611 Comm: modprobe Tainted: G             L    5.4.0-rc1-gcc-8.2.0-00001-gf5a1a536fa14-dirty #1151
+> >>   ...
+> >>   NIP __might_sleep+0x20/0xc0
+> >>   LR  __might_fault+0x40/0x60
+> >>   Call Trace:
+> >>     check_zeroed_user+0x12c/0x200
+> >>     test_user_copy_init+0x67c/0x1210 [test_user_copy]
+> >>     do_one_initcall+0x60/0x340
+> >>     do_init_module+0x7c/0x2f0
+> >>     load_module+0x2d94/0x30e0
+> >>     __do_sys_finit_module+0xc8/0x150
+> >>     system_call+0x5c/0x68
+> >> 
+> >> Even with a 4K PAGE_SIZE the test takes multiple seconds. Instead
+> >> tweak it to only scan a 1024 byte region, but make it cross the
+> >> page boundary.
+> >> 
+> >> Fixes: f5a1a536fa14 ("lib: introduce copy_struct_from_user() helper")
+> >> Suggested-by: Aleksa Sarai <cyphar@cyphar.com>
+> >> Signed-off-by: Michael Ellerman <mpe@ellerman.id.au>
+> >
+> > With Aleksa's Reviewed-by I've picked this up:
+> > https://git.kernel.org/pub/scm/linux/kernel/git/brauner/linux.git/log/?h=copy_struct_from_user
 > 
-> This patchset adds thermal and power management features for FPGA DFL
-> drivers. Both patches are using hwmon as userspace interfaces.
-> 
-> This patchset is created on top of 5.4-rc3, please help with review to see
-> if any comments, thank you very much!
-> 
-> Main changes from v6:
->  - update kernel version and date in sysfs doc.
-> 
-> Main changes from v5:
->  - rebase and clean up (remove empty uinit function) per changes in recent
->    merged dfl patches.
->  - update date in sysfs doc.
-> 
-> Main changes from v4:
->  - rebase due to Documentation format change (dfl.txt -> rst).
->  - clamp threshold inputs for sysfs interfaces. (patch#3)
->  - update sysfs doc to add more description for ltr sysfs interfaces.
->    (patch#3)
-> 
-> Main changes from v3:
->  - use HWMON_CHANNEL_INFO.
-> 
-> Main changes from v2:
->  - switch to standard hwmon APIs for thermal hwmon:
->      temp1_alarm        --> temp1_max
->      temp1_alarm_status --> temp1_max_alarm
->      temp1_crit_status  --> temp1_crit_alarm
->      temp1_alarm_policy --> temp1_max_policy
->  - switch to standard hwmon APIs for power hwmon:
->      power1_cap         --> power1_max
->      power1_cap_status  --> power1_max_alarm
->      power1_crit_status --> power1_crit_alarm
-> 
-> Wu Hao (2):
->   fpga: dfl: fme: add thermal management support
->   fpga: dfl: fme: add power management support
-> 
-> Xu Yilun (1):
->   Documentation: fpga: dfl: add descriptions for thermal/power
->     management interfaces
-> 
->  Documentation/ABI/testing/sysfs-platform-dfl-fme | 132 ++++++++
->  Documentation/fpga/dfl.rst                       |  10 +
->  drivers/fpga/Kconfig                             |   2 +-
->  drivers/fpga/dfl-fme-main.c                      | 385 +++++++++++++++++++++++
->  4 files changed, 528 insertions(+), 1 deletion(-)
-> 
-> -- 
-> 1.8.3.1
-> 
+> Thanks. Are you planning to send that to Linus for v5.4 or v5.5 ?
 
-Series applied.
+This looks like a pretty straight bugfix to me since it's clearly
+causing an issue for you on power so v5.4-rc4 is what I'd aim for. I
+just want it to be in linux-next until tomorrow.
 
-Thanks,
-Moritz
+Christian
