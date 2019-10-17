@@ -2,82 +2,71 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 472F4DA54D
-	for <lists+linux-api@lfdr.de>; Thu, 17 Oct 2019 08:10:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 90DBFDA7D2
+	for <lists+linux-api@lfdr.de>; Thu, 17 Oct 2019 10:54:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405388AbfJQGKG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 17 Oct 2019 02:10:06 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:60340 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404944AbfJQGKG (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 17 Oct 2019 02:10:06 -0400
-Received: from [213.220.153.21] (helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1iKyyi-0000zS-Pv; Thu, 17 Oct 2019 06:09:40 +0000
-Date:   Thu, 17 Oct 2019 08:09:39 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Michael Ellerman <mpe@ellerman.id.au>
-Cc:     cyphar@cyphar.com, mingo@redhat.com, peterz@infradead.org,
-        alexander.shishkin@linux.intel.com, jolsa@redhat.com,
-        namhyung@kernel.org, christian@brauner.io, keescook@chromium.org,
-        linux@rasmusvillemoes.dk, viro@zeniv.linux.org.uk,
-        torvalds@linux-foundation.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] usercopy: Avoid soft lockups in
- test_check_nonzero_user()
-Message-ID: <20191017060938.p4tmr5ruv6frgse4@wittgenstein>
-References: <20191011022447.24249-1-mpe@ellerman.id.au>
- <20191016122732.13467-1-mpe@ellerman.id.au>
- <20191016130319.vcc2mqac3ta5jjat@wittgenstein>
- <871rvctkof.fsf@mpe.ellerman.id.au>
+        id S2439248AbfJQIyW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 17 Oct 2019 04:54:22 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47058 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2439155AbfJQIyV (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 17 Oct 2019 04:54:21 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id F11C118C426E;
+        Thu, 17 Oct 2019 08:54:20 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.43.17.44])
+        by smtp.corp.redhat.com (Postfix) with SMTP id 6D9AA5D9D5;
+        Thu, 17 Oct 2019 08:54:17 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+        oleg@redhat.com; Thu, 17 Oct 2019 10:54:19 +0200 (CEST)
+Date:   Thu, 17 Oct 2019 10:54:14 +0200
+From:   Oleg Nesterov <oleg@redhat.com>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     linux-kernel@vger.kernel.org, aarcange@redhat.com,
+        akpm@linux-foundation.org, christian@kellner.me, cyphar@cyphar.com,
+        elena.reshetova@intel.com, guro@fb.com, jannh@google.com,
+        ldv@altlinux.org, linux-api@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, mhocko@suse.com, mingo@kernel.org,
+        peterz@infradead.org, shuah@kernel.org, tglx@linutronix.de,
+        viro@zeniv.linux.org.uk
+Subject: Re: [PATCH v2 1/5] pidfd: verify task is alive when printing fdinfo
+Message-ID: <20191017085414.GC17513@redhat.com>
+References: <20191015141332.4055-1-christian.brauner@ubuntu.com>
+ <20191016153606.2326-1-christian.brauner@ubuntu.com>
+ <20191016162408.GB31585@redhat.com>
+ <20191016163107.5zwt6fmjyd5mkqqw@wittgenstein>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <871rvctkof.fsf@mpe.ellerman.id.au>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20191016163107.5zwt6fmjyd5mkqqw@wittgenstein>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2 (mx1.redhat.com [10.5.110.62]); Thu, 17 Oct 2019 08:54:21 +0000 (UTC)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Oct 17, 2019 at 09:00:48AM +1100, Michael Ellerman wrote:
-> Christian Brauner <christian.brauner@ubuntu.com> writes:
-> > On Wed, Oct 16, 2019 at 11:27:32PM +1100, Michael Ellerman wrote:
-> >> On a machine with a 64K PAGE_SIZE, the nested for loops in
-> >> test_check_nonzero_user() can lead to soft lockups, eg:
-> >> 
-> >>   watchdog: BUG: soft lockup - CPU#4 stuck for 22s! [modprobe:611]
-> >>   Modules linked in: test_user_copy(+) vmx_crypto gf128mul crc32c_vpmsum virtio_balloon ip_tables x_tables autofs4
-> >>   CPU: 4 PID: 611 Comm: modprobe Tainted: G             L    5.4.0-rc1-gcc-8.2.0-00001-gf5a1a536fa14-dirty #1151
-> >>   ...
-> >>   NIP __might_sleep+0x20/0xc0
-> >>   LR  __might_fault+0x40/0x60
-> >>   Call Trace:
-> >>     check_zeroed_user+0x12c/0x200
-> >>     test_user_copy_init+0x67c/0x1210 [test_user_copy]
-> >>     do_one_initcall+0x60/0x340
-> >>     do_init_module+0x7c/0x2f0
-> >>     load_module+0x2d94/0x30e0
-> >>     __do_sys_finit_module+0xc8/0x150
-> >>     system_call+0x5c/0x68
-> >> 
-> >> Even with a 4K PAGE_SIZE the test takes multiple seconds. Instead
-> >> tweak it to only scan a 1024 byte region, but make it cross the
-> >> page boundary.
-> >> 
-> >> Fixes: f5a1a536fa14 ("lib: introduce copy_struct_from_user() helper")
-> >> Suggested-by: Aleksa Sarai <cyphar@cyphar.com>
-> >> Signed-off-by: Michael Ellerman <mpe@ellerman.id.au>
+On 10/16, Christian Brauner wrote:
+>
+> On Wed, Oct 16, 2019 at 06:24:09PM +0200, Oleg Nesterov wrote:
 > >
-> > With Aleksa's Reviewed-by I've picked this up:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/brauner/linux.git/log/?h=copy_struct_from_user
-> 
-> Thanks. Are you planning to send that to Linus for v5.4 or v5.5 ?
+> > And why task_ if it accepts pid+pid_type? May be pid_has_task() or
+> > something like this...
+>
+> Given what I said above that might be a decent name.
+>
+> >
+> > OK, since I can't suggest a better name I won't really argue. Feel free
+> > to add my reviewed-by to this series.
+>
+> No, naming is important. Thanks for being picky about that too and I'll
+> happily resend. :)
 
-This looks like a pretty straight bugfix to me since it's clearly
-causing an issue for you on power so v5.4-rc4 is what I'd aim for. I
-just want it to be in linux-next until tomorrow.
+Thanks ;) May be pid_in_use() ? Up to you, anything which starts with pid_
+looks better to me than task_alive().
 
-Christian
+Oleg.
+
