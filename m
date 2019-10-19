@@ -2,176 +2,140 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D69E8DDAE8
-	for <lists+linux-api@lfdr.de>; Sat, 19 Oct 2019 22:35:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C82EADDB3D
+	for <lists+linux-api@lfdr.de>; Sat, 19 Oct 2019 23:52:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726133AbfJSUfu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 19 Oct 2019 16:35:50 -0400
-Received: from 216-12-86-13.cv.mvl.ntelos.net ([216.12.86.13]:48790 "EHLO
-        brightrain.aerifal.cx" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726129AbfJSUfu (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 19 Oct 2019 16:35:50 -0400
-X-Greylist: delayed 345 seconds by postgrey-1.27 at vger.kernel.org; Sat, 19 Oct 2019 16:35:49 EDT
-Received: from dalias by brightrain.aerifal.cx with local (Exim 3.15 #2)
-        id 1iLvME-0002wa-00; Sat, 19 Oct 2019 20:29:50 +0000
-Date:   Sat, 19 Oct 2019 16:29:50 -0400
-From:   Rich Felker <dalias@libc.org>
-To:     Hauke Mehrtens <hauke@hauke-m.de>
+        id S1726144AbfJSVwB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 19 Oct 2019 17:52:01 -0400
+Received: from mx2a.mailbox.org ([80.241.60.219]:47915 "EHLO mx2a.mailbox.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726143AbfJSVwB (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Sat, 19 Oct 2019 17:52:01 -0400
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [80.241.60.241])
+        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
+        (No client certificate requested)
+        by mx2a.mailbox.org (Postfix) with ESMTPS id 4239FA3391;
+        Sat, 19 Oct 2019 23:51:57 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from smtp2.mailbox.org ([80.241.60.241])
+        by spamfilter06.heinlein-hosting.de (spamfilter06.heinlein-hosting.de [80.241.56.125]) (amavisd-new, port 10030)
+        with ESMTP id SVBYNqVDiOMf; Sat, 19 Oct 2019 23:51:53 +0200 (CEST)
+Subject: Re: [musl] [PATCH] arm64: uapi: Fix user space compile with musl libc
+To:     musl@lists.openwall.com, Rich Felker <dalias@libc.org>
 Cc:     catalin.marinas@arm.com, will@kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, musl@lists.openwall.com,
-        stable@vger.kernel.org
-Subject: Re: [musl] [PATCH] arm64: uapi: Fix user space compile with musl libc
-Message-ID: <20191019202950.GC16318@brightrain.aerifal.cx>
+        linux-api@vger.kernel.org, stable@vger.kernel.org
 References: <20191019201717.15358-1-hauke@hauke-m.de>
+ <20191019202950.GC16318@brightrain.aerifal.cx>
+From:   Hauke Mehrtens <hauke@hauke-m.de>
+Openpgp: preference=signencrypt
+Autocrypt: addr=hauke@hauke-m.de; keydata=
+ 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
+Message-ID: <8fcff553-3309-7153-b245-6593d2728678@hauke-m.de>
+Date:   Sat, 19 Oct 2019 23:51:51 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191019201717.15358-1-hauke@hauke-m.de>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <20191019202950.GC16318@brightrain.aerifal.cx>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Oct 19, 2019 at 10:17:17PM +0200, Hauke Mehrtens wrote:
-> musl libc also defines the structures in their arch/aarch64/bits/signal.h
-> header file. Some applications like strace and gdb include both of them
-> and then the structure definitions are clashing and the build of these
-> user space applications fails.
+On 10/19/19 10:29 PM, Rich Felker wrote:
+> On Sat, Oct 19, 2019 at 10:17:17PM +0200, Hauke Mehrtens wrote:
+>> musl libc also defines the structures in their arch/aarch64/bits/signal.h
+>> header file. Some applications like strace and gdb include both of them
+>> and then the structure definitions are clashing and the build of these
+>> user space applications fails.
+>>
+>> This patch allows a libc to define a constant which tells the kernel
+>> header file that the libc already defined these structures and that they
+>> should not be defined by the kernel uapi header files any more to
+>> prevent clashes. This is done in a similar way as it is already done for
+>> other header files.
+>>
+>> When this patch was accepted into the kernel I will also update musl
+>> libc to define these constants.
 > 
-> This patch allows a libc to define a constant which tells the kernel
-> header file that the libc already defined these structures and that they
-> should not be defined by the kernel uapi header files any more to
-> prevent clashes. This is done in a similar way as it is already done for
-> other header files.
+> I don't entirely object to this outright, but I'd really like to avoid
+> adding further __UAPI_DEF_* suppressions. AIUI asm/sigcontext.h is not
+> intended to be used with userspace headers. Is it still being
+> indirectly included via some other uapi headers? (I thought that was
+> fixed..) If so, that should really be fixed first, and then we can see
+> if there's still motivation for the patch here.
 > 
-> When this patch was accepted into the kernel I will also update musl
-> libc to define these constants.
-
-I don't entirely object to this outright, but I'd really like to avoid
-adding further __UAPI_DEF_* suppressions. AIUI asm/sigcontext.h is not
-intended to be used with userspace headers. Is it still being
-indirectly included via some other uapi headers? (I thought that was
-fixed..) If so, that should really be fixed first, and then we can see
-if there's still motivation for the patch here.
-
-Rich
-
-
-> Signed-off-by: Hauke Mehrtens <hauke@hauke-m.de>
-> Cc: stable@vger.kernel.org
-> ---
->  arch/arm64/include/uapi/asm/sigcontext.h | 13 +++++++++++++
->  include/uapi/linux/libc-compat.h         | 20 ++++++++++++++++++++
->  2 files changed, 33 insertions(+)
+> Rich
 > 
-> diff --git a/arch/arm64/include/uapi/asm/sigcontext.h b/arch/arm64/include/uapi/asm/sigcontext.h
-> index 8b0ebce92427..92d911146137 100644
-> --- a/arch/arm64/include/uapi/asm/sigcontext.h
-> +++ b/arch/arm64/include/uapi/asm/sigcontext.h
-> @@ -20,7 +20,9 @@
->  #ifndef __ASSEMBLY__
->  
->  #include <linux/types.h>
-> +#include <linux/libc-compat.h>
->  
-> +#if __UAPI_DEF_SIGCONTEXT
->  /*
->   * Signal context structure - contains all info to do with the state
->   * before the signal handler was invoked.
-> @@ -35,6 +37,7 @@ struct sigcontext {
->  	/* 4K reserved for FP/SIMD state and future expansion */
->  	__u8 __reserved[4096] __attribute__((__aligned__(16)));
->  };
-> +#endif
->  
->  /*
->   * Allocation of __reserved[]:
-> @@ -57,6 +60,7 @@ struct sigcontext {
->   * generated when userspace does not opt in for any such extension.
->   */
->  
-> +#if __UAPI_DEF_AARCH64_CTX
->  /*
->   * Header to be used at the beginning of structures extending the user
->   * context. Such structures must be placed after the rt_sigframe on the stack
-> @@ -67,7 +71,9 @@ struct _aarch64_ctx {
->  	__u32 magic;
->  	__u32 size;
->  };
-> +#endif
->  
-> +#if __UAPI_DEF_FPSIMD_CONTEXT
->  #define FPSIMD_MAGIC	0x46508001
->  
->  struct fpsimd_context {
-> @@ -76,7 +82,9 @@ struct fpsimd_context {
->  	__u32 fpcr;
->  	__uint128_t vregs[32];
->  };
-> +#endif
->  
-> +#if __UAPI_DEF_ESR_CONTEXT
->  /*
->   * Note: similarly to all other integer fields, each V-register is stored in an
->   * endianness-dependent format, with the byte at offset i from the start of the
-> @@ -93,7 +101,9 @@ struct esr_context {
->  	struct _aarch64_ctx head;
->  	__u64 esr;
->  };
-> +#endif
->  
-> +#if __UAPI_DEF_EXTRA_CONTEXT
->  /*
->   * extra_context: describes extra space in the signal frame for
->   * additional structures that don't fit in sigcontext.__reserved[].
-> @@ -128,7 +138,9 @@ struct extra_context {
->  	__u32 size; /* size in bytes of the extra space */
->  	__u32 __reserved[3];
->  };
-> +#endif
->  
-> +#if __UAPI_DEF_SVE_CONTEXT
->  #define SVE_MAGIC	0x53564501
->  
->  struct sve_context {
-> @@ -136,6 +148,7 @@ struct sve_context {
->  	__u16 vl;
->  	__u16 __reserved[3];
->  };
-> +#endif
->  
->  #endif /* !__ASSEMBLY__ */
->  
-> diff --git a/include/uapi/linux/libc-compat.h b/include/uapi/linux/libc-compat.h
-> index 8254c937c9f4..a863130f4638 100644
-> --- a/include/uapi/linux/libc-compat.h
-> +++ b/include/uapi/linux/libc-compat.h
-> @@ -264,4 +264,24 @@
->  
->  #endif /* __GLIBC__ */
->  
-> +/* Definitions for arch/arm64/include/uapi/asm/sigcontext.h */
-> +#ifndef __UAPI_DEF_SIGCONTEXT
-> +#define __UAPI_DEF_SIGCONTEXT		1
-> +#endif
-> +#ifndef __UAPI_DEF_AARCH64_CTX
-> +#define __UAPI_DEF_AARCH64_CTX		1
-> +#endif
-> +#ifndef __UAPI_DEF_FPSIMD_CONTEXT
-> +#define __UAPI_DEF_FPSIMD_CONTEXT	1
-> +#endif
-> +#ifndef __UAPI_DEF_ESR_CONTEXT
-> +#define __UAPI_DEF_ESR_CONTEXT		1
-> +#endif
-> +#ifndef __UAPI_DEF_EXTRA_CONTEXT
-> +#define __UAPI_DEF_EXTRA_CONTEXT	1
-> +#endif
-> +#ifndef __UAPI_DEF_SVE_CONTEXT
-> +#define __UAPI_DEF_SVE_CONTEXT		1
-> +#endif
-> +
->  #endif /* _UAPI_LIBC_COMPAT_H */
-> -- 
-> 2.20.1
+Hi Rich,
+
+I did some more research and it looks like this patch also fixes my
+problem with strace and gdb compile:
+https://git.kernel.org/linus/9966a05c7b80f075f2bc7e48dbb108d3f2927234
+
+I will backport it in OpenWrt to kernel 4.19.
+
+Please drop my patch.
+
+It would be nice if it could go into the stable 4.19 kernel.
+
+Hauke
