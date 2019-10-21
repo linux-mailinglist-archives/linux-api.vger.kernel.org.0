@@ -2,99 +2,83 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C372DF0FC
-	for <lists+linux-api@lfdr.de>; Mon, 21 Oct 2019 17:13:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FF78DF4CB
+	for <lists+linux-api@lfdr.de>; Mon, 21 Oct 2019 20:07:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729403AbfJUPNO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 21 Oct 2019 11:13:14 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:31381 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729211AbfJUPNN (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 21 Oct 2019 11:13:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1571670792;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=9m1JAnv4mnGiHWE5XVxTiN/BZXEbmBpVMZpn5edtEMY=;
-        b=eGOPTNEGDWG5k1M11Rfu+o/5qDaUtYmhiaal58WkVw6up4wDV8ic7dRr9KmvvEC2Tbpas3
-        9fwsZgXWaLBXgGuFYPwUzgclDWM0NE77T8djEjSfcnBx3Tw/d3rK8nOn2agJ/MC9PNTNpQ
-        mjswzeeyYX0ugoNU5dBARwjIkvX/atA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-164-CJcfCod7N-6B-1vo_0UIPg-1; Mon, 21 Oct 2019 11:13:08 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 01EB4107AD31;
-        Mon, 21 Oct 2019 15:13:06 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.43.17.44])
-        by smtp.corp.redhat.com (Postfix) with SMTP id 7AC2160A9F;
-        Mon, 21 Oct 2019 15:12:56 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Mon, 21 Oct 2019 17:13:05 +0200 (CEST)
-Date:   Mon, 21 Oct 2019 17:12:55 +0200
-From:   Oleg Nesterov <oleg@redhat.com>
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     linux-kernel@vger.kernel.org, Florian Weimer <fweimer@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, libc-alpha@sourceware.org,
-        David Howells <dhowells@redhat.com>,
-        Jann Horn <jannh@google.com>, Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Shuah Khan <shuah@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Roman Gushchin <guro@fb.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] clone3: add CLONE_CLEAR_SIGHAND
-Message-ID: <20191021151255.GA3459@redhat.com>
-References: <20191014104538.3096-1-christian.brauner@ubuntu.com>
- <20191021144633.GA2720@redhat.com>
+        id S1730055AbfJUSF1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 21 Oct 2019 14:05:27 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:38150 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730052AbfJUSF0 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 21 Oct 2019 14:05:26 -0400
+Received: by mail-pf1-f193.google.com with SMTP id h195so8896675pfe.5
+        for <linux-api@vger.kernel.org>; Mon, 21 Oct 2019 11:05:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=osandov-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=+qMv7Aq/EKWcqrxVLodIHRmz/ZNgPTOxblOtF0zmUyA=;
+        b=mIsrtuZI2pu1seVtPlHpFnpNq+53C91o7GSE9m8ZZybgJznhZYmp7QTkGlNqwNeFSS
+         2uhxou+IVzBM5+QFoaY8QhGw4uUKqPHrCzXZz1p7VXVUk/KvNqucynnGFl+YWiQVnA7s
+         n92vAF01jaMsePBRl2+TS53rKcJSilmCX+gDbBTE+YFiAh1ylXDHQ0ldqmO5Iadul4DE
+         lhinrgTVgse144a3Y1Fo4tILDk+oEe4XKklmBPdSEX+M79ZZ7R6rM5u+Mbv6ikXBoE9j
+         M3BhuQ/NSOOEdbgxDNWtbRH8eJGymYBxle2X6yFH3E027XXR/U0SmN79UgFroryXLN/8
+         pX1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=+qMv7Aq/EKWcqrxVLodIHRmz/ZNgPTOxblOtF0zmUyA=;
+        b=BFHYo+/Alorb4jMCkucnCv1DAE28wXFa8A1OBmVPUllAjwT7epCbOoJltRLvoau+0x
+         Dvu64UFEyU7ANRCPoElvAEOq/xK4a+pdpWopRUcL9wkYU92iFMR8fRrzkihjni5M2MEQ
+         YdEu1omvtGRHPlAIosKjwQkssXSuu+wS/xz8YCvN9dJeCjNBDJPBdJRNv4mWU3RIk1XB
+         xpTg7hQ2kcjlQVBvwpPFA7TgpKsJRA1JNyuh8Kxmd2d6trXjxyLIkkbogDm55cS1QTSa
+         qJJFxmZYXfNf0WKTWpCX0cG045acrEEXrFeI9BYiI9dyPO+nlaaYCJSOrP7Jl9CRzOXQ
+         wZoQ==
+X-Gm-Message-State: APjAAAUVl7k1WFDy6ta/Bhlb3yzO/F8L5Qm9QpJnpHLSggslbD+hm+UX
+        u483WemGGozBLApAiuM453xK5Q==
+X-Google-Smtp-Source: APXvYqzxVOSpakbgchAj/0P4pwxdp36727zPto9TUN70iw399TJ9wp8rkaQTKKWIbUxovXt9MA4Lrg==
+X-Received: by 2002:a65:638a:: with SMTP id h10mr26701649pgv.388.1571681123766;
+        Mon, 21 Oct 2019 11:05:23 -0700 (PDT)
+Received: from vader ([2620:10d:c090:200::3:4637])
+        by smtp.gmail.com with ESMTPSA id k31sm17586704pjb.14.2019.10.21.11.05.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Oct 2019 11:05:22 -0700 (PDT)
+Date:   Mon, 21 Oct 2019 11:05:22 -0700
+From:   Omar Sandoval <osandov@osandov.com>
+To:     dsterba@suse.cz, Nikolay Borisov <nborisov@suse.com>,
+        linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        kernel-team@fb.com, Dave Chinner <david@fromorbit.com>,
+        Jann Horn <jannh@google.com>, linux-api@vger.kernel.org
+Subject: Re: [RFC PATCH v2 5/5] btrfs: implement RWF_ENCODED writes
+Message-ID: <20191021180522.GA81648@vader>
+References: <cover.1571164762.git.osandov@fb.com>
+ <904de93d9bbe630aff7f725fd587810c6eb48344.1571164762.git.osandov@fb.com>
+ <0da91628-7f54-7d24-bf58-6807eb9535a5@suse.com>
+ <20191018225513.GD59713@vader>
+ <20191021131452.GH3001@twin.jikos.cz>
 MIME-Version: 1.0
-In-Reply-To: <20191021144633.GA2720@redhat.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: CJcfCod7N-6B-1vo_0UIPg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20191021131452.GH3001@twin.jikos.cz>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 10/21, Oleg Nesterov wrote:
->
-> On 10/14, Christian Brauner wrote:
-> >
-> > The child helper process on Linux posix_spawn must ensure that no signa=
-l
-> > handlers are enabled, so the signal disposition must be either SIG_DFL
-> > or SIG_IGN. However, it requires a sigprocmask to obtain the current
-> > signal mask and at least _NSIG sigaction calls to reset the signal
-> > handlers for each posix_spawn call
->
-> Plus the caller has to block/unblock all signals around clone(VM|VFORK).
-       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+On Mon, Oct 21, 2019 at 03:14:52PM +0200, David Sterba wrote:
+> On Fri, Oct 18, 2019 at 03:55:13PM -0700, Omar Sandoval wrote:
+> > > > +	nr_pages = (disk_num_bytes + PAGE_SIZE - 1) >> PAGE_SHIFT;
+> > > 
+> > > nit: nr_pages = DIV_ROUND_UP(disk_num_bytes, PAGE_SIZE)
+> > 
+> > disk_num_bytes is a u64, so that would expand to a 64-bit division. The
+> > compiler is probably smart enough to optimize it to a shift, but I
+> > didn't want to rely on that, because that would cause build failures on
+> > 32-bit.
+> 
+> There are several DIV_ROUND_UP(u64, PAGE_SIZE) in btrfs code, no build
+> brekages have been reported so far, you can use it.
 
-just in case... I meant that posix_spawn() has to block/unblock, not its
-caller.
-
-> Can this justify the new CLONE_ flag? Honestly, I have no idea. But the
-> patch is simple and looks technically correct to me. FWIW,
->=20
-> Reviewed-by: Oleg Nesterov <oleg@redhat.com>
-
+Good to know, I'll fix both places I'm doing this, then.
