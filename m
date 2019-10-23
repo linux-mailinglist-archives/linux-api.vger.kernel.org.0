@@ -2,131 +2,184 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C0523E11EB
-	for <lists+linux-api@lfdr.de>; Wed, 23 Oct 2019 08:06:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03237E131B
+	for <lists+linux-api@lfdr.de>; Wed, 23 Oct 2019 09:29:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733259AbfJWGGh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 23 Oct 2019 02:06:37 -0400
-Received: from mail-yw1-f67.google.com ([209.85.161.67]:40983 "EHLO
-        mail-yw1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725852AbfJWGGh (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 23 Oct 2019 02:06:37 -0400
-Received: by mail-yw1-f67.google.com with SMTP id o195so2272218ywd.8;
-        Tue, 22 Oct 2019 23:06:36 -0700 (PDT)
+        id S2389636AbfJWH31 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 23 Oct 2019 03:29:27 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:37520 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389459AbfJWH30 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 23 Oct 2019 03:29:26 -0400
+Received: by mail-lj1-f195.google.com with SMTP id l21so19940700lje.4;
+        Wed, 23 Oct 2019 00:29:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Kv+6IoQR6bEB2iX/xqg9xXvx4UX3aidmtCoBvt739tg=;
-        b=LwkqCuhwjrZ+s2dT41pwHds7Laitwn8zRsM4BRLBieEW3LRdNfgO0pyGQhChE/9XZo
-         FFzsPqUrJX93YsVOu89BexM0esXwfeCBR1SpacmgZDQq6Ev1tw3TGGsHr/qpeP6u3eYW
-         vKUmaXm53lCNy4hshKSkjN6VrKUQVlR6jVd9OUc5i4kAQLycuVUnwPpR5kufnzEBDgOf
-         p/+VRrQ8KSo9t8yZBZbNsTnzzbwZZks3xLIi+NWVJqELZqZDJ3ymOB917eWMbygb/lAE
-         T86SHOTYC0+GePfAegXYIfHILkN/5jF1qNwM1FEdHkwW4DR/RQpF0YZF0Jx/WvVNUl06
-         GR2g==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=ln81R0efE/ZH1psBIcBlQmI7xQI8ZFqWWj7CvH8xre0=;
+        b=KvKekcwv0dOijxy2Al4fHEN72Et9MQpp1mxiQfImKOQYNJwxlPvDZy4ISGWKtINQlY
+         f6893cHnHV1EvufCLn2Vv6uzhVcXK2EG5xnHHQbgwNid1K5IBSoEQCQ75QKmuQYbU5if
+         GJqmymIATeN7XkaNU4PT5M0suDtvKDVIrieyayDb1d0+mz6TgJ44bKzzobxaKnBrr6kS
+         pDyECDwobqJIVkR85PLN0nqfp4JNIvMN1Erlrv9HmXML4MgmsGcVcPM+Q+KUMwFksoIQ
+         58XwyaZXXEqHQ+zoynFXTfcHEc3gCRB5sTnR+fxblm8/sCJ9FD39r0o8KoXlJGr0K5uU
+         CNaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Kv+6IoQR6bEB2iX/xqg9xXvx4UX3aidmtCoBvt739tg=;
-        b=QysdAxntw5Fn0qaVOzEy8oM3y2BkyFyrvlD30j/aaYA2HofH7q23aX3ZsVgOJrTu7B
-         Rpj2Pck9RqVWy3Q6y1uoWtBheJdqz6CMm/oJI6PVqlwfB+kJ8gjc3prpams7HtxDsd/f
-         2G2jUlgVUeDUHPSvYr1gX9kCD/lVrkK363sw+bYUxSouUF6hPRl7v5jm+0a/Hnt59RxD
-         zFkMPCh2MMhl9fzhGT7BZIQ/LJZwg1tnBGB/lhmnic39TMAJARyuETqrr8WHKUZH5vEu
-         jtEkPW6myZuqLp/4IA2iI+MORwgNfsw5uQgrlpCfH+kC1FQpOsbumfIDIPGUEoJ6QpdD
-         Scpw==
-X-Gm-Message-State: APjAAAV+Z8wVz71QE8yjC3Mh0m++8oWyLm4i580VLH/LPRaM5DyoYAVz
-        soPPPecuvkp450bpFEWSi8OjWCKX1W5kvqtaR8w=
-X-Google-Smtp-Source: APXvYqyO/UpMuAPduTSsdjCSuogzNS7cxq3uHwOvGAm5Zm4mlxa1F5AFrdhhyVClN9rWcZjE2ekn4dtvmNntGOUnLP0=
-X-Received: by 2002:a81:4a02:: with SMTP id x2mr1537190ywa.31.1571810796157;
- Tue, 22 Oct 2019 23:06:36 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1571164762.git.osandov@fb.com> <c7e8f93596fee7bb818dc0edf29f484036be1abb.1571164851.git.osandov@fb.com>
- <CAOQ4uxh_pZSiMmD=46Mc3o0GE+svXuoC155P_9FGJXdsE4cweg@mail.gmail.com>
- <20191021185356.GB81648@vader> <CAOQ4uxgm6MWwCDO5stUwOKKSq7Ot4-Sc96F1Evc6ra5qBE+-wA@mail.gmail.com>
- <20191023044430.alow65tnodgnu5um@yavin.dot.cyphar.com>
-In-Reply-To: <20191023044430.alow65tnodgnu5um@yavin.dot.cyphar.com>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Wed, 23 Oct 2019 09:06:24 +0300
-Message-ID: <CAOQ4uxjyNZhyU9yEYkuMnD0o=sU1vJMOYJAzjV7FDjG45gaevg@mail.gmail.com>
-Subject: Re: [PATCH man-pages] Document encoded I/O
-To:     Aleksa Sarai <cyphar@cyphar.com>
-Cc:     Omar Sandoval <osandov@osandov.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux Btrfs <linux-btrfs@vger.kernel.org>,
-        Dave Chinner <david@fromorbit.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=ln81R0efE/ZH1psBIcBlQmI7xQI8ZFqWWj7CvH8xre0=;
+        b=ZNu1J6jolsdDVqcgZaxD7wnq6OrAm9L7nRLFZT0WtpE3xyyzB/ahLIAsNJJIhWl+ou
+         dnkauQe72gt4Eyjh3bULfZVfIEldQv7LopLoKezAnmN5Zgg5XeFxoPP/CvXvM0TLFMpY
+         2Jny+7EqnOMQGRDzLvY5SRMzkgI1AWXyOn5tkV9npmgu024f2irORDjyNWynif4Fram9
+         NKRSeUdz24JMwRxG/sSw5C+s27fxoc09M358zP7Oy4UxGs++AB2ty3ppmCvL5v2HRPB4
+         23uUmuL/7YF0M094cHld+ITfKAveJBV3KcFTcgOfy55kFYjSAPCU9aS2+lC+wN/JqFVt
+         Jx4A==
+X-Gm-Message-State: APjAAAVP70K+hGH2PfRekqv6LdZWOWPTwyvNxzUGloEMLCWLxFixKkwn
+        3tsspMLlGCkz7tE0xu2hFHNbnlcO
+X-Google-Smtp-Source: APXvYqzMaq6WCqannQ5qOGTc2Wl+Lp5cCBUZ9bu6HJgeq4GU1xz01AmOS487IIOca6jO+wYQLJAoBg==
+X-Received: by 2002:a2e:89c9:: with SMTP id c9mr20563733ljk.108.1571815764054;
+        Wed, 23 Oct 2019 00:29:24 -0700 (PDT)
+Received: from uranus.localdomain ([5.18.199.94])
+        by smtp.gmail.com with ESMTPSA id g27sm9236540lja.33.2019.10.23.00.29.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Oct 2019 00:29:22 -0700 (PDT)
+Received: by uranus.localdomain (Postfix, from userid 1000)
+        id 76D83460F9C; Wed, 23 Oct 2019 10:29:20 +0300 (MSK)
+Date:   Wed, 23 Oct 2019 10:29:20 +0300
+From:   Cyrill Gorcunov <gorcunov@gmail.com>
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     Pavel Emelyanov <xemul@virtuozzo.com>,
+        Daniel Colascione <dancol@google.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         Jann Horn <jannh@google.com>,
-        Linux API <linux-api@vger.kernel.org>, kernel-team@fb.com,
-        Theodore Tso <tytso@mit.edu>
-Content-Type: text/plain; charset="UTF-8"
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Lokesh Gidra <lokeshgidra@google.com>,
+        Nick Kralevich <nnk@google.com>,
+        Nosh Minwalla <nosh@google.com>,
+        Tim Murray <timmurray@google.com>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Radostin Stoyanov <rstoyanov1@gmail.com>,
+        Andrey Vagin <avagin@gmail.com>
+Subject: Re: [PATCH 3/7] Add a UFFD_SECURE flag to the userfaultfd API.
+Message-ID: <20191023072920.GF12121@uranus.lan>
+References: <20191012191602.45649-1-dancol@google.com>
+ <20191012191602.45649-4-dancol@google.com>
+ <CALCETrVZHd+csdRL-uKbVN3Z7yeNNtxiDy-UsutMi=K3ZgCiYw@mail.gmail.com>
+ <CAKOZuevUqs_Oe1UEwguQK7Ate3ai1DSVSij=0R=vmz9LzX4k6Q@mail.gmail.com>
+ <CALCETrUyq=J37gU-MYXqLdoi7uH7iNNVRjvcGUT11JA1QuTFyg@mail.gmail.com>
+ <CALCETrX=1XUwsuKc6dinj3ZTnrK85m_+UL=iaYKj4EZtf-xm5g@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CALCETrX=1XUwsuKc6dinj3ZTnrK85m_+UL=iaYKj4EZtf-xm5g@mail.gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Tue, Oct 22, 2019 at 09:11:04PM -0700, Andy Lutomirski wrote:
+> Trying again.  It looks like I used the wrong address for Pavel.
+
+Thanks for CC Andy! I must confess I didn't dive into userfaultfd engine
+personally but let me CC more people involved from criu side. (overquoting
+left untouched for their sake).
+
+> 
+> On Sat, Oct 12, 2019 at 6:14 PM Andy Lutomirski <luto@kernel.org> wrote:
 > >
-> > No, I see why you choose to add the flag to open(2).
-> > I have no objection.
+> > [adding more people because this is going to be an ABI break, sigh]
 > >
-> > I once had a crazy thought how to add new open flags
-> > in a non racy manner without adding a new syscall,
-> > but as you wrote, this is not relevant for O_ALLOW_ENCODED.
+> > On Sat, Oct 12, 2019 at 5:52 PM Daniel Colascione <dancol@google.com> wrote:
+> > >
+> > > On Sat, Oct 12, 2019 at 4:10 PM Andy Lutomirski <luto@kernel.org> wrote:
+> > > >
+> > > > On Sat, Oct 12, 2019 at 12:16 PM Daniel Colascione <dancol@google.com> wrote:
+> > > > >
+> > > > > The new secure flag makes userfaultfd use a new "secure" anonymous
+> > > > > file object instead of the default one, letting security modules
+> > > > > supervise userfaultfd use.
+> > > > >
+> > > > > Requiring that users pass a new flag lets us avoid changing the
+> > > > > semantics for existing callers.
+> > > >
+> > > > Is there any good reason not to make this be the default?
+> > > >
+> > > >
+> > > > The only downside I can see is that it would increase the memory usage
+> > > > of userfaultfd(), but that doesn't seem like such a big deal.  A
+> > > > lighter-weight alternative would be to have a single inode shared by
+> > > > all userfaultfd instances, which would require a somewhat different
+> > > > internal anon_inode API.
+> > >
+> > > I'd also prefer to just make SELinux use mandatory, but there's a
+> > > nasty interaction with UFFD_EVENT_FORK. Adding a new UFFD_SECURE mode
+> > > which blocks UFFD_EVENT_FORK sidesteps this problem. Maybe you know a
+> > > better way to deal with it.
 > >
-> > Something like:
+> > ...
 > >
-> > /*
-> >  * Old kernels silently ignore unsupported open flags.
-> >  * New kernels that gets __O_CHECK_NEWFLAGS do
-> >  * the proper checking for unsupported flags AND set the
-> >  * flag __O_HAVE_NEWFLAGS.
-> >  */
-> > #define O_FLAG1 __O_CHECK_NEWFLAGS|__O_FLAG1
-> > #define O_HAVE_FLAG1 __O_HAVE_NEWFLAGS|__O_FLAG1
+> > > But maybe we can go further: let's separate authentication and
+> > > authorization, as we do in other LSM hooks. Let's split my
+> > > inode_init_security_anon into two hooks, inode_init_security_anon and
+> > > inode_create_anon. We'd define the former to just initialize the file
+> > > object's security information --- in the SELinux case, figuring out
+> > > its class and SID --- and define the latter to answer the yes/no
+> > > question of whether a particular anonymous inode creation should be
+> > > allowed. Normally, anon_inode_getfile2() would just call both hooks.
+> > > We'd add another anon_inode_getfd flag, ANON_INODE_SKIP_AUTHORIZATION
+> > > or something, that would tell anon_inode_getfile2() to skip calling
+> > > the authorization hook, effectively making the creation always
+> > > succeed. We can then make the UFFD code pass
+> > > ANON_INODE_SKIP_AUTHORIZATION when it's creating a file object in the
+> > > fork child while creating UFFD_EVENT_FORK messages.
 > >
-> > fd = open(path, O_FLAG1);
-> > if (fd < 0)
-> >     return -errno;
-> > flags = fcntl(fd, F_GETFL, 0);
-> > if (flags < 0)
-> >     return flags;
-> > if ((flags & O_HAVE_FLAG1) != O_HAVE_FLAG1) {
-> >     close(fd);
-> >     return -EINVAL;
-> > }
->
-> You don't need to add __O_HAVE_NEWFLAGS to do this -- this already works
-> today for userspace to check whether a flag works properly
-> (specifically, __O_FLAG1 will only be set if __O_FLAG1 is supported --
-> otherwise it gets cleared during build_open_flags).
+> > That sounds like an improvement.  Or maybe just teach SELinux that
+> > this particular fd creation is actually making an anon_inode that is a
+> > child of an existing anon inode and that the context should be copied
+> > or whatever SELinux wants to do.  Like this, maybe:
+> >
+> > static int resolve_userfault_fork(struct userfaultfd_ctx *ctx,
+> >                                   struct userfaultfd_ctx *new,
+> >                                   struct uffd_msg *msg)
+> > {
+> >         int fd;
+> >
+> > Change this:
+> >
+> >         fd = anon_inode_getfd("[userfaultfd]", &userfaultfd_fops, new,
+> >                               O_RDWR | (new->flags & UFFD_SHARED_FCNTL_FLAGS));
+> >
+> > to something like:
+> >
+> >       fd = anon_inode_make_child_fd(..., ctx->inode, ...);
+> >
+> > where ctx->inode is the one context's inode.
+> >
+> > *** HOWEVER *** !!!
+> >
+> > Now that you've pointed this mechanism out, it is utterly and
+> > completely broken and should be removed from the kernel outright or at
+> > least severely restricted.  A .read implementation MUST NOT ACT ON THE
+> > CALLING TASK.  Ever.  Just imagine the effect of passing a userfaultfd
+> > as stdin to a setuid program.
+> >
+> > So I think the right solution might be to attempt to *remove*
+> > UFFD_EVENT_FORK.  Maybe the solution is to say that, unless the
+> > creator of a userfaultfd() has global CAP_SYS_ADMIN, then it cannot
+> > use UFFD_FEATURE_EVENT_FORK) and print a warning (once) when
+> > UFFD_FEATURE_EVENT_FORK is allowed.  And, after some suitable
+> > deprecation period, just remove it.  If it's genuinely useful, it
+> > needs an entirely new API based on ioctl() or a syscall.  Or even
+> > recvmsg() :)
+> >
+> > And UFFD_SECURE should just become automatic, since you don't have a
+> > problem any more. :-p
+> >
+> > --Andy
+> 
 
-That's a behavior of quite recent kernels since
-629e014bb834 fs: completely ignore unknown open flags
-and maybe some stable kernels. Real old kernels don't have that luxury.
-
->
-> The problem with adding new flags is that an *old* program running on a
-> *new* kernel could pass a garbage flag (__O_CHECK_NEWFLAGS for instance)
-> that causes an error only on the new kernel.
->
-
-That's a theoretic problem. Same as O_PATH|O_TMPFILE.
-Show me a real life program that passes garbage files to open.
-
-> The only real solution to this (and several other problems) is
-> openat2().
-
-No argue about that. Come on, let's get it merged ;-)
-
-> As for O_ALLOW_ENCODED -- the current semantics (-EPERM if it
-> is set without CAP_SYS_ADMIN) *will* cause backwards compatibility
-> issues for programs that have garbage flags set...
->
-
-Again, that's theoretical.
-In practice, O_ALLOW_ENCODED can work with open()/openat().
-In fact, even if O_ALLOW_ENCODED gets merged after openat2(),
-I don't think it should be forbidden by open()/openat(), right?
-Do in that sense, O_ALLOW_ENCODED does not depend on openat2().
-
-Thanks,
-Amir.
+	Cyrill
