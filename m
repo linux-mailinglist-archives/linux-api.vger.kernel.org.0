@@ -2,219 +2,145 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 12A9BE1B14
-	for <lists+linux-api@lfdr.de>; Wed, 23 Oct 2019 14:44:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E27A0E204F
+	for <lists+linux-api@lfdr.de>; Wed, 23 Oct 2019 18:15:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391676AbfJWMoP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 23 Oct 2019 08:44:15 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:45150 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2391648AbfJWMoP (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 23 Oct 2019 08:44:15 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x9NCi1DE051998
-        for <linux-api@vger.kernel.org>; Wed, 23 Oct 2019 08:44:14 -0400
-Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2vtnjs4115-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-api@vger.kernel.org>; Wed, 23 Oct 2019 08:44:12 -0400
-Received: from localhost
-        by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-api@vger.kernel.org> from <rppt@linux.ibm.com>;
-        Wed, 23 Oct 2019 13:44:08 +0100
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
-        by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Wed, 23 Oct 2019 13:44:02 +0100
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
-        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x9NCi11c53739520
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 23 Oct 2019 12:44:01 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 8FA52A405B;
-        Wed, 23 Oct 2019 12:44:01 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 624A9A405C;
-        Wed, 23 Oct 2019 12:44:00 +0000 (GMT)
-Received: from linux.ibm.com (unknown [9.148.8.55])
-        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Wed, 23 Oct 2019 12:44:00 +0000 (GMT)
-Date:   Wed, 23 Oct 2019 15:43:58 +0300
-From:   Mike Rapoport <rppt@linux.ibm.com>
-To:     Cyrill Gorcunov <gorcunov@gmail.com>
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        Pavel Emelyanov <xemul@virtuozzo.com>,
-        Daniel Colascione <dancol@google.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Jann Horn <jannh@google.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Linux API <linux-api@vger.kernel.org>,
+        id S2404514AbfJWQPs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 23 Oct 2019 12:15:48 -0400
+Received: from mx2.suse.de ([195.135.220.15]:41478 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2404354AbfJWQPr (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 23 Oct 2019 12:15:47 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id D7692ACB7;
+        Wed, 23 Oct 2019 16:15:44 +0000 (UTC)
+Subject: Re: [RFC PATCH 1/2] mm, vmstat: hide /proc/pagetypeinfo from normal
+ users
+To:     Michal Hocko <mhocko@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mel Gorman <mgorman@suse.de>, Waiman Long <longman@redhat.com>
+Cc:     Johannes Weiner <hannes@cmpxchg.org>, Roman Gushchin <guro@fb.com>,
+        Konstantin Khlebnikov <khlebnikov@yandex-team.ru>,
+        Jann Horn <jannh@google.com>, Song Liu <songliubraving@fb.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rafael Aquini <aquini@redhat.com>, linux-mm@kvack.org,
         LKML <linux-kernel@vger.kernel.org>,
-        Lokesh Gidra <lokeshgidra@google.com>,
-        Nick Kralevich <nnk@google.com>,
-        Nosh Minwalla <nosh@google.com>,
-        Tim Murray <timmurray@google.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Radostin Stoyanov <rstoyanov1@gmail.com>,
-        Andrey Vagin <avagin@gmail.com>
-Subject: Re: [PATCH 3/7] Add a UFFD_SECURE flag to the userfaultfd API.
-References: <20191012191602.45649-1-dancol@google.com>
- <20191012191602.45649-4-dancol@google.com>
- <CALCETrVZHd+csdRL-uKbVN3Z7yeNNtxiDy-UsutMi=K3ZgCiYw@mail.gmail.com>
- <CAKOZuevUqs_Oe1UEwguQK7Ate3ai1DSVSij=0R=vmz9LzX4k6Q@mail.gmail.com>
- <CALCETrUyq=J37gU-MYXqLdoi7uH7iNNVRjvcGUT11JA1QuTFyg@mail.gmail.com>
- <CALCETrX=1XUwsuKc6dinj3ZTnrK85m_+UL=iaYKj4EZtf-xm5g@mail.gmail.com>
- <20191023072920.GF12121@uranus.lan>
+        Michal Hocko <mhocko@suse.com>,
+        Linux API <linux-api@vger.kernel.org>
+References: <20191023095607.GE3016@techsingularity.net>
+ <20191023102737.32274-1-mhocko@kernel.org>
+ <20191023102737.32274-2-mhocko@kernel.org>
+From:   Vlastimil Babka <vbabka@suse.cz>
+Autocrypt: addr=vbabka@suse.cz; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <ed60303a-0775-c6ce-2923-df3ffe6a887f@suse.cz>
+Date:   Wed, 23 Oct 2019 18:15:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191023072920.GF12121@uranus.lan>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TM-AS-GCONF: 00
-x-cbid: 19102312-0012-0000-0000-0000035C1EB4
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19102312-0013-0000-0000-000021974D4F
-Message-Id: <20191023124358.GA2109@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-10-23_03:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1908290000 definitions=main-1910230131
+In-Reply-To: <20191023102737.32274-2-mhocko@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Oct 23, 2019 at 10:29:20AM +0300, Cyrill Gorcunov wrote:
-> On Tue, Oct 22, 2019 at 09:11:04PM -0700, Andy Lutomirski wrote:
-> > Trying again.  It looks like I used the wrong address for Pavel.
++ linux-api
+
+On 10/23/19 12:27 PM, Michal Hocko wrote:
+> From: Michal Hocko <mhocko@suse.com>
 > 
-> Thanks for CC Andy! I must confess I didn't dive into userfaultfd engine
-> personally but let me CC more people involved from criu side. (overquoting
-> left untouched for their sake).
-
-Thanks for CC Cyrill!
-
- 
-> > On Sat, Oct 12, 2019 at 6:14 PM Andy Lutomirski <luto@kernel.org> wrote:
-> > >
-> > > [adding more people because this is going to be an ABI break, sigh]
-> > >
-> > > On Sat, Oct 12, 2019 at 5:52 PM Daniel Colascione <dancol@google.com> wrote:
-> > > >
-> > > > On Sat, Oct 12, 2019 at 4:10 PM Andy Lutomirski <luto@kernel.org> wrote:
-> > > > >
-> > > > > On Sat, Oct 12, 2019 at 12:16 PM Daniel Colascione <dancol@google.com> wrote:
-> > > > > >
-> > > > > > The new secure flag makes userfaultfd use a new "secure" anonymous
-> > > > > > file object instead of the default one, letting security modules
-> > > > > > supervise userfaultfd use.
-> > > > > >
-> > > > > > Requiring that users pass a new flag lets us avoid changing the
-> > > > > > semantics for existing callers.
-> > > > >
-> > > > > Is there any good reason not to make this be the default?
-> > > > >
-> > > > >
-> > > > > The only downside I can see is that it would increase the memory usage
-> > > > > of userfaultfd(), but that doesn't seem like such a big deal.  A
-> > > > > lighter-weight alternative would be to have a single inode shared by
-> > > > > all userfaultfd instances, which would require a somewhat different
-> > > > > internal anon_inode API.
-> > > >
-> > > > I'd also prefer to just make SELinux use mandatory, but there's a
-> > > > nasty interaction with UFFD_EVENT_FORK. Adding a new UFFD_SECURE mode
-> > > > which blocks UFFD_EVENT_FORK sidesteps this problem. Maybe you know a
-> > > > better way to deal with it.
-> > > >
-> > > > Right now, when a process with a UFFD-managed VMA using
-> > > > UFFD_EVENT_FORK forks, we make a new userfaultfd_ctx out of thin air
-> > > > and enqueue it on the message queue for the parent process. When we
-> > > > dequeue that context, we get to resolve_userfault_fork, which makes up
-> > > > a new UFFD file object out of thin air in the context of the reading
-> > > > process. Following normal SELinux rules, the SID attached to that new
-> > > > file object would be the task SID of the process *reading* the fork
-> > > > event, not the SID of the new fork child. That seems wrong, because
-> > > > the label we give to the UFFD should correspond to the label of the
-> > > > process that UFFD controls.
-
-I must admit I have no idea about how SELinux works, but what's wrong with
-making the new UFFD object to inherit the properties of the "original" one?
-
-The new file object is created in the context of the same task that owns
-the initial userfault file descriptor and it is used by the same task. So
-if you have a process that registers some of its VMAs with userfaultfd
-and enables UFFD_EVENT_FORK, the same process controls UFFD of itself and
-its children.
-
-> > >
-> > > ...
-> > >
-> > > > But maybe we can go further: let's separate authentication and
-> > > > authorization, as we do in other LSM hooks. Let's split my
-> > > > inode_init_security_anon into two hooks, inode_init_security_anon and
-> > > > inode_create_anon. We'd define the former to just initialize the file
-> > > > object's security information --- in the SELinux case, figuring out
-> > > > its class and SID --- and define the latter to answer the yes/no
-> > > > question of whether a particular anonymous inode creation should be
-> > > > allowed. Normally, anon_inode_getfile2() would just call both hooks.
-> > > > We'd add another anon_inode_getfd flag, ANON_INODE_SKIP_AUTHORIZATION
-> > > > or something, that would tell anon_inode_getfile2() to skip calling
-> > > > the authorization hook, effectively making the creation always
-> > > > succeed. We can then make the UFFD code pass
-> > > > ANON_INODE_SKIP_AUTHORIZATION when it's creating a file object in the
-> > > > fork child while creating UFFD_EVENT_FORK messages.
-> > >
-> > > That sounds like an improvement.  Or maybe just teach SELinux that
-> > > this particular fd creation is actually making an anon_inode that is a
-> > > child of an existing anon inode and that the context should be copied
-> > > or whatever SELinux wants to do.  Like this, maybe:
-> > >
-> > > static int resolve_userfault_fork(struct userfaultfd_ctx *ctx,
-> > >                                   struct userfaultfd_ctx *new,
-> > >                                   struct uffd_msg *msg)
-> > > {
-> > >         int fd;
-> > >
-> > > Change this:
-> > >
-> > >         fd = anon_inode_getfd("[userfaultfd]", &userfaultfd_fops, new,
-> > >                               O_RDWR | (new->flags & UFFD_SHARED_FCNTL_FLAGS));
-> > >
-> > > to something like:
-> > >
-> > >       fd = anon_inode_make_child_fd(..., ctx->inode, ...);
-> > >
-> > > where ctx->inode is the one context's inode.
-> > >
-> > > *** HOWEVER *** !!!
-> > >
-> > > Now that you've pointed this mechanism out, it is utterly and
-> > > completely broken and should be removed from the kernel outright or at
-> > > least severely restricted.  A .read implementation MUST NOT ACT ON THE
-> > > CALLING TASK.  Ever.  Just imagine the effect of passing a userfaultfd
-> > > as stdin to a setuid program.
-> > >
-> > > So I think the right solution might be to attempt to *remove*
-> > > UFFD_EVENT_FORK.  Maybe the solution is to say that, unless the
-> > > creator of a userfaultfd() has global CAP_SYS_ADMIN, then it cannot
-> > > use UFFD_FEATURE_EVENT_FORK) and print a warning (once) when
-> > > UFFD_FEATURE_EVENT_FORK is allowed.  And, after some suitable
-> > > deprecation period, just remove it.  If it's genuinely useful, it
-> > > needs an entirely new API based on ioctl() or a syscall.  Or even
-> > > recvmsg() :)
-> > >
-> > > And UFFD_SECURE should just become automatic, since you don't have a
-> > > problem any more. :-p
-> > >
-> > > --Andy
-> > 
+> /proc/pagetypeinfo is a debugging tool to examine internal page
+> allocator state wrt to fragmentation. It is not very useful for
+> any other use so normal users really do not need to read this file.
 > 
-> 	Cyrill
-
--- 
-Sincerely yours,
-Mike.
+> Waiman Long has noticed that reading this file can have negative side
+> effects because zone->lock is necessary for gathering data and that
+> a) interferes with the page allocator and its users and b) can lead to
+> hard lockups on large machines which have very long free_list.
+> 
+> Reduce both issues by simply not exporting the file to regular users.
+> 
+> Reported-by: Waiman Long <longman@redhat.com>
+> Cc: stable
+> Signed-off-by: Michal Hocko <mhocko@suse.com>
+> ---
+>  mm/vmstat.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/mm/vmstat.c b/mm/vmstat.c
+> index 6afc892a148a..4e885ecd44d1 100644
+> --- a/mm/vmstat.c
+> +++ b/mm/vmstat.c
+> @@ -1972,7 +1972,7 @@ void __init init_mm_internals(void)
+>  #endif
+>  #ifdef CONFIG_PROC_FS
+>  	proc_create_seq("buddyinfo", 0444, NULL, &fragmentation_op);
+> -	proc_create_seq("pagetypeinfo", 0444, NULL, &pagetypeinfo_op);
+> +	proc_create_seq("pagetypeinfo", 0400, NULL, &pagetypeinfo_op);
+>  	proc_create_seq("vmstat", 0444, NULL, &vmstat_op);
+>  	proc_create_seq("zoneinfo", 0444, NULL, &zoneinfo_op);
+>  #endif
+> 
 
