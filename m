@@ -2,159 +2,219 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A46EE19A8
-	for <lists+linux-api@lfdr.de>; Wed, 23 Oct 2019 14:12:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12A9BE1B14
+	for <lists+linux-api@lfdr.de>; Wed, 23 Oct 2019 14:44:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391204AbfJWMMX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 23 Oct 2019 08:12:23 -0400
-Received: from mout-p-102.mailbox.org ([80.241.56.152]:51820 "EHLO
-        mout-p-102.mailbox.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389256AbfJWMMX (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 23 Oct 2019 08:12:23 -0400
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:105:465:1:1:0])
-        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
-        (No client certificate requested)
-        by mout-p-102.mailbox.org (Postfix) with ESMTPS id 46yq4j3b1PzKmh6;
-        Wed, 23 Oct 2019 14:12:21 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp1.mailbox.org ([80.241.60.240])
-        by gerste.heinlein-support.de (gerste.heinlein-support.de [91.198.250.173]) (amavisd-new, port 10030)
-        with ESMTP id 27R5KcEhLdMO; Wed, 23 Oct 2019 14:12:12 +0200 (CEST)
-Date:   Wed, 23 Oct 2019 23:12:03 +1100
-From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     Omar Sandoval <osandov@osandov.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux Btrfs <linux-btrfs@vger.kernel.org>,
-        Dave Chinner <david@fromorbit.com>,
+        id S2391676AbfJWMoP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 23 Oct 2019 08:44:15 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:45150 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2391648AbfJWMoP (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 23 Oct 2019 08:44:15 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x9NCi1DE051998
+        for <linux-api@vger.kernel.org>; Wed, 23 Oct 2019 08:44:14 -0400
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2vtnjs4115-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-api@vger.kernel.org>; Wed, 23 Oct 2019 08:44:12 -0400
+Received: from localhost
+        by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-api@vger.kernel.org> from <rppt@linux.ibm.com>;
+        Wed, 23 Oct 2019 13:44:08 +0100
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+        by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Wed, 23 Oct 2019 13:44:02 +0100
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x9NCi11c53739520
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 23 Oct 2019 12:44:01 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 8FA52A405B;
+        Wed, 23 Oct 2019 12:44:01 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 624A9A405C;
+        Wed, 23 Oct 2019 12:44:00 +0000 (GMT)
+Received: from linux.ibm.com (unknown [9.148.8.55])
+        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Wed, 23 Oct 2019 12:44:00 +0000 (GMT)
+Date:   Wed, 23 Oct 2019 15:43:58 +0300
+From:   Mike Rapoport <rppt@linux.ibm.com>
+To:     Cyrill Gorcunov <gorcunov@gmail.com>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        Pavel Emelyanov <xemul@virtuozzo.com>,
+        Daniel Colascione <dancol@google.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         Jann Horn <jannh@google.com>,
-        Linux API <linux-api@vger.kernel.org>, kernel-team@fb.com,
-        Theodore Tso <tytso@mit.edu>
-Subject: Re: [PATCH man-pages] Document encoded I/O
-Message-ID: <20191023121203.pozm2xzrbxmcqpbr@yavin.dot.cyphar.com>
-References: <cover.1571164762.git.osandov@fb.com>
- <c7e8f93596fee7bb818dc0edf29f484036be1abb.1571164851.git.osandov@fb.com>
- <CAOQ4uxh_pZSiMmD=46Mc3o0GE+svXuoC155P_9FGJXdsE4cweg@mail.gmail.com>
- <20191021185356.GB81648@vader>
- <CAOQ4uxgm6MWwCDO5stUwOKKSq7Ot4-Sc96F1Evc6ra5qBE+-wA@mail.gmail.com>
- <20191023044430.alow65tnodgnu5um@yavin.dot.cyphar.com>
- <CAOQ4uxjyNZhyU9yEYkuMnD0o=sU1vJMOYJAzjV7FDjG45gaevg@mail.gmail.com>
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Lokesh Gidra <lokeshgidra@google.com>,
+        Nick Kralevich <nnk@google.com>,
+        Nosh Minwalla <nosh@google.com>,
+        Tim Murray <timmurray@google.com>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Radostin Stoyanov <rstoyanov1@gmail.com>,
+        Andrey Vagin <avagin@gmail.com>
+Subject: Re: [PATCH 3/7] Add a UFFD_SECURE flag to the userfaultfd API.
+References: <20191012191602.45649-1-dancol@google.com>
+ <20191012191602.45649-4-dancol@google.com>
+ <CALCETrVZHd+csdRL-uKbVN3Z7yeNNtxiDy-UsutMi=K3ZgCiYw@mail.gmail.com>
+ <CAKOZuevUqs_Oe1UEwguQK7Ate3ai1DSVSij=0R=vmz9LzX4k6Q@mail.gmail.com>
+ <CALCETrUyq=J37gU-MYXqLdoi7uH7iNNVRjvcGUT11JA1QuTFyg@mail.gmail.com>
+ <CALCETrX=1XUwsuKc6dinj3ZTnrK85m_+UL=iaYKj4EZtf-xm5g@mail.gmail.com>
+ <20191023072920.GF12121@uranus.lan>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="6z55exvfk3ufvwzn"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAOQ4uxjyNZhyU9yEYkuMnD0o=sU1vJMOYJAzjV7FDjG45gaevg@mail.gmail.com>
+In-Reply-To: <20191023072920.GF12121@uranus.lan>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-TM-AS-GCONF: 00
+x-cbid: 19102312-0012-0000-0000-0000035C1EB4
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19102312-0013-0000-0000-000021974D4F
+Message-Id: <20191023124358.GA2109@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-10-23_03:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1910230131
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Wed, Oct 23, 2019 at 10:29:20AM +0300, Cyrill Gorcunov wrote:
+> On Tue, Oct 22, 2019 at 09:11:04PM -0700, Andy Lutomirski wrote:
+> > Trying again.  It looks like I used the wrong address for Pavel.
+> 
+> Thanks for CC Andy! I must confess I didn't dive into userfaultfd engine
+> personally but let me CC more people involved from criu side. (overquoting
+> left untouched for their sake).
 
---6z55exvfk3ufvwzn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks for CC Cyrill!
 
-On 2019-10-23, Amir Goldstein <amir73il@gmail.com> wrote:
+ 
+> > On Sat, Oct 12, 2019 at 6:14 PM Andy Lutomirski <luto@kernel.org> wrote:
 > > >
-> > > No, I see why you choose to add the flag to open(2).
-> > > I have no objection.
+> > > [adding more people because this is going to be an ABI break, sigh]
 > > >
-> > > I once had a crazy thought how to add new open flags
-> > > in a non racy manner without adding a new syscall,
-> > > but as you wrote, this is not relevant for O_ALLOW_ENCODED.
+> > > On Sat, Oct 12, 2019 at 5:52 PM Daniel Colascione <dancol@google.com> wrote:
+> > > >
+> > > > On Sat, Oct 12, 2019 at 4:10 PM Andy Lutomirski <luto@kernel.org> wrote:
+> > > > >
+> > > > > On Sat, Oct 12, 2019 at 12:16 PM Daniel Colascione <dancol@google.com> wrote:
+> > > > > >
+> > > > > > The new secure flag makes userfaultfd use a new "secure" anonymous
+> > > > > > file object instead of the default one, letting security modules
+> > > > > > supervise userfaultfd use.
+> > > > > >
+> > > > > > Requiring that users pass a new flag lets us avoid changing the
+> > > > > > semantics for existing callers.
+> > > > >
+> > > > > Is there any good reason not to make this be the default?
+> > > > >
+> > > > >
+> > > > > The only downside I can see is that it would increase the memory usage
+> > > > > of userfaultfd(), but that doesn't seem like such a big deal.  A
+> > > > > lighter-weight alternative would be to have a single inode shared by
+> > > > > all userfaultfd instances, which would require a somewhat different
+> > > > > internal anon_inode API.
+> > > >
+> > > > I'd also prefer to just make SELinux use mandatory, but there's a
+> > > > nasty interaction with UFFD_EVENT_FORK. Adding a new UFFD_SECURE mode
+> > > > which blocks UFFD_EVENT_FORK sidesteps this problem. Maybe you know a
+> > > > better way to deal with it.
+> > > >
+> > > > Right now, when a process with a UFFD-managed VMA using
+> > > > UFFD_EVENT_FORK forks, we make a new userfaultfd_ctx out of thin air
+> > > > and enqueue it on the message queue for the parent process. When we
+> > > > dequeue that context, we get to resolve_userfault_fork, which makes up
+> > > > a new UFFD file object out of thin air in the context of the reading
+> > > > process. Following normal SELinux rules, the SID attached to that new
+> > > > file object would be the task SID of the process *reading* the fork
+> > > > event, not the SID of the new fork child. That seems wrong, because
+> > > > the label we give to the UFFD should correspond to the label of the
+> > > > process that UFFD controls.
+
+I must admit I have no idea about how SELinux works, but what's wrong with
+making the new UFFD object to inherit the properties of the "original" one?
+
+The new file object is created in the context of the same task that owns
+the initial userfault file descriptor and it is used by the same task. So
+if you have a process that registers some of its VMAs with userfaultfd
+and enables UFFD_EVENT_FORK, the same process controls UFFD of itself and
+its children.
+
 > > >
-> > > Something like:
+> > > ...
 > > >
-> > > /*
-> > >  * Old kernels silently ignore unsupported open flags.
-> > >  * New kernels that gets __O_CHECK_NEWFLAGS do
-> > >  * the proper checking for unsupported flags AND set the
-> > >  * flag __O_HAVE_NEWFLAGS.
-> > >  */
-> > > #define O_FLAG1 __O_CHECK_NEWFLAGS|__O_FLAG1
-> > > #define O_HAVE_FLAG1 __O_HAVE_NEWFLAGS|__O_FLAG1
+> > > > But maybe we can go further: let's separate authentication and
+> > > > authorization, as we do in other LSM hooks. Let's split my
+> > > > inode_init_security_anon into two hooks, inode_init_security_anon and
+> > > > inode_create_anon. We'd define the former to just initialize the file
+> > > > object's security information --- in the SELinux case, figuring out
+> > > > its class and SID --- and define the latter to answer the yes/no
+> > > > question of whether a particular anonymous inode creation should be
+> > > > allowed. Normally, anon_inode_getfile2() would just call both hooks.
+> > > > We'd add another anon_inode_getfd flag, ANON_INODE_SKIP_AUTHORIZATION
+> > > > or something, that would tell anon_inode_getfile2() to skip calling
+> > > > the authorization hook, effectively making the creation always
+> > > > succeed. We can then make the UFFD code pass
+> > > > ANON_INODE_SKIP_AUTHORIZATION when it's creating a file object in the
+> > > > fork child while creating UFFD_EVENT_FORK messages.
 > > >
-> > > fd =3D open(path, O_FLAG1);
-> > > if (fd < 0)
-> > >     return -errno;
-> > > flags =3D fcntl(fd, F_GETFL, 0);
-> > > if (flags < 0)
-> > >     return flags;
-> > > if ((flags & O_HAVE_FLAG1) !=3D O_HAVE_FLAG1) {
-> > >     close(fd);
-> > >     return -EINVAL;
-> > > }
-> >
-> > You don't need to add __O_HAVE_NEWFLAGS to do this -- this already works
-> > today for userspace to check whether a flag works properly
-> > (specifically, __O_FLAG1 will only be set if __O_FLAG1 is supported --
-> > otherwise it gets cleared during build_open_flags).
->=20
-> That's a behavior of quite recent kernels since
-> 629e014bb834 fs: completely ignore unknown open flags
-> and maybe some stable kernels. Real old kernels don't have that luxury.
+> > > That sounds like an improvement.  Or maybe just teach SELinux that
+> > > this particular fd creation is actually making an anon_inode that is a
+> > > child of an existing anon inode and that the context should be copied
+> > > or whatever SELinux wants to do.  Like this, maybe:
+> > >
+> > > static int resolve_userfault_fork(struct userfaultfd_ctx *ctx,
+> > >                                   struct userfaultfd_ctx *new,
+> > >                                   struct uffd_msg *msg)
+> > > {
+> > >         int fd;
+> > >
+> > > Change this:
+> > >
+> > >         fd = anon_inode_getfd("[userfaultfd]", &userfaultfd_fops, new,
+> > >                               O_RDWR | (new->flags & UFFD_SHARED_FCNTL_FLAGS));
+> > >
+> > > to something like:
+> > >
+> > >       fd = anon_inode_make_child_fd(..., ctx->inode, ...);
+> > >
+> > > where ctx->inode is the one context's inode.
+> > >
+> > > *** HOWEVER *** !!!
+> > >
+> > > Now that you've pointed this mechanism out, it is utterly and
+> > > completely broken and should be removed from the kernel outright or at
+> > > least severely restricted.  A .read implementation MUST NOT ACT ON THE
+> > > CALLING TASK.  Ever.  Just imagine the effect of passing a userfaultfd
+> > > as stdin to a setuid program.
+> > >
+> > > So I think the right solution might be to attempt to *remove*
+> > > UFFD_EVENT_FORK.  Maybe the solution is to say that, unless the
+> > > creator of a userfaultfd() has global CAP_SYS_ADMIN, then it cannot
+> > > use UFFD_FEATURE_EVENT_FORK) and print a warning (once) when
+> > > UFFD_FEATURE_EVENT_FORK is allowed.  And, after some suitable
+> > > deprecation period, just remove it.  If it's genuinely useful, it
+> > > needs an entirely new API based on ioctl() or a syscall.  Or even
+> > > recvmsg() :)
+> > >
+> > > And UFFD_SECURE should just become automatic, since you don't have a
+> > > problem any more. :-p
+> > >
+> > > --Andy
+> > 
+> 
+> 	Cyrill
 
-Ah okay -- so the key feature is that __O_CHECK_NEWFLAGS gets
-transformed into __O_HAVE_NEWFLAGS (making it so that both the older and
-current behaviours are detected). Apologies, I missed that on my first
-read-through.
+-- 
+Sincerely yours,
+Mike.
 
-While it is a little bit ugly, it probably wouldn't be a bad idea to
-have something like that.
-
-> > The problem with adding new flags is that an *old* program running on a
-> > *new* kernel could pass a garbage flag (__O_CHECK_NEWFLAGS for instance)
-> > that causes an error only on the new kernel.
->=20
-> That's a theoretic problem. Same as O_PATH|O_TMPFILE.
-> Show me a real life program that passes garbage files to open.
-
-Has "that's a theoretical problem" helped when we faced this issue in
-the past? I don't disagree that this is mostly theoretical, but I have a
-feeling that this is an argument that won't hold water.
-
-As for an example of semi-garbage flag passing -- systemd passes
-O_PATH|O_NOCTTY in several places. Yes, they're known flags (so not
-entirely applicable to this discussion) but it's also not a meaningful
-combination of flags and yet is permitted.
-
-> > The only real solution to this (and several other problems) is
-> > openat2().
->=20
-> No argue about that. Come on, let's get it merged ;-)
-
-Believe me, I'm trying. ;)
-
-> > As for O_ALLOW_ENCODED -- the current semantics (-EPERM if it
-> > is set without CAP_SYS_ADMIN) *will* cause backwards compatibility
-> > issues for programs that have garbage flags set...
-> >
->=20
-> Again, that's theoretical. In practice, O_ALLOW_ENCODED can work with
-> open()/openat(). In fact, even if O_ALLOW_ENCODED gets merged after
-> openat2(), I don't think it should be forbidden by open()/openat(),
-> right? Do in that sense, O_ALLOW_ENCODED does not depend on openat2().
-
-If it's a valid open() flag it'll also be a valid openat2(2) flag. The
-only question is whether the garbage-flag problem justifies making it a
-no-op for open(2).
-
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-<https://www.cyphar.com/>
-
---6z55exvfk3ufvwzn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCXbBDjwAKCRCdlLljIbnQ
-EsXcAQCUXtfLFGHYmFVDIsS1FDoek+7OX+ytcdVrVIIHQyQpEwD+Mj11GrPWmFG5
-U2nl3cjJcUv1fh1DLdfKraJlfb+P6Qc=
-=CkBD
------END PGP SIGNATURE-----
-
---6z55exvfk3ufvwzn--
