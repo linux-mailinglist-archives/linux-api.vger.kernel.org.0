@@ -2,122 +2,71 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E4A7CE2D4C
-	for <lists+linux-api@lfdr.de>; Thu, 24 Oct 2019 11:28:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38C72E2F1A
+	for <lists+linux-api@lfdr.de>; Thu, 24 Oct 2019 12:32:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389329AbfJXJ2h (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 24 Oct 2019 05:28:37 -0400
-Received: from foss.arm.com ([217.140.110.172]:44064 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732234AbfJXJ2h (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 24 Oct 2019 05:28:37 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4E10B31F;
-        Thu, 24 Oct 2019 02:28:23 -0700 (PDT)
-Received: from [10.37.9.200] (unknown [10.37.9.200])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EC5843F718;
-        Thu, 24 Oct 2019 02:28:15 -0700 (PDT)
-Subject: Re: [PATCHv7 18/33] lib/vdso: Add unlikely() hint into
- vdso_read_begin()
-To:     Andrei Vagin <avagin@gmail.com>
-Cc:     Dmitry Safonov <dima@arista.com>, linux-kernel@vger.kernel.org,
-        Dmitry Safonov <0x7f454c46@gmail.com>,
-        Adrian Reber <adrian@lisas.de>,
-        Andrei Vagin <avagin@openvz.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Cyrill Gorcunov <gorcunov@openvz.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jann Horn <jannh@google.com>, Jeff Dike <jdike@addtoit.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Pavel Emelyanov <xemul@virtuozzo.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        containers@lists.linux-foundation.org, criu@openvz.org,
-        linux-api@vger.kernel.org, x86@kernel.org
-References: <20191011012341.846266-1-dima@arista.com>
- <20191011012341.846266-19-dima@arista.com>
- <100f6921-9081-7eb0-7acc-f10cfb647c21@arm.com>
- <20191024061311.GA4541@gmail.com>
-From:   Vincenzo Frascino <vincenzo.frascino@arm.com>
-Message-ID: <9aa9857e-ee1c-0117-bfcb-45fc6bcab866@arm.com>
-Date:   Thu, 24 Oct 2019 10:30:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S2438851AbfJXKcd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 24 Oct 2019 06:32:33 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:36654 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S2438819AbfJXKcd (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 24 Oct 2019 06:32:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1571913152;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=LIKdOL11Ozx/PWJsb0Bia7eThEnrLMvgCNlbfPe+qhE=;
+        b=KIlXMDOMxKPSSAvg9kGz3sda5MqOHLHENWTns7LnTsjwebdSxKGRoLNaWyjz+ZKiMlapdy
+        ET9+jUDhssh/nyvu2t8dZ9AX9r28x9DJtvhtLC88fsX92D8kRAtL4Ma0bqqj+CP2BNn08a
+        Sr3vaii5XfMX/UDj3tx4+drhz/ejacI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-52-kf6BhbzrPzCAs2tEP3KZ1A-1; Thu, 24 Oct 2019 06:32:29 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C9DA8107AD33;
+        Thu, 24 Oct 2019 10:32:26 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-121-40.rdu2.redhat.com [10.10.121.40])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 14CB41001B30;
+        Thu, 24 Oct 2019 10:32:23 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <157186186167.3995.7568100174393739543.stgit@warthog.procyon.org.uk>
+References: <157186186167.3995.7568100174393739543.stgit@warthog.procyon.org.uk> <157186182463.3995.13922458878706311997.stgit@warthog.procyon.org.uk>
+To:     torvalds@linux-foundation.org
+Cc:     dhowells@redhat.com, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        nicolas.dichtel@6wind.com, raven@themaw.net,
+        Christian Brauner <christian@brauner.io>,
+        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-security-module@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 04/10] pipe: Use head and tail pointers for the ring, not cursor and length [ver #2]
 MIME-Version: 1.0
-In-Reply-To: <20191024061311.GA4541@gmail.com>
-Content-Type: text/plain; charset=koi8-r
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-ID: <13193.1571913143.1@warthog.procyon.org.uk>
+Date:   Thu, 24 Oct 2019 11:32:23 +0100
+Message-ID: <13194.1571913143@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: kf6BhbzrPzCAs2tEP3KZ1A-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Andrei,
+I've pushed to git a new version that fixes an incomplete conversion in
+pipe_zero(), ports the powerpc virtio_console driver and fixes a comment in
+splice.
 
-On 10/24/19 7:13 AM, Andrei Vagin wrote:
-> On Wed, Oct 16, 2019 at 12:24:14PM +0100, Vincenzo Frascino wrote:
->> On 10/11/19 2:23 AM, Dmitry Safonov wrote:
->>> From: Andrei Vagin <avagin@gmail.com>
->>>
->>> Place the branch with no concurrent write before contended case.
->>>
->>> Performance numbers for Intel(R) Core(TM) i5-6300U CPU @ 2.40GHz
->>> (more clock_gettime() cycles - the better):
->>>         | before    | after
->>> -----------------------------------
->>>         | 150252214 | 153242367
->>>         | 150301112 | 153324800
->>>         | 150392773 | 153125401
->>>         | 150373957 | 153399355
->>>         | 150303157 | 153489417
->>>         | 150365237 | 153494270
->>> -----------------------------------
->>> avg     | 150331408 | 153345935
->>> diff %  | 2	    | 0
->>> -----------------------------------
->>> stdev % | 0.3	    | 0.1
->>>
->>> Signed-off-by: Andrei Vagin <avagin@gmail.com>
->>> Co-developed-by: Dmitry Safonov <dima@arista.com>
->>> Signed-off-by: Dmitry Safonov <dima@arista.com>
->>
->> Reviewed-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
->> Tested-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
-> 
-> Hello Vincenzo,
-> 
-> Could you test the attached patch on aarch64? On x86, it gives about 9%
-> performance improvement for CLOCK_MONOTONIC and CLOCK_BOOTTIME.
-> 
+David
 
-I did run similar tests in past with a previous version of the unified vDSO
-library and what I can tell based on the results of those is that the impact of
-"__always_inline" alone was around 7% on arm64, in fact I had a comment stating
-"To improve performances, in this file, __always_inline it is used for the
-functions called multiple times." in my implementation [1].
-
-[1] https://bit.ly/2W9zMxB
-
-I spent some time yesterday trying to dig out why the approach did not make the
-cut but I could not infer it from the review process.
-
-> Here is my test:
-> https://github.com/avagin/vdso-perf
-> 
-> It is calling clock_gettime() in a loop for three seconds and then
-> reports a number of iterations.
-> 
-
-I am happy to run the test on arm64 and provide some results.
-
-> Thanks,
-> Andrei
-> 
-
--- 
-Regards,
-Vincenzo
