@@ -2,97 +2,72 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FD6DE339A
-	for <lists+linux-api@lfdr.de>; Thu, 24 Oct 2019 15:12:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 52582E33B6
+	for <lists+linux-api@lfdr.de>; Thu, 24 Oct 2019 15:15:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390392AbfJXNMh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 24 Oct 2019 09:12:37 -0400
-Received: from foss.arm.com ([217.140.110.172]:50898 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390361AbfJXNMh (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 24 Oct 2019 09:12:37 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 90865C8F;
-        Thu, 24 Oct 2019 06:12:21 -0700 (PDT)
-Received: from [10.37.9.200] (unknown [10.37.9.200])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 103823F71A;
-        Thu, 24 Oct 2019 06:12:14 -0700 (PDT)
-Subject: Re: [PATCHv7 18/33] lib/vdso: Add unlikely() hint into
- vdso_read_begin()
-From:   Vincenzo Frascino <vincenzo.frascino@arm.com>
-To:     Andrei Vagin <avagin@gmail.com>
-Cc:     Dmitry Safonov <dima@arista.com>, linux-kernel@vger.kernel.org,
-        Dmitry Safonov <0x7f454c46@gmail.com>,
-        Adrian Reber <adrian@lisas.de>,
-        Andrei Vagin <avagin@openvz.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Cyrill Gorcunov <gorcunov@openvz.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jann Horn <jannh@google.com>, Jeff Dike <jdike@addtoit.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Pavel Emelyanov <xemul@virtuozzo.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        containers@lists.linux-foundation.org, criu@openvz.org,
-        linux-api@vger.kernel.org, x86@kernel.org
-References: <20191011012341.846266-1-dima@arista.com>
- <20191011012341.846266-19-dima@arista.com>
- <100f6921-9081-7eb0-7acc-f10cfb647c21@arm.com>
- <20191024061311.GA4541@gmail.com>
- <9aa9857e-ee1c-0117-bfcb-45fc6bcab866@arm.com>
-Message-ID: <c749983f-24a8-a159-5e29-6fdd741f6023@arm.com>
-Date:   Thu, 24 Oct 2019 14:14:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S2502457AbfJXNPA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 24 Oct 2019 09:15:00 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:45050 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2502438AbfJXNPA (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 24 Oct 2019 09:15:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=Jr+KH6TpggeektbjDpZIF11RXPqlwCVR55VLMJFPOz8=; b=j7YKjbvjp/ypi4i4koJ318A42
+        d4C0/CCa01kd9EjOIu9zw0/atJE16DTEyTp45ZSWBNSWlc0g+z2PyF+/6pzkSAY3WRUdm70WN7mSz
+        6me42ElrJoWnV27r1xOSBoHPRQg+jeTOQnmVigwvcGJFgO6JkCrEqEFayteNfRbb5OLE4e8yx1BIg
+        bzrmoJ/4AaVJi0vB5CE5jYkuBHOj+j1m41vxDZc0BS7HPtIdD6fVgsSUy5igabNFG7bt7Pt1bEJ4A
+        gbX86oq8hvlyHJy0RibiCU0XNgLI3amTKX1KHXyIj1x9ony+LGASM8qFYMOp7tGg+6mAV8XNOaTik
+        deajIeL1g==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1iNcx6-0005MS-Mb; Thu, 24 Oct 2019 13:14:56 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id A53C3300489;
+        Thu, 24 Oct 2019 15:13:55 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 0CF8B2B1C8A31; Thu, 24 Oct 2019 15:14:54 +0200 (CEST)
+Date:   Thu, 24 Oct 2019 15:14:54 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     David Howells <dhowells@redhat.com>
+Cc:     torvalds@linux-foundation.org,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        nicolas.dichtel@6wind.com, raven@themaw.net,
+        Christian Brauner <christian@brauner.io>,
+        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-security-module@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 00/10] pipe: Notification queue preparation [ver #2]
+Message-ID: <20191024131454.GB4114@hirez.programming.kicks-ass.net>
+References: <157186182463.3995.13922458878706311997.stgit@warthog.procyon.org.uk>
 MIME-Version: 1.0
-In-Reply-To: <9aa9857e-ee1c-0117-bfcb-45fc6bcab866@arm.com>
-Content-Type: text/plain; charset=koi8-r
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <157186182463.3995.13922458878706311997.stgit@warthog.procyon.org.uk>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Andrei,
+On Wed, Oct 23, 2019 at 09:17:04PM +0100, David Howells wrote:
 
-On 10/24/19 10:30 AM, Vincenzo Frascino wrote:
-[...]
->> Here is my test:
->> https://github.com/avagin/vdso-perf
->>
->> It is calling clock_gettime() in a loop for three seconds and then
->> reports a number of iterations.
->>
+>  (1) It removes the nr_exclusive argument from __wake_up_sync_key() as this
+>      is always 1.  This prepares for step 2.
 > 
-> I am happy to run the test on arm64 and provide some results.
->
+>  (2) Adds wake_up_interruptible_sync_poll_locked() so that poll can be
+>      woken up from a function that's holding the poll waitqueue spinlock.
 
-Please find below the results:
-
-clock            | before     | after      | diff
-==================================================
-monotonic          17326692     17951770     3.6%
-monotonic-coarse   43624027     44215292     1.3%
-monotonic-raw      17541809     17554932     0.1%
-boottime           17334982     17954361     3.5%
-
-The improvement for arm64 for monotonic and boottime is around 3.5%.
-
-I created a pull request on github to send to you back the changes I had
-to do to vdso-perf to cross-compile it on arm64 [1].
-
-[1] https://github.com/avagin/vdso-perf/pull/1
-
-
->> Thanks,
->> Andrei
->>
+>  include/linux/wait.h       |   11 +-
+>  kernel/sched/wait.c        |   37 ++++--
 > 
 
--- 
-Regards,
-Vincenzo
+Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
