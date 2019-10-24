@@ -2,200 +2,211 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 32FABE2A43
-	for <lists+linux-api@lfdr.de>; Thu, 24 Oct 2019 08:13:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18757E2AC1
+	for <lists+linux-api@lfdr.de>; Thu, 24 Oct 2019 09:06:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408465AbfJXGNR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 24 Oct 2019 02:13:17 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:46371 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404173AbfJXGNR (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 24 Oct 2019 02:13:17 -0400
-Received: by mail-pf1-f194.google.com with SMTP id b25so392263pfi.13;
-        Wed, 23 Oct 2019 23:13:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=EofdUoQrs85PBjjnb/AuG4A4pyzR0R8swOkdIz7JRmY=;
-        b=UEEnD9zdltpC7dsv2JkW5q8VBHt24sRtjYqKvhaflNkSIpR3vyG+Jt4ojL1XuDIk84
-         JmgdLm91dTbhdSB4MEpXanEX3vO80e3f3rJ/C4xnffB3CGqKMww/Z2zf2VfsfafLxXgw
-         b8MsBrU4VeBbu8tdICNuqanVniFkScDJBHm47RToFCuYqK/Kl/AX/44iMl4nPof9pqC6
-         h5+MsrYkbmh/Joxh4YOzqOzU4YYwG5GXEyVepYbj/Bd4LMT/hLA8atET5D/yMy1w7x8x
-         oRAkAsnx+EXwXyHbasGNpLaFnM+yqdWBtYzfezmbDh4C5oU8WT/im3fFR46pg2pSnvpJ
-         Aiww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=EofdUoQrs85PBjjnb/AuG4A4pyzR0R8swOkdIz7JRmY=;
-        b=XYu8TEgt921m/8x3vfy+W6YP6NO0lDRmqyOlYVzik6GY8ZXdu/kYYQr+iowuFF9fRp
-         FWhi/TIiEa+bIUVKIWZfDA8zZslfotf7NiaGEyUKiEOSfQtANLpqGKIE/18M19jlFqpF
-         KgdByaKPTwS8LaZ1+Uo3nymyNt9v+ZT0VyClYian765mqvX9GsPzbanuLPYklSLqtTsT
-         8aFs7ePNsoz0je2GlyzQ3We74n7VPkaEUXheGCZzml9Pd91u0wkYzKZY7qQrEsu+Rwb0
-         3iQyGhPaf7IIur855zdMUlJGxtMfwcaeyhT2VLnGe5qEI3B4h0BuweutFMuB0aBFEvIR
-         RRlA==
-X-Gm-Message-State: APjAAAUBSl+agRUEjtlzumKUDM5frg8TLIYq/e2pO2Lk9tZha//+EvWx
-        p5nqoEYysEuhOUKnCN2FXE4=
-X-Google-Smtp-Source: APXvYqzUiw+VJdNr6xBvgwrgYwjzfVGVSd4+DNEu1IcRixOkVetVtm5HgL9fQ3UgrnhqDPlrTcgX5A==
-X-Received: by 2002:a62:5284:: with SMTP id g126mr15380962pfb.95.1571897595495;
-        Wed, 23 Oct 2019 23:13:15 -0700 (PDT)
-Received: from gmail.com ([2601:600:817f:a132:df3e:521d:99d5:710d])
-        by smtp.gmail.com with ESMTPSA id e4sm24802948pff.22.2019.10.23.23.13.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Oct 2019 23:13:14 -0700 (PDT)
-Date:   Wed, 23 Oct 2019 23:13:11 -0700
-From:   Andrei Vagin <avagin@gmail.com>
-To:     Vincenzo Frascino <vincenzo.frascino@arm.com>
-Cc:     Dmitry Safonov <dima@arista.com>, linux-kernel@vger.kernel.org,
-        Dmitry Safonov <0x7f454c46@gmail.com>,
-        Adrian Reber <adrian@lisas.de>,
-        Andrei Vagin <avagin@openvz.org>,
-        Andy Lutomirski <luto@kernel.org>,
+        id S2391106AbfJXHGl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 24 Oct 2019 03:06:41 -0400
+Received: from mout-p-102.mailbox.org ([80.241.56.152]:11256 "EHLO
+        mout-p-102.mailbox.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727635AbfJXHGl (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 24 Oct 2019 03:06:41 -0400
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:105:465:1:2:0])
+        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
+        (No client certificate requested)
+        by mout-p-102.mailbox.org (Postfix) with ESMTPS id 46zJFS55d2zKmhs;
+        Thu, 24 Oct 2019 09:06:36 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from smtp2.mailbox.org ([80.241.60.241])
+        by gerste.heinlein-support.de (gerste.heinlein-support.de [91.198.250.173]) (amavisd-new, port 10030)
+        with ESMTP id DAIjq9oYK49d; Thu, 24 Oct 2019 09:06:30 +0200 (CEST)
+Date:   Thu, 24 Oct 2019 18:06:04 +1100
+From:   Aleksa Sarai <cyphar@cyphar.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J. Bruce Fields" <bfields@fieldses.org>,
         Arnd Bergmann <arnd@arndb.de>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Cyrill Gorcunov <gorcunov@openvz.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jann Horn <jannh@google.com>, Jeff Dike <jdike@addtoit.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Pavel Emelyanov <xemul@virtuozzo.com>,
+        David Howells <dhowells@redhat.com>,
         Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        containers@lists.linux-foundation.org, criu@openvz.org,
-        linux-api@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCHv7 18/33] lib/vdso: Add unlikely() hint into
- vdso_read_begin()
-Message-ID: <20191024061311.GA4541@gmail.com>
-References: <20191011012341.846266-1-dima@arista.com>
- <20191011012341.846266-19-dima@arista.com>
- <100f6921-9081-7eb0-7acc-f10cfb647c21@arm.com>
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>, Tycho Andersen <tycho@tycho.ws>,
+        David Drysdale <drysdale@google.com>,
+        Chanho Min <chanho.min@lge.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Christian Brauner <christian@brauner.io>,
+        Aleksa Sarai <asarai@suse.de>,
+        Linux Containers <containers@lists.linux-foundation.org>,
+        alpha <linux-alpha@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        GNU C Library <libc-alpha@sourceware.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-ia64@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-m68k <linux-m68k@lists.linux-m68k.org>,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        Linux-sh list <linux-sh@vger.kernel.org>,
+        linux-xtensa@linux-xtensa.org, sparclinux@vger.kernel.org
+Subject: Re: [PATCH v14 2/6] namei: LOOKUP_IN_ROOT: chroot-like path
+ resolution
+Message-ID: <20191024070604.howuh6x6qrzd5jsm@yavin.dot.cyphar.com>
+References: <20191010054140.8483-1-cyphar@cyphar.com>
+ <20191010054140.8483-3-cyphar@cyphar.com>
+ <CAHk-=wh8L50f31vW8BwRUXhLiq3eoCQ3tg8ER4Yp2dzuU1w5rQ@mail.gmail.com>
+ <20191012040815.gnc43cfmo5mnv67u@yavin.dot.cyphar.com>
+ <20191012041541.milbmfbjpj5bcl5a@yavin.dot.cyphar.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="xHFwDpU9dbj6ez1V"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="i56sxfhksaspu3tw"
 Content-Disposition: inline
-In-Reply-To: <100f6921-9081-7eb0-7acc-f10cfb647c21@arm.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20191012041541.milbmfbjpj5bcl5a@yavin.dot.cyphar.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 
---xHFwDpU9dbj6ez1V
-Content-Type: text/plain; charset=koi8-r
+--i56sxfhksaspu3tw
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 16, 2019 at 12:24:14PM +0100, Vincenzo Frascino wrote:
-> On 10/11/19 2:23 AM, Dmitry Safonov wrote:
-> > From: Andrei Vagin <avagin@gmail.com>
-> > 
-> > Place the branch with no concurrent write before contended case.
-> > 
-> > Performance numbers for Intel(R) Core(TM) i5-6300U CPU @ 2.40GHz
-> > (more clock_gettime() cycles - the better):
-> >         | before    | after
-> > -----------------------------------
-> >         | 150252214 | 153242367
-> >         | 150301112 | 153324800
-> >         | 150392773 | 153125401
-> >         | 150373957 | 153399355
-> >         | 150303157 | 153489417
-> >         | 150365237 | 153494270
-> > -----------------------------------
-> > avg     | 150331408 | 153345935
-> > diff %  | 2	    | 0
-> > -----------------------------------
-> > stdev % | 0.3	    | 0.1
-> > 
-> > Signed-off-by: Andrei Vagin <avagin@gmail.com>
-> > Co-developed-by: Dmitry Safonov <dima@arista.com>
-> > Signed-off-by: Dmitry Safonov <dima@arista.com>
-> 
-> Reviewed-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
-> Tested-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+On 2019-10-12, Aleksa Sarai <cyphar@cyphar.com> wrote:
+> On 2019-10-12, Aleksa Sarai <cyphar@cyphar.com> wrote:
+> > On 2019-10-10, Linus Torvalds <torvalds@linux-foundation.org> wrote:
+> > > On Wed, Oct 9, 2019 at 10:42 PM Aleksa Sarai <cyphar@cyphar.com> wrot=
+e:
+> > > >
+> > > > --- a/fs/namei.c
+> > > > +++ b/fs/namei.c
+> > > > @@ -2277,6 +2277,11 @@ static const char *path_init(struct nameidat=
+a *nd, unsigned flags)
+> > > >
+> > > >         nd->m_seq =3D read_seqbegin(&mount_lock);
+> > > >
+> > > > +       /* LOOKUP_IN_ROOT treats absolute paths as being relative-t=
+o-dirfd. */
+> > > > +       if (flags & LOOKUP_IN_ROOT)
+> > > > +               while (*s =3D=3D '/')
+> > > > +                       s++;
+> > > > +
+> > > >         /* Figure out the starting path and root (if needed). */
+> > > >         if (*s =3D=3D '/') {
+> > > >                 error =3D nd_jump_root(nd);
+> > >=20
+> > > Hmm. Wouldn't this make more sense all inside the if (*s =3D- '/') te=
+st?
+> > > That way if would be where we check for "should we start at the root",
+> > > which seems to make more sense conceptually.
+> >=20
+> > I don't really agree (though I do think that both options are pretty
+> > ugly). Doing it before the block makes it clear that absolute paths are
+> > just treated relative-to-dirfd -- doing it inside the block makes it
+> > look more like "/" is a special-case for nd_jump_root(). And while that
+>=20
+> Sorry, I meant "special-case for LOOKUP_IN_ROOT".
+>=20
+> > is somewhat true, this is just a side-effect of making the code more
+> > clean -- my earlier versions reworked the dirfd handling to always grab
+> > nd->root first if LOOKUP_IS_SCOPED. I switched to this method based on
+> > Al's review.
+> >=20
+> > In fairness, I do agree that the lonely while loop looks ugly.
+>=20
+> And with the old way I did it (where we grabbed nd->root first) the
+> semantics were slightly more clear -- stripping leading "/"s doesn't
+> really look as "clearly obvious" as grabbing nd->root beforehand and
+> treating "/"s normally. But the code was also needlessly more complex.
+>=20
+> > > That test for '/' currently has a "} else if (..)", but that's
+> > > pointless since it ends with a "return" anyway. So the "else" logic is
+> > > just noise.
+> >=20
+> > This depends on the fact that LOOKUP_BENEATH always triggers -EXDEV for
+> > nd_jump_root() -- if we ever add another "scoped lookup" flag then the
+> > logic will have to be further reworked.
+> >=20
+> > (It should be noted that the new version doesn't always end with a
+> > "return", but you could change it to act that way given the above
+> > assumption.)
+> >=20
+> > > And if you get rid of the unnecessary else, moving the LOOKUP_IN_ROOT
+> > > inside the if-statement works fine.
+> > >=20
+> > > So this could be something like
+> > >=20
+> > >     --- a/fs/namei.c
+> > >     +++ b/fs/namei.c
+> > >     @@ -2194,11 +2196,19 @@ static const char *path_init(struct
+> > > nameidata *nd, unsigned flags)
+> > >=20
+> > >         nd->m_seq =3D read_seqbegin(&mount_lock);
+> > >         if (*s =3D=3D '/') {
+> > >     -           set_root(nd);
+> > >     -           if (likely(!nd_jump_root(nd)))
+> > >     -                   return s;
+> > >     -           return ERR_PTR(-ECHILD);
+> > >     -   } else if (nd->dfd =3D=3D AT_FDCWD) {
+> > >     +           /* LOOKUP_IN_ROOT treats absolute paths as being
+> > > relative-to-dirfd. */
+> > >     +           if (!(flags & LOOKUP_IN_ROOT)) {
+> > >     +                   set_root(nd);
+> > >     +                   if (likely(!nd_jump_root(nd)))
+> > >     +                           return s;
+> > >     +                   return ERR_PTR(-ECHILD);
+> > >     +           }
+> > >     +
+> > >     +           /* Skip initial '/' for LOOKUP_IN_ROOT */
+> > >     +           do { s++; } while (*s =3D=3D '/');
+> > >     +   }
+> > >     +
+> > >     +   if (nd->dfd =3D=3D AT_FDCWD) {
+> > >                 if (flags & LOOKUP_RCU) {
+> > >                         struct fs_struct *fs =3D current->fs;
+> > >                         unsigned seq;
+> > >=20
+> > > instead. The patch ends up slightly bigger (due to the re-indentation)
+> > > but now it handles all the "start at root" in the same place. Doesn't
+> > > that make sense?
+> >=20
+> > It is correct (though I'd need to clean it up a bit to handle
+> > nd_jump_root() correctly), and if you really would like me to change it
+> > I will -- but I just don't agree that it's cleaner.
 
-Hello Vincenzo,
+Linus, did you still want me to make your proposed change?
 
-Could you test the attached patch on aarch64? On x86, it gives about 9%
-performance improvement for CLOCK_MONOTONIC and CLOCK_BOOTTIME.
+--=20
+Aleksa Sarai
+Senior Software Engineer (Containers)
+SUSE Linux GmbH
+<https://www.cyphar.com/>
 
-Here is my test:
-https://github.com/avagin/vdso-perf
+--i56sxfhksaspu3tw
+Content-Type: application/pgp-signature; name="signature.asc"
 
-It is calling clock_gettime() in a loop for three seconds and then
-reports a number of iterations.
+-----BEGIN PGP SIGNATURE-----
 
-Thanks,
-Andrei
+iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCXbFNWQAKCRCdlLljIbnQ
+Ert5AP0aC5CrGCVvHOpelKBjUDOS5duq76VaVyiiUWcy3eeeFwD/aQEQPqkGREqr
+5Lo0df+nvE9H+89b7vJGbcaEZNxkTQc=
+=rtfF
+-----END PGP SIGNATURE-----
 
---xHFwDpU9dbj6ez1V
-Content-Type: text/plain; charset=koi8-r
-Content-Disposition: attachment;
-	filename="0001-lib-vdso-make-do_hres-and-do_coarse-as-__always_inli.patch"
-
-From 5252093fec4c74802e5ef501b9f1db3369430c80 Mon Sep 17 00:00:00 2001
-From: Andrei Vagin <avagin@gmail.com>
-Date: Tue, 22 Oct 2019 18:23:17 -0700
-Subject: [PATCH] lib/vdso: make do_hres and do_coarse as __always_inline
-
-Performance numbers for Intel(R) Core(TM) i5-6300U CPU @ 2.40GHz
-(more clock_gettime() cycles - the better):
-
-clock            | before     | after      | diff
-----------------------------------------------------------
-monotonic        |  153222105 |  166775025 | 8.8%
-monotonic-coarse |  671557054 |  691513017 | 3.0%
-monotonic-raw    |  147116067 |  161057395 | 9.5%
-boottime         |  153446224 |  166962668 | 9.1%
-
-Signed-off-by: Andrei Vagin <avagin@gmail.com>
----
- lib/vdso/gettimeofday.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
-
-diff --git a/lib/vdso/gettimeofday.c b/lib/vdso/gettimeofday.c
-index e630e7ff57f1..b4f7f0f246af 100644
---- a/lib/vdso/gettimeofday.c
-+++ b/lib/vdso/gettimeofday.c
-@@ -38,7 +38,7 @@ u64 vdso_calc_delta(u64 cycles, u64 last, u64 mask, u32 mult)
- }
- #endif
- 
--static int do_hres(const struct vdso_data *vd, clockid_t clk,
-+static __always_inline int do_hres(const struct vdso_data *vd, clockid_t clk,
- 		   struct __kernel_timespec *ts)
- {
- 	const struct vdso_timestamp *vdso_ts = &vd->basetime[clk];
-@@ -68,7 +68,7 @@ static int do_hres(const struct vdso_data *vd, clockid_t clk,
- 	return 0;
- }
- 
--static void do_coarse(const struct vdso_data *vd, clockid_t clk,
-+static __always_inline void do_coarse(const struct vdso_data *vd, clockid_t clk,
- 		      struct __kernel_timespec *ts)
- {
- 	const struct vdso_timestamp *vdso_ts = &vd->basetime[clk];
-@@ -97,12 +97,16 @@ __cvdso_clock_gettime_common(clockid_t clock, struct __kernel_timespec *ts)
- 	 */
- 	msk = 1U << clock;
- 	if (likely(msk & VDSO_HRES)) {
--		return do_hres(&vd[CS_HRES_COARSE], clock, ts);
-+		vd = &vd[CS_HRES_COARSE];
-+out_hres:
-+		return do_hres(vd, clock, ts);
- 	} else if (msk & VDSO_COARSE) {
- 		do_coarse(&vd[CS_HRES_COARSE], clock, ts);
- 		return 0;
- 	} else if (msk & VDSO_RAW) {
--		return do_hres(&vd[CS_RAW], clock, ts);
-+		vd = &vd[CS_RAW];
-+		/* goto allows to avoid extra inlining of do_hres. */
-+		goto out_hres;
- 	}
- 	return -1;
- }
--- 
-2.21.0
-
-
---xHFwDpU9dbj6ez1V--
+--i56sxfhksaspu3tw--
