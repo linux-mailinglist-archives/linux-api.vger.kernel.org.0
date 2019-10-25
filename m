@@ -2,125 +2,167 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 173EFE54E9
-	for <lists+linux-api@lfdr.de>; Fri, 25 Oct 2019 22:12:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF9AAE54F3
+	for <lists+linux-api@lfdr.de>; Fri, 25 Oct 2019 22:16:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726538AbfJYUMz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 25 Oct 2019 16:12:55 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:22238 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725887AbfJYUMz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 25 Oct 2019 16:12:55 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x9PKC3rp016118
-        for <linux-api@vger.kernel.org>; Fri, 25 Oct 2019 16:12:54 -0400
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2vv7n98g6d-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-api@vger.kernel.org>; Fri, 25 Oct 2019 16:12:54 -0400
-Received: from localhost
-        by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-api@vger.kernel.org> from <rppt@linux.ibm.com>;
-        Fri, 25 Oct 2019 21:12:52 +0100
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
-        by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Fri, 25 Oct 2019 21:12:47 +0100
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x9PKCkce60948514
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 25 Oct 2019 20:12:46 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id A351B5204F;
-        Fri, 25 Oct 2019 20:12:46 +0000 (GMT)
-Received: from linux.ibm.com (unknown [9.148.205.37])
-        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTPS id 54F7C5204E;
-        Fri, 25 Oct 2019 20:12:45 +0000 (GMT)
-Date:   Fri, 25 Oct 2019 23:12:43 +0300
-From:   Mike Rapoport <rppt@linux.ibm.com>
-To:     Andrea Arcangeli <aarcange@redhat.com>
-Cc:     Andy Lutomirski <luto@kernel.org>, Jann Horn <jannh@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Pavel Emelyanov <xemul@virtuozzo.com>,
-        Lokesh Gidra <lokeshgidra@google.com>,
-        Nick Kralevich <nnk@google.com>,
-        Nosh Minwalla <nosh@google.com>,
-        Tim Murray <timmurray@google.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 3/7] Add a UFFD_SECURE flag to the userfaultfd API.
-References: <20191012191602.45649-1-dancol@google.com>
- <20191012191602.45649-4-dancol@google.com>
- <CALCETrVZHd+csdRL-uKbVN3Z7yeNNtxiDy-UsutMi=K3ZgCiYw@mail.gmail.com>
- <CAKOZuevUqs_Oe1UEwguQK7Ate3ai1DSVSij=0R=vmz9LzX4k6Q@mail.gmail.com>
- <CALCETrUyq=J37gU-MYXqLdoi7uH7iNNVRjvcGUT11JA1QuTFyg@mail.gmail.com>
- <CAG48ez3P27-xqdjKLqfP_0Q_v9K92CgEjU4C=kob2Ax7=NoZbA@mail.gmail.com>
- <20191023190959.GA9902@redhat.com>
- <20191024090258.GA9802@linux.ibm.com>
- <20191024151054.GJ9902@redhat.com>
+        id S1728057AbfJYUQD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 25 Oct 2019 16:16:03 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:48383 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728053AbfJYUQC (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 25 Oct 2019 16:16:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1572034561;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=A1a57DeVhAkVte8e6LqvN0c6Mg7Eg5WPxMLsoZ4fAsE=;
+        b=i/au+bB/MFX9XuXU6SGq3MMFm2iyV+bE3gUB2f8XjJcUjKUlHsWDKXoQ43+bfJFvb7DNnG
+        hQ+0hUvd1T4TtCw/oGH4slN7JJa1+huvDF159++1jQW8jnjEFwURIoe/YVA+ioHSVEay/C
+        jB/+ErVB0mbRGHqHiH7qT8GYOBo3eUw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-305-dacuketPPimuhQzfeX5muQ-1; Fri, 25 Oct 2019 16:15:55 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD8EA107AD31;
+        Fri, 25 Oct 2019 20:15:53 +0000 (UTC)
+Received: from madcap2.tricolour.ca (ovpn-112-19.phx2.redhat.com [10.3.112.19])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 3CFF5600D1;
+        Fri, 25 Oct 2019 20:15:42 +0000 (UTC)
+Date:   Fri, 25 Oct 2019 16:15:39 -0400
+From:   Richard Guy Briggs <rgb@redhat.com>
+To:     Neil Horman <nhorman@tuxdriver.com>
+Cc:     containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
+        Linux-Audit Mailing List <linux-audit@redhat.com>,
+        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
+        Paul Moore <paul@paul-moore.com>, sgrubb@redhat.com,
+        omosnace@redhat.com, dhowells@redhat.com, simo@redhat.com,
+        eparis@parisplace.org, serge@hallyn.com, ebiederm@xmission.com,
+        dwalsh@redhat.com, mpatel@redhat.com
+Subject: Re: [PATCH ghak90 V7 06/21] audit: contid limit of 32k imposed to
+ avoid DoS
+Message-ID: <20191025201539.5nvjg3x7zshoqjwl@madcap2.tricolour.ca>
+References: <cover.1568834524.git.rgb@redhat.com>
+ <230e91cd3e50a3d8015daac135c24c4c58cf0a21.1568834524.git.rgb@redhat.com>
+ <20190927125142.GA25764@hmswarspite.think-freely.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <20190927125142.GA25764@hmswarspite.think-freely.org>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: dacuketPPimuhQzfeX5muQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
-In-Reply-To: <20191024151054.GJ9902@redhat.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TM-AS-GCONF: 00
-x-cbid: 19102520-0016-0000-0000-000002BDA4DB
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19102520-0017-0000-0000-0000331EF01D
-Message-Id: <20191025201242.GA8710@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-10-25_10:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=747 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1908290000 definitions=main-1910250184
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi,
+On 2019-09-27 08:51, Neil Horman wrote:
+> On Wed, Sep 18, 2019 at 09:22:23PM -0400, Richard Guy Briggs wrote:
+> > Set an arbitrary limit on the number of audit container identifiers to
+> > limit abuse.
+> >=20
+> > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+> > ---
+> >  kernel/audit.c | 8 ++++++++
+> >  kernel/audit.h | 4 ++++
+> >  2 files changed, 12 insertions(+)
+> >=20
+> > diff --git a/kernel/audit.c b/kernel/audit.c
+> > index 53d13d638c63..329916534dd2 100644
+> > --- a/kernel/audit.c
+> > +++ b/kernel/audit.c
+> > @@ -139,6 +139,7 @@ struct audit_net {
+> >  struct list_head audit_inode_hash[AUDIT_INODE_BUCKETS];
+> >  /* Hash for contid-based rules */
+> >  struct list_head audit_contid_hash[AUDIT_CONTID_BUCKETS];
+> > +int audit_contid_count =3D 0;
+> > =20
+> >  static struct kmem_cache *audit_buffer_cache;
+> > =20
+> > @@ -2384,6 +2385,7 @@ void audit_cont_put(struct audit_cont *cont)
+> >  =09=09put_task_struct(cont->owner);
+> >  =09=09list_del_rcu(&cont->list);
+> >  =09=09kfree_rcu(cont, rcu);
+> > +=09=09audit_contid_count--;
+> >  =09}
+> >  }
+> > =20
+> > @@ -2456,6 +2458,11 @@ int audit_set_contid(struct task_struct *task, u=
+64 contid)
+> >  =09=09=09=09=09goto conterror;
+> >  =09=09=09=09}
+> >  =09=09=09}
+> > +=09=09/* Set max contids */
+> > +=09=09if (audit_contid_count > AUDIT_CONTID_COUNT) {
+> > +=09=09=09rc =3D -ENOSPC;
+> > +=09=09=09goto conterror;
+> > +=09=09}
+> You should check for audit_contid_count =3D=3D AUDIT_CONTID_COUNT here, n=
+o?
+> or at least >=3D, since you increment it below.  Otherwise its possible
+> that you will exceed it by one in the full condition.
 
-On Thu, Oct 24, 2019 at 11:10:54AM -0400, Andrea Arcangeli wrote:
-> Hello,
-> 
-> On Thu, Oct 24, 2019 at 12:02:59PM +0300, Mike Rapoport wrote:
-> > That's no the reason that UFFD_FEATURE_EVENT_FORK does not show up in
-> > Debian code search, CRIU simply is not there. Debian packages CRIU only in
-> > experimental and I believe that's not indexed by the code search.
-> > 
-> > As for the limitations, the races were fixed, I just forgot to update the
-> > wiki. As for the supported memory types and COW pages, these only affect
-> > efficiency of post-copy, but not the correctness.
-> 
-> That's what I was hoping for. If the wiki information is stale and
-> there are no races it is totally plausible that it's being actively
-> used in production so we need to fix the kernel bug. I was just
-> checking because I wasn't sure anymore of the status after I read the
-> wiki.
-> 
-> If the CRIU initialization code that issues the uffd syscall runs as
-> global root the ABI breaking permission check from Andy sounds the
-> simplest for a short term fix, because it will be unnoticed by any
-> production usage with CIRU --lazy-pages.
- 
-In general, criu can run as non-root, but such use of criu has limitations,
-so allowing criu --lazy-pages only for root sounds reasonable as a short
-term solution.
+Yes, agreed.
 
-> Then later we could add a UFFD_FEATURE_EVENT_FORK2 that will not
-> require root permission.
+> >  =09=09if (!newcont) {
+> >  =09=09=09newcont =3D kmalloc(sizeof(struct audit_cont), GFP_ATOMIC);
+> >  =09=09=09if (newcont) {
+> > @@ -2465,6 +2472,7 @@ int audit_set_contid(struct task_struct *task, u6=
+4 contid)
+> >  =09=09=09=09newcont->owner =3D current;
+> >  =09=09=09=09refcount_set(&newcont->refcount, 1);
+> >  =09=09=09=09list_add_rcu(&newcont->list, &audit_contid_hash[h]);
+> > +=09=09=09=09audit_contid_count++;
+> >  =09=09=09} else {
+> >  =09=09=09=09rc =3D -ENOMEM;
+> >  =09=09=09=09goto conterror;
+> > diff --git a/kernel/audit.h b/kernel/audit.h
+> > index 162de8366b32..543f1334ba47 100644
+> > --- a/kernel/audit.h
+> > +++ b/kernel/audit.h
+> > @@ -219,6 +219,10 @@ static inline int audit_hash_contid(u64 contid)
+> >  =09return (contid & (AUDIT_CONTID_BUCKETS-1));
+> >  }
+> > =20
+> > +extern int audit_contid_count;
+> > +
+> > +#define AUDIT_CONTID_COUNT=091 << 16
+> > +
+> Just to ask the question, since it wasn't clear in the changelog, what
+> abuse are you avoiding here?  Ostensibly you should be able to create as
+> many container ids as you have space for, and the simple creation of
+> container ids doesn't seem like the resource strain I would be concerned
+> about here, given that an orchestrator can still create as many
+> containers as the system will otherwise allow, which will consume
+> significantly more ram/disk/etc.
 
-Agree.
+Agreed.  I'm not a huge fan of this, but included it as an optional
+patch to address resource abuse concerns of Eric Beiderman.  I'll push
+it to the end of the patchset and make it clear it is optional unless I
+hear a compelling reason to keep it.
 
-> Thanks,
-> Andrea
-> 
+A similar argument was used to make the audit queue length tunable
+parameter unlimited.
 
--- 
-Sincerely yours,
-Mike.
+> >  /* Indicates that audit should log the full pathname. */
+> >  #define AUDIT_NAME_FULL -1
+> > =20
+> > --=20
+> > 1.8.3.1
+
+- RGB
+
+--
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems
+Remote, Ottawa, Red Hat Canada
+IRC: rgb, SunRaycer
+Voice: +1.647.777.2635, Internal: (81) 32635
 
