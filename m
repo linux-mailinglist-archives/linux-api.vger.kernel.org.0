@@ -2,139 +2,183 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FF9BE47CD
-	for <lists+linux-api@lfdr.de>; Fri, 25 Oct 2019 11:50:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E275BE47EE
+	for <lists+linux-api@lfdr.de>; Fri, 25 Oct 2019 11:56:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408360AbfJYJuL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 25 Oct 2019 05:50:11 -0400
-Received: from mout-p-102.mailbox.org ([80.241.56.152]:53530 "EHLO
-        mout-p-102.mailbox.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2407918AbfJYJuL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 25 Oct 2019 05:50:11 -0400
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [80.241.60.240])
-        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
-        (No client certificate requested)
-        by mout-p-102.mailbox.org (Postfix) with ESMTPS id 46zzqj258lzKmZ4;
-        Fri, 25 Oct 2019 11:50:09 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp1.mailbox.org ([80.241.60.240])
-        by spamfilter06.heinlein-hosting.de (spamfilter06.heinlein-hosting.de [80.241.56.125]) (amavisd-new, port 10030)
-        with ESMTP id TLtJwWbBoCxd; Fri, 25 Oct 2019 11:50:05 +0200 (CEST)
-Date:   Fri, 25 Oct 2019 20:49:56 +1100
-From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     Christian Brauner <christian.brauner@ubuntu.com>
+        id S2408956AbfJYJ4y (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 25 Oct 2019 05:56:54 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:40638 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2408934AbfJYJ4y (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 25 Oct 2019 05:56:54 -0400
+Received: from [185.240.52.243] (helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1iNwKw-00077y-MR; Fri, 25 Oct 2019 09:56:50 +0000
+Date:   Fri, 25 Oct 2019 11:56:49 +0200
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Aleksa Sarai <cyphar@cyphar.com>
 Cc:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
         Christian Brauner <christian@brauner.io>,
         Linux API <linux-api@vger.kernel.org>,
         lkml <linux-kernel@vger.kernel.org>
 Subject: Re: clone3() example code
-Message-ID: <20191025094956.hvr44v2lbfxf7dfs@yavin.dot.cyphar.com>
+Message-ID: <20191025095647.ga74uchqhflpliec@wittgenstein>
 References: <CAKgNAkgKX1Z6Uns3pAvXe-JMSmWqo2PrqeoS65aEriZsV35QmA@mail.gmail.com>
  <20191025084142.jpwypkyczehylhgv@wittgenstein>
+ <20191025094956.hvr44v2lbfxf7dfs@yavin.dot.cyphar.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="qfxueoggiia3z6jh"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20191025084142.jpwypkyczehylhgv@wittgenstein>
+In-Reply-To: <20191025094956.hvr44v2lbfxf7dfs@yavin.dot.cyphar.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Fri, Oct 25, 2019 at 08:49:56PM +1100, Aleksa Sarai wrote:
+> On 2019-10-25, Christian Brauner <christian.brauner@ubuntu.com> wrote:
+> > #define ptr_to_u64(ptr) ((__u64)((uintptr_t)(ptr)))
+> > 
+> > int main(int argc, char *argv[])
+> > {
+> > 	int pidfd = -1;
+> > 	pid_t parent_tid = -1, pid = -1;
+> > 	struct clone_args args = {0};
+> > 
+> > 	args.parent_tid = ptr_to_u64(&parent_tid); /* CLONE_PARENT_SETTID */
+> > 	args.pidfd = ptr_to_u64(&pidfd); /* CLONE_PIDFD */
+> > 	args.flags = CLONE_PIDFD | CLONE_PARENT_SETTID;
+> > 	args.exit_signal = SIGCHLD;
+> > 
+> > 	pid = sys_clone3(&args);
+> 
+> I'd suggest that
+> 
+> 	struct clone_args args = {
+> 		.flags = CLONE_PIDFD | CLONE_PARENT_SETTID,
+> 		.parent_tid = ptr_to_u64(&parent_tid), /* CLONE_PARENT_SETTID */
+> 		.pidfd = ptr_to_u64(&pidfd),           /* CLONE_PIDFD */
+> 		.exit_signal = SIGCHLD,
+> 	};
+> 
+> or alternatively
+> 
+> 	pid = sys_clone3(&(struct clone_args) {
+> 		.flags = CLONE_PIDFD | CLONE_PARENT_SETTID,
+> 		.parent_tid = ptr_to_u64(&parent_tid), /* CLONE_PARENT_SETTID */
+> 		.pidfd = ptr_to_u64(&pidfd),           /* CLONE_PIDFD */
+> 		.exit_signal = SIGCHLD,
+> 	});
+> 
+> are easier to read.
 
---qfxueoggiia3z6jh
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+That was an accident. I posted from the wrong file. The correct code is:
 
-On 2019-10-25, Christian Brauner <christian.brauner@ubuntu.com> wrote:
-> #define ptr_to_u64(ptr) ((__u64)((uintptr_t)(ptr)))
->=20
-> int main(int argc, char *argv[])
-> {
-> 	int pidfd =3D -1;
-> 	pid_t parent_tid =3D -1, pid =3D -1;
-> 	struct clone_args args =3D {0};
->=20
-> 	args.parent_tid =3D ptr_to_u64(&parent_tid); /* CLONE_PARENT_SETTID */
-> 	args.pidfd =3D ptr_to_u64(&pidfd); /* CLONE_PIDFD */
-> 	args.flags =3D CLONE_PIDFD | CLONE_PARENT_SETTID;
-> 	args.exit_signal =3D SIGCHLD;
->=20
-> 	pid =3D sys_clone3(&args);
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE 1
+#endif
+#include <errno.h>
+#include <linux/sched.h>
+#include <linux/types.h>
+#include <sched.h>
+#include <signal.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/syscall.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
-I'd suggest that
+#ifndef CLONE_PIDFD
+#define CLONE_PIDFD 0x00001000
+#endif
 
-	struct clone_args args =3D {
-		.flags =3D CLONE_PIDFD | CLONE_PARENT_SETTID,
-		.parent_tid =3D ptr_to_u64(&parent_tid), /* CLONE_PARENT_SETTID */
-		.pidfd =3D ptr_to_u64(&pidfd),           /* CLONE_PIDFD */
-		.exit_signal =3D SIGCHLD,
+#ifndef __NR_clone3
+#define __NR_clone3 -1
+struct clone_args {
+	__aligned_u64 flags;
+	__aligned_u64 pidfd;
+	__aligned_u64 child_tid;
+	__aligned_u64 parent_tid;
+	__aligned_u64 exit_signal;
+	__aligned_u64 stack;
+	__aligned_u64 stack_size;
+	__aligned_u64 tls;
+};
+#endif
+
+static pid_t sys_clone3(struct clone_args *args)
+{
+	return syscall(__NR_clone3, args, sizeof(struct clone_args));
+}
+
+static int wait_for_pid(pid_t pid)
+{
+	int status, ret;
+
+again:
+	ret = waitpid(pid, &status, 0);
+	if (ret == -1) {
+		if (errno == EINTR)
+			goto again;
+
+		return -1;
+	}
+
+	if (ret != pid)
+		goto again;
+
+	if (!WIFEXITED(status) || WEXITSTATUS(status) != 0)
+		return -1;
+
+	return 0;
+}
+
+#define ptr_to_u64(ptr) ((__u64)((uintptr_t)(ptr)))
+
+int main(int argc, char *argv[])
+{
+	int pidfd = -1;
+	pid_t parent_tid = -1, pid = -1;
+	struct clone_args args = {
+		/* CLONE_PARENT_SETTID */
+		.parent_tid = ptr_to_u64(&parent_tid),
+		/* CLONE_PIDFD */
+		.pidfd = ptr_to_u64(&pidfd),
+		.flags = CLONE_PIDFD | CLONE_PARENT_SETTID,
+		.exit_signal = SIGCHLD,
 	};
 
-or alternatively
+	pid = sys_clone3(&args);
+	if (pid < 0) {
+		fprintf(stderr, "%s - Failed to create new process\n", strerror(errno));
+		exit(EXIT_FAILURE);
+	}
 
-	pid =3D sys_clone3(&(struct clone_args) {
-		.flags =3D CLONE_PIDFD | CLONE_PARENT_SETTID,
-		.parent_tid =3D ptr_to_u64(&parent_tid), /* CLONE_PARENT_SETTID */
-		.pidfd =3D ptr_to_u64(&pidfd),           /* CLONE_PIDFD */
-		.exit_signal =3D SIGCHLD,
-	});
+	if (pid == 0) {
+		printf("Child process with pid %d\n", getpid());
+		exit(EXIT_SUCCESS);
+	}
 
-are easier to read.
+	printf("Parent process received child's pid %d as return value\n", pid);
+	printf("Parent process received child's pidfd %d\n", pidfd);
+	printf("Parent process received child's pid %d as return argument\n",
+	       *(pid_t *)args.parent_tid);
 
-> 	if (pid < 0) {
-> 		fprintf(stderr, "%s - Failed to create new process\n", strerror(errno));
-> 		exit(EXIT_FAILURE);
-> 	}
->=20
-> 	if (pid =3D=3D 0) {
-> 		printf("Child process with pid %d\n", getpid());
-> 		exit(EXIT_SUCCESS);
-> 	}
->=20
-> 	printf("Parent process received child's pid %d as return value\n", pid);
-> 	printf("Parent process received child's pidfd %d\n", *(int *)args.pidfd);
-> 	printf("Parent process received child's pid %d as return argument\n",
-> 	       *(pid_t *)args.parent_tid);
->=20
-> 	if (0) {
-> 		if (waitid(P_ALL, pid, NULL, 0) =3D=3D 0) {
-> 			fprintf(stderr, "Managed to wait on CLONE_NO_WAITALL process with wait=
-id(P_ALL)\n");
-> 			exit(EXIT_FAILURE);
-> 		}
-> 		printf("Child process %d requested CLONE_NO_WAITALL\n", pid);
-> 	} else {
-> 		printf("Child process %d did not request CLONE_NO_WAITALL\n", pid);
-> 	}
->=20
-> 	if (wait_for_pid(pid))
-> 		exit(EXIT_FAILURE);
->=20
-> 	if (pid !=3D *(pid_t *)args.parent_tid)
-> 		exit(EXIT_FAILURE);
->=20
-> 	close(pidfd);
->=20
-> 	return 0;
-> }
+	if (wait_for_pid(pid)) {
+		fprintf(stderr, "Failed to wait on child process\n");
+		exit(EXIT_FAILURE);
+	}
 
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-<https://www.cyphar.com/>
+	if (pid != parent_tid)
+		exit(EXIT_FAILURE);
 
---qfxueoggiia3z6jh
-Content-Type: application/pgp-signature; name="signature.asc"
+	close(pidfd);
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCXbLFQAAKCRCdlLljIbnQ
-El81AP0Zq9hqMvdLZ606cwcrvwrlF1Dz1SNfa3Qr2ixC8xKfigD+OBZQIMDUhECt
-fIXlzzzhuKElKrMxiI6ydgtkfRPGJgA=
-=Ka/u
------END PGP SIGNATURE-----
-
---qfxueoggiia3z6jh--
+	return 0;
+}
