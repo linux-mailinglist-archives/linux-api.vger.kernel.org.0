@@ -2,24 +2,38 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D2F46E6209
-	for <lists+linux-api@lfdr.de>; Sun, 27 Oct 2019 11:30:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EEB83E6214
+	for <lists+linux-api@lfdr.de>; Sun, 27 Oct 2019 12:00:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726708AbfJ0Ka2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 27 Oct 2019 06:30:28 -0400
-Received: from albireo.enyo.de ([37.24.231.21]:50102 "EHLO albireo.enyo.de"
+        id S1726690AbfJ0LAX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 27 Oct 2019 07:00:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45732 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726632AbfJ0Ka1 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Sun, 27 Oct 2019 06:30:27 -0400
-Received: from [172.17.203.2] (helo=deneb.enyo.de)
-        by albireo.enyo.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        id 1iOfoT-0004Rc-RC; Sun, 27 Oct 2019 10:30:21 +0000
-Received: from fw by deneb.enyo.de with local (Exim 4.92)
-        (envelope-from <fw@deneb.enyo.de>)
-        id 1iOfoT-00038w-IP; Sun, 27 Oct 2019 11:30:21 +0100
-From:   Florian Weimer <fw@deneb.enyo.de>
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     linux-kernel@vger.kernel.org,
+        id S1726661AbfJ0LAX (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Sun, 27 Oct 2019 07:00:23 -0400
+Received: from [10.173.153.26] (unknown [2.55.42.38])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6F46D214AF;
+        Sun, 27 Oct 2019 11:00:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1572174022;
+        bh=Jmt2B0VEl/FUjM+MgzpTzTtF3WYLk8v8TfnsbPH95BE=;
+        h=Date:In-Reply-To:References:Subject:To:CC:From:From;
+        b=nWmDdz95jS72TenFW6vwu5hnpkWGaIk+42GN2FxxDR78HF8zBHoIhwHWcd2Rwlzhz
+         BPaAzQljyMUopkP2ab89nUBAsWWGu6p1Oluy9j+CscUuN7lszAK4lXsB7HKKXgQ3LN
+         biHkcQoaYhqZmf4mRHOemJcXCiJq/wuyvnKN1xoY=
+Date:   Sun, 27 Oct 2019 13:00:13 +0200
+User-Agent: K-9 Mail for Android
+In-Reply-To: <87d0eieb0i.fsf@mid.deneb.enyo.de>
+References: <1572171452-7958-1-git-send-email-rppt@kernel.org> <87d0eieb0i.fsf@mid.deneb.enyo.de>
+MIME-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH RFC] mm: add MAP_EXCLUSIVE to create exclusive user mappings
+To:     Florian Weimer <fw@deneb.enyo.de>
+CC:     linux-kernel@vger.kernel.org,
         Alexey Dobriyan <adobriyan@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Andy Lutomirski <luto@kernel.org>,
@@ -33,29 +47,41 @@ Cc:     linux-kernel@vger.kernel.org,
         "H. Peter Anvin" <hpa@zytor.com>, linux-api@vger.kernel.org,
         linux-mm@kvack.org, x86@kernel.org,
         Mike Rapoport <rppt@linux.ibm.com>
-Subject: Re: [PATCH RFC] mm: add MAP_EXCLUSIVE to create exclusive user mappings
-References: <1572171452-7958-1-git-send-email-rppt@kernel.org>
-Date:   Sun, 27 Oct 2019 11:30:21 +0100
-In-Reply-To: <1572171452-7958-1-git-send-email-rppt@kernel.org> (Mike
-        Rapoport's message of "Sun, 27 Oct 2019 12:17:31 +0200")
-Message-ID: <87d0eieb0i.fsf@mid.deneb.enyo.de>
-MIME-Version: 1.0
-Content-Type: text/plain
+From:   Mike Rapoport <rppt@kernel.org>
+Message-ID: <385EB6D4-A1B0-4617-B256-181AA1C3BDE3@kernel.org>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Mike Rapoport:
+On October 27, 2019 12:30:21 PM GMT+02:00, Florian Weimer <fw@deneb=2Eenyo=
+=2Ede> wrote:
+>* Mike Rapoport:
+>
+>> The patch below aims to allow applications to create mappins that
+>have
+>> pages visible only to the owning process=2E Such mappings could be used
+>to
+>> store secrets so that these secrets are not visible neither to other
+>> processes nor to the kernel=2E
+>
+>How is this expected to interact with CRIU?
 
-> The patch below aims to allow applications to create mappins that have
-> pages visible only to the owning process. Such mappings could be used to
-> store secrets so that these secrets are not visible neither to other
-> processes nor to the kernel.
+CRIU dumps the memory contents using a parasite code from inside the dumpe=
+e address space, so it would work the same way as for the other mappings=2E=
+ Of course, at the restore time the exclusive mapping should be recreated w=
+ith the appropriate flags=2E
 
-How is this expected to interact with CRIU?
+>> I've only tested the basic functionality, the changes should be
+>verified
+>> against THP/migration/compaction=2E Yet, I'd appreciate early feedback=
+=2E
+>
+>What are the expected semantics for VM migration?  Should it fail?
 
-> I've only tested the basic functionality, the changes should be verified
-> against THP/migration/compaction. Yet, I'd appreciate early feedback.
+I don't quite follow=2E If qemu would use such mappings it would be able t=
+o transfer them during live migration=2E
 
-What are the expected semantics for VM migration?  Should it fail?
+--=20
+Sincerely yours,
+Mike
