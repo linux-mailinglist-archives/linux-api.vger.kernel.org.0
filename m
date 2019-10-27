@@ -2,86 +2,137 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EEB83E6214
-	for <lists+linux-api@lfdr.de>; Sun, 27 Oct 2019 12:00:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 52961E6262
+	for <lists+linux-api@lfdr.de>; Sun, 27 Oct 2019 13:10:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726690AbfJ0LAX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 27 Oct 2019 07:00:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45732 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726661AbfJ0LAX (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Sun, 27 Oct 2019 07:00:23 -0400
-Received: from [10.173.153.26] (unknown [2.55.42.38])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6F46D214AF;
-        Sun, 27 Oct 2019 11:00:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1572174022;
-        bh=Jmt2B0VEl/FUjM+MgzpTzTtF3WYLk8v8TfnsbPH95BE=;
-        h=Date:In-Reply-To:References:Subject:To:CC:From:From;
-        b=nWmDdz95jS72TenFW6vwu5hnpkWGaIk+42GN2FxxDR78HF8zBHoIhwHWcd2Rwlzhz
-         BPaAzQljyMUopkP2ab89nUBAsWWGu6p1Oluy9j+CscUuN7lszAK4lXsB7HKKXgQ3LN
-         biHkcQoaYhqZmf4mRHOemJcXCiJq/wuyvnKN1xoY=
-Date:   Sun, 27 Oct 2019 13:00:13 +0200
-User-Agent: K-9 Mail for Android
-In-Reply-To: <87d0eieb0i.fsf@mid.deneb.enyo.de>
-References: <1572171452-7958-1-git-send-email-rppt@kernel.org> <87d0eieb0i.fsf@mid.deneb.enyo.de>
+        id S1726687AbfJ0MKd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 27 Oct 2019 08:10:33 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:40031 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726684AbfJ0MKd (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 27 Oct 2019 08:10:33 -0400
+Received: by mail-lj1-f194.google.com with SMTP id u22so8398432lji.7
+        for <linux-api@vger.kernel.org>; Sun, 27 Oct 2019 05:10:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3Zr1M0nCXlilSobwLkNmgKE2widPtGkZk30ZqC0Jsp4=;
+        b=d3QTzyBq1ltmtg4yGSZr5XtauvY/fALYcdqhiDEtFOl1dE9JCqjexjO52exODJRIVQ
+         Eh2Een6o4qvZdUFz/jDS+JnTxGr7PmGqPX7rFmA4YZFRZjrNKL/JZDN1nI+V4NXXs/c+
+         Hp/xfBUyMptBO5mKJ7+YknkxBRlijCGcU26uA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3Zr1M0nCXlilSobwLkNmgKE2widPtGkZk30ZqC0Jsp4=;
+        b=ucxDBYSCZQfbQgZMP9IqFDp245tCK6vRu6XP+11Gyfq1z4Sh5MVGnQq4g2nTS9Je8U
+         ct63kj2GzvPidvcsnC/7st9GfrhRf4GcpbBMcX4SyDPGfg7AATN+KmjK4SjWIR2rUr0Y
+         CqoF6Q9HkJVBKI6rg+ckvLH9iIXZviQX9vxksIAbzhxdW1Vq7ZpaMWU9ZGefTGRyEqZI
+         MbmEqyUkkKB4ixLvipxS6geRx5T56VPCPjytCOC387nXHLeKeyCxcGYE9HEb3u3e/U2J
+         si2PSh8c7KpROnEsp1R9ha4NoxcJXUUsuG8xiKAVESLyUxpE1CRA0jgaySSqYLK+APMc
+         m4Ig==
+X-Gm-Message-State: APjAAAV3asKs2RM8SHmCPuCkHtKpf0QvJaUG2idmPZ37SEl2wXHH4xUx
+        PzMEIAmQYPOsQFdEGrOlrxuynNtwYpNRaw==
+X-Google-Smtp-Source: APXvYqzvU04sFR44mj9g1lozuM7+2ZflCgoa7W7r9BYoDoLruf8kkrsNdr4XwAJ4LjaGGb2Fpw6jRQ==
+X-Received: by 2002:a2e:970b:: with SMTP id r11mr5227422lji.175.1572178231377;
+        Sun, 27 Oct 2019 05:10:31 -0700 (PDT)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com. [209.85.167.52])
+        by smtp.gmail.com with ESMTPSA id v6sm3213735ljd.15.2019.10.27.05.10.30
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 27 Oct 2019 05:10:31 -0700 (PDT)
+Received: by mail-lf1-f52.google.com with SMTP id y6so5685418lfj.2
+        for <linux-api@vger.kernel.org>; Sun, 27 Oct 2019 05:10:30 -0700 (PDT)
+X-Received: by 2002:a19:5504:: with SMTP id n4mr8268196lfe.106.1572177927159;
+ Sun, 27 Oct 2019 05:05:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH RFC] mm: add MAP_EXCLUSIVE to create exclusive user mappings
-To:     Florian Weimer <fw@deneb.enyo.de>
-CC:     linux-kernel@vger.kernel.org,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
+References: <20191026185700.10708-1-cyphar@cyphar.com> <20191026185700.10708-3-cyphar@cyphar.com>
+In-Reply-To: <20191026185700.10708-3-cyphar@cyphar.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Sun, 27 Oct 2019 08:05:11 -0400
+X-Gmail-Original-Message-ID: <CAHk-=wjPPWvm5_eR4uaHJaU1isTUk-4iXQV3Z2Px9A+w6j2nHg@mail.gmail.com>
+Message-ID: <CAHk-=wjPPWvm5_eR4uaHJaU1isTUk-4iXQV3Z2Px9A+w6j2nHg@mail.gmail.com>
+Subject: Re: [PATCH RESEND v14 2/6] namei: LOOKUP_IN_ROOT: chroot-like path resolution
+To:     Aleksa Sarai <cyphar@cyphar.com>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J. Bruce Fields" <bfields@fieldses.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        David Howells <dhowells@redhat.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
         Ingo Molnar <mingo@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, x86@kernel.org,
-        Mike Rapoport <rppt@linux.ibm.com>
-From:   Mike Rapoport <rppt@kernel.org>
-Message-ID: <385EB6D4-A1B0-4617-B256-181AA1C3BDE3@kernel.org>
+        Peter Zijlstra <peterz@infradead.org>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>, Tycho Andersen <tycho@tycho.ws>,
+        David Drysdale <drysdale@google.com>,
+        Chanho Min <chanho.min@lge.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Christian Brauner <christian@brauner.io>,
+        Aleksa Sarai <asarai@suse.de>,
+        Linux Containers <containers@lists.linux-foundation.org>,
+        alpha <linux-alpha@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        GNU C Library <libc-alpha@sourceware.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-ia64@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-m68k <linux-m68k@lists.linux-m68k.org>,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        Linux-sh list <linux-sh@vger.kernel.org>,
+        linux-xtensa@linux-xtensa.org, sparclinux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On October 27, 2019 12:30:21 PM GMT+02:00, Florian Weimer <fw@deneb=2Eenyo=
-=2Ede> wrote:
->* Mike Rapoport:
+On Sat, Oct 26, 2019 at 2:58 PM Aleksa Sarai <cyphar@cyphar.com> wrote:
 >
->> The patch below aims to allow applications to create mappins that
->have
->> pages visible only to the owning process=2E Such mappings could be used
->to
->> store secrets so that these secrets are not visible neither to other
->> processes nor to the kernel=2E
->
->How is this expected to interact with CRIU?
+> +       /* LOOKUP_IN_ROOT treats absolute paths as being relative-to-dirfd. */
+> +       if (flags & LOOKUP_IN_ROOT)
+> +               while (*s == '/')
+> +                       s++;
+> +
+>         /* Figure out the starting path and root (if needed). */
+>         if (*s == '/') {
+>                 error = nd_jump_root(nd);
 
-CRIU dumps the memory contents using a parasite code from inside the dumpe=
-e address space, so it would work the same way as for the other mappings=2E=
- Of course, at the restore time the exclusive mapping should be recreated w=
-ith the appropriate flags=2E
+So I'm still hung up on this.
 
->> I've only tested the basic functionality, the changes should be
->verified
->> against THP/migration/compaction=2E Yet, I'd appreciate early feedback=
-=2E
->
->What are the expected semantics for VM migration?  Should it fail?
+I guess I can't help it, but I look at the above, and it makes me go
+"whoever wrote those tests wasn't thinking".
 
-I don't quite follow=2E If qemu would use such mappings it would be able t=
-o transfer them during live migration=2E
+It just annoys me how it tests for '/' completely unnecessarily.
 
---=20
-Sincerely yours,
-Mike
+If LOOKUP_IN_ROOT is true, we know the subsequent test for '/' is not
+going to match, because we just removed it. So I look at that code and
+go "that code is doing stupid things".
+
+That's why I suggested moving the LOOKUP_IN_ROOT check inside the '/' test.
+
+Alternatively, just make the logic be
+
+        if (flags & LOOKUP_IN_ROOT) {
+               .. remove '/'s ...
+        } else if (*s == '/') {
+                .. handl;e root ..
+
+and remove the next "else" clause
+
+    Linus
