@@ -2,126 +2,83 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 12444E5F11
-	for <lists+linux-api@lfdr.de>; Sat, 26 Oct 2019 20:59:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 670ACE6201
+	for <lists+linux-api@lfdr.de>; Sun, 27 Oct 2019 11:17:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726590AbfJZS7h (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 26 Oct 2019 14:59:37 -0400
-Received: from mout-p-101.mailbox.org ([80.241.56.151]:50152 "EHLO
-        mout-p-101.mailbox.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726165AbfJZS7g (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 26 Oct 2019 14:59:36 -0400
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [80.241.60.241])
-        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
+        id S1726707AbfJ0KRl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 27 Oct 2019 06:17:41 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41432 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726695AbfJ0KRl (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Sun, 27 Oct 2019 06:17:41 -0400
+Received: from aquarius.haifa.ibm.com (nesher1.haifa.il.ibm.com [195.110.40.7])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mout-p-101.mailbox.org (Postfix) with ESMTPS id 470qz85SdpzKmsD;
-        Sat, 26 Oct 2019 20:59:32 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp2.mailbox.org ([80.241.60.241])
-        by spamfilter06.heinlein-hosting.de (spamfilter06.heinlein-hosting.de [80.241.56.125]) (amavisd-new, port 10030)
-        with ESMTP id suRkpnqaA-TF; Sat, 26 Oct 2019 20:59:28 +0200 (CEST)
-From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     Al Viro <viro@zeniv.linux.org.uk>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J. Bruce Fields" <bfields@fieldses.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        David Howells <dhowells@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>
-Cc:     Aleksa Sarai <cyphar@cyphar.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Andy Lutomirski <luto@kernel.org>,
+        by mail.kernel.org (Postfix) with ESMTPSA id 55B66205C9;
+        Sun, 27 Oct 2019 10:17:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1572171460;
+        bh=1/GtICbB1QJ08IPcfmlm4myAOcU2vLpne1WtR9Iw6ts=;
+        h=From:To:Cc:Subject:Date:From;
+        b=FMnlGwZWVBSvgfAhsWpuI8j3qxhrKgdjEWUTs1k5EeL2bX14jcHRCvErRcZ4gOE2T
+         JKokAHe/xHMocxAfjtJhRmfXAQ4wAAAZY3Y94aR8kXojAUt2RLgCJn8DVf7lNwBOKq
+         EfXLKG6WtLcMz1d40S+JguVm/LO4yAu3xTsJ0raU=
+From:   Mike Rapoport <rppt@kernel.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Alexey Dobriyan <adobriyan@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Tycho Andersen <tycho@tycho.ws>,
-        David Drysdale <drysdale@google.com>,
-        Chanho Min <chanho.min@lge.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Christian Brauner <christian@brauner.io>,
-        Aleksa Sarai <asarai@suse.de>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        containers@lists.linux-foundation.org, linux-alpha@vger.kernel.org,
-        linux-api@vger.kernel.org, libc-alpha@sourceware.org,
-        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-ia64@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-        linux-xtensa@linux-xtensa.org, sparclinux@vger.kernel.org
-Subject: [PATCH RESEND v14 6/6] Documentation: path-lookup: mention LOOKUP_MAGICLINK_JUMPED
-Date:   Sun, 27 Oct 2019 05:57:00 +1100
-Message-Id: <20191026185700.10708-7-cyphar@cyphar.com>
-In-Reply-To: <20191026185700.10708-1-cyphar@cyphar.com>
-References: <20191026185700.10708-1-cyphar@cyphar.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, linux-api@vger.kernel.org,
+        linux-mm@kvack.org, x86@kernel.org,
+        Mike Rapoport <rppt@linux.ibm.com>
+Subject: [PATCH RFC] mm: add MAP_EXCLUSIVE to create exclusive user mappings
+Date:   Sun, 27 Oct 2019 12:17:31 +0200
+Message-Id: <1572171452-7958-1-git-send-email-rppt@kernel.org>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Now that we have a special flag to signify magic-link jumps, mention it
-within the path-lookup docs. And now that "magic link" is the correct
-term for nd_jump_link()-style symlinks, clean up references to this type
-of "symlink".
+From: Mike Rapoport <rppt@linux.ibm.com>
 
-Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
----
- Documentation/filesystems/path-lookup.rst | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+Hi,
 
-diff --git a/Documentation/filesystems/path-lookup.rst b/Documentation/filesystems/path-lookup.rst
-index 434a07b0002b..2c32795389bd 100644
---- a/Documentation/filesystems/path-lookup.rst
-+++ b/Documentation/filesystems/path-lookup.rst
-@@ -405,6 +405,10 @@ is requested.  Keeping a reference in the ``nameidata`` ensures that
- only one root is in effect for the entire path walk, even if it races
- with a ``chroot()`` system call.
- 
-+It should be noted that in the case of ``LOOKUP_IN_ROOT`` or
-+``LOOKUP_BENEATH``, the effective root becomes the directory file descriptor
-+passed to ``openat2()`` (which exposes these ``LOOKUP_`` flags).
-+
- The root is needed when either of two conditions holds: (1) either the
- pathname or a symbolic link starts with a "'/'", or (2) a "``..``"
- component is being handled, since "``..``" from the root must always stay
-@@ -1149,7 +1153,7 @@ so ``NULL`` is returned to indicate that the symlink can be released and
- the stack frame discarded.
- 
- The other case involves things in ``/proc`` that look like symlinks but
--aren't really::
-+aren't really (and are therefore commonly referred to as "magic-links")::
- 
-      $ ls -l /proc/self/fd/1
-      lrwx------ 1 neilb neilb 64 Jun 13 10:19 /proc/self/fd/1 -> /dev/pts/4
-@@ -1310,12 +1314,14 @@ longer needed.
- ``LOOKUP_JUMPED`` means that the current dentry was chosen not because
- it had the right name but for some other reason.  This happens when
- following "``..``", following a symlink to ``/``, crossing a mount point
--or accessing a "``/proc/$PID/fd/$FD``" symlink.  In this case the
--filesystem has not been asked to revalidate the name (with
--``d_revalidate()``).  In such cases the inode may still need to be
--revalidated, so ``d_op->d_weak_revalidate()`` is called if
-+or accessing a "``/proc/$PID/fd/$FD``" symlink (also known as a "magic
-+link"). In this case the filesystem has not been asked to revalidate the
-+name (with ``d_revalidate()``).  In such cases the inode may still need
-+to be revalidated, so ``d_op->d_weak_revalidate()`` is called if
- ``LOOKUP_JUMPED`` is set when the look completes - which may be at the
--final component or, when creating, unlinking, or renaming, at the penultimate component.
-+final component or, when creating, unlinking, or renaming, at the
-+penultimate component. ``LOOKUP_MAGICLINK_JUMPED`` is set alongside
-+``LOOKUP_JUMPED`` if a magic-link was traversed.
- 
- Final-component flags
- ~~~~~~~~~~~~~~~~~~~~~
+The patch below aims to allow applications to create mappins that have
+pages visible only to the owning process. Such mappings could be used to
+store secrets so that these secrets are not visible neither to other
+processes nor to the kernel.
+
+I've only tested the basic functionality, the changes should be verified
+against THP/migration/compaction. Yet, I'd appreciate early feedback.
+
+Mike Rapoport (1):
+  mm: add MAP_EXCLUSIVE to create exclusive user mappings
+
+ arch/x86/mm/fault.c                    | 14 ++++++++++
+ fs/proc/task_mmu.c                     |  1 +
+ include/linux/mm.h                     |  9 +++++++
+ include/linux/page-flags.h             |  7 +++++
+ include/linux/page_excl.h              | 49 ++++++++++++++++++++++++++++++++++
+ include/trace/events/mmflags.h         |  9 ++++++-
+ include/uapi/asm-generic/mman-common.h |  1 +
+ kernel/fork.c                          |  3 ++-
+ mm/Kconfig                             |  3 +++
+ mm/gup.c                               |  8 ++++++
+ mm/memory.c                            |  3 +++
+ mm/mmap.c                              | 16 +++++++++++
+ mm/page_alloc.c                        |  5 ++++
+ 13 files changed, 126 insertions(+), 2 deletions(-)
+ create mode 100644 include/linux/page_excl.h
+
 -- 
-2.23.0
+2.7.4
 
