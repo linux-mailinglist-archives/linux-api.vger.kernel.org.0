@@ -2,35 +2,23 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 88545E703F
-	for <lists+linux-api@lfdr.de>; Mon, 28 Oct 2019 12:21:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 65F3AE70B4
+	for <lists+linux-api@lfdr.de>; Mon, 28 Oct 2019 12:46:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727669AbfJ1LUz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 28 Oct 2019 07:20:55 -0400
-Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:41610 "EHLO
-        forwardcorp1j.mail.yandex.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727163AbfJ1LUz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 28 Oct 2019 07:20:55 -0400
-Received: from mxbackcorp1j.mail.yandex.net (mxbackcorp1j.mail.yandex.net [IPv6:2a02:6b8:0:1619::162])
-        by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 3ED9B2E14E7;
-        Mon, 28 Oct 2019 14:20:52 +0300 (MSK)
-Received: from myt4-4db2488e778a.qloud-c.yandex.net (myt4-4db2488e778a.qloud-c.yandex.net [2a02:6b8:c00:884:0:640:4db2:488e])
-        by mxbackcorp1j.mail.yandex.net (nwsmtp/Yandex) with ESMTP id JysqeZpZ3P-Kp9ud7sV;
-        Mon, 28 Oct 2019 14:20:52 +0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru; s=default;
-        t=1572261652; bh=8XwSiEkPC9qn9resugp5JbDrv4IyCtiDq/CQDPF6oiY=;
-        h=In-Reply-To:Message-ID:From:Date:References:To:Subject:Cc;
-        b=aOTb4mCQwAKdSGLq1PQZE9I3SRWh+HZt0QF2TTF7e2a6SV9hJ3A7PG89Jvw3hRubY
-         R5QiEkOs+cvQ3gUnXVOkPCgOBUEVuXnf6Y5l7B54F+tiZezohUk7rtBug8VpmKj2xU
-         oHG4G0QDMPHmsDBnO0SrSQtH+cD382KMs8OyukVo=
-Authentication-Results: mxbackcorp1j.mail.yandex.net; dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-red.dhcp.yndx.net (dynamic-red.dhcp.yndx.net [2a02:6b8:0:40c:148a:8f3:5b61:9f4])
-        by myt4-4db2488e778a.qloud-c.yandex.net (nwsmtp/Yandex) with ESMTPSA id o1Ru44CYmh-KpVKoKKg;
-        Mon, 28 Oct 2019 14:20:51 +0300
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (Client certificate not present)
-Subject: Re: [PATCH RFC] fs/fcntl: add fcntl F_GET_RSS
-To:     Matthew Wilcox <willy@infradead.org>
+        id S1727022AbfJ1Lqq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 28 Oct 2019 07:46:46 -0400
+Received: from albireo.enyo.de ([37.24.231.21]:36510 "EHLO albireo.enyo.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726961AbfJ1Lqq (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 28 Oct 2019 07:46:46 -0400
+Received: from [172.17.203.2] (helo=deneb.enyo.de)
+        by albireo.enyo.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        id 1iP3Tr-0003qb-E9; Mon, 28 Oct 2019 11:46:39 +0000
+Received: from fw by deneb.enyo.de with local (Exim 4.92)
+        (envelope-from <fw@deneb.enyo.de>)
+        id 1iP3Tr-0003Ho-Br; Mon, 28 Oct 2019 12:46:39 +0100
+From:   Florian Weimer <fw@deneb.enyo.de>
+To:     Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
 Cc:     linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
         linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
         Michal Hocko <mhocko@suse.com>,
@@ -39,35 +27,24 @@ Cc:     linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
         Andrew Morton <akpm@linux-foundation.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Roman Gushchin <guro@fb.com>
+Subject: Re: [PATCH RFC] fs/fcntl: add fcntl F_GET_RSS
 References: <157225848971.557.16257813537984792761.stgit@buzz>
- <20191028111034.GS2963@bombadil.infradead.org>
-From:   Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
-Message-ID: <33978ec2-ac27-1b8b-ba33-3bd2c66aa016@yandex-team.ru>
-Date:   Mon, 28 Oct 2019 14:20:51 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+Date:   Mon, 28 Oct 2019 12:46:39 +0100
+In-Reply-To: <157225848971.557.16257813537984792761.stgit@buzz> (Konstantin
+        Khlebnikov's message of "Mon, 28 Oct 2019 13:28:09 +0300")
+Message-ID: <87k18p6qjk.fsf@mid.deneb.enyo.de>
 MIME-Version: 1.0
-In-Reply-To: <20191028111034.GS2963@bombadil.infradead.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-CA
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 28/10/2019 14.10, Matthew Wilcox wrote:
-> On Mon, Oct 28, 2019 at 01:28:09PM +0300, Konstantin Khlebnikov wrote:
->> +	if (dax_mapping(mapping))
->> +		pages = READ_ONCE(mapping->nrexceptional);
->> +	else
->> +		pages = READ_ONCE(mapping->nrpages);
-> 
-> I'm not sure this is the right calculation for DAX files.  We haven't
-> allocated any memory for DAX; we're just accessing storage directly.
-> The entries in the page caache are just translation from file offset to
-> physical address.
-> 
+* Konstantin Khlebnikov:
 
-Yep, makes sense. If RSS declared as memory usage then this chunk must do
-pages = READ_ONCE(mapping->nrpages) unconditionally and report 0 for DAX.
+> This implements fcntl() for getting amount of resident memory in cache.
+> Kernel already maintains counter for each inode, this patch just exposes
+> it into userspace. Returned size is in kilobytes like values in procfs.
+
+I think this needs a 32-bit compat implementation which clamps the
+returned value to INT_MAX.
