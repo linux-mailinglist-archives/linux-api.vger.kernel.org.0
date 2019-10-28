@@ -2,32 +2,35 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 70E5FE7023
-	for <lists+linux-api@lfdr.de>; Mon, 28 Oct 2019 12:10:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 88545E703F
+	for <lists+linux-api@lfdr.de>; Mon, 28 Oct 2019 12:21:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725958AbfJ1LKj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 28 Oct 2019 07:10:39 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:47362 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725776AbfJ1LKi (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 28 Oct 2019 07:10:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=QYRGqons38NtMgtcv+gzyzZCBRvkASR8tK2x6q26fog=; b=C2Fk946fmaN4QY8nAYZ1vMm2I
-        w0+gKnBQrGuUVKOFpgp4SK2A5VKbLkM3ClkVdoLUznnQA0dzuDaj9icom7IfIUBW5ujgQZT8xqSLo
-        vTiFTK5CZQgI9b6lcrtDBgnJCyRuF1avCfiAf7IMcXr6Nij4E/32a21gqi2o+SxkN5tyrkKCSvtDI
-        4/yE9UG0hGsfX10WoOekfQ8N51JSZQCd3jSPmalVxKYLP/pDxAF2nXeyYsym4IWAFw5xLjDFku72w
-        JXA17Jerqj3nWG+uUa94+7F4+cjrT8ekYPyfJuvu5lyg64HUkwPTXK3VjPlqgcZ5C3Ned657hv4il
-        uw7PAqTww==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iP2uw-0007FD-Nb; Mon, 28 Oct 2019 11:10:34 +0000
-Date:   Mon, 28 Oct 2019 04:10:34 -0700
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
+        id S1727669AbfJ1LUz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 28 Oct 2019 07:20:55 -0400
+Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:41610 "EHLO
+        forwardcorp1j.mail.yandex.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727163AbfJ1LUz (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 28 Oct 2019 07:20:55 -0400
+Received: from mxbackcorp1j.mail.yandex.net (mxbackcorp1j.mail.yandex.net [IPv6:2a02:6b8:0:1619::162])
+        by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 3ED9B2E14E7;
+        Mon, 28 Oct 2019 14:20:52 +0300 (MSK)
+Received: from myt4-4db2488e778a.qloud-c.yandex.net (myt4-4db2488e778a.qloud-c.yandex.net [2a02:6b8:c00:884:0:640:4db2:488e])
+        by mxbackcorp1j.mail.yandex.net (nwsmtp/Yandex) with ESMTP id JysqeZpZ3P-Kp9ud7sV;
+        Mon, 28 Oct 2019 14:20:52 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru; s=default;
+        t=1572261652; bh=8XwSiEkPC9qn9resugp5JbDrv4IyCtiDq/CQDPF6oiY=;
+        h=In-Reply-To:Message-ID:From:Date:References:To:Subject:Cc;
+        b=aOTb4mCQwAKdSGLq1PQZE9I3SRWh+HZt0QF2TTF7e2a6SV9hJ3A7PG89Jvw3hRubY
+         R5QiEkOs+cvQ3gUnXVOkPCgOBUEVuXnf6Y5l7B54F+tiZezohUk7rtBug8VpmKj2xU
+         oHG4G0QDMPHmsDBnO0SrSQtH+cD382KMs8OyukVo=
+Authentication-Results: mxbackcorp1j.mail.yandex.net; dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-red.dhcp.yndx.net (dynamic-red.dhcp.yndx.net [2a02:6b8:0:40c:148a:8f3:5b61:9f4])
+        by myt4-4db2488e778a.qloud-c.yandex.net (nwsmtp/Yandex) with ESMTPSA id o1Ru44CYmh-KpVKoKKg;
+        Mon, 28 Oct 2019 14:20:51 +0300
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (Client certificate not present)
+Subject: Re: [PATCH RFC] fs/fcntl: add fcntl F_GET_RSS
+To:     Matthew Wilcox <willy@infradead.org>
 Cc:     linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
         linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
         Michal Hocko <mhocko@suse.com>,
@@ -36,27 +39,35 @@ Cc:     linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
         Andrew Morton <akpm@linux-foundation.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Roman Gushchin <guro@fb.com>
-Subject: Re: [PATCH RFC] fs/fcntl: add fcntl F_GET_RSS
-Message-ID: <20191028111034.GS2963@bombadil.infradead.org>
 References: <157225848971.557.16257813537984792761.stgit@buzz>
+ <20191028111034.GS2963@bombadil.infradead.org>
+From:   Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
+Message-ID: <33978ec2-ac27-1b8b-ba33-3bd2c66aa016@yandex-team.ru>
+Date:   Mon, 28 Oct 2019 14:20:51 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <157225848971.557.16257813537984792761.stgit@buzz>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20191028111034.GS2963@bombadil.infradead.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-CA
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Oct 28, 2019 at 01:28:09PM +0300, Konstantin Khlebnikov wrote:
-> +	if (dax_mapping(mapping))
-> +		pages = READ_ONCE(mapping->nrexceptional);
-> +	else
-> +		pages = READ_ONCE(mapping->nrpages);
+On 28/10/2019 14.10, Matthew Wilcox wrote:
+> On Mon, Oct 28, 2019 at 01:28:09PM +0300, Konstantin Khlebnikov wrote:
+>> +	if (dax_mapping(mapping))
+>> +		pages = READ_ONCE(mapping->nrexceptional);
+>> +	else
+>> +		pages = READ_ONCE(mapping->nrpages);
+> 
+> I'm not sure this is the right calculation for DAX files.  We haven't
+> allocated any memory for DAX; we're just accessing storage directly.
+> The entries in the page caache are just translation from file offset to
+> physical address.
+> 
 
-I'm not sure this is the right calculation for DAX files.  We haven't
-allocated any memory for DAX; we're just accessing storage directly.
-The entries in the page caache are just translation from file offset to
-physical address.
-
+Yep, makes sense. If RSS declared as memory usage then this chunk must do
+pages = READ_ONCE(mapping->nrpages) unconditionally and report 0 for DAX.
