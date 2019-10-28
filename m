@@ -2,29 +2,44 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 993C2E779D
-	for <lists+linux-api@lfdr.de>; Mon, 28 Oct 2019 18:33:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 70A23E7809
+	for <lists+linux-api@lfdr.de>; Mon, 28 Oct 2019 19:02:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404160AbfJ1Rdb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 28 Oct 2019 13:33:31 -0400
-Received: from mga02.intel.com ([134.134.136.20]:42803 "EHLO mga02.intel.com"
+        id S1732850AbfJ1SC6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 28 Oct 2019 14:02:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43230 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2404155AbfJ1Rdb (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 28 Oct 2019 13:33:31 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 28 Oct 2019 10:32:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,240,1569308400"; 
-   d="scan'208";a="399514952"
-Received: from sjchrist-coffee.jf.intel.com (HELO linux.intel.com) ([10.54.74.41])
-  by fmsmga005.fm.intel.com with ESMTP; 28 Oct 2019 10:32:30 -0700
-Date:   Mon, 28 Oct 2019 10:32:30 -0700
-From:   Sean Christopherson <sean.j.christopherson@intel.com>
-To:     Dave Hansen <dave.hansen@intel.com>
-Cc:     Mike Rapoport <rppt@kernel.org>, linux-kernel@vger.kernel.org,
+        id S1730859AbfJ1SC6 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 28 Oct 2019 14:02:58 -0400
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 84B5721783
+        for <linux-api@vger.kernel.org>; Mon, 28 Oct 2019 18:02:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1572285776;
+        bh=z+ls7tY9FydbXkZifzUsINlks/TY83Qg10OvpMJem5Y=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=HDA/GO3/EzfOrCmw0z6mWZJU2StimT/3qGL5kVoF5IN+iSrQ5Y26PbsCL9FFqNZY9
+         WijMqBubXjpjqsmMx2ylXS+uUIaI/5UZEZxxTKhNapZ3c89cxyC+K+8N7SRk5SYOoZ
+         BF/b/kIC8WQf6Lwh2dNWvHfEnSUIskyVn+7hb0Mk=
+Received: by mail-wr1-f52.google.com with SMTP id l10so10906723wrb.2
+        for <linux-api@vger.kernel.org>; Mon, 28 Oct 2019 11:02:56 -0700 (PDT)
+X-Gm-Message-State: APjAAAX7NQkcXsNbJFfDJF7w/9bir8+vMzubG4CwZPPpK7LxHw/9bPkb
+        ZzHkYU0PnQAHqRi6PUDphHKREfBBQiHPAQ0P4bgReg==
+X-Google-Smtp-Source: APXvYqy7x0ASppBEte9OgIi2QvqoTeo3Dt67Eh2LZfQJDrxC9mcnlae7ZaTq6ZE+bgOnJknfBOOe3jq4iyXOYZ9wPXw=
+X-Received: by 2002:a5d:51c2:: with SMTP id n2mr15773727wrv.149.1572285775063;
+ Mon, 28 Oct 2019 11:02:55 -0700 (PDT)
+MIME-Version: 1.0
+References: <1572171452-7958-1-git-send-email-rppt@kernel.org> <1572171452-7958-2-git-send-email-rppt@kernel.org>
+In-Reply-To: <1572171452-7958-2-git-send-email-rppt@kernel.org>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Mon, 28 Oct 2019 11:02:44 -0700
+X-Gmail-Original-Message-ID: <CALCETrWW2AEhO0TY8Xr7Fe5u9c7WB7zg4d2TPp3G6b9X1pO8BA@mail.gmail.com>
+Message-ID: <CALCETrWW2AEhO0TY8Xr7Fe5u9c7WB7zg4d2TPp3G6b9X1pO8BA@mail.gmail.com>
+Subject: Re: [PATCH RFC] mm: add MAP_EXCLUSIVE to create exclusive user mappings
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
         Alexey Dobriyan <adobriyan@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Andy Lutomirski <luto@kernel.org>,
@@ -35,68 +50,87 @@ Cc:     Mike Rapoport <rppt@kernel.org>, linux-kernel@vger.kernel.org,
         Steven Rostedt <rostedt@goodmis.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>, X86 ML <x86@kernel.org>,
         Mike Rapoport <rppt@linux.ibm.com>
-Subject: Re: [PATCH RFC] mm: add MAP_EXCLUSIVE to create exclusive user
- mappings
-Message-ID: <20191028173229.GC5061@linux.intel.com>
-References: <1572171452-7958-1-git-send-email-rppt@kernel.org>
- <1572171452-7958-2-git-send-email-rppt@kernel.org>
- <d6ac08fe-23f3-c2d5-24c4-88e68f3fd4d0@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d6ac08fe-23f3-c2d5-24c4-88e68f3fd4d0@intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Oct 28, 2019 at 10:12:44AM -0700, Dave Hansen wrote:
-> On 10/27/19 3:17 AM, Mike Rapoport wrote:
-> > The pages in these mappings are removed from the kernel direct map and
-> > marked with PG_user_exclusive flag. When the exclusive area is unmapped,
-> > the pages are mapped back into the direct map.
-> 
-> This looks fun.  It's certainly simple.
-> 
-> But, the description is not really calling out the pros and cons very
-> well.  I'm also not sure that folks will use an interface like this that
-> requires up-front, special code to do an allocation instead of something
-> like madvise().  That's why protection keys ended up the way it did: if
-> you do this as a mmap() replacement, you need to modify all *allocators*
-> to be enabled for this.  If you do it with mprotect()-style, you can
-> apply it to existing allocations.
-> 
-> Some other random thoughts:
-> 
->  * The page flag is probably not a good idea.  It would be probably
->    better to set _PAGE_SPECIAL on the PTE and force get_user_pages()
->    into the slow path.
->  * This really stops being "normal" memory.  You can't do futexes on it,
->    cant splice it.  Probably need a more fleshed-out list of
->    incompatible features.
->  * As Kirill noted, each 4k page ends up with a potential 1GB "blast
->    radius" of demoted pages in the direct map.  Not cool.  This is
->    probably a non-starter as it stands.
->  * The global TLB flushes are going to eat you alive.  They probably
->    border on a DoS on larger systems.
->  * Do we really want this user interface to dictate the kernel
->    implementation?  In other words, do we really want MAP_EXCLUSIVE,
->    or do we want MAP_SECRET?  One tells the kernel what do *do*, the
->    other tells the kernel what the memory *IS*.
+On Sun, Oct 27, 2019 at 3:17 AM Mike Rapoport <rppt@kernel.org> wrote:
+>
+> From: Mike Rapoport <rppt@linux.ibm.com>
+>
+> The mappings created with MAP_EXCLUSIVE are visible only in the context of
+> the owning process and can be used by applications to store secret
+> information that will not be visible not only to other processes but to the
+> kernel as well.
+>
+> The pages in these mappings are removed from the kernel direct map and
+> marked with PG_user_exclusive flag. When the exclusive area is unmapped,
+> the pages are mapped back into the direct map.
+>
+> The MAP_EXCLUSIVE flag implies MAP_POPULATE and MAP_LOCKED.
+>
+> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+> ---
+>  arch/x86/mm/fault.c                    | 14 ++++++++++
+>  fs/proc/task_mmu.c                     |  1 +
+>  include/linux/mm.h                     |  9 +++++++
+>  include/linux/page-flags.h             |  7 +++++
+>  include/linux/page_excl.h              | 49 ++++++++++++++++++++++++++++++++++
+>  include/trace/events/mmflags.h         |  9 ++++++-
+>  include/uapi/asm-generic/mman-common.h |  1 +
+>  kernel/fork.c                          |  3 ++-
+>  mm/Kconfig                             |  3 +++
+>  mm/gup.c                               |  8 ++++++
+>  mm/memory.c                            |  3 +++
+>  mm/mmap.c                              | 16 +++++++++++
+>  mm/page_alloc.c                        |  5 ++++
+>  13 files changed, 126 insertions(+), 2 deletions(-)
+>  create mode 100644 include/linux/page_excl.h
+>
+> diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
+> index 9ceacd1..8f73a75 100644
+> --- a/arch/x86/mm/fault.c
+> +++ b/arch/x86/mm/fault.c
+> @@ -17,6 +17,7 @@
+>  #include <linux/context_tracking.h>    /* exception_enter(), ...       */
+>  #include <linux/uaccess.h>             /* faulthandler_disabled()      */
+>  #include <linux/efi.h>                 /* efi_recover_from_page_fault()*/
+> +#include <linux/page_excl.h>           /* page_is_user_exclusive()     */
+>  #include <linux/mm_types.h>
+>
+>  #include <asm/cpufeature.h>            /* boot_cpu_has, ...            */
+> @@ -1218,6 +1219,13 @@ static int fault_in_kernel_space(unsigned long address)
+>         return address >= TASK_SIZE_MAX;
+>  }
+>
+> +static bool fault_in_user_exclusive_page(unsigned long address)
+> +{
+> +       struct page *page = virt_to_page(address);
+> +
+> +       return page_is_user_exclusive(page);
+> +}
+> +
+>  /*
+>   * Called for all faults where 'address' is part of the kernel address
+>   * space.  Might get called for faults that originate from *code* that
+> @@ -1261,6 +1269,12 @@ do_kern_addr_fault(struct pt_regs *regs, unsigned long hw_error_code,
+>         if (spurious_kernel_fault(hw_error_code, address))
+>                 return;
+>
+> +       /* FIXME: warn and handle gracefully */
+> +       if (unlikely(fault_in_user_exclusive_page(address))) {
+> +               pr_err("page fault in user exclusive page at %lx", address);
+> +               force_sig_fault(SIGSEGV, SEGV_MAPERR, (void __user *)address);
+> +       }
 
-If we go that route, maybe MAP_USER_SECRET so that there's wiggle room in
-the event that there are different secret keepers that require different
-implementations in the kernel?   E.g. MAP_GUEST_SECRET for a KVM guest to
-take the userspace VMM (Qemu) out of the TCB, i.e. the mapping would be
-accessible by the kernel (or just KVM?) and the KVM guest, but not
-userspace.
+Sending a signal here is not a reasonable thing to do in response to
+an unexpected kernel fault.  You need to OOPS.  Printing a nice
+message would be nice.
 
->  * There's a lot of other stuff going on in this area: XPFO, SEV, MKTME,
->    Persistent Memory, where the kernel direct map is a liability in some
->    way.  We probably need some kind of overall, architected solution
->    rather than five or ten things all poking at the direct map.
-> 
+--Andy
