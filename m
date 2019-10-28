@@ -2,155 +2,135 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DCCFE7498
-	for <lists+linux-api@lfdr.de>; Mon, 28 Oct 2019 16:12:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D7BEDE7764
+	for <lists+linux-api@lfdr.de>; Mon, 28 Oct 2019 18:12:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390560AbfJ1PMi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 28 Oct 2019 11:12:38 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:34946 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728436AbfJ1PMh (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 28 Oct 2019 11:12:37 -0400
-Received: by mail-oi1-f196.google.com with SMTP id n16so3900825oig.2
-        for <linux-api@vger.kernel.org>; Mon, 28 Oct 2019 08:12:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=wXxhu/tmc9YP1XTfcQJ3HjAvQlCmqGJP256WPTj2XSc=;
-        b=GJ40qGJD7TtbIgudDFm2N7LHOQ6aSoOljrrxXlqEik+9bXO7yJallt9amumZdHCmjG
-         27n00ClQMzIia2m9uAlnK3x919OrGWy4dvA3Xp1pJJUzxWBIIZwvxmBpryE3+luDzYyq
-         b8x8CaYNpg/Ya0dz6dBgKfc41xtBqIwIUMNVHhp1ncWHdN0rxm/9FplrQ64sV3AsycdO
-         AkAmBf3pHs9hUKE9iRHFo5EEM1vKHq/iolqALxq8JXvSyZB1rgKMDHS+teXambVzbsnp
-         7zLsscjgNQF6ZVIJu3TXD+HhwdAbPJfVw1QH9JGup9MKa3Ac8UhSRm3Yn7ZX6LRxdZYj
-         8L7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=wXxhu/tmc9YP1XTfcQJ3HjAvQlCmqGJP256WPTj2XSc=;
-        b=XAdv3/PTLJawdf/b+x5QC7gH+WIyWmsiqk7lE+/b+ypTZGY100ZdsA82JQ5SBtELnq
-         HY28sd+DEwVgbjIB3roqF6hk8s+BYGqIWH/bhLhgL5D/9sb/DyP5a8lfYn3NbcabuHe/
-         GkGbC8Xk6dhZSuIE2xFQTLrbGLLKlI8C8GErfvQcYyRIwmM4+zh+L+Bp1sYL8kySTE3t
-         BDD6RW+bogc2V3zTrQViYMbFe3wJ9jeI2nAvPdqQuf7CmG71LCwJl3tRcRN867c91mxo
-         e6CsHHcfsUHeh1Q59bODwcZ0YccfU1GqQmzuTRPb+0zcfNux0oTpGm2e3m5t/9D9RlTy
-         Eyog==
-X-Gm-Message-State: APjAAAXcA+7J6BdASamZ5gjQKAC+mLK814eyl1zilkTggSD0KySoqWma
-        aedLLePNtlOm9ZYyJUABeBUK/pEjVp1/b+0iM6KxHA==
-X-Google-Smtp-Source: APXvYqxIzAhUAQY2YqVi0DY+JV//TbVaQUHYNtEBARj1hmmiyo+CWdT7zgmtQj1uFTHVHbc9HcDYJREjaSWSkiT75mw=
-X-Received: by 2002:a05:6808:b30:: with SMTP id t16mr367143oij.157.1572275556022;
- Mon, 28 Oct 2019 08:12:36 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAKgNAkjo2WHq+zESU1iuCHJJ0x-fTNrakS9-d1+BjzUuV2uf2Q@mail.gmail.com>
-In-Reply-To: <CAKgNAkjo2WHq+zESU1iuCHJJ0x-fTNrakS9-d1+BjzUuV2uf2Q@mail.gmail.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Mon, 28 Oct 2019 16:12:09 +0100
-Message-ID: <CAG48ez3q=BeNcuVTKBN79kJui4vC6nw0Bfq6xc-i0neheT17TA@mail.gmail.com>
-Subject: Re: For review: documentation of clone3() system call
-To:     Michael Kerrisk-manpages <mtk.manpages@gmail.com>
-Cc:     Christian Brauner <christian@brauner.io>,
-        lkml <linux-kernel@vger.kernel.org>,
-        linux-man <linux-man@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Florian Weimer <fweimer@redhat.com>,
-        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        David Howells <dhowells@redhat.com>,
-        Pavel Emelyanov <xemul@virtuozzo.com>,
+        id S1730506AbfJ1RMq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 28 Oct 2019 13:12:46 -0400
+Received: from mga01.intel.com ([192.55.52.88]:26107 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728371AbfJ1RMq (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 28 Oct 2019 13:12:46 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 28 Oct 2019 10:12:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,240,1569308400"; 
+   d="scan'208";a="203322850"
+Received: from sspina-mobl.amr.corp.intel.com (HELO [10.251.0.203]) ([10.251.0.203])
+  by orsmga006.jf.intel.com with ESMTP; 28 Oct 2019 10:12:44 -0700
+Subject: Re: [PATCH RFC] mm: add MAP_EXCLUSIVE to create exclusive user
+ mappings
+To:     Mike Rapoport <rppt@kernel.org>, linux-kernel@vger.kernel.org
+Cc:     Alexey Dobriyan <adobriyan@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Adrian Reber <adrian@lisas.de>,
-        Andrei Vagin <avagin@gmail.com>,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, linux-api@vger.kernel.org,
+        linux-mm@kvack.org, x86@kernel.org,
+        Mike Rapoport <rppt@linux.ibm.com>
+References: <1572171452-7958-1-git-send-email-rppt@kernel.org>
+ <1572171452-7958-2-git-send-email-rppt@kernel.org>
+From:   Dave Hansen <dave.hansen@intel.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+Message-ID: <d6ac08fe-23f3-c2d5-24c4-88e68f3fd4d0@intel.com>
+Date:   Mon, 28 Oct 2019 10:12:44 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <1572171452-7958-2-git-send-email-rppt@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Oct 25, 2019 at 6:59 PM Michael Kerrisk (man-pages)
-<mtk.manpages@gmail.com> wrote:
-> I've made a first shot at adding documentation for clone3(). You can
-> see the diff here:
-> https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/commit/?id=3D=
-faa0e55ae9e490d71c826546bbdef954a1800969
-[...]
->    clone3()
->        The  clone3() system call provides a superset of the functionality
->        of the older clone() interface.  It also provides a number of  API
->        improvements,  including: space for additional flags bits; cleaner
->        separation in the use of various arguments;  and  the  ability  to
->        specify the size of the child's stack area.
+On 10/27/19 3:17 AM, Mike Rapoport wrote:
+> The pages in these mappings are removed from the kernel direct map and
+> marked with PG_user_exclusive flag. When the exclusive area is unmapped,
+> the pages are mapped back into the direct map.
 
-You might want to note somewhere that its flags can't be
-seccomp-filtered because they're stored in memory, making it
-inappropriate to use in heavily sandboxed processes.
+This looks fun.  It's certainly simple.
 
->            struct clone_args {
->                u64 flags;        /* Flags bit mask */
->                u64 pidfd;        /* Where to store PID file descriptor
->                                     (int *) */
->                u64 child_tid;    /* Where to store child TID,
->                                     in child's memory (int *) */
->                u64 parent_tid;   /* Where to store child TID,
->                                     in parent's memory (int *) */
->                u64 exit_signal;  /* Signal to deliver to parent on
->                                     child termination */
->                u64 stack;        /* Pointer to lowest byte of stack */
->                u64 stack_size;   /* Size of stack */
->                u64 tls;          /* Location of new TLS */
->            };
->
->        The size argument that is supplied to clone3() should be  initial=
-=E2=80=90
->        ized  to  the  size of this structure.  (The existence of the size
->        argument permits future extensions to the clone_args structure.)
->
->        The stack for the child process is  specified  via  cl_args.stack,
->        which   points   to  the  lowest  byte  of  the  stack  area,  and
+But, the description is not really calling out the pros and cons very
+well.  I'm also not sure that folks will use an interface like this that
+requires up-front, special code to do an allocation instead of something
+like madvise().  That's why protection keys ended up the way it did: if
+you do this as a mmap() replacement, you need to modify all *allocators*
+to be enabled for this.  If you do it with mprotect()-style, you can
+apply it to existing allocations.
 
-Here and in the comment in the struct above, you say that .stack
-"points to the lowest byte of the stack area", but isn't that
-architecture-dependent? For most architectures, I think it should
-instead be "is the initial stack pointer", with the exception of IA64
-(and maybe others, I'm not sure). For example, on X86, when launching
-a thread with an initially empty stack, it points directly *after* the
-end of the stack area.
+Some other random thoughts:
 
->        cl_args.stack_size, which specifies  the  size  of  the  stack  in
->        bytes.   In the case where the CLONE_VM flag (see below) is speci=
-=E2=80=90
+ * The page flag is probably not a good idea.  It would be probably
+   better to set _PAGE_SPECIAL on the PTE and force get_user_pages()
+   into the slow path.
+ * This really stops being "normal" memory.  You can't do futexes on it,
+   cant splice it.  Probably need a more fleshed-out list of
+   incompatible features.
+ * As Kirill noted, each 4k page ends up with a potential 1GB "blast
+   radius" of demoted pages in the direct map.  Not cool.  This is
+   probably a non-starter as it stands.
+ * The global TLB flushes are going to eat you alive.  They probably
+   border on a DoS on larger systems.
+ * Do we really want this user interface to dictate the kernel
+   implementation?  In other words, do we really want MAP_EXCLUSIVE,
+   or do we want MAP_SECRET?  One tells the kernel what do *do*, the
+   other tells the kernel what the memory *IS*.
+ * There's a lot of other stuff going on in this area: XPFO, SEV, MKTME,
+   Persistent Memory, where the kernel direct map is a liability in some
+   way.  We probably need some kind of overall, architected solution
+   rather than five or ten things all poking at the direct map.
 
-stack_size is ignored on most architectures.
-
->        fied, a stack must be explicitly allocated and specified.   Other=
-=E2=80=90
->        wise,  these  two  fields  can  be  specified as NULL and 0, which
->        causes the child to use the same stack area as the parent (in  the
->        child's own virtual address space).
-[...]
->    Equivalence between clone() and clone3() arguments
->        Unlike  the  older  clone()  interface, where arguments are passed
->        individually, in the newer clone3() interface  the  arguments  are
->        packaged  into  the clone_args structure shown above.  This struc=
-=E2=80=90
->        ture allows for a superset  of  the  information  passed  via  the
->        clone() arguments.
->
->        The following table shows the equivalence between the arguments of
->        clone() and the fields in  the  clone_args  argument  supplied  to
->        clone3():
->
->               clone()         clone(3)        Notes
->                               cl_args field
->               flags & ~0xff   flags
->               parent_tid      pidfd           See CLONE_PIDFD
->               child_tid       child_tid       See CLONE_CHILD_SETTID
->               parent_tid      parent_tid      See CLONE_PARENT_SETTID
->               flags & 0xff    exit_signal
->               stack           stack
->
->               ---             stack_size
-
-(except that on ia64, stack_size also exists in clone2(), and if
-you're not on ia64, stack_size doesn't do anything, at least on X86,
-so showing them side by side like this doesn't really make sense)
