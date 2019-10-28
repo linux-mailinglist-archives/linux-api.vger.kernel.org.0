@@ -2,87 +2,110 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BB39E781D
-	for <lists+linux-api@lfdr.de>; Mon, 28 Oct 2019 19:08:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 99BC0E78F4
+	for <lists+linux-api@lfdr.de>; Mon, 28 Oct 2019 20:09:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732178AbfJ1SIL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 28 Oct 2019 14:08:11 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:34260 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730690AbfJ1SIL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 28 Oct 2019 14:08:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=1Oii312J4rwKfjBtVwSgoriFHTTc3+9xh/Qx156700k=; b=XDc/2ESgjMpplBzpDrC0S7Jp1
-        0qNTtrxHoUFs0nJAAGBFV1U+sTNzXyMzk6FwQ8U2kqQqeTWcSpvbLIOfEcBFQzyb/2npOWiU9bu+S
-        AZMyc3mzxjvJgKgUJx4zYZ+eHkI4/IvYoaQViQvUvwQlLhkC1PMP1DksUfid674VuAMnACmwOipl9
-        yByP1E3zbfKdH0E28vR3tA+5ICf8HAyoNxytN+AXycznam8Q0eMFdSxXCaPiKY82hNcz3UX6wooQP
-        +Po1osJUqQ2E70MIa+ZVW3lYr/T/5vCvrqgDKkaSIINdKVbMlHcbonidtye3Ziud1pRsml4yT34QS
-        ph8bCJQ8Q==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iP9R2-0003fP-VK; Mon, 28 Oct 2019 18:08:08 +0000
-Date:   Mon, 28 Oct 2019 11:08:08 -0700
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Dave Hansen <dave.hansen@intel.com>
-Cc:     Mike Rapoport <rppt@kernel.org>, linux-kernel@vger.kernel.org,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, x86@kernel.org,
-        Mike Rapoport <rppt@linux.ibm.com>
-Subject: Re: [PATCH RFC] mm: add MAP_EXCLUSIVE to create exclusive user
- mappings
-Message-ID: <20191028180808.GA17669@bombadil.infradead.org>
-References: <1572171452-7958-1-git-send-email-rppt@kernel.org>
- <1572171452-7958-2-git-send-email-rppt@kernel.org>
- <d6ac08fe-23f3-c2d5-24c4-88e68f3fd4d0@intel.com>
+        id S1729686AbfJ1TJl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 28 Oct 2019 15:09:41 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:32877 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727664AbfJ1TJk (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 28 Oct 2019 15:09:40 -0400
+Received: by mail-ot1-f66.google.com with SMTP id u13so7636837ote.0
+        for <linux-api@vger.kernel.org>; Mon, 28 Oct 2019 12:09:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=L9fhhJYJix/9oZ9QAhDpmrJfpL3vm/qAXK8NaYNkeO4=;
+        b=SSO1abYXQmcrUQLxLxUHnQswc1h1eK2cNuHq/UkJMxHVKezK9iRzKFRMwcn0pUt7ap
+         /lx1bXQoLgKBjgh1n2lMzVMKf2z+JjVEpw1NmucNCdMuA+JZZlFbhEa57UO1HA2yrkR+
+         EDUN2GlgnjT3TlhpXKwsw/rqk3z/9ztSCWHOsextqp/bEYymmCuj/SETil0juFNTCCV+
+         lDpIcndd/pmo6SphvZd5MUzV7lUMe8/cf33hDsU0GaO9aDXe132NaR7OVpQF9hb35kbK
+         Wap25ib1M/ngsKDlT4IuK/AgaihMVmE4hp7tCPuHrl1edmEYiK3Dl9fZINRml1Onw2iy
+         cExg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=L9fhhJYJix/9oZ9QAhDpmrJfpL3vm/qAXK8NaYNkeO4=;
+        b=RET5QN6qX7Osj9Y8+puSlRzyBuS7TnAZCNgba0J/sqKGlALVnH0h7yBfJRODe7j60q
+         m+VfINHOSfuHEecJ+GKN941oarfKKoBYFEgk8TJgiWu7afF/I+hw7rkHwEPUGu5G2ft6
+         2y+XFtOwF43Nh5+bFKs99BVe/sTSMKWOOq+t19mlMZUWGEdjxDjC1ehyUdFXQJJsDGh8
+         HIMHa3woeUD8Bww4EXOA5VvPr4SwsPeKxE/vlHphE3AnRpFRL2T6UWxfO7wsyOMjBvai
+         3nKguFnp6Y2A71rtJdFULAzMQ/S+EvfsIzLcI+iON2dz8ZtVUKJh/uVzP1dI6pD/MeGB
+         1X4Q==
+X-Gm-Message-State: APjAAAWKyxx4merDkpWf7ICx4yoIYOhlkRqMN6sW/RfFdloOtjaoFqz3
+        AZLbR3WEMz5E79sRw6GjYiYC57f2WTaQGic/WpcBWw==
+X-Google-Smtp-Source: APXvYqxLbI2EylQ7IoCHO+JjXBVws10ah+nufVxaGn0hGW6nZfYqhJxvRBgnrBZUceH4TATnjIU+Q3S6EtTWlE1gfDM=
+X-Received: by 2002:a9d:37e6:: with SMTP id x93mr2695000otb.183.1572289779979;
+ Mon, 28 Oct 2019 12:09:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d6ac08fe-23f3-c2d5-24c4-88e68f3fd4d0@intel.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+References: <CAKgNAkjo2WHq+zESU1iuCHJJ0x-fTNrakS9-d1+BjzUuV2uf2Q@mail.gmail.com>
+ <CAG48ez3q=BeNcuVTKBN79kJui4vC6nw0Bfq6xc-i0neheT17TA@mail.gmail.com> <20191028172143.4vnnjpdljfnexaq5@wittgenstein>
+In-Reply-To: <20191028172143.4vnnjpdljfnexaq5@wittgenstein>
+From:   Jann Horn <jannh@google.com>
+Date:   Mon, 28 Oct 2019 20:09:13 +0100
+Message-ID: <CAG48ez20hn8vToY+=C62nA-rbUfxh=JD6N-f7XVS3_GZOoPjxw@mail.gmail.com>
+Subject: Re: For review: documentation of clone3() system call
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Michael Kerrisk-manpages <mtk.manpages@gmail.com>,
+        lkml <linux-kernel@vger.kernel.org>,
+        linux-man <linux-man@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+        David Howells <dhowells@redhat.com>,
+        Pavel Emelyanov <xemul@virtuozzo.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Adrian Reber <adrian@lisas.de>,
+        Andrei Vagin <avagin@gmail.com>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Oct 28, 2019 at 10:12:44AM -0700, Dave Hansen wrote:
-> Some other random thoughts:
-> 
->  * The page flag is probably not a good idea.  It would be probably
->    better to set _PAGE_SPECIAL on the PTE and force get_user_pages()
->    into the slow path.
->  * This really stops being "normal" memory.  You can't do futexes on it,
->    cant splice it.  Probably need a more fleshed-out list of
->    incompatible features.
->  * As Kirill noted, each 4k page ends up with a potential 1GB "blast
->    radius" of demoted pages in the direct map.  Not cool.  This is
->    probably a non-starter as it stands.
->  * The global TLB flushes are going to eat you alive.  They probably
->    border on a DoS on larger systems.
->  * Do we really want this user interface to dictate the kernel
->    implementation?  In other words, do we really want MAP_EXCLUSIVE,
->    or do we want MAP_SECRET?  One tells the kernel what do *do*, the
->    other tells the kernel what the memory *IS*.
->  * There's a lot of other stuff going on in this area: XPFO, SEV, MKTME,
->    Persistent Memory, where the kernel direct map is a liability in some
->    way.  We probably need some kind of overall, architected solution
->    rather than five or ten things all poking at the direct map.
+On Mon, Oct 28, 2019 at 6:21 PM Christian Brauner
+<christian.brauner@ubuntu.com> wrote:
+> On Mon, Oct 28, 2019 at 04:12:09PM +0100, Jann Horn wrote:
+> > On Fri, Oct 25, 2019 at 6:59 PM Michael Kerrisk (man-pages)
+> > <mtk.manpages@gmail.com> wrote:
+> > > I've made a first shot at adding documentation for clone3(). You can
+> > > see the diff here:
+> > > https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/commit/?id=faa0e55ae9e490d71c826546bbdef954a1800969
+[...]
+> > You might want to note somewhere that its flags can't be
+> > seccomp-filtered because they're stored in memory, making it
+> > inappropriate to use in heavily sandboxed processes.
+>
+> Hm, I don't think that belongs on the clone manpage. Granted that
+> process creation is an important syscall but so are a bunch of others
+> that aren't filterable because of pointer arguments.
+> We can probably mention on the seccomp manpage that seccomp can't filter
+> on pointer arguments and then provide a list of examples. If you setup a
+> seccomp filter and don't know that you can't filter syscalls with
+> pointer args that seems pretty bad to begin with.
 
-Another random set of thoughts:
+Fair enough.
 
- - Should devices be permitted to DMA to/from MAP_SECRET pages?
- - How about GUP?  Can I ptrace my way into another process's secret pages?
- - What if I splice() the page into a pipe?
+[...]
+> One thing I never liked about clone() was that userspace had to know
+> about stack direction. And there is a lot of ugly code in userspace that
+> has nasty clone() wrappers like:
+[...]
+> where stack + stack_size is addition on a void pointer which usually
+> clang and gcc are not very happy about.
+> I wanted to bring this up on the mailing list soon: If possible, I don't
+> want userspace to need to know about stack direction and just have stack
+> point to the beginning and then have the kernel do the + stack_size
+> after the copy_clone_args_from_user() if the arch needs it. For example,
+> by having a dumb helder similar to copy_thread_tls()/coyp_thread() that
+> either does the + stack_size or not. Right now, clone3() is supported on
+> parisc and afaict, the stack grows upwards for it. I'm not sure if there
+> are obvious reasons why that won't work or it would be a bad idea...
+
+That would mean adding a new clone flag that redefines how those
+parameters work and describing the current behavior in the manpage as
+the behavior without the flag (which doesn't exist on 5.3), right?
