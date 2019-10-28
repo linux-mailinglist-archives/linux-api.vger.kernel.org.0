@@ -2,149 +2,101 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7442DE7783
-	for <lists+linux-api@lfdr.de>; Mon, 28 Oct 2019 18:21:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 993C2E779D
+	for <lists+linux-api@lfdr.de>; Mon, 28 Oct 2019 18:33:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730609AbfJ1RVt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 28 Oct 2019 13:21:49 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:40877 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730212AbfJ1RVs (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 28 Oct 2019 13:21:48 -0400
-Received: from [91.217.168.176] (helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1iP8i8-0004dS-SK; Mon, 28 Oct 2019 17:21:44 +0000
-Date:   Mon, 28 Oct 2019 18:21:44 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Jann Horn <jannh@google.com>
-Cc:     Michael Kerrisk-manpages <mtk.manpages@gmail.com>,
-        lkml <linux-kernel@vger.kernel.org>,
-        linux-man <linux-man@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Florian Weimer <fweimer@redhat.com>,
-        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        David Howells <dhowells@redhat.com>,
-        Pavel Emelyanov <xemul@virtuozzo.com>,
+        id S2404160AbfJ1Rdb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 28 Oct 2019 13:33:31 -0400
+Received: from mga02.intel.com ([134.134.136.20]:42803 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2404155AbfJ1Rdb (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 28 Oct 2019 13:33:31 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 28 Oct 2019 10:32:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,240,1569308400"; 
+   d="scan'208";a="399514952"
+Received: from sjchrist-coffee.jf.intel.com (HELO linux.intel.com) ([10.54.74.41])
+  by fmsmga005.fm.intel.com with ESMTP; 28 Oct 2019 10:32:30 -0700
+Date:   Mon, 28 Oct 2019 10:32:30 -0700
+From:   Sean Christopherson <sean.j.christopherson@intel.com>
+To:     Dave Hansen <dave.hansen@intel.com>
+Cc:     Mike Rapoport <rppt@kernel.org>, linux-kernel@vger.kernel.org,
+        Alexey Dobriyan <adobriyan@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Adrian Reber <adrian@lisas.de>,
-        Andrei Vagin <avagin@gmail.com>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: For review: documentation of clone3() system call
-Message-ID: <20191028172143.4vnnjpdljfnexaq5@wittgenstein>
-References: <CAKgNAkjo2WHq+zESU1iuCHJJ0x-fTNrakS9-d1+BjzUuV2uf2Q@mail.gmail.com>
- <CAG48ez3q=BeNcuVTKBN79kJui4vC6nw0Bfq6xc-i0neheT17TA@mail.gmail.com>
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, linux-api@vger.kernel.org,
+        linux-mm@kvack.org, x86@kernel.org,
+        Mike Rapoport <rppt@linux.ibm.com>
+Subject: Re: [PATCH RFC] mm: add MAP_EXCLUSIVE to create exclusive user
+ mappings
+Message-ID: <20191028173229.GC5061@linux.intel.com>
+References: <1572171452-7958-1-git-send-email-rppt@kernel.org>
+ <1572171452-7958-2-git-send-email-rppt@kernel.org>
+ <d6ac08fe-23f3-c2d5-24c4-88e68f3fd4d0@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAG48ez3q=BeNcuVTKBN79kJui4vC6nw0Bfq6xc-i0neheT17TA@mail.gmail.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <d6ac08fe-23f3-c2d5-24c4-88e68f3fd4d0@intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Oct 28, 2019 at 04:12:09PM +0100, Jann Horn wrote:
-> On Fri, Oct 25, 2019 at 6:59 PM Michael Kerrisk (man-pages)
-> <mtk.manpages@gmail.com> wrote:
-> > I've made a first shot at adding documentation for clone3(). You can
-> > see the diff here:
-> > https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/commit/?id=faa0e55ae9e490d71c826546bbdef954a1800969
-> [...]
-> >    clone3()
-> >        The  clone3() system call provides a superset of the functionality
-> >        of the older clone() interface.  It also provides a number of  API
-> >        improvements,  including: space for additional flags bits; cleaner
-> >        separation in the use of various arguments;  and  the  ability  to
-> >        specify the size of the child's stack area.
+On Mon, Oct 28, 2019 at 10:12:44AM -0700, Dave Hansen wrote:
+> On 10/27/19 3:17 AM, Mike Rapoport wrote:
+> > The pages in these mappings are removed from the kernel direct map and
+> > marked with PG_user_exclusive flag. When the exclusive area is unmapped,
+> > the pages are mapped back into the direct map.
 > 
-> You might want to note somewhere that its flags can't be
-> seccomp-filtered because they're stored in memory, making it
-> inappropriate to use in heavily sandboxed processes.
-
-Hm, I don't think that belongs on the clone manpage. Granted that
-process creation is an important syscall but so are a bunch of others
-that aren't filterable because of pointer arguments.
-We can probably mention on the seccomp manpage that seccomp can't filter
-on pointer arguments and then provide a list of examples. If you setup a
-seccomp filter and don't know that you can't filter syscalls with
-pointer args that seems pretty bad to begin with.
-
+> This looks fun.  It's certainly simple.
 > 
-> >            struct clone_args {
-> >                u64 flags;        /* Flags bit mask */
-> >                u64 pidfd;        /* Where to store PID file descriptor
-> >                                     (int *) */
-> >                u64 child_tid;    /* Where to store child TID,
-> >                                     in child's memory (int *) */
-> >                u64 parent_tid;   /* Where to store child TID,
-> >                                     in parent's memory (int *) */
-> >                u64 exit_signal;  /* Signal to deliver to parent on
-> >                                     child termination */
-> >                u64 stack;        /* Pointer to lowest byte of stack */
-> >                u64 stack_size;   /* Size of stack */
-> >                u64 tls;          /* Location of new TLS */
-> >            };
-> >
-> >        The size argument that is supplied to clone3() should be  initial‐
-> >        ized  to  the  size of this structure.  (The existence of the size
-> >        argument permits future extensions to the clone_args structure.)
-> >
-> >        The stack for the child process is  specified  via  cl_args.stack,
-> >        which   points   to  the  lowest  byte  of  the  stack  area,  and
+> But, the description is not really calling out the pros and cons very
+> well.  I'm also not sure that folks will use an interface like this that
+> requires up-front, special code to do an allocation instead of something
+> like madvise().  That's why protection keys ended up the way it did: if
+> you do this as a mmap() replacement, you need to modify all *allocators*
+> to be enabled for this.  If you do it with mprotect()-style, you can
+> apply it to existing allocations.
 > 
-> Here and in the comment in the struct above, you say that .stack
-> "points to the lowest byte of the stack area", but isn't that
-> architecture-dependent? For most architectures, I think it should
-> instead be "is the initial stack pointer", with the exception of IA64
-> (and maybe others, I'm not sure). For example, on X86, when launching
-> a thread with an initially empty stack, it points directly *after* the
-> end of the stack area.
+> Some other random thoughts:
+> 
+>  * The page flag is probably not a good idea.  It would be probably
+>    better to set _PAGE_SPECIAL on the PTE and force get_user_pages()
+>    into the slow path.
+>  * This really stops being "normal" memory.  You can't do futexes on it,
+>    cant splice it.  Probably need a more fleshed-out list of
+>    incompatible features.
+>  * As Kirill noted, each 4k page ends up with a potential 1GB "blast
+>    radius" of demoted pages in the direct map.  Not cool.  This is
+>    probably a non-starter as it stands.
+>  * The global TLB flushes are going to eat you alive.  They probably
+>    border on a DoS on larger systems.
+>  * Do we really want this user interface to dictate the kernel
+>    implementation?  In other words, do we really want MAP_EXCLUSIVE,
+>    or do we want MAP_SECRET?  One tells the kernel what do *do*, the
+>    other tells the kernel what the memory *IS*.
 
-re arch and stack_size: You mentioned ia64 below (I snipped this part.)
-but it's not the only one. With legacy clone it's _passed_ for any
-architecture that has CONFIG_CLONE_BACKWARDS3. That includes at least
-microblaze and ia64 I think. But only ia64 makes _actual use_ of this in
-copy_thread() by doing user_stack_base + user_stack_size - 16. I think ia64
-only needs stack_size because of the split page-table layout where two
-stacks grow in different directions; so the stack doesn't grow
-dynamically. Afair, stack_size is mainly used when PF_KTHREAD is true
-but that can't be set from userspace anyway, so _shrug_.
+If we go that route, maybe MAP_USER_SECRET so that there's wiggle room in
+the event that there are different secret keepers that require different
+implementations in the kernel?   E.g. MAP_GUEST_SECRET for a KVM guest to
+take the userspace VMM (Qemu) out of the TCB, i.e. the mapping would be
+accessible by the kernel (or just KVM?) and the KVM guest, but not
+userspace.
 
-One thing I never liked about clone() was that userspace had to know
-about stack direction. And there is a lot of ugly code in userspace that
-has nasty clone() wrappers like:
-
-pid_t wrap_clone(int (*fn)(void *), void *arg, int flags, int *pidfd)
-{
-	pid_t ret;
-	void *stack;
-
-	stack = malloc(__STACK_SIZE);
-	if (!stack) {
-		SYSERROR("Failed to allocate clone stack");
-		return -ENOMEM;
-	}
-
-#ifdef __ia64__
-	ret = __clone2(fn, stack, __STACK_SIZE, flags | SIGCHLD, arg, pidfd);
-#else
-	ret = clone(fn, stack + __STACK_SIZE, flags | SIGCHLD, arg, pidfd);
-#endif
-	return ret;
-}
-
-where stack + stack_size is addition on a void pointer which usually
-clang and gcc are not very happy about.
-I wanted to bring this up on the mailing list soon: If possible, I don't
-want userspace to need to know about stack direction and just have stack
-point to the beginning and then have the kernel do the + stack_size
-after the copy_clone_args_from_user() if the arch needs it. For example,
-by having a dumb helder similar to copy_thread_tls()/coyp_thread() that
-either does the + stack_size or not. Right now, clone3() is supported on
-parisc and afaict, the stack grows upwards for it. I'm not sure if there
-are obvious reasons why that won't work or it would be a bad idea...
-
-Christian
+>  * There's a lot of other stuff going on in this area: XPFO, SEV, MKTME,
+>    Persistent Memory, where the kernel direct map is a liability in some
+>    way.  We probably need some kind of overall, architected solution
+>    rather than five or ten things all poking at the direct map.
+> 
