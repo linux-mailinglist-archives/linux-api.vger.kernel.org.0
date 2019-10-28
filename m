@@ -2,96 +2,96 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B7B0E7A6A
-	for <lists+linux-api@lfdr.de>; Mon, 28 Oct 2019 21:45:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CFECE7AAC
+	for <lists+linux-api@lfdr.de>; Mon, 28 Oct 2019 22:01:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388153AbfJ1UpZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 28 Oct 2019 16:45:25 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:36291 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388143AbfJ1UpY (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 28 Oct 2019 16:45:24 -0400
-Received: by mail-pg1-f195.google.com with SMTP id j22so1731336pgh.3
-        for <linux-api@vger.kernel.org>; Mon, 28 Oct 2019 13:45:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=content-transfer-encoding:from:mime-version:subject:date:message-id
-         :references:cc:in-reply-to:to;
-        bh=KOjhDV2bOtkoryUtZNdedbIyz5aUvjz8VRxxdiXfCZg=;
-        b=fcUjf9zk+4oJ62eLTSygNM/iUtrrnBl2+URBZKh9513ri3eVyRIWYt6bIgH6oBx4X0
-         LB5TPZm0P2iY/11cju/J8f/fRgRBSAwMe0CVXk0tW/1XHV0t8T2PQd/ceyOdSMnCnni5
-         9LeWRxiN2X+mhcgqmGe1cusQKUg8mFqlilKv2a9SwKST9Q/GowMmIwMwzcO2c2AGkhL4
-         xKH5DOsYPndupfQyJrxwYB7Z09GUJSFWJ7UqrM1qLKEiwtJqH80kHN5F87HbqAbzaiMR
-         uc5E7aoW6XA++r+uZ3QAikuJFPVAapX76VSsqSRNVeE3589Cdh9fCi9NV4M6qqamGUpI
-         w21Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:content-transfer-encoding:from:mime-version
-         :subject:date:message-id:references:cc:in-reply-to:to;
-        bh=KOjhDV2bOtkoryUtZNdedbIyz5aUvjz8VRxxdiXfCZg=;
-        b=r+okW7s1fRtvaAv6pWFicGDnOtdYCwOPo0HFlDOXnkgHKLkDkoRApFe5K5L8U7JvXz
-         EFXnaOJ7suzCqSSD9LA5bSFDtda2/IiQk0tTcc1y4K6n1FAvEvFYtsKhSvvMnfQfZ+nd
-         2c3GnV/CnbLeW7todfwvL67Pd+6ch+96dZ4w49FGBFjpGXdvCeyTTzq+NdiZg+toEb1n
-         Bl5c/CmzKkeI58GUPwaB7V1Pxca9Uy+GqJEcVubpERKhXe2F6igRtGVrbzTHB3qNX9Zq
-         SmL5btoolYtFAmZSmXi6n9VmQJ9CH1f1iYXP/UEDg1E6WAUw+iNFxyRmHFEQ/gXv2rhA
-         LhcA==
-X-Gm-Message-State: APjAAAVUTxe2+iL18fhMqjjWtVHIykWJA/JEdl43VMdNquDDFZjDMjAl
-        eYbKghgLQx211Q7WRhZVO0enoQ==
-X-Google-Smtp-Source: APXvYqz+3RSrMew/VEEbk6rofjrWlXLaxsQq8rNZqiU1GY8aOt/v3M5nMsymLZnECmWFFPRlRADoVg==
-X-Received: by 2002:a63:a03:: with SMTP id 3mr24167392pgk.112.1572295524109;
-        Mon, 28 Oct 2019 13:45:24 -0700 (PDT)
-Received: from [100.96.218.121] (241.sub-174-237-138.myvzw.com. [174.237.138.241])
-        by smtp.gmail.com with ESMTPSA id l72sm372781pjb.18.2019.10.28.13.45.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Oct 2019 13:45:22 -0700 (PDT)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From:   Andy Lutomirski <luto@amacapital.net>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH RFC] mm: add MAP_EXCLUSIVE to create exclusive user mappings
-Date:   Mon, 28 Oct 2019 14:44:23 -0600
-Message-Id: <CA5C22D9-BC3E-4B69-8DD9-4D3B75E40BD5@amacapital.net>
+        id S1730542AbfJ1VBG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 28 Oct 2019 17:01:06 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:54198 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729449AbfJ1VBG (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 28 Oct 2019 17:01:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=6ftG5m8lGvtedzGNIH5EOrt+Fv7RjR731OYTUpDU54Q=; b=OS1tUSpLYQrfvH2uh3T8yVlGK
+        T7vhvhCzh7nVRAzZliu0ZIg07uS6OEiYQnOoOi85JBZI0iWrON0Iu16vQgduHVD22bRenrk9MGAdp
+        uKcnafOMm1FrL5HAuNXYEsXhlIcGEMrU6hR88iugETvhQ56ZTauoT25wIC/CX7I6yOScFSL3u9p9Z
+        3gL380MjV/ekE7yewMAuJQ+LNROKsn39Kf6t6EgN74581tf3VaAZEpON5BrcWyixhoW+HO6jGlt9M
+        YJgIJdVSxS68w5NheNlkd85yKwG1pk0hkWD4CtwgdW8e6ITdTg+yLNLjf7GTnYPILEHpJcwu0B0O/
+        n94zFzRaQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1iPC84-0005Ll-7y; Mon, 28 Oct 2019 21:00:44 +0000
+Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
+        id ED6FD980D8F; Mon, 28 Oct 2019 22:00:52 +0100 (CET)
+Date:   Mon, 28 Oct 2019 22:00:52 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc:     "kirill@shutemov.name" <kirill@shutemov.name>,
+        "adobriyan@gmail.com" <adobriyan@gmail.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "jejb@linux.ibm.com" <jejb@linux.ibm.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "luto@kernel.org" <luto@kernel.org>,
+        "rppt@linux.ibm.com" <rppt@linux.ibm.com>,
+        "bp@alien8.de" <bp@alien8.de>, "arnd@arndb.de" <arnd@arndb.de>
+Subject: Re: [PATCH RFC] mm: add MAP_EXCLUSIVE to create exclusive user
+ mappings
+Message-ID: <20191028210052.GM4643@worktop.programming.kicks-ass.net>
 References: <1572171452-7958-1-git-send-email-rppt@kernel.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, x86@kernel.org,
-        Mike Rapoport <rppt@linux.ibm.com>
-In-Reply-To: <1572171452-7958-1-git-send-email-rppt@kernel.org>
-To:     Mike Rapoport <rppt@kernel.org>
-X-Mailer: iPhone Mail (17A878)
+ <1572171452-7958-2-git-send-email-rppt@kernel.org>
+ <20191028123124.ogkk5ogjlamvwc2s@box>
+ <20191028130018.GA7192@rapoport-lnx>
+ <20191028131623.zwuwguhm4v4s5imh@box>
+ <20191028135521.GB4097@hirez.programming.kicks-ass.net>
+ <0a35765f7412937c1775daa05177b20113760aee.camel@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0a35765f7412937c1775daa05177b20113760aee.camel@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Mon, Oct 28, 2019 at 07:59:25PM +0000, Edgecombe, Rick P wrote:
+> On Mon, 2019-10-28 at 14:55 +0100, Peter Zijlstra wrote:
+> > On Mon, Oct 28, 2019 at 04:16:23PM +0300, Kirill A. Shutemov wrote:
+> > 
+> > > I think active use of this feature will lead to performance degradation of
+> > > the system with time.
+> > > 
+> > > Setting a single 4k page non-present in the direct mapping will require
+> > > splitting 2M or 1G page we usually map direct mapping with. And it's one
+> > > way road. We don't have any mechanism to map the memory with huge page
+> > > again after the application has freed the page.
+> > 
+> > Right, we recently had a 'bug' where ftrace triggered something like
+> > this and facebook ran into it as a performance regression. So yes, this
+> > is a real concern.
+> 
+> Don't e/cBPF filters also break the direct map down to 4k pages when calling
+> set_memory_ro() on the filter for 64 bit x86 and arm?
+> 
+> I've been wondering if the page allocator should make some effort to find a
+> broken down page for anything that can be known will have direct map permissions
+> changed (or if it already groups them somehow). But also, why any potential
+> slowdown of 4k pages on the direct map hasn't been noticed for apps that do a
+> lot of insertions and removals of BPF filters, if this is indeed the case.
 
-> On Oct 27, 2019, at 4:17 AM, Mike Rapoport <rppt@kernel.org> wrote:
->=20
-> =EF=BB=BFFrom: Mike Rapoport <rppt@linux.ibm.com>
->=20
-> Hi,
->=20
-> The patch below aims to allow applications to create mappins that have
-> pages visible only to the owning process. Such mappings could be used to
-> store secrets so that these secrets are not visible neither to other
-> processes nor to the kernel.
->=20
-> I've only tested the basic functionality, the changes should be verified
-> against THP/migration/compaction. Yet, I'd appreciate early feedback.
-
-I=E2=80=99ve contemplated the concept a fair amount, and I think you should c=
-onsider a change to the API. In particular, rather than having it be a MAP_ f=
-lag, make it a chardev.  You can, at least at first, allow only MAP_SHARED, a=
-nd admins can decide who gets to use it.  It might also play better with the=
- VM overall, and you won=E2=80=99t need a VM_ flag for it =E2=80=94 you can j=
-ust wire up .fault to do the right thing.
+That should be limited to the module range. Random data maps could
+shatter the world.
