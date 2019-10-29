@@ -2,115 +2,98 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FAE1E8638
-	for <lists+linux-api@lfdr.de>; Tue, 29 Oct 2019 12:00:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F17CE863D
+	for <lists+linux-api@lfdr.de>; Tue, 29 Oct 2019 12:02:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726175AbfJ2LAZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 29 Oct 2019 07:00:25 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:34169 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725880AbfJ2LAZ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 29 Oct 2019 07:00:25 -0400
-Received: by mail-lf1-f65.google.com with SMTP id f5so10187793lfp.1
-        for <linux-api@vger.kernel.org>; Tue, 29 Oct 2019 04:00:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shutemov-name.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=NKg7u5dI/aetXjjN3SsmoQlpBiwrKqqloqLlWWxFfVQ=;
-        b=MSsmJk7AsyIrbYG663mQnrA14v+NrqCOvnBRseZt2FopMZ9uTpUI1uOR5dR4fHu1gw
-         FdmTJYosQ1xm+kJCwJkiAOO8nZx5j4QTGpymQYtbfTWCteuDsHYWDaCZl2pLc7vcRuSb
-         c6Q9pbUd4WTNvpMp8/BvmIT1A7InVptd/VHSKmpDflICy8t1DrZzOz9/351E1JWbB3oo
-         AtGltGjkkd67KkvekD5lyOpgdy17ZyO5fSmzF3cw8pldgoFFz0h3MKfuln6D/1IZvq86
-         wdq2peV4QeI6PagkdlhXVpJyu/Jp0oOV6Xs9u62tAyHG4K/xHabybrybipUrHF09EOeR
-         gJsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=NKg7u5dI/aetXjjN3SsmoQlpBiwrKqqloqLlWWxFfVQ=;
-        b=kk5YPQivPrG/pggnbPKro7vjA20Eo7xLSUEPgpSLxvY58J6XT2Vy2NERZUrHUjMNg1
-         YMvq6Ovh2fsm62+YlJJkKjacCZ8pTHBHUvR4Y2inG/lTKBHxdI3kXcCHbhlQLYfKHtxB
-         gwCFGjV81jgD7rQFrtBJJ93mICQzIZM1J2qIhLAdhYU1SuZ1CfNWBRqxyXwo8p84lasp
-         r3EooZnFNvzbe3W/32KPNSEBs0HYEdnH4JkII5aewnpT4i/+YdorKEClhp8bJV6aMRNg
-         NyqG1vFITj3cjQrlw9JOpWm+pW6fGm9CJI6MPS58GoSKqVl6pqx18ebOrqQt5QYNSuYf
-         Xsyg==
-X-Gm-Message-State: APjAAAUV3Cvpp8P3m19R1Ttqup6EsenBHT3UILQHGvLC/W0skOpXxTbO
-        SH+jxQpJrhWtWXgJtGx283Mr7Q==
-X-Google-Smtp-Source: APXvYqwmI4WVp++wXBW/3hIg2fhQrc/nvc0g7ASX0cSTIRCEgK0Qc7IA/ofesxVbkFKz3qX07wnEHQ==
-X-Received: by 2002:a19:e017:: with SMTP id x23mr2005378lfg.88.1572346823685;
-        Tue, 29 Oct 2019 04:00:23 -0700 (PDT)
-Received: from box.localdomain ([86.57.175.117])
-        by smtp.gmail.com with ESMTPSA id q15sm5071450lfb.84.2019.10.29.04.00.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Oct 2019 04:00:22 -0700 (PDT)
-Received: by box.localdomain (Postfix, from userid 1000)
-        id 73C11100240; Tue, 29 Oct 2019 14:00:24 +0300 (+03)
-Date:   Tue, 29 Oct 2019 14:00:24 +0300
-From:   "Kirill A. Shutemov" <kirill@shutemov.name>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Dan Williams <dan.j.williams@intel.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
+        id S1726705AbfJ2LCp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 29 Oct 2019 07:02:45 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34623 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726562AbfJ2LCp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 29 Oct 2019 07:02:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1572346964;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=s7sbbHmvNFaJzygr4NJBUlYrQ4azqMBo1OOsjTf8okk=;
+        b=d/XsJyztV0/rs+6igdnuuZDfxcNimrykhwPdBMMHME0J/ntl07uHEdxbQIdPSxi5+ItZ7E
+        EknoK+JRtDnj+5ubz/rD2b0vHecvM3bFotRh9b96+HdY9czHGI26g3MNZKYV5FF/NpS7Ud
+        8HUwhnUm+qERPFWO0AYe3mlwa85BN4Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-271-QvSRTwhiPeOIPJAKsYgcDw-1; Tue, 29 Oct 2019 07:02:40 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 61D031800D67;
+        Tue, 29 Oct 2019 11:02:38 +0000 (UTC)
+Received: from [10.36.117.183] (ovpn-117-183.ams2.redhat.com [10.36.117.183])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id D59DD600F4;
+        Tue, 29 Oct 2019 11:02:34 +0000 (UTC)
+Subject: Re: [PATCH RFC] mm: add MAP_EXCLUSIVE to create exclusive user
+ mappings
+To:     Mike Rapoport <rppt@kernel.org>, linux-kernel@vger.kernel.org
+Cc:     Alexey Dobriyan <adobriyan@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Andy Lutomirski <luto@kernel.org>,
         Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         James Bottomley <jejb@linux.ibm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
         Steven Rostedt <rostedt@goodmis.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>,
-        the arch/x86 maintainers <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, linux-api@vger.kernel.org,
+        linux-mm@kvack.org, x86@kernel.org,
         Mike Rapoport <rppt@linux.ibm.com>
-Subject: Re: [PATCH RFC] mm: add MAP_EXCLUSIVE to create exclusive user
- mappings
-Message-ID: <20191029110024.yjytp22lhd2vekrv@box>
 References: <1572171452-7958-1-git-send-email-rppt@kernel.org>
  <1572171452-7958-2-git-send-email-rppt@kernel.org>
- <20191028123124.ogkk5ogjlamvwc2s@box>
- <20191028130018.GA7192@rapoport-lnx>
- <20191028131623.zwuwguhm4v4s5imh@box>
- <CAA9_cmd7f2y2AAT6646S=tco3yfyLgCAC4Qp=1iTQaJqrQcOwQ@mail.gmail.com>
- <20191029064318.s4n4gidlfjun3d47@box>
- <20191029085602.GI4114@hirez.programming.kicks-ass.net>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <085ed07e-e646-f7a4-0370-06f33a2a4e4a@redhat.com>
+Date:   Tue, 29 Oct 2019 12:02:34 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191029085602.GI4114@hirez.programming.kicks-ass.net>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <1572171452-7958-2-git-send-email-rppt@kernel.org>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: QvSRTwhiPeOIPJAKsYgcDw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Oct 29, 2019 at 09:56:02AM +0100, Peter Zijlstra wrote:
-> On Tue, Oct 29, 2019 at 09:43:18AM +0300, Kirill A. Shutemov wrote:
-> > But some CPUs don't like to have two TLB entries for the same memory with
-> > different sizes at the same time. See for instance AMD erratum 383.
-> > 
-> > Getting it right would require making the range not present, flush TLB and
-> > only then install huge page. That's what we do for userspace.
-> > 
-> > It will not fly for the direct mapping. There is no reasonable way to
-> > exclude other CPU from accessing the range while it's not present (call
-> > stop_machine()? :P). Moreover, the range may contain the code that doing
-> > the collapse or data required for it...
-> > 
-> > BTW, looks like current __split_large_page() in pageattr.c is susceptible
-> > to the errata. Maybe we can get away with the easy way...
-> 
-> As you write above, there is just no way we can have a (temporary) hole
-> in the direct map.
-> 
-> We are careful about that other errata, and make sure both translations
-> are identical wrt everything else.
+On 27.10.19 11:17, Mike Rapoport wrote:
+> From: Mike Rapoport <rppt@linux.ibm.com>
+>=20
+> The mappings created with MAP_EXCLUSIVE are visible only in the context o=
+f
+> the owning process and can be used by applications to store secret
+> information that will not be visible not only to other processes but to t=
+he
+> kernel as well.
+>=20
+> The pages in these mappings are removed from the kernel direct map and
+> marked with PG_user_exclusive flag. When the exclusive area is unmapped,
+> the pages are mapped back into the direct map.
+>=20
 
-It's not clear if it is enough to avoid the issue. "under a highly specific
-and detailed set of conditions" is not very specific set of conditions :P
+Just a thought, the kernel is still able to indirectly read the contents=20
+of these pages by doing a kdump from kexec environment, right?. Also, I=20
+wonder what would happen if you map such pages via /dev/mem into another=20
+user space application and e.g., use them along with kvm [1].
 
--- 
- Kirill A. Shutemov
+[1] https://lwn.net/Articles/778240/
+
+--=20
+
+Thanks,
+
+David / dhildenb
+
