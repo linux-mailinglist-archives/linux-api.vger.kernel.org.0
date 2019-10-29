@@ -2,98 +2,137 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F17CE863D
-	for <lists+linux-api@lfdr.de>; Tue, 29 Oct 2019 12:02:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B9231E86BE
+	for <lists+linux-api@lfdr.de>; Tue, 29 Oct 2019 12:25:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726705AbfJ2LCp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 29 Oct 2019 07:02:45 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34623 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726562AbfJ2LCp (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 29 Oct 2019 07:02:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1572346964;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=s7sbbHmvNFaJzygr4NJBUlYrQ4azqMBo1OOsjTf8okk=;
-        b=d/XsJyztV0/rs+6igdnuuZDfxcNimrykhwPdBMMHME0J/ntl07uHEdxbQIdPSxi5+ItZ7E
-        EknoK+JRtDnj+5ubz/rD2b0vHecvM3bFotRh9b96+HdY9czHGI26g3MNZKYV5FF/NpS7Ud
-        8HUwhnUm+qERPFWO0AYe3mlwa85BN4Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-271-QvSRTwhiPeOIPJAKsYgcDw-1; Tue, 29 Oct 2019 07:02:40 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 61D031800D67;
-        Tue, 29 Oct 2019 11:02:38 +0000 (UTC)
-Received: from [10.36.117.183] (ovpn-117-183.ams2.redhat.com [10.36.117.183])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id D59DD600F4;
-        Tue, 29 Oct 2019 11:02:34 +0000 (UTC)
-Subject: Re: [PATCH RFC] mm: add MAP_EXCLUSIVE to create exclusive user
- mappings
-To:     Mike Rapoport <rppt@kernel.org>, linux-kernel@vger.kernel.org
-Cc:     Alexey Dobriyan <adobriyan@gmail.com>,
+        id S1726071AbfJ2LZS convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Tue, 29 Oct 2019 07:25:18 -0400
+Received: from mga14.intel.com ([192.55.52.115]:54309 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725927AbfJ2LZS (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 29 Oct 2019 07:25:18 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 29 Oct 2019 04:25:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,243,1569308400"; 
+   d="scan'208";a="203537076"
+Received: from irsmsx151.ger.corp.intel.com ([163.33.192.59])
+  by orsmga006.jf.intel.com with ESMTP; 29 Oct 2019 04:25:14 -0700
+Received: from irsmsx112.ger.corp.intel.com (10.108.20.5) by
+ IRSMSX151.ger.corp.intel.com (163.33.192.59) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Tue, 29 Oct 2019 11:25:13 +0000
+Received: from irsmsx102.ger.corp.intel.com ([169.254.2.40]) by
+ irsmsx112.ger.corp.intel.com ([169.254.1.60]) with mapi id 14.03.0439.000;
+ Tue, 29 Oct 2019 11:25:13 +0000
+From:   "Reshetova, Elena" <elena.reshetova@intel.com>
+To:     Mike Rapoport <rppt@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+CC:     Alexey Dobriyan <adobriyan@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Andy Lutomirski <luto@kernel.org>,
         Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         James Bottomley <jejb@linux.ibm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
+        "Peter Zijlstra" <peterz@infradead.org>,
         Steven Rostedt <rostedt@goodmis.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, x86@kernel.org,
-        Mike Rapoport <rppt@linux.ibm.com>
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Tycho Andersen <tycho@tycho.ws>,
+        Alan Cox <alan@linux.intel.com>
+Subject: RE: [PATCH RFC] mm: add MAP_EXCLUSIVE to create exclusive user
+ mappings
+Thread-Topic: [PATCH RFC] mm: add MAP_EXCLUSIVE to create exclusive user
+ mappings
+Thread-Index: AQHVjK/LKXzttSiV6ES+HuOmjQLbFqdxS3bQ
+Date:   Tue, 29 Oct 2019 11:25:12 +0000
+Message-ID: <2236FBA76BA1254E88B949DDB74E612BA4EEC0CE@IRSMSX102.ger.corp.intel.com>
 References: <1572171452-7958-1-git-send-email-rppt@kernel.org>
- <1572171452-7958-2-git-send-email-rppt@kernel.org>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <085ed07e-e646-f7a4-0370-06f33a2a4e4a@redhat.com>
-Date:   Tue, 29 Oct 2019 12:02:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
-MIME-Version: 1.0
-In-Reply-To: <1572171452-7958-2-git-send-email-rppt@kernel.org>
+In-Reply-To: <1572171452-7958-1-git-send-email-rppt@kernel.org>
+Accept-Language: en-US
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: QvSRTwhiPeOIPJAKsYgcDw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-originating-ip: [163.33.239.181]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
+MIME-Version: 1.0
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 27.10.19 11:17, Mike Rapoport wrote:
-> From: Mike Rapoport <rppt@linux.ibm.com>
->=20
-> The mappings created with MAP_EXCLUSIVE are visible only in the context o=
-f
-> the owning process and can be used by applications to store secret
-> information that will not be visible not only to other processes but to t=
-he
-> kernel as well.
->=20
-> The pages in these mappings are removed from the kernel direct map and
-> marked with PG_user_exclusive flag. When the exclusive area is unmapped,
-> the pages are mapped back into the direct map.
->=20
+> The patch below aims to allow applications to create mappins that have
+> pages visible only to the owning process. Such mappings could be used to
+> store secrets so that these secrets are not visible neither to other
+> processes nor to the kernel.
 
-Just a thought, the kernel is still able to indirectly read the contents=20
-of these pages by doing a kdump from kexec environment, right?. Also, I=20
-wonder what would happen if you map such pages via /dev/mem into another=20
-user space application and e.g., use them along with kvm [1].
+Hi Mike, 
 
-[1] https://lwn.net/Articles/778240/
+I have actually been looking into the closely related problem for the past 
+couple of weeks (on and off). What is common here is the need for userspace
+to indicate to kernel that some pages contain secrets. And then there are
+actually a number of things that kernel can do to try to protect these secrets
+better. Unmap from direct map is one of them. Another thing is to map such
+pages as non-cached, which can help us to prevent or considerably restrict
+speculation on such pages. The initial proof of concept for marking pages as
+"UNCACHED" that I got from Dave Hansen was actually based on mlock2() 
+and a new flag for it for this purpose. Since then I have been thinking on what
+interface suits the use case better and actually selected going with new madvise() 
+flag instead because of all possible implications for fragmentation and performance. 
+My logic was that we better allocate the secret data explicitly (using mmap()) 
+to make sure that no other process data accidentally gets to suffer.
+Imagine I would allocate a buffer to hold a secret key, signal with mlock
+ to protect it and suddenly my other high throughput non-secret buffer 
+(which happened to live on the same page by chance) became very slow
+ and I don't even have an easy way (apart from mmap()ing it!) to guarantee
+ that it won't be affected.
 
---=20
+So, I ended up towards smth like:
 
-Thanks,
+  secret_buffer =  mmap(NULL, PAGE_SIZE, ...)
+   madvise(secret_buffer, size, MADV_SECRET)
 
-David / dhildenb
+I have work in progress code here:
+ https://github.com/ereshetova/linux/commits/madvise
 
+I haven't sent it for review, because it is not ready yet and I am now working
+on trying to add the page wiping functionality. Otherwise it would be useless
+to protect the page during the time it is used in userspace, but then allow it
+to get reused by a different process later after it has been released back and
+userspace was stupid enough not to wipe the contents (or was crashed on 
+purpose before it was able to wipe anything out). 
+
+We have also had some discussions with Tycho that XPFO can be also
+applied selectively for such "SECRET" marked pages and I know that he has also
+did some initial prototyping on this, so I think it would be great to decide
+on userspace interface first and then see how we can assemble together all
+these features. 
+
+The *very* far fetching goal for all of this would be something that Alan Cox
+suggested when I started looking into this - actually have a new libc function to 
+allocate memory in a secure way, which can hide all the dancing with mmap()/madvise()
+(or/and potentially interaction with a chardev that Andy was suggesting also) and
+implement an efficient allocator for such secret pages. Openssl has its
+own version of  "secure heap", which is essentially mmap area with additional 
+MLOCK_ONFAULT and MADV_DONTDUMP flags for protection. Some other 
+apps or libs must use smth similar if they want additional protection, which
+makes them to reimplement the same concept again and again. Sadly or surprisingly 
+other major libs like boringssl, mbedTLS or client like openssh do not user any mlock()/
+madvise() flags for any additional protection of secrets that they hold in memory. 
+Maybe if all of it would be behind a single secure API situation would start to 
+change in userspace towards better. 
+
+Best Regards,
+Elena.
+ 
+. 
