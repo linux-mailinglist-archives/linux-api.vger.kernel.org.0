@@ -2,24 +2,40 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2AD01E8ABC
-	for <lists+linux-api@lfdr.de>; Tue, 29 Oct 2019 15:26:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 55E93E8AE5
+	for <lists+linux-api@lfdr.de>; Tue, 29 Oct 2019 15:36:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389143AbfJ2O02 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 29 Oct 2019 10:26:28 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:41747 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728306AbfJ2O02 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 29 Oct 2019 10:26:28 -0400
-Received: from [91.217.168.176] (helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1iPSS0-0003ey-E8; Tue, 29 Oct 2019 14:26:24 +0000
-Date:   Tue, 29 Oct 2019 15:26:23 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Jann Horn <jannh@google.com>, Florian Weimer <fweimer@redhat.com>
-Cc:     Michael Kerrisk-manpages <mtk.manpages@gmail.com>,
+        id S2389389AbfJ2Ogx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 29 Oct 2019 10:36:53 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:29287 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2389024AbfJ2Ogx (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 29 Oct 2019 10:36:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1572359812;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=cyppzqRGiPy9BVmoF02ZpY6VIa9FjG7DXct9lAL3RIs=;
+        b=Uf3bbRQxaeB6gyBifgBBC3u7nziuhU8lWSOrldaD5bFpNFFnO1qwROEm7HURkpp8Sldou3
+        F/iALr9PGnUfbqfu29QJv00ipkS/DbvXP1Ffl2Z12FeB+XCbAaAP0cCuhfn+lMKOzWkPHC
+        t93kqmKxzG3nL8Rs6o1PRbjGfpe2SwY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-45-YgVaSQgANh2_4z7kLFV9CA-1; Tue, 29 Oct 2019 10:36:48 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1CD8381A334;
+        Tue, 29 Oct 2019 14:36:46 +0000 (UTC)
+Received: from oldenburg2.str.redhat.com (ovpn-116-96.ams2.redhat.com [10.36.116.96])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 73EBB2635C;
+        Tue, 29 Oct 2019 14:36:39 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Jann Horn <jannh@google.com>,
+        Michael Kerrisk-manpages <mtk.manpages@gmail.com>,
         lkml <linux-kernel@vger.kernel.org>,
         linux-man <linux-man@vger.kernel.org>,
         Kees Cook <keescook@chromium.org>,
@@ -31,111 +47,40 @@ Cc:     Michael Kerrisk-manpages <mtk.manpages@gmail.com>,
         Andrei Vagin <avagin@gmail.com>,
         Linux API <linux-api@vger.kernel.org>
 Subject: Re: For review: documentation of clone3() system call
-Message-ID: <20191029142622.jxmssu4s4ndui7bw@wittgenstein>
 References: <CAKgNAkjo2WHq+zESU1iuCHJJ0x-fTNrakS9-d1+BjzUuV2uf2Q@mail.gmail.com>
- <CAG48ez3q=BeNcuVTKBN79kJui4vC6nw0Bfq6xc-i0neheT17TA@mail.gmail.com>
- <20191028172143.4vnnjpdljfnexaq5@wittgenstein>
- <CAG48ez20hn8vToY+=C62nA-rbUfxh=JD6N-f7XVS3_GZOoPjxw@mail.gmail.com>
- <20191029112706.p5dd5yzpcgouo6n5@wittgenstein>
+        <CAG48ez3q=BeNcuVTKBN79kJui4vC6nw0Bfq6xc-i0neheT17TA@mail.gmail.com>
+        <20191028172143.4vnnjpdljfnexaq5@wittgenstein>
+        <CAG48ez20hn8vToY+=C62nA-rbUfxh=JD6N-f7XVS3_GZOoPjxw@mail.gmail.com>
+        <20191029112706.p5dd5yzpcgouo6n5@wittgenstein>
+        <20191029142622.jxmssu4s4ndui7bw@wittgenstein>
+Date:   Tue, 29 Oct 2019 15:36:37 +0100
+In-Reply-To: <20191029142622.jxmssu4s4ndui7bw@wittgenstein> (Christian
+        Brauner's message of "Tue, 29 Oct 2019 15:26:23 +0100")
+Message-ID: <87wocn39fu.fsf@oldenburg2.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20191029112706.p5dd5yzpcgouo6n5@wittgenstein>
-User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: YgVaSQgANh2_4z7kLFV9CA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Oct 29, 2019 at 12:27:07PM +0100, Christian Brauner wrote:
-> On Mon, Oct 28, 2019 at 08:09:13PM +0100, Jann Horn wrote:
-> > On Mon, Oct 28, 2019 at 6:21 PM Christian Brauner
-> > <christian.brauner@ubuntu.com> wrote:
-> > > On Mon, Oct 28, 2019 at 04:12:09PM +0100, Jann Horn wrote:
-> > > > On Fri, Oct 25, 2019 at 6:59 PM Michael Kerrisk (man-pages)
-> > > > <mtk.manpages@gmail.com> wrote:
-> > > > > I've made a first shot at adding documentation for clone3(). You can
-> > > > > see the diff here:
-> > > > > https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/commit/?id=faa0e55ae9e490d71c826546bbdef954a1800969
-> > [...]
-> > > > You might want to note somewhere that its flags can't be
-> > > > seccomp-filtered because they're stored in memory, making it
-> > > > inappropriate to use in heavily sandboxed processes.
-> > >
-> > > Hm, I don't think that belongs on the clone manpage. Granted that
-> > > process creation is an important syscall but so are a bunch of others
-> > > that aren't filterable because of pointer arguments.
-> > > We can probably mention on the seccomp manpage that seccomp can't filter
-> > > on pointer arguments and then provide a list of examples. If you setup a
-> > > seccomp filter and don't know that you can't filter syscalls with
-> > > pointer args that seems pretty bad to begin with.
-> > 
-> > Fair enough.
-> > 
-> > [...]
-> > > One thing I never liked about clone() was that userspace had to know
-> > > about stack direction. And there is a lot of ugly code in userspace that
-> > > has nasty clone() wrappers like:
-> > [...]
-> > > where stack + stack_size is addition on a void pointer which usually
-> > > clang and gcc are not very happy about.
-> > > I wanted to bring this up on the mailing list soon: If possible, I don't
-> > > want userspace to need to know about stack direction and just have stack
-> > > point to the beginning and then have the kernel do the + stack_size
-> > > after the copy_clone_args_from_user() if the arch needs it. For example,
-> > > by having a dumb helder similar to copy_thread_tls()/coyp_thread() that
-> > > either does the + stack_size or not. Right now, clone3() is supported on
-> > > parisc and afaict, the stack grows upwards for it. I'm not sure if there
-> > > are obvious reasons why that won't work or it would be a bad idea...
-> > 
-> > That would mean adding a new clone flag that redefines how those
-> > parameters work and describing the current behavior in the manpage as
-> > the behavior without the flag (which doesn't exist on 5.3), right?
-> 
-> I would break API and if someone reports breakage we'll revert and go
-> the more complicated route you outlined (see [1]).
+* Christian Brauner:
 
-@Jann, I think the following patch might even be enough?...
+> @Florian, do you have an opinion about always passing the stack from the
+> lowest address with clone3()?
 
-@Florian, do you have an opinion about always passing the stack from the
-lowest address with clone3()?
+Do you mean that the stack extends from stack to stack_size?  I guess
+that makes sense.  What about architectures which need two stacks (I
+think ia64 is one)?
 
-From 72b2a5711fd37e34e87df1b29b2e1885bb28cf75 Mon Sep 17 00:00:00 2001
-From: Christian Brauner <christian.brauner@ubuntu.com>
-Date: Tue, 29 Oct 2019 13:55:39 +0100
-Subject: [PATCH] fork: stack direction
+There is also the matter whose responsibility is the alignment of the
+initial stack pointer.
 
-Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
----
- kernel/fork.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Thanks,
+Florian
 
-diff --git a/kernel/fork.c b/kernel/fork.c
-index bcdf53125210..22dc72071a6d 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -2584,6 +2584,13 @@ static bool clone3_args_valid(const struct kernel_clone_args *kargs)
- 	return true;
- }
- 
-+static inline void clone3_prepare_stack(struct kernel_clone_args *kargs)
-+{
-+#if !defined(CONFIG_STACK_GROWSUP) && !defined(CONFIG_IA64)
-+	kargs->stack += kargs->stack_size;
-+#endif
-+}
-+
- /**
-  * clone3 - create a new process with specific properties
-  * @uargs: argument structure
-@@ -2605,6 +2612,8 @@ SYSCALL_DEFINE2(clone3, struct clone_args __user *, uargs, size_t, size)
- 	if (err)
- 		return err;
- 
-+	clone3_prepare_stack(&kargs);
-+
- 	if (!clone3_args_valid(&kargs))
- 		return -EINVAL;
- 
--- 
-2.23.0
