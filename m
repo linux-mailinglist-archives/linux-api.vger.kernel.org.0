@@ -2,105 +2,140 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 242F3E8866
-	for <lists+linux-api@lfdr.de>; Tue, 29 Oct 2019 13:40:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AD01E8ABC
+	for <lists+linux-api@lfdr.de>; Tue, 29 Oct 2019 15:26:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728512AbfJ2MkR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 29 Oct 2019 08:40:17 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:54094 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726858AbfJ2MkR (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 29 Oct 2019 08:40:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=sMcCsiPZroEcuV8OSVTJGo4oXf0H1fQaUisPb3xX7L8=; b=KnyYMMfRnAFyBc2hjQAOkZ1Ai
-        pITPlePXil77rCv1X/hxMOgpBLXAXV0JrtL3VwKyl9l4T1zvUg7L+kqLs91pWMH0VyxFEsbXFlHZR
-        IyHXs7ZNFAK2i2e+3Q8hBzD8AHG64LyO7H3VuTQvynBLUw4X6LWPw7jeHwPEVM8QvARYSN1YDMNi+
-        JsHg5NVOED7Oxxyh9lDXZLkJpDDn1tPrKpEJKNq3+qyS62yAgroqEzriILDOPof6ms48gX4AGdmN5
-        MGdW8Tk5qIcVrMXu4F+bcSKSjcaX3ZRJRg07oT7RtllhE7UpwUvFLN3TZNw6XZBPvNtNso4eu7KXD
-        cok5eK38A==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iPQmv-0000x4-1h; Tue, 29 Oct 2019 12:39:53 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 630913040CB;
-        Tue, 29 Oct 2019 13:38:48 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 26FAC20D7FF19; Tue, 29 Oct 2019 13:39:49 +0100 (CET)
-Date:   Tue, 29 Oct 2019 13:39:49 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     "Kirill A. Shutemov" <kirill@shutemov.name>
-Cc:     Dan Williams <dan.j.williams@intel.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
+        id S2389143AbfJ2O02 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 29 Oct 2019 10:26:28 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:41747 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728306AbfJ2O02 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 29 Oct 2019 10:26:28 -0400
+Received: from [91.217.168.176] (helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1iPSS0-0003ey-E8; Tue, 29 Oct 2019 14:26:24 +0000
+Date:   Tue, 29 Oct 2019 15:26:23 +0100
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Jann Horn <jannh@google.com>, Florian Weimer <fweimer@redhat.com>
+Cc:     Michael Kerrisk-manpages <mtk.manpages@gmail.com>,
+        lkml <linux-kernel@vger.kernel.org>,
+        linux-man <linux-man@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+        David Howells <dhowells@redhat.com>,
+        Pavel Emelyanov <xemul@virtuozzo.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        Mike Rapoport <rppt@linux.ibm.com>, thomas.lendacky@amd.com
-Subject: AMD TLB errata, (Was: [PATCH RFC] mm: add MAP_EXCLUSIVE to create
- exclusive user mappings)
-Message-ID: <20191029123949.GL4114@hirez.programming.kicks-ass.net>
-References: <1572171452-7958-1-git-send-email-rppt@kernel.org>
- <1572171452-7958-2-git-send-email-rppt@kernel.org>
- <20191028123124.ogkk5ogjlamvwc2s@box>
- <20191028130018.GA7192@rapoport-lnx>
- <20191028131623.zwuwguhm4v4s5imh@box>
- <CAA9_cmd7f2y2AAT6646S=tco3yfyLgCAC4Qp=1iTQaJqrQcOwQ@mail.gmail.com>
- <20191029064318.s4n4gidlfjun3d47@box>
- <20191029085602.GI4114@hirez.programming.kicks-ass.net>
- <20191029110024.yjytp22lhd2vekrv@box>
+        Adrian Reber <adrian@lisas.de>,
+        Andrei Vagin <avagin@gmail.com>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: For review: documentation of clone3() system call
+Message-ID: <20191029142622.jxmssu4s4ndui7bw@wittgenstein>
+References: <CAKgNAkjo2WHq+zESU1iuCHJJ0x-fTNrakS9-d1+BjzUuV2uf2Q@mail.gmail.com>
+ <CAG48ez3q=BeNcuVTKBN79kJui4vC6nw0Bfq6xc-i0neheT17TA@mail.gmail.com>
+ <20191028172143.4vnnjpdljfnexaq5@wittgenstein>
+ <CAG48ez20hn8vToY+=C62nA-rbUfxh=JD6N-f7XVS3_GZOoPjxw@mail.gmail.com>
+ <20191029112706.p5dd5yzpcgouo6n5@wittgenstein>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20191029110024.yjytp22lhd2vekrv@box>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191029112706.p5dd5yzpcgouo6n5@wittgenstein>
+User-Agent: NeoMutt/20180716
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Oct 29, 2019 at 02:00:24PM +0300, Kirill A. Shutemov wrote:
-> On Tue, Oct 29, 2019 at 09:56:02AM +0100, Peter Zijlstra wrote:
-> > On Tue, Oct 29, 2019 at 09:43:18AM +0300, Kirill A. Shutemov wrote:
-> > > But some CPUs don't like to have two TLB entries for the same memory with
-> > > different sizes at the same time. See for instance AMD erratum 383.
-> > > 
-> > > Getting it right would require making the range not present, flush TLB and
-> > > only then install huge page. That's what we do for userspace.
-> > > 
-> > > It will not fly for the direct mapping. There is no reasonable way to
-> > > exclude other CPU from accessing the range while it's not present (call
-> > > stop_machine()? :P). Moreover, the range may contain the code that doing
-> > > the collapse or data required for it...
-> > > 
-> > > BTW, looks like current __split_large_page() in pageattr.c is susceptible
-> > > to the errata. Maybe we can get away with the easy way...
+On Tue, Oct 29, 2019 at 12:27:07PM +0100, Christian Brauner wrote:
+> On Mon, Oct 28, 2019 at 08:09:13PM +0100, Jann Horn wrote:
+> > On Mon, Oct 28, 2019 at 6:21 PM Christian Brauner
+> > <christian.brauner@ubuntu.com> wrote:
+> > > On Mon, Oct 28, 2019 at 04:12:09PM +0100, Jann Horn wrote:
+> > > > On Fri, Oct 25, 2019 at 6:59 PM Michael Kerrisk (man-pages)
+> > > > <mtk.manpages@gmail.com> wrote:
+> > > > > I've made a first shot at adding documentation for clone3(). You can
+> > > > > see the diff here:
+> > > > > https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/commit/?id=faa0e55ae9e490d71c826546bbdef954a1800969
+> > [...]
+> > > > You might want to note somewhere that its flags can't be
+> > > > seccomp-filtered because they're stored in memory, making it
+> > > > inappropriate to use in heavily sandboxed processes.
+> > >
+> > > Hm, I don't think that belongs on the clone manpage. Granted that
+> > > process creation is an important syscall but so are a bunch of others
+> > > that aren't filterable because of pointer arguments.
+> > > We can probably mention on the seccomp manpage that seccomp can't filter
+> > > on pointer arguments and then provide a list of examples. If you setup a
+> > > seccomp filter and don't know that you can't filter syscalls with
+> > > pointer args that seems pretty bad to begin with.
 > > 
-> > As you write above, there is just no way we can have a (temporary) hole
-> > in the direct map.
+> > Fair enough.
 > > 
-> > We are careful about that other errata, and make sure both translations
-> > are identical wrt everything else.
+> > [...]
+> > > One thing I never liked about clone() was that userspace had to know
+> > > about stack direction. And there is a lot of ugly code in userspace that
+> > > has nasty clone() wrappers like:
+> > [...]
+> > > where stack + stack_size is addition on a void pointer which usually
+> > > clang and gcc are not very happy about.
+> > > I wanted to bring this up on the mailing list soon: If possible, I don't
+> > > want userspace to need to know about stack direction and just have stack
+> > > point to the beginning and then have the kernel do the + stack_size
+> > > after the copy_clone_args_from_user() if the arch needs it. For example,
+> > > by having a dumb helder similar to copy_thread_tls()/coyp_thread() that
+> > > either does the + stack_size or not. Right now, clone3() is supported on
+> > > parisc and afaict, the stack grows upwards for it. I'm not sure if there
+> > > are obvious reasons why that won't work or it would be a bad idea...
+> > 
+> > That would mean adding a new clone flag that redefines how those
+> > parameters work and describing the current behavior in the manpage as
+> > the behavior without the flag (which doesn't exist on 5.3), right?
 > 
-> It's not clear if it is enough to avoid the issue. "under a highly specific
-> and detailed set of conditions" is not very specific set of conditions :P
+> I would break API and if someone reports breakage we'll revert and go
+> the more complicated route you outlined (see [1]).
 
-Yeah, I know ... :/ Tom is there any chance you could shed a little more
-light on that errata?
+@Jann, I think the following patch might even be enough?...
 
+@Florian, do you have an opinion about always passing the stack from the
+lowest address with clone3()?
+
+From 72b2a5711fd37e34e87df1b29b2e1885bb28cf75 Mon Sep 17 00:00:00 2001
+From: Christian Brauner <christian.brauner@ubuntu.com>
+Date: Tue, 29 Oct 2019 13:55:39 +0100
+Subject: [PATCH] fork: stack direction
+
+Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
+---
+ kernel/fork.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/kernel/fork.c b/kernel/fork.c
+index bcdf53125210..22dc72071a6d 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -2584,6 +2584,13 @@ static bool clone3_args_valid(const struct kernel_clone_args *kargs)
+ 	return true;
+ }
+ 
++static inline void clone3_prepare_stack(struct kernel_clone_args *kargs)
++{
++#if !defined(CONFIG_STACK_GROWSUP) && !defined(CONFIG_IA64)
++	kargs->stack += kargs->stack_size;
++#endif
++}
++
+ /**
+  * clone3 - create a new process with specific properties
+  * @uargs: argument structure
+@@ -2605,6 +2612,8 @@ SYSCALL_DEFINE2(clone3, struct clone_args __user *, uargs, size_t, size)
+ 	if (err)
+ 		return err;
+ 
++	clone3_prepare_stack(&kargs);
++
+ 	if (!clone3_args_valid(&kargs))
+ 		return -EINVAL;
+ 
+-- 
+2.23.0
