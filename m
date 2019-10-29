@@ -2,94 +2,103 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F0E26E83A1
-	for <lists+linux-api@lfdr.de>; Tue, 29 Oct 2019 09:56:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 44B5FE83B6
+	for <lists+linux-api@lfdr.de>; Tue, 29 Oct 2019 10:02:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729010AbfJ2I4v (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 29 Oct 2019 04:56:51 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:38224 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727931AbfJ2I4u (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 29 Oct 2019 04:56:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=Xez2J0gdWTQqquZ7HMjmzRRSRKuRWvTSCcnNPVHNA/g=; b=ahVlpW42taty0lSMLliukzweJ
-        8X1ZH4o3vxmyak/TqNyxf+gECDUZYtp8vOeQ6+PqM84XwgzJLbPzwd6Qt5PG44zLYkayeKOqdVGWk
-        EBvmbYDmTM/qMF9WUUuSFuzj2Yrw62cJy0fL24dBwAnFV6zbi4EHYEPP2hiqc6+RuQoBTvJooa8iE
-        dBkUF5CznIhOc0ErpTfWlgg77CpH39CI/28hg7lS84MVEc7lexhWN9OMfGXalAzlEx+6LluZy7E9b
-        SEEoo+KVUU78wyle+Ct+G9N34+5ZPTjrbW0oiZMpsHqpx6uZJTKYLC8hTHFiDG1UVwmoIq3RDBTuP
-        2ebVCEniw==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iPNIL-0008JR-Rv; Tue, 29 Oct 2019 08:56:06 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 74473306091;
-        Tue, 29 Oct 2019 09:55:01 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 20B0220D7FEE3; Tue, 29 Oct 2019 09:56:02 +0100 (CET)
-Date:   Tue, 29 Oct 2019 09:56:02 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     "Kirill A. Shutemov" <kirill@shutemov.name>
-Cc:     Dan Williams <dan.j.williams@intel.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        id S1728740AbfJ2JCL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 29 Oct 2019 05:02:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51578 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727933AbfJ2JCL (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 29 Oct 2019 05:02:11 -0400
+Received: from rapoport-lnx (190.228.71.37.rev.sfr.net [37.71.228.190])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3456620717;
+        Tue, 29 Oct 2019 09:02:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1572339726;
+        bh=bOYMkrPnkSbi4aKQxcu6uc3pK8uAB8m/hoLokCCVXGU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=XIQpQH93iGh9XKVRHrIjP5M0pKowp+j/DYe81iC7yDYP/yrQaFN3kQc70I446NNUA
+         BFUwORbg2S1M1iQn+NkCvD1RLPVb2El1M1GCKPrABFs1gae9RsnIF4s7m6xaIrnC7B
+         2HPKTrYTdAhNRLx9kbkBmdZdMtgF9gkcj5QemTgA=
+Date:   Tue, 29 Oct 2019 10:01:58 +0100
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Florian Weimer <fw@deneb.enyo.de>
+Cc:     linux-kernel@vger.kernel.org,
         Alexey Dobriyan <adobriyan@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Andy Lutomirski <luto@kernel.org>,
         Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         James Bottomley <jejb@linux.ibm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
         Steven Rostedt <rostedt@goodmis.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>,
-        the arch/x86 maintainers <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, linux-api@vger.kernel.org,
+        linux-mm@kvack.org, x86@kernel.org,
         Mike Rapoport <rppt@linux.ibm.com>
 Subject: Re: [PATCH RFC] mm: add MAP_EXCLUSIVE to create exclusive user
  mappings
-Message-ID: <20191029085602.GI4114@hirez.programming.kicks-ass.net>
+Message-ID: <20191029090158.GB18773@rapoport-lnx>
 References: <1572171452-7958-1-git-send-email-rppt@kernel.org>
- <1572171452-7958-2-git-send-email-rppt@kernel.org>
- <20191028123124.ogkk5ogjlamvwc2s@box>
- <20191028130018.GA7192@rapoport-lnx>
- <20191028131623.zwuwguhm4v4s5imh@box>
- <CAA9_cmd7f2y2AAT6646S=tco3yfyLgCAC4Qp=1iTQaJqrQcOwQ@mail.gmail.com>
- <20191029064318.s4n4gidlfjun3d47@box>
+ <87d0eieb0i.fsf@mid.deneb.enyo.de>
+ <385EB6D4-A1B0-4617-B256-181AA1C3BDE3@kernel.org>
+ <87h83s62mi.fsf@mid.deneb.enyo.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191029064318.s4n4gidlfjun3d47@box>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <87h83s62mi.fsf@mid.deneb.enyo.de>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Oct 29, 2019 at 09:43:18AM +0300, Kirill A. Shutemov wrote:
-> But some CPUs don't like to have two TLB entries for the same memory with
-> different sizes at the same time. See for instance AMD erratum 383.
+On Mon, Oct 28, 2019 at 09:23:17PM +0100, Florian Weimer wrote:
+> * Mike Rapoport:
 > 
-> Getting it right would require making the range not present, flush TLB and
-> only then install huge page. That's what we do for userspace.
+> > On October 27, 2019 12:30:21 PM GMT+02:00, Florian Weimer
+> > <fw@deneb.enyo.de> wrote:
+> >>* Mike Rapoport:
+> >>
+> >>> The patch below aims to allow applications to create mappins that
+> >>have
+> >>> pages visible only to the owning process. Such mappings could be used
+> >>to
+> >>> store secrets so that these secrets are not visible neither to other
+> >>> processes nor to the kernel.
+> >>
+> >>How is this expected to interact with CRIU?
+> >
+> > CRIU dumps the memory contents using a parasite code from inside the
+> > dumpee address space, so it would work the same way as for the other
+> > mappings. Of course, at the restore time the exclusive mapping should
+> > be recreated with the appropriate flags.
 > 
-> It will not fly for the direct mapping. There is no reasonable way to
-> exclude other CPU from accessing the range while it's not present (call
-> stop_machine()? :P). Moreover, the range may contain the code that doing
-> the collapse or data required for it...
-> 
-> BTW, looks like current __split_large_page() in pageattr.c is susceptible
-> to the errata. Maybe we can get away with the easy way...
+> Hmm, so it would use a bounce buffer to perform the extraction?
 
-As you write above, there is just no way we can have a (temporary) hole
-in the direct map.
+At first I thought that CRIU would extract the memory contents from these
+mappings just as it does now using vmsplice(). But it seems that such
+mappings won't play well with pipes, so CRIU will need a bounce buffer
+indeed.
+ 
+> >>> I've only tested the basic functionality, the changes should be
+> >>verified
+> >>> against THP/migration/compaction. Yet, I'd appreciate early feedback.
+> >>
+> >>What are the expected semantics for VM migration?  Should it fail?
+> >
+> > I don't quite follow. If qemu would use such mappings it would be able
+> > to transfer them during live migration.
+> 
+> I was wondering if the special state is supposed to bubble up to the
+> host eventually.
 
-We are careful about that other errata, and make sure both translations
-are identical wrt everything else.
+Well, that was not intended.
+
+-- 
+Sincerely yours,
+Mike.
