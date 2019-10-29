@@ -2,85 +2,145 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 55E93E8AE5
-	for <lists+linux-api@lfdr.de>; Tue, 29 Oct 2019 15:36:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D5A30E8B8B
+	for <lists+linux-api@lfdr.de>; Tue, 29 Oct 2019 16:13:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389389AbfJ2Ogx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 29 Oct 2019 10:36:53 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:29287 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2389024AbfJ2Ogx (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 29 Oct 2019 10:36:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1572359812;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=cyppzqRGiPy9BVmoF02ZpY6VIa9FjG7DXct9lAL3RIs=;
-        b=Uf3bbRQxaeB6gyBifgBBC3u7nziuhU8lWSOrldaD5bFpNFFnO1qwROEm7HURkpp8Sldou3
-        F/iALr9PGnUfbqfu29QJv00ipkS/DbvXP1Ffl2Z12FeB+XCbAaAP0cCuhfn+lMKOzWkPHC
-        t93kqmKxzG3nL8Rs6o1PRbjGfpe2SwY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-45-YgVaSQgANh2_4z7kLFV9CA-1; Tue, 29 Oct 2019 10:36:48 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1CD8381A334;
-        Tue, 29 Oct 2019 14:36:46 +0000 (UTC)
-Received: from oldenburg2.str.redhat.com (ovpn-116-96.ams2.redhat.com [10.36.116.96])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 73EBB2635C;
-        Tue, 29 Oct 2019 14:36:39 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     Jann Horn <jannh@google.com>,
-        Michael Kerrisk-manpages <mtk.manpages@gmail.com>,
-        lkml <linux-kernel@vger.kernel.org>,
-        linux-man <linux-man@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        David Howells <dhowells@redhat.com>,
-        Pavel Emelyanov <xemul@virtuozzo.com>,
+        id S2389908AbfJ2PNs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 29 Oct 2019 11:13:48 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:43895 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389907AbfJ2PNr (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 29 Oct 2019 11:13:47 -0400
+Received: by mail-io1-f65.google.com with SMTP id c11so15147775iom.10
+        for <linux-api@vger.kernel.org>; Tue, 29 Oct 2019 08:13:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tycho-ws.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=11HABgG4cgofeXKrR7yB4qVxOwjvZW+qOCi2NPimHbk=;
+        b=eSOY5l0EBsO+rrEeDHKewSn+1rtEbKi8WrMI2sePTVXC/Ok+C0a/fr77IQmSqDLll/
+         CYzbuzmDm2+OHZbCu51GGzTwtcJlmdGqZBoB3k2WEu3E7ZfLHWuUtCNJffCM3vd4kytD
+         h75APcWTq5GfIYQdcBd+ORv7euX6JU53veJR73OudYgqb1zpmyY7HT+CEEa8lHvky3JK
+         fJexNvnmunr/Z6HMFnmRDDOSv28P2Z2y2MpCADz3aefkrY8AfuK+Xs1BHEI32rrYY59w
+         h8W0yxvIVrBz8iW81xL7o3SRufT6ZPfs4ucen2GYWR3JpJayBC5s5tF1Gtm9L0tqOZTk
+         Q9kA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=11HABgG4cgofeXKrR7yB4qVxOwjvZW+qOCi2NPimHbk=;
+        b=tMhZc1sbHKvH9LnTgdyZKuvgpqm72OdynQRldr5D9ghQvKmryQQB6iHXGX5mfEl4dU
+         n41INmioAxgW0dkthROUYpM2el5RC7v2mWGgOLkIJYaj1houR6EJT0D4uyMO3pFRtlrU
+         qdq1HmINQUKyy43DOGV8z/6dkA+UdtBAGnfimx75rw+lMUIFQ93Tz95TsmNx9EuBKlqm
+         tWNbFxc4REak/+m0kgGWnalURy30suIfwEmWbOsXzUW2RmoPhY2L63Q2t4XyARyGYjcT
+         UuTM9B6wqPRl4kwHXphIg2eLHKqjbiD9aQuIZZ2kGk++thtaPU3ucuE9c5tRkY0Mn0jC
+         v7Jg==
+X-Gm-Message-State: APjAAAXI3hjAHksWJAI2ejrw/yg/uduOVVlPzhtnxdaLZHz5su+Srdc5
+        ibKQmLGYtg3SKj+01KPgsrYY/A==
+X-Google-Smtp-Source: APXvYqxdgSH2LBsI1BNVKCGE4o19ADjNXKuKcQjC4hWiiauTRCCRnOEThsfn0v5Qac+1sVKsk2hU5Q==
+X-Received: by 2002:a5d:81c3:: with SMTP id t3mr4392281iol.300.1572362026220;
+        Tue, 29 Oct 2019 08:13:46 -0700 (PDT)
+Received: from cisco ([2601:282:902:b340:7405:279a:1dff:4689])
+        by smtp.gmail.com with ESMTPSA id t16sm1473529iol.12.2019.10.29.08.13.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Oct 2019 08:13:45 -0700 (PDT)
+Date:   Tue, 29 Oct 2019 09:13:43 -0600
+From:   Tycho Andersen <tycho@tycho.ws>
+To:     "Reshetova, Elena" <elena.reshetova@intel.com>
+Cc:     Mike Rapoport <rppt@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Adrian Reber <adrian@lisas.de>,
-        Andrei Vagin <avagin@gmail.com>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: For review: documentation of clone3() system call
-References: <CAKgNAkjo2WHq+zESU1iuCHJJ0x-fTNrakS9-d1+BjzUuV2uf2Q@mail.gmail.com>
-        <CAG48ez3q=BeNcuVTKBN79kJui4vC6nw0Bfq6xc-i0neheT17TA@mail.gmail.com>
-        <20191028172143.4vnnjpdljfnexaq5@wittgenstein>
-        <CAG48ez20hn8vToY+=C62nA-rbUfxh=JD6N-f7XVS3_GZOoPjxw@mail.gmail.com>
-        <20191029112706.p5dd5yzpcgouo6n5@wittgenstein>
-        <20191029142622.jxmssu4s4ndui7bw@wittgenstein>
-Date:   Tue, 29 Oct 2019 15:36:37 +0100
-In-Reply-To: <20191029142622.jxmssu4s4ndui7bw@wittgenstein> (Christian
-        Brauner's message of "Tue, 29 Oct 2019 15:26:23 +0100")
-Message-ID: <87wocn39fu.fsf@oldenburg2.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Alan Cox <alan@linux.intel.com>
+Subject: Re: [PATCH RFC] mm: add MAP_EXCLUSIVE to create exclusive user
+ mappings
+Message-ID: <20191029151343.GE32132@cisco>
+References: <1572171452-7958-1-git-send-email-rppt@kernel.org>
+ <2236FBA76BA1254E88B949DDB74E612BA4EEC0CE@IRSMSX102.ger.corp.intel.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: YgVaSQgANh2_4z7kLFV9CA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2236FBA76BA1254E88B949DDB74E612BA4EEC0CE@IRSMSX102.ger.corp.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Christian Brauner:
+Hi Elena, Mike,
 
-> @Florian, do you have an opinion about always passing the stack from the
-> lowest address with clone3()?
+On Tue, Oct 29, 2019 at 11:25:12AM +0000, Reshetova, Elena wrote:
+> > The patch below aims to allow applications to create mappins that have
+> > pages visible only to the owning process. Such mappings could be used to
+> > store secrets so that these secrets are not visible neither to other
+> > processes nor to the kernel.
+> 
+> Hi Mike, 
+> 
+> I have actually been looking into the closely related problem for the past 
+> couple of weeks (on and off). What is common here is the need for userspace
+> to indicate to kernel that some pages contain secrets. And then there are
+> actually a number of things that kernel can do to try to protect these secrets
+> better. Unmap from direct map is one of them. Another thing is to map such
+> pages as non-cached, which can help us to prevent or considerably restrict
+> speculation on such pages. The initial proof of concept for marking pages as
+> "UNCACHED" that I got from Dave Hansen was actually based on mlock2() 
+> and a new flag for it for this purpose. Since then I have been thinking on what
+> interface suits the use case better and actually selected going with new madvise() 
+> flag instead because of all possible implications for fragmentation and performance. 
+> My logic was that we better allocate the secret data explicitly (using mmap()) 
+> to make sure that no other process data accidentally gets to suffer.
+> Imagine I would allocate a buffer to hold a secret key, signal with mlock
+>  to protect it and suddenly my other high throughput non-secret buffer 
+> (which happened to live on the same page by chance) became very slow
+>  and I don't even have an easy way (apart from mmap()ing it!) to guarantee
+>  that it won't be affected.
+> 
+> So, I ended up towards smth like:
+> 
+>   secret_buffer =  mmap(NULL, PAGE_SIZE, ...)
+>    madvise(secret_buffer, size, MADV_SECRET)
+> 
+> I have work in progress code here:
+>  https://github.com/ereshetova/linux/commits/madvise
+> 
+> I haven't sent it for review, because it is not ready yet and I am now working
+> on trying to add the page wiping functionality. Otherwise it would be useless
+> to protect the page during the time it is used in userspace, but then allow it
+> to get reused by a different process later after it has been released back and
+> userspace was stupid enough not to wipe the contents (or was crashed on 
+> purpose before it was able to wipe anything out). 
 
-Do you mean that the stack extends from stack to stack_size?  I guess
-that makes sense.  What about architectures which need two stacks (I
-think ia64 is one)?
+I was looking at this and thinking that wiping during do_exit() might
+be a nice place, but I haven't tried anything yet.
 
-There is also the matter whose responsibility is the alignment of the
-initial stack pointer.
+> We have also had some discussions with Tycho that XPFO can be also
+> applied selectively for such "SECRET" marked pages and I know that he has also
+> did some initial prototyping on this, so I think it would be great to decide
+> on userspace interface first and then see how we can assemble together all
+> these features. 
 
-Thanks,
-Florian
+Yep! Here's my tree with the direct un-mapping bits ported from XPFO:
+https://github.com/tych0/linux/commits/madvise
 
+As noted in one of the commit messages I think the bit math for page
+prot flags needs a bit of work, but the test passes, so :)
+
+In any case, I'll try to look at Mike's patches later today.
+
+Cheers,
+
+Tycho
