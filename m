@@ -2,191 +2,140 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C433EA55F
-	for <lists+linux-api@lfdr.de>; Wed, 30 Oct 2019 22:28:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CFEABEA5ED
+	for <lists+linux-api@lfdr.de>; Wed, 30 Oct 2019 23:04:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727184AbfJ3V2h (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 30 Oct 2019 17:28:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49866 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727046AbfJ3V2h (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 30 Oct 2019 17:28:37 -0400
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1727253AbfJ3WEI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 30 Oct 2019 18:04:08 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:29168 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726754AbfJ3WEH (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 30 Oct 2019 18:04:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1572473045;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=IZ23M/gMQsnd17K54zQYAc0WcgVlZvNdQOyTSj0SueE=;
+        b=VyaGID9q1sX79RdrbTxmOx+NVBqQ/xYdqE14NCZgyCP59x2H4IuH43XtQjXwlkUCf6puM0
+        BRLO/DzmbD8cCxJOUuQHvmKS0uY9HpDbQMgKA7FTMrqclfIolPoEtRGgqSxGcvTpQ4d+26
+        zGB8PRK5CrdcEGOdf9PBGWesqiCTseI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-346-YodGD9WtO8qS3uIWWEjLYA-1; Wed, 30 Oct 2019 18:04:03 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EDF2721924
-        for <linux-api@vger.kernel.org>; Wed, 30 Oct 2019 21:28:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1572470916;
-        bh=XnMIsHcVdwBeAptKPGJSNsffx0HxomByGS8vfIyd67I=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=GcWeTabOhXFFYmG9IuepIBfPV5QRfttQWMLS1Y6Rk8rh2vTkVAkEhB6Um3JyKeqy4
-         LNs6p/NikovmiHK4i1587lHitpzbIZZEceZQnp9MC1Dd+FLh2eEfMYUuuLrCU/z23G
-         d6YvUwcSinsTp5iE3gKiIYHIUUNColKmb8wgsW14=
-Received: by mail-wr1-f41.google.com with SMTP id e6so2134866wrw.1
-        for <linux-api@vger.kernel.org>; Wed, 30 Oct 2019 14:28:35 -0700 (PDT)
-X-Gm-Message-State: APjAAAWnOtxfFdzs9bkZGYjNUYTSLuUGdpa7MlKEhy0P/x2DLh+XZ8L1
-        Xiw5D223KKuyxLXDfaLhA05BMfRrxuVLm26Sdz86ow==
-X-Google-Smtp-Source: APXvYqxL52nW7f18FABq7zaYN4yb2n3VI3Wgyrkk3D0RE6Z3WVzN667TLF9aXzvjCfAynZrgm0oE0wYz3oOaoK5HeOI=
-X-Received: by 2002:adf:f342:: with SMTP id e2mr1983177wrp.61.1572470914076;
- Wed, 30 Oct 2019 14:28:34 -0700 (PDT)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31D371005502;
+        Wed, 30 Oct 2019 22:04:00 +0000 (UTC)
+Received: from madcap2.tricolour.ca (ovpn-112-19.phx2.redhat.com [10.3.112.19])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 4FBB15C548;
+        Wed, 30 Oct 2019 22:03:22 +0000 (UTC)
+Date:   Wed, 30 Oct 2019 18:03:20 -0400
+From:   Richard Guy Briggs <rgb@redhat.com>
+To:     Paul Moore <paul@paul-moore.com>
+Cc:     containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
+        Linux-Audit Mailing List <linux-audit@redhat.com>,
+        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
+        sgrubb@redhat.com, omosnace@redhat.com, dhowells@redhat.com,
+        simo@redhat.com, Eric Paris <eparis@parisplace.org>,
+        Serge Hallyn <serge@hallyn.com>, ebiederm@xmission.com,
+        nhorman@tuxdriver.com, Dan Walsh <dwalsh@redhat.com>,
+        mpatel@redhat.com
+Subject: Re: [PATCH ghak90 V7 20/21] audit: add capcontid to set contid
+ outside init_user_ns
+Message-ID: <20191030220320.tnwkaj5gbzchcn7j@madcap2.tricolour.ca>
+References: <cover.1568834524.git.rgb@redhat.com>
+ <214163d11a75126f610bcedfad67a4d89575dc77.1568834525.git.rgb@redhat.com>
+ <20191019013904.uevmrzbmztsbhpnh@madcap2.tricolour.ca>
+ <CAHC9VhRPygA=LsHLUqv+K=ouAiPFJ6fb2_As=OT-_zB7kGc_aQ@mail.gmail.com>
+ <20191021213824.6zti5ndxu7sqs772@madcap2.tricolour.ca>
+ <CAHC9VhRdNXsY4neJpSoNyJoAVEoiEc2oW5kSscF99tjmoQAxFA@mail.gmail.com>
+ <20191021235734.mgcjotdqoe73e4ha@madcap2.tricolour.ca>
+ <CAHC9VhSiwnY-+2awxvGeO4a0NgfVkOPd8fzzBVujp=HtjskTuQ@mail.gmail.com>
+ <20191024210010.owwgc3bqbvtdsqws@madcap2.tricolour.ca>
+ <CAHC9VhRDoX9du4XbCnBtBzsNPMGOsb-TKM1CC+sCL7HP=FuTRQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <1572171452-7958-1-git-send-email-rppt@kernel.org>
- <CA5C22D9-BC3E-4B69-8DD9-4D3B75E40BD5@amacapital.net> <20191029093254.GE18773@rapoport-lnx>
- <CALCETrUuuc4DS0cdMBtS550Wkp0x9ND3M3SgtaMgyRROnDR5Kg@mail.gmail.com> <20191030084005.GC20624@rapoport-lnx>
-In-Reply-To: <20191030084005.GC20624@rapoport-lnx>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Wed, 30 Oct 2019 14:28:21 -0700
-X-Gmail-Original-Message-ID: <CALCETrXajrY+0SmzkL7t++ndYwRoYLLE9VPKwSGSyW8HZx-TeA@mail.gmail.com>
-Message-ID: <CALCETrXajrY+0SmzkL7t++ndYwRoYLLE9VPKwSGSyW8HZx-TeA@mail.gmail.com>
-Subject: Re: [PATCH RFC] mm: add MAP_EXCLUSIVE to create exclusive user mappings
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>, X86 ML <x86@kernel.org>,
-        Mike Rapoport <rppt@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAHC9VhRDoX9du4XbCnBtBzsNPMGOsb-TKM1CC+sCL7HP=FuTRQ@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: YodGD9WtO8qS3uIWWEjLYA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Oct 30, 2019 at 1:40 AM Mike Rapoport <rppt@kernel.org> wrote:
->
-> On Tue, Oct 29, 2019 at 10:00:55AM -0700, Andy Lutomirski wrote:
-> > On Tue, Oct 29, 2019 at 2:33 AM Mike Rapoport <rppt@kernel.org> wrote:
-> > >
-> > > On Mon, Oct 28, 2019 at 02:44:23PM -0600, Andy Lutomirski wrote:
-> > > >
-> > > > > On Oct 27, 2019, at 4:17 AM, Mike Rapoport <rppt@kernel.org> wrot=
-e:
-> > > > >
-> > > > > =EF=BB=BFFrom: Mike Rapoport <rppt@linux.ibm.com>
-> > > > >
-> > > > > Hi,
-> > > > >
-> > > > > The patch below aims to allow applications to create mappins that=
- have
-> > > > > pages visible only to the owning process. Such mappings could be =
-used to
-> > > > > store secrets so that these secrets are not visible neither to ot=
-her
-> > > > > processes nor to the kernel.
-> > > > >
-> > > > > I've only tested the basic functionality, the changes should be v=
-erified
-> > > > > against THP/migration/compaction. Yet, I'd appreciate early feedb=
-ack.
-> > > >
-> > > > I=E2=80=99ve contemplated the concept a fair amount, and I think yo=
-u should
-> > > > consider a change to the API. In particular, rather than having it =
-be a
-> > > > MAP_ flag, make it a chardev.  You can, at least at first, allow on=
-ly
-> > > > MAP_SHARED, and admins can decide who gets to use it.  It might als=
-o play
-> > > > better with the VM overall, and you won=E2=80=99t need a VM_ flag f=
-or it =E2=80=94 you
-> > > > can just wire up .fault to do the right thing.
-> > >
-> > > I think mmap()/mprotect()/madvise() are the natural APIs for such
-> > > interface.
-> >
-> > Then you have a whole bunch of questions to answer.  For example:
-> >
-> > What happens if you mprotect() or similar when the mapping is already
-> > in use in a way that's incompatible with MAP_EXCLUSIVE?
->
-> Then we refuse to mprotect()? Like in any other case when vm_flags are no=
-t
-> compatible with required madvise()/mprotect() operation.
->
-
-I'm not talking about flags.  I'm talking about the case where one
-thread (or RDMA or whatever) has get_user_pages()'d a mapping and
-another thread mprotect()s it MAP_EXCLUSIVE.
-
-> > Is it actually reasonable to malloc() some memory and then make it excl=
-usive?
-> >
-> > Are you permitted to map a file MAP_EXCLUSIVE?  What does it mean?
->
-> I'd limit MAP_EXCLUSIVE only to anonymous memory.
->
-> > What does MAP_PRIVATE | MAP_EXCLUSIVE do?
->
-> My preference is to have only mmap() and then the semantics is more clear=
+On 2019-10-30 16:27, Paul Moore wrote:
+> On Thu, Oct 24, 2019 at 5:00 PM Richard Guy Briggs <rgb@redhat.com> wrote=
 :
->
-> MAP_PRIVATE | MAP_EXCLUSIVE creates a pre-populated region, marks it lock=
-ed
-> and drops the pages in this region from the direct map.
-> The pages are returned back on munmap().
-> Then there is no way to change an existing area to be exclusive or vice
-> versa.
+> > Here's the note I had from that meeting:
+> >
+> > - Eric raised the issue that using /proc is likely to get more and more
+> >   hoary due to mount namespaces and suggested that we use a netlink
+> > audit message (or a new syscall) to set the audit container identifier
+> > and since the loginuid is a similar type of operation, that it should b=
+e
+> > migrated over to a similar mechanism to get it away from /proc.  Get
+> > could be done with a netlink audit message that triggers an audit log
+> > message to deliver the information.  I'm reluctant to further pollute
+> > the syscall space if we can find another method.  The netlink audit
+> > message makes sense since any audit-enabled service is likely to alread=
+y
+> > have an audit socket open.
+>=20
+> Thanks for the background info on the off-list meeting.  I would
+> encourage you to have discussions like this on-list in the future; if
+> that isn't possible, hosting a public call would okay-ish, but a
+> distant second.
 
-And what happens if you fork()?  Limiting it to MAP_SHARED |
-MAP_EXCLUSIVE would about this particular nasty question.
+I'm still trying to get Eric's attention to get him to weigh in here and
+provide a more eloquent representation of his ideas and concerns.  Some
+of it was related to CRIU(sp?) issues which we've already of which we've
+already seen similar concerns in namespace identifiers including the
+device identity to qualify it.
 
->
-> > How does one pass exclusive memory via SCM_RIGHTS?  (If it's a
-> > memfd-like or chardev interface, it's trivial.  mmap(), not so much.)
->
-> Why passing such memory via SCM_RIGHTS would be useful?
+> At this point in time I'm not overly concerned about /proc completely
+> going away in namespaces/containers that are full featured enough to
+> host a container orchestrator.  If/when reliance on procfs becomes an
+> issue, we can look at alternate APIs, but given the importance of
+> /proc to userspace (including to audit) I suspect we are going to see
+> it persist for some time.  I would prefer to see you to drop the audit
+> container ID netlink API portions of this patchset and focus on the
+> procfs API.
 
-Suppose I want to put a secret into exclusive memory and then send
-that secret to some other process.  The obvious approach would be to
-SCM_RIGHTS an fd over, but you can't do that with MAP_EXCLUSIVE as
-you've defined it.  In general, there are lots of use cases for memfd
-and other fd-backed memory.
+I've already refactored the code to put the netlink bits at the end as
+completely optional pieces for completeness so they won't get in the way
+of the real substance of this patchset.  The nesting depth and total
+number of containers checks have also been punted to the end of the
+patchset to get them out of the way of discussion.
 
->
-> > And finally, there's my personal giant pet peeve: a major use of this
-> > will be for virtualization.  I suspect that a lot of people would like
-> > the majority of KVM guest memory to be unmapped from the host
-> > pagetables.  But people might also like for guest memory to be
-> > unmapped in *QEMU's* pagetables, and mmap() is a basically worthless
-> > interface for this.  Getting fd-backed memory into a guest will take
-> > some possibly major work in the kernel, but getting vma-backed memory
-> > into a guest without mapping it in the host user address space seems
-> > much, much worse.
->
-> Well, in my view, the MAP_EXCLUSIVE is intended to keep small secrets
-> rather than use it for the entire guest memory. I even considered adding =
-a
-> limit for the mapping size, but then I decided that since RLIMIT_MEMLOCK =
-is
-> anyway enforced there is no need for a new one.
->
-> I agree that getting fd-backed memory into a guest would be less pain tha=
-t
-> VMA, but KVM can already use memory outside the control of the kernel via
-> /dev/map [1].
+> Also, for the record, removing the audit loginuid from procfs is not
+> something to take lightly, if at all; like it or not, it's part of the
+> kernel API.
 
-That series doesn't address the problem I'm talking about at all.  I'm
-saying that there is a legitimate use case where QEMU should *not*
-have a mapping of the memory.  So QEMU would create some exclusive
-memory using /dev/exclusive_memory and would tell KVM to map it into
-the guest without mapping it into QEMU's address space at all.
+Oh, I'm quite aware of how important this change is and it was discussed
+with Steve Grubb who saw the concern and value of considering such a
+disruptive change.  Removing proc support for auid/ses would be a
+long-term deprecation if accepted.
 
-(In fact, the way that SEV currently works is *functionally* like
-this, except that there's a bogus incoherent mapping in the QEMU
-process that is a giant can of worms.
+Really, I should have labelled the v7 patchset as RFC since there were
+so many new and disruptive ideas presented in it.
 
+> paul moore
+> www.paul-moore.com
 
-IMO a major benefit of a chardev approach is that you don't need a new
-VM_ flag and you don't need to worry about wiring it up everywhere in
-the core mm code.
+- RGB
+
+--
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems
+Remote, Ottawa, Red Hat Canada
+IRC: rgb, SunRaycer
+Voice: +1.647.777.2635, Internal: (81) 32635
+
