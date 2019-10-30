@@ -2,142 +2,104 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 63C5EEA3A4
-	for <lists+linux-api@lfdr.de>; Wed, 30 Oct 2019 19:53:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 095ADEA4B4
+	for <lists+linux-api@lfdr.de>; Wed, 30 Oct 2019 21:27:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727769AbfJ3SxE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 30 Oct 2019 14:53:04 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:43160 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726509AbfJ3SxE (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 30 Oct 2019 14:53:04 -0400
-Received: by mail-lf1-f66.google.com with SMTP id j5so2400389lfh.10;
-        Wed, 30 Oct 2019 11:53:02 -0700 (PDT)
+        id S1726843AbfJ3U1t (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 30 Oct 2019 16:27:49 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:36866 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726824AbfJ3U1t (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 30 Oct 2019 16:27:49 -0400
+Received: by mail-lj1-f195.google.com with SMTP id v2so4161143lji.4
+        for <linux-api@vger.kernel.org>; Wed, 30 Oct 2019 13:27:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=jIFU1AD+72jsfU38zg+HIEX1tgHMzoBRVZFjXF6Qszg=;
-        b=Q9vziJ1/ORLhXHfZpsb/YFqv39KVtjMCXdLKypqHHT41UNNR7zgxZOBMtOIOwPySeY
-         ErHkeq8svkJ7UNobcsRtJNmzgzp9yMPO1NxZaLNtMH7ww390JjmeK2dEYNmLwtFRIkUJ
-         KD18KfuGzTl4qxTmhiS/avUvKRQ6scFs367+y3YlxSgPWHXD81+dEFcPHyEXyOMXE7BA
-         ZrDLXS2fYlEC471mXw16jciuH6XgRMqWoy7881+hW1HMa6Yv/+RoMEWEf9C6yt7da0P8
-         i0QPOUqpV5q/XwMeyiPCTXu3ZIo+9QXJPcSzMuaesfSOxCbApO5olMNz5Eoq117NbG6y
-         xwqg==
+        bh=ThGwTwTp4bZorwdaVrJo5UrBBQpibM4/aFgMPeqwm5E=;
+        b=Gm26HZjBU2uuF0YwNHad3PnEOS9hPuQTAg5xL7kLdu1O0WluIGq1cH3+PRhpQA13vV
+         DzJcMXPCM9W8+4OJdqpUeo+8QRGh5ku4KjkX3UXlZwiY0DplbVDpIeYteu6gUojdVbs5
+         mUtDG6M08OxHZHB8ByhYFJU5gRby7guMdJOT5/rDe1UgpD+wozzw+ldkHqw2hOGWgSgX
+         z2TG+GeNvNZTeklnHV4TABaWX73PY1s8dd/WdZEldbqY0CI8zPzqKKtvWrYIMtCXgbL9
+         9QaZ/ySBZRyXq/rzWIbzVIdEiwfPLCVIKoMAl2zXvtZapKIHcEUdOj3jmaGDvAyziTnw
+         jT2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=jIFU1AD+72jsfU38zg+HIEX1tgHMzoBRVZFjXF6Qszg=;
-        b=NPaPQ+OdgyB3YeVS+9X/GAbFdqudMN7AHJbbUl7rAqx1Zc4MKFJwCmXJJTs6zPNjn6
-         ma5C/gPoFpLdgjleOK/BqvZxxWdFcmsKwzwtsjy+7/AMbyxHVR0G4eDIQVKMFYXAQ/jo
-         /iPhAQreb10NzwY0NRp3J4KTZabRM2BX291Ct3/Ma2iTOrH007YmFsTxq1jBBEYfXP+6
-         igzoPcVOx1imV3gjgPeLi8Vsb9yTySLs4AFgnanDwm9m85p9XBS7abG+wuMTFOkeNKpS
-         wWlyQ2GwX4o+TfXIXDRCm+SuItQCiIdhQ4rlhuAzK02pUAL9V3jqMC8rp681iLDc8cFM
-         JKxw==
-X-Gm-Message-State: APjAAAXb2mhEDQBPNGbyhEVoo/aLx+Sr7m8HuiVqTHyaxmhmcWI0PBYk
-        Y9ZwZOb91or2SAdXVOilg7n7qvOMjH0Y23goN9Q=
-X-Google-Smtp-Source: APXvYqxBfEmy8os1AtdFhBRsO9vTVp3EvrAAx5bsFNgkvZWHCGjDW2SxoShaVhp1kV88EsW3sfFhqSRLR7lWtyZ834k=
-X-Received: by 2002:a19:800a:: with SMTP id b10mr431161lfd.15.1572461581407;
- Wed, 30 Oct 2019 11:53:01 -0700 (PDT)
+        bh=ThGwTwTp4bZorwdaVrJo5UrBBQpibM4/aFgMPeqwm5E=;
+        b=BUh5JIPKPLB414NhW6XM/1D6zgjkwC8SFA5M8sGdfkudaufGWtJA/nylUBHLplzNl0
+         Kp/MGzygWnved9EpYZW6ZVE32CN28GvgqDyZVFA1Gc0EJSNyOwv6nFkiPa+Erqaok2cn
+         qMAeZaIithvpqR1S8+aZDThG9FXzZbBCcw/KM9nCSTGg+ImCAj75U5W96A2EbMrIQCno
+         zdfoDl5Swl2Pe1uKGqbfAyJnu1xWs/I8GWFdstSAq6knDHKebOUa2cRfu7bG1BrIJLWc
+         XOfvBYtgTJ4SL+JDnH5972ZXfip/ohUbtR6skUi71wjUHTSQg+DOFwGQKnEQxdrIEyl4
+         9eHg==
+X-Gm-Message-State: APjAAAWGQRnJkuaE3G58BTV3sLoe8D/zm0hca9JsZp7+BI1v3bbm5ONw
+        EZDtymUWofBmce+hw/5sCTf4CwyDUtbpYnUPydJ0
+X-Google-Smtp-Source: APXvYqwNJV+fESPPSy88I8V9SQJjpifZuNL/1FipNLKwD0hUFyI8ehvSjLCN+oZyru7R02+LN8E0BXtmTH/ZA5bgmuo=
+X-Received: by 2002:a2e:58d:: with SMTP id 135mr1059911ljf.57.1572467266987;
+ Wed, 30 Oct 2019 13:27:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <1572171452-7958-2-git-send-email-rppt@kernel.org>
- <20191028123124.ogkk5ogjlamvwc2s@box> <20191028130018.GA7192@rapoport-lnx>
- <20191028131623.zwuwguhm4v4s5imh@box> <20191028135521.GB4097@hirez.programming.kicks-ass.net>
- <0a35765f7412937c1775daa05177b20113760aee.camel@intel.com>
- <20191028210052.GM4643@worktop.programming.kicks-ass.net> <69c57f7fa9a1be145827673b37beff155a3adc3c.camel@intel.com>
- <20191030100418.GV4097@hirez.programming.kicks-ass.net> <CAADnVQ+3LeLWv-rpATyfAbdS1w9L=sCQFuyy=paCZVBUr0rK6Q@mail.gmail.com>
- <20191030183944.GV4114@hirez.programming.kicks-ass.net>
-In-Reply-To: <20191030183944.GV4114@hirez.programming.kicks-ass.net>
-From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date:   Wed, 30 Oct 2019 11:52:49 -0700
-Message-ID: <CAADnVQJe+dxsuhxzLvK-g1roiUh5-L0+9s9Xm5PM5CAYVNLfKg@mail.gmail.com>
-Subject: Re: [PATCH RFC] mm: add MAP_EXCLUSIVE to create exclusive user mappings
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-        "adobriyan@gmail.com" <adobriyan@gmail.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "jejb@linux.ibm.com" <jejb@linux.ibm.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "luto@kernel.org" <luto@kernel.org>,
-        "kirill@shutemov.name" <kirill@shutemov.name>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "rppt@linux.ibm.com" <rppt@linux.ibm.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        bpf <bpf@vger.kernel.org>
+References: <cover.1568834524.git.rgb@redhat.com> <214163d11a75126f610bcedfad67a4d89575dc77.1568834525.git.rgb@redhat.com>
+ <20191019013904.uevmrzbmztsbhpnh@madcap2.tricolour.ca> <CAHC9VhRPygA=LsHLUqv+K=ouAiPFJ6fb2_As=OT-_zB7kGc_aQ@mail.gmail.com>
+ <20191021213824.6zti5ndxu7sqs772@madcap2.tricolour.ca> <CAHC9VhRdNXsY4neJpSoNyJoAVEoiEc2oW5kSscF99tjmoQAxFA@mail.gmail.com>
+ <20191021235734.mgcjotdqoe73e4ha@madcap2.tricolour.ca> <CAHC9VhSiwnY-+2awxvGeO4a0NgfVkOPd8fzzBVujp=HtjskTuQ@mail.gmail.com>
+ <20191024210010.owwgc3bqbvtdsqws@madcap2.tricolour.ca>
+In-Reply-To: <20191024210010.owwgc3bqbvtdsqws@madcap2.tricolour.ca>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Wed, 30 Oct 2019 16:27:35 -0400
+Message-ID: <CAHC9VhRDoX9du4XbCnBtBzsNPMGOsb-TKM1CC+sCL7HP=FuTRQ@mail.gmail.com>
+Subject: Re: [PATCH ghak90 V7 20/21] audit: add capcontid to set contid
+ outside init_user_ns
+To:     Richard Guy Briggs <rgb@redhat.com>
+Cc:     containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
+        Linux-Audit Mailing List <linux-audit@redhat.com>,
+        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
+        sgrubb@redhat.com, omosnace@redhat.com, dhowells@redhat.com,
+        simo@redhat.com, Eric Paris <eparis@parisplace.org>,
+        Serge Hallyn <serge@hallyn.com>, ebiederm@xmission.com,
+        nhorman@tuxdriver.com, Dan Walsh <dwalsh@redhat.com>,
+        mpatel@redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Oct 30, 2019 at 11:39 AM Peter Zijlstra <peterz@infradead.org> wrote:
+On Thu, Oct 24, 2019 at 5:00 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> Here's the note I had from that meeting:
 >
-> On Wed, Oct 30, 2019 at 08:35:09AM -0700, Alexei Starovoitov wrote:
-> > On Wed, Oct 30, 2019 at 3:06 AM Peter Zijlstra <peterz@infradead.org> wrote:
-> > >
-> > > On Tue, Oct 29, 2019 at 05:27:43PM +0000, Edgecombe, Rick P wrote:
-> > > > On Mon, 2019-10-28 at 22:00 +0100, Peter Zijlstra wrote:
-> > >
-> > > > > That should be limited to the module range. Random data maps could
-> > > > > shatter the world.
-> > > >
-> > > > BPF has one vmalloc space allocation for the byte code and one for the module
-> > > > space allocation for the JIT. Both get RO also set on the direct map alias of
-> > > > the pages, and reset RW when freed.
-> > >
-> > > Argh, I didn't know they mapped the bytecode RO; why does it do that? It
-> > > can throw out the bytecode once it's JIT'ed.
-> >
-> > because of endless security "concerns" that some folks had.
-> > Like what if something can exploit another bug in the kernel
-> > and modify bytecode that was already verified
-> > then interpreter will execute that modified bytecode.
->
-> But when it's JIT'ed the bytecode is no longer of relevance, right? So
-> any scenario with a JIT on can then toss the bytecode and certainly
-> doesn't need to map it RO.
+> - Eric raised the issue that using /proc is likely to get more and more
+>   hoary due to mount namespaces and suggested that we use a netlink
+> audit message (or a new syscall) to set the audit container identifier
+> and since the loginuid is a similar type of operation, that it should be
+> migrated over to a similar mechanism to get it away from /proc.  Get
+> could be done with a netlink audit message that triggers an audit log
+> message to deliver the information.  I'm reluctant to further pollute
+> the syscall space if we can find another method.  The netlink audit
+> message makes sense since any audit-enabled service is likely to already
+> have an audit socket open.
 
-We keep so called "xlated" bytecode around for debugging.
-It's the one that is actually running. It was modified through
-several stages of the verifier before being runnable by interpreter.
-When folks debug stuff in production they want to see
-the whole thing. Both x86 asm and xlated bytecode.
-xlated bytecode also sanitized before it's returned
-back to user space.
+Thanks for the background info on the off-list meeting.  I would
+encourage you to have discussions like this on-list in the future; if
+that isn't possible, hosting a public call would okay-ish, but a
+distant second.
 
-> > Sort of similar reasoning why .text is read-only.
-> > I think it's not a realistic attack, but I didn't bother to argue back then.
-> > The mere presence of interpreter itself is a real security concern.
-> > People that care about speculation attacks should
-> > have CONFIG_BPF_JIT_ALWAYS_ON=y,
->
-> This isn't about speculation attacks, it is about breaking buffer limits
-> and being able to write to memory. And in that respect being able to
-> change the current task state (write it's effective PID to 0) is much
-> simpler than writing to text or bytecode, but if you cannot reach/find
-> the task struct but can reach/find text..
+At this point in time I'm not overly concerned about /proc completely
+going away in namespaces/containers that are full featured enough to
+host a container orchestrator.  If/when reliance on procfs becomes an
+issue, we can look at alternate APIs, but given the importance of
+/proc to userspace (including to audit) I suspect we are going to see
+it persist for some time.  I would prefer to see you to drop the audit
+container ID netlink API portions of this patchset and focus on the
+procfs API.
 
-exactly. that's why RO bytecode was dubious to me from the beginning.
-For an attacker to write meaningful bytecode they need to know
-quite a few other kernel internal pointers.
-If an exploit can write into memory there are plenty of easier targets.
+Also, for the record, removing the audit loginuid from procfs is not
+something to take lightly, if at all; like it or not, it's part of the
+kernel API.
 
-> > so modifying bytecode via another exploit will be pointless.
-> > Getting rid of RO for bytecode will save a ton of memory too,
-> > since we won't need to allocate full page for each small programs.
->
-> So I'm thinking we can get rid of that for any scenario that has the JIT
-> enabled -- not only JIT_ALWAYS_ON.
-
-Sounds good to me. Happy to do that. Will add it to our todo list.
+-- 
+paul moore
+www.paul-moore.com
