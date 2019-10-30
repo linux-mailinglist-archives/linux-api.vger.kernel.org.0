@@ -2,120 +2,175 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F710EA2E8
-	for <lists+linux-api@lfdr.de>; Wed, 30 Oct 2019 19:01:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EA662EA34B
+	for <lists+linux-api@lfdr.de>; Wed, 30 Oct 2019 19:26:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727166AbfJ3SBy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 30 Oct 2019 14:01:54 -0400
-Received: from mga14.intel.com ([192.55.52.115]:39281 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726932AbfJ3SBy (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 30 Oct 2019 14:01:54 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 Oct 2019 11:01:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,248,1569308400"; 
-   d="scan'208";a="203955609"
-Received: from ray.jf.intel.com (HELO [10.7.201.139]) ([10.7.201.139])
-  by orsmga006.jf.intel.com with ESMTP; 30 Oct 2019 11:01:53 -0700
-Subject: Re: [PATCH RFC] mm: add MAP_EXCLUSIVE to create exclusive user
- mappings
-From:   Dave Hansen <dave.hansen@intel.com>
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-        "peterz@infradead.org" <peterz@infradead.org>
-Cc:     "adobriyan@gmail.com" <adobriyan@gmail.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "jejb@linux.ibm.com" <jejb@linux.ibm.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "luto@kernel.org" <luto@kernel.org>,
-        "kirill@shutemov.name" <kirill@shutemov.name>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "rppt@linux.ibm.com" <rppt@linux.ibm.com>,
-        "arnd@arndb.de" <arnd@arndb.de>
-References: <1572171452-7958-1-git-send-email-rppt@kernel.org>
- <1572171452-7958-2-git-send-email-rppt@kernel.org>
- <20191028123124.ogkk5ogjlamvwc2s@box> <20191028130018.GA7192@rapoport-lnx>
- <20191028131623.zwuwguhm4v4s5imh@box>
- <20191028135521.GB4097@hirez.programming.kicks-ass.net>
- <0a35765f7412937c1775daa05177b20113760aee.camel@intel.com>
- <20191028210052.GM4643@worktop.programming.kicks-ass.net>
- <69c57f7fa9a1be145827673b37beff155a3adc3c.camel@intel.com>
- <20191030100418.GV4097@hirez.programming.kicks-ass.net>
- <b4d87f54b02cfccb58442f791485cad1ac080063.camel@intel.com>
- <775eb0cf-7189-a314-5dde-f720b56ec3b2@intel.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-Message-ID: <20a7ae04-877a-692e-0b8d-e1baee511090@intel.com>
-Date:   Wed, 30 Oct 2019 11:01:53 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <775eb0cf-7189-a314-5dde-f720b56ec3b2@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        id S1727194AbfJ3S0U (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 30 Oct 2019 14:26:20 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:38424 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726259AbfJ3S0T (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 30 Oct 2019 14:26:19 -0400
+Received: by mail-pl1-f194.google.com with SMTP id w8so1359110plq.5
+        for <linux-api@vger.kernel.org>; Wed, 30 Oct 2019 11:26:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dilger-ca.20150623.gappssmtp.com; s=20150623;
+        h=from:message-id:mime-version:subject:date:in-reply-to:cc:to
+         :references;
+        bh=Ley5zvOlqaz2Wb2k694thCubOF2e57hu9OBi77fDxEQ=;
+        b=j/Xlnnb4bRZ9+4KD1WhoNvk/kS85zjuQnr4LIEdZrDVgY/LEuUTrBSqNeX1ziYwI2I
+         DUo5r32HNy1rmo4RKYYx+NO2f3XC/ZJgPWC9K2zzGVDmtF/2HTrTxI1mBdHol0jfK0Ln
+         sQCSBb2dejgO92c5ovM+98RbD4p4CQUAkqGYmeroASqzXhVBDJb5BOuuIuTYNDu72AwL
+         vHCS1HOnobtqiIBZFDJB66iSwOslFuySvU9Q7Yeb4qLgmuldq2ov30mxnrzLX5PGHdZo
+         hbNdReob4s+22r/9tmGT95z41DoSYc4cU/86Ip12mpySxbKCTx3g+01nT4m3uBFdGyho
+         ou3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:message-id:mime-version:subject:date
+         :in-reply-to:cc:to:references;
+        bh=Ley5zvOlqaz2Wb2k694thCubOF2e57hu9OBi77fDxEQ=;
+        b=o5/HnHr6+jAJbjua1bx8XGfbsya/vHeUwOyj694Qo8SVm6XhQKGTRQtDnfrzO5Icut
+         n2+l6W1h5zoM/iVha5sF/Iz1d2rEUwm4Nm8ZQJE3pEChqTdkyiV2CzL/sds4dc8CII2f
+         835wuMUEIQ16xvW3D6Y0/KyiPhiXS5P7f/Sky01ott/YyI0+tvvnEQh40P89WmcZrssL
+         kIu+GpRlIAXGFOX/liKMu5wXAG2bdkvO1eciRvsl7CYb04nstXEgrsPGTlhVqj8IFDRw
+         ekG/TyZzLlcJL4A0BqeTRP46zp2cZ9BjB1AeV7gjnhpdstHHqT3HE3s4QKcri59Xjbe7
+         yfkg==
+X-Gm-Message-State: APjAAAWxL/xJkQc8dIThSxhse9u+dhVEw0P+SVW/nO557OgeyYv3Q0gn
+        PizakIFowZmQ1aD3NSAzJzeDBQ==
+X-Google-Smtp-Source: APXvYqyev8sjZ1KZb/AgoF729qKcxrPe4HXmhqnJexPBMNfdbYQ15vLaVNRr2Bm6WAicApGTTJeWxQ==
+X-Received: by 2002:a17:902:aa41:: with SMTP id c1mr1439479plr.153.1572459977459;
+        Wed, 30 Oct 2019 11:26:17 -0700 (PDT)
+Received: from cabot-wlan.adilger.int (S0106a84e3fe4b223.cg.shawcable.net. [70.77.216.213])
+        by smtp.gmail.com with ESMTPSA id 39sm4053067pjo.7.2019.10.30.11.26.13
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 30 Oct 2019 11:26:16 -0700 (PDT)
+From:   Andreas Dilger <adilger@dilger.ca>
+Message-Id: <7C96E996-D52F-4901-9F64-B2C40A889829@dilger.ca>
+Content-Type: multipart/signed;
+ boundary="Apple-Mail=_540B1263-203B-43E9-BA92-ABF36413FD90";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+Mime-Version: 1.0 (Mac OS X Mail 10.3 \(3273\))
+Subject: Re: [PATCH 1/4] statx: define STATX_ATTR_VERITY
+Date:   Wed, 30 Oct 2019 12:26:10 -0600
+In-Reply-To: <20191029204141.145309-2-ebiggers@kernel.org>
+Cc:     linux-fscrypt@vger.kernel.org,
+        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
+        Ext4 Developers List <linux-ext4@vger.kernel.org>,
+        linux-f2fs-devel@lists.sourceforge.net, linux-api@vger.kernel.org,
+        David Howells <dhowells@redhat.com>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        Victor Hsieh <victorhsieh@google.com>
+To:     Eric Biggers <ebiggers@kernel.org>
+References: <20191029204141.145309-1-ebiggers@kernel.org>
+ <20191029204141.145309-2-ebiggers@kernel.org>
+X-Mailer: Apple Mail (2.3273)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 10/30/19 10:58 AM, Dave Hansen wrote:
-> Modules also require privilege.
 
-IMNHO, if BPF is fracturing large swaths the direct map with no
-privilege, it's only a matter of time until it starts to cause problems.
- The fact that we do it today is only evidence that we have a ticking
-time bomb, not that it's OK.
+--Apple-Mail=_540B1263-203B-43E9-BA92-ABF36413FD90
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
+
+On Oct 29, 2019, at 2:41 PM, Eric Biggers <ebiggers@kernel.org> wrote:
+>=20
+> From: Eric Biggers <ebiggers@google.com>
+>=20
+> Add a statx attribute bit STATX_ATTR_VERITY which will be set if the
+> file has fs-verity enabled.  This is the statx() equivalent of
+> FS_VERITY_FL which is returned by FS_IOC_GETFLAGS.
+>=20
+> This is useful because it allows applications to check whether a file =
+is
+> a verity file without opening it.  Opening a verity file can be
+> expensive because the fsverity_info is set up on open, which involves
+> parsing metadata and optionally verifying a cryptographic signature.
+>=20
+> This is analogous to how various other bits are exposed through both
+> FS_IOC_GETFLAGS and statx(), e.g. the encrypt bit.
+>=20
+> Signed-off-by: Eric Biggers <ebiggers@google.com>
+
+Reviewed-by: Andreas Dilger <adilger@dilger.ca>
+
+> ---
+> include/linux/stat.h      | 3 ++-
+> include/uapi/linux/stat.h | 2 +-
+> 2 files changed, 3 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/include/linux/stat.h b/include/linux/stat.h
+> index 765573dc17d659..528c4baad09146 100644
+> --- a/include/linux/stat.h
+> +++ b/include/linux/stat.h
+> @@ -33,7 +33,8 @@ struct kstat {
+> 	 STATX_ATTR_IMMUTABLE |				\
+> 	 STATX_ATTR_APPEND |				\
+> 	 STATX_ATTR_NODUMP |				\
+> -	 STATX_ATTR_ENCRYPTED				\
+> +	 STATX_ATTR_ENCRYPTED |				\
+> +	 STATX_ATTR_VERITY				\
+> 	 )/* Attrs corresponding to FS_*_FL flags */
+> 	u64		ino;
+> 	dev_t		dev;
+> diff --git a/include/uapi/linux/stat.h b/include/uapi/linux/stat.h
+> index 7b35e98d3c58b1..ad80a5c885d598 100644
+> --- a/include/uapi/linux/stat.h
+> +++ b/include/uapi/linux/stat.h
+> @@ -167,8 +167,8 @@ struct statx {
+> #define STATX_ATTR_APPEND		0x00000020 /* [I] File is =
+append-only */
+> #define STATX_ATTR_NODUMP		0x00000040 /* [I] File is not to =
+be dumped */
+> #define STATX_ATTR_ENCRYPTED		0x00000800 /* [I] File requires =
+key to decrypt in fs */
+> -
+> #define STATX_ATTR_AUTOMOUNT		0x00001000 /* Dir: Automount =
+trigger */
+> +#define STATX_ATTR_VERITY		0x00100000 /* [I] Verity =
+protected file */
+>=20
+>=20
+> #endif /* _UAPI_LINUX_STAT_H */
+> --
+> 2.24.0.rc1.363.gb1bccd3e3d-goog
+>=20
+
+
+Cheers, Andreas
+
+
+
+
+
+
+--Apple-Mail=_540B1263-203B-43E9-BA92-ABF36413FD90
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - http://gpgtools.org
+
+iQIzBAEBCAAdFiEEDb73u6ZejP5ZMprvcqXauRfMH+AFAl251cMACgkQcqXauRfM
+H+DZ+xAAhLyZsNstVnuqyPFkwbCFPUlVQ0TjfHLGBCf1GxKf+I8XJCgAQdG4VJeb
+H5U3+9NMn5JZP/e0hGGGCnZtE7LpLRkQ7ja4hRS3cDS1eieU5JL7j2DYhCvAplsr
++WieKbYKUXLPByc5+fRW+VIRUkNPLl03IflKpo+746OnT0KMu/NfpViWbiVyuFyd
+bRoKMEwAhyRCgAgYXHQ6Rjyl/rUAA7jnI1Coau5KB9u4NdKsDheF3l7FMiENEpKc
+Za3SXo6Cq7N7KDu9E2YwD6jGPZx7uD3b0tpVIkc8D2zYgxFwwzFZmmh0P8/3hVd2
+UJY8adBQ4RKGtbYfjtznKPRb9kiEWeevRCwEfwtU7W5LQ0jOi37WdfSlHeIVbvqQ
+FrhGKiV9jQYG4HHu42CB0mcacmOZb0xNRjivgSJQYvNCwK1VCwWn+ATLAuONN458
+9ScrS0DkbBYN1k+mcz9erwA+MjWUzR+5LHgwbZ/CUNP8rlwSLzlXGxKnD0xrUHUg
+i7ttSxL9LGodPt4r+pc32rCTfVFwvm6q0yS6a8WuB8uWGltW0/ofxkBHYsAwARZx
+LkZIi3v8PM5G4ZuStQB0otNLudLmJXIkfmRp7vVgr8iOUNzMTT2Y/Li9zW2n9xcR
+YnghFoyhVUvxNSwhudMMN1IL47pyaCEVB9aVppsYtbheS//T5/I=
+=tGAO
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_540B1263-203B-43E9-BA92-ABF36413FD90--
