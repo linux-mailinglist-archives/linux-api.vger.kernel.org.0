@@ -2,111 +2,167 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 61E4DEA66B
-	for <lists+linux-api@lfdr.de>; Wed, 30 Oct 2019 23:38:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D57FEA690
+	for <lists+linux-api@lfdr.de>; Wed, 30 Oct 2019 23:46:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727372AbfJ3Wio (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 30 Oct 2019 18:38:44 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:42230 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727327AbfJ3Win (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 30 Oct 2019 18:38:43 -0400
-Received: by mail-wr1-f65.google.com with SMTP id a15so4126209wrf.9
-        for <linux-api@vger.kernel.org>; Wed, 30 Oct 2019 15:38:41 -0700 (PDT)
+        id S1727341AbfJ3WqK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 30 Oct 2019 18:46:10 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:42894 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727299AbfJ3WqJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 30 Oct 2019 18:46:09 -0400
+Received: by mail-pf1-f195.google.com with SMTP id 21so2698309pfj.9
+        for <linux-api@vger.kernel.org>; Wed, 30 Oct 2019 15:46:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=qfICZRpjv9MzZUR3Km31YoPnMoXWt4BCtsBGyOPs+MA=;
-        b=g33Q4U/Y/PsWl2LTH18JY6gpMyFVmPxV9qqWkrT57lR2a/GCy9kyBDrbLXWbaa2fps
-         tOVndw1p6l/7VQHVRvGpLmhpFDr4RJXRgrTPx4hhh43FE6ruFdAPV73fa0XTmGA/7rmy
-         ly6YasutyEzFhYEmiEDQkruKueLdPUY1jDjaw=
+        d=osandov-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=PnrfXeYVRnpGVPGiQDcbW5SLqkZubZ+o9/pPkDpKRLw=;
+        b=bkZBZ57meOngOGFWqgT5tJ/VVPrpfwkqsGbUVC907SVJYvcwR7C7b06NpUvxn9YGsB
+         g+BiTZl9eHlishVM5xWNwl8ci/CTMSziIL/JSijnZhCVj7MH59NANsRpnDuIN/nVz15s
+         k9Zb+Je5/nezygJuhSKvSjcW8+eGRONrr263WBn7hIB1K2BqH82J7Mxzik2VBVARSCcw
+         mU4NFZFindc3TWrhDteecyPufF9Fy8T0AK+s0kCV9a0nvkli3jAfk5WhomQGMU/kb9G4
+         +dDuFKJ3FNf0VOfgQcX+EDtMCWoCtNWyTh93zoeeMaf5OPHWjTekPJAgBEn5wA8VSiU0
+         YmIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=qfICZRpjv9MzZUR3Km31YoPnMoXWt4BCtsBGyOPs+MA=;
-        b=EEIzQzxibm7XZ1HHvwXVsU5RuXpt8tOCq7B/ikBjjZU99FV38OVTQSuyfv19DnS3Pb
-         Z0AXbf2EgYsI0TrRN14C6JNope2Flp3M7ivxjipMDn5P2+BugRSsTAdkGKVdnYXtrmlS
-         oraRZO3m5ujErMRiplb4+sUSqohW51gPzv+4lELS4/zI6P5KL1mteWDyvxnKep+QrlKi
-         qM0bOL+dxZ5A9D7beYEtsp2/cKrlNdQhUpkFR9b7eJBSx6NrHFhMFPE21y0WDk2+Fao4
-         IGXe9/Gl8HTpY0cX9rrc2GuHIosjImJGYirA2PUKeH+RGyohYzA2prNQjd7ONtyBihK3
-         QosQ==
-X-Gm-Message-State: APjAAAU27gov1pYjSK8v8D33yFrX8wNhSyzKOdfISK6igKQjqQ/S78GD
-        cX9aAKa3G3gF5JN/7+iGCodBiw==
-X-Google-Smtp-Source: APXvYqwy8Lp9RkPFYIcCKVwNc4bwfuBSBiCYr98GupWsvuOSYztGZY5yvtxoKwr5rWH+K4PLLBTR+g==
-X-Received: by 2002:adf:d1a3:: with SMTP id w3mr2258782wrc.9.1572475121267;
-        Wed, 30 Oct 2019 15:38:41 -0700 (PDT)
-Received: from [192.168.1.149] (ip-5-186-115-54.cgn.fibianet.dk. [5.186.115.54])
-        by smtp.gmail.com with ESMTPSA id t24sm1858665wra.55.2019.10.30.15.38.39
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 30 Oct 2019 15:38:40 -0700 (PDT)
-Subject: Re: [RFC PATCH 04/10] pipe: Use head and tail pointers for the ring,
- not cursor and length [ver #2]
-To:     Ilya Dryomov <idryomov@gmail.com>
-Cc:     David Howells <dhowells@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        nicolas.dichtel@6wind.com, raven@themaw.net,
-        Christian Brauner <christian@brauner.io>,
-        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-block <linux-block@vger.kernel.org>,
-        linux-security-module@vger.kernel.org,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=PnrfXeYVRnpGVPGiQDcbW5SLqkZubZ+o9/pPkDpKRLw=;
+        b=RVFGeZIlQxh01sjHkDqkaZRFLu5dXuWID76SY2FtgZ00KDKLVQeiNFQih8Yd7Agq7i
+         ecwicZIB1adof8K7hUlA8UarkoOKsauJW3E48PnDu9zi3U4JSxy7HDV9RymBFDMvewq/
+         KPz684J/aC8EKyQUJg0O9MzFdNtDmTIAZibLHL98Sx9mEC5Y3cxry4VKL2qLj+qkslJz
+         qpV1xvP2Ghm7JHshGcThPnAUEz5CsFhgvCpHzBVKMDwGO0asYa5Gmy8eFT5JrVAzIEnx
+         Q4nG0JFwArBLOneuLtmHQ6BKB7Wg35EJrDp0zFYof72PC5a0A8pKerz2VhxKeUE0wAVT
+         iZkA==
+X-Gm-Message-State: APjAAAXYZ5GMy9lRtENahCJIB3XIyCr4U78f/Bxwh9cJOUgzOnK2GYaF
+        jXhN7FwWguWiO6As3zV/e6R5cA==
+X-Google-Smtp-Source: APXvYqzUxjMMwehyd2VV+tc2gBZO2f30q1yw7y78xZS39vYxlWAxedexkNC5tZJkUonFDc7ZstjC/A==
+X-Received: by 2002:a63:3e43:: with SMTP id l64mr2048023pga.51.1572475567838;
+        Wed, 30 Oct 2019 15:46:07 -0700 (PDT)
+Received: from vader ([2620:10d:c090:180::3912])
+        by smtp.gmail.com with ESMTPSA id f17sm906751pgd.8.2019.10.30.15.46.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Oct 2019 15:46:07 -0700 (PDT)
+Date:   Wed, 30 Oct 2019 15:46:06 -0700
+From:   Omar Sandoval <osandov@osandov.com>
+To:     Aleksa Sarai <cyphar@cyphar.com>
+Cc:     Amir Goldstein <amir73il@gmail.com>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-api@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-References: <157186182463.3995.13922458878706311997.stgit@warthog.procyon.org.uk>
- <157186186167.3995.7568100174393739543.stgit@warthog.procyon.org.uk>
- <CAOi1vP97DMX8zweOLfBDOFstrjC78=6RgxK3PPj_mehCOSeoaw@mail.gmail.com>
- <4892d186-8eb0-a282-e7e6-e79958431a54@rasmusvillemoes.dk>
- <CAOi1vP9paV2-2_S0NgfbZDE6+5kqHXVc9xabHVC-2Ss1MmXkCg@mail.gmail.com>
-From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Message-ID: <d08d13d9-8eee-9c1e-2f8d-e846063882d7@rasmusvillemoes.dk>
-Date:   Wed, 30 Oct 2019 23:38:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Linux Btrfs <linux-btrfs@vger.kernel.org>,
+        Dave Chinner <david@fromorbit.com>,
+        Jann Horn <jannh@google.com>,
+        Linux API <linux-api@vger.kernel.org>, kernel-team@fb.com,
+        Theodore Tso <tytso@mit.edu>
+Subject: Re: [PATCH man-pages] Document encoded I/O
+Message-ID: <20191030224606.GF326591@vader>
+References: <cover.1571164762.git.osandov@fb.com>
+ <c7e8f93596fee7bb818dc0edf29f484036be1abb.1571164851.git.osandov@fb.com>
+ <CAOQ4uxh_pZSiMmD=46Mc3o0GE+svXuoC155P_9FGJXdsE4cweg@mail.gmail.com>
+ <20191021185356.GB81648@vader>
+ <CAOQ4uxgm6MWwCDO5stUwOKKSq7Ot4-Sc96F1Evc6ra5qBE+-wA@mail.gmail.com>
+ <20191023044430.alow65tnodgnu5um@yavin.dot.cyphar.com>
+ <CAOQ4uxjyNZhyU9yEYkuMnD0o=sU1vJMOYJAzjV7FDjG45gaevg@mail.gmail.com>
+ <20191023121203.pozm2xzrbxmcqpbr@yavin.dot.cyphar.com>
 MIME-Version: 1.0
-In-Reply-To: <CAOi1vP9paV2-2_S0NgfbZDE6+5kqHXVc9xabHVC-2Ss1MmXkCg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191023121203.pozm2xzrbxmcqpbr@yavin.dot.cyphar.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 30/10/2019 23.16, Ilya Dryomov wrote:
-> On Wed, Oct 30, 2019 at 9:35 PM Rasmus Villemoes
-> <linux@rasmusvillemoes.dk> wrote:
->>
->> On 30/10/2019 17.19, Ilya Dryomov wrote:
->>> On Thu, Oct 24, 2019 at 11:49 AM David Howells <dhowells@redhat.com> wrote:
->>>>  /*
->>>> - * We use a start+len construction, which provides full use of the
->>>> - * allocated memory.
->>>> - * -- Florian Coosmann (FGC)
->>>> - *
->>>> + * We use head and tail indices that aren't masked off, except at the point of
->>>> + * dereference, but rather they're allowed to wrap naturally.  This means there
->>>> + * isn't a dead spot in the buffer, provided the ring size < INT_MAX.
->>>> + * -- David Howells 2019-09-23.
->>>
->>> Hi David,
->>>
->>> Is "ring size < INT_MAX" constraint correct?
->>
->> No. As long as one always uses a[idx % size] to access the array, the
->> only requirement is that size is representable in an unsigned int. Then
->> because one also wants to do the % using simple bitmasking, that further
->> restricts one to sizes that are a power of 2, so the end result is that
->> the max size is 2^31 (aka INT_MAX+1).
+On Wed, Oct 23, 2019 at 11:12:03PM +1100, Aleksa Sarai wrote:
+> On 2019-10-23, Amir Goldstein <amir73il@gmail.com> wrote:
+> > > >
+> > > > No, I see why you choose to add the flag to open(2).
+> > > > I have no objection.
+> > > >
+> > > > I once had a crazy thought how to add new open flags
+> > > > in a non racy manner without adding a new syscall,
+> > > > but as you wrote, this is not relevant for O_ALLOW_ENCODED.
+> > > >
+> > > > Something like:
+> > > >
+> > > > /*
+> > > >  * Old kernels silently ignore unsupported open flags.
+> > > >  * New kernels that gets __O_CHECK_NEWFLAGS do
+> > > >  * the proper checking for unsupported flags AND set the
+> > > >  * flag __O_HAVE_NEWFLAGS.
+> > > >  */
+> > > > #define O_FLAG1 __O_CHECK_NEWFLAGS|__O_FLAG1
+> > > > #define O_HAVE_FLAG1 __O_HAVE_NEWFLAGS|__O_FLAG1
+> > > >
+> > > > fd = open(path, O_FLAG1);
+> > > > if (fd < 0)
+> > > >     return -errno;
+> > > > flags = fcntl(fd, F_GETFL, 0);
+> > > > if (flags < 0)
+> > > >     return flags;
+> > > > if ((flags & O_HAVE_FLAG1) != O_HAVE_FLAG1) {
+> > > >     close(fd);
+> > > >     return -EINVAL;
+> > > > }
+> > >
+> > > You don't need to add __O_HAVE_NEWFLAGS to do this -- this already works
+> > > today for userspace to check whether a flag works properly
+> > > (specifically, __O_FLAG1 will only be set if __O_FLAG1 is supported --
+> > > otherwise it gets cleared during build_open_flags).
+> > 
+> > That's a behavior of quite recent kernels since
+> > 629e014bb834 fs: completely ignore unknown open flags
+> > and maybe some stable kernels. Real old kernels don't have that luxury.
 > 
-> I think the fact that indices are free running and wrap at a power of
-> two already restricts you to sizes the are a power of two,
+> Ah okay -- so the key feature is that __O_CHECK_NEWFLAGS gets
+> transformed into __O_HAVE_NEWFLAGS (making it so that both the older and
+> current behaviours are detected). Apologies, I missed that on my first
+> read-through.
+> 
+> While it is a little bit ugly, it probably wouldn't be a bad idea to
+> have something like that.
+> 
+> > > The problem with adding new flags is that an *old* program running on a
+> > > *new* kernel could pass a garbage flag (__O_CHECK_NEWFLAGS for instance)
+> > > that causes an error only on the new kernel.
+> > 
+> > That's a theoretic problem. Same as O_PATH|O_TMPFILE.
+> > Show me a real life program that passes garbage files to open.
+> 
+> Has "that's a theoretical problem" helped when we faced this issue in
+> the past? I don't disagree that this is mostly theoretical, but I have a
+> feeling that this is an argument that won't hold water.
+> 
+> As for an example of semi-garbage flag passing -- systemd passes
+> O_PATH|O_NOCTTY in several places. Yes, they're known flags (so not
+> entirely applicable to this discussion) but it's also not a meaningful
+> combination of flags and yet is permitted.
+> 
+> > > The only real solution to this (and several other problems) is
+> > > openat2().
+> > 
+> > No argue about that. Come on, let's get it merged ;-)
+> 
+> Believe me, I'm trying. ;)
+> 
+> > > As for O_ALLOW_ENCODED -- the current semantics (-EPERM if it
+> > > is set without CAP_SYS_ADMIN) *will* cause backwards compatibility
+> > > issues for programs that have garbage flags set...
+> > >
+> > 
+> > Again, that's theoretical. In practice, O_ALLOW_ENCODED can work with
+> > open()/openat(). In fact, even if O_ALLOW_ENCODED gets merged after
+> > openat2(), I don't think it should be forbidden by open()/openat(),
+> > right? Do in that sense, O_ALLOW_ENCODED does not depend on openat2().
+> 
+> If it's a valid open() flag it'll also be a valid openat2(2) flag. The
+> only question is whether the garbage-flag problem justifies making it a
+> no-op for open(2).
 
-Ah, yes, of course. When reducing indices mod n that may already have
-been implicitly reduced mod N, N must be a multiple of n for the result
-to be well-defined.
-
-Rasmus
+Consider O_NOATIME: a (non-root) program passing this flag for files it
+didn't own would have been broken by kernel v2.6.8. Or, more recently, a
+program accidentally setting O_TMPFILE would suddenly get drastically
+different behavior on v3.11. These two flags technically broke backwards
+compatibility. I don't think it's worth the trouble to treat
+O_ALLOW_ENCODED any differently for open().
