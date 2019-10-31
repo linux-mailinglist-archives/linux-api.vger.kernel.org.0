@@ -2,89 +2,131 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F6F6EB457
-	for <lists+linux-api@lfdr.de>; Thu, 31 Oct 2019 16:57:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F331EB4D1
+	for <lists+linux-api@lfdr.de>; Thu, 31 Oct 2019 17:38:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728500AbfJaP5j (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 31 Oct 2019 11:57:39 -0400
-Received: from mail-il1-f193.google.com ([209.85.166.193]:39213 "EHLO
-        mail-il1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727593AbfJaP5j (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 31 Oct 2019 11:57:39 -0400
-Received: by mail-il1-f193.google.com with SMTP id f201so181615ilh.6;
-        Thu, 31 Oct 2019 08:57:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=5fMqgxCz9YeELky5sdMvqRGe8oe8TryFm0ddjx2jFJ8=;
-        b=r2LAcakqEaUTEWVB42o7netz4E9VSlpCiF1h3M4FyqmZMW8hARpE28IicCl+YOx7cK
-         wIYdFj49qzwuextspvTS4pX+SXfjLIQH5ePcrW24wrFI2FLPYPUJWlXcZK5vfQUYH0vM
-         LDVsW0NrfZXiJiuQa2lgvWH+vqp5PLuOBFuN8dfnoxXb2ChS8BlOoPnJ44oH3vCkeE9r
-         e7EaZZse7IDcGaylRdktf7O2XJMiLmms8LvvHOLxS4oGNFpEZb+kY2i5x5SAxqU2Otni
-         sHQPudwD1eG2lPICtrGXqx1E0CmeCqZbtDV3Yd397iWEVLyCsSkk9zsjZIBQpoEfEhlU
-         fUHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5fMqgxCz9YeELky5sdMvqRGe8oe8TryFm0ddjx2jFJ8=;
-        b=tYJhUQYiPRhWk8CfaGeWA3C5WNuKjTxAuxGp2qT3xpch3eF6+rCKblZviMmMWG1iBk
-         MuvxK3faCpJ+QfaXjW2FAXDz0gM8ueRVGujVMMsDwK8P0YlYKKfJM9gMWQSvbQo35JSn
-         iQh1u8a6juw9opcB5NN642tlHdM4NQpp21QkLETaDaSVIWIQgzTjabJI965EmV/D/v6H
-         CLHZEs5WFxB4VWd5LuysjnqTibuHL6NGLoxRgM8TQL4W1eAQlHjg4NsjQOfUG/GSnzJA
-         64PBJLCNUUWW/wJqprnV5m65hZtmb6f/EwzZPiR0rqHvEIHtSDyfSgJOjgzY+V75jWzJ
-         Vbwg==
-X-Gm-Message-State: APjAAAUpnn9DIRCzU8vhxC8K2Fk8DXI1JWSCdQ9TAPn8hxEm07AYse8d
-        nHy42b5LFHhwGJ7JNi+yMjRocNiCMQS6AVz6iHA=
-X-Google-Smtp-Source: APXvYqxDzIvxdrtfoc1J6pHr6V7TIkjAtYww+JMfs2+Z9EUun1ZsfTWDhGu6aMUtGhRbc9znef8AcsrZINaCIzSjCbQ=
-X-Received: by 2002:a92:b656:: with SMTP id s83mr6910636ili.282.1572537457279;
- Thu, 31 Oct 2019 08:57:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <157186182463.3995.13922458878706311997.stgit@warthog.procyon.org.uk>
- <157186186167.3995.7568100174393739543.stgit@warthog.procyon.org.uk>
- <CAOi1vP97DMX8zweOLfBDOFstrjC78=6RgxK3PPj_mehCOSeoaw@mail.gmail.com>
- <4892d186-8eb0-a282-e7e6-e79958431a54@rasmusvillemoes.dk> <16620.1572534687@warthog.procyon.org.uk>
-In-Reply-To: <16620.1572534687@warthog.procyon.org.uk>
-From:   Ilya Dryomov <idryomov@gmail.com>
-Date:   Thu, 31 Oct 2019 16:57:53 +0100
-Message-ID: <CAOi1vP9GAmy5NXJisrDssspoRcc+UHum+cyBsJTMNTjz_jieoQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 04/10] pipe: Use head and tail pointers for the ring,
- not cursor and length [ver #2]
-To:     David Howells <dhowells@redhat.com>
-Cc:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
+        id S1728620AbfJaQiS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 31 Oct 2019 12:38:18 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49193 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1728600AbfJaQiS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 31 Oct 2019 12:38:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1572539896;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=mxgLr4gqIZKHqSVNNAtea7HdJZYdiBMzARcL7j6XY2g=;
+        b=h5BTChE289sI+KXEVqXtpz0KrFvty9/B+inTU5HmlAS/7MRHkHTM1/S7uTtWqo41iy43oN
+        BSfSDd9BB4n1yyDnundvocBfhrHZKFbsRH7GWx+m4XvvgL71C/OCPPJkP4j04KZMZZRc03
+        BZKTV+ZGDkniPkx5q5bigKXvTDpPUq0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-120-OBNcKO5IPbCsAav66unpNg-1; Thu, 31 Oct 2019 12:38:11 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D80461800D55;
+        Thu, 31 Oct 2019 16:38:08 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-121-40.rdu2.redhat.com [10.10.121.40])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id A573219C5B;
+        Thu, 31 Oct 2019 16:38:05 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <fe167a90-1503-7ca2-4150-eeffd5cb1378@yandex-team.ru>
+References: <fe167a90-1503-7ca2-4150-eeffd5cb1378@yandex-team.ru> <157186182463.3995.13922458878706311997.stgit@warthog.procyon.org.uk> <157186189069.3995.10292601951655075484.stgit@warthog.procyon.org.uk>
+To:     Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
+Cc:     dhowells@redhat.com, torvalds@linux-foundation.org,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Peter Zijlstra <peterz@infradead.org>,
         nicolas.dichtel@6wind.com, raven@themaw.net,
         Christian Brauner <christian@brauner.io>,
         keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-block <linux-block@vger.kernel.org>,
-        linux-security-module@vger.kernel.org,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-api@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-block@vger.kernel.org, linux-security-module@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 07/10] pipe: Conditionalise wakeup in pipe_read() [ver #2]
+MIME-Version: 1.0
+Content-ID: <3164.1572539884.1@warthog.procyon.org.uk>
+Date:   Thu, 31 Oct 2019 16:38:04 +0000
+Message-ID: <3165.1572539884@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: OBNcKO5IPbCsAav66unpNg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Oct 31, 2019 at 4:11 PM David Howells <dhowells@redhat.com> wrote:
->
-> How about:
->
->  * We use head and tail indices that aren't masked off, except at the
->  * point of dereference, but rather they're allowed to wrap naturally.
->  * This means there isn't a dead spot in the buffer, provided the ring
->  * size is a power of two and <= 2^31.
+Okay, attached is a change that might give you what you want.  I tried my
+pipe-bench program (see cover note) with perf.  The output of the program w=
+ith
+the patch applied was:
 
-To me "provided" reads like this thing works without a dead spot or
-with a dead spot, depending on whether the condition is met.  I would
-say:
+-       pipe                  305127298     36262221772       302185181    =
+     7887690
 
->  * This means there isn't a dead spot in the buffer, but the ring
->  * size has to be a power of two and <= 2^31.
+The output of perf with the patch applied:
 
-Thanks,
+        239,943.92 msec task-clock                #    1.997 CPUs utilized
+            17,728      context-switches          #   73.884 M/sec
+               124      cpu-migrations            #    0.517 M/sec
+             9,330      page-faults               #   38.884 M/sec
+   885,107,207,365      cycles                    # 3688822.793 GHz
+ 1,386,873,499,490      instructions              #    1.57  insn per cycle
+   311,037,372,339      branches                  # 1296296921.931 M/sec
+        33,467,827      branch-misses             #    0.01% of all branche=
+s
 
-                Ilya
+And without:
+
+        239,891.87 msec task-clock                #    1.997 CPUs utilized
+            22,187      context-switches          #   92.488 M/sec
+               133      cpu-migrations            #    0.554 M/sec
+             9,334      page-faults               #   38.909 M/sec
+   884,906,976,128      cycles                    # 3688787.725 GHz
+ 1,391,986,932,265      instructions              #    1.57  insn per cycle
+   311,394,686,857      branches                  # 1298067400.849 M/sec
+        30,242,823      branch-misses             #    0.01% of all branche=
+s
+
+So it did make something like a 20% reduction in context switches.
+
+David
+---
+diff --git a/fs/pipe.c b/fs/pipe.c
+index e3d5f7a39123..5167921edd73 100644
+--- a/fs/pipe.c
++++ b/fs/pipe.c
+@@ -276,7 +276,7 @@ pipe_read(struct kiocb *iocb, struct iov_iter *to)
+ =09size_t total_len =3D iov_iter_count(to);
+ =09struct file *filp =3D iocb->ki_filp;
+ =09struct pipe_inode_info *pipe =3D filp->private_data;
+-=09int do_wakeup;
++=09int do_wakeup, wake;
+ =09ssize_t ret;
+
+ =09/* Null read succeeds. */
+@@ -329,11 +329,12 @@ pipe_read(struct kiocb *iocb, struct iov_iter *to)
+ =09=09=09=09tail++;
+ =09=09=09=09pipe->tail =3D tail;
+ =09=09=09=09do_wakeup =3D 1;
+-=09=09=09=09if (head - (tail - 1) =3D=3D pipe->max_usage)
++=09=09=09=09wake =3D head - (tail - 1) =3D=3D pipe->max_usage / 2;
++=09=09=09=09if (wake)
+ =09=09=09=09=09wake_up_interruptible_sync_poll_locked(
+ =09=09=09=09=09=09&pipe->wait, EPOLLOUT | EPOLLWRNORM);
+ =09=09=09=09spin_unlock_irq(&pipe->wait.lock);
+-=09=09=09=09if (head - (tail - 1) =3D=3D pipe->max_usage)
++=09=09=09=09if (wake)
+ =09=09=09=09=09kill_fasync(&pipe->fasync_writers, SIGIO, POLL_OUT);
+ =09=09=09}
+ =09=09=09total_len -=3D chars;
+
