@@ -2,168 +2,152 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B8A4FECA26
-	for <lists+linux-api@lfdr.de>; Fri,  1 Nov 2019 22:08:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F6BBECAB5
+	for <lists+linux-api@lfdr.de>; Fri,  1 Nov 2019 23:05:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726023AbfKAVIK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 1 Nov 2019 17:08:10 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:39242 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726230AbfKAVIJ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 1 Nov 2019 17:08:09 -0400
-Received: from mail-il1-f197.google.com ([209.85.166.197])
-        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <dann.frazier@canonical.com>)
-        id 1iQe9P-0008Lu-OH
-        for linux-api@vger.kernel.org; Fri, 01 Nov 2019 21:08:07 +0000
-Received: by mail-il1-f197.google.com with SMTP id x17so9571191ill.7
-        for <linux-api@vger.kernel.org>; Fri, 01 Nov 2019 14:08:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=99Grxk3NP/rj106dyBNQOJBBT+7NzmkfjxIr2ycA+xY=;
-        b=K2+rO4+wM14TEWa2DJAEZHSLHhq0hE/y4HK557yWdRbbw1eynBszJyUEt2t3lMkiia
-         OLKkEAgpE87TqD8Eh/zfLjFPT8UBqIzTfUb6JFsOppy6SWKvSqm6twrOFA8QE57VOwPU
-         jtorUlTV7cQglQr9Wa4NasECvfI0uryz8EvTKguuxPlY205s7AH8pEdD6TT20XzGLgDC
-         u5JFyOgz5oiQjUj6HMh7CHT0LHAbnPnMVpym10XvPBk9cr7MCA3+W/jl94Z/LfOfUoKN
-         eZyPDNV0m3kwRn8HEOfNL0DqGV7hD0F4yWpqj/I3q6rhNOc2gt2jIWEWxDL2j0YH40hb
-         AOMw==
-X-Gm-Message-State: APjAAAVvu0d27vmysxR0zFyq2FNR/gB9BLXJixfEVcZfQUi3XlMkqblq
-        mh8rqbu1JLPEd74tP4S7AiKYeWvvUhjsXRypmD6doT2SvIVK8RZ9MZ38sydUcgDt3EEYaTIqE22
-        MDfxVps98UVCySo7h3B+k84/XC+PH+sGb5gsZlQ==
-X-Received: by 2002:a92:3dd8:: with SMTP id k85mr1030086ilf.176.1572642485709;
-        Fri, 01 Nov 2019 14:08:05 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxViiJ/H/ziNdfZ++M2P5LolU+tfBrHJuWfbH2VzvXMEWOTUG2WwEc09JNUg8f928m6IUIo4w==
-X-Received: by 2002:a92:3dd8:: with SMTP id k85mr1030038ilf.176.1572642485253;
-        Fri, 01 Nov 2019 14:08:05 -0700 (PDT)
-Received: from xps13.canonical.com (c-71-56-235-36.hsd1.co.comcast.net. [71.56.235.36])
-        by smtp.gmail.com with ESMTPSA id t16sm812926iol.12.2019.11.01.14.08.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Nov 2019 14:08:04 -0700 (PDT)
-Date:   Fri, 1 Nov 2019 15:08:03 -0600
-From:   dann frazier <dann.frazier@canonical.com>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        Seth Forshee <seth.forshee@canonical.com>,
-        Matthew Garrett <matthewgarrett@google.com>,
-        James Morris <jmorris@namei.org>,
+        id S1726932AbfKAWFh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 1 Nov 2019 18:05:37 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48265 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726925AbfKAWFg (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 1 Nov 2019 18:05:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1572645935;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=E8+rrZXvUsqeBEaW/X2CqD+QnPOx373OWvmJOxsDZMI=;
+        b=CxRV7R5w1tFCKwkn2VITDPE7KNHlgmKWuJ+JSo/antl9wFd7qtfaTorApkuE4BvjGY04AK
+        1Au6fQEBqqkE12C6PbksYWE6cT9VYqxfbGjUJNy76jULFBjsRI6RY3qO5RtM6rz1b4YDDV
+        lQ7bf1rX3pPXUweE5tFk/E5c2/cjVcA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-395-UyQR-pJ3NNi_-Rohn9Habw-1; Fri, 01 Nov 2019 18:05:32 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2B3CA1005500;
+        Fri,  1 Nov 2019 22:05:30 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-121-40.rdu2.redhat.com [10.10.121.40])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 220DF60878;
+        Fri,  1 Nov 2019 22:05:26 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <CAHk-=wjqx4j2vqg-tAwthNP1gcAcj1x4B7sq6Npbi8QJTUMd-A@mail.gmail.com>
+References: <CAHk-=wjqx4j2vqg-tAwthNP1gcAcj1x4B7sq6Npbi8QJTUMd-A@mail.gmail.com> <157262963995.13142.5568934007158044624.stgit@warthog.procyon.org.uk>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     dhowells@redhat.com, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Nicolas Dichtel <nicolas.dichtel@6wind.com>, raven@themaw.net,
+        Christian Brauner <christian@brauner.io>,
+        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-block <linux-block@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
-        Ben Hutchings <ben@decadent.org.uk>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Subject: tracefs splats in lockdown=confidentiality mode
-Message-ID: <20191101210803.GA9841@xps13.dannf>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC PATCH 00/11] pipe: Notification queue preparation [ver #3]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.12.2 (2019-09-21)
+Content-ID: <13963.1572645926.1@warthog.procyon.org.uk>
+Date:   Fri, 01 Nov 2019 22:05:26 +0000
+Message-ID: <13964.1572645926@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: UyQR-pJ3NNi_-Rohn9Habw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-hey,
-  fyi, I'm seeing a bunch of errors from tracefs when booting 5.4-rc5 in
-lockdown=confidentiality mode:
+Linus Torvalds <torvalds@linux-foundation.org> wrote:
 
-[    1.763630] Lockdown: swapper/0: use of tracefs is restricted; see man kernel_lockdown.7
-[    1.772332] Could not create tracefs 'available_events' entry
-[    1.778633] Lockdown: swapper/0: use of tracefs is restricted; see man kernel_lockdown.7
-[    1.787095] Could not create tracefs 'set_event' entry
-[    1.792412] Lockdown: swapper/0: use of tracefs is restricted; see man kernel_lockdown.7
-(...)
-[    2.899481] Could not create tracefs 'set_graph_notrace' entry
-[    2.905671] Lockdown: swapper/0: use of tracefs is restricted; see man kernel_lockdown.7
-[    2.913934] ------------[ cut here ]------------
-[    2.918435] Could not register function stat for cpu 0
-[    2.923717] WARNING: CPU: 1 PID: 1 at kernel/trace/ftrace.c:987 ftrace_init_tracefs_toplevel+0x168/0x1bc
-[    2.933939] Modules linked in:
-[    2.937290] CPU: 1 PID: 1 Comm: swapper/0 Not tainted 5.4.0-050400rc5-generic #201910271430
-[    2.946528] Hardware name: QEMU KVM Virtual Machine, BIOS 0.0.0 02/06/2015
-[    2.954088] pstate: 60400005 (nZCv daif +PAN -UAO)
-[    2.959359] pc : ftrace_init_tracefs_toplevel+0x168/0x1bc
-[    2.965262] lr : ftrace_init_tracefs_toplevel+0x168/0x1bc
-[    2.971192] sp : ffff80001002bd40
-[    2.974852] x29: ffff80001002bd40 x28: 0000000000000000 
-[    2.980680] x27: 0000000000000000 x26: ffff8000119f9358 
-[    2.986552] x25: ffff8000119f9580 x24: ffff00007fb77200 
-[    2.992359] x23: ffff00007c873e80 x22: ffff80001153d200 
-[    2.998201] x21: ffff800010d8ad08 x20: 0000000000000000 
-[    3.004007] x19: 0000000000000000 x18: 0000000000000010 
-[    3.009851] x17: 0000000000000007 x16: 000000000000000e 
-[    3.015674] x15: ffff00007d1213e8 x14: ffffffffffffffff 
-[    3.021526] x13: ffff80009002ba47 x12: ffff80001002ba4f 
-[    3.027338] x11: ffff800011a1e000 x10: 0000000000000000 
-[    3.033148] x9 : ffff800011c13000 x8 : 000000000000015d 
-[    3.038984] x7 : 0000000000000017 x6 : ffff800011c129c9 
-[    3.044783] x5 : 0000000000000007 x4 : 0000000000000000 
-[    3.050617] x3 : 0000000000000000 x2 : 00000000ffffffff 
-[    3.056430] x1 : bcf0a68bd924d700 x0 : 0000000000000000 
-[    3.062258] Call trace:
-[    3.064951]  ftrace_init_tracefs_toplevel+0x168/0x1bc
-[    3.070571]  tracer_init_tracefs+0xc0/0x1fc
-[    3.075165]  do_one_initcall+0x50/0x220
-[    3.079384]  kernel_init_freeable+0x1ec/0x2b0
-[    3.084186]  kernel_init+0x18/0x108
-[    3.088032]  ret_from_fork+0x10/0x18
-[    3.091983] ---[ end trace 32f7e54339335d2a ]---
-[    3.097149] Lockdown: swapper/0: use of tracefs is restricted; see man kernel_lockdown.7
-[    3.105311] Could not create tracefs 'tracing_thresh' entry
-[    3.110762] Lockdown: swapper/0: use of tracefs is restricted; see man kernel_lockdown.7
-[    3.119199] Could not create tracefs 'README' entry
-[    3.124212] Lockdown: swapper/0: use of tracefs is restricted; see man kernel_lockdown.7
-[    3.132920] Could not create tracefs 'saved_cmdlines' entry
-[    3.139075] Lockdown: swapper/0: use of tracefs is restricted; see man kernel_lockdown.7
-[    3.147592] Could not create tracefs 'saved_cmdlines_size' entry
-[    3.153950] Lockdown: swapper/0: use of tracefs is restricted; see man kernel_lockdown.7
-[    3.162288] Could not create tracefs 'saved_tgids' entry
-[    3.206061] Lockdown: swapper/0: use of tracefs is restricted; see man kernel_lockdown.7
-[    3.214629] Could not create tracefs 'dyn_ftrace_total_info' entry
-[    3.221063] Lockdown: swapper/0: use of tracefs is restricted; see man kernel_lockdown.7
-[    3.229245] Could not create tracefs 'funcgraph-overrun' entry
-[    3.234990] ------------[ cut here ]------------
-[    3.239724] Failed to create trace option: funcgraph-overrun
-[    3.239774] WARNING: CPU: 1 PID: 1 at kernel/trace/trace.c:8106 create_trace_option_files+0x200/0x230
-[    3.255931] Modules linked in:
-[    3.259332] CPU: 1 PID: 1 Comm: swapper/0 Tainted: G        W         5.4.0-050400rc5-generic #201910271430
-[    3.270051] Hardware name: QEMU KVM Virtual Machine, BIOS 0.0.0 02/06/2015
-[    3.277621] pstate: 60400005 (nZCv daif +PAN -UAO)
-[    3.282902] pc : create_trace_option_files+0x200/0x230
-[    3.288564] lr : create_trace_option_files+0x200/0x230
-[    3.294247] sp : ffff80001002bd10
-[    3.297914] x29: ffff80001002bd10 x28: ffff800011a34508 
-[    3.303769] x27: ffff00007cb12e00 x26: ffff800011bb243d 
-[    3.309638] x25: ffff800010d8b750 x24: ffff00007cb12e00 
-[    3.315485] x23: 0000000000000000 x22: ffff800011a34508 
-[    3.321327] x21: ffff800011a344d0 x20: 0000000000000000 
-[    3.327284] x19: ffff800011a320b8 x18: 0000000000000010 
-[    3.333121] x17: 0000000000000007 x16: 000000000000000e 
-[    3.338980] x15: ffff00007d1213e8 x14: ffffffffffffffff 
-[    3.344827] x13: ffff80009002b9a7 x12: ffff80001002b9af 
-[    3.350690] x11: ffff800011a1e000 x10: 0000000000000000 
-[    3.356524] x9 : 00000000fffffffe x8 : 6870617267636e75 
-[    3.362394] x7 : 66203a6e6f697470 x6 : ffff800011c12498 
-[    3.368229] x5 : 0000000000000030 x4 : 0000000000000000 
-[    3.374082] x3 : 0000000000000000 x2 : 00000000ffffffff 
-[    3.379915] x1 : bcf0a68bd924d700 x0 : 0000000000000000 
-[    3.385768] Call trace:
-[    3.388478]  create_trace_option_files+0x200/0x230
-[    3.393849]  __update_tracer_options+0x34/0x48
-[    3.398748]  tracer_init_tracefs+0x1e0/0x1fc
-[    3.403454]  do_one_initcall+0x50/0x220
-[    3.407692]  kernel_init_freeable+0x1ec/0x2b0
-[    3.412494]  kernel_init+0x18/0x108
-[    3.416351]  ret_from_fork+0x10/0x18
-[    3.420287] ---[ end trace 32f7e54339335d2b ]---
-[    3.425479] Lockdown: swapper/0: use of tracefs is restricted; see man kernel_lockdown.7
-[    3.433724] Could not create tracefs 'funcgraph-cpu' entry
-(...)
-[    3.692698] Could not create tracefs 'uprobe_events' entry
-[    3.698724] Lockdown: swapper/0: use of tracefs is restricted; see man kernel_lockdown.7
-[    3.707217] Could not create tracefs 'uprobe_profile' entry
+> Side note: we have a couple of cases where I don't think we should use
+> the "sync" version at all.
+>=20
+> Both pipe_read() and pipe_write() have that
+>=20
+>         if (do_wakeup) {
+>                 wake_up_interruptible_sync_poll(&pipe->wait, ...
+>=20
+> code at the end, outside the loop. But those two wake-ups aren't
+> actually synchronous.
 
+Changing those to non-sync:
 
- -dann
+BENCHMARK       BEST            TOTAL BYTES     AVG BYTES       STDDEV
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+pipe                  305816126     36255936983       302132808         888=
+0788
+splice                282402106     27102249370       225852078       21003=
+3443
+vmsplice              440022611     48896995196       407474959        5990=
+6438
+
+Changing the others in pipe_read() and pipe_write() too:
+
+pipe                  305609682     36285967942       302383066         741=
+5744
+splice                282475690     27891475073       232428958       20168=
+7522
+vmsplice              451458280     51949421503       432911845        3492=
+5242
+
+The cumulative patch is attached below.  I'm not sure how well this should
+make a difference with my benchmark programs since each thread can run on i=
+ts
+own CPU.
+
+David
+---
+diff --git a/fs/pipe.c b/fs/pipe.c
+index 9cd5cbef9552..c5e3765465f0 100644
+--- a/fs/pipe.c
++++ b/fs/pipe.c
+@@ -332,7 +332,7 @@ pipe_read(struct kiocb *iocb, struct iov_iter *to)
+ =09=09=09=09do_wakeup =3D 1;
+ =09=09=09=09wake =3D head - (tail - 1) =3D=3D pipe->max_usage / 2;
+ =09=09=09=09if (wake)
+-=09=09=09=09=09wake_up_interruptible_sync_poll_locked(
++=09=09=09=09=09wake_up_locked_poll(
+ =09=09=09=09=09=09&pipe->wait, EPOLLOUT | EPOLLWRNORM);
+ =09=09=09=09spin_unlock_irq(&pipe->wait.lock);
+ =09=09=09=09if (wake)
+@@ -371,7 +371,7 @@ pipe_read(struct kiocb *iocb, struct iov_iter *to)
+=20
+ =09/* Signal writers asynchronously that there is more room. */
+ =09if (do_wakeup) {
+-=09=09wake_up_interruptible_sync_poll(&pipe->wait, EPOLLOUT | EPOLLWRNORM)=
+;
++=09=09wake_up_interruptible_poll(&pipe->wait, EPOLLOUT | EPOLLWRNORM);
+ =09=09kill_fasync(&pipe->fasync_writers, SIGIO, POLL_OUT);
+ =09}
+ =09if (ret > 0)
+@@ -477,7 +477,7 @@ pipe_write(struct kiocb *iocb, struct iov_iter *from)
+ =09=09=09 * syscall merging.
+ =09=09=09 * FIXME! Is this really true?
+ =09=09=09 */
+-=09=09=09wake_up_interruptible_sync_poll_locked(
++=09=09=09wake_up_locked_poll(
+ =09=09=09=09&pipe->wait, EPOLLIN | EPOLLRDNORM);
+=20
+ =09=09=09spin_unlock_irq(&pipe->wait.lock);
+@@ -531,7 +531,7 @@ pipe_write(struct kiocb *iocb, struct iov_iter *from)
+ out:
+ =09__pipe_unlock(pipe);
+ =09if (do_wakeup) {
+-=09=09wake_up_interruptible_sync_poll(&pipe->wait, EPOLLIN | EPOLLRDNORM);
++=09=09wake_up_interruptible_poll(&pipe->wait, EPOLLIN | EPOLLRDNORM);
+ =09=09kill_fasync(&pipe->fasync_readers, SIGIO, POLL_IN);
+ =09}
+ =09if (ret > 0 && sb_start_write_trylock(file_inode(filp)->i_sb)) {
+
