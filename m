@@ -2,176 +2,76 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 27681EC4DE
-	for <lists+linux-api@lfdr.de>; Fri,  1 Nov 2019 15:40:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CDF4EC519
+	for <lists+linux-api@lfdr.de>; Fri,  1 Nov 2019 15:53:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727012AbfKAOk0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 1 Nov 2019 10:40:26 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:59211 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726840AbfKAOk0 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 1 Nov 2019 10:40:26 -0400
-Received: from [91.217.168.176] (helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1iQY6B-00083i-4c; Fri, 01 Nov 2019 14:40:23 +0000
-Date:   Fri, 1 Nov 2019 15:40:22 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Oleg Nesterov <oleg@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, Florian Weimer <fweimer@redhat.com>,
-        GNU C Library <libc-alpha@sourceware.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>,
-        David Howells <dhowells@redhat.com>,
-        Ingo Molnar <mingo@redhat.com>,
+        id S1727492AbfKAOxd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 1 Nov 2019 10:53:33 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:55013 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727313AbfKAOxd (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 1 Nov 2019 10:53:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1572620012;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=4MrbBDQoC+y5mHa+x24tjKMzrIZqDb3nq3UowOz4YuY=;
+        b=f1rigfPGvTB/H5OhVEpDcYnjXRTVvHpmdODmqZmpitWDVFrlTfMmbN/5TjtGlIR6AjZ2hA
+        skc5QuBqRyut7uUj0laj1LxPrGsM7Se4L/dOcL7zroerH5slpEVz434+jA5/wyEKtF0HuY
+        ns0fYH9VIbeKtnAMX0lwLDUcByGLYF0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-343-hHyjRC-_MMioG67u4CEa_w-1; Fri, 01 Nov 2019 10:53:28 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9BED01800D67;
+        Fri,  1 Nov 2019 14:53:26 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-121-40.rdu2.redhat.com [10.10.121.40])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6466F26DEA;
+        Fri,  1 Nov 2019 14:53:21 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <CAOi1vP9GAmy5NXJisrDssspoRcc+UHum+cyBsJTMNTjz_jieoQ@mail.gmail.com>
+References: <CAOi1vP9GAmy5NXJisrDssspoRcc+UHum+cyBsJTMNTjz_jieoQ@mail.gmail.com> <157186182463.3995.13922458878706311997.stgit@warthog.procyon.org.uk> <157186186167.3995.7568100174393739543.stgit@warthog.procyon.org.uk> <CAOi1vP97DMX8zweOLfBDOFstrjC78=6RgxK3PPj_mehCOSeoaw@mail.gmail.com> <4892d186-8eb0-a282-e7e6-e79958431a54@rasmusvillemoes.dk> <16620.1572534687@warthog.procyon.org.uk>
+To:     Ilya Dryomov <idryomov@gmail.com>
+Cc:     dhowells@redhat.com, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Peter Zijlstra <peterz@infradead.org>,
-        linux-api@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] clone3: validate stack arguments
-Message-ID: <20191101144021.p6dh7utlvqecuhua@wittgenstein>
-References: <20191031113608.20713-1-christian.brauner@ubuntu.com>
- <20191031164653.GA24629@redhat.com>
- <20191101110639.icbfihw3fk2nzz4o@wittgenstein>
- <20191101123257.GA508@redhat.com>
+        nicolas.dichtel@6wind.com, raven@themaw.net,
+        Christian Brauner <christian@brauner.io>,
+        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-block <linux-block@vger.kernel.org>,
+        linux-security-module@vger.kernel.org,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-api@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC PATCH 04/10] pipe: Use head and tail pointers for the ring, not cursor and length [ver #2]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20191101123257.GA508@redhat.com>
-User-Agent: NeoMutt/20180716
+Content-ID: <23657.1572620001.1@warthog.procyon.org.uk>
+Date:   Fri, 01 Nov 2019 14:53:21 +0000
+Message-ID: <23658.1572620001@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: hHyjRC-_MMioG67u4CEa_w-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Nov 01, 2019 at 01:32:57PM +0100, Oleg Nesterov wrote:
-> On 11/01, Christian Brauner wrote:
-> >
-> > On Thu, Oct 31, 2019 at 05:46:53PM +0100, Oleg Nesterov wrote:
-> > > On 10/31, Christian Brauner wrote:
-> > > >
-> > > > --- a/include/uapi/linux/sched.h
-> > > > +++ b/include/uapi/linux/sched.h
-> > > > @@ -51,6 +51,10 @@
-> > > >   *               sent when the child exits.
-> > > >   * @stack:       Specify the location of the stack for the
-> > > >   *               child process.
-> > > > + *               Note, @stack is expected to point to the
-> > > > + *               lowest address. The stack direction will be
-> > > > + *               determined by the kernel and set up
-> > > > + *               appropriately based on @stack_size.
-> > >
-> > > I can't review this patch, I have no idea what does stack_size mean
-> > > if !arch/x86.
-> >
-> > In short: nothing at all if it weren't for ia64 (and maybe parisc).
-> > But let me provide some (hopefully useful) context.
-> 
-> Thanks...
-> 
-> > (Probably most of
-> > that is well-know,
-> 
-> Certainly not to me ;) Thanks.
-> 
-> > > > +static inline bool clone3_stack_valid(struct kernel_clone_args *kargs)
-> > > > +{
-> > > > +	if (kargs->stack == 0) {
-> > > > +		if (kargs->stack_size > 0)
-> > > > +			return false;
-> > > > +	} else {
-> > > > +		if (kargs->stack_size == 0)
-> > > > +			return false;
-> > >
-> > > So to implement clone3_wrapper(void *bottom_of_stack) you need to do
-> > >
-> > > 	clone3_wrapper(void *bottom_of_stack)
-> > > 	{
-> > > 		struct clone_args args = {
-> > > 			...
-> > > 			// make clone3_stack_valid() happy
-> > > 			.stack = bottom_of_stack - 1,
-> > > 			.stack_size = 1,
-> > > 		};
-> > > 	}
-> > >
-> > > looks a bit strange. OK, I agree, this example is very artificial.
-> > > But why do you think clone3() should nack stack_size == 0 ?
-> >
-> > In short, consistency.
-> 
-> And in my opinion this stack_size == 0 check destroys the consistency,
-> see below.
-> 
-> But just in case, let me say that overall I personally like this change.
-> 
-> > The best thing imho, is to clearly communicate to userspace that stack
-> > needs to point to the lowest address and stack_size to the initial range
-> > of the stack pointer
-> 
-> Agreed.
-> 
-> But the kernel can't verify that "stack" actually points to the lowest
-> address and stack_size is actually the stack size. Consider another
-> artificial
+Ilya Dryomov <idryomov@gmail.com> wrote:
 
-Sure, but that's the similar to other structs that are passed via a
-pointer and come with a size. You could pass:
+> >  * This means there isn't a dead spot in the buffer, but the ring
+> >  * size has to be a power of two and <=3D 2^31.
 
-setxattr(..., ..., value - size, size, ...);
+I'll go with that, thanks.
 
-and the kernel would be confused as well.
+David
 
-> 
->     	clone3_wrapper(void *bottom_of_stack, unsigned long offs)
->     	{
->     		struct clone_args args = {
->     			...
->     			// make clone3_stack_valid() happy
->     			.stack = bottom_of_stack - offs,
->     			.stack_size = offs,
->     		};
->     		sys_clone3(args);
->     	}
-> 	
-> Now,
-> 
-> 	clone3_wrapper(bottom_of_stack, offs);
-> 
-> is same thing for _any_ offs except offs == 0 will fail. Why? To me this
-> is not consistent, I think the "stack_size == 0" check buys nothing and
-> only adds some confusion.
-
-I disagree. It's a very easy contract: pass a stack and a size or
-request copy-on-write by passing both as 0.
-Sure, you can flaunt that contract but that's true of every other
-pointer + size api. The point is: the api we endorse should be simple
-and stack + stack_size is very simple.
-
-> 
-> Say, stack_size == 1 is "obviously wrong" too, this certainly means that
-> "stack" doesn't point to the lowest address (or the child will corrupt the
-> memory), but it works.
-> 
-> OK, I won't insist. Perhaps it can help to detect the case when a user
-> forgets to pass the correct stack size.
-> 
-> > > > +		if (!access_ok((void __user *)kargs->stack, kargs->stack_size))
-> > > > +			return false;
-> > >
-> > > Why?
-> >
-> > It's nice of us to tell userspace _before_ we have created a thread that
-> > it messed up its parameters instead of starting a thread that then
-> > immediately crashes.
-> 
-> Heh. Then why this code doesn't verify that at least stack + stack_size is
-> properly mmaped with PROT_READ|WRITE?
-
-access_ok() is uncomplicated.
-The other check makes a lot more assumptions. Theare are users that might
-want to have a PROT_NONE part of their stack as their own "private"
-guard page (Jann just made that point) and there are other corner cases.
-
-Christian
