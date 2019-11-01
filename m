@@ -2,87 +2,81 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 59D3AECB21
-	for <lists+linux-api@lfdr.de>; Fri,  1 Nov 2019 23:13:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F3FA0ECB53
+	for <lists+linux-api@lfdr.de>; Fri,  1 Nov 2019 23:25:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728079AbfKAWMp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 1 Nov 2019 18:12:45 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:40499 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728085AbfKAWMo (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 1 Nov 2019 18:12:44 -0400
-Received: by mail-lj1-f196.google.com with SMTP id q2so5126612ljg.7
-        for <linux-api@vger.kernel.org>; Fri, 01 Nov 2019 15:12:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=sgYt+P3xDWHpqkCDVDLjgLKgMrsRwGebg6HQkCjAc5w=;
-        b=O3mYYvlU9vmiWCuVM7D5zeynWjET9sBTNe2UP3ZA3GeXbBriHFMqoPk2kJgyTgcAeI
-         BstBtBLU16kkJaWSMcP9+57VaYHHgUIqojJCqULremk/l27m2Dlyko2Sd9hhC3Y74UKd
-         ZPG4og+yRVtEHOd/O+5D/qMCxYtxUKUSxHi24=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=sgYt+P3xDWHpqkCDVDLjgLKgMrsRwGebg6HQkCjAc5w=;
-        b=aqxoX5Blq1k5TqN25tSciCJ7v7r3VhrZ54I4oO5OiNYUWL9Fw8yvOL1NHHb9tFXRuS
-         z0jhuTls6bWGf+V5uBtKUcz1toeqpWaINZ9kt8aVbUt6lzQgcvfe10gBQqynLa8I2FCa
-         4ChKJApjHe/KxFn0hOD+LMN+7jPt/17/KbpB0MxqhMhgJOpjZIwnE2M+ZfCFwZsPjat+
-         68azztnbZnT8pnAjQZriwjH0PST+bFtC/uoAJXKtBbIgldsSybhQsmynYShsg+bGS5Dd
-         0WmHGfMoaIY3At4SSDzjNmo19CRZ+P7z1KNzUm0FOgM3iPOmKRE12wJT/kDvGgbY3UEM
-         TNiA==
-X-Gm-Message-State: APjAAAX9yYYzJ+V/SSuJoj/e8Z4hlBzdBiQMcBp7D6PJpzLrN8zHCaJh
-        JIaPSZVu9TrkdsbivwIpjAazstBIau4=
-X-Google-Smtp-Source: APXvYqy0vKLU07+9g3xAq3TJVrwsXnTr/tgHx95+W7qLLFlBWO4fTiUejE8XOOvsdPbBGBpphKUBbA==
-X-Received: by 2002:a2e:a304:: with SMTP id l4mr718045lje.178.1572646361989;
-        Fri, 01 Nov 2019 15:12:41 -0700 (PDT)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com. [209.85.167.44])
-        by smtp.gmail.com with ESMTPSA id t8sm2555749lfl.51.2019.11.01.15.12.40
-        for <linux-api@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Nov 2019 15:12:40 -0700 (PDT)
-Received: by mail-lf1-f44.google.com with SMTP id f4so8245879lfk.7
-        for <linux-api@vger.kernel.org>; Fri, 01 Nov 2019 15:12:40 -0700 (PDT)
-X-Received: by 2002:a19:6f0e:: with SMTP id k14mr8678681lfc.79.1572646359613;
- Fri, 01 Nov 2019 15:12:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <157262963995.13142.5568934007158044624.stgit@warthog.procyon.org.uk>
- <CAHk-=wjqx4j2vqg-tAwthNP1gcAcj1x4B7sq6Npbi8QJTUMd-A@mail.gmail.com> <13964.1572645926@warthog.procyon.org.uk>
-In-Reply-To: <13964.1572645926@warthog.procyon.org.uk>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Fri, 1 Nov 2019 15:12:23 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wg_Fb-WdcD-cbJjwZaPCNK4WZ+Ak4KTSDhopD-_=+t=9Q@mail.gmail.com>
-Message-ID: <CAHk-=wg_Fb-WdcD-cbJjwZaPCNK4WZ+Ak4KTSDhopD-_=+t=9Q@mail.gmail.com>
-Subject: Re: [RFC PATCH 00/11] pipe: Notification queue preparation [ver #3]
-To:     David Howells <dhowells@redhat.com>
-Cc:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Nicolas Dichtel <nicolas.dichtel@6wind.com>, raven@themaw.net,
-        Christian Brauner <christian@brauner.io>,
-        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-block <linux-block@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        id S1726230AbfKAWZL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 1 Nov 2019 18:25:11 -0400
+Received: from smtprelay0201.hostedemail.com ([216.40.44.201]:56612 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725989AbfKAWZL (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 1 Nov 2019 18:25:11 -0400
+X-Greylist: delayed 601 seconds by postgrey-1.27 at vger.kernel.org; Fri, 01 Nov 2019 18:25:10 EDT
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
+        by smtpgrave06.hostedemail.com (Postfix) with ESMTP id 1E2EE8026C45;
+        Fri,  1 Nov 2019 22:15:10 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay08.hostedemail.com (Postfix) with ESMTP id 4774E182CED34;
+        Fri,  1 Nov 2019 22:15:08 +0000 (UTC)
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,rostedt@goodmis.org,:::::::::::::::::::,RULES_HIT:41:69:355:379:541:599:800:960:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:2393:2553:2559:2562:3138:3139:3140:3141:3142:3352:3622:3865:3866:3867:3870:3871:3872:3874:5007:6261:7875:10004:10400:10848:10967:11026:11232:11658:11914:12043:12296:12297:12438:12555:12663:12740:12760:12895:13069:13095:13143:13184:13229:13230:13311:13357:13439:13972:14180:14181:14659:14721:21080:21094:21323:21433:21451:21627:21740:30045:30054:30056:30090:30091,0,RBL:94.155.134.143:@goodmis.org:.lbl8.mailshell.net-62.8.41.100 64.201.201.201,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:fn,MSBL:0,DNSBL:neutral,Custom_rules:0:0:0,LFtime:24,LUA_SUMMARY:none
+X-HE-Tag: shade52_49a12faf12c2a
+X-Filterd-Recvd-Size: 2421
+Received: from grimm.local.home (unknown [94.155.134.143])
+        (Authenticated sender: rostedt@goodmis.org)
+        by omf19.hostedemail.com (Postfix) with ESMTPA;
+        Fri,  1 Nov 2019 22:15:05 +0000 (UTC)
+Date:   Fri, 1 Nov 2019 18:15:01 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     dann frazier <dann.frazier@canonical.com>
+Cc:     linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        Seth Forshee <seth.forshee@canonical.com>,
+        Matthew Garrett <matthewgarrett@google.com>,
+        James Morris <jmorris@namei.org>,
         Linux API <linux-api@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Ben Hutchings <ben@decadent.org.uk>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: tracefs splats in lockdown=confidentiality mode
+Message-ID: <20191101181501.4beff81b@grimm.local.home>
+In-Reply-To: <20191101210803.GA9841@xps13.dannf>
+References: <20191101210803.GA9841@xps13.dannf>
+X-Mailer: Claws Mail 3.17.4git49 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Nov 1, 2019 at 3:05 PM David Howells <dhowells@redhat.com> wrote:
->
-> Changing those to non-sync:
+On Fri, 1 Nov 2019 15:08:03 -0600
+dann frazier <dann.frazier@canonical.com> wrote:
 
-Your benchmark seems very insensitive to just about any changes.
+> hey,
+>   fyi, I'm seeing a bunch of errors from tracefs when booting 5.4-rc5 in
+> lockdown=confidentiality mode:
+> 
+> [    1.763630] Lockdown: swapper/0: use of tracefs is restricted; see man kernel_lockdown.7
+> [    1.772332] Could not create tracefs 'available_events' entry
+> [    1.778633] Lockdown: swapper/0: use of tracefs is restricted; see man kernel_lockdown.7
+> [    1.787095] Could not create tracefs 'set_event' entry
+> [    1.792412] Lockdown: swapper/0: use of tracefs is restricted; see man kernel_lockdown.7
+> (...)
+> [    2.899481] Could not create tracefs 'set_graph_notrace' entry
+> [    2.905671] Lockdown: swapper/0: use of tracefs is restricted; see man kernel_lockdown.7
+> [    2.913934] ------------[ cut here ]------------
+> [    2.918435] Could not register function stat for cpu 0
+> [    2.923717] WARNING: CPU: 1 PID: 1 at kernel/trace/ftrace.c:987 ftrace_init_tracefs_toplevel+0x168/0x1bc
+> [    2.933939] Modules linked in:
+> [    2.937290] CPU: 1 PID: 1 Comm: 
 
-I suspect it is because you only test throughput. Latency is what the
-pipe wakeup has been optimized for, and which tends to be much more
-sensitive to other changes too (eg locking).
+Looks to me that it's working as designed ;-)
 
-That said, I'm not convinced a latency test would show much either.
+I'm guessing we could quiet these warnings for boot up though. :-/
 
-               Linus
+But there should be at least one message that states that the tracefs
+files are not being created due to lockdown.
+
+-- Steve
