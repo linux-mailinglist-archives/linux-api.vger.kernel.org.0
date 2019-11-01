@@ -2,113 +2,167 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A9E8EBB8F
-	for <lists+linux-api@lfdr.de>; Fri,  1 Nov 2019 02:02:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DDD43EC18A
+	for <lists+linux-api@lfdr.de>; Fri,  1 Nov 2019 12:06:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728800AbfKABCl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 31 Oct 2019 21:02:41 -0400
-Received: from mail104.syd.optusnet.com.au ([211.29.132.246]:58477 "EHLO
-        mail104.syd.optusnet.com.au" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728793AbfKABCl (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 31 Oct 2019 21:02:41 -0400
-Received: from dimstar.local.net (n122-110-44-45.sun2.vic.optusnet.com.au [122.110.44.45])
-        by mail104.syd.optusnet.com.au (Postfix) with SMTP id 776E47E8C3F
-        for <linux-api@vger.kernel.org>; Fri,  1 Nov 2019 12:02:25 +1100 (AEDT)
-Received: (qmail 23327 invoked by uid 501); 1 Nov 2019 01:02:25 -0000
-Date:   Fri, 1 Nov 2019 12:02:25 +1100
-From:   Duncan Roe <duncan_roe@optusnet.com.au>
-To:     Steve Grubb <sgrubb@redhat.com>
-Cc:     Richard Guy Briggs <rgb@redhat.com>,
-        Paul Moore <paul@paul-moore.com>,
-        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
-        Linux-Audit Mailing List <linux-audit@redhat.com>,
-        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
-        omosnace@redhat.com, dhowells@redhat.com, simo@redhat.com,
-        Eric Paris <eparis@parisplace.org>,
-        Serge Hallyn <serge@hallyn.com>, ebiederm@xmission.com,
-        nhorman@tuxdriver.com, Dan Walsh <dwalsh@redhat.com>,
-        mpatel@redhat.com
-Subject: Re: [PATCH ghak90 V7 20/21] audit: add capcontid to set contid
- outside init_user_ns
-Message-ID: <20191101010225.GC18955@dimstar.local.net>
-Mail-Followup-To: Steve Grubb <sgrubb@redhat.com>,
-        Richard Guy Briggs <rgb@redhat.com>,
-        Paul Moore <paul@paul-moore.com>,
-        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
-        Linux-Audit Mailing List <linux-audit@redhat.com>,
-        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
-        omosnace@redhat.com, dhowells@redhat.com, simo@redhat.com,
-        Eric Paris <eparis@parisplace.org>, Serge Hallyn <serge@hallyn.com>,
-        ebiederm@xmission.com, nhorman@tuxdriver.com,
-        Dan Walsh <dwalsh@redhat.com>, mpatel@redhat.com
-References: <cover.1568834524.git.rgb@redhat.com>
- <CAHC9VhRDoX9du4XbCnBtBzsNPMGOsb-TKM1CC+sCL7HP=FuTRQ@mail.gmail.com>
- <20191030220320.tnwkaj5gbzchcn7j@madcap2.tricolour.ca>
- <3677995.NTHC7m0fHc@x2>
+        id S1730250AbfKALGo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 1 Nov 2019 07:06:44 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:54392 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727561AbfKALGn (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 1 Nov 2019 07:06:43 -0400
+Received: from [91.217.168.176] (helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1iQUlN-0007Zu-7r; Fri, 01 Nov 2019 11:06:41 +0000
+Date:   Fri, 1 Nov 2019 12:06:40 +0100
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Oleg Nesterov <oleg@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, Florian Weimer <fweimer@redhat.com>,
+        GNU C Library <libc-alpha@sourceware.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>,
+        David Howells <dhowells@redhat.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        linux-api@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] clone3: validate stack arguments
+Message-ID: <20191101110639.icbfihw3fk2nzz4o@wittgenstein>
+References: <20191031113608.20713-1-christian.brauner@ubuntu.com>
+ <20191031164653.GA24629@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <3677995.NTHC7m0fHc@x2>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Optus-CM-Score: 0
-X-Optus-CM-Analysis: v=2.2 cv=G6BsK5s5 c=1 sm=1 tr=0
-        a=4DzML1vCOQ6Odsy8BUtSXQ==:117 a=4DzML1vCOQ6Odsy8BUtSXQ==:17
-        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=MeAgGD-zjQ4A:10
-        a=wokOCyRbhw6_iYDWPRUA:9 a=CjuIK1q_8ugA:10
+In-Reply-To: <20191031164653.GA24629@redhat.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Oct 31, 2019 at 10:50:57AM -0400, Steve Grubb wrote:
-> Hello,
->
-> TLDR;  I see a lot of benefit to switching away from procfs for setting auid &
-> sessionid.
->
-> On Wednesday, October 30, 2019 6:03:20 PM EDT Richard Guy Briggs wrote:
-> > > Also, for the record, removing the audit loginuid from procfs is not
-> > > something to take lightly, if at all; like it or not, it's part of the
-> > > kernel API.
->
-> It can also be used by tools to iterate processes related to one user or
-> session. I use this in my Intrusion Prevention System which will land in
-> audit user space at some point in the future.
->
->
-> > Oh, I'm quite aware of how important this change is and it was discussed
-> > with Steve Grubb who saw the concern and value of considering such a
-> > disruptive change.
->
-> Actually, I advocated for syscall. I think the gist of Eric's idea was that /
-> proc is the intersection of many nasty problems. By relying on it, you can't
-> simplify the API to reduce the complexity. Almost no program actually needs
-                                             ^^^^^^ ^^ ^^^^^^^ ^^^^^^^^ ^^^^^
-> access to /proc. ps does. But almost everything else is happy without it. For
-> ^^^^^^ ^^ ^^^^^^ ^^ ^^^^^
+On Thu, Oct 31, 2019 at 05:46:53PM +0100, Oleg Nesterov wrote:
+> On 10/31, Christian Brauner wrote:
+> >
+> > --- a/include/uapi/linux/sched.h
+> > +++ b/include/uapi/linux/sched.h
+> > @@ -51,6 +51,10 @@
+> >   *               sent when the child exits.
+> >   * @stack:       Specify the location of the stack for the
+> >   *               child process.
+> > + *               Note, @stack is expected to point to the
+> > + *               lowest address. The stack direction will be
+> > + *               determined by the kernel and set up
+> > + *               appropriately based on @stack_size.
+> 
+> I can't review this patch, I have no idea what does stack_size mean
+> if !arch/x86.
 
-Eh?? *top* needs /proc/ps, as do most of the programs in package procps-ng.
-Then there's lsof, pgrep (which doesn't fail but can't find anything) and even
-lilo (for Slackware ;)
+In short: nothing at all if it weren't for ia64 (and maybe parisc).
+But let me provide some (hopefully useful) context. (Probably most of
+that is well-know, so sorry for superflous info. :))
 
-> example, when you setup chroot jails, you may have to add /dev/random or /
-> dev/null, but almost never /proc. What does force you to add /proc is any
-> entry point daemon like sshd because it needs to set the loginuid. If we
-> switch away from /proc, then sshd or crond will no longer /require/ procfs to
-> be available which again simplifies the system design.
->
->
-> > Removing proc support for auid/ses would be a
-> > long-term deprecation if accepted.
->
-> It might need to just be turned into readonly for a while. But then again,
-> perhaps auid and session should be part of /proc/<pid>/status? Maybe this can
-> be done independently and ahead of the container work so there is a migration
-> path for things that read auid or session. TBH, maybe this should have been
-> done from the beginning.
->
-> -Steve
->
-Cheers ... Duncan.
+The stack and stack_size argument are used in copy_thread_tls() and in
+copy_thread(). What the arch will end up calling depends on
+CONFIG_HAVE_COPY_THREAD. Afaict, mips, powerpc, s390, and x86
+call copy_thread_tls(). The other arches call copy_thread().
+On all arches _except_ IA64 copy_thread{_tls}() just assigns "stack" to
+the right register and is done with it.
+On all arches _except_ parisc "stack" needs to point to the highest
+address. On parisc it needs to point to the lowest
+(CONFIG_STACK_GROWSUP).
+IA64 has a downwards growing stack like all the other architectures but
+it expects "stack" to poin to the _lowest_ address nonetheless. In
+contrast to all the other arches it does:
+
+	child_ptregs->r12 = user_stack_base + user_stack_size - 16;
+
+so ia64 sets up the stack pointer itself.
+
+So now we have:
+ parisc ->   upwards growing stack, stack_size _unused_ for user stacks
+!parisc -> downwards growing stack, stack_size _unused_ for user stacks
+   ia64 -> downwards growing stack, stack_size   _used_ for user stacks
+
+Now it gets more confusing since the clone() syscall layout is arch
+dependent as well. Let's ignore the case of arches that have a clone
+syscall version with switched flags and stack argument and only focus on
+arches with an _additional_ stack_size argument:
+
+microblaze -> clone(stack, stack_size)
+
+Then there's clone2() for ia64 which is a _separate_ syscall with an
+additional stack_size argument:
+
+ia64       -> clone2(stack, stack_size)
+
+Now, contrary to what you'd expect, microblaze ignores the stack_size
+argument.
+
+So the stack_size argument _would_ be completely meaningless if it
+weren't for ia64 and parisc.
+
+> 
+> x86 doesn't use stack_size unless a kthread does kernel_thread(), so
+> this change is probably fine...
+> 
+> Hmm. Off-topic question, why did 7f192e3cd3 ("fork: add clone3") add
+> "& ~CSIGNAL" in kernel_thread() ? This looks pointless and confusing
+> to me...
+
+(Can we discuss this over a patch that removes this restriction if we
+think this is pointless?)
+
+> 
+> > +static inline bool clone3_stack_valid(struct kernel_clone_args *kargs)
+> > +{
+> > +	if (kargs->stack == 0) {
+> > +		if (kargs->stack_size > 0)
+> > +			return false;
+> > +	} else {
+> > +		if (kargs->stack_size == 0)
+> > +			return false;
+> 
+> So to implement clone3_wrapper(void *bottom_of_stack) you need to do
+> 
+> 	clone3_wrapper(void *bottom_of_stack)
+> 	{
+> 		struct clone_args args = {
+> 			...
+> 			// make clone3_stack_valid() happy
+> 			.stack = bottom_of_stack - 1,
+> 			.stack_size = 1,
+> 		};
+> 	}
+> 
+> looks a bit strange. OK, I agree, this example is very artificial.
+> But why do you think clone3() should nack stack_size == 0 ?
+
+In short, consistency.
+I think prior clone() versions (on accident) have exposed the stack
+direction as an implementation detail to userspace. Userspace clone()
+code wrapping code is _wild_ and buggy partially because of that.
+
+The best thing imho, is to clearly communicate to userspace that stack
+needs to point to the lowest address and stack_size to the initial range
+of the stack pointer or both are 0.
+
+The alternative is to let userspace either give us a stack pointer that
+we expect to be setup correctly by userspace or a stack pointer to the
+lowest address and a stack_size argument. That's just an invitation for
+more confusion and we have proof with legacy clone that this is not a
+good idea.
+
+> 
+> > +		if (!access_ok((void __user *)kargs->stack, kargs->stack_size))
+> > +			return false;
+> 
+> Why?
+
+It's nice of us to tell userspace _before_ we have created a thread that
+it messed up its parameters instead of starting a thread that then
+immediately crashes.
+
+Christian
