@@ -2,41 +2,42 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 756BEEC7A5
-	for <lists+linux-api@lfdr.de>; Fri,  1 Nov 2019 18:34:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E5AD6EC7B1
+	for <lists+linux-api@lfdr.de>; Fri,  1 Nov 2019 18:34:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729449AbfKAReS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 1 Nov 2019 13:34:18 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:59410 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729516AbfKAReR (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 1 Nov 2019 13:34:17 -0400
+        id S1729607AbfKARee (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 1 Nov 2019 13:34:34 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48136 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1729573AbfKARed (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 1 Nov 2019 13:34:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1572629656;
+        s=mimecast20190719; t=1572629671;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=1ofVwMOE/ATx0q/xqI7IgeNPgnC6+tkVYzw7GkmuoBw=;
-        b=eaPJmRVgqfpFG6dsncuWsa2geQZ9J9O38g1pUi8k06PvJnyM872KZfvQLAdXUx+4eUiRQY
-        HboFTNqHpY86jPHzj1n6q9S/hdoUaRgSDlk+UQA+j6dXo6qHLUi0euhBZ+pm6WVVZkHDNo
-        wlq//XXK147m6/VbYhJgJ3kVeGIDVB4=
+        bh=OLwH1xhZtcs6oehBhP4aFawQY9wwncddHsWF2TUeyN4=;
+        b=EEzFw/UqZ/rbuPTgxGLi7yLkEJLqZrWTak0Pej3M09dodsIG5sy7H6VWF29Uh1+ywpaot0
+        gh+lw/DvJTf+H7mav5KkgXSne1R4UptLuHIfXXMptF+tWwBZukJTB98qzbD7MjrmYIaqs3
+        5yDfOpEX8pE/76rsmWguKsWuaNXLHCQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-251-p20JZCVjPPSL27BybuU1jg-1; Fri, 01 Nov 2019 13:34:14 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+ us-mta-157-bpXnJyK9PXO9uxLy8SjMgQ-1; Fri, 01 Nov 2019 13:34:23 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA84C800D49;
-        Fri,  1 Nov 2019 17:34:12 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 512BB1800D7D;
+        Fri,  1 Nov 2019 17:34:21 +0000 (UTC)
 Received: from warthog.procyon.org.uk (ovpn-121-40.rdu2.redhat.com [10.10.121.40])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id BD54F5C290;
-        Fri,  1 Nov 2019 17:34:09 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id AA7C360BEC;
+        Fri,  1 Nov 2019 17:34:18 +0000 (UTC)
 Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
  Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
  Kingdom.
  Registered in England and Wales under Company Registration No. 3798903
-Subject: [RFC PATCH 01/11] pipe: Reduce #inclusion of pipe_fs_i.h [ver #3]
+Subject: [RFC PATCH 02/11] Remove the nr_exclusive argument from
+ __wake_up_sync_key() [ver #3]
 From:   David Howells <dhowells@redhat.com>
 To:     torvalds@linux-foundation.org
 Cc:     dhowells@redhat.com, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
@@ -48,14 +49,14 @@ Cc:     dhowells@redhat.com, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         linux-block@vger.kernel.org, linux-security-module@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
         linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Fri, 01 Nov 2019 17:34:09 +0000
-Message-ID: <157262964898.13142.10761929870592354381.stgit@warthog.procyon.org.uk>
+Date:   Fri, 01 Nov 2019 17:34:18 +0000
+Message-ID: <157262965796.13142.7304635748939123321.stgit@warthog.procyon.org.uk>
 In-Reply-To: <157262963995.13142.5568934007158044624.stgit@warthog.procyon.org.uk>
 References: <157262963995.13142.5568934007158044624.stgit@warthog.procyon.org.uk>
 User-Agent: StGit/unknown-version
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: p20JZCVjPPSL27BybuU1jg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: bpXnJyK9PXO9uxLy8SjMgQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
@@ -64,51 +65,123 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Remove some #inclusions of linux/pipe_fs_i.h that don't seem to be
-necessary any more.
+Remove the nr_exclusive argument from __wake_up_sync_key() and derived
+functions as everything seems to set it to 1.  Note also that if it wasn't
+set to 1, it would clear WF_SYNC anyway.
 
 Signed-off-by: David Howells <dhowells@redhat.com>
+Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 ---
 
- fs/exec.c                  |    1 -
- fs/ocfs2/aops.c            |    1 -
- security/smack/smack_lsm.c |    1 -
- 3 files changed, 3 deletions(-)
+ include/linux/wait.h |    8 ++++----
+ kernel/exit.c        |    2 +-
+ kernel/sched/wait.c  |   14 ++++----------
+ 3 files changed, 9 insertions(+), 15 deletions(-)
 
-diff --git a/fs/exec.c b/fs/exec.c
-index 555e93c7dec8..57bc7ef8d31b 100644
---- a/fs/exec.c
-+++ b/fs/exec.c
-@@ -59,7 +59,6 @@
- #include <linux/kmod.h>
- #include <linux/fsnotify.h>
- #include <linux/fs_struct.h>
--#include <linux/pipe_fs_i.h>
- #include <linux/oom.h>
- #include <linux/compat.h>
- #include <linux/vmalloc.h>
-diff --git a/fs/ocfs2/aops.c b/fs/ocfs2/aops.c
-index 8de1c9d644f6..c50ac6b7415b 100644
---- a/fs/ocfs2/aops.c
-+++ b/fs/ocfs2/aops.c
-@@ -11,7 +11,6 @@
- #include <linux/pagemap.h>
- #include <asm/byteorder.h>
- #include <linux/swap.h>
--#include <linux/pipe_fs_i.h>
- #include <linux/mpage.h>
- #include <linux/quotaops.h>
- #include <linux/blkdev.h>
-diff --git a/security/smack/smack_lsm.c b/security/smack/smack_lsm.c
-index abeb09c30633..ecea41ce919b 100644
---- a/security/smack/smack_lsm.c
-+++ b/security/smack/smack_lsm.c
-@@ -28,7 +28,6 @@
- #include <linux/icmpv6.h>
- #include <linux/slab.h>
- #include <linux/mutex.h>
--#include <linux/pipe_fs_i.h>
- #include <net/cipso_ipv4.h>
- #include <net/ip.h>
- #include <net/ipv6.h>
+diff --git a/include/linux/wait.h b/include/linux/wait.h
+index 3eb7cae8206c..bb7676d396cd 100644
+--- a/include/linux/wait.h
++++ b/include/linux/wait.h
+@@ -201,9 +201,9 @@ void __wake_up(struct wait_queue_head *wq_head, unsigne=
+d int mode, int nr, void
+ void __wake_up_locked_key(struct wait_queue_head *wq_head, unsigned int mo=
+de, void *key);
+ void __wake_up_locked_key_bookmark(struct wait_queue_head *wq_head,
+ =09=09unsigned int mode, void *key, wait_queue_entry_t *bookmark);
+-void __wake_up_sync_key(struct wait_queue_head *wq_head, unsigned int mode=
+, int nr, void *key);
++void __wake_up_sync_key(struct wait_queue_head *wq_head, unsigned int mode=
+, void *key);
+ void __wake_up_locked(struct wait_queue_head *wq_head, unsigned int mode, =
+int nr);
+-void __wake_up_sync(struct wait_queue_head *wq_head, unsigned int mode, in=
+t nr);
++void __wake_up_sync(struct wait_queue_head *wq_head, unsigned int mode);
+=20
+ #define wake_up(x)=09=09=09__wake_up(x, TASK_NORMAL, 1, NULL)
+ #define wake_up_nr(x, nr)=09=09__wake_up(x, TASK_NORMAL, nr, NULL)
+@@ -214,7 +214,7 @@ void __wake_up_sync(struct wait_queue_head *wq_head, un=
+signed int mode, int nr);
+ #define wake_up_interruptible(x)=09__wake_up(x, TASK_INTERRUPTIBLE, 1, NUL=
+L)
+ #define wake_up_interruptible_nr(x, nr)=09__wake_up(x, TASK_INTERRUPTIBLE,=
+ nr, NULL)
+ #define wake_up_interruptible_all(x)=09__wake_up(x, TASK_INTERRUPTIBLE, 0,=
+ NULL)
+-#define wake_up_interruptible_sync(x)=09__wake_up_sync((x), TASK_INTERRUPT=
+IBLE, 1)
++#define wake_up_interruptible_sync(x)=09__wake_up_sync((x), TASK_INTERRUPT=
+IBLE)
+=20
+ /*
+  * Wakeup macros to be used to report events to the targets.
+@@ -228,7 +228,7 @@ void __wake_up_sync(struct wait_queue_head *wq_head, un=
+signed int mode, int nr);
+ #define wake_up_interruptible_poll(x, m)=09=09=09=09=09\
+ =09__wake_up(x, TASK_INTERRUPTIBLE, 1, poll_to_key(m))
+ #define wake_up_interruptible_sync_poll(x, m)=09=09=09=09=09\
+-=09__wake_up_sync_key((x), TASK_INTERRUPTIBLE, 1, poll_to_key(m))
++=09__wake_up_sync_key((x), TASK_INTERRUPTIBLE, poll_to_key(m))
+=20
+ #define ___wait_cond_timeout(condition)=09=09=09=09=09=09\
+ ({=09=09=09=09=09=09=09=09=09=09\
+diff --git a/kernel/exit.c b/kernel/exit.c
+index a46a50d67002..a1ff25ef050e 100644
+--- a/kernel/exit.c
++++ b/kernel/exit.c
+@@ -1435,7 +1435,7 @@ static int child_wait_callback(wait_queue_entry_t *wa=
+it, unsigned mode,
+ void __wake_up_parent(struct task_struct *p, struct task_struct *parent)
+ {
+ =09__wake_up_sync_key(&parent->signal->wait_chldexit,
+-=09=09=09=09TASK_INTERRUPTIBLE, 1, p);
++=09=09=09   TASK_INTERRUPTIBLE, p);
+ }
+=20
+ static long do_wait(struct wait_opts *wo)
+diff --git a/kernel/sched/wait.c b/kernel/sched/wait.c
+index c1e566a114ca..b4b52361dab7 100644
+--- a/kernel/sched/wait.c
++++ b/kernel/sched/wait.c
+@@ -169,7 +169,6 @@ EXPORT_SYMBOL_GPL(__wake_up_locked_key_bookmark);
+  * __wake_up_sync_key - wake up threads blocked on a waitqueue.
+  * @wq_head: the waitqueue
+  * @mode: which threads
+- * @nr_exclusive: how many wake-one or wake-many threads to wake up
+  * @key: opaque value to be passed to wakeup targets
+  *
+  * The sync wakeup differs that the waker knows that it will schedule
+@@ -183,26 +182,21 @@ EXPORT_SYMBOL_GPL(__wake_up_locked_key_bookmark);
+  * accessing the task state.
+  */
+ void __wake_up_sync_key(struct wait_queue_head *wq_head, unsigned int mode=
+,
+-=09=09=09int nr_exclusive, void *key)
++=09=09=09void *key)
+ {
+-=09int wake_flags =3D 1; /* XXX WF_SYNC */
+-
+ =09if (unlikely(!wq_head))
+ =09=09return;
+=20
+-=09if (unlikely(nr_exclusive !=3D 1))
+-=09=09wake_flags =3D 0;
+-
+-=09__wake_up_common_lock(wq_head, mode, nr_exclusive, wake_flags, key);
++=09__wake_up_common_lock(wq_head, mode, 1, WF_SYNC, key);
+ }
+ EXPORT_SYMBOL_GPL(__wake_up_sync_key);
+=20
+ /*
+  * __wake_up_sync - see __wake_up_sync_key()
+  */
+-void __wake_up_sync(struct wait_queue_head *wq_head, unsigned int mode, in=
+t nr_exclusive)
++void __wake_up_sync(struct wait_queue_head *wq_head, unsigned int mode)
+ {
+-=09__wake_up_sync_key(wq_head, mode, nr_exclusive, NULL);
++=09__wake_up_sync_key(wq_head, mode, NULL);
+ }
+ EXPORT_SYMBOL_GPL(__wake_up_sync);=09/* For internal use only */
+=20
 
