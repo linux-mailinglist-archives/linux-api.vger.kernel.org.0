@@ -2,60 +2,45 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 36FD3ED108
-	for <lists+linux-api@lfdr.de>; Sun,  3 Nov 2019 00:16:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 98ACFED103
+	for <lists+linux-api@lfdr.de>; Sun,  3 Nov 2019 00:15:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727263AbfKBXQQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 2 Nov 2019 19:16:16 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:45846 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726689AbfKBXQQ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 2 Nov 2019 19:16:16 -0400
-Received: by mail-lj1-f196.google.com with SMTP id n21so145098ljg.12
-        for <linux-api@vger.kernel.org>; Sat, 02 Nov 2019 16:16:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Uh8/ql1swcZ/RLJ8zkeObExj1w6DyGVNWtfZIlFMpeo=;
-        b=Vx52JGJ2fL2ca9BB2NXhwTThadLFJNdykQ5Qc2uEp2vn5uwNFrfyadC6EXLjhvKklV
-         KXMcjJQrv3h80vcy/cZZjfo/5qqKgj2fI2pWR4TA74i3RLzoy9MP14q5tRVf25F8gLLb
-         ceXpd5ICYbOD7PSidUN5wWZK5ccyx9qRkG23Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Uh8/ql1swcZ/RLJ8zkeObExj1w6DyGVNWtfZIlFMpeo=;
-        b=kNiyFozdNpcPp836EFUkt5xMiLQ5VVPeG3sRP9pCvDr3KDgqeldc4+OhrEUeJBc5/M
-         f5kyp+dixb/zT31SkU4QpvoXwhfc87OtG6OzTBKDRCdPZ7UWKYRuHjvQaDdZqu5y/ZdE
-         gzIFT3kxkCBs8H7TEtnE0TuotyTpcKdRu0yDa58rCU7r99pGuAjtqx2M+hQAvUTOFdng
-         x7iWuB+FSoF2fblhL24FgiD2B14cUz2vTmTDQYLPdrNIYuXjJKdWn8eX24RV+ZrVkp7p
-         B433CPHedSQo9WMynZH+wQIcBIswhbrEn+dnuZZ2xqIFSZdvvFdyYuIsyHDzs62ziSNZ
-         UhiQ==
-X-Gm-Message-State: APjAAAVj7X+LKGUTsgntBvhbAClW1Q+irOtu/SFsP/rhWcA2cqLeMCLb
-        ch8clAu2kbjEyqNNLEV4H/bGZBxO1kM=
-X-Google-Smtp-Source: APXvYqxlZw1rdi5vicrsu6okcCsdS5SUb/pT7L049tq4LZBQWPC13cVFS2csgdDmBriKDyBBrAa1Tw==
-X-Received: by 2002:a2e:8947:: with SMTP id b7mr12969879ljk.29.1572736573832;
-        Sat, 02 Nov 2019 16:16:13 -0700 (PDT)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com. [209.85.208.170])
-        by smtp.gmail.com with ESMTPSA id t17sm4254969ljg.88.2019.11.02.16.16.13
-        for <linux-api@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 02 Nov 2019 16:16:13 -0700 (PDT)
-Received: by mail-lj1-f170.google.com with SMTP id m9so13747261ljh.8
-        for <linux-api@vger.kernel.org>; Sat, 02 Nov 2019 16:16:13 -0700 (PDT)
-X-Received: by 2002:a2e:8919:: with SMTP id d25mr1543119lji.97.1572736211179;
- Sat, 02 Nov 2019 16:10:11 -0700 (PDT)
+        id S1727267AbfKBXPA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 2 Nov 2019 19:15:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42890 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727343AbfKBXPA (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Sat, 2 Nov 2019 19:15:00 -0400
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 95E4C21D80
+        for <linux-api@vger.kernel.org>; Sat,  2 Nov 2019 23:14:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1572736498;
+        bh=REB5//Mg+2UUv5NMyr1MVdv8ocwrgYZM1pxYX5vl4iA=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=M+eT3FUF2jmJ2jN5PXXRGK/Qoi8ZaXjyPmPt7vGC/lPRcyHAo5BCeJPPl7GT3D2vH
+         NREFz1CxaWKh03aYRPcbilVCC8pb01tix6xuZj4C6avNOQWC+IPC73Ws8tLGiGWf+O
+         me6ANt3XpP/7rESPToHqJsbo7vFYVaL+XK229Yrk=
+Received: by mail-wr1-f49.google.com with SMTP id s1so13146091wro.0
+        for <linux-api@vger.kernel.org>; Sat, 02 Nov 2019 16:14:58 -0700 (PDT)
+X-Gm-Message-State: APjAAAUNj7FDP8ykWFiPuhL+2bR/zSj/NBKZBqPBP4rFIk+R1Mp6f+Mo
+        7Twu6UkyKhtIQ0Is7VWof22gt5N02c1/RZgf2Vq0Vg==
+X-Google-Smtp-Source: APXvYqwiaT/TYsPpvX/nSDbageOpVx9vUfoOUY5rzyPCC92h+QcJ3qEjOCN+6nwzv7Sif3nKLVFkueWLU7OXFbCI5Iw=
+X-Received: by 2002:adf:f7d1:: with SMTP id a17mr16289603wrq.111.1572736496889;
+ Sat, 02 Nov 2019 16:14:56 -0700 (PDT)
 MIME-Version: 1.0
 References: <CAHk-=wj1BLz6s9cG9Ptk4ULxrTy=MkF7ZH=HF67d7M5HL1fd_A@mail.gmail.com>
  <E590C3AF-1D09-4927-B83F-DD0A6A148B6D@amacapital.net> <CAHk-=wgzRU9RjkZG0L9_yrnFN69REkrSokTQOGZMUkvdispvuQ@mail.gmail.com>
-In-Reply-To: <CAHk-=wgzRU9RjkZG0L9_yrnFN69REkrSokTQOGZMUkvdispvuQ@mail.gmail.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Sat, 2 Nov 2019 16:09:55 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgPQutQ8d8kUCvAFi+hfNWgaNLiZPkbg-GXY2DCtD-Z5Q@mail.gmail.com>
-Message-ID: <CAHk-=wgPQutQ8d8kUCvAFi+hfNWgaNLiZPkbg-GXY2DCtD-Z5Q@mail.gmail.com>
+ <CAHk-=wgPQutQ8d8kUCvAFi+hfNWgaNLiZPkbg-GXY2DCtD-Z5Q@mail.gmail.com>
+In-Reply-To: <CAHk-=wgPQutQ8d8kUCvAFi+hfNWgaNLiZPkbg-GXY2DCtD-Z5Q@mail.gmail.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Sat, 2 Nov 2019 16:14:45 -0700
+X-Gmail-Original-Message-ID: <CALCETrWZjW88OY2mh7v8cUU_6XTSJTkQhAfNbSC17AdhEWwVAA@mail.gmail.com>
+Message-ID: <CALCETrWZjW88OY2mh7v8cUU_6XTSJTkQhAfNbSC17AdhEWwVAA@mail.gmail.com>
 Subject: Re: [RFC PATCH 11/10] pipe: Add fsync() support [ver #2]
-To:     Andy Lutomirski <luto@amacapital.net>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
 Cc:     David Howells <dhowells@redhat.com>,
         Konstantin Khlebnikov <khlebnikov@yandex-team.ru>,
         Rasmus Villemoes <linux@rasmusvillemoes.dk>,
@@ -63,7 +48,7 @@ Cc:     David Howells <dhowells@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
         Nicolas Dichtel <nicolas.dichtel@6wind.com>, raven@themaw.net,
         Christian Brauner <christian@brauner.io>,
-        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
+        keyrings@vger.kernel.org, USB list <linux-usb@vger.kernel.org>,
         linux-block <linux-block@vger.kernel.org>,
         LSM List <linux-security-module@vger.kernel.org>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
@@ -75,34 +60,61 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Nov 2, 2019 at 4:02 PM Linus Torvalds
+On Sat, Nov 2, 2019 at 4:10 PM Linus Torvalds
 <torvalds@linux-foundation.org> wrote:
 >
-> But I don't think anybody actually _did_ any of that. But that's
-> basically the argument for the three splice operations:
-> write/vmsplice/splice(). Which one you use depends on the lifetime and
-> the source of your data. write() is obviously for the copy case (the
-> source data might not be stable), while splice() is for the "data from
-> another source", and vmsplace() is "data is from stable data in my
-> vm".
+> On Sat, Nov 2, 2019 at 4:02 PM Linus Torvalds
+> <torvalds@linux-foundation.org> wrote:
+> >
+> > But I don't think anybody actually _did_ any of that. But that's
+> > basically the argument for the three splice operations:
+> > write/vmsplice/splice(). Which one you use depends on the lifetime and
+> > the source of your data. write() is obviously for the copy case (the
+> > source data might not be stable), while splice() is for the "data from
+> > another source", and vmsplace() is "data is from stable data in my
+> > vm".
+>
+> Btw, it's really worth noting that "splice()" and friends are from a
+> more happy-go-lucky time when we were experimenting with new
+> interfaces, and in a day and age when people thought that interfaces
+> like "sendpage()" and zero-copy and playing games with the VM was a
+> great thing to do.
 
-Btw, it's really worth noting that "splice()" and friends are from a
-more happy-go-lucky time when we were experimenting with new
-interfaces, and in a day and age when people thought that interfaces
-like "sendpage()" and zero-copy and playing games with the VM was a
-great thing to do.
+I suppose a nicer interface might be:
 
-It turns out that VM games are almost always more expensive than just
-copying the data in the first place, but hey, people didn't know that,
-and zero-copy was seen a big deal.
 
-The reality is that almost nobody uses splice and vmsplice at all, and
-they have been a much bigger headache than they are worth. If I could
-go back in time and not do them, I would. But there have been a few
-very special uses that seem to actually like the interfaces.
+madvise(buf, len, MADV_STABILIZE);
 
-But it's entirely possible that we should kill vmsplice() (likely by
-just implementing the semantics as "write()") because it's not common
-enough to have the complexity.
+(MADV_STABILIZE is an imaginary operation that write protects the
+memory a la fork() but without the copying part.)
 
-             Linus
+vmsplice_safer(fd, ...);
+
+Where vmsplice_safer() is like vmsplice, except that it only works on
+write-protected pages.  If you vmsplice_safer() some memory and then
+write to the memory, the pipe keeps the old copy.
+
+But this can all be done with memfd and splice, too, I think.
+
+
+>
+> It turns out that VM games are almost always more expensive than just
+> copying the data in the first place, but hey, people didn't know that,
+> and zero-copy was seen a big deal.
+>
+> The reality is that almost nobody uses splice and vmsplice at all, and
+> they have been a much bigger headache than they are worth. If I could
+> go back in time and not do them, I would. But there have been a few
+> very special uses that seem to actually like the interfaces.
+>
+> But it's entirely possible that we should kill vmsplice() (likely by
+> just implementing the semantics as "write()") because it's not common
+> enough to have the complexity.
+
+I think this is the right choice.
+
+FWIW, the openssl vmsplice() call looks dubious, but I suspect it's
+okay because it's vmsplicing to a netlink socket, and the kernel code
+on the other end won't read the data after it returns a response.
+
+--Andy
