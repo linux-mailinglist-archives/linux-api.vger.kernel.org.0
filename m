@@ -2,19 +2,29 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2224DED69D
-	for <lists+linux-api@lfdr.de>; Mon,  4 Nov 2019 01:26:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DE2BED6A9
+	for <lists+linux-api@lfdr.de>; Mon,  4 Nov 2019 01:36:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727904AbfKDA04 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 3 Nov 2019 19:26:56 -0500
-Received: from git.icu ([163.172.180.134]:33480 "EHLO git.icu"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727689AbfKDA04 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Sun, 3 Nov 2019 19:26:56 -0500
-X-Greylist: delayed 401 seconds by postgrey-1.27 at vger.kernel.org; Sun, 03 Nov 2019 19:26:54 EST
-Received: from shawn-LENOVO-FLEX-5-1570.guest.marinet.local (unknown [209.129.65.42])
-        by git.icu (Postfix) with ESMTPSA id 35AB52202F1;
-        Mon,  4 Nov 2019 00:20:09 +0000 (UTC)
+        id S1728459AbfKDAgH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 3 Nov 2019 19:36:07 -0500
+Received: from forward102p.mail.yandex.net ([77.88.28.102]:58329 "EHLO
+        forward102p.mail.yandex.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728332AbfKDAgH (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 3 Nov 2019 19:36:07 -0500
+X-Greylist: delayed 400 seconds by postgrey-1.27 at vger.kernel.org; Sun, 03 Nov 2019 19:36:03 EST
+Received: from forward102q.mail.yandex.net (forward102q.mail.yandex.net [IPv6:2a02:6b8:c0e:1ba:0:640:516:4e7d])
+        by forward102p.mail.yandex.net (Yandex) with ESMTP id 9072A1D403A5;
+        Mon,  4 Nov 2019 03:29:21 +0300 (MSK)
+Received: from mxback7q.mail.yandex.net (mxback7q.mail.yandex.net [IPv6:2a02:6b8:c0e:41:0:640:cbbf:d618])
+        by forward102q.mail.yandex.net (Yandex) with ESMTP id 8ABE57F20016;
+        Mon,  4 Nov 2019 03:29:21 +0300 (MSK)
+Received: from vla5-b45cc32a2812.qloud-c.yandex.net (vla5-b45cc32a2812.qloud-c.yandex.net [2a02:6b8:c18:3508:0:640:b45c:c32a])
+        by mxback7q.mail.yandex.net (nwsmtp/Yandex) with ESMTP id l7kiDOWpcQ-TK0SVe2k;
+        Mon, 04 Nov 2019 03:29:21 +0300
+Received: by vla5-b45cc32a2812.qloud-c.yandex.net (nwsmtp/Yandex) with ESMTPSA id pMRSKH08I5-TFW46m78;
+        Mon, 04 Nov 2019 03:29:17 +0300
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (Client certificate not present)
 From:   Shawn Landden <shawn@git.icu>
 To:     Thomas Gleixner <tglx@linutronix.de>
 Cc:     libc-alpha@sourceware.org, linux-api@vger.kernel.org,
@@ -25,9 +35,9 @@ Cc:     libc-alpha@sourceware.org, linux-api@vger.kernel.org,
         Catalin Marinas <catalin.marinas@arm.com>,
         Shawn Landden <shawn@git.icu>,
         Keith Packard <keithp@keithp.com>
-Subject: [RFC PATCH] futex: extend set_robust_list to allow 2 locking ABIs at the same time.
-Date:   Sun,  3 Nov 2019 16:20:04 -0800
-Message-Id: <20191104002004.25038-1-shawn@git.icu>
+Subject: [RFC v2 PATCH] futex: extend set_robust_list to allow 2 locking ABIs at the same time.
+Date:   Sun,  3 Nov 2019 16:29:09 -0800
+Message-Id: <20191104002909.25783-1-shawn@git.icu>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -55,23 +65,22 @@ https://keithp.com/blogs/Shared_Memory_Fences/
 
 This can also be used to add a new ABI that uses smaller structs,
 as the existing ABI on x86_64 is a minimum of 32 bytes, and 20 bytes
-would suffice. (12 on 32-bit systems)
+would suffice.
 
-If you wants 3 ABIs (perhaps existing 32-bit, existing 64-bit, and
-small) then with this patch you are out of luck, as bit 0 is already
-taken to indicate PI locks.
+v2: fix size of compat_extended_robust_list_head
+    fix some issues with number literals being implicitly ints
 ---
- include/linux/compat.h     |   7 ++
+ include/linux/compat.h     |   5 +
  include/linux/sched.h      |   6 ++
  include/uapi/linux/futex.h |  31 +++++++
  kernel/futex.c             | 182 ++++++++++++++++++++++++-------------
- 4 files changed, 162 insertions(+), 64 deletions(-)
+ 4 files changed, 160 insertions(+), 64 deletions(-)
 
 diff --git a/include/linux/compat.h b/include/linux/compat.h
-index 16dafd9f4b86..4a9e6a1c2af0 100644
+index 16dafd9f4b86..00a0741bf658 100644
 --- a/include/linux/compat.h
 +++ b/include/linux/compat.h
-@@ -379,10 +379,17 @@ struct compat_robust_list_head {
+@@ -379,10 +379,15 @@ struct compat_robust_list_head {
  	struct compat_robust_list	list;
  	compat_long_t			futex_offset;
  	compat_uptr_t			list_op_pending;
@@ -80,8 +89,6 @@ index 16dafd9f4b86..4a9e6a1c2af0 100644
 +struct compat_extended_robust_list_head {
 +	struct compat_robust_list_head list_head;
 +	compat_long_t			futex_offset2;
-+	compat_long_t			futex_offset3;
-+	compat_long_t			futex_offset4;
 +};
 +
  #ifdef CONFIG_COMPAT_OLD_SIGACTION
@@ -157,7 +164,7 @@ index a89eb0accd5e..30c08e07f26b 100644
  #define FUTEX_WAITERS		0x80000000
  
 diff --git a/kernel/futex.c b/kernel/futex.c
-index 6d50728ef2e7..b63af0fcecfc 100644
+index 6d50728ef2e7..3a17d2d63178 100644
 --- a/kernel/futex.c
 +++ b/kernel/futex.c
 @@ -3396,17 +3396,20 @@ static int futex_wait_requeue_pi(u32 __user *uaddr, unsigned int flags,
@@ -176,7 +183,7 @@ index 6d50728ef2e7..b63af0fcecfc 100644
  		return -EINVAL;
  
 -	current->robust_list = head;
-+	current->robust_list = head & 0b11;
++	current->robust_list = head & 0b11UL;
 +	BUILD_BUG_ON(sizeof(struct robust_list_head) ==
 +		     sizeof(struct extended_robust_list_head));
 +	if (len == sizeof(struct robust_list_head))
@@ -205,7 +212,7 @@ index 6d50728ef2e7..b63af0fcecfc 100644
  		goto err_unlock;
  
 -	head = p->robust_list;
-+	head = p->robust_list & ~0b11;
++	head = p->robust_list & ~0b11UL;
 +	if (p->robust_list & 0b11 == 0b1)
 +		len = sizeof(struct robust_list_head);
 +	else
