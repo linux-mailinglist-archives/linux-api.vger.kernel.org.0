@@ -2,100 +2,98 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E2403F021C
-	for <lists+linux-api@lfdr.de>; Tue,  5 Nov 2019 17:03:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DEC97F0242
+	for <lists+linux-api@lfdr.de>; Tue,  5 Nov 2019 17:07:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390023AbfKEQDK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 5 Nov 2019 11:03:10 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:24425 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2390001AbfKEQDJ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 5 Nov 2019 11:03:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1572969788;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=pLj9LlV805f/L7J5FbyPXxXB07oTibsiCCSGb45ogQg=;
-        b=DAxnbXOel7GR/PEe2t6Mrv+03Xuzy/G2FGswsUfLa3WuDKMrcLU58JE3w5zv0Q9mvuNpPY
-        I1VMJVfrzlKq4LH4UyFmZKsbkrhlnt52r9X2+0oUwwfFrHC4TmVAq484vO9YuFSB3J2CDA
-        meGCgBaj17ZWJu0UuOPTyX1me2I6xBY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-350-9SUU8LceOXeOLaVGd4SGTA-1; Tue, 05 Nov 2019 11:03:06 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B43698017DD;
-        Tue,  5 Nov 2019 16:03:03 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-120-254.rdu2.redhat.com [10.10.120.254])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 980C81FA;
-        Tue,  5 Nov 2019 16:03:00 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <157262963995.13142.5568934007158044624.stgit@warthog.procyon.org.uk>
-References: <157262963995.13142.5568934007158044624.stgit@warthog.procyon.org.uk>
-To:     torvalds@linux-foundation.org, viro@zeniv.linux.org.uk
-Cc:     dhowells@redhat.com, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        nicolas.dichtel@6wind.com, raven@themaw.net,
-        Christian Brauner <christian@brauner.io>,
-        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-security-module@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Details on the UAPI of implementing notifications on pipes
+        id S2389571AbfKEQH3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 5 Nov 2019 11:07:29 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:45839 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389918AbfKEQH2 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 5 Nov 2019 11:07:28 -0500
+Received: by mail-lj1-f195.google.com with SMTP id n21so8869083ljg.12
+        for <linux-api@vger.kernel.org>; Tue, 05 Nov 2019 08:07:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=YLw5SYrodBEqy2waMxo41K2A0f7ArdzoSUTOLYie6s4=;
+        b=eri7qH+7uZFLsQ1nBXM7tctm6BOw+ve7hZW/6tQlf9hNm1WjWAPsqiY0Yhh6c8nJ3C
+         Xnn6dPx2b1yQNwdIRtZ0JNE5YnWD9wT4uWdQ88Alt8ix7dhCBHf1+3hKwuNpsBgC0NGc
+         ukdLhq7GYGzfbGDIUwM59OXJAAblz15nAU/hswHpLXqSIMcjqv2fwEBMUCFFkxQbTh6C
+         /Lu8vp0rEgL5fU8oJBcOT/dgw9PjRG+jLqHd2zO7jznoU26UzkHwv9gr6GQOjL28gyt7
+         uZ8vXn/mCyVxCwOnw56QpWCAoHsMV0n6qF29a/MAE/+msYFQNuy8S+uJKSCQHHYjv0EG
+         m2Xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=YLw5SYrodBEqy2waMxo41K2A0f7ArdzoSUTOLYie6s4=;
+        b=rozty4Fc1EzUmn8FBzN7p4PiRZVPUU2Zv6mOj2Mb75DqLQoA8pEcZTbNxuWODQkRKV
+         reHrwa4pzn3fZyjO4xcS64S6cAe3pqBhiZ6KQBuSmtvJtHxnj097LnDFoWgtPi9zc8Rk
+         vRj7bzPPX/AJlB52CGgbmvSW3vZQhImU4XyzXKV2n1YGH0eqDRA7ONjB4GnYCrp7RVOr
+         O0BE9C0Rg5T0NEnClGbAuFQPlrbO9zEBj64+nbRPGIG422986bjLflu3/c9FrRVBZyzb
+         LlaQugKlWTkcK2oyWkcfy8y0XLUZIwlFqYBR/T/IF9Y8eK8QrfPibp44OHOE+QS2XyaR
+         JGAA==
+X-Gm-Message-State: APjAAAWEaRXX2kGT5z2cDKPkxJdH2WzjI1m8K2RDFykLZsBrvLbalPmo
+        WGgmDpvvLt2ZgXtgazO7+/UmS6xGCd5+yD/oPzN8qQ==
+X-Google-Smtp-Source: APXvYqyfeC8M/8bOUxBWxwGOy++KCeRE1AqSp/eH8U72Cip1RCmkWIqkShJuw/Lzbce5kF+wF/uaswMUtDkVjGbpmA4=
+X-Received: by 2002:a2e:81c6:: with SMTP id s6mr1063081ljg.61.1572970045838;
+ Tue, 05 Nov 2019 08:07:25 -0800 (PST)
 MIME-Version: 1.0
-Content-ID: <18579.1572969779.1@warthog.procyon.org.uk>
-Date:   Tue, 05 Nov 2019 16:02:59 +0000
-Message-ID: <18580.1572969779@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: 9SUU8LceOXeOLaVGd4SGTA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+References: <1572967777-8812-1-git-send-email-rppt@linux.ibm.com>
+ <1572967777-8812-2-git-send-email-rppt@linux.ibm.com> <CAKOZuev93zDGNPX+ySg_jeUg4Z3zKMcpABekUQvHA01kTVn4=A@mail.gmail.com>
+ <CALCETrX=VmSjD6kLT6tuZQ4Efhc_13vZrw1mo4Z2iKqZTT-bzg@mail.gmail.com>
+In-Reply-To: <CALCETrX=VmSjD6kLT6tuZQ4Efhc_13vZrw1mo4Z2iKqZTT-bzg@mail.gmail.com>
+From:   Daniel Colascione <dancol@google.com>
+Date:   Tue, 5 Nov 2019 08:06:49 -0800
+Message-ID: <CAKOZuetu0QWUDAycTOFzC4HEbjH99EtOhb4gJnHAuovT_StpzA@mail.gmail.com>
+Subject: Re: [PATCH 1/1] userfaultfd: require CAP_SYS_PTRACE for UFFD_FEATURE_EVENT_FORK
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     Mike Rapoport <rppt@linux.ibm.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jann Horn <jannh@google.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Lokesh Gidra <lokeshgidra@google.com>,
+        Nick Kralevich <nnk@google.com>,
+        Nosh Minwalla <nosh@google.com>,
+        Pavel Emelyanov <ovzxemul@gmail.com>,
+        Tim Murray <timmurray@google.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-So to implement notifications on top of pipes, I've hacked it together a bi=
-t
-in the following ways:
+On Tue, Nov 5, 2019 at 8:00 AM Andy Lutomirski <luto@kernel.org> wrote:
+>
+> On Tue, Nov 5, 2019 at 7:55 AM Daniel Colascione <dancol@google.com> wrote:
+> >
+> > On Tue, Nov 5, 2019 at 7:29 AM Mike Rapoport <rppt@linux.ibm.com> wrote:
+> > >
+> > > Current implementation of UFFD_FEATURE_EVENT_FORK modifies the file
+> > > descriptor table from the read() implementation of uffd, which may have
+> > > security implications for unprivileged use of the userfaultfd.
+> > >
+> > > Limit availability of UFFD_FEATURE_EVENT_FORK only for callers that have
+> > > CAP_SYS_PTRACE.
+> >
+> > Thanks. But shouldn't we be doing the capability check at
+> > userfaultfd(2) time (when we do the other permission checks), not
+> > later, in the API ioctl?
+>
+> The ioctl seems reasonable to me.  In particular, if there is anyone
+> who creates a userfaultfd as root and then drop permissions, a later
+> ioctl could unexpectedly enable FORK.
 
- (1) I'm passing O_TMPFILE to the pipe2() system call to indicate that you
-     want a notifications pipe.  This prohibits splice and co. from being
-     called on it as I don't want to have to try to fix iov_iter_revert() t=
-o
-     handle kernel notifications being intermixed with splices.
-
-     The choice of O_TMPFILE was just for convenience, but it needs to be
-     something different.  I could, for instance, add a constant,
-     O_NOTIFICATION_PIPE with the same *value* as O_TMPFILE.  I don't think
-     it's likely that it will make sense to use O_TMPFILE with a pipe, but =
-I
-     also don't want to eat up another O_* constant just for this.
-
-     Unfortunately, pipe2() doesn't have any other arguments into from whic=
-h I
-     can steal a bit.
-
- (2) I've added a pair of ioctls to configure the notifications bits.  They=
-'re
-     ioctls as I just reused the ioctl code from my devmisc driver.  Should=
- I
-     use fcntl() instead, such as is done for F_SETPIPE_SZ?
-
-     The ioctls do two things: set the ring size to a number of slots (so
-     similarish to F_SETPIPE_SZ) and set filters.
-
-Any thoughts on how better to represent these bits?
-
-Thanks,
-David
-
+Sure, but the same argument applies to all the other permission checks
+that we do at open time, not at ioctl time. For better or for worse,
+the DAC-ish model used in most places is that access checks happen at
+file object creation time and anyone who has the FD can perform those
+operations later. Confusing the model by doing *some* permission
+checks at open time and *some* permission checks at usage time makes
+the system harder to understand.
