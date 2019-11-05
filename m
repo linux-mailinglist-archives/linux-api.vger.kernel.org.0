@@ -2,67 +2,131 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B1157F0054
-	for <lists+linux-api@lfdr.de>; Tue,  5 Nov 2019 15:53:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 085F6F015D
+	for <lists+linux-api@lfdr.de>; Tue,  5 Nov 2019 16:27:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729110AbfKEOxr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 5 Nov 2019 09:53:47 -0500
-Received: from Galois.linutronix.de ([193.142.43.55]:41600 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728180AbfKEOxr (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 5 Nov 2019 09:53:47 -0500
-Received: from [5.158.153.52] (helo=nanos.tec.linutronix.de)
-        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <tglx@linutronix.de>)
-        id 1iS0DH-00062U-Nf; Tue, 05 Nov 2019 15:53:43 +0100
-Date:   Tue, 5 Nov 2019 15:53:43 +0100 (CET)
-From:   Thomas Gleixner <tglx@linutronix.de>
-To:     Florian Weimer <fweimer@redhat.com>
-cc:     Carlos O'Donell <carlos@redhat.com>, Shawn Landden <shawn@git.icu>,
+        id S2389729AbfKEP1m (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 5 Nov 2019 10:27:42 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46227 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389722AbfKEP1m (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 5 Nov 2019 10:27:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1572967660;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=gvUBd68QYOf4zjMI6uQSjQ5CMU0M3270wf5ewDe4CGw=;
+        b=dCgHDm4IOxe7/9fsweCZ52menWoXSlKP02PxcXvwAdEo84VTm/CJG3hMuUZS9RWmpe2nRH
+        sgrce0oQdm5QBa5CKepfRNpexUR3GITvw6khgLCVuM9Euxtdfz64RnjMg2IrOdH71X3BTz
+        G7wYMKJnfm0hYWKcQQsJw8XnDXAwVVA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-14-dCJ-gZydN4yeQdyHHg-p0Q-1; Tue, 05 Nov 2019 10:27:33 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 124781005502;
+        Tue,  5 Nov 2019 15:27:32 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.43.17.44])
+        by smtp.corp.redhat.com (Postfix) with SMTP id 7B6543C1D;
+        Tue,  5 Nov 2019 15:27:29 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+        oleg@redhat.com; Tue,  5 Nov 2019 16:27:31 +0100 (CET)
+Date:   Tue, 5 Nov 2019 16:27:28 +0100
+From:   Oleg Nesterov <oleg@redhat.com>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     Florian Weimer <fweimer@redhat.com>, Shawn Landden <shawn@git.icu>,
         libc-alpha@sourceware.org, linux-api@vger.kernel.org,
         LKML <linux-kernel@vger.kernel.org>,
         Arnd Bergmann <arnd@arndb.de>,
         Deepa Dinamani <deepa.kernel@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Keith Packard <keithp@keithp.com>,
         Peter Zijlstra <peterz@infradead.org>
-Subject: Re: [RFC v2 PATCH] futex: extend set_robust_list to allow 2 locking
- ABIs at the same time.
-In-Reply-To: <87o8xqqty3.fsf@oldenburg2.str.redhat.com>
-Message-ID: <alpine.DEB.2.21.1911051550350.17054@nanos.tec.linutronix.de>
-References: <20191104002909.25783-1-shawn@git.icu> <87woceslfs.fsf@oldenburg2.str.redhat.com> <alpine.DEB.2.21.1911051053470.17054@nanos.tec.linutronix.de> <87sgn2skm6.fsf@oldenburg2.str.redhat.com> <alpine.DEB.2.21.1911051253430.17054@nanos.tec.linutronix.de>
- <f11d82f1-1e81-e344-3ad2-76e4cb488a3d@redhat.com> <87o8xqqty3.fsf@oldenburg2.str.redhat.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+Subject: handle_exit_race && PF_EXITING
+Message-ID: <20191105152728.GA5666@redhat.com>
+References: <20191104002909.25783-1-shawn@git.icu>
+ <87woceslfs.fsf@oldenburg2.str.redhat.com>
+ <alpine.DEB.2.21.1911051053470.17054@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <alpine.DEB.2.21.1911051053470.17054@nanos.tec.linutronix.de>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: dCJ-gZydN4yeQdyHHg-p0Q-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, 5 Nov 2019, Florian Weimer wrote:
-> * Carlos O'Donell:
-> > "Robust mutexes do not take ROBUST_LIST_LIMIT into account"
-> > https://sourceware.org/bugzilla/show_bug.cgi?id=19089
-> 
-> That's just a missing check in our implementation and something that few
-> applications will encounter, if any.  There is this one here:
-> 
->   <https://sourceware.org/bugzilla/show_bug.cgi?id=19004>
-> 
-> It contains a kernel patch.
-> 
-> I thought that there were more issues in the current implementation, but
-> I can't a record of them. 8-(
+On 11/05, Thomas Gleixner wrote:
+>
+> Out of curiosity, what's the race issue vs. robust list which you are
+> trying to solve?
 
-There is a nasty one in my inbox with a kernel patch fixing it, which I
-still need to review with all futex brain cells activated:
+Off-topic, but this reminds me...
 
-  https://lore.kernel.org/r/1572573789-16557-1-git-send-email-wang.yi59@zte.com.cn
+=09#include <sched.h>
+=09#include <assert.h>
+=09#include <unistd.h>
+=09#include <syscall.h>
 
-Thanks,
+=09#define FUTEX_LOCK_PI=09=096
 
-	tglx
+=09int main(void)
+=09{
+=09=09struct sched_param sp =3D {};
+
+=09=09sp.sched_priority =3D 2;
+=09=09assert(sched_setscheduler(0, SCHED_FIFO, &sp) =3D=3D 0);
+
+=09=09int lock =3D vfork();
+=09=09if (!lock) {
+=09=09=09sp.sched_priority =3D 1;
+=09=09=09assert(sched_setscheduler(0, SCHED_FIFO, &sp) =3D=3D 0);
+=09=09=09_exit(0);
+=09=09}
+
+=09=09syscall(__NR_futex, &lock, FUTEX_LOCK_PI, 0,0,0);
+=09=09return 0;
+=09}
+
+this creates the unkillable RT process spinning in futex_lock_pi() on
+a single CPU machine (or you can use taskset).
+
+Probably the patch below makes sense anyway, but of course it doesn't
+solve the real problem: futex_lock_pi() should not spin in this case.
+
+It seems to me I even sent the fix a long ago, but I can't recall what
+exactly it did. Probably the PF_EXITING check in attach_to_pi_owner()
+must simply die, I'll try to recall...
+
+Oleg.
+
+--- x/kernel/futex.c
++++ x/kernel/futex.c
+@@ -2842,10 +2842,12 @@ static int futex_lock_pi(u32 __user *uaddr, unsigne=
+d int flags,
+ =09=09=09 *   exit to complete.
+ =09=09=09 * - The user space value changed.
+ =09=09=09 */
+-=09=09=09queue_unlock(hb);
+-=09=09=09put_futex_key(&q.key);
+-=09=09=09cond_resched();
+-=09=09=09goto retry;
++=09=09=09if (!fatal_signal_pending(current)) {
++=09=09=09=09queue_unlock(hb);
++=09=09=09=09put_futex_key(&q.key);
++=09=09=09=09cond_resched();
++=09=09=09=09goto retry;
++=09=09=09}
+ =09=09default:
+ =09=09=09goto out_unlock_put_key;
+ =09=09}
+
