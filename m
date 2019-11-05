@@ -2,54 +2,39 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 74C49F032F
-	for <lists+linux-api@lfdr.de>; Tue,  5 Nov 2019 17:42:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EAFFF0383
+	for <lists+linux-api@lfdr.de>; Tue,  5 Nov 2019 17:57:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390123AbfKEQl6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 5 Nov 2019 11:41:58 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:39672 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390156AbfKEQl6 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 5 Nov 2019 11:41:58 -0500
-Received: by mail-lj1-f193.google.com with SMTP id y3so22647145ljj.6
-        for <linux-api@vger.kernel.org>; Tue, 05 Nov 2019 08:41:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=CPAWoJPOWFI9tZt+Z9WZhKGPSIvelnJJqs8XUy+V46k=;
-        b=CbGKKPGgaC64y9p1BQq2+o8j3eZeZ9xzHn8JM0uVa/q2Dp+fcmnbfaSGvPUxtlWjOS
-         ynZSdksFstX3dfMBSBg9tio5MZWnxRY6E7meZbkdx/z1h07ghzvK3IuvI1rXj14LMx+A
-         3PsnudVi44KqkoSJSpfg66RMkDWNbjEBwkW8KDptiEdJzM5ryLb72MooGxElnni7OIKe
-         zx9XJ0wui53vXA58fv5HWJnIk+ltmjQZ8JsgFM6ipJSqo7wifvmA4eEw1JObeYBkkXSH
-         Ffb7hexTfsnPXuxAufhBpC0ii8o0VzIJ7yjyvhHtQ1CwosO8muSP1sgfcpjtqOgt3GeT
-         8FuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CPAWoJPOWFI9tZt+Z9WZhKGPSIvelnJJqs8XUy+V46k=;
-        b=ieQHZAeYe9Hgxp099kEtsYez+NqG7B+Vcs5N5wvdc1z3n4fPnk+FPMKCY5aqSlVFph
-         akb0k8XkW9NYHQfDvz/vOBaOWyKZhkdhJffnNp7akRpzCZjfRkObvQPKKkAhAd4mIqSy
-         ErGgoRI4D948QU+0bOz225KVR9BP7STvTIuc1LimkL6QDFLBQOLn8eUvVWLB+ctzm0Z/
-         BH4NmZLs5PRi6SRPej9bzA1awepyCyZB9r4RPuC7ZZn4jRqrUoOViBDVSvB/UHj1hK1A
-         cosOfuoKfXyIyETd2y/Qbcyhpc3bGWNPdzyNbJ3XNGJLClCEU34GdNo3jfB+lSReo6zv
-         IYmg==
-X-Gm-Message-State: APjAAAVYl0HIksdEXpzBJAVgHo/kmU91z/bMi4BkAL30tGSNekLKli46
-        Q6I68wYjU0VX57IyYqkGZoHnTuvQAQMCrM2HCRDf8w==
-X-Google-Smtp-Source: APXvYqzJhVMjwxTvLIsbgfPh/CEzKCXdjh4ZL0tYyqLClkvm34sCnU8o9OP8Jjv4YmS1doxJFXVAsqkHWRlEyPnswzU=
-X-Received: by 2002:a2e:3111:: with SMTP id x17mr23711544ljx.146.1572972114631;
- Tue, 05 Nov 2019 08:41:54 -0800 (PST)
-MIME-Version: 1.0
-References: <1572967777-8812-1-git-send-email-rppt@linux.ibm.com>
- <1572967777-8812-2-git-send-email-rppt@linux.ibm.com> <CAKOZuev93zDGNPX+ySg_jeUg4Z3zKMcpABekUQvHA01kTVn4=A@mail.gmail.com>
- <CALCETrX=VmSjD6kLT6tuZQ4Efhc_13vZrw1mo4Z2iKqZTT-bzg@mail.gmail.com> <20191105162424.GH30717@redhat.com>
-In-Reply-To: <20191105162424.GH30717@redhat.com>
-From:   Daniel Colascione <dancol@google.com>
-Date:   Tue, 5 Nov 2019 08:41:18 -0800
-Message-ID: <CAKOZuet=g++G+biSP5bU-Rppu6fykU1TVUDj20NapqAYQY4r9A@mail.gmail.com>
-Subject: Re: [PATCH 1/1] userfaultfd: require CAP_SYS_PTRACE for UFFD_FEATURE_EVENT_FORK
-To:     Andrea Arcangeli <aarcange@redhat.com>
+        id S1727830AbfKEQ5I (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 5 Nov 2019 11:57:08 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34165 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1730821AbfKEQ5I (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 5 Nov 2019 11:57:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1572973027;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=6/CYal2Ht1Wk+CkyE9G0+kWfB1JTDB8P2q0I4iMUmUk=;
+        b=ARteMhcUalj62/0PtHhYUU+Jz5mzk9A/Rocx7HNKUukVeEL9D60O6jX68JUWScMYpVUNtD
+        kvnRUQjrQ3Dz9Am1jkdf6YCdbW8eJRGnDYXoA34KqaoD8x5766jAz5u/Z3sqdKR5T3+EDe
+        mD0rBeI12liJIqwEN/44Jj79iAcghW8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-264-fND83D8KND2PRYRlMZm3mw-1; Tue, 05 Nov 2019 11:55:59 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C4106107ACC3;
+        Tue,  5 Nov 2019 16:55:57 +0000 (UTC)
+Received: from mail (ovpn-121-157.rdu2.redhat.com [10.10.121.157])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 9AAD827065;
+        Tue,  5 Nov 2019 16:55:57 +0000 (UTC)
+Date:   Tue, 5 Nov 2019 11:55:56 -0500
+From:   Andrea Arcangeli <aarcange@redhat.com>
+To:     Daniel Colascione <dancol@google.com>
 Cc:     Andy Lutomirski <luto@kernel.org>,
         Mike Rapoport <rppt@linux.ibm.com>,
         linux-kernel <linux-kernel@vger.kernel.org>,
@@ -63,17 +48,46 @@ Cc:     Andy Lutomirski <luto@kernel.org>,
         Tim Murray <timmurray@google.com>,
         Linux API <linux-api@vger.kernel.org>,
         linux-mm <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH 1/1] userfaultfd: require CAP_SYS_PTRACE for
+ UFFD_FEATURE_EVENT_FORK
+Message-ID: <20191105165556.GK30717@redhat.com>
+References: <1572967777-8812-1-git-send-email-rppt@linux.ibm.com>
+ <1572967777-8812-2-git-send-email-rppt@linux.ibm.com>
+ <CAKOZuev93zDGNPX+ySg_jeUg4Z3zKMcpABekUQvHA01kTVn4=A@mail.gmail.com>
+ <CALCETrX=VmSjD6kLT6tuZQ4Efhc_13vZrw1mo4Z2iKqZTT-bzg@mail.gmail.com>
+ <CAKOZuetu0QWUDAycTOFzC4HEbjH99EtOhb4gJnHAuovT_StpzA@mail.gmail.com>
+ <20191105163316.GI30717@redhat.com>
+ <CAKOZuet1Hrdd7U4VVBmXNCkE6xwiUPERRHjP=A3bX6B9A4BQRQ@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAKOZuet1Hrdd7U4VVBmXNCkE6xwiUPERRHjP=A3bX6B9A4BQRQ@mail.gmail.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: fND83D8KND2PRYRlMZm3mw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Nov 5, 2019 at 8:24 AM Andrea Arcangeli <aarcange@redhat.com> wrote:
-> The long term plan is to introduce UFFD_FEATURE_EVENT_FORK2 feature
-> flag that uses the ioctl to receive the child uffd, it'll consume more
-> CPU, but it wouldn't require the PTRACE privilege anymore.
+On Tue, Nov 05, 2019 at 08:39:26AM -0800, Daniel Colascione wrote:
+> I'm not suggesting that we fail userfaultfd(2) without CAP_SYS_PTRACE.
+> That would, as you point out, break things. I'm talking about
+> recording *whether* we had CAP_SYS_PTRACE in an internal flag in the
+> uffd context when we create the thing --- and then, at ioctl time,
+> checking that flag, not the caller's CAP_SYS_PTRACE, to see whether
+> UFFD_FEATURE_EVENT_FORK should be made available. This way, the
+> security check hinges on whether the caller *at create time* was
+> privileged.
 
-Why not just have callers retrieve FDs using recvmsg? This way, you
-retrieve the message packet and the file descriptor at the same time
-and you don't need any appreciable extra CPU use.
+Until now it wasn't clear to me you still wanted to do the permission
+check in UFFDIO_API time, and you only intended to move the
+"measurement" of the capability to the syscall.
+
+So you're suggesting to add more kernel complexity to code pending for
+removal to achieve a theoretically more pure solution in the band-aid
+required to defer the removal of the posix-breaking read
+implementation of the uffd fork feature?
+
