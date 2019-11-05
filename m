@@ -2,102 +2,125 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 018FEF03AF
-	for <lists+linux-api@lfdr.de>; Tue,  5 Nov 2019 18:02:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E9194F03F6
+	for <lists+linux-api@lfdr.de>; Tue,  5 Nov 2019 18:18:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388756AbfKERCs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 5 Nov 2019 12:02:48 -0500
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:38108 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388739AbfKERCs (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 5 Nov 2019 12:02:48 -0500
-Received: by mail-lf1-f68.google.com with SMTP id q28so15732199lfa.5
-        for <linux-api@vger.kernel.org>; Tue, 05 Nov 2019 09:02:47 -0800 (PST)
+        id S2390443AbfKERSa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 5 Nov 2019 12:18:30 -0500
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:35700 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389659AbfKERSa (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 5 Nov 2019 12:18:30 -0500
+Received: by mail-pf1-f195.google.com with SMTP id d13so16042938pfq.2;
+        Tue, 05 Nov 2019 09:18:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=3LbJPI0FDJ0eEH2iVM7vPGyU9geutYVr1qL8gmhIfHE=;
-        b=QDlUNpXdd3Dyvqcp0bF9C4VAE6LpyEAfN3KCcFBDOBEqH3n8L0ZpW+QnevnXgO+jYu
-         Qk8o1QZ5B54+yqYQT3t1wn/SYX8uoo4FtQ1RoMpU13Ly74nWaZ0DpB6c+SSSrHAm2jOf
-         zyStjxIvVVyjTHDy76iWx/Fk+mv4DLTBXicRDuPGAVTUhNzNrCPpjPK7KNIliqLxmqiB
-         7T85gjDMOw7LSetpqnnY8SLtjNFCld4SIVi8OEtT4kdKKV7JOiysKXHmaTOJOxh+RA7i
-         sp0okHC4thvaKKudFX+HbfOenxmYBJ8YHGdTvAjMhkrw0vRQ1VRkfjrtXACS9VQBneMH
-         4yMA==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=acyehhZ1kInQCOam4ex9rg1irdVyYdAedYo4L8HuhBE=;
+        b=XX5HI5fdLsOtra8e6FRnylQV3POlGoUKjN0QnYgWdYOJbhoq4GfEwzEeXeNk2KlNeR
+         cVlbwQ56h482SqsmeiyycLjPl/5cQaqbvnnxnAM834DFR1QuK+5nydBQhFrpZjok32Gs
+         AR+xXuUBvANEvmAOUphy2n4Zx7YW461y5VxLfF/EtosJl8SnhT+Zr/CsDH5S4y/MHx2S
+         ZjxeqFC22NsB4jP94cfp65T/GYZYybPc8LC7uxKNS7jlfkNEFav/I592UcGT0BwJ8FfK
+         uA6ngmKqqv2JvvgOcXk+TtukS5gONMHHX01ywSEFKn0OVOWk9FKzUUGoSgwBXWeGoNNH
+         I2XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=3LbJPI0FDJ0eEH2iVM7vPGyU9geutYVr1qL8gmhIfHE=;
-        b=ce0HzcT63rbzvTH1AG82dQz5wsBklhiK8D42DgyW/D8/V1kOic36rhj6M0nvJFE6Ba
-         T7nrijPbDtVTWWj/DdfHH3i6Pt7Wm/N1MdYgQVYTaCUAncxnwPogxw4KAixPzodjm7ZI
-         J1Bwclk0d6EO8PqyZPJlIEmN8rvQQtgP/IcX/86e6RJeIIvjFNHZHr9eD6UQX8ZrareR
-         A+YD+qMjEsupx8WFfYahwNeRQ/Ng/YjxnWnVLoUkWRmFhn4bcwSX+DsugiXZP0KGJW7L
-         z3cIaBM/e1XLUuSAPb28PES2g56VLf8GRw+fpErodJRwOpXmvKsXCiT3RKgg3wghzyG/
-         6aUQ==
-X-Gm-Message-State: APjAAAWCEe+N4Ox4udj2cC914uTAwMYQmCmzhEiNTLtRJ3pp677hOFJL
-        YTAPEURci/Zh+xXgqcxKb+d5+bwjpqVYh+7kt1sDzQ==
-X-Google-Smtp-Source: APXvYqxoAZZ3CBPgeWIOEoK9yoKNl+AObjnu16/uWXH4QNCI609JrFh7R0bTPoVuzjjLAldIucXdfUSSf/LzD/JxH1Y=
-X-Received: by 2002:a19:8582:: with SMTP id h124mr9689722lfd.64.1572973365922;
- Tue, 05 Nov 2019 09:02:45 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=acyehhZ1kInQCOam4ex9rg1irdVyYdAedYo4L8HuhBE=;
+        b=n133OZv6dcpjgoC+09kN1c0SCJkvabFSbSJOqZjn8L1Q3J/RjzxpoXyu1DMYKj8ywp
+         Dyvu04jiaRifsR97ZAOkSpfmqDCtk0/9OilwLXAmNJqsRT45YgjBAmnejZ9iskEYNhi4
+         wOula1OaXbBl+pLlQZbVJK/vGoKDX7Tiw9CVF+QA27iIF0mRFGUmDVv3iRrkwZL94pkR
+         kF91hIki6FjkBwKvDGsTRIt4RqNheoilqUHEVSjjyDhcaxxKBbJiKdGYnDj9i6sH2m8b
+         AF000BTNXDVevPGw5upOZ6hUJ3QpEEdbrkxx4OdSUzUpQJzHRYcwiaphVHp6FqsqVY58
+         FT5A==
+X-Gm-Message-State: APjAAAUndn/FGRd3vu/HAW2/xpK2R2PQLRFIXKuPdO60Ye8gXd74bOpT
+        YQ5ZiqqO1bswpANoWSQvII8=
+X-Google-Smtp-Source: APXvYqxfGfRVQ8tyN+3W2wPHBfjDO9cnkSVobGLtqqzKW+U2w79oK6iebqGh0WK8FAFAk8uwenlUKg==
+X-Received: by 2002:a17:90a:2326:: with SMTP id f35mr126860pje.134.1572974309032;
+        Tue, 05 Nov 2019 09:18:29 -0800 (PST)
+Received: from ast-mbp.dhcp.thefacebook.com ([2620:10d:c090:200::1:47d0])
+        by smtp.gmail.com with ESMTPSA id a66sm9765299pfb.166.2019.11.05.09.18.26
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 05 Nov 2019 09:18:27 -0800 (PST)
+Date:   Tue, 5 Nov 2019 09:18:26 -0800
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+To:     =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+Cc:     linux-kernel@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        David Drysdale <drysdale@google.com>,
+        Florent Revest <revest@chromium.org>,
+        James Morris <jmorris@namei.org>, Jann Horn <jann@thejh.net>,
+        John Johansen <john.johansen@canonical.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        KP Singh <kpsingh@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mickael.salaun@ssi.gouv.fr>,
+        Paul Moore <paul@paul-moore.com>,
+        Sargun Dhillon <sargun@sargun.me>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Stephen Smalley <sds@tycho.nsa.gov>, Tejun Heo <tj@kernel.org>,
+        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+        Tycho Andersen <tycho@tycho.ws>,
+        Will Drewry <wad@chromium.org>, bpf@vger.kernel.org,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-security-module@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH bpf-next v13 4/7] landlock: Add ptrace LSM hooks
+Message-ID: <20191105171824.dfve44gjiftpnvy7@ast-mbp.dhcp.thefacebook.com>
+References: <20191104172146.30797-1-mic@digikod.net>
+ <20191104172146.30797-5-mic@digikod.net>
 MIME-Version: 1.0
-References: <1572967777-8812-1-git-send-email-rppt@linux.ibm.com>
- <1572967777-8812-2-git-send-email-rppt@linux.ibm.com> <CAKOZuev93zDGNPX+ySg_jeUg4Z3zKMcpABekUQvHA01kTVn4=A@mail.gmail.com>
- <CALCETrX=VmSjD6kLT6tuZQ4Efhc_13vZrw1mo4Z2iKqZTT-bzg@mail.gmail.com>
- <CAKOZuetu0QWUDAycTOFzC4HEbjH99EtOhb4gJnHAuovT_StpzA@mail.gmail.com>
- <20191105163316.GI30717@redhat.com> <CAKOZuet1Hrdd7U4VVBmXNCkE6xwiUPERRHjP=A3bX6B9A4BQRQ@mail.gmail.com>
- <20191105165556.GK30717@redhat.com>
-In-Reply-To: <20191105165556.GK30717@redhat.com>
-From:   Daniel Colascione <dancol@google.com>
-Date:   Tue, 5 Nov 2019 09:02:09 -0800
-Message-ID: <CAKOZuet+fgaJR72YwYrHFdFVSOo6EWpcT8jUoh7se4cZb0V2aw@mail.gmail.com>
-Subject: Re: [PATCH 1/1] userfaultfd: require CAP_SYS_PTRACE for UFFD_FEATURE_EVENT_FORK
-To:     Andrea Arcangeli <aarcange@redhat.com>
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jann Horn <jannh@google.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Lokesh Gidra <lokeshgidra@google.com>,
-        Nick Kralevich <nnk@google.com>,
-        Nosh Minwalla <nosh@google.com>,
-        Pavel Emelyanov <ovzxemul@gmail.com>,
-        Tim Murray <timmurray@google.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191104172146.30797-5-mic@digikod.net>
+User-Agent: NeoMutt/20180223
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Nov 5, 2019 at 8:56 AM Andrea Arcangeli <aarcange@redhat.com> wrote:
->
-> On Tue, Nov 05, 2019 at 08:39:26AM -0800, Daniel Colascione wrote:
-> > I'm not suggesting that we fail userfaultfd(2) without CAP_SYS_PTRACE.
-> > That would, as you point out, break things. I'm talking about
-> > recording *whether* we had CAP_SYS_PTRACE in an internal flag in the
-> > uffd context when we create the thing --- and then, at ioctl time,
-> > checking that flag, not the caller's CAP_SYS_PTRACE, to see whether
-> > UFFD_FEATURE_EVENT_FORK should be made available. This way, the
-> > security check hinges on whether the caller *at create time* was
-> > privileged.
->
-> Until now it wasn't clear to me you still wanted to do the permission
-> check in UFFDIO_API time, and you only intended to move the
-> "measurement" of the capability to the syscall.
->
-> So you're suggesting to add more kernel complexity to code pending for
-> removal to achieve a theoretically more pure solution in the band-aid
-> required to defer the removal of the posix-breaking read
-> implementation of the uffd fork feature?
+On Mon, Nov 04, 2019 at 06:21:43PM +0100, Mickaël Salaün wrote:
+> Add a first Landlock hook that can be used to enforce a security policy
+> or to audit some process activities.  For a sandboxing use-case, it is
+> needed to inform the kernel if a task can legitimately debug another.
+> ptrace(2) can also be used by an attacker to impersonate another task
+> and remain undetected while performing malicious activities.
+> 
+> Using ptrace(2) and related features on a target process can lead to a
+> privilege escalation.  A sandboxed task must then be able to tell the
+> kernel if another task is more privileged, via ptrace_may_access().
+> 
+> Signed-off-by: Mickaël Salaün <mic@digikod.net>
+...
+> +static int check_ptrace(struct landlock_domain *domain,
+> +		struct task_struct *tracer, struct task_struct *tracee)
+> +{
+> +	struct landlock_hook_ctx_ptrace ctx_ptrace = {
+> +		.prog_ctx = {
+> +			.tracer = (uintptr_t)tracer,
+> +			.tracee = (uintptr_t)tracee,
+> +		},
+> +	};
 
-And you're suggesting making a security check work weirdly unlike most
-other security checks because you hope it'll get removed one day?
-Temporary solutions aren't, and if something goes into the kernel at
-all, it's worth getting right. The general rule is that access checks
-happen at open time. The kernel has already been bitten by UFFD
-exempting itself from the normal rules (e.g., the
-read(2)-makes-a-file-descriptor thing) in the name of expediency.
-There shouldn't be any more exceptions.
+So you're passing two kernel pointers obfuscated as u64 into bpf program
+yet claiming that the end goal is to make landlock unprivileged?!
+The most basic security hole in the tool that is aiming to provide security.
+
+I think the only way bpf-based LSM can land is both landlock and KRSI
+developers work together on a design that solves all use cases. BPF is capable
+to be a superset of all existing LSMs whereas landlock and KRSI propsals today
+are custom solutions to specific security concerns. BPF subsystem was extended
+with custom things in the past. In networking we have lwt, skb, tc, xdp, sk
+program types with a lot of overlapping functionality. We couldn't figure out
+how to generalize them into single 'networking' program. Now we can and we
+should. Accepting two partially overlapping bpf-based LSMs would be repeating
+the same mistake again.
+
