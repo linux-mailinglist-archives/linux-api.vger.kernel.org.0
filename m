@@ -2,131 +2,99 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 085F6F015D
-	for <lists+linux-api@lfdr.de>; Tue,  5 Nov 2019 16:27:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B1380F016E
+	for <lists+linux-api@lfdr.de>; Tue,  5 Nov 2019 16:29:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389729AbfKEP1m (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 5 Nov 2019 10:27:42 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46227 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389722AbfKEP1m (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 5 Nov 2019 10:27:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1572967660;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=gvUBd68QYOf4zjMI6uQSjQ5CMU0M3270wf5ewDe4CGw=;
-        b=dCgHDm4IOxe7/9fsweCZ52menWoXSlKP02PxcXvwAdEo84VTm/CJG3hMuUZS9RWmpe2nRH
-        sgrce0oQdm5QBa5CKepfRNpexUR3GITvw6khgLCVuM9Euxtdfz64RnjMg2IrOdH71X3BTz
-        G7wYMKJnfm0hYWKcQQsJw8XnDXAwVVA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-14-dCJ-gZydN4yeQdyHHg-p0Q-1; Tue, 05 Nov 2019 10:27:33 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 124781005502;
-        Tue,  5 Nov 2019 15:27:32 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.43.17.44])
-        by smtp.corp.redhat.com (Postfix) with SMTP id 7B6543C1D;
-        Tue,  5 Nov 2019 15:27:29 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Tue,  5 Nov 2019 16:27:31 +0100 (CET)
-Date:   Tue, 5 Nov 2019 16:27:28 +0100
-From:   Oleg Nesterov <oleg@redhat.com>
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     Florian Weimer <fweimer@redhat.com>, Shawn Landden <shawn@git.icu>,
-        libc-alpha@sourceware.org, linux-api@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Deepa Dinamani <deepa.kernel@gmail.com>,
+        id S2389941AbfKEP3v (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 5 Nov 2019 10:29:51 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:43384 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2389884AbfKEP3v (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 5 Nov 2019 10:29:51 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id xA5FReFX042378
+        for <linux-api@vger.kernel.org>; Tue, 5 Nov 2019 10:29:49 -0500
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2w3apstdrb-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-api@vger.kernel.org>; Tue, 05 Nov 2019 10:29:49 -0500
+Received: from localhost
+        by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-api@vger.kernel.org> from <rppt@linux.ibm.com>;
+        Tue, 5 Nov 2019 15:29:47 -0000
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+        by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Tue, 5 Nov 2019 15:29:41 -0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id xA5FTeZZ55640148
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 5 Nov 2019 15:29:40 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id CE50AA4051;
+        Tue,  5 Nov 2019 15:29:40 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id BAB3CA404D;
+        Tue,  5 Nov 2019 15:29:38 +0000 (GMT)
+Received: from rapoport-lnx (unknown [9.148.8.59])
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Tue,  5 Nov 2019 15:29:38 +0000 (GMT)
+Received: by rapoport-lnx (sSMTP sendmail emulation); Tue, 05 Nov 2019 17:29:38 +0200
+From:   Mike Rapoport <rppt@linux.ibm.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Andrea Arcangeli <aarcange@redhat.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Keith Packard <keithp@keithp.com>,
-        Peter Zijlstra <peterz@infradead.org>
-Subject: handle_exit_race && PF_EXITING
-Message-ID: <20191105152728.GA5666@redhat.com>
-References: <20191104002909.25783-1-shawn@git.icu>
- <87woceslfs.fsf@oldenburg2.str.redhat.com>
- <alpine.DEB.2.21.1911051053470.17054@nanos.tec.linutronix.de>
-MIME-Version: 1.0
-In-Reply-To: <alpine.DEB.2.21.1911051053470.17054@nanos.tec.linutronix.de>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: dCJ-gZydN4yeQdyHHg-p0Q-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+        Andy Lutomirski <luto@kernel.org>,
+        Daniel Colascione <dancol@google.com>,
+        Jann Horn <jannh@google.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Lokesh Gidra <lokeshgidra@google.com>,
+        Nick Kralevich <nnk@google.com>,
+        Nosh Minwalla <nosh@google.com>,
+        Pavel Emelyanov <ovzxemul@gmail.com>,
+        Tim Murray <timmurray@google.com>, linux-api@vger.kernel.org,
+        linux-mm@kvack.org, Mike Rapoport <rppt@linux.ibm.com>
+Subject: [PATCH 0/1] userfaultfd: require CAP_SYS_PTRACE for UFFD_FEATURE_EVENT_FORK
+Date:   Tue,  5 Nov 2019 17:29:36 +0200
+X-Mailer: git-send-email 2.7.4
+X-TM-AS-GCONF: 00
+x-cbid: 19110515-0008-0000-0000-0000032AEF58
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19110515-0009-0000-0000-00004A4A4A16
+Message-Id: <1572967777-8812-1-git-send-email-rppt@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-11-05_05:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=811 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1911050127
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 11/05, Thomas Gleixner wrote:
->
-> Out of curiosity, what's the race issue vs. robust list which you are
-> trying to solve?
+Hi,
 
-Off-topic, but this reminds me...
+A while ago Andy noticed [1] that UFFD_FEATURE_EVENT_FORK used by an
+unprivileged user may have security implications.
 
-=09#include <sched.h>
-=09#include <assert.h>
-=09#include <unistd.h>
-=09#include <syscall.h>
+As the first step of the solution the following patch limits the
+availably of UFFD_FEATURE_EVENT_FORK only for those having CAP_SYS_PTRACE.
 
-=09#define FUTEX_LOCK_PI=09=096
+The usage of CAP_SYS_PTRACE ensures compatibility with CRIU.
 
-=09int main(void)
-=09{
-=09=09struct sched_param sp =3D {};
+Yet, if there are other users of non-cooperative userfaultfd that run
+without CAP_SYS_PTRACE, they would be broken :(
 
-=09=09sp.sched_priority =3D 2;
-=09=09assert(sched_setscheduler(0, SCHED_FIFO, &sp) =3D=3D 0);
+[1] https://lore.kernel.org/lkml/CALCETrWY+5ynDct7eU_nDUqx=okQvjm=Y5wJvA4ahBja=CQXGw@mail.gmail.com
 
-=09=09int lock =3D vfork();
-=09=09if (!lock) {
-=09=09=09sp.sched_priority =3D 1;
-=09=09=09assert(sched_setscheduler(0, SCHED_FIFO, &sp) =3D=3D 0);
-=09=09=09_exit(0);
-=09=09}
+Mike Rapoport (1):
+  userfaultfd: require CAP_SYS_PTRACE for UFFD_FEATURE_EVENT_FORK
 
-=09=09syscall(__NR_futex, &lock, FUTEX_LOCK_PI, 0,0,0);
-=09=09return 0;
-=09}
+ fs/userfaultfd.c | 18 +++++++++++-------
+ 1 file changed, 11 insertions(+), 7 deletions(-)
 
-this creates the unkillable RT process spinning in futex_lock_pi() on
-a single CPU machine (or you can use taskset).
-
-Probably the patch below makes sense anyway, but of course it doesn't
-solve the real problem: futex_lock_pi() should not spin in this case.
-
-It seems to me I even sent the fix a long ago, but I can't recall what
-exactly it did. Probably the PF_EXITING check in attach_to_pi_owner()
-must simply die, I'll try to recall...
-
-Oleg.
-
---- x/kernel/futex.c
-+++ x/kernel/futex.c
-@@ -2842,10 +2842,12 @@ static int futex_lock_pi(u32 __user *uaddr, unsigne=
-d int flags,
- =09=09=09 *   exit to complete.
- =09=09=09 * - The user space value changed.
- =09=09=09 */
--=09=09=09queue_unlock(hb);
--=09=09=09put_futex_key(&q.key);
--=09=09=09cond_resched();
--=09=09=09goto retry;
-+=09=09=09if (!fatal_signal_pending(current)) {
-+=09=09=09=09queue_unlock(hb);
-+=09=09=09=09put_futex_key(&q.key);
-+=09=09=09=09cond_resched();
-+=09=09=09=09goto retry;
-+=09=09=09}
- =09=09default:
- =09=09=09goto out_unlock_put_key;
- =09=09}
+-- 
+2.7.4
 
