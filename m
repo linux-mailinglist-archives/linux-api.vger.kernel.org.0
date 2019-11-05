@@ -2,113 +2,152 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BCD4F0918
-	for <lists+linux-api@lfdr.de>; Tue,  5 Nov 2019 23:10:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 78668F0935
+	for <lists+linux-api@lfdr.de>; Tue,  5 Nov 2019 23:20:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730087AbfKEWK4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 5 Nov 2019 17:10:56 -0500
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:44099 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729830AbfKEWK4 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 5 Nov 2019 17:10:56 -0500
-Received: by mail-lf1-f67.google.com with SMTP id v4so16353909lfd.11
-        for <linux-api@vger.kernel.org>; Tue, 05 Nov 2019 14:10:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=oHNoa42wrptLOIF/3dlMMyJwxrj4Pwhbf1WPBq8o3uM=;
-        b=txaxdUHAhhP9SDZaT+2LCWEybyxTXeBjbSvIEpNO3NUlCNP11+juSvK4NTapgDIQsx
-         bx4UA6EMOgVRpvfj9Ytg3Dbq2TH/brOOWOMH+2KBx/B/IHrQbQAjLifbp0FSTSQsO2Bd
-         NiuZC+eFppZJoQE3ZUPlpHN1pT+rO6Z14hJeshOd2hCFXwk4GR///Yx4GRVniJ3VKONO
-         Kt+mJci6Da3WvnYbEe8gDOsTV7j/2J9XBqJqDkJ51fvbH5UQdmpyyfw/VvxEU/blzMIM
-         MaPDes1kjsPOjqDH4nLH7vZE3u4nXKFUCYPNkeargYEdaXpUvyyeDnNhBld+YwzcgZEF
-         lFzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=oHNoa42wrptLOIF/3dlMMyJwxrj4Pwhbf1WPBq8o3uM=;
-        b=cxg/L0Sf2IwlVr2ZhFr3nAa/CgOVQm+CpWjdeJ1oVP0oiwy3wB1FIvbwCmtx+1CdsG
-         tyHI785m2s21RxZw9PbAdttoB2NJehId1+ZS15Z6B9b8u0fJbiGjcQL5awnfMqBtDPGT
-         fa1+wUWAaPoPppuOQpN/ZztrDL+N4m7hynxk3U/NgEudsma6WtftJ8g999DEIH33l+09
-         3N7I/lPi5ms3gPiJ/Rotbvo0OSEqQ7NjNdclAShhI966+2UISR7eLwS3A2GRVT+o0udw
-         /p1ib1YL5eQPNPtniSbgUriSHTyrWHnGPf1tR3+9u7vDCGGCp7mrfDhlZ4ozaofTg7a/
-         TbBg==
-X-Gm-Message-State: APjAAAVFszmeJo+exjmxYnWtrgDvuMbzCy2EF48wx8AzPQ7eZ+0YeI+S
-        +2008xkEjKhwNwqM8GUT3cuWnIwAetxyzQiVMd9S6Q==
-X-Google-Smtp-Source: APXvYqzbkj8YH9eITFZzXyrVd6DZFMTF5o/g/z0Eip1PKIKK6ASKx4h4gD3fA7MnFeAp5hmlIjHyjgVN7N9W0POhIHg=
-X-Received: by 2002:ac2:5587:: with SMTP id v7mr135624lfg.79.1572991853663;
- Tue, 05 Nov 2019 14:10:53 -0800 (PST)
+        id S1730267AbfKEWUG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 5 Nov 2019 17:20:06 -0500
+Received: from smtp-sh2.infomaniak.ch ([128.65.195.6]:36375 "EHLO
+        smtp-sh2.infomaniak.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730364AbfKEWUG (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 5 Nov 2019 17:20:06 -0500
+Received: from smtp7.infomaniak.ch (smtp7.infomaniak.ch [83.166.132.30])
+        by smtp-sh2.infomaniak.ch (8.14.4/8.14.4/Debian-8+deb8u2) with ESMTP id xA5MJ23o058900
+        (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 5 Nov 2019 23:19:03 +0100
+Received: from ns3096276.ip-94-23-54.eu (ns3096276.ip-94-23-54.eu [94.23.54.103])
+        (authenticated bits=0)
+        by smtp7.infomaniak.ch (8.14.5/8.14.5) with ESMTP id xA5MIuNt039378
+        (version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=NO);
+        Tue, 5 Nov 2019 23:18:56 +0100
+Subject: Re: [PATCH bpf-next v13 4/7] landlock: Add ptrace LSM hooks
+To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        David Drysdale <drysdale@google.com>,
+        Florent Revest <revest@chromium.org>,
+        James Morris <jmorris@namei.org>, Jann Horn <jann@thejh.net>,
+        John Johansen <john.johansen@canonical.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        KP Singh <kpsingh@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mickael.salaun@ssi.gouv.fr>,
+        Paul Moore <paul@paul-moore.com>,
+        Sargun Dhillon <sargun@sargun.me>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Stephen Smalley <sds@tycho.nsa.gov>, Tejun Heo <tj@kernel.org>,
+        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+        Tycho Andersen <tycho@tycho.ws>,
+        Will Drewry <wad@chromium.org>, bpf@vger.kernel.org,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-security-module@vger.kernel.org, netdev@vger.kernel.org
+References: <20191104172146.30797-1-mic@digikod.net>
+ <20191104172146.30797-5-mic@digikod.net>
+ <20191105171824.dfve44gjiftpnvy7@ast-mbp.dhcp.thefacebook.com>
+ <23acf523-dbc4-855b-ca49-2bbfa5e7117e@digikod.net>
+ <20191105193446.s4pswwwhrmgk6hcx@ast-mbp.dhcp.thefacebook.com>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Openpgp: preference=signencrypt
+Message-ID: <38309064-89c2-8e01-b619-4459e0d58311@digikod.net>
+Date:   Tue, 5 Nov 2019 23:18:55 +0100
+User-Agent: 
 MIME-Version: 1.0
-References: <CAKOZuet+fgaJR72YwYrHFdFVSOo6EWpcT8jUoh7se4cZb0V2aw@mail.gmail.com>
- <273986A1-A4BE-4FE5-B547-49CAA44C6FD3@amacapital.net>
-In-Reply-To: <273986A1-A4BE-4FE5-B547-49CAA44C6FD3@amacapital.net>
-From:   Daniel Colascione <dancol@google.com>
-Date:   Tue, 5 Nov 2019 14:10:16 -0800
-Message-ID: <CAKOZuetCqQa_be_2Ek-zo58TA5nLKVFb4f01ahcACxiQ9Th80A@mail.gmail.com>
-Subject: Re: [PATCH 1/1] userfaultfd: require CAP_SYS_PTRACE for UFFD_FEATURE_EVENT_FORK
-To:     Andy Lutomirski <luto@amacapital.net>
-Cc:     Andrea Arcangeli <aarcange@redhat.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jann Horn <jannh@google.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Lokesh Gidra <lokeshgidra@google.com>,
-        Nick Kralevich <nnk@google.com>,
-        Nosh Minwalla <nosh@google.com>,
-        Pavel Emelyanov <ovzxemul@gmail.com>,
-        Tim Murray <timmurray@google.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20191105193446.s4pswwwhrmgk6hcx@ast-mbp.dhcp.thefacebook.com>
+Content-Type: text/plain; charset=iso-8859-15
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
+X-Antivirus-Code: 0x100000
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Nov 5, 2019 at 2:01 PM Andy Lutomirski <luto@amacapital.net> wrote:
-> > On Nov 5, 2019, at 9:02 AM, Daniel Colascione <dancol@google.com> wrote=
-:
-> >
-> > =EF=BB=BFOn Tue, Nov 5, 2019 at 8:56 AM Andrea Arcangeli <aarcange@redh=
-at.com> wrote:
-> >>
-> >>> On Tue, Nov 05, 2019 at 08:39:26AM -0800, Daniel Colascione wrote:
-> >>> I'm not suggesting that we fail userfaultfd(2) without CAP_SYS_PTRACE=
-.
-> >>> That would, as you point out, break things. I'm talking about
-> >>> recording *whether* we had CAP_SYS_PTRACE in an internal flag in the
-> >>> uffd context when we create the thing --- and then, at ioctl time,
-> >>> checking that flag, not the caller's CAP_SYS_PTRACE, to see whether
-> >>> UFFD_FEATURE_EVENT_FORK should be made available. This way, the
-> >>> security check hinges on whether the caller *at create time* was
-> >>> privileged.
-> >>
-> >> Until now it wasn't clear to me you still wanted to do the permission
-> >> check in UFFDIO_API time, and you only intended to move the
-> >> "measurement" of the capability to the syscall.
-> >>
-> >> So you're suggesting to add more kernel complexity to code pending for
-> >> removal to achieve a theoretically more pure solution in the band-aid
-> >> required to defer the removal of the posix-breaking read
-> >> implementation of the uffd fork feature?
-> >
-> > And you're suggesting making a security check work weirdly unlike most
-> > other security checks because you hope it'll get removed one day?
-> > Temporary solutions aren't, and if something goes into the kernel at
-> > all, it's worth getting right. The general rule is that access checks
-> > happen at open time. The kernel has already been bitten by UFFD
-> > exempting itself from the normal rules (e.g., the
-> > read(2)-makes-a-file-descriptor thing) in the name of expediency.
-> > There shouldn't be any more exceptions.
->
-> I don=E2=80=99t think ioctl() checking permission is particularly unusual=
-. In principle, it=E2=80=99s better than open for a retrofit =E2=80=94 open=
- didn=E2=80=99t capture this permission in the past, so adding it makes an =
-existing capability stronger than it was, which isn=E2=80=99t fantastic.
 
-All right, let's do it the way the OP's patch does it then.
+On 05/11/2019 20:34, Alexei Starovoitov wrote:
+> On Tue, Nov 05, 2019 at 07:01:41PM +0100, Mickaël Salaün wrote:
+>>
+>> On 05/11/2019 18:18, Alexei Starovoitov wrote:
+>>> On Mon, Nov 04, 2019 at 06:21:43PM +0100, Mickaël Salaün wrote:
+>>>> Add a first Landlock hook that can be used to enforce a security policy
+>>>> or to audit some process activities.  For a sandboxing use-case, it is
+>>>> needed to inform the kernel if a task can legitimately debug another.
+>>>> ptrace(2) can also be used by an attacker to impersonate another task
+>>>> and remain undetected while performing malicious activities.
+>>>>
+>>>> Using ptrace(2) and related features on a target process can lead to a
+>>>> privilege escalation.  A sandboxed task must then be able to tell the
+>>>> kernel if another task is more privileged, via ptrace_may_access().
+>>>>
+>>>> Signed-off-by: Mickaël Salaün <mic@digikod.net>
+>>> ...
+>>>> +static int check_ptrace(struct landlock_domain *domain,
+>>>> +		struct task_struct *tracer, struct task_struct *tracee)
+>>>> +{
+>>>> +	struct landlock_hook_ctx_ptrace ctx_ptrace = {
+>>>> +		.prog_ctx = {
+>>>> +			.tracer = (uintptr_t)tracer,
+>>>> +			.tracee = (uintptr_t)tracee,
+>>>> +		},
+>>>> +	};
+>>>
+>>> So you're passing two kernel pointers obfuscated as u64 into bpf program
+>>> yet claiming that the end goal is to make landlock unprivileged?!
+>>> The most basic security hole in the tool that is aiming to provide security.
+>>
+>> How could you used these pointers without dedicated BPF helpers? This
+>> context items are typed as PTR_TO_TASK and can't be used without a
+>> dedicated helper able to deal with ARG_PTR_TO_TASK. Moreover, pointer
+>> arithmetic is explicitly forbidden (and I added tests for that). Did I
+>> miss something?
+> 
+> It's a pointer leak.
+
+The lifetimes of the pointers are scoped by the two LSM hooks that
+expose them. The LSM framework guarantee that they are safe to use in
+this context.
+
+> 
+>>
+>>>
+>>> I think the only way bpf-based LSM can land is both landlock and KRSI
+>>> developers work together on a design that solves all use cases.
+>>
+>> As I said in a previous cover letter [1], that would be great. I think
+>> that the current Landlock bases (almost everything from this series
+>> except the seccomp interface) should meet both needs, but I would like
+>> to have the point of view of the KRSI developers.
+>>
+>> [1] https://lore.kernel.org/lkml/20191029171505.6650-1-mic@digikod.net/
+>>
+>>> BPF is capable
+>>> to be a superset of all existing LSMs whereas landlock and KRSI propsals today
+>>> are custom solutions to specific security concerns. BPF subsystem was extended
+>>> with custom things in the past. In networking we have lwt, skb, tc, xdp, sk
+>>> program types with a lot of overlapping functionality. We couldn't figure out
+>>> how to generalize them into single 'networking' program. Now we can and we
+>>> should. Accepting two partially overlapping bpf-based LSMs would be repeating
+>>> the same mistake again.
+>>
+>> I'll let the LSM maintainers comment on whether BPF could be a superset
+>> of all LSM, but given the complexity of an access-control system, I have
+>> some doubts though. Anyway, we need to start somewhere and then iterate.
+>> This patch series is a first step.
+> 
+> I would like KRSI folks to speak up. So far I don't see any sharing happening
+> between landlock and KRSI. You're claiming this set is a first step. They're
+> claiming the same about their patches. I'd like to set a patchset that was
+> jointly developed.
+
+With all due respect, Landlock got much more feedback than KRSI and I
+think this thirteenth Landlock patch series is more mature than the
+first KRSI RFC. I'm open to concrete suggestions and I'm willing to
+collaborate with the KRSI folks if they want to. However, I'm OK if they
+don't want to use Landlock as a common ground, and I don't think it
+should be a blocker for any of the projects.
+
+Perfect is the enemy of good. ;)
