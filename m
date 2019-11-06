@@ -2,270 +2,224 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A8849F0991
-	for <lists+linux-api@lfdr.de>; Tue,  5 Nov 2019 23:32:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 776C6F0BFA
+	for <lists+linux-api@lfdr.de>; Wed,  6 Nov 2019 03:18:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730391AbfKEWcg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 5 Nov 2019 17:32:36 -0500
-Received: from sonic306-28.consmr.mail.ne1.yahoo.com ([66.163.189.90]:36600
-        "EHLO sonic306-28.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730288AbfKEWcf (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 5 Nov 2019 17:32:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1572993153; bh=CEqNC2OZLKhyTZ7Hb0wmLJu9sTXB7Mqxnyl1A+S6+TQ=; h=Subject:To:Cc:References:From:Date:In-Reply-To:From:Subject; b=EthnUynlV3IADcJoG7UBd/VTNjzZ7I/WBRXx6R0tOfBu/digqcE9CI8gdRu4aZr81P6OpLwRgnsT25ySQipCfZU0BCUBdunGTXIHoP+PiOZEXdNdmK/jzMYw31lw1aWnh+f0jvUliA4etie2rv1S8EhZBKrzcIFeSDaSgHhTRkQiofew4SCwhWp4p/S+ewHGXd5jG48seSE9Q8ekCTB1PysumwFLXyZ7ON6SQtrPWuquqyU1XdnBQRthU8iDf07Nc+Jf9Cx5lPriaeGI15bo9cmQp+2Yv5ziEAgxf3TDPWz7oqNpGzhXXoxXgig9U+3swL3t2ALLrz9/qUbBzRJ4DQ==
-X-YMail-OSG: rfffkqUVM1mtWPHBkSEHkDFHFeeok1ZQg00bzBb3.jZv4O1lGgzzwpgqdePX6OZ
- 2wiCCfIXfku9bdJSJPbuC.uynz.UKpEKMLq9A90N7FxSs0vvCrkYuLeI70vP.HS1qbFbLZxLoajv
- APnAf4lVryLPORh3ehRfo2ecxYWFpMrxhvyTWIdDz03dy6Ef1c1NB.0nkrIWlOKcty1bHlCKneSY
- WnZ0E8bCeBSnRqJ05Ax1rCB1nMK8WGCru7aWWqvkUuAt3Njz.TmcgHd0DVnDx28jXCmgSKBVYl07
- m_XBbabPZhajs8CoG22v2CvI0XY1.0gD0xPQYH9Wkpkgt8.3Fl1fm7Ab26myjUSniEKVOX0mITx_
- utGnqfzQFR0tQxUw942fQ9Ln.Uki88TS_xdGYRY6xBmRhh6QQuS_hJARlFgdzVNM69yNqLlAPdCM
- vxs__Drt50TIiEJidaazHPgbdURbt4tlCTCQfW4R0k3Lc9QRQqOUA5VGloJDp96t1z3IQ4I2k_Ut
- d2I52vQLMyVMwiGRpofQDYCSeCN7wCdopOKtSC6m04PZZ.G6Tw5qekGrY_gRioO0LULq3ttBJNBH
- ta.ZQfw2OGEltEGS7fJe6Q5GBgHChDEpd4D5GHhEeBiFORQs4bEApBqlYJDXbATHHF0cvLftCKN.
- V4Xp_sHk5ZTTn9f.R4ZhZuj1hgZz2WfmGoKwrjJflvsmk3CJOvGqtsR3HUx7HM53uJl21eY568oj
- r8i9nUBhhfRyFH5W46EMgkTRqHeujpdWsFoz47Np4_lvvCI4q9nuazIdcN.ciDf8jNdNDBha.IVW
- zi3s385lyLENv56IQ7oUn7SImMDPqVQnccSpbQXLK9KHeKn9_NZCECl8TgJIzn54oc6mMmNTcKkh
- MRHnN12UltF_zAUrICz9lppvlYdbwWVssaUiGqmlqygOPjylAHuxbPkKCiyvpuYcrTzzIDZOftAH
- Ekh5Wv1AXnGjOR5eknJrn9Bq6g30FAOIzzz0A3uQOkmM47RtfkCTL5f4ixxWu3EUzDcTKB5A2mbL
- nFyOykPouTuB4zQnOoaIOrRj824trFx5ngqZ5td.U9Aq5UadVbcGBNQFXT9QPD5NxbGxTcGGCUPF
- xE9wLpuGoPxyaFT7fkr.W_K.bgvYCaiHqtT3DuyR1e72jMGWplZanzmUdATo560PH3BtmBVM98Ut
- ehb4TiYD65TKWNWNJcVA.v2lOk4lMztf6q1ITLePRFKgIFmhDjTSriwk8vMv7s.83TIYS1vV9Ehm
- uHxzGDVUvP9pAPtI3VoDH2AonmYyP1fV1WU_VH_THikFCxytq.lMkxAHl..nDFzsTSbO5.iEa.0e
- ocAWJvlJ4R22IBVYY4zPXn4OM7Anqm4yw2CRf7QmHCEERMHm6ohw8TrFdTEb76pPLZ4FGKFEiNOe
- 2MceryyCTaRZyLV59o2o4ViUkEJ8DLuG1H3XoMQ--
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic306.consmr.mail.ne1.yahoo.com with HTTP; Tue, 5 Nov 2019 22:32:33 +0000
-Received: by smtp410.mail.ne1.yahoo.com (Oath Hermes SMTP Server) with ESMTPA ID 8eeec92530544327d71d2d9b5a53830c;
-          Tue, 05 Nov 2019 22:32:29 +0000 (UTC)
-Subject: Re: [PATCH bpf-next v13 4/7] landlock: Add ptrace LSM hooks
-To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc:     =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>,
-        linux-kernel@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        David Drysdale <drysdale@google.com>,
-        Florent Revest <revest@chromium.org>,
-        James Morris <jmorris@namei.org>, Jann Horn <jann@thejh.net>,
-        John Johansen <john.johansen@canonical.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        id S1730756AbfKFCSd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 5 Nov 2019 21:18:33 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:36322 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730724AbfKFCSd (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 5 Nov 2019 21:18:33 -0500
+Received: from [213.220.153.21] (helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1iSAty-0006yE-Ua; Wed, 06 Nov 2019 02:18:31 +0000
+Date:   Wed, 6 Nov 2019 03:18:30 +0100
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Sasha Levin <sashal@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, Florian Weimer <fweimer@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>,
         Kees Cook <keescook@chromium.org>,
-        KP Singh <kpsingh@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mickael.salaun@ssi.gouv.fr>,
-        Paul Moore <paul@paul-moore.com>,
-        Sargun Dhillon <sargun@sargun.me>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Stephen Smalley <sds@tycho.nsa.gov>, Tejun Heo <tj@kernel.org>,
-        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
-        Tycho Andersen <tycho@tycho.ws>,
-        Will Drewry <wad@chromium.org>, bpf@vger.kernel.org,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-security-module@vger.kernel.org, netdev@vger.kernel.org,
-        casey@schaufler-ca.com
-References: <20191104172146.30797-1-mic@digikod.net>
- <20191104172146.30797-5-mic@digikod.net>
- <20191105171824.dfve44gjiftpnvy7@ast-mbp.dhcp.thefacebook.com>
- <c5c6b433-7e6a-c8f8-f063-e704c3df4cc6@schaufler-ca.com>
- <20191105193130.qam2eafnmgvrvjwk@ast-mbp.dhcp.thefacebook.com>
- <637736ef-c48e-ac3b-3eef-8a6a095a96f1@schaufler-ca.com>
- <20191105215453.szhdkrvuekwfz6le@ast-mbp.dhcp.thefacebook.com>
-From:   Casey Schaufler <casey@schaufler-ca.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=casey@schaufler-ca.com; keydata=
- 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
- abzjfg==
-Message-ID: <93f53bdd-a499-6425-111c-ab90d81874d7@schaufler-ca.com>
-Date:   Tue, 5 Nov 2019 14:32:27 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Jann Horn <jannh@google.com>,
+        David Howells <dhowells@redhat.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        linux-api@vger.kernel.org,
+        GNU C Library <libc-alpha@sourceware.org>,
+        stable@vger.kernel.org
+Subject: Re: [PATCH] clone3: validate stack arguments
+Message-ID: <20191106021829.zihexhy2vq4z3if3@wittgenstein>
+References: <20191031113608.20713-1-christian.brauner@ubuntu.com>
+ <20191031124037.E26AF20650@mail.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20191105215453.szhdkrvuekwfz6le@ast-mbp.dhcp.thefacebook.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
-X-Mailer: WebService/1.1.14680 hermes Apache-HttpAsyncClient/4.1.4 (Java/1.8.0_181)
+Content-Disposition: inline
+In-Reply-To: <20191031124037.E26AF20650@mail.kernel.org>
+User-Agent: NeoMutt/20180716
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 11/5/2019 1:54 PM, Alexei Starovoitov wrote:
-> On Tue, Nov 05, 2019 at 11:55:17AM -0800, Casey Schaufler wrote:
->> On 11/5/2019 11:31 AM, Alexei Starovoitov wrote:
->>> On Tue, Nov 05, 2019 at 09:55:42AM -0800, Casey Schaufler wrote:
->>>> On 11/5/2019 9:18 AM, Alexei Starovoitov wrote:
->>>>> On Mon, Nov 04, 2019 at 06:21:43PM +0100, Micka=C3=ABl Sala=C3=BCn =
-wrote:
->>>>>> Add a first Landlock hook that can be used to enforce a security p=
-olicy
->>>>>> or to audit some process activities.  For a sandboxing use-case, i=
-t is
->>>>>> needed to inform the kernel if a task can legitimately debug anoth=
-er.
->>>>>> ptrace(2) can also be used by an attacker to impersonate another t=
-ask
->>>>>> and remain undetected while performing malicious activities.
->>>>>>
->>>>>> Using ptrace(2) and related features on a target process can lead =
-to a
->>>>>> privilege escalation.  A sandboxed task must then be able to tell =
-the
->>>>>> kernel if another task is more privileged, via ptrace_may_access()=
-=2E
->>>>>>
->>>>>> Signed-off-by: Micka=C3=ABl Sala=C3=BCn <mic@digikod.net>
->>>>> ...
->>>>>> +static int check_ptrace(struct landlock_domain *domain,
->>>>>> +		struct task_struct *tracer, struct task_struct *tracee)
->>>>>> +{
->>>>>> +	struct landlock_hook_ctx_ptrace ctx_ptrace =3D {
->>>>>> +		.prog_ctx =3D {
->>>>>> +			.tracer =3D (uintptr_t)tracer,
->>>>>> +			.tracee =3D (uintptr_t)tracee,
->>>>>> +		},
->>>>>> +	};
->>>>> So you're passing two kernel pointers obfuscated as u64 into bpf pr=
-ogram
->>>>> yet claiming that the end goal is to make landlock unprivileged?!
->>>>> The most basic security hole in the tool that is aiming to provide =
-security.
->>>>>
->>>>> I think the only way bpf-based LSM can land is both landlock and KR=
-SI
->>>>> developers work together on a design that solves all use cases. BPF=
- is capable
->>>>> to be a superset of all existing LSMs
->>>> I can't agree with this. Nope. There are many security models
->>>> for which BPF introduces excessive complexity. You don't need
->>>> or want the generality of a general purpose programming language
->>>> to implement Smack or TOMOYO. Or a simple Bell & LaPadula for
->>>> that matter. SELinux? I can't imagine anyone trying to do that
->>>> in eBPF, although I'm willing to be surprised. Being able to
->>>> enforce a policy isn't the only criteria for an LSM.=20
->>> what are the other criteria?
->> They include, but are not limited to, performance impact
->> and the ability to be analyzed.=20
-> Right and BPF is the only thing that exists in the kernel where the ver=
-ifier
-> knows precisely the number of instructions the critical path through th=
-e
-> program will take. Currently we don't quantify this cost for bpf helper=
-s, but
-> it's easy to add. Can you do this for smack? Can you tell upfront the l=
-ongest
-> execution time for all security rules?
+On Thu, Oct 31, 2019 at 12:40:36PM +0000, Sasha Levin wrote:
+> Hi,
+> 
+> [This is an automated email]
+> 
+> This commit has been processed because it contains a "Fixes:" tag,
+> fixing commit: 7f192e3cd316b fork: add clone3.
+> 
+> The bot has tested the following trees: v5.3.8.
+> 
+> v5.3.8: Failed to apply! Possible dependencies:
+>     78f6face5af34 ("sched: add kernel-doc for struct clone_args")
+> 
+> 
+> NOTE: The patch will not be queued to stable trees until it is upstream.
+> 
+> How should we proceed with this patch?
 
-There's much more to analyze than number of instructions.
-There's also completion of policy enforcement. There are
-lots of tools for measuring performance within the kernel.
+Hey Sasha,
 
->> It has to be fast, or the networking people are
->> going to have fits. You can't require the addition
->> of a pointer into the skb because it'll get rejected
->> out of hand. You can't completely refactor the vfs locking
->> to accommodate you needs.
-> I'm not sure why you got such impression. I'm not proposing to refactor=
- vfs or
-> add fields to skb.
+This has now landed in mainline (cf. [2]).
+I would suggest to backport [1] together with [2].
+The patch in [1] only documents struct clone_args and has no functional
+changes.
+If you prefer to only backport a v5.3 specific version of [2] you can
+find it inline (cf. [3]) including the base commit info for the 5.3 stable
+tree.
 
-I'm not saying you did. Those are examples of things you would
-have trouble with.
+Christian
 
->  Once we have equivalent to smack policy implemented in
-> bpf-based lsm let's do performance benchmarking and compare actual numb=
-ers
-> instead of hypothesizing about them. Which policy do you think would be=
+[1]: 78f6face5af3 ("sched: add kernel-doc for struct clone_args")
+[2]: fa729c4df558 ("clone3: validate stack arguments")
+[3]:
 
-> the most representative of smack use case?
+From 5bc5279d0dfa90cc6af385b6e3f65958f223ccab Mon Sep 17 00:00:00 2001
+From: Christian Brauner <christian.brauner@ubuntu.com>
+Date: Thu, 31 Oct 2019 12:36:08 +0100
+Subject: [PATCH] clone3: validate stack arguments
 
-The Tizen3 Three domain model will do just fine.
-https://wiki.tizen.org/Security:SmackThreeDomainModel
+Validate the stack arguments and setup the stack depening on whether or not
+it is growing down or up.
 
+Legacy clone() required userspace to know in which direction the stack is
+growing and pass down the stack pointer appropriately. To make things more
+confusing microblaze uses a variant of the clone() syscall selected by
+CONFIG_CLONE_BACKWARDS3 that takes an additional stack_size argument.
+IA64 has a separate clone2() syscall which also takes an additional
+stack_size argument. Finally, parisc has a stack that is growing upwards.
+Userspace therefore has a lot nasty code like the following:
 
->
->>>> I see many issues with a BPF <-> vfs interface.
->>> There is no such interface today. What do you have in mind?
->> You can't implement SELinux or Smack using BPF without a way
->> to manipulate inode data.
-> Are you talking about inode->i_security ? That's not manipulating inode=
- data.
+ #define __STACK_SIZE (8 * 1024 * 1024)
+ pid_t sys_clone(int (*fn)(void *), void *arg, int flags, int *pidfd)
+ {
+         pid_t ret;
+         void *stack;
 
-Poppycock.
+         stack = malloc(__STACK_SIZE);
+         if (!stack)
+                 return -ENOMEM;
 
-> It's attaching extra metadata to inode object without changing inode it=
-self.
+ #ifdef __ia64__
+         ret = __clone2(fn, stack, __STACK_SIZE, flags | SIGCHLD, arg, pidfd);
+ #elif defined(__parisc__) /* stack grows up */
+         ret = clone(fn, stack, flags | SIGCHLD, arg, pidfd);
+ #else
+         ret = clone(fn, stack + __STACK_SIZE, flags | SIGCHLD, arg, pidfd);
+ #endif
+         return ret;
+ }
 
-Where I come from, we call that inode object data.
+or even crazier variants such as [3].
 
-> BPF can do it already via hash maps. It's not as fast as direct pointer=
- access,
+With clone3() we have the ability to validate the stack. We can check that
+when stack_size is passed, the stack pointer is valid and the other way
+around. We can also check that the memory area userspace gave us is fine to
+use via access_ok(). Furthermore, we probably should not require
+userspace to know in which direction the stack is growing. It is easy
+for us to do this in the kernel and I couldn't find the original
+reasoning behind exposing this detail to userspace.
 
-Then you're not listening. Performance MATTERS!
+/* Intentional user visible API change */
+clone3() was released with 5.3. Currently, it is not documented and very
+unclear to userspace how the stack and stack_size argument have to be
+passed. After talking to glibc folks we concluded that trying to change
+clone3() to setup the stack instead of requiring userspace to do this is
+the right course of action.
+Note, that this is an explicit change in user visible behavior we introduce
+with this patch. If it breaks someone's use-case we will revert! (And then
+e.g. place the new behavior under an appropriate flag.)
+Breaking someone's use-case is very unlikely though. First, neither glibc
+nor musl currently expose a wrapper for clone3(). Second, there is no real
+motivation for anyone to use clone3() directly since it does not provide
+features that legacy clone doesn't. New features for clone3() will first
+happen in v5.5 which is why v5.4 is still a good time to try and make that
+change now and backport it to v5.3. Searches on [4] did not reveal any
+packages calling clone3().
 
-> but for many use cases it's good enough. If it turns out to be a perfor=
-mance
-> limiting factor we will accelerate it.
+[1]: https://lore.kernel.org/r/CAG48ez3q=BeNcuVTKBN79kJui4vC6nw0Bfq6xc-i0neheT17TA@mail.gmail.com
+[2]: https://lore.kernel.org/r/20191028172143.4vnnjpdljfnexaq5@wittgenstein
+[3]: https://github.com/systemd/systemd/blob/5238e9575906297608ff802a27e2ff9effa3b338/src/basic/raw-clone.h#L31
+[4]: https://codesearch.debian.net
+Fixes: 7f192e3cd316 ("fork: add clone3")
+Cc: Kees Cook <keescook@chromium.org>
+Cc: Jann Horn <jannh@google.com>
+Cc: David Howells <dhowells@redhat.com>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Oleg Nesterov <oleg@redhat.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Florian Weimer <fweimer@redhat.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: linux-api@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: <stable@vger.kernel.org> # 5.3
+Cc: GNU C Library <libc-alpha@sourceware.org>
+Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
+Acked-by: Arnd Bergmann <arnd@arndb.de>
+Acked-by: Aleksa Sarai <cyphar@cyphar.com>
+Link: https://lore.kernel.org/r/20191031113608.20713-1-christian.brauner@ubuntu.com
+---
+ kernel/fork.c | 33 ++++++++++++++++++++++++++++++++-
+ 1 file changed, 32 insertions(+), 1 deletion(-)
 
-How many times have I heard that bit of rubbish?
-No. You can't start with a bad design and tweak it to acceptability later=
-=2E
+diff --git a/kernel/fork.c b/kernel/fork.c
+index 3647097e6783..8bbd39585301 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -2586,7 +2586,35 @@ noinline static int copy_clone_args_from_user(struct kernel_clone_args *kargs,
+ 	return 0;
+ }
+ 
+-static bool clone3_args_valid(const struct kernel_clone_args *kargs)
++/**
++ * clone3_stack_valid - check and prepare stack
++ * @kargs: kernel clone args
++ *
++ * Verify that the stack arguments userspace gave us are sane.
++ * In addition, set the stack direction for userspace since it's easy for us to
++ * determine.
++ */
++static inline bool clone3_stack_valid(struct kernel_clone_args *kargs)
++{
++	if (kargs->stack == 0) {
++		if (kargs->stack_size > 0)
++			return false;
++	} else {
++		if (kargs->stack_size == 0)
++			return false;
++
++		if (!access_ok((void __user *)kargs->stack, kargs->stack_size))
++			return false;
++
++#if !defined(CONFIG_STACK_GROWSUP) && !defined(CONFIG_IA64)
++		kargs->stack += kargs->stack_size;
++#endif
++	}
++
++	return true;
++}
++
++static bool clone3_args_valid(struct kernel_clone_args *kargs)
+ {
+ 	/*
+ 	 * All lower bits of the flag word are taken.
+@@ -2606,6 +2634,9 @@ static bool clone3_args_valid(const struct kernel_clone_args *kargs)
+ 	    kargs->exit_signal)
+ 		return false;
+ 
++	if (!clone3_stack_valid(kargs))
++		return false;
++
+ 	return true;
+ }
+ 
 
-
->>>> the mechanisms needed for the concerns of the day. Ideally,
->>>> we should be able to drop mechanisms when we decide that they
->>>> no longer add value.
->>> Exactly. bpf-based lsm must not add to kernel abi.
->> Huh? I have no idea where that came from.
-> It sounds to me that some folks in the community got wrong impression t=
-hat
-> anything that BPF accesses is magically turning that thing into stable =
-kernel
-> ABI. That is not true. BPF progs had access _all_ kernel data pointers =
-and
-> structures for years without turning the whole kernel into stable ABI. =
-I want
-> to make sure that this part is understood. This is also a requirement f=
-or
-> bpf-based LSM. It must not make LSM hooks into stable ABI.
->
+base-commit: db0655e705be645ad673b0a70160921e088517c0
+-- 
+2.23.0
 
