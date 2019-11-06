@@ -2,224 +2,295 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 776C6F0BFA
-	for <lists+linux-api@lfdr.de>; Wed,  6 Nov 2019 03:18:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 64B3AF1186
+	for <lists+linux-api@lfdr.de>; Wed,  6 Nov 2019 09:55:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730756AbfKFCSd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 5 Nov 2019 21:18:33 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:36322 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730724AbfKFCSd (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 5 Nov 2019 21:18:33 -0500
-Received: from [213.220.153.21] (helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1iSAty-0006yE-Ua; Wed, 06 Nov 2019 02:18:31 +0000
-Date:   Wed, 6 Nov 2019 03:18:30 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Sasha Levin <sashal@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, Florian Weimer <fweimer@redhat.com>,
+        id S1728099AbfKFIzm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 6 Nov 2019 03:55:42 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:50919 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727882AbfKFIzl (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 6 Nov 2019 03:55:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1573030538;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=a5xdFXcNgincji0RYeUETKSWOPK9/JzBbCUJSaYDbgU=;
+        b=bXX2X5MFoGSNi1IHzD8y0yfP9hHEe4rY4c5QT9WRO+y6cUznRbGHSO/rrPItyKxOFSS1bx
+        fgesLBowetmvRIlkMsUcF6vdqog/ha5Uu/bkF3asnzA/IIfcikcYSUKX9w5pB2mRPBhfqB
+        p5wK6TUcDxO3bu8IEJVLJlroAjK6Ox0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-36-boHwpARWOCe1CnVuNAgH4w-1; Wed, 06 Nov 2019 03:55:35 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F67C800C72;
+        Wed,  6 Nov 2019 08:55:33 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.43.17.44])
+        by smtp.corp.redhat.com (Postfix) with SMTP id 653E35D70E;
+        Wed,  6 Nov 2019 08:55:30 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+        oleg@redhat.com; Wed,  6 Nov 2019 09:55:32 +0100 (CET)
+Date:   Wed, 6 Nov 2019 09:55:29 +0100
+From:   Oleg Nesterov <oleg@redhat.com>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     Florian Weimer <fweimer@redhat.com>, Shawn Landden <shawn@git.icu>,
+        libc-alpha@sourceware.org, linux-api@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
         Arnd Bergmann <arnd@arndb.de>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>,
-        David Howells <dhowells@redhat.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        linux-api@vger.kernel.org,
-        GNU C Library <libc-alpha@sourceware.org>,
-        stable@vger.kernel.org
-Subject: Re: [PATCH] clone3: validate stack arguments
-Message-ID: <20191106021829.zihexhy2vq4z3if3@wittgenstein>
-References: <20191031113608.20713-1-christian.brauner@ubuntu.com>
- <20191031124037.E26AF20650@mail.kernel.org>
+        Deepa Dinamani <deepa.kernel@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Keith Packard <keithp@keithp.com>,
+        Peter Zijlstra <peterz@infradead.org>
+Subject: Re: handle_exit_race && PF_EXITING
+Message-ID: <20191106085529.GA12575@redhat.com>
+References: <20191104002909.25783-1-shawn@git.icu>
+ <87woceslfs.fsf@oldenburg2.str.redhat.com>
+ <alpine.DEB.2.21.1911051053470.17054@nanos.tec.linutronix.de>
+ <20191105152728.GA5666@redhat.com>
+ <alpine.DEB.2.21.1911051800070.1869@nanos.tec.linutronix.de>
+ <alpine.DEB.2.21.1911051851380.1869@nanos.tec.linutronix.de>
+ <alpine.DEB.2.21.1911051920420.1869@nanos.tec.linutronix.de>
+ <alpine.DEB.2.21.1911051959260.1869@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <alpine.DEB.2.21.1911051959260.1869@nanos.tec.linutronix.de>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: boHwpARWOCe1CnVuNAgH4w-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
-In-Reply-To: <20191031124037.E26AF20650@mail.kernel.org>
-User-Agent: NeoMutt/20180716
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Oct 31, 2019 at 12:40:36PM +0000, Sasha Levin wrote:
-> Hi,
-> 
-> [This is an automated email]
-> 
-> This commit has been processed because it contains a "Fixes:" tag,
-> fixing commit: 7f192e3cd316b fork: add clone3.
-> 
-> The bot has tested the following trees: v5.3.8.
-> 
-> v5.3.8: Failed to apply! Possible dependencies:
->     78f6face5af34 ("sched: add kernel-doc for struct clone_args")
-> 
-> 
-> NOTE: The patch will not be queued to stable trees until it is upstream.
-> 
-> How should we proceed with this patch?
+On 11/05, Thomas Gleixner wrote:
+>
+>  sys_futex()
+>     loop infinite because
+>     =09 PF_EXITING is set,
+> =09 but PF_EXITPIDONE not
 
-Hey Sasha,
+Yes.
 
-This has now landed in mainline (cf. [2]).
-I would suggest to backport [1] together with [2].
-The patch in [1] only documents struct clone_args and has no functional
-changes.
-If you prefer to only backport a v5.3 specific version of [2] you can
-find it inline (cf. [3]) including the base commit info for the 5.3 stable
-tree.
+IOW, the problem is very simple. RT task preempts the exiting lock owner
+after it sets PF_EXITING but before it sets PF_EXITPIDONE, if they run on
+the same CPU futex_lock_pi() will spin forever.
 
-Christian
+> So the obvious question is why PF_EXITPIDONE is set way after the futex
+> exit cleanup has run,
 
-[1]: 78f6face5af3 ("sched: add kernel-doc for struct clone_args")
-[2]: fa729c4df558 ("clone3: validate stack arguments")
-[3]:
+Another obvious question is why this code checks PF_EXITING. I still think
+it should not.
 
-From 5bc5279d0dfa90cc6af385b6e3f65958f223ccab Mon Sep 17 00:00:00 2001
-From: Christian Brauner <christian.brauner@ubuntu.com>
-Date: Thu, 31 Oct 2019 12:36:08 +0100
-Subject: [PATCH] clone3: validate stack arguments
+> The way we can deal with that is:
+>
+>     do_exit()
+>     tsk->flags |=3D PF_EXITING;
+>     ...
+>     mutex_lock(&tsk->futex_exit_mutex);
+>     futex_exit();
+>     tsk->flags |=3D PF_EXITPIDONE;
+>     mutex_unlock(&tsk->futex_exit_mutex);
+>
+> and on the futex lock_pi side:
+>
+>     if (!(tsk->flags & PF_EXITING))
+>     =09return 0;=09=09<- All good
+>
+>     if (tsk->flags & PF_EXITPIDONE)
+>         return -EOWNERDEAD;=09<- Locker can take over
+>
+>     mutex_lock(&tsk->futex_exit_mutex);
+>     if (tsk->flags & PF_EXITPIDONE) {
+>         mutex_unlock(&tsk->futex_exit_mutex);
+>         return -EOWNERDEAD;=09<- Locker can take over
+>     }
+>
+>     queue_futex();
+>     mutex_unlock(&tsk->futex_exit_mutex);
+>
+> Not that I think it's pretty, but it plugs all holes AFAICT.
 
-Validate the stack arguments and setup the stack depening on whether or not
-it is growing down or up.
+I have found the fix I sent in 2015, attached below. I forgot everything
+I knew about futex.c, so I need some time to adapt it to the current code.
 
-Legacy clone() required userspace to know in which direction the stack is
-growing and pass down the stack pointer appropriately. To make things more
-confusing microblaze uses a variant of the clone() syscall selected by
-CONFIG_CLONE_BACKWARDS3 that takes an additional stack_size argument.
-IA64 has a separate clone2() syscall which also takes an additional
-stack_size argument. Finally, parisc has a stack that is growing upwards.
-Userspace therefore has a lot nasty code like the following:
+But I think it is clear what this patch tries to do, do you see any hole?
 
- #define __STACK_SIZE (8 * 1024 * 1024)
- pid_t sys_clone(int (*fn)(void *), void *arg, int flags, int *pidfd)
- {
-         pid_t ret;
-         void *stack;
+Oleg.
 
-         stack = malloc(__STACK_SIZE);
-         if (!stack)
-                 return -ENOMEM;
+[PATCH] futex: don't spin waiting for PF_EXITING -> PF_EXITPIDONE transitio=
+n
 
- #ifdef __ia64__
-         ret = __clone2(fn, stack, __STACK_SIZE, flags | SIGCHLD, arg, pidfd);
- #elif defined(__parisc__) /* stack grows up */
-         ret = clone(fn, stack, flags | SIGCHLD, arg, pidfd);
- #else
-         ret = clone(fn, stack + __STACK_SIZE, flags | SIGCHLD, arg, pidfd);
- #endif
-         return ret;
- }
+It is absolutely not clear why attach_to_pi_owner() returns -EAGAIN which
+triggers "retry" if the lock owner is PF_EXITING but not PF_EXITPIDONE.
+This burns CPU for no reason and this can even livelock if the rt_task()
+caller preempts a PF_EXITING owner.
 
-or even crazier variants such as [3].
+Remove the PF_EXITING check altogether. We do not care if it is exiting,
+all we need to know is can we rely on exit_pi_state_list() or not. So we
+also need to set PF_EXITPIDONE before we flush ->pi_state_list and call
+exit_pi_state_list() unconditionally.
 
-With clone3() we have the ability to validate the stack. We can check that
-when stack_size is passed, the stack pointer is valid and the other way
-around. We can also check that the memory area userspace gave us is fine to
-use via access_ok(). Furthermore, we probably should not require
-userspace to know in which direction the stack is growing. It is easy
-for us to do this in the kernel and I couldn't find the original
-reasoning behind exposing this detail to userspace.
+Perhaps we can add the fast-path list_empty() check in mm_release() back,
+but lets fix the problem first. Besides, in theory this check is already
+not correct, at least it should be list_empty_careful() to avoid the race
+with free_pi_state() in progress.
 
-/* Intentional user visible API change */
-clone3() was released with 5.3. Currently, it is not documented and very
-unclear to userspace how the stack and stack_size argument have to be
-passed. After talking to glibc folks we concluded that trying to change
-clone3() to setup the stack instead of requiring userspace to do this is
-the right course of action.
-Note, that this is an explicit change in user visible behavior we introduce
-with this patch. If it breaks someone's use-case we will revert! (And then
-e.g. place the new behavior under an appropriate flag.)
-Breaking someone's use-case is very unlikely though. First, neither glibc
-nor musl currently expose a wrapper for clone3(). Second, there is no real
-motivation for anyone to use clone3() directly since it does not provide
-features that legacy clone doesn't. New features for clone3() will first
-happen in v5.5 which is why v5.4 is still a good time to try and make that
-change now and backport it to v5.3. Searches on [4] did not reveal any
-packages calling clone3().
-
-[1]: https://lore.kernel.org/r/CAG48ez3q=BeNcuVTKBN79kJui4vC6nw0Bfq6xc-i0neheT17TA@mail.gmail.com
-[2]: https://lore.kernel.org/r/20191028172143.4vnnjpdljfnexaq5@wittgenstein
-[3]: https://github.com/systemd/systemd/blob/5238e9575906297608ff802a27e2ff9effa3b338/src/basic/raw-clone.h#L31
-[4]: https://codesearch.debian.net
-Fixes: 7f192e3cd316 ("fork: add clone3")
-Cc: Kees Cook <keescook@chromium.org>
-Cc: Jann Horn <jannh@google.com>
-Cc: David Howells <dhowells@redhat.com>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Oleg Nesterov <oleg@redhat.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Florian Weimer <fweimer@redhat.com>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: linux-api@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: <stable@vger.kernel.org> # 5.3
-Cc: GNU C Library <libc-alpha@sourceware.org>
-Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
-Acked-by: Arnd Bergmann <arnd@arndb.de>
-Acked-by: Aleksa Sarai <cyphar@cyphar.com>
-Link: https://lore.kernel.org/r/20191031113608.20713-1-christian.brauner@ubuntu.com
+Signed-off-by: Oleg Nesterov <oleg@redhat.com>
 ---
- kernel/fork.c | 33 ++++++++++++++++++++++++++++++++-
- 1 file changed, 32 insertions(+), 1 deletion(-)
+ kernel/exit.c  |   22 +---------------------
+ kernel/fork.c  |    3 +--
+ kernel/futex.c |   40 ++++++++++------------------------------
+ 3 files changed, 12 insertions(+), 53 deletions(-)
 
+diff --git a/kernel/exit.c b/kernel/exit.c
+index 6806c55..bc969ed 100644
+--- a/kernel/exit.c
++++ b/kernel/exit.c
+@@ -683,27 +683,13 @@ void do_exit(long code)
+ =09 */
+ =09if (unlikely(tsk->flags & PF_EXITING)) {
+ =09=09pr_alert("Fixing recursive fault but reboot is needed!\n");
+-=09=09/*
+-=09=09 * We can do this unlocked here. The futex code uses
+-=09=09 * this flag just to verify whether the pi state
+-=09=09 * cleanup has been done or not. In the worst case it
+-=09=09 * loops once more. We pretend that the cleanup was
+-=09=09 * done as there is no way to return. Either the
+-=09=09 * OWNER_DIED bit is set by now or we push the blocked
+-=09=09 * task into the wait for ever nirwana as well.
+-=09=09 */
++=09=09/* Avoid the new additions to ->pi_state_list at least */
+ =09=09tsk->flags |=3D PF_EXITPIDONE;
+ =09=09set_current_state(TASK_UNINTERRUPTIBLE);
+ =09=09schedule();
+ =09}
+=20
+ =09exit_signals(tsk);  /* sets PF_EXITING */
+-=09/*
+-=09 * tsk->flags are checked in the futex code to protect against
+-=09 * an exiting task cleaning up the robust pi futexes.
+-=09 */
+-=09smp_mb();
+-=09raw_spin_unlock_wait(&tsk->pi_lock);
+=20
+ =09if (unlikely(in_atomic()))
+ =09=09pr_info("note: %s[%d] exited with preempt_count %d\n",
+@@ -779,12 +765,6 @@ void do_exit(long code)
+ =09 * Make sure we are holding no locks:
+ =09 */
+ =09debug_check_no_locks_held();
+-=09/*
+-=09 * We can do this unlocked here. The futex code uses this flag
+-=09 * just to verify whether the pi state cleanup has been done
+-=09 * or not. In the worst case it loops once more.
+-=09 */
+-=09tsk->flags |=3D PF_EXITPIDONE;
+=20
+ =09if (tsk->io_context)
+ =09=09exit_io_context(tsk);
 diff --git a/kernel/fork.c b/kernel/fork.c
-index 3647097e6783..8bbd39585301 100644
+index 4dc2dda..ec3208e 100644
 --- a/kernel/fork.c
 +++ b/kernel/fork.c
-@@ -2586,7 +2586,35 @@ noinline static int copy_clone_args_from_user(struct kernel_clone_args *kargs,
- 	return 0;
- }
- 
--static bool clone3_args_valid(const struct kernel_clone_args *kargs)
-+/**
-+ * clone3_stack_valid - check and prepare stack
-+ * @kargs: kernel clone args
-+ *
-+ * Verify that the stack arguments userspace gave us are sane.
-+ * In addition, set the stack direction for userspace since it's easy for us to
-+ * determine.
-+ */
-+static inline bool clone3_stack_valid(struct kernel_clone_args *kargs)
-+{
-+	if (kargs->stack == 0) {
-+		if (kargs->stack_size > 0)
-+			return false;
-+	} else {
-+		if (kargs->stack_size == 0)
-+			return false;
+@@ -803,8 +803,7 @@ void mm_release(struct task_struct *tsk, struct mm_stru=
+ct *mm)
+ =09=09tsk->compat_robust_list =3D NULL;
+ =09}
+ #endif
+-=09if (unlikely(!list_empty(&tsk->pi_state_list)))
+-=09=09exit_pi_state_list(tsk);
++=09exit_pi_state_list(tsk);
+ #endif
+=20
+ =09uprobe_free_utask(tsk);
+diff --git a/kernel/futex.c b/kernel/futex.c
+index b101381..c1104a8 100644
+--- a/kernel/futex.c
++++ b/kernel/futex.c
+@@ -716,11 +716,13 @@ void exit_pi_state_list(struct task_struct *curr)
+=20
+ =09if (!futex_cmpxchg_enabled)
+ =09=09return;
 +
-+		if (!access_ok((void __user *)kargs->stack, kargs->stack_size))
-+			return false;
+ =09/*
+-=09 * We are a ZOMBIE and nobody can enqueue itself on
+-=09 * pi_state_list anymore, but we have to be careful
+-=09 * versus waiters unqueueing themselves:
++=09 * attach_to_pi_owner() can no longer add the new entry. But
++=09 * we have to be careful versus waiters unqueueing themselves.
+ =09 */
++=09curr->flags |=3D PF_EXITPIDONE;
 +
-+#if !defined(CONFIG_STACK_GROWSUP) && !defined(CONFIG_IA64)
-+		kargs->stack += kargs->stack_size;
-+#endif
-+	}
-+
-+	return true;
-+}
-+
-+static bool clone3_args_valid(struct kernel_clone_args *kargs)
- {
- 	/*
- 	 * All lower bits of the flag word are taken.
-@@ -2606,6 +2634,9 @@ static bool clone3_args_valid(const struct kernel_clone_args *kargs)
- 	    kargs->exit_signal)
- 		return false;
- 
-+	if (!clone3_stack_valid(kargs))
-+		return false;
-+
- 	return true;
- }
- 
+ =09raw_spin_lock_irq(&curr->pi_lock);
+ =09while (!list_empty(head)) {
+=20
+@@ -905,24 +907,12 @@ static int attach_to_pi_owner(u32 uval, union futex_k=
+ey *key,
+ =09=09return -EPERM;
+ =09}
+=20
+-=09/*
+-=09 * We need to look at the task state flags to figure out,
+-=09 * whether the task is exiting. To protect against the do_exit
+-=09 * change of the task flags, we do this protected by
+-=09 * p->pi_lock:
+-=09 */
+ =09raw_spin_lock_irq(&p->pi_lock);
+-=09if (unlikely(p->flags & PF_EXITING)) {
+-=09=09/*
+-=09=09 * The task is on the way out. When PF_EXITPIDONE is
+-=09=09 * set, we know that the task has finished the
+-=09=09 * cleanup:
+-=09=09 */
+-=09=09int ret =3D (p->flags & PF_EXITPIDONE) ? -ESRCH : -EAGAIN;
+-
++=09if (unlikely(p->flags & PF_EXITPIDONE)) {
++=09=09/* exit_pi_state_list() was already called */
+ =09=09raw_spin_unlock_irq(&p->pi_lock);
+ =09=09put_task_struct(p);
+-=09=09return ret;
++=09=09return -ESRCH;
+ =09}
+=20
+ =09/*
+@@ -1633,12 +1623,7 @@ retry_private:
+ =09=09=09=09goto retry;
+ =09=09=09goto out;
+ =09=09case -EAGAIN:
+-=09=09=09/*
+-=09=09=09 * Two reasons for this:
+-=09=09=09 * - Owner is exiting and we just wait for the
+-=09=09=09 *   exit to complete.
+-=09=09=09 * - The user space value changed.
+-=09=09=09 */
++=09=09=09/* The user space value changed. */
+ =09=09=09free_pi_state(pi_state);
+ =09=09=09pi_state =3D NULL;
+ =09=09=09double_unlock_hb(hb1, hb2);
+@@ -2295,12 +2280,7 @@ retry_private:
+ =09=09case -EFAULT:
+ =09=09=09goto uaddr_faulted;
+ =09=09case -EAGAIN:
+-=09=09=09/*
+-=09=09=09 * Two reasons for this:
+-=09=09=09 * - Task is exiting and we just wait for the
+-=09=09=09 *   exit to complete.
+-=09=09=09 * - The user space value changed.
+-=09=09=09 */
++=09=09=09/* The user space value changed. */
+ =09=09=09queue_unlock(hb);
+ =09=09=09put_futex_key(&q.key);
+ =09=09=09cond_resched();
+--=20
+1.5.5.1
 
-base-commit: db0655e705be645ad673b0a70160921e088517c0
--- 
-2.23.0
+
 
