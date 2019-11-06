@@ -2,117 +2,68 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CA1EEF1756
-	for <lists+linux-api@lfdr.de>; Wed,  6 Nov 2019 14:38:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C837F183E
+	for <lists+linux-api@lfdr.de>; Wed,  6 Nov 2019 15:16:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729960AbfKFNis (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 6 Nov 2019 08:38:48 -0500
-Received: from Galois.linutronix.de ([193.142.43.55]:44271 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728716AbfKFNir (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 6 Nov 2019 08:38:47 -0500
-Received: from p5b06da22.dip0.t-ipconnect.de ([91.6.218.34] helo=nanos)
-        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <tglx@linutronix.de>)
-        id 1iSLWB-0005eJ-OQ; Wed, 06 Nov 2019 14:38:39 +0100
-Date:   Wed, 6 Nov 2019 14:38:38 +0100 (CET)
-From:   Thomas Gleixner <tglx@linutronix.de>
-To:     Oleg Nesterov <oleg@redhat.com>
-cc:     Florian Weimer <fweimer@redhat.com>, Shawn Landden <shawn@git.icu>,
-        libc-alpha@sourceware.org, linux-api@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
+        id S1727958AbfKFOQc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 6 Nov 2019 09:16:32 -0500
+Received: from l2mail1.panix.com ([166.84.1.75]:50702 "EHLO l2mail1.panix.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727478AbfKFOQb (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 6 Nov 2019 09:16:31 -0500
+X-Greylist: delayed 926 seconds by postgrey-1.27 at vger.kernel.org; Wed, 06 Nov 2019 09:16:30 EST
+Received: from mailbackend.panix.com (mailbackend.panix.com [166.84.1.89])
+        by l2mail1.panix.com (Postfix) with ESMTPS id 477Sqj3NDGzFGw;
+        Wed,  6 Nov 2019 09:01:05 -0500 (EST)
+Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
+        by mailbackend.panix.com (Postfix) with ESMTPSA id 477Sqh2bHWz14BZ;
+        Wed,  6 Nov 2019 09:01:04 -0500 (EST)
+Received: by mail-io1-f51.google.com with SMTP id k1so15264588ioj.6;
+        Wed, 06 Nov 2019 06:01:03 -0800 (PST)
+X-Gm-Message-State: APjAAAW30bdjrwoPxeQ+iEMF8z1CV67HC3DFxqmDKz/ZNvREcNfUWjOF
+        nRA2UU0sLTo0hTmRxJ/RDCtYUe0MXyqs+ilgIds=
+X-Google-Smtp-Source: APXvYqyNiiZ980P2aQYdN2JGZ2ay2hIizWuWJTEwXvcdX3q2z/Mm48i+X6g4IkKCzWPTnAKbEi9ZHkCaXH06gLiiYmk=
+X-Received: by 2002:a5d:9ecd:: with SMTP id a13mr20356555ioe.270.1573048863570;
+ Wed, 06 Nov 2019 06:01:03 -0800 (PST)
+MIME-Version: 1.0
+References: <20191104002909.25783-1-shawn@git.icu> <87woceslfs.fsf@oldenburg2.str.redhat.com>
+ <alpine.DEB.2.21.1911051053470.17054@nanos.tec.linutronix.de>
+ <87sgn2skm6.fsf@oldenburg2.str.redhat.com> <alpine.DEB.2.21.1911051253430.17054@nanos.tec.linutronix.de>
+ <f11d82f1-1e81-e344-3ad2-76e4cb488a3d@redhat.com> <alpine.DEB.2.21.1911051520090.17054@nanos.tec.linutronix.de>
+In-Reply-To: <alpine.DEB.2.21.1911051520090.17054@nanos.tec.linutronix.de>
+From:   Zack Weinberg <zackw@panix.com>
+Date:   Wed, 6 Nov 2019 09:00:51 -0500
+X-Gmail-Original-Message-ID: <CAKCAbMjYBpTjwyMJkkENps09o4KFoQAb_KOKp4g0BtWUXjYAzQ@mail.gmail.com>
+Message-ID: <CAKCAbMjYBpTjwyMJkkENps09o4KFoQAb_KOKp4g0BtWUXjYAzQ@mail.gmail.com>
+Subject: Re: [RFC v2 PATCH] futex: extend set_robust_list to allow 2 locking
+ ABIs at the same time.
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     "Carlos O'Donell" <carlos@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Shawn Landden <shawn@git.icu>,
+        GNU C Library <libc-alpha@sourceware.org>,
+        linux-api@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
         Arnd Bergmann <arnd@arndb.de>,
         Deepa Dinamani <deepa.kernel@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Keith Packard <keithp@keithp.com>,
         Peter Zijlstra <peterz@infradead.org>
-Subject: Re: handle_exit_race && PF_EXITING
-In-Reply-To: <20191106121111.GC12575@redhat.com>
-Message-ID: <alpine.DEB.2.21.1911061409480.1869@nanos.tec.linutronix.de>
-References: <alpine.DEB.2.21.1911051053470.17054@nanos.tec.linutronix.de> <20191105152728.GA5666@redhat.com> <alpine.DEB.2.21.1911051800070.1869@nanos.tec.linutronix.de> <alpine.DEB.2.21.1911051851380.1869@nanos.tec.linutronix.de>
- <alpine.DEB.2.21.1911051920420.1869@nanos.tec.linutronix.de> <alpine.DEB.2.21.1911051959260.1869@nanos.tec.linutronix.de> <20191106085529.GA12575@redhat.com> <alpine.DEB.2.21.1911061028020.1869@nanos.tec.linutronix.de> <20191106103509.GB12575@redhat.com>
- <alpine.DEB.2.21.1911061154520.1869@nanos.tec.linutronix.de> <20191106121111.GC12575@redhat.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Linutronix-Spam-Score: -1.0
-X-Linutronix-Spam-Level: -
-X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, 6 Nov 2019, Oleg Nesterov wrote:
-> But why we can not rely on handle_exit_race() without PF_EXITING check?
-> 
-> Yes, exit_robust_list() is called before exit_pi_state_list() which (with
-> this patch) sets PF_EXITPIDONE. But this is fine? handle_futex_death()
-> doesn't wakeup pi futexes, exit_pi_state_list() does this.
+On Tue, Nov 5, 2019 at 9:28 AM Thomas Gleixner <tglx@linutronix.de> wrote:
+>
+> The real issue is that the robust list could be circular by incident or
+> malice and there is no way for the kernel to figure that out. That would
+> prevent the task from exiting and make it iterate over the list until
+> doomsday, i.e. a nice unpriviledged DoS.
 
-I know. You still create inconsistent state because of this:
+Why can't the kernel use the standard tortoise-and-hare algorithm for
+detecting circular linked lists here?
 
->  	raw_spin_lock_irq(&p->pi_lock);
-> -	if (unlikely(p->flags & PF_EXITING)) {
-> +	if (unlikely(p->flags & PF_EXITPIDONE)) {
->  		/*
->  		 * The task is on the way out. When PF_EXITPIDONE is
->  		 * set, we know that the task has finished the
->  		 * cleanup:
->  		 */
-> -		int ret = handle_exit_race(uaddr, uval, p);
-> +		int ret = handle_exit_race(uaddr, uval);
->  
->  		raw_spin_unlock_irq(&p->pi_lock);
->  		put_task_struct(p);
-
-Same explanation as before just not prosa this time:
-
-exit()					lock_pi(futex2)
-  exit_pi_state_list()
-   lock(tsk->pi_lock)
-   tsk->flags |= PF_EXITPIDONE;		 attach_to_pi_owner()
-					  ...
-  // Loop unrolled for clarity
-  while(!list_empty())			  lock(tsk->pi_lock);
-     cleanup(futex1)
-       unlock(tsk->pi_lock)
-     ...			          if (tsk->flags & PF_EXITPIDONE)
-					     ret = handle_exit_race()
-					       if (uval != orig_uval)
-					           return -EAGAIN;
-					       return -ESRCH;
-
-    cleanup(futex2)			  return to userspace err = -ESRCH
-      update futex2->uval
-      with new owner TID and set
-      OWNER_DIED
-
-    					 userspace handles -ESRCH
-
-					 but futex2->uval has a valid TID
-					 and OWNER_DIED set.
-
-That's inconsistent state, the futex became a SNAFUtex and user space
-cannot recover from that. At least not existing user space and we cannot
-break that, right?
-
-If the kernel returns -ESRCH then the futex value must be preserved (except
-for the waiters bit being set, but that's not part of the problem at hand).
-
-You cannot just look at the kernel state with futexes. We have to guarantee
-consistent state between kernel and user space no matter what. And of
-course we have to be careful about user space creating inconsistent state
-for stupid or malicious reasons. See the whole state table above
-attach_to_pi_state().
-
-The only way to fix this live lock issue is to gracefully wait for the
-cleanup to complete instead of busy looping.
-
-Yes, it sucks, but futexes suck by definition.
-
-Thanks,
-
-	tglx
+zw
