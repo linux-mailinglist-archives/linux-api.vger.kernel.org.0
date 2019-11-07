@@ -2,92 +2,103 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C0DFF35F1
-	for <lists+linux-api@lfdr.de>; Thu,  7 Nov 2019 18:42:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 267E5F3683
+	for <lists+linux-api@lfdr.de>; Thu,  7 Nov 2019 19:02:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730553AbfKGRme (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 7 Nov 2019 12:42:34 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31104 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1730231AbfKGRme (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 7 Nov 2019 12:42:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1573148553;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=X1foU4cyX2MhxBVBENJ4jXE1nzS/4a8PcCvLYQvqpsc=;
-        b=I8MRldZasAUCkppfLsj5z/l1loKZR+DDCxqazbPnIRaO55R+IjGt6WZI5hOn5urGYZrGPj
-        2ZorB40ied/l0RQEls/xePlVywr5dz/3hdjrIqtAEPjy3HpJKeTK3lsw3OxXRbf/DURfHJ
-        kMwwBU9mxVNSSRwGOdnYiOala4zJCEM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-262-D-hZqIeRMxO76CIz0f9Q7w-1; Thu, 07 Nov 2019 12:42:29 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S1725294AbfKGSC1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 7 Nov 2019 13:02:27 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:54998 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725828AbfKGSC1 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 7 Nov 2019 13:02:27 -0500
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 026A5477;
-        Thu,  7 Nov 2019 17:42:25 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-120-254.rdu2.redhat.com [10.10.120.254])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id B9AEB5C6DC;
-        Thu,  7 Nov 2019 17:42:19 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <CAHk-=wiJ+jaT5Ev-wCg7iGNNO_JFUyMDcat0KDdA2b_+n_cZCQ@mail.gmail.com>
-References: <CAHk-=wiJ+jaT5Ev-wCg7iGNNO_JFUyMDcat0KDdA2b_+n_cZCQ@mail.gmail.com> <157262967752.13142.696874122947836210.stgit@warthog.procyon.org.uk> <20191107090306.GV29418@shao2-debian>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     dhowells@redhat.com, lkp report check <rong.a.chen@intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Nicolas Dichtel <nicolas.dichtel@6wind.com>, raven@themaw.net,
-        Christian Brauner <christian@brauner.io>,
-        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-block <linux-block@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        lkp@lists.01.org
-Subject: Re: [pipe] d60337eff1: phoronix-test-suite.noise-level.0.activity_level 144.0% improvement
+        by mx1.redhat.com (Postfix) with ESMTPS id 1AC9359445
+        for <linux-api@vger.kernel.org>; Thu,  7 Nov 2019 18:02:27 +0000 (UTC)
+Received: by mail-qk1-f200.google.com with SMTP id m189so3124789qkc.7
+        for <linux-api@vger.kernel.org>; Thu, 07 Nov 2019 10:02:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=QxggtM34dsozsdPFHx2LTGAue0f3iHAFGKQCXNuEsHo=;
+        b=dXbvw4+DCQ0ioJjzh+t2uvjSEbxTlbFAVFDYmjRs1v95hGmtSCvjF8yXy4Io+flC5B
+         V/SN8frIGRxAksr2txE0Yy86JRzixA2g5NM5UZz5Z6G9ywHSl8O5WGnnOR4uEx4e+I/t
+         RE7Z28XpQ3TuCvxU18FvW10TSnyrNJNKumbUMwKGaP7U2yUao3S8HsLOzHtvkL9EXwCT
+         CpKQy0dRLc/i2uU+pnVpsaq7Y4oyeHZAtIJQIY7tGOE1IN5K6FK8EfR8gsvBJGz3h7g6
+         SSGSY+Ug0i0udArgEy9ZDiiIQKfLQcGqsvax5R107lQ5qtkxeDTfOb+gQe1zQsiZCFev
+         QLDQ==
+X-Gm-Message-State: APjAAAWpvvZkym0S5ryewJApTTi4ow8gVuiogEC+/sqtYRtbZlDNG6Zf
+        PtLDQ+sxcui6RLf5DUToH5MGRytv//aXS2+EUyCWwHmhaV9htDaD3vcITOyCFa+0QcnzwQjAKoi
+        cWf6fpWAmMziMtcnUhSal
+X-Received: by 2002:a37:9d0:: with SMTP id 199mr4189156qkj.356.1573149746289;
+        Thu, 07 Nov 2019 10:02:26 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyCNPN4b9PA1fPHJ1VCAr9WbVHz3ruEVNB2wC6T5dRsc2gQnB/emFGqxY6MXY7u4Zc+rXyByQ==
+X-Received: by 2002:a37:9d0:: with SMTP id 199mr4189120qkj.356.1573149745896;
+        Thu, 07 Nov 2019 10:02:25 -0800 (PST)
+Received: from [192.168.1.4] (135-23-175-75.cpe.pppoe.ca. [135.23.175.75])
+        by smtp.gmail.com with ESMTPSA id v54sm1538877qtc.77.2019.11.07.10.02.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Nov 2019 10:02:25 -0800 (PST)
+Subject: Re: Continuing the UAPI split
+To:     Florian Weimer <fweimer@redhat.com>,
+        Elichai Turkel <elichai.turkel@gmail.com>
+Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
+        linux-api@vger.kernel.org, libc-alpha <libc-alpha@sourceware.org>
+References: <CALN7hCK0EXLXjPRPr+tuuF2-uQvkLMCFDNzGhv9HS-jrAz6Hmg@mail.gmail.com>
+ <0B17C6F2-DC2B-4192-B4AD-BD11D6B9F2B6@ubuntu.com>
+ <87zhh7j38y.fsf@oldenburg2.str.redhat.com>
+ <CALN7hCJ_umFqC1L0T19CuiGiGoVwac5807NDw4LiDqSD-VJL=Q@mail.gmail.com>
+ <87zhh7hlbl.fsf@oldenburg2.str.redhat.com>
+From:   Carlos O'Donell <carlos@redhat.com>
+Organization: Red Hat
+Message-ID: <bc1d29f7-0990-b52f-7a5b-f4faf722fe16@redhat.com>
+Date:   Thu, 7 Nov 2019 13:02:18 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-ID: <25251.1573148538.1@warthog.procyon.org.uk>
-Date:   Thu, 07 Nov 2019 17:42:18 +0000
-Message-ID: <25252.1573148538@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: D-hZqIeRMxO76CIz0f9Q7w-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <87zhh7hlbl.fsf@oldenburg2.str.redhat.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Linus Torvalds <torvalds@linux-foundation.org> wrote:
+On 11/7/19 8:23 AM, Florian Weimer wrote:
+> Officially, it's supposed to work today.  We have one glibc developer
+> who says that it's easy to solve, but I disagree strongly.  The fact
+> that the problems are not fixed promptly suggests that it's anything but
+> simple.
 
-> > FYI, we noticed a 144.0% improvement of phoronix-test-suite.noise-level=
-.0.activity_level due to commit:
-> >
-> > commit: d60337eff18a3c587832ab8053a567f1da9710d2 ("[RFC PATCH 04/11] pi=
-pe: Use head and tail pointers for the ring, not cursor and length [ver #3]=
-")
->=20
-> That sounds nice, but is odd. That commit really shouldn't change
-> anything noticeable. David, any idea?
+Is that one glibc developer me? :-)
 
-Yeah, it does sound odd - the only thing that springs particularly to mind =
-is
-that maybe it's an effect of one of the preceding patches that affects the
-waitqueue stuff.
+They aren't easy to solve, but there is a magic process in place.
 
-TBH, I'm not sure what the Phoronix test suite is actually testing from the
-report.  "noise-level-1.1.0" seems more a reporting script than an actual
-test.
+Getting the definitions to line up is part of the work involved.
 
-David
+Sometimes they may not line up, in that case it doesn't work.
 
+> What I've been doing instead is to include UAPI headers directly from
+> glibc headers if it's technically feasible.  (It's not possible in POSIX
+> mode, where we have to manage the set of exported symbols closely, or
+> generally with old compilers which do not have __has_include.)  See
+> <bits/statx.h>, <bits/statx-generic.h> etc. in current glibc for an
+> example.
+
+That's really the best way to solve it if you can.
+
+> If you add more type definitions to kernel headers, this might interfere
+> with such usage of UAPI headers because today, we need to provide our
+> own definitions for many things not in UAPI headers, and the currently
+> deployed glibc headers are simply not compatible with such future
+> changes.
+
+Right.
+
+-- 
+Cheers,
+Carlos.
