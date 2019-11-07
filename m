@@ -2,177 +2,105 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C74C4F250D
-	for <lists+linux-api@lfdr.de>; Thu,  7 Nov 2019 03:12:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 97723F2949
+	for <lists+linux-api@lfdr.de>; Thu,  7 Nov 2019 09:39:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728315AbfKGCMd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 6 Nov 2019 21:12:33 -0500
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:38493 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727328AbfKGCMd (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 6 Nov 2019 21:12:33 -0500
-Received: by mail-pg1-f194.google.com with SMTP id 15so758982pgh.5
-        for <linux-api@vger.kernel.org>; Wed, 06 Nov 2019 18:12:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dilger-ca.20150623.gappssmtp.com; s=20150623;
-        h=from:message-id:mime-version:subject:date:in-reply-to:cc:to
-         :references;
-        bh=lND0a/QZ/kzzfBaRTM52v39GPUt9IGJLbKna6xlvGWc=;
-        b=E9nt9Zda9ZmaAVCTZ9u2gQsOmAcHCJbaGHoI/YO8Z+uWxTELDG31E7B9bYYyb2BTJE
-         GRGcc7Lz88e0LbwWrbZUeFy7fK+F3BpkTrUNmYYlrIqcpbZdUegFx6C1CX/RGMNaqdj1
-         Ad5s8Sq+3vdbq9WkylDf8kJzRRH92VQfBC+6+o2JBUQGsU5xMILNc2JSj4GhK4jFhixT
-         lLJHfy/WaYHNC574eTjSK2xQCycNBAigQvl734xD0tPESuCi62o7i4FYWcHi9GwNglc2
-         SWt6UNQiOyr08TwKfcOTh8HIgyu4pqFrRVMgBS6fQx/yivjUlDfKL2GdSrHA5YsmeMpQ
-         UHQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:message-id:mime-version:subject:date
-         :in-reply-to:cc:to:references;
-        bh=lND0a/QZ/kzzfBaRTM52v39GPUt9IGJLbKna6xlvGWc=;
-        b=HB6eF5vaPYjURmASsSpRt0l0ZZ3D6q4KzI3RQ2Z5JmntSNRizpw/mOeUnOLGsxOnIc
-         FOxdMt9LVzkE/ZEkk5Am++jUt+E+gIUkDQfrb79XCFlwLr0nzJRpM0fXjZmukWtmMc5v
-         PxSVSWVbgL9+n04nYFYqHsxdvDvoRIbMYVWe4etCA1Pr0rj8ZZinwhq+tPL7PCol+wKZ
-         eEDCT9nqgEfZddJQkAeoMOCLcUPuXl+P/3FxcJgXQUincISOiV2F3dVa7NJ5hkkSSLJr
-         KEA6PkcTAoO7nsTVCoPtTJ9+wbIJ2lMJtHnAVx0bGVbLjOHQp6hD6hg5HbsOjZs1c1VZ
-         lYJg==
-X-Gm-Message-State: APjAAAVz3h5g2BugN8ar7uCDwW0z/0ZXx07R/hHod7ZZchf8MTx2hKIW
-        eksaNT2riPvOF4I6JGqDnHxG+w==
-X-Google-Smtp-Source: APXvYqz63fAIViICS1tEROcaB2czzrHA8q7TJwg8iXkKJ6Mbv4ipKW4aRC0BZiQxQ6iT896wyzjbvA==
-X-Received: by 2002:aa7:971d:: with SMTP id a29mr693865pfg.205.1573092751343;
-        Wed, 06 Nov 2019 18:12:31 -0800 (PST)
-Received: from cabot-wlan.adilger.int (S0106a84e3fe4b223.cg.shawcable.net. [70.77.216.213])
-        by smtp.gmail.com with ESMTPSA id f59sm5268936pje.0.2019.11.06.18.12.20
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 06 Nov 2019 18:12:30 -0800 (PST)
-From:   Andreas Dilger <adilger@dilger.ca>
-Message-Id: <EFEE536E-B2E7-4AFF-ADCD-8C39F26E9C70@dilger.ca>
-Content-Type: multipart/signed;
- boundary="Apple-Mail=_F6EB440A-C078-4861-A5DE-5E6513FE9F53";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-Mime-Version: 1.0 (Mac OS X Mail 10.3 \(3273\))
-Subject: Re: [PATCH 1/4] statx: define STATX_ATTR_VERITY
-Date:   Wed, 6 Nov 2019 19:05:38 -0700
-In-Reply-To: <20191107014420.GD15212@magnolia>
-Cc:     Eric Biggers <ebiggers@kernel.org>, linux-fscrypt@vger.kernel.org,
-        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
-        linux-ext4 <linux-ext4@vger.kernel.org>,
-        linux-f2fs-devel@lists.sourceforge.net,
+        id S1727408AbfKGIjQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 7 Nov 2019 03:39:16 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:4320 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727079AbfKGIjQ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 7 Nov 2019 03:39:16 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id xA78Ofxk079048
+        for <linux-api@vger.kernel.org>; Thu, 7 Nov 2019 03:39:15 -0500
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2w4djmn76t-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-api@vger.kernel.org>; Thu, 07 Nov 2019 03:39:14 -0500
+Received: from localhost
+        by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-api@vger.kernel.org> from <rppt@linux.ibm.com>;
+        Thu, 7 Nov 2019 08:39:12 -0000
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+        by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Thu, 7 Nov 2019 08:39:06 -0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id xA78d5jE47382630
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 7 Nov 2019 08:39:05 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id BE48FA405F;
+        Thu,  7 Nov 2019 08:39:05 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id B4549A4054;
+        Thu,  7 Nov 2019 08:39:04 +0000 (GMT)
+Received: from linux.ibm.com (unknown [9.148.8.128])
+        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Thu,  7 Nov 2019 08:39:04 +0000 (GMT)
+Date:   Thu, 7 Nov 2019 10:39:03 +0200
+From:   Mike Rapoport <rppt@linux.ibm.com>
+To:     Daniel Colascione <dancol@google.com>
+Cc:     Andrea Arcangeli <aarcange@redhat.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jann Horn <jannh@google.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Lokesh Gidra <lokeshgidra@google.com>,
+        Nick Kralevich <nnk@google.com>,
+        Nosh Minwalla <nosh@google.com>,
+        Pavel Emelyanov <ovzxemul@gmail.com>,
+        Tim Murray <timmurray@google.com>,
         Linux API <linux-api@vger.kernel.org>,
-        David Howells <dhowells@redhat.com>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        Victor Hsieh <victorhsieh@google.com>
-To:     "Darrick J. Wong" <darrick.wong@oracle.com>
-References: <20191029204141.145309-1-ebiggers@kernel.org>
- <20191029204141.145309-2-ebiggers@kernel.org>
- <20191107014420.GD15212@magnolia>
-X-Mailer: Apple Mail (2.3273)
+        linux-mm <linux-mm@kvack.org>
+Subject: Re: [PATCH 1/1] userfaultfd: require CAP_SYS_PTRACE for
+ UFFD_FEATURE_EVENT_FORK
+References: <1572967777-8812-1-git-send-email-rppt@linux.ibm.com>
+ <1572967777-8812-2-git-send-email-rppt@linux.ibm.com>
+ <CAKOZuev93zDGNPX+ySg_jeUg4Z3zKMcpABekUQvHA01kTVn4=A@mail.gmail.com>
+ <CALCETrX=VmSjD6kLT6tuZQ4Efhc_13vZrw1mo4Z2iKqZTT-bzg@mail.gmail.com>
+ <20191105162424.GH30717@redhat.com>
+ <CAKOZuet=g++G+biSP5bU-Rppu6fykU1TVUDj20NapqAYQY4r9A@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKOZuet=g++G+biSP5bU-Rppu6fykU1TVUDj20NapqAYQY4r9A@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-TM-AS-GCONF: 00
+x-cbid: 19110708-0008-0000-0000-0000032C54E9
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19110708-0009-0000-0000-00004A4B58F4
+Message-Id: <20191107083902.GB3247@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-11-07_02:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=954 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1910280000 definitions=main-1911070084
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+Hi Daniel,
 
---Apple-Mail=_F6EB440A-C078-4861-A5DE-5E6513FE9F53
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+On Tue, Nov 05, 2019 at 08:41:18AM -0800, Daniel Colascione wrote:
+> On Tue, Nov 5, 2019 at 8:24 AM Andrea Arcangeli <aarcange@redhat.com> wrote:
+> > The long term plan is to introduce UFFD_FEATURE_EVENT_FORK2 feature
+> > flag that uses the ioctl to receive the child uffd, it'll consume more
+> > CPU, but it wouldn't require the PTRACE privilege anymore.
+> 
+> Why not just have callers retrieve FDs using recvmsg? This way, you
+> retrieve the message packet and the file descriptor at the same time
+> and you don't need any appreciable extra CPU use.
 
-On Nov 6, 2019, at 6:44 PM, Darrick J. Wong <darrick.wong@oracle.com> =
-wrote:
->=20
-> On Tue, Oct 29, 2019 at 01:41:38PM -0700, Eric Biggers wrote:
->> From: Eric Biggers <ebiggers@google.com>
->>=20
->> Add a statx attribute bit STATX_ATTR_VERITY which will be set if the
->> file has fs-verity enabled.  This is the statx() equivalent of
->> FS_VERITY_FL which is returned by FS_IOC_GETFLAGS.
->>=20
->> This is useful because it allows applications to check whether a file =
-is
->> a verity file without opening it.  Opening a verity file can be
->> expensive because the fsverity_info is set up on open, which involves
->> parsing metadata and optionally verifying a cryptographic signature.
->>=20
->> This is analogous to how various other bits are exposed through both
->> FS_IOC_GETFLAGS and statx(), e.g. the encrypt bit.
->>=20
->> Signed-off-by: Eric Biggers <ebiggers@google.com>
->> ---
->> include/linux/stat.h      | 3 ++-
->> include/uapi/linux/stat.h | 2 +-
->> 2 files changed, 3 insertions(+), 2 deletions(-)
->>=20
->> diff --git a/include/linux/stat.h b/include/linux/stat.h
->> index 765573dc17d659..528c4baad09146 100644
->> --- a/include/linux/stat.h
->> +++ b/include/linux/stat.h
->> @@ -33,7 +33,8 @@ struct kstat {
->> 	 STATX_ATTR_IMMUTABLE |				\
->> 	 STATX_ATTR_APPEND |				\
->> 	 STATX_ATTR_NODUMP |				\
->> -	 STATX_ATTR_ENCRYPTED				\
->> +	 STATX_ATTR_ENCRYPTED |				\
->> +	 STATX_ATTR_VERITY				\
->> 	 )/* Attrs corresponding to FS_*_FL flags */
->> 	u64		ino;
->> 	dev_t		dev;
->> diff --git a/include/uapi/linux/stat.h b/include/uapi/linux/stat.h
->> index 7b35e98d3c58b1..ad80a5c885d598 100644
->> --- a/include/uapi/linux/stat.h
->> +++ b/include/uapi/linux/stat.h
->> @@ -167,8 +167,8 @@ struct statx {
->> #define STATX_ATTR_APPEND		0x00000020 /* [I] File is =
-append-only */
->> #define STATX_ATTR_NODUMP		0x00000040 /* [I] File is not to =
-be dumped */
->> #define STATX_ATTR_ENCRYPTED		0x00000800 /* [I] File requires =
-key to decrypt in fs */
->> -
->> #define STATX_ATTR_AUTOMOUNT		0x00001000 /* Dir: Automount =
-trigger */
->> +#define STATX_ATTR_VERITY		0x00100000 /* [I] Verity =
-protected file */
->=20
-> Any reason why this wasn't 0x2000?
+I don't follow you here. Can you elaborate on how recvmsg would be used in
+this case?
 
-A few lines earlier in this file it states:
+-- 
+Sincerely yours,
+Mike.
 
- * Note that the flags marked [I] correspond to generic FS_IOC_FLAGS
- * semantically.  Where possible, the numerical value is picked to
- * correspond also.
-
-Cheers, Andreas
-
-
-
-
-
-
---Apple-Mail=_F6EB440A-C078-4861-A5DE-5E6513FE9F53
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - http://gpgtools.org
-
-iQIzBAEBCAAdFiEEDb73u6ZejP5ZMprvcqXauRfMH+AFAl3DfJ0ACgkQcqXauRfM
-H+C67w/+PzbCLZMTkU9avwCySPMGr9WuwCpEcfNUagrH5o9t3EThVRYKlznqnD0M
-SWRQeFvDugcj1Ojr35RmukzOmPdgcw5G5AQp2wSrC6LJrfr/ltMXL39zD29lMHEB
-gCiYe6iGKq9UafGTAByH0ArPegVIZsEbsrPIiCzCkLGmRTRyAh3/bVyucsnX1lli
-RwTBDfU8ABJ1hY7weKi/NhXYRo18xre0U3gLHVQZRGlgESUpPHDGCGlQyfaXBzl0
-aodswi6xnEA+WbRH7QjSLQ+k+UEvWaH2G5H6dUFVaG0eUWPTryPwJnL3Ljk4PgXx
-5YYGmJ72DkxVNnzB65CLl8li1W7fsJdSQwOGsQ1/MZTw0H3mZpy6L2CwJxhhtluI
-4u0ZF4ZOiUgXpPqdv/DAUjeIMtE4DFHaQe/UHns04oIasp/0K1prqiXi+/zgkoCu
-0raYL1GseaT2ATMKB3qAFrQ0tC1qEbAKC3pdm1lpTh9n6oTQufaWRgrP8B1S1TAk
-cKr+4VXtxJ/lwFCfqUXKRKCO/OWIKRsP1P13VhEr7ClDBE1mkyowwBvt7Misylpl
-8oLHkdYu+qF+/5uQE9bADaIRHG+kuqDMga9905IgcNg/TRYOVQeMCcBPTQsVH1JP
-7VZ+j1tEe4TcWctvhT+usADtkrjjF5sAJXq8nkyCriS6RbFBmfw=
-=71BE
------END PGP SIGNATURE-----
-
---Apple-Mail=_F6EB440A-C078-4861-A5DE-5E6513FE9F53--
