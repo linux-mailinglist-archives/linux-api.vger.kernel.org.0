@@ -2,60 +2,64 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DEF8F3591
-	for <lists+linux-api@lfdr.de>; Thu,  7 Nov 2019 18:18:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C0DFF35F1
+	for <lists+linux-api@lfdr.de>; Thu,  7 Nov 2019 18:42:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730250AbfKGRSG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 7 Nov 2019 12:18:06 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:54580 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728847AbfKGRSG (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 7 Nov 2019 12:18:06 -0500
+        id S1730553AbfKGRme (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 7 Nov 2019 12:42:34 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31104 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1730231AbfKGRme (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 7 Nov 2019 12:42:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1573147085;
+        s=mimecast20190719; t=1573148553;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=0SEdWQaGFryuTv/nsU1+nEbvt9xnFrBLM9hi5OTh5uI=;
-        b=QJy+YiWsRiyBVP5Oyk1auOE3Cl8/tpohPz7BG3aYRJmZhS42HVatC5aIPrR1F4yyYxZr7C
-        OZCCPrV40g/JGvKyNXyCpZH2Ju+yhtfEPYcUI7yCVRICdIvUhgOvHMuVO78OkKvcmQbjmt
-        Ge6c0NPcrfa/KQm4cL1QvfnmfWXAuJE=
+        bh=X1foU4cyX2MhxBVBENJ4jXE1nzS/4a8PcCvLYQvqpsc=;
+        b=I8MRldZasAUCkppfLsj5z/l1loKZR+DDCxqazbPnIRaO55R+IjGt6WZI5hOn5urGYZrGPj
+        2ZorB40ied/l0RQEls/xePlVywr5dz/3hdjrIqtAEPjy3HpJKeTK3lsw3OxXRbf/DURfHJ
+        kMwwBU9mxVNSSRwGOdnYiOala4zJCEM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-383-cIIWMNoZMgeVRr0hN4Mq8A-1; Thu, 07 Nov 2019 12:16:17 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+ us-mta-262-D-hZqIeRMxO76CIz0f9Q7w-1; Thu, 07 Nov 2019 12:42:29 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F06C1005500;
-        Thu,  7 Nov 2019 17:16:15 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 026A5477;
+        Thu,  7 Nov 2019 17:42:25 +0000 (UTC)
 Received: from warthog.procyon.org.uk (ovpn-120-254.rdu2.redhat.com [10.10.120.254])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 597AB608B3;
-        Thu,  7 Nov 2019 17:16:10 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id B9AEB5C6DC;
+        Thu,  7 Nov 2019 17:42:19 +0000 (UTC)
 Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
         Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
         Kingdom.
         Registered in England and Wales under Company Registration No. 3798903
 From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <157313376558.29677.12389078014886241663.stgit@warthog.procyon.org.uk>
-References: <157313376558.29677.12389078014886241663.stgit@warthog.procyon.org.uk> <157313371694.29677.15388731274912671071.stgit@warthog.procyon.org.uk>
-To:     torvalds@linux-foundation.org
-Cc:     dhowells@redhat.com,
+In-Reply-To: <CAHk-=wiJ+jaT5Ev-wCg7iGNNO_JFUyMDcat0KDdA2b_+n_cZCQ@mail.gmail.com>
+References: <CAHk-=wiJ+jaT5Ev-wCg7iGNNO_JFUyMDcat0KDdA2b_+n_cZCQ@mail.gmail.com> <157262967752.13142.696874122947836210.stgit@warthog.procyon.org.uk> <20191107090306.GV29418@shao2-debian>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     dhowells@redhat.com, lkp report check <rong.a.chen@intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Stephen Smalley <sds@tycho.nsa.gov>, nicolas.dichtel@6wind.com,
-        raven@themaw.net, Christian Brauner <christian@brauner.io>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Nicolas Dichtel <nicolas.dichtel@6wind.com>, raven@themaw.net,
+        Christian Brauner <christian@brauner.io>,
         keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-security-module@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 05/14] pipe: Add general notification queue support [ver #2]
+        linux-block <linux-block@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        lkp@lists.01.org
+Subject: Re: [pipe] d60337eff1: phoronix-test-suite.noise-level.0.activity_level 144.0% improvement
 MIME-Version: 1.0
-Content-ID: <28292.1573146969.1@warthog.procyon.org.uk>
-Date:   Thu, 07 Nov 2019 17:16:09 +0000
-Message-ID: <28293.1573146969@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: cIIWMNoZMgeVRr0hN4Mq8A-1
+Content-ID: <25251.1573148538.1@warthog.procyon.org.uk>
+Date:   Thu, 07 Nov 2019 17:42:18 +0000
+Message-ID: <25252.1573148538@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: D-hZqIeRMxO76CIz0f9Q7w-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
@@ -64,9 +68,26 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Sigh.  I forgot to build it with the new config options disabled.  I've fix=
-ed
-that up and pushed it to the git tree.
+Linus Torvalds <torvalds@linux-foundation.org> wrote:
+
+> > FYI, we noticed a 144.0% improvement of phoronix-test-suite.noise-level=
+.0.activity_level due to commit:
+> >
+> > commit: d60337eff18a3c587832ab8053a567f1da9710d2 ("[RFC PATCH 04/11] pi=
+pe: Use head and tail pointers for the ring, not cursor and length [ver #3]=
+")
+>=20
+> That sounds nice, but is odd. That commit really shouldn't change
+> anything noticeable. David, any idea?
+
+Yeah, it does sound odd - the only thing that springs particularly to mind =
+is
+that maybe it's an effect of one of the preceding patches that affects the
+waitqueue stuff.
+
+TBH, I'm not sure what the Phoronix test suite is actually testing from the
+report.  "noise-level-1.1.0" seems more a reporting script than an actual
+test.
 
 David
 
