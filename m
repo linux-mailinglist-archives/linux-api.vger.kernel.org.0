@@ -2,43 +2,43 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AE96F36F6
-	for <lists+linux-api@lfdr.de>; Thu,  7 Nov 2019 19:24:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1EB35F3786
+	for <lists+linux-api@lfdr.de>; Thu,  7 Nov 2019 19:48:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725851AbfKGSYS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 7 Nov 2019 13:24:18 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:32040 "EHLO
+        id S1725990AbfKGSsv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 7 Nov 2019 13:48:51 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:20602 "EHLO
         us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727506AbfKGSYS (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 7 Nov 2019 13:24:18 -0500
+        by vger.kernel.org with ESMTP id S1726969AbfKGSsv (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 7 Nov 2019 13:48:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1573151056;
+        s=mimecast20190719; t=1573152530;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=rq286i/rn9P6qBg6Lj1S41KuQGmj4Rym9Rza+pzwTUU=;
-        b=gxccqK4SlQB7fbgoLZbNR17gvVHcFYwcWo9ZYqgYukcWr1lfjURrpiKP1rbzVawzJWNkX3
-        JdAujPtINmJRpIEKN+Bztp1l3bbrb5Cyrbtxt44wDtrFRm8HoyBIhvpqlFbKMcjYS1xRyS
-        2Idj1FpLMXe8iFUvqySM3RpEPHTSWjk=
+        bh=UHB0JrKl2/lgoy546a6o5x0iXWhc257PTYUJn/4Bje0=;
+        b=IzWCw6Joj6xY0pxmrt8uf+HitdTf1u5HxPuCNhyPwd+atj0HVEEvvcfqnXDHJq5Q3iMUs1
+        mYP8gP15+qfCHcfUawOYCNJ0A6HvzQWv3FpQSZZ40HpBK69B913VawjCUjhMl+9oEoazo5
+        wcoHY8T3eYEVFyOIQYvdO6F58R4aLKc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-431-pb7rxykWNYyYpdYIKUe7Iw-1; Thu, 07 Nov 2019 13:23:10 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+ us-mta-270-B9RjU769P3eP409e546QHA-1; Thu, 07 Nov 2019 13:48:44 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D6421005500;
-        Thu,  7 Nov 2019 18:23:08 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70429800C61;
+        Thu,  7 Nov 2019 18:48:41 +0000 (UTC)
 Received: from warthog.procyon.org.uk (ovpn-120-254.rdu2.redhat.com [10.10.120.254])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id AD28A60BEC;
-        Thu,  7 Nov 2019 18:23:05 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 54380600D3;
+        Thu,  7 Nov 2019 18:48:38 +0000 (UTC)
 Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
         Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
         Kingdom.
         Registered in England and Wales under Company Registration No. 3798903
 From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <CALCETrWszYm9=-WEgSbhmGc3DYCvY6q3W4Lezm6YtKnGtRs_5g@mail.gmail.com>
-References: <CALCETrWszYm9=-WEgSbhmGc3DYCvY6q3W4Lezm6YtKnGtRs_5g@mail.gmail.com> <157313371694.29677.15388731274912671071.stgit@warthog.procyon.org.uk> <157313379331.29677.5209561321495531328.stgit@warthog.procyon.org.uk>
+In-Reply-To: <CALCETrUka9KaOKFbNKUXcA6XvoFxiXPftctSHtN4DL35Cay61w@mail.gmail.com>
+References: <CALCETrUka9KaOKFbNKUXcA6XvoFxiXPftctSHtN4DL35Cay61w@mail.gmail.com> <157313371694.29677.15388731274912671071.stgit@warthog.procyon.org.uk> <157313375678.29677.15875689548927466028.stgit@warthog.procyon.org.uk>
 To:     Andy Lutomirski <luto@kernel.org>
 Cc:     dhowells@redhat.com,
         Linus Torvalds <torvalds@linux-foundation.org>,
@@ -53,13 +53,13 @@ Cc:     dhowells@redhat.com,
         Linux FS Devel <linux-fsdevel@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
         LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC PATCH 08/14] pipe: Allow buffers to be marked read-whole-or-error for notifications [ver #2]
+Subject: Re: [RFC PATCH 04/14] pipe: Add O_NOTIFICATION_PIPE [ver #2]
 MIME-Version: 1.0
-Content-ID: <4648.1573150984.1@warthog.procyon.org.uk>
-Date:   Thu, 07 Nov 2019 18:23:04 +0000
-Message-ID: <4649.1573150984@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: pb7rxykWNYyYpdYIKUe7Iw-1
+Content-ID: <6963.1573152517.1@warthog.procyon.org.uk>
+Date:   Thu, 07 Nov 2019 18:48:37 +0000
+Message-ID: <6964.1573152517@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: B9RjU769P3eP409e546QHA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
@@ -70,26 +70,66 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 Andy Lutomirski <luto@kernel.org> wrote:
 
-> > Allow a buffer to be marked such that read() must return the entire buf=
-fer
-> > in one go or return ENOBUFS.  Multiple buffers can be amalgamated into =
-a
-> > single read, but a short read will occur if the next "whole" buffer won=
-'t
-> > fit.
-> >
-> > This is useful for watch queue notifications to make sure we don't spli=
-t a
-> > notification across multiple reads, especially given that we need to
-> > fabricate an overrun record under some circumstances - and that isn't i=
-n
-> > the buffers.
->=20
-> Hmm.  I'm not totally in love with introducing a new error code like
-> this for read(), especially if it could affect the kind of pipe that
-> is bound to a file in a filesystem.  But maybe it's not a problem.
+> > Add an O_NOTIFICATION_PIPE flag that can be passed to pipe2() to indica=
+te
+> > that the pipe being created is going to be used for notifications.  Thi=
+s
+> > suppresses the use of splice(), vmsplice(), tee() and sendfile() on the
+> > pipe as calling iov_iter_revert() on a pipe when a kernel notification
+> > message has been inserted into the middle of a multi-buffer splice will=
+ be
+> > messy.
+>
+> How messy?
 
-EMSGSIZE might be better?
+Well, iov_iter_revert() on a pipe iterator simply walks backwards along the
+ring discarding the last N contiguous slots (where N is normally the number=
+ of
+slots that were filled by whatever operation is being reverted).
+
+However, unless the code that transfers stuff into the pipe takes the spinl=
+ock
+spinlock and disables softirqs for the duration of its ring filling, what w=
+ere
+N contiguous slots may now have kernel notifications interspersed - even if=
+ it
+has been holding the pipe mutex.
+
+So, now what do you do?  You have to free up just the buffers relevant to t=
+he
+iterator and then you can either compact down the ring to free up the space=
+ or
+you can leave null slots and let the read side clean them up, thereby
+reducing the capacity of the pipe temporarily.
+
+Either way, iov_iter_revert() gets more complex and has to hold the spinloc=
+k.
+
+And if you don't take the spinlock whilst you're reverting, more notificati=
+ons
+can come in to make your life more interesting.
+
+There's also a problem with splicing out from a notification pipe that the
+messages are scribed onto preallocated buffers, but now the buffers need
+refcounts and, in any case, are of limited quantity.
+
+> And is there some way to make it impossible for this to happen?
+
+Yes.  That's what I'm doing by declaring the pipe to be unspliceable up fro=
+nt.
+
+> Adding a new flag to pipe2() to avoid messy kernel code seems
+> like a poor tradeoff.
+
+By far the easiest place to check whether a pipe can be spliced to is in
+get_pipe_info().  That's checking the file anyway.  After that, you can't m=
+ake
+the check until the pipe is locked.
+
+Furthermore, if it's not done upfront, the change to the pipe might happen
+during a splicing operation that's residing in pipe_wait()... which drops t=
+he
+pipe mutex.
 
 David
 
