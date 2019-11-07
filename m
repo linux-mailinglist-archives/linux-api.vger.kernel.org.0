@@ -2,77 +2,95 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C2CC9F2DE1
-	for <lists+linux-api@lfdr.de>; Thu,  7 Nov 2019 13:05:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4926FF2DF3
+	for <lists+linux-api@lfdr.de>; Thu,  7 Nov 2019 13:11:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727437AbfKGMFW convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Thu, 7 Nov 2019 07:05:22 -0500
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:34526 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727178AbfKGMFV (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 7 Nov 2019 07:05:21 -0500
-Received: by mail-wr1-f66.google.com with SMTP id e6so2779688wrw.1
-        for <linux-api@vger.kernel.org>; Thu, 07 Nov 2019 04:05:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:user-agent:in-reply-to:references
-         :mime-version:content-transfer-encoding:subject:to:from:message-id;
-        bh=6BlTQMHHw+Jn2iVg9vXkBzx0Gxjup5Jjor5ThaHXmok=;
-        b=cOctnWDH2GaPVMP5PS/wGV232sQhhWdFXi33esKvuNQsM136J+OiCoEMH0E1pQGwYq
-         iqpval9oyyyXA9Y/xxuq4KNwIhtLKBJSHKD3TfRyB/WfIio+MefGE/Q7OecyJpyEF63d
-         conBFOwp6YExLBFOKsRf7uqsYlz42mOcZD1w4mx1pDSFhC1ZhJYn5LQm3OUGXcIdKVDR
-         aWYog1d5R+Xj0AkfVtOYFwIt+/ylOLh1TgEBqdmec1/AbzP2gX35cF44EBXGKcUqebTB
-         7dK6jOQ2/LUJt7cu7eWIvmBOEEjByq/GL/6myjxg+cmcQnuNVljXCcelPBLEp7sx9R4w
-         gM4A==
-X-Gm-Message-State: APjAAAWwYORNbM/pd3JhkL8M51dWHCAc24mSRwm/rJjsYGyTik/NdY0r
-        2NTvUBciV68z1wuAaaY+dp+lXQ==
-X-Google-Smtp-Source: APXvYqw/U9e+KOsCRz32jkpR6HS+2FjmIgBZSPpmTRE7ozoym720IYdWnBU79dQ4ful73iohXVNUsQ==
-X-Received: by 2002:adf:dc06:: with SMTP id t6mr2599330wri.378.1573128319595;
-        Thu, 07 Nov 2019 04:05:19 -0800 (PST)
-Received: from [10.102.229.175] ([185.81.136.18])
-        by smtp.gmail.com with ESMTPSA id q15sm1998294wrr.82.2019.11.07.04.05.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Nov 2019 04:05:18 -0800 (PST)
-Date:   Thu, 07 Nov 2019 13:05:16 +0100
-User-Agent: K-9 Mail for Android
-In-Reply-To: <CALN7hCK0EXLXjPRPr+tuuF2-uQvkLMCFDNzGhv9HS-jrAz6Hmg@mail.gmail.com>
-References: <CALN7hCK0EXLXjPRPr+tuuF2-uQvkLMCFDNzGhv9HS-jrAz6Hmg@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 8BIT
+        id S1727142AbfKGMLA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 7 Nov 2019 07:11:00 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40191 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726873AbfKGMLA (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 7 Nov 2019 07:11:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1573128659;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=PkIQqir5pW7f0G3vmE6jkltpSFD4oviKVpNlhFvzoLk=;
+        b=hZOiWab1KBez1ZCM7+ySFlxVt2W+lS6I5ZmQxyE5HUSZO+LQIkxhWSYqIgFUMHhbTxlx0a
+        PBiialI1gJc2FGiat+36wo0Idq6Es+yYzs7fy2qvk6/oecknO48eqzLUlE4GtO76ncZCRt
+        wpRifo1xr0cxi/YzTit/NBJ51lCHkTY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-193-wbKC7P3UNW6IlyI5MKNOJQ-1; Thu, 07 Nov 2019 07:10:56 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85E071005500;
+        Thu,  7 Nov 2019 12:10:55 +0000 (UTC)
+Received: from oldenburg2.str.redhat.com (dhcp-192-200.str.redhat.com [10.33.192.200])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 9F21019C6A;
+        Thu,  7 Nov 2019 12:10:54 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Elichai Turkel <elichai.turkel@gmail.com>,
+        linux-api@vger.kernel.org, libc-alpha <libc-alpha@sourceware.org>
 Subject: Re: Continuing the UAPI split
-To:     Elichai Turkel <elichai.turkel@gmail.com>,
-        linux-api@vger.kernel.org, libc-alpha <libc-alpha@sourceware.org>,
-        Florian Weimer <fweimer@redhat.com>
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-Message-ID: <0B17C6F2-DC2B-4192-B4AD-BD11D6B9F2B6@ubuntu.com>
+References: <CALN7hCK0EXLXjPRPr+tuuF2-uQvkLMCFDNzGhv9HS-jrAz6Hmg@mail.gmail.com>
+        <0B17C6F2-DC2B-4192-B4AD-BD11D6B9F2B6@ubuntu.com>
+Date:   Thu, 07 Nov 2019 13:10:53 +0100
+In-Reply-To: <0B17C6F2-DC2B-4192-B4AD-BD11D6B9F2B6@ubuntu.com> (Christian
+        Brauner's message of "Thu, 07 Nov 2019 13:05:16 +0100")
+Message-ID: <87zhh7j38y.fsf@oldenburg2.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: wbKC7P3UNW6IlyI5MKNOJQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-[+Cc Florian, glibc]
+* Christian Brauner:
 
-On November 7, 2019 12:17:50 PM GMT+01:00, Elichai Turkel <elichai.turkel@gmail.com> wrote:
->Hi,
->I'm working on a library that calls syscalls directly to the kernel.
->`make hedears_install` is a great command to auto generate the UAPI
->headers that are needed to call the kernel.
+> [+Cc Florian, glibc]
 >
->But the headers are still missing a bunch of defines for flags and
->structs.
->
->I wanted to know if patches to move more things from `./include/linux`
->to `./include/uapi/linux` are welcome (obviously only
->typedefs/defines/structs that are required for the syscalls)
->
->I think the UAPI is really close to getting a complete set of things
->needed to communicate with the syscalls, but still not quite there. I
->would like to push patches whenever I see missing things that my
->library needs (that way it will be incrementally and by usage only).
->
->Would love to get feedback.
->Thanks,
->Elichai.
+> On November 7, 2019 12:17:50 PM GMT+01:00, Elichai Turkel <elichai.turkel=
+@gmail.com> wrote:
+>>Hi,
+>>I'm working on a library that calls syscalls directly to the kernel.
+>>`make hedears_install` is a great command to auto generate the UAPI
+>>headers that are needed to call the kernel.
+>>
+>>But the headers are still missing a bunch of defines for flags and
+>>structs.
+>>
+>>I wanted to know if patches to move more things from `./include/linux`
+>>to `./include/uapi/linux` are welcome (obviously only
+>>typedefs/defines/structs that are required for the syscalls)
+>>
+>>I think the UAPI is really close to getting a complete set of things
+>>needed to communicate with the syscalls, but still not quite there. I
+>>would like to push patches whenever I see missing things that my
+>>library needs (that way it will be incrementally and by usage only).
+
+The kernel uses some POSIX names with POSIX-incompatible definitions,
+e.g. struct msghdr.  Some libcs prioritize POSIX conformance over kernel
+conformance and implement userspace translation for mismatch types.
+When building against such libcs, it becomes difficult to use UAPI and
+libc headers in a single translation unit.  (It is already difficult
+today in some cases.)
+
+I don't know a good solution here.  Not using POSIX names in UAPI
+headers is one option.  Previously, we have tried to use preprocessor
+macros to coordinate definitions, but did not work well in practice
+(only few conflicts were ever resolved).  It does not help at all when
+the definitions are incompatible.
+
+Thanks,
+Florian
 
