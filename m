@@ -2,214 +2,119 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C56C9F2FE3
-	for <lists+linux-api@lfdr.de>; Thu,  7 Nov 2019 14:37:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DC6AF305E
+	for <lists+linux-api@lfdr.de>; Thu,  7 Nov 2019 14:48:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727142AbfKGNhj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 7 Nov 2019 08:37:39 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25055 "EHLO
+        id S1727858AbfKGNsD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 7 Nov 2019 08:48:03 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21572 "EHLO
         us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S2389274AbfKGNhi (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 7 Nov 2019 08:37:38 -0500
+        with ESMTP id S2388913AbfKGNsD (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 7 Nov 2019 08:48:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1573133857;
+        s=mimecast20190719; t=1573134481;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=vModMaExKzPyatIlo+9SWLkezhO2DwCfI4t3f2wYBPY=;
-        b=e4iAcl5SQ+BkO2WMolNuUT7sQHTVaB4yxQs2ugcu5yAMdC3RvjZM76FYarw9QLX6gWI2PY
-        vk6G/A3dSu60/09+tgfr2y0nGQi2rRebj4nlA1XZRRg0JPBAKPqrYuiB0YJWcrNAXUlCtq
-        c6RCfI37/LiJrLV961ce1zWc2E8hSCQ=
+        bh=0KOQyTjrXeO2BATDacaFvE++gK4mhw32+/Fp+qiwNH4=;
+        b=gcAvgyiWeWBeUx1jU9jSpwqS5pG8sEqwNaGGvB+uyEfolBF9tPSHjUGN/EBvwcPzXRqPPB
+        SGfDts6zz2emC699DafGeNPaenY0ED2VOgFCXf9D80gbdQocoTrKmEcTy1sQ56br0U2OXW
+        34CRLkETDkv4sS0o6WreKTGBDnnoniQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-364-_HSEua-AM3KNXwOf-qBRAA-1; Thu, 07 Nov 2019 08:37:36 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+ us-mta-248-5qXTb8wmOhiU0B-FsjWN9A-1; Thu, 07 Nov 2019 08:47:58 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 28349107ACC3;
-        Thu,  7 Nov 2019 13:37:34 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-120-254.rdu2.redhat.com [10.10.120.254])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 3746A194B2;
-        Thu,  7 Nov 2019 13:37:31 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
- Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
- Kingdom.
- Registered in England and Wales under Company Registration No. 3798903
-Subject: [RFC PATCH 14/14] smack: Implement the watch_key and
- post_notification hooks [ver #2]
-From:   David Howells <dhowells@redhat.com>
-To:     torvalds@linux-foundation.org
-Cc:     dhowells@redhat.com,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Stephen Smalley <sds@tycho.nsa.gov>, nicolas.dichtel@6wind.com,
-        raven@themaw.net, Christian Brauner <christian@brauner.io>,
-        dhowells@redhat.com, keyrings@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Thu, 07 Nov 2019 13:37:30 +0000
-Message-ID: <157313385046.29677.1508444632181965475.stgit@warthog.procyon.org.uk>
-In-Reply-To: <157313371694.29677.15388731274912671071.stgit@warthog.procyon.org.uk>
-References: <157313371694.29677.15388731274912671071.stgit@warthog.procyon.org.uk>
-User-Agent: StGit/unknown-version
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2B51D1800D7B;
+        Thu,  7 Nov 2019 13:47:57 +0000 (UTC)
+Received: from oldenburg2.str.redhat.com (dhcp-192-200.str.redhat.com [10.33.192.200])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 438055D6A0;
+        Thu,  7 Nov 2019 13:47:56 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Elichai Turkel <elichai.turkel@gmail.com>,
+        linux-api@vger.kernel.org, libc-alpha <libc-alpha@sourceware.org>
+Subject: Re: Continuing the UAPI split
+References: <CALN7hCK0EXLXjPRPr+tuuF2-uQvkLMCFDNzGhv9HS-jrAz6Hmg@mail.gmail.com>
+        <0B17C6F2-DC2B-4192-B4AD-BD11D6B9F2B6@ubuntu.com>
+        <87zhh7j38y.fsf@oldenburg2.str.redhat.com>
+        <CALN7hCJ_umFqC1L0T19CuiGiGoVwac5807NDw4LiDqSD-VJL=Q@mail.gmail.com>
+        <87zhh7hlbl.fsf@oldenburg2.str.redhat.com>
+        <20191107133652.lqp5cqcdtwu22ibd@wittgenstein>
+Date:   Thu, 07 Nov 2019 14:47:54 +0100
+In-Reply-To: <20191107133652.lqp5cqcdtwu22ibd@wittgenstein> (Christian
+        Brauner's message of "Thu, 7 Nov 2019 14:36:54 +0100")
+Message-ID: <87v9rvhk6t.fsf@oldenburg2.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: _HSEua-AM3KNXwOf-qBRAA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: 5qXTb8wmOhiU0B-FsjWN9A-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Implement the watch_key security hook in Smack to make sure that a key
-grants the caller Read permission in order to set a watch on a key.
+* Christian Brauner:
 
-Also implement the post_notification security hook to make sure that the
-notification source is granted Write permission by the watch queue.
+> A problem I recently ran into that is related are problems with
+> sys/wait.h and linux/wait.h.
+> How P_{PID,PGID,PIDFD} used by the waitid() syscall are defined is
+> different for the two headers.
+> linux/wait.h uses #define for P_{PID,PGID,PIDFD} whereas sys/wait.h
+> uses an enum.
+> The problem is that if I simply don't rely on sys/wait.h and just do
+> #ifndef P_PID
+> #define P_PID <value>
+> #endif
+> where value is what the syscall expects then technically I need to call
+> the waitid() syscall directly since it's not at all guaranteed - afaict
+> - that the P_PID enum =3D=3D P_PID define that glibc uses for its waitid(=
+)
+> syscall wrapper.
 
-For the moment, the watch_devices security hook is left unimplemented as
-it's not obvious what the object should be since the queue is global and
-didn't previously exist.
+Right, and this is where POSIX mandates that there is a type idtype_t
+which is an enum, an that it has members P_PID etc.
 
-Signed-off-by: David Howells <dhowells@redhat.com>
-Acked-by: Casey Schaufler <casey@schaufler-ca.com>
----
+What we could do is:
 
- include/linux/lsm_audit.h  |    1 +
- security/smack/smack_lsm.c |   82 ++++++++++++++++++++++++++++++++++++++++=
-+++-
- 2 files changed, 82 insertions(+), 1 deletion(-)
+typedef enum
+{
+  P_ALL,=09=09/* Wait for any child.  */
+#define P_ALL P_ALL
+  P_PID,=09=09/* Wait for specified process.  */
+#define P_PID P_PID
+  P_PGID=09=09/* Wait for members of process group.  */
+#define P_PGID P_PGID
+} idtype_t;
 
-diff --git a/include/linux/lsm_audit.h b/include/linux/lsm_audit.h
-index 915330abf6e5..734d67889826 100644
---- a/include/linux/lsm_audit.h
-+++ b/include/linux/lsm_audit.h
-@@ -74,6 +74,7 @@ struct common_audit_data {
- #define LSM_AUDIT_DATA_FILE=0912
- #define LSM_AUDIT_DATA_IBPKEY=0913
- #define LSM_AUDIT_DATA_IBENDPORT 14
-+#define LSM_AUDIT_DATA_NOTIFICATION 15
- =09union =09{
- =09=09struct path path;
- =09=09struct dentry *dentry;
-diff --git a/security/smack/smack_lsm.c b/security/smack/smack_lsm.c
-index ecea41ce919b..71b6f37d49c1 100644
---- a/security/smack/smack_lsm.c
-+++ b/security/smack/smack_lsm.c
-@@ -4273,7 +4273,7 @@ static int smack_key_permission(key_ref_t key_ref,
- =09if (tkp =3D=3D NULL)
- =09=09return -EACCES;
-=20
--=09if (smack_privileged_cred(CAP_MAC_OVERRIDE, cred))
-+=09if (smack_privileged(CAP_MAC_OVERRIDE))
- =09=09return 0;
-=20
- #ifdef CONFIG_AUDIT
-@@ -4319,8 +4319,81 @@ static int smack_key_getsecurity(struct key *key, ch=
-ar **_buffer)
- =09return length;
- }
-=20
-+
-+#ifdef CONFIG_KEY_NOTIFICATIONS
-+/**
-+ * smack_watch_key - Smack access to watch a key for notifications.
-+ * @key: The key to be watched
-+ *
-+ * Return 0 if the @watch->cred has permission to read from the key object=
- and
-+ * an error otherwise.
-+ */
-+static int smack_watch_key(struct key *key)
-+{
-+=09struct smk_audit_info ad;
-+=09struct smack_known *tkp =3D smk_of_current();
-+=09int rc;
-+
-+=09if (key =3D=3D NULL)
-+=09=09return -EINVAL;
-+=09/*
-+=09 * If the key hasn't been initialized give it access so that
-+=09 * it may do so.
-+=09 */
-+=09if (key->security =3D=3D NULL)
-+=09=09return 0;
-+=09/*
-+=09 * This should not occur
-+=09 */
-+=09if (tkp =3D=3D NULL)
-+=09=09return -EACCES;
-+
-+=09if (smack_privileged_cred(CAP_MAC_OVERRIDE, current_cred()))
-+=09=09return 0;
-+
-+#ifdef CONFIG_AUDIT
-+=09smk_ad_init(&ad, __func__, LSM_AUDIT_DATA_KEY);
-+=09ad.a.u.key_struct.key =3D key->serial;
-+=09ad.a.u.key_struct.key_desc =3D key->description;
-+#endif
-+=09rc =3D smk_access(tkp, key->security, MAY_READ, &ad);
-+=09rc =3D smk_bu_note("key watch", tkp, key->security, MAY_READ, rc);
-+=09return rc;
-+}
-+#endif /* CONFIG_KEY_NOTIFICATIONS */
- #endif /* CONFIG_KEYS */
-=20
-+#ifdef CONFIG_WATCH_QUEUE
-+/**
-+ * smack_post_notification - Smack access to post a notification to a queu=
-e
-+ * @w_cred: The credentials of the watcher.
-+ * @cred: The credentials of the event source (may be NULL).
-+ * @n: The notification message to be posted.
-+ */
-+static int smack_post_notification(const struct cred *w_cred,
-+=09=09=09=09   const struct cred *cred,
-+=09=09=09=09   struct watch_notification *n)
-+{
-+=09struct smk_audit_info ad;
-+=09struct smack_known *subj, *obj;
-+=09int rc;
-+
-+=09/* Always let maintenance notifications through. */
-+=09if (n->type =3D=3D WATCH_TYPE_META)
-+=09=09return 0;
-+
-+=09if (!cred)
-+=09=09return 0;
-+=09subj =3D smk_of_task(smack_cred(cred));
-+=09obj =3D smk_of_task(smack_cred(w_cred));
-+
-+=09smk_ad_init(&ad, __func__, LSM_AUDIT_DATA_NOTIFICATION);
-+=09rc =3D smk_access(subj, obj, MAY_WRITE, &ad);
-+=09rc =3D smk_bu_note("notification", subj, obj, MAY_WRITE, rc);
-+=09return rc;
-+}
-+#endif /* CONFIG_WATCH_QUEUE */
-+
- /*
-  * Smack Audit hooks
-  *
-@@ -4709,8 +4782,15 @@ static struct security_hook_list smack_hooks[] __lsm=
-_ro_after_init =3D {
- =09LSM_HOOK_INIT(key_free, smack_key_free),
- =09LSM_HOOK_INIT(key_permission, smack_key_permission),
- =09LSM_HOOK_INIT(key_getsecurity, smack_key_getsecurity),
-+#ifdef CONFIG_KEY_NOTIFICATIONS
-+=09LSM_HOOK_INIT(watch_key, smack_watch_key),
-+#endif
- #endif /* CONFIG_KEYS */
-=20
-+#ifdef CONFIG_WATCH_QUEUE
-+=09LSM_HOOK_INIT(post_notification, smack_post_notification),
-+#endif
-+
-  /* Audit hooks */
- #ifdef CONFIG_AUDIT
- =09LSM_HOOK_INIT(audit_rule_init, smack_audit_rule_init),
+The other header can then use #ifdef.  You'll see that pattern in some
+cases already.
+
+But that will only work if you include glibc headers first.  The generic
+approach uses some shared macro for the coordination so that things work
+both ways.
+
+The other issue here is that it gets rather iffy from a language point
+of view if the kernel wants to add additional constants and glibc has
+still the old idtype_t definition.
+
+> So I'm now in a scenario where I can't call the glibc wrapper for
+> waitid() with the linux/wait.h defines and I can't call the syscall
+> directly (e.g. because I want to make use of the syscall's rusage
+> argument that glibc doesn't expose) with sys/wait.h's P_PID enum.
+> I'm not sure what the right solution is here...
+
+Yes, it's a hard problem.  waitid is particularly annoying because POSIX
+and the kernel have such different function prototypes.  We could
+perhaps expose the actual waitid system call under a different name, and
+use int for the ID type parameter.  But that needs someone to write a
+patch.  (My efforts to add syscall wrappers have stalled unfortunately.)
+
+Thanks,
+Florian
 
