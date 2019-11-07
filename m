@@ -2,56 +2,75 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 03ECEF3987
-	for <lists+linux-api@lfdr.de>; Thu,  7 Nov 2019 21:32:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F7E5F3AE6
+	for <lists+linux-api@lfdr.de>; Thu,  7 Nov 2019 23:05:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725868AbfKGUcL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 7 Nov 2019 15:32:11 -0500
-Received: from albireo.enyo.de ([37.24.231.21]:46300 "EHLO albireo.enyo.de"
+        id S1726094AbfKGWFj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 7 Nov 2019 17:05:39 -0500
+Received: from mail.kernel.org ([198.145.29.99]:36220 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725844AbfKGUcK (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 7 Nov 2019 15:32:10 -0500
-Received: from [172.17.203.2] (helo=deneb.enyo.de)
-        by albireo.enyo.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        id 1iSoRq-00035X-27; Thu, 07 Nov 2019 20:32:06 +0000
-Received: from fw by deneb.enyo.de with local (Exim 4.92)
-        (envelope-from <fw@deneb.enyo.de>)
-        id 1iSoRp-0000yO-VZ; Thu, 07 Nov 2019 21:32:05 +0100
-From:   Florian Weimer <fw@deneb.enyo.de>
-To:     Carlos O'Donell <carlos@redhat.com>
-Cc:     Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-        Elichai Turkel <elichai.turkel@gmail.com>, nd <nd@arm.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        "linux-api\@vger.kernel.org" <linux-api@vger.kernel.org>,
-        libc-alpha <libc-alpha@sourceware.org>
-Subject: Re: Continuing the UAPI split
-References: <CALN7hCK0EXLXjPRPr+tuuF2-uQvkLMCFDNzGhv9HS-jrAz6Hmg@mail.gmail.com>
-        <0B17C6F2-DC2B-4192-B4AD-BD11D6B9F2B6@ubuntu.com>
-        <87zhh7j38y.fsf@oldenburg2.str.redhat.com>
-        <CALN7hCJ_umFqC1L0T19CuiGiGoVwac5807NDw4LiDqSD-VJL=Q@mail.gmail.com>
-        <facb4d0d-4e20-41f0-4c01-b210c677c24c@arm.com>
-        <086ffddf-553f-453d-a046-4d5e6abead21@redhat.com>
-Date:   Thu, 07 Nov 2019 21:32:05 +0100
-In-Reply-To: <086ffddf-553f-453d-a046-4d5e6abead21@redhat.com> (Carlos
-        O'Donell's message of "Thu, 7 Nov 2019 13:05:19 -0500")
-Message-ID: <875zjvo2be.fsf@mid.deneb.enyo.de>
+        id S1725882AbfKGWFj (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 7 Nov 2019 17:05:39 -0500
+Received: from ebiggers-linuxstation.mtv.corp.google.com (unknown [104.132.1.77])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 75F1820679;
+        Thu,  7 Nov 2019 22:05:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1573164338;
+        bh=cygUg6uzZhrE0QtmMOaogM8YgrVMvUUpNVFQTtn+FhQ=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=U2ahxXJfpD62ZZyL2kWYVQCil+YiEuYvGM8qrEkDSjEVJjfGgM3GEvh0BPqaKZlR2
+         3AK1LyQIj/blgbUFME6KpJ1OgdutTDdk902RgybzDOjQPJjSSRYVTaCtNIbbKUWQO7
+         BxkzKA5F71d6dLX4jWeEJPrEmQnD9ad5nJk92Dt0=
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     linux-man@vger.kernel.org
+Cc:     darrick.wong@oracle.com, dhowells@redhat.com, jaegeuk@kernel.org,
+        linux-api@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net,
+        linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        tytso@mit.edu, victorhsieh@google.com
+Subject: [man-pages RFC PATCH] statx.2: document STATX_ATTR_VERITY
+Date:   Thu,  7 Nov 2019 14:02:48 -0800
+Message-Id: <20191107220248.32025-1-ebiggers@kernel.org>
+X-Mailer: git-send-email 2.24.0.rc1.363.gb1bccd3e3d-goog
+In-Reply-To: <20191107014420.GD15212@magnolia>
+References: <20191107014420.GD15212@magnolia>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Carlos O'Donell:
+From: Eric Biggers <ebiggers@google.com>
 
-> On 11/7/19 11:21 AM, Szabolcs Nagy wrote:
->>> Or just giving up and telling users they can't just directly include
->>> both libc headers and kernel headers?
->> 
->> including both libc and linux headers is fragile and
->> will break differently across the different linux
->> libc implementations.
->
-> We saw this all the time working in embedded.
+Document the verity attribute for statx().
 
-Do you mean you saw problems while you working in the embedded space?
+Signed-off-by: Eric Biggers <ebiggers@google.com>
+---
+ man2/statx.2 | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+RFC since the kernel patches are currently under review.
+The kernel patches can be found here:
+https://lkml.kernel.org/linux-fscrypt/20191029204141.145309-1-ebiggers@kernel.org/T/#u
+
+diff --git a/man2/statx.2 b/man2/statx.2
+index d2f1b07b8..713bd1260 100644
+--- a/man2/statx.2
++++ b/man2/statx.2
+@@ -461,6 +461,10 @@ See
+ .TP
+ .B STATX_ATTR_ENCRYPTED
+ A key is required for the file to be encrypted by the filesystem.
++.TP
++.B STATX_ATTR_VERITY
++The file has fs-verity enabled.  It cannot be written to, and all reads from it
++will be verified against a Merkle tree.
+ .SH RETURN VALUE
+ On success, zero is returned.
+ On error, \-1 is returned, and
+-- 
+2.24.0.rc1.363.gb1bccd3e3d-goog
+
