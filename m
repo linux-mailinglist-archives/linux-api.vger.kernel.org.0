@@ -2,94 +2,77 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D2CCF40B2
-	for <lists+linux-api@lfdr.de>; Fri,  8 Nov 2019 07:43:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 136C4F415A
+	for <lists+linux-api@lfdr.de>; Fri,  8 Nov 2019 08:28:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728075AbfKHGnC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 8 Nov 2019 01:43:02 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21499 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1729888AbfKHGnA (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 8 Nov 2019 01:43:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1573195379;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=G8x+s0gT+EQcwDzJx0Qq2QbxI7ZiAY//ltXx+x3jOGg=;
-        b=K0Vy1weLhKpp+bOYWw9qkFhoWjt5hAnm5TJDvgl+GMj6vYvO4f8cr3fTcdesvFUfFCgcKy
-        ReGybiIDU97z6kY7DmNomlfd+rLZO78KxLyqCFZwh2U/SIFyGLv8PNigXHfLK1tusotyt5
-        zRgKfr8mMlnBgxWHfNOqEDD6HSlFqS0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-217-VLRlQoNXNQOdqlAzq2_FZA-1; Fri, 08 Nov 2019 01:42:56 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67DF6477;
-        Fri,  8 Nov 2019 06:42:54 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-120-254.rdu2.redhat.com [10.10.120.254])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 8307A10016DA;
-        Fri,  8 Nov 2019 06:42:51 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <CALCETrWeN9CGJHz0dzG1uH5Qjbr+xG3OKZuEd33eBY_rAzVkqQ@mail.gmail.com>
-References: <CALCETrWeN9CGJHz0dzG1uH5Qjbr+xG3OKZuEd33eBY_rAzVkqQ@mail.gmail.com> <157313371694.29677.15388731274912671071.stgit@warthog.procyon.org.uk> <157313375678.29677.15875689548927466028.stgit@warthog.procyon.org.uk> <CALCETrUka9KaOKFbNKUXcA6XvoFxiXPftctSHtN4DL35Cay61w@mail.gmail.com> <6964.1573152517@warthog.procyon.org.uk>
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     dhowells@redhat.com,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        Nicolas Dichtel <nicolas.dichtel@6wind.com>, raven@themaw.net,
-        Christian Brauner <christian@brauner.io>,
-        keyrings@vger.kernel.org, USB list <linux-usb@vger.kernel.org>,
-        linux-block <linux-block@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC PATCH 04/14] pipe: Add O_NOTIFICATION_PIPE [ver #2]
+        id S1729770AbfKHH2X (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 8 Nov 2019 02:28:23 -0500
+Received: from albireo.enyo.de ([37.24.231.21]:50802 "EHLO albireo.enyo.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725900AbfKHH2X (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 8 Nov 2019 02:28:23 -0500
+Received: from [172.17.203.2] (helo=deneb.enyo.de)
+        by albireo.enyo.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        id 1iSygt-00077I-8k; Fri, 08 Nov 2019 07:28:19 +0000
+Received: from fw by deneb.enyo.de with local (Exim 4.92)
+        (envelope-from <fw@deneb.enyo.de>)
+        id 1iSygc-0003Ot-Px; Fri, 08 Nov 2019 08:28:02 +0100
+From:   Florian Weimer <fw@deneb.enyo.de>
+To:     Carlos O'Donell <carlos@redhat.com>
+Cc:     Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+        Elichai Turkel <elichai.turkel@gmail.com>, nd <nd@arm.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        "linux-api\@vger.kernel.org" <linux-api@vger.kernel.org>,
+        libc-alpha <libc-alpha@sourceware.org>
+Subject: Re: Continuing the UAPI split
+References: <CALN7hCK0EXLXjPRPr+tuuF2-uQvkLMCFDNzGhv9HS-jrAz6Hmg@mail.gmail.com>
+        <0B17C6F2-DC2B-4192-B4AD-BD11D6B9F2B6@ubuntu.com>
+        <87zhh7j38y.fsf@oldenburg2.str.redhat.com>
+        <CALN7hCJ_umFqC1L0T19CuiGiGoVwac5807NDw4LiDqSD-VJL=Q@mail.gmail.com>
+        <facb4d0d-4e20-41f0-4c01-b210c677c24c@arm.com>
+        <086ffddf-553f-453d-a046-4d5e6abead21@redhat.com>
+        <875zjvo2be.fsf@mid.deneb.enyo.de>
+        <70a264b5-427f-fa6e-7f70-768724202d14@redhat.com>
+Date:   Fri, 08 Nov 2019 08:28:02 +0100
+In-Reply-To: <70a264b5-427f-fa6e-7f70-768724202d14@redhat.com> (Carlos
+        O'Donell's message of "Thu, 7 Nov 2019 17:32:01 -0500")
+Message-ID: <87sgmyvnct.fsf@mid.deneb.enyo.de>
 MIME-Version: 1.0
-Content-ID: <7771.1573195370.1@warthog.procyon.org.uk>
-Date:   Fri, 08 Nov 2019 06:42:50 +0000
-Message-ID: <7772.1573195370@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: VLRlQoNXNQOdqlAzq2_FZA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Andy Lutomirski <luto@kernel.org> wrote:
+* Carlos O'Donell:
 
-> I can open a normal pipe from userspace (with pipe() or pipe2()), and
-> I can have two threads.  One thread writes to the pipe with write().
-> The other thread writes with splice().  Everything works fine.
+> On 11/7/19 3:32 PM, Florian Weimer wrote:
+>> * Carlos O'Donell:
+>> 
+>>> On 11/7/19 11:21 AM, Szabolcs Nagy wrote:
+>>>>> Or just giving up and telling users they can't just directly include
+>>>>> both libc headers and kernel headers?
+>>>>
+>>>> including both libc and linux headers is fragile and
+>>>> will break differently across the different linux
+>>>> libc implementations.
+>>>
+>>> We saw this all the time working in embedded.
+>> 
+>> Do you mean you saw problems while you working in the embedded space?
+>  
+> Yes, embedded Linux to be specific.
+>
+> There is a strong coupling between the kernel version and the toolchain
+> version, specifically because the strategies we take to solve these
+> problems end up being brittle in this regard.
+>
+> Too new a kernel and you get new header problems not solved by your
+> old libc. Too new a libc and the kernel doesn't have the header
+> coordination fixes required for the newer software that needed the
+> newer libc.
+>
+> Does that clarify my point?
 
-Yes.  Every operation you do on a pipe from userspace is serialised with th=
-e
-pipe mutex - and both ends share the same pipe.
-
-> What's special about notifications?
-
-The post_notification() cannot take the pipe mutex.  It has to be callable
-from softirq context.  Linus's idea is that when you're actually altering t=
-he
-ring pointers you should hold the wake-queue spinlock, and post_notificatio=
-n()
-holds the wake queue spinlock for the duration of the operation.
-
-This means that post_notification() can be writing to the pipe whilst a
-userspace-invoked operation is holding the pipe mutex and is also doing
-something to the ring.
-
-David
-
+Yes, it does.  It wasn't clear to me if you wanted to say that this
+was actually working for the embedded case.
