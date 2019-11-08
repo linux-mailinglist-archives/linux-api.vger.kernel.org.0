@@ -2,241 +2,239 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BFA48F536E
-	for <lists+linux-api@lfdr.de>; Fri,  8 Nov 2019 19:19:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C86BEF537C
+	for <lists+linux-api@lfdr.de>; Fri,  8 Nov 2019 19:26:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729232AbfKHSTm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 8 Nov 2019 13:19:42 -0500
-Received: from mga01.intel.com ([192.55.52.88]:43693 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726349AbfKHSTm (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 8 Nov 2019 13:19:42 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Nov 2019 10:19:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,282,1569308400"; 
-   d="scan'208";a="193240621"
-Received: from yyu32-desk1.sc.intel.com ([10.144.153.205])
-  by orsmga007.jf.intel.com with ESMTP; 08 Nov 2019 10:19:40 -0800
-Message-ID: <530c46a1f4be6477ad75803401cfd4ce18abbd95.camel@intel.com>
-Subject: Re: [PATCH v8 27/27] x86/cet/shstk: Add Shadow Stack instructions
- to opcode map
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Adrian Hunter <adrian.hunter@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>
-Date:   Fri, 08 Nov 2019 10:09:17 -0800
-In-Reply-To: <15568c48-b950-484d-d176-0f0e38a94bf7@intel.com>
-References: <20190813205225.12032-1-yu-cheng.yu@intel.com>
-         <20190813205225.12032-28-yu-cheng.yu@intel.com>
-         <15568c48-b950-484d-d176-0f0e38a94bf7@intel.com>
+        id S1727931AbfKHS0d (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 8 Nov 2019 13:26:33 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:39327 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726152AbfKHS0c (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 8 Nov 2019 13:26:32 -0500
+Received: by mail-lj1-f196.google.com with SMTP id p18so7223105ljc.6
+        for <linux-api@vger.kernel.org>; Fri, 08 Nov 2019 10:26:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=yfrqk4oAZSRdxNXU7NWHV3s/qknksusoqMId/97+bh8=;
+        b=y1K0awVaPkO46sJakcQS8uKieCdS/hCTRRGdp7q5Dcku0FUI40wj7F+zld2UORzEbf
+         t8YG8QSWNop4/suFu+5p6OBsjDlLmTswYjH/3bLUmv9AcOoVfZDeOxZjGeOYnoTXA6HQ
+         J8aMPm2axVmOGDf5xSwuijEvUOv5sKpFh9JUyrH0Kqx/t6feWNf2IUF+xYaJPauhde4n
+         IuGvkCufzn9sVUy4WXyW1gLblbgYB8D+aexe4RpGSB9pg3OV5iGRR2py7xDoNKIYBlIc
+         PZTrGRMZIlhMNrWif9jD4E8iCrXApMODQRFEsPi4vx5MLLJacWWpJdjOsLxXzD9bVAd1
+         r26w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=yfrqk4oAZSRdxNXU7NWHV3s/qknksusoqMId/97+bh8=;
+        b=GCy/c+V939qDpFBbY5x5j3IE9uBC9FNzdhH477MlTKrRgcRoWv4b6ys4mIRQhuz1vu
+         RI4MimhhiEqZ4sF9cOX33lrtj3caAgS5Fthw0DDptyf/uWwylvapPAkX6yb/AhFJBKLS
+         a0MviOa7hpVCKlneRBCzP0RwY5t7n+tQE7Fg1z12ZFFiZLMGaSVHS4jEeAJw8uPiVuvI
+         b5Yjnv1lB8kA0kd10m7ZK0M0AmmVuoxFMKVtlW3vLL3FZO2jOo1JIQ8bDRPU4kozqQsh
+         fIDiAxQlaoHFcbZsInUZnt4sU/wuC+R9mGOeSU5iO7F89TVrgcVHh7nwF2ZRk4mEcwI9
+         ZdqA==
+X-Gm-Message-State: APjAAAXXZ4VDg2mAeURPs/L8v/PtNZWjnDNv9SeqIW+hgQ+giQpog+PD
+        RrFXxHd6Ev/gD6OzFy4SA1epTeToLylhpYtFPEKT
+X-Google-Smtp-Source: APXvYqw1CojLXlLXhi44VGUdhNOsRF4p9i8B7yLeQIjTFUXYF7RTFSwfHA6RC+gtdGcnk7X56NGlBF0xrTDt5/lxnqc=
+X-Received: by 2002:a2e:85d5:: with SMTP id h21mr7824291ljj.243.1573237589836;
+ Fri, 08 Nov 2019 10:26:29 -0800 (PST)
+MIME-Version: 1.0
+References: <cover.1568834524.git.rgb@redhat.com> <6fb4e270bfafef3d0477a06b0365fdcc5a5305b5.1568834524.git.rgb@redhat.com>
+ <CAHC9VhS2111YTQ_rbHKe6+n9coPNbcTJqf5wnBx9LYHSf69THA@mail.gmail.com> <20191025210004.jzkenjg6jrka22ak@madcap2.tricolour.ca>
+In-Reply-To: <20191025210004.jzkenjg6jrka22ak@madcap2.tricolour.ca>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Fri, 8 Nov 2019 13:26:18 -0500
+Message-ID: <CAHC9VhRMJkeC7HkAMr1TwymtT7eHOB_B=_28R6zVfQQk-gW-DA@mail.gmail.com>
+Subject: Re: [PATCH ghak90 V7 04/21] audit: convert to contid list to check
+ for orch/engine ownership
+To:     Richard Guy Briggs <rgb@redhat.com>
+Cc:     containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
+        Linux-Audit Mailing List <linux-audit@redhat.com>,
+        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
+        sgrubb@redhat.com, omosnace@redhat.com, dhowells@redhat.com,
+        simo@redhat.com, Eric Paris <eparis@parisplace.org>,
+        Serge Hallyn <serge@hallyn.com>, ebiederm@xmission.com,
+        nhorman@tuxdriver.com, Dan Walsh <dwalsh@redhat.com>,
+        mpatel@redhat.com
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, 2019-11-08 at 15:27 +0200, Adrian Hunter wrote:
-> On 13/08/19 11:52 PM, Yu-cheng Yu wrote:
-> > Add the following shadow stack management instructions.
-> > 
-> > INCSSP:
-> >     Increment shadow stack pointer by the steps specified.
-> > 
-> > RDSSP:
-> >     Read SSP register into a GPR.
-> > 
-> > SAVEPREVSSP:
-> >     Use "prev ssp" token at top of current shadow stack to
-> >     create a "restore token" on previous shadow stack.
-> > 
-> > RSTORSSP:
-> >     Restore from a "restore token" pointed by a GPR to SSP.
-> > 
-> > WRSS:
-> >     Write to kernel-mode shadow stack (kernel-mode instruction).
-> > 
-> > WRUSS:
-> >     Write to user-mode shadow stack (kernel-mode instruction).
-> > 
-> > SETSSBSY:
-> >     Verify the "supervisor token" pointed by IA32_PL0_SSP MSR,
-> >     if valid, set the token to busy, and set SSP to the value
-> >     of IA32_PL0_SSP MSR.
-> > 
-> > CLRSSBSY:
-> >     Verify the "supervisor token" pointed by a GPR, if valid,
-> >     clear the busy bit from the token.
-> > 
-> > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> > ---
-> >  arch/x86/lib/x86-opcode-map.txt               | 26 +++++++++++++------
-> >  tools/objtool/arch/x86/lib/x86-opcode-map.txt | 26 +++++++++++++------
-> >  2 files changed, 36 insertions(+), 16 deletions(-)
-> > 
-> > diff --git a/arch/x86/lib/x86-opcode-map.txt b/arch/x86/lib/x86-opcode-map.txt
-> > index e0b85930dd77..c5e825d44766 100644
-> > --- a/arch/x86/lib/x86-opcode-map.txt
-> > +++ b/arch/x86/lib/x86-opcode-map.txt
-> > @@ -366,7 +366,7 @@ AVXcode: 1
-> >  1b: BNDCN Gv,Ev (F2) | BNDMOV Ev,Gv (66) | BNDMK Gv,Ev (F3) | BNDSTX Ev,Gv
-> >  1c:
-> >  1d:
-> > -1e: f7: BEXTR Gy,Ey,By (v) | SHLX Gy,Ey,By (66),(v) | SARX Gy,Ey,By
-> > (F3),(v) | SHRX Gy,Ey,By (F2),(v)> >  EndTable> >  > > -Table: 3-byte opcode
-> > 2 (0x0f 0x3a)> > +Table: 3-byte opcode 3 (0x0f 0x3a)> >  Referrer: 3-byte
-> > escape 2> >  AVXcode: 3> >  # 0x0f 0x3a 0x00-0xff> > @@ -948,7 +958,7 @@
-> > GrpTable: Grp7> >  2: LGDT Ms | XGETBV (000),(11B) | XSETBV (001),(11B) |
-> > VMFUNC (100),(11B) | XEND (101)(11B) | XTEST (110)(11B)> >  3: LIDT Ms> > 
-> > 4: SMSW Mw/Rv> > -5: rdpkru (110),(11B) | wrpkru (111),(11B)> > +5: rdpkru
-> > (110),(11B) | wrpkru (111),(11B) | RSTORSSP Mq (F3)> >  6: LMSW Ew> >  7:
-> > INVLPG Mb | SWAPGS (o64),(000),(11B) | RDTSCP (001),(11B)> >  EndTable> > @@
-> > -1019,8 +1029,8 @@ GrpTable: Grp15> >  2: vldmxcsr Md (v1) | WRFSBASE Ry
-> > (F3),(11B)> >  3: vstmxcsr Md (v1) | WRGSBASE Ry (F3),(11B)> >  4: XSAVE |
-> > ptwrite Ey (F3),(11B)> > -5: XRSTOR | lfence (11B)> > -6: XSAVEOPT | clwb
-> > (66) | mfence (11B)> > +5: XRSTOR | lfence (11B) | INCSSP Rd (F3),REX.W> >
-> > +6: XSAVEOPT | clwb (66) | mfence (11B) | CLRSSBSY Mq (F3)> >  7: clflush |
-> > clflushopt (66) | sfence (11B)> >  EndTable> >  > > 
-> > > 
-> > > 
-> > +1e: RDSSP Rd (F3),REX.W
-> >  1f: NOP Ev
-> >  # 0x0f 0x20-0x2f
-> >  20: MOV Rd,Cd
-> > @@ -610,7 +610,17 @@ fe: paddd Pq,Qq | vpaddd Vx,Hx,Wx (66),(v1)
-> >  ff: UD0
-> >  EndTable
-> >  
-> > -Table: 3-byte opcode 1 (0x0f 0x38)
-> > +Table: 3-byte opcode 1 (0x0f 0x01)
-> > +Referrer:
-> > +AVXcode:
-> > +# Skip 0x00-0xe7
-> > +e8: SETSSBSY (f3)
-> > +e9:
-> > +ea: SAVEPREVSSP (f3)
-> > +# Skip 0xeb-0xff
-> > +EndTable
-> > +
-> > +Table: 3-byte opcode 2 (0x0f 0x38)
-> >  Referrer: 3-byte escape 1
-> >  AVXcode: 2
-> >  # 0x0f 0x38 0x00-0x0f
-> > @@ -789,12 +799,12 @@ f0: MOVBE Gy,My | MOVBE Gw,Mw (66) | CRC32 Gd,Eb (F2) | CRC32 Gd,Eb (66&F2)
-> >  f1: MOVBE My,Gy | MOVBE Mw,Gw (66) | CRC32 Gd,Ey (F2) | CRC32 Gd,Ew (66&F2)
-> >  f2: ANDN Gy,By,Ey (v)
-> >  f3: Grp17 (1A)
-> > -f5: BZHI Gy,Ey,By (v) | PEXT Gy,By,Ey (F3),(v) | PDEP Gy,By,Ey (F2),(v)
-> > -f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v)
-> > +f5: BZHI Gy,Ey,By (v) | PEXT Gy,By,Ey (F3),(v) | PDEP Gy,By,Ey (F2),(v) | WRUSS Pq,Qq (66),REX.W
-> > +f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v) | WRSS Pq,Qq (66),REX.W
-> >  f7: BEXTR Gy,Ey,By (v) | SHLX Gy,Ey,By (66),(v) | SARX Gy,Ey,By (F3),(v) | SHRX Gy,Ey,By (F2),(v)
-> >  EndTable
-> >  
-> > -Table: 3-byte opcode 2 (0x0f 0x3a)
-> > +Table: 3-byte opcode 3 (0x0f 0x3a)
-> >  Referrer: 3-byte escape 2
-> >  AVXcode: 3
-> >  # 0x0f 0x3a 0x00-0xff
-> > @@ -948,7 +958,7 @@ GrpTable: Grp7
-> >  2: LGDT Ms | XGETBV (000),(11B) | XSETBV (001),(11B) | VMFUNC (100),(11B) | XEND (101)(11B) | XTEST (110)(11B)
-> >  3: LIDT Ms
-> >  4: SMSW Mw/Rv
-> > -5: rdpkru (110),(11B) | wrpkru (111),(11B)
-> > +5: rdpkru (110),(11B) | wrpkru (111),(11B) | RSTORSSP Mq (F3)
-> >  6: LMSW Ew
-> >  7: INVLPG Mb | SWAPGS (o64),(000),(11B) | RDTSCP (001),(11B)
-> >  EndTable
-> > @@ -1019,8 +1029,8 @@ GrpTable: Grp15
-> >  2: vldmxcsr Md (v1) | WRFSBASE Ry (F3),(11B)
-> >  3: vstmxcsr Md (v1) | WRGSBASE Ry (F3),(11B)
-> >  4: XSAVE | ptwrite Ey (F3),(11B)
-> > -5: XRSTOR | lfence (11B)
-> > -6: XSAVEOPT | clwb (66) | mfence (11B)
-> > +5: XRSTOR | lfence (11B) | INCSSP Rd (F3),REX.W
-> > +6: XSAVEOPT | clwb (66) | mfence (11B) | CLRSSBSY Mq (F3)
-> >  7: clflush | clflushopt (66) | sfence (11B)
-> >  EndTable
-> >  
-> > diff --git a/tools/objtool/arch/x86/lib/x86-opcode-map.txt b/tools/objtool/arch/x86/lib/x86-opcode-map.txt
-> > index e0b85930dd77..c5e825d44766 100644
-> > --- a/tools/objtool/arch/x86/lib/x86-opcode-map.txt
-> > +++ b/tools/objtool/arch/x86/lib/x86-opcode-map.txt
-> > @@ -366,7 +366,7 @@ AVXcode: 1
-> >  1b: BNDCN Gv,Ev (F2) | BNDMOV Ev,Gv (66) | BNDMK Gv,Ev (F3) | BNDSTX Ev,Gv
-> >  1c:
-> >  1d:
-> > -1e:
-> > +1e: RDSSP Rd (F3),REX.W
-> 
-> RDSSP is in a Grp with ENDBR32 and ENDBR64
-> 
-> >  1f: NOP Ev
-> >  # 0x0f 0x20-0x2f
-> >  20: MOV Rd,Cd
-> > @@ -610,7 +610,17 @@ fe: paddd Pq,Qq | vpaddd Vx,Hx,Wx (66),(v1)
-> >  ff: UD0
-> >  EndTable
-> >  
-> > -Table: 3-byte opcode 1 (0x0f 0x38)
-> > +Table: 3-byte opcode 1 (0x0f 0x01)
-> > +Referrer:
-> > +AVXcode:
-> > +# Skip 0x00-0xe7
-> > +e8: SETSSBSY (f3)
-> > +e9:
-> > +ea: SAVEPREVSSP (f3)
-> 
-> SETSSBSY and SAVEPREVSSP should be in Grp7
-> 
-> > +# Skip 0xeb-0xff
-> > +EndTable
-> > +
-> > +Table: 3-byte opcode 2 (0x0f 0x38)
-> >  Referrer: 3-byte escape 1
-> >  AVXcode: 2
-> >  # 0x0f 0x38 0x00-0x0f
-> > @@ -789,12 +799,12 @@ f0: MOVBE Gy,My | MOVBE Gw,Mw (66) | CRC32 Gd,Eb (F2) | CRC32 Gd,Eb (66&F2)
-> >  f1: MOVBE My,Gy | MOVBE Mw,Gw (66) | CRC32 Gd,Ey (F2) | CRC32 Gd,Ew (66&F2)
-> >  f2: ANDN Gy,By,Ey (v)
-> >  f3: Grp17 (1A)
-> > -f5: BZHI Gy,Ey,By (v) | PEXT Gy,By,Ey (F3),(v) | PDEP Gy,By,Ey (F2),(v)
-> > -f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v)
-> > +f5: BZHI Gy,Ey,By (v) | PEXT Gy,By,Ey (F3),(v) | PDEP Gy,By,Ey (F2),(v) | WRUSS Pq,Qq (66),REX.W
-> > +f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v) | WRSS Pq,Qq (66),REX.W
-> 
-> I know already commented on this, but WRSS does not have (66) prefix
-> 
-> Also no other instructions have been annotated with REX.W so maybe omit that
+On Fri, Oct 25, 2019 at 5:00 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> On 2019-10-10 20:38, Paul Moore wrote:
+> > On Wed, Sep 18, 2019 at 9:24 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > Store the audit container identifier in a refcounted kernel object that
+> > > is added to the master list of audit container identifiers.  This will
+> > > allow multiple container orchestrators/engines to work on the same
+> > > machine without danger of inadvertantly re-using an existing identifier.
+> > > It will also allow an orchestrator to inject a process into an existing
+> > > container by checking if the original container owner is the one
+> > > injecting the task.  A hash table list is used to optimize searches.
+> > >
+> > > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+> > > ---
+> > >  include/linux/audit.h | 26 ++++++++++++++--
+> > >  kernel/audit.c        | 86 ++++++++++++++++++++++++++++++++++++++++++++++++---
+> > >  kernel/audit.h        |  8 +++++
+> > >  3 files changed, 112 insertions(+), 8 deletions(-)
+> >
+> > One general comment before we go off into the weeds on this ... I can
+> > understand why you wanted to keep this patch separate from the earlier
+> > patches, but as we get closer to having mergeable code this should get
+> > folded into the previous patches.  For example, there shouldn't be a
+> > change in audit_task_info where you change the contid field from a u64
+> > to struct pointer, it should be a struct pointer from the start.
+>
+> I should have marked this patchset as RFC even though it was v7 due to a
+> lot of new ideas/code that was added with uncertainties needing comment
+> and direction.
+>
+> > It's also disappointing that idr appears to only be for 32-bit ID
+> > values, if we had a 64-bit idr I think we could simplify this greatly.
+>
+> Perhaps.  I do still see value in letting the orchestrator choose the
+> value.
 
-Thanks!  I will look into that.
+Agreed.  I was just thinking out loud that it seems like much of what
+we need could be a generic library mechanism similar to, but not quite
+like, the existing idr code.
 
-Yu-cheng
+> > > diff --git a/include/linux/audit.h b/include/linux/audit.h
+> > > index f2e3b81f2942..e317807cdd3e 100644
+> > > --- a/include/linux/audit.h
+> > > +++ b/include/linux/audit.h
+> > > @@ -95,10 +95,18 @@ struct audit_ntp_data {
+> > >  struct audit_ntp_data {};
+> > >  #endif
+> > >
+> > > +struct audit_cont {
+> > > +       struct list_head        list;
+> > > +       u64                     id;
+> > > +       struct task_struct      *owner;
+> > > +       refcount_t              refcount;
+> > > +       struct rcu_head         rcu;
+> > > +};
+> >
+> > It seems as though in most of the code you are using "contid", any
+> > reason why didn't stick with that naming scheme here, e.g. "struct
+> > audit_contid"?
+>
+> I was using contid to refer to the value itself and cont to refer to the
+> refcounted object.  I find cont a bit too terse, so I'm still thinking
+> of changing it.  Perhaps contobj?
 
+Yes, just "cont" is a bit too ambiguous considering we have both
+integer values and structures being passed around.  Whatever you
+decide on, a common base with separate suffixes seems like a good
+idea.
+
+FWIW, I still think the "audit container ID" : "ACID" thing is kinda funny ;)
+
+> > > @@ -203,11 +211,15 @@ static inline unsigned int audit_get_sessionid(struct task_struct *tsk)
+> > >
+> > >  static inline u64 audit_get_contid(struct task_struct *tsk)
+> > >  {
+> > > -       if (!tsk->audit)
+> > > +       if (!tsk->audit || !tsk->audit->cont)
+> > >                 return AUDIT_CID_UNSET;
+> > > -       return tsk->audit->contid;
+> > > +       return tsk->audit->cont->id;
+> > >  }
+> >
+> > Assuming for a moment that we implement an audit_contid_get() (see
+> > Neil's comment as well as mine below), we probably need to name this
+> > something different so we don't all lose our minds when we read this
+> > code.  On the plus side we can probably preface it with an underscore
+> > since it is a static, in which case _audit_contid_get() might be okay,
+> > but I'm open to suggestions.
+>
+> I'm fine with the "_" prefix, can you point to precedent or convention?
+
+Generally kernel functions which are "special"/private/unsafe/etc.
+have a one, or two, underscore prefix.  If you don't want to add the
+prefix, that's fine, but please change the name as mentioned
+previously.
+
+> > > @@ -231,7 +235,9 @@ int audit_alloc(struct task_struct *tsk)
+> > >         }
+> > >         info->loginuid = audit_get_loginuid(current);
+> > >         info->sessionid = audit_get_sessionid(current);
+> > > -       info->contid = audit_get_contid(current);
+> > > +       info->cont = audit_cont(current);
+> > > +       if (info->cont)
+> > > +               refcount_inc(&info->cont->refcount);
+> >
+> > See the other comments about a "get" function, but I think we need a
+> > RCU read lock around the above, no?
+>
+> The rcu read lock is to protect the list rather than the cont object
+> itself, the latter of which is protected by its refcount.
+
+What protects you from info->cont going away between when you fetch
+the pointer via audit_cont() to when you dereference it in
+refcount_inc()?
+
+> > > @@ -2397,8 +2438,43 @@ int audit_set_contid(struct task_struct *task, u64 contid)
+> > >         else if (audit_contid_set(task))
+> > >                 rc = -ECHILD;
+> > >         read_unlock(&tasklist_lock);
+> > > -       if (!rc)
+> > > -               task->audit->contid = contid;
+> > > +       if (!rc) {
+> > > +               struct audit_cont *oldcont = audit_cont(task);
+> >
+> > Previously we held the tasklist_lock to protect the audit container ID
+> > associated with the struct, should we still be holding it here?
+>
+> We held the tasklist_lock to protect access to the target task's
+> child/parent/thread relationships.
+
+What protects us in the case of simultaneous calls to audit_set_contid()?
+
+> > Regardless, I worry that the lock dependencies between the
+> > tasklist_lock and the audit_contid_list_lock are going to be tricky.
+> > It might be nice to document the relationship in a comment up near
+> > where you declare audit_contid_list_lock.
+>
+> I don't think there should be a conflict between the two.
+>
+> The contid_list_lock doesn't care if the cont object is associated to a
+> particular task.
+
+Please document the relationship between the two, I worry we could
+easily run into lockdep problems without a clearly defined ordering.
+
+> > > +               struct audit_cont *cont = NULL;
+> > > +               struct audit_cont *newcont = NULL;
+> > > +               int h = audit_hash_contid(contid);
+> > > +
+> > > +               spin_lock(&audit_contid_list_lock);
+> > > +               list_for_each_entry_rcu(cont, &audit_contid_hash[h], list)
+> > > +                       if (cont->id == contid) {
+> > > +                               /* task injection to existing container */
+> > > +                               if (current == cont->owner) {
+> >
+> > I understand the desire to limit a given audit container ID to the
+> > orchestrator that created it, but are we certain that we can track
+> > audit container ID "ownership" via a single instance of a task_struct?
+>
+> Are you suggesting that a task_struct representing a task may be
+> replaced for a specific task?  I don't believe that will ever happen.
+>
+> >  What happens when the orchestrator stops/restarts/crashes?  Do we
+> > even care?
+>
+> Reap all of its containers?
+
+These were genuine questions, I'm not suggesting anything in
+particular, I'm just curious about how we handle an orchestrator that
+isn't continuously running ... is this possible?  Do we care?
+
+-- 
+paul moore
+www.paul-moore.com
