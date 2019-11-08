@@ -2,115 +2,112 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B7E76F3B6C
-	for <lists+linux-api@lfdr.de>; Thu,  7 Nov 2019 23:32:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1089BF3D0E
+	for <lists+linux-api@lfdr.de>; Fri,  8 Nov 2019 01:48:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726219AbfKGWcJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 7 Nov 2019 17:32:09 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:57381 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725946AbfKGWcJ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 7 Nov 2019 17:32:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1573165927;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=uKIOzw39YTWyZ5qlTTzm//isaKLAzIIX1M3HJzcWPI0=;
-        b=iTu5B1u3r1Kl3Fmn7uf1vx2OSPbmVDxCC9mrKraPR0ewrf+jQVq/HauLE8IUacmYhEKDeS
-        juJqf8dRY54R3uJPY0T20uD6O0pv0pYFJr/NWWWbMEKnAXZJknhnd+bi67xF8/FVviqLXZ
-        CtHGpKthX6dUqsOBvk/6iZHwKFq4SmQ=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-431-L_kr5h3OMaqqGxGfwoS0dg-1; Thu, 07 Nov 2019 17:32:04 -0500
-Received: by mail-qk1-f198.google.com with SMTP id 6so4070554qkc.4
-        for <linux-api@vger.kernel.org>; Thu, 07 Nov 2019 14:32:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=A6VPnYHHRG17+zqS0tqCfOSRspRCWxbi4PanBqk6ajc=;
-        b=W8FPywQypgUkwspmO8Q5Qn/jbuAT+fT+T6koT6yK4tc2EIU49MBwS+qUFYiZPV1Kkk
-         GD0y253HF5LQgpSwaKOh1PSJS25qit1ZfmL5phIHLRe+5fHLPbPWsHqIbx9WNyz82yyp
-         nnRzjev79ceUtPthxMt/iF4JhQ4bttVKFjXBjH15UzE1isCy0RU+oErnKLVpqy3fKVl7
-         nf+ZX9p71yuxIhkfvXE7IilEEaC1fDwyHxV6rGZE4EDKp2W4SzILda6+mYPJ3r8Omjdg
-         j8M0YtnLhG8/Uv0mYO4uyYpe3P9fb7L355iSFVPWDUtdmXp0ujtoxy40O1F6+o9UzL0A
-         gqZQ==
-X-Gm-Message-State: APjAAAUFeR8khuYYIsmW286oVBJT4SyyYn8fs1KOAUdrydmePOwVeZYy
-        SwYrTBb1+kppTvvApFAwlQH83uBjiPpUgJwMpXy3X0BmMQZPU25SL8azWzdcg3AjVkylGID7I/B
-        Iuf/8SPf0WgtDqlX0uYVF
-X-Received: by 2002:a0c:edb2:: with SMTP id h18mr6121590qvr.36.1573165924033;
-        Thu, 07 Nov 2019 14:32:04 -0800 (PST)
-X-Google-Smtp-Source: APXvYqx8ZAtea1Fb+no9ijy/FoPlfgh3YYmHWTk0oie1PlfPx2tTjPyaCLcwN1DY6U8fDf7Ollfs0A==
-X-Received: by 2002:a0c:edb2:: with SMTP id h18mr6121547qvr.36.1573165923638;
-        Thu, 07 Nov 2019 14:32:03 -0800 (PST)
-Received: from [192.168.1.4] (135-23-175-75.cpe.pppoe.ca. [135.23.175.75])
-        by smtp.gmail.com with ESMTPSA id s21sm2335458qtc.12.2019.11.07.14.32.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Nov 2019 14:32:02 -0800 (PST)
-Subject: Re: Continuing the UAPI split
-To:     Florian Weimer <fw@deneb.enyo.de>
-Cc:     Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-        Elichai Turkel <elichai.turkel@gmail.com>, nd <nd@arm.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        libc-alpha <libc-alpha@sourceware.org>
-References: <CALN7hCK0EXLXjPRPr+tuuF2-uQvkLMCFDNzGhv9HS-jrAz6Hmg@mail.gmail.com>
- <0B17C6F2-DC2B-4192-B4AD-BD11D6B9F2B6@ubuntu.com>
- <87zhh7j38y.fsf@oldenburg2.str.redhat.com>
- <CALN7hCJ_umFqC1L0T19CuiGiGoVwac5807NDw4LiDqSD-VJL=Q@mail.gmail.com>
- <facb4d0d-4e20-41f0-4c01-b210c677c24c@arm.com>
- <086ffddf-553f-453d-a046-4d5e6abead21@redhat.com>
- <875zjvo2be.fsf@mid.deneb.enyo.de>
-From:   Carlos O'Donell <carlos@redhat.com>
-Organization: Red Hat
-Message-ID: <70a264b5-427f-fa6e-7f70-768724202d14@redhat.com>
-Date:   Thu, 7 Nov 2019 17:32:01 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1726054AbfKHAsj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 7 Nov 2019 19:48:39 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:60638 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725930AbfKHAsi (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 7 Nov 2019 19:48:38 -0500
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xA80dGWK173022;
+        Fri, 8 Nov 2019 00:47:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2019-08-05;
+ bh=qCzBTULDiMobFm746wjs1oajkPZhfNQUtF4ENZEcn1w=;
+ b=Scy8BtcjDBRW5XBvtpGEz2DRtoNA2JOY8Tco7w5Og/99OFUexQFaKKfq6x1rcRq0Sqg9
+ Xxw4dYmicSsch/goEwUtXaBIHAw6mPfAb+wO5M1zPlUVIL0S4OXwUQTKE5yY+QK4GJeh
+ EaqFZ88ILwrzsSv9BZa9NBkEP5+sYG9HrECVLrW9SI7bf04+RLDx97fpKFG2No8OJCWe
+ Rb6kC07voC3YpMlq34QLJPkZVcvmL1cM1sKlkm+x1qmTKx3wm3H7ksMmFYG61U6bX8MB
+ Q104R8ul6rr/aBvkVFXnrEkMN6Bzc9tlTn1LvIo0mhBOhd7s1kfUnxvup/hA/jWsVZr3 UQ== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by userp2130.oracle.com with ESMTP id 2w41w19xe4-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 08 Nov 2019 00:47:03 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xA80dEpU135124;
+        Fri, 8 Nov 2019 00:47:02 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by aserp3030.oracle.com with ESMTP id 2w41wg9u0x-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 08 Nov 2019 00:47:02 +0000
+Received: from abhmp0013.oracle.com (abhmp0013.oracle.com [141.146.116.19])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id xA80l13R014531;
+        Fri, 8 Nov 2019 00:47:01 GMT
+Received: from localhost (/10.145.179.16)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Thu, 07 Nov 2019 16:47:01 -0800
+Date:   Thu, 7 Nov 2019 16:47:00 -0800
+From:   "Darrick J. Wong" <darrick.wong@oracle.com>
+To:     Eric Biggers <ebiggers@kernel.org>
+Cc:     linux-man@vger.kernel.org, dhowells@redhat.com, jaegeuk@kernel.org,
+        linux-api@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net,
+        linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        tytso@mit.edu, victorhsieh@google.com
+Subject: Re: [man-pages RFC PATCH] statx.2: document STATX_ATTR_VERITY
+Message-ID: <20191108004700.GA6213@magnolia>
+References: <20191107014420.GD15212@magnolia>
+ <20191107220248.32025-1-ebiggers@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <875zjvo2be.fsf@mid.deneb.enyo.de>
-Content-Language: en-US
-X-MC-Unique: L_kr5h3OMaqqGxGfwoS0dg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191107220248.32025-1-ebiggers@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9434 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1910280000 definitions=main-1911080005
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9434 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1910280000
+ definitions=main-1911080005
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 11/7/19 3:32 PM, Florian Weimer wrote:
-> * Carlos O'Donell:
->=20
->> On 11/7/19 11:21 AM, Szabolcs Nagy wrote:
->>>> Or just giving up and telling users they can't just directly include
->>>> both libc headers and kernel headers?
->>>
->>> including both libc and linux headers is fragile and
->>> will break differently across the different linux
->>> libc implementations.
->>
->> We saw this all the time working in embedded.
->=20
-> Do you mean you saw problems while you working in the embedded space?
-=20
-Yes, embedded Linux to be specific.
+On Thu, Nov 07, 2019 at 02:02:48PM -0800, Eric Biggers wrote:
+> From: Eric Biggers <ebiggers@google.com>
+> 
+> Document the verity attribute for statx().
+> 
+> Signed-off-by: Eric Biggers <ebiggers@google.com>
+> ---
+>  man2/statx.2 | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> RFC since the kernel patches are currently under review.
+> The kernel patches can be found here:
+> https://lkml.kernel.org/linux-fscrypt/20191029204141.145309-1-ebiggers@kernel.org/T/#u
+> 
+> diff --git a/man2/statx.2 b/man2/statx.2
+> index d2f1b07b8..713bd1260 100644
+> --- a/man2/statx.2
+> +++ b/man2/statx.2
+> @@ -461,6 +461,10 @@ See
+>  .TP
+>  .B STATX_ATTR_ENCRYPTED
+>  A key is required for the file to be encrypted by the filesystem.
+> +.TP
+> +.B STATX_ATTR_VERITY
+> +The file has fs-verity enabled.  It cannot be written to, and all reads from it
+> +will be verified against a Merkle tree.
 
-There is a strong coupling between the kernel version and the toolchain
-version, specifically because the strategies we take to solve these
-problems end up being brittle in this regard.
+mkerrisk might ask you to start the new sentence on a separate line, but
+otherwise looks good to me. :)
 
-Too new a kernel and you get new header problems not solved by your
-old libc. Too new a libc and the kernel doesn't have the header
-coordination fixes required for the newer software that needed the
-newer libc.
+--D
 
-Does that clarify my point?
-
---=20
-Cheers,
-Carlos.
-
+>  .SH RETURN VALUE
+>  On success, zero is returned.
+>  On error, \-1 is returned, and
+> -- 
+> 2.24.0.rc1.363.gb1bccd3e3d-goog
+> 
