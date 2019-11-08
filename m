@@ -2,46 +2,45 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 88633F3F71
-	for <lists+linux-api@lfdr.de>; Fri,  8 Nov 2019 06:07:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D2CCF40B2
+	for <lists+linux-api@lfdr.de>; Fri,  8 Nov 2019 07:43:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726148AbfKHFHK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 8 Nov 2019 00:07:10 -0500
-Received: from mail.kernel.org ([198.145.29.99]:35868 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726281AbfKHFHI (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 8 Nov 2019 00:07:08 -0500
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1728075AbfKHGnC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 8 Nov 2019 01:43:02 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21499 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1729888AbfKHGnA (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 8 Nov 2019 01:43:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1573195379;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=G8x+s0gT+EQcwDzJx0Qq2QbxI7ZiAY//ltXx+x3jOGg=;
+        b=K0Vy1weLhKpp+bOYWw9qkFhoWjt5hAnm5TJDvgl+GMj6vYvO4f8cr3fTcdesvFUfFCgcKy
+        ReGybiIDU97z6kY7DmNomlfd+rLZO78KxLyqCFZwh2U/SIFyGLv8PNigXHfLK1tusotyt5
+        zRgKfr8mMlnBgxWHfNOqEDD6HSlFqS0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-217-VLRlQoNXNQOdqlAzq2_FZA-1; Fri, 08 Nov 2019 01:42:56 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 94794222CE
-        for <linux-api@vger.kernel.org>; Fri,  8 Nov 2019 05:07:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573189626;
-        bh=Nml6ZqPGIxeHePwEoMl3uFywnf+kk1nTeP99Kndi+gU=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=bAdWTsYRTkqedcC/+Z5sINwapybfyle+SAfQCYzh0EWS5bFnoTWCp8gEp5sb9cWnI
-         O5bF/n5f1DTs5DQ85rVVTZbzCY3ybfp9Rs/y1P5HNCiBgUd2Nw3kHKIgcB9HugJvZn
-         vVLMDAwji8m5eynkuo8EBnTeCAjeGmxaYmxlk+Hs=
-Received: by mail-wm1-f44.google.com with SMTP id c22so4879126wmd.1
-        for <linux-api@vger.kernel.org>; Thu, 07 Nov 2019 21:07:06 -0800 (PST)
-X-Gm-Message-State: APjAAAUGrcPl2k9/J40vJjal7zQSgpjknusWhwHxSnFOpDR1y3cl7G3A
-        6FyRnULO8qQzQPsEoQ8ivh1+iM+h232eK8FFi8QIhQ==
-X-Google-Smtp-Source: APXvYqx08Mv0U8UmADt1yPzJqTiWQTH/61DB5ak1MBLcnJribE7k+KhLlnxirQA97U78di+ySNLiALLNE6nRtXo4CT0=
-X-Received: by 2002:a7b:c1ca:: with SMTP id a10mr6805119wmj.161.1573189624926;
- Thu, 07 Nov 2019 21:07:04 -0800 (PST)
-MIME-Version: 1.0
-References: <157313371694.29677.15388731274912671071.stgit@warthog.procyon.org.uk>
- <157313375678.29677.15875689548927466028.stgit@warthog.procyon.org.uk>
- <CALCETrUka9KaOKFbNKUXcA6XvoFxiXPftctSHtN4DL35Cay61w@mail.gmail.com> <6964.1573152517@warthog.procyon.org.uk>
-In-Reply-To: <6964.1573152517@warthog.procyon.org.uk>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Thu, 7 Nov 2019 21:06:53 -0800
-X-Gmail-Original-Message-ID: <CALCETrWeN9CGJHz0dzG1uH5Qjbr+xG3OKZuEd33eBY_rAzVkqQ@mail.gmail.com>
-Message-ID: <CALCETrWeN9CGJHz0dzG1uH5Qjbr+xG3OKZuEd33eBY_rAzVkqQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 04/14] pipe: Add O_NOTIFICATION_PIPE [ver #2]
-To:     David Howells <dhowells@redhat.com>
-Cc:     Andy Lutomirski <luto@kernel.org>,
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67DF6477;
+        Fri,  8 Nov 2019 06:42:54 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-120-254.rdu2.redhat.com [10.10.120.254])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 8307A10016DA;
+        Fri,  8 Nov 2019 06:42:51 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <CALCETrWeN9CGJHz0dzG1uH5Qjbr+xG3OKZuEd33eBY_rAzVkqQ@mail.gmail.com>
+References: <CALCETrWeN9CGJHz0dzG1uH5Qjbr+xG3OKZuEd33eBY_rAzVkqQ@mail.gmail.com> <157313371694.29677.15388731274912671071.stgit@warthog.procyon.org.uk> <157313375678.29677.15875689548927466028.stgit@warthog.procyon.org.uk> <CALCETrUka9KaOKFbNKUXcA6XvoFxiXPftctSHtN4DL35Cay61w@mail.gmail.com> <6964.1573152517@warthog.procyon.org.uk>
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     dhowells@redhat.com,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Casey Schaufler <casey@schaufler-ca.com>,
@@ -54,44 +53,43 @@ Cc:     Andy Lutomirski <luto@kernel.org>,
         Linux FS Devel <linux-fsdevel@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
         LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [RFC PATCH 04/14] pipe: Add O_NOTIFICATION_PIPE [ver #2]
+MIME-Version: 1.0
+Content-ID: <7771.1573195370.1@warthog.procyon.org.uk>
+Date:   Fri, 08 Nov 2019 06:42:50 +0000
+Message-ID: <7772.1573195370@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: VLRlQoNXNQOdqlAzq2_FZA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Nov 7, 2019 at 10:48 AM David Howells <dhowells@redhat.com> wrote:
->
-> Andy Lutomirski <luto@kernel.org> wrote:
->
-> > > Add an O_NOTIFICATION_PIPE flag that can be passed to pipe2() to indicate
-> > > that the pipe being created is going to be used for notifications.  This
-> > > suppresses the use of splice(), vmsplice(), tee() and sendfile() on the
-> > > pipe as calling iov_iter_revert() on a pipe when a kernel notification
-> > > message has been inserted into the middle of a multi-buffer splice will be
-> > > messy.
-> >
-> > How messy?
->
-> Well, iov_iter_revert() on a pipe iterator simply walks backwards along the
-> ring discarding the last N contiguous slots (where N is normally the number of
-> slots that were filled by whatever operation is being reverted).
->
-> However, unless the code that transfers stuff into the pipe takes the spinlock
-> spinlock and disables softirqs for the duration of its ring filling, what were
-> N contiguous slots may now have kernel notifications interspersed - even if it
-> has been holding the pipe mutex.
->
-> So, now what do you do?  You have to free up just the buffers relevant to the
-> iterator and then you can either compact down the ring to free up the space or
-> you can leave null slots and let the read side clean them up, thereby
-> reducing the capacity of the pipe temporarily.
->
-> Either way, iov_iter_revert() gets more complex and has to hold the spinlock.
+Andy Lutomirski <luto@kernel.org> wrote:
 
-I feel like I'm missing something fundamental here.
+> I can open a normal pipe from userspace (with pipe() or pipe2()), and
+> I can have two threads.  One thread writes to the pipe with write().
+> The other thread writes with splice().  Everything works fine.
 
-I can open a normal pipe from userspace (with pipe() or pipe2()), and
-I can have two threads.  One thread writes to the pipe with write().
-The other thread writes with splice().  Everything works fine.  What's
-special about notifications?
+Yes.  Every operation you do on a pipe from userspace is serialised with th=
+e
+pipe mutex - and both ends share the same pipe.
+
+> What's special about notifications?
+
+The post_notification() cannot take the pipe mutex.  It has to be callable
+from softirq context.  Linus's idea is that when you're actually altering t=
+he
+ring pointers you should hold the wake-queue spinlock, and post_notificatio=
+n()
+holds the wake queue spinlock for the duration of the operation.
+
+This means that post_notification() can be writing to the pipe whilst a
+userspace-invoked operation is holding the pipe mutex and is also doing
+something to the ring.
+
+David
+
