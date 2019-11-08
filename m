@@ -2,110 +2,146 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EC723F4206
-	for <lists+linux-api@lfdr.de>; Fri,  8 Nov 2019 09:23:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D801BF4D02
+	for <lists+linux-api@lfdr.de>; Fri,  8 Nov 2019 14:20:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727573AbfKHIXN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 8 Nov 2019 03:23:13 -0500
-Received: from mx01-fr.bfs.de ([193.174.231.67]:34635 "EHLO mx01-fr.bfs.de"
+        id S1727563AbfKHNUu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 8 Nov 2019 08:20:50 -0500
+Received: from mga03.intel.com ([134.134.136.65]:22591 "EHLO mga03.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726180AbfKHIXM (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 8 Nov 2019 03:23:12 -0500
-Received: from mail-fr.bfs.de (mail-fr.bfs.de [10.177.18.200])
-        by mx01-fr.bfs.de (Postfix) with ESMTPS id EEE4C2034D;
-        Fri,  8 Nov 2019 09:23:05 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bfs.de; s=dkim201901;
-        t=1573201385; h=from:from:sender:reply-to:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=7ovMpTZlO+mqX1NztFF4Z8RNfQdHNbliQo84EBCeKmM=;
-        b=knPojPheDaPBcYO0QNEKA99SLOrrQ33XMHG3MG3K0LZOwxHE4616BDh2Y7CMpi5TGf/aKT
-        ZZK+HPeJZmjLdyhNaKHlvbUovd4cCrlP6h/VsOx+sp5mVwxPBDYQ5lUiLKN4B95XMlPyZZ
-        FFXGmOmmP2VITXOXVD/TSHndOHwV9lKrvg1X/X0mkRjOYKCpum4vFlr7QueAnpx47CWRGU
-        tfsUWVeTSm3JyzAfXwj+0WXx+HX03nuSeY9XbjykjbSRtDigR/BV7TaDdOuT2HzQQ3J05U
-        RF6vzt535kfv/BlYy/tMieg+LO3CQrgMNgiSq6jOyBR+bM1QpviXF8g6XMguzg==
-Received: from [134.92.181.33] (unknown [134.92.181.33])
-        by mail-fr.bfs.de (Postfix) with ESMTPS id 8E220BEEBD;
-        Fri,  8 Nov 2019 09:23:05 +0100 (CET)
-Message-ID: <5DC525E8.4060705@bfs.de>
-Date:   Fri, 08 Nov 2019 09:23:04 +0100
-From:   walter harms <wharms@bfs.de>
-Reply-To: wharms@bfs.de
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; de; rv:1.9.1.16) Gecko/20101125 SUSE/3.0.11 Thunderbird/3.0.11
+        id S1727903AbfKHNUu (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 8 Nov 2019 08:20:50 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Nov 2019 05:20:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,281,1569308400"; 
+   d="scan'208";a="213240569"
+Received: from ahunter-desktop.fi.intel.com (HELO [10.237.72.197]) ([10.237.72.197])
+  by fmsmga001.fm.intel.com with ESMTP; 08 Nov 2019 05:20:42 -0800
+Subject: Re: [PATCH v8 07/14] x86/cet/ibt: Add ENDBR to op-code-map
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>
+References: <20190813205359.12196-1-yu-cheng.yu@intel.com>
+ <20190813205359.12196-8-yu-cheng.yu@intel.com>
+From:   Adrian Hunter <adrian.hunter@intel.com>
+Organization: Intel Finland Oy, Registered Address: PL 281, 00181 Helsinki,
+ Business Identity Code: 0357606 - 4, Domiciled in Helsinki
+Message-ID: <5b81028b-2230-51c4-f504-10067cb59bf8@intel.com>
+Date:   Fri, 8 Nov 2019 15:19:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-To:     Eric Biggers <ebiggers@kernel.org>
-CC:     linux-man@vger.kernel.org, darrick.wong@oracle.com,
-        dhowells@redhat.com, jaegeuk@kernel.org, linux-api@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        tytso@mit.edu, victorhsieh@google.com
-Subject: Re: [man-pages RFC PATCH] statx.2: document STATX_ATTR_VERITY
-References: <20191107014420.GD15212@magnolia> <20191107220248.32025-1-ebiggers@kernel.org>
-In-Reply-To: <20191107220248.32025-1-ebiggers@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20190813205359.12196-8-yu-cheng.yu@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.60
-Authentication-Results: mx01-fr.bfs.de
-X-Spamd-Result: default: False [-1.60 / 7.00];
-         ARC_NA(0.00)[];
-         HAS_REPLYTO(0.00)[wharms@bfs.de];
-         BAYES_HAM(-3.00)[100.00%];
-         FROM_HAS_DN(0.00)[];
-         TO_DN_SOME(0.00)[];
-         TO_MATCH_ENVRCPT_ALL(0.00)[];
-         MIME_GOOD(-0.10)[text/plain];
-         REPLYTO_ADDR_EQ_FROM(0.00)[];
-         DKIM_SIGNED(0.00)[];
-         RCPT_COUNT_TWELVE(0.00)[12];
-         NEURAL_HAM(-0.00)[-0.998,0];
-         FROM_EQ_ENVFROM(0.00)[];
-         MIME_TRACE(0.00)[0:+];
-         RCVD_COUNT_TWO(0.00)[2];
-         MID_RHS_MATCH_FROM(0.00)[];
-         RCVD_TLS_ALL(0.00)[];
-         SUSPICIOUS_RECIPS(1.50)[]
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-
-
-Am 07.11.2019 23:02, schrieb Eric Biggers:
-> From: Eric Biggers <ebiggers@google.com>
+On 13/08/19 11:53 PM, Yu-cheng Yu wrote:
+> Add control transfer terminating instructions:
 > 
-> Document the verity attribute for statx().
+> ENDBR64/ENDBR32:
+>     Mark a valid 64/32-bit control transfer endpoint.
 > 
-> Signed-off-by: Eric Biggers <ebiggers@google.com>
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 > ---
->  man2/statx.2 | 4 ++++
->  1 file changed, 4 insertions(+)
+>  arch/x86/lib/x86-opcode-map.txt               | 13 +++++++++++--
+>  tools/objtool/arch/x86/lib/x86-opcode-map.txt | 13 +++++++++++--
+>  2 files changed, 22 insertions(+), 4 deletions(-)
 > 
-> RFC since the kernel patches are currently under review.
-> The kernel patches can be found here:
-> https://lkml.kernel.org/linux-fscrypt/20191029204141.145309-1-ebiggers@kernel.org/T/#u
+> diff --git a/arch/x86/lib/x86-opcode-map.txt b/arch/x86/lib/x86-opcode-map.txt
+> index c5e825d44766..fbc53481bc59 100644
+> --- a/arch/x86/lib/x86-opcode-map.txt
+> +++ b/arch/x86/lib/x86-opcode-map.txt
+> @@ -620,7 +620,16 @@ ea: SAVEPREVSSP (f3)
+>  # Skip 0xeb-0xff
+>  EndTable
+>  
+> -Table: 3-byte opcode 2 (0x0f 0x38)
+> +Table: 3-byte opcode 2 (0x0f 0x1e)
+> +Referrer:
+> +AVXcode:
+> +# Skip 0x00-0xf9
+> +fa: ENDBR64 (f3)
+> +fb: ENDBR32 (f3)
+
+endbr32 and endbr64 have 2-byte opcodes (0F 1E) and a ModRM byte, so a new
+Grp is needed
+
+> +#skip 0xfc-0xff
+> +EndTable
+> +
+> +Table: 3-byte opcode 3 (0x0f 0x38)
+>  Referrer: 3-byte escape 1
+>  AVXcode: 2
+>  # 0x0f 0x38 0x00-0x0f
+> @@ -804,7 +813,7 @@ f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v) | WRSS Pq,Qq
+>  f7: BEXTR Gy,Ey,By (v) | SHLX Gy,Ey,By (66),(v) | SARX Gy,Ey,By (F3),(v) | SHRX Gy,Ey,By (F2),(v)
+>  EndTable
+>  
+> -Table: 3-byte opcode 3 (0x0f 0x3a)
+> +Table: 3-byte opcode 4 (0x0f 0x3a)
+>  Referrer: 3-byte escape 2
+>  AVXcode: 3
+>  # 0x0f 0x3a 0x00-0xff
+> diff --git a/tools/objtool/arch/x86/lib/x86-opcode-map.txt b/tools/objtool/arch/x86/lib/x86-opcode-map.txt
+> index c5e825d44766..fbc53481bc59 100644
+> --- a/tools/objtool/arch/x86/lib/x86-opcode-map.txt
+> +++ b/tools/objtool/arch/x86/lib/x86-opcode-map.txt
+> @@ -620,7 +620,16 @@ ea: SAVEPREVSSP (f3)
+>  # Skip 0xeb-0xff
+>  EndTable
+>  
+> -Table: 3-byte opcode 2 (0x0f 0x38)
+> +Table: 3-byte opcode 2 (0x0f 0x1e)
+> +Referrer:
+> +AVXcode:
+> +# Skip 0x00-0xf9
+> +fa: ENDBR64 (f3)
+> +fb: ENDBR32 (f3)
+> +#skip 0xfc-0xff
+> +EndTable
+> +
+> +Table: 3-byte opcode 3 (0x0f 0x38)
+>  Referrer: 3-byte escape 1
+>  AVXcode: 2
+>  # 0x0f 0x38 0x00-0x0f
+> @@ -804,7 +813,7 @@ f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v) | WRSS Pq,Qq
+>  f7: BEXTR Gy,Ey,By (v) | SHLX Gy,Ey,By (66),(v) | SARX Gy,Ey,By (F3),(v) | SHRX Gy,Ey,By (F2),(v)
+>  EndTable
+>  
+> -Table: 3-byte opcode 3 (0x0f 0x3a)
+> +Table: 3-byte opcode 4 (0x0f 0x3a)
+>  Referrer: 3-byte escape 2
+>  AVXcode: 3
+>  # 0x0f 0x3a 0x00-0xff
 > 
-> diff --git a/man2/statx.2 b/man2/statx.2
-> index d2f1b07b8..713bd1260 100644
-> --- a/man2/statx.2
-> +++ b/man2/statx.2
-> @@ -461,6 +461,10 @@ See
->  .TP
->  .B STATX_ATTR_ENCRYPTED
->  A key is required for the file to be encrypted by the filesystem.
-> +.TP
-> +.B STATX_ATTR_VERITY
-> +The file has fs-verity enabled.  It cannot be written to, and all reads from it
-> +will be verified against a Merkle tree.
 
-Using "Merkle tree" opens a can of worm and what will happen when the methode will change ?
-Does it matter at all ? i would suggest "filesystem" here.
-
-re,
- wh
-
->  .SH RETURN VALUE
->  On success, zero is returned.
->  On error, \-1 is returned, and
