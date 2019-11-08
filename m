@@ -2,243 +2,154 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1027AF52BA
-	for <lists+linux-api@lfdr.de>; Fri,  8 Nov 2019 18:42:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 06539F52E5
+	for <lists+linux-api@lfdr.de>; Fri,  8 Nov 2019 18:49:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727862AbfKHRla (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 8 Nov 2019 12:41:30 -0500
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:47006 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726232AbfKHRla (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 8 Nov 2019 12:41:30 -0500
-Received: by mail-lj1-f194.google.com with SMTP id e9so7048184ljp.13
-        for <linux-api@vger.kernel.org>; Fri, 08 Nov 2019 09:41:28 -0800 (PST)
+        id S1730722AbfKHRtj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 8 Nov 2019 12:49:39 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:37732 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729924AbfKHRtj (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 8 Nov 2019 12:49:39 -0500
+Received: by mail-lj1-f196.google.com with SMTP id l20so7108494lje.4
+        for <linux-api@vger.kernel.org>; Fri, 08 Nov 2019 09:49:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=2QJNYK/K5bdE2+Gkhht7sK48ftHkXUxqx+uBQkHd5Ts=;
-        b=QypV/fGwmulAvg9MruUmhTnYlDA5c5MJNSURS6J4En6OmXgJCg+YzoAsYTaRujB1z2
-         hP3WmSV5DjQioueVpPG3QmHbeJLut69f9I+1DQgPU/BD2+aGZ3ejRua7P1liI5dYyec1
-         VbTAEROuyB6wd7DALgpKJp9LL/KaJ9AMfqXycwbHkU2tANkyllLPDuAhNMhMqpaYReqf
-         jnxNC1z4Yt9DaALjdUk7R96nLeV8nV9MqdftZRgTPy97YQp3GAW3PvqRpPilOY8+Kgbs
-         IlHk8zyie1aSeWSxTd7bQdJ0hzRGPU1XmE2G6lwTktuXjEodiYlwA3s2YIRwBwdtJYVc
-         SV0Q==
+        bh=UVAbz2qNISBamKJ8aYyWKPdYYFUtEofFZoGab/xVx6Q=;
+        b=jVdpzmol350RlxFDs+MLHaRNphUMUP4OvQ5IAPmY8hbKQPQsDF4LD+P6ahIMsJ6Rpl
+         pUMnnGgEWZthCUvXmMqrer+tYk1QstqZ5L0VsSYXs5AIM8mttK7vKXNfkyoZk7SM78xu
+         uJTmzg7POCfLqH9zCG0s8CXDWcSswJF62aIKCvOlPVqevsasjpkz/5ZlbLdOMn0zCJ2j
+         C+dzIMZdnOFJ/mIbpTFmYjSGcDA/erk2dg8nzNoUV87zX7xBouMWtvkTjVmXM1YMpm38
+         Yi5lTSuQ/2AQzOGEB52mqbr8QWFQ7v6EjkHjKgKiTdFpkCcRJpUQpeBRrW2MOz6NXS1x
+         /4EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=2QJNYK/K5bdE2+Gkhht7sK48ftHkXUxqx+uBQkHd5Ts=;
-        b=GruP0MDIdEZ0V+VBD4b6ifgtxV0LsqCtruYDCbnzbS4jS/5MErhivGYypIhnRFylDr
-         rJpzwbzLSNYVT5QPKiPHu4AyOkI3IrKhpcD2CreGbPLx8wOH0X9Qk+nenTF3KdbTjU2n
-         QUUn4i6tiklol+3By+0iM8DMi5tW3oftwrQZfr/ioiHwBLRZwndRgEKlgjW+39mqK8FO
-         mAR3rTyuDEUbMuRhiqaWwAGOm6cuXvaAC5DDxvxF9ILwAY/qzTis5btXuaCwam0DapjV
-         q0itm7BP8SgqaMGTM/xSXBXjMIfzsOdJd57+Srn9KvfT1u75JUWP6EwA95p9sqEoMmjD
-         A51w==
-X-Gm-Message-State: APjAAAWvLnocjDKo0VYzDQOEYPDRw0EHqRdmVC4XUCoQQGr+D3Rv50ue
-        g/92XsiG2XFMhCFTqq5yelzRdO5FKReu6arRWnQO
-X-Google-Smtp-Source: APXvYqygpkXBVo+V/0rCDrfRnTBOydni+js2TBbay/jXRxqEePu5DxdbEDyaefBi0zEpgdxZttma4OhRzmRZQpH1wy4=
-X-Received: by 2002:a2e:4703:: with SMTP id u3mr584888lja.126.1573234887049;
- Fri, 08 Nov 2019 09:41:27 -0800 (PST)
+        bh=UVAbz2qNISBamKJ8aYyWKPdYYFUtEofFZoGab/xVx6Q=;
+        b=GanXHZlp2uugjgwdKG/aMyT+KKZiS63y2mNcYXudZPClsQMQmMbG1+ba4o6cZdvvNq
+         lxrZD+cW3rH1CGarvZ+jFG4w1oT2rU4Ao2NjWXfdfJZjh9Z2gE9px6uUl0FECsPqCen6
+         gN+BHNvgdj8jKHXATN1d+nReR2mc8YwLdejmkfe4Z3DXrPtg7v8d/kTYqkIIkRIBoBfz
+         ZpqI9E7rQof19qBrN/VLdX7CL/J8aQxWXYWNqlfyk+OY0IC6O5e8mO9k14NJ9uSl7XH8
+         4+r08yghf8vWtP5l/7aWm4+FCN4bICdBLTeK6F06pvcwlj4EPM2DHk+7qIfAIDH5K44Z
+         9quw==
+X-Gm-Message-State: APjAAAV64JBeECk9sUlVlWlDUrzh4I3RQgJD1i3K4N+jIiz2yX+fr/2A
+        3hgnKAeR5rJjEX+Jrj1ISl+kJDUx1qgiq4pkI93y
+X-Google-Smtp-Source: APXvYqwXdfG4GypAr+j8sH3slLDDTCL7KQFTcRwsFnuUnnR/MbQkn3eAVhzXbnZTJXwiGsLyrFAGgJuGlFt1dlMpA3Q=
+X-Received: by 2002:a2e:898d:: with SMTP id c13mr7895602lji.54.1573235374890;
+ Fri, 08 Nov 2019 09:49:34 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1568834524.git.rgb@redhat.com> <0850eaa785e2ff30c8c4818fd53e9544b34ed884.1568834524.git.rgb@redhat.com>
- <CAHC9VhQoFFaQACbV4QHG_NPUCJu1+V=x3=i-yyGjbsYq8HuPtg@mail.gmail.com> <20191025192031.ul3yjy2q57vsvier@madcap2.tricolour.ca>
-In-Reply-To: <20191025192031.ul3yjy2q57vsvier@madcap2.tricolour.ca>
+References: <cover.1568834524.git.rgb@redhat.com> <230e91cd3e50a3d8015daac135c24c4c58cf0a21.1568834524.git.rgb@redhat.com>
+ <20190927125142.GA25764@hmswarspite.think-freely.org> <CAHC9VhRbSUCB0OZorC4+y+5uJDR5uMXdRn2LOTYGu2gcFJSrcA@mail.gmail.com>
+ <20191024212335.y4ou7g4tsxnotvnk@madcap2.tricolour.ca>
+In-Reply-To: <20191024212335.y4ou7g4tsxnotvnk@madcap2.tricolour.ca>
 From:   Paul Moore <paul@paul-moore.com>
-Date:   Fri, 8 Nov 2019 12:41:16 -0500
-Message-ID: <CAHC9VhQTz3f9p9knMP0Rsz=zH5HTEXBb7iN7o_jr=FN9sGWp8g@mail.gmail.com>
-Subject: Re: [PATCH ghak90 V7 08/21] audit: add contid support for signalling
- the audit daemon
+Date:   Fri, 8 Nov 2019 12:49:23 -0500
+Message-ID: <CAHC9VhTrKVQNvTPoX5xdx-TUX_ukpMv2tNFFqLa2Njs17GuQMg@mail.gmail.com>
+Subject: Re: [PATCH ghak90 V7 06/21] audit: contid limit of 32k imposed to
+ avoid DoS
 To:     Richard Guy Briggs <rgb@redhat.com>
-Cc:     containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
+Cc:     Neil Horman <nhorman@tuxdriver.com>,
+        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
         Linux-Audit Mailing List <linux-audit@redhat.com>,
         linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
         netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
         sgrubb@redhat.com, omosnace@redhat.com, dhowells@redhat.com,
         simo@redhat.com, Eric Paris <eparis@parisplace.org>,
         Serge Hallyn <serge@hallyn.com>, ebiederm@xmission.com,
-        nhorman@tuxdriver.com, Dan Walsh <dwalsh@redhat.com>,
-        mpatel@redhat.com
+        Dan Walsh <dwalsh@redhat.com>, mpatel@redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Oct 25, 2019 at 3:20 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> On 2019-10-10 20:39, Paul Moore wrote:
-> > On Wed, Sep 18, 2019 at 9:25 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > Add audit container identifier support to the action of signalling the
-> > > audit daemon.
-> > >
-> > > Since this would need to add an element to the audit_sig_info struct,
-> > > a new record type AUDIT_SIGNAL_INFO2 was created with a new
-> > > audit_sig_info2 struct.  Corresponding support is required in the
-> > > userspace code to reflect the new record request and reply type.
-> > > An older userspace won't break since it won't know to request this
-> > > record type.
-> > >
-> > > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-> > > ---
-> > >  include/linux/audit.h       |  7 +++++++
-> > >  include/uapi/linux/audit.h  |  1 +
-> > >  kernel/audit.c              | 28 ++++++++++++++++++++++++++++
-> > >  kernel/audit.h              |  1 +
-> > >  security/selinux/nlmsgtab.c |  1 +
-> > >  5 files changed, 38 insertions(+)
-> > >
-> > > diff --git a/include/linux/audit.h b/include/linux/audit.h
-> > > index 0c18d8e30620..7b640c4da4ee 100644
-> > > --- a/include/linux/audit.h
-> > > +++ b/include/linux/audit.h
-> > > @@ -23,6 +23,13 @@ struct audit_sig_info {
-> > >         char            ctx[0];
-> > >  };
-> > >
-> > > +struct audit_sig_info2 {
-> > > +       uid_t           uid;
-> > > +       pid_t           pid;
-> > > +       u64             cid;
-> > > +       char            ctx[0];
-> > > +};
-> > > +
-> > >  struct audit_buffer;
-> > >  struct audit_context;
-> > >  struct inode;
-> > > diff --git a/include/uapi/linux/audit.h b/include/uapi/linux/audit.h
-> > > index 4ed080f28b47..693ec6e0288b 100644
-> > > --- a/include/uapi/linux/audit.h
-> > > +++ b/include/uapi/linux/audit.h
-> > > @@ -72,6 +72,7 @@
-> > >  #define AUDIT_SET_FEATURE      1018    /* Turn an audit feature on or off */
-> > >  #define AUDIT_GET_FEATURE      1019    /* Get which features are enabled */
-> > >  #define AUDIT_CONTAINER_OP     1020    /* Define the container id and info */
-> > > +#define AUDIT_SIGNAL_INFO2     1021    /* Get info auditd signal sender */
-> > >
-> > >  #define AUDIT_FIRST_USER_MSG   1100    /* Userspace messages mostly uninteresting to kernel */
-> > >  #define AUDIT_USER_AVC         1107    /* We filter this differently */
-> > > diff --git a/kernel/audit.c b/kernel/audit.c
-> > > index adfb3e6a7f0c..df3db29f5a8a 100644
-> > > --- a/kernel/audit.c
-> > > +++ b/kernel/audit.c
-> > > @@ -125,6 +125,7 @@ struct audit_net {
-> > >  kuid_t         audit_sig_uid = INVALID_UID;
-> > >  pid_t          audit_sig_pid = -1;
-> > >  u32            audit_sig_sid = 0;
-> > > +u64            audit_sig_cid = AUDIT_CID_UNSET;
-> > >
-> > >  /* Records can be lost in several ways:
-> > >     0) [suppressed in audit_alloc]
-> > > @@ -1094,6 +1095,7 @@ static int audit_netlink_ok(struct sk_buff *skb, u16 msg_type)
-> > >         case AUDIT_ADD_RULE:
-> > >         case AUDIT_DEL_RULE:
-> > >         case AUDIT_SIGNAL_INFO:
-> > > +       case AUDIT_SIGNAL_INFO2:
-> > >         case AUDIT_TTY_GET:
-> > >         case AUDIT_TTY_SET:
-> > >         case AUDIT_TRIM:
-> > > @@ -1257,6 +1259,7 @@ static int audit_receive_msg(struct sk_buff *skb, struct nlmsghdr *nlh)
-> > >         struct audit_buffer     *ab;
-> > >         u16                     msg_type = nlh->nlmsg_type;
-> > >         struct audit_sig_info   *sig_data;
-> > > +       struct audit_sig_info2  *sig_data2;
-> > >         char                    *ctx = NULL;
-> > >         u32                     len;
-> > >
-> > > @@ -1516,6 +1519,30 @@ static int audit_receive_msg(struct sk_buff *skb, struct nlmsghdr *nlh)
-> > >                                  sig_data, sizeof(*sig_data) + len);
-> > >                 kfree(sig_data);
-> > >                 break;
-> > > +       case AUDIT_SIGNAL_INFO2:
-> > > +               len = 0;
-> > > +               if (audit_sig_sid) {
-> > > +                       err = security_secid_to_secctx(audit_sig_sid, &ctx, &len);
-> > > +                       if (err)
-> > > +                               return err;
-> > > +               }
-> > > +               sig_data2 = kmalloc(sizeof(*sig_data2) + len, GFP_KERNEL);
-> > > +               if (!sig_data2) {
-> > > +                       if (audit_sig_sid)
-> > > +                               security_release_secctx(ctx, len);
-> > > +                       return -ENOMEM;
-> > > +               }
-> > > +               sig_data2->uid = from_kuid(&init_user_ns, audit_sig_uid);
-> > > +               sig_data2->pid = audit_sig_pid;
-> > > +               if (audit_sig_sid) {
-> > > +                       memcpy(sig_data2->ctx, ctx, len);
-> > > +                       security_release_secctx(ctx, len);
-> > > +               }
-> > > +               sig_data2->cid = audit_sig_cid;
-> > > +               audit_send_reply(skb, seq, AUDIT_SIGNAL_INFO2, 0, 0,
-> > > +                                sig_data2, sizeof(*sig_data2) + len);
-> > > +               kfree(sig_data2);
-> > > +               break;
-> > >         case AUDIT_TTY_GET: {
-> > >                 struct audit_tty_status s;
-> > >                 unsigned int t;
-> > > @@ -2384,6 +2411,7 @@ int audit_signal_info(int sig, struct task_struct *t)
-> > >                 else
-> > >                         audit_sig_uid = uid;
-> > >                 security_task_getsecid(current, &audit_sig_sid);
-> > > +               audit_sig_cid = audit_get_contid(current);
-> > >         }
+On Thu, Oct 24, 2019 at 5:23 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> On 2019-10-10 20:38, Paul Moore wrote:
+> > On Fri, Sep 27, 2019 at 8:52 AM Neil Horman <nhorman@tuxdriver.com> wrote:
+> > > On Wed, Sep 18, 2019 at 09:22:23PM -0400, Richard Guy Briggs wrote:
+> > > > Set an arbitrary limit on the number of audit container identifiers to
+> > > > limit abuse.
+> > > >
+> > > > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+> > > > ---
+> > > >  kernel/audit.c | 8 ++++++++
+> > > >  kernel/audit.h | 4 ++++
+> > > >  2 files changed, 12 insertions(+)
+> > > >
+> > > > diff --git a/kernel/audit.c b/kernel/audit.c
+> > > > index 53d13d638c63..329916534dd2 100644
+> > > > --- a/kernel/audit.c
+> > > > +++ b/kernel/audit.c
 > >
-> > I've been wondering something as I've been working my way through
-> > these patches and this patch seems like a good spot to discuss this
-> > ... Now that we have the concept of an audit container ID "lifetime"
-> > in the kernel, when do we consider the ID gone?  Is it when the last
-> > process in the container exits, or is it when we generate the last
-> > audit record which could possibly contain the audit container ID?
-> > This patch would appear to support the former, but if we wanted the
-> > latter we would need to grab a reference to the audit container ID
-> > struct so it wouldn't "die" on us before we could emit the signal info
-> > record.
+> > ...
+> >
+> > > > @@ -2465,6 +2472,7 @@ int audit_set_contid(struct task_struct *task, u64 contid)
+> > > >                               newcont->owner = current;
+> > > >                               refcount_set(&newcont->refcount, 1);
+> > > >                               list_add_rcu(&newcont->list, &audit_contid_hash[h]);
+> > > > +                             audit_contid_count++;
+> > > >                       } else {
+> > > >                               rc = -ENOMEM;
+> > > >                               goto conterror;
+> > > > diff --git a/kernel/audit.h b/kernel/audit.h
+> > > > index 162de8366b32..543f1334ba47 100644
+> > > > --- a/kernel/audit.h
+> > > > +++ b/kernel/audit.h
+> > > > @@ -219,6 +219,10 @@ static inline int audit_hash_contid(u64 contid)
+> > > >       return (contid & (AUDIT_CONTID_BUCKETS-1));
+> > > >  }
+> > > >
+> > > > +extern int audit_contid_count;
+> > > > +
+> > > > +#define AUDIT_CONTID_COUNT   1 << 16
+> > > > +
+> > >
+> > > Just to ask the question, since it wasn't clear in the changelog, what
+> > > abuse are you avoiding here?  Ostensibly you should be able to create as
+> > > many container ids as you have space for, and the simple creation of
+> > > container ids doesn't seem like the resource strain I would be concerned
+> > > about here, given that an orchestrator can still create as many
+> > > containers as the system will otherwise allow, which will consume
+> > > significantly more ram/disk/etc.
+> >
+> > I've got a similar question.  Up to this point in the patchset, there
+> > is a potential issue of hash bucket chain lengths and traversing them
+> > with a spinlock held, but it seems like we shouldn't be putting an
+> > arbitrary limit on audit container IDs unless we have a good reason
+> > for it.  If for some reason we do want to enforce a limit, it should
+> > probably be a tunable value like a sysctl, or similar.
 >
-> Are you concerned with the availability of the data when the audit
-> signal info record is generated, when the kernel last deals with a
-> particular contid or when userspace thinks there will be no more
-> references to it?
->
-> I've got a bit of a dilemma with this one...
->
-> In fact, the latter situation you describe isn't a concern at present to
-> be able to deliver the information since the value is copied into the
-> audit signal global internal variables before the signalling task dies
-> and the audit signal info record is created from those copied (cached)
-> values when requested from userspace.
->
-> So the issue raised above I don't think is a problem.  However, patch 18
-> (which wasn't reviewed because it was a patch to a number of preceeding
-> patches) changes the reporting approach to give a chain of nested
-> contids which isn't reflected in the same level of reporting for the
-> audit signal patch/mechanism.  Solving this is a bit more complex.  We
-> could have the audit signal internal caching store a pointer to the
-> relevant container object and bump its refcount to ensure it doesn't
-> vanish until we are done with it, but the audit signal info binary
-> record format already has a variable length due to the selinux context
-> at the end of that struct and adding a second variable length element to
-> it would make it more complicated (but not impossible) to handle.
+> Can you separate and clarify the concerns here?
 
-[side note #1: Sorry for the delay, travel/conferences have limited my
-time and I felt we needed to focus on the larger issue of
-netlink/procfs first.  Back to the other topics ...]
+"Why are you doing this?" is about as simple as I can pose the question.
 
-[side note #2: I just realized that one can shorten "audit container
-ID" to ACID, I think that's going to be my favorite realization of the
-day :)]
+> I plan to move this patch to the end of the patchset and make it
+> optional, possibly adding a tuning mechanism.  Like the migration from
+> /proc to netlink for loginuid/sessionid/contid/capcontid, this was Eric
+> Biederman's concern and suggested mitigation.
 
-My concern wasn't really about the availability of the data, since as
-you said, it is copied into the record buffer, but rather a delay
-between when the audit container ID (ACID) disappears from the
-tracking/list db in the kernel to when it is emitted in an audit
-record from the kernel.  During this time is seems like it could be
-possible for the orchestrator to reintroduce the same ACID value and
-if someone is not taking into account the full audit history they
-could get confused (the full audit history should show the proper
-creation/destruction events in the correct order).  Ultimately I'm not
-sure it is a major issue, and fixing it is likely to be really ugly,
-but I think it would be good to add some comments in the code
-regarding what we guarantee as far as ACID lifetimes are concerned.
+Okay, let's just drop it.  I *really* don't like this approach of
+tossing questionable stuff at the end of the patchset; I get why you
+are doing it, but I think we really need to focus on keeping this
+changeset small.  If the number of ACIDs (heh) become unwieldy the
+right solution is to improve the algorithms/structures, if we can't do
+that for some reason, *then* we can fall back to a limiting knob in a
+latter release.
+
+> As for the first issue of the bucket chain length traversal while
+> holding the list spin-lock, would you prefer to use the rcu lock to
+> traverse the list and then only hold the spin-lock when modifying the
+> list, and possibly even make the spin-lock more fine-grained per list?
+
+Until we have a better idea of how this is going to be used, I think
+it's okay for now.  It's also internal to the kernel so we can change
+it at any time.  My comments about the locking/structs was only to try
+and think of some reason why one might want to limit the number of
+ACIDs since neither you or Eric provided any reasoning that I could
+see.
 
 -- 
 paul moore
