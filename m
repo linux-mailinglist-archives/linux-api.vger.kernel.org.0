@@ -2,35 +2,34 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D534F7FA4
-	for <lists+linux-api@lfdr.de>; Mon, 11 Nov 2019 20:18:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D378BF7FCE
+	for <lists+linux-api@lfdr.de>; Mon, 11 Nov 2019 20:24:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727032AbfKKTS1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 11 Nov 2019 14:18:27 -0500
-Received: from mo4-p03-ob.smtp.rzone.de ([85.215.255.101]:27729 "EHLO
-        mo4-p03-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726952AbfKKTS1 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 11 Nov 2019 14:18:27 -0500
-X-Greylist: delayed 300 seconds by postgrey-1.27 at vger.kernel.org; Mon, 11 Nov 2019 14:18:24 EST
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1573499903;
+        id S1726927AbfKKTYT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 11 Nov 2019 14:24:19 -0500
+Received: from mo4-p02-ob.smtp.rzone.de ([85.215.255.81]:25162 "EHLO
+        mo4-p02-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727178AbfKKTYS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 11 Nov 2019 14:24:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1573500254;
         s=strato-dkim-0002; d=chronox.de;
         h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
         X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
-        bh=zM9ir0+C+L/J8WxxjlzJQHMl4WXG9/V1JpyZnNl819o=;
-        b=H7DSPh/Lj3htjY3mc8ugL0c1y4z6/ALR6JzHm9SNkrCGiDF9z2OEfazDrJj6KKd22r
-        8suyWEPgnM+I8P5a7+KRi0ngZZ0+tfx4YyrUhAXAdCxBDRgMF9BCe7YAu0grLzvVVFAR
-        Hl46tFyLU6KlojQZnSyPQGKc1JQJEYabOz+5OcaEOJAskux+8QKU8D+RpNQmT1jrvjYl
-        L/JMmWHrHsz4eP8b85VKiaCo0keGmXmkaA4PkqmRsc62cva68nT0UMln2VBrh36pcrER
-        Ca98lIo0f5p2M4Nktp167al/v2qBENRNP09tuNnj15MZr48hCS2jKNY1v6eg28x2i37p
-        focQ==
+        bh=Fd8Tuzsj9ZCnX97HM7eyjSGCLYRwubnqn7Nbon5Owlk=;
+        b=fFodi6+hRDK3yRpC2gPoXCs4OaUGKutTM2qQfcbg9000Kt8KZ62exQ37f5mA4xUFMY
+        uvvA63612cRPjPBHtpIImoalFaw7KthbQOns69vBg9UiCuz26SbiqepEfiMTqji/TRxq
+        n0n7IhG/dHhgCn8+CA2R9M21hz1rYPwtESOuP7abZmRrFHuXnc/CakNKG9NAyMlsGFQ8
+        g0emQqgCzlBTTrWCgNf6JRAMija56cwdOopvng6+zjNoBzgECFcvWbUCqcSyKmwCPfx7
+        McGBUNqsGIO44n13G6KWnUSSoJOXV3kB6OKr/7mXuFdDUlHmlGgW8mLUSnkhEYlFzAR5
+        zl9Q==
 X-RZG-AUTH: ":P2ERcEykfu11Y98lp/T7+hdri+uKZK8TKWEqNyiHySGSa9k9zmgLKehaO2hZDSTWbgzIOA=="
 X-RZG-CLASS-ID: mo00
 Received: from positron.chronox.de
         by smtp.strato.de (RZmta 44.29.0 AUTH)
-        with ESMTPSA id N09a57vABJCM3XM
+        with ESMTPSA id N09a57vABJCF3XK
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve secp521r1 with 521 ECDH bits, eq. 15360 bits RSA))
         (Client did not present a certificate);
-        Mon, 11 Nov 2019 20:12:22 +0100 (CET)
+        Mon, 11 Nov 2019 20:12:15 +0100 (CET)
 From:   Stephan =?ISO-8859-1?Q?M=FCller?= <smueller@chronox.de>
 To:     Arnd Bergmann <arnd@arndb.de>
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -54,9 +53,9 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Marcelo Henrique Cerri <marcelo.cerri@canonical.com>,
         Roman Drahtmueller <draht@schaltsekun.de>,
         Neil Horman <nhorman@redhat.com>
-Subject: [PATCH v24 09/12] LRNG - add Jitter RNG fast noise source
-Date:   Mon, 11 Nov 2019 19:23:47 +0100
-Message-ID: <43766791.zupEtXRa3U@positron.chronox.de>
+Subject: [PATCH v24 10/12] LRNG - add TRNG support
+Date:   Mon, 11 Nov 2019 19:24:48 +0100
+Message-ID: <2748289.UW81UyhrAQ@positron.chronox.de>
 In-Reply-To: <6157374.ptSnyUpaCn@positron.chronox.de>
 References: <6157374.ptSnyUpaCn@positron.chronox.de>
 MIME-Version: 1.0
@@ -67,9 +66,22 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-The Jitter RNG fast noise source implemented as part of the kernel
-crypto API is queried for 256 bits of entropy at the time the seed
-buffer managed by the LRNG is about to be filled.
+The True Random Number Generator (TRNG) provides a random number
+generator with prediction resistance (SP800-90A terminology) or an NTG.1
+(AIS 31 terminology).
+
+When enabled, it obtains random numbers from the entropy pool and
+maintains the information with how much entropy it was seeded with. The
+TRNG only generates as much output data as it has as entropy.
+
+The secondary DRNGs seed from the TRNG if it is present. In addition,
+the /dev/random device accesses the TRNG.
+
+If the TRNG is disabled, the secondary DRNGs seed from the entropy pool
+and /dev/random behaves like getrandom(2).
+
+The TRNG benefits from the switchable DRNG support which implies that
+data provided via /dev/random is generated by the loaded DRNG.
 
 CC: "Eric W. Biederman" <ebiederm@xmission.com>
 CC: "Alexander E. Patrakov" <patrakov@gmail.com>
@@ -94,50 +106,61 @@ Tested-by: Marcelo Henrique Cerri <marcelo.cerri@canonical.com>
 Tested-by: Neil Horman <nhorman@redhat.com>
 Signed-off-by: Stephan Mueller <smueller@chronox.de>
 =2D--
- drivers/char/lrng/Kconfig     |  11 ++++
+ drivers/char/lrng/Kconfig     |  22 +++
  drivers/char/lrng/Makefile    |   1 +
- drivers/char/lrng/lrng_jent.c | 101 ++++++++++++++++++++++++++++++++++
- 3 files changed, 113 insertions(+)
- create mode 100644 drivers/char/lrng/lrng_jent.c
+ drivers/char/lrng/lrng_trng.c | 301 ++++++++++++++++++++++++++++++++++
+ 3 files changed, 324 insertions(+)
+ create mode 100644 drivers/char/lrng/lrng_trng.c
 
 diff --git a/drivers/char/lrng/Kconfig b/drivers/char/lrng/Kconfig
-index eb1cd63433dc..c6d26b88cdac 100644
+index c6d26b88cdac..efc5f9aaa2a3 100644
 =2D-- a/drivers/char/lrng/Kconfig
 +++ b/drivers/char/lrng/Kconfig
-@@ -80,4 +80,15 @@ config LRNG_KCAPI
- 	  provided by the selected kernel crypto API RNG.
- endif # LRNG_DRNG_SWITCH
+@@ -91,4 +91,26 @@ config LRNG_JENT
+ 	  time or at runtime with the lrng_base.jitterrng configuration
+ 	  variable.
 =20
-+config LRNG_JENT
-+	bool "Enable Jitter RNG as LRNG Seed Source"
-+	select CRYPTO_JITTERENTROPY
++config LRNG_TRNG_SUPPORT
++	bool "Enable True Random Number Generator support"
++	default y
 +	help
-+	  The Linux RNG may use the Jitter RNG as noise source. Enabling
-+	  this option enables the use of the Jitter RNG. Its default
-+	  entropy level is 16 bits of entropy per 256 data bits delivered
-+	  by the Jitter RNG. This entropy level can be changed at boot
-+	  time or at runtime with the lrng_base.jitterrng configuration
-+	  variable.
++	  The true random number generator (TRNG) support, also
++	  known as DRNG with prediction resistance (SP800-90A
++	  terminology) or NTG.1 (AIS 31 terminology), generates
++	  random numbers after a successful reseed with entropy.
++	  Only when new entropy is provided for a new generation
++	  request, random data is provided with an equal amount
++	  as entropy was added. The TRNG is available via
++	  /dev/random.
++
++	  If the support is not enabled, /dev/random ensures that
++	  it received sufficient initial entropy and will produce
++	  random data without requiring a constant reseed with
++	  entropy. Yet it tries to regularly reseed itself with
++	  fresh entropy.
++
++	  With the TRNG support the /dev/random device will block
++	  if insufficient entropy is available.
 +
  endif # LRNG
 diff --git a/drivers/char/lrng/Makefile b/drivers/char/lrng/Makefile
-index 027b6ea51c20..a87d800c9aae 100644
+index a87d800c9aae..1c72bc060bce 100644
 =2D-- a/drivers/char/lrng/Makefile
 +++ b/drivers/char/lrng/Makefile
-@@ -13,3 +13,4 @@ obj-$(CONFIG_SYSCTL)		+=3D lrng_proc.o
- obj-$(CONFIG_LRNG_DRNG_SWITCH)	+=3D lrng_switch.o
+@@ -14,3 +14,4 @@ obj-$(CONFIG_LRNG_DRNG_SWITCH)	+=3D lrng_switch.o
  obj-$(CONFIG_LRNG_DRBG)		+=3D lrng_drbg.o
  obj-$(CONFIG_LRNG_KCAPI)	+=3D lrng_kcapi.o
-+obj-$(CONFIG_LRNG_JENT)		+=3D lrng_jent.o
-diff --git a/drivers/char/lrng/lrng_jent.c b/drivers/char/lrng/lrng_jent.c
+ obj-$(CONFIG_LRNG_JENT)		+=3D lrng_jent.o
++obj-$(CONFIG_LRNG_TRNG_SUPPORT)	+=3D lrng_trng.o
+diff --git a/drivers/char/lrng/lrng_trng.c b/drivers/char/lrng/lrng_trng.c
 new file mode 100644
-index 000000000000..ce45f6be9faf
+index 000000000000..ffd922192841
 =2D-- /dev/null
-+++ b/drivers/char/lrng/lrng_jent.c
-@@ -0,0 +1,101 @@
++++ b/drivers/char/lrng/lrng_trng.c
+@@ -0,0 +1,301 @@
 +// SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
 +/*
-+ * LRNG Fast Noise Source: Jitter RNG
++ * LRNG True Random Number Generator (TRNG) processing
 + *
 + * Copyright (C) 2016 - 2019, Stephan Mueller <smueller@chronox.de>
 + *
@@ -157,86 +180,294 @@ index 000000000000..ce45f6be9faf
 +
 +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
 +
++#include <linux/lrng.h>
++
 +#include "lrng_internal.h"
 +
-+/*
-+ * Estimated entropy of data is a 16th of LRNG_DRNG_SECURITY_STRENGTH_BITS.
-+ * Albeit a full entropy assessment is provided for the noise source indic=
-ating
-+ * that it provides high entropy rates and considering that it deactivates
-+ * when it detects insufficient hardware, the chosen under estimation of
-+ * entropy is considered to be acceptable to all reviewers.
-+ */
-+static u32 jitterrng =3D LRNG_DRNG_SECURITY_STRENGTH_BITS>>4;
-+module_param(jitterrng, uint, 0644);
-+MODULE_PARM_DESC(jitterrng, "Entropy in bits of 256 data bits from Jitter "
-+			    "RNG noise source");
++/* TRNG state handle */
++struct lrng_trng {
++	void *trng;				/* TRNG handle */
++	void *hash;				/* Hash handle */
++	u32 trng_entropy_bits;			/* TRNG entropy level */
++	const struct lrng_crypto_cb *crypto_cb;	/* Crypto callbacks */
++	struct mutex lock;
++};
++
++/* TRNG for /dev/random and seed source for the secondary DRNG(s) */
++static struct lrng_trng lrng_trng =3D {
++	.trng		=3D &primary_chacha20,
++	.crypto_cb	=3D &lrng_cc20_crypto_cb,
++	.lock		=3D __MUTEX_INITIALIZER(lrng_trng.lock)
++};
++
++/********************************** Helper *******************************=
+*****/
++
++void lrng_trng_reset(void)
++{
++	lrng_trng.trng_entropy_bits =3D 0;
++	pr_debug("reset TRNG\n");
++}
++
++void lrng_trng_init(void)
++{
++	mutex_lock(&lrng_trng.lock);
++	lrng_trng_reset();
++	lrng_cc20_init_state(&primary_chacha20);
++	mutex_unlock(&lrng_trng.lock);
++}
++
++/************************* Random Number Generation **********************=
+*****/
++
++/* Caller must hold lrng_trng.lock */
++static int lrng_trng_generate(u8 *outbuf, u32 outbuflen, bool fullentropy)
++{
++	struct lrng_trng *trng =3D &lrng_trng;
++	const struct lrng_crypto_cb *crypto_cb =3D trng->crypto_cb;
++	int ret;
++
++	/* /dev/random only works from a fully seeded DRNG */
++	if (fullentropy && !lrng_state_operational())
++		return 0;
++
++	/*
++	 * Only deliver as many bytes as the DRNG is seeded with except during
++	 * initialization to provide a first seed to the secondary DRNG.
++	 */
++	if (lrng_state_min_seeded())
++		outbuflen =3D min_t(u32, outbuflen, trng->trng_entropy_bits>>3);
++	else
++		outbuflen =3D min_t(u32, outbuflen,
++				  LRNG_MIN_SEED_ENTROPY_BITS>>3);
++	if (!outbuflen)
++		return 0;
++
++	ret =3D crypto_cb->lrng_drng_generate_helper_full(trng->trng, outbuf,
++							outbuflen);
++	if (ret !=3D outbuflen) {
++		pr_warn("getting random data from TRNG failed (%d)\n",
++			ret);
++		return ret;
++	}
++
++	if (trng->trng_entropy_bits > (u32)(ret<<3))
++		trng->trng_entropy_bits -=3D ret<<3;
++	else
++		trng->trng_entropy_bits =3D 0;
++	pr_debug("obtained %d bytes of random data from TRNG\n", ret);
++	pr_debug("TRNG entropy level at %u bits\n",
++		 trng->trng_entropy_bits);
++
++	return ret;
++}
 +
 +/**
-+ * Get Jitter RNG entropy
++ * Inject data into the TRNG with a given entropy value. The function calls
++ * the DRNG's update function. This function also generates random data if
++ * requested by caller. The caller is only returned the amount of random d=
+ata
++ * that is at most equal to the amount of entropy that just seeded the DRN=
+G.
 + *
-+ * @outbuf buffer to store entropy
-+ * @outbuflen length of buffer
-+ * @return > 0 on success where value provides the added entropy in bits
-+ *	   0 if no fast source was available
++ * Note, this function seeds the TRNG and generates data in an atomic oper=
+ation.
++ *
++ * @inbuf: buffer to inject
++ * @inbuflen: length of inbuf
++ * @entropy_bits: entropy value of the data in inbuf in bits
++ * @outbuf: buffer to fill immediately after seeding to get full entropy
++ * @outbuflen: length of outbuf
++ * @fullentropy: start /dev/random output only after the DRNG was fully se=
+eded
++ * @return: number of bytes written to outbuf, 0 if outbuf is not supplied,
++ *	    or < 0 in case of error
 + */
-+struct rand_data;
-+struct rand_data *jent_lrng_entropy_collector(void);
-+int jent_read_entropy(struct rand_data *ec, unsigned char *data,
-+		      unsigned int len);
-+static struct rand_data *lrng_jent_state;
++static int lrng_trng_inject(const u8 *inbuf, u32 inbuflen, u32 entropy_bit=
+s,
++			    u8 *outbuf, u32 outbuflen, bool fullentropy)
++{
++	struct lrng_trng *trng =3D &lrng_trng;
++	int ret;
 +
-+u32 lrng_get_jent(u8 *outbuf, unsigned int outbuflen)
++	/* cap the maximum entropy value to the provided data length */
++	entropy_bits =3D min_t(u32, entropy_bits, inbuflen<<3);
++
++	mutex_lock(&trng->lock);
++	ret =3D trng->crypto_cb->lrng_drng_seed_helper(trng->trng, inbuf,
++						      inbuflen);
++	if (ret < 0) {
++		pr_warn("(re)seeding of TRNG failed\n");
++		goto unlock;
++	}
++	pr_debug("inject %u bytes with %u bits of entropy into TRNG\n",
++		 inbuflen, entropy_bits);
++
++	/* Adjust the fill level indicator to at most the DRNG sec strength */
++	trng->trng_entropy_bits =3D
++		min_t(u32, trng->trng_entropy_bits + entropy_bits,
++		      LRNG_DRNG_SECURITY_STRENGTH_BITS);
++	lrng_init_ops(trng->trng_entropy_bits);
++
++	if (outbuf && outbuflen)
++		ret =3D lrng_trng_generate(outbuf, outbuflen, fullentropy);
++
++unlock:
++	mutex_unlock(&trng->lock);
++	lrng_reader_wakeup();
++
++	return ret;
++}
++
++/**
++ * Seed the TRNG from the internal noise sources and generate random data.=
+ The
++ * seeding and the generation of random data is an atomic operation.
++ *
++ * lrng_pool_trylock() must be invoked successfully by caller.
++ */
++int lrng_trng_seed(u8 *outbuf, u32 outbuflen, bool fullentropy, bool drain)
++{
++	struct entropy_buf entropy_buf __aligned(LRNG_KCAPI_ALIGN);
++	struct lrng_trng *trng =3D &lrng_trng;
++	u32 total_entropy_bits;
++	int ret =3D 0, retrieved =3D 0;
++
++	/* Get available entropy in primary DRNG */
++	if (trng->trng_entropy_bits>>3) {
++		mutex_lock(&trng->lock);
++		ret =3D lrng_trng_generate(outbuf, outbuflen, fullentropy);
++		mutex_unlock(&trng->lock);
++		if (ret > 0) {
++			retrieved +=3D ret;
++			if (ret =3D=3D outbuflen)
++				goto out;
++
++			outbuf +=3D ret;
++			outbuflen -=3D ret;
++		}
++		/* Disregard error code as another generate request is below. */
++	}
++
++	mutex_lock(&trng->lock);
++	total_entropy_bits =3D lrng_fill_seed_buffer(trng->crypto_cb, trng->hash,
++						   &entropy_buf, drain);
++	mutex_unlock(&trng->lock);
++
++	pr_debug("reseed TRNG from internal noise sources with %u bits "
++		 "of entropy\n", total_entropy_bits);
++
++	ret =3D lrng_trng_inject((u8 *)&entropy_buf, sizeof(entropy_buf),
++				total_entropy_bits,
++				outbuf, outbuflen, fullentropy);
++
++	memzero_explicit(&entropy_buf, sizeof(entropy_buf));
++
++	if (ret > 0)
++		retrieved +=3D ret;
++
++out:
++	/* Allow the seeding operation to be called again */
++	lrng_pool_unlock();
++
++	return (ret >=3D 0) ? retrieved : ret;
++}
++
++/**
++ * Obtain random data from TRNG with information theoretical entropy by
++ * triggering a reseed. The TRNG will only return as many random bytes as =
+it
++ * was seeded with.
++ *
++ * @outbuf: buffer to store the random data in
++ * @outbuflen: length of outbuf
++ * @return: < 0 on error
++ *	    >=3D 0 the number of bytes that were obtained
++ */
++int lrng_trng_get(u8 *outbuf, u32 outbuflen)
 +{
 +	int ret;
-+	u32 ent_bits =3D jitterrng;
-+	unsigned long flags;
-+	static DEFINE_SPINLOCK(lrng_jent_lock);
-+	static int lrng_jent_initialized =3D 0;
 +
-+	spin_lock_irqsave(&lrng_jent_lock, flags);
-+
-+	if (!ent_bits || (lrng_jent_initialized =3D=3D -1)) {
-+		spin_unlock_irqrestore(&lrng_jent_lock, flags);
++	if (!outbuf || !outbuflen)
 +		return 0;
-+	}
 +
-+	if (!lrng_jent_initialized) {
-+		lrng_jent_state =3D jent_lrng_entropy_collector();
-+		if (!lrng_jent_state) {
-+			jitterrng =3D 0;
-+			lrng_jent_initialized =3D -1;
-+			spin_unlock_irqrestore(&lrng_jent_lock, flags);
-+			pr_info("Jitter RNG unusable on current system\n");
++	lrng_drngs_init_cc20();
++
++	if (lrng_pool_trylock())
++		return -EINPROGRESS;
++	ret =3D lrng_trng_seed(outbuf, outbuflen, true, true);
++	if (ret >=3D 0) {
++		pr_debug("read %d bytes of full entropy data from TRNG\n", ret);
++	} else {
++		/* This is no error, but we have not generated anything */
++		if (ret =3D=3D -EINPROGRESS)
 +			return 0;
-+		}
-+		lrng_jent_initialized =3D 1;
-+		pr_debug("Jitter RNG working on current system\n");
-+	}
-+	ret =3D jent_read_entropy(lrng_jent_state, outbuf, outbuflen);
-+	spin_unlock_irqrestore(&lrng_jent_lock, flags);
-+
-+	if (ret) {
-+		pr_debug("Jitter RNG failed with %d\n", ret);
-+		return 0;
++		pr_debug("reading data from TRNG failed: %d\n", ret);
 +	}
 +
-+	/* Obtain entropy statement */
-+	if (outbuflen !=3D LRNG_DRNG_SECURITY_STRENGTH_BYTES)
-+		ent_bits =3D (ent_bits * outbuflen<<3) /
-+			   LRNG_DRNG_SECURITY_STRENGTH_BITS;
-+	/* Cap entropy to buffer size in bits */
-+	ent_bits =3D min_t(u32, ent_bits, outbuflen<<3);
-+	pr_debug("obtained %u bits of entropy from Jitter RNG noise source\n",
-+		 ent_bits);
-+
-+	return ent_bits;
++	return ret;
 +}
 +
-+u32 lrng_jent_entropylevel(void)
++#ifdef CONFIG_LRNG_DRNG_SWITCH
++int lrng_trng_switch(const struct lrng_crypto_cb *cb)
 +{
-+	return min_t(u32, jitterrng, LRNG_DRNG_SECURITY_STRENGTH_BITS);
++	int ret;
++	u8 seed[LRNG_DRNG_SECURITY_STRENGTH_BYTES];
++	void *trng, *hash;
++
++	trng =3D cb->lrng_drng_alloc(LRNG_DRNG_SECURITY_STRENGTH_BYTES);
++	if (IS_ERR(trng))
++		return PTR_ERR(trng);
++
++	hash =3D cb->lrng_hash_alloc(seed, sizeof(seed));
++	if (IS_ERR(hash)) {
++		pr_warn("could not allocate new LRNG pool hash (%ld)\n",
++			PTR_ERR(hash));
++		cb->lrng_drng_dealloc(trng);
++		return PTR_ERR(hash);
++	}
++
++	/* Update primary DRNG */
++	mutex_lock(&lrng_trng.lock);
++	/* pull from existing DRNG to seed new DRNG */
++	ret =3D lrng_trng.crypto_cb->lrng_drng_generate_helper_full(
++					lrng_trng.trng, seed, sizeof(seed));
++	if (ret < 0) {
++		lrng_trng_reset();
++		pr_warn("getting random data from TRNG failed (%d)\n", ret);
++	} else {
++		/*
++		 * No change of the seed status as the old and new DRNG have
++		 * same security strength.
++		 */
++		ret =3D cb->lrng_drng_seed_helper(trng, seed, ret);
++		if (ret < 0) {
++			lrng_trng_reset();
++			pr_warn("seeding of new TRNG failed (%d)\n", ret);
++		} else {
++			pr_debug("seeded new TRNG instance from old TRNG "
++				 "instance\n");
++		}
++	}
++	memzero_explicit(seed, sizeof(seed));
++
++	if (!lrng_get_available())
++		lrng_trng_reset();
++	lrng_trng.crypto_cb->lrng_drng_dealloc(lrng_trng.trng);
++	lrng_trng.trng =3D trng;
++
++	lrng_trng.crypto_cb->lrng_hash_dealloc(lrng_trng.hash);
++	lrng_trng.hash =3D hash;
++
++	lrng_trng.crypto_cb =3D cb;
++
++	mutex_unlock(&lrng_trng.lock);
++
++	pr_info("TRNG allocated\n");
++
++	return ret;
 +}
++#endif	/* CONFIG_LRNG_DRNG_SWITCH */
 =2D-=20
 2.23.0
 
