@@ -2,89 +2,110 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7606BF812B
-	for <lists+linux-api@lfdr.de>; Mon, 11 Nov 2019 21:25:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A402F83C6
+	for <lists+linux-api@lfdr.de>; Tue, 12 Nov 2019 00:54:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727702AbfKKUZB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 11 Nov 2019 15:25:01 -0500
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:44827 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727628AbfKKUZB (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 11 Nov 2019 15:25:01 -0500
-Received: by mail-oi1-f193.google.com with SMTP id s71so12654721oih.11
-        for <linux-api@vger.kernel.org>; Mon, 11 Nov 2019 12:25:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vOfyNjirhZJpCYD/14r+NEmeylR+17cr7FHoRrl56Eg=;
-        b=dWfGQJGbeWaicejJBkwOAjX8oYfy6+0uZOeGW/ISyKeITlGByBW9LZD0ef0cBcubzE
-         5VowYn+IFL3EjC5xJN98eoBJ9cxZurvUFXmKGHv1gMlwUAt2IJQhnG3HCcFE4yDs3pWb
-         XLdbPgHB58v6MJSb7XzlKSm8nHqKiutilSbBjh40Ow8IDfWkiK9Zc47coLaMutfIxTpv
-         xiOAoKCAR3q6SIm1Xx6H30p83uuVTAoIrXdrC6aCa9jLbptNxGMx/X6uQA01wED4UyBo
-         ad+zy/cCPRnzazbtYB2TFdfXk0pT7JRbUbwCY3lgBPQdFIOMfyQqU8r4WxBMICIuDJ57
-         wbYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vOfyNjirhZJpCYD/14r+NEmeylR+17cr7FHoRrl56Eg=;
-        b=cYrUUskIpQsVyn4BVv2Jd60kdqf+xbgoweO0rNALErARLYS1IywHsxYaxVobWmM1/N
-         IJK+jRITPbYbTDCshE2iQ+ifmBogXCbhKS1VB2zyb+P6Svdzqo3dixpYGW7A5kUImpnL
-         PC2QMurH0HClrJXXaZqxT3VRjeKB+DEL9edMzytVaUFCY4hvawa54RBZEov6eqWVGnw+
-         t/4sr88tYHFpoc+KeoPfknNnhPlfCum60rTlozjS1rmjIPuBmj12+BxU6fvJdAIaHhn2
-         BZJhnZ6U+o2cEksniqU/IHCxC+kdo/Vd4KKMxm5BON1R5cRicsPxOfJMHjTsUe+clwC5
-         ujKw==
-X-Gm-Message-State: APjAAAWD7phVymTYWLPLnvqZMm2o78xYKE9Xt1b0hzliljUVrtRqRjTq
-        aAsV1KVh/mxvlGGZ/XicLgxgxIGZR3xpV5xzjg6vkA==
-X-Google-Smtp-Source: APXvYqy1VzfjRJuVb1MDElB7+dHlzd2kffgrpg+vPM+DJzWy3J/vzxZA0hSOvGwfYP2VYVG9yRo/VcuFRjBJ95zHNq8=
-X-Received: by 2002:a05:6808:9a1:: with SMTP id e1mr689381oig.175.1573503899982;
- Mon, 11 Nov 2019 12:24:59 -0800 (PST)
-MIME-Version: 1.0
-References: <CAKgNAkjo2WHq+zESU1iuCHJJ0x-fTNrakS9-d1+BjzUuV2uf2Q@mail.gmail.com>
- <20191107151941.dw4gtul5lrtax4se@wittgenstein> <2eb2ab4c-b177-29aa-cdc4-420b24cfd7b3@gmail.com>
- <CAG48ez2of684J6suPZpko7JFV6hg5KQsrP0KAn8B8-C3PM9OfQ@mail.gmail.com> <20191111165800.GD7017@mit.edu>
-In-Reply-To: <20191111165800.GD7017@mit.edu>
-From:   Jann Horn <jannh@google.com>
-Date:   Mon, 11 Nov 2019 21:24:33 +0100
-Message-ID: <CAG48ez3K6g7NSFmeuw-4paqPQTDYmNkZ-nVvufk25EB+Us850w@mail.gmail.com>
-Subject: Re: For review: documentation of clone3() system call
-To:     "Theodore Y. Ts'o" <tytso@mit.edu>
-Cc:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
+        id S1726964AbfKKXyf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 11 Nov 2019 18:54:35 -0500
+Received: from Galois.linutronix.de ([193.142.43.55]:60267 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726877AbfKKXyf (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 11 Nov 2019 18:54:35 -0500
+Received: from p5b06da22.dip0.t-ipconnect.de ([91.6.218.34] helo=nanos)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <tglx@linutronix.de>)
+        id 1iUJVh-0001np-JL; Tue, 12 Nov 2019 00:54:19 +0100
+Date:   Tue, 12 Nov 2019 00:54:16 +0100 (CET)
+From:   Thomas Gleixner <tglx@linutronix.de>
+To:     =?UTF-8?Q?Stephan_M=C3=BCller?= <smueller@chronox.de>
+cc:     Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-crypto@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        linux-api@vger.kernel.org,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "Alexander E. Patrakov" <patrakov@gmail.com>,
+        "Ahmed S. Darwish" <darwish.07@gmail.com>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>, Willy Tarreau <w@1wt.eu>,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        Vito Caputo <vcaputo@pengaru.com>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Jan Kara <jack@suse.cz>, Ray Strode <rstrode@redhat.com>,
+        William Jon McCann <mccann@jhu.edu>,
+        zhangjs <zachary@baishancloud.com>,
+        Andy Lutomirski <luto@kernel.org>,
         Florian Weimer <fweimer@redhat.com>,
-        Christian Brauner <christian@brauner.io>,
-        lkml <linux-kernel@vger.kernel.org>,
-        linux-man <linux-man@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        David Howells <dhowells@redhat.com>,
-        Pavel Emelyanov <xemul@virtuozzo.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Adrian Reber <adrian@lisas.de>,
-        Andrei Vagin <avagin@gmail.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Ingo Molnar <mingo@elte.hu>
-Content-Type: text/plain; charset="UTF-8"
+        Lennart Poettering <mzxreary@0pointer.de>,
+        Nicolai Stange <nstange@suse.de>,
+        "Peter, Matthias" <matthias.peter@bsi.bund.de>,
+        Marcelo Henrique Cerri <marcelo.cerri@canonical.com>,
+        Roman Drahtmueller <draht@schaltsekun.de>,
+        Neil Horman <nhorman@redhat.com>
+Subject: Re: [PATCH v24 01/12] Linux Random Number Generator
+In-Reply-To: <2369119.jSEA3qhmGI@positron.chronox.de>
+Message-ID: <alpine.DEB.2.21.1911120041060.1833@nanos.tec.linutronix.de>
+References: <6157374.ptSnyUpaCn@positron.chronox.de> <2369119.jSEA3qhmGI@positron.chronox.de>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="8323329-1567238779-1573516457=:1833"
+X-Linutronix-Spam-Score: -1.0
+X-Linutronix-Spam-Level: -
+X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Nov 11, 2019 at 5:58 PM Theodore Y. Ts'o <tytso@mit.edu> wrote:
-> On Mon, Nov 11, 2019 at 03:55:35PM +0100, Jann Horn wrote:
-> > Not on Linux, but on OpenBSD, they do use MAP_STACK now AFAIK; this
-> > was announced here:
-> > <http://openbsd-archive.7691.n7.nabble.com/stack-register-checking-td338238.html>.
-> > Basically they periodically check whether the userspace stack pointer
-> > points into a MAP_STACK region, and if not, they kill the process. So
-> > even if it's a no-op on Linux...
->
-> Hmm, is that something we should do in Linux?  Even if we only check
-> on syscall entry, which should be pretty inexpensive, it seems like it
-> would be very effective in protecting various ROP techniques.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-I'm not a big fan, especially if that would only happen on syscall
-entry; at the point where you have enough control to perform syscalls,
-it probably isn't too difficult to move your ROP stack over to a
-legitimate stack.
+--8323329-1567238779-1573516457=:1833
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+
+Stephan,
+
+On Mon, 11 Nov 2019, Stephan Müller wrote:
+
+thanks for Cc'ing me. I'll have a look at the technical details at later
+point in time. While skimming through the patches I noticed, that you
+thankfully added the SPDX license identifiers, but
+
+> @@ -0,0 +1,105 @@
+> +// SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
+> +/*
+> + * LRNG Fast Noise Source: CPU-based noise source
+> + *
+> + * Copyright (C) 2016 - 2019, Stephan Mueller <smueller@chronox.de>
+> + *
+> + * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESS OR IMPLIED
+> + * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+> + * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, ALL OF
+> + * WHICH ARE HEREBY DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR BE
+> + * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+> + * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
+> + * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+> + * BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+> + * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+> + * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+> + * USE OF THIS SOFTWARE, EVEN IF NOT ADVISED OF THE POSSIBILITY OF SUCH
+> + * DAMAGE.
+
+we really want to get rid of these boiler plate disclaimers as they are
+already implicit by the SPDX license identifier and provide no real
+value.
+
+Aside of that, the above disclaimer has even a slightly different wording
+than the standard BSD-2-Clause disclaimer which is going to cause even more
+headaches as automated scanner tools will detect that and someone has to go
+through that unreadable uppercase yelling mess and figure out whether it's
+a legaly substantial difference.
+
+Can you please get rid of those?
+
+Thanks,
+
+	tglx
+
+
+--8323329-1567238779-1573516457=:1833--
