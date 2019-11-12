@@ -2,48 +2,48 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6802EF8625
-	for <lists+linux-api@lfdr.de>; Tue, 12 Nov 2019 02:28:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 24AC9F8634
+	for <lists+linux-api@lfdr.de>; Tue, 12 Nov 2019 02:28:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727495AbfKLB2O (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 11 Nov 2019 20:28:14 -0500
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:36828 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727480AbfKLB2O (ORCPT
+        id S1727536AbfKLB2n (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 11 Nov 2019 20:28:43 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:50904 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727481AbfKLB2O (ORCPT
         <rfc822;linux-api@vger.kernel.org>); Mon, 11 Nov 2019 20:28:14 -0500
-Received: by mail-wr1-f68.google.com with SMTP id r10so16703715wrx.3
-        for <linux-api@vger.kernel.org>; Mon, 11 Nov 2019 17:28:11 -0800 (PST)
+Received: by mail-wm1-f66.google.com with SMTP id l17so1316033wmh.0
+        for <linux-api@vger.kernel.org>; Mon, 11 Nov 2019 17:28:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=arista.com; s=googlenew;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=xXzrdZmZ/uIyWcoWZxu+tgMLLpx2M3ay1hElXVVCELw=;
-        b=mwWBMXniRzlebbC3YXcsJ5K6Kc6HA+4uxgsdr1r4WbI7eiBo9VNESK0UYSyDfijJyz
-         6z3u28yKIGlSofkeWAp07ZAtVikW+A9vGKTWQgjhYGEJkFhfuNZbay7w+vNucy8d8EIb
-         0x8j+7oHqX7AEXg6Al+YXY7FdlW/q2W1E7j6pkl6ew5VPaeO5lQSCHsEcKN9yznpDW0/
-         JtIE9F6a91pmBjpOa+C7+ztZZjyIrxftyT3WN+DrMSMlMcA8s7ng+fcHAf3m4+jFlcsq
-         oSDGS36YRNr4o0DKuRr1Z3stStDD37n4PqFiFEcGepKjvHJ2O64G8hVwx17RAvorFY0k
-         EDBA==
+        bh=YJBQklbdth4fIqy8cKhdwCD9F1vJaIAaANn9KZEbUtM=;
+        b=i364+MmtGbU6vHOHLHon5GH22AObDEt7OrTi9/xpukajG+W+pbZuHGMjtJ1gccfpJr
+         fLzyGOAPbaXUVwJXPrbKrhB03z4T5tJlrZ+n23YliKYQvjqBGW+HoJg8qbRXjba+nF/w
+         wASLTAlqUMMQeH5AjsqYnQncc6tEp8ttKb3KeU9Pm3B/qFbkjubirOdZ65z4KPw6DHH6
+         S9KaVVKXNTu35HDyF/adWobkw2zoBeA9Dax+gZ0K6yzvn1qxDQYD7Ld+PyiLvsElH0oc
+         aKwb9LoTYt4IDPTzpWVx62AmbfTfVh+kfSYkMaab6zeKw0SRS7A2bxdWVY4gNMrIBQNM
+         bYxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=xXzrdZmZ/uIyWcoWZxu+tgMLLpx2M3ay1hElXVVCELw=;
-        b=I9AFXCat9Zw03jnnUC463SsQ9zlQ4nKxj4fSPO8NzO4iPdKy8YK4hyPGkuCER1vEje
-         f711G2FpVP6KuZ8gxyM79eJi7QcUX7dmhv5/qyHLEO8UEYsLHKf+d+bWf3gBgpquKA8P
-         Okqz6KPXvX3ou/9puXhElpXpFT3gEWeg93MWYPzBe68uzZHEJ7nGPBh5iEJFY7MZG2Tj
-         9LjM9bt6j8rENRlBZWwbd0iAsVnxsvaJ07J06JfmtHXWn1PghFrJU6us5vX9/beKg4fC
-         9c3UZJ0BWBURwe9WLhs5YeaSZtzRsUKWJ8FlMFL8XAsAL7lIrPbp9f/jE1jXFBH2DOW8
-         6qBQ==
-X-Gm-Message-State: APjAAAWRmCLWIPjDoX2Z8XfZmSJpK/CyYb6iXkdKih6Lac4U8SgdjyGz
-        Nmdq4Lb83L0AkM4q6v41IXOlLQ==
-X-Google-Smtp-Source: APXvYqytFQgnsidD1fc8pm+3VYE+uUXe+GNB6hoWVyOTe8g2h5rHSN0cyW3/IVpXiAJ6YG3+zx3gdA==
-X-Received: by 2002:adf:979a:: with SMTP id s26mr18658557wrb.92.1573522090910;
-        Mon, 11 Nov 2019 17:28:10 -0800 (PST)
+        bh=YJBQklbdth4fIqy8cKhdwCD9F1vJaIAaANn9KZEbUtM=;
+        b=GXcivKDHqiqV8hW774V7Su4Ly7zYqgkefCnZWnSD0RP7acR1k2XQXPZffhV7MOssyr
+         OGOVsJ9hAL1BJ1MEtRzskOPv39c4iiymBPL6Y2ShaIjnuaenYiqWmg0nfpKqY1QIm7El
+         gZBmBpeKnJTvRlCQIUkY6QOAghuWgTzsXfKS0EgCetlFV3sbgb4itJ7AIvD034KFBvay
+         o3Qe/WAWfLC3m3TeHW+HzYPTXd91weI9dl/ZAN9EOV3645uN832JiVmd8/NB1T45rkKc
+         DB+DraF4BG+blgaC/wl9atFWJ/pJL7OeoqgJD2+7YnvrQepQHRK/oxo6KIBwuNKuMaVS
+         yFeA==
+X-Gm-Message-State: APjAAAXvkCiiPQIS218f2jblmwe7OTymVvsO/JmI5K4+zYgZ1WYedCEV
+        Qw3FURvsiwtMV8HgOeMvBgEvSg==
+X-Google-Smtp-Source: APXvYqxHI1ovecMhGzQ9G3ozKPftNon5uLRyzoO2hY8YPQU6LMdHhctX2uNvUvbfBExFSpUsyaXlOg==
+X-Received: by 2002:a1c:48f:: with SMTP id 137mr1644088wme.68.1573522092232;
+        Mon, 11 Nov 2019 17:28:12 -0800 (PST)
 Received: from Mindolluin.ire.aristanetworks.com ([217.173.96.166])
-        by smtp.gmail.com with ESMTPSA id u187sm1508096wme.15.2019.11.11.17.28.09
+        by smtp.gmail.com with ESMTPSA id u187sm1508096wme.15.2019.11.11.17.28.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Nov 2019 17:28:10 -0800 (PST)
+        Mon, 11 Nov 2019 17:28:11 -0800 (PST)
 From:   Dmitry Safonov <dima@arista.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     Dmitry Safonov <0x7f454c46@gmail.com>,
@@ -65,9 +65,9 @@ Cc:     Dmitry Safonov <0x7f454c46@gmail.com>,
         Vincenzo Frascino <vincenzo.frascino@arm.com>,
         containers@lists.linux-foundation.org, criu@openvz.org,
         linux-api@vger.kernel.org, x86@kernel.org
-Subject: [PATCHv8 29/34] selftests/timens: Add a test for timerfd
-Date:   Tue, 12 Nov 2019 01:27:18 +0000
-Message-Id: <20191112012724.250792-30-dima@arista.com>
+Subject: [PATCHv8 30/34] selftests/timens: Add a test for clock_nanosleep()
+Date:   Tue, 12 Nov 2019 01:27:19 +0000
+Message-Id: <20191112012724.250792-31-dima@arista.com>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20191112012724.250792-1-dima@arista.com>
 References: <20191112012724.250792-1-dima@arista.com>
@@ -80,190 +80,208 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 From: Andrei Vagin <avagin@gmail.com>
 
-Check that timerfd_create() takes into account clock offsets.
+Check that clock_nanosleep() takes into account clock offsets.
 
 Output on success:
- 1..3
- ok 1 clockid=7
- ok 2 clockid=1
- ok 3 clockid=9
- # Pass 3 Fail 0 Xfail 0 Xpass 0 Skip 0 Error 0
-
-Output on failure:
- 1..3
- not ok 1 clockid: 7 elapsed: 0
- not ok 2 clockid: 1 elapsed: 0
- not ok 3 clockid: 9 elapsed: 0
- Bail out!
+ 1..4
+ ok 1 clockid: 1 abs:0
+ ok 2 clockid: 1 abs:1
+ ok 3 clockid: 9 abs:0
+ ok 4 clockid: 9 abs:1
 
 Output with lack of permissions:
- 1..3
+ 1..4
  not ok 1 # SKIP need to run as root
 
 Output without support of time namespaces:
- 1..3
+ 1..4
  not ok 1 # SKIP Time namespaces are not supported
 
 Signed-off-by: Andrei Vagin <avagin@gmail.com>
 Co-developed-by: Dmitry Safonov <dima@arista.com>
 Signed-off-by: Dmitry Safonov <dima@arista.com>
 ---
- tools/testing/selftests/timens/.gitignore |   1 +
- tools/testing/selftests/timens/Makefile   |   2 +-
- tools/testing/selftests/timens/timerfd.c  | 129 ++++++++++++++++++++++
- 3 files changed, 131 insertions(+), 1 deletion(-)
- create mode 100644 tools/testing/selftests/timens/timerfd.c
+ tools/testing/selftests/timens/.gitignore     |   1 +
+ tools/testing/selftests/timens/Makefile       |   4 +-
+ .../selftests/timens/clock_nanosleep.c        | 150 ++++++++++++++++++
+ 3 files changed, 153 insertions(+), 2 deletions(-)
+ create mode 100644 tools/testing/selftests/timens/clock_nanosleep.c
 
 diff --git a/tools/testing/selftests/timens/.gitignore b/tools/testing/selftests/timens/.gitignore
-index 27a693229ce1..b609f6ee9fb9 100644
+index b609f6ee9fb9..9b6c8ddac2c8 100644
 --- a/tools/testing/selftests/timens/.gitignore
 +++ b/tools/testing/selftests/timens/.gitignore
-@@ -1 +1,2 @@
+@@ -1,2 +1,3 @@
++clock_nanosleep
  timens
-+timerfd
+ timerfd
 diff --git a/tools/testing/selftests/timens/Makefile b/tools/testing/selftests/timens/Makefile
-index 49a9dcc26c3a..293aed6be95e 100644
+index 293aed6be95e..40f630d46ca8 100644
 --- a/tools/testing/selftests/timens/Makefile
 +++ b/tools/testing/selftests/timens/Makefile
-@@ -1,4 +1,4 @@
--TEST_GEN_PROGS := timens
-+TEST_GEN_PROGS := timens timerfd
+@@ -1,6 +1,6 @@
+-TEST_GEN_PROGS := timens timerfd
++TEST_GEN_PROGS := timens timerfd clock_nanosleep
  
- CFLAGS := -Wall -Werror
+-CFLAGS := -Wall -Werror
++CFLAGS := -Wall -Werror -pthread
  LDFLAGS := -lrt
-diff --git a/tools/testing/selftests/timens/timerfd.c b/tools/testing/selftests/timens/timerfd.c
+ 
+ include ../lib.mk
+diff --git a/tools/testing/selftests/timens/clock_nanosleep.c b/tools/testing/selftests/timens/clock_nanosleep.c
 new file mode 100644
-index 000000000000..619b096b7fe5
+index 000000000000..c6f871fb0704
 --- /dev/null
-+++ b/tools/testing/selftests/timens/timerfd.c
-@@ -0,0 +1,129 @@
++++ b/tools/testing/selftests/timens/clock_nanosleep.c
+@@ -0,0 +1,150 @@
 +// SPDX-License-Identifier: GPL-2.0
 +#define _GNU_SOURCE
 +#include <sched.h>
 +
 +#include <sys/timerfd.h>
 +#include <sys/syscall.h>
-+#include <sys/types.h>
-+#include <sys/wait.h>
 +#include <time.h>
 +#include <unistd.h>
 +#include <stdlib.h>
 +#include <stdio.h>
 +#include <stdint.h>
++#include <pthread.h>
++#include <signal.h>
++#include <string.h>
 +
 +#include "log.h"
 +#include "timens.h"
 +
-+static int tclock_gettime(clock_t clockid, struct timespec *now)
++void test_sig(int sig)
 +{
-+	if (clockid == CLOCK_BOOTTIME_ALARM)
-+		clockid = CLOCK_BOOTTIME;
-+	return clock_gettime(clockid, now);
++	if (sig == SIGUSR2)
++		pthread_exit(NULL);
 +}
 +
-+int run_test(int clockid, struct timespec now)
++struct thread_args {
++	struct timespec *now, *rem;
++	pthread_mutex_t *lock;
++	int clockid;
++	int abs;
++};
++
++void *call_nanosleep(void *_args)
 +{
-+	struct itimerspec new_value;
-+	long long elapsed;
-+	int fd, i;
++	struct thread_args *args = _args;
 +
-+	if (tclock_gettime(clockid, &now))
-+		return pr_perror("clock_gettime(%d)", clockid);
++	clock_nanosleep(args->clockid, args->abs ? TIMER_ABSTIME : 0, args->now, args->rem);
++	pthread_mutex_unlock(args->lock);
++	return NULL;
++}
 +
-+	for (i = 0; i < 2; i++) {
-+		int flags = 0;
++int run_test(int clockid, int abs)
++{
++	struct timespec now = {}, rem;
++	struct thread_args args = { .now = &now, .rem = &rem, .clockid = clockid};
++	struct timespec start;
++	pthread_mutex_t lock;
++	pthread_t thread;
++	int j, ok, ret;
 +
-+		new_value.it_value.tv_sec = 3600;
-+		new_value.it_value.tv_nsec = 0;
-+		new_value.it_interval.tv_sec = 1;
-+		new_value.it_interval.tv_nsec = 0;
++	signal(SIGUSR1, test_sig);
++	signal(SIGUSR2, test_sig);
 +
-+		if (i == 1) {
-+			new_value.it_value.tv_sec += now.tv_sec;
-+			new_value.it_value.tv_nsec += now.tv_nsec;
-+		}
++	pthread_mutex_init(&lock, NULL);
++	pthread_mutex_lock(&lock);
 +
-+		fd = timerfd_create(clockid, 0);
-+		if (fd == -1)
-+			return pr_perror("timerfd_create(%d)", clockid);
-+
-+		if (i == 1)
-+			flags |= TFD_TIMER_ABSTIME;
-+
-+		if (timerfd_settime(fd, flags, &new_value, NULL))
-+			return pr_perror("timerfd_settime(%d)", clockid);
-+
-+		if (timerfd_gettime(fd, &new_value))
-+			return pr_perror("timerfd_gettime(%d)", clockid);
-+
-+		elapsed = new_value.it_value.tv_sec;
-+		if (abs(elapsed - 3600) > 60) {
-+			ksft_test_result_fail("clockid: %d elapsed: %lld\n",
-+					      clockid, elapsed);
-+			return 1;
-+		}
-+
-+		close(fd);
++	if (clock_gettime(clockid, &start) == -1) {
++		if (errno == EINVAL && check_skip(clockid))
++			return 0;
++		return pr_perror("clock_gettime");
 +	}
 +
-+	ksft_test_result_pass("clockid=%d\n", clockid);
++
++	if (abs) {
++		now.tv_sec = start.tv_sec;
++		now.tv_nsec = start.tv_nsec;
++	}
++
++	now.tv_sec += 3600;
++	args.abs = abs;
++	args.lock = &lock;
++	ret = pthread_create(&thread, NULL, call_nanosleep, &args);
++	if (ret != 0) {
++		pr_err("Unable to create a thread: %s", strerror(ret));
++		return 1;
++	}
++
++	/* Wait when the thread will call clock_nanosleep(). */
++	ok = 0;
++	for (j = 0; j < 8; j++) {
++		/* The maximum timeout is about 5 seconds. */
++		usleep(10000 << j);
++
++		/* Try to interrupt clock_nanosleep(). */
++		pthread_kill(thread, SIGUSR1);
++
++		usleep(10000 << j);
++		/* Check whether clock_nanosleep() has been interrupted or not. */
++		if (pthread_mutex_trylock(&lock) == 0) {
++			/**/
++			ok = 1;
++			break;
++		}
++	}
++	if (!ok)
++		pthread_kill(thread, SIGUSR2);
++	pthread_join(thread, NULL);
++	pthread_mutex_destroy(&lock);
++
++	if (!ok) {
++		ksft_test_result_pass("clockid: %d abs:%d timeout\n", clockid, abs);
++		return 1;
++	}
++
++	if (rem.tv_sec < 3300 || rem.tv_sec > 3900) {
++		pr_fail("clockid: %d abs: %d remain: %ld\n",
++			clockid, abs, rem.tv_sec);
++		return 1;
++	}
++	ksft_test_result_pass("clockid: %d abs:%d\n", clockid, abs);
 +
 +	return 0;
 +}
 +
 +int main(int argc, char *argv[])
 +{
-+	int ret, status, len, fd;
-+	char buf[4096];
-+	pid_t pid;
-+	struct timespec btime_now, mtime_now;
++	int ret, nsfd;
 +
 +	nscheck();
 +
-+	ksft_set_plan(3);
++	ksft_set_plan(4);
 +
-+	clock_gettime(CLOCK_MONOTONIC, &mtime_now);
-+	clock_gettime(CLOCK_BOOTTIME, &btime_now);
++	check_config_posix_timers();
 +
 +	if (unshare_timens())
 +		return 1;
 +
-+	len = snprintf(buf, sizeof(buf), "%d %d 0\n%d %d 0",
-+			CLOCK_MONOTONIC, 70 * 24 * 3600,
-+			CLOCK_BOOTTIME, 9 * 24 * 3600);
-+	fd = open("/proc/self/timens_offsets", O_WRONLY);
-+	if (fd < 0)
-+		return pr_perror("/proc/self/timens_offsets");
++	if (_settime(CLOCK_MONOTONIC, 7 * 24 * 3600))
++		return 1;
++	if (_settime(CLOCK_BOOTTIME, 9 * 24 * 3600))
++		return 1;
 +
-+	if (write(fd, buf, len) != len)
-+		return pr_perror("/proc/self/timens_offsets");
++	nsfd = open("/proc/self/ns/time_for_children", O_RDONLY);
++	if (nsfd < 0)
++		return pr_perror("Unable to open timens_for_children");
 +
-+	close(fd);
-+	mtime_now.tv_sec += 70 * 24 * 3600;
-+	btime_now.tv_sec += 9 * 24 * 3600;
++	if (setns(nsfd, CLONE_NEWTIME))
++		return pr_perror("Unable to set timens");
 +
-+	pid = fork();
-+	if (pid < 0)
-+		return pr_perror("Unable to fork");
-+	if (pid == 0) {
-+		ret = 0;
-+		ret |= run_test(CLOCK_BOOTTIME, btime_now);
-+		ret |= run_test(CLOCK_MONOTONIC, mtime_now);
-+		ret |= run_test(CLOCK_BOOTTIME_ALARM, btime_now);
++	ret = 0;
++	ret |= run_test(CLOCK_MONOTONIC, 0);
++	ret |= run_test(CLOCK_MONOTONIC, 1);
++	ret |= run_test(CLOCK_BOOTTIME_ALARM, 0);
++	ret |= run_test(CLOCK_BOOTTIME_ALARM, 1);
 +
-+		if (ret)
-+			ksft_exit_fail();
-+		ksft_exit_pass();
-+		return ret;
-+	}
-+
-+	if (waitpid(pid, &status, 0) != pid)
-+		return pr_perror("Unable to wait the child process");
-+
-+	if (WIFEXITED(status))
-+		return WEXITSTATUS(status);
-+
-+	return 1;
++	if (ret)
++		ksft_exit_fail();
++	ksft_exit_pass();
++	return ret;
 +}
 +
 -- 
