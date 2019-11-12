@@ -2,201 +2,130 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 78D51F8647
-	for <lists+linux-api@lfdr.de>; Tue, 12 Nov 2019 02:30:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BFF5FF86E3
+	for <lists+linux-api@lfdr.de>; Tue, 12 Nov 2019 03:26:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727612AbfKLB3H (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 11 Nov 2019 20:29:07 -0500
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:40451 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727406AbfKLB2G (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 11 Nov 2019 20:28:06 -0500
-Received: by mail-wm1-f65.google.com with SMTP id f3so1195817wmc.5
-        for <linux-api@vger.kernel.org>; Mon, 11 Nov 2019 17:28:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=arista.com; s=googlenew;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=KqvDwSwqa8op8oW/KhqwGjK7tqYDHVQ1mbSvLW1zwYM=;
-        b=Ind+u79VvY22lBb3OGJbj4e497ctK8AuMYjmI2P4Tn7mBjmoi9p6xcxasS6miOlkM2
-         wS+U+zPxXCE0wFP2XQjSESxJHW3UrgyYBzRo7X5GRMxRsyCTiAtkjvLNmyTPTjzEmlUR
-         lRC+EPgwKmBq3fBqrDDZRgzUOnadQP0+ZW8dQzOKL7jhQtJqnyZvN8fs8HfxWLDGfRPS
-         9I90/IpFBOLVCJLtC457JjuXfLxJFAYjecr4NG3klwPz0H+HEIAFb3jwdlmXmh/ELnv/
-         YJ9S92RpyanBxKlkncpL8P7zss6ABftNfU4GhP1XYdBEhJhSQocVVBnucS2qAJt2lQrI
-         BDpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=KqvDwSwqa8op8oW/KhqwGjK7tqYDHVQ1mbSvLW1zwYM=;
-        b=MrSgt/T/lQdFyuCtNhyhYQ5+JFVHt/hfghgjKehWwt8j5SqzgLNxWppZz+37Hrx0D9
-         ScM7l1xnT/yR7pakrbAI6b2H9TlHZjw6I/3m+Job7GByuAzzAGqFC/PY9gUBRY3GR7hn
-         WKQFwXv+TcMnW+vKIz5/yPq4LZZbtyKAoD1Z6W0O+Tptgj/e9mEMH/X9irRkKJ0VQXlZ
-         KC5B4EdiUpiDb8xb+UKMNi68v1/3E6DM+NhdbT2XYEwAA0Dd+6Eev2ePuv4sN6UUJtuP
-         mJ3goHm/9vMHwKRvfVHKt/dRaJSb8BMxZWWIvriDsTvz7TimjPFhalMVAWJ/218q8Rt/
-         rxQQ==
-X-Gm-Message-State: APjAAAUtec6JO+XwYyd04twhvMcArR9tEtutdcVP9jhvmWhc2p8weO67
-        xIHT+GV2M6+28KBFBkM7ODjo5w==
-X-Google-Smtp-Source: APXvYqxCmFOAeErn5ty/29sSVgXVliTd15jkWKzvhVYImZaMih/kH/3D73MiE4Pp+jIMzah63kAR3g==
-X-Received: by 2002:a1c:610b:: with SMTP id v11mr1497318wmb.156.1573522083981;
-        Mon, 11 Nov 2019 17:28:03 -0800 (PST)
-Received: from Mindolluin.ire.aristanetworks.com ([217.173.96.166])
-        by smtp.gmail.com with ESMTPSA id u187sm1508096wme.15.2019.11.11.17.28.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Nov 2019 17:28:03 -0800 (PST)
-From:   Dmitry Safonov <dima@arista.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Dmitry Safonov <0x7f454c46@gmail.com>,
-        Dmitry Safonov <dima@arista.com>,
-        Adrian Reber <adrian@lisas.de>,
-        Andrei Vagin <avagin@openvz.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Cyrill Gorcunov <gorcunov@openvz.org>,
+        id S1726928AbfKLC0l (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 11 Nov 2019 21:26:41 -0500
+Received: from mo4-p02-ob.smtp.rzone.de ([81.169.146.171]:13920 "EHLO
+        mo4-p02-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726923AbfKLC0k (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 11 Nov 2019 21:26:40 -0500
+X-Greylist: delayed 25988 seconds by postgrey-1.27 at vger.kernel.org; Mon, 11 Nov 2019 21:26:39 EST
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1573525598;
+        s=strato-dkim-0002; d=chronox.de;
+        h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+        X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+        bh=/lsl6nTo//BjYrk5oV+rdFSP85ZYnNHrebh0HC0dN2g=;
+        b=n2Mw6n7yQlnP2+Yg86gJCGqtMqi0M51lDJuB/tNgQy0Qxf6whTQBEkcsbSxBKhAD/q
+        gt4aj76Mc5GUvI2T3Gk4OmTYmoRUdDtjPtyrbBYcreXzJafwc3uYmTo4OmjYaQsLQ8Jo
+        2OyKhK3vf0+RcUE80YqNDRAKkHpb+9TxQyRDfqHLbLWIVa9KCLj7LOhvzVYhgThaovWj
+        HyI8xKfjzjhZ8TxPN7VOL1QQA7lSl3fBdYWi3Z2qK3YXAGniahW6iXlSIJCi2wjA2p6T
+        ZAUPdjhlpLzznIS2ZtTUI2eVS9pqeZ1b7o8mhbuOGcplBY9I5pPnYfbOuV6U6R4LH8V/
+        F7EA==
+X-RZG-AUTH: ":P2ERcEykfu11Y98lp/T7+hdri+uKZK8TKWEqNyiHySGSa9k9zWgDMLyyzTHyZb69qn/xQ3l1emqDBm3cL6VhEyGWhThurAC8gyGEsg=="
+X-RZG-CLASS-ID: mo00
+Received: from positron.chronox.de
+        by smtp.strato.de (RZmta 44.29.0 AUTH)
+        with ESMTPSA id N09a57vAC2P54QC
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve secp521r1 with 521 ECDH bits, eq. 15360 bits RSA))
+        (Client did not present a certificate);
+        Tue, 12 Nov 2019 03:25:05 +0100 (CET)
+From:   Stephan =?ISO-8859-1?Q?M=FCller?= <smueller@chronox.de>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-crypto@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        linux-api@vger.kernel.org,
         "Eric W. Biederman" <ebiederm@xmission.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jann Horn <jannh@google.com>, Jeff Dike <jdike@addtoit.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Pavel Emelyanov <xemul@virtuozzo.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        containers@lists.linux-foundation.org, criu@openvz.org,
-        linux-api@vger.kernel.org, x86@kernel.org,
-        Andrei Vagin <avagin@gmail.com>
-Subject: [PATCHv8 24/34] x86/vdso: Handle faults on timens page
-Date:   Tue, 12 Nov 2019 01:27:13 +0000
-Message-Id: <20191112012724.250792-25-dima@arista.com>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191112012724.250792-1-dima@arista.com>
-References: <20191112012724.250792-1-dima@arista.com>
+        "Alexander E. Patrakov" <patrakov@gmail.com>,
+        "Ahmed S. Darwish" <darwish.07@gmail.com>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>, Willy Tarreau <w@1wt.eu>,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        Vito Caputo <vcaputo@pengaru.com>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Jan Kara <jack@suse.cz>, Ray Strode <rstrode@redhat.com>,
+        William Jon McCann <mccann@jhu.edu>,
+        zhangjs <zachary@baishancloud.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        Lennart Poettering <mzxreary@0pointer.de>,
+        Nicolai Stange <nstange@suse.de>,
+        "Peter, Matthias" <matthias.peter@bsi.bund.de>,
+        Marcelo Henrique Cerri <marcelo.cerri@canonical.com>,
+        Roman Drahtmueller <draht@schaltsekun.de>,
+        Neil Horman <nhorman@redhat.com>
+Subject: Re: [PATCH v24 01/12] Linux Random Number Generator
+Date:   Tue, 12 Nov 2019 03:25:03 +0100
+Message-ID: <9370249.4lZBqg7Imc@positron.chronox.de>
+In-Reply-To: <alpine.DEB.2.21.1911120041060.1833@nanos.tec.linutronix.de>
+References: <6157374.ptSnyUpaCn@positron.chronox.de> <2369119.jSEA3qhmGI@positron.chronox.de> <alpine.DEB.2.21.1911120041060.1833@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-If a task belongs to a time namespace then the VVAR page which contains
-the system wide VDSO data is replaced with a namespace specific page
-which has the same layout as the VVAR page.
+Am Dienstag, 12. November 2019, 00:54:16 CET schrieb Thomas Gleixner:
 
-Co-developed-by: Andrei Vagin <avagin@gmail.com>
-Signed-off-by: Andrei Vagin <avagin@gmail.com>
-Signed-off-by: Dmitry Safonov <dima@arista.com>
----
- arch/x86/entry/vdso/vma.c | 53 +++++++++++++++++++++++++++++++++++++--
- mm/mmap.c                 |  2 ++
- 2 files changed, 53 insertions(+), 2 deletions(-)
+Hi Thomas,
 
-diff --git a/arch/x86/entry/vdso/vma.c b/arch/x86/entry/vdso/vma.c
-index 5dab706aca2e..f6e13ab29d94 100644
---- a/arch/x86/entry/vdso/vma.c
-+++ b/arch/x86/entry/vdso/vma.c
-@@ -14,11 +14,13 @@
- #include <linux/elf.h>
- #include <linux/cpu.h>
- #include <linux/ptrace.h>
-+#include <linux/time_namespace.h>
- #include <asm/pvclock.h>
- #include <asm/vgtod.h>
- #include <asm/proto.h>
- #include <asm/vdso.h>
- #include <asm/vvar.h>
-+#include <asm/tlb.h>
- #include <asm/page.h>
- #include <asm/desc.h>
- #include <asm/cpufeature.h>
-@@ -107,10 +109,36 @@ static int vvar_mremap(const struct vm_special_mapping *sm,
- 	return 0;
- }
- 
-+#ifdef CONFIG_TIME_NS
-+static struct page *find_timens_vvar_page(struct vm_area_struct *vma)
-+{
-+	if (likely(vma->vm_mm == current->mm))
-+		return current->nsproxy->time_ns->vvar_page;
-+
-+	/*
-+	 * VM_PFNMAP | VM_IO protect .fault() handler from being called
-+	 * through interfaces like /proc/$pid/mem or
-+	 * process_vm_{readv,writev}() as long as there's no .access()
-+	 * in special_mapping_vmops().
-+	 * For more details check_vma_flags() and __access_remote_vm()
-+	 */
-+
-+	WARN(1, "vvar_page accessed remotely");
-+
-+	return NULL;
-+}
-+#else
-+static inline struct page *find_timens_vvar_page(struct vm_area_struct *vma)
-+{
-+	return NULL;
-+}
-+#endif
-+
- static vm_fault_t vvar_fault(const struct vm_special_mapping *sm,
- 		      struct vm_area_struct *vma, struct vm_fault *vmf)
- {
- 	const struct vdso_image *image = vma->vm_mm->context.vdso_image;
-+	unsigned long pfn;
- 	long sym_offset;
- 
- 	if (!image)
-@@ -130,8 +158,21 @@ static vm_fault_t vvar_fault(const struct vm_special_mapping *sm,
- 		return VM_FAULT_SIGBUS;
- 
- 	if (sym_offset == image->sym_vvar_page) {
--		return vmf_insert_pfn(vma, vmf->address,
--				__pa_symbol(&__vvar_page) >> PAGE_SHIFT);
-+		struct page *timens_page = find_timens_vvar_page(vma);
-+
-+		pfn = __pa_symbol(&__vvar_page) >> PAGE_SHIFT;
-+
-+		/*
-+		 * If a task belongs to a time namespace then a namespace
-+		 * specific VVAR is mapped with the sym_vvar_page offset and
-+		 * the real VVAR page is mapped with the sym_timens_page
-+		 * offset.
-+		 * See also the comment near timens_setup_vdso_data().
-+		 */
-+		if (timens_page)
-+			pfn = page_to_pfn(timens_page);
-+
-+		return vmf_insert_pfn(vma, vmf->address, pfn);
- 	} else if (sym_offset == image->sym_pvclock_page) {
- 		struct pvclock_vsyscall_time_info *pvti =
- 			pvclock_get_pvti_cpu0_va();
-@@ -146,6 +187,14 @@ static vm_fault_t vvar_fault(const struct vm_special_mapping *sm,
- 		if (tsc_pg && vclock_was_used(VCLOCK_HVCLOCK))
- 			return vmf_insert_pfn(vma, vmf->address,
- 					virt_to_phys(tsc_pg) >> PAGE_SHIFT);
-+	} else if (sym_offset == image->sym_timens_page) {
-+		struct page *timens_page = find_timens_vvar_page(vma);
-+
-+		if (!timens_page)
-+			return VM_FAULT_SIGBUS;
-+
-+		pfn = __pa_symbol(&__vvar_page) >> PAGE_SHIFT;
-+		return vmf_insert_pfn(vma, vmf->address, pfn);
- 	}
- 
- 	return VM_FAULT_SIGBUS;
-diff --git a/mm/mmap.c b/mm/mmap.c
-index 4d4db76a07da..73ec982f8b82 100644
---- a/mm/mmap.c
-+++ b/mm/mmap.c
-@@ -3357,6 +3357,8 @@ static const struct vm_operations_struct special_mapping_vmops = {
- 	.fault = special_mapping_fault,
- 	.mremap = special_mapping_mremap,
- 	.name = special_mapping_name,
-+	/* vDSO code relies that VVAR can't be accessed remotely */
-+	.access = NULL,
- };
- 
- static const struct vm_operations_struct legacy_special_mapping_vmops = {
--- 
-2.24.0
+> Stephan,
+>=20
+> On Mon, 11 Nov 2019, Stephan M=FCller wrote:
+>=20
+> thanks for Cc'ing me. I'll have a look at the technical details at later
+> point in time.=20
+
+Thank you very much for considering a review.
+
+> While skimming through the patches I noticed, that you
+> thankfully added the SPDX license identifiers, but
+>=20
+> > @@ -0,0 +1,105 @@
+> > +// SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
+> > +/*
+> > + * LRNG Fast Noise Source: CPU-based noise source
+> > + *
+> > + * Copyright (C) 2016 - 2019, Stephan Mueller <smueller@chronox.de>
+> > + *
+> > + * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESS OR IMPLIED
+> > + * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+> > + * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, ALL OF
+> > + * WHICH ARE HEREBY DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR BE
+> > + * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+> > + * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
+> > + * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+> > + * BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+> > + * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+> > + * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+> > + * USE OF THIS SOFTWARE, EVEN IF NOT ADVISED OF THE POSSIBILITY OF SUCH
+> > + * DAMAGE.
+>=20
+> we really want to get rid of these boiler plate disclaimers as they are
+> already implicit by the SPDX license identifier and provide no real
+> value.
+>=20
+> Aside of that, the above disclaimer has even a slightly different wording
+> than the standard BSD-2-Clause disclaimer which is going to cause even mo=
+re
+> headaches as automated scanner tools will detect that and someone has to =
+go
+> through that unreadable uppercase yelling mess and figure out whether it's
+> a legaly substantial difference.
+>=20
+> Can you please get rid of those?
+
+Absolutely. I have removed that boiler plate disclaimer from all files.
+
+Though I hope it is acceptable to wait for further comments before a=20
+resubmission.
+
+Thank you very much.
+
+Ciao
+Stephan
+
 
