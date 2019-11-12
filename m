@@ -2,24 +2,24 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FB89F8C97
-	for <lists+linux-api@lfdr.de>; Tue, 12 Nov 2019 11:16:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A188F908E
+	for <lists+linux-api@lfdr.de>; Tue, 12 Nov 2019 14:23:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726952AbfKLKQq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 12 Nov 2019 05:16:46 -0500
-Received: from Galois.linutronix.de ([193.142.43.55]:33128 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725853AbfKLKQq (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 12 Nov 2019 05:16:46 -0500
-Received: from p5b06da22.dip0.t-ipconnect.de ([91.6.218.34] helo=nanos)
-        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <tglx@linutronix.de>)
-        id 1iUTE0-0007dM-KT; Tue, 12 Nov 2019 11:16:40 +0100
-Date:   Tue, 12 Nov 2019 11:16:39 +0100 (CET)
-From:   Thomas Gleixner <tglx@linutronix.de>
-To:     =?UTF-8?Q?Stephan_M=C3=BCller?= <smueller@chronox.de>
-cc:     Arnd Bergmann <arnd@arndb.de>,
+        id S1727365AbfKLNXW convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Tue, 12 Nov 2019 08:23:22 -0500
+Received: from albireo.enyo.de ([37.24.231.21]:42750 "EHLO albireo.enyo.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726188AbfKLNXW (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 12 Nov 2019 08:23:22 -0500
+Received: from [172.17.203.2] (helo=deneb.enyo.de)
+        by albireo.enyo.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        id 1iUW8U-0005If-Jp; Tue, 12 Nov 2019 13:23:10 +0000
+Received: from fw by deneb.enyo.de with local (Exim 4.92)
+        (envelope-from <fw@deneb.enyo.de>)
+        id 1iUW8U-0002Cz-BA; Tue, 12 Nov 2019 14:23:10 +0100
+From:   Florian Weimer <fw@deneb.enyo.de>
+To:     Stephan =?iso-8859-1?Q?M=FCller?= <smueller@chronox.de>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-crypto@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
         linux-api@vger.kernel.org,
@@ -37,42 +37,39 @@ cc:     Arnd Bergmann <arnd@arndb.de>,
         Florian Weimer <fweimer@redhat.com>,
         Lennart Poettering <mzxreary@0pointer.de>,
         Nicolai Stange <nstange@suse.de>,
-        "Peter, Matthias" <matthias.peter@bsi.bund.de>,
+        "Peter\, Matthias" <matthias.peter@bsi.bund.de>,
         Marcelo Henrique Cerri <marcelo.cerri@canonical.com>,
         Roman Drahtmueller <draht@schaltsekun.de>,
         Neil Horman <nhorman@redhat.com>
-Subject: Re: [PATCH v24 01/12] Linux Random Number Generator
-In-Reply-To: <9370249.4lZBqg7Imc@positron.chronox.de>
-Message-ID: <alpine.DEB.2.21.1911121116130.1833@nanos.tec.linutronix.de>
-References: <6157374.ptSnyUpaCn@positron.chronox.de> <2369119.jSEA3qhmGI@positron.chronox.de> <alpine.DEB.2.21.1911120041060.1833@nanos.tec.linutronix.de> <9370249.4lZBqg7Imc@positron.chronox.de>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+Subject: Re: [PATCH v24 00/12] /dev/random - a new approach with full SP800-90B compliance
+References: <6157374.ptSnyUpaCn@positron.chronox.de>
+Date:   Tue, 12 Nov 2019 14:23:10 +0100
+In-Reply-To: <6157374.ptSnyUpaCn@positron.chronox.de> ("Stephan
+ \=\?iso-8859-1\?Q\?M\=FCller\=22's\?\=
+        message of "Mon, 11 Nov 2019 19:17:30 +0100")
+Message-ID: <875zjpfcu9.fsf@mid.deneb.enyo.de>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-1459376004-1573553800=:1833"
-X-Linutronix-Spam-Score: -1.0
-X-Linutronix-Spam-Level: -
-X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8BIT
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+* Stephan Müller:
 
---8323329-1459376004-1573553800=:1833
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+> * support deactivation of TRNG (i.e. blocking behavior of /dev/random)
+>   at compile time. If deactivated, /dev/random behaves like
+>   getrandom(2).
 
-On Tue, 12 Nov 2019, Stephan MÃ¼ller wrote:
-> Am Dienstag, 12. November 2019, 00:54:16 CET schrieb Thomas Gleixner:
-> > Can you please get rid of those?
-> 
-> Absolutely. I have removed that boiler plate disclaimer from all files.
+I don't quite understand this comment.  Doesn't getrandom with the
+GRND_RANDOM always behave like /dev/random?  Presumably, without the
+TRNG tap, the GRND_RANDOM flag for getrandom is ignored, and reading
+from /dev/random behaves like reading from /dev/urandom.
 
-Appreciated.
+Anyway, reading the accompanying PDF, this looks rather impressive:
+the userspace bootstrapping problem is gone (the issue where waiting
+for more entropy prevents the collection of more entropy), *and* we
+can still make the standards people happy.
 
-> Though I hope it is acceptable to wait for further comments before a 
-> resubmission.
-
-Of course!
---8323329-1459376004-1573553800=:1833--
+(Replying from my other account due to mail issues, sorry.)
