@@ -2,52 +2,51 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E02E4F8649
+	by mail.lfdr.de (Postfix) with ESMTP id 4C86AF8648
 	for <lists+linux-api@lfdr.de>; Tue, 12 Nov 2019 02:30:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727640AbfKLB3J (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        id S1727634AbfKLB3J (ORCPT <rfc822;lists+linux-api@lfdr.de>);
         Mon, 11 Nov 2019 20:29:09 -0500
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:53656 "EHLO
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:33346 "EHLO
         mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727368AbfKLB2C (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 11 Nov 2019 20:28:02 -0500
-Received: by mail-wm1-f67.google.com with SMTP id u18so1293329wmc.3
-        for <linux-api@vger.kernel.org>; Mon, 11 Nov 2019 17:27:59 -0800 (PST)
+        with ESMTP id S1727387AbfKLB2D (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 11 Nov 2019 20:28:03 -0500
+Received: by mail-wm1-f67.google.com with SMTP id a17so1139632wmb.0
+        for <linux-api@vger.kernel.org>; Mon, 11 Nov 2019 17:28:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=arista.com; s=googlenew;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=McAHoFRaQr4I/ePxN9Ecr5ANGRTz4vDJr2KBvUQJ654=;
-        b=RgbPhrM/lcB+YxbhLcozTVdFQqLupP8FUYHRuLoEQ/fHXE3KfE57exuxlEuyb9Bn6P
-         sA2HtmstugP/zhEkNS3xGhUDj1oE/9AzQsGt5SjM47fVf3HidfXze2kzylp0KQNZPvG0
-         0BolCt94PzOycW84XzNuXUhGbwBCHXklkepPojVY9X8j5iJzC7y6kF1XsDkakjrQl+5F
-         w74ZBSH5xv2/XQ8D9bN7iZ6E95yJLrdsOAayfSbsHGt44UgpJBqigK5O7QWclNgNtisD
-         XMBO6iBnC2sSv7pZvx09eWD+S3bvC4wftEe5r1A5MffPmr53OI8ahdYfrlk6s/OvjZIc
-         8kog==
+        bh=cGFTdgqgghcbmf5KJSmfZYZjK2lWV/3Xhkbd1XIGYj0=;
+        b=DWe5LJ0MCV0MBZ2eRseWaKHbkHAYqVHr3ASpvTtJTysagcufs9Lvoo8VRJM5+jINZ1
+         1RZtbcHQtZ3txt+a6Z89LRd756klBbO3+6dTBd5qbs9ODjQg+i+4KTEk7/IMwsd3IMnD
+         LVEYl3Rh8x7ggu4xaILh+u2gR905CcQD60/jyiLvccTwIxduUTPhmODQ5RjNa78kZhLs
+         pRi1QDAbgm0kcm3YJEx/D8LjgeMqT6/djZOz/fqmfRNxqLja6+pKFSZeWRR/BSEmcjsY
+         wdLXP4ZrUqT8UEILkzmCDg4JdjLczL64EWDEpT8TecFjI7agexPNXxERXCouas0fgHyy
+         2NTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=McAHoFRaQr4I/ePxN9Ecr5ANGRTz4vDJr2KBvUQJ654=;
-        b=Uk/pMVfzbCpBSjSn4iOWe3arc/mdnt8KRlYOILXmYgP/C1WvgcZgZH31Au1J3gao8I
-         YrTG8i2ElyWOZRL27N2guEh15YWs2V8EMke+2I2sSw86/uEpCoWdGWnS+3hD0WWrFQ7k
-         mz4BcUor9+y0qI4ZPcfIQMfgPxWEpSrunmvgNEH4Op6elDhMv1qBG2vrr4bwuYM1DzV7
-         RGj+Py4eBbj2cJD75+YPR+mmm3gZH2V5OJNpu7ISIotV+u4K2WLqDpxp888Xu8i6AlXH
-         PxRWhtRyDeuYydSRikDTvBMWfQuIglPwkwrGdVBLdZVuKx/Rh2ns2KD9t6yZncxdJd4y
-         jIkA==
-X-Gm-Message-State: APjAAAVBa/U3swXDUZcpVnZD9zkZqNkDDYun9U3johf2hGENBgqaGUiA
-        AiGnOhu1qS7/8Tm1nCccJZRkrg==
-X-Google-Smtp-Source: APXvYqzzjGKhPMOLJb9JRqRDdS6+Sg4ie6ArD5NrMgxk04F0yAq9zvmJ7k9ldfV6PgEnTxUmi4AdeA==
-X-Received: by 2002:a1c:f20c:: with SMTP id s12mr1383935wmc.37.1573522078570;
-        Mon, 11 Nov 2019 17:27:58 -0800 (PST)
+        bh=cGFTdgqgghcbmf5KJSmfZYZjK2lWV/3Xhkbd1XIGYj0=;
+        b=ARiNX46nULYuk7yxZqK54XRFcpwJYc3FwEmeFJhMB7Gz3qXAoK5cwkRmWJ6aJyZGvK
+         RvGkP/P+/MP9K1j7IkiJKWa9YfcroTUy7rgj+RAIyb+7Urb+/xdNg7xOtUEboW9BmDQp
+         GoJyocQM7kR25Rba3AVniuOJ1IkmbVOfHlWvCkKbB0Slv5tBGN+rulYDW6k+KKDQhG75
+         fD/WsgU5UuhfhYaGZZFhCDe2akOTuzZK4ejLtW48ekhEjUAKXNXBHIKzOnKNDF9WpEWQ
+         QGB6kbjSGEN/RIuoCEweZKshZ7cPLIldmLflkwX83DkZRo+RGx8Y24xsfWzsNvbrB5Rk
+         hEBg==
+X-Gm-Message-State: APjAAAWosV00kUJnXC6WoYG9Xu/6U4PjYgH13HH8gNuNmyOkLsqbxhin
+        xbzMtRH1xdiWCQatYmJ9/0B/Qw==
+X-Google-Smtp-Source: APXvYqwPQSwYY5kbe2K0yP5/1/UaQt/BXvDykb1mdqra2Fm0GrhPHgCVrolUyhaZGHxhAVmYSowXqQ==
+X-Received: by 2002:a05:600c:20e:: with SMTP id 14mr1434341wmi.107.1573522081287;
+        Mon, 11 Nov 2019 17:28:01 -0800 (PST)
 Received: from Mindolluin.ire.aristanetworks.com ([217.173.96.166])
-        by smtp.gmail.com with ESMTPSA id u187sm1508096wme.15.2019.11.11.17.27.57
+        by smtp.gmail.com with ESMTPSA id u187sm1508096wme.15.2019.11.11.17.28.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Nov 2019 17:27:57 -0800 (PST)
+        Mon, 11 Nov 2019 17:28:00 -0800 (PST)
 From:   Dmitry Safonov <dima@arista.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     Dmitry Safonov <0x7f454c46@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
         Dmitry Safonov <dima@arista.com>,
         Adrian Reber <adrian@lisas.de>,
         Andrei Vagin <avagin@openvz.org>,
@@ -61,13 +60,13 @@ Cc:     Dmitry Safonov <0x7f454c46@gmail.com>,
         Oleg Nesterov <oleg@redhat.com>,
         Pavel Emelyanov <xemul@virtuozzo.com>,
         Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Vincenzo Frascino <vincenzo.frascino@arm.com>,
         containers@lists.linux-foundation.org, criu@openvz.org,
-        linux-api@vger.kernel.org, x86@kernel.org,
-        Andrei Vagin <avagin@gmail.com>
-Subject: [PATCHv8 20/34] lib/vdso: Prepare for time namespace support
-Date:   Tue, 12 Nov 2019 01:27:09 +0000
-Message-Id: <20191112012724.250792-21-dima@arista.com>
+        linux-api@vger.kernel.org, x86@kernel.org
+Subject: [PATCHv8 22/34] x86/vdso: Add timens page
+Date:   Tue, 12 Nov 2019 01:27:11 +0000
+Message-Id: <20191112012724.250792-23-dima@arista.com>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20191112012724.250792-1-dima@arista.com>
 References: <20191112012724.250792-1-dima@arista.com>
@@ -78,21 +77,19 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Thomas Gleixner <tglx@linutronix.de>
-
-To support time namespaces in the vdso with a minimal impact on regular non
+To support time namespaces in the VDSO with a minimal impact on regular non
 time namespace affected tasks, the namespace handling needs to be hidden in
 a slow path.
 
 The most obvious place is vdso_seq_begin(). If a task belongs to a time
-namespace then the VVAR page which contains the system wide vdso data is
+namespace then the VVAR page which contains the system wide VDSO data is
 replaced with a namespace specific page which has the same layout as the
 VVAR page. That page has vdso_data->seq set to 1 to enforce the slow path
 and vdso_data->clock_mode set to VCLOCK_TIMENS to enforce the time
 namespace handling path.
 
 The extra check in the case that vdso_data->seq is odd, e.g. a concurrent
-update of the vdso data is in progress, is not really affecting regular
+update of the VDSO data is in progress, is not really affecting regular
 tasks which are not part of a time namespace as the task is spin waiting
 for the update to finish and vdso_data->seq to become even again.
 
@@ -101,328 +98,147 @@ time getter function which retrieves the real VVAR page, reads host time
 and then adds the offset for the requested clock which is stored in the
 special VVAR page.
 
-If VDSO time namespace support is disabled the whole magic is compiled out.
+Allocate Timens page among VVAR pages and place vdso_data on it.
+Provide __arch_get_timens_vdso_data() helper for VDSO code to get the
+code-relative position of VVARs on that special page.
 
-Initial testing shows that the disabled case is almost identical to the
-host case which does not take the slow timens path. With the special timens
-page installed the performance hit is constant time and in the range of
-5-7%.
-
-For the vdso functions which are not using the sequence count an
-unconditional check for vdso_data->clock_mode is added which switches to
-the real vdso when the clock_mode is VCLOCK_TIMENS.
-
-Suggested-by: Andy Lutomirski <luto@kernel.org>
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-[Make do_hres_timens() work with raw clocks too: choose vdso_data
- pointer by CS_RAW offset.]
-Signed-off-by: Andrei Vagin <avagin@gmail.com>
+Co-developed-by: Andrei Vagin <avagin@openvz.org>
+Signed-off-by: Andrei Vagin <avagin@openvz.org>
 Signed-off-by: Dmitry Safonov <dima@arista.com>
 ---
- include/linux/time.h    |   6 ++
- include/vdso/datapage.h |  19 ++++-
- init/Kconfig            |   1 +
- lib/vdso/Kconfig        |   6 ++
- lib/vdso/gettimeofday.c | 152 ++++++++++++++++++++++++++++++++++++++--
- 5 files changed, 178 insertions(+), 6 deletions(-)
+ arch/x86/Kconfig                         |  1 +
+ arch/x86/entry/vdso/vdso-layout.lds.S    | 11 +++++++++--
+ arch/x86/entry/vdso/vdso2c.c             |  3 +++
+ arch/x86/include/asm/vdso.h              |  1 +
+ arch/x86/include/asm/vdso/gettimeofday.h |  9 +++++++++
+ arch/x86/include/asm/vvar.h              |  5 ++++-
+ 6 files changed, 27 insertions(+), 3 deletions(-)
 
-diff --git a/include/linux/time.h b/include/linux/time.h
-index 27d83fd2ae61..b1a592638d7d 100644
---- a/include/linux/time.h
-+++ b/include/linux/time.h
-@@ -96,4 +96,10 @@ static inline bool itimerspec64_valid(const struct itimerspec64 *its)
-  */
- #define time_after32(a, b)	((s32)((u32)(b) - (u32)(a)) < 0)
- #define time_before32(b, a)	time_after32(a, b)
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 2329f9e5b57c..58dacb97545f 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -126,6 +126,7 @@ config X86
+ 	select GENERIC_STRNLEN_USER
+ 	select GENERIC_TIME_VSYSCALL
+ 	select GENERIC_GETTIMEOFDAY
++	select GENERIC_VDSO_TIME_NS
+ 	select GUP_GET_PTE_LOW_HIGH		if X86_PAE
+ 	select HARDLOCKUP_CHECK_TIMESTAMP	if X86_64
+ 	select HAVE_ACPI_APEI			if ACPI
+diff --git a/arch/x86/entry/vdso/vdso-layout.lds.S b/arch/x86/entry/vdso/vdso-layout.lds.S
+index 2330daad67c3..ea7e0155c604 100644
+--- a/arch/x86/entry/vdso/vdso-layout.lds.S
++++ b/arch/x86/entry/vdso/vdso-layout.lds.S
+@@ -16,8 +16,8 @@ SECTIONS
+ 	 * segment.
+ 	 */
+ 
+-	vvar_start = . - 3 * PAGE_SIZE;
+-	vvar_page = vvar_start;
++	vvar_start = . - 4 * PAGE_SIZE;
++	vvar_page  = vvar_start;
+ 
+ 	/* Place all vvars at the offsets in asm/vvar.h. */
+ #define EMIT_VVAR(name, offset) vvar_ ## name = vvar_page + offset;
+@@ -26,6 +26,13 @@ SECTIONS
+ 
+ 	pvclock_page = vvar_start + PAGE_SIZE;
+ 	hvclock_page = vvar_start + 2 * PAGE_SIZE;
++	timens_page  = vvar_start + 3 * PAGE_SIZE;
 +
-+struct timens_offset {
-+	s64	sec;
-+	u64	nsec;
-+};
-+
- #endif
-diff --git a/include/vdso/datapage.h b/include/vdso/datapage.h
-index 2e302c0f41f7..65a38acce27e 100644
---- a/include/vdso/datapage.h
-+++ b/include/vdso/datapage.h
-@@ -21,6 +21,8 @@
- #define CS_RAW		1
- #define CS_BASES	(CS_RAW + 1)
++#undef _ASM_X86_VVAR_H
++	/* Place all vvars in timens too at the offsets in asm/vvar.h. */
++#define EMIT_VVAR(name, offset) timens_ ## name = timens_page + offset;
++#include <asm/vvar.h>
++#undef EMIT_VVAR
  
-+#define VCLOCK_TIMENS	UINT_MAX
-+
- /**
-  * struct vdso_timestamp - basetime per clock_id
-  * @sec:	seconds
-@@ -48,6 +50,7 @@ struct vdso_timestamp {
-  * @mult:		clocksource multiplier
-  * @shift:		clocksource shift
-  * @basetime[clock_id]:	basetime per clock_id
-+ * @offset[clock_id]:	time namespace offset per clock_id
-  * @tz_minuteswest:	minutes west of Greenwich
-  * @tz_dsttime:		type of DST correction
-  * @hrtimer_res:	hrtimer resolution
-@@ -55,6 +58,17 @@ struct vdso_timestamp {
-  *
-  * vdso_data will be accessed by 64 bit and compat code at the same time
-  * so we should be careful before modifying this structure.
-+ *
-+ * @basetime is used to store the base time for the system wide time getter
-+ * VVAR page.
-+ *
-+ * @offset is used by the special time namespace VVAR pages which are
-+ * installed instead of the real VVAR page. These namespace pages must set
-+ * @seq to 1 and @clock_mode to VLOCK_TIMENS to force the code into the
-+ * time namespace slow path. The namespace aware functions retrieve the
-+ * real system wide VVAR page, read host time and add the per clock offset.
-+ * For clocks which are not affected by time namespace adjustement the
-+ * offset must be zero.
-  */
- struct vdso_data {
- 	u32			seq;
-@@ -65,7 +79,10 @@ struct vdso_data {
- 	u32			mult;
- 	u32			shift;
+ 	. = SIZEOF_HEADERS;
  
--	struct vdso_timestamp	basetime[VDSO_BASES];
-+	union {
-+		struct vdso_timestamp	basetime[VDSO_BASES];
-+		struct timens_offset	offset[VDSO_BASES];
-+	};
+diff --git a/arch/x86/entry/vdso/vdso2c.c b/arch/x86/entry/vdso/vdso2c.c
+index 3a4d8d4d39f8..3842873b3ae3 100644
+--- a/arch/x86/entry/vdso/vdso2c.c
++++ b/arch/x86/entry/vdso/vdso2c.c
+@@ -75,12 +75,14 @@ enum {
+ 	sym_vvar_page,
+ 	sym_pvclock_page,
+ 	sym_hvclock_page,
++	sym_timens_page,
+ };
  
- 	s32			tz_minuteswest;
- 	s32			tz_dsttime;
-diff --git a/init/Kconfig b/init/Kconfig
-index 5477f665c860..4d5162f1ad89 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -1098,6 +1098,7 @@ config UTS_NS
+ const int special_pages[] = {
+ 	sym_vvar_page,
+ 	sym_pvclock_page,
+ 	sym_hvclock_page,
++	sym_timens_page,
+ };
  
- config TIME_NS
- 	bool "TIME namespace"
-+	depends on GENERIC_VDSO_TIME_NS
- 	default y
- 	help
- 	  In this namespace boottime and monotonic clocks can be set.
-diff --git a/lib/vdso/Kconfig b/lib/vdso/Kconfig
-index 9fe698ff62ec..d883ac299508 100644
---- a/lib/vdso/Kconfig
-+++ b/lib/vdso/Kconfig
-@@ -24,4 +24,10 @@ config GENERIC_COMPAT_VDSO
- 	help
- 	  This config option enables the compat VDSO layer.
+ struct vdso_sym {
+@@ -93,6 +95,7 @@ struct vdso_sym required_syms[] = {
+ 	[sym_vvar_page] = {"vvar_page", true},
+ 	[sym_pvclock_page] = {"pvclock_page", true},
+ 	[sym_hvclock_page] = {"hvclock_page", true},
++	[sym_timens_page] = {"timens_page", true},
+ 	{"VDSO32_NOTE_MASK", true},
+ 	{"__kernel_vsyscall", true},
+ 	{"__kernel_sigreturn", true},
+diff --git a/arch/x86/include/asm/vdso.h b/arch/x86/include/asm/vdso.h
+index 230474e2ddb5..bbcdc7b8f963 100644
+--- a/arch/x86/include/asm/vdso.h
++++ b/arch/x86/include/asm/vdso.h
+@@ -21,6 +21,7 @@ struct vdso_image {
+ 	long sym_vvar_page;
+ 	long sym_pvclock_page;
+ 	long sym_hvclock_page;
++	long sym_timens_page;
+ 	long sym_VDSO32_NOTE_MASK;
+ 	long sym___kernel_sigreturn;
+ 	long sym___kernel_rt_sigreturn;
+diff --git a/arch/x86/include/asm/vdso/gettimeofday.h b/arch/x86/include/asm/vdso/gettimeofday.h
+index e9ee139cf29e..4f938f8e756b 100644
+--- a/arch/x86/include/asm/vdso/gettimeofday.h
++++ b/arch/x86/include/asm/vdso/gettimeofday.h
+@@ -21,6 +21,7 @@
+ #include <clocksource/hyperv_timer.h>
  
-+config GENERIC_VDSO_TIME_NS
-+	bool
-+	help
-+	  Selected by architectures which support time namespaces in the
-+	  VDSO
-+
- endif
-diff --git a/lib/vdso/gettimeofday.c b/lib/vdso/gettimeofday.c
-index 9923e1eab9db..8107e07f9b82 100644
---- a/lib/vdso/gettimeofday.c
-+++ b/lib/vdso/gettimeofday.c
-@@ -38,15 +38,96 @@ u64 vdso_calc_delta(u64 cycles, u64 last, u64 mask, u32 mult)
- }
+ #define __vdso_data (VVAR(_vdso_data))
++#define __timens_vdso_data (TIMENS(_vdso_data))
+ 
+ #define VDSO_HAS_TIME 1
+ 
+@@ -56,6 +57,14 @@ extern struct ms_hyperv_tsc_page hvclock_page
+ 	__attribute__((visibility("hidden")));
  #endif
  
 +#ifdef CONFIG_TIME_NS
-+static int do_hres_timens(const struct vdso_data *vdns, clockid_t clk,
-+		      struct __kernel_timespec *ts)
-+{
-+	const struct vdso_data *vd = __arch_get_timens_vdso_data();
-+	const struct vdso_timestamp *vdso_ts;
-+	const struct timens_offset *offs = &vdns->offset[clk];
-+	u64 cycles, last, ns;
-+	u32 seq, msk;
-+	s64 sec;
-+
-+	msk = 1U << clk;
-+	if (msk & VDSO_HRES)
-+		vd = &vd[CS_HRES_COARSE];
-+	else if (msk & VDSO_RAW)
-+		vd = &vd[CS_RAW];
-+	else
-+		return -1;
-+	vdso_ts = &vd->basetime[clk];
-+
-+	do {
-+		seq = vdso_read_begin(vd);
-+		cycles = __arch_get_hw_counter(vd->clock_mode);
-+		ns = vdso_ts->nsec;
-+		last = vd->cycle_last;
-+		if (unlikely((s64)cycles < 0))
-+			return -1;
-+
-+		ns += vdso_calc_delta(cycles, last, vd->mask, vd->mult);
-+		ns >>= vd->shift;
-+		sec = vdso_ts->sec;
-+	} while (unlikely(vdso_read_retry(vd, seq)));
-+
-+	/* Add the namespace offset */
-+	sec += offs->sec;
-+	ns += offs->nsec;
-+
-+	/*
-+	 * Do this outside the loop: a race inside the loop could result
-+	 * in __iter_div_u64_rem() being extremely slow.
-+	 */
-+	ts->tv_sec = sec + __iter_div_u64_rem(ns, NSEC_PER_SEC, &ns);
-+	ts->tv_nsec = ns;
-+
-+	return 0;
-+}
-+#else
 +static __always_inline
 +const struct vdso_data *__arch_get_timens_vdso_data(void)
 +{
-+	return NULL;
-+}
-+
-+static int do_hres_timens(const struct vdso_data *vdns, clockid_t clk,
-+		      struct __kernel_timespec *ts)
-+{
-+	return -EINVAL;
++	return __timens_vdso_data;
 +}
 +#endif
 +
- static __always_inline int do_hres(const struct vdso_data *vd, clockid_t clk,
--		   struct __kernel_timespec *ts)
-+				   struct __kernel_timespec *ts)
- {
- 	const struct vdso_timestamp *vdso_ts = &vd->basetime[clk];
- 	u64 cycles, last, sec, ns;
- 	u32 seq;
+ #ifndef BUILD_VDSO32
  
- 	do {
--		seq = vdso_read_begin(vd);
-+		/*
-+		 * Open coded to handle VCLOCK_TIMENS. Time namespace
-+		 * enabled tasks have a special VVAR page installed which
-+		 * has vd->seq set to 1 and vd->clock_mode set to
-+		 * VCLOCK_TIMENS. For non time namespace affected tasks
-+		 * this does not affect performance because if vd->seq is
-+		 * odd, i.e. a concurrent update is in progress the extra
-+		 * check for vd->clock_mode is just a few extra
-+		 * instructions while spin waiting for vd->seq to become
-+		 * even again.
-+		 */
-+		while (1) {
-+			seq = READ_ONCE(vd->seq);
-+			if (likely(!(seq & 1)))
-+				break;
-+			if (IS_ENABLED(CONFIG_TIME_NS) &&
-+			    vd->clock_mode == VCLOCK_TIMENS)
-+				return do_hres_timens(vd, clk, ts);
-+			cpu_relax();
-+		}
-+		smp_rmb();
-+
- 		cycles = __arch_get_hw_counter(vd->clock_mode);
- 		ns = vdso_ts->nsec;
- 		last = vd->cycle_last;
-@@ -68,14 +149,63 @@ static __always_inline int do_hres(const struct vdso_data *vd, clockid_t clk,
- 	return 0;
- }
+ static __always_inline
+diff --git a/arch/x86/include/asm/vvar.h b/arch/x86/include/asm/vvar.h
+index ff2de3025388..183e98e49ab9 100644
+--- a/arch/x86/include/asm/vvar.h
++++ b/arch/x86/include/asm/vvar.h
+@@ -33,9 +33,12 @@ extern char __vvar_page;
  
-+#ifdef CONFIG_TIME_NS
-+static void do_coarse_timens(const struct vdso_data *vdns, clockid_t clk,
-+			 struct __kernel_timespec *ts)
-+{
-+	const struct vdso_data *vd = __arch_get_timens_vdso_data();
-+	const struct vdso_timestamp *vdso_ts = &vd->basetime[clk];
-+	const struct timens_offset *offs = &vdns->offset[clk];
-+	u64 nsec;
-+	s64 sec;
-+	s32 seq;
-+
-+	do {
-+		seq = vdso_read_begin(vd);
-+		sec = vdso_ts->sec;
-+		nsec = vdso_ts->nsec;
-+	} while (unlikely(vdso_read_retry(vd, seq)));
-+
-+	/* Add the namespace offset */
-+	sec += offs->sec;
-+	nsec += offs->nsec;
-+
-+	/*
-+	 * Do this outside the loop: a race inside the loop could result
-+	 * in __iter_div_u64_rem() being extremely slow.
-+	 */
-+	ts->tv_sec = sec + __iter_div_u64_rem(nsec, NSEC_PER_SEC, &nsec);
-+	ts->tv_nsec = nsec;
-+}
-+#else
-+static void do_coarse_timens(const struct vdso_data *vdns, clockid_t clk,
-+			 struct __kernel_timespec *ts) {}
-+#endif
-+
- static __always_inline void do_coarse(const struct vdso_data *vd, clockid_t clk,
--		      struct __kernel_timespec *ts)
-+				      struct __kernel_timespec *ts)
- {
- 	const struct vdso_timestamp *vdso_ts = &vd->basetime[clk];
- 	u32 seq;
+ #define DECLARE_VVAR(offset, type, name)				\
+ 	extern type vvar_ ## name[CS_BASES]				\
+-	__attribute__((visibility("hidden")));
++	__attribute__((visibility("hidden")));				\
++	extern type timens_ ## name[CS_BASES]				\
++	__attribute__((visibility("hidden")));				\
  
- 	do {
--		seq = vdso_read_begin(vd);
-+		/*
-+		 * Open coded to handle VCLOCK_TIMENS. See comment in
-+		 * do_hres().
-+		 */
-+		while (1) {
-+			seq = READ_ONCE(vd->seq);
-+			if (likely(!(seq & 1)))
-+				break;
-+			if (IS_ENABLED(CONFIG_TIME_NS) &&
-+			    vd->clock_mode == VCLOCK_TIMENS) {
-+				do_coarse_timens(vd, clk, ts);
-+				return;
-+			}
-+			cpu_relax();
-+		}
-+		smp_rmb();
-+
- 		ts->tv_sec = vdso_ts->sec;
- 		ts->tv_nsec = vdso_ts->nsec;
- 	} while (unlikely(vdso_read_retry(vd, seq)));
-@@ -160,6 +290,10 @@ __cvdso_gettimeofday(struct __kernel_old_timeval *tv, struct timezone *tz)
- 	}
+ #define VVAR(name) (vvar_ ## name)
++#define TIMENS(name) (timens_ ## name)
  
- 	if (unlikely(tz != NULL)) {
-+		if (IS_ENABLED(CONFIG_TIME_NS) &&
-+		    vd->clock_mode == VCLOCK_TIMENS)
-+			vd = __arch_get_timens_vdso_data();
-+
- 		tz->tz_minuteswest = vd[CS_HRES_COARSE].tz_minuteswest;
- 		tz->tz_dsttime = vd[CS_HRES_COARSE].tz_dsttime;
- 	}
-@@ -171,7 +305,12 @@ __cvdso_gettimeofday(struct __kernel_old_timeval *tv, struct timezone *tz)
- static __maybe_unused time_t __cvdso_time(time_t *time)
- {
- 	const struct vdso_data *vd = __arch_get_vdso_data();
--	time_t t = READ_ONCE(vd[CS_HRES_COARSE].basetime[CLOCK_REALTIME].sec);
-+	time_t t;
-+
-+	if (IS_ENABLED(CONFIG_TIME_NS) && vd->clock_mode == VCLOCK_TIMENS)
-+		vd = __arch_get_timens_vdso_data();
-+
-+	t = READ_ONCE(vd[CS_HRES_COARSE].basetime[CLOCK_REALTIME].sec);
- 
- 	if (time)
- 		*time = t;
-@@ -193,6 +332,9 @@ int __cvdso_clock_getres_common(clockid_t clock, struct __kernel_timespec *res)
- 	if (unlikely((u32) clock >= MAX_CLOCKS))
- 		return -1;
- 
-+	if (IS_ENABLED(CONFIG_TIME_NS) && vd->clock_mode == VCLOCK_TIMENS)
-+		vd = __arch_get_timens_vdso_data();
-+
- 	hrtimer_res = READ_ONCE(vd[CS_HRES_COARSE].hrtimer_res);
- 	/*
- 	 * Convert the clockid to a bitmask and use it to check which
+ #define DEFINE_VVAR(type, name)						\
+ 	type name[CS_BASES]						\
 -- 
 2.24.0
 
