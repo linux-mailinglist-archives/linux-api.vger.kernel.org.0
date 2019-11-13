@@ -2,124 +2,164 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4620FFB9EA
-	for <lists+linux-api@lfdr.de>; Wed, 13 Nov 2019 21:31:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 347E4FBAF4
+	for <lists+linux-api@lfdr.de>; Wed, 13 Nov 2019 22:41:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726991AbfKMUbu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 13 Nov 2019 15:31:50 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52288 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726418AbfKMUbu (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 13 Nov 2019 15:31:50 -0500
-Received: from gmail.com (unknown [104.132.1.77])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4A2A2206EC;
-        Wed, 13 Nov 2019 20:31:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573677109;
-        bh=05ooIT3YbJ/fHw6k555x4s32E0dixclBOdSSgJz8rso=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=S0mHiSipc5QBPv7QRZhJSWtDlMjLjk4z2sj+8cfsJMlOx/sVhBWJ8dS/+N7+yNVDb
-         KF55x6fWjF9icemuoHDIDMBKOw2FsurKp16lRC1XNpJ6c7gHewEtwBegNRXI6heVW6
-         48kWapw6ynxD6/+2aK+SQYPQ3WRFiOxsU29zFvvY=
-Date:   Wed, 13 Nov 2019 12:31:47 -0800
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     walter harms <wharms@bfs.de>
-Cc:     linux-man@vger.kernel.org, darrick.wong@oracle.com,
-        dhowells@redhat.com, jaegeuk@kernel.org, linux-api@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        tytso@mit.edu, victorhsieh@google.com
-Subject: Re: [man-pages RFC PATCH] statx.2: document STATX_ATTR_VERITY
-Message-ID: <20191113203145.GH221701@gmail.com>
-Mail-Followup-To: walter harms <wharms@bfs.de>, linux-man@vger.kernel.org,
-        darrick.wong@oracle.com, dhowells@redhat.com, jaegeuk@kernel.org,
-        linux-api@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net,
-        linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        tytso@mit.edu, victorhsieh@google.com
-References: <20191107014420.GD15212@magnolia>
- <20191107220248.32025-1-ebiggers@kernel.org>
- <5DC525E8.4060705@bfs.de>
- <20191108193557.GA12997@gmail.com>
- <5DC714DB.9060007@bfs.de>
+        id S1726189AbfKMVlO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 13 Nov 2019 16:41:14 -0500
+Received: from mout.kundenserver.de ([217.72.192.75]:50117 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726162AbfKMVlN (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 13 Nov 2019 16:41:13 -0500
+Received: from mail-qk1-f176.google.com ([209.85.222.176]) by
+ mrelayeu.kundenserver.de (mreue106 [212.227.15.145]) with ESMTPSA (Nemesis)
+ id 1MA844-1ic77X1dpy-00Bazm; Wed, 13 Nov 2019 22:41:09 +0100
+Received: by mail-qk1-f176.google.com with SMTP id e2so3179980qkn.5;
+        Wed, 13 Nov 2019 13:41:08 -0800 (PST)
+X-Gm-Message-State: APjAAAWUlaX5k/dh9wFHu/VYQujHorLDE1tZJWRaiN7EqHBTtUHZdvuu
+        hnPzKvX07XhAG8FNwuxDaSTUA+kjnJYa92OjVQc=
+X-Google-Smtp-Source: APXvYqyjRd+a6foxC3+k9qUEopPf1CRknFxQHbHw9aZuys53MC+zVt0jx9JeruKLHIsAWsaGcA9LllqlMRQxiR5o4ug=
+X-Received: by 2002:a37:4f0a:: with SMTP id d10mr4703334qkb.286.1573681267104;
+ Wed, 13 Nov 2019 13:41:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5DC714DB.9060007@bfs.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20191108210236.1296047-1-arnd@arndb.de>
+In-Reply-To: <20191108210236.1296047-1-arnd@arndb.de>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Wed, 13 Nov 2019 22:40:50 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a1CbDaPqNsOVOuq2UDPSOwzd2U_WEmmXBMwCOhv1=iaSQ@mail.gmail.com>
+Message-ID: <CAK8P3a1CbDaPqNsOVOuq2UDPSOwzd2U_WEmmXBMwCOhv1=iaSQ@mail.gmail.com>
+Subject: Re: [PATCH 00/23] y2038 cleanups
+To:     y2038 Mailman List <y2038@lists.linaro.org>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Richard Henderson <rth@twiddle.net>,
+        Tony Luck <tony.luck@intel.com>,
+        Paul Burton <paul.burton@mips.com>,
+        Greentime Hu <green.hu@gmail.com>,
+        Helge Deller <deller@gmx.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        David Miller <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Jeff Dike <jdike@addtoit.com>,
+        Richard Weinberger <richard@nod.at>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Benjamin LaHaise <bcrl@kvack.org>,
+        John Stultz <john.stultz@linaro.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Paul Moore <paul@paul-moore.com>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        Eric Paris <eparis@parisplace.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Deepa Dinamani <deepa.kernel@gmail.com>,
+        Christian Brauner <christian@brauner.io>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        christophe leroy <christophe.leroy@c-s.fr>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        alpha <linux-alpha@vger.kernel.org>, linux-ia64@vger.kernel.org,
+        linux-mips@vger.kernel.org,
+        Parisc List <linux-parisc@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        sparclinux <sparclinux@vger.kernel.org>,
+        linux-um@lists.infradead.org,
+        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
+        linux-aio <linux-aio@kvack.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>,
+        SElinux list <selinux@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:t9jsa1d3irkSvjYT/rEVzAEkwZVcthQkNq7GL9PWrByG2yn/ofy
+ 8fgkWFb7yzBDhxggib3MFVAG5e4TExjEbTOk4rBmOFRV8Z0nAydeuemmrZedaWDRbilNXuy
+ NmTQNhL2f4T7/p0oM9CgHzRhNyXfyVm+jWuv44PuQ4PFfCAkqAjtWz90qM5ZdfkGAf4n22W
+ cO6/64/K+Hbl+/pD4TCAw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:4GD3zQCUG/U=:u8KPHFHcLf73169L5bs8bd
+ Z3kilw5OQOJ51slVfyv48BfHKjUeXcr+fJ2u45Kzx18zYiu2AKmH6ZjNMBv8Z1Fi95V25C/TC
+ fpxwbADUtzoRKZwKTHxmLDwqc/bWFmkKgomoPalGRo18fIa8xiHrYanOdB9pr3ZlCYBpwne8/
+ ygyOCaAIeB+5EUMvMd4gTk4JL4j4Lyxr3ghbVkZ5VyqjZ+1EbBbxjw1BbAb32gMNbGLc6QnKD
+ XrM6i7uPvn5gDb8ckQDKQ1Zczz6PXXeXCUxXE/12lJNWRl+MJ9kyiHU4m+4JEL37n5bL7zhar
+ gqoCvFCmTY8Nirsdm0tNGa7oM70YXf2eD6Yr4ZphgxE0rlP5cht0ROBWRkB5Z67OvFSKPcyy9
+ q7aDiaGLMpVsX/TIk5GTKGw/9pr39C5aFcxXQDTsX/EO3Pks3UiL5zYbj7LATgElV/UAWLHNR
+ QcQAHYRRSfrrf0nCVnJhOZiuJwYS3i23RjFjF2ZUDtzy85NfJBRdus4N5VtexqszcSpgIqAB0
+ Z1helxbHW+pX4eff8B5DwM+xxkqLKVTbbGpbPRr+OyKQBEO5R4uzDHnBECPvkA7oHbAf9IoOG
+ Xx/ZdkY79cqP1duDzuGkU/obiqfWEJI4KiUJYg1LqP4RaCH1pHIYkE8ZnJBuq9+wBEvOjbFTi
+ BKOk4YBy22M0llu56auY0kznLVVknOE+fS4d2fpHG+skogpTkJ32csRy7QZDKKOHXCrSqIw0N
+ eJvSfpBVcYmPhOR6E127MVUrLiXsnZTrgBybVqltTDrEZPpsPPWrn3zQ9jZ5QgKEXuPmHrOVy
+ 7Txdt9e0cr1UEc6SEe5lI1nmxP/uOHf3iHGiloI5gi9g986J9+vuZ7Q04BEetmXhvJBQfPI7x
+ mbb7T23Q5o8NIb6sMiRw==
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Nov 09, 2019 at 08:34:51PM +0100, walter harms wrote:
-> Am 08.11.2019 20:35, schrieb Eric Biggers:
-> > On Fri, Nov 08, 2019 at 09:23:04AM +0100, walter harms wrote:
-> >>
-> >>
-> >> Am 07.11.2019 23:02, schrieb Eric Biggers:
-> >>> From: Eric Biggers <ebiggers@google.com>
-> >>>
-> >>> Document the verity attribute for statx().
-> >>>
-> >>> Signed-off-by: Eric Biggers <ebiggers@google.com>
-> >>> ---
-> >>>  man2/statx.2 | 4 ++++
-> >>>  1 file changed, 4 insertions(+)
-> >>>
-> >>> RFC since the kernel patches are currently under review.
-> >>> The kernel patches can be found here:
-> >>> https://lkml.kernel.org/linux-fscrypt/20191029204141.145309-1-ebiggers@kernel.org/T/#u
-> >>>
-> >>> diff --git a/man2/statx.2 b/man2/statx.2
-> >>> index d2f1b07b8..713bd1260 100644
-> >>> --- a/man2/statx.2
-> >>> +++ b/man2/statx.2
-> >>> @@ -461,6 +461,10 @@ See
-> >>>  .TP
-> >>>  .B STATX_ATTR_ENCRYPTED
-> >>>  A key is required for the file to be encrypted by the filesystem.
-> >>> +.TP
-> >>> +.B STATX_ATTR_VERITY
-> >>> +The file has fs-verity enabled.  It cannot be written to, and all reads from it
-> >>> +will be verified against a Merkle tree.
-> >>
-> >> Using "Merkle tree" opens a can of worm and what will happen when the methode will change ?
-> >> Does it matter at all ? i would suggest "filesystem" here.
-> >>
-> > 
-> > Fundamentally, fs-verity guarantees that all data read is verified against a
-> > cryptographic hash that covers the entire file.  I think it will be helpful to
-> > convey that here, e.g. to avoid confusion with non-cryptographic, individual
-> > block checksums supported by filesystems like btrfs and zfs.
-> > 
-> > Now, the only sane way to implement this model is with a Merkle tree, and this
-> > is part of the fs-verity UAPI (via the file hash), so that's where I'm coming
-> > from here.  Perhaps the phrase "Merkle tree" could be interpreted too strictly,
-> > though, so it would be better to emphasize the more abstract model.  How about
-> > the following?:
-> > 
-> > 	The file has fs-verity enabled.  It cannot be written to, and all reads
-> > 	from it will be verified against a cryptographic hash that covers the
-> > 	entire file, e.g. via a Merkle tree.
-> > 
-> 
-> "feels" better,. but from a programmers perspective it is important at what level
-> this is actually done. To see my point look at the line before.
-> "encrypted by the filesystem" mean i have to read the documentation of the fs first
-> so if encryption is supported at all. Or do i think to complicated ?
-> 
+On Fri, Nov 8, 2019 at 10:04 PM Arnd Bergmann <arnd@arndb.de> wrote:
+>
+> This is a series of cleanups for the y2038 work, mostly intended
+> for namespace cleaning: the kernel defines the traditional
+> time_t, timeval and timespec types that often lead to y2038-unsafe
+> code. Even though the unsafe usage is mostly gone from the kernel,
+> having the types and associated functions around means that we
+> can still grow new users, and that we may be missing conversions
+> to safe types that actually matter.
+>
+> As there is no rush on any of these patches, I would either
+> queue them up in linux-next through my y2038 branch, or
+> Thomas could add them to the tip tree if he wants.
+>
+> As mentioned in another series, this is part of a larger
+> effort to fix all the remaining bits and pieces that are
+> not completed yet from the y2038 conversion, and the full
+> set can be found at:
+>
+> https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git/log/?h=y2038-endgame
+>
+> Maintainers, please review and provide Acks.
+>
+> Let me know if you have any opinion on whether we should do
+> the include last two patches of this series or not.
+>
+>      Arnd
+>
+> Arnd Bergmann (23):
+>   y2038: remove CONFIG_64BIT_TIME
+>   y2038: add __kernel_old_timespec and __kernel_old_time_t
+>   y2038: vdso: change timeval to __kernel_old_timeval
+>   y2038: vdso: change timespec to __kernel_old_timespec
+>   y2038: vdso: change time_t to __kernel_old_time_t
+>   y2038: vdso: nds32: open-code timespec_add_ns()
+>   y2038: vdso: powerpc: avoid timespec references
+>   y2038: ipc: remove __kernel_time_t reference from headers
+>   y2038: stat: avoid 'time_t' in 'struct stat'
+>   y2038: uapi: change __kernel_time_t to __kernel_old_time_t
+>   y2038: rusage: use __kernel_old_timeval
+>   y2038: syscalls: change remaining timeval to __kernel_old_timeval
+>   y2038: socket: remove timespec reference in timestamping
+>   y2038: make ns_to_compat_timeval use __kernel_old_timeval
+>   y2038: elfcore: Use __kernel_old_timeval for process times
+>   y2038: timerfd: Use timespec64 internally
+>   y2038: time: avoid timespec usage in settimeofday()
+>   y2038: itimer: compat handling to itimer.c
+>   y2038: use compat_{get,set}_itimer on alpha
+>   y2038: move itimer reset into itimer.c
+>   y2038: itimer: change implementation to timespec64
+>   [RFC] y2038: itimer: use ktime_t internally
+>   y2038: allow disabling time32 system calls
 
-It's filesystem-specific whether encryption and verity are supported.  I'm not
-sure what your concern is, as statx() won't return the bits if the filesystem
-doesn't support them.
+I've dropped the "[RFC] y2038: itimer: use ktime_t internally" patch
+for the moment,
+and added two other patches from other series:
 
-Also note, if someone really wants the details about fscrypt and fsverity, they
-really should read the documentation we maintain in the kernel tree [1][2].
+y2038: remove CONFIG_64BIT_TIME
+y2038: socket: use __kernel_old_timespec instead of timespec
 
-[1] https://www.kernel.org/doc/html/latest/filesystems/fscrypt.html
-[2] https://www.kernel.org/doc/html/latest/filesystems/fsverity.html
+Tentatively pushed out the patches with the Acks I have received so
+far to my y2038 branch on git.kernel.org so it gets included in linux-next.
 
-- Eric
+If I hear no complaints, I'll send a pull request for the merge window,
+along with the compat-ioctl series I have already queued up in the same
+branch.
+
+    Arnd
