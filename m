@@ -2,126 +2,76 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E8DFFA932
-	for <lists+linux-api@lfdr.de>; Wed, 13 Nov 2019 05:51:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AA655FA9D2
+	for <lists+linux-api@lfdr.de>; Wed, 13 Nov 2019 06:45:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727355AbfKMEvE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 12 Nov 2019 23:51:04 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39678 "EHLO mail.kernel.org"
+        id S1725987AbfKMFpJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 13 Nov 2019 00:45:09 -0500
+Received: from mga01.intel.com ([192.55.52.88]:60066 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727290AbfKMEvD (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 12 Nov 2019 23:51:03 -0500
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 674042245B
-        for <linux-api@vger.kernel.org>; Wed, 13 Nov 2019 04:51:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573620662;
-        bh=2HR5j4jMQZ8XywHpceKqovMUe9E/Z2E3JHrn6nNK8II=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Qu4dJD0Ni66AsrNrH/eEIXfa/16KZ7RZrotDsF6X9hceXsuaWXcl7wuQ7T/rYDBxl
-         By7fSfDHWoWWQjnnO2PrLJWTvVfX3Y7TIuLKwVqfS7WLH2H6jyIEh/Y6m1lih/jDGM
-         5Q5PY9YsYEMdHRvMYPLKPdGpB2dHJgQuoGNdPIJE=
-Received: by mail-wm1-f47.google.com with SMTP id j18so3902815wmk.1
-        for <linux-api@vger.kernel.org>; Tue, 12 Nov 2019 20:51:02 -0800 (PST)
-X-Gm-Message-State: APjAAAUJUM5AgLrABu+hBFqr+sPoAAGe6KvJfn1meSQxwLtczGIweLKO
-        VMapi+UO/YJnNsCNEUMP4kVVs4JrdUa4ifmd4bBSOA==
-X-Google-Smtp-Source: APXvYqyc3oSgne3bep9Xp7B6mSwi2GF2tpFX9qEMJeGOYHuljwIi7kxpBBiOH4SJj7M2bzS/5n2f9qM3lSkXb7O7bOk=
-X-Received: by 2002:a1c:16:: with SMTP id 22mr943595wma.0.1573620660911; Tue,
- 12 Nov 2019 20:51:00 -0800 (PST)
-MIME-Version: 1.0
-References: <74a91362-247c-c749-5200-7bdce704ed9e@gmail.com> <20191112232239.yevpeemgxz4wy32b@wittgenstein>
-In-Reply-To: <20191112232239.yevpeemgxz4wy32b@wittgenstein>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Tue, 12 Nov 2019 20:50:50 -0800
-X-Gmail-Original-Message-ID: <CALCETrUEQMdugz1t6HfK5MvDq_kOw13yuF+98euqVJgZ4WR1VA@mail.gmail.com>
-Message-ID: <CALCETrUEQMdugz1t6HfK5MvDq_kOw13yuF+98euqVJgZ4WR1VA@mail.gmail.com>
-Subject: Re: [PATCH] Allow restricting permissions in /proc/sys
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     Topi Miettinen <toiwoton@gmail.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "open list:FILESYSTEMS (VFS and infrastructure)" 
-        <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S1725976AbfKMFpJ (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 13 Nov 2019 00:45:09 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Nov 2019 21:45:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,299,1569308400"; 
+   d="scan'208";a="214243633"
+Received: from hao-dev.bj.intel.com ([10.238.157.65])
+  by fmsmga001.fm.intel.com with ESMTP; 12 Nov 2019 21:45:06 -0800
+From:   Wu Hao <hao.wu@intel.com>
+To:     mdf@kernel.org, will@kernel.org, mark.rutland@arm.com,
+        linux-fpga@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     linux-api@vger.kernel.org, atull@kernel.org,
+        gregkh@linuxfoundation.org, Wu Hao <hao.wu@intel.com>
+Subject: [PATCH v6 0/2] add performance reporting support to FPGA DFL drivers
+Date:   Wed, 13 Nov 2019 13:24:53 +0800
+Message-Id: <1573622695-25607-1-git-send-email-hao.wu@intel.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Nov 12, 2019 at 3:22 PM Christian Brauner
-<christian.brauner@ubuntu.com> wrote:
->
-> [Cc+ linux-api@vger.kernel.org]
->
-> since that's potentially relevant to quite a few people.
->
-> On Sun, Nov 03, 2019 at 04:55:48PM +0200, Topi Miettinen wrote:
-> > Several items in /proc/sys need not be accessible to unprivileged
-> > tasks. Let the system administrator change the permissions, but only
-> > to more restrictive modes than what the sysctl tables allow.
-> >
-> > Signed-off-by: Topi Miettinen <toiwoton@gmail.com>
-> > ---
-> >  fs/proc/proc_sysctl.c | 41 +++++++++++++++++++++++++++++++----------
-> >  1 file changed, 31 insertions(+), 10 deletions(-)
-> >
-> > diff --git a/fs/proc/proc_sysctl.c b/fs/proc/proc_sysctl.c
-> > index d80989b6c344..88c4ca7d2782 100644
-> > --- a/fs/proc/proc_sysctl.c
-> > +++ b/fs/proc/proc_sysctl.c
-> > @@ -818,6 +818,10 @@ static int proc_sys_permission(struct inode *inode, int
-> > mask)
-> >         if ((mask & MAY_EXEC) && S_ISREG(inode->i_mode))
-> >                 return -EACCES;
-> >
-> > +       error = generic_permission(inode, mask);
-> > +       if (error)
-> > +               return error;
-> > +
-> >         head = grab_header(inode);
-> >         if (IS_ERR(head))
-> >                 return PTR_ERR(head);
-> > @@ -837,9 +841,35 @@ static int proc_sys_setattr(struct dentry *dentry,
-> > struct iattr *attr)
-> >         struct inode *inode = d_inode(dentry);
-> >         int error;
-> >
-> > -       if (attr->ia_valid & (ATTR_MODE | ATTR_UID | ATTR_GID))
-> > +       if (attr->ia_valid & (ATTR_UID | ATTR_GID))
-> >                 return -EPERM;
+Hi Moritz and all,
 
-Supporting at least ATTR_GID would make this much more useful.
+This patchset adds performance reporting support for FPGA DFL drivers. It
+introduces one pmu to expose userspace interfaces via standard perf API.
+User could use standard perf tool to access perf events exposed via pmu.
 
-> >
-> > +       if (attr->ia_valid & ATTR_MODE) {
-> > +               struct ctl_table_header *head = grab_header(inode);
-> > +               struct ctl_table *table = PROC_I(inode)->sysctl_entry;
-> > +               umode_t max_mode = 0777; /* Only these bits may change */
-> > +
-> > +               if (IS_ERR(head))
-> > +                       return PTR_ERR(head);
-> > +
-> > +               if (!table) /* global root - r-xr-xr-x */
-> > +                       max_mode &= ~0222;
-> > +               else /*
-> > +                     * Don't allow permissions to become less
-> > +                     * restrictive than the sysctl table entry
-> > +                     */
-> > +                       max_mode &= table->mode;
+This patchset is generated based on fpga/for-next branch.
 
-Style nit: please put braces around multi-line if and else branches,
-even if they're only multi-line because of comments.
+Main changes from v5:
+ - use dev_ext_attribute instead of fme_perf_event_attr.
+ - use is_visible function to decide which events to expose per
+   hardware capability, and add event_init checking for all events.
 
-> > +
-> > +               sysctl_head_finish(head);
-> > +
-> > +               /* Execute bits only allowed for directories */
-> > +               if (!S_ISDIR(inode->i_mode))
-> > +                       max_mode &= ~0111;
+Main changes from v4:
+ - rebase and clean up.
+ - update Kconfig for PERF_EVENTS dependency.
 
-Why is this needed?
+Main changes from v3:
+ - add more descriptions in doc, including how to use perf tool for these
+   hardware counters. (patch #1)
+ - use standard perf API instead of sysfs entries. (patch #2)
+
+Wu Hao (1):
+  fpga: dfl: fme: add performance reporting support
+
+Xu Yilun (1):
+  Documentation: fpga: dfl: add description for performance reporting
+    support
+
+ Documentation/fpga/dfl.rst  |  83 ++++
+ drivers/fpga/Makefile       |   1 +
+ drivers/fpga/dfl-fme-main.c |   4 +
+ drivers/fpga/dfl-fme-perf.c | 943 ++++++++++++++++++++++++++++++++++++++++++++
+ drivers/fpga/dfl-fme.h      |   2 +
+ drivers/fpga/dfl.h          |   2 +
+ 6 files changed, 1035 insertions(+)
+ create mode 100644 drivers/fpga/dfl-fme-perf.c
+
+-- 
+1.8.3.1
+
