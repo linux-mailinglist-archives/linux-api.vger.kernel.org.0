@@ -2,250 +2,127 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 987CAFBBBB
-	for <lists+linux-api@lfdr.de>; Wed, 13 Nov 2019 23:39:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7ED8FFBD9D
+	for <lists+linux-api@lfdr.de>; Thu, 14 Nov 2019 02:48:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726953AbfKMWjH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 13 Nov 2019 17:39:07 -0500
-Received: from cloudserver094114.home.pl ([79.96.170.134]:47564 "EHLO
-        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726251AbfKMWjG (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 13 Nov 2019 17:39:06 -0500
-Received: from 79.184.253.153.ipv4.supernova.orange.pl (79.184.253.153) (HELO kreacher.localnet)
- by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.292)
- id 695e88c4f6f8395e; Wed, 13 Nov 2019 23:39:02 +0100
-From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     y2038@lists.linaro.org,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
-        Christian Brauner <christian@brauner.io>,
-        linuxppc-dev@lists.ozlabs.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: Re: [PATCH 12/23] y2038: syscalls: change remaining timeval to __kernel_old_timeval
-Date:   Wed, 13 Nov 2019 23:39:01 +0100
-Message-ID: <43741269.9cZ5YESnMi@kreacher>
-In-Reply-To: <20191108211323.1806194-3-arnd@arndb.de>
-References: <20191108210236.1296047-1-arnd@arndb.de> <20191108211323.1806194-3-arnd@arndb.de>
+        id S1726392AbfKNBsb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 13 Nov 2019 20:48:31 -0500
+Received: from mo4-p02-ob.smtp.rzone.de ([85.215.255.82]:10612 "EHLO
+        mo4-p02-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726120AbfKNBsb (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 13 Nov 2019 20:48:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1573696107;
+        s=strato-dkim-0002; d=chronox.de;
+        h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+        X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+        bh=4ffHBB9/52/MY1Qf33VviaYK3WPUsckkWp5OkQvLBKk=;
+        b=hZQdzgZwHaGgItIc9B9grvhZCeZhYRZgT6opVmlgknaj6J5zNebynbpQOOKDWwQcF/
+        sLkq2R+NtiS3ZpnT3+JX6Y25kS43R3NcXYTpv0nZWqMRQoXkZuDxyxfp5CER4qMG8imx
+        KiXuyQYJdoWkgFOsogSnsyXnd4A3tqGm1eqhvdZ5Z6ujrdtSziESK1vwff+RH1PGYgFD
+        31pJTZJ2Kaenekgq6KTNE6qIFhs1d6VM66JWoK51qUZ8Y7pkQL/MUmhbSrUQwZEF+AkZ
+        9uihgNOCSjjM8ovrSJKINlUEnYmbZzpI8dlTOE8Q9PxdTd35i/t9VLf9NOzoBeJ7L50u
+        Unfg==
+X-RZG-AUTH: ":P2ERcEykfu11Y98lp/T7+hdri+uKZK8TKWEqNyiHySGSa9k9zmwdNLqV/Nz7PsNPEA=="
+X-RZG-CLASS-ID: mo00
+Received: from positron.chronox.de
+        by smtp.strato.de (RZmta 44.29.0 SBL|AUTH)
+        with ESMTPSA id N09a57vAE1kfGBt
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve secp521r1 with 521 ECDH bits, eq. 15360 bits RSA))
+        (Client did not present a certificate);
+        Thu, 14 Nov 2019 02:46:41 +0100 (CET)
+From:   Stephan =?ISO-8859-1?Q?M=FCller?= <smueller@chronox.de>
+To:     "Alexander E. Patrakov" <patrakov@gmail.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-crypto@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "Ahmed S. Darwish" <darwish.07@gmail.com>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>, Willy Tarreau <w@1wt.eu>,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        Vito Caputo <vcaputo@pengaru.com>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Jan Kara <jack@suse.cz>, Ray Strode <rstrode@redhat.com>,
+        William Jon McCann <mccann@jhu.edu>,
+        zhangjs <zachary@baishancloud.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        Lennart Poettering <mzxreary@0pointer.de>,
+        Nicolai Stange <nstange@suse.de>,
+        "Peter, Matthias" <matthias.peter@bsi.bund.de>,
+        Marcelo Henrique Cerri <marcelo.cerri@canonical.com>,
+        Roman Drahtmueller <draht@schaltsekun.de>,
+        Neil Horman <nhorman@redhat.com>
+Subject: Re: [PATCH v24 11/12] LRNG - add SP800-90B compliant health tests
+Date:   Thu, 14 Nov 2019 02:46:38 +0100
+Message-ID: <7132090.9rmkJY1zsi@positron.chronox.de>
+In-Reply-To: <CAN_LGv3LUjJ=8ZZxaJ=c7uDPb=ayvCNPE-UshxgBUK-Jf7qNmQ@mail.gmail.com>
+References: <6157374.ptSnyUpaCn@positron.chronox.de> <9152597.fJySsU3eCD@positron.chronox.de> <CAN_LGv3LUjJ=8ZZxaJ=c7uDPb=ayvCNPE-UshxgBUK-Jf7qNmQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Friday, November 8, 2019 10:12:11 PM CET Arnd Bergmann wrote:
-> All of the remaining syscalls that pass a timeval (gettimeofday, utime,
-> futimesat) can trivially be changed to pass a __kernel_old_timeval
-> instead, which has a compatible layout, but avoids ambiguity with
-> the timeval type in user space.
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Am Mittwoch, 13. November 2019, 07:02:40 CET schrieb Alexander E. Patrakov:
 
-For the change in power/power.h
+Hi Alexander,
 
-Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> =D1=81=D1=80, 13 =D0=BD=D0=BE=D1=8F=D0=B1. 2019 =D0=B3. =D0=B2 05:38, Ste=
+phan M=C3=BCller <smueller@chronox.de>:
+> > Am Dienstag, 12. November 2019, 20:58:32 CET schrieb Alexander E.
+> > Patrakov:
+> >=20
+> > Hi Alexander,
+> >=20
+> > > > +config LRNG_HEALTH_TESTS
+> > > > +   bool "Enable noise source online health tests"
+> > > > +   help
+> > > > +     The online health tests validate the noise source at
+> > > > +     runtime for fatal errors. These tests include SP800-90B
+> > > > +     compliant tests which are invoked if the system is booted
+> > > > +     with fips=3D1. In case of fatal errors during active
+> > > > +     SP800-90B tests, the issue is logged and the noise
+> > > > +     data is discarded. These tests are required for full
+> > > > +     compliance with SP800-90B.
+> > >=20
+> > > How have you tested that these tests work at runtime? Maybe add some
+> > > code under a new CONFIG item that depends on CONFIG_BROKEN that
+> > > deliberately botches the RNG and triggers failures?
+> >=20
+> > I am unable to find sensible information about CONFIG_BROKEN in the rec=
+ent
+> > kernel tree.
+> >=20
+> > Do you happen to have a pointer on how that option is to be used?
+>=20
+> This option is not used on its own. You create a new option,
+> CONFIG_TEST_LRNG_FAILURE_MODE or something like that, and put your
+> code under the ifdef guarded by that option. And then, to prevent
+> ordinary users and allyesconfig from selecting it, in Kconfig you say:
+> "depends on BROKEN". This way, the option becomes unselectable in
+> menuconfig but still works as intended when added manually to .config
+> (obviously, with the BROKEN dependency removed locally).
+>=20
+> Definition:
+> https://github.com/torvalds/linux/blob/9c7db5004280767566e91a33445bf93aa4=
+79
+> ef02/init/Kconfig#L68 Example usage:
+> https://github.com/torvalds/linux/blob/c87237110f2553b4200a8b3401a01198ed=
+fc
+> f0d9/drivers/gpu/drm/i915/Kconfig.debug#L166
 
-> ---
->  arch/powerpc/include/asm/asm-prototypes.h |  3 ++-
->  arch/powerpc/kernel/syscalls.c            |  4 ++--
->  fs/select.c                               | 10 +++++-----
->  fs/utimes.c                               |  8 ++++----
->  include/linux/syscalls.h                  | 10 +++++-----
->  kernel/power/power.h                      |  2 +-
->  kernel/time/time.c                        |  2 +-
->  7 files changed, 20 insertions(+), 19 deletions(-)
-> 
-> diff --git a/arch/powerpc/include/asm/asm-prototypes.h b/arch/powerpc/include/asm/asm-prototypes.h
-> index 8561498e653c..2c25dc079cb9 100644
-> --- a/arch/powerpc/include/asm/asm-prototypes.h
-> +++ b/arch/powerpc/include/asm/asm-prototypes.h
-> @@ -92,7 +92,8 @@ long sys_swapcontext(struct ucontext __user *old_ctx,
->  long sys_debug_setcontext(struct ucontext __user *ctx,
->  			  int ndbg, struct sig_dbg_op __user *dbg);
->  int
-> -ppc_select(int n, fd_set __user *inp, fd_set __user *outp, fd_set __user *exp, struct timeval __user *tvp);
-> +ppc_select(int n, fd_set __user *inp, fd_set __user *outp, fd_set __user *exp,
-> +	   struct __kernel_old_timeval __user *tvp);
->  unsigned long __init early_init(unsigned long dt_ptr);
->  void __init machine_init(u64 dt_ptr);
->  #endif
-> diff --git a/arch/powerpc/kernel/syscalls.c b/arch/powerpc/kernel/syscalls.c
-> index 3bfb3888e897..078608ec2e92 100644
-> --- a/arch/powerpc/kernel/syscalls.c
-> +++ b/arch/powerpc/kernel/syscalls.c
-> @@ -79,7 +79,7 @@ SYSCALL_DEFINE6(mmap, unsigned long, addr, size_t, len,
->   * sys_select() with the appropriate args. -- Cort
->   */
->  int
-> -ppc_select(int n, fd_set __user *inp, fd_set __user *outp, fd_set __user *exp, struct timeval __user *tvp)
-> +ppc_select(int n, fd_set __user *inp, fd_set __user *outp, fd_set __user *exp, struct __kernel_old_timeval __user *tvp)
->  {
->  	if ( (unsigned long)n >= 4096 )
->  	{
-> @@ -89,7 +89,7 @@ ppc_select(int n, fd_set __user *inp, fd_set __user *outp, fd_set __user *exp, s
->  		    || __get_user(inp, ((fd_set __user * __user *)(buffer+1)))
->  		    || __get_user(outp, ((fd_set  __user * __user *)(buffer+2)))
->  		    || __get_user(exp, ((fd_set  __user * __user *)(buffer+3)))
-> -		    || __get_user(tvp, ((struct timeval  __user * __user *)(buffer+4))))
-> +		    || __get_user(tvp, ((struct __kernel_old_timeval  __user * __user *)(buffer+4))))
->  			return -EFAULT;
->  	}
->  	return sys_select(n, inp, outp, exp, tvp);
-> diff --git a/fs/select.c b/fs/select.c
-> index 53a0c149f528..11d0285d46b7 100644
-> --- a/fs/select.c
-> +++ b/fs/select.c
-> @@ -321,7 +321,7 @@ static int poll_select_finish(struct timespec64 *end_time,
->  	switch (pt_type) {
->  	case PT_TIMEVAL:
->  		{
-> -			struct timeval rtv;
-> +			struct __kernel_old_timeval rtv;
->  
->  			if (sizeof(rtv) > sizeof(rtv.tv_sec) + sizeof(rtv.tv_usec))
->  				memset(&rtv, 0, sizeof(rtv));
-> @@ -698,10 +698,10 @@ int core_sys_select(int n, fd_set __user *inp, fd_set __user *outp,
->  }
->  
->  static int kern_select(int n, fd_set __user *inp, fd_set __user *outp,
-> -		       fd_set __user *exp, struct timeval __user *tvp)
-> +		       fd_set __user *exp, struct __kernel_old_timeval __user *tvp)
->  {
->  	struct timespec64 end_time, *to = NULL;
-> -	struct timeval tv;
-> +	struct __kernel_old_timeval tv;
->  	int ret;
->  
->  	if (tvp) {
-> @@ -720,7 +720,7 @@ static int kern_select(int n, fd_set __user *inp, fd_set __user *outp,
->  }
->  
->  SYSCALL_DEFINE5(select, int, n, fd_set __user *, inp, fd_set __user *, outp,
-> -		fd_set __user *, exp, struct timeval __user *, tvp)
-> +		fd_set __user *, exp, struct __kernel_old_timeval __user *, tvp)
->  {
->  	return kern_select(n, inp, outp, exp, tvp);
->  }
-> @@ -810,7 +810,7 @@ SYSCALL_DEFINE6(pselect6_time32, int, n, fd_set __user *, inp, fd_set __user *,
->  struct sel_arg_struct {
->  	unsigned long n;
->  	fd_set __user *inp, *outp, *exp;
-> -	struct timeval __user *tvp;
-> +	struct __kernel_old_timeval __user *tvp;
->  };
->  
->  SYSCALL_DEFINE1(old_select, struct sel_arg_struct __user *, arg)
-> diff --git a/fs/utimes.c b/fs/utimes.c
-> index 1ba3f7883870..c952b6b3d8a0 100644
-> --- a/fs/utimes.c
-> +++ b/fs/utimes.c
-> @@ -161,9 +161,9 @@ SYSCALL_DEFINE4(utimensat, int, dfd, const char __user *, filename,
->   * utimensat() instead.
->   */
->  static long do_futimesat(int dfd, const char __user *filename,
-> -			 struct timeval __user *utimes)
-> +			 struct __kernel_old_timeval __user *utimes)
->  {
-> -	struct timeval times[2];
-> +	struct __kernel_old_timeval times[2];
->  	struct timespec64 tstimes[2];
->  
->  	if (utimes) {
-> @@ -190,13 +190,13 @@ static long do_futimesat(int dfd, const char __user *filename,
->  
->  
->  SYSCALL_DEFINE3(futimesat, int, dfd, const char __user *, filename,
-> -		struct timeval __user *, utimes)
-> +		struct __kernel_old_timeval __user *, utimes)
->  {
->  	return do_futimesat(dfd, filename, utimes);
->  }
->  
->  SYSCALL_DEFINE2(utimes, char __user *, filename,
-> -		struct timeval __user *, utimes)
-> +		struct __kernel_old_timeval __user *, utimes)
->  {
->  	return do_futimesat(AT_FDCWD, filename, utimes);
->  }
-> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-> index 2f27bc9d5ef0..e665920fa359 100644
-> --- a/include/linux/syscalls.h
-> +++ b/include/linux/syscalls.h
-> @@ -51,7 +51,7 @@ struct statx;
->  struct __sysctl_args;
->  struct sysinfo;
->  struct timespec;
-> -struct timeval;
-> +struct __kernel_old_timeval;
->  struct __kernel_timex;
->  struct timezone;
->  struct tms;
-> @@ -732,7 +732,7 @@ asmlinkage long sys_prctl(int option, unsigned long arg2, unsigned long arg3,
->  asmlinkage long sys_getcpu(unsigned __user *cpu, unsigned __user *node, struct getcpu_cache __user *cache);
->  
->  /* kernel/time.c */
-> -asmlinkage long sys_gettimeofday(struct timeval __user *tv,
-> +asmlinkage long sys_gettimeofday(struct __kernel_old_timeval __user *tv,
->  				struct timezone __user *tz);
->  asmlinkage long sys_settimeofday(struct timeval __user *tv,
->  				struct timezone __user *tz);
-> @@ -1082,9 +1082,9 @@ asmlinkage long sys_time32(old_time32_t __user *tloc);
->  asmlinkage long sys_utime(char __user *filename,
->  				struct utimbuf __user *times);
->  asmlinkage long sys_utimes(char __user *filename,
-> -				struct timeval __user *utimes);
-> +				struct __kernel_old_timeval __user *utimes);
->  asmlinkage long sys_futimesat(int dfd, const char __user *filename,
-> -			      struct timeval __user *utimes);
-> +			      struct __kernel_old_timeval __user *utimes);
->  #endif
->  asmlinkage long sys_futimesat_time32(unsigned int dfd,
->  				     const char __user *filename,
-> @@ -1098,7 +1098,7 @@ asmlinkage long sys_getdents(unsigned int fd,
->  				struct linux_dirent __user *dirent,
->  				unsigned int count);
->  asmlinkage long sys_select(int n, fd_set __user *inp, fd_set __user *outp,
-> -			fd_set __user *exp, struct timeval __user *tvp);
-> +			fd_set __user *exp, struct __kernel_old_timeval __user *tvp);
->  asmlinkage long sys_poll(struct pollfd __user *ufds, unsigned int nfds,
->  				int timeout);
->  asmlinkage long sys_epoll_wait(int epfd, struct epoll_event __user *events,
-> diff --git a/kernel/power/power.h b/kernel/power/power.h
-> index 44bee462ff57..7cdc64dc2373 100644
-> --- a/kernel/power/power.h
-> +++ b/kernel/power/power.h
-> @@ -179,7 +179,7 @@ extern void swsusp_close(fmode_t);
->  extern int swsusp_unmark(void);
->  #endif
->  
-> -struct timeval;
-> +struct __kernel_old_timeval;
->  /* kernel/power/swsusp.c */
->  extern void swsusp_show_speed(ktime_t, ktime_t, unsigned int, char *);
->  
-> diff --git a/kernel/time/time.c b/kernel/time/time.c
-> index 7eba7c9a7e3e..bc114f0be8f1 100644
-> --- a/kernel/time/time.c
-> +++ b/kernel/time/time.c
-> @@ -137,7 +137,7 @@ SYSCALL_DEFINE1(stime32, old_time32_t __user *, tptr)
->  #endif /* __ARCH_WANT_SYS_TIME32 */
->  #endif
->  
-> -SYSCALL_DEFINE2(gettimeofday, struct timeval __user *, tv,
-> +SYSCALL_DEFINE2(gettimeofday, struct __kernel_old_timeval __user *, tv,
->  		struct timezone __user *, tz)
->  {
->  	if (likely(tv != NULL)) {
-> 
+I added such support to the LRNG.
+
+Thank you for your suggestion.
+>=20
+> --
+> Alexander E. Patrakov
 
 
+Ciao
+Stephan
 
 
