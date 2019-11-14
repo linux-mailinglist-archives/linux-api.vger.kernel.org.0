@@ -2,24 +2,37 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A7D53FC85D
-	for <lists+linux-api@lfdr.de>; Thu, 14 Nov 2019 15:05:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B9B3FC900
+	for <lists+linux-api@lfdr.de>; Thu, 14 Nov 2019 15:35:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726958AbfKNOFO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 14 Nov 2019 09:05:14 -0500
-Received: from Galois.linutronix.de ([193.142.43.55]:40734 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726327AbfKNOFO (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 14 Nov 2019 09:05:14 -0500
-Received: from [5.158.153.52] (helo=nanos.tec.linutronix.de)
-        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <tglx@linutronix.de>)
-        id 1iVFjv-0003mN-UV; Thu, 14 Nov 2019 15:04:52 +0100
-Date:   Thu, 14 Nov 2019 15:04:51 +0100 (CET)
-From:   Thomas Gleixner <tglx@linutronix.de>
-To:     Arnd Bergmann <arnd@arndb.de>
-cc:     y2038 Mailman List <y2038@lists.linaro.org>,
+        id S1726505AbfKNOfz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 14 Nov 2019 09:35:55 -0500
+Received: from mout.kundenserver.de ([217.72.192.75]:51003 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726214AbfKNOfz (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 14 Nov 2019 09:35:55 -0500
+Received: from mail-qv1-f47.google.com ([209.85.219.47]) by
+ mrelayeu.kundenserver.de (mreue108 [212.227.15.145]) with ESMTPSA (Nemesis)
+ id 1MUooJ-1iM5H61Mw5-00QnXD; Thu, 14 Nov 2019 15:35:53 +0100
+Received: by mail-qv1-f47.google.com with SMTP id i3so2409652qvv.7;
+        Thu, 14 Nov 2019 06:35:53 -0800 (PST)
+X-Gm-Message-State: APjAAAX+3GU8M9fqYdTDoiy79ddpna94vkO4v+4uwR8vRos/yu7VMVRi
+        1xejSJoknQpHSEb+vHMrxZUzMQXEIy70XQVUGOU=
+X-Google-Smtp-Source: APXvYqycNsPx974oI5YnaYtZwuZKkGQIcudx7wCYaSZtCzlgdkMx+dpzCYGjmVzMcpznA11PUC6kjihXkR3/n0CKU+Y=
+X-Received: by 2002:a0c:a9cc:: with SMTP id c12mr8417384qvb.222.1573742152140;
+ Thu, 14 Nov 2019 06:35:52 -0800 (PST)
+MIME-Version: 1.0
+References: <20191108210236.1296047-1-arnd@arndb.de> <20191108211323.1806194-8-arnd@arndb.de>
+ <alpine.DEB.2.21.1911132250010.2507@nanos.tec.linutronix.de>
+ <CAK8P3a2bxDZVKgcJoa99wr3tDyYckQAdk2f=RnL4vTFPjm3tXQ@mail.gmail.com> <alpine.DEB.2.21.1911141457120.2507@nanos.tec.linutronix.de>
+In-Reply-To: <alpine.DEB.2.21.1911141457120.2507@nanos.tec.linutronix.de>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Thu, 14 Nov 2019 15:35:35 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a0qm1FW+mqcMvzyb8WVvqtF-POMpir+WVezEObaYLCCRg@mail.gmail.com>
+Message-ID: <CAK8P3a0qm1FW+mqcMvzyb8WVvqtF-POMpir+WVezEObaYLCCRg@mail.gmail.com>
+Subject: Re: [PATCH 17/23] y2038: time: avoid timespec usage in settimeofday()
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     y2038 Mailman List <y2038@lists.linaro.org>,
         John Stultz <john.stultz@linaro.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Stephen Boyd <sboyd@kernel.org>,
@@ -32,84 +45,52 @@ cc:     y2038 Mailman List <y2038@lists.linaro.org>,
         zhengbin <zhengbin13@huawei.com>,
         Li RongQing <lirongqing@baidu.com>,
         Linux API <linux-api@vger.kernel.org>
-Subject: Re: [PATCH 17/23] y2038: time: avoid timespec usage in
- settimeofday()
-In-Reply-To: <CAK8P3a2bxDZVKgcJoa99wr3tDyYckQAdk2f=RnL4vTFPjm3tXQ@mail.gmail.com>
-Message-ID: <alpine.DEB.2.21.1911141457120.2507@nanos.tec.linutronix.de>
-References: <20191108210236.1296047-1-arnd@arndb.de> <20191108211323.1806194-8-arnd@arndb.de> <alpine.DEB.2.21.1911132250010.2507@nanos.tec.linutronix.de> <CAK8P3a2bxDZVKgcJoa99wr3tDyYckQAdk2f=RnL4vTFPjm3tXQ@mail.gmail.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:vTkO2UihZATd4ascmfM7HonFINA46Gzd02p6oqajIizANs0ziaL
+ KtqO4Tr5vyNzSsO1CL/z8dQ1ub0D/ueSJN/XEBD9OEyoW6UdcVp1TOwWVAfSZMHULDvJ4y2
+ t5wXcHsW3YfPES8YAdelta7112ZaW3sP5sSdKAtV49CpJIwhlbYWBsRkZ1uWJO6JTuxvBqE
+ ZIjezZoOMguSfJcCzF8bw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:XTYDQS696YA=:gcAS4B6hlhDgUrklpBe86A
+ D3lF/rocGAFmA4bDcRbxZx0u9hJ2osrQFbt1xvySBTcDYBzwR33KyVugER2DQs6WzvlI+6OER
+ 9lF0x+Vxx7whyxhie5ia/abKfzK5ZUMrwiiaFYQX8dp85q/Axxkylku7L+UuWxwvjbQStV+n1
+ VTaEUZe5tBPFHv3h/vKDMGzaIrnW5c4L/YT+XN1Qr59r66iTr/H+PURV6ANzCYm8JSmEotAXF
+ EBhqNtDZDhdXVRWe40XtmgsE+36O3ao9Z4FDGv2v5wOAkJ128eb4zJXVD8Tn7pLicjc2SqINH
+ Fyobq/djuaeKbxqOqTaVLY2mMDyIXHZ8c4tykmmhjfJyeHneqE4vNSE5/TZl+pbZ0P6FNpTqt
+ VQVJ0TccDgH3TsQCa7nArwqpJqEvBullHlooj6dX9LUGgSA1gB4ioS69BOAcmdwwAtf5BeLDe
+ RCSRqFDITAit1AwZ54fAp1g9kZRD25yVe0Sak4JJ/yTR4qpi7uHkfIMUo4glStQI1wPXdzxcb
+ goDWOEfu9zAaufZMMS6boTjYE2HdXSWcaUA/k9F/JUU9HepYWCF1y4/1OHuTBfCsO02iHuKO7
+ wxodFE4Z5Ktt/xS7brl0gIzXcp6IKEkRUtKWZxGSH+4Tscv6vhKuYYZDcGGMg+QjwAPQpMlpB
+ 5SEVfvXqXJ027xJXW3LMBv20hWpr3ZJqrSbPZnnupn5nYPPI05n9mbUcnIwBm9aPzEaZXlTfc
+ ok6cBVgzfiLRHL8e1vPwvSFkkZogMi7JcSCat74dBcBAz7B5BRy9lALZ1AOcT8yudT54bOn71
+ L19dPz2qY0WSN9oYE1kG0ARcAtBSvTHG7STEbv4iLZPIOo3WYY1dl5cMsKtpeZei6EqImz1ft
+ 9PCTjFdZRm9uByH2p2TA==
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, 14 Nov 2019, Arnd Bergmann wrote:
-> On Wed, Nov 13, 2019 at 10:53 PM Thomas Gleixner <tglx@linutronix.de> wrote:
+On Thu, Nov 14, 2019 at 3:04 PM Thomas Gleixner <tglx@linutronix.de> wrote:
+> On Thu, 14 Nov 2019, Arnd Bergmann wrote:
+> > On Wed, Nov 13, 2019 at 10:53 PM Thomas Gleixner <tglx@linutronix.de> wrote:
 > >
-> > On Fri, 8 Nov 2019, Arnd Bergmann wrote:
-> > > -SYSCALL_DEFINE2(settimeofday, struct timeval __user *, tv,
-> > > +SYSCALL_DEFINE2(settimeofday, struct __kernel_old_timeval __user *, tv,
-> > >               struct timezone __user *, tz)
-> > >  {
-> > >       struct timespec64 new_ts;
-> > > -     struct timeval user_tv;
-> > >       struct timezone new_tz;
-> > >
-> > >       if (tv) {
-> > > -             if (copy_from_user(&user_tv, tv, sizeof(*tv)))
-> > > +             if (get_user(new_ts.tv_sec, &tv->tv_sec) ||
-> > > +                 get_user(new_ts.tv_nsec, &tv->tv_usec))
-> > >                       return -EFAULT;
+> > My idea was to not duplicate the range check that is done
+> > in do_sys_settimeofday64() and again in do_settimeofday64:
 > >
-> > How is that supposed to be correct on a 32bit kernel?
-> 
-> I don't see the problem you are referring to. This should behave the
-> same way on a 32-bit kernel and on a 64-bit kernel, sign-extending
-> the tv_sec field, and copying the user tv_usec field into the
-> kernel tv_nsec, to be multiplied by 1000 a few lines later.
-
-You're right. Tired brain failed to see the implicit sign extension in
-get_user().
-
-> Am I missing something?
-
-No.
-
-> > > -             if (!timeval_valid(&user_tv))
-> > > +             if (tv->tv_usec > USEC_PER_SEC)
-> > >                       return -EINVAL;
+> >         if (!timespec64_valid_settod(ts))
+> >                 return -EINVAL;
 > >
-> > That's incomplete:
-> >
-> > static inline bool timeval_valid(const struct timeval *tv)
-> > {
-> >         /* Dates before 1970 are bogus */
-> >         if (tv->tv_sec < 0)
-> >                 return false;
-> >
-> >         /* Can't have more microseconds then a second */
-> >         if (tv->tv_usec < 0 || tv->tv_usec >= USEC_PER_SEC)
-> >                 return false;
-> >
-> >         return true;
-> > }
-> 
-> My idea was to not duplicate the range check that is done
-> in do_sys_settimeofday64() and again in do_settimeofday64:
-> 
->         if (!timespec64_valid_settod(ts))
->                 return -EINVAL;
-> 
-> The only check we should need in addition to this is to ensure
-> that passing an invalid tv_usec number doesn't become an
-> unexpectedly valid tv_nsec after the multiplication.
+> > The only check we should need in addition to this is to ensure
+> > that passing an invalid tv_usec number doesn't become an
+> > unexpectedly valid tv_nsec after the multiplication.
+>
+> Right, but please add a proper comment as you/we are going to scratch heads
+> 4 weeks from now when staring at that check and wondering why it is
+> incomplete.
 
-Right, but please add a proper comment as you/we are going to scratch heads
-4 weeks from now when staring at that check and wondering why it is
-incomplete.
+Ok, done. I had just uploaded the branch with the fixup for
+the __user pointer access in the same patch, but that version
+had introduced another typo. I hope the version I uploaded
+now has all known issues addressed for tomorrow's linux-next.
 
-Thanks,
-
-	tglx
+      Arnd
