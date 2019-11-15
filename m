@@ -2,145 +2,194 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 25C8BFDB57
-	for <lists+linux-api@lfdr.de>; Fri, 15 Nov 2019 11:27:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 37240FDEE9
+	for <lists+linux-api@lfdr.de>; Fri, 15 Nov 2019 14:29:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725829AbfKOK1r (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 15 Nov 2019 05:27:47 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:46328 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727510AbfKOK1r (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 15 Nov 2019 05:27:47 -0500
-Received: by mail-lj1-f195.google.com with SMTP id e9so10097813ljp.13
-        for <linux-api@vger.kernel.org>; Fri, 15 Nov 2019 02:27:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=s4HMcsPs8cjZ6BAAS4T6v8josVfK505Km0iWyRPGXIo=;
-        b=WxsOerESuXKK3YeifFDCXB72E5FRI1ynKWqNQ1i+YgEoRvsiBI5fcx1tVVElOymGyM
-         5ZNggZXK1DvE59Or5JkwwVbCLVe2X2GgngiGaPxMmfeOZ5k90kBYNE1yifKK58X+u8d2
-         DzdEULL2R/aE1TfEt53OnUgVZaCApLrpF7zYY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=s4HMcsPs8cjZ6BAAS4T6v8josVfK505Km0iWyRPGXIo=;
-        b=b8mIESq6ZdVzPHFd3EdaCWY1++l/76zS7Q+esHRqlZyekWjwMiB2u9JjVOEEYnumy/
-         86iUb3H3aHSRFZil4Ffri2xOO++NIuLYuFG7b0afbd/lti1IhytH0dDTdEkDIXaiZJ1u
-         1oMC5uStPB1S85jfpgi2lAnPMa57ttmEaopHwisyS/dcOC4HWM2RpyFHa/UWQJN3UpQi
-         Q8kmSSDYiC5RzXgji+kvgaTIjE5J5RumcuPA/Kr7Lakmm7p/Bx68kSMNe0vv9kARs3HI
-         1YsQFaiR9LAo/foKKpFrJJkv9eajwlFRwM6yJfdTsAfTDmO3rfUx2qapsdSfyHttaXaR
-         d4MQ==
-X-Gm-Message-State: APjAAAVdgmQHfG3hYGgW7d8nPQHPJQvnD1OBWSirQ7HMHrFoA467wr8J
-        2BzEa0JV/aAa9abvNoQunKT/q8NHn8hwBhZll3U=
-X-Google-Smtp-Source: APXvYqycJQWJcX7oryo4kxovzNzZzRKngUCqSR34tt6HBVqlZROmp7cx+h4vlIJdhrF+Aeqbx+g93Q==
-X-Received: by 2002:a2e:9712:: with SMTP id r18mr10860051lji.12.1573813664844;
-        Fri, 15 Nov 2019 02:27:44 -0800 (PST)
-Received: from [172.16.11.28] ([81.216.59.226])
-        by smtp.gmail.com with ESMTPSA id f5sm3576761ljn.24.2019.11.15.02.27.41
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 15 Nov 2019 02:27:43 -0800 (PST)
-Subject: Re: [PATCH 17/23] y2038: time: avoid timespec usage in settimeofday()
-To:     Arnd Bergmann <arnd@arndb.de>, Abel Vesa <abelvesa@linux.com>
-Cc:     y2038 Mailman List <y2038@lists.linaro.org>,
-        John Stultz <john.stultz@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        David Howells <dhowells@redhat.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Deepa Dinamani <deepa.kernel@gmail.com>,
+        id S1727423AbfKON3D (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 15 Nov 2019 08:29:03 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:47066 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727314AbfKON3D (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 15 Nov 2019 08:29:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1573824542;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Mks2DjWdpnukmwwEXVk82toAm3agWoayoydTXhkFsfg=;
+        b=flnZk33ocQ28HZ4XDL3qAGJ72dDwRt496HveaZUWJ6MUYUP9sUPhz179yxFxQbmbQNeVYp
+        xXi7UNXLrDxpeRYujxgpvPsrmM5ZWGXkajdGa4kqUD8Adg1tZnG9ADspoSMW6Zx5Hsxl0P
+        MQHD5J9aVF5k7wWhBqGeDTNswLMR79Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-278-HPOfJgVkOrK1lyjxuhbP-w-1; Fri, 15 Nov 2019 08:28:58 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E6BA18B5F8A;
+        Fri, 15 Nov 2019 13:28:56 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-120-161.rdu2.redhat.com [10.10.120.161])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id E61D95F900;
+        Fri, 15 Nov 2019 13:28:52 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <20191110031348.GE29418@shao2-debian>
+References: <20191110031348.GE29418@shao2-debian>
+To:     kernel test robot <lkp@intel.com>
+Cc:     dhowells@redhat.com, torvalds@linux-foundation.org,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        nicolas.dichtel@6wind.com, raven@themaw.net,
         Christian Brauner <christian@brauner.io>,
-        Jens Axboe <axboe@kernel.dk>, Ingo Molnar <mingo@kernel.org>,
-        Corey Minyard <cminyard@mvista.com>,
-        zhengbin <zhengbin13@huawei.com>,
-        Li RongQing <lirongqing@baidu.com>,
-        Linux API <linux-api@vger.kernel.org>
-References: <20191108210236.1296047-1-arnd@arndb.de>
- <20191108211323.1806194-8-arnd@arndb.de> <20191114230127.GA3580@ryzen.lan>
- <CAK8P3a3jn8GcedX=HaTFiPY+fyHPoyVUnpcX19nMZqmuUA1RzA@mail.gmail.com>
-From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Message-ID: <73a56955-552a-3a95-a410-3064401913f7@rasmusvillemoes.dk>
-Date:   Fri, 15 Nov 2019 11:27:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-security-module@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org, lkp@lists.01.org
+Subject: Re: [pipe] d60337eff1: BUG:kernel_NULL_pointer_dereference,address
 MIME-Version: 1.0
-In-Reply-To: <CAK8P3a3jn8GcedX=HaTFiPY+fyHPoyVUnpcX19nMZqmuUA1RzA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-ID: <9278.1573824532.1@warthog.procyon.org.uk>
+Date:   Fri, 15 Nov 2019 13:28:52 +0000
+Message-ID: <9279.1573824532@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: HPOfJgVkOrK1lyjxuhbP-w-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 15/11/2019 08.58, Arnd Bergmann wrote:
-> On Fri, Nov 15, 2019 at 12:01 AM Abel Vesa <abelvesa@linux.com> wrote:
->>
->> On 19-11-08 22:12:16, Arnd Bergmann wrote:
->>> The compat_get_timeval() and timeval_valid() interfaces
->>> are deprecated and getting removed along with the definition
->>> of struct timeval itself.
->>>
->>> Change the two implementations of the settimeofday()
->>> system call to open-code these helpers and completely
->>> avoid references to timeval.
->>>
-> 
-> I'm not sure how we get to the RCU stall, but this is almost certainly another
-> symptom of a typo I had introduced in the patch, which others have also
-> reported. This is the the fix in today's linux-next:
-> 
-> --- a/kernel/time/time.c
-> +++ b/kernel/time/time.c
-> @@ -207,7 +207,7 @@ SYSCALL_DEFINE2(settimeofday, struct
-> __kernel_old_timeval __user *, tv,
->                     get_user(new_ts.tv_nsec, &tv->tv_usec))
->                         return -EFAULT;
-> 
-> -               if (tv->tv_usec > USEC_PER_SEC)
-> +               if (new_ts->tv_usec > USEC_PER_SEC)
->                         return -EINVAL;
+kernel test robot <lkp@intel.com> wrote:
 
-Hopefully not :)
+> [    9.423019] BUG: kernel NULL pointer dereference, address: 00000000000=
+00008
+> [    9.425646] #PF: supervisor read access in kernel mode
+> [    9.427714] #PF: error_code(0x0000) - not-present page
+> [    9.429851] PGD 80000001fb937067 P4D 80000001fb937067 PUD 1739e1067 PM=
+D 0=20
+> [    9.432468] Oops: 0000 [#1] SMP PTI
+> [    9.434064] CPU: 0 PID: 178 Comm: cat Not tainted 5.4.0-rc5-00353-gd60=
+337eff18a3 #1
+> [    9.437139] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIO=
+S 1.10.2-1 04/01/2014
+> [    9.440439] RIP: 0010:iov_iter_get_pages_alloc+0x2a8/0x400
 
->                 new_ts.tv_nsec *= NSEC_PER_USEC;
+Can you tell me if the following change fixes it for you?
 
-So the actual patch in next-20191115 does
+--- a/lib/iov_iter.c
++++ b/lib/iov_iter.c
+@@ -404,7 +404,7 @@ static size_t copy_page_to_iter_pipe(struct page *page,=
+ size_t offset, size_t by
+ =09buf->offset =3D offset;
+ =09buf->len =3D bytes;
+=20
+-=09pipe->head =3D i_head;
++=09pipe->head =3D i_head + 1;
+ =09i->iov_offset =3D offset + bytes;
+ =09i->head =3D i_head;
+ out:
 
--               if (copy_from_user(&user_tv, tv, sizeof(*tv)))
-+               if (get_user(new_ts.tv_sec, &tv->tv_sec) ||
-+                   get_user(new_ts.tv_nsec, &tv->tv_usec))
-                        return -EFAULT;
+Attached is a test program that can induce some a bug in
+copy_page_to_iter_pipe() where I forgot to increment the new head when
+assigning it to pipe->head.
 
--               if (!timeval_valid(&user_tv))
-+               if (new_ts.tv_nsec > USEC_PER_SEC)
-                        return -EINVAL;
+David
+---
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <err.h>
+#include <sys/wait.h>
 
--               new_ts.tv_sec = user_tv.tv_sec;
--               new_ts.tv_nsec = user_tv.tv_usec * NSEC_PER_USEC;
-+               new_ts.tv_nsec *= NSEC_PER_USEC;
+static char buf[256 * 1024] __attribute__((aligned(512)));
+static char *filename;
+static int pipe_wfd =3D -1;
 
-But removing the "user value is < 0" check, relying on the timespec
-value being rejected later, is wrong: 1000=8*125. Multiplying by 8
-always gives a value with the low three bits clear, multiplying by 125
-is reversible. So you can take any target value with the three low bits
-clear, logic shift right by 3, multiply by 0x1cac083126e978d5 , and flip
-the top three bits as you wish to generate 8 pre-images of that target
-value. Four of those will be negative. A trivial example is 0x80..000
-(aka LONG_MIN) and its cousins 0xa0..000, 0xc0..000, 0xe0..000 which all
-become 0 and thus accepted after multiplying by NSEC_PER_USEC. But also
--858989233 (or -3689348814741906097 if long is 64 bit) become 4226200
-which isn't even a multiple of 1000 - there's 500M examples to choose
-from :)
+static void cleanup(void)
+{
+=09close(pipe_wfd);
+}
 
-I'm pretty sure it doesn't generate worse code, gcc is smart enough to
-compile "foo > BAR || foo < 0" as if it was written "(unsigned version
-of foo)foo > BAR". And while a value of USEC_PER_SEC itself will not
-overflow and then be rejeted because the real comparison done later is
-">= NSEC_PER_SEC", I think it's clearer to say "foo >= USEC_PER_SEC ||
-foo < 0) just so the same pattern is used.
+static void cleanup_child(void)
+{
+=09int w;
+=09wait(&w);
+}
 
-Rasmus
+int child(int fd)
+{
+=09ssize_t r;
+
+=09do {
+=09=09r =3D read(fd, buf, 256 * 1024);
+=09=09if (r =3D=3D -1)
+=09=09=09err(1, "read");
+=09} while (r !=3D 0);
+
+=09if (close(fd) =3D=3D -1)
+=09=09err(1, "close");
+
+=09return 0;
+}
+
+int main(int argc, char **argv)
+{
+=09ssize_t n;
+=09loff_t offset;
+=09size_t len;
+=09pid_t pid;
+=09int fd, pfd[2];
+
+=09if (argc !=3D 2) {
+=09=09fprintf(stderr, "Format: %s <file>\n", argv[1]);
+=09=09exit(2);
+=09}
+
+=09filename =3D argv[1];
+
+=09if (pipe(pfd) =3D=3D -1)
+=09=09err(1, "pipe");
+=09pipe_wfd =3D pfd[1];
+
+=09pid =3D fork();
+=09switch (pid) {
+=09case -1:
+=09=09err(1, "fork");
+=09case 0:
+=09=09close(pfd[1]);
+=09=09return child(pfd[0]);
+=09default:
+=09=09close(pfd[0]);
+=09=09atexit(cleanup_child);
+=09=09break;
+=09}
+
+=09fd =3D open(filename, O_RDONLY);
+=09if (fd =3D=3D -1)
+=09=09err(1, "%s", filename);
+
+=09atexit(cleanup);
+
+=09len =3D 256 * 1024;
+=09offset =3D 0;
+=09do {
+=09=09n =3D splice(fd, &offset, pfd[1], NULL, 256 * 1024, 0);
+=09=09if (n =3D=3D -1)
+=09=09=09err(1, "splice");
+=09} while (len -=3D n, len > 0);
+
+=09if (close(pfd[1]) =3D=3D -1)
+=09=09err(1, "close/p");
+=09if (close(fd) =3D=3D -1)
+=09=09err(1, "close/f");
+=09return 0;
+}
+
