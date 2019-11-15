@@ -2,86 +2,138 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B6F4EFE01C
-	for <lists+linux-api@lfdr.de>; Fri, 15 Nov 2019 15:31:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F7BDFE0FE
+	for <lists+linux-api@lfdr.de>; Fri, 15 Nov 2019 16:16:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727380AbfKOOby (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 15 Nov 2019 09:31:54 -0500
-Received: from merlin.infradead.org ([205.233.59.134]:32832 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727619AbfKOOby (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 15 Nov 2019 09:31:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=lFf6dMuZ+Z677Mu+atmNfBMTjTNBdV46hR58S1n03Bw=; b=fLdav0zx2sYSW0v3s7tI6JqhI
-        i7d9/vr4rYSEvqt/p7lCLO5nk4FjdEP/waWiqJFTEs4e7A3brAzpOhscHMxVCEEHx8WDQaY2fd8Gr
-        GK3TZyjntH4NZYVDHPPKRUN+AsgdOJw2Cm2ZA2fsSg2yhR1F8LWGZb3c8HNAHerseKwJPUt366auU
-        yXVDObbWRAX2R2xTnSjp74xVKH4/hcGL9VqcxEzgIIACyD2Q8xu6GqD9a9uiaEDpt8LXrHH8EkZVT
-        0q5wDIWmPdE6CFeLG/2Xak2uIEe2UlAm65b4AUoKrm1vQ3tMwtkUeiJT21GYinhobMjPfO3WOy2ow
-        IjCWf0kTQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iVcd2-0000Es-S4; Fri, 15 Nov 2019 14:31:17 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 2EA5D304637;
-        Fri, 15 Nov 2019 15:30:06 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 52A882B12E7AC; Fri, 15 Nov 2019 15:31:14 +0100 (CET)
-Date:   Fri, 15 Nov 2019 15:31:14 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Tom Lendacky <thomas.lendacky@amd.com>
-Cc:     "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        Mike Rapoport <rppt@linux.ibm.com>
-Subject: Re: AMD TLB errata, (Was: [PATCH RFC] mm: add MAP_EXCLUSIVE to
- create exclusive user mappings)
-Message-ID: <20191115143114.GN4131@hirez.programming.kicks-ass.net>
-References: <1572171452-7958-2-git-send-email-rppt@kernel.org>
- <20191028123124.ogkk5ogjlamvwc2s@box>
- <20191028130018.GA7192@rapoport-lnx>
- <20191028131623.zwuwguhm4v4s5imh@box>
- <CAA9_cmd7f2y2AAT6646S=tco3yfyLgCAC4Qp=1iTQaJqrQcOwQ@mail.gmail.com>
- <20191029064318.s4n4gidlfjun3d47@box>
- <20191029085602.GI4114@hirez.programming.kicks-ass.net>
- <20191029110024.yjytp22lhd2vekrv@box>
- <20191029123949.GL4114@hirez.programming.kicks-ass.net>
- <1da1b025-cabc-6f04-bde5-e50830d1ecf0@amd.com>
+        id S1727423AbfKOPQ3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 15 Nov 2019 10:16:29 -0500
+Received: from UCOL19PA34.eemsg.mail.mil ([214.24.24.194]:53410 "EHLO
+        UCOL19PA34.eemsg.mail.mil" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727429AbfKOPQ3 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 15 Nov 2019 10:16:29 -0500
+X-Greylist: delayed 425 seconds by postgrey-1.27 at vger.kernel.org; Fri, 15 Nov 2019 10:16:28 EST
+X-EEMSG-check-017: 50107106|UCOL19PA34_ESA_OUT01.csd.disa.mil
+X-IronPort-AV: E=Sophos;i="5.68,308,1569283200"; 
+   d="scan'208";a="50107106"
+Received: from emsm-gh1-uea10.ncsc.mil ([214.29.60.2])
+  by UCOL19PA34.eemsg.mail.mil with ESMTP/TLS/DHE-RSA-AES256-SHA256; 15 Nov 2019 15:09:22 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tycho.nsa.gov; i=@tycho.nsa.gov; q=dns/txt;
+  s=tycho.nsa.gov; t=1573830562; x=1605366562;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=RMViJYBDi7J5beytVgpU31xX1GEQlzjwCwrjAlauyyY=;
+  b=bAbQI9kcOZetqxMV9K4Dg7Rnkw/uicYodk00Gb5CVAU13oVOxlSQe6RU
+   /yCgL9KD+T2Ui6d1CLoYogtYU+JPPv01rjpfLUS66XYHHAti9kqgpGGVT
+   9dFXZHjo/v2dMIhPbkvZ3s/SPqGVE6fLZbgnp8qM4goBwDN7K0en9VubF
+   lWoa/KFQWjm9fbOxJdicfVwWqzz/fifjlhklM+O5UWXFnuTEHxFuEyDGb
+   SZcdUBS1yNh2g3Eqnw1WTys8oPhNqgDXxAqc9MVL5C+SGbQwy4L/BgCi3
+   Q2fLGFb1q+iLQlx0Nzko5Sm8XpkDqIL2srlbXXn/VZz/RmwtYtwdvMUFX
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.68,308,1569283200"; 
+   d="scan'208";a="30153948"
+IronPort-PHdr: =?us-ascii?q?9a23=3At7fe9hYTzFzWu8AFvTC/vdT/LSx+4OfEezUN45?=
+ =?us-ascii?q?9isYplN5qZps65bR7h7PlgxGXEQZ/co6odzbaP6Oa5AjFLvs/JmUtBWaQEbw?=
+ =?us-ascii?q?UCh8QSkl5oK+++Imq/EsTXaTcnFt9JTl5v8iLzG0FUHMHjew+a+SXqvnYdFR?=
+ =?us-ascii?q?rlKAV6OPn+FJLMgMSrzeCy/IDYbxlViDanbr5+MRu7oR/MusQYgYZuJaQ8xg?=
+ =?us-ascii?q?bUqXZUZupawn9lK0iOlBjm/Mew+5Bj8yVUu/0/8sNLTLv3caclQ7FGFToqK2?=
+ =?us-ascii?q?866tHluhnFVguP+2ATUn4KnRpSAgjK9w/1U5HsuSbnrOV92S2aPcrrTbAoXD?=
+ =?us-ascii?q?mp8qlmRAP0hCoBKjU063/chNBug61HoRKhvx1/zJDSYIGJL/p1Y6fRccoHSW?=
+ =?us-ascii?q?ZdQspdUipMDY2mb4sLEuEPI+BWoYfgrFcKtBezCw2hCObpxzRVhHH5wLc63v?=
+ =?us-ascii?q?w8Hw/Y0gwuH9EAvnrao9r6NqgdTe+7wbLUzTjBdf5axSvx5YbKfx0nvPqCXa?=
+ =?us-ascii?q?hwcc3UyUQ3Cg3FkkufqZTlPzyL0OQGrnWV7+96WuKrj24otQFwqSWoy8c3l4?=
+ =?us-ascii?q?bJnZkYykzE9CplwIY1Ise0SEhgYdG+CpdQuCaaN5VvT84kXmpmuz46x6UbtZ?=
+ =?us-ascii?q?O0cyUG0pQqywPFZ/CZfIWE/AjvWPuXLDxlnnxqYqi/iAy38UW4z+38UdS730?=
+ =?us-ascii?q?hSoypel9nMqmgN1xvO6sibUvd9/lmu2TKI1w3L9uFLO1o0lavGK5462LIwip?=
+ =?us-ascii?q?oSvljDHi/xgkn2irOZdl449eSy7uTnY7HmqoedN49ylA7+LrwjltGwDOk3KA?=
+ =?us-ascii?q?QDX3WX9f6i2LDs40H1WqhGguUzkqbDsZDaIcobprS+Aw9Qyosj8AuwDyy93d?=
+ =?us-ascii?q?QEnXgIMFJFeBWdg4jvIFHBOur0Dfi4g1SyiDtr3ezJPqX9ApXRKXjOiKrucq?=
+ =?us-ascii?q?x760FAzwozyctS551TCrEGL/LzXlH+uMbEAR8+Ngy+2/znB8ll1oMCRWKPBb?=
+ =?us-ascii?q?eUMKfTsV+O++IuLPCAa5UNuDb8MPUl+fHugmEjmVMHfqmmw4EXaHamEfRiOU?=
+ =?us-ascii?q?mZZmDsgtgZG2cQogU+VPDqiEGFUTNLY3ayXqQ85iw0CY6/DofMWJqtgLqf0y?=
+ =?us-ascii?q?e/BZBWeG9GBU6WEXvydIWLRe0MaCSMLc9liDAEUqKhS4A53xG0qAD606ZnLv?=
+ =?us-ascii?q?bT+iAAsZLj09t16PPIlREy+jx0DtmS03uXQGxvkWMIQDg23K97oUNj0FuMza?=
+ =?us-ascii?q?94g/lAH9xJ+/xJShs6NYLbz+FiDdDyXAHBc8yGSFahRdWmDjUxQcwrz9ASZE?=
+ =?us-ascii?q?Z9Hs2ojgrf0CqyH78Vi7uLCYQy8qLbxHjxJ91wy3nB1KkmgFkmRtVAOXe6ia?=
+ =?us-ascii?q?548gjZH5TJnFmBl6a2aaQc2zbA9HuCzWqLuUFYTRRwUb/fUnEffUbWotP55k?=
+ =?us-ascii?q?TNT7+qF7srKBdOycmHKvgCVtq8oVxARfrncP/ZZ2uqkGa3AxvAkr+FaoHtf0?=
+ =?us-ascii?q?0S2yLSDEVCmAcWqzLOMQk4GzfkqnrfJCJhGEipYE729+R67nShQQt8ywCMcl?=
+ =?us-ascii?q?0k1Lev/BMRreKTRulV3b8eviol7TJuExL129XVBsGAqAttZqx0btQ671NKk2?=
+ =?us-ascii?q?neskg1OJqjB69lgVEafkJ8uEa9+Q9wD9B7jcUyrH4shDF3IKac3UIJIyiUxr?=
+ =?us-ascii?q?jsK7bXLS/05xnpZKnIjAKNmO2K87sCvaxr427ouxukQw97qCRq?=
+X-IPAS-Result: =?us-ascii?q?A2DbAACgvs5d/wHyM5BkGwEBAQEBAQEFAQEBEQEBAwMBA?=
+ =?us-ascii?q?QGBfoF0LIFBMiqEKY9bAQEBBoE2iWaRQwkBAQEBAQEBAQE0AQIBAYRAAoIjJ?=
+ =?us-ascii?q?DgTAg4BAQEEAQEBAQEFAwEBbIUVLoI7KQGCbQEFIxVBEAsOCgICJgICVwYBD?=
+ =?us-ascii?q?AYCAQGCXz+CUyWvWIEyhU6DO4FIgQ4ojBUYeIEHgTiCNjU+hB+DNoJeBJZYR?=
+ =?us-ascii?q?pcHgjSCN5MQBhuCPodoj2iOSJYihXcigVgrCAIYCCEPgydQERSRIY5dIwMwg?=
+ =?us-ascii?q?QUBAY4ggj8BAQ?=
+Received: from tarius.tycho.ncsc.mil ([144.51.242.1])
+  by EMSM-GH1-UEA10.NCSC.MIL with ESMTP; 15 Nov 2019 15:09:21 +0000
+Received: from moss-pluto.infosec.tycho.ncsc.mil (moss-pluto [192.168.25.131])
+        by tarius.tycho.ncsc.mil (8.14.4/8.14.4) with ESMTP id xAFF9KFM030008;
+        Fri, 15 Nov 2019 10:09:20 -0500
+Subject: Re: [PATCH 0/7] Harden userfaultfd
+To:     Daniel Colascione <dancol@google.com>, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org, lokeshgidra@google.com,
+        nnk@google.com
+Cc:     nosh@google.com, timmurray@google.com
+References: <20191012191602.45649-1-dancol@google.com>
+From:   Stephen Smalley <sds@tycho.nsa.gov>
+Message-ID: <77f984c6-0da2-8e6f-e3f4-9dab2bfb6c79@tycho.nsa.gov>
+Date:   Fri, 15 Nov 2019 10:09:20 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1da1b025-cabc-6f04-bde5-e50830d1ecf0@amd.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191012191602.45649-1-dancol@google.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Nov 15, 2019 at 08:12:52AM -0600, Tom Lendacky wrote:
-> I talked with some of the hardware folks and if you maintain the same bits
-> in the large and small pages (aside from the large page bit) until the
-> flush, then the errata should not occur.
+On 10/12/19 3:15 PM, Daniel Colascione wrote:
+> Userfaultfd in unprivileged contexts could be potentially very
+> useful. We'd like to harden userfaultfd to make such unprivileged use
+> less risky. This patch series allows SELinux to manage userfaultfd
+> file descriptors (via a new flag, for compatibility with existing
+> code) and allows administrators to limit userfaultfd to servicing
+> user-mode faults, increasing the difficulty of using userfaultfd in
+> exploit chains invoking delaying kernel faults.
+> 
+> A new anon_inodes interface allows callers to opt into SELinux
+> management of anonymous file objects. In this mode, anon_inodes
+> creates new ephemeral inodes for anonymous file objects instead of
+> reusing a singleton dummy inode. A new LSM hook gives security modules
+> an opportunity to configure and veto these ephemeral inodes.
+> 
+> Existing anon_inodes users must opt into the new functionality.
+> 
+> Daniel Colascione (7):
+>    Add a new flags-accepting interface for anonymous inodes
+>    Add a concept of a "secure" anonymous file
+>    Add a UFFD_SECURE flag to the userfaultfd API.
+>    Teach SELinux about a new userfaultfd class
+>    Let userfaultfd opt out of handling kernel-mode faults
+>    Allow users to require UFFD_SECURE
+>    Add a new sysctl for limiting userfaultfd to user mode faults
+> 
+>   Documentation/admin-guide/sysctl/vm.rst | 19 +++++-
+>   fs/anon_inodes.c                        | 89 +++++++++++++++++--------
+>   fs/userfaultfd.c                        | 47 +++++++++++--
+>   include/linux/anon_inodes.h             | 27 ++++++--
+>   include/linux/lsm_hooks.h               |  8 +++
+>   include/linux/security.h                |  2 +
+>   include/linux/userfaultfd_k.h           |  3 +
+>   include/uapi/linux/userfaultfd.h        | 14 ++++
+>   kernel/sysctl.c                         |  9 +++
+>   security/security.c                     |  8 +++
+>   security/selinux/hooks.c                | 68 +++++++++++++++++++
+>   security/selinux/include/classmap.h     |  2 +
+>   12 files changed, 256 insertions(+), 40 deletions(-)
 
-Excellent!
+Please, in the future, cc selinux@vger.kernel.org for patches that 
+modify SELinux.
 
-Thanks for digging that out Tom.
+
