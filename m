@@ -2,86 +2,85 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E971EFE1F3
-	for <lists+linux-api@lfdr.de>; Fri, 15 Nov 2019 16:49:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C95B5FE2A6
+	for <lists+linux-api@lfdr.de>; Fri, 15 Nov 2019 17:22:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727680AbfKOPtn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 15 Nov 2019 10:49:43 -0500
-Received: from mail-io1-f66.google.com ([209.85.166.66]:46259 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727588AbfKOPtm (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 15 Nov 2019 10:49:42 -0500
-Received: by mail-io1-f66.google.com with SMTP id i11so10865399iol.13
-        for <linux-api@vger.kernel.org>; Fri, 15 Nov 2019 07:49:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=X5NAAOrJ3bS32ihsXavVCESX6DNfXdWEE7aVqtLVIHM=;
-        b=T96mBsWswYjsm0w7ecYkWpV509ib/ulk9bHbI0Xwo0rzkePegh7rSfOcmzGbyf8vTc
-         lns/HOXyf4/6jOYDVIgZ/CZyIfN2m2y88qVdmXSABhNsP0MXDIRsHGSOOd7wWkwuGiQx
-         ehcoBpFXp6INIFq3jwmveina1L3fsWjpzHRhMvlhwo8OJ8Dy4xuFXwCrYZiL/Ja/dmiU
-         sEvBblBcC09ww5H/W1Li3rJXBc1TYjMn46kjeboNwYGUiqFeNnjz46iJxarBlBzUTpau
-         7EU4w1MkRxjhgPFrJ2/ipVqnuE4IawmENFYcW1JVUg9OFLrEKZvfb77T8+3XayPV4Zd+
-         KrHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=X5NAAOrJ3bS32ihsXavVCESX6DNfXdWEE7aVqtLVIHM=;
-        b=CBbXhHfKA4zawplTX84Kig8ZFGVSnTG63upacqJ48YgZkuka+lrgCehhqzgYsvAkgX
-         WdCbDlCodlzcl/rVqXhVKv2MRBRaLSRA81jf8rFbOIbSXUsbLLrxW860jb7BNCwBxOeV
-         gdG787V+UuEZgEXkzBepZqnOuWwbQHbsJ8MWmse4qPwKFPVdH994H+/7dat+4o9BOA1M
-         DCkO+S5Y/0GvB9/XrDbcRNmHweh12NouMdWn8PRC8ZH/EOZDMdmYTm2M07nQwtXxajhg
-         dBeCcjNf9zmzHjdMiPUHPDeirvpYsxi/ZTkTtu9CtY5KqphhwrQd7WpAspobOnmGrOsU
-         88vQ==
-X-Gm-Message-State: APjAAAWtfH2ZZiTDt7Z84YNkfKhlttBaZvJUdFXS40FGNBnMbb7frfXe
-        MrC0cEL9FIaNwT14N6e+Q4IK/US/hp9m8KN6Lg==
-X-Google-Smtp-Source: APXvYqxEj1beLI6zhjihT/lmX2Dk324PGcIr8veC5c+0F/PFQKT7AeNYgljOGh72OwNqCMMZvqGkvMbSAqCkDjgGkjg=
-X-Received: by 2002:a5e:8e02:: with SMTP id a2mr1343031ion.269.1573832982053;
- Fri, 15 Nov 2019 07:49:42 -0800 (PST)
+        id S1727540AbfKOQWi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 15 Nov 2019 11:22:38 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:28413 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727709AbfKOQWh (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 15 Nov 2019 11:22:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1573834956;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=CwUyebu0scckytmwM4Mxi9fLVUlAZpXNEMuEmf6DWjI=;
+        b=fEl2ZznSGZxRiETQOpkIOmxSSV5OTbc/GsSUpbQ4QWZTUNuiYjNjOcgWiGhhV7AwHK7bIK
+        UVJ6MAlNBQsTjfQiosWu3k3KNpS/kH/yBSiFhR+wQ1atP3331vIFXP3wVszW+m9SEo48IU
+        odb8JARv2yr4mE8tJrvOqxSZkIlUlV8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-339-hGixx7PgMDyNOgdOe7YA3g-1; Fri, 15 Nov 2019 11:22:33 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 860AB8048E3;
+        Fri, 15 Nov 2019 16:22:30 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-120-161.rdu2.redhat.com [10.10.120.161])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 5459210375C0;
+        Fri, 15 Nov 2019 16:22:26 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <9279.1573824532@warthog.procyon.org.uk>
+References: <9279.1573824532@warthog.procyon.org.uk> <20191110031348.GE29418@shao2-debian>
+To:     kernel test robot <lkp@intel.com>
+Cc:     dhowells@redhat.com, torvalds@linux-foundation.org,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        nicolas.dichtel@6wind.com, raven@themaw.net,
+        Christian Brauner <christian@brauner.io>,
+        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-security-module@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org, lkp@lists.01.org
+Subject: Re: [pipe] d60337eff1: BUG:kernel_NULL_pointer_dereference,address
 MIME-Version: 1.0
-Received: by 2002:a02:7749:0:0:0:0:0 with HTTP; Fri, 15 Nov 2019 07:49:41
- -0800 (PST)
-Reply-To: moneygram.1820@outlook.fr
-From:   "Ms.Mary Coster" <info.zennitbankplcnigerian@gmail.com>
-Date:   Fri, 15 Nov 2019 16:49:41 +0100
-Message-ID: <CABHzvrkUQbbmg0Gr7foD3OjAJiY7Fd37=SW3mU=fnOPOcOyNdQ@mail.gmail.com>
-Subject: Goodnews, I have deposited your transfer total amount US$4.8million
- Dollars with Money Gram this morning. we agreed you will be receiving it
- $5000.00 daily.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-ID: <6852.1573834946.1@warthog.procyon.org.uk>
+Date:   Fri, 15 Nov 2019 16:22:26 +0000
+Message-ID: <6853.1573834946@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: hGixx7PgMDyNOgdOe7YA3g-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Attn, Dear
-Goodnews, I have deposited your transfer total amount US$4.8million
-Dollars with Money Gram this morning. we agreed you will be receiving
-it $5000.00 daily.
-Contact Mr. John Dave Director, Money Gram to pick up your first Money
-Gram payment $5000.00 today.
-Contact Person; Mr. John Dave Director, Money Gram,International
-Remittance-Benin
-Email; moneygram.1820@outlook.fr
-Telephone; +229 62619517
-Please re-confirm your address to him once again such as listed below.
-1.Your Full Name..............................
-2.Address.........................
-3.Country....................
-4.Sex.........................................
-5.Your telephone numbers..........................
-6. Copy of your ID...........................
-This is to avoid sending your funds to wrong person, He is waiting to
-hear from you urgent today.
-Let me know once you pick up your transfer $5000.00 today.
-Finally, Note I have paid for the service fees, but only money will
-send to him is $90.00 transfer fee before you can pick up the transfer
-today.
-Ask, Mr. John Dave Director, Money Gram to give you direction where to
-send your transfer fee $90.00 only to Him Immediately so that you can
-pick up $5000.00 us dollars today.
-Thanks for undrstanding.
-Mary Coster
-m.coster@aol.com
+Actually, no, this is the fix:
+
+diff --git a/lib/iov_iter.c b/lib/iov_iter.c
+index 7006b5b2106d..be2fc5793ddd 100644
+--- a/lib/iov_iter.c
++++ b/lib/iov_iter.c
+@@ -537,7 +537,7 @@ static size_t push_pipe(struct iov_iter *i, size_t size=
+,
+ =09=09buf->ops =3D &default_pipe_buf_ops;
+ =09=09buf->page =3D page;
+ =09=09buf->offset =3D 0;
+-=09=09buf->len =3D max_t(ssize_t, left, PAGE_SIZE);
++=09=09buf->len =3D min_t(ssize_t, left, PAGE_SIZE);
+ =09=09left -=3D buf->len;
+ =09=09iter_head++;
+ =09=09pipe->head =3D iter_head;
+
+David
+
