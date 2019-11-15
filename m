@@ -2,194 +2,121 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 37240FDEE9
-	for <lists+linux-api@lfdr.de>; Fri, 15 Nov 2019 14:29:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ED449FDF56
+	for <lists+linux-api@lfdr.de>; Fri, 15 Nov 2019 14:51:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727423AbfKON3D (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 15 Nov 2019 08:29:03 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:47066 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727314AbfKON3D (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 15 Nov 2019 08:29:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1573824542;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Mks2DjWdpnukmwwEXVk82toAm3agWoayoydTXhkFsfg=;
-        b=flnZk33ocQ28HZ4XDL3qAGJ72dDwRt496HveaZUWJ6MUYUP9sUPhz179yxFxQbmbQNeVYp
-        xXi7UNXLrDxpeRYujxgpvPsrmM5ZWGXkajdGa4kqUD8Adg1tZnG9ADspoSMW6Zx5Hsxl0P
-        MQHD5J9aVF5k7wWhBqGeDTNswLMR79Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-278-HPOfJgVkOrK1lyjxuhbP-w-1; Fri, 15 Nov 2019 08:28:58 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E6BA18B5F8A;
-        Fri, 15 Nov 2019 13:28:56 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-120-161.rdu2.redhat.com [10.10.120.161])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id E61D95F900;
-        Fri, 15 Nov 2019 13:28:52 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <20191110031348.GE29418@shao2-debian>
-References: <20191110031348.GE29418@shao2-debian>
-To:     kernel test robot <lkp@intel.com>
-Cc:     dhowells@redhat.com, torvalds@linux-foundation.org,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        nicolas.dichtel@6wind.com, raven@themaw.net,
-        Christian Brauner <christian@brauner.io>,
-        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-security-module@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org, lkp@lists.01.org
-Subject: Re: [pipe] d60337eff1: BUG:kernel_NULL_pointer_dereference,address
+        id S1727380AbfKONvC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 15 Nov 2019 08:51:02 -0500
+Received: from mout.kundenserver.de ([212.227.126.134]:52799 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727411AbfKONvB (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 15 Nov 2019 08:51:01 -0500
+Received: from mail-qt1-f179.google.com ([209.85.160.179]) by
+ mrelayeu.kundenserver.de (mreue009 [212.227.15.129]) with ESMTPSA (Nemesis)
+ id 1Md6V1-1hw0GW2mzD-00aDvG; Fri, 15 Nov 2019 14:50:59 +0100
+Received: by mail-qt1-f179.google.com with SMTP id y10so10883521qto.3;
+        Fri, 15 Nov 2019 05:50:59 -0800 (PST)
+X-Gm-Message-State: APjAAAVi4jSzAlgflXq28TSpWwZP5YRJTQx97DJw/pD70gYTJ+JrsQvE
+        hILrZ4NikA3wHXEXSGiC2LddNcOytyz4kVEs7T0=
+X-Google-Smtp-Source: APXvYqySGzOlrZax7Nm6dMlXs7IcHnybF78ToMuOjZ0eVyxnfr5cLMelGHGOLaVZ8RVtRW9i6+ne+ZBli87v0F2PbJg=
+X-Received: by 2002:ac8:67d9:: with SMTP id r25mr13719843qtp.7.1573825858520;
+ Fri, 15 Nov 2019 05:50:58 -0800 (PST)
 MIME-Version: 1.0
-Content-ID: <9278.1573824532.1@warthog.procyon.org.uk>
-Date:   Fri, 15 Nov 2019 13:28:52 +0000
-Message-ID: <9279.1573824532@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: HPOfJgVkOrK1lyjxuhbP-w-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+References: <20191108210236.1296047-1-arnd@arndb.de> <20191108211323.1806194-8-arnd@arndb.de>
+ <20191114230127.GA3580@ryzen.lan> <CAK8P3a3jn8GcedX=HaTFiPY+fyHPoyVUnpcX19nMZqmuUA1RzA@mail.gmail.com>
+ <73a56955-552a-3a95-a410-3064401913f7@rasmusvillemoes.dk>
+In-Reply-To: <73a56955-552a-3a95-a410-3064401913f7@rasmusvillemoes.dk>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Fri, 15 Nov 2019 14:50:42 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a0KOVG7STctuPW9gzhCo_yR6uM82LohoQML8CcwQF68Xw@mail.gmail.com>
+Message-ID: <CAK8P3a0KOVG7STctuPW9gzhCo_yR6uM82LohoQML8CcwQF68Xw@mail.gmail.com>
+Subject: Re: [PATCH 17/23] y2038: time: avoid timespec usage in settimeofday()
+To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc:     Abel Vesa <abelvesa@linux.com>,
+        y2038 Mailman List <y2038@lists.linaro.org>,
+        John Stultz <john.stultz@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        David Howells <dhowells@redhat.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Deepa Dinamani <deepa.kernel@gmail.com>,
+        Christian Brauner <christian@brauner.io>,
+        Jens Axboe <axboe@kernel.dk>, Ingo Molnar <mingo@kernel.org>,
+        Corey Minyard <cminyard@mvista.com>,
+        zhengbin <zhengbin13@huawei.com>,
+        Li RongQing <lirongqing@baidu.com>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:jHB0x6fRsPnzpNFyb+1NJrilgD4CNqdaXZmVSaGhkkYSKMgAacB
+ V+LdUTBuGQ2GnZHO/m+/jU0kyr7k9XFUwgucqn8XwE9WJ/7JKz8cwV7Ys/P/3em/GFwg5tW
+ STwCk/uXxCstdV8eX3yHnSe5/VPoYoArG3NOcaBdMLmgwe+8sBPzLCt8rzhDsGJtcNg3oKu
+ a7ZIndIXEvAtiCNUAAYjw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:A+yImEslHZE=:G2GdYWswIMESMsn7k29FfK
+ wGYs5kFwkzYv9ACilyuXwIyC7e1YqsF5ldKqpzW4FDa1DYIUwYCQK4l3EK4KmvJB2mh3+7Ckj
+ bByj37HmEzOMNo5pYKM7GfpNZoewB3tgw/YiZvhbJ15vR2eMPdC2uS8E5qos23exLWQT5VNfb
+ 3jwkKsc20PLWOxpGSp7ewJ0sKKUBR7Reb45YBdpELpQUowr0uZMh6N6DFTxhivchMr7ZmmtWl
+ fCroTe/nZNngqhM55yzwYyF9xdJZYhSsbQm7QqJNXvXsqU6WFxJWnB7Ql5RFD+1x/fzHCWluw
+ D8JAv6cRcOWpWW26sbr92NhHG4BV6utvnyEs1x3g7E6R2k/Yg7kGbVRVNakla5ZyIuDtQF8C9
+ DoQNsoBhFrIesF6U1F02JI3FUScF7EoMBwveG1qlpAmJZl+mgbgHCdQ2zXNLu4P+sSMZe8P6H
+ 4Gg/hhtdvQfnfYJvAQsUZpUINggwOe4lJokxsbzU8CzU0iSy3BshqbcBWb23M3/NeSCVT3/6t
+ XsbFgnWjLouHCGvbgcOp6f15Ls/ztZgbujGXbVE0JcNk1eOhDxDNN4K/x6WS6HEdfMAnSZ+rp
+ s6n90hy5xYvi8LbXwMXpFBvpY9FRK0LzJdD6MWpJVoUyNiaBsP76tp18gMg09ioe33Lnkjdrm
+ 2il9/n2UWrzs96zLu6DmifSZNPeA9Rv7uqgydSWo1lJ0kopK+BBF2ZtQyO/O0b/KKN+QfE5CX
+ TagHs+vhe+JotVCcjGAeRC0x/htk+t6PWomxOjT217URXhzrfQvMBUNdkYwxcjEm9lxYQFjwG
+ zGPuYCRpGChvt1ReorUB8sWAMIvEvwlm/wHjGrOi4+MtAm6W5tdErgccZU8TvS59/D+JAp++z
+ WbfG4sXcc+4CthJl3OhA==
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-kernel test robot <lkp@intel.com> wrote:
+On Fri, Nov 15, 2019 at 11:27 AM Rasmus Villemoes
+<linux@rasmusvillemoes.dk> wrote:
+> On 15/11/2019 08.58, Arnd Bergmann wrote:
+> > On Fri, Nov 15, 2019 at 12:01 AM Abel Vesa <abelvesa@linux.com> wrote:
+> >>
+> > --- a/kernel/time/time.c
+> > +++ b/kernel/time/time.c
+> > @@ -207,7 +207,7 @@ SYSCALL_DEFINE2(settimeofday, struct
+> > __kernel_old_timeval __user *, tv,
+> >                     get_user(new_ts.tv_nsec, &tv->tv_usec))
+> >                         return -EFAULT;
+> >
+> > -               if (tv->tv_usec > USEC_PER_SEC)
+> > +               if (new_ts->tv_usec > USEC_PER_SEC)
+> >                         return -EINVAL;
+>
+> Hopefully not :)
 
-> [    9.423019] BUG: kernel NULL pointer dereference, address: 00000000000=
-00008
-> [    9.425646] #PF: supervisor read access in kernel mode
-> [    9.427714] #PF: error_code(0x0000) - not-present page
-> [    9.429851] PGD 80000001fb937067 P4D 80000001fb937067 PUD 1739e1067 PM=
-D 0=20
-> [    9.432468] Oops: 0000 [#1] SMP PTI
-> [    9.434064] CPU: 0 PID: 178 Comm: cat Not tainted 5.4.0-rc5-00353-gd60=
-337eff18a3 #1
-> [    9.437139] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIO=
-S 1.10.2-1 04/01/2014
-> [    9.440439] RIP: 0010:iov_iter_get_pages_alloc+0x2a8/0x400
+No, I misquoted from a fix that I had temporarily applied, not the
+version in linux-next.
 
-Can you tell me if the following change fixes it for you?
+>
+> >                 new_ts.tv_nsec *= NSEC_PER_USEC;
+>
+> So the actual patch in next-20191115 does
+>
+> -               if (copy_from_user(&user_tv, tv, sizeof(*tv)))
+> +               if (get_user(new_ts.tv_sec, &tv->tv_sec) ||
+> +                   get_user(new_ts.tv_nsec, &tv->tv_usec))
+>                         return -EFAULT;
+>
+> -               if (!timeval_valid(&user_tv))
+> +               if (new_ts.tv_nsec > USEC_PER_SEC)
+>                         return -EINVAL;
+>
+> -               new_ts.tv_sec = user_tv.tv_sec;
+> -               new_ts.tv_nsec = user_tv.tv_usec * NSEC_PER_USEC;
+> +               new_ts.tv_nsec *= NSEC_PER_USEC;
+>
+> But removing the "user value is < 0" check, relying on the timespec
+> value being rejected later, is wrong
 
---- a/lib/iov_iter.c
-+++ b/lib/iov_iter.c
-@@ -404,7 +404,7 @@ static size_t copy_page_to_iter_pipe(struct page *page,=
- size_t offset, size_t by
- =09buf->offset =3D offset;
- =09buf->len =3D bytes;
-=20
--=09pipe->head =3D i_head;
-+=09pipe->head =3D i_head + 1;
- =09i->iov_offset =3D offset + bytes;
- =09i->head =3D i_head;
- out:
+You are right of course, so many ways to get this one line wrong...
+Pushed more more update to the branch now.
 
-Attached is a test program that can induce some a bug in
-copy_page_to_iter_pipe() where I forgot to increment the new head when
-assigning it to pipe->head.
+Thanks for the careful review!
 
-David
----
-#define _GNU_SOURCE
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <err.h>
-#include <sys/wait.h>
-
-static char buf[256 * 1024] __attribute__((aligned(512)));
-static char *filename;
-static int pipe_wfd =3D -1;
-
-static void cleanup(void)
-{
-=09close(pipe_wfd);
-}
-
-static void cleanup_child(void)
-{
-=09int w;
-=09wait(&w);
-}
-
-int child(int fd)
-{
-=09ssize_t r;
-
-=09do {
-=09=09r =3D read(fd, buf, 256 * 1024);
-=09=09if (r =3D=3D -1)
-=09=09=09err(1, "read");
-=09} while (r !=3D 0);
-
-=09if (close(fd) =3D=3D -1)
-=09=09err(1, "close");
-
-=09return 0;
-}
-
-int main(int argc, char **argv)
-{
-=09ssize_t n;
-=09loff_t offset;
-=09size_t len;
-=09pid_t pid;
-=09int fd, pfd[2];
-
-=09if (argc !=3D 2) {
-=09=09fprintf(stderr, "Format: %s <file>\n", argv[1]);
-=09=09exit(2);
-=09}
-
-=09filename =3D argv[1];
-
-=09if (pipe(pfd) =3D=3D -1)
-=09=09err(1, "pipe");
-=09pipe_wfd =3D pfd[1];
-
-=09pid =3D fork();
-=09switch (pid) {
-=09case -1:
-=09=09err(1, "fork");
-=09case 0:
-=09=09close(pfd[1]);
-=09=09return child(pfd[0]);
-=09default:
-=09=09close(pfd[0]);
-=09=09atexit(cleanup_child);
-=09=09break;
-=09}
-
-=09fd =3D open(filename, O_RDONLY);
-=09if (fd =3D=3D -1)
-=09=09err(1, "%s", filename);
-
-=09atexit(cleanup);
-
-=09len =3D 256 * 1024;
-=09offset =3D 0;
-=09do {
-=09=09n =3D splice(fd, &offset, pfd[1], NULL, 256 * 1024, 0);
-=09=09if (n =3D=3D -1)
-=09=09=09err(1, "splice");
-=09} while (len -=3D n, len > 0);
-
-=09if (close(pfd[1]) =3D=3D -1)
-=09=09err(1, "close/p");
-=09if (close(fd) =3D=3D -1)
-=09=09err(1, "close/f");
-=09return 0;
-}
-
+        Arnd
