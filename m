@@ -2,65 +2,66 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 632F5FFB43
-	for <lists+linux-api@lfdr.de>; Sun, 17 Nov 2019 19:00:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A0EDFFB49
+	for <lists+linux-api@lfdr.de>; Sun, 17 Nov 2019 19:02:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727109AbfKQSA2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 17 Nov 2019 13:00:28 -0500
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:38390 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726047AbfKQSA1 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 17 Nov 2019 13:00:27 -0500
-Received: by mail-wm1-f65.google.com with SMTP id z19so16284388wmk.3;
-        Sun, 17 Nov 2019 10:00:25 -0800 (PST)
+        id S1726082AbfKQSBW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 17 Nov 2019 13:01:22 -0500
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:43114 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726032AbfKQSBW (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 17 Nov 2019 13:01:22 -0500
+Received: by mail-wr1-f65.google.com with SMTP id n1so16752778wra.10;
+        Sun, 17 Nov 2019 10:01:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=cc:subject:to:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=F4NQooBVjrSqmCsMJWptKKpcPoY0ZrH3mGqS/PbNMyo=;
-        b=e+9/o/ZWKT0cU4m83XoyfZs75i6IFYMGA8WbEsk2yK8WOhCyUhqm5E0+LZ8JvuOLg/
-         G1IJAWAzudJW4i/rbJ5i/Vxpp3iTaCbfsnJLuji2a8kqJNs1zt+xqLTnzlxfErJsT57d
-         erwIUxx6HkQKIUiRqrM1hh7UJv3RkYpsaWstgVb+FsQicQPu7ViFDqySUSQ3gV+unrJe
-         DQUXj6YuP0ETMKed22McFFY2Hx/Ct/xv8IBHMYOQbvif1ENm5S1vCW4xMD4i64EfB6oB
-         sW0kVSlS2Le8ZH/d8mK/0flqlJ/ug0Etrgadasv7W5wq0g3Gd6wv4PKXvfTgZ/JpNnjf
-         LSlQ==
+        bh=4E8vsN26IckcMh6YLAd5L8bc5MBFn3KXLunbu3nT/YU=;
+        b=rkhRGlPp6TwA0Hn1ctzUc7zD+7NNkWZR0NH8F0YP8arEENdzjxy+bfODzlhuPM8WVU
+         YOhKFFjjiCMOos7f3P4LHeKidTPNze7vXb+W1doKI7W1+ajrem4Ozf2gpn80a/VjJ+ln
+         mo4nMOgWXT/PfqQAuRg161YqWHIezKzwhWD6xI05CxXLVMoj9fVdYdzif2X0mZJuk02d
+         FoqbPhTvtmX94LNiNCHX5RNr1+/KYm0Xd0H7ig1C06VSOgvhIvmmwjuAq2uUzgpZg3+D
+         Ge3qYKQscYyGPWJoqJJMobAhjQDJaIPAdHrDcnC0IotrtylHkdeCUAohXjUeu3koCEOh
+         4kww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:cc:subject:to:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=F4NQooBVjrSqmCsMJWptKKpcPoY0ZrH3mGqS/PbNMyo=;
-        b=JlQZ3BJy0tX5sBUPua6+2JoOYyFDr9mAqX3S/45tLqN8VJjlRVsQwSTdbhfC8P9DdM
-         5aUGc99xFAvfn+yHlOunxkV5kgTRV6EI9xaOwZHzwWtsilS4bcH2NjvOme88+uz9O+Bj
-         kBCqfU3vdZbEMmwFuwgYcJI8KjrjYfvVetdUo+7ritAfSN5sNoVad8kndJB5Qo2XP9p+
-         ICr3OrEThJWQxm8r479Ef5gmM77Vp1vMzbEEhFLRKMgYVL2OskADfypDO6B7fxjaMQLv
-         DUV6n2VuaAZsYL8clQKf/OO34kDnLv87qD3MVZbTlwW/9EOa1JS64r14PNxOptzrlGI9
-         fydA==
-X-Gm-Message-State: APjAAAWbGAkOEwe2SiK57BrcHPqMeQMFbBprCp7helY2YjtvMYgXFfHm
-        egfMAlb1Ko/9DGbPj/G2INQ=
-X-Google-Smtp-Source: APXvYqwIiM0ZFTq/2AyHVnk/4vTtfdVDSku8hzp50grw/lqRjOknUsLjUkAdU35z8Pooouy43oUkOA==
-X-Received: by 2002:a1c:28d4:: with SMTP id o203mr26025806wmo.147.1574013624416;
-        Sun, 17 Nov 2019 10:00:24 -0800 (PST)
+        bh=4E8vsN26IckcMh6YLAd5L8bc5MBFn3KXLunbu3nT/YU=;
+        b=LFNhX2zdiuBqGV9qI6CWfJnmwV6mqDOqYqw3kymRCcwq3fsz+aZ5dXUkfRZ+6xCi/l
+         CVPMduGI3uOdCD76Fj0OBDSpttFEHoEfG1honINyhUcxkmOfwqPSeso8BOKOBZkW4KmX
+         F+pbJnrOIs4MtIViuBWqTq604fuCPQhpGWSz4PutwOv1p0pe9tPMi+AGba31y3yaXpgr
+         p0denBhPUJo7kIiSSvpdSkOrhoJt0mfzjaLTwKOLERwZAHb6fI+z26fZ8+TtqcZcuoTV
+         3L/Ms6tnf9EGvDEziR63cpeyBqQJWQoCQZjSTvMVPnImA3/cMcIdG2AS+IpAVqVGgedy
+         /lGQ==
+X-Gm-Message-State: APjAAAUE5rVFdznzXEzsPGROD43agOdo0u/dltAZumzHPrpzk/vhFFRm
+        h8zNQLXMH1ka2DYm9VUx4pU=
+X-Google-Smtp-Source: APXvYqzqC+ofJW92NVIIwzF0GMAlaMsXhL5IgRD/u9ekuJiywWNkRstfaPdJLjS860EEEYKf8PO5lQ==
+X-Received: by 2002:adf:f20d:: with SMTP id p13mr24691953wro.325.1574013679908;
+        Sun, 17 Nov 2019 10:01:19 -0800 (PST)
 Received: from [192.168.178.53] (x5f752d31.dyn.telefonica.de. [95.117.45.49])
-        by smtp.gmail.com with ESMTPSA id z11sm23701517wrg.0.2019.11.17.10.00.23
+        by smtp.gmail.com with ESMTPSA id t187sm13327318wma.16.2019.11.17.10.01.18
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 17 Nov 2019 10:00:23 -0800 (PST)
+        Sun, 17 Nov 2019 10:01:18 -0800 (PST)
 Cc:     mtk.manpages@gmail.com, adrian@lisas.de, akpm@linux-foundation.org,
         arnd@arndb.de, avagin@gmail.com, christian.brauner@ubuntu.com,
         dhowells@redhat.com, fweimer@redhat.com, jannh@google.com,
         keescook@chromium.org, linux-api@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-man@vger.kernel.org,
         mingo@elte.hu, oleg@redhat.com, xemul@virtuozzo.com
-Subject: Re: [PATCH 1/3] clone.2: Fix typos
+Subject: Re: [PATCH 2/3] clone.2: Check for MAP_FAILED not NULL on mmap()
 To:     Christian Brauner <christian@brauner.io>
 References: <20191116114114.7066-1-christian@brauner.io>
+ <20191116114114.7066-2-christian@brauner.io>
 From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <0ef00041-9952-3dea-1d6b-2d14536764d3@gmail.com>
-Date:   Sun, 17 Nov 2019 19:00:20 +0100
+Message-ID: <e94e46a1-d852-f5df-352c-592d5e0e9c6a@gmail.com>
+Date:   Sun, 17 Nov 2019 19:01:18 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20191116114114.7066-1-christian@brauner.io>
+In-Reply-To: <20191116114114.7066-2-christian@brauner.io>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -71,8 +72,13 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 On 11/16/19 12:41 PM, Christian Brauner wrote:
 > From: Christian Brauner <christian.brauner@ubuntu.com>
+> 
+> If mmap() fails it will return MAP_FAILED which according to the manpage
+> is (void *)-1 not NULL.
 
-Thanks, Christian, 
+Sigh! Bad editing on my part.
+
+Thanks, Christian.
 
 Patch applied.
 
@@ -81,35 +87,25 @@ Cheers,
 Michael
 
 
-> Fix two spelling mistakes in manpage describing the clone{2,3}()
-> syscalls/syscall wrappers.
-> 
+
 > Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
 > ---
->  man2/clone.2 | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  man2/clone.2 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/man2/clone.2 b/man2/clone.2
-> index f67a60067..57a9eaba7 100644
+> index 57a9eaba7..faff2ada6 100644
 > --- a/man2/clone.2
 > +++ b/man2/clone.2
-> @@ -70,12 +70,12 @@ create a new ("child") process, in a manner similar to
->  .PP
->  By contrast with
->  .BR fork (2),
-> -these system cals provide more precise control over what pieces of execution
-> +these system calls provide more precise control over what pieces of execution
->  context are shared between the calling process and the child process.
->  For example, using these system calls, the caller can control whether
->  or not the two processes share the virtual address space,
->  the table of file descriptors, and the table of signal handlers.
-> -These system calls also allow the new child process to placed
-> +These system calls also allow the new child process to be placed
->  in separate
->  .BR namespaces (7).
->  .PP
-> 
-> base-commit: 91243dad42a7a62df73e3b1dfbb810adc1b8b654
+> @@ -1628,7 +1628,7 @@ main(int argc, char *argv[])
+>  
+>      stack = mmap(NULL, STACK_SIZE, PROT_READ | PROT_WRITE,
+>                   MAP_PRIVATE | MAP_ANONYMOUS | MAP_STACK, \-1, 0);
+> -    if (stack == NULL)
+> +    if (stack == MAP_FAILED)
+>          errExit("mmap");
+>  
+>      stackTop = stack + STACK_SIZE;  /* Assume stack grows downward */
 > 
 
 
