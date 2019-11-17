@@ -2,41 +2,40 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 17AA6FF8DD
-	for <lists+linux-api@lfdr.de>; Sun, 17 Nov 2019 12:12:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A07ABFF8F2
+	for <lists+linux-api@lfdr.de>; Sun, 17 Nov 2019 12:39:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726032AbfKQLMS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 17 Nov 2019 06:12:18 -0500
-Received: from mo4-p03-ob.smtp.rzone.de ([85.215.255.101]:34882 "EHLO
+        id S1726037AbfKQLip (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 17 Nov 2019 06:38:45 -0500
+Received: from mo4-p03-ob.smtp.rzone.de ([85.215.255.102]:19612 "EHLO
         mo4-p03-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725974AbfKQLMS (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 17 Nov 2019 06:12:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1573989134;
+        with ESMTP id S1726027AbfKQLip (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 17 Nov 2019 06:38:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1573990721;
         s=strato-dkim-0002; d=chronox.de;
         h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
         X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
-        bh=MT2mPjdD45S2F5oIRqRGfpRXIEr/oEzDuVVP6bvuysY=;
-        b=XYGEUR0I70hDP+Si0+//TM3DvsCZs8BveedNchYb+NiCRDeDTaXebHcnuGvQq/cJ/O
-        aiy2kz1B87gM+Ja3zlqie5cRm2DNt1fwh7j6m0il4RVZu5UrvBC5Qa/rW3LjZ/Rr7sQ8
-        WxvaBVOUpQjdXar++wQFnA1Gij4SXedW0DvSf4pMES8BxMj5V3lPeiXOPzQV+1EIbxdh
-        95pJvDh4U0NyX3IpkiVBtuUkiRwA5Xouqd0tHbuWWtTq/zYSsOoNqmpP7xNDu1v9Mi2f
-        jlPWX3S3afFP/i6U8mYjq4ZEQtZdPlZfSalkRpGo1mvH+tZNEcdjJMZ8TuSJOvG6CONP
-        DtWg==
+        bh=YqzTRKct9z9gla3oe9zMeXrMmZD+9Bx/RGc/dTtEL+I=;
+        b=ZFWs9y7EWsDsBHNY0NStjHd33PTuGywm722Ez8mcyoSbuwRGvCz3m8pWhL+/T4nRQn
+        s5EUQ0TCYE+loG2+GPIYy4kQdW4Obr10C+1+7fxR7lQUa68GxbxLYp/cGwNLCskxoBhM
+        FeQueWU/nACy0U4vZ4sWKav7oUYmO1uy7rDErgcFys7Wbt+N6/nwiDQvhFLCNP+4mOmr
+        GQJfYwzAcx+t4NJmDuhlcqa3UsTgNOFO54aXUL/nlDe6Ksui/tC7vFemejVsmADH1aoa
+        GvIUQ/BmcKz0mhR+7nccvpM5UT1jRqpzixHKuUy1GD6YQsyavUF1y8OoUSfIC9do1AmP
+        z0UA==
 X-RZG-AUTH: ":P2ERcEykfu11Y98lp/T7+hdri+uKZK8TKWEqNyiHySGSa9k9xmwdNnzHHXDbIvSfb0y2"
 X-RZG-CLASS-ID: mo00
 Received: from positron.chronox.de
         by smtp.strato.de (RZmta 44.29.0 DYNA|AUTH)
-        with ESMTPSA id N09a57vAHBB6VUM
+        with ESMTPSA id N09a57vAHBbgVWe
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve secp521r1 with 521 ECDH bits, eq. 15360 bits RSA))
         (Client did not present a certificate);
-        Sun, 17 Nov 2019 12:11:06 +0100 (CET)
+        Sun, 17 Nov 2019 12:37:42 +0100 (CET)
 From:   Stephan =?ISO-8859-1?Q?M=FCller?= <smueller@chronox.de>
-To:     Andy Lutomirski <luto@amacapital.net>
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
 Cc:     Arnd Bergmann <arnd@arndb.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-crypto@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
         linux-api@vger.kernel.org,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
         "Alexander E. Patrakov" <patrakov@gmail.com>,
         "Ahmed S. Darwish" <darwish.07@gmail.com>,
         "Theodore Y. Ts'o" <tytso@mit.edu>, Willy Tarreau <w@1wt.eu>,
@@ -54,73 +53,137 @@ Cc:     Arnd Bergmann <arnd@arndb.de>,
         Marcelo Henrique Cerri <marcelo.cerri@canonical.com>,
         Roman Drahtmueller <draht@schaltsekun.de>,
         Neil Horman <nhorman@redhat.com>
-Subject: Re: [PATCH v25 10/12] LRNG - add TRNG support
-Date:   Sun, 17 Nov 2019 12:10:58 +0100
-Message-ID: <3159012.PsEOTp9LqO@positron.chronox.de>
-In-Reply-To: <DDB907EA-3FCC-40C7-B55B-A84BC77FD7A1@amacapital.net>
-References: <5390778.VeFRgus4bQ@positron.chronox.de> <DDB907EA-3FCC-40C7-B55B-A84BC77FD7A1@amacapital.net>
+Subject: Re: [PATCH v25 03/12] LRNG - /proc interface
+Date:   Sun, 17 Nov 2019 12:37:42 +0100
+Message-ID: <2404102.WUYFDzPpWi@positron.chronox.de>
+In-Reply-To: <87k17z4cna.fsf@x220.int.ebiederm.org>
+References: <6157374.ptSnyUpaCn@positron.chronox.de> <2476454.l8LQlgn7Hv@positron.chronox.de> <87k17z4cna.fsf@x220.int.ebiederm.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="iso-8859-1"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Am Samstag, 16. November 2019, 17:09:09 CET schrieb Andy Lutomirski:
+Am Sonntag, 17. November 2019, 00:36:25 CET schrieb Eric W. Biederman:
 
-Hi Andy,
+Hi Eric,
 
-> > On Nov 16, 2019, at 1:40 AM, Stephan M=C3=BCller <smueller@chronox.de> =
-wrote:
-> >=20
-> > =EF=BB=BFThe True Random Number Generator (TRNG) provides a random numb=
-er
-> > generator with prediction resistance (SP800-90A terminology) or an NTG.1
-> > (AIS 31 terminology).
+> Stephan M=FCller <smueller@chronox.de> writes:
+> > The LRNG /proc interface provides the same files as the legacy
+> > /dev/random. These files behave identically. Yet, all files are
+> > documented at [1].
 >=20
-> ...
+> For someone who works in this area a lot this description is confusing.
 >=20
-> > The secondary DRNGs seed from the TRNG if it is present. In addition,
-> > the /dev/random device accesses the TRNG.
-> >=20
-> > If the TRNG is disabled, the secondary DRNGs seed from the entropy pool
-> > and /dev/random behaves like getrandom(2).
->=20
-> As mentioned before, I don=E2=80=99t like this API.  An application that,=
- for some
-> reason, needs a TRNG, should have an API by which it either gets a TRNG or
-> an error. Similarly, an application that wants cryptographically secure
-> random numbers efficiently should have an API that does that.  With your
-> design, /dev/random tries to cater to both use cases, but one of the use
-> cases fails depending on kernel config.
->=20
-> I think /dev/random should wait for enough entropy to initialize the syst=
-em
-> but should not block after that. A TRNG should have an entirely new API
-> that is better than /dev/random.
+> You are talking about sysctls not ordinary proc files.
 
-I apologize for the misunderstanding. I assumed we would introduce such /de=
-v/
-true_random at a later stage.
+Agreed and I will change the description accordingly.
+>=20
+> You don't have a call register_sysctl.  If you want your own
+> implementation of these sysctls that would seem to be the way to get
+> them.  Teach each implementation to register their own set of sysctls
+> if they are enabled.
 
-If you agree, I can certainly add /dev/true_random right now that links wit=
-h=20
-the TRNG and make /dev/random behave as discussed, i.e. behave exactly like=
+Agreed, I will do that.
+>=20
+> The entire structure of the code you are adding I have quite confusing,
+> and a bit messing.
+>=20
+> Why add a declaration of random_table in patch 1 and then delete that
+> declaration in patch 3?  Nothing uses that declaration until this point.
+
+This is only to ensure that patch 1 compiles. Without it, there would be a=
 =20
-getrandom(..., 0);
+dangling reference that is required by static struct ctl_table kern_table[].
 
-As this would introduce a new device file now, is there a special process t=
-hat=20
-I need to follow or do I need to copy? Which major/minor number should I us=
-e?
+As I was always under the impression that each patch should compile by itse=
+lf=20
+to support bisect, I added that empty declaration. Yet, patch 1 is never=20
+intended to live without patch 3. I only split patch 3 up is to aid code=20
+review by having as many individual patches as possible while still allowin=
+g=20
+them to compile.
+>=20
+> What is the point of adding an extern declaration just before you
+> declare the table itself?  As I understand the C language that achieves
+> nothing.  I understand that is what the existing code in
+> drivers/char/random.c does but that is equally buggy there.
 
-Looking into static const struct memdev devlist[] I see
+I totally agree and I was wondering here as well. But I simply was taking i=
+t=20
+as is.
 
-         [8] =3D { "random", 0666, &random_fops, 0 },
-         [9] =3D { "urandom", 0666, &urandom_fops, 0 },
+I am happy to clean this one up.
+>=20
+> I also don't understand why you don't modify the existing random
+> generator code into the form you want?  What is the point of a
+> side-by-side replacement?  Especially since only one of them can
+> be compiled into the kernel at the same time?
 
-Shall a true_random be added here with [10]?
+I was developing small patches for random.c since 2013, mostly cleanup=20
+patches. Unfortunately most of them were silently ignored. Some others were=
+=20
+silently taken but appeared two or three kernel releases later.
+
+Getting more architecture-invasive patches into the existing random.c code =
+is=20
+considered to be quite a problem considering this experience.
+
+Besides, the LRNG has quite a different architecture compared to the random=
+=2Ec.=20
+As the RNG is an important aspect of the kernel, I did not feel bold enough=
+ to=20
+simply replace the existing code which implies that there is no fallback. B=
+y=20
+allowing a side-by-side code base which is even deactivated by default, it=
+=20
+allows other researchers to analyze the mathematical aspects beyond the pur=
+e=20
+code while still having an implementation that provides a known and analyze=
+d=20
+entropy source.
+
+Also, considering other kernel components like memory allocators, I/O=20
+schedulers or even file systems, providing different architectures covering=
+=20
+similar problems (memory allocation, accessing a disk) with an entirely=20
+different architecture and thus implementation seems to be an appropriate=20
+solution.
+
+=46inally, I tried to keep code that has a similar functionality to the exi=
+sting=20
+random.c similar to allow a merge at a later stage. For example, the sysctl=
+s=20
+are identical, but internally use different variables.
+>=20
+> This build a replacement and then switch over seems like a recipe for
+> loosing the lessons of history because you are not making incremental
+> changes that can be clearly understood, reviewed and bisected.
+>=20
+> As I read your patchset until this change your code will fail to compile
+> in an ordinary configuration with proc enabled.  Have you even tested
+> compiling your patchset one patch at a time?
+
+Yes, it does compile with proc enabled with the warning that random_table i=
+s=20
+considered to contain one element.
+>=20
+> For me a great reorganization to impelment a better structure that fails
+> to have a good structure on the usual merits makes me dubious about the
+> entire thing.  As it can be a sign the author was pushing so hard to
+> make things work he stopped looking at problematic details.
+>=20
+> Dubious-by: "Eric W. Biederman" <ebiederm@xmission.com>
+>=20
+> Eric
+>=20
+> > +
+> > +extern struct ctl_table random_table[];
+> > +struct ctl_table random_table[] =3D {
+> > +	{
+
 
 Ciao
 Stephan
