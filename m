@@ -2,101 +2,92 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BF0F1009E3
-	for <lists+linux-api@lfdr.de>; Mon, 18 Nov 2019 18:04:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 27107100C36
+	for <lists+linux-api@lfdr.de>; Mon, 18 Nov 2019 20:31:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726874AbfKRREU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 18 Nov 2019 12:04:20 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:34490 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726716AbfKRRET (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 18 Nov 2019 12:04:19 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xAIGwxS9155920;
-        Mon, 18 Nov 2019 17:03:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references; s=corp-2019-08-05;
- bh=PTkoEEtcL3+nuIHWxsynGo3Qi7g5cwPRqx/QuAOHMmw=;
- b=DMdl7W9uC9bqWZ/epKz37dhIwooSf9lLNXdhJnsKb/u+bJ7zO6dXZIL52syfwpqlbGRK
- ImsbX6fBSuEV3IUFbeWi2UVJrS9wCncOBAGYJ/6QqiG5fJ2bHK7zxTCOyA98Io55YSc4
- dHDW1KVf9FtvbhqYNVhUOBkrl6Fd21SIlPP/N0AK1wXi2pDVQHRqJ8zH4NwpLKMP08qd
- ly6yLKUrtxVG/16AcSiVOQ3mrq5DzBH7OAI6I8A3sqR3t7AY9w3YRIKkAzXkhdicBtXb
- 1zRajWFLm/OIaO8zGwZ4lg9xcv1V3w3FwImA6X+SfjEV7OcKf6OaknOVSh1eh/GUphdE XA== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by userp2130.oracle.com with ESMTP id 2wa8hthmst-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 18 Nov 2019 17:03:48 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xAIGwbwK159204;
-        Mon, 18 Nov 2019 17:03:47 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by aserp3030.oracle.com with ESMTP id 2wbxm2tjtd-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 18 Nov 2019 17:03:47 +0000
-Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id xAIH3ksF022683;
-        Mon, 18 Nov 2019 17:03:47 GMT
-Received: from pp-ThinkCentre-M82.us.oracle.com (/10.132.95.199)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Mon, 18 Nov 2019 09:03:46 -0800
-From:   Prakash Sangappa <prakash.sangappa@oracle.com>
-To:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
-Cc:     ebiederm@xmission.com, tglx@linutronix.de, peterz@infradead.org,
-        serge@hallyn.com, prakash.sangappa@oracle.com
-Subject: [RESEND RFC PATCH 1/1] Selectively allow CAP_SYS_NICE capability inside user namespaces
-Date:   Mon, 18 Nov 2019 09:01:18 -0800
-Message-Id: <1574096478-11520-2-git-send-email-prakash.sangappa@oracle.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1574096478-11520-1-git-send-email-prakash.sangappa@oracle.com>
-References: <1574096478-11520-1-git-send-email-prakash.sangappa@oracle.com>
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9445 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=12 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1911140001 definitions=main-1911180149
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9445 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=4
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
- definitions=main-1911180149
+        id S1726568AbfKRTbX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 18 Nov 2019 14:31:23 -0500
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:44009 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726472AbfKRTbX (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 18 Nov 2019 14:31:23 -0500
+Received: by mail-oi1-f194.google.com with SMTP id l20so16401083oie.10
+        for <linux-api@vger.kernel.org>; Mon, 18 Nov 2019 11:31:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=lkip5tRvw12bpfehhEr6pH72dcrY21taqVrxtTzIpV4=;
+        b=K5edr+xedFq5I4V/ASDZBcAzez637Hy6MHbuKWYWMplzF7Q96rNQJihqBuir4XV1FC
+         bFEONPEMKWyPnaQZfdEVjnGHRw0gPHwA0Ll7tGFQQYu8bA75cXdCMZN/RWWmaf9xjOoo
+         Nu7nTA0vyhxsK8GdZ1PjZmr2wFC0OzYxaltsU8gmgABemah1g8Or1M+RgmIlSMiHtrIa
+         UGYBLBhpTsARKd0lf4PKdT6pdLOt8328tuV3E8nNHTrwcWJXRyPzOOvDrx1wg61zeGZQ
+         aZEyBbrjy6ZeR4S7NCuSpTElcWb270L1oZc4DQe734W0vHnVCWNgJS9J4vmPKHmhsaff
+         nWhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=lkip5tRvw12bpfehhEr6pH72dcrY21taqVrxtTzIpV4=;
+        b=etYgqnpyAYSu8wagMWT8mhVstiY5FEb5VyHaYYKqsN9BHZNS4NV1TXU06jcZ4Az08h
+         2zdfLwgQcpR7pqU0rN0W/WVpO3Wbjrt1OMsFUwPf4JWCemt+tUbnx3PzCNIEzWNhnyUE
+         vf9ko+paOSNJvGsSL5pYpG0hr3182rmlfyqKGxT5AQ9kkD+EXzznV87ZbKRAclDC4iYF
+         L0M5HMKrSIem+aLMbkUeaKiZ+aPVm+t24URALf5T2LGBvrTx0FNkzDaEJbdg5gdpI900
+         4xEMe95Hf2kOr+TFBgATswkIDDLiDDNRfq8efYiPmRLHVzhvDYIbdvUBDxm+7xA875NR
+         DriA==
+X-Gm-Message-State: APjAAAW2Kl53Kip/iPTWaJ1lGN7XCC83Dj14FS9nMvdAWkOZ/4ZNlv0C
+        m4ma4vdwqtlhIyjo3MUic26fNyBlgAuVrsz3y1n9Hg==
+X-Google-Smtp-Source: APXvYqwC/dQIewkL8jJpS8RkN+IxPo0rT4nHVms2uEMtgI/pTTWeyaTajuhRqtBB+9pL1h5bgMiSiXGPfbJQKyGgYN4=
+X-Received: by 2002:a05:6808:9a1:: with SMTP id e1mr494893oig.175.1574105480391;
+ Mon, 18 Nov 2019 11:31:20 -0800 (PST)
+MIME-Version: 1.0
+References: <1574096478-11520-1-git-send-email-prakash.sangappa@oracle.com> <1574096478-11520-2-git-send-email-prakash.sangappa@oracle.com>
+In-Reply-To: <1574096478-11520-2-git-send-email-prakash.sangappa@oracle.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Mon, 18 Nov 2019 20:30:54 +0100
+Message-ID: <CAG48ez1i9LUd2DPoP9na9OyqXDZVRJZQqBbS1H6Dz_h7mtJ=Mw@mail.gmail.com>
+Subject: Re: [RESEND RFC PATCH 1/1] Selectively allow CAP_SYS_NICE capability
+ inside user namespaces
+To:     Prakash Sangappa <prakash.sangappa@oracle.com>
+Cc:     kernel list <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Christian Brauner <christian@brauner.io>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Allow CAP_SYS_NICE to take effect for processes having effective uid of a
-root user from init namespace.
+On Mon, Nov 18, 2019 at 6:04 PM Prakash Sangappa
+<prakash.sangappa@oracle.com> wrote:
+> Allow CAP_SYS_NICE to take effect for processes having effective uid of a
+> root user from init namespace.
+[...]
+> @@ -4548,6 +4548,8 @@ int can_nice(const struct task_struct *p, const int nice)
+>         int nice_rlim = nice_to_rlimit(nice);
+>
+>         return (nice_rlim <= task_rlimit(p, RLIMIT_NICE) ||
+> +               (ns_capable(__task_cred(p)->user_ns, CAP_SYS_NICE) &&
+> +               uid_eq(current_euid(), GLOBAL_ROOT_UID)) ||
+>                 capable(CAP_SYS_NICE));
 
-Signed-off-by: Prakash Sangappa <prakash.sangappa@oracle.com>
----
- kernel/sched/core.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+I very strongly dislike tying such a feature to GLOBAL_ROOT_UID.
+Wouldn't it be better to control this through procfs, similar to
+uid_map and gid_map? If you really need an escape hatch to become
+privileged outside a user namespace, then I'd much prefer a file
+"cap_map" that lets someone with appropriate capabilities in the outer
+namespace write a bitmask of capabilities that should have effect
+outside the container, or something like that. And limit that to bits
+where that's sane, like CAP_SYS_NICE.
 
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 7880f4f..628bd46 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -4548,6 +4548,8 @@ int can_nice(const struct task_struct *p, const int nice)
- 	int nice_rlim = nice_to_rlimit(nice);
- 
- 	return (nice_rlim <= task_rlimit(p, RLIMIT_NICE) ||
-+		(ns_capable(__task_cred(p)->user_ns, CAP_SYS_NICE) &&
-+		uid_eq(current_euid(), GLOBAL_ROOT_UID)) ||
- 		capable(CAP_SYS_NICE));
- }
- 
-@@ -4784,7 +4786,9 @@ static int __sched_setscheduler(struct task_struct *p,
- 	/*
- 	 * Allow unprivileged RT tasks to decrease priority:
- 	 */
--	if (user && !capable(CAP_SYS_NICE)) {
-+	if (user && !(ns_capable(__task_cred(p)->user_ns, CAP_SYS_NICE) &&
-+		uid_eq(current_euid(), GLOBAL_ROOT_UID)) &&
-+		!capable(CAP_SYS_NICE)) {
- 		if (fair_policy(policy)) {
- 			if (attr->sched_nice < task_nice(p) &&
- 			    !can_nice(p, attr->sched_nice))
--- 
-2.7.4
-
+If we tie features like this to GLOBAL_ROOT_UID, more people are going
+to run their containers with GLOBAL_ROOT_UID. Which is a terrible,
+terrible idea. GLOBAL_ROOT_UID gives you privilege over all sorts of
+files that you shouldn't be able to access, and only things like mount
+namespaces and possibly LSMs prevent you from exercising that
+privilege. GLOBAL_ROOT_UID should only ever be given to processes that
+you trust completely.
