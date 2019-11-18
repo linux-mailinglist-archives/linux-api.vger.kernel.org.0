@@ -2,52 +2,51 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 27107100C36
-	for <lists+linux-api@lfdr.de>; Mon, 18 Nov 2019 20:31:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9018C100C3F
+	for <lists+linux-api@lfdr.de>; Mon, 18 Nov 2019 20:36:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726568AbfKRTbX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 18 Nov 2019 14:31:23 -0500
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:44009 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726472AbfKRTbX (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 18 Nov 2019 14:31:23 -0500
-Received: by mail-oi1-f194.google.com with SMTP id l20so16401083oie.10
-        for <linux-api@vger.kernel.org>; Mon, 18 Nov 2019 11:31:21 -0800 (PST)
+        id S1726536AbfKRTgu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 18 Nov 2019 14:36:50 -0500
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:47073 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726435AbfKRTgt (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 18 Nov 2019 14:36:49 -0500
+Received: by mail-ot1-f66.google.com with SMTP id n23so15559510otr.13
+        for <linux-api@vger.kernel.org>; Mon, 18 Nov 2019 11:36:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=lkip5tRvw12bpfehhEr6pH72dcrY21taqVrxtTzIpV4=;
-        b=K5edr+xedFq5I4V/ASDZBcAzez637Hy6MHbuKWYWMplzF7Q96rNQJihqBuir4XV1FC
-         bFEONPEMKWyPnaQZfdEVjnGHRw0gPHwA0Ll7tGFQQYu8bA75cXdCMZN/RWWmaf9xjOoo
-         Nu7nTA0vyhxsK8GdZ1PjZmr2wFC0OzYxaltsU8gmgABemah1g8Or1M+RgmIlSMiHtrIa
-         UGYBLBhpTsARKd0lf4PKdT6pdLOt8328tuV3E8nNHTrwcWJXRyPzOOvDrx1wg61zeGZQ
-         aZEyBbrjy6ZeR4S7NCuSpTElcWb270L1oZc4DQe734W0vHnVCWNgJS9J4vmPKHmhsaff
-         nWhQ==
+        bh=oUl0aHWxnRdGIJQaaNYqf/1e2TYCVGxY+g4UhFUHwCk=;
+        b=KUk/R1TQPGb+tLW1IrCyhIFesOsAWIogNaBJJZDsZ90Jun0S7sQT/xNmr44phxdfxY
+         01FCu4hwcinKCuvU6ySkH61de4ZUGUhe0jOWYIq/39Fi5cz3TPG436FnAJHa4t3/FNA8
+         FITQpQbQ5sDJaRkO9cpy2pAvR7DNRX+WSa/o8QCI/vdNF6YeN6bydh8N7MEdUlEoOTWp
+         +LPCzqV8waygLHdwUsWYEDqh2HhK70b+7EczlnYTsPs3NQoectm0XTnzLF1feeAqBXAD
+         tRjLkCVm89rRaaiBaLdiMptw3sihutzBhpxVwHQnKy9UhWEePeYBLbMeQYMnLZoT3jMz
+         g0lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=lkip5tRvw12bpfehhEr6pH72dcrY21taqVrxtTzIpV4=;
-        b=etYgqnpyAYSu8wagMWT8mhVstiY5FEb5VyHaYYKqsN9BHZNS4NV1TXU06jcZ4Az08h
-         2zdfLwgQcpR7pqU0rN0W/WVpO3Wbjrt1OMsFUwPf4JWCemt+tUbnx3PzCNIEzWNhnyUE
-         vf9ko+paOSNJvGsSL5pYpG0hr3182rmlfyqKGxT5AQ9kkD+EXzznV87ZbKRAclDC4iYF
-         L0M5HMKrSIem+aLMbkUeaKiZ+aPVm+t24URALf5T2LGBvrTx0FNkzDaEJbdg5gdpI900
-         4xEMe95Hf2kOr+TFBgATswkIDDLiDDNRfq8efYiPmRLHVzhvDYIbdvUBDxm+7xA875NR
-         DriA==
-X-Gm-Message-State: APjAAAW2Kl53Kip/iPTWaJ1lGN7XCC83Dj14FS9nMvdAWkOZ/4ZNlv0C
-        m4ma4vdwqtlhIyjo3MUic26fNyBlgAuVrsz3y1n9Hg==
-X-Google-Smtp-Source: APXvYqwC/dQIewkL8jJpS8RkN+IxPo0rT4nHVms2uEMtgI/pTTWeyaTajuhRqtBB+9pL1h5bgMiSiXGPfbJQKyGgYN4=
-X-Received: by 2002:a05:6808:9a1:: with SMTP id e1mr494893oig.175.1574105480391;
- Mon, 18 Nov 2019 11:31:20 -0800 (PST)
+        bh=oUl0aHWxnRdGIJQaaNYqf/1e2TYCVGxY+g4UhFUHwCk=;
+        b=U7YfO5Jr+qodTgBO8vcu8JezKbBdo6/IKq7YzPU+gs+qs1Tuh5RZgOhriQpFxXzl8O
+         O2L1CZiEJPe9Na4JCs/4ncovrdiYD1qKUiE42Jo65aJOME8SzDUK/RmNqkH4nH7oWYnv
+         KgVT9N240ClcVCmsZNrhLbC/0ILuBpTSzctEoI9Ruf572qb4UWBXr59nmcJIO/1TvYEL
+         vAXKQbL/TbFTtEmCSOzn+G3bETd11XFxaeUTocsyRZslys/qNTESYT6LiwQ/UizKrpjW
+         23kbkYmIsE0xT9dLW4RaH4kqtXj9klg5R/zfvdiwCNFdx2Vy3YOjeafiAZJ1H4y3qJxH
+         xhSQ==
+X-Gm-Message-State: APjAAAW8MFf85eKyF8GN3sY9Ld5rjffJ/D2LtSzKb6BnmOT7nE/t9o0z
+        n3sWc/fie835t/qbiuv4V/iDBBPVPoTRTizWFLfNsQ==
+X-Google-Smtp-Source: APXvYqytVGe8Ge88fM2s8MWcASEkCS/Y2W4/jjH09IuPU3wE6qMQlrMmcrf0WnuNToQB9hGvlODs6rvbSfcN88ERDds=
+X-Received: by 2002:a9d:37e6:: with SMTP id x93mr704063otb.183.1574105808669;
+ Mon, 18 Nov 2019 11:36:48 -0800 (PST)
 MIME-Version: 1.0
-References: <1574096478-11520-1-git-send-email-prakash.sangappa@oracle.com> <1574096478-11520-2-git-send-email-prakash.sangappa@oracle.com>
-In-Reply-To: <1574096478-11520-2-git-send-email-prakash.sangappa@oracle.com>
+References: <1574096478-11520-1-git-send-email-prakash.sangappa@oracle.com>
+In-Reply-To: <1574096478-11520-1-git-send-email-prakash.sangappa@oracle.com>
 From:   Jann Horn <jannh@google.com>
-Date:   Mon, 18 Nov 2019 20:30:54 +0100
-Message-ID: <CAG48ez1i9LUd2DPoP9na9OyqXDZVRJZQqBbS1H6Dz_h7mtJ=Mw@mail.gmail.com>
-Subject: Re: [RESEND RFC PATCH 1/1] Selectively allow CAP_SYS_NICE capability
- inside user namespaces
+Date:   Mon, 18 Nov 2019 20:36:22 +0100
+Message-ID: <CAG48ez3HfUx2aRvqR_bWnGoTshrHnUzxUNt7K6Sv7cqtPDWaWw@mail.gmail.com>
+Subject: Re: [RESEND RFC PATCH 0/1] CAP_SYS_NICE inside user namespace
 To:     Prakash Sangappa <prakash.sangappa@oracle.com>
 Cc:     kernel list <linux-kernel@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
@@ -64,30 +63,18 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 On Mon, Nov 18, 2019 at 6:04 PM Prakash Sangappa
 <prakash.sangappa@oracle.com> wrote:
-> Allow CAP_SYS_NICE to take effect for processes having effective uid of a
-> root user from init namespace.
-[...]
-> @@ -4548,6 +4548,8 @@ int can_nice(const struct task_struct *p, const int nice)
->         int nice_rlim = nice_to_rlimit(nice);
->
->         return (nice_rlim <= task_rlimit(p, RLIMIT_NICE) ||
-> +               (ns_capable(__task_cred(p)->user_ns, CAP_SYS_NICE) &&
-> +               uid_eq(current_euid(), GLOBAL_ROOT_UID)) ||
->                 capable(CAP_SYS_NICE));
+> Some of the capabilities(7) which affect system wide resources, are ineffective
+> inside user namespaces. This restriction applies even to root user( uid 0)
+> from init namespace mapped into the user namespace. One such capability
+> is CAP_SYS_NICE which is required to change process priority. As a result of
+> which the root user cannot perform operations like increase a process priority
+> using -ve nice value or set RT priority on processes inside the user namespace.
+> A workaround to deal with this restriction is to use the help of a process /
+> daemon running outside the user namespace to change process priority, which is
+> a an inconvenience.
 
-I very strongly dislike tying such a feature to GLOBAL_ROOT_UID.
-Wouldn't it be better to control this through procfs, similar to
-uid_map and gid_map? If you really need an escape hatch to become
-privileged outside a user namespace, then I'd much prefer a file
-"cap_map" that lets someone with appropriate capabilities in the outer
-namespace write a bitmask of capabilities that should have effect
-outside the container, or something like that. And limit that to bits
-where that's sane, like CAP_SYS_NICE.
-
-If we tie features like this to GLOBAL_ROOT_UID, more people are going
-to run their containers with GLOBAL_ROOT_UID. Which is a terrible,
-terrible idea. GLOBAL_ROOT_UID gives you privilege over all sorts of
-files that you shouldn't be able to access, and only things like mount
-namespaces and possibly LSMs prevent you from exercising that
-privilege. GLOBAL_ROOT_UID should only ever be given to processes that
-you trust completely.
+What is the goal here, in the big picture? Is your goal to allow
+container admins to control the priorities of their tasks *relative to
+each other*, or do you actually explicitly want container A to be able
+to decide that its current workload is more timing-sensitive than
+container B's?
