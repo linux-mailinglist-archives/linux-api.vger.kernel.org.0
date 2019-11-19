@@ -2,35 +2,37 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 667F51024B0
-	for <lists+linux-api@lfdr.de>; Tue, 19 Nov 2019 13:41:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F186E102AA9
+	for <lists+linux-api@lfdr.de>; Tue, 19 Nov 2019 18:18:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727665AbfKSMly (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 19 Nov 2019 07:41:54 -0500
-Received: from mail.kernel.org ([198.145.29.99]:34684 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725280AbfKSMly (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 19 Nov 2019 07:41:54 -0500
-Received: from localhost (unknown [89.205.136.181])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D351421D7B;
-        Tue, 19 Nov 2019 12:41:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1574167313;
-        bh=jIhRA2VwaLRoYAsN0KyguVUzU+5d8qr8uraCIb163JA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gqZ15+AB9gEx214RhI/6BiIld+DI3r8SCSyl30Sf8k1vshnIZ2+FvimgC0q7d6HYr
-         2oWTxdvy9cvWFmdKRLSP00W1sVGYzsuzMiAGtxi/P2qzcYTsjtownsUArlI4rB4Q6d
-         CCIMBEXBglKack0f6GwI6WeQVE0krS4PINE+Ku8c=
-Date:   Tue, 19 Nov 2019 13:41:50 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     Stephan =?iso-8859-1?Q?M=FCller?= <smueller@chronox.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
+        id S1726985AbfKSRSi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 19 Nov 2019 12:18:38 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:38746 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727805AbfKSRSi (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 19 Nov 2019 12:18:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=aYmtuEFF+xOPB8Y3q63c5aivou+rssRsl1ZruqJR3YQ=; b=Xhk2Ba4RE5sQp6Xhrisp9yAdb
+        a6kScEfJGorN4s9IyqONGBGD5r+WATKiUvRdIQnzS4br3J7RnbMIEnrmIoCld00T/GpT5aE+5LiR/
+        OF0sbcikg0yYYpSsoFudFBK83cuHjU1DclZiT5VgYYIZjvaVzDFWAYZM2kUJwu8RVQBZ49L/gAe/2
+        3DDhaEO00s4S+UoRQUxXfGpNwb1jdI/bH94DFda+jGmReOHtsJZCUs8Q9d1GofxsE7vY2xNFWLj2K
+        7wEQzVjFDeoSY8altim3LTauF4vMSWHneoYWT9269fKCOZXOjCWjWBkuJwLNcFoNs3TUW6rBFrxA0
+        Tc7YVGxBw==;
+Received: from [2601:1c0:6280:3f0::5a22]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1iX78X-0002YZ-J1; Tue, 19 Nov 2019 17:17:57 +0000
+Subject: Re: [PATCH v25 12/12] LRNG - add interface for gathering of raw
+ entropy
+To:     =?UTF-8?Q?Stephan_M=c3=bcller?= <smueller@chronox.de>,
+        Arnd Bergmann <arnd@arndb.de>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-crypto@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        linux-api@vger.kernel.org,
         "Eric W. Biederman" <ebiederm@xmission.com>,
         "Alexander E. Patrakov" <patrakov@gmail.com>,
         "Ahmed S. Darwish" <darwish.07@gmail.com>,
@@ -41,6 +43,7 @@ Cc:     Stephan =?iso-8859-1?Q?M=FCller?= <smueller@chronox.de>,
         Jan Kara <jack@suse.cz>, Ray Strode <rstrode@redhat.com>,
         William Jon McCann <mccann@jhu.edu>,
         zhangjs <zachary@baishancloud.com>,
+        Andy Lutomirski <luto@kernel.org>,
         Florian Weimer <fweimer@redhat.com>,
         Lennart Poettering <mzxreary@0pointer.de>,
         Nicolai Stange <nstange@suse.de>,
@@ -48,39 +51,59 @@ Cc:     Stephan =?iso-8859-1?Q?M=FCller?= <smueller@chronox.de>,
         Marcelo Henrique Cerri <marcelo.cerri@canonical.com>,
         Roman Drahtmueller <draht@schaltsekun.de>,
         Neil Horman <nhorman@redhat.com>
-Subject: Re: [PATCH v25 10/12] LRNG - add TRNG support
-Message-ID: <20191119124150.GB1975017@kroah.com>
-References: <5390778.VeFRgus4bQ@positron.chronox.de>
- <DDB907EA-3FCC-40C7-B55B-A84BC77FD7A1@amacapital.net>
- <3159012.PsEOTp9LqO@positron.chronox.de>
- <CALCETrUKDO1LSMnHNcPiAFQh2ri6saRiRBi9b5e699cm1_Mgsw@mail.gmail.com>
+References: <6157374.ptSnyUpaCn@positron.chronox.de>
+ <2787174.DQlWHN5GGo@positron.chronox.de>
+ <3610406.x8mDjznOIz@positron.chronox.de>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <ea5e2cf5-d622-03c1-eb96-7f7e4893ae04@infradead.org>
+Date:   Tue, 19 Nov 2019 09:17:55 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CALCETrUKDO1LSMnHNcPiAFQh2ri6saRiRBi9b5e699cm1_Mgsw@mail.gmail.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <3610406.x8mDjznOIz@positron.chronox.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Nov 19, 2019 at 02:07:40AM -0800, Andy Lutomirski wrote:
-> > As this would introduce a new device file now, is there a special process that
-> > I need to follow or do I need to copy? Which major/minor number should I use?
-> >
-> > Looking into static const struct memdev devlist[] I see
-> >
-> >          [8] = { "random", 0666, &random_fops, 0 },
-> >          [9] = { "urandom", 0666, &urandom_fops, 0 },
-> >
-> > Shall a true_random be added here with [10]?
-> 
-> I am not at all an expert on chardevs, but this sounds generally
-> reasonable.  gregkh is probably the real authority here.
+Hi,
 
-[10] is the aio char device node, so you better not try to overlap it or
-bad things will happen :(
+On 11/16/19 1:38 AM, Stephan Müller wrote:
+> diff --git a/drivers/char/lrng/Kconfig b/drivers/char/lrng/Kconfig
+> index e6ca3acc1e48..4ccc710832ef 100644
+> --- a/drivers/char/lrng/Kconfig
+> +++ b/drivers/char/lrng/Kconfig
+> @@ -169,4 +169,20 @@ config LRNG_APT_CUTOFF
+>  	default 325 if !LRNG_APT_BROKEN
+>  	default 32 if LRNG_APT_BROKEN
+>  
+> +config LRNG_TESTING
+> +	bool "Enable entropy test interface to LRNG noise source"
+> +	select CONFIG_DEBUG_FS
 
-thanks,
+	That should be spelled as DEBUG_FS and preferably would be "depends on"
+	instead of 'select'.
 
-greg k-h
+
+> +	help
+> +	  The test interface allows a privileged process to capture
+> +	  the raw unconditioned noise that is collected by the LRNG
+> +	  for statistical analysis. Extracted noise data is not used
+> +	  to seed the LRNG.
+> +
+> +	  The raw noise data can be obtained using the lrng_raw
+> +	  debugfs file. Using the option lrng_testing.boot_test=1
+> +	  the raw noise of the first 1000 entropy events since boot
+> +	  can be sampled.
+> +
+> +	  If unsure, say N.
+> +
+>  endif # LRNG
+
+thanks.
+-- 
+~Randy
+
