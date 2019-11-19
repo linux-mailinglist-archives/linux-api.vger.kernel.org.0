@@ -2,121 +2,88 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3072F10105D
-	for <lists+linux-api@lfdr.de>; Tue, 19 Nov 2019 01:49:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B0F3F1012C9
+	for <lists+linux-api@lfdr.de>; Tue, 19 Nov 2019 06:07:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726939AbfKSAtI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 18 Nov 2019 19:49:08 -0500
-Received: from userp2120.oracle.com ([156.151.31.85]:46922 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726809AbfKSAtI (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 18 Nov 2019 19:49:08 -0500
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xAJ0htno109073;
-        Tue, 19 Nov 2019 00:48:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=reply-to : subject :
- references : to : cc : from : message-id : date : mime-version :
- in-reply-to : content-type : content-transfer-encoding; s=corp-2019-08-05;
- bh=1YpNQImsbOY2XvuXHptOUdXQSplh3oG1AGe2pyP9gNU=;
- b=QjE+xGiItWVREUg96rzbIILSkWZjn6IuaPtImcl6XeHJBOGvCt/UvC3rKySCmz6JEmql
- hphWm3+SG6u/iu5rCUSLt30BzACcm0ObIJpLWzLt5jNHQNf68GyDXmffz52WA2irl7DO
- XD/8EijyXGrmjqdwhKIkfiDpnaC33Wx7HjF52Q8S39kl3pZD8Q0EpVBmra1tP5ld3Gcf
- c9MGS42IgfIVQhaoliZg7t0I+YqxPt7vS0VZDd9bvEoK548VPbaqRZNHIhP8cGWVqHPm
- Cda/Uwm1bJSieTg0L0gq6ZedCTJxckLitq2zkhSApH2vEI9mTyXP9y9ZRVXzbiKI4Yjb Iw== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by userp2120.oracle.com with ESMTP id 2wa9rqbn08-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 19 Nov 2019 00:48:36 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xAJ0lrEe020048;
-        Tue, 19 Nov 2019 00:48:36 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by userp3030.oracle.com with ESMTP id 2wc0affd4s-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 19 Nov 2019 00:48:36 +0000
-Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id xAJ0mYhr032125;
-        Tue, 19 Nov 2019 00:48:34 GMT
-Received: from [10.132.95.199] (/10.132.95.199)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Mon, 18 Nov 2019 16:48:33 -0800
-Reply-To: prakash.sangappa@oracle.com
-Subject: Re: [RESEND RFC PATCH 1/1] Selectively allow CAP_SYS_NICE capability
- inside user namespaces
-References: <1574096478-11520-1-git-send-email-prakash.sangappa@oracle.com>
- <1574096478-11520-2-git-send-email-prakash.sangappa@oracle.com>
- <CAG48ez1i9LUd2DPoP9na9OyqXDZVRJZQqBbS1H6Dz_h7mtJ=Mw@mail.gmail.com>
-To:     Jann Horn <jannh@google.com>
-Cc:     kernel list <linux-kernel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Christian Brauner <christian@brauner.io>
-From:   "prakash.sangappa" <prakash.sangappa@oracle.com>
-Message-ID: <9b2dd6f5-5b0b-9c9b-e853-5795c352e092@oracle.com>
-Date:   Mon, 18 Nov 2019 16:46:08 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
- Thunderbird/45.5.1
+        id S1725798AbfKSFHz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 19 Nov 2019 00:07:55 -0500
+Received: from mail-pl1-f173.google.com ([209.85.214.173]:46697 "EHLO
+        mail-pl1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725536AbfKSFHz (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 19 Nov 2019 00:07:55 -0500
+Received: by mail-pl1-f173.google.com with SMTP id l4so11074055plt.13;
+        Mon, 18 Nov 2019 21:07:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to:cc
+         :content-transfer-encoding;
+        bh=feilDUjQ5x/59LFnxlxvW8WwQKzwk+wbXzAfXtSise0=;
+        b=VYJbCCRXBL9vm9AuHqkXrEa9kVoSz+5rrJpTVyktE6DIHKNZNFmUF2RuEvqsoK1K+O
+         X/0BlBUAgkg8j8qVtACyb176L/4yDY0JPoafHJWo3i1wNkHuTiZnRVJzl17SumxyXm7Y
+         nRArW3adCtHAiN7bgsL8EBsEp4MV2VpvLLBrd8BL3GsIo7JwhpIvNKKRAvutZaFxCJnB
+         P52VZy7Uy3c3hIs+mUN20tTlTau3zH8MnOu0SJp2WOUP9/J0y+Z5gj+YDQuS4c58Owy5
+         FmxilFWia0Y+F6/0xJ5RiLRZp48O6UqeIH/veMn71cxq1UYoLQqBoExqBaGubAv8STyt
+         t1JA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
+         :content-transfer-encoding;
+        bh=feilDUjQ5x/59LFnxlxvW8WwQKzwk+wbXzAfXtSise0=;
+        b=Cb9F/m0r9i+HbaKMLvX4k+HlmPOr91+Nv1X3zrHKI56EifwHIBBS6dJgJ4/C4/UGXf
+         8iY6JMzV2rZ0pAy8sETnlSIBNii8WS7GAIyQpTLnBvGcFai8pVPNIO/WU7RkOcwOEJpn
+         7MiHerFpl6FEBeKuoXr2AilZhNwEQrxe4cBPwcQtxaixVEM4qPEKxKkr6ahRscW7rCxG
+         zIgyZJNUtY6r2OzOV0JrrDxzTe3omfVufUnfnTa2pCvCV77N4aZ1MAEYW0QrBS6ArIeL
+         DfvVJGHRBZnCof05dE80G9fAoXhowV7rhaD1fv4SQKj+v/BswSOU6yHqlRmsHwY0yRao
+         E1qg==
+X-Gm-Message-State: APjAAAU2G6CK6B7WonWXIJneVwgaavlBtlfI2n4NaPjeXQ2Rvy4A3wtz
+        KaAeozgTzxkrNkmOgTv9LRW9CxB921wCAqJR9UkvntXT
+X-Google-Smtp-Source: APXvYqyZGR0NZQ8bv6c3yoRKpCaYYkLhmwJdhA1EWsd+QoiFfP0AuklbkWnmoMCBC/UXHcJJwGfVwZdRYzrqUElTLIU=
+X-Received: by 2002:a17:90a:2551:: with SMTP id j75mr3705887pje.122.1574140074250;
+ Mon, 18 Nov 2019 21:07:54 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAG48ez1i9LUd2DPoP9na9OyqXDZVRJZQqBbS1H6Dz_h7mtJ=Mw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9445 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1911140001 definitions=main-1911190004
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9445 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
- definitions=main-1911190003
+From:   Bala S <balas2380@gmail.com>
+Date:   Tue, 19 Nov 2019 10:37:44 +0530
+Message-ID: <CAJKzgVtzD7ULwCDVRSLMCmGJNaMqvx+jVO619t3xuv2oiEsPMQ@mail.gmail.com>
+Subject: Suggested Patch is not working for 22851 Bugzilla issue
+To:     mhocko@kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+Hi Mhocko,
 
+https://sourceware.org/bugzilla/show_bug.cgi?id=3D22851
+For the above issue, I have found the patch.
 
-On 11/18/2019 11:30 AM, Jann Horn wrote:
-> On Mon, Nov 18, 2019 at 6:04 PM Prakash Sangappa
-> <prakash.sangappa@oracle.com> wrote:
->> Allow CAP_SYS_NICE to take effect for processes having effective uid of a
->> root user from init namespace.
-> [...]
->> @@ -4548,6 +4548,8 @@ int can_nice(const struct task_struct *p, const int nice)
->>          int nice_rlim = nice_to_rlimit(nice);
->>
->>          return (nice_rlim <= task_rlimit(p, RLIMIT_NICE) ||
->> +               (ns_capable(__task_cred(p)->user_ns, CAP_SYS_NICE) &&
->> +               uid_eq(current_euid(), GLOBAL_ROOT_UID)) ||
->>                  capable(CAP_SYS_NICE));
-> I very strongly dislike tying such a feature to GLOBAL_ROOT_UID.
-> Wouldn't it be better to control this through procfs, similar to
-> uid_map and gid_map? If you really need an escape hatch to become
-> privileged outside a user namespace, then I'd much prefer a file
-> "cap_map" that lets someone with appropriate capabilities in the outer
-> namespace write a bitmask of capabilities that should have effect
-> outside the container, or something like that. And limit that to bits
-> where that's sane, like CAP_SYS_NICE.
+Patch link:
+https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1561935.html
 
-Sounds reasonable. Adding a 'cap_map' file to user namespace, would give 
-more control. We could allow the  capability in 'cap_map' to take effect 
-only if corresponding capability is enabled for the user inside the user 
-namespace Ex uid 0. Start with support for CAP_SYS_NICE?
+Only change i noticed is 'MAP_FIXED_NOREPLACE' is used instead of
+'MAP_FIXED_SAFE'.
 
+I ran test case on the following targets with this patch:
 
->
-> If we tie features like this to GLOBAL_ROOT_UID, more people are going
-> to run their containers with GLOBAL_ROOT_UID. Which is a terrible,
-> terrible idea. GLOBAL_ROOT_UID gives you privilege over all sorts of
-> files that you shouldn't be able to access, and only things like mount
-> namespaces and possibly LSMs prevent you from exercising that
-> privilege. GLOBAL_ROOT_UID should only ever be given to processes that
-> you trust completely.
+1. For X86-64, Still i could see the reported issue( 'libevil.so' just
+runs =E2=80=98cat /etc/passwd')
 
-Agreed.
+2. For MIPS-64, i am not seeing the malicious file content as
+reported. But =E2=80=98ldd=E2=80=99 could not found =E2=80=98libevil.so=E2=
+=80=99.
 
+root@qemumips64:~/LIN1019-1806# ldd ./main
+        linux-vdso.so.1 (0x000000fff1f20000)
+        libevil.so =3D> not found
+        libc.so.6 =3D> /lib/libc.so.6 (0x0000005e46f70000)
+        /lib/ld.so.1 (0x000000fff7888000)
+
+I am not clear why this patch is not working for X86-64? But it is
+working for MIPS-64 with some issue.
+Please let me know, if anything is pending on this patch for the reported i=
+ssue.
+
+Thanks,
+Bala
