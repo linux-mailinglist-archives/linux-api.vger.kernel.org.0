@@ -2,95 +2,105 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BD8D51037D5
-	for <lists+linux-api@lfdr.de>; Wed, 20 Nov 2019 11:45:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E917103B67
+	for <lists+linux-api@lfdr.de>; Wed, 20 Nov 2019 14:29:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728827AbfKTKpQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 20 Nov 2019 05:45:16 -0500
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:36945 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728814AbfKTKpQ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 20 Nov 2019 05:45:16 -0500
-Received: by mail-wr1-f67.google.com with SMTP id t1so27531385wrv.4
-        for <linux-api@vger.kernel.org>; Wed, 20 Nov 2019 02:45:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brauner.io; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=FDfQIdvNmwNiawulM29v9GlY4a3OII8q9LRcAw1Twyw=;
-        b=Yr645Hr2e9dLJx6WDTQ+pAr3Hu5YSHBdrHa9GMLiiqFgfeumBWNXKz1iUR0CGzSi3M
-         vAkqeIv+CY7eyroHhBTzYoCHzUTMFNdDmEMIu85cWFOCmQWCmYN/pqwUIj4ZC+BN5rnE
-         sYD6osVOAIMOiE2fNUZcKpdo743ydqqqihUfNXql/7ge+cCfiHGdBXiHCMCoS3qo4JUN
-         wCXowLORgwjg3tQkL5BxEkQLEYMftoQr8fLbyQ+mNBlpRLysETHu/S57D0kYqREcseoD
-         XFHAMRJQKSuap76nF60ZJ3hywrVRTgRUb5nCy1uErPtqiAqg2M0/ZRM+1YlJ1ztGEK+5
-         6iIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=FDfQIdvNmwNiawulM29v9GlY4a3OII8q9LRcAw1Twyw=;
-        b=cCX5Mpn4QgxLWVVsa+MycmXPFpH9YSH1njbkcVNyGyEIqjoDRhvlySfMPCu9g7oAPN
-         TeULeps7HFfwxfNcxKbGxW3sRd99KA7/l9dQvlTMGgU/5IOrkrAwE0V0LHqdVh+zK/GI
-         h6uSWU5CFs1ksobWav/3GSCFoI/Af1OkjC8A8x5gCb3LQoPeomQhlOD49FyAHAilOp+r
-         bxIL29eMT4eQ7UAU/KsZ2Yvg080dJMLwt8Gvub4u431n9UkBJyDL4juakGSXTten/jwh
-         FDZo8fANougUenjwNsKr2tIxgRPQxZNFJoIca3Nnk0V07gklm8WAcKgHQ/kF35GR/bVX
-         RP8Q==
-X-Gm-Message-State: APjAAAWzKK3x65y4hAn4Su0NtW6enT9pDKgTkm7WRO8IrER1yc6cu01s
-        WZJ8TdA9+MuBK3+sKUdFJRaQtQ==
-X-Google-Smtp-Source: APXvYqzpuucxLTZ3L0mTgG5umNKwQQhw8dteIFiGk38O+PRYxtirZZYJyaRNyI0FoadP9dQ8TZr66A==
-X-Received: by 2002:adf:fe8d:: with SMTP id l13mr2478867wrr.287.1574246713926;
-        Wed, 20 Nov 2019 02:45:13 -0800 (PST)
-Received: from localhost.localdomain ([79.140.122.151])
-        by smtp.gmail.com with ESMTPSA id w10sm5973002wmd.26.2019.11.20.02.45.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Nov 2019 02:45:12 -0800 (PST)
-From:   Christian Brauner <christian@brauner.io>
-To:     mtk.manpages@gmail.com
-Cc:     adrian@lisas.de, akpm@linux-foundation.org, arnd@arndb.de,
-        avagin@gmail.com, christian.brauner@ubuntu.com,
-        dhowells@redhat.com, fweimer@redhat.com, jannh@google.com,
-        keescook@chromium.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-man@vger.kernel.org,
-        mingo@elte.hu, oleg@redhat.com, xemul@virtuozzo.com
-Subject: [PATCH] clone.2: Mention that CLONE_PARENT is off-limits for inits
-Date:   Wed, 20 Nov 2019 11:45:04 +0100
-Message-Id: <20191120104504.22411-1-christian@brauner.io>
-X-Mailer: git-send-email 2.24.0
+        id S1729558AbfKTN3W (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 20 Nov 2019 08:29:22 -0500
+Received: from mail.kernel.org ([198.145.29.99]:39278 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729530AbfKTN3W (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 20 Nov 2019 08:29:22 -0500
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3BFF422520;
+        Wed, 20 Nov 2019 13:29:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1574256561;
+        bh=kV3kgPdh8C4IDpFXE3HzyO2sRf6elrDUksgyFl5XkcU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Ww/ce3nIr3UDmOSRx0pVqVkR//4+eBwc9HYghv3xYkOduDua2kha5qiF/jUkHNwV7
+         oyzgbXcbOWVxxtCSn7xd/EZOKIBb20LYihpiYrkx5J4tchmmnf9a1o0yfKdJ169do2
+         HalmL8qod4jmsiMRazb7MX/nvzJmPN+9zWdunXyY=
+Date:   Wed, 20 Nov 2019 14:29:18 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Stephan =?iso-8859-1?Q?M=FCller?= <smueller@chronox.de>
+Cc:     Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "Alexander E. Patrakov" <patrakov@gmail.com>,
+        "Ahmed S. Darwish" <darwish.07@gmail.com>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>, Willy Tarreau <w@1wt.eu>,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        Vito Caputo <vcaputo@pengaru.com>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Jan Kara <jack@suse.cz>, Ray Strode <rstrode@redhat.com>,
+        William Jon McCann <mccann@jhu.edu>,
+        zhangjs <zachary@baishancloud.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Lennart Poettering <mzxreary@0pointer.de>,
+        Nicolai Stange <nstange@suse.de>,
+        "Peter, Matthias" <matthias.peter@bsi.bund.de>,
+        Marcelo Henrique Cerri <marcelo.cerri@canonical.com>,
+        Roman Drahtmueller <draht@schaltsekun.de>,
+        Neil Horman <nhorman@redhat.com>
+Subject: Re: [PATCH v25 10/12] LRNG - add TRNG support
+Message-ID: <20191120132918.GA2892197@kroah.com>
+References: <5390778.VeFRgus4bQ@positron.chronox.de>
+ <CALCETrUKDO1LSMnHNcPiAFQh2ri6saRiRBi9b5e699cm1_Mgsw@mail.gmail.com>
+ <20191119124150.GB1975017@kroah.com>
+ <19681012.svDddlc5pN@positron.chronox.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <19681012.svDddlc5pN@positron.chronox.de>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Christian Brauner <christian.brauner@ubuntu.com>
+On Wed, Nov 20, 2019 at 09:58:35AM +0100, Stephan Müller wrote:
+> Am Dienstag, 19. November 2019, 13:41:50 CET schrieb Greg Kroah-Hartman:
+> 
+> Hi Greg,
+> 
+> > On Tue, Nov 19, 2019 at 02:07:40AM -0800, Andy Lutomirski wrote:
+> > > > As this would introduce a new device file now, is there a special
+> > > > process that I need to follow or do I need to copy? Which major/minor
+> > > > number should I use?
+> > > > 
+> > > > Looking into static const struct memdev devlist[] I see
+> > > > 
+> > > >          [8] = { "random", 0666, &random_fops, 0 },
+> > > >          [9] = { "urandom", 0666, &urandom_fops, 0 },
+> > > > 
+> > > > Shall a true_random be added here with [10]?
+> > > 
+> > > I am not at all an expert on chardevs, but this sounds generally
+> > > reasonable.  gregkh is probably the real authority here.
+> > 
+> > [10] is the aio char device node, so you better not try to overlap it or
+> > bad things will happen :(
+> 
+> Thanks for your insights.
+> 
+> Which device minor number could we use?
 
-The CLONE_PARENT flag cannot but used by init processes. Let's mention
-this in the manpages to prevent suprises.
+Get your own dynamic one by using a misc device if you _REALLY_ want to
+add yet-another-char-node-for-random-data.
 
-Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
----
- man2/clone.2 | 7 +++++++
- 1 file changed, 7 insertions(+)
+But I would have thought that we all realize that this is not the way to
+do things.  Let's not have "random", "urandom", and "true_random" be
+something we want to totally confuse userspace with, that way is insane.
 
-diff --git a/man2/clone.2 b/man2/clone.2
-index f0f29d6f1..aa98ab79b 100644
---- a/man2/clone.2
-+++ b/man2/clone.2
-@@ -646,6 +646,13 @@ if
- .B CLONE_PARENT
- is set, then the parent of the calling process, rather than the
- calling process itself, will be signaled.
-+.IP
-+The kernel will not allow global init and init processes in pid
-+namespaces to use the
-+.B CLONE_PARENT
-+flag. This is done to prevent the creation of multi-rooted process
-+trees. It also avoids unreapable zombies in the initial pid
-+namespace.
- .TP
- .BR CLONE_PARENT_SETTID " (since Linux 2.5.49)"
- Store the child thread ID at the location pointed to by
--- 
-2.24.0
+Please just make the existing userspace api "just work", don't add to
+the mess.
 
+thanks,
+
+greg k-h
