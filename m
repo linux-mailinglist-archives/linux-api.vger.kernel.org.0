@@ -2,40 +2,43 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BCD81052A8
-	for <lists+linux-api@lfdr.de>; Thu, 21 Nov 2019 14:07:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C340105441
+	for <lists+linux-api@lfdr.de>; Thu, 21 Nov 2019 15:19:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726716AbfKUNHW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 21 Nov 2019 08:07:22 -0500
-Received: from mo4-p02-ob.smtp.rzone.de ([81.169.146.170]:34844 "EHLO
-        mo4-p02-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726554AbfKUNHV (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 21 Nov 2019 08:07:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1574341639;
-        s=strato-dkim-0002; d=chronox.de;
-        h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-        X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
-        bh=lkH2kJJroo23f8ysnr6W6slIIL5c54hIxdLApd4rKcc=;
-        b=LF9XC0Q1hlupOno6vPeKRb4fO7/GvKCi+JwuWcqX6ngoKX+9tjHUKtHP+LKUSO2hGH
-        5m5r+RONviIfQBO8X9MXEO/IB2BU2tNkhziTmUMpcyMhfTU73xXuXdqpTUvuM41AKT7I
-        MfyPq8dObJTawEn0VqJZL+hZVEYD+DPd3fOhdKm5U/UzXtvBSs5GoCvcdEuSRwrsCn+f
-        gtQzO4MDUDs2e0uHmAGc4YhXhYP9qplJntR0oWWdvnoUr46d2a+aJSPMxRKiZTrib3/v
-        3e8aePAjq+8qno8Zwy5kV7GcZLP7NBZUHANoNEVm79HPdM1QwnCdu9OkBEPQYOfsKcQg
-        TFWQ==
-X-RZG-AUTH: ":P2ERcEykfu11Y98lp/T7+hdri+uKZK8TKWEqNyiHySGSa9k9xmwdNnzHHXPSIvSWlTs="
-X-RZG-CLASS-ID: mo00
-Received: from positron.chronox.de
-        by smtp.strato.de (RZmta 44.29.0 DYNA|AUTH)
-        with ESMTPSA id N09a57vALD63rSB
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve secp521r1 with 521 ECDH bits, eq. 15360 bits RSA))
-        (Client did not present a certificate);
-        Thu, 21 Nov 2019 14:06:03 +0100 (CET)
-From:   Stephan =?ISO-8859-1?Q?M=FCller?= <smueller@chronox.de>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
+        id S1726554AbfKUOTs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 21 Nov 2019 09:19:48 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20744 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726379AbfKUOTs (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 21 Nov 2019 09:19:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1574345986;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Mw+cO9LOWM9AAalb2mQwDjkTO4iW67Tkd/Br4OFvMps=;
+        b=OG4/ddKEgSlh/bHe8GpONrZzmf+BnBvo+mSVaIRBpFfYQ5r3RkMA2rhiXykbgO8TtLN/6J
+        wVb0BTefSMay9ZOBhQwqPreLVstTjhdIGn1hCo9AYdMk9xQ2sQHP2j8KZD81GalXB+8KLt
+        5Fv8cu6DAN2Cl+3X1Y/Q9wVLquLATfE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-58-lh5z5WgaP-Sb5bTx0nn0-w-1; Thu, 21 Nov 2019 09:19:41 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 662B3107ACC4;
+        Thu, 21 Nov 2019 14:19:36 +0000 (UTC)
+Received: from hmswarspite.think-freely.org (ovpn-120-15.rdu2.redhat.com [10.10.120.15])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id CA09E6FF12;
+        Thu, 21 Nov 2019 14:19:32 +0000 (UTC)
+Date:   Thu, 21 Nov 2019 09:19:30 -0500
+From:   Neil Horman <nhorman@redhat.com>
+To:     Stephan =?iso-8859-1?Q?M=FCller?= <smueller@chronox.de>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-crypto@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        linux-api@vger.kernel.org,
         "Eric W. Biederman" <ebiederm@xmission.com>,
         "Alexander E. Patrakov" <patrakov@gmail.com>,
         "Ahmed S. Darwish" <darwish.07@gmail.com>,
@@ -46,77 +49,235 @@ Cc:     Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
         Jan Kara <jack@suse.cz>, Ray Strode <rstrode@redhat.com>,
         William Jon McCann <mccann@jhu.edu>,
         zhangjs <zachary@baishancloud.com>,
+        Andy Lutomirski <luto@kernel.org>,
         Florian Weimer <fweimer@redhat.com>,
         Lennart Poettering <mzxreary@0pointer.de>,
         Nicolai Stange <nstange@suse.de>,
         "Peter, Matthias" <matthias.peter@bsi.bund.de>,
         Marcelo Henrique Cerri <marcelo.cerri@canonical.com>,
-        Roman Drahtmueller <draht@schaltsekun.de>,
-        Neil Horman <nhorman@redhat.com>
-Subject: Re: [PATCH v25 10/12] LRNG - add TRNG support
-Date:   Thu, 21 Nov 2019 14:06:03 +0100
-Message-ID: <5032854.qLNvD48x4y@positron.chronox.de>
-In-Reply-To: <20191120203232.GB3109949@kroah.com>
-References: <5390778.VeFRgus4bQ@positron.chronox.de> <1695782.oZ5Vf4nH9s@positron.chronox.de> <20191120203232.GB3109949@kroah.com>
+        Roman Drahtmueller <draht@schaltsekun.de>
+Subject: Re: [PATCH v25 09/12] LRNG - add Jitter RNG fast noise source
+Message-ID: <20191121141930.GB27405@hmswarspite.think-freely.org>
+References: <6157374.ptSnyUpaCn@positron.chronox.de>
+ <2377947.mlgTlHak1g@positron.chronox.de>
+ <20191120133303.GA28341@hmswarspite.think-freely.org>
+ <1844272.AK0ElEJLVa@positron.chronox.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+In-Reply-To: <1844272.AK0ElEJLVa@positron.chronox.de>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: lh5z5WgaP-Sb5bTx0nn0-w-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Am Mittwoch, 20. November 2019, 21:32:32 CET schrieb Greg Kroah-Hartman:
+On Wed, Nov 20, 2019 at 09:07:13PM +0100, Stephan M=FCller wrote:
+> Am Mittwoch, 20. November 2019, 14:33:03 CET schrieb Neil Horman:
+>=20
+> Hi Neil,
+>=20
+> > On Sat, Nov 16, 2019 at 10:36:52AM +0100, Stephan M=FCller wrote:
+> > > The Jitter RNG fast noise source implemented as part of the kernel
+> > > crypto API is queried for 256 bits of entropy at the time the seed
+> > > buffer managed by the LRNG is about to be filled.
+> > >=20
+> > > CC: "Eric W. Biederman" <ebiederm@xmission.com>
+> > > CC: "Alexander E. Patrakov" <patrakov@gmail.com>
+> > > CC: "Ahmed S. Darwish" <darwish.07@gmail.com>
+> > > CC: "Theodore Y. Ts'o" <tytso@mit.edu>
+> > > CC: Willy Tarreau <w@1wt.eu>
+> > > CC: Matthew Garrett <mjg59@srcf.ucam.org>
+> > > CC: Vito Caputo <vcaputo@pengaru.com>
+> > > CC: Andreas Dilger <adilger.kernel@dilger.ca>
+> > > CC: Jan Kara <jack@suse.cz>
+> > > CC: Ray Strode <rstrode@redhat.com>
+> > > CC: William Jon McCann <mccann@jhu.edu>
+> > > CC: zhangjs <zachary@baishancloud.com>
+> > > CC: Andy Lutomirski <luto@kernel.org>
+> > > CC: Florian Weimer <fweimer@redhat.com>
+> > > CC: Lennart Poettering <mzxreary@0pointer.de>
+> > > CC: Nicolai Stange <nstange@suse.de>
+> > > Reviewed-by: Marcelo Henrique Cerri <marcelo.cerri@canonical.com>
+> > > Reviewed-by: Roman Drahtmueller <draht@schaltsekun.de>
+> > > Tested-by: Roman Drahtm=FCller <draht@schaltsekun.de>
+> > > Tested-by: Marcelo Henrique Cerri <marcelo.cerri@canonical.com>
+> > > Tested-by: Neil Horman <nhorman@redhat.com>
+> > > Signed-off-by: Stephan Mueller <smueller@chronox.de>
+> > > ---
+> > >=20
+> > >  drivers/char/lrng/Kconfig     | 11 +++++
+> > >  drivers/char/lrng/Makefile    |  1 +
+> > >  drivers/char/lrng/lrng_jent.c | 88 +++++++++++++++++++++++++++++++++=
+++
+> > >  3 files changed, 100 insertions(+)
+> > >  create mode 100644 drivers/char/lrng/lrng_jent.c
+> > >=20
+> > > diff --git a/drivers/char/lrng/Kconfig b/drivers/char/lrng/Kconfig
+> > > index 03e6e2ec356b..80fc723c67d2 100644
+> > > --- a/drivers/char/lrng/Kconfig
+> > > +++ b/drivers/char/lrng/Kconfig
+> > > @@ -80,4 +80,15 @@ config LRNG_KCAPI
+> > >=20
+> > >  =09  provided by the selected kernel crypto API RNG.
+> > > =20
+> > >  endif # LRNG_DRNG_SWITCH
+> > >=20
+> > > +config LRNG_JENT
+> > > +=09bool "Enable Jitter RNG as LRNG Seed Source"
+> > > +=09select CRYPTO_JITTERENTROPY
+> > > +=09help
+> > > +=09  The Linux RNG may use the Jitter RNG as noise source. Enabling
+> > > +=09  this option enables the use of the Jitter RNG. Its default
+> > > +=09  entropy level is 16 bits of entropy per 256 data bits delivered
+> > > +=09  by the Jitter RNG. This entropy level can be changed at boot
+> > > +=09  time or at runtime with the lrng_base.jitterrng configuration
+> > > +=09  variable.
+> > > +
+> > >=20
+> > >  endif # LRNG
+> > >=20
+> > > diff --git a/drivers/char/lrng/Makefile b/drivers/char/lrng/Makefile
+> > > index 027b6ea51c20..a87d800c9aae 100644
+> > > --- a/drivers/char/lrng/Makefile
+> > > +++ b/drivers/char/lrng/Makefile
+> > > @@ -13,3 +13,4 @@ obj-$(CONFIG_SYSCTL)=09=09+=3D lrng_proc.o
+> > >=20
+> > >  obj-$(CONFIG_LRNG_DRNG_SWITCH)=09+=3D lrng_switch.o
+> > >  obj-$(CONFIG_LRNG_DRBG)=09=09+=3D lrng_drbg.o
+> > >  obj-$(CONFIG_LRNG_KCAPI)=09+=3D lrng_kcapi.o
+> > >=20
+> > > +obj-$(CONFIG_LRNG_JENT)=09=09+=3D lrng_jent.o
+> > > diff --git a/drivers/char/lrng/lrng_jent.c b/drivers/char/lrng/lrng_j=
+ent.c
+> > > new file mode 100644
+> > > index 000000000000..43114a44b8f5
+> > > --- /dev/null
+> > > +++ b/drivers/char/lrng/lrng_jent.c
+> > > @@ -0,0 +1,88 @@
+> > > +// SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
+> > > +/*
+> > > + * LRNG Fast Noise Source: Jitter RNG
+> > > + *
+> > > + * Copyright (C) 2016 - 2019, Stephan Mueller <smueller@chronox.de>
+> > > + */
+> > > +
+> > > +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> > > +
+> > > +#include "lrng_internal.h"
+> > > +
+> > > +/*
+> > > + * Estimated entropy of data is a 16th of
+> > > LRNG_DRNG_SECURITY_STRENGTH_BITS. + * Albeit a full entropy assessmen=
+t is
+> > > provided for the noise source indicating + * that it provides high
+> > > entropy rates and considering that it deactivates + * when it detects
+> > > insufficient hardware, the chosen under estimation of + * entropy is
+> > > considered to be acceptable to all reviewers.
+> > > + */
+> > > +static u32 jitterrng =3D LRNG_DRNG_SECURITY_STRENGTH_BITS>>4;
+> > > +module_param(jitterrng, uint, 0644);
+> > > +MODULE_PARM_DESC(jitterrng, "Entropy in bits of 256 data bits from J=
+itter
+> > > " +=09=09=09    "RNG noise source");
+> > > +
+> > > +/**
+> > > + * Get Jitter RNG entropy
+> > > + *
+> > > + * @outbuf buffer to store entropy
+> > > + * @outbuflen length of buffer
+> > > + * @return > 0 on success where value provides the added entropy in =
+bits
+> > > + *=09   0 if no fast source was available
+> > > + */
+> > > +struct rand_data;
+> > > +struct rand_data *jent_lrng_entropy_collector(void);
+> > > +int jent_read_entropy(struct rand_data *ec, unsigned char *data,
+> > > +=09=09      unsigned int len);
+> > > +static struct rand_data *lrng_jent_state;
+> > > +
+> > > +u32 lrng_get_jent(u8 *outbuf, unsigned int outbuflen)
+> > > +{
+> > > +=09int ret;
+> > > +=09u32 ent_bits =3D jitterrng;
+> > > +=09unsigned long flags;
+> > > +=09static DEFINE_SPINLOCK(lrng_jent_lock);
+> > > +=09static int lrng_jent_initialized =3D 0;
+> > > +
+> > > +=09spin_lock_irqsave(&lrng_jent_lock, flags);
+> > > +
+> > > +=09if (!ent_bits || (lrng_jent_initialized =3D=3D -1)) {
+> > > +=09=09spin_unlock_irqrestore(&lrng_jent_lock, flags);
+> > > +=09=09return 0;
+> > > +=09}
+> > > +
+> >=20
+> > this works, but I think you can avoid the use of the spin lock on the r=
+ead
+> > calls here.  If you assign a global pointer to the value of
+> > &lrng_jent_state on init, you can just take the spinlock on assignment,=
+ and
+> > assume its stable after that (which it should be given that its only ev=
+er
+> > going to point to a static data structure).
+>=20
+> It is correct that the lock protects the assignment of the data structure=
+.
+>=20
+> But the Jitter RNG itself is not multi-threaded. So, a form of serializat=
+ion=20
+> is needed to also "read" data from the Jitter RNG using one and the same=
+=20
+> state.
+>=20
+> Granted, there is a serialization in the current code as the=20
+> lrng_pool_trylock() is taken before the Jitter RNG is called by=20
+> lrng_fill_seed_buffer which effectively serializes all requests to also t=
+he=20
+> Jitter RNG. But this is coincidence in this case. I would think, however,=
+ that=20
+> this coincidence could easily lead to programming errors further down the=
+ road=20
+> when the spinlock is not present and that trylock() is moved to some plac=
+e=20
+> else considering that this trylock() is meant to protect reading the entr=
+opy=20
+> pool and not the Jitter RNG.
+>=20
+> As the reading of the Jitter RNG is always performed in process context, =
+I=20
+> think having this additional spin lock against possible programming error=
+s=20
+> should not lead to performance regressions.
+>=20
+> What do you think?
+>=20
+I take your meaning that each random device needs protection, and yes, each=
+ of
+the random devices (trng and sdrng) have their own locking.  But it also ap=
+pears
+to me that each of those random devices contains its own private copy of th=
+e
+entropy_buf (they're statically declared on the stack in lrng_trng_seed and
+_lrng_sdrng_seed), so while the additional locking doesn't necessecarily hu=
+rt,
+I'm struggling to see why the additional work is needed.  If ever you have =
+a
+situation in which multiple rngs want want to share an entropy buffer, yes,=
+ you
+would need that lock, or some other protection, but I don't see the need
+immediately.
 
-Hi Greg,
+Neil
 
-> No, do not abuse sysfs or procfs for something like this.  Use a real
-> syscall please if you really need it.
-
-You are right.
-
-Ok, let us get back to the drawing board. What are our requirements? We need 
-to have an interface for the TRNG that should ensure other users of entropy 
-are not starved by unprivileged users.
-
-What about the following: we use the getrandom(2) system call and add 
-GRND_TRUERANDOM as already indicated. However, there is one more caveat we 
-would add:
-
-- if the caller of GRND_TRUERANDOM is !CAP_SYS_ADMIN the entropy pool can only 
-be depleted to the point where at least one or two full seeding operations 
-worth of entropy is left.
-
-- if the caller of GRND_TRUERANDOM is CAP_SYS_ADMIN, the entropy can be 
-depleted completely
-
-At runtime, the LRNG would then behave like the following:
-
-- calling getrandom(..., 0), /dev/random or /dev/urandom would deplete the 
-entropy pool during reseeding operations but leaving an emergency level of 512 
-bits of entropy in the pool. If equal or less are in the pool, reseeding would 
-be skipped.
-
-- calling getrandom(..., GRND_TRUERANDOM) with CAP_SYS_ADMIN allows the 
-entropy pool to be fully depleted.
-
-- calling getrandom(..., GRND_TRUERANDOM) without CAP_SYS_ADMIN allows the 
-entropy pool to be depleted down to 1024 bits of entropy. If the pool has 
-equal or less, the caller is blocked. This allows the DRNG feeding /dev/
-random, /dev/urandom or getrandom(..., 0) with 512 bits of entropy (i.e. two 
-reseed operations are possible). Only if the entropy pool has more than 1024 
-bits of entropy, the getrandom call would unblock and provide data.
-
-With that approach, I think we can honor the request from Greg to not add any 
-new interface and yet honor the note from Alexander to not allow unprivileged 
-user space to deplete the entropy pool to the extent that other users of 
-entropy are too much affected.
-
-If GRND_TRUERANDOM is not implemented, EOPNOTSUPP is returned.
-
-Thank you.
-
-Ciao
-Stephan
-
+> Thank you for your review!
+>=20
+> Ciao
+> Stephan
+>=20
+>=20
 
