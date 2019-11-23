@@ -2,34 +2,34 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 72C54108095
-	for <lists+linux-api@lfdr.de>; Sat, 23 Nov 2019 21:42:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 01EFE10808B
+	for <lists+linux-api@lfdr.de>; Sat, 23 Nov 2019 21:42:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727240AbfKWUkC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 23 Nov 2019 15:40:02 -0500
-Received: from mo4-p03-ob.smtp.rzone.de ([81.169.146.175]:23247 "EHLO
-        mo4-p03-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727158AbfKWUkB (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 23 Nov 2019 15:40:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1574541599;
+        id S1727197AbfKWUjx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 23 Nov 2019 15:39:53 -0500
+Received: from mo4-p02-ob.smtp.rzone.de ([81.169.146.171]:24048 "EHLO
+        mo4-p02-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727148AbfKWUjx (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 23 Nov 2019 15:39:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1574541588;
         s=strato-dkim-0002; d=chronox.de;
         h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
         X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
-        bh=ThK0/tIEOL2Gmqz3Ei+ZYrYCzmS9Q/TMif6Cp2/Yorg=;
-        b=gnqu3ihdsy8qPNLMCF98EIKxsRFconBT3Z2NxqZPK4l6YCJSQUtG0MKz0c4eO3RsNJ
-        c9v0HDWT0QAeCe1Ys3HspRGpaExqIUXb3zrDvAKT3Rcz2d+ryTZJcxEKR+VPAUtX2QN/
-        VfTVApv+aMWp50nfbqMJIEGNbZh0/Z/q1I94+hnXixYddOamB8R4wweUkBwZS57rJxqI
-        NcoXw5w8IjcyvAs/EjIdV4EWd8fMfiwQPCwI2td54vjhDqmotAoI+Jvlcolhq3boIkZa
-        k06PhzYXIpzB/RS3tkoNycFrCd89j0hc93n331i2Qsjmm+JPcIJ58YCK4AMoGLKPQ5Cc
-        Wk1w==
+        bh=nrHgYrY5S5vy1f2QIho5ZBdGlsDnQP66HSM1YfNZId0=;
+        b=fDPI8PRJG8/AZVmK7m2L9az3FFchKO2heqW7iJ4iuvyLoMlQ8BAzzCItkPNGfnV3Vo
+        BrbkUkwKNjcF8QPtsejWscC3O037C68vAZM25z7w5bCK/OCpfARxGt94jkT451YWkzxD
+        /ndo+yjKAFsh+gXDy8TFDK+npBcMXEbfNGX+CxmZYxeSaSPe+Re752chHHz1ftWxYtZj
+        IV/ZMUk2o8CQAi3iLRfgWpe6uwK7k9b4XX7aqe+alaC0dP0DiGFLATSMfCnaELz+1I2m
+        FSdfoUE4yQRd9ZV2Y5vYNda7lZYeu4w8FDBd3gIswImmAWRp5AhVjedg+r1UtVYXxLWy
+        M5Pw==
 X-RZG-AUTH: ":P2ERcEykfu11Y98lp/T7+hdri+uKZK8TKWEqNyiHySGSa9k9xmwdNnzHHXDaJfSfWrhX"
 X-RZG-CLASS-ID: mo00
 Received: from positron.chronox.de
         by smtp.strato.de (RZmta 44.29.0 DYNA|AUTH)
-        with ESMTPSA id N09a57vANKcU3yR
+        with ESMTPSA id N09a57vANKcT3yQ
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve secp521r1 with 521 ECDH bits, eq. 15360 bits RSA))
         (Client did not present a certificate);
-        Sat, 23 Nov 2019 21:38:30 +0100 (CET)
+        Sat, 23 Nov 2019 21:38:29 +0100 (CET)
 From:   Stephan =?ISO-8859-1?Q?M=FCller?= <smueller@chronox.de>
 To:     Arnd Bergmann <arnd@arndb.de>
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -54,50 +54,120 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Roman Drahtmueller <draht@schaltsekun.de>,
         Neil Horman <nhorman@redhat.com>,
         Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v26 10/12] LRNG - add TRNG support
-Date:   Sat, 23 Nov 2019 21:34:24 +0100
-Message-ID: <33503687.hpnIkuazyB@positron.chronox.de>
+Subject: [PATCH v26 11/12] LRNG - add SP800-90B compliant health tests
+Date:   Sat, 23 Nov 2019 21:34:56 +0100
+Message-ID: <3289952.s8UpuWqCYI@positron.chronox.de>
 In-Reply-To: <2722222.P16TYeLAVu@positron.chronox.de>
 References: <6157374.ptSnyUpaCn@positron.chronox.de> <2787174.DQlWHN5GGo@positron.chronox.de> <2722222.P16TYeLAVu@positron.chronox.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-The True Random Number Generator (TRNG) provides a random number
-generator with prediction resistance (SP800-90A terminology) or an NTG.1
-(AIS 31 terminology).
+Implement health tests for LRNG's slow noise sources as mandated by
+SP-800-90B The file contains the following health tests:
 
-When enabled, it obtains random numbers from the entropy pool and
-maintains the information with how much entropy it was seeded with. The
-TRNG only generates as much output data as it has as entropy.
+=2D stuck test: The stuck test calculates the first, second and third
+  discrete derivative of the time stamp to be processed by the LFSR.
+  Only if all three values are non-zero, the received time delta is
+  considered to be non-stuck.
 
-The secondary DRNGs seed from the TRNG if it is present. In addition,
-the TRNG is accessible from user space using the getrandom system call
-with the GRND_TRUERANDOM flag.
+=2D SP800-90B Repetition Count Test (RCT): The LRNG uses an enhanced
+  version of the RCT specified in SP800-90B section 4.4.1. Instead of
+  counting identical back-to-back values, the input to the RCT is the
+  counting of the stuck values during the processing of received
+  interrupt events. The RCT is applied with alpha=3D2^-30 compliant to
+  the recommendation of FIPS 140-2 IG 9.8. During the counting operation,
+  the LRNG always calculates the RCT cut-off value of C. If that value
+  exceeds the allowed cut-off value, the LRNG will trigger the health
+  test failure discussed below. An error is logged to the kernel log
+  that such RCT failure occurred. This test is only applied and
+  enforced in FIPS mode, i.e. when the kernel compiled with
+  CONFIG_CONFIG_FIPS is started with fips=3D1.
 
-When getrandom(GRND_TRUERANDOM) is invoked by a process possessing
-CAP_SYS_ADMIN, all available entropy in the entropy pool is used to
-serve the request. If the calling process does not possess that
-capability, entropy is drawn to the extent that the entropy pool
-will retain at least 1024 bits of entropy. This approach prevents
-unprivileged processes to deplete existing entropy preventing
-privileged callers from obtaining that entropy.
+=2D SP800-90B Adaptive Proportion Test (APT): The LRNG implements the
+  APT as defined in SP800-90B section 4.4.2. The applied significance
+  level again is alpha=3D2^-30 compliant to the recommendation of FIPS
+  140-2 IG 9.8.
 
-Since the secondary DRNG can draw from the entropy pool down to
-a minimum entropy level of 512 bits, it will be provided with
-entropy while an unprivileged user stresses
-getrandom(GRND_TRUERANDOM).
+The aforementioned health tests are applied to the first 1,024 time stamps
+obtained from interrupt events. In case one error is identified for either
+the RCT, or the APT, the collected entropy is invalidated and the
+SP800-90B startup health test is restarted.
 
-If the TRNG is disabled, the secondary DRNGs seed from the entropy
-pool. The getrandom(GRND_TRUERANDOM) call will return -EOPNOTSUPP
-in this case.
+As long as the SP800-90B startup health test is not completed, all LRNG
+random number output interfaces that may block will block and not generate
+any data. This implies that only those potentially blocking interfaces are
+defined to provide random numbers that are seeded with the interrupt noise
+source being SP800-90B compliant. All other output interfaces will not be
+affected by the SP800-90B startup test and thus are not considered
+SP800-90B compliant.
 
-The TRNG benefits from the switchable DRNG support which implies that
-data provided via /dev/random is generated by the loaded DRNG.
+At runtime, the SP800-90B APT and RCT are applied to each time stamp
+generated for a received interrupt. When either the APT and RCT indicates
+a noise source failure, the LRNG is reset to a state it has immediately
+after boot:
+
+=2D all entropy counters are set to zero
+
+=2D the SP800-90B startup tests are re-performed which implies that
+getrandom(2) would block again until new entropy was collected
+
+To summarize, the following rules apply:
+
+=E2=80=A2 SP800-90B compliant output interfaces
+
+  - /dev/random
+
+  - getrandom(2) system call
+
+  -  get_random_bytes kernel-internal interface when being triggered by
+     the callback registered with add_random_ready_callback
+
+=E2=80=A2 SP800-90B non-compliant output interfaces
+
+  - /dev/urandom
+
+  - get_random_bytes kernel-internal interface called directly
+
+  - randomize_page kernel-internal interface
+
+  - get_random_u32 and get_random_u64 kernel-internal interfaces
+
+  - get_random_u32_wait, get_random_u64_wait, get_random_int_wait, and
+    get_random_long_wait kernel-internal interfaces
+
+If either the RCT, or the APT health test fails irrespective whether
+during initialization or runtime, the following actions occur:
+
+  1. The entropy of the entire entropy pool is invalidated.
+
+  2. The primary and all secondary DRNGs are reset which imply that they
+     are treated as being not seeded and require a reseed during next
+     invocation.
+
+  3. The SP800-90B startup health test are initiated with all
+     implications of the startup tests. That implies that from that point
+     on, new events must be observed and its entropy must be inserted into
+     the entropy pool before random numbers are calculated from the
+     entropy pool.
+
+=46urther details on the SP800-90B compliance and the availability of all
+test tools required to perform all tests mandated by SP800-90B are
+provided at [1].
+
+The entire health testing code is compile-time configurable.
+
+The patch provides a CONFIG_BROKEN configuration of the APT / RCT cutoff
+values which have a high likelihood to trigger the health test failure.
+The BROKEN APT cutoff is set to the exact mean of the expected value if
+the time stamps are equally distributed (512 time stamps divided by 16
+possible values due to using the 4 LSB of the time stamp). The BROKEN
+RCT cutoff value is set to 1 which is likely to be triggered during
+regular operation.
 
 CC: "Eric W. Biederman" <ebiederm@xmission.com>
 CC: "Alexander E. Patrakov" <patrakov@gmail.com>
@@ -115,370 +185,526 @@ CC: Andy Lutomirski <luto@kernel.org>
 CC: Florian Weimer <fweimer@redhat.com>
 CC: Lennart Poettering <mzxreary@0pointer.de>
 CC: Nicolai Stange <nstange@suse.de>
-Reviewed-by: Marcelo Henrique Cerri <marcelo.cerri@canonical.com>
 Reviewed-by: Roman Drahtmueller <draht@schaltsekun.de>
-Tested-by: Roman Drahtm=FCller <draht@schaltsekun.de>
+Tested-by: Roman Drahtm=C3=BCller <draht@schaltsekun.de>
 Tested-by: Marcelo Henrique Cerri <marcelo.cerri@canonical.com>
 Tested-by: Neil Horman <nhorman@redhat.com>
 Signed-off-by: Stephan Mueller <smueller@chronox.de>
 =2D--
- drivers/char/lrng/Kconfig     |  22 +++
- drivers/char/lrng/Makefile    |   1 +
- drivers/char/lrng/lrng_trng.c | 297 ++++++++++++++++++++++++++++++++++
- 3 files changed, 320 insertions(+)
- create mode 100644 drivers/char/lrng/lrng_trng.c
+ drivers/char/lrng/Kconfig       |  56 +++++
+ drivers/char/lrng/Makefile      |   1 +
+ drivers/char/lrng/lrng_health.c | 409 ++++++++++++++++++++++++++++++++
+ 3 files changed, 466 insertions(+)
+ create mode 100644 drivers/char/lrng/lrng_health.c
 
 diff --git a/drivers/char/lrng/Kconfig b/drivers/char/lrng/Kconfig
-index 80fc723c67d2..122d67ee110e 100644
+index 122d67ee110e..e6ca3acc1e48 100644
 =2D-- a/drivers/char/lrng/Kconfig
 +++ b/drivers/char/lrng/Kconfig
-@@ -91,4 +91,26 @@ config LRNG_JENT
- 	  time or at runtime with the lrng_base.jitterrng configuration
- 	  variable.
+@@ -113,4 +113,60 @@ config LRNG_TRNG_SUPPORT
+ 	  With the TRNG support the /dev/random device will block
+ 	  if insufficient entropy is available.
 =20
-+config LRNG_TRNG_SUPPORT
-+	bool "Enable True Random Number Generator support"
-+	default y
++config LRNG_HEALTH_TESTS
++	bool "Enable noise source online health tests"
 +	help
-+	  The true random number generator (TRNG) support, also
-+	  known as DRNG with prediction resistance (SP800-90A
-+	  terminology) or NTG.1 (AIS 31 terminology), generates
-+	  random numbers after a successful reseed with entropy.
-+	  Only when new entropy is provided for a new generation
-+	  request, random data is provided with an equal amount
-+	  as entropy was added. The TRNG is available via
-+	  /dev/random.
++	  The online health tests validate the noise source at
++	  runtime for fatal errors. These tests include SP800-90B
++	  compliant tests which are invoked if the system is booted
++	  with fips=3D1. In case of fatal errors during active
++	  SP800-90B tests, the issue is logged and the noise
++	  data is discarded. These tests are required for full
++	  compliance with SP800-90B.
 +
-+	  If the support is not enabled, /dev/random ensures that
-+	  it received sufficient initial entropy and will produce
-+	  random data without requiring a constant reseed with
-+	  entropy. Yet it tries to regularly reseed itself with
-+	  fresh entropy.
++	  If unsure, say Y.
 +
-+	  With the TRNG support the /dev/random device will block
-+	  if insufficient entropy is available.
++config LRNG_RCT_BROKEN
++	bool "SP800-90B RCT with dangerous low cutoff value"
++	depends on LRNG_HEALTH_TESTS
++	depends on BROKEN
++	default n
++	help
++	  This option enables a dangerously low SP800-90B repetitive
++	  count test (RCT) cutoff value which makes it very likely
++	  that the RCT is triggered to raise a self test failure.
++
++	  This option is ONLY intended for developers wanting to
++	  test the effectiveness of the SP800-90B RCT health test.
++
++	  If unsure, say N.
++
++config LRNG_APT_BROKEN
++	bool "SP800-90B APT with dangerous low cutoff value"
++	depends on LRNG_HEALTH_TESTS
++	depends on BROKEN
++	default n
++	help
++	  This option enables a dangerously low SP800-90B adaptive
++	  proportion test (APT) cutoff value which makes it very
++	  likely that the RCT is triggered to raise a self test
++	  failure.
++
++	  This option is ONLY intended for developers wanting to
++	  test the effectiveness of the SP800-90B APT health test.
++
++	  If unsure, say N.
++
++# Default taken from SP800-90B sec 4.4.1 - significance level 2^-30
++config LRNG_RCT_CUTOFF
++	int
++	default 30 if !LRNG_RCT_BROKEN
++	default 1 if LRNG_RCT_BROKEN
++
++# Default taken from SP800-90B sec 4.4.2 - significance level 2^-30
++config LRNG_APT_CUTOFF
++	int
++	default 325 if !LRNG_APT_BROKEN
++	default 32 if LRNG_APT_BROKEN
 +
  endif # LRNG
 diff --git a/drivers/char/lrng/Makefile b/drivers/char/lrng/Makefile
-index a87d800c9aae..1c72bc060bce 100644
+index 1c72bc060bce..0713e9c0aa6e 100644
 =2D-- a/drivers/char/lrng/Makefile
 +++ b/drivers/char/lrng/Makefile
-@@ -14,3 +14,4 @@ obj-$(CONFIG_LRNG_DRNG_SWITCH)	+=3D lrng_switch.o
- obj-$(CONFIG_LRNG_DRBG)		+=3D lrng_drbg.o
+@@ -15,3 +15,4 @@ obj-$(CONFIG_LRNG_DRBG)		+=3D lrng_drbg.o
  obj-$(CONFIG_LRNG_KCAPI)	+=3D lrng_kcapi.o
  obj-$(CONFIG_LRNG_JENT)		+=3D lrng_jent.o
-+obj-$(CONFIG_LRNG_TRNG_SUPPORT)	+=3D lrng_trng.o
-diff --git a/drivers/char/lrng/lrng_trng.c b/drivers/char/lrng/lrng_trng.c
+ obj-$(CONFIG_LRNG_TRNG_SUPPORT)	+=3D lrng_trng.o
++obj-$(CONFIG_LRNG_HEALTH_TESTS)	+=3D lrng_health.o
+diff --git a/drivers/char/lrng/lrng_health.c b/drivers/char/lrng/lrng_healt=
+h.c
 new file mode 100644
-index 000000000000..d594d5d5bffb
+index 000000000000..9ea34322e0ae
 =2D-- /dev/null
-+++ b/drivers/char/lrng/lrng_trng.c
-@@ -0,0 +1,297 @@
++++ b/drivers/char/lrng/lrng_health.c
+@@ -0,0 +1,409 @@
 +// SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
 +/*
-+ * LRNG True Random Number Generator (TRNG) processing
++ * Linux Random Number Generator (LRNG) Health Testing
 + *
-+ * Copyright (C) 2016 - 2019, Stephan Mueller <smueller@chronox.de>
++ * Copyright (C) 2019, Stephan Mueller <smueller@chronox.de>
 + */
 +
 +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
 +
-+#include <linux/capability.h>
-+#include <linux/lrng.h>
++#include <linux/fips.h>
++#include <linux/module.h>
 +
 +#include "lrng_internal.h"
 +
-+/* TRNG state handle */
-+struct lrng_trng {
-+	void *trng;				/* TRNG handle */
-+	void *hash;				/* Hash handle */
-+	u32 trng_entropy_bits;			/* TRNG entropy level */
-+	const struct lrng_crypto_cb *crypto_cb;	/* Crypto callbacks */
-+	struct mutex lock;
++/* Stuck Test */
++struct lrng_stuck_test {
++	u32 last_time;		/* Stuck test: time of previous IRQ */
++	u32 last_delta;		/* Stuck test: delta of previous IRQ */
++	u32 last_delta2;	/* Stuck test: 2. time derivation of prev IRQ */
 +};
 +
-+/* TRNG for GRND_TRUERANDOM and seed source for the secondary DRNG(s) */
-+static struct lrng_trng lrng_trng =3D {
-+	.trng		=3D &primary_chacha20,
-+	.crypto_cb	=3D &lrng_cc20_crypto_cb,
-+	.lock		=3D __MUTEX_INITIALIZER(lrng_trng.lock)
++/* Repetition Count Test */
++struct lrng_rct {
++	atomic_t rct_count;	/* Number of stuck values */
 +};
 +
-+/********************************** Helper *******************************=
-*****/
++/* Adaptive Proportion Test */
++struct lrng_apt {
++	/* Data window size */
++#define LRNG_APT_WINDOW_SIZE	512
++	/* LSB of time stamp to process */
++#define LRNG_APT_LSB		16
++#define LRNG_APT_WORD_MASK	(LRNG_APT_LSB - 1)
++	atomic_t apt_count;		/* APT counter */
++	atomic_t apt_base;		/* APT base reference */
 +
-+void lrng_trng_reset(void)
++	atomic_t apt_trigger;
++	bool apt_base_set;	/* Is APT base set? */
++};
++
++/* The health test code must operate lock-less */
++struct lrng_health {
++	struct lrng_rct rct;
++	struct lrng_apt apt;
++
++	bool health_test_enabled;
++
++	/* SP800-90B startup health tests */
++#define LRNG_SP80090B_STARTUP_SAMPLES  1024
++#define LRNG_SP80090B_STARTUP_BLOCKS   ((LRNG_SP80090B_STARTUP_SAMPLES + \
++					 LRNG_APT_WINDOW_SIZE - 1) /    \
++					LRNG_APT_WINDOW_SIZE)
++	bool sp80090b_startup_done;
++	atomic_t sp80090b_startup_blocks;
++};
++
++static struct lrng_health lrng_health =3D {
++	.rct.rct_count =3D ATOMIC_INIT(0),
++
++	.apt.apt_count =3D ATOMIC_INIT(0),
++	.apt.apt_base =3D ATOMIC_INIT(-1),
++	.apt.apt_trigger =3D ATOMIC_INIT(LRNG_APT_WINDOW_SIZE),
++	.apt.apt_base_set =3D false,
++
++	.health_test_enabled =3D true,
++
++	.sp80090b_startup_blocks =3D ATOMIC_INIT(LRNG_SP80090B_STARTUP_BLOCKS),
++	.sp80090b_startup_done =3D false,
++};
++
++static DEFINE_PER_CPU(struct lrng_stuck_test, lrng_stuck_test);
++
++static inline bool lrng_sp80090b_health_requested(void)
 +{
-+	lrng_trng.trng_entropy_bits =3D 0;
-+	pr_debug("reset TRNG\n");
++	/* Health tests are only requested in FIPS mode */
++	return fips_enabled;
 +}
 +
-+void lrng_trng_init(void)
++static inline bool lrng_sp80090b_health_enabled(void)
 +{
-+	mutex_lock(&lrng_trng.lock);
-+	lrng_trng_reset();
-+	lrng_cc20_init_state(&primary_chacha20);
-+	mutex_unlock(&lrng_trng.lock);
++	struct lrng_health *health =3D &lrng_health;
++
++	return lrng_sp80090b_health_requested() && health->health_test_enabled;
 +}
 +
-+u32 lrng_trng_retain(void)
-+{
-+	if (capable(CAP_SYS_ADMIN))
-+		return 0;
-+	return LRNG_EMERG_ENTROPY_TRNG_UNPRIV;
-+}
-+
-+/************************* Random Number Generation **********************=
-*****/
-+
-+/* Caller must hold lrng_trng.lock */
-+static int lrng_trng_generate(u8 *outbuf, u32 outbuflen)
-+{
-+	struct lrng_trng *trng =3D &lrng_trng;
-+	const struct lrng_crypto_cb *crypto_cb =3D trng->crypto_cb;
-+	int ret;
-+
-+	/*
-+	 * Only deliver as many bytes as the DRNG is seeded with except during
-+	 * initialization to provide a first seed to the secondary DRNG.
-+	 */
-+	if (lrng_state_min_seeded())
-+		outbuflen =3D min_t(u32, outbuflen, trng->trng_entropy_bits>>3);
-+	else
-+		outbuflen =3D min_t(u32, outbuflen,
-+				  LRNG_MIN_SEED_ENTROPY_BITS>>3);
-+	if (!outbuflen)
-+		return 0;
-+
-+	ret =3D crypto_cb->lrng_drng_generate_helper_full(trng->trng, outbuf,
-+							outbuflen);
-+	if (ret !=3D outbuflen) {
-+		pr_warn("getting random data from TRNG failed (%d)\n",
-+			ret);
-+		return ret;
-+	}
-+
-+	if (trng->trng_entropy_bits > (u32)(ret<<3))
-+		trng->trng_entropy_bits -=3D ret<<3;
-+	else
-+		trng->trng_entropy_bits =3D 0;
-+	pr_debug("obtained %d bytes of random data from TRNG\n", ret);
-+	pr_debug("TRNG entropy level at %u bits\n",
-+		 trng->trng_entropy_bits);
-+
-+	return ret;
-+}
++/*************************************************************************=
+**
++ * SP800-90B Compliance
++ *
++ * If the Linux-RNG is booted into FIPS mode, the following interfaces
++ * provide an SP800-90B compliant noise source:
++ *
++ * * /dev/random
++ * * getrandom(2)
++ * * get_random_bytes when using it in conjunction with
++ *   add_random_ready_callback
++ *
++ * All other interfaces, including /dev/urandom or get_random_bytes without
++ * the add_random_ready_callback cannot claim to use an SP800-90B compliant
++ * noise source.
++ *************************************************************************=
+**/
 +
 +/**
-+ * Inject data into the TRNG with a given entropy value. The function calls
-+ * the DRNG's update function. This function also generates random data if
-+ * requested by caller. The caller is only returned the amount of random d=
-ata
-+ * that is at most equal to the amount of entropy that just seeded the DRN=
-G.
-+ *
-+ * Note, this function seeds the TRNG and generates data in an atomic oper=
-ation.
-+ *
-+ * @inbuf: buffer to inject
-+ * @inbuflen: length of inbuf
-+ * @entropy_bits: entropy value of the data in inbuf in bits
-+ * @outbuf: buffer to fill immediately after seeding to get full entropy
-+ * @outbuflen: length of outbuf
-+ * @return: number of bytes written to outbuf, 0 if outbuf is not supplied,
-+ *	    or < 0 in case of error
++ * Perform SP800-90B startup testing
 + */
-+static int lrng_trng_inject(const u8 *inbuf, u32 inbuflen, u32 entropy_bit=
-s,
-+			    u8 *outbuf, u32 outbuflen)
++static inline void lrng_sp80090b_startup(struct lrng_health *health)
 +{
-+	struct lrng_trng *trng =3D &lrng_trng;
-+	int ret;
++	if (!health->sp80090b_startup_done &&
++	    atomic_dec_and_test(&health->sp80090b_startup_blocks)) {
++		health->sp80090b_startup_done =3D true;
++		pr_info("SP800-90B startup health tests completed\n");
++		lrng_init_ops(0);
 +
-+	/* cap the maximum entropy value to the provided data length */
-+	entropy_bits =3D min_t(u32, entropy_bits, inbuflen<<3);
-+
-+	mutex_lock(&trng->lock);
-+	ret =3D trng->crypto_cb->lrng_drng_seed_helper(trng->trng, inbuf,
-+						      inbuflen);
-+	if (ret < 0) {
-+		pr_warn("(re)seeding of TRNG failed\n");
-+		goto unlock;
-+	}
-+	pr_debug("inject %u bytes with %u bits of entropy into TRNG\n",
-+		 inbuflen, entropy_bits);
-+
-+	/* Adjust the fill level indicator to at most the DRNG sec strength */
-+	trng->trng_entropy_bits =3D
-+		min_t(u32, trng->trng_entropy_bits + entropy_bits,
-+		      LRNG_DRNG_SECURITY_STRENGTH_BITS);
-+	lrng_init_ops(trng->trng_entropy_bits);
-+
-+	if (outbuf && outbuflen)
-+		ret =3D lrng_trng_generate(outbuf, outbuflen);
-+
-+unlock:
-+	mutex_unlock(&trng->lock);
-+	lrng_reader_wakeup();
-+
-+	return ret;
-+}
-+
-+/**
-+ * Seed the TRNG from the internal noise sources and generate random data.=
- The
-+ * seeding and the generation of random data is an atomic operation.
-+ *
-+ * lrng_pool_trylock() must be invoked successfully by caller.
-+ */
-+int lrng_trng_seed(u8 *outbuf, u32 outbuflen, u32 entropy_retain)
-+{
-+	struct entropy_buf entropy_buf __aligned(LRNG_KCAPI_ALIGN);
-+	struct lrng_trng *trng =3D &lrng_trng;
-+	u32 total_entropy_bits;
-+	int ret =3D 0, retrieved =3D 0;
-+
-+	/* Get available entropy in primary DRNG */
-+	if (trng->trng_entropy_bits>>3) {
-+		mutex_lock(&trng->lock);
-+		ret =3D lrng_trng_generate(outbuf, outbuflen);
-+		mutex_unlock(&trng->lock);
-+		if (ret > 0) {
-+			retrieved +=3D ret;
-+			if (ret =3D=3D outbuflen)
-+				goto out;
-+
-+			outbuf +=3D ret;
-+			outbuflen -=3D ret;
-+		}
-+		/* Disregard error code as another generate request is below. */
-+	}
-+
-+	mutex_lock(&trng->lock);
-+	total_entropy_bits =3D lrng_fill_seed_buffer(trng->crypto_cb, trng->hash,
-+						   &entropy_buf,
-+						   entropy_retain);
-+	mutex_unlock(&trng->lock);
-+
-+	/*
-+	 * Continue even of total_entropy_bits is zero - inject uninitialized
-+	 * buffer into TRNG for pure mixing in this case.
-+	 */
-+
-+	pr_debug("reseed TRNG from internal noise sources with %u bits "
-+		 "of entropy\n", total_entropy_bits);
-+
-+	ret =3D lrng_trng_inject((u8 *)&entropy_buf, sizeof(entropy_buf),
-+				total_entropy_bits,
-+				outbuf, outbuflen);
-+
-+	memzero_explicit(&entropy_buf, sizeof(entropy_buf));
-+
-+	if (ret > 0)
-+		retrieved +=3D ret;
-+
-+out:
-+	/* Allow the seeding operation to be called again */
-+	lrng_pool_unlock();
-+
-+	return (ret >=3D 0) ? retrieved : ret;
-+}
-+
-+/**
-+ * Obtain random data from TRNG with information theoretical entropy by
-+ * triggering a reseed. The TRNG will only return as many random bytes as =
-it
-+ * was seeded with.
-+ *
-+ * @outbuf: buffer to store the random data in
-+ * @outbuflen: length of outbuf
-+ * @return: < 0 on error
-+ *	    >=3D 0 the number of bytes that were obtained
-+ */
-+int lrng_trng_get(u8 *outbuf, u32 outbuflen)
-+{
-+	int ret;
-+
-+	if (!outbuf || !outbuflen)
-+		return 0;
-+
-+	lrng_drngs_init_cc20();
-+
-+	if (lrng_pool_trylock())
-+		return -EINPROGRESS;
-+	ret =3D lrng_trng_seed(outbuf, outbuflen, lrng_trng_retain());
-+	if (ret >=3D 0) {
-+		pr_debug("read %d bytes of full entropy data from TRNG\n", ret);
-+	} else {
-+		/* This is no error, but we have not generated anything */
-+		if (ret =3D=3D -EINPROGRESS)
-+			return 0;
-+		pr_debug("reading data from TRNG failed: %d\n", ret);
-+	}
-+
-+	return ret;
-+}
-+
-+#ifdef CONFIG_LRNG_DRNG_SWITCH
-+int lrng_trng_switch(const struct lrng_crypto_cb *cb)
-+{
-+	int ret;
-+	u8 seed[LRNG_DRNG_SECURITY_STRENGTH_BYTES];
-+	void *trng, *hash;
-+
-+	trng =3D cb->lrng_drng_alloc(LRNG_DRNG_SECURITY_STRENGTH_BYTES);
-+	if (IS_ERR(trng))
-+		return PTR_ERR(trng);
-+
-+	hash =3D cb->lrng_hash_alloc(seed, sizeof(seed));
-+	if (IS_ERR(hash)) {
-+		pr_warn("could not allocate new LRNG pool hash (%ld)\n",
-+			PTR_ERR(hash));
-+		cb->lrng_drng_dealloc(trng);
-+		return PTR_ERR(hash);
-+	}
-+
-+	/* Update primary DRNG */
-+	mutex_lock(&lrng_trng.lock);
-+	/* pull from existing DRNG to seed new DRNG */
-+	ret =3D lrng_trng.crypto_cb->lrng_drng_generate_helper_full(
-+					lrng_trng.trng, seed, sizeof(seed));
-+	if (ret < 0) {
-+		lrng_trng_reset();
-+		pr_warn("getting random data from TRNG failed (%d)\n", ret);
-+	} else {
 +		/*
-+		 * No change of the seed status as the old and new DRNG have
-+		 * same security strength.
++		 * Force a reseed of secondary DRNGs to ensure they are
++		 * seeded with entropy that passed the SP800-90B health tests.
++		 * As the primary DRNG always will reseed before generating
++		 * random numbers, it does not need a reseed trigger.
 +		 */
-+		ret =3D cb->lrng_drng_seed_helper(trng, seed, ret);
-+		if (ret < 0) {
-+			lrng_trng_reset();
-+			pr_warn("seeding of new TRNG failed (%d)\n", ret);
-+		} else {
-+			pr_debug("seeded new TRNG instance from old TRNG "
-+				 "instance\n");
-+		}
++		lrng_sdrng_force_reseed();
 +	}
-+	memzero_explicit(seed, sizeof(seed));
-+
-+	if (!lrng_get_available())
-+		lrng_trng_reset();
-+	lrng_trng.crypto_cb->lrng_drng_dealloc(lrng_trng.trng);
-+	lrng_trng.trng =3D trng;
-+
-+	lrng_trng.crypto_cb->lrng_hash_dealloc(lrng_trng.hash);
-+	lrng_trng.hash =3D hash;
-+
-+	lrng_trng.crypto_cb =3D cb;
-+
-+	mutex_unlock(&lrng_trng.lock);
-+
-+	pr_info("TRNG allocated\n");
-+
-+	return ret;
 +}
-+#endif	/* CONFIG_LRNG_DRNG_SWITCH */
++
++/**
++ * Handle failure of SP800-90B startup testing
++ */
++static inline void lrng_sp80090b_startup_failure(struct lrng_health *healt=
+h)
++{
++	/* Reset of LRNG and its entropy - NOTE: we are in atomic context */
++	lrng_reset();
++
++	/*
++	 * Reset the SP800-90B startup test.
++	 *
++	 * NOTE SP800-90B section 4.3 bullet 4 does not specify what
++	 * exactly is to be done in case of failure! Thus, we do what
++	 * makes sense, i.e. restarting the health test and thus gating
++	 * the output function of /dev/random and getrandom(2).
++	 */
++	atomic_set(&health->sp80090b_startup_blocks,
++		   LRNG_SP80090B_STARTUP_BLOCKS);
++}
++
++/**
++ * Handle failure of SP800-90B runtime testing
++ */
++static inline void lrng_sp80090b_runtime_failure(struct lrng_health *healt=
+h)
++{
++	lrng_sp80090b_startup_failure(health);
++	health->sp80090b_startup_done =3D false;
++}
++
++static inline void lrng_sp80090b_failure(struct lrng_health *health)
++{
++	if (health->sp80090b_startup_done) {
++		pr_err("SP800-90B runtime health test failure - invalidating "
++		       "all existing entropy and initiate SP800-90B startup\n");
++		lrng_sp80090b_runtime_failure(health);
++	} else {
++		pr_err("SP800-90B startup test failure - resetting\n");
++		lrng_sp80090b_startup_failure(health);
++	}
++}
++
++/**
++ * Is the SP800-90B startup testing complete?
++ *
++ * This function is called by the LRNG to determine whether to unblock
++ * a certain user interface. Therefore, only the potentially blocking
++ * user interfaces are considered SP800-90B compliant.
++ */
++bool lrng_sp80090b_startup_complete(void)
++{
++	struct lrng_health *health =3D &lrng_health;
++
++	return (lrng_sp80090b_health_enabled()) ? health->sp80090b_startup_done:
++						  true;
++}
++
++bool lrng_sp80090b_compliant(void)
++{
++	struct lrng_health *health =3D &lrng_health;
++
++	return lrng_sp80090b_health_enabled() && health->sp80090b_startup_done;
++}
++
++/*************************************************************************=
+**
++ * Adaptive Proportion Test
++ *
++ * This test complies with SP800-90B section 4.4.2.
++ *************************************************************************=
+**/
++
++/**
++ * Reset the APT counter
++ *
++ * @health [in] Reference to health state
++ */
++static inline void lrng_apt_reset(struct lrng_health *health,
++				  unsigned int time_masked)
++{
++	struct lrng_apt *apt =3D &health->apt;
++
++	pr_debug("APT value %d for base %d\n",
++		 atomic_read(&apt->apt_count), atomic_read(&apt->apt_base));
++
++	/* Reset APT */
++	atomic_set(&apt->apt_count, 0);
++	atomic_set(&apt->apt_base, time_masked);
++}
++
++static inline void lrng_apt_restart(struct lrng_health *health)
++{
++	struct lrng_apt *apt =3D &health->apt;
++
++	atomic_set(&apt->apt_trigger, LRNG_APT_WINDOW_SIZE);
++}
++
++/**
++ * Insert a new entropy event into APT
++ *
++ * This function does is void as it does not decide about the fate of a ti=
+me
++ * stamp. An APT failure can only happen at the same time of a stuck test
++ * failure. Thus, the stuck failure will already decide how the time stamp
++ * is handled.
++ *
++ * @health [in] Reference to health state
++ * @now_time [in] Time stamp to process
++ */
++static inline void lrng_apt_insert(struct lrng_health *health,
++				   unsigned int now_time)
++{
++	struct lrng_apt *apt =3D &health->apt;
++
++	if (!lrng_sp80090b_health_requested())
++		return;
++
++	now_time &=3D LRNG_APT_WORD_MASK;
++
++	/* Initialization of APT */
++	if (!apt->apt_base_set) {
++		atomic_set(&apt->apt_base, now_time);
++		apt->apt_base_set =3D true;
++		return;
++	}
++
++	if (now_time =3D=3D (unsigned int)atomic_read(&apt->apt_base)) {
++		u32 apt_val =3D (u32)atomic_inc_return_relaxed(&apt->apt_count);
++
++		if (apt_val >=3D CONFIG_LRNG_APT_CUTOFF)
++			lrng_sp80090b_failure(health);
++	}
++
++	if (atomic_dec_and_test(&apt->apt_trigger)) {
++		lrng_apt_restart(health);
++		lrng_apt_reset(health, now_time);
++		lrng_sp80090b_startup(health);
++	}
++}
++
++/*************************************************************************=
+**
++ * Repetition Count Test
++ *
++ * The LRNG uses an enhanced version of the Repetition Count Test
++ * (RCT) specified in SP800-90B section 4.4.1. Instead of counting identic=
+al
++ * back-to-back values, the input to the RCT is the counting of the stuck
++ * values while filling the entropy pool.
++ *
++ * The RCT is applied with an alpha of 2^-30 compliant to FIPS 140-2 IG 9.=
+8.
++ *
++ * During the counting operation, the LRNG always calculates the RCT
++ * cut-off value of C. If that value exceeds the allowed cut-off value,
++ * the LRNG will invalidate all entropy for the entropy pool which implies
++ * that no data can be extracted from the entropy pool unless new entropy
++ * is received.
++ *************************************************************************=
+**/
++
++/**
++ * Hot code path - Insert data for Repetition Count Test
++ *
++ * @health: Reference to health information
++ * @stuck: Decision of stuck test
++ */
++static inline void lrng_rct(struct lrng_health *health, int stuck)
++{
++	struct lrng_rct *rct =3D &health->rct;
++
++	if (!lrng_sp80090b_health_requested())
++		return;
++
++	if (stuck) {
++		u32 rct_count =3D atomic_add_return_relaxed(1, &rct->rct_count);
++
++		pr_debug("RCT count: %u\n", rct_count);
++
++		/*
++		 * The cutoff value is based on the following consideration:
++		 * alpha =3D 2^-30 as recommended in FIPS 140-2 IG 9.8.
++		 * In addition, we imply an entropy value H of 1 bit as this
++		 * is the minimum entropy required to provide full entropy.
++		 *
++		 * Note, rct_count (which equals to value B in the
++		 * pseudo code of SP800-90B section 4.4.1) starts with zero.
++		 * Hence we need to subtract one from the cutoff value as
++		 * calculated following SP800-90B.
++		 */
++		if (rct_count >=3D CONFIG_LRNG_RCT_CUTOFF) {
++			atomic_set(&rct->rct_count, 0);
++
++			/*
++			 * APT must start anew as we consider all previously
++			 * recorded data to contain no entropy.
++			 */
++			lrng_apt_restart(health);
++
++			lrng_sp80090b_failure(health);
++		}
++	} else {
++		atomic_set(&rct->rct_count, 0);
++	}
++}
++
++/*************************************************************************=
+**
++ * Stuck Test
++ *
++ * Checking the:
++ *      1st derivative of the event occurrence (time delta)
++ *      2nd derivative of the event occurrence (delta of time deltas)
++ *      3rd derivative of the event occurrence (delta of delta of time del=
+tas)
++ *
++ * All values must always be non-zero. The stuck test is only valid disabl=
+ed if
++ * high-resolution time stamps are identified after initialization.
++ *************************************************************************=
+**/
++
++static inline u32 lrng_delta(u32 prev, u32 next)
++{
++	/*
++	 * Note that this (unsigned) subtraction does yield the correct value
++	 * in the wraparound-case, i.e. when next < prev.
++	 */
++	return (next - prev);
++}
++
++/**
++ * Hot code path
++ *
++ * @health: Reference to health information
++ * @now: Event time
++ * @return: 0 event occurrence not stuck (good time stamp)
++ *	    !=3D 0 event occurrence stuck (reject time stamp)
++ */
++static inline int lrng_irq_stuck(struct lrng_stuck_test *stuck, u32 now_ti=
+me)
++{
++	u32 delta =3D lrng_delta(stuck->last_time, now_time);
++	u32 delta2 =3D lrng_delta(stuck->last_delta, delta);
++	u32 delta3 =3D lrng_delta(stuck->last_delta2, delta2);
++
++	stuck->last_time =3D now_time;
++	stuck->last_delta =3D delta;
++	stuck->last_delta2 =3D delta2;
++
++	if (!delta || !delta2 || !delta3)
++		return 1;
++
++	return 0;
++}
++
++/*************************************************************************=
+**
++ * Health test interfaces
++ *************************************************************************=
+**/
++
++/**
++ * Disable all health tests
++ */
++void lrng_health_disable(void)
++{
++	struct lrng_health *health =3D &lrng_health;
++
++	health->health_test_enabled =3D false;
++
++	if (lrng_sp80090b_health_requested())
++		pr_warn("SP800-90B compliance requested but the Linux RNG is "
++			"NOT SP800-90B compliant\n");
++}
++
++/**
++ * Hot code path - Perform health test on time stamp received from an event
++ *
++ * @now_time Time stap
++ */
++enum lrng_health_res lrng_health_test(u32 now_time)
++{
++	struct lrng_health *health =3D &lrng_health;
++	struct lrng_stuck_test *stuck_test =3D this_cpu_ptr(&lrng_stuck_test);
++	int stuck;
++
++	if (!health->health_test_enabled)
++		return lrng_health_pass;
++
++	lrng_apt_insert(health, now_time);
++
++	stuck =3D lrng_irq_stuck(stuck_test, now_time);
++	lrng_rct(health, stuck);
++	if (stuck) {
++		/* SP800-90B disallows using a failing health test time stamp */
++		return lrng_sp80090b_health_requested() ?
++			lrng_health_fail_drop : lrng_health_fail_use;
++	}
++
++	return lrng_health_pass;
++}
 =2D-=20
 2.23.0
 
