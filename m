@@ -2,52 +2,36 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E1AA1081A4
-	for <lists+linux-api@lfdr.de>; Sun, 24 Nov 2019 05:51:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 07A5410828D
+	for <lists+linux-api@lfdr.de>; Sun, 24 Nov 2019 10:05:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726784AbfKXEvg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 23 Nov 2019 23:51:36 -0500
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:33820 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726705AbfKXEvg (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 23 Nov 2019 23:51:36 -0500
-Received: by mail-wr1-f67.google.com with SMTP id t2so13415832wrr.1;
-        Sat, 23 Nov 2019 20:51:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=UMNvMZ2fiueHFeBLtH1yqoxzy6gBcmr82O5GZYCic0I=;
-        b=cqqaBO8rwLZCQAQHTXvCo2RUBKkg8tdFoISyP22RXsT8TTixtNpakZvXcy6Yd/mQIX
-         sSt4Wd4DXjh34IK6EX00eNiCIJhjF4YyFXVyOMgNzWIRzt4rIUqz0ibinZKsOOU2Bd+k
-         MqZ8DJcC7B2lXlns95IdHGkfWSuBxOzflkmFJziQvDK0lwAHvJmnWrp1lLnFzogIQmUf
-         P83uCcRySIPT4G9dAx3Xs9RzwvIUC/QOfgczueCPmJmjkMTTOMaXckNXxRjF+Gp2tVjh
-         fNPFNNp+vUugcdWyBf/a9ZZur8HzS5F44nlHVKsxTq+lo+gLLQr3EkumPuLgTtt2JTmv
-         ffKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=UMNvMZ2fiueHFeBLtH1yqoxzy6gBcmr82O5GZYCic0I=;
-        b=m8w8bieCVaPa2snwVztCmToLo9S7mK3mCXywWBtlpIU//INUSVcawK/Scp3G+fzQOJ
-         MDB9Z2rzHTxz2qRMtakzDC0SF/nMnYmlbNVxNXj2H+ZVMVx/jckhIbIG4FeS63yUP3Ty
-         aOcbSEeilsuYcZeMBordWb4HrveBaoRt5xDhPi+aWUaiOBObM+eifYbHSQRjfozuAE3d
-         86gTm1q9GaD/QnWnxwKx2Wo8Jn5YWCLq6GaPld1xCa4R5AAs9yyDAMDNm6H++VC4mLh1
-         nJ4Jdeth6iNHGhWc0CnnkhetBVJ7S6vYA+v47YLP+7ELJIVIY/5zTlxojc3PFtJtwz4z
-         cWLw==
-X-Gm-Message-State: APjAAAWZ7CCbdmvcYnpR0kAZ2gXa1R9FmuEVnOaLmxN9RavepJDGfBar
-        sWXE7LjHXhlVfErlykRM9Vl950KnFOfN1acVuBQ=
-X-Google-Smtp-Source: APXvYqzbmBMaUZ7OFJ0tend1/u7Cs6qVFDD/rGCvqIMqwRuT0rDHfIou/pqOPQldrOCGd5rCi9+hdcY/eGpacKVnWhE=
-X-Received: by 2002:adf:ea8d:: with SMTP id s13mr24873434wrm.366.1574571093582;
- Sat, 23 Nov 2019 20:51:33 -0800 (PST)
-MIME-Version: 1.0
-References: <6157374.ptSnyUpaCn@positron.chronox.de> <2369119.jSEA3qhmGI@positron.chronox.de>
-In-Reply-To: <2369119.jSEA3qhmGI@positron.chronox.de>
-From:   Sandy Harris <sandyinchina@gmail.com>
-Date:   Sun, 24 Nov 2019 12:51:19 +0800
-Message-ID: <CACXcFmkBQAZd4bSfQvqeCsoTjMr0-uSjKciD6y9EkMN3c9ppJw@mail.gmail.com>
-Subject: Re: [PATCH v24 01/12] Linux Random Number Generator
-To:     =?UTF-8?Q?Stephan_M=C3=BCller?= <smueller@chronox.de>
+        id S1725948AbfKXJFM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 24 Nov 2019 04:05:12 -0500
+Received: from mo4-p02-ob.smtp.rzone.de ([81.169.146.169]:25853 "EHLO
+        mo4-p02-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725937AbfKXJFM (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 24 Nov 2019 04:05:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1574586307;
+        s=strato-dkim-0002; d=chronox.de;
+        h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+        X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+        bh=NCcS9u41FbIM9Hbw16/dqmjn7AU8piAM0dAqvSlzR2Q=;
+        b=GaM38xK45w2IXMhZlg3R5vfrqhoXIQYLVMeMhUzlbdESVrEA7Pq6lTa0F5TZMdbpqe
+        2+/t3ute8u+BlAFfqS6EJgUJkbxg0tbg/H6cvMtv00wS7KgA2pOlzInXzInPhIqofcNH
+        0KCrQ9NlXMNSZHBe6jzZ8uTNXwZs6LicoCBIFg9x7Jf4K234hhsErRgWDx0Q0wm+Vi5d
+        gDQbNoPh0PiQmTRisjpLPcxDkwSxhzlM/Q32DjAXKN2kv6W+w6/X/qaemOzqBhjpRubI
+        Yq4NitBltd+U5yYaUqiMUf6awVzxNKX71TODTRiAaLxbzATsTocuW6IRTaJ0IiFlYRCK
+        fDdg==
+X-RZG-AUTH: ":P2ERcEykfu11Y98lp/T7+hdri+uKZK8TKWEqNyiHySGSa9k9xmwdNnzGHXPbJvSbPHo="
+X-RZG-CLASS-ID: mo00
+Received: from tauon.chronox.de
+        by smtp.strato.de (RZmta 44.29.0 DYNA|AUTH)
+        with ESMTPSA id N09a57vAO92U5Vl
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve secp521r1 with 521 ECDH bits, eq. 15360 bits RSA))
+        (Client did not present a certificate);
+        Sun, 24 Nov 2019 10:02:30 +0100 (CET)
+From:   Stephan Mueller <smueller@chronox.de>
+To:     Sandy Harris <sandyinchina@gmail.com>
 Cc:     Arnd Bergmann <arnd@arndb.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
@@ -70,50 +54,157 @@ Cc:     Arnd Bergmann <arnd@arndb.de>,
         Marcelo Henrique Cerri <marcelo.cerri@canonical.com>,
         Roman Drahtmueller <draht@schaltsekun.de>,
         Neil Horman <nhorman@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v24 01/12] Linux Random Number Generator
+Date:   Sun, 24 Nov 2019 10:02:43 +0100
+Message-ID: <3143116.x4sn03gNaX@tauon.chronox.de>
+In-Reply-To: <CACXcFmkBQAZd4bSfQvqeCsoTjMr0-uSjKciD6y9EkMN3c9ppJw@mail.gmail.com>
+References: <6157374.ptSnyUpaCn@positron.chronox.de> <2369119.jSEA3qhmGI@positron.chronox.de> <CACXcFmkBQAZd4bSfQvqeCsoTjMr0-uSjKciD6y9EkMN3c9ppJw@mail.gmail.com>
+MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Stephan M=C3=BCller <smueller@chronox.de> wrote:
+Am Sonntag, 24. November 2019, 05:51:19 CET schrieb Sandy Harris:
 
-> In an effort to provide a flexible implementation for a random number
-> generator that also ...
+Hi Sandy,
 
-As usual, some of your proposals make considerable sense to me &
-others do not, at least on first reading. I may have more comments
-after reflecting some.
+> Stephan M=FCller <smueller@chronox.de> wrote:
+> > In an effort to provide a flexible implementation for a random number
+> > generator that also ...
+>=20
+> As usual, some of your proposals make considerable sense to me &
+> others do not, at least on first reading. I may have more comments
+> after reflecting some.
+>=20
+> Meanwhile, a couple of things jump out at me:
+> >  (a) When an interrupt occurs, the high-resolution time stamp is mixed
+> >=20
+> > into the LFSR. ...
+> >=20
+> >  (b) HID event data like the key stroke or the mouse coordinates are
+> >=20
+> > mixed into the LFSR. ...
+> >=20
+> >  (c) Device drivers may provide data that is mixed into the LFSR. ...
+>=20
+> Why into the LFSR instead of into the entropy pool?
 
-Meanwhile, a couple of things jump out at me:
+The LFSR is the state transitioning function of the entropy pool. Thus, whe=
+n=20
+handing data to the LFSR, it is "mixed" into the entropy pool. Thus, the LR=
+NG=20
+should perform the action you would expect, i.e. mixing the data into the=20
+entropy pool.
 
->  (a) When an interrupt occurs, the high-resolution time stamp is mixed
-> into the LFSR. ...
->
->  (b) HID event data like the key stroke or the mouse coordinates are
-> mixed into the LFSR. ...
->
->  (c) Device drivers may provide data that is mixed into the LFSR. ...
+>=20
+> > The LRNG allows the TRNG and secondary DRNG mechanism to be changed
+> > at runtime.
+>=20
+> Why? This strikes me as pointless complication.
 
-Why into the LFSR instead of into the entropy pool?
+The reason for this is the construction definition of the German AIS 31.
 
-> The LRNG allows the TRNG and secondary DRNG mechanism to be changed
-> at runtime.
+The TRNG is considered to operate as an NTG.1 in the terms of AIS 31. The=20
+secondary DRNG(s) act as a DRG.3 in terms of AIS 31.
 
-Why? This strikes me as pointless complication.
+AIS 31 requires that DRGs (including a DRG.3) must be seeded from either an=
+=20
+NTG.1 (i.e. the TRNG) or a PTG (a physical noise source which we do not hav=
+e=20
+in the kernel).
 
-> * high performance of interrupt handling code: The LRNG impact on the
-> interrupt handling has been reduced to a minimum. On one example
-> system, the LRNG interrupt handling code executes within an average
-> of 65 cycles whereas the existing /dev/random on the same device
-> takes about 97 cycles when measuring the execution time of
-> add_interrupt_randomness().
+This implies that the TRNG (NTG.1) seeds the secondary DRNG (DRG.3) and thu=
+s=20
+would be compliant to AIS 31.
 
-Assuming you do this without sacrificing the input mixing, this
-would be worth submitting as a separate patch. Saving cycles
-on every interrupt definitely looks worth doing.
+Since this construction method does not violate other construction methods,=
+=20
+such as the recommendations in SP800-90C, the LRNG architecture can be clai=
+med=20
+to be compliant with multiple different construction methods and requiremen=
+ts=20
+where the output of either the TRNG or the secondary DRNGs always provide=20
+random data from a compliant RNG.
 
-> * lockless LFSR to collect raw entropy
+Note, this construction is only applied if the TRNG is selected and compile=
+d.=20
+If the TRNG is not present (i.e. not compiled based on the Linux kernel=20
+compilation configuration), the secondary DRNGs seed directly from the entr=
+opy=20
+pool. Using this flexibility, the LRNG is intended to be able to serve=20
+different use cases and requirements.
+>=20
+> > * high performance of interrupt handling code: The LRNG impact on the
+> > interrupt handling has been reduced to a minimum. On one example
+> > system, the LRNG interrupt handling code executes within an average
+> > of 65 cycles whereas the existing /dev/random on the same device
+> > takes about 97 cycles when measuring the execution time of
+> > add_interrupt_randomness().
+>=20
+> Assuming you do this without sacrificing the input mixing, this
+> would be worth submitting as a separate patch. Saving cycles
+> on every interrupt definitely looks worth doing.
+>=20
+> > * lockless LFSR to collect raw entropy
+>=20
+> This too.
 
-This too.
+=46or both comments, the issue is that patches should always provide code t=
+hat=20
+compiles. The issue is that this logic cannot be extracted into a separate=
+=20
+patch without sacrificing the requirement to make it compile.
+
+Though, the code you refer to is extracted into its own C file which allows=
+ an=20
+independent assessment: please see lrng_sw_noise.c whose purpose is to only=
+=20
+provide the high-performance interrupt handling code. The lockless LFSR is=
+=20
+provided with the lrng_pool.c with the function lrng_pool_lfsr_u32.
+
+PS: For those two functions and the ChaCha20 DRNG I have another patch in t=
+he=20
+pipeline that will add power-on self tests which are automatically executed=
+=20
+during boot. Considering that these three functions are essential to the=20
+maintenance of entropy, adding the self test for those should provide=20
+additional assurance to users that the code runs properly.
+
+PPS: If you want to study the operations of both, the high-performance=20
+interrupt collection and the lockless LFSR, there is user space test code t=
+hat=20
+provides the implementation as a user space application: please see the tes=
+t=20
+code in [1] and use the code in:
+
+=2D lfsr_demonstration.c: Full operational LFSR to generate arbitrary amoun=
+ts of=20
+data from arbitrary seed data.
+
+=2D lfsr_testvector_generation.c: LFSR code that I used to generate self-te=
+st=20
+vectors for the pending patch
+
+=2D time_storage.c: Test code for the high-performance interrupt handling c=
+ode
+
+In addition the essential ChaCha20 DRNG is available as a user space DRNG f=
+or=20
+study at [2].
+
+
+[1] https://www.chronox.de/lrng.html
+
+[2] https://www.chronox.de/chacha20_drng.html
+
+
+Thank you very much for your considerations.
+
+Ciao
+Stephan
+
+
