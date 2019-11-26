@@ -2,101 +2,97 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D25710A0FD
-	for <lists+linux-api@lfdr.de>; Tue, 26 Nov 2019 16:13:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 99A0B10A362
+	for <lists+linux-api@lfdr.de>; Tue, 26 Nov 2019 18:36:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727363AbfKZPNs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 26 Nov 2019 10:13:48 -0500
-Received: from mx2.suse.de ([195.135.220.15]:57548 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727418AbfKZPNr (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 26 Nov 2019 10:13:47 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id EE8B1BEC7;
-        Tue, 26 Nov 2019 15:13:44 +0000 (UTC)
-Subject: Re: [RFC PATCH v3 06/12] btrfs: remove dead snapshot-aware defrag
- code
-To:     Omar Sandoval <osandov@osandov.com>, linux-fsdevel@vger.kernel.org,
-        linux-btrfs@vger.kernel.org
-Cc:     Dave Chinner <david@fromorbit.com>, Jann Horn <jannh@google.com>,
+        id S1727391AbfKZRgM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 26 Nov 2019 12:36:12 -0500
+Received: from mail-pj1-f65.google.com ([209.85.216.65]:38432 "EHLO
+        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727279AbfKZRgM (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 26 Nov 2019 12:36:12 -0500
+Received: by mail-pj1-f65.google.com with SMTP id f7so8613815pjw.5
+        for <linux-api@vger.kernel.org>; Tue, 26 Nov 2019 09:36:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=osandov-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=NtvB90Am5ZTLYm+Aanm0y4QmpQ4zRvwI0Pg1w2+PDpk=;
+        b=rGNbv7Q/X/5vfOv3mEOUHT0ifP2BNEzSFwVUFi60A3yjv16WqHdBPaULOwt59Zn5jT
+         gRvE//8RWtJpaj/TRQfMmRf6SBpTz2Y54xeympjIDF/o3ZrhXFas7GBOqXuO4RYEQokq
+         DeGwcPrVZvj6zd6bHf5EGPJOWL4UEEQX7sImp33qn01RPtL3vw9ts8Lg9n4GyoDbCFD9
+         UM3t9zmxGiVNPZatYm0w8uT0PYKSAv1YccttU0918i+7vjV/dtx5Fw2UcVFnXXV8IcOL
+         LJ8UlYU64ghrRk56ahQOTQOWpwcXe1Ss0w/j2aWx47gGCqN2Xnt05Kw4FiDRlZv4LqvY
+         Lj6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=NtvB90Am5ZTLYm+Aanm0y4QmpQ4zRvwI0Pg1w2+PDpk=;
+        b=to1VvBDBDzD1ZVVs6hXNz53i77TCdgXtyMnmzSVefqsVV05tZr5FS2ZDUd/awkx4e4
+         642FDbQtKYZ6mWgAn0l6WLQyDCjoplsnMkvJERX+4rf2/C20LskA7aDtxwijSKsvIc1h
+         hMIV0OvsvBCQcZo0bf/dMbK8UI7a4ttjbZWXPChDwl+F2zDxcLgnwL8fbcrdwwIoKdyh
+         uzp21V8xMKz1YhHKF7aoA5RbQgvBtYt5C6r+2Fq39Iwd6WHN6umfB44ePPHdKRcSApKi
+         wqL7Dkdj18h9yPny7NZYJqaKOLTrhm62ubhZa55EtKclFv5mPXi+ON6ZwmlLtptIVWrF
+         bhCg==
+X-Gm-Message-State: APjAAAVBepX+b0437ydfMSyButeWu/I/s0ayNHc3ITtiHKfink0tUZbN
+        ZD/EzA861n1R7Rb8Taz81UrtdA==
+X-Google-Smtp-Source: APXvYqxQGleSEyUIqfvJa8/NiJsP5dYY2++4KZCeuP6V5fzHKL8ASxLjBD4+U8MsBGYZ6bwvbS0HNA==
+X-Received: by 2002:a17:902:d881:: with SMTP id b1mr35712590plz.170.1574789771532;
+        Tue, 26 Nov 2019 09:36:11 -0800 (PST)
+Received: from vader ([2620:10d:c090:180::92f5])
+        by smtp.gmail.com with ESMTPSA id c28sm13143566pgc.65.2019.11.26.09.36.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Nov 2019 09:36:10 -0800 (PST)
+Date:   Tue, 26 Nov 2019 09:36:07 -0800
+From:   Omar Sandoval <osandov@osandov.com>
+To:     Nikolay Borisov <nborisov@suse.com>
+Cc:     linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org,
+        Dave Chinner <david@fromorbit.com>,
+        Jann Horn <jannh@google.com>,
         Amir Goldstein <amir73il@gmail.com>,
         Aleksa Sarai <cyphar@cyphar.com>, linux-api@vger.kernel.org,
         kernel-team@fb.com
+Subject: Re: [RFC PATCH v3 03/12] fs: add RWF_ENCODED for reading/writing
+ compressed data
+Message-ID: <20191126173607.GA657777@vader>
 References: <cover.1574273658.git.osandov@fb.com>
- <a33a0fddb55101eec47b815672aa42b6f85b3830.1574273658.git.osandov@fb.com>
-From:   Nikolay Borisov <nborisov@suse.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=nborisov@suse.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <1165c066-09ae-df4b-856d-df27c1c9aca3@suse.com>
-Date:   Tue, 26 Nov 2019 17:13:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ <07f9cc1969052e94818fa50019e7589d206d1d18.1574273658.git.osandov@fb.com>
+ <d1886c1f-f19e-f3a7-32d6-8803a71a510c@suse.com>
 MIME-Version: 1.0
-In-Reply-To: <a33a0fddb55101eec47b815672aa42b6f85b3830.1574273658.git.osandov@fb.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <d1886c1f-f19e-f3a7-32d6-8803a71a510c@suse.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-
-
-On 20.11.19 г. 20:24 ч., Omar Sandoval wrote:
-> From: Omar Sandoval <osandov@fb.com>
+On Tue, Nov 26, 2019 at 03:53:02PM +0200, Nikolay Borisov wrote:
 > 
-> Snapshot-aware defrag has been disabled since commit 8101c8dbf624
-> ("Btrfs: disable snapshot aware defrag for now") almost 6 years ago.
-> Let's remove the dead code. If someone is up to the task of bringing it
-> back, they can dig it up from git.
 > 
-> This is logically a revert of commit 38c227d87c49 ("Btrfs:
-> snapshot-aware defrag") except that now we have to clear the
-> EXTENT_DEFRAG bit to avoid need_force_cow() returning true forever.
+> On 20.11.19 г. 20:24 ч., Omar Sandoval wrote:
+> > From: Omar Sandoval <osandov@fb.com>
 > 
-> Signed-off-by: Omar Sandoval <osandov@fb.com>
+> <snip>
+> 
+> >  
+> > +enum {
+> > +	ENCODED_IOV_COMPRESSION_NONE,
+> > +#define ENCODED_IOV_COMPRESSION_NONE ENCODED_IOV_COMPRESSION_NONE
+> > +	ENCODED_IOV_COMPRESSION_ZLIB,
+> > +#define ENCODED_IOV_COMPRESSION_ZLIB ENCODED_IOV_COMPRESSION_ZLIB
+> > +	ENCODED_IOV_COMPRESSION_LZO,
+> > +#define ENCODED_IOV_COMPRESSION_LZO ENCODED_IOV_COMPRESSION_LZO
+> > +	ENCODED_IOV_COMPRESSION_ZSTD,
+> > +#define ENCODED_IOV_COMPRESSION_ZSTD ENCODED_IOV_COMPRESSION_ZSTD
+> > +	ENCODED_IOV_COMPRESSION_TYPES = ENCODED_IOV_COMPRESSION_ZSTD,
+> 
+> This looks very dodgy, what am I missing?
 
-Reviewed-by: Nikolay Borisov <nborisov@suse.com>
+This is a somewhat common trick so that enum values can be checked for
+with ifdef/ifndef. See include/uapi/linux.in.h, for example.
