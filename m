@@ -2,54 +2,75 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EA96610E40A
-	for <lists+linux-api@lfdr.de>; Mon,  2 Dec 2019 01:10:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 12BBD10F36D
+	for <lists+linux-api@lfdr.de>; Tue,  3 Dec 2019 00:32:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727391AbfLBAKS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 1 Dec 2019 19:10:18 -0500
-Received: from mail.kernel.org ([198.145.29.99]:38366 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727266AbfLBAKR (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Sun, 1 Dec 2019 19:10:17 -0500
-Subject: Re: [GIT PULL] sysctl: Remove the sysctl system call
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1575245417;
-        bh=T824FKpQHWTg8DZRREvcyNfKbCubI3JbDFFF6Zpka6k=;
-        h=From:In-Reply-To:References:Date:To:Cc:From;
-        b=NRa2zLR1BwhkitzPZe0RkYghWOFK1xx5x6hZ/HESpEMpkcra5OIhwWFNrajkj74BA
-         KS6J6b1OHkiO3cvs25gbmGM5qjyt62n+xbgoH/vdDyhi8rB74VmWpxYVyMoyXoNhx4
-         vMuLqsBsXfe9RVZpB1HF9aDhqx3X9m6qz+zcFRaw=
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <87r21tuulj.fsf@x220.int.ebiederm.org>
-References: <87r21tuulj.fsf@x220.int.ebiederm.org>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87r21tuulj.fsf@x220.int.ebiederm.org>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/ebiederm/user-namespace.git
- for-linus
-X-PR-Tracked-Commit-Id: 61a47c1ad3a4dc6882f01ebdc88138ac62d0df03
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: ad0b314e003049292a23dd248d3c3ca4a3d75f55
-Message-Id: <157524541716.21884.4690547403694723874.pr-tracker-bot@kernel.org>
-Date:   Mon, 02 Dec 2019 00:10:17 +0000
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org
+        id S1726105AbfLBXcF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 2 Dec 2019 18:32:05 -0500
+Received: from mail-il1-f171.google.com ([209.85.166.171]:45332 "EHLO
+        mail-il1-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725853AbfLBXcF (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 2 Dec 2019 18:32:05 -0500
+Received: by mail-il1-f171.google.com with SMTP id o18so1338580ils.12
+        for <linux-api@vger.kernel.org>; Mon, 02 Dec 2019 15:32:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9uAB7m6EBm7LH64uHm2P7qulgR/Phd5SEpXDcC0NfW4=;
+        b=jD/nU9ncUTwABnL9cTtzqnxSLUjC7YR759S+8tWe/okFP/D12PdGUwTvNU9uYlIXcH
+         L6otTPfAEHHPGWLd8mw7XEGIqpNQ3VkS7ZY3Leh4YyQctEkl6qvEQxrJ8IrAvB6PUt19
+         aPcZOq6DVh8oxRV6hBlzabvEc6xKkGs7kltifvV0kTGT04O5Pr/0XTGqzZ25B//aZ19+
+         9RebPbmAgdZPWWeCMzJHaHB6tLo8pvqppZKPtz/ftwlVSwEW2eqqo24Fioox4AgfRWNi
+         BAL/6FegSca45vWq/G1BTfMZC2RhidA9Dh9EF8EQfc4KpQs/SEvY0ArYIzdiP8YsFpy7
+         nKFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9uAB7m6EBm7LH64uHm2P7qulgR/Phd5SEpXDcC0NfW4=;
+        b=T4ZbpysMfhSPFbh/sIGaDxaqylfIq5wd4jKTheo9q9eZmtOjddah81XKhM55pFoMN6
+         zhIGHx+OB8HNXsKQ+IF6C1qTn9SsYIyGLftHtabAvFAqi7vnkGnPeQJs3KIHQLt7MofE
+         oyFPcnBpUqgXPIEbXXM6AaWS3PUmpMBtn6i6EtOZmp7XGPlwEogshEmP+ED808EEFXuH
+         YlRIAW2ip4SExfRKMqXIgxi+VTJwCh1GOp/7vqBrOWuo6UoAStsvbHuthbYMYaLGQV2Q
+         IyucPVNNncvuOOtfbMO8RrkiQJjMngCBcy1yPwHjcDUbi4AjFYQCg4ohDNqobOAdIg9s
+         r95A==
+X-Gm-Message-State: APjAAAWUfRPUiHVv2LunG665MmWKo+QoiKRUWmw265n7kCYbpJeX3Mrn
+        NPtTp/lYpLfKZCzsznjiQfwWya8mGHtIV8Bxr9dw+g==
+X-Google-Smtp-Source: APXvYqyLlTHofgFEQJhW4sBHggg6gotb/5nppYVFMmmnwhNpyhS7sIPgk3giMxcH8j3bX2qFXiDG62Cf/6/RBwHxm5g=
+X-Received: by 2002:a92:d744:: with SMTP id e4mr1763696ilq.64.1575329523952;
+ Mon, 02 Dec 2019 15:32:03 -0800 (PST)
+MIME-Version: 1.0
+References: <20191101210803.GA9841@xps13.dannf>
+In-Reply-To: <20191101210803.GA9841@xps13.dannf>
+From:   Matthew Garrett <mjg59@google.com>
+Date:   Mon, 2 Dec 2019 15:31:52 -0800
+Message-ID: <CACdnJuuXBQ__Sb8=V7CTZfXH=5LfbiU9SmUKapJov3Cd+aHQcw@mail.gmail.com>
+Subject: Re: tracefs splats in lockdown=confidentiality mode
+To:     dann frazier <dann.frazier@canonical.com>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        Seth Forshee <seth.forshee@canonical.com>,
+        James Morris <jmorris@namei.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Ben Hutchings <ben@decadent.org.uk>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-The pull request you sent on Wed, 27 Nov 2019 10:55:52 -0600:
+On Fri, Nov 1, 2019 at 2:08 PM dann frazier <dann.frazier@canonical.com> wrote:
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/ebiederm/user-namespace.git for-linus
+> [    1.763630] Lockdown: swapper/0: use of tracefs is restricted; see man kernel_lockdown.7
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/ad0b314e003049292a23dd248d3c3ca4a3d75f55
+This is expected.
 
-Thank you!
+> [    2.913934] ------------[ cut here ]------------
+> [    2.918435] Could not register function stat for cpu 0
+> [    2.923717] WARNING: CPU: 1 PID: 1 at kernel/trace/ftrace.c:987 ftrace_init_tracefs_toplevel+0x168/0x1bc
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/prtracker
+This is not. I'll look into it.
