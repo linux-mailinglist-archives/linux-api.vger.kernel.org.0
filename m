@@ -2,75 +2,111 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6301E1145DE
-	for <lists+linux-api@lfdr.de>; Thu,  5 Dec 2019 18:25:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B68E81145FD
+	for <lists+linux-api@lfdr.de>; Thu,  5 Dec 2019 18:33:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730182AbfLERZc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 5 Dec 2019 12:25:32 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35394 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1729598AbfLERZb (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 5 Dec 2019 12:25:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1575566730;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=w59JjKWkV4ZxKRNKisQ9Y1kZnArUOKkU4g6jxO2GRWU=;
-        b=gjjB6qzl1hOgpkbSSGcDvkJhwqpULaN31RPQGPQhP0K9qTunYFSnXtiiWXANgDnrVbx2hT
-        Xj5m4i/lssARIP2ImXwU7pKH3J5n3+fQ9fYIHvJk4uA2FSkJI2+9QL8n+bwq4KTq7Pl2l8
-        e6d3p+UU55f+KRdVZHT5y9qX2c+iyY4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-252-3O5RBmQEOS2GZnfvW0B_UQ-1; Thu, 05 Dec 2019 12:25:26 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8264E107ACC4;
-        Thu,  5 Dec 2019 17:25:24 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-120-250.rdu2.redhat.com [10.10.120.250])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id A463419756;
-        Thu,  5 Dec 2019 17:25:21 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
+        id S1730155AbfLERdZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 5 Dec 2019 12:33:25 -0500
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:43183 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730139AbfLERdZ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 5 Dec 2019 12:33:25 -0500
+Received: by mail-lj1-f194.google.com with SMTP id a13so4503605ljm.10
+        for <linux-api@vger.kernel.org>; Thu, 05 Dec 2019 09:33:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=/eKd/FDqrplPYUuvbR0AiU2l8M+m4LPxDGweCaRKq6w=;
+        b=M56np70zVr1VfiJPsuEXyT4OG9+Mgq+nZRonIdlMO0qNjSITB1EVwHnE+jM9THnBNz
+         3vX00ZNLigUAoH1Qop/bcwkoEis8chlXpTrSREoavAISt/m/5l5mLyPd23rMwP17l/QA
+         7M9TY3swoS1z9u0iCZT3it6ySOEzIm2iiZPAY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=/eKd/FDqrplPYUuvbR0AiU2l8M+m4LPxDGweCaRKq6w=;
+        b=DyWuKHnsnOOnHIyIoo8+4MZxerb1jhbPEmbDAIXcvn48xUEkcgi5d7kzQ3qswhzYhT
+         ZOiWC/eOQVE4Ab154B4ZHgg9uztl0913QTQBo6yj+b0HLcDlTk5QNtLxrD7gxB427Jsj
+         DiBGo+o0DWflX79PzgJvIGOy9PbpfCqdIp9fAYDf/rDDqfWaRgqJJLE7nJrUje8Uz3Lm
+         OEf5DEfXaQmDd8zO2neG5Zi5iaUDZ8Hj02+yK4kyMFGtWq4jcyYExd2HEI8TmQCeNl53
+         t2R+RYUU2BAdYCHTFIFcRpWmHA61MOHuGrsNZK2l8SZASr02PrCZD0+/iD81MabPQyWO
+         UEow==
+X-Gm-Message-State: APjAAAWPty06wslcOU4eFHf8UP14J5h5+wN6LU48vp49eCVons3LVzFk
+        25azR0GRZluIuBL6ag2CIUEL/9VXA+8=
+X-Google-Smtp-Source: APXvYqzve8ZdkMF/gLyoYU6LmherfLLYSDHqq0Ue4Kra14XKlmDA9BtzK5Cpt4ByyWnodRVogvMA4Q==
+X-Received: by 2002:a05:651c:102c:: with SMTP id w12mr6148137ljm.53.1575567202059;
+        Thu, 05 Dec 2019 09:33:22 -0800 (PST)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com. [209.85.167.49])
+        by smtp.gmail.com with ESMTPSA id 10sm3233900lfr.30.2019.12.05.09.33.20
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 Dec 2019 09:33:21 -0800 (PST)
+Received: by mail-lf1-f49.google.com with SMTP id v201so3087371lfa.11
+        for <linux-api@vger.kernel.org>; Thu, 05 Dec 2019 09:33:20 -0800 (PST)
+X-Received: by 2002:ac2:430e:: with SMTP id l14mr2520386lfh.79.1575567200366;
+ Thu, 05 Dec 2019 09:33:20 -0800 (PST)
+MIME-Version: 1.0
+References: <20191205125826.GK2734@twin.jikos.cz> <31452.1574721589@warthog.procyon.org.uk>
+ <1593.1575554217@warthog.procyon.org.uk> <20191205172127.GW2734@suse.cz>
 In-Reply-To: <20191205172127.GW2734@suse.cz>
-References: <20191205172127.GW2734@suse.cz> <20191205125826.GK2734@twin.jikos.cz> <31452.1574721589@warthog.procyon.org.uk> <1593.1575554217@warthog.procyon.org.uk>
-To:     dsterba@suse.cz
-Cc:     dhowells@redhat.com, torvalds@linux-foundation.org,
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Thu, 5 Dec 2019 09:33:04 -0800
+X-Gmail-Original-Message-ID: <CAHk-=whw+R5GVQdpV6J_5afQ=76vtBPzBPRj6-zG1tnhT32Pag@mail.gmail.com>
+Message-ID: <CAHk-=whw+R5GVQdpV6J_5afQ=76vtBPzBPRj6-zG1tnhT32Pag@mail.gmail.com>
+Subject: Re: [GIT PULL] pipe: Notification queue preparation
+To:     David Sterba <dsterba@suse.cz>,
+        David Howells <dhowells@redhat.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Peter Zijlstra <peterz@infradead.org>, raven@themaw.net,
         Christian Brauner <christian@brauner.io>,
         keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-security-module@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [GIT PULL] pipe: Notification queue preparation
-MIME-Version: 1.0
-Content-ID: <21492.1575566720.1@warthog.procyon.org.uk>
-Date:   Thu, 05 Dec 2019 17:25:20 +0000
-Message-ID: <21493.1575566720@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: 3O5RBmQEOS2GZnfvW0B_UQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        linux-block <linux-block@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-I've just posted a couple of patches - can you check to see if they fix you=
-r
-problem?
+On Thu, Dec 5, 2019 at 9:22 AM David Sterba <dsterba@suse.cz> wrote:
+>
+> I rerun the test again (with a different address where it's stuck), there's
+> nothing better I can get from the debug info, it always points to pipe_wait,
+> disassembly points to.
 
-https://lore.kernel.org/linux-fsdevel/157556649610.20869.853707964949534356=
-7.stgit@warthog.procyon.org.uk/T/#t
+Hah. I see another bug.
 
-Thanks,
-David
+"pipe_wait()" depends on the fact that all events that wake it up
+happen with the pipe lock held.
 
+But we do some of the "do_wakeup()" handling outside the pipe lock now
+on the reader side
+
+        __pipe_unlock(pipe);
+
+        /* Signal writers asynchronously that there is more room. */
+        if (do_wakeup) {
+                wake_up_interruptible_poll(&pipe->wait, EPOLLOUT | EPOLLWRNORM);
+                kill_fasync(&pipe->fasync_writers, SIGIO, POLL_OUT);
+        }
+
+However, that isn't new to this series _either_, so I don't think
+that's it. It does wake up things inside the lock _too_ if it ended up
+emptying a whole buffer.
+
+So it could be triggered by timing and behavior changes, but I doubt
+this pipe_wait() thing is it either. The fact that it bisects to the
+thing that changes things to use head/tail pointers makes me think
+there's some other incorrect update or comparison somewhere.
+
+That said, "pipe_wait()" is an abomination. It should use a proper
+wait condition and use wait_event(), but the code predates all of
+that. I suspect pipe_wait() goes back to the dark ages with the BKL
+and no actual races between kernel code.
+
+               Linus
