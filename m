@@ -2,160 +2,95 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DC16F114764
-	for <lists+linux-api@lfdr.de>; Thu,  5 Dec 2019 19:58:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CA448114814
+	for <lists+linux-api@lfdr.de>; Thu,  5 Dec 2019 21:27:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729552AbfLES60 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 5 Dec 2019 13:58:26 -0500
-Received: from mail-pj1-f68.google.com ([209.85.216.68]:39778 "EHLO
-        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729417AbfLES60 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 5 Dec 2019 13:58:26 -0500
-Received: by mail-pj1-f68.google.com with SMTP id v93so1652667pjb.6
-        for <linux-api@vger.kernel.org>; Thu, 05 Dec 2019 10:58:25 -0800 (PST)
+        id S1729649AbfLEU1O (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 5 Dec 2019 15:27:14 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:43362 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729417AbfLEU1O (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 5 Dec 2019 15:27:14 -0500
+Received: by mail-lj1-f193.google.com with SMTP id a13so5068541ljm.10
+        for <linux-api@vger.kernel.org>; Thu, 05 Dec 2019 12:27:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=osandov-com.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=m3VZo8UZwHMiRuNQQUqY7rgJ8zqY6lqXNVV5STmF31Y=;
-        b=bE0k3fD+BPwpoluxSJNreDDUDkIK4Kf/E4qPIONcXx08wciHl90LnkTPpVpma+8Q/M
-         dmnJwnodZr1C5fMMVU/xc7BuvFsf9oJeAg1X+jNWvVf5H3rM3oyp+r08i9pecoMo9qJJ
-         qwvY8Oa8WDtCHCCe8khYEs9E3xstecgJ9M0IF6gA127MLkgcZCGN47eq67KSU5aFbDMY
-         JsTz6vG3cieY/U2K++uCXx7RS8ZEnGwdjYyxyg2Zeb8mk708flRMGJcylgmtlnNTH31S
-         TXBwUJVxSHWIi8TeTJPO+h7IG3GOBDd7QYi1jnf05HttmSpVmRcvzq7rEXV25s3TOKck
-         IciQ==
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=K2nboj5xrRkV1yqHjA0Aj2mbWgmjh4x0SrJcMaszVtA=;
+        b=TY6MoxQFBEklRwMxXtPk7pq3Wq5Rwa2J/YtugYsq/w1lH9+ERuu6f1+z8+8JuKIiKx
+         YDkuPczmV+9Qf+ENZhlePKKmJs1rLUEQ7rx1SKksdo9OxMTgxyWfNyX7ZM9ZSUbccBnx
+         JYw40/VtEd257BEbFslSJIyKBygobO7WiYq+0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=m3VZo8UZwHMiRuNQQUqY7rgJ8zqY6lqXNVV5STmF31Y=;
-        b=pMAxGQwuOB+C7YasSyN3mAejuMic/W8ZkPmCQdzG3iSWIKLdYjdyG/6yRR0bT7YOtO
-         vjZzB3DbO5+CxXDiKjzOkSzzrBOdIHRuqiHlJ2TUtk9q/TNKgRyv8Dskz22Icu2t/bQC
-         O5BUteBYAriou+cs5AD+dBbBIxgX1epS+9JSJpjEsrv7Z8kFilLk7OJqAs34Wyc090Mv
-         GCN3zKhUUCOMxhysy1PzPALeDjM9zPkOrtlCNrGJ6T3vansda0re++0LmTaMMpi3ZNbH
-         uf3quzUzxy6HYAhrqJ9gvnTOo3qkTp3tsEN6A61qjMsd7Hob3hfahTlq3QfXEQ32grID
-         mYyw==
-X-Gm-Message-State: APjAAAXvdgRJkddOQd1/ON6D1X3DohF4H2eutp035YJQQfap28YnQOt/
-        Dbv7//BN06wzkx3C6S4FW06ysg==
-X-Google-Smtp-Source: APXvYqx4U8KW8xYiE4vgm2m26+SHXAdrlEokkTP+G731PEQDyP5ZUjTnwZY5L4PH4pUKyh5IIHVbjA==
-X-Received: by 2002:a17:90a:b318:: with SMTP id d24mr9095554pjr.142.1575572305046;
-        Thu, 05 Dec 2019 10:58:25 -0800 (PST)
-Received: from vader ([2620:10d:c090:200::3:cb2])
-        by smtp.gmail.com with ESMTPSA id 9sm13462408pfx.177.2019.12.05.10.58.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Dec 2019 10:58:24 -0800 (PST)
-Date:   Thu, 5 Dec 2019 10:58:23 -0800
-From:   Omar Sandoval <osandov@osandov.com>
-To:     linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org,
-        Al Viro <viro@zeniv.linux.org.uk>
-Cc:     Dave Chinner <david@fromorbit.com>, Jann Horn <jannh@google.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Aleksa Sarai <cyphar@cyphar.com>, linux-api@vger.kernel.org,
-        kernel-team@fb.com
-Subject: Re: [RFC PATCH v3 00/12] fs: interface for directly reading/writing
- compressed data
-Message-ID: <20191205185823.GB18377@vader>
-References: <cover.1574273658.git.osandov@fb.com>
- <4d5bf2e4c2a22a6c195c79e0ae09a4475f1f9bdc.1574274173.git.osandov@fb.com>
- <cover.1574273658.git.osandov@fb.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=K2nboj5xrRkV1yqHjA0Aj2mbWgmjh4x0SrJcMaszVtA=;
+        b=PtzC0ixqmIdjDe3FqckONqa08sAu+V8iVqDM4C7SdgGbZUMw1LtO6Lmnp2diLqeb+m
+         gdLbBCGarI4413nws/e2z84Nmtgd4Ranp/imB9qOqvUyijEMYl5LYl0wqvk28tRlRFGP
+         7+PgSFMwPiGOG4AACxEdNqnhebdzGg84TrnQ1jZjMFS2kROehDcAjuWcgqzdEJvrHqSi
+         w5L5w5P154/74szLXjal/2ibhGAOGLPUH+zSIPas7SXVpgIkPySBcRRxxd7lngfrxqha
+         5GceZf40Dg7d22SC+lc+wJimu1yjwR73oGXA7ujpdXyRabs25iI1UP1qwPSVJrrChwtm
+         MEDQ==
+X-Gm-Message-State: APjAAAUlW/MIA1S+IvxN1oU9wvDIsKP8Mc/4TyBKnAHq5CrRvBbmSghV
+        RYmFxwg4zYCc75ju6eMQXyJBE7yzDuw=
+X-Google-Smtp-Source: APXvYqyBCNRfNjJ7BhzIKON79IPxUGUjoe/dxnlXIqP2or8jcm+YCzOiwYAyPah0RSeHc609cFOsnw==
+X-Received: by 2002:a05:651c:112d:: with SMTP id e13mr5748028ljo.99.1575577630856;
+        Thu, 05 Dec 2019 12:27:10 -0800 (PST)
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com. [209.85.208.181])
+        by smtp.gmail.com with ESMTPSA id i19sm5715580ljj.24.2019.12.05.12.27.09
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 Dec 2019 12:27:09 -0800 (PST)
+Received: by mail-lj1-f181.google.com with SMTP id d20so5057928ljc.12
+        for <linux-api@vger.kernel.org>; Thu, 05 Dec 2019 12:27:09 -0800 (PST)
+X-Received: by 2002:a05:651c:239:: with SMTP id z25mr4294750ljn.48.1575577628995;
+ Thu, 05 Dec 2019 12:27:08 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1574273658.git.osandov@fb.com>
+References: <31555.1574810303@warthog.procyon.org.uk>
+In-Reply-To: <31555.1574810303@warthog.procyon.org.uk>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Thu, 5 Dec 2019 12:26:53 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wj+_n63ps_-Rvwgo4S7rd2eLAVcJwbZee7iHZaO+1hvYQ@mail.gmail.com>
+Message-ID: <CAHk-=wj+_n63ps_-Rvwgo4S7rd2eLAVcJwbZee7iHZaO+1hvYQ@mail.gmail.com>
+Subject: Re: [GIT PULL] pipe: General notification queue
+To:     David Howells <dhowells@redhat.com>
+Cc:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Peter Zijlstra <peterz@infradead.org>, raven@themaw.net,
+        Christian Brauner <christian@brauner.io>,
+        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-block <linux-block@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Nov 20, 2019 at 10:24:20AM -0800, Omar Sandoval wrote:
-> From: Omar Sandoval <osandov@fb.com>
-> 
-> Hello,
-> 
-> This series adds an API for reading compressed data on a filesystem
-> without decompressing it as well as support for writing compressed data
-> directly to the filesystem. As with the previous submissions, I've
-> included a man page patch describing the API, and test cases and example
-> programs are available [1].
-> 
-> This version reworks the VFS interface to be backward and forward
-> compatible and support for writing inline and bookend extents to the
-> Btrfs implementation.
-> 
-> Patches 1-3 add the VFS support. Patches 4-7 are Btrfs cleanups
-> necessary for the encoded I/O support that can go in independently of
-> this series. Patches 8-10 are Btrfs prep patches. Patch 11 adds Btrfs
-> encoded read support and patch 12 adds Btrfs encoded write support.
-> 
-> A few TODOs remain:
-> 
-> - Once we've settled on the interface, I'll add RWF_ENCODED support to
->   fsstress and friends and send up the xfstests patches in [1].
-> - btrfs_encoded_read() still doesn't implement repair.
-> 
-> Changes from v2 [2]:
-> 
-> - Rebase on v5.4-rc8
-> - Add patch 1 introducing copy_struct_from_iter() as suggested by Aleksa
-> - Rename O_ENCODED to O_ALLOW_ENCODED as suggested by Amir
-> - Add arch-specific definitions of O_ALLOW_ENCODED for alpha, parisc,
->   and sparc
-> - Rework the VFS interface to be backward and forward compatible
-> - Document the VFS interface as requested by Dave
-> - Use __aligned_u64 for struct encoded_iov as noted by Aleksa
-> - Fix len/unencoded_len mixup in mm/filemap.c as noted by Nikolay
-> - Add support for writing inline and bookend extents to Btrfs
-> - Use ENOBUFS for "buffers not big enough for encoded extent" case and
->   E2BIG for "encoded_iov has unsupported fields" case
-> 
-> Please share any comments on the API or implementation. Thanks!
-> 
-> 1: https://github.com/osandov/xfstests/tree/rwf-encoded
-> 2: https://lore.kernel.org/linux-btrfs/cover.1571164762.git.osandov@fb.com/
-> 
-> Omar Sandoval (12):
->   iov_iter: add copy_struct_from_iter()
->   fs: add O_ALLOW_ENCODED open flag
->   fs: add RWF_ENCODED for reading/writing compressed data
->   btrfs: get rid of trivial __btrfs_lookup_bio_sums() wrappers
->   btrfs: don't advance offset for compressed bios in
->     btrfs_csum_one_bio()
->   btrfs: remove dead snapshot-aware defrag code
->   btrfs: make btrfs_ordered_extent naming consistent with
->     btrfs_file_extent_item
->   btrfs: add ram_bytes and offset to btrfs_ordered_extent
->   btrfs: support different disk extent size for delalloc
->   btrfs: optionally extend i_size in cow_file_range_inline()
->   btrfs: implement RWF_ENCODED reads
->   btrfs: implement RWF_ENCODED writes
-> 
->  Documentation/filesystems/encoded_io.rst |   79 +
->  Documentation/filesystems/index.rst      |    1 +
->  arch/alpha/include/uapi/asm/fcntl.h      |    1 +
->  arch/parisc/include/uapi/asm/fcntl.h     |    1 +
->  arch/sparc/include/uapi/asm/fcntl.h      |    1 +
->  fs/btrfs/compression.c                   |   15 +-
->  fs/btrfs/compression.h                   |    5 +-
->  fs/btrfs/ctree.h                         |   13 +-
->  fs/btrfs/delalloc-space.c                |   38 +-
->  fs/btrfs/delalloc-space.h                |    4 +-
->  fs/btrfs/file-item.c                     |   54 +-
->  fs/btrfs/file.c                          |   61 +-
->  fs/btrfs/inode.c                         | 2463 +++++++++++-----------
->  fs/btrfs/ordered-data.c                  |  106 +-
->  fs/btrfs/ordered-data.h                  |   28 +-
->  fs/btrfs/relocation.c                    |    9 +-
->  fs/fcntl.c                               |   10 +-
->  fs/namei.c                               |    4 +
->  include/linux/fcntl.h                    |    2 +-
->  include/linux/fs.h                       |   16 +
->  include/linux/uio.h                      |    2 +
->  include/trace/events/btrfs.h             |    6 +-
->  include/uapi/asm-generic/fcntl.h         |    4 +
->  include/uapi/linux/fs.h                  |   33 +-
->  lib/iov_iter.c                           |   82 +
->  mm/filemap.c                             |  165 +-
->  26 files changed, 1807 insertions(+), 1396 deletions(-)
->  create mode 100644 Documentation/filesystems/encoded_io.rst
+On Tue, Nov 26, 2019 at 3:18 PM David Howells <dhowells@redhat.com> wrote:
+>
+> Can you consider pulling my general notification queue patchset after
+> you've pulled the preparatory pipework patchset?  Or should it be deferred
+> to the next window?
 
-Ping. Al, would you mind taking a look at the generic bits/interface?
+So it's perhaps obvious by now, but I had delayed this pull request
+because I was waiting to see if there were any reports of issues with
+the core pipe changes.
+
+And considering that there clearly _is_ something going on with the
+pipe changes, I'm not going to pull this for this merge window.
+
+I'm obviously hoping that we'll figure out what the btrfs-test issue
+is asap, but even if we do, it's too late to pull stuff on top of our
+current situation right now.
+
+I suspect this is what you expected anyway (considering your own query
+about the next merge window), but I thought I'd reply to it explicitly
+since I had kept this pull request in my "maybe" queue, but with the
+pipe thread from this morning it's dropped from that.
+
+            Linus
