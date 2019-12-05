@@ -2,95 +2,251 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CA448114814
-	for <lists+linux-api@lfdr.de>; Thu,  5 Dec 2019 21:27:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 63766114979
+	for <lists+linux-api@lfdr.de>; Thu,  5 Dec 2019 23:43:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729649AbfLEU1O (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 5 Dec 2019 15:27:14 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:43362 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729417AbfLEU1O (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 5 Dec 2019 15:27:14 -0500
-Received: by mail-lj1-f193.google.com with SMTP id a13so5068541ljm.10
-        for <linux-api@vger.kernel.org>; Thu, 05 Dec 2019 12:27:12 -0800 (PST)
+        id S1726508AbfLEWnm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 5 Dec 2019 17:43:42 -0500
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:39773 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726298AbfLEWnm (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 5 Dec 2019 17:43:42 -0500
+Received: by mail-ot1-f68.google.com with SMTP id 77so4129253oty.6
+        for <linux-api@vger.kernel.org>; Thu, 05 Dec 2019 14:43:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=K2nboj5xrRkV1yqHjA0Aj2mbWgmjh4x0SrJcMaszVtA=;
-        b=TY6MoxQFBEklRwMxXtPk7pq3Wq5Rwa2J/YtugYsq/w1lH9+ERuu6f1+z8+8JuKIiKx
-         YDkuPczmV+9Qf+ENZhlePKKmJs1rLUEQ7rx1SKksdo9OxMTgxyWfNyX7ZM9ZSUbccBnx
-         JYw40/VtEd257BEbFslSJIyKBygobO7WiYq+0=
+        bh=gHtk9ElDRlq0lq4u0NPjLGH1Txh8nv1jVGUFuyfxbww=;
+        b=bMqRNKM2P2LAnRWC8z0KWyOpXI7OVxnN9tuounehotHmmNo6mRJXIaIKjoF0fqRp61
+         eFxPsdIomtX9l7K9FlgwtqlsPQmLGYibI2aBrvLuk7I1U+dlkmAxnCYhoQ91tAA+caL4
+         gTewKRU2LTRkvff8iY/ZepkRz4SWFcK2lb4mikPYo+ymZdcWdiFisK6RRYCvTfV2ksmJ
+         wlT3ayvZQbbcshonnryTLBIIwA14lUeNLsNUZDsNbBbvvvqw572oCht0hUDhAcAZyvra
+         ojUnbZ642uER7o5nL+R4EryosFLRpsySDuqpLbvW+Kfj6rq4+mCDlyrQHLlLJD3yoM6x
+         mLeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=K2nboj5xrRkV1yqHjA0Aj2mbWgmjh4x0SrJcMaszVtA=;
-        b=PtzC0ixqmIdjDe3FqckONqa08sAu+V8iVqDM4C7SdgGbZUMw1LtO6Lmnp2diLqeb+m
-         gdLbBCGarI4413nws/e2z84Nmtgd4Ranp/imB9qOqvUyijEMYl5LYl0wqvk28tRlRFGP
-         7+PgSFMwPiGOG4AACxEdNqnhebdzGg84TrnQ1jZjMFS2kROehDcAjuWcgqzdEJvrHqSi
-         w5L5w5P154/74szLXjal/2ibhGAOGLPUH+zSIPas7SXVpgIkPySBcRRxxd7lngfrxqha
-         5GceZf40Dg7d22SC+lc+wJimu1yjwR73oGXA7ujpdXyRabs25iI1UP1qwPSVJrrChwtm
-         MEDQ==
-X-Gm-Message-State: APjAAAUlW/MIA1S+IvxN1oU9wvDIsKP8Mc/4TyBKnAHq5CrRvBbmSghV
-        RYmFxwg4zYCc75ju6eMQXyJBE7yzDuw=
-X-Google-Smtp-Source: APXvYqyBCNRfNjJ7BhzIKON79IPxUGUjoe/dxnlXIqP2or8jcm+YCzOiwYAyPah0RSeHc609cFOsnw==
-X-Received: by 2002:a05:651c:112d:: with SMTP id e13mr5748028ljo.99.1575577630856;
-        Thu, 05 Dec 2019 12:27:10 -0800 (PST)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com. [209.85.208.181])
-        by smtp.gmail.com with ESMTPSA id i19sm5715580ljj.24.2019.12.05.12.27.09
-        for <linux-api@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Dec 2019 12:27:09 -0800 (PST)
-Received: by mail-lj1-f181.google.com with SMTP id d20so5057928ljc.12
-        for <linux-api@vger.kernel.org>; Thu, 05 Dec 2019 12:27:09 -0800 (PST)
-X-Received: by 2002:a05:651c:239:: with SMTP id z25mr4294750ljn.48.1575577628995;
- Thu, 05 Dec 2019 12:27:08 -0800 (PST)
+        bh=gHtk9ElDRlq0lq4u0NPjLGH1Txh8nv1jVGUFuyfxbww=;
+        b=Zd7aRtsABCQFPlY8cGvxs121IBe0aIlbOF+8jYtLufuZxjXbTTY1k7Rvqhnf1x9rg3
+         q70OYoyvkZwXdCM0yZD7E0t6WgwlrUMQ+73Oblk4TJQzgxFkzlIFj9xO+0PZOyDwJQ/J
+         OSNQPN+B6yTQpiiA6zfHbvyeW2PWgwb/AdeuH0SsI5/vxtp0aKhpMloR4V3ctpIP0GRt
+         SkuG3pJ+kOX53bpBddnGWAH69sNqD6a/FHVD75kJNECtJxb7+PxmOcRtYZY+6Z9AdVC8
+         fplx+ENj5TBzOU9x8UiicJgVKOwvcK+jRRDpJi59VO/wnZ2hdol++EoNh4pt9QLsjO+Q
+         c4eg==
+X-Gm-Message-State: APjAAAVCtcCCQSFx75unEYbG9WRG5wmL/VYaJWizL2+Z93TOaUYIh5ZM
+        MvTk2X1fxQN6EF41AmJyxlUwcWUmjqGQFYwULw2J26Hb
+X-Google-Smtp-Source: APXvYqy+leRhWNDTZep6R8GEh7Ra+JauuhEV9tZ4BzRTHVHL6e527jC5pmTiMG1fq8PSVSJe27n0Km09D/IblJ9iXio=
+X-Received: by 2002:a05:6830:2141:: with SMTP id r1mr8208158otd.124.1575585820837;
+ Thu, 05 Dec 2019 14:43:40 -0800 (PST)
 MIME-Version: 1.0
-References: <31555.1574810303@warthog.procyon.org.uk>
-In-Reply-To: <31555.1574810303@warthog.procyon.org.uk>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Thu, 5 Dec 2019 12:26:53 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wj+_n63ps_-Rvwgo4S7rd2eLAVcJwbZee7iHZaO+1hvYQ@mail.gmail.com>
-Message-ID: <CAHk-=wj+_n63ps_-Rvwgo4S7rd2eLAVcJwbZee7iHZaO+1hvYQ@mail.gmail.com>
-Subject: Re: [GIT PULL] pipe: General notification queue
-To:     David Howells <dhowells@redhat.com>
-Cc:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Peter Zijlstra <peterz@infradead.org>, raven@themaw.net,
-        Christian Brauner <christian@brauner.io>,
-        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-block <linux-block@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
+References: <20191112001900.9206-1-mchristi@redhat.com>
+In-Reply-To: <20191112001900.9206-1-mchristi@redhat.com>
+From:   Shakeel Butt <shakeelb@google.com>
+Date:   Thu, 5 Dec 2019 14:43:29 -0800
+Message-ID: <CALvZod47XyD2x8TuZcb9PgeVY14JBwNhsUpN3RAeAt+RJJC=hg@mail.gmail.com>
+Subject: Re: [PATCH] Add prctl support for controlling mem reclaim V4
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-api@vger.kernel.org, idryomov@gmail.com,
+        Michal Hocko <mhocko@kernel.org>, david@fromorbit.com,
+        Linux MM <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-scsi@vger.kernel.org,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        linux-block@vger.kernel.org, martin@urbackup.org,
+        Damien.LeMoal@wdc.com, Mike Christie <mchristi@redhat.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Masato Suzuki <masato.suzuki@wdc.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Nov 26, 2019 at 3:18 PM David Howells <dhowells@redhat.com> wrote:
+On Mon, Nov 11, 2019 at 4:19 PM Mike Christie <mchristi@redhat.com> wrote:
 >
-> Can you consider pulling my general notification queue patchset after
-> you've pulled the preparatory pipework patchset?  Or should it be deferred
-> to the next window?
+> There are several storage drivers like dm-multipath, iscsi, tcmu-runner,
+> amd nbd that have userspace components that can run in the IO path. For
+> example, iscsi and nbd's userspace deamons may need to recreate a socket
+> and/or send IO on it, and dm-multipath's daemon multipathd may need to
+> send SG IO or read/write IO to figure out the state of paths and re-set
+> them up.
+>
+> In the kernel these drivers have access to GFP_NOIO/GFP_NOFS and the
+> memalloc_*_save/restore functions to control the allocation behavior,
+> but for userspace we would end up hitting an allocation that ended up
+> writing data back to the same device we are trying to allocate for.
+> The device is then in a state of deadlock, because to execute IO the
+> device needs to allocate memory, but to allocate memory the memory
+> layers want execute IO to the device.
+>
+> Here is an example with nbd using a local userspace daemon that performs
+> network IO to a remote server. We are using XFS on top of the nbd device,
+> but it can happen with any FS or other modules layered on top of the nbd
+> device that can write out data to free memory.  Here a nbd daemon helper
+> thread, msgr-worker-1, is performing a write/sendmsg on a socket to execute
+> a request. This kicks off a reclaim operation which results in a WRITE to
+> the nbd device and the nbd thread calling back into the mm layer.
+>
+> [ 1626.609191] msgr-worker-1   D    0  1026      1 0x00004000
+> [ 1626.609193] Call Trace:
+> [ 1626.609195]  ? __schedule+0x29b/0x630
+> [ 1626.609197]  ? wait_for_completion+0xe0/0x170
+> [ 1626.609198]  schedule+0x30/0xb0
+> [ 1626.609200]  schedule_timeout+0x1f6/0x2f0
+> [ 1626.609202]  ? blk_finish_plug+0x21/0x2e
+> [ 1626.609204]  ? _xfs_buf_ioapply+0x2e6/0x410
+> [ 1626.609206]  ? wait_for_completion+0xe0/0x170
+> [ 1626.609208]  wait_for_completion+0x108/0x170
+> [ 1626.609210]  ? wake_up_q+0x70/0x70
+> [ 1626.609212]  ? __xfs_buf_submit+0x12e/0x250
+> [ 1626.609214]  ? xfs_bwrite+0x25/0x60
+> [ 1626.609215]  xfs_buf_iowait+0x22/0xf0
+> [ 1626.609218]  __xfs_buf_submit+0x12e/0x250
+> [ 1626.609220]  xfs_bwrite+0x25/0x60
+> [ 1626.609222]  xfs_reclaim_inode+0x2e8/0x310
+> [ 1626.609224]  xfs_reclaim_inodes_ag+0x1b6/0x300
+> [ 1626.609227]  xfs_reclaim_inodes_nr+0x31/0x40
+> [ 1626.609228]  super_cache_scan+0x152/0x1a0
+> [ 1626.609231]  do_shrink_slab+0x12c/0x2d0
+> [ 1626.609233]  shrink_slab+0x9c/0x2a0
+> [ 1626.609235]  shrink_node+0xd7/0x470
+> [ 1626.609237]  do_try_to_free_pages+0xbf/0x380
+> [ 1626.609240]  try_to_free_pages+0xd9/0x1f0
+> [ 1626.609245]  __alloc_pages_slowpath+0x3a4/0xd30
+> [ 1626.609251]  ? ___slab_alloc+0x238/0x560
+> [ 1626.609254]  __alloc_pages_nodemask+0x30c/0x350
+> [ 1626.609259]  skb_page_frag_refill+0x97/0xd0
+> [ 1626.609274]  sk_page_frag_refill+0x1d/0x80
+> [ 1626.609279]  tcp_sendmsg_locked+0x2bb/0xdd0
+> [ 1626.609304]  tcp_sendmsg+0x27/0x40
+> [ 1626.609307]  sock_sendmsg+0x54/0x60
+> [ 1626.609308]  ___sys_sendmsg+0x29f/0x320
+> [ 1626.609313]  ? sock_poll+0x66/0xb0
+> [ 1626.609318]  ? ep_item_poll.isra.15+0x40/0xc0
+> [ 1626.609320]  ? ep_send_events_proc+0xe6/0x230
+> [ 1626.609322]  ? hrtimer_try_to_cancel+0x54/0xf0
+> [ 1626.609324]  ? ep_read_events_proc+0xc0/0xc0
+> [ 1626.609326]  ? _raw_write_unlock_irq+0xa/0x20
+> [ 1626.609327]  ? ep_scan_ready_list.constprop.19+0x218/0x230
+> [ 1626.609329]  ? __hrtimer_init+0xb0/0xb0
+> [ 1626.609331]  ? _raw_spin_unlock_irq+0xa/0x20
+> [ 1626.609334]  ? ep_poll+0x26c/0x4a0
+> [ 1626.609337]  ? tcp_tsq_write.part.54+0xa0/0xa0
+> [ 1626.609339]  ? release_sock+0x43/0x90
+> [ 1626.609341]  ? _raw_spin_unlock_bh+0xa/0x20
+> [ 1626.609342]  __sys_sendmsg+0x47/0x80
+> [ 1626.609347]  do_syscall_64+0x5f/0x1c0
+> [ 1626.609349]  ? prepare_exit_to_usermode+0x75/0xa0
+> [ 1626.609351]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+>
+> This patch adds a new prctl command that daemons can use after they have
+> done their initial setup, and before they start to do allocations that
+> are in the IO path. It sets the PF_MEMALLOC_NOIO and PF_LESS_THROTTLE
+> flags so both userspace block and FS threads can use it to avoid the
+> allocation recursion and try to prevent from being throttled while
+> writing out data to free up memory.
+>
+> Signed-off-by: Mike Christie <mchristi@redhat.com>
+> Acked-by: Michal Hocko <mhocko@suse.com>
+> Tested-by: Masato Suzuki <masato.suzuki@wdc.com>
+> Reviewed-by: Damien Le Moal <damien.lemoal@wdc.com>
 
-So it's perhaps obvious by now, but I had delayed this pull request
-because I was waiting to see if there were any reports of issues with
-the core pipe changes.
+I suppose this patch should be routed through MM tree, so, CCing Andrew.
 
-And considering that there clearly _is_ something going on with the
-pipe changes, I'm not going to pull this for this merge window.
-
-I'm obviously hoping that we'll figure out what the btrfs-test issue
-is asap, but even if we do, it's too late to pull stuff on top of our
-current situation right now.
-
-I suspect this is what you expected anyway (considering your own query
-about the next merge window), but I thought I'd reply to it explicitly
-since I had kept this pull request in my "maybe" queue, but with the
-pipe thread from this morning it's dropped from that.
-
-            Linus
+>
+> ---
+>
+> V4:
+> - Fix PR_GET_IO_FLUSHER check to match SET.
+>
+> V3:
+> - Drop NOFS, set PF_LESS_THROTTLE and rename prctl flag to reflect it
+> is more general and can support both FS and block devices. Both fuse
+> and block device daemons, nbd and tcmu-runner, have been tested to
+> confirm the more restrictive PF_MEMALLOC_NOIO also works for fuse.
+>
+> - Use CAP_SYS_RESOURCE instead of admin.
+>
+> V2:
+> - Use prctl instead of procfs.
+> - Add support for NOFS for fuse.
+> - Check permissions.
+>
+>
+>  include/uapi/linux/capability.h |  1 +
+>  include/uapi/linux/prctl.h      |  4 ++++
+>  kernel/sys.c                    | 25 +++++++++++++++++++++++++
+>  3 files changed, 30 insertions(+)
+>
+> diff --git a/include/uapi/linux/capability.h b/include/uapi/linux/capability.h
+> index 240fdb9a60f6..272dc69fa080 100644
+> --- a/include/uapi/linux/capability.h
+> +++ b/include/uapi/linux/capability.h
+> @@ -301,6 +301,7 @@ struct vfs_ns_cap_data {
+>  /* Allow more than 64hz interrupts from the real-time clock */
+>  /* Override max number of consoles on console allocation */
+>  /* Override max number of keymaps */
+> +/* Control memory reclaim behavior */
+>
+>  #define CAP_SYS_RESOURCE     24
+>
+> diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
+> index 7da1b37b27aa..07b4f8131e36 100644
+> --- a/include/uapi/linux/prctl.h
+> +++ b/include/uapi/linux/prctl.h
+> @@ -234,4 +234,8 @@ struct prctl_mm_map {
+>  #define PR_GET_TAGGED_ADDR_CTRL                56
+>  # define PR_TAGGED_ADDR_ENABLE         (1UL << 0)
+>
+> +/* Control reclaim behavior when allocating memory */
+> +#define PR_SET_IO_FLUSHER              57
+> +#define PR_GET_IO_FLUSHER              58
+> +
+>  #endif /* _LINUX_PRCTL_H */
+> diff --git a/kernel/sys.c b/kernel/sys.c
+> index a611d1d58c7d..c1a360370d09 100644
+> --- a/kernel/sys.c
+> +++ b/kernel/sys.c
+> @@ -2259,6 +2259,8 @@ int __weak arch_prctl_spec_ctrl_set(struct task_struct *t, unsigned long which,
+>         return -EINVAL;
+>  }
+>
+> +#define PR_IO_FLUSHER (PF_MEMALLOC_NOIO | PF_LESS_THROTTLE)
+> +
+>  SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
+>                 unsigned long, arg4, unsigned long, arg5)
+>  {
+> @@ -2486,6 +2488,29 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
+>                         return -EINVAL;
+>                 error = GET_TAGGED_ADDR_CTRL();
+>                 break;
+> +       case PR_SET_IO_FLUSHER:
+> +               if (!capable(CAP_SYS_RESOURCE))
+> +                       return -EPERM;
+> +
+> +               if (arg3 || arg4 || arg5)
+> +                       return -EINVAL;
+> +
+> +               if (arg2 == 1)
+> +                       current->flags |= PR_IO_FLUSHER;
+> +               else if (!arg2)
+> +                       current->flags &= ~PR_IO_FLUSHER;
+> +               else
+> +                       return -EINVAL;
+> +               break;
+> +       case PR_GET_IO_FLUSHER:
+> +               if (!capable(CAP_SYS_RESOURCE))
+> +                       return -EPERM;
+> +
+> +               if (arg2 || arg3 || arg4 || arg5)
+> +                       return -EINVAL;
+> +
+> +               error = (current->flags & PR_IO_FLUSHER) == PR_IO_FLUSHER;
+> +               break;
+>         default:
+>                 error = -EINVAL;
+>                 break;
+> --
+> 2.20.1
+>
