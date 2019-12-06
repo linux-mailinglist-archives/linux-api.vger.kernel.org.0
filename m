@@ -2,34 +2,35 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DDFF5115322
-	for <lists+linux-api@lfdr.de>; Fri,  6 Dec 2019 15:30:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E941A115325
+	for <lists+linux-api@lfdr.de>; Fri,  6 Dec 2019 15:30:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726258AbfLFOaX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 6 Dec 2019 09:30:23 -0500
-Received: from mout-p-102.mailbox.org ([80.241.56.152]:11088 "EHLO
+        id S1726234AbfLFOaZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 6 Dec 2019 09:30:25 -0500
+Received: from mout-p-102.mailbox.org ([80.241.56.152]:11100 "EHLO
         mout-p-102.mailbox.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726234AbfLFOaW (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Dec 2019 09:30:22 -0500
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [80.241.60.240])
+        with ESMTP id S1726245AbfLFOaY (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Dec 2019 09:30:24 -0500
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:105:465:1:1:0])
         (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
         (No client certificate requested)
-        by mout-p-102.mailbox.org (Postfix) with ESMTPS id 47Tw3Z61SlzKmMr;
-        Fri,  6 Dec 2019 15:30:18 +0100 (CET)
+        by mout-p-102.mailbox.org (Postfix) with ESMTPS id 47Tw3f0MqYzKmbF;
+        Fri,  6 Dec 2019 15:30:22 +0100 (CET)
 X-Virus-Scanned: amavisd-new at heinlein-support.de
 Received: from smtp1.mailbox.org ([80.241.60.240])
-        by spamfilter05.heinlein-hosting.de (spamfilter05.heinlein-hosting.de [80.241.56.123]) (amavisd-new, port 10030)
-        with ESMTP id YN4ygJRoLHAa; Fri,  6 Dec 2019 15:30:14 +0100 (CET)
+        by spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de [80.241.56.122]) (amavisd-new, port 10030)
+        with ESMTP id d-2sNcd_mFNb; Fri,  6 Dec 2019 15:30:18 +0100 (CET)
 From:   Aleksa Sarai <cyphar@cyphar.com>
 To:     Michael Kerrisk <mtk.manpages@gmail.com>
 Cc:     linux-api@vger.kernel.org, libc-alpha@sourceware.org,
         linux-man@vger.kernel.org, linux-kernel@vger.kernel.org,
         Aleksa Sarai <cyphar@cyphar.com>
-Subject: [PATCH man-pages 1/2] openat2.2: document new openat2(2) syscall
-Date:   Sat,  7 Dec 2019 01:29:30 +1100
-Message-Id: <20191206142931.28138-1-cyphar@cyphar.com>
-In-Reply-To: <20191206141338.23338-1-cyphar@cyphar.com>
+Subject: [PATCH man-pages 2/2] path_resolution.7: update to mention openat2(2) features
+Date:   Sat,  7 Dec 2019 01:29:31 +1100
+Message-Id: <20191206142931.28138-2-cyphar@cyphar.com>
+In-Reply-To: <20191206142931.28138-1-cyphar@cyphar.com>
 References: <20191206141338.23338-1-cyphar@cyphar.com>
+ <20191206142931.28138-1-cyphar@cyphar.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
@@ -37,509 +38,114 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Rather than trying to merge the new syscall documentation into open.2
-(which would probably result in the man-page being incomprehensible),
-instead the new syscall gets its own dedicated page with links between
-open(2) and openat2(2) to avoid duplicating information such as the list
-of O_* flags or common errors.
-
 Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
 ---
- man2/open.2    |  17 ++
- man2/openat2.2 | 435 +++++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 452 insertions(+)
- create mode 100644 man2/openat2.2
+ man7/path_resolution.7 | 56 ++++++++++++++++++++++++++++--------------
+ 1 file changed, 38 insertions(+), 18 deletions(-)
 
-diff --git a/man2/open.2 b/man2/open.2
-index b0f485b41589..2a721c991a20 100644
---- a/man2/open.2
-+++ b/man2/open.2
-@@ -65,6 +65,10 @@ open, openat, creat \- open and possibly create a file
- .BI "int openat(int " dirfd ", const char *" pathname ", int " flags );
- .BI "int openat(int " dirfd ", const char *" pathname ", int " flags \
- ", mode_t " mode );
+diff --git a/man7/path_resolution.7 b/man7/path_resolution.7
+index 07664ed8faec..b4a65cc53120 100644
+--- a/man7/path_resolution.7
++++ b/man7/path_resolution.7
+@@ -29,30 +29,38 @@ path_resolution \- how a pathname is resolved to a file
+ Some UNIX/Linux system calls have as parameter one or more filenames.
+ A filename (or pathname) is resolved as follows.
+ .SS Step 1: start of the resolution process
+-If the pathname starts with the \(aq/\(aq character,
+-the starting lookup directory
+-is the root directory of the calling process.
+-(A process inherits its
+-root directory from its parent.
+-Usually this will be the root directory
+-of the file hierarchy.
+-A process may get a different root directory
+-by use of the
++If the pathname starts with the \(aq/\(aq character, the starting lookup
++directory is the root directory of the calling process.
++A process inherits its root directory from its parent.
++Usually this will be the root directory of the file hierarchy.
++A process may get a different root directory by use of the
+ .BR chroot (2)
+-system call.
++system call, or may temporarily use a different root directory by using
++.BR openat2 (2)
++with the
++.B RESOLVE_IN_ROOT
++flag set.
 +.PP
-+/* Documented separately, in \fBopenat2\fP(2). */
-+.BI "int openat2(int " dirfd ", const char *" pathname ", \
-+const struct open_how *" how ", size_t " size ");
- .fi
+ A process may get an entirely private mount namespace in case
+ it\(emor one of its ancestors\(emwas started by an invocation of the
+ .BR clone (2)
+ system call that had the
+ .B CLONE_NEWNS
+-flag set.)
++flag set.
+ This handles the \(aq/\(aq part of the pathname.
  .PP
- .in -4n
-@@ -933,6 +937,15 @@ If
- is absolute, then
- .I dirfd
- is ignored.
-+.SS openat2(2)
-+The
-+.BR openat2 (2)
-+system call is an extension of
-+.BR openat (),
-+with a superset of features. To avoid making this man page too long, the
-+description of
-+.BR openat2 (2)
-+and its features is documented in a separate man page.
- .SH RETURN VALUE
- .BR open (),
- .BR openat (),
-@@ -1220,6 +1233,9 @@ SVr4, 4.3BSD, POSIX.1-2001, POSIX.1-2008.
- .BR openat ():
- POSIX.1-2008.
+-If the pathname does not start with the \(aq/\(aq character, the
+-starting lookup directory of the resolution process is the current working
+-directory of the process.
+-(This is also inherited from the parent.
+-It can be changed by use of the
++If the pathname does not start with the \(aq/\(aq character, the starting
++lookup directory of the resolution process is the current working directory of
++the process \(em or in the case of
++.BR openat (2)-style
++system calls, the
++.I dfd
++argument (or the current working directory if
++.B AT_FDCWD
++is passed as the
++.I dfd
++argument). The current working directory is inherited from the parent, and can
++be changed by use of the
+ .BR chdir (2)
+ system call.)
  .PP
-+.BR openat2 (2)
-+is Linux-specific.
+@@ -91,7 +99,7 @@ Upon error, that error is returned.
+ If the result is not a directory, an
+ .B ENOTDIR
+ error is returned.
+-If the resolution of the symlink is successful and returns a directory,
++If the resolution of the symbolic link is successful and returns a directory,
+ we set the current lookup directory to that directory, and go to
+ the next component.
+ Note that the resolution process here can involve recursion if the
+@@ -124,6 +132,12 @@ the kernel's pathname-resolution code
+ was reworked to eliminate the use of recursion,
+ so that the only limit that remains is the maximum of 40
+ resolutions for the entire pathname.
 +.PP
- The
- .BR O_DIRECT ,
- .BR O_NOATIME ,
-@@ -1778,6 +1794,7 @@ is ignored).
- .BR mknod (2),
- .BR mmap (2),
- .BR mount (2),
++The resolution of symbolic links during this stage can be blocked by using
 +.BR openat2 (2),
- .BR open_by_handle_at (2),
- .BR read (2),
- .BR socket (2),
-diff --git a/man2/openat2.2 b/man2/openat2.2
-new file mode 100644
-index 000000000000..8588f0018657
---- /dev/null
-+++ b/man2/openat2.2
-@@ -0,0 +1,435 @@
-+.\" Copyright (C) 2019 Aleksa Sarai <cyphar@cyphar.com>
-+.\"
-+.\" %%%LICENSE_START(VERBATIM)
-+.\" Permission is granted to make and distribute verbatim copies of this
-+.\" manual provided the copyright notice and this permission notice are
-+.\" preserved on all copies.
-+.\"
-+.\" Permission is granted to copy and distribute modified versions of this
-+.\" manual under the conditions for verbatim copying, provided that the
-+.\" entire resulting derived work is distributed under the terms of a
-+.\" permission notice identical to this one.
-+.\"
-+.\" Since the Linux kernel and libraries are constantly changing, this
-+.\" manual page may be incorrect or out-of-date.  The author(s) assume no
-+.\" responsibility for errors or omissions, or for damages resulting from
-+.\" the use of the information contained herein.  The author(s) may not
-+.\" have taken the same level of care in the production of this manual,
-+.\" which is licensed free of charge, as they might when working
-+.\" professionally.
-+.\"
-+.\" Formatted or processed versions of this manual, if unaccompanied by
-+.\" the source, must acknowledge the copyright and authors of this work.
-+.\" %%%LICENSE_END
-+.TH OPENAT2 2 2019-11-05 "Linux" "Linux Programmer's Manual"
-+.SH NAME
-+openat2 \- open and possibly create a file (extended)
-+.SH SYNOPSIS
-+.nf
-+.B #include <sys/types.h>
-+.B #include <sys/stat.h>
-+.B #include <fcntl.h>
-+.PP
-+.BI "int openat2(int " dirfd ", const char *" pathname ", \
-+struct open_how *" how ", size_t " size ");
-+.fi
-+.PP
-+.IR Note :
-+There is no glibc wrapper for this system call; see NOTES.
-+.SH DESCRIPTION
-+The
-+.BR openat2 ()
-+system call opens the file specified by
-+.IR pathname .
-+If the specified file does not exist, it may optionally (if
-+.B O_CREAT
-+is specified in
-+.IR how.flags )
-+be created by
-+.BR openat2() .
-+.PP
-+As with
-+.BR openat (2),
-+if
-+.I pathname
-+is relative, then it is interpreted relative to the
-+directory referred to by the file descriptor
-+.I dirfd
-+(or the current working directory of the calling process, if
-+.I dirfd
-+is the special value
-+.BR AT_FDCWD .)
-+If
-+.I pathname
-+is absolute, then
-+.I dirfd
-+is ignored (unless
-+.I how.resolve
-+contains
-+.BR RESOLVE_IN_ROOT,
-+in which case
-+.I pathname
-+is resolved relative to
-+.IR dirfd .)
-+.PP
-+The
-+.BR openat2 ()
-+system call is an extension of
-+.BR openat (2)
-+and provides a superset of its functionality.
-+Rather than taking a single
-+.I flag
-+argument, an extensible structure (\fIhow\fP) is passed instead to allow for
-+future extensions.
-+.I size
-+must be set to
-+.IR "sizeof(struct open_how)" ,
-+to facilitate future extensions (see the "Extensibility" section of the
-+.B NOTES
-+for more detail on how extensions are handled.)
-+
-+.SS The open_how structure
-+The following structure indicates how
-+.I pathname
-+should be opened, and acts as a superset of the
-+.IR flag " and " mode
-+arguments to
-+.BR openat (2).
-+.PP
-+.in +4n
-+.EX
-+struct open_how {
-+    __aligned_u64 flags;         /* O_* flags. */
-+    __u16         mode;          /* Mode for O_{CREAT,TMPFILE}. */
-+    __u16         __padding[3];  /* Must be zeroed. */
-+    __aligned_u64 resolve;       /* RESOLVE_* flags. */
-+};
-+.EE
-+.in
-+.PP
-+Any future extensions to
-+.BR openat2 ()
-+will be implemented as new fields appended to the above structure (or through
-+reuse of pre-existing padding space), with the zero value of the new fields
-+acting as though the extension were not present.
-+.PP
-+The meaning of each field is as follows:
-+.RS
-+
-+.I flags
-+.RS
-+The file creation and status flags to use for this operation.
-+All of the
-+.B O_*
-+flags defined for
-+.BR openat (2)
-+are valid
-+.BR openat2 ()
-+flag values.
-+
-+Unlike
-+.BR openat (2),
-+it is an error to provide
-+.BR openat2 ()
-+unknown or conflicting flags in
-+.IR flags .
-+.RE
-+
-+.IR mode
-+.RS
-+File mode for the new file, with identical semantics to the
-+.I mode
-+argument to
-+.BR openat (2).
-+However, unlike
-+.BR openat (2),
-+it is an error to provide
-+.BR openat2 ()
-+with a
-+.I mode
-+which contains bits other than
-+.IR 0777 .
-+
-+It is an error to provide
-+.BR openat2 ()
-+a non-zero
-+.IR mode " if " flags
-+does not contain
-+.BR O_CREAT " or " O_TMPFILE .
-+.RE
-+
-+.I resolve
-+.RS
-+Change how the components of
-+.I pathname
-+will be resolved (see
-+.BR path_resolution (7)
-+for background information.)
-+The primary use case for these flags is to allow trusted programs to restrict
-+how untrusted paths (or paths inside untrusted directories) are resolved.
-+The full list of
-+.I resolve
-+flags is given below.
-+.TP
-+.B RESOLVE_NO_XDEV
-+Disallow traversal of mount points during path resolution (including all bind
-+mounts).
-+
-+Users of this flag are encouraged to make its use configurable (unless it is
-+used for a specific security purpose), as bind mounts are very widely used by
-+end-users.
-+Setting this flag indiscrimnately for all uses of
-+.IR openat2 ()
-+may result in spurious errors on previously-functional systems.
-+.TP
++with the
 +.B RESOLVE_NO_SYMLINKS
-+Disallow resolution of symbolic links during path resolution.
-+This option implies
-+.BR RESOLVE_NO_MAGICLINKS .
-+
-+If the trailing component is a symbolic link, and
-+.I flags
-+contains both
-+.BR O_PATH " and " O_NOFOLLOW ","
-+then an
-+.B O_PATH
-+file descriptor referencing the symbolic link will be returned.
-+
-+Users of this flag are encouraged to make its use configurable (unless it is
-+used for a specific security purpose), as symbolic links are very widely used
-+by end-users.
-+Setting this flag indiscrimnately for all uses of
-+.IR openat2 ()
-+may result in spurious errors on previously-functional systems.
-+.TP
-+.B RESOLVE_NO_MAGICLINKS
-+Disallow all magic link resolution during path resolution.
-+
-+If the trailing component is a magic link, and
-+.I flags
-+contains both
-+.BR O_PATH " and " O_NOFOLLOW ","
-+then an
-+.B O_PATH
-+file descriptor referencing the magic link will be returned.
-+
-+Magic-links are symbolic link-like objects that are most notably found in
-+.BR proc (5)
-+(examples include
-+.IR /proc/[pid]/exe " and " /proc/[pid]/fd/* .)
-+Due to the potential danger of unknowingly opening these magic links, it may be
-+preferable for users to disable their resolution entirely (see
-+.BR symbolic link (7)
-+for more details.)
-+.TP
-+.B RESOLVE_BENEATH
-+Do not permit the path resolution to succeed if any component of the resolution
-+is not a descendant of the directory indicated by
-+.IR dirfd .
-+This results in absolute symbolic links (and absolute values of
-+.IR pathname )
-+to be rejected.
-+
-+Currently, this flag also disables magic link resolution.
-+However, this may change in the future.
-+The caller should explicitly specify
-+.B RESOLVE_NO_MAGICLINKS
-+to ensure that magic links are not resolved.
-+
-+.TP
-+.B RESOLVE_IN_ROOT
-+Treat
-+.I dirfd
-+as the root directory while resolving
-+.I pathname
-+(as though the user called
-+.BR chroot (2)
-+with
-+.IR dirfd
-+as the argument.)
-+Absolute symbolic links and ".." path components will be scoped to
-+.IR dirfd .
-+If
-+.I pathname
-+is an absolute path, it is also treated relative to
-+.IR dirfd .
-+
-+However, unlike
-+.BR chroot (2)
-+(which changes the filesystem root permanently for a process),
-+.B RESOLVE_IN_ROOT
-+allows a program to efficiently restrict path resolution for only certain
-+operations.
-+It also has several hardening features (such detecting escape attempts during
-+.I ".."
-+resolution) which
-+.BR chroot (2)
-+does not.
-+
-+Currently, this flag also disables magic link resolution.
-+However, this may change in the future.
-+The caller should explicitly specify
-+.B RESOLVE_NO_MAGICLINKS
-+to ensure that magic links are not resolved.
++flag set.
+ .SS Step 3: find the final entry
+ The lookup of the final component of the pathname goes just like
+ that of all other components, as described in the previous step,
+@@ -145,7 +159,7 @@ The path resolution process will assume that these entries have
+ their conventional meanings, regardless of whether they are
+ actually present in the physical filesystem.
+ .PP
+-One cannot walk down past the root: "/.." is the same as "/".
++One cannot walk up past the root: "/.." is the same as "/".
+ .SS Mount points
+ After a "mount dev path" command, the pathname "path" refers to
+ the root of the filesystem hierarchy on the device "dev", and no
+@@ -154,6 +168,12 @@ longer to whatever it referred to earlier.
+ One can walk out of a mounted filesystem: "path/.." refers to
+ the parent directory of "path",
+ outside of the filesystem hierarchy on "dev".
 +.PP
-+It is an error to provide
-+.BR openat2 ()
-+unknown flags in
-+.IR resolve .
-+.RE
-+.RE
-+
-+.SH RETURN VALUE
-+On success, a new file descriptor is returned.
-+On error, -1 is returned, and
-+.I errno
-+is set appropriately.
-+
-+.SH ERRORS
-+The set of errors returned by
-+.BR openat2 ()
-+includes all of the errors returned by
-+.BR openat (2),
-+as well as the following additional errors:
-+.TP
-+.B EINVAL
-+An unknown flag or invalid value was specified in
-+.IR how .
-+.TP
-+.B EINVAL
-+.I mode
-+is non-zero, but
-+.I flags
-+does not contain
-+.BR O_CREAT " or " O_TMPFILE .
-+.TP
-+.B EINVAL
-+.I size
-+was smaller than any known version of
-+.IR "struct open_how" .
-+.TP
-+.B E2BIG
-+An extension was specified in
-+.IR how ,
-+which the current kernel does not support (see the "Extensibility" section of
-+the
-+.B NOTES
-+for more detail on how extensions are handled.)
-+.TP
-+.B EAGAIN
-+.I resolve
-+contains either
-+.BR RESOLVE_IN_ROOT " or " RESOLVE_BENEATH ,
-+and the kernel could not ensure that a ".." component didn't escape (due to a
-+race condition or potential attack.)
-+Callers may choose to retry the
-+.BR openat2 ()
-+call.
-+.TP
-+.B EXDEV
-+.I resolve
-+contains either
-+.BR RESOLVE_IN_ROOT " or " RESOLVE_BENEATH ,
-+and an escape from the root during path resolution was detected.
-+
-+.TP
-+.B EXDEV
-+.I resolve
-+contains
-+.BR RESOLVE_NO_XDEV ,
-+and a path component attempted to cross a mount point.
-+
-+.TP
-+.B ELOOP
-+.I resolve
-+contains
-+.BR RESOLVE_NO_SYMLINKS ,
-+and one of the path components was a symbolic link (or magic link).
-+.TP
-+.B ELOOP
-+.I resolve
-+contains
-+.BR RESOLVE_NO_MAGICLINKS ,
-+and one of the path components was a magic link.
-+
-+.SH VERSIONS
-+.BR openat2 ()
-+first appeared in Linux 5.6.
-+
-+.SH CONFORMING TO
-+This system call is Linux-specific.
-+
-+The semantics of
-+.B RESOLVE_BENEATH
-+were modelled after FreeBSD's
-+.BR O_BENEATH .
-+
-+.SH NOTES
-+Glibc does not provide a wrapper for this system call; call it using
-+.BR syscall (2).
-+
-+.SS Extensibility
-+In order to allow for
-+.I struct open_how
-+to be extended in future kernel revisions,
-+.BR openat2 ()
-+requires userspace to specify the size of
-+.I struct open_how
-+structure they are passing.
-+By providing this information, it is possible for
-+.BR openat2 ()
-+to provide both forwards- and backwards-compatibility \(em with
-+.I size
-+acting as an implicit version number (because new extension fields will always
-+be appended, the size will always increase.)
-+This extensibility design is very similar to other system calls such as
-+.BR perf_setattr "(2), " perf_event_open "(2), and " clone (3).
-+
-+If we let
-+.I usize
-+be the size of the structure according to userspace and
-+.I ksize
-+be the size of the structure which the kernel supports, then there are only
-+three cases to consider:
-+
-+.RS
-+.IP * 3
-+If
-+.IR ksize " equals " usize ,
-+then there is no version mismatch and
-+.I how
-+can be used verbatim.
-+.IP *
-+If
-+.IR ksize " is larger than " usize ,
-+then there are some extensions the kernel supports which the userspace program
-+is unaware of.
-+Because all extensions must have their zero values be a no-op, the kernel
-+treats all of the extension fields not set by userspace to have zero values.
-+This provides backwards-compatibility.
-+.IP *
-+If
-+.IR ksize " is smaller than " usize ,
-+then there are some extensions which the userspace program is aware of but the
-+kernel does not support.
-+Because all extensions must have their zero values be a no-op, the kernel can
-+safely ignore the unsupported extension fields if they are all-zero.
-+If any unsupported extension fields are non-zero, then -1 is returned and
-+.I errno
-+is set to
-+.BR E2BIG .
-+This provides forwards-compatibility.
-+.RE
-+
-+Therefore, most userspace programs will not need to have any special handling
-+of extensions.
-+However, if a userspace program wishes to determine what extensions the running
-+kernel supports, they may conduct a binary search on
-+.IR size
-+(to find the largest value which doesn't produce an error of
-+.BR E2BIG .)
-+
-+.SH SEE ALSO
-+.BR openat (2),
-+.BR path_resolution (7),
-+.BR symlink (7)
++Traversal of mount points can be blocked by using
++.BR openat2 (2),
++with the
++.B RESOLVE_NO_XDEV
++flag set (though note that this also restricts bind mount traversal).
+ .SS Trailing slashes
+ If a pathname ends in a \(aq/\(aq, that forces resolution of the preceding
+ component as in Step 2: it has to exist and resolve to a directory.
 -- 
 2.24.0
 
