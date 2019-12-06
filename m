@@ -2,73 +2,89 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 69016115712
-	for <lists+linux-api@lfdr.de>; Fri,  6 Dec 2019 19:20:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 293A6115782
+	for <lists+linux-api@lfdr.de>; Fri,  6 Dec 2019 20:03:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726325AbfLFSUA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 6 Dec 2019 13:20:00 -0500
-Received: from gentwo.org ([3.19.106.255]:47162 "EHLO gentwo.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726298AbfLFSUA (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 6 Dec 2019 13:20:00 -0500
-Received: by gentwo.org (Postfix, from userid 1002)
-        id F0F143EE4A; Fri,  6 Dec 2019 18:19:58 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-        by gentwo.org (Postfix) with ESMTP id F00093EE48;
-        Fri,  6 Dec 2019 18:19:58 +0000 (UTC)
-Date:   Fri, 6 Dec 2019 18:19:58 +0000 (UTC)
-From:   Christopher Lameter <cl@linux.com>
-X-X-Sender: cl@www.lameter.com
-To:     Qian Cai <cai@lca.pw>
-cc:     Yang Shi <yang.shi@linux.alibaba.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        John Hubbard <jhubbard@nvidia.com>, mtk.manpages@gmail.com,
-        akpm@linux-foundation.org, linux-man@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] move_pages.2: not return ENOENT if the page are already
- on the target nodes
-In-Reply-To: <BE1B9B9B-17C2-4093-A332-183DF3B6F2A3@lca.pw>
-Message-ID: <alpine.DEB.2.21.1912061815160.17787@www.lameter.com>
-References: <5384814f-c937-9622-adbe-c03e199e0267@linux.alibaba.com> <BE1B9B9B-17C2-4093-A332-183DF3B6F2A3@lca.pw>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        id S1726371AbfLFTDq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 6 Dec 2019 14:03:46 -0500
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:41092 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726370AbfLFTDq (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Dec 2019 14:03:46 -0500
+Received: by mail-ed1-f68.google.com with SMTP id c26so6749923eds.8
+        for <linux-api@vger.kernel.org>; Fri, 06 Dec 2019 11:03:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sargun.me; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Qle8HQCKp8iB748eskGQ1F5HxXTsSVTwYA22debS+8w=;
+        b=mf5bYICDKaMoHy8wLugXaJp350E9QJj4mv65iPLyOk4pSMMxjTHjp58SUT2+L9j35b
+         f6doCSuFcpzmlE/MbWx46qBJrxDupZEjtQ1Z5reg2oc4ywdjPrQU6nTHupEjmXeFN6KS
+         pWTO5rJZ5uInYjdrebnbnMD++rsy1y46KvVvc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Qle8HQCKp8iB748eskGQ1F5HxXTsSVTwYA22debS+8w=;
+        b=JJpkoPnnC9xOMCpHNbPfuVrE6RJ2BWGywXyBKysFsk8nlv75iCxIiUEVukOrjV9T5A
+         Qgf1DFx415YTHygZ0j81WuhTTOgxagOWWkc4B8MAOAgIs4++HFumoiZ7ynXl87UZoCZ/
+         lcsYCO2lvfZsP8CiCtN+nvUVao/VEX7F8aZY/09Pcj9PQvuxulZhKox7aa8d2lyhZzjf
+         Eb0pLVQa3nDBAkKBg/Wq7uIdFDJ5IuXKTRTzmK5lAbguMEJ+k5/N6zV/cdWoGAiP2k2H
+         bYHN2VarFyKFCyQgC6Ka3rwqCRw7B9KkAX4mRManIUaG8V9AnJoEmURNTLdDUb7inLEH
+         lBZA==
+X-Gm-Message-State: APjAAAVZQuXSJZa07Xq7NO/WucENc6PrUZxekCQ610PyGPCFIM5AbuCJ
+        GEmugLNWXxZCQU5gNLvvao7s1MoUNOoSOvcHQkzsmg==
+X-Google-Smtp-Source: APXvYqwAklgx+URXW5FsC1F/7JTwEA2XGuHuiqWye18cFsXfKd1gCrhcutl7X2035HC/qG3wgPVI3HqSN02dF8CLpTg=
+X-Received: by 2002:a05:6402:1841:: with SMTP id v1mr18072982edy.290.1575659024113;
+ Fri, 06 Dec 2019 11:03:44 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="531401748-481738838-1575656398=:17787"
+References: <20191205234450.GA26369@ircssh-2.c.rugged-nimbus-611.internal> <20191206141045.GA22803@cisco>
+In-Reply-To: <20191206141045.GA22803@cisco>
+From:   Sargun Dhillon <sargun@sargun.me>
+Date:   Fri, 6 Dec 2019 11:03:08 -0800
+Message-ID: <CAMp4zn-Ni-nHrQgn34jV6gzanTiF+wxPrr_zqM47McZQ8TKa5w@mail.gmail.com>
+Subject: Re: [RFC PATCH] ptrace: add PTRACE_GETFD request
+To:     Tycho Andersen <tycho@tycho.ws>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Linux Containers <containers@lists.linux-foundation.org>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---531401748-481738838-1575656398=:17787
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
-
-On Fri, 6 Dec 2019, Qian Cai wrote:
-
-> > On Dec 6, 2019, at 12:31 PM, Yang Shi <yang.shi@linux.alibaba.com> wrote:
-> >
-> > It looks since commit e78bbfa82624 ("mm: stop returning -ENOENT from sys_move_pages() if nothing got migrated") too, which reset err to 0 unconditionally. It seems it is on purpose by that commit the syscall caller should check status for the details according to the commit log.
+On Fri, Dec 6, 2019 at 6:10 AM Tycho Andersen <tycho@tycho.ws> wrote:
 >
-> I don’t read it on purpose. “There is no point in returning -ENOENT from
-> sys_move_pages() if all pages were already on the right node”, so this
-> is only taking about the pages in the desired node. Anyway, but now it
-> is probably the best time to think outside the box redesigning this
-> syscalls and nuke this whole mess.
+> On Thu, Dec 05, 2019 at 11:44:53PM +0000, Sargun Dhillon wrote:
+> > PTRACE_GETFD is a generic ptrace API that allows the tracer to
+> > get file descriptors from the traceee.
+> >
+> > The primary reason to use this syscall is to allow sandboxers to
+>
+> I might change this to "one motivation to use this ptrace command",
+> because I'm sure people will invent other crazy uses soon after it's
+> added :)
+>
+Another use-case that's come up has been transparent proxy for
+service meshes. Rather than doing intercept at L4 (iptables), or
+DNS, just rewriting the connect is nicer. A side benefit is that
+getpeername still works.
 
-The nature of the beast is that moving pages is not a deterministic
-process. The ability to move depends on pages being pinned and locked
-by other kernel subsystem. Other system components may also move the page
-independently.
+> > take action on an FD on behalf of the tracee. For example, this
+> > can be combined with seccomp's user notification feature to extract
+> > a file descriptor and call privileged syscalls, like binding
+> > a socket to a privileged port.
+>
+> This can already be accomplished via injecting parasite code like CRIU
+> does; adding a ptrace() command like this makes it much nicer to be
+> sure, but it is redundant.
+>
+> Tycho
+How can you do this if the tracee doesn't have privilege? For example,
+if the tracee doesn't have CAP_SYS_BIND_SERVICE, how could you
+get it to bind to a port that's privileged without taking the file descriptor
+and doing it in a process that does have CAP_SYS_BIND_SERVICE?
 
-If the user calls this system call and wants to move some pages then he
-has presumably figured out somehow that pages are misplaced. If no pages
-can be moved then the system call did nothing which could indicate that
-some other process is interfering with the desire to move pages to certain
-nodes.
-
-This could be important to know (maybe the other system components already
-moved the page indepently or another user is also migrating pages).
---531401748-481738838-1575656398=:17787--
+The other aspect is that doing the parasitic code thing is kind of slow,
+in that it requires quite a few operations.
