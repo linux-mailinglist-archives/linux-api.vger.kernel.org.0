@@ -2,104 +2,136 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 41FFC114E54
-	for <lists+linux-api@lfdr.de>; Fri,  6 Dec 2019 10:45:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4140E11504D
+	for <lists+linux-api@lfdr.de>; Fri,  6 Dec 2019 13:23:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726127AbfLFJpi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 6 Dec 2019 04:45:38 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:51197 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726070AbfLFJpi (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Dec 2019 04:45:38 -0500
-Received: by mail-wm1-f68.google.com with SMTP id p9so7129521wmg.0;
-        Fri, 06 Dec 2019 01:45:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=VgZXkaerCaq814dwnILX7vYtRFOjbm5DfD5NkTzjaTo=;
-        b=K6sdxfwvQPjEECZJH9PvcwUtZP8upA7qjYykUbYxv/o1AeRrnwqEpAUIHj+mcGSUni
-         gxVPuZGaG/1KJfRJCfr/EQNC/z6qwV7H+APlCjxBMvCvG2nxOjyZ6mu3CZsCxzie0mv6
-         uzeEQTRSC7+HnIxalFxtv9IGHHyzVEkWENSlB02oOlWtYKs5HlIEgoHUS9wFAQ0FbWIt
-         DExQCPJ/SfnUPB5NRBf0R7/Gy6U7wM38EvQLYpIZfUGmiNCaroo6J19KMJRs2tpDKIfy
-         O4PNOwlIlvz8tIzEr3nRPoNXYcyHz0IRnYOES7E8SjoATIEwl2bI8lfzJHqGQZT6mc0B
-         j2vg==
-X-Gm-Message-State: APjAAAWAUrQn3jejbOmWy7ROlgRHdFNNE0B5V8nMig43xmtS1Z0DOfkz
-        Em0ceBax8/jSaj1NVbjE65izXCkP
-X-Google-Smtp-Source: APXvYqxzG3UZEpVj2ra8UPftUD4jNLDT9c/lbi7vIZ4Au8QKO1FCp9GXKuu0+aBLhs5BYLTfzIZ2OA==
-X-Received: by 2002:a7b:c24c:: with SMTP id b12mr9616831wmj.16.1575625536360;
-        Fri, 06 Dec 2019 01:45:36 -0800 (PST)
-Received: from localhost (prg-ext-pat.suse.com. [213.151.95.130])
-        by smtp.gmail.com with ESMTPSA id d186sm2986921wmf.7.2019.12.06.01.45.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Dec 2019 01:45:35 -0800 (PST)
-Date:   Fri, 6 Dec 2019 10:45:34 +0100
-From:   Michal Hocko <mhocko@kernel.org>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Yang Shi <yang.shi@linux.alibaba.com>, mtk.manpages@gmail.com,
-        cl@linux.com, cai@lca.pw, akpm@linux-foundation.org,
-        linux-man@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] move_pages.2: not return ENOENT if the page are already
- on the target nodes
-Message-ID: <20191206094534.GL28317@dhcp22.suse.cz>
-References: <1575596090-115377-1-git-send-email-yang.shi@linux.alibaba.com>
- <0dc96e40-5f2b-a2fe-6e5f-b6f3d5e9ebde@nvidia.com>
+        id S1726160AbfLFMXW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 6 Dec 2019 07:23:22 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20088 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726157AbfLFMXW (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Dec 2019 07:23:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1575635001;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=7Qqh0TAEbm3CujH7YteZT0zbdmoeyevvShd6mToTqps=;
+        b=fJ/65sIbUtFwp04tW9LogA2UxV5gX4IwHGmM/bsc7AeVbKeGjGzXU6mkSy1/wuJKSltQ1o
+        6Emeq/w0kmyfwRE6kKZnPeeX5bd87B+V7FkOuerb5d+loZQ8lD0umIYYq6khqsuUnowAqY
+        2/0/jLAQ3rqY3d7iZI5WaBV1Asy0FAc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-188-vaddTg2kPsutelJz7_iIYA-1; Fri, 06 Dec 2019 07:23:17 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 09F15107ACC9;
+        Fri,  6 Dec 2019 12:23:16 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.43.17.44])
+        by smtp.corp.redhat.com (Postfix) with SMTP id 510A610018FF;
+        Fri,  6 Dec 2019 12:23:14 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+        oleg@redhat.com; Fri,  6 Dec 2019 13:23:13 +0100 (CET)
+Date:   Fri, 6 Dec 2019 13:23:11 +0100
+From:   Oleg Nesterov <oleg@redhat.com>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Sargun Dhillon <sargun@sargun.me>, linux-kernel@vger.kernel.org,
+        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
+        tycho@tycho.ws
+Subject: Re: [RFC PATCH] ptrace: add PTRACE_GETFD request
+Message-ID: <20191206122311.GA820@redhat.com>
+References: <20191205234450.GA26369@ircssh-2.c.rugged-nimbus-611.internal>
+ <20191206082539.gmefytwu3ylixj5d@wittgenstein>
 MIME-Version: 1.0
+In-Reply-To: <20191206082539.gmefytwu3ylixj5d@wittgenstein>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: vaddTg2kPsutelJz7_iIYA-1
+X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
-In-Reply-To: <0dc96e40-5f2b-a2fe-6e5f-b6f3d5e9ebde@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri 06-12-19 00:25:53, John Hubbard wrote:
-> On 12/5/19 5:34 PM, Yang Shi wrote:
-> > Since commit e78bbfa82624 ("mm: stop returning -ENOENT
-> > from sys_move_pages() if nothing got migrated"), move_pages doesn't
-> > return -ENOENT anymore if the pages are already on the target nodes, but
-> > this change is never reflected in manpage.
-> > 
-> > Cc: Michael Kerrisk <mtk.manpages@gmail.com>
-> > Cc: Christoph Lameter <cl@linux.com>
-> > Cc: John Hubbard <jhubbard@nvidia.com>
-> > Cc: Michal Hocko <mhocko@suse.com>
-> > Cc: Qian Cai <cai@lca.pw>
-> > Signed-off-by: Yang Shi <yang.shi@linux.alibaba.com>
-> > ---
-> >   man2/move_pages.2 | 5 ++---
-> >   1 file changed, 2 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/man2/move_pages.2 b/man2/move_pages.2
-> > index 2d96468..2a2f3cd 100644
-> > --- a/man2/move_pages.2
-> > +++ b/man2/move_pages.2
-> > @@ -192,9 +192,8 @@ was specified or an attempt was made to migrate pages of a kernel thread.
-> >   One of the target nodes is not online.
-> >   .TP
-> >   .B ENOENT
-> > -No pages were found that require moving.
-> > -All pages are either already
-> > -on the target node, not present, had an invalid address or could not be
-> > +No pages were found.
-> > +All pages are either not present, had an invalid address or could not be
-> >   moved because they were mapped by multiple processes.
-> >   .TP
-> >   .B EPERM
-> > 
-> 
-> whoa, hold on. If I'm reading through the various error paths correctly, then this
-> code is *never* going to return ENOENT for the whole function. It can fill in that
-> value per-page, in the status array, but that's all. Did I get that right?
+> On Thu, Dec 05, 2019 at 11:44:53PM +0000, Sargun Dhillon wrote:
+>
+> > +static int ptrace_getfd(struct task_struct *child, unsigned long fd)
+> > +{
+> > +=09struct files_struct *files;
+> > +=09struct file *file;
+> > +=09int ret =3D 0;
+> > +
+> > +=09files =3D get_files_struct(child);
+> > +=09if (!files)
+> > +=09=09return -ENOENT;
+> > +
+> > +=09spin_lock(&files->file_lock);
+> > +=09file =3D fcheck_files(files, fd);
+> > +=09if (!file)
+> > +=09=09ret =3D -EBADF;
+> > +=09else
+> > +=09=09get_file(file);
+> > +=09spin_unlock(&files->file_lock);
+> > +=09put_files_struct(files);
 
-You are right. Both store_status and do_move_pages_to_node do overwrite
-the error code. So you are right that ENOENT return value is not
-possible. I haven't checked since when this is the case. This whole
-syscall is a disaster from the API and documentation POV.
+may be someone can finally create a helper for this, it can have more users=
+.
+say,
+=09struct file *get_task_file(task, fd)
+=09{
+=09=09struct file *file =3D NULL;
 
-Btw. Page states error codes could see some refinements as well.
--- 
-Michal Hocko
-SUSE Labs
+=09=09task_lock(task);
+=09=09rcu_read_lock();
+=09=09if (task->files) {
+=09=09=09file =3D fcheck_files(task->files, fd);
+=09=09=09if (file)
+=09=09=09=09get_file(file);
+=09=09}
+=09=09rcu_read_unlock();
+=09=09task_unlock(task);
+
+=09=09return file;
+=09}
+
+
+no need to get/put files_struct, no need to take ->file_lock.
+
+> > +
+> > +=09if (ret)
+> > +=09=09goto out;
+> > +
+> > +=09ret =3D get_unused_fd_flags(0);
+> > +=09if (ret >=3D 0)
+> > +=09=09fd_install(ret, file);
+> > +
+> > +=09fput(file);
+
+this looks wrong or I am totally confused...
+
+=09if (ret >=3D 0)
+=09=09fd_install(file);
+=09else
+=09=09fput(file);
+
+?
+
+> > @@ -1265,7 +1299,8 @@ SYSCALL_DEFINE4(ptrace, long, request, long, pid,=
+ unsigned long, addr,
+> >  =09}
+> > =20
+> >  =09ret =3D ptrace_check_attach(child, request =3D=3D PTRACE_KILL ||
+> > -=09=09=09=09  request =3D=3D PTRACE_INTERRUPT);
+> > +=09=09=09=09  request =3D=3D PTRACE_INTERRUPT ||
+> > +=09=09=09=09  request =3D=3D PTRACE_GETFD);
+
+Hmm. not sure why do you want this... But OK, we do not need to stop the tr=
+acee.
+
+Oleg.
+
