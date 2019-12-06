@@ -2,70 +2,32 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C7E701152F8
-	for <lists+linux-api@lfdr.de>; Fri,  6 Dec 2019 15:20:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DDFF5115322
+	for <lists+linux-api@lfdr.de>; Fri,  6 Dec 2019 15:30:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726575AbfLFOUI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 6 Dec 2019 09:20:08 -0500
-Received: from mout-p-202.mailbox.org ([80.241.56.172]:29124 "EHLO
-        mout-p-202.mailbox.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726268AbfLFOUH (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Dec 2019 09:20:07 -0500
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:105:465:1:2:0])
+        id S1726258AbfLFOaX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 6 Dec 2019 09:30:23 -0500
+Received: from mout-p-102.mailbox.org ([80.241.56.152]:11088 "EHLO
+        mout-p-102.mailbox.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726234AbfLFOaW (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Dec 2019 09:30:22 -0500
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [80.241.60.240])
         (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
         (No client certificate requested)
-        by mout-p-202.mailbox.org (Postfix) with ESMTPS id 47Tvql22RHzQkK1;
-        Fri,  6 Dec 2019 15:20:03 +0100 (CET)
+        by mout-p-102.mailbox.org (Postfix) with ESMTPS id 47Tw3Z61SlzKmMr;
+        Fri,  6 Dec 2019 15:30:18 +0100 (CET)
 X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp2.mailbox.org ([80.241.60.241])
-        by spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de [80.241.56.122]) (amavisd-new, port 10030)
-        with ESMTP id 8G5RMpKVsMbp; Fri,  6 Dec 2019 15:19:58 +0100 (CET)
+Received: from smtp1.mailbox.org ([80.241.60.240])
+        by spamfilter05.heinlein-hosting.de (spamfilter05.heinlein-hosting.de [80.241.56.123]) (amavisd-new, port 10030)
+        with ESMTP id YN4ygJRoLHAa; Fri,  6 Dec 2019 15:30:14 +0100 (CET)
 From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     Al Viro <viro@zeniv.linux.org.uk>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J. Bruce Fields" <bfields@fieldses.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        David Howells <dhowells@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        Andrii Nakryiko <andriin@fb.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Aleksa Sarai <cyphar@cyphar.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Tycho Andersen <tycho@tycho.ws>,
-        David Drysdale <drysdale@google.com>,
-        Chanho Min <chanho.min@lge.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Christian Brauner <christian@brauner.io>,
-        Aleksa Sarai <asarai@suse.de>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        dev@opencontainers.org, containers@lists.linux-foundation.org,
-        bpf@vger.kernel.org, netdev@vger.kernel.org,
-        linux-alpha@vger.kernel.org, linux-api@vger.kernel.org,
-        libc-alpha@sourceware.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-ia64@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-        linux-xtensa@linux-xtensa.org, sparclinux@vger.kernel.org
-Subject: [PATCH v18 13/13] Documentation: path-lookup: include new LOOKUP flags
-Date:   Sat,  7 Dec 2019 01:13:38 +1100
-Message-Id: <20191206141338.23338-14-cyphar@cyphar.com>
+To:     Michael Kerrisk <mtk.manpages@gmail.com>
+Cc:     linux-api@vger.kernel.org, libc-alpha@sourceware.org,
+        linux-man@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Aleksa Sarai <cyphar@cyphar.com>
+Subject: [PATCH man-pages 1/2] openat2.2: document new openat2(2) syscall
+Date:   Sat,  7 Dec 2019 01:29:30 +1100
+Message-Id: <20191206142931.28138-1-cyphar@cyphar.com>
 In-Reply-To: <20191206141338.23338-1-cyphar@cyphar.com>
 References: <20191206141338.23338-1-cyphar@cyphar.com>
 MIME-Version: 1.0
@@ -75,140 +37,509 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Now that we have new LOOKUP flags, we should document them in the
-relevant path-walking documentation. And now that we've settled on a
-common name for nd_jump_link() style symlinks ("magic links"), use that
-term where magic-link semantics are described.
+Rather than trying to merge the new syscall documentation into open.2
+(which would probably result in the man-page being incomprehensible),
+instead the new syscall gets its own dedicated page with links between
+open(2) and openat2(2) to avoid duplicating information such as the list
+of O_* flags or common errors.
 
 Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
 ---
- Documentation/filesystems/path-lookup.rst | 68 +++++++++++++++++++++--
- 1 file changed, 62 insertions(+), 6 deletions(-)
+ man2/open.2    |  17 ++
+ man2/openat2.2 | 435 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 452 insertions(+)
+ create mode 100644 man2/openat2.2
 
-diff --git a/Documentation/filesystems/path-lookup.rst b/Documentation/filesystems/path-lookup.rst
-index 434a07b0002b..a3216979298b 100644
---- a/Documentation/filesystems/path-lookup.rst
-+++ b/Documentation/filesystems/path-lookup.rst
-@@ -13,6 +13,7 @@ It has subsequently been updated to reflect changes in the kernel
- including:
- 
- - per-directory parallel name lookup.
-+- ``openat2()`` resolution restriction flags.
- 
- Introduction to pathname lookup
- ===============================
-@@ -235,6 +236,13 @@ renamed.  If ``d_lookup`` finds that a rename happened while it
- unsuccessfully scanned a chain in the hash table, it simply tries
- again.
- 
-+``rename_lock`` is also used to detect and defend against potential attacks
-+against ``LOOKUP_BENEATH`` and ``LOOKUP_IN_ROOT`` when resolving ".." (where
-+the parent directory is moved outside the root, bypassing the ``path_equal()``
-+check). If ``rename_lock`` is updated during the lookup and the path encounters
-+a "..", a potential attack occurred and ``handle_dots()`` will bail out with
-+``-EAGAIN``.
+diff --git a/man2/open.2 b/man2/open.2
+index b0f485b41589..2a721c991a20 100644
+--- a/man2/open.2
++++ b/man2/open.2
+@@ -65,6 +65,10 @@ open, openat, creat \- open and possibly create a file
+ .BI "int openat(int " dirfd ", const char *" pathname ", int " flags );
+ .BI "int openat(int " dirfd ", const char *" pathname ", int " flags \
+ ", mode_t " mode );
++.PP
++/* Documented separately, in \fBopenat2\fP(2). */
++.BI "int openat2(int " dirfd ", const char *" pathname ", \
++const struct open_how *" how ", size_t " size ");
+ .fi
+ .PP
+ .in -4n
+@@ -933,6 +937,15 @@ If
+ is absolute, then
+ .I dirfd
+ is ignored.
++.SS openat2(2)
++The
++.BR openat2 (2)
++system call is an extension of
++.BR openat (),
++with a superset of features. To avoid making this man page too long, the
++description of
++.BR openat2 (2)
++and its features is documented in a separate man page.
+ .SH RETURN VALUE
+ .BR open (),
+ .BR openat (),
+@@ -1220,6 +1233,9 @@ SVr4, 4.3BSD, POSIX.1-2001, POSIX.1-2008.
+ .BR openat ():
+ POSIX.1-2008.
+ .PP
++.BR openat2 (2)
++is Linux-specific.
++.PP
+ The
+ .BR O_DIRECT ,
+ .BR O_NOATIME ,
+@@ -1778,6 +1794,7 @@ is ignored).
+ .BR mknod (2),
+ .BR mmap (2),
+ .BR mount (2),
++.BR openat2 (2),
+ .BR open_by_handle_at (2),
+ .BR read (2),
+ .BR socket (2),
+diff --git a/man2/openat2.2 b/man2/openat2.2
+new file mode 100644
+index 000000000000..8588f0018657
+--- /dev/null
++++ b/man2/openat2.2
+@@ -0,0 +1,435 @@
++.\" Copyright (C) 2019 Aleksa Sarai <cyphar@cyphar.com>
++.\"
++.\" %%%LICENSE_START(VERBATIM)
++.\" Permission is granted to make and distribute verbatim copies of this
++.\" manual provided the copyright notice and this permission notice are
++.\" preserved on all copies.
++.\"
++.\" Permission is granted to copy and distribute modified versions of this
++.\" manual under the conditions for verbatim copying, provided that the
++.\" entire resulting derived work is distributed under the terms of a
++.\" permission notice identical to this one.
++.\"
++.\" Since the Linux kernel and libraries are constantly changing, this
++.\" manual page may be incorrect or out-of-date.  The author(s) assume no
++.\" responsibility for errors or omissions, or for damages resulting from
++.\" the use of the information contained herein.  The author(s) may not
++.\" have taken the same level of care in the production of this manual,
++.\" which is licensed free of charge, as they might when working
++.\" professionally.
++.\"
++.\" Formatted or processed versions of this manual, if unaccompanied by
++.\" the source, must acknowledge the copyright and authors of this work.
++.\" %%%LICENSE_END
++.TH OPENAT2 2 2019-11-05 "Linux" "Linux Programmer's Manual"
++.SH NAME
++openat2 \- open and possibly create a file (extended)
++.SH SYNOPSIS
++.nf
++.B #include <sys/types.h>
++.B #include <sys/stat.h>
++.B #include <fcntl.h>
++.PP
++.BI "int openat2(int " dirfd ", const char *" pathname ", \
++struct open_how *" how ", size_t " size ");
++.fi
++.PP
++.IR Note :
++There is no glibc wrapper for this system call; see NOTES.
++.SH DESCRIPTION
++The
++.BR openat2 ()
++system call opens the file specified by
++.IR pathname .
++If the specified file does not exist, it may optionally (if
++.B O_CREAT
++is specified in
++.IR how.flags )
++be created by
++.BR openat2() .
++.PP
++As with
++.BR openat (2),
++if
++.I pathname
++is relative, then it is interpreted relative to the
++directory referred to by the file descriptor
++.I dirfd
++(or the current working directory of the calling process, if
++.I dirfd
++is the special value
++.BR AT_FDCWD .)
++If
++.I pathname
++is absolute, then
++.I dirfd
++is ignored (unless
++.I how.resolve
++contains
++.BR RESOLVE_IN_ROOT,
++in which case
++.I pathname
++is resolved relative to
++.IR dirfd .)
++.PP
++The
++.BR openat2 ()
++system call is an extension of
++.BR openat (2)
++and provides a superset of its functionality.
++Rather than taking a single
++.I flag
++argument, an extensible structure (\fIhow\fP) is passed instead to allow for
++future extensions.
++.I size
++must be set to
++.IR "sizeof(struct open_how)" ,
++to facilitate future extensions (see the "Extensibility" section of the
++.B NOTES
++for more detail on how extensions are handled.)
 +
- inode->i_rwsem
- ~~~~~~~~~~~~~~
- 
-@@ -348,6 +356,13 @@ any changes to any mount points while stepping up.  This locking is
- needed to stabilize the link to the mounted-on dentry, which the
- refcount on the mount itself doesn't ensure.
- 
-+``mount_lock`` is also used to detect and defend against potential attacks
-+against ``LOOKUP_BENEATH`` and ``LOOKUP_IN_ROOT`` when resolving ".." (where
-+the parent directory is moved outside the root, bypassing the ``path_equal()``
-+check). If ``mount_lock`` is updated during the lookup and the path encounters
-+a "..", a potential attack occurred and ``handle_dots()`` will bail out with
-+``-EAGAIN``.
++.SS The open_how structure
++The following structure indicates how
++.I pathname
++should be opened, and acts as a superset of the
++.IR flag " and " mode
++arguments to
++.BR openat (2).
++.PP
++.in +4n
++.EX
++struct open_how {
++    __aligned_u64 flags;         /* O_* flags. */
++    __u16         mode;          /* Mode for O_{CREAT,TMPFILE}. */
++    __u16         __padding[3];  /* Must be zeroed. */
++    __aligned_u64 resolve;       /* RESOLVE_* flags. */
++};
++.EE
++.in
++.PP
++Any future extensions to
++.BR openat2 ()
++will be implemented as new fields appended to the above structure (or through
++reuse of pre-existing padding space), with the zero value of the new fields
++acting as though the extension were not present.
++.PP
++The meaning of each field is as follows:
++.RS
 +
- RCU
- ~~~
- 
-@@ -405,6 +420,10 @@ is requested.  Keeping a reference in the ``nameidata`` ensures that
- only one root is in effect for the entire path walk, even if it races
- with a ``chroot()`` system call.
- 
-+It should be noted that in the case of ``LOOKUP_IN_ROOT`` or
-+``LOOKUP_BENEATH``, the effective root becomes the directory file descriptor
-+passed to ``openat2()`` (which exposes these ``LOOKUP_`` flags).
++.I flags
++.RS
++The file creation and status flags to use for this operation.
++All of the
++.B O_*
++flags defined for
++.BR openat (2)
++are valid
++.BR openat2 ()
++flag values.
 +
- The root is needed when either of two conditions holds: (1) either the
- pathname or a symbolic link starts with a "'/'", or (2) a "``..``"
- component is being handled, since "``..``" from the root must always stay
-@@ -1149,7 +1168,7 @@ so ``NULL`` is returned to indicate that the symlink can be released and
- the stack frame discarded.
- 
- The other case involves things in ``/proc`` that look like symlinks but
--aren't really::
-+aren't really (and are therefore commonly referred to as "magic-links")::
- 
-      $ ls -l /proc/self/fd/1
-      lrwx------ 1 neilb neilb 64 Jun 13 10:19 /proc/self/fd/1 -> /dev/pts/4
-@@ -1286,7 +1305,9 @@ A few flags
- A suitable way to wrap up this tour of pathname walking is to list
- the various flags that can be stored in the ``nameidata`` to guide the
- lookup process.  Many of these are only meaningful on the final
--component, others reflect the current state of the pathname lookup.
-+component, others reflect the current state of the pathname lookup, and some
-+apply restrictions to all path components encountered in the path lookup.
++Unlike
++.BR openat (2),
++it is an error to provide
++.BR openat2 ()
++unknown or conflicting flags in
++.IR flags .
++.RE
 +
- And then there is ``LOOKUP_EMPTY``, which doesn't fit conceptually with
- the others.  If this is not set, an empty pathname causes an error
- very early on.  If it is set, empty pathnames are not considered to be
-@@ -1310,13 +1331,48 @@ longer needed.
- ``LOOKUP_JUMPED`` means that the current dentry was chosen not because
- it had the right name but for some other reason.  This happens when
- following "``..``", following a symlink to ``/``, crossing a mount point
--or accessing a "``/proc/$PID/fd/$FD``" symlink.  In this case the
--filesystem has not been asked to revalidate the name (with
--``d_revalidate()``).  In such cases the inode may still need to be
--revalidated, so ``d_op->d_weak_revalidate()`` is called if
-+or accessing a "``/proc/$PID/fd/$FD``" symlink (also known as a "magic
-+link"). In this case the filesystem has not been asked to revalidate the
-+name (with ``d_revalidate()``).  In such cases the inode may still need
-+to be revalidated, so ``d_op->d_weak_revalidate()`` is called if
- ``LOOKUP_JUMPED`` is set when the look completes - which may be at the
- final component or, when creating, unlinking, or renaming, at the penultimate component.
- 
-+Resolution-restriction flags
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++.IR mode
++.RS
++File mode for the new file, with identical semantics to the
++.I mode
++argument to
++.BR openat (2).
++However, unlike
++.BR openat (2),
++it is an error to provide
++.BR openat2 ()
++with a
++.I mode
++which contains bits other than
++.IR 0777 .
 +
-+In order to allow userspace to protect itself against certain race conditions
-+and attack scenarios involving changing path components, a series of flags are
-+available which apply restrictions to all path components encountered during
-+path lookup. These flags are exposed through ``openat2()``'s ``resolve`` field.
++It is an error to provide
++.BR openat2 ()
++a non-zero
++.IR mode " if " flags
++does not contain
++.BR O_CREAT " or " O_TMPFILE .
++.RE
 +
-+``LOOKUP_NO_SYMLINKS`` blocks all symlink traversals (including magic-links).
-+This is distinctly different from ``LOOKUP_FOLLOW``, because the latter only
-+relates to restricting the following of trailing symlinks.
++.I resolve
++.RS
++Change how the components of
++.I pathname
++will be resolved (see
++.BR path_resolution (7)
++for background information.)
++The primary use case for these flags is to allow trusted programs to restrict
++how untrusted paths (or paths inside untrusted directories) are resolved.
++The full list of
++.I resolve
++flags is given below.
++.TP
++.B RESOLVE_NO_XDEV
++Disallow traversal of mount points during path resolution (including all bind
++mounts).
 +
-+``LOOKUP_NO_MAGICLINKS`` blocks all magic-link traversals. Filesystems must
-+ensure that they return errors from ``nd_jump_link()``, because that is how
-+``LOOKUP_NO_MAGICLINKS`` and other magic-link restrictions are implemented.
++Users of this flag are encouraged to make its use configurable (unless it is
++used for a specific security purpose), as bind mounts are very widely used by
++end-users.
++Setting this flag indiscrimnately for all uses of
++.IR openat2 ()
++may result in spurious errors on previously-functional systems.
++.TP
++.B RESOLVE_NO_SYMLINKS
++Disallow resolution of symbolic links during path resolution.
++This option implies
++.BR RESOLVE_NO_MAGICLINKS .
 +
-+``LOOKUP_NO_XDEV`` blocks all ``vfsmount`` traversals (this includes both
-+bind-mounts and ordinary mounts). Note that the ``vfsmount`` which contains the
-+lookup is determined by the first mountpoint the path lookup reaches --
-+absolute paths start with the ``vfsmount`` of ``/``, and relative paths start
-+with the ``dfd``'s ``vfsmount``. Magic-links are only permitted if the
-+``vfsmount`` of the path is unchanged.
++If the trailing component is a symbolic link, and
++.I flags
++contains both
++.BR O_PATH " and " O_NOFOLLOW ","
++then an
++.B O_PATH
++file descriptor referencing the symbolic link will be returned.
 +
-+``LOOKUP_BENEATH`` blocks any path components which resolve outside the
-+starting point of the resolution. This is done by blocking ``nd_jump_root()``
-+as well as blocking ".." if it would jump outside the starting point.
-+``rename_lock`` and ``mount_lock`` are used to detect attacks against the
-+resolution of "..". Magic-links are also blocked.
++Users of this flag are encouraged to make its use configurable (unless it is
++used for a specific security purpose), as symbolic links are very widely used
++by end-users.
++Setting this flag indiscrimnately for all uses of
++.IR openat2 ()
++may result in spurious errors on previously-functional systems.
++.TP
++.B RESOLVE_NO_MAGICLINKS
++Disallow all magic link resolution during path resolution.
 +
-+``LOOKUP_IN_ROOT`` resolves all path components as though the starting point
-+were the filesystem root. ``nd_jump_root()`` brings the resolution back to to
-+the starting point, and ".." at the starting point will act as a no-op. As with
-+``LOOKUP_BENEATH``, ``rename_lock`` and ``mount_lock`` are used to detect
-+attacks against ".." resolution. Magic-links are also blocked.
++If the trailing component is a magic link, and
++.I flags
++contains both
++.BR O_PATH " and " O_NOFOLLOW ","
++then an
++.B O_PATH
++file descriptor referencing the magic link will be returned.
 +
- Final-component flags
- ~~~~~~~~~~~~~~~~~~~~~
- 
++Magic-links are symbolic link-like objects that are most notably found in
++.BR proc (5)
++(examples include
++.IR /proc/[pid]/exe " and " /proc/[pid]/fd/* .)
++Due to the potential danger of unknowingly opening these magic links, it may be
++preferable for users to disable their resolution entirely (see
++.BR symbolic link (7)
++for more details.)
++.TP
++.B RESOLVE_BENEATH
++Do not permit the path resolution to succeed if any component of the resolution
++is not a descendant of the directory indicated by
++.IR dirfd .
++This results in absolute symbolic links (and absolute values of
++.IR pathname )
++to be rejected.
++
++Currently, this flag also disables magic link resolution.
++However, this may change in the future.
++The caller should explicitly specify
++.B RESOLVE_NO_MAGICLINKS
++to ensure that magic links are not resolved.
++
++.TP
++.B RESOLVE_IN_ROOT
++Treat
++.I dirfd
++as the root directory while resolving
++.I pathname
++(as though the user called
++.BR chroot (2)
++with
++.IR dirfd
++as the argument.)
++Absolute symbolic links and ".." path components will be scoped to
++.IR dirfd .
++If
++.I pathname
++is an absolute path, it is also treated relative to
++.IR dirfd .
++
++However, unlike
++.BR chroot (2)
++(which changes the filesystem root permanently for a process),
++.B RESOLVE_IN_ROOT
++allows a program to efficiently restrict path resolution for only certain
++operations.
++It also has several hardening features (such detecting escape attempts during
++.I ".."
++resolution) which
++.BR chroot (2)
++does not.
++
++Currently, this flag also disables magic link resolution.
++However, this may change in the future.
++The caller should explicitly specify
++.B RESOLVE_NO_MAGICLINKS
++to ensure that magic links are not resolved.
++.PP
++It is an error to provide
++.BR openat2 ()
++unknown flags in
++.IR resolve .
++.RE
++.RE
++
++.SH RETURN VALUE
++On success, a new file descriptor is returned.
++On error, -1 is returned, and
++.I errno
++is set appropriately.
++
++.SH ERRORS
++The set of errors returned by
++.BR openat2 ()
++includes all of the errors returned by
++.BR openat (2),
++as well as the following additional errors:
++.TP
++.B EINVAL
++An unknown flag or invalid value was specified in
++.IR how .
++.TP
++.B EINVAL
++.I mode
++is non-zero, but
++.I flags
++does not contain
++.BR O_CREAT " or " O_TMPFILE .
++.TP
++.B EINVAL
++.I size
++was smaller than any known version of
++.IR "struct open_how" .
++.TP
++.B E2BIG
++An extension was specified in
++.IR how ,
++which the current kernel does not support (see the "Extensibility" section of
++the
++.B NOTES
++for more detail on how extensions are handled.)
++.TP
++.B EAGAIN
++.I resolve
++contains either
++.BR RESOLVE_IN_ROOT " or " RESOLVE_BENEATH ,
++and the kernel could not ensure that a ".." component didn't escape (due to a
++race condition or potential attack.)
++Callers may choose to retry the
++.BR openat2 ()
++call.
++.TP
++.B EXDEV
++.I resolve
++contains either
++.BR RESOLVE_IN_ROOT " or " RESOLVE_BENEATH ,
++and an escape from the root during path resolution was detected.
++
++.TP
++.B EXDEV
++.I resolve
++contains
++.BR RESOLVE_NO_XDEV ,
++and a path component attempted to cross a mount point.
++
++.TP
++.B ELOOP
++.I resolve
++contains
++.BR RESOLVE_NO_SYMLINKS ,
++and one of the path components was a symbolic link (or magic link).
++.TP
++.B ELOOP
++.I resolve
++contains
++.BR RESOLVE_NO_MAGICLINKS ,
++and one of the path components was a magic link.
++
++.SH VERSIONS
++.BR openat2 ()
++first appeared in Linux 5.6.
++
++.SH CONFORMING TO
++This system call is Linux-specific.
++
++The semantics of
++.B RESOLVE_BENEATH
++were modelled after FreeBSD's
++.BR O_BENEATH .
++
++.SH NOTES
++Glibc does not provide a wrapper for this system call; call it using
++.BR syscall (2).
++
++.SS Extensibility
++In order to allow for
++.I struct open_how
++to be extended in future kernel revisions,
++.BR openat2 ()
++requires userspace to specify the size of
++.I struct open_how
++structure they are passing.
++By providing this information, it is possible for
++.BR openat2 ()
++to provide both forwards- and backwards-compatibility \(em with
++.I size
++acting as an implicit version number (because new extension fields will always
++be appended, the size will always increase.)
++This extensibility design is very similar to other system calls such as
++.BR perf_setattr "(2), " perf_event_open "(2), and " clone (3).
++
++If we let
++.I usize
++be the size of the structure according to userspace and
++.I ksize
++be the size of the structure which the kernel supports, then there are only
++three cases to consider:
++
++.RS
++.IP * 3
++If
++.IR ksize " equals " usize ,
++then there is no version mismatch and
++.I how
++can be used verbatim.
++.IP *
++If
++.IR ksize " is larger than " usize ,
++then there are some extensions the kernel supports which the userspace program
++is unaware of.
++Because all extensions must have their zero values be a no-op, the kernel
++treats all of the extension fields not set by userspace to have zero values.
++This provides backwards-compatibility.
++.IP *
++If
++.IR ksize " is smaller than " usize ,
++then there are some extensions which the userspace program is aware of but the
++kernel does not support.
++Because all extensions must have their zero values be a no-op, the kernel can
++safely ignore the unsupported extension fields if they are all-zero.
++If any unsupported extension fields are non-zero, then -1 is returned and
++.I errno
++is set to
++.BR E2BIG .
++This provides forwards-compatibility.
++.RE
++
++Therefore, most userspace programs will not need to have any special handling
++of extensions.
++However, if a userspace program wishes to determine what extensions the running
++kernel supports, they may conduct a binary search on
++.IR size
++(to find the largest value which doesn't produce an error of
++.BR E2BIG .)
++
++.SH SEE ALSO
++.BR openat (2),
++.BR path_resolution (7),
++.BR symlink (7)
 -- 
 2.24.0
 
