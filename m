@@ -2,150 +2,97 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E941A115325
-	for <lists+linux-api@lfdr.de>; Fri,  6 Dec 2019 15:30:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 874F8115665
+	for <lists+linux-api@lfdr.de>; Fri,  6 Dec 2019 18:26:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726234AbfLFOaZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 6 Dec 2019 09:30:25 -0500
-Received: from mout-p-102.mailbox.org ([80.241.56.152]:11100 "EHLO
-        mout-p-102.mailbox.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726245AbfLFOaY (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Dec 2019 09:30:24 -0500
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:105:465:1:1:0])
-        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
-        (No client certificate requested)
-        by mout-p-102.mailbox.org (Postfix) with ESMTPS id 47Tw3f0MqYzKmbF;
-        Fri,  6 Dec 2019 15:30:22 +0100 (CET)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp1.mailbox.org ([80.241.60.240])
-        by spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de [80.241.56.122]) (amavisd-new, port 10030)
-        with ESMTP id d-2sNcd_mFNb; Fri,  6 Dec 2019 15:30:18 +0100 (CET)
-From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     Michael Kerrisk <mtk.manpages@gmail.com>
-Cc:     linux-api@vger.kernel.org, libc-alpha@sourceware.org,
-        linux-man@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Aleksa Sarai <cyphar@cyphar.com>
-Subject: [PATCH man-pages 2/2] path_resolution.7: update to mention openat2(2) features
-Date:   Sat,  7 Dec 2019 01:29:31 +1100
-Message-Id: <20191206142931.28138-2-cyphar@cyphar.com>
-In-Reply-To: <20191206142931.28138-1-cyphar@cyphar.com>
-References: <20191206141338.23338-1-cyphar@cyphar.com>
- <20191206142931.28138-1-cyphar@cyphar.com>
+        id S1726298AbfLFR05 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 6 Dec 2019 12:26:57 -0500
+Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132]:45553 "EHLO
+        out30-132.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726287AbfLFR05 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Dec 2019 12:26:57 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e01422;MF=yang.shi@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0Tk8dtRm_1575653168;
+Received: from US-143344MP.local(mailfrom:yang.shi@linux.alibaba.com fp:SMTPD_---0Tk8dtRm_1575653168)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Sat, 07 Dec 2019 01:26:17 +0800
+Subject: Re: [PATCH] move_pages.2: not return ENOENT if the page are already
+ on the target nodes
+To:     John Hubbard <jhubbard@nvidia.com>, mtk.manpages@gmail.com,
+        cl@linux.com, mhocko@suse.com, cai@lca.pw,
+        akpm@linux-foundation.org
+Cc:     linux-man@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org
+References: <1575596090-115377-1-git-send-email-yang.shi@linux.alibaba.com>
+ <0dc96e40-5f2b-a2fe-6e5f-b6f3d5e9ebde@nvidia.com>
+From:   Yang Shi <yang.shi@linux.alibaba.com>
+Message-ID: <95170ea5-5b62-9168-fcd9-93b43330a1b4@linux.alibaba.com>
+Date:   Fri, 6 Dec 2019 09:26:05 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
+ Gecko/20100101 Thunderbird/52.7.0
 MIME-Version: 1.0
+In-Reply-To: <0dc96e40-5f2b-a2fe-6e5f-b6f3d5e9ebde@nvidia.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
----
- man7/path_resolution.7 | 56 ++++++++++++++++++++++++++++--------------
- 1 file changed, 38 insertions(+), 18 deletions(-)
 
-diff --git a/man7/path_resolution.7 b/man7/path_resolution.7
-index 07664ed8faec..b4a65cc53120 100644
---- a/man7/path_resolution.7
-+++ b/man7/path_resolution.7
-@@ -29,30 +29,38 @@ path_resolution \- how a pathname is resolved to a file
- Some UNIX/Linux system calls have as parameter one or more filenames.
- A filename (or pathname) is resolved as follows.
- .SS Step 1: start of the resolution process
--If the pathname starts with the \(aq/\(aq character,
--the starting lookup directory
--is the root directory of the calling process.
--(A process inherits its
--root directory from its parent.
--Usually this will be the root directory
--of the file hierarchy.
--A process may get a different root directory
--by use of the
-+If the pathname starts with the \(aq/\(aq character, the starting lookup
-+directory is the root directory of the calling process.
-+A process inherits its root directory from its parent.
-+Usually this will be the root directory of the file hierarchy.
-+A process may get a different root directory by use of the
- .BR chroot (2)
--system call.
-+system call, or may temporarily use a different root directory by using
-+.BR openat2 (2)
-+with the
-+.B RESOLVE_IN_ROOT
-+flag set.
-+.PP
- A process may get an entirely private mount namespace in case
- it\(emor one of its ancestors\(emwas started by an invocation of the
- .BR clone (2)
- system call that had the
- .B CLONE_NEWNS
--flag set.)
-+flag set.
- This handles the \(aq/\(aq part of the pathname.
- .PP
--If the pathname does not start with the \(aq/\(aq character, the
--starting lookup directory of the resolution process is the current working
--directory of the process.
--(This is also inherited from the parent.
--It can be changed by use of the
-+If the pathname does not start with the \(aq/\(aq character, the starting
-+lookup directory of the resolution process is the current working directory of
-+the process \(em or in the case of
-+.BR openat (2)-style
-+system calls, the
-+.I dfd
-+argument (or the current working directory if
-+.B AT_FDCWD
-+is passed as the
-+.I dfd
-+argument). The current working directory is inherited from the parent, and can
-+be changed by use of the
- .BR chdir (2)
- system call.)
- .PP
-@@ -91,7 +99,7 @@ Upon error, that error is returned.
- If the result is not a directory, an
- .B ENOTDIR
- error is returned.
--If the resolution of the symlink is successful and returns a directory,
-+If the resolution of the symbolic link is successful and returns a directory,
- we set the current lookup directory to that directory, and go to
- the next component.
- Note that the resolution process here can involve recursion if the
-@@ -124,6 +132,12 @@ the kernel's pathname-resolution code
- was reworked to eliminate the use of recursion,
- so that the only limit that remains is the maximum of 40
- resolutions for the entire pathname.
-+.PP
-+The resolution of symbolic links during this stage can be blocked by using
-+.BR openat2 (2),
-+with the
-+.B RESOLVE_NO_SYMLINKS
-+flag set.
- .SS Step 3: find the final entry
- The lookup of the final component of the pathname goes just like
- that of all other components, as described in the previous step,
-@@ -145,7 +159,7 @@ The path resolution process will assume that these entries have
- their conventional meanings, regardless of whether they are
- actually present in the physical filesystem.
- .PP
--One cannot walk down past the root: "/.." is the same as "/".
-+One cannot walk up past the root: "/.." is the same as "/".
- .SS Mount points
- After a "mount dev path" command, the pathname "path" refers to
- the root of the filesystem hierarchy on the device "dev", and no
-@@ -154,6 +168,12 @@ longer to whatever it referred to earlier.
- One can walk out of a mounted filesystem: "path/.." refers to
- the parent directory of "path",
- outside of the filesystem hierarchy on "dev".
-+.PP
-+Traversal of mount points can be blocked by using
-+.BR openat2 (2),
-+with the
-+.B RESOLVE_NO_XDEV
-+flag set (though note that this also restricts bind mount traversal).
- .SS Trailing slashes
- If a pathname ends in a \(aq/\(aq, that forces resolution of the preceding
- component as in Step 2: it has to exist and resolve to a directory.
--- 
-2.24.0
+
+On 12/6/19 12:25 AM, John Hubbard wrote:
+> On 12/5/19 5:34 PM, Yang Shi wrote:
+>> Since commit e78bbfa82624 ("mm: stop returning -ENOENT
+>> from sys_move_pages() if nothing got migrated"), move_pages doesn't
+>> return -ENOENT anymore if the pages are already on the target nodes, but
+>> this change is never reflected in manpage.
+>>
+>> Cc: Michael Kerrisk <mtk.manpages@gmail.com>
+>> Cc: Christoph Lameter <cl@linux.com>
+>> Cc: John Hubbard <jhubbard@nvidia.com>
+>> Cc: Michal Hocko <mhocko@suse.com>
+>> Cc: Qian Cai <cai@lca.pw>
+>> Signed-off-by: Yang Shi <yang.shi@linux.alibaba.com>
+>> ---
+>>   man2/move_pages.2 | 5 ++---
+>>   1 file changed, 2 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/man2/move_pages.2 b/man2/move_pages.2
+>> index 2d96468..2a2f3cd 100644
+>> --- a/man2/move_pages.2
+>> +++ b/man2/move_pages.2
+>> @@ -192,9 +192,8 @@ was specified or an attempt was made to migrate 
+>> pages of a kernel thread.
+>>   One of the target nodes is not online.
+>>   .TP
+>>   .B ENOENT
+>> -No pages were found that require moving.
+>> -All pages are either already
+>> -on the target node, not present, had an invalid address or could not be
+>> +No pages were found.
+>> +All pages are either not present, had an invalid address or could 
+>> not be
+>>   moved because they were mapped by multiple processes.
+>>   .TP
+>>   .B EPERM
+>>
+>
+> whoa, hold on. If I'm reading through the various error paths 
+> correctly, then this
+> code is *never* going to return ENOENT for the whole function. It can 
+> fill in that
+> value per-page, in the status array, but that's all. Did I get that 
+> right?
+
+Nice catch. Yes, you are right.
+
+>
+> If so, we need to redo this part of the man page.
+
+Yes.
+
+>
+>
+> thanks,
 
