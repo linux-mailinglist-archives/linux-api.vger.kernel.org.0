@@ -2,325 +2,223 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 151FF116760
-	for <lists+linux-api@lfdr.de>; Mon,  9 Dec 2019 08:07:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 465251169A2
+	for <lists+linux-api@lfdr.de>; Mon,  9 Dec 2019 10:39:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727247AbfLIHGx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 9 Dec 2019 02:06:53 -0500
-Received: from mail-io1-f68.google.com ([209.85.166.68]:35384 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727239AbfLIHGw (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Dec 2019 02:06:52 -0500
-Received: by mail-io1-f68.google.com with SMTP id v18so13660083iol.2
-        for <linux-api@vger.kernel.org>; Sun, 08 Dec 2019 23:06:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sargun.me; s=google;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=yIxXYG1YTWqah7KHNRVeSjqJgD6uhzEhEyRg4kk5RV8=;
-        b=DmYJXSqoXIPZuTIXFp8vraozHx7BwI0R2pioNaaS278xlAiCJOGNC1W8GSHTyOai4i
-         NefzvQyXwmeQCIwPo8vkLyBBJADfJye02qR5gSicDw60lfTlpOA6ZoIBHzy8TDN2hbmt
-         3IYOG0e9+e5WXoImrYVcDkfzezP6KYj/QSBc0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=yIxXYG1YTWqah7KHNRVeSjqJgD6uhzEhEyRg4kk5RV8=;
-        b=Bs3xWbNtlLBtjixKPrINRQWTjBPigX59wNYfWyNAdMbKdDGjfGbiaAdB3/16MQiO3T
-         rACqVQIX97JEpXh1GRssxPfet2nf2XgE5t/5FiIaDNXZa6yG/szNR6rpRraZxf79idJY
-         WQ9gMYFJ8QMjmlhH3U9dj+OTAeN5ycqZUva8Y0/eYRXKkBBQMaaqL74GPBcD52tCKAGh
-         RXHm8O4+fzpYdYXH7vIPiktSueL8lHdoVf+V58UphxkWjBdm+5kEBidm+pSFI0YsdSIE
-         Fqw0PE/o25uFqOxgILcUSHLmBQhany5/Nqn/tmXB466pJA7jt0+P7z6mHifNy95VO9Xz
-         CcTw==
-X-Gm-Message-State: APjAAAUWM6EDyOu/apblG8reyddmlNTR0G7dUSJvyHCI8+jI7ZsUq+lo
-        AW14WgQFMP3kHNTULkARhHWXAg==
-X-Google-Smtp-Source: APXvYqyNz9gr9z8RBM1I8ttENofoW7KGGplVpf7ZnnsDxfp3uZFvu65tigRIs7Pq5n5ydDX0OV3SQA==
-X-Received: by 2002:a02:cdd9:: with SMTP id m25mr25419197jap.123.1575875211378;
-        Sun, 08 Dec 2019 23:06:51 -0800 (PST)
-Received: from ircssh-2.c.rugged-nimbus-611.internal (80.60.198.104.bc.googleusercontent.com. [104.198.60.80])
-        by smtp.gmail.com with ESMTPSA id y11sm6519521ilp.46.2019.12.08.23.06.51
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 08 Dec 2019 23:06:51 -0800 (PST)
-Date:   Mon, 9 Dec 2019 07:06:49 +0000
-From:   Sargun Dhillon <sargun@sargun.me>
-To:     linux-kernel@vger.kernel.org,
+        id S1727578AbfLIJjt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 9 Dec 2019 04:39:49 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:39672 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727352AbfLIJjt (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Dec 2019 04:39:49 -0500
+Received: from [79.140.120.104] (helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1ieFW6-000194-Ab; Mon, 09 Dec 2019 09:39:46 +0000
+Date:   Mon, 9 Dec 2019 10:39:45 +0100
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Sargun Dhillon <sargun@sargun.me>
+Cc:     linux-kernel@vger.kernel.org,
         containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Cc:     tycho@tycho.ws, jannh@google.com, cyphar@cyphar.com,
-        christian.brauner@ubuntu.com, oleg@redhat.com, luto@amacapital.net,
+        linux-fsdevel@vger.kernel.org, tycho@tycho.ws, jannh@google.com,
+        cyphar@cyphar.com, oleg@redhat.com, luto@amacapital.net,
         viro@zeniv.linux.org.uk
-Subject: [PATCH v2 4/4] samples: Add example of using PTRACE_GETFD in
- conjunction with user trap
-Message-ID: <20191209070646.GA32477@ircssh-2.c.rugged-nimbus-611.internal>
+Subject: Re: [PATCH v2 2/4] ptrace: add PTRACE_GETFD request to fetch file
+ descriptors from tracees
+Message-ID: <20191209093944.g6lgt2cqkec7eaym@wittgenstein>
+References: <20191209070621.GA32450@ircssh-2.c.rugged-nimbus-611.internal>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <20191209070621.GA32450@ircssh-2.c.rugged-nimbus-611.internal>
+User-Agent: NeoMutt/20180716
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This sample adds the usage of SECCOMP_RET_USER_NOTIF together with ptrace
-PTRACE_GETFD. It shows trapping a syscall, and handling it by extracting
-the FD into the parent process without stopping the child process.
-Although, in this example, there's no explicit policy separation in
-the two processes, it can be generalized into the example of a transparent
-proxy.
+On Mon, Dec 09, 2019 at 07:06:24AM +0000, Sargun Dhillon wrote:
+> PTRACE_GETFD is a generic ptrace API that allows the tracer to
+> get file descriptors from the tracee.
+> 
+> One reason to use this is to allow sandboxers to take actions on file
+> descriptors on the behalf of a tracee. For example, this can be
+> combined with seccomp-bpf's user notification to ptrace on-demand and
+> capture an fd without requiring the tracer to always be attached to
+> the process. The tracer can then take a privileged action on behalf
+> of the tracee, like binding a socket to a privileged port.
+> 
+> It works whether or not the tracee is stopped. The only prior requirement
+> is that the tracer is attached to the process via PTRACE_ATTACH or
+> PTRACE_SEIZE. Stopping the process breaks certain runtimes that expect
+> to be able to preempt syscalls (quickly). In addition, it is meant to be
+> used in an on-demand fashion to avoid breaking debuggers.
+> 
+> The ptrace call takes a pointer to ptrace_getfd_args in data, and the
+> size of the structure in addr. There is an options field, which can
+> be used to state whether the fd should be opened with CLOEXEC, or not.
+> This options field may be extended in the future to include the ability
+> to clear cgroup information about the file descriptor at a later point.
+> If the structure is from a newer kernel, and includes members which
+> make it larger than the structure that's known to this kernel version,
+> E2BIG will be returned.
+> 
+> The requirement that the tracer has attached to the tracee prior to the
+> capture of the file descriptor may be lifted at a later point.
+> 
+> Signed-off-by: Sargun Dhillon <sargun@sargun.me>
+> ---
+>  include/uapi/linux/ptrace.h | 15 +++++++++++++++
+>  kernel/ptrace.c             | 35 +++++++++++++++++++++++++++++++++--
+>  2 files changed, 48 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/uapi/linux/ptrace.h b/include/uapi/linux/ptrace.h
+> index a71b6e3b03eb..c84655bcc453 100644
+> --- a/include/uapi/linux/ptrace.h
+> +++ b/include/uapi/linux/ptrace.h
+> @@ -101,6 +101,21 @@ struct ptrace_syscall_info {
+>  	};
+>  };
+>  
+> +/*
+> + * This gets a file descriptor from a process. It requires that the process
+> + * has either been attached to. It does not require that the process is
+> + * stopped.
+> + */
+> +#define PTRACE_GETFD	0x420f
+> +
+> +/* options to pass in to ptrace_getfd_args */
+> +#define PTRACE_GETFD_O_CLOEXEC	(1 << 0)	/* open the fd with cloexec */
 
-Signed-off-by: Sargun Dhillon <sargun@sargun.me>
----
- samples/seccomp/.gitignore         |   1 +
- samples/seccomp/Makefile           |   9 +-
- samples/seccomp/user-trap-ptrace.c | 193 +++++++++++++++++++++++++++++
- 3 files changed, 202 insertions(+), 1 deletion(-)
- create mode 100644 samples/seccomp/user-trap-ptrace.c
+Hey Sargun,
 
-diff --git a/samples/seccomp/.gitignore b/samples/seccomp/.gitignore
-index d1e2e817d556..169bc130ec39 100644
---- a/samples/seccomp/.gitignore
-+++ b/samples/seccomp/.gitignore
-@@ -2,3 +2,4 @@ bpf-direct
- bpf-fancy
- dropper
- user-trap
-+user-trap-ptrace
-diff --git a/samples/seccomp/Makefile b/samples/seccomp/Makefile
-index 82b7347318d1..c0f3ef713f5b 100644
---- a/samples/seccomp/Makefile
-+++ b/samples/seccomp/Makefile
-@@ -1,6 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
- ifndef CROSS_COMPILE
--hostprogs-y := bpf-fancy dropper bpf-direct user-trap
-+hostprogs-y := bpf-fancy dropper bpf-direct user-trap user-trap-ptrace
- 
- HOSTCFLAGS_bpf-fancy.o += -I$(objtree)/usr/include
- HOSTCFLAGS_bpf-fancy.o += -idirafter $(objtree)/include
-@@ -24,6 +24,11 @@ HOSTCFLAGS_user-trap.o += -I$(objtree)/usr/include
- HOSTCFLAGS_user-trap.o += -idirafter $(objtree)/include
- user-trap-objs := user-trap.o user-trap-helper.o
- 
-+HOSTCFLAGS_user-trap-ptrace.o += -I$(objtree)/usr/include
-+HOSTCFLAGS_user-trap-ptrace.o += -idirafter $(objtree)/include
-+user-trap-ptrace-objs := user-trap-ptrace.o user-trap-helper.o
-+
-+
- # Try to match the kernel target.
- ifndef CONFIG_64BIT
- 
-@@ -39,10 +44,12 @@ HOSTCFLAGS_dropper.o += $(MFLAG)
- HOSTCFLAGS_bpf-helper.o += $(MFLAG)
- HOSTCFLAGS_bpf-fancy.o += $(MFLAG)
- HOSTCFLAGS_user-trap.o += $(MFLAG)
-+HOSTCFLAGS_user-trap-ptrace.o += $(MFLAG)
- HOSTLDLIBS_bpf-direct += $(MFLAG)
- HOSTLDLIBS_bpf-fancy += $(MFLAG)
- HOSTLDLIBS_dropper += $(MFLAG)
- HOSTLDLIBS_user-trap += $(MFLAG)
-+HOSTLDLIBS_user-trap-ptrace += $(MFLAG)
- endif
- always := $(hostprogs-y)
- endif
-diff --git a/samples/seccomp/user-trap-ptrace.c b/samples/seccomp/user-trap-ptrace.c
-new file mode 100644
-index 000000000000..5cca1cb4916c
---- /dev/null
-+++ b/samples/seccomp/user-trap-ptrace.c
-@@ -0,0 +1,193 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include <linux/seccomp.h>
-+#include <linux/ptrace.h>
-+#include <linux/prctl.h>
-+#include <sys/socket.h>
-+#include <sys/prctl.h>
-+#include <sys/types.h>
-+#include <sys/wait.h>
-+#include <sys/ioctl.h>
-+#include <assert.h>
-+#include <errno.h>
-+#include <stdio.h>
-+#include <string.h>
-+#include <stdlib.h>
-+#include <netinet/in.h>
-+#include "user-trap-helper.h"
-+
-+#define CHILD_PORT_TRY_BIND	80
-+#define CHILD_PORT_ACTUAL_BIND	4998
-+
-+static int ptrace(long request, long pid, void *addr, unsigned long data)
-+{
-+	errno = 0;
-+	return syscall(__NR_ptrace, request, pid, addr, data);
-+}
-+
-+static int ptrace_getfd(long pid, struct ptrace_getfd_args *args)
-+{
-+	errno = 0;
-+	return syscall(__NR_ptrace, PTRACE_GETFD, pid, sizeof(*args), args);
-+}
-+
-+static int tracee(void)
-+{
-+	struct sockaddr_in addr = {
-+		.sin_family	= AF_INET,
-+		.sin_port	= htons(CHILD_PORT_TRY_BIND),
-+		.sin_addr	= {
-+			.s_addr	= htonl(INADDR_ANY)
-+		}
-+	};
-+	socklen_t addrlen = sizeof(addr);
-+	int sock, ret = 1;
-+
-+	sock = socket(AF_INET, SOCK_STREAM, 0);
-+	if (sock == -1) {
-+		perror("socket");
-+		goto out;
-+	}
-+
-+
-+	if (bind(sock, (struct sockaddr *) &addr, sizeof(addr))) {
-+		perror("bind");
-+		goto out;
-+	}
-+
-+	printf("Child successfully performed bind operation\n");
-+	if (getsockname(sock, (struct sockaddr *) &addr, &addrlen)) {
-+		perror("getsockname");
-+		goto out;
-+	}
-+
-+
-+	printf("Socket bound to port %d\n", ntohs(addr.sin_port));
-+	assert(ntohs(addr.sin_port) == CHILD_PORT_ACTUAL_BIND);
-+
-+	ret = 0;
-+out:
-+	return ret;
-+}
-+
-+static int handle_req(int listener)
-+{
-+	struct sockaddr_in addr = {
-+		.sin_family	= AF_INET,
-+		.sin_port	= htons(4998),
-+		.sin_addr	= {
-+			.s_addr	= htonl(INADDR_LOOPBACK)
-+		}
-+	};
-+	struct ptrace_getfd_args getfd_args = {
-+		.options = PTRACE_GETFD_O_CLOEXEC
-+	};
-+	struct seccomp_notif_sizes sizes;
-+	struct seccomp_notif_resp *resp;
-+	struct seccomp_notif *req;
-+	int fd, ret = 1;
-+
-+	if (seccomp(SECCOMP_GET_NOTIF_SIZES, 0, &sizes) < 0) {
-+		perror("seccomp(GET_NOTIF_SIZES)");
-+		goto out;
-+	}
-+	req = malloc(sizes.seccomp_notif);
-+	if (!req)
-+		goto out;
-+	memset(req, 0, sizeof(*req));
-+
-+	resp = malloc(sizes.seccomp_notif_resp);
-+	if (!resp)
-+		goto out_free_req;
-+	memset(resp, 0, sizeof(*resp));
-+
-+	if (ioctl(listener, SECCOMP_IOCTL_NOTIF_RECV, req)) {
-+		perror("ioctl recv");
-+		goto out;
-+	}
-+	printf("Child tried to call bind with fd: %lld\n", req->data.args[0]);
-+	getfd_args.fd = req->data.args[0];
-+	fd = ptrace_getfd(req->pid, &getfd_args);
-+	if (fd == -1) {
-+		perror("ptrace_getfd");
-+		goto out_free_resp;
-+	}
-+	if (bind(fd, (struct sockaddr *) &addr, sizeof(addr))) {
-+		perror("bind");
-+		goto out_free_resp;
-+	}
-+
-+	resp->id = req->id;
-+	resp->error = 0;
-+	resp->val = 0;
-+	if (ioctl(listener, SECCOMP_IOCTL_NOTIF_SEND, resp) < 0) {
-+		perror("ioctl send");
-+		goto out_free_resp;
-+	}
-+
-+	ret = 0;
-+out_free_resp:
-+	free(resp);
-+out_free_req:
-+	free(req);
-+out:
-+	return ret;
-+}
-+
-+int main(void)
-+{
-+	int listener, sk_pair[2], ret = 1;
-+	pid_t pid;
-+
-+	if (socketpair(PF_LOCAL, SOCK_SEQPACKET, 0, sk_pair) < 0) {
-+		perror("socketpair");
-+		goto out;
-+	}
-+
-+	pid = fork();
-+	if (pid < 0) {
-+		perror("fork");
-+		goto close_pair;
-+	}
-+	if (pid == 0) {
-+		if (prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0)) {
-+			perror("prctl(NO_NEW_PRIVS)");
-+			exit(1);
-+		}
-+		listener = user_trap_syscall(__NR_bind,
-+					     SECCOMP_FILTER_FLAG_NEW_LISTENER);
-+		if (listener < 0) {
-+			perror("seccomp");
-+			exit(1);
-+		}
-+		if (send_fd(sk_pair[1], listener) < 0)
-+			exit(1);
-+		close(listener);
-+		exit(tracee());
-+	}
-+
-+	if (ptrace(PTRACE_SEIZE, pid, 0, PTRACE_O_EXITKILL)) {
-+		perror("ptrace(PTRACE_SEIZE)");
-+		goto kill_child;
-+	}
-+
-+	listener = recv_fd(sk_pair[0]);
-+	if (listener < 0)
-+		goto kill_child;
-+
-+	if (handle_req(listener))
-+		goto kill_child;
-+
-+	/* Wait for child to finish */
-+	waitpid(pid, NULL, 0);
-+
-+	ret = 0;
-+	goto close_pair;
-+
-+kill_child:
-+	kill(pid, SIGKILL);
-+close_pair:
-+	close(sk_pair[0]);
-+	close(sk_pair[1]);
-+out:
-+	return ret;
-+}
--- 
-2.20.1
+Thanks for the patch!
 
+Why not simply accept O_CLOEXEC as flag? If that's not possible for some
+reason I'd say
+
+#define PTRACE_GETFD_O_CLOEXEC	O_CLOEXEC	/* open the fd with cloexec */
+
+is the right thing to do. This is fairly common:
+
+include/uapi/linux/timerfd.h:#define TFD_CLOEXEC O_CLOEXEC
+include/uapi/drm/drm.h:#define DRM_CLOEXEC O_CLOEXEC
+include/linux/userfaultfd_k.h:#define UFFD_CLOEXEC O_CLOEXEC
+include/linux/eventfd.h:#define EFD_CLOEXEC O_CLOEXEC
+include/uapi/linux/eventpoll.h:#define EPOLL_CLOEXEC O_CLOEXEC
+include/uapi/linux/inotify.h:/* For O_CLOEXEC and O_NONBLOCK */
+include/uapi/linux/inotify.h:#define IN_CLOEXEC O_CLOEXEC
+include/uapi/linux/mount.h:#define OPEN_TREE_CLOEXEC    O_CLOEXEC       /* Close the file on execve() */
+
+You can also add a compile-time assert to ptrace like we did for
+fs/namespace.c's OPEN_TREE_CLOEXEC:
+	BUILD_BUG_ON(OPEN_TREE_CLOEXEC != O_CLOEXEC);
+
+And I'd remove the  _O if you go with a separate flag, i.e.:
+
+#define PTRACE_GETFD_CLOEXEC	O_CLOEXEC	/* open the fd with cloexec */
+
+> +
+> +struct ptrace_getfd_args {
+> +	__u32 fd;	/* the tracee's file descriptor to get */
+> +	__u32 options;
+
+Nit and I'm not set on it at all but "flags" might just be better.
+
+> +} __attribute__((packed));
+
+What's the benefit in using __attribute__((packed)) here? Seems to me that:
+
++struct ptrace_getfd_args {
++	__u32 fd;	/* the tracee's file descriptor to get */
++	__u32 options;
++};
+
+would just work fine.
+
+> +
+>  /*
+>   * These values are stored in task->ptrace_message
+>   * by tracehook_report_syscall_* to describe the current syscall-stop.
+> diff --git a/kernel/ptrace.c b/kernel/ptrace.c
+> index cb9ddcc08119..8f619dceac6f 100644
+> --- a/kernel/ptrace.c
+> +++ b/kernel/ptrace.c
+> @@ -31,6 +31,7 @@
+>  #include <linux/cn_proc.h>
+>  #include <linux/compat.h>
+>  #include <linux/sched/signal.h>
+> +#include <linux/fdtable.h>
+>  
+>  #include <asm/syscall.h>	/* for syscall_get_* */
+>  
+> @@ -994,6 +995,33 @@ ptrace_get_syscall_info(struct task_struct *child, unsigned long user_size,
+>  }
+>  #endif /* CONFIG_HAVE_ARCH_TRACEHOOK */
+>  
+> +static int ptrace_getfd(struct task_struct *child, unsigned long user_size,
+> +			void __user *datavp)
+> +{
+> +	struct ptrace_getfd_args args;
+> +	unsigned int fd_flags = 0;
+> +	struct file *file;
+> +	int ret;
+> +
+> +	ret = copy_struct_from_user(&args, sizeof(args), datavp, user_size);
+> +	if (ret)
+> +		goto out;
+
+Why is this goto out and not just return ret?
+
+> +	if ((args.options & ~(PTRACE_GETFD_O_CLOEXEC)) != 0)
+> +		return -EINVAL;
+> +	if (args.options & PTRACE_GETFD_O_CLOEXEC)
+> +		fd_flags &= O_CLOEXEC;
+> +	file = get_task_file(child, args.fd);
+> +	if (!file)
+> +		return -EBADF;
+> +	ret = get_unused_fd_flags(fd_flags);
+
+Why isn't that whole thing just:
+
+ret = get_unused_fd_flags(fd_flags & {PTRACE_GETFD_}O_CLOEXEC);
+
+> +	if (ret >= 0)
+> +		fd_install(ret, file);
+> +	else
+> +		fput(file);
+> +out:
+> +	return ret;
+> +}
+
+So sm like:
+
+static int ptrace_getfd(struct task_struct *child, unsigned long user_size,
+			void __user *datavp)
+{
+	struct ptrace_getfd_args args;
+	unsigned int fd_flags = 0;
+	struct file *file;
+	int ret;
+
+	ret = copy_struct_from_user(&args, sizeof(args), datavp, user_size);
+	if (ret)
+		return ret;
+
+	if ((args.options & ~(PTRACE_GETFD_O_CLOEXEC)) != 0)
+		return -EINVAL;
+
+	file = get_task_file(child, args.fd);
+	if (!file)
+		return -EBADF;
+
+	/* PTRACE_GETFD_CLOEXEC == O_CLOEXEC */
+	ret = get_unused_fd_flags(fd_flags & PTRACE_GETFD_O_CLOEXEC);
+	if (ret >= 0)
+		fd_install(ret, file);
+	else
+		fput(file);
+
+	return ret;
+}
