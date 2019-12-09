@@ -2,39 +2,39 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F69C1170DF
-	for <lists+linux-api@lfdr.de>; Mon,  9 Dec 2019 16:52:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F3F351175DD
+	for <lists+linux-api@lfdr.de>; Mon,  9 Dec 2019 20:30:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726502AbfLIPw5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 9 Dec 2019 10:52:57 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:36852 "EHLO
+        id S1726342AbfLITaL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 9 Dec 2019 14:30:11 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46359 "EHLO
         us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726495AbfLIPw4 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Dec 2019 10:52:56 -0500
+        by vger.kernel.org with ESMTP id S1726602AbfLITaK (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Dec 2019 14:30:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1575906775;
+        s=mimecast20190719; t=1575919809;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=KWsZtrZZRUqMfa4RKABURKvActJftASGEyBf7iOz0lA=;
-        b=ZFrK6PmyXaxJi/Nw//r1NfmssL5w5X2AgMCZp+vKSHK2qIJseVX55Vf4ItdXYqphRzUPAC
-        WpKaacCCVOTjvg5p8dsIHLttNP8STMicaLfbg8OffHNuAGZo1iwQc+kU2/FNmOtsZ1P7NL
-        hzQNfoSlyRcfCYXg/tYuxPPhNu8Y3v0=
+        bh=96bBHCk/wtYdQI2alAZrDQ5RvQLwzHoRyT++y2oaMKQ=;
+        b=b4xk6D9Fkl4y4j6Zkkev3hlQ+JmPUCH560ASNjGUVhVpEoQfGOp2jFwnc2hZ6SRTTGe1/u
+        Y7oXhZvjlV05QUC35Nx0qCcKm51smjt++NVSN4RC7e41Zn2ZzfvD6uvn+hlpqDuL2IImBU
+        M7wX1/fB7J4roMh7Vr6J1PzdTi4OvKY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-173-FG0lZR-ONcK4G9mKrZ2U7Q-1; Mon, 09 Dec 2019 10:52:52 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+ us-mta-162-BdXiTdULNw-Roz2xXSZ0WQ-1; Mon, 09 Dec 2019 14:30:05 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B67121852E30;
-        Mon,  9 Dec 2019 15:52:49 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32825107ACC9;
+        Mon,  9 Dec 2019 19:30:04 +0000 (UTC)
 Received: from dhcp-27-174.brq.redhat.com (ovpn-204-235.brq.redhat.com [10.40.204.235])
-        by smtp.corp.redhat.com (Postfix) with SMTP id A375D5D6B7;
-        Mon,  9 Dec 2019 15:52:46 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with SMTP id 4E1FE60C05;
+        Mon,  9 Dec 2019 19:30:01 +0000 (UTC)
 Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Mon,  9 Dec 2019 16:52:49 +0100 (CET)
-Date:   Mon, 9 Dec 2019 16:52:45 +0100
+        oleg@redhat.com; Mon,  9 Dec 2019 20:30:03 +0100 (CET)
+Date:   Mon, 9 Dec 2019 20:30:00 +0100
 From:   Oleg Nesterov <oleg@redhat.com>
 To:     Sargun Dhillon <sargun@sargun.me>
 Cc:     linux-kernel@vger.kernel.org,
@@ -42,14 +42,15 @@ Cc:     linux-kernel@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, tycho@tycho.ws, jannh@google.com,
         cyphar@cyphar.com, christian.brauner@ubuntu.com,
         luto@amacapital.net, viro@zeniv.linux.org.uk
-Subject: Re: [PATCH v2 1/4] vfs, fdtable: Add get_task_file helper
-Message-ID: <20191209155242.GC5388@redhat.com>
-References: <20191209070609.GA32438@ircssh-2.c.rugged-nimbus-611.internal>
+Subject: Re: [PATCH v2 4/4] samples: Add example of using PTRACE_GETFD in
+ conjunction with user trap
+Message-ID: <20191209192959.GB10721@redhat.com>
+References: <20191209070646.GA32477@ircssh-2.c.rugged-nimbus-611.internal>
 MIME-Version: 1.0
-In-Reply-To: <20191209070609.GA32438@ircssh-2.c.rugged-nimbus-611.internal>
+In-Reply-To: <20191209070646.GA32477@ircssh-2.c.rugged-nimbus-611.internal>
 User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: FG0lZR-ONcK4G9mKrZ2U7Q-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: BdXiTdULNw-Roz2xXSZ0WQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
@@ -61,74 +62,73 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 On 12/09, Sargun Dhillon wrote:
 >
-> +struct file *get_task_file(struct task_struct *task, unsigned int fd)
+> +#define CHILD_PORT_TRY_BIND=0980
+> +#define CHILD_PORT_ACTUAL_BIND=094998
+
+...
+
+> +static int handle_req(int listener)
 > +{
-> +=09struct file *file =3D NULL;
+> +=09struct sockaddr_in addr =3D {
+> +=09=09.sin_family=09=3D AF_INET,
+> +=09=09.sin_port=09=3D htons(4998),
+
+then I think
+=09=09.sin_port =3D htons(CHILD_PORT_ACTUAL_BIND);
+
+would be more clear...
+
+> +=09=09.sin_addr=09=3D {
+> +=09=09=09.s_addr=09=3D htonl(INADDR_LOOPBACK)
+> +=09=09}
+> +=09};
+> +=09struct ptrace_getfd_args getfd_args =3D {
+> +=09=09.options =3D PTRACE_GETFD_O_CLOEXEC
+> +=09};
+> +=09struct seccomp_notif_sizes sizes;
+> +=09struct seccomp_notif_resp *resp;
+> +=09struct seccomp_notif *req;
+> +=09int fd, ret =3D 1;
 > +
-> +=09task_lock(task);
-> +=09rcu_read_lock();
-> +
-> +=09if (task->files) {
-> +=09=09file =3D fcheck_files(task->files, fd);
-> +=09=09if (file && !get_file_rcu(file))
-> +=09=09=09file =3D NULL;
+> +=09if (seccomp(SECCOMP_GET_NOTIF_SIZES, 0, &sizes) < 0) {
+> +=09=09perror("seccomp(GET_NOTIF_SIZES)");
+> +=09=09goto out;
 > +=09}
+> +=09req =3D malloc(sizes.seccomp_notif);
+> +=09if (!req)
+> +=09=09goto out;
+> +=09memset(req, 0, sizeof(*req));
+> +
+> +=09resp =3D malloc(sizes.seccomp_notif_resp);
+> +=09if (!resp)
+> +=09=09goto out_free_req;
+> +=09memset(resp, 0, sizeof(*resp));
+> +
+> +=09if (ioctl(listener, SECCOMP_IOCTL_NOTIF_RECV, req)) {
+> +=09=09perror("ioctl recv");
+> +=09=09goto out;
+> +=09}
+> +=09printf("Child tried to call bind with fd: %lld\n", req->data.args[0])=
+;
+> +=09getfd_args.fd =3D req->data.args[0];
+> +=09fd =3D ptrace_getfd(req->pid, &getfd_args);
 
-On second thought this is not exactly right, get_file_rcu() can fail if
-get_task_file() races with dup2(), in this case we need to do fcheck_files(=
-)
-again. And this is what __fget() already does, so may be the patch below
-makes more sense?
+and iiuc otherwise you do not need to ptrace the child. So you could remove
+ptrace(PTRACE_SEIZE) in main() and just do
 
-I will leave this to other reviewers, but suddenly I recall that I have
-already sent the patch which adds a similar helper a while ago.
+=09ptrace(PTRACE_SEIZE, req->pid);
+=09fd =3D ptrace_getfd(req->pid, &getfd_args);
+=09ptrace(PTRACE_DETACH, req->pid);
 
-See https://lore.kernel.org/lkml/20180915160423.GA31461@redhat.com/
+here. However, PTRACE_DETACH won't work, it needs the stopped tracee. We ca=
+n
+add PTRACE_DETACH_ASYNC, but this makes me think that PTRACE_GETFD has noth=
+ing
+to do with ptrace.
 
-In short, get_files_struct() should be avoided because it can race with
-exec() and break POSIX locks which use ->fl_owner =3D files_struct.
+May be a new syscall which does ptrace_may_access() + get_task_file() will =
+make
+more sense?
 
 Oleg.
-
---- x/fs/file.c
-+++ x/fs/file.c
-@@ -706,9 +706,9 @@ void do_close_on_exec(struct files_struc
- =09spin_unlock(&files->file_lock);
- }
-=20
--static struct file *__fget(unsigned int fd, fmode_t mask, unsigned int ref=
-s)
-+static struct file *__fget_files(struct files_struct *files, unsigned int =
-fd,
-+=09=09=09=09=09fmode_t mask, unsigned int refs)
- {
--=09struct files_struct *files =3D current->files;
- =09struct file *file;
-=20
- =09rcu_read_lock();
-@@ -729,6 +729,23 @@ loop:
- =09return file;
- }
-=20
-+struct file *fget_task(struct task_struct *task, unsigned int fd)
-+{
-+=09struct file *file;
-+
-+=09task_lock(task);
-+=09if (task->files)
-+=09=09file =3D __fget_files(task->files, fd, 0, 1);
-+=09task_unlock(task);
-+
-+=09return file;
-+}
-+
-+static struct file *__fget(unsigned int fd, fmode_t mask, unsigned int ref=
-s)
-+{
-+=09return __fget_files(current->files, fd, mask, refs);
-+}
-+
- struct file *fget_many(unsigned int fd, unsigned int refs)
- {
- =09return __fget(fd, FMODE_PATH, refs);
 
