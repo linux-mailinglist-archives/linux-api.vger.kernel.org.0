@@ -2,246 +2,133 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 75267117043
-	for <lists+linux-api@lfdr.de>; Mon,  9 Dec 2019 16:21:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F69C1170DF
+	for <lists+linux-api@lfdr.de>; Mon,  9 Dec 2019 16:52:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726265AbfLIPVi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 9 Dec 2019 10:21:38 -0500
-Received: from mx2.suse.de ([195.135.220.15]:60462 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726197AbfLIPVf (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 9 Dec 2019 10:21:35 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id DA73AABED;
-        Mon,  9 Dec 2019 15:21:32 +0000 (UTC)
-Subject: Re: [v4 PATCH] mm: move_pages: return valid node id in status if the
- page is already on the target node
-To:     Yang Shi <yang.shi@linux.alibaba.com>, fabecassis@nvidia.com,
-        jhubbard@nvidia.com, mhocko@suse.com, cl@linux.com,
-        mgorman@techsingularity.net, akpm@linux-foundation.org
-Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org, Linux API <linux-api@vger.kernel.org>
-References: <1575584353-125392-1-git-send-email-yang.shi@linux.alibaba.com>
-From:   Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <ef6467ec-a568-d5df-9427-716cb56869d2@suse.cz>
-Date:   Mon, 9 Dec 2019 16:21:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        id S1726502AbfLIPw5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 9 Dec 2019 10:52:57 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:36852 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726495AbfLIPw4 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Dec 2019 10:52:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1575906775;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=KWsZtrZZRUqMfa4RKABURKvActJftASGEyBf7iOz0lA=;
+        b=ZFrK6PmyXaxJi/Nw//r1NfmssL5w5X2AgMCZp+vKSHK2qIJseVX55Vf4ItdXYqphRzUPAC
+        WpKaacCCVOTjvg5p8dsIHLttNP8STMicaLfbg8OffHNuAGZo1iwQc+kU2/FNmOtsZ1P7NL
+        hzQNfoSlyRcfCYXg/tYuxPPhNu8Y3v0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-173-FG0lZR-ONcK4G9mKrZ2U7Q-1; Mon, 09 Dec 2019 10:52:52 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B67121852E30;
+        Mon,  9 Dec 2019 15:52:49 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (ovpn-204-235.brq.redhat.com [10.40.204.235])
+        by smtp.corp.redhat.com (Postfix) with SMTP id A375D5D6B7;
+        Mon,  9 Dec 2019 15:52:46 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+        oleg@redhat.com; Mon,  9 Dec 2019 16:52:49 +0100 (CET)
+Date:   Mon, 9 Dec 2019 16:52:45 +0100
+From:   Oleg Nesterov <oleg@redhat.com>
+To:     Sargun Dhillon <sargun@sargun.me>
+Cc:     linux-kernel@vger.kernel.org,
+        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, tycho@tycho.ws, jannh@google.com,
+        cyphar@cyphar.com, christian.brauner@ubuntu.com,
+        luto@amacapital.net, viro@zeniv.linux.org.uk
+Subject: Re: [PATCH v2 1/4] vfs, fdtable: Add get_task_file helper
+Message-ID: <20191209155242.GC5388@redhat.com>
+References: <20191209070609.GA32438@ircssh-2.c.rugged-nimbus-611.internal>
 MIME-Version: 1.0
-In-Reply-To: <1575584353-125392-1-git-send-email-yang.shi@linux.alibaba.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20191209070609.GA32438@ircssh-2.c.rugged-nimbus-611.internal>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: FG0lZR-ONcK4G9mKrZ2U7Q-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Boo, v4 and nobody suggested CCing linux-api yet?
-Doing that and not trimming the reply, for reference.
-
-On 12/5/19 11:19 PM, Yang Shi wrote:
-> Felix Abecassis reports move_pages() would return random status if the
-> pages are already on the target node by the below test program:
-> 
-> ---8<---
-> 
-> int main(void)
-> {
-> 	const long node_id = 1;
-> 	const long page_size = sysconf(_SC_PAGESIZE);
-> 	const int64_t num_pages = 8;
-> 
-> 	unsigned long nodemask =  1 << node_id;
-> 	long ret = set_mempolicy(MPOL_BIND, &nodemask, sizeof(nodemask));
-> 	if (ret < 0)
-> 		return (EXIT_FAILURE);
-> 
-> 	void **pages = malloc(sizeof(void*) * num_pages);
-> 	for (int i = 0; i < num_pages; ++i) {
-> 		pages[i] = mmap(NULL, page_size, PROT_WRITE | PROT_READ,
-> 				MAP_PRIVATE | MAP_POPULATE | MAP_ANONYMOUS,
-> 				-1, 0);
-> 		if (pages[i] == MAP_FAILED)
-> 			return (EXIT_FAILURE);
-> 	}
-> 
-> 	ret = set_mempolicy(MPOL_DEFAULT, NULL, 0);
-> 	if (ret < 0)
-> 		return (EXIT_FAILURE);
-> 
-> 	int *nodes = malloc(sizeof(int) * num_pages);
-> 	int *status = malloc(sizeof(int) * num_pages);
-> 	for (int i = 0; i < num_pages; ++i) {
-> 		nodes[i] = node_id;
-> 		status[i] = 0xd0; /* simulate garbage values */
-> 	}
-> 
-> 	ret = move_pages(0, num_pages, pages, nodes, status, MPOL_MF_MOVE);
-> 	printf("move_pages: %ld\n", ret);
-> 	for (int i = 0; i < num_pages; ++i)
-> 		printf("status[%d] = %d\n", i, status[i]);
-> }
-> ---8<---
-> 
-> Then running the program would return nonsense status values:
-> $ ./move_pages_bug
-> move_pages: 0
-> status[0] = 208
-> status[1] = 208
-> status[2] = 208
-> status[3] = 208
-> status[4] = 208
-> status[5] = 208
-> status[6] = 208
-> status[7] = 208
-> 
-> This is because the status is not set if the page is already on the
-> target node, but move_pages() should return valid status as long as it
-> succeeds.  The valid status may be errno or node id.
-> 
-> We can't simply initialize status array to zero since the pages may be
-> not on node 0.  Fix it by updating status with node id which the page is
-> already on.
-> 
-> Fixes: a49bd4d71637 ("mm, numa: rework do_pages_move")
-> Reported-by: Felix Abecassis <fabecassis@nvidia.com>
-> Tested-by: Felix Abecassis <fabecassis@nvidia.com>
-> Suggested-by: Michal Hocko <mhocko@suse.com>
-> Reviewed-by: John Hubbard <jhubbard@nvidia.com>
-> Acked-by: Christoph Lameter <cl@linux.com>
-> Cc: Vlastimil Babka <vbabka@suse.cz>
-> Cc: Mel Gorman <mgorman@techsingularity.net>
-> Cc: <stable@vger.kernel.org> 4.17+
-> Signed-off-by: Yang Shi <yang.shi@linux.alibaba.com>
-
-Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
-
-> ---
-> v4: * Fixed the comments from Christopher and John and added their Acked-by
->       and Reviewed-by.
-> v3: * Adopted the suggestion from Michal.
-> v2: * Correted the return value when add_page_for_migration() returns 1.
-> 
->  mm/migrate.c | 23 +++++++++++++++++------
->  1 file changed, 17 insertions(+), 6 deletions(-)
-> 
-> diff --git a/mm/migrate.c b/mm/migrate.c
-> index a8f87cb..6b44818f 100644
-> --- a/mm/migrate.c
-> +++ b/mm/migrate.c
-> @@ -1512,9 +1512,11 @@ static int do_move_pages_to_node(struct mm_struct *mm,
->  /*
->   * Resolves the given address to a struct page, isolates it from the LRU and
->   * puts it to the given pagelist.
-> - * Returns -errno if the page cannot be found/isolated or 0 when it has been
-> - * queued or the page doesn't need to be migrated because it is already on
-> - * the target node
-> + * Returns:
-> + *     errno - if the page cannot be found/isolated
-> + *     0 - when it doesn't have to be migrated because it is already on the
-> + *         target node
-> + *     1 - when it has been queued
->   */
->  static int add_page_for_migration(struct mm_struct *mm, unsigned long addr,
->  		int node, struct list_head *pagelist, bool migrate_all)
-> @@ -1553,7 +1555,7 @@ static int add_page_for_migration(struct mm_struct *mm, unsigned long addr,
->  	if (PageHuge(page)) {
->  		if (PageHead(page)) {
->  			isolate_huge_page(page, pagelist);
-> -			err = 0;
-> +			err = 1;
->  		}
->  	} else {
->  		struct page *head;
-> @@ -1563,7 +1565,7 @@ static int add_page_for_migration(struct mm_struct *mm, unsigned long addr,
->  		if (err)
->  			goto out_putpage;
->  
-> -		err = 0;
-> +		err = 1;
->  		list_add_tail(&head->lru, pagelist);
->  		mod_node_page_state(page_pgdat(head),
->  			NR_ISOLATED_ANON + page_is_file_cache(head),
-> @@ -1640,8 +1642,17 @@ static int do_pages_move(struct mm_struct *mm, nodemask_t task_nodes,
->  		 */
->  		err = add_page_for_migration(mm, addr, current_node,
->  				&pagelist, flags & MPOL_MF_MOVE_ALL);
-> -		if (!err)
+On 12/09, Sargun Dhillon wrote:
+>
+> +struct file *get_task_file(struct task_struct *task, unsigned int fd)
+> +{
+> +=09struct file *file =3D NULL;
 > +
-> +		if (!err) {
-> +			/* The page is already on the target node */
-> +			err = store_status(status, i, current_node, 1);
-> +			if (err)
-> +				goto out_flush;
->  			continue;
-> +		} else if (err > 0) {
-> +			/* The page is successfully queued for migration */
-> +			continue;
-> +		}
->  
->  		err = store_status(status, i, err, 1);
->  		if (err)
-> 
+> +=09task_lock(task);
+> +=09rcu_read_lock();
+> +
+> +=09if (task->files) {
+> +=09=09file =3D fcheck_files(task->files, fd);
+> +=09=09if (file && !get_file_rcu(file))
+> +=09=09=09file =3D NULL;
+> +=09}
+
+On second thought this is not exactly right, get_file_rcu() can fail if
+get_task_file() races with dup2(), in this case we need to do fcheck_files(=
+)
+again. And this is what __fget() already does, so may be the patch below
+makes more sense?
+
+I will leave this to other reviewers, but suddenly I recall that I have
+already sent the patch which adds a similar helper a while ago.
+
+See https://lore.kernel.org/lkml/20180915160423.GA31461@redhat.com/
+
+In short, get_files_struct() should be avoided because it can race with
+exec() and break POSIX locks which use ->fl_owner =3D files_struct.
+
+Oleg.
+
+--- x/fs/file.c
++++ x/fs/file.c
+@@ -706,9 +706,9 @@ void do_close_on_exec(struct files_struc
+ =09spin_unlock(&files->file_lock);
+ }
+=20
+-static struct file *__fget(unsigned int fd, fmode_t mask, unsigned int ref=
+s)
++static struct file *__fget_files(struct files_struct *files, unsigned int =
+fd,
++=09=09=09=09=09fmode_t mask, unsigned int refs)
+ {
+-=09struct files_struct *files =3D current->files;
+ =09struct file *file;
+=20
+ =09rcu_read_lock();
+@@ -729,6 +729,23 @@ loop:
+ =09return file;
+ }
+=20
++struct file *fget_task(struct task_struct *task, unsigned int fd)
++{
++=09struct file *file;
++
++=09task_lock(task);
++=09if (task->files)
++=09=09file =3D __fget_files(task->files, fd, 0, 1);
++=09task_unlock(task);
++
++=09return file;
++}
++
++static struct file *__fget(unsigned int fd, fmode_t mask, unsigned int ref=
+s)
++{
++=09return __fget_files(current->files, fd, mask, refs);
++}
++
+ struct file *fget_many(unsigned int fd, unsigned int refs)
+ {
+ =09return __fget(fd, FMODE_PATH, refs);
 
