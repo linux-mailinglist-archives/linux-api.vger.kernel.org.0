@@ -2,105 +2,76 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F3FA1177B3
-	for <lists+linux-api@lfdr.de>; Mon,  9 Dec 2019 21:46:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 139F5117D40
+	for <lists+linux-api@lfdr.de>; Tue, 10 Dec 2019 02:38:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726856AbfLIUqt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 9 Dec 2019 15:46:49 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:30441 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726665AbfLIUqs (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Dec 2019 15:46:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1575924407;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=YvGxejde19Gce3IT94gbjW52qT1tnhP9TIAUg/7+ybA=;
-        b=P8GupNdf2tOVwc+jG/MFTaBF2AUWHhDjHpHQ6cjD9oicuBx1nOjMspzPnJat4zfDU0sAVi
-        ouXvt0TMgAGfScRWsUuu+SfJKI5lXSvLzHC6q5m0ybzsl6+Z2RJ1sF3T3mD84KIcFooyY9
-        wzNx+Qjj6NUi/qfKr8dfn7pKzAXFNjw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-48-TMQKf60QPd6sKPR1BUnflg-1; Mon, 09 Dec 2019 15:46:42 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1B6431856A60;
-        Mon,  9 Dec 2019 20:46:40 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (ovpn-204-235.brq.redhat.com [10.40.204.235])
-        by smtp.corp.redhat.com (Postfix) with SMTP id 0219B60BE1;
-        Mon,  9 Dec 2019 20:46:36 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Mon,  9 Dec 2019 21:46:39 +0100 (CET)
-Date:   Mon, 9 Dec 2019 21:46:35 +0100
-From:   Oleg Nesterov <oleg@redhat.com>
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     Sargun Dhillon <sargun@sargun.me>, linux-kernel@vger.kernel.org,
-        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, tycho@tycho.ws, jannh@google.com,
-        cyphar@cyphar.com, luto@amacapital.net, viro@zeniv.linux.org.uk
-Subject: Re: [PATCH v2 4/4] samples: Add example of using PTRACE_GETFD in
- conjunction with user trap
-Message-ID: <20191209204635.GC10721@redhat.com>
-References: <20191209070646.GA32477@ircssh-2.c.rugged-nimbus-611.internal>
- <20191209192959.GB10721@redhat.com>
- <BE3E056F-0147-4A00-8FF7-6CC9DE02A30C@ubuntu.com>
+        id S1726589AbfLJBiC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 9 Dec 2019 20:38:02 -0500
+Received: from mail-il1-f197.google.com ([209.85.166.197]:43622 "EHLO
+        mail-il1-f197.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726598AbfLJBiB (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Dec 2019 20:38:01 -0500
+Received: by mail-il1-f197.google.com with SMTP id j17so13164672ilc.10
+        for <linux-api@vger.kernel.org>; Mon, 09 Dec 2019 17:38:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=d/rLwgpGcOLrJAfYzylpfLq8TO3Ppq0ukiadwzb7btY=;
+        b=UTPaXsRug35TNPG9OWrPWhPlcnQr8LddDohcEfPnaplrExDgdTed4t3sC6yv4yzPMQ
+         JX3Az+asUxU7HQmk7kzR2EcJsRSXwK7/1Udc/Hw6/K36La5VymfS7ajH3b0kyIC217pp
+         V1jM0PHlZImmkgAsiT+8/gTEjZSm9QlI9Gwph0qRnXV3tV//rjwKSyq36vadIncggAaX
+         y+4tQukc3wzl0TZcrjFUNKDJkQ2UXv3lnshjBxtrRSzas3MMk3JFs6iXjL7FFLzUNaKL
+         ks86Bjb18Z2x4b11HxInCR0LQnX/UGHM/fHuRsy0lY/ss1SHTtpM5jOD6ZayYXQb/CNd
+         sxVQ==
+X-Gm-Message-State: APjAAAVpiVNeNpPNe6FWIWm9n1qQwvOjHbtkKmgztICc7voYBMRi6cUy
+        hvJTVck87kVmTITvyOZwda0FP9J52BMoOqu0oq/Zmm0Lbsns
+X-Google-Smtp-Source: APXvYqx3F0Ru+DmMowW3EN6d2QYATYtlFpjQe/HbQv1AYpW3UNnTiZ8L2MNSyTDTtQA/qzP66Ug/fqFZPiweGeK/5P/FGvCtPAyx
 MIME-Version: 1.0
-In-Reply-To: <BE3E056F-0147-4A00-8FF7-6CC9DE02A30C@ubuntu.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: TMQKf60QPd6sKPR1BUnflg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+X-Received: by 2002:a6b:5b12:: with SMTP id v18mr24150486ioh.112.1575941881185;
+ Mon, 09 Dec 2019 17:38:01 -0800 (PST)
+Date:   Mon, 09 Dec 2019 17:38:01 -0800
+In-Reply-To: <00000000000044a65205994a7e13@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000003cc8505994f9036@google.com>
+Subject: Re: BUG: unable to handle kernel NULL pointer dereference in mem16_serial_out
+From:   syzbot <syzbot+92f32d4e21fb246d31a2@syzkaller.appspotmail.com>
+To:     andriy.shevchenko@linux.intel.com, asierra@xes-inc.com,
+        corbet@lwn.net, ext-kimmo.rautkoski@vaisala.com,
+        gregkh@linuxfoundation.org, jslaby@suse.com,
+        kai.heng.feng@canonical.com, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-serial@vger.kernel.org, mika.westerberg@linux.intel.com,
+        paulburton@kernel.org, peter@hurleysoftware.com, sr@denx.de,
+        syzkaller-bugs@googlegroups.com, yamada.masahiro@socionext.com,
+        yegorslists@googlemail.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 12/09, Christian Brauner wrote:
->
-> >We can
-> >add PTRACE_DETACH_ASYNC, but this makes me think that PTRACE_GETFD has
-> >nothing
-> >to do with ptrace.
-> >
-> >May be a new syscall which does ptrace_may_access() + get_task_file()
-> >will make
-> >more sense?
-> >
-> >Oleg.
->=20
-> Once more since this annoying app uses html by default...
->=20
-> But we can already do this right now and this is just an improvement.
-> That's a bit rich for a new syscall imho...
+syzbot has bisected this bug to:
 
-I agree, and I won't really argue...
+commit bd94c4077a0b2ecc35562c294f80f3659ecd8499
+Author: Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Wed Oct 28 03:46:05 2015 +0000
 
-but the changelog in 2/4 says
+     serial: support 16-bit register interface for console
 
-=09The requirement that the tracer has attached to the tracee prior to the
-=09capture of the file descriptor may be lifted at a later point.
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=13723196e00000
+start commit:   e42617b8 Linux 5.5-rc1
+git tree:       upstream
+final crash:    https://syzkaller.appspot.com/x/report.txt?x=10f23196e00000
+console output: https://syzkaller.appspot.com/x/log.txt?x=17723196e00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=3754e2c78c1adb82
+dashboard link: https://syzkaller.appspot.com/bug?extid=92f32d4e21fb246d31a2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=136f7e41e00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=112b7c82e00000
 
-so may be we should do this right now?
+Reported-by: syzbot+92f32d4e21fb246d31a2@syzkaller.appspotmail.com
+Fixes: bd94c4077a0b ("serial: support 16-bit register interface for  
+console")
 
-plus this part
-
-=09@@ -1265,7 +1295,8 @@ SYSCALL_DEFINE4(ptrace, long, request, long, pid, =
-unsigned long, addr,
-=09=09}
-=09=20
-=09=09ret =3D ptrace_check_attach(child, request =3D=3D PTRACE_KILL ||
-=09-=09=09=09=09  request =3D=3D PTRACE_INTERRUPT);
-=09+=09=09=09=09  request =3D=3D PTRACE_INTERRUPT ||
-=09+=09=09=09=09  request =3D=3D PTRACE_GETFD);
-
-actually means "we do not need ptrace, but we do not know where else we
-can add this fd_install(get_task_file()).
-
-Oleg.
-
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
