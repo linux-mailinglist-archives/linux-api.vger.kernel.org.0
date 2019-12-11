@@ -2,170 +2,116 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 65834118DBE
-	for <lists+linux-api@lfdr.de>; Tue, 10 Dec 2019 17:38:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E609711A08C
+	for <lists+linux-api@lfdr.de>; Wed, 11 Dec 2019 02:35:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727518AbfLJQiw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 10 Dec 2019 11:38:52 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:34732 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727508AbfLJQiw (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 10 Dec 2019 11:38:52 -0500
-Received: from [213.220.153.21] (helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1ieiX9-000357-Hf; Tue, 10 Dec 2019 16:38:47 +0000
-Date:   Tue, 10 Dec 2019 17:38:46 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Sargun Dhillon <sargun@sargun.me>
-Cc:     Oleg Nesterov <oleg@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, Tycho Andersen <tycho@tycho.ws>,
-        Jann Horn <jannh@google.com>, cyphar@cyphar.com,
-        Andy Lutomirski <luto@amacapital.net>, viro@zeniv.linux.org.uk,
-        Jed Davis <jld@mozilla.com>,
-        Gian-Carlo Pascutto <gpascutto@mozilla.com>,
-        Emilio Cobos =?utf-8?Q?=C3=81lvarez?= <ealvarez@mozilla.com>,
-        Florian Weimer <fweimer@redhat.com>
-Subject: Re: [PATCH v2 4/4] samples: Add example of using PTRACE_GETFD in
- conjunction with user trap
-Message-ID: <20191210163845.6hbbawr6cpt5dp5c@wittgenstein>
-References: <20191209070646.GA32477@ircssh-2.c.rugged-nimbus-611.internal>
- <20191209192959.GB10721@redhat.com>
- <BE3E056F-0147-4A00-8FF7-6CC9DE02A30C@ubuntu.com>
- <20191209204635.GC10721@redhat.com>
- <20191210111051.j5opodgjalqigx6q@wittgenstein>
- <CAMp4zn84YQHz62x-nxZFBgMEW9AiMt75q_rO83uaGg=YtyKV-w@mail.gmail.com>
+        id S1727119AbfLKBfI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 10 Dec 2019 20:35:08 -0500
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:37630 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726532AbfLKBfI (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 10 Dec 2019 20:35:08 -0500
+Received: by mail-pg1-f193.google.com with SMTP id q127so9919849pga.4;
+        Tue, 10 Dec 2019 17:35:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=nlpVsvSziMS3fJYT4hfZDu09k+DIOzs8q7E2mV4QBMM=;
+        b=NZ2e7jQCO0XsxakoDSNlRS7AaNAmbyiX3s5WJ40a1LAVqE5SND78+yIGfSgRF+1r69
+         JCVloXc80IJMn4iRUVSea15czBfXyV20oIcoyoCL3gTWtpsoxyNpHJkCM48fix5mPo1a
+         z7tED3IWm6VXN1dlEGZS2MBXUpHkDus3l2NPss/ayDe6vrMyRiQ91LXW/KjnBDx3OkZy
+         EhrB2lYQs/8yNp+G+b1kqlYN1trh0Y2N1sf+e4FSyqtQv5AAR3VRaq0mOqbmqND4tzXp
+         8lF3Tcp4wSBrrIl2kcOW2Aj5wfDPcHh0O2ZcHUxfYUumTUfEW3+qotevs9UYYTqOc3as
+         SdNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=nlpVsvSziMS3fJYT4hfZDu09k+DIOzs8q7E2mV4QBMM=;
+        b=TuwIbOtsImC4+OXg8yIvR9pDaFXoqOFWtVKtAfE4YZh364qnabvdfW9pbFj1I7wnu/
+         tLv6Efs5ydAOUMQoA2h+7o0tdxHoe0lqwGmcQySSk1+oJhElPZRPmiZvHt7B5hGzttIu
+         2z86RLUxILnQD446C1iiYK5pyWeUKuFpyFGh40Y9J36ZD0U/I7t5vDmQL83pQV0aK7XY
+         PYR0smeAqJU55RIEPiw/m5eQy8B3pQCe6AmaxRveIRAzofw5KQ6YytZ2D6nTZo09q8sM
+         fnRIW0O8OPp6Cd1ShFaLawH4XvLK5D3Omzx+gXg6toMAcJBD8jM2CKzyDbIKTDgWGtfz
+         Oa9Q==
+X-Gm-Message-State: APjAAAXEf3gD5O9XGcTJO1xl3bLjNowrYZ/Ohy5pXxMbL2y43viml9MI
+        Vrxp8cBVQDHsSuOcGWdxzi5UQFBS
+X-Google-Smtp-Source: APXvYqxl1SD/KNXFXo4mnS2r4hl5LczS1cUtUXkz/1uWGAoK8RJYFaUqsy3vxsCeZu73IPqU0JxyOQ==
+X-Received: by 2002:a63:2ac2:: with SMTP id q185mr1222079pgq.417.1576028106879;
+        Tue, 10 Dec 2019 17:35:06 -0800 (PST)
+Received: from google.com ([2620:15c:211:1:3e01:2939:5992:52da])
+        by smtp.gmail.com with ESMTPSA id v16sm297845pfn.77.2019.12.10.17.35.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Dec 2019 17:35:05 -0800 (PST)
+Date:   Tue, 10 Dec 2019 17:35:03 -0800
+From:   Minchan Kim <minchan@kernel.org>
+To:     Oleksandr Natalenko <oleksandr@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH NOTFORMERGE 0/5] Extend remote madvise API to KSM hints
+Message-ID: <20191211013503.GA134194@google.com>
+References: <20190616085835.953-1-oleksandr@redhat.com>
+ <20191210104939.jauw5hnv3smhtvtr@butterfly.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMp4zn84YQHz62x-nxZFBgMEW9AiMt75q_rO83uaGg=YtyKV-w@mail.gmail.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20191210104939.jauw5hnv3smhtvtr@butterfly.localdomain>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Dec 10, 2019 at 08:07:45AM -0800, Sargun Dhillon wrote:
-> On Tue, Dec 10, 2019 at 3:10 AM Christian Brauner
-> <christian.brauner@ubuntu.com> wrote:
-> >
-> > [I'm expanding the Cc to a few Firefox and glibc people since we've been
-> >  been talking about replacing SECCOMP_RET_TRAP with
-> >  SECCOMP_RET_USER_NOTIF for a bit now because the useage of
-> >  SECCOMP_RET_TRAP in the broker blocks desirable core glibc changes.
-> >  Even if just for their lurking pleasure. :)]
-> >
-> > On Mon, Dec 09, 2019 at 09:46:35PM +0100, Oleg Nesterov wrote:
-> > > On 12/09, Christian Brauner wrote
-> > >
-> > > I agree, and I won't really argue...
-> > >
-> > > but the changelog in 2/4 says
-> > >
-> > >       The requirement that the tracer has attached to the tracee prior to the
-> > >       capture of the file descriptor may be lifted at a later point.
-> > >
-> > > so may be we should do this right now?
-> >
-> > I think so, yes. This doesn't strike me as premature optimization but
-> > rather as a core design questions.
-> >
-> > >
-> > > plus this part
-> > >
-> > >       @@ -1265,7 +1295,8 @@ SYSCALL_DEFINE4(ptrace, long, request, long, pid, unsigned long, addr,
-> > >               }
-> > >
-> > >               ret = ptrace_check_attach(child, request == PTRACE_KILL ||
-> > >       -                                 request == PTRACE_INTERRUPT);
-> > >       +                                 request == PTRACE_INTERRUPT ||
-> > >       +                                 request == PTRACE_GETFD);
-> > >
-> > > actually means "we do not need ptrace, but we do not know where else we
-> > > can add this fd_install(get_task_file()).
-> >
-> > Right, I totally get your point and I'm not a fan of this being in
-> > ptrace() either.
-> >
-> > The way I see is is that the main use-case for this feature is the
-> > seccomp notifier and I can see this being useful. So the right place to
-> > plumb this into might just be seccomp and specifically on to of the
-> > notifier.
-> > If we don't care about getting and setting fds at random points of
-> > execution it might make sense to add new options to the notify ioctl():
-> >
-> > #define SECCOMP_IOCTL_NOTIF_GET_FD      SECCOMP_IOWR(3, <sensible struct>)
-> > #define SECCOMP_IOCTL_NOTIF_SET_FD      SECCOMP_IOWR(4, <sensible struct>)
-> >
-> > which would let you get and set fds while the supervisee is blocked.
-> >
-> > Christian
-> Doesn't SECCOMP_IOCTL_NOTIF_GET_FD have some ambiguity to it?
+Hi Oleksandr,
 
-As Tycho mentioned, this is why we have a the tid of the calling task
-but we also have a cookie per request.
-The cookie is useful so that you can do
-- receive request <chocolate> cookie
-- open(/proc/<pid>{/mem})
-- verify <chocolate> cookie still exists
-  - <chocolate> cookie still exists -> file descriptor refers to correct
-    task
-  - <chocolate> cookie gone -> task has been recycled
-
-> Specifically, because
-> multiple processes can have the same notifier attached to them? If we
-> choose to go down the
-> route of introducing an ioctl (which I'm not at all opposed to), I
-> would rather do it on pidfd. We
-> can then plumb seccomp notifier to send pidfd instead of raw pid. In
-> the mean time, folks
-> can just open up /proc/${PID}, and do the check cookie dance.
+On Tue, Dec 10, 2019 at 11:49:39AM +0100, Oleksandr Natalenko wrote:
+> Hello, Minchan.
 > 
-> Christian,
-> As the maintainer of pidfd, what do you think?
+> On Sun, Jun 16, 2019 at 10:58:30AM +0200, Oleksandr Natalenko wrote:
+> > This is a set of commits based on our discussion on your submission [1].
+> > 
+> > First 2 implement minor suggestions just for you to not forget to take
+> > them into account.
+> > 
+> > uio.h inclusion was needed for me to be able to compile your series
+> > successfully. Also please note I had to enable "Transparent Hugepage
+> > Support" as well as "Enable idle page tracking" options, otherwise the
+> > build failed. I guess this can be addressed by you better since the
+> > errors are introduced with MADV_COLD introduction.
+> > 
+> > Last 2 commits are the actual KSM hints enablement. The first one
+> > implements additional check for the case where the mmap_sem is taken for
+> > write, and the second one just allows KSM hints to be used by the remote
+> > interface.
+> > 
+> > I'm not Cc'ing else anyone except two mailing lists to not distract
+> > people unnecessarily. If you are fine with this addition, please use it
+> > for your next iteration of process_madvise(), and then you'll Cc all the
+> > people needed.
+> > 
+> > Thanks.
+> > 
+> > [1] https://lore.kernel.org/lkml/20190531064313.193437-1-minchan@kernel.org/
+> > 
+> > Oleksandr Natalenko (5):
+> >   mm: rename madvise_core to madvise_common
+> >   mm: revert madvise_inject_error line split
+> >   mm: include uio.h to madvise.c
+> >   mm/madvise: employ mmget_still_valid for write lock
+> >   mm/madvise: allow KSM hints for remote API
+> > 
+> >  mm/madvise.c | 23 ++++++++++++++---------
+> >  1 file changed, 14 insertions(+), 9 deletions(-)
+> > 
+> > -- 
+> > 2.22.0
+> > 
+> 
+> This is a gentle ping. Are you still planning to submit process_madvise() solution?
 
-Let me quote what I wrote to the Mozilla folks today. :)
+I'm really sorry for being slow progress.
+I am stuck with internal stuff of company.
+I will do best effort to send it within one or two weeks.
 
-"(One thing that always strikes me is that if my pidfd patches would've
-been ready back when we did the seccomp notifier we could've added a
-pidfd argument to the seccomp notifier kernel struct and if a flag is
-set given back a pidfd alongside the notifier fd. This way none of this
-revalidting the id stuff would've been necessary and you could also
-safely translate from a pidfd into a /proc/<pid> directory to e.g. open
-/proc/<pid>/mem. Anyway, that's not out of scope. One could still
-write a patch for that to add a pidfd argument under a new flag to the
-kernel struct. Should be rather trivial.)"
-
-So yeah, it crossed my mind. ;)
-
-I really would like to have this placed under a flag though...
-I very much dislike the idea of receiving any kind of fd
-- _especially a pidfd_ - implicitly.
-So ideally this would be a flag to the receive ioctl(). Kees just got my
-SECCOMP_USER_NOTIF_FLAG_CONTINUE patchset merged for v5.5 which adds the
-
-#define SECCOMP_USER_NOTIF_FLAG_CONTINUE (1UL << 0)
-
-flag which when set in the send case (i.e. supervisor -> kernel) will
-cause the syscall to be executed.
-
-When we add a new flag to get a pidfd it might make sense to rename the
-CONTINUE flag in master before v5.5 is out to
-
-#define SECCOMP_USER_NOTIF_SEND_FLAG_CONTINUE (1UL << 0)
-
-to indicate that it's only valid for the SEND ioctl().
-
-Then we add
-
-#define SECCOMP_USER_NOTIF_RECV_FLAG_PIDFD (1UL << 0)
-
-for v5.6. This way send and receive flags are named differently for
-clarity. (I don't care about the name being long. Other people might
-though _shrug_.)
-
-Christian
+Thanks.
