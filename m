@@ -2,117 +2,167 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 351A8121039
-	for <lists+linux-api@lfdr.de>; Mon, 16 Dec 2019 17:55:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BEB61219AF
+	for <lists+linux-api@lfdr.de>; Mon, 16 Dec 2019 20:09:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726551AbfLPQzu convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Mon, 16 Dec 2019 11:55:50 -0500
-Received: from eu-smtp-delivery-151.mimecast.com ([146.101.78.151]:48870 "EHLO
-        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725805AbfLPQzs (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 16 Dec 2019 11:55:48 -0500
-Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-195-1f9oIHnwPl23IcvHT4alyA-1; Mon, 16 Dec 2019 16:55:45 +0000
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
- Server (TLS) id 15.0.1347.2; Mon, 16 Dec 2019 16:55:44 +0000
-Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
- AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
- Mon, 16 Dec 2019 16:55:44 +0000
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Aleksa Sarai' <cyphar@cyphar.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>
-CC:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J. Bruce Fields" <bfields@fieldses.org>,
-        Shuah Khan <shuah@kernel.org>,
-        "dev@opencontainers.org" <dev@opencontainers.org>,
-        "containers@lists.linux-foundation.org" 
-        <containers@lists.linux-foundation.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
-Subject: RE: [PATCH] openat2: switch to __attribute__((packed)) for open_how
-Thread-Topic: [PATCH] openat2: switch to __attribute__((packed)) for open_how
-Thread-Index: AQHVs0QYCtoODE3sD0awPNQRMi+YuKe8+0pQ
-Date:   Mon, 16 Dec 2019 16:55:44 +0000
-Message-ID: <b26ef210ec5b42009cf09b1015065768@AcuMS.aculab.com>
-References: <20191213222351.14071-1-cyphar@cyphar.com>
- <a328b91d-fd8f-4f27-b3c2-91a9c45f18c0@rasmusvillemoes.dk>
- <20191215123443.jmfnrtgbscdwfohc@yavin.dot.cyphar.com>
-In-Reply-To: <20191215123443.jmfnrtgbscdwfohc@yavin.dot.cyphar.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        id S1726984AbfLPTJZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 16 Dec 2019 14:09:25 -0500
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:34102 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726368AbfLPTJV (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 16 Dec 2019 14:09:21 -0500
+Received: by mail-oi1-f194.google.com with SMTP id l136so4208126oig.1
+        for <linux-api@vger.kernel.org>; Mon, 16 Dec 2019 11:09:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=HTnNNMq0UJ07kcz2Fk7rdJeEYnMlohI62EX3lC0CNag=;
+        b=PH1Cs1476lBFJxF9TgIuqyyDHyrIDvm30PXKolPsWfEUr/vW1AnQCofGq9XDftuuvP
+         Px5EYJJivCdMHBkChe0dSyQ8DrnMB3yT1IqzZFWt/nL8rq0yQ+imzgmDeN3YVQ6B0nAB
+         sfNrfsIbm/Li3Z8M65KDvznZQ6SPB7LzLY22vEe23a99qM97v6pXAuTNy3i3UzxN4moX
+         oL3pfhmgzgPamXqjiybYU7aWJlzk3ku91SFhBaRmViBe+o+N1pmOJrB78MSU4KVD6sNn
+         Jiwy/Tm6Dx0vQX8WNeVinBJJHODAQPDtdRqN8sHQ0/B0VG2tEQ0WvpFYaxHD1vyRt5pF
+         5Dcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=HTnNNMq0UJ07kcz2Fk7rdJeEYnMlohI62EX3lC0CNag=;
+        b=jpE6xQB+zmvj0+sr0k9LZdyPfgkSKhvzSrXoL0CymX8wNiW52V7Y6bdY+QjLPm4taf
+         Mgw8oHIilFeJErBQkW8PQcqh2++3lZBhGu5Y/6s9F/L6lRdVnB+DwiVe5MYVvKuOUft+
+         7PNKghLbzq8jpdR3k86XGvTKVtpfYeKMIxo/imHh/jTsfEuxMdz61zpNblZO+rHbYW5h
+         gzEx7b8Qs8VXsAvUTI32UGYT1MhUOldVjVDngGXw9WqvvtCFU5LGQFyD+iE6vo6GK2ht
+         Zzqfc4Yva2e2pKJ4DDOB2poHnq0josxjf9m0uBE2xtwRhcLAy2RxeaaSBPkWnv2xrzLL
+         QJaQ==
+X-Gm-Message-State: APjAAAV7e2B1ZmgzkaUMVQU7Fqh+fcPr/zA8A9ogxxAe9P7PlwsFKVgm
+        Tq9mpe9FGITeM39qr2LkdFBxFtnxOhyRPd+Fgd0shQ==
+X-Google-Smtp-Source: APXvYqzXk2HL81NaDmu7fbkSBg8spKAcJ7ZGEkfJ8YwRlqK9Jtlv6YjUTTM1hF1KjZmYJ+/WKmJ2Kr1KyoGl+cE8UzI=
+X-Received: by 2002:a05:6808:8d0:: with SMTP id k16mr375059oij.68.1576523359592;
+ Mon, 16 Dec 2019 11:09:19 -0800 (PST)
 MIME-Version: 1.0
-X-MC-Unique: 1f9oIHnwPl23IcvHT4alyA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+References: <20191216091220.465626-1-laurent@vivier.eu> <20191216091220.465626-2-laurent@vivier.eu>
+In-Reply-To: <20191216091220.465626-2-laurent@vivier.eu>
+From:   Jann Horn <jannh@google.com>
+Date:   Mon, 16 Dec 2019 20:08:52 +0100
+Message-ID: <CAG48ez2xNCRmuzpNqYW5R+XMKzW8YiemsPUPgk42KSkSZXmvLg@mail.gmail.com>
+Subject: Re: [PATCH v8 1/1] ns: add binfmt_misc to the user namespace
+To:     Laurent Vivier <laurent@vivier.eu>
+Cc:     kernel list <linux-kernel@vger.kernel.org>,
+        Greg Kurz <groug@kaod.org>, Andrei Vagin <avagin@gmail.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        Dmitry Safonov <dima@arista.com>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>,
+        Jan Kiszka <jan.kiszka@siemens.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux Containers <containers@lists.linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Henning Schild <henning.schild@siemens.com>,
+        =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From:  Aleksa Sarai
-> Sent: 15 December 2019 12:35
-> On 2019-12-14, Rasmus Villemoes <linux@rasmusvillemoes.dk> wrote:
-> > On 13/12/2019 23.23, Aleksa Sarai wrote:
-> > > The design of the original open_how struct layout was such that it
-> > > ensured that there would be no un-labelled (and thus potentially
-> > > non-zero) padding to avoid issues with struct expansion, as well as
-> > > providing a uniform representation on all architectures (to avoid
-> > > complications with OPEN_HOW_SIZE versioning).
-> > >
-> > > However, there were a few other desirable features which were not
-> > > fulfilled by the previous struct layout:
-> > >
-> > >  * Adding new features (other than new flags) should always result in
-> > >    the struct getting larger. However, by including a padding field, it
-> > >    was possible for new fields to be added without expanding the
-> > >    structure. This would somewhat complicate version-number based
-> > >    checking of feature support.
-> > >
-> > >  * A non-zero bit in __padding yielded -EINVAL when it should arguably
-> > >    have been -E2BIG (because the padding bits are effectively
-> > >    yet-to-be-used fields). However, the semantics are not entirely clear
-> > >    because userspace may expect -E2BIG to only signify that the
-> > >    structure is too big. It's much simpler to just provide the guarantee
-> > >    that new fields will always result in a struct size increase, and
-> > >    -E2BIG indicates you're using a field that's too recent for an older
-> > >    kernel.
-> >
-> > And when the first extension adds another u64 field, that padding has to
-> > be added back in and checked for being 0, at which point the padding is
-> > again yet-to-be-used fields.
-> 
-> Maybe I'm missing something, but what is the issue with
-> 
->   struct open_how {
->     u64 flags;
->     u64 resolve;
->     u16 mode;
-> 	u64 next_extension;
->   } __attribute__((packed));
+On Mon, Dec 16, 2019 at 10:12 AM Laurent Vivier <laurent@vivier.eu> wrote:
+> This patch allows to have a different binfmt_misc configuration
+> for each new user namespace. By default, the binfmt_misc configuration
+> is the one of the previous level, but if the binfmt_misc filesystem is
+> mounted in the new namespace a new empty binfmt instance is created and
+> used in this namespace.
+>
+> For instance, using "unshare" we can start a chroot of another
+> architecture and configure the binfmt_misc interpreter without being root
+> to run the binaries in this chroot.
 
-Compile anything that accesses it for (say) sparc and look at the object code.
-You really, really, REALLY, don't want to EVER use 'packed'.
+How do you ensure that when userspace is no longer using the user
+namespace and mount namespace, the entries and the binfmt_misc
+superblock are deleted? As far as I can tell from looking at the code,
+at the moment, if I create a user namespace+mount namespace, mount
+binfmt_misc in there, register a file format and then let all
+processes inside the namespaces exit, the binfmt_misc mount will be
+kept alive by the simple_pin_fs() stuff, and the binfmt_misc entries
+will also stay in memory.
 
-Just use u64 for all the fields.
-Use 'flags' bits to indicate whether the additional fields should be looked at.
-Error if a 'flags' bit requires a value that isn't passed in the structure.
+[...]
+> @@ -718,7 +736,9 @@ static ssize_t bm_register_write(struct file *file, const char __user *buffer,
+>         if (!inode)
+>                 goto out2;
+>
+> -       err = simple_pin_fs(&bm_fs_type, &bm_mnt, &entry_count);
+> +       ns = binfmt_ns(file_dentry(file)->d_sb->s_user_ns);
+> +       err = simple_pin_fs(&bm_fs_type, &ns->bm_mnt,
+> +                           &ns->entry_count);
 
-Then you can add an extra field and old source code recompiled with the
-new headers will still work - because the 'junk' value isn't looked at.
+When you call simple_pin_fs() here, the user namespace of `current`
+and the user namespace of the superblock are not necessarily related.
+So simple_pin_fs() may end up taking a reference on the mountpoint for
+a user namespace that has nothing to do with the namespace for which
+an entry is being created.
 
-	David
+[...]
+>  static int bm_fill_super(struct super_block *sb, struct fs_context *fc)
+>  {
+>         int err;
+> +       struct user_namespace *ns = sb->s_user_ns;
+[...]
+> +       /* create a new binfmt namespace
+> +        * if we are not in the first user namespace
+> +        * but the binfmt namespace is the first one
+> +        */
+> +       if (READ_ONCE(ns->binfmt_ns) == NULL) {
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
+The READ_ONCE() here is unnecessary, right? AFAIK the VFS layer is
+going to ensure that bm_fill_super() can't run concurrently for the
+same namespace?
 
+> +               struct binfmt_namespace *new_ns;
+> +
+> +               new_ns = kmalloc(sizeof(struct binfmt_namespace),
+> +                                GFP_KERNEL);
+> +               if (new_ns == NULL)
+> +                       return -ENOMEM;
+> +               INIT_LIST_HEAD(&new_ns->entries);
+> +               new_ns->enabled = 1;
+> +               rwlock_init(&new_ns->entries_lock);
+> +               new_ns->bm_mnt = NULL;
+> +               new_ns->entry_count = 0;
+> +               /* ensure new_ns is completely initialized before sharing it */
+> +               smp_wmb();
+> +               WRITE_ONCE(ns->binfmt_ns, new_ns);
+
+Nit: This would be a little bit semantically clearer if you used
+smp_store_release() instead of smp_wmb()+WRITE_ONCE().
+
+> +       }
+> +
+>         err = simple_fill_super(sb, BINFMTFS_MAGIC, bm_files);
+[...]
+> +static void bm_free(struct fs_context *fc)
+> +{
+> +       if (fc->s_fs_info)
+> +               put_user_ns(fc->s_fs_info);
+> +}
+
+Silly question: Why the "if"? Can you ever reach this with fc->s_fs_info==NULL?
+
+> +
+>  static int bm_get_tree(struct fs_context *fc)
+>  {
+> -       return get_tree_single(fc, bm_fill_super);
+> +       return get_tree_keyed(fc, bm_fill_super, get_user_ns(fc->user_ns));
+
+get_user_ns() increments the refcount of the namespace, but in the
+case where a binfmt_misc mount already exists, that refcount is never
+dropped, right? That would be a security bug, since an attacker could
+overflow the refcount of the user namespace and then trigger a UAF.
+(And the refcount hardening won't catch it because user namespaces
+still use raw atomics instead of refcount_t.)
+
+[...]
+> +#if IS_ENABLED(CONFIG_BINFMT_MISC)
+
+Nit: Isn't this kind of check normally written as "#ifdef"?
