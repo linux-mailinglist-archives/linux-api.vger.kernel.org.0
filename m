@@ -2,46 +2,46 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D3A5F122122
-	for <lists+linux-api@lfdr.de>; Tue, 17 Dec 2019 02:00:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E5F23122134
+	for <lists+linux-api@lfdr.de>; Tue, 17 Dec 2019 02:01:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726712AbfLQBAp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 16 Dec 2019 20:00:45 -0500
-Received: from mail-il1-f195.google.com ([209.85.166.195]:37526 "EHLO
-        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727262AbfLQBAa (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 16 Dec 2019 20:00:30 -0500
-Received: by mail-il1-f195.google.com with SMTP id t8so5564174iln.4
-        for <linux-api@vger.kernel.org>; Mon, 16 Dec 2019 17:00:29 -0800 (PST)
+        id S1726683AbfLQBBZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 16 Dec 2019 20:01:25 -0500
+Received: from mail-io1-f66.google.com ([209.85.166.66]:43705 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726558AbfLQBBY (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 16 Dec 2019 20:01:24 -0500
+Received: by mail-io1-f66.google.com with SMTP id s2so9107530iog.10
+        for <linux-api@vger.kernel.org>; Mon, 16 Dec 2019 17:01:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sargun.me; s=google;
         h=date:from:to:cc:subject:message-id:mime-version:content-disposition
          :user-agent;
-        bh=IYhFGBzidPzrRndBAfLKjrCbVqpN5/cVaIxnudwawfg=;
-        b=ovsMlGiXBMvNV0eH19SohbbZR8kUAlVOX5ty/bdnINY79xJOYs+0wfgq1C64iKkIDQ
-         huiF62g3ibh8nrGAiRCQd+q3VkqOgcAeADVTTQCrEGvmovCu2gCWv2eInmTb72G9tADX
-         Ps8D4+L02dfzvuOXhLWUZK2HfeSGRnKBWBkTM=
+        bh=toA0jzwuketdr2e1YvJhPtQZTwWvbzIQDMih6NbAho0=;
+        b=Vux6gcbDzir2dvv72u14dZyT7A+Xu//TUpa4d8Q262GwSxLJmt+V15Z/jfeB+txgJc
+         qIZ6FQoD4QleBDoeLZJZoFaSx1gkf+MFzeqkjO3RomC124M8P/QEyG0SszkbAv6uiLBR
+         R36L6QmDCO0E5jbRr/S0Y+Bt1snK25AU0uPqA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
          :content-disposition:user-agent;
-        bh=IYhFGBzidPzrRndBAfLKjrCbVqpN5/cVaIxnudwawfg=;
-        b=rKEKDe5rFacQ8hU7SkIMnjXEKMD5Mp2sdh8lv76pplFnij/6XJvsIRnVA0wmn2KfLh
-         u9iwtrH67i8bMZuQhK+1MRBNkXvoU0b9+9zft3w7QZr8+qfXYC/iK11QKyEiSyRcnLez
-         iEz+U8o+xdjfQGjoz2Kc82uG1VyT7lNfatEWC9+9UkyUxQqGHs1HRZDFX+CG+8ESpSwI
-         o7GK9Bn1nlHhfSpBgyIJTuL6vDOj8ly6VjaBdAqyMZ1EjKKk/easfg5IC1bbSmhdR//s
-         dbl+s6fgQUFIHFF1z+ysk+eYy+z+Fo9jC7rbaZqtqS2rpLaANzusopSuV8oB/taWCzHY
-         jXLw==
-X-Gm-Message-State: APjAAAW4T4L8zdzbthYY0EBhrwrLSVGMppdHBare+sRbGoZsrLG3zpgG
-        yyzwZiFWCjRADFNOmP3QgPtONGP8vczPow==
-X-Google-Smtp-Source: APXvYqyORfsGK6ATxnwAd9xikaahiE8GsRHnWmCz1g5oQmb+igeBHtioDM8PjKK03uUjzYMQUMDEkw==
-X-Received: by 2002:a92:7d07:: with SMTP id y7mr14538891ilc.270.1576544429319;
-        Mon, 16 Dec 2019 17:00:29 -0800 (PST)
+        bh=toA0jzwuketdr2e1YvJhPtQZTwWvbzIQDMih6NbAho0=;
+        b=DCdcTcAo+3WnKl2iHFF42Y4eipvJM6M5fEc1m6jzuUf/d02TbUI5x14poBwVhGqAQl
+         rbJ+HfoGFBE5xeIqB3abX36XRg8C+xpu0msyTygBkHs+TtJe7nrrOKQ43G66XRd9RFZs
+         Eln0eH5Mv6QR/7NlnYVfRLPwkssUBBkkaJaP4DPCktG6G0ZyvSr1CsDTAyq3O60dlvua
+         7Spa+L1nScs3WU215PQ6W1M96Kt7mY4DSGqLFXmlPzgnxgbBv93A0M2+/56pfB+LICsl
+         Zn5dCFUTe1WCIGcJCgIsvxumxwOcn08OxowYdoBuKyBCU5ywmUjXJ7GzkPIG7u3j2tm6
+         Po6w==
+X-Gm-Message-State: APjAAAXzwwwR8nOBuygKfQPkKdIxbfHj4bGaTrgKkUY2mqWW4WoF+LyA
+        6nSaWgCGYnRSKk97pHIWdZIXKQ==
+X-Google-Smtp-Source: APXvYqw7XFCaDfOkRDKO1vqm5NO1I4w3iLozscNNT7OpT7LMGnda1O0Xl6WJYAMAUltY1ohkkANcug==
+X-Received: by 2002:a5d:9046:: with SMTP id v6mr1727984ioq.302.1576544483409;
+        Mon, 16 Dec 2019 17:01:23 -0800 (PST)
 Received: from ircssh-2.c.rugged-nimbus-611.internal (80.60.198.104.bc.googleusercontent.com. [104.198.60.80])
-        by smtp.gmail.com with ESMTPSA id n5sm6254217ila.7.2019.12.16.17.00.28
+        by smtp.gmail.com with ESMTPSA id t203sm4684121iod.15.2019.12.16.17.01.23
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 16 Dec 2019 17:00:28 -0800 (PST)
-Date:   Tue, 17 Dec 2019 01:00:27 +0000
+        Mon, 16 Dec 2019 17:01:23 -0800 (PST)
+Date:   Tue, 17 Dec 2019 01:01:21 +0000
 From:   Sargun Dhillon <sargun@sargun.me>
 To:     linux-kernel@vger.kernel.org,
         containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
@@ -50,9 +50,8 @@ Cc:     tycho@tycho.ws, jannh@google.com, cyphar@cyphar.com,
         christian.brauner@ubuntu.com, oleg@redhat.com, luto@amacapital.net,
         viro@zeniv.linux.org.uk, gpascutto@mozilla.com,
         ealvarez@mozilla.com, fweimer@redhat.com, jld@mozilla.com
-Subject: [PATCH v3 4/4] samples: Add example of using pidfd getfd in
- conjunction with user trap
-Message-ID: <20191217010025.GA14479@ircssh-2.c.rugged-nimbus-611.internal>
+Subject: [PATCH v3 1/4] vfs, fdtable: Add get_task_file helper
+Message-ID: <20191217010119.GA14488@ircssh-2.c.rugged-nimbus-611.internal>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -62,263 +61,85 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This sample adds the usage of SECCOMP_RET_USER_NOTIF together with pidfd
-GETFD ioctl. It shows trapping a syscall, and handling it by extracting
-the FD into the parent process without stopping the child process.
-Although, in this example, there's no explicit policy separation in
-the two processes, it can be generalized into the example of a transparent
-proxy.
+This introduces a function which can be used to fetch a file, given an
+arbitrary task. As long as the user holds a reference (refcnt) to the
+task_struct it is safe to call, and will either return NULL on failure,
+or a pointer to the file, with a refcnt.
 
 Signed-off-by: Sargun Dhillon <sargun@sargun.me>
 ---
- samples/seccomp/.gitignore        |   1 +
- samples/seccomp/Makefile          |   9 +-
- samples/seccomp/user-trap-pidfd.c | 190 ++++++++++++++++++++++++++++++
- 3 files changed, 199 insertions(+), 1 deletion(-)
- create mode 100644 samples/seccomp/user-trap-pidfd.c
+ fs/file.c            | 22 ++++++++++++++++++++--
+ include/linux/file.h |  2 ++
+ 2 files changed, 22 insertions(+), 2 deletions(-)
 
-diff --git a/samples/seccomp/.gitignore b/samples/seccomp/.gitignore
-index d1e2e817d556..f37e3692a1dd 100644
---- a/samples/seccomp/.gitignore
-+++ b/samples/seccomp/.gitignore
-@@ -2,3 +2,4 @@ bpf-direct
- bpf-fancy
- dropper
- user-trap
-+user-trap-pidfd
-diff --git a/samples/seccomp/Makefile b/samples/seccomp/Makefile
-index 82b7347318d1..c3880869cadc 100644
---- a/samples/seccomp/Makefile
-+++ b/samples/seccomp/Makefile
-@@ -1,6 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
- ifndef CROSS_COMPILE
--hostprogs-y := bpf-fancy dropper bpf-direct user-trap
-+hostprogs-y := bpf-fancy dropper bpf-direct user-trap user-trap-pidfd
+diff --git a/fs/file.c b/fs/file.c
+index 3da91a112bab..63272d15be61 100644
+--- a/fs/file.c
++++ b/fs/file.c
+@@ -706,9 +706,9 @@ void do_close_on_exec(struct files_struct *files)
+ 	spin_unlock(&files->file_lock);
+ }
  
- HOSTCFLAGS_bpf-fancy.o += -I$(objtree)/usr/include
- HOSTCFLAGS_bpf-fancy.o += -idirafter $(objtree)/include
-@@ -24,6 +24,11 @@ HOSTCFLAGS_user-trap.o += -I$(objtree)/usr/include
- HOSTCFLAGS_user-trap.o += -idirafter $(objtree)/include
- user-trap-objs := user-trap.o user-trap-helper.o
+-static struct file *__fget(unsigned int fd, fmode_t mask, unsigned int refs)
++static struct file *__fget_files(struct files_struct *files, unsigned int fd,
++				 fmode_t mask, unsigned int refs)
+ {
+-	struct files_struct *files = current->files;
+ 	struct file *file;
  
-+HOSTCFLAGS_user-trap-pidfd.o += -I$(objtree)/usr/include
-+HOSTCFLAGS_user-trap-pidfd.o += -idirafter $(objtree)/include
-+user-trap-pidfd-objs := user-trap-pidfd.o user-trap-helper.o
-+
-+
- # Try to match the kernel target.
- ifndef CONFIG_64BIT
+ 	rcu_read_lock();
+@@ -729,6 +729,11 @@ static struct file *__fget(unsigned int fd, fmode_t mask, unsigned int refs)
+ 	return file;
+ }
  
-@@ -39,10 +44,12 @@ HOSTCFLAGS_dropper.o += $(MFLAG)
- HOSTCFLAGS_bpf-helper.o += $(MFLAG)
- HOSTCFLAGS_bpf-fancy.o += $(MFLAG)
- HOSTCFLAGS_user-trap.o += $(MFLAG)
-+HOSTCFLAGS_user-trap-pidfd.o += $(MFLAG)
- HOSTLDLIBS_bpf-direct += $(MFLAG)
- HOSTLDLIBS_bpf-fancy += $(MFLAG)
- HOSTLDLIBS_dropper += $(MFLAG)
- HOSTLDLIBS_user-trap += $(MFLAG)
-+HOSTLDLIBS_user-trap-pidfd += $(MFLAG)
- endif
- always := $(hostprogs-y)
- endif
-diff --git a/samples/seccomp/user-trap-pidfd.c b/samples/seccomp/user-trap-pidfd.c
-new file mode 100644
-index 000000000000..960e58982063
---- /dev/null
-+++ b/samples/seccomp/user-trap-pidfd.c
-@@ -0,0 +1,190 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include <linux/seccomp.h>
-+#include <linux/prctl.h>
-+#include <linux/pid.h>
-+#include <sys/socket.h>
-+#include <sys/prctl.h>
-+#include <sys/types.h>
-+#include <sys/wait.h>
-+#include <sys/ioctl.h>
-+#include <assert.h>
-+#include <errno.h>
-+#include <stdio.h>
-+#include <string.h>
-+#include <stdlib.h>
-+#include <netinet/in.h>
-+#include "user-trap-helper.h"
-+
-+#define CHILD_PORT_TRY_BIND		80
-+#define CHILD_PORT_ACTUAL_BIND	4998
-+
-+static int tracee(void)
++static struct file *__fget(unsigned int fd, fmode_t mask, unsigned int refs)
 +{
-+	struct sockaddr_in addr = {
-+		.sin_family	= AF_INET,
-+		.sin_port	= htons(CHILD_PORT_TRY_BIND),
-+		.sin_addr	= {
-+			.s_addr	= htonl(INADDR_ANY)
-+		}
-+	};
-+	socklen_t addrlen = sizeof(addr);
-+	int sock, ret = 1;
-+
-+	sock = socket(AF_INET, SOCK_STREAM, 0);
-+	if (sock == -1) {
-+		perror("socket");
-+		goto out;
-+	}
-+
-+
-+	if (bind(sock, (struct sockaddr *) &addr, sizeof(addr))) {
-+		perror("bind");
-+		goto out;
-+	}
-+
-+	printf("Child successfully performed bind operation\n");
-+	if (getsockname(sock, (struct sockaddr *) &addr, &addrlen)) {
-+		perror("getsockname");
-+		goto out;
-+	}
-+
-+
-+	printf("Socket bound to port %d\n", ntohs(addr.sin_port));
-+	assert(ntohs(addr.sin_port) == CHILD_PORT_ACTUAL_BIND);
-+
-+	ret = 0;
-+out:
-+	return ret;
++	return __fget_files(current->files, fd, mask, refs);
 +}
 +
-+static int handle_req(int listener, int pidfd)
+ struct file *fget_many(unsigned int fd, unsigned int refs)
+ {
+ 	return __fget(fd, FMODE_PATH, refs);
+@@ -746,6 +751,19 @@ struct file *fget_raw(unsigned int fd)
+ }
+ EXPORT_SYMBOL(fget_raw);
+ 
++struct file *fget_task(struct task_struct *task, unsigned int fd)
 +{
-+	struct sockaddr_in addr = {
-+		.sin_family	= AF_INET,
-+		.sin_port	= htons(CHILD_PORT_ACTUAL_BIND),
-+		.sin_addr	= {
-+			.s_addr	= htonl(INADDR_LOOPBACK)
-+		}
-+	};
-+	struct pidfd_getfd_args getfd_args = {
-+		.flags = PIDFD_GETFD_CLOEXEC
-+	};
-+	struct seccomp_notif_sizes sizes;
-+	struct seccomp_notif_resp *resp;
-+	struct seccomp_notif *req;
-+	int fd, ret = 1;
++	struct file *file = NULL;
 +
-+	getfd_args.size = sizeof(getfd_args);
-+	if (seccomp(SECCOMP_GET_NOTIF_SIZES, 0, &sizes) < 0) {
-+		perror("seccomp(GET_NOTIF_SIZES)");
-+		goto out;
-+	}
-+	req = malloc(sizes.seccomp_notif);
-+	if (!req)
-+		goto out;
-+	memset(req, 0, sizeof(*req));
++	task_lock(task);
++	if (task->files)
++		file = __fget_files(task->files, fd, 0, 1);
 +
-+	resp = malloc(sizes.seccomp_notif_resp);
-+	if (!resp)
-+		goto out_free_req;
-+	memset(resp, 0, sizeof(*resp));
++	task_unlock(task);
 +
-+	if (ioctl(listener, SECCOMP_IOCTL_NOTIF_RECV, req)) {
-+		perror("ioctl recv");
-+		goto out;
-+	}
-+	printf("Child tried to call bind with fd: %lld\n", req->data.args[0]);
-+	getfd_args.fd = req->data.args[0];
-+	fd = ioctl(pidfd, PIDFD_IOCTL_GETFD, &getfd_args);
-+	if (fd == -1) {
-+		perror("ioctl pidfd");
-+		goto out_free_resp;
-+	}
-+	if (bind(fd, (struct sockaddr *) &addr, sizeof(addr))) {
-+		perror("bind");
-+		goto out_free_resp;
-+	}
-+
-+	resp->id = req->id;
-+	resp->error = 0;
-+	resp->val = 0;
-+	if (ioctl(listener, SECCOMP_IOCTL_NOTIF_SEND, resp) < 0) {
-+		perror("ioctl send");
-+		goto out_free_resp;
-+	}
-+
-+	ret = 0;
-+out_free_resp:
-+	free(resp);
-+out_free_req:
-+	free(req);
-+out:
-+	return ret;
++	return file;
 +}
 +
-+static int pidfd_open(pid_t pid, unsigned int flags)
-+{
-+	errno = 0;
-+	return syscall(__NR_pidfd_open, pid, flags);
-+}
-+
-+int main(void)
-+{
-+	int pidfd, listener, sk_pair[2], ret = 1;
-+	pid_t pid;
-+
-+	if (socketpair(PF_LOCAL, SOCK_SEQPACKET, 0, sk_pair) < 0) {
-+		perror("socketpair");
-+		goto out;
-+	}
-+
-+	pid = fork();
-+	if (pid < 0) {
-+		perror("fork");
-+		goto close_pair;
-+	}
-+
-+	if (pid == 0) {
-+		if (prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0)) {
-+			perror("prctl(NO_NEW_PRIVS)");
-+			exit(1);
-+		}
-+		listener = user_trap_syscall(__NR_bind,
-+					     SECCOMP_FILTER_FLAG_NEW_LISTENER);
-+		if (listener < 0) {
-+			perror("seccomp");
-+			exit(1);
-+		}
-+		if (send_fd(sk_pair[1], listener) < 0)
-+			exit(1);
-+		close(listener);
-+		exit(tracee());
-+	}
-+
-+	pidfd = pidfd_open(pid, 0);
-+	if (pidfd < 0) {
-+		perror("pidfd_open");
-+		goto kill_child;
-+	}
-+
-+	listener = recv_fd(sk_pair[0]);
-+	if (listener < 0)
-+		goto kill_child;
-+
-+	if (handle_req(listener, pidfd))
-+		goto kill_child;
-+
-+	/* Wait for child to finish */
-+	waitpid(pid, NULL, 0);
-+
-+	ret = 0;
-+	goto close_pair;
-+
-+kill_child:
-+	kill(pid, SIGKILL);
-+close_pair:
-+	close(sk_pair[0]);
-+	close(sk_pair[1]);
-+out:
-+	return ret;
-+}
+ /*
+  * Lightweight file lookup - no refcnt increment if fd table isn't shared.
+  *
+diff --git a/include/linux/file.h b/include/linux/file.h
+index 3fcddff56bc4..c6c7b24ea9f7 100644
+--- a/include/linux/file.h
++++ b/include/linux/file.h
+@@ -16,6 +16,7 @@ extern void fput(struct file *);
+ extern void fput_many(struct file *, unsigned int);
+ 
+ struct file_operations;
++struct task_struct;
+ struct vfsmount;
+ struct dentry;
+ struct inode;
+@@ -47,6 +48,7 @@ static inline void fdput(struct fd fd)
+ extern struct file *fget(unsigned int fd);
+ extern struct file *fget_many(unsigned int fd, unsigned int refs);
+ extern struct file *fget_raw(unsigned int fd);
++extern struct file *fget_task(struct task_struct *task, unsigned int fd);
+ extern unsigned long __fdget(unsigned int fd);
+ extern unsigned long __fdget_raw(unsigned int fd);
+ extern unsigned long __fdget_pos(unsigned int fd);
 -- 
 2.20.1
 
