@@ -2,46 +2,46 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C95A512210F
-	for <lists+linux-api@lfdr.de>; Tue, 17 Dec 2019 02:00:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 93674122115
+	for <lists+linux-api@lfdr.de>; Tue, 17 Dec 2019 02:00:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728302AbfLQBAI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 16 Dec 2019 20:00:08 -0500
-Received: from mail-il1-f193.google.com ([209.85.166.193]:32769 "EHLO
-        mail-il1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726648AbfLQBAI (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 16 Dec 2019 20:00:08 -0500
-Received: by mail-il1-f193.google.com with SMTP id r81so7037233ilk.0
-        for <linux-api@vger.kernel.org>; Mon, 16 Dec 2019 17:00:07 -0800 (PST)
+        id S1728337AbfLQBAV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 16 Dec 2019 20:00:21 -0500
+Received: from mail-io1-f68.google.com ([209.85.166.68]:40472 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727892AbfLQBAU (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 16 Dec 2019 20:00:20 -0500
+Received: by mail-io1-f68.google.com with SMTP id x1so3734iop.7
+        for <linux-api@vger.kernel.org>; Mon, 16 Dec 2019 17:00:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sargun.me; s=google;
         h=date:from:to:cc:subject:message-id:mime-version:content-disposition
          :user-agent;
-        bh=Sm2OFZZDnAm6HtYHTigzrKnwqviaFvFk+BMgRHfZfe0=;
-        b=oRLMMSkO+qHMibdj8oUxIIvrRnjhoJEziOmUykia3GgnJrLlCi9Hd6JWEfmfATUNep
-         YBi5QHH+F6MEu4kv3rp4K5VhB4YLNozdd8+XLVxEFY+HFLdap4Z2+L08GakI6ZUdmKGp
-         k5QE6YgyJ75tucqvsFI8KGKybCrDhDGNlji3w=
+        bh=jNutB9PnCuNZ95WEy1zSnjhlufU614JfWZptXrTBQH4=;
+        b=Mqtxg1bODF0az/WYzqiTEFT+iACXA78wSudLXZFTA94ymiUxdJBI3gMvuRm9IIp4ge
+         I5T3o+b3jNzq9Q1CSMbCGIff+McGHZ8wvq9R1Kl4YzOQL5Z4fogEjQxk9Aez3mTEzLmo
+         NmGpLrP8qJve90iMoBwqSckOiVdg3rA/9DuAI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
          :content-disposition:user-agent;
-        bh=Sm2OFZZDnAm6HtYHTigzrKnwqviaFvFk+BMgRHfZfe0=;
-        b=V8Zbh0Tp0+Npluks9ELtFE7ype+NAQKYALSqW4LcvN1ozSeMwIr2Fl05Pih2ZoTull
-         CnuIdgLEe3Nv/bQ0GOlw1LtfG6HhmiE4loDJyOZ+1nfL5INyvMY0t7q3PTDH+Ef4STS1
-         xOPMjZbfkZLEJUT9hZaXBGjphDmMA9UK+/Tc8tMHvXHV48TIOT+jNXWAEq5UaUmPrbd6
-         qk3bjZ3l6UOcdXO4mwEciGjbv0WMC5SU9QvD6vtbOrrTGFwMMJXgsKZBytUq2+Bai1Br
-         0KGStARLCQYsMLVlC1FC4AzRPHrUcxGL54kEQUTSikqVHbM7nfZ9n0Fy+HxevZkidrg+
-         /jJA==
-X-Gm-Message-State: APjAAAWXIT4PF3+ZZLmvdztjd0ucXN927D1nT/N6y2MABII30sde/bGq
-        xUE315Uf4aPeonqaBjiEuProMQ==
-X-Google-Smtp-Source: APXvYqwDTW2pfVKMawWRTUOtmh1yg1fQppqbiiKryZiM1i1L4nbkUdOL3QTYQt4FCw4ea7tt7oGqYQ==
-X-Received: by 2002:a92:485a:: with SMTP id v87mr14375978ila.128.1576544406791;
-        Mon, 16 Dec 2019 17:00:06 -0800 (PST)
+        bh=jNutB9PnCuNZ95WEy1zSnjhlufU614JfWZptXrTBQH4=;
+        b=bTfrldfCuvr7t3LSXe3Pgh5BlIsZ0Dxlt3WzZ4lXqHPmG9hbGzmeKmVC4H2VtfgP+j
+         hCC1t+cJuPaPuxmuGUkdBbO+smm9KIPyNBYpDn1QhrUhdY88M/c10wzGKoBdbcC6ve5j
+         JqMtCxU1ZJBJSiPUBQ+7KrfWEPrZqoWomILfcrc/UzBdlLzVsr6pIuBZcSZB1XMahVEm
+         9RdQOAJxCB/qkuYFKyYLae/1+MGLhwlWGb70RxQ++xsPlDQMEyymRNA0blbjczlviQLG
+         byq1GdcrcyZao9yC9aXwCKU+27RpnsaEF6zf7+fV/Oe72VDJO6ZkiCvn2yX8ef0U0HOK
+         QdEg==
+X-Gm-Message-State: APjAAAWpodg1AeqiSVy7j4u9X3Fe1LJNyvPiBsKWyopNd8am7BfrhBz3
+        OKQsZmjcZAaNpiSHXo9DbrbpwA==
+X-Google-Smtp-Source: APXvYqxPnsnDlmTtm5UBuWSnOAOJ6tzOVibfDvwnPw1QTcZOJ5ICRVowYB46fgHIHU7m2JN24Dcy3Q==
+X-Received: by 2002:a02:335d:: with SMTP id k29mr5864060jak.22.1576544418494;
+        Mon, 16 Dec 2019 17:00:18 -0800 (PST)
 Received: from ircssh-2.c.rugged-nimbus-611.internal (80.60.198.104.bc.googleusercontent.com. [104.198.60.80])
-        by smtp.gmail.com with ESMTPSA id h6sm4832431iom.43.2019.12.16.17.00.05
+        by smtp.gmail.com with ESMTPSA id p12sm4413125ilk.66.2019.12.16.17.00.18
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 16 Dec 2019 17:00:06 -0800 (PST)
-Date:   Tue, 17 Dec 2019 01:00:04 +0000
+        Mon, 16 Dec 2019 17:00:18 -0800 (PST)
+Date:   Tue, 17 Dec 2019 01:00:16 +0000
 From:   Sargun Dhillon <sargun@sargun.me>
 To:     linux-kernel@vger.kernel.org,
         containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
@@ -50,9 +50,9 @@ Cc:     tycho@tycho.ws, jannh@google.com, cyphar@cyphar.com,
         christian.brauner@ubuntu.com, oleg@redhat.com, luto@amacapital.net,
         viro@zeniv.linux.org.uk, gpascutto@mozilla.com,
         ealvarez@mozilla.com, fweimer@redhat.com, jld@mozilla.com
-Subject: [PATCH v3 2/4] pid: Add PIDFD_IOCTL_GETFD to fetch file descriptors
- from processes
-Message-ID: <20191217010001.GA14461@ircssh-2.c.rugged-nimbus-611.internal>
+Subject: [PATCH v3 3/4] samples: split generalized user-trap code into helper
+ file
+Message-ID: <20191217010014.GA14470@ircssh-2.c.rugged-nimbus-611.internal>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -62,183 +62,256 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This adds an ioctl which allows file descriptors to be extracted
-from processes based on their pidfd.
-
-One reason to use this is to allow sandboxers to take actions on file
-descriptors on the behalf of another process. For example, this can be
-combined with seccomp-bpf's user notification to do on-demand fd
-extraction and take privileged actions. For example, it can be used
-to bind a socket to a privileged port. This is similar to ptrace, and
-using ptrace parasitic code injection to extract a file descriptor from a
-process, but without breaking debuggers, or paying the ptrace overhead
-cost.
-
-You must have the ability to ptrace the process in order to extract any
-file descriptors from it. ptrace can already be used to extract file
-descriptors based on parasitic code injections, so the permissions
-model is aligned.
-
-The ioctl takes a pointer to pidfd_getfd_args. pidfd_getfd_args contains
-a size, which allows for gradual evolution of the API. There is an options
-field, which can be used to state whether the fd should be opened with
-CLOEXEC, or not. An additional options field may be added in the future
-to include the ability to clear cgroup information about the file
-descriptor at a later point. If the structure is from a newer kernel, and
-includes members which make it larger than the structure that's known to
-this kernel version, E2BIG will be returned.
+This moves the code for setting up a syscall interceptor with user
+notification and sending the user notification file descriptor over a
+socket using SCM_RIGHTS into a file that can be shared between multiple
+samples.
 
 Signed-off-by: Sargun Dhillon <sargun@sargun.me>
 ---
- Documentation/ioctl/ioctl-number.rst |  1 +
- include/linux/pid.h                  |  1 +
- include/uapi/linux/pid.h             | 26 ++++++++++
- kernel/fork.c                        | 72 ++++++++++++++++++++++++++++
- 4 files changed, 100 insertions(+)
- create mode 100644 include/uapi/linux/pid.h
+ samples/seccomp/Makefile           |  6 ++-
+ samples/seccomp/user-trap-helper.c | 84 +++++++++++++++++++++++++++++
+ samples/seccomp/user-trap-helper.h | 13 +++++
+ samples/seccomp/user-trap.c        | 85 +-----------------------------
+ 4 files changed, 103 insertions(+), 85 deletions(-)
+ create mode 100644 samples/seccomp/user-trap-helper.c
+ create mode 100644 samples/seccomp/user-trap-helper.h
 
-diff --git a/Documentation/ioctl/ioctl-number.rst b/Documentation/ioctl/ioctl-number.rst
-index bef79cd4c6b4..be2efb93acd1 100644
---- a/Documentation/ioctl/ioctl-number.rst
-+++ b/Documentation/ioctl/ioctl-number.rst
-@@ -272,6 +272,7 @@ Code  Seq#    Include File                                           Comments
-                                                                      <mailto:tim@cyberelk.net>
- 'p'   A1-A5  linux/pps.h                                             LinuxPPS
-                                                                      <mailto:giometti@linux.it>
-+'p'   B0-CF  uapi/linux/pid.h
- 'q'   00-1F  linux/serio.h
- 'q'   80-FF  linux/telephony.h                                       Internet PhoneJACK, Internet LineJACK
-              linux/ixjuser.h                                         <http://web.archive.org/web/%2A/http://www.quicknet.net>
-diff --git a/include/linux/pid.h b/include/linux/pid.h
-index 9645b1194c98..65f1a73040c9 100644
---- a/include/linux/pid.h
-+++ b/include/linux/pid.h
-@@ -5,6 +5,7 @@
- #include <linux/rculist.h>
- #include <linux/wait.h>
- #include <linux/refcount.h>
-+#include <uapi/linux/pid.h>
+diff --git a/samples/seccomp/Makefile b/samples/seccomp/Makefile
+index 009775b52538..82b7347318d1 100644
+--- a/samples/seccomp/Makefile
++++ b/samples/seccomp/Makefile
+@@ -16,9 +16,13 @@ HOSTCFLAGS_bpf-direct.o += -I$(objtree)/usr/include
+ HOSTCFLAGS_bpf-direct.o += -idirafter $(objtree)/include
+ bpf-direct-objs := bpf-direct.o
  
- enum pid_type
- {
-diff --git a/include/uapi/linux/pid.h b/include/uapi/linux/pid.h
++
++HOSTCFLAGS_user-trap-helper.o += -I$(objtree)/usr/include
++HOSTCFLAGS_user-trap-helper.o += -idirafter $(objtree)/include
++
+ HOSTCFLAGS_user-trap.o += -I$(objtree)/usr/include
+ HOSTCFLAGS_user-trap.o += -idirafter $(objtree)/include
+-user-trap-objs := user-trap.o
++user-trap-objs := user-trap.o user-trap-helper.o
+ 
+ # Try to match the kernel target.
+ ifndef CONFIG_64BIT
+diff --git a/samples/seccomp/user-trap-helper.c b/samples/seccomp/user-trap-helper.c
 new file mode 100644
-index 000000000000..4ec02ed8b39a
+index 000000000000..f91ae9d947c5
 --- /dev/null
-+++ b/include/uapi/linux/pid.h
-@@ -0,0 +1,26 @@
-+/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-+#ifndef _UAPI_LINUX_PID_H
-+#define _UAPI_LINUX_PID_H
++++ b/samples/seccomp/user-trap-helper.c
+@@ -0,0 +1,84 @@
++#include <linux/seccomp.h>
++#include <linux/filter.h>
++#include <unistd.h>
++#include <errno.h>
++#include <stdio.h>
++#include <stddef.h>
++#include <sys/types.h>
++#include <sys/syscall.h>
++#include <sys/socket.h>
++#include "user-trap-helper.h"
 +
-+#include <linux/types.h>
-+#include <linux/ioctl.h>
++#define ARRAY_SIZE(x) (sizeof(x) / sizeof(*(x)))
 +
-+/* options to pass in to pidfd_getfd_args flags */
-+#define PIDFD_GETFD_CLOEXEC (1 << 0)	/* open the fd with cloexec */
++int user_trap_syscall(int nr, unsigned int flags)
++{
++	struct sock_filter filter[] = {
++		BPF_STMT(BPF_LD+BPF_W+BPF_ABS,
++			offsetof(struct seccomp_data, nr)),
++		BPF_JUMP(BPF_JMP+BPF_JEQ+BPF_K, nr, 0, 1),
++		BPF_STMT(BPF_RET+BPF_K, SECCOMP_RET_USER_NOTIF),
++		BPF_STMT(BPF_RET+BPF_K, SECCOMP_RET_ALLOW),
++	};
 +
-+struct pidfd_getfd_args {
-+	__u32 size;		/* sizeof(pidfd_getfd_args) */
-+	__u32 fd;       /* the tracee's file descriptor to get */
-+	__u32 flags;
-+};
++	struct sock_fprog prog = {
++		.len = (unsigned short)ARRAY_SIZE(filter),
++		.filter = filter,
++	};
 +
-+#define PIDFD_IOC_MAGIC			'p'
-+#define PIDFD_IO(nr)			_IO(PIDFD_IOC_MAGIC, nr)
-+#define PIDFD_IOR(nr, type)		_IOR(PIDFD_IOC_MAGIC, nr, type)
-+#define PIDFD_IOW(nr, type)		_IOW(PIDFD_IOC_MAGIC, nr, type)
-+#define PIDFD_IOWR(nr, type)		_IOWR(PIDFD_IOC_MAGIC, nr, type)
++	return seccomp(SECCOMP_SET_MODE_FILTER, flags, &prog);
++}
 +
-+#define PIDFD_IOCTL_GETFD		PIDFD_IOWR(0xb0, \
-+						struct pidfd_getfd_args)
++int send_fd(int sock, int fd)
++{
++	struct msghdr msg = {};
++	struct cmsghdr *cmsg;
++	char buf[CMSG_SPACE(sizeof(int))] = {0}, c = 'c';
++	struct iovec io = {
++		.iov_base = &c,
++		.iov_len = 1,
++	};
 +
-+#endif /* _UAPI_LINUX_PID_H */
-diff --git a/kernel/fork.c b/kernel/fork.c
-index 6cabc124378c..d9971e664e82 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -1726,9 +1726,81 @@ static __poll_t pidfd_poll(struct file *file, struct poll_table_struct *pts)
- 	return poll_flags;
- }
++	msg.msg_iov = &io;
++	msg.msg_iovlen = 1;
++	msg.msg_control = buf;
++	msg.msg_controllen = sizeof(buf);
++	cmsg = CMSG_FIRSTHDR(&msg);
++	cmsg->cmsg_level = SOL_SOCKET;
++	cmsg->cmsg_type = SCM_RIGHTS;
++	cmsg->cmsg_len = CMSG_LEN(sizeof(int));
++	*((int *)CMSG_DATA(cmsg)) = fd;
++	msg.msg_controllen = cmsg->cmsg_len;
++
++	if (sendmsg(sock, &msg, 0) < 0) {
++		perror("sendmsg");
++		return -1;
++	}
++
++	return 0;
++}
++
++int recv_fd(int sock)
++{
++	struct msghdr msg = {};
++	struct cmsghdr *cmsg;
++	char buf[CMSG_SPACE(sizeof(int))] = {0}, c = 'c';
++	struct iovec io = {
++		.iov_base = &c,
++		.iov_len = 1,
++	};
++
++	msg.msg_iov = &io;
++	msg.msg_iovlen = 1;
++	msg.msg_control = buf;
++	msg.msg_controllen = sizeof(buf);
++
++	if (recvmsg(sock, &msg, 0) < 0) {
++		perror("recvmsg");
++		return -1;
++	}
++
++	cmsg = CMSG_FIRSTHDR(&msg);
++
++	return *((int *)CMSG_DATA(cmsg));
++}
+diff --git a/samples/seccomp/user-trap-helper.h b/samples/seccomp/user-trap-helper.h
+new file mode 100644
+index 000000000000..a5ebda25fdfe
+--- /dev/null
++++ b/samples/seccomp/user-trap-helper.h
+@@ -0,0 +1,13 @@
++#include <unistd.h>
++#include <sys/syscall.h>
++#include <errno.h>
++
++static inline int seccomp(unsigned int op, unsigned int flags, void *args)
++{
++	errno = 0;
++	return syscall(__NR_seccomp, op, flags, args);
++}
++
++int user_trap_syscall(int nr, unsigned int flags);
++int send_fd(int sock, int fd);
++int recv_fd(int sock);
+diff --git a/samples/seccomp/user-trap.c b/samples/seccomp/user-trap.c
+index 6d0125ca8af7..1b6526587456 100644
+--- a/samples/seccomp/user-trap.c
++++ b/samples/seccomp/user-trap.c
+@@ -5,101 +5,18 @@
+ #include <errno.h>
+ #include <fcntl.h>
+ #include <string.h>
+-#include <stddef.h>
+ #include <sys/sysmacros.h>
+ #include <sys/types.h>
+ #include <sys/wait.h>
+ #include <sys/socket.h>
+ #include <sys/stat.h>
+ #include <sys/mman.h>
+-#include <sys/syscall.h>
+ #include <sys/user.h>
+ #include <sys/ioctl.h>
+-#include <sys/ptrace.h>
+ #include <sys/mount.h>
+ #include <linux/limits.h>
+-#include <linux/filter.h>
+ #include <linux/seccomp.h>
+-
+-#define ARRAY_SIZE(x) (sizeof(x) / sizeof(*(x)))
+-
+-static int seccomp(unsigned int op, unsigned int flags, void *args)
+-{
+-	errno = 0;
+-	return syscall(__NR_seccomp, op, flags, args);
+-}
+-
+-static int send_fd(int sock, int fd)
+-{
+-	struct msghdr msg = {};
+-	struct cmsghdr *cmsg;
+-	char buf[CMSG_SPACE(sizeof(int))] = {0}, c = 'c';
+-	struct iovec io = {
+-		.iov_base = &c,
+-		.iov_len = 1,
+-	};
+-
+-	msg.msg_iov = &io;
+-	msg.msg_iovlen = 1;
+-	msg.msg_control = buf;
+-	msg.msg_controllen = sizeof(buf);
+-	cmsg = CMSG_FIRSTHDR(&msg);
+-	cmsg->cmsg_level = SOL_SOCKET;
+-	cmsg->cmsg_type = SCM_RIGHTS;
+-	cmsg->cmsg_len = CMSG_LEN(sizeof(int));
+-	*((int *)CMSG_DATA(cmsg)) = fd;
+-	msg.msg_controllen = cmsg->cmsg_len;
+-
+-	if (sendmsg(sock, &msg, 0) < 0) {
+-		perror("sendmsg");
+-		return -1;
+-	}
+-
+-	return 0;
+-}
+-
+-static int recv_fd(int sock)
+-{
+-	struct msghdr msg = {};
+-	struct cmsghdr *cmsg;
+-	char buf[CMSG_SPACE(sizeof(int))] = {0}, c = 'c';
+-	struct iovec io = {
+-		.iov_base = &c,
+-		.iov_len = 1,
+-	};
+-
+-	msg.msg_iov = &io;
+-	msg.msg_iovlen = 1;
+-	msg.msg_control = buf;
+-	msg.msg_controllen = sizeof(buf);
+-
+-	if (recvmsg(sock, &msg, 0) < 0) {
+-		perror("recvmsg");
+-		return -1;
+-	}
+-
+-	cmsg = CMSG_FIRSTHDR(&msg);
+-
+-	return *((int *)CMSG_DATA(cmsg));
+-}
+-
+-static int user_trap_syscall(int nr, unsigned int flags)
+-{
+-	struct sock_filter filter[] = {
+-		BPF_STMT(BPF_LD+BPF_W+BPF_ABS,
+-			offsetof(struct seccomp_data, nr)),
+-		BPF_JUMP(BPF_JMP+BPF_JEQ+BPF_K, nr, 0, 1),
+-		BPF_STMT(BPF_RET+BPF_K, SECCOMP_RET_USER_NOTIF),
+-		BPF_STMT(BPF_RET+BPF_K, SECCOMP_RET_ALLOW),
+-	};
+-
+-	struct sock_fprog prog = {
+-		.len = (unsigned short)ARRAY_SIZE(filter),
+-		.filter = filter,
+-	};
+-
+-	return seccomp(SECCOMP_SET_MODE_FILTER, flags, &prog);
+-}
++#include "user-trap-helper.h"
  
-+static long pidfd_getfd(struct pid *pid, struct pidfd_getfd_args __user *buf)
-+{
-+	struct pidfd_getfd_args args;
-+	unsigned int fd_flags = 0;
-+	struct task_struct *task;
-+	struct file *file;
-+	u32 user_size;
-+	int ret, fd;
-+
-+	ret = get_user(user_size, &buf->size);
-+	if (ret)
-+		return ret;
-+
-+	ret = copy_struct_from_user(&args, sizeof(args), buf, user_size);
-+	if (ret)
-+		return ret;
-+	if ((args.flags & ~(PIDFD_GETFD_CLOEXEC)) != 0)
-+		return -EINVAL;
-+	if (args.flags & PIDFD_GETFD_CLOEXEC)
-+		fd_flags |= O_CLOEXEC;
-+
-+	task = get_pid_task(pid, PIDTYPE_PID);
-+	if (!task)
-+		return -ESRCH;
-+	ret = -EPERM;
-+	if (!ptrace_may_access(task, PTRACE_MODE_READ_REALCREDS))
-+		goto out;
-+	ret = -EBADF;
-+	file = fget_task(task, args.fd);
-+	if (!file)
-+		goto out;
-+
-+	fd = get_unused_fd_flags(fd_flags);
-+	if (fd < 0) {
-+		ret = fd;
-+		goto out_put_file;
-+	}
-+	/*
-+	 * security_file_receive must come last since it may have side effects
-+	 * and cannot be reversed.
-+	 */
-+	ret = security_file_receive(file);
-+	if (ret)
-+		goto out_put_fd;
-+
-+	fd_install(fd, file);
-+	put_task_struct(task);
-+	return fd;
-+
-+out_put_fd:
-+	put_unused_fd(fd);
-+out_put_file:
-+	fput(file);
-+out:
-+	put_task_struct(task);
-+	return ret;
-+}
-+
-+static long pidfd_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
-+{
-+	struct pid *pid = file->private_data;
-+	void __user *buf = (void __user *)arg;
-+
-+	switch (cmd) {
-+	case PIDFD_IOCTL_GETFD:
-+		return pidfd_getfd(pid, buf);
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
- const struct file_operations pidfd_fops = {
- 	.release = pidfd_release,
- 	.poll = pidfd_poll,
-+	.unlocked_ioctl = pidfd_ioctl,
- #ifdef CONFIG_PROC_FS
- 	.show_fdinfo = pidfd_show_fdinfo,
- #endif
+ static int handle_req(struct seccomp_notif *req,
+ 		      struct seccomp_notif_resp *resp, int listener)
 -- 
 2.20.1
 
