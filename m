@@ -2,166 +2,170 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CDB651224F8
-	for <lists+linux-api@lfdr.de>; Tue, 17 Dec 2019 07:47:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A2061122720
+	for <lists+linux-api@lfdr.de>; Tue, 17 Dec 2019 09:55:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726859AbfLQGrJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 17 Dec 2019 01:47:09 -0500
-Received: from mx2.suse.de ([195.135.220.15]:53408 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726704AbfLQGrI (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 17 Dec 2019 01:47:08 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 39B42AC53;
-        Tue, 17 Dec 2019 06:47:05 +0000 (UTC)
-Date:   Tue, 17 Dec 2019 17:46:50 +1100
-From:   Aleksa Sarai <asarai@suse.de>
-To:     David Laight <David.Laight@ACULAB.COM>
-Cc:     'Aleksa Sarai' <cyphar@cyphar.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J. Bruce Fields" <bfields@fieldses.org>,
-        Shuah Khan <shuah@kernel.org>,
-        "dev@opencontainers.org" <dev@opencontainers.org>,
-        "containers@lists.linux-foundation.org" 
-        <containers@lists.linux-foundation.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
-Subject: Re: [PATCH] openat2: switch to __attribute__((packed)) for open_how
-Message-ID: <20191217064650.cd4bfb5d2koe6j7h@yavin.dot.cyphar.com>
-References: <20191213222351.14071-1-cyphar@cyphar.com>
- <a328b91d-fd8f-4f27-b3c2-91a9c45f18c0@rasmusvillemoes.dk>
- <20191215123443.jmfnrtgbscdwfohc@yavin.dot.cyphar.com>
- <b26ef210ec5b42009cf09b1015065768@AcuMS.aculab.com>
+        id S1726681AbfLQIzB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 17 Dec 2019 03:55:01 -0500
+Received: from mout.kundenserver.de ([212.227.126.135]:49117 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725893AbfLQIzA (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Dec 2019 03:55:00 -0500
+Received: from mail-qk1-f171.google.com ([209.85.222.171]) by
+ mrelayeu.kundenserver.de (mreue010 [212.227.15.129]) with ESMTPSA (Nemesis)
+ id 1MXop2-1iBKX82BI4-00YBbm; Tue, 17 Dec 2019 09:54:58 +0100
+Received: by mail-qk1-f171.google.com with SMTP id x129so174943qke.8;
+        Tue, 17 Dec 2019 00:54:58 -0800 (PST)
+X-Gm-Message-State: APjAAAXNG2+9NUH4Fcy7Or18esGaQdcU/0HUKwazUmvLn9WIJropDTPy
+        znb/Iw88weMWhDetMx/fRco63HDyaVmLehppnTA=
+X-Google-Smtp-Source: APXvYqzKiLsbZVrfvGk9+cg1ubafjtbflqD9p/VamlqKp16D5EdmeX1UgRWAb1NnN5heyvsziKaivNRpaH1iYITOlvM=
+X-Received: by 2002:a37:2f02:: with SMTP id v2mr3750201qkh.3.1576572897205;
+ Tue, 17 Dec 2019 00:54:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="pxbkdztdbvo4kssd"
-Content-Disposition: inline
-In-Reply-To: <b26ef210ec5b42009cf09b1015065768@AcuMS.aculab.com>
+References: <20191217010001.GA14461@ircssh-2.c.rugged-nimbus-611.internal>
+ <20191217015001.sp6mrhuiqrivkq3u@wittgenstein> <CAMp4zn8fzeiJVSn6EtRi6UAGh6AL3QWu=PZxw+=TAYJORjn_Sw@mail.gmail.com>
+In-Reply-To: <CAMp4zn8fzeiJVSn6EtRi6UAGh6AL3QWu=PZxw+=TAYJORjn_Sw@mail.gmail.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Tue, 17 Dec 2019 09:54:40 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a3G-W8s0G2-XKuDw9dRmupZSyiF6FRRAnvDt9=kMMzS8w@mail.gmail.com>
+Message-ID: <CAK8P3a3G-W8s0G2-XKuDw9dRmupZSyiF6FRRAnvDt9=kMMzS8w@mail.gmail.com>
+Subject: Re: [PATCH v3 2/4] pid: Add PIDFD_IOCTL_GETFD to fetch file
+ descriptors from processes
+To:     Sargun Dhillon <sargun@sargun.me>
+Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Containers <containers@lists.linux-foundation.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
+        Tycho Andersen <tycho@tycho.ws>, Jann Horn <jannh@google.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Al Viro <viro@zeniv.linux.org.uk>, gpascutto@mozilla.com,
+        ealvarez@mozilla.com, Florian Weimer <fweimer@redhat.com>,
+        jld@mozilla.com
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:HRAACjC5zp8lxNpo/BksdLlwiLLHqEgHh0jsn+k4S+2Eh5Uv53p
+ C9bFh5wXL+Ju5zWDstGOtRlYMtrjwfZ8garW/jHChtuDow7fI3r16tRRGedKQpUV3L18ETu
+ yI1dmiiZG89YnQ/Uh+YEoa6qfcpPzo5agoss9tX7MfCVL13uPPYcSa0HevOPwcq5CO2DeV+
+ rvBWzQVDBrRIzj8OofEEA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ewGeybDoAh4=:QfLyBhyd5Jll7i1z3Q7vNn
+ 1kgevxEMDqrLzxfQVkK9qVir47KyAfs1CrUroOSId9jmjVWLXxIR417SaAm9fCsrUDNkshAhl
+ JCZicW9jpmJ3wUnMCnvWGavQYEK9pFw/FLcKckTHs9Hz7SfzKkRT5oEUP55T6ucuenLlLgds7
+ xJvOgc1Wf5MryhB0Hq3+1cOZHgZ/wwkSU9L3SpvoLYABbzHNn7pvMYkJkb7K9TJdT21krgD4Y
+ 4YFZAI0veXXh1COcA/JwwHg9SpoXBr+Yk7PldiIiBOyya6NooxZn56uywBuXQ6ksU/I+wsgs1
+ mXHGQ/J9oqSook9Fg2c7xDeSja55fq6mE/On0sj5Xb3MhoRbtLPUkuupUrqBhewpgxdA/zOFr
+ rTGYOniuUQI5kd8T2WyoOTaFuQS/Afe3mOjQiVDqmS7cO6qgZiFUygRFq17sHHiNmRaDxmBSD
+ MZ/VOMCKA/+xjvZrJBjvT4DOWPjBQl1cdMIwBVAJQf0R4OaF/xcHR3BAO1qDH3txyVLLcVuaI
+ 2li9HRDNuK/pMBIAfUvb3L0bAEFbSzc0Zhtb4ZpJDhBspN/wR+lC2iuUIwQzL9LJ//9unnxYt
+ sABx7gtMdv0SIU4KKQOkIp56VK3TtLCp9/HnH0TAT1eQ6kPn1JH7ByaUwCjwec1ryzvHReOBh
+ n97qVTTU5W8sKOoEBgTQqGiQ4FISnzK+ltko21PTuCwrzjTfT91EwGSlVDT+8rUA/HZCYymid
+ 2d2sgCkAeALEf4JQHena2ky5zu/87i2wNp1NVICd8drY72i6S4D6JnhFp5MYM84fGjfOzUDEF
+ HBM8RGxK0atTnFC1BPpEgvRmKOjfFlQSyvojNuFxv29a6cF044YHkdodF7e49TgFCyu6Q9mpk
+ B2dCO8sC42gON0AMrVGg==
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Tue, Dec 17, 2019 at 3:50 AM Sargun Dhillon <sargun@sargun.me> wrote:
+> On Mon, Dec 16, 2019 at 5:50 PM Christian Brauner <christian.brauner@ubuntu.com> wrote:
+> > > +
+> > > +#include <linux/types.h>
+> > > +#include <linux/ioctl.h>
+> > > +
+> > > +/* options to pass in to pidfd_getfd_args flags */
+> > > +#define PIDFD_GETFD_CLOEXEC (1 << 0) /* open the fd with cloexec */
+> >
+> > Please, make them cloexec by default unless there's a very good reason
+> > not to.
+> >
+> For now then, should I have flags, and just say "reserved for future usage",
+> or would you prefer that I drop flags entirely?
 
---pxbkdztdbvo4kssd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+There is no need for adding reserved fields in an ioctl, just add a new ioctl
+number if you need it later.
 
-On 2019-12-16, David Laight <David.Laight@ACULAB.COM> wrote:
-> From:  Aleksa Sarai
-> > Sent: 15 December 2019 12:35
-> > On 2019-12-14, Rasmus Villemoes <linux@rasmusvillemoes.dk> wrote:
-> > > On 13/12/2019 23.23, Aleksa Sarai wrote:
-> > > > The design of the original open_how struct layout was such that it
-> > > > ensured that there would be no un-labelled (and thus potentially
-> > > > non-zero) padding to avoid issues with struct expansion, as well as
-> > > > providing a uniform representation on all architectures (to avoid
-> > > > complications with OPEN_HOW_SIZE versioning).
-> > > >
-> > > > However, there were a few other desirable features which were not
-> > > > fulfilled by the previous struct layout:
-> > > >
-> > > >  * Adding new features (other than new flags) should always result =
-in
-> > > >    the struct getting larger. However, by including a padding field=
-, it
-> > > >    was possible for new fields to be added without expanding the
-> > > >    structure. This would somewhat complicate version-number based
-> > > >    checking of feature support.
-> > > >
-> > > >  * A non-zero bit in __padding yielded -EINVAL when it should argua=
-bly
-> > > >    have been -E2BIG (because the padding bits are effectively
-> > > >    yet-to-be-used fields). However, the semantics are not entirely =
-clear
-> > > >    because userspace may expect -E2BIG to only signify that the
-> > > >    structure is too big. It's much simpler to just provide the guar=
-antee
-> > > >    that new fields will always result in a struct size increase, and
-> > > >    -E2BIG indicates you're using a field that's too recent for an o=
-lder
-> > > >    kernel.
-> > >
-> > > And when the first extension adds another u64 field, that padding has=
- to
-> > > be added back in and checked for being 0, at which point the padding =
-is
-> > > again yet-to-be-used fields.
-> >=20
-> > Maybe I'm missing something, but what is the issue with
-> >=20
-> >   struct open_how {
-> >     u64 flags;
-> >     u64 resolve;
-> >     u16 mode;
-> > 	u64 next_extension;
-> >   } __attribute__((packed));
->=20
-> Compile anything that accesses it for (say) sparc and look at the object =
-code.
-> You really, really, REALLY, don't want to EVER use 'packed'.
+> > > +
+> > > +struct pidfd_getfd_args {
+> > > +     __u32 size;             /* sizeof(pidfd_getfd_args) */
+> > > +     __u32 fd;       /* the tracee's file descriptor to get */
+> > > +     __u32 flags;
+> > > +};
+> >
+> > I think you want to either want to pad this
+> >
+> > +struct pidfd_getfd_args {
+> > +       __u32 size;             /* sizeof(pidfd_getfd_args) */
+> > +       __u32 fd;       /* the tracee's file descriptor to get */
+> > +       __u32 flags;
+> >         __u32 reserved;
+> > +};
+> >
+> > or use __aligned_u64 everywhere which I'd personally prefer instead of
+> > this manual padding everywhere.
 
-Right, so it's related to the "garbage code" problem. As mentioned
-above, I wasn't aware it was as bad as folks in this thread have
-mentioned.
+No, don't make ioctl structures extensible. If there is no 64-bit member
+in it, 32-bit alignment is sufficient.
 
-> Just use u64 for all the fields.
+Also, having implicit padding is dangerous because it makes it easier to
+leave it uninitialized, leaking kernel stack information on the copy_to_user().
 
-That is an option (and is the one that clone3 went with), but it's a bit
-awkward because umode_t is a u16 -- and it would be a waste of 6 bytes
-to store it as a u64. Arguably it could be extended but I personally
-find that to be very unlikely (and lots of other syscalls would need be
-updated).
+Please drop the '__u32 size' argument, too: the size is fixed by definition
+(through the _IOWR macro) and if you need to extend it you get a new
+command anyway.
 
-I'm just going to move the padding to the end and change the error for
-non-zero padding to -E2BIG.
+> Wouldn't __attribute__((packed)) achieve a similar thing of making sure
+> the struct is a constant size across all compilers?
+>
+> I'll go with __aligned_u64 instead of packed, if you don't want to use packed.
 
-> Use 'flags' bits to indicate whether the additional fields should be look=
-ed at.
-> Error if a 'flags' bit requires a value that isn't passed in the structur=
-e.
->=20
-> Then you can add an extra field and old source code recompiled with the
-> new headers will still work - because the 'junk' value isn't looked at.
+__attribute__((packed)) is worse because it forces compilers to use byte
+access on architectures that have no fast unaligned 32-bit load/store.
+Basically you should never put __packed on a structure, but instead add
+it to members that need to be unaligned within a sturct for compatibility
+reasons.
 
-This problem is already handled entirely by copy_struct_from_user().
+> > > +
+> > > +#define PIDFD_IOC_MAGIC                      'p'
+> > > +#define PIDFD_IO(nr)                 _IO(PIDFD_IOC_MAGIC, nr)
+> > > +#define PIDFD_IOR(nr, type)          _IOR(PIDFD_IOC_MAGIC, nr, type)
+> > > +#define PIDFD_IOW(nr, type)          _IOW(PIDFD_IOC_MAGIC, nr, type)
+> > > +#define PIDFD_IOWR(nr, type)         _IOWR(PIDFD_IOC_MAGIC, nr, type)
 
-It is true that for some new fields it will be necessary to add a new
-flag (such as passing fds -- where 0 is a valid value) but for most new
-fields (especially pointer or flag fields) it will not be necessary
-because the 0 value is equivalent to the old behaviour. It also allows
-us to entirely avoid accepting junk from userspace.
+Drop these macros, they just make it harder to grep or script around the use
+of _IOWR/_IOR/_IOW
 
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-<https://www.cyphar.com/>
+> > > +#define PIDFD_IOCTL_GETFD            PIDFD_IOWR(0xb0, \
+> > > +                                             struct pidfd_getfd_args)
 
---pxbkdztdbvo4kssd
-Content-Type: application/pgp-signature; name="signature.asc"
+Without the size and flag members, this can become the simpler
 
------BEGIN PGP SIGNATURE-----
+#define PIDFD_IOCTL_GETFD  _IOWR('p', 0xb0, __u32)
 
-iQIzBAABCAAdFiEEXzbGxhtUYBJKdfWmnhiqJn3bjbQFAl34edcACgkQnhiqJn3b
-jbTUrQ/9EWPnCZlGMHHPgxyUQUwaE4kajhGnTsBLapKhdtsAfzkyJNqUPdSnipqB
-oAAFeriC/RGN9ktSBHM60IBnwk3nv70W3SNm8/GUVaXGmWHrkBFkuhujOSn22awm
-3jSxRKt+89I6NKoFBJPkxe9WQv6DecF8B9GWCn2sru2e/r105OHTe28EnPFqzBpQ
-XZ/f7D7729GVAIITr5H6NQfvM8P/Sf/ne1gzDxf6cFTrF734aGNF+AhpTgSA2uxz
-DVw1oQ6+HAcMdL6AixtdZgsN9Bm2nV9C4ndOEenV3rN6mG1Kn5ecz2RInuqKmmj9
-/9ETSRo9ZZpl6WGpbfDMRB+/6vsSXAwHv06LO2YXEIeoHnPN7Y8/0deB4KNBoQ3S
-jDzVHOKU2MToxsAkBPvyZ6UsKXJWLOT4QeiyOQeoExwzzu6K61pxtcHaXnKebheF
-2hCF6h0NaAtBCcO3/MrN5PEkZliY+KcpM5BCsefzfM3cAEuqSEx1LqShw0G+3dV2
-sGKHM0cfunvVas/8yawfs4qfEALCJR5Tnb2Kfveo/xd1qfT4+K54gPjkQqFvrkph
-pV7c6P2lyJrNFraB5uDb5UYFWXrxTXgZ3ZUpDoI7MfLSEGCTT2nL9n7IXuoEfX4W
-jj7ipubi5ZdNDgXiSACHJHYzwIVJBPHiNq4mzoQjNKNb8kj1VTQ=
-=sK1O
------END PGP SIGNATURE-----
+> > > +
+> > >  const struct file_operations pidfd_fops = {
+> > >       .release = pidfd_release,
+> > >       .poll = pidfd_poll,
+> > > +     .unlocked_ioctl = pidfd_ioctl,
 
---pxbkdztdbvo4kssd--
+This needs
+
++    .compat_ioctl = compat_ptr_ioctl,
+
+To work on compat tasks.
+
+Finally, there is the question whether this should be an ioctl
+operation at all, or
+if it would better be done as a proper syscall. Functionally the two
+are the same
+here, but doing such a fundamental operation as an ioctl doesn't feel
+quite right
+to me. As a system call, this could be something like
+
+int pidfd_get_fd(int pidfd, int their_fd, int flags);
+
+along the lines of dup3().
+
+        Arnd
