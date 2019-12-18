@@ -2,159 +2,117 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B5DA7123615
-	for <lists+linux-api@lfdr.de>; Tue, 17 Dec 2019 20:56:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B278312407B
+	for <lists+linux-api@lfdr.de>; Wed, 18 Dec 2019 08:39:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727587AbfLQT4y (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 17 Dec 2019 14:56:54 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:37319 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727231AbfLQT4y (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Dec 2019 14:56:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1576612612;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=ks+9jOg6WosaTbY/DW1qcEpy6fxxVpo+gqRHRHONdG8=;
-        b=fBwZPynxCJ6IC8QuP+EwxpwmfdzNM9hHyN4WtAoE0iei05Ni6WUiZukccalSwDeLr1WIiQ
-        4uABmt2LaquzYNqEtvJUQs7VQEMFjU2OpAcCiVq2YStaRMpzHIBvriV7K64Se9IfVeWQH4
-        ekeoIMdkQ46PwkI9ttMTA1Ye7MQXxFY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-220-nAprwtMoPe2ZGt8zyirPRw-1; Tue, 17 Dec 2019 14:56:49 -0500
-X-MC-Unique: nAprwtMoPe2ZGt8zyirPRw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E85C48024D7;
-        Tue, 17 Dec 2019 19:56:46 +0000 (UTC)
-Received: from madcap2.tricolour.ca (ovpn-112-28.phx2.redhat.com [10.3.112.28])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 7331C5C548;
-        Tue, 17 Dec 2019 19:56:34 +0000 (UTC)
-Date:   Tue, 17 Dec 2019 14:56:31 -0500
-From:   Richard Guy Briggs <rgb@redhat.com>
-To:     Steve Grubb <sgrubb@redhat.com>
-Cc:     Paul Moore <paul@paul-moore.com>,
-        Neil Horman <nhorman@tuxdriver.com>,
-        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
-        Linux-Audit Mailing List <linux-audit@redhat.com>,
-        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
-        omosnace@redhat.com, dhowells@redhat.com, simo@redhat.com,
-        Eric Paris <eparis@parisplace.org>,
-        Serge Hallyn <serge@hallyn.com>, ebiederm@xmission.com,
-        Dan Walsh <dwalsh@redhat.com>, mpatel@redhat.com
-Subject: Re: [PATCH ghak90 V7 06/21] audit: contid limit of 32k imposed to
- avoid DoS
-Message-ID: <20191217195631.3obqll4nf5poe7cz@madcap2.tricolour.ca>
-References: <cover.1568834524.git.rgb@redhat.com>
- <CAHC9VhTrKVQNvTPoX5xdx-TUX_ukpMv2tNFFqLa2Njs17GuQMg@mail.gmail.com>
- <20191217184541.tagssqt4zujbanf6@madcap2.tricolour.ca>
- <2318345.msVmMTmnKu@x2>
+        id S1726536AbfLRHjH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 18 Dec 2019 02:39:07 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:9692 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725955AbfLRHjH (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 18 Dec 2019 02:39:07 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5df9d7780002>; Tue, 17 Dec 2019 23:38:32 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 17 Dec 2019 23:39:01 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 17 Dec 2019 23:39:01 -0800
+Received: from [10.2.165.11] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 18 Dec
+ 2019 07:39:00 +0000
+Subject: Re: [PATCH] move_pages.2: not return ENOENT if the page are already
+ on the target nodes
+To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
+        Yang Shi <yang.shi@linux.alibaba.com>, <cl@linux.com>,
+        <mhocko@suse.com>, <cai@lca.pw>, <akpm@linux-foundation.org>
+CC:     <linux-man@vger.kernel.org>, <linux-api@vger.kernel.org>,
+        <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>
+References: <1575596090-115377-1-git-send-email-yang.shi@linux.alibaba.com>
+ <0dc96e40-5f2b-a2fe-6e5f-b6f3d5e9ebde@nvidia.com>
+ <95170ea5-5b62-9168-fcd9-93b43330a1b4@linux.alibaba.com>
+ <092adc11-7039-9343-7067-0e0199c9dc13@gmail.com>
+From:   John Hubbard <jhubbard@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <51dd767a-221f-882d-c7f6-45bd0c217a67@nvidia.com>
+Date:   Tue, 17 Dec 2019 23:36:09 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2318345.msVmMTmnKu@x2>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <092adc11-7039-9343-7067-0e0199c9dc13@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1576654712; bh=niungb3NWD18TtefGE0yuSB9KQjV5p6gDgvusv9+FwI=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=X354docB+XmzyyqCzg1MdSpZNg566c/6yQnQBXH5PDwsDqnxS9VZosRWzmgFPx1kK
+         pX1HnjmCJkD9oL7TKeuV09T7Yf8gE6nLdUpsLTYrpu07eV086GCwsAKjSGk+y0hWcx
+         8Ovea66u32wFR2tHgg3rr29yuH5rUCAtBe+yB3wkUs7RTh9wVWIZa/E1EjRfSZkfNB
+         hD/jkDZA4NYnmD6j5j9SzmnUsR2NFQrb3S9+Do7VSY7ADTKKcbLqdCJskovWQ9AB4V
+         BmIv8Ne1Kp5QGrKlAUBkcy4/YTMCpMvZA8K659fne+/74Kj7g1Db0JV+woSeQiywsU
+         0tSdJe7cP8yuA==
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2019-12-17 14:25, Steve Grubb wrote:
-> On Tuesday, December 17, 2019 1:45:41 PM EST Richard Guy Briggs wrote:
-> > On 2019-11-08 12:49, Paul Moore wrote:
-> > > On Thu, Oct 24, 2019 at 5:23 PM Richard Guy Briggs <rgb@redhat.com> 
-> wrote:
-> > > > On 2019-10-10 20:38, Paul Moore wrote:
-> > > > > On Fri, Sep 27, 2019 at 8:52 AM Neil Horman <nhorman@tuxdriver.com> 
-> wrote:
-> > > > > > On Wed, Sep 18, 2019 at 09:22:23PM -0400, Richard Guy Briggs wrote:
-> > > > > > > Set an arbitrary limit on the number of audit container
-> > > > > > > identifiers to
-> > > > > > > limit abuse.
-> > > > > > > 
-> > > > > > > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-> > > > > > > ---
-> > > > > > > kernel/audit.c | 8 ++++++++
-> > > > > > > kernel/audit.h | 4 ++++
-> > > > > > > 2 files changed, 12 insertions(+)
-> > > > > > > 
-> > > > > > > diff --git a/kernel/audit.c b/kernel/audit.c
-> > > > > > > index 53d13d638c63..329916534dd2 100644
-> > > > > > > --- a/kernel/audit.c
-> > > > > > > +++ b/kernel/audit.c
-> > > > > 
-> > > > > ...
-> > > > > 
-> > > > > > > @@ -2465,6 +2472,7 @@ int audit_set_contid(struct task_struct
-> > > > > > > *task, u64 contid) newcont->owner = current;
-> > > > > > > refcount_set(&newcont->refcount, 1);
-> > > > > > > list_add_rcu(&newcont->list, &audit_contid_hash[h]);
-> > > > > > > +                             audit_contid_count++;
-> > > > > > > } else {
-> > > > > > > rc = -ENOMEM;
-> > > > > > > goto conterror;
-> > > > > > > diff --git a/kernel/audit.h b/kernel/audit.h
-> > > > > > > index 162de8366b32..543f1334ba47 100644
-> > > > > > > --- a/kernel/audit.h
-> > > > > > > +++ b/kernel/audit.h
-> > > > > > > @@ -219,6 +219,10 @@ static inline int audit_hash_contid(u64
-> > > > > > > contid)
-> > > > > > > return (contid & (AUDIT_CONTID_BUCKETS-1));
-> > > > > > > }
-> > > > > > > 
-> > > > > > > +extern int audit_contid_count;
-> > > > > > > +
-> > > > > > > +#define AUDIT_CONTID_COUNT   1 << 16
-> > > > > > > +
-> > > > > > 
-> > > > > > Just to ask the question, since it wasn't clear in the changelog,
-> > > > > > what
-> > > > > > abuse are you avoiding here?  Ostensibly you should be able to
-> > > > > > create as
-> > > > > > many container ids as you have space for, and the simple creation
-> > > > > > of
-> > > > > > container ids doesn't seem like the resource strain I would be
-> > > > > > concerned
-> > > > > > about here, given that an orchestrator can still create as many
-> > > > > > containers as the system will otherwise allow, which will consume
-> > > > > > significantly more ram/disk/etc.
-> > > > > 
-> > > > > I've got a similar question.  Up to this point in the patchset, there
-> > > > > is a potential issue of hash bucket chain lengths and traversing them
-> > > > > with a spinlock held, but it seems like we shouldn't be putting an
-> > > > > arbitrary limit on audit container IDs unless we have a good reason
-> > > > > for it.  If for some reason we do want to enforce a limit, it should
-> > > > > probably be a tunable value like a sysctl, or similar.
-> > > > 
-> > > > Can you separate and clarify the concerns here?
-> > > 
-> > > "Why are you doing this?" is about as simple as I can pose the question.
-> > 
-> > It was more of a concern for total system resources, primarily memory,
-> > but this is self-limiting and an arbitrary concern.
-> > 
-> > The other limit of depth of nesting has different concerns that arise
-> > depending on how reporting is done.
+On 12/13/19 5:55 PM, Michael Kerrisk (man-pages) wrote:
+...
+>>> whoa, hold on. If I'm reading through the various error paths
+>>> correctly, then this
+>>> code is *never* going to return ENOENT for the whole function. It can
+>>> fill in that
+>>> value per-page, in the status array, but that's all. Did I get that
+>>> right?
+>>
+>> Nice catch. Yes, you are right.
+>>
+>>>
+>>> If so, we need to redo this part of the man page.
+>>
+>> Yes.
 > 
-> Well, there is a limit on the audit record size. So, whatever is being sent 
-> in the record plus the size of the timestamp deducted from 
-> MAX_AUDIT_MESSAGE_LENGTH (8970) is the limit. That can be divided by however 
-> many ID's fit in that space and you have the real limit.
+> So where are things at with this? Is an improved man-pages
+> patch on the way, or is some other action (on the API) planned?
+> 
 
-This will be addressed in the v8 patch set.
+I was waiting to see if Yang was going to respond...anyway, I think
+we're looking at approximately this sort of change:
 
-> -Steve
+diff --git a/man2/move_pages.2 b/man2/move_pages.2
+index 2d96468fa..1bf1053f2 100644
+--- a/man2/move_pages.2
++++ b/man2/move_pages.2
+@@ -191,12 +191,6 @@ was specified or an attempt was made to migrate pages of a kernel thread.
+  .B ENODEV
+  One of the target nodes is not online.
+  .TP
+-.B ENOENT
+-No pages were found that require moving.
+-All pages are either already
+-on the target node, not present, had an invalid address or could not be
+-moved because they were mapped by multiple processes.
+-.TP
+  .B EPERM
+  The caller specified
+  .B MPOL_MF_MOVE_ALL
 
-- RGB
+...But I'm not sure if we should change the implementation, instead, so
+that it *can* return ENOENT. That's the main question to resolve before
+creating any more patches, I think.
 
---
-Richard Guy Briggs <rgb@redhat.com>
-Sr. S/W Engineer, Kernel Security, Base Operating Systems
-Remote, Ottawa, Red Hat Canada
-IRC: rgb, SunRaycer
-Voice: +1.647.777.2635, Internal: (81) 32635
+In addition, Michal mentioned that the page states in the status array also
+need updated documentation.
 
+
+thanks,
+-- 
+John Hubbard
+NVIDIA
