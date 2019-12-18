@@ -2,74 +2,93 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D328124621
-	for <lists+linux-api@lfdr.de>; Wed, 18 Dec 2019 12:51:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 46B6D124B04
+	for <lists+linux-api@lfdr.de>; Wed, 18 Dec 2019 16:13:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726749AbfLRLvg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 18 Dec 2019 06:51:36 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51618 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726718AbfLRLvg (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 18 Dec 2019 06:51:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1576669895;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=H+3DyTzXgGOGS5B/c0k6Rz478MMox0LVeNSfsn2KZ78=;
-        b=B5rlhCC/KLSZxsx67378sqJ4JgQ6uDHmnrmvobhg1bK369tZuD150CD1QPflmTRYJnHulZ
-        FLAxCxTn/c31/SpbW+zfF3MWjWb/FjddZ6zObKizkzHqp8QElbeSFBTh+R/T7xn2zauaiE
-        qUPswrAlDsXTF3k6RTLiFKOX99CVM9A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-232-Iv6odr2hPpa-ePJD_HkXBQ-1; Wed, 18 Dec 2019 06:51:32 -0500
-X-MC-Unique: Iv6odr2hPpa-ePJD_HkXBQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 009F3DB20;
-        Wed, 18 Dec 2019 11:51:31 +0000 (UTC)
-Received: from oldenburg2.str.redhat.com (ovpn-116-248.ams2.redhat.com [10.36.116.248])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 19E585C28D;
-        Wed, 18 Dec 2019 11:51:28 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Dominique Martinet <asmadeus@codewreck.org>
-Cc:     linux-api@vger.kernel.org, libc-alpha@sourceware.org,
-        Quentin Bouget <quentin.bouget@cea.fr>,
-        Jeff Layton <jlayton@kernel.org>,
-        David Howells <dhowells@redhat.com>
-Subject: Re: statx struct's stx_size pointer compatibility with uint64_t/size_t
-References: <87r213aykv.fsf@oldenburg2.str.redhat.com>
-        <20191217152154.GB25518@nautica> <20191217165350.GA10729@nautica>
-Date:   Wed, 18 Dec 2019 12:51:26 +0100
-In-Reply-To: <20191217165350.GA10729@nautica> (Dominique Martinet's message of
-        "Tue, 17 Dec 2019 17:53:50 +0100")
-Message-ID: <87mubp26o1.fsf@oldenburg2.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+        id S1727241AbfLRPNx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 18 Dec 2019 10:13:53 -0500
+Received: from mail-il1-f194.google.com ([209.85.166.194]:35974 "EHLO
+        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727121AbfLRPNx (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 18 Dec 2019 10:13:53 -0500
+Received: by mail-il1-f194.google.com with SMTP id b15so1984583iln.3
+        for <linux-api@vger.kernel.org>; Wed, 18 Dec 2019 07:13:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=R9l9mbjTMtC+3agOxuj88vgGSGUSi1shzIvbtHPQHDA=;
+        b=Q3vp2fJ40VWpq9rX2ikiWTUrhuiQJXzCeUu43e1oIIOk8rzGCPMljco+W3g3Sdt7mK
+         0zMp27lNXT81ott0dYeyE6wCdI4c1wfi5qCqRmoGIMvdtgle/6NMWI0GJrkD30CBojRq
+         hZbdgtbn9F/6uhvfSLkMdN7NhUpQoMVScRn9uDFKZJxofy0MWDF6kZw53YXeVt8sjWjA
+         Dd9TBzj4Ogplv/txGap2r0I252pQP7l7XSY4YOVhZ7qL539zlqhtO9W4mad505PIZ9Xp
+         yYy+XyL34oyC2pvEIWTDP8EMj+Gj6Cu0eHyc7GTPTD7Enq1rjLHU3JyAyX8LQzaLW/WP
+         +a+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=R9l9mbjTMtC+3agOxuj88vgGSGUSi1shzIvbtHPQHDA=;
+        b=dUpWo18MOEvN5ExRJI/aYxF2ysrbUn/8c5fVNkxl7heRxgZ4MnHkqhwn59s6VdJKol
+         Df7SrNAqQLOATlNeoFyPRla2DmzwI8QCR/6Yvh7XOUO2idllpbAx9ScdGXnjPv4DkQVG
+         7TCbjBqGMx1g8DLCGwkVZ08VJu8l0KXC+ELEuBarKvDXMbSSeNnJdgPbHc7I2m0y2hdV
+         rsNiw5ei7/BSY3qvSZQIrBbn/ZOmM1jIXwmVAfnGsszOMshG880l4dQHIMxDPnvbPNzd
+         3W5cMZ2OPM0zwzVekvZwCZpaLm03gJbgpcVqOolB7Vd9CW/Mq00Nvc7/ZX3GKh3jwrwZ
+         smUg==
+X-Gm-Message-State: APjAAAV6zrBaK+VhBzp7fhkK1/QZy3rkL9QN46OGZ2MvfS4iBHZoBQ1w
+        G9c+Ga3M7QPD6yrEkyucf+7IFAaGjvhyxdfIMQ==
+X-Google-Smtp-Source: APXvYqzpDMY1kfzvQTGFYFDuSf5Wkv4RFsY3uCP+mpqq6wLn7kqjCTzLCYufYBbbmMCBsVo5PHwr9dpQEEDI7K8RY00=
+X-Received: by 2002:a92:cc90:: with SMTP id x16mr2363556ilo.269.1576682033220;
+ Wed, 18 Dec 2019 07:13:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Received: by 2002:a02:6603:0:0:0:0:0 with HTTP; Wed, 18 Dec 2019 07:13:52
+ -0800 (PST)
+Reply-To: dhl.expresscourier102156@outlook.fr
+From:   "MS. MARYANNA B. THOMASON" <info.zennitbankplcnigerian@gmail.com>
+Date:   Wed, 18 Dec 2019 16:13:52 +0100
+Message-ID: <CABHzvrnY8Lhdw4Y2q97jvAVrRpM9CVLFkw=Ved7y1GhGqHiAdw@mail.gmail.com>
+Subject: I WANT TO YOU TO TREAT THIS EMAIL VERY URGENT
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Dominique Martinet:
+Attn Dear.
 
-> This makes sense to me to avoid multiplying header files for the
-> different arches, so if anything I would be tempted to ask 'why is
-> stdint.h uint64_t defined with just long'?
+Urgent delivery Notification of your ATM MASTER CARD, Dhl-Benin is
+ready for delivery of your ATM Master card worth $15.800=E2=80=99000=E2=80=
+=9900, as
+approved this morning, Date, 18/12/2019. Through the Intruction from
+INTERNATIONAL MONETARY FUNDS, I.M.F official Directors.
 
-It's not a compiler-provided header.  When it was added to glibc in the
-90s, I don't think long long support was universal among 64-bit
-compilers, and you could not just drop the type (which might have been
-acceptable on 32-bit architectures).
+REGISTRATION NO :EG58945
+PARCEL NUMBER: 140479
+Delivery Schuleded now,
+Finally all we required from you is your ATM Card Proccessing Delivery
+fees $19.00 only which you must send to this DHL service to enable us
+dispatch the parcel to your destination today.
 
-Anyway, looking at this, it looks like we should define struct statx
-with unsigned long long int in our copy instead of uint64_t.  I filed
-bug 25292 to track this.  I guess it's just another thing to keep in
-mind when adding system call support to glibc headers.
+Here is our receiving payment details.
+You are advised to send it Via Money Gram Service.
 
-Thanks,
-Florian
+Receiver's Name--------Alan Ude
+Country-------Benin Republic.
+City/ Address--------Cotonou
+Test Question--------In God
+Answer-------We Trust
+Amount------------$US19.00 only
+Mtcn-------------
+Sender's Name-------
 
+Your delivery  ATM card worth $15.800=E2=80=99000=E2=80=9900,
+Is Due for delivery to your address today upon confirmation of
+required fee from you asap.
+
+Call us on this phone number for any inquiry. +229 62819378
+Awaiting your urgent response.
+
+MS. MARYANNA B. THOMASON, Shipment director, DHL Express
+Courier Company-Benin
