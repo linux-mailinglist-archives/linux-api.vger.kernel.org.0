@@ -2,231 +2,73 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CC73A127D68
-	for <lists+linux-api@lfdr.de>; Fri, 20 Dec 2019 15:37:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BADC127EB0
+	for <lists+linux-api@lfdr.de>; Fri, 20 Dec 2019 15:49:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728049AbfLTOdt convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Fri, 20 Dec 2019 09:33:49 -0500
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:50257 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728265AbfLTOds (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 20 Dec 2019 09:33:48 -0500
-Received: by mail-wm1-f66.google.com with SMTP id a5so9157536wmb.0
-        for <linux-api@vger.kernel.org>; Fri, 20 Dec 2019 06:33:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:user-agent:in-reply-to:references
-         :mime-version:content-transfer-encoding:subject:to:cc:from
-         :message-id;
-        bh=V6peUYVw+8q1XalOpqZ1ayFyqbTEFtfcEYX2FP9pROo=;
-        b=K9lJu7kCJeRsmJ98T1KPiV/HENuh8k7in6UWMHq4cHPBpQ7gkaku1iDlMJknxnVEq4
-         U/1OGD9mwF68xWZFDKHliyKqpxJMxn/x36oEQV0y0w4MFa0c6bdJ+SVuB4p1SPSEvqfP
-         hL/k4C6JvkdQuvceLiivfseLqH3itmMkSn8RPxHkZnHBYYoNvH4tbja41HPko7+tiowq
-         nF1VvatJiMpfs/YfBI4ySuf6YuhWuV0uW8wDno/MgB5kYRStnB9izusGM0d7gAounokD
-         BPbs3emIE6bX26iBMxc5fhoarww2cPV51S4vqokwgfJfo+3HBrJX1VgcmsGFbYIHSoVm
-         S72A==
-X-Gm-Message-State: APjAAAXK5q7xiz2daFOswQrSCMxVDR89gow/ZerwZiFaAtQCAVfx8Ia5
-        tOfL20LWPqAeTO3HNjc2l6908A==
-X-Google-Smtp-Source: APXvYqxVS8YAU3RLQWiNFWWhq3mf++gLHMleVdt7qSTwX9NrqFbPr8TqBrxxQzLMRWsCwz0CaURhTQ==
-X-Received: by 2002:a7b:c851:: with SMTP id c17mr17423248wml.71.1576852426193;
-        Fri, 20 Dec 2019 06:33:46 -0800 (PST)
-Received: from [10.140.78.238] ([46.114.38.238])
-        by smtp.gmail.com with ESMTPSA id l15sm9907506wrv.39.2019.12.20.06.33.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Dec 2019 06:33:43 -0800 (PST)
-Date:   Fri, 20 Dec 2019 15:33:39 +0100
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20191220140328.20907-2-cyphar@cyphar.com>
-References: <20191220140328.20907-1-cyphar@cyphar.com> <20191220140328.20907-2-cyphar@cyphar.com>
+        id S1727459AbfLTOso (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 20 Dec 2019 09:48:44 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:36386 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727749AbfLTOsk (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 20 Dec 2019 09:48:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=AOOOoCg9ol7+3vA6+5XlhPuq3fd9liI3dXnfBk0teUM=; b=bJHiZTizdT/XVFZPIT30O1q2g
+        uZy/EjVxrxU8zVxsdADlO9Tn6J1uYtZdWDQndWSjUkuHWzlD6sP/IZVlgirQ6xugzOWCLiqIbbTIa
+        sBIScHhQdSXqQ24hEMkNbIMFYQ1sJ/I4jah0gL35Z+fhkfC4KtcE3bQ4FMG4tImDvvM7r8NEA896a
+        3TbJh8hwblpFZqhfUjTwSjGcMjN3GxNBih8T6OanSKb4iCifMN5mj3IpqZjLY7tZ3pYIhvKf7apbQ
+        CKVfza83lsNJWyUCWatfuYJ7f/K3UxqxzBRc8nOn8GjwuMsGqHAgogBWg8tqOJMZu7LqT1hJNbCDp
+        X6gr5NnEA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1iiJZt-00057Z-II; Fri, 20 Dec 2019 14:48:29 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id CA508304D00;
+        Fri, 20 Dec 2019 15:47:03 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 950E52026176B; Fri, 20 Dec 2019 15:48:27 +0100 (CET)
+Date:   Fri, 20 Dec 2019 15:48:27 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>, linux-kernel@vger.kernel.org,
+        "Paul E . McKenney" <paulmck@linux.ibm.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH for 5.5 0/3] Restartable Sequences Fixes
+Message-ID: <20191220144827.GJ2844@hirez.programming.kicks-ass.net>
+References: <20191211161713.4490-1-mathieu.desnoyers@efficios.com>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 8BIT
-Subject: Re: [PATCH v2 1/2] openat2: drop open_how->__padding field
-To:     containers@lists.linux-foundation.org,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J. Bruce Fields" <bfields@fieldses.org>,
-        Shuah Khan <shuah@kernel.org>, Arnd Bergmann <arnd@arndb.de>
-CC:     libc-alpha@sourceware.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dev@opencontainers.org,
-        David Laight <david.laight@aculab.com>,
-        linux-kselftest@vger.kernel.org, linux-fsdevel@vger.kernel.org
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-Message-ID: <88F5533A-9C91-41D1-A2E6-3622FCEEEDB1@ubuntu.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191211161713.4490-1-mathieu.desnoyers@efficios.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-[Cc Arnd for struct layout sanity checking]
+On Wed, Dec 11, 2019 at 11:17:10AM -0500, Mathieu Desnoyers wrote:
+> Hi,
+> 
+> Here is a repost of a small set of rseq fixes which was initially posted
+> in September 2019. It now targets kernel 5.5. Those should be backported
+> to stable kernels >= 4.18.
+> 
+> Thanks,
+> 
+> Mathieu
+> 
+> Mathieu Desnoyers (3):
+>   rseq: Fix: Reject unknown flags on rseq unregister
+>   rseq: Fix: Unregister rseq for clone CLONE_VM
+>   rseq/selftests: Fix: Namespace gettid() for compatibility with glibc
+>     2.30
 
-On December 20, 2019 3:03:27 PM GMT+01:00, Aleksa Sarai <cyphar@cyphar.com> wrote:
->The purpose of explicit padding was to allow us to use the space in the
->future (C provides no guarantee about the value of padding bytes and
->thus userspace could've provided garbage).
->
->However, the downside of explicit padding is that any extension we wish
->to add should fit the space exactly (otherwise we may end up with a u16
->which will never be used). In addition, the correct error to return for
->non-zero padding is not clear (-EINVAL doesn't imply "you're using an
->extension field unsupported by this kernel", but -E2BIG seems a bit odd
->if the structure size isn't different).
->
->The simplest solution is to just match the design of clone3(2) -- use
->u64s for all fields. The extra few-bytes cost of extra fields is not
->significant (it's unlikely configuration structs will ever be extremely
->large) and it allows for more flag space if necessary. There is also no
->need to align the u64s because we will not permit any padding in the
->structure.
->
->As openat2(2) is not yet in Linus's tree, we can iron out these minor
->warts before we commit to this as a stable ABI.
->
->Acked-by: Christian Brauner <christian.brauner@ubuntu.com>
->Suggested-by: David Laight <david.laight@aculab.com>
->Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
->---
-> fs/open.c                                     |  2 --
-> include/uapi/linux/fcntl.h                    | 17 +++++++------
-> tools/testing/selftests/openat2/helpers.h     |  7 +++---
-> .../testing/selftests/openat2/openat2_test.c  | 24 +++++++------------
-> 4 files changed, 19 insertions(+), 31 deletions(-)
->
->diff --git a/fs/open.c b/fs/open.c
->index 50a46501bcc9..8cdb2b675867 100644
->--- a/fs/open.c
->+++ b/fs/open.c
->@@ -993,8 +993,6 @@ static inline int build_open_flags(const struct
->open_how *how,
-> 		return -EINVAL;
-> 	if (how->resolve & ~VALID_RESOLVE_FLAGS)
-> 		return -EINVAL;
->-	if (memchr_inv(how->__padding, 0, sizeof(how->__padding)))
->-		return -EINVAL;
-> 
-> 	/* Deal with the mode. */
-> 	if (WILL_CREATE(flags)) {
->diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
->index d886bdb585e4..5aaadfd79dd5 100644
->--- a/include/uapi/linux/fcntl.h
->+++ b/include/uapi/linux/fcntl.h
->@@ -101,22 +101,21 @@
-> #define AT_RECURSIVE		0x8000	/* Apply to the entire subtree */
-> 
-> /*
->- * Arguments for how openat2(2) should open the target path. If
->@resolve is
->- * zero, then openat2(2) operates very similarly to openat(2).
->+ * Arguments for how openat2(2) should open the target path. If only
->@flags and
->+ * @mode are non-zero, then openat2(2) operates very similarly to
->openat(2).
->  *
->- * However, unlike openat(2), unknown bits in @flags result in -EINVAL
->rather
->- * than being silently ignored. @mode must be zero unless one of
->{O_CREAT,
->- * O_TMPFILE} are set.
->+ * However, unlike openat(2), unknown or invalid bits in @flags result
->in
->+ * -EINVAL rather than being silently ignored. @mode must be zero
->unless one of
->+ *  {O_CREAT, O_TMPFILE} are set.
->  *
->  * @flags: O_* flags.
->  * @mode: O_CREAT/O_TMPFILE file mode.
->  * @resolve: RESOLVE_* flags.
->  */
-> struct open_how {
->-	__aligned_u64 flags;
->-	__u16 mode;
->-	__u16 __padding[3]; /* must be zeroed */
->-	__aligned_u64 resolve;
->+	__u64 flags;
->+	__u64 mode;
->+	__u64 resolve;
-> };
-> 
-> #define OPEN_HOW_SIZE_VER0	24 /* sizeof first published struct */
->diff --git a/tools/testing/selftests/openat2/helpers.h
->b/tools/testing/selftests/openat2/helpers.h
->index 43ca5ceab6e3..a6ea27344db2 100644
->--- a/tools/testing/selftests/openat2/helpers.h
->+++ b/tools/testing/selftests/openat2/helpers.h
->@@ -36,10 +36,9 @@
->  * @resolve: RESOLVE_* flags.
->  */
-> struct open_how {
->-	__aligned_u64 flags;
->-	__u16 mode;
->-	__u16 __padding[3]; /* must be zeroed */
->-	__aligned_u64 resolve;
->+	__u64 flags;
->+	__u64 mode;
->+	__u64 resolve;
-> };
-> 
-> #define OPEN_HOW_SIZE_VER0	24 /* sizeof first published struct */
->diff --git a/tools/testing/selftests/openat2/openat2_test.c
->b/tools/testing/selftests/openat2/openat2_test.c
->index 0b64fedc008b..b386367c606b 100644
->--- a/tools/testing/selftests/openat2/openat2_test.c
->+++ b/tools/testing/selftests/openat2/openat2_test.c
->@@ -40,7 +40,7 @@ struct struct_test {
-> 	int err;
-> };
-> 
->-#define NUM_OPENAT2_STRUCT_TESTS 10
->+#define NUM_OPENAT2_STRUCT_TESTS 7
-> #define NUM_OPENAT2_STRUCT_VARIATIONS 13
-> 
-> void test_openat2_struct(void)
->@@ -57,20 +57,6 @@ void test_openat2_struct(void)
-> 		  .arg.inner.flags = O_RDONLY,
-> 		  .size = sizeof(struct open_how_ext) },
-> 
->-		/* Normal struct with broken padding. */
->-		{ .name = "normal struct (non-zero padding[0])",
->-		  .arg.inner.flags = O_RDONLY,
->-		  .arg.inner.__padding = {0xa0, 0x00, 0x00},
->-		  .size = sizeof(struct open_how_ext), .err = -EINVAL },
->-		{ .name = "normal struct (non-zero padding[1])",
->-		  .arg.inner.flags = O_RDONLY,
->-		  .arg.inner.__padding = {0x00, 0x1a, 0x00},
->-		  .size = sizeof(struct open_how_ext), .err = -EINVAL },
->-		{ .name = "normal struct (non-zero padding[2])",
->-		  .arg.inner.flags = O_RDONLY,
->-		  .arg.inner.__padding = {0x00, 0x00, 0xef},
->-		  .size = sizeof(struct open_how_ext), .err = -EINVAL },
->-
-> 		/* TODO: Once expanded, check zero-padding. */
-> 
-> 		/* Smaller than version-0 struct. */
->@@ -169,7 +155,7 @@ struct flag_test {
-> 	int err;
-> };
-> 
->-#define NUM_OPENAT2_FLAG_TESTS 21
->+#define NUM_OPENAT2_FLAG_TESTS 23
-> 
-> void test_openat2_flags(void)
-> {
->@@ -214,9 +200,15 @@ void test_openat2_flags(void)
-> 		{ .name = "invalid how.mode and O_CREAT",
-> 		  .how.flags = O_CREAT,
-> 		  .how.mode = 0xFFFF, .err = -EINVAL },
->+		{ .name = "invalid (very large) how.mode and O_CREAT",
->+		  .how.flags = O_CREAT,
->+		  .how.mode = 0xC000000000000000ULL, .err = -EINVAL },
-> 		{ .name = "invalid how.mode and O_TMPFILE",
-> 		  .how.flags = O_TMPFILE | O_RDWR,
-> 		  .how.mode = 0x1337, .err = -EINVAL },
->+		{ .name = "invalid (very large) how.mode and O_TMPFILE",
->+		  .how.flags = O_TMPFILE | O_RDWR,
->+		  .how.mode = 0x0000A00000000000ULL, .err = -EINVAL },
-> 
-> 		/* ->resolve must only contain RESOLVE_* flags. */
-> 		{ .name = "invalid how.resolve and O_RDONLY",
-
+I've picked up the first two patches, thanks!
