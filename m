@@ -2,117 +2,82 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 11F7F1274B9
-	for <lists+linux-api@lfdr.de>; Fri, 20 Dec 2019 05:35:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 01BBA12751E
+	for <lists+linux-api@lfdr.de>; Fri, 20 Dec 2019 06:22:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727140AbfLTEfa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 19 Dec 2019 23:35:30 -0500
-Received: from mout-p-201.mailbox.org ([80.241.56.171]:18280 "EHLO
-        mout-p-201.mailbox.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726986AbfLTEfa (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 19 Dec 2019 23:35:30 -0500
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:105:465:1:1:0])
-        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
-        (No client certificate requested)
-        by mout-p-201.mailbox.org (Postfix) with ESMTPS id 47fGBk2v34zQjm6;
-        Fri, 20 Dec 2019 05:35:26 +0100 (CET)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp1.mailbox.org ([80.241.60.240])
-        by spamfilter06.heinlein-hosting.de (spamfilter06.heinlein-hosting.de [80.241.56.125]) (amavisd-new, port 10030)
-        with ESMTP id 5BE2jh93RM9y; Fri, 20 Dec 2019 05:35:22 +0100 (CET)
-Date:   Fri, 20 Dec 2019 15:35:10 +1100
-From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     Sargun Dhillon <sargun@sargun.me>
-Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
-        Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
-        Tycho Andersen <tycho@tycho.ws>, Jann Horn <jannh@google.com>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Gian-Carlo Pascutto <gpascutto@mozilla.com>,
-        Emilio Cobos =?utf-8?Q?=C3=81lvarez?= <ealvarez@mozilla.com>,
-        Jed Davis <jld@mozilla.com>
+        id S1725941AbfLTFWC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 20 Dec 2019 00:22:02 -0500
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:46461 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725977AbfLTFWB (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 20 Dec 2019 00:22:01 -0500
+Received: by mail-ed1-f66.google.com with SMTP id m8so7065515edi.13
+        for <linux-api@vger.kernel.org>; Thu, 19 Dec 2019 21:22:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sargun.me; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=c2KTmXeXeXMiud96l6nUg2edTQgCxfxouifxscVRf0g=;
+        b=WNGXalv6wGknAwomwUwaovAuPTvIQk7Xl9TqqlQvmj1rGqrkoFkmOPGli//9tqbPOv
+         bC0y5Bs/3eANQWEqTALhW5Dku73NB5ieBnYuYxc1jUL3Zr8Uqy/gnWwYBGWtxLUJLsqD
+         Tp7EfFzYyAQ8cd9J2+BJ9gPXs0uV9dWqQzzK8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=c2KTmXeXeXMiud96l6nUg2edTQgCxfxouifxscVRf0g=;
+        b=HuFE3j2B2hm0JE/pexkZhdMw0aBYiC6gKOuwh306VRx5+mUhkRihH49sTT34BmfO8t
+         66BaAAAc7opzAiZSAHwHKraGyKX3L8oqt9mFCh3fza9asTgUJCj06g0xHPaerBg1CqLd
+         mAYAcOEY68mAe+FGqrP20AoxDCJLPtBIzEMF63mb4FFNDkhYAF/NrD6dOQ3BSVn6d6E6
+         lWsUx1ruEN/V9S4VKMUPE/O0Nn2RhAu92Qd/TL5ZUf+cZrvSI20Dvv6a7/FTu8SyubB/
+         n8Um6GO2Kg2cBuzbIVI0/psGU7Ry+n+xSjzWu+c2JUBYMFOh4TNPLTi06SJ9T1jyOpzg
+         FHfw==
+X-Gm-Message-State: APjAAAU7j3pMvk9fTo7sJfQeCjssl8H15vfD4xvBImx8cEYG2WqAF4rA
+        Lmc0NxNeJd9vBMKCqGj8ucES7RmGAMJp8hTVf8mzLw==
+X-Google-Smtp-Source: APXvYqzEMj7wR7jQmLsuZlyg4/9OOkLUmtqWJIdzbQ1FdkEnv81xGqzaY4T0ckwcnUBu1qoHgE7EBOXhUrhFb4u6MaM=
+X-Received: by 2002:a17:906:4f93:: with SMTP id o19mr13905879eju.52.1576819319133;
+ Thu, 19 Dec 2019 21:21:59 -0800 (PST)
+MIME-Version: 1.0
+References: <20191218235459.GA17271@ircssh-2.c.rugged-nimbus-611.internal> <CALCETrUK-SHA=sOUrBscpf+Bpxxff2L3RpXEaAfRHNnHGxa-LQ@mail.gmail.com>
+In-Reply-To: <CALCETrUK-SHA=sOUrBscpf+Bpxxff2L3RpXEaAfRHNnHGxa-LQ@mail.gmail.com>
+From:   Sargun Dhillon <sargun@sargun.me>
+Date:   Thu, 19 Dec 2019 21:21:23 -0800
+Message-ID: <CAMp4zn9R3XoV=xLi9y0vn-DotUQGRFA8Cp14aYYvkVYEUuW48w@mail.gmail.com>
 Subject: Re: [PATCH v4 2/5] pid: Add PIDFD_IOCTL_GETFD to fetch file
  descriptors from processes
-Message-ID: <20191220043510.r5h6wvsp2p5glyjv@yavin.dot.cyphar.com>
-References: <20191218235459.GA17271@ircssh-2.c.rugged-nimbus-611.internal>
- <CAK8P3a2eT=bHkUamyp-P3Y2adNq1KBk7UknCYBY5_aR4zJmYaQ@mail.gmail.com>
- <20191219103525.yqb5f4pbd2dvztkb@wittgenstein>
- <CAMp4zn_z-CCQYMpT=GjZeGVLobjHBCSbmfha1rtWdmptOQ8JtA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="nmgp7ksjzcrpo6tt"
-Content-Disposition: inline
-In-Reply-To: <CAMp4zn_z-CCQYMpT=GjZeGVLobjHBCSbmfha1rtWdmptOQ8JtA@mail.gmail.com>
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Linux Containers <containers@lists.linux-foundation.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        Tycho Andersen <tycho@tycho.ws>, Jann Horn <jannh@google.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Gian-Carlo Pascutto <gpascutto@mozilla.com>,
+        =?UTF-8?Q?Emilio_Cobos_=C3=81lvarez?= <ealvarez@mozilla.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Jed Davis <jld@mozilla.com>, Arnd Bergmann <arnd@arndb.de>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Thu, Dec 19, 2019 at 5:43 PM Andy Lutomirski <luto@kernel.org> wrote:
+>
+>
+> I don't think this is MODE_READ.  By copying an fd from the task, you
+> can easily change its state.
+Would PTRACE_MODE_ATTACH_REALCREDS  work? I'm curious what
+kind of state change you can cause by borrowing an FD?
 
---nmgp7ksjzcrpo6tt
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On 2019-12-19, Sargun Dhillon <sargun@sargun.me> wrote:
-> On Thu, Dec 19, 2019 at 2:35 AM Christian Brauner
-> <christian.brauner@ubuntu.com> wrote:
-> > I guess this is the remaining question we should settle, i.e. what do we
-> > prefer.
-> > I still think that adding a new syscall for this seems a bit rich. On
-> > the other hand it seems that a lot more people agree that using a
-> > dedicated syscall instead of an ioctl is the correct way; especially
-> > when it touches core kernel functionality. I mean that was one of the
-> > takeaways from the pidfd API ioctl-vs-syscall discussion.
-> >
-> > A syscall is nicer especially for core-kernel code like this.
-> > So I guess the only way to find out is to try the syscall approach and
-> > either get yelled and switch to an ioctl() or have it accepted.
-> >
-> > What does everyone else think? Arnd, still in favor of a syscall I take
-> > it. Oleg, you had suggested a syscall too, right? Florian, any
-> > thoughts/worries on/about this from the glibc side?
-> >
-> > Christian
->=20
-> My feelings towards this are that syscalls might pose a problem if we
-> ever want to extend this API. Of course we can have a reserved
-> "flags" field, and populate it later, but what if we turn out to need
-> a proper struct? I already know we're going to want to add one
-> around cgroup metadata (net_cls), and likely we'll want to add
-> a "steal" flag as well. As Arnd mentioned earlier, this is trivial to
-> fix in a traditional ioctl environment, as ioctls are "cheap". How
-> do we feel about potentially adding a pidfd_getfd2? Or are we
-> confident that reserved flags will save us?
-
-If we end up making this a syscall, then we can re-use the
-copy_struct_from_user() API to make it both extensible and compatible in
-both directions. I wasn't aware that this was frowned upon for ioctls
-(sorry for the extra work) but there are several syscalls which use this
-model for extendability (clone3, openat2, sched_setattr,
-perf_events_open) so there shouldn't be any such complaints for a
-syscall which is extensible.
-
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-<https://www.cyphar.com/>
-
---nmgp7ksjzcrpo6tt
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCXfxPewAKCRCdlLljIbnQ
-ElNGAP0QzHxTfcWUIyKQwziyZ7SKPlC5ve6y0476CjvwfTG0mQD+JDR19gzaS69O
-MYDK8035BURwBnELBe2PceZHzjVhlAQ=
-=Kwh+
------END PGP SIGNATURE-----
-
---nmgp7ksjzcrpo6tt--
+>
+> IMO it would be really nice if pidfd could act more like a capability
+> here and carry a ptrace mode, for example.  But I guess it doesn't
+> right now.
+>
+>
+> --Andy
