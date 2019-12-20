@@ -2,101 +2,117 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BA5E31272FB
-	for <lists+linux-api@lfdr.de>; Fri, 20 Dec 2019 02:44:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 11F7F1274B9
+	for <lists+linux-api@lfdr.de>; Fri, 20 Dec 2019 05:35:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727205AbfLTBox (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 19 Dec 2019 20:44:53 -0500
-Received: from mail-il1-f193.google.com ([209.85.166.193]:40395 "EHLO
-        mail-il1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727084AbfLTBox (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 19 Dec 2019 20:44:53 -0500
-Received: by mail-il1-f193.google.com with SMTP id c4so6569778ilo.7
-        for <linux-api@vger.kernel.org>; Thu, 19 Dec 2019 17:44:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Ciw9vnVRcCYA+dSWsjs9iKvgTzFY8MfcjiTwjE8ubrY=;
-        b=WKW3KpTVos12BAwj/V5uXYViT99udWZI5Qju0fvw7OyrPLdZFmCDi6fpypjaF5A9lB
-         4GG5jOHe2NkwiStyKSaZ2482/hdeTjcREI7YzLAZxK4h94IGvbDcwVlgQttM57Bgbd1L
-         HuOTnhAYDkMKMFAYYVARxSAjbKIMZyR9z4F2g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Ciw9vnVRcCYA+dSWsjs9iKvgTzFY8MfcjiTwjE8ubrY=;
-        b=QfZiDYwaxZjUNlleVnPGP2kaHjAFHVE1UOTp1JtgwnkkaoA6DfTm3isPJLsDk0WFoi
-         ahbzKZGLEws6ZQEF9CSrsB0QYDcOIUIbBunkyg3bag1BoVdXwdr/0QZYQDCsiljr+SU9
-         5BbIlJdNRH+w/SU7lwM3E+9y1FhrCjU8IPkc4/iKLd81c/gCawz+b6ooA7GgxX2PhlpC
-         z1pgxLd704GUpb23M5Ltl8aTBcB2IOeOaC6bll9wsY8StlsRSUnWGHY7PfV/WlBy8mjB
-         IWLXndEgnx9hdhRKkkMQrlOpO9znWj18yl2Oy+/8Kui20ytqFcvIkHNkgwqUrxVYHM6Z
-         /8lg==
-X-Gm-Message-State: APjAAAXPANBde5f9FB5aZ3/gbEpdPQq1X0JULEp4nPqb8EGKrbcBMrGY
-        PNedHistgwTk1KC2MrMzLMNB+g==
-X-Google-Smtp-Source: APXvYqyO7gK9bPbl1xPhiRENbYQpzrOYfrdTD+C7OW15O8C5CpjNXXBeffVyjicqesLTQDD/c+otiw==
-X-Received: by 2002:a92:3bc7:: with SMTP id n68mr10396531ilh.84.1576806292793;
-        Thu, 19 Dec 2019 17:44:52 -0800 (PST)
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id 141sm3549593ile.44.2019.12.19.17.44.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Dec 2019 17:44:52 -0800 (PST)
-Subject: Re: [PATCH for 5.5 3/3] rseq/selftests: Fix: Namespace gettid() for
- compatibility with glibc 2.30
-To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Thomas Gleixner <tglx@linutronix.de>
-Cc:     linux-kernel@vger.kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Paul E . McKenney" <paulmck@linux.ibm.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
-        linux-api@vger.kernel.org, stable@vger.kernel.org,
-        "Tommi T . Rantala" <tommi.t.rantala@nokia.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <20191211161713.4490-1-mathieu.desnoyers@efficios.com>
- <20191211161713.4490-4-mathieu.desnoyers@efficios.com>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <166a5ea8-65e8-2c8b-12ce-4cc7d8a77a74@linuxfoundation.org>
-Date:   Thu, 19 Dec 2019 18:44:51 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        id S1727140AbfLTEfa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 19 Dec 2019 23:35:30 -0500
+Received: from mout-p-201.mailbox.org ([80.241.56.171]:18280 "EHLO
+        mout-p-201.mailbox.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726986AbfLTEfa (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 19 Dec 2019 23:35:30 -0500
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:105:465:1:1:0])
+        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
+        (No client certificate requested)
+        by mout-p-201.mailbox.org (Postfix) with ESMTPS id 47fGBk2v34zQjm6;
+        Fri, 20 Dec 2019 05:35:26 +0100 (CET)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from smtp1.mailbox.org ([80.241.60.240])
+        by spamfilter06.heinlein-hosting.de (spamfilter06.heinlein-hosting.de [80.241.56.125]) (amavisd-new, port 10030)
+        with ESMTP id 5BE2jh93RM9y; Fri, 20 Dec 2019 05:35:22 +0100 (CET)
+Date:   Fri, 20 Dec 2019 15:35:10 +1100
+From:   Aleksa Sarai <cyphar@cyphar.com>
+To:     Sargun Dhillon <sargun@sargun.me>
+Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
+        Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux Containers <containers@lists.linux-foundation.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
+        Tycho Andersen <tycho@tycho.ws>, Jann Horn <jannh@google.com>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Gian-Carlo Pascutto <gpascutto@mozilla.com>,
+        Emilio Cobos =?utf-8?Q?=C3=81lvarez?= <ealvarez@mozilla.com>,
+        Jed Davis <jld@mozilla.com>
+Subject: Re: [PATCH v4 2/5] pid: Add PIDFD_IOCTL_GETFD to fetch file
+ descriptors from processes
+Message-ID: <20191220043510.r5h6wvsp2p5glyjv@yavin.dot.cyphar.com>
+References: <20191218235459.GA17271@ircssh-2.c.rugged-nimbus-611.internal>
+ <CAK8P3a2eT=bHkUamyp-P3Y2adNq1KBk7UknCYBY5_aR4zJmYaQ@mail.gmail.com>
+ <20191219103525.yqb5f4pbd2dvztkb@wittgenstein>
+ <CAMp4zn_z-CCQYMpT=GjZeGVLobjHBCSbmfha1rtWdmptOQ8JtA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20191211161713.4490-4-mathieu.desnoyers@efficios.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="nmgp7ksjzcrpo6tt"
+Content-Disposition: inline
+In-Reply-To: <CAMp4zn_z-CCQYMpT=GjZeGVLobjHBCSbmfha1rtWdmptOQ8JtA@mail.gmail.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 12/11/19 9:17 AM, Mathieu Desnoyers wrote:
-> glibc 2.30 introduces gettid() in public headers, which clashes with
-> the internal static definition within rseq selftests.
-> 
-> Rename gettid() to rseq_gettid() to eliminate this symbol name clash.
-> 
-> Reported-by: Tommi T. Rantala <tommi.t.rantala@nokia.com>
-> Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-> Cc: Shuah Khan <skhan@linuxfoundation.org>
-> Cc: Tommi T. Rantala <tommi.t.rantala@nokia.com>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Peter Zijlstra (Intel) <peterz@infradead.org>
-> Cc: "Paul E. McKenney" <paulmck@linux.ibm.com>
-> Cc: Boqun Feng <boqun.feng@gmail.com>
-> Cc: "H . Peter Anvin" <hpa@zytor.com>
-> Cc: Paul Turner <pjt@google.com>
-> Cc: Dmitry Vyukov <dvyukov@google.com>
-> Cc: <stable@vger.kernel.org>	# v4.18+
-> ---
->   tools/testing/selftests/rseq/param_test.c | 18 ++++++++++--------
 
+--nmgp7ksjzcrpo6tt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I am pulling this patch in for Linux 5.5-rc4.
+On 2019-12-19, Sargun Dhillon <sargun@sargun.me> wrote:
+> On Thu, Dec 19, 2019 at 2:35 AM Christian Brauner
+> <christian.brauner@ubuntu.com> wrote:
+> > I guess this is the remaining question we should settle, i.e. what do we
+> > prefer.
+> > I still think that adding a new syscall for this seems a bit rich. On
+> > the other hand it seems that a lot more people agree that using a
+> > dedicated syscall instead of an ioctl is the correct way; especially
+> > when it touches core kernel functionality. I mean that was one of the
+> > takeaways from the pidfd API ioctl-vs-syscall discussion.
+> >
+> > A syscall is nicer especially for core-kernel code like this.
+> > So I guess the only way to find out is to try the syscall approach and
+> > either get yelled and switch to an ioctl() or have it accepted.
+> >
+> > What does everyone else think? Arnd, still in favor of a syscall I take
+> > it. Oleg, you had suggested a syscall too, right? Florian, any
+> > thoughts/worries on/about this from the glibc side?
+> >
+> > Christian
+>=20
+> My feelings towards this are that syscalls might pose a problem if we
+> ever want to extend this API. Of course we can have a reserved
+> "flags" field, and populate it later, but what if we turn out to need
+> a proper struct? I already know we're going to want to add one
+> around cgroup metadata (net_cls), and likely we'll want to add
+> a "steal" flag as well. As Arnd mentioned earlier, this is trivial to
+> fix in a traditional ioctl environment, as ioctls are "cheap". How
+> do we feel about potentially adding a pidfd_getfd2? Or are we
+> confident that reserved flags will save us?
 
-Let me know if you have any objections.
+If we end up making this a syscall, then we can re-use the
+copy_struct_from_user() API to make it both extensible and compatible in
+both directions. I wasn't aware that this was frowned upon for ioctls
+(sorry for the extra work) but there are several syscalls which use this
+model for extendability (clone3, openat2, sched_setattr,
+perf_events_open) so there shouldn't be any such complaints for a
+syscall which is extensible.
 
-thanks,
--- Shuah
+--=20
+Aleksa Sarai
+Senior Software Engineer (Containers)
+SUSE Linux GmbH
+<https://www.cyphar.com/>
+
+--nmgp7ksjzcrpo6tt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCXfxPewAKCRCdlLljIbnQ
+ElNGAP0QzHxTfcWUIyKQwziyZ7SKPlC5ve6y0476CjvwfTG0mQD+JDR19gzaS69O
+MYDK8035BURwBnELBe2PceZHzjVhlAQ=
+=Kwh+
+-----END PGP SIGNATURE-----
+
+--nmgp7ksjzcrpo6tt--
