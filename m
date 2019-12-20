@@ -2,75 +2,103 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DC5B1272F4
-	for <lists+linux-api@lfdr.de>; Fri, 20 Dec 2019 02:43:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 37D0A1272F8
+	for <lists+linux-api@lfdr.de>; Fri, 20 Dec 2019 02:44:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727270AbfLTBne (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 19 Dec 2019 20:43:34 -0500
-Received: from mail.kernel.org ([198.145.29.99]:48314 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727006AbfLTBnb (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 19 Dec 2019 20:43:31 -0500
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3D1D124684
-        for <linux-api@vger.kernel.org>; Fri, 20 Dec 2019 01:43:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576806210;
-        bh=9ejuSSpwcIgoC1vtIrf1QW8XeawMCi6i1EBo5T44lto=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=JfMhr7V0wOAkVFs2SKNvA7dd8/uf8OvCUvrPu/E+fvrZWV1YEq9FzyAehZ+V7GmVI
-         UlDMYIVSnn+r6U8JIGwm7D889lEyw6cFQYiyhDwj9OfXz1LegMVJfzUMzMjhhP/AVL
-         ASF5a8ihUb8caQAHihcy7CgZW+qF+n8kOPLeWFds=
-Received: by mail-wr1-f44.google.com with SMTP id q6so7827506wro.9
-        for <linux-api@vger.kernel.org>; Thu, 19 Dec 2019 17:43:30 -0800 (PST)
-X-Gm-Message-State: APjAAAUBmYMG6BPKMYiFKAQZcEgjScYXAkX7/CxmIEtEasuM4WJLM/3d
-        mYfTaty845w5dwU1dSnw2oK+F2yP8uD24eCk1pZXdA==
-X-Google-Smtp-Source: APXvYqw3HP/VhP6dKqWKDMvRB9Y+Ln/rjo5DtmsDHh8oLRC1zCVOr/TQ6d9paG0FxgM7qE2ND0+e7f4/JMUkGjTDBL4=
-X-Received: by 2002:adf:eb09:: with SMTP id s9mr12892287wrn.61.1576806208779;
- Thu, 19 Dec 2019 17:43:28 -0800 (PST)
+        id S1727125AbfLTBos (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 19 Dec 2019 20:44:48 -0500
+Received: from mail-io1-f65.google.com ([209.85.166.65]:39330 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727006AbfLTBos (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 19 Dec 2019 20:44:48 -0500
+Received: by mail-io1-f65.google.com with SMTP id c16so6395100ioh.6
+        for <linux-api@vger.kernel.org>; Thu, 19 Dec 2019 17:44:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=WEwk0J0BmZw6m3cUGWGohPOAXpqKE+sp6lfv0aKYwSA=;
+        b=BCEJG8Pnn7zRX2hVFrKBtfEvBy5FVy2pKsPDlJnMqBSlW3lSfVWwGWGY/XWUBLf7cy
+         oZ2UA3E3wReM6h6V3zBhiSta/C/LGav3Lt5hP+XeEzziKgLA3q3V2wxhT7Am0giAvLAC
+         nvN8M8xCJ+cSfarEHrjp8Nzb9OlHrjswjB4JE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=WEwk0J0BmZw6m3cUGWGohPOAXpqKE+sp6lfv0aKYwSA=;
+        b=oiUH4fj8QtP8s7/hEeV13lUrNHfh0sV55U1ZR75Dp0985mIazsQR2OgJO6xcUsJEFC
+         VMez/oCWH8XHVRjOVvFqLOwkMFxrgYzI09IsjCroZzQoULaP4GVn3niCNd9znE3kEN04
+         ChPGfEVDCM7hfkeD/O3s+RE/lmTgjmI1C1VPMPAEoy2O8gNZNOMO6y7WVYb//eHE+0ty
+         x+zjz7Otqq9cpw7w3rN8FnjbC99iPet6qlQfgxliNLW3t+4BaiWC2zsTVIRVG+Py2hDc
+         pkMKnO2RyeMWb07GgptbtDDEFGCp3iLI8QtJHcibqGTiBfH4zkRlzYLVo6PZgrxWsovb
+         fwMg==
+X-Gm-Message-State: APjAAAUUtJtBQUPHVh3C1J5Iq1LjweLXyer8fm209uhMZaiOuWr1Tz+C
+        xe1wMW7objVTyfyVocoqCy6YMg==
+X-Google-Smtp-Source: APXvYqyY3jEL4NiI53AQszGHY3N9Ba44JmALN8fmmooTeX1dfVOwzufANLzAhloEAhLvM+j/gVZNYw==
+X-Received: by 2002:a6b:c007:: with SMTP id q7mr7896221iof.58.1576806287673;
+        Thu, 19 Dec 2019 17:44:47 -0800 (PST)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id z15sm3514958ill.20.2019.12.19.17.44.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Dec 2019 17:44:46 -0800 (PST)
+Subject: Re: [PATCH for 5.5 1/1] rseq/selftests: Turn off timeout setting
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Thomas Gleixner <tglx@linutronix.de>
+Cc:     linux-kernel@vger.kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Paul E . McKenney" <paulmck@linux.ibm.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api@vger.kernel.org, stable@vger.kernel.org,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <20191211162857.11354-1-mathieu.desnoyers@efficios.com>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <f8f04858-ff13-8ec3-0249-8c864fad406a@linuxfoundation.org>
+Date:   Thu, 19 Dec 2019 18:44:45 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-References: <20191218235459.GA17271@ircssh-2.c.rugged-nimbus-611.internal>
-In-Reply-To: <20191218235459.GA17271@ircssh-2.c.rugged-nimbus-611.internal>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Thu, 19 Dec 2019 17:43:17 -0800
-X-Gmail-Original-Message-ID: <CALCETrUK-SHA=sOUrBscpf+Bpxxff2L3RpXEaAfRHNnHGxa-LQ@mail.gmail.com>
-Message-ID: <CALCETrUK-SHA=sOUrBscpf+Bpxxff2L3RpXEaAfRHNnHGxa-LQ@mail.gmail.com>
-Subject: Re: [PATCH v4 2/5] pid: Add PIDFD_IOCTL_GETFD to fetch file
- descriptors from processes
-To:     Sargun Dhillon <sargun@sargun.me>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        Tycho Andersen <tycho@tycho.ws>, Jann Horn <jannh@google.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Al Viro <viro@zeniv.linux.org.uk>, gpascutto@mozilla.com,
-        ealvarez@mozilla.com, Florian Weimer <fweimer@redhat.com>,
-        jld@mozilla.com, Arnd Bergmann <arnd@arndb.de>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20191211162857.11354-1-mathieu.desnoyers@efficios.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Dec 18, 2019 at 3:55 PM Sargun Dhillon <sargun@sargun.me> wrote:
->
-> +
-> +       if (!ptrace_may_access(task, PTRACE_MODE_READ_REALCREDS)) {
-> +               file = ERR_PTR(-EPERM);
-> +               goto out;
-> +       }
+On 12/11/19 9:28 AM, Mathieu Desnoyers wrote:
+> As the rseq selftests can run for a long period of time, disable the
+> timeout that the general selftests have.
+> 
+> Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Peter Zijlstra (Intel) <peterz@infradead.org>
+> Cc: "Paul E. McKenney" <paulmck@linux.ibm.com>
+> Cc: Boqun Feng <boqun.feng@gmail.com>
+> Cc: "H . Peter Anvin" <hpa@zytor.com>
+> Cc: Paul Turner <pjt@google.com>
+> Cc: Dmitry Vyukov <dvyukov@google.com>
+> ---
+>   tools/testing/selftests/rseq/settings | 1 +
+>   1 file changed, 1 insertion(+)
+>   create mode 100644 tools/testing/selftests/rseq/settings
+> 
+> diff --git a/tools/testing/selftests/rseq/settings b/tools/testing/selftests/rseq/settings
+> new file mode 100644
+> index 000000000000..e7b9417537fb
+> --- /dev/null
+> +++ b/tools/testing/selftests/rseq/settings
+> @@ -0,0 +1 @@
+> +timeout=0
+> 
 
-I don't think this is MODE_READ.  By copying an fd from the task, you
-can easily change its state.
+I am pulling this patch in for Linux 5.5-rc4.
 
-IMO it would be really nice if pidfd could act more like a capability
-here and carry a ptrace mode, for example.  But I guess it doesn't
-right now.
+Let me know if you have any objections.
 
-
---Andy
+thanks,
+-- Shuah
