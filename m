@@ -2,73 +2,108 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BADC127EB0
-	for <lists+linux-api@lfdr.de>; Fri, 20 Dec 2019 15:49:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 73CBD128310
+	for <lists+linux-api@lfdr.de>; Fri, 20 Dec 2019 21:12:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727459AbfLTOso (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 20 Dec 2019 09:48:44 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:36386 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727749AbfLTOsk (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 20 Dec 2019 09:48:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=AOOOoCg9ol7+3vA6+5XlhPuq3fd9liI3dXnfBk0teUM=; b=bJHiZTizdT/XVFZPIT30O1q2g
-        uZy/EjVxrxU8zVxsdADlO9Tn6J1uYtZdWDQndWSjUkuHWzlD6sP/IZVlgirQ6xugzOWCLiqIbbTIa
-        sBIScHhQdSXqQ24hEMkNbIMFYQ1sJ/I4jah0gL35Z+fhkfC4KtcE3bQ4FMG4tImDvvM7r8NEA896a
-        3TbJh8hwblpFZqhfUjTwSjGcMjN3GxNBih8T6OanSKb4iCifMN5mj3IpqZjLY7tZ3pYIhvKf7apbQ
-        CKVfza83lsNJWyUCWatfuYJ7f/K3UxqxzBRc8nOn8GjwuMsGqHAgogBWg8tqOJMZu7LqT1hJNbCDp
-        X6gr5NnEA==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iiJZt-00057Z-II; Fri, 20 Dec 2019 14:48:29 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id CA508304D00;
-        Fri, 20 Dec 2019 15:47:03 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 950E52026176B; Fri, 20 Dec 2019 15:48:27 +0100 (CET)
-Date:   Fri, 20 Dec 2019 15:48:27 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>, linux-kernel@vger.kernel.org,
+        id S1727504AbfLTUMT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 20 Dec 2019 15:12:19 -0500
+Received: from mail.efficios.com ([167.114.142.138]:55104 "EHLO
+        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727394AbfLTUMT (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 20 Dec 2019 15:12:19 -0500
+Received: from localhost (ip6-localhost [IPv6:::1])
+        by mail.efficios.com (Postfix) with ESMTP id A616A68FA9A;
+        Fri, 20 Dec 2019 15:12:17 -0500 (EST)
+Received: from mail.efficios.com ([IPv6:::1])
+        by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10032)
+        with ESMTP id yqE96adCoYLl; Fri, 20 Dec 2019 15:12:17 -0500 (EST)
+Received: from localhost (ip6-localhost [IPv6:::1])
+        by mail.efficios.com (Postfix) with ESMTP id 1C18A68FA97;
+        Fri, 20 Dec 2019 15:12:17 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 1C18A68FA97
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+        s=default; t=1576872737;
+        bh=980W3whSRgBeVIaqMTIFKJArmeV0Zx+uhmhhz5FKa8s=;
+        h=From:To:Date:Message-Id;
+        b=kIXRicsU3ZmQ2ebkOvSyMn7uOcWZVbX6npx4UZHYpc5L4YiLfNpivw3Eqt+tp7Efj
+         6GbXUD4B3HIKkr1M8kkUUpBRfE1cS73+PUUKsegA403F6whWiCD4OBk7yp963G7gXK
+         O9dSwqCyiyxQuLKLruPrathlMnWNgag+aTHqT+BOvnwC9tm43BwcmpNzV4WzRCL/zk
+         l8qxRd/cXn5zuJZQEN6NlJToiqFGe3w0AhiAXmYFrTc1nx9ZqyvkYqShAIjI0jrX7+
+         F7RFTg204Ob1H//lfNTnwxxNF5HzFMs50x7u+Kqpt2fUwyPeuO4vQIBXw4LtoBka4k
+         DfU1pOpQYZSew==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([IPv6:::1])
+        by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10026)
+        with ESMTP id S8tKXA6YpzEL; Fri, 20 Dec 2019 15:12:17 -0500 (EST)
+Received: from localhost.localdomain (192-222-181-218.qc.cable.ebox.net [192.222.181.218])
+        by mail.efficios.com (Postfix) with ESMTPSA id BFE6068FA91;
+        Fri, 20 Dec 2019 15:12:16 -0500 (EST)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     linux-kernel@vger.kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
         "Paul E . McKenney" <paulmck@linux.ibm.com>,
         Boqun Feng <boqun.feng@gmail.com>,
         "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
-        linux-api@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH for 5.5 0/3] Restartable Sequences Fixes
-Message-ID: <20191220144827.GJ2844@hirez.programming.kicks-ass.net>
-References: <20191211161713.4490-1-mathieu.desnoyers@efficios.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191211161713.4490-1-mathieu.desnoyers@efficios.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        linux-api@vger.kernel.org, stable@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Florian Weimer <fw@deneb.enyo.de>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Neel Natu <neelnatu@google.com>
+Subject: [PATCH for 5.5 1/2] rseq: Fix: Clarify rseq.h UAPI rseq_cs memory reclaim requirements
+Date:   Fri, 20 Dec 2019 15:12:06 -0500
+Message-Id: <20191220201207.17389-1-mathieu.desnoyers@efficios.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Dec 11, 2019 at 11:17:10AM -0500, Mathieu Desnoyers wrote:
-> Hi,
-> 
-> Here is a repost of a small set of rseq fixes which was initially posted
-> in September 2019. It now targets kernel 5.5. Those should be backported
-> to stable kernels >= 4.18.
-> 
-> Thanks,
-> 
-> Mathieu
-> 
-> Mathieu Desnoyers (3):
->   rseq: Fix: Reject unknown flags on rseq unregister
->   rseq: Fix: Unregister rseq for clone CLONE_VM
->   rseq/selftests: Fix: Namespace gettid() for compatibility with glibc
->     2.30
+The rseq.h UAPI documents that the rseq_cs field must be cleared
+before reclaiming memory that contains the targeted struct rseq_cs.
 
-I've picked up the first two patches, thanks!
+We should extend this comment to also dictate that the rseq_cs field
+must be cleared before reclaiming memory of the code pointed to by
+the rseq_cs start_ip and post_commit_offset fields.
+
+While we can expect that use of dlclose(3) will typically unmap
+both struct rseq_cs and its associated code at once, nothing would
+theoretically prevent a JIT from reclaiming the code without
+reclaiming the struct rseq_cs, which would erroneously allow the
+kernel to consider new code which is not a rseq critical section
+as a rseq critical section following a code reclaim.
+
+Suggested-by: Florian Weimer <fw@deneb.enyo.de>
+Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: Florian Weimer <fw@deneb.enyo.de>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Peter Zijlstra (Intel) <peterz@infradead.org>
+Cc: "Paul E. McKenney" <paulmck@linux.ibm.com>
+Cc: Boqun Feng <boqun.feng@gmail.com>
+Cc: "H . Peter Anvin" <hpa@zytor.com>
+Cc: Paul Turner <pjt@google.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>
+Cc: Neel Natu <neelnatu@google.com>
+Cc: linux-api@vger.kernel.org
+---
+ include/uapi/linux/rseq.h | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/include/uapi/linux/rseq.h b/include/uapi/linux/rseq.h
+index 9a402fdb60e9..6f26b0b148a6 100644
+--- a/include/uapi/linux/rseq.h
++++ b/include/uapi/linux/rseq.h
+@@ -100,7 +100,9 @@ struct rseq {
+ 	 * instruction sequence block, as well as when the kernel detects that
+ 	 * it is preempting or delivering a signal outside of the range
+ 	 * targeted by the rseq_cs. Also needs to be set to NULL by user-space
+-	 * before reclaiming memory that contains the targeted struct rseq_cs.
++	 * before reclaiming memory that contains the targeted struct rseq_cs
++	 * or reclaiming memory that contains the code refered to by the
++	 * start_ip and post_commit_offset fields of struct rseq_cs.
+ 	 *
+ 	 * Read and set by the kernel. Set by user-space with single-copy
+ 	 * atomicity semantics. This field should only be updated by the
+-- 
+2.17.1
+
