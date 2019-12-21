@@ -2,115 +2,125 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 417C1128663
-	for <lists+linux-api@lfdr.de>; Sat, 21 Dec 2019 02:46:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DB227128944
+	for <lists+linux-api@lfdr.de>; Sat, 21 Dec 2019 14:53:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726634AbfLUBqN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 20 Dec 2019 20:46:13 -0500
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:41186 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726598AbfLUBqM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 20 Dec 2019 20:46:12 -0500
-Received: by mail-ed1-f66.google.com with SMTP id c26so10296694eds.8
-        for <linux-api@vger.kernel.org>; Fri, 20 Dec 2019 17:46:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sargun.me; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=e12Mnu5DiWBdZFxNKin4JTRmUKOLU+wR6ztAL37zhAQ=;
-        b=LTNBj34a/5X3efwYU6hSdfbjHgGkwrDz3BppIDQzVdomaBcPJYPjji/5CWcuX5eiuK
-         nRtByNprFnPdf5vqKaOTpOXOo0r1yi89jhIVZ5tvRlCRIqmSzPUAoDg7I7HGa239Azzh
-         yAiO/3eRLlEmi90xDuUgTzfU6okfFdGuZxqqs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=e12Mnu5DiWBdZFxNKin4JTRmUKOLU+wR6ztAL37zhAQ=;
-        b=m8OJCPAb4IB9ix9rTISWPiJmJPU69OFVMOFYe0pWwRTp32nmZ0NUdAWpP/CKv0W6Jx
-         yIUAlMpA21UkXeSdhFYUelDzbYW7V3IwuyKNLXSsJ6ro6pxcgLt9D5jhkhrdTklLbKZU
-         OjjHG8h1Sp+lNkLCQ+QZCxl6DolrCSMcC9JFFI8JstVKEO/myOhasGRxty1vU9zA23m9
-         6JL8YcGY6N61Ocvy1G6RMnq5jz9GwBQXIJfcWFPyBz23A2vu2bOIuTeILH4RLXUG9Pmk
-         LiSh15/rk4FUiDHRfiX+EMMrkUqNSUZc58K+IJ0BvAq+IL9mgvmHGTCmoQC9gUFD37U6
-         zSAA==
-X-Gm-Message-State: APjAAAXA8YR7jQ1tpumSbdCP7Td4FHrYQwxDLpK8xMd0GJgOJpu4BvbT
-        BxGKuJCzAYi3/IR9wbGl8GdCbZ8lziw5HyZiihL9Sg==
-X-Google-Smtp-Source: APXvYqxb8UQLCVS8ZHvwXwLPP+w/fQZABPHqVecdCzSZ6Hw7QsjoOp76JDhiyTTOimtqSFsSY7HEMzdgklJ+w9vCSHM=
-X-Received: by 2002:a50:cc08:: with SMTP id m8mr19431615edi.263.1576892770667;
- Fri, 20 Dec 2019 17:46:10 -0800 (PST)
+        id S1726650AbfLUNxw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 21 Dec 2019 08:53:52 -0500
+Received: from mout.kundenserver.de ([212.227.126.134]:34285 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726339AbfLUNxv (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 21 Dec 2019 08:53:51 -0500
+Received: from mail-qk1-f182.google.com ([209.85.222.182]) by
+ mrelayeu.kundenserver.de (mreue012 [212.227.15.129]) with ESMTPSA (Nemesis)
+ id 1MG90u-1iS9zd45cK-00GcBo; Sat, 21 Dec 2019 14:53:50 +0100
+Received: by mail-qk1-f182.google.com with SMTP id z14so8770952qkg.9;
+        Sat, 21 Dec 2019 05:53:49 -0800 (PST)
+X-Gm-Message-State: APjAAAWfxpQ8Ni+qs3L+IUdUwrTRHzu3mWhdoGW7koLU/Ww4oZjx4mXp
+        Pv4W022I6m7YZW8XzfEqOeJ5whABEWSq4ZbKby4=
+X-Google-Smtp-Source: APXvYqzdkKB4eWJLyIMGbY84AVCwTo394eD7uI1YKdpNDtFn1NdJbNSgdawpABz0czREJyOLKl+WVti5eWx7OSdPMjA=
+X-Received: by 2002:a37:a8d4:: with SMTP id r203mr18290266qke.394.1576936428655;
+ Sat, 21 Dec 2019 05:53:48 -0800 (PST)
 MIME-Version: 1.0
-References: <20191220232810.GA20233@ircssh-2.c.rugged-nimbus-611.internal> <20191221002734.7rz6lcdrshrrlnqf@yavin.dot.cyphar.com>
-In-Reply-To: <20191221002734.7rz6lcdrshrrlnqf@yavin.dot.cyphar.com>
-From:   Sargun Dhillon <sargun@sargun.me>
-Date:   Fri, 20 Dec 2019 17:45:34 -0800
-Message-ID: <CAMp4zn9ivYPP1Sfu48EX897M4JAVXvK+NQB4NZ5=XPM_saJu+g@mail.gmail.com>
-Subject: Re: [PATCH v5 2/3] pid: Introduce pidfd_getfd syscall
-To:     Aleksa Sarai <asarai@suse.de>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
+References: <20191218235459.GA17271@ircssh-2.c.rugged-nimbus-611.internal>
+ <CAK8P3a2eT=bHkUamyp-P3Y2adNq1KBk7UknCYBY5_aR4zJmYaQ@mail.gmail.com>
+ <20191219103525.yqb5f4pbd2dvztkb@wittgenstein> <CAMp4zn_z-CCQYMpT=GjZeGVLobjHBCSbmfha1rtWdmptOQ8JtA@mail.gmail.com>
+ <20191220043510.r5h6wvsp2p5glyjv@yavin.dot.cyphar.com>
+In-Reply-To: <20191220043510.r5h6wvsp2p5glyjv@yavin.dot.cyphar.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Sat, 21 Dec 2019 13:53:32 +0000
+X-Gmail-Original-Message-ID: <CAK8P3a0X4UBE_q0mykor9fOqa4qFJHfAE61bgH_8_1GG6ih__g@mail.gmail.com>
+Message-ID: <CAK8P3a0X4UBE_q0mykor9fOqa4qFJHfAE61bgH_8_1GG6ih__g@mail.gmail.com>
+Subject: Re: [PATCH v4 2/5] pid: Add PIDFD_IOCTL_GETFD to fetch file
+ descriptors from processes
+To:     Aleksa Sarai <cyphar@cyphar.com>
+Cc:     Sargun Dhillon <sargun@sargun.me>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Linux Containers <containers@lists.linux-foundation.org>,
         Linux API <linux-api@vger.kernel.org>,
         Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
-        =?UTF-8?Q?Emilio_Cobos_=C3=81lvarez?= <ealvarez@mozilla.com>,
-        Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>,
-        Gian-Carlo Pascutto <gpascutto@mozilla.com>,
-        Jed Davis <jld@mozilla.com>, Oleg Nesterov <oleg@redhat.com>,
+        Tycho Andersen <tycho@tycho.ws>, Jann Horn <jannh@google.com>,
         Andy Lutomirski <luto@amacapital.net>,
         Al Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <christian.brauner@ubuntu.com>
+        Gian-Carlo Pascutto <gpascutto@mozilla.com>,
+        =?UTF-8?Q?Emilio_Cobos_=C3=81lvarez?= <ealvarez@mozilla.com>,
+        Jed Davis <jld@mozilla.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:X8kFLzryBpbh2nWdfRj5h+/1qG5+N7nbLw/cmfzzvQLHYnAls2Q
+ d7j2+cIsRkKagtxMjLivXjhrxEVnGAoKGTQKqUFq+G50mobe0iGvLffdmhj3hkybOAPghmm
+ Lh2GF1BIKZwDw/wNGEpCIeRB0yFG17cFYrb6KsIF1ApGmVsU0uah6DG3mQyZsPj7D+9/RRw
+ emKlBwYnVM0VP/4+pIV4g==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:WID3Qm7SKJs=:tBvWt3bGwwDfbxhLW4vA33
+ 6H3b6vNIHT2JSKV2JaTOUZVnQTXz0Sm2DNJEQXilnfpIIJLTS6DP/zoKvwT8Z+fSS5qU+oM1l
+ NFW3uEFBOzMHMZxR+xsP7WHbHx2Z28CjzNb/SJd2xwedBKKPTRb9hzr0YFFm37KH9g1fr0zLQ
+ aKS7hv5D5K0c7ai97gV2DFlUO67GhyPe+j1Otwol2BzzhccOrKuE2X2NFx+26n2ywYVx4BCl1
+ vTazP0iloGeb8yETb+TFgmjd1g+gV7ktLsCtCoM8l8VZjxC90Ey5FOJMst/FfCPDzjyYzRugn
+ L/UXiFtsmzJrRNhU1806BcPm1S6N/Rasgp5OwE0EkMlssqiDqhae/G1dxWrnZTEC6yZrCgSdz
+ vPqHi7QzeBisD7v5SesyiLKl9/Koz8LPawRj5fGF/U+mLQN70UvQ4egH6Z8ADfBsmW3GC1NSw
+ eIL9kg07vbhhnm36XELhbsj3dwIgZOrFPUb12Zd71pUiLorfaBThwJN5S9rplMDHMx5aZ1pGW
+ RI3irOewibSRX3ppsaTaBNFptfw1BdsING7XVreaY/9A0AH/cIef6cs9Qt3I+AT7qL30bEEt0
+ G2mApF7h8r9rcg0YMIjF6VxDtU/CogUP8p8DeRVtShEd1ZSTAqPNEC8y07RYz2jPlmc35/vUf
+ dc+shbuMXmQvU6MDNNMPVSpAke/+uRoZPTopjR9M3hSFlaRM6bLuqqIyeP+ieguqs+XyawgZY
+ TACRR32lKW2WFAr0d0jiV4eNuMZcMH5m2UNnuYcXPZb7GCLftJ3m/btRD9kDj7OsXFzOrfLyC
+ YbqTl4P0yib0iKqfF0+TXP+0B2FbxasRtU9gm/O2cXY12WmjFIV9gYSMmNefmdKUFaO9+d9rV
+ 5hjjLXdrVkUG81St/LuQ==
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Dec 20, 2019 at 4:27 PM Aleksa Sarai <asarai@suse.de> wrote:
+On Fri, Dec 20, 2019 at 4:35 AM Aleksa Sarai <cyphar@cyphar.com> wrote:
 >
-> On 2019-12-20, Sargun Dhillon <sargun@sargun.me> wrote:
-> > diff --git a/include/uapi/linux/pidfd.h b/include/uapi/linux/pidfd.h
-> > new file mode 100644
-> > index 000000000000..0a3fc922661d
-> > --- /dev/null
-> > +++ b/include/uapi/linux/pidfd.h
-> > @@ -0,0 +1,10 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> > +#ifndef _UAPI_LINUX_PIDFD_H
-> > +#define _UAPI_LINUX_PIDFD_H
-> > +
-> > +struct pidfd_getfd_options {};
+> On 2019-12-19, Sargun Dhillon <sargun@sargun.me> wrote:
+> > On Thu, Dec 19, 2019 at 2:35 AM Christian Brauner
+> > <christian.brauner@ubuntu.com> wrote:
+> > > I guess this is the remaining question we should settle, i.e. what do we
+> > > prefer.
+> > > I still think that adding a new syscall for this seems a bit rich. On
+> > > the other hand it seems that a lot more people agree that using a
+> > > dedicated syscall instead of an ioctl is the correct way; especially
+> > > when it touches core kernel functionality. I mean that was one of the
+> > > takeaways from the pidfd API ioctl-vs-syscall discussion.
+> > >
+> > > A syscall is nicer especially for core-kernel code like this.
+> > > So I guess the only way to find out is to try the syscall approach and
+> > > either get yelled and switch to an ioctl() or have it accepted.
+> > >
+> > > What does everyone else think? Arnd, still in favor of a syscall I take
+> > > it. Oleg, you had suggested a syscall too, right? Florian, any
+> > > thoughts/worries on/about this from the glibc side?
+> > >
+> > > Christian
+> >
+> > My feelings towards this are that syscalls might pose a problem if we
+> > ever want to extend this API. Of course we can have a reserved
+> > "flags" field, and populate it later, but what if we turn out to need
+> > a proper struct? I already know we're going to want to add one
+> > around cgroup metadata (net_cls), and likely we'll want to add
+> > a "steal" flag as well. As Arnd mentioned earlier, this is trivial to
+> > fix in a traditional ioctl environment, as ioctls are "cheap". How
+> > do we feel about potentially adding a pidfd_getfd2? Or are we
+> > confident that reserved flags will save us?
 >
-> Are empty structs well-defined in C (from memory, some compilers make
-> them non-zero in size)? Since we probably plan to add a flags field in
-> the future anyway, why not just have a __u64 flags which must be zeroed?
->
-It's allowed in GCC:
-https://gcc.gnu.org/onlinedocs/gcc-8.1.0/gcc/Empty-Structures.html
+> If we end up making this a syscall, then we can re-use the
+> copy_struct_from_user() API to make it both extensible and compatible in
+> both directions. I wasn't aware that this was frowned upon for ioctls
+> (sorry for the extra work) but there are several syscalls which use this
+> model for extendability (clone3, openat2, sched_setattr,
+> perf_events_open) so there shouldn't be any such complaints for a
+> syscall which is extensible.
 
-I can add an __aligned_u64 flags for now, and just say something like
-"reserved". This will also solve the latter issue, and I'll just use
-copy_struct_from_user,
-as long as Christian is okay with having an unused (reserved) flag member.
+I would still not do it for syscalls, although for other reasons:
 
+- in an ioctl, it's better to come up with a new command code if you
+  have a larger structure
 
-> > +     f = fdget(pidfd);
-> > +     if (!f.file)
-> > +             return -EBADF;
-> > +
-> > +     pid = pidfd_pid(f.file);
-> > +     if (IS_ERR(pid)) {
-> > +             ret = PTR_ERR(pid);
-> > +             goto out;
-> > +     }
-> > +
-> > +     ret = pidfd_getfd(pid, fd);
-> > +
-> > +out:
-> > +     fdput(f);
-> > +     return ret;
-> > +}
-> > --
-> > 2.20.1
->
-> --
-> Aleksa Sarai
-> Senior Software Engineer (Containers)
-> SUSE Linux GmbH
-> <https://www.cyphar.com/>
+- in a system call, it's best to pass all arguments as individual
+  registers, the only time we use indirect data structures is when there
+  are more than six arguments.
+
+       Arnd
