@@ -2,115 +2,104 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ABDC0128FCC
-	for <lists+linux-api@lfdr.de>; Sun, 22 Dec 2019 21:16:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C10E61291D7
+	for <lists+linux-api@lfdr.de>; Mon, 23 Dec 2019 07:18:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726057AbfLVUQP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 22 Dec 2019 15:16:15 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:42128 "EHLO
+        id S1725822AbfLWGSM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 23 Dec 2019 01:18:12 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:54079 "EHLO
         youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725951AbfLVUQP (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 22 Dec 2019 15:16:15 -0500
-Received: from [172.58.30.161] (helo=wittgenstein)
+        with ESMTP id S1725811AbfLWGSM (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 23 Dec 2019 01:18:12 -0500
+Received: from [172.58.139.225] (helo=localhost.localdomain)
         by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
         (Exim 4.86_2)
         (envelope-from <christian.brauner@ubuntu.com>)
-        id 1ij7e6-0002dA-FH; Sun, 22 Dec 2019 20:16:11 +0000
-Date:   Sun, 22 Dec 2019 21:15:58 +0100
+        id 1ijH2e-0003zo-Nn; Mon, 23 Dec 2019 06:18:09 +0000
 From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Sargun Dhillon <sargun@sargun.me>
-Cc:     Emilio Cobos =?utf-8?Q?=C3=81lvarez?= <ealvarez@mozilla.com>,
-        Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>,
-        Gian-Carlo Pascutto <gpascutto@mozilla.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        Jed Davis <jld@mozilla.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
-        Andy Lutomirski <luto@amacapital.net>
-Subject: Re: [PATCH v5 2/3] pid: Introduce pidfd_getfd syscall
-Message-ID: <20191222201556.zcjceuwpel26jo37@wittgenstein>
-References: <20191220232810.GA20233@ircssh-2.c.rugged-nimbus-611.internal>
- <20191222124756.o2v2zofseypnqg3t@wittgenstein>
- <CAMp4zn-x3wiYVgmoVfkA61Epfh7JoEHUn5QCpULERxLPkLoMYA@mail.gmail.com>
+To:     linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Tejun Heo <tj@kernel.org>
+Cc:     Christian Brauner <christian.brauner@ubuntu.com>
+Subject: [PATCH v2 0/3] clone3 & cgroups: allow spawning processes into cgroups
+Date:   Mon, 23 Dec 2019 07:15:01 +0100
+Message-Id: <20191223061504.28716-1-christian.brauner@ubuntu.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAMp4zn-x3wiYVgmoVfkA61Epfh7JoEHUn5QCpULERxLPkLoMYA@mail.gmail.com>
-User-Agent: NeoMutt/20180716
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sun, Dec 22, 2019 at 10:36:42AM -0800, Sargun Dhillon wrote:
-> , On Sun, Dec 22, 2019 at 4:48 AM Christian Brauner
-> <christian.brauner@ubuntu.com> wrote:
-> >
-> > On Fri, Dec 20, 2019 at 11:28:13PM +0000, Sargun Dhillon wrote:
-> > > This syscall allows for the retrieval of file descriptors from other
-> > > processes, based on their pidfd. This is possible using ptrace, and
-> > > injection of parasitic code along with using SCM_RIGHTS to move
-> > > file descriptors between a tracee and a tracer. Unfortunately, ptrace
-> > > comes with a high cost of requiring the process to be stopped, and
-> > > breaks debuggers. This does not require stopping the process under
-> > > manipulation.
-> > >
-> > > One reason to use this is to allow sandboxers to take actions on file
-> > > descriptors on the behalf of another process. For example, this can be
-> > > combined with seccomp-bpf's user notification to do on-demand fd
-> > > extraction and take privileged actions. For example, it can be used
-> > > to bind a socket to a privileged port.
-> > >
-> > > /* prototype */
-> > >   /*
-> > >    * pidfd_getfd_options is an extensible struct which can have options
-> > >    * added to it. If options is NULL, size, and it will be ignored be
-> > >    * ignored, otherwise, size should be set to sizeof(*options). If
-> > >    * option is newer than the current kernel version, E2BIG will be
-> > >    * returned.
-> > >    */
-> > >   struct pidfd_getfd_options {};
-> > >   long pidfd_getfd(int pidfd, int fd, unsigned int flags,
-> > >                  struct pidfd_getfd_options *options, size_t size);
-> That's embarrassing. This was supposed to read:
-> long pidfd_getfd(int pidfd, int fd, struct pidfd_get_options *options,
-> size_t size);
-> 
-> >
-> > The prototype advertises a flags argument but the actual
-> >
-> > +SYSCALL_DEFINE4(pidfd_getfd, int, pidfd, int, fd,
-> > +               struct pidfd_getfd_options __user *, options, size_t, usize)
-> >
-> > does not have a flags argument...
-> >
-> > I think having a flags argument makes a lot of sense.
-> >
-> > I'm not sure what to think about the struct. I agree with Aleksa that
-> > having an empty struct is not a great idea. From a design perspective it
-> > seems very out of place. If we do a struct at all putting at least a
-> > single reserved field in there might makes more sense.
-> >
-> > In general, I think we need to have a _concrete_ reason why putting a
-> > struct versioned by size as arguments for this syscall.
-> > That means we need to have at least a concrete example for a new feature
-> > for this syscall where a flag would not convey enough information.
-> I can think of at least two reasons we need flags:
-> * Clearing cgroup flags
-> * Closing the process under manipulation's FD when we fetch it.
-> 
-> The original reason for wanting to have two places where we can put
-> flags was to have a different field for fd flags vs. call flags. I'm not sure
-> there's any flags you'd want to set.
-> 
-> Given this, if we want to go down the route of a syscall, we should just
-> leave it as a __u64 flags, and drop the pointer to the struct, if we're
+Hey Tejun,
 
-I think it needs to be an unsigned int. Having a 64bit register arg is
-really messy on 32bit and means you need to have a compat syscall
-implementation which handles this.
+This is v2 of the promised series to enable spawning processes into a
+target cgroup different from the parent's cgroup.
 
+/* v1 */
+Link: https://lore.kernel.org/r/20191218173516.7875-1-christian.brauner@ubuntu.com
+
+/* v2 */
+Rework locking and remove unneeded helper functions. Please see
+individual patch changelogs for details.
+With this I've been able to run the cgroup selftests and stress tests in
+loops for a long time without any regressions or deadlocks; lockdep and
+kasan did not complain either.
+
+With this cgroup migration will be a lot easier, and accounting will be
+more exact. It also allows for nice features such as creating a frozen
+process by spawning it into a frozen cgroup.
+The code simplifies container creation and exec logic quite a bit as
+well.
+
+I've tried to contain all core changes for this features in
+kernel/cgroup/* to avoid exposing cgroup internals. This has mostly
+worked.
+When a new process is supposed to be spawned in a cgroup different from
+the parent's then we briefly acquire the cgroup mutex right before
+fork()'s point of no return and drop it once the child process has been
+attached to the tasklist and to its css_set. This is done to ensure that
+the cgroup isn't removed behind our back. The cgroup mutex is _only_
+held in this case; the usual case, where the child is created in the
+same cgroup as the parent does not acquire it since the cgroup can't be
+removed.
+
+The series already comes with proper testing. Once we've decided that
+this approach is good I'll expand the test-suite even more.
+
+(This is a pre-holiday patchset and I'm moving so I might be a little
+ slower responding to reviews but I wanted to send this out before the
+ new year.)
+
+The branch can be found in the following locations:
+[1]: kernel.org: https://git.kernel.org/pub/scm/linux/kernel/git/brauner/linux.git/log/?h=clone_into_cgroup
+[2]: github.com: https://github.com/brauner/linux/tree/clone_into_cgroup
+[3]: gitlab.com: https://gitlab.com/brauner/linux/commits/clone_into_cgroup
+
+Thanks!
 Christian
+
+Christian Brauner (3):
+  cgroup: unify attach permission checking
+  clone3: allow spawning processes into cgroups
+  selftests/cgroup: add tests for cloning into cgroups
+
+ include/linux/cgroup-defs.h                   |   7 +-
+ include/linux/cgroup.h                        |  25 +-
+ include/linux/sched/task.h                    |   4 +
+ include/uapi/linux/sched.h                    |   5 +
+ kernel/cgroup/cgroup.c                        | 277 ++++++++++++++----
+ kernel/cgroup/pids.c                          |  25 +-
+ kernel/fork.c                                 |  19 +-
+ tools/testing/selftests/cgroup/Makefile       |   6 +-
+ tools/testing/selftests/cgroup/cgroup_util.c  | 126 ++++++++
+ tools/testing/selftests/cgroup/cgroup_util.h  |   4 +
+ tools/testing/selftests/cgroup/test_core.c    |  64 ++++
+ .../selftests/clone3/clone3_selftests.h       |  19 +-
+ 12 files changed, 506 insertions(+), 75 deletions(-)
+
+
+base-commit: d1eef1c619749b2a57e514a3fa67d9a516ffa919
+-- 
+2.24.0
+
