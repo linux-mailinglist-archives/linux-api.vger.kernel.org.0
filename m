@@ -2,127 +2,58 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B20DE129D26
-	for <lists+linux-api@lfdr.de>; Tue, 24 Dec 2019 04:49:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F2353129F08
+	for <lists+linux-api@lfdr.de>; Tue, 24 Dec 2019 09:35:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726847AbfLXDty (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 23 Dec 2019 22:49:54 -0500
-Received: from mail-il1-f193.google.com ([209.85.166.193]:37573 "EHLO
-        mail-il1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726832AbfLXDty (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 23 Dec 2019 22:49:54 -0500
-Received: by mail-il1-f193.google.com with SMTP id t8so15634988iln.4;
-        Mon, 23 Dec 2019 19:49:54 -0800 (PST)
+        id S1726084AbfLXIf4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 24 Dec 2019 03:35:56 -0500
+Received: from mail-io1-f65.google.com ([209.85.166.65]:45301 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726065AbfLXIfz (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 24 Dec 2019 03:35:55 -0500
+Received: by mail-io1-f65.google.com with SMTP id i11so18511406ioi.12
+        for <linux-api@vger.kernel.org>; Tue, 24 Dec 2019 00:35:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/708R472+qTd5WDXzJfQhTlWRyfvA2l4g2vikkLt5ws=;
-        b=AkoNtmpyEhOvM3YAPGE9OTpvqbr5VtvVLLL3SCRdrAnNN5t8heVxGuQbdPpkxeimfR
-         fG137NwEtN/qpXA3ztJ8uammLbMSzKU+D8xpwE7p4ZM/MTdz6SwrHcUxRLRpTQxBXY3t
-         LfZW0I4AvVhPVWOc2eesP5CLPOrcQA8zMEpMyPKzqHLgd72dnPNgCFV6Wd7GyuTQThHk
-         Kt26JdtnEiJG3F9jitVdCBdbwHvKUIUNM8t0y12VeoKikH3gY4BHHpCP18Y/Ng+Ua3Vd
-         D9sHo7R7kgKHwj+CrwqGIkk74vZr4MG2yEHsPGFgdZV+iAXuBs+xE5Q0jH7gF3Fgtlm7
-         zZXw==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=LcGU1mt+nAQIi3eKcWZpiy7DqrkNG23tK1MNYV9CB+M=;
+        b=XK8nKPhltvUq1ni6sLICZYDLSBnNi6m8XYZSFhxXvxRd4soSoE4WzrRLX5MqT7AQzZ
+         tuX8VfrZCMI76B0gv9tse6tFMaYr8omxYP36HOYHKdhROEWrEcxmG4xx54ZKQ4/7TPiY
+         ibJWoy+fkZSnLTbQyR7e+HyaopirabLiRsHhY81Jhy6qRpI8Qr30s1SUcxdNK7cCi8eG
+         0kk+kmKpFTWxGW6Ej/SYbnpNLabPqtABJPKMd7u4AC+PZKhIM3IShXBcz29BSboTTMuP
+         rzyyPmUp3d7AjUNh4M85uP+iI/dSnfLzmmFSoUWJJMNhJMue+G/n7bOSWEhOcjYkzojB
+         k17g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/708R472+qTd5WDXzJfQhTlWRyfvA2l4g2vikkLt5ws=;
-        b=A1Gaty5PnuGhZZAFKV5jDb1nYFY5dhrfaoi1A3GbBjORYwvg6vzLToXY3y5ntNSuvo
-         ueGoMG/skdYasWu2W185FzSkvXlWR/m6QsLBzqQHqbUmJh41pP4h7GmJQJrFCyRW+YJX
-         re5ajZFska0TaqIDlR6haKN/1d+qMsrModTBNgoMDYSFDoqhpD8Hn9V2tZcyjxgLkF5d
-         9NnrZ0noUNcK3tmwmuQI6CEAnaR+Ip/bWAImiDpI97VJ0b2HjCk8T8LAF5asfiZsYvpO
-         2tCVo8E/uBsvmEsHMvjOxyn4b7vHWBxEg2h9gqoMijOkzuR7pyExrwgv6ZB/GAKKoGne
-         WmRQ==
-X-Gm-Message-State: APjAAAVtw7CDU92Cgd3Ko8FsaS5HSSmUYmXI+tTf8G0uUdXX9qaz1Iep
-        2MTsaCRmDTqChpcp8NYbjJnNOvGcodX4yIb415EUcegz
-X-Google-Smtp-Source: APXvYqy0EHmcYMYrThIaT9/S4+q2UJbA1cLcAQ/FJYHemQMRtjp3vJeoUVoEYrsUQpDmSPIXGJqwi8BIalK6bl5cvKQ=
-X-Received: by 2002:a92:1711:: with SMTP id u17mr28780981ill.72.1577159393911;
- Mon, 23 Dec 2019 19:49:53 -0800 (PST)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=LcGU1mt+nAQIi3eKcWZpiy7DqrkNG23tK1MNYV9CB+M=;
+        b=FpJc3ilx+L+3L07pKCzt79N91lZJwJCHWrFz3KKfTUBMZVu5URxbcfHzMLfdUoIyyx
+         Su+BhqiPgqvO+7h+x+wTgjG+0p+crpEVdNvJrlYy+CXDcqfwzMGxVJ41FrAGJkfbKMdR
+         yR1RGQNS1oCweYVtB7g8BRDKSciS4HjZQfS/SStyBqwb1pEHzxZOzUzh/XJTqJNypcW+
+         c6sZHgO+NRu9ogh08cDzmyQeG/r4bqjTKbrQJF0TaZYJMW07SFihJurkDxYpxOkRktsy
+         NdCpYxExzEvwEZ9pZZX/+TVZ2qGuUoHl6FBzepjtcIJd06gmlHt10gOZTc+no4Gl+EUj
+         xCrA==
+X-Gm-Message-State: APjAAAXATR2YB6TG72Q5onnAuYEhnxRwT8eXoaAF+Q4yNJDhLWqnQ1OS
+        p9ZqCMM/asGEnqrlkPVQ88f4pxmP45rtAAFH+CU=
+X-Google-Smtp-Source: APXvYqyrCZEU1W1DkFIv7KNkjradkz2kDLTfVU67/n4UzptvX1Oh5eNWf7n1ygwzHj4iSnHGmlXWtGasdfyZSO0R9mw=
+X-Received: by 2002:a02:2e43:: with SMTP id u3mr24312256jae.137.1577176555178;
+ Tue, 24 Dec 2019 00:35:55 -0800 (PST)
 MIME-Version: 1.0
-References: <CAOQ4uxiKqEq9ts4fEq_husQJpus29afVBMq8P1tkeQT-58RBFg@mail.gmail.com>
- <CADKPpc33UGcuRB9p64QoF8g88emqNQB=Z03f+OnK4MiCoeVZpg@mail.gmail.com>
- <20191204173455.GJ8206@quack2.suse.cz> <CAOQ4uxjda6iQ1D0QEVB18TcrttVpd7uac++WX0xAyLvxz0x7Ew@mail.gmail.com>
- <20191204190206.GA8331@bombadil.infradead.org> <CAOQ4uxiZWKCUKcpBt-bHOcnHoFAq+nghWmf94rJu=3CTc5VhRA@mail.gmail.com>
- <20191211100604.GL1551@quack2.suse.cz> <CAOQ4uxij13z0AazCm7AzrXOSz_eYBSFhs0mo6eZFW=57wOtwew@mail.gmail.com>
- <CAOQ4uxiKzom5uBNbBpZTNCT0XLOrcHmOwYy=3-V-Qcex1mhszw@mail.gmail.com>
- <CAOQ4uxgBcLPGxGVddjFsfWJvcNH4rT+GrN6-YhH8cz5K-q5z2g@mail.gmail.com>
- <20191223181956.GB17813@quack2.suse.cz> <CAOQ4uxhUGCLQyq76nqREETT8kBV9uNOKsckr+xmJdR9Xm=cW3Q@mail.gmail.com>
-In-Reply-To: <CAOQ4uxhUGCLQyq76nqREETT8kBV9uNOKsckr+xmJdR9Xm=cW3Q@mail.gmail.com>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Tue, 24 Dec 2019 05:49:42 +0200
-Message-ID: <CAOQ4uxjwy4_jWitzHc9hSaBJwVZM68xxJTub50ZfrtgFSZFH8A@mail.gmail.com>
-Subject: Re: File monitor problem
-To:     Jan Kara <jack@suse.cz>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        Mo Re Ra <more7.rev@gmail.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Wez Furlong <wez@fb.com>,
-        Matthew Bobrowski <mbobrowski@mbobrowski.org>,
-        Linux API <linux-api@vger.kernel.org>
+Received: by 2002:a5e:c244:0:0:0:0:0 with HTTP; Tue, 24 Dec 2019 00:35:54
+ -0800 (PST)
+Reply-To: bethnatividad9@gmail.com
+From:   Beth Nat <am19040@gmail.com>
+Date:   Tue, 24 Dec 2019 08:35:54 +0000
+Message-ID: <CAEgaL+Z-GQduZeFEvi=AxwxtE658yxm9_pxOW_7LH=JyfRkoNA@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-> > I can see the need for FAN_DIR_MODIFIED_WITH_NAME
-> > (stupid name, I know) - generated when something changed with names in a
-> > particular directory, reported with FID of the directory and the name
-> > inside that directory involved with the change. Directory watching
-> > application needs this to keep track of "names to check". Is the name
-> > useful with any other type of event? _SELF events cannot even sensibly have
-> > it so no discussion there as you mention below. Then we have OPEN, CLOSE,
-> > ACCESS, ATTRIB events. Do we have any use for names with those?
-> >
->
-> The problem is that unlike dir fid, file fid cannot be reliably resolved
-> to path, that is the reason that I implemented  FAN_WITH_NAME
-> for events "possible on child" (see branch fanotify_name-wip).
->
-> A filesystem monitor typically needs to be notified on name changes and on
-> data/metadata modifications.
->
-> So maybe add just two new event types:
-> FAN_DIR_MODIFY
-> FAN_CHILD_MODIFY
->
-> Both those events are reported with name and allowed only with init flag
-> FAN_REPORT_FID_NAME.
-> User cannot filter FAN_DIR_MODIFY by part of create/delete/move.
-> User cannot filter FAN_CHILD_MODIFY by part of attrib/modify/close_write.
-
-Nah, that won't do. I now remember discussing this with out in-house monitor
-team and they said they needed to filter out FAN_MODIFY because it was too
-noisy and rely on FAN_CLOSE_WRITE. And other may want open/access as
-well.
-
-There is another weird way to obfuscate the event type.
-I am not sure if users will be less confused about it:
-Each event type belongs to a group (i.e. self, dirent, poss_on_child)
-User may set any event type in the mask (e.g. create|delete|open|close)
-When getting an event from event group A (e.g. create), all event types
-of that group will be reported (e.g. create|delete).
-
-To put it another way:
-#define FAN_DIR_MODIFY (FAN_CREATE | FAN_MOVE | FAN_DELETE)
-
-For example in fanotify_group_event_mask():
-if (event_with_name) {
-    if (marks_mask & test_mask & FAN_DIR_MODIFY)
-        test_mask |= marks_mask & FAN_DIR_MODIFY
-...
-
-Did somebody say over-engineering? ;)
-
-TBH, I don't see how we can do event type obfuscation
-that is both usable and not confusing, because the concept is
-confusing. I understand the reasoning behind it, but I don't think
-that many users will.
-
-I'm hoping that you can prove me wrong and find a way to simplify
-the API while retaining fair usability.
-
-Thanks,
-Amir.
+How are you today my dear? i saw your profile and it interests me, i
+am a Military nurse from USA. Can we be friend? I want to know more
+about you.
