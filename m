@@ -2,142 +2,124 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 69E8C12A7F6
-	for <lists+linux-api@lfdr.de>; Wed, 25 Dec 2019 14:03:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 837BF12A880
+	for <lists+linux-api@lfdr.de>; Wed, 25 Dec 2019 17:19:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726399AbfLYNDM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 25 Dec 2019 08:03:12 -0500
-Received: from monster.unsafe.ru ([5.9.28.80]:36100 "EHLO mail.unsafe.ru"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726289AbfLYNDM (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 25 Dec 2019 08:03:12 -0500
-Received: from localhost.localdomain (ip-89-102-33-211.net.upcbroadband.cz [89.102.33.211])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.unsafe.ru (Postfix) with ESMTPSA id A2A82C61B17;
-        Wed, 25 Dec 2019 12:53:28 +0000 (UTC)
-From:   Alexey Gladkov <gladkov.alexey@gmail.com>
-To:     LKML <linux-kernel@vger.kernel.org>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        Linux Security Module <linux-security-module@vger.kernel.org>
-Cc:     Akinobu Mita <akinobu.mita@gmail.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Alexey Gladkov <gladkov.alexey@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Daniel Micay <danielmicay@gmail.com>,
-        Djalal Harouni <tixxdz@gmail.com>,
-        "Dmitry V . Levin" <ldv@altlinux.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Jeff Layton <jlayton@poochiereds.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Solar Designer <solar@openwall.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH v6 10/10] docs: proc: add documentation for "hidepid=3" and "pidonly" options and new mount behavior
-Date:   Wed, 25 Dec 2019 13:51:51 +0100
-Message-Id: <20191225125151.1950142-11-gladkov.alexey@gmail.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20191225125151.1950142-1-gladkov.alexey@gmail.com>
-References: <20191225125151.1950142-1-gladkov.alexey@gmail.com>
+        id S1726414AbfLYQTi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 25 Dec 2019 11:19:38 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:56086 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726353AbfLYQTi (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 25 Dec 2019 11:19:38 -0500
+Received: from p5b2a6d5f.dip0.t-ipconnect.de ([91.42.109.95] helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1ik9Nm-0002F2-HI; Wed, 25 Dec 2019 16:19:34 +0000
+Date:   Wed, 25 Dec 2019 17:19:33 +0100
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Sargun Dhillon <sargun@sargun.me>
+Cc:     linux-kernel@vger.kernel.org,
+        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, tycho@tycho.ws, jannh@google.com,
+        cyphar@cyphar.com, oleg@redhat.com, luto@amacapital.net,
+        viro@zeniv.linux.org.uk, gpascutto@mozilla.com,
+        ealvarez@mozilla.com, fweimer@redhat.com, jld@mozilla.com,
+        arnd@arndb.de
+Subject: Re: [PATCH v6 1/3] vfs, fdtable: Add get_task_file helper
+Message-ID: <20191225161932.fhvbgrcco36mhvaw@wittgenstein>
+References: <20191223210852.GA25101@ircssh-2.c.rugged-nimbus-611.internal>
+ <20191223212645.3qw7my4u4rjihxjf@wittgenstein>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20191223212645.3qw7my4u4rjihxjf@wittgenstein>
+User-Agent: NeoMutt/20180716
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Signed-off-by: Alexey Gladkov <gladkov.alexey@gmail.com>
----
- Documentation/filesystems/proc.txt | 53 ++++++++++++++++++++++++++++++
- 1 file changed, 53 insertions(+)
+On Mon, Dec 23, 2019 at 10:26:46PM +0100, Christian Brauner wrote:
+> On Mon, Dec 23, 2019 at 09:08:55PM +0000, Sargun Dhillon wrote:
+> > This introduces a function which can be used to fetch a file, given an
+> > arbitrary task. As long as the user holds a reference (refcnt) to the
+> > task_struct it is safe to call, and will either return NULL on failure,
+> > or a pointer to the file, with a refcnt.
+> > 
+> > Signed-off-by: Sargun Dhillon <sargun@sargun.me>
 
-diff --git a/Documentation/filesystems/proc.txt b/Documentation/filesystems/proc.txt
-index 99ca040e3f90..6a62ae20a181 100644
---- a/Documentation/filesystems/proc.txt
-+++ b/Documentation/filesystems/proc.txt
-@@ -50,6 +50,8 @@ Table of Contents
-   4	Configuring procfs
-   4.1	Mount options
- 
-+  5	Filesystem behavior
-+
- ------------------------------------------------------------------------------
- Preface
- ------------------------------------------------------------------------------
-@@ -2021,6 +2023,7 @@ The following mount options are supported:
- 
- 	hidepid=	Set /proc/<pid>/ access mode.
- 	gid=		Set the group authorized to learn processes information.
-+	pidonly=	Show only task related subset of procfs.
- 
- hidepid=0 means classic mode - everybody may access all /proc/<pid>/ directories
- (default).
-@@ -2042,6 +2045,56 @@ information about running processes, whether some daemon runs with elevated
- privileges, whether other user runs some sensitive program, whether other users
- run any program at all, etc.
- 
-+hidepid=3 means that procfs should only contain /proc/<pid>/ directories
-+that the caller can ptrace.
-+
- gid= defines a group authorized to learn processes information otherwise
- prohibited by hidepid=.  If you use some daemon like identd which needs to learn
- information about processes information, just add identd to this group.
-+
-+The pidonly=1 hides all top level files and directories in the procfs that
-+are not related to tasks.
-+
-+------------------------------------------------------------------------------
-+5 Filesystem behavior
-+------------------------------------------------------------------------------
-+
-+Originally, before the advent of pid namepsace, procfs was a global file
-+system. It means that there was only one procfs instance in the system.
-+
-+When pid namespace was added, a separate procfs instance was mounted in
-+each pid namespace. So, procfs mount options are global among all
-+mountpoints within the same namespace.
-+
-+# grep ^proc /proc/mounts
-+proc /proc proc rw,relatime,hidepid=2 0 0
-+
-+# strace -e mount mount -o hidepid=1 -t proc proc /tmp/proc
-+mount("proc", "/tmp/proc", "proc", 0, "hidepid=1") = 0
-++++ exited with 0 +++
-+
-+# grep ^proc /proc/mounts
-+proc /proc proc rw,relatime,hidepid=2 0 0
-+proc /tmp/proc proc rw,relatime,hidepid=2 0 0
-+
-+and only after remounting procfs mount options will change at all
-+mountpoints.
-+
-+# mount -o remount,hidepid=1 -t proc proc /tmp/proc
-+
-+# grep ^proc /proc/mounts
-+proc /proc proc rw,relatime,hidepid=1 0 0
-+proc /tmp/proc proc rw,relatime,hidepid=1 0 0
-+
-+This behavior is different from the behavior of other filesystems.
-+
-+The new procfs behavior is more like other filesystems. Each procfs mount
-+creates a new procfs instance. Mount options affect own procfs instance.
-+It means that it became possible to have several procfs instances
-+displaying tasks with different filtering options in one pid namespace.
-+
-+# mount -o hidepid=2 -t proc proc /proc
-+# mount -o hidepid=1 -t proc proc /tmp/proc
-+# grep ^proc /proc/mounts
-+proc /proc proc rw,relatime,hidepid=2 0 0
-+proc /tmp/proc proc rw,relatime,hidepid=1 0 0
--- 
-2.24.1
+Could you please add:
 
+Suggested-by: Oleg Nesterov <oleg@redhat.com>
+
+and add a line like:
+
+"This is based on a patch sent by Oleg (cf. [1]) a while ago."
+
+[1]: Link: https://lore.kernel.org/r/20180915160423.GA31461@redhat.com
+
+apart from a few nits below:
+
+Acked-by: Christian Brauner <christian.brauner@ubuntu.com>
+
+> > ---
+> >  fs/file.c            | 22 ++++++++++++++++++++--
+> >  include/linux/file.h |  2 ++
+> >  2 files changed, 22 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/fs/file.c b/fs/file.c
+> > index 2f4fcf985079..0ceeb046f4f3 100644
+> > --- a/fs/file.c
+> > +++ b/fs/file.c
+> > @@ -706,9 +706,9 @@ void do_close_on_exec(struct files_struct *files)
+> >  	spin_unlock(&files->file_lock);
+> >  }
+> >  
+> > -static struct file *__fget(unsigned int fd, fmode_t mask, unsigned int refs)
+> > +static struct file *__fget_files(struct files_struct *files, unsigned int fd,
+> > +				 fmode_t mask, unsigned int refs)
+> >  {
+> > -	struct files_struct *files = current->files;
+> >  	struct file *file;
+> >  
+> >  	rcu_read_lock();
+> > @@ -729,6 +729,11 @@ static struct file *__fget(unsigned int fd, fmode_t mask, unsigned int refs)
+> >  	return file;
+> >  }
+> >  
+> > +static struct file *__fget(unsigned int fd, fmode_t mask, unsigned int refs)
+
+This can be:
+
+static inline struct file *__fget(...)
+
+> > +{
+> > +	return __fget_files(current->files, fd, mask, refs);
+> > +}
+> > +
+> >  struct file *fget_many(unsigned int fd, unsigned int refs)
+> >  {
+> >  	return __fget(fd, FMODE_PATH, refs);
+> > @@ -746,6 +751,19 @@ struct file *fget_raw(unsigned int fd)
+> >  }
+> >  EXPORT_SYMBOL(fget_raw);
+> >  
+> > +struct file *fget_task(struct task_struct *task, unsigned int fd)
+> > +{
+> > +	struct file *file = NULL;
+> > +
+> > +	task_lock(task);
+> > +	if (task->files)
+> > +		file = __fget_files(task->files, fd, 0, 1);
+> > +
+> > +	task_unlock(task);
+> 
+> Nit: remove the \n:
+> 
+> task_lock(task);
+> if (task->files)
+> 	file = __fget_files(task->files, fd, 0, 1);
+> task_unlock(task);
+> 
+> Christian
