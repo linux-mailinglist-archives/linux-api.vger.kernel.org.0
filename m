@@ -2,80 +2,134 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F98C12ACC3
-	for <lists+linux-api@lfdr.de>; Thu, 26 Dec 2019 15:05:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BD09312AD06
+	for <lists+linux-api@lfdr.de>; Thu, 26 Dec 2019 15:32:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726659AbfLZOFe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 26 Dec 2019 09:05:34 -0500
-Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:36057 "EHLO
-        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727146AbfLZOFd (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 26 Dec 2019 09:05:33 -0500
-Received: from callcc.thunk.org (96-72-84-49-static.hfc.comcastbusiness.net [96.72.84.49] (may be forged))
-        (authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id xBQE4NwC001450
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 26 Dec 2019 09:04:25 -0500
-Received: by callcc.thunk.org (Postfix, from userid 15806)
-        id 7CE45420485; Thu, 26 Dec 2019 09:04:23 -0500 (EST)
-Date:   Thu, 26 Dec 2019 09:04:23 -0500
-From:   "Theodore Y. Ts'o" <tytso@mit.edu>
-To:     Stephan Mueller <smueller@chronox.de>
-Cc:     Andy Lutomirski <luto@amacapital.net>,
-        Andy Lutomirski <luto@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        "Ahmed S. Darwish" <darwish.07@gmail.com>,
-        Lennart Poettering <mzxreary@0pointer.de>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        "Alexander E. Patrakov" <patrakov@gmail.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Willy Tarreau <w@1wt.eu>,
-        Matthew Garrett <mjg59@srcf.ucam.org>,
-        Ext4 Developers List <linux-ext4@vger.kernel.org>,
-        linux-man <linux-man@vger.kernel.org>
-Subject: Re: [PATCH v3 0/8] Rework random blocking
-Message-ID: <20191226140423.GB3158@mit.edu>
-References: <9872655.prSdhymlXK@positron.chronox.de>
- <888017FA-06A1-42EF-9FC0-46629138DA9E@amacapital.net>
- <4820831.xlnk3tY4r2@tauon.chronox.de>
+        id S1726453AbfLZOcq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 26 Dec 2019 09:32:46 -0500
+Received: from mout-p-201.mailbox.org ([80.241.56.171]:57028 "EHLO
+        mout-p-201.mailbox.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726074AbfLZOcq (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 26 Dec 2019 09:32:46 -0500
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [80.241.60.240])
+        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
+        (No client certificate requested)
+        by mout-p-201.mailbox.org (Postfix) with ESMTPS id 47kC976srhzQl95;
+        Thu, 26 Dec 2019 15:32:43 +0100 (CET)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from smtp1.mailbox.org ([80.241.60.240])
+        by spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de [80.241.56.122]) (amavisd-new, port 10030)
+        with ESMTP id 1lwPXSnW3guO; Thu, 26 Dec 2019 15:32:39 +0100 (CET)
+Date:   Fri, 27 Dec 2019 01:32:29 +1100
+From:   Aleksa Sarai <cyphar@cyphar.com>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Sargun Dhillon <sargun@sargun.me>, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, tycho@tycho.ws, jannh@google.com,
+        keescook@chromium.org
+Subject: Re: [PATCH] seccomp: Check flags on seccomp_notif is unset
+Message-ID: <20191226143229.sbopynwut2hhsiwn@yavin.dot.cyphar.com>
+References: <20191225214530.GA27780@ircssh-2.c.rugged-nimbus-611.internal>
+ <20191226115245.usf7z5dkui7ndp4w@wittgenstein>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="fgt5mo6icnbxpigg"
 Content-Disposition: inline
-In-Reply-To: <4820831.xlnk3tY4r2@tauon.chronox.de>
+In-Reply-To: <20191226115245.usf7z5dkui7ndp4w@wittgenstein>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Dec 26, 2019 at 01:03:34PM +0100, Stephan Mueller wrote:
-> Agreed. I was just trying to outline that the removal of the blocking_pool is 
-> a good thing. Even when we decide that random.c should receive a TRNG, we do 
-> not need to re-add a blocking pool, but can easily use the existing ChaCha20 
-> DRNG (most likely with its own instance).
 
-Well, it depends on what you mean by "TRNG" --- the ChaCha20 DRNG only
-has a state of 256 bits.  So if you want to only depend on "true
-entropy" you can't extract more than 256 bits without violating that
-assumption, at least if you're using a very strict definition of TRNG.
+--fgt5mo6icnbxpigg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-By getting rid of the blocking pool, and making /dev/random work like
-getrandom with flags set to 0, we're effectively abandoning any kind
-of assertion that /dev/random is some kind of TRNG.  This is not
-insane; this is what the *BSD's have always done.
+On 2019-12-26, Christian Brauner <christian.brauner@ubuntu.com> wrote:
+> On Wed, Dec 25, 2019 at 09:45:33PM +0000, Sargun Dhillon wrote:
+> > This patch is a small change in enforcement of the uapi for
+> > SECCOMP_IOCTL_NOTIF_RECV ioctl. Specificaly, the datastructure which is
+> > passed (seccomp_notif), has a flags member. Previously that could be
+> > set to a nonsense value, and we would ignore it. This ensures that
+> > no flags are set.
+> >=20
+> > Signed-off-by: Sargun Dhillon <sargun@sargun.me>
+> > Cc: Kees Cook <keescook@chromium.org>
+>=20
+> I'm fine with this since we soon want to make use of the flag argument
+> when we add a flag to get a pidfd from the seccomp notifier on receive.
+> The major users I could identify already pass in seccomp_notif with all
+> fields set to 0. If we really break users we can always revert; this
+> seems very unlikely to me though.
+>=20
+> One more question below, otherwise:
+>=20
+> Reviewed-by: Christian Brauner <christian.brauner@ubuntu.com>
+>=20
+> > ---
+> >  kernel/seccomp.c | 7 +++++++
+> >  1 file changed, 7 insertions(+)
+> >=20
+> > diff --git a/kernel/seccomp.c b/kernel/seccomp.c
+> > index 12d2227e5786..455925557490 100644
+> > --- a/kernel/seccomp.c
+> > +++ b/kernel/seccomp.c
+> > @@ -1026,6 +1026,13 @@ static long seccomp_notify_recv(struct seccomp_f=
+ilter *filter,
+> >  	struct seccomp_notif unotif;
+> >  	ssize_t ret;
+> > =20
+> > +	if (copy_from_user(&unotif, buf, sizeof(unotif)))
+> > +		return -EFAULT;
+> > +
+> > +	/* flags is reserved right now, make sure it's unset */
+> > +	if (unotif.flags)
+> > +		return -EINVAL;
+> > +
+>=20
+> Might it make sense to use
+>=20
+> 	err =3D copy_struct_from_user(&unotif, sizeof(unotif), buf, sizeof(unoti=
+f));
+> 	if (err)
+> 		return err;
+>=20
+> This way we check that the whole struct is 0 and report an error as soon
+> as one of the members is non-zero. That's more drastic but it'd ensure
+> that other fields can be used in the future for whatever purposes.
+> It would also let us get rid of the memset() below.=20
 
-But once we do this, and /dev/random takes on the semantics of "block
-until the CRNG has been initialized, and then it won't block after
-that", if we change it so that it now has some different semantics,
-such as "one you extract a 256-bit key, the read from /dev/random will
-block until we can refill it, which might take seconds, minutes or
-hours", will be considered a regression, and we can't do that.
+Given that this isn't an extensible struct, it would be simpler to just do
+check_zeroed_user() -- copy_struct_from_user() is overkill. That would
+also remove the need for any copy_from_user()s and the memset can be
+dropped by just doing
 
-Of course, we can hope that people will be using getrandom() and there
-will be very few new users of the /dev/random pathname.  But nothing
-is ever guaranteed..
+  struct seccomp_notif unotif =3D {};
 
-						- Ted
+> >  	memset(&unotif, 0, sizeof(unotif));
+> > =20
+> >  	ret =3D down_interruptible(&filter->notif->request);
+> > --=20
+> > 2.20.1
+> >=20
+
+
+--=20
+Aleksa Sarai
+Senior Software Engineer (Containers)
+SUSE Linux GmbH
+<https://www.cyphar.com/>
+
+--fgt5mo6icnbxpigg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCXgTEegAKCRCdlLljIbnQ
+EuTpAP4wZYtJyKgXrPhPg8m27dR0ZKvSVhgLQW+sH93GxA3prgEAq+3iCvwDomHL
+7hxWTJqkQIAvqUejPuQZqKRMQ6qd5gw=
+=uj2S
+-----END PGP SIGNATURE-----
+
+--fgt5mo6icnbxpigg--
