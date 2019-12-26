@@ -2,137 +2,157 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5ABDB12AD3D
-	for <lists+linux-api@lfdr.de>; Thu, 26 Dec 2019 16:37:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E802712ADC4
+	for <lists+linux-api@lfdr.de>; Thu, 26 Dec 2019 19:02:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726475AbfLZPh6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 26 Dec 2019 10:37:58 -0500
-Received: from mail-io1-f65.google.com ([209.85.166.65]:41193 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726336AbfLZPh6 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 26 Dec 2019 10:37:58 -0500
-Received: by mail-io1-f65.google.com with SMTP id c16so19947049ioo.8
-        for <linux-api@vger.kernel.org>; Thu, 26 Dec 2019 07:37:57 -0800 (PST)
+        id S1726511AbfLZSCg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 26 Dec 2019 13:02:36 -0500
+Received: from mail-il1-f193.google.com ([209.85.166.193]:37839 "EHLO
+        mail-il1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726453AbfLZSCe (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 26 Dec 2019 13:02:34 -0500
+Received: by mail-il1-f193.google.com with SMTP id t8so20715435iln.4
+        for <linux-api@vger.kernel.org>; Thu, 26 Dec 2019 10:02:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tycho-ws.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=5O98/Q8hWNM3RNsrmMXZZkSL0QH2EUkHvO2fSlNMHBU=;
-        b=v2J/ldUG0+9s2t9PIkHIgh3DVPfToU/LOwGE0g36pH/UgYT3h1Djd1EYMYfzG7X6Z0
-         SqUa/bzgoe4+yDdF4oS+UEWBDmuTVphm0zkQx/KfGJhXAIDWxwPl6tkOzsD/odqqll8V
-         uFlTycY5rfDVXxbENe0ofDFUc0oQ7AB/UsUX5CT7FjQNVOu+GtRiCz3IfQX5EWt/5x2l
-         xzv/WqcnZVSJBli71H87/FW4Ky3uxo6WjLilkGSr1peqwGsrO1LDrwCbDVOcc1F2OKAS
-         6Rdb2iGVSeLEBe6YrZcRs02aA+RENqO/1afLeXjRPE5yZZ2m8QQO3IBD/joLqHTdvPIJ
-         WZlg==
+        d=sargun.me; s=google;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=ONw/OL8JM4aZSJthnLMZow64GW9EQFEy/ugd4rWw17I=;
+        b=fS/sLofaF5GDeJwaGiikpY1J3oGIbpB636hMkrOdwpxj4DA1W1Or+EdACFDbS9WupK
+         dgAcbe3m1M1NFUVP1i/apRh9S04msHnLXHKpcD8unFgvlT1DrziaZFMBJno25LO4bjsH
+         aYP6ibMlnCthZDCmIVYN/BE6YPb3qdCuOvhXI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=5O98/Q8hWNM3RNsrmMXZZkSL0QH2EUkHvO2fSlNMHBU=;
-        b=G9boGKbcUFtnIi0JY8tQtgadGUMcqgDlZVixGH7j5/rWrjpGyOrx0g61A0Gh2fqEQT
-         B6O5yRe0aVg1jPDY9sNFE8AuxUOL7NYX8v64o5rJk2jLt+qfZ07xX26GsvbjmlhzHQPL
-         LautFhmjU9B2Mfx/cbzW8SfOlvqxWNb7goMcbn8TTH3DcR+TXnP/mOwX50hFNvvI69ln
-         rK+fgtMqNDiZzsgZQBIlOYNRpHNa1I322apSOhI/dobKSyAVofzukgmw/CX7VypXvWSX
-         ZcmpvB9Q9rUyMxWeS/HfC25CwcaPLqeDXEy4fWxluE9q6nOUH0inqXlV9LlViu93AiSe
-         Ed+w==
-X-Gm-Message-State: APjAAAVuFwxXexaNeuvHTeLm5Z/wUqKvLGOoY6FwD4d+5pclHR7asZME
-        VqoQDY9I5xN+3aTkt+nPazGHeQ==
-X-Google-Smtp-Source: APXvYqwiiHPMJ8mO1xOyPk33rGPY1Er1evdQ2D4+x2uIU7Jn8tCfpGr3LvAWiS30DgA4YeYCpD9XwA==
-X-Received: by 2002:a02:9988:: with SMTP id a8mr37790039jal.33.1577374677172;
-        Thu, 26 Dec 2019 07:37:57 -0800 (PST)
-Received: from cisco ([2601:282:902:b340:f166:b50c:bba2:408])
-        by smtp.gmail.com with ESMTPSA id 81sm12270971ilx.40.2019.12.26.07.37.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Dec 2019 07:37:56 -0800 (PST)
-Date:   Thu, 26 Dec 2019 08:37:53 -0700
-From:   Tycho Andersen <tycho@tycho.ws>
-To:     Aleksa Sarai <cyphar@cyphar.com>
-Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
-        Sargun Dhillon <sargun@sargun.me>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        jannh@google.com, keescook@chromium.org
-Subject: Re: [PATCH] seccomp: Check flags on seccomp_notif is unset
-Message-ID: <20191226153753.GA15663@cisco>
-References: <20191225214530.GA27780@ircssh-2.c.rugged-nimbus-611.internal>
- <20191226115245.usf7z5dkui7ndp4w@wittgenstein>
- <20191226143229.sbopynwut2hhsiwn@yavin.dot.cyphar.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=ONw/OL8JM4aZSJthnLMZow64GW9EQFEy/ugd4rWw17I=;
+        b=LWWgHC17KLRDn6NDaDkFwGQRO2TLcbSA/Fopb/GYGHRwgUWqrcU1ePRXO04X77YVYh
+         Zd4qIsCSR2ExyFSXQgswUlEJNiapOyIq0znjwrwOJ5YCR5MlO+GjiFeZJjSURM1q9TPv
+         +NgcKNwYuAe6pMX9Qgb6aNo9ApQ09K+obJFlB7teGldwQLFJ4BJG5AR8VBiyYGnj9hXE
+         idu4HmxO+lrleMvGRKaCQltTAQxxgaVcJoAZdBRRyac8xVvzUZw22a4+gW/2fNqxSrKI
+         8t530htAX7pXGCm6y0icQ0Dqy3+jPGEJ5kP7PJfTdfymP3NEMQtGomcAqJa8u/n6nhJ4
+         WQlg==
+X-Gm-Message-State: APjAAAWjrHLD+wqoDjFd0fu15QEi2u2FnhqKHHzsbJB6znNnwVIaeZ8g
+        gq+AgPiyUno+/9nnLSia3esNnQ==
+X-Google-Smtp-Source: APXvYqz+/WtdlSrA/8bsDAuNVYEG8mox8GoQRc4mAHzJ05cj8TnZxW+3gtSpINmFkqyhgbcmCaLuDA==
+X-Received: by 2002:a92:d151:: with SMTP id t17mr24010974ilg.175.1577383352464;
+        Thu, 26 Dec 2019 10:02:32 -0800 (PST)
+Received: from ircssh-2.c.rugged-nimbus-611.internal (80.60.198.104.bc.googleusercontent.com. [104.198.60.80])
+        by smtp.gmail.com with ESMTPSA id 75sm12426869ila.61.2019.12.26.10.02.31
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 26 Dec 2019 10:02:31 -0800 (PST)
+Date:   Thu, 26 Dec 2019 18:02:30 +0000
+From:   Sargun Dhillon <sargun@sargun.me>
+To:     linux-kernel@vger.kernel.org,
+        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Cc:     tycho@tycho.ws, jannh@google.com, cyphar@cyphar.com,
+        christian.brauner@ubuntu.com, oleg@redhat.com, luto@amacapital.net,
+        viro@zeniv.linux.org.uk, gpascutto@mozilla.com,
+        ealvarez@mozilla.com, fweimer@redhat.com, jld@mozilla.com,
+        arnd@arndb.de
+Subject: [PATCH v7 0/3] Add pidfd_getfd syscall
+Message-ID: <20191226180227.GA29389@ircssh-2.c.rugged-nimbus-611.internal>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191226143229.sbopynwut2hhsiwn@yavin.dot.cyphar.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Dec 27, 2019 at 01:32:29AM +1100, Aleksa Sarai wrote:
-> On 2019-12-26, Christian Brauner <christian.brauner@ubuntu.com> wrote:
-> > On Wed, Dec 25, 2019 at 09:45:33PM +0000, Sargun Dhillon wrote:
-> > > This patch is a small change in enforcement of the uapi for
-> > > SECCOMP_IOCTL_NOTIF_RECV ioctl. Specificaly, the datastructure which is
-> > > passed (seccomp_notif), has a flags member. Previously that could be
-> > > set to a nonsense value, and we would ignore it. This ensures that
-> > > no flags are set.
-> > > 
-> > > Signed-off-by: Sargun Dhillon <sargun@sargun.me>
-> > > Cc: Kees Cook <keescook@chromium.org>
-> > 
-> > I'm fine with this since we soon want to make use of the flag argument
-> > when we add a flag to get a pidfd from the seccomp notifier on receive.
-> > The major users I could identify already pass in seccomp_notif with all
-> > fields set to 0. If we really break users we can always revert; this
-> > seems very unlikely to me though.
-> > 
-> > One more question below, otherwise:
-> > 
-> > Reviewed-by: Christian Brauner <christian.brauner@ubuntu.com>
-> > 
-> > > ---
-> > >  kernel/seccomp.c | 7 +++++++
-> > >  1 file changed, 7 insertions(+)
-> > > 
-> > > diff --git a/kernel/seccomp.c b/kernel/seccomp.c
-> > > index 12d2227e5786..455925557490 100644
-> > > --- a/kernel/seccomp.c
-> > > +++ b/kernel/seccomp.c
-> > > @@ -1026,6 +1026,13 @@ static long seccomp_notify_recv(struct seccomp_filter *filter,
-> > >  	struct seccomp_notif unotif;
-> > >  	ssize_t ret;
-> > >  
-> > > +	if (copy_from_user(&unotif, buf, sizeof(unotif)))
-> > > +		return -EFAULT;
-> > > +
-> > > +	/* flags is reserved right now, make sure it's unset */
-> > > +	if (unotif.flags)
-> > > +		return -EINVAL;
-> > > +
-> > 
-> > Might it make sense to use
-> > 
-> > 	err = copy_struct_from_user(&unotif, sizeof(unotif), buf, sizeof(unotif));
-> > 	if (err)
-> > 		return err;
-> > 
-> > This way we check that the whole struct is 0 and report an error as soon
-> > as one of the members is non-zero. That's more drastic but it'd ensure
-> > that other fields can be used in the future for whatever purposes.
-> > It would also let us get rid of the memset() below. 
-> 
-> Given that this isn't an extensible struct, it would be simpler to just do
-> check_zeroed_user() -- copy_struct_from_user() is overkill. That would
-> also remove the need for any copy_from_user()s and the memset can be
-> dropped by just doing
-> 
->   struct seccomp_notif unotif = {};
+This patchset introduces a mechanism (pidfd_getfd syscall) to get file
+descriptors from other processes via pidfd. Although this can be achieved
+using SCM_RIGHTS, and parasitic code injection, this offers a more
+straightforward mechanism, with less overhead and complexity. The process
+under manipulation's fd still remains valid, and unmodified by the
+copy operation.
 
-This doesn't zero the padding according to the C standard, so no, you
-can't drop the memset, or you may leak kernel stack bits.
+It introduces a flags field. The flags field is reserved a the moment,
+but the intent is to extend it with the following capabilities:
+ * Close the remote FD when copying it
+ * Drop the cgroup data if it's a fd pointing a socket when copying it
 
-As for the rest of it, while it is an ABI change I think all of the
-users are CC'd on this thread, and it's an obvious goof on my part :).
-So:
+The syscall numbers were chosen to be one greater than openat2.
 
-Acked-by: Tycho Andersen <tycho@tycho.ws>
+Summary of history:
+This initially started as a ptrace command. It did not require the process
+to be stopped, and felt like kind of an awkward fit for ptrace. After that,
+it moved to an ioctl on the pidfd. Given functionality, it made sense to
+make it a syscall which did not require the process to be stopped.
 
-Tycho
+Previous versions:
+ V6: https://lore.kernel.org/lkml/20191223210823.GA25083@ircssh-2.c.rugged-nimbus-611.internal/
+ V5: https://lore.kernel.org/lkml/20191220232746.GA20215@ircssh-2.c.rugged-nimbus-611.internal/
+ V4: https://lore.kernel.org/lkml/20191218235310.GA17259@ircssh-2.c.rugged-nimbus-611.internal/
+ V3: https://lore.kernel.org/lkml/20191217005842.GA14379@ircssh-2.c.rugged-nimbus-611.internal/
+ V2: https://lore.kernel.org/lkml/20191209070446.GA32336@ircssh-2.c.rugged-nimbus-611.internal/
+ RFC V1: https://lore.kernel.org/lkml/20191205234450.GA26369@ircssh-2.c.rugged-nimbus-611.internal/
+
+Changes since v6:
+ * Proper attribution of get_task_file helper
+ * Move all types for syscall to int to represent fd
+
+Changes since v5:
+ * Drop pidfd_getfd_options struct and replace with a flags field
+
+Changes since v4:
+ * Turn into a syscall
+ * Move to PTRACE_MODE_ATTACH_REALCREDS from PTRACE_MODE_READ_REALCREDS
+ * Remove the sample code. This will come in another patchset, as the
+   new self-tests cover all the functionality.
+
+Changes since v3:
+ * Add self-test
+ * Move to ioctl passing fd directly, versus args struct
+ * Shuffle around include files
+
+Changes since v2:
+ * Move to ioctl on pidfd instead of ptrace function
+ * Add security check before moving file descriptor
+
+Changes since the RFC v1:
+ * Introduce a new helper to fs/file.c to fetch a file descriptor from
+   any process. It largely uses the code suggested by Oleg, with a few
+   changes to fix locking
+ * It uses an extensible options struct to supply the FD, and option.
+ * I added a sample, using the code from the user-ptrace sample
+
+Sargun Dhillon (3):
+  vfs, fdtable: Add get_task_file helper
+  pid: Introduce pidfd_getfd syscall
+  test: Add test for pidfd getfd
+
+ arch/alpha/kernel/syscalls/syscall.tbl        |   1 +
+ arch/arm/tools/syscall.tbl                    |   1 +
+ arch/arm64/include/asm/unistd.h               |   2 +-
+ arch/arm64/include/asm/unistd32.h             |   2 +
+ arch/ia64/kernel/syscalls/syscall.tbl         |   1 +
+ arch/m68k/kernel/syscalls/syscall.tbl         |   1 +
+ arch/microblaze/kernel/syscalls/syscall.tbl   |   1 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl     |   1 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl     |   1 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl     |   1 +
+ arch/parisc/kernel/syscalls/syscall.tbl       |   1 +
+ arch/powerpc/kernel/syscalls/syscall.tbl      |   1 +
+ arch/s390/kernel/syscalls/syscall.tbl         |   1 +
+ arch/sh/kernel/syscalls/syscall.tbl           |   1 +
+ arch/sparc/kernel/syscalls/syscall.tbl        |   1 +
+ arch/x86/entry/syscalls/syscall_32.tbl        |   1 +
+ arch/x86/entry/syscalls/syscall_64.tbl        |   1 +
+ arch/xtensa/kernel/syscalls/syscall.tbl       |   1 +
+ fs/file.c                                     |  21 +-
+ include/linux/file.h                          |   2 +
+ include/linux/syscalls.h                      |   1 +
+ include/uapi/asm-generic/unistd.h             |   4 +-
+ kernel/pid.c                                  | 103 +++++++
+ tools/testing/selftests/pidfd/.gitignore      |   1 +
+ tools/testing/selftests/pidfd/Makefile        |   2 +-
+ .../selftests/pidfd/pidfd_getfd_test.c        | 254 ++++++++++++++++++
+ 26 files changed, 403 insertions(+), 5 deletions(-)
+ create mode 100644 tools/testing/selftests/pidfd/pidfd_getfd_test.c
+
+-- 
+2.20.1
+
