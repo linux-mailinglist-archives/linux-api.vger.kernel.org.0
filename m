@@ -2,206 +2,111 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A6F0312B44B
-	for <lists+linux-api@lfdr.de>; Fri, 27 Dec 2019 12:47:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4535B12B4C1
+	for <lists+linux-api@lfdr.de>; Fri, 27 Dec 2019 14:06:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726053AbfL0Lrb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 27 Dec 2019 06:47:31 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:46419 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726377AbfL0Lrb (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 27 Dec 2019 06:47:31 -0500
-Received: from p5b2a6dac.dip0.t-ipconnect.de ([91.42.109.172] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1iko5X-0006iS-El; Fri, 27 Dec 2019 11:47:27 +0000
-Date:   Fri, 27 Dec 2019 12:47:26 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Aleksa Sarai <cyphar@cyphar.com>
-Cc:     Sargun Dhillon <sargun@sargun.me>, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, tycho@tycho.ws, jannh@google.com,
-        keescook@chromium.org
-Subject: Re: [PATCH] seccomp: Check flags on seccomp_notif is unset
-Message-ID: <20191227114725.xsacnaoaaxdv6yg3@wittgenstein>
-References: <20191225214530.GA27780@ircssh-2.c.rugged-nimbus-611.internal>
- <20191226115245.usf7z5dkui7ndp4w@wittgenstein>
- <20191226143229.sbopynwut2hhsiwn@yavin.dot.cyphar.com>
- <57C06925-0CC6-4251-AD57-8FF1BC28F049@ubuntu.com>
- <20191227022446.37e64ag4uaqms2w4@yavin.dot.cyphar.com>
- <20191227023131.klnobtlfgeqcmvbb@yavin.dot.cyphar.com>
+        id S1727233AbfL0NFw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 27 Dec 2019 08:05:52 -0500
+Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:50541 "EHLO
+        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726605AbfL0NFw (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 27 Dec 2019 08:05:52 -0500
+Received: from callcc.thunk.org (96-72-102-169-static.hfc.comcastbusiness.net [96.72.102.169] (may be forged))
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id xBRD4baO001674
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 27 Dec 2019 08:04:38 -0500
+Received: by callcc.thunk.org (Postfix, from userid 15806)
+        id ACFE1420485; Fri, 27 Dec 2019 08:04:36 -0500 (EST)
+Date:   Fri, 27 Dec 2019 08:04:36 -0500
+From:   "Theodore Y. Ts'o" <tytso@mit.edu>
+To:     Stephan Mueller <smueller@chronox.de>
+Cc:     Andy Lutomirski <luto@amacapital.net>,
+        Andy Lutomirski <luto@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        "Ahmed S. Darwish" <darwish.07@gmail.com>,
+        Lennart Poettering <mzxreary@0pointer.de>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "Alexander E. Patrakov" <patrakov@gmail.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Willy Tarreau <w@1wt.eu>,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        Ext4 Developers List <linux-ext4@vger.kernel.org>,
+        linux-man <linux-man@vger.kernel.org>
+Subject: Re: [PATCH v3 0/8] Rework random blocking
+Message-ID: <20191227130436.GC70060@mit.edu>
+References: <20191226140423.GB3158@mit.edu>
+ <26B7EEAE-1166-4B45-9534-E00C5B2767C1@amacapital.net>
+ <4048434.Q8HajmOrkZ@tauon.chronox.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191227023131.klnobtlfgeqcmvbb@yavin.dot.cyphar.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <4048434.Q8HajmOrkZ@tauon.chronox.de>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Dec 27, 2019 at 01:31:31PM +1100, Aleksa Sarai wrote:
-> On 2019-12-27, Aleksa Sarai <cyphar@cyphar.com> wrote:
-> > On 2019-12-26, Christian Brauner <christian.brauner@ubuntu.com> wrote:
-> > > On December 26, 2019 3:32:29 PM GMT+01:00, Aleksa Sarai <cyphar@cyphar.com> wrote:
-> > > >On 2019-12-26, Christian Brauner <christian.brauner@ubuntu.com> wrote:
-> > > >> On Wed, Dec 25, 2019 at 09:45:33PM +0000, Sargun Dhillon wrote:
-> > > >> > This patch is a small change in enforcement of the uapi for
-> > > >> > SECCOMP_IOCTL_NOTIF_RECV ioctl. Specificaly, the datastructure
-> > > >which is
-> > > >> > passed (seccomp_notif), has a flags member. Previously that could
-> > > >be
-> > > >> > set to a nonsense value, and we would ignore it. This ensures that
-> > > >> > no flags are set.
-> > > >> > 
-> > > >> > Signed-off-by: Sargun Dhillon <sargun@sargun.me>
-> > > >> > Cc: Kees Cook <keescook@chromium.org>
-> > > >> 
-> > > >> I'm fine with this since we soon want to make use of the flag
-> > > >argument
-> > > >> when we add a flag to get a pidfd from the seccomp notifier on
-> > > >receive.
-> > > >> The major users I could identify already pass in seccomp_notif with
-> > > >all
-> > > >> fields set to 0. If we really break users we can always revert; this
-> > > >> seems very unlikely to me though.
-> > > >> 
-> > > >> One more question below, otherwise:
-> > > >> 
-> > > >> Reviewed-by: Christian Brauner <christian.brauner@ubuntu.com>
-> > > >> 
-> > > >> > ---
-> > > >> >  kernel/seccomp.c | 7 +++++++
-> > > >> >  1 file changed, 7 insertions(+)
-> > > >> > 
-> > > >> > diff --git a/kernel/seccomp.c b/kernel/seccomp.c
-> > > >> > index 12d2227e5786..455925557490 100644
-> > > >> > --- a/kernel/seccomp.c
-> > > >> > +++ b/kernel/seccomp.c
-> > > >> > @@ -1026,6 +1026,13 @@ static long seccomp_notify_recv(struct
-> > > >seccomp_filter *filter,
-> > > >> >  	struct seccomp_notif unotif;
-> > > >> >  	ssize_t ret;
-> > > >> >  
-> > > >> > +	if (copy_from_user(&unotif, buf, sizeof(unotif)))
-> > > >> > +		return -EFAULT;
-> > > >> > +
-> > > >> > +	/* flags is reserved right now, make sure it's unset */
-> > > >> > +	if (unotif.flags)
-> > > >> > +		return -EINVAL;
-> > > >> > +
-> > > >> 
-> > > >> Might it make sense to use
-> > > >> 
-> > > >> 	err = copy_struct_from_user(&unotif, sizeof(unotif), buf,
-> > > >sizeof(unotif));
-> > > >> 	if (err)
-> > > >> 		return err;
-> > > >> 
-> > > >> This way we check that the whole struct is 0 and report an error as
-> > > >soon
-> > > >> as one of the members is non-zero. That's more drastic but it'd
-> > > >ensure
-> > > >> that other fields can be used in the future for whatever purposes.
-> > > >> It would also let us get rid of the memset() below. 
-> > > >
-> > > >Given that this isn't an extensible struct, it would be simpler to just
-> > > >do
-> > > >check_zeroed_user() -- copy_struct_from_user() is overkill. That would
-> > > >also remove the need for any copy_from_user()s and the memset can be
-> > > >dropped by just doing
-> > > >
-> > > >  struct seccomp_notif unotif = {};
-> > > >
-> > > >> >  	memset(&unotif, 0, sizeof(unotif));
-> > > >> >  
-> > > >> >  	ret = down_interruptible(&filter->notif->request);
-> > > >> > -- 
-> > > >> > 2.20.1
-> > > >> > 
-> > > 
-> > > It is an extensible struct. That's why we have notifier size checking built in.
-> > 
-> > Ah right, NOTIF_GET_SIZES. I reckon check_zeroed_user() is still a bit
-> > simpler since none of the fields are used right now (and really, this
-> > patch should be checking all of them, not just ->flags, if we want to
-> > use any of them in the future).
+On Fri, Dec 27, 2019 at 11:29:22AM +0100, Stephan Mueller wrote:
 > 
-> Scratch that -- as Tycho just mentioned, there is un-named padding in
-> the struct so check_zeroed_user() is the wrong thing to do. But this
+> My definition of TRNG is identical to the German AIS 31 and I guess identical 
+> to your definition of a TRNG.
+> 
+> A TRNG will produce an amount of random data that is equal to the amount of 
+> "fresh" entropy that was provided by the noise source. I.e. it should be 
+> identical to the blocking_pool behavior.
 
-Hm, I don't think so.
-I understood Tycho's point as _if_ there ever is padding then this would
-not be zeroed.
-Right now, there is no padding since the struct is correctly padded:
+This begs the question of determining: (a) how much "fresh entropy"
+you can actually get from a noise source, (b) at what rate the "fresh
+entropy" is arriving, and (c) what assurance(s) you have that the
+noise source is actually working correctly.
 
-struct seccomp_data {
-	int nr;
-	__u32 arch;
-	__u64 instruction_pointer;
-	__u64 args[6];
-};
+You can't make those assurances from software alone; it needs to be an
+aspect of holistic design of the hardware's design; the supply chain,
+and the software.  So if we are going to claime that we have something
+like GRND_TRUERANDOM or /dev/trandom, or whatever, it needs to work on
+IOT devices running ARM, RISC-V, MIPS, PowerPC, x86.  Some of these
+architectures have no instruction reordering and are stupid simple;
+some of these hardware platforms may have no high-resolution clock or
+cryptographic instructions.
 
-struct seccomp_notif {
-	__u64 id;
-	__u32 pid;
-	__u32 flags;
-	struct seccomp_data data;
-};
+In addition, if you use a hardware device which is USB attached, how
+does the kernel know that it really is the device that you think it
+is?  The only way you know that a ChaosKey is a ChaosKey is by its USB
+vendor and product id --- which can be easily forged by an attacker,
+either in the supply chain or delivery path, or who walks up to the
+laptop, yanks out the ChaosKey and replaces it with a "PutinKey" or a
+"NSAKey".
 
-which would be - using pahole:
+So creating somethinig which shows up as "true random number
+generator" as a generic Linux concept seems to me to be fraught
+endeavor, and I'm not at all convince people need it.
 
-struct seccomp_data {
-        int                        nr;                   /*     0     4 */
-        __u32                      arch;                 /*     4     4 */
-        __u64                      instruction_pointer;  /*     8     8 */
-        __u64                      args[6];              /*    16    48 */
+> - add a new GRND_TRUERANDOM flag to getrandom(2) which allows access to the 
+> TRNG. Andy did not like it because he mentioned that it may be misused since 
+> the syscall is unprivileged.
 
-        /* size: 64, cachelines: 1, members: 4 */
-};
-struct seccomp_notif {
-        __u64                      id;                   /*     0     8 */
-        __u32                      pid;                  /*     8     4 */
-        __u32                      flags;                /*    12     4 */
-        struct seccomp_data data;                        /*    16    64 */
+Even if we could solve the "how the hell can the kernel guarantee that
+the noise source is legitimate" problem in a general way that works
+across all of the architectures, we still have the problem that
+everyone thinks they need "the good stuff".
 
-        /* size: 80, cachelines: 2, members: 4 */
-        /* last cacheline: 16 bytes */
-};
+Suppose the system call was privileged and "true randomness" could
+only be accessed as root.  What would happen?  Application programmers
+would give instructions requiring that their application be installed
+as root to be more secure, "because that way you can get access the
+_really_ good random numbers".
 
-The only worry would be a 2byte int type but there's no architecture
-we support which does this right now afaict.
+So let's take a step back and ask the question: "Exactly what _value_
+do you want to provide by creating some kind of true random
+interface?"  What does this enable?  What applications does this
+really help?
 
-> also will make extensions harder to deal with because (presumably) they
-> will also have un-named padding, making copy_struct_from_user() the
+As I thought while watching the latest Star Wars movie: Why?  Why?
+Whywhywhy?
 
-This all will be a non-issue if we just use __u64 for extensions.
-
-My point about using copy_struct_from_user() was that we should verify
-that _all_ fields are uninitialized and not just the flags argument
-since we might introduce a flags argument that requires another already
-existing member in seccomp_notif to be set to a value. We should do this
-change now so we don't have to risk breaking someone in the future.
-
-I'm trying to get at least Mozilla/Firefox off of their crazy
-SECCOMP_RET_TRAP way of implementing their broker onto the user notifier
-and they will likely need some extensions. That includes the pidfd stuff
-for seccomp that Sargun will likely be doing and the new pidfd_getfd()
-syscall. So it's not unlikely that we might need other already existing
-fields in that struct to be set to some value.
-
-I don't particulary care how we do it:
-- We can do a simple copy_from_user() and check each field individually.
-- Use copy_struct_from_user().
-  That is safe to do right now since there is no padding afaict and
-  it'll automatically verify new fields as well.
-  If I understand the worry correctly then the argument against
-  copy_struct_from_user() here is that there might be padding introduced
-  and userspace will not do an explicit memset() but rather rely on an
-  empty inializer {} and will _accidently_ pass down a struct which has
-  __all fields cleared__ but __uninitialized padding__ and we tell them
-  EINVAL? That can only happen if we introduce padding in the struct
-  which I'd argue we just don't do. That'll be in line with what we
-  require from our ABIs already anyway.
-
-Christian
+					- Ted
