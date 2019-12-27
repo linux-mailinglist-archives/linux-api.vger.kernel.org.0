@@ -2,115 +2,83 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 33B9312AFC1
-	for <lists+linux-api@lfdr.de>; Fri, 27 Dec 2019 00:29:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9883C12B048
+	for <lists+linux-api@lfdr.de>; Fri, 27 Dec 2019 02:35:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726982AbfLZX3Y (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 26 Dec 2019 18:29:24 -0500
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:46325 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726839AbfLZX3Y (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 26 Dec 2019 18:29:24 -0500
-Received: by mail-pg1-f193.google.com with SMTP id z124so13539850pgb.13
-        for <linux-api@vger.kernel.org>; Thu, 26 Dec 2019 15:29:23 -0800 (PST)
+        id S1726976AbfL0Bf2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 26 Dec 2019 20:35:28 -0500
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:40652 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726943AbfL0Bf2 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 26 Dec 2019 20:35:28 -0500
+Received: by mail-ed1-f67.google.com with SMTP id b8so24091614edx.7
+        for <linux-api@vger.kernel.org>; Thu, 26 Dec 2019 17:35:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=content-transfer-encoding:mime-version:subject:from:in-reply-to:cc
-         :date:message-id:references:to;
-        bh=TQuMyWny8hWtt1MLws74+aMtByUKKMivFY0g2eakkkM=;
-        b=Z1hFH9rKZoZVwN3HFABEulLkhJJQHdiQ9hXRKpwuucZ8oG4skzgbM1MInEaAM2oNf+
-         Js5I7My4bwh77VhB1FOv4YRNewAKZBDq83zP6m5WXz9Gz9op6r1zchEnoHBIU3/KOXku
-         S5hPxMZ9EpYLYmGPFg3/4umrLgkYcFRiQK2tlvvVPAc3oVRzHjN9OOnxrFqtVcIshTqq
-         jSf0Dt13GHR605MmbOGp0lYTSrdB7dsYwjmOGmLPh5UWKl2uob+KPehVM0r50uzAuJc8
-         VKPPmoyBnPXN7sPihO7YiI3kCULqFDwq8UXURIpE0nwwpCSG6cgjKsbBgfdymzC1Z1Ay
-         arEw==
+        d=sargun.me; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=t2hkxx6EdZesk3LyhW8Bjdi5OF7N5XgZx/OPo6iWL4k=;
+        b=awumovmJVECZ0Nk/zD/7/Ex5YMktKw7NhFajPm4bgFTiF2ETfkapjS8VlX3uLqpIRv
+         6JofoXtruG/OJh5ZP2aFM8aE1WMGWcpoQpgjKTLp/hJjiPjkBlvWQnp7nh8qDj+Uuo+X
+         qMEtfHNJZv98S6kmQcWJMShyoywEiEEU28hTI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:content-transfer-encoding:mime-version:subject
-         :from:in-reply-to:cc:date:message-id:references:to;
-        bh=TQuMyWny8hWtt1MLws74+aMtByUKKMivFY0g2eakkkM=;
-        b=qgkHjqSh4XT32vDTQtsfoYV1+wLnEZGCK8V4k1e18uonLAN/e6SC4lksD3YgXOTZTY
-         hi8kNzQsQuXaYbjaMG+ztMDPXDDNJekOYlUPOKhrFAkNSheYwDDYP+6ZuGhdkuvwKDt8
-         ekdJQQCW6Cp/JYtxUwM0RTfJLBdQGfa7ozdfIph02p/+u2pa5BPbGZIYso2nBBlQ8sM6
-         B8wLRcF8jiJezKWDk7QnI16yRB8Aw3lX6DDqBYTz0FIDcWptm0pSlP/iqC2UAL68wz/5
-         9FrmT68LsDKxTmvDH4lZo4wA1IwT8BtynwadFodqE82xI2DMldQcgw1r3YZaSGltTyme
-         eU/w==
-X-Gm-Message-State: APjAAAULIGPZWH5zq8yWnHFURE+nSakIxF9Q0CvqM4aijAWp7EV5HH1B
-        IorZGrmi3LFogBOfcGee2BHIdg==
-X-Google-Smtp-Source: APXvYqw168U7pDuIAoJqCk32EI3yv82F+VAtM7+4RMaW9dlE9+1qYIzcTdTB4z9/E6MkxcZHX7Joiw==
-X-Received: by 2002:a63:1a19:: with SMTP id a25mr52030190pga.447.1577402963260;
-        Thu, 26 Dec 2019 15:29:23 -0800 (PST)
-Received: from [192.168.0.9] (114-27-11-154.dynamic-ip.hinet.net. [114.27.11.154])
-        by smtp.gmail.com with ESMTPSA id l2sm11776754pjt.31.2019.12.26.15.29.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Dec 2019 15:29:22 -0800 (PST)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH v3 0/8] Rework random blocking
-From:   Andy Lutomirski <luto@amacapital.net>
-In-Reply-To: <20191226140423.GB3158@mit.edu>
-Cc:     Stephan Mueller <smueller@chronox.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=t2hkxx6EdZesk3LyhW8Bjdi5OF7N5XgZx/OPo6iWL4k=;
+        b=eARk0xKtdv/5I6CHUX0ci/653cU7JUkLnJD9QFMs3YGmfCwiMuVRjTGpMDYE/qKJc9
+         1h+jgFuqPnP/5BL221dwNWgPymzeuHCLDqAx3fSB6cszKs7367aYeF/fSkwNMH87Mref
+         9spExmxAEevNo0E45rs7jTSWd9qY3Rmex3fIYcsWdvBhFJ+siRyy/RLfN8BYXvaK6Pku
+         n8ydYVDz+U7m1jkZfIlvBCxymZg2sopvcGvcQ0qvWHoeUZQdiNDS+rb/eMtWe+YQ8Bsm
+         RpZp3W0dS7yOTnSoRb8fS/Ol+nvreMKuxdgfgADeV3f6iac9V574uNWe6tmrKqY76Vz2
+         acjQ==
+X-Gm-Message-State: APjAAAU2KQxvHGIDWl05eeSBFyTwNXohiHVSJAGAaPe/SdL8LkUPOuAp
+        Z6mI21iPv0INjxMmC4OqHHRm50HfoEBarctnrkP9Ow==
+X-Google-Smtp-Source: APXvYqziVcuWKxoTC5z2LyoMJWVCIQfGh0OJGrspzG1O5SgJ6+Lq/NGsxHbojw3SUweZkNqEh948ArUOFWHF6ZSqFe8=
+X-Received: by 2002:aa7:d714:: with SMTP id t20mr53554307edq.93.1577410526273;
+ Thu, 26 Dec 2019 17:35:26 -0800 (PST)
+MIME-Version: 1.0
+References: <20191226180334.GA29409@ircssh-2.c.rugged-nimbus-611.internal> <201912270545.TQnRs9kG%lkp@intel.com>
+In-Reply-To: <201912270545.TQnRs9kG%lkp@intel.com>
+From:   Sargun Dhillon <sargun@sargun.me>
+Date:   Thu, 26 Dec 2019 20:35:00 -0500
+Message-ID: <CAMp4zn94deUbkXBrnX=Omw9-FmoZDANApqYUVsaV+VsXCX4Q-w@mail.gmail.com>
+Subject: Re: [PATCH v7 2/3] pid: Introduce pidfd_getfd syscall
+To:     kbuild test robot <lkp@intel.com>
+Cc:     kbuild-all@lists.01.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Containers <containers@lists.linux-foundation.org>,
         Linux API <linux-api@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        "Ahmed S. Darwish" <darwish.07@gmail.com>,
-        Lennart Poettering <mzxreary@0pointer.de>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        "Alexander E. Patrakov" <patrakov@gmail.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Willy Tarreau <w@1wt.eu>,
-        Matthew Garrett <mjg59@srcf.ucam.org>,
-        Ext4 Developers List <linux-ext4@vger.kernel.org>,
-        linux-man <linux-man@vger.kernel.org>
-Date:   Fri, 27 Dec 2019 07:29:20 +0800
-Message-Id: <26B7EEAE-1166-4B45-9534-E00C5B2767C1@amacapital.net>
-References: <20191226140423.GB3158@mit.edu>
-To:     "Theodore Y. Ts'o" <tytso@mit.edu>
-X-Mailer: iPhone Mail (17C54)
+        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
+        Tycho Andersen <tycho@tycho.ws>, Jann Horn <jannh@google.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Gian-Carlo Pascutto <gpascutto@mozilla.com>,
+        =?UTF-8?Q?Emilio_Cobos_=C3=81lvarez?= <ealvarez@mozilla.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Jed Davis <jld@mozilla.com>, Arnd Bergmann <arnd@arndb.de>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Thu, Dec 26, 2019 at 5:20 PM kbuild test robot <lkp@intel.com> wrote:
+>
+> Hi Sargun,
+>
+> Thank you for the patch! Yet something to improve:
+>
+> All errors (new ones prefixed by >>):
+>
+>    arch/alpha/kernel/systbls.o: In function `sys_call_table':
+> >> (.data+0x1120): undefined reference to `sys_pidfd'
+This is a small typo. I'll fix this in the next respin.
 
->> On Dec 26, 2019, at 10:04 PM, Theodore Y. Ts'o <tytso@mit.edu> wrote:
->>=20
->> =EF=BB=BFOn Thu, Dec 26, 2019 at 01:03:34PM +0100, Stephan Mueller wrote:=
 
->> Agreed. I was just trying to outline that the removal of the blocking_poo=
-l is
->> a good thing. Even when we decide that random.c should receive a TRNG, we=
- do
->> not need to re-add a blocking pool, but can easily use the existing ChaCh=
-a20
->> DRNG (most likely with its own instance).
->=20
-> Well, it depends on what you mean by "TRNG" --- the ChaCha20 DRNG only
-> has a state of 256 bits.  So if you want to only depend on "true
-> entropy" you can't extract more than 256 bits without violating that
-> assumption, at least if you're using a very strict definition of TRNG.
->=20
-> By getting rid of the blocking pool, and making /dev/random work like
-> getrandom with flags set to 0, we're effectively abandoning any kind
-> of assertion that /dev/random is some kind of TRNG.  This is not
-> insane; this is what the *BSD's have always done.
->=20
-> But once we do this, and /dev/random takes on the semantics of "block
-> until the CRNG has been initialized, and then it won't block after
-> that", if we change it so that it now has some different semantics,
-> such as "one you extract a 256-bit key, the read from /dev/random will
-> block until we can refill it, which might take seconds, minutes or
-> hours", will be considered a regression, and we can't do that.
-
-I don=E2=80=99t think Stephan was proposing that. He was proposing a way to i=
-mplement a new interface that blocks.
-
->=20
-> Of course, we can hope that people will be using getrandom() and there
-> will be very few new users of the /dev/random pathname.  But nothing
-> is ever guaranteed..
->=20
->                       - Ted
+>
+> ---
+> 0-DAY kernel test infrastructure                 Open Source Technology Center
+> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org Intel Corporation
