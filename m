@@ -2,231 +2,206 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CF54412B3E5
-	for <lists+linux-api@lfdr.de>; Fri, 27 Dec 2019 11:30:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A6F0312B44B
+	for <lists+linux-api@lfdr.de>; Fri, 27 Dec 2019 12:47:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726335AbfL0KaK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 27 Dec 2019 05:30:10 -0500
-Received: from mo4-p02-ob.smtp.rzone.de ([81.169.146.169]:24796 "EHLO
-        mo4-p02-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726270AbfL0KaK (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 27 Dec 2019 05:30:10 -0500
-X-Greylist: delayed 80746 seconds by postgrey-1.27 at vger.kernel.org; Fri, 27 Dec 2019 05:30:09 EST
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1577442607;
-        s=strato-dkim-0002; d=chronox.de;
-        h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-        X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
-        bh=Qx0iM8FINnvF6+4nf5gRDxQg8HM8PCrY5XDC09oP3uk=;
-        b=ULYFxwWgTUvxznZh3jbUvrtbLdfp1lGKxl3Sv6qMMY3hF5tyJ53LQaEF/HY6qI7DUF
-        rzIG8OVgPRnTGS/lH5McC3m6aqGsZQTcznqt21uab5qAFFJEggbN7k3QFH/nvrX85oVO
-        p60Xx6isGMhx8nJ3VZGYqyr/Rrsm71+lRwcAdLfiK19aLzNba4me6TuMGHuUGPaq34Kk
-        ZDWBcRuoZJEjIUIVWOAUPTKrdEUdCqQAThPFpJDLqjcD84tbZhCn0BXY5aOu8rpauyxb
-        xVgwMRb9obst7bEytkoq1zpA4Fmc4QcPQyOQQZXtA42hC5vrsH6lOUQdYGZD/IJM6JDZ
-        flHQ==
-X-RZG-AUTH: ":P2ERcEykfu11Y98lp/T7+hdri+uKZK8TKWEqNyiHySGSa9k9xmwdNnzHHXDbJ/ScSKV5"
-X-RZG-CLASS-ID: mo00
-Received: from tauon.chronox.de
-        by smtp.strato.de (RZmta 46.1.3 DYNA|AUTH)
-        with ESMTPSA id e09841vBRATME7m
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-        (Client did not present a certificate);
-        Fri, 27 Dec 2019 11:29:22 +0100 (CET)
-From:   Stephan Mueller <smueller@chronox.de>
-To:     Andy Lutomirski <luto@amacapital.net>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        "Ahmed S. Darwish" <darwish.07@gmail.com>,
-        Lennart Poettering <mzxreary@0pointer.de>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        "Alexander E. Patrakov" <patrakov@gmail.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Willy Tarreau <w@1wt.eu>,
-        Matthew Garrett <mjg59@srcf.ucam.org>,
-        Ext4 Developers List <linux-ext4@vger.kernel.org>,
-        linux-man <linux-man@vger.kernel.org>
-Subject: Re: [PATCH v3 0/8] Rework random blocking
-Date:   Fri, 27 Dec 2019 11:29:22 +0100
-Message-ID: <4048434.Q8HajmOrkZ@tauon.chronox.de>
-In-Reply-To: <26B7EEAE-1166-4B45-9534-E00C5B2767C1@amacapital.net>
-References: <20191226140423.GB3158@mit.edu> <26B7EEAE-1166-4B45-9534-E00C5B2767C1@amacapital.net>
+        id S1726053AbfL0Lrb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 27 Dec 2019 06:47:31 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:46419 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726377AbfL0Lrb (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 27 Dec 2019 06:47:31 -0500
+Received: from p5b2a6dac.dip0.t-ipconnect.de ([91.42.109.172] helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1iko5X-0006iS-El; Fri, 27 Dec 2019 11:47:27 +0000
+Date:   Fri, 27 Dec 2019 12:47:26 +0100
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Aleksa Sarai <cyphar@cyphar.com>
+Cc:     Sargun Dhillon <sargun@sargun.me>, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, tycho@tycho.ws, jannh@google.com,
+        keescook@chromium.org
+Subject: Re: [PATCH] seccomp: Check flags on seccomp_notif is unset
+Message-ID: <20191227114725.xsacnaoaaxdv6yg3@wittgenstein>
+References: <20191225214530.GA27780@ircssh-2.c.rugged-nimbus-611.internal>
+ <20191226115245.usf7z5dkui7ndp4w@wittgenstein>
+ <20191226143229.sbopynwut2hhsiwn@yavin.dot.cyphar.com>
+ <57C06925-0CC6-4251-AD57-8FF1BC28F049@ubuntu.com>
+ <20191227022446.37e64ag4uaqms2w4@yavin.dot.cyphar.com>
+ <20191227023131.klnobtlfgeqcmvbb@yavin.dot.cyphar.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20191227023131.klnobtlfgeqcmvbb@yavin.dot.cyphar.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Am Freitag, 27. Dezember 2019, 00:29:20 CET schrieb Andy Lutomirski:
+On Fri, Dec 27, 2019 at 01:31:31PM +1100, Aleksa Sarai wrote:
+> On 2019-12-27, Aleksa Sarai <cyphar@cyphar.com> wrote:
+> > On 2019-12-26, Christian Brauner <christian.brauner@ubuntu.com> wrote:
+> > > On December 26, 2019 3:32:29 PM GMT+01:00, Aleksa Sarai <cyphar@cyphar.com> wrote:
+> > > >On 2019-12-26, Christian Brauner <christian.brauner@ubuntu.com> wrote:
+> > > >> On Wed, Dec 25, 2019 at 09:45:33PM +0000, Sargun Dhillon wrote:
+> > > >> > This patch is a small change in enforcement of the uapi for
+> > > >> > SECCOMP_IOCTL_NOTIF_RECV ioctl. Specificaly, the datastructure
+> > > >which is
+> > > >> > passed (seccomp_notif), has a flags member. Previously that could
+> > > >be
+> > > >> > set to a nonsense value, and we would ignore it. This ensures that
+> > > >> > no flags are set.
+> > > >> > 
+> > > >> > Signed-off-by: Sargun Dhillon <sargun@sargun.me>
+> > > >> > Cc: Kees Cook <keescook@chromium.org>
+> > > >> 
+> > > >> I'm fine with this since we soon want to make use of the flag
+> > > >argument
+> > > >> when we add a flag to get a pidfd from the seccomp notifier on
+> > > >receive.
+> > > >> The major users I could identify already pass in seccomp_notif with
+> > > >all
+> > > >> fields set to 0. If we really break users we can always revert; this
+> > > >> seems very unlikely to me though.
+> > > >> 
+> > > >> One more question below, otherwise:
+> > > >> 
+> > > >> Reviewed-by: Christian Brauner <christian.brauner@ubuntu.com>
+> > > >> 
+> > > >> > ---
+> > > >> >  kernel/seccomp.c | 7 +++++++
+> > > >> >  1 file changed, 7 insertions(+)
+> > > >> > 
+> > > >> > diff --git a/kernel/seccomp.c b/kernel/seccomp.c
+> > > >> > index 12d2227e5786..455925557490 100644
+> > > >> > --- a/kernel/seccomp.c
+> > > >> > +++ b/kernel/seccomp.c
+> > > >> > @@ -1026,6 +1026,13 @@ static long seccomp_notify_recv(struct
+> > > >seccomp_filter *filter,
+> > > >> >  	struct seccomp_notif unotif;
+> > > >> >  	ssize_t ret;
+> > > >> >  
+> > > >> > +	if (copy_from_user(&unotif, buf, sizeof(unotif)))
+> > > >> > +		return -EFAULT;
+> > > >> > +
+> > > >> > +	/* flags is reserved right now, make sure it's unset */
+> > > >> > +	if (unotif.flags)
+> > > >> > +		return -EINVAL;
+> > > >> > +
+> > > >> 
+> > > >> Might it make sense to use
+> > > >> 
+> > > >> 	err = copy_struct_from_user(&unotif, sizeof(unotif), buf,
+> > > >sizeof(unotif));
+> > > >> 	if (err)
+> > > >> 		return err;
+> > > >> 
+> > > >> This way we check that the whole struct is 0 and report an error as
+> > > >soon
+> > > >> as one of the members is non-zero. That's more drastic but it'd
+> > > >ensure
+> > > >> that other fields can be used in the future for whatever purposes.
+> > > >> It would also let us get rid of the memset() below. 
+> > > >
+> > > >Given that this isn't an extensible struct, it would be simpler to just
+> > > >do
+> > > >check_zeroed_user() -- copy_struct_from_user() is overkill. That would
+> > > >also remove the need for any copy_from_user()s and the memset can be
+> > > >dropped by just doing
+> > > >
+> > > >  struct seccomp_notif unotif = {};
+> > > >
+> > > >> >  	memset(&unotif, 0, sizeof(unotif));
+> > > >> >  
+> > > >> >  	ret = down_interruptible(&filter->notif->request);
+> > > >> > -- 
+> > > >> > 2.20.1
+> > > >> > 
+> > > 
+> > > It is an extensible struct. That's why we have notifier size checking built in.
+> > 
+> > Ah right, NOTIF_GET_SIZES. I reckon check_zeroed_user() is still a bit
+> > simpler since none of the fields are used right now (and really, this
+> > patch should be checking all of them, not just ->flags, if we want to
+> > use any of them in the future).
+> 
+> Scratch that -- as Tycho just mentioned, there is un-named padding in
+> the struct so check_zeroed_user() is the wrong thing to do. But this
 
-Hi Ted, Andy,
+Hm, I don't think so.
+I understood Tycho's point as _if_ there ever is padding then this would
+not be zeroed.
+Right now, there is no padding since the struct is correctly padded:
 
-> >> On Dec 26, 2019, at 10:04 PM, Theodore Y. Ts'o <tytso@mit.edu> wrote:
-> >>=20
-> >> =EF=BB=BFOn Thu, Dec 26, 2019 at 01:03:34PM +0100, Stephan Mueller wro=
-te:
-> >> Agreed. I was just trying to outline that the removal of the
-> >> blocking_pool is a good thing. Even when we decide that random.c should
-> >> receive a TRNG, we do not need to re-add a blocking pool, but can easi=
-ly
-> >> use the existing ChaCha20 DRNG (most likely with its own instance).
-> >=20
-> > Well, it depends on what you mean by "TRNG" --- the ChaCha20 DRNG only
-> > has a state of 256 bits.  So if you want to only depend on "true
-> > entropy" you can't extract more than 256 bits without violating that
-> > assumption, at least if you're using a very strict definition of TRNG.
+struct seccomp_data {
+	int nr;
+	__u32 arch;
+	__u64 instruction_pointer;
+	__u64 args[6];
+};
 
+struct seccomp_notif {
+	__u64 id;
+	__u32 pid;
+	__u32 flags;
+	struct seccomp_data data;
+};
 
-My definition of TRNG is identical to the German AIS 31 and I guess identic=
-al=20
-to your definition of a TRNG.
+which would be - using pahole:
 
-A TRNG will produce an amount of random data that is equal to the amount of=
-=20
-"fresh" entropy that was provided by the noise source. I.e. it should be=20
-identical to the blocking_pool behavior.
+struct seccomp_data {
+        int                        nr;                   /*     0     4 */
+        __u32                      arch;                 /*     4     4 */
+        __u64                      instruction_pointer;  /*     8     8 */
+        __u64                      args[6];              /*    16    48 */
 
-This definition is slightly stricter than the SP800-90A definition of "a DR=
-BG=20
-with prediction resistance" which requires a reseed with entropy equal to t=
-he=20
-security strength of the DRBG, but allows one generate operation which at m=
-ost=20
-generates 2^19 random bits.
+        /* size: 64, cachelines: 1, members: 4 */
+};
+struct seccomp_notif {
+        __u64                      id;                   /*     0     8 */
+        __u32                      pid;                  /*     8     4 */
+        __u32                      flags;                /*    12     4 */
+        struct seccomp_data data;                        /*    16    64 */
 
-Such TRNG has two components
+        /* size: 80, cachelines: 2, members: 4 */
+        /* last cacheline: 16 bytes */
+};
 
-1. the noise source / the entropy pool
+The only worry would be a 2byte int type but there's no architecture
+we support which does this right now afaict.
 
-2. the random number generator
+> also will make extensions harder to deal with because (presumably) they
+> will also have un-named padding, making copy_struct_from_user() the
 
-All I try to say is that the random number generator does not need to be a=
-=20
-special implementation of, say, a blocking_pool, but it can be any type of=
-=20
-DRNG (ChaCha20, SP800-90A DRBG, ...).
+This all will be a non-issue if we just use __u64 for extensions.
 
-To manage that DRNG, the logic needs to ensure that the maximum entropy=20
-content assumed to be present in the DRNG is min(entropy_from_noise_source,=
-=20
-security_strength_DRNG). For the case of the blocking_pool, the security=20
-strength is 1024 bits which means that at most the blocking_pool can hold u=
-p=20
-to 1024 bits. With a ChaCha20 DRNG, the security strength is 256 bits.=20
-SP800-90A defines the security strengths of the DRBGs.
+My point about using copy_struct_from_user() was that we should verify
+that _all_ fields are uninitialized and not just the flags argument
+since we might introduce a flags argument that requires another already
+existing member in seccomp_notif to be set to a value. We should do this
+change now so we don't have to risk breaking someone in the future.
 
-That said, for a TRNG, the DRNG part must be seeded with the amount of entr=
-opy=20
-equaling the requested numbers of random bits, but at most with entropy=20
-equaling the security strength of the DRNG. If the caller wants more random=
-=20
-data, the request must be chunked to ensure that the DRNG is always reseede=
-d=20
-before satisfying the chunk of the request.
+I'm trying to get at least Mozilla/Firefox off of their crazy
+SECCOMP_RET_TRAP way of implementing their broker onto the user notifier
+and they will likely need some extensions. That includes the pidfd stuff
+for seccomp that Sargun will likely be doing and the new pidfd_getfd()
+syscall. So it's not unlikely that we might need other already existing
+fields in that struct to be set to some value.
 
-> >=20
-> > By getting rid of the blocking pool, and making /dev/random work like
-> > getrandom with flags set to 0, we're effectively abandoning any kind
-> > of assertion that /dev/random is some kind of TRNG.  This is not
-> > insane; this is what the *BSD's have always done.
+I don't particulary care how we do it:
+- We can do a simple copy_from_user() and check each field individually.
+- Use copy_struct_from_user().
+  That is safe to do right now since there is no padding afaict and
+  it'll automatically verify new fields as well.
+  If I understand the worry correctly then the argument against
+  copy_struct_from_user() here is that there might be padding introduced
+  and userspace will not do an explicit memset() but rather rely on an
+  empty inializer {} and will _accidently_ pass down a struct which has
+  __all fields cleared__ but __uninitialized padding__ and we tell them
+  EINVAL? That can only happen if we introduce padding in the struct
+  which I'd argue we just don't do. That'll be in line with what we
+  require from our ABIs already anyway.
 
-Correct, and I am not disputing it. And I think that making Linux to behave=
-=20
-like the BSD's and guaranteeing that the DRNG is fully seeded based on Andy=
-'s=20
-patch set is a good thing.
-
-All I try to say is that there are use cases where a TRNG with the initiall=
-y=20
-defined operation is required. This most prominent use case is the German A=
-IS=20
-31 and the (re)seeding requirements of deterministic RNGs.
-> >=20
-> > But once we do this, and /dev/random takes on the semantics of "block
-> > until the CRNG has been initialized, and then it won't block after
-> > that", if we change it so that it now has some different semantics,
-> > such as "one you extract a 256-bit key, the read from /dev/random will
-> > block until we can refill it, which might take seconds, minutes or
-> > hours", will be considered a regression, and we can't do that.
->=20
-> I don=E2=80=99t think Stephan was proposing that. He was proposing a way =
-to
-> implement a new interface that blocks.
-
-Thank you, Andy. Yes. I am trying to propose a separate interface.
-
-Our discussion currently produced the following suggestions:
-
-=2D add a new GRND_TRUERANDOM flag to getrandom(2) which allows access to t=
-he=20
-TRNG. Andy did not like it because he mentioned that it may be misused sinc=
-e=20
-the syscall is unprivileged. I had some suggestions to overcome this proble=
-m,=20
-but not all of Andy's considerations could be addressed with this suggestio=
-n.=20
-As an idea, my current LRNG system call implementation looks like:
-
-SYSCALL_DEFINE3(getrandom, char __user *, buf, size_t, count,
-                unsigned int, flags)
-{
-        if (flags & ~(GRND_NONBLOCK|GRND_RANDOM|GRND_INSECURE|
-GRND_TRUERANDOM))
-                return -EINVAL;
-
-        /*
-         * Requesting insecure and blocking randomness at the same time mak=
-es
-         * no sense.
-         */
-        if ((flags &
-             (GRND_INSECURE|GRND_RANDOM)) =3D=3D (GRND_INSECURE|GRND_RANDOM=
-))
-                return -EINVAL;
-
-        /* Only allow GRND_TRUERANDOM by itself or with NONBLOCK */
-        if ((flags & GRND_TRUERANDOM) &&
-            ((flags &~ GRND_TRUERANDOM) !=3D 0) &&
-            ((flags &~ (GRND_TRUERANDOM | GRND_NONBLOCK)) !=3D 0))
-                return -EINVAL;
-
-        if (count > INT_MAX)
-                count =3D INT_MAX;
-
-        if (flags & GRND_TRUERANDOM)
-                return lrng_read_common_block(flags & GRND_NONBLOCK, buf,
-                                              count, lrng_trng_get);
-        if (flags & GRND_INSECURE)
-                return lrng_sdrng_read(NULL, buf, count, NULL);
-
-        return lrng_read_common_block(flags & GRND_NONBLOCK, buf, count,
-                                      lrng_sdrng_get_sleep);
-
-}
-
-
-=2D Andy mentioned that he likes the approach with having another new char=
-=20
-device with permissions 440 to provide an interface to the TRNG as more=20
-appropriate. However, Greg was reluctant to add a new device file.
-
-I personally am indifferent. All I am suggesting is to have a TRNG offered =
-to=20
-user space.
-
-> > Of course, we can hope that people will be using getrandom() and there
-> > will be very few new users of the /dev/random pathname.  But nothing
-> > is ever guaranteed..
-> >=20
-> >                       - Ted
-
-
-
-Ciao
-Stephan
-
-
+Christian
