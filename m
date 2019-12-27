@@ -2,175 +2,183 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E2DC012B5A3
-	for <lists+linux-api@lfdr.de>; Fri, 27 Dec 2019 16:32:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 22FC712BB37
+	for <lists+linux-api@lfdr.de>; Fri, 27 Dec 2019 22:23:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726602AbfL0Pcx convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Fri, 27 Dec 2019 10:32:53 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:39636 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726379AbfL0Pcw (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 27 Dec 2019 10:32:52 -0500
-Received: by mail-wm1-f68.google.com with SMTP id 20so8485336wmj.4
-        for <linux-api@vger.kernel.org>; Fri, 27 Dec 2019 07:32:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:user-agent:in-reply-to:references
-         :mime-version:content-transfer-encoding:subject:to:cc:from
-         :message-id;
-        bh=R0BntrF2rVDTNMrbJtPfDSQnwueZm5LWHMc62sB8sLg=;
-        b=bYLfACrIWhhvnNf2GwFwzXohvmnv1GqzHM6I6av4waYkym7zU7QVfxT6YFonRFP664
-         Yo886vXRzxpHWYNDet22zcUE/tzKLjAV4Ep+K7pAH3wBl1Aw2dLvXonOSfuM2XKoaBMq
-         Zl1ExANDrD3WrpCw96nCUst6blgyqHuYi+yiQzFVYoQWdoEyDntWF61BXjJk2VVwepnC
-         iIeplZg/Ce4mHvE1jR1LHdrW9rAuCUulGZcG0t3dErgqfhb6bin9fhHmTVQ8i+Xagyvm
-         LlPuU3B1ZQtyk6Zp9o2DFkBU1b0qvUfCQUv2Gyewf/NXH38q3U7ROKeHCX97YYKXjVrW
-         jcMg==
-X-Gm-Message-State: APjAAAXiE/YAbGK3Mp+mAoSJfZl8C32m0OegL54TdzeZ8GIHNkZONRzc
-        yUZo2utImOyGlT3cX7u09BWxMw==
-X-Google-Smtp-Source: APXvYqyEFdZLIODyisLhnnf1QEZpRY5N7PqJYnzvr7x+AUm9SfDpYU9xcZj6k6fQoc0Ij6FwAU7d7w==
-X-Received: by 2002:a7b:cb91:: with SMTP id m17mr19833961wmi.146.1577460769823;
-        Fri, 27 Dec 2019 07:32:49 -0800 (PST)
-Received: from [192.168.178.28] (p5B2A6DAC.dip0.t-ipconnect.de. [91.42.109.172])
-        by smtp.gmail.com with ESMTPSA id m21sm11336551wmi.27.2019.12.27.07.32.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Dec 2019 07:32:49 -0800 (PST)
-Date:   Fri, 27 Dec 2019 16:32:46 +0100
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20191227151501.osy2m6o6p6odzk74@yavin.dot.cyphar.com>
-References: <20191225214530.GA27780@ircssh-2.c.rugged-nimbus-611.internal> <20191226115245.usf7z5dkui7ndp4w@wittgenstein> <20191226143229.sbopynwut2hhsiwn@yavin.dot.cyphar.com> <57C06925-0CC6-4251-AD57-8FF1BC28F049@ubuntu.com> <20191227022446.37e64ag4uaqms2w4@yavin.dot.cyphar.com> <20191227023131.klnobtlfgeqcmvbb@yavin.dot.cyphar.com> <20191227114725.xsacnaoaaxdv6yg3@wittgenstein> <CAMp4zn8iMsRvDoDtrotfnEm2_UUULH9VRiR6q9u8CS4qham2Eg@mail.gmail.com> <20191227151501.osy2m6o6p6odzk74@yavin.dot.cyphar.com>
-MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 8BIT
-Subject: Re: [PATCH] seccomp: Check flags on seccomp_notif is unset
-To:     Aleksa Sarai <cyphar@cyphar.com>, Sargun Dhillon <sargun@sargun.me>
-CC:     LKML <linux-kernel@vger.kernel.org>,
+        id S1726310AbfL0VXS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 27 Dec 2019 16:23:18 -0500
+Received: from mo4-p01-ob.smtp.rzone.de ([85.215.255.51]:33975 "EHLO
+        mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725860AbfL0VXS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 27 Dec 2019 16:23:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1577481793;
+        s=strato-dkim-0002; d=chronox.de;
+        h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+        X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+        bh=48HBB2KfXhaTD/qKcyXvjDtuDdQKvhQn4iJRH8czAHc=;
+        b=sHNc5GIJcBv1YC7VHqLOoxtLqIcvP+yKhYxHTW0BgzAHPjTfxgf7zwI66IjwpltvSj
+        Dx4ffCMv9Hs4ay0lNwSt9h6/CdbylLT8CQqAIV9O6wFBngZrv/RiCAv/Kxuq+NfxdUDC
+        Yw4o3AccmU+IUh73JJVxbRnfzN2vMd8X2yxUcUOonS7HuwElEsOLLdrRpcHz7vBRny7I
+        tPfga5t/+j9es1w0txBMWLbdMsjnY6UP9Im5zaA0F2cyEXejLxgdCUzxgXEbIjzXcQ5W
+        j6o4akOL/1kg6pPWcnTcevgdyRS1Pq0IboJKMjylJCDF+0BMx6XGRUSWharFlbcvsngJ
+        SewA==
+X-RZG-AUTH: ":P2ERcEykfu11Y98lp/T7+hdri+uKZK8TKWEqNyiHySGSa9k9xmwdNnzHHXDbJ/ScSKV5"
+X-RZG-CLASS-ID: mo00
+Received: from tauon.chronox.de
+        by smtp.strato.de (RZmta 46.1.3 DYNA|AUTH)
+        with ESMTPSA id e09841vBRLMNGRC
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+        (Client did not present a certificate);
+        Fri, 27 Dec 2019 22:22:23 +0100 (CET)
+From:   Stephan Mueller <smueller@chronox.de>
+To:     "Theodore Y. Ts'o" <tytso@mit.edu>
+Cc:     Andy Lutomirski <luto@amacapital.net>,
+        Andy Lutomirski <luto@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
-        Tycho Andersen <tycho@tycho.ws>, Jann Horn <jannh@google.com>,
-        Kees Cook <keescook@chromium.org>
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-Message-ID: <321F2BE8-6F16-4804-9F20-B03E5800B940@ubuntu.com>
+        Kees Cook <keescook@chromium.org>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        "Ahmed S. Darwish" <darwish.07@gmail.com>,
+        Lennart Poettering <mzxreary@0pointer.de>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "Alexander E. Patrakov" <patrakov@gmail.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Willy Tarreau <w@1wt.eu>,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        Ext4 Developers List <linux-ext4@vger.kernel.org>,
+        linux-man <linux-man@vger.kernel.org>
+Subject: Re: [PATCH v3 0/8] Rework random blocking
+Date:   Fri, 27 Dec 2019 22:22:23 +0100
+Message-ID: <15817620.rmTN4T87Wr@tauon.chronox.de>
+In-Reply-To: <20191227130436.GC70060@mit.edu>
+References: <20191226140423.GB3158@mit.edu> <4048434.Q8HajmOrkZ@tauon.chronox.de> <20191227130436.GC70060@mit.edu>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On December 27, 2019 4:15:01 PM GMT+01:00, Aleksa Sarai <cyphar@cyphar.com> wrote:
->On 2019-12-27, Sargun Dhillon <sargun@sargun.me> wrote:
->> On Fri, Dec 27, 2019 at 6:47 AM Christian Brauner
->> <christian.brauner@ubuntu.com> wrote:
->> >
->> > On Fri, Dec 27, 2019 at 01:31:31PM +1100, Aleksa Sarai wrote:
->> > > On 2019-12-27, Aleksa Sarai <cyphar@cyphar.com> wrote:
->> > >
->> > > Scratch that -- as Tycho just mentioned, there is un-named
->padding in
->> > > the struct so check_zeroed_user() is the wrong thing to do. But
->this
->> >
->> > Hm, I don't think so.
->> > I understood Tycho's point as _if_ there ever is padding then this
->would
->> > not be zeroed.
->> > Right now, there is no padding since the struct is correctly
->padded:
->> >
->> > struct seccomp_data {
->> >         int nr;
->> >         __u32 arch;
->> >         __u64 instruction_pointer;
->> >         __u64 args[6];
->> > };
->> >
->> > struct seccomp_notif {
->> >         __u64 id;
->> >         __u32 pid;
->> >         __u32 flags;
->> >         struct seccomp_data data;
->> > };
->> >
->> > which would be - using pahole:
->> >
->> > struct seccomp_data {
->> >         int                        nr;                   /*     0  
->  4 */
->> >         __u32                      arch;                 /*     4  
->  4 */
->> >         __u64                      instruction_pointer;  /*     8  
->  8 */
->> >         __u64                      args[6];              /*    16  
-> 48 */
->> >
->> >         /* size: 64, cachelines: 1, members: 4 */
->> > };
->> > struct seccomp_notif {
->> >         __u64                      id;                   /*     0  
->  8 */
->> >         __u32                      pid;                  /*     8  
->  4 */
->> >         __u32                      flags;                /*    12  
->  4 */
->> >         struct seccomp_data data;                        /*    16  
-> 64 */
->> >
->> >         /* size: 80, cachelines: 2, members: 4 */
->> >         /* last cacheline: 16 bytes */
->> > };
->> >
->> > The only worry would be a 2byte int type but there's no
->architecture
->> > we support which does this right now afaict.
->> >
->> > > also will make extensions harder to deal with because
->(presumably) they
->> > > will also have un-named padding, making copy_struct_from_user()
->the
->> >
->> > This all will be a non-issue if we just use __u64 for extensions.
->> >
->> > My point about using copy_struct_from_user() was that we should
->verify
->> > that _all_ fields are uninitialized and not just the flags argument
->> > since we might introduce a flags argument that requires another
->already
->> > existing member in seccomp_notif to be set to a value. We should do
->this
->> > change now so we don't have to risk breaking someone in the future.
->> >
->> > I'm trying to get at least Mozilla/Firefox off of their crazy
->> > SECCOMP_RET_TRAP way of implementing their broker onto the user
->notifier
->> > and they will likely need some extensions. That includes the pidfd
->stuff
->> > for seccomp that Sargun will likely be doing and the new
->pidfd_getfd()
->> > syscall. So it's not unlikely that we might need other already
->existing
->> > fields in that struct to be set to some value.
->> >
->> > I don't particulary care how we do it:
->> > - We can do a simple copy_from_user() and check each field
->individually.
->> 
->> Just doing a simple copy_from_user, and for now, calling memchr_inv
->> on the whole thing. We can drop the memset, and just leave a note to
->> indicate that if unpadded fields are introduced in the future, this
->structure
->> must be manually zeroed out. Although, this might be laying a trap
->for
->> ourselves.
->> 
->> This leaves us in a good position for introducing a flag field in the
->future.
->> All we have to do is change the memchr_inv from checking on an
->> entire struct basis to checking on a per-field basis.
->
->There is no need to do memchr_inv() on copy_from_user() to check for
->zero-ness. That's the entire point of check_zeroed_user() -- to not
->need
->to do it that way.
+Am Freitag, 27. Dezember 2019, 14:04:36 CET schrieb Theodore Y. Ts'o:
 
-Right, we added that too a while ago.
-Let's use it.
+Hi Theodore,
 
-Christian
+> On Fri, Dec 27, 2019 at 11:29:22AM +0100, Stephan Mueller wrote:
+> > My definition of TRNG is identical to the German AIS 31 and I guess
+> > identical to your definition of a TRNG.
+> > 
+> > A TRNG will produce an amount of random data that is equal to the amount
+> > of
+> > "fresh" entropy that was provided by the noise source. I.e. it should be
+> > identical to the blocking_pool behavior.
+> 
+> This begs the question of determining: (a) how much "fresh entropy"
+> you can actually get from a noise source, (b) at what rate the "fresh
+> entropy" is arriving, and (c) what assurance(s) you have that the
+> noise source is actually working correctly.
+> 
+> You can't make those assurances from software alone; it needs to be an
+> aspect of holistic design of the hardware's design; the supply chain,
+> and the software.  So if we are going to claime that we have something
+> like GRND_TRUERANDOM or /dev/trandom, or whatever, it needs to work on
+> IOT devices running ARM, RISC-V, MIPS, PowerPC, x86.  Some of these
+> architectures have no instruction reordering and are stupid simple;
+> some of these hardware platforms may have no high-resolution clock or
+> cryptographic instructions.
+> 
+> In addition, if you use a hardware device which is USB attached, how
+> does the kernel know that it really is the device that you think it
+> is?  The only way you know that a ChaosKey is a ChaosKey is by its USB
+> vendor and product id --- which can be easily forged by an attacker,
+> either in the supply chain or delivery path, or who walks up to the
+> laptop, yanks out the ChaosKey and replaces it with a "PutinKey" or a
+> "NSAKey".
+> 
+> So creating somethinig which shows up as "true random number
+> generator" as a generic Linux concept seems to me to be fraught
+> endeavor, and I'm not at all convince people need it.
+
+I am unsure but it sounds like you are refuting your blocking_pool 
+implementation. Nothing more and nothing less than the blocking_pool, just 
+with a more modern and further analyzed DRNG is what was referenced as a TRNG.
+
+Or maybe the terminology of TRNG (i.e. "true") is offending. I have no concern 
+to have it replaced with some other terminology. Yet, I was just taking one 
+well-defined term.
+
+Yet, I fully agree that a noise source always must be vetted. This is what I 
+tried with random.c in [1], specifically section 6.1 for x86 systems.
+
+For my LRNG, I tried that in [2] section 3.2 compliant to SP800-90B. In order 
+to provide a means to everybody to perform such entropy analysis, the entire 
+tool set required for it is provided:
+
+- with CONFIG_LRNG_TESTING providing an interface to the raw unconditioned 
+noise
+
+- with [3] providing a tool set to gather all data needed for an SP800-90B 
+compliant quantitative analysis
+
+Unfortunately due to license restrictions, I cannot make the same tool set 
+available used for the quantiative study provided with [1] section 6.1.
+
+Finally, to support the conclusions drawn from a noise source analysis, the 
+health tests provided with LRNG compliant to SP800-90B are available with 
+CONFIG_LRNG_HEALTH_TESTS. These tests help in identifying weak or broken noise 
+sources.
+
+It is fully clear that such studies of non-physical noise sources do not have 
+a stochastical model which implies that we cannot make global statements. That 
+is the limitation when using such noise sources. Though, the implementation 
+should have sufficient "leeway" (i.e. underestmation) when crediting entropy 
+to some events.
+> 
+> > - add a new GRND_TRUERANDOM flag to getrandom(2) which allows access to
+> > the
+> > TRNG. Andy did not like it because he mentioned that it may be misused
+> > since the syscall is unprivileged.
+> 
+> Even if we could solve the "how the hell can the kernel guarantee that
+> the noise source is legitimate" problem in a general way that works
+> across all of the architectures, we still have the problem that
+> everyone thinks they need "the good stuff".
+> 
+> Suppose the system call was privileged and "true randomness" could
+> only be accessed as root.  What would happen?  Application programmers
+> would give instructions requiring that their application be installed
+> as root to be more secure, "because that way you can get access the
+> _really_ good random numbers".
+
+That is why I think that it is no bug when this interface can DoS other users 
+wanting to access the very same resource. This is the price to pay for getting 
+access to this type of data.
+> 
+> So let's take a step back and ask the question: "Exactly what _value_
+> do you want to provide by creating some kind of true random
+> interface?"  What does this enable?  What applications does this
+> really help?
+
+There are simply cryptographers who have use cases for such random numbers. 
+The core use case is to seed other DRNGs and avoiding the chaining of free-
+running DRNGs.
+
+This is a common approach that you can see in action with the RDSEED 
+instruction, for example.
+> 
+> As I thought while watching the latest Star Wars movie: Why?  Why?
+> Whywhywhy?
+> 
+> 					- Ted
+
+[1] https://www.bsi.bund.de/SharedDocs/Downloads/EN/BSI/Publications/Studies/
+LinuxRNG/LinuxRNG_EN.pdf?__blob=publicationFile&v=11
+
+[2] https://chronox.de/lrng/doc/lrng.pdf
+
+[3] https://chronox.de/lrng/lrng-tests-20191123.tar.xz
+
+Ciao
+Stephan
+
+
