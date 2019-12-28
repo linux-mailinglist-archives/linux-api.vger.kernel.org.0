@@ -2,97 +2,113 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2212912BCEF
-	for <lists+linux-api@lfdr.de>; Sat, 28 Dec 2019 08:01:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 44C2F12BCF1
+	for <lists+linux-api@lfdr.de>; Sat, 28 Dec 2019 08:09:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725999AbfL1HBb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 28 Dec 2019 02:01:31 -0500
-Received: from wtarreau.pck.nerim.net ([62.212.114.60]:29841 "EHLO 1wt.eu"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725857AbfL1HBb (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Sat, 28 Dec 2019 02:01:31 -0500
-Received: (from willy@localhost)
-        by pcw.home.local (8.15.2/8.15.2/Submit) id xBS71BFU002595;
-        Sat, 28 Dec 2019 08:01:11 +0100
-Date:   Sat, 28 Dec 2019 08:01:11 +0100
-From:   Willy Tarreau <w@1wt.eu>
-To:     "Theodore Y. Ts'o" <tytso@mit.edu>
-Cc:     Stephan Mueller <smueller@chronox.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Andy Lutomirski <luto@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        "Ahmed S. Darwish" <darwish.07@gmail.com>,
-        Lennart Poettering <mzxreary@0pointer.de>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        "Alexander E. Patrakov" <patrakov@gmail.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Matthew Garrett <mjg59@srcf.ucam.org>,
-        Ext4 Developers List <linux-ext4@vger.kernel.org>,
-        linux-man <linux-man@vger.kernel.org>
-Subject: Re: [PATCH v3 0/8] Rework random blocking
-Message-ID: <20191228070111.GB2519@1wt.eu>
-References: <20191226140423.GB3158@mit.edu>
- <4048434.Q8HajmOrkZ@tauon.chronox.de>
- <20191227130436.GC70060@mit.edu>
- <15817620.rmTN4T87Wr@tauon.chronox.de>
- <20191227220857.GD70060@mit.edu>
+        id S1726045AbfL1HJP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 28 Dec 2019 02:09:15 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:37585 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725857AbfL1HJP (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 28 Dec 2019 02:09:15 -0500
+Received: from p5b12df56.dip0.t-ipconnect.de ([91.18.223.86] helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1il6Do-0001Ct-Fn; Sat, 28 Dec 2019 07:09:12 +0000
+Date:   Sat, 28 Dec 2019 08:09:11 +0100
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Sargun Dhillon <sargun@sargun.me>
+Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        tycho@tycho.ws, jannh@google.com, keescook@chromium.org,
+        cyphar@cyphar.com
+Subject: Re: [PATCH v2 2/2] seccomp: Check that seccomp_notif is zeroed out
+ by the user
+Message-ID: <20191228070910.qo7ahodfs2mzqw5t@wittgenstein>
+References: <20191228014849.GA31783@ircssh-2.c.rugged-nimbus-611.internal>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20191227220857.GD70060@mit.edu>
-User-Agent: Mutt/1.6.1 (2016-04-27)
+In-Reply-To: <20191228014849.GA31783@ircssh-2.c.rugged-nimbus-611.internal>
+User-Agent: NeoMutt/20180716
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Dec 27, 2019 at 05:08:57PM -0500, Theodore Y. Ts'o wrote:
-> > Or maybe the terminology of TRNG (i.e. "true") is offending. I have no concern 
-> > to have it replaced with some other terminology. Yet, I was just taking one 
-> > well-defined term.
+On Sat, Dec 28, 2019 at 01:48:51AM +0000, Sargun Dhillon wrote:
+> This patch is a small change in enforcement of the uapi for
+> SECCOMP_IOCTL_NOTIF_RECV ioctl. Specifically, the datastructure which
+> is passed (seccomp_notif) must be zeroed out. Previously any of its
+> members could be set to nonsense values, and we would ignore it.
 > 
-> But my point is that it *isn't* a well defined term, precisely because
-> it's completely unclear what application programmer can expect when
-> they try to use some hypothetical GRANDOM_TRUERANDOM flag.  What does
-> that *mean*?
+> This ensures all fields are set to their zero value.
 
-I've also seen this term used and abused too many times and this bothers
-me because the expectations around it are the cause of the current
-situation.
+The upper part is correct and useful.
 
-Randomness doesn't exist by itself. It's what characterizes the
-unpredictable nature of something. I.e. our inability to model it and
-guess what will happen based on what we know. 200 years ago we'd have
-considered the weather as a true random source. Now we have super
-computers making this moot. In the current state of art we consider
-that cesium decay or tunnel noise are unpredictable and excellent
-random sources, until one day we figure that magnetic fields,
-temperature or gamma rays strongly affect them.
+> 
+> This relies on the seccomp_notif datastructure to not have
+> any unnamed padding, as it is valid to initialize the datastructure
+> as:
+> 
+>   struct seccomp_notif notif = {};
 
-So in practice we should only talk about the complexity of the model we
-rely on. The more complex it is (i.e. the most independent variables it
-relies on), the less predictable it is and the more random it is. Jitter
-entropy and RAM contents are good examples of this: they may be highly
-unpredictable on some platforms and almost constant on others. And for
-sure, software cannot fix this, it can at best make the output *look*
-like it's unpredictable. Once someone can model all variables of the
-environment this is not true random anymore.
+The interesting part here is accidently leaking kernel addresses to
+userspace. For this to be an issue we'd need to do
+struct seccomp_notif unotif = {};
+copy_to_user(<user-buffer>, &unotif, sizeof(unotif))
+_and_ seccomp_notif would need to contain unintentional padding. Even if
+the latter were true we still use memset() anwyay and will likely never
+remove it. So the code here sure doesn't rely or depends on correct
+padding at all. 
 
-That's why the best we can do is to combine as many sources as possible
-hoping that nobody can model enough of them, and produce an output which
-never ever reveals these sources' internal states. *This* is what software
-can and must do. And once the initial entropy is hidden enough and there
-is enough of it, there's no reason for it to ever get depleted if these
-initial bits cannot be guessed nor brute-forced.
+> 
+> This only initializes named members to their 0-value [1].
+> 
+> [1]: https://lore.kernel.org/lkml/20191227023131.klnobtlfgeqcmvbb@yavin.dot.cyphar.com/
 
-And quite frankly I'd rather just speak about the diversity of sources
-than "true" randomness. Just asking a user to press 10 random keys and
-to enter a random word for some operations can break many assumptions
-an attacker could have about the environment, by just adding one extra,
-less controllable, source.
+That link isn't useful and also incorrectly claims that there is
+non-intentional padding in the struct which there isn't.
 
-Just my two cents,
-Willy
+Just drop that whole paragraph. The expectation is that all of our ABIs
+are correctly padded anyway and this really just confuses more than it
+helps.
+Please resend, otherwise:
+
+Reviewed-by: Christian Brauner <christian.brauner@ubuntu.com>
+
+But see a small comment below.
+
+> 
+> Signed-off-by: Sargun Dhillon <sargun@sargun.me>
+> Cc: Kees Cook <keescook@chromium.org>
+> ---
+>  kernel/seccomp.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/kernel/seccomp.c b/kernel/seccomp.c
+> index 12d2227e5786..4fd73cbdd01e 100644
+> --- a/kernel/seccomp.c
+> +++ b/kernel/seccomp.c
+> @@ -1026,6 +1026,12 @@ static long seccomp_notify_recv(struct seccomp_filter *filter,
+>  	struct seccomp_notif unotif;
+>  	ssize_t ret;
+>  
+> +	ret = check_zeroed_user(buf, sizeof(unotif));
+
+It wouldn't hurt to place a small comment here so the reader can easily
+spot we've ensured that this struct can be extended. But up to you...
+
+/* Verify that we're not given garbage to keep struct extensible. */
+
+> +	if (ret < 0)
+> +		return ret;
+> +	if (!ret)
+> +		return -EINVAL;
+> +
+>  	memset(&unotif, 0, sizeof(unotif));
+>  
+>  	ret = down_interruptible(&filter->notif->request);
+> -- 
+> 2.20.1
+> 
