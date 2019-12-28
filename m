@@ -2,255 +2,103 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CB7F512BD98
-	for <lists+linux-api@lfdr.de>; Sat, 28 Dec 2019 14:04:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 480B212BE3B
+	for <lists+linux-api@lfdr.de>; Sat, 28 Dec 2019 19:18:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726369AbfL1NEC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 28 Dec 2019 08:04:02 -0500
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:33741 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726187AbfL1NEC (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 28 Dec 2019 08:04:02 -0500
-Received: by mail-ed1-f66.google.com with SMTP id r21so27808612edq.0
-        for <linux-api@vger.kernel.org>; Sat, 28 Dec 2019 05:04:00 -0800 (PST)
+        id S1726315AbfL1SS3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 28 Dec 2019 13:18:29 -0500
+Received: from mail-io1-f67.google.com ([209.85.166.67]:39067 "EHLO
+        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726310AbfL1SS3 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 28 Dec 2019 13:18:29 -0500
+Received: by mail-io1-f67.google.com with SMTP id c16so26893502ioh.6
+        for <linux-api@vger.kernel.org>; Sat, 28 Dec 2019 10:18:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sargun.me; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=y7ymCtujssqitX19vK3Ib8KeNFOxFjdo32A2IjhMLY4=;
-        b=sVn9N3fU/Y1bCtjD0NMEvNKa0lJyapID6mTUuxuQm2WDNgMIaXDEmFQRfPzz/xl+Bn
-         aiYrwOUcnB1hyyQQFz38r7J+ELU1sEey/GgnXrwOBnOnPQCYxE8unZ7ud1IH5BXksNQA
-         zPzqb2JIWRG5JonGDg6M3tOieUAEFKt9sk3sg=
+        d=tycho-ws.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=MZG5qGB/Ymv7HA+XNiXGukSQ3TbbXrFPeer637cNn9g=;
+        b=IA0yXAVG+abRw4Z4X+DWQ8DtbjRWfpIwTBQuZOJLyCBLiiU1ppIZkHaIqkD8EH6FlS
+         sMao0bFQR70l2D0pyb/KJi+9+ENhHK3q4zdEBHgiTBKfY5AEsjyxd2XtPYc+FV5GJtjA
+         4T1cy7yhbN3p0tUte/1Bsjt+5WVPMEs7EnzUPjqIez08ZbTfgNtu5w7N6UJIlsY0J7iP
+         4hio5sUQnLIPc1W4csYsKWqNYTq79flh96weviiNZQ97PoMDT+lgIaRa6dNBP8yf7eP0
+         amKNd0zdTzBMc1qqk2RZonPmVmQ7zzlHAjOJD3kNnyT8oLw2b220qaVNUFrO5cKo+oTP
+         Mslg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=y7ymCtujssqitX19vK3Ib8KeNFOxFjdo32A2IjhMLY4=;
-        b=eSZqVvU7Bq7pcOPqor82Qoqmr0hEwlYoqeZvj+PlA2hrHmM3PEsGbOffxZLfR3dSJ2
-         bAiYSYZ9cPsX8yPx0iU9cKhsQKNHjgNcdZkvecxdhFBJpztSalMLvXcGTp4wEwseDJMJ
-         9uzgrupq5dJeV0UDR7sBpvy1hOXNOQA/Rg458dOfSQeGW2dqq8yPyLJx9/+rKArCNybN
-         JgKcnMIWQaOlCXeH/Y4fa1x85rV8mHo50U7KbCHkUKzgjlk8vCMN3HBS9AMSp+bzwQ4b
-         fDpHJbYkPx+r8ylxZ9c9KF50dHsLFi9qhw1J70JsmyAxdUkLs8/ndtJ2lqS/Ae2nPvoG
-         vmXw==
-X-Gm-Message-State: APjAAAWn3W74j03OViXg/lz39t7pdgabA2TCwqbwjSAgby4XerKs+hzq
-        GDWbVT7KH0MG3Bpo03+GNB74jjdH6orLiKm9hD1eKest9d95jg==
-X-Google-Smtp-Source: APXvYqyQIMbhhQ3CYDOHOQjreIwSGcP9i558z1EgFXnoF8+fZvL+8U1vUBbLXc5Vvh2woa3szWtTonX8z3I5ddJiYEs=
-X-Received: by 2002:a17:906:1354:: with SMTP id x20mr59906198ejb.279.1577538239186;
- Sat, 28 Dec 2019 05:03:59 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=MZG5qGB/Ymv7HA+XNiXGukSQ3TbbXrFPeer637cNn9g=;
+        b=VOnbbmHDaPJMbM6jzYlEpo51Blamy76JEJWtVBJ5bO6xioK1D0Y4XfBL9WKfjZs+t6
+         pTE2dE2cR7zN7kyHVYvdtlDwsanYY2gvxHvgprXjLAQZkmlYK82JBXyjXBQaG0+F7qiL
+         r0KSpsr7wQUEjd4/Nnuo/+H34YIUHBrLYvYt37qFxdXoDG7iX89S0I4xWr9jnOIJy+te
+         AZvlKdTAhe7hUq52FQX5fNdTIZ/OE5A2pLkwM4lVDGlIAAm4JZA/GcGGiyGhVjrvhe5n
+         AUXorjQqE2bM2NJhy0JCi53HE9m92Pd/eLw//DYkv/Qr/aDGKID7o3qPkCY2pw71faVW
+         Fw5Q==
+X-Gm-Message-State: APjAAAUOPnMszPXTPRVrmi47KgtULBFFP7A8FpcJMA6ybYlqjAqCmyIr
+        gOayn6Dx/Xh6Ss3EgkKEsSFswA==
+X-Google-Smtp-Source: APXvYqwcq2aKETvc20VuwagdVmJO2wF0zZodmKrImSVplTSvllxYHvj7yXMVVu8vWpmwSW6cbEI3lQ==
+X-Received: by 2002:a6b:731a:: with SMTP id e26mr38013162ioh.254.1577557108304;
+        Sat, 28 Dec 2019 10:18:28 -0800 (PST)
+Received: from cisco ([2601:282:902:b340:f166:b50c:bba2:408])
+        by smtp.gmail.com with ESMTPSA id w21sm10299560ioc.34.2019.12.28.10.18.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Dec 2019 10:18:27 -0800 (PST)
+Date:   Sat, 28 Dec 2019 11:18:25 -0700
+From:   Tycho Andersen <tycho@tycho.ws>
+To:     Sargun Dhillon <sargun@sargun.me>
+Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        jannh@google.com, christian.brauner@ubuntu.com,
+        keescook@chromium.org, cyphar@cyphar.com
+Subject: Re: [PATCH v2 1/2] samples, selftests/seccomp: Zero out seccomp_notif
+Message-ID: <20191228181825.GB6746@cisco>
+References: <20191228014837.GA31774@ircssh-2.c.rugged-nimbus-611.internal>
 MIME-Version: 1.0
-References: <20191226180334.GA29409@ircssh-2.c.rugged-nimbus-611.internal> <20191228100944.kh22bofbr5oe2kvk@wittgenstein>
-In-Reply-To: <20191228100944.kh22bofbr5oe2kvk@wittgenstein>
-From:   Sargun Dhillon <sargun@sargun.me>
-Date:   Sat, 28 Dec 2019 08:03:23 -0500
-Message-ID: <CAMp4zn9LyGw=BNiLNRgZXAbFdi87pSjy1YmDXvFvwmA=u3yDyw@mail.gmail.com>
-Subject: Re: [PATCH v7 2/3] pid: Introduce pidfd_getfd syscall
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
-        Tycho Andersen <tycho@tycho.ws>, Jann Horn <jannh@google.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Gian-Carlo Pascutto <gpascutto@mozilla.com>,
-        =?UTF-8?Q?Emilio_Cobos_=C3=81lvarez?= <ealvarez@mozilla.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Jed Davis <jld@mozilla.com>, Arnd Bergmann <arnd@arndb.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191228014837.GA31774@ircssh-2.c.rugged-nimbus-611.internal>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Dec 28, 2019 at 5:12 AM Christian Brauner
-<christian.brauner@ubuntu.com> wrote:
->
-> On Thu, Dec 26, 2019 at 06:03:36PM +0000, Sargun Dhillon wrote:
-> > This syscall allows for the retrieval of file descriptors from other
-> > processes, based on their pidfd. This is possible using ptrace, and
-> > injection of parasitic code to inject code which leverages SCM_RIGHTS
-> > to move file descriptors between a tracee and a tracer. Unfortunately,
-> > ptrace comes with a high cost of requiring the process to be stopped,
-> > and breaks debuggers. This does not require stopping the process under
-> > manipulation.
-> >
-> > One reason to use this is to allow sandboxers to take actions on file
-> > descriptors on the behalf of another process. For example, this can be
-> > combined with seccomp-bpf's user notification to do on-demand fd
-> > extraction and take privileged actions. One such privileged action
-> > is binding a socket to a privileged port.
-> >
-> > This also adds the syscall to all architectures at the same time.
-> >
-> > /* prototype */
-> >   /* flags is currently reserved and should be set to 0 */
-> >   int sys_pidfd_getfd(int pidfd, int fd, unsigned int flags);
-> >
-> > /* testing */
-> > Ran self-test suite on x86_64
->
-> Fyi, I'm likely going to rewrite/add parts of/to this once I apply.
->
-> A few comments below.
->
-> > diff --git a/kernel/pid.c b/kernel/pid.c
-> > index 2278e249141d..4a551f947869 100644
-> > --- a/kernel/pid.c
-> > +++ b/kernel/pid.c
-> > @@ -578,3 +578,106 @@ void __init pid_idr_init(void)
-> >       init_pid_ns.pid_cachep = KMEM_CACHE(pid,
-> >                       SLAB_HWCACHE_ALIGN | SLAB_PANIC | SLAB_ACCOUNT);
-> >  }
-> > +
-> > +static struct file *__pidfd_fget(struct task_struct *task, int fd)
-> > +{
-> > +     struct file *file;
-> > +     int ret;
-> > +
-> > +     ret = mutex_lock_killable(&task->signal->cred_guard_mutex);
-> > +     if (ret)
-> > +             return ERR_PTR(ret);
-> > +
-> > +     if (!ptrace_may_access(task, PTRACE_MODE_ATTACH_REALCREDS)) {
-> > +             file = ERR_PTR(-EPERM);
-> > +             goto out;
-> > +     }
-> > +
-> > +     file = fget_task(task, fd);
-> > +     if (!file)
-> > +             file = ERR_PTR(-EBADF);
-> > +
-> > +out:
-> > +     mutex_unlock(&task->signal->cred_guard_mutex);
-> > +     return file;
-> > +}
->
-> Looking at this code now a bit closer, ptrace_may_access() and
-> fget_task() both take task_lock(task) so this currently does:
->
-> task_lock();
-> /* check access */
-> task_unlock();
->
-> task_lock();
-> /* get fd */
-> task_unlock();
->
-> which doesn't seem great.
->
-> I would prefer if we could do:
-> task_lock();
-> /* check access */
-> /* get fd */
-> task_unlock();
->
-> But ptrace_may_access() doesn't export an unlocked variant so _shrug_.
-Right, it seems intentional that __ptrace_may_access isn't exported. We
-can always change that later?
+On Sat, Dec 28, 2019 at 01:48:39AM +0000, Sargun Dhillon wrote:
+> The seccomp_notif structure should be zeroed out prior to calling the
+> SECCOMP_IOCTL_NOTIF_RECV ioctl. Previously, the kernel did not check
+> whether these structures were zeroed out or not, so these worked.
+> 
+> Signed-off-by: Sargun Dhillon <sargun@sargun.me>
+> Cc: Kees Cook <keescook@chromium.org>
+> ---
+>  samples/seccomp/user-trap.c                   | 2 +-
+>  tools/testing/selftests/seccomp/seccomp_bpf.c | 2 ++
+>  2 files changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/samples/seccomp/user-trap.c b/samples/seccomp/user-trap.c
+> index 6d0125ca8af7..0ca8fb37cd79 100644
+> --- a/samples/seccomp/user-trap.c
+> +++ b/samples/seccomp/user-trap.c
+> @@ -298,7 +298,6 @@ int main(void)
+>  		req = malloc(sizes.seccomp_notif);
+>  		if (!req)
+>  			goto out_close;
+> -		memset(req, 0, sizeof(*req));
+>  
+>  		resp = malloc(sizes.seccomp_notif_resp);
+>  		if (!resp)
+> @@ -306,6 +305,7 @@ int main(void)
+>  		memset(resp, 0, sizeof(*resp));
 
->
-> But we can write this a little cleaner without the goto as:
->
-> static struct file *__pidfd_fget(struct task_struct *task, int fd)
-> {
->         struct file *file;
->         int ret;
->
->         ret = mutex_lock_killable(&task->signal->cred_guard_mutex);
->         if (ret)
->                 return ERR_PTR(ret);
->
->         if (ptrace_may_access(task, PTRACE_MODE_ATTACH_REALCREDS))
->                 file = fget_task(task, fd);
->         else
->                 file = ERR_PTR(-EPERM);
->         mutex_unlock(&task->signal->cred_guard_mutex);
->
->         return file ?: ERR_PTR(-EBADF);
-> }
->
-> If you don't like the ?: just do:
->
-> if (!file)
->         return ERR_PTR(-EBADF);
->
-> return file;
->
-> though I prefer the shorter ?: syntax which is perfect for shortcutting
-> returns.
->
-> > +
-> > +static int pidfd_getfd(struct pid *pid, int fd)
-> > +{
-> > +     struct task_struct *task;
-> > +     struct file *file;
-> > +     int ret, retfd;
-> > +
-> > +     task = get_pid_task(pid, PIDTYPE_PID);
-> > +     if (!task)
-> > +             return -ESRCH;
-> > +
-> > +     file = __pidfd_fget(task, fd);
-> > +     put_task_struct(task);
-> > +     if (IS_ERR(file))
-> > +             return PTR_ERR(file);
-> > +
-> > +     retfd = get_unused_fd_flags(O_CLOEXEC);
-> > +     if (retfd < 0) {
-> > +             ret = retfd;
-> > +             goto out;
-> > +     }
-> > +
-> > +     /*
-> > +      * security_file_receive must come last since it may have side effects
-> > +      * and cannot be reversed.
-> > +      */
-> > +     ret = security_file_receive(file);
->
-> So I don't understand the comment here. Can you explain what the side
-> effects are?
-The LSM can modify the LSM blob, or emit an (audit) event, even though
-the operation as a whole failed. Smack will report that file_receive
-successfully happened even though it could not have happened,
-because we were unable to provision a file descriptor.
+I know it's unrelated, but it's probably worth sending a patch to fix
+this to be sizes.seccomp_notif_resp instead of sizeof(*resp), since if
+the kernel is older this will over-zero things. I can do that, or you
+can add the patch to this series, just let me know which.
 
-Apparmor does similar, and also manipulates the LSM blob,
-although that is undone by closing the file.
+But in any case, this patch is:
 
+Reviewed-by: Tycho Andersen <tycho@tycho.ws>
 
-> security_file_receive() is called in two places: net/core/scm.c and
-> net/compat.c. In both places it is called _before_ get_unused_fd_flags()
-> so I don't know what's special here that would prevent us from doing the
-> same. If there's no actual reason, please rewrite this functions as:
->
-> static int pidfd_getfd(struct pid *pid, int fd)
-> {
->         int ret;
->         struct task_struct *task;
->         struct file *file;
->
->         task = get_pid_task(pid, PIDTYPE_PID);
->         if (!task)
->                 return -ESRCH;
->
->         file = __pidfd_fget(task, fd);
->         put_task_struct(task);
->         if (IS_ERR(file))
->                 return PTR_ERR(file);
->
->         ret = security_file_receive(file);
->         if (ret) {
->                 fput(file);
->                 return ret;
->         }
->
->         ret = get_unused_fd_flags(O_CLOEXEC);
->         if (ret < 0)
->                 fput(file);
->         else
->                 fd_install(ret, file);
->
->         return ret;
-> }
+Cheers,
+
+Tycho
