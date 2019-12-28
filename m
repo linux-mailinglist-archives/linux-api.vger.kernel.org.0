@@ -2,86 +2,97 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CA80612BC7D
-	for <lists+linux-api@lfdr.de>; Sat, 28 Dec 2019 05:00:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2212912BCEF
+	for <lists+linux-api@lfdr.de>; Sat, 28 Dec 2019 08:01:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726377AbfL1Dt0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 27 Dec 2019 22:49:26 -0500
-Received: from mail-il1-f195.google.com ([209.85.166.195]:35552 "EHLO
-        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725957AbfL1DtZ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 27 Dec 2019 22:49:25 -0500
-Received: by mail-il1-f195.google.com with SMTP id g12so23793149ild.2
-        for <linux-api@vger.kernel.org>; Fri, 27 Dec 2019 19:49:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tycho-ws.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=fW4oSj2ujLoinwXahbBj146hJbvQqiumz2p1q9AEvF8=;
-        b=mVYrxfdc0XAsVAFSGNI6GvI3HPDntzPtAlQuuhh9YSh3zsttcIpdX6ooe9UlKCINN8
-         AEoIFpNDQV84RWnPnUpPbSAvp8ZCumCj4pSsOkDbGMcrUCV4y2Vw/gPl5NKJw5Rqdb/b
-         3oAKiXd3Fv07EbDXpZEOAqFGewQpY4YlPsV5O0fDATY9kdrTpkZGsaqFEn0+79hZlKF+
-         q2+9BmF5MEqQLeaCbXIWlBTGVGixnH74iDFoBhKpQh4mA1GaocFvM+QoMzqXbmN4FnZC
-         jyWA2UsSqlvFRaQ9ALjvT6R92RMl9kbIEPgPIWjjvOyGX1miDAubAyOztZsFGjfyTW+N
-         84nQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=fW4oSj2ujLoinwXahbBj146hJbvQqiumz2p1q9AEvF8=;
-        b=H6RG5dFdYAmxKRfTiiGQ+uPeJzQ571DeiR4TsFQ+ZbDqWPUoKQElSuC5wEfu5ekVRS
-         r66lLcVCrXEw1dbLTilU50yRa7zUNxDO17bNQ+GvsTaF/L/bvFvr9Kz7VYq8JOf0y13U
-         Q5WvUKugkTSX+f24cXVIWLJ+j7W0rClxQiJi29cTuyxwVs7yHvfeR22mFvC5qBEKl4fh
-         +KardSbo4pVUtKmB35bCFP99If38BxiVjp/8kn7tnaug0GRVZO45DIQsTDzQaK5OzANS
-         +HRW/BhDKg0vx2amoUlwUHNy7lB7ST1qy4frPXnfE63m/UkD05kfRQdjjoJPX0BgKVAD
-         q/xw==
-X-Gm-Message-State: APjAAAUNI4ohTsXZkXk9hUIxAmUrOH6d2XXpBEImm0eLq2n4V2oEp5DD
-        sQePMRh/+eH+GprnbQB5EpSdRg==
-X-Google-Smtp-Source: APXvYqy95YEE+vlkJ65Homi/8eJPYaJsqJMTy7PymXaZETZnjEU6uKsbnfju/5VySBEuI+U7HJ6M5g==
-X-Received: by 2002:a92:88d0:: with SMTP id m77mr50028181ilh.9.1577504965068;
-        Fri, 27 Dec 2019 19:49:25 -0800 (PST)
-Received: from cisco ([2601:282:902:b340:f166:b50c:bba2:408])
-        by smtp.gmail.com with ESMTPSA id q22sm9864425iot.39.2019.12.27.19.49.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Dec 2019 19:49:24 -0800 (PST)
-Date:   Fri, 27 Dec 2019 20:49:21 -0700
-From:   Tycho Andersen <tycho@tycho.ws>
-To:     Sargun Dhillon <sargun@sargun.me>
-Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        jannh@google.com, christian.brauner@ubuntu.com,
-        keescook@chromium.org, cyphar@cyphar.com
-Subject: Re: [PATCH v2 2/2] seccomp: Check that seccomp_notif is zeroed out
- by the user
-Message-ID: <20191228034921.GG15663@cisco>
-References: <20191228014849.GA31783@ircssh-2.c.rugged-nimbus-611.internal>
+        id S1725999AbfL1HBb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 28 Dec 2019 02:01:31 -0500
+Received: from wtarreau.pck.nerim.net ([62.212.114.60]:29841 "EHLO 1wt.eu"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725857AbfL1HBb (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Sat, 28 Dec 2019 02:01:31 -0500
+Received: (from willy@localhost)
+        by pcw.home.local (8.15.2/8.15.2/Submit) id xBS71BFU002595;
+        Sat, 28 Dec 2019 08:01:11 +0100
+Date:   Sat, 28 Dec 2019 08:01:11 +0100
+From:   Willy Tarreau <w@1wt.eu>
+To:     "Theodore Y. Ts'o" <tytso@mit.edu>
+Cc:     Stephan Mueller <smueller@chronox.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Andy Lutomirski <luto@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        "Ahmed S. Darwish" <darwish.07@gmail.com>,
+        Lennart Poettering <mzxreary@0pointer.de>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "Alexander E. Patrakov" <patrakov@gmail.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        Ext4 Developers List <linux-ext4@vger.kernel.org>,
+        linux-man <linux-man@vger.kernel.org>
+Subject: Re: [PATCH v3 0/8] Rework random blocking
+Message-ID: <20191228070111.GB2519@1wt.eu>
+References: <20191226140423.GB3158@mit.edu>
+ <4048434.Q8HajmOrkZ@tauon.chronox.de>
+ <20191227130436.GC70060@mit.edu>
+ <15817620.rmTN4T87Wr@tauon.chronox.de>
+ <20191227220857.GD70060@mit.edu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191228014849.GA31783@ircssh-2.c.rugged-nimbus-611.internal>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191227220857.GD70060@mit.edu>
+User-Agent: Mutt/1.6.1 (2016-04-27)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Dec 28, 2019 at 01:48:51AM +0000, Sargun Dhillon wrote:
-> This patch is a small change in enforcement of the uapi for
-> SECCOMP_IOCTL_NOTIF_RECV ioctl. Specifically, the datastructure which
-> is passed (seccomp_notif) must be zeroed out. Previously any of its
-> members could be set to nonsense values, and we would ignore it.
+On Fri, Dec 27, 2019 at 05:08:57PM -0500, Theodore Y. Ts'o wrote:
+> > Or maybe the terminology of TRNG (i.e. "true") is offending. I have no concern 
+> > to have it replaced with some other terminology. Yet, I was just taking one 
+> > well-defined term.
 > 
-> This ensures all fields are set to their zero value.
-> 
-> This relies on the seccomp_notif datastructure to not have
-> any unnamed padding, as it is valid to initialize the datastructure
-> as:
-> 
->   struct seccomp_notif notif = {};
-> 
-> This only initializes named members to their 0-value [1].
-> 
-> [1]: https://lore.kernel.org/lkml/20191227023131.klnobtlfgeqcmvbb@yavin.dot.cyphar.com/
-> 
-> Signed-off-by: Sargun Dhillon <sargun@sargun.me>
+> But my point is that it *isn't* a well defined term, precisely because
+> it's completely unclear what application programmer can expect when
+> they try to use some hypothetical GRANDOM_TRUERANDOM flag.  What does
+> that *mean*?
 
-Acked-by: Tycho Andersen <tycho@tycho.ws>
+I've also seen this term used and abused too many times and this bothers
+me because the expectations around it are the cause of the current
+situation.
+
+Randomness doesn't exist by itself. It's what characterizes the
+unpredictable nature of something. I.e. our inability to model it and
+guess what will happen based on what we know. 200 years ago we'd have
+considered the weather as a true random source. Now we have super
+computers making this moot. In the current state of art we consider
+that cesium decay or tunnel noise are unpredictable and excellent
+random sources, until one day we figure that magnetic fields,
+temperature or gamma rays strongly affect them.
+
+So in practice we should only talk about the complexity of the model we
+rely on. The more complex it is (i.e. the most independent variables it
+relies on), the less predictable it is and the more random it is. Jitter
+entropy and RAM contents are good examples of this: they may be highly
+unpredictable on some platforms and almost constant on others. And for
+sure, software cannot fix this, it can at best make the output *look*
+like it's unpredictable. Once someone can model all variables of the
+environment this is not true random anymore.
+
+That's why the best we can do is to combine as many sources as possible
+hoping that nobody can model enough of them, and produce an output which
+never ever reveals these sources' internal states. *This* is what software
+can and must do. And once the initial entropy is hidden enough and there
+is enough of it, there's no reason for it to ever get depleted if these
+initial bits cannot be guessed nor brute-forced.
+
+And quite frankly I'd rather just speak about the diversity of sources
+than "true" randomness. Just asking a user to press 10 random keys and
+to enter a random word for some operations can break many assumptions
+an attacker could have about the environment, by just adding one extra,
+less controllable, source.
+
+Just my two cents,
+Willy
