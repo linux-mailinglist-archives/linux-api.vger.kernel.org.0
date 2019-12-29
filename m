@@ -2,264 +2,217 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FDB412C5AF
-	for <lists+linux-api@lfdr.de>; Sun, 29 Dec 2019 18:42:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B9B3912CA86
+	for <lists+linux-api@lfdr.de>; Sun, 29 Dec 2019 20:07:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730138AbfL2Rj4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 29 Dec 2019 12:39:56 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:36592 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729294AbfL2RcS (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 29 Dec 2019 12:32:18 -0500
-Received: from [172.58.107.62] (helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1ilcQI-0005a0-Au; Sun, 29 Dec 2019 17:32:15 +0000
-Date:   Sun, 29 Dec 2019 18:32:04 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Sargun Dhillon <sargun@sargun.me>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
-        Tycho Andersen <tycho@tycho.ws>, Jann Horn <jannh@google.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Gian-Carlo Pascutto <gpascutto@mozilla.com>,
-        Emilio Cobos =?utf-8?Q?=C3=81lvarez?= <ealvarez@mozilla.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Jed Davis <jld@mozilla.com>, Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH v7 2/3] pid: Introduce pidfd_getfd syscall
-Message-ID: <20191229173202.55apy2dpv7qj7gov@wittgenstein>
-References: <20191226180334.GA29409@ircssh-2.c.rugged-nimbus-611.internal>
- <20191228100944.kh22bofbr5oe2kvk@wittgenstein>
- <CAMp4zn9LyGw=BNiLNRgZXAbFdi87pSjy1YmDXvFvwmA=u3yDyw@mail.gmail.com>
+        id S1726702AbfL2THE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 29 Dec 2019 14:07:04 -0500
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:42039 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726455AbfL2THE (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 29 Dec 2019 14:07:04 -0500
+Received: by mail-ed1-f66.google.com with SMTP id e10so30721459edv.9
+        for <linux-api@vger.kernel.org>; Sun, 29 Dec 2019 11:07:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sargun.me; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=bcRumKA47O6oSuCDgw91IPw2ex+RcLOc8uq6O8W556E=;
+        b=Q2p2wG77un+giIUF7GoLvcC4X28l2xi2QzhFu/wOHCL11mKxqEvl2LhpFpzfjlx0so
+         BXUyNt+RBuE+DNwL3qGBE/vF4Vim+yaQP6PmbuKESM6EfVVi7zUZZg1ZaYJhvf0kw9wU
+         ScoKh0oiyHDj04j2ApQyFSK2r2uZAPl6oLHqQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=bcRumKA47O6oSuCDgw91IPw2ex+RcLOc8uq6O8W556E=;
+        b=fJROROTR1/2UM8endCkD+MLdrIMlEleKTdh/+7dpRX9lEd8pR5yWX2fITrEa48DsPQ
+         Yoc+mTuQFkzgpnutbj9FDEwiy9JpVeUYzRu/c3l6ERDW+jrXy7LTxELNf2ntrOT54j+B
+         Sig5yuFJW+bR3MFX/eDytOKDwa8yt7jNLyZqx0dk4r6UIDHbJ63/mlRjzOAHJzGLObGq
+         FAEDZZ+m3HNkpA/42XZB3Mt81JD4SggO0897ouQ34PHanzhyhcIwZwme0fE3PLf5q3T9
+         EBWbifz7uVP6D+iVD7f03NhbpKU98UW25B6FLtr9PZMq8/dUJJyKQXvB5iZn1JFN7KeU
+         9VsQ==
+X-Gm-Message-State: APjAAAXkBwyvew8nZ399aI/y5gbRWXrVfN2oz1msT30x+ekx6vYndO96
+        wyav3WYaHuJ3PW7aM+dd/ujyvoWHosLs+FF1I55mZA==
+X-Google-Smtp-Source: APXvYqyk/zYGg1m61mN3e7hikxBD7APeR7T/bZc6x816dtgniiIxRuUwMXqI5TxeQsD87RrHPBh43GggMehGu7qODrs=
+X-Received: by 2002:aa7:cd49:: with SMTP id v9mr67047809edw.269.1577646420958;
+ Sun, 29 Dec 2019 11:07:00 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAMp4zn9LyGw=BNiLNRgZXAbFdi87pSjy1YmDXvFvwmA=u3yDyw@mail.gmail.com>
-User-Agent: NeoMutt/20180716
+References: <20191229062451.9467-1-sargun@sargun.me> <20191229062451.9467-3-sargun@sargun.me>
+ <20191229171441.fxif7q32mv2hl3y4@wittgenstein>
+In-Reply-To: <20191229171441.fxif7q32mv2hl3y4@wittgenstein>
+From:   Sargun Dhillon <sargun@sargun.me>
+Date:   Sun, 29 Dec 2019 11:06:25 -0800
+Message-ID: <CAMp4zn_4dN+5U2RxkpYp+m4=X9w2Wef1TuLZ2hRW+g+nK1cXGA@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] selftests/seccomp: Test kernel catches garbage on SECCOMP_IOCTL_NOTIF_RECV
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Jann Horn <jannh@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Tycho Andersen <tycho@tycho.ws>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Dec 28, 2019 at 08:03:23AM -0500, Sargun Dhillon wrote:
-> On Sat, Dec 28, 2019 at 5:12 AM Christian Brauner
-> <christian.brauner@ubuntu.com> wrote:
+On Sun, Dec 29, 2019 at 12:14 PM Christian Brauner
+<christian.brauner@ubuntu.com> wrote:
+>
+> On Sat, Dec 28, 2019 at 10:24:51PM -0800, Sargun Dhillon wrote:
+> > Add a self-test to make sure that the kernel returns EINVAL, if any
+> > of the fields in seccomp_notif are set to non-null.
 > >
-> > On Thu, Dec 26, 2019 at 06:03:36PM +0000, Sargun Dhillon wrote:
-> > > This syscall allows for the retrieval of file descriptors from other
-> > > processes, based on their pidfd. This is possible using ptrace, and
-> > > injection of parasitic code to inject code which leverages SCM_RIGHTS
-> > > to move file descriptors between a tracee and a tracer. Unfortunately,
-> > > ptrace comes with a high cost of requiring the process to be stopped,
-> > > and breaks debuggers. This does not require stopping the process under
-> > > manipulation.
-> > >
-> > > One reason to use this is to allow sandboxers to take actions on file
-> > > descriptors on the behalf of another process. For example, this can be
-> > > combined with seccomp-bpf's user notification to do on-demand fd
-> > > extraction and take privileged actions. One such privileged action
-> > > is binding a socket to a privileged port.
-> > >
-> > > This also adds the syscall to all architectures at the same time.
-> > >
-> > > /* prototype */
-> > >   /* flags is currently reserved and should be set to 0 */
-> > >   int sys_pidfd_getfd(int pidfd, int fd, unsigned int flags);
-> > >
-> > > /* testing */
-> > > Ran self-test suite on x86_64
+> > Signed-off-by: Sargun Dhillon <sargun@sargun.me>
+> > Suggested-by: Christian Brauner <christian.brauner@ubuntu.com>
+> > Cc: Kees Cook <keescook@chromium.org>
+> > ---
+> >  tools/testing/selftests/seccomp/seccomp_bpf.c | 23 +++++++++++++++++++
+> >  1 file changed, 23 insertions(+)
 > >
-> > Fyi, I'm likely going to rewrite/add parts of/to this once I apply.
+> > diff --git a/tools/testing/selftests/seccomp/seccomp_bpf.c b/tools/testing/selftests/seccomp/seccomp_bpf.c
+> > index f53f14971bff..379391a7fa41 100644
+> > --- a/tools/testing/selftests/seccomp/seccomp_bpf.c
+> > +++ b/tools/testing/selftests/seccomp/seccomp_bpf.c
+> > @@ -3601,6 +3601,29 @@ TEST(user_notification_continue)
+> >       }
+> >  }
 > >
-> > A few comments below.
-> >
-> > > diff --git a/kernel/pid.c b/kernel/pid.c
-> > > index 2278e249141d..4a551f947869 100644
-> > > --- a/kernel/pid.c
-> > > +++ b/kernel/pid.c
-> > > @@ -578,3 +578,106 @@ void __init pid_idr_init(void)
-> > >       init_pid_ns.pid_cachep = KMEM_CACHE(pid,
-> > >                       SLAB_HWCACHE_ALIGN | SLAB_PANIC | SLAB_ACCOUNT);
-> > >  }
-> > > +
-> > > +static struct file *__pidfd_fget(struct task_struct *task, int fd)
-> > > +{
-> > > +     struct file *file;
-> > > +     int ret;
-> > > +
-> > > +     ret = mutex_lock_killable(&task->signal->cred_guard_mutex);
-> > > +     if (ret)
-> > > +             return ERR_PTR(ret);
-> > > +
-> > > +     if (!ptrace_may_access(task, PTRACE_MODE_ATTACH_REALCREDS)) {
-> > > +             file = ERR_PTR(-EPERM);
-> > > +             goto out;
-> > > +     }
-> > > +
-> > > +     file = fget_task(task, fd);
-> > > +     if (!file)
-> > > +             file = ERR_PTR(-EBADF);
-> > > +
-> > > +out:
-> > > +     mutex_unlock(&task->signal->cred_guard_mutex);
-> > > +     return file;
-> > > +}
-> >
-> > Looking at this code now a bit closer, ptrace_may_access() and
-> > fget_task() both take task_lock(task) so this currently does:
-> >
-> > task_lock();
-> > /* check access */
-> > task_unlock();
-> >
-> > task_lock();
-> > /* get fd */
-> > task_unlock();
-> >
-> > which doesn't seem great.
-> >
-> > I would prefer if we could do:
-> > task_lock();
-> > /* check access */
-> > /* get fd */
-> > task_unlock();
-> >
-> > But ptrace_may_access() doesn't export an unlocked variant so _shrug_.
-> Right, it seems intentional that __ptrace_may_access isn't exported. We
-> can always change that later?
+> > +TEST(user_notification_garbage)
+> > +{
+> > +     /*
+> > +      * intentionally set pid to a garbage value to make sure the kernel
+> > +      * catches it
+> > +      */
+> > +     struct seccomp_notif req = {
+> > +             .pid    = 1,
+> > +     };
+> > +     int ret, listener;
+> > +
+> > +     ret = prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0);
+> > +     ASSERT_EQ(0, ret) {
+> > +             TH_LOG("Kernel does not support PR_SET_NO_NEW_PRIVS!");
+> > +     }
+> > +
+> > +     listener = user_trap_syscall(__NR_dup, SECCOMP_FILTER_FLAG_NEW_LISTENER);
+> > +     ASSERT_GE(listener, 0);
+> > +
+> > +     EXPECT_EQ(-1, ioctl(listener, SECCOMP_IOCTL_NOTIF_RECV, &req));
+> > +     EXPECT_EQ(EINVAL, errno);
+>
+> Does that even work if no dup() syscall has been made and trapped?
+Yes, the first check that occurs is the check which checks if
+seccom_notif has been
+zeroed out. This happens before any of the other work.
 
-Yeah, it's just something I noted and it's not a big deal in my book. It
-just would be nicer to only have to lock once. ptrace would need to
-expose an unlocked variant and fget_task() would need to be removed
-completely and then grabbing the file via fget or sm. But as I said it's
-ok to do it like this rn.
+> This looks like it would give you ENOENT...
+This ioctl is a blocking ioctl. It'll block until there is a wakeup.
+In this case, the wakeup
+will never come, but that doesn't mean we get an ENOENT.
 
-> 
-> >
-> > But we can write this a little cleaner without the goto as:
-> >
-> > static struct file *__pidfd_fget(struct task_struct *task, int fd)
-> > {
-> >         struct file *file;
-> >         int ret;
-> >
-> >         ret = mutex_lock_killable(&task->signal->cred_guard_mutex);
-> >         if (ret)
-> >                 return ERR_PTR(ret);
-> >
-> >         if (ptrace_may_access(task, PTRACE_MODE_ATTACH_REALCREDS))
-> >                 file = fget_task(task, fd);
-> >         else
-> >                 file = ERR_PTR(-EPERM);
-> >         mutex_unlock(&task->signal->cred_guard_mutex);
-> >
-> >         return file ?: ERR_PTR(-EBADF);
-> > }
-> >
-> > If you don't like the ?: just do:
-> >
-> > if (!file)
-> >         return ERR_PTR(-EBADF);
-> >
-> > return file;
-> >
-> > though I prefer the shorter ?: syntax which is perfect for shortcutting
-> > returns.
-> >
-> > > +
-> > > +static int pidfd_getfd(struct pid *pid, int fd)
-> > > +{
-> > > +     struct task_struct *task;
-> > > +     struct file *file;
-> > > +     int ret, retfd;
-> > > +
-> > > +     task = get_pid_task(pid, PIDTYPE_PID);
-> > > +     if (!task)
-> > > +             return -ESRCH;
-> > > +
-> > > +     file = __pidfd_fget(task, fd);
-> > > +     put_task_struct(task);
-> > > +     if (IS_ERR(file))
-> > > +             return PTR_ERR(file);
-> > > +
-> > > +     retfd = get_unused_fd_flags(O_CLOEXEC);
-> > > +     if (retfd < 0) {
-> > > +             ret = retfd;
-> > > +             goto out;
-> > > +     }
-> > > +
-> > > +     /*
-> > > +      * security_file_receive must come last since it may have side effects
-> > > +      * and cannot be reversed.
-> > > +      */
-> > > +     ret = security_file_receive(file);
-> >
-> > So I don't understand the comment here. Can you explain what the side
-> > effects are?
-> The LSM can modify the LSM blob, or emit an (audit) event, even though
-> the operation as a whole failed. Smack will report that file_receive
-> successfully happened even though it could not have happened,
-> because we were unable to provision a file descriptor.
+>
+> If you want a simple solution just do:
+>
+> diff --git a/tools/testing/selftests/seccomp/seccomp_bpf.c b/tools/testing/selftests/seccomp/seccomp_bpf.c
+> index 6944b898bb53..4c73ae8679ea 100644
+> --- a/tools/testing/selftests/seccomp/seccomp_bpf.c
+> +++ b/tools/testing/selftests/seccomp/seccomp_bpf.c
+> @@ -3095,7 +3095,7 @@ TEST(user_notification_basic)
+>         pid_t pid;
+>         long ret;
+>         int status, listener;
+> -       struct seccomp_notif req = {};
+> +       struct seccomp_notif req;
+>         struct seccomp_notif_resp resp = {};
+>         struct pollfd pollfd;
+>
+> @@ -3158,6 +3158,13 @@ TEST(user_notification_basic)
+>         EXPECT_GT(poll(&pollfd, 1, -1), 0);
+>         EXPECT_EQ(pollfd.revents, POLLIN);
+>
+> +       /* Test that we can't pass garbage to the kernel. */
+> +       memset(&req, 0, sizeof(req));
+> +       req.pid = -1;
+> +       EXPECT_EQ(-1, ioctl(listener, SECCOMP_IOCTL_NOTIF_RECV, &req));
+> +       EXPECT_EQ(EINVAL, errno);
+> +
+> +       req.pid = 0;
+>         EXPECT_EQ(ioctl(listener, SECCOMP_IOCTL_NOTIF_RECV, &req), 0);
+>
+>         pollfd.fd = listener
+>
+>
+> If you want a complete separate test then you can do:
+I can do this, but given that the seccomp_notif datastructure should
+always be copied
+and checked before doing the actual evaluation of the syscall, this
+test should pass
+even if the trap is not triggered. The basic test should check if the
+inverse holds.
 
-So this either sounds like a bug in Smack or a design choice by the LSM
-framework in general and also that it might apply to a lot of other
-hooks too? But I'm not qualified to assess that.
-
-Modifying an LSM blob, emitting an audit event may very well happen but
-there are places all over the kernel were security hooks are called and
-they are not the last point of failure (capable hooks come to mind
-right away). My point being just because an audit event that happened
-from an LSM indicating that e.g. a file receive event happened cannot be
-intended to be equivalent == "was successful". That is not reality right
-now when looking at net/* where security_file_receive() is called too
-and surely can only be guaranteed from the actual codepaths that does the
-file receive.
-So I'd argue let's just use the clean version where we call
-security_file_receive() before allocing the new fd just like net/* does
-and make the code simpler and easier to maintain.
-
-> 
-> Apparmor does similar, and also manipulates the LSM blob,
-> although that is undone by closing the file.
-> 
-> 
-> > security_file_receive() is called in two places: net/core/scm.c and
-> > net/compat.c. In both places it is called _before_ get_unused_fd_flags()
-> > so I don't know what's special here that would prevent us from doing the
-> > same. If there's no actual reason, please rewrite this functions as:
-> >
-> > static int pidfd_getfd(struct pid *pid, int fd)
-> > {
-> >         int ret;
-> >         struct task_struct *task;
-> >         struct file *file;
-> >
-> >         task = get_pid_task(pid, PIDTYPE_PID);
-> >         if (!task)
-> >                 return -ESRCH;
-> >
-> >         file = __pidfd_fget(task, fd);
-> >         put_task_struct(task);
-> >         if (IS_ERR(file))
-> >                 return PTR_ERR(file);
-> >
-> >         ret = security_file_receive(file);
-> >         if (ret) {
-> >                 fput(file);
-> >                 return ret;
-> >         }
-> >
-> >         ret = get_unused_fd_flags(O_CLOEXEC);
-> >         if (ret < 0)
-> >                 fput(file);
-> >         else
-> >                 fd_install(ret, file);
-> >
-> >         return ret;
-> > }
+If the kernel is broken the self-test harness will stall, and the
+alarm timeout will
+kick in.
+>
+> TEST(user_notification_garbage_recv)
+> {
+>         pid_t pid;
+>         long ret;
+>         int status, listener;
+>         struct seccomp_notif req;
+>         struct seccomp_notif_resp resp = {};
+>         struct pollfd pollfd;
+>
+>         ret = prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0);
+>         ASSERT_EQ(0, ret) {
+>                 TH_LOG("Kernel does not support PR_SET_NO_NEW_PRIVS!");
+>         }
+>
+>         listener = user_trap_syscall(__NR_getppid,
+>                                      SECCOMP_FILTER_FLAG_NEW_LISTENER);
+>         ASSERT_GE(listener, 0);
+>
+>         pid = fork();
+>         ASSERT_GE(pid, 0);
+>
+>         if (pid == 0) {
+>                 ret = syscall(__NR_getppid);
+>                 exit(ret != USER_NOTIF_MAGIC);
+>         }
+>
+>         pollfd.fd = listener;
+>         pollfd.events = POLLIN | POLLOUT;
+>
+>         EXPECT_GT(poll(&pollfd, 1, -1), 0);
+>         EXPECT_EQ(pollfd.revents, POLLIN);
+>
+>         memset(&req, 0, sizeof(req));
+>         req.pid = -1;
+>         EXPECT_EQ(-1, ioctl(listener, SECCOMP_IOCTL_NOTIF_RECV, &req));
+>         EXPECT_EQ(EINVAL, errno);
+>
+>         req.pid = 0;
+>         EXPECT_EQ(ioctl(listener, SECCOMP_IOCTL_NOTIF_RECV, &req), 0);
+>
+>         pollfd.fd = listener;
+>         pollfd.events = POLLIN | POLLOUT;
+>
+>         EXPECT_GT(poll(&pollfd, 1, -1), 0);
+>         EXPECT_EQ(pollfd.revents, POLLOUT);
+>
+>         EXPECT_EQ(req.data.nr,  __NR_getppid);
+>
+>         memset(&resp, 0, sizeof(resp));
+>         resp.id = req.id;
+>         resp.error = 0;
+>         resp.val = USER_NOTIF_MAGIC;
+>         EXPECT_EQ(ioctl(listener, SECCOMP_IOCTL_NOTIF_SEND, &resp), 0);
+>
+>         EXPECT_EQ(waitpid(pid, &status, 0), pid);
+>         EXPECT_EQ(true, WIFEXITED(status));
+>         EXPECT_EQ(0, WEXITSTATUS(status));
+> }
+>
+> Christian
