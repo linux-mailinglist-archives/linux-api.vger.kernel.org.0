@@ -2,119 +2,120 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CE7C12BFC9
-	for <lists+linux-api@lfdr.de>; Sun, 29 Dec 2019 01:18:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B3F2912C0EE
+	for <lists+linux-api@lfdr.de>; Sun, 29 Dec 2019 07:42:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726248AbfL2ASV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 28 Dec 2019 19:18:21 -0500
-Received: from mail-io1-f66.google.com ([209.85.166.66]:34494 "EHLO
+        id S1726189AbfL2Gma (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 29 Dec 2019 01:42:30 -0500
+Received: from mail-io1-f66.google.com ([209.85.166.66]:36604 "EHLO
         mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726189AbfL2ASV (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 28 Dec 2019 19:18:21 -0500
-Received: by mail-io1-f66.google.com with SMTP id z193so28693772iof.1
-        for <linux-api@vger.kernel.org>; Sat, 28 Dec 2019 16:18:20 -0800 (PST)
+        with ESMTP id S1725800AbfL2Gma (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 29 Dec 2019 01:42:30 -0500
+Received: by mail-io1-f66.google.com with SMTP id r13so18971301ioa.3
+        for <linux-api@vger.kernel.org>; Sat, 28 Dec 2019 22:42:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tycho-ws.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=0TVhVG6FPueBWbxT9lQzkvtYNLfiEe1VkHsG9qF7cLw=;
-        b=EVP7Sf6HkWOiXoLb9OQHzPQdTVjwelJGvS4vCCJrE6c+OKje8z7CBxxD+eSrcXwzrI
-         wS5DHPQgA3ZZk0XwcXGCoMxjsqB49hXO0uta1BdP9GX+EidrZQg2OKzaPXKpU03ti/vW
-         WoQv1haLJ9ffvLberQtQvvrNavWYYIYYDQD/O8r+U8o26AR2DqCq2OHXl51Cpf4lvol0
-         hXqT/J/7EgxrH4QuY6nFvo4lOGS1joXg1leP5EnjlBVuVZWSXRp8UzKXOUbAV44JmRvG
-         MmexE7kz5KFj3zs30EoTqe9VKdGTn0nGJEScB0gwWnzwxhzmQkzn8w0JFYWPRIQ7iC1E
-         dCWw==
+        d=sargun.me; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=U0Z0dzWXfYmv1MZISl995szlypcV1JN5XmeCvDe3UI4=;
+        b=qDEKzvfwEtvUK1sZj0kol39+WvM1y4QJiY6qATq9nnFWKEdLrqBWOLergWtnox4apg
+         7VFa3MBZVBLaTy0z+PahHElPhxHTlr+SQuF/KCafBoV6icyAkB5+MRcoMOwkjfG7/xSW
+         lzpqXEfbcRFi1TgEduRi7/jyz89okZaPd0lBY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=0TVhVG6FPueBWbxT9lQzkvtYNLfiEe1VkHsG9qF7cLw=;
-        b=D85yQXom95Pd/nioj3jGl4YAIPSD4pV1LX2rJw1sVxq1vSBCssf9MnHDXpv/qtabjM
-         2UX2gIdHYkXAiQ8lSPBjdjKcJ73EsfwR45oeg7RvfY+RCdD9hPY35MZ9+09e1uCcgJMf
-         QGj1KGN9X78aygQIuoIPEjooC+DQXFW8gMfwF4eKaw0yjbQgVMbKZ8/cGgwParY6LrWG
-         iXsEdR5QPhooJmppfG5vXlIalHCzNvREDdbN9mg9a9IeHTCY/uEWpC+g347rui5T+jZn
-         efEqhao89D56wJ8RyebTQqGJSpyda+f66+qEF1krygIB1clZROkCDZjBuBQ/RlywYUrS
-         JKSg==
-X-Gm-Message-State: APjAAAVfeWX6YVqEMaVCFa0brUE9IsnRTFFUG0LzODrJUzmTMqw/yTN7
-        spi61Eq2CsoN0HGjbaqIzWvrKA==
-X-Google-Smtp-Source: APXvYqz3D2CFRJnZ1pTL1abfRRJwvnlpNObu1eijnBoZ2hLXjkFCpXcnDaAlLxOPdtp5Jzuyo22EjQ==
-X-Received: by 2002:a05:6638:a31:: with SMTP id 17mr45396672jao.15.1577578700376;
-        Sat, 28 Dec 2019 16:18:20 -0800 (PST)
-Received: from cisco ([2601:282:902:b340:f166:b50c:bba2:408])
-        by smtp.gmail.com with ESMTPSA id c8sm14934153ilh.58.2019.12.28.16.18.19
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=U0Z0dzWXfYmv1MZISl995szlypcV1JN5XmeCvDe3UI4=;
+        b=qSOb0xXXWMmdzy4Wq+QUQfpOTAsqJjIUX5g+jkFTyLafQblMtk23RBRh28lGFcJCFs
+         FMTpX9/InEtm0fedFcKQjb78s8Wy/DoQdBc5cI1BnHkjbr+eDZWgmi4QLLJfUguUDNwP
+         c+aZJy3T8SxBCQSBi5UeN/sVjLaBCrZC0HZ8JKAlDW4EnoBzERz1m3hili3IWS6knZRK
+         mys6imFiElswI29LpQCqkgqL+QgvZJBTET01lQGbB5Dz4XET/OQLEE0ovgYanPAiz2qO
+         A/IRXaKLtVjSFmTuc9RNwyDCJJro9/d8gfhQeXdEEYR8QB+nWe54tJhxEFmaoGgJSh7U
+         vy9w==
+X-Gm-Message-State: APjAAAWkxBXCAVQCee08GioynWg97OV1Q2v/ikLs8PN2/9RtxEsnBDPH
+        UfURYHrfSmVG4fOy4sqvaDI6iw==
+X-Google-Smtp-Source: APXvYqyrvzDtn4z6wePqUb6+sIbFSYCnxY7w57QNc0seB6BT9Oezi+8gsVtIaVBAbxTx3+58YhxWCQ==
+X-Received: by 2002:a5d:97c3:: with SMTP id k3mr23684707ios.38.1577601749431;
+        Sat, 28 Dec 2019 22:42:29 -0800 (PST)
+Received: from ubuntu.netflix.com ([75.104.68.239])
+        by smtp.gmail.com with ESMTPSA id y11sm15112053ilp.46.2019.12.28.22.42.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Dec 2019 16:18:19 -0800 (PST)
-Date:   Sat, 28 Dec 2019 17:18:18 -0700
-From:   Tycho Andersen <tycho@tycho.ws>
-To:     Sargun Dhillon <sargun@sargun.me>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Jann Horn <jannh@google.com>,
+        Sat, 28 Dec 2019 22:42:28 -0800 (PST)
+From:   Sargun Dhillon <sargun@sargun.me>
+To:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+Cc:     Jann Horn <jannh@google.com>,
         Christian Brauner <christian.brauner@ubuntu.com>,
         Kees Cook <keescook@chromium.org>,
-        Aleksa Sarai <cyphar@cyphar.com>
-Subject: Re: [PATCH v2 1/2] samples, selftests/seccomp: Zero out seccomp_notif
-Message-ID: <20191229001818.GC6746@cisco>
-References: <20191228014837.GA31774@ircssh-2.c.rugged-nimbus-611.internal>
- <20191228181825.GB6746@cisco>
- <CAMp4zn91GoB=1eTbc_ux4eNs2-QFm+JocodgFQYUiiXL7H4m9w@mail.gmail.com>
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Tycho Andersen <tycho@tycho.ws>,
+        Sargun Dhillon <sargun@sargun.me>
+Subject: [PATCH v3 1/3] samples, selftests/seccomp: Zero out seccomp_notif
+Date:   Sat, 28 Dec 2019 22:24:49 -0800
+Message-Id: <20191229062451.9467-1-sargun@sargun.me>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMp4zn91GoB=1eTbc_ux4eNs2-QFm+JocodgFQYUiiXL7H4m9w@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Dec 28, 2019 at 07:10:29PM -0500, Sargun Dhillon wrote:
-> On Sat, Dec 28, 2019 at 1:18 PM Tycho Andersen <tycho@tycho.ws> wrote:
-> >
-> > On Sat, Dec 28, 2019 at 01:48:39AM +0000, Sargun Dhillon wrote:
-> > > The seccomp_notif structure should be zeroed out prior to calling the
-> > > SECCOMP_IOCTL_NOTIF_RECV ioctl. Previously, the kernel did not check
-> > > whether these structures were zeroed out or not, so these worked.
-> > >
-> > > Signed-off-by: Sargun Dhillon <sargun@sargun.me>
-> > > Cc: Kees Cook <keescook@chromium.org>
-> > > ---
-> > >  samples/seccomp/user-trap.c                   | 2 +-
-> > >  tools/testing/selftests/seccomp/seccomp_bpf.c | 2 ++
-> > >  2 files changed, 3 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/samples/seccomp/user-trap.c b/samples/seccomp/user-trap.c
-> > > index 6d0125ca8af7..0ca8fb37cd79 100644
-> > > --- a/samples/seccomp/user-trap.c
-> > > +++ b/samples/seccomp/user-trap.c
-> > > @@ -298,7 +298,6 @@ int main(void)
-> > >               req = malloc(sizes.seccomp_notif);
-> > >               if (!req)
-> > >                       goto out_close;
-> > > -             memset(req, 0, sizeof(*req));
-> > >
-> > >               resp = malloc(sizes.seccomp_notif_resp);
-> > >               if (!resp)
-> > > @@ -306,6 +305,7 @@ int main(void)
-> > >               memset(resp, 0, sizeof(*resp));
-> >
-> > I know it's unrelated, but it's probably worth sending a patch to fix
-> > this to be sizes.seccomp_notif_resp instead of sizeof(*resp), since if
-> > the kernel is older this will over-zero things. I can do that, or you
-> > can add the patch to this series, just let me know which.
-> 
-> I was thinking about this, and initially, I chose to make the smaller
-> change. I think it might make more sense to combine the patch,
-> given that the memset behaviour is "incorrect" if we do it based on
-> sizeof(*req), or sizeof(*resp).
-> 
-> I'll go ahead and respin this patch with the change to call memset
-> based on sizes.
+The seccomp_notif structure should be zeroed out prior to calling the
+SECCOMP_IOCTL_NOTIF_RECV ioctl. Previously, the kernel did not check
+whether these structures were zeroed out or not, so these worked.
 
-I think it would be good to keep it as a separate patch, since it's an
-unrelated bug fix. That way if we have to revert these because of some
-breakage, we won't lose the fix.
+This patch zeroes out the seccomp_notif data structure prior to calling
+the ioctl.
 
-Cheers,
+Signed-off-by: Sargun Dhillon <sargun@sargun.me>
+Reviewed-by: Tycho Andersen <tycho@tycho.ws>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: Christian Brauner <christian.brauner@ubuntu.com>
+---
+ samples/seccomp/user-trap.c                   | 2 +-
+ tools/testing/selftests/seccomp/seccomp_bpf.c | 2 ++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-Tycho
+diff --git a/samples/seccomp/user-trap.c b/samples/seccomp/user-trap.c
+index 6d0125ca8af7..3e31ec0cf4a5 100644
+--- a/samples/seccomp/user-trap.c
++++ b/samples/seccomp/user-trap.c
+@@ -298,7 +298,6 @@ int main(void)
+ 		req = malloc(sizes.seccomp_notif);
+ 		if (!req)
+ 			goto out_close;
+-		memset(req, 0, sizeof(*req));
+ 
+ 		resp = malloc(sizes.seccomp_notif_resp);
+ 		if (!resp)
+@@ -306,6 +305,7 @@ int main(void)
+ 		memset(resp, 0, sizeof(*resp));
+ 
+ 		while (1) {
++			memset(req, 0, sizeof(*req));
+ 			if (ioctl(listener, SECCOMP_IOCTL_NOTIF_RECV, req)) {
+ 				perror("ioctl recv");
+ 				goto out_resp;
+diff --git a/tools/testing/selftests/seccomp/seccomp_bpf.c b/tools/testing/selftests/seccomp/seccomp_bpf.c
+index 6944b898bb53..f53f14971bff 100644
+--- a/tools/testing/selftests/seccomp/seccomp_bpf.c
++++ b/tools/testing/selftests/seccomp/seccomp_bpf.c
+@@ -3278,6 +3278,7 @@ TEST(user_notification_signal)
+ 
+ 	close(sk_pair[1]);
+ 
++	memset(&req, 0, sizeof(req));
+ 	EXPECT_EQ(ioctl(listener, SECCOMP_IOCTL_NOTIF_RECV, &req), 0);
+ 
+ 	EXPECT_EQ(kill(pid, SIGUSR1), 0);
+@@ -3296,6 +3297,7 @@ TEST(user_notification_signal)
+ 	EXPECT_EQ(ioctl(listener, SECCOMP_IOCTL_NOTIF_SEND, &resp), -1);
+ 	EXPECT_EQ(errno, ENOENT);
+ 
++	memset(&req, 0, sizeof(req));
+ 	EXPECT_EQ(ioctl(listener, SECCOMP_IOCTL_NOTIF_RECV, &req), 0);
+ 
+ 	resp.id = req.id;
+-- 
+2.20.1
+
