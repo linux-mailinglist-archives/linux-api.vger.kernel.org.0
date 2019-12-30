@@ -2,58 +2,59 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A7E012CD56
-	for <lists+linux-api@lfdr.de>; Mon, 30 Dec 2019 08:35:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1582E12CD72
+	for <lists+linux-api@lfdr.de>; Mon, 30 Dec 2019 08:54:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727208AbfL3HfJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 30 Dec 2019 02:35:09 -0500
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:43304 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727200AbfL3HfJ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 30 Dec 2019 02:35:09 -0500
-Received: by mail-lj1-f194.google.com with SMTP id a13so32453354ljm.10
-        for <linux-api@vger.kernel.org>; Sun, 29 Dec 2019 23:35:08 -0800 (PST)
+        id S1727175AbfL3HyJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 30 Dec 2019 02:54:09 -0500
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:35463 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727195AbfL3HyI (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 30 Dec 2019 02:54:08 -0500
+Received: by mail-lf1-f65.google.com with SMTP id 15so24644791lfr.2
+        for <linux-api@vger.kernel.org>; Sun, 29 Dec 2019 23:54:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linux-foundation.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=C8VcqoghW5rOvSMJZ0IRIDoHi0nnnASGxtcLP9nLAOE=;
-        b=dcr/plKaY7CZ9pAbFtoIBm1kJ5332NaIez2y+adUYFlSYClNPYMFXaLR/4ZeaHThae
-         0NCLKYZWzj0ZhsWf2e47n3ViMgFwTwrkmZNIbW13YNQIezqPgp+Z6vCLkGnc5OMABuVx
-         VOl557q4dUt0XZZxaC0scsChHGK80Gm1/Peb8=
+        bh=UPYZanyjmH24ggFQ0lPuYSWOsbulZsh973CIm+qG+bk=;
+        b=Cx3+XC85If9Oc3+SnG+zaiVL3sW0ltnO4/9ZE8Ra0eb06emSRYR1g1CetfkcslqRDu
+         zngUIRfNBEw2+zHB+1VIS6HcdT6io8j0lKAIdKyWkqzg0NCQXe4euoQAsTWtdle3aXn2
+         1oukdDy3yiimYe6rjVLG8s6wv0hhJ97hy/Dzw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=C8VcqoghW5rOvSMJZ0IRIDoHi0nnnASGxtcLP9nLAOE=;
-        b=n9tVqT5YgS3EkpJjlYXOvvAawgiF+37el6RoZYzOHCC0Gfk7AKHYSx46wRKJjlmGUF
-         fePAJ0c6fhzc6BG4cIhmfLA80ohFl4XwPq+MsymeOwElFMvUjnDLOwlMrb4W7t/9N8Eq
-         uRCsuQbRfPfxa3z+DxM+/Lj3W0dVwREZ4+TGSr2rQIVRhdntGK8cz/UDJnm0XFt/+/mM
-         6SQfZWScEdxEofo9M9UsBNYYtvRHDO4yDjPgGh+rE4Nsde/W8ETiEIg8E5r6EqihOPVc
-         cSasW668GWSO/UREo4WXzhajRkBJzRaBwIqf4aB2CxoYM8tuOCm8ZLwC26oksYohOr3M
-         kM7w==
-X-Gm-Message-State: APjAAAWe7X3DCdq6+yywb1linkhQlliaqyfZcEh1kGgXoqvDXrZT9BpF
-        E8gcw2I6sj7+xXIXb5+kJ9Vd4fTusL0=
-X-Google-Smtp-Source: APXvYqxaPh4MnYRxd6DSSVawKsyImeOFoCYf/Jg0w33sLWOnodd1xCDxgxrtha5xUn4AE9C01FCEVA==
-X-Received: by 2002:a2e:9cc:: with SMTP id 195mr35913562ljj.130.1577691306426;
-        Sun, 29 Dec 2019 23:35:06 -0800 (PST)
+        bh=UPYZanyjmH24ggFQ0lPuYSWOsbulZsh973CIm+qG+bk=;
+        b=A4FKRY8+W8DczqLMd9zPG8Pz0Om1FgAYlaSXcW2PURZz1NkONeEbEzAmyDgwttI5SM
+         uOgJ0sgUsvT8FmJIPpFF0S72FfGRK43tSQcbhrwNGPRAg+DgdO1FeloMN+AaS8rvHFBS
+         D/LQnraM3BV9jmHk7mJnPgMjjUeqnkkPb5O68Ig9pnYP4/LZuf6SL7hSy4/e0JeQtrn6
+         nC/Xekz11JYXa6dsprQwkMB/AH8Jf/z81l4h2BS8TNH5YOW2pZszX2Py/Kgl7N+HtPJH
+         8ZYTqxzN+fOn9+S/kFG0QbCxu+sn7IVbPEU5Mb9xEgwfeqa+xDyBO5GbukXhBeHixCkd
+         uWsg==
+X-Gm-Message-State: APjAAAV0aykRDk/EaweGtQeyvBUNj7VV869PiThXPDO27gcjD+ZZ1Kx9
+        qu3C8dJVqeH6AoFa9sz4lfVJVe+/2eU=
+X-Google-Smtp-Source: APXvYqy6r5yMDcM9CMPqi9FYQ4G0bWcIulI0AKWuYT3rW0Qj9km0dr66xXTJSqq8EmJq0awqvQ2Wcg==
+X-Received: by 2002:ac2:46dc:: with SMTP id p28mr37482647lfo.23.1577692446075;
+        Sun, 29 Dec 2019 23:54:06 -0800 (PST)
 Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com. [209.85.208.174])
-        by smtp.gmail.com with ESMTPSA id k12sm18181820lfc.33.2019.12.29.23.35.05
+        by smtp.gmail.com with ESMTPSA id r15sm4521565ljh.11.2019.12.29.23.54.03
         for <linux-api@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 29 Dec 2019 23:35:05 -0800 (PST)
-Received: by mail-lj1-f174.google.com with SMTP id h23so32456799ljc.8
-        for <linux-api@vger.kernel.org>; Sun, 29 Dec 2019 23:35:05 -0800 (PST)
-X-Received: by 2002:a2e:9ad8:: with SMTP id p24mr37380088ljj.148.1577691304745;
- Sun, 29 Dec 2019 23:35:04 -0800 (PST)
+        Sun, 29 Dec 2019 23:54:04 -0800 (PST)
+Received: by mail-lj1-f174.google.com with SMTP id w1so10510417ljh.5
+        for <linux-api@vger.kernel.org>; Sun, 29 Dec 2019 23:54:03 -0800 (PST)
+X-Received: by 2002:a2e:9041:: with SMTP id n1mr37567234ljg.133.1577692443206;
+ Sun, 29 Dec 2019 23:54:03 -0800 (PST)
 MIME-Version: 1.0
-References: <20191230052036.8765-1-cyphar@cyphar.com> <20191230052036.8765-2-cyphar@cyphar.com>
-In-Reply-To: <20191230052036.8765-2-cyphar@cyphar.com>
+References: <20191230052036.8765-1-cyphar@cyphar.com> <20191230054413.GX4203@ZenIV.linux.org.uk>
+ <20191230054913.c5avdjqbygtur2l7@yavin.dot.cyphar.com> <20191230072959.62kcojxpthhdwmfa@yavin.dot.cyphar.com>
+In-Reply-To: <20191230072959.62kcojxpthhdwmfa@yavin.dot.cyphar.com>
 From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Sun, 29 Dec 2019 23:34:48 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wjHPCQsMeK5bFOJQnrGPfVDXTAFQK4VsBZPj5u=ZgS-QA@mail.gmail.com>
-Message-ID: <CAHk-=wjHPCQsMeK5bFOJQnrGPfVDXTAFQK4VsBZPj5u=ZgS-QA@mail.gmail.com>
-Subject: Re: [PATCH RFC 1/1] mount: universally disallow mounting over symlinks
+Date:   Sun, 29 Dec 2019 23:53:47 -0800
+X-Gmail-Original-Message-ID: <CAHk-=whxNw7hYT6bJn9mVrB_a=7Y-irmpaPsp1R4xbHHkicv7g@mail.gmail.com>
+Message-ID: <CAHk-=whxNw7hYT6bJn9mVrB_a=7Y-irmpaPsp1R4xbHHkicv7g@mail.gmail.com>
+Subject: Re: [PATCH RFC 0/1] mount: universally disallow mounting over symlinks
 To:     Aleksa Sarai <cyphar@cyphar.com>
 Cc:     Al Viro <viro@zeniv.linux.org.uk>,
         David Howells <dhowells@redhat.com>,
@@ -71,57 +72,57 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sun, Dec 29, 2019 at 9:21 PM Aleksa Sarai <cyphar@cyphar.com> wrote:
+On Sun, Dec 29, 2019 at 11:30 PM Aleksa Sarai <cyphar@cyphar.com> wrote:
 >
-> +       if (d_is_symlink(mp->m_dentry) ||
-> +           d_is_symlink(mnt->mnt.mnt_root))
-> +               return -EINVAL;
+>     BUG: kernel NULL pointer dereference, address: 0000000000000000
 
-So I don't hate this kind of check in general - overmounting a symlink
-sounds odd, but at the same time I get the feeling that the real issue
-is that something went wrong earlier.
+Would you mind building with debug info, and then running the oops through
 
-Yeah, the mount target kind of _is_ a path, but at the same time, we
-most definitely want to have the permission to really open the
-directory in question, don't we, and I don't see that we should accept
-a O_PATH file descriptor.
+ scripts/decode_stacktrace.sh
 
-I feel like the only valid use of "O_PATH" files is to then use them
-as the base for an openat() and friends (ie fchmodat/execveat() etc).
+which makes those addresses much more legible.
 
-But maybe I'm completely wrong, and people really do want O_PATH
-handling exactly for mounting too. It does sound a bit odd. By
-definition, mounting wants permissions to the mount-point, so what's
-the point of using O_PATH?
+>     #PF: supervisor instruction fetch in kernel mode
+>     #PF: error_code(0x0010) - not-present page
 
-So instead of saying "don't overmount symlinks", I would feel like
-it's the mount system call that should use a proper file descriptor
-that isn't FMODE_PATH.
+Somebody jumped through a NULL pointer.
 
-Is it really the symlink that is the issue? Because if it's the
-symlink that is the issue then I feel like O_NOFOLLOW should have
-triggered it, but your other email seems to say that you really need
-O_PATH | O_SYMLINK.
+>     RAX: 0000000000000000 RBX: ffff906d0cc3bb40 RCX: 0000000000000abc
+>     RDX: 0000000000000089 RSI: ffff906d74623cc0 RDI: ffff906d74475df0
+>     RBP: ffff906d74475df0 R08: ffffd70b7fb24c20 R09: ffff906d066a5000
+>     R10: 0000000000000000 R11: 8080807fffffffff R12: ffff906d74623cc0
+>     R13: 0000000000000089 R14: ffffb70b82963dc0 R15: 0000000000000080
+>     FS:  00007fbc2a8f0540(0000) GS:ffff906dcf500000(0000) knlGS:0000000000000000
+>     CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>     CR2: ffffffffffffffd6 CR3: 00000003c68f8001 CR4: 00000000003606e0
+>     Call Trace:
+>      __lookup_slow+0x94/0x160
 
-So I'm not sayng that this patch is wrong, but it really smells a bit
-like it's papering over the more fundamental issue.
+And "__lookup_slow()" has two indirect calls (they aren't obvious with
+retpoline, but look for something  like
 
-For example, is the problem that when you do a proper
+        call __x86_indirect_thunk_rax
 
-  fd = open("somepath", O_PATH);
+which is the modern sad way of doing "call *%rax"). One is for
+revalidatinging an old dentry, but the one I _suspect_ you trigger is
+this one:
 
-in one process, and then another thread does
+                old = inode->i_op->lookup(inode, dentry, flags);
 
-   fd = open("/proc/<pid>/fd/<opathfd>", O_RDWR);
+but I thought we only could get here if we know it's a directory.
 
-then we get confused and do bad things on that *second* open? Because
-now the second open doesn't have O_PATH, and doesn't ghet marked
-FMODE_PATH, but the underlying file descriptor is one of those limited
-"is really only useful for openat() and friends".
+How did we miss the "d_can_lookup()", which is what should check that
+yes, we can call that ->lookup() routine.
 
-I dunno. I haven't thought through the whole thing. But the oopses you
-quote seem like we're really doing something wrong, and it really does
-feel like your patch in no way _fixes_ the wrong thing we're doing,
-it's just hiding the symptoms.
+This is why I have that suspicion that it's somehow that O_PATH fd
+opened in another process without O_PATH causes confusion...
 
-               Linus
+So what I think has happened is that because of the O_PATH thing,
+we've ended up with an inode that has never been truly opened (because
+O_PATH skips that part), but then with the /proc/<pid>/fd/xyz open, we
+now have a file descriptor that _looks_ like it is valid, and we're
+treating that inode as if it can be used.
+
+But I'm handwaving.
+
+             Linus
