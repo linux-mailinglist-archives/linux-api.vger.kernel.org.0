@@ -2,108 +2,131 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 98C8912D3FA
-	for <lists+linux-api@lfdr.de>; Mon, 30 Dec 2019 20:33:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CFAA12D4BA
+	for <lists+linux-api@lfdr.de>; Mon, 30 Dec 2019 23:03:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727695AbfL3Tde (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 30 Dec 2019 14:33:34 -0500
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:44136 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727652AbfL3Tde (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 30 Dec 2019 14:33:34 -0500
-Received: by mail-ot1-f67.google.com with SMTP id h9so44810937otj.11
-        for <linux-api@vger.kernel.org>; Mon, 30 Dec 2019 11:33:34 -0800 (PST)
+        id S1727695AbfL3WDi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 30 Dec 2019 17:03:38 -0500
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:38744 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727691AbfL3WDi (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 30 Dec 2019 17:03:38 -0500
+Received: by mail-pl1-f195.google.com with SMTP id f20so15153662plj.5;
+        Mon, 30 Dec 2019 14:03:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=9mNn9nURZI+7bF8xI34SvARdK0zc98BlyBAff05Zwow=;
-        b=YV085ZOOvhc6d7lXQ0SBArTWIZoH8sYIamOti1KC9sHJJJ+d/rvFCoE55WfIvMkNNP
-         OSD298oJWMMz/40hbSmOxuUqPIVB+eBibxKww9917VHEsbn3sSamO4XvE6a6L7YyeuFt
-         GSGpITqm8hPZVEOetsAKoF7x54l97GAa6AtLA=
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=sWcIwqwAQVaMiL6AbIBVoLXwMM9wjsoCuHsXRphgo8Y=;
+        b=nEQfUB9BU7XTfjYvCMI6Yd/qByThVkk2PiHeRSy9HqRXeXx/ACLKilBsXAOBcCROWX
+         wuYYWc18pechAi8K+EkPH15KMlWyQ6nb0StYh3i01u248ouxra+l0YzVMzSbAIdPpj32
+         8IklPGgLy/ca2jvIWXCX+wjrXBcw+YhdM6dG2drTzpt9BJH4W/VMrXUHA7PFo1I1D0fp
+         bV/2HKq3EUqlQLAmrkiIYXp5l16qLryAJoIvQkBet0s7dkrKl35d2kNDuDe+cTkV6CtO
+         pdBNwQkWVWBXVmtsGPAeYKEJ7QDU9Bg9dcnJKVDvMxCHqk2OAX0edZ0X4oodFaH8Hq0U
+         10lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=9mNn9nURZI+7bF8xI34SvARdK0zc98BlyBAff05Zwow=;
-        b=RLOKmV1KaBv5NKZzBIhNQeYKNfXziF2HDQlYEabWzTGqljjRQy1jHpey5C+q1ZDQmW
-         QyW/xz1p0lmFtllIhCUONOFG/x47B1iF6GxQoQGCRYe1T7EQyt5t5H7Khl0uNmvamHEY
-         xbyJnszOvcPzBrM/KIKJUpTUlSlxsqIEpdmtgkPzdsQcaaQ4U21J4wl23TZqDJCnfJ+s
-         RaeA+Jh9AoFLts2bRPavLIyibCFCvS+8hicJVIDm4vJIuG2CpOqjiujFRT6e84Kgg8a8
-         v6fTVGILY4SxgaZ87F4fVw0iTmyYAbxJLb/9sDpEnJf6B4oQdXkth0dRWfWTPw65Pcik
-         vPOA==
-X-Gm-Message-State: APjAAAXdTE3soSw9yaE91KyExoLrGhs1FYB/29Y721ECf/iP2Ln4i0X3
-        NX9gJMAOstvT0cWJsQKerH4jKA==
-X-Google-Smtp-Source: APXvYqyNoTK/EBegjIbIVpgtIGqEsgAPyx26q0BAOQObqFaX7RqA6Ux749p7HJwSPup6gF+Ww3bYog==
-X-Received: by 2002:a05:6830:2099:: with SMTP id y25mr73259465otq.87.1577734413863;
-        Mon, 30 Dec 2019 11:33:33 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id z12sm16083437oti.22.2019.12.30.11.33.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Dec 2019 11:33:33 -0800 (PST)
-Date:   Mon, 30 Dec 2019 11:33:31 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     Sargun Dhillon <sargun@sargun.me>
-Cc:     Tycho Andersen <tycho@tycho.ws>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=sWcIwqwAQVaMiL6AbIBVoLXwMM9wjsoCuHsXRphgo8Y=;
+        b=hVBUeYUlCs6CqAhqAz823TJP4I7aok2n7HhCS49Q+MIV6qlAPVj1aeV+ulYZh4yk0s
+         9thbKAY9G/bOcbFwXO045HrVI/GQUWdWsSQGx5IJpowDcnW+9wdcNN+rKbFwZJ6UMUEP
+         cMHMXE9g+qQlG4WCbCzEovuR1dvQsBNesfpeXWV1RnwZ4e0e1gqhPpcL//2xYoDIgVJZ
+         S427ewzNvTEb6irnPBgrnHdQlMnq3IoxpTr3b+WrtwlVONJrhIp6jzxOQSB0IGUwE5Gb
+         mFmqQ6Vhx8V+99kV7PKPHn89ECDfEt7iPt8XmspaARKoIyfLecDhmS5rJKrK+HKSig9o
+         pEQA==
+X-Gm-Message-State: APjAAAUy/YfQAqm4vm79o9LeA8YY6ValEGXJrOWrVcucn3aCP4B8SyK9
+        LDtSX2t+F8XF6zVLNJQmYxE=
+X-Google-Smtp-Source: APXvYqzCT9zC3ZgKpQpD5zdYtsdEacKle/p/witN0yVp/CLOmZS4R1vbOaH6CIUVFPPMG9wX2sUhEg==
+X-Received: by 2002:a17:90a:1696:: with SMTP id o22mr1776310pja.78.1577743416953;
+        Mon, 30 Dec 2019 14:03:36 -0800 (PST)
+Received: from JF-EN-C02V905BHTDF.tld ([12.111.169.54])
+        by smtp.gmail.com with ESMTPSA id l8sm511900pjy.24.2019.12.30.14.03.33
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 30 Dec 2019 14:03:36 -0800 (PST)
+Subject: Re: [PATCH v6 07/10] proc: flush task dcache entries from all procfs
+ instances
+To:     Alexey Gladkov <gladkov.alexey@gmail.com>,
         LKML <linux-kernel@vger.kernel.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
         Linux API <linux-api@vger.kernel.org>,
-        Jann Horn <jannh@google.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Aleksa Sarai <cyphar@cyphar.com>
-Subject: Re: [PATCH v2 1/2] samples, selftests/seccomp: Zero out seccomp_notif
-Message-ID: <201912301132.5C97DD231B@keescook>
-References: <20191228014837.GA31774@ircssh-2.c.rugged-nimbus-611.internal>
- <20191228181825.GB6746@cisco>
- <CAMp4zn91GoB=1eTbc_ux4eNs2-QFm+JocodgFQYUiiXL7H4m9w@mail.gmail.com>
- <20191229001818.GC6746@cisco>
- <CAMp4zn9s1wJyb9xHj4xYL5HTtM=gA07ZfBGTSW5j4ayUzaoZNQ@mail.gmail.com>
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        Linux Security Module <linux-security-module@vger.kernel.org>
+Cc:     Akinobu Mita <akinobu.mita@gmail.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Daniel Micay <danielmicay@gmail.com>,
+        Djalal Harouni <tixxdz@gmail.com>,
+        "Dmitry V . Levin" <ldv@altlinux.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Jeff Layton <jlayton@poochiereds.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Solar Designer <solar@openwall.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+References: <20191225125151.1950142-1-gladkov.alexey@gmail.com>
+ <20191225125151.1950142-8-gladkov.alexey@gmail.com>
+From:   J Freyensee <why2jjj.linux@gmail.com>
+Message-ID: <8d85ba43-0759-358e-137d-246107bac747@gmail.com>
+Date:   Mon, 30 Dec 2019 14:03:29 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+ Gecko/20100101 Thunderbird/60.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMp4zn9s1wJyb9xHj4xYL5HTtM=gA07ZfBGTSW5j4ayUzaoZNQ@mail.gmail.com>
+In-Reply-To: <20191225125151.1950142-8-gladkov.alexey@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Dec 30, 2019 at 11:14:44AM -0800, Sargun Dhillon wrote:
-> On Sat, Dec 28, 2019 at 4:18 PM Tycho Andersen <tycho@tycho.ws> wrote:
-> >
-> > On Sat, Dec 28, 2019 at 07:10:29PM -0500, Sargun Dhillon wrote:
-> > > On Sat, Dec 28, 2019 at 1:18 PM Tycho Andersen <tycho@tycho.ws> wrote:
-> > > >
-> > > >
-> > > > I know it's unrelated, but it's probably worth sending a patch to fix
-> > > > this to be sizes.seccomp_notif_resp instead of sizeof(*resp), since if
-> > > > the kernel is older this will over-zero things. I can do that, or you
-> > > > can add the patch to this series, just let me know which.
-> > >
-> > > I was thinking about this, and initially, I chose to make the smaller
-> > > change. I think it might make more sense to combine the patch,
-> > > given that the memset behaviour is "incorrect" if we do it based on
-> > > sizeof(*req), or sizeof(*resp).
-> > >
-> > > I'll go ahead and respin this patch with the change to call memset
-> > > based on sizes.
-> >
-> > I think it would be good to keep it as a separate patch, since it's an
-> > unrelated bug fix. That way if we have to revert these because of some
-> > breakage, we won't lose the fix.
-> >
-> > Cheers,
-> >
-> > Tycho
-> 
-> As I was doing this, I noticed that the self-tests all use hard-coded struct
-> sizes. When I was playing with extending the API, all of a sudden all the
-> self-tests started failing (until I recompiled them against newer headers).
-> 
-> Should we also change the self-tests to operate against the seccomp
-> sizes API, or was it intentional for the self-tests hard-coded the struct
-> definitions, and locked to the kernel version?
+snip
 
-I intend the seccomp selftests to be kernel-version tied, but I'd like
-them to fail as gracefully as possible on mismatched kernel versions...
+.
 
--- 
-Kees Cook
+.
+
+.
+
+>   
+> +#ifdef CONFIG_PROC_FS
+> +static inline void pidns_proc_lock(struct pid_namespace *pid_ns)
+> +{
+> +	down_write(&pid_ns->rw_proc_mounts);
+> +}
+> +
+> +static inline void pidns_proc_unlock(struct pid_namespace *pid_ns)
+> +{
+> +	up_write(&pid_ns->rw_proc_mounts);
+> +}
+> +
+> +static inline void pidns_proc_lock_shared(struct pid_namespace *pid_ns)
+> +{
+> +	down_read(&pid_ns->rw_proc_mounts);
+> +}
+> +
+> +static inline void pidns_proc_unlock_shared(struct pid_namespace *pid_ns)
+> +{
+> +	up_read(&pid_ns->rw_proc_mounts);
+> +}
+> +#else /* !CONFIG_PROC_FS */
+> +
+Apologies for my newbie question. I couldn't help but notice all these 
+function calls are assuming that the parameter struct pid_namespace 
+*pid_ns will never be NULL.  Is that a good assumption?
+
+I don't have the background in this code to answer on my own, but I 
+thought I'd raise the question.
+
+Thanks,
+Jay
+
