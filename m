@@ -2,60 +2,27 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1582E12CD72
-	for <lists+linux-api@lfdr.de>; Mon, 30 Dec 2019 08:54:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 15E0312CDAD
+	for <lists+linux-api@lfdr.de>; Mon, 30 Dec 2019 09:29:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727175AbfL3HyJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 30 Dec 2019 02:54:09 -0500
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:35463 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727195AbfL3HyI (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 30 Dec 2019 02:54:08 -0500
-Received: by mail-lf1-f65.google.com with SMTP id 15so24644791lfr.2
-        for <linux-api@vger.kernel.org>; Sun, 29 Dec 2019 23:54:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=UPYZanyjmH24ggFQ0lPuYSWOsbulZsh973CIm+qG+bk=;
-        b=Cx3+XC85If9Oc3+SnG+zaiVL3sW0ltnO4/9ZE8Ra0eb06emSRYR1g1CetfkcslqRDu
-         zngUIRfNBEw2+zHB+1VIS6HcdT6io8j0lKAIdKyWkqzg0NCQXe4euoQAsTWtdle3aXn2
-         1oukdDy3yiimYe6rjVLG8s6wv0hhJ97hy/Dzw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=UPYZanyjmH24ggFQ0lPuYSWOsbulZsh973CIm+qG+bk=;
-        b=A4FKRY8+W8DczqLMd9zPG8Pz0Om1FgAYlaSXcW2PURZz1NkONeEbEzAmyDgwttI5SM
-         uOgJ0sgUsvT8FmJIPpFF0S72FfGRK43tSQcbhrwNGPRAg+DgdO1FeloMN+AaS8rvHFBS
-         D/LQnraM3BV9jmHk7mJnPgMjjUeqnkkPb5O68Ig9pnYP4/LZuf6SL7hSy4/e0JeQtrn6
-         nC/Xekz11JYXa6dsprQwkMB/AH8Jf/z81l4h2BS8TNH5YOW2pZszX2Py/Kgl7N+HtPJH
-         8ZYTqxzN+fOn9+S/kFG0QbCxu+sn7IVbPEU5Mb9xEgwfeqa+xDyBO5GbukXhBeHixCkd
-         uWsg==
-X-Gm-Message-State: APjAAAV0aykRDk/EaweGtQeyvBUNj7VV869PiThXPDO27gcjD+ZZ1Kx9
-        qu3C8dJVqeH6AoFa9sz4lfVJVe+/2eU=
-X-Google-Smtp-Source: APXvYqy6r5yMDcM9CMPqi9FYQ4G0bWcIulI0AKWuYT3rW0Qj9km0dr66xXTJSqq8EmJq0awqvQ2Wcg==
-X-Received: by 2002:ac2:46dc:: with SMTP id p28mr37482647lfo.23.1577692446075;
-        Sun, 29 Dec 2019 23:54:06 -0800 (PST)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com. [209.85.208.174])
-        by smtp.gmail.com with ESMTPSA id r15sm4521565ljh.11.2019.12.29.23.54.03
-        for <linux-api@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 29 Dec 2019 23:54:04 -0800 (PST)
-Received: by mail-lj1-f174.google.com with SMTP id w1so10510417ljh.5
-        for <linux-api@vger.kernel.org>; Sun, 29 Dec 2019 23:54:03 -0800 (PST)
-X-Received: by 2002:a2e:9041:: with SMTP id n1mr37567234ljg.133.1577692443206;
- Sun, 29 Dec 2019 23:54:03 -0800 (PST)
-MIME-Version: 1.0
-References: <20191230052036.8765-1-cyphar@cyphar.com> <20191230054413.GX4203@ZenIV.linux.org.uk>
- <20191230054913.c5avdjqbygtur2l7@yavin.dot.cyphar.com> <20191230072959.62kcojxpthhdwmfa@yavin.dot.cyphar.com>
-In-Reply-To: <20191230072959.62kcojxpthhdwmfa@yavin.dot.cyphar.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Sun, 29 Dec 2019 23:53:47 -0800
-X-Gmail-Original-Message-ID: <CAHk-=whxNw7hYT6bJn9mVrB_a=7Y-irmpaPsp1R4xbHHkicv7g@mail.gmail.com>
-Message-ID: <CAHk-=whxNw7hYT6bJn9mVrB_a=7Y-irmpaPsp1R4xbHHkicv7g@mail.gmail.com>
-Subject: Re: [PATCH RFC 0/1] mount: universally disallow mounting over symlinks
-To:     Aleksa Sarai <cyphar@cyphar.com>
+        id S1727221AbfL3I3G (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 30 Dec 2019 03:29:06 -0500
+Received: from mout-p-201.mailbox.org ([80.241.56.171]:13618 "EHLO
+        mout-p-201.mailbox.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727175AbfL3I3G (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 30 Dec 2019 03:29:06 -0500
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:105:465:1:1:0])
+        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
+        (No client certificate requested)
+        by mout-p-201.mailbox.org (Postfix) with ESMTPS id 47mVvg2XYxzQl95;
+        Mon, 30 Dec 2019 09:29:03 +0100 (CET)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from smtp1.mailbox.org ([80.241.60.240])
+        by hefe.heinlein-support.de (hefe.heinlein-support.de [91.198.250.172]) (amavisd-new, port 10030)
+        with ESMTP id LksFxLKl0xnj; Mon, 30 Dec 2019 09:28:56 +0100 (CET)
+Date:   Mon, 30 Dec 2019 19:28:47 +1100
+From:   Aleksa Sarai <cyphar@cyphar.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
 Cc:     Al Viro <viro@zeniv.linux.org.uk>,
         David Howells <dhowells@redhat.com>,
         Eric Biederman <ebiederm@xmission.com>,
@@ -66,63 +33,144 @@ Cc:     Al Viro <viro@zeniv.linux.org.uk>,
         Linux API <linux-api@vger.kernel.org>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH RFC 1/1] mount: universally disallow mounting over
+ symlinks
+Message-ID: <20191230082847.dkriyisvu7wwxqqu@yavin.dot.cyphar.com>
+References: <20191230052036.8765-1-cyphar@cyphar.com>
+ <20191230052036.8765-2-cyphar@cyphar.com>
+ <CAHk-=wjHPCQsMeK5bFOJQnrGPfVDXTAFQK4VsBZPj5u=ZgS-QA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="2ttgeqhlie5hzgct"
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wjHPCQsMeK5bFOJQnrGPfVDXTAFQK4VsBZPj5u=ZgS-QA@mail.gmail.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sun, Dec 29, 2019 at 11:30 PM Aleksa Sarai <cyphar@cyphar.com> wrote:
->
->     BUG: kernel NULL pointer dereference, address: 0000000000000000
 
-Would you mind building with debug info, and then running the oops through
+--2ttgeqhlie5hzgct
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
- scripts/decode_stacktrace.sh
+On 2019-12-29, Linus Torvalds <torvalds@linux-foundation.org> wrote:
+> On Sun, Dec 29, 2019 at 9:21 PM Aleksa Sarai <cyphar@cyphar.com> wrote:
+> > +       if (d_is_symlink(mp->m_dentry) ||
+> > +           d_is_symlink(mnt->mnt.mnt_root))
+> > +               return -EINVAL;
+>=20
+> So I don't hate this kind of check in general - overmounting a symlink
+> sounds odd, but at the same time I get the feeling that the real issue
+> is that something went wrong earlier.
+>=20
+> Yeah, the mount target kind of _is_ a path, but at the same time, we
+> most definitely want to have the permission to really open the
+> directory in question, don't we, and I don't see that we should accept
+> a O_PATH file descriptor.
 
-which makes those addresses much more legible.
+The new mount API uses O_PATH under the hood (which is a good thing
+since some files you'd like to avoid actually opening -- FIFOs are the
+obvious example) so I'm not sure that's something we could really avoid.
 
->     #PF: supervisor instruction fetch in kernel mode
->     #PF: error_code(0x0010) - not-present page
+But if we block O_PATH for mounts this will achieve the same thing,
+because the only way to get a file descriptor that references a symlink
+is through (O_PATH | O_NOFOLLOW).
 
-Somebody jumped through a NULL pointer.
+> I feel like the only valid use of "O_PATH" files is to then use them
+> as the base for an openat() and friends (ie fchmodat/execveat() etc).
 
->     RAX: 0000000000000000 RBX: ffff906d0cc3bb40 RCX: 0000000000000abc
->     RDX: 0000000000000089 RSI: ffff906d74623cc0 RDI: ffff906d74475df0
->     RBP: ffff906d74475df0 R08: ffffd70b7fb24c20 R09: ffff906d066a5000
->     R10: 0000000000000000 R11: 8080807fffffffff R12: ffff906d74623cc0
->     R13: 0000000000000089 R14: ffffb70b82963dc0 R15: 0000000000000080
->     FS:  00007fbc2a8f0540(0000) GS:ffff906dcf500000(0000) knlGS:0000000000000000
->     CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->     CR2: ffffffffffffffd6 CR3: 00000003c68f8001 CR4: 00000000003606e0
->     Call Trace:
->      __lookup_slow+0x94/0x160
+See below, we use this for all sorts of dirty^Wclever tricks.
 
-And "__lookup_slow()" has two indirect calls (they aren't obvious with
-retpoline, but look for something  like
+> But maybe I'm completely wrong, and people really do want O_PATH
+> handling exactly for mounting too. It does sound a bit odd. By
+> definition, mounting wants permissions to the mount-point, so what's
+> the point of using O_PATH?
 
-        call __x86_indirect_thunk_rax
+When you go through O_PATH, you still get a proper 'struct path' which
+means that for operations such as mount (or open) you will operate on
+the *real* underlying file.
 
-which is the modern sad way of doing "call *%rax"). One is for
-revalidatinging an old dentry, but the one I _suspect_ you trigger is
-this one:
+This is part of what makes magic-links so useful (but also quite
+terrifying).
 
-                old = inode->i_op->lookup(inode, dentry, flags);
+> For example, is the problem that when you do a proper
+>=20
+>   fd =3D open("somepath", O_PATH);
+>=20
+> in one process, and then another thread does
+>=20
+>    fd =3D open("/proc/<pid>/fd/<opathfd>", O_RDWR);
+>=20
+> then we get confused and do bad things on that *second* open? Because
+> now the second open doesn't have O_PATH, and doesn't ghet marked
+> FMODE_PATH, but the underlying file descriptor is one of those limited
+> "is really only useful for openat() and friends".
 
-but I thought we only could get here if we know it's a directory.
+Actually, this isn't true (for the same reason as above) -- when you do
+a re-open through /proc/$pid/fd/$n you get a real-as-a-heart-attack file
+descriptor. We make lots of use of this in container runtimes in order
+to do some dirty^Wfun tricks that help us harden the runtime against
+malicious container processes.
 
-How did we miss the "d_can_lookup()", which is what should check that
-yes, we can call that ->lookup() routine.
+You might recall that when I was posting the earlier revisions of
+openat2(), I also included a patch for O_EMPTYPATH (which basically did
+a re-open of /proc/self/fd/$dfd but without needing /proc). That had
+precisely the same semantics so that you could do the same operation
+without procfs. That patch was dropped before Al merged openat2(), but I
+am probably going to revive it for the reasons I outlined below.
 
-This is why I have that suspicion that it's somehow that O_PATH fd
-opened in another process without O_PATH causes confusion...
+> I dunno. I haven't thought through the whole thing. But the oopses you
+> quote seem like we're really doing something wrong, and it really does
+> feel like your patch in no way _fixes_ the wrong thing we're doing,
+> it's just hiding the symptoms.
 
-So what I think has happened is that because of the O_PATH thing,
-we've ended up with an inode that has never been truly opened (because
-O_PATH skips that part), but then with the /proc/<pid>/fd/xyz open, we
-now have a file descriptor that _looks_ like it is valid, and we're
-treating that inode as if it can be used.
+That's fair enough.
 
-But I'm handwaving.
+I'll be honest, the real reason why I don't want mounts over symlinks to
+be possible is for an entirely different reason. I'm working on a safe
+path resolution library to accompany openat2()[1] -- and one of the
+things I want to do is to harden all of our uses of procfs (such that if
+we are running in a context where procfs has been messed with -- such as
+having files bind-mounted -- we can detect it and abort). The issue with
+symlinks is that we need to be able to operate on magic-links (such as
+/proc/self/fd/$n and /proc/self/exe) -- and if it's possible bind-mount
+over those magic-links then we can't detect it at all.
 
-             Linus
+openat2(RESOLVE_NO_XDEV) would block it, but it also blocks going
+through magic-links which change your mount (which would almost always
+be true). You can't trust /proc/self/mountinfo by definition -- not just
+because of the TOCTOU race but also because you can't depend on /proc to
+harden against a "bad" /proc. All other options such as
+umount2(MNT_EXPIRE) won't help with magic-links because we cannot take
+an O_PATH to a magic-link and follow it -- O_PATHs of symlinks are
+completely stunted in this respect.
+
+If allowing bind-mounts over symlinks is allowed (which I don't have a
+problem with really), it just means we'll need a few more kernel pieces
+to get this hardening to work. But these features would be useful
+outside of the problems I'm dealing with (O_EMPTYPATH and some kind of
+pidfd-based interface to grab the equivalent of /proc/self/exe and a few
+other such magic-link targets).
+
+[1]: https://github.com/openSUSE/libpathrs
+
+--=20
+Aleksa Sarai
+Senior Software Engineer (Containers)
+SUSE Linux GmbH
+<https://www.cyphar.com/>
+
+--2ttgeqhlie5hzgct
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCXgm1PAAKCRCdlLljIbnQ
+EgySAP9VrQ+iD1l5aOAWe2wFG8Jw0u9h3RrYrsF6ygoOD7rhYgEAjl6Xtd4ayz7s
+rKcquB9aKdCEYTJMzkPShbvhgHd0rAc=
+=ff9q
+-----END PGP SIGNATURE-----
+
+--2ttgeqhlie5hzgct--
