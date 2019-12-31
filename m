@@ -2,127 +2,183 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D74D12D604
-	for <lists+linux-api@lfdr.de>; Tue, 31 Dec 2019 04:50:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E5D512D87D
+	for <lists+linux-api@lfdr.de>; Tue, 31 Dec 2019 12:54:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726627AbfLaDuQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 30 Dec 2019 22:50:16 -0500
-Received: from out02.mta.xmission.com ([166.70.13.232]:39438 "EHLO
-        out02.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726605AbfLaDuQ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 30 Dec 2019 22:50:16 -0500
-Received: from in02.mta.xmission.com ([166.70.13.52])
-        by out02.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.90_1)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1im8Xu-0005Oc-AF; Mon, 30 Dec 2019 20:50:14 -0700
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
-        by in02.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.87)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1im8Xt-0002v1-Dx; Mon, 30 Dec 2019 20:50:14 -0700
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     Yang Shi <yang.shi@linux.alibaba.com>
-Cc:     Michal Hocko <mhocko@kernel.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        "Michael Kerrisk \(man-pages\)" <mtk.manpages@gmail.com>,
-        cl@linux.com, cai@lca.pw, akpm@linux-foundation.org,
-        linux-man@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org
-References: <1575596090-115377-1-git-send-email-yang.shi@linux.alibaba.com>
-        <0dc96e40-5f2b-a2fe-6e5f-b6f3d5e9ebde@nvidia.com>
-        <95170ea5-5b62-9168-fcd9-93b43330a1b4@linux.alibaba.com>
-        <092adc11-7039-9343-7067-0e0199c9dc13@gmail.com>
-        <51dd767a-221f-882d-c7f6-45bd0c217a67@nvidia.com>
-        <20191218101711.GB21485@dhcp22.suse.cz>
-        <0059a598-5726-2488-cd37-b4b7f9b3353e@linux.alibaba.com>
-Date:   Mon, 30 Dec 2019 21:49:03 -0600
-In-Reply-To: <0059a598-5726-2488-cd37-b4b7f9b3353e@linux.alibaba.com> (Yang
-        Shi's message of "Mon, 30 Dec 2019 19:00:43 -0800")
-Message-ID: <87lfqtcfyo.fsf@x220.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        id S1726677AbfLaLyG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 31 Dec 2019 06:54:06 -0500
+Received: from mail-il1-f195.google.com ([209.85.166.195]:34238 "EHLO
+        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726334AbfLaLyG (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 31 Dec 2019 06:54:06 -0500
+Received: by mail-il1-f195.google.com with SMTP id s15so30084517iln.1;
+        Tue, 31 Dec 2019 03:54:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=k9vLrT1KjJzt2xInxIZ819KJ9/Svje6gaPuhAEXPP3E=;
+        b=Z4Bz+bYVYySe3IX6Rbak/cbfA8c4c+yieQGY6uXrukeYHwpH3caPgxYCJI/p1EQu2G
+         tiglNLEs7P2A7mu+SpU1r/wkikbARAlApR0IjDSAX3UQbUq/Z/Oc3ruMQxUw/wCAwXug
+         6WO3sPUxB0PygVTBf/knnafIyrcV6DqWq4yD7whXWj0f8J5R5HPZzle6xqI7BSLBmo5G
+         Q2LTr1zH0jtfnO+q6R2G+bux1nA8YN5A51Jsj/QBM/KTbmzt70FtJByetSI9OLBQi4SU
+         sD4TX+5jFyeP7wIuSGwYxB2Zs7o7vYxeW/SrW+flffs5yqmHhrqXJm/W+SNk6c9Jj+kW
+         wDgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=k9vLrT1KjJzt2xInxIZ819KJ9/Svje6gaPuhAEXPP3E=;
+        b=GIWj29U80C/hnr2dMB1Y8Q0ZwtyZqFKRb8luqRQjJVySffiHw0aJlD0Rl1P/yhfxR+
+         j1xtPmi97oKQVAVtohjqN2KLjGXTmLu3U7rShN25av6i5NLH8HXJMQ+NEduw9Vh5rB23
+         dRoYxy7pcmzrn2bihPg6BX01x4ybjadtFPTh8W8UdgESA7LMjf7xSg0drWdn5xaFZAt0
+         qh0unAF4OaD8tboSYCyCYL4uWH+rymtN9tiMB8etz+eLC0ekDxaNwNss1+UiQlXGS3K2
+         F8VCOvLHrbPWbWqd18UYWAX/ZGlGUYpVDxZu4oNzboK67N/mXXAi7HtosvZ8hRwmNEbf
+         SHDg==
+X-Gm-Message-State: APjAAAVsllGf+Tyd1TFZK2EnosfE0N3gDakqSu1/BoViniZMecpI9U53
+        t6KWTs0KTX3qIdCuf2W0Qf/mgeRPzh1ERQgoev8=
+X-Google-Smtp-Source: APXvYqxYMZTiJcWI+/GAU2qjNw8e/o9SnhmChQCjVJ49reWy68lTn4qhfUDCWBKM54Y7kT/mRmT3PjjGc9sSihartOE=
+X-Received: by 2002:a92:d5c3:: with SMTP id d3mr61208848ilq.250.1577793245385;
+ Tue, 31 Dec 2019 03:54:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1im8Xt-0002v1-Dx;;;mid=<87lfqtcfyo.fsf@x220.int.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX1+uhutDF4Ukz8J1ef+/uLeFxpg4smyiZiY=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa08.xmission.com
-X-Spam-Level: 
-X-Spam-Status: No, score=0.5 required=8.0 tests=ALL_TRUSTED,BAYES_50,
-        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,T_TooManySym_01,XMSubLong
-        autolearn=disabled version=3.4.2
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.4296]
-        *  0.7 XMSubLong Long Subject
-        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
-        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-        *      [sa08 1397; Body=1 Fuz1=1 Fuz2=1]
-        *  0.0 T_TooManySym_01 4+ unique symbols in subject
-X-Spam-DCC: XMission; sa08 1397; Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: ;Yang Shi <yang.shi@linux.alibaba.com>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 360 ms - load_scoreonly_sql: 0.06 (0.0%),
-        signal_user_changed: 5 (1.5%), b_tie_ro: 3.5 (1.0%), parse: 1.29
-        (0.4%), extract_message_metadata: 12 (3.3%), get_uri_detail_list: 1.28
-        (0.4%), tests_pri_-1000: 13 (3.5%), tests_pri_-950: 1.53 (0.4%),
-        tests_pri_-900: 1.26 (0.3%), tests_pri_-90: 25 (7.0%), check_bayes: 23
-        (6.4%), b_tokenize: 6 (1.6%), b_tok_get_all: 8 (2.3%), b_comp_prob:
-        2.4 (0.7%), b_tok_touch_all: 3.4 (1.0%), b_finish: 0.97 (0.3%),
-        tests_pri_0: 288 (80.0%), check_dkim_signature: 0.53 (0.1%),
-        check_dkim_adsp: 2.9 (0.8%), poll_dns_idle: 1.05 (0.3%), tests_pri_10:
-        2.3 (0.6%), tests_pri_500: 7 (2.0%), rewrite_mail: 0.00 (0.0%)
-Subject: Re: [PATCH] move_pages.2: not return ENOENT if the page are already on the target nodes
-X-Spam-Flag: No
-X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
-X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
+References: <CAOQ4uxiKqEq9ts4fEq_husQJpus29afVBMq8P1tkeQT-58RBFg@mail.gmail.com>
+ <CADKPpc33UGcuRB9p64QoF8g88emqNQB=Z03f+OnK4MiCoeVZpg@mail.gmail.com>
+ <20191204173455.GJ8206@quack2.suse.cz> <CAOQ4uxjda6iQ1D0QEVB18TcrttVpd7uac++WX0xAyLvxz0x7Ew@mail.gmail.com>
+ <20191204190206.GA8331@bombadil.infradead.org> <CAOQ4uxiZWKCUKcpBt-bHOcnHoFAq+nghWmf94rJu=3CTc5VhRA@mail.gmail.com>
+ <20191211100604.GL1551@quack2.suse.cz> <CAOQ4uxij13z0AazCm7AzrXOSz_eYBSFhs0mo6eZFW=57wOtwew@mail.gmail.com>
+ <CAOQ4uxiKzom5uBNbBpZTNCT0XLOrcHmOwYy=3-V-Qcex1mhszw@mail.gmail.com>
+ <CAOQ4uxgBcLPGxGVddjFsfWJvcNH4rT+GrN6-YhH8cz5K-q5z2g@mail.gmail.com>
+ <20191223181956.GB17813@quack2.suse.cz> <CAOQ4uxhUGCLQyq76nqREETT8kBV9uNOKsckr+xmJdR9Xm=cW3Q@mail.gmail.com>
+ <CAOQ4uxjwy4_jWitzHc9hSaBJwVZM68xxJTub50ZfrtgFSZFH8A@mail.gmail.com>
+In-Reply-To: <CAOQ4uxjwy4_jWitzHc9hSaBJwVZM68xxJTub50ZfrtgFSZFH8A@mail.gmail.com>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Tue, 31 Dec 2019 13:53:54 +0200
+Message-ID: <CAOQ4uxitZ0eu=r4-oW8xV_NyRoDtz4Sv192ieGSsBHAkow2YGQ@mail.gmail.com>
+Subject: Re: File monitor problem
+To:     Jan Kara <jack@suse.cz>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Mo Re Ra <more7.rev@gmail.com>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Wez Furlong <wez@fb.com>,
+        Matthew Bobrowski <mbobrowski@mbobrowski.org>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Yang Shi <yang.shi@linux.alibaba.com> writes:
-
-> On 12/18/19 2:17 AM, Michal Hocko wrote:
->> On Tue 17-12-19 23:36:09, John Hubbard wrote:
->> [...]
->>> diff --git a/man2/move_pages.2 b/man2/move_pages.2
->>> index 2d96468fa..1bf1053f2 100644
->>> --- a/man2/move_pages.2
->>> +++ b/man2/move_pages.2
->>> @@ -191,12 +191,6 @@ was specified or an attempt was made to migrate pages of a kernel thread.
->>>   .B ENODEV
->>>   One of the target nodes is not online.
->>>   .TP
->>> -.B ENOENT
->>> -No pages were found that require moving.
->>> -All pages are either already
->>> -on the target node, not present, had an invalid address or could not be
->>> -moved because they were mapped by multiple processes.
->>> -.TP
->>>   .B EPERM
->>>   The caller specified
->>>   .B MPOL_MF_MOVE_ALL
->>>
->>> ...But I'm not sure if we should change the implementation, instead, so
->>> that it *can* return ENOENT. That's the main question to resolve before
->>> creating any more patches, I think.
->> I would start by dropping any note about ENOENT first. I am not really
->> sure there is a reasonable usecase for it but maybe somebody comes up
->> with something and only then we should consider it.
->>
->> Feel free to add
->> Acked-by: Michal Hocko <mhocko@suse.com>
->>
->> ideally with a kernel commit which removed the ENOENT.
+On Tue, Dec 24, 2019 at 5:49 AM Amir Goldstein <amir73il@gmail.com> wrote:
 >
-> A quick audit doesn't show kernel code or comment notes about ENOENT
-> wrongly. The status could be set as ENOENT if the page is not present
-> (follow_page() returns NULL), and man page does match what kernel
-> does.
+> > > I can see the need for FAN_DIR_MODIFIED_WITH_NAME
+> > > (stupid name, I know) - generated when something changed with names in a
+> > > particular directory, reported with FID of the directory and the name
+> > > inside that directory involved with the change. Directory watching
+> > > application needs this to keep track of "names to check". Is the name
+> > > useful with any other type of event? _SELF events cannot even sensibly have
+> > > it so no discussion there as you mention below. Then we have OPEN, CLOSE,
+> > > ACCESS, ATTRIB events. Do we have any use for names with those?
+> > >
+> >
+> > The problem is that unlike dir fid, file fid cannot be reliably resolved
+> > to path, that is the reason that I implemented  FAN_WITH_NAME
+> > for events "possible on child" (see branch fanotify_name-wip).
+> >
+> > A filesystem monitor typically needs to be notified on name changes and on
+> > data/metadata modifications.
+> >
 
-Doesn't the function one layer up then consume the ENOENT?
+And just before 2019 ends, here is the promised demo.
 
-Eric
+The kernel branch was added support for events "on child" with name [1].
+The inotifywatch demo created for FAN_REPORT_FID was extended to
+watch events with FAN_REPORT_FID_NAME [2].
 
+[1] https://github.com/amir73il/linux/commits/fanotify_name
+[2] https://github.com/amir73il/inotify-tools/commits/fanotify_name
+
+The demo branch includes the script test_demo.sh, whose output can be
+seen here below, that does:
+
+1. Create a small data set (in a filesystem mounted at /vdf)
+2. Set up an fanotify filesystem mark watching for all fs changes
+3. Make some filesystem changes on files and dirs
+4. Read events with fid+name info after 2 seconds delay
+5. Check the uptodate path of events with open_by_handle_at+faccessat
+6. Print summary of all paths that require "attention"
+7. Paths that are currently ENOENT are marked with "(deleted)"
+
+The report includes all the information needed to sync filesystem
+changes to mirror or to re-index filesystem after changes.
+
+For example, the file a/b/c/1 was moved to a/b/c/d/e/f/g/1 and then
+directory a/b/c/d/e/f/g was moved to a/b/c/d/e/G.
+In the report, the paths a/b/c/1 and a/b/c/d/e/f/g are listed as (deleted)
+and the paths a/b/c/d/e/G and a/b/c/d/e/G/1 are listed as changed.
+There is no record in the report of the intermediate path a/b/c/d/e/f/g/1.
+
+Happy new year!
+Amir.
+
+---------------
+# ./test_demo.sh /vdf
++ WD=/vdf
++ cd /vdf
++ rm -rf a
++ mkdir -p a/b/c/d/e/f/g/
++ touch a/b/c/0 a/b/c/1 a/b/c/d/e/f/g/0
++ sleep 1
++ inotifywatch --global --writes --timeout -2 /vdf
+Establishing filesystem global watch...
+Finished establishing watches, now collecting statistics.
+Sleeping for 2 seconds...
++
++ t=Create files and dirs...
++ touch a/0 a/1 a/2 a/3
++ mkdir a/dir0 a/dir1 a/dir2
++
++ t=Rename files and dirs...
++ mv a/0 a/3
++ mv a/dir0 a/dir3
++
++ t=Delete files and dirs...
++ rm a/1
++ rmdir a/dir1
++
++ t=Modify files and dirs...
++ chmod +x a/b/c/d
++ touch a/b/c/0
++
++ t=Move files and dirs...
++ mv a/b/c/1 a/b/c/d/e/f/g/1
++ mv a/b/c/d/e/f/g a/b/c/d/e/G
++
+[fid=fd50.0.2007402;name='0'] /vdf/a/0 (deleted)
+[fid=fd50.0.2007402;name='1'] /vdf/a/1 (deleted)
+[fid=fd50.0.2007402;name='2'] /vdf/a/2
+[fid=fd50.0.2007402;name='3'] /vdf/a/3
+[fid=fd50.0.2007402;name='dir0'] /vdf/a/dir0 (deleted)
+[fid=fd50.0.2007402;name='dir1'] /vdf/a/dir1 (deleted)
+[fid=fd50.0.2007402;name='dir2'] /vdf/a/dir2
+[fid=fd50.0.2007402;name='dir3'] /vdf/a/dir3
+[fid=fd50.0.8c;name='d'] /vdf/a/b/c/d
+[fid=fd50.0.8c;name='0'] /vdf/a/b/c/0
+[fid=fd50.0.8c;name='1'] /vdf/a/b/c/1 (deleted)
+[fid=fd50.0.2007403;name='1'] /vdf/a/b/c/d/e/G/1
+[fid=fd50.0.10000c2;name='g'] /vdf/a/b/c/d/e/f/g (deleted)
+[fid=fd50.0.2007403;name='G'] /vdf/a/b/c/d/e/G
+total  filename
+2      /vdf/a/0 (deleted)
+2      /vdf/a/1 (deleted)
+2      /vdf/a/3
+2      /vdf/a/dir0 (deleted)
+2      /vdf/a/dir1 (deleted)
+1      /vdf/a/2
+1      /vdf/a/dir2
+1      /vdf/a/dir3
+1      /vdf/a/b/c/d
+1      /vdf/a/b/c/0
+1      /vdf/a/b/c/1 (deleted)
+1      /vdf/a/b/c/d/e/G/1
+1      /vdf/a/b/c/d/e/f/g (deleted)
+1      /vdf/a/b/c/d/e/G
