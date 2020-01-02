@@ -2,99 +2,83 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 94C0412E1FD
-	for <lists+linux-api@lfdr.de>; Thu,  2 Jan 2020 04:59:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 164AB12E416
+	for <lists+linux-api@lfdr.de>; Thu,  2 Jan 2020 09:58:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727526AbgABD7k (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 1 Jan 2020 22:59:40 -0500
-Received: from mout-p-201.mailbox.org ([80.241.56.171]:16274 "EHLO
-        mout-p-201.mailbox.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727509AbgABD7k (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 1 Jan 2020 22:59:40 -0500
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [80.241.60.240])
-        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
-        (No client certificate requested)
-        by mout-p-201.mailbox.org (Postfix) with ESMTPS id 47pDnP4gX9zQlB7;
-        Thu,  2 Jan 2020 04:59:37 +0100 (CET)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp1.mailbox.org ([80.241.60.240])
-        by spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de [80.241.56.122]) (amavisd-new, port 10030)
-        with ESMTP id 86V7dup9i5m4; Thu,  2 Jan 2020 04:59:33 +0100 (CET)
-Date:   Thu, 2 Jan 2020 14:59:20 +1100
-From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     Al Viro <viro@zeniv.linux.org.uk>
-Cc:     David Howells <dhowells@redhat.com>,
+        id S1727852AbgABI6O convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Thu, 2 Jan 2020 03:58:14 -0500
+Received: from eu-smtp-delivery-151.mimecast.com ([207.82.80.151]:55862 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727817AbgABI6O (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 2 Jan 2020 03:58:14 -0500
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-62-0-8UGkBPNxus61PG9BdnHA-1; Thu, 02 Jan 2020 08:58:10 +0000
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Thu, 2 Jan 2020 08:58:09 +0000
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
+ Thu, 2 Jan 2020 08:58:09 +0000
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Aleksa Sarai' <cyphar@cyphar.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+CC:     Al Viro <viro@zeniv.linux.org.uk>,
+        David Howells <dhowells@redhat.com>,
         Eric Biederman <ebiederm@xmission.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        stable@vger.kernel.org,
+        stable <stable@vger.kernel.org>,
         Christian Brauner <christian.brauner@ubuntu.com>,
-        Serge Hallyn <serge@hallyn.com>, dev@opencontainers.org,
-        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC 0/1] mount: universally disallow mounting over
+        Serge Hallyn <serge@hallyn.com>,
+        "dev@opencontainers.org" <dev@opencontainers.org>,
+        "Linux Containers" <containers@lists.linux-foundation.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH RFC 0/1] mount: universally disallow mounting over
  symlinks
-Message-ID: <20200102035920.dsycgxnb6ba2jhz2@yavin.dot.cyphar.com>
+Thread-Topic: [PATCH RFC 0/1] mount: universally disallow mounting over
+ symlinks
+Thread-Index: AQHVvuu3ha8TNgK7w0ufQ/mBgQviWKfXFrEg
+Date:   Thu, 2 Jan 2020 08:58:09 +0000
+Message-ID: <e1066da936244de99e7ee827695d6583@AcuMS.aculab.com>
 References: <20191230052036.8765-1-cyphar@cyphar.com>
  <20191230054413.GX4203@ZenIV.linux.org.uk>
  <20191230054913.c5avdjqbygtur2l7@yavin.dot.cyphar.com>
  <20191230072959.62kcojxpthhdwmfa@yavin.dot.cyphar.com>
- <20200101004324.GA11269@ZenIV.linux.org.uk>
- <20200101005446.GH4203@ZenIV.linux.org.uk>
- <20200101030815.GA17593@ZenIV.linux.org.uk>
- <20200101144407.ugjwzk7zxrucaa6a@yavin.dot.cyphar.com>
- <20200101234009.GB8904@ZenIV.linux.org.uk>
+ <CAHk-=whxNw7hYT6bJn9mVrB_a=7Y-irmpaPsp1R4xbHHkicv7g@mail.gmail.com>
+ <20191230083224.sbk2jspqmup43obs@yavin.dot.cyphar.com>
+In-Reply-To: <20191230083224.sbk2jspqmup43obs@yavin.dot.cyphar.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="tef6rv2ffqcfqgo6"
-Content-Disposition: inline
-In-Reply-To: <20200101234009.GB8904@ZenIV.linux.org.uk>
+X-MC-Unique: 0-8UGkBPNxus61PG9BdnHA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+From: Aleksa Sarai
+> Sent: 30 December 2019 08:32
+...
+> I'm not sure I agree -- as I mentioned in my other mail, re-opening
+> through /proc/self/fd/$n works *very* well and has for a long time (in
+> fact, both LXC and runc depend on this working).
 
---tef6rv2ffqcfqgo6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I thought it was marginally broken because it is followed as a symlink?
+On, for example, NetBSD /proc/<n>/fd/<n> is a real reference to the
+filesystem inode and can be used to link the file back into the filesystem
+if all the directory entries have been removed.
 
-On 2020-01-01, Al Viro <viro@zeniv.linux.org.uk> wrote:
-> On Thu, Jan 02, 2020 at 01:44:07AM +1100, Aleksa Sarai wrote:
->=20
-> > Thanks, this fixes the issue for me (and also fixes another reproducer I
-> > found -- mounting a symlink on top of itself then trying to umount it).
-> >=20
-> > Reported-by: Aleksa Sarai <cyphar@cyphar.com>
-> > Tested-by: Aleksa Sarai <cyphar@cyphar.com>
->=20
-> Pushed into #fixes.
+	David
 
-Thanks. One other thing I noticed is that umount applies to the
-underlying symlink rather than the mountpoint on top. So, for example
-(using the same scripts I posted in the thread):
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
 
-  # ln -s /tmp/foo link
-  # ./mount_to_symlink /etc/passwd link
-  # umount -l link # will attempt to unmount "/tmp/foo"
-
-Is that intentional?
-
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-<https://www.cyphar.com/>
-
---tef6rv2ffqcfqgo6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCXg1qlQAKCRCdlLljIbnQ
-EjpjAP9+cSE8vOT4mUYl4IC31Io/0FRApXDAbaIGxDhJ1uYJQAD+IuziuN4KXZzb
-2vUrlYkc86XaKC4oX0suOlWHXbaUdgE=
-=iYvs
------END PGP SIGNATURE-----
-
---tef6rv2ffqcfqgo6--
