@@ -2,97 +2,107 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FAFE12F12B
-	for <lists+linux-api@lfdr.de>; Thu,  2 Jan 2020 23:58:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2118C12F2C4
+	for <lists+linux-api@lfdr.de>; Fri,  3 Jan 2020 02:49:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728879AbgABW6i (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 2 Jan 2020 17:58:38 -0500
-Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132]:58408 "EHLO
-        out30-132.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728065AbgABWP1 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 2 Jan 2020 17:15:27 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R231e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04420;MF=yang.shi@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0TmgPslx_1578003315;
-Received: from US-143344MP.local(mailfrom:yang.shi@linux.alibaba.com fp:SMTPD_---0TmgPslx_1578003315)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Fri, 03 Jan 2020 06:15:24 +0800
-Subject: Re: [PATCH] move_pages.2: not return ENOENT if the page are already
- on the target nodes
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Michal Hocko <mhocko@kernel.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
-        cl@linux.com, cai@lca.pw, akpm@linux-foundation.org,
-        linux-man@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org
-References: <1575596090-115377-1-git-send-email-yang.shi@linux.alibaba.com>
- <0dc96e40-5f2b-a2fe-6e5f-b6f3d5e9ebde@nvidia.com>
- <95170ea5-5b62-9168-fcd9-93b43330a1b4@linux.alibaba.com>
- <092adc11-7039-9343-7067-0e0199c9dc13@gmail.com>
- <51dd767a-221f-882d-c7f6-45bd0c217a67@nvidia.com>
- <20191218101711.GB21485@dhcp22.suse.cz>
- <0059a598-5726-2488-cd37-b4b7f9b3353e@linux.alibaba.com>
- <87lfqtcfyo.fsf@x220.int.ebiederm.org>
-From:   Yang Shi <yang.shi@linux.alibaba.com>
-Message-ID: <d081b674-b360-4a0a-eec3-cf7434003cc5@linux.alibaba.com>
-Date:   Thu, 2 Jan 2020 14:15:12 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
- Gecko/20100101 Thunderbird/52.7.0
+        id S1726089AbgACBtR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 2 Jan 2020 20:49:17 -0500
+Received: from zeniv.linux.org.uk ([195.92.253.2]:48834 "EHLO
+        ZenIV.linux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726039AbgACBtR (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 2 Jan 2020 20:49:17 -0500
+Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1inC5F-000pFy-EG; Fri, 03 Jan 2020 01:49:01 +0000
+Date:   Fri, 3 Jan 2020 01:49:01 +0000
+From:   Al Viro <viro@zeniv.linux.org.uk>
+To:     Aleksa Sarai <cyphar@cyphar.com>
+Cc:     David Howells <dhowells@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        stable@vger.kernel.org,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Serge Hallyn <serge@hallyn.com>, dev@opencontainers.org,
+        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Ian Kent <raven@themaw.net>
+Subject: Re: [PATCH RFC 0/1] mount: universally disallow mounting over
+ symlinks
+Message-ID: <20200103014901.GC8904@ZenIV.linux.org.uk>
+References: <20191230052036.8765-1-cyphar@cyphar.com>
+ <20191230054413.GX4203@ZenIV.linux.org.uk>
+ <20191230054913.c5avdjqbygtur2l7@yavin.dot.cyphar.com>
+ <20191230072959.62kcojxpthhdwmfa@yavin.dot.cyphar.com>
+ <20200101004324.GA11269@ZenIV.linux.org.uk>
+ <20200101005446.GH4203@ZenIV.linux.org.uk>
+ <20200101030815.GA17593@ZenIV.linux.org.uk>
+ <20200101144407.ugjwzk7zxrucaa6a@yavin.dot.cyphar.com>
+ <20200101234009.GB8904@ZenIV.linux.org.uk>
+ <20200102035920.dsycgxnb6ba2jhz2@yavin.dot.cyphar.com>
 MIME-Version: 1.0
-In-Reply-To: <87lfqtcfyo.fsf@x220.int.ebiederm.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200102035920.dsycgxnb6ba2jhz2@yavin.dot.cyphar.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Thu, Jan 02, 2020 at 02:59:20PM +1100, Aleksa Sarai wrote:
+> On 2020-01-01, Al Viro <viro@zeniv.linux.org.uk> wrote:
+> > On Thu, Jan 02, 2020 at 01:44:07AM +1100, Aleksa Sarai wrote:
+> > 
+> > > Thanks, this fixes the issue for me (and also fixes another reproducer I
+> > > found -- mounting a symlink on top of itself then trying to umount it).
+> > > 
+> > > Reported-by: Aleksa Sarai <cyphar@cyphar.com>
+> > > Tested-by: Aleksa Sarai <cyphar@cyphar.com>
+> > 
+> > Pushed into #fixes.
+> 
+> Thanks. One other thing I noticed is that umount applies to the
+> underlying symlink rather than the mountpoint on top. So, for example
+> (using the same scripts I posted in the thread):
+> 
+>   # ln -s /tmp/foo link
+>   # ./mount_to_symlink /etc/passwd link
+>   # umount -l link # will attempt to unmount "/tmp/foo"
+> 
+> Is that intentional?
 
+It's a mess, again in mountpoint_last().  FWIW, at some point I proposed
+to have nd_jump_link() to fail with -ELOOP if the target was a symlink;
+Linus asked for reasons deeper than my dislike of the semantics, I looked
+around and hadn't spotted anything.  And there hadn't been at the time,
+but when four months later umount_lookup_last() went in I failed to look
+for that source of potential problems in it ;-/
 
-On 12/30/19 7:49 PM, Eric W. Biederman wrote:
-> Yang Shi <yang.shi@linux.alibaba.com> writes:
->
->> On 12/18/19 2:17 AM, Michal Hocko wrote:
->>> On Tue 17-12-19 23:36:09, John Hubbard wrote:
->>> [...]
->>>> diff --git a/man2/move_pages.2 b/man2/move_pages.2
->>>> index 2d96468fa..1bf1053f2 100644
->>>> --- a/man2/move_pages.2
->>>> +++ b/man2/move_pages.2
->>>> @@ -191,12 +191,6 @@ was specified or an attempt was made to migrate pages of a kernel thread.
->>>>    .B ENODEV
->>>>    One of the target nodes is not online.
->>>>    .TP
->>>> -.B ENOENT
->>>> -No pages were found that require moving.
->>>> -All pages are either already
->>>> -on the target node, not present, had an invalid address or could not be
->>>> -moved because they were mapped by multiple processes.
->>>> -.TP
->>>>    .B EPERM
->>>>    The caller specified
->>>>    .B MPOL_MF_MOVE_ALL
->>>>
->>>> ...But I'm not sure if we should change the implementation, instead, so
->>>> that it *can* return ENOENT. That's the main question to resolve before
->>>> creating any more patches, I think.
->>> I would start by dropping any note about ENOENT first. I am not really
->>> sure there is a reasonable usecase for it but maybe somebody comes up
->>> with something and only then we should consider it.
->>>
->>> Feel free to add
->>> Acked-by: Michal Hocko <mhocko@suse.com>
->>>
->>> ideally with a kernel commit which removed the ENOENT.
->> A quick audit doesn't show kernel code or comment notes about ENOENT
->> wrongly. The status could be set as ENOENT if the page is not present
->> (follow_page() returns NULL), and man page does match what kernel
->> does.
-> Doesn't the function one layer up then consume the ENOENT?
+I've looked at that area again now.  Aside of usual cursing at do_last()
+horrors (yes, its control flow is a horror; yes, it needs serious massage;
+no, it's not a good idea to get sidetracked into that right now), there
+are several fun questions:
+	* d_manage() and d_automount().  We almost certainly don't
+want those for autofs on the final component of pathname in umount,
+including the trailing symlinks.  But do we want those on usual access
+via /proc/*/fd/*?  I.e. suppose somebody does open() (O_PATH or not)
+in autofs; do we want ->d_manage()/->d_automount() called when
+resolving /proc/self/fd/<whatever>/foo/bar?  We do not; is that
+correct from autofs point of view?  I suspect that refusing to
+do ->d_automount() is correct, but I don't understand ->d_manage()
+purpose well enough to tell.
+	* I really hope that the weird "trailing / forces automount
+even in cases when we normally wouldn't trigger it" (stat /mnt/foo
+vs. stat /mnt/foo/) is not meant to extend to umount.  I'd like
+Ian's confirmation, though.
+	* do we want ->d_manage() on following .. into overmounted
+directory?  Again, autofs question...
 
-No, it doesn't. The return value would be reset unconditionally by 
-store_status(). This is what the man page patch tries to correct.
+	The minimal fix to mountpoint_last() would be to have
+follow_mount() done in LAST_NORM case.  However, I'd like to understand
+(and hopefully regularize) the rules for follow_mount()/follow_managed().
+Additional scary question is nfsd iterplay with automount.  For nfs4
+exports it's potentially interesting...
 
->
-> Eric
-
+	Ian, could you comment on the autofs questions above?
+I'd rather avoid doing changes in that area without your input -
+it's subtle and breakage in automount-related behaviour can be
+mysterious as hell.
