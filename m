@@ -2,349 +2,353 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 481C6130868
-	for <lists+linux-api@lfdr.de>; Sun,  5 Jan 2020 15:20:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CA530130993
+	for <lists+linux-api@lfdr.de>; Sun,  5 Jan 2020 20:08:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726192AbgAEOUh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 5 Jan 2020 09:20:37 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:47783 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726188AbgAEOUh (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 5 Jan 2020 09:20:37 -0500
-Received: from [172.58.27.182] (helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1io6lb-0001nF-EZ; Sun, 05 Jan 2020 14:20:32 +0000
-Date:   Sun, 5 Jan 2020 15:20:23 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Sargun Dhillon <sargun@sargun.me>
-Cc:     linux-kernel@vger.kernel.org,
+        id S1726487AbgAETIQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 5 Jan 2020 14:08:16 -0500
+Received: from mail-io1-f68.google.com ([209.85.166.68]:37106 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726467AbgAETIQ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 5 Jan 2020 14:08:16 -0500
+Received: by mail-io1-f68.google.com with SMTP id k24so16191872ioc.4
+        for <linux-api@vger.kernel.org>; Sun, 05 Jan 2020 11:08:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sargun.me; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=BCTcRrTcnLIdSFlZUFovhn7ud4Us6Qx7aWDrGSYm67Q=;
+        b=qYk0nmgVpoY9YoDHOxjF4mOC4ayRwWpoRM33m7Aq4+32Ri09ouv1zIeFJrMg0N803o
+         EflL3e+64TtZ1YBbJaz5m45rlVlVsHD7KOhs9SnDIFvBJ5uaWZeNUtowdshTceV7mldH
+         Yjz4JlEHPtoW2z8U+Wj/G1+JMj9K0Jp5JKiIE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=BCTcRrTcnLIdSFlZUFovhn7ud4Us6Qx7aWDrGSYm67Q=;
+        b=PLbfTBEeq6L90/MpRIVqYFK59WJN05JdMy9JNQpBpCx4rH6ju9txxUJOJV5Xq1Lleb
+         LmDt8g7J2R062Phcvv+L+KdiJh3EdJ8C2JpMkPunli4JtBpgeBIOcKQYJxgXTL7iNHRo
+         G6C/HUXEWd2bmL+0R78OBDyqfN0Fvd9U5Dh+VMq8PutFlTRi33mU1IiCU4c1BnIzkEPb
+         TTjCFkUdAoByh2ugjvBVhrsLdqOp4mY/rh72wWc1FDE64PARUEenZshTXnMKq/guthi6
+         7WOG+fY/h1gJrALIN8p5gDwyiQmDBpTLit8IqKTZLx1SXw6CILtBaXMTFdt4eO5m6UNJ
+         /eTQ==
+X-Gm-Message-State: APjAAAUmwIPJS+V/YpsldP0GK1cIqIlhXvzSpsIOSoNsuTSN2FDdJ2bz
+        rBXpJ6KrCOO4k5+wpaZ7OcIjlA==
+X-Google-Smtp-Source: APXvYqzdckJ9Zu6U6Th8Nv2+cCNO4pDtZO1eGKFxh8LVem83U1q4C3C5VApurw+rMeiVUIXzIkMvVg==
+X-Received: by 2002:a02:7310:: with SMTP id y16mr8843445jab.133.1578251295532;
+        Sun, 05 Jan 2020 11:08:15 -0800 (PST)
+Received: from ircssh-2.c.rugged-nimbus-611.internal (80.60.198.104.bc.googleusercontent.com. [104.198.60.80])
+        by smtp.gmail.com with ESMTPSA id e1sm23153880ill.47.2020.01.05.11.08.14
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Sun, 05 Jan 2020 11:08:14 -0800 (PST)
+Date:   Sun, 5 Jan 2020 19:08:13 +0000
+From:   Sargun Dhillon <sargun@sargun.me>
+To:     linux-kernel@vger.kernel.org,
         containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, tycho@tycho.ws, jannh@google.com,
-        cyphar@cyphar.com, oleg@redhat.com, luto@amacapital.net,
-        viro@zeniv.linux.org.uk, gpascutto@mozilla.com,
-        ealvarez@mozilla.com, fweimer@redhat.com, jld@mozilla.com,
-        arnd@arndb.de
+        linux-fsdevel@vger.kernel.org
+Cc:     Sargun Dhillon <sargun@sargun.me>, tycho@tycho.ws,
+        jannh@google.com, cyphar@cyphar.com, christian.brauner@ubuntu.com,
+        oleg@redhat.com, luto@amacapital.net, viro@zeniv.linux.org.uk,
+        gpascutto@mozilla.com, ealvarez@mozilla.com, fweimer@redhat.com,
+        jld@mozilla.com, arnd@arndb.de
 Subject: Re: [PATCH v8 3/3] test: Add test for pidfd getfd
-Message-ID: <20200105142019.umls5ff4b5433u6k@wittgenstein>
+Message-ID: <20200105190812.GC8522@ircssh-2.c.rugged-nimbus-611.internal>
 References: <20200103162928.5271-1-sargun@sargun.me>
  <20200103162928.5271-4-sargun@sargun.me>
+ <20200105142019.umls5ff4b5433u6k@wittgenstein>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200103162928.5271-4-sargun@sargun.me>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20200105142019.umls5ff4b5433u6k@wittgenstein>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jan 03, 2020 at 08:29:28AM -0800, Sargun Dhillon wrote:
-> The following tests:
->   * Fetch FD, and then compare via kcmp
->   * Make sure getfd can be blocked by blocking ptrace_may_access
->   * Making sure fetching bad FDs fails
->   * Make sure trying to set flags to non-zero results in an EINVAL
+On Sun, Jan 05, 2020 at 03:20:23PM +0100, Christian Brauner wrote:
+> On Fri, Jan 03, 2020 at 08:29:28AM -0800, Sargun Dhillon wrote:
+> > +static int sys_pidfd_getfd(int pidfd, int fd, int flags)
+> > +{
+> > +	return syscall(__NR_pidfd_getfd, pidfd, fd, flags);
+> > +}
 > 
-> Signed-off-by: Sargun Dhillon <sargun@sargun.me>
-> ---
->  tools/testing/selftests/pidfd/.gitignore      |   1 +
->  tools/testing/selftests/pidfd/Makefile        |   4 +-
->  .../selftests/pidfd/pidfd_getfd_test.c        | 227 ++++++++++++++++++
->  3 files changed, 230 insertions(+), 2 deletions(-)
->  create mode 100644 tools/testing/selftests/pidfd/pidfd_getfd_test.c
+> I think you can move this to the pidfd.h header as:
 > 
-> diff --git a/tools/testing/selftests/pidfd/.gitignore b/tools/testing/selftests/pidfd/.gitignore
-> index 8d069490e17b..3a779c084d96 100644
-> --- a/tools/testing/selftests/pidfd/.gitignore
-> +++ b/tools/testing/selftests/pidfd/.gitignore
-> @@ -2,3 +2,4 @@ pidfd_open_test
->  pidfd_poll_test
->  pidfd_test
->  pidfd_wait
-> +pidfd_getfd_test
-> diff --git a/tools/testing/selftests/pidfd/Makefile b/tools/testing/selftests/pidfd/Makefile
-> index 43db1b98e845..2071f7ab5dc9 100644
-> --- a/tools/testing/selftests/pidfd/Makefile
-> +++ b/tools/testing/selftests/pidfd/Makefile
-> @@ -1,7 +1,7 @@
->  # SPDX-License-Identifier: GPL-2.0-only
-> -CFLAGS += -g -I../../../../usr/include/ -pthread
-> +CFLAGS += -g -I../../../../usr/include/ -pthread -Wall
->  
-> -TEST_GEN_PROGS := pidfd_test pidfd_fdinfo_test pidfd_open_test pidfd_poll_test pidfd_wait
-> +TEST_GEN_PROGS := pidfd_test pidfd_fdinfo_test pidfd_open_test pidfd_poll_test pidfd_wait pidfd_getfd_test
->  
->  include ../lib.mk
->  
-> diff --git a/tools/testing/selftests/pidfd/pidfd_getfd_test.c b/tools/testing/selftests/pidfd/pidfd_getfd_test.c
-> new file mode 100644
-> index 000000000000..26ca75597812
-> --- /dev/null
-> +++ b/tools/testing/selftests/pidfd/pidfd_getfd_test.c
-> @@ -0,0 +1,227 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +#define _GNU_SOURCE
-> +#include <errno.h>
-> +#include <fcntl.h>
-> +#include <limits.h>
-> +#include <linux/types.h>
-> +#include <sched.h>
-> +#include <signal.h>
-> +#include <stdio.h>
-> +#include <stdlib.h>
-> +#include <string.h>
-> +#include <syscall.h>
-> +#include <sys/prctl.h>
-> +#include <sys/wait.h>
-> +#include <unistd.h>
-> +#include <sys/socket.h>
-> +#include <linux/kcmp.h>
-> +
-> +#include "pidfd.h"
-> +#include "../kselftest.h"
-> +#include "../kselftest_harness.h"
-> +
-> +/*
-> + * UNKNOWN_FD is an fd number that should never exist in the child, as it is
-> + * used to check the negative case.
-> + */
-> +#define UNKNOWN_FD 111
-> +
-> +static int sys_kcmp(pid_t pid1, pid_t pid2, int type, unsigned long idx1,
-> +		    unsigned long idx2)
-> +{
-> +	return syscall(__NR_kcmp, pid1, pid2, type, idx1, idx2);
-> +}
-> +
-> +static int sys_pidfd_getfd(int pidfd, int fd, int flags)
-> +{
-> +	return syscall(__NR_pidfd_getfd, pidfd, fd, flags);
-> +}
+> static inline int sys_pidfd_getfd(int pidfd, int fd, int flags)
+> {
+> 	return syscall(__NR_pidfd_getfd, pidfd, fd, flags);
+> }
+> 
+> Note, this also needs an
+> 
+> #ifndef __NR_pidfd_getfd
+> __NR_pidfd_getfd -1
+> #endif
+> so that compilation doesn't fail.
+> 
+I'll go ahead and move this into pidfd.h, and follow the pattern there. I
+don't think it's worth checking if each time the return code is ENOSYS.
 
-I think you can move this to the pidfd.h header as:
-
-static inline int sys_pidfd_getfd(int pidfd, int fd, int flags)
+Does it make sense to add something like:
+#ifdef __NR_pidfd_getfd
+TEST_HARNESS_MAIN
+#else
+int main(void)
 {
-	return syscall(__NR_pidfd_getfd, pidfd, fd, flags);
+	fprintf(stderr, "pidfd_getfd syscall not supported\n");
+	return KSFT_SKIP;
 }
-
-Note, this also needs an
-
-#ifndef __NR_pidfd_getfd
-__NR_pidfd_getfd -1
 #endif
-so that compilation doesn't fail.
 
-> +
-> +static int sys_memfd_create(const char *name, unsigned int flags)
-> +{
-> +	return syscall(__NR_memfd_create, name, flags);
-> +}
-> +
-> +static int __child(int sk, int memfd)
-> +{
-> +	int ret;
-> +	char buf;
-> +
-> +	/*
-> +	 * Ensure we don't leave around a bunch of orphaned children if our
-> +	 * tests fail.
-> +	 */
-> +	ret = prctl(PR_SET_PDEATHSIG, SIGKILL);
-> +	if (ret) {
-> +		fprintf(stderr, "%s: Child could not set DEATHSIG\n",
-> +			strerror(errno));
-> +		return EXIT_FAILURE;
+to short-circuit the entire test suite?
 
-return -1
 
-> +	}
-> +
-> +	ret = send(sk, &memfd, sizeof(memfd), 0);
-> +	if (ret != sizeof(memfd)) {
-> +		fprintf(stderr, "%s: Child failed to send fd number\n",
-> +			strerror(errno));
-> +		return EXIT_FAILURE;
+> > +
+> > +static int sys_memfd_create(const char *name, unsigned int flags)
+> > +{
+> > +	return syscall(__NR_memfd_create, name, flags);
+> > +}
+> > +
+> > +static int __child(int sk, int memfd)
+> > +{
+> > +	int ret;
+> > +	char buf;
+> > +
+> > +	/*
+> > +	 * Ensure we don't leave around a bunch of orphaned children if our
+> > +	 * tests fail.
+> > +	 */
+> > +	ret = prctl(PR_SET_PDEATHSIG, SIGKILL);
+> > +	if (ret) {
+> > +		fprintf(stderr, "%s: Child could not set DEATHSIG\n",
+> > +			strerror(errno));
+> > +		return EXIT_FAILURE;
+> 
+> return -1
+> 
+> > +	}
+> > +
+> > +	ret = send(sk, &memfd, sizeof(memfd), 0);
+> > +	if (ret != sizeof(memfd)) {
+> > +		fprintf(stderr, "%s: Child failed to send fd number\n",
+> > +			strerror(errno));
+> > +		return EXIT_FAILURE;
+> 
+> return -1
+> 
+> > +	}
+> > +
+> > +	while ((ret = recv(sk, &buf, sizeof(buf), 0)) > 0) {
+> > +		if (buf == 'P') {
+> > +			ret = prctl(PR_SET_DUMPABLE, 0);
+> > +			if (ret < 0) {
+> > +				fprintf(stderr,
+> > +					"%s: Child failed to disable ptrace\n",
+> > +					strerror(errno));
+> > +				return EXIT_FAILURE;
+> 
+> return -1
+> 
+> > +			}
+> > +		} else {
+> > +			fprintf(stderr, "Child received unknown command %c\n",
+> > +				buf);
+> > +			return EXIT_FAILURE;
+> 
+> return -1
+> 
+> > +		}
+> > +		ret = send(sk, &buf, sizeof(buf), 0);
+> > +		if (ret != 1) {
+> > +			fprintf(stderr, "%s: Child failed to ack\n",
+> > +				strerror(errno));
+> > +			return EXIT_FAILURE;
+> 
+> return -1
+> 
+> > +		}
+> > +	}
+> > +
+> > +	if (ret < 0) {
+> > +		fprintf(stderr, "%s: Child failed to read from socket\n",
+> > +			strerror(errno));
+> 
+> Is this intentional that this is no failure?
+> 
+My thought here, is the only case where this should happen is if the "ptrace 
+command" was not properly "transmitted", and the ptrace test itself would fail.
 
-return -1
+I can add an explicit exit failure here.
 
-> +	}
-> +
-> +	while ((ret = recv(sk, &buf, sizeof(buf), 0)) > 0) {
-> +		if (buf == 'P') {
-> +			ret = prctl(PR_SET_DUMPABLE, 0);
-> +			if (ret < 0) {
-> +				fprintf(stderr,
-> +					"%s: Child failed to disable ptrace\n",
-> +					strerror(errno));
-> +				return EXIT_FAILURE;
+> > +	}
+> > +
+> > +	return EXIT_SUCCESS;
+> 
+> return 0
+> 
+> > +}
+> > +
+> > +static int child(int sk)
+> > +{
+> > +	int memfd, ret;
+> > +
+> > +	memfd = sys_memfd_create("test", 0);
+> > +	if (memfd < 0) {
+> > +		fprintf(stderr, "%s: Child could not create memfd\n",
+> > +			strerror(errno));
+> > +		ret = EXIT_FAILURE;
+> 
+> ret = -1;
+> 
+> > +	} else {
+> > +		ret = __child(sk, memfd);
+> > +		close(memfd);
+> > +	}
+> > +
+> > +	close(sk);
+> > +	return ret;
+> > +}
+> > +
+> > +FIXTURE(child)
+> > +{
+> > +	pid_t pid;
+> > +	int pidfd, sk, remote_fd;
+> > +};
+> > +
+> > +FIXTURE_SETUP(child)
+> > +{
+> > +	int ret, sk_pair[2];
+> > +
+> > +	ASSERT_EQ(0, socketpair(PF_LOCAL, SOCK_SEQPACKET, 0, sk_pair))
+> > +	{
+> > +		TH_LOG("%s: failed to create socketpair", strerror(errno));
+> > +	}
+> > +	self->sk = sk_pair[0];
+> > +
+> > +	self->pid = fork();
+> > +	ASSERT_GE(self->pid, 0);
+> > +
+> > +	if (self->pid == 0) {
+> > +		close(sk_pair[0]);
+> > +		exit(child(sk_pair[1]));
+> 
+> if (child(sk_pair[1]))
+> 	_exit(EXIT_FAILURE);
+> _exit(EXIT_SUCCESS);
+> 
+> I would like to only use exit macros where one actually calls
+> {_}exit()s. It makes the logic easier to follow and ensures that one
+> doesn't accidently do an exit(-21345) or something (e.g. when adding new
+> code).
+> 
+> > +	}
+> > +
+> > +	close(sk_pair[1]);
+> > +
+> > +	self->pidfd = sys_pidfd_open(self->pid, 0);
+> > +	ASSERT_GE(self->pidfd, 0);
+> > +
+> > +	/*
+> > +	 * Wait for the child to complete setup. It'll send the remote memfd's
+> > +	 * number when ready.
+> > +	 */
+> > +	ret = recv(sk_pair[0], &self->remote_fd, sizeof(self->remote_fd), 0);
+> > +	ASSERT_EQ(sizeof(self->remote_fd), ret);
+> > +}
+> > +
+> > +FIXTURE_TEARDOWN(child)
+> > +{
+> > +	int status;
+> > +
+> > +	EXPECT_EQ(0, close(self->pidfd));
+> > +	EXPECT_EQ(0, close(self->sk));
+> > +
+> > +	EXPECT_EQ(waitpid(self->pid, &status, 0), self->pid);
+> > +	EXPECT_EQ(true, WIFEXITED(status));
+> > +	EXPECT_EQ(0, WEXITSTATUS(status));
+> > +}
+> > +
+> > +TEST_F(child, disable_ptrace)
+> > +{
+> > +	int uid, fd;
+> > +	char c;
+> > +
+> > +	/*
+> > +	 * Turn into nobody if we're root, to avoid CAP_SYS_PTRACE
+> > +	 *
+> > +	 * The tests should run in their own process, so even this test fails,
+> > +	 * it shouldn't result in subsequent tests failing.
+> > +	 */
+> > +	uid = getuid();
+> > +	if (uid == 0)
+> > +		ASSERT_EQ(0, seteuid(USHRT_MAX));
+> 
+> Hm, isn't it safer to do 65535 explicitly? Since USHRT_MAX can
+> technically be greater than 65535.
+> 
+I borrowed this from the BPF tests. I can hardcode something like:
+#define NOBODY_UID 65535
+and setuid to that, if you think it's safer?
 
-return -1
+> > +
+> > +	ASSERT_EQ(1, send(self->sk, "P", 1, 0));
+> > +	ASSERT_EQ(1, recv(self->sk, &c, 1, 0));
+> > +
+> > +	fd = sys_pidfd_getfd(self->pidfd, self->remote_fd, 0);
+> > +	EXPECT_EQ(-1, fd);
+> > +	EXPECT_EQ(EPERM, errno);
+> > +
+> > +	if (uid == 0)
+> > +		ASSERT_EQ(0, seteuid(0));
+> > +}
+> > +
+> > +TEST_F(child, fetch_fd)
+> > +{
+> > +	int fd, ret;
+> > +
+> > +	fd = sys_pidfd_getfd(self->pidfd, self->remote_fd, 0);
+> > +	ASSERT_GE(fd, 0);
+> > +
+> > +	EXPECT_EQ(0, sys_kcmp(getpid(), self->pid, KCMP_FILE, fd, self->remote_fd));
+> 
+> So most of these tests seem to take place when the child has already
+> called exit() - or at least it's very likely that the child has already
+> called exit() - and remains a zombie. That's not ideal because
+> that's not the common scenario/use-case. Usually the task of which we
+> want to get an fd will be alive. Also, if the child has already called
+> exit(), by the time it returns to userspace it should have already
+> called exit_files() and so I wonder whether this test would fail if it's
+> run after the child has exited. Maybe I'm missing something here... Is
+> there some ordering enforced by TEST_F()?
+Yeah, I think perhaps I was being too clever.
+The timeline roughly goes something like this:
 
-> +			}
-> +		} else {
-> +			fprintf(stderr, "Child received unknown command %c\n",
-> +				buf);
-> +			return EXIT_FAILURE;
+# Fixture bringup
+[parent] creates socket_pair
+[parent] forks, and passes pair down to child
+[parent] waits to read sizeof(int) from the sk_pair
+[child] creates memfd 
+[__child] sends local memfd number to parent via sk_pair
+[__child] waits to read from sk_pair
+[parent] reads remote memfd number from socket
+# Test
+[parent] performs tests
+# Fixture teardown
+[parent] closes sk_pair
+[__child] reads 0 from recv on sk_pair, implies the other end is closed
+[__child] Returns / exits 0
+[parent] Reaps child / reads exit code
 
-return -1
+---
+The one case where this is not true, is if the parent sends 'P' to the sk pair,
+it triggers setting PR_SET_DUMPABLE to 0, and then resumes waiting for the fd to 
+close.
 
-> +		}
-> +		ret = send(sk, &buf, sizeof(buf), 0);
-> +		if (ret != 1) {
-> +			fprintf(stderr, "%s: Child failed to ack\n",
-> +				strerror(errno));
-> +			return EXIT_FAILURE;
+Maybe I'm being too clever? Instead, the alternative was to send explicit stop / 
+start messages across the sk_pair, but that got kind of ugly. Do you have a 
+better suggestion?
 
-return -1
-
-> +		}
-> +	}
-> +
-> +	if (ret < 0) {
-> +		fprintf(stderr, "%s: Child failed to read from socket\n",
-> +			strerror(errno));
-
-Is this intentional that this is no failure?
-
-> +	}
-> +
-> +	return EXIT_SUCCESS;
-
-return 0
-
-> +}
-> +
-> +static int child(int sk)
-> +{
-> +	int memfd, ret;
-> +
-> +	memfd = sys_memfd_create("test", 0);
-> +	if (memfd < 0) {
-> +		fprintf(stderr, "%s: Child could not create memfd\n",
-> +			strerror(errno));
-> +		ret = EXIT_FAILURE;
-
-ret = -1;
-
-> +	} else {
-> +		ret = __child(sk, memfd);
-> +		close(memfd);
-> +	}
-> +
-> +	close(sk);
-> +	return ret;
-> +}
-> +
-> +FIXTURE(child)
-> +{
-> +	pid_t pid;
-> +	int pidfd, sk, remote_fd;
-> +};
-> +
-> +FIXTURE_SETUP(child)
-> +{
-> +	int ret, sk_pair[2];
-> +
-> +	ASSERT_EQ(0, socketpair(PF_LOCAL, SOCK_SEQPACKET, 0, sk_pair))
-> +	{
-> +		TH_LOG("%s: failed to create socketpair", strerror(errno));
-> +	}
-> +	self->sk = sk_pair[0];
-> +
-> +	self->pid = fork();
-> +	ASSERT_GE(self->pid, 0);
-> +
-> +	if (self->pid == 0) {
-> +		close(sk_pair[0]);
-> +		exit(child(sk_pair[1]));
-
-if (child(sk_pair[1]))
-	_exit(EXIT_FAILURE);
-_exit(EXIT_SUCCESS);
-
-I would like to only use exit macros where one actually calls
-{_}exit()s. It makes the logic easier to follow and ensures that one
-doesn't accidently do an exit(-21345) or something (e.g. when adding new
-code).
-
-> +	}
-> +
-> +	close(sk_pair[1]);
-> +
-> +	self->pidfd = sys_pidfd_open(self->pid, 0);
-> +	ASSERT_GE(self->pidfd, 0);
-> +
-> +	/*
-> +	 * Wait for the child to complete setup. It'll send the remote memfd's
-> +	 * number when ready.
-> +	 */
-> +	ret = recv(sk_pair[0], &self->remote_fd, sizeof(self->remote_fd), 0);
-> +	ASSERT_EQ(sizeof(self->remote_fd), ret);
-> +}
-> +
-> +FIXTURE_TEARDOWN(child)
-> +{
-> +	int status;
-> +
-> +	EXPECT_EQ(0, close(self->pidfd));
-> +	EXPECT_EQ(0, close(self->sk));
-> +
-> +	EXPECT_EQ(waitpid(self->pid, &status, 0), self->pid);
-> +	EXPECT_EQ(true, WIFEXITED(status));
-> +	EXPECT_EQ(0, WEXITSTATUS(status));
-> +}
-> +
-> +TEST_F(child, disable_ptrace)
-> +{
-> +	int uid, fd;
-> +	char c;
-> +
-> +	/*
-> +	 * Turn into nobody if we're root, to avoid CAP_SYS_PTRACE
-> +	 *
-> +	 * The tests should run in their own process, so even this test fails,
-> +	 * it shouldn't result in subsequent tests failing.
-> +	 */
-> +	uid = getuid();
-> +	if (uid == 0)
-> +		ASSERT_EQ(0, seteuid(USHRT_MAX));
-
-Hm, isn't it safer to do 65535 explicitly? Since USHRT_MAX can
-technically be greater than 65535.
-
-> +
-> +	ASSERT_EQ(1, send(self->sk, "P", 1, 0));
-> +	ASSERT_EQ(1, recv(self->sk, &c, 1, 0));
-> +
-> +	fd = sys_pidfd_getfd(self->pidfd, self->remote_fd, 0);
-> +	EXPECT_EQ(-1, fd);
-> +	EXPECT_EQ(EPERM, errno);
-> +
-> +	if (uid == 0)
-> +		ASSERT_EQ(0, seteuid(0));
-> +}
-> +
-> +TEST_F(child, fetch_fd)
-> +{
-> +	int fd, ret;
-> +
-> +	fd = sys_pidfd_getfd(self->pidfd, self->remote_fd, 0);
-> +	ASSERT_GE(fd, 0);
-> +
-> +	EXPECT_EQ(0, sys_kcmp(getpid(), self->pid, KCMP_FILE, fd, self->remote_fd));
-
-So most of these tests seem to take place when the child has already
-called exit() - or at least it's very likely that the child has already
-called exit() - and remains a zombie. That's not ideal because
-that's not the common scenario/use-case. Usually the task of which we
-want to get an fd will be alive. Also, if the child has already called
-exit(), by the time it returns to userspace it should have already
-called exit_files() and so I wonder whether this test would fail if it's
-run after the child has exited. Maybe I'm missing something here... Is
-there some ordering enforced by TEST_F()?
-
-Also, what does self->pid point to? The fd of the already exited child?
+> 
+> Also, what does self->pid point to? The fd of the already exited child?
+It's just the pid of the child. pidfd is the fd of the (unexited) child.
