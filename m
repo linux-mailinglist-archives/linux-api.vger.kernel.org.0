@@ -2,350 +2,160 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 30F691316A1
-	for <lists+linux-api@lfdr.de>; Mon,  6 Jan 2020 18:19:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A64BE13184E
+	for <lists+linux-api@lfdr.de>; Mon,  6 Jan 2020 20:08:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726640AbgAFRTm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 6 Jan 2020 12:19:42 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:52707 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726526AbgAFRTm (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 6 Jan 2020 12:19:42 -0500
-Received: from ip-109-41-1-70.web.vodafone.de ([109.41.1.70] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1ioW2U-0008VO-9I; Mon, 06 Jan 2020 17:19:38 +0000
-Date:   Mon, 6 Jan 2020 18:19:41 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Sargun Dhillon <sargun@sargun.me>
-Cc:     linux-kernel@vger.kernel.org,
-        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, tycho@tycho.ws, jannh@google.com,
-        cyphar@cyphar.com, oleg@redhat.com, luto@amacapital.net,
-        viro@zeniv.linux.org.uk, gpascutto@mozilla.com,
-        ealvarez@mozilla.com, fweimer@redhat.com, jld@mozilla.com,
-        arnd@arndb.de
-Subject: Re: [PATCH v8 3/3] test: Add test for pidfd getfd
-Message-ID: <20200106171940.vjo2w5o6cqw2kkuk@wittgenstein>
-References: <20200103162928.5271-1-sargun@sargun.me>
- <20200103162928.5271-4-sargun@sargun.me>
- <20200105142019.umls5ff4b5433u6k@wittgenstein>
- <20200105190812.GC8522@ircssh-2.c.rugged-nimbus-611.internal>
+        id S1726701AbgAFTIk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 6 Jan 2020 14:08:40 -0500
+Received: from mail.efficios.com ([167.114.142.138]:39180 "EHLO
+        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726569AbgAFTIj (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 6 Jan 2020 14:08:39 -0500
+Received: from localhost (ip6-localhost [IPv6:::1])
+        by mail.efficios.com (Postfix) with ESMTP id C360A6943FD;
+        Mon,  6 Jan 2020 14:08:37 -0500 (EST)
+Received: from mail.efficios.com ([IPv6:::1])
+        by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10032)
+        with ESMTP id SgWCljRP6-DE; Mon,  6 Jan 2020 14:08:37 -0500 (EST)
+Received: from localhost (ip6-localhost [IPv6:::1])
+        by mail.efficios.com (Postfix) with ESMTP id 47AB26943F4;
+        Mon,  6 Jan 2020 14:08:37 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 47AB26943F4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+        s=default; t=1578337717;
+        bh=zIl8A6TLdf+oAfGFrNNrc51On1qmddpUPuBxgyxcrHc=;
+        h=Date:From:To:Message-ID:MIME-Version;
+        b=fJUEqMcuOQR9R4stWSeQpFZsC1yybi+vm8zlyDWg8+St9OU5sHJ96AP59kr0Lo/DA
+         qddq8zq9XLjRyv2Ta3p5dY35hh9aEO22y+q4LpTM3/3Bn2rB+TSEuRL27oKqJzb2u5
+         wRVytGfKXlJA34j5yO9XGF+cZfg0OGtavdPXbu1ycbfDIOyj5obMnQ1EF/ZJQ2pY8w
+         X2uhizfuUDVWHoR9zSgCa2kcB0YdIWcuu+Kv2kqkRuFiKC1Qz86Cjx2lV3IDSO5qRn
+         UZzos+NJkY7WQGZEwfc++cWjGQGDK+8FcTxhWFpXYD3vec10TcwqR/lnn/7O5J6An/
+         7jvBuJ0zo9vvg==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([IPv6:::1])
+        by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10026)
+        with ESMTP id zsiBdNTc3Ll9; Mon,  6 Jan 2020 14:08:37 -0500 (EST)
+Received: from mail02.efficios.com (mail02.efficios.com [167.114.142.138])
+        by mail.efficios.com (Postfix) with ESMTP id 32ADA6943DE;
+        Mon,  6 Jan 2020 14:08:37 -0500 (EST)
+Date:   Mon, 6 Jan 2020 14:08:37 -0500 (EST)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     Florian Weimer <fw@deneb.enyo.de>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        paulmck <paulmck@linux.ibm.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api <linux-api@vger.kernel.org>,
+        stable <stable@vger.kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Neel Natu <neelnatu@google.com>
+Message-ID: <1025393027.850.1578337717165.JavaMail.zimbra@efficios.com>
+In-Reply-To: <669061171.14506.1576876500152.JavaMail.zimbra@efficios.com>
+References: <20191220201207.17389-1-mathieu.desnoyers@efficios.com> <87imman36g.fsf@mid.deneb.enyo.de> <173832695.14381.1576875253374.JavaMail.zimbra@efficios.com> <875zian2a2.fsf@mid.deneb.enyo.de> <669061171.14506.1576876500152.JavaMail.zimbra@efficios.com>
+Subject: Re: [PATCH for 5.5 1/2] rseq: Fix: Clarify rseq.h UAPI rseq_cs
+ memory reclaim requirements
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200105190812.GC8522@ircssh-2.c.rugged-nimbus-611.internal>
-User-Agent: NeoMutt/20180716
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [167.114.142.138]
+X-Mailer: Zimbra 8.8.15_GA_3894 (ZimbraWebClient - FF71 (Linux)/8.8.15_GA_3890)
+Thread-Topic: rseq: Fix: Clarify rseq.h UAPI rseq_cs memory reclaim requirements
+Thread-Index: lBXaukfByKp9TejsCTqcOtGiErTiYOyBdIyh
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sun, Jan 05, 2020 at 07:08:13PM +0000, Sargun Dhillon wrote:
-> On Sun, Jan 05, 2020 at 03:20:23PM +0100, Christian Brauner wrote:
-> > On Fri, Jan 03, 2020 at 08:29:28AM -0800, Sargun Dhillon wrote:
-> > > +static int sys_pidfd_getfd(int pidfd, int fd, int flags)
-> > > +{
-> > > +	return syscall(__NR_pidfd_getfd, pidfd, fd, flags);
-> > > +}
-> > 
-> > I think you can move this to the pidfd.h header as:
-> > 
-> > static inline int sys_pidfd_getfd(int pidfd, int fd, int flags)
-> > {
-> > 	return syscall(__NR_pidfd_getfd, pidfd, fd, flags);
-> > }
-> > 
-> > Note, this also needs an
-> > 
-> > #ifndef __NR_pidfd_getfd
-> > __NR_pidfd_getfd -1
-> > #endif
-> > so that compilation doesn't fail.
-> > 
-> I'll go ahead and move this into pidfd.h, and follow the pattern there. I
-> don't think it's worth checking if each time the return code is ENOSYS.
-> 
-> Does it make sense to add something like:
-> #ifdef __NR_pidfd_getfd
-> TEST_HARNESS_MAIN
-> #else
-> int main(void)
-> {
-> 	fprintf(stderr, "pidfd_getfd syscall not supported\n");
-> 	return KSFT_SKIP;
-> }
-> #endif
-> 
-> to short-circuit the entire test suite?
+----- On Dec 20, 2019, at 4:15 PM, Mathieu Desnoyers mathieu.desnoyers@effi=
+cios.com wrote:
 
-You mean the getfd testsuite? If so and that works, then sounds like a
-good idea to me.
+> ----- On Dec 20, 2019, at 3:57 PM, Florian Weimer fw@deneb.enyo.de wrote:
+>=20
+>> * Mathieu Desnoyers:
+>>=20
+>>> ----- On Dec 20, 2019, at 3:37 PM, Florian Weimer fw@deneb.enyo.de wrot=
+e:
+>>>
+>>>> * Mathieu Desnoyers:
+>>>>=20
+>>>>> diff --git a/include/uapi/linux/rseq.h b/include/uapi/linux/rseq.h
+>>>>> index 9a402fdb60e9..6f26b0b148a6 100644
+>>>>> --- a/include/uapi/linux/rseq.h
+>>>>> +++ b/include/uapi/linux/rseq.h
+>>>>> @@ -100,7 +100,9 @@ struct rseq {
+>>>>>  =09 * instruction sequence block, as well as when the kernel detects=
+ that
+>>>>>  =09 * it is preempting or delivering a signal outside of the range
+>>>>>  =09 * targeted by the rseq_cs. Also needs to be set to NULL by user-=
+space
+>>>>> -=09 * before reclaiming memory that contains the targeted struct rse=
+q_cs.
+>>>>> +=09 * before reclaiming memory that contains the targeted struct rse=
+q_cs
+>>>>> +=09 * or reclaiming memory that contains the code refered to by the
+>>>>> +=09 * start_ip and post_commit_offset fields of struct rseq_cs.
+>>>>=20
+>>>> Maybe mention that it's good practice to clear rseq_cs before
+>>>> returning from a function that contains a restartable sequence?
+>>>
+>>> Unfortunately, clearing it is not free. Considering that rseq is meant =
+to
+>>> be used in very hot code paths, it would be preferable that application=
+s
+>>> clear it in the very infrequent case where the rseq_cs or code will
+>>> vanish (e.g. dlclose or JIT reclaim), and not require it to be cleared
+>>> after each critical section. I am therefore reluctant to document the
+>>> behavior you describe as a "good practice" for rseq.
+>>=20
+>> You already have to write to rseq_cs before entering the critical
+>> section, right?  Then you've already determined the address, and the
+>> cache line is already hot, so it really should be close to zero cost.
+>=20
+> Considering that overall rseq executes in fraction of nanoseconds on
+> some architectures, adding an extra store is perhaps close to zero,
+> but still significantly degrades performance.
+>=20
+>>=20
+>> I mean, you can still discard the advice, but you do so ad your own
+>> peril =E2=80=A6
+>=20
+> I am also uncomfortable leaving this to the end user. One possibility
+> would be to extend rseq or membarrier to add a kind of "rseq-clear"
+> barrier, which would ensure that the kernel will have cleared the
+> rseq_cs field for each thread belonging to the current process. glibc
+> could then call this barrier before dlclose.
+>=20
+> This is slightly different from another rseq-barrier that has been
+> requested by Paul Turner: a way to ensure that all previously
+> running rseq critical sections have completed or aborted.
+>=20
+> AFAIU, the desiderata for each of the 2 use-cases is as follows:
+>=20
+> rseq-barrier: guarantee that all prior rseq critical sections have
+> completed or aborted for the current process or for a set of registered
+> processes. Allows doing RCU-like algorithms within rseq critical sections=
+.
+>=20
+> rseq-clear: guarantee that the rseq_cs field is cleared for each thread
+> belonging to the current process before the barrier system call returns
+> to the caller. Aborts currently running rseq critical sections for all
+> threads belonging to the current process. The use-case is to allow
+> dlclose and JIT reclaim to clear any leftover reference to struct
+> rseq_cs or code which are going to be reclaimed.
 
-> 
-> 
-> > > +
-> > > +static int sys_memfd_create(const char *name, unsigned int flags)
-> > > +{
-> > > +	return syscall(__NR_memfd_create, name, flags);
-> > > +}
-> > > +
-> > > +static int __child(int sk, int memfd)
-> > > +{
-> > > +	int ret;
-> > > +	char buf;
-> > > +
-> > > +	/*
-> > > +	 * Ensure we don't leave around a bunch of orphaned children if our
-> > > +	 * tests fail.
-> > > +	 */
-> > > +	ret = prctl(PR_SET_PDEATHSIG, SIGKILL);
-> > > +	if (ret) {
-> > > +		fprintf(stderr, "%s: Child could not set DEATHSIG\n",
-> > > +			strerror(errno));
-> > > +		return EXIT_FAILURE;
-> > 
-> > return -1
-> > 
-> > > +	}
-> > > +
-> > > +	ret = send(sk, &memfd, sizeof(memfd), 0);
-> > > +	if (ret != sizeof(memfd)) {
-> > > +		fprintf(stderr, "%s: Child failed to send fd number\n",
-> > > +			strerror(errno));
-> > > +		return EXIT_FAILURE;
-> > 
-> > return -1
-> > 
-> > > +	}
-> > > +
-> > > +	while ((ret = recv(sk, &buf, sizeof(buf), 0)) > 0) {
-> > > +		if (buf == 'P') {
-> > > +			ret = prctl(PR_SET_DUMPABLE, 0);
-> > > +			if (ret < 0) {
-> > > +				fprintf(stderr,
-> > > +					"%s: Child failed to disable ptrace\n",
-> > > +					strerror(errno));
-> > > +				return EXIT_FAILURE;
-> > 
-> > return -1
-> > 
-> > > +			}
-> > > +		} else {
-> > > +			fprintf(stderr, "Child received unknown command %c\n",
-> > > +				buf);
-> > > +			return EXIT_FAILURE;
-> > 
-> > return -1
-> > 
-> > > +		}
-> > > +		ret = send(sk, &buf, sizeof(buf), 0);
-> > > +		if (ret != 1) {
-> > > +			fprintf(stderr, "%s: Child failed to ack\n",
-> > > +				strerror(errno));
-> > > +			return EXIT_FAILURE;
-> > 
-> > return -1
-> > 
-> > > +		}
-> > > +	}
-> > > +
-> > > +	if (ret < 0) {
-> > > +		fprintf(stderr, "%s: Child failed to read from socket\n",
-> > > +			strerror(errno));
-> > 
-> > Is this intentional that this is no failure?
-> > 
-> My thought here, is the only case where this should happen is if the "ptrace 
-> command" was not properly "transmitted", and the ptrace test itself would fail.
-> 
-> I can add an explicit exit failure here.
+Just to clarify: should the discussion here prevent the UAPI documentation
+change from being merged into the Linux kernel ? Our discussion seems to be
+related to integration of rseq into glibc, rather than the kernel UAPI per =
+se.
 
-Ok.
+Thanks,
 
-> 
-> > > +	}
-> > > +
-> > > +	return EXIT_SUCCESS;
-> > 
-> > return 0
-> > 
-> > > +}
-> > > +
-> > > +static int child(int sk)
-> > > +{
-> > > +	int memfd, ret;
-> > > +
-> > > +	memfd = sys_memfd_create("test", 0);
-> > > +	if (memfd < 0) {
-> > > +		fprintf(stderr, "%s: Child could not create memfd\n",
-> > > +			strerror(errno));
-> > > +		ret = EXIT_FAILURE;
-> > 
-> > ret = -1;
-> > 
-> > > +	} else {
-> > > +		ret = __child(sk, memfd);
-> > > +		close(memfd);
-> > > +	}
-> > > +
-> > > +	close(sk);
-> > > +	return ret;
-> > > +}
-> > > +
-> > > +FIXTURE(child)
-> > > +{
-> > > +	pid_t pid;
-> > > +	int pidfd, sk, remote_fd;
-> > > +};
-> > > +
-> > > +FIXTURE_SETUP(child)
-> > > +{
-> > > +	int ret, sk_pair[2];
-> > > +
-> > > +	ASSERT_EQ(0, socketpair(PF_LOCAL, SOCK_SEQPACKET, 0, sk_pair))
-> > > +	{
-> > > +		TH_LOG("%s: failed to create socketpair", strerror(errno));
-> > > +	}
-> > > +	self->sk = sk_pair[0];
-> > > +
-> > > +	self->pid = fork();
-> > > +	ASSERT_GE(self->pid, 0);
-> > > +
-> > > +	if (self->pid == 0) {
-> > > +		close(sk_pair[0]);
-> > > +		exit(child(sk_pair[1]));
-> > 
-> > if (child(sk_pair[1]))
-> > 	_exit(EXIT_FAILURE);
-> > _exit(EXIT_SUCCESS);
-> > 
-> > I would like to only use exit macros where one actually calls
-> > {_}exit()s. It makes the logic easier to follow and ensures that one
-> > doesn't accidently do an exit(-21345) or something (e.g. when adding new
-> > code).
-> > 
-> > > +	}
-> > > +
-> > > +	close(sk_pair[1]);
-> > > +
-> > > +	self->pidfd = sys_pidfd_open(self->pid, 0);
-> > > +	ASSERT_GE(self->pidfd, 0);
-> > > +
-> > > +	/*
-> > > +	 * Wait for the child to complete setup. It'll send the remote memfd's
-> > > +	 * number when ready.
-> > > +	 */
-> > > +	ret = recv(sk_pair[0], &self->remote_fd, sizeof(self->remote_fd), 0);
-> > > +	ASSERT_EQ(sizeof(self->remote_fd), ret);
-> > > +}
-> > > +
-> > > +FIXTURE_TEARDOWN(child)
-> > > +{
-> > > +	int status;
-> > > +
-> > > +	EXPECT_EQ(0, close(self->pidfd));
-> > > +	EXPECT_EQ(0, close(self->sk));
-> > > +
-> > > +	EXPECT_EQ(waitpid(self->pid, &status, 0), self->pid);
-> > > +	EXPECT_EQ(true, WIFEXITED(status));
-> > > +	EXPECT_EQ(0, WEXITSTATUS(status));
-> > > +}
-> > > +
-> > > +TEST_F(child, disable_ptrace)
-> > > +{
-> > > +	int uid, fd;
-> > > +	char c;
-> > > +
-> > > +	/*
-> > > +	 * Turn into nobody if we're root, to avoid CAP_SYS_PTRACE
-> > > +	 *
-> > > +	 * The tests should run in their own process, so even this test fails,
-> > > +	 * it shouldn't result in subsequent tests failing.
-> > > +	 */
-> > > +	uid = getuid();
-> > > +	if (uid == 0)
-> > > +		ASSERT_EQ(0, seteuid(USHRT_MAX));
-> > 
-> > Hm, isn't it safer to do 65535 explicitly? Since USHRT_MAX can
-> > technically be greater than 65535.
-> > 
-> I borrowed this from the BPF tests. I can hardcode something like:
-> #define NOBODY_UID 65535
-> and setuid to that, if you think it's safer?
+Mathieu
 
-If you want to specifically seteuid() to 65535 then yes, using the
-hard-coded number or using a dedicated macro seems better.
 
-> 
-> > > +
-> > > +	ASSERT_EQ(1, send(self->sk, "P", 1, 0));
-> > > +	ASSERT_EQ(1, recv(self->sk, &c, 1, 0));
-> > > +
-> > > +	fd = sys_pidfd_getfd(self->pidfd, self->remote_fd, 0);
-> > > +	EXPECT_EQ(-1, fd);
-> > > +	EXPECT_EQ(EPERM, errno);
-> > > +
-> > > +	if (uid == 0)
-> > > +		ASSERT_EQ(0, seteuid(0));
-> > > +}
-> > > +
-> > > +TEST_F(child, fetch_fd)
-> > > +{
-> > > +	int fd, ret;
-> > > +
-> > > +	fd = sys_pidfd_getfd(self->pidfd, self->remote_fd, 0);
-> > > +	ASSERT_GE(fd, 0);
-> > > +
-> > > +	EXPECT_EQ(0, sys_kcmp(getpid(), self->pid, KCMP_FILE, fd, self->remote_fd));
-> > 
-> > So most of these tests seem to take place when the child has already
-> > called exit() - or at least it's very likely that the child has already
-> > called exit() - and remains a zombie. That's not ideal because
-> > that's not the common scenario/use-case. Usually the task of which we
-> > want to get an fd will be alive. Also, if the child has already called
-> > exit(), by the time it returns to userspace it should have already
-> > called exit_files() and so I wonder whether this test would fail if it's
-> > run after the child has exited. Maybe I'm missing something here... Is
-> > there some ordering enforced by TEST_F()?
-> Yeah, I think perhaps I was being too clever.
-> The timeline roughly goes something like this:
-> 
-> # Fixture bringup
-> [parent] creates socket_pair
-> [parent] forks, and passes pair down to child
-> [parent] waits to read sizeof(int) from the sk_pair
-> [child] creates memfd 
-> [__child] sends local memfd number to parent via sk_pair
-> [__child] waits to read from sk_pair
-> [parent] reads remote memfd number from socket
-> # Test
-> [parent] performs tests
-> # Fixture teardown
-> [parent] closes sk_pair
-> [__child] reads 0 from recv on sk_pair, implies the other end is closed
-> [__child] Returns / exits 0
-> [parent] Reaps child / reads exit code
-> 
-> ---
-> The one case where this is not true, is if the parent sends 'P' to the sk pair,
-> it triggers setting PR_SET_DUMPABLE to 0, and then resumes waiting for the fd to 
-> close.
-> 
-> Maybe I'm being too clever? Instead, the alternative was to send explicit stop / 
-> start messages across the sk_pair, but that got kind of ugly. Do you have a 
-> better suggestion?
-
-If I understand correctly you just need to block the child to stop it
-from exiting. Couldn't you do this by simply calling recv() on the
-socket in the child thereby blocking it? At the end you just send a
-final message to proceed and if that doesn't work SIGKILL it?
-
-> 
-> > 
-> > Also, what does self->pid point to? The fd of the already exited child?
-> It's just the pid of the child. pidfd is the fd of the (unexited) child.
-
-Ah, thanks!
-Christian
+--=20
+Mathieu Desnoyers
+EfficiOS Inc.
+http://www.efficios.com
