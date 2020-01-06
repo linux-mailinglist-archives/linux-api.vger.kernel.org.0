@@ -2,162 +2,350 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C7BEF131586
-	for <lists+linux-api@lfdr.de>; Mon,  6 Jan 2020 16:57:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 30F691316A1
+	for <lists+linux-api@lfdr.de>; Mon,  6 Jan 2020 18:19:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726437AbgAFP5a (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 6 Jan 2020 10:57:30 -0500
-Received: from mail.efficios.com ([167.114.142.138]:33170 "EHLO
-        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726296AbgAFP5a (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 6 Jan 2020 10:57:30 -0500
-Received: from localhost (ip6-localhost [IPv6:::1])
-        by mail.efficios.com (Postfix) with ESMTP id DEDE11EA206;
-        Mon,  6 Jan 2020 10:57:28 -0500 (EST)
-Received: from mail.efficios.com ([IPv6:::1])
-        by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10032)
-        with ESMTP id KLvUN4v0cISR; Mon,  6 Jan 2020 10:57:27 -0500 (EST)
-Received: from localhost (ip6-localhost [IPv6:::1])
-        by mail.efficios.com (Postfix) with ESMTP id 983511EA1D4;
-        Mon,  6 Jan 2020 10:57:21 -0500 (EST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 983511EA1D4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1578326241;
-        bh=V01sGTkdCO7SqIi8D+mEDAjTS4ndQ4TnKwFDOpxXqBA=;
-        h=From:To:Date:Message-Id;
-        b=uG6SHO5pZWLZyzrvJ+miQCWNOw3+othcNc8D+G11B4x+s8a/NnE40NAwnCnPV9a1a
-         nMf4dVo1cgWqrNkk2Ty+wUL0fsuLyYCrFPPOybJbz83WicNS/dAqIxx9W43qbX2Ly6
-         4LfJwkED7+3LD8PyOtRtVs73tO2dX1CNsir7zitNaoOWXcOH8cwoMY5Q8H3VFb2Bgp
-         zIwjMW2T8C2G3csESuMWfzfArC9UFprrDr1lKmxmI0Gw/PfOQgRRF6n9LjH3gtxx2v
-         s1xlFESfthQEnrMzF+E43fzxYaAeLY5kP+hqP9eQ/CE13r00TjfkoetsarAzHnVSQw
-         GTHE4UZALHTsg==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([IPv6:::1])
-        by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10026)
-        with ESMTP id hQpQtE0KI3-I; Mon,  6 Jan 2020 10:57:21 -0500 (EST)
-Received: from localhost.localdomain (192-222-181-218.qc.cable.ebox.net [192.222.181.218])
-        by mail.efficios.com (Postfix) with ESMTPSA id 4D07A1EA188;
-        Mon,  6 Jan 2020 10:57:19 -0500 (EST)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Carlos O'Donell <carlos@redhat.com>
-Cc:     Florian Weimer <fweimer@redhat.com>,
-        Joseph Myers <joseph@codesourcery.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        libc-alpha@sourceware.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ben Maurer <bmaurer@fb.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Dave Watson <davejwatson@fb.com>, Paul Turner <pjt@google.com>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: [RFC PATCH glibc 10/13] glibc: sched_getcpu(): use rseq cpu_id TLS on Linux (v5)
-Date:   Mon,  6 Jan 2020 10:57:10 -0500
-Message-Id: <20200106155713.397-11-mathieu.desnoyers@efficios.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200106155713.397-1-mathieu.desnoyers@efficios.com>
-References: <20200106155713.397-1-mathieu.desnoyers@efficios.com>
+        id S1726640AbgAFRTm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 6 Jan 2020 12:19:42 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:52707 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726526AbgAFRTm (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 6 Jan 2020 12:19:42 -0500
+Received: from ip-109-41-1-70.web.vodafone.de ([109.41.1.70] helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1ioW2U-0008VO-9I; Mon, 06 Jan 2020 17:19:38 +0000
+Date:   Mon, 6 Jan 2020 18:19:41 +0100
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Sargun Dhillon <sargun@sargun.me>
+Cc:     linux-kernel@vger.kernel.org,
+        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, tycho@tycho.ws, jannh@google.com,
+        cyphar@cyphar.com, oleg@redhat.com, luto@amacapital.net,
+        viro@zeniv.linux.org.uk, gpascutto@mozilla.com,
+        ealvarez@mozilla.com, fweimer@redhat.com, jld@mozilla.com,
+        arnd@arndb.de
+Subject: Re: [PATCH v8 3/3] test: Add test for pidfd getfd
+Message-ID: <20200106171940.vjo2w5o6cqw2kkuk@wittgenstein>
+References: <20200103162928.5271-1-sargun@sargun.me>
+ <20200103162928.5271-4-sargun@sargun.me>
+ <20200105142019.umls5ff4b5433u6k@wittgenstein>
+ <20200105190812.GC8522@ircssh-2.c.rugged-nimbus-611.internal>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200105190812.GC8522@ircssh-2.c.rugged-nimbus-611.internal>
+User-Agent: NeoMutt/20180716
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-When available, use the cpu_id field from __rseq_abi on Linux to
-implement sched_getcpu(). Fall-back on the vgetcpu vDSO if unavailable.
+On Sun, Jan 05, 2020 at 07:08:13PM +0000, Sargun Dhillon wrote:
+> On Sun, Jan 05, 2020 at 03:20:23PM +0100, Christian Brauner wrote:
+> > On Fri, Jan 03, 2020 at 08:29:28AM -0800, Sargun Dhillon wrote:
+> > > +static int sys_pidfd_getfd(int pidfd, int fd, int flags)
+> > > +{
+> > > +	return syscall(__NR_pidfd_getfd, pidfd, fd, flags);
+> > > +}
+> > 
+> > I think you can move this to the pidfd.h header as:
+> > 
+> > static inline int sys_pidfd_getfd(int pidfd, int fd, int flags)
+> > {
+> > 	return syscall(__NR_pidfd_getfd, pidfd, fd, flags);
+> > }
+> > 
+> > Note, this also needs an
+> > 
+> > #ifndef __NR_pidfd_getfd
+> > __NR_pidfd_getfd -1
+> > #endif
+> > so that compilation doesn't fail.
+> > 
+> I'll go ahead and move this into pidfd.h, and follow the pattern there. I
+> don't think it's worth checking if each time the return code is ENOSYS.
+> 
+> Does it make sense to add something like:
+> #ifdef __NR_pidfd_getfd
+> TEST_HARNESS_MAIN
+> #else
+> int main(void)
+> {
+> 	fprintf(stderr, "pidfd_getfd syscall not supported\n");
+> 	return KSFT_SKIP;
+> }
+> #endif
+> 
+> to short-circuit the entire test suite?
 
-Benchmarks:
+You mean the getfd testsuite? If so and that works, then sounds like a
+good idea to me.
 
-x86-64: Intel E5-2630 v3@2.40GHz, 16-core, hyperthreading
+> 
+> 
+> > > +
+> > > +static int sys_memfd_create(const char *name, unsigned int flags)
+> > > +{
+> > > +	return syscall(__NR_memfd_create, name, flags);
+> > > +}
+> > > +
+> > > +static int __child(int sk, int memfd)
+> > > +{
+> > > +	int ret;
+> > > +	char buf;
+> > > +
+> > > +	/*
+> > > +	 * Ensure we don't leave around a bunch of orphaned children if our
+> > > +	 * tests fail.
+> > > +	 */
+> > > +	ret = prctl(PR_SET_PDEATHSIG, SIGKILL);
+> > > +	if (ret) {
+> > > +		fprintf(stderr, "%s: Child could not set DEATHSIG\n",
+> > > +			strerror(errno));
+> > > +		return EXIT_FAILURE;
+> > 
+> > return -1
+> > 
+> > > +	}
+> > > +
+> > > +	ret = send(sk, &memfd, sizeof(memfd), 0);
+> > > +	if (ret != sizeof(memfd)) {
+> > > +		fprintf(stderr, "%s: Child failed to send fd number\n",
+> > > +			strerror(errno));
+> > > +		return EXIT_FAILURE;
+> > 
+> > return -1
+> > 
+> > > +	}
+> > > +
+> > > +	while ((ret = recv(sk, &buf, sizeof(buf), 0)) > 0) {
+> > > +		if (buf == 'P') {
+> > > +			ret = prctl(PR_SET_DUMPABLE, 0);
+> > > +			if (ret < 0) {
+> > > +				fprintf(stderr,
+> > > +					"%s: Child failed to disable ptrace\n",
+> > > +					strerror(errno));
+> > > +				return EXIT_FAILURE;
+> > 
+> > return -1
+> > 
+> > > +			}
+> > > +		} else {
+> > > +			fprintf(stderr, "Child received unknown command %c\n",
+> > > +				buf);
+> > > +			return EXIT_FAILURE;
+> > 
+> > return -1
+> > 
+> > > +		}
+> > > +		ret = send(sk, &buf, sizeof(buf), 0);
+> > > +		if (ret != 1) {
+> > > +			fprintf(stderr, "%s: Child failed to ack\n",
+> > > +				strerror(errno));
+> > > +			return EXIT_FAILURE;
+> > 
+> > return -1
+> > 
+> > > +		}
+> > > +	}
+> > > +
+> > > +	if (ret < 0) {
+> > > +		fprintf(stderr, "%s: Child failed to read from socket\n",
+> > > +			strerror(errno));
+> > 
+> > Is this intentional that this is no failure?
+> > 
+> My thought here, is the only case where this should happen is if the "ptrace 
+> command" was not properly "transmitted", and the ptrace test itself would fail.
+> 
+> I can add an explicit exit failure here.
 
-glibc sched_getcpu():                     13.7 ns (baseline)
-glibc sched_getcpu() using rseq:           2.5 ns (speedup:  5.5x)
-inline load cpuid from __rseq_abi TLS:     0.8 ns (speedup: 17.1x)
+Ok.
 
-	* sysdeps/unix/sysv/linux/sched_getcpu.c: use rseq cpu_id TLS on
-	Linux.
+> 
+> > > +	}
+> > > +
+> > > +	return EXIT_SUCCESS;
+> > 
+> > return 0
+> > 
+> > > +}
+> > > +
+> > > +static int child(int sk)
+> > > +{
+> > > +	int memfd, ret;
+> > > +
+> > > +	memfd = sys_memfd_create("test", 0);
+> > > +	if (memfd < 0) {
+> > > +		fprintf(stderr, "%s: Child could not create memfd\n",
+> > > +			strerror(errno));
+> > > +		ret = EXIT_FAILURE;
+> > 
+> > ret = -1;
+> > 
+> > > +	} else {
+> > > +		ret = __child(sk, memfd);
+> > > +		close(memfd);
+> > > +	}
+> > > +
+> > > +	close(sk);
+> > > +	return ret;
+> > > +}
+> > > +
+> > > +FIXTURE(child)
+> > > +{
+> > > +	pid_t pid;
+> > > +	int pidfd, sk, remote_fd;
+> > > +};
+> > > +
+> > > +FIXTURE_SETUP(child)
+> > > +{
+> > > +	int ret, sk_pair[2];
+> > > +
+> > > +	ASSERT_EQ(0, socketpair(PF_LOCAL, SOCK_SEQPACKET, 0, sk_pair))
+> > > +	{
+> > > +		TH_LOG("%s: failed to create socketpair", strerror(errno));
+> > > +	}
+> > > +	self->sk = sk_pair[0];
+> > > +
+> > > +	self->pid = fork();
+> > > +	ASSERT_GE(self->pid, 0);
+> > > +
+> > > +	if (self->pid == 0) {
+> > > +		close(sk_pair[0]);
+> > > +		exit(child(sk_pair[1]));
+> > 
+> > if (child(sk_pair[1]))
+> > 	_exit(EXIT_FAILURE);
+> > _exit(EXIT_SUCCESS);
+> > 
+> > I would like to only use exit macros where one actually calls
+> > {_}exit()s. It makes the logic easier to follow and ensures that one
+> > doesn't accidently do an exit(-21345) or something (e.g. when adding new
+> > code).
+> > 
+> > > +	}
+> > > +
+> > > +	close(sk_pair[1]);
+> > > +
+> > > +	self->pidfd = sys_pidfd_open(self->pid, 0);
+> > > +	ASSERT_GE(self->pidfd, 0);
+> > > +
+> > > +	/*
+> > > +	 * Wait for the child to complete setup. It'll send the remote memfd's
+> > > +	 * number when ready.
+> > > +	 */
+> > > +	ret = recv(sk_pair[0], &self->remote_fd, sizeof(self->remote_fd), 0);
+> > > +	ASSERT_EQ(sizeof(self->remote_fd), ret);
+> > > +}
+> > > +
+> > > +FIXTURE_TEARDOWN(child)
+> > > +{
+> > > +	int status;
+> > > +
+> > > +	EXPECT_EQ(0, close(self->pidfd));
+> > > +	EXPECT_EQ(0, close(self->sk));
+> > > +
+> > > +	EXPECT_EQ(waitpid(self->pid, &status, 0), self->pid);
+> > > +	EXPECT_EQ(true, WIFEXITED(status));
+> > > +	EXPECT_EQ(0, WEXITSTATUS(status));
+> > > +}
+> > > +
+> > > +TEST_F(child, disable_ptrace)
+> > > +{
+> > > +	int uid, fd;
+> > > +	char c;
+> > > +
+> > > +	/*
+> > > +	 * Turn into nobody if we're root, to avoid CAP_SYS_PTRACE
+> > > +	 *
+> > > +	 * The tests should run in their own process, so even this test fails,
+> > > +	 * it shouldn't result in subsequent tests failing.
+> > > +	 */
+> > > +	uid = getuid();
+> > > +	if (uid == 0)
+> > > +		ASSERT_EQ(0, seteuid(USHRT_MAX));
+> > 
+> > Hm, isn't it safer to do 65535 explicitly? Since USHRT_MAX can
+> > technically be greater than 65535.
+> > 
+> I borrowed this from the BPF tests. I can hardcode something like:
+> #define NOBODY_UID 65535
+> and setuid to that, if you think it's safer?
 
-Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-CC: Carlos O'Donell <carlos@redhat.com>
-CC: Florian Weimer <fweimer@redhat.com>
-CC: Joseph Myers <joseph@codesourcery.com>
-CC: Szabolcs Nagy <szabolcs.nagy@arm.com>
-CC: Thomas Gleixner <tglx@linutronix.de>
-CC: Ben Maurer <bmaurer@fb.com>
-CC: Peter Zijlstra <peterz@infradead.org>
-CC: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-CC: Boqun Feng <boqun.feng@gmail.com>
-CC: Will Deacon <will.deacon@arm.com>
-CC: Dave Watson <davejwatson@fb.com>
-CC: Paul Turner <pjt@google.com>
-CC: libc-alpha@sourceware.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-api@vger.kernel.org
----
-Changes since v1:
-- rseq is only used if both __NR_rseq and RSEQ_SIG are defined.
+If you want to specifically seteuid() to 65535 then yes, using the
+hard-coded number or using a dedicated macro seems better.
 
-Changes since v2:
-- remove duplicated __rseq_abi extern declaration.
+> 
+> > > +
+> > > +	ASSERT_EQ(1, send(self->sk, "P", 1, 0));
+> > > +	ASSERT_EQ(1, recv(self->sk, &c, 1, 0));
+> > > +
+> > > +	fd = sys_pidfd_getfd(self->pidfd, self->remote_fd, 0);
+> > > +	EXPECT_EQ(-1, fd);
+> > > +	EXPECT_EQ(EPERM, errno);
+> > > +
+> > > +	if (uid == 0)
+> > > +		ASSERT_EQ(0, seteuid(0));
+> > > +}
+> > > +
+> > > +TEST_F(child, fetch_fd)
+> > > +{
+> > > +	int fd, ret;
+> > > +
+> > > +	fd = sys_pidfd_getfd(self->pidfd, self->remote_fd, 0);
+> > > +	ASSERT_GE(fd, 0);
+> > > +
+> > > +	EXPECT_EQ(0, sys_kcmp(getpid(), self->pid, KCMP_FILE, fd, self->remote_fd));
+> > 
+> > So most of these tests seem to take place when the child has already
+> > called exit() - or at least it's very likely that the child has already
+> > called exit() - and remains a zombie. That's not ideal because
+> > that's not the common scenario/use-case. Usually the task of which we
+> > want to get an fd will be alive. Also, if the child has already called
+> > exit(), by the time it returns to userspace it should have already
+> > called exit_files() and so I wonder whether this test would fail if it's
+> > run after the child has exited. Maybe I'm missing something here... Is
+> > there some ordering enforced by TEST_F()?
+> Yeah, I think perhaps I was being too clever.
+> The timeline roughly goes something like this:
+> 
+> # Fixture bringup
+> [parent] creates socket_pair
+> [parent] forks, and passes pair down to child
+> [parent] waits to read sizeof(int) from the sk_pair
+> [child] creates memfd 
+> [__child] sends local memfd number to parent via sk_pair
+> [__child] waits to read from sk_pair
+> [parent] reads remote memfd number from socket
+> # Test
+> [parent] performs tests
+> # Fixture teardown
+> [parent] closes sk_pair
+> [__child] reads 0 from recv on sk_pair, implies the other end is closed
+> [__child] Returns / exits 0
+> [parent] Reaps child / reads exit code
+> 
+> ---
+> The one case where this is not true, is if the parent sends 'P' to the sk pair,
+> it triggers setting PR_SET_DUMPABLE to 0, and then resumes waiting for the fd to 
+> close.
+> 
+> Maybe I'm being too clever? Instead, the alternative was to send explicit stop / 
+> start messages across the sk_pair, but that got kind of ugly. Do you have a 
+> better suggestion?
 
-Changes since v3:
-- update ChangeLog.
+If I understand correctly you just need to block the child to stop it
+from exiting. Couldn't you do this by simply calling recv() on the
+socket in the child thereby blocking it? At the end you just send a
+final message to proceed and if that doesn't work SIGKILL it?
 
-Changes since v4:
-- Use atomic_load_relaxed to load the __rseq_abi.cpu_id field, a
-  consequence of the fact that __rseq_abi is not volatile anymore.
-- Include atomic.h which provides atomic_load_relaxed.
----
- sysdeps/unix/sysv/linux/sched_getcpu.c | 25 +++++++++++++++++++++++--
- 1 file changed, 23 insertions(+), 2 deletions(-)
+> 
+> > 
+> > Also, what does self->pid point to? The fd of the already exited child?
+> It's just the pid of the child. pidfd is the fd of the (unexited) child.
 
-diff --git a/sysdeps/unix/sysv/linux/sched_getcpu.c b/sysdeps/unix/sysv/linux/sched_getcpu.c
-index 65dd9fdda7..6f24c1db99 100644
---- a/sysdeps/unix/sysv/linux/sched_getcpu.c
-+++ b/sysdeps/unix/sysv/linux/sched_getcpu.c
-@@ -18,14 +18,15 @@
- #include <errno.h>
- #include <sched.h>
- #include <sysdep.h>
-+#include <atomic.h>
- 
- #ifdef HAVE_GETCPU_VSYSCALL
- # define HAVE_VSYSCALL
- #endif
- #include <sysdep-vdso.h>
- 
--int
--sched_getcpu (void)
-+static int
-+vsyscall_sched_getcpu (void)
- {
- #ifdef __NR_getcpu
-   unsigned int cpu;
-@@ -37,3 +38,23 @@ sched_getcpu (void)
-   return -1;
- #endif
- }
-+
-+#ifdef __NR_rseq
-+#include <sys/rseq.h>
-+#endif
-+
-+#if defined __NR_rseq && defined RSEQ_SIG
-+int
-+sched_getcpu (void)
-+{
-+  int cpu_id = atomic_load_relaxed (&__rseq_abi.cpu_id);
-+
-+  return cpu_id >= 0 ? cpu_id : vsyscall_sched_getcpu ();
-+}
-+#else
-+int
-+sched_getcpu (void)
-+{
-+  return vsyscall_sched_getcpu ();
-+}
-+#endif
--- 
-2.17.1
-
+Ah, thanks!
+Christian
