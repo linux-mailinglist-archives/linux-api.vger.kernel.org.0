@@ -2,217 +2,125 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D99A1321B5
-	for <lists+linux-api@lfdr.de>; Tue,  7 Jan 2020 09:55:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B9D3813261B
+	for <lists+linux-api@lfdr.de>; Tue,  7 Jan 2020 13:24:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726558AbgAGIzu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 7 Jan 2020 03:55:50 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:46343 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725801AbgAGIzu (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 7 Jan 2020 03:55:50 -0500
-Received: from ip-109-41-1-227.web.vodafone.de ([109.41.1.227] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1iokeQ-0003oe-Cm; Tue, 07 Jan 2020 08:55:46 +0000
-Date:   Tue, 7 Jan 2020 09:55:47 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Sargun Dhillon <sargun@sargun.me>
-Cc:     linux-kernel@vger.kernel.org,
-        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, tycho@tycho.ws, jannh@google.com,
-        cyphar@cyphar.com, oleg@redhat.com, luto@amacapital.net,
-        viro@zeniv.linux.org.uk, gpascutto@mozilla.com,
-        ealvarez@mozilla.com, fweimer@redhat.com, jld@mozilla.com,
-        arnd@arndb.de
-Subject: Re: [PATCH v8 3/3] test: Add test for pidfd getfd
-Message-ID: <20200107085546.jr4mlusloraejish@wittgenstein>
-References: <20200103162928.5271-1-sargun@sargun.me>
- <20200103162928.5271-4-sargun@sargun.me>
- <20200105142019.umls5ff4b5433u6k@wittgenstein>
- <20200105190812.GC8522@ircssh-2.c.rugged-nimbus-611.internal>
- <20200106171940.vjo2w5o6cqw2kkuk@wittgenstein>
- <20200106210647.GA30920@ircssh-2.c.rugged-nimbus-611.internal>
+        id S1727935AbgAGMYL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 7 Jan 2020 07:24:11 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:42938 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727896AbgAGMYL (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 7 Jan 2020 07:24:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1578399850;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Zq5up57K7Pjwufw3MKWfZ0KVwNjIGjwmZL8AfNiaHYY=;
+        b=D9ZNN4wzprzQvFtwjLVB+fIoKazSB0DaBGQ1rBc3Jxk8rxbgOrpoHWXrCotxb1VuaZ9kZa
+        w0ka66FqxdCQWjmJhiFCb7uSKJD1RZnS6oHIX8MEoi+4YkJ4RHWrr16UDbN3YKw6q09ytv
+        IXnevhCfOuZQMBUF4EfLI8887Co6Tk8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-245-nrVIErl4P1yERw_t-1G8cQ-1; Tue, 07 Jan 2020 07:24:09 -0500
+X-MC-Unique: nrVIErl4P1yERw_t-1G8cQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1C10911FC;
+        Tue,  7 Jan 2020 12:24:06 +0000 (UTC)
+Received: from oldenburg2.str.redhat.com (dhcp-192-227.str.redhat.com [10.33.192.227])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 23AF380600;
+        Tue,  7 Jan 2020 12:24:01 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc:     Carlos O'Donell <carlos@redhat.com>,
+        Joseph Myers <joseph@codesourcery.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        libc-alpha@sourceware.org, Thomas Gleixner <tglx@linutronix.de>,
+        Ben Maurer <bmaurer@fb.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Dave Watson <davejwatson@fb.com>, Paul Turner <pjt@google.com>,
+        Rich Felker <dalias@libc.org>, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org
+Subject: Re: [RFC PATCH glibc 09/13] glibc: Perform rseq(2) registration at C startup and thread creation (v13)
+References: <20200106155713.397-1-mathieu.desnoyers@efficios.com>
+        <20200106155713.397-10-mathieu.desnoyers@efficios.com>
+Date:   Tue, 07 Jan 2020 13:23:59 +0100
+In-Reply-To: <20200106155713.397-10-mathieu.desnoyers@efficios.com> (Mathieu
+        Desnoyers's message of "Mon, 6 Jan 2020 10:57:09 -0500")
+Message-ID: <871rsbv4io.fsf@oldenburg2.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200106210647.GA30920@ircssh-2.c.rugged-nimbus-611.internal>
-User-Agent: NeoMutt/20180716
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jan 06, 2020 at 09:06:47PM +0000, Sargun Dhillon wrote:
-> On Mon, Jan 06, 2020 at 06:19:41PM +0100, Christian Brauner wrote:
-> > On Sun, Jan 05, 2020 at 07:08:13PM +0000, Sargun Dhillon wrote:
-> > > On Sun, Jan 05, 2020 at 03:20:23PM +0100, Christian Brauner wrote:
-> > > > On Fri, Jan 03, 2020 at 08:29:28AM -0800, Sargun Dhillon wrote:
-> > > > > +static int sys_pidfd_getfd(int pidfd, int fd, int flags)
-> > > > > +{
-> > > > > +	return syscall(__NR_pidfd_getfd, pidfd, fd, flags);
-> > > > > +}
-> > > > 
-> > > > I think you can move this to the pidfd.h header as:
-> > > > 
-> > > > static inline int sys_pidfd_getfd(int pidfd, int fd, int flags)
-> > > > {
-> > > > 	return syscall(__NR_pidfd_getfd, pidfd, fd, flags);
-> > > > }
-> > > > 
-> > > > Note, this also needs an
-> > > > 
-> > > > #ifndef __NR_pidfd_getfd
-> > > > __NR_pidfd_getfd -1
-> > > > #endif
-> > > > so that compilation doesn't fail.
-> > > > 
-> > > I'll go ahead and move this into pidfd.h, and follow the pattern there. I
-> > > don't think it's worth checking if each time the return code is ENOSYS.
-> > > 
-> > > Does it make sense to add something like:
-> > > #ifdef __NR_pidfd_getfd
-> > > TEST_HARNESS_MAIN
-> > > #else
-> > > int main(void)
-> > > {
-> > > 	fprintf(stderr, "pidfd_getfd syscall not supported\n");
-> > > 	return KSFT_SKIP;
-> > > }
-> > > #endif
-> > > 
-> > > to short-circuit the entire test suite?
-> > 
-> > You mean the getfd testsuite? If so and that works, then sounds like a
-> > good idea to me.
-> > 
-> > > 
-> > > 
-> > > 
-> > > > 
-> > > > Hm, isn't it safer to do 65535 explicitly? Since USHRT_MAX can
-> > > > technically be greater than 65535.
-> > > > 
-> > > I borrowed this from the BPF tests. I can hardcode something like:
-> > > #define NOBODY_UID 65535
-> > > and setuid to that, if you think it's safer?
-> > 
-> > If you want to specifically seteuid() to 65535 then yes, using the
-> > hard-coded number or using a dedicated macro seems better.
-> > 
-> > > 
-> > > > > +
-> > > > > +	ASSERT_EQ(1, send(self->sk, "P", 1, 0));
-> > > > > +	ASSERT_EQ(1, recv(self->sk, &c, 1, 0));
-> > > > > +
-> > > > > +	fd = sys_pidfd_getfd(self->pidfd, self->remote_fd, 0);
-> > > > > +	EXPECT_EQ(-1, fd);
-> > > > > +	EXPECT_EQ(EPERM, errno);
-> > > > > +
-> > > > > +	if (uid == 0)
-> > > > > +		ASSERT_EQ(0, seteuid(0));
-> > > > > +}
-> > > > > +
-> > > > > +TEST_F(child, fetch_fd)
-> > > > > +{
-> > > > > +	int fd, ret;
-> > > > > +
-> > > > > +	fd = sys_pidfd_getfd(self->pidfd, self->remote_fd, 0);
-> > > > > +	ASSERT_GE(fd, 0);
-> > > > > +
-> > > > > +	EXPECT_EQ(0, sys_kcmp(getpid(), self->pid, KCMP_FILE, fd, self->remote_fd));
-> > > > 
-> > > > So most of these tests seem to take place when the child has already
-> > > > called exit() - or at least it's very likely that the child has already
-> > > > called exit() - and remains a zombie. That's not ideal because
-> > > > that's not the common scenario/use-case. Usually the task of which we
-> > > > want to get an fd will be alive. Also, if the child has already called
-> > > > exit(), by the time it returns to userspace it should have already
-> > > > called exit_files() and so I wonder whether this test would fail if it's
-> > > > run after the child has exited. Maybe I'm missing something here... Is
-> > > > there some ordering enforced by TEST_F()?
-> > > Yeah, I think perhaps I was being too clever.
-> > > The timeline roughly goes something like this:
-> > > 
-> > > # Fixture bringup
-> > > [parent] creates socket_pair
-> > > [parent] forks, and passes pair down to child
-> > > [parent] waits to read sizeof(int) from the sk_pair
-> > > [child] creates memfd 
-> > > [__child] sends local memfd number to parent via sk_pair
-> > > [__child] waits to read from sk_pair
-> > > [parent] reads remote memfd number from socket
-> > > # Test
-> > > [parent] performs tests
-> > > # Fixture teardown
-> > > [parent] closes sk_pair
-> > > [__child] reads 0 from recv on sk_pair, implies the other end is closed
-> > > [__child] Returns / exits 0
-> > > [parent] Reaps child / reads exit code
-> > > 
-> > > ---
-> > > The one case where this is not true, is if the parent sends 'P' to the sk pair,
-> > > it triggers setting PR_SET_DUMPABLE to 0, and then resumes waiting for the fd to 
-> > > close.
-> > > 
-> > > Maybe I'm being too clever? Instead, the alternative was to send explicit stop / 
-> > > start messages across the sk_pair, but that got kind of ugly. Do you have a 
-> > > better suggestion?
-> > 
-> > If I understand correctly you just need to block the child to stop it
-> > from exiting. Couldn't you do this by simply calling recv() on the
-> > socket in the child thereby blocking it? At the end you just send a
-> > final message to proceed and if that doesn't work SIGKILL it?
-> > 
-> This already exists in:
-> while ((ret = recv(sk, &buf, sizeof(buf), 0)) > 0) {
-> 	if (buf == 'P') {
-> 		ret = prctl(PR_SET_DUMPABLE, 0);
-> 		if (ret < 0) {
-> 			fprintf(stderr,
-> 				"%s: Child failed to disable ptrace\n",
-> 				strerror(errno));
-> 			return -1;
-> 		}
-> 	} else {
-> 		fprintf(stderr, "Child received unknown command %c\n",
-> 			buf);
-> 		return -1;
-> 	}
-> 	ret = send(sk, &buf, sizeof(buf), 0);
-> 	if (ret != 1) {
-> 		fprintf(stderr, "%s: Child failed to ack\n",
-> 			strerror(errno));
-> 		return -1;
-> 	}
-> }
-> ----
-> This will block until the close(self->sk) in the fixture teardown. Then ret
-> returns 0, and the child should exit. Maybe a comment like:
-> /*
->  * The fixture setup is completed at this point. The tests will run.
->  *
->  * Either we will read 'P' off of the sk, indicating that we need
->  * to disable ptrace, or if the other side of the socket is closed
->  * recv will return 0-bytes. This indicates that the fixture teardown
->  * has occured, and the child should exit.
->  */
-> would be useful?
+* Mathieu Desnoyers:
 
-Ah yeah, that would be helpful. I missed that while reading the code. So
-the child is definitely still alive when te tests are run, it seems.
-That explains why this didn't fail. :)
+> Register rseq(2) TLS for each thread (including main), and unregister
+> for each thread (excluding main). "rseq" stands for Restartable
+> Sequences.
+>
+> See the rseq(2) man page proposed here:
+>   https://lkml.org/lkml/2018/9/19/647
+>
+> This patch is based on glibc-2.30. The rseq(2) system call was merged
+> into Linux 4.18.
 
-> 
-> > > 
-> > > > 
-> > > > Also, what does self->pid point to? The fd of the already exited child?
-> > > It's just the pid of the child. pidfd is the fd of the (unexited) child.
-> I have no idea if it's pro / against the commenting style to blow up that
-> structure:
+This patch needs to be updated for some be/le abilist splits.
+Big-endian ABI lists for arm, microblaze, sh, appear to be missing.
+This is something that can be checked with build-many-glibcs.py.
 
-I think it's fine to comment it like that.
+> diff --git a/manual/threads.texi b/manual/threads.texi
+> index 0858ef8f92..059f781120 100644
+> --- a/manual/threads.texi
+> +++ b/manual/threads.texi
+> @@ -881,3 +881,20 @@ Behaves like @code{pthread_timedjoin_np} except that the absolute time in
+>  @c pthread_spin_unlock
+>  @c pthread_testcancel
+>  @c pthread_yield
+> +
+> +@node Restartable Sequences
+> +@section Restartable Sequences
+> +@cindex rseq
+> +
+> +This section describes the @glibcadj{} Restartable Sequences integration.
+> +
+> +The @glibcadj{} implements a __rseq_abi TLS symbol to interact with the
+   @Theglibc{}                  @code{__rseq_abi}
 
-Thanks!
-Christian
+
+> +Restartable Sequences system call (Linux-specific). The layout of this
+> +structure is defined by the Linux kernel rseq.h UAPI. Registration of each
+> +thread's __rseq_abi is performed by @glibcadj{} at libc initialization and
+                                       @theglibc{}
+           @code{__rseq_abi}
+> +pthread creation.
+
+> +Each supported architecture provide a RSEQ_SIG signature in sys/rseq.h. That
+                                         @code{RSEQ_SIG}       @file{sys/rseq.h} 
+
+> +signature is expected to be present in the code before each Restartable
+> +Sequences abort handler. Failure to provide the expected signature may
+> +terminate the process with a Segmentation fault.
+
+
+Two spaces at the end of setences, please.
+
+The manual should use @deftypevar to create an index entry etc. for
+__rseq_abi.  See argp_program_version for an example of how to do this.
+
+I think current policy is to have documentation for at least the minimum
+functionality in the manual.  I understand that it makes it a lot of
+work to write patches which add system call wrappers.
+
+Thanks,
+Florian
+
