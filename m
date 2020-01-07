@@ -2,125 +2,185 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B9D3813261B
-	for <lists+linux-api@lfdr.de>; Tue,  7 Jan 2020 13:24:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1666E132B1B
+	for <lists+linux-api@lfdr.de>; Tue,  7 Jan 2020 17:32:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727935AbgAGMYL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 7 Jan 2020 07:24:11 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:42938 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727896AbgAGMYL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 7 Jan 2020 07:24:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1578399850;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Zq5up57K7Pjwufw3MKWfZ0KVwNjIGjwmZL8AfNiaHYY=;
-        b=D9ZNN4wzprzQvFtwjLVB+fIoKazSB0DaBGQ1rBc3Jxk8rxbgOrpoHWXrCotxb1VuaZ9kZa
-        w0ka66FqxdCQWjmJhiFCb7uSKJD1RZnS6oHIX8MEoi+4YkJ4RHWrr16UDbN3YKw6q09ytv
-        IXnevhCfOuZQMBUF4EfLI8887Co6Tk8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-245-nrVIErl4P1yERw_t-1G8cQ-1; Tue, 07 Jan 2020 07:24:09 -0500
-X-MC-Unique: nrVIErl4P1yERw_t-1G8cQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1C10911FC;
-        Tue,  7 Jan 2020 12:24:06 +0000 (UTC)
-Received: from oldenburg2.str.redhat.com (dhcp-192-227.str.redhat.com [10.33.192.227])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 23AF380600;
-        Tue,  7 Jan 2020 12:24:01 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc:     Carlos O'Donell <carlos@redhat.com>,
-        Joseph Myers <joseph@codesourcery.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        libc-alpha@sourceware.org, Thomas Gleixner <tglx@linutronix.de>,
-        Ben Maurer <bmaurer@fb.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Dave Watson <davejwatson@fb.com>, Paul Turner <pjt@google.com>,
-        Rich Felker <dalias@libc.org>, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org
-Subject: Re: [RFC PATCH glibc 09/13] glibc: Perform rseq(2) registration at C startup and thread creation (v13)
-References: <20200106155713.397-1-mathieu.desnoyers@efficios.com>
-        <20200106155713.397-10-mathieu.desnoyers@efficios.com>
-Date:   Tue, 07 Jan 2020 13:23:59 +0100
-In-Reply-To: <20200106155713.397-10-mathieu.desnoyers@efficios.com> (Mathieu
-        Desnoyers's message of "Mon, 6 Jan 2020 10:57:09 -0500")
-Message-ID: <871rsbv4io.fsf@oldenburg2.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+        id S1728211AbgAGQcJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 7 Jan 2020 11:32:09 -0500
+Received: from mail-qk1-f194.google.com ([209.85.222.194]:39471 "EHLO
+        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728196AbgAGQcJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 7 Jan 2020 11:32:09 -0500
+Received: by mail-qk1-f194.google.com with SMTP id c16so43166931qko.6;
+        Tue, 07 Jan 2020 08:32:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=EXsf8J2QF1KRZGOWtWEWKs3DqNsHO+r1D8ycqowGQlM=;
+        b=bpRgbibs09Jn+oJ4pkmpZxvOzcsIbPknZDJvb/ZdoOwcbUl9jZGlIt0DfiIaEjT6QW
+         coEf6/E77CcxXC0xbC5PJ9s8eHtuBzuJbpxgQsoSHTc8rM+L+nrZrWeNcln8h4wFFx7S
+         F4a8YQE+xax5Y0q9xJYPR86MejdYk2Zy/hUn4t9Ile5YLCPWnpWI87S1iyvUflERv8nt
+         RSGna/fvRYXretBqqkt2E/XeQj5hWAkmx50e05o3/Ub/lC/1VePZ5YZDLnzx6Hy8ogzl
+         nKXDeEDrCYfqM3MEU7bINrBeoab7FcgNIrE6VNqZF7MfYIQNuSrlyziWX2lNyXRJhZT+
+         wavw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=EXsf8J2QF1KRZGOWtWEWKs3DqNsHO+r1D8ycqowGQlM=;
+        b=fgY9PTJ1ViMpW79JU3Zl+k9YVx+UmXhtGzwo6AcD90gIpFHrFdIIzHwlvmuPeHmAbu
+         VC6gjxMwcfEer0wovAqtPrdOk+UwH1eOrl+CTgy32y4Ek69nwI8S8jLe1L1IGLKqixoR
+         OW5tmRSTQSL1Wk2wXpiGIv3d/Dcijob1VQlmu/B/u2FuWFNZkDz0uJgiP91TS6ATEYfu
+         kXXYH4c1geJe3V6+LWtj5WvelX1bArgIA4dITIqKy5v10lMnBRVmKppWvHjF6TnLVWQ3
+         se+E+LA3C/xFPE+IRXtbSPrd8aAXTxe6zowILuY/3NcR+RtCNx8n5uUCq4FB559aCLI6
+         B4Qw==
+X-Gm-Message-State: APjAAAUIEmYpBZmyVLZ4PvQcqo0B9+WsPlhCaNhegAS9nNXXBwsS4HL9
+        Kq81YwH60P6XKCf5lrXRc2E=
+X-Google-Smtp-Source: APXvYqwybjAi8YN4FFFB7QbiJ2hGqTqTi6cQVSEkO05FxJafjonWgsWKkRoLAyBRFjP2z0/ZU110Qw==
+X-Received: by 2002:a05:620a:1592:: with SMTP id d18mr174878qkk.80.1578414727473;
+        Tue, 07 Jan 2020 08:32:07 -0800 (PST)
+Received: from localhost ([2620:10d:c091:500::2:4305])
+        by smtp.gmail.com with ESMTPSA id l35sm121588qtl.12.2020.01.07.08.32.06
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 07 Jan 2020 08:32:06 -0800 (PST)
+Date:   Tue, 7 Jan 2020 08:32:04 -0800
+From:   Tejun Heo <tj@kernel.org>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Ingo Molnar <mingo@redhat.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Li Zefan <lizefan@huawei.com>,
+        Peter Zijlstra <peterz@infradead.org>, cgroups@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] clone3: allow spawning processes into cgroups
+Message-ID: <20200107163204.GB2677547@devbig004.ftw2.facebook.com>
+References: <20191223061504.28716-1-christian.brauner@ubuntu.com>
+ <20191223061504.28716-3-christian.brauner@ubuntu.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191223061504.28716-3-christian.brauner@ubuntu.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Mathieu Desnoyers:
-
-> Register rseq(2) TLS for each thread (including main), and unregister
-> for each thread (excluding main). "rseq" stands for Restartable
-> Sequences.
->
-> See the rseq(2) man page proposed here:
->   https://lkml.org/lkml/2018/9/19/647
->
-> This patch is based on glibc-2.30. The rseq(2) system call was merged
-> into Linux 4.18.
-
-This patch needs to be updated for some be/le abilist splits.
-Big-endian ABI lists for arm, microblaze, sh, appear to be missing.
-This is something that can be checked with build-many-glibcs.py.
-
-> diff --git a/manual/threads.texi b/manual/threads.texi
-> index 0858ef8f92..059f781120 100644
-> --- a/manual/threads.texi
-> +++ b/manual/threads.texi
-> @@ -881,3 +881,20 @@ Behaves like @code{pthread_timedjoin_np} except that the absolute time in
->  @c pthread_spin_unlock
->  @c pthread_testcancel
->  @c pthread_yield
+On Mon, Dec 23, 2019 at 07:15:03AM +0100, Christian Brauner wrote:
+> +static struct cgroup *cgroup_get_from_file(struct file *f)
+> +{
+> +	struct cgroup_subsys_state *css;
+> +	struct cgroup *cgrp;
 > +
-> +@node Restartable Sequences
-> +@section Restartable Sequences
-> +@cindex rseq
+> +	css = css_tryget_online_from_dir(f->f_path.dentry, NULL);
+> +	if (IS_ERR(css))
+> +		return ERR_CAST(css);
 > +
-> +This section describes the @glibcadj{} Restartable Sequences integration.
+> +	cgrp = css->cgroup;
+> +	if (!cgroup_on_dfl(cgrp)) {
+> +		cgroup_put(cgrp);
+> +		return ERR_PTR(-EBADF);
+> +	}
 > +
-> +The @glibcadj{} implements a __rseq_abi TLS symbol to interact with the
-   @Theglibc{}                  @code{__rseq_abi}
+> +	return cgrp;
+> +}
 
+It's minor but can you put this refactoring into a separate patch?
 
-> +Restartable Sequences system call (Linux-specific). The layout of this
-> +structure is defined by the Linux kernel rseq.h UAPI. Registration of each
-> +thread's __rseq_abi is performed by @glibcadj{} at libc initialization and
-                                       @theglibc{}
-           @code{__rseq_abi}
-> +pthread creation.
+...
+> +static int cgroup_css_set_fork(struct task_struct *parent,
+> +			       struct kernel_clone_args *kargs)
+> +	__acquires(&cgroup_mutex) __acquires(&cgroup_threadgroup_rwsem)
+> +{
+> +	int ret;
+> +	struct cgroup *dst_cgrp = NULL, *src_cgrp;
+> +	struct css_set *cset;
+> +	struct super_block *sb;
+> +	struct file *f;
+> +
+> +	if (kargs->flags & CLONE_INTO_CGROUP) {
+> +		ret = mutex_lock_killable(&cgroup_mutex);
+> +		if (ret)
+> +			return ret;
+> +	}
 
-> +Each supported architecture provide a RSEQ_SIG signature in sys/rseq.h. That
-                                         @code{RSEQ_SIG}       @file{sys/rseq.h} 
+I don't think this is necessary.  cgroup_mutex should always only be
+held for a finite enough time; otherwise, processes would get stuck on
+random cgroupfs accesses or even /proc/self/cgroup.
 
-> +signature is expected to be present in the code before each Restartable
-> +Sequences abort handler. Failure to provide the expected signature may
-> +terminate the process with a Segmentation fault.
+...
+> +	spin_lock_irq(&css_set_lock);
+> +	src_cgrp = task_cgroup_from_root(parent, &cgrp_dfl_root);
+> +	spin_unlock_irq(&css_set_lock);
 
+You can simply do cset->dfl_root here, which is consistent with other
+code paths which know that they want the dfl cgroup.
 
-Two spaces at the end of setences, please.
+> +	ret = cgroup_attach_permissions(src_cgrp, dst_cgrp, sb,
+> +					!!(kargs->flags & CLONE_THREAD));
+> +	if (ret)
+> +		goto err;
 
-The manual should use @deftypevar to create an index entry etc. for
-__rseq_abi.  See argp_program_version for an example of how to do this.
+So, the existing perm check depends on the fact that for the write
+operation to have started, it already should have passed write perm
+check on the destination cgroup.procs file.  We're missing that here,
+so we prolly need to check that explicitly.
 
-I think current policy is to have documentation for at least the minimum
-functionality in the manual.  I understand that it makes it a lot of
-work to write patches which add system call wrappers.
+> @@ -214,13 +215,21 @@ static void pids_cancel_attach(struct cgroup_taskset *tset)
+> +static int pids_can_fork(struct task_struct *parent, struct task_struct *child,
+> +			 struct kernel_clone_args *args)
+>  {
+> +	struct css_set *new_cset = NULL;
+>  	struct cgroup_subsys_state *css;
+>  	struct pids_cgroup *pids;
+>  	int err;
+>  
+> -	css = task_css_check(current, pids_cgrp_id, true);
+> +	if (args)
+> +		new_cset = args->cset;
+> +
+> +	if (!new_cset)
+> +		css = task_css_check(current, pids_cgrp_id, true);
+> +	else
+> +		css = new_cset->subsys[pids_cgrp_id];
 
-Thanks,
-Florian
+Heh, this kinda sucks.  Would it be better to pass in the new css into
+the callbacks rather than clone args?
 
+> diff --git a/kernel/fork.c b/kernel/fork.c
+> index 2508a4f238a3..1604552f7cd3 100644
+> --- a/kernel/fork.c
+> +++ b/kernel/fork.c
+> @@ -2165,16 +2165,15 @@ static __latent_entropy struct task_struct *copy_process(
+>  	INIT_LIST_HEAD(&p->thread_group);
+>  	p->task_works = NULL;
+>  
+> -	cgroup_threadgroup_change_begin(current);
+>  	/*
+>  	 * Ensure that the cgroup subsystem policies allow the new process to be
+>  	 * forked. It should be noted the the new process's css_set can be changed
+>  	 * between here and cgroup_post_fork() if an organisation operation is in
+>  	 * progress.
+>  	 */
+> -	retval = cgroup_can_fork(p);
+> +	retval = cgroup_can_fork(current, p, args);
+>  	if (retval)
+> -		goto bad_fork_cgroup_threadgroup_change_end;
+> +		goto bad_fork_put_pidfd;
+>  
+>  	/*
+>  	 * From this point on we must avoid any synchronous user-space
+
+Maybe we can move these changes into a prep patch together with the
+get_from_file change so that this patch only contains the actual
+feature implementation?
+
+Other than that, looks good to me.  Once the above review points are
+addressed and Oleg is okay with it, I'll be happy to route this
+through the cgroup tree.
+
+Thanks so much for working on this.  This is really cool.
+
+-- 
+tejun
