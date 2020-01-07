@@ -2,144 +2,170 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AF9EC132CA0
-	for <lists+linux-api@lfdr.de>; Tue,  7 Jan 2020 18:10:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F28EE132DC5
+	for <lists+linux-api@lfdr.de>; Tue,  7 Jan 2020 18:59:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728364AbgAGRKR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 7 Jan 2020 12:10:17 -0500
-Received: from mx2.suse.de ([195.135.220.15]:48916 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728266AbgAGRKR (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 7 Jan 2020 12:10:17 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 9A1DDB15D;
-        Tue,  7 Jan 2020 17:10:14 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id 2528E1E0B47; Tue,  7 Jan 2020 18:10:14 +0100 (CET)
-Date:   Tue, 7 Jan 2020 18:10:14 +0100
-From:   Jan Kara <jack@suse.cz>
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     Jan Kara <jack@suse.cz>, Matthew Wilcox <willy@infradead.org>,
-        Mo Re Ra <more7.rev@gmail.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Wez Furlong <wez@fb.com>,
-        Matthew Bobrowski <mbobrowski@mbobrowski.org>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: File monitor problem
-Message-ID: <20200107171014.GI25547@quack2.suse.cz>
-References: <CAOQ4uxjda6iQ1D0QEVB18TcrttVpd7uac++WX0xAyLvxz0x7Ew@mail.gmail.com>
- <20191204190206.GA8331@bombadil.infradead.org>
- <CAOQ4uxiZWKCUKcpBt-bHOcnHoFAq+nghWmf94rJu=3CTc5VhRA@mail.gmail.com>
- <20191211100604.GL1551@quack2.suse.cz>
- <CAOQ4uxij13z0AazCm7AzrXOSz_eYBSFhs0mo6eZFW=57wOtwew@mail.gmail.com>
- <CAOQ4uxiKzom5uBNbBpZTNCT0XLOrcHmOwYy=3-V-Qcex1mhszw@mail.gmail.com>
- <CAOQ4uxgBcLPGxGVddjFsfWJvcNH4rT+GrN6-YhH8cz5K-q5z2g@mail.gmail.com>
- <20191223181956.GB17813@quack2.suse.cz>
- <CAOQ4uxhUGCLQyq76nqREETT8kBV9uNOKsckr+xmJdR9Xm=cW3Q@mail.gmail.com>
- <CAOQ4uxjwy4_jWitzHc9hSaBJwVZM68xxJTub50ZfrtgFSZFH8A@mail.gmail.com>
+        id S1728292AbgAGR7e (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 7 Jan 2020 12:59:34 -0500
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:46019 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728390AbgAGR7e (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 7 Jan 2020 12:59:34 -0500
+Received: by mail-pg1-f194.google.com with SMTP id b9so212681pgk.12
+        for <linux-api@vger.kernel.org>; Tue, 07 Jan 2020 09:59:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sargun.me; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=j+lDQbpVYj7+3hOzgYRBGgCRI9V3/aLmWBx0c90vo9Q=;
+        b=O9Qg9iekpvnSfzQ40a812uua0q0S8PQDjlBeyTrvT/JrHk2KWKerQ1kCQxvkFzOsz+
+         VFbNcxc8dA9rfiCwEtlIElhkMdhY725BfCrXTMwxvc6+ZqF++jzpXrvW5uTQhVmHjC3I
+         GF/k8nYeI7XIK7F4kD8DTk5xqdmZv0LFykEZM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=j+lDQbpVYj7+3hOzgYRBGgCRI9V3/aLmWBx0c90vo9Q=;
+        b=gu79/BoxGFA9ArCoI4HJBqLACdzmW2wWUnBBEPjijmQpPnv0tEsQEx+ys7XrVdn8i3
+         y5mmko6i+TsZHy1DH6AsnZ9tczYidDOOZ8LmQg8xqiB9Nao4PoNJvqeTiDDlOAqHM7SH
+         FepD3p42H2fS+NsGxwNd5tc1QnBeoGtaVk5V+1D/DQD3LVVX+oafL/rVvXZbiDWt8PTi
+         +m8vloQjX9EsxPPE6gAVuOb2C4HGwrBCBXil8ErBxx3r4CDr3caM1m9zbMn9EVFeK1vT
+         b3+Nw7V9pBUT1jw73ej9fD+K1X4vsWcF3jXqwt+UCbCj2sd8QZO7FMSV2Qb3xXuUaD+f
+         n6DA==
+X-Gm-Message-State: APjAAAUGiF2aB9xGpwiEUyHa992T+OnkotU2AFIlR9nuTzzt86mwNnwc
+        CGS9MN4hr8YH5j8ke6YC7B2QkA==
+X-Google-Smtp-Source: APXvYqzVECWqoOVyp/kktUAZ0xSYlbvmZNRqSIgSZUwpij0riNvR3b01eRsabah/C0cxwAL2MC9RHw==
+X-Received: by 2002:a62:a515:: with SMTP id v21mr463508pfm.128.1578419973186;
+        Tue, 07 Jan 2020 09:59:33 -0800 (PST)
+Received: from ubuntu.netflix.com (166.sub-174-194-208.myvzw.com. [174.194.208.166])
+        by smtp.gmail.com with ESMTPSA id g7sm210324pfq.33.2020.01.07.09.59.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jan 2020 09:59:32 -0800 (PST)
+From:   Sargun Dhillon <sargun@sargun.me>
+To:     linux-kernel@vger.kernel.org,
+        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Cc:     Sargun Dhillon <sargun@sargun.me>, tycho@tycho.ws,
+        jannh@google.com, cyphar@cyphar.com, christian.brauner@ubuntu.com,
+        oleg@redhat.com, luto@amacapital.net, viro@zeniv.linux.org.uk,
+        gpascutto@mozilla.com, ealvarez@mozilla.com, fweimer@redhat.com,
+        jld@mozilla.com, arnd@arndb.de
+Subject: [PATCH v9 0/4] Add pidfd_getfd syscall
+Date:   Tue,  7 Jan 2020 09:59:23 -0800
+Message-Id: <20200107175927.4558-1-sargun@sargun.me>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOQ4uxjwy4_jWitzHc9hSaBJwVZM68xxJTub50ZfrtgFSZFH8A@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue 24-12-19 05:49:42, Amir Goldstein wrote:
-> > > I can see the need for FAN_DIR_MODIFIED_WITH_NAME
-> > > (stupid name, I know) - generated when something changed with names in a
-> > > particular directory, reported with FID of the directory and the name
-> > > inside that directory involved with the change. Directory watching
-> > > application needs this to keep track of "names to check". Is the name
-> > > useful with any other type of event? _SELF events cannot even sensibly have
-> > > it so no discussion there as you mention below. Then we have OPEN, CLOSE,
-> > > ACCESS, ATTRIB events. Do we have any use for names with those?
-> > >
-> >
-> > The problem is that unlike dir fid, file fid cannot be reliably resolved
-> > to path, that is the reason that I implemented  FAN_WITH_NAME
-> > for events "possible on child" (see branch fanotify_name-wip).
+This patchset introduces a mechanism (pidfd_getfd syscall) to get file
+descriptors from other processes via pidfd. Although this can be achieved
+using SCM_RIGHTS, and parasitic code injection, this offers a more
+straightforward mechanism, with less overhead and complexity. The process
+under manipulation's fd still remains valid, and unmodified by the
+copy operation.
 
-Ok, but that seems to be a bit of an abuse, isn't it? Because with parent
-fid + name you may reconstruct the path but you won't be able to reliably
-identify the object where the operation happened? Even worse users can
-mistakenly think that parent fid + name identify the object but that is
-racy... This is exactly the kind of confusion I'd like to avoid with the
-new API.
+It introduces a flags field. The flags field is reserved a the moment,
+but the intent is to extend it with the following capabilities:
+ * Close the remote FD when copying it
+ * Drop the cgroup data if it's a fd pointing a socket when copying it
 
-OTOH I understand that e.g. a file monitor may want to monitor CLOSE_WRITE
-like you mention below just to record directory FID + name as something
-that needs resyncing. So I agree that names in events other than directory
-events are useful as well. And I also agree that for that usecase what you
-propose would be fine.
+The syscall numbers were chosen to be one greater than openat2.
 
-> > A filesystem monitor typically needs to be notified on name changes and on
-> > data/metadata modifications.
-> >
-> > So maybe add just two new event types:
-> > FAN_DIR_MODIFY
-> > FAN_CHILD_MODIFY
-> >
-> > Both those events are reported with name and allowed only with init flag
-> > FAN_REPORT_FID_NAME.
-> > User cannot filter FAN_DIR_MODIFY by part of create/delete/move.
-> > User cannot filter FAN_CHILD_MODIFY by part of attrib/modify/close_write.
-> 
-> Nah, that won't do. I now remember discussing this with out in-house monitor
-> team and they said they needed to filter out FAN_MODIFY because it was too
-> noisy and rely on FAN_CLOSE_WRITE. And other may want open/access as
-> well.
+Summary of history:
+This initially started as a ptrace command. It did not require the process
+to be stopped, and felt like kind of an awkward fit for ptrace. After that,
+it moved to an ioctl on the pidfd. Given the core functionality, it made
+sense to make it a syscall which did not require the process to be stopped.
 
-So for open/close/modify/read/attrib I don't see a need to obfuscate the
-event type. They are already abstract enough so I don't see how they could
-be easily misinterpretted. With directory events the potential for
-"optimizations" that are subtly wrong is IMHO much bigger.
+Previous versions:
+ V8: https://lore.kernel.org/lkml/20200103162928.5271-1-sargun@sargun.me/
+ V7: https://lore.kernel.org/lkml/20191226180227.GA29389@ircssh-2.c.rugged-nimbus-611.internal/
+ V6: https://lore.kernel.org/lkml/20191223210823.GA25083@ircssh-2.c.rugged-nimbus-611.internal/
+ V5: https://lore.kernel.org/lkml/20191220232746.GA20215@ircssh-2.c.rugged-nimbus-611.internal/
+ V4: https://lore.kernel.org/lkml/20191218235310.GA17259@ircssh-2.c.rugged-nimbus-611.internal/
+ V3: https://lore.kernel.org/lkml/20191217005842.GA14379@ircssh-2.c.rugged-nimbus-611.internal/
+ V2: https://lore.kernel.org/lkml/20191209070446.GA32336@ircssh-2.c.rugged-nimbus-611.internal/
+ RFC V1: https://lore.kernel.org/lkml/20191205234450.GA26369@ircssh-2.c.rugged-nimbus-611.internal/
 
-> There is another weird way to obfuscate the event type.
-> I am not sure if users will be less confused about it:
-> Each event type belongs to a group (i.e. self, dirent, poss_on_child)
-> User may set any event type in the mask (e.g. create|delete|open|close)
-> When getting an event from event group A (e.g. create), all event types
-> of that group will be reported (e.g. create|delete).
-> 
-> To put it another way:
-> #define FAN_DIR_MODIFY (FAN_CREATE | FAN_MOVE | FAN_DELETE)
-> 
-> For example in fanotify_group_event_mask():
-> if (event_with_name) {
->     if (marks_mask & test_mask & FAN_DIR_MODIFY)
->         test_mask |= marks_mask & FAN_DIR_MODIFY
-> ...
-> 
-> Did somebody say over-engineering? ;)
-> 
-> TBH, I don't see how we can do event type obfuscation
-> that is both usable and not confusing, because the concept is
-> confusing. I understand the reasoning behind it, but I don't think
-> that many users will.
-> 
-> I'm hoping that you can prove me wrong and find a way to simplify
-> the API while retaining fair usability.
+Changes since v8:
+ * Cleanup / comments on tests
+ * Split out implementation of syscall vs. arch wiring
 
-I was thinking about this. If I understand the problem right, depending on
-the usecase we may need with each event some subset of 'object fid',
-'directory fid', 'name in directory'. So what if we provided all these
-three things in each event? Events will get somewhat bloated but it may be
-bearable.
+Changes since v7:
+ * No longer put security_file_recv at the end, and align with other
+   usages of putting it at the end of the file_recv.
+ * Rewrite self-tests in kselftest harness.
+ * Minor refactoring
 
-With this information we could reliably reconstruct (some) path (we always
-have directory fid + name), we can reliably identify the object involved in
-the change (we always have object fid). I'd still prefer if we obfuscated
-directory events, without possibility of filtering based of
-CREATE/DELETE/MOVE (i.e., just one FAN_DIR_MODIFY event for this fanotify
-group) - actually I have hard time coming with a usecase where application
-would care about one type of event and not the other one. The other events
-remain as they are. What do you think?
+Changes since v6:
+ * Proper attribution of get_task_file helper
+ * Move all types for syscall to int to represent fd
 
-								Honza
+Changes since v5:
+ * Drop pidfd_getfd_options struct and replace with a flags field
+
+Changes since v4:
+ * Turn into a syscall
+ * Move to PTRACE_MODE_ATTACH_REALCREDS from PTRACE_MODE_READ_REALCREDS
+ * Remove the sample code. This will come in another patchset, as the
+   new self-tests cover all the functionality.
+
+Changes since v3:
+ * Add self-test
+ * Move to ioctl passing fd directly, versus args struct
+ * Shuffle around include files
+
+Changes since v2:
+ * Move to ioctl on pidfd instead of ptrace function
+ * Add security check before moving file descriptor
+
+Changes since the RFC v1:
+ * Introduce a new helper to fs/file.c to fetch a file descriptor from
+   any process. It largely uses the code suggested by Oleg, with a few
+   changes to fix locking
+ * It uses an extensible options struct to supply the FD, and option.
+ * I added a sample, using the code from the user-ptrace sample
+
+Sargun Dhillon (4):
+  vfs, fdtable: Add fget_task helper
+  pid: Implement pidfd_getfd syscall
+  arch: wire up pidfd_getfd syscall
+  test: Add test for pidfd getfd
+
+ arch/alpha/kernel/syscalls/syscall.tbl        |   1 +
+ arch/arm/tools/syscall.tbl                    |   1 +
+ arch/arm64/include/asm/unistd.h               |   2 +-
+ arch/arm64/include/asm/unistd32.h             |   2 +
+ arch/ia64/kernel/syscalls/syscall.tbl         |   1 +
+ arch/m68k/kernel/syscalls/syscall.tbl         |   1 +
+ arch/microblaze/kernel/syscalls/syscall.tbl   |   1 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl     |   1 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl     |   1 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl     |   1 +
+ arch/parisc/kernel/syscalls/syscall.tbl       |   1 +
+ arch/powerpc/kernel/syscalls/syscall.tbl      |   1 +
+ arch/s390/kernel/syscalls/syscall.tbl         |   1 +
+ arch/sh/kernel/syscalls/syscall.tbl           |   1 +
+ arch/sparc/kernel/syscalls/syscall.tbl        |   1 +
+ arch/x86/entry/syscalls/syscall_32.tbl        |   1 +
+ arch/x86/entry/syscalls/syscall_64.tbl        |   1 +
+ arch/xtensa/kernel/syscalls/syscall.tbl       |   1 +
+ fs/file.c                                     |  22 +-
+ include/linux/file.h                          |   2 +
+ include/linux/syscalls.h                      |   1 +
+ include/uapi/asm-generic/unistd.h             |   4 +-
+ kernel/pid.c                                  |  90 +++++++
+ tools/testing/selftests/pidfd/.gitignore      |   1 +
+ tools/testing/selftests/pidfd/Makefile        |   2 +-
+ tools/testing/selftests/pidfd/pidfd.h         |   9 +
+ .../selftests/pidfd/pidfd_getfd_test.c        | 249 ++++++++++++++++++
+ 27 files changed, 395 insertions(+), 5 deletions(-)
+ create mode 100644 tools/testing/selftests/pidfd/pidfd_getfd_test.c
+
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.20.1
+
