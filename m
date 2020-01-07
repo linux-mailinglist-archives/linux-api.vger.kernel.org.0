@@ -2,185 +2,144 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1666E132B1B
-	for <lists+linux-api@lfdr.de>; Tue,  7 Jan 2020 17:32:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AF9EC132CA0
+	for <lists+linux-api@lfdr.de>; Tue,  7 Jan 2020 18:10:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728211AbgAGQcJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 7 Jan 2020 11:32:09 -0500
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:39471 "EHLO
-        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728196AbgAGQcJ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 7 Jan 2020 11:32:09 -0500
-Received: by mail-qk1-f194.google.com with SMTP id c16so43166931qko.6;
-        Tue, 07 Jan 2020 08:32:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=EXsf8J2QF1KRZGOWtWEWKs3DqNsHO+r1D8ycqowGQlM=;
-        b=bpRgbibs09Jn+oJ4pkmpZxvOzcsIbPknZDJvb/ZdoOwcbUl9jZGlIt0DfiIaEjT6QW
-         coEf6/E77CcxXC0xbC5PJ9s8eHtuBzuJbpxgQsoSHTc8rM+L+nrZrWeNcln8h4wFFx7S
-         F4a8YQE+xax5Y0q9xJYPR86MejdYk2Zy/hUn4t9Ile5YLCPWnpWI87S1iyvUflERv8nt
-         RSGna/fvRYXretBqqkt2E/XeQj5hWAkmx50e05o3/Ub/lC/1VePZ5YZDLnzx6Hy8ogzl
-         nKXDeEDrCYfqM3MEU7bINrBeoab7FcgNIrE6VNqZF7MfYIQNuSrlyziWX2lNyXRJhZT+
-         wavw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=EXsf8J2QF1KRZGOWtWEWKs3DqNsHO+r1D8ycqowGQlM=;
-        b=fgY9PTJ1ViMpW79JU3Zl+k9YVx+UmXhtGzwo6AcD90gIpFHrFdIIzHwlvmuPeHmAbu
-         VC6gjxMwcfEer0wovAqtPrdOk+UwH1eOrl+CTgy32y4Ek69nwI8S8jLe1L1IGLKqixoR
-         OW5tmRSTQSL1Wk2wXpiGIv3d/Dcijob1VQlmu/B/u2FuWFNZkDz0uJgiP91TS6ATEYfu
-         kXXYH4c1geJe3V6+LWtj5WvelX1bArgIA4dITIqKy5v10lMnBRVmKppWvHjF6TnLVWQ3
-         se+E+LA3C/xFPE+IRXtbSPrd8aAXTxe6zowILuY/3NcR+RtCNx8n5uUCq4FB559aCLI6
-         B4Qw==
-X-Gm-Message-State: APjAAAUIEmYpBZmyVLZ4PvQcqo0B9+WsPlhCaNhegAS9nNXXBwsS4HL9
-        Kq81YwH60P6XKCf5lrXRc2E=
-X-Google-Smtp-Source: APXvYqwybjAi8YN4FFFB7QbiJ2hGqTqTi6cQVSEkO05FxJafjonWgsWKkRoLAyBRFjP2z0/ZU110Qw==
-X-Received: by 2002:a05:620a:1592:: with SMTP id d18mr174878qkk.80.1578414727473;
-        Tue, 07 Jan 2020 08:32:07 -0800 (PST)
-Received: from localhost ([2620:10d:c091:500::2:4305])
-        by smtp.gmail.com with ESMTPSA id l35sm121588qtl.12.2020.01.07.08.32.06
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 07 Jan 2020 08:32:06 -0800 (PST)
-Date:   Tue, 7 Jan 2020 08:32:04 -0800
-From:   Tejun Heo <tj@kernel.org>
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Ingo Molnar <mingo@redhat.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Li Zefan <lizefan@huawei.com>,
-        Peter Zijlstra <peterz@infradead.org>, cgroups@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] clone3: allow spawning processes into cgroups
-Message-ID: <20200107163204.GB2677547@devbig004.ftw2.facebook.com>
-References: <20191223061504.28716-1-christian.brauner@ubuntu.com>
- <20191223061504.28716-3-christian.brauner@ubuntu.com>
+        id S1728364AbgAGRKR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 7 Jan 2020 12:10:17 -0500
+Received: from mx2.suse.de ([195.135.220.15]:48916 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728266AbgAGRKR (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 7 Jan 2020 12:10:17 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 9A1DDB15D;
+        Tue,  7 Jan 2020 17:10:14 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id 2528E1E0B47; Tue,  7 Jan 2020 18:10:14 +0100 (CET)
+Date:   Tue, 7 Jan 2020 18:10:14 +0100
+From:   Jan Kara <jack@suse.cz>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Jan Kara <jack@suse.cz>, Matthew Wilcox <willy@infradead.org>,
+        Mo Re Ra <more7.rev@gmail.com>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Wez Furlong <wez@fb.com>,
+        Matthew Bobrowski <mbobrowski@mbobrowski.org>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: File monitor problem
+Message-ID: <20200107171014.GI25547@quack2.suse.cz>
+References: <CAOQ4uxjda6iQ1D0QEVB18TcrttVpd7uac++WX0xAyLvxz0x7Ew@mail.gmail.com>
+ <20191204190206.GA8331@bombadil.infradead.org>
+ <CAOQ4uxiZWKCUKcpBt-bHOcnHoFAq+nghWmf94rJu=3CTc5VhRA@mail.gmail.com>
+ <20191211100604.GL1551@quack2.suse.cz>
+ <CAOQ4uxij13z0AazCm7AzrXOSz_eYBSFhs0mo6eZFW=57wOtwew@mail.gmail.com>
+ <CAOQ4uxiKzom5uBNbBpZTNCT0XLOrcHmOwYy=3-V-Qcex1mhszw@mail.gmail.com>
+ <CAOQ4uxgBcLPGxGVddjFsfWJvcNH4rT+GrN6-YhH8cz5K-q5z2g@mail.gmail.com>
+ <20191223181956.GB17813@quack2.suse.cz>
+ <CAOQ4uxhUGCLQyq76nqREETT8kBV9uNOKsckr+xmJdR9Xm=cW3Q@mail.gmail.com>
+ <CAOQ4uxjwy4_jWitzHc9hSaBJwVZM68xxJTub50ZfrtgFSZFH8A@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191223061504.28716-3-christian.brauner@ubuntu.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <CAOQ4uxjwy4_jWitzHc9hSaBJwVZM68xxJTub50ZfrtgFSZFH8A@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Dec 23, 2019 at 07:15:03AM +0100, Christian Brauner wrote:
-> +static struct cgroup *cgroup_get_from_file(struct file *f)
-> +{
-> +	struct cgroup_subsys_state *css;
-> +	struct cgroup *cgrp;
-> +
-> +	css = css_tryget_online_from_dir(f->f_path.dentry, NULL);
-> +	if (IS_ERR(css))
-> +		return ERR_CAST(css);
-> +
-> +	cgrp = css->cgroup;
-> +	if (!cgroup_on_dfl(cgrp)) {
-> +		cgroup_put(cgrp);
-> +		return ERR_PTR(-EBADF);
-> +	}
-> +
-> +	return cgrp;
-> +}
+On Tue 24-12-19 05:49:42, Amir Goldstein wrote:
+> > > I can see the need for FAN_DIR_MODIFIED_WITH_NAME
+> > > (stupid name, I know) - generated when something changed with names in a
+> > > particular directory, reported with FID of the directory and the name
+> > > inside that directory involved with the change. Directory watching
+> > > application needs this to keep track of "names to check". Is the name
+> > > useful with any other type of event? _SELF events cannot even sensibly have
+> > > it so no discussion there as you mention below. Then we have OPEN, CLOSE,
+> > > ACCESS, ATTRIB events. Do we have any use for names with those?
+> > >
+> >
+> > The problem is that unlike dir fid, file fid cannot be reliably resolved
+> > to path, that is the reason that I implemented  FAN_WITH_NAME
+> > for events "possible on child" (see branch fanotify_name-wip).
 
-It's minor but can you put this refactoring into a separate patch?
+Ok, but that seems to be a bit of an abuse, isn't it? Because with parent
+fid + name you may reconstruct the path but you won't be able to reliably
+identify the object where the operation happened? Even worse users can
+mistakenly think that parent fid + name identify the object but that is
+racy... This is exactly the kind of confusion I'd like to avoid with the
+new API.
 
-...
-> +static int cgroup_css_set_fork(struct task_struct *parent,
-> +			       struct kernel_clone_args *kargs)
-> +	__acquires(&cgroup_mutex) __acquires(&cgroup_threadgroup_rwsem)
-> +{
-> +	int ret;
-> +	struct cgroup *dst_cgrp = NULL, *src_cgrp;
-> +	struct css_set *cset;
-> +	struct super_block *sb;
-> +	struct file *f;
-> +
-> +	if (kargs->flags & CLONE_INTO_CGROUP) {
-> +		ret = mutex_lock_killable(&cgroup_mutex);
-> +		if (ret)
-> +			return ret;
-> +	}
+OTOH I understand that e.g. a file monitor may want to monitor CLOSE_WRITE
+like you mention below just to record directory FID + name as something
+that needs resyncing. So I agree that names in events other than directory
+events are useful as well. And I also agree that for that usecase what you
+propose would be fine.
 
-I don't think this is necessary.  cgroup_mutex should always only be
-held for a finite enough time; otherwise, processes would get stuck on
-random cgroupfs accesses or even /proc/self/cgroup.
+> > A filesystem monitor typically needs to be notified on name changes and on
+> > data/metadata modifications.
+> >
+> > So maybe add just two new event types:
+> > FAN_DIR_MODIFY
+> > FAN_CHILD_MODIFY
+> >
+> > Both those events are reported with name and allowed only with init flag
+> > FAN_REPORT_FID_NAME.
+> > User cannot filter FAN_DIR_MODIFY by part of create/delete/move.
+> > User cannot filter FAN_CHILD_MODIFY by part of attrib/modify/close_write.
+> 
+> Nah, that won't do. I now remember discussing this with out in-house monitor
+> team and they said they needed to filter out FAN_MODIFY because it was too
+> noisy and rely on FAN_CLOSE_WRITE. And other may want open/access as
+> well.
 
-...
-> +	spin_lock_irq(&css_set_lock);
-> +	src_cgrp = task_cgroup_from_root(parent, &cgrp_dfl_root);
-> +	spin_unlock_irq(&css_set_lock);
+So for open/close/modify/read/attrib I don't see a need to obfuscate the
+event type. They are already abstract enough so I don't see how they could
+be easily misinterpretted. With directory events the potential for
+"optimizations" that are subtly wrong is IMHO much bigger.
 
-You can simply do cset->dfl_root here, which is consistent with other
-code paths which know that they want the dfl cgroup.
+> There is another weird way to obfuscate the event type.
+> I am not sure if users will be less confused about it:
+> Each event type belongs to a group (i.e. self, dirent, poss_on_child)
+> User may set any event type in the mask (e.g. create|delete|open|close)
+> When getting an event from event group A (e.g. create), all event types
+> of that group will be reported (e.g. create|delete).
+> 
+> To put it another way:
+> #define FAN_DIR_MODIFY (FAN_CREATE | FAN_MOVE | FAN_DELETE)
+> 
+> For example in fanotify_group_event_mask():
+> if (event_with_name) {
+>     if (marks_mask & test_mask & FAN_DIR_MODIFY)
+>         test_mask |= marks_mask & FAN_DIR_MODIFY
+> ...
+> 
+> Did somebody say over-engineering? ;)
+> 
+> TBH, I don't see how we can do event type obfuscation
+> that is both usable and not confusing, because the concept is
+> confusing. I understand the reasoning behind it, but I don't think
+> that many users will.
+> 
+> I'm hoping that you can prove me wrong and find a way to simplify
+> the API while retaining fair usability.
 
-> +	ret = cgroup_attach_permissions(src_cgrp, dst_cgrp, sb,
-> +					!!(kargs->flags & CLONE_THREAD));
-> +	if (ret)
-> +		goto err;
+I was thinking about this. If I understand the problem right, depending on
+the usecase we may need with each event some subset of 'object fid',
+'directory fid', 'name in directory'. So what if we provided all these
+three things in each event? Events will get somewhat bloated but it may be
+bearable.
 
-So, the existing perm check depends on the fact that for the write
-operation to have started, it already should have passed write perm
-check on the destination cgroup.procs file.  We're missing that here,
-so we prolly need to check that explicitly.
+With this information we could reliably reconstruct (some) path (we always
+have directory fid + name), we can reliably identify the object involved in
+the change (we always have object fid). I'd still prefer if we obfuscated
+directory events, without possibility of filtering based of
+CREATE/DELETE/MOVE (i.e., just one FAN_DIR_MODIFY event for this fanotify
+group) - actually I have hard time coming with a usecase where application
+would care about one type of event and not the other one. The other events
+remain as they are. What do you think?
 
-> @@ -214,13 +215,21 @@ static void pids_cancel_attach(struct cgroup_taskset *tset)
-> +static int pids_can_fork(struct task_struct *parent, struct task_struct *child,
-> +			 struct kernel_clone_args *args)
->  {
-> +	struct css_set *new_cset = NULL;
->  	struct cgroup_subsys_state *css;
->  	struct pids_cgroup *pids;
->  	int err;
->  
-> -	css = task_css_check(current, pids_cgrp_id, true);
-> +	if (args)
-> +		new_cset = args->cset;
-> +
-> +	if (!new_cset)
-> +		css = task_css_check(current, pids_cgrp_id, true);
-> +	else
-> +		css = new_cset->subsys[pids_cgrp_id];
-
-Heh, this kinda sucks.  Would it be better to pass in the new css into
-the callbacks rather than clone args?
-
-> diff --git a/kernel/fork.c b/kernel/fork.c
-> index 2508a4f238a3..1604552f7cd3 100644
-> --- a/kernel/fork.c
-> +++ b/kernel/fork.c
-> @@ -2165,16 +2165,15 @@ static __latent_entropy struct task_struct *copy_process(
->  	INIT_LIST_HEAD(&p->thread_group);
->  	p->task_works = NULL;
->  
-> -	cgroup_threadgroup_change_begin(current);
->  	/*
->  	 * Ensure that the cgroup subsystem policies allow the new process to be
->  	 * forked. It should be noted the the new process's css_set can be changed
->  	 * between here and cgroup_post_fork() if an organisation operation is in
->  	 * progress.
->  	 */
-> -	retval = cgroup_can_fork(p);
-> +	retval = cgroup_can_fork(current, p, args);
->  	if (retval)
-> -		goto bad_fork_cgroup_threadgroup_change_end;
-> +		goto bad_fork_put_pidfd;
->  
->  	/*
->  	 * From this point on we must avoid any synchronous user-space
-
-Maybe we can move these changes into a prep patch together with the
-get_from_file change so that this patch only contains the actual
-feature implementation?
-
-Other than that, looks good to me.  Once the above review points are
-addressed and Oleg is okay with it, I'll be happy to route this
-through the cgroup tree.
-
-Thanks so much for working on this.  This is really cool.
-
+								Honza
 -- 
-tejun
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
