@@ -2,384 +2,191 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CFF5132DD2
-	for <lists+linux-api@lfdr.de>; Tue,  7 Jan 2020 19:00:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FA40132EC2
+	for <lists+linux-api@lfdr.de>; Tue,  7 Jan 2020 19:56:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728599AbgAGR7o (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 7 Jan 2020 12:59:44 -0500
-Received: from mail-pj1-f68.google.com ([209.85.216.68]:54819 "EHLO
-        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728596AbgAGR7o (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 7 Jan 2020 12:59:44 -0500
-Received: by mail-pj1-f68.google.com with SMTP id kx11so107916pjb.4
-        for <linux-api@vger.kernel.org>; Tue, 07 Jan 2020 09:59:44 -0800 (PST)
+        id S1728684AbgAGS4e (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 7 Jan 2020 13:56:34 -0500
+Received: from mail-io1-f48.google.com ([209.85.166.48]:44442 "EHLO
+        mail-io1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728358AbgAGS4e (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 7 Jan 2020 13:56:34 -0500
+Received: by mail-io1-f48.google.com with SMTP id b10so392795iof.11;
+        Tue, 07 Jan 2020 10:56:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sargun.me; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=6LG36Q0SWhG/CvbxDWW6ihwZbk0PyIKiASNL1qN4jbs=;
-        b=i/0Zn/GUy4XYg4TU3s98lgrvvX6bNyDP9vudbmIx+8iTgz4X+6uXf7MtEXR+mC7YHl
-         cFsxyRTyx7yzQPcgo47n0f4D5VENY/tCRYikuP5yv4gWS0q3zepcZvUUg2CEqzbETsrN
-         xLppc/bO4KoFDvdBrMjsixXGJLmBcn1wSVAxQ=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=eOXk6Pcj/h1claA+ZposabxkWW+4bg9OU4mj2rRp8bM=;
+        b=rFTmT4AHZMZ6vYQWAEDELCsFxBP/Fer9sy0dt8jUftWNc49g7SF7PnWXK+ehMlTKFS
+         u0M/KnmY1Jps3AXX8UGH93M8FX5ZW4q1nKDKRuE9zS9XUmwPARoJxNhBntVx3RnjJRFQ
+         gTm51uPQ7wqUrAa8cvSvAHAMc0jqKMt+X8CfqlmOZjA/mCoJrcbwhKwUJ5NLDUZbt58M
+         EXBy0pDDGY9LutQw5iWbHFN/x9YwCYFMAFqJ5BKJrF/NDVcnjudzb8DpWj71s5g+KZC4
+         dr0mphs/xzX3R7he7iSu67utF1zs1J/TQgg+SVvgUq9tde6yC6NRcEBMiEWqjunnmJLH
+         HRtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=6LG36Q0SWhG/CvbxDWW6ihwZbk0PyIKiASNL1qN4jbs=;
-        b=KZ8mePgtJbQLGhM6WSZ7AnrhM+9ZEgt2tnAZ/jKSrfTEMqZqCrXSyhIfbi3ZLShnL/
-         32F4SfGbIRYDR/2l9JFRHeNOwM9PrrfAXWG5qALsfvP/8FxkUKa4OGnIcwLdBP2Omv9r
-         9ii1ITNJT+4AEowHfcAaUZwkn+/vxi1ggPGvRwBEQE7CGN0O4WUDuvPNncH03moc9i4g
-         Yr2tgZupzlBMwS0SMS96K48DWxh28oyeSnSYSG5nsFzVbY0CrifgGNeTAovJNBL/3H20
-         feZMFHEivAYYJDiruZh5FHgGA+4ieamYzd2yqmFfEhlid2w5inXYDmio5ft7F/Ln5D3p
-         M2hg==
-X-Gm-Message-State: APjAAAUECtUxsfFci3dktYthLI4k5V2FjMWsTS0MerJlk4TP42KZPCI2
-        F4B9mH2Jewe07EahxGZ+SEKfqA==
-X-Google-Smtp-Source: APXvYqysf2AXME1Qm/O7vPO/Ou6BnNuDgIMkCsdqcKGejU8Aw+TCdQtJkoA5QpSA61it64agmoHf2A==
-X-Received: by 2002:a17:90a:9dc3:: with SMTP id x3mr1019412pjv.45.1578419983503;
-        Tue, 07 Jan 2020 09:59:43 -0800 (PST)
-Received: from ubuntu.netflix.com (166.sub-174-194-208.myvzw.com. [174.194.208.166])
-        by smtp.gmail.com with ESMTPSA id g7sm210324pfq.33.2020.01.07.09.59.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jan 2020 09:59:42 -0800 (PST)
-From:   Sargun Dhillon <sargun@sargun.me>
-To:     linux-kernel@vger.kernel.org,
-        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Cc:     Sargun Dhillon <sargun@sargun.me>, tycho@tycho.ws,
-        jannh@google.com, cyphar@cyphar.com, christian.brauner@ubuntu.com,
-        oleg@redhat.com, luto@amacapital.net, viro@zeniv.linux.org.uk,
-        gpascutto@mozilla.com, ealvarez@mozilla.com, fweimer@redhat.com,
-        jld@mozilla.com, arnd@arndb.de
-Subject: [PATCH v9 4/4] test: Add test for pidfd getfd
-Date:   Tue,  7 Jan 2020 09:59:27 -0800
-Message-Id: <20200107175927.4558-5-sargun@sargun.me>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200107175927.4558-1-sargun@sargun.me>
-References: <20200107175927.4558-1-sargun@sargun.me>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=eOXk6Pcj/h1claA+ZposabxkWW+4bg9OU4mj2rRp8bM=;
+        b=TR4zJOqtJk7EfXL00vG8cEkQW/hZAS2nLPw7NvivVuGmoS0Pz0E1K6jGaYuTg/HinA
+         0+QLEjXDZvWXepXs/q5sRHIcAh8ENyGPzvqxCoycD3HszefqtTDDSzAuRvURrNsuMCt0
+         BJicnqSaOhH6Ttoj4VFzS4p4CXpnCxW5sMCY3Jw4gbGgFAKPSRoqbZvtq771NBP6II2Z
+         iGE6ohngxxOIAzoy5mkQ/Umi6GEkbRivhsqHT+WkmyFDc/4GMpC55AJHMIao4bs0+pAK
+         jNMuzzZ62NvCOkQNjCNcj9GgLqovb2sbX2aPYfMonVUaC2/HuCtbOgiBDDkbzXnJHxqg
+         WITQ==
+X-Gm-Message-State: APjAAAW6XhqpXmTPH8u4Jdq+OxPewCE24hpp7wVulBu7lXtEDE7TxeEU
+        NggAL/JzCYqfi9Oe/H4fTEHbyzgy/qoCL2cNSQI=
+X-Google-Smtp-Source: APXvYqyXBOpNzY9CZXZRx6OX2pdUy3aFWqumZv93Vq61mHpBbgzOkBIIKQI/V/vvEeDZlR83xK8CyXTBmZBtqf0yFvE=
+X-Received: by 2002:a6b:5904:: with SMTP id n4mr328665iob.9.1578423392252;
+ Tue, 07 Jan 2020 10:56:32 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAOQ4uxjda6iQ1D0QEVB18TcrttVpd7uac++WX0xAyLvxz0x7Ew@mail.gmail.com>
+ <20191204190206.GA8331@bombadil.infradead.org> <CAOQ4uxiZWKCUKcpBt-bHOcnHoFAq+nghWmf94rJu=3CTc5VhRA@mail.gmail.com>
+ <20191211100604.GL1551@quack2.suse.cz> <CAOQ4uxij13z0AazCm7AzrXOSz_eYBSFhs0mo6eZFW=57wOtwew@mail.gmail.com>
+ <CAOQ4uxiKzom5uBNbBpZTNCT0XLOrcHmOwYy=3-V-Qcex1mhszw@mail.gmail.com>
+ <CAOQ4uxgBcLPGxGVddjFsfWJvcNH4rT+GrN6-YhH8cz5K-q5z2g@mail.gmail.com>
+ <20191223181956.GB17813@quack2.suse.cz> <CAOQ4uxhUGCLQyq76nqREETT8kBV9uNOKsckr+xmJdR9Xm=cW3Q@mail.gmail.com>
+ <CAOQ4uxjwy4_jWitzHc9hSaBJwVZM68xxJTub50ZfrtgFSZFH8A@mail.gmail.com> <20200107171014.GI25547@quack2.suse.cz>
+In-Reply-To: <20200107171014.GI25547@quack2.suse.cz>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Tue, 7 Jan 2020 20:56:20 +0200
+Message-ID: <CAOQ4uxjx_n3f44yu9_2dGxtBGy3WssG0xfZykwjQ+n=Wcii2-w@mail.gmail.com>
+Subject: Re: File monitor problem
+To:     Jan Kara <jack@suse.cz>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Mo Re Ra <more7.rev@gmail.com>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Wez Furlong <wez@fb.com>,
+        Matthew Bobrowski <mbobrowski@mbobrowski.org>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-The following tests:
-  * Fetch FD, and then compare via kcmp
-  * Make sure getfd can be blocked by blocking ptrace_may_access
-  * Making sure fetching bad FDs fails
-  * Make sure trying to set flags to non-zero results in an EINVAL
+On Tue, Jan 7, 2020 at 7:10 PM Jan Kara <jack@suse.cz> wrote:
+>
+> On Tue 24-12-19 05:49:42, Amir Goldstein wrote:
+> > > > I can see the need for FAN_DIR_MODIFIED_WITH_NAME
+> > > > (stupid name, I know) - generated when something changed with names in a
+> > > > particular directory, reported with FID of the directory and the name
+> > > > inside that directory involved with the change. Directory watching
+> > > > application needs this to keep track of "names to check". Is the name
+> > > > useful with any other type of event? _SELF events cannot even sensibly have
+> > > > it so no discussion there as you mention below. Then we have OPEN, CLOSE,
+> > > > ACCESS, ATTRIB events. Do we have any use for names with those?
+> > > >
+> > >
+> > > The problem is that unlike dir fid, file fid cannot be reliably resolved
+> > > to path, that is the reason that I implemented  FAN_WITH_NAME
+> > > for events "possible on child" (see branch fanotify_name-wip).
+>
+> Ok, but that seems to be a bit of an abuse, isn't it? Because with parent
+> fid + name you may reconstruct the path but you won't be able to reliably
+> identify the object where the operation happened? Even worse users can
+> mistakenly think that parent fid + name identify the object but that is
+> racy... This is exactly the kind of confusion I'd like to avoid with the
+> new API.
+>
+> OTOH I understand that e.g. a file monitor may want to monitor CLOSE_WRITE
+> like you mention below just to record directory FID + name as something
+> that needs resyncing. So I agree that names in events other than directory
+> events are useful as well. And I also agree that for that usecase what you
+> propose would be fine.
+>
+> > > A filesystem monitor typically needs to be notified on name changes and on
+> > > data/metadata modifications.
+> > >
+> > > So maybe add just two new event types:
+> > > FAN_DIR_MODIFY
+> > > FAN_CHILD_MODIFY
+> > >
+> > > Both those events are reported with name and allowed only with init flag
+> > > FAN_REPORT_FID_NAME.
+> > > User cannot filter FAN_DIR_MODIFY by part of create/delete/move.
+> > > User cannot filter FAN_CHILD_MODIFY by part of attrib/modify/close_write.
+> >
+> > Nah, that won't do. I now remember discussing this with out in-house monitor
+> > team and they said they needed to filter out FAN_MODIFY because it was too
+> > noisy and rely on FAN_CLOSE_WRITE. And other may want open/access as
+> > well.
+>
+> So for open/close/modify/read/attrib I don't see a need to obfuscate the
+> event type. They are already abstract enough so I don't see how they could
+> be easily misinterpretted. With directory events the potential for
+> "optimizations" that are subtly wrong is IMHO much bigger.
+>
 
-Signed-off-by: Sargun Dhillon <sargun@sargun.me>
----
- tools/testing/selftests/pidfd/.gitignore      |   1 +
- tools/testing/selftests/pidfd/Makefile        |   2 +-
- tools/testing/selftests/pidfd/pidfd.h         |   9 +
- .../selftests/pidfd/pidfd_getfd_test.c        | 249 ++++++++++++++++++
- 4 files changed, 260 insertions(+), 1 deletion(-)
- create mode 100644 tools/testing/selftests/pidfd/pidfd_getfd_test.c
+OK, that simplifies things quite a bit.
 
-diff --git a/tools/testing/selftests/pidfd/.gitignore b/tools/testing/selftests/pidfd/.gitignore
-index 8d069490e17b..3a779c084d96 100644
---- a/tools/testing/selftests/pidfd/.gitignore
-+++ b/tools/testing/selftests/pidfd/.gitignore
-@@ -2,3 +2,4 @@ pidfd_open_test
- pidfd_poll_test
- pidfd_test
- pidfd_wait
-+pidfd_getfd_test
-diff --git a/tools/testing/selftests/pidfd/Makefile b/tools/testing/selftests/pidfd/Makefile
-index 43db1b98e845..75a545861375 100644
---- a/tools/testing/selftests/pidfd/Makefile
-+++ b/tools/testing/selftests/pidfd/Makefile
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
- CFLAGS += -g -I../../../../usr/include/ -pthread
- 
--TEST_GEN_PROGS := pidfd_test pidfd_fdinfo_test pidfd_open_test pidfd_poll_test pidfd_wait
-+TEST_GEN_PROGS := pidfd_test pidfd_fdinfo_test pidfd_open_test pidfd_poll_test pidfd_wait pidfd_getfd_test
- 
- include ../lib.mk
- 
-diff --git a/tools/testing/selftests/pidfd/pidfd.h b/tools/testing/selftests/pidfd/pidfd.h
-index c6bc68329f4b..d482515604db 100644
---- a/tools/testing/selftests/pidfd/pidfd.h
-+++ b/tools/testing/selftests/pidfd/pidfd.h
-@@ -36,6 +36,10 @@
- #define __NR_clone3 -1
- #endif
- 
-+#ifndef __NR_pidfd_getfd
-+#define __NR_pidfd_getfd -1
-+#endif
-+
- /*
-  * The kernel reserves 300 pids via RESERVED_PIDS in kernel/pid.c
-  * That means, when it wraps around any pid < 300 will be skipped.
-@@ -84,4 +88,9 @@ static inline int sys_pidfd_send_signal(int pidfd, int sig, siginfo_t *info,
- 	return syscall(__NR_pidfd_send_signal, pidfd, sig, info, flags);
- }
- 
-+static inline int sys_pidfd_getfd(int pidfd, int fd, int flags)
-+{
-+	return syscall(__NR_pidfd_getfd, pidfd, fd, flags);
-+}
-+
- #endif /* __PIDFD_H */
-diff --git a/tools/testing/selftests/pidfd/pidfd_getfd_test.c b/tools/testing/selftests/pidfd/pidfd_getfd_test.c
-new file mode 100644
-index 000000000000..401a7c1d0312
---- /dev/null
-+++ b/tools/testing/selftests/pidfd/pidfd_getfd_test.c
-@@ -0,0 +1,249 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#define _GNU_SOURCE
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <limits.h>
-+#include <linux/types.h>
-+#include <sched.h>
-+#include <signal.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <syscall.h>
-+#include <sys/prctl.h>
-+#include <sys/wait.h>
-+#include <unistd.h>
-+#include <sys/socket.h>
-+#include <linux/kcmp.h>
-+
-+#include "pidfd.h"
-+#include "../kselftest.h"
-+#include "../kselftest_harness.h"
-+
-+/*
-+ * UNKNOWN_FD is an fd number that should never exist in the child, as it is
-+ * used to check the negative case.
-+ */
-+#define UNKNOWN_FD 111
-+#define UID_NOBODY 65535
-+
-+static int sys_kcmp(pid_t pid1, pid_t pid2, int type, unsigned long idx1,
-+		    unsigned long idx2)
-+{
-+	return syscall(__NR_kcmp, pid1, pid2, type, idx1, idx2);
-+}
-+
-+static int sys_memfd_create(const char *name, unsigned int flags)
-+{
-+	return syscall(__NR_memfd_create, name, flags);
-+}
-+
-+static int __child(int sk, int memfd)
-+{
-+	int ret;
-+	char buf;
-+
-+	/*
-+	 * Ensure we don't leave around a bunch of orphaned children if our
-+	 * tests fail.
-+	 */
-+	ret = prctl(PR_SET_PDEATHSIG, SIGKILL);
-+	if (ret) {
-+		fprintf(stderr, "%s: Child could not set DEATHSIG\n",
-+			strerror(errno));
-+		return -1;
-+	}
-+
-+	ret = send(sk, &memfd, sizeof(memfd), 0);
-+	if (ret != sizeof(memfd)) {
-+		fprintf(stderr, "%s: Child failed to send fd number\n",
-+			strerror(errno));
-+		return -1;
-+	}
-+
-+	/*
-+	 * The fixture setup is completed at this point. The tests will run.
-+	 *
-+	 * This blocking recv enables the parent to message the child.
-+	 * Either we will read 'P' off of the sk, indicating that we need
-+	 * to disable ptrace, or we will read a 0, indicating that the other
-+	 * side has closed the sk. This occurs during fixture teardown time,
-+	 * indicating that the child should exit.
-+	 */
-+	while ((ret = recv(sk, &buf, sizeof(buf), 0)) > 0) {
-+		if (buf == 'P') {
-+			ret = prctl(PR_SET_DUMPABLE, 0);
-+			if (ret < 0) {
-+				fprintf(stderr,
-+					"%s: Child failed to disable ptrace\n",
-+					strerror(errno));
-+				return -1;
-+			}
-+		} else {
-+			fprintf(stderr, "Child received unknown command %c\n",
-+				buf);
-+			return -1;
-+		}
-+		ret = send(sk, &buf, sizeof(buf), 0);
-+		if (ret != 1) {
-+			fprintf(stderr, "%s: Child failed to ack\n",
-+				strerror(errno));
-+			return -1;
-+		}
-+	}
-+	if (ret < 0) {
-+		fprintf(stderr, "%s: Child failed to read from socket\n",
-+			strerror(errno));
-+		return -1;
-+	}
-+
-+	return 0;
-+}
-+
-+static int child(int sk)
-+{
-+	int memfd, ret;
-+
-+	memfd = sys_memfd_create("test", 0);
-+	if (memfd < 0) {
-+		fprintf(stderr, "%s: Child could not create memfd\n",
-+			strerror(errno));
-+		ret = -1;
-+	} else {
-+		ret = __child(sk, memfd);
-+		close(memfd);
-+	}
-+
-+	close(sk);
-+	return ret;
-+}
-+
-+FIXTURE(child)
-+{
-+	/*
-+	 * remote_fd is the number of the FD which we are trying to retrieve
-+	 * from the child.
-+	 */
-+	int remote_fd;
-+	/* pid points to the child which we are fetching FDs from */
-+	pid_t pid;
-+	/* pidfd is the pidfd of the child */
-+	int pidfd;
-+	/*
-+	 * sk is our side of the socketpair used to communicate with the child.
-+	 * When it is closed, the child will exit.
-+	 */
-+	int sk;
-+};
-+
-+FIXTURE_SETUP(child)
-+{
-+	int ret, sk_pair[2];
-+
-+	ASSERT_EQ(0, socketpair(PF_LOCAL, SOCK_SEQPACKET, 0, sk_pair)) {
-+		TH_LOG("%s: failed to create socketpair", strerror(errno));
-+	}
-+	self->sk = sk_pair[0];
-+
-+	self->pid = fork();
-+	ASSERT_GE(self->pid, 0);
-+
-+	if (self->pid == 0) {
-+		close(sk_pair[0]);
-+		if (child(sk_pair[1]))
-+			_exit(EXIT_FAILURE);
-+		_exit(EXIT_SUCCESS);
-+	}
-+
-+	close(sk_pair[1]);
-+
-+	self->pidfd = sys_pidfd_open(self->pid, 0);
-+	ASSERT_GE(self->pidfd, 0);
-+
-+	/*
-+	 * Wait for the child to complete setup. It'll send the remote memfd's
-+	 * number when ready.
-+	 */
-+	ret = recv(sk_pair[0], &self->remote_fd, sizeof(self->remote_fd), 0);
-+	ASSERT_EQ(sizeof(self->remote_fd), ret);
-+}
-+
-+FIXTURE_TEARDOWN(child)
-+{
-+	EXPECT_EQ(0, close(self->pidfd));
-+	EXPECT_EQ(0, close(self->sk));
-+
-+	EXPECT_EQ(0, wait_for_pid(self->pid));
-+}
-+
-+TEST_F(child, disable_ptrace)
-+{
-+	int uid, fd;
-+	char c;
-+
-+	/*
-+	 * Turn into nobody if we're root, to avoid CAP_SYS_PTRACE
-+	 *
-+	 * The tests should run in their own process, so even this test fails,
-+	 * it shouldn't result in subsequent tests failing.
-+	 */
-+	uid = getuid();
-+	if (uid == 0)
-+		ASSERT_EQ(0, seteuid(UID_NOBODY));
-+
-+	ASSERT_EQ(1, send(self->sk, "P", 1, 0));
-+	ASSERT_EQ(1, recv(self->sk, &c, 1, 0));
-+
-+	fd = sys_pidfd_getfd(self->pidfd, self->remote_fd, 0);
-+	EXPECT_EQ(-1, fd);
-+	EXPECT_EQ(EPERM, errno);
-+
-+	if (uid == 0)
-+		ASSERT_EQ(0, seteuid(0));
-+}
-+
-+TEST_F(child, fetch_fd)
-+{
-+	int fd, ret;
-+
-+	fd = sys_pidfd_getfd(self->pidfd, self->remote_fd, 0);
-+	ASSERT_GE(fd, 0);
-+
-+	EXPECT_EQ(0, sys_kcmp(getpid(), self->pid, KCMP_FILE, fd, self->remote_fd));
-+
-+	ret = fcntl(fd, F_GETFD);
-+	ASSERT_GE(ret, 0);
-+	EXPECT_GE(ret & FD_CLOEXEC, 0);
-+
-+	close(fd);
-+}
-+
-+TEST_F(child, test_unknown_fd)
-+{
-+	int fd;
-+
-+	fd = sys_pidfd_getfd(self->pidfd, UNKNOWN_FD, 0);
-+	EXPECT_EQ(-1, fd) {
-+		TH_LOG("getfd succeeded while fetching unknown fd");
-+	};
-+	EXPECT_EQ(EBADF, errno) {
-+		TH_LOG("%s: getfd did not get EBADF", strerror(errno));
-+	}
-+}
-+
-+TEST(flags_set)
-+{
-+	ASSERT_EQ(-1, sys_pidfd_getfd(0, 0, 1));
-+	EXPECT_EQ(errno, EINVAL);
-+}
-+
-+#if __NR_pidfd_getfd == -1
-+int main(void)
-+{
-+	fprintf(stderr, "__NR_pidfd_getfd undefined. The pidfd_getfd syscall is unavailable. Test aborting\n");
-+	return KSFT_SKIP;
-+}
-+#else
-+TEST_HARNESS_MAIN
-+#endif
--- 
-2.20.1
+> > There is another weird way to obfuscate the event type.
+> > I am not sure if users will be less confused about it:
+> > Each event type belongs to a group (i.e. self, dirent, poss_on_child)
+> > User may set any event type in the mask (e.g. create|delete|open|close)
+> > When getting an event from event group A (e.g. create), all event types
+> > of that group will be reported (e.g. create|delete).
+> >
+> > To put it another way:
+> > #define FAN_DIR_MODIFY (FAN_CREATE | FAN_MOVE | FAN_DELETE)
+> >
+> > For example in fanotify_group_event_mask():
+> > if (event_with_name) {
+> >     if (marks_mask & test_mask & FAN_DIR_MODIFY)
+> >         test_mask |= marks_mask & FAN_DIR_MODIFY
+> > ...
+> >
+> > Did somebody say over-engineering? ;)
+> >
+> > TBH, I don't see how we can do event type obfuscation
+> > that is both usable and not confusing, because the concept is
+> > confusing. I understand the reasoning behind it, but I don't think
+> > that many users will.
+> >
+> > I'm hoping that you can prove me wrong and find a way to simplify
+> > the API while retaining fair usability.
+>
+> I was thinking about this. If I understand the problem right, depending on
+> the usecase we may need with each event some subset of 'object fid',
+> 'directory fid', 'name in directory'. So what if we provided all these
+> three things in each event? Events will get somewhat bloated but it may be
+> bearable.
+>
 
+I agree.
+
+What I like about the fact that users don't need to choose between
+'parent fid' and 'object fid' is that it makes some hard questions go away:
+1. How are "self" events reported? simple - just with 'object id'
+2. How are events on disconnected dentries reported? simple - just
+with 'object id'
+3. How are events on the root of the watch reported? same answer
+
+Did you write 'directory fid' as opposed to 'parent fid' for a reason?
+Was it your intention to imply that events on directories (e.g.
+open/close/attrib) are
+never reported with 'parent fid' , 'name in directory'?
+
+I see no functional problem with making that distinction between directory and
+non-directory, but I have a feeling that 'parent fid', 'name in
+directory', 'object id',
+regardless of dir/non-dir is going to be easier to document and less confusing
+for users to understand, so this is my preference.
+
+> With this information we could reliably reconstruct (some) path (we always
+> have directory fid + name), we can reliably identify the object involved in
+> the change (we always have object fid). I'd still prefer if we obfuscated
+> directory events, without possibility of filtering based of
+> CREATE/DELETE/MOVE (i.e., just one FAN_DIR_MODIFY event for this fanotify
+> group) - actually I have hard time coming with a usecase where application
+> would care about one type of event and not the other one. The other events
+> remain as they are. What do you think?
+
+That sounds like a plan.
+I have no problem with the FAN_DIR_MODIFY obfuscation.
+
+Will re-work the patches and demo.
+
+Thanks,
+Amir.
