@@ -2,102 +2,128 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DDCD4134700
-	for <lists+linux-api@lfdr.de>; Wed,  8 Jan 2020 17:02:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B4041348DA
+	for <lists+linux-api@lfdr.de>; Wed,  8 Jan 2020 18:09:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727275AbgAHQBJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 8 Jan 2020 11:01:09 -0500
-Received: from mx2.suse.de ([195.135.220.15]:38584 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727152AbgAHQBJ (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 8 Jan 2020 11:01:09 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 145C8AEAF;
-        Wed,  8 Jan 2020 16:01:07 +0000 (UTC)
-Date:   Wed, 8 Jan 2020 17:01:02 +0100
-From:   Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Tejun Heo <tj@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Li Zefan <lizefan@huawei.com>,
-        Peter Zijlstra <peterz@infradead.org>, cgroups@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] clone3: allow spawning processes into cgroups
-Message-ID: <20200108160102.GA17415@blackbody.suse.cz>
-References: <20191223061504.28716-1-christian.brauner@ubuntu.com>
- <20191223061504.28716-3-christian.brauner@ubuntu.com>
+        id S1729640AbgAHRJV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 8 Jan 2020 12:09:21 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:36501 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726401AbgAHRJV (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 8 Jan 2020 12:09:21 -0500
+Received: from host.242.234.23.62.rev.coltfrance.com ([62.23.234.242] helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1ipEnM-00052V-PD; Wed, 08 Jan 2020 17:07:00 +0000
+Date:   Wed, 8 Jan 2020 18:07:04 +0100
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     James Bottomley <James.Bottomley@HansenPartnership.com>
+Cc:     David Howells <dhowells@redhat.com>,
+        Al Viro <viro@ZenIV.linux.org.uk>,
+        linux-fsdevel@vger.kernel.org,
+        Christian Brauner <christian@brauner.io>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: [PATCH v2 0/6] introduce configfd as generalisation of fsconfig
+Message-ID: <20200108170703.zhcuohzdp22y5yma@wittgenstein>
+References: <20200104201432.27320-1-James.Bottomley@HansenPartnership.com>
+ <20200105162311.sufgft6kthetsz7q@wittgenstein>
+ <1578247328.3310.36.camel@HansenPartnership.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="G4iJoqBmSsgzjUCe"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20191223061504.28716-3-christian.brauner@ubuntu.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <1578247328.3310.36.camel@HansenPartnership.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+[extending the Cc a bit]
 
---G4iJoqBmSsgzjUCe
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Sun, Jan 05, 2020 at 10:02:08AM -0800, James Bottomley wrote:
+> On Sun, 2020-01-05 at 17:23 +0100, Christian Brauner wrote:
+> > On Sat, Jan 04, 2020 at 12:14:26PM -0800, James Bottomley wrote:
+> > > fsconfig is a very powerful configuration mechanism except that it
+> > > only works for filesystems with superblocks.  This patch series
+> > > generalises the useful concept of a multiple step configurational
+> > > mechanism carried by a file descriptor.  The object of this patch
+> > > series is to get bind mounts to be configurable in the same way
+> > > that superblock based ones are, but it should have utility beyond
+> > > the filesytem realm.  Patch 4 also reimplements fsconfig in terms
+> > > of configfd, but that's not a strictly necessary patch, it is
+> > > merely a useful demonstration that configfd is a superset of the
+> > > properties of fsconfig.
+> > 
+> > Thanks for the patch. I'm glad fsconfig() is picked back up; either
+> > by you or by David. We will need this for sure.
+> > But the configfd approach does not strike me as a great idea.
+> > Anonymous inode fds provide an abstraction mechanism for kernel
+> > objects which we built around fds such as timerfd, pidfd, mountfd and
+> > so on. When you stat an anonfd you get ANON_INODE_FS_MAGIC and you
+> > get the actual type by looking at fdinfo, or - more common - by
+> > parsing out /proc/<pid>/fd/<nr> and discovering "[fscontext]". So
+> > it's already a pretty massive abstraction layer we have. But configfd
+> > would be yet another fd abstraction based on anonfds.
+> > The idea has been that a new fd type based on anonfds comes with an
+> > api specific to that type of fd. That seems way nicer from an api
+> > design perspective than implementing new apis as part of yet another
+> > generic configfd layer.
+> 
+> Really, it's just a fd that gathers config information and can reserve
+> specific errors (and we should really work out the i18n implications of
 
-On Mon, Dec 23, 2019 at 07:15:03AM +0100, Christian Brauner <christian.brau=
-ner@ubuntu.com> wrote:
-> This adds support for creating a process in a different cgroup than its
-> parent.
-Binding fork and migration together looks useful.
+It's rather a complex multiplexer intended to go beyond the realm of
+filesystems/mount api and that's something we have been burned by before.
 
-> --- a/kernel/cgroup/cgroup.c
-> +++ b/kernel/cgroup/cgroup.c
-> @@ -5882,21 +5882,176 @@ void cgroup_fork(struct task_struct *child)
->  	INIT_LIST_HEAD(&child->cg_list);
-Just a nitpick, I noticed the comment for cgroup_fork should be updated
-too (generic migration happens in cgroup_post_fork).
+> the latter).  Whether it's a new fd type or an anonfd with a specific
+> name doesn't seem to be that significant, so the name could be set by
+> the type.
+> 
+> > Another problem is that these syscalls here would be massive
+> > multiplexing syscalls. If they are ever going to be used outside of
+> > filesystem use-cases (which is doubtful) they will quickly rival
+> > prctl(), seccomp(), and ptrace().
+> 
+> Actually, that's partly the point.  We do have several systemcalls with
 
-> --- a/kernel/fork.c
-> +++ b/kernel/fork.c
-> [...]
-> @@ -2279,8 +2278,7 @@ static __latent_entropy struct task_struct *copy_pr=
-ocess(
->  	write_unlock_irq(&tasklist_lock);
-> =20
->  	proc_fork_connector(p);
-> -	cgroup_post_fork(p);
-> -	cgroup_threadgroup_change_end(current);
-> +	cgroup_post_fork(current, p, args);
-I can see that when CLONE_INTO_CGROUP | CLONE_NEWCGROUP is passed, then
-the child's cgroup NS will be rooted at parent's css set
-(copy_namespaces precedes cgroup_post_fork).
+Actually I think that's the problem. The keyctl api itself suffers
+from the problem that it already has a complex multiplexer. That could
+either point to bad api design (sorry, David :)) or it's just a very
+complex use-case like the mount api. The good thing is that it's
+restricted to a single domain: keys. And that's good. Plumbing both e.g.
+keys and (parts of) mounts on top of another generic api is what strikes
+me as a bad idea.
 
-Wouldn't it make better sense if this flags combination resulted in
-child's NS rooted in its css set?
+> variable argument parsing that would benefit from an approach like
+> this.  keyctl springs immediately to mind.
+> 
+> >  That's not a great thing. Especially, since we recently (a few
+> > months ago with Linus chiming in too) had long discussions with the
+> > conclusion that multiplexing syscalls are discouraged, from a
+> > security and api design perspective. Especially when they are not
+> > tied to a specific API (e.g. seccomp() and bpf() are at least tied to
+> > a specific API). libcs such as glibc and musl had reservations in
+> > that regard as well.
+> > 
+> > This would also spread the mount api across even more fd types than
+> > it already does now which is cumbersome for userspace.
+> > 
+> > A generic API like that also makes it hard to do interception in
+> > userspace which is important for brokers such as e.g. used in Firefox
+> > or what we do in various container use-cases.
+> > 
+> > So I have strong reservations about configfd and would strongly favor
+> > the revival of the original fsconfig() patchset.
+> 
+> Ah well, I did have plans for configfd to be self describing, so the
+> arguments accepted by each type would be typed and pre-registered and
+> thus parseable generically, so instead of being the usual anonymous
+> multiplex sink, it would at least be an introspectable multiplexed
+> sink.  The problem there was I can't make fsconfig fit into that
 
-Michal
+We already have fsconfig() to configure mounts so it seems odd to now
+spread the mount api onto configfd imho.
 
-
---G4iJoqBmSsgzjUCe
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEEoQaUCWq8F2Id1tNia1+riC5qSgFAl4V/LkACgkQia1+riC5
-qSh7ww/+JtgrB5RnfOwdlpOAFEIzNIFUXCtwsKQCZ+yWH6llH6b4JzLIIjX3S5Eq
-/99Cm3s9+6TG6Wr534KUcCfml7nToo/efiRjjuf0j0ZAPPR5y9s58s/qqH4oakiD
-2j4/FI86+StapFYGv8yJlQ59DZkFoDIYrPu1cYGYVzqcCo0TBSfmIK3kcO6OBA0O
-Z1aDXQGz0svw5ssVNMpOp/3P74ctvohlNAgYLNELbeMOoR6JFEiVug0kfQh1E8mo
-pPQUt1wsDNAB81h1i/5JKlkS7uYbIeDsV0i/aRM+2NGs323mDKK9iSm8EBXRhCWX
-1Y6+PuBLp7ZRPISsBZT+8jCsAwuBo2y48dw/KORd2BdBpZrxF2yLwRZNC2oRPuWX
-suMafu+vnI9ompGkrlgs0sFGiYMQiBmM0MtBCYD8MfEiJjPxGn6b17bSBNRxyzOa
-Jq1SjbPrWGWy/Pz+2CGFJstRJVsISBJbEejmBhDCo9MviK3V+2LDu0mYPvGXzJ/d
-2Kgslb9sdTQbSgeIQy+qcn9mWHZAfuyxC5i+7DJ/bE7l4bofN3TmkeFBriq9D4vU
-NELLJCnhQ7kDFhaTkFzMRrBMbkpG5Och8XfWFQDw4uskjTe8w9nORAsq/HtA/Ldv
-EHVorBc5qw9PReix/NFxNKD7vQHD0qwqHkG4h9QQbmsrtKB1/lQ=
-=atMP
------END PGP SIGNATURE-----
-
---G4iJoqBmSsgzjUCe--
+Christian
