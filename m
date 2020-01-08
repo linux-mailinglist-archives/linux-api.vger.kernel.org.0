@@ -2,75 +2,119 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 07D41133A96
-	for <lists+linux-api@lfdr.de>; Wed,  8 Jan 2020 05:39:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FEE6133DC8
+	for <lists+linux-api@lfdr.de>; Wed,  8 Jan 2020 10:04:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726637AbgAHEj1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 7 Jan 2020 23:39:27 -0500
-Received: from mail.kernel.org ([198.145.29.99]:58176 "EHLO mail.kernel.org"
+        id S1726891AbgAHJEh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 8 Jan 2020 04:04:37 -0500
+Received: from mx2.suse.de ([195.135.220.15]:46786 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726276AbgAHEj1 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 7 Jan 2020 23:39:27 -0500
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 929FA20880
-        for <linux-api@vger.kernel.org>; Wed,  8 Jan 2020 04:39:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1578458366;
-        bh=dPkwsTHDSFh/AlhLKMu8SfXypcftv+MrrSXdjB8TlCg=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=zo2q/guK0Te/iTqGXf3SvyqyWLZnZryXPvlKdFXdNJdGBBy8ctLeTY2cPwgEHE06N
-         NPJbRd8JxRD23NLJgsLXpSJawO2dNwLgMoXyn5etXhzNfdNtiX8KV8gXLwFHH5Jmj7
-         K3TYOsWq2pU0Xxc8rWGq+IHMRapADDP2TTdSFTko=
-Received: by mail-wm1-f54.google.com with SMTP id f129so1067210wmf.2
-        for <linux-api@vger.kernel.org>; Tue, 07 Jan 2020 20:39:26 -0800 (PST)
-X-Gm-Message-State: APjAAAU+zte0m/AH/pKjG+bPFrQWpotXOfTPXw/akqL6YMs8ZR26JoWf
-        SI6qbIQvOPPqMNQb9jjtRq3IfhulV8/S7EDAkjU19A==
-X-Google-Smtp-Source: APXvYqz/SlzA6q8BHzR8wgKeCu5YF8gd0+SAe8SHOFxrPyQnlZmV8Zsm1JVs0cwdLErhzYcGzMfm2lHs87ilm/bZZrU=
-X-Received: by 2002:a1c:7ed0:: with SMTP id z199mr1421925wmc.58.1578458364943;
- Tue, 07 Jan 2020 20:39:24 -0800 (PST)
-MIME-Version: 1.0
-References: <20191230052036.8765-1-cyphar@cyphar.com> <20191230052036.8765-2-cyphar@cyphar.com>
- <CAHk-=wjHPCQsMeK5bFOJQnrGPfVDXTAFQK4VsBZPj5u=ZgS-QA@mail.gmail.com> <20191230082847.dkriyisvu7wwxqqu@yavin.dot.cyphar.com>
-In-Reply-To: <20191230082847.dkriyisvu7wwxqqu@yavin.dot.cyphar.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Tue, 7 Jan 2020 20:39:10 -0800
-X-Gmail-Original-Message-ID: <CALCETrX1JZV-KtU-LwAuTv4Dc2yFWdTOKUZnmN_pgbUdC-bgLw@mail.gmail.com>
-Message-ID: <CALCETrX1JZV-KtU-LwAuTv4Dc2yFWdTOKUZnmN_pgbUdC-bgLw@mail.gmail.com>
-Subject: Re: [PATCH RFC 1/1] mount: universally disallow mounting over symlinks
-To:     Aleksa Sarai <cyphar@cyphar.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        David Howells <dhowells@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        stable <stable@vger.kernel.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Serge Hallyn <serge@hallyn.com>, dev@opencontainers.org,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        Linux API <linux-api@vger.kernel.org>,
+        id S1726360AbgAHJEh (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 8 Jan 2020 04:04:37 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 8020FAED8;
+        Wed,  8 Jan 2020 09:04:34 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id 234FA1E0B47; Wed,  8 Jan 2020 10:04:34 +0100 (CET)
+Date:   Wed, 8 Jan 2020 10:04:34 +0100
+From:   Jan Kara <jack@suse.cz>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Jan Kara <jack@suse.cz>, Matthew Wilcox <willy@infradead.org>,
+        Mo Re Ra <more7.rev@gmail.com>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Wez Furlong <wez@fb.com>,
+        Matthew Bobrowski <mbobrowski@mbobrowski.org>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: File monitor problem
+Message-ID: <20200108090434.GA20521@quack2.suse.cz>
+References: <CAOQ4uxiZWKCUKcpBt-bHOcnHoFAq+nghWmf94rJu=3CTc5VhRA@mail.gmail.com>
+ <20191211100604.GL1551@quack2.suse.cz>
+ <CAOQ4uxij13z0AazCm7AzrXOSz_eYBSFhs0mo6eZFW=57wOtwew@mail.gmail.com>
+ <CAOQ4uxiKzom5uBNbBpZTNCT0XLOrcHmOwYy=3-V-Qcex1mhszw@mail.gmail.com>
+ <CAOQ4uxgBcLPGxGVddjFsfWJvcNH4rT+GrN6-YhH8cz5K-q5z2g@mail.gmail.com>
+ <20191223181956.GB17813@quack2.suse.cz>
+ <CAOQ4uxhUGCLQyq76nqREETT8kBV9uNOKsckr+xmJdR9Xm=cW3Q@mail.gmail.com>
+ <CAOQ4uxjwy4_jWitzHc9hSaBJwVZM68xxJTub50ZfrtgFSZFH8A@mail.gmail.com>
+ <20200107171014.GI25547@quack2.suse.cz>
+ <CAOQ4uxjx_n3f44yu9_2dGxtBGy3WssG0xfZykwjQ+n=Wcii2-w@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOQ4uxjx_n3f44yu9_2dGxtBGy3WssG0xfZykwjQ+n=Wcii2-w@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Dec 30, 2019 at 12:29 AM Aleksa Sarai <cyphar@cyphar.com> wrote:
->
-> On 2019-12-29, Linus Torvalds <torvalds@linux-foundation.org> wrote:
-> > On Sun, Dec 29, 2019 at 9:21 PM Aleksa Sarai <cyphar@cyphar.com> wrote:
->
-> If allowing bind-mounts over symlinks is allowed (which I don't have a
-> problem with really), it just means we'll need a few more kernel pieces
-> to get this hardening to work. But these features would be useful
-> outside of the problems I'm dealing with (O_EMPTYPATH and some kind of
-> pidfd-based interface to grab the equivalent of /proc/self/exe and a few
-> other such magic-link targets).
+On Tue 07-01-20 20:56:20, Amir Goldstein wrote:
+> On Tue, Jan 7, 2020 at 7:10 PM Jan Kara <jack@suse.cz> wrote:
+> > > There is another weird way to obfuscate the event type.
+> > > I am not sure if users will be less confused about it:
+> > > Each event type belongs to a group (i.e. self, dirent, poss_on_child)
+> > > User may set any event type in the mask (e.g. create|delete|open|close)
+> > > When getting an event from event group A (e.g. create), all event types
+> > > of that group will be reported (e.g. create|delete).
+> > >
+> > > To put it another way:
+> > > #define FAN_DIR_MODIFY (FAN_CREATE | FAN_MOVE | FAN_DELETE)
+> > >
+> > > For example in fanotify_group_event_mask():
+> > > if (event_with_name) {
+> > >     if (marks_mask & test_mask & FAN_DIR_MODIFY)
+> > >         test_mask |= marks_mask & FAN_DIR_MODIFY
+> > > ...
+> > >
+> > > Did somebody say over-engineering? ;)
+> > >
+> > > TBH, I don't see how we can do event type obfuscation
+> > > that is both usable and not confusing, because the concept is
+> > > confusing. I understand the reasoning behind it, but I don't think
+> > > that many users will.
+> > >
+> > > I'm hoping that you can prove me wrong and find a way to simplify
+> > > the API while retaining fair usability.
+> >
+> > I was thinking about this. If I understand the problem right, depending on
+> > the usecase we may need with each event some subset of 'object fid',
+> > 'directory fid', 'name in directory'. So what if we provided all these
+> > three things in each event? Events will get somewhat bloated but it may be
+> > bearable.
+> >
+> 
+> I agree.
+> 
+> What I like about the fact that users don't need to choose between
+> 'parent fid' and 'object fid' is that it makes some hard questions go away:
+> 1. How are "self" events reported? simple - just with 'object id'
+> 2. How are events on disconnected dentries reported? simple - just
+> with 'object id'
+> 3. How are events on the root of the watch reported? same answer
+> 
+> Did you write 'directory fid' as opposed to 'parent fid' for a reason?
+> Was it your intention to imply that events on directories (e.g.
+> open/close/attrib) are
+> never reported with 'parent fid' , 'name in directory'?
 
-As one data point, I would use this ability in virtme: this would
-allow me to more reliably mount over /etc/resolve.conf even when it's
-a symlink.
+Yes, that was what I thought.
+ 
+> I see no functional problem with making that distinction between directory and
+> non-directory, but I have a feeling that 'parent fid', 'name in
+> directory', 'object id',
+> regardless of dir/non-dir is going to be easier to document and less confusing
+> for users to understand, so this is my preference.
 
-(Perhaps I should use overlayfs instead.  Hmm.)
+Understood. The reason why I decided like this is that for a directory,
+the parent may be actually on a different filesystem (so generating fid
+will be more difficult) and also that what you get from dentry->d_parent
+need not be the dir through which you actually reached the directory (think
+of bind mounts) which could be a bit confusing. So I have no problem with
+always providing 'parent fid' if we can give good answers to these
+questions...
+
+								Honza
+
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
