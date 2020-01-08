@@ -2,128 +2,182 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B4041348DA
-	for <lists+linux-api@lfdr.de>; Wed,  8 Jan 2020 18:09:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CA58134A3A
+	for <lists+linux-api@lfdr.de>; Wed,  8 Jan 2020 19:09:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729640AbgAHRJV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 8 Jan 2020 12:09:21 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:36501 "EHLO
+        id S1730157AbgAHSJI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 8 Jan 2020 13:09:08 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:39037 "EHLO
         youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726401AbgAHRJV (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 8 Jan 2020 12:09:21 -0500
+        with ESMTP id S1726781AbgAHSJI (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 8 Jan 2020 13:09:08 -0500
 Received: from host.242.234.23.62.rev.coltfrance.com ([62.23.234.242] helo=wittgenstein)
         by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
         (Exim 4.86_2)
         (envelope-from <christian.brauner@ubuntu.com>)
-        id 1ipEnM-00052V-PD; Wed, 08 Jan 2020 17:07:00 +0000
-Date:   Wed, 8 Jan 2020 18:07:04 +0100
+        id 1ipFlQ-0006sY-5t; Wed, 08 Jan 2020 18:09:04 +0000
+Date:   Wed, 8 Jan 2020 19:09:07 +0100
 From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     James Bottomley <James.Bottomley@HansenPartnership.com>
-Cc:     David Howells <dhowells@redhat.com>,
-        Al Viro <viro@ZenIV.linux.org.uk>,
-        linux-fsdevel@vger.kernel.org,
-        Christian Brauner <christian@brauner.io>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH v2 0/6] introduce configfd as generalisation of fsconfig
-Message-ID: <20200108170703.zhcuohzdp22y5yma@wittgenstein>
-References: <20200104201432.27320-1-James.Bottomley@HansenPartnership.com>
- <20200105162311.sufgft6kthetsz7q@wittgenstein>
- <1578247328.3310.36.camel@HansenPartnership.com>
+To:     Tejun Heo <tj@kernel.org>
+Cc:     linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Ingo Molnar <mingo@redhat.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Li Zefan <lizefan@huawei.com>,
+        Peter Zijlstra <peterz@infradead.org>, cgroups@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] clone3: allow spawning processes into cgroups
+Message-ID: <20200108180906.l4mvtdmh7nm2z7sc@wittgenstein>
+References: <20191223061504.28716-1-christian.brauner@ubuntu.com>
+ <20191223061504.28716-3-christian.brauner@ubuntu.com>
+ <20200107163204.GB2677547@devbig004.ftw2.facebook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1578247328.3310.36.camel@HansenPartnership.com>
+In-Reply-To: <20200107163204.GB2677547@devbig004.ftw2.facebook.com>
 User-Agent: NeoMutt/20180716
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-[extending the Cc a bit]
-
-On Sun, Jan 05, 2020 at 10:02:08AM -0800, James Bottomley wrote:
-> On Sun, 2020-01-05 at 17:23 +0100, Christian Brauner wrote:
-> > On Sat, Jan 04, 2020 at 12:14:26PM -0800, James Bottomley wrote:
-> > > fsconfig is a very powerful configuration mechanism except that it
-> > > only works for filesystems with superblocks.  This patch series
-> > > generalises the useful concept of a multiple step configurational
-> > > mechanism carried by a file descriptor.  The object of this patch
-> > > series is to get bind mounts to be configurable in the same way
-> > > that superblock based ones are, but it should have utility beyond
-> > > the filesytem realm.  Patch 4 also reimplements fsconfig in terms
-> > > of configfd, but that's not a strictly necessary patch, it is
-> > > merely a useful demonstration that configfd is a superset of the
-> > > properties of fsconfig.
-> > 
-> > Thanks for the patch. I'm glad fsconfig() is picked back up; either
-> > by you or by David. We will need this for sure.
-> > But the configfd approach does not strike me as a great idea.
-> > Anonymous inode fds provide an abstraction mechanism for kernel
-> > objects which we built around fds such as timerfd, pidfd, mountfd and
-> > so on. When you stat an anonfd you get ANON_INODE_FS_MAGIC and you
-> > get the actual type by looking at fdinfo, or - more common - by
-> > parsing out /proc/<pid>/fd/<nr> and discovering "[fscontext]". So
-> > it's already a pretty massive abstraction layer we have. But configfd
-> > would be yet another fd abstraction based on anonfds.
-> > The idea has been that a new fd type based on anonfds comes with an
-> > api specific to that type of fd. That seems way nicer from an api
-> > design perspective than implementing new apis as part of yet another
-> > generic configfd layer.
+On Tue, Jan 07, 2020 at 08:32:04AM -0800, Tejun Heo wrote:
+> On Mon, Dec 23, 2019 at 07:15:03AM +0100, Christian Brauner wrote:
+> > +static struct cgroup *cgroup_get_from_file(struct file *f)
+> > +{
+> > +	struct cgroup_subsys_state *css;
+> > +	struct cgroup *cgrp;
+> > +
+> > +	css = css_tryget_online_from_dir(f->f_path.dentry, NULL);
+> > +	if (IS_ERR(css))
+> > +		return ERR_CAST(css);
+> > +
+> > +	cgrp = css->cgroup;
+> > +	if (!cgroup_on_dfl(cgrp)) {
+> > +		cgroup_put(cgrp);
+> > +		return ERR_PTR(-EBADF);
+> > +	}
+> > +
+> > +	return cgrp;
+> > +}
 > 
-> Really, it's just a fd that gathers config information and can reserve
-> specific errors (and we should really work out the i18n implications of
+> It's minor but can you put this refactoring into a separate patch?
 
-It's rather a complex multiplexer intended to go beyond the realm of
-filesystems/mount api and that's something we have been burned by before.
+Yep, will do.
 
-> the latter).  Whether it's a new fd type or an anonfd with a specific
-> name doesn't seem to be that significant, so the name could be set by
-> the type.
 > 
-> > Another problem is that these syscalls here would be massive
-> > multiplexing syscalls. If they are ever going to be used outside of
-> > filesystem use-cases (which is doubtful) they will quickly rival
-> > prctl(), seccomp(), and ptrace().
+> ...
+> > +static int cgroup_css_set_fork(struct task_struct *parent,
+> > +			       struct kernel_clone_args *kargs)
+> > +	__acquires(&cgroup_mutex) __acquires(&cgroup_threadgroup_rwsem)
+> > +{
+> > +	int ret;
+> > +	struct cgroup *dst_cgrp = NULL, *src_cgrp;
+> > +	struct css_set *cset;
+> > +	struct super_block *sb;
+> > +	struct file *f;
+> > +
+> > +	if (kargs->flags & CLONE_INTO_CGROUP) {
+> > +		ret = mutex_lock_killable(&cgroup_mutex);
+> > +		if (ret)
+> > +			return ret;
+> > +	}
 > 
-> Actually, that's partly the point.  We do have several systemcalls with
+> I don't think this is necessary.  cgroup_mutex should always only be
+> held for a finite enough time; otherwise, processes would get stuck on
+> random cgroupfs accesses or even /proc/self/cgroup.
 
-Actually I think that's the problem. The keyctl api itself suffers
-from the problem that it already has a complex multiplexer. That could
-either point to bad api design (sorry, David :)) or it's just a very
-complex use-case like the mount api. The good thing is that it's
-restricted to a single domain: keys. And that's good. Plumbing both e.g.
-keys and (parts of) mounts on top of another generic api is what strikes
-me as a bad idea.
+Ok, so a simple mutex_lock() should suffice then.
 
-> variable argument parsing that would benefit from an approach like
-> this.  keyctl springs immediately to mind.
 > 
-> >  That's not a great thing. Especially, since we recently (a few
-> > months ago with Linus chiming in too) had long discussions with the
-> > conclusion that multiplexing syscalls are discouraged, from a
-> > security and api design perspective. Especially when they are not
-> > tied to a specific API (e.g. seccomp() and bpf() are at least tied to
-> > a specific API). libcs such as glibc and musl had reservations in
-> > that regard as well.
-> > 
-> > This would also spread the mount api across even more fd types than
-> > it already does now which is cumbersome for userspace.
-> > 
-> > A generic API like that also makes it hard to do interception in
-> > userspace which is important for brokers such as e.g. used in Firefox
-> > or what we do in various container use-cases.
-> > 
-> > So I have strong reservations about configfd and would strongly favor
-> > the revival of the original fsconfig() patchset.
+> ...
+> > +	spin_lock_irq(&css_set_lock);
+> > +	src_cgrp = task_cgroup_from_root(parent, &cgrp_dfl_root);
+> > +	spin_unlock_irq(&css_set_lock);
 > 
-> Ah well, I did have plans for configfd to be self describing, so the
-> arguments accepted by each type would be typed and pre-registered and
-> thus parseable generically, so instead of being the usual anonymous
-> multiplex sink, it would at least be an introspectable multiplexed
-> sink.  The problem there was I can't make fsconfig fit into that
+> You can simply do cset->dfl_root here, which is consistent with other
+> code paths which know that they want the dfl cgroup.
 
-We already have fsconfig() to configure mounts so it seems odd to now
-spread the mount api onto configfd imho.
+Ah, great!
+
+> 
+> > +	ret = cgroup_attach_permissions(src_cgrp, dst_cgrp, sb,
+> > +					!!(kargs->flags & CLONE_THREAD));
+> > +	if (ret)
+> > +		goto err;
+> 
+> So, the existing perm check depends on the fact that for the write
+> operation to have started, it already should have passed write perm
+> check on the destination cgroup.procs file.  We're missing that here,
+> so we prolly need to check that explicitly.
+
+I need to look into this before I can say yay or nay. :)
+
+> 
+> > @@ -214,13 +215,21 @@ static void pids_cancel_attach(struct cgroup_taskset *tset)
+> > +static int pids_can_fork(struct task_struct *parent, struct task_struct *child,
+> > +			 struct kernel_clone_args *args)
+> >  {
+> > +	struct css_set *new_cset = NULL;
+> >  	struct cgroup_subsys_state *css;
+> >  	struct pids_cgroup *pids;
+> >  	int err;
+> >  
+> > -	css = task_css_check(current, pids_cgrp_id, true);
+> > +	if (args)
+> > +		new_cset = args->cset;
+> > +
+> > +	if (!new_cset)
+> > +		css = task_css_check(current, pids_cgrp_id, true);
+> > +	else
+> > +		css = new_cset->subsys[pids_cgrp_id];
+> 
+> Heh, this kinda sucks.  Would it be better to pass in the new css into
+> the callbacks rather than clone args?
+
+Hm, maybe. My reasoning was that the can_fork callbacks are really only
+ever used when - well - fork()ing/clone{3}()ing. Additionally, I was
+trying to make sure that struct css_set doesn't show up in too many
+places outside of cgroup core. But I'm fine with changing this to just
+take the css_set directly. Let's try that...
+
+> 
+> > diff --git a/kernel/fork.c b/kernel/fork.c
+> > index 2508a4f238a3..1604552f7cd3 100644
+> > --- a/kernel/fork.c
+> > +++ b/kernel/fork.c
+> > @@ -2165,16 +2165,15 @@ static __latent_entropy struct task_struct *copy_process(
+> >  	INIT_LIST_HEAD(&p->thread_group);
+> >  	p->task_works = NULL;
+> >  
+> > -	cgroup_threadgroup_change_begin(current);
+> >  	/*
+> >  	 * Ensure that the cgroup subsystem policies allow the new process to be
+> >  	 * forked. It should be noted the the new process's css_set can be changed
+> >  	 * between here and cgroup_post_fork() if an organisation operation is in
+> >  	 * progress.
+> >  	 */
+> > -	retval = cgroup_can_fork(p);
+> > +	retval = cgroup_can_fork(current, p, args);
+> >  	if (retval)
+> > -		goto bad_fork_cgroup_threadgroup_change_end;
+> > +		goto bad_fork_put_pidfd;
+> >  
+> >  	/*
+> >  	 * From this point on we must avoid any synchronous user-space
+> 
+> Maybe we can move these changes into a prep patch together with the
+> get_from_file change so that this patch only contains the actual
+> feature implementation?
+
+Should be doable!
+
+> 
+> Other than that, looks good to me.  Once the above review points are
+> addressed and Oleg is okay with it, I'll be happy to route this
+> through the cgroup tree.
+> 
+> Thanks so much for working on this.  This is really cool.
+
+Thanks and I agree! :)
 
 Christian
