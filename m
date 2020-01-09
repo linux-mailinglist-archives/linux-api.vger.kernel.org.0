@@ -2,280 +2,332 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 97A29134EF3
-	for <lists+linux-api@lfdr.de>; Wed,  8 Jan 2020 22:34:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 68F57135498
+	for <lists+linux-api@lfdr.de>; Thu,  9 Jan 2020 09:42:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727277AbgAHVey (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 8 Jan 2020 16:34:54 -0500
-Received: from zeniv.linux.org.uk ([195.92.253.2]:58476 "EHLO
-        ZenIV.linux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726179AbgAHVey (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 8 Jan 2020 16:34:54 -0500
-Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1ipIyS-004SKI-15; Wed, 08 Jan 2020 21:34:44 +0000
-Date:   Wed, 8 Jan 2020 21:34:44 +0000
-From:   Al Viro <viro@zeniv.linux.org.uk>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Aleksa Sarai <cyphar@cyphar.com>,
-        David Howells <dhowells@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        stable <stable@vger.kernel.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Serge Hallyn <serge@hallyn.com>, dev@opencontainers.org,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Ian Kent <raven@themaw.net>
-Subject: Re: [PATCH RFC 0/1] mount: universally disallow mounting over
- symlinks
-Message-ID: <20200108213444.GF8904@ZenIV.linux.org.uk>
-References: <20191230072959.62kcojxpthhdwmfa@yavin.dot.cyphar.com>
- <20200101004324.GA11269@ZenIV.linux.org.uk>
- <20200101005446.GH4203@ZenIV.linux.org.uk>
- <20200101030815.GA17593@ZenIV.linux.org.uk>
- <20200101144407.ugjwzk7zxrucaa6a@yavin.dot.cyphar.com>
- <20200101234009.GB8904@ZenIV.linux.org.uk>
- <20200102035920.dsycgxnb6ba2jhz2@yavin.dot.cyphar.com>
- <20200103014901.GC8904@ZenIV.linux.org.uk>
- <20200108031314.GE8904@ZenIV.linux.org.uk>
- <CAHk-=wgQ3yOBuK8mxpnntD8cfX-+10ba81f86BYg8MhvwpvOMg@mail.gmail.com>
+        id S1728809AbgAIIlR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 9 Jan 2020 03:41:17 -0500
+Received: from mo4-p04-ob.smtp.rzone.de ([81.169.146.223]:21636 "EHLO
+        mo4-p04-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728762AbgAIIlK (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 9 Jan 2020 03:41:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1578559266;
+        s=strato-dkim-0002; d=chronox.de;
+        h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+        X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+        bh=PYm8Gfs+nO0qPhM7QUoBsJ0iR80+RLCpJWdZzLY/ikM=;
+        b=IiPiGmuqdkcZsXBvkhanH5NH2YF6OK8FN5Cl+z2BOtz0dzJuQDcgizxHZ/n+1E92Wk
+        bvIoKtNoxvVE2Nert010oTKr+qc5g9F9Mju4gtU9cjYG0Grt6c2YgN8syY3QdQNPFfZD
+        uC4/DoYKPVL147QXuOjRAixrFjao2SR6GY5kOjvPoaKxK2QD0KKP3SHhYUYiFwFHMUZB
+        cK8WrngGDKcBS2EJLMGG64zBmPgG6jgFnBVRrBZm5r83cUZbsubI9py2W5m/WkAwOjU5
+        F2H7JUoKtBV6VAAT0HfwcMsQ+C43zGiF1pWjxSSXzo2gLBcchxMLwfsbyP/h/Y0ggPAi
+        ILUg==
+X-RZG-AUTH: ":P2ERcEykfu11Y98lp/T7+hdri+uKZK8TKWEqNyiHySGSa9k9xmwdNnzGHXPZJPScHivh"
+X-RZG-CLASS-ID: mo00
+Received: from positron.chronox.de
+        by smtp.strato.de (RZmta 46.1.4 DYNA|AUTH)
+        with ESMTPSA id u04585w098cF2Zt
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+        (Client did not present a certificate);
+        Thu, 9 Jan 2020 09:38:15 +0100 (CET)
+From:   Stephan =?ISO-8859-1?Q?M=FCller?= <smueller@chronox.de>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-crypto@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        linux-api@vger.kernel.org,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "Alexander E. Patrakov" <patrakov@gmail.com>,
+        "Ahmed S. Darwish" <darwish.07@gmail.com>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>, Willy Tarreau <w@1wt.eu>,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        Vito Caputo <vcaputo@pengaru.com>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Jan Kara <jack@suse.cz>, Ray Strode <rstrode@redhat.com>,
+        William Jon McCann <mccann@jhu.edu>,
+        zhangjs <zachary@baishancloud.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        Lennart Poettering <mzxreary@0pointer.de>,
+        Nicolai Stange <nstange@suse.de>,
+        "Peter, Matthias" <matthias.peter@bsi.bund.de>,
+        Marcelo Henrique Cerri <marcelo.cerri@canonical.com>,
+        Roman Drahtmueller <draht@schaltsekun.de>,
+        Neil Horman <nhorman@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Julia Lawall <julia.lawall@inria.fr>
+Subject: [PATCH v27 00/12] /dev/random - a new approach with full SP800-90B
+Date:   Thu, 09 Jan 2020 09:29:50 +0100
+Message-ID: <2641155.iNH938UiKq@positron.chronox.de>
+In-Reply-To: <2722222.P16TYeLAVu@positron.chronox.de>
+References: <6157374.ptSnyUpaCn@positron.chronox.de> <2787174.DQlWHN5GGo@positron.chronox.de> <2722222.P16TYeLAVu@positron.chronox.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wgQ3yOBuK8mxpnntD8cfX-+10ba81f86BYg8MhvwpvOMg@mail.gmail.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jan 07, 2020 at 07:54:02PM -0800, Linus Torvalds wrote:
+Hi,
 
-> > Another interesting question is whether we want O_PATH open
-> > to trigger automounts.
-> 
-> It does sound like they shouldn't, but as you say:
-> 
-> >     The thing is, we do *NOT* trigger them
-> > (or traverse mountpoints) at the starting point of lookups.
-> > I believe it's a mistake (and mine, at that), but I doubt that
-> > there's anything that can be done about it at that point.
-> > It's a user-visible behaviour [..]
-> 
-> Hmm. I wonder how set in stone that is. We may have two decades of
-> history of not doing it at start point of lookups, but we do *not*
-> have two decades of history of O_PATH.
-> 
-> So what I think we agree would be sane behavior would be for O_PATH
-> opens to not trigger automounts (unless there's a slash at the end,
-> whatever), but _do_ add the mount-point traversal to the beginning of
-> lookups.
-> 
-> But only do it for the actual O_PATH fd case, not the cwd/root/non-O_PATH case.
-> 
-> That way we maintain original behavior: if somebody overmounts your
-> cwd, you still see the pre-mount directory on lookups, because your
-> cwd is "under" the mount.
-> 
-> But if you open a file with O_PATH, and somebody does a mount
-> _afterwards_, the openat() will see that later mount and/or do the
-> automount.
-> 
-> Don't you think that would be the more sane/obvious semantics of how
-> O_PATH should work?
+The following patch set provides a different approach to /dev/random which =
+is
+called Linux Random Number Generator (LRNG) to collect entropy within the L=
+inux
+kernel. The main improvements compared to the existing /dev/random is to pr=
+ovide
+sufficient entropy during boot time as well as in virtual environments and =
+when
+using SSDs. A secondary design goal is to limit the impact of the entropy
+collection on massive parallel systems and also allow the use accelerated
+cryptographic primitives. Also, all steps of the entropic data processing a=
+re
+testable.
 
-Maybe, but... note that we do not (and AFAICS never had) follow mounts
-on /proc/self/cwd, /proc/self/fd/42, etc.  And there are very good
-reasons for that.  First of all, if your stdin is from /tmp/foo,
-you'd better get that file when you open /dev/stdin, even if somebody
-has done mount --bind /tmp/bar /tmp/foo; another issue is with
-the use of stat("/proc/self/fd/42", &buf) - it should be an equivalent
-of fstat(42, &buf), even if somebody has overmounted that.  BTW, for
-similar reason after
-	link(".", "foo");
-	fd = open("foo", O_PATH);	// return 42
-we really should (and do) have resolution of /proc/self/fd/42 stop at
-foo, not .   Reason: consistency of stat() behaviour...
+The LRNG patch set allows a user to select use of the existing /dev/random =
+or
+the LRNG during compile time. As the LRNG provides API and ABI compatible
+interfaces to the existing /dev/random implementation, the user can freely =
+chose
+the RNG implementation without affecting kernel or user space operations.
 
-The point is, we'd never followed mounts on /proc/self/cwd et.al.
-I hadn't checked 2.0, but 2.1.100 ('97, before any changes from me)
-is that way.  Actually, scratch that - 2.0 behaves the same way
-(mountpoint crossing is done in iget() there; is that Minix influence
-or straight from the Lions' book?)
+This patch set provides early boot-time entropy which implies that no
+additional flags to the getrandom(2) system call discussed recently on
+the LKML is considered to be necessary. Yet, if additional flags are
+introduced to cover special hardware, the LRNG implementation will also
+provide them to be fully ABI and API compliant as already discussed on
+LKML.
 
-Hmm...  Looking through the history, we have
+The LRNG is fully compliant to SP800-90B requirements and is shipped with a
+full SP800-90B assessment and all required test tools. The existing /dev/ra=
+ndom
+implementation on the other hand has architectural limitations which
+does not easily allow to bring the implementation in compliance with
+SP800-90B. The key statement that causes concern is SP800-90B section
+3.1.6. This section denies crediting entropy to multiple similar noise
+sources. This section explicitly references different noise sources resting
+on the timing of events and their derivatives (i.e. it is a direct complaint
+to the existing existing /dev/random implementation). Therefore, SP800-90B
+now denies the very issue mentioned in [1] with the existing /dev/random
+implementation for a long time: crediting entropy to interrupts as well as
+crediting entropy to derivatives of interrupts (HID and disk events). This =
+is
+not permissible with SP800-90B.
 
-(for reference) v7: mount traversal in iget()
-(forward) and namei() (back); due to the way it's done, forward
-traversal happens
-	* at starting point
-	* after any component (. and .. included)
-	* on results of forward traversal (due to a loop in iget()).
-Back traversal (to covered on .. from root directory) is also
-to unlimited depth.
+SP800-90B specifies various requirements for the noise source(s) that seed =
+any
+DRNG including SP800-90A DRBGs. In about a year from now, SP800-90B will be
+mandated for all noise sources that provide entropy to DRBGs as part of a F=
+IPS
+140-[2|3] validation or other evaluation types. That means, if we there are=
+ no
+solutions to comply with the requirements of SP800-90B found till one year
+from now, any random number generation and ciphers based on random numbers
+on Linux will be considered and treated as not applicable and delivering
+no entropy! As /dev/urandom, getrandom(2) and /dev/random are the most
+common and prevalent noise sources for DRNGs, all these DRNGs are affected.
+This applies across the board for all validations of cryptography executing=
+ on
+Linux (kernel and user space modules).
 
-0.01: no mount handling
+=46or users that are not interested in SP800-90B, the entire code for the
+compliance as well as test interfaces can be deselected at compile time.
 
-0.10: forward traversal in iget(), back traversal in fs/namei.c:find_entry()
-(not by Lions' Book, then - v6 didn't do back traversals at all).
-Forward traversal
-	* after any component (. and .. included)
-No traversal on starting point, no traversal on result of traversal.
-OTOH, mount(2) refuses to mount on top of root, so the lack of the last
-one is not an issue.
+The design and implementation is driven by a set of goals described in [1]
+that the LRNG completely implements. Furthermore, [1] includes the full
+assessment of the SP800-90B compliance as well as a comparison with RNG
+design suggestions of SP800-90C, and AIS20/31.
 
-0.12: symlinks added; no mount traversal on starting point of those either.
-We start at the process' root for absolute ones, even if it happens to be
-overmounted, and we start from parent for relative ones.  The latter matters
-only if we were in the beginning of the pathwalk, since anything else would've
-traversed mounts back when we'd picked said parent.  Mount traversal takes
-precedence over symlink traversal, but that's not an issue since mount follows
-links on mountpoint.  It does not, at that point, reject fs image with
-symlink for root, but that actually more or less works.
+The LRNG provides a complete separation of the noise source maintenance
+and the collection of entropy into an entropy pool from the post-processing
+using a pseudo-random number generator. Different DRNGs are supported,
+including:
 
-0.97.3: same, with addition of procfs symlinks.  No mount crossing on their
-targets (for normal symlinks we don't do mount crossing in the beginning
-and any component inside triggers mount crossing as usual; for procfs ones
-there's no components inside)
+* The LRNG can be compile-time enabled to replace the existing /dev/random
+  implementation. When not selecting the LRNG at compile time (default), the
+  existing /dev/random implementation is built.
 
-Situation remains essentially unchanged until 2.1.42.  Next few kernels
-are in flux, to put it politely - initial merge had been insane and it
-took until 2.1.44 or so for the things to get more or less working.
+* Built-in ChaCha20 DRNG which has no dependency to other kernel
+  frameworks.
 
-At 2.1.44: forward traversal in fs/namei.c:lookup(), back traversal in
-fs/namei.c:reserved_lookup().  Otherwise the same behaviour as pre-dcache
-(wrt mount traversals, that is).
+* SP800-90A DRBG using the kernel crypto API including its accelerated
+  raw cipher implementations. This implies that the output of /dev/random,
+  getrandom(2), /dev/urandom or get_random_bytes is fully compliant to
+  SP800-90A.
 
-2.1.51pre1: forward traversal moved into real_lookup() and __d_lookup().
-Forward traversal happens *ONLY* after normal components - not after . or ..
+* Arbitrary DRNGs registered with the kernel crypto API
 
-2.1.61: forward traversal moved into follow_mount(), behaviour reverted to
-pre-dcache one.
+* Full compliance with SP800-90B which covers the startup and runtime health
+  tests mandated by SP800-90B as well as providing the test tools and test
+  interfaces to obtain raw noise data securely. The test tools are provided=
+ at
+  [1].
 
-Previous is from reading through the historical trees; my involvement started
-circa 2.1.120-something.
+Booting the patch with the kernel command line option
+"dyndbg=3Dfile drivers/char/lrng/* +p" generates logs indicating the operat=
+ion
+of the LRNG. Each log is pre-pended with "lrng".
 
-2.3.50pre3: call of follow_mount() moved a bit, reverting to 2.1.51pre1
-behaviour (nor traversal on . or ..) *again*.  Not sure whose idea had that
-been - might've been mine, but unlike the other patch that went into fs/namei.c
-in the same release, I hadn't been able to find anything related to that
-one.  If your memories (or mail archives) are better...
+The LRNG has a flexible design by allowing an easy replacement of the
+deterministic random number generator component.
 
-2.3.99pre4-5: massive surgery in there.  Preparations to allowing mount on top
-of mount; forward traversal adjusted accordingly, back traversal still isn't.
+Compared to the existing /dev/random implementation, the compiled binary
+is smaller when the LRNG is compiled with all options equal to the
+existing /dev/random (i.e. only CONFIG_LRNG is set): random.o is 52.5 kBytes
+whereas all LRNG object files are in 49 kBytes in size. The fully
+SP800-90A/SP800-90B compliant binary code (CONFIG_LRNG,
+CONFIG_LRNG_DRNG_SWITCH, CONFIG_LRNG_DRBG, CONFIG_LRNG_HEALTH_TESTS)
+uses some 61 kBytes. In addition, the LRNG is about 50% faster in the
+performance critical interrupt handler code path compared to the existing
+/dev/random implementation.
 
-2.3.99pre7-1: more surgery, back traversals are also to unlimited depth now
-and mount on top of mount has been allowed.
+[1] http://www.chronox.de/lrng.html - If the patch is accepted, I would
+be volunteering to convert the documentation into RST format and
+contribute it to the Linux kernel documentation directory.
 
-2.3.99pre9-4: mount --bind taught to mount non-directories on top of
-non-directories.  At that point it does *NOT* follow trailing symlinks, so
-mounting of symlinks and mounting on top of symlinks becomes possible.
-Mount traversal still takes precedence over symlink traversal, symlink traversal
-of mount traversal result still generally works, even though it's not something
-I considered at the time.
+Changes (compared to the previous patch set):
 
-v2.4.5.2: mount --bind started to follow symlinks.  So that source of mounting
-of and on the symlinks was no more.
+* fix function prototype of lrng_init_time_source
 
-2.5.0.5: forward mount traversal is done after .. (in handle_dotdot()).
-That brings back the pre-dcache behaviour for those suckers.  Still no
-forward traversal after ., though.
+* fix indentation in getrandom
 
-At about the same time I'd been getting rid of the early-boot incestous
-relationships with fs/namespace.c (initramfs work) and that was probably
-the last time we could realistically switch to following mounts at starting
-point; I considered trying to do that, but decided not to.  Pity, that...
+* add unlock to error code path as reported by Julia Lawall
 
-2.6.5-rc2: normal mount now checks for corrupt fs with symlink for root.
-Since it has always been following symlinks for mountpoint, the remaining
-source of mounting of and on symlinks was gone; that lasted until
-after O_PATH introduction.
+* integrate 0da522107e5d9c000a4871d52e570912aa1225a2 from Arnd Bergmann and
+  supplemental patch 4aa37c463764052c68c5c430af2a67b5d784c1e0 from
+  Jason A. Donenfeld
 
-2.6.39-rc1: mount traps support - instead of abusing ->follow_link()
-for automounting, we have an explicit pair of methods that can be
-called at the same places where we traverse mounts.  None too consistent -
-we don't do that on .. results.  That was Dave Howells and Ian Kent.
+* use new jitterentropy.h header file
 
-2.6.39-rc1: O_PATH introduced and, later in the same series, allowed for
-symlinks.  That has changed things - now procfs symlink targets could
-be symlinks themselves.  Originally an attempt to follow those would
-blow up with -ELOOP (there's simply no good way to follow such beast;
-it's either "stop even if we are asked to follow" or "give an error").
+* add power-on self-tests of security critical functions of hash_df, LFSR,
+  ChaCha20 DRNG, and time stamp array management
 
-3.6.0-rc1: nd_jump_link() introduction (hch) had unnoticed side effects -
-we'd switched from "fail traversal with -ELOOP" to "stop there".  Mostly it
-doesn't change behaviour, but it has opened a way to mount symlinks and
-mount on top of symlinks.  Which generally worked.
+* add support for significantly reduced runtime memory footprint as outlined
+  in patch 1
 
-circa 3.8--3.9: side effects had been noticed; my first reaction had been
-"let's make nd_jump_link() return an error, then", but I hadn't been
-able to find good reasons when challenged to do so.  Did an audit,
-found no obvious problems, went "oh, well - whether it works by accident
-or by design, it doesn't break anything".
+* drop TRNG support - the LRNG has the same user experience as random.c
+  with Andy Lutomirski's recent patch removing the blocking_pool - rename
+  all *sdrng* symbols to *drng*
 
-3.12.0-rc1: lookups for umount(2) are different - we don't want
-revalidate on the last component.  Which had been handled by
-introduction of path_umountat()/umount_lookup_last(), parallel to
-path_lookupat().  Which has gotten quite a few things wrong -
-it *did* try to follow symlinks obtained by following procfs
-ones (and blew up big way) and it didn't follow mounts on
-overmounted trailing symlinks.  Nobody noticed for 6 years,
-until folks actually tried to play with mount-on-symlink...
-Patches were by Jeff Layton, neither he nor I have spotted the
-problem back then.  And I should have, since it had been only
-a few months since the audit for exactly that kind of problems...
+* ensure that external noise sources can provide seed at least once when a
+  DRNG is reseeded to ensure internal and external noise sources are balanc=
+ed
 
-AFAICS, there'd been no serious semantical changes since then.  What we
-have right now:
-	* no mount traversal on the starting point
-	* mount traversal after any component other than "."
-	* symlink traversal consists of possibly jumping to given
-point plus following a given (possibly empty) series of components.
-It can be both - e.g. symlink to "/foo/bar" is 'jump to root,
-then traverse "foo", then traverse "bar"'.  Procfs "magic" symlinks
-are not really magical - they behave as symlinks to "/" as far as
-the pathwalk semantics is concerned.  The only differences is that
-jump might be not to process' root.
-	* mount traversal takes precedence over symlink traversal.
-	* jump (if any) in symlink traversal is treated the same
-as the starting point - it's not followed by mount traversal.
-It's also not followed by symlink traversal, even if we are jumping
-into a symlink.  Of course, in any position other than the end of
-pathname that's an instant error.  That's also not different from
-the starting point treatment - if ...at(2) is given a symlink for
-starting point, it leaves it as-is if AT_EMPTY_PATH is given and
-fails with -ENOTDIR otherwise.
-	* umount(2) handles the final component differently -
-for one thing, it does not do revalidate, for another - its
-mount traversal (if any) does not include automount-related
-parts.  And there we *do* want mount traversal at the final
-point, for obvious reasons.
+* add full documentation to all API calls provided to the remainder of the
+  kernel
 
-> > I think the easiest way to handle that is to have O_PATH
-> > turn LOOKUP_AUTOMOUNT, same as the normal open() does.  That's
-> > trivial to do, but that changes user-visible behaviour.  OTOH,
-> > with the current behaviour nobody can rely upon automount not
-> > getting triggered by somebody else just as they are entering
-> > their open(dir, O_PATH), so I think that's not a problem.
-> >
-> > Linus, do you have any objections to such O_PATH semantics
-> > change?
-> 
-> See above: I think I'd prefer the O_PATH behavior the other way
-> around. That seems to be more of a consistent behavior of what
-> "O_PATH" means - it means "don't really open, we'll do it only when
-> you use it as a directory".
+* ensure that after a SP800-90B health test failure the interrupt handler
+  triggers reseeds like during boot time
 
-How would your proposal deal with access("/proc/self/fd/42/foo", MAY_READ)
-vs. faccessat(42, "foo", MAY_READ)?  The latter would trigger automount,
-the former would not...  Or would you extend that to "traverse mounts
-upon following procfs links, if the file in question had been opened with
-O_PATH"?  We could do that (give nd_jump_link() an extra argument telling
-if we want mount traversal), but I'm not sure if the resulting semantics
-is sane...
+This patch requires the presence of patch
+75551dbf112c992bc6c99a972990b3f272247e23 from Ted Tso's kernel tree
+(specifically the addition of GRND_INSECURE to random.h)
 
-Note, BTW, that O_PATH users really can't rely upon automounts _not_
-being triggered - all it takes is a lookup on bogus path with such prefix
-by anybody who can reach that place...  We are not opening anything,
-really, but we are not able to ignore automounts triggered by somebody
-else.
+As a side node: With the switchable DRNG support offered in this patch set,
+the following areas could be removed. As the existing /dev/random has no su=
+pport
+for switchable DRNGs, however, this is not yet feasible though.
+
+* remove lrng_ready_list and all code around it in lrng_interfaces.c
+
+* remove the kernel crypto API RNG API to avoid having two random number
+  providing APIs - this would imply that all RNGs developed for this API wo=
+uld
+  be converted to the LRNG interface
+
+CC: "Eric W. Biederman" <ebiederm@xmission.com>
+CC: "Alexander E. Patrakov" <patrakov@gmail.com>
+CC: "Ahmed S. Darwish" <darwish.07@gmail.com>
+CC: "Theodore Y. Ts'o" <tytso@mit.edu>
+CC: Willy Tarreau <w@1wt.eu>
+CC: Matthew Garrett <mjg59@srcf.ucam.org>
+CC: Vito Caputo <vcaputo@pengaru.com>
+CC: Andreas Dilger <adilger.kernel@dilger.ca>
+CC: Jan Kara <jack@suse.cz>
+CC: Ray Strode <rstrode@redhat.com>
+CC: William Jon McCann <mccann@jhu.edu>
+CC: zhangjs <zachary@baishancloud.com>
+CC: Andy Lutomirski <luto@kernel.org>
+CC: Florian Weimer <fweimer@redhat.com>
+CC: Lennart Poettering <mzxreary@0pointer.de>
+CC: Nicolai Stange <nstange@suse.de>
+Tested-by: Roman Drahtm=FCller <draht@schaltsekun.de>
+Tested-by: Marcelo Henrique Cerri <marcelo.cerri@canonical.com>
+
+Stephan Mueller (12):
+  Linux Random Number Generator
+  LRNG - allocate one DRNG instance per NUMA node
+  LRNG - sysctls and /proc interface
+  LRNG - add switchable DRNG support
+  crypto: DRBG - externalize DRBG functions for LRNG
+  LRNG - add SP800-90A DRBG extension
+  LRNG - add kernel crypto API PRNG extension
+  crypto: provide access to a static Jitter RNG state
+  LRNG - add Jitter RNG fast noise source
+  LRNG - add SP800-90B compliant health tests
+  LRNG - add interface for gathering of raw entropy
+  LRNG - add power-on and runtime self-tests
+
+ MAINTAINERS                                   |   7 +
+ crypto/drbg.c                                 |  16 +-
+ crypto/jitterentropy-kcapi.c                  |   3 +-
+ crypto/jitterentropy.c                        |  25 +-
+ drivers/char/Kconfig                          |   2 +
+ drivers/char/Makefile                         |   9 +-
+ drivers/char/lrng/Kconfig                     | 203 ++++++
+ drivers/char/lrng/Makefile                    |  19 +
+ drivers/char/lrng/lrng_archrandom.c           |  92 +++
+ drivers/char/lrng/lrng_aux.c                  | 148 +++++
+ drivers/char/lrng/lrng_chacha20.c             | 317 +++++++++
+ drivers/char/lrng/lrng_chacha20.h             |  25 +
+ drivers/char/lrng/lrng_drbg.c                 | 261 ++++++++
+ drivers/char/lrng/lrng_drng.c                 | 397 +++++++++++
+ drivers/char/lrng/lrng_health.c               | 409 ++++++++++++
+ drivers/char/lrng/lrng_interfaces.c           | 622 ++++++++++++++++++
+ drivers/char/lrng/lrng_internal.h             | 305 +++++++++
+ drivers/char/lrng/lrng_jent.c                 |  87 +++
+ drivers/char/lrng/lrng_kcapi.c                | 328 +++++++++
+ drivers/char/lrng/lrng_lfsr.h                 | 152 +++++
+ drivers/char/lrng/lrng_numa.c                 | 101 +++
+ drivers/char/lrng/lrng_pool.c                 | 585 ++++++++++++++++
+ drivers/char/lrng/lrng_proc.c                 | 163 +++++
+ drivers/char/lrng/lrng_selftest.c             | 418 ++++++++++++
+ drivers/char/lrng/lrng_sw_noise.c             | 102 +++
+ drivers/char/lrng/lrng_sw_noise.h             |  57 ++
+ drivers/char/lrng/lrng_switch.c               | 179 +++++
+ drivers/char/lrng/lrng_testing.c              | 271 ++++++++
+ include/crypto/drbg.h                         |   7 +
+ .../crypto/internal}/jitterentropy.h          |   3 +
+ include/linux/lrng.h                          |  71 ++
+ 31 files changed, 5374 insertions(+), 10 deletions(-)
+ create mode 100644 drivers/char/lrng/Kconfig
+ create mode 100644 drivers/char/lrng/Makefile
+ create mode 100644 drivers/char/lrng/lrng_archrandom.c
+ create mode 100644 drivers/char/lrng/lrng_aux.c
+ create mode 100644 drivers/char/lrng/lrng_chacha20.c
+ create mode 100644 drivers/char/lrng/lrng_chacha20.h
+ create mode 100644 drivers/char/lrng/lrng_drbg.c
+ create mode 100644 drivers/char/lrng/lrng_drng.c
+ create mode 100644 drivers/char/lrng/lrng_health.c
+ create mode 100644 drivers/char/lrng/lrng_interfaces.c
+ create mode 100644 drivers/char/lrng/lrng_internal.h
+ create mode 100644 drivers/char/lrng/lrng_jent.c
+ create mode 100644 drivers/char/lrng/lrng_kcapi.c
+ create mode 100644 drivers/char/lrng/lrng_lfsr.h
+ create mode 100644 drivers/char/lrng/lrng_numa.c
+ create mode 100644 drivers/char/lrng/lrng_pool.c
+ create mode 100644 drivers/char/lrng/lrng_proc.c
+ create mode 100644 drivers/char/lrng/lrng_selftest.c
+ create mode 100644 drivers/char/lrng/lrng_sw_noise.c
+ create mode 100644 drivers/char/lrng/lrng_sw_noise.h
+ create mode 100644 drivers/char/lrng/lrng_switch.c
+ create mode 100644 drivers/char/lrng/lrng_testing.c
+ rename {crypto =3D> include/crypto/internal}/jitterentropy.h (84%)
+ create mode 100644 include/linux/lrng.h
+
+=2D-=20
+2.24.1
+
+
+
+
