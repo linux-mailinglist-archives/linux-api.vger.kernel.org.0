@@ -2,65 +2,112 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AD37D13623E
-	for <lists+linux-api@lfdr.de>; Thu,  9 Jan 2020 22:09:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 66AE1136312
+	for <lists+linux-api@lfdr.de>; Thu,  9 Jan 2020 23:10:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725879AbgAIVJu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 9 Jan 2020 16:09:50 -0500
-Received: from Galois.linutronix.de ([193.142.43.55]:55760 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725775AbgAIVJu (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 9 Jan 2020 16:09:50 -0500
-Received: from p5b06da22.dip0.t-ipconnect.de ([91.6.218.34] helo=nanos.tec.linutronix.de)
-        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <tglx@linutronix.de>)
-        id 1ipf3b-0008TG-8P; Thu, 09 Jan 2020 22:09:31 +0100
-Received: by nanos.tec.linutronix.de (Postfix, from userid 1000)
-        id B0803105BCE; Thu,  9 Jan 2020 22:09:30 +0100 (CET)
-From:   Thomas Gleixner <tglx@linutronix.de>
-To:     Dmitry Safonov <0x7f454c46@gmail.com>,
+        id S1725951AbgAIWKs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 9 Jan 2020 17:10:48 -0500
+Received: from excelsior.roeckx.be ([195.234.45.115]:36751 "EHLO
+        excelsior.roeckx.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725775AbgAIWKs (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 9 Jan 2020 17:10:48 -0500
+X-Greylist: delayed 493 seconds by postgrey-1.27 at vger.kernel.org; Thu, 09 Jan 2020 17:10:46 EST
+Received: from intrepid.roeckx.be (localhost [127.0.0.1])
+        by excelsior.roeckx.be (Postfix) with ESMTP id 3842EA8A05A9;
+        Thu,  9 Jan 2020 22:02:31 +0000 (UTC)
+Received: by intrepid.roeckx.be (Postfix, from userid 1000)
+        id EB6ED1FE0C79; Thu,  9 Jan 2020 23:02:30 +0100 (CET)
+Date:   Thu, 9 Jan 2020 23:02:30 +0100
+From:   Kurt Roeckx <kurt@roeckx.be>
+To:     "Theodore Y. Ts'o" <tytso@mit.edu>
+Cc:     Stephan Mueller <smueller@chronox.de>,
+        Andy Lutomirski <luto@amacapital.net>,
         Andy Lutomirski <luto@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>
-Cc:     Dmitry Safonov <dima@arista.com>, Andrei Vagin <avagin@gmail.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        Adrian Reber <adrian@lisas.de>,
-        Andrei Vagin <avagin@openvz.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Cyrill Gorcunov <gorcunov@openvz.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        "Ahmed S. Darwish" <darwish.07@gmail.com>,
+        Lennart Poettering <mzxreary@0pointer.de>,
         "Eric W. Biederman" <ebiederm@xmission.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Jann Horn <jannh@google.com>,
-        Jeff Dike <jdike@addtoit.com>, Oleg Nesterov <oleg@redhat.com>,
-        Pavel Emelyanov <xemul@virtuozzo.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        crml <criu@openvz.org>, Linux API <linux-api@vger.kernel.org>,
-        X86 ML <x86@kernel.org>
-Subject: Re: [PATCHv8 00/34] kernel: Introduce Time Namespace
-In-Reply-To: <CAJwJo6ahGVHHgwFsPyjbY1PgmHs+D+A2Cma03ogvQGr+mPqYAw@mail.gmail.com>
-References: <20191112012724.250792-1-dima@arista.com> <20191121180555.GA440967@gmail.com> <CAJwJo6ahGVHHgwFsPyjbY1PgmHs+D+A2Cma03ogvQGr+mPqYAw@mail.gmail.com>
-Date:   Thu, 09 Jan 2020 22:09:30 +0100
-Message-ID: <87y2ug9w1h.fsf@nanos.tec.linutronix.de>
+        "Alexander E. Patrakov" <patrakov@gmail.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Willy Tarreau <w@1wt.eu>,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        Ext4 Developers List <linux-ext4@vger.kernel.org>,
+        linux-man <linux-man@vger.kernel.org>
+Subject: Re: [PATCH v3 0/8] Rework random blocking
+Message-ID: <20200109220230.GA39185@roeckx.be>
+References: <20191226140423.GB3158@mit.edu>
+ <4048434.Q8HajmOrkZ@tauon.chronox.de>
+ <20191227130436.GC70060@mit.edu>
+ <15817620.rmTN4T87Wr@tauon.chronox.de>
+ <20191227220857.GD70060@mit.edu>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Linutronix-Spam-Score: -1.0
-X-Linutronix-Spam-Level: -
-X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191227220857.GD70060@mit.edu>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Dmitry Safonov <0x7f454c46@gmail.com> writes:
+On Fri, Dec 27, 2019 at 05:08:57PM -0500, Theodore Y. Ts'o wrote:
+> On Fri, Dec 27, 2019 at 10:22:23PM +0100, Stephan Mueller wrote:
+> > > So let's take a step back and ask the question: "Exactly what _value_
+> > > do you want to provide by creating some kind of true random
+> > > interface?"  What does this enable?  What applications does this
+> > > really help?
+> > 
+> > There are simply cryptographers who have use cases for such random numbers. 
+> > The core use case is to seed other DRNGs and avoiding the chaining of free-
+> > running DRNGs.
+> 
+> For this very specialized use case, what I think the kernel should
+> provide is maximal transparency; that is, given the DRBG direct access
+> to the TPM's random number generator, or direct access to the
+> ChaosKey, and the userspace DRBG should be able to get a list of the
+> various hardware RNG's, and select one, with the characterization
+> being done userspace, not in the kernel.
 
-> Gentle ping, in case you have time to look at this.
+One thing the NIST DRBGs have is prediction resistance, which is
+done by reseeding. If you chain DRBGs, you tell your parent DRBG
+that you want prediction resistance, so your parent will also
+reseed. There currently is no way to tell the kernel to reseed.
 
-I'm looking at it and so far I'm quite happy.
+This reseed option might be something that some people would like
+to see. If such an option is added, I expect that the kernel might
+block until it has gotten enough new entropy from it's entropy
+sources. But I don't actually see a need to add such an option.
 
-Andy, Vincenco any opinions?
+If the kernel provides a good RNG, the only reason I can see why
+you would like to have direct access to a hwrng is to verify that
+it's working correctly. That might mean that you put it in some
+special mode where it returns raw unprocessed values. If the device
+is in such a mode, it's output will not provide the same entropy
+per bit, and so I would expect the kernel to stop using it directly.
 
-Thanks,
+I guess there might be people who would like to use it directly,
+but I think we should instead encourage them kernel RNG.
 
-        tglx
+> You can talk about providing tools that try to make these estimations
+> --- but these sorts of things would have to be done on each user's
+> hardware, and for most distro users, it's just not practical.
+
+I would check my own hardware if such an option was available. I
+think it can be useful to see if the current estimates in the
+kernel are conservative enough or not. But it would require that
+you can know what the entropy source is, like the keyboard or
+harddisk.
+
+> So if it's just for cryptographers, then let it all be done in
+> userspace, and let's not make it easy for GPG, OpenSSL, etc., to all
+> say, "We want TrueRandom(tm); we won't settle for less".
+
+I don't think we want that. As far as I know, the only reason for
+using /dev/random is that /dev/urandom returns data before it
+has sufficient entropy.
+
+
+Kurt
+
