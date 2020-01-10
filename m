@@ -2,84 +2,85 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 22423136A35
-	for <lists+linux-api@lfdr.de>; Fri, 10 Jan 2020 10:49:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C5D28136C1C
+	for <lists+linux-api@lfdr.de>; Fri, 10 Jan 2020 12:41:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727274AbgAJJtt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 10 Jan 2020 04:49:49 -0500
-Received: from foss.arm.com ([217.140.110.172]:41510 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727219AbgAJJtt (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 10 Jan 2020 04:49:49 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 66F851396;
-        Fri, 10 Jan 2020 01:49:48 -0800 (PST)
-Received: from [192.168.1.18] (unknown [172.31.20.19])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B57803F703;
-        Fri, 10 Jan 2020 01:49:41 -0800 (PST)
-Subject: Re: [PATCHv8 00/34] kernel: Introduce Time Namespace
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Dmitry Safonov <0x7f454c46@gmail.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>
-Cc:     Dmitry Safonov <dima@arista.com>, Andrei Vagin <avagin@gmail.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        Adrian Reber <adrian@lisas.de>,
-        Andrei Vagin <avagin@openvz.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Cyrill Gorcunov <gorcunov@openvz.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Jann Horn <jannh@google.com>,
-        Jeff Dike <jdike@addtoit.com>, Oleg Nesterov <oleg@redhat.com>,
-        Pavel Emelyanov <xemul@virtuozzo.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        crml <criu@openvz.org>, Linux API <linux-api@vger.kernel.org>,
-        X86 ML <x86@kernel.org>
-References: <20191112012724.250792-1-dima@arista.com>
- <20191121180555.GA440967@gmail.com>
- <CAJwJo6ahGVHHgwFsPyjbY1PgmHs+D+A2Cma03ogvQGr+mPqYAw@mail.gmail.com>
- <87y2ug9w1h.fsf@nanos.tec.linutronix.de>
-From:   Vincenzo Frascino <vincenzo.frascino@arm.com>
-Message-ID: <1f81e2ef-93fb-926e-9953-c529675e6f4b@arm.com>
-Date:   Fri, 10 Jan 2020 09:52:37 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1727735AbgAJLlC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 10 Jan 2020 06:41:02 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:47166 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727689AbgAJLlC (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 10 Jan 2020 06:41:02 -0500
+Received: from ip5f5bd663.dynamic.kabel-deutschland.de ([95.91.214.99] helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1ipsew-0007ZR-Fb; Fri, 10 Jan 2020 11:40:58 +0000
+Date:   Fri, 10 Jan 2020 12:40:57 +0100
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Sargun Dhillon <sargun@sargun.me>
+Cc:     linux-kernel@vger.kernel.org,
+        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, tycho@tycho.ws, jannh@google.com,
+        cyphar@cyphar.com, oleg@redhat.com, luto@amacapital.net,
+        viro@zeniv.linux.org.uk, gpascutto@mozilla.com,
+        ealvarez@mozilla.com, fweimer@redhat.com, jld@mozilla.com,
+        arnd@arndb.de
+Subject: Re: [PATCH v9 0/4] Add pidfd_getfd syscall
+Message-ID: <20200110114056.zuc6ft2o4qspmbl6@wittgenstein>
+References: <20200107175927.4558-1-sargun@sargun.me>
+ <20200107205449.5dcp7o3hplg7r3fw@wittgenstein>
 MIME-Version: 1.0
-In-Reply-To: <87y2ug9w1h.fsf@nanos.tec.linutronix.de>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <20200107205449.5dcp7o3hplg7r3fw@wittgenstein>
+User-Agent: NeoMutt/20180716
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Thomas,
+On Tue, Jan 07, 2020 at 09:54:49PM +0100, Christian Brauner wrote:
+> On Tue, Jan 07, 2020 at 09:59:23AM -0800, Sargun Dhillon wrote:
+> > This patchset introduces a mechanism (pidfd_getfd syscall) to get file
+> > descriptors from other processes via pidfd. Although this can be achieved
+> > using SCM_RIGHTS, and parasitic code injection, this offers a more
+> > straightforward mechanism, with less overhead and complexity. The process
+> > under manipulation's fd still remains valid, and unmodified by the
+> > copy operation.
+> > 
+> > It introduces a flags field. The flags field is reserved a the moment,
+> > but the intent is to extend it with the following capabilities:
+> >  * Close the remote FD when copying it
+> >  * Drop the cgroup data if it's a fd pointing a socket when copying it
+> > 
+> > The syscall numbers were chosen to be one greater than openat2.
+> > 
+> > Summary of history:
+> > This initially started as a ptrace command. It did not require the process
+> > to be stopped, and felt like kind of an awkward fit for ptrace. After that,
+> > it moved to an ioctl on the pidfd. Given the core functionality, it made
+> > sense to make it a syscall which did not require the process to be stopped.
+> > 
+> > Previous versions:
+> >  V8: https://lore.kernel.org/lkml/20200103162928.5271-1-sargun@sargun.me/
+> >  V7: https://lore.kernel.org/lkml/20191226180227.GA29389@ircssh-2.c.rugged-nimbus-611.internal/
+> >  V6: https://lore.kernel.org/lkml/20191223210823.GA25083@ircssh-2.c.rugged-nimbus-611.internal/
+> >  V5: https://lore.kernel.org/lkml/20191220232746.GA20215@ircssh-2.c.rugged-nimbus-611.internal/
+> >  V4: https://lore.kernel.org/lkml/20191218235310.GA17259@ircssh-2.c.rugged-nimbus-611.internal/
+> >  V3: https://lore.kernel.org/lkml/20191217005842.GA14379@ircssh-2.c.rugged-nimbus-611.internal/
+> >  V2: https://lore.kernel.org/lkml/20191209070446.GA32336@ircssh-2.c.rugged-nimbus-611.internal/
+> >  RFC V1: https://lore.kernel.org/lkml/20191205234450.GA26369@ircssh-2.c.rugged-nimbus-611.internal/
+> 
+> I don't see anything wrong with this series anymore:
+> 
+> Acked-by: Christian Brauner <christian.brauner@ubuntu.com>
+> 
+> Other Acked-bys/Reviewed-bys and reviews of course strongly encouraged!
+> Christian
 
-On 1/9/20 9:09 PM, Thomas Gleixner wrote:
-> Dmitry Safonov <0x7f454c46@gmail.com> writes:
-> 
->> Gentle ping, in case you have time to look at this.
-> 
-> I'm looking at it and so far I'm quite happy.
-> 
-> Andy, Vincenco any opinions?
-> 
+Fyi, I'm waiting a few days on a reply from Al.
+Depending on his input the intent rn is to move this into my for-next
+early next week.
 
-I started looking at them after the holidays, in general I am happy with what I
-have seen till now.
-
-I would like to complete some testing especially on the platforms that are not
-touched by this patchset to make sure that there are no side effects on the
-unified vDSOs and then I think I am ok with the series.
-
-> Thanks,
-> 
->         tglx
-> 
-
--- 
-Regards,
-Vincenzo
+Christian
