@@ -2,85 +2,72 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C5D28136C1C
-	for <lists+linux-api@lfdr.de>; Fri, 10 Jan 2020 12:41:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D791136C30
+	for <lists+linux-api@lfdr.de>; Fri, 10 Jan 2020 12:43:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727735AbgAJLlC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 10 Jan 2020 06:41:02 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:47166 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727689AbgAJLlC (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 10 Jan 2020 06:41:02 -0500
-Received: from ip5f5bd663.dynamic.kabel-deutschland.de ([95.91.214.99] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1ipsew-0007ZR-Fb; Fri, 10 Jan 2020 11:40:58 +0000
-Date:   Fri, 10 Jan 2020 12:40:57 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Sargun Dhillon <sargun@sargun.me>
-Cc:     linux-kernel@vger.kernel.org,
-        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, tycho@tycho.ws, jannh@google.com,
-        cyphar@cyphar.com, oleg@redhat.com, luto@amacapital.net,
-        viro@zeniv.linux.org.uk, gpascutto@mozilla.com,
-        ealvarez@mozilla.com, fweimer@redhat.com, jld@mozilla.com,
-        arnd@arndb.de
-Subject: Re: [PATCH v9 0/4] Add pidfd_getfd syscall
-Message-ID: <20200110114056.zuc6ft2o4qspmbl6@wittgenstein>
-References: <20200107175927.4558-1-sargun@sargun.me>
- <20200107205449.5dcp7o3hplg7r3fw@wittgenstein>
+        id S1727949AbgAJLnA convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Fri, 10 Jan 2020 06:43:00 -0500
+Received: from Galois.linutronix.de ([193.142.43.55]:57728 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727717AbgAJLm7 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 10 Jan 2020 06:42:59 -0500
+Received: from [5.158.153.52] (helo=nanos.tec.linutronix.de)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <tglx@linutronix.de>)
+        id 1ipsgg-0003Mf-5N; Fri, 10 Jan 2020 12:42:46 +0100
+Received: by nanos.tec.linutronix.de (Postfix, from userid 1000)
+        id BC66A105BE5; Fri, 10 Jan 2020 12:42:45 +0100 (CET)
+From:   Thomas Gleixner <tglx@linutronix.de>
+To:     Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Dmitry Safonov <dima@arista.com>, linux-kernel@vger.kernel.org
+Cc:     Dmitry Safonov <0x7f454c46@gmail.com>,
+        Andrei Vagin <avagin@gmail.com>,
+        Adrian Reber <adrian@lisas.de>,
+        Andrei Vagin <avagin@openvz.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Cyrill Gorcunov <gorcunov@openvz.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jann Horn <jannh@google.com>, Jeff Dike <jdike@addtoit.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Pavel Emelyanov <xemul@virtuozzo.com>,
+        Shuah Khan <shuah@kernel.org>,
+        containers@lists.linux-foundation.org, criu@openvz.org,
+        linux-api@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCHv8 02/34] lib/vdso: make do_hres and do_coarse as __always_inline
+In-Reply-To: <ed2e65ae-75b0-ed79-0a95-90be6b82e6be@arm.com>
+References: <20191112012724.250792-1-dima@arista.com> <20191112012724.250792-3-dima@arista.com> <ed2e65ae-75b0-ed79-0a95-90be6b82e6be@arm.com>
+Date:   Fri, 10 Jan 2020 12:42:45 +0100
+Message-ID: <878smfa66i.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200107205449.5dcp7o3hplg7r3fw@wittgenstein>
-User-Agent: NeoMutt/20180716
+Content-Transfer-Encoding: 8BIT
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jan 07, 2020 at 09:54:49PM +0100, Christian Brauner wrote:
-> On Tue, Jan 07, 2020 at 09:59:23AM -0800, Sargun Dhillon wrote:
-> > This patchset introduces a mechanism (pidfd_getfd syscall) to get file
-> > descriptors from other processes via pidfd. Although this can be achieved
-> > using SCM_RIGHTS, and parasitic code injection, this offers a more
-> > straightforward mechanism, with less overhead and complexity. The process
-> > under manipulation's fd still remains valid, and unmodified by the
-> > copy operation.
-> > 
-> > It introduces a flags field. The flags field is reserved a the moment,
-> > but the intent is to extend it with the following capabilities:
-> >  * Close the remote FD when copying it
-> >  * Drop the cgroup data if it's a fd pointing a socket when copying it
-> > 
-> > The syscall numbers were chosen to be one greater than openat2.
-> > 
-> > Summary of history:
-> > This initially started as a ptrace command. It did not require the process
-> > to be stopped, and felt like kind of an awkward fit for ptrace. After that,
-> > it moved to an ioctl on the pidfd. Given the core functionality, it made
-> > sense to make it a syscall which did not require the process to be stopped.
-> > 
-> > Previous versions:
-> >  V8: https://lore.kernel.org/lkml/20200103162928.5271-1-sargun@sargun.me/
-> >  V7: https://lore.kernel.org/lkml/20191226180227.GA29389@ircssh-2.c.rugged-nimbus-611.internal/
-> >  V6: https://lore.kernel.org/lkml/20191223210823.GA25083@ircssh-2.c.rugged-nimbus-611.internal/
-> >  V5: https://lore.kernel.org/lkml/20191220232746.GA20215@ircssh-2.c.rugged-nimbus-611.internal/
-> >  V4: https://lore.kernel.org/lkml/20191218235310.GA17259@ircssh-2.c.rugged-nimbus-611.internal/
-> >  V3: https://lore.kernel.org/lkml/20191217005842.GA14379@ircssh-2.c.rugged-nimbus-611.internal/
-> >  V2: https://lore.kernel.org/lkml/20191209070446.GA32336@ircssh-2.c.rugged-nimbus-611.internal/
-> >  RFC V1: https://lore.kernel.org/lkml/20191205234450.GA26369@ircssh-2.c.rugged-nimbus-611.internal/
-> 
-> I don't see anything wrong with this series anymore:
-> 
-> Acked-by: Christian Brauner <christian.brauner@ubuntu.com>
-> 
-> Other Acked-bys/Reviewed-bys and reviews of course strongly encouraged!
-> Christian
+Vincenzo Frascino <vincenzo.frascino@arm.com> writes:
+> On 11/12/19 1:26 AM, Dmitry Safonov wrote:
+>> +» » vd·=·&vd[CS_HRES_COARSE];
+>> +out_hres:
+>> +» » return·do_hres(vd,·clock,·ts);
+>> » }·else·if·(msk·&·VDSO_COARSE)·{
+>> » » do_coarse(&vd[CS_HRES_COARSE],·clock,·ts);
+>> » » return·0;
+>> » }·else·if·(msk·&·VDSO_RAW)·{
+>> -» » return·do_hres(&vd[CS_RAW],·clock,·ts);
+>> +» » vd·=·&vd[CS_RAW];
+>> +» » /*·goto·allows·to·avoid·extra·inlining·of·do_hres.·*/
+>> +» » goto·out_hres;
+>
+> What is the performance impact of "goto out_hres"?
 
-Fyi, I'm waiting a few days on a reply from Al.
-Depending on his input the intent rn is to move this into my for-next
-early next week.
+On x86 it's invisible at least in my limited testing.
 
-Christian
+Thanks,
+
+        tglx
