@@ -2,102 +2,247 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9ADDF136461
-	for <lists+linux-api@lfdr.de>; Fri, 10 Jan 2020 01:30:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F08C136600
+	for <lists+linux-api@lfdr.de>; Fri, 10 Jan 2020 05:15:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730262AbgAJAaw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 9 Jan 2020 19:30:52 -0500
-Received: from mail-pj1-f68.google.com ([209.85.216.68]:37355 "EHLO
-        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730245AbgAJAaw (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 9 Jan 2020 19:30:52 -0500
-Received: by mail-pj1-f68.google.com with SMTP id m13so222523pjb.2
-        for <linux-api@vger.kernel.org>; Thu, 09 Jan 2020 16:30:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=content-transfer-encoding:from:mime-version:subject:date:message-id
-         :references:cc:in-reply-to:to;
-        bh=WU93w3AtbVDPqYWtjAM3MuAwVxoBZV4OjJfby5UWG0k=;
-        b=1tZqDa5G0PuPlzu1UjJOEgvTaHSV+roJwZ7hvUYGjH6N+5+UZ75ROicgm6XrVTC01k
-         OMn6l5Gm1UNk3V4jMxJBS3RxSWRzp4+OmamHgL56pd4uQMxR7dPLcH/PYEijw9pJXMpF
-         BylAvmBwoL9jvFw4t1L6iApg5dOlUoTP9Td6VkEZKd7Cb+qcBRTDCHT0XP/o+PGXeQ+M
-         aoVUsJMunUjg7ZjguTqJbaK+ZuZYUrkIlqiUcW4p/YIGQqAJKPejy+NqofKOApJrZIcV
-         V1peHznnppNnEpDN4/cbmUJzqIIVRCz1bfjQ9lTtQC1Sk1kurVw8HhffEOWTivtlRze7
-         eHVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:content-transfer-encoding:from:mime-version
-         :subject:date:message-id:references:cc:in-reply-to:to;
-        bh=WU93w3AtbVDPqYWtjAM3MuAwVxoBZV4OjJfby5UWG0k=;
-        b=rN2nmC04OZ//yoB879BVqXrpCbzwRtcdDRYZicTCc04EX2mSyl8rhlyCE7+DvYHKc1
-         LNeyBqi8bjSsuZXr6OgT37KPOzfBJxBa5iaDQy0ZNcCfELT5Q7XTDdOD98ih9VrC56pq
-         yYxs5u8U80utou2IHs97ZL6KtbgNNDObAW/Bq83vopxzZk41mKZbUcJQJvW1v4MyWUp/
-         xs4az63BCXnOCtI3L1YTN4VBr21ZQZh/XDYVtGPD8wqp9vYLN0qveEEM+cl8rsELxINO
-         Ok5e2eUsL8P3+0oc5tyIV7H4TP4zIACdEblgrthdBByv33+ggOXEXxUQiGhW6qP4VRGl
-         OxYw==
-X-Gm-Message-State: APjAAAWR2rsK7W/1LIQI34emRIVP+xGhSYlGhJMzFg2MuymTsLZX6nXn
-        +ZPaUuHdNxtS4Ot2JPtW2bhoJg==
-X-Google-Smtp-Source: APXvYqyNkS0EsFX1UycczKNVnCf9IxzBAT68JzKuVVbY09Lf8pIIJ3g6/yVhwwDOQ77iPPekM2G+hw==
-X-Received: by 2002:a17:90a:778a:: with SMTP id v10mr1029789pjk.26.1578616251644;
-        Thu, 09 Jan 2020 16:30:51 -0800 (PST)
-Received: from [10.197.30.113] ([139.104.2.240])
-        by smtp.gmail.com with ESMTPSA id 83sm121404pgh.12.2020.01.09.16.30.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Jan 2020 16:30:50 -0800 (PST)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From:   Andy Lutomirski <luto@amacapital.net>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH v3 0/8] Rework random blocking
-Date:   Thu, 9 Jan 2020 14:30:48 -1000
-Message-Id: <99CB981B-752C-449B-98BE-A4DF80D25A26@amacapital.net>
-References: <20200109220230.GA39185@roeckx.be>
-Cc:     "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Stephan Mueller <smueller@chronox.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
+        id S1731197AbgAJEPj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 9 Jan 2020 23:15:39 -0500
+Received: from zeniv.linux.org.uk ([195.92.253.2]:51464 "EHLO
+        ZenIV.linux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731174AbgAJEPj (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 9 Jan 2020 23:15:39 -0500
+Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1iplhj-005Fwg-IZ; Fri, 10 Jan 2020 04:15:23 +0000
+Date:   Fri, 10 Jan 2020 04:15:23 +0000
+From:   Al Viro <viro@zeniv.linux.org.uk>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Aleksa Sarai <cyphar@cyphar.com>,
+        David Howells <dhowells@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        stable <stable@vger.kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Serge Hallyn <serge@hallyn.com>, dev@opencontainers.org,
+        Linux Containers <containers@lists.linux-foundation.org>,
         Linux API <linux-api@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        "Ahmed S. Darwish" <darwish.07@gmail.com>,
-        Lennart Poettering <mzxreary@0pointer.de>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        "Alexander E. Patrakov" <patrakov@gmail.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Willy Tarreau <w@1wt.eu>,
-        Matthew Garrett <mjg59@srcf.ucam.org>,
-        Ext4 Developers List <linux-ext4@vger.kernel.org>,
-        linux-man <linux-man@vger.kernel.org>
-In-Reply-To: <20200109220230.GA39185@roeckx.be>
-To:     Kurt Roeckx <kurt@roeckx.be>
-X-Mailer: iPhone Mail (17C54)
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Ian Kent <raven@themaw.net>
+Subject: Re: [PATCH RFC 0/1] mount: universally disallow mounting over
+ symlinks
+Message-ID: <20200110041523.GK8904@ZenIV.linux.org.uk>
+References: <20200101005446.GH4203@ZenIV.linux.org.uk>
+ <20200101030815.GA17593@ZenIV.linux.org.uk>
+ <20200101144407.ugjwzk7zxrucaa6a@yavin.dot.cyphar.com>
+ <20200101234009.GB8904@ZenIV.linux.org.uk>
+ <20200102035920.dsycgxnb6ba2jhz2@yavin.dot.cyphar.com>
+ <20200103014901.GC8904@ZenIV.linux.org.uk>
+ <20200108031314.GE8904@ZenIV.linux.org.uk>
+ <CAHk-=wgQ3yOBuK8mxpnntD8cfX-+10ba81f86BYg8MhvwpvOMg@mail.gmail.com>
+ <20200108213444.GF8904@ZenIV.linux.org.uk>
+ <CAHk-=wiq11+thoe60qhsSHk_nbRF2TRL1Wnf6eHcYObjhJmsww@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wiq11+thoe60qhsSHk_nbRF2TRL1Wnf6eHcYObjhJmsww@mail.gmail.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Thu, Jan 09, 2020 at 04:08:16PM -0800, Linus Torvalds wrote:
+> On Wed, Jan 8, 2020 at 1:34 PM Al Viro <viro@zeniv.linux.org.uk> wrote:
+> >
+> > The point is, we'd never followed mounts on /proc/self/cwd et.al.
+> > I hadn't checked 2.0, but 2.1.100 ('97, before any changes from me)
+> > is that way.
+> 
+> Hmm. If that's the case, maybe they should be marked implicitly as
+> O_PATH when opened?
 
+I thought you wanted O_PATH as starting point to have mounts traversed?
+Confused...
 
-> On Jan 9, 2020, at 12:02 PM, Kurt Roeckx <kurt@roeckx.be> wrote:
->=20
+> > Actually, scratch that - 2.0 behaves the same way
+> > (mountpoint crossing is done in iget() there; is that Minix influence
+> > or straight from the Lions' book?)
+> 
+> I don't think I ever had access to Lions' - I've _seen_ a printout of
+> it later, and obviously maybe others did,
+> 
+> More likely it's from Maurice Bach: the Design of the Unix Operating
+> System. I'm pretty sure that's where a lot of the FS layer stuff came
+> from.  Certainly the bad old buffer head interfaces, and quite likely
+> the iget() stuff too.
+>
+> > 0.10: forward traversal in iget(), back traversal in fs/namei.c:find_entry()
+> 
+> Whee, you _really_ went back in time.
+> 
+> So I did too.
+> 
+> And looking at that code in iget(), I doubt it came from anywhere.
+> Christ. It's just looping over a fixed-size array, both when finding
+> the inode, and finding the superblock.
+> 
+> Cute, but unbelievably stupid. It was a more innocent time.
+> 
+> In other words, I think you can chalk it up to just me, because
+> blaming anybody else for that garbage would be very very unfair indeed
+> ;)
 
->=20
-> If the kernel provides a good RNG, the only reason I can see why
-> you would like to have direct access to a hwrng is to verify that
-> it's working correctly. That might mean that you put it in some
-> special mode where it returns raw unprocessed values. If the device
-> is in such a mode, it's output will not provide the same entropy
-> per bit, and so I would expect the kernel to stop using it directly.
+See https://minnie.tuhs.org/cgi-bin/utree.pl?file=V7/usr/sys/sys/iget.c
+Exactly the same algorithm, complete with linear searches over those
+fixed-sized array.
 
-I disagree.
+<grabs Bach> Right, he simply transcribes v7 iget().
 
-If I buy a ChaosKey or a fancy EAL4FIPSOMG key, I presumably have it for a r=
-eason and I want to actually use the thing for real. Maybe it=E2=80=99s for s=
-ome certification reason and maybe it=E2=80=99s just because it=E2=80=99s re=
-ally cool.
+So I suspect that you are right - your variant of iget was pretty much
+one-to-one implementation of Bach's description of v7 iget.
 
-As for =E2=80=9Cdirect=E2=80=9D access,  I think AMD provides an interface t=
-o read raw output from the on-die entropy source. Exposing this to user spac=
-e is potentially quite useful for anyone who wants to try to characterize it=
-.  I don=E2=80=99t really think people should use a raw sample interface as a=
- source of production random numbers, though.
+Your namei wasn't - Bach has 'if the entry points to root and you are
+in the root and name is "..", find mount table entry (by device number),
+drop your directory inode, grab the inode of mountpount and restart
+the search for ".." in there', which gives back traversals to arbitrary
+depth.  And v7 namei() (as Bach mentions) uses iget() for starting point
+as well as for each component.  You kept pointers instead, which is where
+the other difference has come from (no mount traversal at the starting
+point)...
+
+Actually, I've misread your code in 0.10 - it does unlimited forward
+traversals; it's back traversals that go only one level.  The forward
+ones got limited to one level in 0.95, but then mount-over-root had
+been banned all along.  I'd read the pre-dcache variant of iget(),
+seen it go pretty much all the way back to beginning and hadn't
+sorted out the 0.12 -> 0.95 transition...
+
+> > How would your proposal deal with access("/proc/self/fd/42/foo", MAY_READ)
+> > vs. faccessat(42, "foo", MAY_READ)?
+> 
+> I think that in a perfect world, the O_PATH'ness of '42' would be the
+> deciding factor. Wouldn't those be the best and most consistent
+> semantics?
+> 
+> And then 'cwd'/'root' always have the O_PATH behavior.
+
+See above - unless I'm misparsing you, you wanted mount traversals in the
+starting point if it's ...at() with O_PATH fd.  With O_PATH open() not
+doing them.
+
+For cwd and root the situation is opposite - we do NOT traverse mounts
+for those.  And that's really too late to change.
+
+> > The latter would trigger automount,
+> > the former would not...  Or would you extend that to "traverse mounts
+> > upon following procfs links, if the file in question had been opened with
+> > O_PATH"?
+> 
+> Exactly.
+> 
+> But you know what? I do not believe this is all that important, and I
+> doubt it will matter to anybody.
+
+FWIW, digging through the automount-related parts of that stuff has
+caught several fun issues.  One (and I'm rather embarrassed by it)
+should've been caught back in commit 8aef18845266 (VFS: Fix vfsmount
+overput on simultaneous automount).  To quote the commit message:
+    The problem is that lock_mount() drops the caller's reference to the
+    mountpoint's vfsmount in the case where it finds something already mounted on
+    the mountpoint as it transits to the mounted filesystem and replaces path->mnt
+    with the new mountpoint vfsmount.
+    
+    During a pathwalk, however, we don't take a reference on the vfsmount if it is
+    the same as the one in the nameidata struct, but do_add_mount() doesn't know
+    this.
+At which point I should've gone "what the fuck?" - lock_mount() does, indeed,
+drop path->mnt in this situation and replaces it with the whatever's come to
+cover it.  For mount(2) that's the right thing to do - we _want_ to mount
+on top of whatever we have at the mountpoint.  For automounts we very much
+don't want that - it's either "mount right on top of the automount trigger"
+or discard whatever we'd been about to mount and walk into whatever's got
+mounted there (presumably the same thing triggered by another process).
+We kinda-sorta get that effect, but in a very convoluted way: do_add_mount()
+will refuse to mount something on top of itself -
+        /* Refuse the same filesystem on the same mount point */
+        err = -EBUSY;
+        if (path->mnt->mnt_sb == newmnt->mnt.mnt_sb &&
+            path->mnt->mnt_root == path->dentry)
+                goto unlock;
+which will end up with -EBUSY returned (and recognized by follow_automount()).
+
+First of all, that's unreliable.  If somebody not only has triggered that
+automount, but managed to _mount_ something else on top (for example,
+has triggered it by lookup of mountpoint-to-be in mount(2)), we'll end
+up not triggering that check.  In which case we'll get something like
+nfs referral point under nfs automounted there under tmpfs from explicit
+overmount under same nfs mount we'd automounted there - identical to what's
+been buried under tmpfs.  It's hard to hit, but not impossibly so.
+
+What's more, the whole solution is a kludge - the root of problem is
+that lock_mount() is the wrong thing to do in case of finish_automount().
+We don't want to go into whatever's overmounting us there, both for
+the reasons above *and* because it's a PITA for the caller.  So the
+right solution is
+	* lift lock_mount() call from do_add_mount() into its callers
+(all 2 of them); while we are at it, lift unlock_mount() as well
+(makes for simpler failure exits in do_add_mount()).
+	* replace the call of lock_mount() in finish_automount()
+with variant that doesn't do "unlock, walk deeper and retry locking",
+returning ERR_PTR(-EBUSY) in such case.
+	* get rid of the kludge introduced in that commit.  Better
+yet, don't bother with traversing into the covering mount in case
+of success - let the caller of follow_automount() do that.  Which
+eliminates the need to pass need_mntput to the sucker and suggests
+an even better solution - have this analogue of lock_mount()
+return NULL instead of ERR_PTR(-EBUSY) and treat it in finish_automount()
+as "OK, discard what we wanted to mount and return 0".  That gets
+rid of the entire
+        err = finish_automount(mnt, path);
+        switch (err) {
+        case -EBUSY:
+                /* Someone else made a mount here whilst we were busy */
+                return 0;
+        case 0:
+                path_put(path);
+                path->mnt = mnt;
+                path->dentry = dget(mnt->mnt_root);
+                return 0;
+        default:
+                return err;
+        }
+chunk in follow_automount() - it would just be
+	return finish_automount(mnt, path);
+
+Another thing (in the same area) is not a bug per se, but...
+after the call of ->d_automount() we have this:
+        if (IS_ERR(mnt)) {
+                /*
+                 * The filesystem is allowed to return -EISDIR here to indicate
+                 * it doesn't want to automount.  For instance, autofs would do
+                 * this so that its userspace daemon can mount on this dentry.
+                 *
+                 * However, we can only permit this if it's a terminal point in
+                 * the path being looked up; if it wasn't then the remainder of
+                 * the path is inaccessible and we should say so.
+                 */
+                if (PTR_ERR(mnt) == -EISDIR && (nd->flags & LOOKUP_PARENT))
+                        return -EREMOTE;
+                return PTR_ERR(mnt);
+	}
+Except that not a single instance of ->d_automount() has ever returned
+-EISDIR.  Certainly not autofs one, despite the what the comment says.
+That chunk has come from dhowells, back when the whole mount trap series
+had been merged.  After talking that thing over (fun: trying to figure
+out what had been intended nearly 9 years ago, when people involved are
+in UK, US east coast and AU west coast respectively.  The only way it
+could suck more would've been if I were on the west coast - then all
+timezone deltas would be 8-hour ones)...  looks like it's a rudiment
+of plans that got superseded during the series development, nobody
+quite remembers exact details.  Conclusion: it's not even dead, it's
+stillborn; bury it.
+
+Unfortunately, there are other interesting questions related to
+autofs-specific bits (->d_manage()) and the timezone-related fun
+is, of course, still there.  I hope to sort that out today or
+tomorrow, at least enough to do a reasonable set of backportable
+fixes to put in front of follow_managed()/step_into() queue.
+Oh, well...
