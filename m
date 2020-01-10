@@ -2,88 +2,149 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CF9013638B
-	for <lists+linux-api@lfdr.de>; Fri, 10 Jan 2020 00:02:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C2BF13642A
+	for <lists+linux-api@lfdr.de>; Fri, 10 Jan 2020 01:08:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728177AbgAIXCl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 9 Jan 2020 18:02:41 -0500
-Received: from excelsior.roeckx.be ([195.234.45.115]:35675 "EHLO
-        excelsior.roeckx.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726267AbgAIXCl (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 9 Jan 2020 18:02:41 -0500
-Received: from intrepid.roeckx.be (localhost [127.0.0.1])
-        by excelsior.roeckx.be (Postfix) with ESMTP id 8B42EA8A0573;
-        Thu,  9 Jan 2020 23:02:38 +0000 (UTC)
-Received: by intrepid.roeckx.be (Postfix, from userid 1000)
-        id 4C97F1FE0C7A; Fri, 10 Jan 2020 00:02:38 +0100 (CET)
-Date:   Fri, 10 Jan 2020 00:02:37 +0100
-From:   Kurt Roeckx <kurt@roeckx.be>
-To:     "Theodore Y. Ts'o" <tytso@mit.edu>
-Cc:     Stephan Mueller <smueller@chronox.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Andy Lutomirski <luto@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        "Ahmed S. Darwish" <darwish.07@gmail.com>,
-        Lennart Poettering <mzxreary@0pointer.de>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        "Alexander E. Patrakov" <patrakov@gmail.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Willy Tarreau <w@1wt.eu>,
-        Matthew Garrett <mjg59@srcf.ucam.org>,
-        Ext4 Developers List <linux-ext4@vger.kernel.org>,
-        linux-man <linux-man@vger.kernel.org>
-Subject: Re: [PATCH v3 0/8] Rework random blocking
-Message-ID: <20200109230237.GA2992@roeckx.be>
-References: <20191226140423.GB3158@mit.edu>
- <4048434.Q8HajmOrkZ@tauon.chronox.de>
- <20191227130436.GC70060@mit.edu>
- <15817620.rmTN4T87Wr@tauon.chronox.de>
- <20191227220857.GD70060@mit.edu>
- <20200109220230.GA39185@roeckx.be>
- <20200109224011.GD41242@mit.edu>
+        id S1730072AbgAJAIi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 9 Jan 2020 19:08:38 -0500
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:40197 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730065AbgAJAIi (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 9 Jan 2020 19:08:38 -0500
+Received: by mail-lf1-f67.google.com with SMTP id i23so107974lfo.7
+        for <linux-api@vger.kernel.org>; Thu, 09 Jan 2020 16:08:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=qjrwlNrUWv0QXAIqsTPozbObZ8/7GgridjmNme8W52I=;
+        b=ZtRoq1DRX7RXsXHhNmpxW4UB5JzoQNOKVTmOa01bx5ggT/DHqnRKaMysJGfaxE1BO8
+         89pqzHmvERx+seKq1dYzZ8We/mt3eqN1+GxPl8i6s9a40Llm5xj1AoQQ53D6zO8ixCG8
+         zDKJYDEBm9yUsTkdwHLUa14RvnsxxJ0XX8xZo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qjrwlNrUWv0QXAIqsTPozbObZ8/7GgridjmNme8W52I=;
+        b=DRkFIvUQFkLtxvWSRNpEa59s15HNwNyAEIHXBitqqIOX24edTZrDHf+auiSsLfMtkt
+         gbdJ5ovkQbajKTRQTACBQ95qNaAzkmitdLdAoDq5GnFiJd7z3LW+/T/x2CusRUYFx5W8
+         l6snh9CddfL9dvPCusu0KDfvyGmHw15J1ly1/S+aLtRR0YnqXhRrBqJnFkEKZQFIEA3F
+         psLYThdR5yS4TDvLY1jEfta+ChR8MpWujRNp4wT83oxD+mYvDvtC3bS66O6hQz8Xkd5M
+         ABf7sh3zwh6yKQLzC1qAODuBuwFM3NM/VGlDJ++qCqdjwn9dtMuyDj+dD2gYhmFKg46f
+         luRg==
+X-Gm-Message-State: APjAAAUNXOkPKTfzZfIdEYg9qLtcUtbjYMIB/Gh/69MNOfQ/KewEYDuX
+        1NivEzQMbbZGezckAzwnFr7spdYdN8g=
+X-Google-Smtp-Source: APXvYqx4IMIecTRLjFu96LUIVhWEM4s8UiN9nC2LPdebyogf6UE9C6TO89/z80APD+HdiH1YRZxXpg==
+X-Received: by 2002:a19:cc49:: with SMTP id c70mr240339lfg.73.1578614914935;
+        Thu, 09 Jan 2020 16:08:34 -0800 (PST)
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com. [209.85.208.173])
+        by smtp.gmail.com with ESMTPSA id a21sm138126lfg.44.2020.01.09.16.08.32
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Jan 2020 16:08:33 -0800 (PST)
+Received: by mail-lj1-f173.google.com with SMTP id u71so200898lje.11
+        for <linux-api@vger.kernel.org>; Thu, 09 Jan 2020 16:08:32 -0800 (PST)
+X-Received: by 2002:a05:651c:239:: with SMTP id z25mr455607ljn.48.1578614912546;
+ Thu, 09 Jan 2020 16:08:32 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200109224011.GD41242@mit.edu>
+References: <20191230072959.62kcojxpthhdwmfa@yavin.dot.cyphar.com>
+ <20200101004324.GA11269@ZenIV.linux.org.uk> <20200101005446.GH4203@ZenIV.linux.org.uk>
+ <20200101030815.GA17593@ZenIV.linux.org.uk> <20200101144407.ugjwzk7zxrucaa6a@yavin.dot.cyphar.com>
+ <20200101234009.GB8904@ZenIV.linux.org.uk> <20200102035920.dsycgxnb6ba2jhz2@yavin.dot.cyphar.com>
+ <20200103014901.GC8904@ZenIV.linux.org.uk> <20200108031314.GE8904@ZenIV.linux.org.uk>
+ <CAHk-=wgQ3yOBuK8mxpnntD8cfX-+10ba81f86BYg8MhvwpvOMg@mail.gmail.com> <20200108213444.GF8904@ZenIV.linux.org.uk>
+In-Reply-To: <20200108213444.GF8904@ZenIV.linux.org.uk>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Thu, 9 Jan 2020 16:08:16 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wiq11+thoe60qhsSHk_nbRF2TRL1Wnf6eHcYObjhJmsww@mail.gmail.com>
+Message-ID: <CAHk-=wiq11+thoe60qhsSHk_nbRF2TRL1Wnf6eHcYObjhJmsww@mail.gmail.com>
+Subject: Re: [PATCH RFC 0/1] mount: universally disallow mounting over symlinks
+To:     Al Viro <viro@zeniv.linux.org.uk>
+Cc:     Aleksa Sarai <cyphar@cyphar.com>,
+        David Howells <dhowells@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        stable <stable@vger.kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Serge Hallyn <serge@hallyn.com>, dev@opencontainers.org,
+        Linux Containers <containers@lists.linux-foundation.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Ian Kent <raven@themaw.net>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jan 09, 2020 at 05:40:11PM -0500, Theodore Y. Ts'o wrote:
-> On Thu, Jan 09, 2020 at 11:02:30PM +0100, Kurt Roeckx wrote:
-> > 
-> > One thing the NIST DRBGs have is prediction resistance, which is
-> > done by reseeding. If you chain DRBGs, you tell your parent DRBG
-> > that you want prediction resistance, so your parent will also
-> > reseed. There currently is no way to tell the kernel to reseed.
-> 
-> It would be simple enough to add a new flag, perhaps GRND_RESEED, to
-> getrandom() which requests that the kernel reseed first.  This would
-> require sufficient amounts of entropy in the input pool to do the
-> reseed; if there is not enough, the getrandom() call would block until
-> there was enough.  If GRND_NONBLOCK is supplied, then getrandom()
-> would return EAGAIN if there wasn't sufficient entropy.
-> 
-> Is this what you want?
+On Wed, Jan 8, 2020 at 1:34 PM Al Viro <viro@zeniv.linux.org.uk> wrote:
+>
+> The point is, we'd never followed mounts on /proc/self/cwd et.al.
+> I hadn't checked 2.0, but 2.1.100 ('97, before any changes from me)
+> is that way.
 
-I think some people might want to see it, but I think you
-shouldn't add it.
+Hmm. If that's the case, maybe they should be marked implicitly as
+O_PATH when opened?
 
-> > I don't think we want that. As far as I know, the only reason for
-> > using /dev/random is that /dev/urandom returns data before it
-> > has sufficient entropy.
-> 
-> Is there any objections to just using getrandom(2)?
+> Actually, scratch that - 2.0 behaves the same way
+> (mountpoint crossing is done in iget() there; is that Minix influence
+> or straight from the Lions' book?)
 
-It provides the interface we want, so no. But there are still
-people who don't have it for various reasons. OpenSSL actually
-does the system call itself if libc doesn't provider a wrapper for
-it.
+I don't think I ever had access to Lions' - I've _seen_ a printout of
+it later, and obviously maybe others did,
 
+More likely it's from Maurice Bach: the Design of the Unix Operating
+System. I'm pretty sure that's where a lot of the FS layer stuff came
+from.  Certainly the bad old buffer head interfaces, and quite likely
+the iget() stuff too.
 
-Kurt
+> 0.10: forward traversal in iget(), back traversal in fs/namei.c:find_entry()
 
+Whee, you _really_ went back in time.
+
+So I did too.
+
+And looking at that code in iget(), I doubt it came from anywhere.
+Christ. It's just looping over a fixed-size array, both when finding
+the inode, and finding the superblock.
+
+Cute, but unbelievably stupid. It was a more innocent time.
+
+In other words, I think you can chalk it up to just me, because
+blaming anybody else for that garbage would be very very unfair indeed
+;)
+
+> How would your proposal deal with access("/proc/self/fd/42/foo", MAY_READ)
+> vs. faccessat(42, "foo", MAY_READ)?
+
+I think that in a perfect world, the O_PATH'ness of '42' would be the
+deciding factor. Wouldn't those be the best and most consistent
+semantics?
+
+And then 'cwd'/'root' always have the O_PATH behavior.
+
+> The latter would trigger automount,
+> the former would not...  Or would you extend that to "traverse mounts
+> upon following procfs links, if the file in question had been opened with
+> O_PATH"?
+
+Exactly.
+
+But you know what? I do not believe this is all that important, and I
+doubt it will matter to anybody.
+
+So what matters most is what makes the most sense to the VFS layer,
+and what makes the most sense to _you_.
+
+Because my reaction from this thread is that not only have you thought
+about this issue and followed the history a whole lot more than I
+would ever have done, it's also that I trust you to DTRT.
+
+I think it would be good to have some self-consistency, but at the
+same time clearly we already don't really, and our behavior here has
+subtly changed over the years (and not so subtly - if you go back
+sufficiently far, /proc behavior wrt file descriptors has had both
+"dup()" behavior and "make a new file descriptor with the same inode"
+behavior, afaik).
+
+               Linus
