@@ -2,138 +2,85 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E6B87137C35
-	for <lists+linux-api@lfdr.de>; Sat, 11 Jan 2020 08:43:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D0C3138583
+	for <lists+linux-api@lfdr.de>; Sun, 12 Jan 2020 09:21:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728523AbgAKHnJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 11 Jan 2020 02:43:09 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:33720 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728507AbgAKHnI (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 11 Jan 2020 02:43:08 -0500
-Received: by mail-wr1-f65.google.com with SMTP id b6so3888581wrq.0;
-        Fri, 10 Jan 2020 23:43:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to;
-        bh=7phXSgAkhV7ekY+XxbbLPgZzgDKYvBOEXbRLHHpKIRM=;
-        b=RiwLzAiADjNU/CdyggCMb4mC3tAkhOf/tdXXpjZGd0923CM74Nwwwg4xxLJQrX7c69
-         DtVyroORkLm4kZI6fWasSzTvLxPTjryytOT7sOfsmMMANDvIHs06tPEd8km9VCIUumuw
-         88L4s8w7oj5wqKMX7X0dUzmwpgJWfbKc1V8+sdFGKJUfX0lTaLoV8cH809OCNznwxPSm
-         z6f6eBeVAwMG9FJNoSa4N2jNY9TfpM04GTn7jsetbGzdD89Z9SPOljf3wFWN5yh3xlqp
-         P+kbJB/o2kU/OHaSzhPWwAfixETFkGRfgkOyzZ61zC6LhoDAq5jwo6dSMyjkTuhNd1nX
-         hU4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to;
-        bh=7phXSgAkhV7ekY+XxbbLPgZzgDKYvBOEXbRLHHpKIRM=;
-        b=GjI3q/qsJWgUUlyUN+x9jp/iGjShMlSygMGeT5W//oNW5S3u+Dvg7wmTFRXqSRFSV+
-         OqL52+OHuOnsPg9Rt5vZEDHkzbwsly0pYTNvAtY2pFZb+BlQrT4CL0hBpH7enf0mhcbP
-         twdPRlpy0uGy3lNBJ2DLEw1dUwHmbwuqs0A5MIngy2pb7p7XyqNOEsJ3EjACLcuR0KnE
-         5kRQjW8DM0d30rmeHFbXakCaJfM+2a0Vp82id0WpJs/NphzNkPSby0ATFfSKAcCD7RCJ
-         ijHro7pbTEQpMBOWZXeP4SrGnkPPdi6DVCO1ETQNFNF8oKb5XMupEAyoEhfH4gBtrqQd
-         8MUg==
-X-Gm-Message-State: APjAAAXps345GZ3X6d7LLyyAQA9CfIcCnhHSXZZ9GDqIq32US6B+Zxma
-        HG2Lz9yEoJQln1zG7SeGR99kte3+
-X-Google-Smtp-Source: APXvYqyRmODzfldBA8D/NN893xpmrLQXVhwM3VmayHW+WSWW0/eolokZQbHHru134cl6zX8cgpAI7w==
-X-Received: by 2002:adf:e641:: with SMTP id b1mr7581841wrn.34.1578728587074;
-        Fri, 10 Jan 2020 23:43:07 -0800 (PST)
-Received: from localhost.localdomain ([2a02:2450:10d2:194d:d1f3:c74b:f29c:a970])
-        by smtp.gmail.com with ESMTPSA id r68sm5236515wmr.43.2020.01.10.23.43.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jan 2020 23:43:06 -0800 (PST)
-From:   SeongJae Park <sj38.park@gmail.com>
-To:     Minchan Kim <minchan@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
-        oleksandr@redhat.com, Suren Baghdasaryan <surenb@google.com>,
-        Tim Murray <timmurray@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Brian Geffon <bgeffon@google.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        John Dias <joaodias@google.com>
-Subject: Re: [PATCH 4/4] mm/madvise: allow KSM hints for remote API
-Date:   Sat, 11 Jan 2020 08:42:59 +0100
-Message-Id: <20200111074259.25577-1-sj38.park@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200110213433.94739-5-minchan@kernel.org> (raw)
+        id S1732369AbgALIVv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 12 Jan 2020 03:21:51 -0500
+Received: from mail3.iservicesmail.com ([217.130.24.75]:17665 "EHLO
+        mail3.iservicesmail.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732382AbgALIVu (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 12 Jan 2020 03:21:50 -0500
+IronPort-SDR: TapGAklkdO8kJVbtu570XM4ZFlMnRIy6oUbWEkuwZDrRnakY8PFSjYuBcFQuHi4YdOLZkcZs3g
+ ymobQGuJA0Kg==
+IronPort-PHdr: =?us-ascii?q?9a23=3AwnHiChTty6TyfaMuF8X460290Npsv+yvbD5Q0Y?=
+ =?us-ascii?q?Iujvd0So/mwa6ybBON2/xhgRfzUJnB7Loc0qyK6vumAzJfqszY+Fk5M7V0Hy?=
+ =?us-ascii?q?cfjssXmwFySOWkMmbcaMDQUiohAc5ZX0Vk9XzoeWJcGcL5ekGA6ibqtW1aFR?=
+ =?us-ascii?q?rwLxd6KfroEYDOkcu3y/qy+5rOaAlUmTaxe7x/IAi4oAnLqMUbgIlvJqkvxh?=
+ =?us-ascii?q?fUv3BFZ/lYyWR0KFyJgh3y/N2w/Jlt8yRRv/Iu6ctNWrjkcqo7ULJVEi0oP3?=
+ =?us-ascii?q?g668P3uxbDSxCP5mYHXWUNjhVIGQnF4wrkUZr3ryD3q/By2CiePc3xULA0RT?=
+ =?us-ascii?q?Gv5LplRRP0lCsKMSMy/GfQhsJtkK1Uuhehphxmz4PKZ4GVLuJ+fqTHfdwAWW?=
+ =?us-ascii?q?pOQN9dWDJHAo+lc4YPE/YBMvxEoIn9uVQOqAWxBQ+wBO/21DBIgGb606o90+?=
+ =?us-ascii?q?QnDw7H3BUsEMwIsH/JqNn4OrseXfywwKTO0D7Nbe5Z2S3l5YbGch4hu++CU7?=
+ =?us-ascii?q?Ftf8Xe1UYhGBjIjkmSpIP5Iz+ZyvgBv3ad4uF9VeyvkWknqwRprza12Mgslp?=
+ =?us-ascii?q?fGhpgIwV/E8iV5xok1LsC/RU5jf9GkDIVftzuUNotxRMMiTHpluCYhyrIdpZ?=
+ =?us-ascii?q?G3ZjQFyJMixxLFa/yHcJGF7xT+X+iSOTd1nGxpdK+9ihqo7EStxPHwWtOq3F?=
+ =?us-ascii?q?tFtCZInNnBu3YQ3BLJ8MeHUOFy/kK51DaK0ADc9/9LLFgvlareN54h2rkwlo?=
+ =?us-ascii?q?cPsUjbHi/5hkH2jKiOe0Uh4Oeo6uDnYq/4qZ+YK4N5hRvyMropmsOiG+s4PA?=
+ =?us-ascii?q?8OX26F9uimyrLj5lX1QLRMjvIojqnUqI7WKdkZq6KjHgNY3Jov5wyhAzqpyt?=
+ =?us-ascii?q?gVk3kKIEpAeB2djojpP1/OIOr/Dfe6m1msiClkx+zYMb37DJTNKX7DkLj6cL?=
+ =?us-ascii?q?Z98E5T0xY8wcpD6JJTD7ENOvLzWkzpuNzCEhA5KxC0w/rgCNhl0oMeWGSPAr?=
+ =?us-ascii?q?KWMa/Lq1CI/uMvLvKSZI8apjn9MeIp5/3wgn8jn18SY62p0YEQaHCiEfQ1a3?=
+ =?us-ascii?q?meNH7thMoRVG4SvyIgQ+Hwzl6PSzheYzC1Ra1v3DwjDJOaCtL7S5ygmvS+2y?=
+ =?us-ascii?q?G0VslOa3xLEE+LF3jodIWfUfwkZyebI8snmTsBA+uPUYgkgCmjqALgg4VgKO?=
+ =?us-ascii?q?WcrjUVqZ/5y99z6MXTjhs5szdzCoKd0DfeHClPgmoUSmpvj+hEqktnxwLYif?=
+ =?us-ascii?q?B1?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A2HrAgDD1RpelyMYgtkUBjMYGgEBAQE?=
+ =?us-ascii?q?BAQEBAQMBAQEBEQEBAQICAQEBAYFoBAEBAQELAQEBGggBgSWBTVIgEpNQgU0?=
+ =?us-ascii?q?fg0OLY4EAgx4VhgcUDIFbDQEBAQEBNQIBAYRATgEXgQ8kNQgOAgMNAQEFAQE?=
+ =?us-ascii?q?BAQEFBAEBAhABAQEBAQYYBoVzgh0MHgEEAQEBAQMDAwEBDAGDXQcZDzlKTAE?=
+ =?us-ascii?q?OAVODBIJLAQEzhVCYKQGNBA0NAoUdgj4ECoEJgRojgTYBjBgagUE/gSMhgis?=
+ =?us-ascii?q?IAYIBgn8BEgFsgkiCWQSNQhIhgQeIKZgXgkEEdolMjAKCNwEPiAGEMQMQgkU?=
+ =?us-ascii?q?PgQmIA4ROgX2jN1d0AYEecTMagiYagSBPGA2IG44tQIEWEAJPjFuCMgEB?=
+X-IPAS-Result: =?us-ascii?q?A2HrAgDD1RpelyMYgtkUBjMYGgEBAQEBAQEBAQMBAQEBE?=
+ =?us-ascii?q?QEBAQICAQEBAYFoBAEBAQELAQEBGggBgSWBTVIgEpNQgU0fg0OLY4EAgx4Vh?=
+ =?us-ascii?q?gcUDIFbDQEBAQEBNQIBAYRATgEXgQ8kNQgOAgMNAQEFAQEBAQEFBAEBAhABA?=
+ =?us-ascii?q?QEBAQYYBoVzgh0MHgEEAQEBAQMDAwEBDAGDXQcZDzlKTAEOAVODBIJLAQEzh?=
+ =?us-ascii?q?VCYKQGNBA0NAoUdgj4ECoEJgRojgTYBjBgagUE/gSMhgisIAYIBgn8BEgFsg?=
+ =?us-ascii?q?kiCWQSNQhIhgQeIKZgXgkEEdolMjAKCNwEPiAGEMQMQgkUPgQmIA4ROgX2jN?=
+ =?us-ascii?q?1d0AYEecTMagiYagSBPGA2IG44tQIEWEAJPjFuCMgEB?=
+X-IronPort-AV: E=Sophos;i="5.69,424,1571695200"; 
+   d="scan'208";a="304029613"
+Received: from mailrel04.vodafone.es ([217.130.24.35])
+  by mail01.vodafone.es with ESMTP; 12 Jan 2020 09:20:41 +0100
+Received: (qmail 24765 invoked from network); 12 Jan 2020 05:00:23 -0000
+Received: from unknown (HELO 192.168.1.3) (quesosbelda@[217.217.179.17])
+          (envelope-sender <peterwong@hsbc.com.hk>)
+          by mailrel04.vodafone.es (qmail-ldap-1.03) with SMTP
+          for <linux-api@vger.kernel.org>; 12 Jan 2020 05:00:23 -0000
+Date:   Sun, 12 Jan 2020 06:00:18 +0100 (CET)
+From:   Peter Wong <peterwong@hsbc.com.hk>
+Reply-To: Peter Wong <peterwonghkhsbc@gmail.com>
+To:     linux-api@vger.kernel.org
+Message-ID: <26080795.460899.1578805223189.JavaMail.cash@217.130.24.55>
+Subject: Investment opportunity
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, 10 Jan 2020 13:34:33 -0800 Minchan Kim <minchan@kernel.org> wrote:
+Greetings,
+Please read the attached investment proposal and reply for more details.
+Are you interested in loan?
+Sincerely: Peter Wong
 
-> From: Oleksandr Natalenko <oleksandr@redhat.com>
-> 
-> It all began with the fact that KSM works only on memory that is marked
-> by madvise(). And the only way to get around that is to either:
-> 
->   * use LD_PRELOAD; or
->   * patch the kernel with something like UKSM or PKSM.
-> 
-> (i skip ptrace can of worms here intentionally)
-> 
-> To overcome this restriction, lets employ a new remote madvise API. This
-> can be used by some small userspace helper daemon that will do auto-KSM
-> job for us.
-> 
-> I think of two major consumers of remote KSM hints:
-> 
->   * hosts, that run containers, especially similar ones and especially in
->     a trusted environment, sharing the same runtime like Node.js;
-> 
->   * heavy applications, that can be run in multiple instances, not
->     limited to opensource ones like Firefox, but also those that cannot be
->     modified since they are binary-only and, maybe, statically linked.
-> 
-> Speaking of statistics, more numbers can be found in the very first
-> submission, that is related to this one [1]. For my current setup with
-> two Firefox instances I get 100 to 200 MiB saved for the second instance
-> depending on the amount of tabs.
-> 
-> 1 FF instance with 15 tabs:
-> 
->    $ echo "$(cat /sys/kernel/mm/ksm/pages_sharing) * 4 / 1024" | bc
->    410
-> 
-> 2 FF instances, second one has 12 tabs (all the tabs are different):
-> 
->    $ echo "$(cat /sys/kernel/mm/ksm/pages_sharing) * 4 / 1024" | bc
->    592
-> 
-> At the very moment I do not have specific numbers for containerised
-> workload, but those should be comparable in case the containers share
-> similar/same runtime.
-> 
-> [1] https://lore.kernel.org/patchwork/patch/1012142/
-> 
-> Signed-off-by: Oleksandr Natalenko <oleksandr@redhat.com>
-> Signed-off-by: Minchan Kim <minchan@kernel.org>
 
-Reviewed-by: SeongJae Park <sjpark@amazon.de>
 
-> ---
->  mm/madvise.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/mm/madvise.c b/mm/madvise.c
-> index eb42b2b7f49b..3aa9aec6bfd9 100644
-> --- a/mm/madvise.c
-> +++ b/mm/madvise.c
-> @@ -1000,6 +1000,8 @@ process_madvise_behavior_valid(int behavior)
->  	switch (behavior) {
->  	case MADV_COLD:
->  	case MADV_PAGEOUT:
-> +	case MADV_MERGEABLE:
-> +	case MADV_UNMERGEABLE:
->  		return true;
->  	default:
->  		return false;
-> -- 
-> 2.25.0.rc1.283.g88dfdc4193-goog
+
+----------------------------------------------------
+This email was sent by the shareware version of Postman Professional.
+
