@@ -2,101 +2,72 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5705A138AE7
-	for <lists+linux-api@lfdr.de>; Mon, 13 Jan 2020 06:27:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 78A26138B74
+	for <lists+linux-api@lfdr.de>; Mon, 13 Jan 2020 06:52:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725978AbgAMF1n (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 13 Jan 2020 00:27:43 -0500
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:33016 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725909AbgAMF1n (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 13 Jan 2020 00:27:43 -0500
-Received: by mail-ot1-f68.google.com with SMTP id b18so7895406otp.0;
-        Sun, 12 Jan 2020 21:27:43 -0800 (PST)
+        id S1730987AbgAMFwu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 13 Jan 2020 00:52:50 -0500
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:32876 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730697AbgAMFw0 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 13 Jan 2020 00:52:26 -0500
+Received: by mail-oi1-f196.google.com with SMTP id v140so7227282oie.0
+        for <linux-api@vger.kernel.org>; Sun, 12 Jan 2020 21:52:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=diOYoooyO02fNaO2OaL6vZp60t8FYNXFCI94ed/4bvk=;
-        b=r390DZmPSSjsz6uojt5vgUS6gXu6Gf+fYt5SWxucCUedRnTQGqaPtCa0lwYrI/9cXd
-         hYmjiOIEbkgCjFVCK8g48YWIQ7KNXR7S+gYgv2jKNtNCcRAZfNo/pptKUDb6rlG+0bzh
-         YFXwXSTsnoGOSMiMQdCLKFzXy03UJLk9y3qA5zNzImYRTcL3yYnixHQ5zCPBZMBxkhKu
-         zNj+SEtgGH5qhDZQeEuAnnYU15bBqL7kLbzXQaLABlDQbXjjH90nbYsS6CfODW5zTysf
-         iTQFU1QMUnt+CuMjheWZh9pMs7zENgQK5SibI+qPTZsjbMGGZ1RCyXTJb+MLDnX/U867
-         Kgog==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=Rjbe3pVeMfYVPdmVklZ4b2stSqI32LIYp+bn/8NyJvk=;
+        b=El5YZgtDEXJCHEtZrRB1ujEJT5GnrR9nqQvx3oNXkD1KXWKAy5lE4fahagwXmNRBuY
+         Z373bCStdjZZAvrcMmyjZhqXNYKD7qS8gpQ1uKt4Zm/CJYofbOmd6y2KCfdaIf8lu4gx
+         e04Qq2Wd5k0QzXhgODgXLh9+BTAbr7mIJG1kvrHD2cB5892G2QaMtoQjZ8YbwAsn/v/R
+         qN1ulSwy8kLJzDOOwwvDkEa6g0paOaNUUW6lO8NcaOsOsQMTh2eV34LXY/bnRxfyDcL+
+         OFIAYoYpyWTxvo4nB11oXa8J2BNLiFXnr18VfN4DCPOmpXqWPT8f/9GzmZX8VWLxs4VK
+         s+8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=diOYoooyO02fNaO2OaL6vZp60t8FYNXFCI94ed/4bvk=;
-        b=VdeLkOad6q7flt9JHrjZ0o9mQUyXFkz1LzDMZXkaLL3dKOimsA08vfhR/N0HqrQZ2c
-         GQDtS+rZdt+E9jW8gZV+k2rzaVBFqCN7qkqr+5f9krljb+fQ8YahUK6vQGYUt9IsADMc
-         V2BoNhU3NM9gEOlQ6+6qzjxE9C08g4P4RoTqUeHi9CSMpcv/MF530fDeeMTYe1j4Ny70
-         8LEAJRZo9sfHQeUtsZYXpOpimAFLzEw1+sr73x4GjetssLaeQxqvBuDKU6IjMlmXY7jO
-         JuNbAKiwXd/R5H0tHeDL4SvZqEAghVde0jUaB9zhZxwOK7WbhTlvwmfVP0+XzN3p5KQs
-         z+mw==
-X-Gm-Message-State: APjAAAXKthDNaSzhsj6AwoyNzibhUIKc/xchpTKzo4Y2dFasI0lMiOso
-        VkZfOOq4BmPWjNJtlYSVVbjLkkKkHukYTPFe4yg=
-X-Google-Smtp-Source: APXvYqxQ/QEMuRoeX0bGQQKxIQplQ4G0Acb+7lOL4RO8pfBHlU0rTshFrHbkTraDtgF2hpik2dSJr+Ao8uMc+r1s1mM=
-X-Received: by 2002:a9d:7f11:: with SMTP id j17mr12412497otq.281.1578893262556;
- Sun, 12 Jan 2020 21:27:42 -0800 (PST)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=Rjbe3pVeMfYVPdmVklZ4b2stSqI32LIYp+bn/8NyJvk=;
+        b=HtDDh5Pnfn3Jp0RYxYwnBYp1vzUQGkwbXj9kRsbqLUmG4q4KzBcBQFby1vsiLL9k5p
+         Zev1wcMEQxbioEtn1HL2sLOQ9FdXziACOnHSuScoTqncfgM7Q9eeHpBW3b/J4kA2ePOx
+         cB6Of0fZjdWp4JX8X2FpNvqreIvNQxE/bnjBcgMYdP9pi4z6RD2HlvNF1o6lHs3fU7Ho
+         3FhHg5DTY2bL93Ejq4opf8kwfHL0eLLppFeylc/4aSkUgipaD+9iX9/LeK7S74ve8T0/
+         /l/fR9YhL6dVBo7nhdG8+vOf52mmiv6JZfh1VDTHXjRbtL/Q2jA2+sFOlYfdBgmovXdg
+         E4ZQ==
+X-Gm-Message-State: APjAAAVctyNlsk3u21m84xFZMclw5eieowLgyo7hu8t3W5TxLxReRVhd
+        /bj4LEFFI1BLOAM9yGK15R6uGoT8WZkmBJi8ISo=
+X-Google-Smtp-Source: APXvYqy7JhGBt0ZjJ/1t4CT74GIhTuvbOMnCynReBbsGRcTAfZPwoiLBCe9XiPA9xaK1JAPmy14eucUMWI9DLkbKsUo=
+X-Received: by 2002:a54:4713:: with SMTP id k19mr11513430oik.113.1578894745174;
+ Sun, 12 Jan 2020 21:52:25 -0800 (PST)
 MIME-Version: 1.0
-References: <20191112012724.250792-1-dima@arista.com> <20191112012724.250792-3-dima@arista.com>
- <ed2e65ae-75b0-ed79-0a95-90be6b82e6be@arm.com> <878smfa66i.fsf@nanos.tec.linutronix.de>
- <e74a63cb-5248-4473-81a7-d1b2f959ec7a@arm.com> <875zhja59q.fsf@nanos.tec.linutronix.de>
-In-Reply-To: <875zhja59q.fsf@nanos.tec.linutronix.de>
-From:   Andrei Vagin <avagin@gmail.com>
-Date:   Sun, 12 Jan 2020 21:27:31 -0800
-Message-ID: <CANaxB-zrnHjmJ-7xeagiiZve69o_scPQXmZ+Y03omtk-1cqrhg@mail.gmail.com>
-Subject: Re: [PATCHv8 02/34] lib/vdso: make do_hres and do_coarse as __always_inline
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Dmitry Safonov <dima@arista.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Dmitry Safonov <0x7f454c46@gmail.com>,
-        Adrian Reber <adrian@lisas.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Cyrill Gorcunov <gorcunov@openvz.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jann Horn <jannh@google.com>, Jeff Dike <jdike@addtoit.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Pavel Emelyanov <xemul@virtuozzo.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        crml <criu@openvz.org>, Linux API <linux-api@vger.kernel.org>,
-        X86 ML <x86@kernel.org>
+Received: by 2002:a4a:41cb:0:0:0:0:0 with HTTP; Sun, 12 Jan 2020 21:52:24
+ -0800 (PST)
+Reply-To: rickschaech@gmail.com
+From:   Rick Schaech <cathben72@gmail.com>
+Date:   Mon, 13 Jan 2020 01:52:24 -0400
+Message-ID: <CAEcBxO=TAnFn5LzizHa22hUC0Db5FuiZJF28m=yX3_9m--jRqg@mail.gmail.com>
+Subject: I wait for your swift response,
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jan 10, 2020 at 4:02 AM Thomas Gleixner <tglx@linutronix.de> wrote:
->
-> Vincenzo Frascino <vincenzo.frascino@arm.com> writes:
-> > On 1/10/20 11:42 AM, Thomas Gleixner wrote:
-> >>>> +=C2=BB =C2=BB /*=C2=B7goto=C2=B7allows=C2=B7to=C2=B7avoid=C2=B7extr=
-a=C2=B7inlining=C2=B7of=C2=B7do_hres.=C2=B7*/
-> >>>> +=C2=BB =C2=BB goto=C2=B7out_hres;
-> >>>
-> >>> What is the performance impact of "goto out_hres"?
-> >>
-> >> On x86 it's invisible at least in my limited testing.
-> >
-> > On arm64 as well based on mine as well. Shall we keep the code more rea=
-dable
-> > here (without goto)?
->
-> The delta patch below makes it readable again and also avoids the double
-> inlining. Quick testing shows no difference.
+Dear, I'm Mr Rick Schaech, I am the General Account Auditor, Though i
+know we have not meet each other before but sometimes in life God have
+a reason of bringing two people from two different countries together
+as business partners or life partners.
 
-My tests show no difference too and the code looks more readable. Thanks!
+My dear friend, I have the sum of 15.7 Million USD i wish to put in
+your name due to the death of my late client who died several years
+ago as his next of kin column still remain blank. Though the internet
+medium is highly abuse these days but am assuring you that this
+transaction is legitimate and I am contacting you that we may have a
+deal, note for your cooperation and collaboration 40% of the sum will
+be for you while the other 60% will be for me as well. I wait for your
+swift response for more details. please forward your response to my
+personal E-mail: rickschaech@gmail.com
 
->
-> Thanks,
->
->         tglx
+Yours sincerely,
+Rick Schaech.
