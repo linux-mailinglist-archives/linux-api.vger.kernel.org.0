@@ -2,104 +2,87 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B26121399CE
-	for <lists+linux-api@lfdr.de>; Mon, 13 Jan 2020 20:11:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 64134139A0E
+	for <lists+linux-api@lfdr.de>; Mon, 13 Jan 2020 20:19:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729327AbgAMTKy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 13 Jan 2020 14:10:54 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:50693 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729300AbgAMTKy (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 13 Jan 2020 14:10:54 -0500
-Received: from ip5f5bd663.dynamic.kabel-deutschland.de ([95.91.214.99] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1ir56u-0004P1-FF; Mon, 13 Jan 2020 19:10:48 +0000
-Date:   Mon, 13 Jan 2020 20:10:47 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Minchan Kim <minchan@kernel.org>
-Cc:     Kirill Tkhai <ktkhai@virtuozzo.com>,
-        Michal Hocko <mhocko@suse.com>,
+        id S1726435AbgAMTTC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 13 Jan 2020 14:19:02 -0500
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:33034 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726878AbgAMTTB (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 13 Jan 2020 14:19:01 -0500
+Received: by mail-ot1-f65.google.com with SMTP id b18so10079367otp.0
+        for <linux-api@vger.kernel.org>; Mon, 13 Jan 2020 11:19:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=NoYTay9gEdUwJzd8flck47gwEsidyqOErVEeC39Jq2o=;
+        b=PWAQO6n8uYq2a4CdtE53n1PqHPbBvA3iHygW7xlF/mSri9aldE4CMUkmnObd7hvGs+
+         XD3R1Xw11ZzgSnhSmK2jiytZo/UPfvHdS8pHGjOXyjnUpk963f33BYXN60mn6ZimSH7g
+         iiZRP7Sm1suyhXpkmTz0ed2tCy9XjdSobgkM3xuDVIL8GV5mRpPyinERHpcyJgDMCaIn
+         j+f26vKogVX03oygCZPnkb35fMmNiERhbVQNmh0mCoevC5PTlQTz2jgggfS3utSfwGla
+         fT5WYAnROxmU06T+LAPng4nnHMe9Zi4KN5FYNFewShO4WtQI1iD4Zd5FGjZ8i9u1WEvK
+         +kDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=NoYTay9gEdUwJzd8flck47gwEsidyqOErVEeC39Jq2o=;
+        b=hfy8I74e9+NvDwcQxfS0UhQKRf64MCQrgcJNURlm5Iaju6KBsi9qeB7zaLW4G4lUxK
+         WvJ6tz+wMVktYSuR2+f/kjxtoS8j+dUAto7k5/ZxKckjrL+Be78jZgEQH/wvW97qrerM
+         HvWngRX+t0X2HyexfQjBA6+GwQ/F8mbYKLcqHs26hkqAbPyOuv/X/srXj2YrgeuHNdoQ
+         PtUU7L7T6lzYquwOV0soTvN065WKQb3E9wg6cs9mSADF4rHehUluoRbXseH/UNMS3AdH
+         61xfpK5DMQ+RdWUhJg57ZZj8sHYFwx4fg5GX8aJkdrFg3r+5sMR29KElnLMW8/eK53Lc
+         H9Hw==
+X-Gm-Message-State: APjAAAUVplfX4UUO4y6zyPnzEpZIwoRp2yMSVGKm4lwxCFIPBjRPdwqG
+        vr//dF8qIRqZpEhLVcEM3RFCrS4++Bvy7fXqoNSong==
+X-Google-Smtp-Source: APXvYqwzd6z4BsjCgwUlGC6h2jl1N7nb469FD4i67Yk4Xbt8zlAhmtvz3QdfKHsOBvBT2VACljpoCk6xfa7vX5xy6N0=
+X-Received: by 2002:a9d:2028:: with SMTP id n37mr14712535ota.127.1578943140656;
+ Mon, 13 Jan 2020 11:19:00 -0800 (PST)
+MIME-Version: 1.0
+References: <20200110213433.94739-1-minchan@kernel.org> <20200110213433.94739-3-minchan@kernel.org>
+ <56ea0927-ad2e-3fbd-3366-3813330f6cec@virtuozzo.com>
+In-Reply-To: <56ea0927-ad2e-3fbd-3366-3813330f6cec@virtuozzo.com>
+From:   Daniel Colascione <dancol@google.com>
+Date:   Mon, 13 Jan 2020 11:18:23 -0800
+Message-ID: <CAKOZuevwbQvrFWqy5GOm4RXuGszKLBvRs9i-KbAi3nPcHhwvSw@mail.gmail.com>
+Subject: Re: [PATCH 2/4] mm: introduce external memory hinting API
+To:     Kirill Tkhai <ktkhai@virtuozzo.com>
+Cc:     Minchan Kim <minchan@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         LKML <linux-kernel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
-        oleksandr@redhat.com, Suren Baghdasaryan <surenb@google.com>,
+        linux-mm <linux-mm@kvack.org>,
+        Linux API <linux-api@vger.kernel.org>, oleksandr@redhat.com,
+        Suren Baghdasaryan <surenb@google.com>,
         Tim Murray <timmurray@google.com>,
-        Daniel Colascione <dancol@google.com>,
         Sandeep Patil <sspatil@google.com>,
         Sonny Rao <sonnyrao@google.com>,
         Brian Geffon <bgeffon@google.com>,
+        Michal Hocko <mhocko@suse.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
         Shakeel Butt <shakeelb@google.com>,
         John Dias <joaodias@google.com>
-Subject: Re: [PATCH 2/4] mm: introduce external memory hinting API
-Message-ID: <20200113191046.2tidyvc544zvchek@wittgenstein>
-References: <20200110213433.94739-1-minchan@kernel.org>
- <20200110213433.94739-3-minchan@kernel.org>
- <56ea0927-ad2e-3fbd-3366-3813330f6cec@virtuozzo.com>
- <20200113104256.5ujbplyec2sk4onn@wittgenstein>
- <20200113184408.GD110363@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200113184408.GD110363@google.com>
-User-Agent: NeoMutt/20180716
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jan 13, 2020 at 10:44:08AM -0800, Minchan Kim wrote:
-> On Mon, Jan 13, 2020 at 11:42:57AM +0100, Christian Brauner wrote:
-> > On Mon, Jan 13, 2020 at 11:47:11AM +0300, Kirill Tkhai wrote:
-> 
-> < snip >
-> 
-> > > > +SYSCALL_DEFINE5(process_madvise, int, pidfd, unsigned long, start,
-> > > > +		size_t, len_in, int, behavior, unsigned long, flags)
-> > > 
-> > > I don't like the interface. The fact we have pidfd does not mean,
-> > > we have to use it for new syscalls always. A user may want to set
-> > > madvise for specific pid from console and pass pid as argument.
-> > > pidfd would be an overkill in this case.
-> > > We usually call "kill -9 pid" from console. Why shouldn't process_madvise()
-> > > allow this?
-> > > 
-> > > I suggent to extend first argument to work with both pid and pidfd.
-> > > Look at what we have for waitid(idtype, id_t id, ...) for example:
-> > > 
-> > >        idtype == P_PID
-> > >               Wait for the child whose process ID matches id.
-> > > 
-> > >        idtype == P_PIDFD (since Linux 5.4)
-> > >               Wait for the child referred to by the PID file descriptor specified in id.  (See pidfd_open(2) for  further  information  on
-> > >               PID file descriptors.)
-> > > 
-> > > We may use @flags argument for this.
-> > 
-> > Sorry for chiming in just a comment. Overall, I don't particularly care
-> > how or if you integrate pidfd here. One thing I would like to point out
-> > is that we're working on a patch to place new features under pidfd
-> > specific flags. This e.g. means a pidfd would be only be able to be used
-> > for madvise operations (or getfd operations) if it was created with that
-> > specific flag set making it easier to share them with other processes.
-> > So if you integrate them here I would be quite thankful if you target
-> > the patchset for the v5.7 merge window, not for v5.6.
-> 
-> Hi Christian,
-> Sorry but I couldn't understand your point.
-> Could you clarify what you meant?
+On Mon, Jan 13, 2020, 12:47 AM Kirill Tkhai <ktkhai@virtuozzo.com> wrote:
+> > +SYSCALL_DEFINE5(process_madvise, int, pidfd, unsigned long, start,
+> > +             size_t, len_in, int, behavior, unsigned long, flags)
+>
+> I don't like the interface. The fact we have pidfd does not mean,
+> we have to use it for new syscalls always. A user may want to set
+> madvise for specific pid from console and pass pid as argument.
+> pidfd would be an overkill in this case.
+> We usually call "kill -9 pid" from console. Why shouldn't process_madvise()
+> allow this?
 
-Hi Minchan,
-
-Sure. When you create a pidfd, e.g. with clone3() and you'd wanted to
-use it for madvise you'd need to set a flag like pidfd_cap_madvise or
-pidfd_feature_madvise when you create the pidfd. Only if the pidfd was
-created with that flag set could you use it with madvise (This does not
-affect the permission checking you're performing here.). This has come
-up a couple of times and becomes more relevant now that people keep
-adding new features on top of pidfd and is similar to what we are now
-doing with openat2().
-
-Christian
+All new APIs should use pidfds: they're better than numeric PIDs in
+every way. If a program wants to allow users to specify processes by
+numeric PID, it can parse that numeric PID, open the corresponding
+pidfd, and then use that pidfd with whatever system call it wants.
+It's not necessary to support numeric PIDs at the system call level to
+allow a console program to identify a process by numeric PID.
