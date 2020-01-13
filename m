@@ -2,54 +2,57 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 64134139A0E
-	for <lists+linux-api@lfdr.de>; Mon, 13 Jan 2020 20:19:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 67F1C139A25
+	for <lists+linux-api@lfdr.de>; Mon, 13 Jan 2020 20:27:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726435AbgAMTTC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 13 Jan 2020 14:19:02 -0500
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:33034 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726878AbgAMTTB (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 13 Jan 2020 14:19:01 -0500
-Received: by mail-ot1-f65.google.com with SMTP id b18so10079367otp.0
-        for <linux-api@vger.kernel.org>; Mon, 13 Jan 2020 11:19:01 -0800 (PST)
+        id S1728755AbgAMT1l (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 13 Jan 2020 14:27:41 -0500
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:38966 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728516AbgAMT1l (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 13 Jan 2020 14:27:41 -0500
+Received: by mail-oi1-f193.google.com with SMTP id a67so9418017oib.6
+        for <linux-api@vger.kernel.org>; Mon, 13 Jan 2020 11:27:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=NoYTay9gEdUwJzd8flck47gwEsidyqOErVEeC39Jq2o=;
-        b=PWAQO6n8uYq2a4CdtE53n1PqHPbBvA3iHygW7xlF/mSri9aldE4CMUkmnObd7hvGs+
-         XD3R1Xw11ZzgSnhSmK2jiytZo/UPfvHdS8pHGjOXyjnUpk963f33BYXN60mn6ZimSH7g
-         iiZRP7Sm1suyhXpkmTz0ed2tCy9XjdSobgkM3xuDVIL8GV5mRpPyinERHpcyJgDMCaIn
-         j+f26vKogVX03oygCZPnkb35fMmNiERhbVQNmh0mCoevC5PTlQTz2jgggfS3utSfwGla
-         fT5WYAnROxmU06T+LAPng4nnHMe9Zi4KN5FYNFewShO4WtQI1iD4Zd5FGjZ8i9u1WEvK
-         +kDg==
+        bh=kn52d9L0ca52gNc3n8O9DhLTFY/ai8fCyuw7ZaovG/c=;
+        b=iTp9iLl+2sajghi8PUP9cyUrByJ/eObxBtaFyhGFG1S3lFR2+haIyEe2ZtVDpaV2E9
+         jxfk7xoaiZ5NLeT/BoK4Sn4m+qduPaBEfQSJCF3vJBXVjZiNZXv1c+Jq864ttV+KMRpC
+         rjzoboLEf4yU93/fqZThB9UCpAqNtbAGJizja5zau4OBqyO16fC2IMLSu1sgpuwgCjUx
+         wmu5FrXUv/yO+C/9+Xvigng1EradwqZY8mhxoxA+dsjLh9DeN1Ff0pVGdLIGv8X7OzSb
+         sr3YGzhAp1G5f1RMCX1bL3QHusPQsxfUw+yugNDtRg5WGLEFtMvKG4ZVygDNAweTfbY8
+         S6PQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=NoYTay9gEdUwJzd8flck47gwEsidyqOErVEeC39Jq2o=;
-        b=hfy8I74e9+NvDwcQxfS0UhQKRf64MCQrgcJNURlm5Iaju6KBsi9qeB7zaLW4G4lUxK
-         WvJ6tz+wMVktYSuR2+f/kjxtoS8j+dUAto7k5/ZxKckjrL+Be78jZgEQH/wvW97qrerM
-         HvWngRX+t0X2HyexfQjBA6+GwQ/F8mbYKLcqHs26hkqAbPyOuv/X/srXj2YrgeuHNdoQ
-         PtUU7L7T6lzYquwOV0soTvN065WKQb3E9wg6cs9mSADF4rHehUluoRbXseH/UNMS3AdH
-         61xfpK5DMQ+RdWUhJg57ZZj8sHYFwx4fg5GX8aJkdrFg3r+5sMR29KElnLMW8/eK53Lc
-         H9Hw==
-X-Gm-Message-State: APjAAAUVplfX4UUO4y6zyPnzEpZIwoRp2yMSVGKm4lwxCFIPBjRPdwqG
-        vr//dF8qIRqZpEhLVcEM3RFCrS4++Bvy7fXqoNSong==
-X-Google-Smtp-Source: APXvYqwzd6z4BsjCgwUlGC6h2jl1N7nb469FD4i67Yk4Xbt8zlAhmtvz3QdfKHsOBvBT2VACljpoCk6xfa7vX5xy6N0=
-X-Received: by 2002:a9d:2028:: with SMTP id n37mr14712535ota.127.1578943140656;
- Mon, 13 Jan 2020 11:19:00 -0800 (PST)
+        bh=kn52d9L0ca52gNc3n8O9DhLTFY/ai8fCyuw7ZaovG/c=;
+        b=WnwI+8UMbYLkIZYCHphseLpQbE3I+lZR049RdYaKgc/RAxwwxnk35xGirfDjSMCtzJ
+         OAFj4K93/Oj9x7KADU+VUKudbUwQP7gcdF+G9WMBr1SzaGoQUgVZXVWhjGbJF8SneQRT
+         G7NSzSpyFvyyOphU9mP/vN4M5ugNpHFWjjmRQ2ngfoJEvb0rOjEh7hq9W7kuuDQE0qe5
+         yXNcUcXYm2l2nws/0my58GCLGCH0qJFWIgUHvewsV4RZ+qdjn6Nhm18JEYXLz5Np1MTY
+         rKlHyIwnhpCtIbbxGVUbeDDj9ChF/mbc00yprs75GziniB/6/xW5T8NncSlXvDFyIfyg
+         enUw==
+X-Gm-Message-State: APjAAAVVXuNHRCJcXNpbfI1A5gJHnu+FFK7TEidHmrt9ZQLWjKW3Gccb
+        jJ+87Timc6PUlx3xJAMDTdByS90Sugg14rVr1RGCUZ0b
+X-Google-Smtp-Source: APXvYqzUy5kz5MCFujOKQJTl7DBbQ2xcSsMVUThyL8uDRUzqtcvXFWS1FCfAHyMFkkflER1Iyz9ACpk9tHPXu+m5Q2A=
+X-Received: by 2002:aca:f20b:: with SMTP id q11mr13344801oih.78.1578943660130;
+ Mon, 13 Jan 2020 11:27:40 -0800 (PST)
 MIME-Version: 1.0
 References: <20200110213433.94739-1-minchan@kernel.org> <20200110213433.94739-3-minchan@kernel.org>
- <56ea0927-ad2e-3fbd-3366-3813330f6cec@virtuozzo.com>
-In-Reply-To: <56ea0927-ad2e-3fbd-3366-3813330f6cec@virtuozzo.com>
+ <56ea0927-ad2e-3fbd-3366-3813330f6cec@virtuozzo.com> <20200113104256.5ujbplyec2sk4onn@wittgenstein>
+ <20200113184408.GD110363@google.com> <20200113191046.2tidyvc544zvchek@wittgenstein>
+In-Reply-To: <20200113191046.2tidyvc544zvchek@wittgenstein>
 From:   Daniel Colascione <dancol@google.com>
-Date:   Mon, 13 Jan 2020 11:18:23 -0800
-Message-ID: <CAKOZuevwbQvrFWqy5GOm4RXuGszKLBvRs9i-KbAi3nPcHhwvSw@mail.gmail.com>
+Date:   Mon, 13 Jan 2020 11:27:03 -0800
+Message-ID: <CAKOZuev5k3EquMd-6VbvruahjjtxQzRhUVo2ttgVyk+yYz9aOA@mail.gmail.com>
 Subject: Re: [PATCH 2/4] mm: introduce external memory hinting API
-To:     Kirill Tkhai <ktkhai@virtuozzo.com>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
 Cc:     Minchan Kim <minchan@kernel.org>,
+        Kirill Tkhai <ktkhai@virtuozzo.com>,
+        Michal Hocko <mhocko@suse.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         LKML <linux-kernel@vger.kernel.org>,
         linux-mm <linux-mm@kvack.org>,
@@ -59,7 +62,6 @@ Cc:     Minchan Kim <minchan@kernel.org>,
         Sandeep Patil <sspatil@google.com>,
         Sonny Rao <sonnyrao@google.com>,
         Brian Geffon <bgeffon@google.com>,
-        Michal Hocko <mhocko@suse.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
         Shakeel Butt <shakeelb@google.com>,
         John Dias <joaodias@google.com>
@@ -69,20 +71,20 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jan 13, 2020, 12:47 AM Kirill Tkhai <ktkhai@virtuozzo.com> wrote:
-> > +SYSCALL_DEFINE5(process_madvise, int, pidfd, unsigned long, start,
-> > +             size_t, len_in, int, behavior, unsigned long, flags)
->
-> I don't like the interface. The fact we have pidfd does not mean,
-> we have to use it for new syscalls always. A user may want to set
-> madvise for specific pid from console and pass pid as argument.
-> pidfd would be an overkill in this case.
-> We usually call "kill -9 pid" from console. Why shouldn't process_madvise()
-> allow this?
+On Mon, Jan 13, 2020 at 11:10 AM Christian Brauner
+<christian.brauner@ubuntu.com> wrote:
+> This does not
+> affect the permission checking you're performing here.
 
-All new APIs should use pidfds: they're better than numeric PIDs in
-every way. If a program wants to allow users to specify processes by
-numeric PID, it can parse that numeric PID, open the corresponding
-pidfd, and then use that pidfd with whatever system call it wants.
-It's not necessary to support numeric PIDs at the system call level to
-allow a console program to identify a process by numeric PID.
+Pidfds-as-capabilities sounds like a good change. Can you clarify what
+you mean here though? Do you mean that in order to perform some
+process-directed operation X on process Y, the pidfd passed to X must
+have been opened with PIDFD_CAP_X *and* the process *using* the pidfds
+must be able to perform operation X on process Y? Or do pidfds in this
+model "carry" permissions in the same way that an ordinary file
+descriptor "carries" the ability to write to a file if it was opened
+with O_WRONLY even if the FD is passed to a process that couldn't
+otherwise write to that file? Right now, pidfds are identity-only and
+always rely on the caller's permissions. I like the capability bit
+model because it makes pidfds more consistent with other file
+descriptors and enabled delegation of capabilities across the system.
