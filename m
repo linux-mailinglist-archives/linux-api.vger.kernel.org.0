@@ -2,109 +2,127 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 028B8139B16
-	for <lists+linux-api@lfdr.de>; Mon, 13 Jan 2020 22:05:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 32162139E20
+	for <lists+linux-api@lfdr.de>; Tue, 14 Jan 2020 01:25:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726587AbgAMVFY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 13 Jan 2020 16:05:24 -0500
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:43501 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726536AbgAMVFY (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 13 Jan 2020 16:05:24 -0500
-Received: by mail-lj1-f194.google.com with SMTP id a13so11724105ljm.10
-        for <linux-api@vger.kernel.org>; Mon, 13 Jan 2020 13:05:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/u5MUGVpDUAbfDbLeEsPX6aUptgWMsZ6OpMkOdaH+A4=;
-        b=pywZLKqdxPfExS0SnABaJ4aTlQdAJxvMIPcUiv09kBnxMbRddIefk6L+AZtCxKjWgA
-         liHsrkFRC3T9RBzdlmOhUVoaEwJ5JAUBmXvh78E0up26nPZ4ijaFW8mUbjAFWyB2kxi1
-         edgeWwJ3faA3x9NLcDaEa0gXbEXEgCF6iZ12xGf4x2B1oR62JNenKpXiDsinOqybcBL/
-         5z60/LxPmvRsfacCOOyvejl2NFaOXDPWX6k8QKvbmBf8vjXLe2Nc/I6MAqALAeeOUOB3
-         5OC/2iiijXYynwhr1LtgfBkelfr6L54T3rAd02/rrhUTlSv2CTl04r7b6+dIP+dzetEf
-         HUpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/u5MUGVpDUAbfDbLeEsPX6aUptgWMsZ6OpMkOdaH+A4=;
-        b=pEBrh6chDx91Z8GRYinBfwodWlv6E4fLViYbu3I9U5Yi81/zH2Oxnt0VoF6ZnM1sWS
-         y/nG6RvaOqgLEbIGqY+RLj3aE7DZKhhMTXbdZF0UtlpgWeiwNLLWtvldobNY4ClDwyjE
-         Dls9ghRx4u3ZTSJNMSsQRIehmPwdz/ybDXvVTSaOhW3PxUmtkZoOvodne0AUWZ1LdDNO
-         wCmSjgXDN6H6l886LwWNQXSNdpbtH3nYwhtTXNExV4p/Nz6mwVZDNBslFQk1bgjRt5f+
-         aeOpet4GLUoyEWqtrDt8WAjzKwyEvTfg+5R3hyP8EWCUFQRTeTDg4CB0uUQ/nnNBH7tu
-         /uJA==
-X-Gm-Message-State: APjAAAWtIfjQepvrAuRjm2C2h50+4IiyPiFbtEEyZn/JR6EnuRA4fIuM
-        3Rvx185UcZyDuBq29gj4aepe+W1PtXk6A57+USsVsg==
-X-Google-Smtp-Source: APXvYqzQfqC3NRhrk3Zbw6Vxs6CF1OSy/YynDWKFCf4ieKNe8SG3O6+EGYSzBmYNgwrdJR5te76K8Vzy42PCS745ObY=
-X-Received: by 2002:a2e:884d:: with SMTP id z13mr12351302ljj.116.1578949522306;
- Mon, 13 Jan 2020 13:05:22 -0800 (PST)
-MIME-Version: 1.0
-References: <20200110213433.94739-1-minchan@kernel.org> <20200110213433.94739-3-minchan@kernel.org>
- <56ea0927-ad2e-3fbd-3366-3813330f6cec@virtuozzo.com> <20200113104256.5ujbplyec2sk4onn@wittgenstein>
- <20200113184408.GD110363@google.com> <20200113191046.2tidyvc544zvchek@wittgenstein>
- <CAKOZuev5k3EquMd-6VbvruahjjtxQzRhUVo2ttgVyk+yYz9aOA@mail.gmail.com> <20200113204237.ew6nn4ohxu7auw3u@wittgenstein>
-In-Reply-To: <20200113204237.ew6nn4ohxu7auw3u@wittgenstein>
-From:   Daniel Colascione <dancol@google.com>
-Date:   Mon, 13 Jan 2020 13:04:44 -0800
-Message-ID: <CAKOZueu=U4c2URaq8Pz-B00XV+TxaKwHRNXv3BUiDbQrLQpJ3A@mail.gmail.com>
-Subject: Re: [PATCH 2/4] mm: introduce external memory hinting API
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     Minchan Kim <minchan@kernel.org>,
-        Kirill Tkhai <ktkhai@virtuozzo.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>,
-        Linux API <linux-api@vger.kernel.org>, oleksandr@redhat.com,
-        Suren Baghdasaryan <surenb@google.com>,
-        Tim Murray <timmurray@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Brian Geffon <bgeffon@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        John Dias <joaodias@google.com>
+        id S1729096AbgANAZ3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 13 Jan 2020 19:25:29 -0500
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:34495 "EHLO
+        new1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726536AbgANAZ3 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 13 Jan 2020 19:25:29 -0500
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 7F7657699;
+        Mon, 13 Jan 2020 19:25:28 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Mon, 13 Jan 2020 19:25:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=
+        message-id:subject:from:to:cc:date:in-reply-to:references
+        :content-type:mime-version:content-transfer-encoding; s=fm2; bh=
+        XFMTDBtfZHyOed7ZfNLbmx3RNw8tsdJDO4d09AfyreM=; b=I2KNDFPfO4++5woh
+        Cv9+FYDbg0wzwLTavX3kLx+EHn8Q18NuIs+jqQWuarjw1NE+Zr5ih3Aqffp5KVvZ
+        kDOiTi6mlgNgi2nc9al6pJgd+oLGc0vkHEREjILC+Va3hddW/B98Mg4b9DqBXQGZ
+        ashy5rq75a3k85pz3ZxNirx/Sih4BWJhq8ck4j+LeFyHum/4jHodx2gXZdTJHyyF
+        DYBJMTKR4x0Jz5WY3jCeiDSEmRMGh0KK3Ji3CGXQ8s0RYEV6KPX4FYMMre05AAqi
+        D6Y5h5R7wxUt1oztN99McV+kgUrg82l+XrLd+0TaAvk2j1KL4ahYlpGewQQsrTJ9
+        hdix3w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:in-reply-to:message-id:mime-version:references
+        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm1; bh=XFMTDBtfZHyOed7ZfNLbmx3RNw8tsdJDO4d09Afyr
+        eM=; b=FvAfXkVhBHwCnEjEnIhffwPCShG13/kCORFDhQUOK8FfZVCXc3t4co4rU
+        kwFyOB7c3TSO347gZaoWx6HiCp/hSHVnGtixPTiM75Cv3RHuC5R4uYXOZHl1+cqX
+        oaAEF/1RWSCvuXqnM7JkyubPOrN5vDHeDo2sDzfFvFH3yX1LylQLMIemTnvofyW5
+        khaaXwkhBL3U9BE4tL60xIJXYCTojno+VysAQ90vHEAYNcH8/cgVQNXTuUjpKMd6
+        M9Ukdh4ZTi6+6lXUrBw04KyMavKgBOYNfN6Ii+QHcetTfv6xjbW0E84eisU4euOt
+        FHIjykuHyaccKrUitVlB1qjxwIyrQ==
+X-ME-Sender: <xms:dwodXpWP-PAZ8T_JYYRYRU5ZMicpYKidZXY3DZlDytKoUsePwM5oDA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrvdejuddgvddtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepkffuhffvffgjfhgtfggggfesthejredttderjeenucfhrhhomhepkfgrnhcu
+    mfgvnhhtuceorhgrvhgvnhesthhhvghmrgifrdhnvghtqeenucfkphepuddukedrvddtle
+    drudejhedrvdehnecurfgrrhgrmhepmhgrihhlfhhrohhmpehrrghvvghnsehthhgvmhgr
+    fidrnhgvthenucevlhhushhtvghrufhiiigvpedt
+X-ME-Proxy: <xmx:dwodXsAsuu8nva3t4h-3fEN2U5lV_ZCnBr8eIrbfceQMO4BDdzz1Lg>
+    <xmx:dwodXjFvriQIKE7K-SUPP8Ps_oonmO-5papqb1mtcOMHocMhw2ZHhA>
+    <xmx:dwodXrdOPsxQaFwEHjUakg6WPVod0GWiD2M_YPTQq2ZEcTySZggaCg>
+    <xmx:eAodXivqthC1ZIwAIcCOasT42x8LlItV_-Uw9j_7c7lwa7hFyX1giA>
+Received: from mickey.themaw.net (unknown [118.209.175.25])
+        by mail.messagingengine.com (Postfix) with ESMTPA id B008E30607B4;
+        Mon, 13 Jan 2020 19:25:22 -0500 (EST)
+Message-ID: <19fa114ef619057c0d14dc1a587d0ae9ad67dc6d.camel@themaw.net>
+Subject: Re: [PATCH RFC 0/1] mount: universally disallow mounting over
+ symlinks
+From:   Ian Kent <raven@themaw.net>
+To:     Al Viro <viro@zeniv.linux.org.uk>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        David Howells <dhowells@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        stable <stable@vger.kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Serge Hallyn <serge@hallyn.com>, dev@opencontainers.org,
+        Linux Containers <containers@lists.linux-foundation.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Tue, 14 Jan 2020 08:25:19 +0800
+In-Reply-To: <800d36a0dccd43f1b61cab6332a6252ab9aab73c.camel@themaw.net>
+References: <20200101144407.ugjwzk7zxrucaa6a@yavin.dot.cyphar.com>
+         <20200101234009.GB8904@ZenIV.linux.org.uk>
+         <20200102035920.dsycgxnb6ba2jhz2@yavin.dot.cyphar.com>
+         <20200103014901.GC8904@ZenIV.linux.org.uk>
+         <20200108031314.GE8904@ZenIV.linux.org.uk>
+         <CAHk-=wgQ3yOBuK8mxpnntD8cfX-+10ba81f86BYg8MhvwpvOMg@mail.gmail.com>
+         <20200108213444.GF8904@ZenIV.linux.org.uk>
+         <CAHk-=wiq11+thoe60qhsSHk_nbRF2TRL1Wnf6eHcYObjhJmsww@mail.gmail.com>
+         <20200110041523.GK8904@ZenIV.linux.org.uk>
+         <979cf680b0fbdce515293a3449d564690cde6a3f.camel@themaw.net>
+         <20200112213352.GP8904@ZenIV.linux.org.uk>
+         <800d36a0dccd43f1b61cab6332a6252ab9aab73c.camel@themaw.net>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.5 (3.32.5-1.fc30) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jan 13, 2020 at 12:42 PM Christian Brauner
-<christian.brauner@ubuntu.com> wrote:
->
-> On Mon, Jan 13, 2020 at 11:27:03AM -0800, Daniel Colascione wrote:
-> > On Mon, Jan 13, 2020 at 11:10 AM Christian Brauner
-> > <christian.brauner@ubuntu.com> wrote:
-> > > This does not
-> > > affect the permission checking you're performing here.
-> >
-> > Pidfds-as-capabilities sounds like a good change. Can you clarify what
-> > you mean here though? Do you mean that in order to perform some
-> > process-directed operation X on process Y, the pidfd passed to X must
-> > have been opened with PIDFD_CAP_X *and* the process *using* the pidfds
-> > must be able to perform operation X on process Y? Or do pidfds in this
-> > model "carry" permissions in the same way that an ordinary file
-> > descriptor "carries" the ability to write to a file if it was opened
-> > with O_WRONLY even if the FD is passed to a process that couldn't
-> > otherwise write to that file? Right now, pidfds are identity-only and
-> > always rely on the caller's permissions. I like the capability bit
-> > model because it makes pidfds more consistent with other file
-> > descriptors and enabled delegation of capabilities across the system.
->
-> I'm going back and forth on this. My initial implementation has it that
-> you'd need both, PIDFD_FLAG/CAP_X and the process using the pidfd must
-> be able to perform the operation X on process Y. The alternative becomes
-> tricky for e.g. anything that requires ptrace_may_access() permissions
-> such as getting an fd out from another task based on its pidfd and so
-> on.
+On Mon, 2020-01-13 at 10:59 +0800, Ian Kent wrote:
+> 
+> > 3) is _anything_ besides root directory ever created in direct
+> > autofs
+> > superblocks by anyone?  If not, why does autofs_lookup() even
+> > bother
+> > to
+> > do anything there?  IOW, why not have it return ERR_PTR(-ENOENT)
+> > immediately
+> > for direct ones?  Or am I missing something and it is, in fact,
+> > possible
+> > to have the daemon create something in those?
+> 
+> Short answer is no, longer answer is directories "shouldn't" ever
+> be created inside direct mount points.
+> 
+> The thing is that the multi-mount map construct can be used with
+> direct mounts too, but they must always have a real mount at the
+> base because they are direct mounts. So processes should not be
+> able to walk into them while they are being mounted (constructed).
+> 
+> But I'm pretty sure it's rare (maybe not done at all) that this
+> map construct is used with direct mounts.
 
-I think the alternative is necessary though. What's the point of the
-pidfd capability bits if they don't grant access? If I have a pidfd
-for Y that doesn't let me do operation X, but I have ambient authority
-to do Y anyway, then I can just make my own pidfd for Y and then use
-that new pidfd to do X. AFAICT, pidfd capabilities only do something
-when they replace ptrace_may_access and friends for access control.
-Otherwise, they seem purely advisory. Am I missing something?
+This isn't right.
+
+There's actually nothing stopping a user from using a direct map
+entry that's a multi-mount without an actual mount at its root.
+So there could be directories created under these, it's just not
+usually done.
+
+I'm pretty sure I don't check and disallow this.
+
+Ian
+
