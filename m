@@ -2,171 +2,146 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CE46813A917
-	for <lists+linux-api@lfdr.de>; Tue, 14 Jan 2020 13:17:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E6F213B281
+	for <lists+linux-api@lfdr.de>; Tue, 14 Jan 2020 19:59:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728779AbgANMRX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 14 Jan 2020 07:17:23 -0500
-Received: from wnew2-smtp.messagingengine.com ([64.147.123.27]:47799 "EHLO
-        wnew2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726053AbgANMRW (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 14 Jan 2020 07:17:22 -0500
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailnew.west.internal (Postfix) with ESMTP id 2C2F0490;
-        Tue, 14 Jan 2020 07:17:21 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Tue, 14 Jan 2020 07:17:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=
-        message-id:subject:from:to:cc:date:in-reply-to:references
-        :content-type:mime-version:content-transfer-encoding; s=fm2; bh=
-        +K5zOwuA3yoK1vVndKd2rxLD6c5mO4R3lTKJDznfHvY=; b=iOjCeWYW/AOKr6/l
-        nFe/fZ1IwZOV7Su2bT+ZpGLtytwHVRYwJzYO2gizPrFw2kTTbYQd2FqPk/EWTBD5
-        tKboXMoUqma3amQF+2NdJRuhl+eExruEsGNf6hja4QELlVh794i2XD0VjvmPCkXi
-        MLSiqn8J7P+lmbpGSGQ0qct5Uv9SgrTna62ZWVhej+/TnrkgmQyIYAnAqFDJHNPC
-        gAlAwxxTZJGtEANZp4ET+oGlk4WQbOjuFK5ndHqE/CNoP8pu59o9PMi6SdDgpfm2
-        UHCGCGnvUlDsPrGh0Vul6dotGtmwv3HMxrNd26ubusXoHORNs0kmM8bouvf7OYXD
-        y2bVqg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:in-reply-to:message-id:mime-version:references
-        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm1; bh=+K5zOwuA3yoK1vVndKd2rxLD6c5mO4R3lTKJDznfH
-        vY=; b=dNaC0snjmT4LFwdJgfWG/mDnfqdD2bT7g3Udvejc5lqpKQtmPXbzJr9u1
-        Enf5uWo0WjHIWSjcitpl/FsyoW8LkG8Xlf31FoUFu93IpbmrzHH6Ck4Eeje+BhBT
-        7ykN47zL7TcpDF4LjcmMuZINH7RMwXTRczFyS9e0hvHeOrgKpGA7jify4DMJUQLo
-        CsfcgJ9/MBbUCaMGYEMX6wduvEXKEw3PhV3c0ZrJbUcpsYArqmjJ5g7zqcNVNLup
-        tZIZo/aTF9TLuGCgrl2c47kyte2lTfxg3de9CRkRjFT+HEFWWoFFi4n6cWNjyjVO
-        6NYMdUoU/gQoAc3wwEvtJXsGzuOBA==
-X-ME-Sender: <xms:T7EdXhVR0KrPiTTyYHiyHzMr38Po4BGhVuVJpfaZtEd0y9BvJUSbrg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrtddtgddvtdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefkuffhvfffjghftggfggfgsehtjeertddtreejnecuhfhrohhmpefkrghnucfm
-    vghnthcuoehrrghvvghnsehthhgvmhgrfidrnhgvtheqnecuffhomhgrihhnpehgihhthh
-    husgdrtghomhenucfkphepuddukedrvddtledrudejhedrvdehnecurfgrrhgrmhepmhgr
-    ihhlfhhrohhmpehrrghvvghnsehthhgvmhgrfidrnhgvthenucevlhhushhtvghrufhiii
-    gvpedt
-X-ME-Proxy: <xmx:T7EdXtbiCejVvLL8f1StPI3zBSwiLot6NUA_4WcZiSQ19z21CX8pJQ>
-    <xmx:T7EdXksHJ5qbraTsOpGI96KSOTwciwNOfQGAnsDg1HOTJT1wROx0pA>
-    <xmx:T7EdXnlg2nPqIfq4tqrfKbOSaid7xoT1Qemjc43hgD1xM2OaCmsJtg>
-    <xmx:ULEdXgj8R3gSgmf6jhpRvKCtkXy98KvP7tfO-Jdk4EGQE3Xu6TIaq5IlyXE>
-Received: from mickey.themaw.net (unknown [118.209.175.25])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 36C4E80063;
-        Tue, 14 Jan 2020 07:17:14 -0500 (EST)
-Message-ID: <fca18b4b9e9b5b5bc8610970dfb605458c3acaa0.camel@themaw.net>
-Subject: Re: [PATCH RFC 0/1] mount: universally disallow mounting over
- symlinks
-From:   Ian Kent <raven@themaw.net>
-To:     Al Viro <viro@zeniv.linux.org.uk>
-Cc:     Aleksa Sarai <cyphar@cyphar.com>,
-        David Howells <dhowells@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        stable@vger.kernel.org,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Serge Hallyn <serge@hallyn.com>, dev@opencontainers.org,
-        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Tue, 14 Jan 2020 20:17:11 +0800
-In-Reply-To: <7b2b9f81871898d2b6301a74f2bee85943f21cdc.camel@themaw.net>
-References: <20200101030815.GA17593@ZenIV.linux.org.uk>
-         <20200101144407.ugjwzk7zxrucaa6a@yavin.dot.cyphar.com>
-         <20200101234009.GB8904@ZenIV.linux.org.uk>
-         <20200102035920.dsycgxnb6ba2jhz2@yavin.dot.cyphar.com>
-         <20200103014901.GC8904@ZenIV.linux.org.uk>
-         <20200110231945.GL8904@ZenIV.linux.org.uk>
-         <aea0bc800b6a1e547ca1944738ff9db4379098ba.camel@themaw.net>
-         <20200113035407.GQ8904@ZenIV.linux.org.uk>
-         <41c535d689530f3715f21cd25074eb61e825a5f6.camel@themaw.net>
-         <58f9894e51a00ad2a4ac3d4122bf29e7cb6c0d54.camel@themaw.net>
-         <20200113133047.GR8904@ZenIV.linux.org.uk>
-         <7b2b9f81871898d2b6301a74f2bee85943f21cdc.camel@themaw.net>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.5 (3.32.5-1.fc30) 
+        id S1726491AbgANS7t (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 14 Jan 2020 13:59:49 -0500
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:45355 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726450AbgANS7s (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 14 Jan 2020 13:59:48 -0500
+Received: by mail-pg1-f193.google.com with SMTP id b9so6794042pgk.12;
+        Tue, 14 Jan 2020 10:59:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=ZLdWsGP0XHWGCxqVZhBLWctk+c6rDeF6k4vcD9DPHeI=;
+        b=i2esJgOGFaemeAJAp/5QuOJMkYpdkKC+BLVc3D4N2IEPIwfcCJcCSPc/Rp3CxvQcSX
+         8kRFU0HiBO9tAtgVGddZGvBf66yxgIoiUP2gAFr9YIvFs3e1tJCgnaRRF3+HT3F6hCVX
+         HQUUXaaol4cLeN7aKj8yFkgcOpznc1FoOoXd6AeqMXb4zSwz+GxGgcMO6ULnsUFnZfTQ
+         +uWHsyf5dvD13xhpYMo/FUR/Rs3U11m8KLSDY1X1u9UZAfhcWHvVfUfIqeJXH4qpKJlE
+         eZubYzsEvAnrRoY2zi3DmJb8WFDVO05RQQDJ1WGC8Lz+Fj0k2Jc/8s24Ix0/pXV9Txhr
+         WSwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=ZLdWsGP0XHWGCxqVZhBLWctk+c6rDeF6k4vcD9DPHeI=;
+        b=ovedxxpPXWGQvjcoTKshv6FTrNjOdkkdtPvUhdz7a2mDUPHojs3o/PvhIrF2rl+BZn
+         M/GavCm/LOdmmmsViPo1MG7xJ5Gge6dNZTA9QeQEy932gDu11//qWTRQQJFmqrvKGsvr
+         twb/eIs0JGB+/96RyTpMIUxk5OXQZ7PrS1osa+e+W3mB1YeIWQxqpF6wHgfbqTStVuxt
+         b0Qf6B299mfGIPBkDRc3mYtz64UxqZpjme496qRPttpqcOiR4BWStzoCAEfKkDDDIqAJ
+         dDy+BoAftl4OMqsfGgUkbjV7D+abmPZxGnPL7+1tgE85lR2DoD4O7Hq+RhqIUUEPwu0F
+         VGzw==
+X-Gm-Message-State: APjAAAWjESv2HwnwR2JTJq8gF3kZh8ZpeUhWcWtEf24erj2FcCgzo8Zt
+        0M5eX7BkpjNdamfO4ebRl/A=
+X-Google-Smtp-Source: APXvYqy/N+z69PG6y7Ebj6znXULG+UpZs19rlNT7fvG0Mt2TmO28ChC4a53hBPhfkDlB2m58VsHirQ==
+X-Received: by 2002:a63:ed56:: with SMTP id m22mr28041543pgk.261.1579028387395;
+        Tue, 14 Jan 2020 10:59:47 -0800 (PST)
+Received: from google.com ([2620:15c:211:1:3e01:2939:5992:52da])
+        by smtp.gmail.com with ESMTPSA id b4sm19392543pfd.18.2020.01.14.10.59.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Jan 2020 10:59:46 -0800 (PST)
+Date:   Tue, 14 Jan 2020 10:59:44 -0800
+From:   Minchan Kim <minchan@kernel.org>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Kirill Tkhai <ktkhai@virtuozzo.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
+        oleksandr@redhat.com, Suren Baghdasaryan <surenb@google.com>,
+        Tim Murray <timmurray@google.com>,
+        Daniel Colascione <dancol@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Brian Geffon <bgeffon@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        John Dias <joaodias@google.com>
+Subject: Re: [PATCH 2/4] mm: introduce external memory hinting API
+Message-ID: <20200114185944.GA178589@google.com>
+References: <20200110213433.94739-1-minchan@kernel.org>
+ <20200110213433.94739-3-minchan@kernel.org>
+ <56ea0927-ad2e-3fbd-3366-3813330f6cec@virtuozzo.com>
+ <20200113104256.5ujbplyec2sk4onn@wittgenstein>
+ <20200113184408.GD110363@google.com>
+ <20200113191046.2tidyvc544zvchek@wittgenstein>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200113191046.2tidyvc544zvchek@wittgenstein>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, 2020-01-14 at 15:25 +0800, Ian Kent wrote:
-> On Mon, 2020-01-13 at 13:30 +0000, Al Viro wrote:
-> > On Mon, Jan 13, 2020 at 02:03:00PM +0800, Ian Kent wrote:
+Hi Christian,
+
+On Mon, Jan 13, 2020 at 08:10:47PM +0100, Christian Brauner wrote:
+> On Mon, Jan 13, 2020 at 10:44:08AM -0800, Minchan Kim wrote:
+> > On Mon, Jan 13, 2020 at 11:42:57AM +0100, Christian Brauner wrote:
+> > > On Mon, Jan 13, 2020 at 11:47:11AM +0300, Kirill Tkhai wrote:
 > > 
-> > > Oh wait, for systemd I was actually looking at:
-> > > https://github.com/systemd/systemd/blob/master/src/shared/switch-root.c
-> > > 
-> > > > Mind you, that's not the actual systemd repo. either I probably
-> > > > need to look a lot deeper (and at the actual systemd repo) to
-> > > > work out what's actually being called.
+> > < snip >
+> > 
+> > > > > +SYSCALL_DEFINE5(process_madvise, int, pidfd, unsigned long, start,
+> > > > > +		size_t, len_in, int, behavior, unsigned long, flags)
 > > > > 
-> > > > > Sigh...  Guess I'll have to dig that Fedora KVM image out and
-> > > > > try to see what it's about... ;-/  Here comes a couple of
-> > > > > hours
-> > > > > of build...
+> > > > I don't like the interface. The fact we have pidfd does not mean,
+> > > > we have to use it for new syscalls always. A user may want to set
+> > > > madvise for specific pid from console and pass pid as argument.
+> > > > pidfd would be an overkill in this case.
+> > > > We usually call "kill -9 pid" from console. Why shouldn't process_madvise()
+> > > > allow this?
+> > > > 
+> > > > I suggent to extend first argument to work with both pid and pidfd.
+> > > > Look at what we have for waitid(idtype, id_t id, ...) for example:
+> > > > 
+> > > >        idtype == P_PID
+> > > >               Wait for the child whose process ID matches id.
+> > > > 
+> > > >        idtype == P_PIDFD (since Linux 5.4)
+> > > >               Wait for the child referred to by the PID file descriptor specified in id.  (See pidfd_open(2) for  further  information  on
+> > > >               PID file descriptors.)
+> > > > 
+> > > > We may use @flags argument for this.
+> > > 
+> > > Sorry for chiming in just a comment. Overall, I don't particularly care
+> > > how or if you integrate pidfd here. One thing I would like to point out
+> > > is that we're working on a patch to place new features under pidfd
+> > > specific flags. This e.g. means a pidfd would be only be able to be used
+> > > for madvise operations (or getfd operations) if it was created with that
+> > > specific flag set making it easier to share them with other processes.
+> > > So if you integrate them here I would be quite thankful if you target
+> > > the patchset for the v5.7 merge window, not for v5.6.
 > > 
-> > D'oh...  And yes, that would've been a bisect hazard - switch to
-> > path_lookupat() later in the series gets rid of that.  Incremental
-> > (to be foldede, of course):
-> > 
-> > diff --git a/fs/namei.c b/fs/namei.c
-> > index 1793661c3342..204677c37751 100644
-> > --- a/fs/namei.c
-> > +++ b/fs/namei.c
-> > @@ -2634,7 +2634,7 @@ path_mountpoint(struct nameidata *nd,
-> > unsigned
-> > flags, struct path *path)
-> >  		(err = lookup_last(nd)) > 0) {
-> >  		s = trailing_symlink(nd);
-> >  	}
-> > -	if (!err)
-> > +	if (!err && (nd->flags & LOOKUP_RCU))
-> >  		err = unlazy_walk(nd);
-> >  	if (!err)
-> >  		err = handle_lookup_down(nd);
+> > Hi Christian,
+> > Sorry but I couldn't understand your point.
+> > Could you clarify what you meant?
 > 
-> Ok, so I've tested with the updated patch.
+> Hi Minchan,
 > 
-> The autofs connectathon tests I use function fine.
-> 
-> I also tested sending a SIGKILL to the daemon with about 180 active
-> mounts and restarted the daemon to test the function of the ioctls
-> that Al was concerned about.
-> 
-> While the connectathon test expired everything I had 3 mounts left
-> after allowing sufficient expire time with the SIGKILL test.
-> 
-> Those mounts correspond to one map entry that has a mix of NFS
-> vers=3 and vers=2 mount options and NFSv2 isn't supported by the
-> servers I use in testing.
-> 
-> I'm inclined to think this is a bug in the automount mount tree
-> re-connection code rather than a problem with this patch since
-> all the other mounts, some simple and others with not so simple
-> constructs, expired fine after automount re-connected to them.
-> 
-> There are two other map entries that have an NFS vers=2 option but
-> they are simple mounts that will fail on attempting the automount
-> because the server doesn't support v2 so they don't end up with
-> mounts to reconnect to.
-> 
-> This particular map entry, having a mix of NFS vers=3 and vers=2
-> in the offsets of the entry, will lead to a partial mount of the
-> map entry which is probably not being handled properly by automount
-> when re-connecting to the mounts in the tree.
-> 
-> So I think the patch here is fine from an autofs POV.
+> Sure. When you create a pidfd, e.g. with clone3() and you'd wanted to
+> use it for madvise you'd need to set a flag like pidfd_cap_madvise or
+> pidfd_feature_madvise when you create the pidfd. Only if the pidfd was
+> created with that flag set could you use it with madvise (This does not
+> affect the permission checking you're performing here.). This has come
+> up a couple of times and becomes more relevant now that people keep
+> adding new features on top of pidfd and is similar to what we are now
+> doing with openat2().
 
-Umm ... unfortunately further testing shows an autofs problem.
+Thanks for the explain. When I read discussion with you and Daniel, it's
+still vague for me that what's the outcome so that it could land onto
+v5.6.(If I miss something progress on other thread, sorry about that.)
 
-It appears to be present in the current kernel (so far I've only
-been able to check the current git head and an earlier kernel
-but can't remember the version and can't check) so I must have
-missed it.
+I will keep Ccing you so that you may notice when this patchset could
+be merged(Please Cc me when you send your patchset for me to notice)
+So if we judge it's worth to integrate, maybe we could make a quick
+patch to use it or postpone a cycle to intergrate it if we have more
+time.
 
-I'm attempting to bisect now but managed to trash the root
-file system on my VM. I'll get this done as quickly as I can.
-
-Ian
-
+Thanks.
