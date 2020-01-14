@@ -2,128 +2,138 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2994613B2EC
-	for <lists+linux-api@lfdr.de>; Tue, 14 Jan 2020 20:22:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B6EE713B351
+	for <lists+linux-api@lfdr.de>; Tue, 14 Jan 2020 21:02:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728765AbgANTWz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 14 Jan 2020 14:22:55 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:32882 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728656AbgANTWz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 14 Jan 2020 14:22:55 -0500
-Received: from ip5f5bd663.dynamic.kabel-deutschland.de ([95.91.214.99] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1irRm7-0000Fw-1E; Tue, 14 Jan 2020 19:22:51 +0000
-Date:   Tue, 14 Jan 2020 20:22:50 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Minchan Kim <minchan@kernel.org>
-Cc:     Kirill Tkhai <ktkhai@virtuozzo.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
-        oleksandr@redhat.com, Suren Baghdasaryan <surenb@google.com>,
-        Tim Murray <timmurray@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Brian Geffon <bgeffon@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        John Dias <joaodias@google.com>
-Subject: Re: [PATCH 2/4] mm: introduce external memory hinting API
-Message-ID: <20200114192249.saweb3xxiex5h4ys@wittgenstein>
-References: <20200110213433.94739-1-minchan@kernel.org>
- <20200110213433.94739-3-minchan@kernel.org>
- <56ea0927-ad2e-3fbd-3366-3813330f6cec@virtuozzo.com>
- <20200113104256.5ujbplyec2sk4onn@wittgenstein>
- <20200113184408.GD110363@google.com>
- <20200113191046.2tidyvc544zvchek@wittgenstein>
- <20200114185944.GA178589@google.com>
+        id S1726839AbgANUCW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 14 Jan 2020 15:02:22 -0500
+Received: from mout-p-102.mailbox.org ([80.241.56.152]:60288 "EHLO
+        mout-p-102.mailbox.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726523AbgANUCW (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 14 Jan 2020 15:02:22 -0500
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:105:465:1:1:0])
+        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
+        (No client certificate requested)
+        by mout-p-102.mailbox.org (Postfix) with ESMTPS id 47y1Zf2B6hzKmVl;
+        Tue, 14 Jan 2020 21:02:18 +0100 (CET)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from smtp1.mailbox.org ([80.241.60.240])
+        by spamfilter06.heinlein-hosting.de (spamfilter06.heinlein-hosting.de [80.241.56.125]) (amavisd-new, port 10030)
+        with ESMTP id 8yIjXp1Taw1j; Tue, 14 Jan 2020 21:02:14 +0100 (CET)
+Date:   Wed, 15 Jan 2020 07:01:50 +1100
+From:   Aleksa Sarai <cyphar@cyphar.com>
+To:     Al Viro <viro@zeniv.linux.org.uk>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        David Howells <dhowells@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        stable <stable@vger.kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Serge Hallyn <serge@hallyn.com>, dev@opencontainers.org,
+        Linux Containers <containers@lists.linux-foundation.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Ian Kent <raven@themaw.net>
+Subject: Re: [PATCH RFC 0/1] mount: universally disallow mounting over
+ symlinks
+Message-ID: <20200114200150.ryld4npoblns2ybe@yavin>
+References: <20200101005446.GH4203@ZenIV.linux.org.uk>
+ <20200101030815.GA17593@ZenIV.linux.org.uk>
+ <20200101144407.ugjwzk7zxrucaa6a@yavin.dot.cyphar.com>
+ <20200101234009.GB8904@ZenIV.linux.org.uk>
+ <20200102035920.dsycgxnb6ba2jhz2@yavin.dot.cyphar.com>
+ <20200103014901.GC8904@ZenIV.linux.org.uk>
+ <20200108031314.GE8904@ZenIV.linux.org.uk>
+ <CAHk-=wgQ3yOBuK8mxpnntD8cfX-+10ba81f86BYg8MhvwpvOMg@mail.gmail.com>
+ <20200110210719.ktg3l2kwjrdutlh6@yavin>
+ <20200114045733.GW8904@ZenIV.linux.org.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="yw32mmv2xicgi7vl"
 Content-Disposition: inline
-In-Reply-To: <20200114185944.GA178589@google.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20200114045733.GW8904@ZenIV.linux.org.uk>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jan 14, 2020 at 10:59:44AM -0800, Minchan Kim wrote:
-> Hi Christian,
-> 
-> On Mon, Jan 13, 2020 at 08:10:47PM +0100, Christian Brauner wrote:
-> > On Mon, Jan 13, 2020 at 10:44:08AM -0800, Minchan Kim wrote:
-> > > On Mon, Jan 13, 2020 at 11:42:57AM +0100, Christian Brauner wrote:
-> > > > On Mon, Jan 13, 2020 at 11:47:11AM +0300, Kirill Tkhai wrote:
-> > > 
-> > > < snip >
-> > > 
-> > > > > > +SYSCALL_DEFINE5(process_madvise, int, pidfd, unsigned long, start,
-> > > > > > +		size_t, len_in, int, behavior, unsigned long, flags)
-> > > > > 
-> > > > > I don't like the interface. The fact we have pidfd does not mean,
-> > > > > we have to use it for new syscalls always. A user may want to set
-> > > > > madvise for specific pid from console and pass pid as argument.
-> > > > > pidfd would be an overkill in this case.
-> > > > > We usually call "kill -9 pid" from console. Why shouldn't process_madvise()
-> > > > > allow this?
-> > > > > 
-> > > > > I suggent to extend first argument to work with both pid and pidfd.
-> > > > > Look at what we have for waitid(idtype, id_t id, ...) for example:
-> > > > > 
-> > > > >        idtype == P_PID
-> > > > >               Wait for the child whose process ID matches id.
-> > > > > 
-> > > > >        idtype == P_PIDFD (since Linux 5.4)
-> > > > >               Wait for the child referred to by the PID file descriptor specified in id.  (See pidfd_open(2) for  further  information  on
-> > > > >               PID file descriptors.)
-> > > > > 
-> > > > > We may use @flags argument for this.
-> > > > 
-> > > > Sorry for chiming in just a comment. Overall, I don't particularly care
-> > > > how or if you integrate pidfd here. One thing I would like to point out
-> > > > is that we're working on a patch to place new features under pidfd
-> > > > specific flags. This e.g. means a pidfd would be only be able to be used
-> > > > for madvise operations (or getfd operations) if it was created with that
-> > > > specific flag set making it easier to share them with other processes.
-> > > > So if you integrate them here I would be quite thankful if you target
-> > > > the patchset for the v5.7 merge window, not for v5.6.
-> > > 
-> > > Hi Christian,
-> > > Sorry but I couldn't understand your point.
-> > > Could you clarify what you meant?
-> > 
-> > Hi Minchan,
-> > 
-> > Sure. When you create a pidfd, e.g. with clone3() and you'd wanted to
-> > use it for madvise you'd need to set a flag like pidfd_cap_madvise or
-> > pidfd_feature_madvise when you create the pidfd. Only if the pidfd was
-> > created with that flag set could you use it with madvise (This does not
-> > affect the permission checking you're performing here.). This has come
-> > up a couple of times and becomes more relevant now that people keep
-> > adding new features on top of pidfd and is similar to what we are now
-> > doing with openat2().
-> 
-> Thanks for the explain. When I read discussion with you and Daniel, it's
-> still vague for me that what's the outcome so that it could land onto
-> v5.6.(If I miss something progress on other thread, sorry about that.)
 
-I'll try to post patches soon.
+--yw32mmv2xicgi7vl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> I will keep Ccing you so that you may notice when this patchset could
-> be merged(Please Cc me when you send your patchset for me to notice)
-> So if we judge it's worth to integrate, maybe we could make a quick
-> patch to use it or postpone a cycle to intergrate it if we have more
-> time.
+On 2020-01-14, Al Viro <viro@zeniv.linux.org.uk> wrote:
+> On Sat, Jan 11, 2020 at 08:07:19AM +1100, Aleksa Sarai wrote:
+>=20
+> > If I'm understanding this proposal correctly, this would be a problem
+> > for the libpathrs use-case -- if this is done then there's no way to
+> > avoid a TOCTOU with someone mounting and the userspace program checking
+> > whether something is a mountpoint (unless you have Linux >5.6 and
+> > RESOLVE_NO_XDEV). Today, you can (in theory) do it with MNT_EXPIRE:
+> >=20
+> >   1. Open the candidate directory.
+> >   2. umount2(MNT_EXPIRE) the fd.
+> >     * -EINVAL means it wasn't a mountpoint when we got the fd, and the
+> > 	  fd is a stable handle to the underlying directory.
+> > 	* -EAGAIN or -EBUSY means that it was a mountpoint or became a
+> > 	  mountpoint after the fd was opened (we don't care about that, but
+> > 	  fail-safe is better here).
+> >   3. Use the fd from (1) for all operations.
+>=20
+> ... except that foo/../bar *WILL* cross into the covering mount, on any
+> kernel that supports ...at(2) at all, so I would be very cautious about
+> any kind "hardening" claims in that case.
 
-Yeah, that would be great!
-It's unlikely that process_madvise() will land for v5.6 anyway since
-it's quite late in the cycle, so we should have some time to coordinate.
+In the use-case I have, we would have full control over what the path
+being opened is (and thus you wouldn't open "foo/../bar"). But I agree
+that generally the MNT_EXPIRE solution is really non-ideal anyway.
 
-Thanks!
-Christian
+Not to mention that we're still screwed when it comes to using
+magic-links (because if someone bind-mounts a magic-link over a
+magic-link there's absolutely no race-free way to be sure that we're
+traversing the right magic-link -- for that we'll need to have a
+different solution).
+
+> I'm not sure about Linus' proposal - it looks rather convoluted and we
+> get a hard to describe twist of semantics in an area (procfs symlinks
+> vs. mount traversal) on top of everything else in there...
+
+Yeah, I agree.
+
+> 1) do you see any problems on your testcases with the current #fixes?
+> That's commit 7a955b7363b8 as branch tip.
+
+I will take a quick look later today, but I'm currently at a conference.
+
+> 2) do you have any updates you would like to fold into stuff in
+> #work.openat2?  Right now I have a local variant of #work.namei (with
+> fairly cosmetical change compared to vfs.git one) that merges clean
+> with #work.openat2; I would like to do any updates/fold-ins/etc.
+> of #work.openat2 *before* doing a merge and continuing to work on
+> top of the merge results...
+
+Yes, there were two patches I sent a while ago[1]. I can re-send them if
+you like. The second patch switches open_how->mode to a u64, but I'm
+still on the fence about whether that makes sense to do...
+
+[1]: https://lore.kernel.org/lkml/20191219105533.12508-1-cyphar@cyphar.com/
+
+--=20
+Aleksa Sarai
+Senior Software Engineer (Containers)
+SUSE Linux GmbH
+<https://www.cyphar.com/>
+
+--yw32mmv2xicgi7vl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCXh4eKwAKCRCdlLljIbnQ
+EohNAP9bZokE7Mx988k9i8bCb2VifwEsK32qWbBGbd1mfrCgcAD9FPGxR3BU2iR4
+1M+DPlD/ZTxDuzJUo2DWSGfEWzl2hAQ=
+=b/NS
+-----END PGP SIGNATURE-----
+
+--yw32mmv2xicgi7vl--
