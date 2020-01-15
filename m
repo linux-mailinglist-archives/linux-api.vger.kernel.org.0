@@ -2,122 +2,327 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EF9713BABE
-	for <lists+linux-api@lfdr.de>; Wed, 15 Jan 2020 09:14:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4527013BC72
+	for <lists+linux-api@lfdr.de>; Wed, 15 Jan 2020 10:31:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726559AbgAOIOE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 Jan 2020 03:14:04 -0500
-Received: from mail.kernel.org ([198.145.29.99]:48134 "EHLO mail.kernel.org"
+        id S1729414AbgAOJbQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 15 Jan 2020 04:31:16 -0500
+Received: from mga18.intel.com ([134.134.136.126]:46313 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726100AbgAOIOE (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 15 Jan 2020 03:14:04 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5806724671;
-        Wed, 15 Jan 2020 08:14:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579076043;
-        bh=M+HSADfZQKQz8tI8Ei7xqVcpyWZVrFeljkerXtx23vs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=e5w2X2lmbpZJEt3FIoAYrfP3JCxKVU5luHEmk7pWaix7LJF+MLwiAHRnU/NPD+/UO
-         SKTNLbC1ZD5YUfk5vFr6XYfsozGKLD+QgEjgihzZiieEB29v1eDv4QiAc5YKTHUgJa
-         vTmnktFUhRAjNjuGPvrDxuZjvsDYBRQLH58H7eoE=
-Date:   Wed, 15 Jan 2020 09:14:00 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Moritz Fischer <mdf@kernel.org>
-Cc:     Will Deacon <will@kernel.org>, mark.rutland@arm.com,
-        linux-fpga@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, atull@kernel.org, yilun.xu@intel.com
-Subject: Re: [PATCH v6 0/2] add performance reporting support to FPGA DFL
- drivers
-Message-ID: <20200115081400.GA2978927@kroah.com>
-References: <1573622695-25607-1-git-send-email-hao.wu@intel.com>
- <20191125033412.GB890@hao-dev>
- <20191125080127.GC1809@willie-the-truck>
- <20191125080839.GA6227@hao-dev>
- <20191209024527.GA22625@hao-dev>
- <20191216010104.GA32154@yilunxu-OptiPlex-7050>
- <20200106023742.GA3980@hao-dev>
- <20200114055605.GA13574@hao-dev>
- <20200115051040.GA1389@epycbox.lan>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200115051040.GA1389@epycbox.lan>
+        id S1729396AbgAOJbQ (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 15 Jan 2020 04:31:16 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 15 Jan 2020 01:31:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,322,1574150400"; 
+   d="scan'208";a="397826039"
+Received: from unknown (HELO chenyu-office.sh.intel.com) ([10.239.158.173])
+  by orsmga005.jf.intel.com with ESMTP; 15 Jan 2020 01:31:11 -0800
+From:   Chen Yu <yu.c.chen@intel.com>
+To:     x86@kernel.org
+Cc:     Chen Yu <yu.c.chen@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Borislav Petkov <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Reinette Chatre <reinette.chatre@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Chris Down <chris@chrisdown.name>,
+        Michal Hocko <mhocko@suse.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH][v7] x86/resctrl: Add task resctrl information display
+Date:   Wed, 15 Jan 2020 17:28:51 +0800
+Message-Id: <20200115092851.14761-1-yu.c.chen@intel.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jan 14, 2020 at 09:10:40PM -0800, Moritz Fischer wrote:
-> Hi Greg,
-> 
-> On Tue, Jan 14, 2020 at 01:56:05PM +0800, Wu Hao wrote:
-> > On Mon, Jan 06, 2020 at 10:37:42AM +0800, Wu Hao wrote:
-> > > On Mon, Dec 16, 2019 at 09:01:04AM +0800, Xu Yilum wrote:
-> > > > On Mon, Dec 09, 2019 at 10:45:27AM +0800, Wu Hao wrote:
-> > > > > On Mon, Nov 25, 2019 at 04:08:39PM +0800, Wu Hao wrote:
-> > > > > > On Mon, Nov 25, 2019 at 08:01:28AM +0000, Will Deacon wrote:
-> > > > > > > On Mon, Nov 25, 2019 at 11:34:12AM +0800, Wu Hao wrote:
-> > > > > > > > Hi Will and Mark,
-> > > > > > > > 
-> > > > > > > > Could you please help us on review this patchset? as this patchset mainly 
-> > > > > > > > introduced a new perf driver following the similar way as drivers/perf/*.
-> > > > > > > 
-> > > > > > > Why is it not under drivers/perf/, then?
-> > > > > > 
-> > > > > > Hi Will
-> > > > > > 
-> > > > > > Thanks for the quick response. This is one sub feature for DFL based FPGAs,
-> > > > > > and we plan to put this sub feature together with others, including related
-> > > > > > documentation. It only registers a standard perf pmu for its userspace
-> > > > > > interfaces.
-> > > > > > 
-> > > > > > > 
-> > > > > > > > This patchset has been submitted for a long time but didn't receive any
-> > > > > > > > comment after v4. we appreciate any review comments! thanks in advance. :)
-> > > > > > > 
-> > > > > > > Hmm, not sure I saw the previous versions. Guessing I wasn't on cc?
-> > > > > > 
-> > > > > > We switched to perf API from v4, and started ccing you and Mark from v5. :)
-> > > > > 
-> > > > > Hi Will
-> > > > > 
-> > > > > Did you get a chance to look into this patchset?
-> > > > > 
-> > > > > Thanks
-> > > > > Hao
-> > > > 
-> > > > Hi Will
-> > > > 
-> > > > Did you have time to look into this patchset? We have done review work
-> > > > for FPGA part. And as a perf driver, we appreciate your comments.
-> > > > 
-> > > > Thanks
-> > > > Yilun
-> > > 
-> > > Hi Will
-> > > 
-> > > Did you get a chance to look into this patchset these days? 
-> > > 
-> > > Actually we didn't receive any comments for a long time, if you are busy and
-> > > don't have enough time on this, do you know if someone else could help with
-> > > review and ack from perf driver point of view, or any other things we can do
-> > > to speed up this? Thanks in advance! 
-> > 
-> > Hi Moritz
-> > 
-> > Looks like still no response from Will. :(
-> > 
-> > Do you know someone else could help?
-> 
-> Do you have some feedback? I'm a bit confused on what to do in such a
-> situation, do I just take the patch if the maintainer doesn't respond
-> for a while?
+Monitoring tools that want to find out which resctrl control and monitor
+groups a task belongs to must currently read the "tasks" file in every
+group until they locate the process ID.
 
-Resend it and say something like "please review" or the like.  With the
-holidays and catching up from the holidays, this time of year is usually
-very backlogged for lots of reviewers.
+Add an additional file /proc/{pid}/cpu_resctrl_groups to provide this
+information:
 
-greg k-h
+1)   res:
+     mon:
+
+resctrl is not available.
+
+2)   res:/
+     mon:
+
+Task is part of the root resctrl control group, and it is not associated
+to any monitor group.
+
+3)  res:/
+    mon:mon0
+
+Task is part of the root resctrl control group and monitor group mon0.
+
+4)  res:group0
+    mon:
+
+Task is part of resctrl control group group0, and it is not associated
+to any monitor group.
+
+5) res:group0
+   mon:mon1
+
+Task is part of resctrl control group group0 and monitor group mon1.
+
+Tested-by: Jinshi Chen <jinshi.chen@intel.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Alexey Dobriyan <adobriyan@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Reinette Chatre <reinette.chatre@intel.com>
+Cc: Fenghua Yu <fenghua.yu@intel.com>
+Cc: Tony Luck <tony.luck@intel.com>
+Cc: Chris Down <chris@chrisdown.name>
+Cc: Michal Hocko <mhocko@suse.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-api@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Chen Yu <yu.c.chen@intel.com>
+---
+v1: Initial version reviewed by Reinette Chatre,
+    Fenghua Yu and Tony Luck.
+
+v2: According to Boris's suggestion,
+    reduce indentation level in proc_resctrl_show().
+    Create the include/linux/resctrl.h header and
+    declare proc_resctrl_show() in this file, so
+    that other architectures would probably use it
+    in the future. Different architectures should
+    implement architectural specific proc_resctrl_show()
+    accordingly.
+
+v3: According to Boris's suggestion,
+    Return empty string if the resctrl filesystem has
+    not been mounted.
+    Rename the config from CPU_RESCTRL to PROC_CPU_RESCTRL
+    to better represent its usage. Move PROC_CPU_RESCTRL
+    from arch/Kconfig to fs/proc/Kconfig.
+    And let PROC_CPU_RESCTRL to be depended on PROC_FS.
+
+v4: According to Thomas's suggestion, changed the output
+    from multiple lines to one single line.
+
+v5: According to Alexey's feedback, removed the header file
+    proc_fs.h in resctrl.h, and changed seq_puts() to
+    seq_putc() for simplicity.
+
+v6: According to Chris Down's suggestion,
+    1. rename:
+    /proc/{pid}/resctrl to /proc/{pid}/cpu_resctrl
+    to better reflect its meaning.
+    2. change the description in comments:
+    "control group" to "resctrl control group"
+    as the former is confusing for cgroup users.
+
+v7: According to Boris's suggestion,
+    split the output into two lines, to display the
+    resctrl control group and monitor group respctively
+    to be more human/tool-readable. Renamed the file to
+    cpu_resctrl_groups.
+---
+ arch/x86/Kconfig                       |  1 +
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c | 86 ++++++++++++++++++++++++++
+ fs/proc/Kconfig                        |  4 ++
+ fs/proc/base.c                         |  7 +++
+ include/linux/resctrl.h                | 14 +++++
+ 5 files changed, 112 insertions(+)
+ create mode 100644 include/linux/resctrl.h
+
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 5e8949953660..6e17a68c7d77 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -456,6 +456,7 @@ config X86_CPU_RESCTRL
+ 	bool "x86 CPU resource control support"
+ 	depends on X86 && (CPU_SUP_INTEL || CPU_SUP_AMD)
+ 	select KERNFS
++	select PROC_CPU_RESCTRL		if PROC_FS
+ 	help
+ 	  Enable x86 CPU resource control support.
+ 
+diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+index 2e3b06d6bbc6..4b185740d29d 100644
+--- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
++++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+@@ -725,6 +725,92 @@ static int rdtgroup_tasks_show(struct kernfs_open_file *of,
+ 	return ret;
+ }
+ 
++#ifdef CONFIG_PROC_CPU_RESCTRL
++
++/*
++ * A task can only be part of one resctrl control group and of one monitor
++ * group which is associated to that control group.
++ *
++ * 1)   res:
++ *      mon:
++ *
++ *    resctrl is not available.
++ *
++ * 2)   res:/
++ *      mon:
++ *
++ *    Task is part of the root resctrl control group, and it is not associated
++ *    to any monitor group.
++ *
++ * 3)  res:/
++ *     mon:mon0
++ *
++ *    Task is part of the root resctrl control group and monitor group mon0.
++ *
++ * 4)  res:group0
++ *     mon:
++ *
++ *    Task is part of resctrl control group group0, and it is not associated
++ *    to any monitor group.
++ *
++ * 5) res:group0
++ *    mon:mon1
++ *
++ *    Task is part of resctrl control group group0 and monitor group mon1.
++ */
++int proc_resctrl_show(struct seq_file *s, struct pid_namespace *ns,
++		      struct pid *pid, struct task_struct *tsk)
++{
++	struct rdtgroup *rdtg;
++	int ret = 0;
++
++	mutex_lock(&rdtgroup_mutex);
++
++	/* Return empty if resctrl has not been mounted. */
++	if (!static_branch_unlikely(&rdt_enable_key)) {
++		seq_puts(s, "res:\nmon:\n");
++		goto unlock;
++	}
++
++	list_for_each_entry(rdtg, &rdt_all_groups, rdtgroup_list) {
++		struct rdtgroup *crg;
++
++		/*
++		 * Task information is only relevant for shareable
++		 * and exclusive groups.
++		 */
++		if (rdtg->mode != RDT_MODE_SHAREABLE &&
++		    rdtg->mode != RDT_MODE_EXCLUSIVE)
++			continue;
++
++		if (rdtg->closid != tsk->closid)
++			continue;
++
++		seq_printf(s, "res:%s%s\n", (rdtg == &rdtgroup_default) ? "/" : "",
++			   rdtg->kn->name);
++		seq_puts(s, "mon:");
++		list_for_each_entry(crg, &rdtg->mon.crdtgrp_list,
++				    mon.crdtgrp_list) {
++			if (tsk->rmid != crg->mon.rmid)
++				continue;
++			seq_printf(s, "%s", crg->kn->name);
++			break;
++		}
++		seq_putc(s, '\n');
++		goto unlock;
++	}
++	/*
++	 * The above search should succeed. Otherwise return
++	 * with an error.
++	 */
++	ret = -ENOENT;
++unlock:
++	mutex_unlock(&rdtgroup_mutex);
++
++	return ret;
++}
++#endif
++
+ static int rdt_last_cmd_status_show(struct kernfs_open_file *of,
+ 				    struct seq_file *seq, void *v)
+ {
+diff --git a/fs/proc/Kconfig b/fs/proc/Kconfig
+index 733881a6387b..27ef84d99f59 100644
+--- a/fs/proc/Kconfig
++++ b/fs/proc/Kconfig
+@@ -103,3 +103,7 @@ config PROC_CHILDREN
+ config PROC_PID_ARCH_STATUS
+ 	def_bool n
+ 	depends on PROC_FS
++
++config PROC_CPU_RESCTRL
++	def_bool n
++	depends on PROC_FS
+diff --git a/fs/proc/base.c b/fs/proc/base.c
+index ebea9501afb8..bbffd654bb0e 100644
+--- a/fs/proc/base.c
++++ b/fs/proc/base.c
+@@ -94,6 +94,7 @@
+ #include <linux/sched/debug.h>
+ #include <linux/sched/stat.h>
+ #include <linux/posix-timers.h>
++#include <linux/resctrl.h>
+ #include <trace/events/oom.h>
+ #include "internal.h"
+ #include "fd.h"
+@@ -3060,6 +3061,9 @@ static const struct pid_entry tgid_base_stuff[] = {
+ #endif
+ #ifdef CONFIG_CGROUPS
+ 	ONE("cgroup",  S_IRUGO, proc_cgroup_show),
++#endif
++#ifdef CONFIG_PROC_CPU_RESCTRL
++	ONE("cpu_resctrl_groups", S_IRUGO, proc_resctrl_show),
+ #endif
+ 	ONE("oom_score",  S_IRUGO, proc_oom_score),
+ 	REG("oom_adj",    S_IRUGO|S_IWUSR, proc_oom_adj_operations),
+@@ -3460,6 +3464,9 @@ static const struct pid_entry tid_base_stuff[] = {
+ #endif
+ #ifdef CONFIG_CGROUPS
+ 	ONE("cgroup",  S_IRUGO, proc_cgroup_show),
++#endif
++#ifdef CONFIG_PROC_CPU_RESCTRL
++	ONE("cpu_resctrl_groups", S_IRUGO, proc_resctrl_show),
+ #endif
+ 	ONE("oom_score", S_IRUGO, proc_oom_score),
+ 	REG("oom_adj",   S_IRUGO|S_IWUSR, proc_oom_adj_operations),
+diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
+new file mode 100644
+index 000000000000..daf5cf64c6a6
+--- /dev/null
++++ b/include/linux/resctrl.h
+@@ -0,0 +1,14 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef _RESCTRL_H
++#define _RESCTRL_H
++
++#ifdef CONFIG_PROC_CPU_RESCTRL
++
++int proc_resctrl_show(struct seq_file *m,
++		      struct pid_namespace *ns,
++		      struct pid *pid,
++		      struct task_struct *tsk);
++
++#endif
++
++#endif /* _RESCTRL_H */
+-- 
+2.17.1
+
