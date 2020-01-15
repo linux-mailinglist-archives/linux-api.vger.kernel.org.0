@@ -2,27 +2,20 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AD99313C630
-	for <lists+linux-api@lfdr.de>; Wed, 15 Jan 2020 15:35:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B40313C67B
+	for <lists+linux-api@lfdr.de>; Wed, 15 Jan 2020 15:48:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728927AbgAOOfW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 Jan 2020 09:35:22 -0500
-Received: from mout-p-101.mailbox.org ([80.241.56.151]:22240 "EHLO
-        mout-p-101.mailbox.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726418AbgAOOfV (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Jan 2020 09:35:21 -0500
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [80.241.60.241])
-        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
-        (No client certificate requested)
-        by mout-p-101.mailbox.org (Postfix) with ESMTPS id 47yVGv2gWTzKmbK;
-        Wed, 15 Jan 2020 15:35:19 +0100 (CET)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp2.mailbox.org ([80.241.60.241])
-        by spamfilter05.heinlein-hosting.de (spamfilter05.heinlein-hosting.de [80.241.56.123]) (amavisd-new, port 10030)
-        with ESMTP id P4dLfi4K-_0D; Wed, 15 Jan 2020 15:35:13 +0100 (CET)
-Date:   Thu, 16 Jan 2020 01:34:59 +1100
-From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     Al Viro <viro@zeniv.linux.org.uk>
+        id S1729072AbgAOOsq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 15 Jan 2020 09:48:46 -0500
+Received: from zeniv.linux.org.uk ([195.92.253.2]:58024 "EHLO
+        ZenIV.linux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726440AbgAOOsp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Jan 2020 09:48:45 -0500
+Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1irjyB-008qVP-Ak; Wed, 15 Jan 2020 14:48:31 +0000
+Date:   Wed, 15 Jan 2020 14:48:31 +0000
+From:   Al Viro <viro@zeniv.linux.org.uk>
+To:     Aleksa Sarai <cyphar@cyphar.com>
 Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         David Howells <dhowells@redhat.com>,
         Eric Biederman <ebiederm@xmission.com>,
@@ -36,9 +29,8 @@ Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         Ian Kent <raven@themaw.net>
 Subject: Re: [PATCH RFC 0/1] mount: universally disallow mounting over
  symlinks
-Message-ID: <20200115143459.l4wurqyetkmptsdm@yavin>
-References: <20200101234009.GB8904@ZenIV.linux.org.uk>
- <20200102035920.dsycgxnb6ba2jhz2@yavin.dot.cyphar.com>
+Message-ID: <20200115144831.GJ8904@ZenIV.linux.org.uk>
+References: <20200102035920.dsycgxnb6ba2jhz2@yavin.dot.cyphar.com>
  <20200103014901.GC8904@ZenIV.linux.org.uk>
  <20200108031314.GE8904@ZenIV.linux.org.uk>
  <CAHk-=wgQ3yOBuK8mxpnntD8cfX-+10ba81f86BYg8MhvwpvOMg@mail.gmail.com>
@@ -47,63 +39,44 @@ References: <20200101234009.GB8904@ZenIV.linux.org.uk>
  <20200114200150.ryld4npoblns2ybe@yavin>
  <20200115142517.GI8904@ZenIV.linux.org.uk>
  <20200115142906.saagd2lse7i7njux@yavin>
+ <20200115143459.l4wurqyetkmptsdm@yavin>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="u4mn5eoypdaexxxf"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200115142906.saagd2lse7i7njux@yavin>
+In-Reply-To: <20200115143459.l4wurqyetkmptsdm@yavin>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Thu, Jan 16, 2020 at 01:34:59AM +1100, Aleksa Sarai wrote:
+> On 2020-01-16, Aleksa Sarai <cyphar@cyphar.com> wrote:
+> > On 2020-01-15, Al Viro <viro@zeniv.linux.org.uk> wrote:
+> > > On Wed, Jan 15, 2020 at 07:01:50AM +1100, Aleksa Sarai wrote:
+> > > 
+> > > > Yes, there were two patches I sent a while ago[1]. I can re-send them if
+> > > > you like. The second patch switches open_how->mode to a u64, but I'm
+> > > > still on the fence about whether that makes sense to do...
+> > > 
+> > > IMO plain __u64 is better than games with __aligned_u64 - all sizes are
+> > > fixed, so...
+> > > 
+> > > > [1]: https://lore.kernel.org/lkml/20191219105533.12508-1-cyphar@cyphar.com/
+> > > 
+> > > Do you want that series folded into "open: introduce openat2(2) syscall"
+> > > and "selftests: add openat2(2) selftests" or would you rather have them
+> > > appended at the end of the series.  Personally I'd go for "fold them in"
+> > > if it had been about my code, but it's really up to you.
+> > 
+> > "fold them in" would probably be better to avoid making the mainline
+> > history confusing afterwards. Thanks.
+> 
+> Also (if you prefer) I can send a v3 which uses u64s rather than
+> aligned_u64s.
 
---u4mn5eoypdaexxxf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+<mode "lazy bastard">
+Could you fold and resend the results of folding (i.e. replacements
+for two commits in question)?
+</mode>
 
-On 2020-01-16, Aleksa Sarai <cyphar@cyphar.com> wrote:
-> On 2020-01-15, Al Viro <viro@zeniv.linux.org.uk> wrote:
-> > On Wed, Jan 15, 2020 at 07:01:50AM +1100, Aleksa Sarai wrote:
-> >=20
-> > > Yes, there were two patches I sent a while ago[1]. I can re-send them=
- if
-> > > you like. The second patch switches open_how->mode to a u64, but I'm
-> > > still on the fence about whether that makes sense to do...
-> >=20
-> > IMO plain __u64 is better than games with __aligned_u64 - all sizes are
-> > fixed, so...
-> >=20
-> > > [1]: https://lore.kernel.org/lkml/20191219105533.12508-1-cyphar@cypha=
-r.com/
-> >=20
-> > Do you want that series folded into "open: introduce openat2(2) syscall"
-> > and "selftests: add openat2(2) selftests" or would you rather have them
-> > appended at the end of the series.  Personally I'd go for "fold them in"
-> > if it had been about my code, but it's really up to you.
->=20
-> "fold them in" would probably be better to avoid making the mainline
-> history confusing afterwards. Thanks.
-
-Also (if you prefer) I can send a v3 which uses u64s rather than
-aligned_u64s.
-
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-<https://www.cyphar.com/>
-
---u4mn5eoypdaexxxf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCXh8jEAAKCRCdlLljIbnQ
-EgAQAQC483OrZyiBJYG/79I435iT1B2imv4w4itecQxjDIotqQEA4j43Ly9wivoP
-vlgdPGsgRV9piX8BxAvqQHyRKdQcdww=
-=q/o9
------END PGP SIGNATURE-----
-
---u4mn5eoypdaexxxf--
+The hard part is, of course, in updating commit messages ;-)
