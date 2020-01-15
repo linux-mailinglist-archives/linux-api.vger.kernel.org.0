@@ -2,621 +2,367 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8807E13BD9E
-	for <lists+linux-api@lfdr.de>; Wed, 15 Jan 2020 11:41:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 49E0713C2C4
+	for <lists+linux-api@lfdr.de>; Wed, 15 Jan 2020 14:30:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729878AbgAOKje (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 Jan 2020 05:39:34 -0500
-Received: from mo4-p02-ob.smtp.rzone.de ([85.215.255.83]:12188 "EHLO
-        mo4-p02-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729855AbgAOKje (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Jan 2020 05:39:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1579084766;
-        s=strato-dkim-0002; d=chronox.de;
-        h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-        X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
-        bh=PGF+aSGBgyOTOkOJuXwcr4oKXZNjFUkRg22zzKcVwbY=;
-        b=GGjIb5kkNEO67FaUaFSM4ylqAwansVzWg5TH+V2m8KCIM2jO5GPZfuBxssIgzrd5Pi
-        TD7JY3ypNKOOr6qdbrwQmMOf1zVD6wPeWCsnsYeEAcDE195iLKwvRH34AdEqwwWUvIKT
-        DUZY4E4hOnU7x5jdx7VNv0a/v/yETSNR7Ha15RQ1EHaFxRuYA9AB5dWXutl3dFljMlw2
-        M2wqhq6NvfsCQ5crNYekqNysP6akSOY26wqPBMmfx+VJqX/l/eIn2EFLSaIHkHRh98Ch
-        9FGIHpF36plEHlDxW7S8CEpSkl3pilqGNZ2hDtCBrxSioVJ83z7VADX1XzefQDuQ+Q2k
-        uTxA==
-X-RZG-AUTH: ":P2ERcEykfu11Y98lp/T7+hdri+uKZK8TKWEqNyiHySGSa9k9xmwdNnzGHXPZJPScHivh"
-X-RZG-CLASS-ID: mo00
-Received: from positron.chronox.de
-        by smtp.strato.de (RZmta 46.1.4 DYNA|AUTH)
-        with ESMTPSA id u04585w0FAbwVzw
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-        (Client did not present a certificate);
-        Wed, 15 Jan 2020 11:37:58 +0100 (CET)
-From:   Stephan =?ISO-8859-1?Q?M=FCller?= <smueller@chronox.de>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-crypto@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        linux-api@vger.kernel.org,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        "Alexander E. Patrakov" <patrakov@gmail.com>,
-        "Ahmed S. Darwish" <darwish.07@gmail.com>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>, Willy Tarreau <w@1wt.eu>,
-        Matthew Garrett <mjg59@srcf.ucam.org>,
-        Vito Caputo <vcaputo@pengaru.com>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jan Kara <jack@suse.cz>, Ray Strode <rstrode@redhat.com>,
-        William Jon McCann <mccann@jhu.edu>,
-        zhangjs <zachary@baishancloud.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Florian Weimer <fweimer@redhat.com>,
-        Lennart Poettering <mzxreary@0pointer.de>,
-        Nicolai Stange <nstange@suse.de>,
-        "Peter, Matthias" <matthias.peter@bsi.bund.de>,
-        Marcelo Henrique Cerri <marcelo.cerri@canonical.com>,
-        Roman Drahtmueller <draht@schaltsekun.de>,
-        Neil Horman <nhorman@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Julia Lawall <julia.lawall@inria.fr>,
-        Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [PATCH v28 12/12] LRNG - add power-on and runtime self-tests
-Date:   Wed, 15 Jan 2020 11:36:23 +0100
-Message-ID: <14680840.Vbse3Ty9G8@positron.chronox.de>
-In-Reply-To: <5951792.lmNsirYsPE@positron.chronox.de>
-References: <6157374.ptSnyUpaCn@positron.chronox.de> <2641155.iNH938UiKq@positron.chronox.de> <5951792.lmNsirYsPE@positron.chronox.de>
+        id S1726562AbgAONar (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 15 Jan 2020 08:30:47 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46954 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726472AbgAONar (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Jan 2020 08:30:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1579095045;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=dSuwXOkLNc2+9CyhIpo9YFvHDt0jRh9GE8hPRzqPdYM=;
+        b=fkVzISqpU3byc3/4wB74jubV1wIRdWezhku1IJggvIw6J0TLmP1ugy/F0SeXMCHPCMlcqN
+        +1+EMpvrTFuJn1IPt9LRPuYKiNwa5f1gODyD6FHRH9/zvXOqBBqyJrrejSn+kpHbW9NUWz
+        LBXQhTVySy88pnhTGTfJwCweefflIas=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-246-yUq0FqlTM4qAN6FBI1N9QA-1; Wed, 15 Jan 2020 08:30:42 -0500
+X-MC-Unique: yUq0FqlTM4qAN6FBI1N9QA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D4ED36A2B2;
+        Wed, 15 Jan 2020 13:30:39 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-120-52.rdu2.redhat.com [10.10.120.52])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 853AD19757;
+        Wed, 15 Jan 2020 13:30:36 +0000 (UTC)
+Subject: [RFC PATCH 00/14] pipe: Keyrings,
+ Block and USB notifications [ver #3]
+From:   David Howells <dhowells@redhat.com>
+To:     torvalds@linux-foundation.org
+Cc:     dhowells@redhat.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Stephen Smalley <sds@tycho.nsa.gov>, nicolas.dichtel@6wind.com,
+        raven@themaw.net, Christian Brauner <christian@brauner.io>,
+        dhowells@redhat.com, keyrings@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Wed, 15 Jan 2020 13:30:35 +0000
+Message-ID: <157909503552.20155.3030058841911628518.stgit@warthog.procyon.org.uk>
+User-Agent: StGit/unknown-version
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Parts of the LFSR are already covered by self-tests, including:
 
-* Self-test of SP800-90A DRBG provided by the Linux kernel crypto API.
+Here's a set of patches to add a general notification queue concept and to
+add event sources such as:
 
-* Self-test of the PRNG provided by the Linux kernel crypto API.
+ (1) Keys/keyrings, such as linking and unlinking keys and changing their
+     attributes.
 
-* Raw noise source data testing including SP800-90B compliant
-  tests when enabling CONFIG_LRNG_HEALTH_TESTS
+ (2) General device events (single common queue) including:
 
-This patch adds the self-tests for the remaining critical functions of
-the LRNG that are essential to maintain entropy and provide
-cryptographic strong random numbers. The following self-tests are
-implemented:
+     - Block layer events, such as device errors
 
-* Self-test of the time array maintenance. This test verifies whether
-the time stamp array management to store multiple values in one integer
-implements a concatenation of the data.
+     - USB subsystem events, such as device attach/remove, device reset,
+       device errors.
 
-* Self-test of the LFSR operation. This test injects a monotonic
-increasing counter into the LFSR. After completion of the injection of
-the counter, 3 pool words are compared with known good values. The known
-good values are calculated with the newly-developed tool
-lfsr_testvector_generation provided as part of the LRNG test tool set at
-[1].
+I have patches for adding superblock and mount topology watches also,
+though those are not in this set as there are other dependencies.
 
-* Self-test of the Hash_DF operation ensures that this function operates
-compliant to the specification. The self-test performs a Hash_DF
-operation of a zeroized entropy pool state. The test vectors are
-generated using the newly-developed tool hash_df_testvector_generation
-provided as part of the LRNG test tool set at [1].
+LSM hooks are included:
 
-* Self-test of the ChaCha20 DRNG is based on the self-tests that are
-already present and implemented with the stand-alone user space
-ChaCha20 DRNG implementation available at [2]. The self-tests cover
-different use cases of the DRNG seeded with known seed data.
+ (1) A set of hooks are provided that allow an LSM to rule on whether or
+     not a watch may be set.  Each of these hooks takes a different
+     "watched object" parameter, so they're not really shareable.  The LSM
+     should use current's credentials.  [Wanted by SELinux & Smack]
 
-The status of the LRNG self-tests is provided with the selftest_status
-SysFS file. If the file contains a zero, the self-tests passed. The
-value 0xffffffff means that the self-tests were not executed. Any other
-value indicates a self-test failure.
+ (2) A hook is provided to allow an LSM to rule on whether or not a
+     particular message may be posted to a particular queue.  This is given
+     the credentials from the event generator (which may be the system) and
+     the watch setter.  [Wanted by Smack]
 
-The self-test may be compiled to panic the system if the self-test
-fails.
+I've provided SELinux and Smack with implementations of some of these hooks.
 
-All self-tests operate on private state data structures. This implies
-that none of the self-tests have any impact on the regular LRNG
-operations. This allows the self-tests to be repeated at runtime by
-writing anything into the selftest_status SysFS file.
+Why:
 
-[1] https://www.chronox.de/lrng.html
-[2] https://www.chronox.de/chacha20.html
+ (1) Key/keyring notifications.
 
-CC: "Eric W. Biederman" <ebiederm@xmission.com>
-CC: "Alexander E. Patrakov" <patrakov@gmail.com>
-CC: "Ahmed S. Darwish" <darwish.07@gmail.com>
-CC: "Theodore Y. Ts'o" <tytso@mit.edu>
-CC: Willy Tarreau <w@1wt.eu>
-CC: Matthew Garrett <mjg59@srcf.ucam.org>
-CC: Vito Caputo <vcaputo@pengaru.com>
-CC: Andreas Dilger <adilger.kernel@dilger.ca>
-CC: Jan Kara <jack@suse.cz>
-CC: Ray Strode <rstrode@redhat.com>
-CC: William Jon McCann <mccann@jhu.edu>
-CC: zhangjs <zachary@baishancloud.com>
-CC: Andy Lutomirski <luto@kernel.org>
-CC: Florian Weimer <fweimer@redhat.com>
-CC: Lennart Poettering <mzxreary@0pointer.de>
-CC: Nicolai Stange <nstange@suse.de>
-CC: Marcelo Henrique Cerri <marcelo.cerri@canonical.com>
-CC: Neil Horman <nhorman@redhat.com>
-Signed-off-by: Stephan Mueller <smueller@chronox.de>
+     If you have your kerberos tickets in a file/directory, your gnome desktop
+     will monitor that using something like fanotify and tell you if your
+     credentials cache changes.
+
+     We also have the ability to cache your kerberos tickets in the session,
+     user or persistent keyring so that it isn't left around on disk across a
+     reboot or logout.  Keyrings, however, cannot currently be monitored
+     asynchronously, so the desktop has to poll for it - not so good on a
+     laptop.
+
+     This source will allow the desktop to avoid the need to poll.
+
+ (2) USB notifications.
+
+     GregKH was looking for a way to do USB notifications as I was looking to
+     find additional sources to implement.  I'm not sure how he wants to use
+     them, but I'll let him speak to that himself.
+
+ (3) Block notifications.
+
+     This one I was thinking that I could make something like ddrescue better
+     by letting it get notifications this way.  This was a target of
+     convenience since I had a dodgy disk I was trying to rescue.
+
+     It could also potentially be used help systemd, say, detect broken
+     devices and avoid trying to unmount them when trying to reboot the machine.
+
+     I can drop this for now if you prefer.
+
+ (4) Mount notifications.
+
+     This one is wanted to avoid repeated trawling of /proc/mounts or similar
+     to work out changes to the mount object attributes and mount topology.
+     I'm told that the proc file holding the namespace_sem is a point of
+     contention, especially as the process of generating the text descriptions
+     of the mounts/superblocks can be quite involved.
+
+     The notifications directly indicate the mounts involved in any particular
+     event and what the change was.  You can poll /proc/mounts, but all you
+     know is that something changed; you don't know what and you don't know
+     how and reading that file may race with multiple changed being effected.
+
+     I pair this with a new fsinfo() system call that allows, amongst other
+     things, the ability to retrieve in one go an { id, change counter } tuple
+     from all the children of a specified mount, allowing buffer overruns to
+     be cleaned up quickly.
+
+     It's not just Red Hat that's potentially interested in this:
+
+	https://lore.kernel.org/linux-fsdevel/293c9bd3-f530-d75e-c353-ddeabac27cf6@6wind.com/
+
+ (5) Superblock notifications.
+
+     This one is provided to allow systemd or the desktop to more easily
+     detect events such as I/O errors and EDQUOT/ENOSPC.
+
+Design decisions:
+
+ (1) The notification queue is built on top of a standard pipe.  Messages
+     are effectively spliced in.  The pipe is opened with a special flag:
+
+	pipe2(fds, O_NOTIFICATION_PIPE);
+
+     The special flag has the same value as O_EXCL (which doesn't seem like
+     it will ever be applicable in this context)[?].  It is given up front
+     to make it a lot easier to prohibit splice and co. from accessing the
+     pipe.
+
+     [?] Should this be done some other way?  I'd rather not use up a new
+     O_* flag if I can avoid it - should I add a pipe3() system call
+     instead?
+
+     The pipe is then configured::
+
+	ioctl(fds[1], IOC_WATCH_QUEUE_SET_SIZE, queue_depth);
+	ioctl(fds[1], IOC_WATCH_QUEUE_SET_FILTER, &filter);
+
+     Messages are then read out of the pipe using read().
+
+ (2) It should be possible to allow write() to insert data into the
+     notification pipes too, but this is currently disabled as the kernel
+     has to be able to insert messages into the pipe *without* holding
+     pipe->mutex and the code to make this work needs careful auditing.
+
+ (3) sendfile(), splice() and vmsplice() are disabled on notification pipes
+     because of the pipe->mutex issue and also because they sometimes want
+     to revert what they just did - but one or more notification messages
+     might've been interleaved in the ring.
+
+ (4) The kernel inserts messages with the wait queue spinlock held.  This
+     means that pipe_read() and pipe_write() have to take the spinlock to
+     update the queue pointers.
+
+ (5) Records in the buffer are binary, typed and have a length so that they
+     can be of varying size.
+
+     This allows multiple heterogeneous sources to share a common buffer;
+     there are 16 million types available, of which I've used just a few,
+     so there is scope for others to be used.  Tags may be specified when a
+     watchpoint is created to help distinguish the sources.
+
+ (6) Records are filterable as types have up to 256 subtypes that can be
+     individually filtered.  Other filtration is also available.
+
+ (7) Notification pipes don't interfere with each other; each may be bound
+     to a different set of watches.  Any particular notification will be
+     copied to all the queues that are currently watching for it - and only
+     those that are watching for it.
+
+ (8) When recording a notification, the kernel will not sleep, but will
+     rather mark a queue as having lost a message if there's insufficient
+     space.  read() will fabricate a loss notification message at an
+     appropriate point later.
+
+ (9) The notification pipe is created and then watchpoints are attached to
+     it, using one of:
+
+	keyctl_watch_key(KEY_SPEC_SESSION_KEYRING, fds[1], 0x01);
+	watch_devices(fds[1], 0x02, 0);
+
+     where in both cases, fd indicates the queue and the number after is a
+     tag between 0 and 255.
+
+(10) Watches are removed if either the notification pipe is destroyed or
+     the watched object is destroyed.  In the latter case, a message will
+     be generated indicating the enforced watch removal.
+
+
+Things I want to avoid:
+
+ (1) Introducing features that make the core VFS dependent on the network
+     stack or networking namespaces (ie. usage of netlink).
+
+ (2) Dumping all this stuff into dmesg and having a daemon that sits there
+     parsing the output and distributing it as this then puts the
+     responsibility for security into userspace and makes handling
+     namespaces tricky.  Further, dmesg might not exist or might be
+     inaccessible inside a container.
+
+ (3) Letting users see events they shouldn't be able to see.
+
+
+Testing and manpages:
+
+ (*) The keyutils tree has a pipe-watch branch that has keyctl commands for
+     making use of notifications.  Proposed manual pages can also be found
+     on this branch, though a couple of them really need to go to the main
+     manpages repository instead.
+
+     If the kernel supports the watching of keys, then running "make test"
+     on that branch will cause the testing infrastructure to spawn a
+     monitoring process on the side that monitors a notifications pipe for
+     all the key/keyring changes induced by the tests and they'll all be
+     checked off to make sure they happened.
+
+	https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/keyutils.git/log/?h=pipe-watch
+
+ (*) A test program is provided (samples/watch_queue/watch_test) that can
+     be used to monitor for keyrings, some USB and some block device
+     events.  Information on the notifications is simply logged to stdout.
+
+The kernel patches can also be found here:
+
+	https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git/log/?h=notifications-pipe-core
+
+Changes:
+
+ ver #3:
+
+ (*) Rebase to after latest upstream pipe patches.
+ (*) Fix a missing ref get in add_watch_to_object().
+
+ ver #2:
+
+ (*) Declare O_NOTIFICATION_PIPE to use and switch it to be the same value
+     as O_EXCL rather then O_TMPFILE (the latter is a bit nasty in its
+     implementation).
+
+ ver #1:
+
+ (*) Build on top of standard pipes instead of having a driver.
+
+David
 ---
- drivers/char/lrng/Kconfig         |  25 ++
- drivers/char/lrng/Makefile        |   1 +
- drivers/char/lrng/lrng_selftest.c | 418 ++++++++++++++++++++++++++++++
- 3 files changed, 444 insertions(+)
- create mode 100644 drivers/char/lrng/lrng_selftest.c
-
-diff --git a/drivers/char/lrng/Kconfig b/drivers/char/lrng/Kconfig
-index e503a4bb7475..0c9ad9563fb7 100644
---- a/drivers/char/lrng/Kconfig
-+++ b/drivers/char/lrng/Kconfig
-@@ -175,4 +175,29 @@ config LRNG_TESTING
- 
- 	  If unsure, say N.
- 
-+config LRNG_SELFTEST
-+	bool "Enable power-on and on-demand self-tests"
-+	help
-+	  The power-on self-tests are executed during boot time
-+	  covering the ChaCha20 DRNG, the LFSR processing and the
-+	  time stamp management of the LRNG.
-+
-+	  The on-demand self-tests are triggered by writing any
-+	  value into the SysFS file selftest_status. At the same
-+	  time, when reading this file, the test status is
-+	  returned. A zero indicates that all tests were executed
-+	  successfully.
-+
-+	  If unsure, say Y.
-+
-+if LRNG_SELFTEST
-+
-+config LRNG_SELFTEST_PANIC
-+	bool "Panic the kernel upon self-test failure"
-+	help
-+	  If the option is enabled, the kernel is terminated if an
-+	  LRNG power-on self-test failure is detected.
-+
-+endif # LRNG_SELFTEST
-+
- endif # LRNG
-diff --git a/drivers/char/lrng/Makefile b/drivers/char/lrng/Makefile
-index b2ce1979dc4b..92219c565f66 100644
---- a/drivers/char/lrng/Makefile
-+++ b/drivers/char/lrng/Makefile
-@@ -16,3 +16,4 @@ obj-$(CONFIG_LRNG_KCAPI)	+= lrng_kcapi.o
- obj-$(CONFIG_LRNG_JENT)		+= lrng_jent.o
- obj-$(CONFIG_LRNG_HEALTH_TESTS)	+= lrng_health.o
- obj-$(CONFIG_LRNG_TESTING)	+= lrng_testing.o
-+obj-$(CONFIG_LRNG_SELFTEST)	+= lrng_selftest.o
-diff --git a/drivers/char/lrng/lrng_selftest.c b/drivers/char/lrng/lrng_selftest.c
-new file mode 100644
-index 000000000000..da213572e1dd
---- /dev/null
-+++ b/drivers/char/lrng/lrng_selftest.c
-@@ -0,0 +1,418 @@
-+// SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
-+/*
-+ * LRNG power-on and on-demand self-test
-+ *
-+ * Copyright (C) 2016 - 2020, Stephan Mueller <smueller@chronox.de>
-+ */
-+
-+/*
-+ * In addition to the self-tests below, the following LRNG components
-+ * are covered with self-tests during regular operation:
-+ *
-+ * * power-on self-test: SP800-90A DRBG provided by the Linux kernel crypto API
-+ * * power-on self-test: PRNG provided by the Linux kernel crypto API
-+ * * runtime test: Raw noise source data testing including SP800-90B compliant
-+ *		   tests when enabling CONFIG_LRNG_HEALTH_TESTS
-+ *
-+ * Additional developer tests present with LRNG code:
-+ * * SP800-90B APT and RCT test enforcement validation when enabling
-+ *   CONFIG_LRNG_APT_BROKEN or CONFIG_LRNG_RCT_BROKEN.
-+ * * Collection of raw entropy from the interrupt noise source when enabling
-+ *   CONFIG_LRNG_TESTING and pulling the data from the kernel with the provided
-+ *   interface.
-+ */
-+
-+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-+
-+#include <linux/module.h>
-+#include <linux/lrng.h>
-+#include <linux/slab.h>
-+
-+#include "lrng_chacha20.h"
-+#include "lrng_internal.h"
-+#include "lrng_lfsr.h"
-+#include "lrng_sw_noise.h"
-+
-+#define LRNG_SELFTEST_PASSED		0
-+#define LRNG_SEFLTEST_ERROR_TIME	(1 << 0)
-+#define LRNG_SEFLTEST_ERROR_LFSR	(1 << 1)
-+#define LRNG_SEFLTEST_ERROR_CHACHA20	(1 << 2)
-+#define LRNG_SEFLTEST_ERROR_HASHDF	(1 << 3)
-+#define LRNG_SELFTEST_NOT_EXECUTED	0xffffffff
-+
-+static u32 lrng_time_selftest[LRNG_TIME_ARRAY_SIZE];
-+
-+static unsigned int lrng_selftest_status = LRNG_SELFTEST_NOT_EXECUTED;
-+
-+static inline void lrng_time_process_selftest_insert(u32 time)
-+{
-+	static u32 lrng_time_selftest_ptr = 0;
-+	u32 ptr = lrng_time_selftest_ptr++ & LRNG_TIME_WORD_MASK;
-+
-+	lrng_time_selftest[lrng_time_idx2array(ptr)] |=
-+		lrng_time_slot_val(time & LRNG_TIME_SLOTSIZE_MASK,
-+				   lrng_time_idx2slot(ptr));
-+}
-+
-+static unsigned int lrng_time_process_selftest(void)
-+{
-+	u32 time;
-+	u32 idx_zero_compare = (0 << 0) | (1 << 8) | (2 << 16) | (3 << 24);
-+	u32 idx_one_compare  = (4 << 0) | (5 << 8) | (6 << 16) | (7 << 24);
-+	u32 idx_last_compare = ((LRNG_TIME_NUM_VALUES - 4) << 0)  |
-+			       ((LRNG_TIME_NUM_VALUES - 3) << 8)  |
-+			       ((LRNG_TIME_NUM_VALUES - 2) << 16) |
-+			       ((LRNG_TIME_NUM_VALUES - 1) << 24);
-+
-+	(void)idx_one_compare;
-+
-+	for (time = 0; time < LRNG_TIME_NUM_VALUES; time++)
-+		lrng_time_process_selftest_insert(time);
-+
-+	if ((lrng_time_selftest[0] != idx_zero_compare) ||
-+#if (LRNG_TIME_ARRAY_SIZE > 1)
-+	    (lrng_time_selftest[1] != idx_one_compare)  ||
-+#endif
-+	    (lrng_time_selftest[LRNG_TIME_ARRAY_SIZE - 1] != idx_last_compare))
-+	{
-+		pr_err("LRNG time array self-test FAILED\n");
-+		return LRNG_SEFLTEST_ERROR_TIME;
-+	}
-+
-+	return LRNG_SELFTEST_PASSED;
-+}
-+
-+/*
-+ * The test vectors are generated with the lfsr_testvector_generation tool
-+ * provided as part of the test tool set of the LRNG.
-+ */
-+static unsigned int lrng_pool_lfsr_selftest(void)
-+{
-+	/*
-+	 * First, 67th and last entry of entropy pool.
-+	 *
-+	 * The 67th entry is picked because this one is the first to receive
-+	 * an entry. As we start with 1 to inject into the LFSR, the
-+	 * 67th entry should be equal to rol(1, 7) >> 3 considering that
-+	 * all other values of the LFSR are zero and the the twist value of 0
-+	 * is applied.
-+	 */
-+	static u32 const lrng_lfsr_selftest_result[][3] = {
-+		{ 0xf56df24a, 0x00000010, 0x0e014939 },
-+		{ 0x4b130726, 0x00000010, 0x2802f509 },
-+		{ 0x87279152, 0x00000010, 0x00150000 },
-+		{ 0x0b67f997, 0x00000010, 0x00150000 },
-+		{ 0x4fea174f, 0x00000010, 0xcbf4a6ae },
-+		{ 0x77149108, 0x00000010, 0x77bfadf2 },
-+		{ 0x1e96037e, 0x00000010, 0x18017e79 },
-+		{ 0xc84acef2, 0x00000010, 0x6345f7a8 },
-+		{ 0x6a2eb6df, 0x00000010, 0x03950000 },
-+	};
-+	struct lrng_pool *lrng_pool, *lrng_pool_aligned;
-+	u32 i, ret = LRNG_SELFTEST_PASSED;
-+
-+	BUILD_BUG_ON(ARRAY_SIZE(lrng_lfsr_selftest_result) <
-+							CONFIG_LRNG_POOL_SIZE);
-+
-+	lrng_pool = kzalloc(sizeof(struct lrng_pool) + LRNG_KCAPI_ALIGN,
-+			    GFP_KERNEL);
-+	if (!lrng_pool)
-+		return LRNG_SEFLTEST_ERROR_LFSR;
-+	lrng_pool_aligned = PTR_ALIGN(lrng_pool, sizeof(u32));
-+
-+	for (i = 1; i <= LRNG_POOL_SIZE; i++)
-+		_lrng_pool_lfsr_u32(lrng_pool_aligned, i);
-+
-+	if ((atomic_read_u32(&lrng_pool_aligned->pool[0]) !=
-+	     lrng_lfsr_selftest_result[CONFIG_LRNG_POOL_SIZE][0]) ||
-+	    (atomic_read_u32(&lrng_pool_aligned->pool[67 &
-+						      (LRNG_POOL_SIZE - 1)]) !=
-+	     lrng_lfsr_selftest_result[CONFIG_LRNG_POOL_SIZE][1]) ||
-+	    (atomic_read_u32(&lrng_pool_aligned->pool[LRNG_POOL_SIZE - 1]) !=
-+	     lrng_lfsr_selftest_result[CONFIG_LRNG_POOL_SIZE][2])) {
-+		pr_err("LRNG LFSR self-test FAILED\n");
-+		ret = LRNG_SEFLTEST_ERROR_LFSR;
-+	}
-+
-+	kfree(lrng_pool);
-+	return ret;
-+}
-+
-+/*
-+ * The test vectors are generated with the hash_df_testvector_generation tool
-+ * provided as part of the test tool set of the LRNG.
-+ */
-+static unsigned int lrng_hash_df_selftest(void)
-+{
-+	const struct lrng_crypto_cb *crypto_cb = &lrng_cc20_crypto_cb;
-+
-+	/*
-+	 * The size of 45 bytes is chosen arbitrarily. Yet, this size should
-+	 * ensure that we have at least two hash blocks plus some fraction
-+	 * of a hash block generated.
-+	 */
-+	static u8 const lrng_hash_df_selftest_result[][45] = {
-+		{
-+			0x3b, 0xbe, 0x7a, 0xbd, 0x2b, 0x16, 0x02, 0x4c,
-+			0xfc, 0xd3, 0x02, 0x15, 0xf0, 0x86, 0xd4, 0xdb,
-+			0x49, 0xec, 0x26, 0x53, 0xd6, 0xc9, 0x6d, 0xad,
-+			0x24, 0xca, 0x72, 0x89, 0x2c, 0xfa, 0x48, 0x18,
-+			0xf7, 0x47, 0xb5, 0x2f, 0x92, 0xa2, 0x1b, 0xd9,
-+			0x24, 0xa7, 0x2f, 0xa2, 0x0b,
-+		}, {
-+			0xd2, 0xaa, 0xf9, 0x76, 0x26, 0xc6, 0x13, 0xea,
-+			0xb8, 0xde, 0xe6, 0x88, 0x8f, 0xc4, 0x7a, 0x7d,
-+			0x9c, 0xb4, 0x1b, 0xd1, 0xd1, 0x8a, 0x40, 0xc9,
-+			0xaa, 0x45, 0xa6, 0xb6, 0xb5, 0x6f, 0xf6, 0xbc,
-+			0xbb, 0x77, 0x37, 0xbc, 0x5a, 0x2d, 0xcc, 0x84,
-+			0x25, 0x68, 0x5e, 0xba, 0x16,
-+		}, {
-+			0x58, 0x66, 0x82, 0x88, 0x29, 0x19, 0xa4, 0xbb,
-+			0x33, 0x42, 0xc9, 0x72, 0x0d, 0x68, 0x6e, 0xb9,
-+			0xc6, 0xe0, 0x7a, 0xf9, 0x20, 0xca, 0x6d, 0x18,
-+			0x35, 0xec, 0xfa, 0x9e, 0xf6, 0x3a, 0xa7, 0xb6,
-+			0x92, 0x7a, 0xe5, 0xcd, 0xc5, 0x13, 0x9f, 0x65,
-+			0x6a, 0xe1, 0xe4, 0x3f, 0xb9,
-+		}, {
-+			0xdd, 0xf1, 0x34, 0xca, 0x08, 0xe3, 0xce, 0x8a,
-+			0x26, 0x6b, 0xce, 0x99, 0x8a, 0x84, 0xd2, 0x21,
-+			0x98, 0x10, 0x95, 0x5f, 0x9f, 0xc3, 0xf2, 0xe4,
-+			0x79, 0x75, 0xb5, 0x15, 0xa7, 0xa2, 0xf1, 0xc4,
-+			0xdc, 0x67, 0xcb, 0x67, 0x8c, 0xb2, 0x1b, 0xd5,
-+			0xd6, 0x8b, 0xc2, 0x34, 0xd6,
-+		}, {
-+			0xc3, 0x16, 0x9d, 0xf0, 0x78, 0x15, 0xab, 0xf2,
-+			0x2f, 0xc9, 0x2e, 0xe1, 0xc6, 0x5e, 0xfa, 0x03,
-+			0xaf, 0xd4, 0xd5, 0x47, 0x2a, 0xe8, 0x06, 0xe8,
-+			0x7e, 0x0a, 0x71, 0xc7, 0x0d, 0x39, 0xb1, 0xa9,
-+			0x5a, 0x49, 0xee, 0x8b, 0x2f, 0xcd, 0xea, 0x96,
-+			0xcc, 0x08, 0x71, 0xef, 0x9c,
-+		}, {
-+			0x1a, 0x3d, 0x70, 0x39, 0xc2, 0x02, 0x4d, 0x3a,
-+			0xaa, 0x14, 0x20, 0x88, 0x96, 0x4c, 0x7c, 0xe4,
-+			0xaa, 0x49, 0x89, 0x30, 0x50, 0x96, 0xb6, 0xa7,
-+			0x55, 0x0a, 0xf8, 0xd2, 0x4e, 0x83, 0x9d, 0x1f,
-+			0x56, 0x49, 0x13, 0xc6, 0x46, 0x55, 0x73, 0x0d,
-+			0x74, 0xcd, 0x81, 0xe0, 0x65,
-+		}, {
-+			0x4b, 0xf6, 0x49, 0x89, 0x2a, 0x9f, 0x67, 0xd7,
-+			0xb8, 0x1d, 0xbb, 0x5d, 0xf0, 0x1b, 0x60, 0xb6,
-+			0xb7, 0xf3, 0x86, 0x6d, 0xe0, 0x04, 0xa1, 0xbc,
-+			0x3b, 0xb0, 0x10, 0x91, 0xe8, 0x22, 0x67, 0x5b,
-+			0xe8, 0xf0, 0x4f, 0x82, 0x70, 0xc7, 0xe1, 0xc8,
-+			0xd8, 0xad, 0x70, 0xcf, 0xf6,
-+		}, {
-+			0x60, 0x1f, 0x71, 0x07, 0x92, 0xae, 0xa0, 0x24,
-+			0xb6, 0xa4, 0x10, 0x70, 0x1f, 0x94, 0x51, 0x9a,
-+			0x5a, 0x81, 0xc4, 0x46, 0x78, 0x56, 0x71, 0xdd,
-+			0x45, 0x63, 0x01, 0x34, 0x87, 0x79, 0xb4, 0xd5,
-+			0x91, 0x79, 0xb9, 0x93, 0x11, 0x44, 0x50, 0xad,
-+			0x64, 0x7e, 0x5c, 0xec, 0x16,
-+		}, {
-+			0x49, 0x2f, 0xa0, 0x45, 0xf8, 0xb0, 0x80, 0x88,
-+			0x79, 0xeb, 0xb6, 0x82, 0x1c, 0xf3, 0x67, 0xc4,
-+			0x88, 0x88, 0xe9, 0x75, 0x20, 0x54, 0x78, 0xc6,
-+			0x5c, 0x59, 0xcf, 0xd9, 0x73, 0x12, 0x17, 0xf4,
-+			0x30, 0x9c, 0xb7, 0x21, 0x45, 0xe2, 0xb6, 0x0c,
-+			0x0c, 0xeb, 0x1b, 0xdc, 0xdc,
-+		}
-+	};
-+	struct lrng_pool *lrng_pool, *lrng_pool_aligned;
-+	u8 hash_df[sizeof(lrng_hash_df_selftest_result[0])]
-+							__aligned(sizeof(u32));
-+	u32 generated;
-+	int ret = 0;
-+
-+	BUILD_BUG_ON(ARRAY_SIZE(lrng_hash_df_selftest_result) <
-+							CONFIG_LRNG_POOL_SIZE);
-+
-+	lrng_pool = kzalloc(sizeof(struct lrng_pool) + LRNG_KCAPI_ALIGN,
-+			    GFP_KERNEL);
-+	if (!lrng_pool)
-+		return LRNG_SEFLTEST_ERROR_HASHDF;
-+	lrng_pool_aligned = PTR_ALIGN(lrng_pool, sizeof(u32));
-+
-+	generated = __lrng_pool_hash_df(crypto_cb, NULL, lrng_pool_aligned,
-+					hash_df, sizeof(hash_df) << 3);
-+
-+	if ((generated >> 3) != sizeof(hash_df) ||
-+	    memcmp(hash_df, lrng_hash_df_selftest_result[CONFIG_LRNG_POOL_SIZE],
-+		   sizeof(hash_df))) {
-+		pr_err("LRNG Hash DF self-test FAILED\n");
-+		ret = LRNG_SEFLTEST_ERROR_HASHDF;
-+	}
-+
-+	kfree(lrng_pool);
-+	return ret;
-+}
-+
-+/*
-+ * The test vectors were generated using the ChaCha20 DRNG from
-+ * https://www.chronox.de/chacha20.html
-+ */
-+static unsigned int lrng_chacha20_drng_selftest(void)
-+{
-+	const struct lrng_crypto_cb *crypto_cb = &lrng_cc20_crypto_cb;
-+	static u8 const seed[CHACHA_KEY_SIZE * 2] = {
-+		0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
-+		0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f,
-+		0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17,
-+		0x18, 0x19, 0x1a, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f,
-+		0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27,
-+		0x28, 0x29, 0x2a, 0x2b, 0x2c, 0x2d, 0x2e, 0x2f,
-+		0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37,
-+		0x38, 0x39, 0x3a, 0x3b, 0x3c, 0x3d, 0x3e, 0x3f,
-+	};
-+	struct chacha20_block chacha20;
-+	int ret;
-+	u8 outbuf[CHACHA_KEY_SIZE * 2] __aligned(sizeof(u32));
-+
-+	/*
-+	 * Expected result when ChaCha20 DRNG state is zero:
-+	 *	* constants are set to "expand 32-byte k"
-+	 *	* remaining state is 0
-+	 * and pulling one half ChaCha20 DRNG block.
-+	 */
-+	static u8 const expected_halfblock[CHACHA_KEY_SIZE] = {
-+		0x76, 0xb8, 0xe0, 0xad, 0xa0, 0xf1, 0x3d, 0x90,
-+		0x40, 0x5d, 0x6a, 0xe5, 0x53, 0x86, 0xbd, 0x28,
-+		0xbd, 0xd2, 0x19, 0xb8, 0xa0, 0x8d, 0xed, 0x1a,
-+		0xa8, 0x36, 0xef, 0xcc, 0x8b, 0x77, 0x0d, 0xc7 };
-+
-+	/*
-+	 * Expected result when ChaCha20 DRNG state is zero:
-+	 *	* constants are set to "expand 32-byte k"
-+	 *	* remaining state is 0
-+	 * followed by a reseed with two keyblocks
-+	 *	0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
-+	 *	0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f,
-+	 *	0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17,
-+	 *	0x18, 0x19, 0x1a, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f,
-+	 *	0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27,
-+	 *	0x28, 0x29, 0x2a, 0x2b, 0x2c, 0x2d, 0x2e, 0x2f,
-+	 *	0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37,
-+	 *	0x38, 0x39, 0x3a, 0x3b, 0x3c, 0x3d, 0x3e, 0x3f
-+	 * and pulling one ChaCha20 DRNG block.
-+	 */
-+	static u8 const expected_oneblock[CHACHA_KEY_SIZE * 2] = {
-+		0xf5, 0xb4, 0xb6, 0x5a, 0xec, 0xcd, 0x5a, 0x65,
-+		0x87, 0x56, 0xe3, 0x86, 0x51, 0x54, 0xfc, 0x90,
-+		0x56, 0xff, 0x5e, 0xae, 0x58, 0xf2, 0x01, 0x88,
-+		0xb1, 0x7e, 0xb8, 0x2e, 0x17, 0x9a, 0x27, 0xe6,
-+		0x86, 0xb3, 0xed, 0x33, 0xf7, 0xb9, 0x06, 0x05,
-+		0x8a, 0x2d, 0x1a, 0x93, 0xc9, 0x0b, 0x80, 0x04,
-+		0x03, 0xaa, 0x60, 0xaf, 0xd5, 0x36, 0x40, 0x11,
-+		0x67, 0x89, 0xb1, 0x66, 0xd5, 0x88, 0x62, 0x6d };
-+
-+	/*
-+	 * Expected result when ChaCha20 DRNG state is zero:
-+	 *	* constants are set to "expand 32-byte k"
-+	 *	* remaining state is 0
-+	 * followed by a reseed with one key block plus one byte
-+	 *	0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
-+	 *	0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f,
-+	 *	0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17,
-+	 *	0x18, 0x19, 0x1a, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f,
-+	 *	0x20
-+	 * and pulling less than one ChaCha20 DRNG block.
-+	 */
-+	static u8 const expected_block_nonalinged[CHACHA_KEY_SIZE + 1] = {
-+		0x3d, 0x13, 0x47, 0x1e, 0x7f, 0x7c, 0x99, 0x33,
-+		0xfc, 0x44, 0xa4, 0xdd, 0xf9, 0x3d, 0xe1, 0x9a,
-+		0xd4, 0xe8, 0x7a, 0x7d, 0x42, 0xac, 0xd1, 0xcd,
-+		0x10, 0x69, 0xe7, 0xbf, 0xd4, 0xfd, 0x69, 0x4b,
-+		0xa7 };
-+
-+	memset(&chacha20, 0, sizeof(chacha20));
-+	lrng_cc20_init_rfc7539(&chacha20);
-+
-+	/* Generate with zero state */
-+	ret = crypto_cb->lrng_drng_generate_helper(&chacha20, outbuf,
-+						   sizeof(expected_halfblock));
-+	if (ret != sizeof(expected_halfblock))
-+		goto err;
-+	if (memcmp(outbuf, expected_halfblock, sizeof(expected_halfblock)))
-+		goto err;
-+
-+	/* Clear state of DRNG */
-+	memset(&chacha20.key.u[0], 0, 48);
-+
-+	/* Reseed with 2 key blocks */
-+	ret = crypto_cb->lrng_drng_seed_helper(&chacha20, seed,
-+					       sizeof(expected_oneblock));
-+	if (ret < 0)
-+		goto err;
-+	ret = crypto_cb->lrng_drng_generate_helper(&chacha20, outbuf,
-+						   sizeof(expected_oneblock));
-+	if (ret != sizeof(expected_oneblock))
-+		goto err;
-+	if (memcmp(outbuf, expected_oneblock, sizeof(expected_oneblock)))
-+		goto err;
-+
-+	/* Clear state of DRNG */
-+	memset(&chacha20.key.u[0], 0, 48);
-+
-+	/* Reseed with 1 key block and one byte */
-+	ret = crypto_cb->lrng_drng_seed_helper(&chacha20, seed,
-+					sizeof(expected_block_nonalinged));
-+	if (ret < 0)
-+		goto err;
-+	ret = crypto_cb->lrng_drng_generate_helper(&chacha20, outbuf,
-+					sizeof(expected_block_nonalinged));
-+	if (ret != sizeof(expected_block_nonalinged))
-+		goto err;
-+	if (memcmp(outbuf, expected_block_nonalinged,
-+		   sizeof(expected_block_nonalinged)))
-+		goto err;
-+
-+	return LRNG_SELFTEST_PASSED;
-+
-+err:
-+	pr_err("LRNG ChaCha20 DRNG self-test FAILED\n");
-+	return LRNG_SEFLTEST_ERROR_CHACHA20;
-+}
-+
-+static int lrng_selftest(void)
-+{
-+	unsigned int ret = lrng_time_process_selftest();
-+
-+	ret |= lrng_pool_lfsr_selftest();
-+	ret |= lrng_chacha20_drng_selftest();
-+	ret |= lrng_hash_df_selftest();
-+
-+	if (ret) {
-+		if (IS_ENABLED(CONFIG_LRNG_SELFTEST_PANIC))
-+			panic("LRNG self-tests failed: %u\n", ret);
-+	} else {
-+		pr_info("LRNG self-tests passed\n");
-+	}
-+
-+	lrng_selftest_status = ret;
-+
-+	if (lrng_selftest_status)
-+		return -EFAULT;
-+	return 0;
-+}
-+
-+#ifdef CONFIG_SYSFS
-+/* Re-perform self-test when any value is written to the sysfs file. */
-+static int lrng_selftest_sysfs_set(const char *val,
-+				   const struct kernel_param *kp)
-+{
-+	return lrng_selftest();
-+}
-+
-+static const struct kernel_param_ops lrng_selftest_sysfs = {
-+	.set = lrng_selftest_sysfs_set,
-+	.get = param_get_uint,
-+};
-+module_param_cb(selftest_status, &lrng_selftest_sysfs, &lrng_selftest_status,
-+		0644);
-+#endif	/* CONFIG_SYSFS */
-+
-+static int __init lrng_selftest_init(void)
-+{
-+	return lrng_selftest();
-+}
-+
-+module_init(lrng_selftest_init);
--- 
-2.24.1
+David Howells (14):
+      uapi: General notification queue definitions
+      security: Add hooks to rule on setting a watch
+      security: Add a hook for the point of notification insertion
+      pipe: Add O_NOTIFICATION_PIPE
+      pipe: Add general notification queue support
+      keys: Add a notification facility
+      Add sample notification program
+      pipe: Allow buffers to be marked read-whole-or-error for notifications
+      pipe: Add notification lossage handling
+      Add a general, global device notification watch list
+      block: Add block layer notifications
+      usb: Add USB subsystem notifications
+      selinux: Implement the watch_key security hook
+      smack: Implement the watch_key and post_notification hooks
 
 
-
+ Documentation/security/keys/core.rst               |   58 ++
+ Documentation/userspace-api/ioctl/ioctl-number.rst |    1 
+ Documentation/watch_queue.rst                      |  385 ++++++++++++
+ arch/alpha/kernel/syscalls/syscall.tbl             |    1 
+ arch/arm/tools/syscall.tbl                         |    1 
+ arch/arm64/include/asm/unistd.h                    |    2 
+ arch/arm64/include/asm/unistd32.h                  |    2 
+ arch/ia64/kernel/syscalls/syscall.tbl              |    1 
+ arch/m68k/kernel/syscalls/syscall.tbl              |    1 
+ arch/microblaze/kernel/syscalls/syscall.tbl        |    1 
+ arch/mips/kernel/syscalls/syscall_n32.tbl          |    1 
+ arch/mips/kernel/syscalls/syscall_n64.tbl          |    1 
+ arch/mips/kernel/syscalls/syscall_o32.tbl          |    1 
+ arch/parisc/kernel/syscalls/syscall.tbl            |    1 
+ arch/powerpc/kernel/syscalls/syscall.tbl           |    1 
+ arch/s390/kernel/syscalls/syscall.tbl              |    1 
+ arch/sh/kernel/syscalls/syscall.tbl                |    1 
+ arch/sparc/kernel/syscalls/syscall.tbl             |    1 
+ arch/x86/entry/syscalls/syscall_32.tbl             |    1 
+ arch/x86/entry/syscalls/syscall_64.tbl             |    1 
+ arch/xtensa/kernel/syscalls/syscall.tbl            |    1 
+ block/Kconfig                                      |    9 
+ block/blk-core.c                                   |   29 +
+ drivers/base/Kconfig                               |    9 
+ drivers/base/Makefile                              |    1 
+ drivers/base/watch.c                               |   90 +++
+ drivers/usb/core/Kconfig                           |    9 
+ drivers/usb/core/devio.c                           |   47 +
+ drivers/usb/core/hub.c                             |    4 
+ fs/pipe.c                                          |  242 +++++--
+ fs/splice.c                                        |   12 
+ include/linux/blkdev.h                             |   15 
+ include/linux/device.h                             |    7 
+ include/linux/key.h                                |    3 
+ include/linux/lsm_audit.h                          |    1 
+ include/linux/lsm_hooks.h                          |   38 +
+ include/linux/pipe_fs_i.h                          |   27 +
+ include/linux/security.h                           |   31 +
+ include/linux/syscalls.h                           |    1 
+ include/linux/usb.h                                |   18 +
+ include/linux/watch_queue.h                        |  127 ++++
+ include/uapi/asm-generic/unistd.h                  |    4 
+ include/uapi/linux/keyctl.h                        |    2 
+ include/uapi/linux/watch_queue.h                   |  158 +++++
+ init/Kconfig                                       |   12 
+ kernel/Makefile                                    |    1 
+ kernel/sys_ni.c                                    |    1 
+ kernel/watch_queue.c                               |  659 ++++++++++++++++++++
+ samples/Kconfig                                    |    6 
+ samples/Makefile                                   |    1 
+ samples/watch_queue/Makefile                       |    7 
+ samples/watch_queue/watch_test.c                   |  251 ++++++++
+ security/keys/Kconfig                              |    9 
+ security/keys/compat.c                             |    3 
+ security/keys/gc.c                                 |    5 
+ security/keys/internal.h                           |   30 +
+ security/keys/key.c                                |   38 +
+ security/keys/keyctl.c                             |   99 +++
+ security/keys/keyring.c                            |   20 -
+ security/keys/request_key.c                        |    4 
+ security/security.c                                |   23 +
+ security/selinux/hooks.c                           |   14 
+ security/smack/smack_lsm.c                         |   82 ++
+ 63 files changed, 2506 insertions(+), 107 deletions(-)
+ create mode 100644 Documentation/watch_queue.rst
+ create mode 100644 drivers/base/watch.c
+ create mode 100644 include/linux/watch_queue.h
+ create mode 100644 include/uapi/linux/watch_queue.h
+ create mode 100644 kernel/watch_queue.c
+ create mode 100644 samples/watch_queue/Makefile
+ create mode 100644 samples/watch_queue/watch_test.c
 
