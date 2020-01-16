@@ -2,144 +2,164 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CE29D13DA01
-	for <lists+linux-api@lfdr.de>; Thu, 16 Jan 2020 13:30:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BFCF013F8D5
+	for <lists+linux-api@lfdr.de>; Thu, 16 Jan 2020 20:21:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726440AbgAPM3u (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 16 Jan 2020 07:29:50 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:36819 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726084AbgAPM3u (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 16 Jan 2020 07:29:50 -0500
-Received: from ip5f5bd663.dynamic.kabel-deutschland.de ([95.91.214.99] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1is4HR-0007Gn-Gh; Thu, 16 Jan 2020 12:29:45 +0000
-Date:   Thu, 16 Jan 2020 13:29:44 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Tejun Heo <tj@kernel.org>
-Cc:     linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Ingo Molnar <mingo@redhat.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Li Zefan <lizefan@huawei.com>,
-        Peter Zijlstra <peterz@infradead.org>, cgroups@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] clone3: allow spawning processes into cgroups
-Message-ID: <20200116122944.nj3e66eusxu6sb44@wittgenstein>
-References: <20191223061504.28716-1-christian.brauner@ubuntu.com>
- <20191223061504.28716-3-christian.brauner@ubuntu.com>
- <20200107163204.GB2677547@devbig004.ftw2.facebook.com>
- <20200108180906.l4mvtdmh7nm2z7sc@wittgenstein>
+        id S2437055AbgAPTVO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 16 Jan 2020 14:21:14 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46344 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2393384AbgAPTVH (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 16 Jan 2020 14:21:07 -0500
+Received: from ebiggers-linuxstation.mtv.corp.google.com (unknown [104.132.1.77])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1E2D820661;
+        Thu, 16 Jan 2020 19:21:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1579202466;
+        bh=rUr1wlexBA7T5J5m/OSW8iFgPsbrK8hJ/8NOCZzbZK8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=2o/B2tfu8Tgm7+qJkztQ+IGIiSVLQQD4L+vz4mFLQQhxf/05CdxlNQXabL5dVTBRE
+         kEfexecpizCN0hk37ZSmvwuUVv+OLvaeWfK50X4ddeBfHKX66XFfOlGUhdJ4n1ut+1
+         uXug04sCgFEERthHjP/SNqZMkyCDOjxtcExOMNdA=
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     linux-fscrypt@vger.kernel.org
+Cc:     linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+        linux-mtd@lists.infradead.org,
+        Barani Muthukumaran <bmuthuku@codeaurora.org>,
+        Gaurav Kashyap <gaurkash@codeaurora.org>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Jaegeuk Kim <jaegeuk@kernel.org>, linux-api@vger.kernel.org
+Subject: [PATCH] fscrypt: reserve flags for hardware-wrapped keys feature
+Date:   Thu, 16 Jan 2020 11:20:08 -0800
+Message-Id: <20200116192008.35766-1-ebiggers@kernel.org>
+X-Mailer: git-send-email 2.25.0.rc1.283.g88dfdc4193-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200108180906.l4mvtdmh7nm2z7sc@wittgenstein>
-User-Agent: NeoMutt/20180716
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jan 08, 2020 at 07:09:07PM +0100, Christian Brauner wrote:
-> On Tue, Jan 07, 2020 at 08:32:04AM -0800, Tejun Heo wrote:
-> > On Mon, Dec 23, 2019 at 07:15:03AM +0100, Christian Brauner wrote:
-> > > +static struct cgroup *cgroup_get_from_file(struct file *f)
-> > > +{
-> > > +	struct cgroup_subsys_state *css;
-> > > +	struct cgroup *cgrp;
-> > > +
-> > > +	css = css_tryget_online_from_dir(f->f_path.dentry, NULL);
-> > > +	if (IS_ERR(css))
-> > > +		return ERR_CAST(css);
-> > > +
-> > > +	cgrp = css->cgroup;
-> > > +	if (!cgroup_on_dfl(cgrp)) {
-> > > +		cgroup_put(cgrp);
-> > > +		return ERR_PTR(-EBADF);
-> > > +	}
-> > > +
-> > > +	return cgrp;
-> > > +}
-> > 
-> > It's minor but can you put this refactoring into a separate patch?
-> 
-> Yep, will do.
-> 
-> > 
-> > ...
-> > > +static int cgroup_css_set_fork(struct task_struct *parent,
-> > > +			       struct kernel_clone_args *kargs)
-> > > +	__acquires(&cgroup_mutex) __acquires(&cgroup_threadgroup_rwsem)
-> > > +{
-> > > +	int ret;
-> > > +	struct cgroup *dst_cgrp = NULL, *src_cgrp;
-> > > +	struct css_set *cset;
-> > > +	struct super_block *sb;
-> > > +	struct file *f;
-> > > +
-> > > +	if (kargs->flags & CLONE_INTO_CGROUP) {
-> > > +		ret = mutex_lock_killable(&cgroup_mutex);
-> > > +		if (ret)
-> > > +			return ret;
-> > > +	}
-> > 
-> > I don't think this is necessary.  cgroup_mutex should always only be
-> > held for a finite enough time; otherwise, processes would get stuck on
-> > random cgroupfs accesses or even /proc/self/cgroup.
-> 
-> Ok, so a simple mutex_lock() should suffice then.
-> 
-> > 
-> > ...
-> > > +	spin_lock_irq(&css_set_lock);
-> > > +	src_cgrp = task_cgroup_from_root(parent, &cgrp_dfl_root);
-> > > +	spin_unlock_irq(&css_set_lock);
-> > 
-> > You can simply do cset->dfl_root here, which is consistent with other
-> > code paths which know that they want the dfl cgroup.
-> 
-> Ah, great!
-> 
-> > 
-> > > +	ret = cgroup_attach_permissions(src_cgrp, dst_cgrp, sb,
-> > > +					!!(kargs->flags & CLONE_THREAD));
-> > > +	if (ret)
-> > > +		goto err;
-> > 
-> > So, the existing perm check depends on the fact that for the write
-> > operation to have started, it already should have passed write perm
-> > check on the destination cgroup.procs file.  We're missing that here,
-> > so we prolly need to check that explicitly.
-> 
-> I need to look into this before I can say yay or nay. :)
+From: Eric Biggers <ebiggers@google.com>
 
-Could it be that you misread cgroup_attach_permissions()? Because it
-does check for write permissions on the destination cgroup.procs file.
-That's why I've added the cgroup_get_from_file() helper. :) See:
+Reserve flags for the hardware-wrapped keys feature which is being
+worked on [1].  FSCRYPT_POLICY_FLAG_HW_WRAPPED_KEY will denote that the
+encryption policy needs a hardware-wrapped key to be unlocked.
+FSCRYPT_ADD_KEY_FLAG_HW_WRAPPED will denote that the key being added is
+a hardware-wrapped key.
 
-static int cgroup_attach_permissions(struct cgroup *src_cgrp,
-				     struct cgroup *dst_cgrp,
-				     struct super_block *sb, bool thread)
-{
-	int ret = 0;
+This reservation is tentative, and these codepoints may be reused if the
+feature is not upstreamed.
 
-	ret = cgroup_procs_write_permission(src_cgrp, dst_cgrp, sb);
-	if (ret)
-		return ret;
+[1] https://android-review.googlesource.com/c/kernel/common/+/1200864
 
-	ret = cgroup_migrate_vet_dst(dst_cgrp);
-	if (ret)
-		return ret;
+Signed-off-by: Eric Biggers <ebiggers@google.com>
+---
+ Documentation/filesystems/fscrypt.rst | 5 +++--
+ fs/crypto/keyring.c                   | 5 ++++-
+ fs/crypto/policy.c                    | 4 +++-
+ include/uapi/linux/fscrypt.h          | 9 ++++++---
+ 4 files changed, 16 insertions(+), 7 deletions(-)
 
-	if (thread &&
-	    !cgroup_same_domain(src_cgrp->dom_cgrp, dst_cgrp->dom_cgrp))
-		ret = -EOPNOTSUPP;
+diff --git a/Documentation/filesystems/fscrypt.rst b/Documentation/filesystems/fscrypt.rst
+index 9c53336d06a438..4c443d7b1fc6b5 100644
+--- a/Documentation/filesystems/fscrypt.rst
++++ b/Documentation/filesystems/fscrypt.rst
+@@ -639,7 +639,8 @@ follows::
+             struct fscrypt_key_specifier key_spec;
+             __u32 raw_size;
+             __u32 key_id;
+-            __u32 __reserved[8];
++            __u32 flags;
++            __u32 __reserved[7];
+             __u8 raw[];
+     };
+ 
+@@ -658,7 +659,7 @@ follows::
+ 
+     struct fscrypt_provisioning_key_payload {
+             __u32 type;
+-            __u32 __reserved;
++            __u32 flags;
+             __u8 raw[];
+     };
+ 
+diff --git a/fs/crypto/keyring.c b/fs/crypto/keyring.c
+index 098ff2e0f0bb41..fc27f5d08d7dbe 100644
+--- a/fs/crypto/keyring.c
++++ b/fs/crypto/keyring.c
+@@ -477,7 +477,7 @@ static int fscrypt_provisioning_key_preparse(struct key_preparsed_payload *prep)
+ 	    payload->type != FSCRYPT_KEY_SPEC_TYPE_IDENTIFIER)
+ 		return -EINVAL;
+ 
+-	if (payload->__reserved)
++	if (payload->flags)
+ 		return -EINVAL;
+ 
+ 	prep->payload.data[0] = kmemdup(payload, prep->datalen, GFP_KERNEL);
+@@ -606,6 +606,9 @@ int fscrypt_ioctl_add_key(struct file *filp, void __user *_uarg)
+ 	if (!valid_key_spec(&arg.key_spec))
+ 		return -EINVAL;
+ 
++	if (arg.flags)
++		return -EINVAL;
++
+ 	if (memchr_inv(arg.__reserved, 0, sizeof(arg.__reserved)))
+ 		return -EINVAL;
+ 
+diff --git a/fs/crypto/policy.c b/fs/crypto/policy.c
+index f1cff83c151acf..36a2bb077b6910 100644
+--- a/fs/crypto/policy.c
++++ b/fs/crypto/policy.c
+@@ -139,7 +139,9 @@ static bool fscrypt_supported_v2_policy(const struct fscrypt_policy_v2 *policy,
+ 		return false;
+ 	}
+ 
+-	if (policy->flags & ~FSCRYPT_POLICY_FLAGS_VALID) {
++	if (policy->flags & ~(FSCRYPT_POLICY_FLAGS_PAD_MASK |
++			      FSCRYPT_POLICY_FLAG_DIRECT_KEY |
++			      FSCRYPT_POLICY_FLAG_IV_INO_LBLK_64)) {
+ 		fscrypt_warn(inode, "Unsupported encryption flags (0x%02x)",
+ 			     policy->flags);
+ 		return false;
+diff --git a/include/uapi/linux/fscrypt.h b/include/uapi/linux/fscrypt.h
+index 0d8a6f47711c32..fad624a4c5feda 100644
+--- a/include/uapi/linux/fscrypt.h
++++ b/include/uapi/linux/fscrypt.h
+@@ -19,7 +19,8 @@
+ #define FSCRYPT_POLICY_FLAGS_PAD_MASK		0x03
+ #define FSCRYPT_POLICY_FLAG_DIRECT_KEY		0x04
+ #define FSCRYPT_POLICY_FLAG_IV_INO_LBLK_64	0x08
+-#define FSCRYPT_POLICY_FLAGS_VALID		0x0F
++#define FSCRYPT_POLICY_FLAG_HW_WRAPPED_KEY	0x10
++#define FSCRYPT_POLICY_FLAGS_VALID		0x1F
+ 
+ /* Encryption algorithms */
+ #define FSCRYPT_MODE_AES_256_XTS		1
+@@ -116,7 +117,7 @@ struct fscrypt_key_specifier {
+  */
+ struct fscrypt_provisioning_key_payload {
+ 	__u32 type;
+-	__u32 __reserved;
++	__u32 flags;
+ 	__u8 raw[];
+ };
+ 
+@@ -125,7 +126,9 @@ struct fscrypt_add_key_arg {
+ 	struct fscrypt_key_specifier key_spec;
+ 	__u32 raw_size;
+ 	__u32 key_id;
+-	__u32 __reserved[8];
++#define FSCRYPT_ADD_KEY_FLAG_HW_WRAPPED			0x00000001
++	__u32 flags;
++	__u32 __reserved[7];
+ 	__u8 raw[];
+ };
+ 
 
-	return ret;
-}
+base-commit: 2d8f7f119b0b2ce5e7ff0e8024b0763bf42b99c9
+-- 
+2.25.0.rc1.283.g88dfdc4193-goog
 
-Maybe I'm misunderstanding though. :)
-
-Thanks!
-Christian
