@@ -2,119 +2,112 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C4AF21407A9
-	for <lists+linux-api@lfdr.de>; Fri, 17 Jan 2020 11:13:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 24CB014094B
+	for <lists+linux-api@lfdr.de>; Fri, 17 Jan 2020 12:52:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726513AbgAQKNg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 17 Jan 2020 05:13:36 -0500
-Received: from relay.sw.ru ([185.231.240.75]:51224 "EHLO relay.sw.ru"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726220AbgAQKNg (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 17 Jan 2020 05:13:36 -0500
-Received: from dhcp-172-16-24-104.sw.ru ([172.16.24.104])
-        by relay.sw.ru with esmtp (Exim 4.92.3)
-        (envelope-from <ktkhai@virtuozzo.com>)
-        id 1isOcs-0006AZ-Kl; Fri, 17 Jan 2020 13:13:14 +0300
-Subject: Re: [PATCH v2 4/5] mm/madvise: allow KSM hints for remote API
-To:     Minchan Kim <minchan@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
-        linux-api@vger.kernel.org, oleksandr@redhat.com,
-        Suren Baghdasaryan <surenb@google.com>,
+        id S1727040AbgAQLw3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 17 Jan 2020 06:52:29 -0500
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:35405 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726864AbgAQLw3 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 17 Jan 2020 06:52:29 -0500
+Received: by mail-wr1-f68.google.com with SMTP id g17so22397452wro.2;
+        Fri, 17 Jan 2020 03:52:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=CfaMrw+TYdEFJRwNODCdrVm4OOMZyFpQ0nkjoCPs5oc=;
+        b=joiWYM23dUV5fRgLneE6DZ+1UH/i4alcTSHI7MiV4iZNn1nDf5MPxofqkdHbJAfyyH
+         3FvHBuS0gfu/qRxN8OU9/ERnrT/HL7ip7tMd12l9xbRiVspPzGLO4NA8j190fddtSjYy
+         6uhJVgn0z+0NNy0O37oqOFAzcDyVMsplAbxsB5uXxAwTwMm/T6S7CR3tuuPj3AKwoXkV
+         CGQjnGr8wPWHzJbg0cqfABPwdAWMFviZJQWHtfZwYQVEkymAUBYYHFGADhsuDVYclSkG
+         pxWlrnbpeuujcAzMhE2PEP8f6MF37KAIeTd90C0GMHUk9tb1dpEW5eUEUE/960fteYuy
+         qP0A==
+X-Gm-Message-State: APjAAAWVNGcsfDDPZkxE40LsCXBFGSvJYsJqscLy5/MYwU/7JNcNpmuh
+        weCVE3LHcPofQfva6qKw0/s=
+X-Google-Smtp-Source: APXvYqyFPhokZ7VGCqtGBvrGiYujSUt2mcWg7TDf/fiD867pU8zDvypUZ/CFGECXxUvRKPCo1tfbgw==
+X-Received: by 2002:a5d:6a83:: with SMTP id s3mr2496048wru.99.1579261946860;
+        Fri, 17 Jan 2020 03:52:26 -0800 (PST)
+Received: from localhost (prg-ext-pat.suse.com. [213.151.95.130])
+        by smtp.gmail.com with ESMTPSA id k13sm33558283wrx.59.2020.01.17.03.52.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jan 2020 03:52:26 -0800 (PST)
+Date:   Fri, 17 Jan 2020 12:52:25 +0100
+From:   Michal Hocko <mhocko@kernel.org>
+To:     Minchan Kim <minchan@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
+        oleksandr@redhat.com, Suren Baghdasaryan <surenb@google.com>,
         Tim Murray <timmurray@google.com>,
         Daniel Colascione <dancol@google.com>,
         Sandeep Patil <sspatil@google.com>,
         Sonny Rao <sonnyrao@google.com>,
         Brian Geffon <bgeffon@google.com>,
-        Michal Hocko <mhocko@suse.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
         Shakeel Butt <shakeelb@google.com>,
-        John Dias <joaodias@google.com>, christian.brauner@ubuntu.com,
-        sjpark@amazon.de, Minchan Kim <minchan@google.com>
+        John Dias <joaodias@google.com>, ktkhai@virtuozzo.com,
+        christian.brauner@ubuntu.com, sjpark@amazon.de
+Subject: Re: [PATCH v2 2/5] mm: introduce external memory hinting API
+Message-ID: <20200117115225.GV19428@dhcp22.suse.cz>
 References: <20200116235953.163318-1-minchan@kernel.org>
- <20200116235953.163318-5-minchan@kernel.org>
-From:   Kirill Tkhai <ktkhai@virtuozzo.com>
-Message-ID: <37338e14-5a55-1926-b6c1-5f98b6a6fdb5@virtuozzo.com>
-Date:   Fri, 17 Jan 2020 13:13:14 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ <20200116235953.163318-3-minchan@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20200116235953.163318-5-minchan@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200116235953.163318-3-minchan@kernel.org>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 17.01.2020 02:59, Minchan Kim wrote:
-> From: Oleksandr Natalenko <oleksandr@redhat.com>
+On Thu 16-01-20 15:59:50, Minchan Kim wrote:
+> There is usecase that System Management Software(SMS) want to give
+> a memory hint like MADV_[COLD|PAGEEOUT] to other processes and
+> in the case of Android, it is the ActivityManagerService.
 > 
-> It all began with the fact that KSM works only on memory that is marked
-> by madvise(). And the only way to get around that is to either:
+> It's similar in spirit to madvise(MADV_WONTNEED), but the information
+> required to make the reclaim decision is not known to the app. Instead,
+> it is known to the centralized userspace daemon(ActivityManagerService),
+> and that daemon must be able to initiate reclaim on its own without
+> any app involvement.
 > 
->   * use LD_PRELOAD; or
->   * patch the kernel with something like UKSM or PKSM.
+> To solve the issue, this patch introduces new syscall process_madvise(2).
+> It uses pidfd of an external processs to give the hint.
 > 
-> (i skip ptrace can of worms here intentionally)
+>  int process_madvise(int pidfd, void *addr, size_t length, int advise,
+> 			unsigned long flag);
 > 
-> To overcome this restriction, lets employ a new remote madvise API. This
-> can be used by some small userspace helper daemon that will do auto-KSM
-> job for us.
+> Since it could affect other process's address range, only privileged
+> process(CAP_SYS_PTRACE) or something else(e.g., being the same UID)
+> gives it the right to ptrace the process could use it successfully.
+> The flag argument is reserved for future use if we need to extend the
+> API.
 > 
-> I think of two major consumers of remote KSM hints:
+> I think supporting all hints madvise has/will supported/support to
+> process_madvise is rather risky. Because we are not sure all hints make
+> sense from external process and implementation for the hint may rely on
+> the caller being in the current context so it could be error-prone.
+> Thus, I just limited hints as MADV_[COLD|PAGEOUT] in this patch.
 > 
->   * hosts, that run containers, especially similar ones and especially in
->     a trusted environment, sharing the same runtime like Node.js;
-> 
->   * heavy applications, that can be run in multiple instances, not
->     limited to opensource ones like Firefox, but also those that cannot be
->     modified since they are binary-only and, maybe, statically linked.
-> 
-> Speaking of statistics, more numbers can be found in the very first
-> submission, that is related to this one [1]. For my current setup with
-> two Firefox instances I get 100 to 200 MiB saved for the second instance
-> depending on the amount of tabs.
-> 
-> 1 FF instance with 15 tabs:
-> 
->    $ echo "$(cat /sys/kernel/mm/ksm/pages_sharing) * 4 / 1024" | bc
->    410
-> 
-> 2 FF instances, second one has 12 tabs (all the tabs are different):
-> 
->    $ echo "$(cat /sys/kernel/mm/ksm/pages_sharing) * 4 / 1024" | bc
->    592
-> 
-> At the very moment I do not have specific numbers for containerised
-> workload, but those should be comparable in case the containers share
-> similar/same runtime.
-> 
-> [1] https://lore.kernel.org/patchwork/patch/1012142/
-> 
-> Signed-off-by: Oleksandr Natalenko <oleksandr@redhat.com>
-> Signed-off-by: Minchan Kim <minchan@google.com>
-> ---
->  mm/madvise.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/mm/madvise.c b/mm/madvise.c
-> index 84cffd0900f1..89557998d287 100644
-> --- a/mm/madvise.c
-> +++ b/mm/madvise.c
-> @@ -1000,6 +1000,8 @@ process_madvise_behavior_valid(int behavior)
->  	switch (behavior) {
->  	case MADV_COLD:
->  	case MADV_PAGEOUT:
-> +	case MADV_MERGEABLE:
-> +	case MADV_UNMERGEABLE:
->  		return true;
->  	default:
->  		return false;
+> If someone want to add other hints, we could hear hear the usecase and
+> review it for each hint. It's more safe for maintainace rather than
+> introducing a buggy syscall but hard to fix it later.
 
-Remote madvise on KSM parameters should be OK.
+I have brought this up when we discussed this in the past but there is
+no reflection on that here so let me bring that up again. 
 
-One thing is madvise_behavior_valid() places MADV_MERGEABLE/UNMERGEABLE
-in #ifdef brackes, so -EINVAL is returned by madvise() syscall if KSM
-is not enabled. Here we should follow the same way for symmetry.
+I believe that the interface has an inherent problem that it is racy.
+The external entity needs to know the address space layout of the target
+process to do anyhing useful on it. The address space is however under
+the full control of the target process though and the external entity
+has no means to find out that the layout has changed. So
+time-to-check-time-to-act is an inherent problem.
+
+This is a serious design flaw and it should be explained why it doesn't
+matter or how to use the interface properly to prevent that problem.
+-- 
+Michal Hocko
+SUSE Labs
