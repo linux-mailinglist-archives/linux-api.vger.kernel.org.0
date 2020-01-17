@@ -2,96 +2,63 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 45DF81402AA
-	for <lists+linux-api@lfdr.de>; Fri, 17 Jan 2020 04:59:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CBB41404EC
+	for <lists+linux-api@lfdr.de>; Fri, 17 Jan 2020 09:12:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727022AbgAQD7x (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 16 Jan 2020 22:59:53 -0500
-Received: from mga01.intel.com ([192.55.52.88]:38286 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726378AbgAQD7x (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 16 Jan 2020 22:59:53 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 16 Jan 2020 19:59:52 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,328,1574150400"; 
-   d="scan'208";a="257652981"
-Received: from hao-dev.bj.intel.com (HELO localhost) ([10.238.157.65])
-  by fmsmga002.fm.intel.com with ESMTP; 16 Jan 2020 19:59:52 -0800
-Date:   Fri, 17 Jan 2020 11:39:34 +0800
-From:   Wu Hao <hao.wu@intel.com>
-To:     will@kernel.org
-Cc:     mdf@kernel.org, mark.rutland@arm.com, linux-fpga@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        atull@kernel.org, gregkh@linuxfoundation.org
-Subject: Re: [RESEND Patch v6 0/2] add performance reporting support to FPGA
- DFL drivers
-Message-ID: <20200117033934.GA23536@hao-dev>
-References: <1579230628-22243-1-git-send-email-hao.wu@intel.com>
+        id S1729210AbgAQIMr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 17 Jan 2020 03:12:47 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:43712 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729011AbgAQIMr (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 17 Jan 2020 03:12:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=t/MEhEZGYZHmMiJmrgugavb+9sNbSeK5h6oldhHUYs8=; b=CBE9ZS2IjXbfrp+dvzcCM+LGx
+        VZTVAlzWhocgiFF1/YMmGjxIEZ/q2YrWWmmFIXWh/MtSDaEomRJZPzpowabxJw89/lYJvFOTzFTTb
+        15FsRdHD+UhNq+yMNIqE7bJ/9sUrZRPyiROdXSxQUV2MrRQCGaVv5X8CQmhAVgkzbVpSH4VD9xgEw
+        iF5qutl89oTzwNv6K7NqOg/xSVNQDjb6ZpF+V6bQvMfGdzQ1ssvAE0sran+0msDNQl8ksQNVInVZy
+        xApRZDzdrqjxxSAQGgoFXJPwSY6UAjMCuLJ/t31A4nvFhJqqaVXPV4DQIITCBoAPMsluWWM4958TK
+        MyV2DTmUQ==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1isMkI-0004ao-RH; Fri, 17 Jan 2020 08:12:46 +0000
+Date:   Fri, 17 Jan 2020 00:12:46 -0800
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Eric Biggers <ebiggers@kernel.org>
+Cc:     linux-fscrypt@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net,
+        linux-mtd@lists.infradead.org,
+        Barani Muthukumaran <bmuthuku@codeaurora.org>,
+        Gaurav Kashyap <gaurkash@codeaurora.org>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Jaegeuk Kim <jaegeuk@kernel.org>, linux-api@vger.kernel.org
+Subject: Re: [PATCH] fscrypt: reserve flags for hardware-wrapped keys feature
+Message-ID: <20200117081246.GA16846@infradead.org>
+References: <20200116192008.35766-1-ebiggers@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1579230628-22243-1-git-send-email-hao.wu@intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <20200116192008.35766-1-ebiggers@kernel.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Will
+On Thu, Jan 16, 2020 at 11:20:08AM -0800, Eric Biggers wrote:
+> From: Eric Biggers <ebiggers@google.com>
+> 
+> Reserve flags for the hardware-wrapped keys feature which is being
+> worked on [1].  FSCRYPT_POLICY_FLAG_HW_WRAPPED_KEY will denote that the
+> encryption policy needs a hardware-wrapped key to be unlocked.
+> FSCRYPT_ADD_KEY_FLAG_HW_WRAPPED will denote that the key being added is
+> a hardware-wrapped key.
+> 
+> This reservation is tentative, and these codepoints may be reused if the
+> feature is not upstreamed.
 
-I resend this patch per suggestion from Greg.
-
-Actually this is one important feature for users, but was blocked by
-code review for quite a long time (no comments since last November).
-
-We really need your help on code review from perf, please help us..
-
-Many Thanks!
-
-Hao
-
-On Fri, Jan 17, 2020 at 11:10:26AM +0800, Wu Hao wrote:
-> Hi all,
-> 
-> This patchset adds performance reporting support for FPGA DFL drivers. It
-> introduces one pmu to expose userspace interfaces via standard perf API.
-> User could use standard perf tool to access perf events exposed via pmu.
-> 
-> This patchset is generated based on latest fpga/for-next branch.
-> 
-> Main changes from v5:
->  - use dev_ext_attribute instead of fme_perf_event_attr.
->  - use is_visible function to decide which events to expose per
->    hardware capability, and add event_init checking for all events.
-> 
-> Main changes from v4:
->  - rebase and clean up.
->  - update Kconfig for PERF_EVENTS dependency.
-> 
-> Main changes from v3:
->  - add more descriptions in doc, including how to use perf tool for these
->    hardware counters. (patch #1)
->  - use standard perf API instead of sysfs entries. (patch #2)
-> 
-> Wu Hao (1):
->   fpga: dfl: fme: add performance reporting support
-> 
-> Xu Yilun (1):
->   Documentation: fpga: dfl: add description for performance reporting
->     support
-> 
->  Documentation/fpga/dfl.rst  |  83 ++++
->  drivers/fpga/Makefile       |   1 +
->  drivers/fpga/dfl-fme-main.c |   4 +
->  drivers/fpga/dfl-fme-perf.c | 943 ++++++++++++++++++++++++++++++++++++++++++++
->  drivers/fpga/dfl-fme.h      |   2 +
->  drivers/fpga/dfl.h          |   2 +
->  6 files changed, 1035 insertions(+)
->  create mode 100644 drivers/fpga/dfl-fme-perf.c
-> 
-> -- 
-> 1.8.3.1
+NAK.  While the feature itself sounds really useful we don't just
+reserve format bits for code not upstream.
