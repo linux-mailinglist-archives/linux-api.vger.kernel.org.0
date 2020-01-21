@@ -2,157 +2,160 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 58C22144310
-	for <lists+linux-api@lfdr.de>; Tue, 21 Jan 2020 18:21:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CC15A144386
+	for <lists+linux-api@lfdr.de>; Tue, 21 Jan 2020 18:45:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729096AbgAURVP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 21 Jan 2020 12:21:15 -0500
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:43513 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728829AbgAURVP (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 21 Jan 2020 12:21:15 -0500
-Received: by mail-oi1-f193.google.com with SMTP id p125so3273139oif.10
-        for <linux-api@vger.kernel.org>; Tue, 21 Jan 2020 09:21:14 -0800 (PST)
+        id S1729080AbgAURpG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 21 Jan 2020 12:45:06 -0500
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:36091 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728186AbgAURpG (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 21 Jan 2020 12:45:06 -0500
+Received: by mail-pg1-f194.google.com with SMTP id k3so1886318pgc.3;
+        Tue, 21 Jan 2020 09:45:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=q5QgG9WnPTL3nteIJEXmB0Es5EWve1SbvFBsjUgPlKU=;
-        b=Hqck99IjyucVajmKBNg5n6iwdy1Ba0Mz2Hv7kvqwVGnr1C5wiqxxGa6DCxk+QAHJMw
-         cXceKiYFoYrkDPegt/RiLyqFE5RrUbXQmskCI624CSUZwIkdsYeR7ozgCXW/2NkqjUky
-         zg5KXfgHjVYYDDWNfVZ+wcouy7tJQ8JJJ4ATWB9qwFy0TrYv28pZxxpkNpETf5xjLwjF
-         k+H6lk6iR3rq1X88xVaAVMLnUBS2zqYVoBub6hlkuDBppV1PkIgYMt+ELbbvNGUory2d
-         sR/mOkrzrP4IaEbwArJZYpYycJ7S5WK2drEdwQXGv8OQlFmyEPsHKxNi7GI/RXlpY2/f
-         mSRw==
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=XmgSXNlNou2mcO6i9Iver2Yc4nxRNH3v9tX/ZnyaZOk=;
+        b=Tw9BVG59m7XRkj63k6tlOCW0qP+at6a5ic3pu4R0m4DjOa6KBMwR4LDOVUIr17qMi7
+         eZL8QopcH/vPhj6IZiKZ5qsnU3jFo0JDWrkggQQOSuXJnjOaGIf4aXc0YmZUkpctazPN
+         AOCSIsnCatnxUCNKDaq58Gh6DklDJqjzwNlSSpvMGYFZDWteyEUdRTJ4XDBDGvTpe2xb
+         7eAzPAkudjN7AZQQS5O98XP8SiDA3efHgGVW/RzL17Y6pMcxzPTSrH+RdgHflqmhYNcd
+         PtknM3OtGiiUMA2YK+Ciu2EuOFhHq8A5tFunzJxJW6C1ij5mjE5oL4dL4uyVU8bNqoA/
+         2HFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=q5QgG9WnPTL3nteIJEXmB0Es5EWve1SbvFBsjUgPlKU=;
-        b=ikRXAq6+PbZJvXqMGrqUU3U/u1OdxfiXO/J6ZQTR3rcX+VIeuXJ3mPXovAbEWNDrsm
-         fKSsaBTwSGa0BBAaTJqKTJsr2gl7e2UHTRkCKhvJNc7aE3XN0sXcCK2m3nIXFUKw9GT5
-         P5qzXxBxZth1eVpcN0hRzw7QYps3T5yDmcbLp+yVkjaW6xopvRMicu+DkykyNn1JDrg6
-         hmZh580GntUamY6/YYL2nECgv/5Vu5P38KBa4wzIFizTYZ7xD+Dx3DQUyXv0+/MH0fwx
-         ddpXRvHY52hXgobGR+AvtTC9IEdQRmVuJ0eQo4LSTJXwj9Pwsw/PPHucCMpyqbzNX5ah
-         yWIw==
-X-Gm-Message-State: APjAAAV4N10WZVBgNc7WReWIdTWDe3wJpDmwcVc6a4oKRgOBhPAOx50X
-        QG513QLVSpD8W0TpaNfpPJ6JWAQOtRupRsvuk8CKbA==
-X-Google-Smtp-Source: APXvYqy/cHUnTgqn2AvhCUymfYtPS40fUfd4xCVnC3WQvi+Po8Vm5Fie2sP6ED7bhcqYTLpTOVe/2NqjYrJ36UAvcqo=
-X-Received: by 2002:aca:4a08:: with SMTP id x8mr3813040oia.39.1579627274088;
- Tue, 21 Jan 2020 09:21:14 -0800 (PST)
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=XmgSXNlNou2mcO6i9Iver2Yc4nxRNH3v9tX/ZnyaZOk=;
+        b=o7bSdYd+T91VyeUWRYynHuRCvTHxrl1cWAH98juhZA6TBV/9M0AWiEKUl1MIKGF3pH
+         dbBL/N7KLa4vDrn0/9SQjgylfySGCEkyB3z2zoBxoIowc4rUON/AfRSjCD8PckQSB1QN
+         /T9+Zu1Q7QTrAJfpoJ7Y/1Oiz6wBPOzP1sLRGSojNwpYxxF2E62lQ8lEf7uGcqrCBlPq
+         4rcYfTkK1Zm2zpt+srHAyx1stOBt7S0Z3aSU2rv4wFLxVtOTBCMITB9BZkuaQIDetT6y
+         on5O3+fBgQ+zlEzv52ejG7v1s4iGJrmd6MKCK2IQZo1ZVfyzXT7iVWyXu/GlAIsUu3tK
+         kQkg==
+X-Gm-Message-State: APjAAAU6LFdkpO8iYZIBRDA/F46Dk6GHbOybpLll6VrXrKskVzswSFtB
+        k7M+2vQBhZtoHuf29kr3uMk=
+X-Google-Smtp-Source: APXvYqxvIbtuBdiKMYwNvonK3LsNjuapeOvdevIDzx640w6i8heAVOmNGOckz0V4Kdo46w6neV1XfA==
+X-Received: by 2002:aa7:9808:: with SMTP id e8mr5707265pfl.32.1579628705390;
+        Tue, 21 Jan 2020 09:45:05 -0800 (PST)
+Received: from google.com ([2620:15c:211:1:3e01:2939:5992:52da])
+        by smtp.gmail.com with ESMTPSA id 64sm44470694pfd.48.2020.01.21.09.45.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Jan 2020 09:45:03 -0800 (PST)
+Date:   Tue, 21 Jan 2020 09:45:01 -0800
+From:   Minchan Kim <minchan@kernel.org>
+To:     Oleksandr Natalenko <oleksandr@redhat.com>
+Cc:     Kirill Tkhai <ktkhai@virtuozzo.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
+        Suren Baghdasaryan <surenb@google.com>,
+        Tim Murray <timmurray@google.com>,
+        Daniel Colascione <dancol@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Brian Geffon <bgeffon@google.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        John Dias <joaodias@google.com>, christian.brauner@ubuntu.com,
+        sjpark@amazon.de
+Subject: Re: [PATCH v2 4/5] mm/madvise: allow KSM hints for remote API
+Message-ID: <20200121174501.GD140922@google.com>
+References: <20200116235953.163318-1-minchan@kernel.org>
+ <20200116235953.163318-5-minchan@kernel.org>
+ <37338e14-5a55-1926-b6c1-5f98b6a6fdb5@virtuozzo.com>
+ <20200117123400.o3ne6kazkovq4okd@butterfly.localdomain>
 MIME-Version: 1.0
-References: <20200121160312.26545-1-mathieu.desnoyers@efficios.com>
-In-Reply-To: <20200121160312.26545-1-mathieu.desnoyers@efficios.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Tue, 21 Jan 2020 18:20:47 +0100
-Message-ID: <CAG48ez2bQdoT9y7HkyU06DTazysUDdPdJe+gyV-NxgQA7JWQVQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v1] pin_on_cpu: Introduce thread CPU pinning system call
-To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        Joel Fernandes <joelaf@google.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Watson <davejwatson@fb.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Andi Kleen <andi@firstfloor.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>, Chris Lameter <cl@linux.com>,
-        Russell King <linux@arm.linux.org.uk>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        "Paul E . McKenney" <paulmck@linux.vnet.ibm.com>,
-        Paul Turner <pjt@google.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Maurer <bmaurer@fb.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Andy Lutomirski <luto@amacapital.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200117123400.o3ne6kazkovq4okd@butterfly.localdomain>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jan 21, 2020 at 5:13 PM Mathieu Desnoyers
-<mathieu.desnoyers@efficios.com> wrote:
-> There is an important use-case which is not possible with the
-> "rseq" (Restartable Sequences) system call, which was left as
-> future work.
->
-> That use-case is to modify user-space per-cpu data structures
-> belonging to specific CPUs which may be brought offline and
-> online again by CPU hotplug. This can be used by memory
-> allocators to migrate free memory pools when CPUs are brought
-> offline, or by ring buffer consumers to target specific per-CPU
-> buffers, even when CPUs are brought offline.
->
-> A few rather complex prior attempts were made to solve this.
-> Those were based on in-kernel interpreters (cpu_opv, do_on_cpu).
-> That complexity was generally frowned upon, even by their author.
->
-> This patch fulfills this use-case in a refreshingly simple way:
-> it introduces a "pin_on_cpu" system call, which allows user-space
-> threads to pin themselves on a specific CPU (which needs to be
-> present in the thread's allowed cpu mask), and then clear this
-> pinned state.
-[...]
-> For instance, this allows implementing this userspace library API
-> for incrementing a per-cpu counter for a specific cpu number
-> received as parameter:
->
-> static inline __attribute__((always_inline))
-> int percpu_addv(intptr_t *v, intptr_t count, int cpu)
-> {
->         int ret;
->
->         ret = rseq_addv(v, count, cpu);
-> check:
->         if (rseq_unlikely(ret)) {
->                 pin_on_cpu_set(cpu);
->                 ret = rseq_addv(v, count, percpu_current_cpu());
->                 pin_on_cpu_clear();
->                 goto check;
->         }
->         return 0;
-> }
+On Fri, Jan 17, 2020 at 01:34:00PM +0100, Oleksandr Natalenko wrote:
+> Hi.
+> 
+> On Fri, Jan 17, 2020 at 01:13:14PM +0300, Kirill Tkhai wrote:
+> > On 17.01.2020 02:59, Minchan Kim wrote:
+> > > From: Oleksandr Natalenko <oleksandr@redhat.com>
+> > > 
+> > > It all began with the fact that KSM works only on memory that is marked
+> > > by madvise(). And the only way to get around that is to either:
+> > > 
+> > >   * use LD_PRELOAD; or
+> > >   * patch the kernel with something like UKSM or PKSM.
+> > > 
+> > > (i skip ptrace can of worms here intentionally)
+> > > 
+> > > To overcome this restriction, lets employ a new remote madvise API. This
+> > > can be used by some small userspace helper daemon that will do auto-KSM
+> > > job for us.
+> > > 
+> > > I think of two major consumers of remote KSM hints:
+> > > 
+> > >   * hosts, that run containers, especially similar ones and especially in
+> > >     a trusted environment, sharing the same runtime like Node.js;
+> > > 
+> > >   * heavy applications, that can be run in multiple instances, not
+> > >     limited to opensource ones like Firefox, but also those that cannot be
+> > >     modified since they are binary-only and, maybe, statically linked.
+> > > 
+> > > Speaking of statistics, more numbers can be found in the very first
+> > > submission, that is related to this one [1]. For my current setup with
+> > > two Firefox instances I get 100 to 200 MiB saved for the second instance
+> > > depending on the amount of tabs.
+> > > 
+> > > 1 FF instance with 15 tabs:
+> > > 
+> > >    $ echo "$(cat /sys/kernel/mm/ksm/pages_sharing) * 4 / 1024" | bc
+> > >    410
+> > > 
+> > > 2 FF instances, second one has 12 tabs (all the tabs are different):
+> > > 
+> > >    $ echo "$(cat /sys/kernel/mm/ksm/pages_sharing) * 4 / 1024" | bc
+> > >    592
+> > > 
+> > > At the very moment I do not have specific numbers for containerised
+> > > workload, but those should be comparable in case the containers share
+> > > similar/same runtime.
+> > > 
+> > > [1] https://lore.kernel.org/patchwork/patch/1012142/
+> > > 
+> > > Signed-off-by: Oleksandr Natalenko <oleksandr@redhat.com>
+> > > Signed-off-by: Minchan Kim <minchan@google.com>
+> > > ---
+> > >  mm/madvise.c | 2 ++
+> > >  1 file changed, 2 insertions(+)
+> > > 
+> > > diff --git a/mm/madvise.c b/mm/madvise.c
+> > > index 84cffd0900f1..89557998d287 100644
+> > > --- a/mm/madvise.c
+> > > +++ b/mm/madvise.c
+> > > @@ -1000,6 +1000,8 @@ process_madvise_behavior_valid(int behavior)
+> > >  	switch (behavior) {
+> > >  	case MADV_COLD:
+> > >  	case MADV_PAGEOUT:
+> > > +	case MADV_MERGEABLE:
+> > > +	case MADV_UNMERGEABLE:
+> > >  		return true;
+> > >  	default:
+> > >  		return false;
+> > 
+> > Remote madvise on KSM parameters should be OK.
+> > 
+> > One thing is madvise_behavior_valid() places MADV_MERGEABLE/UNMERGEABLE
+> > in #ifdef brackes, so -EINVAL is returned by madvise() syscall if KSM
+> > is not enabled. Here we should follow the same way for symmetry.
+> > 
+> 
+> Thanks for the suggestion.
+> 
+> Minchan, shall you adopt it directly, or I should send a separate patch?
 
-What does userspace have to do if the set of allowed CPUs switches all
-the time? For example, on Android, if you first open Chrome and then
-look at its allowed CPUs, Chrome is allowed to use all CPU cores
-because it's running in the foreground:
-
-walleye:/ # ps -AZ | grep 'android.chrome$'
-u:r:untrusted_app:s0:c145,c256,c512,c768 u0_a145 7845 805 1474472
-197868 SyS_epoll_wait f09c0194 S com.android.chrome
-walleye:/ # grep cpuset /proc/7845/cgroup; grep Cpus_allowed_list
-/proc/7845/status
-3:cpuset:/top-app
-Cpus_allowed_list: 0-7
-
-But if you then switch to the home screen, the application is moved
-into a different cgroup, and is restricted to two CPU cores:
-
-walleye:/ # grep cpuset /proc/7845/cgroup; grep Cpus_allowed_list
-/proc/7845/status
-3:cpuset:/background
-Cpus_allowed_list: 0-1
-
-At the same time, I also wonder whether it is a good idea to allow
-userspace to stay active on a CPU even after the task has been told to
-move to another CPU core - that's probably not exactly a big deal, but
-seems suboptimal to me.
-
-
-I'm wondering whether it might be possible to rework this mechanism
-such that, instead of moving the current task onto a target CPU, it
-prevents all *other* threads of the current process from running on
-that CPU (either entirely or in user mode). That might be the easiest
-way to take care of issues like CPU hotplugging and changing cpusets
-all at once? The only potential issue I see with that approach would
-be that you wouldn't be able to use it for inter-process
-communication; and I have no idea whether this would be good or bad
-performance-wise.
+I will handle it in next spin.
