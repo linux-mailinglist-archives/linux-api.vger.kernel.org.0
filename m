@@ -2,185 +2,189 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 66B361472ED
-	for <lists+linux-api@lfdr.de>; Thu, 23 Jan 2020 22:03:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C8F83147336
+	for <lists+linux-api@lfdr.de>; Thu, 23 Jan 2020 22:36:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729409AbgAWVDE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 23 Jan 2020 16:03:04 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42393 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1729339AbgAWVDD (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Jan 2020 16:03:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1579813381;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=YZjD8aqaGH6JNDHX+A7tsAQo+cl/H8KbJHBmNjl1CAs=;
-        b=AL+8uFF+N9owvQ37LFmYwnD7fBbJkvTjCFZFoMX63i47bouTzEgAQ/diB80WmxGLXY12Fl
-        sjLXqcCJj+VwaYqRaWdnFSaH+BhrWxxjlCjBDhHV64H5C3naOTRfjmU+N1OHh0WI4FzepD
-        5nmDerGdr/RS3oxceCs0UG+/D5ATX3M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-312-HDmQ2MhAMA6cXpt_V3B92g-1; Thu, 23 Jan 2020 16:02:57 -0500
-X-MC-Unique: HDmQ2MhAMA6cXpt_V3B92g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D398B8024E5;
-        Thu, 23 Jan 2020 21:02:54 +0000 (UTC)
-Received: from madcap2.tricolour.ca (ovpn-112-12.phx2.redhat.com [10.3.112.12])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 467D281207;
-        Thu, 23 Jan 2020 21:02:43 +0000 (UTC)
-Date:   Thu, 23 Jan 2020 16:02:40 -0500
-From:   Richard Guy Briggs <rgb@redhat.com>
-To:     Paul Moore <paul@paul-moore.com>
-Cc:     containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
-        Linux-Audit Mailing List <linux-audit@redhat.com>,
-        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
-        sgrubb@redhat.com, omosnace@redhat.com, dhowells@redhat.com,
-        simo@redhat.com, Eric Paris <eparis@parisplace.org>,
-        Serge Hallyn <serge@hallyn.com>, ebiederm@xmission.com,
-        nhorman@tuxdriver.com, Dan Walsh <dwalsh@redhat.com>,
-        mpatel@redhat.com
-Subject: Re: [PATCH ghak90 V8 12/16] audit: contid check descendancy and
- nesting
-Message-ID: <20200123210240.sq64tptjm3ds7xss@madcap2.tricolour.ca>
-References: <cover.1577736799.git.rgb@redhat.com>
- <cfbb80a08fc770dd0dcf6dac6ff307a80d877c3f.1577736799.git.rgb@redhat.com>
- <CAHC9VhT1+mx_tVzyXD=UBqagqYgAFjZ=X1A6oBiMvjVCn8=V-w@mail.gmail.com>
+        id S1728708AbgAWVgK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 23 Jan 2020 16:36:10 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:33523 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728057AbgAWVgJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Jan 2020 16:36:09 -0500
+Received: by mail-lj1-f193.google.com with SMTP id y6so3999lji.0
+        for <linux-api@vger.kernel.org>; Thu, 23 Jan 2020 13:36:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hMyXK37D1SY1vwV+WlcNr41eq9aZRtXuphVComfAQVQ=;
+        b=JGf6hitGz+m+ANGWCtXXNmlHWR+dQ/BZUfRkAld6SD6nyEJJWkhHMwDQZL8Tg3rEI6
+         E5wDExHPHU3tOhZaD3uMzylwgNwR/Wf9C3XHKUpDzVGdRtuGWPx6tbstejnrgJrQeN+g
+         Dmso35KzWIS2UCBggmhhuHBvnfIpWhxJWW0gyGW2SsOAh/Ff5Bltiu0u80w/D/v+iq7e
+         wnzu7aJ0+yCcORXR2HzC8GaXEygtzUvCvvQD4T5mdqKgxlH9t+1HZeBY5CJ65wYPgaLh
+         LteK7V9iBlHEF5ip9MJqmX9Yg28imNv8LPKe1tmJV6DDUXayP+pLl8zZYp33fO+aOwDN
+         QytQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hMyXK37D1SY1vwV+WlcNr41eq9aZRtXuphVComfAQVQ=;
+        b=ge+ZuImKtjefrQgz4kImxuqjASZkA6eeEMnHfYhjqHkxBGeamva03G19fLcdtlGPE9
+         hQ/qAg4Lsg6NzlfuCpVR5uWUZiUyD0Zxnv5OS0JuyRCYkwTbUAs4xqLcSsFF33Yh5pNH
+         94t8ArSySSZGx/ZQnfeOsAKraK5b+gcVUxs90Mce/qLmgiR2xG6r3LfcviSq/WYdqN18
+         gbPXh6ka0CO99QW6fy9BwfHRXBCcYST65rlRucl+taYQT0dM/sDk0BWYlZ3CFiKsHhnr
+         puw7erdWmvvyxWQ2fxFNiEfAJCIhoEqzSQ2iDHLiCBImY8Xz1sIh9fUHPRS896KiTIdh
+         vCfQ==
+X-Gm-Message-State: APjAAAU1LKl1OnT9ZMzEeiRG8N4Y3Su3dbLwqQ08KZz6d29271gYm9s5
+        OwFCTcUbJasDhisLVk8PWe87cKlDCPI/DT1I7nIO
+X-Google-Smtp-Source: APXvYqzmiH85n1JcJPF1cLLPQxAHGXAPgPHI716hr05qfSBXxCFeGrnpxFyI4zZk9EfGn+ZIo3+k+WaGSr/n41CSiEg=
+X-Received: by 2002:a2e:b52b:: with SMTP id z11mr236562ljm.155.1579815366587;
+ Thu, 23 Jan 2020 13:36:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHC9VhT1+mx_tVzyXD=UBqagqYgAFjZ=X1A6oBiMvjVCn8=V-w@mail.gmail.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+References: <cover.1577736799.git.rgb@redhat.com> <7d7933d742fdf4a94c84b791906a450b16f2e81f.1577736799.git.rgb@redhat.com>
+ <CAHC9VhSuwJGryfrBfzxG01zwb-O_7dbjS0x0a3w-XjcNuYSAcg@mail.gmail.com>
+ <20200123162918.b3jbed7tbvr2sf2p@madcap2.tricolour.ca> <CAHC9VhTusiQoudB8G5jjDFyM9WxBUAjZ6_X35ywJ063Jb75dQA@mail.gmail.com>
+ <20200123200412.j2aucdp3cvk57prw@madcap2.tricolour.ca>
+In-Reply-To: <20200123200412.j2aucdp3cvk57prw@madcap2.tricolour.ca>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Thu, 23 Jan 2020 16:35:55 -0500
+Message-ID: <CAHC9VhQ2_MQdGAT6Pda9FRe6s0y4JC1XUQenpr-VJiyq9M_CBw@mail.gmail.com>
+Subject: Re: [PATCH ghak90 V8 07/16] audit: add contid support for signalling
+ the audit daemon
+To:     Richard Guy Briggs <rgb@redhat.com>
+Cc:     nhorman@tuxdriver.com, linux-api@vger.kernel.org,
+        containers@lists.linux-foundation.org,
+        LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
+        Linux-Audit Mailing List <linux-audit@redhat.com>,
+        netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
+        simo@redhat.com, netdev@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>,
+        mpatel@redhat.com, Serge Hallyn <serge@hallyn.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2020-01-22 16:29, Paul Moore wrote:
-> On Tue, Dec 31, 2019 at 2:51 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+On Thu, Jan 23, 2020 at 3:04 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> On 2020-01-23 12:09, Paul Moore wrote:
+> > On Thu, Jan 23, 2020 at 11:29 AM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > On 2020-01-22 16:28, Paul Moore wrote:
+> > > > On Tue, Dec 31, 2019 at 2:50 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > > >
+> > > > > Add audit container identifier support to the action of signalling the
+> > > > > audit daemon.
+> > > > >
+> > > > > Since this would need to add an element to the audit_sig_info struct,
+> > > > > a new record type AUDIT_SIGNAL_INFO2 was created with a new
+> > > > > audit_sig_info2 struct.  Corresponding support is required in the
+> > > > > userspace code to reflect the new record request and reply type.
+> > > > > An older userspace won't break since it won't know to request this
+> > > > > record type.
+> > > > >
+> > > > > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+> > > > > ---
+> > > > >  include/linux/audit.h       |  7 +++++++
+> > > > >  include/uapi/linux/audit.h  |  1 +
+> > > > >  kernel/audit.c              | 35 +++++++++++++++++++++++++++++++++++
+> > > > >  kernel/audit.h              |  1 +
+> > > > >  security/selinux/nlmsgtab.c |  1 +
+> > > > >  5 files changed, 45 insertions(+)
+> > > >
+> > > > ...
+> > > >
+> > > > > diff --git a/kernel/audit.c b/kernel/audit.c
+> > > > > index 0871c3e5d6df..51159c94041c 100644
+> > > > > --- a/kernel/audit.c
+> > > > > +++ b/kernel/audit.c
+> > > > > @@ -126,6 +126,14 @@ struct auditd_connection {
+> > > > >  kuid_t         audit_sig_uid = INVALID_UID;
+> > > > >  pid_t          audit_sig_pid = -1;
+> > > > >  u32            audit_sig_sid = 0;
+> > > > > +/* Since the signal information is stored in the record buffer at the
+> > > > > + * time of the signal, but not retrieved until later, there is a chance
+> > > > > + * that the last process in the container could terminate before the
+> > > > > + * signal record is delivered.  In this circumstance, there is a chance
+> > > > > + * the orchestrator could reuse the audit container identifier, causing
+> > > > > + * an overlap of audit records that refer to the same audit container
+> > > > > + * identifier, but a different container instance.  */
+> > > > > +u64            audit_sig_cid = AUDIT_CID_UNSET;
+> > > >
+> > > > I believe we could prevent the case mentioned above by taking an
+> > > > additional reference to the audit container ID object when the signal
+> > > > information is collected, dropping it only after the signal
+> > > > information is collected by userspace or another process signals the
+> > > > audit daemon.  Yes, it would block that audit container ID from being
+> > > > reused immediately, but since we are talking about one number out of
+> > > > 2^64 that seems like a reasonable tradeoff.
+> > >
+> > > I had thought that through and should have been more explicit about that
+> > > situation when I documented it.  We could do that, but then the syscall
+> > > records would be connected with the call from auditd on shutdown to
+> > > request that signal information, rather than the exit of that last
+> > > process that was using that container.  This strikes me as misleading.
+> > > Is that really what we want?
 > >
-> > Require the target task to be a descendant of the container
-> > orchestrator/engine.
+> >  ???
 > >
-> > You would only change the audit container ID from one set or inherited
-> > value to another if you were nesting containers.
+> > I think one of us is not understanding the other; maybe it's me, maybe
+> > it's you, maybe it's both of us.
 > >
-> > If changing the contid, the container orchestrator/engine must be a
-> > descendant and not same orchestrator as the one that set it so it is not
-> > possible to change the contid of another orchestrator's container.
-> >
-> > Since the task_is_descendant() function is used in YAMA and in audit,
-> > remove the duplication and pull the function into kernel/core/sched.c
-> >
-> > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-> > ---
-> >  include/linux/sched.h    |  3 +++
-> >  kernel/audit.c           | 44 ++++++++++++++++++++++++++++++++++++--------
-> >  kernel/sched/core.c      | 33 +++++++++++++++++++++++++++++++++
-> >  security/yama/yama_lsm.c | 33 ---------------------------------
-> >  4 files changed, 72 insertions(+), 41 deletions(-)
-> 
-> ...
-> 
-> > diff --git a/kernel/audit.c b/kernel/audit.c
-> > index f7a8d3288ca0..ef8e07524c46 100644
-> > --- a/kernel/audit.c
-> > +++ b/kernel/audit.c
-> > @@ -2603,22 +2610,43 @@ int audit_set_contid(struct task_struct *task, u64 contid)
-> >         oldcontid = audit_get_contid(task);
-> >         read_lock(&tasklist_lock);
-> >         /* Don't allow the contid to be unset */
-> > -       if (!audit_contid_valid(contid))
-> > +       if (!audit_contid_valid(contid)) {
-> >                 rc = -EINVAL;
-> > +               goto unlock;
-> > +       }
-> >         /* Don't allow the contid to be set to the same value again */
-> > -       else if (contid == oldcontid) {
-> > +       if (contid == oldcontid) {
-> >                 rc = -EADDRINUSE;
-> > +               goto unlock;
-> > +       }
-> >         /* if we don't have caps, reject */
-> > -       else if (!capable(CAP_AUDIT_CONTROL))
-> > +       if (!capable(CAP_AUDIT_CONTROL)) {
-> >                 rc = -EPERM;
-> > -       /* if task has children or is not single-threaded, deny */
-> > -       else if (!list_empty(&task->children))
-> > +               goto unlock;
-> > +       }
-> > +       /* if task has children, deny */
-> > +       if (!list_empty(&task->children)) {
-> >                 rc = -EBUSY;
-> > -       else if (!(thread_group_leader(task) && thread_group_empty(task)))
-> > +               goto unlock;
-> > +       }
-> > +       /* if task is not single-threaded, deny */
-> > +       if (!(thread_group_leader(task) && thread_group_empty(task))) {
-> >                 rc = -EALREADY;
-> > -       /* if contid is already set, deny */
-> > -       else if (audit_contid_set(task))
-> > +               goto unlock;
-> > +       }
-> 
-> It seems like the if/else-if conversion above should be part of an
-> earlier patchset.
+> > Anyway, here is what I was trying to convey with my original comment
+> > ... When we record the audit container ID in audit_signal_info() we
+> > take an extra reference to the audit container ID object so that it
+> > will not disappear (and get reused) until after we respond with an
+> > AUDIT_SIGNAL_INFO2.  In audit_receive_msg() when we do the
+> > AUDIT_SIGNAL_INFO2 processing we drop the extra reference we took in
+> > audit_signal_info().  Unless I'm missing some other change you made,
+> > this *shouldn't* affect the syscall records, all it does is preserve
+> > the audit container ID object in the kernel's ACID store so it doesn't
+> > get reused.
+>
+> This is exactly what I had understood.  I hadn't considered the extra
+> details below in detail due to my original syscall concern, but they
+> make sense.
+>
+> The syscall I refer to is the one connected with the drop of the
+> audit container identifier by the last process that was in that
+> container in patch 5/16.  The production of this record is contingent on
+> the last ref in a contobj being dropped.  So if it is due to that ref
+> being maintained by audit_signal_info() until the AUDIT_SIGNAL_INFO2
+> record it fetched, then it will appear that the fetch action closed the
+> container rather than the last process in the container to exit.
+>
+> Does this make sense?
 
-I had considered that, but it wasn't obvious where that conversion
-should happen since it wasn't necessary earlier and is now.  I can move
-it earlier if you feel strongly about it.
+More so than your original reply, at least to me anyway.
 
-> > +       /* if task is not descendant, block */
-> > +       if (task == current) {
-> > +               rc = -EBADSLT;
-> > +               goto unlock;
-> > +       }
-> > +       if (!task_is_descendant(current, task)) {
-> > +               rc = -EXDEV;
-> > +               goto unlock;
-> > +       }
-> 
-> I understand you are trying to provide a unique error code for each
-> failure case, but this is getting silly.  Let's group the descendent
-> checks under the same error code.
+It makes sense that the audit container ID wouldn't be marked as
+"dead" since it would still be very much alive and available for use
+by the orchestrator, the question is if that is desirable or not.  I
+think the answer to this comes down the preserving the correctness of
+the audit log.
 
-Ok.  I was trying to provide more information for debugging for me and
-for users.
+If the audit container ID reported by AUDIT_SIGNAL_INFO2 has been
+reused then I think there is a legitimate concern that the audit log
+is not correct, and could be misleading.  If we solve that by grabbing
+an extra reference, then there could also be some confusion as
+userspace considers a container to be "dead" while the audit container
+ID still exists in the kernel, and the kernel generated audit
+container ID death record will not be generated until much later (and
+possibly be associated with a different event, but that could be
+solved by unassociating the container death record).  Of the two
+approaches, I think the latter is safer in that it preserves the
+correctness of the audit log, even though it could result in a delay
+of the container death record.
 
-> > +       /* only allow contid setting again if nesting */
-> > +       if (audit_contid_set(task) && audit_contid_isowner(task))
-> >                 rc = -ECHILD;
-> 
-> Should that be "!audit_contid_isowner()"?
+Neither way is perfect, so if you have any other ideas I'm all ears.
 
-No.  If the contid is already set on this task and if it is the same
-orchestrator that already owns this one, then block it since the same
-orchestrator is not allowed to set it again.  Another orchestrator that
-has been shown by previous tests to be a descendant of the orchestrator
-that already owns this one would be permitted.
+> > (We do need to do some extra housekeeping in audit_signal_info() to
+> > deal with the case where nobody asks for AUDIT_SIGNAL_INFO2 -
+> > basically if audit_sig_cid is not NULL we should drop a reference
+> > before assigning it a new object pointer, and of course we would need
+> > to set audit_sig_cid to NULL in audit_receive_msg() after sending it
+> > up to userspace and dropping the extra ref.)
 
-Now that I say this explicitly, it appears I need another test to check:
-
-	/* only allow contid setting again if nesting */
-	if (audit_contid_set(task) && ( audit_contid_isowner(task) || !task_is_descendant(_audit_contobj(task)->owner, current) ))
-		rc = -ECHILD;
-
-So we're back to audit_contobj_owner() like in the previous patchset
-that would make this cleaner.
-
-> paul moore
-
-- RGB
-
---
-Richard Guy Briggs <rgb@redhat.com>
-Sr. S/W Engineer, Kernel Security, Base Operating Systems
-Remote, Ottawa, Red Hat Canada
-IRC: rgb, SunRaycer
-Voice: +1.647.777.2635, Internal: (81) 32635
-
+-- 
+paul moore
+www.paul-moore.com
