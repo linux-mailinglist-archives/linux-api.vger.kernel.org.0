@@ -2,259 +2,122 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B371E145E0C
-	for <lists+linux-api@lfdr.de>; Wed, 22 Jan 2020 22:30:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD144146070
+	for <lists+linux-api@lfdr.de>; Thu, 23 Jan 2020 02:41:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725924AbgAVV3z (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 22 Jan 2020 16:29:55 -0500
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:37217 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729424AbgAVV3z (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 22 Jan 2020 16:29:55 -0500
-Received: by mail-lf1-f65.google.com with SMTP id b15so737413lfc.4
-        for <linux-api@vger.kernel.org>; Wed, 22 Jan 2020 13:29:52 -0800 (PST)
+        id S1725943AbgAWBlg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 22 Jan 2020 20:41:36 -0500
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:41800 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725911AbgAWBlf (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 22 Jan 2020 20:41:35 -0500
+Received: by mail-pf1-f193.google.com with SMTP id w62so722957pfw.8;
+        Wed, 22 Jan 2020 17:41:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=QtzDsuL2wxUZ5ywGO+m8auB4mvm7TddMdWO8k2uItsM=;
-        b=KbqShNWEjgiFyu/5p615XDnhjKT0jZHGFWQpOKnIJKJXmSWLcMLndJwYe8W2HBj6H0
-         sFS2xlDnSp0XL1KiHGn3m8Lum8rwkQjyq5MwiCxHxNRlo8b1OG7qwG4G9TnyW2m5LsSa
-         fFKpmjgQpyPe0OCJsMnh5d+hq7cbUTmwLfrETpTvCMbhZi9mgGgUb6qx5h6hm6B5+ZYn
-         vp6991kA33cRxkdb7IkPfjYCdbTz/D4btQ7Agf5tt0/kGsSDNhPH9U2foSYivHJ+xdt7
-         M2cUIrtb3K5GmWVE9CAm6LlgjZvSd8Errsk4aUhRiBWDQ31saOR7WC6O0Z6deGJw1OYN
-         r+1A==
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=n52djEzsUpHwVAF4RVRzRPi7lkDjnzr2BXfsJcxQMZY=;
+        b=t8+zvXARhvvy6HrrT9NtUAOtP4drE9Y80izI7cJbe582ROnZUWKx4ANYOFb9WQ/B+e
+         RnlKlordyD1HEtNfFAa2Gba5pYUQuvunpUa6rMou4Gmzd8BkST536SQczpQ7i38i/RqX
+         Ri10YBvsGMB8PjTR7WYo00bbs/uj8hEC+FSLJVZ/dukpXQ0piio9RkB5MTtY4t6TebRF
+         Waso1ZdkU/XTwavK5MBsMqXYzCl6KzH81TyzwWlTRH+qbFWZpu5uX6Y2P1uwAnD0/lwK
+         6Iy9sU/jtO67/ZGGfm51RGz0AuGU/AaTPiIl05YNpR73HlpMgAXEbhv/O+joqG+ku1t6
+         9J/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QtzDsuL2wxUZ5ywGO+m8auB4mvm7TddMdWO8k2uItsM=;
-        b=EQXE4KrIJvBtGsxo7bPqx/fV3nwGzL/rZn0cU079SanXDV/NwyJM7IlDuw39bRUq40
-         as4XtAhbvOw6+gQPAlGRHwbqAxLJz2kn6pQiuSUda76oFwbYL7v0ldEOybG47IvZkOWU
-         HiuRrN3/xZ7yDCFseGTPQkmSKQu21hEaFlSf7Z91Smc0Zi2/eG5N/9Omtz1ge+SrL14S
-         huCvc9M/uYieZZUEhSzLkOPqGiNsT91c8PYPGzkg6NjZ3L1INzHcSjdBZ7nOa5WWUSL9
-         pgH2XkQm+Uuxem9EoI20eW1WwAXA3+LmxiQAMYHXBMNrQPqE7uZ9UYeYpRJfZv+bzOwD
-         grUw==
-X-Gm-Message-State: APjAAAURqlTu6xVWrceXUMSoxnlnVKVzbtIZcinEawvMu4+pH386qv/w
-        lS8Xm10keVGn9jcKZcKo8GJx42SyFBE6J4ccgcij
-X-Google-Smtp-Source: APXvYqy5NenDRP+GLKo9J8quNnfqfhyEzEl8NSpHCWF7mi5ljohn5db2MdvAsLqzUXcY1Lu1XrqhV/m/a9rdNNnHFD8=
-X-Received: by 2002:a19:7515:: with SMTP id y21mr2766879lfe.45.1579728591582;
- Wed, 22 Jan 2020 13:29:51 -0800 (PST)
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=n52djEzsUpHwVAF4RVRzRPi7lkDjnzr2BXfsJcxQMZY=;
+        b=ILgQvcxyunCQlak0MGQMQDv9pCGuwBaoLN53Nac/Zcy9PxbE+t/rqYgG/iwpvQgMyp
+         SUzL2aZUzYssGdF+Hzl5p6z5/WbFOq4Q4MomAD4KqIM2f1ZctyuJgmGx+Lq+4i+dwqMF
+         GvE7v3WHOJwD7A1U3vbbhKq2FBvttAE09bq0j9kjz454WZtKM95blk/ODSiwV9ffMHDo
+         mCzwBB8yoi+cGX6THpdUcyilojEJqt6GI3YR9VbC+Xa9wzYFjtwSSwvYeCb41MFH03um
+         tWn2JqBtcbNuiPAmxpf3BHkH1pILHPRZHTuhBgUnOJ1ouGpPo5AS9qsaleL/kTG6ensw
+         GA8w==
+X-Gm-Message-State: APjAAAWYbmFWDhtqToaz8pRfWyHzNIBxhDnwglMjRbPo9hLAjgFFHu1E
+        Autr3wAvoAR3smQPr8qznOcIhpGi
+X-Google-Smtp-Source: APXvYqy1nHeYVhLof1rS2+iL6f/2vYHKSuGNizob3qzpmyerg6oFidHREkp0OJ/AzwUL8trYRDzPww==
+X-Received: by 2002:a63:744f:: with SMTP id e15mr1365651pgn.344.1579743694890;
+        Wed, 22 Jan 2020 17:41:34 -0800 (PST)
+Received: from google.com ([2620:15c:211:1:3e01:2939:5992:52da])
+        by smtp.gmail.com with ESMTPSA id b26sm312332pgn.1.2020.01.22.17.41.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jan 2020 17:41:33 -0800 (PST)
+Date:   Wed, 22 Jan 2020 17:41:31 -0800
+From:   Minchan Kim <minchan@kernel.org>
+To:     Michal Hocko <mhocko@kernel.org>
+Cc:     sspatil@google.com, kirill@shutemov.name,
+        akpm@linux-foundation.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-api@vger.kernel.org,
+        oleksandr@redhat.com, surenb@google.com, timmurray@google.com,
+        dancol@google.com, sonnyrao@google.com, bgeffon@google.com,
+        hannes@cmpxchg.org, shakeelb@google.com, joaodias@google.com,
+        ktkhai@virtuozzo.com, christian.brauner@ubuntu.com,
+        sjpark@amazon.de
+Subject: Re: [PATCH v2 2/5] mm: introduce external memory hinting API
+Message-ID: <20200123014131.GA249784@google.com>
+References: <20200116235953.163318-1-minchan@kernel.org>
+ <20200116235953.163318-3-minchan@kernel.org>
+ <20200117115225.GV19428@dhcp22.suse.cz>
+ <20200117155837.bowyjpndfiym6cgs@box>
+ <20200117173239.GB140922@google.com>
+ <20200117212653.7uftw3lk35oykkmb@box>
+ <20200119161431.GA94410@google.com>
+ <20200120075825.GH18451@dhcp22.suse.cz>
+ <20200121183212.GF140922@google.com>
+ <20200122082853.GS29276@dhcp22.suse.cz>
 MIME-Version: 1.0
-References: <cover.1577736799.git.rgb@redhat.com> <5941671b6b6b5de28ab2cc80e72f288cf83291d5.1577736799.git.rgb@redhat.com>
-In-Reply-To: <5941671b6b6b5de28ab2cc80e72f288cf83291d5.1577736799.git.rgb@redhat.com>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Wed, 22 Jan 2020 16:29:39 -0500
-Message-ID: <CAHC9VhQYXQp+C0EHwLuW50yUenfH4KF1xKQdS=bn_OzHfnFmmg@mail.gmail.com>
-Subject: Re: [PATCH ghak90 V8 16/16] audit: add capcontid to set contid
- outside init_user_ns
-To:     Richard Guy Briggs <rgb@redhat.com>
-Cc:     containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
-        Linux-Audit Mailing List <linux-audit@redhat.com>,
-        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
-        sgrubb@redhat.com, omosnace@redhat.com, dhowells@redhat.com,
-        simo@redhat.com, Eric Paris <eparis@parisplace.org>,
-        Serge Hallyn <serge@hallyn.com>, ebiederm@xmission.com,
-        nhorman@tuxdriver.com, Dan Walsh <dwalsh@redhat.com>,
-        mpatel@redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200122082853.GS29276@dhcp22.suse.cz>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Dec 31, 2019 at 2:51 PM Richard Guy Briggs <rgb@redhat.com> wrote:
->
-> Provide a mechanism similar to CAP_AUDIT_CONTROL to explicitly give a
-> process in a non-init user namespace the capability to set audit
-> container identifiers.
->
-> Provide /proc/$PID/audit_capcontid interface to capcontid.
-> Valid values are: 1==enabled, 0==disabled
+On Wed, Jan 22, 2020 at 09:28:53AM +0100, Michal Hocko wrote:
+> On Tue 21-01-20 10:32:12, Minchan Kim wrote:
+> > On Mon, Jan 20, 2020 at 08:58:25AM +0100, Michal Hocko wrote:
+> [...]
+> > > The interface really has to be robust to future potential usecases.
+> > 
+> > I do understand your concern but for me, it's chicken and egg problem.
+> > We usually do best effort to make something perfect as far as possible
+> > but we also don't do over-engineering without real usecase from the
+> > beginning.
+> > 
+> > I already told you how we could synchronize among processes and potential
+> > way to be extended Daniel suggested(That's why current API has extra field
+> > for the cookie) even though we don't need it right now.
+> 
+> If you can synchronize with the target task then you do not need a
+> remote interface. Just use ptrace and you are done with it.
 
-It would be good to be more explicit about "enabled" and "disabled" in
-the commit description.  For example, which setting allows the target
-task to set audit container IDs of it's children processes?
+As I mentioned in other reply, we want to do in caller's context, not
+callee's one because target processes stay in little cores, which are
+much slower than the core the manager lives in.
+The other reason is the apps are already freezed so they couldn't response
+by ptrace.
 
-> Report this action in message type AUDIT_SET_CAPCONTID 1022 with fields
-> opid= capcontid= old-capcontid=
->
-> Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-> ---
->  fs/proc/base.c             | 55 ++++++++++++++++++++++++++++++++++++++++++++++
->  include/linux/audit.h      | 14 ++++++++++++
->  include/uapi/linux/audit.h |  1 +
->  kernel/audit.c             | 35 +++++++++++++++++++++++++++++
->  4 files changed, 105 insertions(+)
+> 
+> > If you want to suggest the other way, please explain why your idea is
+> > better and why we need it at this moment.
+> 
+> I believe I have explained my concerns and why they matter. All you are
+> saying is that you do not care because your particular usecase doesn't
+> care. And that is a first signal of a future disaster when we end up
+> with a broken and unfixable interface we have to maintain for ever.
 
-...
+We already had suggested cookie and fd based approaches so I reserved a
+argument for that to make the API extendable.
+Thing is currently it's a just optimization idea since we have several
+ways to sychronize processes(e.g., signal, cgroup freezer, userfaultfd
+and so). It's a just matter of granularity, not necessary one we should
+introduce it from the beginnig.
+If someone needs that kinds of fine-grained consistency, we could extend
+it then. And that's the usual way we make progress when we couldn't
+know the future.
 
-> diff --git a/fs/proc/base.c b/fs/proc/base.c
-> index 26091800180c..283ef8e006e7 100644
-> --- a/fs/proc/base.c
-> +++ b/fs/proc/base.c
-> @@ -1360,6 +1360,59 @@ static ssize_t proc_contid_write(struct file *file, const char __user *buf,
->         .write          = proc_contid_write,
->         .llseek         = generic_file_llseek,
->  };
-> +
-> +static ssize_t proc_capcontid_read(struct file *file, char __user *buf,
-> +                                 size_t count, loff_t *ppos)
-> +{
-> +       struct inode *inode = file_inode(file);
-> +       struct task_struct *task = get_proc_task(inode);
-> +       ssize_t length;
-> +       char tmpbuf[TMPBUFLEN];
-> +
-> +       if (!task)
-> +               return -ESRCH;
-> +       /* if we don't have caps, reject */
-> +       if (!capable(CAP_AUDIT_CONTROL) && !audit_get_capcontid(current))
-> +               return -EPERM;
-> +       length = scnprintf(tmpbuf, TMPBUFLEN, "%u", audit_get_capcontid(task));
-> +       put_task_struct(task);
-> +       return simple_read_from_buffer(buf, count, ppos, tmpbuf, length);
-> +}
-> +
-> +static ssize_t proc_capcontid_write(struct file *file, const char __user *buf,
-> +                                  size_t count, loff_t *ppos)
-> +{
-> +       struct inode *inode = file_inode(file);
-> +       u32 capcontid;
-> +       int rv;
-> +       struct task_struct *task = get_proc_task(inode);
-> +
-> +       if (!task)
-> +               return -ESRCH;
-> +       if (*ppos != 0) {
-> +               /* No partial writes. */
-> +               put_task_struct(task);
-> +               return -EINVAL;
-> +       }
-> +
-> +       rv = kstrtou32_from_user(buf, count, 10, &capcontid);
-> +       if (rv < 0) {
-> +               put_task_struct(task);
-> +               return rv;
-> +       }
-> +
-> +       rv = audit_set_capcontid(task, capcontid);
-> +       put_task_struct(task);
-> +       if (rv < 0)
-> +               return rv;
-> +       return count;
-> +}
-> +
-> +static const struct file_operations proc_capcontid_operations = {
-> +       .read           = proc_capcontid_read,
-> +       .write          = proc_capcontid_write,
-> +       .llseek         = generic_file_llseek,
-> +};
->  #endif
->
->  #ifdef CONFIG_FAULT_INJECTION
-> @@ -3121,6 +3174,7 @@ static int proc_stack_depth(struct seq_file *m, struct pid_namespace *ns,
->         REG("loginuid",   S_IWUSR|S_IRUGO, proc_loginuid_operations),
->         REG("sessionid",  S_IRUGO, proc_sessionid_operations),
->         REG("audit_containerid", S_IWUSR|S_IRUSR, proc_contid_operations),
-> +       REG("audit_capcontainerid", S_IWUSR|S_IRUSR|S_IRUSR, proc_capcontid_operations),
->  #endif
->  #ifdef CONFIG_FAULT_INJECTION
->         REG("make-it-fail", S_IRUGO|S_IWUSR, proc_fault_inject_operations),
-> @@ -3522,6 +3576,7 @@ static int proc_tid_comm_permission(struct inode *inode, int mask)
->         REG("loginuid",  S_IWUSR|S_IRUGO, proc_loginuid_operations),
->         REG("sessionid",  S_IRUGO, proc_sessionid_operations),
->         REG("audit_containerid", S_IWUSR|S_IRUSR, proc_contid_operations),
-> +       REG("audit_capcontainerid", S_IWUSR|S_IRUSR|S_IRUSR, proc_capcontid_operations),
->  #endif
->  #ifdef CONFIG_FAULT_INJECTION
->         REG("make-it-fail", S_IRUGO|S_IWUSR, proc_fault_inject_operations),
-> diff --git a/include/linux/audit.h b/include/linux/audit.h
-> index 28b9c7cd86a6..62c453306c2a 100644
-> --- a/include/linux/audit.h
-> +++ b/include/linux/audit.h
-> @@ -116,6 +116,7 @@ struct audit_task_info {
->         kuid_t                  loginuid;
->         unsigned int            sessionid;
->         struct audit_contobj    *cont;
-> +       u32                     capcontid;
-
-Where is the code change that actually uses this to enforce the
-described policy on setting an audit container ID?
-
-> diff --git a/include/uapi/linux/audit.h b/include/uapi/linux/audit.h
-> index 2844d78cd7af..01251e6dcec0 100644
-> --- a/include/uapi/linux/audit.h
-> +++ b/include/uapi/linux/audit.h
-> @@ -73,6 +73,7 @@
->  #define AUDIT_GET_FEATURE      1019    /* Get which features are enabled */
->  #define AUDIT_CONTAINER_OP     1020    /* Define the container id and info */
->  #define AUDIT_SIGNAL_INFO2     1021    /* Get info auditd signal sender */
-> +#define AUDIT_SET_CAPCONTID    1022    /* Set cap_contid of a task */
->
->  #define AUDIT_FIRST_USER_MSG   1100    /* Userspace messages mostly uninteresting to kernel */
->  #define AUDIT_USER_AVC         1107    /* We filter this differently */
-> diff --git a/kernel/audit.c b/kernel/audit.c
-> index 1287f0b63757..1c22dd084ae8 100644
-> --- a/kernel/audit.c
-> +++ b/kernel/audit.c
-> @@ -2698,6 +2698,41 @@ static bool audit_contid_isowner(struct task_struct *tsk)
->         return false;
->  }
->
-> +int audit_set_capcontid(struct task_struct *task, u32 enable)
-> +{
-> +       u32 oldcapcontid;
-> +       int rc = 0;
-> +       struct audit_buffer *ab;
-> +
-> +       if (!task->audit)
-> +               return -ENOPROTOOPT;
-> +       oldcapcontid = audit_get_capcontid(task);
-> +       /* if task is not descendant, block */
-> +       if (task == current)
-> +               rc = -EBADSLT;
-> +       else if (!task_is_descendant(current, task))
-> +               rc = -EXDEV;
-
-See my previous comments about error code sanity.
-
-> +       else if (current_user_ns() == &init_user_ns) {
-> +               if (!capable(CAP_AUDIT_CONTROL) && !audit_get_capcontid(current))
-> +                       rc = -EPERM;
-
-I think we just want to use ns_capable() in the context of the current
-userns to check CAP_AUDIT_CONTROL, yes?  Something like this ...
-
-  if (current_user_ns() != &init_user_ns) {
-    if (!ns_capable(CAP_AUDIT_CONTROL) || !audit_get_capcontid())
-      rc = -EPERM;
-  } else if (!capable(CAP_AUDIT_CONTROL))
-    rc = -EPERM;
-
-> +       }
-> +       if (!rc)
-> +               task->audit->capcontid = enable;
-> +
-> +       if (!audit_enabled)
-> +               return rc;
-> +
-> +       ab = audit_log_start(audit_context(), GFP_KERNEL, AUDIT_SET_CAPCONTID);
-> +       if (!ab)
-> +               return rc;
-> +
-> +       audit_log_format(ab,
-> +                        "opid=%d capcontid=%u old-capcontid=%u",
-> +                        task_tgid_nr(task), enable, oldcapcontid);
-> +       audit_log_end(ab);
-
-My prior comments about recording the success/failure, or not emitting
-the record on failure, seem relevant here too.
-
-> +       return rc;
-> +}
-
---
-paul moore
-www.paul-moore.com
+What do you want to see further?
