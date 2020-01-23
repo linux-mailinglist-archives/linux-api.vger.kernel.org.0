@@ -2,111 +2,109 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EB84D1462AF
-	for <lists+linux-api@lfdr.de>; Thu, 23 Jan 2020 08:29:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1358D1462F4
+	for <lists+linux-api@lfdr.de>; Thu, 23 Jan 2020 08:56:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725818AbgAWH3N (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 23 Jan 2020 02:29:13 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:42326 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725777AbgAWH3N (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Jan 2020 02:29:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1579764551;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Swf1miaJ2KibF1rWEltK6FB4Al/NU26D9Z8MNRvgV1o=;
-        b=BKVRbpzL1QgKuQYQn5Y91fPzk0ZShh9q6OAe1YHPWDzlgFnelR2KSmsU+tHHTKUzr8s2j9
-        LJDi6QNs9jorpKxGLrw3tJ51HJgL4N+/+ACO/CgaIPPaQ15aaMX6cFbPMNcT/++i+i2qga
-        j7REJ23A4JLUU+5H5UYGgdqz3eqIgGE=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-170-WQn6wjm5MJ2wH2Ao0c9SSg-1; Thu, 23 Jan 2020 02:29:07 -0500
-X-MC-Unique: WQn6wjm5MJ2wH2Ao0c9SSg-1
-Received: by mail-wm1-f70.google.com with SMTP id t16so623629wmt.4
-        for <linux-api@vger.kernel.org>; Wed, 22 Jan 2020 23:29:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Swf1miaJ2KibF1rWEltK6FB4Al/NU26D9Z8MNRvgV1o=;
-        b=OITTs0KYQzIzps8OVWrynv+c5gpPYCxktcdxZ33CSdAQMxZPW+ItonTwa7PNJUDPz6
-         +1IOaePOmf2mdjZk6ucOqFOVxMFidM/NFPcync4eUuafWWFGVrzzVAj7E9Ip+R7QOtMm
-         CZgp2j5oLtPJTXFciSKsNRrHmiA1DWhkCNiQzBB4bO6qOT7SxTBaA4VDHiDd0hRy3stj
-         mEX8ASO1ZmAX9ZuujsHHpQElLUAJU2vsURPUjcxaRje93Ke21kkXyvxRr45q55PMFh7N
-         3qlTq2kpiIveEfFk+ruevUMxW0vg+qFYUOfFGeSTMrSs87inL4QPK2MYZVLITokEJQvh
-         JdfQ==
-X-Gm-Message-State: APjAAAXu2ke6zdfVcTjMLxw2wWZ3wYUpYrizmdycAhjA2AJp14y2X6F1
-        pEC8TcI8fEArOpQRy/Mr1zDolm2Te5jjTbHSaZgOVdXUSFcKBziLLDmnPpTv7dfOpZM+3LbHtK3
-        +/jqdIebRyYtzXzAqfCOx
-X-Received: by 2002:adf:fe0e:: with SMTP id n14mr16615726wrr.116.1579764546541;
-        Wed, 22 Jan 2020 23:29:06 -0800 (PST)
-X-Google-Smtp-Source: APXvYqynoI3k83YYvEjN9Vq70/cg2K/88hFd6YtoeaGnpbIqaxUURJKASpUHj31Q/0KxCIPHp2utJg==
-X-Received: by 2002:adf:fe0e:: with SMTP id n14mr16615675wrr.116.1579764546241;
-        Wed, 22 Jan 2020 23:29:06 -0800 (PST)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
-        by smtp.gmail.com with ESMTPSA id a9sm1509848wmm.15.2020.01.22.23.29.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jan 2020 23:29:04 -0800 (PST)
-Date:   Thu, 23 Jan 2020 08:29:04 +0100
-From:   Oleksandr Natalenko <oleksandr@redhat.com>
-To:     Minchan Kim <minchan@kernel.org>
-Cc:     "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Michal Hocko <mhocko@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
-        Suren Baghdasaryan <surenb@google.com>,
-        Tim Murray <timmurray@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Brian Geffon <bgeffon@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        John Dias <joaodias@google.com>, ktkhai@virtuozzo.com,
-        christian.brauner@ubuntu.com, sjpark@amazon.de
-Subject: Re: [PATCH v2 2/5] mm: introduce external memory hinting API
-Message-ID: <20200123072904.ludphxkxseyg2qli@butterfly.localdomain>
-References: <20200116235953.163318-1-minchan@kernel.org>
- <20200116235953.163318-3-minchan@kernel.org>
- <20200117115225.GV19428@dhcp22.suse.cz>
- <20200117155837.bowyjpndfiym6cgs@box>
- <20200117173239.GB140922@google.com>
- <20200117212653.7uftw3lk35oykkmb@box>
- <20200121181113.GE140922@google.com>
- <20200122104424.7gvrfivymjvdous4@butterfly.localdomain>
- <20200123014316.GB249784@google.com>
+        id S1725955AbgAWHz7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 23 Jan 2020 02:55:59 -0500
+Received: from terminus.zytor.com ([198.137.202.136]:37879 "EHLO
+        mail.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725785AbgAWHz7 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 23 Jan 2020 02:55:59 -0500
+Received: from carbon-x1.hos.anvin.org ([IPv6:2601:646:8600:3281:e7ea:4585:74bd:2ff0])
+        (authenticated bits=0)
+        by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id 00N7s0r21387140
+        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+        Wed, 22 Jan 2020 23:54:00 -0800
+Subject: Re: [RFC PATCH v1] pin_on_cpu: Introduce thread CPU pinning system
+ call
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Chris Lameter <cl@linux.com>
+Cc:     Jann Horn <jannh@google.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Joel Fernandes <joelaf@google.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Watson <davejwatson@fb.com>,
+        Will Deacon <will.deacon@arm.com>, shuah <shuah@kernel.org>,
+        Andi Kleen <andi@firstfloor.org>,
+        linux-kselftest <linux-kselftest@vger.kernel.org>,
+        Russell King <linux@arm.linux.org.uk>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Paul <paulmck@linux.vnet.ibm.com>, Paul Turner <pjt@google.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Josh Triplett <josh@joshtriplett.org>,
+        rostedt <rostedt@goodmis.org>, Ben Maurer <bmaurer@fb.com>,
+        linux-api <linux-api@vger.kernel.org>,
+        Andy Lutomirski <luto@amacapital.net>
+References: <20200121160312.26545-1-mathieu.desnoyers@efficios.com>
+ <CAG48ez2bQdoT9y7HkyU06DTazysUDdPdJe+gyV-NxgQA7JWQVQ@mail.gmail.com>
+ <430172781.596271.1579636021412.JavaMail.zimbra@efficios.com>
+ <CAG48ez2Z5CesMfandNK+S32Rrgp_QGQHqQ1Fpd5-YTsCWGfHeg@mail.gmail.com>
+ <2049164886.596497.1579641536619.JavaMail.zimbra@efficios.com>
+ <alpine.DEB.2.21.2001212141590.1231@www.lameter.com>
+ <1648013936.596672.1579655468604.JavaMail.zimbra@efficios.com>
+From:   "H. Peter Anvin" <hpa@zytor.com>
+Message-ID: <ead7a565-9a23-a7d7-904d-c4860f63952a@zytor.com>
+Date:   Wed, 22 Jan 2020 23:53:54 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200123014316.GB249784@google.com>
+In-Reply-To: <1648013936.596672.1579655468604.JavaMail.zimbra@efficios.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jan 22, 2020 at 05:43:16PM -0800, Minchan Kim wrote:
-> > It seems I've overlooked an important piece of this submission: one
-> > cannot apply the hint to all the anonymous mapping regardless of address
-> > range. For KSM I'd rather either have a possibility to hint all the
-> > anonymous mappings, or, as it was suggested previously, be able to iterate
-> > over existing mappings using some (fd-based?) API.
+On 2020-01-21 17:11, Mathieu Desnoyers wrote:
+> ----- On Jan 21, 2020, at 4:44 PM, Chris Lameter cl@linux.com wrote:
 > 
-> Thing is how you could identify a certan range is better for KSM than
-> others from external process?
+>> These scenarios are all pretty complex and will be difficult to understand
+>> for the user of these APIs.
+>>
+>> I think the easiest solution (and most comprehensible) is for the user
+>> space process that does per cpu operations to get some sort of signal. If
+>> its not able to handle that then terminate it. The code makes a basic
+>> assumption after all that the process is running on a specific cpu. If
+>> this is no longer the case then its better to abort if the process cannot
+>> handle moving to a different processor.
+> 
+> The point of pin_on_cpu() is to allow threads to access per-cpu data
+> structures belonging to a given CPU even if they cannot run on that
+> CPU (because it is offline).
+> 
+> I am not sure what scenario your signal delivery proposal aims to cover.
+> 
+> Just to try to put this into the context of a specific scenario to see
+> if I understand your point, is the following what you have in mind ?
+> 
+> 1. Thread A issues pin_on_cpu(5),
+> 2. Thread B issues sched_setaffinity removing cpu 5 from thread A's
+>    affinity mask,
+> 3. Noticing that it would generate an invalid combination, rather than
+>    failing sched_setaffinity, it would send a SIGSEGV (or other) signal
+>    to thread A.
+> 
+> Or so you have something entirely different in mind ?
+> 
 
-I think the info like this is kinda available via /proc/pid/smaps. It
-lists the ranges and the vmflags. But using it raises 2 concerns: one is
-the absence of guarantee the mappings won't change after smaps is read
-and the second one is that there's no separate vmflag for marking a vma
-as non-meregable (and IIRC from previous attempts on addressing this,
-we've already exhausted all the flags on 32-bit arches, so it is not
-something that can be trivially addressed).
+I would agree that this seems like the only sane option, or you will be in a
+world of hurt because of conflicting semantics. It is not just offlining, but
+what happens if a policy manager calls sched_setaffinity() on another thread
+-- and now the universe breaks because a library is updated to use this new
+system call which collides with the expectations of the policy manager.
 
--- 
-  Best regards,
-    Oleksandr Natalenko (post-factum)
-    Senior Software Maintenance Engineer
+There doesn't seem to be any way to get this to be a local event which doesn't
+break assumptions elsewhere in the system without making this an abort event
+of some type. However, signals are painful in their own right, mostly because
+of the lack of any infrastructure for allocating signals to libraries in user
+space. I was actually thinking about exactly that issue just this weekend.
+
+	-hpa
+
 
