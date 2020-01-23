@@ -2,114 +2,111 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B77AA1460D8
-	for <lists+linux-api@lfdr.de>; Thu, 23 Jan 2020 04:02:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EB84D1462AF
+	for <lists+linux-api@lfdr.de>; Thu, 23 Jan 2020 08:29:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726054AbgAWDCM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 22 Jan 2020 22:02:12 -0500
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:37057 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725933AbgAWDCM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 22 Jan 2020 22:02:12 -0500
-Received: by mail-pl1-f196.google.com with SMTP id c23so702573plz.4
-        for <linux-api@vger.kernel.org>; Wed, 22 Jan 2020 19:02:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=content-transfer-encoding:from:mime-version:subject:date:message-id
-         :references:cc:in-reply-to:to;
-        bh=QHwD3xJbxA6Bj+Yx1EYQsUkr/yHSHTopSLaHf+HB1LQ=;
-        b=J6gYOfoWW7D94l0Y7ebAoY3D9qsp2ivY4bRoViRNM2t+ygjSQ7c98hfo1U/XlqYySc
-         JojfwPv88Mja6A6xQTlrtoPOT36SxrfCvfj3t5/EqQfJCxSo0NcL1czveIgtaa7lDe95
-         L+vwHoDMjlgDTN7MvU7EIxsiGv1L9+qITCvUNfrbshL2PKCeiVc7vZB3qVeSzAkQSp+S
-         8VGp43i/tm1uGMM+3zQEztlAgfEXgCGnbBuZ/2w1MEV7J62DVCLiS10G//0E58+SgMsx
-         w946YabfAyizOwSP6vU1vxY35l/0xrrc1X+/j0QklraJ0iAJO6pkB3c74LgNhr3Brd1z
-         5FJg==
+        id S1725818AbgAWH3N (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 23 Jan 2020 02:29:13 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:42326 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725777AbgAWH3N (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Jan 2020 02:29:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1579764551;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Swf1miaJ2KibF1rWEltK6FB4Al/NU26D9Z8MNRvgV1o=;
+        b=BKVRbpzL1QgKuQYQn5Y91fPzk0ZShh9q6OAe1YHPWDzlgFnelR2KSmsU+tHHTKUzr8s2j9
+        LJDi6QNs9jorpKxGLrw3tJ51HJgL4N+/+ACO/CgaIPPaQ15aaMX6cFbPMNcT/++i+i2qga
+        j7REJ23A4JLUU+5H5UYGgdqz3eqIgGE=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-170-WQn6wjm5MJ2wH2Ao0c9SSg-1; Thu, 23 Jan 2020 02:29:07 -0500
+X-MC-Unique: WQn6wjm5MJ2wH2Ao0c9SSg-1
+Received: by mail-wm1-f70.google.com with SMTP id t16so623629wmt.4
+        for <linux-api@vger.kernel.org>; Wed, 22 Jan 2020 23:29:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:content-transfer-encoding:from:mime-version
-         :subject:date:message-id:references:cc:in-reply-to:to;
-        bh=QHwD3xJbxA6Bj+Yx1EYQsUkr/yHSHTopSLaHf+HB1LQ=;
-        b=c/eRklATtzPpCrGbMmeDweH2i+Ft5OZ7DkjsWcdHJW50YX+HFULIkfq0cr5uMRMpSk
-         qbg3lGIeow6Z/H/J33qi7gpKzPSh7AQL+9SQKKytS2vkazKTJbbAaVOJc9CSMdirYh7n
-         +aNKohk8dPII8t3RGJp6vFcd8jf8CT0ux1/T/274sPaoPzijxMV+CiJ+WV5IEdRaUuUA
-         3+NlWVn6NIE02gOx5n6ptY7a60+P+U9J1KrpGBB5QVjofkdG3BnmMaAQGBdJCAY42Wot
-         p2lWAZHvEg1Km6U+51pR+lo4I4I06O4OgCNXINlVk2QlN+5Vn7/dmKeYrryF5w+Qxm+1
-         Xcbw==
-X-Gm-Message-State: APjAAAXNyP1HiaBFzuCDzkTfeq2f2nAsV8YBixsci/ULA8sd8uCQ7Mc9
-        yZzUKHlohoys51qaCWPKDH9q7Q==
-X-Google-Smtp-Source: APXvYqx0ztp78PhfwAEOpZE9YOyLcEj6xDbpjw3B4QFYco9brX2bu9A5MvQuDHkORMpB6ZNtfDJ0aw==
-X-Received: by 2002:a17:90a:5215:: with SMTP id v21mr2014316pjh.31.1579748532131;
-        Wed, 22 Jan 2020 19:02:12 -0800 (PST)
-Received: from ?IPv6:2600:1010:b025:c4e4:c9ce:11e3:9a9e:90f0? ([2600:1010:b025:c4e4:c9ce:11e3:9a9e:90f0])
-        by smtp.gmail.com with ESMTPSA id y203sm312460pfb.65.2020.01.22.19.02.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Jan 2020 19:02:11 -0800 (PST)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From:   Andy Lutomirski <luto@amacapital.net>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH] mm: Add MREMAP_DONTUNMAP to mremap().
-Date:   Wed, 22 Jan 2020 19:02:08 -0800
-Message-Id: <CD5EA896-7364-40E2-8709-A014973FFBC8@amacapital.net>
-References: <20200123014627.71720-1-bgeffon@google.com>
-Cc:     linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
-        "Michael S . Tsirkin" <mst@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, Sonny Rao <sonnyrao@google.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Lokesh Gidra <lokeshgidra@google.com>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        Yu Zhao <yuzhao@google.com>, Jesse Barnes <jsbarnes@google.com>
-In-Reply-To: <20200123014627.71720-1-bgeffon@google.com>
-To:     Brian Geffon <bgeffon@google.com>
-X-Mailer: iPhone Mail (17C54)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Swf1miaJ2KibF1rWEltK6FB4Al/NU26D9Z8MNRvgV1o=;
+        b=OITTs0KYQzIzps8OVWrynv+c5gpPYCxktcdxZ33CSdAQMxZPW+ItonTwa7PNJUDPz6
+         +1IOaePOmf2mdjZk6ucOqFOVxMFidM/NFPcync4eUuafWWFGVrzzVAj7E9Ip+R7QOtMm
+         CZgp2j5oLtPJTXFciSKsNRrHmiA1DWhkCNiQzBB4bO6qOT7SxTBaA4VDHiDd0hRy3stj
+         mEX8ASO1ZmAX9ZuujsHHpQElLUAJU2vsURPUjcxaRje93Ke21kkXyvxRr45q55PMFh7N
+         3qlTq2kpiIveEfFk+ruevUMxW0vg+qFYUOfFGeSTMrSs87inL4QPK2MYZVLITokEJQvh
+         JdfQ==
+X-Gm-Message-State: APjAAAXu2ke6zdfVcTjMLxw2wWZ3wYUpYrizmdycAhjA2AJp14y2X6F1
+        pEC8TcI8fEArOpQRy/Mr1zDolm2Te5jjTbHSaZgOVdXUSFcKBziLLDmnPpTv7dfOpZM+3LbHtK3
+        +/jqdIebRyYtzXzAqfCOx
+X-Received: by 2002:adf:fe0e:: with SMTP id n14mr16615726wrr.116.1579764546541;
+        Wed, 22 Jan 2020 23:29:06 -0800 (PST)
+X-Google-Smtp-Source: APXvYqynoI3k83YYvEjN9Vq70/cg2K/88hFd6YtoeaGnpbIqaxUURJKASpUHj31Q/0KxCIPHp2utJg==
+X-Received: by 2002:adf:fe0e:: with SMTP id n14mr16615675wrr.116.1579764546241;
+        Wed, 22 Jan 2020 23:29:06 -0800 (PST)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+        by smtp.gmail.com with ESMTPSA id a9sm1509848wmm.15.2020.01.22.23.29.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jan 2020 23:29:04 -0800 (PST)
+Date:   Thu, 23 Jan 2020 08:29:04 +0100
+From:   Oleksandr Natalenko <oleksandr@redhat.com>
+To:     Minchan Kim <minchan@kernel.org>
+Cc:     "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Michal Hocko <mhocko@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
+        Suren Baghdasaryan <surenb@google.com>,
+        Tim Murray <timmurray@google.com>,
+        Daniel Colascione <dancol@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Brian Geffon <bgeffon@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        John Dias <joaodias@google.com>, ktkhai@virtuozzo.com,
+        christian.brauner@ubuntu.com, sjpark@amazon.de
+Subject: Re: [PATCH v2 2/5] mm: introduce external memory hinting API
+Message-ID: <20200123072904.ludphxkxseyg2qli@butterfly.localdomain>
+References: <20200116235953.163318-1-minchan@kernel.org>
+ <20200116235953.163318-3-minchan@kernel.org>
+ <20200117115225.GV19428@dhcp22.suse.cz>
+ <20200117155837.bowyjpndfiym6cgs@box>
+ <20200117173239.GB140922@google.com>
+ <20200117212653.7uftw3lk35oykkmb@box>
+ <20200121181113.GE140922@google.com>
+ <20200122104424.7gvrfivymjvdous4@butterfly.localdomain>
+ <20200123014316.GB249784@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200123014316.GB249784@google.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Wed, Jan 22, 2020 at 05:43:16PM -0800, Minchan Kim wrote:
+> > It seems I've overlooked an important piece of this submission: one
+> > cannot apply the hint to all the anonymous mapping regardless of address
+> > range. For KSM I'd rather either have a possibility to hint all the
+> > anonymous mappings, or, as it was suggested previously, be able to iterate
+> > over existing mappings using some (fd-based?) API.
+> 
+> Thing is how you could identify a certan range is better for KSM than
+> others from external process?
 
+I think the info like this is kinda available via /proc/pid/smaps. It
+lists the ranges and the vmflags. But using it raises 2 concerns: one is
+the absence of guarantee the mappings won't change after smaps is read
+and the second one is that there's no separate vmflag for marking a vma
+as non-meregable (and IIRC from previous attempts on addressing this,
+we've already exhausted all the flags on 32-bit arches, so it is not
+something that can be trivially addressed).
 
-> On Jan 22, 2020, at 5:46 PM, Brian Geffon <bgeffon@google.com> wrote:
->=20
-> =EF=BB=BFMREMAP_DONTUNMAP is an additional flag that can be used with
-> MREMAP_FIXED to move a mapping to a new address. Normally, mremap(2)
-> would then tear down the old vma so subsequent accesses to the vma
-> cause a segfault. However, with this new flag it will keep the old
-> vma with zapping PTEs so any access to the old VMA after that point
-> will result in a pagefault.
+-- 
+  Best regards,
+    Oleksandr Natalenko (post-factum)
+    Senior Software Maintenance Engineer
 
-This needs a vastly better description. Perhaps:
-
-When remapping an anonymous, private mapping, if MREMAP_DONTUNMAP is set, th=
-e source mapping will not be removed. Instead it will be cleared as if a bra=
-nd new anonymous, private mapping had been created atomically as part of the=
- mremap() call.  If a userfaultfd was watching the source, it will continue t=
-o watch the new mapping.  For a mapping that is shared or not anonymous, MRE=
-MAP_DONTUNMAP will cause the mremap() call to fail.
-
-Or is it something else?
-
->=20
-> This feature will find a use in ChromeOS along with userfaultfd.
-> Specifically we will want to register a VMA with userfaultfd and then
-> pull it out from under a running process. By using MREMAP_DONTUNMAP we
-> don't have to worry about mprotecting and then potentially racing with
-> VMA permission changes from a running process.
-
-Does this mean you yank it out but you want to replace it simultaneously?
-
->=20
-> This feature also has a use case in Android, Lokesh Gidra has said
-> that "As part of using userfaultfd for GC, We'll have to move the physical=
-
-> pages of the java heap to a separate location. For this purpose mremap
-> will be used. Without the MREMAP_DONTUNMAP flag, when I mremap the java
-> heap, its virtual mapping will be removed as well. Therefore, we'll
-> require performing mmap immediately after. This is not only time consuming=
-
-> but also opens a time window where a native thread may call mmap and
-> reserve the java heap's address range for its own usage. This flag
-> solves the problem."
-
-Cute.=
