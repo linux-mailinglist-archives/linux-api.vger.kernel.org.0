@@ -2,85 +2,96 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DD44414868B
-	for <lists+linux-api@lfdr.de>; Fri, 24 Jan 2020 15:07:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 88AF3148967
+	for <lists+linux-api@lfdr.de>; Fri, 24 Jan 2020 15:35:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388639AbgAXOHZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 24 Jan 2020 09:07:25 -0500
-Received: from 216-12-86-13.cv.mvl.ntelos.net ([216.12.86.13]:52890 "EHLO
-        brightrain.aerifal.cx" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387412AbgAXOHY (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 24 Jan 2020 09:07:24 -0500
-Received: from dalias by brightrain.aerifal.cx with local (Exim 3.15 #2)
-        id 1iuzcH-0001sV-00; Fri, 24 Jan 2020 14:07:21 +0000
-Date:   Fri, 24 Jan 2020 09:07:21 -0500
-From:   Rich Felker <dalias@libc.org>
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>
-Subject: Re: Proposal to fix pwrite with O_APPEND via pwritev2 flag
-Message-ID: <20200124140721.GV30412@brightrain.aerifal.cx>
-References: <20200124000243.GA12112@brightrain.aerifal.cx>
- <87d0b942lp.fsf@oldenburg2.str.redhat.com>
+        id S2392081AbgAXOTs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 24 Jan 2020 09:19:48 -0500
+Received: from mail.kernel.org ([198.145.29.99]:40354 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2392053AbgAXOTr (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 24 Jan 2020 09:19:47 -0500
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2B9C220838;
+        Fri, 24 Jan 2020 14:19:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1579875587;
+        bh=AyQZ3DCIZe67RaeskNigaXupa+yKmrbdFSbdO1ig+so=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=kwPSen6z9f3Lg6yO5K8ftTYkFgCgXNfG53P/reflJ51pnz3p2l0clV09zMBpGHWoq
+         P6Z/orZ+dgDQtuvUCxxgvCI7ZJaftEmk3uiVMz+UJ0hL5VjugLjLfakGozMOmv53+Z
+         8adjdLNIRwSli95DyO/2+vQq0duuyPKtZhPRUyvs=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Petr Machata <petrm@mellanox.com>, Amit Cohen <amitc@mellanox.com>,
+        Ido Schimmel <idosch@mellanox.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Sasha Levin <sashal@kernel.org>, linux-api@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 077/107] selftests: mlxsw: qos_mc_aware: Fix mausezahn invocation
+Date:   Fri, 24 Jan 2020 09:17:47 -0500
+Message-Id: <20200124141817.28793-77-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200124141817.28793-1-sashal@kernel.org>
+References: <20200124141817.28793-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87d0b942lp.fsf@oldenburg2.str.redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jan 24, 2020 at 10:37:22AM +0100, Florian Weimer wrote:
-> * Rich Felker:
-> 
-> > There's a longstanding unfixable (due to API stability) bug in the
-> > pwrite syscall:
-> >
-> > http://man7.org/linux/man-pages/man2/pwrite.2.html#BUGS
-> >
-> > whereby it wrongly honors O_APPEND if set, ignoring the caller-passed
-> > offset. Now that there's a pwritev2 syscall that takes a flags
-> > argument, it's possible to fix this without breaking stability by
-> > adding a new RWF_NOAPPEND flag, which callers that want the fixed
-> > behavior can then pass.
-> >
-> > I have a completely untested patch to add such a flag, but would like
-> > to get a feel for whether the concept is acceptable before putting
-> > time into testing it. If so, I'll submit this as a proper patch with
-> > detailed commit message etc. Draft is below.
-> 
-> Has this come up before?
+From: Petr Machata <petrm@mellanox.com>
 
-I'm not sure if there's an open glibc bug for it or not, but it's come
-up in musl community before that the kernel is non-conforming here for
-historical reasons (preserving the original bug in case any software
-is depending on it) and we've always wanted to have a fix, but
-couldn't find one short of just erroring out if O_APPEND is set when
-pwrite is called. That's what the fallback will do (rather than
-silently write data at the wrong place) if pwritev2+RWF_NOAPPEND is
-not supported on the system at runtime.
+[ Upstream commit fef6d6704944c7be72fd2b77c021f1aed3d5df0d ]
 
-> I had already written a test case and it turns out that an O_APPEND
-> descriptor does not protect the previously written data in the file:
-> 
-> openat(AT_FDCWD, "/tmp/append-truncateuoRexJ", O_RDWR|O_CREAT|O_EXCL, 0600) = 3
-> write(3, "@", 1)                        = 1
-> close(3)                                = 0
-> openat(AT_FDCWD, "/tmp/append-truncateuoRexJ", O_WRONLY|O_APPEND) = 3
-> ftruncate(3, 0)                         = 0
-> 
-> So at least it looks like there is no security issue in adding a
-> RWF_NOAPPEND flag.
+Mausezahn does not recognize "own" as a keyword on source IP address. As a
+result, the MC stream is not running at all, and therefore no UC
+degradation can be observed even in principle.
 
-Indeed, if you have the file open you can just use fcntl to remove
-O_APPEND (but of course using that in an emulation would be racy), so
-it's not a security boundary. Someone could try to "make it into one"
-with seccomp, blocking fcntl that would remove O_APPEND and blocking
-ftruncate, mmap, and all other ways you could modify the existing part
-of the file, but that sounds fragile, and if they really want to do
-that they can block pwritev2 as well (or at least block it with
-RWF_NOAPPEND or future/unknown flags).
+Fix the invocation, and tighten the test: due to the minimum shaper
+configured at the MC TCs, we always expect about 20% degradation. Fail the
+test if it is lower.
 
-Rich
+Fixes: 573363a68f27 ("selftests: mlxsw: Add qos_lib.sh")
+Signed-off-by: Petr Machata <petrm@mellanox.com>
+Reported-by: Amit Cohen <amitc@mellanox.com>
+Signed-off-by: Ido Schimmel <idosch@mellanox.com>
+Signed-off-by: David S. Miller <davem@davemloft.net>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ tools/testing/selftests/drivers/net/mlxsw/qos_mc_aware.sh | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/tools/testing/selftests/drivers/net/mlxsw/qos_mc_aware.sh b/tools/testing/selftests/drivers/net/mlxsw/qos_mc_aware.sh
+index 47315fe48d5af..24dd8ed485802 100755
+--- a/tools/testing/selftests/drivers/net/mlxsw/qos_mc_aware.sh
++++ b/tools/testing/selftests/drivers/net/mlxsw/qos_mc_aware.sh
+@@ -232,7 +232,7 @@ test_mc_aware()
+ 	stop_traffic
+ 	local ucth1=${uc_rate[1]}
+ 
+-	start_traffic $h1 own bc bc
++	start_traffic $h1 192.0.2.65 bc bc
+ 
+ 	local d0=$(date +%s)
+ 	local t0=$(ethtool_stats_get $h3 rx_octets_prio_0)
+@@ -254,7 +254,11 @@ test_mc_aware()
+ 			ret = 100 * ($ucth1 - $ucth2) / $ucth1
+ 			if (ret > 0) { ret } else { 0 }
+ 		    ")
+-	check_err $(bc <<< "$deg > 25")
++
++	# Minimum shaper of 200Mbps on MC TCs should cause about 20% of
++	# degradation on 1Gbps link.
++	check_err $(bc <<< "$deg < 15") "Minimum shaper not in effect"
++	check_err $(bc <<< "$deg > 25") "MC traffic degrades UC performance too much"
+ 
+ 	local interval=$((d1 - d0))
+ 	local mc_ir=$(rate $u0 $u1 $interval)
+-- 
+2.20.1
+
