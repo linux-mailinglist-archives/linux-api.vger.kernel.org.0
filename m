@@ -2,98 +2,83 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A8F041475FA
-	for <lists+linux-api@lfdr.de>; Fri, 24 Jan 2020 02:17:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 18FF5147A3A
+	for <lists+linux-api@lfdr.de>; Fri, 24 Jan 2020 10:18:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730344AbgAXBRP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 23 Jan 2020 20:17:15 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60070 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730325AbgAXBRO (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 23 Jan 2020 20:17:14 -0500
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 324BB206A2;
-        Fri, 24 Jan 2020 01:17:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579828633;
-        bh=AUJ7Mi/W3UD5YTk3TevtD9PxZSR5axwLwf8CCIlNtWM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=So66+xsJYNV9ZT/TEa74XH9MIJc/X7/1A2vWMrEK9jdlObHnQPBy9t/u1xt4YljxF
-         EG7GRHBIxgQ9IGKTGqOFneBRRsmRrUImWAyyC4NiEaVBxrbVgBf1jn4d6Zik7PBXjQ
-         VP/7xz2tHeL6vOrIlMaiOl8irAfcyAD0o5dB8+HE=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Andrii Nakryiko <andriin@fb.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-api@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 04/33] libbpf: Fix BTF-defined map's __type macro handling of arrays
-Date:   Thu, 23 Jan 2020 20:16:39 -0500
-Message-Id: <20200124011708.18232-4-sashal@kernel.org>
+        id S1730134AbgAXJR6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 24 Jan 2020 04:17:58 -0500
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:45105 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729575AbgAXJR6 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 24 Jan 2020 04:17:58 -0500
+Received: by mail-pg1-f196.google.com with SMTP id b9so690949pgk.12
+        for <linux-api@vger.kernel.org>; Fri, 24 Jan 2020 01:17:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sargun.me; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FFs/EsdtRscf8mrY/Jnn+OFoGxG7CxqnjEoCeXl2Nps=;
+        b=G4Cbvo9JI2cOaoZ6s2snBtga4+6+zZ+SvltXUrVS9l2l0ftyHUrsFQBF5pip5iYmTQ
+         RmT6PoG48wReiyER4H92O0wJC/aLoWEvH+SW3hzCxtOpJFbejVmFC5BsD1cMjGbyKJcp
+         alEdqeIiup81GNvrnPtLSqvYYHW646cUh/DdA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FFs/EsdtRscf8mrY/Jnn+OFoGxG7CxqnjEoCeXl2Nps=;
+        b=O4PGwkaLZ10nLupWnczuJfNqK7RsVJsn+ML3UTLzEQOEiOOnUnNVPioPf2uIlV1mpx
+         tpywzEUdiujta3vVwhR4KE9kjW7h2K6XC/TFoRQQ2XcFFBR46ZwCoiegnSRUeSs46a06
+         3eJH4+bPv8Kl0bkU5xvF0rlLBwY43D6IKXkd4EFNlVzmJ5+1o9y8E4oqfVs82chjlPIw
+         mzQwy6UY/Qw8ScMcDg4g0zFzhkqLQ6h2aRFRBFbyzR0euP17D9AKzXWuSV0csVfcXkVC
+         mSrhkEc9ASpx2NCPwa4aiP0WOOvCAb0fy5ZPaPX2rFJtyjqmDBaevNM1XsR/F5s8pLWT
+         zq2A==
+X-Gm-Message-State: APjAAAWQGq/TFGJFfFIY1ZKVnPVa9Sm7wbsgroTfoBI+UaPUPWn6ZQJx
+        lQP90ALar3Phid10oQYQPdXOmw==
+X-Google-Smtp-Source: APXvYqzLdYRkEKsSqDWOYv8GoFK+AQpSZfH5CoQU2dOQbZHX4rkib4veekPke6G0fxy+dn+UfaXSuw==
+X-Received: by 2002:a63:946:: with SMTP id 67mr2925580pgj.277.1579857477139;
+        Fri, 24 Jan 2020 01:17:57 -0800 (PST)
+Received: from ubuntu.netflix.com (203.20.25.136.in-addr.arpa. [136.25.20.203])
+        by smtp.gmail.com with ESMTPSA id y14sm5459507pfe.147.2020.01.24.01.17.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Jan 2020 01:17:56 -0800 (PST)
+From:   Sargun Dhillon <sargun@sargun.me>
+To:     linux-kernel@vger.kernel.org,
+        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Cc:     Sargun Dhillon <sargun@sargun.me>, tycho@tycho.ws,
+        christian.brauner@ubuntu.com
+Subject: [PATCH 0/4] Add the ability to get a pidfd on seccomp user notifications
+Date:   Fri, 24 Jan 2020 01:17:39 -0800
+Message-Id: <20200124091743.3357-1-sargun@sargun.me>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200124011708.18232-1-sashal@kernel.org>
-References: <20200124011708.18232-1-sashal@kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Andrii Nakryiko <andriin@fb.com>
+This patchset adds the ability for users of the seccomp user notification API
+to receive the pidfd of the process which triggered the notification. It is
+an optional feature that users must opt into by setting a flag when they
+call the ioctl. With enhancements to other APIs, it should decrease
+the need for the cookie-checking mechanism.
 
-[ Upstream commit a53ba15d81995868651dd28a85d8045aef3d4e20 ]
+Sargun Dhillon (4):
+  pid: Add pidfd_create_file helper
+  fork: Use newly created pidfd_create_file helper
+  seccomp: Add SECCOMP_USER_NOTIF_FLAG_PIDFD to get pidfd on listener
+    trap
+  selftests/seccomp: test SECCOMP_USER_NOTIF_FLAG_PIDFD
 
-Due to a quirky C syntax of declaring pointers to array or function
-prototype, existing __type() macro doesn't work with map key/value types
-that are array or function prototype. One has to create a typedef first
-and use it to specify key/value type for a BPF map.  By using typeof(),
-pointer to type is now handled uniformly for all kinds of types. Convert
-one of self-tests as a demonstration.
+ include/linux/pid.h                           |   1 +
+ include/uapi/linux/seccomp.h                  |   4 +
+ kernel/fork.c                                 |   4 +-
+ kernel/pid.c                                  |  22 ++++
+ kernel/seccomp.c                              |  68 ++++++++++-
+ tools/testing/selftests/seccomp/seccomp_bpf.c | 110 ++++++++++++++++++
+ 6 files changed, 200 insertions(+), 9 deletions(-)
 
-Signed-off-by: Andrii Nakryiko <andriin@fb.com>
-Signed-off-by: Alexei Starovoitov <ast@kernel.org>
-Link: https://lore.kernel.org/bpf/20191004040211.2434033-1-andriin@fb.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- tools/testing/selftests/bpf/bpf_helpers.h                | 2 +-
- tools/testing/selftests/bpf/progs/test_get_stack_rawtp.c | 3 +--
- 2 files changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/tools/testing/selftests/bpf/bpf_helpers.h b/tools/testing/selftests/bpf/bpf_helpers.h
-index 54a50699bbfda..9f77cbaac01c1 100644
---- a/tools/testing/selftests/bpf/bpf_helpers.h
-+++ b/tools/testing/selftests/bpf/bpf_helpers.h
-@@ -3,7 +3,7 @@
- #define __BPF_HELPERS__
- 
- #define __uint(name, val) int (*name)[val]
--#define __type(name, val) val *name
-+#define __type(name, val) typeof(val) *name
- 
- /* helper macro to print out debug messages */
- #define bpf_printk(fmt, ...)				\
-diff --git a/tools/testing/selftests/bpf/progs/test_get_stack_rawtp.c b/tools/testing/selftests/bpf/progs/test_get_stack_rawtp.c
-index f8ffa3f3d44bb..6cc4479ac9df6 100644
---- a/tools/testing/selftests/bpf/progs/test_get_stack_rawtp.c
-+++ b/tools/testing/selftests/bpf/progs/test_get_stack_rawtp.c
-@@ -47,12 +47,11 @@ struct {
-  * issue and avoid complicated C programming massaging.
-  * This is an acceptable workaround since there is one entry here.
-  */
--typedef __u64 raw_stack_trace_t[2 * MAX_STACK_RAWTP];
- struct {
- 	__uint(type, BPF_MAP_TYPE_PERCPU_ARRAY);
- 	__uint(max_entries, 1);
- 	__type(key, __u32);
--	__type(value, raw_stack_trace_t);
-+	__type(value, __u64[2 * MAX_STACK_RAWTP]);
- } rawdata_map SEC(".maps");
- 
- SEC("raw_tracepoint/sys_enter")
 -- 
 2.20.1
 
