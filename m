@@ -2,119 +2,111 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BB8A2149BA2
-	for <lists+linux-api@lfdr.de>; Sun, 26 Jan 2020 16:47:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BD739149D23
+	for <lists+linux-api@lfdr.de>; Sun, 26 Jan 2020 23:06:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728900AbgAZPre (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 26 Jan 2020 10:47:34 -0500
-Received: from mail-yb1-f196.google.com ([209.85.219.196]:45690 "EHLO
-        mail-yb1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726911AbgAZPrd (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 26 Jan 2020 10:47:33 -0500
-Received: by mail-yb1-f196.google.com with SMTP id x191so3689882ybg.12;
-        Sun, 26 Jan 2020 07:47:32 -0800 (PST)
+        id S1727349AbgAZWGr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 26 Jan 2020 17:06:47 -0500
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:37385 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727307AbgAZWGr (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 26 Jan 2020 17:06:47 -0500
+Received: by mail-lf1-f68.google.com with SMTP id b15so4906467lfc.4
+        for <linux-api@vger.kernel.org>; Sun, 26 Jan 2020 14:06:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=2xbk8AdWIZmse3B+nB63l0NWf7gcst2GZzaX7cH6+Rk=;
-        b=Sny0GkweHawfCGschvMy3kTofssyVxPCS0Xe31agFEXH2DnfkqrnpH9Qyfc0gNUm2S
-         7/AxdrHFGQwY2H2dwiP6rvG6tCa7XACRTKzmPzFznJhJj08lAQpMtHczqCjOGVCU3x+i
-         zKP8nUcKQMAGb+UYmJb/7ryPB9Mw/U2oiz1UKb0fPoF4mF5BudiQ2dEx90xLxw5otSAp
-         9fmRu8WNfNuljNOayIvT5boniU6zQErTGsj2ZcYbdPf9aYoDfo7PhcvB8UrjlDlca8ve
-         jVuxbKvrGw1ydhKIIlA+chqZ+AFVeyamBxcdcAyYqTIT47/2VyegmFJdmAFCjlMdBUt1
-         zm2g==
+        d=shutemov-name.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=bIjpqXTvBSR6objHCm0IzTR/hQ3TPrKkme7EJy7SinQ=;
+        b=vd7wN7vaZJfsftvGGeIdYEwGAd4ISoPUjH4z/airo4c26P52SSKuDuY4RS0FCTd3jk
+         KGJuozw/CRaeDQ8RBJpp+oWUfc2eDnUbiMFkXFrBXbs5ojteYSba/dGN1A/1KxD1aEzs
+         kwJfOZOp2vtTZ1sI5xIYQJlNEmUxEGX6JXv4Xurm4zHypuUTquU8mvoaBx/394qcnVUj
+         RzzbO3aM80carMr02Nqzb6oeiw1Uu4+S5GWqP8R0NK6qJX9IlkQ0sONrEey8uSOh9ukr
+         a/5FajX0UzsqgSnvcxbbzkeC25sud1T/2dcmQXy0fbovFOy/mw4wm/rc/xExEVA6kt85
+         nmPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to:user-agent;
-        bh=2xbk8AdWIZmse3B+nB63l0NWf7gcst2GZzaX7cH6+Rk=;
-        b=sE1iBQhXJKqk3dnxjrV84NaUng/MThGt9t4HXisR7umWdEscNHW3Sg/wEZ0zaf7OvN
-         oJ8oyJhABgxVxqkMNOsr1Ccfr5NMiCPVfiwQZa/tOm1nH2z0OJvqoIUQz4h6l5S6HWO4
-         P8y5GyZ6Eni1VpMdG2xJtoL5L7DkgTMXLQL95dTz7N1Ly6mAwbu85aT2M5ENkvzrFU5u
-         SBFlnZlX4U1aKEhqW8Zx+IT+sutIXZQxlM8Qb0BNH+hXha4ygBYjxcSOfnAPOVtOQnvi
-         M91hy0QxtPf9zbiyYlzjEDtljPThXRgQ8vpmoaRIf1QSrK+0afZtOfXmb90dVaDyrFye
-         ZU1Q==
-X-Gm-Message-State: APjAAAW5L59UXXt3D77Rzc/IUjwT4Y7uevQMB8UGCTGWmIJxIdcE/y4j
-        WiNsddUUqxQM4MK/QIM/ldw=
-X-Google-Smtp-Source: APXvYqxvf/6JwAOXZhkX95ONMDryWNE+o/mE5fN9F9087lRqh1nXGJlr9CV8HaTXjy7HRjgfZPOGKQ==
-X-Received: by 2002:a25:ef51:: with SMTP id w17mr10381069ybm.477.1580053652415;
-        Sun, 26 Jan 2020 07:47:32 -0800 (PST)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id d188sm1747466ywe.50.2020.01.26.07.47.31
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 26 Jan 2020 07:47:31 -0800 (PST)
-Date:   Sun, 26 Jan 2020 07:47:30 -0800
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     David Howells <dhowells@redhat.com>
-Cc:     torvalds@linux-foundation.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Stephen Smalley <sds@tycho.nsa.gov>, nicolas.dichtel@6wind.com,
-        raven@themaw.net, Christian Brauner <christian@brauner.io>,
-        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-security-module@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 07/14] Add sample notification program [ver #3]
-Message-ID: <20200126154730.GA18893@roeck-us.net>
-References: <157909503552.20155.3030058841911628518.stgit@warthog.procyon.org.uk>
- <157909509882.20155.1159021562184142124.stgit@warthog.procyon.org.uk>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=bIjpqXTvBSR6objHCm0IzTR/hQ3TPrKkme7EJy7SinQ=;
+        b=ROa1yIyLyEtVXlHJuTTPkm4o6+M+ejb3PuyilJr/DOPOHgRiphtw02krYUJM+W8cCO
+         QpI7V1l/s0Sm9cCifRrxsvb/cDAt88kRtl5r4dUWbcPxLthae+Yg+1LnO/nOT+h7fUSv
+         irfkc6vHcF52PfyqCUwHSvKm82j82DfJxtNRrFoZ5SxkYuqTe7lX4gXS2JmEmyWvNArM
+         gWfCjcUxAuYgthn/LoZwsBar9V33SdoyyNwH92FdO/H7MSUMaeyfYgGCNlTTXaih2jlw
+         4KTHjxBwo6btUY15eR8ueOZQHbsk+3sCcpN9HAq33AsED75f026JTTa6XQBA9z1pnFrh
+         xcHw==
+X-Gm-Message-State: APjAAAXe34gWUD1gLLdCp65qydlfnOgLjFJE6I6/Nf4RezvCGKTg04vP
+        kYRT9ELzoMGQQa/9DwN+OvVvKw==
+X-Google-Smtp-Source: APXvYqzcewzG3j/TNt2F5XioQ+wUekZmF3eUnjfjLtEYPRrWC1YWX5O7aKsWt9YIO7SAizSUaGlpNQ==
+X-Received: by 2002:a19:4855:: with SMTP id v82mr6199593lfa.197.1580076405722;
+        Sun, 26 Jan 2020 14:06:45 -0800 (PST)
+Received: from box.localdomain ([86.57.175.117])
+        by smtp.gmail.com with ESMTPSA id w20sm7129060ljo.33.2020.01.26.14.06.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Jan 2020 14:06:44 -0800 (PST)
+Received: by box.localdomain (Postfix, from userid 1000)
+        id 0082B100301; Mon, 27 Jan 2020 01:06:50 +0300 (+03)
+Date:   Mon, 27 Jan 2020 01:06:50 +0300
+From:   "Kirill A. Shutemov" <kirill@shutemov.name>
+To:     Brian Geffon <bgeffon@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        "Michael S . Tsirkin" <mst@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-api@vger.kernel.org,
+        Andy Lutomirski <luto@amacapital.net>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Yu Zhao <yuzhao@google.com>, Jesse Barnes <jsbarnes@google.com>
+Subject: Re: [PATCH v2] mm: Add MREMAP_DONTUNMAP to mremap().
+Message-ID: <20200126220650.i4lwljpvohpgvsi2@box>
+References: <20200123014627.71720-1-bgeffon@google.com>
+ <20200124190625.257659-1-bgeffon@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <157909509882.20155.1159021562184142124.stgit@warthog.procyon.org.uk>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20200124190625.257659-1-bgeffon@google.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jan 15, 2020 at 01:31:38PM +0000, David Howells wrote:
-> The sample program is run like:
-> 
-> 	./samples/watch_queue/watch_test
-> 
-> and watches "/" for mount changes and the current session keyring for key
-> changes:
-> 
-> 	# keyctl add user a a @s
-> 	1035096409
-> 	# keyctl unlink 1035096409 @s
-> 
-> producing:
-> 
-> 	# ./watch_test
-> 	read() = 16
-> 	NOTIFY[000]: ty=000001 sy=02 i=00000110
-> 	KEY 2ffc2e5d change=2[linked] aux=1035096409
-> 	read() = 16
-> 	NOTIFY[000]: ty=000001 sy=02 i=00000110
-> 	KEY 2ffc2e5d change=3[unlinked] aux=1035096409
-> 
-> Other events may be produced, such as with a failing disk:
-> 
-> 	read() = 22
-> 	NOTIFY[000]: ty=000003 sy=02 i=00000416
-> 	USB 3-7.7 dev-reset e=0 r=0
-> 	read() = 24
-> 	NOTIFY[000]: ty=000002 sy=06 i=00000418
-> 	BLOCK 00800050 e=6[critical medium] s=64000ef8
-> 
-> This corresponds to:
-> 
-> 	blk_update_request: critical medium error, dev sdf, sector 1677725432 op 0x0:(READ) flags 0x0 phys_seg 1 prio class 0
-> 
-> in dmesg.
-> 
-> Signed-off-by: David Howells <dhowells@redhat.com>
+On Fri, Jan 24, 2020 at 11:06:25AM -0800, Brian Geffon wrote:
+> When remapping an anonymous, private mapping, if MREMAP_DONTUNMAP is
+> set, the source mapping will not be removed. Instead it will be
+> cleared as if a brand new anonymous, private mapping had been created
+> atomically as part of the mremap() call.  If a userfaultfd was watching
+> the source, it will continue to watch the new mapping.  For a mapping
+> that is shared or not anonymous, MREMAP_DONTUNMAP will cause the
+> mremap() call to fail. MREMAP_DONTUNMAP implies that MREMAP_FIXED is
+> also used.
 
-mips:allmodconfig:
+Implies? From code it looks like it requires MREMAP_FIXED. And
+MREMAP_FIXED requires MREMAP_MAYMOVE. That's strange flag chaining.
+I don't really see need in such dependencies. It maybe indeed implied, not
+requied.
 
-samples/watch_queue/watch_test.c: In function ‘keyctl_watch_key’:
-samples/watch_queue/watch_test.c:34:17: error: ‘__NR_keyctl’ undeclared
+> The final result is two equally sized VMAs where the
+> destination contains the PTEs of the source.
 
-Guenter
+Could you clarify rmap situation here? How the rmap hierarchy will look
+like before and after the operation. Can the new VMA merge with the old
+one? Sounds fishy to me.
+
+> We hope to use this in Chrome OS where with userfaultfd we could write
+> an anonymous mapping to disk without having to STOP the process or worry
+> about VMA permission changes.
+> 
+> This feature also has a use case in Android, Lokesh Gidra has said
+> that "As part of using userfaultfd for GC, We'll have to move the physical
+> pages of the java heap to a separate location. For this purpose mremap
+> will be used. Without the MREMAP_DONTUNMAP flag, when I mremap the java
+> heap, its virtual mapping will be removed as well. Therefore, we'll
+> require performing mmap immediately after. This is not only time consuming
+> but also opens a time window where a native thread may call mmap and
+> reserve the java heap's address range for its own usage. This flag
+> solves the problem."
+
+-- 
+ Kirill A. Shutemov
