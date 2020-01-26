@@ -2,95 +2,119 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B819149918
-	for <lists+linux-api@lfdr.de>; Sun, 26 Jan 2020 06:42:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BB8A2149BA2
+	for <lists+linux-api@lfdr.de>; Sun, 26 Jan 2020 16:47:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726079AbgAZFmy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 26 Jan 2020 00:42:54 -0500
-Received: from mail-il1-f193.google.com ([209.85.166.193]:46362 "EHLO
-        mail-il1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725908AbgAZFmy (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 26 Jan 2020 00:42:54 -0500
-Received: by mail-il1-f193.google.com with SMTP id t17so4881567ilm.13
-        for <linux-api@vger.kernel.org>; Sat, 25 Jan 2020 21:42:53 -0800 (PST)
+        id S1728900AbgAZPre (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 26 Jan 2020 10:47:34 -0500
+Received: from mail-yb1-f196.google.com ([209.85.219.196]:45690 "EHLO
+        mail-yb1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726911AbgAZPrd (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 26 Jan 2020 10:47:33 -0500
+Received: by mail-yb1-f196.google.com with SMTP id x191so3689882ybg.12;
+        Sun, 26 Jan 2020 07:47:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tycho-ws.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=0FozRu6Z46A1Ox9dVGHRP4DE9HvTC18OKQ2gVKB5H0I=;
-        b=btm3FgLJ76pCbaN9E1aHd2oRO0ynyht6XDpRf1NqBO0KsxDdMPCDLlJSI+R/y7CzNp
-         oTob9nBVf1guTbe87lKoYbuKDoC0Ql9g/TGdEcmgcKa22CDAGLFRuC4fp19A9o6yHTL3
-         BEFHMz/mK29Nu8bLopbByot+VLxOTUCq1nUjjgFkqgAQFOGrA9JRqBVEU3vbEbGYj1fY
-         LhGd7pEFDzL3Fcljj7NX6cElajCJ0vMkdIgbIrk1Y9Hm6TS7KcKXSQp5DVDzoJYpi0Tb
-         ww4IeJfARco7kUDRhNK5PuWzvJ0qetZih0El03fZ7BBrQRxw9DU0SwfvRfjIAlAKKCp4
-         kREA==
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=2xbk8AdWIZmse3B+nB63l0NWf7gcst2GZzaX7cH6+Rk=;
+        b=Sny0GkweHawfCGschvMy3kTofssyVxPCS0Xe31agFEXH2DnfkqrnpH9Qyfc0gNUm2S
+         7/AxdrHFGQwY2H2dwiP6rvG6tCa7XACRTKzmPzFznJhJj08lAQpMtHczqCjOGVCU3x+i
+         zKP8nUcKQMAGb+UYmJb/7ryPB9Mw/U2oiz1UKb0fPoF4mF5BudiQ2dEx90xLxw5otSAp
+         9fmRu8WNfNuljNOayIvT5boniU6zQErTGsj2ZcYbdPf9aYoDfo7PhcvB8UrjlDlca8ve
+         jVuxbKvrGw1ydhKIIlA+chqZ+AFVeyamBxcdcAyYqTIT47/2VyegmFJdmAFCjlMdBUt1
+         zm2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=0FozRu6Z46A1Ox9dVGHRP4DE9HvTC18OKQ2gVKB5H0I=;
-        b=SV+ApsOMZZCYuDDwiIAiYPp6hKn6N3i6NNEs9p8ag+z/f4P5YArxIZWzprS5QAFPEn
-         9JVrXvi0CNAB0Jeap67ADMwqDqN0JTI4vohT47VE5sb8nbcqexbXq++NP8zbLKCq6JAm
-         bjFarYfgLletna4WQAbh2inePrYwBbqsJzz4BUNcnvOPkuQ6GByB1LRexMc10FmAno88
-         DEXQIrX6M+QS2C66etptDntSVRlSecFnTFVM5s0Qf0UbWiTWNH4li1rX6M2xPigkzd+Y
-         pJy3BMKXcc1x5ovM0ym4Sb5W3Sceilfeim93TbjTwdb7v6XMipvmwS/XR+kpxHGWmjHR
-         qoJQ==
-X-Gm-Message-State: APjAAAWf4gGe19qAuezhBA+f72RNP+JPSfqqDUUxI1fIcazr8TS3b+qH
-        1roX34cbgfxKtBkq9ergaTsJxA==
-X-Google-Smtp-Source: APXvYqwEmcq7qaAbzib65zO2VCQ8YB0IQaaR8HionrT430XtGRaSzx5polOejYPQ1Bv9MvnRpMQiDg==
-X-Received: by 2002:a92:de46:: with SMTP id e6mr9722912ilr.122.1580017373261;
-        Sat, 25 Jan 2020 21:42:53 -0800 (PST)
-Received: from cisco ([2601:282:902:b340:51e3:9841:c212:5f6])
-        by smtp.gmail.com with ESMTPSA id t15sm3350809ili.50.2020.01.25.21.42.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Jan 2020 21:42:52 -0800 (PST)
-Date:   Sat, 25 Jan 2020 21:42:56 -0800
-From:   Tycho Andersen <tycho@tycho.ws>
-To:     Sargun Dhillon <sargun@sargun.me>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>
-Subject: Re: [PATCH 3/4] seccomp: Add SECCOMP_USER_NOTIF_FLAG_PIDFD to get
- pidfd on listener trap
-Message-ID: <20200126054256.GB4151@cisco>
-References: <20200124091743.3357-1-sargun@sargun.me>
- <20200124091743.3357-4-sargun@sargun.me>
- <20200124180332.GA4151@cisco>
- <CAMp4zn_WXwxJ6Md4rgFzdAY_xea4TmVDdQc1iJDObEMm5Yc79g@mail.gmail.com>
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to:user-agent;
+        bh=2xbk8AdWIZmse3B+nB63l0NWf7gcst2GZzaX7cH6+Rk=;
+        b=sE1iBQhXJKqk3dnxjrV84NaUng/MThGt9t4HXisR7umWdEscNHW3Sg/wEZ0zaf7OvN
+         oJ8oyJhABgxVxqkMNOsr1Ccfr5NMiCPVfiwQZa/tOm1nH2z0OJvqoIUQz4h6l5S6HWO4
+         P8y5GyZ6Eni1VpMdG2xJtoL5L7DkgTMXLQL95dTz7N1Ly6mAwbu85aT2M5ENkvzrFU5u
+         SBFlnZlX4U1aKEhqW8Zx+IT+sutIXZQxlM8Qb0BNH+hXha4ygBYjxcSOfnAPOVtOQnvi
+         M91hy0QxtPf9zbiyYlzjEDtljPThXRgQ8vpmoaRIf1QSrK+0afZtOfXmb90dVaDyrFye
+         ZU1Q==
+X-Gm-Message-State: APjAAAW5L59UXXt3D77Rzc/IUjwT4Y7uevQMB8UGCTGWmIJxIdcE/y4j
+        WiNsddUUqxQM4MK/QIM/ldw=
+X-Google-Smtp-Source: APXvYqxvf/6JwAOXZhkX95ONMDryWNE+o/mE5fN9F9087lRqh1nXGJlr9CV8HaTXjy7HRjgfZPOGKQ==
+X-Received: by 2002:a25:ef51:: with SMTP id w17mr10381069ybm.477.1580053652415;
+        Sun, 26 Jan 2020 07:47:32 -0800 (PST)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id d188sm1747466ywe.50.2020.01.26.07.47.31
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Sun, 26 Jan 2020 07:47:31 -0800 (PST)
+Date:   Sun, 26 Jan 2020 07:47:30 -0800
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     David Howells <dhowells@redhat.com>
+Cc:     torvalds@linux-foundation.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Stephen Smalley <sds@tycho.nsa.gov>, nicolas.dichtel@6wind.com,
+        raven@themaw.net, Christian Brauner <christian@brauner.io>,
+        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-security-module@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 07/14] Add sample notification program [ver #3]
+Message-ID: <20200126154730.GA18893@roeck-us.net>
+References: <157909503552.20155.3030058841911628518.stgit@warthog.procyon.org.uk>
+ <157909509882.20155.1159021562184142124.stgit@warthog.procyon.org.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAMp4zn_WXwxJ6Md4rgFzdAY_xea4TmVDdQc1iJDObEMm5Yc79g@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <157909509882.20155.1159021562184142124.stgit@warthog.procyon.org.uk>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jan 24, 2020 at 12:09:37PM -0800, Sargun Dhillon wrote:
-> On Fri, Jan 24, 2020 at 10:03 AM Tycho Andersen <tycho@tycho.ws> wrote:
-> >
-> > On Fri, Jan 24, 2020 at 01:17:42AM -0800, Sargun Dhillon wrote:
-> > > Currently, this just opens the group leader of the thread that triggere
-> > > the event, as pidfds (currently) are limited to group leaders.
-> >
-> > I don't love the semantics of this; when they're not limited to thread
-> > group leaders any more, we won't be able to change this. Is that work
-> > far off?
-> >
-> > Tycho
+On Wed, Jan 15, 2020 at 01:31:38PM +0000, David Howells wrote:
+> The sample program is run like:
 > 
-> We would be able to change this in the future if we introduced a flag like
-> SECCOMP_USER_NOTIF_FLAG_PIDFD_THREAD which would send a
-> pidfd that's for the thread, and not just the group leader. The flag could
-> either be XOR with SECCOMP_USER_NOTIF_FLAG_PIDFD, or
-> could require both. Alternatively, we can rename
-> SECCOMP_USER_NOTIF_FLAG_PIDFD to
-> SECCOMP_USER_NOTIF_FLAG_GROUP_LEADER_PIDFD.
+> 	./samples/watch_queue/watch_test
+> 
+> and watches "/" for mount changes and the current session keyring for key
+> changes:
+> 
+> 	# keyctl add user a a @s
+> 	1035096409
+> 	# keyctl unlink 1035096409 @s
+> 
+> producing:
+> 
+> 	# ./watch_test
+> 	read() = 16
+> 	NOTIFY[000]: ty=000001 sy=02 i=00000110
+> 	KEY 2ffc2e5d change=2[linked] aux=1035096409
+> 	read() = 16
+> 	NOTIFY[000]: ty=000001 sy=02 i=00000110
+> 	KEY 2ffc2e5d change=3[unlinked] aux=1035096409
+> 
+> Other events may be produced, such as with a failing disk:
+> 
+> 	read() = 22
+> 	NOTIFY[000]: ty=000003 sy=02 i=00000416
+> 	USB 3-7.7 dev-reset e=0 r=0
+> 	read() = 24
+> 	NOTIFY[000]: ty=000002 sy=06 i=00000418
+> 	BLOCK 00800050 e=6[critical medium] s=64000ef8
+> 
+> This corresponds to:
+> 
+> 	blk_update_request: critical medium error, dev sdf, sector 1677725432 op 0x0:(READ) flags 0x0 phys_seg 1 prio class 0
+> 
+> in dmesg.
+> 
+> Signed-off-by: David Howells <dhowells@redhat.com>
 
-Ok, but then isn't this just another temporary API? Seems like it's
-worth waiting until the Right Way exists.
+mips:allmodconfig:
 
-Tycho
+samples/watch_queue/watch_test.c: In function ‘keyctl_watch_key’:
+samples/watch_queue/watch_test.c:34:17: error: ‘__NR_keyctl’ undeclared
+
+Guenter
