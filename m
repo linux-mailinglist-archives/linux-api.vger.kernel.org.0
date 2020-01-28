@@ -2,39 +2,39 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A98614B546
-	for <lists+linux-api@lfdr.de>; Tue, 28 Jan 2020 14:44:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D426E14BC78
+	for <lists+linux-api@lfdr.de>; Tue, 28 Jan 2020 15:58:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726273AbgA1Nnz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 28 Jan 2020 08:43:55 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:39162 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726097AbgA1Nny (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 28 Jan 2020 08:43:54 -0500
+        id S1726634AbgA1O6x (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 28 Jan 2020 09:58:53 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60564 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726319AbgA1O6x (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 28 Jan 2020 09:58:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1580219033;
+        s=mimecast20190719; t=1580223532;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=iX5+dNiDCHZNjF1pHsSxrGTH633M7MeaVhdvtFsHS0U=;
-        b=WU7A92AHh79YTbJMKXbHCyWwAmmIt8+JHYlC3GS9MCCZF6TtAchrSrABRMTAYhFuZ7dYf6
-        a6+8AfNCAjQmU4S8AcKABf8CIHcpVTGyOYzGHztnlngjpX1E9WpHWAekfxU+Q6hTsfgxdA
-        Sb9RfzBqfDd+GsH3Lxvpf69yWz83ndg=
+        bh=J9dup7HkrusSVVs3WtrZZpcnlSHPtUcbtBH6WbbXS20=;
+        b=J30K3AORJ3u894nARd8dIl1Z30S+r4Q/OamxYtefkwp+hkTdfx4+9EZLUGAX0FGGjgvTdp
+        p3dVKHZIYWQiu56NmsW+HJZcuZz1xMLSLUvXxen3u9qD24RmxhHGvNth9qq6AjjgqkCYBs
+        8KZIF0F/gaXYoVo2IQfEHfgh8EgTqBc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-345-Z_wc_W5FMwixynomvgh4KQ-1; Tue, 28 Jan 2020 08:43:49 -0500
-X-MC-Unique: Z_wc_W5FMwixynomvgh4KQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+ us-mta-295-qOK9YP5uP1yGI5aGU72MxA-1; Tue, 28 Jan 2020 09:58:47 -0500
+X-MC-Unique: qOK9YP5uP1yGI5aGU72MxA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 05EFE1800D41;
-        Tue, 28 Jan 2020 13:43:45 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 879C18010C9;
+        Tue, 28 Jan 2020 14:58:44 +0000 (UTC)
 Received: from dhcp-27-174.brq.redhat.com (unknown [10.43.17.70])
-        by smtp.corp.redhat.com (Postfix) with SMTP id 7881819C58;
-        Tue, 28 Jan 2020 13:43:39 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with SMTP id A7FC85C290;
+        Tue, 28 Jan 2020 14:58:39 +0000 (UTC)
 Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Tue, 28 Jan 2020 14:43:43 +0100 (CET)
-Date:   Tue, 28 Jan 2020 14:43:37 +0100
+        oleg@redhat.com; Tue, 28 Jan 2020 15:58:43 +0100 (CET)
+Date:   Tue, 28 Jan 2020 15:58:38 +0100
 From:   Oleg Nesterov <oleg@redhat.com>
 To:     Alexey Gladkov <gladkov.alexey@gmail.com>
 Cc:     LKML <linux-kernel@vger.kernel.org>,
@@ -62,60 +62,53 @@ Cc:     LKML <linux-kernel@vger.kernel.org>,
         Stephen Rothwell <sfr@canb.auug.org.au>
 Subject: Re: [PATCH v7 02/11] proc: add proc_fs_info struct to store proc
  information
-Message-ID: <20200128134337.GC17943@redhat.com>
+Message-ID: <20200128145837.GD17943@redhat.com>
 References: <20200125130541.450409-1-gladkov.alexey@gmail.com>
  <20200125130541.450409-3-gladkov.alexey@gmail.com>
+ <20200128134337.GC17943@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200125130541.450409-3-gladkov.alexey@gmail.com>
+In-Reply-To: <20200128134337.GC17943@redhat.com>
 User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 01/25, Alexey Gladkov wrote:
+On 01/28, Oleg Nesterov wrote:
 >
->  static int proc_init_fs_context(struct fs_context *fc)
->  {
->  	struct proc_fs_context *ctx;
-> +	struct pid_namespace *pid_ns;
+> On 01/25, Alexey Gladkov wrote:
+> >
+> >  static int proc_init_fs_context(struct fs_context *fc)
+> >  {
+> >  	struct proc_fs_context *ctx;
+> > +	struct pid_namespace *pid_ns;
+> >
+> >  	ctx = kzalloc(sizeof(struct proc_fs_context), GFP_KERNEL);
+> >  	if (!ctx)
+> >  		return -ENOMEM;
+> >
+> > -	ctx->pid_ns = get_pid_ns(task_active_pid_ns(current));
+> > +	pid_ns = get_pid_ns(task_active_pid_ns(current));
+> > +
+> > +	if (!pid_ns->proc_mnt) {
+> > +		ctx->fs_info = kzalloc(sizeof(struct proc_fs_info), GFP_KERNEL);
+> > +		if (!ctx->fs_info) {
+> > +			kfree(ctx);
+> > +			return -ENOMEM;
+> > +		}
+> > +		ctx->fs_info->pid_ns = pid_ns;
+> > +	} else {
+> > +		ctx->fs_info = proc_sb_info(pid_ns->proc_mnt->mnt_sb);
+> > +	}
+> > +
 >
->  	ctx = kzalloc(sizeof(struct proc_fs_context), GFP_KERNEL);
->  	if (!ctx)
->  		return -ENOMEM;
->
-> -	ctx->pid_ns = get_pid_ns(task_active_pid_ns(current));
-> +	pid_ns = get_pid_ns(task_active_pid_ns(current));
-> +
-> +	if (!pid_ns->proc_mnt) {
-> +		ctx->fs_info = kzalloc(sizeof(struct proc_fs_info), GFP_KERNEL);
-> +		if (!ctx->fs_info) {
-> +			kfree(ctx);
-> +			return -ENOMEM;
-> +		}
-> +		ctx->fs_info->pid_ns = pid_ns;
-> +	} else {
-> +		ctx->fs_info = proc_sb_info(pid_ns->proc_mnt->mnt_sb);
-> +	}
-> +
+> it seems that this code lacks put_pid_ns() if pid_ns->proc_mnt != NULL
+> or if kzalloc() fails?
 
-it seems that this code lacks put_pid_ns() if pid_ns->proc_mnt != NULL
-or if kzalloc() fails?
-
-Or, better,
-
-	pid_ns = task_active_pid_ns();
-
-	if (!pid_ns->proc_mnt) {
-		ctx->fs_info = kzalloc();
-		...
-		ctx->fs_info->pid_ns = get_pid_ns(pid_ns);
-	}
-
-No?
+OK, this is fixed in 6/11.
 
 Oleg.
 
