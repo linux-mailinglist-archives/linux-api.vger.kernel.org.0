@@ -2,251 +2,118 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F251A14AD10
-	for <lists+linux-api@lfdr.de>; Tue, 28 Jan 2020 01:17:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 74E5B14ADA8
+	for <lists+linux-api@lfdr.de>; Tue, 28 Jan 2020 02:36:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727409AbgA1ARG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 27 Jan 2020 19:17:06 -0500
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:40297 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727349AbgA1ARG (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 27 Jan 2020 19:17:06 -0500
-Received: by mail-pg1-f196.google.com with SMTP id k25so6006336pgt.7;
-        Mon, 27 Jan 2020 16:17:05 -0800 (PST)
+        id S1726099AbgA1BgK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 27 Jan 2020 20:36:10 -0500
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:42762 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726173AbgA1BgJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 27 Jan 2020 20:36:09 -0500
+Received: by mail-ed1-f66.google.com with SMTP id e10so12894957edv.9
+        for <linux-api@vger.kernel.org>; Mon, 27 Jan 2020 17:36:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=DFddCGft10v2bQSudyfgAPH5BoTHwqkfOKU43Rs2xJE=;
-        b=aIehdGRAgVBVPEq2gRJ0LE0eSQ+ycX1FJyYgSNugQH/5B66O76XPt/VYuSGHHZMiKr
-         ZWqld+TqHK46psw2qThyQOFRl403+9ZdBIQSCMs6MqcEa8RvutS6hVC/nziwY4Ezx2lx
-         EM/4TnPC5ngC7rdFkyu3Tlc1F9rJ8P3N8rc+6YOVu6j+iAriWg9nvMt6GX1FtCqdN6bo
-         mJGS8yb0K0NzYHlX9ZgyYm2JdWYm+2Hb3QtTvWBYpfneNidSLKKv8Zg2edABy9ypSUuW
-         J4eECDCRfFC+7n80ls04tZFQ3bbzcMQjgvQdKWuBnU3qStV2u4byHtY2lNl1rysXY/Wf
-         I/bw==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Crjx+5QQrEucO7G7mPXgmMnWuJ0oteWXeZ4JlN/M8ds=;
+        b=YQuxh3NbOiJ+dKXmeUU1Z/8VEVIPsnSsHTDZJAjufPbsfkmO0zDnRXF0ifSfj9He4G
+         jBGiR66Cn37+5/XyWFlEtwhWQDTmnC4F7/YbLmJ8/6RaOlWn4iVsO+3IGlW4ZjsWaVql
+         1bUyIxB9ZZKoeB2XnEvqaPfd+D+9rzYMmoRiSGgeOMOZmaMeeJ8u1Ul970EWbwVXML18
+         oHUn3+ruk3TNRCHRpiGQvn8ggab7wE9mDH4/w72NTGDeegdT3NreH9sZnbF2+M2q1z7V
+         zbN7raOB40jkg3tQVnU+4gLmL/TFdoKI4i0u3GxgZGWAZbtI0c7K8tEgfRS3FPUB658W
+         qgFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=DFddCGft10v2bQSudyfgAPH5BoTHwqkfOKU43Rs2xJE=;
-        b=lLzc01IGqbcMFD/oCV05wtxj6rtAgau7JSOQ5LKgPdGPsu7gegYSIskDLZluNznf3D
-         3+8mx0rFwJs5m53ImcH2rSqpXrRcshYLeXAHo19PcKV7XL3jYZCU5cG8MWyOnXKhjF0w
-         QDPEu9HSYUim8OTbqHh+J52Xg1jzwhPvD9+BeKZKn8Wvbys311ru0oijhsDc5DP1LPpt
-         hfLUNvsxF7YKT8FJ+f1x1lRFlHE33qhOzltekYhVGSikmcKOoERwsZsCUaj/+cn8fb6i
-         lH4+Licu8yAuguNdYOmRM5IVtEytoIx7kea1P8GLEvR1z/RUe0IwRrtei0YXGOwA+4O7
-         MbbQ==
-X-Gm-Message-State: APjAAAVRRhfLKMXOIYJJWoWsqJ8BH7y22GnqKxRVIzE6i4mr/2+29kqz
-        serKDpttIp4DiOGwn3ykse8=
-X-Google-Smtp-Source: APXvYqz072ZRCKWyoVYCQKz+MnVhFgtgIa6SRKQwU7Wnjg7uDw3D/Jd26+3lolr41UxLe9ftFCOCiA==
-X-Received: by 2002:aa7:81c7:: with SMTP id c7mr1235750pfn.203.1580170625323;
-        Mon, 27 Jan 2020 16:17:05 -0800 (PST)
-Received: from bbox-1.mtv.corp.google.com ([2620:15c:211:1:3e01:2939:5992:52da])
-        by smtp.gmail.com with ESMTPSA id q28sm11301461pfl.153.2020.01.27.16.17.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jan 2020 16:17:04 -0800 (PST)
-From:   Minchan Kim <minchan@kernel.org>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
-        linux-api@vger.kernel.org, oleksandr@redhat.com,
-        Suren Baghdasaryan <surenb@google.com>,
-        Tim Murray <timmurray@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Brian Geffon <bgeffon@google.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        John Dias <joaodias@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Minchan Kim <minchan@kernel.org>
-Subject: [PATCH v3 5/5] mm: support both pid and pidfd for process_madvise
-Date:   Mon, 27 Jan 2020 16:16:41 -0800
-Message-Id: <20200128001641.5086-6-minchan@kernel.org>
-X-Mailer: git-send-email 2.25.0.341.g760bfbb309-goog
-In-Reply-To: <20200128001641.5086-1-minchan@kernel.org>
-References: <20200128001641.5086-1-minchan@kernel.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Crjx+5QQrEucO7G7mPXgmMnWuJ0oteWXeZ4JlN/M8ds=;
+        b=BIbzu8yvyem3+Lfmi9GbKC4m8vMObtvoAgGH/8UK82UtG28RiXkLu5TkDtGxgR2fIm
+         qKaFPsz+H75fJ2peUXt5XME7dm//hRKrKw5z4WtMLh5Kyns9pMNo3ClutNGVlqD9m4P6
+         NF64Br7+AxW7cuTWU/Sj7NxejIfzgV8khRryJHSK2l7HWykPkLnYh0DcTpaSec1MqRlI
+         xAJ5Ntns7HbjligqCOvZgN+OrqzrycyonrijgT2McRDG5Lt6Y1v3imFjxBc8Ou0xZ1Uw
+         pGzxs0OIKZa0M7QPM5nvJJ+WMjnWbAHPrQqStPYG/7Z8kHlYgb7Ts/QfWYvScmSwm5RA
+         eugA==
+X-Gm-Message-State: APjAAAVVxTAr9JufPOKMFJzDcmW0cIzfqjI4ptSdd4HjB1C5Uyh84gDq
+        G3cHofN3Myjdzg74nEbP1LWtrOJfPzRk4PM9yQXy+A==
+X-Google-Smtp-Source: APXvYqyV4VLuvnfJLGmY7TZvmrf57n5fPdUEkoVlX8bSQLT0/E1hgAPOBzOsZPbWzr2GZLSCZkLSu+O7SBtsHf0flr8=
+X-Received: by 2002:a17:906:4e01:: with SMTP id z1mr1206542eju.46.1580175366815;
+ Mon, 27 Jan 2020 17:36:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200123014627.71720-1-bgeffon@google.com> <20200124190625.257659-1-bgeffon@google.com>
+ <20200126220650.i4lwljpvohpgvsi2@box>
+In-Reply-To: <20200126220650.i4lwljpvohpgvsi2@box>
+From:   Brian Geffon <bgeffon@google.com>
+Date:   Mon, 27 Jan 2020 17:35:40 -0800
+Message-ID: <CADyq12xCK_3MhGi88Am5P6DVZvrW8vqtyJMHO0zjNhvhYegm1w@mail.gmail.com>
+Subject: Re: [PATCH v2] mm: Add MREMAP_DONTUNMAP to mremap().
+To:     "Kirill A. Shutemov" <kirill@shutemov.name>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        "Michael S . Tsirkin" <mst@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
+        Andy Lutomirski <luto@amacapital.net>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Yu Zhao <yuzhao@google.com>, Jesse Barnes <jsbarnes@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-There is a demand[1] to support pid as well pidfd for process_madvise
-to reduce unncessary syscall to get pidfd if the user has control of
-the targer process(ie, they could gaurantee the process is not gone
-or pid is not reused. Or, it might be okay to give a hint to wrong
-process).
+Hi Kirill,
+Thanks for taking the time to look at this. I'll update the wording to
+make it clear that MREMAP_FIXED is required with MREMAP_DONTUNMAP.
 
-This patch aims for supporting both options like waitid(2). So, the
-syscall is currently,
+Regarding rmap, you're completely right I'm going to roll a new patch
+which will call unlink_anon_vmas() to make sure the rmap is correct,
+I'll also explicitly check that the vma is anonymous and not shared
+returning EINVAL if not, how does that sound?
 
-	int process_madvise(int which, pid_t pid, void *addr,
-		size_t length, int advise, unsigned long flag);
+Brian
 
-@which is actually idtype_t for userspace libray and currently,
-it supports P_PID and P_PIDFD.
-
-[1]  https://lore.kernel.org/linux-mm/9d849087-3359-c4ab-fbec-859e8186c509@virtuozzo.com/
-Signed-off-by: Minchan Kim <minchan@kernel.org>
----
- include/linux/pid.h      |  1 +
- include/linux/syscalls.h |  3 ++-
- kernel/exit.c            | 17 -----------------
- kernel/pid.c             | 17 +++++++++++++++++
- mm/madvise.c             | 34 ++++++++++++++++++++++------------
- 5 files changed, 42 insertions(+), 30 deletions(-)
-
-diff --git a/include/linux/pid.h b/include/linux/pid.h
-index 998ae7d24450..023d9c3a8edc 100644
---- a/include/linux/pid.h
-+++ b/include/linux/pid.h
-@@ -75,6 +75,7 @@ extern const struct file_operations pidfd_fops;
- struct file;
- 
- extern struct pid *pidfd_pid(const struct file *file);
-+extern struct pid *pidfd_get_pid(unsigned int fd);
- 
- static inline struct pid *get_pid(struct pid *pid)
- {
-diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-index 1b58a11ff49f..27060e59db37 100644
---- a/include/linux/syscalls.h
-+++ b/include/linux/syscalls.h
-@@ -877,7 +877,8 @@ asmlinkage long sys_munlockall(void);
- asmlinkage long sys_mincore(unsigned long start, size_t len,
- 				unsigned char __user * vec);
- asmlinkage long sys_madvise(unsigned long start, size_t len, int behavior);
--asmlinkage long sys_process_madvise(int pidfd, unsigned long start,
-+
-+asmlinkage long sys_process_madvise(int which, pid_t pid, unsigned long start,
- 			size_t len, int behavior, unsigned long flags);
- asmlinkage long sys_remap_file_pages(unsigned long start, unsigned long size,
- 			unsigned long prot, unsigned long pgoff,
-diff --git a/kernel/exit.c b/kernel/exit.c
-index bcbd59888e67..7698843b1411 100644
---- a/kernel/exit.c
-+++ b/kernel/exit.c
-@@ -1466,23 +1466,6 @@ static long do_wait(struct wait_opts *wo)
- 	return retval;
- }
- 
--static struct pid *pidfd_get_pid(unsigned int fd)
--{
--	struct fd f;
--	struct pid *pid;
--
--	f = fdget(fd);
--	if (!f.file)
--		return ERR_PTR(-EBADF);
--
--	pid = pidfd_pid(f.file);
--	if (!IS_ERR(pid))
--		get_pid(pid);
--
--	fdput(f);
--	return pid;
--}
--
- static long kernel_waitid(int which, pid_t upid, struct waitid_info *infop,
- 			  int options, struct rusage *ru)
- {
-diff --git a/kernel/pid.c b/kernel/pid.c
-index 2278e249141d..a41a89d5dad2 100644
---- a/kernel/pid.c
-+++ b/kernel/pid.c
-@@ -496,6 +496,23 @@ struct pid *find_ge_pid(int nr, struct pid_namespace *ns)
- 	return idr_get_next(&ns->idr, &nr);
- }
- 
-+struct pid *pidfd_get_pid(unsigned int fd)
-+{
-+	struct fd f;
-+	struct pid *pid;
-+
-+	f = fdget(fd);
-+	if (!f.file)
-+		return ERR_PTR(-EBADF);
-+
-+	pid = pidfd_pid(f.file);
-+	if (!IS_ERR(pid))
-+		get_pid(pid);
-+
-+	fdput(f);
-+	return pid;
-+}
-+
- /**
-  * pidfd_create() - Create a new pid file descriptor.
-  *
-diff --git a/mm/madvise.c b/mm/madvise.c
-index 39c40cbb389e..ba3a9bd8ea27 100644
---- a/mm/madvise.c
-+++ b/mm/madvise.c
-@@ -1197,11 +1197,10 @@ SYSCALL_DEFINE3(madvise, unsigned long, start, size_t, len_in, int, behavior)
- 	return madvise_common(current, current->mm, start, len_in, behavior);
- }
- 
--SYSCALL_DEFINE5(process_madvise, int, pidfd, unsigned long, start,
-+SYSCALL_DEFINE6(process_madvise, int, which, pid_t, upid, unsigned long, start,
- 		size_t, len_in, int, behavior, unsigned long, flags)
- {
- 	int ret;
--	struct fd f;
- 	struct pid *pid;
- 	struct task_struct *task;
- 	struct mm_struct *mm;
-@@ -1212,20 +1211,31 @@ SYSCALL_DEFINE5(process_madvise, int, pidfd, unsigned long, start,
- 	if (!process_madvise_behavior_valid(behavior))
- 		return -EINVAL;
- 
--	f = fdget(pidfd);
--	if (!f.file)
--		return -EBADF;
-+	switch (which) {
-+	case P_PID:
-+		if (upid <= 0)
-+			return -EINVAL;
-+
-+		pid = find_get_pid(upid);
-+		if (!pid)
-+			return -ESRCH;
-+		break;
-+	case P_PIDFD:
-+		if (upid < 0)
-+			return -EINVAL;
- 
--	pid = pidfd_pid(f.file);
--	if (IS_ERR(pid)) {
--		ret = PTR_ERR(pid);
--		goto fdput;
-+		pid = pidfd_get_pid(upid);
-+		if (IS_ERR(pid))
-+			return PTR_ERR(pid);
-+		break;
-+	default:
-+		return -EINVAL;
- 	}
- 
- 	task = get_pid_task(pid, PIDTYPE_PID);
- 	if (!task) {
- 		ret = -ESRCH;
--		goto fdput;
-+		goto put_pid;
- 	}
- 
- 	mm = mm_access(task, PTRACE_MODE_ATTACH_FSCREDS);
-@@ -1238,7 +1248,7 @@ SYSCALL_DEFINE5(process_madvise, int, pidfd, unsigned long, start,
- 	mmput(mm);
- release_task:
- 	put_task_struct(task);
--fdput:
--	fdput(f);
-+put_pid:
-+	put_pid(pid);
- 	return ret;
- }
--- 
-2.25.0.341.g760bfbb309-goog
-
+On Sun, Jan 26, 2020 at 2:06 PM Kirill A. Shutemov <kirill@shutemov.name> wrote:
+>
+> On Fri, Jan 24, 2020 at 11:06:25AM -0800, Brian Geffon wrote:
+> > When remapping an anonymous, private mapping, if MREMAP_DONTUNMAP is
+> > set, the source mapping will not be removed. Instead it will be
+> > cleared as if a brand new anonymous, private mapping had been created
+> > atomically as part of the mremap() call.  If a userfaultfd was watching
+> > the source, it will continue to watch the new mapping.  For a mapping
+> > that is shared or not anonymous, MREMAP_DONTUNMAP will cause the
+> > mremap() call to fail. MREMAP_DONTUNMAP implies that MREMAP_FIXED is
+> > also used.
+>
+> Implies? From code it looks like it requires MREMAP_FIXED. And
+> MREMAP_FIXED requires MREMAP_MAYMOVE. That's strange flag chaining.
+> I don't really see need in such dependencies. It maybe indeed implied, not
+> requied.
+>
+> > The final result is two equally sized VMAs where the
+> > destination contains the PTEs of the source.
+>
+> Could you clarify rmap situation here? How the rmap hierarchy will look
+> like before and after the operation. Can the new VMA merge with the old
+> one? Sounds fishy to me.
+>
+> > We hope to use this in Chrome OS where with userfaultfd we could write
+> > an anonymous mapping to disk without having to STOP the process or worry
+> > about VMA permission changes.
+> >
+> > This feature also has a use case in Android, Lokesh Gidra has said
+> > that "As part of using userfaultfd for GC, We'll have to move the physical
+> > pages of the java heap to a separate location. For this purpose mremap
+> > will be used. Without the MREMAP_DONTUNMAP flag, when I mremap the java
+> > heap, its virtual mapping will be removed as well. Therefore, we'll
+> > require performing mmap immediately after. This is not only time consuming
+> > but also opens a time window where a native thread may call mmap and
+> > reserve the java heap's address range for its own usage. This flag
+> > solves the problem."
+>
+> --
+>  Kirill A. Shutemov
