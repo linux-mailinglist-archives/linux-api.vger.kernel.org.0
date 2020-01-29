@@ -2,169 +2,214 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D59F814CB6B
-	for <lists+linux-api@lfdr.de>; Wed, 29 Jan 2020 14:27:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 16B9714CB97
+	for <lists+linux-api@lfdr.de>; Wed, 29 Jan 2020 14:41:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726314AbgA2N1Y (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 29 Jan 2020 08:27:24 -0500
-Received: from mx2.suse.de ([195.135.220.15]:54060 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726140AbgA2N1X (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 29 Jan 2020 08:27:23 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 9439EAC46;
-        Wed, 29 Jan 2020 13:27:20 +0000 (UTC)
-Date:   Wed, 29 Jan 2020 14:27:19 +0100
-From:   Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Tejun Heo <tj@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Li Zefan <lizefan@huawei.com>,
-        Peter Zijlstra <peterz@infradead.org>, cgroups@vger.kernel.org
-Subject: Re: [PATCH v5 5/6] clone3: allow spawning processes into cgroups
-Message-ID: <20200129132719.GD11384@blackbody.suse.cz>
-References: <20200121154844.411-1-christian.brauner@ubuntu.com>
- <20200121154844.411-6-christian.brauner@ubuntu.com>
+        id S1726261AbgA2Nl2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 29 Jan 2020 08:41:28 -0500
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:45367 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726178AbgA2Nl2 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 29 Jan 2020 08:41:28 -0500
+Received: by mail-lf1-f65.google.com with SMTP id 203so11875579lfa.12;
+        Wed, 29 Jan 2020 05:41:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=l0u5WHmdUM6QOorSCuU0hXeCuOESdwfl8W0or7sC/p0=;
+        b=ZzSj0KFUsblFkfZ8JM1YmuLQtJz39EMqJr/AwhnmBpeJVwCKJLWeA2KL8figj6KLM4
+         5pl+cxLNpIjKM5fuTNsvcv5Z0DEiLjeLp9PrK27R6J+n8NzsYy3Axtvl8niVDHWG7vEh
+         BRfiRXANFxQT7Efa6IOj/5wlTjUziYMA5K6fFqAtioFqNQReh+y/4bjENnJy5h2V6QP5
+         8FjpWenUluP6NhV1yJcIZw1oxe0zBNtFgSEgscypBqDe8DumtVzqN+rZhWIr+3Gvjtto
+         zXmC/CcVNVGulGpWNvaZS1lYRlENojUc+f5z5nBwyS/hUT8Q7VLs427feIceMCQ+kZW1
+         d7aA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=l0u5WHmdUM6QOorSCuU0hXeCuOESdwfl8W0or7sC/p0=;
+        b=rVbfbRnPY91+1U6ArwOKB7p3rSBvXjkRWBWwRGSujyHSDOz9Z0Uf1Tup4HAl+0aF8C
+         eNG6QPJyEFrOgBlr46cde4mM9lUR2SemDVo21KlQ38FA1CAuD7FL3+9FPE3t73+qWJv0
+         jqkCXQlXrsan0oPDEkZNuxZU1o86/z9tvq3qle9fXRmH35eG8Eem22ueYgfV6+b9BD83
+         asnDOBajilwtLPatFkyNqWoeXLgM5DwwriJJQU6acwYO+m4Zn/9jsJ8+W09HtFOesQT1
+         buM1PtElP4bkisnLQkLspU26cghQAQ/E2akd1h1BpSssNVsqLC9ZY36olwKtUvgUTSwI
+         Fdzg==
+X-Gm-Message-State: APjAAAXCym3nXc5MstUE5jKmNlPsK0ZR3B055VUyN2zBSIiN1fp//7GF
+        jtPB5OHyV1NW6YWeTfI6pX5qlrpu+8k=
+X-Google-Smtp-Source: APXvYqxKw+UDSzFPorj7gQLjp60qCAQLfwlLORGcNaod/wqAnoKknk0JoX4ZoTzkswj9Cu3BmvbE1Q==
+X-Received: by 2002:ac2:47ec:: with SMTP id b12mr5653974lfp.162.1580305282902;
+        Wed, 29 Jan 2020 05:41:22 -0800 (PST)
+Received: from [172.31.190.83] ([86.57.146.226])
+        by smtp.gmail.com with ESMTPSA id a28sm975257ljn.75.2020.01.29.05.41.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Jan 2020 05:41:22 -0800 (PST)
+Subject: Re: IORING_REGISTER_CREDS[_UPDATE]() and credfd_create()?
+To:     Stefan Metzmacher <metze@samba.org>, Jens Axboe <axboe@kernel.dk>
+Cc:     io-uring <io-uring@vger.kernel.org>,
+        Linux API Mailing List <linux-api@vger.kernel.org>
+References: <ea9f2f27-e9fe-7016-5d5f-56fe1fdfc7a9@samba.org>
+ <d6bc8139-abbe-8a8d-7da1-4eeafd9eebe7@kernel.dk>
+ <688e187a-75dd-89d9-921c-67de228605ce@samba.org>
+ <b29e972e-5ca0-8b5f-46b3-36f93d865723@kernel.dk>
+ <1ac31828-e915-6180-cdb4-36685442ea75@kernel.dk>
+ <0d4f43d8-a0c4-920b-5b8f-127c1c5a3fad@kernel.dk>
+ <b88f0590-71c9-d2bd-9d17-027b05d30d7a@kernel.dk>
+ <2d7e7fa2-e725-8beb-90b9-6476d48bdb33@gmail.com>
+ <6c401e23-de7c-1fc1-4122-33d53fcf9700@kernel.dk>
+ <35eebae7-76dd-52ee-58b2-4f9e85caee40@kernel.dk>
+ <d3f9c1a4-8b28-3cfe-de88-503837a143bc@gmail.com>
+ <c9e58b5c-f66e-8406-16d5-fd6df1a27e77@kernel.dk>
+ <6e5ab6bf-6ff1-14df-1988-a80a7c6c9294@gmail.com>
+ <2019e952-df2a-6b57-3571-73c525c5ba1a@kernel.dk>
+ <0df4904f-780b-5d5f-8700-41df47a1b470@kernel.dk>
+ <5406612e-299d-9d6e-96fc-c962eb93887f@gmail.com>
+ <821243e7-b470-ad7a-c1a5-535bee58e76d@samba.org>
+From:   Pavel Begunkov <asml.silence@gmail.com>
+Message-ID: <9a419bc5-4445-318d-87aa-1474b49266dd@gmail.com>
+Date:   Wed, 29 Jan 2020 16:41:18 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200121154844.411-6-christian.brauner@ubuntu.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <821243e7-b470-ad7a-c1a5-535bee58e76d@samba.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hello.
+On 1/29/2020 4:11 PM, Stefan Metzmacher wrote:
+> Am 29.01.20 um 11:17 schrieb Pavel Begunkov:
+>> On 29/01/2020 03:54, Jens Axboe wrote:
+>>> On 1/28/20 5:24 PM, Jens Axboe wrote:
+>>>> On 1/28/20 5:21 PM, Pavel Begunkov wrote:
+>>>>> On 29/01/2020 03:20, Jens Axboe wrote:
+>>>>>> On 1/28/20 5:10 PM, Pavel Begunkov wrote:
+>>>>>>>>>> Checked out ("don't use static creds/mm assignments")
+>>>>>>>>>>
+>>>>>>>>>> 1. do we miscount cred refs? We grab one in get_current_cred() for each async
+>>>>>>>>>> request, but if (worker->creds != work->creds) it will never be put.
+>>>>>>>>>
+>>>>>>>>> Yeah I think you're right, that needs a bit of fixing up.
+>>>>>>>>
+>>>>>>>
+>>>>>>> Hmm, it seems it leaks it unconditionally, as it grabs in a ref in
+>>>>>>> override_creds().
+>>>>>>>
+>>>>>>
+>>>>>> We grab one there, and an extra one. Then we drop one of them inline,
+>>>>>> and the other in __io_req_aux_free().
+>>>>>>
+>>>>> Yeah, with the last patch it should make it even
+>>>>
+>>>> OK good we agree on that. I should probably pull back that bit to the
+>>>> original patch to avoid having a hole in there...
+>>>
+>>> Done
+>>>
+>>
+>> ("io_uring/io-wq: don't use static creds/mm assignments") and ("io_uring:
+>> support using a registered personality for commands") looks good now.
+>>
+>> Reviewed-by: Pavel Begunkov <asml.silence@gmail.com>
+> 
+> 
+> I'm very happy with the design, thanks!
+> That exactly what I had in mind:-)
+> 
+> It would also work with IORING_SETUP_SQPOLL, correct?
+> 
 
-On Tue, Jan 21, 2020 at 04:48:43PM +0100, Christian Brauner <christian.brauner@ubuntu.com> wrote:
-> +static int cgroup_css_set_fork(struct kernel_clone_args *kargs)
-> +	__acquires(&cgroup_mutex) __acquires(&cgroup_threadgroup_rwsem)
-> +{
-> +	int ret;
-> +	struct cgroup *dst_cgrp = NULL;
-> +	struct css_set *cset;
-> +	struct super_block *sb;
-> +	struct file *f;
-> +
-> +	if (kargs->flags & CLONE_INTO_CGROUP)
-> +		mutex_lock(&cgroup_mutex);
-> +
-> +	cgroup_threadgroup_change_begin(current);
-> +
-> +	spin_lock_irq(&css_set_lock);
-> +	cset = task_css_set(current);
-> +	get_css_set(cset);
-> +	spin_unlock_irq(&css_set_lock);
-> +
-> +	if (!(kargs->flags & CLONE_INTO_CGROUP)) {
-> +		kargs->cset = cset;
-Where is this css_set put when CLONE_INTO_CGROUP isn't used?
-(Aha, it's passed to child's tsk->cgroups but see my other note below.)
+Yep
 
-> +	dst_cgrp = cgroup_get_from_file(f);
-> +	if (IS_ERR(dst_cgrp)) {
-> +		ret = PTR_ERR(dst_cgrp);
-> +		dst_cgrp = NULL;
-> +		goto err;
-> +	}
-> +
-> +	/*
-> +	 * Verify that we the target cgroup is writable for us. This is
-> +	 * usually done by the vfs layer but since we're not going through
-> +	 * the vfs layer here we need to do it "manually".
-> +	 */
-> +	ret = cgroup_may_write(dst_cgrp, sb);
-> +	if (ret)
-> +		goto err;
-> +
-> +	ret = cgroup_attach_permissions(cset->dfl_cgrp, dst_cgrp, sb,
-> +					!!(kargs->flags & CLONE_THREAD));
-> +	if (ret)
-> +		goto err;
-> +
-> +	kargs->cset = find_css_set(cset, dst_cgrp);
-> +	if (!kargs->cset) {
-> +		ret = -ENOMEM;
-> +		goto err;
-> +	}
-> +
-> +	if (cgroup_is_dead(dst_cgrp)) {
-> +		ret = -ENODEV;
-> +		goto err;
-> +	}
-I'd move this check right after cgroup_get_from_file. The fork-migration
-path is synchrinized via cgroup_mutex with cgroup_destroy_locked and
-there's no need checking permissions on cgroup that's going away anyway.
+> However I think there're a few things to improve/simplify.
+> 
 
+Since 5.6 is already semi-open, it'd be great to have an incremental
+patch for that. I'll retoss things as usual, if nobody do it before.
 
-> +static void cgroup_css_set_put_fork(struct kernel_clone_args *kargs)
-> +	__releases(&cgroup_threadgroup_rwsem) __releases(&cgroup_mutex)
-> +{
-> +	cgroup_threadgroup_change_end(current);
-> +
-> +	if (kargs->flags & CLONE_INTO_CGROUP) {
-> +		struct cgroup *cgrp = kargs->cgrp;
-> +		struct css_set *cset = kargs->cset;
-> +
-> +		mutex_unlock(&cgroup_mutex);
-> +
-> +		if (cset) {
-> +			put_css_set(cset);
-> +			kargs->cset = NULL;
-> +		}
-> +
-> +		if (cgrp) {
-> +			cgroup_put(cgrp);
-> +			kargs->cgrp = NULL;
-> +		}
-> +	}
-I don't see any function problem with this ordering, however, I'd
-prefer symmetry with the "allocation" path (in cgroup_css_set_fork),
-i.e. cgroup_put, put_css_set and lastly mutex_unlock.
+>> https://git.kernel.dk/cgit/linux-block/commit/?h=for-5.6/io_uring-vfs&id=a26d26412e1e1783473f9dc8f030c3af3d54b1a6
+> 
+> In fs/io_uring.c mmgrab() and get_current_cred() are used together in
+> two places, why is put_cred() called in __io_req_aux_free while
+> mmdrop() is called from io_put_work(). I think both should be called
+> in io_put_work(), that makes the code much easier to understand.
+> 
+> My guess is that you choose __io_req_aux_free() for put_cred() because
+> of the following patches, but I'll explain on the other commit
+> why it's not needed.
+> 
+>> https://git.kernel.dk/cgit/linux-block/commit/?h=for-5.6/io_uring-vfs&id=d9db233adf034bd7855ba06190525e10a05868be
+> 
+> A minor one would be starting with 1 instead of 0 and using
+> idr_alloc_cyclic() in order to avoid immediate reuse of ids.
+> That way we could include the id in the tracing message and
+> 0 would mean the current creds were used.
+> 
+>> +static int io_remove_personalities(int id, void *p, void *data)
+>> +{
+>> +	struct io_ring_ctx *ctx = data;
+>> +
+>> +	idr_remove(&ctx->personality_idr, id);
+> 
+> Here we need something like:
+> put_creds((const struct cred *)p);
 
-> +void cgroup_post_fork(struct task_struct *child,
-> +		      struct kernel_clone_args *kargs)
-> +	__releases(&cgroup_threadgroup_rwsem) __releases(&cgroup_mutex)
->  {
->  	struct cgroup_subsys *ss;
-> -	struct css_set *cset;
-> +	struct css_set *cset = kargs->cset;
->  	int i;
->  
->  	spin_lock_irq(&css_set_lock);
->  
->  	WARN_ON_ONCE(!list_empty(&child->cg_list));
-> -	cset = task_css_set(current); /* current is @child's parent */
-> -	get_css_set(cset);
->  	cset->nr_tasks++;
->  	css_set_move_task(child, NULL, cset, false);
-So, the reference is passed over from kargs->cset to task->cgroups. I
-think it's necessary to zero kargs->cset in order to prevent droping the 
-reference in cgroup_css_set_put_fork.
-Perhaps, a general comment about css_set whereabouts during fork and
-kargs passing would be useful.
+Good catch
 
-> @@ -6016,6 +6146,17 @@ void cgroup_post_fork(struct task_struct *child)
->  	} while_each_subsys_mask();
->  
->  	cgroup_threadgroup_change_end(current);
-> +
-> +	if (kargs->flags & CLONE_INTO_CGROUP) {
-> +		mutex_unlock(&cgroup_mutex);
-> +
-> +		cgroup_put(kargs->cgrp);
-> +		kargs->cgrp = NULL;
-> +	}
-> +
-> +	/* Make the new cset the root_cset of the new cgroup namespace. */
-> +	if (kargs->flags & CLONE_NEWCGROUP)
-> +		child->nsproxy->cgroup_ns->root_cset = cset;
-root_cset reference (from copy_cgroup_ns) seems leaked here and where is
-the additional reference to new cset obtained?
+> 
+>> +	return 0;
+>> +}
+> 
+> 
+> The io_uring_register() calles would look like this, correct?
+> 
+>  id = io_uring_register(ring_fd, IORING_REGISTER_PERSONALITY, NULL, 0);
+>  io_uring_register(ring_fd, IORING_UNREGISTER_PERSONALITY, NULL, id);
+> 
+>> https://git.kernel.dk/cgit/linux-block/commit/?h=for-5.6/io_uring-vfs&id=eec9e69e0ad9ad364e1b6a5dfc52ad576afee235
+>> +
+>> +	if (sqe_flags & IOSQE_PERSONALITY) {
+>> +		int id = READ_ONCE(sqe->personality);
+>> +
+>> +		req->work.creds = idr_find(&ctx->personality_idr, id);
+>> +		if (unlikely(!req->work.creds)) {
+>> +			ret = -EINVAL;
+>> +			goto err_req;
+>> +		}
+>> +		get_cred(req->work.creds);> +		old_creds = override_creds(req->work.creds);
+>> +	}
+>> +
+> 
+> Here we could use a helper variable
+> const struct cred *personality_creds;
+> and leave req->work.creds as NULL.
+> It means we can avoid the explicit get_cred() call
+> and can skip the following hunk too:
+> 
+>> @@ -3977,7 +3977,8 @@ static int io_req_defer_prep(struct io_kiocb *req,
+>>  		mmgrab(current->mm);
+>>  		req->work.mm = current->mm;
+>>  	}
+>> -	req->work.creds = get_current_cred();
+>> +	if (!req->work.creds)
+>> +		req->work.creds = get_current_cred();
+>>  
+>>  	switch (req->opcode) {
+>>  	case IORING_OP_NOP:
+> 
+> The override_creds(personality_creds) has changed current->cred
+> and get_current_cred() will just pick it up as in the default case.
+> 
+> This would make the patch much simpler and allows put_cred() to be
+> in io_put_work() instead of __io_req_aux_free() as explained above.
+> 
 
-Thanks,
-Michal
+It's one extra get_current_cred(). I'd prefer to find another way to
+clean this up.
+
+-- 
+Pavel Begunkov
