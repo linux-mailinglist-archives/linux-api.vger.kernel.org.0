@@ -2,139 +2,105 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B378214CD0A
-	for <lists+linux-api@lfdr.de>; Wed, 29 Jan 2020 16:14:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 10D6514CF67
+	for <lists+linux-api@lfdr.de>; Wed, 29 Jan 2020 18:16:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726788AbgA2POr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 29 Jan 2020 10:14:47 -0500
-Received: from mail-lj1-f180.google.com ([209.85.208.180]:40316 "EHLO
-        mail-lj1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726786AbgA2POr (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 29 Jan 2020 10:14:47 -0500
-Received: by mail-lj1-f180.google.com with SMTP id n18so18833566ljo.7
-        for <linux-api@vger.kernel.org>; Wed, 29 Jan 2020 07:14:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=A86ktnaGthgQnU7BZkhQofq1ezZpSuArhDRStbyXDng=;
-        b=qyT/BivTXG6qNnpNQ5ufeDtin4S3iRXB/70Yriqqs6UW3y3gcV6G+0Ym3n7nqeOk8B
-         jFC56xW8kawnlKQF57ipz4XUtv6XhcwMswbuSl34p4kfF73dSJZMKI00L14h91xepLz9
-         pvgFR5trdohez+rdk19St0IB3O3dRoYE7BtdhtiS3nTH59KnNodJ9crpZ0Akpvo7JS8S
-         T2JLtONfBDLg6cFD7oIQF4nYqbxfkYLvacbXRD/xn6LjLV1A3tLy2AYYOy3vHXROsq7w
-         +p+Ps++8x6HhCnF4uEpNw+g0k4LDnSbwYbIFjRmug/6nZ+E+K8Mk7BrTR/X09BQVNWko
-         Na3Q==
+        id S1726679AbgA2RQr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 29 Jan 2020 12:16:47 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45080 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726647AbgA2RQr (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 29 Jan 2020 12:16:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1580318205;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=M5i8mRKm7dmfzydQLNecACgzsC7ykRGuRXnbf9FqfH0=;
+        b=cvL1JR8Un+W+ffSF+9W2cpoJqLOvufsXr9slnb8SEv0iAIemqhWRRX67Sh7vm3R4frmrR7
+        ITPBp05ZcqcFpmR0yeg5iJGfUYNrMWOecYDu3WJFRMhcCFuzU5c+klNS9A2Oi6CivPBjKK
+        KVCEmEujW8RcCT6+85bq/nzNA5tcjpg=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-109-XcH5EQn0MVy7mvYpXEjEKw-1; Wed, 29 Jan 2020 12:16:29 -0500
+X-MC-Unique: XcH5EQn0MVy7mvYpXEjEKw-1
+Received: by mail-qk1-f200.google.com with SMTP id v2so122690qkf.4
+        for <linux-api@vger.kernel.org>; Wed, 29 Jan 2020 09:16:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=A86ktnaGthgQnU7BZkhQofq1ezZpSuArhDRStbyXDng=;
-        b=UvSreXwSpGnMIQJ7YGU1LLfo3Hh9HVJ1tnJkTrY0vD9aSAxhoLtQ4V+Nn8QPc0f+dX
-         gsYyYNysU2DtMt1D0tkGs5Chigdx63kCxgxADlVHSQW1yRx5ieAakBwBaedlaT3pwbF7
-         yLwFNUR7W9Kl6H73noO0Gc8DGb2w568OlDOUZH2hy7kSzC7vgtw1d5uREU+a8MwYYPtk
-         +yStg3Mr5W3Dp6T+UWqE/SViJhRIMf+tP21mMf1i1erTk+x7wXVYmStx8rw73V573NxQ
-         lfCfikIEzdEPJJctXnQc9LSj1KgeY0CoePWqGe1zCqeNJyj1rnDK4P5POD5aM1aOENeG
-         0mjg==
-X-Gm-Message-State: APjAAAUdmjn8q1bWprGbJiLlP1UEjql2/j8Z1sivNJPXGnr/57OT8WTQ
-        PBW22sdDxcwEA1BWB1E2KkghDi0KEYLP2JahLWoKmvn6sQQ=
-X-Google-Smtp-Source: APXvYqzjfO/YqqHqe9HnZ8e2uiFnZm7ExueSBY+rJP6a4lQ5DJxJQgJBknWIbra+2sbPcjbjPaNBeUBRVcFmInn2WQ0=
-X-Received: by 2002:a2e:b68c:: with SMTP id l12mr16148520ljo.36.1580310885018;
- Wed, 29 Jan 2020 07:14:45 -0800 (PST)
+        bh=M5i8mRKm7dmfzydQLNecACgzsC7ykRGuRXnbf9FqfH0=;
+        b=PtI+MjkMvmOQd0m6CLkGtKn4D6Evepe6OeXEy3VLlNejfcHtY9IelWyID2uc7sCxXk
+         5Q7scl1UOxEM0oezOAFBA+zNtHOp5i71kjS6A9xzq5UQnahKgersgAzhTbVA6742BAW8
+         j/DowdziW9D4JMXs8u0QP+XJKBpCzqv5v4Uc23/8CHyNm8JTwvQ4Rg0whpxxFsa3xtPM
+         QVVfpSoTaKp1/2GUfyrombWybarogI9XwlhMH11bOB115+phNSE9fs1tkQF+gkU9Nvau
+         1a3KBgFhVlEIZKzn0BPi3srQkrEzgj9jtaI0WxRoA/rbfM3u0RCX4uw3xihSVVR6W0PW
+         VtaQ==
+X-Gm-Message-State: APjAAAX4nDVlg5L6MFlAJo87b+pDTdz1lqhWgfVGV9h8QxQkLs1zjl9t
+        77+oq/m99P4gPBZmwZQriJW54vvM94Q6MXWnnL4dRw3w1kmY/p0LEZ0P8XpfmOPRQh3F6BviYWJ
+        7UESJWywz4XnnH5pbZ27c
+X-Received: by 2002:aed:3463:: with SMTP id w90mr212208qtd.42.1580318188396;
+        Wed, 29 Jan 2020 09:16:28 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwkX8cUMxuvZFJ1Tw3QGErxjHFehV08dxZzqWRbtYsLGuqNfO2VxYKJ9rzYny1Q56VD+a9z2A==
+X-Received: by 2002:aed:3463:: with SMTP id w90mr212190qtd.42.1580318188141;
+        Wed, 29 Jan 2020 09:16:28 -0800 (PST)
+Received: from [192.168.1.4] (135-23-175-75.cpe.pppoe.ca. [135.23.175.75])
+        by smtp.gmail.com with ESMTPSA id n4sm1361026qti.55.2020.01.29.09.16.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Jan 2020 09:16:26 -0800 (PST)
+Subject: Re: Including both linux/time.h and linux/input.h causes failure
+To:     Elichai Turkel <elichai.turkel@gmail.com>,
+        linux-api@vger.kernel.org
+References: <CALN7hC+f+D8xsaJBt+MCXDfk51oHCoQeUVmFydNdkW+_DeqTiw@mail.gmail.com>
+From:   Carlos O'Donell <codonell@redhat.com>
+Message-ID: <88ab5e38-254a-430d-67cf-1840b0e51c35@redhat.com>
+Date:   Wed, 29 Jan 2020 12:16:26 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-From:   Elichai Turkel <elichai.turkel@gmail.com>
-Date:   Wed, 29 Jan 2020 17:14:18 +0200
-Message-ID: <CALN7hC+f+D8xsaJBt+MCXDfk51oHCoQeUVmFydNdkW+_DeqTiw@mail.gmail.com>
-Subject: Including both linux/time.h and linux/input.h causes failure
-To:     linux-api@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CALN7hC+f+D8xsaJBt+MCXDfk51oHCoQeUVmFydNdkW+_DeqTiw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi,
-The following header: <wrapper.h>:
-```
-#include <linux/input.h>
-#include <linux/time.h>
-```
-Will cause the compiler to fail because of redefinition of a lot of
-time related structs, that are declared once in `linux/time.h` and
-then again via `bits/types/struct_timeval.h` which is included through
-`linux/input.h > sys/time.h -> bits/types/struct_timeval.h`
+On 1/29/20 10:14 AM, Elichai Turkel wrote:
+> Hi,
+> The following header: <wrapper.h>:
+> ```
+> #include <linux/input.h>
+> #include <linux/time.h>
+> ```
+> Will cause the compiler to fail because of redefinition of a lot of
+> time related structs, that are declared once in `linux/time.h` and
+> then again via `bits/types/struct_timeval.h` which is included through
+> `linux/input.h > sys/time.h -> bits/types/struct_timeval.h`
+ 
+This is another header-coordination issue between the kernel and libc.
 
+In this case it's linux/time.h vs. sys/time.h.
 
+"Synchronizing Headers"
+https://sourceware.org/glibc/wiki/Synchronizing_Headers
+- Just added your case.
 
-Command: `gcc -I./headers_install/x86/include wrapper.h`
-output:
-```
-In file included from wrapper.h:13:
-./headers_install/x86/include/linux/time.h:16:8: error: redefinition
-of =E2=80=98struct timeval=E2=80=99
-   16 | struct timeval {
-      |        ^~~~~~~
-In file included from /usr/include/sys/time.h:25,
-                 from ./headers_install/x86/include/linux/input.h:13,
-                 from wrapper.h:8:
-/usr/include/bits/types/struct_timeval.h:8:8: note: originally defined here
-    8 | struct timeval
-      |        ^~~~~~~
-In file included from wrapper.h:13:
-./headers_install/x86/include/linux/time.h:21:8: error: redefinition
-of =E2=80=98struct timezone=E2=80=99
-   21 | struct timezone {
-      |        ^~~~~~~~
-In file included from ./headers_install/x86/include/linux/input.h:13,
-                 from wrapper.h:8:
-/usr/include/sys/time.h:52:8: note: originally defined here
-   52 | struct timezone
-      |        ^~~~~~~~
-In file included from wrapper.h:13:
-./headers_install/x86/include/linux/time.h:30: warning: "ITIMER_REAL" redef=
-ined
-   30 | #define ITIMER_REAL  0
-      |
-In file included from ./headers_install/x86/include/linux/input.h:13,
-                 from wrapper.h:8:
-/usr/include/sys/time.h:92: note: this is the location of the previous
-definition
-   92 | #define ITIMER_REAL ITIMER_REAL
-      |
-In file included from wrapper.h:13:
-./headers_install/x86/include/linux/time.h:31: warning:
-"ITIMER_VIRTUAL" redefined
-   31 | #define ITIMER_VIRTUAL  1
-      |
-In file included from ./headers_install/x86/include/linux/input.h:13,
-                 from wrapper.h:8:
-/usr/include/sys/time.h:95: note: this is the location of the previous
-definition
-   95 | #define ITIMER_VIRTUAL ITIMER_VIRTUAL
-      |
-In file included from wrapper.h:13:
-./headers_install/x86/include/linux/time.h:32: warning: "ITIMER_PROF" redef=
-ined
-   32 | #define ITIMER_PROF  2
-      |
-In file included from ./headers_install/x86/include/linux/input.h:13,
-                 from wrapper.h:8:
-/usr/include/sys/time.h:99: note: this is the location of the previous
-definition
-   99 | #define ITIMER_PROF ITIMER_PROF
-      |
-In file included from wrapper.h:13:
-./headers_install/x86/include/linux/time.h:39:8: error: redefinition
-of =E2=80=98struct itimerval=E2=80=99
-   39 | struct itimerval {
-      |        ^~~~~~~~~
-In file included from ./headers_install/x86/include/linux/input.h:13,
-                 from wrapper.h:8:
-/usr/include/sys/time.h:104:8: note: originally defined here
-  104 | struct itimerval
-      |        ^~~~~~~~~
+It's not immediate clear to me if the UAPI header is clean enough to
+use directly in glibc or not, and that's often the simplest way to fix
+things.
 
-```
+When you can't just use the kernel header definitions then you have
+to work through the conflict and decide if you want to allow both headers
+to be potentially included and in which orders to support it.
 
---=20
-PGP: 5607C93B5F86650C
+Why do you need both headers included?
+
+-- 
+Cheers,
+Carlos.
+
