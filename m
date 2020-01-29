@@ -2,343 +2,563 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 86C8914C9D7
-	for <lists+linux-api@lfdr.de>; Wed, 29 Jan 2020 12:41:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 53B2D14CB2D
+	for <lists+linux-api@lfdr.de>; Wed, 29 Jan 2020 14:11:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726068AbgA2Lll (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 29 Jan 2020 06:41:41 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:41080 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726067AbgA2Lll (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 29 Jan 2020 06:41:41 -0500
-Received: by mail-lj1-f193.google.com with SMTP id h23so18088435ljc.8
-        for <linux-api@vger.kernel.org>; Wed, 29 Jan 2020 03:41:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=XUJCo3W0DrPJvZgiPwUB2UqemEKFFUaj+v+ZvMScm5g=;
-        b=A/d5W6M/KY0Iy011nwBgjDsd/ZN9BXjzxCYTMLUeVgqP0RrB3n6W6NFvtwH9+BvOr8
-         xVOrwdn5IM4+R1O2RUT1Uc/rDcwaUgGwYJ4LBQ7Wz2vWsiBFsCl84SaDK+UdSMbTsF8m
-         jUFURAtutNCr4lCzJC/1rllPdsbU0IH0+1frKloBIIz9kek0xOnGy4Ponl/ZlaokMqTB
-         ocu+RpfjK/VLGs34EPOxOCM0Ocp1Xwv5S0gXqy9vq0N2hwbb2L8o2nayIzbPSSKx3QGx
-         /3XmM+IhiRAEYalclncuDZfHlPGx6c0sU8ADJZFC1+GG+5UcY1/O09OjMtiMGmfAbnSo
-         vA8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=XUJCo3W0DrPJvZgiPwUB2UqemEKFFUaj+v+ZvMScm5g=;
-        b=Lezfb+IEoKghMOxyykfA74Z8nDpaAfghppk96BfisrpRpQSoBW8s+/bDB5Zabv82t4
-         b6BQIQQLonvWivZrRDGvsEQr2RPV2sJc61qm4QMLrXc0CjnrFV0sIS03AbtJ2ptD228M
-         Ca2nBN3GmJcMQdyxj3M9g7lQFs4nRBN2IrVrMUcnZgUoi/Gy5tL/Mk3Q5IwzaRN0zBLU
-         DX0IWy3ykYbMTBF7LqhVPXneiFghamxlf5V0menMcPPeQnAEOnr2/mUpf2+F/YJEDh88
-         RHxC0LEqwHQ2wkZy+Nj1Zkcm5mOt7UN5gxvdJORkhnaqLf5rsA+pNFzmN+1GoLNKjI+k
-         IYfw==
-X-Gm-Message-State: APjAAAX3w8Fb+Ui81e+DsAZ87oOs2juGsKvtULptM+q7qv0GjHqDjfRi
-        6naQEoE2HzNeccEe7j9GuYGDnMd7Nveu+ttqzsDAxhjEF/Y=
-X-Google-Smtp-Source: APXvYqw52vefJuUlCsee/38Qg+2Y8n1LuyvfKiMQiALCoQO8FQ99jAnblWw1bfjfhOBJxjQZnDG8M58FQBW1CuLytMM=
-X-Received: by 2002:a2e:a490:: with SMTP id h16mr16103138lji.115.1580298098188;
- Wed, 29 Jan 2020 03:41:38 -0800 (PST)
+        id S1726177AbgA2NLU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 29 Jan 2020 08:11:20 -0500
+Received: from hr2.samba.org ([144.76.82.148]:48318 "EHLO hr2.samba.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726145AbgA2NLT (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 29 Jan 2020 08:11:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=samba.org;
+         s=42; h=Date:Message-ID:From:Cc:To;
+        bh=LV5ngm6Sa+nBzTolM0a73I7auMsOhxCsCMue9yVo85Q=; b=TVdVZ4JiUE0yN2JqiqmPPjTz5f
+        OvCM/6Uqa0wmiGtgMgTsMiaWRHl+3b9sGVrbUBg5Aww2f/u9PgCMQP9BNn0VEAobqIksjxfyJ9SXt
+        ZC/fqthjwxLdNeobPk0m+cdsx7eJ9SntviA6a4nhRVCH8YmU1+LQOuZXt9SPnDMMOHw9AGGWVGQSa
+        w5TiD1ZeU9ZkM5nPUc5x//4bywA907me5v3GYs/Cg1GCXqLoiOt5sSWw6ruCVIUsZlh3rD7Z8+wz9
+        +pDbpd631yyqdwbudbH8FHMAKLjxCdcNs6gQT8YnZyna0hQeoHLdQv2c9FV95M4RQsXssRG4+em8s
+        bL0wycbq5rH+bxyA/ihUdfFpcTF/wFGW44CGlw+9eMRkTW/UBxHujigYXATHRWQFTWyXU/kAvRFWH
+        KxoFJVih8fRgV0gaKVA5GgCaHJAkyalTGYdNvZ4vym3dUPTurTq998dXLBekFR2yIb7zVUucbmWRe
+        w9iu3zUcvtM79V+xIKpjyYTP;
+Received: from [127.0.0.2] (localhost [127.0.0.1])
+        by hr2.samba.org with esmtpsa (TLS1.3:ECDHE_RSA_CHACHA20_POLY1305:256)
+        (Exim)
+        id 1iwn7g-0005ZI-Vd; Wed, 29 Jan 2020 13:11:13 +0000
+To:     Pavel Begunkov <asml.silence@gmail.com>,
+        Jens Axboe <axboe@kernel.dk>
+Cc:     io-uring <io-uring@vger.kernel.org>,
+        Linux API Mailing List <linux-api@vger.kernel.org>
+References: <ea9f2f27-e9fe-7016-5d5f-56fe1fdfc7a9@samba.org>
+ <d6bc8139-abbe-8a8d-7da1-4eeafd9eebe7@kernel.dk>
+ <688e187a-75dd-89d9-921c-67de228605ce@samba.org>
+ <b29e972e-5ca0-8b5f-46b3-36f93d865723@kernel.dk>
+ <1ac31828-e915-6180-cdb4-36685442ea75@kernel.dk>
+ <0d4f43d8-a0c4-920b-5b8f-127c1c5a3fad@kernel.dk>
+ <b88f0590-71c9-d2bd-9d17-027b05d30d7a@kernel.dk>
+ <2d7e7fa2-e725-8beb-90b9-6476d48bdb33@gmail.com>
+ <6c401e23-de7c-1fc1-4122-33d53fcf9700@kernel.dk>
+ <35eebae7-76dd-52ee-58b2-4f9e85caee40@kernel.dk>
+ <d3f9c1a4-8b28-3cfe-de88-503837a143bc@gmail.com>
+ <c9e58b5c-f66e-8406-16d5-fd6df1a27e77@kernel.dk>
+ <6e5ab6bf-6ff1-14df-1988-a80a7c6c9294@gmail.com>
+ <2019e952-df2a-6b57-3571-73c525c5ba1a@kernel.dk>
+ <0df4904f-780b-5d5f-8700-41df47a1b470@kernel.dk>
+ <5406612e-299d-9d6e-96fc-c962eb93887f@gmail.com>
+From:   Stefan Metzmacher <metze@samba.org>
+Autocrypt: addr=metze@samba.org; prefer-encrypt=mutual; keydata=
+ xsNNBFYI3MgBIACtBo6mgqbCv5vkv8GSjJH607nvXIT65moPUe6qAm2lYPP6oZUI5SNLhbO3
+ rMYfMxBFfWS/0WF8840mDvhqPI+lJGfvJ1Y2r8a9JPuqsk6vwLedv62TQe5J3qMCR2y4TTK1
+ Pkqss3P9kqWn5SVXntAYjLT06Qh96gQ9la9qwj6+izqMdAoGFt5ak7Sw7jJ06U3AawZDawb2
+ +4q7KwaDwTWeUifIC54tXp+au5Q17rhKq94LTcdptkLfC5ix2cyApsr84El/82LFUOzZdyRA
+ 7VS8gkhuAZG7tM1MbCIbGk0O3SFlT+CvZczfjtoxVdjYvGRDwBFlSIUwo3Os2aStstvYog7r
+ r9vujWGSf5odBSogRvACCFwuGLVUBSBw/If0Wb0WgHnkdVcKfjNpznBqUfG6mGhnQMv3KlbM
+ rprYTGBOn/Ufjw7zG6Et2UrmnHKbnSs1sG+Ka4Qg4uRM45xlNKn1SYJVSd1DnUqF1kwK2ncx
+ r5BjxEfMfNHYxEFuXCFNusT0x3gb6zSBPlmM+GEaV26Q/9Wpv2kiaMnNJ9ZzkafSF52TgrGo
+ FJEXDJDaHDN7gtMJTXZrtZQRbUnXUxBXltzbKGJA9xJtj57mhDkdcKgwLUO1NUajML/0ik8f
+ N0JurJEDmKOUl1uufxeVB0BL0fD7zIxtRYBOKcUO4E0oRSSlZwebgExi33+47Xxvjv0X1Lm+
+ qnVs0dCIJT5hdizVTtCmtYfY4fmg6DG0yylWBofG7PYXHXqhWVgGT06+tBCBP10Cv4uVo6f8
+ w91DN00hRcvfELUuLhJ9no3F5aysYi8SsSd5A4jGiPJWZ/mIB4e2PJz948Odb1NwMiJ1fjXw
+ n0s07OqAMasGTcuLNIAhLV1lTtCikeNFRfLLQJLDedg+7Q+zAj1ybylUfUzmwNR52aVAtUGK
+ TdH4Tow8iApJSFKfg9fDqU8Ha/V6XCG5KtWznIBH0ZUd6SFI7Ax+6S6Q+1lwb18g2HNWVYyK
+ VmRp+8UKyI90RG8WjegqIAIiyuWSN8NZyN1w7K5uN6o600zCukw4D6/GTC/cdl1IPmiE9ryQ
+ C9dueKHAhJ5wNSwjq/kpCsRk92enNcGcowa4SjYYMOtUJFJokWse1wepSeTlzQczSU32NHgB
+ ur51lfv+WcwOMmhHo465rGyJ84faPR3iYnZ9lu7heKWh2Gb9li1bug71f2I1pCldHgbSm2+z
+ XXoUQqjM5iyDm5h3JnEfaI+TTUKLeO2+wgEeOIie7kcCadDcBZ4YoP7lzvREKG07b+Lc0l0I
+ 3kwKrf3p3n+bwyhAeTRQ/XcG/Nvmadx35Q5WlD2Q/MzsPKcw7j0X45f+sF3NrlEeoZibUkqn
+ q4Acrbbnc2dZABEBAAHNI1N0ZWZhbiBNZXR6bWFjaGVyIDxtZXR6ZUBzYW1iYS5vcmc+wsOt
+ BBMBAgBAAhsDBwsJCAcDAgEGFQgCCQoLBBYCAwECHgECF4AWIQSj0ZLORO9BJRe87WRqc5sC
+ XGuY1AUCXZzbpAUJCXvJ3AAhCRBqc5sCXGuY1BYhBKPRks5E70ElF7ztZGpzmwJca5jU8vQf
+ /0x2kmkQaPhHjxTT2amQO+GC7AEdyXyeYu8U4GwcH0vzEmLO5YWCFyV59c1I6+oP5cIpj45I
+ tQvOeOIjM6h1u43JefnDanL2KMYC2lCNZDABgBm27dL7EBjzw4a0BW+COq1fdZxYp9rNZcVt
+ S9Lhkz0m4W4heeSHV+9jOc1LdPxt5HvqwtRDRDAhtNbiNTsDqPOqsuBG38vR9MuBu1YBRaVv
+ 7YxzQqGOFn2fmRn0bgiJkdqhCYabPX6u8Ei29TVkRaEFYWRFiQf+/CfpANin4znqef5F3p7+
+ qkkSwD5IOTedgeZ3f2U3clya3vQCO00XnAg4+SITYtBRBL24UVUZtwmnhxeaHbD4XpHz05Gn
+ t6YayAr02fxNzbGv8TbD3QgHlfhVux2q+w8MDSDw563j5xOPpcm5Z/GklUBVcSUyGRMs+bdl
+ mU6popnP3R+xjwfH2dG6gHK4MZkoZFDFJg+JiN/1M/1Tel0hu0mcqwlxX8ZIG4Or1d4Aw9ta
+ gNrHVWw1zmOWDoU8ShUIGkzpW7jjGEQJg67BEqyEa9wXWkYnHK+8+7w69eIOTK+HYiTpNt/k
+ H6iNG0XHkg23YhwyoVtESh5b9pGoWsyC3T/pEQBxgnvvgLHxcNYM64NY+9e6IEGHf5qhloaJ
+ z1nsuyBNa0UoUzvm98rzrLF3MljywWF4bP+/Q6S08wHX3SmwOaspQeI32HNiiW03w9igoSB8
+ Xh4ZeKgNewm4+vhQBf6sSI60IxNCFiGdAW76yIB8ZxT2bjq90Of3En9GEPZVXZzb80zvkK/0
+ NBATK0HFU+SgkmJtznrUHN9QWHSjJzbu9t99zXfP+7mSG83k8E8YKZrpgYERkELcX76ejIg9
+ uXGuII2k28XdpO/8WROrFM5mpOwc+gBcqcpJERbHbqhPSpb5uJ2/3B5B3vU7EsGOsTLEipWF
+ oZcpfm4TTWg0Li76/mf7oa7bQoJUTsJj6bJpA+t5qyYhMe1RYWyf1JtpydDdidkskfwI0JE9
+ kV+JfOHShSG+vFLrXx2GkhnRFqSbfQnnCNNgjOE1ikinCIel0QSkUcjx8VjL3SI3FNh3dhQf
+ lHobEe2ZDJp5WbwBDd6e1x4xp+z1eAhCPuNCn7Nzwt7upvrpsng7NFlA9UIrj7DfCpoiR9iq
+ YXrfIy9t4sgiX95ZCiNKKgppR6jURD9alSn8K+ZYJ/HP22lBT2TTyRDiD0STY1701GEliyOa
+ g+RTWRpGiBNogsY1JqGC9uPPqH+eCD0a6tgC3tnNGeTD/enfySx0FM2sxmyTXPkyxKYrKfk4
+ RZMn+QI3XY3Vx5c9EU09oo4yYIvwz7U/7YkdIYqlHLgWDfPmL44JbYHUsQ3SkJxKxioVrrzO
+ wU0EVgjjdQEQAMV4CQS6KeeL48/NyqeQG/ttlq82tuv2hcFwSFPlXA0A8Ky615khl1ZIygTA
+ mGT7pw5Ki+y+B/CL8UY/ywPWcTnL8Ckn2FfbJd70ivQRxkx4APj0Oz94Yv3fyleVJbt6ELrG
+ igacn+exlgNmfl3+cio6AAmOT3C/4fK//rx0fAP3C9DjDoHu7PilaTp6ZrgmO/1szLLkXXgR
+ I8yjcid/qZ/5IhGVKPOQ2RERLZZGFcP8E5VfnT5WdP4j1IotDWaJSlCn33rrZZVWYCnO/CJ9
+ NceRMVpdQnfxgIeS75iEs8Zrcjoo4RrITkz8tfMvKKzzoQVIap5M/uoPjwwshZElNrufpck/
+ O+knUmjLd0cF6j4kYru/MS/WOlgAc3vAnYK7OlISRHdHbAJgoDQEgCcqo46U28ZcRjzyS4cj
+ teqaer9sCfNu+tKHTQk1mdWyEPuv8lClmsIQLzc7e9lpX3/mxkaSgvPey5Z//HGyS+MssM9K
+ iS7E6Wl7/P1w+dJ6pT1t3OR/2ZUhoF8zLu3hBs0ZSZNwNqgqX+2Kp9kd2X6fpHjg29n0Dt/F
+ w5ghlOJ3YEJoHB4WH8qaJxWRDpBwOYzxSjq4hiE4OeiBvNVzN6ELu7c5XQpAyL86k0Hr0RHo
+ OiiXgB4H+zGJxX1GUyP53bXZzazZl29vpem2nstlEHEQHlw7ABEBAAHCxYQEGAECAA8FAlYI
+ 43UCGwIFCQHhM4ACKQkQanObAlxrmNTBXSAEGQECAAYFAlYI43UACgkQDbX1YShpvVbVaA/8
+ CJxyRPi9CxLpqWrFSUrP8PDph14QzOkZD65PkcYtCqBb/tl1TGz52+DOB2yob8RP80JLkJgt
+ LlBnGv+7TagsJoM/USzy/bQ9ZIm2eOKd3qfMciwsFw7P6B4oUT4+dmoUOGwfyekkbpF/mrqP
+ 4qZ4Y19kFWt77QgtU0DxCj6Sv+44pCGxMPkyyBFF87MT0yzhfSQ/S+r5XLefT5Z5dBO5jsOO
+ uzT+Fl+Q/J3glkvxC+I+23RfzExwDev+xL4y6agoP3QQVqxb9w/ps82VUlyx6pjdxkobRagO
+ KUJNU1PlQzc3M9CbVltdDU9qCKw05/tXDqzVaZ0+cNgrE2CzvFllPxBpbOjyI2nszeiPbRfC
+ 0Q96otravCrC1ifkllbzuCGLvjm23iAjnGD7cJMFv+IWpe/yKrZHG+d469as9+N+sPXZMlzB
+ 74av+oyQyxIn7lp1dwYo2e9TcV/9SMF0F3LfCyewDnfiMCTBbXcFu/+hd3OKABxWE/5ZgnOL
+ B3z3NBf2FMnan9m4X8mXStzCA2QNkfyt866paI2vyOIk6NPdR0AGX6dXZnCsqlX3t2kBadpg
+ kZQc33+3R2nFMmKqsF1xMaEzfgmjKMwbo6gT5PRfiqZOiKslLGCYIArJxNXOuYAn5KCqi6WU
+ Li2cvPZqJvgsgvVYEY4DDsYGBD+DA7Ram0NDTiAAqLybdqbGqam4aL/olI4EIm7qfOi22D36
+ moxbGPJ9wMe+ZmNkVtudkCzxCtd/D5Du/voLq2pi3hqDWAdNjwNvKBFCGQ4ReI3rw9rYsLkG
+ cWrV9VNjbm7xH05ZmmRjQaNJ9MXqk7XE5+1GUp9jB0mOCA2rX/LYJVHnj6Ss3RpMN0vwZlGq
+ TxvhCYOQFow4obHl4fQR8jtRQb33BWiJ/oMkQHMVyTuWoJWs979Y/r/wMEytf4D/HIuSi+oo
+ wBZdz53tO3OWvRHyX3fVrEphAQIC8lUQfFH+WS+Go4KSxa41hZRXZdm3tw4DW5iph4rNxf7H
+ uyIaiJdNU4VV5gSi5fp5RhVY0Rs+ugcoZKSGj4UYBduW8zLytga+Zo/EkliDSIwqfXAikIyY
+ jH2sv3zzc6in8u+hcgRRckSRZnQ1JMsaD1MLljniaGKIKqVsdem7XFaDJSDaSSRAJ7PYUOax
+ i2JQm95VJtmoEmhoRdg90T2aETmycCkrRWAn2pu0+7MeVcs92SZnnYToXjbL0Pr1suoiMrZv
+ 6URZ5H53NZvFK8SrYTbjXPDt4Dia0pAptiRhbSRgqS35oVDcheYsb1ypKuSdmC6nJVV74wED
+ fh7UdkIER0bELAklkGpFiAUhMVna/l0gvJw6v2gP+H/eE82+NyNFXFHJ4H+mw457Y2tYBhYj
+ /KnQFfXocr1vUqqlrhGmHMB/QN2X6xUNJIwI9n868BjYmFQc51ODvRJUZlIi81S8L4ZnJIP6
+ FhwYVpVCl39zds6e2vDv+OYux8D8i9nFmsAlnh0LV+3sTQc8Ydy5XJ/SzD2hpFU2YZtmGXgo
+ M9N9lkrRjYHaSEWBPc+hL2rlb0z8wLZcUBjqxBKuqCbFvef/DkEqb60zkfROm4wqOt0ptsV0
+ x5JhMYEw0V8ABVPmVc2Z+ovO3Tm9cvKm6gvF29wDHbBHexK1oUPVGa0YJ7y9RMF2MTGUE3JF
+ yT8CsyG/JXFIIk+K6V0cp2+gUno7hZKhZojO33L5vByGjQX7wrGERSwwXW3r1duwp/pBWH9s
+ RlqUc5CEBxkBeKUbQvKjtqRWftafBrgen243hCyu0wKOAh/0wR6Ukw3bMhH3YosZJ7ki3kag
+ xEYUPx1pY2uBLQZkZaUCu34vCpd0LyWQwMeM668PqhhYJDJRNOaadaZfRUU9wVNPPaJ1uX5Z
+ TBNDajl/a/gUWQvvQUxquZ9NFqz0Nd3hx0LhupOq6Qdqok4ZlNTIQZVLoOUB83hu/9vSsITf
+ UwuE0w1Z+u/2xzijpAJxs/Z7RLikJ7Ts1++OUxCEs3lkfcCuTHQqnMQb3IHEk9++pzCQTV+g
+ 3isgeVM/Fea7OkaKZIEVglj8kifLrn1KjK+zksLFhAQYAQIADwIbAgUCV/ZWSQUJA86mUQIp
+ CRBqc5sCXGuY1MFdIAQZAQIABgUCVgjjdQAKCRANtfVhKGm9VtVoD/wInHJE+L0LEumpasVJ
+ Ss/w8OmHXhDM6RkPrk+Rxi0KoFv+2XVMbPnb4M4HbKhvxE/zQkuQmC0uUGca/7tNqCwmgz9R
+ LPL9tD1kibZ44p3ep8xyLCwXDs/oHihRPj52ahQ4bB/J6SRukX+auo/ipnhjX2QVa3vtCC1T
+ QPEKPpK/7jikIbEw+TLIEUXzsxPTLOF9JD9L6vlct59Plnl0E7mOw467NP4WX5D8neCWS/EL
+ 4j7bdF/MTHAN6/7EvjLpqCg/dBBWrFv3D+mzzZVSXLHqmN3GShtFqA4pQk1TU+VDNzcz0JtW
+ W10NT2oIrDTn+1cOrNVpnT5w2CsTYLO8WWU/EGls6PIjaezN6I9tF8LRD3qi2tq8KsLWJ+SW
+ VvO4IYu+ObbeICOcYPtwkwW/4hal7/Iqtkcb53jr1qz3436w9dkyXMHvhq/6jJDLEifuWnV3
+ BijZ71NxX/1IwXQXct8LJ7AOd+IwJMFtdwW7/6F3c4oAHFYT/lmCc4sHfPc0F/YUydqf2bhf
+ yZdK3MIDZA2R/K3zrqloja/I4iTo091HQAZfp1dmcKyqVfe3aQFp2mCRlBzff7dHacUyYqqw
+ XXExoTN+CaMozBujqBPk9F+Kpk6IqyUsYJggCsnE1c65gCfkoKqLpZQuLZy89mom+CyC9VgR
+ jgMOxgYEP4MDtFqbQ6vtH/4hRJwSwklQTq8A0WqRz8edCqd/jbbpPyXtMbghB0XwPpwEWFUZ
+ WSl8w4CNBs/7LynUIDur4n9WB+sm7lmVtkcAbWAFWF2dwAdhhntXiw2654BGlL2LZaLm3rKq
+ hepSOSzc30rWWFRUtqA4wj+5JGOdW6mtjopLR1fFJcVTmMpuz+5AwMee36TSAgxeAXCZTvLd
+ EIw8UlbjEr0SsrXEdQzKpQNOqwDv2pbbwPKB4cea5aQNaSgr5EGGNaEcMaRKafD+aQAwGlTw
+ 3/If4ZdQYt1VTEr8/OuSt8K7sE0xoYz9yO4Iuu/CZ1SFFOR873qL9Bp0pQMMPK1S7yUtXT0V
+ CZ8HMazHnSfZJocghWMxXKIHyGtIY0rLJq0+DOzgQDH+EZn2j3LoCzI7Lsua+F0XQIluzBBQ
+ 26ME74DzoWu+Y5AvmSGDBhHFBRt5yTwqMTQ1iYrytocOxux4L4E35W5akPZv+wDtiTzocfz4
+ dr32fA/x3jfx2ki5Bqm8BhNA+3BYTLGmZWqBmeRSYWb9K1hb0Mf5UWJXn2cpJyUFXtbEqIdO
+ iO4PF2q8bJ9XpvetKOh7taPtjJ6OZIf6fheD+WpYDsdPIwjkDbQ3kdOeVm/P3w9ScaPlFUnb
+ pg2Tvg9v2SGKDdc3eLYssjLa7EdeEus9yZawfB7EjfNeaCJQqnsslcO2If8Spm1ls+FKSYdH
+ XFPMunf9K3u/A8HEVTzl5q4iX6AOjOTKDiCSzvRK+OXirGAr/wzDsEQKtWbpEG7Fgb3Ou75+
+ DsFWC4FUFOYSP4qyga1clcY0ePKNwtIg3frOxiQY7Pd8WR3qkrKfnk9V6RrlZzuDBey8g7ew
+ NdpMOWQyOSC3VEP8gvzWgFZxF8bYLauTYzdcOhrx4gzpbwyxL3hO0BKzn/wvFudr6N2be/Nj
+ mhfIQ7un2hIlgN+mSSCuZY/DaHMpiFSXhFjLbCEpNC7VcwPlIwcVZRvLCfCo00v/uSlaXImj
+ 7m8/uyc3Quo2hBmyavMy3k1aXZ8ejhVDiOpzvFubRDvRkOdSk4VQk+Ony4fBHbnf8YFrqVjU
+ qZ5Q7iaozk3q0mVEYBPo2hRP4lVj/wpGvDWFBL3Vfu0JlsCh4reXcNYVLkM/Xqrad8MtvKx3
+ lBAEw0IHshmLZARnC+4QoRqqva8Bp7YCpu29ag0hTbRn8A//Q14SPew2Z1h4xjeu2eZqnhTM
+ 7rBCk/jnPxfC26etrsFA9a7TRBYmRg6NspSCCy+cvt4zzvqUGDun3d7ZmM98c8E3bGTX7825
+ CMTKY63P+tHhUBWogJJhuM/EAqeN3Gdq+nO9ddwTWuKHJ9f2IWgpLaIrOR3FUBJ3upcgN7iV
+ XRzWt8tV8zqDRF0HOrfrwsWEBBgBAgAPAhsCBQJZ3vjqBQkFt0jyAikJEGpzmwJca5jUwV0g
+ BBkBAgAGBQJWCON1AAoJEA219WEoab1W1WgP/AicckT4vQsS6alqxUlKz/Dw6YdeEMzpGQ+u
+ T5HGLQqgW/7ZdUxs+dvgzgdsqG/ET/NCS5CYLS5QZxr/u02oLCaDP1Es8v20PWSJtnjind6n
+ zHIsLBcOz+geKFE+PnZqFDhsH8npJG6Rf5q6j+KmeGNfZBVre+0ILVNA8Qo+kr/uOKQhsTD5
+ MsgRRfOzE9Ms4X0kP0vq+Vy3n0+WeXQTuY7Djrs0/hZfkPyd4JZL8QviPtt0X8xMcA3r/sS+
+ MumoKD90EFasW/cP6bPNlVJcseqY3cZKG0WoDilCTVNT5UM3NzPQm1ZbXQ1PagisNOf7Vw6s
+ 1WmdPnDYKxNgs7xZZT8QaWzo8iNp7M3oj20XwtEPeqLa2rwqwtYn5JZW87ghi745tt4gI5xg
+ +3CTBb/iFqXv8iq2RxvneOvWrPfjfrD12TJcwe+Gr/qMkMsSJ+5adXcGKNnvU3Ff/UjBdBdy
+ 3wsnsA534jAkwW13Bbv/oXdzigAcVhP+WYJziwd89zQX9hTJ2p/ZuF/Jl0rcwgNkDZH8rfOu
+ qWiNr8jiJOjT3UdABl+nV2ZwrKpV97dpAWnaYJGUHN9/t0dpxTJiqrBdcTGhM34JoyjMG6Oo
+ E+T0X4qmToirJSxgmCAKycTVzrmAJ+SgqoullC4tnLz2aib4LIL1WBGOAw7GBgQ/gwO0WptD
+ LSQf/iAmwi+NMhrK3M/IuuQbjiDGkYp/orV939ci4dEWyfqK3iCumAW1i3L96087yffzKhf6
+ zAZd+xPoSM+bA20rozQYTBAlfZxtjYB3sP/IeG4zLILuaEhf/09i2TE8cZgI3qEAQmlheSkl
+ e6SXTghW+BrzR/vLjmSDnk4RV0RcRN+tasHIPGg+n8K5f9aI3UfIXwGqu3ZvYzbLnklnh6X4
+ EotJX3hojgYRkJ/iqQu6Kg/BLb++MpFmzcZAMFv3c57M6WnnVDOQr3GFJFlF0GImjfLIz2PY
+ PpGVs/NvwPXPtq2wImJ+MNpp1EgdCeVP53wl9DwtBQt/R3W9Z1iYEJhtXJrl9QB3rHBDIy9Y
+ i69TIOPFwh7xYmsNV17ASr8iEUYwO12+UnrCt/Cx4JohAdTJSa77trPl7EpNXi5Kd6XJxmvH
+ mxN4qwdS01N2zVab8fel/njqPoHqvTv/u/cIWae6ANBWDamBQ9fsqJcrrn05MCZQPqVcguSC
+ 2xpdajeCBNQDxlJxoDf7mLxpDImhlVz3RQid+du/sHjtK4TrV2ibe9onp3x85ff7uT6TWq63
+ daUVEXAOBmqYnvHPJpQD4akvUZw1JR8mutzlvhawwi0rBR1aRLVaOSnrJ06X7h2mRPs9Tskc
+ s9ZcNrDP8Ld3P2b56pTnlAEyJXSGBL83PPh5ebuMerMBG0OJ1V6Rs0JDbvdgbx7ZoBwCBr4x
+ EAj1XhPP8q+9hAlp2M7+qX21Agkhj709+yHhvUe24jSXf9Yq9Y/gG8evL0aUm+hlQTDfu7+A
+ P4eM+z6MvJGIvAzvw4o0BBcWuICtpIUhHlqN35fSTpqeClP8VgdpzgPyT6yZk1qkDaPIfJax
+ pE7RWJO1o+bd4rykhS+piSI4oUfEWcljiarqTyuDdey1N8ja/yFMak8rciXrBEL8VNw5mev6
+ Pqe8RcGaSNbB3KA0d4F4lhNOUr5FiXSvfKezSld+qxlAU6VXWMXNs1oT9HJoROZk/Gc38ENL
+ 8w3/c1G4QFXwnmAFa89hlJDY4SZD9TIgRIn6JpiLx18dGch3VmtME7E8VY5UXVt8pb/XWcze
+ kRxIL9uRtfjLjpkZSrLA4jPDdWQf1Jh8A06yvmrWQl73WZIRGj2PrD6nZlscrZUguk+aDYVw
+ 798atmETUNwfIfcLiOy0BYK5A5cVs/CQqpbkS55eLFT+5S8qbPLxbpy4uqybT+/86S5SMDog
+ zeesUDH5b5n3Vn0MZbWHEqm5HU/eFEaVnZGPqmHwJeS6UycoYBdWTyCywqig8rfc5CrwSb0w
+ Ri1/cJA5GemtFv1SNX3ez/PG5qe4YVEiBBsEQXAHy25ub4+z/fCPDXmZ/gbL0xvNpoJdtgvn
+ jALCxbIEGAECACYCGwIWIQSj0ZLORO9BJRe87WRqc5sCXGuY1AUCW8CSCwUJB6YRFgJACRBq
+ c5sCXGuY1MFdIAQZAQIABgUCVgjjdQAKCRANtfVhKGm9VtVoD/wInHJE+L0LEumpasVJSs/w
+ 8OmHXhDM6RkPrk+Rxi0KoFv+2XVMbPnb4M4HbKhvxE/zQkuQmC0uUGca/7tNqCwmgz9RLPL9
+ tD1kibZ44p3ep8xyLCwXDs/oHihRPj52ahQ4bB/J6SRukX+auo/ipnhjX2QVa3vtCC1TQPEK
+ PpK/7jikIbEw+TLIEUXzsxPTLOF9JD9L6vlct59Plnl0E7mOw467NP4WX5D8neCWS/EL4j7b
+ dF/MTHAN6/7EvjLpqCg/dBBWrFv3D+mzzZVSXLHqmN3GShtFqA4pQk1TU+VDNzcz0JtWW10N
+ T2oIrDTn+1cOrNVpnT5w2CsTYLO8WWU/EGls6PIjaezN6I9tF8LRD3qi2tq8KsLWJ+SWVvO4
+ IYu+ObbeICOcYPtwkwW/4hal7/Iqtkcb53jr1qz3436w9dkyXMHvhq/6jJDLEifuWnV3BijZ
+ 71NxX/1IwXQXct8LJ7AOd+IwJMFtdwW7/6F3c4oAHFYT/lmCc4sHfPc0F/YUydqf2bhfyZdK
+ 3MIDZA2R/K3zrqloja/I4iTo091HQAZfp1dmcKyqVfe3aQFp2mCRlBzff7dHacUyYqqwXXEx
+ oTN+CaMozBujqBPk9F+Kpk6IqyUsYJggCsnE1c65gCfkoKqLpZQuLZy89mom+CyC9VgRjgMO
+ xgYEP4MDtFqbQxYhBKPRks5E70ElF7ztZGpzmwJca5jUElof/3aLTvgIOdLESXmNinVfSst2
+ S47+4rsgYyb12KZV2iCE3q22VcKeXdT267E+KrES2aAAzLtvpwrPunAXnDKS0ttBg3XWl1bo
+ hPyifw2fBCIJs+5bBC8dtMvZcMVFQQKMyKayBsFM8JvY7qet9z9Lzc6pz+3teT5QyAtlf/Zj
+ n5U2th2N9ESMNjR1fqPdqYOKkWSgxBudwUk4GkE8odlRZLpIxpZX+RZJIoy01H2nTxUy5v2B
+ 3fDijGK9ntCA2T8oBODo21vyCpn9VSBWp6ecOKop/zNm3Tylyu3F8+eslv+MyTSBH4W99/OJ
+ 60R3jCmJ2RnA30bH/6iYFafnMZqp/GvhZ65dXQKBORCeaY3JKbZGHJbUHq2tbXzE7ttU/zcy
+ CwV9qSPcD/X09CzR4ifp9Dz+Ba6yn5o406VeWg59cUjZxDi8B2kinbazklb/Ke0ZuDffr0Fn
+ eYzUoFMiwUHU/XBAE6A+4tA+TWvFzJ73dH8C7SjQ0BiKfooGmJYlMi37l9pT35xdHZ61Eixt
+ 9u90AMtm++nAMmmJ6Wok1lMt1NHly0omaFMmqpQ1jtFJwUs4+UbJgCzqE1YKeYuECixZKX1O
+ AxeQ1rXJ+dokC39xCZM5ULV72/i7qBuyUx6hWeCHnbtzimJ26Dg5xaFQ3THp0GN1hXtZypQe
+ kxul9zu+vohCah93JC/GaPlXs8Yy7whWRlnxQ2uT20Zg6rVsYM166xXL19uCKUj7qFw3KSnp
+ H1Uo1fDpnVu3loYwDUHVQGNZ5sLWYUlyPq8WnD8C3zPCqn9/SfzGYQUobc1m9XMSWRrFk8C6
+ HLOv0B8nQ5wGnq8LQmnKqyudt+HqB/H4/12o60mPVUkHvj/3SfZaHKJ+iP779x6cRPLJ4DqB
+ kQOCfmTTQPeDeOZFjLteZirCWtKK9d9sa1WyReOnF3X4ITv2a4huoki40ATAxiJRJ7xii45t
+ qObf7gntYyhTM3kYA4MzyGLmCZQDSwPvEjSEoZ6XJUYG7FysN/NwyUmojnJ9juCeufAVStyt
+ WVXrWPSG5KJM4FwKHpQ/neoO7TBoM7cbtigeAKGy87tTbtyNbZUtw5yhZELKp+QP3KHvhPc8
+ lCagpeDlS2573/wwH6bPKuJC2M3ha8LRlp1cagx/cWRMjTM7IU6GrS4t+5zHPpG6MilhzumT
+ kijxcNGTyOOydBkWSlcBaG6EpJmCvOd/V8JdTdBzftnzDPDgOMnPY9Zs3XnD3lNWWHcTl1yR
+ UsBWtvzgOjxvHScIsd74g+vlknaWISH06ttUkOmBS2BrHU838/OrDxpDmZYduTbJL8hBDl/e
+ 4k7f3+VpAq+s7d0gZzgknh5AMTHtajP118dJcOACo8ey/l/CxbIEGAECACYCGwIWIQSj0ZLO
+ RO9BJRe87WRqc5sCXGuY1AUCXZzbugUJCXvDRQJACRBqc5sCXGuY1MFdIAQZAQIABgUCVgjj
+ dQAKCRANtfVhKGm9VtVoD/wInHJE+L0LEumpasVJSs/w8OmHXhDM6RkPrk+Rxi0KoFv+2XVM
+ bPnb4M4HbKhvxE/zQkuQmC0uUGca/7tNqCwmgz9RLPL9tD1kibZ44p3ep8xyLCwXDs/oHihR
+ Pj52ahQ4bB/J6SRukX+auo/ipnhjX2QVa3vtCC1TQPEKPpK/7jikIbEw+TLIEUXzsxPTLOF9
+ JD9L6vlct59Plnl0E7mOw467NP4WX5D8neCWS/EL4j7bdF/MTHAN6/7EvjLpqCg/dBBWrFv3
+ D+mzzZVSXLHqmN3GShtFqA4pQk1TU+VDNzcz0JtWW10NT2oIrDTn+1cOrNVpnT5w2CsTYLO8
+ WWU/EGls6PIjaezN6I9tF8LRD3qi2tq8KsLWJ+SWVvO4IYu+ObbeICOcYPtwkwW/4hal7/Iq
+ tkcb53jr1qz3436w9dkyXMHvhq/6jJDLEifuWnV3BijZ71NxX/1IwXQXct8LJ7AOd+IwJMFt
+ dwW7/6F3c4oAHFYT/lmCc4sHfPc0F/YUydqf2bhfyZdK3MIDZA2R/K3zrqloja/I4iTo091H
+ QAZfp1dmcKyqVfe3aQFp2mCRlBzff7dHacUyYqqwXXExoTN+CaMozBujqBPk9F+Kpk6IqyUs
+ YJggCsnE1c65gCfkoKqLpZQuLZy89mom+CyC9VgRjgMOxgYEP4MDtFqbQxYhBKPRks5E70El
+ F7ztZGpzmwJca5jUG0Yf/i60Jck7M7mnI7WwgrtTUTRKTSxH5UmKdC/EqzMuRZOAQaeZEKLX
+ mhgd7lAAniazHEB2RrUc6VaiWFI+78674SSDzK//LpgPpOHfZLSk92oqt4Lja/+/8dcBklhE
+ TcSLjdqxaanRezqxt8QJKUAokaaGo1IqnHxlfZ0RWRxdVO1bfqWz8xvH57IQsyJsyheHAYwP
+ OW8p6eH7N4Cpsb8Nl1p9MYb+Y0E1W3ht5fso0UsowMbH1Ws9BCKvY6/XuyEfHlyrPcyTNLTs
+ mKC/MPej/HjtwGK2uDd1dhVvsmIFBPmymKlYJEU/S93te196d/QbWOVZIBjnRIspOICJE7F0
+ ZQHQkORkRvn7rUsCDkWq29LR2p6UtDIafqRc8XXZ3qZyg4nsnvW0enJWUUSNnAR0fyZLi/OP
+ DJvtxY4pgl1AObqBSamCPthLJV9RWDf16byZe07ShlPzREKCVSesg38SW67+cJZzO6/Rs7O8
+ S7dbenBYi8BrNmt7NtEV5tOAvomIwwbamjEUDRYZzHaqrEui2WlJ/ETJ2kQrGsgT046zAYDr
+ 8iMK3T+thXiz7lWtHT0rVO3Cd56QBa9rgKN6WSt/hvh3ULcp1lhHKPvcQVKa0AAJZJGKtLFV
+ sCpPfAox6GMlQ5rizTCBZQtpLtWJWCSsn9yh3a1eLU1EjDRBnC8pfa4Db8zTtsWrb+/mIs6x
+ 1xgHTvRLq/f0gmOWVeuSACgLaMi/llqIsEjF2oTJJGvM346CzwShF5CB7fXr4lQQr2grT80T
+ qsAvdSBu37MNWq83HfU3bJ09q0kKoYzjdsK45xVkuxZYjl1/x98RyH31JICvJMeg1O3Kk7Dm
+ KeuaAH81MFpgFEvFLOJcPVntvVrCPT6uYkjH/54w5PY4rqVxcU0YesfJTKnftJVNcO8B4x0D
+ uNh+qgLPMV4ofTgO83oAxUuNMdqx8Fmzh/eu01rTOL2M0Q6VpIjv9n4gF03d2RIx9YyGOMBj
+ +M+2EWU/bIImOSAETnW4FPy41btZVBM2qTB0acDy93HTXH/iuvsI6VzIugvYFSL/6YcFBBwP
+ WduwqGZHldPKKCRCPrv63sBS75VSrXiJojyUEXw+xFfQAFLeOk/evR9JLHHrvQSPbEZTwE87
+ nUKrA8VNHlqCCNb0ra8ZNFVT7zEzBtcKWujL5Q69W0hysXvf958lgNCc5/TCDDlxy04QHVTc
+ gIdDdsh//ARPt2QDjQU2mxONiGBrmRv+yUc2POQnRjd0J8nqwBxXq8SOi8XZoOFjaXdEGcBG
+ FPLBKi5GQgVfKe3QoVcAXmrQJouAfbyjUxOWNnTI8GXDRXJ7ey0gTY0JNHOJ91Or1Xbrjril
+ cCulO1pDnao+l5Oy2H7OwU0EVgjlVQEQAP3Uq+NZs9L9Xmstn9rM2PDK4JOEE9+iNR/eWMBc
+ xGR2B5IWyPXL2yM/1pxYUPQzzmSK45kbJzDa5plJ78qfycWq+oCAnJ6ZgOZ+Tl+QVL6BaTrz
+ WpUmjL2+LlpgjQHJdZhyd4EJ+eGUyKCEnF0Z6n8TU9rQeQufeUqP+x7S7jQW0bTk8oU3hIOp
+ LY17sp7vun4oSEAWL6MKm0rX0B6YUrLxhE6Ga/ZMRKgTvtlo6ujKM86SnoR4b7C3JBxs+SaI
+ qM+oNArBp9TYML3s80uplfOPao6UZg0760MtJ8x7oed0c6fUgT8SjItDJrsPaq5pm2hPULU1
+ aPQOl4ems4h/anTDB6hUj69FOoSaXKciyqvQZm+ku0gmPZqljNSQXgmJjth+pHAYPTeIh+8T
+ LmUlt2It/zFrYreQvnWE23SSePcg9lZ6MeWXJlisSbNbdZKcbacIlJyvIDZtyrQoE3QzTHJK
+ quEDHlxilcfa9tGevmSvhFo+LNAOLkGD1nD9lL9iWpel8VeNP213mVqvmOPdJCyTSBCCaeCB
+ W6Cb+wgHSe3fPiNLVRvgIDKqLD1aLhP4D8csHQceWS+We5v+4Z5pIJjzf25Xz9GaHulBcb62
+ IyCk7l5yIqCNhU+diNvY6EiVk4Krol8pqVhRtWvX3JcKgBqOLyPlDMr9MdZMX5F60CKdABEB
+ AAHCw2UEGAECAA8FAlYI5VUCGwwFCQHhM4AACgkQanObAlxrmNTwqCAArA2wBQTej9ZzdLjd
+ 831w8dxygfHcIy+KOUn/fX2h/Hb+BrCx9Rn38D5wEfFFfhRxxKFQ3XI4HFkFlcB2momQbJYv
+ t+4n4GasGhtVfkjvGLo3nAz6amswChW8PtrU8923PCuRVn8tnVjNb+vhh1A/E+GGwod4zTeg
+ 0e+bUb++l20jkToDIIDTfMMOQLEd7pawTo+nu2nKtS/CVlVXK+PzP19IXNzdzQUZWr0OdXcO
+ eLU0HLLnyGC7MenRjQa8eMbrh+U6wjaonhTvSIATqO70EDXGPI2T0uINiJH4gldy67oSzpGg
+ Ay0yDE3Kep+8COG8ysUizrBANqVEtprAswqWpY21Orwbo+sgTszwmDBYPaptF0TdJR4Rdl14
+ vN2C3f+E8dACoEkHS4zHQ8UTKUpkauR18+i2vn4djX1YelPbGZhQAozDLL/t7IkO4o1Y1gby
+ 83K3gooARlkCb2TmFJdiIxN6wB5SjJvYqos164EyS2D4My/Ua65hgK1b9+RorVKkSikQQ0I0
+ Fqtud7nm3X7nN3Z06T14Dpc7SJtCaj8nJ/8/QofSHltYnBLu8gbKRdXxQ94Y94F5LqJlcn51
+ J6I2/JytCStg3qrwS+BLzrDdLnaFnV39hs/i44CZSIJPgm+vKrYrkjbGWXapuGdUHQBhnmzh
+ 4ZAaAWZYgTJ/mYd3fXCS3VYzf68WWyKhbkhYzBqQl7Q66oq0ifpoJSC2Pd7Hc9fby+SUwVn/
+ THOBGahliKvo/6kzBTOctQ5UsW36RCjLxyn3PpsHbzgV4C7Ua9ESkqc1PF62ym8nTn6zMG1m
+ myA91eudXiX4+6TpMYfHlZki0yalFSGCTuk9Hu8XihQFVymDH+6JmMK0yQd/i7CtVtJfzzPH
+ wOzQD8i+8ZQJ8jGOlkvXX9rr46l7d+hIRXTc8UkSJlDgzVQqnKTQt2ZghBjDVYd6BcBsbpoh
+ 4yio6YTqfwlzl7oxMI8rhZnLc8bTToq5czho4jz5ray39ds70nQ9mw+0M6RJ1fbxUf0qEnet
+ /m5WXDkrH+aKDMRxt+5CpyRH6HXshCUWqyBO/c52aniIZCBENIzxMAvH+Yy6l0tWjzFrjpjR
+ 7Z/cwPPHZNrx6vYVz4tr9ViuFScSAVh0FlMeCtWhgc7i3U3IN/BCTmupoZCklR/mWMob1Yly
+ o7UHWPWlIEf+X6kH+WH2ETlcbTjihzQ7EeE2ADBIquNHxUHmM0DQmtgn7ZINFoo/jvdLfBd8
+ F0A6hXOSpoKo8AMhZwZYkaQmsRRajGxO/tEg0NQolqmDaj1+Z3Q7bpnVbH7anIrdpDS6+7EF
+ zHsoEzmMmf981JaLQfRNzhSJui/5IbhCEeWScduISIMvQYVrdQ1QHMLDZQQYAQIADwIbDAUC
+ V/ZWZgUJA86kjQAKCRBqc5sCXGuY1LImH/9cGZQ25leAhW20USpcq5RmoR3d3cJ5ZnMODi6a
+ 4z9Ej7Cxg2/cuvJzksS5lOICaKzVX+dxMQUSQ7xiPAOMQJDGFbIWIGAcPBNF6KMAQkMO52D0
+ 1SiQ/ejaHDtSEA1/ycDKQ19U0cekUhg/t4iUUQJyabAqqiwWqGZfVSHWC5vVqfqkEGaPd7Jc
+ JolkIG9iqI7W7RfPpG5UUnoLm4sD6JUCWiTRVwz/eWm/MVHa2K08LlswJKYBSqMM5TZ6ptqU
+ mVa1yYfdzod+UukWxVbL3zKi+29ReEXheF0i74l33Ty+AymPIZ1metHhq9rNMAyYsCwHRB1z
+ QkKAJ/M8aVphSQ2N+p7CSbIELgrEg6rVUEq54ivWMBOmZY2z+MZmh+oJhxd9q4LRRt6xxoK8
+ u2Ou90DcZZB7Ehx/TKJU13QWWbZfGECWjDx4wMVDQ8kzuRtRBAjrxfnG/VECh7TnEwx5+kpl
+ 4oEdqyEnAtVcdXY9L+Jc9NY8mrm5rhCaKaugS4rEjSyW5kiek6txDYjp2Gk2yC69pWAf64tA
+ 4+TJdCt0JLxYJfxane08Yzy9XOg9T1MnAicocz7kFAyYPVWKF3zvegrCke3jnFxZJOd7cuGG
+ 0MIrKI/yyAlZiJFNB6d/3bEEFC8z4R4xpm6rNaajORKg5oOl6lCN3v/9QVqxHkR6NHoCujkM
+ r3zzUbWaA0AaDt98LGt0si5u0OrLrrIAkOpt3LkFD2vLPuDVPpim/SXh1o91w4H4Lpr6cwrD
+ h34Qg1ZPtkS5gfOMMFDMw5XnmjYxw/Jja6O6DztNwN8OOKlxBbxAHgtRG9cyDtDDokwPLQzK
+ 6h3amu/FEKDYnZgVZOjr8f+h+oPvPdKqB56xkrFsrdQrSyZUHQLiqjUReSyVo6g6FAE58L72
+ 0xeLMkfJL/L9WQ5/g2N4K/MOVCNCxTv1DxZxzLrosBh9DZN17UBtxeDwcxhHIlY3OGXaCQf3
+ q2wZMf42l4c3T/CnhuTp4iSgj77aVZD4tAuBYky+VLrhg/xuLCYpkJVnotiMFYLmik5GAIGV
+ H2gElecmbYQ0wxSRKBfjS7nhtYxyWwrP9N42OZLLLg6+FTIC7VJHMr33FPEsEhv+wqeqhopz
+ OuxkayLvl10pMZpwq9ajQDg2LjcZmwzGfhAOHFjdHzu/gmfkLWofsPFMdNf6ffNW/1RoZdd1
+ SZBXCqbCbtRkWUE7HxDqGNNIXt1hJ8c15B14A4NqSqWJRVoflMx2MyAR8CKEYIXJP8S1s7aM
+ fIxSL83ln0OHuheYuMC0VY0llKlbGWi3nZDp+UDAXmdf8inr6mekIJS9xYr+DRXwurTcAeAC
+ XJp1a+wE654OSsc7MGAQGbD57JV8Y8WrwsNlBBgBAgAPAhsMBQJZ3vkQBQkFt0c4AAoJEGpz
+ mwJca5jUo9UgAKhR/Ad2sKRY3//JbB/WANjJBsN5SD5mdc3thWzSDOg4qTPPuB/jBsfbH49y
+ SetLmjacSZIBXMLwQVxDH9T0ai8msoDY6oPyckmutZG8Pb729xuEue1XSMYB9bqZNqqjXVyc
+ 3Qs8TJ4Ld9Kq8O8t/4i/Yw2abX7l9nC29jupA/mVd9X6+BX1FGgd5bVIrulSxti2W+xctStv
+ xDBuq0t7KLlfuBy5Y6RblLcCYFuHv9NsMeZyXi411kBW/kcvx84xG0Jbt+GQaQtuMH/ZhRJs
+ Q3aeJjo0ZRiQpIZuWi9vE6kd2s8kwbR/uTIbUcpAyfNcKvk07acAnzfCwKviRTrzTZ6GIQZg
+ fqYun5BRh2+LR0Xqyu34xVQyojpa3qfcE70Uk33Q2xhyUjEpG8vyHYLPsg69zo7mQnR1kjex
+ cqJmjRP4Qq8iIVse/7JkewwzOh47pRN3GCaK8ww1Ou1DtBBpkebD6wnFQa/Q845nkdyYN/j5
+ KYnadw9VjDj8/Rnk/XpjIRaWdRY+7qxPc41FljYJxv+4a3Y3QnzpDZurInt6tsH1BhDy5Pzr
+ Iw83J2Aqws3gTzWphPyqkep0qo6CxTy/6qyefqOgEqPORkqBYNcpYT8rIqCbuCUvY4vTmom3
+ aAen5xuF2cPo5FS7FsGEI+lu3K/R8V5M1JM04oxWW6LiUJieEGT/FH7gQlPOAdI8RHaY304j
+ VBSSKnsXU30nya/DEMjXCtMHh/vR03kTdX33xa550ufyfajJM1SnX9aRcdMfWiE8MZjzmpXG
+ yx7gHByEUMb2cHnfujcR0ubCXHh2PVoB0DL0XxNp21eDA91XLHDp4DonqZ02qylz8yWGzHFR
+ 5slhR+iQW8uAirZzmF0F8+7ZPe7ZncGkrE+yiXSWzb+H6AW4leir/cdso2SE3nnPxG2ZCNxU
+ dJZZUvU4Ag4clYcMJnlrTVGNnH41Go+g1BpVqCzdt3bof34q0DU1dDNBTrM13DVv3Wyk/SYW
+ HbXqwwyPTsDQCjH/EQ+z2O4iMYpbvDzJWhEf9/CjsVKGz3HG2QWjwPuNUG0/64EG0LLgz910
+ UTYDtW86WBpl3k0KieTUogCBrSKKmbk1B67qULAZVAtdrmnOv2CMCMxooJsUEjRRxMDGCvFK
+ LGXhgoyImTGvCNto3Rrm5dxEuPQxbDwI8aYI+A+/ckguGRzeJAiQSLCyqgFsBlMsbON/xLAG
+ OIgVFDCGSZAab6PaNmDhFwm/puBwBhEHWMVuBEOjBIfvNK192bO2HALW3nOS959p77rkj+Rs
+ w49j3DuYZmfMubQJQvtfDtY7X+E7pXsi59HvTq2xMsGl9/E8z+mNyOzdWJy7zoT86lfM8NHM
+ nwZ4pv3X5TbCw5MEGAECACYCGwwWIQSj0ZLORO9BJRe87WRqc5sCXGuY1AUCW8CSKgUJB6YP
+ VQAhCRBqc5sCXGuY1BYhBKPRks5E70ElF7ztZGpzmwJca5jU7bUf/ixoomIAWv862/2foGst
+ GO1dZM+yW2h82lTuXln7vQsw7H/zD1Eq1qlTYRZUnnzX/sQvjFY/lqZIu3GNqiqIo/NcE22z
+ c7pdX8tktwO5R04cc31wgQ1Z/ld8r3S/x3GaohsfK3BOJMxSSu1vOIFxQtmBPO7zSkW1X3z3
+ jJLQC6wyDkp3Rg4k9spm4l8ZuKYOI/eN00hDS5iJnQFkbNITt4p5ReRbADvYzuk0SHZrcgT6
+ 4c/Hpp5KTL0o4EQNXKcyZOuEeB9UgStse2VwqByX2iiEYOXd5GOqiNa9WySsQ6zhUjY2YmtQ
+ l5bnNdLJVVwdIvQ5aqafrcJNs+Rpw+KyN3XTBI8elDV9WC0vYajXxjub694pCmWUlZEsdtV1
+ F9C19+7Ah+JdKXEvJDu1ylm/TjW5RcWpIszxoZbIyaGN8+GYXY5yVRx5JF4qKO0UvqRlYtEz
+ BbbwC2Tek+GxMT+HvXO2/ghCx/8yacy+u3XCNHPMqNCaSuLQQwoVv7ucb+/ik3YAxgIPc7Wh
+ kGFV5PRAdfANeQfQEO/30GA2y1/rEiCq/EH8lmeuD/HEdVQQn1gk3vg3YP6ebWm5xPFSZVg9
+ z3WP+JKa++Q4HAfkSnqRViWZ2MhMrmVDnkhISBuzWsxJjeHCnVFvqgqYZ+SpLnfV/v4fzKiu
+ WA3yAp5IXV5nanMuuUO/52PHshi0iPBk8nrpegncjMsaLVwATEoVrIfY27dGxYvO3lgqq1Xc
+ B8xVCWpTFyEy44KZaG82igP7rFkqPt/QYQ6DHNUrOHFIB+RCSCCXrmHP3/rocPxjEmH9IV45
+ 3xyl2N13As7jWamoRxkV10P80MShh5PBvYEqcYmc47EZVXjkx5hP0BNiBktBk55qPnSMCbpa
+ ipUpMW19iTwrY05NAbxVGDvg+7IK2R/rgHBvL8srMjJ57pR592V/0h3VQhm0ZUFuZ1s07ppe
+ uh0CrGAi/yS5BZdAn/dQEtuU6HD3BvWFilJWtOPK3JXelrvS4N9aljbS9iP4RdnB/E2+WwJy
+ 4lse7GVJ9mxLwUI+DS61WkvwhVt9tj8/5/DzN/nI0sq3DNSkKC50eEE8IM5n5hnu47QcE2Dx
+ 9jZtCQT4wzLntymv0chEY26pTYnjeWdIPv7YcoyjuPHlL7FAW/IYRejSYM1GpmEuNi4gS17U
+ G0YAZkvjncljeRd6UzGW+Jnep5B4tIYYzmbPnOnA1KhnhRlT5lICc7qvCK+d6cSRqwZDheb6
+ YDf6miyYDFqUjGg0jAdZI5/RmaYxSWypa/tHB3ivQnKwKx5T2ud7ORnFESvtSaEgTMt9+YYV
+ zXoQcRaCWWvnbFSFeI+4jbgjosLpUEFU7a8H1dVgrrHVj8K1pxfCw5MEGAECACYCGwwWIQSj
+ 0ZLORO9BJRe87WRqc5sCXGuY1AUCXZzb6QUJCXvBlAAhCRBqc5sCXGuY1BYhBKPRks5E70El
+ F7ztZGpzmwJca5jUndgf/jhpj+1OdILlvcwU4h/sPIoru5nLRFdLvi4qfj/X2/pE7IcZ5UVm
+ p4B8Cpln7ONN8Mhwkd1I9hRxdq07T9zk/KD0FDXh2vQ/NDmdLUwHZuvSsQnKOi0hFEHHmkXU
+ Gg0f0uaE1iXyPgsNT8juWg3LYeHDGNHmd4IyCozOX3n6+6nKkRZWonrxt3AOVVWU6j/NfhE7
+ VYI+EXZwpORgsWpdaTXRJZF4Uo8PAa97uAlYriA1MzgTb63QHT2074n3EcCjG4HRFu+MKfz+
+ KL7Ln+XTjmYf4qPIvUyLFpckBK7709C9R9/4EhUse00PUvovdTGV1y2FI1/O63m5PSSr1bAB
+ /X/+gSfLJPatgHn8ek0AdXZi0nNEETWnITAqs0Xv4AjhZ0D1sL9kurQmOCgeoX50QHME34gM
+ VJ+DtMS+fb9u615LcaZJ81K09bm9o6CBNQvTuJ8KNBAyNh6tsx2RvHt9VW6/eeiqtPAjfdOQ
+ 4x6JWqdHZaJk8ptU3WszFksnZkMVuDdE5T8ktjVo4vFT0A/G2oFRIo0nyUGUTOwW8bPSxXC1
+ DWQ4q+pJTod/s74v4jvxmq/kstuIThsqbOloHaDzWeGNnSVr9Qk7nlwZmF7X/QmtVDUeFFQf
+ QOFm9KgEVoG/KD0c9vo83HROTsmNyXvCyZFSz120WCrPxWJMHk7CZdnaoytcNqXEAvVLymWf
+ fUzNGIam2EymnwYw2t3h05tL7ojtnQWUEFgjzqoiyVVLlzaPpAnx8AXkz6jKDbDnmZ3FLYNt
+ 6BtxjNLkO1lkOEwohqok+rfUeRp9pNo8p7ipBw3WE4vDu/65LQQHJ/CfQGlH9V6g2DGIaACD
+ WpRGKzYZpvpGBhGYcTngLO1sshD9hhF8m/lEUd1TcmLnEJ0hl4+88zeCyREINYt0RcIME8au
+ v32RTwPDQ+r7LB56mKDXL3ijZlUHXIAKkc+1XsCbJTXDB5oYi86xrCl6Z8TfKP5kR3R8IEG0
+ DHimFW86BtuFMnBIYa342y2zjAwYiKHh/KE4EdgtDXviGMFygUrfPxOyVo1mWA5WveCsw1U3
+ BnYZ/lIyAQwDUyuZ6QWx2Sqos3CmTxB4DhczBAGDyVKyKx1C7UO9t8PkI4E+nw176gYidOGG
+ EKit9OEborPdR8HrP4f8CTgPCUI0uIQTYswHH9HhSq8d1maM+4SmsvoQT+s4lt8kvJp9ce6B
+ uWrtpKE+BrlhmZrZleospHp05F+oHuE7lrOg09g0SFdTigqSJNbN1R/pkPI5Q03GfbWipsd4
+ iY0Rj0D34DQVeKAa4qUlOcBgX2D9VHRap9GKQRWs//egCueqDZNmIk3071aFV+BSiBSTZIIG
+ t/YZOE37yKSj2rcCbqg=
+Subject: Re: IORING_REGISTER_CREDS[_UPDATE]() and credfd_create()?
+Message-ID: <821243e7-b470-ad7a-c1a5-535bee58e76d@samba.org>
+Date:   Wed, 29 Jan 2020 14:11:02 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-References: <CALN7hCJRe1uL6pd+VwgzDt=5giMVjvX+YpF28f5qbLOVCZf4GQ@mail.gmail.com>
- <04EB5627-FD42-4397-995B-FDF051CFCFB5@brauner.io> <CALN7hC+YmHGpniNKBiD03cBnTyO+cqXhrVvE7SdtgEb7GkG-LQ@mail.gmail.com>
- <87d0e19qvh.fsf@mid.deneb.enyo.de> <CALN7hC+QS=PJLvtH4k8paVae6PzLdAQJXyU64gUxXu-ULMKvng@mail.gmail.com>
- <87sgmv5s8l.fsf@mid.deneb.enyo.de>
-In-Reply-To: <87sgmv5s8l.fsf@mid.deneb.enyo.de>
-From:   Elichai Turkel <elichai.turkel@gmail.com>
-Date:   Wed, 29 Jan 2020 13:41:12 +0200
-Message-ID: <CALN7hC+C7Ln5wDTW74r-eSChje3N6=79_qrr3TDCCF5WnWO2mg@mail.gmail.com>
-Subject: Re: Missing size_t declaration in UAPI
-To:     linux-api@vger.kernel.org
-Cc:     libc-alpha <libc-alpha@sourceware.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <5406612e-299d-9d6e-96fc-c962eb93887f@gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature";
+ boundary="RNLVW4EKoBAHUQUfqL7tZ7QYYQEGm1WCn"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi, I want to continue that discussion
-I see three options to resolve this:
-1. Add `#include <stddef.h>` in every header that uses `size_t` (patch
-provided).
-2. Add `#include <stddef.h>` to `asm-generic/posix_types.h` and make
-sure every header that uses `size_t` will include that.
-3. Replace all usages of `size_t` with `__kernel_size_t`.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--RNLVW4EKoBAHUQUfqL7tZ7QYYQEGm1WCn
+Content-Type: multipart/mixed; boundary="viy5iQdNsiwmTYiYhyjIGXGXRbnYn1RAi";
+ protected-headers="v1"
+From: Stefan Metzmacher <metze@samba.org>
+To: Pavel Begunkov <asml.silence@gmail.com>, Jens Axboe <axboe@kernel.dk>
+Cc: io-uring <io-uring@vger.kernel.org>,
+ Linux API Mailing List <linux-api@vger.kernel.org>
+Message-ID: <821243e7-b470-ad7a-c1a5-535bee58e76d@samba.org>
+Subject: Re: IORING_REGISTER_CREDS[_UPDATE]() and credfd_create()?
+References: <ea9f2f27-e9fe-7016-5d5f-56fe1fdfc7a9@samba.org>
+ <d6bc8139-abbe-8a8d-7da1-4eeafd9eebe7@kernel.dk>
+ <688e187a-75dd-89d9-921c-67de228605ce@samba.org>
+ <b29e972e-5ca0-8b5f-46b3-36f93d865723@kernel.dk>
+ <1ac31828-e915-6180-cdb4-36685442ea75@kernel.dk>
+ <0d4f43d8-a0c4-920b-5b8f-127c1c5a3fad@kernel.dk>
+ <b88f0590-71c9-d2bd-9d17-027b05d30d7a@kernel.dk>
+ <2d7e7fa2-e725-8beb-90b9-6476d48bdb33@gmail.com>
+ <6c401e23-de7c-1fc1-4122-33d53fcf9700@kernel.dk>
+ <35eebae7-76dd-52ee-58b2-4f9e85caee40@kernel.dk>
+ <d3f9c1a4-8b28-3cfe-de88-503837a143bc@gmail.com>
+ <c9e58b5c-f66e-8406-16d5-fd6df1a27e77@kernel.dk>
+ <6e5ab6bf-6ff1-14df-1988-a80a7c6c9294@gmail.com>
+ <2019e952-df2a-6b57-3571-73c525c5ba1a@kernel.dk>
+ <0df4904f-780b-5d5f-8700-41df47a1b470@kernel.dk>
+ <5406612e-299d-9d6e-96fc-c962eb93887f@gmail.com>
+In-Reply-To: <5406612e-299d-9d6e-96fc-c962eb93887f@gmail.com>
 
-Included a patch for the first option but if people prefer I'll
-provide patches for the rest.
-I never contributed code to linux so feedback on your thoughts and the
-process are more than welcome :)
+--viy5iQdNsiwmTYiYhyjIGXGXRbnYn1RAi
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-```
-diff --git a/include/uapi/linux/agpgart.h b/include/uapi/linux/agpgart.h
-index f52510451..9630abcb8 100644
---- a/include/uapi/linux/agpgart.h
-+++ b/include/uapi/linux/agpgart.h
-@@ -52,7 +52,7 @@
+Am 29.01.20 um 11:17 schrieb Pavel Begunkov:
+> On 29/01/2020 03:54, Jens Axboe wrote:
+>> On 1/28/20 5:24 PM, Jens Axboe wrote:
+>>> On 1/28/20 5:21 PM, Pavel Begunkov wrote:
+>>>> On 29/01/2020 03:20, Jens Axboe wrote:
+>>>>> On 1/28/20 5:10 PM, Pavel Begunkov wrote:
+>>>>>>>>> Checked out ("don't use static creds/mm assignments")
+>>>>>>>>>
+>>>>>>>>> 1. do we miscount cred refs? We grab one in get_current_cred() =
+for each async
+>>>>>>>>> request, but if (worker->creds !=3D work->creds) it will never =
+be put.
+>>>>>>>>
+>>>>>>>> Yeah I think you're right, that needs a bit of fixing up.
+>>>>>>>
+>>>>>>
+>>>>>> Hmm, it seems it leaks it unconditionally, as it grabs in a ref in=
 
- #ifndef __KERNEL__
- #include <linux/types.h>
--#include <stdlib.h>
-+#include <stddef.h>
+>>>>>> override_creds().
+>>>>>>
+>>>>>
+>>>>> We grab one there, and an extra one. Then we drop one of them inlin=
+e,
+>>>>> and the other in __io_req_aux_free().
+>>>>>
+>>>> Yeah, with the last patch it should make it even
+>>>
+>>> OK good we agree on that. I should probably pull back that bit to the=
 
- struct agp_version {
-  __u16 major;
-diff --git a/include/uapi/linux/arcfb.h b/include/uapi/linux/arcfb.h
-index 7a9008b36..f7018f92b 100644
---- a/include/uapi/linux/arcfb.h
-+++ b/include/uapi/linux/arcfb.h
-@@ -2,6 +2,10 @@
- #ifndef __LINUX_ARCFB_H__
- #define __LINUX_ARCFB_H__
-
-+#ifndef __KERNEL__
-+#include <stddef.h>
-+#endif
-+
- #define FBIO_WAITEVENT _IO('F', 0x88)
- #define FBIO_GETCONTROL2 _IOR('F', 0x89, size_t)
-
-diff --git a/include/uapi/linux/coda.h b/include/uapi/linux/coda.h
-index aa34c2dca..1b909ef35 100644
---- a/include/uapi/linux/coda.h
-+++ b/include/uapi/linux/coda.h
-@@ -97,6 +97,7 @@ typedef unsigned long long u_quad_t;
- #include <linux/time.h>
- #define cdev_t u_quad_t
- #ifndef __KERNEL__
-+#include <stddef.h>
- #if !defined(_UQUAD_T_) && (!defined(__GLIBC__) || __GLIBC__ < 2)
- #define _UQUAD_T_ 1
- typedef unsigned long long u_quad_t;
-diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
-index 379a612f8..edd20ca84 100644
---- a/include/uapi/linux/fs.h
-+++ b/include/uapi/linux/fs.h
-@@ -15,6 +15,7 @@
- #include <linux/types.h>
- #ifndef __KERNEL__
- #include <linux/fscrypt.h>
-+#include <stddef.h>
- #endif
-
- /* Use of MS_* flags within the kernel is restricted to core mount(2) code. */
-diff --git a/include/uapi/linux/fsmap.h b/include/uapi/linux/fsmap.h
-index 91fd519a3..521c2f650 100644
---- a/include/uapi/linux/fsmap.h
-+++ b/include/uapi/linux/fsmap.h
-@@ -10,6 +10,9 @@
- #define _LINUX_FSMAP_H
-
- #include <linux/types.h>
-+#ifndef __KERNEL__
-+#include <stddef.h>
-+#endif
-
- /*
-  * Structure for FS_IOC_GETFSMAP.
-diff --git a/include/uapi/linux/i8k.h b/include/uapi/linux/i8k.h
-index 268e6268f..91c478cca 100644
---- a/include/uapi/linux/i8k.h
-+++ b/include/uapi/linux/i8k.h
-@@ -18,6 +18,10 @@
- #ifndef _LINUX_I8K_H
- #define _LINUX_I8K_H
-
-+#ifndef __KERNEL__
-+#include <stddef.h>
-+#endif
-+
- #define I8K_PROC "/proc/i8k"
- #define I8K_PROC_FMT "1.0"
-
-diff --git a/include/uapi/linux/if_pppox.h b/include/uapi/linux/if_pppox.h
-index e7a693c28..1b3ebaab1 100644
---- a/include/uapi/linux/if_pppox.h
-+++ b/include/uapi/linux/if_pppox.h
-@@ -28,6 +28,10 @@
- #include <linux/in.h>
- #include <linux/in6.h>
-
-+#ifndef __KERNEL__
-+#include <stddef.h>
-+#endif
-+
- /* For user-space programs to pick up these definitions
-  * which they wouldn't get otherwise without defining __KERNEL__
-  */
-diff --git a/include/uapi/linux/kexec.h b/include/uapi/linux/kexec.h
-index 05669c87a..5873e22f8 100644
---- a/include/uapi/linux/kexec.h
-+++ b/include/uapi/linux/kexec.h
-@@ -8,6 +8,9 @@
-  */
-
- #include <linux/types.h>
-+#ifndef __KERNEL__
-+#include <stddef.h>
-+#endif
-
- /* kexec flags for different usage scenarios */
- #define KEXEC_ON_CRASH 0x00000001
-@@ -47,6 +50,7 @@
- #define KEXEC_SEGMENT_MAX 16
-
- #ifndef __KERNEL__
-+#include <stddef.h>
- /*
-  * This structure is used to hold the arguments that are used when
-  * loading  kernel binaries.
-diff --git a/include/uapi/linux/matroxfb.h b/include/uapi/linux/matroxfb.h
-index 23e025b7e..50fd2453a 100644
---- a/include/uapi/linux/matroxfb.h
-+++ b/include/uapi/linux/matroxfb.h
-@@ -7,6 +7,10 @@
- #include <linux/videodev2.h>
- #include <linux/fb.h>
-
-+#ifndef __KERNEL__
-+#include <stddef.h>
-+#endif
-+
- struct matroxioc_output_mode {
-  __u32 output; /* which output */
- #define MATROXFB_OUTPUT_PRIMARY 0x0000
-diff --git a/include/uapi/linux/nfc.h b/include/uapi/linux/nfc.h
-index f6e3c8c9c..491607e9b 100644
---- a/include/uapi/linux/nfc.h
-+++ b/include/uapi/linux/nfc.h
-@@ -23,6 +23,9 @@
-
- #include <linux/types.h>
- #include <linux/socket.h>
-+#ifndef __KERNEL__
-+#include <stddef.h>
-+#endif
-
- #define NFC_GENL_NAME "nfc"
- #define NFC_GENL_VERSION 1
-diff --git a/include/uapi/linux/omapfb.h b/include/uapi/linux/omapfb.h
-index 44f43af4c..21a4803bf 100644
---- a/include/uapi/linux/omapfb.h
-+++ b/include/uapi/linux/omapfb.h
-@@ -28,6 +28,9 @@
- #include <linux/fb.h>
- #include <linux/ioctl.h>
- #include <linux/types.h>
-+#ifndef __KERNEL__
-+#include <stddef.h>
-+#endif
-
- /* IOCTL commands. */
-
-diff --git a/include/uapi/linux/pmu.h b/include/uapi/linux/pmu.h
-index f2fc1bd80..1664bdd3c 100644
---- a/include/uapi/linux/pmu.h
-+++ b/include/uapi/linux/pmu.h
-@@ -122,6 +122,9 @@ enum {
-  * Ioctl commands for the /dev/pmu device
-  */
- #include <linux/ioctl.h>
-+#ifndef __KERNEL__
-+#include <stddef.h>
-+#endif
-
- /* no param */
- #define PMU_IOC_SLEEP _IO('B', 0)
-diff --git a/include/uapi/linux/radeonfb.h b/include/uapi/linux/radeonfb.h
-index 86eafb805..428a99482 100644
---- a/include/uapi/linux/radeonfb.h
-+++ b/include/uapi/linux/radeonfb.h
-@@ -4,6 +4,9 @@
-
- #include <asm/ioctl.h>
- #include <linux/types.h>
-+#ifndef __KERNEL__
-+#include <stddef.h>
-+#endif
-
- #define ATY_RADEON_LCD_ON 0x00000001
- #define ATY_RADEON_CRT_ON 0x00000002
-diff --git a/include/uapi/linux/reiserfs_xattr.h
-b/include/uapi/linux/reiserfs_xattr.h
-index 28f10842f..f121bc88a 100644
---- a/include/uapi/linux/reiserfs_xattr.h
-+++ b/include/uapi/linux/reiserfs_xattr.h
-@@ -7,6 +7,9 @@
- #define _LINUX_REISERFS_XATTR_H
-
- #include <linux/types.h>
-+#ifndef __KERNEL__
-+#include <stddef.h>
-+#endif
-
- /* Magic value in header */
- #define REISERFS_XATTR_MAGIC 0x52465841 /* "RFXA" */
-diff --git a/include/uapi/linux/seg6_iptunnel.h
-b/include/uapi/linux/seg6_iptunnel.h
-index 09fb608a3..b4debe869 100644
---- a/include/uapi/linux/seg6_iptunnel.h
-+++ b/include/uapi/linux/seg6_iptunnel.h
-@@ -16,6 +16,9 @@
- #define _UAPI_LINUX_SEG6_IPTUNNEL_H
-
- #include <linux/seg6.h> /* For struct ipv6_sr_hdr. */
-+#ifndef __KERNEL__
-+#include <stddef.h>
-+#endif
-
- enum {
-  SEG6_IPTUNNEL_UNSPEC,
-diff --git a/include/uapi/linux/sysctl.h b/include/uapi/linux/sysctl.h
-index 87aa2a6d9..f56befb69 100644
---- a/include/uapi/linux/sysctl.h
-+++ b/include/uapi/linux/sysctl.h
-@@ -26,6 +26,9 @@
- #include <linux/kernel.h>
- #include <linux/types.h>
- #include <linux/compiler.h>
-+#ifndef __KERNEL__
-+#include <stddef.h>
-+#endif
-
- #define CTL_MAXNAME 10 /* how many path components do we allow in a
-    call to sysctl?   In other words, what is
-diff --git a/include/uapi/xen/privcmd.h b/include/uapi/xen/privcmd.h
-index d20295560..51cf59019 100644
---- a/include/uapi/xen/privcmd.h
-+++ b/include/uapi/xen/privcmd.h
-@@ -38,6 +38,10 @@
- #include <linux/compiler.h>
- #include <xen/interface/xen.h>
-
-+#ifndef __KERNEL__
-+#include <stddef.h>
-+#endif
-+
- struct privcmd_hypercall {
-  __u64 op;
-  __u64 arg[5];
-```
+>>> original patch to avoid having a hole in there...
+>>
+>> Done
+>>
+>=20
+> ("io_uring/io-wq: don't use static creds/mm assignments") and ("io_urin=
+g:
+> support using a registered personality for commands") looks good now.
+>=20
+> Reviewed-by: Pavel Begunkov <asml.silence@gmail.com>
 
 
-On Sun, Nov 10, 2019 at 11:36 PM Florian Weimer <fw@deneb.enyo.de> wrote:
->
-> * Elichai Turkel:
->
-> >>>> <stddef.h> is expected to be provided by the compiler. It's probably
-> >>>> easier to fix your build environment.
-> >
-> > `<stddef.h>` is obviously *provided* by the compiler. but it's still
-> > need to be *included*.
-> > so maybe I'm going too far and we just need to include `<stddef.h>` in
-> > `linux/types.h`.
->
-> Yes, that should work.  <linux/types.h> obviously must be compatible
-> with <stddef.h>.
+I'm very happy with the design, thanks!
+That exactly what I had in mind:-)
+
+It would also work with IORING_SETUP_SQPOLL, correct?
+
+However I think there're a few things to improve/simplify.
+
+> https://git.kernel.dk/cgit/linux-block/commit/?h=3Dfor-5.6/io_uring-vfs=
+&id=3Da26d26412e1e1783473f9dc8f030c3af3d54b1a6
+
+In fs/io_uring.c mmgrab() and get_current_cred() are used together in
+two places, why is put_cred() called in __io_req_aux_free while
+mmdrop() is called from io_put_work(). I think both should be called
+in io_put_work(), that makes the code much easier to understand.
+
+My guess is that you choose __io_req_aux_free() for put_cred() because
+of the following patches, but I'll explain on the other commit
+why it's not needed.
+
+> https://git.kernel.dk/cgit/linux-block/commit/?h=3Dfor-5.6/io_uring-vfs=
+&id=3Dd9db233adf034bd7855ba06190525e10a05868be
+
+A minor one would be starting with 1 instead of 0 and using
+idr_alloc_cyclic() in order to avoid immediate reuse of ids.
+That way we could include the id in the tracing message and
+0 would mean the current creds were used.
+
+> +static int io_remove_personalities(int id, void *p, void *data)
+> +{
+> +	struct io_ring_ctx *ctx =3D data;
+> +
+> +	idr_remove(&ctx->personality_idr, id);
+
+Here we need something like:
+put_creds((const struct cred *)p);
+
+> +	return 0;
+> +}
 
 
+The io_uring_register() calles would look like this, correct?
 
--- 
-PGP: 5607C93B5F86650C
+ id =3D io_uring_register(ring_fd, IORING_REGISTER_PERSONALITY, NULL, 0);=
+
+ io_uring_register(ring_fd, IORING_UNREGISTER_PERSONALITY, NULL, id);
+
+> https://git.kernel.dk/cgit/linux-block/commit/?h=3Dfor-5.6/io_uring-vfs=
+&id=3Deec9e69e0ad9ad364e1b6a5dfc52ad576afee235
+> +
+> +	if (sqe_flags & IOSQE_PERSONALITY) {
+> +		int id =3D READ_ONCE(sqe->personality);
+> +
+> +		req->work.creds =3D idr_find(&ctx->personality_idr, id);
+> +		if (unlikely(!req->work.creds)) {
+> +			ret =3D -EINVAL;
+> +			goto err_req;
+> +		}
+> +		get_cred(req->work.creds);> +		old_creds =3D override_creds(req->wor=
+k.creds);
+> +	}
+> +
+
+Here we could use a helper variable
+const struct cred *personality_creds;
+and leave req->work.creds as NULL.
+It means we can avoid the explicit get_cred() call
+and can skip the following hunk too:
+
+> @@ -3977,7 +3977,8 @@ static int io_req_defer_prep(struct io_kiocb *req=
+,
+>  		mmgrab(current->mm);
+>  		req->work.mm =3D current->mm;
+>  	}
+> -	req->work.creds =3D get_current_cred();
+> +	if (!req->work.creds)
+> +		req->work.creds =3D get_current_cred();
+> =20
+>  	switch (req->opcode) {
+>  	case IORING_OP_NOP:
+
+The override_creds(personality_creds) has changed current->cred
+and get_current_cred() will just pick it up as in the default case.
+
+This would make the patch much simpler and allows put_cred() to be
+in io_put_work() instead of __io_req_aux_free() as explained above.
+
+metze
+
+
+--viy5iQdNsiwmTYiYhyjIGXGXRbnYn1RAi--
+
+--RNLVW4EKoBAHUQUfqL7tZ7QYYQEGm1WCn
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEfFbGo3YXpfgryIw9DbX1YShpvVYFAl4xhGYACgkQDbX1YShp
+vVblORAAk3+0dsJ+7dJDj7s3cPMGwHImQCaRkJPDkVDd1pYf8/+IA1VNfqapN8jw
+wsyrPJp7nEy6+W/qtMciv0afEfCNlC6VdAiqWQOriI5qBMIrn8XPlq0+FGpjvUxd
+6NrIbxPGsgq7NYiMzVhKyv1lC69OZtZ4rPNaI/QAwZMeyd699sy5al/yGzCaMJEv
+RWnrG6OSNvf/Snn2xrz7F3Ri/NJLoKrlA6DyKwWMbD2hygUqrX/wes3RV0cthvvE
+h3vYZbeyuhoNWoCx+nK7gizHuNzlT1eW9yJiEtZE6uToKUEVsey0Bf2qHu21MFA3
+6Eri0m/EeD7GtNugb6hk4AQL7AtXWRbZotweefttYGPm+tQDtMWmaZA/er0Nk1La
+AbImJaWRCaoqXW77c1bzHNsWl9w6VZZrIAqv/cbumRg35Glqh5QbbqP4+nmeEupy
+vUvMkd2lctYWEPnUK2BVy4T0tzDhPxjANQ9dG94HFpUI6k9LSkXfl3TaOr/3ntAc
+M+/V02YF9IVX31IXrQX4U89BpDnsopfsa8hImBhdl+Y7Bmu7gsjlmOa5FOnIQx0N
+O0X3bxrvsU4UEWxPHtBsvqw7MNEnmMo5FjhDx7Lq8j//wSc58qUvqMQINghsWtHr
+l7YX0Q+Eig2KV9R/AXd8rzSwmeittDup4DiHm+geTV8RAEuB7xA=
+=WGgZ
+-----END PGP SIGNATURE-----
+
+--RNLVW4EKoBAHUQUfqL7tZ7QYYQEGm1WCn--
