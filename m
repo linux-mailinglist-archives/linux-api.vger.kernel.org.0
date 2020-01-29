@@ -2,66 +2,81 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 10D6514CF67
-	for <lists+linux-api@lfdr.de>; Wed, 29 Jan 2020 18:16:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CB1E14CFB5
+	for <lists+linux-api@lfdr.de>; Wed, 29 Jan 2020 18:34:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726679AbgA2RQr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 29 Jan 2020 12:16:47 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45080 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726647AbgA2RQr (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 29 Jan 2020 12:16:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1580318205;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=M5i8mRKm7dmfzydQLNecACgzsC7ykRGuRXnbf9FqfH0=;
-        b=cvL1JR8Un+W+ffSF+9W2cpoJqLOvufsXr9slnb8SEv0iAIemqhWRRX67Sh7vm3R4frmrR7
-        ITPBp05ZcqcFpmR0yeg5iJGfUYNrMWOecYDu3WJFRMhcCFuzU5c+klNS9A2Oi6CivPBjKK
-        KVCEmEujW8RcCT6+85bq/nzNA5tcjpg=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-109-XcH5EQn0MVy7mvYpXEjEKw-1; Wed, 29 Jan 2020 12:16:29 -0500
-X-MC-Unique: XcH5EQn0MVy7mvYpXEjEKw-1
-Received: by mail-qk1-f200.google.com with SMTP id v2so122690qkf.4
-        for <linux-api@vger.kernel.org>; Wed, 29 Jan 2020 09:16:29 -0800 (PST)
+        id S1726679AbgA2ReN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 29 Jan 2020 12:34:13 -0500
+Received: from mail-io1-f52.google.com ([209.85.166.52]:44977 "EHLO
+        mail-io1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726750AbgA2ReN (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 29 Jan 2020 12:34:13 -0500
+Received: by mail-io1-f52.google.com with SMTP id e7so584140iof.11
+        for <linux-api@vger.kernel.org>; Wed, 29 Jan 2020 09:34:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=WHw1X9Lw89CTmFKgLlcuszF0Rg+9rtM3hI/h17kh3bI=;
+        b=f8Q392En5TautCdJ1QomAVS87wtKuytyLSEXpr4kYsD+qI8D46Ge/PBza5psrXhv8m
+         OYJlh6PYTtUSiFdqea5Bof2GCq2k5CDvjQ2vgWalOorKs6hxQi6NUdQkfJBht3jBfjXS
+         4oVrB9hcJWY3yE5mTPzwsXjMqQGgm3Dlc/vq/8GhOiElD+fX8qrrIk8bVCES2vOhi2p/
+         RRWirw6mX5MyphQtXYu1v1E2QlvtxqYmeGBJ4vjyg22asUceMHYW4N9ODxyetndlLthS
+         RukvblNbaw6ow5jgWWGCPiYc1w+vhgWtZKhD8SmgC06zI/TJk5McKrq3XUuTp2/1rVdK
+         Xghg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=M5i8mRKm7dmfzydQLNecACgzsC7ykRGuRXnbf9FqfH0=;
-        b=PtI+MjkMvmOQd0m6CLkGtKn4D6Evepe6OeXEy3VLlNejfcHtY9IelWyID2uc7sCxXk
-         5Q7scl1UOxEM0oezOAFBA+zNtHOp5i71kjS6A9xzq5UQnahKgersgAzhTbVA6742BAW8
-         j/DowdziW9D4JMXs8u0QP+XJKBpCzqv5v4Uc23/8CHyNm8JTwvQ4Rg0whpxxFsa3xtPM
-         QVVfpSoTaKp1/2GUfyrombWybarogI9XwlhMH11bOB115+phNSE9fs1tkQF+gkU9Nvau
-         1a3KBgFhVlEIZKzn0BPi3srQkrEzgj9jtaI0WxRoA/rbfM3u0RCX4uw3xihSVVR6W0PW
-         VtaQ==
-X-Gm-Message-State: APjAAAX4nDVlg5L6MFlAJo87b+pDTdz1lqhWgfVGV9h8QxQkLs1zjl9t
-        77+oq/m99P4gPBZmwZQriJW54vvM94Q6MXWnnL4dRw3w1kmY/p0LEZ0P8XpfmOPRQh3F6BviYWJ
-        7UESJWywz4XnnH5pbZ27c
-X-Received: by 2002:aed:3463:: with SMTP id w90mr212208qtd.42.1580318188396;
-        Wed, 29 Jan 2020 09:16:28 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwkX8cUMxuvZFJ1Tw3QGErxjHFehV08dxZzqWRbtYsLGuqNfO2VxYKJ9rzYny1Q56VD+a9z2A==
-X-Received: by 2002:aed:3463:: with SMTP id w90mr212190qtd.42.1580318188141;
-        Wed, 29 Jan 2020 09:16:28 -0800 (PST)
-Received: from [192.168.1.4] (135-23-175-75.cpe.pppoe.ca. [135.23.175.75])
-        by smtp.gmail.com with ESMTPSA id n4sm1361026qti.55.2020.01.29.09.16.26
+        bh=WHw1X9Lw89CTmFKgLlcuszF0Rg+9rtM3hI/h17kh3bI=;
+        b=ksC5epDIFTxQELBDnJxm9G+9Cobf9b8XGDo6ltRXyrmErSq1arxKQubMv1A/gVKZqU
+         9Nzlgy0xpNruRAv9IWD+VSr2Bj7TWvDDmO2h/lCEjjdAFBBY3Fi6JmKEMgRPcGbmj4rt
+         AmrNS8/huAc/cM0NrbYApmiDukK+OrJkOsd9Jn1UtzRb6RJdxWg2lSG9lwr25DbH7d7b
+         c5vB/REkYZVRPIB49jnMrGDfqdmup0v4c1VCIgOZqJsrKzUtY116Ir1cLP7SAGZfbicT
+         ZT3rXCtz4lzxPTIG1szfVL82OHrGQbAvAzOgF40g/79tKckYWwhaa7qC9C5SZXydv43A
+         N6xQ==
+X-Gm-Message-State: APjAAAWSbyzBouw0VgPe5YIQkSedrbmM10gbFqe4l3pNC1LvsF0kQFL3
+        tnd28OAXqGImFWmgOsZhK9HKBkxaXuQ=
+X-Google-Smtp-Source: APXvYqxyRzjsQQdZjzIrF7fabQbjp9nx49v1HvGdu26vGzioZ/NZnE1lBC7lT3kDwx5/LoaX81Ndpg==
+X-Received: by 2002:a05:6602:193:: with SMTP id m19mr450888ioo.222.1580319252178;
+        Wed, 29 Jan 2020 09:34:12 -0800 (PST)
+Received: from [192.168.1.159] ([65.144.74.34])
+        by smtp.gmail.com with ESMTPSA id f76sm908937ild.82.2020.01.29.09.34.10
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jan 2020 09:16:26 -0800 (PST)
-Subject: Re: Including both linux/time.h and linux/input.h causes failure
-To:     Elichai Turkel <elichai.turkel@gmail.com>,
-        linux-api@vger.kernel.org
-References: <CALN7hC+f+D8xsaJBt+MCXDfk51oHCoQeUVmFydNdkW+_DeqTiw@mail.gmail.com>
-From:   Carlos O'Donell <codonell@redhat.com>
-Message-ID: <88ab5e38-254a-430d-67cf-1840b0e51c35@redhat.com>
-Date:   Wed, 29 Jan 2020 12:16:26 -0500
+        Wed, 29 Jan 2020 09:34:11 -0800 (PST)
+Subject: Re: IORING_REGISTER_CREDS[_UPDATE]() and credfd_create()?
+To:     Pavel Begunkov <asml.silence@gmail.com>,
+        Stefan Metzmacher <metze@samba.org>
+Cc:     io-uring <io-uring@vger.kernel.org>,
+        Linux API Mailing List <linux-api@vger.kernel.org>
+References: <ea9f2f27-e9fe-7016-5d5f-56fe1fdfc7a9@samba.org>
+ <d6bc8139-abbe-8a8d-7da1-4eeafd9eebe7@kernel.dk>
+ <688e187a-75dd-89d9-921c-67de228605ce@samba.org>
+ <b29e972e-5ca0-8b5f-46b3-36f93d865723@kernel.dk>
+ <1ac31828-e915-6180-cdb4-36685442ea75@kernel.dk>
+ <0d4f43d8-a0c4-920b-5b8f-127c1c5a3fad@kernel.dk>
+ <b88f0590-71c9-d2bd-9d17-027b05d30d7a@kernel.dk>
+ <2d7e7fa2-e725-8beb-90b9-6476d48bdb33@gmail.com>
+ <6c401e23-de7c-1fc1-4122-33d53fcf9700@kernel.dk>
+ <35eebae7-76dd-52ee-58b2-4f9e85caee40@kernel.dk>
+ <d3f9c1a4-8b28-3cfe-de88-503837a143bc@gmail.com>
+ <c9e58b5c-f66e-8406-16d5-fd6df1a27e77@kernel.dk>
+ <6e5ab6bf-6ff1-14df-1988-a80a7c6c9294@gmail.com>
+ <2019e952-df2a-6b57-3571-73c525c5ba1a@kernel.dk>
+ <0df4904f-780b-5d5f-8700-41df47a1b470@kernel.dk>
+ <5406612e-299d-9d6e-96fc-c962eb93887f@gmail.com>
+ <821243e7-b470-ad7a-c1a5-535bee58e76d@samba.org>
+ <9a419bc5-4445-318d-87aa-1474b49266dd@gmail.com>
+ <40d52623-5f9c-d804-cdeb-b7da6b13cb4f@samba.org>
+ <3e1289de-8d8e-49cf-cc9f-fb7bc67f35d5@gmail.com>
+From:   Jens Axboe <axboe@kernel.dk>
+Message-ID: <9aef3b3b-7e71-f7f1-b366-2517b4d52719@kernel.dk>
+Date:   Wed, 29 Jan 2020 10:34:10 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <CALN7hC+f+D8xsaJBt+MCXDfk51oHCoQeUVmFydNdkW+_DeqTiw@mail.gmail.com>
+In-Reply-To: <3e1289de-8d8e-49cf-cc9f-fb7bc67f35d5@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -70,37 +85,56 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 1/29/20 10:14 AM, Elichai Turkel wrote:
-> Hi,
-> The following header: <wrapper.h>:
-> ```
-> #include <linux/input.h>
-> #include <linux/time.h>
-> ```
-> Will cause the compiler to fail because of redefinition of a lot of
-> time related structs, that are declared once in `linux/time.h` and
-> then again via `bits/types/struct_timeval.h` which is included through
-> `linux/input.h > sys/time.h -> bits/types/struct_timeval.h`
- 
-This is another header-coordination issue between the kernel and libc.
+On 1/29/20 7:23 AM, Pavel Begunkov wrote:
+>>>> The override_creds(personality_creds) has changed current->cred
+>>>> and get_current_cred() will just pick it up as in the default case.
+>>>>
+>>>> This would make the patch much simpler and allows put_cred() to be
+>>>> in io_put_work() instead of __io_req_aux_free() as explained above.
+>>>>
+>>>
+>>> It's one extra get_current_cred(). I'd prefer to find another way to
+>>> clean this up.
+>>
+>> As far as I can see it avoids a get_cred() in the IOSQE_PERSONALITY case
+>> and the if (!req->work.creds) for both cases.
+> 
+> Great, that you turned attention to that! override_creds() is already
+> grabbing a ref, so it shouldn't call get_cred() there.
+> So, that's a bug.
 
-In this case it's linux/time.h vs. sys/time.h.
+It's not though - one is dropped in that function, the other when the
+request is freed. So we do need two references to it. With the proposed
+change to keep the override_creds() variable local for that spot we
+don't, and the get_cred() can then go.
 
-"Synchronizing Headers"
-https://sourceware.org/glibc/wiki/Synchronizing_Headers
-- Just added your case.
+> It could be I'm wrong with the statement above, need to recheck all this
+> code to be sure.
 
-It's not immediate clear to me if the UAPI header is clean enough to
-use directly in glibc or not, and that's often the simplest way to fix
-things.
+I think you are :-)
 
-When you can't just use the kernel header definitions then you have
-to work through the conflict and decide if you want to allow both headers
-to be potentially included and in which orders to support it.
+> BTW, io_req_defer_prep() may be called twice for a req, so you will
+> reassign it without putting a ref. It's safer to leave NULL checks. At
+> least, until I've done reworking and fixing preparation paths.
 
-Why do you need both headers included?
+Agree, the NULL checks are safer and we should keep them.
+
+Going through the rest of this thread, I'm making the following changes:
+
+- ID must be > 0. I like that change, as we don't need an sqe flag to
+  select personality then, and it also makes it obvious that id == 0 is
+  just using current creds.
+
+- Fixed the missing put_cred() in the teardown
+
+- Use a local variable in io_submit_sqe() instead of assigning the
+  creds to req->work.creds there
+
+- Use cyclic idr allocation
+
+I'm going to fold in as appropriate. If there are fixes needed on top of
+that, let's do them separately.
 
 -- 
-Cheers,
-Carlos.
+Jens Axboe
 
