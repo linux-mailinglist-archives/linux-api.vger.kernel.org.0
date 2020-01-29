@@ -2,109 +2,217 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E52414C440
-	for <lists+linux-api@lfdr.de>; Wed, 29 Jan 2020 01:54:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 20BDA14C7B6
+	for <lists+linux-api@lfdr.de>; Wed, 29 Jan 2020 09:58:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726383AbgA2AyV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 28 Jan 2020 19:54:21 -0500
-Received: from mail-pl1-f175.google.com ([209.85.214.175]:45616 "EHLO
-        mail-pl1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726438AbgA2AyV (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 28 Jan 2020 19:54:21 -0500
-Received: by mail-pl1-f175.google.com with SMTP id b22so5781849pls.12
-        for <linux-api@vger.kernel.org>; Tue, 28 Jan 2020 16:54:21 -0800 (PST)
+        id S1726284AbgA2I6p (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 29 Jan 2020 03:58:45 -0500
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:46493 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726184AbgA2I6p (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 29 Jan 2020 03:58:45 -0500
+Received: by mail-pf1-f194.google.com with SMTP id k29so5589452pfp.13
+        for <linux-api@vger.kernel.org>; Wed, 29 Jan 2020 00:58:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=RiPMvkt6DEYMYLoCVz2P/tYA2+jfqHtO3bUEPMPhHCI=;
-        b=WnLzdRRF9MJH1U+Qi1SeojlU9gvH2eTAw/8wHiEkU8iFNRE+ihD1Bg/YBRIP8zGeN5
-         4gJMzxb254oq305Z15NXjiVpFASLIG5HtRJ72whBpoy395UGV4l+3I9i1uA7Xgur7FoX
-         fzJE58L93e32k2dnWI5LUae1bV6KBZLy7oY8uzMnkTbl/0uZFvmwkASLtbH5FJHemPmO
-         iEfvjk8vbnpQVXSNxGS7kpcEiAdhhHJJzx7wKkj3G2xFHulY1kI37wL/JyqMdWV+D76t
-         fSRF/M8/JKlIvMSJ/gk816LGxOgckNRLMCffQGzeJDMUfwvPmWXyUtZLW7MzBmBbyDl1
-         O5sA==
+        d=osandov-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=HZ1fUgHkKafGnPPxbaIK69OWQ8cHhuK6+MSpL+KfJsw=;
+        b=J85FbUDc/TdNx7uRrkMJNtNzm2tqgFgyIb1YAEQNDhJhCaQW9aEQ0U13SPHkR3c7Xf
+         ofZic2Y+3nWH/J7UGGzlO7mQZd86FiaQEi4OCgLA9bQTctvxgpLSsAe+11+uRNU1GyAV
+         KZdm1wZ6X9EcS8cCwII1zgVTM131xJAvNr8SOANepdLfayhZ8nbn52mhdllFuvp7Vu6E
+         7lfVHsWE3jIP/WPd0h6ByqtX1TmfUwK+cglVz+SfuLSevlBVPysT51ArHJwbzEizS1Pd
+         C6SXxcBfG3hyJzp6w7CGrU3GaUwviIZ1c1Nm8OzcgzZNg805s5M0uAvuD4efBCm2qLFj
+         SYcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=RiPMvkt6DEYMYLoCVz2P/tYA2+jfqHtO3bUEPMPhHCI=;
-        b=BQFyY7OozWpO+9gavrLCvp6Xg3RDpEfZwmR/CEn5hu7SA+GSUmTTZwcdPWnN1/uAMh
-         u8bfFIfCH4pvZzL3Hu0e9tewWojCIjtEoonoEx67iMxA4P52UeYH4VziEjSdeAMPYB4l
-         tr8oDALRhD2MLiIftagxrbomYLWTX8lUVBRXmgZov4Bc1bwkbhXp+M7Zo1kptdk/aTg1
-         aM/ds2AXWCxmsxMHrI/5l72tdqVIzeI3EWWE+yBC9mMj8Ws9rpDoVbcs16gjU3JKwInQ
-         zT4PaCDND+w7uJyiG0U+XyOgQnx7+OpECAdXFXfmrsw8oK0UJue3X4j5exaP9ztFm/Rr
-         Bfmw==
-X-Gm-Message-State: APjAAAVS4SIcYmMEX8wlX3aJTTtFHf36R06ljYUf3TTc05Ai499wwCZk
-        9v01/zjlsWY4u2+LF+lvN8DbIjK5eyQ=
-X-Google-Smtp-Source: APXvYqzb8RJPiiHeReoXIkWVNhaqxJ8aLsXs6aYl85BwUlaqsSsNfxmPWMyrPR9ce+MRz4vOi9c/5g==
-X-Received: by 2002:a17:90a:bd97:: with SMTP id z23mr7985149pjr.19.1580259260429;
-        Tue, 28 Jan 2020 16:54:20 -0800 (PST)
-Received: from [192.168.1.188] ([66.219.217.145])
-        by smtp.gmail.com with ESMTPSA id s1sm247412pgv.87.2020.01.28.16.54.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Jan 2020 16:54:19 -0800 (PST)
-Subject: Re: IORING_REGISTER_CREDS[_UPDATE]() and credfd_create()?
-From:   Jens Axboe <axboe@kernel.dk>
-To:     Pavel Begunkov <asml.silence@gmail.com>,
-        Stefan Metzmacher <metze@samba.org>
-Cc:     io-uring <io-uring@vger.kernel.org>,
-        Linux API Mailing List <linux-api@vger.kernel.org>
-References: <ea9f2f27-e9fe-7016-5d5f-56fe1fdfc7a9@samba.org>
- <d6bc8139-abbe-8a8d-7da1-4eeafd9eebe7@kernel.dk>
- <688e187a-75dd-89d9-921c-67de228605ce@samba.org>
- <b29e972e-5ca0-8b5f-46b3-36f93d865723@kernel.dk>
- <1ac31828-e915-6180-cdb4-36685442ea75@kernel.dk>
- <0d4f43d8-a0c4-920b-5b8f-127c1c5a3fad@kernel.dk>
- <b88f0590-71c9-d2bd-9d17-027b05d30d7a@kernel.dk>
- <2d7e7fa2-e725-8beb-90b9-6476d48bdb33@gmail.com>
- <6c401e23-de7c-1fc1-4122-33d53fcf9700@kernel.dk>
- <35eebae7-76dd-52ee-58b2-4f9e85caee40@kernel.dk>
- <d3f9c1a4-8b28-3cfe-de88-503837a143bc@gmail.com>
- <c9e58b5c-f66e-8406-16d5-fd6df1a27e77@kernel.dk>
- <6e5ab6bf-6ff1-14df-1988-a80a7c6c9294@gmail.com>
- <2019e952-df2a-6b57-3571-73c525c5ba1a@kernel.dk>
-Message-ID: <0df4904f-780b-5d5f-8700-41df47a1b470@kernel.dk>
-Date:   Tue, 28 Jan 2020 17:54:18 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=HZ1fUgHkKafGnPPxbaIK69OWQ8cHhuK6+MSpL+KfJsw=;
+        b=FrP1dvZ4y0UUAsjjTHJE9paEFYJSwqLnRyLSl0i64Z5GYrn23rt26VwNaM1vImoRuj
+         5+jmOIcTiMFNKGbRmyMsjln7WMxctzj/ILGMqFomSAV+FfKusoUlriGDusjuzADZPQCz
+         FKvSXOuIqCIJc0Uxr00c2ixUmVRWmjdc5vbm8FM1JQgSQE4STfOZPzB2yL4uVk4CA3XD
+         V79twj//8OWgb8Rs3ghmERxN+PX1EsuuFERSymkZRG7kYHpwUr4/WZnASUpqgOrNlQLN
+         jPR1N/Rq1MjZAgdZuYWMKG6b1mvwyCKOZQ5tvzOQ7/YiyywtfkW0rxYSyCNtXqJKEq9x
+         uOuA==
+X-Gm-Message-State: APjAAAVSe4UK22ta3GufcDkWRNW9wujy9Dt+w/Obmhi5IPlIVE5hgw22
+        mCj/eJD2ELPlz9rjsLI5Y/gCmQ==
+X-Google-Smtp-Source: APXvYqzCaxjzL1BCmtE9Gr4XiyfN2SK3rP/+TSRXQgOwqWHDazZahMLQ22ojJ77gTeOc+H6hpGaz5A==
+X-Received: by 2002:a62:1a16:: with SMTP id a22mr8261295pfa.34.1580288324210;
+        Wed, 29 Jan 2020 00:58:44 -0800 (PST)
+Received: from vader.hsd1.wa.comcast.net ([2601:602:8b80:8e0:e6a7:a0ff:fe0b:c9a8])
+        by smtp.gmail.com with ESMTPSA id s131sm1935932pfs.135.2020.01.29.00.58.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jan 2020 00:58:43 -0800 (PST)
+From:   Omar Sandoval <osandov@osandov.com>
+To:     linux-fsdevel@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>
+Cc:     kernel-team@fb.com, linux-api@vger.kernel.org,
+        David Howells <dhowells@redhat.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Xi Wang <xi@cs.washington.edu>, fstests@vger.kernel.org
+Subject: [RFC PATCH xfstests] generic: add smoke test for AT_LINK_REPLACE
+Date:   Wed, 29 Jan 2020 00:58:27 -0800
+Message-Id: <f23621bea2e8d5f919389131b84fa0226b90f502.1580253372.git.osandov@fb.com>
+X-Mailer: git-send-email 2.25.0
+In-Reply-To: <cover.1580251857.git.osandov@fb.com>
+References: <cover.1580251857.git.osandov@fb.com>
 MIME-Version: 1.0
-In-Reply-To: <2019e952-df2a-6b57-3571-73c525c5ba1a@kernel.dk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 1/28/20 5:24 PM, Jens Axboe wrote:
-> On 1/28/20 5:21 PM, Pavel Begunkov wrote:
->> On 29/01/2020 03:20, Jens Axboe wrote:
->>> On 1/28/20 5:10 PM, Pavel Begunkov wrote:
->>>>>>> Checked out ("don't use static creds/mm assignments")
->>>>>>>
->>>>>>> 1. do we miscount cred refs? We grab one in get_current_cred() for each async
->>>>>>> request, but if (worker->creds != work->creds) it will never be put.
->>>>>>
->>>>>> Yeah I think you're right, that needs a bit of fixing up.
->>>>>
->>>>
->>>> Hmm, it seems it leaks it unconditionally, as it grabs in a ref in
->>>> override_creds().
->>>>
->>>
->>> We grab one there, and an extra one. Then we drop one of them inline,
->>> and the other in __io_req_aux_free().
->>>
->> Yeah, with the last patch it should make it even
-> 
-> OK good we agree on that. I should probably pull back that bit to the
-> original patch to avoid having a hole in there...
+From: Omar Sandoval <osandov@fb.com>
 
-Done
+Cc: fstests@vger.kernel.org
+Signed-off-by: Omar Sandoval <osandov@fb.com>
+---
+ common/rc             |  2 +-
+ tests/generic/593     | 97 +++++++++++++++++++++++++++++++++++++++++++
+ tests/generic/593.out |  6 +++
+ tests/generic/group   |  1 +
+ 4 files changed, 105 insertions(+), 1 deletion(-)
+ create mode 100755 tests/generic/593
+ create mode 100644 tests/generic/593.out
 
+diff --git a/common/rc b/common/rc
+index eeac1355..257f65a1 100644
+--- a/common/rc
++++ b/common/rc
+@@ -2172,7 +2172,7 @@ _require_xfs_io_command()
+ 		;;
+ 	"flink")
+ 		local testlink=$TEST_DIR/$$.link.xfs_io
+-		testio=`$XFS_IO_PROG -F -f -c "flink $testlink" $testfile 2>&1`
++		testio=`$XFS_IO_PROG -F -f -c "flink $param $testlink" $testfile 2>&1`
+ 		rm -f $testlink > /dev/null 2>&1
+ 		;;
+ 	"-T")
+diff --git a/tests/generic/593 b/tests/generic/593
+new file mode 100755
+index 00000000..8a9fee02
+--- /dev/null
++++ b/tests/generic/593
+@@ -0,0 +1,97 @@
++#! /bin/bash
++# SPDX-License-Identifier: GPL-2.0
++# Copyright (c) 2020 Facebook.  All Rights Reserved.
++#
++# FS QA Test 593
++#
++# Smoke test linkat() with AT_LINK_REPLACE.
++#
++seq=`basename $0`
++seqres=$RESULT_DIR/$seq
++echo "QA output created by $seq"
++
++here=`pwd`
++tmp=/tmp/$$
++status=1	# failure is the default!
++trap "_cleanup; exit \$status" 0 1 2 3 15
++
++_cleanup()
++{
++	cd /
++	rm -f $tmp.*
++}
++
++# get standard environment, filters and checks
++. ./common/rc
++. ./common/filter
++
++# remove previous $seqres.full before test
++rm -f $seqres.full
++
++_supported_fs generic
++_supported_os Linux
++_require_test
++_require_xfs_io_command "-T"
++_require_xfs_io_command "flink" "-f"
++
++same_file() {
++	[[ "$(stat -c '%d %i' "$1")" = "$(stat -c '%d %i' "$2")" ]]
++}
++
++touch "$TEST_DIR/$seq.src"
++touch "$TEST_DIR/$seq.tgt"
++$XFS_IO_PROG -c "flink -f $TEST_DIR/$seq.tgt" "$TEST_DIR/$seq.src"
++same_file "$TEST_DIR/$seq.src" "$TEST_DIR/$seq.tgt" ||
++	echo "Target was not replaced"
++
++# Linking to the same file should be a noop.
++$XFS_IO_PROG -c "flink -f $TEST_DIR/$seq.src" "$TEST_DIR/$seq.src"
++$XFS_IO_PROG -c "flink -f $TEST_DIR/$seq.tgt" "$TEST_DIR/$seq.src"
++same_file "$TEST_DIR/$seq.src" "$TEST_DIR/$seq.tgt" || echo "Target changed?"
++
++# Should work with O_TMPFILE.
++$XFS_IO_PROG -c "flink -f $TEST_DIR/$seq.tgt" -T "$TEST_DIR"
++stat -c '%h' "$TEST_DIR/$seq.tgt"
++same_file "$TEST_DIR/$seq.src" "$TEST_DIR/$seq.tgt" &&
++	echo "Target was not replaced"
++
++# It's okay if the target doesn't exist.
++$XFS_IO_PROG -c "flink -f $TEST_DIR/$seq.tgt2" "$TEST_DIR/$seq.src"
++same_file "$TEST_DIR/$seq.src" "$TEST_DIR/$seq.tgt2" ||
++	echo "Target was not created"
++
++# Can't replace directories.
++mkdir "$TEST_DIR/$seq.dir"
++$XFS_IO_PROG -c "flink -f $TEST_DIR/$seq.dir" "$TEST_DIR/$seq.src"
++cd "$TEST_DIR/$seq.dir"
++$XFS_IO_PROG -c "flink -f ." "$TEST_DIR/$seq.src"
++$XFS_IO_PROG -c "flink -f .." "$TEST_DIR/$seq.src"
++cd - &> /dev/null
++
++# Can't replace local mount points.
++touch "$TEST_DIR/$seq.mnt"
++$MOUNT_PROG --bind "$TEST_DIR/$seq.mnt" "$TEST_DIR/$seq.mnt"
++$XFS_IO_PROG -c "flink -f $TEST_DIR/$seq.mnt" "$TEST_DIR/$seq.src"
++
++# Can replace mount points in other namespaces, though.
++unshare -m \
++	bash -c "$UMOUNT_PROG $TEST_DIR/$seq.mnt; $XFS_IO_PROG -c \"flink -f $TEST_DIR/$seq.mnt\" $TEST_DIR/$seq.src"
++if $UMOUNT_PROG "$TEST_DIR/$seq.mnt" &> /dev/null; then
++	echo "Mount point was not detached"
++fi
++same_file "$TEST_DIR/$seq.src" "$TEST_DIR/$seq.mnt" ||
++	echo "Mount point was not replaced"
++
++# Should replace symlinks, not follow them.
++touch "$TEST_DIR/$seq.symtgt"
++ln -s "$TEST_DIR/$seq.symtgt" "$TEST_DIR/$seq.sym"
++$XFS_IO_PROG -c "flink -f $TEST_DIR/$seq.sym" "$TEST_DIR/$seq.src"
++same_file "$TEST_DIR/$seq.src" "$TEST_DIR/$seq.sym" ||
++	echo "Symlink was not replaced"
++same_file "$TEST_DIR/$seq.src" "$TEST_DIR/$seq.symtgt" &&
++	echo "Symlink target was replaced"
++
++rm -rf "$TEST_DIR/$seq."*
++
++status=0
++exit
+diff --git a/tests/generic/593.out b/tests/generic/593.out
+new file mode 100644
+index 00000000..834c34bf
+--- /dev/null
++++ b/tests/generic/593.out
+@@ -0,0 +1,6 @@
++QA output created by 593
++1
++flink: Is a directory
++flink: Is a directory
++flink: Is a directory
++flink: Device or resource busy
+diff --git a/tests/generic/group b/tests/generic/group
+index 6fe62505..0a87efca 100644
+--- a/tests/generic/group
++++ b/tests/generic/group
+@@ -595,3 +595,4 @@
+ 590 auto prealloc preallocrw
+ 591 auto quick rw pipe splice
+ 592 auto quick encrypt
++593 auto quick hardlink
 -- 
-Jens Axboe
+2.25.0
 
