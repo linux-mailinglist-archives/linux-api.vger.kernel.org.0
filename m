@@ -2,81 +2,229 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9338B14DFE1
-	for <lists+linux-api@lfdr.de>; Thu, 30 Jan 2020 18:27:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BE35614E043
+	for <lists+linux-api@lfdr.de>; Thu, 30 Jan 2020 18:54:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727263AbgA3R1T (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 30 Jan 2020 12:27:19 -0500
-Received: from out30-54.freemail.mail.aliyun.com ([115.124.30.54]:47826 "EHLO
-        out30-54.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726514AbgA3R1T (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 30 Jan 2020 12:27:19 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R651e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04407;MF=yang.shi@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0TonDCBV_1580405233;
-Received: from US-143344MP.local(mailfrom:yang.shi@linux.alibaba.com fp:SMTPD_---0TonDCBV_1580405233)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Fri, 31 Jan 2020 01:27:16 +0800
-Subject: Re: [v2 PATCH] move_pages.2: Returning positive value is a new error
- case
-To:     Michal Hocko <mhocko@kernel.org>, Vlastimil Babka <vbabka@suse.cz>
-Cc:     mtk.manpages@gmail.com, akpm@linux-foundation.org,
-        linux-man@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org
-References: <1580334531-80354-1-git-send-email-yang.shi@linux.alibaba.com>
- <f276d8ec-b1be-4f8e-792b-5c3ca2de4714@suse.cz>
- <20200130120253.GU24244@dhcp22.suse.cz>
- <cce2e784-8092-00f5-32bf-d23ab7a53476@suse.cz>
- <20200130134835.GW24244@dhcp22.suse.cz>
-From:   Yang Shi <yang.shi@linux.alibaba.com>
-Message-ID: <6f9642ee-5611-4eea-b904-c09cc02b0b17@linux.alibaba.com>
-Date:   Thu, 30 Jan 2020 09:27:11 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
- Gecko/20100101 Thunderbird/52.7.0
+        id S1726679AbgA3RyK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 30 Jan 2020 12:54:10 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31404 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727319AbgA3RyJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 30 Jan 2020 12:54:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1580406848;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=mrGHfSuCn/1HZGIkAY3brhdYxU0Wlxx8zZuo7ggIi2g=;
+        b=JSbXQjCw6Bt3yZJLbsRXT0ObBR4vAX3BRayjPBX8oNtQUMGtvE3X5VWlrzNNUg4WjteF7F
+        OK/1pBLb8OcKMpEViVrtXbFC5Xr3A99CG/NEKFcWQkPx5E8jJNcXl1tJKW8V7zx2i8Hj/K
+        5MUUvyrCfnqTdj/pxIBVIDzYHg6NBWg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-429-Z9Ru1kz5Np68iCziGKnAGg-1; Thu, 30 Jan 2020 12:54:02 -0500
+X-MC-Unique: Z9Ru1kz5Np68iCziGKnAGg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34C8613E7;
+        Thu, 30 Jan 2020 17:54:00 +0000 (UTC)
+Received: from madcap2.tricolour.ca (ovpn-112-16.rdu2.redhat.com [10.10.112.16])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 4AE0B5C1B2;
+        Thu, 30 Jan 2020 17:53:48 +0000 (UTC)
+Date:   Thu, 30 Jan 2020 12:53:46 -0500
+From:   Richard Guy Briggs <rgb@redhat.com>
+To:     Paul Moore <paul@paul-moore.com>
+Cc:     containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
+        Linux-Audit Mailing List <linux-audit@redhat.com>,
+        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
+        sgrubb@redhat.com, omosnace@redhat.com, dhowells@redhat.com,
+        simo@redhat.com, Eric Paris <eparis@parisplace.org>,
+        Serge Hallyn <serge@hallyn.com>, ebiederm@xmission.com,
+        nhorman@tuxdriver.com, Dan Walsh <dwalsh@redhat.com>,
+        mpatel@redhat.com
+Subject: Re: [PATCH ghak90 V8 02/16] audit: add container id
+Message-ID: <20200130175346.4ds4dursrarwv4x6@madcap2.tricolour.ca>
+References: <cover.1577736799.git.rgb@redhat.com>
+ <70ad50e69185c50843d5e14462f1c4f03655d503.1577736799.git.rgb@redhat.com>
+ <CAHC9VhTKE_3bOXs+UcpKDQhatKH92uY3Hy=JA4sXXVGOC0ek8A@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200130134835.GW24244@dhcp22.suse.cz>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHC9VhTKE_3bOXs+UcpKDQhatKH92uY3Hy=JA4sXXVGOC0ek8A@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On 2020-01-22 16:28, Paul Moore wrote:
+> On Tue, Dec 31, 2019 at 2:49 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> >
+> > Implement the proc fs write to set the audit container identifier of a
+> > process, emitting an AUDIT_CONTAINER_OP record to document the event.
+> >
+> > This is a write from the container orchestrator task to a proc entry of
+> > the form /proc/PID/audit_containerid where PID is the process ID of the
+> > newly created task that is to become the first task in a container, or
+> > an additional task added to a container.
+> >
+> > The write expects up to a u64 value (unset: 18446744073709551615).
+> >
+> > The writer must have capability CAP_AUDIT_CONTROL.
+> >
+> > This will produce a record such as this:
+> >   type=CONTAINER_OP msg=audit(2018-06-06 12:39:29.636:26949) : op=set opid=2209 contid=123456 old-contid=18446744073709551615
+> >
+> > The "op" field indicates an initial set.  The "opid" field is the
+> > object's PID, the process being "contained".  New and old audit
+> > container identifier values are given in the "contid" fields.
+> >
+> > It is not permitted to unset the audit container identifier.
+> > A child inherits its parent's audit container identifier.
+> >
+> > Please see the github audit kernel issue for the main feature:
+> >   https://github.com/linux-audit/audit-kernel/issues/90
+> > Please see the github audit userspace issue for supporting additions:
+> >   https://github.com/linux-audit/audit-userspace/issues/51
+> > Please see the github audit testsuiite issue for the test case:
+> >   https://github.com/linux-audit/audit-testsuite/issues/64
+> > Please see the github audit wiki for the feature overview:
+> >   https://github.com/linux-audit/audit-kernel/wiki/RFE-Audit-Container-ID
+> >
+> > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+> > Acked-by: Serge Hallyn <serge@hallyn.com>
+> > Acked-by: Steve Grubb <sgrubb@redhat.com>
+> > Acked-by: Neil Horman <nhorman@tuxdriver.com>
+> > Reviewed-by: Ondrej Mosnacek <omosnace@redhat.com>
+> > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+> > ---
+> >  fs/proc/base.c             | 36 ++++++++++++++++++++++++++++
+> >  include/linux/audit.h      | 25 ++++++++++++++++++++
+> >  include/uapi/linux/audit.h |  2 ++
+> >  kernel/audit.c             | 58 ++++++++++++++++++++++++++++++++++++++++++++++
+> >  kernel/audit.h             |  1 +
+> >  kernel/auditsc.c           |  4 ++++
+> >  6 files changed, 126 insertions(+)
+> 
+> ...
+> 
+> > diff --git a/kernel/audit.c b/kernel/audit.c
+> > index 397f8fb4836a..2d7707426b7d 100644
+> > --- a/kernel/audit.c
+> > +++ b/kernel/audit.c
+> > @@ -2356,6 +2358,62 @@ int audit_signal_info(int sig, struct task_struct *t)
+> >         return audit_signal_info_syscall(t);
+> >  }
+> >
+> > +/*
+> > + * audit_set_contid - set current task's audit contid
+> > + * @task: target task
+> > + * @contid: contid value
+> > + *
+> > + * Returns 0 on success, -EPERM on permission failure.
+> > + *
+> > + * Called (set) from fs/proc/base.c::proc_contid_write().
+> > + */
+> > +int audit_set_contid(struct task_struct *task, u64 contid)
+> > +{
+> > +       u64 oldcontid;
+> > +       int rc = 0;
+> > +       struct audit_buffer *ab;
+> > +
+> > +       task_lock(task);
+> > +       /* Can't set if audit disabled */
+> > +       if (!task->audit) {
+> > +               task_unlock(task);
+> > +               return -ENOPROTOOPT;
+> > +       }
+> > +       oldcontid = audit_get_contid(task);
+> > +       read_lock(&tasklist_lock);
+> > +       /* Don't allow the audit containerid to be unset */
+> > +       if (!audit_contid_valid(contid))
+> > +               rc = -EINVAL;
+> > +       /* if we don't have caps, reject */
+> > +       else if (!capable(CAP_AUDIT_CONTROL))
+> > +               rc = -EPERM;
+> > +       /* if task has children or is not single-threaded, deny */
+> > +       else if (!list_empty(&task->children))
+> > +               rc = -EBUSY;
+> > +       else if (!(thread_group_leader(task) && thread_group_empty(task)))
+> > +               rc = -EALREADY;
+> 
+> [NOTE: there is a bigger issue below which I think is going to require
+> a respin/fixup of this patch so I'm going to take the opportunity to
+> do a bit more bikeshedding ;)]
+> 
+> It seems like we could combine both the thread/children checks under a
+> single -EBUSY return value.  In both cases the caller should be able
+> to determine if the target process is multi-threaded for has spawned
+> children, yes?  FWIW, my motivation for this question is that
+> -EALREADY seems like a poor choice here.
 
+Fair enough.
 
-On 1/30/20 5:48 AM, Michal Hocko wrote:
-> On Thu 30-01-20 13:56:20, Vlastimil Babka wrote:
->> On 1/30/20 1:02 PM, Michal Hocko wrote:
->>> On Thu 30-01-20 10:06:28, Vlastimil Babka wrote:
->>>> On 1/29/20 10:48 PM, Yang Shi wrote:
->>>>> Since commit a49bd4d71637 ("mm, numa: rework do_pages_move"),
->>>>> the semantic of move_pages() has changed to return the number of
->>>>> non-migrated pages if they were result of a non-fatal reasons (usually a
->>>>> busy page).  This was an unintentional change that hasn't been noticed
->>>>> except for LTP tests which checked for the documented behavior.
->>>>>
->>>>> There are two ways to go around this change.  We can even get back to the
->>>>> original behavior and return -EAGAIN whenever migrate_pages is not able
->>>> The manpage says EBUSY, not EAGAIN? And should its description be
->>>> updated too?
->>> The idea was that we _could_ return EAGAIN from the syscall if
->>> migrate_pages > 0.
->>>
->>>> I.e. that it's no longer returned since 4.17?
->>> I am pretty sure this will require a deeper consideration. Do we return
->>> EIO/EINVAL?
->> I thought the manpage says we return -EBUSY, but I misread it, this part
->> was not about errno, but the status array. So there's nothing to update
->> there, sorry about the noise.
->>
->> BTW, the suggestion to "Pre-initialization of the array to -1" means
->> effectively it's pre-initialized to -EPERM. That's fine now as -EPERM is
->> not one of the codes listed as possible to be returned via the array,
->> but perhaps it's not entirely future-proof?
-> Hmm, I didn't realize EPERM is refering to 1. The wording however
-> suggests also any other value that cannot represent a valid NUMA node.
-> So maybe we should just drop the node about -1.
+> > +       /* if contid is already set, deny */
+> > +       else if (audit_contid_set(task))
+> > +               rc = -ECHILD;
+> 
+> Does -EEXIST make more sense here?
 
-Or maybe we just say "any value which doesn't represent a valid NUMA 
-node or valid error of status array"?
+Perhaps.  I don't feel strongly about it, but none of these error codes
+were intended for this use and should not overlap with other errors from
+writing to /proc.
 
+> > +       read_unlock(&tasklist_lock);
+> > +       if (!rc)
+> > +               task->audit->contid = contid;
+> > +       task_unlock(task);
+> > +
+> > +       if (!audit_enabled)
+> > +               return rc;
+> > +
+> > +       ab = audit_log_start(audit_context(), GFP_KERNEL, AUDIT_CONTAINER_OP);
+> > +       if (!ab)
+> > +               return rc;
+> > +
+> > +       audit_log_format(ab,
+> > +                        "op=set opid=%d contid=%llu old-contid=%llu",
+> > +                        task_tgid_nr(task), contid, oldcontid);
+> > +       audit_log_end(ab);
+> 
+> Assuming audit is enabled we always emit the record above, even if we
+> were not actually able to set the Audit Container ID (ACID); this
+> seems wrong to me.  I think the proper behavior would be to either add
+> a "res=" field to indicate success/failure or only emit the record
+> when we actually change a task's ACID.  Considering the impact that
+> the ACID value will potentially have on the audit stream, it seems
+> like always logging the record and including a "res=" field may be the
+> safer choice.
+
+This record should be accompanied by a syscall record (and eventually
+possibly a CONTAINER_ID record of the orchestrator, if it is already in
+a container).  The syscall record has a res= field that already gives
+this result.
+
+> > +       return rc;
+> > +}
+> > +
+> >  /**
+> >   * audit_log_end - end one audit record
+> >   * @ab: the audit_buffer
+> 
+> --
+> paul moore
+> www.paul-moore.com
+> 
+
+- RGB
+
+--
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems
+Remote, Ottawa, Red Hat Canada
+IRC: rgb, SunRaycer
+Voice: +1.647.777.2635, Internal: (81) 32635
 
