@@ -2,150 +2,119 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D0E7514D8EC
-	for <lists+linux-api@lfdr.de>; Thu, 30 Jan 2020 11:26:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 92A0714D97F
+	for <lists+linux-api@lfdr.de>; Thu, 30 Jan 2020 12:10:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726947AbgA3K0m (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 30 Jan 2020 05:26:42 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:55591 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726873AbgA3K0m (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 30 Jan 2020 05:26:42 -0500
-Received: from [89.27.154.14] (helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1ix71w-0008In-MD; Thu, 30 Jan 2020 10:26:36 +0000
-Date:   Thu, 30 Jan 2020 11:26:36 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Jann Horn <jannh@google.com>
-Cc:     Jens Axboe <axboe@kernel.dk>, Stefan Metzmacher <metze@samba.org>,
-        io-uring <io-uring@vger.kernel.org>,
-        Linux API Mailing List <linux-api@vger.kernel.org>,
-        Pavel Begunkov <asml.silence@gmail.com>
-Subject: Re: IORING_REGISTER_CREDS[_UPDATE]() and credfd_create()?
-Message-ID: <20200130102635.ar2bohr7n4li2hyd@wittgenstein>
-References: <d6bc8139-abbe-8a8d-7da1-4eeafd9eebe7@kernel.dk>
- <688e187a-75dd-89d9-921c-67de228605ce@samba.org>
- <b29e972e-5ca0-8b5f-46b3-36f93d865723@kernel.dk>
- <1ac31828-e915-6180-cdb4-36685442ea75@kernel.dk>
- <0d4f43d8-a0c4-920b-5b8f-127c1c5a3fad@kernel.dk>
- <b88f0590-71c9-d2bd-9d17-027b05d30d7a@kernel.dk>
- <CAG48ez17Ums4s=gjai-Lakr2tWf9bjmYYeNb5aGrwAD51ypZMA@mail.gmail.com>
- <4f833fc5-b4c0-c304-c3c2-f63c050b90a2@kernel.dk>
- <9ce2e571-ed84-211a-4e99-d830ecdaf0e2@kernel.dk>
- <CAG48ez1qVCoOwcdA7YZcKObQ9frWNxCjHOp6RYeqd+q_n4KJJQ@mail.gmail.com>
+        id S1726959AbgA3LKT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 30 Jan 2020 06:10:19 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:25382 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727027AbgA3LKT (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 30 Jan 2020 06:10:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1580382617;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=hl+74QNlq0Fe4UtuI+hqFs5mISin5uD8WN32HNCWFSs=;
+        b=EYSCd6s3L98gFj2AJQgNy2UG6SSaq3Yq4/Sz90Dkf3pYPH1dnOOA0pm0LFirJymjzhaCLC
+        MDJqqClO1xVj/oKDudnMvFmgGvBICcLU8L60KkzJ0309+dBK9ic7+cjvW7nVbgs1czhmPf
+        wt2sMQ6j8oybhl1pn5RBUVcGNiWzGV4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-35-9ALw2e1pP1yEfjlHMQxp0g-1; Thu, 30 Jan 2020 06:10:13 -0500
+X-MC-Unique: 9ALw2e1pP1yEfjlHMQxp0g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E9C91477;
+        Thu, 30 Jan 2020 11:10:08 +0000 (UTC)
+Received: from oldenburg2.str.redhat.com (ovpn-116-29.ams2.redhat.com [10.36.116.29])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id D71891001B05;
+        Thu, 30 Jan 2020 11:10:01 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc:     "H. Peter Anvin" <hpa@zytor.com>, Chris Lameter <cl@linux.com>,
+        Jann Horn <jannh@google.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Joel Fernandes <joelaf@google.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Watson <davejwatson@fb.com>,
+        Will Deacon <will.deacon@arm.com>, shuah <shuah@kernel.org>,
+        Andi Kleen <andi@firstfloor.org>,
+        linux-kselftest <linux-kselftest@vger.kernel.org>,
+        Russell King <linux@arm.linux.org.uk>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Paul <paulmck@linux.vnet.ibm.com>, Paul Turner <pjt@google.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Josh Triplett <josh@joshtriplett.org>,
+        rostedt <rostedt@goodmis.org>, Ben Maurer <bmaurer@fb.com>,
+        linux-api <linux-api@vger.kernel.org>,
+        Andy Lutomirski <luto@amacapital.net>
+Subject: Re: [RFC PATCH v1] pin_on_cpu: Introduce thread CPU pinning system call
+References: <20200121160312.26545-1-mathieu.desnoyers@efficios.com>
+        <430172781.596271.1579636021412.JavaMail.zimbra@efficios.com>
+        <CAG48ez2Z5CesMfandNK+S32Rrgp_QGQHqQ1Fpd5-YTsCWGfHeg@mail.gmail.com>
+        <2049164886.596497.1579641536619.JavaMail.zimbra@efficios.com>
+        <alpine.DEB.2.21.2001212141590.1231@www.lameter.com>
+        <1648013936.596672.1579655468604.JavaMail.zimbra@efficios.com>
+        <ead7a565-9a23-a7d7-904d-c4860f63952a@zytor.com>
+        <87a76efuux.fsf@oldenburg2.str.redhat.com>
+        <134428560.600911.1580153955842.JavaMail.zimbra@efficios.com>
+Date:   Thu, 30 Jan 2020 12:10:00 +0100
+In-Reply-To: <134428560.600911.1580153955842.JavaMail.zimbra@efficios.com>
+        (Mathieu Desnoyers's message of "Mon, 27 Jan 2020 14:39:15 -0500
+        (EST)")
+Message-ID: <87blql5hfb.fsf@oldenburg2.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAG48ez1qVCoOwcdA7YZcKObQ9frWNxCjHOp6RYeqd+q_n4KJJQ@mail.gmail.com>
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jan 30, 2020 at 11:11:58AM +0100, Jann Horn wrote:
-> On Thu, Jan 30, 2020 at 2:08 AM Jens Axboe <axboe@kernel.dk> wrote:
-> > On 1/29/20 10:34 AM, Jens Axboe wrote:
-> > > On 1/29/20 7:59 AM, Jann Horn wrote:
-> > >> On Tue, Jan 28, 2020 at 8:42 PM Jens Axboe <axboe@kernel.dk> wrote:
-> > >>> On 1/28/20 11:04 AM, Jens Axboe wrote:
-> > >>>> On 1/28/20 10:19 AM, Jens Axboe wrote:
-> > >> [...]
-> > >>>>> #1 adds support for registering the personality of the invoking task,
-> > >>>>> and #2 adds support for IORING_OP_USE_CREDS. Right now it's limited to
-> > >>>>> just having one link, it doesn't support a chain of them.
-> > >> [...]
-> > >>> I didn't like it becoming a bit too complicated, both in terms of
-> > >>> implementation and use. And the fact that we'd have to jump through
-> > >>> hoops to make this work for a full chain.
-> > >>>
-> > >>> So I punted and just added sqe->personality and IOSQE_PERSONALITY.
-> > >>> This makes it way easier to use. Same branch:
-> > >>>
-> > >>> https://git.kernel.dk/cgit/linux-block/log/?h=for-5.6/io_uring-vfs-creds
-> > >>>
-> > >>> I'd feel much better with this variant for 5.6.
-> > >>
-> > >> Some general feedback from an inspectability/debuggability perspective:
-> > >>
-> > >> At some point, it might be nice if you could add a .show_fdinfo
-> > >> handler to the io_uring_fops that makes it possible to get a rough
-> > >> overview over the state of the uring by reading /proc/$pid/fdinfo/$fd,
-> > >> just like e.g. eventfd (see eventfd_show_fdinfo()). It might be
-> > >> helpful for debugging to be able to see information about the fixed
-> > >> files and buffers that have been registered. Same for the
-> > >> personalities; that information might also be useful when someone is
-> > >> trying to figure out what privileges a running process actually has.
-> > >
-> > > Agree, that would be a very useful addition. I'll take a look at it.
-> >
-> > Jann, how much info are you looking for? Here's a rough start, just
-> > shows the number of registered files and buffers, and lists the
-> > personalities registered. We could also dump the buffer info for
-> > each of them, and ditto for the files. Not sure how much verbosity
-> > is acceptable in fdinfo?
-> 
-> At the moment, I personally am just interested in this from the
-> perspective of being able to audit the state of personalities, to make
-> important information about the security state of processes visible.
-> 
-> Good point about verbosity in fdinfo - I'm not sure about that myself either.
-> 
-> > Here's the test app for personality:
-> 
-> Oh, that was quick...
-> 
-> > # cat 3
-> > pos:    0
-> > flags:  02000002
-> > mnt_id: 14
-> > user-files: 0
-> > user-bufs: 0
-> > personalities:
-> >             1: uid=0/gid=0
-> >
-> >
-> > diff --git a/fs/io_uring.c b/fs/io_uring.c
-> > index c5ca84a305d3..0b2c7d800297 100644
-> > --- a/fs/io_uring.c
-> > +++ b/fs/io_uring.c
-> > @@ -6511,6 +6505,45 @@ SYSCALL_DEFINE6(io_uring_enter, unsigned int, fd, u32, to_submit,
-> >         return submitted ? submitted : ret;
-> >  }
-> >
-> > +struct ring_show_idr {
-> > +       struct io_ring_ctx *ctx;
-> > +       struct seq_file *m;
-> > +};
-> > +
-> > +static int io_uring_show_cred(int id, void *p, void *data)
-> > +{
-> > +       struct ring_show_idr *r = data;
-> > +       const struct cred *cred = p;
-> > +
-> > +       seq_printf(r->m, "\t%5d: uid=%u/gid=%u\n", id, cred->uid.val,
-> > +                                               cred->gid.val);
-> 
-> As Stefan said, the ->uid and ->gid aren't very useful, since when a
-> process switches UIDs for accessing things in the filesystem, it
-> probably only changes its EUID and FSUID, not its RUID.
-> I think what's particularly relevant for uring would be the ->fsuid
-> and the ->fsgid along with ->cap_effective; and perhaps for some
-> operations also the ->euid and ->egid. The real UID/GID aren't really
-> relevant when performing normal filesystem operations and such.
+* Mathieu Desnoyers:
 
-This should probably just use the same format that is found in
-/proc/<pid>/status to make it easy for tools to use the same parsing
-logic and for the sake of consistency. We've adapted the same format for
-pidfds. So that would mean:
+> It brings an interesting idea to the table though. Let's assume for now that
+> the only intended use of pin_on_cpu(2) would be to allow rseq(2) critical
+> sections to update per-cpu data on specific cpu number targets. In fact,
+> considering that userspace can be preempted at any point, we still need a
+> mechanism to guarantee atomicity with respect to other threads running on
+> the same runqueue, which rseq(2) provides. Therefore, that assumption does
+> not appear too far-fetched.
+>
+> There are 2 scenarios we need to consider here:
+>
+> A) pin_on_cpu(2) targets a CPU which is not part of the affinity mask.
+>
+> This case is easy: pin_on_cpu can return an error, and the caller needs to act
+> accordingly (e.g. figure out that this is a design error and report it, or
+> decide that it really did not want to touch that per-cpu data that badly and
+> make the entire process fall-back to a mechanism which does not use per-cpu
+> data at all from that point onwards)
 
-Uid:	1000	1000	1000	1000
-Gid:	1000	1000	1000	1000
+Affinity masks currently are not like process memory: there is an
+expectation that they can be altered from outside the process.
 
-Which would be: Real, effective, saved set, and filesystem {G,U}IDs
+Given that the caller may not have any ways to recover from the
+suggested pin_on_cpu behavior, that seems problematic.
 
-And CapEff in /proc/<pid>/status has the format:
-CapEff:	0000000000000000
+What I would expect is that if pin_on_cpu cannot achieve implied
+exclusion by running on the associated CPU, it acquires a lock that
+prevents others pin_on_cpu calls from entering the critical section, and
+tasks in the same task group from running on that CPU (if the CPU
+becomes available to the task group).  The second part should maintain
+exclusion of rseq sequences even if their fast path is not changed.
 
-Christian
+(On the other hand, I'm worried that per-CPU data structures are a dead
+end for user space unless we get containerized affinity masks, so that
+contains only see resources that are actually available to them.)
+
+Thanks,
+Florian
+
