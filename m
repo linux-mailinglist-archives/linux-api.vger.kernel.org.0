@@ -2,95 +2,190 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3606C14D2B8
-	for <lists+linux-api@lfdr.de>; Wed, 29 Jan 2020 22:49:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A03D014D4EC
+	for <lists+linux-api@lfdr.de>; Thu, 30 Jan 2020 02:08:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726339AbgA2VtM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 29 Jan 2020 16:49:12 -0500
-Received: from out4436.biz.mail.alibaba.com ([47.88.44.36]:65099 "EHLO
-        out4436.biz.mail.alibaba.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726222AbgA2VtM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 29 Jan 2020 16:49:12 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R161e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04455;MF=yang.shi@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0TokJOHV_1580334531;
-Received: from localhost(mailfrom:yang.shi@linux.alibaba.com fp:SMTPD_---0TokJOHV_1580334531)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Thu, 30 Jan 2020 05:48:58 +0800
-From:   Yang Shi <yang.shi@linux.alibaba.com>
-To:     mhocko@suse.com, mtk.manpages@gmail.com, akpm@linux-foundation.org
-Cc:     yang.shi@linux.alibaba.com, linux-man@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org
-Subject: [v2 PATCH] move_pages.2: Returning positive value is a new error case
-Date:   Thu, 30 Jan 2020 05:48:51 +0800
-Message-Id: <1580334531-80354-1-git-send-email-yang.shi@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
+        id S1727152AbgA3BIF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 29 Jan 2020 20:08:05 -0500
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:41315 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727078AbgA3BIF (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 29 Jan 2020 20:08:05 -0500
+Received: by mail-pl1-f194.google.com with SMTP id t14so652194plr.8
+        for <linux-api@vger.kernel.org>; Wed, 29 Jan 2020 17:08:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=hneFzkKNJzsnXUPpmKU4iGA3NcgrRxgGLb9aeepaBic=;
+        b=WQZKsdyqKWmSKnsa92x5oVGBJmaqy8JEiELGGAFlpvKqgxbXnA/0F8NNGwmu2zKu/R
+         KnQlI3Yk0qAioEJv0fw29rRv73bh/CvW7ldYw9Xh2jqixbzGlwLKea1jsDbkxGKqEJsI
+         F9o2M0fddKINKrQhfK6591PUgIt0ivwAHNE/d5FvI6UOlKyVSpVL015CtbfGvwSzf603
+         Rg0p5BofsQCKgp3yheg4fJRWBnO/ANW6CHHpXqHPM6SEFfHphW7lDyPY+k+WbqHJzuyC
+         K+8wIhUnel6/GEsioFpoVyX+bEUU/AW1tg3vBXgLcwvAhEKHG2TyZ+VEE3PV6pcp+59R
+         JynQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=hneFzkKNJzsnXUPpmKU4iGA3NcgrRxgGLb9aeepaBic=;
+        b=iLa0hL4grU+Fubdu7nhLk4bkhBLQvCku6JWarXQe9q+kf0V/kgs2jhT+AwS+NFuoRm
+         kwKJnIGyTRn4sAeCUDsTd3orAmdWkIXYIh165PcCFwK51dgI05oRaJQC76weZ4c+rktq
+         8RV0DldMH5xXWSVRvqfmBAjt+UoLaeQW1hU4fyterHxLwK8B6c4Zlku92Nb11OFxf+XB
+         JDlpwo/Ou2KnmOXixi6EWLRb4om/wfqjjrlyW1mN9F9YzTFwAvU96vV3B0+ONDxbj0mT
+         sUtJ9qpTRa5dzVsNzIGKPQIWq2kFxuaHLSqfHDnbDuQ6QfgLleTijebLD0xT/fnnv4Ns
+         2HbQ==
+X-Gm-Message-State: APjAAAUYlGUGb/LZlxHe9IhR0W4OPPs/2lbu727hQf8oPGJkGq0xNH1s
+        nanMJrIKHMV1vuL1sSnCIke17gTHHOU=
+X-Google-Smtp-Source: APXvYqxSFRUhalonT5kIaUtb5aWxxFo63olE32/a7JBZJrs0IIs1ZWuGQJjod9RfXd6+pCmfBVdoWQ==
+X-Received: by 2002:a17:90a:9f83:: with SMTP id o3mr2832727pjp.95.1580346483049;
+        Wed, 29 Jan 2020 17:08:03 -0800 (PST)
+Received: from [192.168.1.188] ([66.219.217.145])
+        by smtp.gmail.com with ESMTPSA id x21sm3859447pfn.164.2020.01.29.17.08.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Jan 2020 17:08:02 -0800 (PST)
+Subject: Re: IORING_REGISTER_CREDS[_UPDATE]() and credfd_create()?
+From:   Jens Axboe <axboe@kernel.dk>
+To:     Jann Horn <jannh@google.com>
+Cc:     Stefan Metzmacher <metze@samba.org>,
+        io-uring <io-uring@vger.kernel.org>,
+        Linux API Mailing List <linux-api@vger.kernel.org>,
+        Pavel Begunkov <asml.silence@gmail.com>
+References: <ea9f2f27-e9fe-7016-5d5f-56fe1fdfc7a9@samba.org>
+ <d6bc8139-abbe-8a8d-7da1-4eeafd9eebe7@kernel.dk>
+ <688e187a-75dd-89d9-921c-67de228605ce@samba.org>
+ <b29e972e-5ca0-8b5f-46b3-36f93d865723@kernel.dk>
+ <1ac31828-e915-6180-cdb4-36685442ea75@kernel.dk>
+ <0d4f43d8-a0c4-920b-5b8f-127c1c5a3fad@kernel.dk>
+ <b88f0590-71c9-d2bd-9d17-027b05d30d7a@kernel.dk>
+ <CAG48ez17Ums4s=gjai-Lakr2tWf9bjmYYeNb5aGrwAD51ypZMA@mail.gmail.com>
+ <4f833fc5-b4c0-c304-c3c2-f63c050b90a2@kernel.dk>
+Message-ID: <9ce2e571-ed84-211a-4e99-d830ecdaf0e2@kernel.dk>
+Date:   Wed, 29 Jan 2020 18:08:00 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <4f833fc5-b4c0-c304-c3c2-f63c050b90a2@kernel.dk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Since commit a49bd4d71637 ("mm, numa: rework do_pages_move"),
-the semantic of move_pages() has changed to return the number of
-non-migrated pages if they were result of a non-fatal reasons (usually a
-busy page).  This was an unintentional change that hasn't been noticed
-except for LTP tests which checked for the documented behavior.
+On 1/29/20 10:34 AM, Jens Axboe wrote:
+> On 1/29/20 7:59 AM, Jann Horn wrote:
+>> On Tue, Jan 28, 2020 at 8:42 PM Jens Axboe <axboe@kernel.dk> wrote:
+>>> On 1/28/20 11:04 AM, Jens Axboe wrote:
+>>>> On 1/28/20 10:19 AM, Jens Axboe wrote:
+>> [...]
+>>>>> #1 adds support for registering the personality of the invoking task,
+>>>>> and #2 adds support for IORING_OP_USE_CREDS. Right now it's limited to
+>>>>> just having one link, it doesn't support a chain of them.
+>> [...]
+>>> I didn't like it becoming a bit too complicated, both in terms of
+>>> implementation and use. And the fact that we'd have to jump through
+>>> hoops to make this work for a full chain.
+>>>
+>>> So I punted and just added sqe->personality and IOSQE_PERSONALITY.
+>>> This makes it way easier to use. Same branch:
+>>>
+>>> https://git.kernel.dk/cgit/linux-block/log/?h=for-5.6/io_uring-vfs-creds
+>>>
+>>> I'd feel much better with this variant for 5.6.
+>>
+>> Some general feedback from an inspectability/debuggability perspective:
+>>
+>> At some point, it might be nice if you could add a .show_fdinfo
+>> handler to the io_uring_fops that makes it possible to get a rough
+>> overview over the state of the uring by reading /proc/$pid/fdinfo/$fd,
+>> just like e.g. eventfd (see eventfd_show_fdinfo()). It might be
+>> helpful for debugging to be able to see information about the fixed
+>> files and buffers that have been registered. Same for the
+>> personalities; that information might also be useful when someone is
+>> trying to figure out what privileges a running process actually has.
+> 
+> Agree, that would be a very useful addition. I'll take a look at it.
 
-There are two ways to go around this change.  We can even get back to the
-original behavior and return -EAGAIN whenever migrate_pages is not able
-to migrate pages due to non-fatal reasons.  Another option would be to
-simply continue with the changed semantic and extend move_pages
-documentation to clarify that -errno is returned on an invalid input or
-when migration simply cannot succeed (e.g. -ENOMEM, -EBUSY) or the
-number of pages that couldn't have been migrated due to ephemeral
-reasons (e.g. page is pinned or locked for other reasons).
+Jann, how much info are you looking for? Here's a rough start, just
+shows the number of registered files and buffers, and lists the
+personalities registered. We could also dump the buffer info for
+each of them, and ditto for the files. Not sure how much verbosity
+is acceptable in fdinfo?
 
-We decided to keep the second option in kernel because this behavior is in
-place for some time without anybody complaining and possibly new users
-depending on it.  Also it allows to have a slightly easier error handling
-as the caller knows that it is worth to retry when err > 0.
+Here's the test app for personality:
 
-Update man pages to reflect the new semantic.
+# cat 3
+pos:	0
+flags:	02000002
+mnt_id:	14
+user-files: 0
+user-bufs: 0
+personalities:
+	    1: uid=0/gid=0
 
-Acked-by: Michal Hocko <mhocko@suse.com>
-Cc: Michael Kerrisk <mtk.manpages@gmail.com>
-Signed-off-by: Yang Shi <yang.shi@linux.alibaba.com>
----
-v2: * Added notes about status array per Michal.
-    * Added Michal's Acked-by.
 
- man2/move_pages.2 | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+diff --git a/fs/io_uring.c b/fs/io_uring.c
+index c5ca84a305d3..0b2c7d800297 100644
+--- a/fs/io_uring.c
++++ b/fs/io_uring.c
+@@ -6511,6 +6505,45 @@ SYSCALL_DEFINE6(io_uring_enter, unsigned int, fd, u32, to_submit,
+ 	return submitted ? submitted : ret;
+ }
+ 
++struct ring_show_idr {
++	struct io_ring_ctx *ctx;
++	struct seq_file *m;
++};
++
++static int io_uring_show_cred(int id, void *p, void *data)
++{
++	struct ring_show_idr *r = data;
++	const struct cred *cred = p;
++
++	seq_printf(r->m, "\t%5d: uid=%u/gid=%u\n", id, cred->uid.val,
++						cred->gid.val);
++	return 0;
++}
++
++static void __io_uring_show_fdinfo(struct io_ring_ctx *ctx, struct seq_file *m)
++{
++	struct ring_show_idr r = { .ctx = ctx, .m = m };
++
++	mutex_lock(&ctx->uring_lock);
++	seq_printf(m, "user-files: %d\n", ctx->nr_user_files);
++	seq_printf(m, "user-bufs: %d\n", ctx->nr_user_bufs);
++	if (!idr_is_empty(&ctx->personality_idr)) {
++		seq_printf(m, "personalities:\n");
++		idr_for_each(&ctx->personality_idr, io_uring_show_cred, &r);
++	}
++	mutex_unlock(&ctx->uring_lock);
++}
++
++static void io_uring_show_fdinfo(struct seq_file *m, struct file *f)
++{
++	struct io_ring_ctx *ctx = f->private_data;
++
++	if (percpu_ref_tryget(&ctx->refs)) {
++		__io_uring_show_fdinfo(ctx, m);
++		percpu_ref_put(&ctx->refs);
++	}
++}
++
+ static const struct file_operations io_uring_fops = {
+ 	.release	= io_uring_release,
+ 	.flush		= io_uring_flush,
+@@ -6521,6 +6554,7 @@ static const struct file_operations io_uring_fops = {
+ #endif
+ 	.poll		= io_uring_poll,
+ 	.fasync		= io_uring_fasync,
++	.show_fdinfo	= io_uring_show_fdinfo,
+ };
+ 
+ static int io_allocate_scq_urings(struct io_ring_ctx *ctx,
 
-diff --git a/man2/move_pages.2 b/man2/move_pages.2
-index 1bf1053..83d5c81 100644
---- a/man2/move_pages.2
-+++ b/man2/move_pages.2
-@@ -104,7 +104,9 @@ pages that need to be moved.
- is an array of integers that return the status of each page.
- The array contains valid values only if
- .BR move_pages ()
--did not return an error.
-+did not return an error.  Pre-initialization of the array to -1 or
-+similar value which cannot represent a real numa node could help to
-+identify pages that have been migrated
- .PP
- .I flags
- specify what types of pages to move.
-@@ -164,9 +166,13 @@ returns zero.
- .\" do the right thing?
- On error, it returns \-1, and sets
- .I errno
--to indicate the error.
-+to indicate the error. Or positive value to report the number of
-+non-migrated pages.
- .SH ERRORS
- .TP
-+.B Positive value
-+The number of non-migrated pages if they were result of a non-fatal
-+reasons since version 4.17.
- .B E2BIG
- Too many pages to move.
- Since Linux 2.6.29,
 -- 
-1.8.3.1
+Jens Axboe
 
