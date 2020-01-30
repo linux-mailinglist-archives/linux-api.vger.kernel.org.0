@@ -2,96 +2,94 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B0BD614DC45
-	for <lists+linux-api@lfdr.de>; Thu, 30 Jan 2020 14:48:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CFCEE14DC73
+	for <lists+linux-api@lfdr.de>; Thu, 30 Jan 2020 15:08:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727208AbgA3Nsk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 30 Jan 2020 08:48:40 -0500
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:40236 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727107AbgA3Nsk (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 30 Jan 2020 08:48:40 -0500
-Received: by mail-wr1-f66.google.com with SMTP id j104so4104523wrj.7;
-        Thu, 30 Jan 2020 05:48:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=00TW30GXnTchBcJdUYdFPpb46wffdSf5UKCwVXDKN08=;
-        b=JYVpkhzyN5O6qKOsWCAAF2p6N3m09kwQN+USLnHNNdqjwVIZql8IY7K1Zly8ZQHXNc
-         NTVXxZAvL5NqJ8Ob66dFENEFYay111WTfRr1wLslz6Ey8naHsdeBflvRuRavAEhFfuTM
-         94JdjUXSsnSn83uBIkE0zZXTb7XmKowsWRnhGnuFxNLq1/+sIcVPg6fSM2U5tOLX6JHY
-         WH6dVZUAmsz5kMYkCRemVJ0qvuKy6gheP9ryDRt7BCiQTF5B+rU66yOTmb9ld42VLM/K
-         SrWvUdEu59Vi8nxttm48KvTFjQmB23EmHoFV9zC0qcuMTus+vlF3DLFM8RjPFXBVoW/A
-         80aA==
-X-Gm-Message-State: APjAAAUsYhPzczHuB82XtGqaeBqVBDrjT+OGNHOmZA2T350ofyZbc7mc
-        6CkEXoYMKZsZUp8AfJ3vMB8=
-X-Google-Smtp-Source: APXvYqwyFFb/4w3ky0siaqshpp366LIav0VnlYma8y80+MVjrW2dY7ouDbndARfIrS0U+5ILAfQejg==
-X-Received: by 2002:a5d:45c4:: with SMTP id b4mr5620505wrs.303.1580392118099;
-        Thu, 30 Jan 2020 05:48:38 -0800 (PST)
-Received: from localhost (prg-ext-pat.suse.com. [213.151.95.130])
-        by smtp.gmail.com with ESMTPSA id o7sm6357958wmh.11.2020.01.30.05.48.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jan 2020 05:48:37 -0800 (PST)
-Date:   Thu, 30 Jan 2020 14:48:35 +0100
-From:   Michal Hocko <mhocko@kernel.org>
-To:     Vlastimil Babka <vbabka@suse.cz>
-Cc:     Yang Shi <yang.shi@linux.alibaba.com>, mtk.manpages@gmail.com,
-        akpm@linux-foundation.org, linux-man@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [v2 PATCH] move_pages.2: Returning positive value is a new error
- case
-Message-ID: <20200130134835.GW24244@dhcp22.suse.cz>
-References: <1580334531-80354-1-git-send-email-yang.shi@linux.alibaba.com>
- <f276d8ec-b1be-4f8e-792b-5c3ca2de4714@suse.cz>
- <20200130120253.GU24244@dhcp22.suse.cz>
- <cce2e784-8092-00f5-32bf-d23ab7a53476@suse.cz>
+        id S1726980AbgA3OIp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 30 Jan 2020 09:08:45 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:59472 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726902AbgA3OIp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 30 Jan 2020 09:08:45 -0500
+Received: from [109.134.33.162] (helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1ixAUo-0007pq-GF; Thu, 30 Jan 2020 14:08:38 +0000
+Date:   Thu, 30 Jan 2020 15:08:38 +0100
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Dave Chinner <david@fromorbit.com>,
+        Mike Christie <mchristi@redhat.com>,
+        Michal Hocko <mhocko@kernel.org>
+Cc:     Shakeel Butt <shakeelb@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-api@vger.kernel.org, idryomov@gmail.com,
+        Linux MM <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-scsi@vger.kernel.org,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-block@vger.kernel.org, martin@urbackup.org,
+        Damien.LeMoal@wdc.com, Michal Hocko <mhocko@suse.com>,
+        Masato Suzuki <masato.suzuki@wdc.com>
+Subject: Re: [PATCH] Add prctl support for controlling mem reclaim V4
+Message-ID: <20200130140838.mfl2p3zb5f26kej6@wittgenstein>
+References: <20191112001900.9206-1-mchristi@redhat.com>
+ <CALvZod47XyD2x8TuZcb9PgeVY14JBwNhsUpN3RAeAt+RJJC=hg@mail.gmail.com>
+ <5E2B19C9.6080907@redhat.com>
+ <20200124211642.GB7216@dread.disaster.area>
+ <20200127130258.2bknkl3mwpkfyml4@wittgenstein>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <cce2e784-8092-00f5-32bf-d23ab7a53476@suse.cz>
+In-Reply-To: <20200127130258.2bknkl3mwpkfyml4@wittgenstein>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu 30-01-20 13:56:20, Vlastimil Babka wrote:
-> On 1/30/20 1:02 PM, Michal Hocko wrote:
-> > On Thu 30-01-20 10:06:28, Vlastimil Babka wrote:
-> >> On 1/29/20 10:48 PM, Yang Shi wrote:
-> >>> Since commit a49bd4d71637 ("mm, numa: rework do_pages_move"),
-> >>> the semantic of move_pages() has changed to return the number of
-> >>> non-migrated pages if they were result of a non-fatal reasons (usually a
-> >>> busy page).  This was an unintentional change that hasn't been noticed
-> >>> except for LTP tests which checked for the documented behavior.
-> >>>
-> >>> There are two ways to go around this change.  We can even get back to the
-> >>> original behavior and return -EAGAIN whenever migrate_pages is not able
-> >>
-> >> The manpage says EBUSY, not EAGAIN? And should its description be
-> >> updated too?
+On Mon, Jan 27, 2020 at 02:02:59PM +0100, Christian Brauner wrote:
+> On Sat, Jan 25, 2020 at 08:16:42AM +1100, Dave Chinner wrote:
+> > On Fri, Jan 24, 2020 at 10:22:33AM -0600, Mike Christie wrote:
+> > > On 12/05/2019 04:43 PM, Shakeel Butt wrote:
+> > > > On Mon, Nov 11, 2019 at 4:19 PM Mike Christie <mchristi@redhat.com> wrote:
+> > > >> This patch adds a new prctl command that daemons can use after they have
+> > > >> done their initial setup, and before they start to do allocations that
+> > > >> are in the IO path. It sets the PF_MEMALLOC_NOIO and PF_LESS_THROTTLE
+> > > >> flags so both userspace block and FS threads can use it to avoid the
+> > > >> allocation recursion and try to prevent from being throttled while
+> > > >> writing out data to free up memory.
+> > > >>
+> > > >> Signed-off-by: Mike Christie <mchristi@redhat.com>
+> > > >> Acked-by: Michal Hocko <mhocko@suse.com>
+> > > >> Tested-by: Masato Suzuki <masato.suzuki@wdc.com>
+> > > >> Reviewed-by: Damien Le Moal <damien.lemoal@wdc.com>
+> > > > 
+> > > > I suppose this patch should be routed through MM tree, so, CCing Andrew.
+> > > >
+> > > 
+> > > Andrew and other mm/storage developers,
+> > > 
+> > > Do I need to handle anything else for this patch, or are there any other
+> > > concerns? Is this maybe something we want to talk about at a quick LSF
+> > > session?
+> > > 
+> > > I have retested it with Linus's current tree. It still applies cleanly
+> > > (just some offsets), and fixes the problem described above we have been
+> > > hitting.
 > > 
-> > The idea was that we _could_ return EAGAIN from the syscall if
-> > migrate_pages > 0.
+> > I must have missed this version being posted (just looked it up on
+> > lore.kernel.org). As far as I'm concerned this is good to go and it
+> > is absolutely necessary for userspace IO stacks to function
+> > correctly.
 > > 
-> >> I.e. that it's no longer returned since 4.17?
+> > Reviewed-by: Dave Chinner <dchinner@redhat.com>
 > > 
-> > I am pretty sure this will require a deeper consideration. Do we return
-> > EIO/EINVAL?
+> > If no manintainer picks it up before the next merge window, then I
 > 
-> I thought the manpage says we return -EBUSY, but I misread it, this part
-> was not about errno, but the status array. So there's nothing to update
-> there, sorry about the noise.
-> 
-> BTW, the suggestion to "Pre-initialization of the array to -1" means
-> effectively it's pre-initialized to -EPERM. That's fine now as -EPERM is
-> not one of the codes listed as possible to be returned via the array,
-> but perhaps it's not entirely future-proof?
+> Since prctl() is thread-management and fs people seem to be happy and
+> have acked it I can pick this up too if noone objects and send this
+> along with the rest of process management.
 
-Hmm, I didn't realize EPERM is refering to 1. The wording however
-suggests also any other value that cannot represent a valid NUMA node.
-So maybe we should just drop the node about -1.
--- 
-Michal Hocko
-SUSE Labs
+This is upstream now
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=8d19f1c8e1937baf74e1962aae9f90fa3aeab463
+
+Christian
