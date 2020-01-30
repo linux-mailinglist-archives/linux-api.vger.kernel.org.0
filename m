@@ -2,119 +2,79 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 92A0714D97F
-	for <lists+linux-api@lfdr.de>; Thu, 30 Jan 2020 12:10:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C890614DA51
+	for <lists+linux-api@lfdr.de>; Thu, 30 Jan 2020 13:02:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726959AbgA3LKT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 30 Jan 2020 06:10:19 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:25382 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727027AbgA3LKT (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 30 Jan 2020 06:10:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1580382617;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=hl+74QNlq0Fe4UtuI+hqFs5mISin5uD8WN32HNCWFSs=;
-        b=EYSCd6s3L98gFj2AJQgNy2UG6SSaq3Yq4/Sz90Dkf3pYPH1dnOOA0pm0LFirJymjzhaCLC
-        MDJqqClO1xVj/oKDudnMvFmgGvBICcLU8L60KkzJ0309+dBK9ic7+cjvW7nVbgs1czhmPf
-        wt2sMQ6j8oybhl1pn5RBUVcGNiWzGV4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-35-9ALw2e1pP1yEfjlHMQxp0g-1; Thu, 30 Jan 2020 06:10:13 -0500
-X-MC-Unique: 9ALw2e1pP1yEfjlHMQxp0g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E9C91477;
-        Thu, 30 Jan 2020 11:10:08 +0000 (UTC)
-Received: from oldenburg2.str.redhat.com (ovpn-116-29.ams2.redhat.com [10.36.116.29])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id D71891001B05;
-        Thu, 30 Jan 2020 11:10:01 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc:     "H. Peter Anvin" <hpa@zytor.com>, Chris Lameter <cl@linux.com>,
-        Jann Horn <jannh@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Joel Fernandes <joelaf@google.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Watson <davejwatson@fb.com>,
-        Will Deacon <will.deacon@arm.com>, shuah <shuah@kernel.org>,
-        Andi Kleen <andi@firstfloor.org>,
-        linux-kselftest <linux-kselftest@vger.kernel.org>,
-        Russell King <linux@arm.linux.org.uk>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Paul <paulmck@linux.vnet.ibm.com>, Paul Turner <pjt@google.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Josh Triplett <josh@joshtriplett.org>,
-        rostedt <rostedt@goodmis.org>, Ben Maurer <bmaurer@fb.com>,
-        linux-api <linux-api@vger.kernel.org>,
-        Andy Lutomirski <luto@amacapital.net>
-Subject: Re: [RFC PATCH v1] pin_on_cpu: Introduce thread CPU pinning system call
-References: <20200121160312.26545-1-mathieu.desnoyers@efficios.com>
-        <430172781.596271.1579636021412.JavaMail.zimbra@efficios.com>
-        <CAG48ez2Z5CesMfandNK+S32Rrgp_QGQHqQ1Fpd5-YTsCWGfHeg@mail.gmail.com>
-        <2049164886.596497.1579641536619.JavaMail.zimbra@efficios.com>
-        <alpine.DEB.2.21.2001212141590.1231@www.lameter.com>
-        <1648013936.596672.1579655468604.JavaMail.zimbra@efficios.com>
-        <ead7a565-9a23-a7d7-904d-c4860f63952a@zytor.com>
-        <87a76efuux.fsf@oldenburg2.str.redhat.com>
-        <134428560.600911.1580153955842.JavaMail.zimbra@efficios.com>
-Date:   Thu, 30 Jan 2020 12:10:00 +0100
-In-Reply-To: <134428560.600911.1580153955842.JavaMail.zimbra@efficios.com>
-        (Mathieu Desnoyers's message of "Mon, 27 Jan 2020 14:39:15 -0500
-        (EST)")
-Message-ID: <87blql5hfb.fsf@oldenburg2.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+        id S1727112AbgA3MC6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 30 Jan 2020 07:02:58 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:36406 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727027AbgA3MC5 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 30 Jan 2020 07:02:57 -0500
+Received: by mail-wr1-f67.google.com with SMTP id z3so3747558wru.3;
+        Thu, 30 Jan 2020 04:02:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=PXJWX2zI/JSBgEXdeTT2YWS+/RJ56LXcmiP58AIC6fw=;
+        b=kHhq0owAh1i6M1a7r8QO/YhWo9lNxZs6KlWiOctRSOt0jCizXdcHlB5ko+ZI3eVGlO
+         YHzygB/7bQzMqF2YGQTWNmBbB3MNLhQsRiYgUFvU19xnHgTd0UFUzfj009td1o6IIrl8
+         MRyKp2OHuaagNEss7NibJMrLCPPrR/AMBwWA58LUJAvI1S+F4WVdeEwjvPU15trNmJ9m
+         ngQXKeJJKbls43I8uMeWfJmXYAtkUu2o9tZYFibqjGLVKQe4T+FavrUE6OJrU38gE51O
+         ru7HhxD5hujBIRXy1FcIk/dIlNo0iCfCsctYrz06S4+Kwe2rUiIY8p4tTn+ucQYoGRf7
+         RYjA==
+X-Gm-Message-State: APjAAAUHAYyTFHdZj5iigC0aXN0zJOktjD8IHVK/yt7J0ywt/osnBDC6
+        KpaZbK8OnBEcqpLQGBspXDc=
+X-Google-Smtp-Source: APXvYqyaLvD8q8tKyIb+hw3kUODevmo5lXICKwIVfKW2L2p5bMVVBOae6j8IBnWxNsLXb6bRV5zLLA==
+X-Received: by 2002:adf:ecc2:: with SMTP id s2mr5269504wro.263.1580385775342;
+        Thu, 30 Jan 2020 04:02:55 -0800 (PST)
+Received: from localhost (prg-ext-pat.suse.com. [213.151.95.130])
+        by smtp.gmail.com with ESMTPSA id o4sm6892192wrw.97.2020.01.30.04.02.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Jan 2020 04:02:54 -0800 (PST)
+Date:   Thu, 30 Jan 2020 13:02:53 +0100
+From:   Michal Hocko <mhocko@kernel.org>
+To:     Vlastimil Babka <vbabka@suse.cz>
+Cc:     Yang Shi <yang.shi@linux.alibaba.com>, mtk.manpages@gmail.com,
+        akpm@linux-foundation.org, linux-man@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [v2 PATCH] move_pages.2: Returning positive value is a new error
+ case
+Message-ID: <20200130120253.GU24244@dhcp22.suse.cz>
+References: <1580334531-80354-1-git-send-email-yang.shi@linux.alibaba.com>
+ <f276d8ec-b1be-4f8e-792b-5c3ca2de4714@suse.cz>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f276d8ec-b1be-4f8e-792b-5c3ca2de4714@suse.cz>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Mathieu Desnoyers:
+On Thu 30-01-20 10:06:28, Vlastimil Babka wrote:
+> On 1/29/20 10:48 PM, Yang Shi wrote:
+> > Since commit a49bd4d71637 ("mm, numa: rework do_pages_move"),
+> > the semantic of move_pages() has changed to return the number of
+> > non-migrated pages if they were result of a non-fatal reasons (usually a
+> > busy page).  This was an unintentional change that hasn't been noticed
+> > except for LTP tests which checked for the documented behavior.
+> > 
+> > There are two ways to go around this change.  We can even get back to the
+> > original behavior and return -EAGAIN whenever migrate_pages is not able
+> 
+> The manpage says EBUSY, not EAGAIN? And should its description be
+> updated too?
 
-> It brings an interesting idea to the table though. Let's assume for now that
-> the only intended use of pin_on_cpu(2) would be to allow rseq(2) critical
-> sections to update per-cpu data on specific cpu number targets. In fact,
-> considering that userspace can be preempted at any point, we still need a
-> mechanism to guarantee atomicity with respect to other threads running on
-> the same runqueue, which rseq(2) provides. Therefore, that assumption does
-> not appear too far-fetched.
->
-> There are 2 scenarios we need to consider here:
->
-> A) pin_on_cpu(2) targets a CPU which is not part of the affinity mask.
->
-> This case is easy: pin_on_cpu can return an error, and the caller needs to act
-> accordingly (e.g. figure out that this is a design error and report it, or
-> decide that it really did not want to touch that per-cpu data that badly and
-> make the entire process fall-back to a mechanism which does not use per-cpu
-> data at all from that point onwards)
+The idea was that we _could_ return EAGAIN from the syscall if
+migrate_pages > 0.
 
-Affinity masks currently are not like process memory: there is an
-expectation that they can be altered from outside the process.
+> I.e. that it's no longer returned since 4.17?
 
-Given that the caller may not have any ways to recover from the
-suggested pin_on_cpu behavior, that seems problematic.
-
-What I would expect is that if pin_on_cpu cannot achieve implied
-exclusion by running on the associated CPU, it acquires a lock that
-prevents others pin_on_cpu calls from entering the critical section, and
-tasks in the same task group from running on that CPU (if the CPU
-becomes available to the task group).  The second part should maintain
-exclusion of rseq sequences even if their fast path is not changed.
-
-(On the other hand, I'm worried that per-CPU data structures are a dead
-end for user space unless we get containerized affinity masks, so that
-contains only see resources that are actually available to them.)
-
-Thanks,
-Florian
-
+I am pretty sure this will require a deeper consideration. Do we return
+EIO/EINVAL?
+-- 
+Michal Hocko
+SUSE Labs
