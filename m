@@ -2,56 +2,59 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B65614DDCE
-	for <lists+linux-api@lfdr.de>; Thu, 30 Jan 2020 16:29:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B606E14DDED
+	for <lists+linux-api@lfdr.de>; Thu, 30 Jan 2020 16:34:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727223AbgA3P3d (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 30 Jan 2020 10:29:33 -0500
-Received: from mail-io1-f67.google.com ([209.85.166.67]:36097 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727208AbgA3P3c (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 30 Jan 2020 10:29:32 -0500
-Received: by mail-io1-f67.google.com with SMTP id d15so4474183iog.3
-        for <linux-api@vger.kernel.org>; Thu, 30 Jan 2020 07:29:32 -0800 (PST)
+        id S1727376AbgA3Pe2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 30 Jan 2020 10:34:28 -0500
+Received: from mail-il1-f194.google.com ([209.85.166.194]:39987 "EHLO
+        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727217AbgA3Pe2 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 30 Jan 2020 10:34:28 -0500
+Received: by mail-il1-f194.google.com with SMTP id i7so3401364ilr.7
+        for <linux-api@vger.kernel.org>; Thu, 30 Jan 2020 07:34:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=kernel-dk.20150623.gappssmtp.com; s=20150623;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=OhK06CA3YzAzN+bOzkkl05V2NgQ7hdpBskjx0RBNIgQ=;
-        b=Z55DQngxsnsYFCrXpbLkjaQWg9zQ2oQh+VqVKZMRkvOs4l/cTBL11kQ24AUyR/5WHU
-         yk0lC3J2Z9vrq8qOuxnRe61SytIgq3TojUu3D0vhvRoUrdEWjkpsgVJTQcdlw5EJ/ki+
-         1qONJ/mGwUH85kFbV6sWZhXtQXfhENCGg01lZgRWdy9Z1Op6QyyUlp9G/jKC8o59SxP6
-         yajsgVIMrQ2o+1+knBHMT06mycCPkjWu3GnemFRownkDe48nn8M7i0fN48ARxXJHtf5Y
-         rmT4zVTvxqwtpTTx13LJ5kU7tTTPSRnOoqjdvgha8NLSZV8oTgXflYKado4+vSoqu84K
-         B69Q==
+        bh=acW0X9oK1Ap7WOtrRwRlzwH0t6s+wm/kCwYsrvv0Vvc=;
+        b=bgSc6uRkzBR7Cw466WY1vL/KAHyGD+JmbVG/5Cdb3zMu6AGI4Rd5K2/5qT6qJ86L0I
+         +pAAlQbg56IqLWgGnWJiUMa3oI0dydIgTUfpUujeiGygjj5A/OgmwLE5tfI09VpYnY3Z
+         eC05McBs7ulf3OexcAMapDWe/xFCznepUic9KPurMmxUyJ0T1yi3n5sswJPvZC1EBH+d
+         5gScXt2Wf9oWEjBvHzxXk0jrx4FUpQ5PwV+vrvV8fmpD5/6wtmz3g2R71H7XPQg82oDl
+         V0PXNkUAn6dyH/ECvNA8krgCj+bCTjCTZwYkYNKp+MBRJo8Ll4SoGXeHDPkY+4TPFQsW
+         bS2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=OhK06CA3YzAzN+bOzkkl05V2NgQ7hdpBskjx0RBNIgQ=;
-        b=QgVQyXVL9lQAlEAfJgjW7Bq66rwZ2jLIb4Pn1xB47lZIEU2aRKq3cfiLrs4WWLt3/S
-         hI4DxOAdZ6sWiJZRRGxIUL3USN7vnXmRnbqX9MvBXQPPz+CWw4anvhaM6Ykd4ZY0hus0
-         e/CeVurAtnFN8MNR1c29rvJSrTtM18S6GLzlaj/xv9uRIk7qYk59p7NP66vqRbDo4B3D
-         oiAc4Px1NMvJ/qAjH6A5UuzhY2CKJRFbewnSXaF5iLqfZleNoD14AdSP6xdOh5195OcY
-         jRyWNmKcPuASdklbv0dk09pRxxqNKcJJJM1HMWtFGgpTrbdpzlEEV2fvB1S7S01rum8k
-         SfgQ==
-X-Gm-Message-State: APjAAAWpzvKjZsjU5ql/bIiDOvuBmuqBmIh66JdRfzdruyws7KvyIeas
-        UwQkvxqcweiUl2A5lh88yQ6WTQ==
-X-Google-Smtp-Source: APXvYqyIMDoQlsl43QCNsVhRYXpoYITg5VIfY+O2wLl8i+CLi7wPBZ/xxHMFQvzgoHS6cWZ48vXyxQ==
-X-Received: by 2002:a5e:8417:: with SMTP id h23mr4407052ioj.17.1580398171787;
-        Thu, 30 Jan 2020 07:29:31 -0800 (PST)
+        bh=acW0X9oK1Ap7WOtrRwRlzwH0t6s+wm/kCwYsrvv0Vvc=;
+        b=YC2uUTU+omLAwuySSe4vAdv1YeZ1vZZP1Xsxf+5s2o4uMlnvQN0f/aAIve1yLs+Xqn
+         YO5nctSfuTGo2mWkuAosiPZtHJZPvU+KT50Z1iILDWU02fjcXNVbY9K34mPfSLMhOpOf
+         XDwV1pjsCiCqXhdvXjiDBi5ZD2gcFOpV/fjg6s9JS7+DDgBkSareIE1vkikIvnyYA5zp
+         X0sHtz5FV7HVRNcr7GNMFGX7VwLHtlET1yfOo7ITgLEY9ykimFtJV726dlcLVSOSs8J5
+         KukH3DE+4645f2b1pCB+I+2MD1q0kQjS0FMHZeDPKD1oqKk15SYKGRyISF0Bkv0gpMkH
+         sUWQ==
+X-Gm-Message-State: APjAAAUlp0HPaYpOQzWz1Z4zLDu4kgUz5i7re8OWewY0FMstKK8VtsSM
+        J/dPpbVwfNotEQdDoLS/Ca1LiwYAJos=
+X-Google-Smtp-Source: APXvYqx2g2iD9xV6L0g41fUDxMBsZAZ+c7Bt99Gi2vwbr7qEUsNXDVrwpSIxfOa5C1JFMh1d10zYqQ==
+X-Received: by 2002:a92:d3cd:: with SMTP id c13mr4696511ilh.21.1580398467764;
+        Thu, 30 Jan 2020 07:34:27 -0800 (PST)
 Received: from [192.168.1.159] ([65.144.74.34])
-        by smtp.gmail.com with ESMTPSA id z8sm1958345ilk.9.2020.01.30.07.29.30
+        by smtp.gmail.com with ESMTPSA id u80sm1963076ili.77.2020.01.30.07.34.26
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Jan 2020 07:29:31 -0800 (PST)
+        Thu, 30 Jan 2020 07:34:27 -0800 (PST)
 Subject: Re: IORING_REGISTER_CREDS[_UPDATE]() and credfd_create()?
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     Jann Horn <jannh@google.com>, Stefan Metzmacher <metze@samba.org>,
-        io-uring <io-uring@vger.kernel.org>,
+To:     Stefan Metzmacher <metze@samba.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Jann Horn <jannh@google.com>
+Cc:     io-uring <io-uring@vger.kernel.org>,
         Linux API Mailing List <linux-api@vger.kernel.org>,
         Pavel Begunkov <asml.silence@gmail.com>
-References: <b29e972e-5ca0-8b5f-46b3-36f93d865723@kernel.dk>
+References: <d6bc8139-abbe-8a8d-7da1-4eeafd9eebe7@kernel.dk>
+ <688e187a-75dd-89d9-921c-67de228605ce@samba.org>
+ <b29e972e-5ca0-8b5f-46b3-36f93d865723@kernel.dk>
  <1ac31828-e915-6180-cdb4-36685442ea75@kernel.dk>
  <0d4f43d8-a0c4-920b-5b8f-127c1c5a3fad@kernel.dk>
  <b88f0590-71c9-d2bd-9d17-027b05d30d7a@kernel.dk>
@@ -61,14 +64,14 @@ References: <b29e972e-5ca0-8b5f-46b3-36f93d865723@kernel.dk>
  <CAG48ez1qVCoOwcdA7YZcKObQ9frWNxCjHOp6RYeqd+q_n4KJJQ@mail.gmail.com>
  <20200130102635.ar2bohr7n4li2hyd@wittgenstein>
  <cf801c52-7719-bb5c-c999-ab9aab0d4871@kernel.dk>
- <20200130151342.u554shnaliau42jq@wittgenstein>
+ <0b72d000-02be-9974-900f-d94af1cbc08a@samba.org>
 From:   Jens Axboe <axboe@kernel.dk>
-Message-ID: <e6d98755-7122-63f5-2047-18ef9f42c60e@kernel.dk>
-Date:   Thu, 30 Jan 2020 08:29:30 -0700
+Message-ID: <18629b74-d954-3939-fafa-c71c4423ac17@kernel.dk>
+Date:   Thu, 30 Jan 2020 08:34:26 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200130151342.u554shnaliau42jq@wittgenstein>
+In-Reply-To: <0b72d000-02be-9974-900f-d94af1cbc08a@samba.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -77,8 +80,8 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 1/30/20 8:13 AM, Christian Brauner wrote:
-> On Thu, Jan 30, 2020 at 07:11:08AM -0700, Jens Axboe wrote:
+On 1/30/20 7:47 AM, Stefan Metzmacher wrote:
+> Am 30.01.20 um 15:11 schrieb Jens Axboe:
 >> On 1/30/20 3:26 AM, Christian Brauner wrote:
 >>> On Thu, Jan 30, 2020 at 11:11:58AM +0100, Jann Horn wrote:
 >>>> On Thu, Jan 30, 2020 at 2:08 AM Jens Axboe <axboe@kernel.dk> wrote:
@@ -127,29 +130,116 @@ On 1/30/20 8:13 AM, Christian Brauner wrote:
 >>>> important information about the security state of processes visible.
 >>>>
 >>>> Good point about verbosity in fdinfo - I'm not sure about that myself either.
+>>>>
+>>>>> Here's the test app for personality:
+>>>>
+>>>> Oh, that was quick...
+>>>>
+>>>>> # cat 3
+>>>>> pos:    0
+>>>>> flags:  02000002
+>>>>> mnt_id: 14
+>>>>> user-files: 0
+>>>>> user-bufs: 0
+>>>>> personalities:
+>>>>>             1: uid=0/gid=0
+>>>>>
+>>>>>
+>>>>> diff --git a/fs/io_uring.c b/fs/io_uring.c
+>>>>> index c5ca84a305d3..0b2c7d800297 100644
+>>>>> --- a/fs/io_uring.c
+>>>>> +++ b/fs/io_uring.c
+>>>>> @@ -6511,6 +6505,45 @@ SYSCALL_DEFINE6(io_uring_enter, unsigned int, fd, u32, to_submit,
+>>>>>         return submitted ? submitted : ret;
+>>>>>  }
+>>>>>
+>>>>> +struct ring_show_idr {
+>>>>> +       struct io_ring_ctx *ctx;
+>>>>> +       struct seq_file *m;
+>>>>> +};
+>>>>> +
+>>>>> +static int io_uring_show_cred(int id, void *p, void *data)
+>>>>> +{
+>>>>> +       struct ring_show_idr *r = data;
+>>>>> +       const struct cred *cred = p;
+>>>>> +
+>>>>> +       seq_printf(r->m, "\t%5d: uid=%u/gid=%u\n", id, cred->uid.val,
+>>>>> +                                               cred->gid.val);
+>>>>
+>>>> As Stefan said, the ->uid and ->gid aren't very useful, since when a
+>>>> process switches UIDs for accessing things in the filesystem, it
+>>>> probably only changes its EUID and FSUID, not its RUID.
+>>>> I think what's particularly relevant for uring would be the ->fsuid
+>>>> and the ->fsgid along with ->cap_effective; and perhaps for some
+>>>> operations also the ->euid and ->egid. The real UID/GID aren't really
+>>>> relevant when performing normal filesystem operations and such.
+>>>
+>>> This should probably just use the same format that is found in
+>>> /proc/<pid>/status to make it easy for tools to use the same parsing
+>>> logic and for the sake of consistency. We've adapted the same format for
+>>> pidfds. So that would mean:
+>>>
+>>> Uid:	1000	1000	1000	1000
+>>> Gid:	1000	1000	1000	1000
+>>>
+>>> Which would be: Real, effective, saved set, and filesystem {G,U}IDs
+>>>
+>>> And CapEff in /proc/<pid>/status has the format:
+>>> CapEff:	0000000000000000
+>>
+>> I agree, consistency is good. I've added this, and also changed the
+>> naming to be CamelCase, which is seems like most of them are. Now it
+>> looks like this:
+>>
+>> pos:	0
+>> flags:	02000002
+>> mnt_id:	14
+>> UserFiles:     0
+>> UserBufs:     0
+>> Personalities:
+>>     1
+>> 	Uid:	0		0		0		0
+>> 	Gid:	0		0		0		0
+>> 	Groups:	0
+>> 	CapEff:	0000003fffffffff
+>>
+>> for a single personality registered (root). I have to indent it an extra
+>> tab to display each personality.
 > 
-> Afaik, there's no rule here. I would expect that it shouldn't exceed
-> 4096kb just because that is the limit that seems to be enforced for
-> writes to proc files atm; other than that it should be the wild west.
-> The fdinfo files are mostly interesting for anon_inode fds imho and the
-> ones that come to mind right now simply don't have a lot of information
-> to provide:
+> That looks good.
 > 
-> eventfd
-> timerfd
-> seccomp_notify_fd
+> Maybe also print some details of struct io_ring_ctx,
+> flags and the ring sizes, ctx->cred.
 > 
-> Potentially, the mount fds from David could be extended in the future.
+> Maybe details for io_wq and sqo_thread.
 
-4MB is huge, I'd not get anywhere near that. So I'd say the current
-format is probably fine. I honed it a little bit to be prettier, looks
-good to me. I'll send it out for review.
+Yeah, I agree that we should probably just add a ton more, there's
+plenty of information that would be useful. But let's start simple - I
+forgot to CC you on the patch I just sent out, but it's basically the
+above cleaned up. We dump information that's registered with the ring,
+that's the theme right now. I'd be happy to add some of the state
+information as well, we should do that as a separate patch.
 
-> (Side note: One thing that comes to mind is that we should probably
-> enforce^Wdocument that all fdinfo files use CamelCase?)
+> Maybe pending requests?
+> I'm not sure about how io_wq threads work in detail.
+> Is it possible that a large number of blocking request
+> (against an external harddisk with disconnected cable)
+> to block other blocking requests to a working ssd?
+> It would be good to diagnose such situations from
+> the output.
 
-Fine with me, seems to already be the norm, would be nice to have it
-documented.
+io_uring doesn't necessarily track pending requests, only if it has to.
+For bounded request time IO, like the above, it'll depend on the
+concurrency level. If you setup the ring with eg N entries, that'll be
+at most N pending bounded requests. If all of those are blocked because
+the disk isn't responding, yes, that could happen. At least until the
+timeout happens.
+
+> How is this supposed to be ABI-wise? Is it possible to change
+> the output in later kernel versions?
+
+We should always be able to append to the file, I'd just prefer if we
+don't change the format of lines that have already been added.
 
 -- 
 Jens Axboe
