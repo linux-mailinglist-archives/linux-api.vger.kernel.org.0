@@ -2,210 +2,105 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A256D14EEC3
-	for <lists+linux-api@lfdr.de>; Fri, 31 Jan 2020 15:50:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B78F114F2E3
+	for <lists+linux-api@lfdr.de>; Fri, 31 Jan 2020 20:41:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728825AbgAaOuc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 31 Jan 2020 09:50:32 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55091 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728985AbgAaOuc (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 31 Jan 2020 09:50:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1580482231;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=G5qtNmF55up9PuW19M9ztod4mbJlD+L5BOsXwBxDWkA=;
-        b=cJUjLewxVpBBYh91cuC5QDV/rqi9SuuH562XkAhFB/wG8FSsjQucGfFR5nhEkPRluLQBYy
-        es8mr7oHQQBiADKfJiYv5KcMqdx0NzUzEmsVTKYh1g97kGg0CtfkhhSGY67a6g43y9zmNx
-        SF7zhfbQVtynfh8Da3XNGcWLMkgjGk0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-330-I55GL5ZpPoKvKnwr-qcgbg-1; Fri, 31 Jan 2020 09:50:23 -0500
-X-MC-Unique: I55GL5ZpPoKvKnwr-qcgbg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EFCB118C35A0;
-        Fri, 31 Jan 2020 14:50:20 +0000 (UTC)
-Received: from x2.localnet (ovpn-117-67.phx2.redhat.com [10.3.117.67])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id B23C55C54A;
-        Fri, 31 Jan 2020 14:50:09 +0000 (UTC)
-From:   Steve Grubb <sgrubb@redhat.com>
-To:     Paul Moore <paul@paul-moore.com>
-Cc:     Richard Guy Briggs <rgb@redhat.com>,
-        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
-        Linux-Audit Mailing List <linux-audit@redhat.com>,
-        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
-        omosnace@redhat.com, dhowells@redhat.com, simo@redhat.com,
-        Eric Paris <eparis@parisplace.org>,
-        Serge Hallyn <serge@hallyn.com>, ebiederm@xmission.com,
-        nhorman@tuxdriver.com, Dan Walsh <dwalsh@redhat.com>,
-        mpatel@redhat.com
-Subject: Re: [PATCH ghak90 V8 13/16] audit: track container nesting
-Date:   Fri, 31 Jan 2020 09:50:08 -0500
-Message-ID: <5238532.OiMyN8JqPO@x2>
-Organization: Red Hat
-In-Reply-To: <CAHC9VhRkH=YEjAY6dJJHSp934grHnf=O4RiqLu3U8DzdVQOZkg@mail.gmail.com>
-References: <cover.1577736799.git.rgb@redhat.com> <6452955c1e038227a5cd169f689f3fd3db27513f.1577736799.git.rgb@redhat.com> <CAHC9VhRkH=YEjAY6dJJHSp934grHnf=O4RiqLu3U8DzdVQOZkg@mail.gmail.com>
+        id S1726086AbgAaTlA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 31 Jan 2020 14:41:00 -0500
+Received: from out30-56.freemail.mail.aliyun.com ([115.124.30.56]:60681 "EHLO
+        out30-56.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725978AbgAaTlA (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 31 Jan 2020 14:41:00 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R381e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04407;MF=yang.shi@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0Tor2FsR_1580499655;
+Received: from US-143344MP.local(mailfrom:yang.shi@linux.alibaba.com fp:SMTPD_---0Tor2FsR_1580499655)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Sat, 01 Feb 2020 03:40:57 +0800
+Subject: Re: [PATCH] move_pages.2: Returning positive value is a new error
+ case
+To:     David Hildenbrand <david@redhat.com>, mhocko@suse.com,
+        mtk.manpages@gmail.com, akpm@linux-foundation.org
+Cc:     linux-man@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org
+References: <1580322632-93332-1-git-send-email-yang.shi@linux.alibaba.com>
+ <9aac5bff-3a18-ec5f-5aa0-82c38d367590@redhat.com>
+From:   Yang Shi <yang.shi@linux.alibaba.com>
+Message-ID: <f49736e1-316f-57d4-cd25-5f75b145e033@linux.alibaba.com>
+Date:   Fri, 31 Jan 2020 11:40:54 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
+ Gecko/20100101 Thunderbird/52.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <9aac5bff-3a18-ec5f-5aa0-82c38d367590@redhat.com>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wednesday, January 22, 2020 4:29:12 PM EST Paul Moore wrote:
-> On Tue, Dec 31, 2019 at 2:51 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > Track the parent container of a container to be able to filter and
-> > report nesting.
-> > 
-> > Now that we have a way to track and check the parent container of a
-> > container, modify the contid field format to be able to report that
-> > nesting using a carrat ("^") separator to indicate nesting.  The
-> > original field format was "contid=<contid>" for task-associated records
-> > and "contid=<contid>[,<contid>[...]]" for network-namespace-associated
-> > records.  The new field format is
-> > "contid=<contid>[^<contid>[...]][,<contid>[...]]".
-> 
-> Let's make sure we always use a comma as a separator, even when
-> recording the parent information, for example:
-> "contid=<contid>[,^<contid>[...]][,<contid>[...]]"
-> 
-> > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-> > ---
-> > 
-> >  include/linux/audit.h |  1 +
-> >  kernel/audit.c        | 53
-> >  +++++++++++++++++++++++++++++++++++++++++++-------- kernel/audit.h     
-> >    |  1 +
-> >  kernel/auditfilter.c  | 17 ++++++++++++++++-
-> >  kernel/auditsc.c      |  2 +-
-> >  5 files changed, 64 insertions(+), 10 deletions(-)
-> 
-> ...
-> 
-> > diff --git a/kernel/audit.c b/kernel/audit.c
-> > index ef8e07524c46..68be59d1a89b 100644
-> > --- a/kernel/audit.c
-> > +++ b/kernel/audit.c
-> > 
-> > @@ -492,6 +493,7 @@ void audit_switch_task_namespaces(struct nsproxy *ns,
-> > struct task_struct *p)> 
-> >                 audit_netns_contid_add(new->net_ns, contid);
-> >  
-> >  }
-> > 
-> > +void audit_log_contid(struct audit_buffer *ab, u64 contid);
-> 
-> If we need a forward declaration, might as well just move it up near
-> the top of the file with the rest of the declarations.
-> 
-> > +void audit_log_contid(struct audit_buffer *ab, u64 contid)
-> > +{
-> > +       struct audit_contobj *cont = NULL, *prcont = NULL;
-> > +       int h;
-> 
-> It seems safer to pass the audit container ID object and not the u64.
-> 
-> > +       if (!audit_contid_valid(contid)) {
-> > +               audit_log_format(ab, "%llu", contid);
-> 
-> Do we really want to print (u64)-1 here?  Since this is a known
-> invalid number, would "?" be a better choice?
-
-The established pattern is that we print -1 when its unset and "?" when its 
-totalling missing. So, how could this be invalid? It should be set or not. 
-That is unless its totally missing just like when we do not run with selinux 
-enabled and a context just doesn't exist.
-
--Steve
 
 
-> > +               return;
-> > +       }
-> > +       h = audit_hash_contid(contid);
-> > +       rcu_read_lock();
-> > +       list_for_each_entry_rcu(cont, &audit_contid_hash[h], list)
-> > +               if (cont->id == contid) {
-> > +                       prcont = cont;
-> 
-> Why not just pull the code below into the body of this if statement?
-> It all needs to be done under the RCU read lock anyway and the code
-> would read much better this way.
-> 
-> > +                       break;
-> > +               }
-> > +       if (!prcont) {
-> > +               audit_log_format(ab, "%llu", contid);
-> > +               goto out;
-> > +       }
-> > +       while (prcont) {
-> > +               audit_log_format(ab, "%llu", prcont->id);
-> > +               prcont = prcont->parent;
-> > +               if (prcont)
-> > +                       audit_log_format(ab, "^");
-> 
-> In the interest of limiting the number of calls to audit_log_format(),
-> how about something like the following:
-> 
->   audit_log_format("%llu", cont);
->   iter = cont->parent;
->   while (iter) {
->     if (iter->parent)
->       audit_log_format("^%llu,", iter);
->     else
->       audit_log_format("^%llu", iter);
->     iter = iter->parent;
->   }
-> 
-> > +       }
-> > +out:
-> > +       rcu_read_unlock();
-> > +}
-> > +
-> > 
-> >  /*
-> >  
-> >   * audit_log_container_id - report container info
-> >   * @context: task or local context for record
-> 
-> ...
-> 
-> > @@ -2705,9 +2741,10 @@ int audit_set_contid(struct task_struct *task, u64
-> > contid)> 
-> >         if (!ab)
-> >         
-> >                 return rc;
-> > 
-> > -       audit_log_format(ab,
-> > -                        "op=set opid=%d contid=%llu old-contid=%llu",
-> > -                        task_tgid_nr(task), contid, oldcontid);
-> > +       audit_log_format(ab, "op=set opid=%d contid=",
-> > task_tgid_nr(task)); +       audit_log_contid(ab, contid);
-> > +       audit_log_format(ab, " old-contid=");
-> > +       audit_log_contid(ab, oldcontid);
-> 
-> This is an interesting case where contid and old-contid are going to
-> be largely the same, only the first (current) ID is going to be
-> different; do we want to duplicate all of those IDs?
-> 
-> >         audit_log_end(ab);
-> >         return rc;
-> >  
-> >  }
-> > 
-> > @@ -2723,9 +2760,9 @@ void audit_log_container_drop(void)
-> 
-> --
-> paul moore
-> www.paul-moore.com
+On 1/31/20 2:49 AM, David Hildenbrand wrote:
+> On 29.01.20 19:30, Yang Shi wrote:
+>> Since commit a49bd4d71637 ("mm, numa: rework do_pages_move"),
+>> the semantic of move_pages() has changed to return the number of
+>> non-migrated pages if they were result of a non-fatal reasons (usually a
+>> busy page).  This was an unintentional change that hasn't been noticed
+>> except for LTP tests which checked for the documented behavior.
+>>
+>> There are two ways to go around this change.  We can even get back to the
+>> original behavior and return -EAGAIN whenever migrate_pages is not able
+>> to migrate pages due to non-fatal reasons.  Another option would be to
+>> simply continue with the changed semantic and extend move_pages
+>> documentation to clarify that -errno is returned on an invalid input or
+>> when migration simply cannot succeed (e.g. -ENOMEM, -EBUSY) or the
+>> number of pages that couldn't have been migrated due to ephemeral
+>> reasons (e.g. page is pinned or locked for other reasons).
+>>
+>> We decided to keep the second option in kernel because this behavior is in
+>> place for some time without anybody complaining and possibly new users
+>> depending on it.  Also it allows to have a slightly easier error handling
+>> as the caller knows that it is worth to retry when err > 0.
+>>
+>> Update man pages to reflect the new semantic.
+>>
+>> Cc: Michal Hocko <mhocko@suse.com>
+>> Cc: Michael Kerrisk <mtk.manpages@gmail.com>
+>> Signed-off-by: Yang Shi <yang.shi@linux.alibaba.com>
+>> ---
+>>   man2/move_pages.2 | 6 +++++-
+>>   1 file changed, 5 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/man2/move_pages.2 b/man2/move_pages.2
+>> index 1bf1053..c6cf3f8 100644
+>> --- a/man2/move_pages.2
+>> +++ b/man2/move_pages.2
+>> @@ -164,9 +164,13 @@ returns zero.
+>>   .\" do the right thing?
+>>   On error, it returns \-1, and sets
+>>   .I errno
+>> -to indicate the error.
+>> +to indicate the error. Or positive value to report the number of
+>> +non-migrated pages.
+> "If a positive value is returned, it's the number of non-migrated pages".
+>
+>>   .SH ERRORS
+>>   .TP
+>> +.B Positive value
+>> +The number of non-migrated pages if they were result of a non-fatal
+>> +reasons since version 4.17.
+> s/result/the result/ ?
+>
+> s/a reasons/reasons/ ?
+>
+> s/since version 4.17/(since 4.17)/ ?
 
+Thanks. Will fix in new version.
 
-
+>
+>>   .B E2BIG
+>>   Too many pages to move.
+>>   Since Linux 2.6.29,
+>>
+>
 
