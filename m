@@ -2,82 +2,194 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D68A14FB61
-	for <lists+linux-api@lfdr.de>; Sun,  2 Feb 2020 05:18:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C784014FC6F
+	for <lists+linux-api@lfdr.de>; Sun,  2 Feb 2020 10:37:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726813AbgBBESX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 1 Feb 2020 23:18:23 -0500
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:45844 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726794AbgBBESW (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 1 Feb 2020 23:18:22 -0500
-Received: by mail-ed1-f68.google.com with SMTP id v28so12332146edw.12
-        for <linux-api@vger.kernel.org>; Sat, 01 Feb 2020 20:18:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=UuEb10QAUcFcGwJKCFeGhLUYYwMKG3vOlYqSejkAJjc=;
-        b=BZ9+x4AUIFJLiX/N1VBjRD80E1JAY6p+Ow1VTwbX6FGZWiklyuGDkrP0qeMciPsMUe
-         8nTSaKr4Ho6/S7dW2SpMb/OZSIj7QcOWDEwMYH9REu0dT4ejNyJIPZbDM/NhReSGj4pW
-         0F1tPaYk4DNXr3WnbLQ58PPhFJERk1lmkG/IK6NW0wEAsqpyEd1UQ7Ty1JL1Akh47bmN
-         tF+Efol3wF29/cOHJt8lRHPpntXfHAZbLjNTGpINUaeSuWaHL5PYTdxO5Kg4v+zE+uWo
-         aQd7vruF8DxQ/LOBHcs/1WTiM3K89c7fQpOzkqbwjA03mvKLkr+BDjefK9rnfrRqG2H5
-         UqtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=UuEb10QAUcFcGwJKCFeGhLUYYwMKG3vOlYqSejkAJjc=;
-        b=lMvQfK6xusis33bFdB9dtkr3mbtxTrJwNtV/qrLZThLIMc1lANam4nbqJhHf1PEzBy
-         0qqqsBsIs297BRyJC7haApEjjtcjaO2ISK8OmG75cPlzt78GvEfvG73viIHVJUFMpDQ3
-         HKgWb/eM2T90ruld42FSkWex0rqjORUsiwU9rqUNLjITaGWPdhGvdkvlEYPGji65bFPN
-         h3sZLFx4HtoSYoPEl6rlP5hDW5hSWTbPQsi8rIduQ+mO4zEmXYKX6/X4m04UMX5GcFzy
-         IuJhaAoCls9Q0KzQG4jQif1Y8BPTaxT3hWXWMBsQYR4wwN4egl1jWZuQnTaTSxFVuUPg
-         gocQ==
-X-Gm-Message-State: APjAAAXcERuzX9hmxZZQLyO/TJ3SsB/ite/HGBpKnxHt4MJqoT+ix3RX
-        7VdLoOVtEdC7SuvFt1chXw9nKuqGevHD9Af0DRGd5Q==
-X-Google-Smtp-Source: APXvYqybtw5f2jTQcpV4gY36OnxNY8241JvcKkzJUpgAl0cx/UBNZIzQjpkYuf3EJT/Lyi67pPW/bR73IKtF1FLPUjE=
-X-Received: by 2002:a17:906:82d6:: with SMTP id a22mr15774735ejy.242.1580617100799;
- Sat, 01 Feb 2020 20:18:20 -0800 (PST)
+        id S1726044AbgBBJhI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 2 Feb 2020 04:37:08 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:44150 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725962AbgBBJhI (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 2 Feb 2020 04:37:08 -0500
+Received: from [151.216.132.156] (helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1iyBgc-0006i9-9J; Sun, 02 Feb 2020 09:37:02 +0000
+Date:   Sun, 2 Feb 2020 10:37:02 +0100
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+Cc:     linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Tejun Heo <tj@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Li Zefan <lizefan@huawei.com>,
+        Peter Zijlstra <peterz@infradead.org>, cgroups@vger.kernel.org
+Subject: Re: [PATCH v5 5/6] clone3: allow spawning processes into cgroups
+Message-ID: <20200202093702.cdlyytywty7hk3rn@wittgenstein>
+References: <20200121154844.411-1-christian.brauner@ubuntu.com>
+ <20200121154844.411-6-christian.brauner@ubuntu.com>
+ <20200129132719.GD11384@blackbody.suse.cz>
 MIME-Version: 1.0
-References: <20200123014627.71720-1-bgeffon@google.com> <20200124190625.257659-1-bgeffon@google.com>
- <20200126220650.i4lwljpvohpgvsi2@box> <CADyq12xCK_3MhGi88Am5P6DVZvrW8vqtyJMHO0zjNhvhYegm1w@mail.gmail.com>
- <20200129104655.egvpavc2tzozlbqe@box>
-In-Reply-To: <20200129104655.egvpavc2tzozlbqe@box>
-From:   Brian Geffon <bgeffon@google.com>
-Date:   Sun, 2 Feb 2020 05:17:53 +0100
-Message-ID: <CADyq12xgnVByYOkL=GcszYYKzDpg254QEOFoW8=e1y=bmOCcFQ@mail.gmail.com>
-Subject: Re: [PATCH v2] mm: Add MREMAP_DONTUNMAP to mremap().
-To:     "Kirill A. Shutemov" <kirill@shutemov.name>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        "Michael S . Tsirkin" <mst@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
-        Andy Lutomirski <luto@amacapital.net>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Yu Zhao <yuzhao@google.com>, Jesse Barnes <jsbarnes@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200129132719.GD11384@blackbody.suse.cz>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jan 29, 2020 at 11:46 AM Kirill A. Shutemov
-<kirill@shutemov.name> wrote:
-> Any better options for the flag name? (I have none)
+On Wed, Jan 29, 2020 at 02:27:19PM +0100, Michal Koutný wrote:
+> Hello.
+> 
+> On Tue, Jan 21, 2020 at 04:48:43PM +0100, Christian Brauner <christian.brauner@ubuntu.com> wrote:
+> > +static int cgroup_css_set_fork(struct kernel_clone_args *kargs)
+> > +	__acquires(&cgroup_mutex) __acquires(&cgroup_threadgroup_rwsem)
+> > +{
+> > +	int ret;
+> > +	struct cgroup *dst_cgrp = NULL;
+> > +	struct css_set *cset;
+> > +	struct super_block *sb;
+> > +	struct file *f;
+> > +
+> > +	if (kargs->flags & CLONE_INTO_CGROUP)
+> > +		mutex_lock(&cgroup_mutex);
+> > +
+> > +	cgroup_threadgroup_change_begin(current);
+> > +
+> > +	spin_lock_irq(&css_set_lock);
+> > +	cset = task_css_set(current);
+> > +	get_css_set(cset);
+> > +	spin_unlock_irq(&css_set_lock);
+> > +
+> > +	if (!(kargs->flags & CLONE_INTO_CGROUP)) {
+> > +		kargs->cset = cset;
+> Where is this css_set put when CLONE_INTO_CGROUP isn't used?
+> (Aha, it's passed to child's tsk->cgroups but see my other note below.)
+> 
+> > +	dst_cgrp = cgroup_get_from_file(f);
+> > +	if (IS_ERR(dst_cgrp)) {
+> > +		ret = PTR_ERR(dst_cgrp);
+> > +		dst_cgrp = NULL;
+> > +		goto err;
+> > +	}
+> > +
+> > +	/*
+> > +	 * Verify that we the target cgroup is writable for us. This is
+> > +	 * usually done by the vfs layer but since we're not going through
+> > +	 * the vfs layer here we need to do it "manually".
+> > +	 */
+> > +	ret = cgroup_may_write(dst_cgrp, sb);
+> > +	if (ret)
+> > +		goto err;
+> > +
+> > +	ret = cgroup_attach_permissions(cset->dfl_cgrp, dst_cgrp, sb,
+> > +					!!(kargs->flags & CLONE_THREAD));
+> > +	if (ret)
+> > +		goto err;
+> > +
+> > +	kargs->cset = find_css_set(cset, dst_cgrp);
+> > +	if (!kargs->cset) {
+> > +		ret = -ENOMEM;
+> > +		goto err;
+> > +	}
+> > +
+> > +	if (cgroup_is_dead(dst_cgrp)) {
+> > +		ret = -ENODEV;
+> > +		goto err;
+> > +	}
+> I'd move this check right after cgroup_get_from_file. The fork-migration
+> path is synchrinized via cgroup_mutex with cgroup_destroy_locked and
+> there's no need checking permissions on cgroup that's going away anyway.
+> 
+> 
+> > +static void cgroup_css_set_put_fork(struct kernel_clone_args *kargs)
+> > +	__releases(&cgroup_threadgroup_rwsem) __releases(&cgroup_mutex)
+> > +{
+> > +	cgroup_threadgroup_change_end(current);
+> > +
+> > +	if (kargs->flags & CLONE_INTO_CGROUP) {
+> > +		struct cgroup *cgrp = kargs->cgrp;
+> > +		struct css_set *cset = kargs->cset;
+> > +
+> > +		mutex_unlock(&cgroup_mutex);
+> > +
+> > +		if (cset) {
+> > +			put_css_set(cset);
+> > +			kargs->cset = NULL;
+> > +		}
+> > +
+> > +		if (cgrp) {
+> > +			cgroup_put(cgrp);
+> > +			kargs->cgrp = NULL;
+> > +		}
+> > +	}
+> I don't see any function problem with this ordering, however, I'd
+> prefer symmetry with the "allocation" path (in cgroup_css_set_fork),
+> i.e. cgroup_put, put_css_set and lastly mutex_unlock.
 
-The other option is that it's broken up into two new flags the first
-MREMAP_MUSTMOVE which can be used regardless of whether or not you're
-leaving the original mapping mapped. This would do exactly what it
-describes: move the mapping to a new address with or without
-MREMAP_FIXED, this keeps consistency with MAYMOVE.
+I prefer to yield the mutex as early as possible.
 
-The second flag would be the new MREMAP_DONTUNMAP flag which requires
-MREMAP_MUSTMOVE, again with or without MREMAP_FIXED.
+> 
+> > +void cgroup_post_fork(struct task_struct *child,
+> > +		      struct kernel_clone_args *kargs)
+> > +	__releases(&cgroup_threadgroup_rwsem) __releases(&cgroup_mutex)
+> >  {
+> >  	struct cgroup_subsys *ss;
+> > -	struct css_set *cset;
+> > +	struct css_set *cset = kargs->cset;
+> >  	int i;
+> >  
+> >  	spin_lock_irq(&css_set_lock);
+> >  
+> >  	WARN_ON_ONCE(!list_empty(&child->cg_list));
+> > -	cset = task_css_set(current); /* current is @child's parent */
+> > -	get_css_set(cset);
+> >  	cset->nr_tasks++;
+> >  	css_set_move_task(child, NULL, cset, false);
+> So, the reference is passed over from kargs->cset to task->cgroups. I
+> think it's necessary to zero kargs->cset in order to prevent droping the 
+> reference in cgroup_css_set_put_fork.
 
-What are your thoughts on this?
+cgroup_post_fork() is called past the point of no return for fork and
+cgroup_css_set_put_fork() is explicitly documented as only being
+callable before forks point of no return:
+
+ * Drop references to the prepared css_set and target cgroup if
+ * CLONE_INTO_CGROUP was requested. This function can only be
+ * called before fork()'s point of no return.
+
+> Perhaps, a general comment about css_set whereabouts during fork and
+> kargs passing would be useful.
+> 
+> > @@ -6016,6 +6146,17 @@ void cgroup_post_fork(struct task_struct *child)
+> >  	} while_each_subsys_mask();
+> >  
+> >  	cgroup_threadgroup_change_end(current);
+> > +
+> > +	if (kargs->flags & CLONE_INTO_CGROUP) {
+> > +		mutex_unlock(&cgroup_mutex);
+> > +
+> > +		cgroup_put(kargs->cgrp);
+> > +		kargs->cgrp = NULL;
+> > +	}
+> > +
+> > +	/* Make the new cset the root_cset of the new cgroup namespace. */
+> > +	if (kargs->flags & CLONE_NEWCGROUP)
+> > +		child->nsproxy->cgroup_ns->root_cset = cset;
+> root_cset reference (from copy_cgroup_ns) seems leaked here and where is
+> the additional reference to new cset obtained?
+
+This should be:
+
+if (kargs->flags & CLONE_NEWCGROUP) {
+	struct css_set *rcset = child->nsproxy->cgroup_ns->root_cset;
+
+	get_css_set(cset);
+	child->nsproxy->cgroup_ns->root_cset = cset;
+	put_css_set(rcset);
+}
+
+Thanks!
+Christian
