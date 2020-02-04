@@ -2,80 +2,221 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BAF5151A20
-	for <lists+linux-api@lfdr.de>; Tue,  4 Feb 2020 12:54:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 621D3151B1B
+	for <lists+linux-api@lfdr.de>; Tue,  4 Feb 2020 14:20:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727090AbgBDLyC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 4 Feb 2020 06:54:02 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:51718 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727040AbgBDLyC (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Feb 2020 06:54:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=iUu18RYN80bzMMLTjBJu6yIsP2v0nDSnUCJt6N21n6A=; b=KVQzzxEwjH+T/QHWi2sBA9hSk6
-        3YEa05Z7jzH6PZOqAtx4/80TcdwU6pRdSk3UvqNI1dESExgcgU2hjTDEsqQmuyiYsTDnja/tuV3st
-        3RmlufXrmB7hhAKpM0FEgnpJygQRQYRvW4Q4ykMQulQ8ZYF48NxRwKxawmmhDojuEdD4JdRyIcj4N
-        NTx9eVuWxbmDL2N5LFEycSeQT//85aGCNXPB+CK6skMQ9QS3TW3c0S9Rr/w1hATzWkrqaTKAt1dGm
-        Qfa+g7v+keGDGVuq6+CWBBrBPkPQ6g6NLiIKKTPEAHnA3ueQON4a/Cc4uEPOJzhbBBzXoZ2h35PAX
-        qEaDf1Rg==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iywm9-00060d-Sw; Tue, 04 Feb 2020 11:53:54 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id D983F30257C;
-        Tue,  4 Feb 2020 12:52:05 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 483C720247145; Tue,  4 Feb 2020 12:53:51 +0100 (CET)
-Date:   Tue, 4 Feb 2020 12:53:51 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Tejun Heo <tj@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Li Zefan <lizefan@huawei.com>, cgroups@vger.kernel.org
-Subject: Re: [PATCH v5 5/6] clone3: allow spawning processes into cgroups
-Message-ID: <20200204115351.GD14879@hirez.programming.kicks-ass.net>
-References: <20200121154844.411-1-christian.brauner@ubuntu.com>
- <20200121154844.411-6-christian.brauner@ubuntu.com>
+        id S1727225AbgBDNUH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 4 Feb 2020 08:20:07 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30768 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727215AbgBDNUF (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Feb 2020 08:20:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1580822403;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=DiCDr9VOMNIOGlerAt3rk5gsTcg7CmFEgtEnbuSq7k8=;
+        b=W0cRHz6MEySCD75UlhTV5sELbv7zUOqFCgnqWlFSfCIgz9CHKlidY/t/lqN4MajjGpntXT
+        GlV8mtP1I5AjXQE061CaXcgzIMpCD05VxzKePghdZOEHUVNM/8UL//rZs0J8K9SvqzYNee
+        YNExsKNcICcMzQ7T6jAwNJQAGe+yt6A=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-117-CabuI7ORPYG9_kFSuyn87w-1; Tue, 04 Feb 2020 08:20:01 -0500
+X-MC-Unique: CabuI7ORPYG9_kFSuyn87w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 815E38C8800;
+        Tue,  4 Feb 2020 13:19:59 +0000 (UTC)
+Received: from madcap2.tricolour.ca (ovpn-112-16.rdu2.redhat.com [10.10.112.16])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 7F8A9811F8;
+        Tue,  4 Feb 2020 13:19:47 +0000 (UTC)
+Date:   Tue, 4 Feb 2020 08:19:44 -0500
+From:   Richard Guy Briggs <rgb@redhat.com>
+To:     Steve Grubb <sgrubb@redhat.com>
+Cc:     Paul Moore <paul@paul-moore.com>,
+        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
+        Linux-Audit Mailing List <linux-audit@redhat.com>,
+        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
+        omosnace@redhat.com, dhowells@redhat.com, simo@redhat.com,
+        Eric Paris <eparis@parisplace.org>,
+        Serge Hallyn <serge@hallyn.com>, ebiederm@xmission.com,
+        nhorman@tuxdriver.com, Dan Walsh <dwalsh@redhat.com>,
+        mpatel@redhat.com
+Subject: Re: [PATCH ghak90 V8 13/16] audit: track container nesting
+Message-ID: <20200204131944.esnzcqvnecfnqgbi@madcap2.tricolour.ca>
+References: <cover.1577736799.git.rgb@redhat.com>
+ <6452955c1e038227a5cd169f689f3fd3db27513f.1577736799.git.rgb@redhat.com>
+ <CAHC9VhRkH=YEjAY6dJJHSp934grHnf=O4RiqLu3U8DzdVQOZkg@mail.gmail.com>
+ <5238532.OiMyN8JqPO@x2>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200121154844.411-6-christian.brauner@ubuntu.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <5238532.OiMyN8JqPO@x2>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jan 21, 2020 at 04:48:43PM +0100, Christian Brauner wrote:
-> This adds support for creating a process in a different cgroup than its
-> parent. Callers can limit and account processes and threads right from
-> the moment they are spawned:
-> - A service manager can directly spawn new services into dedicated
->   cgroups.
-> - A process can be directly created in a frozen cgroup and will be
->   frozen as well.
-> - The initial accounting jitter experienced by process supervisors and
->   daemons is eliminated with this.
-> - Threaded applications or even thread implementations can choose to
->   create a specific cgroup layout where each thread is spawned
->   directly into a dedicated cgroup.
+On 2020-01-31 09:50, Steve Grubb wrote:
+> On Wednesday, January 22, 2020 4:29:12 PM EST Paul Moore wrote:
+> > On Tue, Dec 31, 2019 at 2:51 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > Track the parent container of a container to be able to filter and
+> > > report nesting.
+> > > 
+> > > Now that we have a way to track and check the parent container of a
+> > > container, modify the contid field format to be able to report that
+> > > nesting using a carrat ("^") separator to indicate nesting.  The
+> > > original field format was "contid=<contid>" for task-associated records
+> > > and "contid=<contid>[,<contid>[...]]" for network-namespace-associated
+> > > records.  The new field format is
+> > > "contid=<contid>[^<contid>[...]][,<contid>[...]]".
+> > 
+> > Let's make sure we always use a comma as a separator, even when
+> > recording the parent information, for example:
+> > "contid=<contid>[,^<contid>[...]][,<contid>[...]]"
+> > 
+> > > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+> > > ---
+> > > 
+> > >  include/linux/audit.h |  1 +
+> > >  kernel/audit.c        | 53
+> > >  +++++++++++++++++++++++++++++++++++++++++++-------- kernel/audit.h     
+> > >    |  1 +
+> > >  kernel/auditfilter.c  | 17 ++++++++++++++++-
+> > >  kernel/auditsc.c      |  2 +-
+> > >  5 files changed, 64 insertions(+), 10 deletions(-)
+> > 
+> > ...
+> > 
+> > > diff --git a/kernel/audit.c b/kernel/audit.c
+> > > index ef8e07524c46..68be59d1a89b 100644
+> > > --- a/kernel/audit.c
+> > > +++ b/kernel/audit.c
+> > > 
+> > > @@ -492,6 +493,7 @@ void audit_switch_task_namespaces(struct nsproxy *ns,
+> > > struct task_struct *p)> 
+> > >                 audit_netns_contid_add(new->net_ns, contid);
+> > >  
+> > >  }
+> > > 
+> > > +void audit_log_contid(struct audit_buffer *ab, u64 contid);
+> > 
+> > If we need a forward declaration, might as well just move it up near
+> > the top of the file with the rest of the declarations.
+> > 
+> > > +void audit_log_contid(struct audit_buffer *ab, u64 contid)
+> > > +{
+> > > +       struct audit_contobj *cont = NULL, *prcont = NULL;
+> > > +       int h;
+> > 
+> > It seems safer to pass the audit container ID object and not the u64.
+> > 
+> > > +       if (!audit_contid_valid(contid)) {
+> > > +               audit_log_format(ab, "%llu", contid);
+> > 
+> > Do we really want to print (u64)-1 here?  Since this is a known
+> > invalid number, would "?" be a better choice?
 > 
-> This feature is limited to the unified hierarchy. Callers need to pass
-> an directory file descriptor for the target cgroup. The caller can
-> choose to pass an O_PATH file descriptor. All usual migration
-> restrictions apply, i.e. there can be no processes in inner nodes. In
-> general, creating a process directly in a target cgroup adheres to all
-> migration restrictions.
+> The established pattern is that we print -1 when its unset and "?" when its 
+> totalling missing. So, how could this be invalid? It should be set or not. 
+> That is unless its totally missing just like when we do not run with selinux 
+> enabled and a context just doesn't exist.
 
-AFAICT, he *big* win here is avoiding the write side of the
-cgroup_threadgroup_rwsem. Or am I mis-reading the patch?
+Ok, so in this case it is clearly unset, so should be -1, which will be a
+20-digit number when represented as an unsigned long long int.
 
-That global lock is what makes moving tasks/threads around super
-expensive, avoiding that by use of this clone() variant wins the day.
+Thank you for that clarification Steve.
+
+> -Steve
+> 
+> > > +               return;
+> > > +       }
+> > > +       h = audit_hash_contid(contid);
+> > > +       rcu_read_lock();
+> > > +       list_for_each_entry_rcu(cont, &audit_contid_hash[h], list)
+> > > +               if (cont->id == contid) {
+> > > +                       prcont = cont;
+> > 
+> > Why not just pull the code below into the body of this if statement?
+> > It all needs to be done under the RCU read lock anyway and the code
+> > would read much better this way.
+> > 
+> > > +                       break;
+> > > +               }
+> > > +       if (!prcont) {
+> > > +               audit_log_format(ab, "%llu", contid);
+> > > +               goto out;
+> > > +       }
+> > > +       while (prcont) {
+> > > +               audit_log_format(ab, "%llu", prcont->id);
+> > > +               prcont = prcont->parent;
+> > > +               if (prcont)
+> > > +                       audit_log_format(ab, "^");
+> > 
+> > In the interest of limiting the number of calls to audit_log_format(),
+> > how about something like the following:
+> > 
+> >   audit_log_format("%llu", cont);
+> >   iter = cont->parent;
+> >   while (iter) {
+> >     if (iter->parent)
+> >       audit_log_format("^%llu,", iter);
+> >     else
+> >       audit_log_format("^%llu", iter);
+> >     iter = iter->parent;
+> >   }
+> > 
+> > > +       }
+> > > +out:
+> > > +       rcu_read_unlock();
+> > > +}
+> > > +
+> > > 
+> > >  /*
+> > >  
+> > >   * audit_log_container_id - report container info
+> > >   * @context: task or local context for record
+> > 
+> > ...
+> > 
+> > > @@ -2705,9 +2741,10 @@ int audit_set_contid(struct task_struct *task, u64
+> > > contid)> 
+> > >         if (!ab)
+> > >         
+> > >                 return rc;
+> > > 
+> > > -       audit_log_format(ab,
+> > > -                        "op=set opid=%d contid=%llu old-contid=%llu",
+> > > -                        task_tgid_nr(task), contid, oldcontid);
+> > > +       audit_log_format(ab, "op=set opid=%d contid=",
+> > > task_tgid_nr(task)); +       audit_log_contid(ab, contid);
+> > > +       audit_log_format(ab, " old-contid=");
+> > > +       audit_log_contid(ab, oldcontid);
+> > 
+> > This is an interesting case where contid and old-contid are going to
+> > be largely the same, only the first (current) ID is going to be
+> > different; do we want to duplicate all of those IDs?
+> > 
+> > >         audit_log_end(ab);
+> > >         return rc;
+> > >  
+> > >  }
+> > > 
+> > > @@ -2723,9 +2760,9 @@ void audit_log_container_drop(void)
+> > 
+> > paul moore
+
+- RGB
+
+--
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems
+Remote, Ottawa, Red Hat Canada
+IRC: rgb, SunRaycer
+Voice: +1.647.777.2635, Internal: (81) 32635
+
