@@ -2,53 +2,39 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 082BD151DA8
-	for <lists+linux-api@lfdr.de>; Tue,  4 Feb 2020 16:52:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 049DD15203F
+	for <lists+linux-api@lfdr.de>; Tue,  4 Feb 2020 19:12:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727328AbgBDPwu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 4 Feb 2020 10:52:50 -0500
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:46049 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727311AbgBDPwu (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Feb 2020 10:52:50 -0500
-Received: by mail-ed1-f66.google.com with SMTP id v28so20183363edw.12
-        for <linux-api@vger.kernel.org>; Tue, 04 Feb 2020 07:52:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0d0fJd2kqJOBxIhDrO5YQ550FVzvPHsXp/LZedW7iYo=;
-        b=jV+b0Pt2SFxKxAS8cj1UQHfhP4u6Is0Ked6engWmcGC4Vi3TiaYTuMDEDShbyo/W7Z
-         1G3Z0cM0PQWOg38Z+JVqucnhUkVnrOHTg50fin3WAGhZgHIYgSQ19+fPt7zs5oVqfJea
-         pFWTF/n1Y213SSzHRtw5+jlUvJShRGJ7FhRpHhM1nAXcPW2m+/YHt61prqobroLuGOGk
-         Y1CQM8QgSJwCyjxAesY/KCzkHfxFaZvogMV+xmE/W9owG68Y6pOv1plJSjhJiJzmsdiF
-         xLMebzV4Z6XBRCCVQYgqj7kXbOFpljAZJuaOraWTomEviTzwCFj9906EhFb5Yal9kDuO
-         Yt1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0d0fJd2kqJOBxIhDrO5YQ550FVzvPHsXp/LZedW7iYo=;
-        b=m9aJGfsknetkUUpUkVuDWihZG/BZlynCaja4uq1WIp+yA24fnuAsL+OHaJnQCUocwz
-         g/AsK6FRxkL/nSthF9FvswmD2Jwftyt1xiTSYsTlN8tGPHM0iuKD0MEErbQ/gObl8wNX
-         hiGPnANISbH99fqGSmg1fnhxQ5K8i6+t7/n/N+xUQGnn1ZIEdVI7Jt1idAizgqs9KI6B
-         bKUou/l0C1qThu1xaG/RkSj/9lyaZqMkFJCsggw6pugfedH4aTIUDfSQ6NXDD+0K0Yym
-         338sCVFRYaKUMfZDKsqxyB16YTG5A4nQyabdOdXkvkQNaErzTQhNIxZSVLNsG/zJzU9j
-         LzpA==
-X-Gm-Message-State: APjAAAVHyhlSuy3EVXYS5aRH7k/JJrIx1y782ReWqFplu2AO/Dik3NkH
-        8OBm1+dZMQ9GGg2umyBtMo03b+GpGCQWjUJFoiiT
-X-Google-Smtp-Source: APXvYqw+zYvw6F4Umt3lSDJsc2lvOiKELPOHsE6Als0Io7phWfq8MkukCyGdnY7at8Qo98R48gqGhqoNt5voV/XvnH4=
-X-Received: by 2002:a17:906:22cf:: with SMTP id q15mr26062018eja.77.1580831567900;
- Tue, 04 Feb 2020 07:52:47 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1577736799.git.rgb@redhat.com> <5238532.OiMyN8JqPO@x2>
- <20200204131944.esnzcqvnecfnqgbi@madcap2.tricolour.ca> <3665686.i1MIc9PeWa@x2>
-In-Reply-To: <3665686.i1MIc9PeWa@x2>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Tue, 4 Feb 2020 10:52:36 -0500
-Message-ID: <CAHC9VhRHfjuv5yyn+nQ2LbHtcezBcjKtOQ69ssYrXOiExuCjBw@mail.gmail.com>
-Subject: Re: [PATCH ghak90 V8 13/16] audit: track container nesting
-To:     Steve Grubb <sgrubb@redhat.com>
+        id S1727367AbgBDSMY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 4 Feb 2020 13:12:24 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:54292 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727390AbgBDSMX (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Feb 2020 13:12:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1580839941;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Bzg9bDZQ96CGaLiNh7lVZC6J4F7OP3CKfbn8hB4NuvU=;
+        b=Ff+T2yYcEYLooq5WKsUxhMua2yWhvki8kryi3e1zL0bRD6mbMPD5vvQ0UUG8JBRBmaiiuP
+        xpxx1LfcPSXtATlkkgft6olZAKeAlNZ3ewJ+wSR0MYDEM0PlJxo6C6cQWiuqokCzymcMM5
+        Ja78S79NKQH4WBSXfWoOdwIgGqOP050=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-261-E-q9i6prMwOivKPvmq3UPw-1; Tue, 04 Feb 2020 13:12:17 -0500
+X-MC-Unique: E-q9i6prMwOivKPvmq3UPw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B46818A6EC1;
+        Tue,  4 Feb 2020 18:12:15 +0000 (UTC)
+Received: from x2.localnet (ovpn-116-11.phx2.redhat.com [10.3.116.11])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 9117C19C69;
+        Tue,  4 Feb 2020 18:12:03 +0000 (UTC)
+From:   Steve Grubb <sgrubb@redhat.com>
+To:     Paul Moore <paul@paul-moore.com>
 Cc:     Richard Guy Briggs <rgb@redhat.com>,
         containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
         Linux-Audit Mailing List <linux-audit@redhat.com>,
@@ -59,31 +45,48 @@ Cc:     Richard Guy Briggs <rgb@redhat.com>,
         Serge Hallyn <serge@hallyn.com>, ebiederm@xmission.com,
         nhorman@tuxdriver.com, Dan Walsh <dwalsh@redhat.com>,
         mpatel@redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH ghak90 V8 13/16] audit: track container nesting
+Date:   Tue, 04 Feb 2020 13:12:02 -0500
+Message-ID: <35934535.C1y6eIYgqz@x2>
+Organization: Red Hat
+In-Reply-To: <CAHC9VhRHfjuv5yyn+nQ2LbHtcezBcjKtOQ69ssYrXOiExuCjBw@mail.gmail.com>
+References: <cover.1577736799.git.rgb@redhat.com> <3665686.i1MIc9PeWa@x2> <CAHC9VhRHfjuv5yyn+nQ2LbHtcezBcjKtOQ69ssYrXOiExuCjBw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Feb 4, 2020 at 10:47 AM Steve Grubb <sgrubb@redhat.com> wrote:
-> On Tuesday, February 4, 2020 8:19:44 AM EST Richard Guy Briggs wrote:
-> > > The established pattern is that we print -1 when its unset and "?" when
-> > > its totalling missing. So, how could this be invalid? It should be set
-> > > or not. That is unless its totally missing just like when we do not run
-> > > with selinux enabled and a context just doesn't exist.
-> >
-> > Ok, so in this case it is clearly unset, so should be -1, which will be a
-> > 20-digit number when represented as an unsigned long long int.
-> >
-> > Thank you for that clarification Steve.
->
-> It is literally a  -1.  ( 2 characters)
+On Tuesday, February 4, 2020 10:52:36 AM EST Paul Moore wrote:
+> On Tue, Feb 4, 2020 at 10:47 AM Steve Grubb <sgrubb@redhat.com> wrote:
+> > On Tuesday, February 4, 2020 8:19:44 AM EST Richard Guy Briggs wrote:
+> > > > The established pattern is that we print -1 when its unset and "?"
+> > > > when
+> > > > its totalling missing. So, how could this be invalid? It should be
+> > > > set
+> > > > or not. That is unless its totally missing just like when we do not
+> > > > run
+> > > > with selinux enabled and a context just doesn't exist.
+> > > 
+> > > Ok, so in this case it is clearly unset, so should be -1, which will be
+> > > a
+> > > 20-digit number when represented as an unsigned long long int.
+> > > 
+> > > Thank you for that clarification Steve.
+> > 
+> > It is literally a  -1.  ( 2 characters)
+> 
+> Well, not as Richard has currently written the code, it is a "%llu".
+> This was why I asked the question I did; if we want the "-1" here we
+> probably want to special case that as I don't think we want to display
+> audit container IDs as signed numbers in general.
 
-Well, not as Richard has currently written the code, it is a "%llu".
-This was why I asked the question I did; if we want the "-1" here we
-probably want to special case that as I don't think we want to display
-audit container IDs as signed numbers in general.
+OK, then go with the long number, we'll fix it in the interpretation. I guess 
+we do the same thing for auid.
 
--- 
-paul moore
-www.paul-moore.com
+-Steve
+
+
