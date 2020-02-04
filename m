@@ -2,74 +2,77 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DD1E6151CD0
-	for <lists+linux-api@lfdr.de>; Tue,  4 Feb 2020 16:01:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 464B5151D98
+	for <lists+linux-api@lfdr.de>; Tue,  4 Feb 2020 16:47:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727316AbgBDPBu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 4 Feb 2020 10:01:50 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:54206 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727258AbgBDPBt (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Feb 2020 10:01:49 -0500
-Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1iyzhx-0003UX-Je; Tue, 04 Feb 2020 15:01:45 +0000
-Date:   Tue, 4 Feb 2020 16:01:44 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Tejun Heo <tj@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Li Zefan <lizefan@huawei.com>, cgroups@vger.kernel.org
-Subject: Re: [PATCH v5 5/6] clone3: allow spawning processes into cgroups
-Message-ID: <20200204150144.fojbdmuyr7bnvgnj@wittgenstein>
-References: <20200121154844.411-1-christian.brauner@ubuntu.com>
- <20200121154844.411-6-christian.brauner@ubuntu.com>
- <20200204115351.GD14879@hirez.programming.kicks-ass.net>
+        id S1727357AbgBDPrl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 4 Feb 2020 10:47:41 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:25917 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727297AbgBDPrl (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Feb 2020 10:47:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1580831260;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=k5j3ObvOODL75kJLhay5/4twRQnCsNc1II2lP04Cwzc=;
+        b=EXFvQTntXUNXt7svOP1my7rv8MJb2pHJklxfIyioWzthFzHE16TIwHX0pajDYMq/2QCBkv
+        rqNa+mcP8/BKtf01LV/cTX/GXrMf6o5+ba6bZsbuPOk/sijKwJS5g3biZfQTn7RlwSomL5
+        KO+5uBg9yYwHfZL2FQuvv4+C2P86u70=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-245-6f651S_0N52lsFSFMHrBKg-1; Tue, 04 Feb 2020 10:47:39 -0500
+X-MC-Unique: 6f651S_0N52lsFSFMHrBKg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3F7A19251A6;
+        Tue,  4 Feb 2020 15:47:36 +0000 (UTC)
+Received: from x2.localnet (ovpn-116-11.phx2.redhat.com [10.3.116.11])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id BFF115C1B5;
+        Tue,  4 Feb 2020 15:47:23 +0000 (UTC)
+From:   Steve Grubb <sgrubb@redhat.com>
+To:     Richard Guy Briggs <rgb@redhat.com>
+Cc:     Paul Moore <paul@paul-moore.com>,
+        containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
+        Linux-Audit Mailing List <linux-audit@redhat.com>,
+        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
+        omosnace@redhat.com, dhowells@redhat.com, simo@redhat.com,
+        Eric Paris <eparis@parisplace.org>,
+        Serge Hallyn <serge@hallyn.com>, ebiederm@xmission.com,
+        nhorman@tuxdriver.com, Dan Walsh <dwalsh@redhat.com>,
+        mpatel@redhat.com
+Subject: Re: [PATCH ghak90 V8 13/16] audit: track container nesting
+Date:   Tue, 04 Feb 2020 10:47:22 -0500
+Message-ID: <3665686.i1MIc9PeWa@x2>
+Organization: Red Hat
+In-Reply-To: <20200204131944.esnzcqvnecfnqgbi@madcap2.tricolour.ca>
+References: <cover.1577736799.git.rgb@redhat.com> <5238532.OiMyN8JqPO@x2> <20200204131944.esnzcqvnecfnqgbi@madcap2.tricolour.ca>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200204115351.GD14879@hirez.programming.kicks-ass.net>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Feb 04, 2020 at 12:53:51PM +0100, Peter Zijlstra wrote:
-> On Tue, Jan 21, 2020 at 04:48:43PM +0100, Christian Brauner wrote:
-> > This adds support for creating a process in a different cgroup than its
-> > parent. Callers can limit and account processes and threads right from
-> > the moment they are spawned:
-> > - A service manager can directly spawn new services into dedicated
-> >   cgroups.
-> > - A process can be directly created in a frozen cgroup and will be
-> >   frozen as well.
-> > - The initial accounting jitter experienced by process supervisors and
-> >   daemons is eliminated with this.
-> > - Threaded applications or even thread implementations can choose to
-> >   create a specific cgroup layout where each thread is spawned
-> >   directly into a dedicated cgroup.
-> > 
-> > This feature is limited to the unified hierarchy. Callers need to pass
-> > an directory file descriptor for the target cgroup. The caller can
-> > choose to pass an O_PATH file descriptor. All usual migration
-> > restrictions apply, i.e. there can be no processes in inner nodes. In
-> > general, creating a process directly in a target cgroup adheres to all
-> > migration restrictions.
+On Tuesday, February 4, 2020 8:19:44 AM EST Richard Guy Briggs wrote:
+> > The established pattern is that we print -1 when its unset and "?" when
+> > its totalling missing. So, how could this be invalid? It should be set
+> > or not. That is unless its totally missing just like when we do not run
+> > with selinux enabled and a context just doesn't exist.
 > 
-> AFAICT, he *big* win here is avoiding the write side of the
-> cgroup_threadgroup_rwsem. Or am I mis-reading the patch?
-
-No, you're absolutely right. I just didn't bother putting implementation
-specifics in the cover letter and I probably should have. So thanks for
-pointing that out!
-
+> Ok, so in this case it is clearly unset, so should be -1, which will be a
+> 20-digit number when represented as an unsigned long long int.
 > 
-> That global lock is what makes moving tasks/threads around super
-> expensive, avoiding that by use of this clone() variant wins the day.
+> Thank you for that clarification Steve.
 
-:)
-Christian
+It is literally a  -1.  ( 2 characters)
+
+-Steve
+
+
