@@ -2,34 +2,54 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BB36C1531D1
-	for <lists+linux-api@lfdr.de>; Wed,  5 Feb 2020 14:27:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B06E1537EE
+	for <lists+linux-api@lfdr.de>; Wed,  5 Feb 2020 19:22:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728289AbgBEN1G (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 5 Feb 2020 08:27:06 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:56968 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728072AbgBEN0u (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 5 Feb 2020 08:26:50 -0500
-Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236] helo=wittgenstein.fritz.box)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1izKhb-00035h-Ch; Wed, 05 Feb 2020 13:26:47 +0000
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Tejun Heo <tj@kernel.org>
-Cc:     Oleg Nesterov <oleg@redhat.com>,
+        id S1727920AbgBESW2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 5 Feb 2020 13:22:28 -0500
+Received: from mga14.intel.com ([192.55.52.115]:20934 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726822AbgBESUY (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 5 Feb 2020 13:20:24 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Feb 2020 10:20:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,406,1574150400"; 
+   d="scan'208";a="279447733"
+Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
+  by FMSMGA003.fm.intel.com with ESMTP; 05 Feb 2020 10:20:24 -0800
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
         Peter Zijlstra <peterz@infradead.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, Roman Gushchin <guro@fb.com>
-Subject: [PATCH v6 6/6] selftests/cgroup: add tests for cloning into cgroups
-Date:   Wed,  5 Feb 2020 14:26:23 +0100
-Message-Id: <20200205132623.670015-7-christian.brauner@ubuntu.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200205132623.670015-1-christian.brauner@ubuntu.com>
-References: <20200205132623.670015-1-christian.brauner@ubuntu.com>
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: [RFC PATCH v9 00/27] Control-flow Enforcement: Shadow Stack
+Date:   Wed,  5 Feb 2020 10:19:08 -0800
+Message-Id: <20200205181935.3712-1-yu-cheng.yu@intel.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
@@ -37,385 +57,135 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Expand the cgroup test-suite to include tests for CLONE_INTO_CGROUP.
-This adds the following tests:
-- CLONE_INTO_CGROUP manages to clone a process directly into a correctly
-  delegated cgroup
-- CLONE_INTO_CGROUP fails to clone a process into a cgroup that has been
-  removed after we've opened an fd to it
-- CLONE_INTO_CGROUP fails to clone a process into an invalid domain
-  cgroup
-- CLONE_INTO_CGROUP adheres to the no internal process constraint
-- CLONE_INTO_CGROUP works with the freezer feature
+Control-flow Enforcement (CET) is a new Intel processor feature that blocks
+return/jump-oriented programming attacks.  Details can be found in "Intel
+64 and IA-32 Architectures Software Developer's Manual" [1].
 
-Cc: Tejun Heo <tj@kernel.org>
-Cc: Shuah Khan <shuah@kernel.org>
-Cc: cgroups@vger.kernel.org
-Cc: linux-kselftest@vger.kernel.org
-Acked-by: Roman Gushchin <guro@fb.com>
-Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
----
-/* v1 */
-Link: https://lore.kernel.org/r/20191218173516.7875-4-christian.brauner@ubuntu.com
+This series depends on the XSAVES supervisor state series that was split
+out and submitted earlier [2].
 
-/* v2 */
-Link: https://lore.kernel.org/r/20191223061504.28716-4-christian.brauner@ubuntu.com
-unchanged
+Changes from v8:
 
-/* v3 */
-Link: https://lore.kernel.org/r/20200117002143.15559-6-christian.brauner@ubuntu.com
-unchanged
+- Simplify signal handling code.
+- Add guard pages around a Shadow Stack.
+- Replace ELF parser with Dave Martin's patch [3].
 
-/* v4 */
-Link: https://lore.kernel.org/r/20200117181219.14542-7-christian.brauner@ubuntu.com
-unchanged
+The goal of this posting is to seek additional comments.
 
-/* v5 */
-Link: https://lore.kernel.org/r/20200121154844.411-7-christian.brauner@ubuntu.com
-unchanged
-- Christian Brauner <christian.brauner@ubuntu.com>:
-  - add Acked-by: Roman Gushchin <guro@fb.com>
+[1] Intel 64 and IA-32 Architectures Software Developer's Manual:
 
-/* v6 */
-unchanged
----
- tools/testing/selftests/cgroup/Makefile       |   6 +-
- tools/testing/selftests/cgroup/cgroup_util.c  | 126 ++++++++++++++++++
- tools/testing/selftests/cgroup/cgroup_util.h  |   4 +
- tools/testing/selftests/cgroup/test_core.c    |  64 +++++++++
- .../selftests/clone3/clone3_selftests.h       |  19 ++-
- 5 files changed, 214 insertions(+), 5 deletions(-)
+    https://software.intel.com/en-us/download/intel-64-and-ia-32-
+    architectures-sdm-combined-volumes-1-2a-2b-2c-2d-3a-3b-3c-3d-and-4
 
-diff --git a/tools/testing/selftests/cgroup/Makefile b/tools/testing/selftests/cgroup/Makefile
-index 66aafe1f5746..967f268fde74 100644
---- a/tools/testing/selftests/cgroup/Makefile
-+++ b/tools/testing/selftests/cgroup/Makefile
-@@ -11,6 +11,6 @@ TEST_GEN_PROGS += test_freezer
- 
- include ../lib.mk
- 
--$(OUTPUT)/test_memcontrol: cgroup_util.c
--$(OUTPUT)/test_core: cgroup_util.c
--$(OUTPUT)/test_freezer: cgroup_util.c
-+$(OUTPUT)/test_memcontrol: cgroup_util.c ../clone3/clone3_selftests.h
-+$(OUTPUT)/test_core: cgroup_util.c ../clone3/clone3_selftests.h
-+$(OUTPUT)/test_freezer: cgroup_util.c ../clone3/clone3_selftests.h
-diff --git a/tools/testing/selftests/cgroup/cgroup_util.c b/tools/testing/selftests/cgroup/cgroup_util.c
-index 8f7131dcf1ff..8a637ca7d73a 100644
---- a/tools/testing/selftests/cgroup/cgroup_util.c
-+++ b/tools/testing/selftests/cgroup/cgroup_util.c
-@@ -15,6 +15,7 @@
- #include <unistd.h>
- 
- #include "cgroup_util.h"
-+#include "../clone3/clone3_selftests.h"
- 
- static ssize_t read_text(const char *path, char *buf, size_t max_len)
- {
-@@ -331,12 +332,112 @@ int cg_run(const char *cgroup,
- 	}
- }
- 
-+pid_t clone_into_cgroup(int cgroup_fd)
-+{
-+#ifdef CLONE_ARGS_SIZE_VER2
-+	pid_t pid;
-+
-+	struct clone_args args = {
-+		.flags = CLONE_INTO_CGROUP,
-+		.exit_signal = SIGCHLD,
-+		.cgroup = cgroup_fd,
-+	};
-+
-+	pid = sys_clone3(&args, sizeof(struct clone_args));
-+	/*
-+	 * Verify that this is a genuine test failure:
-+	 * ENOSYS -> clone3() not available
-+	 * E2BIG  -> CLONE_INTO_CGROUP not available
-+	 */
-+	if (pid < 0 && (errno == ENOSYS || errno == E2BIG))
-+		goto pretend_enosys;
-+
-+	return pid;
-+
-+pretend_enosys:
-+#endif
-+	errno = ENOSYS;
-+	return -ENOSYS;
-+}
-+
-+int clone_reap(pid_t pid, int options)
-+{
-+	int ret;
-+	siginfo_t info = {
-+		.si_signo = 0,
-+	};
-+
-+again:
-+	ret = waitid(P_PID, pid, &info, options | __WALL | __WNOTHREAD);
-+	if (ret < 0) {
-+		if (errno == EINTR)
-+			goto again;
-+		return -1;
-+	}
-+
-+	if (options & WEXITED) {
-+		if (WIFEXITED(info.si_status))
-+			return WEXITSTATUS(info.si_status);
-+	}
-+
-+	if (options & WSTOPPED) {
-+		if (WIFSTOPPED(info.si_status))
-+			return WSTOPSIG(info.si_status);
-+	}
-+
-+	if (options & WCONTINUED) {
-+		if (WIFCONTINUED(info.si_status))
-+			return 0;
-+	}
-+
-+	return -1;
-+}
-+
-+int dirfd_open_opath(const char *dir)
-+{
-+	return open(dir, O_DIRECTORY | O_CLOEXEC | O_NOFOLLOW | O_PATH);
-+}
-+
-+#define close_prot_errno(fd)                                                   \
-+	if (fd >= 0) {                                                         \
-+		int _e_ = errno;                                               \
-+		close(fd);                                                     \
-+		errno = _e_;                                                   \
-+	}
-+
-+static int clone_into_cgroup_run_nowait(const char *cgroup,
-+					int (*fn)(const char *cgroup, void *arg),
-+					void *arg)
-+{
-+	int cgroup_fd;
-+	pid_t pid;
-+
-+	cgroup_fd =  dirfd_open_opath(cgroup);
-+	if (cgroup_fd < 0)
-+		return -1;
-+
-+	pid = clone_into_cgroup(cgroup_fd);
-+	close_prot_errno(cgroup_fd);
-+	if (pid == 0)
-+		exit(fn(cgroup, arg));
-+
-+	return pid;
-+}
-+
- int cg_run_nowait(const char *cgroup,
- 		  int (*fn)(const char *cgroup, void *arg),
- 		  void *arg)
- {
- 	int pid;
- 
-+	pid = clone_into_cgroup_run_nowait(cgroup, fn, arg);
-+	if (pid > 0)
-+		return pid;
-+
-+	/* Genuine test failure. */
-+	if (pid < 0 && errno != ENOSYS)
-+		return -1;
-+
- 	pid = fork();
- 	if (pid == 0) {
- 		char buf[64];
-@@ -450,3 +551,28 @@ int proc_read_strstr(int pid, bool thread, const char *item, const char *needle)
- 
- 	return strstr(buf, needle) ? 0 : -1;
- }
-+
-+int clone_into_cgroup_run_wait(const char *cgroup)
-+{
-+	int cgroup_fd;
-+	pid_t pid;
-+
-+	cgroup_fd =  dirfd_open_opath(cgroup);
-+	if (cgroup_fd < 0)
-+		return -1;
-+
-+	pid = clone_into_cgroup(cgroup_fd);
-+	close_prot_errno(cgroup_fd);
-+	if (pid < 0)
-+		return -1;
-+
-+	if (pid == 0)
-+		exit(EXIT_SUCCESS);
-+
-+	/*
-+	 * We don't care whether this fails. We only care whether the initial
-+	 * clone succeeded.
-+	 */
-+	(void)clone_reap(pid, WEXITED);
-+	return 0;
-+}
-diff --git a/tools/testing/selftests/cgroup/cgroup_util.h b/tools/testing/selftests/cgroup/cgroup_util.h
-index 49c54fbdb229..5a1305dd1f0b 100644
---- a/tools/testing/selftests/cgroup/cgroup_util.h
-+++ b/tools/testing/selftests/cgroup/cgroup_util.h
-@@ -50,3 +50,7 @@ extern int cg_wait_for_proc_count(const char *cgroup, int count);
- extern int cg_killall(const char *cgroup);
- extern ssize_t proc_read_text(int pid, bool thread, const char *item, char *buf, size_t size);
- extern int proc_read_strstr(int pid, bool thread, const char *item, const char *needle);
-+extern pid_t clone_into_cgroup(int cgroup_fd);
-+extern int clone_reap(pid_t pid, int options);
-+extern int clone_into_cgroup_run_wait(const char *cgroup);
-+extern int dirfd_open_opath(const char *dir);
-diff --git a/tools/testing/selftests/cgroup/test_core.c b/tools/testing/selftests/cgroup/test_core.c
-index c5ca669feb2b..96e016ccafe0 100644
---- a/tools/testing/selftests/cgroup/test_core.c
-+++ b/tools/testing/selftests/cgroup/test_core.c
-@@ -25,8 +25,11 @@
- static int test_cgcore_populated(const char *root)
- {
- 	int ret = KSFT_FAIL;
-+	int err;
- 	char *cg_test_a = NULL, *cg_test_b = NULL;
- 	char *cg_test_c = NULL, *cg_test_d = NULL;
-+	int cgroup_fd = -EBADF;
-+	pid_t pid;
- 
- 	cg_test_a = cg_name(root, "cg_test_a");
- 	cg_test_b = cg_name(root, "cg_test_a/cg_test_b");
-@@ -78,6 +81,52 @@ static int test_cgcore_populated(const char *root)
- 	if (cg_read_strcmp(cg_test_d, "cgroup.events", "populated 0\n"))
- 		goto cleanup;
- 
-+	/* Test that we can directly clone into a new cgroup. */
-+	cgroup_fd = dirfd_open_opath(cg_test_d);
-+	if (cgroup_fd < 0)
-+		goto cleanup;
-+
-+	pid = clone_into_cgroup(cgroup_fd);
-+	if (pid < 0) {
-+		if (errno == ENOSYS)
-+			goto cleanup_pass;
-+		goto cleanup;
-+	}
-+
-+	if (pid == 0) {
-+		if (raise(SIGSTOP))
-+			exit(EXIT_FAILURE);
-+		exit(EXIT_SUCCESS);
-+	}
-+
-+	err = cg_read_strcmp(cg_test_d, "cgroup.events", "populated 1\n");
-+
-+	(void)clone_reap(pid, WSTOPPED);
-+	(void)kill(pid, SIGCONT);
-+	(void)clone_reap(pid, WEXITED);
-+
-+	if (err)
-+		goto cleanup;
-+
-+	if (cg_read_strcmp(cg_test_d, "cgroup.events", "populated 0\n"))
-+		goto cleanup;
-+
-+	/* Remove cgroup. */
-+	if (cg_test_d) {
-+		cg_destroy(cg_test_d);
-+		free(cg_test_d);
-+		cg_test_d = NULL;
-+	}
-+
-+	pid = clone_into_cgroup(cgroup_fd);
-+	if (pid < 0)
-+		goto cleanup_pass;
-+	if (pid == 0)
-+		exit(EXIT_SUCCESS);
-+	(void)clone_reap(pid, WEXITED);
-+	goto cleanup;
-+
-+cleanup_pass:
- 	ret = KSFT_PASS;
- 
- cleanup:
-@@ -93,6 +142,8 @@ static int test_cgcore_populated(const char *root)
- 	free(cg_test_c);
- 	free(cg_test_b);
- 	free(cg_test_a);
-+	if (cgroup_fd >= 0)
-+		close(cgroup_fd);
- 	return ret;
- }
- 
-@@ -136,6 +187,16 @@ static int test_cgcore_invalid_domain(const char *root)
- 	if (errno != EOPNOTSUPP)
- 		goto cleanup;
- 
-+	if (!clone_into_cgroup_run_wait(child))
-+		goto cleanup;
-+
-+	if (errno == ENOSYS)
-+		goto cleanup_pass;
-+
-+	if (errno != EOPNOTSUPP)
-+		goto cleanup;
-+
-+cleanup_pass:
- 	ret = KSFT_PASS;
- 
- cleanup:
-@@ -345,6 +406,9 @@ static int test_cgcore_internal_process_constraint(const char *root)
- 	if (!cg_enter_current(parent))
- 		goto cleanup;
- 
-+	if (!clone_into_cgroup_run_wait(parent))
-+		goto cleanup;
-+
- 	ret = KSFT_PASS;
- 
- cleanup:
-diff --git a/tools/testing/selftests/clone3/clone3_selftests.h b/tools/testing/selftests/clone3/clone3_selftests.h
-index a3f2c8ad8bcc..91c1a78ddb39 100644
---- a/tools/testing/selftests/clone3/clone3_selftests.h
-+++ b/tools/testing/selftests/clone3/clone3_selftests.h
-@@ -5,12 +5,24 @@
- 
- #define _GNU_SOURCE
- #include <sched.h>
-+#include <linux/sched.h>
-+#include <linux/types.h>
- #include <stdint.h>
- #include <syscall.h>
--#include <linux/types.h>
-+#include <sys/wait.h>
-+
-+#include "../kselftest.h"
- 
- #define ptr_to_u64(ptr) ((__u64)((uintptr_t)(ptr)))
- 
-+#ifndef CLONE_INTO_CGROUP
-+#define CLONE_INTO_CGROUP 0x200000000ULL /* Clone into a specific cgroup given the right permissions. */
-+#endif
-+
-+#ifndef CLONE_ARGS_SIZE_VER0
-+#define CLONE_ARGS_SIZE_VER0 64
-+#endif
-+
- #ifndef __NR_clone3
- #define __NR_clone3 -1
- struct clone_args {
-@@ -22,10 +34,13 @@ struct clone_args {
- 	__aligned_u64 stack;
- 	__aligned_u64 stack_size;
- 	__aligned_u64 tls;
-+#define CLONE_ARGS_SIZE_VER1 80
- 	__aligned_u64 set_tid;
- 	__aligned_u64 set_tid_size;
-+#define CLONE_ARGS_SIZE_VER2 88
-+	__aligned_u64 cgroup;
- };
--#endif
-+#endif /* __NR_clone3 */
- 
- static pid_t sys_clone3(struct clone_args *args, size_t size)
- {
+[2] XSAVES supervisor states patches:
+    https://lkml.kernel.org/r/20200121201843.12047-1-yu-cheng.yu@intel.com/
+
+[3] Dave Martin's ELF program property parsing patch:
+    https://lkml.kernel.org/r/20200122212144.6409-3-broonie@kernel.org/
+
+[4] CET patches v8:
+
+    https://lkml.kernel.org/r/20190813205225.12032-1-yu-cheng.yu@intel.com/
+    https://lkml.kernel.org/r/20190813205359.12196-1-yu-cheng.yu@intel.com/
+
+Dave Martin (1):
+  ELF: Add ELF program property parsing support
+
+Yu-cheng Yu (26):
+  Documentation/x86: Add CET description
+  x86/cpufeatures: Add CET CPU feature flags for Control-flow
+    Enforcement Technology (CET)
+  x86/fpu/xstate: Introduce CET MSR XSAVES supervisor states
+  x86/cet: Add control-protection fault handler
+  x86/cet/shstk: Add Kconfig option for user-mode Shadow Stack
+    protection
+  mm: Introduce VM_SHSTK for Shadow Stack memory
+  Add guard pages around a Shadow Stack.
+  x86/mm: Change _PAGE_DIRTY to _PAGE_DIRTY_HW
+  x86/mm: Introduce _PAGE_DIRTY_SW
+  x86/mm: Update pte_modify, pmd_modify, and _PAGE_CHG_MASK for
+    _PAGE_DIRTY_SW
+  drm/i915/gvt: Change _PAGE_DIRTY to _PAGE_DIRTY_BITS
+  x86/mm: Modify ptep_set_wrprotect and pmdp_set_wrprotect for
+    _PAGE_DIRTY_SW
+  x86/mm: Shadow Stack page fault error checking
+  mm: Handle Shadow Stack page fault
+  mm: Handle THP/HugeTLB Shadow Stack page fault
+  mm: Update can_follow_write_pte() for Shadow Stack
+  x86/cet/shstk: User-mode Shadow Stack support
+  x86/cet/shstk: Introduce WRUSS instruction
+  x86/cet/shstk: Handle signals for Shadow Stack
+  ELF: UAPI and Kconfig additions for ELF program properties
+  binfmt_elf: Define GNU_PROPERTY_X86_FEATURE_1_AND
+  ELF: Introduce arch_setup_elf_property()
+  x86/cet/shstk: ELF header parsing for Shadow Stack
+  x86/cet/shstk: Handle thread Shadow Stack
+  mm/mmap: Add Shadow Stack pages to memory accounting
+  x86/cet/shstk: Add arch_prctl functions for Shadow Stack
+
+ .../admin-guide/kernel-parameters.txt         |   6 +
+ Documentation/x86/index.rst                   |   1 +
+ Documentation/x86/intel_cet.rst               | 294 +++++++++++++++
+ arch/x86/Kconfig                              |  24 ++
+ arch/x86/Makefile                             |   7 +
+ arch/x86/entry/entry_64.S                     |   2 +-
+ arch/x86/ia32/ia32_signal.c                   |  17 +
+ arch/x86/include/asm/cet.h                    |  44 +++
+ arch/x86/include/asm/cpufeatures.h            |   2 +
+ arch/x86/include/asm/disabled-features.h      |   8 +-
+ arch/x86/include/asm/elf.h                    |  13 +
+ arch/x86/include/asm/fpu/internal.h           |   2 +
+ arch/x86/include/asm/fpu/types.h              |  22 ++
+ arch/x86/include/asm/fpu/xstate.h             |   5 +-
+ arch/x86/include/asm/mmu_context.h            |   3 +
+ arch/x86/include/asm/msr-index.h              |  18 +
+ arch/x86/include/asm/pgtable.h                | 197 +++++++++-
+ arch/x86/include/asm/pgtable_types.h          |  50 ++-
+ arch/x86/include/asm/processor.h              |   5 +
+ arch/x86/include/asm/special_insns.h          |  32 ++
+ arch/x86/include/asm/traps.h                  |   5 +
+ arch/x86/include/uapi/asm/prctl.h             |   5 +
+ arch/x86/include/uapi/asm/processor-flags.h   |   2 +
+ arch/x86/include/uapi/asm/sigcontext.h        |   9 +
+ arch/x86/kernel/Makefile                      |   2 +
+ arch/x86/kernel/cet.c                         | 344 ++++++++++++++++++
+ arch/x86/kernel/cet_prctl.c                   |  84 +++++
+ arch/x86/kernel/cpu/common.c                  |  25 ++
+ arch/x86/kernel/cpu/cpuid-deps.c              |   2 +
+ arch/x86/kernel/fpu/signal.c                  |  89 +++++
+ arch/x86/kernel/fpu/xstate.c                  |  25 +-
+ arch/x86/kernel/idt.c                         |   4 +
+ arch/x86/kernel/process.c                     |  12 +-
+ arch/x86/kernel/process_64.c                  |  31 ++
+ arch/x86/kernel/relocate_kernel_64.S          |   2 +-
+ arch/x86/kernel/signal.c                      |  10 +
+ arch/x86/kernel/signal_compat.c               |   2 +-
+ arch/x86/kernel/traps.c                       |  59 +++
+ arch/x86/kvm/vmx/vmx.c                        |   2 +-
+ arch/x86/mm/fault.c                           |  18 +
+ arch/x86/mm/mmap.c                            |   2 +
+ arch/x86/mm/pgtable.c                         |  41 +++
+ drivers/gpu/drm/i915/gvt/gtt.c                |   2 +-
+ fs/Kconfig.binfmt                             |   3 +
+ fs/binfmt_elf.c                               | 131 +++++++
+ fs/compat_binfmt_elf.c                        |   4 +
+ fs/proc/task_mmu.c                            |   3 +
+ include/asm-generic/pgtable.h                 |  40 ++
+ include/linux/elf.h                           |  33 ++
+ include/linux/mm.h                            |  28 +-
+ include/uapi/asm-generic/siginfo.h            |   3 +-
+ include/uapi/linux/elf.h                      |  12 +
+ mm/gup.c                                      |   8 +-
+ mm/huge_memory.c                              |  12 +-
+ mm/memory.c                                   |   7 +-
+ mm/mmap.c                                     |   5 +
+ .../arch/x86/include/asm/disabled-features.h  |   8 +-
+ 57 files changed, 1779 insertions(+), 47 deletions(-)
+ create mode 100644 Documentation/x86/intel_cet.rst
+ create mode 100644 arch/x86/include/asm/cet.h
+ create mode 100644 arch/x86/kernel/cet.c
+ create mode 100644 arch/x86/kernel/cet_prctl.c
+
 -- 
-2.25.0
+2.21.0
 
