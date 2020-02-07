@@ -2,114 +2,97 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E39D2155FF5
-	for <lists+linux-api@lfdr.de>; Fri,  7 Feb 2020 21:42:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 77AAD15602A
+	for <lists+linux-api@lfdr.de>; Fri,  7 Feb 2020 21:52:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727455AbgBGUmo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 7 Feb 2020 15:42:44 -0500
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:36645 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727005AbgBGUmo (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 7 Feb 2020 15:42:44 -0500
-Received: by mail-ed1-f68.google.com with SMTP id j17so967394edp.3
-        for <linux-api@vger.kernel.org>; Fri, 07 Feb 2020 12:42:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Qme74oUO2AjF1HKgLPSJvL4CSEChV51xdiVyhj0IraY=;
-        b=bvdo489WkazsFr8MyNsmtfFBn7DsQljQXJ/HOxxSWabU4r6rIEsNpz737+aAgQboHv
-         1gx4Yxk1LbZYkC1W9yfgri+0wFxWOnx8qJ7BuCUbOGkyCIMgZwhZlLN8gGCOhRb/SeqT
-         q4Y20cVFpjN7cHiDrws7RJEuz+CgdcIfo5GiOF/ezfmFqGAoj6+A4t3f2KUfZBo6LCAM
-         TrQGLfTWFH/fwntXGaEhHmzCqCf33+HAfHS28QIf3nfNr7iKy1yp4pWofrcOB8fC5lRW
-         CQL5fCArFohre7uLi8GcE8/5B6mcBcK87J7IAYiICzOary8Eqlj4kD4YSxN9f4yVxSKG
-         VsUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Qme74oUO2AjF1HKgLPSJvL4CSEChV51xdiVyhj0IraY=;
-        b=clqPdPmt5ZW7Ra2L+jZm9QK43n2GcFXOvK8OCmPWQq0A86F40dujdJ/dvWbfuXhIsZ
-         RCKHRytCFM/MZxWAhuK7BeSXFsn8ZnCArZC+prHAcQO+/V+ZeZhY5lLRfGqhOrQuOl9S
-         XjJVAHZlcilkp46aaOHfX7ZmrP39auTWTkWWOHWkraTfx43sV92nhj8kEdLwUwJ0Fl/i
-         VGvOZtzohaYJ/b0au2baTs8XVq91Gq4FjOP7nE57RYPWsFDiwAUn56LvEQB7TouWMOpq
-         1gVryV8ylcuAal+DRtFRuhx8d1MVYIchVPrHa3sglsG+IxfPZa6rLDaMs819dP4Lkk/M
-         wK1g==
-X-Gm-Message-State: APjAAAVsBtbJVMIsa6VBQ1I+UzDa8trrPBfMb+FeTnni3ou1wkAK4j56
-        Bs+D596PIPRpjYIZb9MeZLY1q9arxUk0NMrArG+uGg==
-X-Google-Smtp-Source: APXvYqxd/3AgJCgsBd9lmKhLRCgoBs7ng3LZam3gp52WRCLUPvXrvw3OIwH4OX3lHJRvQnfg33LmrMwxq7BZX3LCu1k=
-X-Received: by 2002:aa7:d355:: with SMTP id m21mr690593edr.312.1581108161876;
- Fri, 07 Feb 2020 12:42:41 -0800 (PST)
+        id S1727048AbgBGUwx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 7 Feb 2020 15:52:53 -0500
+Received: from mail104.syd.optusnet.com.au ([211.29.132.246]:41763 "EHLO
+        mail104.syd.optusnet.com.au" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726947AbgBGUww (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 7 Feb 2020 15:52:52 -0500
+Received: from dread.disaster.area (pa49-181-161-120.pa.nsw.optusnet.com.au [49.181.161.120])
+        by mail104.syd.optusnet.com.au (Postfix) with ESMTPS id 3A7708220F7;
+        Sat,  8 Feb 2020 07:52:45 +1100 (AEDT)
+Received: from dave by dread.disaster.area with local (Exim 4.92.3)
+        (envelope-from <david@fromorbit.com>)
+        id 1j0AcF-0005eN-RY; Sat, 08 Feb 2020 07:52:43 +1100
+Date:   Sat, 8 Feb 2020 07:52:43 +1100
+From:   Dave Chinner <david@fromorbit.com>
+To:     Jeff Layton <jlayton@kernel.org>
+Cc:     viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        andres@anarazel.de, willy@infradead.org, dhowells@redhat.com,
+        hch@infradead.org, jack@suse.cz, akpm@linux-foundation.org
+Subject: Re: [PATCH v3 0/3] vfs: have syncfs() return error when there are
+ writeback errors
+Message-ID: <20200207205243.GP20628@dread.disaster.area>
+References: <20200207170423.377931-1-jlayton@kernel.org>
 MIME-Version: 1.0
-References: <20200123014627.71720-1-bgeffon@google.com> <20200124190625.257659-1-bgeffon@google.com>
- <20200126220650.i4lwljpvohpgvsi2@box> <CADyq12xCK_3MhGi88Am5P6DVZvrW8vqtyJMHO0zjNhvhYegm1w@mail.gmail.com>
- <20200129104655.egvpavc2tzozlbqe@box> <CADyq12xgnVByYOkL=GcszYYKzDpg254QEOFoW8=e1y=bmOCcFQ@mail.gmail.com>
- <20200203130940.enfvdsbn42hhoaki@box>
-In-Reply-To: <20200203130940.enfvdsbn42hhoaki@box>
-From:   Brian Geffon <bgeffon@google.com>
-Date:   Fri, 7 Feb 2020 12:42:15 -0800
-Message-ID: <CADyq12x98QspiWSqNui1OH8+FEUzVyJwxia+ho00S2+Q+PmTjw@mail.gmail.com>
-Subject: Re: [PATCH v2] mm: Add MREMAP_DONTUNMAP to mremap().
-To:     "Kirill A. Shutemov" <kirill@shutemov.name>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        "Michael S . Tsirkin" <mst@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
-        Andy Lutomirski <luto@amacapital.net>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Yu Zhao <yuzhao@google.com>, Jesse Barnes <jsbarnes@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200207170423.377931-1-jlayton@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Optus-CM-Score: 0
+X-Optus-CM-Analysis: v=2.3 cv=W5xGqiek c=1 sm=1 tr=0
+        a=SkgQWeG3jiSQFIjTo4+liA==:117 a=SkgQWeG3jiSQFIjTo4+liA==:17
+        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=l697ptgUJYAA:10
+        a=7-415B0cAAAA:8 a=9kdqgZibw9NIpUqzm0EA:9 a=CjuIK1q_8ugA:10
+        a=biEYGPWJfzWAr4FL6Ov7:22
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Kirill,
-I started a new thread https://lkml.org/lkml/2020/2/7/640 for my v4
-patch. But I wanted to quickly address your comments. Regarding the
-concern around the rmap, no changes actually need to be made. If we
-were to unlink_anon_vma(vma) and then set vma->anon_vma = NULL, that
-would be fine but then as soon as there was a fault the same anon_vma
-would be attached since it's a private anonymous mapping. So there is
-really nothing to do regarding the rmap.
+On Fri, Feb 07, 2020 at 12:04:20PM -0500, Jeff Layton wrote:
+> You're probably wondering -- Where are v1 and v2 sets?
+> 
+> I did the first couple of versions of this set back in 2018, and then
+> got dragged off to work on other things. I'd like to resurrect this set
+> though, as I think it's valuable overall, and I have need of it for some
+> other work I'm doing.
+> 
+> Currently, syncfs does not return errors when one of the inodes fails to
+> be written back. It will return errors based on the legacy AS_EIO and
+> AS_ENOSPC flags when syncing out the block device fails, but that's not
+> particularly helpful for filesystems that aren't backed by a blockdev.
+> It's also possible for a stray sync to lose those errors.
+> 
+> The basic idea is to track writeback errors at the superblock level,
+> so that we can quickly and easily check whether something bad happened
+> without having to fsync each file individually. syncfs is then changed
+> to reliably report writeback errors, and a new ioctl is added to allow
+> userland to get at the current errseq_t value w/o having to sync out
+> anything.
 
-I considered the two flag approach but since I could not come up with
-a concrete use case of MREMAP_MUSTMOVE I decided to just leave the
-single MREMAP_DONTUNMAP flag, the two flag approach would be only for
-clarifying the operations so I'm not sure it's worth it. (Still trying
-to come up with a better name). But I've attached a man page diff to
-the latest patch.
+So what, exactly, can userspace do with this error? It has no idea
+at all what file the writeback failure occurred on or even
+what files syncfs() even acted on so there's no obvious error
+recovery that it could perform on reception of such an error.
 
-Thanks,
-Brian
+> I do have a xfstest for this. I do not yet have manpage patches, but
+> I'm happy to roll some once there is consensus on the interface.
+> 
+> Caveats:
+> 
+> - Having different behavior for an O_PATH descriptor in syncfs is
+>   a bit odd, but it means that we don't have to grow struct file. Is
+>   that acceptable from an API standpoint?
 
-On Mon, Feb 3, 2020 at 5:09 AM Kirill A. Shutemov <kirill@shutemov.name> wrote:
->
-> On Sun, Feb 02, 2020 at 05:17:53AM +0100, Brian Geffon wrote:
-> > On Wed, Jan 29, 2020 at 11:46 AM Kirill A. Shutemov
-> > <kirill@shutemov.name> wrote:
-> > > Any better options for the flag name? (I have none)
-> >
-> > The other option is that it's broken up into two new flags the first
-> > MREMAP_MUSTMOVE which can be used regardless of whether or not you're
-> > leaving the original mapping mapped. This would do exactly what it
-> > describes: move the mapping to a new address with or without
-> > MREMAP_FIXED, this keeps consistency with MAYMOVE.
-> >
-> > The second flag would be the new MREMAP_DONTUNMAP flag which requires
-> > MREMAP_MUSTMOVE, again with or without MREMAP_FIXED.
-> >
-> > What are your thoughts on this?
->
-> Sounds reasonable.
->
-> MREMAP_DONTUNMAP doesn't really convey that you move pages to the new
-> mapping, but leave empty mapping behind. But I guess there's only so much
-> you can encode into the name. (Patch to the man page should do the rest)
->
-> --
->  Kirill A. Shutemov
+It's an ugly wart, IMO. But because we suck at APIs, I'm betting
+that we'll decide this is OK or do something even worse...
+
+> - This adds a new generic fs ioctl to allow userland to scrape the
+>   current superblock's errseq_t value. It may be best to present this
+>   to userland via fsinfo() instead (once that's merged). I'm fine with
+>   dropping the last patch for now and reworking it for fsinfo if so.
+
+What, exactly, is this useful for? Why would we consider exposing
+an internal implementation detail to userspace like this?
+
+Cheers,
+
+Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
