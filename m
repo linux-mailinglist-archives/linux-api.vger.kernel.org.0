@@ -2,51 +2,51 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 332BC1585DB
-	for <lists+linux-api@lfdr.de>; Tue, 11 Feb 2020 00:00:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 90C70158606
+	for <lists+linux-api@lfdr.de>; Tue, 11 Feb 2020 00:13:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727435AbgBJXAz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 10 Feb 2020 18:00:55 -0500
-Received: from mail-io1-f68.google.com ([209.85.166.68]:40812 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727116AbgBJXAz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 10 Feb 2020 18:00:55 -0500
-Received: by mail-io1-f68.google.com with SMTP id x1so9549866iop.7;
-        Mon, 10 Feb 2020 15:00:53 -0800 (PST)
+        id S1727435AbgBJXNF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 10 Feb 2020 18:13:05 -0500
+Received: from mail-il1-f196.google.com ([209.85.166.196]:46617 "EHLO
+        mail-il1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727422AbgBJXNF (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 10 Feb 2020 18:13:05 -0500
+Received: by mail-il1-f196.google.com with SMTP id t17so1777318ilm.13;
+        Mon, 10 Feb 2020 15:13:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=1GbLazgKB19MbXn6Oj3r1xyBUPFhMrKwhfgx4UxB4DI=;
-        b=ELA/M9KsvK2kRfNK2+Mbq1zSny53O1tqyhFriNqswtgOxKTvnPpkQk3VQe34gGJl/3
-         i/rBtSkSrIR5l9fT0OM/QxjHAUEq+Yhqqs1Lcub+SRaplhiNxcenoiCGBvtmNxKS2uml
-         y2Lj8ojDqyS6ix9Cq+LNNklmEMMeR2dETzY48JYnpkyzPNFKtxt811ndu1G2Xx20n34j
-         fU3sHOEWytHdVPWhKOgVN8q7RUu4n0ZCY+y+c1A4yGjuAjZo8VNPSY+B+x33D9vVz9IE
-         LWYrgffITM4BF5EWWQI+qOpuMOvS1v39psFDl1sh89+wBHkdVoY4ivBPPvMDPMVNMYCb
-         Fgqg==
+        bh=94ZdrxwQP1++2+57igxiGpwY0OWBi7u5WQy0d6CqXYg=;
+        b=PcoIaKD7tbZdgLNmUEXt2KmnCvsYm4xQI4sudxffeOY7Tiq69BlYX0kTlgicLRfRHq
+         jNnr87yJTVEExaYRyw9XvJ3J7iL7h7GYHMETNzW9lkf38/g9scoBRrwbsvQjOPmXKLkq
+         WrAOVa18vSm6l7j08No0uSZcAIIZhIZWgRasu5W/3yf5Dz28dVdQBJ83EIR5AQerKnH6
+         VaDGQ7QaqwvRssiIlyYkiwtwwD/IY8mhijlm3ahP4nhAEviPu5JG6tEkxXt4L6v31ulR
+         Yp2vml36aB/yZPJ3wqCKw3TW16Ap9xepH3DFzG7joLEUx4k7MHgGpZo4mIFuBIsmDg/h
+         dxLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=1GbLazgKB19MbXn6Oj3r1xyBUPFhMrKwhfgx4UxB4DI=;
-        b=JD4b5+EK4giHDYMrAYI5JOXz5oZkkkfA+TohiKUv2ss8N0KvxRL0/ExvCzoKxSswRl
-         Bh9MeJM2+/q7xfyzpHKwi8ip9gsEHwuQPpS9psaRVi5/uXQ6uhDPs/bkokEQ12ifxHx0
-         hZmWhMbvFBzOondw8LJ1QfBlv8bjfZM1L+RkEuq6Y/Vp9as1t5zd7hlV8mtLLq8f/t7V
-         pFDIvm602Iqg2QtAIKA2TdPIxF+45z6mo7MjRJzXqUO4yYtB/em+oTAr+uoxuEny+YWC
-         q3YsE7sEz5c14rQBDEIp8FF+rLiD2PbwGmdK5zjxlR6TNuW41Hz/CojOOs1HnoX3PdWb
-         714w==
-X-Gm-Message-State: APjAAAVCSIKMqqGmWW/DsTK7ZYm3tQYKB/ex30hA1ZAESB0129Bukouk
-        xIOdhziG3AmTSqZJIzVFdE6L0ozGZnhbm3DG/U8=
-X-Google-Smtp-Source: APXvYqyUQsDuu8a3xnAg5pFL8gdgQWiKzbBIiBiI/Wpk4uhwN8hs2xPqmiYU1ekX3AvqY+iD9bKcz+4DcqySI20d4IU=
-X-Received: by 2002:a5d:97d7:: with SMTP id k23mr10314828ios.97.1581375652514;
- Mon, 10 Feb 2020 15:00:52 -0800 (PST)
+        bh=94ZdrxwQP1++2+57igxiGpwY0OWBi7u5WQy0d6CqXYg=;
+        b=YsOaSC6QvGq5EQOHJd0CyVCCFDM3rnpzls/Nupk66aNx5Dt7ToTfxo2+AaEAG0HO9C
+         xb3MJfq1lJu/db/EnDeVhdUhUmtEJrpUtMWwjcl1OkExptyDTFer85Y3Cl+bot0YQL5u
+         CXhmZONHzmalsQeXg/AzikzwEDwuZAhEdf3N9C0lMtABM4/JgAXUtq6yB/7K4Q9evBgS
+         5rxT0w91aWHPmaVyf2ZwB1dC8TQXcsB8b6Ch2/YGOqlRJAjjhHEq0YuH3DW6BlFuypSG
+         G+v6cKtyWYDWwSA8VWQDrzc82vHa7SHCVQal0BHLNG/ayOXYzYDN2s4G1kTD84mLbSIN
+         hgLw==
+X-Gm-Message-State: APjAAAXBkfZu3oQfEAznB3o8Eg0x6JjS0QQw3fnE/sXub/ZT8Rl1fByQ
+        JQ3K8QjTr/Yu9GudLzTQJ3AeL0hf6fVrV/BCzW0=
+X-Google-Smtp-Source: APXvYqzYb8NMk1n3a8T4EB7o9uXLe4Fcx0D0yI8gD7+dI3IQ933dZ9rbhnKJfRKS8E61ad0wmzVcGrulVB8YxEHjsUc=
+X-Received: by 2002:a92:dac3:: with SMTP id o3mr3950136ilq.237.1581376382942;
+ Mon, 10 Feb 2020 15:13:02 -0800 (PST)
 MIME-Version: 1.0
-References: <20200128001641.5086-1-minchan@kernel.org> <20200128001641.5086-2-minchan@kernel.org>
-In-Reply-To: <20200128001641.5086-2-minchan@kernel.org>
+References: <20200128001641.5086-1-minchan@kernel.org> <20200128001641.5086-6-minchan@kernel.org>
+In-Reply-To: <20200128001641.5086-6-minchan@kernel.org>
 From:   Alexander Duyck <alexander.duyck@gmail.com>
-Date:   Mon, 10 Feb 2020 15:00:41 -0800
-Message-ID: <CAKgT0UcsB_isBHGH-z5L9kMWma5dy0qc-OZTDLyFhYYs68iFog@mail.gmail.com>
-Subject: Re: [PATCH v3 1/5] mm: factor out madvise's core functionality
+Date:   Mon, 10 Feb 2020 15:12:52 -0800
+Message-ID: <CAKgT0Ue9y=CL-f8xNXLo70nSk1wR_tG6TYXQUYpfk42PkHWeug@mail.gmail.com>
+Subject: Re: [PATCH v3 5/5] mm: support both pid and pidfd for process_madvise
 To:     Minchan Kim <minchan@kernel.org>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         LKML <linux-kernel@vger.kernel.org>,
@@ -71,426 +71,194 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 On Mon, Jan 27, 2020 at 4:17 PM Minchan Kim <minchan@kernel.org> wrote:
 >
-> This patch factor out madvise's core functionality so that upcoming
-> patch can reuse it without duplication. It shouldn't change any behavior.
+> There is a demand[1] to support pid as well pidfd for process_madvise
+> to reduce unncessary syscall to get pidfd if the user has control of
+> the targer process(ie, they could gaurantee the process is not gone
+> or pid is not reused. Or, it might be okay to give a hint to wrong
+> process).
+
+It looks like you misspelled several items in here including
+"unnecessary", "target", and "guarantee".
+
+> This patch aims for supporting both options like waitid(2). So, the
+> syscall is currently,
 >
+>         int process_madvise(int which, pid_t pid, void *addr,
+>                 size_t length, int advise, unsigned long flag);
+>
+> @which is actually idtype_t for userspace libray and currently,
+> it supports P_PID and P_PIDFD.
+>
+> [1]  https://lore.kernel.org/linux-mm/9d849087-3359-c4ab-fbec-859e8186c509@virtuozzo.com/
 > Signed-off-by: Minchan Kim <minchan@kernel.org>
-
-There is a lot to unpack here. I really feel like this description
-doesn't do the changes below any service. Really I feel like this
-patch should probably be broken up over a few patches to make it
-easier to review.
-
-You have the moving of the function form the syscall madvise to the
-function madvise_common. Then you have various function arguments that
-are being added throughout.
-
-Also this patchset needs to be rebased. It looks like there is already
-a patch that is making madvise accessible:
-https://lore.kernel.org/io-uring/20200110154739.2119-3-axboe@kernel.dk/
-
 > ---
->  mm/madvise.c | 194 +++++++++++++++++++++++++++++----------------------
->  1 file changed, 111 insertions(+), 83 deletions(-)
+>  include/linux/pid.h      |  1 +
+>  include/linux/syscalls.h |  3 ++-
+>  kernel/exit.c            | 17 -----------------
+>  kernel/pid.c             | 17 +++++++++++++++++
+>  mm/madvise.c             | 34 ++++++++++++++++++++++------------
+>  5 files changed, 42 insertions(+), 30 deletions(-)
 >
+> diff --git a/include/linux/pid.h b/include/linux/pid.h
+> index 998ae7d24450..023d9c3a8edc 100644
+> --- a/include/linux/pid.h
+> +++ b/include/linux/pid.h
+> @@ -75,6 +75,7 @@ extern const struct file_operations pidfd_fops;
+>  struct file;
+>
+>  extern struct pid *pidfd_pid(const struct file *file);
+> +extern struct pid *pidfd_get_pid(unsigned int fd);
+>
+>  static inline struct pid *get_pid(struct pid *pid)
+>  {
+
+So really this is two patches interleaved. You have the moving of the
+pidfd_get_pid function and the update of the syscall. Personally I
+would make the function move a separate patch and place it before you
+define the syscall and fold the syscall changes into your original
+patch.
+
+Doing that you wouldn't have to worry about the syscall changing in
+behavior midway through a bisect. It would either be there or it
+wouldn't.
+
+> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+> index 1b58a11ff49f..27060e59db37 100644
+> --- a/include/linux/syscalls.h
+> +++ b/include/linux/syscalls.h
+> @@ -877,7 +877,8 @@ asmlinkage long sys_munlockall(void);
+>  asmlinkage long sys_mincore(unsigned long start, size_t len,
+>                                 unsigned char __user * vec);
+>  asmlinkage long sys_madvise(unsigned long start, size_t len, int behavior);
+> -asmlinkage long sys_process_madvise(int pidfd, unsigned long start,
+> +
+> +asmlinkage long sys_process_madvise(int which, pid_t pid, unsigned long start,
+>                         size_t len, int behavior, unsigned long flags);
+>  asmlinkage long sys_remap_file_pages(unsigned long start, unsigned long size,
+>                         unsigned long prot, unsigned long pgoff,
+> diff --git a/kernel/exit.c b/kernel/exit.c
+> index bcbd59888e67..7698843b1411 100644
+> --- a/kernel/exit.c
+> +++ b/kernel/exit.c
+> @@ -1466,23 +1466,6 @@ static long do_wait(struct wait_opts *wo)
+>         return retval;
+>  }
+>
+> -static struct pid *pidfd_get_pid(unsigned int fd)
+> -{
+> -       struct fd f;
+> -       struct pid *pid;
+> -
+> -       f = fdget(fd);
+> -       if (!f.file)
+> -               return ERR_PTR(-EBADF);
+> -
+> -       pid = pidfd_pid(f.file);
+> -       if (!IS_ERR(pid))
+> -               get_pid(pid);
+> -
+> -       fdput(f);
+> -       return pid;
+> -}
+> -
+>  static long kernel_waitid(int which, pid_t upid, struct waitid_info *infop,
+>                           int options, struct rusage *ru)
+>  {
+> diff --git a/kernel/pid.c b/kernel/pid.c
+> index 2278e249141d..a41a89d5dad2 100644
+> --- a/kernel/pid.c
+> +++ b/kernel/pid.c
+> @@ -496,6 +496,23 @@ struct pid *find_ge_pid(int nr, struct pid_namespace *ns)
+>         return idr_get_next(&ns->idr, &nr);
+>  }
+>
+> +struct pid *pidfd_get_pid(unsigned int fd)
+> +{
+> +       struct fd f;
+> +       struct pid *pid;
+> +
+> +       f = fdget(fd);
+> +       if (!f.file)
+> +               return ERR_PTR(-EBADF);
+> +
+> +       pid = pidfd_pid(f.file);
+> +       if (!IS_ERR(pid))
+> +               get_pid(pid);
+> +
+> +       fdput(f);
+> +       return pid;
+> +}
+> +
+>  /**
+>   * pidfd_create() - Create a new pid file descriptor.
+>   *
 > diff --git a/mm/madvise.c b/mm/madvise.c
-> index bcdb6a042787..0c901de531e4 100644
+> index 39c40cbb389e..ba3a9bd8ea27 100644
 > --- a/mm/madvise.c
 > +++ b/mm/madvise.c
-> @@ -35,6 +35,7 @@
->  struct madvise_walk_private {
->         struct mmu_gather *tlb;
->         bool pageout;
-> +       struct task_struct *task;
->  };
->
->  /*
-> @@ -306,12 +307,13 @@ static int madvise_cold_or_pageout_pte_range(pmd_t *pmd,
->         bool pageout = private->pageout;
->         struct mm_struct *mm = tlb->mm;
->         struct vm_area_struct *vma = walk->vma;
-> +       struct task_struct *task = private->task;
->         pte_t *orig_pte, *pte, ptent;
->         spinlock_t *ptl;
->         struct page *page = NULL;
->         LIST_HEAD(page_list);
->
-> -       if (fatal_signal_pending(current))
-> +       if (fatal_signal_pending(task))
->                 return -EINTR;
->
->  #ifdef CONFIG_TRANSPARENT_HUGEPAGE
-
-Is this the only spot in this function that uses the task? If so why
-bother with adding the argument above and not just call private->task
-instead of current?
-
-> @@ -469,12 +471,14 @@ static const struct mm_walk_ops cold_walk_ops = {
->  };
->
->  static void madvise_cold_page_range(struct mmu_gather *tlb,
-> +                            struct task_struct *task,
->                              struct vm_area_struct *vma,
->                              unsigned long addr, unsigned long end)
->  {
->         struct madvise_walk_private walk_private = {
->                 .pageout = false,
->                 .tlb = tlb,
-> +               .task = task,
->         };
->
->         tlb_start_vma(tlb, vma);
-> @@ -482,7 +486,7 @@ static void madvise_cold_page_range(struct mmu_gather *tlb,
->         tlb_end_vma(tlb, vma);
+> @@ -1197,11 +1197,10 @@ SYSCALL_DEFINE3(madvise, unsigned long, start, size_t, len_in, int, behavior)
+>         return madvise_common(current, current->mm, start, len_in, behavior);
 >  }
 >
-> -static long madvise_cold(struct vm_area_struct *vma,
-> +static long madvise_cold(struct task_struct *task, struct vm_area_struct *vma,
->                         struct vm_area_struct **prev,
->                         unsigned long start_addr, unsigned long end_addr)
+> -SYSCALL_DEFINE5(process_madvise, int, pidfd, unsigned long, start,
+> +SYSCALL_DEFINE6(process_madvise, int, which, pid_t, upid, unsigned long, start,
+>                 size_t, len_in, int, behavior, unsigned long, flags)
 >  {
-> @@ -495,19 +499,21 @@ static long madvise_cold(struct vm_area_struct *vma,
+>         int ret;
+> -       struct fd f;
+>         struct pid *pid;
+>         struct task_struct *task;
+>         struct mm_struct *mm;
+> @@ -1212,20 +1211,31 @@ SYSCALL_DEFINE5(process_madvise, int, pidfd, unsigned long, start,
+>         if (!process_madvise_behavior_valid(behavior))
+>                 return -EINVAL;
 >
->         lru_add_drain();
->         tlb_gather_mmu(&tlb, mm, start_addr, end_addr);
-> -       madvise_cold_page_range(&tlb, vma, start_addr, end_addr);
-> +       madvise_cold_page_range(&tlb, task, vma, start_addr, end_addr);
->         tlb_finish_mmu(&tlb, start_addr, end_addr);
->
->         return 0;
->  }
->
-
-Is there any specific reason for adding the task in the middle of the
-list of arguments instead of just placing it at the end? It makes it a
-bit harder to review when arguments are added in the middle of the
-argument list, or at least that is my opinion.
-
->  static void madvise_pageout_page_range(struct mmu_gather *tlb,
-> +                            struct task_struct *task,
->                              struct vm_area_struct *vma,
->                              unsigned long addr, unsigned long end)
->  {
->         struct madvise_walk_private walk_private = {
->                 .pageout = true,
->                 .tlb = tlb,
-> +               .task = task,
->         };
->
->         tlb_start_vma(tlb, vma);
-> @@ -531,9 +537,9 @@ static inline bool can_do_pageout(struct vm_area_struct *vma)
->                 inode_permission(file_inode(vma->vm_file), MAY_WRITE) == 0;
->  }
->
-> -static long madvise_pageout(struct vm_area_struct *vma,
-> -                       struct vm_area_struct **prev,
-> -                       unsigned long start_addr, unsigned long end_addr)
-> +static long madvise_pageout(struct task_struct *task,
-> +               struct vm_area_struct *vma, struct vm_area_struct **prev,
-> +               unsigned long start_addr, unsigned long end_addr)
->  {
->         struct mm_struct *mm = vma->vm_mm;
->         struct mmu_gather tlb;
-> @@ -547,7 +553,7 @@ static long madvise_pageout(struct vm_area_struct *vma,
->
->         lru_add_drain();
->         tlb_gather_mmu(&tlb, mm, start_addr, end_addr);
-> -       madvise_pageout_page_range(&tlb, vma, start_addr, end_addr);
-> +       madvise_pageout_page_range(&tlb, task, vma, start_addr, end_addr);
->         tlb_finish_mmu(&tlb, start_addr, end_addr);
->
->         return 0;
-> @@ -751,7 +757,8 @@ static long madvise_dontneed_single_vma(struct vm_area_struct *vma,
->         return 0;
->  }
->
-
-Okay so we were adding a task_struct pointer as an argument up to this
-point and now we are switching to adding an mm_struct pointer here. I
-would split these two off as separate patches and explain in the patch
-description why you are doing that instead of just passing the task
-here as well and then accessing task->mm.
-
-
-> -static long madvise_dontneed_free(struct vm_area_struct *vma,
-> +static long madvise_dontneed_free(struct mm_struct *mm,
-> +                                 struct vm_area_struct *vma,
->                                   struct vm_area_struct **prev,
->                                   unsigned long start, unsigned long end,
->                                   int behavior)
-> @@ -763,8 +770,8 @@ static long madvise_dontneed_free(struct vm_area_struct *vma,
->         if (!userfaultfd_remove(vma, start, end)) {
->                 *prev = NULL; /* mmap_sem has been dropped, prev is stale */
->
-> -               down_read(&current->mm->mmap_sem);
-> -               vma = find_vma(current->mm, start);
-> +               down_read(&mm->mmap_sem);
-> +               vma = find_vma(mm, start);
->                 if (!vma)
->                         return -ENOMEM;
->                 if (start < vma->vm_start) {
-> @@ -811,7 +818,8 @@ static long madvise_dontneed_free(struct vm_area_struct *vma,
->   * Application wants to free up the pages and associated backing store.
->   * This is effectively punching a hole into the middle of a file.
->   */
-> -static long madvise_remove(struct vm_area_struct *vma,
-> +static long madvise_remove(struct mm_struct *mm,
-> +                               struct vm_area_struct *vma,
->                                 struct vm_area_struct **prev,
->                                 unsigned long start, unsigned long end)
->  {
-> @@ -845,13 +853,13 @@ static long madvise_remove(struct vm_area_struct *vma,
->         get_file(f);
->         if (userfaultfd_remove(vma, start, end)) {
->                 /* mmap_sem was not released by userfaultfd_remove() */
-> -               up_read(&current->mm->mmap_sem);
-> +               up_read(&mm->mmap_sem);
->         }
->         error = vfs_fallocate(f,
->                                 FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE,
->                                 offset, end - start);
->         fput(f);
-> -       down_read(&current->mm->mmap_sem);
-> +       down_read(&mm->mmap_sem);
->         return error;
->  }
->
-> @@ -925,21 +933,23 @@ static int madvise_inject_error(int behavior,
->  #endif
->
->  static long
-> -madvise_vma(struct vm_area_struct *vma, struct vm_area_struct **prev,
-> +madvise_vma(struct task_struct *task, struct mm_struct *mm,
-> +               struct vm_area_struct *vma, struct vm_area_struct **prev,
->                 unsigned long start, unsigned long end, int behavior)
->  {
->         switch (behavior) {
->         case MADV_REMOVE:
-> -               return madvise_remove(vma, prev, start, end);
-> +               return madvise_remove(mm, vma, prev, start, end);
->         case MADV_WILLNEED:
->                 return madvise_willneed(vma, prev, start, end);
->         case MADV_COLD:
-> -               return madvise_cold(vma, prev, start, end);
-> +               return madvise_cold(task, vma, prev, start, end);
->         case MADV_PAGEOUT:
-> -               return madvise_pageout(vma, prev, start, end);
-> +               return madvise_pageout(task, vma, prev, start, end);
->         case MADV_FREE:
->         case MADV_DONTNEED:
-> -               return madvise_dontneed_free(vma, prev, start, end, behavior);
-> +               return madvise_dontneed_free(mm, vma, prev, start,
-> +                                               end, behavior);
->         default:
->                 return madvise_behavior(vma, prev, start, end, behavior);
->         }
-
-Here you added both task and mm. Is ti truly necessary to have both?
-Would it be possible to make use of either task->mm or mm->owner in
-order to make it so that you only had to carry one of these?
-
-> @@ -984,67 +994,19 @@ madvise_behavior_valid(int behavior)
->  }
->
->  /*
-> - * The madvise(2) system call.
-> + * madvise_common - request behavior hint to address range of the target process
->   *
-> - * Applications can use madvise() to advise the kernel how it should
-> - * handle paging I/O in this VM area.  The idea is to help the kernel
-> - * use appropriate read-ahead and caching techniques.  The information
-> - * provided is advisory only, and can be safely disregarded by the
-> - * kernel without affecting the correct operation of the application.
-> + * @task: task_struct got behavior hint, not giving the hint
-> + * @mm: mm_struct got behavior hint, not giving the hint
-> + * @start: base address of the hinted range
-> + * @len_in: length of the hinted range
-> + * @behavior: requested hint
->   *
-> - * behavior values:
-> - *  MADV_NORMAL - the default behavior is to read clusters.  This
-> - *             results in some read-ahead and read-behind.
-> - *  MADV_RANDOM - the system should read the minimum amount of data
-> - *             on any access, since it is unlikely that the appli-
-> - *             cation will need more than what it asks for.
-> - *  MADV_SEQUENTIAL - pages in the given range will probably be accessed
-> - *             once, so they can be aggressively read ahead, and
-> - *             can be freed soon after they are accessed.
-> - *  MADV_WILLNEED - the application is notifying the system to read
-> - *             some pages ahead.
-> - *  MADV_DONTNEED - the application is finished with the given range,
-> - *             so the kernel can free resources associated with it.
-> - *  MADV_FREE - the application marks pages in the given range as lazy free,
-> - *             where actual purges are postponed until memory pressure happens.
-> - *  MADV_REMOVE - the application wants to free up the given range of
-> - *             pages and associated backing store.
-> - *  MADV_DONTFORK - omit this area from child's address space when forking:
-> - *             typically, to avoid COWing pages pinned by get_user_pages().
-> - *  MADV_DOFORK - cancel MADV_DONTFORK: no longer omit this area when forking.
-> - *  MADV_WIPEONFORK - present the child process with zero-filled memory in this
-> - *              range after a fork.
-> - *  MADV_KEEPONFORK - undo the effect of MADV_WIPEONFORK
-> - *  MADV_HWPOISON - trigger memory error handler as if the given memory range
-> - *             were corrupted by unrecoverable hardware memory failure.
-> - *  MADV_SOFT_OFFLINE - try to soft-offline the given range of memory.
-> - *  MADV_MERGEABLE - the application recommends that KSM try to merge pages in
-> - *             this area with pages of identical content from other such areas.
-> - *  MADV_UNMERGEABLE- cancel MADV_MERGEABLE: no longer merge pages with others.
-> - *  MADV_HUGEPAGE - the application wants to back the given range by transparent
-> - *             huge pages in the future. Existing pages might be coalesced and
-> - *             new pages might be allocated as THP.
-> - *  MADV_NOHUGEPAGE - mark the given range as not worth being backed by
-> - *             transparent huge pages so the existing pages will not be
-> - *             coalesced into THP and new pages will not be allocated as THP.
-> - *  MADV_DONTDUMP - the application wants to prevent pages in the given range
-> - *             from being included in its core dump.
-> - *  MADV_DODUMP - cancel MADV_DONTDUMP: no longer exclude from core dump.
-> - *
-> - * return values:
-> - *  zero    - success
-> - *  -EINVAL - start + len < 0, start is not page-aligned,
-> - *             "behavior" is not a valid value, or application
-> - *             is attempting to release locked or shared pages,
-> - *             or the specified address range includes file, Huge TLB,
-> - *             MAP_SHARED or VMPFNMAP range.
-> - *  -ENOMEM - addresses in the specified range are not currently
-> - *             mapped, or are outside the AS of the process.
-> - *  -EIO    - an I/O error occurred while paging in data.
-> - *  -EBADF  - map exists, but area maps something that isn't a file.
-> - *  -EAGAIN - a kernel resource was temporarily unavailable.
-> + * @task could be a zombie leader if it calls sys_exit so accessing mm_struct
-> + * via task->mm is prohibited. Please use @mm instead of task->mm.
->   */
-> -SYSCALL_DEFINE3(madvise, unsigned long, start, size_t, len_in, int, behavior)
-> +static int madvise_common(struct task_struct *task, struct mm_struct *mm,
-> +                       unsigned long start, size_t len_in, int behavior)
->  {
->         unsigned long end, tmp;
->         struct vm_area_struct *vma, *prev;
-
-So I would save this piece and move it to a separate patch. All of the
-noise from the comment move would be greatly reduced and make it
-easier to review the rest of this.
-
-> @@ -1082,10 +1044,10 @@ SYSCALL_DEFINE3(madvise, unsigned long, start, size_t, len_in, int, behavior)
->
->         write = madvise_need_mmap_write(behavior);
->         if (write) {
-> -               if (down_write_killable(&current->mm->mmap_sem))
-> +               if (down_write_killable(&mm->mmap_sem))
->                         return -EINTR;
->         } else {
-> -               down_read(&current->mm->mmap_sem);
-> +               down_read(&mm->mmap_sem);
->         }
->
->         /*
-> @@ -1093,7 +1055,7 @@ SYSCALL_DEFINE3(madvise, unsigned long, start, size_t, len_in, int, behavior)
->          * ranges, just ignore them, but return -ENOMEM at the end.
->          * - different from the way of handling in mlock etc.
->          */
-> -       vma = find_vma_prev(current->mm, start, &prev);
-> +       vma = find_vma_prev(mm, start, &prev);
->         if (vma && start > vma->vm_start)
->                 prev = vma;
->
-> @@ -1118,7 +1080,7 @@ SYSCALL_DEFINE3(madvise, unsigned long, start, size_t, len_in, int, behavior)
->                         tmp = end;
->
->                 /* Here vma->vm_start <= start < tmp <= (end|vma->vm_end). */
-> -               error = madvise_vma(vma, &prev, start, tmp, behavior);
-> +               error = madvise_vma(task, mm, vma, &prev, start, tmp, behavior);
->                 if (error)
->                         goto out;
->                 start = tmp;
-> @@ -1130,14 +1092,80 @@ SYSCALL_DEFINE3(madvise, unsigned long, start, size_t, len_in, int, behavior)
->                 if (prev)
->                         vma = prev->vm_next;
->                 else    /* madvise_remove dropped mmap_sem */
-> -                       vma = find_vma(current->mm, start);
-> +                       vma = find_vma(mm, start);
->         }
->  out:
->         blk_finish_plug(&plug);
->         if (write)
-> -               up_write(&current->mm->mmap_sem);
-> +               up_write(&mm->mmap_sem);
->         else
-> -               up_read(&current->mm->mmap_sem);
-> +               up_read(&mm->mmap_sem);
->
->         return error;
->  }
-
-Okay so the rest of this is just more of the task/mm being added as
-separate arguments.
-
+> -       f = fdget(pidfd);
+> -       if (!f.file)
+> -               return -EBADF;
+> +       switch (which) {
+> +       case P_PID:
+> +               if (upid <= 0)
+> +                       return -EINVAL;
 > +
-> +/*
-> + * The madvise(2) system call.
-> + *
-> + * Applications can use madvise() to advise the kernel how it should
-> + * handle paging I/O in this VM area.  The idea is to help the kernel
-> + * use appropriate read-ahead and caching techniques.  The information
-> + * provided is advisory only, and can be safely disregarded by the
-> + * kernel without affecting the correct operation of the application.
-> + *
-> + * behavior values:
-> + *  MADV_NORMAL - the default behavior is to read clusters.  This
-> + *             results in some read-ahead and read-behind.
-> + *  MADV_RANDOM - the system should read the minimum amount of data
-> + *             on any access, since it is unlikely that the appli-
-> + *             cation will need more than what it asks for.
-> + *  MADV_SEQUENTIAL - pages in the given range will probably be accessed
-> + *             once, so they can be aggressively read ahead, and
-> + *             can be freed soon after they are accessed.
-> + *  MADV_WILLNEED - the application is notifying the system to read
-> + *             some pages ahead.
-> + *  MADV_DONTNEED - the application is finished with the given range,
-> + *             so the kernel can free resources associated with it.
-> + *  MADV_FREE - the application marks pages in the given range as lazy free,
-> + *             where actual purges are postponed until memory pressure happens.
-> + *  MADV_REMOVE - the application wants to free up the given range of
-> + *             pages and associated backing store.
-> + *  MADV_DONTFORK - omit this area from child's address space when forking:
-> + *             typically, to avoid COWing pages pinned by get_user_pages().
-> + *  MADV_DOFORK - cancel MADV_DONTFORK: no longer omit this area when forking.
-> + *  MADV_WIPEONFORK - present the child process with zero-filled memory in this
-> + *              range after a fork.
-> + *  MADV_KEEPONFORK - undo the effect of MADV_WIPEONFORK
-> + *  MADV_HWPOISON - trigger memory error handler as if the given memory range
-> + *             were corrupted by unrecoverable hardware memory failure.
-> + *  MADV_SOFT_OFFLINE - try to soft-offline the given range of memory.
-> + *  MADV_MERGEABLE - the application recommends that KSM try to merge pages in
-> + *             this area with pages of identical content from other such areas.
-> + *  MADV_UNMERGEABLE- cancel MADV_MERGEABLE: no longer merge pages with others.
-> + *  MADV_HUGEPAGE - the application wants to back the given range by transparent
-> + *             huge pages in the future. Existing pages might be coalesced and
-> + *             new pages might be allocated as THP.
-> + *  MADV_NOHUGEPAGE - mark the given range as not worth being backed by
-> + *             transparent huge pages so the existing pages will not be
-> + *             coalesced into THP and new pages will not be allocated as THP.
-> + *  MADV_DONTDUMP - the application wants to prevent pages in the given range
-> + *             from being included in its core dump.
-> + *  MADV_DODUMP - cancel MADV_DONTDUMP: no longer exclude from core dump.
-> + *
-> + * return values:
-> + *  zero    - success
-> + *  -EINVAL - start + len < 0, start is not page-aligned,
-> + *             "behavior" is not a valid value, or application
-> + *             is attempting to release locked or shared pages,
-> + *             or the specified address range includes file, Huge TLB,
-> + *             MAP_SHARED or VMPFNMAP range.
-> + *  -ENOMEM - addresses in the specified range are not currently
-> + *             mapped, or are outside the AS of the process.
-> + *  -EIO    - an I/O error occurred while paging in data.
-> + *  -EBADF  - map exists, but area maps something that isn't a file.
-> + *  -EAGAIN - a kernel resource was temporarily unavailable.
-> + */
-> +SYSCALL_DEFINE3(madvise, unsigned long, start, size_t, len_in, int, behavior)
-> +{
-> +       return madvise_common(current, current->mm, start, len_in, behavior);
-> +}
+> +               pid = find_get_pid(upid);
+> +               if (!pid)
+> +                       return -ESRCH;
+> +               break;
+> +       case P_PIDFD:
+> +               if (upid < 0)
+> +                       return -EINVAL;
+>
+> -       pid = pidfd_pid(f.file);
+> -       if (IS_ERR(pid)) {
+> -               ret = PTR_ERR(pid);
+> -               goto fdput;
+> +               pid = pidfd_get_pid(upid);
+> +               if (IS_ERR(pid))
+> +                       return PTR_ERR(pid);
+> +               break;
+> +       default:
+> +               return -EINVAL;
+>         }
+>
+>         task = get_pid_task(pid, PIDTYPE_PID);
+>         if (!task) {
+>                 ret = -ESRCH;
+> -               goto fdput;
+> +               goto put_pid;
+>         }
+>
+>         mm = mm_access(task, PTRACE_MODE_ATTACH_FSCREDS);
+> @@ -1238,7 +1248,7 @@ SYSCALL_DEFINE5(process_madvise, int, pidfd, unsigned long, start,
+>         mmput(mm);
+>  release_task:
+>         put_task_struct(task);
+> -fdput:
+> -       fdput(f);
+> +put_pid:
+> +       put_pid(pid);
+>         return ret;
+>  }
 > --
 > 2.25.0.341.g760bfbb309-goog
 >
