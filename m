@@ -2,177 +2,309 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 64BE5157D1F
-	for <lists+linux-api@lfdr.de>; Mon, 10 Feb 2020 15:13:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B146157E1A
+	for <lists+linux-api@lfdr.de>; Mon, 10 Feb 2020 16:06:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728419AbgBJONJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 10 Feb 2020 09:13:09 -0500
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:42256 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727481AbgBJONI (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 10 Feb 2020 09:13:08 -0500
-Received: by mail-ed1-f66.google.com with SMTP id e10so403959edv.9
-        for <linux-api@vger.kernel.org>; Mon, 10 Feb 2020 06:13:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=wf4e7kPdeIlR7B2PF4Li/BskNnaF9BNb5AtyMbRKOb0=;
-        b=r77yba+el8su8MsJ5fvHC4C48dyn/FGPgo1CIBD3cjZrRPybyqleH7TNBvuXrqo1Na
-         hhJOBd3Wi3xTSYjlZBFvTtceT04IynAjM48nIMbFxMaNlWpAnx4Hc+mZyQI/U10KZN0S
-         TfE/crwdR0foLKFayS22P2S2o+KdtdtaFB77XtzDXO5xarntOrfTjrnAKTJTRYvaxrNx
-         GOrcvMTAhczXtMXU+HZ0KT082668lGBlfvpC1/N19f8Md17vNf4C0kP4k18SH4/WL4y9
-         ltCJtB+PTCHgUXSV8MJ3pfz4UebiiV2koV75eQXOYl7QfJp5g3wjhe3DzO1Gd8M/ykpe
-         195w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wf4e7kPdeIlR7B2PF4Li/BskNnaF9BNb5AtyMbRKOb0=;
-        b=rUuN1pRLO2kCgQJw1KLQUIWjwrvjR5qfy2oYesUMSGAQ79JTNtBpiXcm4fKqFXwEvO
-         qU8rmjmVdglG7m6w7CCgC5qtGc2rz3dbsZI7l9nBmuv1Rxe+A1ihkzRQkUoYXqogBhir
-         PUlOobKN9Nsxf1LjeUb6zbVQHXeaIwt87bwAwzMFzyRobk2mxHPIcbXlF3yCOZctav94
-         L/GG9Ht8Dg1OZpXp9S1Tr03rN7kENo12CmOZ2Oe9Pk72RAAyG0uwjqoGC2i5DwiXLgpF
-         X/lM7yCXdLul5pAMU7xxouG3wm786tELcR7DpJMepyqeUUOOHOErkCDSuR1iYyIG6IzI
-         g8dQ==
-X-Gm-Message-State: APjAAAVvTp2lRq5/SIZ70tvWRIyR8AxaFr9Ksopo6N70obmlM/JbUcMh
-        MebfYfZwbsjqM1ZJ3NcG6akdLfVM5IAkjoKxsWZIUA==
-X-Google-Smtp-Source: APXvYqwAD2SBT/hEJad2wViokulx8jDGBJB2jI2+4XmTPfB/uY3mdosgs20MW5YtWDEPSnrnlToW46tMY84Kz35iyfA=
-X-Received: by 2002:a05:6402:6c7:: with SMTP id n7mr1317419edy.177.1581343986147;
- Mon, 10 Feb 2020 06:13:06 -0800 (PST)
+        id S1728637AbgBJPGD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 10 Feb 2020 10:06:03 -0500
+Received: from monster.unsafe.ru ([5.9.28.80]:53614 "EHLO mail.unsafe.ru"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729026AbgBJPGC (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 10 Feb 2020 10:06:02 -0500
+Received: from comp-core-i7-2640m-0182e6.redhat.com (nat-pool-brq-t.redhat.com [213.175.37.10])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.unsafe.ru (Postfix) with ESMTPSA id 820F7C61AB0;
+        Mon, 10 Feb 2020 15:05:56 +0000 (UTC)
+From:   Alexey Gladkov <gladkov.alexey@gmail.com>
+To:     LKML <linux-kernel@vger.kernel.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        Linux Security Module <linux-security-module@vger.kernel.org>
+Cc:     Akinobu Mita <akinobu.mita@gmail.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Alexey Gladkov <gladkov.alexey@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Daniel Micay <danielmicay@gmail.com>,
+        Djalal Harouni <tixxdz@gmail.com>,
+        "Dmitry V . Levin" <ldv@altlinux.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Jeff Layton <jlayton@poochiereds.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Solar Designer <solar@openwall.com>
+Subject: [PATCH v8 00/11] proc: modernize proc to support multiple private instances
+Date:   Mon, 10 Feb 2020 16:05:08 +0100
+Message-Id: <20200210150519.538333-1-gladkov.alexey@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-References: <20200207201856.46070-1-bgeffon@google.com> <20200210104520.cfs2oytkrf5ihd3m@box>
-In-Reply-To: <20200210104520.cfs2oytkrf5ihd3m@box>
-From:   Brian Geffon <bgeffon@google.com>
-Date:   Mon, 10 Feb 2020 06:12:39 -0800
-Message-ID: <CADyq12wcwvRLwueucHFV2ErL67etOJdFGYQdqVFM2WAeOkMGQA@mail.gmail.com>
-Subject: Re: [PATCH v4] mm: Add MREMAP_DONTUNMAP to mremap().
-To:     "Kirill A. Shutemov" <kirill@shutemov.name>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        "Michael S . Tsirkin" <mst@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
-        Andy Lutomirski <luto@amacapital.net>,
-        Will Deacon <will@kernel.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Yu Zhao <yuzhao@google.com>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Florian Weimer <fweimer@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Kirill,
-If the old_len == new_len then there is no change in the number of
-locked pages they just moved, if the new_len < old_len then the
-process of unmapping (new_len - old_len) bytes from the old mapping
-will handle the locked page accounting. So in this special case where
-we're growing the VMA, vma_to_resize() will enforce that growing the
-vma doesn't exceed RLIMIT_MEMLOCK, but vma_to_resize() doesn't handle
-incrementing mm->locked_bytes which is why we have that special case
-incrementing it here.
+Greetings!
 
-Thanks,
-Brian
+Preface:
+--------
+This is patchset v8 to modernize procfs and make it able to support multiple
+private instances per the same pid namespace.
 
-On Mon, Feb 10, 2020 at 2:45 AM Kirill A. Shutemov <kirill@shutemov.name> wrote:
->
-> On Fri, Feb 07, 2020 at 12:18:56PM -0800, Brian Geffon wrote:
-> > When remapping an anonymous, private mapping, if MREMAP_DONTUNMAP is
-> > set, the source mapping will not be removed. Instead it will be
-> > cleared as if a brand new anonymous, private mapping had been created
-> > atomically as part of the mremap() call.  If a userfaultfd was watching
-> > the source, it will continue to watch the new mapping.  For a mapping
-> > that is shared or not anonymous, MREMAP_DONTUNMAP will cause the
-> > mremap() call to fail. Because MREMAP_DONTUNMAP always results in moving
-> > a VMA you MUST use the MREMAP_MAYMOVE flag. The final result is two
-> > equally sized VMAs where the destination contains the PTEs of the source.
-> >
-> > We hope to use this in Chrome OS where with userfaultfd we could write
-> > an anonymous mapping to disk without having to STOP the process or worry
-> > about VMA permission changes.
-> >
-> > This feature also has a use case in Android, Lokesh Gidra has said
-> > that "As part of using userfaultfd for GC, We'll have to move the physical
-> > pages of the java heap to a separate location. For this purpose mremap
-> > will be used. Without the MREMAP_DONTUNMAP flag, when I mremap the java
-> > heap, its virtual mapping will be removed as well. Therefore, we'll
-> > require performing mmap immediately after. This is not only time consuming
-> > but also opens a time window where a native thread may call mmap and
-> > reserve the java heap's address range for its own usage. This flag
-> > solves the problem."
-> >
-> > Signed-off-by: Brian Geffon <bgeffon@google.com>
-> > ---
-> >  include/uapi/linux/mman.h |  5 +-
-> >  mm/mremap.c               | 98 ++++++++++++++++++++++++++++++---------
-> >  2 files changed, 80 insertions(+), 23 deletions(-)
-> >
-> > diff --git a/include/uapi/linux/mman.h b/include/uapi/linux/mman.h
-> > index fc1a64c3447b..923cc162609c 100644
-> > --- a/include/uapi/linux/mman.h
-> > +++ b/include/uapi/linux/mman.h
-> > @@ -5,8 +5,9 @@
-> >  #include <asm/mman.h>
-> >  #include <asm-generic/hugetlb_encode.h>
-> >
-> > -#define MREMAP_MAYMOVE       1
-> > -#define MREMAP_FIXED 2
-> > +#define MREMAP_MAYMOVE               1
-> > +#define MREMAP_FIXED         2
-> > +#define MREMAP_DONTUNMAP     4
-> >
-> >  #define OVERCOMMIT_GUESS             0
-> >  #define OVERCOMMIT_ALWAYS            1
-> > diff --git a/mm/mremap.c b/mm/mremap.c
-> > index 122938dcec15..9f4aa17f178b 100644
-> > --- a/mm/mremap.c
-> > +++ b/mm/mremap.c
-> > @@ -318,8 +318,8 @@ unsigned long move_page_tables(struct vm_area_struct *vma,
-> >  static unsigned long move_vma(struct vm_area_struct *vma,
-> >               unsigned long old_addr, unsigned long old_len,
-> >               unsigned long new_len, unsigned long new_addr,
-> > -             bool *locked, struct vm_userfaultfd_ctx *uf,
-> > -             struct list_head *uf_unmap)
-> > +             bool *locked, unsigned long flags,
-> > +             struct vm_userfaultfd_ctx *uf, struct list_head *uf_unmap)
-> >  {
-> >       struct mm_struct *mm = vma->vm_mm;
-> >       struct vm_area_struct *new_vma;
-> > @@ -408,11 +408,41 @@ static unsigned long move_vma(struct vm_area_struct *vma,
-> >       if (unlikely(vma->vm_flags & VM_PFNMAP))
-> >               untrack_pfn_moved(vma);
-> >
-> > +     if (unlikely(!err && (flags & MREMAP_DONTUNMAP))) {
-> > +             if (vm_flags & VM_ACCOUNT) {
-> > +                     /* Always put back VM_ACCOUNT since we won't unmap */
-> > +                     vma->vm_flags |= VM_ACCOUNT;
-> > +
-> > +                     vm_acct_memory(vma_pages(new_vma));
-> > +             }
-> > +
-> > +             /*
-> > +              * locked_vm accounting: if the mapping remained the same size
-> > +              * it will have just moved and we don't need to touch locked_vm
-> > +              * because we skip the do_unmap. If the mapping shrunk before
-> > +              * being moved then the do_unmap on that portion will have
-> > +              * adjusted vm_locked. Only if the mapping grows do we need to
-> > +              * do something special; the reason is locked_vm only accounts
-> > +              * for old_len, but we're now adding new_len - old_len locked
-> > +              * bytes to the new mapping.
-> > +              */
-> > +             if (new_len > old_len)
-> > +                     mm->locked_vm += (new_len - old_len) >> PAGE_SHIFT;
->
-> Hm. How do you enforce that we're not over RLIMIT_MEMLOCK?
->
->
-> --
->  Kirill A. Shutemov
+This patchset can be applied on top of v5.4-rc7-49-g0e3f1ad80fc8
+
+
+Procfs modernization:
+---------------------
+Historically procfs was always tied to pid namespaces, during pid
+namespace creation we internally create a procfs mount for it. However,
+this has the effect that all new procfs mounts are just a mirror of the
+internal one, any change, any mount option update, any new future
+introduction will propagate to all other procfs mounts that are in the
+same pid namespace.
+
+This may have solved several use cases in that time. However today we
+face new requirements, and making procfs able to support new private
+instances inside same pid namespace seems a major point. If we want to
+to introduce new features and security mechanisms we have to make sure
+first that we do not break existing usecases. Supporting private procfs
+instances will allow to support new features and behaviour without
+propagating it to all other procfs mounts.
+
+Today procfs is more of a burden especially to some Embedded, IoT,
+sandbox, container use cases. In user space we are over-mounting null
+or inaccessible files on top to hide files and information. If we want
+to hide pids we have to create PID namespaces otherwise mount options
+propagate to all other proc mounts, changing a mount option value in one
+mount will propagate to all other proc mounts. If we want to introduce
+new features, then they will propagate to all other mounts too, resulting
+either maybe new useful functionality or maybe breaking stuff. We have
+also to note that userspace should not workaround procfs, the kernel
+should just provide a sane simple interface.
+
+In this regard several developers and maintainers pointed out that
+there are problems with procfs and it has to be modernized:
+
+"Here's another one: split up and modernize /proc." by Andy Lutomirski [1]
+
+Discussion about kernel pointer leaks:
+
+"And yes, as Kees and Daniel mentioned, it's definitely not just dmesg.
+In fact, the primary things tend to be /proc and /sys, not dmesg
+itself." By Linus Torvalds [2]
+
+Lot of other areas in the kernel and filesystems have been updated to be
+able to support private instances, devpts is one major example [3].
+
+Which will be used for:
+
+1) Embedded systems and IoT: usually we have one supervisor for
+apps, we have some lightweight sandbox support, however if we create
+pid namespaces we have to manage all the processes inside too,
+where our goal is to be able to run a bunch of apps each one inside
+its own mount namespace, maybe use network namespaces for vlans
+setups, but right now we only want mount namespaces, without all the
+other complexity. We want procfs to behave more like a real file system,
+and block access to inodes that belong to other users. The 'hidepid=' will
+not work since it is a shared mount option.
+
+2) Containers, sandboxes and Private instances of file systems - devpts case
+Historically, lot of file systems inside Linux kernel view when instantiated
+were just a mirror of an already created and mounted filesystem. This was the
+case of devpts filesystem, it seems at that time the requirements were to
+optimize things and reuse the same memory, etc. This design used to work but not
+anymore with today's containers, IoT, hostile environments and all the privacy
+challenges that Linux faces.
+
+In that regards, devpts was updated so that each new mounts is a total
+independent file system by the following patches:
+
+"devpts: Make each mount of devpts an independent filesystem" by
+Eric W. Biederman [3] [4]
+
+3) Linux Security Modules have multiple ptrace paths inside some
+subsystems, however inside procfs, the implementation does not guarantee
+that the ptrace() check which triggers the security_ptrace_check() hook
+will always run. We have the 'hidepid' mount option that can be used to
+force the ptrace_may_access() check inside has_pid_permissions() to run.
+The problem is that 'hidepid' is per pid namespace and not attached to
+the mount point, any remount or modification of 'hidepid' will propagate
+to all other procfs mounts.
+
+This also does not allow to support Yama LSM easily in desktop and user
+sessions. Yama ptrace scope which restricts ptrace and some other
+syscalls to be allowed only on inferiors, can be updated to have a
+per-task context, where the context will be inherited during fork(),
+clone() and preserved across execve(). If we support multiple private
+procfs instances, then we may force the ptrace_may_access() on
+/proc/<pids>/ to always run inside that new procfs instances. This will
+allow to specifiy on user sessions if we should populate procfs with
+pids that the user can ptrace or not.
+
+By using Yama ptrace scope, some restricted users will only be able to see
+inferiors inside /proc, they won't even be able to see their other
+processes. Some software like Chromium, Firefox's crash handler, Wine
+and others are already using Yama to restrict which processes can be
+ptracable. With this change this will give the possibility to restrict
+/proc/<pids>/ but more importantly this will give desktop users a
+generic and usuable way to specifiy which users should see all processes
+and which user can not.
+
+Side notes:
+
+* This covers the lack of seccomp where it is not able to parse
+arguments, it is easy to install a seccomp filter on direct syscalls
+that operate on pids, however /proc/<pid>/ is a Linux ABI using
+filesystem syscalls. With this change all LSMs should be able to analyze
+open/read/write/close... on /proc/<pid>/
+
+4) This will allow to implement new features either in kernel or
+userspace without having to worry about procfs.
+In containers, sandboxes, etc we have workarounds to hide some /proc
+inodes, this should be supported natively without doing extra complex
+work, the kernel should be able to support sane options that work with
+today and future Linux use cases.
+
+5) Creation of new superblock with all procfs options for each procfs
+mount will fix the ignoring of mount options. The problem is that the
+second mount of procfs in the same pid namespace ignores the mount
+options. The mount options are ignored without error until procfs is
+remounted.
+
+Before:
+
+# grep ^proc /proc/mounts
+proc /proc proc rw,relatime,hidepid=2 0 0
+
+# strace -e mount mount -o hidepid=1 -t proc proc /tmp/proc
+mount("proc", "/tmp/proc", "proc", 0, "hidepid=1") = 0
++++ exited with 0 +++
+
+# grep ^proc /proc/mounts
+proc /proc proc rw,relatime,hidepid=2 0 0
+proc /tmp/proc proc rw,relatime,hidepid=2 0 0
+
+# mount -o remount,hidepid=1 -t proc proc /tmp/proc
+
+# grep ^proc /proc/mounts
+proc /proc proc rw,relatime,hidepid=1 0 0
+proc /tmp/proc proc rw,relatime,hidepid=1 0 0
+
+After:
+
+# grep ^proc /proc/mounts
+proc /proc proc rw,relatime,hidepid=2 0 0
+
+# mount -o hidepid=1 -t proc proc /tmp/proc
+
+# grep ^proc /proc/mounts
+proc /proc proc rw,relatime,hidepid=2 0 0
+proc /tmp/proc proc rw,relatime,hidepid=1 0 0
+
+
+Introduced changes:
+-------------------
+Each mount of procfs creates a separate procfs instance with its own
+mount options.
+
+This series adds few new mount options:
+
+* New 'hidepid=4' mount option to show only ptraceable processes in the procfs.
+This allows to support lightweight sandboxes in Embedded Linux, also
+solves the case for LSM where now with this mount option, we make sure
+that they have a ptrace path in procfs.
+
+* 'subset=pidfs' that allows to hide non-pid inodes from procfs. It can be used
+in containers and sandboxes, as these are already trying to hide and block
+access to procfs inodes anyway.
+
+
+ChangeLog:
+----------
+# v8:
+* Started using RCU lock to clean dcache entries as Linus Torvalds suggested.
+
+# v7:
+* 'pidonly=1' renamed to 'subset=pidfs' as Alexey Dobriyan suggested.
+* HIDEPID_* moved to uapi/ as they are user interface to mount().
+  Suggested-by Alexey Dobriyan <adobriyan@gmail.com>
+
+# v6:
+* 'hidepid=' and 'gid=' mount options are moved from pid namespace to superblock.
+* 'newinstance' mount option removed as Eric W. Biederman suggested.
+   Mount of procfs always creates a new instance.
+* 'limit_pids' renamed to 'hidepid=3'.
+* I took into account the comment of Linus Torvalds [7].
+* Documentation added.
+
+# v5:
+* Fixed a bug that caused a problem with the Fedora boot.
+* The 'pidonly' option is visible among the mount options.
+
+# v2:
+* Renamed mount options to 'newinstance' and 'pids='
+   Suggested-by: Andy Lutomirski <luto@kernel.org>
+* Fixed order of commit, Suggested-by: Andy Lutomirski <luto@kernel.org>
+* Many bug fixes.
+
+# v1:
+* Removed 'unshared' mount option and replaced it with 'limit_pids'
+   which is attached to the current procfs mount.
+   Suggested-by Andy Lutomirski <luto@kernel.org>
+* Do not fill dcache with pid entries that we can not ptrace.
+* Many bug fixes.
+
+
+References:
+-----------
+[1] https://lists.linuxfoundation.org/pipermail/ksummit-discuss/2017-January/004215.html
+[2] http://www.openwall.com/lists/kernel-hardening/2017/10/05/5
+[3] https://lwn.net/Articles/689539/
+[4] http://lxr.free-electrons.com/source/Documentation/filesystems/devpts.txt?v=3.14
+[5] https://lkml.org/lkml/2017/5/2/407
+[6] https://lkml.org/lkml/2017/5/3/357
+[7] https://lkml.org/lkml/2018/5/11/505
+
+
+Alexey Gladkov (11):
+  proc: Rename struct proc_fs_info to proc_fs_opts
+  proc: add proc_fs_info struct to store proc information
+  proc: move /proc/{self|thread-self} dentries to proc_fs_info
+  proc: move hide_pid, pid_gid from pid_namespace to proc_fs_info
+  proc: add helpers to set and get proc hidepid and gid mount options
+  proc: support mounting procfs instances inside same pid namespace
+  proc: flush task dcache entries from all procfs instances
+  proc: instantiate only pids that we can ptrace on 'hidepid=4' mount
+    option
+  proc: add option to mount only a pids subset
+  docs: proc: add documentation for "hidepid=4" and "subset=pidfs"
+    options and new mount behavior
+  proc: Move hidepid values to uapi as they are user interface to mount
+
+ Documentation/filesystems/proc.txt |  53 +++++++++++
+ fs/locks.c                         |   6 +-
+ fs/proc/base.c                     |  66 ++++++++++----
+ fs/proc/generic.c                  |   9 ++
+ fs/proc/inode.c                    |  21 +++--
+ fs/proc/internal.h                 |  30 ++++++
+ fs/proc/root.c                     | 141 +++++++++++++++++++++++------
+ fs/proc/self.c                     |   4 +-
+ fs/proc/thread_self.c              |   6 +-
+ fs/proc_namespace.c                |  14 +--
+ include/linux/pid_namespace.h      |  14 +--
+ include/linux/proc_fs.h            |  25 ++++-
+ include/uapi/linux/proc_fs.h       |  13 +++
+ 13 files changed, 324 insertions(+), 78 deletions(-)
+ create mode 100644 include/uapi/linux/proc_fs.h
+
+-- 
+2.24.1
+
