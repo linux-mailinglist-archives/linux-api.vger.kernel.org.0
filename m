@@ -2,103 +2,95 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E2826159C6E
-	for <lists+linux-api@lfdr.de>; Tue, 11 Feb 2020 23:46:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DC1C3159C9D
+	for <lists+linux-api@lfdr.de>; Tue, 11 Feb 2020 23:56:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727729AbgBKWqB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 11 Feb 2020 17:46:01 -0500
-Received: from zeniv.linux.org.uk ([195.92.253.2]:55440 "EHLO
-        ZenIV.linux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727640AbgBKWqA (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 11 Feb 2020 17:46:00 -0500
-Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j1eHy-00B7M0-0S; Tue, 11 Feb 2020 22:45:54 +0000
-Date:   Tue, 11 Feb 2020 22:45:53 +0000
-From:   Al Viro <viro@zeniv.linux.org.uk>
-To:     Alexey Gladkov <gladkov.alexey@gmail.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        Linux Security Module <linux-security-module@vger.kernel.org>,
-        Akinobu Mita <akinobu.mita@gmail.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Daniel Micay <danielmicay@gmail.com>,
-        Djalal Harouni <tixxdz@gmail.com>,
-        "Dmitry V . Levin" <ldv@altlinux.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Jeff Layton <jlayton@poochiereds.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Solar Designer <solar@openwall.com>
-Subject: Re: [PATCH v8 07/11] proc: flush task dcache entries from all procfs
- instances
-Message-ID: <20200211224553.GK23230@ZenIV.linux.org.uk>
-References: <20200210150519.538333-1-gladkov.alexey@gmail.com>
- <20200210150519.538333-8-gladkov.alexey@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200210150519.538333-8-gladkov.alexey@gmail.com>
+        id S1727330AbgBKW4K (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 11 Feb 2020 17:56:10 -0500
+Received: from mail-pf1-f201.google.com ([209.85.210.201]:50798 "EHLO
+        mail-pf1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727199AbgBKW4J (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 11 Feb 2020 17:56:09 -0500
+Received: by mail-pf1-f201.google.com with SMTP id r13so135456pfr.17
+        for <linux-api@vger.kernel.org>; Tue, 11 Feb 2020 14:56:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to;
+        bh=z5hBZFlukE73X5tySesJV8jPEinxyOGgZx3qCpc+FhQ=;
+        b=lRBeat1DM/6m8wVzhtbw3NbGYuXI5jrNZCMDH2bkPtPkorENZSb/rNayT9WHqeuj4z
+         XNiVPVGX2pusznQ1ujf8QR2xOyBI/+zE5DN9wxiuYLG6WE5+drIQepezj2KwFMRbrZXL
+         9pht2m3MheSA4XZzOWTsaYLJbHT7vKjw/CecQE80mFpR3gYzIRcVZib11+kBT1jsexEe
+         6NcsyOlB/MGz7sS46G6OcUah1YEZi0GWN+npoLpF03tNcuX0eDaTYVVCBNhYAe7EM1DI
+         GODlU6IlhvIVeuAEmd/Ih1Nu8CS43QgX1CsO4cXY4B2rg23HINcAnFHVQYeurJwrhMJN
+         F/Jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to;
+        bh=z5hBZFlukE73X5tySesJV8jPEinxyOGgZx3qCpc+FhQ=;
+        b=X5Vj1ktUkXrXPhHAPZSCPPJ2uYGZDtl1QR3ENtsl3Dju3iDDhdgmHWSWHZoKPZ03bk
+         zE97wfANJAZv6W5P9JNQljurbw1ZTcQav14KMtIA/QWn8tOhiZjJt7b6BcCGBovSFEim
+         GAPwB2znuLMzQM6TDskmVcaZ3jhLVe2cyxlqLhH9a1LaRAr4mmTawWiJQb1SSo1/bHAe
+         qbXV/DJ1NiqsBUnB8ZDPsTT73Qj7PAYfViVk9LcmH9gizKaUbIk66oxnLRUFQntWBboV
+         6x+/sUU6FSX0swZtKuKF5V4X30fjgC/7bCAcWaZwY8LGXqCxciKTiHi5zWoJ25TeyClp
+         tk6g==
+X-Gm-Message-State: APjAAAUhkReQayozUhjRnGMZvF2ldh9yyjYuZtZUK3X2aCnGFr2C62wq
+        GAcykJM+nyOFVc1j0NAj5X2L9a63aCQ=
+X-Google-Smtp-Source: APXvYqz3X0ton3FvOV+uorjZiWOGrdx8y9Xd27MZc3lIrLJXDLMtq+k4O5/wHZSBlOtX5wMSTKh//psjJJc=
+X-Received: by 2002:a65:420b:: with SMTP id c11mr5419343pgq.306.1581461769152;
+ Tue, 11 Feb 2020 14:56:09 -0800 (PST)
+Date:   Tue, 11 Feb 2020 14:55:41 -0800
+Message-Id: <20200211225547.235083-1-dancol@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.25.0.225.g125e21ebc7-goog
+Subject: [PATCH v2 0/6] Harden userfaultfd
+From:   Daniel Colascione <dancol@google.com>
+To:     dancol@google.com, timmurray@google.com, nosh@google.com,
+        nnk@google.com, lokeshgidra@google.com,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        selinux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Feb 10, 2020 at 04:05:15PM +0100, Alexey Gladkov wrote:
-> This allows to flush dcache entries of a task on multiple procfs mounts
-> per pid namespace.
-> 
-> The RCU lock is used because the number of reads at the task exit time
-> is much larger than the number of procfs mounts.
-> 
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: Andy Lutomirski <luto@kernel.org>
-> Signed-off-by: Djalal Harouni <tixxdz@gmail.com>
-> Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-> Signed-off-by: Alexey Gladkov <gladkov.alexey@gmail.com>
-> ---
->  fs/proc/base.c                | 20 +++++++++++++++-----
->  fs/proc/root.c                | 27 ++++++++++++++++++++++++++-
->  include/linux/pid_namespace.h |  2 ++
->  include/linux/proc_fs.h       |  2 ++
->  4 files changed, 45 insertions(+), 6 deletions(-)
-> 
-> diff --git a/fs/proc/base.c b/fs/proc/base.c
-> index 4ccb280a3e79..24b7c620ded3 100644
-> --- a/fs/proc/base.c
-> +++ b/fs/proc/base.c
-> @@ -3133,7 +3133,7 @@ static const struct inode_operations proc_tgid_base_inode_operations = {
->  	.permission	= proc_pid_permission,
->  };
->  
-> -static void proc_flush_task_mnt(struct vfsmount *mnt, pid_t pid, pid_t tgid)
-> +static void proc_flush_task_mnt_root(struct dentry *mnt_root, pid_t pid, pid_t tgid)
->  {
->  	struct dentry *dentry, *leader, *dir;
->  	char buf[10 + 1];
-> @@ -3142,7 +3142,7 @@ static void proc_flush_task_mnt(struct vfsmount *mnt, pid_t pid, pid_t tgid)
->  	name.name = buf;
->  	name.len = snprintf(buf, sizeof(buf), "%u", pid);
->  	/* no ->d_hash() rejects on procfs */
-> -	dentry = d_hash_and_lookup(mnt->mnt_root, &name);
-> +	dentry = d_hash_and_lookup(mnt_root, &name);
->  	if (dentry) {
->  		d_invalidate(dentry);
-... which can block
->  		dput(dentry);
-... and so can this
+Userfaultfd in unprivileged contexts could be potentially very
+useful. We'd like to harden userfaultfd to make such unprivileged use
+less risky. This patch series allows SELinux to manage userfaultfd
+file descriptors and allows administrators to limit userfaultfd to
+servicing user-mode faults, increasing the difficulty of using
+userfaultfd in exploit chains invoking delaying kernel faults.
 
-> +		rcu_read_lock();
-> +		list_for_each_entry_rcu(fs_info, &upid->ns->proc_mounts, pidns_entry) {
-> +			mnt_root = fs_info->m_super->s_root;
-> +			proc_flush_task_mnt_root(mnt_root, upid->nr, tgid->numbers[i].nr);
+A new anon_inodes interface allows callers to opt into SELinux
+management of anonymous file objects. In this mode, anon_inodes
+creates new ephemeral inodes for anonymous file objects instead of
+reusing a singleton dummy inode. A new LSM hook gives security modules
+an opportunity to configure and veto these ephemeral inodes.
 
-... making that more than slightly unsafe.
+Existing anon_inodes users must opt into the new functionality.
+
+Daniel Colascione (6):
+  Add a new flags-accepting interface for anonymous inodes
+  Add a concept of a "secure" anonymous file
+  Teach SELinux about a new userfaultfd class
+  Wire UFFD up to SELinux
+  Let userfaultfd opt out of handling kernel-mode faults
+  Add a new sysctl for limiting userfaultfd to user mode faults
+
+ Documentation/admin-guide/sysctl/vm.rst | 13 ++++
+ fs/anon_inodes.c                        | 89 +++++++++++++++++--------
+ fs/userfaultfd.c                        | 29 ++++++--
+ include/linux/anon_inodes.h             | 27 ++++++--
+ include/linux/lsm_hooks.h               |  8 +++
+ include/linux/security.h                |  2 +
+ include/linux/userfaultfd_k.h           |  3 +
+ include/uapi/linux/userfaultfd.h        |  9 +++
+ kernel/sysctl.c                         |  9 +++
+ security/security.c                     |  8 +++
+ security/selinux/hooks.c                | 68 +++++++++++++++++++
+ security/selinux/include/classmap.h     |  2 +
+ 12 files changed, 229 insertions(+), 38 deletions(-)
+
+-- 
+2.25.0.225.g125e21ebc7-goog
+
