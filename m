@@ -2,182 +2,469 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C6CC8159AC6
-	for <lists+linux-api@lfdr.de>; Tue, 11 Feb 2020 21:56:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AE54159AF4
+	for <lists+linux-api@lfdr.de>; Tue, 11 Feb 2020 22:08:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728685AbgBKU4P (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 11 Feb 2020 15:56:15 -0500
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:35760 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731854AbgBKU4P (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 11 Feb 2020 15:56:15 -0500
-Received: by mail-oi1-f194.google.com with SMTP id b18so14227864oie.2
-        for <linux-api@vger.kernel.org>; Tue, 11 Feb 2020 12:56:13 -0800 (PST)
+        id S1729841AbgBKVIz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 11 Feb 2020 16:08:55 -0500
+Received: from mail-pj1-f68.google.com ([209.85.216.68]:36171 "EHLO
+        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729031AbgBKVIz (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 11 Feb 2020 16:08:55 -0500
+Received: by mail-pj1-f68.google.com with SMTP id gv17so1795938pjb.1;
+        Tue, 11 Feb 2020 13:08:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=8CmYe462WzzksuPoSriUQOLEMXkyrL5p8rPiP/wqsQE=;
-        b=oSTwn0d967GW3bvPpoBPc4xhMNU+afmUYTMc5sQAtO/Ma8lCfPJAv7HDesC+gIohzv
-         DkMgSufBV3LkIlRnO8ywR8ElxhA0xazO1a2X1EbTK9CPzmmDGuVdsOscmiYi9VuWm70X
-         X4QugCq1j+ND5muENF+hw/7uZsm0+pB5emMxJt5J03IBuPoLcY5imni1oxNwtN0QogdK
-         WAEagflmLFa9Wa5QWR/mFSJKRXQpW/pCGiRZEZdFevJ2+fsXxxJwszGEIlweNqHKaZQR
-         OT/n2MH+QFAJl9CN6AifWx4rVch6UDYBcDpoOITmpCYfCzaqslfwsQD44XYhI2I7wpvH
-         apqQ==
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=ltO6Zce63S8zmNhRANcObeczMOjpx1NtTOE8FTwRD38=;
+        b=e4Aq+FYO9rLKD8OJ7P7pujZ2/4R0bEetguMcna0ShlnkpmOf249ddX9KMYBwjp8dYT
+         Vb2R746gaeOO52JxbRXZ24R1H5jo+PWO0+IZs8O/BSx3+pxITuMgKgMr9kLtvLWuLelp
+         jrEuan1KpT8juL5gjtALHzljSDuMVDsR4DoHPJ5h3Kj3lHtYzURflkmKw3PKy5nj8nve
+         JipRjh3ZdR80T1fJUdlMuwq5/l0QsU5NdJ8i9EAshR0XSN7BpZi0CI5o42YOZ8KmaxU0
+         nSO/ZsjdikMfeOEkraWoP12uRIxyfvfbnLql3zEcTsEwaZp7S487gV8yKoIeZWQzS93n
+         Q+mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=8CmYe462WzzksuPoSriUQOLEMXkyrL5p8rPiP/wqsQE=;
-        b=ZsuvysO0SXXJMMFNBCCiLjCxjPlOspXN+L5pBeDfXoR5tqnM8nt5GLS9GpPUDiIgq9
-         OkRHXqTLLZvGJlpLhZRoWP+2HsOaHEGbawNJ71swv9g2IA8BECxo3pcA3v3v7bBkEyHM
-         /7ePEzcK0b9GS4g0/j+iZqeGEqTrBxSho4XNdHblojg71e5B0vrj4y9T6iZDyD+X2D2x
-         XewA4kCca5FWSzjwWb9Rd6yfD/D8phvSqahNVrk+cGSNu8wR4qjyKmnnKZ6TXiXiveAN
-         R4vgdacVqNa6dnGdypiMC3GPtlQfdrCXoxJ6OpM5LIEM6xVXkOE4s4yIOHv/9RvP/6uJ
-         /UGw==
-X-Gm-Message-State: APjAAAUFB8coeFgmwRBxWycX2G3JFe2kl3fl2w3vKeed2OxnoVXZnJWp
-        bh7im7CnmFfLvMc5uegKYATxux5ACcryQ1D2Kid87w==
-X-Google-Smtp-Source: APXvYqwwlaPw3WuE7pvp2R5+l4ejpzIZmHKNHqXHYwDJ9Aqnqi8TIPcj6j2+bVdD0QcpNjFx5mAc4EwEtqlmtCOsHEY=
-X-Received: by 2002:aca:b187:: with SMTP id a129mr4153590oif.175.1581454572660;
- Tue, 11 Feb 2020 12:56:12 -0800 (PST)
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=ltO6Zce63S8zmNhRANcObeczMOjpx1NtTOE8FTwRD38=;
+        b=WcfxD+AhEgi+YXCSr1y0FxiVngPHOuHn8bK3ZzrDEo87hdpKn7N5CNkAiMOGRW96xZ
+         VOkz/LKA8ICicaiJeMmfraNwXVh3PkQxsdg2N6O5nr8CgLHRvL+n6nKTBoMGPIexBlqa
+         DCSGyYGhaoC6lx4+qNtHIJ7bBOa5eFgVJH+Xy95lYHedpmm3vm58zp3mr+a/ocfvRIzd
+         B2xcAe2oXE4FY+f6h3U+qnNi49RyStQGbUceTvQOpRk+rd1qhxZoBELE2qZn0UqYwb78
+         oWarlfUoVT1EgQTv8DvIAJ8/L53+teIagUd9THafwp5sMJ/OFDqqhegeFxQJoGqO5fh7
+         QdXA==
+X-Gm-Message-State: APjAAAWX+eZwSXVRNaEXVA4kIcy7NpMB0vHAGsuOV7ayXhIAH465xfgJ
+        7dHrUxTac4s9nxrJFKcXBC9mwh4R
+X-Google-Smtp-Source: APXvYqwg6l3gsGrGg5pvld5vC15F4Uso+nUnV7fasT9cFrDNZYZknQUtgLIdsH0L6Z17uv7G8p5uow==
+X-Received: by 2002:a17:90a:102:: with SMTP id b2mr5833537pjb.64.1581455334301;
+        Tue, 11 Feb 2020 13:08:54 -0800 (PST)
+Received: from google.com ([2620:15c:211:1:3e01:2939:5992:52da])
+        by smtp.gmail.com with ESMTPSA id b3sm5620337pfr.88.2020.02.11.13.08.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Feb 2020 13:08:53 -0800 (PST)
+Date:   Tue, 11 Feb 2020 13:08:51 -0800
+From:   Minchan Kim <minchan@kernel.org>
+To:     Alexander Duyck <alexander.duyck@gmail.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        Linux API <linux-api@vger.kernel.org>, oleksandr@redhat.com,
+        Suren Baghdasaryan <surenb@google.com>,
+        Tim Murray <timmurray@google.com>,
+        Daniel Colascione <dancol@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Brian Geffon <bgeffon@google.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        John Dias <joaodias@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>
+Subject: Re: [PATCH v3 1/5] mm: factor out madvise's core functionality
+Message-ID: <20200211210851.GB185752@google.com>
+References: <20200128001641.5086-1-minchan@kernel.org>
+ <20200128001641.5086-2-minchan@kernel.org>
+ <CAKgT0UcsB_isBHGH-z5L9kMWma5dy0qc-OZTDLyFhYYs68iFog@mail.gmail.com>
 MIME-Version: 1.0
-References: <20200211165753.356508-1-christian.brauner@ubuntu.com>
-In-Reply-To: <20200211165753.356508-1-christian.brauner@ubuntu.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Tue, 11 Feb 2020 21:55:46 +0100
-Message-ID: <CAG48ez1GKOfXDZFD7-hGGjT8L9YEojn94DU5_=W8HL3pzdrCgg@mail.gmail.com>
-Subject: Re: [PATCH 00/24] user_namespace: introduce fsid mappings
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     =?UTF-8?Q?St=C3=A9phane_Graber?= <stgraber@ubuntu.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Aleksa Sarai <cyphar@cyphar.com>, smbarber@chromium.org,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Serge Hallyn <serge@hallyn.com>,
-        James Morris <jmorris@namei.org>,
-        Kees Cook <keescook@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKgT0UcsB_isBHGH-z5L9kMWma5dy0qc-OZTDLyFhYYs68iFog@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Feb 11, 2020 at 5:59 PM Christian Brauner
-<christian.brauner@ubuntu.com> wrote:
-> This is the implementation of shiftfs which was cooked up during lunch at
-> Linux Plumbers 2019 the day after the container's microconference. The
-> idea is a design-stew from St=C3=A9phane, Aleksa, Eric, and myself. Back =
-then
-> we all were quite busy with other work and couldn't really sit down and
-> implement it. But I took a few days last week to do this work, including
-> demos and performance testing.
-> This implementation does not require us to touch the vfs substantially
-> at all. Instead, we implement shiftfs via fsid mappings.
-> With this patch, it took me 20 mins to port both LXD and LXC to support
-> shiftfs via fsid mappings.
->
-> For anyone wanting to play with this the branch can be pulled from:
-> https://github.com/brauner/linux/tree/fsid_mappings
-> https://gitlab.com/brauner/linux/-/tree/fsid_mappings
-> https://git.kernel.org/pub/scm/linux/kernel/git/brauner/linux.git/log/?h=
-=3Dfsid_mappings
->
-> The main use case for shiftfs for us is in allowing shared writable
-> storage to multiple containers using non-overlapping id mappings.
-> In such a scenario you want the fsids to be valid and identical in both
-> containers for the shared mount. A demo for this exists in [3].
-> If you don't want to read on, go straight to the other demos below in
-> [1] and [2].
+Hi Alexander,
 
-I guess essentially this means that you want to have UID separation
-between containers to prevent the containers - or their owners - from
-interfering between each other, but for filesystem access, you don't
-want to isolate them from each other using DAC controls on the files
-and folders inside the containers' directory hierarchies, instead
-relying on mode-0700 parent directories to restrict access to the
-container owner? Or would you still have separate UIDs for e.g. the
-container's UID range 0-65535, and then map the shared UID range at
-100000, or something like that?
+On Mon, Feb 10, 2020 at 03:00:41PM -0800, Alexander Duyck wrote:
+> On Mon, Jan 27, 2020 at 4:17 PM Minchan Kim <minchan@kernel.org> wrote:
+> >
+> > This patch factor out madvise's core functionality so that upcoming
+> > patch can reuse it without duplication. It shouldn't change any behavior.
+> >
+> > Signed-off-by: Minchan Kim <minchan@kernel.org>
+> 
+> There is a lot to unpack here. I really feel like this description
+> doesn't do the changes below any service. Really I feel like this
+> patch should probably be broken up over a few patches to make it
+> easier to review.
 
-> People not as familiar with user namespaces might not be aware that fsid
-> mappings already exist. Right now, fsid mappings are always identical to
-> id mappings. Specifically, the kernel will lookup fsuids in the uid
-> mappings and fsgids in the gid mappings of the relevant user namespace.
+Once I read up below, yes, I agree with you. I will try to make it
+more clear as you suggested.
 
-That's a bit like saying that a kernel without CONFIG_USER_NS still
-has user ID mappings, they just happen to be identity mappings. :P
+> 
+> You have the moving of the function form the syscall madvise to the
+> function madvise_common. Then you have various function arguments that
+> are being added throughout.
+> 
+> Also this patchset needs to be rebased. It looks like there is already
+> a patch that is making madvise accessible:
+> https://lore.kernel.org/io-uring/20200110154739.2119-3-axboe@kernel.dk/
 
-> With this patch series we simply introduce the ability to create fsid
-> mappings that are different from the id mappings of a user namespace.
->
-> In the usual case of running an unprivileged container we will have
-> setup an id mapping, e.g. 0 100000 100000. The on-disk mapping will
-> correspond to this id mapping, i.e. all files which we want to appear as
-> 0:0 inside the user namespace will be chowned to 100000:100000 on the
-> host. This works, because whenever the kernel needs to do a filesystem
-> access it will lookup the corresponding uid and gid in the idmapping
-> tables of the container.
-> Now think about the case where we want to have an id mapping of 0 100000
-> 100000 but an on-disk mapping of 0 300000 100000 which is needed to e.g.
-> share a single on-disk mapping with multiple containers that all have
-> different id mappings.
-> This will be problematic. Whenever a filesystem access is requested, the
-> kernel will now try to lookup a mapping for 300000 in the id mapping
-> tables of the user namespace but since there is none the files will
-> appear to be owned by the overflow id, i.e. usually 65534:65534 or
-> nobody:nogroup.
->
-> With fsid mappings we can solve this by writing an id mapping of 0
-> 100000 100000 and an fsid mapping of 0 300000 100000. On filesystem
-> access the kernel will now lookup the mapping for 300000 in the fsid
-> mapping tables of the user namespace. And since such a mapping exists,
-> the corresponding files will have correct ownership.
+Thanks for heads up!
 
-Sorry to bring up something as disgusting as setuid execution, but:
-What happens when there's a setuid root file with ->i_uid=3D=3D300000? I
-guess the only way to make that work inside the containers would be
-something like make_kuid(current_user_ns(),
-from_kfsuid(current_user_ns(), inode->i_uid)) in the setuid execve
-path?
+> 
+> > ---
+> >  mm/madvise.c | 194 +++++++++++++++++++++++++++++----------------------
+> >  1 file changed, 111 insertions(+), 83 deletions(-)
+> >
+> > diff --git a/mm/madvise.c b/mm/madvise.c
+> > index bcdb6a042787..0c901de531e4 100644
+> > --- a/mm/madvise.c
+> > +++ b/mm/madvise.c
+> > @@ -35,6 +35,7 @@
+> >  struct madvise_walk_private {
+> >         struct mmu_gather *tlb;
+> >         bool pageout;
+> > +       struct task_struct *task;
+> >  };
+> >
+> >  /*
+> > @@ -306,12 +307,13 @@ static int madvise_cold_or_pageout_pte_range(pmd_t *pmd,
+> >         bool pageout = private->pageout;
+> >         struct mm_struct *mm = tlb->mm;
+> >         struct vm_area_struct *vma = walk->vma;
+> > +       struct task_struct *task = private->task;
+> >         pte_t *orig_pte, *pte, ptent;
+> >         spinlock_t *ptl;
+> >         struct page *page = NULL;
+> >         LIST_HEAD(page_list);
+> >
+> > -       if (fatal_signal_pending(current))
+> > +       if (fatal_signal_pending(task))
+> >                 return -EINTR;
+> >
+> >  #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> 
+> Is this the only spot in this function that uses the task? If so why
+> bother with adding the argument above and not just call private->task
+> instead of current?
 
-> A note on proc (and sys), the proc filesystem is special in sofar as it
-> only has a single superblock that is (currently but might be about to
-> change) visible in all user namespaces (same goes for sys). This means
-> it has special semantics in many ways, including how file ownership and
-> access works. The fsid mapping implementation does not alter how proc
-> (and sys) ownership works. proc and sys will both continue to lookup
-> filesystem access in id mapping tables.
+I just wanted to check target process signal initially but afterwards
+realized we need to check caller process as well as target's one.
+Anyway, it would be more clear not to handle it in this patchset to make
+it "non-behavior change" for easier review.
 
-In your example, a process with namespaced UID set (0, 0, 0, 0) will
-have kernel UIDs (100000, 100000, 100000, 300000), right? And then if
-I want to open /proc/$pid/personality of another process with the same
-UIDs, may_open() will call inode_permission() -> do_inode_permission()
--> generic_permission() -> acl_permission_check(), which will compare
-current_fsuid() (which is 300000) against inode->i_uid. But
-inode->i_uid was filled by proc_pid_make_inode()->task_dump_owner(),
-which set inode->i_uid to 100000, right?
+> 
+> > @@ -469,12 +471,14 @@ static const struct mm_walk_ops cold_walk_ops = {
+> >  };
+> >
+> >  static void madvise_cold_page_range(struct mmu_gather *tlb,
+> > +                            struct task_struct *task,
+> >                              struct vm_area_struct *vma,
+> >                              unsigned long addr, unsigned long end)
+> >  {
+> >         struct madvise_walk_private walk_private = {
+> >                 .pageout = false,
+> >                 .tlb = tlb,
+> > +               .task = task,
+> >         };
+> >
+> >         tlb_start_vma(tlb, vma);
+> > @@ -482,7 +486,7 @@ static void madvise_cold_page_range(struct mmu_gather *tlb,
+> >         tlb_end_vma(tlb, vma);
+> >  }
+> >
+> > -static long madvise_cold(struct vm_area_struct *vma,
+> > +static long madvise_cold(struct task_struct *task, struct vm_area_struct *vma,
+> >                         struct vm_area_struct **prev,
+> >                         unsigned long start_addr, unsigned long end_addr)
+> >  {
+> > @@ -495,19 +499,21 @@ static long madvise_cold(struct vm_area_struct *vma,
+> >
+> >         lru_add_drain();
+> >         tlb_gather_mmu(&tlb, mm, start_addr, end_addr);
+> > -       madvise_cold_page_range(&tlb, vma, start_addr, end_addr);
+> > +       madvise_cold_page_range(&tlb, task, vma, start_addr, end_addr);
+> >         tlb_finish_mmu(&tlb, start_addr, end_addr);
+> >
+> >         return 0;
+> >  }
+> >
+> 
+> Is there any specific reason for adding the task in the middle of the
+> list of arguments instead of just placing it at the end? It makes it a
+> bit harder to review when arguments are added in the middle of the
+> argument list, or at least that is my opinion.
 
-Also, e.g. __ptrace_may_access() uses cred->fsuid for a comparison
-with another task's real/effective/saved UID.
+Personally, I prefer top-down hierarchy list from bigger one to smaller.
+I have thought it's popular way for code strucdturing(but I am only one
+person to agree on it ;-)) for consistency and easy to think.
+If we add back to the list for new arguments, it would hurt it, which
+is my concern.
 
-[...]
-> # Demos
-> [1]: Create a container with different id and fsid mappings.
->      https://asciinema.org/a/300233
-> [2]: Create a container with id mappings but without fsid mappings.
->      https://asciinema.org/a/300234
-> [3]: Share storage between multiple containers with non-overlapping id
->      mappings.
->      https://asciinema.org/a/300235
+> 
+> >  static void madvise_pageout_page_range(struct mmu_gather *tlb,
+> > +                            struct task_struct *task,
+> >                              struct vm_area_struct *vma,
+> >                              unsigned long addr, unsigned long end)
+> >  {
+> >         struct madvise_walk_private walk_private = {
+> >                 .pageout = true,
+> >                 .tlb = tlb,
+> > +               .task = task,
+> >         };
+> >
+> >         tlb_start_vma(tlb, vma);
+> > @@ -531,9 +537,9 @@ static inline bool can_do_pageout(struct vm_area_struct *vma)
+> >                 inode_permission(file_inode(vma->vm_file), MAY_WRITE) == 0;
+> >  }
+> >
+> > -static long madvise_pageout(struct vm_area_struct *vma,
+> > -                       struct vm_area_struct **prev,
+> > -                       unsigned long start_addr, unsigned long end_addr)
+> > +static long madvise_pageout(struct task_struct *task,
+> > +               struct vm_area_struct *vma, struct vm_area_struct **prev,
+> > +               unsigned long start_addr, unsigned long end_addr)
+> >  {
+> >         struct mm_struct *mm = vma->vm_mm;
+> >         struct mmu_gather tlb;
+> > @@ -547,7 +553,7 @@ static long madvise_pageout(struct vm_area_struct *vma,
+> >
+> >         lru_add_drain();
+> >         tlb_gather_mmu(&tlb, mm, start_addr, end_addr);
+> > -       madvise_pageout_page_range(&tlb, vma, start_addr, end_addr);
+> > +       madvise_pageout_page_range(&tlb, task, vma, start_addr, end_addr);
+> >         tlb_finish_mmu(&tlb, start_addr, end_addr);
+> >
+> >         return 0;
+> > @@ -751,7 +757,8 @@ static long madvise_dontneed_single_vma(struct vm_area_struct *vma,
+> >         return 0;
+> >  }
+> >
+> 
+> Okay so we were adding a task_struct pointer as an argument up to this
+> point and now we are switching to adding an mm_struct pointer here. I
+> would split these two off as separate patches and explain in the patch
+> description why you are doing that instead of just passing the task
+> here as well and then accessing task->mm.
 
-(I really dislike this asciinema thing; if you want to quickly glance
-through the output instead of reading at the same speed as it was
-typed, a simple pastebin works much better unless you absolutely have
-to show things that use stuff like ncurses UI.)
+Sure.
+
+> 
+> 
+> > -static long madvise_dontneed_free(struct vm_area_struct *vma,
+> > +static long madvise_dontneed_free(struct mm_struct *mm,
+> > +                                 struct vm_area_struct *vma,
+> >                                   struct vm_area_struct **prev,
+> >                                   unsigned long start, unsigned long end,
+> >                                   int behavior)
+> > @@ -763,8 +770,8 @@ static long madvise_dontneed_free(struct vm_area_struct *vma,
+> >         if (!userfaultfd_remove(vma, start, end)) {
+> >                 *prev = NULL; /* mmap_sem has been dropped, prev is stale */
+> >
+> > -               down_read(&current->mm->mmap_sem);
+> > -               vma = find_vma(current->mm, start);
+> > +               down_read(&mm->mmap_sem);
+> > +               vma = find_vma(mm, start);
+> >                 if (!vma)
+> >                         return -ENOMEM;
+> >                 if (start < vma->vm_start) {
+> > @@ -811,7 +818,8 @@ static long madvise_dontneed_free(struct vm_area_struct *vma,
+> >   * Application wants to free up the pages and associated backing store.
+> >   * This is effectively punching a hole into the middle of a file.
+> >   */
+> > -static long madvise_remove(struct vm_area_struct *vma,
+> > +static long madvise_remove(struct mm_struct *mm,
+> > +                               struct vm_area_struct *vma,
+> >                                 struct vm_area_struct **prev,
+> >                                 unsigned long start, unsigned long end)
+> >  {
+> > @@ -845,13 +853,13 @@ static long madvise_remove(struct vm_area_struct *vma,
+> >         get_file(f);
+> >         if (userfaultfd_remove(vma, start, end)) {
+> >                 /* mmap_sem was not released by userfaultfd_remove() */
+> > -               up_read(&current->mm->mmap_sem);
+> > +               up_read(&mm->mmap_sem);
+> >         }
+> >         error = vfs_fallocate(f,
+> >                                 FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE,
+> >                                 offset, end - start);
+> >         fput(f);
+> > -       down_read(&current->mm->mmap_sem);
+> > +       down_read(&mm->mmap_sem);
+> >         return error;
+> >  }
+> >
+> > @@ -925,21 +933,23 @@ static int madvise_inject_error(int behavior,
+> >  #endif
+> >
+> >  static long
+> > -madvise_vma(struct vm_area_struct *vma, struct vm_area_struct **prev,
+> > +madvise_vma(struct task_struct *task, struct mm_struct *mm,
+> > +               struct vm_area_struct *vma, struct vm_area_struct **prev,
+> >                 unsigned long start, unsigned long end, int behavior)
+> >  {
+> >         switch (behavior) {
+> >         case MADV_REMOVE:
+> > -               return madvise_remove(vma, prev, start, end);
+> > +               return madvise_remove(mm, vma, prev, start, end);
+> >         case MADV_WILLNEED:
+> >                 return madvise_willneed(vma, prev, start, end);
+> >         case MADV_COLD:
+> > -               return madvise_cold(vma, prev, start, end);
+> > +               return madvise_cold(task, vma, prev, start, end);
+> >         case MADV_PAGEOUT:
+> > -               return madvise_pageout(vma, prev, start, end);
+> > +               return madvise_pageout(task, vma, prev, start, end);
+> >         case MADV_FREE:
+> >         case MADV_DONTNEED:
+> > -               return madvise_dontneed_free(vma, prev, start, end, behavior);
+> > +               return madvise_dontneed_free(mm, vma, prev, start,
+> > +                                               end, behavior);
+> >         default:
+> >                 return madvise_behavior(vma, prev, start, end, behavior);
+> >         }
+> 
+> Here you added both task and mm. Is ti truly necessary to have both?
+> Would it be possible to make use of either task->mm or mm->owner in
+> order to make it so that you only had to carry one of these?
+
+Good point. I guess task would be enough to pass mm_struct. I will look
+into that.
+
+> 
+> > @@ -984,67 +994,19 @@ madvise_behavior_valid(int behavior)
+> >  }
+> >
+> >  /*
+> > - * The madvise(2) system call.
+> > + * madvise_common - request behavior hint to address range of the target process
+> >   *
+> > - * Applications can use madvise() to advise the kernel how it should
+> > - * handle paging I/O in this VM area.  The idea is to help the kernel
+> > - * use appropriate read-ahead and caching techniques.  The information
+> > - * provided is advisory only, and can be safely disregarded by the
+> > - * kernel without affecting the correct operation of the application.
+> > + * @task: task_struct got behavior hint, not giving the hint
+> > + * @mm: mm_struct got behavior hint, not giving the hint
+> > + * @start: base address of the hinted range
+> > + * @len_in: length of the hinted range
+> > + * @behavior: requested hint
+> >   *
+> > - * behavior values:
+> > - *  MADV_NORMAL - the default behavior is to read clusters.  This
+> > - *             results in some read-ahead and read-behind.
+> > - *  MADV_RANDOM - the system should read the minimum amount of data
+> > - *             on any access, since it is unlikely that the appli-
+> > - *             cation will need more than what it asks for.
+> > - *  MADV_SEQUENTIAL - pages in the given range will probably be accessed
+> > - *             once, so they can be aggressively read ahead, and
+> > - *             can be freed soon after they are accessed.
+> > - *  MADV_WILLNEED - the application is notifying the system to read
+> > - *             some pages ahead.
+> > - *  MADV_DONTNEED - the application is finished with the given range,
+> > - *             so the kernel can free resources associated with it.
+> > - *  MADV_FREE - the application marks pages in the given range as lazy free,
+> > - *             where actual purges are postponed until memory pressure happens.
+> > - *  MADV_REMOVE - the application wants to free up the given range of
+> > - *             pages and associated backing store.
+> > - *  MADV_DONTFORK - omit this area from child's address space when forking:
+> > - *             typically, to avoid COWing pages pinned by get_user_pages().
+> > - *  MADV_DOFORK - cancel MADV_DONTFORK: no longer omit this area when forking.
+> > - *  MADV_WIPEONFORK - present the child process with zero-filled memory in this
+> > - *              range after a fork.
+> > - *  MADV_KEEPONFORK - undo the effect of MADV_WIPEONFORK
+> > - *  MADV_HWPOISON - trigger memory error handler as if the given memory range
+> > - *             were corrupted by unrecoverable hardware memory failure.
+> > - *  MADV_SOFT_OFFLINE - try to soft-offline the given range of memory.
+> > - *  MADV_MERGEABLE - the application recommends that KSM try to merge pages in
+> > - *             this area with pages of identical content from other such areas.
+> > - *  MADV_UNMERGEABLE- cancel MADV_MERGEABLE: no longer merge pages with others.
+> > - *  MADV_HUGEPAGE - the application wants to back the given range by transparent
+> > - *             huge pages in the future. Existing pages might be coalesced and
+> > - *             new pages might be allocated as THP.
+> > - *  MADV_NOHUGEPAGE - mark the given range as not worth being backed by
+> > - *             transparent huge pages so the existing pages will not be
+> > - *             coalesced into THP and new pages will not be allocated as THP.
+> > - *  MADV_DONTDUMP - the application wants to prevent pages in the given range
+> > - *             from being included in its core dump.
+> > - *  MADV_DODUMP - cancel MADV_DONTDUMP: no longer exclude from core dump.
+> > - *
+> > - * return values:
+> > - *  zero    - success
+> > - *  -EINVAL - start + len < 0, start is not page-aligned,
+> > - *             "behavior" is not a valid value, or application
+> > - *             is attempting to release locked or shared pages,
+> > - *             or the specified address range includes file, Huge TLB,
+> > - *             MAP_SHARED or VMPFNMAP range.
+> > - *  -ENOMEM - addresses in the specified range are not currently
+> > - *             mapped, or are outside the AS of the process.
+> > - *  -EIO    - an I/O error occurred while paging in data.
+> > - *  -EBADF  - map exists, but area maps something that isn't a file.
+> > - *  -EAGAIN - a kernel resource was temporarily unavailable.
+> > + * @task could be a zombie leader if it calls sys_exit so accessing mm_struct
+> > + * via task->mm is prohibited. Please use @mm instead of task->mm.
+> >   */
+> > -SYSCALL_DEFINE3(madvise, unsigned long, start, size_t, len_in, int, behavior)
+> > +static int madvise_common(struct task_struct *task, struct mm_struct *mm,
+> > +                       unsigned long start, size_t len_in, int behavior)
+> >  {
+> >         unsigned long end, tmp;
+> >         struct vm_area_struct *vma, *prev;
+> 
+> So I would save this piece and move it to a separate patch. All of the
+> noise from the comment move would be greatly reduced and make it
+> easier to review the rest of this.
+
+Agree.
+
+> 
+> > @@ -1082,10 +1044,10 @@ SYSCALL_DEFINE3(madvise, unsigned long, start, size_t, len_in, int, behavior)
+> >
+> >         write = madvise_need_mmap_write(behavior);
+> >         if (write) {
+> > -               if (down_write_killable(&current->mm->mmap_sem))
+> > +               if (down_write_killable(&mm->mmap_sem))
+> >                         return -EINTR;
+> >         } else {
+> > -               down_read(&current->mm->mmap_sem);
+> > +               down_read(&mm->mmap_sem);
+> >         }
+> >
+> >         /*
+> > @@ -1093,7 +1055,7 @@ SYSCALL_DEFINE3(madvise, unsigned long, start, size_t, len_in, int, behavior)
+> >          * ranges, just ignore them, but return -ENOMEM at the end.
+> >          * - different from the way of handling in mlock etc.
+> >          */
+> > -       vma = find_vma_prev(current->mm, start, &prev);
+> > +       vma = find_vma_prev(mm, start, &prev);
+> >         if (vma && start > vma->vm_start)
+> >                 prev = vma;
+> >
+> > @@ -1118,7 +1080,7 @@ SYSCALL_DEFINE3(madvise, unsigned long, start, size_t, len_in, int, behavior)
+> >                         tmp = end;
+> >
+> >                 /* Here vma->vm_start <= start < tmp <= (end|vma->vm_end). */
+> > -               error = madvise_vma(vma, &prev, start, tmp, behavior);
+> > +               error = madvise_vma(task, mm, vma, &prev, start, tmp, behavior);
+> >                 if (error)
+> >                         goto out;
+> >                 start = tmp;
+> > @@ -1130,14 +1092,80 @@ SYSCALL_DEFINE3(madvise, unsigned long, start, size_t, len_in, int, behavior)
+> >                 if (prev)
+> >                         vma = prev->vm_next;
+> >                 else    /* madvise_remove dropped mmap_sem */
+> > -                       vma = find_vma(current->mm, start);
+> > +                       vma = find_vma(mm, start);
+> >         }
+> >  out:
+> >         blk_finish_plug(&plug);
+> >         if (write)
+> > -               up_write(&current->mm->mmap_sem);
+> > +               up_write(&mm->mmap_sem);
+> >         else
+> > -               up_read(&current->mm->mmap_sem);
+> > +               up_read(&mm->mmap_sem);
+> >
+> >         return error;
+> >  }
+> 
+> Okay so the rest of this is just more of the task/mm being added as
+> separate arguments.
+> 
+
+Thanks for the review!
