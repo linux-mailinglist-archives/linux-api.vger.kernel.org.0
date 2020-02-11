@@ -2,22 +2,32 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7014A1595C0
-	for <lists+linux-api@lfdr.de>; Tue, 11 Feb 2020 18:01:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F63815962F
+	for <lists+linux-api@lfdr.de>; Tue, 11 Feb 2020 18:31:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728557AbgBKRBD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 11 Feb 2020 12:01:03 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:53557 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728316AbgBKRAx (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 11 Feb 2020 12:00:53 -0500
-Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236] helo=wittgenstein.fritz.box)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1j1Ysj-00014T-PM; Tue, 11 Feb 2020 16:59:29 +0000
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     =?UTF-8?q?St=C3=A9phane=20Graber?= <stgraber@ubuntu.com>,
+        id S1729443AbgBKRbu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 11 Feb 2020 12:31:50 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:47678 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729132AbgBKRbt (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 11 Feb 2020 12:31:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=4o9PB9m+IrGK3QGZcB85cx3hPfCNyy1f4QLXCxJ20so=; b=s2Qm4CYlmVLrKiJ3B5meGqaMuw
+        iYaWQtUPnnBkS/wk9a9oLvTi/TcaSPyxSTleSDGPh2MfUqmAXwlUAHRZlkEnBuOX/+fdKRgZxDc8d
+        O8M84kaEeeSMsHwHl6tYMd0i4UXW6GdNIX2v9vmUSmIGr/dogFqJlHqJO2CskamMZpIXDEAaotHFU
+        CjBssQegvOGv8spzKEIIfbmmi6SahH83wZTjwPBIlRfvnhtt5eVCzoCOyLu0+dNQuPolRLyam6l1F
+        nqmABq7IbMaQInJ0yBq4aOnU18cYNuwYcQ3WuWuw67VTNC8w5VTVWfoyRcrnrwe6uLnaU1ewokZ1q
+        TqlHpoJg==;
+Received: from [2603:3004:32:9a00::c450]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1j1ZNz-0001g0-7U; Tue, 11 Feb 2020 17:31:47 +0000
+Subject: Re: [PATCH 01/24] user_namespace: introduce fsid mappings
+ infrastructure
+To:     Christian Brauner <christian.brauner@ubuntu.com>,
+        =?UTF-8?Q?St=c3=a9phane_Graber?= <stgraber@ubuntu.com>,
         "Eric W. Biederman" <ebiederm@xmission.com>,
         Aleksa Sarai <cyphar@cyphar.com>, Jann Horn <jannh@google.com>
 Cc:     smbarber@chromium.org, Alexander Viro <viro@zeniv.linux.org.uk>,
@@ -28,69 +38,51 @@ Cc:     smbarber@chromium.org, Alexander Viro <viro@zeniv.linux.org.uk>,
         Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
         linux-fsdevel@vger.kernel.org,
         containers@lists.linux-foundation.org,
-        linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
-        Christian Brauner <christian.brauner@ubuntu.com>
-Subject: [PATCH 24/24] devpts: handle fsid mappings
-Date:   Tue, 11 Feb 2020 17:57:53 +0100
-Message-Id: <20200211165753.356508-25-christian.brauner@ubuntu.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200211165753.356508-1-christian.brauner@ubuntu.com>
+        linux-security-module@vger.kernel.org, linux-api@vger.kernel.org
 References: <20200211165753.356508-1-christian.brauner@ubuntu.com>
+ <20200211165753.356508-2-christian.brauner@ubuntu.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <25217d8b-f3e9-7362-e3d9-d8c37bf39558@infradead.org>
+Date:   Tue, 11 Feb 2020 09:26:17 -0800
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200211165753.356508-2-christian.brauner@ubuntu.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-When a uid or gid mount option is specified with devpts have it lookup the
-corresponding kfsids in the fsid mappings. If no fsid mappings are setup the
-behavior is unchanged, i.e. fsids are looked up in the id mappings.
+On 2/11/20 8:57 AM, Christian Brauner wrote:
+> diff --git a/init/Kconfig b/init/Kconfig
+> index a34064a031a5..4da082e4f787 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -1102,6 +1102,17 @@ config USER_NS
+>  
+>  	  If unsure, say N.
+>  
+> +config USER_NS_FSID
+> +	bool "User namespace fsid mappings"
+> +	depends on USER_NS
+> +	default n
+> +	help
+> +	  This allows containers, to alter their filesystem id mappings.
 
-Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
----
- fs/devpts/inode.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+                   no comma   ^^^^
 
-diff --git a/fs/devpts/inode.c b/fs/devpts/inode.c
-index 42e5a766d33c..139958892572 100644
---- a/fs/devpts/inode.c
-+++ b/fs/devpts/inode.c
-@@ -24,6 +24,7 @@
- #include <linux/parser.h>
- #include <linux/fsnotify.h>
- #include <linux/seq_file.h>
-+#include <linux/fsuidgid.h>
- 
- #define DEVPTS_DEFAULT_MODE 0600
- /*
-@@ -277,7 +278,7 @@ static int parse_mount_options(char *data, int op, struct pts_mount_opts *opts)
- 		case Opt_uid:
- 			if (match_int(&args[0], &option))
- 				return -EINVAL;
--			uid = make_kuid(current_user_ns(), option);
-+			uid = make_kfsuid(current_user_ns(), option);
- 			if (!uid_valid(uid))
- 				return -EINVAL;
- 			opts->uid = uid;
-@@ -286,7 +287,7 @@ static int parse_mount_options(char *data, int op, struct pts_mount_opts *opts)
- 		case Opt_gid:
- 			if (match_int(&args[0], &option))
- 				return -EINVAL;
--			gid = make_kgid(current_user_ns(), option);
-+			gid = make_kfsgid(current_user_ns(), option);
- 			if (!gid_valid(gid))
- 				return -EINVAL;
- 			opts->gid = gid;
-@@ -410,7 +411,7 @@ static int devpts_show_options(struct seq_file *seq, struct dentry *root)
- 			   from_kuid_munged(&init_user_ns, opts->uid));
- 	if (opts->setgid)
- 		seq_printf(seq, ",gid=%u",
--			   from_kgid_munged(&init_user_ns, opts->gid));
-+			   from_kfsgid_munged(&init_user_ns, opts->gid));
- 	seq_printf(seq, ",mode=%03o", opts->mode);
- 	seq_printf(seq, ",ptmxmode=%03o", opts->ptmxmode);
- 	if (opts->max < NR_UNIX98_PTY_MAX)
+> +	  With this containers with different id mappings can still share
+> +	  the same filesystem.
+> +
+> +	  If unsure, say N.
+> +
+>  config PID_NS
+>  	bool "PID Namespaces"
+>  	default y
+
+
 -- 
-2.25.0
-
+~Randy
