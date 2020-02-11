@@ -2,127 +2,182 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D18F7159A0F
-	for <lists+linux-api@lfdr.de>; Tue, 11 Feb 2020 20:52:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C6CC8159AC6
+	for <lists+linux-api@lfdr.de>; Tue, 11 Feb 2020 21:56:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729731AbgBKTwv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 11 Feb 2020 14:52:51 -0500
-Received: from mga03.intel.com ([134.134.136.65]:7803 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728049AbgBKTwu (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 11 Feb 2020 14:52:50 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Feb 2020 11:52:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,428,1574150400"; 
-   d="scan'208";a="226597654"
-Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
-  by fmsmga007.fm.intel.com with ESMTP; 11 Feb 2020 11:52:48 -0800
-Received: from fmsmsx158.amr.corp.intel.com (10.18.116.75) by
- FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Tue, 11 Feb 2020 11:52:49 -0800
-Received: from FMSEDG001.ED.cps.intel.com (10.1.192.133) by
- fmsmsx158.amr.corp.intel.com (10.18.116.75) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Tue, 11 Feb 2020 11:52:49 -0800
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.42) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server (TLS) id
- 14.3.439.0; Tue, 11 Feb 2020 11:52:48 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Y/yk5zEL61ve7bwwaXmn10aPuqeW3SGe6CXcmAmA4hKkPejolpTKvXpSO5rufL49EJxXw+Q3UeO6kTwjv8EfW3tTe0kJX3UU0xpgXeyIpqG7efWzOc8xEwCYTlivEh/IG/+eHGC4AuLhHzL3DaMwVwb4If187VtzT4E0bRaKC6YIADj/KNrlNZHplRIr6BqEVTQhKQcFmzjGInSTAUq1ey/bpuXyriPd6OCsZZqTEb4+U5K/p1qw786NcSNMSskGYI0AoKrIcfzGR8G9vNmdG2UMMrlwUlSHemJBy6d3ReEdwMjZyPTgETxJsd7YRLfwRZpsczOp6FfP69JIFKYsdw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RxuEGOeu03+jjzS/vLmydq24ldf9GcYLhMh0Ul+c52Q=;
- b=AGHBDl29proY9x+9ErGyHXThDF99HS1/XWKF311a8HqGTKdzxw+d6BaguhrK4m7/JVcL7jwYAgTjb7pwR0cBQMfAUztHTIAdUF9/01iT10cZcE3WYi/KNmU8Awkaam+lW75OU1nq4SA8AN9/DIvMOYGp0Sgz5ojKsQNcRqBxq4w1vBjsPU6Lr+bRv6nNj9wXLPtwgsSSjS0gCmAXzId8leH7UYI6E2XZLO2EIgyQQw4UInLCT1Oz7gVHdzTIqQlieKlkmuXd5fjHkUJzOtBrUh/h+GW0tp+hrerIuHfW0czL0hKaNbYITyE25/9NJ3tnLhQ3VgERSa5viICfEuSUcw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RxuEGOeu03+jjzS/vLmydq24ldf9GcYLhMh0Ul+c52Q=;
- b=qH3iCtZaMlL9SN4unIdIZ0HNAOrXoKnB7z7qTqZOwhvd7KcodmtU88fGeUkN6qdD/lpwu+yfGJbQPlh+op15kYlyB+ML6WYaV+tohPDAKETqWe1Y/Au2lA8Z1kjw2c8+fGNw95pNb3228PMgR9ich5y6tq4IfeYPBvRRoNFZcik=
-Received: from CY4PR11MB0072.namprd11.prod.outlook.com (10.171.253.27) by
- CY4PR11MB1463.namprd11.prod.outlook.com (10.172.65.150) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2707.23; Tue, 11 Feb 2020 19:52:47 +0000
-Received: from CY4PR11MB0072.namprd11.prod.outlook.com
- ([fe80::38cc:5fb0:e16e:7b5b]) by CY4PR11MB0072.namprd11.prod.outlook.com
- ([fe80::38cc:5fb0:e16e:7b5b%3]) with mapi id 15.20.2707.030; Tue, 11 Feb 2020
- 19:52:47 +0000
-From:   "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-To:     "rppt@kernel.org" <rppt@kernel.org>,
-        "Hansen, Dave" <dave.hansen@intel.com>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "jejb@linux.ibm.com" <jejb@linux.ibm.com>,
-        "alan@linux.intel.com" <alan@linux.intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "willy@infradead.org" <willy@infradead.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "cl@linux.com" <cl@linux.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "Reshetova, Elena" <elena.reshetova@intel.com>,
-        "tycho@tycho.ws" <tycho@tycho.ws>,
-        "luto@kernel.org" <luto@kernel.org>,
-        "kirill@shutemov.name" <kirill@shutemov.name>
-Subject: Re: [RFC PATCH] mm: extend memfd with ability to create "secret"
- memory areas
-Thread-Topic: [RFC PATCH] mm: extend memfd with ability to create "secret"
- memory areas
-Thread-Index: AQHV4QFPx/fsO70zbUuEQhjuwQxhXagOesyAgAMQlgCABNxdgA==
-Date:   Tue, 11 Feb 2020 19:52:47 +0000
-Message-ID: <ab0a11ad5fde0cc71a725aac3ea81cc996e35bf1.camel@intel.com>
-References: <20200130162340.GA14232@rapoport-lnx>
-         <df5a888b-1a11-e806-741d-94684b22c966@intel.com>
-         <20200208173922.GA15879@hump>
-In-Reply-To: <20200208173922.GA15879@hump>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=rick.p.edgecombe@intel.com; 
-x-originating-ip: [134.134.136.197]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 4be565f4-d500-4eb9-ece9-08d7af2bf7d2
-x-ms-traffictypediagnostic: CY4PR11MB1463:
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <CY4PR11MB14633850EBF445A503316FEFC9180@CY4PR11MB1463.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-forefront-prvs: 0310C78181
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(376002)(39860400002)(366004)(136003)(396003)(346002)(189003)(199004)(71200400001)(2616005)(478600001)(6506007)(36756003)(186003)(2906002)(4326008)(4744005)(5660300002)(66446008)(86362001)(7416002)(6512007)(110136005)(54906003)(8936002)(66946007)(8676002)(76116006)(91956017)(26005)(6636002)(66476007)(64756008)(66556008)(316002)(6486002)(81166006)(81156014)(219293001);DIR:OUT;SFP:1102;SCL:1;SRVR:CY4PR11MB1463;H:CY4PR11MB0072.namprd11.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 8XFYgOItGaM8aZMiGNJC1FM85GNL8J0pVNenceTZn/cGgtDbZ7xdDJEur+lk/dJ0WdFQdktOcVQ7LhM2OArSBeQC5tYnGsGUH+IzfgCevXfMNeklcVEvkqzqTGu1O4qYNUjyA9eH3xiz7mt5YtjdDgo35KIBeGYCD4/mSY4vxWO75smWzuQ1jwFhgMsRul4U4F+vAt6IFYzBjlYdooyKcLRJNcWhCWyLonHrKBr6Ugza8TFjZ36OSGbZTVCE5qvK3Y86mx6IgMfaDyyXtsXRwf2g5OuHeaSuXvL2lEMmgaskxOQLvzRbZ5BOz1f3r2H3ItfkcC8Bi2NudansJMBE+E/fE/2FtppBGdUXlCTrPTcUjzpYtXtTJqOOAzTQGDVGNZ1v3/E2/Ddd2Efv2YD/jbXgEswU3hk8LJmO9hKITKaglS/0AB+N4byBgW6VoJZAcBWqHB+6uuLJGAuIh2qgjZoo2hlgY4yxKGEDRIw93fw3vVGoLAzojVKE5VfHDBtp
-x-ms-exchange-antispam-messagedata: N/N8ZPfIdcxe6CDXK/63fZ0LmrVg6wzOnpsaS3/9kQeK7NAVDFvjkP97LIkd8ij9MN9apJm+l41RS5v5VbQ44/yD7SHevyWlHARBjEuavfgLykLUhRI/BBZD4yVE9KNCyO/w9yqjdF/q4q2YN+6laA==
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <7C45F3DD1BF1A748ACA077A657B22C5C@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        id S1728685AbgBKU4P (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 11 Feb 2020 15:56:15 -0500
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:35760 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731854AbgBKU4P (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 11 Feb 2020 15:56:15 -0500
+Received: by mail-oi1-f194.google.com with SMTP id b18so14227864oie.2
+        for <linux-api@vger.kernel.org>; Tue, 11 Feb 2020 12:56:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=8CmYe462WzzksuPoSriUQOLEMXkyrL5p8rPiP/wqsQE=;
+        b=oSTwn0d967GW3bvPpoBPc4xhMNU+afmUYTMc5sQAtO/Ma8lCfPJAv7HDesC+gIohzv
+         DkMgSufBV3LkIlRnO8ywR8ElxhA0xazO1a2X1EbTK9CPzmmDGuVdsOscmiYi9VuWm70X
+         X4QugCq1j+ND5muENF+hw/7uZsm0+pB5emMxJt5J03IBuPoLcY5imni1oxNwtN0QogdK
+         WAEagflmLFa9Wa5QWR/mFSJKRXQpW/pCGiRZEZdFevJ2+fsXxxJwszGEIlweNqHKaZQR
+         OT/n2MH+QFAJl9CN6AifWx4rVch6UDYBcDpoOITmpCYfCzaqslfwsQD44XYhI2I7wpvH
+         apqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=8CmYe462WzzksuPoSriUQOLEMXkyrL5p8rPiP/wqsQE=;
+        b=ZsuvysO0SXXJMMFNBCCiLjCxjPlOspXN+L5pBeDfXoR5tqnM8nt5GLS9GpPUDiIgq9
+         OkRHXqTLLZvGJlpLhZRoWP+2HsOaHEGbawNJ71swv9g2IA8BECxo3pcA3v3v7bBkEyHM
+         /7ePEzcK0b9GS4g0/j+iZqeGEqTrBxSho4XNdHblojg71e5B0vrj4y9T6iZDyD+X2D2x
+         XewA4kCca5FWSzjwWb9Rd6yfD/D8phvSqahNVrk+cGSNu8wR4qjyKmnnKZ6TXiXiveAN
+         R4vgdacVqNa6dnGdypiMC3GPtlQfdrCXoxJ6OpM5LIEM6xVXkOE4s4yIOHv/9RvP/6uJ
+         /UGw==
+X-Gm-Message-State: APjAAAUFB8coeFgmwRBxWycX2G3JFe2kl3fl2w3vKeed2OxnoVXZnJWp
+        bh7im7CnmFfLvMc5uegKYATxux5ACcryQ1D2Kid87w==
+X-Google-Smtp-Source: APXvYqwwlaPw3WuE7pvp2R5+l4ejpzIZmHKNHqXHYwDJ9Aqnqi8TIPcj6j2+bVdD0QcpNjFx5mAc4EwEtqlmtCOsHEY=
+X-Received: by 2002:aca:b187:: with SMTP id a129mr4153590oif.175.1581454572660;
+ Tue, 11 Feb 2020 12:56:12 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4be565f4-d500-4eb9-ece9-08d7af2bf7d2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Feb 2020 19:52:47.0995
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Pid0PXboa76kq5nMOGZjzxhKOK9NoB86oJCFIeowZBrOTdSkOM5+ETzZwbb3kZpDZ59BGsrsj9J3zvTWpZrsZV07I9uHoaZVyQqrypNoTSA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR11MB1463
-X-OriginatorOrg: intel.com
+References: <20200211165753.356508-1-christian.brauner@ubuntu.com>
+In-Reply-To: <20200211165753.356508-1-christian.brauner@ubuntu.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Tue, 11 Feb 2020 21:55:46 +0100
+Message-ID: <CAG48ez1GKOfXDZFD7-hGGjT8L9YEojn94DU5_=W8HL3pzdrCgg@mail.gmail.com>
+Subject: Re: [PATCH 00/24] user_namespace: introduce fsid mappings
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     =?UTF-8?Q?St=C3=A9phane_Graber?= <stgraber@ubuntu.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Aleksa Sarai <cyphar@cyphar.com>, smbarber@chromium.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Serge Hallyn <serge@hallyn.com>,
+        James Morris <jmorris@namei.org>,
+        Kees Cook <keescook@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux Containers <containers@lists.linux-foundation.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-T24gU2F0LCAyMDIwLTAyLTA4IGF0IDE5OjM5ICswMjAwLCBNaWtlIFJhcG9wb3J0IHdyb3RlOg0K
-PiA+IERvIHdlIG5lZWQgdG8gbWFrZSBrbWFwKCkgd29yayBvbiB0aGVzZT8NCj4gDQo+IEkgZG9u
-J3QgdGhpbmsgd2UgbmVlZCB0byBtYWtlIGttYXAoKSB3b3JrIG9uIHRoZXNlLiBUaGUgaWRlYSBp
-cyB0byBwcmV2ZW50DQo+IGtlcm5lbCBmcm9tIGFjY2Vzc2luZyBzdWNoIG1lbW9yeSBhcmVhcy4N
-Cg0KRm9yIHRoZSBWTSB1c2UgY2FzZSwgS1ZNIGRvZXMga21hcCgpIGd1ZXN0IG1lbW9yeSB3aGVu
-IGVtdWxhdGluZyBwYWdlIHRhYmxlDQpvcGVyYXRpb25zIGluIHNvbWUgY2FzZXM6DQphcmNoL3g4
-Ni9rdm0vcGFnaW5nX3RtcGwuaDpGTkFNRShjbXB4Y2hnX2dwdGUpLg0K
+On Tue, Feb 11, 2020 at 5:59 PM Christian Brauner
+<christian.brauner@ubuntu.com> wrote:
+> This is the implementation of shiftfs which was cooked up during lunch at
+> Linux Plumbers 2019 the day after the container's microconference. The
+> idea is a design-stew from St=C3=A9phane, Aleksa, Eric, and myself. Back =
+then
+> we all were quite busy with other work and couldn't really sit down and
+> implement it. But I took a few days last week to do this work, including
+> demos and performance testing.
+> This implementation does not require us to touch the vfs substantially
+> at all. Instead, we implement shiftfs via fsid mappings.
+> With this patch, it took me 20 mins to port both LXD and LXC to support
+> shiftfs via fsid mappings.
+>
+> For anyone wanting to play with this the branch can be pulled from:
+> https://github.com/brauner/linux/tree/fsid_mappings
+> https://gitlab.com/brauner/linux/-/tree/fsid_mappings
+> https://git.kernel.org/pub/scm/linux/kernel/git/brauner/linux.git/log/?h=
+=3Dfsid_mappings
+>
+> The main use case for shiftfs for us is in allowing shared writable
+> storage to multiple containers using non-overlapping id mappings.
+> In such a scenario you want the fsids to be valid and identical in both
+> containers for the shared mount. A demo for this exists in [3].
+> If you don't want to read on, go straight to the other demos below in
+> [1] and [2].
+
+I guess essentially this means that you want to have UID separation
+between containers to prevent the containers - or their owners - from
+interfering between each other, but for filesystem access, you don't
+want to isolate them from each other using DAC controls on the files
+and folders inside the containers' directory hierarchies, instead
+relying on mode-0700 parent directories to restrict access to the
+container owner? Or would you still have separate UIDs for e.g. the
+container's UID range 0-65535, and then map the shared UID range at
+100000, or something like that?
+
+> People not as familiar with user namespaces might not be aware that fsid
+> mappings already exist. Right now, fsid mappings are always identical to
+> id mappings. Specifically, the kernel will lookup fsuids in the uid
+> mappings and fsgids in the gid mappings of the relevant user namespace.
+
+That's a bit like saying that a kernel without CONFIG_USER_NS still
+has user ID mappings, they just happen to be identity mappings. :P
+
+> With this patch series we simply introduce the ability to create fsid
+> mappings that are different from the id mappings of a user namespace.
+>
+> In the usual case of running an unprivileged container we will have
+> setup an id mapping, e.g. 0 100000 100000. The on-disk mapping will
+> correspond to this id mapping, i.e. all files which we want to appear as
+> 0:0 inside the user namespace will be chowned to 100000:100000 on the
+> host. This works, because whenever the kernel needs to do a filesystem
+> access it will lookup the corresponding uid and gid in the idmapping
+> tables of the container.
+> Now think about the case where we want to have an id mapping of 0 100000
+> 100000 but an on-disk mapping of 0 300000 100000 which is needed to e.g.
+> share a single on-disk mapping with multiple containers that all have
+> different id mappings.
+> This will be problematic. Whenever a filesystem access is requested, the
+> kernel will now try to lookup a mapping for 300000 in the id mapping
+> tables of the user namespace but since there is none the files will
+> appear to be owned by the overflow id, i.e. usually 65534:65534 or
+> nobody:nogroup.
+>
+> With fsid mappings we can solve this by writing an id mapping of 0
+> 100000 100000 and an fsid mapping of 0 300000 100000. On filesystem
+> access the kernel will now lookup the mapping for 300000 in the fsid
+> mapping tables of the user namespace. And since such a mapping exists,
+> the corresponding files will have correct ownership.
+
+Sorry to bring up something as disgusting as setuid execution, but:
+What happens when there's a setuid root file with ->i_uid=3D=3D300000? I
+guess the only way to make that work inside the containers would be
+something like make_kuid(current_user_ns(),
+from_kfsuid(current_user_ns(), inode->i_uid)) in the setuid execve
+path?
+
+> A note on proc (and sys), the proc filesystem is special in sofar as it
+> only has a single superblock that is (currently but might be about to
+> change) visible in all user namespaces (same goes for sys). This means
+> it has special semantics in many ways, including how file ownership and
+> access works. The fsid mapping implementation does not alter how proc
+> (and sys) ownership works. proc and sys will both continue to lookup
+> filesystem access in id mapping tables.
+
+In your example, a process with namespaced UID set (0, 0, 0, 0) will
+have kernel UIDs (100000, 100000, 100000, 300000), right? And then if
+I want to open /proc/$pid/personality of another process with the same
+UIDs, may_open() will call inode_permission() -> do_inode_permission()
+-> generic_permission() -> acl_permission_check(), which will compare
+current_fsuid() (which is 300000) against inode->i_uid. But
+inode->i_uid was filled by proc_pid_make_inode()->task_dump_owner(),
+which set inode->i_uid to 100000, right?
+
+Also, e.g. __ptrace_may_access() uses cred->fsuid for a comparison
+with another task's real/effective/saved UID.
+
+[...]
+> # Demos
+> [1]: Create a container with different id and fsid mappings.
+>      https://asciinema.org/a/300233
+> [2]: Create a container with id mappings but without fsid mappings.
+>      https://asciinema.org/a/300234
+> [3]: Share storage between multiple containers with non-overlapping id
+>      mappings.
+>      https://asciinema.org/a/300235
+
+(I really dislike this asciinema thing; if you want to quickly glance
+through the output instead of reading at the same speed as it was
+typed, a simple pastebin works much better unless you absolutely have
+to show things that use stuff like ncurses UI.)
