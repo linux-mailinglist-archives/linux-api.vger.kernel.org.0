@@ -2,91 +2,92 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 22806159D2D
-	for <lists+linux-api@lfdr.de>; Wed, 12 Feb 2020 00:27:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2CC6F159D38
+	for <lists+linux-api@lfdr.de>; Wed, 12 Feb 2020 00:32:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727799AbgBKX1u (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 11 Feb 2020 18:27:50 -0500
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:39451 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727949AbgBKX1t (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 11 Feb 2020 18:27:49 -0500
-Received: by mail-oi1-f196.google.com with SMTP id z2so203008oih.6
-        for <linux-api@vger.kernel.org>; Tue, 11 Feb 2020 15:27:47 -0800 (PST)
+        id S1727880AbgBKXcz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 11 Feb 2020 18:32:55 -0500
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:45496 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727798AbgBKXcz (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 11 Feb 2020 18:32:55 -0500
+Received: by mail-ed1-f66.google.com with SMTP id v28so144519edw.12
+        for <linux-api@vger.kernel.org>; Tue, 11 Feb 2020 15:32:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=GQIwR4Iey9SqyBTPvSIcnQ+YLAZloOW5xwQXPpKs1II=;
-        b=G3HXWmkUh7/VrPilWhIVjW3UV+g8eJl02dzhNI3d+SbmhX1jd4vIutW00Wj6m5O7f2
-         TuEEj0dNJtb1UVq8JHB/LsiqNmYDZuJRJh13TM7elLPNfECfyG9Z2mBSbIY4k8GTBddP
-         2IC7xRFEwSSiRreWHJMw2NnajFUF/35Ju9c1nvpVov5WKkmJURlKRMbMTleNzcanyphe
-         eKA7eJY9h6lWxc3lo6CMOZHji76uqTFOEpZ/m8bS6WOQR8avyYKkEsB40XBQXXguLpZV
-         WSf4TDl0XEdAYh1x6VoE2reAKHFv3A3y0D5dx/xOGZ02qrKxgtFWEcsmNVfoHVjsm/h2
-         BRXQ==
+        bh=dSs7UqmD5JkZZbHb6Da5Z4JrHfZRP5ftJHQt9uAAdrI=;
+        b=liMR+ja4NzU1aOeqaKl4lbrBoRPtK+iwhpCD3ABdyNXC3IV0OkN3hWEOnv+stwyz0p
+         dLvQVDNXNtPDaA4s61UCJ/3rotRJB/rTr5S8Cf9nj7ULYw81Aw4eW6jcW8FSnkpmkvFd
+         S6jaIPrwapXw4jFnQN3EKyucf6zFOyc2+AAVH3ZF+KkhnTYbaAZHf9l69KVrBBOME6gy
+         /mUhEwIhyx2yeczYKS/Ts9DFICgi9MWfVd6V5YiEbXZNoeczIP9qwGVwnFrqIrj7UhGM
+         TlJlsGQhF7vrtBEFZYIULny/TaQZIx8x7GxfyVcNWvMGsS/sfcOBKF4lPCrnZ6HS/y0D
+         dGCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=GQIwR4Iey9SqyBTPvSIcnQ+YLAZloOW5xwQXPpKs1II=;
-        b=NSBBQbNPLb2rpVoiKJ8zBGk5Xq3dWZjj3LmV2jNZVqI6fxkSxnZAqGymH6TvUJWIWF
-         gGLR6GLsDVn7DBNpLqe4ybwGcMrzxabo3Jadk6ZJUsjTwSbXMqnJMQxdOLNdRLLRTP9L
-         CYB69DF7EvXcxDZSEpI77Mu+Q72LNVAr3M0YyFt79oPoWHkepyzvv/0pVm9l8wjqRg2k
-         v7CJygfqNdRdwzbk4kNNtdA6kV0+cSzTg7aTaGozckvWP/p1syLKPvUNHr+pybzmkPLH
-         K+g9k1gLdIEN9Au54vcvajijfQJM+cxoMEfD0pN4sQ8RVA3Ez+8Wtk3hixp16ZuyS1NI
-         XpNQ==
-X-Gm-Message-State: APjAAAWShKllNaBIlJAM7brDQLf2TrPIflUBTi3gVrtE1BHCTXko+JAn
-        cn1/yVH0gKhQAp2WQXzzT6lF7x3kvmPLQ2rXziRaLg==
-X-Google-Smtp-Source: APXvYqzSGcHx5/Yxew+5ozGYgh0EE+OqTNrd+dP5sbaiJ9qdiJ1cWbqh0cflcsziBg8+feMu8WSsPFqrRRfAxEzAOlY=
-X-Received: by 2002:aca:8d5:: with SMTP id 204mr4255305oii.141.1581463667061;
- Tue, 11 Feb 2020 15:27:47 -0800 (PST)
+        bh=dSs7UqmD5JkZZbHb6Da5Z4JrHfZRP5ftJHQt9uAAdrI=;
+        b=snqYstd9NYrHIei1EulB+dMxltiEESyzp6rSoeknLJC0Vz2LhLECS5qn0AVY9zgPGA
+         TgpVNoSZUNJHswlBKl2CWnS/Ddwi9ehsHO2+6j9Ngtd+ggBt7iWXR778JDhfuACwb1oJ
+         fEX2myCgqVw+cUpaiTfCQz7guOCdlKwMAKRYATw9zhl35/fygPJ+MKkI38LLVViNa2rW
+         ZMy8MzV2NW27kAUdgneiKJX49Ibdw6WzUiyx3/+4TmGMS+5agiMtptRaQCc5yo90uOWl
+         jiziZZJG/iPwWpPzXu4f5NOBWiaOUJcsSoZyqRnQFTIYrXxSpXlPnTBVKkEIrYDhMac/
+         CFlA==
+X-Gm-Message-State: APjAAAVvKGXXVw+vb4nzX5VsvxDDp4nJzQp1OjPAw4LVySChudJC86Nd
+        cnT5U5OMq1kdQ3sO+3fpyAjHRbH9qQaOSMpYGaGwkw==
+X-Google-Smtp-Source: APXvYqwMMZEHyNax/K9vt49l37WE+90gfgIcM9+R+CCDjwgdS1qYkAJjiKABPD4lZFkil4hu37IJKAM0KZWO/WJI9NU=
+X-Received: by 2002:a05:6402:6c7:: with SMTP id n7mr7881480edy.177.1581463973027;
+ Tue, 11 Feb 2020 15:32:53 -0800 (PST)
 MIME-Version: 1.0
-References: <20200211225547.235083-1-dancol@google.com> <9ae20f6e-c5c0-4fd7-5b61-77218d19480b@schaufler-ca.com>
-In-Reply-To: <9ae20f6e-c5c0-4fd7-5b61-77218d19480b@schaufler-ca.com>
-From:   Daniel Colascione <dancol@google.com>
-Date:   Tue, 11 Feb 2020 15:27:10 -0800
-Message-ID: <CAKOZueuh2MR4UKi60-GVgPkXjncHx8J=mTTjRquB82CfS7DxBA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/6] Harden userfaultfd
-To:     Casey Schaufler <casey@schaufler-ca.com>
-Cc:     Tim Murray <timmurray@google.com>, Nosh Minwalla <nosh@google.com>,
-        Nick Kralevich <nnk@google.com>,
-        Lokesh Gidra <lokeshgidra@google.com>,
+References: <20200207201856.46070-1-bgeffon@google.com> <CAKOZuevHH1pamEKy5n5RLWDP=tHk6_9bR+g3G+HKnqm_srHvrw@mail.gmail.com>
+In-Reply-To: <CAKOZuevHH1pamEKy5n5RLWDP=tHk6_9bR+g3G+HKnqm_srHvrw@mail.gmail.com>
+From:   Brian Geffon <bgeffon@google.com>
+Date:   Tue, 11 Feb 2020 15:32:26 -0800
+Message-ID: <CADyq12ySxau=SyyNp6VSbwmvRm6Kq1=Y62wTbQZoEAQ1XaXcuw@mail.gmail.com>
+Subject: Re: [PATCH v4] mm: Add MREMAP_DONTUNMAP to mremap().
+To:     Daniel Colascione <dancol@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        "Michael S . Tsirkin" <mst@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>,
         linux-kernel <linux-kernel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>, selinux@vger.kernel.org,
-        LSM List <linux-security-module@vger.kernel.org>
+        linux-mm <linux-mm@kvack.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Will Deacon <will@kernel.org>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Yu Zhao <yuzhao@google.com>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Feb 11, 2020 at 3:13 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
->
-> On 2/11/2020 2:55 PM, Daniel Colascione wrote:
-> > Userfaultfd in unprivileged contexts could be potentially very
-> > useful. We'd like to harden userfaultfd to make such unprivileged use
-> > less risky. This patch series allows SELinux to manage userfaultfd
-> > file descriptors and allows administrators to limit userfaultfd to
-> > servicing user-mode faults, increasing the difficulty of using
-> > userfaultfd in exploit chains invoking delaying kernel faults.
-> >
-> > A new anon_inodes interface allows callers to opt into SELinux
-> > management of anonymous file objects. In this mode, anon_inodes
-> > creates new ephemeral inodes for anonymous file objects instead of
-> > reusing a singleton dummy inode. A new LSM hook gives security modules
-> > an opportunity to configure and veto these ephemeral inodes.
-> >
-> > Existing anon_inodes users must opt into the new functionality.
-> >
-> > Daniel Colascione (6):
-> >   Add a new flags-accepting interface for anonymous inodes
-> >   Add a concept of a "secure" anonymous file
-> >   Teach SELinux about a new userfaultfd class
-> >   Wire UFFD up to SELinux
-> >   Let userfaultfd opt out of handling kernel-mode faults
-> >   Add a new sysctl for limiting userfaultfd to user mode faults
->
-> This must be posted to the linux Security Module list
-> <linux-security-module@vger.kernel.org>
+Hi Daniel,
 
-Added. I thought selinux@ was sufficient.
+> What about making the
+> left-behind mapping PROT_NONE? This way, we'll still solve the
+> address-space race in Lokesh's use case (because even a PROT_NONE
+> mapping reserves address space) but won't incur any additional commit
+> until someone calls mprotect(PROT_WRITE) on the left-behind mapping.
+
+This limits the usefulness of the feature IMO and really is too
+specific to that one use case, suppose you want to snapshot a memory
+region to disk without having to stop a thread you can
+mremap(MREMAP_DONTUNMAP) it to another location and safely write it to
+disk knowing the faulting thread will be stopped and you can handle it
+later if it was registered with userfaultfd, if we were to also change
+it to PROT_NONE that thread would see a SEGV. There are other examples
+where you can possibly use this flag instead of VM_UFFD_WP, but
+changing the protections of the mapping prevents you from being able
+to do this without a funny signal handler dance.
+
+Brian
