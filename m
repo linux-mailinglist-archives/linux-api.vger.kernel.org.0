@@ -2,142 +2,168 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 64A9115B30E
-	for <lists+linux-api@lfdr.de>; Wed, 12 Feb 2020 22:48:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EC42D15B400
+	for <lists+linux-api@lfdr.de>; Wed, 12 Feb 2020 23:39:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729127AbgBLVsc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 12 Feb 2020 16:48:32 -0500
-Received: from out02.mta.xmission.com ([166.70.13.232]:59594 "EHLO
-        out02.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728447AbgBLVsc (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Feb 2020 16:48:32 -0500
-Received: from in01.mta.xmission.com ([166.70.13.51])
-        by out02.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.90_1)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1j1zrt-0001QL-Ry; Wed, 12 Feb 2020 14:48:25 -0700
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
-        by in01.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.87)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1j1zrr-0007IE-Re; Wed, 12 Feb 2020 14:48:25 -0700
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        Linux Security Module <linux-security-module@vger.kernel.org>,
-        Akinobu Mita <akinobu.mita@gmail.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Daniel Micay <danielmicay@gmail.com>,
-        Djalal Harouni <tixxdz@gmail.com>,
-        "Dmitry V . Levin" <ldv@altlinux.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Jeff Layton <jlayton@poochiereds.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Solar Designer <solar@openwall.com>
-References: <20200210150519.538333-8-gladkov.alexey@gmail.com>
-        <87v9odlxbr.fsf@x220.int.ebiederm.org>
-        <20200212144921.sykucj4mekcziicz@comp-core-i7-2640m-0182e6>
-        <87tv3vkg1a.fsf@x220.int.ebiederm.org>
-        <CAHk-=wg52stFtUxMOxs3afkwDWmWn1JXC7RJ7dPsTrJbnxpZVg@mail.gmail.com>
-        <87v9obipk9.fsf@x220.int.ebiederm.org>
-        <CAHk-=wgwmu4jpmOqW0+Lz0dcem1Fub=ThLHvmLobf_WqCq7bwg@mail.gmail.com>
-        <20200212200335.GO23230@ZenIV.linux.org.uk>
-        <CAHk-=wi+1CPShMFvJNPfnrJ8DD8uVKUOQ5TQzQUNGLUkeoahkg@mail.gmail.com>
-        <20200212203833.GQ23230@ZenIV.linux.org.uk>
-        <20200212204124.GR23230@ZenIV.linux.org.uk>
-        <CAHk-=wi5FOGV_3tALK3n6E2fK3Oa_yCYkYQtCSaXLSEm2DUCKg@mail.gmail.com>
-Date:   Wed, 12 Feb 2020 15:46:29 -0600
-In-Reply-To: <CAHk-=wi5FOGV_3tALK3n6E2fK3Oa_yCYkYQtCSaXLSEm2DUCKg@mail.gmail.com>
-        (Linus Torvalds's message of "Wed, 12 Feb 2020 13:02:40 -0800")
-Message-ID: <87lfp7h422.fsf@x220.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        id S1729237AbgBLWjJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 12 Feb 2020 17:39:09 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34099 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1729232AbgBLWjJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Feb 2020 17:39:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1581547148;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=aHRhn6tYA2uPSVh6/rkm63iog4UAvaa+4hT5pNyhnbA=;
+        b=POS2kwkzakBTOUzvIh6tTg3Vr3rS+fQya405N/TmX8Mp4ejvVP0oHovl2WeKVkri5T50ki
+        0JHRkyy/NMBohuTY2+zUp45GisA4+/PgOMe6cni7ODZeCDPd68LMvBUv07beRCwR2lhXl/
+        /qDw6iDs07Z/P2gYF3LszE6PfmlclD4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-273-wICrGc1-NMGw74EGxDF9nw-1; Wed, 12 Feb 2020 17:38:58 -0500
+X-MC-Unique: wICrGc1-NMGw74EGxDF9nw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 115101800D6B;
+        Wed, 12 Feb 2020 22:38:56 +0000 (UTC)
+Received: from x2.localnet (ovpn-116-254.phx2.redhat.com [10.3.116.254])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 2713A19C6A;
+        Wed, 12 Feb 2020 22:38:46 +0000 (UTC)
+From:   Steve Grubb <sgrubb@redhat.com>
+To:     linux-audit@redhat.com
+Cc:     Paul Moore <paul@paul-moore.com>,
+        Richard Guy Briggs <rgb@redhat.com>, nhorman@tuxdriver.com,
+        linux-api@vger.kernel.org, containers@lists.linux-foundation.org,
+        LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
+        netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
+        simo@redhat.com, netdev@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>,
+        mpatel@redhat.com, Serge Hallyn <serge@hallyn.com>
+Subject: Re: [PATCH ghak90 V8 07/16] audit: add contid support for signalling the audit daemon
+Date:   Wed, 12 Feb 2020 17:38:45 -0500
+Message-ID: <3142237.YMNxv0uec1@x2>
+Organization: Red Hat
+In-Reply-To: <CAHC9VhQquokw+7UOU=G0SsD35UdgmfysVKCGCE87JVaoTkbisg@mail.gmail.com>
+References: <cover.1577736799.git.rgb@redhat.com> <20200204231454.oxa7pyvuxbj466fj@madcap2.tricolour.ca> <CAHC9VhQquokw+7UOU=G0SsD35UdgmfysVKCGCE87JVaoTkbisg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1j1zrr-0007IE-Re;;;mid=<87lfp7h422.fsf@x220.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX19ygjuB60Kb6N9Sok9ZifBaf15XLQkzcfs=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa03.xmission.com
-X-Spam-Level: 
-X-Spam-Status: No, score=-0.3 required=8.0 tests=ALL_TRUSTED,BAYES_40,
-        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,XMSubLong autolearn=disabled
-        version=3.4.2
-X-Spam-Virus: No
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-        * -0.0 BAYES_40 BODY: Bayes spam probability is 20 to 40%
-        *      [score: 0.2572]
-        *  0.7 XMSubLong Long Subject
-        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
-        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-        *      [sa03 1397; Body=1 Fuz1=1 Fuz2=1]
-X-Spam-DCC: XMission; sa03 1397; Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: ;Linus Torvalds <torvalds@linux-foundation.org>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 1577 ms - load_scoreonly_sql: 0.02 (0.0%),
-        signal_user_changed: 2.3 (0.1%), b_tie_ro: 1.60 (0.1%), parse: 0.64
-        (0.0%), extract_message_metadata: 11 (0.7%), get_uri_detail_list: 0.89
-        (0.1%), tests_pri_-1000: 12 (0.8%), tests_pri_-950: 1.00 (0.1%),
-        tests_pri_-900: 0.82 (0.1%), tests_pri_-90: 21 (1.3%), check_bayes: 20
-        (1.3%), b_tokenize: 6 (0.4%), b_tok_get_all: 7 (0.5%), b_comp_prob:
-        1.59 (0.1%), b_tok_touch_all: 3.2 (0.2%), b_finish: 0.56 (0.0%),
-        tests_pri_0: 174 (11.0%), check_dkim_signature: 0.38 (0.0%),
-        check_dkim_adsp: 2.8 (0.2%), poll_dns_idle: 1342 (85.1%),
-        tests_pri_10: 1.63 (0.1%), tests_pri_500: 1351 (85.7%), rewrite_mail:
-        0.00 (0.0%)
-Subject: Re: [PATCH v8 07/11] proc: flush task dcache entries from all procfs instances
-X-Spam-Flag: No
-X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
-X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Linus Torvalds <torvalds@linux-foundation.org> writes:
+On Wednesday, February 5, 2020 5:50:28 PM EST Paul Moore wrote:
+> > > > > ... When we record the audit container ID in audit_signal_info() we
+> > > > > take an extra reference to the audit container ID object so that it
+> > > > > will not disappear (and get reused) until after we respond with an
+> > > > > AUDIT_SIGNAL_INFO2.  In audit_receive_msg() when we do the
+> > > > > AUDIT_SIGNAL_INFO2 processing we drop the extra reference we took
+> > > > > in
+> > > > > audit_signal_info().  Unless I'm missing some other change you
+> > > > > made,
+> > > > > this *shouldn't* affect the syscall records, all it does is
+> > > > > preserve
+> > > > > the audit container ID object in the kernel's ACID store so it
+> > > > > doesn't
+> > > > > get reused.
+> > > > 
+> > > > This is exactly what I had understood.  I hadn't considered the extra
+> > > > details below in detail due to my original syscall concern, but they
+> > > > make sense.
+> > > > 
+> > > > The syscall I refer to is the one connected with the drop of the
+> > > > audit container identifier by the last process that was in that
+> > > > container in patch 5/16.  The production of this record is contingent
+> > > > on
+> > > > the last ref in a contobj being dropped.  So if it is due to that ref
+> > > > being maintained by audit_signal_info() until the AUDIT_SIGNAL_INFO2
+> > > > record it fetched, then it will appear that the fetch action closed
+> > > > the
+> > > > container rather than the last process in the container to exit.
+> > > > 
+> > > > Does this make sense?
+> > > 
+> > > More so than your original reply, at least to me anyway.
+> > > 
+> > > It makes sense that the audit container ID wouldn't be marked as
+> > > "dead" since it would still be very much alive and available for use
+> > > by the orchestrator, the question is if that is desirable or not.  I
+> > > think the answer to this comes down the preserving the correctness of
+> > > the audit log.
+> > > 
+> > > If the audit container ID reported by AUDIT_SIGNAL_INFO2 has been
+> > > reused then I think there is a legitimate concern that the audit log
+> > > is not correct, and could be misleading.  If we solve that by grabbing
+> > > an extra reference, then there could also be some confusion as
+> > > userspace considers a container to be "dead" while the audit container
+> > > ID still exists in the kernel, and the kernel generated audit
+> > > container ID death record will not be generated until much later (and
+> > > possibly be associated with a different event, but that could be
+> > > solved by unassociating the container death record).
+> > 
+> > How does syscall association of the death record with AUDIT_SIGNAL_INFO2
+> > possibly get associated with another event?  Or is the syscall
+> > association with the fetch for the AUDIT_SIGNAL_INFO2 the other event?
+> 
+> The issue is when does the audit container ID "die".  If it is when
+> the last task in the container exits, then the death record will be
+> associated when the task's exit.  If the audit container ID lives on
+> until the last reference of it in the audit logs, including the
+> SIGNAL_INFO2 message, the death record will be associated with the
+> related SIGNAL_INFO2 syscalls, or perhaps unassociated depending on
+> the details of the syscalls/netlink.
+> 
+> > Another idea might be to bump the refcount in audit_signal_info() but
+> > mark tht contid as dead so it can't be reused if we are concerned that
+> > the dead contid be reused?
+> 
+> Ooof.  Yes, maybe, but that would be ugly.
+> 
+> > There is still the problem later that the reported contid is incomplete
+> > compared to the rest of the contid reporting cycle wrt nesting since
+> > AUDIT_SIGNAL_INFO2 will need to be more complex w/2 variable length
+> > fields to accommodate a nested contid list.
+> 
+> Do we really care about the full nested audit container ID list in the
+> SIGNAL_INFO2 record?
+> 
+> > > Of the two
+> > > approaches, I think the latter is safer in that it preserves the
+> > > correctness of the audit log, even though it could result in a delay
+> > > of the container death record.
+> > 
+> > I prefer the former since it strongly indicates last task in the
+> > container.  The AUDIT_SIGNAL_INFO2 msg has the pid and other subject
+> > attributes and the contid to strongly link the responsible party.
+> 
+> Steve is the only one who really tracks the security certifications
+> that are relevant to audit, see what the certification requirements
+> have to say and we can revisit this.
 
-> On Wed, Feb 12, 2020 at 12:41 PM Al Viro <viro@zeniv.linux.org.uk> wrote:
->>
->> On Wed, Feb 12, 2020 at 08:38:33PM +0000, Al Viro wrote:
->> >
->> > Wait, I thought the whole point of that had been to allow multiple
->> > procfs instances for the same userns?  Confused...
->>
->> s/userns/pidns/, sorry
->
-> Right, but we still hold the ref to it here...
->
-> [ Looks more ]
->
-> Oooh. No we don't. Exactly because we don't hold the lock, only the
-> rcu lifetime, the ref can go away from under us. I see what your
-> concern is.
->
-> Ouch, this is more painful than I expected - the code flow looked so
-> simple. I really wanted to avoid a new lock during process shutdown,
-> because that has always been somewhat painful.
+Sever Virtualization Protection Profile is the closest applicable standard
 
-The good news is proc_flush_task isn't exactly called from process exit.
-proc_flush_task is called during zombie clean up. AKA release_task.
+https://www.niap-ccevs.org/Profile/Info.cfm?PPID=408&id=408
 
-So proc_flush_task isn't called with any locks held, and it is
-called in a context where it can sleep.
+It is silent on audit requirements for the lifecycle of a VM. I assume that 
+all that is needed is what the orchestrator says its doing at the high level. 
+So, if an orchestrator wants to shutdown a container, the orchestrator must 
+log that intent and its results. In a similar fashion, systemd logs that it's 
+killing a service and we don't actually hook the exit syscall of the service 
+to record that.
 
-Further after proc_flush_task does it's thing the code goes
-and does "write_lock_irq(&task_list_lock);"
+Now, if a container was being used as a VPS, and it had a fully functioning 
+userspace, it's own services, and its very own audit daemon, then in this 
+case it would care who sent a signal to its auditd. The tenant of that 
+container may have to comply with PCI-DSS or something else. It would log the 
+audit service is being terminated and systemd would record that its tearing 
+down the environment. The OS doesn't need to do anything.
 
-So the code is definitely serialized to one processor already.
+-Steve
 
-What would be downside of having a mutex for a list of proc superblocks?
-A mutex that is taken for both reading and writing the list.
 
-Eric
