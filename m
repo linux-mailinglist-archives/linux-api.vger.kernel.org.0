@@ -2,48 +2,48 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 974E615B4E7
-	for <lists+linux-api@lfdr.de>; Thu, 13 Feb 2020 00:40:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3878B15B4F1
+	for <lists+linux-api@lfdr.de>; Thu, 13 Feb 2020 00:40:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729366AbgBLXkF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 12 Feb 2020 18:40:05 -0500
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:44064 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729194AbgBLXkC (ORCPT
+        id S1729363AbgBLXkE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 12 Feb 2020 18:40:04 -0500
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:43535 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729356AbgBLXkC (ORCPT
         <rfc822;linux-api@vger.kernel.org>); Wed, 12 Feb 2020 18:40:02 -0500
-Received: by mail-pl1-f196.google.com with SMTP id d9so1543515plo.11;
-        Wed, 12 Feb 2020 15:40:00 -0800 (PST)
+Received: by mail-pf1-f193.google.com with SMTP id s1so2007421pfh.10;
+        Wed, 12 Feb 2020 15:40:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=tK/qyDb2GX3eOsQv+8LykkGI1WZNv+AWZfoVVRiylFw=;
-        b=ugnk4mbCpyLdbSnvSLG+4LE+l7uQjSspFTFdoXumnT9VtWq0fApfN4PwLFAP90qoof
-         my+fCb7um1UNKkVcQdS2Fy2CxJIvpngIkgvSrCwcCeP+rS9OAZOpRZjv+YLq/FZj+YU6
-         p3hj4WL+PtezT3ZPgcOlwn9B3TR3+L4h0YclrXkhWtBMF46MqTSO7Nwuji88u0C9Ys9I
-         Victfq0Q7S8GZ3z/WzMRtXU0sMlhPBiNmTzTa96CahdBEIyJw/QeiUCPOtn1bxydOGgY
-         TBqqxdcWMBLx95yG//Tr7q3kXPK7/xDqjdZ7j+UaU3pTyktPWgY6/MvqDY5EfO60bb3s
-         Bx9w==
+        bh=ZMr8LhEVC9oO5IOdT1EAti6B5+7g8NKkMYB8pLjiUts=;
+        b=FZrxKnddlcDw5zyfExhzpFB7yNfAtSGotiVUgDx7kQeEtRk96KD2mjuJAwspjEWZEN
+         8KQGuw5rgbMTjblF/1hERi1coEcedKQRj0A3ZDpTh/rLPLJ01OSf3UbmgfW6utovZI3H
+         qKbek4ZUVtEesWnc8Jz1oh3eReFVrokHuT8LrXYSlGbQs0tKXLnC7cKdOT9I8H90mNP/
+         6LeqDCmJSqRfYdC0SBilvY0LlpVtSqLG7Oof/zDRge1nTZaZh3bSa2QLWuT7PpN2E/V8
+         MufG1jDdEtKBDxSNXo3mv7bob5OGe9IF3J0ofzL96vWBtLLs9Lykq6WoQHJCnrmHn7sj
+         g+/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=tK/qyDb2GX3eOsQv+8LykkGI1WZNv+AWZfoVVRiylFw=;
-        b=sWVeSmLXg5CaIoHzitNDCOzzN+Nu3u4ekeVag35uibdzdDI5IE5vD31FjEbo9E3MqB
-         JomfNHVnljJ12pnnfisX1wvfw6m5zSvQBd+tMpon4K1twB0x/reK7u/M29jZBvacuoYP
-         pPx/nCfnpxIF5OPamAoq+kMPa2C5WaOr0OWsGRY7TLMtp1cqGVSA6+zzSStN2Yn7bTAN
-         MLRuznga+xUciFI1X7+Z9cyTc9s7gmOlaV5bSzeOHcwcmS0DelmjwcZIkGPSSMwX6OjP
-         9DGnmAJRmQ52crXrgU5Is37T6s0sYRCNG1x11/LT7Ibe9u6s+2CDhCQcrcgKcm0kJ9oC
-         0qLA==
-X-Gm-Message-State: APjAAAXXmWB41Cj6mh9WLvpt80JJ155s41GkKgRBj1bT7FIstY447fh7
-        NrL+Y9g6E3hUoup4sh2A4O0fkDEB
-X-Google-Smtp-Source: APXvYqzEB9/J7b1QjW8h1fUyP6Qmptb0s33s1keuBeCMZm1l7u56kP5ukjXfiNoaeQnUfZEkSg508w==
-X-Received: by 2002:a17:902:8bc1:: with SMTP id r1mr10844147plo.279.1581550799359;
-        Wed, 12 Feb 2020 15:39:59 -0800 (PST)
+        bh=ZMr8LhEVC9oO5IOdT1EAti6B5+7g8NKkMYB8pLjiUts=;
+        b=P3y+bgE0nFKK9IKIISHhoWHBaSJ+xqXZmCXROVPjQ9kJgRTQ3laqlIz+nTs8pL3jUL
+         5eyD4zP0ClsyBJUTI6em3Usnng1JNLXv/bx6P/Nm8YwR7SIAVd5qO/B0F6wgt9yGuJRF
+         OyPBJMA2/XaeEt/ucGLJ3gsFcP1ilIDb6xD9slyVk187iqHJD+T0V6u7r7bUz7CqS0Hi
+         A0se8XJQa4XgjhKJkIvx4mVhJ6Y2gMmAi5fFWkeC7kv3g3jv0Ylx8bELQ+fxeb5J6yWk
+         h65L2TD6URaKbk9xDVSsAXzw/uaGpvOgl4y5nQG6HoAuODGjIbk3uArvWNJFh8bd4gvE
+         MsWw==
+X-Gm-Message-State: APjAAAW7b04lUdboo1PH1kQ37ofbFkFuadwgesCeJoxynW3heIfSFpie
+        v1vOBoLhsH0fT4uqxU7TlTVSsh0R
+X-Google-Smtp-Source: APXvYqyTYiXBm1zUHh7AFeoGz7OUaVklPnIUFSpjd2o7FpUwNPngIaBgYKUhERpn7MoMtdc1mZ47HA==
+X-Received: by 2002:a65:645a:: with SMTP id s26mr10828696pgv.135.1581550801457;
+        Wed, 12 Feb 2020 15:40:01 -0800 (PST)
 Received: from bbox-1.mtv.corp.google.com ([2620:15c:211:1:3e01:2939:5992:52da])
-        by smtp.gmail.com with ESMTPSA id k5sm296664pju.29.2020.02.12.15.39.57
+        by smtp.gmail.com with ESMTPSA id k5sm296664pju.29.2020.02.12.15.39.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Feb 2020 15:39:58 -0800 (PST)
+        Wed, 12 Feb 2020 15:40:00 -0800 (PST)
 From:   Minchan Kim <minchan@kernel.org>
 To:     Andrew Morton <akpm@linux-foundation.org>
 Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
@@ -61,9 +61,9 @@ Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
         Joel Fernandes <joel@joelfernandes.org>,
         Alexander Duyck <alexander.h.duyck@linux.intel.com>,
         Minchan Kim <minchan@kernel.org>
-Subject: [PATCH v4 4/8] mm: check fatal signal pending of target process
-Date:   Wed, 12 Feb 2020 15:39:42 -0800
-Message-Id: <20200212233946.246210-5-minchan@kernel.org>
+Subject: [PATCH v4 5/8] mm/madvise: employ mmget_still_valid for write lock
+Date:   Wed, 12 Feb 2020 15:39:43 -0800
+Message-Id: <20200212233946.246210-6-minchan@kernel.org>
 X-Mailer: git-send-email 2.25.0.225.g125e21ebc7-goog
 In-Reply-To: <20200212233946.246210-1-minchan@kernel.org>
 References: <20200212233946.246210-1-minchan@kernel.org>
@@ -74,134 +74,39 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Bail out to prevent unnecessary CPU overhead if target process ha
-pending fatal signal during MADV_COLD| MADV_PAGEOUT operation.
+From: Oleksandr Natalenko <oleksandr@redhat.com>
 
+Do the very same trick as we already do since 04f5866e41fb. KSM hints
+will require locking mmap_sem for write since they modify vm_flags, so
+for remote KSM hinting this additional check is needed.
+
+Signed-off-by: Oleksandr Natalenko <oleksandr@redhat.com>
 Signed-off-by: Minchan Kim <minchan@kernel.org>
 ---
- mm/madvise.c | 27 +++++++++++++++++++--------
- 1 file changed, 19 insertions(+), 8 deletions(-)
+ mm/madvise.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/mm/madvise.c b/mm/madvise.c
-index bb04c7897eb9..276b9d81c1dd 100644
+index 276b9d81c1dd..71f0ba199ae8 100644
 --- a/mm/madvise.c
 +++ b/mm/madvise.c
-@@ -36,6 +36,7 @@
- struct madvise_walk_private {
- 	struct mmu_gather *tlb;
- 	bool pageout;
-+	struct task_struct *task;
- };
- 
- /*
-@@ -316,6 +317,9 @@ static int madvise_cold_or_pageout_pte_range(pmd_t *pmd,
- 	if (fatal_signal_pending(current))
- 		return -EINTR;
- 
-+	if (fatal_signal_pending(private->task))
-+		return -EINTR;
-+
- #ifdef CONFIG_TRANSPARENT_HUGEPAGE
- 	if (pmd_trans_huge(*pmd)) {
- 		pmd_t orig_pmd;
-@@ -471,12 +475,14 @@ static const struct mm_walk_ops cold_walk_ops = {
- };
- 
- static void madvise_cold_page_range(struct mmu_gather *tlb,
-+			     struct task_struct *task,
- 			     struct vm_area_struct *vma,
- 			     unsigned long addr, unsigned long end)
- {
- 	struct madvise_walk_private walk_private = {
- 		.pageout = false,
- 		.tlb = tlb,
-+		.task = task,
- 	};
- 
- 	tlb_start_vma(tlb, vma);
-@@ -484,7 +490,8 @@ static void madvise_cold_page_range(struct mmu_gather *tlb,
- 	tlb_end_vma(tlb, vma);
- }
- 
--static long madvise_cold(struct vm_area_struct *vma,
-+static long madvise_cold(struct task_struct *task,
-+			struct vm_area_struct *vma,
- 			struct vm_area_struct **prev,
- 			unsigned long start_addr, unsigned long end_addr)
- {
-@@ -497,19 +504,21 @@ static long madvise_cold(struct vm_area_struct *vma,
- 
- 	lru_add_drain();
- 	tlb_gather_mmu(&tlb, mm, start_addr, end_addr);
--	madvise_cold_page_range(&tlb, vma, start_addr, end_addr);
-+	madvise_cold_page_range(&tlb, task, vma, start_addr, end_addr);
- 	tlb_finish_mmu(&tlb, start_addr, end_addr);
- 
- 	return 0;
- }
- 
- static void madvise_pageout_page_range(struct mmu_gather *tlb,
-+			     struct task_struct *task,
- 			     struct vm_area_struct *vma,
- 			     unsigned long addr, unsigned long end)
- {
- 	struct madvise_walk_private walk_private = {
- 		.pageout = true,
- 		.tlb = tlb,
-+		.task = task,
- 	};
- 
- 	tlb_start_vma(tlb, vma);
-@@ -533,7 +542,8 @@ static inline bool can_do_pageout(struct vm_area_struct *vma)
- 		inode_permission(file_inode(vma->vm_file), MAY_WRITE) == 0;
- }
- 
--static long madvise_pageout(struct vm_area_struct *vma,
-+static long madvise_pageout(struct task_struct *task,
-+			struct vm_area_struct *vma,
- 			struct vm_area_struct **prev,
- 			unsigned long start_addr, unsigned long end_addr)
- {
-@@ -549,7 +559,7 @@ static long madvise_pageout(struct vm_area_struct *vma,
- 
- 	lru_add_drain();
- 	tlb_gather_mmu(&tlb, mm, start_addr, end_addr);
--	madvise_pageout_page_range(&tlb, vma, start_addr, end_addr);
-+	madvise_pageout_page_range(&tlb, task, vma, start_addr, end_addr);
- 	tlb_finish_mmu(&tlb, start_addr, end_addr);
- 
- 	return 0;
-@@ -927,7 +937,8 @@ static int madvise_inject_error(int behavior,
- #endif
- 
- static long
--madvise_vma(struct vm_area_struct *vma, struct vm_area_struct **prev,
-+madvise_vma(struct task_struct *task, struct vm_area_struct *vma,
-+		struct vm_area_struct **prev,
- 		unsigned long start, unsigned long end, int behavior)
- {
- 	switch (behavior) {
-@@ -936,9 +947,9 @@ madvise_vma(struct vm_area_struct *vma, struct vm_area_struct **prev,
- 	case MADV_WILLNEED:
- 		return madvise_willneed(vma, prev, start, end);
- 	case MADV_COLD:
--		return madvise_cold(vma, prev, start, end);
-+		return madvise_cold(task, vma, prev, start, end);
- 	case MADV_PAGEOUT:
--		return madvise_pageout(vma, prev, start, end);
-+		return madvise_pageout(task, vma, prev, start, end);
- 	case MADV_FREE:
- 	case MADV_DONTNEED:
- 		return madvise_dontneed_free(vma, prev, start, end, behavior);
-@@ -1143,7 +1154,7 @@ int do_madvise(struct task_struct *task, unsigned long start,
- 			tmp = end;
- 
- 		/* Here vma->vm_start <= start < tmp <= (end|vma->vm_end). */
--		error = madvise_vma(vma, &prev, start, tmp, behavior);
-+		error = madvise_vma(task, vma, &prev, start, tmp, behavior);
- 		if (error)
- 			goto out;
- 		start = tmp;
+@@ -1120,6 +1120,8 @@ int do_madvise(struct task_struct *task, unsigned long start,
+ 	if (write) {
+ 		if (down_write_killable(&mm->mmap_sem))
+ 			return -EINTR;
++		if (current->mm != mm && !mmget_still_valid(mm))
++			goto skip_mm;
+ 	} else {
+ 		down_read(&mm->mmap_sem);
+ 	}
+@@ -1170,6 +1172,7 @@ int do_madvise(struct task_struct *task, unsigned long start,
+ 	}
+ out:
+ 	blk_finish_plug(&plug);
++skip_mm:
+ 	if (write)
+ 		up_write(&mm->mmap_sem);
+ 	else
 -- 
 2.25.0.225.g125e21ebc7-goog
 
