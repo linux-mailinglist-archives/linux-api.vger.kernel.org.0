@@ -2,225 +2,176 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DABD15AE38
-	for <lists+linux-api@lfdr.de>; Wed, 12 Feb 2020 18:09:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D71C15AE7D
+	for <lists+linux-api@lfdr.de>; Wed, 12 Feb 2020 18:12:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728920AbgBLRIm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 12 Feb 2020 12:08:42 -0500
-Received: from monster.unsafe.ru ([5.9.28.80]:37610 "EHLO mail.unsafe.ru"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728098AbgBLRIm (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 12 Feb 2020 12:08:42 -0500
-Received: from comp-core-i7-2640m-0182e6 (nat-pool-brq-t.redhat.com [213.175.37.10])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.unsafe.ru (Postfix) with ESMTPSA id 97063C61AB0;
-        Wed, 12 Feb 2020 17:08:38 +0000 (UTC)
-Date:   Wed, 12 Feb 2020 18:08:37 +0100
-From:   Alexey Gladkov <gladkov.alexey@gmail.com>
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        Linux Security Module <linux-security-module@vger.kernel.org>,
-        Akinobu Mita <akinobu.mita@gmail.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Daniel Micay <danielmicay@gmail.com>,
-        Djalal Harouni <tixxdz@gmail.com>,
-        "Dmitry V . Levin" <ldv@altlinux.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Jeff Layton <jlayton@poochiereds.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Solar Designer <solar@openwall.com>
-Subject: Re: [PATCH v8 07/11] proc: flush task dcache entries from all procfs
- instances
-Message-ID: <20200212170836.kiqogl4cqdpyjjk3@comp-core-i7-2640m-0182e6>
-Mail-Followup-To: "Eric W. Biederman" <ebiederm@xmission.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        Linux Security Module <linux-security-module@vger.kernel.org>,
-        Akinobu Mita <akinobu.mita@gmail.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Daniel Micay <danielmicay@gmail.com>,
-        Djalal Harouni <tixxdz@gmail.com>,
-        "Dmitry V . Levin" <ldv@altlinux.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Jeff Layton <jlayton@poochiereds.net>,
-        Jonathan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Solar Designer <solar@openwall.com>
-References: <20200210150519.538333-1-gladkov.alexey@gmail.com>
- <20200210150519.538333-8-gladkov.alexey@gmail.com>
- <87v9odlxbr.fsf@x220.int.ebiederm.org>
- <20200212144921.sykucj4mekcziicz@comp-core-i7-2640m-0182e6>
- <87tv3vkg1a.fsf@x220.int.ebiederm.org>
+        id S1726728AbgBLRMk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 12 Feb 2020 12:12:40 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:42127 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727458AbgBLRMk (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Feb 2020 12:12:40 -0500
+Received: by mail-lj1-f195.google.com with SMTP id d10so3193843ljl.9
+        for <linux-api@vger.kernel.org>; Wed, 12 Feb 2020 09:12:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=rwo0z8hfwKW8dm+jdLGk+O1WJMW5uNc4qUsCsEIwvs8=;
+        b=gE65b1Yd2Wh6XHXYwmu/c9CKJBy+Ws32WYuWa+/niiYwv8vUvoGbn1U37V3MujwSqy
+         mH+LjaP+x63KnU2IbSBcx8+NiAhxkIQYwSc8YwMdNZLpq2it5+AVaw9VQGuEGa6UKPPR
+         ezBIYI+6LJbYJUiMRnQ5MJxVYYEcgW/zXz6a3CWi8S7SRAgi+6ng4JmXmX7lGdw8HjWJ
+         +zOP9rYdIq7UX6OAiXjWLvpRY3XkufloC3t4AETi/Qz/xZqs8etfWTN3NUQouNaSrJf4
+         hFVn/JQ3eZHNsyf2nxuubKcJJZoA8fd1gQuPK3UYtvvWzHubUwxJ5Sv8UNwMwUmeooV5
+         MxaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=rwo0z8hfwKW8dm+jdLGk+O1WJMW5uNc4qUsCsEIwvs8=;
+        b=txH/i8kP5TBkROsLuBz4HDjOeEsXpdtptz5YoKQOujtDizUnChmWCgVINntRj1K+O9
+         OYQ7aTm6rPdu7wB259smyXI+NpXm2HmRgCMlWn9Gzol/aHZuOCEMG1zBG1gJ7aJNprYq
+         H60sivD+VdTio8iHijz5G7WDCz/0rLo11TmvraOXDXwwelRsc/3+hHqk1YsYofUjMwFc
+         Di5C059Z00I9laX8ASAUvFuaSBma/h9X5d2rxmQtqiWimll2fIGtsbsXFwrXYCdGp3YH
+         Wr3xPutb2bkOL1hSaI5hoAYECoF0Xs/KxZxiuJ8UT3uXdPrrB4Hl6kdLNGeaalb1t5rP
+         2RtA==
+X-Gm-Message-State: APjAAAUenGiheSbQ/HE9JwbE03SQeZd7KDJstX9ZRB30410axF5MbCA/
+        hEBlH42hnb31rourOGRgA6NouZTa3R1MLhxnxgqJIQ==
+X-Google-Smtp-Source: APXvYqzY9e3KLachS/myU+/0mcUI2neod0a7EVtvHqf8eiEdgn1uuyZlXOPUph4HCp5xA57zsmk6uApwpSXMfGrV/WE=
+X-Received: by 2002:a2e:9157:: with SMTP id q23mr8345506ljg.196.1581527556981;
+ Wed, 12 Feb 2020 09:12:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87tv3vkg1a.fsf@x220.int.ebiederm.org>
+References: <20200211225547.235083-1-dancol@google.com> <202002112332.BE71455@keescook>
+In-Reply-To: <202002112332.BE71455@keescook>
+From:   Daniel Colascione <dancol@google.com>
+Date:   Wed, 12 Feb 2020 09:12:00 -0800
+Message-ID: <CAKOZuesS1_O0OuePwSN2Kc4b-vyokiV=MvBd4nDi=umBKM6v6w@mail.gmail.com>
+Subject: Re: [PATCH v2 0/6] Harden userfaultfd
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Tim Murray <timmurray@google.com>, Nosh Minwalla <nosh@google.com>,
+        Nick Kralevich <nnk@google.com>,
+        Lokesh Gidra <lokeshgidra@google.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>, selinux@vger.kernel.org,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Peter Xu <peterx@redhat.com>, Jann Horn <jannh@google.com>,
+        LSM List <linux-security-module@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Feb 12, 2020 at 08:59:29AM -0600, Eric W. Biederman wrote:
-> Alexey Gladkov <gladkov.alexey@gmail.com> writes:
-> 
-> > On Mon, Feb 10, 2020 at 07:36:08PM -0600, Eric W. Biederman wrote:
-> >> Alexey Gladkov <gladkov.alexey@gmail.com> writes:
-> >> 
-> >> > This allows to flush dcache entries of a task on multiple procfs mounts
-> >> > per pid namespace.
-> >> >
-> >> > The RCU lock is used because the number of reads at the task exit time
-> >> > is much larger than the number of procfs mounts.
-> >> 
-> >> A couple of quick comments.
-> >> 
-> >> > Cc: Kees Cook <keescook@chromium.org>
-> >> > Cc: Andy Lutomirski <luto@kernel.org>
-> >> > Signed-off-by: Djalal Harouni <tixxdz@gmail.com>
-> >> > Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-> >> > Signed-off-by: Alexey Gladkov <gladkov.alexey@gmail.com>
-> >> > ---
-> >> >  fs/proc/base.c                | 20 +++++++++++++++-----
-> >> >  fs/proc/root.c                | 27 ++++++++++++++++++++++++++-
-> >> >  include/linux/pid_namespace.h |  2 ++
-> >> >  include/linux/proc_fs.h       |  2 ++
-> >> >  4 files changed, 45 insertions(+), 6 deletions(-)
-> >> >
-> >> > diff --git a/fs/proc/base.c b/fs/proc/base.c
-> >> > index 4ccb280a3e79..24b7c620ded3 100644
-> >> > --- a/fs/proc/base.c
-> >> > +++ b/fs/proc/base.c
-> >> > @@ -3133,7 +3133,7 @@ static const struct inode_operations proc_tgid_base_inode_operations = {
-> >> >  	.permission	= proc_pid_permission,
-> >> >  };
-> >> >  
-> >> > -static void proc_flush_task_mnt(struct vfsmount *mnt, pid_t pid, pid_t tgid)
-> >> > +static void proc_flush_task_mnt_root(struct dentry *mnt_root, pid_t pid, pid_t tgid)
-> >> Perhaps just rename things like:
-> >> > +static void proc_flush_task_root(struct dentry *root, pid_t pid, pid_t tgid)
-> >> >  {
-> >> 
-> >> I don't think the mnt_ prefix conveys any information, and it certainly
-> >> makes everything longer and more cumbersome.
-> >> 
-> >> >  	struct dentry *dentry, *leader, *dir;
-> >> >  	char buf[10 + 1];
-> >> > @@ -3142,7 +3142,7 @@ static void proc_flush_task_mnt(struct vfsmount *mnt, pid_t pid, pid_t tgid)
-> >> >  	name.name = buf;
-> >> >  	name.len = snprintf(buf, sizeof(buf), "%u", pid);
-> >> >  	/* no ->d_hash() rejects on procfs */
-> >> > -	dentry = d_hash_and_lookup(mnt->mnt_root, &name);
-> >> > +	dentry = d_hash_and_lookup(mnt_root, &name);
-> >> >  	if (dentry) {
-> >> >  		d_invalidate(dentry);
-> >> >  		dput(dentry);
-> >> > @@ -3153,7 +3153,7 @@ static void proc_flush_task_mnt(struct vfsmount *mnt, pid_t pid, pid_t tgid)
-> >> >  
-> >> >  	name.name = buf;
-> >> >  	name.len = snprintf(buf, sizeof(buf), "%u", tgid);
-> >> > -	leader = d_hash_and_lookup(mnt->mnt_root, &name);
-> >> > +	leader = d_hash_and_lookup(mnt_root, &name);
-> >> >  	if (!leader)
-> >> >  		goto out;
-> >> >  
-> >> > @@ -3208,14 +3208,24 @@ void proc_flush_task(struct task_struct *task)
-> >> >  	int i;
-> >> >  	struct pid *pid, *tgid;
-> >> >  	struct upid *upid;
-> >> > +	struct dentry *mnt_root;
-> >> > +	struct proc_fs_info *fs_info;
-> >> >  
-> >> >  	pid = task_pid(task);
-> >> >  	tgid = task_tgid(task);
-> >> >  
-> >> >  	for (i = 0; i <= pid->level; i++) {
-> >> >  		upid = &pid->numbers[i];
-> >> > -		proc_flush_task_mnt(upid->ns->proc_mnt, upid->nr,
-> >> > -					tgid->numbers[i].nr);
-> >> > +
-> >> > +		rcu_read_lock();
-> >> > +		list_for_each_entry_rcu(fs_info, &upid->ns->proc_mounts, pidns_entry) {
-> >> > +			mnt_root = fs_info->m_super->s_root;
-> >> > +			proc_flush_task_mnt_root(mnt_root, upid->nr, tgid->numbers[i].nr);
-> >> > +		}
-> >> > +		rcu_read_unlock();
-> >> > +
-> >> > +		mnt_root = upid->ns->proc_mnt->mnt_root;
-> >> > +		proc_flush_task_mnt_root(mnt_root, upid->nr, tgid->numbers[i].nr);
-> >> 
-> >> I don't think this following of proc_mnt is needed.  It certainly
-> >> shouldn't be.  The loop through all of the super blocks should be
-> >> enough.
-> >
-> > Yes, thanks!
-> >
-> >> Once this change goes through.  UML can be given it's own dedicated
-> >> proc_mnt for the initial pid namespace, and proc_mnt can be removed
-> >> entirely.
-> >
-> > After you deleted the old sysctl syscall we could probably do it.
-> >
-> >> Unless something has changed recently UML is the only other user of
-> >> pid_ns->proc_mnt.  That proc_mnt really only exists to make the loop in
-> >> proc_flush_task easy to write.
-> >
-> > Now I think, is there any way to get rid of proc_mounts or even
-> > proc_flush_task somehow.
-> >
-> >> It also probably makes sense to take the rcu_read_lock() over
-> >> that entire for loop.
-> >
-> > Al Viro pointed out to me that I cannot use rcu locks here :(
-> 
-> Fundamentally proc_flush_task is an optimization.  Just getting rid of
-> dentries earlier.  At least at one point it was an important
-> optimization because the old process dentries would just sit around
-> doing nothing for anyone.
-> 
-> I wonder if instead of invalidating specific dentries we could instead
-> fire wake up a shrinker and point it at one or more instances of proc.
-> 
-> The practical challenge I see is something might need to access the
-> dentries to see that they are invalid.
-> 
-> We definitely could try without this optimization and see what happens.
+Thanks for taking a look and for the fast reply!
 
-When Linus said that a semaphore for proc_mounts is a bad idea, I tried
-to come up with some kind of asynchronous way to clear it per superblock.
-I gave up with the asynchronous GC because userspace can quite easily get
-ahead of it.
+On Tue, Feb 11, 2020 at 11:51 PM Kees Cook <keescook@chromium.org> wrote:
+>
+> Hi!
+>
+> Firstly, thanks for working on this! It's been on my TODO list for a
+> while. :)
+>
+> Casey already recommended including the LSM list to CC (since this is a
+> new LSM -- there are many LSMs). Additionally, the series should
+> probably be sent _to_ the userfaultfd maintainers:
+>         Andrea Arcangeli <aarcange@redhat.com>
+>         Mike Rapoport <rppt@linux.ibm.com>
+> and I'd also CC a couple other people that have done recent work:
+>         Peter Xu <peterx@redhat.com>
+>         Jann Horn <jannh@google.com>
+>
+> More notes below...
 
-Without this optimization the kernel starts to consume a lot of memory
-during intensive reading /proc. I tried to do:
+In general, in the event that a patch series doesn't include all
+needed parties on the to-line, what's the right way to fix the
+situation without spamming everyone and forking the thread? In this
+case, since I'm splitting the patch series anyway, I can just expand
+the to-line in the reroll.
 
-while :; do
-	for x in `seq 0 9`; do sleep 0.1; done;
-	ls /proc/[0-9]*;
-done >/dev/null;
+> On Tue, Feb 11, 2020 at 02:55:41PM -0800, Daniel Colascione wrote:
+> > Userfaultfd in unprivileged contexts could be potentially very
+> > useful. We'd like to harden userfaultfd to make such unprivileged use
+> > less risky. This patch series allows SELinux to manage userfaultfd
+> > file descriptors and allows administrators to limit userfaultfd to
+> > servicing user-mode faults, increasing the difficulty of using
+> > userfaultfd in exploit chains invoking delaying kernel faults.
+>
+> I actually think these are two very different goals and likely the
+> series could be split into two for them. One is LSM hooking of
+> userfaultfd and the SELinux attachment, and the other is the user-mode
+> fault restrictions. And they would likely go via separate trees (LSM
+> through James's LSM tree, and probably akpm's -mm tree for the sysctl).
+>
+> > A new anon_inodes interface allows callers to opt into SELinux
+> > management of anonymous file objects. In this mode, anon_inodes
+> > creates new ephemeral inodes for anonymous file objects instead of
+> > reusing a singleton dummy inode. A new LSM hook gives security modules
+> > an opportunity to configure and veto these ephemeral inodes.
+> >
+> > Existing anon_inodes users must opt into the new functionality.
+> >
+> > Daniel Colascione (6):
+> >   Add a new flags-accepting interface for anonymous inodes
+> >   Add a concept of a "secure" anonymous file
+> >   Teach SELinux about a new userfaultfd class
+> >   Wire UFFD up to SELinux
+>
+> The above is the first "series"... I don't have much opinion about it,
+> though I do like the idea of making userfaultfd visible to the LSM.
 
-and memory consumption went up without proc_flush_task. Since we have
-mounted procfs in each container, this is dangerous.
+Yeah. The interesting part there is the anon_inodes API change. I'll
+split that half of the series out.
 
--- 
-Rgrds, legion
+> >   Let userfaultfd opt out of handling kernel-mode faults
+> >   Add a new sysctl for limiting userfaultfd to user mode faults
+>
+> Now this I'm very interested in. Can you go into more detail about two
+> things:
+>
+> - What is the threat being solved? (I understand the threat, but detailing
+>   it in the commit log is important for people who don't know it. Existing
+>   commit cefdca0a86be517bc390fc4541e3674b8e7803b0 gets into some of the
+>   details already, but I'd like to see reference to external sources like
+>   https://duasynt.com/blog/linux-kernel-heap-spray)
 
+Sure. I can add a reference to that and a more general discussion of
+how delaying kernel fault handling can broaden race windows for other
+exploits.
+
+> - Why is this needed in addition to the existing vm.unprivileged_userfaultfd
+>   sysctl? (And should this maybe just be another setting for that
+>   sysctl, like "2"?)
+
+We want to use UFFD for a new garbage collector in Android, and we
+want unprivileged processes to be able to use this new garbage
+collector. Giving them CAP_SYS_PTRACE is dangerous.
+
+> As to the mechanics of the change, I'm not sure I like the idea of adding
+> a UAPI flag for this. Why not just retain the permission check done at
+> open() and if kernelmode faults aren't allowed, ignore them? This would
+> require no changes to existing programs and gains the desired defense.
+
+As Jann mentions below, it's a matter of the kernel's contractual
+obligation to userspace. Right now, userfaultfd(2) either succeeds or
+it fails with one of the enumerated error codes. You're proposing
+having the userfaultfd(2) succeed but return a file descriptor that
+doesn't do the job the kernel promised it would do. If we were to
+adopt your proposal, an application would see UFFD succeed, then see
+unexpeced EFAULTs from system calls, which would probably cause the
+application to malfunctioning in exciting ways. An explicit "sorry, I
+can't do that" error code is better: an application that gets an error
+code from userfaultfd(2) can fall back to something else, but an
+application that silently gets an underfeatured UFFD doesn't know
+anything is wrong until it's too late. The additional flag preserves
+the UFFD contract and gives applications a way to probe for feature
+support.
+
+> (And, I think, the sysctl value could be bumped to "2" as that's a
+> better default state -- does qemu actually need kernelmode traps?)
+
+I prefer a default of one for regular systems because I don't want to
+make experimentation with novel ways to use UFFD more difficult, and a
+default of two would require users go out of their way to handle user
+faults, and few will. For a more constrained system like Android, two
+is fine.
