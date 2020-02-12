@@ -2,52 +2,52 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E79A15AE99
-	for <lists+linux-api@lfdr.de>; Wed, 12 Feb 2020 18:20:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BF9E715AE9F
+	for <lists+linux-api@lfdr.de>; Wed, 12 Feb 2020 18:23:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728595AbgBLRT4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 12 Feb 2020 12:19:56 -0500
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:47013 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727231AbgBLRT4 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Feb 2020 12:19:56 -0500
-Received: by mail-lf1-f68.google.com with SMTP id z26so2131118lfg.13
-        for <linux-api@vger.kernel.org>; Wed, 12 Feb 2020 09:19:54 -0800 (PST)
+        id S1726728AbgBLRXs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 12 Feb 2020 12:23:48 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:34621 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726982AbgBLRXs (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Feb 2020 12:23:48 -0500
+Received: by mail-lj1-f195.google.com with SMTP id x7so3258177ljc.1
+        for <linux-api@vger.kernel.org>; Wed, 12 Feb 2020 09:23:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=rU6txhFTKspoGX/U60ruYSaeQNuMHsYzoocjIcC782c=;
-        b=OZ1hvEGkFd12rHeAi8ci4EjhJ8sPzGLXm4kc5nQ6qyUcizK9ENQhNNUnvZNl6ipOwD
-         X9/zMjh4tdfENQwQU0gI8zznCTzlp1lj2LCgDOVRQRX/FGEwV12zZJ1PDeaQ0DW2Ore/
-         sCJkl+boumG/aT6Gpv4hmw5MMk5fqQyX6YT4+kpF9FUgWcp0LHmEGpmAF6UFfh5aQgp4
-         Fz5d6HvzmwF7R6BLbzai/AiDoEmBkjRbsgIABWxHaBUR8wFnHAkNBOdECeovaSeS8yIt
-         pD9sdydhVmJOz6uCU/xoZbmCQITmHKZjotwyNvLWBMyfKWoyNP02qX4ZHyDCEo7KJy+w
-         3haw==
+        bh=YZr1nc2MMJDzpqB9JOfpyRPCxbAR505Ej70RCsv/wk4=;
+        b=G+UvlnLLVKjVlxxQvVi0scUUGngqNXOY34KbUJIyu++IE35cnORnKL7btXkIijKnSL
+         4JfAk5l1RFVHrPGt/pp+YrlCgJACSq8iJ68bmL5V9shtQP0FVy6BhTxGMYik1JdG0tzY
+         uDeFuHil6xDU3BRA1IzMEd/x79VwYuCluHbVEaZVVQYOeFmAf4TU5uQ7VSamrYUo4GuX
+         74q5XQwOdXVBc+OLWgUMeMf+H05QWxFbjzn2TAkiL3TnPEx0wEYVp7NLleXEZnTu0i4v
+         j9jnUOd4e4PKjsvGRLmmeEWwkPPdky3mtcYbt8XQI7/pzEmitJM7o4bn5WYEwNiz7eUh
+         9G7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=rU6txhFTKspoGX/U60ruYSaeQNuMHsYzoocjIcC782c=;
-        b=f8CHsziID0qverJurCbkaxLt6motvDkJZCuyP1Ym5B1gnwBUA6z5wZIlxKv5Mex5uP
-         otK1STEK+swMGE/koFC/IyZYGP5qlVHNjCs43jP64SnwbLkJncXG9YffFEP9GRGh9Yis
-         2GU2lMkrC5lG4IAL51TL7C5xF1vtEEqykKjjHdXSsoWIUmlFTbTKDhQk07IyOzauqcis
-         0xwHvryecMEVl2W4fQ+bQOAirtrvz1tFyXQj9KrZZNfZLd0UDY/V5sL4wltlI0j0Mvkr
-         Y26pc5DlAkzIPZL5mZl4SETrmNhvAKKV6LxrPmkz6Y4RkP6WHX7pVgqWCYy4O/rQjuDn
-         UNEQ==
-X-Gm-Message-State: APjAAAXVXnTaLhivnrd7UtXyKrzW+r3galDnqAPtKJhOpKkETi3ASKSu
-        /bNWGI840vBPBsBvxA+aY1TRK9s0rndZUyoLtqQMtQ==
-X-Google-Smtp-Source: APXvYqw9k3f7e9kNkAqI6YaXNA3yxCHADb9+dIrru9lZjroVzKlLAvIc7iQVCvQ3XTCCBSqw34OZAuqivhMsrW/2i4w=
-X-Received: by 2002:ac2:5f59:: with SMTP id 25mr7042133lfz.193.1581527992964;
- Wed, 12 Feb 2020 09:19:52 -0800 (PST)
+        bh=YZr1nc2MMJDzpqB9JOfpyRPCxbAR505Ej70RCsv/wk4=;
+        b=W75eFYW9NE86ChtzyCDfdb5xYml8C3pjvhaDOa6PjA0q1pJVsM5n8XxrBMPmSp9Gh5
+         opmoNzsgQC9Dm0hFjqr3sfMCePFOZtmN6xT80syeoJW/jYs5ppj23ex2sr5PVm/3cUFp
+         a6q8jomsm6MIb71+XjMLGiKTRTCB40ryJnYstxcqKa+kXzBd0SifInpsBB49/Zu2rq3z
+         FeCMR5aD7BrS3byOOkCjGedmvmgHlRcvDWt1MK0s50+kylQ/dod8hBnMBcsTih/wnkM/
+         060TxRV4CSsR9gYO2LUBvrEOs6tURtKLrPuU207vOcYGs67yFgypJmIfRH9yL1vDz5yq
+         nw3g==
+X-Gm-Message-State: APjAAAWLZkYdldU9FI4NY7bfOR02QhP2cYggIZCeYSOxeMrfbRSTeqrD
+        6yPPIy7b5pEmEqXeO0vbFseQb6nmDTWdcPguv4uPGA==
+X-Google-Smtp-Source: APXvYqwV70oqrBIrF4HWfDsbPKou2uKu/ooe53tS/zQEVjVVTCcmq11lzjZ/7aas9gqyLAgb66ocUKHFUHUYl6KcrYk=
+X-Received: by 2002:a05:651c:297:: with SMTP id b23mr8476854ljo.260.1581528225757;
+ Wed, 12 Feb 2020 09:23:45 -0800 (PST)
 MIME-Version: 1.0
-References: <20200211225547.235083-1-dancol@google.com> <20200211225547.235083-4-dancol@google.com>
- <ef13d728-9f1e-5e38-28a1-7ed7134840e4@tycho.nsa.gov>
-In-Reply-To: <ef13d728-9f1e-5e38-28a1-7ed7134840e4@tycho.nsa.gov>
+References: <20200211225547.235083-1-dancol@google.com> <20200211225547.235083-2-dancol@google.com>
+ <88ea16bd-38be-b4f9-dfb3-e0626f5b6aaf@tycho.nsa.gov>
+In-Reply-To: <88ea16bd-38be-b4f9-dfb3-e0626f5b6aaf@tycho.nsa.gov>
 From:   Daniel Colascione <dancol@google.com>
-Date:   Wed, 12 Feb 2020 09:19:16 -0800
-Message-ID: <CAKOZuesUVSYJ6EjHFL3QyiWKVmyhm1fLp5Bm_SHjB3_s1gn08A@mail.gmail.com>
-Subject: Re: [PATCH v2 3/6] Teach SELinux about a new userfaultfd class
+Date:   Wed, 12 Feb 2020 09:23:09 -0800
+Message-ID: <CAKOZuet1vcDwkqoJgqmDjg7pjLGfvh11ZdUZpoyoXXWdz9Y4CQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/6] Add a new flags-accepting interface for anonymous inodes
 To:     Stephen Smalley <sds@tycho.nsa.gov>
 Cc:     Tim Murray <timmurray@google.com>, Nosh Minwalla <nosh@google.com>,
         Nick Kralevich <nnk@google.com>,
@@ -60,128 +60,104 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Thanks for taking a look.
+Thanks again for the review.
 
-On Wed, Feb 12, 2020 at 9:04 AM Stephen Smalley <sds@tycho.nsa.gov> wrote:
+On Wed, Feb 12, 2020 at 8:36 AM Stephen Smalley <sds@tycho.nsa.gov> wrote:
 >
 > On 2/11/20 5:55 PM, Daniel Colascione wrote:
-> > Use the secure anonymous inode LSM hook we just added to let SELinux
-> > policy place restrictions on userfaultfd use. The create operation
-> > applies to processes creating new instances of these file objects;
-> > transfer between processes is covered by restrictions on read, write,
-> > and ioctl access already checked inside selinux_file_receive.
+> > Add functions forwarding from the old names to the new ones so we
+> > don't need to change any callers.
 > >
 > > Signed-off-by: Daniel Colascione <dancol@google.com>
 >
-> (please add linux-fsdevel and viro to the cc for future versions of this
-> patch since it changes the VFS)
+> (please add linux-fsdevel, viro to cc on future versions of this patch
+> since this is a VFS change)
 >
 > > ---
-> > diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-> > index 1659b59fb5d7..e178f6f40e93 100644
-> > --- a/security/selinux/hooks.c
-> > +++ b/security/selinux/hooks.c
-> > @@ -2915,6 +2919,69 @@ static int selinux_inode_init_security(struct inode *inode, struct inode *dir,
-> >       return 0;
-> >   }
+> >   fs/anon_inodes.c            | 62 ++++++++++++++++++++++---------------
+> >   include/linux/anon_inodes.h | 27 +++++++++++++---
+> >   2 files changed, 59 insertions(+), 30 deletions(-)
 > >
-> > +static int selinux_inode_init_security_anon(struct inode *inode,
-> > +                                         const char *name,
-> > +                                         const struct file_operations *fops)
-> > +{
-> > +     const struct task_security_struct *tsec = selinux_cred(current_cred());
-> > +     struct common_audit_data ad;
-> > +     struct inode_security_struct *isec;
-> > +
-> > +     if (unlikely(IS_PRIVATE(inode)))
-> > +             return 0;
+> > diff --git a/fs/anon_inodes.c b/fs/anon_inodes.c
+> > index 89714308c25b..caa36019afca 100644
+> > --- a/fs/anon_inodes.c
+> > +++ b/fs/anon_inodes.c
+> > @@ -56,60 +56,71 @@ static struct file_system_type anon_inode_fs_type = {
+> >   };
+> >
+> >   /**
+> > - * anon_inode_getfile - creates a new file instance by hooking it up to an
+> > - *                      anonymous inode, and a dentry that describe the "class"
+> > - *                      of the file
+> > + * anon_inode_getfile2 - creates a new file instance by hooking it up to
+> > + *                       an anonymous inode, and a dentry that describe
+> > + *                       the "class" of the file
 >
-> Seems like this is precluded by the caller and would be a bug?  If
-> needed at all, take it to the security_inode_init_security_anon() so it
-> doesn't have to be repeated in each security module.
+> Not going to bikeshed on names but anon_inode_getfile_flags or _secure
+> or something would be more descriptive.
+
+_flags is fine, but I think _secure is overfitting.
+
+> >    *
+> >    * @name:    [in]    name of the "class" of the new file
+> >    * @fops:    [in]    file operations for the new file
+> >    * @priv:    [in]    private data for the new file (will be file's private_data)
+> > - * @flags:   [in]    flags
+> > + * @flags:   [in]    flags for the file
+> > + * @anon_inode_flags: [in] flags for anon_inode*
 >
-> > +
-> > +     /*
-> > +      * We shouldn't be creating secure anonymous inodes before LSM
-> > +      * initialization completes.
-> > +      */
-> > +     if (unlikely(!selinux_state.initialized))
-> > +             return -EBUSY;
+> Do we really envision ever needing more than one new flag here?  If not,
+> then making it a bool secure parameter or encoding it as an
+> unused/ignored flag bit in the existing flags argument would seem
+> preferable.
+
+A bool and a flag is the same as far as the machine is concerned with
+respect to argument passing, and I find the flag much more descriptive
+than a bare "true" or a "false" scattered at call sites. Besides, a
+flags argument could lead to less churn later.
+
+> In some cases, we actually want the "anon inode" to inherit the security
+> context of a related inode (e.g. ioctls on /dev/kvm can create anon
+> inodes representing VMs, vCPUs, etc and further ioctls are performed on
+> those inodes), in which case we may need the caller to pass in the
+> related inode as well.
+
+See my other reply on this subject. Passing an optional related inode
+seems like a decent approach here.
+
+> >    *
+> > - * Creates a new file by hooking it on a single inode. This is useful for files
+> > + * Creates a new file by hooking it on an unspecified inode. This is useful for files
+> >    * that do not need to have a full-fledged inode in order to operate correctly.
+> >    * All the files created with anon_inode_getfile() will share a single inode,
+> >    * hence saving memory and avoiding code duplication for the file/inode/dentry
+> >    * setup.  Returns the newly created file* or an error pointer.
+> > + *
+> > + * anon_inode_flags must be zero.
+> >    */
+> > -struct file *anon_inode_getfile(const char *name,
+> > -                             const struct file_operations *fops,
+> > -                             void *priv, int flags)
+> > +struct file *anon_inode_getfile2(const char *name,
+> > +                              const struct file_operations *fops,
+> > +                              void *priv, int flags, int anon_inode_flags)
+> >   {
+> > +     struct inode *inode;
+> >       struct file *file;
+> >
+> > -     if (IS_ERR(anon_inode_inode))
+> > -             return ERR_PTR(-ENODEV);
+> > -
+> > -     if (fops->owner && !try_module_get(fops->owner))
+> > -             return ERR_PTR(-ENOENT);
+> > +     if (anon_inode_flags)
+> > +             return ERR_PTR(-EINVAL);
 >
-> I don't think this is viable; any arbitrary actions are possible before
-> policy is loaded, and a Linux distro can be brought up fully with
-> SELinux enabled and no policy loaded.  You'll just need to have a
-> default behavior prior to initialization.
+> Not sure this is how it is normally done (i.e. one patch to just
+> introduce an extended interface but disallow all use of it, then a
+> separate patch to introduce the first use).  Would recommend combining;
+> otherwise reviewers can't see how it will be used without looking at both.
 
-We'd have to fail open then, I think, and return an S_PRIVATE inode
-(the regular anon inode).
-
-> > +
-> > +     isec = selinux_inode(inode);
-> > +
-> > +     /*
-> > +      * We only get here once per ephemeral inode.  The inode has
-> > +      * been initialized via inode_alloc_security but is otherwise
-> > +      * untouched, so check that the state is as
-> > +      * inode_alloc_security left it.
-> > +      */
-> > +     BUG_ON(isec->initialized != LABEL_INVALID);
-> > +     BUG_ON(isec->sclass != SECCLASS_FILE);
->
-> I think the kernel discourages overuse of BUG_ON/BUG/...
-
-I'm not sure what counts as overuse.
-
-> > +
-> > +#ifdef CONFIG_USERFAULTFD
-> > +     if (fops == &userfaultfd_fops)
-> > +             isec->sclass = SECCLASS_UFFD;
-> > +#endif
->
-> Not sure we want or need to introduce a new security class for each user
-> of anonymous inodes since the permissions should be the same as for
-> file.
-
-The purpose of this change is to apply special policy to userfaultfd
-FDs in particular. Isn't having a UFFD security class the best way to
-go about that? (There's no path.) Am I missing something?
-
-> Also not sure we want to be testing fops for each such case.
-
-I was also thinking of just providing some kind of context string
-(maybe the name), which might be friendlier to modules, but the loose
-coupling kind of scares me, and for this particular application, since
-UFFD is always in the core and never in a module, checking the fops
-seems a bit more robust and doesn't hurt anything.
-
-> We
-> were looking at possibly leveraging the name as a key and using
-> security_transition_sid() to generate a distinct SID/context/type for
-> the inode via type_transition rules in policy.  We have some WIP along
-> those lines.
-
-Where? Any chance it would be ready soon? I'd rather not hold up this
-work for a more general mechanism.
-
-> > +
-> > +     if (isec->sclass == SECCLASS_FILE) {
-> > +             printk(KERN_WARNING "refusing to create secure anonymous inode "
-> > +                    "of unknown type");
-> > +             return -EOPNOTSUPP;
-> > +     }
-> > +     /*
-> > +      * Always give secure anonymous inodes the sid of the
-> > +      * creating task.
-> > +      */
-> > +
-> > +     isec->sid = tsec->sid;
->
-> This doesn't generalize for other users of anonymous inodes, e.g. the
-> /dev/kvm case where we'd rather inherit the SID and class from the
-> original /dev/kvm inode itself.
-
-I think someone mentioned on the first version of this patch that we
-could make it more flexible if the need arose. If we do want to do it
-now, we could have the anon_inode security hook accept a "parent" or
-"context" inode that modules could inspect for the purposes of forming
-the new inode's SID. Does that make sense to you?
+All things being equal, finer-grained patches are better: they allow
+for easier bisection. But I don't feel strongly one way or the other
+here, so let's see what other reviewers say.
