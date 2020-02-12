@@ -2,120 +2,89 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1944315A8FF
-	for <lists+linux-api@lfdr.de>; Wed, 12 Feb 2020 13:21:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7894915A9EE
+	for <lists+linux-api@lfdr.de>; Wed, 12 Feb 2020 14:20:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727649AbgBLMVW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 12 Feb 2020 07:21:22 -0500
-Received: from mail.kernel.org ([198.145.29.99]:36264 "EHLO mail.kernel.org"
+        id S1727984AbgBLNUr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 12 Feb 2020 08:20:47 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47150 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727511AbgBLMVW (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 12 Feb 2020 07:21:22 -0500
-Received: from tleilax.poochiereds.net (68-20-15-154.lightspeed.rlghnc.sbcglobal.net [68.20.15.154])
+        id S1727962AbgBLNUq (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 12 Feb 2020 08:20:46 -0500
+Received: from localhost (unknown [209.37.97.194])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 79C8D20658;
-        Wed, 12 Feb 2020 12:21:20 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id BE8CD2086A;
+        Wed, 12 Feb 2020 13:20:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581510081;
-        bh=YI35C/Ak/vnuDjJOcCV6/Sg8caVFwiL8FAlrYNnIQw8=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=ErJKLS2A4b1zqB7WCkf6D9bNQXT0PlhXDn7Zgtc8ejNb0mDiQOF7y42vQyZ9FVnKx
-         di9lXJLpCxSR5nv3M4B3Rxfz0afJusoqVZAjrgz3RuE1Dqoi3UY2TQsGcRJuaxuhqq
-         VirAaBYOzVaqj8Sc1KeMRhaKcEWIB3wKQYDKmcTE=
-Message-ID: <13f20458cd8b72026cec364b6b8b8e4d636ebe94.camel@kernel.org>
-Subject: Re: [PATCH v3 0/3] vfs: have syncfs() return error when there are
- writeback errors
-From:   Jeff Layton <jlayton@kernel.org>
-To:     viro@zeniv.linux.org.uk
-Cc:     linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, andres@anarazel.de, willy@infradead.org,
-        dhowells@redhat.com, hch@infradead.org, jack@suse.cz,
-        akpm@linux-foundation.org
-Date:   Wed, 12 Feb 2020 07:21:19 -0500
-In-Reply-To: <20200207170423.377931-1-jlayton@kernel.org>
-References: <20200207170423.377931-1-jlayton@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.3 (3.34.3-1.fc31) 
+        s=default; t=1581513645;
+        bh=2dOsmB0o98+qf56HpgUqHTo4+gRYS1ahpt6eAMncra4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=lYbU7znJzBmUWV5YMM6MB1suNCzjbbi9Z7lTuEBYM22xy3LGxKs7oCc39Ab16ThNh
+         /iOw34z7VSNXP27IaEEVmYGtDumjL8kfq4MBHshQKaLoxEY+PSK089KW3MwLpH7OHs
+         gDITsQ+Sq2dK+yMDygicQ3N4TY65hMhBtsmtXwKM=
+Date:   Wed, 12 Feb 2020 05:20:45 -0800
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Wu Hao <hao.wu@intel.com>
+Cc:     Will Deacon <will@kernel.org>, mdf@kernel.org,
+        mark.rutland@arm.com, linux-fpga@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        atull@kernel.org, yilun.xu@intel.com,
+        Luwei Kang <luwei.kang@intel.com>
+Subject: Re: [PATCH v7 2/2] fpga: dfl: fme: add performance reporting support
+Message-ID: <20200212132045.GC1789899@kroah.com>
+References: <1581306469-22629-1-git-send-email-hao.wu@intel.com>
+ <1581306469-22629-3-git-send-email-hao.wu@intel.com>
+ <20200210163400.GA21900@willie-the-truck>
+ <20200212031929.GB5645@hao-dev>
+ <20200212053035.GA382718@kroah.com>
+ <20200212100211.GA10436@hao-dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200212100211.GA10436@hao-dev>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, 2020-02-07 at 12:04 -0500, Jeff Layton wrote:
-> You're probably wondering -- Where are v1 and v2 sets?
+On Wed, Feb 12, 2020 at 06:02:11PM +0800, Wu Hao wrote:
+> On Tue, Feb 11, 2020 at 09:30:35PM -0800, Greg KH wrote:
+> > On Wed, Feb 12, 2020 at 11:19:29AM +0800, Wu Hao wrote:
+> > > On Mon, Feb 10, 2020 at 04:34:01PM +0000, Will Deacon wrote:
+> > > > Hi,
+> > > > 
+> > > > On Mon, Feb 10, 2020 at 11:47:49AM +0800, Wu Hao wrote:
+> > > > > This patch adds support for performance reporting private feature
+> > > > > for FPGA Management Engine (FME). Now it supports several different
+> > > > > performance counters, including 'basic', 'cache', 'fabric', 'vtd'
+> > > > > and 'vtd_sip'. It allows user to use standard linux tools to access
+> > > > > these performance counters.
+> > > > 
+> > > > I had a quick look at this, and it mostly looks alright to me. Just a few
+> > > > high-level comments/questions:
+> > > 
+> > > Hi Will
+> > > 
+> > > Thanks a lot for the review! :)
+> > > 
+> > > > 
+> > > >   - I would still prefer for the PMU drivers to live under drivers/perf/
+> > > 
+> > > Hm.. one possible way is to create a platform device, and introduce a new
+> > > platform device driver under drivers/perf/.
+> > 
+> > No, do not abuse platform drivers, you have a real device, use it.
 > 
-> I did the first couple of versions of this set back in 2018, and then
-> got dragged off to work on other things. I'd like to resurrect this set
-> though, as I think it's valuable overall, and I have need of it for some
-> other work I'm doing.
-> 
-> Currently, syncfs does not return errors when one of the inodes fails to
-> be written back. It will return errors based on the legacy AS_EIO and
-> AS_ENOSPC flags when syncing out the block device fails, but that's not
-> particularly helpful for filesystems that aren't backed by a blockdev.
-> It's also possible for a stray sync to lose those errors.
-> 
-> The basic idea is to track writeback errors at the superblock level,
-> so that we can quickly and easily check whether something bad happened
-> without having to fsync each file individually. syncfs is then changed
-> to reliably report writeback errors, and a new ioctl is added to allow
-> userland to get at the current errseq_t value w/o having to sync out
-> anything.
-> 
-> I do have a xfstest for this. I do not yet have manpage patches, but
-> I'm happy to roll some once there is consensus on the interface.
-> 
-> Caveats:
-> 
-> - Having different behavior for an O_PATH descriptor in syncfs is
->   a bit odd, but it means that we don't have to grow struct file. Is
->   that acceptable from an API standpoint?
-> 
+> Sure, thanks for the comments. Then I don't have any other idea to move code to
+> drivers/perf/ directory, so probably only can live with current code.
 
-There are a couple of other options besides requiring an O_PATH fd here:
+The location of the file in the kernel tree has no bearing on if you use
+a platform device, a USB device, or a PCI device.  It is just a location
+of a file.
 
-1) we could just add a new errseq_t field to struct file for this. On my
-machine (x86_64) there is 4 bytes of padding at the end of struct file.
-An errseq_t would slot in there without changing the slab object size.
-YMMV on other arches of course.
+You are interacting with the perf api as the driver's primary userspace
+api, so put the driver into the drivers/perf/ directory.  That's all
+that Will is asking you to do here.
 
-2) we could add a new fcntl command value (F_SYNCFS or something?), that
-would flip the fd to being suitable for syncfs. If you tried to use the
-fd to do a fsync at that point, we could return an error.
-
-Anyone else have other thoughts on how best to do this?
-
-> - This adds a new generic fs ioctl to allow userland to scrape the
->   current superblock's errseq_t value. It may be best to present this
->   to userland via fsinfo() instead (once that's merged). I'm fine with
->   dropping the last patch for now and reworking it for fsinfo if so.
-> 
-
-To be clear, as I stated in earlier replies, I think we can drop the
-ioctl. If we did want something like this, I think we'd want to expose
-it via fsinfo() instead, and that could be done after the syncfs changes
-went in.
-
-> Jeff Layton (3):
->   vfs: track per-sb writeback errors and report them to syncfs
->   buffer: record blockdev write errors in super_block that it backs
->   vfs: add a new ioctl for fetching the superblock's errseq_t
-> 
->  fs/buffer.c             |  2 ++
->  fs/ioctl.c              |  4 ++++
->  fs/open.c               |  6 +++---
->  fs/sync.c               |  9 ++++++++-
->  include/linux/errseq.h  |  1 +
->  include/linux/fs.h      |  3 +++
->  include/linux/pagemap.h |  5 ++++-
->  include/uapi/linux/fs.h |  1 +
->  lib/errseq.c            | 33 +++++++++++++++++++++++++++++++--
->  9 files changed, 57 insertions(+), 7 deletions(-)
-> 
-
--- 
-Jeff Layton <jlayton@kernel.org>
-
+greg k-h
