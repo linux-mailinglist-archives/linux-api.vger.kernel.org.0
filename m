@@ -2,258 +2,244 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A9F1015B040
-	for <lists+linux-api@lfdr.de>; Wed, 12 Feb 2020 19:54:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 637E415B05A
+	for <lists+linux-api@lfdr.de>; Wed, 12 Feb 2020 20:00:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729084AbgBLSy1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 12 Feb 2020 13:54:27 -0500
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:35474 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728911AbgBLSy1 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Feb 2020 13:54:27 -0500
-Received: by mail-oi1-f195.google.com with SMTP id b18so3091188oie.2
-        for <linux-api@vger.kernel.org>; Wed, 12 Feb 2020 10:54:26 -0800 (PST)
+        id S1727279AbgBLS7F (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 12 Feb 2020 13:59:05 -0500
+Received: from UCOL19PA35.eemsg.mail.mil ([214.24.24.195]:61207 "EHLO
+        UCOL19PA35.eemsg.mail.mil" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727054AbgBLS7E (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Feb 2020 13:59:04 -0500
+X-EEMSG-check-017: 70998748|UCOL19PA35_ESA_OUT02.csd.disa.mil
+X-IronPort-AV: E=Sophos;i="5.70,433,1574121600"; 
+   d="scan'208";a="70998748"
+Received: from emsm-gh1-uea11.ncsc.mil ([214.29.60.3])
+  by UCOL19PA35.eemsg.mail.mil with ESMTP/TLS/DHE-RSA-AES256-SHA256; 12 Feb 2020 18:58:42 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=LtOzq8Dvm9EOVPIktGXJRj+usb/YoTNrAxF5ywLDDd8=;
-        b=Q+EoUnupYG7YTRoccycjLJpfZiM9KOeSNP41yULXJg62fklqXUqrxBz7d+vNg+RiU8
-         OTo355bYRNfaEv5zIqNmlObRxM9VN2AU2YQ6Y5AwFwM+azPzbaJzT51/PqWYp7/BmD/f
-         UW+VCA1TF40xZ2xezrcqpH6OWLq6fFApEuN84Kg5laIg/FzjPMT3vV1nFO1jqi5B9dWA
-         +j7cgZrEgroO847rzJYkv/Seqhz1On3iYEDfv17yUgBlWHHUnt6qpSGqSNy5bDXxU3/U
-         ctgZYS0373mmw+Hvyi9wvjBsha5PPZTEOHnnkLAG7UWdAs6ouGLB1HPaXLojJB3yGfEa
-         ER9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=LtOzq8Dvm9EOVPIktGXJRj+usb/YoTNrAxF5ywLDDd8=;
-        b=IGAYGXd0LK1WReTgCV9+X3bin5dQDr4LLirQRTQGKSkOjT3oCC8SBrSYcsN3FS4YFe
-         9/852XkqP/XLNBtwPUS3f5g9jqbLpHDIUwCJoCvtSI3pbDob5L8qbBQ+cpMRoJWzuhF5
-         kZz76euHOgwPRvJ2rskYkT18kX7WkK3ag1TMzlkdJG0dw7x5SJaW13L9RNISdF6pvYV6
-         batQ5cVtVg3wMfGlbUVmlqrx2ZtVXChSsw3YxhDW5lJtDr/rii29riAXOdTp7yGZfliB
-         qwKmK+rUrcAFezub7W2WZ+uqfX7a5fZRM1Oxf1TEpnHWVWwBfrr5+A8QiJCA9c7QbVJI
-         Epkg==
-X-Gm-Message-State: APjAAAXkGYDRb/JDRueCnzfvizdcWvZhEpcW7/55dibFjEYi8BvdPhhA
-        23UE+I0K/aW3K5pCyqchCYVwGyzQgyFGPFk5ivHrRw==
-X-Google-Smtp-Source: APXvYqy0EmEDc1BOzFlpRKkTsLU8p4+J6yt6qKT0BEgwLJyGgoQqRoQ/355Y48X9PFfTpCZlj2Drztrc8P4ynuGh448=
-X-Received: by 2002:aca:b187:: with SMTP id a129mr307460oif.175.1581533665966;
- Wed, 12 Feb 2020 10:54:25 -0800 (PST)
+  d=tycho.nsa.gov; i=@tycho.nsa.gov; q=dns/txt;
+  s=tycho.nsa.gov; t=1581533922; x=1613069922;
+  h=subject:from:to:cc:references:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=43MVO/510jhOyan+SGnwcFXKAXlzAUm+RrV08a9G7Q0=;
+  b=qpJLBj7tzkjmoFtcMlhe7MMJ6/MzRhSFnv6bxUhRpaB7fTLF7OZ3EOl/
+   GrN9kPzPFG1MLKatxB+bLPxPW0p05cmgPik5dF55GY387j8OkdvVD+DIN
+   xROXyUmqz8r/Qyt+Q3+BaSicnZvE/BJpkPVK7BV8Rfc2DVA7Z30PnB+QB
+   rC+BLGTL0dYFqbPeNn0gadUnFOfMaJtk9qaQZxks8dUCcoQldiTKP8AQV
+   ClRvrurcCUiVbb0pPk0BDfic/bJ2hH5yOWA1SNQRyiq2nFAuRCBL1pPK9
+   +uLkcI2GnSwv/w6QJDG73vvFJLvsGhu/SGT8lxZLqw1tu5vaDk1Ey/4Ao
+   g==;
+X-IronPort-AV: E=Sophos;i="5.70,433,1574121600"; 
+   d="scan'208";a="39033152"
+IronPort-PHdr: =?us-ascii?q?9a23=3Ax3SjNRQDn8JHqiTu9aM+W5L1I9psv+yvbD5Q0Y?=
+ =?us-ascii?q?Iujvd0So/mwa67ZhaOt8tkgFKBZ4jH8fUM07OQ7/m8HzJdqs/b6TgrS99laV?=
+ =?us-ascii?q?wssY0uhQsuAcqIWwXQDcXBSGgEJvlET0Jv5HqhMEJYS47UblzWpWCuv3ZJQk?=
+ =?us-ascii?q?2sfQV6Kf7oFYHMks+5y/69+4HJYwVPmTGxfa5+IA+5oAnMucQam4pvJ6Y+xh?=
+ =?us-ascii?q?fUvHdEZvldyH91K16Ugxvz6cC88YJ5/S9Nofwh7clAUav7f6Q8U7NVCSktPn?=
+ =?us-ascii?q?426sP2qxTNVBOD6XQAXGoYlBpIGBXF4wrhXpjtqCv6t/Fy1zecMMbrUL07Qz?=
+ =?us-ascii?q?Wi76NsSB/1lCcKMiMy/W/LhsBsiq9QvQmsrAJjzYHKfI6VNeJ+fqLDctMcWW?=
+ =?us-ascii?q?pBRdtaWyhYDo+hc4cDE+8NMOBWoInno1sFsAWwCw+iCujyzjNEn3H70Kk/3+?=
+ =?us-ascii?q?knDArI3hEvH8gWvXrJrNv7KqkSX+O7wqbGwjrMbe9Z1zjm5YjUcR0su+2AUa?=
+ =?us-ascii?q?5+fMfTz0QkCgPLjk+XqYzgJz6by/gNvHaD7+pgS+2vjXMspRx0oje1wscsjp?=
+ =?us-ascii?q?fGh4IIwV3D7iV23Z01KMakSE97fdGkEJxQuzucN4ttWMwuWW5ouCEkyrAfv5?=
+ =?us-ascii?q?OwYSsEyIw/yhLCZPGKfJKE7xL+WOqLPzt1i2xpdKiiixu07EOu0PfzVtOu31?=
+ =?us-ascii?q?ZPtidFl97MuW0T2BHL8ciHT+d9/l+m2TaSywDf8uFELl4wlarcM5Mh3qQ/lo?=
+ =?us-ascii?q?ASsUTeBS/6gkT2jKmYdkUj4ein9fjobq/6pp6cK4B0igb+Pr4omsOjGuQ3Lh?=
+ =?us-ascii?q?ICX22a+eS4zLHj/Ev5T6tWjvAuj6XUv5/XKd4bq6KkGQNZzIku5wilAzu7yN?=
+ =?us-ascii?q?gYmGMILFNBeBKJlYjpPFTOLejjDfiimFShiytrxvDaMb3hBZXBNH7DkKz7cr?=
+ =?us-ascii?q?pn5E5czxQzwchF551IErEBPO7zWkjpudPFFBA5NRC7w+HjCNhm2YMeXmWPAq?=
+ =?us-ascii?q?CdMKzMq1OH+uUvI+yUbo8PpDn9M+Ql5+LpjXIhhV8dfKyp3Z4KaHCiBPRpOU?=
+ =?us-ascii?q?WYbGHjgtcGFmcKsQ4+Q/LwhFKeVj5TYm64X7gg6TEjFIKmEYDDS5irgLyGxy?=
+ =?us-ascii?q?e7HoZbZm9BClCLHnfoc5uLV+0QZyKVJ89riiYEWqS5S489yRGusxf3y7xhLu?=
+ =?us-ascii?q?rX4SAYupXj1N965+3Xix4+7yB7D8OY02uVVWF7gnsIRyMq3KB4uUF9zlCD0a?=
+ =?us-ascii?q?tmjPxDFdxT6PJJXRogNZHG1OF6BNfyWgXOfteNVlmqWMmpATY0Ttgp2d8Bf1?=
+ =?us-ascii?q?59G8m+jhDExyeqB74Vl7qWBJ07667c3Gb+J9x7y3nY0KkslEcmQsRROm28nK?=
+ =?us-ascii?q?J/9BbcB5TPk0qHk6amb6Mc3DTC9G2b12qBoFlYUBJsUaXCRX0fYkrWrdLk5k?=
+ =?us-ascii?q?LNVrOhE6wnMgpaxM6cJatFdMfpgU9FRPj9ItTeZXy+m2OqCRaP3LOMY5Lge3?=
+ =?us-ascii?q?8B0yXFFEgEjwcT8G6dNQcgAiehomTeDCFhFF/0fUPs/vdxqGmhQk830Q6KdU?=
+ =?us-ascii?q?th2KSx+hIPgvycUfwTjfo4v3INojN1EVL19NXSAsGLpg1nce0Ibdo761BD/W?=
+ =?us-ascii?q?3esAN5M9qrKKU01XAEdAEihF/jzxV6DM17lMEuqH47hF5pJbmwzEJKdzTe24?=
+ =?us-ascii?q?v5fLLQND+hr1iUd6fK1wSGg56t8aAV5aF98g6ysQ=3D=3D?=
+X-IPAS-Result: =?us-ascii?q?A2BwBABeSkRe/wHyM5BmHQEBAQkBEQUFAYF7gXgFgWgFI?=
+ =?us-ascii?q?BIqhBSJA4ZlAQEBAQEBBoE3iXCQcwNUCQEBAQEBAQEBATcEAQGEQAKCbTgTA?=
+ =?us-ascii?q?hABAQEFAQEBAQEFAwEBbIULAQUygjspAYMCAQUjBAsBBUEQCQIOCgICJgICV?=
+ =?us-ascii?q?wYKAwYCAQGCYz+CVyWQdpt5fzOJFIE+gQ4qjD55gQeBEScPgV9QLj6HW4JeB?=
+ =?us-ascii?q?JAchkWBKogyjzmCRIJPk3wGHIJIiBIFhEWLcawmIjeBISsIAhgIIQ+DJ1AYD?=
+ =?us-ascii?q?YRXAYlRF45BIwMwkWEBAQ?=
+Received: from tarius.tycho.ncsc.mil (HELO tarius.infosec.tycho.ncsc.mil) ([144.51.242.1])
+  by emsm-gh1-uea11.NCSC.MIL with ESMTP; 12 Feb 2020 18:58:41 +0000
+Received: from moss-pluto.infosec.tycho.ncsc.mil (moss-pluto [192.168.25.131])
+        by tarius.infosec.tycho.ncsc.mil (8.14.7/8.14.4) with ESMTP id 01CIvj96175718;
+        Wed, 12 Feb 2020 13:57:45 -0500
+Subject: Re: [PATCH v2 3/6] Teach SELinux about a new userfaultfd class
+From:   Stephen Smalley <sds@tycho.nsa.gov>
+To:     Daniel Colascione <dancol@google.com>
+Cc:     Tim Murray <timmurray@google.com>, Nosh Minwalla <nosh@google.com>,
+        Nick Kralevich <nnk@google.com>,
+        Lokesh Gidra <lokeshgidra@google.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>, selinux@vger.kernel.org
+References: <20200211225547.235083-1-dancol@google.com>
+ <20200211225547.235083-4-dancol@google.com>
+ <ef13d728-9f1e-5e38-28a1-7ed7134840e4@tycho.nsa.gov>
+ <CAKOZuesUVSYJ6EjHFL3QyiWKVmyhm1fLp5Bm_SHjB3_s1gn08A@mail.gmail.com>
+ <ae8adb92-9c6e-2318-a3b9-903ead3848b5@tycho.nsa.gov>
+Message-ID: <69f4ccce-18b2-42c1-71ac-3fe9caf2dfb6@tycho.nsa.gov>
+Date:   Wed, 12 Feb 2020 13:59:49 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-References: <20200211165753.356508-1-christian.brauner@ubuntu.com>
- <CAG48ez1GKOfXDZFD7-hGGjT8L9YEojn94DU5_=W8HL3pzdrCgg@mail.gmail.com> <20200212145149.zohmc6d3x52bw6j6@wittgenstein>
-In-Reply-To: <20200212145149.zohmc6d3x52bw6j6@wittgenstein>
-From:   Jann Horn <jannh@google.com>
-Date:   Wed, 12 Feb 2020 19:53:59 +0100
-Message-ID: <CAG48ez18UkQwvtBqcd-_uZafwtKmHy0=JCkDCo9DUqHsR8sTwQ@mail.gmail.com>
-Subject: Re: [PATCH 00/24] user_namespace: introduce fsid mappings
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     linux-security-module <linux-security-module@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        smbarber@chromium.org, Alexander Viro <viro@zeniv.linux.org.uk>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <ae8adb92-9c6e-2318-a3b9-903ead3848b5@tycho.nsa.gov>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Feb 12, 2020 at 3:51 PM Christian Brauner
-<christian.brauner@ubuntu.com> wrote:
-> On Tue, Feb 11, 2020 at 09:55:46PM +0100, Jann Horn via Containers wrote:
-> > On Tue, Feb 11, 2020 at 5:59 PM Christian Brauner
-> > <christian.brauner@ubuntu.com> wrote:
-> > > This is the implementation of shiftfs which was cooked up during lunc=
-h at
-> > > Linux Plumbers 2019 the day after the container's microconference. Th=
-e
-> > > idea is a design-stew from St=C3=A9phane, Aleksa, Eric, and myself. B=
-ack then
-> > > we all were quite busy with other work and couldn't really sit down a=
-nd
-> > > implement it. But I took a few days last week to do this work, includ=
-ing
-> > > demos and performance testing.
-> > > This implementation does not require us to touch the vfs substantiall=
-y
-> > > at all. Instead, we implement shiftfs via fsid mappings.
-> > > With this patch, it took me 20 mins to port both LXD and LXC to suppo=
-rt
-> > > shiftfs via fsid mappings.
-> > >
-> > > For anyone wanting to play with this the branch can be pulled from:
-> > > https://github.com/brauner/linux/tree/fsid_mappings
-> > > https://gitlab.com/brauner/linux/-/tree/fsid_mappings
-> > > https://git.kernel.org/pub/scm/linux/kernel/git/brauner/linux.git/log=
-/?h=3Dfsid_mappings
-> > >
-> > > The main use case for shiftfs for us is in allowing shared writable
-> > > storage to multiple containers using non-overlapping id mappings.
-> > > In such a scenario you want the fsids to be valid and identical in bo=
-th
-> > > containers for the shared mount. A demo for this exists in [3].
-> > > If you don't want to read on, go straight to the other demos below in
-> > > [1] and [2].
-> >
-> > I guess essentially this means that you want to have UID separation
-> > between containers to prevent the containers - or their owners - from
-> > interfering between each other, but for filesystem access, you don't
-> > want to isolate them from each other using DAC controls on the files
-> > and folders inside the containers' directory hierarchies, instead
-> > relying on mode-0700 parent directories to restrict access to the
-> > container owner? Or would you still have separate UIDs for e.g. the
-> > container's UID range 0-65535, and then map the shared UID range at
-> > 100000, or something like that?
->
-> Yes.
-> So if you look at the permissions right now for the directory under
-> which the rootfs for the container and other stuff resides we have
-> root@wittgenstein|/var/lib/lxd/storage-pools/zfs/containers
-> > perms *
-> d--x------ 100 alp1
-> d--x------ 100 f1
-> d--x------ 100 f2
->
-> We don't really share the rootfs between containers right now since we
-> treat them as standalone systems but with fsid mappings that's possible
-> too. Layer-sharing-centric runtimes very much will want something like
-> that.
-[...]
-> > > With this patch series we simply introduce the ability to create fsid
-> > > mappings that are different from the id mappings of a user namespace.
-> > >
-> > > In the usual case of running an unprivileged container we will have
-> > > setup an id mapping, e.g. 0 100000 100000. The on-disk mapping will
-> > > correspond to this id mapping, i.e. all files which we want to appear=
- as
-> > > 0:0 inside the user namespace will be chowned to 100000:100000 on the
-> > > host. This works, because whenever the kernel needs to do a filesyste=
-m
-> > > access it will lookup the corresponding uid and gid in the idmapping
-> > > tables of the container.
-> > > Now think about the case where we want to have an id mapping of 0 100=
-000
-> > > 100000 but an on-disk mapping of 0 300000 100000 which is needed to e=
-.g.
-> > > share a single on-disk mapping with multiple containers that all have
-> > > different id mappings.
-> > > This will be problematic. Whenever a filesystem access is requested, =
-the
-> > > kernel will now try to lookup a mapping for 300000 in the id mapping
-> > > tables of the user namespace but since there is none the files will
-> > > appear to be owned by the overflow id, i.e. usually 65534:65534 or
-> > > nobody:nogroup.
-> > >
-> > > With fsid mappings we can solve this by writing an id mapping of 0
-> > > 100000 100000 and an fsid mapping of 0 300000 100000. On filesystem
-> > > access the kernel will now lookup the mapping for 300000 in the fsid
-> > > mapping tables of the user namespace. And since such a mapping exists=
-,
-> > > the corresponding files will have correct ownership.
-> >
-> > Sorry to bring up something as disgusting as setuid execution, but:
->
-> No that's exactly what this needs. :)
->
-> > What happens when there's a setuid root file with ->i_uid=3D=3D300000? =
-I
-> > guess the only way to make that work inside the containers would be
-> > something like make_kuid(current_user_ns(),
-> > from_kfsuid(current_user_ns(), inode->i_uid)) in the setuid execve
-> > path?
->
-> What's the specific callpath you're thinking about?
->
-> So if you look at patch
-> https://lore.kernel.org/lkml/20200211165753.356508-16-christian.brauner@u=
-buntu.com/
-> it does
-> -       new->suid =3D new->fsuid =3D new->euid;
-> -       new->sgid =3D new->fsgid =3D new->egid;
-> +       fsuid =3D from_kuid_munged(new->user_ns, new->euid);
-> +       kfsuid =3D make_kfsuid(new->user_ns, fsuid);
-> +       new->suid =3D new->euid;
-> +       new->fsuid =3D kfsuid;
-> +
-> +       fsgid =3D from_kgid_munged(new->user_ns, new->egid);
-> +       kfsgid =3D make_kfsgid(new->user_ns, fsgid);
-> +       new->sgid =3D new->egid;
-> +       new->fsgid =3D kfsgid;
+On 2/12/20 1:04 PM, Stephen Smalley wrote:
+> On 2/12/20 12:19 PM, Daniel Colascione wrote:
+>> Thanks for taking a look.
+>>
+>> On Wed, Feb 12, 2020 at 9:04 AM Stephen Smalley <sds@tycho.nsa.gov> 
+>> wrote:
+>>>
+>>> On 2/11/20 5:55 PM, Daniel Colascione wrote:
+>>>> Use the secure anonymous inode LSM hook we just added to let SELinux
+>>>> policy place restrictions on userfaultfd use. The create operation
+>>>> applies to processes creating new instances of these file objects;
+>>>> transfer between processes is covered by restrictions on read, write,
+>>>> and ioctl access already checked inside selinux_file_receive.
+>>>>
+>>>> Signed-off-by: Daniel Colascione <dancol@google.com>
+>>>
+>>> (please add linux-fsdevel and viro to the cc for future versions of this
+>>> patch since it changes the VFS)
+>>>
+>>>> ---
+>>>> diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
+>>>> index 1659b59fb5d7..e178f6f40e93 100644
+>>>> --- a/security/selinux/hooks.c
+>>>> +++ b/security/selinux/hooks.c
+>>>> @@ -2915,6 +2919,69 @@ static int selinux_inode_init_security(struct 
+>>>> inode *inode, struct inode *dir,
+>>>> +
+>>>> +     /*
+>>>> +      * We shouldn't be creating secure anonymous inodes before LSM
+>>>> +      * initialization completes.
+>>>> +      */
+>>>> +     if (unlikely(!selinux_state.initialized))
+>>>> +             return -EBUSY;
+>>>
+>>> I don't think this is viable; any arbitrary actions are possible before
+>>> policy is loaded, and a Linux distro can be brought up fully with
+>>> SELinux enabled and no policy loaded.  You'll just need to have a
+>>> default behavior prior to initialization.
+>>
+>> We'd have to fail open then, I think, and return an S_PRIVATE inode
+>> (the regular anon inode).
+> 
+> Not sure why.  You aren't doing anything in the hook that actually 
+> relies on selinux_state.initialized being set (i.e. nothing requires a 
+> policy).  The avc_has_perm() call will just succeed until a policy is 
+> loaded.  So if these inodes are created prior to policy load, they will 
+> get assigned the task SID (which would be the kernel SID prior to policy 
+> load or first exec or write to /proc/self/attr/current afterward) and 
+> UFFD class (in your current code), be permitted, and then once policy is 
+> loaded any further access will get checked against the kernel SID.
+> 
+>>>> +     /*
+>>>> +      * We only get here once per ephemeral inode.  The inode has
+>>>> +      * been initialized via inode_alloc_security but is otherwise
+>>>> +      * untouched, so check that the state is as
+>>>> +      * inode_alloc_security left it.
+>>>> +      */
+>>>> +     BUG_ON(isec->initialized != LABEL_INVALID);
+>>>> +     BUG_ON(isec->sclass != SECCLASS_FILE);
+>>>
+>>> I think the kernel discourages overuse of BUG_ON/BUG/...
+>>
+>> I'm not sure what counts as overuse.
+> 
+> Me either (not my rule) but I'm pretty sure this counts or you'd see a 
+> lot more of these kinds of BUG_ON() checks throughout.  Try to reserve 
+> them for really critical cases.
+> 
+>>>> +
+>>>> +#ifdef CONFIG_USERFAULTFD
+>>>> +     if (fops == &userfaultfd_fops)
+>>>> +             isec->sclass = SECCLASS_UFFD;
+>>>> +#endif
+>>>
+>>> Not sure we want or need to introduce a new security class for each user
+>>> of anonymous inodes since the permissions should be the same as for
+>>> file.
+>>
+>> The purpose of this change is to apply special policy to userfaultfd
+>> FDs in particular. Isn't having a UFFD security class the best way to
+>> go about that? (There's no path.) Am I missing something?
+> 
+> It is probably the simplest approach; it just doesn't generalize to all 
+> users of anonymous inodes. We can distinguish them in one of two ways: 
+> use a different class like you did (requires a code change every time we 
+> add a new one and yet another duplicate of the file class) or use a 
+> different SID/context/type. The latter could be achieved by calling 
+> security_transition_sid() with the provided name wrapped in a qstr and 
+> specifying type_transition rules on the name.  Then policy could define 
+> derived types for each domain, ala
+> type_transition init self:file "[userfaultfd]" init_userfaultfd;
+> type_transition untrusted_app self:file "[userfaultfd]" 
+> untrusted_app_userfaultfd;
+> ...
+> 
+>>> Also not sure we want to be testing fops for each such case.
+>>
+>> I was also thinking of just providing some kind of context string
+>> (maybe the name), which might be friendlier to modules, but the loose
+>> coupling kind of scares me, and for this particular application, since
+>> UFFD is always in the core and never in a module, checking the fops
+>> seems a bit more robust and doesn't hurt anything.
+> 
+> Yes, not sure how the vfs folks feel about either coupling (the 
+> name-based one or the fops-based one).  Neither seems great.
+> 
+>>> We
+>>> were looking at possibly leveraging the name as a key and using
+>>> security_transition_sid() to generate a distinct SID/context/type for
+>>> the inode via type_transition rules in policy.  We have some WIP along
+>>> those lines.
+>>
+>> Where? Any chance it would be ready soon? I'd rather not hold up this
+>> work for a more general mechanism.
+> 
+> Hopefully will have a patch available soon.  But not saying this 
+> necessarily has to wait either.
+> 
+>>>> +     /*
+>>>> +      * Always give secure anonymous inodes the sid of the
+>>>> +      * creating task.
+>>>> +      */
+>>>> +
+>>>> +     isec->sid = tsec->sid;
+>>>
+>>> This doesn't generalize for other users of anonymous inodes, e.g. the
+>>> /dev/kvm case where we'd rather inherit the SID and class from the
+>>> original /dev/kvm inode itself.
+>>
+>> I think someone mentioned on the first version of this patch that we
+>> could make it more flexible if the need arose. If we do want to do it
+>> now, we could have the anon_inode security hook accept a "parent" or
+>> "context" inode that modules could inspect for the purposes of forming
+>> the new inode's SID. Does that make sense to you?
+> 
+> Yes, that's the approach in our current WIP, except we call it a 
+> "related" inode since it isn't necessarily connected to the anon inode 
+> in any vfs sense.
 
-Aaah, okay, I missed that.
-
-> One thing I definitely missed though in the setuid path is to adapt
-> fs/exec.c:bprm_fill_uid():
->
-> diff --git a/fs/exec.c b/fs/exec.c
-> index 74d88dab98dd..ad839934fdff 100644
-> --- a/fs/exec.c
-> +++ b/fs/exec.c
-> @@ -1547,8 +1547,8 @@ static void bprm_fill_uid(struct linux_binprm *bprm=
-)
->         inode_unlock(inode);
->
->         /* We ignore suid/sgid if there are no mappings for them in the n=
-s */
-> -       if (!kuid_has_mapping(bprm->cred->user_ns, uid) ||
-> -                !kgid_has_mapping(bprm->cred->user_ns, gid))
-> +       if (!kfsuid_has_mapping(bprm->cred->user_ns, uid) ||
-> +                !kfsgid_has_mapping(bprm->cred->user_ns, gid))
->                 return;
->
->         if (mode & S_ISUID) {
-[...]
-> > I want to open /proc/$pid/personality of another process with the same
-> > UIDs, may_open() will call inode_permission() -> do_inode_permission()
-> > -> generic_permission() -> acl_permission_check(), which will compare
-> > current_fsuid() (which is 300000) against inode->i_uid. But
-> > inode->i_uid was filled by proc_pid_make_inode()->task_dump_owner(),
-> > which set inode->i_uid to 100000, right?
->
-> Yes. That should be fixable by something like below, I think. (And we can
-> probably shortcut this by adding a helper that does tell us whether there=
-'s
-> been any fsid mapping setup or not for this user namespace.)
->  static int acl_permission_check(struct inode *inode, int mask)
->  {
-> +       kuid_t kuid;
->         unsigned int mode =3D inode->i_mode;
->
-> -       if (likely(uid_eq(current_fsuid(), inode->i_uid)))
-> +       if (!is_userns_visible(inode->i_sb->s_iflags)) {
-> +               kuid =3D inode->i_uid;
-> +       } else {
-> +               kuid =3D make_kuid(current_user_ns(),
-> +                                from_kfsuid(current_user_ns(), inode->i_=
-uid));
-> +       }
-> +
-> +       if (likely(uid_eq(current_fsuid(), kuid)))
->                 mode >>=3D 6;
->         else {&& (mode & S_IRWXG)) {
->
-> >
-> > Also, e.g. __ptrace_may_access() uses cred->fsuid for a comparison
-> > with another task's real/effective/saved UID.
->
-> Right, you even introduced this check in 2015 iirc.
-> Both of your points make me think that it'd be easiest to introduce
-> cred->{kfsuid,kfsgid} and whenever an access decision on a
-> is_userns_visible() filesystem has to be made those will be used. This av=
-oids
-> having to do on-the fly translations
-
-I guess that might be less ugly.
-
-> and ptrace_may_access() can just grow a
-> flag indicating what fscreds it's supposed to look at?
-
-Wouldn't you always end up using the "real" fsuid there?
+The other key difference in our WIP approach is that we assumed that we 
+couldn't mandate allocating a separate anon inode for each of these fds 
+and we wanted to cover all anonymous inodes (not opt-in), so we are 
+storing the SID/class pair as additional fields in the 
+file_security_struct and have modified file_has_perm() and others to 
+look there for anonymous inodes.
