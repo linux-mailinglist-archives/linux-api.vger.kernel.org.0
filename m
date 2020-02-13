@@ -2,186 +2,98 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6EE4E15CDAA
-	for <lists+linux-api@lfdr.de>; Thu, 13 Feb 2020 22:59:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7963515CE07
+	for <lists+linux-api@lfdr.de>; Thu, 13 Feb 2020 23:24:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728303AbgBMV7K (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 13 Feb 2020 16:59:10 -0500
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:41180 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728195AbgBMV7J (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 13 Feb 2020 16:59:09 -0500
-Received: by mail-ed1-f68.google.com with SMTP id c26so8709298eds.8
-        for <linux-api@vger.kernel.org>; Thu, 13 Feb 2020 13:59:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=dR96Ls041PGles0WWTgdxsFA4gswjPBr2dNrlkBSuNQ=;
-        b=rRCxR57CMKJEJvKUsBRBaCGNlEl5GeneJok3J1oqVCL9i03XHBTkzBKLVXlCX80abR
-         waS3e2st7hqr5AUSVywbiuHu/XcoJmFgOcPcq/NRWkATB05enSVqkl80JRFrqFA7+TzZ
-         VP60OmlNYIOOnNo1pTgwF6ZUTJ9B+xYWfKepxQsuTcSQlH2ADq4oxtRLbeGf/SyLe7Z5
-         YYEdGrtOkXicpYXO7tS/kxFgOlUN19E6+SiiE6iPdGEHXwVtgWm62Jeai1NFqHNb4FeV
-         UgDE19W1OOEMKwc3kfP3rCvuUG9qKToWRYzTN/pkKxHZ/jtbJNqySZOSNxS3RDDHFH+p
-         8DDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dR96Ls041PGles0WWTgdxsFA4gswjPBr2dNrlkBSuNQ=;
-        b=gITJVaXU/WzohvCDJKgGcGhYaHBxYyfzXk2qcg/PPlaxHYM3ZyvM6Sx92P/KFLGqMc
-         EeiQ5JuOWJfTvAEZw0d24wzPn3NXvmtNCZV1mZ35ZYQER/rdwfNnR/9UxMTdiMSuJd/R
-         9yu77PSNJoCo0gK0Mj4dFnn1h6xXSwZ3MGTgKCtSlPhal0+bTklVxtEPZDVpy/ecQzBd
-         jNEoJhn4JTez1cZEpWWjp8h2/Vyb+BYR3HkDUHizjKlRZofL3a+P+CvUwt2cG78GYvg/
-         NKmKlaQqLcTJsJhj0kgzisDMGMBJmgVUlwE3+GjYd6PtpU42fxzzbePtREQfiXjTwDbm
-         zyhQ==
-X-Gm-Message-State: APjAAAUm1fI1LuJWIKLkFRD9Mrkw107ckLHSyqfqycj228y+z6H4Ucwy
-        5JeN7DABJYD6BleC9WmXZqZeOn3SZDTqjvMGpPwg
-X-Google-Smtp-Source: APXvYqwJlC4P1+vTqQ7auzlqHDyoqi32fnbka+h4eFFK4GnrJSQwBwYPSRpLTAitL/ZfvrnPR1P7gUIIEptxDZxCT9E=
-X-Received: by 2002:a50:a7a5:: with SMTP id i34mr17484612edc.128.1581631147637;
- Thu, 13 Feb 2020 13:59:07 -0800 (PST)
+        id S1726968AbgBMWYA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 13 Feb 2020 17:24:00 -0500
+Received: from zeniv.linux.org.uk ([195.92.253.2]:35034 "EHLO
+        ZenIV.linux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727347AbgBMWYA (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 13 Feb 2020 17:24:00 -0500
+Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1j2Mti-00CGBO-G2; Thu, 13 Feb 2020 22:23:50 +0000
+Date:   Thu, 13 Feb 2020 22:23:50 +0000
+From:   Al Viro <viro@zeniv.linux.org.uk>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        Linux Security Module <linux-security-module@vger.kernel.org>,
+        Akinobu Mita <akinobu.mita@gmail.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Daniel Micay <danielmicay@gmail.com>,
+        Djalal Harouni <tixxdz@gmail.com>,
+        "Dmitry V . Levin" <ldv@altlinux.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Jeff Layton <jlayton@poochiereds.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Solar Designer <solar@openwall.com>
+Subject: Re: [PATCH v8 07/11] proc: flush task dcache entries from all procfs
+ instances
+Message-ID: <20200213222350.GU23230@ZenIV.linux.org.uk>
+References: <20200212200335.GO23230@ZenIV.linux.org.uk>
+ <CAHk-=wi+1CPShMFvJNPfnrJ8DD8uVKUOQ5TQzQUNGLUkeoahkg@mail.gmail.com>
+ <20200212203833.GQ23230@ZenIV.linux.org.uk>
+ <20200212204124.GR23230@ZenIV.linux.org.uk>
+ <CAHk-=wi5FOGV_3tALK3n6E2fK3Oa_yCYkYQtCSaXLSEm2DUCKg@mail.gmail.com>
+ <87lfp7h422.fsf@x220.int.ebiederm.org>
+ <CAHk-=wgmn9Qds0VznyphouSZW6e42GWDT5H1dpZg8pyGDGN+=w@mail.gmail.com>
+ <87pnejf6fz.fsf@x220.int.ebiederm.org>
+ <20200213055527.GS23230@ZenIV.linux.org.uk>
+ <CAHk-=wgQnNHYxV7-SyRP=g9vTHyNAK9g1juLLB=eho4=DHVZEQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <cover.1577736799.git.rgb@redhat.com> <5941671b6b6b5de28ab2cc80e72f288cf83291d5.1577736799.git.rgb@redhat.com>
- <CAHC9VhQYXQp+C0EHwLuW50yUenfH4KF1xKQdS=bn_OzHfnFmmg@mail.gmail.com>
- <20200205003930.2efpm4tvrisgmj4t@madcap2.tricolour.ca> <CAHC9VhSsfBbfYmqLoR=QBgF5_VwbA8Dqqz97MjqwwJ6Jq6fHwA@mail.gmail.com>
- <20200206125135.u4dmybkmvxfgui2b@madcap2.tricolour.ca>
-In-Reply-To: <20200206125135.u4dmybkmvxfgui2b@madcap2.tricolour.ca>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Thu, 13 Feb 2020 16:58:56 -0500
-Message-ID: <CAHC9VhT8RsFtmqD22p_NxJaqoAg+do9mX45Luw9fEkr+nQjvxg@mail.gmail.com>
-Subject: Re: [PATCH ghak90 V8 16/16] audit: add capcontid to set contid
- outside init_user_ns
-To:     Richard Guy Briggs <rgb@redhat.com>
-Cc:     nhorman@tuxdriver.com, linux-api@vger.kernel.org,
-        containers@lists.linux-foundation.org,
-        LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
-        Linux-Audit Mailing List <linux-audit@redhat.com>,
-        netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
-        simo@redhat.com, netdev@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>,
-        mpatel@redhat.com, Serge Hallyn <serge@hallyn.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wgQnNHYxV7-SyRP=g9vTHyNAK9g1juLLB=eho4=DHVZEQ@mail.gmail.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Feb 6, 2020 at 7:52 AM Richard Guy Briggs <rgb@redhat.com> wrote:
-> On 2020-02-05 17:56, Paul Moore wrote:
-> > On Tue, Feb 4, 2020 at 7:39 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > On 2020-01-22 16:29, Paul Moore wrote:
-> > > > On Tue, Dec 31, 2019 at 2:51 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > > >
-> > > > > Provide a mechanism similar to CAP_AUDIT_CONTROL to explicitly give a
-> > > > > process in a non-init user namespace the capability to set audit
-> > > > > container identifiers.
-> > > > >
-> > > > > Provide /proc/$PID/audit_capcontid interface to capcontid.
-> > > > > Valid values are: 1==enabled, 0==disabled
-> > > >
-> > > > It would be good to be more explicit about "enabled" and "disabled" in
-> > > > the commit description.  For example, which setting allows the target
-> > > > task to set audit container IDs of it's children processes?
-> > >
-> > > Ok...
-> > >
-> > > > > Report this action in message type AUDIT_SET_CAPCONTID 1022 with fields
-> > > > > opid= capcontid= old-capcontid=
-> > > > >
-> > > > > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-> > > > > ---
-> > > > >  fs/proc/base.c             | 55 ++++++++++++++++++++++++++++++++++++++++++++++
-> > > > >  include/linux/audit.h      | 14 ++++++++++++
-> > > > >  include/uapi/linux/audit.h |  1 +
-> > > > >  kernel/audit.c             | 35 +++++++++++++++++++++++++++++
-> > > > >  4 files changed, 105 insertions(+)
+On Thu, Feb 13, 2020 at 01:30:11PM -0800, Linus Torvalds wrote:
+> On Wed, Feb 12, 2020 at 9:55 PM Al Viro <viro@zeniv.linux.org.uk> wrote:
 > >
-> > ...
-> >
-> > > > > diff --git a/kernel/audit.c b/kernel/audit.c
-> > > > > index 1287f0b63757..1c22dd084ae8 100644
-> > > > > --- a/kernel/audit.c
-> > > > > +++ b/kernel/audit.c
-> > > > > @@ -2698,6 +2698,41 @@ static bool audit_contid_isowner(struct task_struct *tsk)
-> > > > >         return false;
-> > > > >  }
-> > > > >
-> > > > > +int audit_set_capcontid(struct task_struct *task, u32 enable)
-> > > > > +{
-> > > > > +       u32 oldcapcontid;
-> > > > > +       int rc = 0;
-> > > > > +       struct audit_buffer *ab;
-> > > > > +
-> > > > > +       if (!task->audit)
-> > > > > +               return -ENOPROTOOPT;
-> > > > > +       oldcapcontid = audit_get_capcontid(task);
-> > > > > +       /* if task is not descendant, block */
-> > > > > +       if (task == current)
-> > > > > +               rc = -EBADSLT;
-> > > > > +       else if (!task_is_descendant(current, task))
-> > > > > +               rc = -EXDEV;
-> > > >
-> > > > See my previous comments about error code sanity.
-> > >
-> > > I'll go with EXDEV.
-> > >
-> > > > > +       else if (current_user_ns() == &init_user_ns) {
-> > > > > +               if (!capable(CAP_AUDIT_CONTROL) && !audit_get_capcontid(current))
-> > > > > +                       rc = -EPERM;
-> > > >
-> > > > I think we just want to use ns_capable() in the context of the current
-> > > > userns to check CAP_AUDIT_CONTROL, yes?  Something like this ...
-> > >
-> > > I thought we had firmly established in previous discussion that
-> > > CAP_AUDIT_CONTROL in anything other than init_user_ns was completely irrelevant
-> > > and untrustable.
-> >
-> > In the case of a container with multiple users, and multiple
-> > applications, one being a nested orchestrator, it seems relevant to
-> > allow that container to control which of it's processes are able to
-> > exercise CAP_AUDIT_CONTROL.  Granted, we still want to control it
-> > within the overall host, e.g. the container in question must be
-> > allowed to run a nested orchestrator, but allowing the container
-> > itself to provide it's own granularity seems like the right thing to
-> > do.
->
-> Looking back to discussion on the v6 patch 2/10 (2019-05-30 15:29 Paul
-> Moore[1], 2019-07-08 14:05 RGB[2]) , it occurs to me that the
-> ns_capable(CAP_AUDIT_CONTROL) application was dangerous since there was
-> no parental accountability in storage or reporting.  Now that is in
-> place, it does seem a bit more reasonable to allow it, but I'm still not
-> clear on why we would want both mechanisms now.  I don't understand what
-> the last line in that email meant: "We would probably still want a
-> ns_capable(CAP_AUDIT_CONTROL) restriction in this case."  Allow
-> ns_capable(CAP_AUDIT_CONTROL) to govern these actions, or restrict
-> ns_capable(CAP_AUDIT_CONTROL) from being used to govern these actions?
->
-> If an unprivileged user has been given capcontid to be able run their
-> own container orchestrator/engine and spawns a user namespace with
-> CAP_AUDIT_CONTROL, what matters is capcontid, and not CAP_AUDIT_CONTROL.
-> I could see needing CAP_AUDIT_CONTROL *in addition* to capcontid to give
-> it finer grained control, but since capcontid would have to be given to
-> each process explicitly anways, I don't see the point.
->
-> If that unprivileged user had not been given capcontid,
-> giving itself or one of its descendants CAP_AUDIT_CONTROL should not let
-> it jump into the game all of a sudden unless the now chained audit
-> container identifiers are deemed accountable enough.  And then now we
-> need those hard limits on container depth and network namespace
-> container membership.
+> > What I don't understand is the insistence on getting those dentries
+> > via dcache lookups.
+> 
+> I don't think that's an "insistence", it's more of a "historical
+> behavior" together with "several changes over the years to deal with
+> dentry-level cleanups and updates".
+> 
+> > _IF_ we are willing to live with cacheline
+> > contention (on ->d_lock of root dentry, if nothing else), why not
+> > do the following:
+> >         * put all dentries of such directories ([0-9]* and [0-9]*/task/*)
+> > into a list anchored in task_struct; have non-counting reference to
+> > task_struct stored in them (might simplify part of get_proc_task() users,
+> 
+> Hmm.
+> 
+> Right now I don't think we actually create any dentries at all for the
+> short-lived process case.
+> 
+> Wouldn't your suggestion make fork/exit rather worse?
+> 
+> Or would you create the dentries dynamically still at lookup time, and
+> then attach them to the process at that point?
+> 
+> What list would you use for the dentry chaining? Would you play games
+> with the dentry hashing, and "hash" them off the process, and never
+> hit in the lookup cache?
 
-Perhaps I'm not correctly understanding what you are trying to do with
-this patchset, but my current understanding is that you are trying to
-use capcontid to control which child audit container IDs (ACIDs) are
-allowed to manage their own ACIDs.  Further, I believe that the
-capcontid setting operates at a per-ACID level, meaning there is no
-provision for the associated container to further restrict that
-ability, i.e. no access control granularity below the ACID level.  My
-thinking is that ns_capable(CAP_AUDIT_CONTROL) could be used within an
-ACID to increase the granularity of the access controls so that only
-privileged processes running inside the ACID would be able to manage
-the ACIDs.  Does that make sense?
+I'd been thinking of ->d_fsdata pointing to a structure with list_head
+and a (non-counting) task_struct pointer for those guys.  Allocated
+on lookup, of course (as well as readdir ;-/) and put on the list
+at the same time.
 
--- 
-paul moore
-www.paul-moore.com
+IOW, for short-lived process we simply have an empty (h)list anchored
+in task_struct and that's it.
