@@ -2,95 +2,61 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 26BDA15BE3F
-	for <lists+linux-api@lfdr.de>; Thu, 13 Feb 2020 13:07:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2101315BEB4
+	for <lists+linux-api@lfdr.de>; Thu, 13 Feb 2020 13:52:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729913AbgBMMH4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 13 Feb 2020 07:07:56 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:38080 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729588AbgBMMH4 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 13 Feb 2020 07:07:56 -0500
-Received: by mail-lj1-f195.google.com with SMTP id w1so6308609ljh.5
-        for <linux-api@vger.kernel.org>; Thu, 13 Feb 2020 04:07:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shutemov-name.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=rd4xaLNS2AIxfYvKAvmcRdDCWeLjTTZtNYujj0pjgMk=;
-        b=M2VUGBwXg+/hd3puU06yqac4zRaPvTXXLIfZyt7OjuKT9vRMrYDFEIQohg/D5vOFZQ
-         nbg0WHbiwqy/kGwYFjnGfLBMmLqRvuVZSJtsYy0S8L552R0g3ge+GHkCMeTQrK0DBPHS
-         w7uqIIdq67ZrCExXrDr9zava1s2YEPAqOHmnWdY45wHHFGhJ1lyfBz5OU6BkjWYmdM1J
-         b/fZ4bIf9RHofk698C92yzSG2lGvuXs+Po3PG+jOJvqhBz6KWQgOnfGjKrOTZB28eLjk
-         7NCFR097N16PT+COcEm3RBl5PMNU8IS4NgqXMlak3BXwJvhgTbmdof+1ZwDgX7aYlTVL
-         V94g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=rd4xaLNS2AIxfYvKAvmcRdDCWeLjTTZtNYujj0pjgMk=;
-        b=oOG9BcMOPxd3j/pA+swlW72jyXMWrWtZtj20ThrGfrbnAsZ2KA82vtKX5gjyQC3i+O
-         UaqpPRfqVTTTl6CaravOzzFdI/VkduK5jFzewPUHg2VDtWiHI+3loeDLwHvU3zH2yIzi
-         +DCIkqJVqZdVMI2qaDKYK1yAae/aO8WELLcJtm6ZQJWPx2LsJ4oQmpu2gJmOtcdoCdXc
-         lyL+Dj9gwMyMA7Bk6Fke6ANbYWlwreu/fITbalVMvwoGuQRZKZVQm+6HvM3mVf2NgSdz
-         oJw0A2K4KMJKbZbjSPAhD5PcUivp39OXImMFuUqCErOgNjMnwoE97fJpE5yGWrG2I2MW
-         wMyQ==
-X-Gm-Message-State: APjAAAUpS4RqJtwc7hVHPSIWl00ntkwAauD53t5YVx6ozXafS5OWyW7p
-        Xqaq3XC9WZEeVT2iI+wH7Yusig==
-X-Google-Smtp-Source: APXvYqzRZafNFtZ7svPxheBqNfpYjdJ0hTorPlw//lqT7d/AG1y7sL+dI4mgR5yoxZFKIbMgc8OsaA==
-X-Received: by 2002:a2e:a402:: with SMTP id p2mr11283717ljn.143.1581595674356;
-        Thu, 13 Feb 2020 04:07:54 -0800 (PST)
-Received: from box.localdomain ([86.57.175.117])
-        by smtp.gmail.com with ESMTPSA id z8sm1300685ljc.44.2020.02.13.04.07.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Feb 2020 04:07:53 -0800 (PST)
-Received: by box.localdomain (Postfix, from userid 1000)
-        id DE1C5100F24; Thu, 13 Feb 2020 15:08:13 +0300 (+03)
-Date:   Thu, 13 Feb 2020 15:08:13 +0300
-From:   "Kirill A. Shutemov" <kirill@shutemov.name>
-To:     Brian Geffon <bgeffon@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        "Michael S . Tsirkin" <mst@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
-        Andy Lutomirski <luto@amacapital.net>,
-        Will Deacon <will@kernel.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Yu Zhao <yuzhao@google.com>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Florian Weimer <fweimer@redhat.com>
-Subject: Re: [PATCH v4] mm: Add MREMAP_DONTUNMAP to mremap().
-Message-ID: <20200213120813.myanzyjmpyzixghf@box>
-References: <20200207201856.46070-1-bgeffon@google.com>
- <20200210104520.cfs2oytkrf5ihd3m@box>
- <CADyq12wcwvRLwueucHFV2ErL67etOJdFGYQdqVFM2WAeOkMGQA@mail.gmail.com>
+        id S1729578AbgBMMwe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 13 Feb 2020 07:52:34 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:43272 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729557AbgBMMwe (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 13 Feb 2020 07:52:34 -0500
+Received: from [95.91.247.236] (helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1j2Dyq-0008Ec-H6; Thu, 13 Feb 2020 12:52:32 +0000
+Date:   Thu, 13 Feb 2020 13:52:31 +0100
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Tejun Heo <tj@kernel.org>
+Cc:     linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Oleg Nesterov <oleg@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>
+Subject: Re: [PATCH v6 0/6] clone3 & cgroups: allow spawning processes into
+ cgroups
+Message-ID: <20200213125231.3vod5lckaej6na7w@wittgenstein>
+References: <20200205132623.670015-1-christian.brauner@ubuntu.com>
+ <20200212230127.GA88887@mtj.thefacebook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CADyq12wcwvRLwueucHFV2ErL67etOJdFGYQdqVFM2WAeOkMGQA@mail.gmail.com>
+In-Reply-To: <20200212230127.GA88887@mtj.thefacebook.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Feb 10, 2020 at 06:12:39AM -0800, Brian Geffon wrote:
-> Hi Kirill,
-> If the old_len == new_len then there is no change in the number of
-> locked pages they just moved, if the new_len < old_len then the
-> process of unmapping (new_len - old_len) bytes from the old mapping
-> will handle the locked page accounting. So in this special case where
-> we're growing the VMA, vma_to_resize() will enforce that growing the
-> vma doesn't exceed RLIMIT_MEMLOCK, but vma_to_resize() doesn't handle
-> incrementing mm->locked_bytes which is why we have that special case
-> incrementing it here.
+On Wed, Feb 12, 2020 at 06:01:27PM -0500, Tejun Heo wrote:
+> On Wed, Feb 05, 2020 at 02:26:17PM +0100, Christian Brauner wrote:
+> > Hey Tejun,
+> > 
+> > This is v6 of the promised series to enable spawning processes into a
+> > target cgroup different from the parent's cgroup.
+> 
+> Applied 1-6 to cgroup/for-5.7. There was a conflict with 0cd9d33ace33
+> ("cgroup: init_tasks shouldn't be linked to the root cgroup") which
+> got fixed up while applying. I'd really appreciate if you can take a
+> look to see everything is ok.
 
-But if you do the operation for the VM_LOCKED vma, you'll have two locked
-VMA's now, right? Where do you account the old locked vma you left behind?
+Looked at it just now and all seems sane.
+The reference to init_tasks threw me off at first. I initially thought
+you're talking about pid namespace inits but you mean tasks created via
+fork_idle() here. Since those tasks can't be created with
+CLONE_INTO_CGROUP set it's perfectly safe to set cset = NULL
+unconditionally.
+Thanks for fixing the merge conflict!
+> 
+> Thanks a lot for working on this. This is really great.
 
--- 
- Kirill A. Shutemov
+Thanks, I think so too!
+Christian
