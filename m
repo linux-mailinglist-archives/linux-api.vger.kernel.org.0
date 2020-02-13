@@ -2,59 +2,59 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 275AB15CD6D
-	for <lists+linux-api@lfdr.de>; Thu, 13 Feb 2020 22:44:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8219215CD90
+	for <lists+linux-api@lfdr.de>; Thu, 13 Feb 2020 22:50:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728248AbgBMVoo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 13 Feb 2020 16:44:44 -0500
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:41941 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728193AbgBMVoo (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 13 Feb 2020 16:44:44 -0500
-Received: by mail-ed1-f68.google.com with SMTP id c26so8669854eds.8
-        for <linux-api@vger.kernel.org>; Thu, 13 Feb 2020 13:44:41 -0800 (PST)
+        id S1728100AbgBMVt6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 13 Feb 2020 16:49:58 -0500
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:39323 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727754AbgBMVtv (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 13 Feb 2020 16:49:51 -0500
+Received: by mail-ed1-f67.google.com with SMTP id m13so8695247edb.6
+        for <linux-api@vger.kernel.org>; Thu, 13 Feb 2020 13:49:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=d6iMkJnmuaDOT/nQ8QyRCzJW1DxHpPU5cNxqRI+5goo=;
-        b=PIw7E5FK5uMGQSQO8wbpPUp6f5T9D17OUGexKYbXdtUQttg7lkFcb7ZrY7zxqkJuF7
-         IUDTTxfFWuajXiDFDWQXvBELPs2+KOoqds7y/MldWSq0di1ROQs14wpIC16aAbnzux9Y
-         qTBvzLrg6gTeYg5Wb+/fgQXuupbE2u9OV73zEr2tujxtHYiZ2igPBO+L0RiCnuBbY33H
-         JTGxZFfAlWsYu5+0uaqBK6gTlPgjcJoCWGD1613byRZSuN+WJYaIWoSr865H09zNQXZ4
-         iJ2yQcaJmzck0TPBQtlzrJJ61lJ/sdUV7Mkch0Em0zgoL4IjpU8MKonw+E3A6AI+Grt1
-         Ly8Q==
+        bh=CIr8PnObM5ymwiwL1EiMYkctE0asXfoeHqvExzLeSc4=;
+        b=FqFjEPBAWPA+rQxGxDZQVc/+KDC775ecwL3/+FaBoa2038OKUe3oN6g8shGj/YRVtO
+         kRm/wFg1uwYyzuvE14fQXQ/6hccJfwRgO3aVKboiJnszaYINoRpEp4EArtkScaku61pv
+         QZ6TB6Ttwea8tpsUi/cKCopeKQgLK3GqQTdzhfnRTdTRXeGrihMjkHplbG+dbDWPPg8u
+         EotRIFc6D/ah43gjEO73ItC+Y45grJMPIZ36X9aHuxaoapr80EM/gJKOUsD9kMnu1vJr
+         YN+eSSyvvyTL2Fyf5YZg/7zFE2QFdGsBJ87am0k5EsyuLu8LGmzWJZqAFQG8z9n1hf0k
+         nCnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=d6iMkJnmuaDOT/nQ8QyRCzJW1DxHpPU5cNxqRI+5goo=;
-        b=BvfgbRNRfSB/thKChDJ1KuQRivvzcmKTnv5mwOzrnaJpr0rhZrNZZNiU2PrTo7Ukhr
-         3k+doHB17jG/tEvYsaXfd1/t5xVfvyqfRalVJpK6QSnL1mHFMSeWbqviOqmCf/2yHFuz
-         xVKOk4XL0AJpTnNBmsb99d47wucrN+KM/6TKTD0LnN7MtQrc5EiJ7lnkXkRjkU4JN+0R
-         USTPMytALMQr1T6M2VnsYEnxzXoY0WM/xRYdYUHbbrVc5DbSYol6ZyWEXAw3nLRQ+QMx
-         yrcflc18kJfXLheWkmQaOmcuELthgKfyX8BOCEiG3OdZXw5ThstDgbjhkrHeyCvbgqBU
-         vqhw==
-X-Gm-Message-State: APjAAAXHQr3lbPtG7cCGfk827COXUC/bnfEeTnocz9kj/zTuLTKWCPA1
-        22277W1Dl+GJ8DttKPNxEq8MkyLucUz3Jt1Sa/8I
-X-Google-Smtp-Source: APXvYqzivqkXBB8NR1AVMPaykKlw/9vR8JhyBC59wFMjKjm5evBAVa6TlImCpH9hT3l8uI72hnHie5UbgBWCB+RdQRU=
-X-Received: by 2002:aa7:db55:: with SMTP id n21mr16664962edt.31.1581630280853;
- Thu, 13 Feb 2020 13:44:40 -0800 (PST)
+        bh=CIr8PnObM5ymwiwL1EiMYkctE0asXfoeHqvExzLeSc4=;
+        b=cFymGp0t6IyTAgrU/6L2Jjml9RtDdwJWXvj332ORG6FJenCglLf0qPXKE1YbtkoQSD
+         8RH10A9v7O+Q3OurocZimz6kCFdX7QR+RTdy8Psn5xGkF9ECJRhVveRSRZsGM/JMroSi
+         TkR2X9cojuDhPVK5iUkJRTs5HbAHi8OwwzYPNMKwZ+gcy1uBVeHbKkU15hmIKNYzGZIX
+         HzoDS1FVHlCkjQAFdKlXSEyj2ShPBy0icapWgxZwMJZThh5mhcqEQASId73l5hgyQ5ax
+         tpJX7T064MFdj9jEew6pYk4JGRMlu+f+t6oCO1p+BrT5Z3gaqBqhaI6LIuFBTUvZdZXF
+         rvxw==
+X-Gm-Message-State: APjAAAUSSFFq9t/lT1AeJ38OZ3NI9ytpO3FYR+NPZmH8HA3Pg8DNi9mv
+        p6gKjzvq0XWMRtWgZZ5ituadnvQN0yMKuBo9t1sKSPl4ow==
+X-Google-Smtp-Source: APXvYqzSQm4JJnSM2NwbsgUln1Ol3jVku13aQhiI2KX5XKlMiqINrDBjs9ZRBvvzwBRwGvS0GSsKMYn/KfzBkhIn7o0=
+X-Received: by 2002:a17:906:9352:: with SMTP id p18mr17616846ejw.95.1581630589598;
+ Thu, 13 Feb 2020 13:49:49 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1577736799.git.rgb@redhat.com> <20200204231454.oxa7pyvuxbj466fj@madcap2.tricolour.ca>
- <CAHC9VhQquokw+7UOU=G0SsD35UdgmfysVKCGCE87JVaoTkbisg@mail.gmail.com>
- <3142237.YMNxv0uec1@x2> <CAHC9VhTiCHQbp2SwK0Xb1QgpUZxOQ26JKKPsVGT0ZvMqx28oPQ@mail.gmail.com>
-In-Reply-To: <CAHC9VhTiCHQbp2SwK0Xb1QgpUZxOQ26JKKPsVGT0ZvMqx28oPQ@mail.gmail.com>
+References: <cover.1577736799.git.rgb@redhat.com> <6452955c1e038227a5cd169f689f3fd3db27513f.1577736799.git.rgb@redhat.com>
+ <CAHC9VhRkH=YEjAY6dJJHSp934grHnf=O4RiqLu3U8DzdVQOZkg@mail.gmail.com>
+ <20200130192753.n7jjrshbhrczjzoe@madcap2.tricolour.ca> <CAHC9VhSVN3mNb5enhLR1hY+ekiAyiYWbehrwd_zN7kz13dF=1w@mail.gmail.com>
+ <20200205235056.e5365xtgz7rbese2@madcap2.tricolour.ca>
+In-Reply-To: <20200205235056.e5365xtgz7rbese2@madcap2.tricolour.ca>
 From:   Paul Moore <paul@paul-moore.com>
-Date:   Thu, 13 Feb 2020 16:44:29 -0500
-Message-ID: <CAHC9VhS09b_fM19tn7pHZzxfyxcHnK+PJx80Z9Z1hn8-==4oLA@mail.gmail.com>
-Subject: Re: [PATCH ghak90 V8 07/16] audit: add contid support for signalling
- the audit daemon
-To:     Steve Grubb <sgrubb@redhat.com>
-Cc:     linux-audit@redhat.com, Richard Guy Briggs <rgb@redhat.com>,
-        nhorman@tuxdriver.com, linux-api@vger.kernel.org,
+Date:   Thu, 13 Feb 2020 16:49:38 -0500
+Message-ID: <CAHC9VhTM6MDHLcBfwJ_9DCroG0VA-meO770ihjn1sVy6=0JrHw@mail.gmail.com>
+Subject: Re: [PATCH ghak90 V8 13/16] audit: track container nesting
+To:     Richard Guy Briggs <rgb@redhat.com>
+Cc:     nhorman@tuxdriver.com, linux-api@vger.kernel.org,
         containers@lists.linux-foundation.org,
         LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
+        Linux-Audit Mailing List <linux-audit@redhat.com>,
         netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
         simo@redhat.com, netdev@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>,
@@ -65,27 +65,110 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This is a bit of a thread-hijack, and for that I apologize, but
-another thought crossed my mind while thinking about this issue
-further ... Once we support multiple auditd instances, including the
-necessary record routing and duplication/multiple-sends (the host
-always sees *everything*), we will likely need to find a way to "trim"
-the audit container ID (ACID) lists we send in the records.  The
-auditd instance running on the host/initns will always see everything,
-so it will want the full container ACID list; however an auditd
-instance running inside a container really should only see the ACIDs
-of any child containers.
+On Wed, Feb 5, 2020 at 6:51 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> On 2020-02-05 18:05, Paul Moore wrote:
+> > On Thu, Jan 30, 2020 at 2:28 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > On 2020-01-22 16:29, Paul Moore wrote:
+> > > > On Tue, Dec 31, 2019 at 2:51 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > > >
+> > > > > Track the parent container of a container to be able to filter and
+> > > > > report nesting.
+> > > > >
+> > > > > Now that we have a way to track and check the parent container of a
+> > > > > container, modify the contid field format to be able to report that
+> > > > > nesting using a carrat ("^") separator to indicate nesting.  The
+> > > > > original field format was "contid=<contid>" for task-associated records
+> > > > > and "contid=<contid>[,<contid>[...]]" for network-namespace-associated
+> > > > > records.  The new field format is
+> > > > > "contid=<contid>[^<contid>[...]][,<contid>[...]]".
+> > > >
+> > > > Let's make sure we always use a comma as a separator, even when
+> > > > recording the parent information, for example:
+> > > > "contid=<contid>[,^<contid>[...]][,<contid>[...]]"
+> > >
+> > > The intent here is to clearly indicate and separate nesting from
+> > > parallel use of several containers by one netns.  If we do away with
+> > > that distinction, then we lose that inheritance accountability and
+> > > should really run the list through a "uniq" function to remove the
+> > > produced redundancies.  This clear inheritance is something Steve was
+> > > looking for since tracking down individual events/records to show that
+> > > inheritance was not aways feasible due to rolled logs or search effort.
+> >
+> > Perhaps my example wasn't clear.  I'm not opposed to the little
+> > carat/hat character indicating a container's parent, I just think it
+> > would be good to also include a comma *in*addition* to the carat/hat.
+>
+> Ah, ok.  Well, I'd offer that it would be slightly shorter, slightly
+> less cluttered and having already written the parser in userspace, I
+> think the parser would be slightly simpler.
+>
+> I must admit, I was a bit puzzled by your snippet of code that was used
+> as a prefix to the next item rather than as a postfix to the given item.
+>
+> Can you say why you prefer the comma in addition?
 
-For example, imagine a system where the host has containers 1 and 2,
-each running an auditd instance.  Inside container 1 there are
-containers A and B.  Inside container 2 there are containers Y and Z.
-If an audit event is generated in container Z, I would expect the
-host's auditd to see a ACID list of "1,Z" but container 1's auditd
-should only see an ACID list of "Z".  The auditd running in container
-2 should not see the record at all (that will be relatively
-straightforward).  Does that make sense?  Do we have the record
-formats properly designed to handle this without too much problem (I'm
-not entirely sure we do)?
+Generally speaking, I believe that a single delimiter is both easier
+for the eyes to parse, and easier/safer for machines to parse as well.
+In this particular case I think of the comma as a delimiter and the
+carat as a modifier, reusing the carat as a delimiter seems like a bad
+idea to me.
+
+> > > > > diff --git a/kernel/audit.c b/kernel/audit.c
+> > > > > index ef8e07524c46..68be59d1a89b 100644
+> > > > > --- a/kernel/audit.c
+> > > > > +++ b/kernel/audit.c
+> > > >
+> > > > > @@ -492,6 +493,7 @@ void audit_switch_task_namespaces(struct nsproxy *ns, struct task_struct *p)
+> > > > >                 audit_netns_contid_add(new->net_ns, contid);
+> > > > >  }
+> > > > >
+> > > > > +void audit_log_contid(struct audit_buffer *ab, u64 contid);
+> > > >
+> > > > If we need a forward declaration, might as well just move it up near
+> > > > the top of the file with the rest of the declarations.
+> > >
+> > > Ok.
+> > >
+> > > > > +void audit_log_contid(struct audit_buffer *ab, u64 contid)
+> > > > > +{
+> > > > > +       struct audit_contobj *cont = NULL, *prcont = NULL;
+> > > > > +       int h;
+> > > >
+> > > > It seems safer to pass the audit container ID object and not the u64.
+> > >
+> > > It would also be faster, but in some places it isn't available such as
+> > > for ptrace and signal targets.  This also links back to the drop record
+> > > refcounts to hold onto the contobj until process exit, or signal
+> > > delivery.
+> > >
+> > > What we could do is to supply two potential parameters, a contobj and/or
+> > > a contid, and have it use the contobj if it is valid, otherwise, use the
+> > > contid, as is done for names and paths supplied to audit_log_name().
+> >
+> > Let's not do multiple parameters, that begs for misuse, let's take the
+> > wrapper function route:
+> >
+> >  func a(int id) {
+> >    // important stuff
+> >  }
+> >
+> >  func ao(struct obj) {
+> >    a(obj.id);
+> >  }
+> >
+> > ... and we can add a comment that you *really* should be using the
+> > variant that passes an object.
+>
+> I was already doing that where it available, and dereferencing the id
+> for the call.  But I see an advantage to having both parameters supplied
+> to the function, since it saves us the trouble of dereferencing it,
+> searching for the id in the hash list and re-locating the object if the
+> object is already available.
+
+I strongly prefer we not do multiple parameters for the same "thing";
+I would much rather do the wrapper approach as described above.  I
+would also like to see us use the audit container ID object as much as
+possible, using a bare integer should be a last resort.
 
 -- 
 paul moore
