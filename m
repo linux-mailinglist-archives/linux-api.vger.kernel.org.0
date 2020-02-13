@@ -2,153 +2,200 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 79AE515B4F4
-	for <lists+linux-api@lfdr.de>; Thu, 13 Feb 2020 00:41:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 508F415B5B0
+	for <lists+linux-api@lfdr.de>; Thu, 13 Feb 2020 01:10:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729152AbgBLXld (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 12 Feb 2020 18:41:33 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:32692 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729185AbgBLXlc (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Feb 2020 18:41:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1581550891;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=OQDr5ebf155fcZ1EU9k3LjSOmIORyHdnxl3xLxcFMjY=;
-        b=eMdIVKSnfwBpGzSGT4vlqXKTSBicg/9yEtLUke74+Kt/HzKJbwzTZJmNE6LOOn2/Vqb2MJ
-        1eZ0fi9AAAfW3DaeAQfyGr+EjlvTnEyiSEE0s4x4L+pHh8RU/iNoI8NNm2TBUpucHItE+/
-        OyAj/6XyE+cY1z0LbeTzM9hI2nfoz4w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-394-wq3_P8QhNASyMq3xTcID_Q-1; Wed, 12 Feb 2020 18:41:25 -0500
-X-MC-Unique: wq3_P8QhNASyMq3xTcID_Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56A62107ACC5;
-        Wed, 12 Feb 2020 23:41:23 +0000 (UTC)
-Received: from mail (ovpn-122-89.rdu2.redhat.com [10.10.122.89])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 83EA91001281;
-        Wed, 12 Feb 2020 23:41:20 +0000 (UTC)
-Date:   Wed, 12 Feb 2020 18:41:19 -0500
-From:   Andrea Arcangeli <aarcange@redhat.com>
-To:     Daniel Colascione <dancol@google.com>
-Cc:     Peter Xu <peterx@redhat.com>, Jann Horn <jannh@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Tim Murray <timmurray@google.com>,
-        Nosh Minwalla <nosh@google.com>,
-        Nick Kralevich <nnk@google.com>,
-        Lokesh Gidra <lokeshgidra@google.com>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        SElinux list <selinux@vger.kernel.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        linux-security-module <linux-security-module@vger.kernel.org>
-Subject: Re: [PATCH v2 0/6] Harden userfaultfd
-Message-ID: <20200212234119.GB29809@redhat.com>
-References: <20200211225547.235083-1-dancol@google.com>
- <202002112332.BE71455@keescook>
- <CAG48ez0ogRxvCK1aCnviN+nBqp6gmbUD7NjaMKvA7bF=esAc1A@mail.gmail.com>
- <20200212171416.GD1083891@xz-x1>
- <20200212194100.GA29809@redhat.com>
- <CAKOZuevusieaKCt5r-jnQ5ArGfw5Otszq2CAcrqFi6MYxkKwtA@mail.gmail.com>
+        id S1729285AbgBMAJu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 12 Feb 2020 19:09:50 -0500
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:33496 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729103AbgBMAJu (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Feb 2020 19:09:50 -0500
+Received: by mail-ed1-f68.google.com with SMTP id r21so4598927edq.0
+        for <linux-api@vger.kernel.org>; Wed, 12 Feb 2020 16:09:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=HglMhRV1r3SlCbyh50p8XWXMifi0DbV0medDPmHPWIY=;
+        b=cgZdKtHSkw6wGlofy5ORamY4majYp5ZL8xVC4i2IAjxKZ+DIoA+RHnKzW5rqBgKYhH
+         gYPFParo3CDZbz5ML9ncCpAGxaZIqwx9I1HFgW7sEUl7WXlTFQtoX17ClMgO6pBPOyvF
+         U+UR9ZzRqd3M0HuauEVRrm6SsbkzDwCTV0jTOz2x48ia2WVNYy7+UwckGmY7T5U21yyp
+         p+2nblF0CL7Gywq8jeENvPPsr4unR99eYMqiQBn4r8CfJZzu/+Sh4crQxD06V5Xtfp6z
+         BNvTs4R1mnuLI2tUL4OGNyHhlSKD8k9P4AuCDtX3Yp6Wk3ra+TvmSr/YUAo0vI0Ah2ld
+         YzmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=HglMhRV1r3SlCbyh50p8XWXMifi0DbV0medDPmHPWIY=;
+        b=FKQghyMBqPrMIJaPp89LrU3eaVd0s6CfOLj2IGa7vrI0O6ZnqB11uRSUiA68fB/9pL
+         QdNmhrs8yXONoKe+NHJ6OcP5Jjoc0d/eVoXpIdd9Kw9He0yTduwqz0g+qtbjURp6H4B8
+         0BXknKI3AKBViSklnThFykQtn0el91njIklXFtqkinf30o8nVM6sBxAgoTmC7EF7NemX
+         sj4DUPSrfAfmfaU6mXaup43zTLixhKVMqnULKtNG7nLujkcS4r5J0fQiZG9q4RE7bpFw
+         Wa4NpFPbO13OVS1Sd/2a35kbCKbF3u24QFJmBHmnHRuiHmr0jopviLsd/TdVHLypi/cI
+         SGMg==
+X-Gm-Message-State: APjAAAUdhO/hb2xem/O7VdEPcm+R0ohL+bZb4oxsVtSZtETVPVRp2fuu
+        2SsQGhSzedtvrSNDXP08aO8leM0ITCt7zs7BYjQ9
+X-Google-Smtp-Source: APXvYqxZzJWTQkF0MyAR/0hvazcgtPMpLBtZbyavM6j8WQ0AcCQg2H9RMuC42u9/Eg9eKGj3MTNxtdWkgRhqZAMYJww=
+X-Received: by 2002:a50:e108:: with SMTP id h8mr11996848edl.196.1581552586354;
+ Wed, 12 Feb 2020 16:09:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKOZuevusieaKCt5r-jnQ5ArGfw5Otszq2CAcrqFi6MYxkKwtA@mail.gmail.com>
-User-Agent: Mutt/1.13.1 (2019-12-14)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+References: <cover.1577736799.git.rgb@redhat.com> <20200204231454.oxa7pyvuxbj466fj@madcap2.tricolour.ca>
+ <CAHC9VhQquokw+7UOU=G0SsD35UdgmfysVKCGCE87JVaoTkbisg@mail.gmail.com> <3142237.YMNxv0uec1@x2>
+In-Reply-To: <3142237.YMNxv0uec1@x2>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Wed, 12 Feb 2020 19:09:35 -0500
+Message-ID: <CAHC9VhTiCHQbp2SwK0Xb1QgpUZxOQ26JKKPsVGT0ZvMqx28oPQ@mail.gmail.com>
+Subject: Re: [PATCH ghak90 V8 07/16] audit: add contid support for signalling
+ the audit daemon
+To:     Steve Grubb <sgrubb@redhat.com>
+Cc:     linux-audit@redhat.com, Richard Guy Briggs <rgb@redhat.com>,
+        nhorman@tuxdriver.com, linux-api@vger.kernel.org,
+        containers@lists.linux-foundation.org,
+        LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
+        netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
+        simo@redhat.com, netdev@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>,
+        mpatel@redhat.com, Serge Hallyn <serge@hallyn.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Daniel,
+On Wed, Feb 12, 2020 at 5:39 PM Steve Grubb <sgrubb@redhat.com> wrote:
+> On Wednesday, February 5, 2020 5:50:28 PM EST Paul Moore wrote:
+> > > > > > ... When we record the audit container ID in audit_signal_info() we
+> > > > > > take an extra reference to the audit container ID object so that it
+> > > > > > will not disappear (and get reused) until after we respond with an
+> > > > > > AUDIT_SIGNAL_INFO2.  In audit_receive_msg() when we do the
+> > > > > > AUDIT_SIGNAL_INFO2 processing we drop the extra reference we took
+> > > > > > in
+> > > > > > audit_signal_info().  Unless I'm missing some other change you
+> > > > > > made,
+> > > > > > this *shouldn't* affect the syscall records, all it does is
+> > > > > > preserve
+> > > > > > the audit container ID object in the kernel's ACID store so it
+> > > > > > doesn't
+> > > > > > get reused.
+> > > > >
+> > > > > This is exactly what I had understood.  I hadn't considered the extra
+> > > > > details below in detail due to my original syscall concern, but they
+> > > > > make sense.
+> > > > >
+> > > > > The syscall I refer to is the one connected with the drop of the
+> > > > > audit container identifier by the last process that was in that
+> > > > > container in patch 5/16.  The production of this record is contingent
+> > > > > on
+> > > > > the last ref in a contobj being dropped.  So if it is due to that ref
+> > > > > being maintained by audit_signal_info() until the AUDIT_SIGNAL_INFO2
+> > > > > record it fetched, then it will appear that the fetch action closed
+> > > > > the
+> > > > > container rather than the last process in the container to exit.
+> > > > >
+> > > > > Does this make sense?
+> > > >
+> > > > More so than your original reply, at least to me anyway.
+> > > >
+> > > > It makes sense that the audit container ID wouldn't be marked as
+> > > > "dead" since it would still be very much alive and available for use
+> > > > by the orchestrator, the question is if that is desirable or not.  I
+> > > > think the answer to this comes down the preserving the correctness of
+> > > > the audit log.
+> > > >
+> > > > If the audit container ID reported by AUDIT_SIGNAL_INFO2 has been
+> > > > reused then I think there is a legitimate concern that the audit log
+> > > > is not correct, and could be misleading.  If we solve that by grabbing
+> > > > an extra reference, then there could also be some confusion as
+> > > > userspace considers a container to be "dead" while the audit container
+> > > > ID still exists in the kernel, and the kernel generated audit
+> > > > container ID death record will not be generated until much later (and
+> > > > possibly be associated with a different event, but that could be
+> > > > solved by unassociating the container death record).
+> > >
+> > > How does syscall association of the death record with AUDIT_SIGNAL_INFO2
+> > > possibly get associated with another event?  Or is the syscall
+> > > association with the fetch for the AUDIT_SIGNAL_INFO2 the other event?
+> >
+> > The issue is when does the audit container ID "die".  If it is when
+> > the last task in the container exits, then the death record will be
+> > associated when the task's exit.  If the audit container ID lives on
+> > until the last reference of it in the audit logs, including the
+> > SIGNAL_INFO2 message, the death record will be associated with the
+> > related SIGNAL_INFO2 syscalls, or perhaps unassociated depending on
+> > the details of the syscalls/netlink.
+> >
+> > > Another idea might be to bump the refcount in audit_signal_info() but
+> > > mark tht contid as dead so it can't be reused if we are concerned that
+> > > the dead contid be reused?
+> >
+> > Ooof.  Yes, maybe, but that would be ugly.
+> >
+> > > There is still the problem later that the reported contid is incomplete
+> > > compared to the rest of the contid reporting cycle wrt nesting since
+> > > AUDIT_SIGNAL_INFO2 will need to be more complex w/2 variable length
+> > > fields to accommodate a nested contid list.
+> >
+> > Do we really care about the full nested audit container ID list in the
+> > SIGNAL_INFO2 record?
+> >
+> > > > Of the two
+> > > > approaches, I think the latter is safer in that it preserves the
+> > > > correctness of the audit log, even though it could result in a delay
+> > > > of the container death record.
+> > >
+> > > I prefer the former since it strongly indicates last task in the
+> > > container.  The AUDIT_SIGNAL_INFO2 msg has the pid and other subject
+> > > attributes and the contid to strongly link the responsible party.
+> >
+> > Steve is the only one who really tracks the security certifications
+> > that are relevant to audit, see what the certification requirements
+> > have to say and we can revisit this.
+>
+> Sever Virtualization Protection Profile is the closest applicable standard
+>
+> https://www.niap-ccevs.org/Profile/Info.cfm?PPID=408&id=408
+>
+> It is silent on audit requirements for the lifecycle of a VM. I assume that
+> all that is needed is what the orchestrator says its doing at the high level.
+> So, if an orchestrator wants to shutdown a container, the orchestrator must
+> log that intent and its results. In a similar fashion, systemd logs that it's
+> killing a service and we don't actually hook the exit syscall of the service
+> to record that.
+>
+> Now, if a container was being used as a VPS, and it had a fully functioning
+> userspace, it's own services, and its very own audit daemon, then in this
+> case it would care who sent a signal to its auditd. The tenant of that
+> container may have to comply with PCI-DSS or something else. It would log the
+> audit service is being terminated and systemd would record that its tearing
+> down the environment. The OS doesn't need to do anything.
 
-On Wed, Feb 12, 2020 at 12:04:39PM -0800, Daniel Colascione wrote:
-> We don't pass pointers to the heap into system calls. (Big primitive
-> arrays, ByteBuffer, etc. are allocated off the regular heap.)
+This latter case is the case of interest here, since the host auditd
+should only be killed from a process on the host itself, not a process
+running in a container.  If we work under the assumption (and this may
+be a break in our approach to not defining "container") that an auditd
+instance is only ever signaled by a process with the same audit
+container ID (ACID), is this really even an issue?  Right now it isn't
+as even with this patchset we will still really only support one
+auditd instance, presumably on the host, so this isn't a significant
+concern.  Moving forward, once we add support for multiple auditd
+instances we will likely need to move the signal info into
+(potentially) s per-ACID struct, a struct whose lifetime would match
+that of the associated container by definition; as the auditd
+container died, the struct would die, the refcounts dropped, and any
+ACID held only the signal info refcount would be dropped/killed.
 
-That sounds pretty restrictive, I wonder what you gain by enforcing
-that invariant or if it just happened incidentally for some other
-reason?  Do you need to copy that memory every time if you need to do
-I/O on it? Are you sure this won't need to change any time soon to
-increase performance?
+However, making this assumption would mean that we are expecting a
+"container" to provide some level of isolation such that processes
+with a different audit container ID do not signal each other.  From a
+practical perspective I think that fits with the most (all?)
+definitions of "container", but I can't say that for certain.  In
+those cases where the assumption is not correct and processes can
+signal each other across audit container ID boundaries, perhaps it is
+enough to explain that an audit container ID may not fully disappear
+until it has been fetched with a SIGNAL_INFO2 message.
 
-> I don't understand what you mean. The purpose of preventing UFFD from
-> handling kernel faults is exploit mitigation.
-
-That part was clear. What wasn't clear is what the new feature
-does exactly and what it blocks, because it's all about blocking or
-how does it make things more secure?
-
-> The key requirement here is the ability to prevent unprivileged
-> processes from using UFFD to widen kernel exploit windows by
-> preventing UFFD from taking kernel faults. Forcing unprivileged
-> processes to use UFFD only with UFFD_FEATURE_SIGBUS would satisfy this
-> requirement, but it's much less flexible and unnecessarily couples two
-> features.
-
-I mentioned it in case you could use something like that model.
-
-> > On the other end I'm also planning a mremap_vma_merge userland syscall
-> > that will merge fragmented vmas.
-> 
-> This is probably a separate discussion, but does that operation really
-> need to be a system call? Historically, userspace has operated mostly
-
-mremap_vma_merge was not intended as a system call, if implemented as
-a system call it wouldn't use uffd.
-
-> on page ranges and not VMAs per se, and the kernel has been free to
-
-Userland doesn't need to know anything.. unless it wants to optimize.
-
-The userland can know full well if it does certain mremap operations
-and puts its ranges virtually contiguous in a non linear way, so that
-the kernel cannot merge the vmas.
-
-> merge and split VMAs as needed for its internal purposes. This
-> approach has serious negative side effects (like making munmap
-> fallible: see [1]), but it is what it is.
-> 
-> [1] https://lore.kernel.org/linux-mm/CAKOZuetOD6MkGPVvYFLj5RXh200FaDyu3sQqZviVRhTFFS3fjA@mail.gmail.com/
-
-The fact it's fallible is a secondary concern here. Even if you make
-it unlimited, if it grows it slowdown everything and also prevents THP
-to be collapsed. Even the scalability of the mmap_sem worsens.
-
-> > Currently once you have a nice heap all contiguous but with small
-> > objects and you free the fragments you can't build THP anymore even if
-> > you make the memory virtually contiguous again by calling mremap. That
-> > just build up a ton of vmas slowing down the app forever and also
-> > preventing THP collapsing ever again.
-> 
-> Shouldn't the THP background kthread take care of merging VMAs?
-
-The solution can't depend on any THP feature, because the buildup of
-vmas is a scalability issue and a performance regression over time
-even if THP is not configured in the kernel. However once that's
-solved THP also gets naturally optimized.
-
-What should happen (in my view) is just the simplest solution that can
-defrag and forcefully merge the vmas without having to stop or restart
-the app.
-
-> Presumably, those apps wouldn't issue the system call on address
-> ranges managed with a non-kernel-fault UFFD.
-
-So the new security feature won't have to block kernel faults on those
-apps and they can run side by side with the blocked app?
-
-> We shouldn't be fragmenting at all, either at the memory level or the
-> VMA level. The GC is a moving collector, and we don't punch holes in
-> the heap.
-
-That sounds good.
-
-Thanks,
-Andrea
-
+-- 
+paul moore
+www.paul-moore.com
