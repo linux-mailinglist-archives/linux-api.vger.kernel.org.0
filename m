@@ -2,125 +2,102 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9116715B61F
-	for <lists+linux-api@lfdr.de>; Thu, 13 Feb 2020 01:48:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DEF7B15B796
+	for <lists+linux-api@lfdr.de>; Thu, 13 Feb 2020 04:12:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729461AbgBMAse (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 12 Feb 2020 19:48:34 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:34759 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729446AbgBMAse (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Feb 2020 19:48:34 -0500
-Received: by mail-lj1-f195.google.com with SMTP id x7so4562613ljc.1
-        for <linux-api@vger.kernel.org>; Wed, 12 Feb 2020 16:48:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=kqI0VbPVaJfcsCTXac52W5YMJCYaSOj7FaTDjIsxYoQ=;
-        b=RRc0XamveMQXj/q8pfpDyw3+6RSQiI77zx4rXZCf1ovpx19fhSLX9IAuu7EAbdT6D5
-         hRgPzQzTBFhOQsMCJ5pC8fUtChqlceueXHqMOFdtZldjIC/GLh+J70scUbbfpK2vng/u
-         uee+XaR52NHzT1hMiW+QFymxjV6nraNw8Kd1U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kqI0VbPVaJfcsCTXac52W5YMJCYaSOj7FaTDjIsxYoQ=;
-        b=hT6vU6M/c8R3DVUfyqUZOP8MdhRmzuxlbGKyesVIu7NAMCHWC1UaVMCByF2mKvcPdH
-         TgC1kayWER1FRY32Zf12EsEll3FvMgZ7UCRx3tWSfZ25du7oBhGt1UWMZfnnjqTk+puX
-         fLng5V2C0R4s4FLqTgbzQdEC6de4LcgkvgOvhvjRvKIUkG2T0ezRYreCtyFhrOzjAUpw
-         wCFXxITYzsn0wCRnP9X4Dkui4xPRjVyENXQRl4z3phHH/83UgEB81eUI4zhGm19Dstxx
-         AY5rc+8grdU4WsuxRvIULyhkr7HPN8Bf8MunRZJsr1hldU/XW1//0wcL+o7jrRETDipq
-         nnBw==
-X-Gm-Message-State: APjAAAXIXL/89ls7+Ir4O2Kp1xtsAWXfgF3RC7XdTLAysmJvzKo2CURl
-        N1P6yTckBejtfXgHprA7ZmNq1n6/P6c=
-X-Google-Smtp-Source: APXvYqxO8nLpqcPpoyL/u0MEH5z9zoLVyhQUD2WOXm+yswn48P+JTQ09C23w2l3j1PmVap0xwhlvyA==
-X-Received: by 2002:a2e:9d3:: with SMTP id 202mr9527089ljj.60.1581554911809;
-        Wed, 12 Feb 2020 16:48:31 -0800 (PST)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com. [209.85.208.172])
-        by smtp.gmail.com with ESMTPSA id w9sm337877ljh.106.2020.02.12.16.48.31
-        for <linux-api@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Feb 2020 16:48:31 -0800 (PST)
-Received: by mail-lj1-f172.google.com with SMTP id r19so4560875ljg.3
-        for <linux-api@vger.kernel.org>; Wed, 12 Feb 2020 16:48:31 -0800 (PST)
-X-Received: by 2002:a2e:580c:: with SMTP id m12mr9459753ljb.150.1581554910763;
- Wed, 12 Feb 2020 16:48:30 -0800 (PST)
+        id S1729404AbgBMDMq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 12 Feb 2020 22:12:46 -0500
+Received: from mga01.intel.com ([192.55.52.88]:16902 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729378AbgBMDMp (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 12 Feb 2020 22:12:45 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Feb 2020 19:12:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,434,1574150400"; 
+   d="scan'208";a="313601327"
+Received: from hao-dev.bj.intel.com (HELO localhost) ([10.238.157.65])
+  by orsmga001.jf.intel.com with ESMTP; 12 Feb 2020 19:12:42 -0800
+Date:   Thu, 13 Feb 2020 10:51:59 +0800
+From:   Wu Hao <hao.wu@intel.com>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Will Deacon <will@kernel.org>, mdf@kernel.org,
+        mark.rutland@arm.com, linux-fpga@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        atull@kernel.org, yilun.xu@intel.com,
+        Luwei Kang <luwei.kang@intel.com>
+Subject: Re: [PATCH v7 2/2] fpga: dfl: fme: add performance reporting support
+Message-ID: <20200213025159.GA11784@hao-dev>
+References: <1581306469-22629-1-git-send-email-hao.wu@intel.com>
+ <1581306469-22629-3-git-send-email-hao.wu@intel.com>
+ <20200210163400.GA21900@willie-the-truck>
+ <20200212031929.GB5645@hao-dev>
+ <20200212053035.GA382718@kroah.com>
+ <20200212100211.GA10436@hao-dev>
+ <20200212132045.GC1789899@kroah.com>
 MIME-Version: 1.0
-References: <20200210150519.538333-8-gladkov.alexey@gmail.com>
- <87v9odlxbr.fsf@x220.int.ebiederm.org> <20200212144921.sykucj4mekcziicz@comp-core-i7-2640m-0182e6>
- <87tv3vkg1a.fsf@x220.int.ebiederm.org> <CAHk-=wg52stFtUxMOxs3afkwDWmWn1JXC7RJ7dPsTrJbnxpZVg@mail.gmail.com>
- <87v9obipk9.fsf@x220.int.ebiederm.org> <CAHk-=wgwmu4jpmOqW0+Lz0dcem1Fub=ThLHvmLobf_WqCq7bwg@mail.gmail.com>
- <20200212200335.GO23230@ZenIV.linux.org.uk> <CAHk-=wi+1CPShMFvJNPfnrJ8DD8uVKUOQ5TQzQUNGLUkeoahkg@mail.gmail.com>
- <20200212203833.GQ23230@ZenIV.linux.org.uk> <20200212204124.GR23230@ZenIV.linux.org.uk>
- <CAHk-=wi5FOGV_3tALK3n6E2fK3Oa_yCYkYQtCSaXLSEm2DUCKg@mail.gmail.com> <87lfp7h422.fsf@x220.int.ebiederm.org>
-In-Reply-To: <87lfp7h422.fsf@x220.int.ebiederm.org>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Wed, 12 Feb 2020 16:48:14 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wgmn9Qds0VznyphouSZW6e42GWDT5H1dpZg8pyGDGN+=w@mail.gmail.com>
-Message-ID: <CAHk-=wgmn9Qds0VznyphouSZW6e42GWDT5H1dpZg8pyGDGN+=w@mail.gmail.com>
-Subject: Re: [PATCH v8 07/11] proc: flush task dcache entries from all procfs instances
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        Linux Security Module <linux-security-module@vger.kernel.org>,
-        Akinobu Mita <akinobu.mita@gmail.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Daniel Micay <danielmicay@gmail.com>,
-        Djalal Harouni <tixxdz@gmail.com>,
-        "Dmitry V . Levin" <ldv@altlinux.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Jeff Layton <jlayton@poochiereds.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Solar Designer <solar@openwall.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200212132045.GC1789899@kroah.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Feb 12, 2020 at 1:48 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
->
-> The good news is proc_flush_task isn't exactly called from process exit.
-> proc_flush_task is called during zombie clean up. AKA release_task.
+On Wed, Feb 12, 2020 at 05:20:45AM -0800, Greg KH wrote:
+> On Wed, Feb 12, 2020 at 06:02:11PM +0800, Wu Hao wrote:
+> > On Tue, Feb 11, 2020 at 09:30:35PM -0800, Greg KH wrote:
+> > > On Wed, Feb 12, 2020 at 11:19:29AM +0800, Wu Hao wrote:
+> > > > On Mon, Feb 10, 2020 at 04:34:01PM +0000, Will Deacon wrote:
+> > > > > Hi,
+> > > > > 
+> > > > > On Mon, Feb 10, 2020 at 11:47:49AM +0800, Wu Hao wrote:
+> > > > > > This patch adds support for performance reporting private feature
+> > > > > > for FPGA Management Engine (FME). Now it supports several different
+> > > > > > performance counters, including 'basic', 'cache', 'fabric', 'vtd'
+> > > > > > and 'vtd_sip'. It allows user to use standard linux tools to access
+> > > > > > these performance counters.
+> > > > > 
+> > > > > I had a quick look at this, and it mostly looks alright to me. Just a few
+> > > > > high-level comments/questions:
+> > > > 
+> > > > Hi Will
+> > > > 
+> > > > Thanks a lot for the review! :)
+> > > > 
+> > > > > 
+> > > > >   - I would still prefer for the PMU drivers to live under drivers/perf/
+> > > > 
+> > > > Hm.. one possible way is to create a platform device, and introduce a new
+> > > > platform device driver under drivers/perf/.
+> > > 
+> > > No, do not abuse platform drivers, you have a real device, use it.
+> > 
+> > Sure, thanks for the comments. Then I don't have any other idea to move code to
+> > drivers/perf/ directory, so probably only can live with current code.
+> 
+> The location of the file in the kernel tree has no bearing on if you use
+> a platform device, a USB device, or a PCI device.  It is just a location
+> of a file.
+> 
+> You are interacting with the perf api as the driver's primary userspace
+> api, so put the driver into the drivers/perf/ directory.  That's all
+> that Will is asking you to do here.
 
-Yeah, that at least avoids some of the nasty locking while dying debug problems.
+Thanks a lot for the patient explanation. : )
 
-But the one I was more worried about was actually the lock contention
-issue with lots of processes. The lock is basically a single global
-lock in many situations - yes, it's technically per-ns, but in a lot
-of cases you really only have one namespace anyway.
+Actually this patch only adds a new file to existing fme platform driver, fme
+platform driver already has several different types userspace interfaces,
+including hwmon, sysfs and etc, so the new perf api is only one of them, as
+we can't move the whole fme platform driver into drivers/perf/, we feel that
+maybe we should keep that code together with other fme files in drivers/fpga/.
 
-And we've had problems with global locks in this area before, notably
-the one you call out:
+Thanks
+Hao
 
-> Further after proc_flush_task does it's thing the code goes
-> and does "write_lock_irq(&task_list_lock);"
-
-Yeah, so it's not introducing a new issue, but it is potentially
-making something we already know is bad even worse.
-
-> What would be downside of having a mutex for a list of proc superblocks?
-> A mutex that is taken for both reading and writing the list.
-
-That's what the original patch actually was, and I was hoping we could
-avoid that thing.
-
-An rwsem would be possibly better, since most cases by far are likely
-about reading.
-
-And yes, I'm very aware of the task_list_lock, but it's literally why
-I don't want to make a new one.
-
-I'm _hoping_ we can some day come up with something better than task_list_lock.
-
-            Linus
+> 
+> greg k-h
