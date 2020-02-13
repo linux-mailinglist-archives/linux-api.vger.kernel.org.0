@@ -2,137 +2,105 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C8E0615BEBF
-	for <lists+linux-api@lfdr.de>; Thu, 13 Feb 2020 13:55:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 08FE015C013
+	for <lists+linux-api@lfdr.de>; Thu, 13 Feb 2020 15:09:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729772AbgBMMzq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 13 Feb 2020 07:55:46 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:43311 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729673AbgBMMzq (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 13 Feb 2020 07:55:46 -0500
-Received: from [95.91.247.236] (helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1j2E1q-0008Or-C8; Thu, 13 Feb 2020 12:55:38 +0000
-Date:   Thu, 13 Feb 2020 13:55:37 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Brian Geffon <bgeffon@google.com>, mtk.manpages@gmail.com
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        "Michael S . Tsirkin" <mst@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-api@vger.kernel.org,
-        Andy Lutomirski <luto@amacapital.net>,
-        Will Deacon <will@kernel.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Yu Zhao <yuzhao@google.com>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "Kirill A . Shutemov" <kirill@shutemov.name>,
-        linux-man@vger.kernel.org
-Subject: Re: [PATCH] mremap.2: Add information for MREMAP_DONTUNMAP.
-Message-ID: <20200213125537.n6zqqshtez7kxzlj@wittgenstein>
-References: <20200207201856.46070-1-bgeffon@google.com>
- <20200207202124.68949-1-bgeffon@google.com>
+        id S1730060AbgBMOJ1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 13 Feb 2020 09:09:27 -0500
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:44932 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729957AbgBMOJ1 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 13 Feb 2020 09:09:27 -0500
+Received: by mail-ot1-f66.google.com with SMTP id h9so5632711otj.11
+        for <linux-api@vger.kernel.org>; Thu, 13 Feb 2020 06:09:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4nw33WMxyw6QKvLrJuL4ZGQuHIvhtKY96hrtTChK5+k=;
+        b=JMV5ecx9htpNi/FbHm837TWxQQnIS6MVyND+7+89vN4DdcJcTh4Gh4bRtl65ipvEjN
+         EEHs4NTVx7M4oasK/DXdft+jw/aFsnnd0U95KdIgaWn6KiJkQMEl1dva2kskv2Q7A7ZF
+         GK1/tnTUCRzZ/HxVdt6Xr7GAuMCUM299X8jjMXD2V6dOwV5W1/zk2CbvKlxK2fy7jQ2u
+         FBok0zxVLa/eP6cevo1zALXoniqhlQwS3zBWhvsGPSVsSlbiBEk/JZYamujGtpRl0/E5
+         TFh3Ndm7Ude+Y5TPcbUAN+tW/kabbK0oyXMXeJLp5BzmsfDmB7mqHVuPb2VH1uJiHu+0
+         pJ0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4nw33WMxyw6QKvLrJuL4ZGQuHIvhtKY96hrtTChK5+k=;
+        b=CfLg4eNSn8HEKjW2oMi5CstobPrNyV1FYlEigIbT7C7883JBmqD+Wye3CpsmygS7rf
+         dCMfnUJekq+oJqc4h5zRJ7cXjdfocXeSdFoJkCHmy4tXQcc67clqQ9Owdiv2cNgOayMs
+         1UqXX1mNCN3yDjXhjVvzFU0xO/BCg66rVsCvtrpPJiTznQ+lHVKNQ4hC93c/4pp4eOcS
+         t/IkBCJ6EkYjmTb0DxXWkaf/taxouLwEgk5WfwvFAiR5N7LH01oDLfR8RgebtDstbEDq
+         RiF+wUg9x5yFdSRZU2N6uiiWrErikS8D8nSaK+3mWhdutr1wP1v8MDgqw4xtnKrgS5G/
+         nYEw==
+X-Gm-Message-State: APjAAAXSkrqY3pGbe9z/SrMNwJVup69F0jSUaeRTXA+1XA/E5lbmwRqv
+        mPwT0iioIZB6kCWZCAX14wxHjKtIK1t51BXxB8IqRA==
+X-Google-Smtp-Source: APXvYqzs69ilwTt7mpNYz5FifCXRctI+mL576v4dQGuxV30QGmONxcX//NJyceEQjiY2JgsqWK+0BKXq9WztgI5XJac=
+X-Received: by 2002:a05:6830:1d6e:: with SMTP id l14mr13199499oti.32.1581602965935;
+ Thu, 13 Feb 2020 06:09:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200207202124.68949-1-bgeffon@google.com>
+References: <20200212233946.246210-1-minchan@kernel.org> <20200212233946.246210-3-minchan@kernel.org>
+In-Reply-To: <20200212233946.246210-3-minchan@kernel.org>
+From:   Jann Horn <jannh@google.com>
+Date:   Thu, 13 Feb 2020 15:08:59 +0100
+Message-ID: <CAG48ez27=pwm5m_N_988xT1huO7g7h6arTQL44zev6TD-h-7Tg@mail.gmail.com>
+Subject: Re: [PATCH v4 2/8] mm: introduce external memory hinting API
+To:     Minchan Kim <minchan@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Oleksandr Natalenko <oleksandr@redhat.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Tim Murray <timmurray@google.com>,
+        Daniel Colascione <dancol@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Brian Geffon <bgeffon@google.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        John Dias <joaodias@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Alexander Duyck <alexander.h.duyck@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This seems to miss hitting the correct mailing list: 
-mtk.manpages@gmail.com
-linux-man@vger.kernel.org
+On Thu, Feb 13, 2020 at 12:40 AM Minchan Kim <minchan@kernel.org> wrote:
+> To solve the issue, this patch introduces a new syscall process_madvise(2).
+> It uses pidfd of an external process to give the hint.
+[...]
+> +       mm = mm_access(task, PTRACE_MODE_ATTACH_FSCREDS);
+> +       if (IS_ERR_OR_NULL(mm)) {
+> +               ret = IS_ERR(mm) ? PTR_ERR(mm) : -ESRCH;
+> +               goto release_task;
+> +       }
+> +
+> +       ret = do_madvise(task, start, len_in, behavior);
 
-Christian
+When you're accessing another task, you should ensure that the other
+task doesn't gain new privileges by executing a setuid binary in the
+middle of being accessed. mm_access() does that for you; it holds the
+->cred_guard_mutex while it is looking up the task's ->mm and doing
+the security check. mm_access() then returns you an mm pointer that
+you're allowed to access without worrying about such things; an
+mm_struct never gains privileges, since a setuid execution creates a
+fresh mm_struct. However, the task may still execute setuid binaries
+and such things.
 
-On Fri, Feb 07, 2020 at 12:21:24PM -0800, Brian Geffon wrote:
-> Signed-off-by: Brian Geffon <bgeffon@google.com>
-> ---
->  man2/mremap.2 | 27 ++++++++++++++++++++++++++-
->  1 file changed, 26 insertions(+), 1 deletion(-)
-> 
-> diff --git a/man2/mremap.2 b/man2/mremap.2
-> index d73fb64fa..c660a45be 100644
-> --- a/man2/mremap.2
-> +++ b/man2/mremap.2
-> @@ -26,7 +26,8 @@
->  .\" 1996-04-12 Tom Bjorkholm <tomb@mydata.se>
->  .\"            Update for Linux 1.3.87 and later
->  .\" 2005-10-11 mtk: Added NOTES for MREMAP_FIXED; revised EINVAL text.
-> -.\"
-> +.\" 2020-02-05 Brian Geffon <bgeffon@google.com>
-> +.\"            Update for MREMAP_DONTUNMAP.
->  .TH MREMAP 2 2019-03-06 "Linux" "Linux Programmer's Manual"
->  .SH NAME
->  mremap \- remap a virtual memory address
-> @@ -129,6 +130,13 @@ If
->  is specified, then
->  .B MREMAP_MAYMOVE
->  must also be specified.
-> +.TP
-> +.BR MREMAP_DONTUNMAP " (since Linux ?.?)"
-> +This flag which must be used in conjuction with
-> +.B MREMAP_MAYMOVE
-> +remaps a mapping to a new address and it does not unmap the mapping at \fIold_address\fP. This flag can only be used with private anonymous mappings. Any access to the range specified at \fIold_address\fP after completion will result in a page fault. If a
-> +.BR userfaultfd (2)
-> +was registered on the mapping specified by \fIold_address\fP it will continue to watch that mapping for faults.
->  .PP
->  If the memory segment specified by
->  .I old_address
-> @@ -176,6 +184,8 @@ a value other than
->  .B MREMAP_MAYMOVE
->  or
->  .B MREMAP_FIXED
-> +or
-> +.B MREMAP_DONTUNMAP
->  was specified in
->  .IR flags ;
->  .IP *
-> @@ -197,9 +207,14 @@ and
->  .IR old_size ;
->  .IP *
->  .B MREMAP_FIXED
-> +or
-> +.B MREMAP_DONTUNMAP
->  was specified without also specifying
->  .BR MREMAP_MAYMOVE ;
->  .IP *
-> +.B MREMAP_DONTUNMAP
-> +was specified with an \fIold_address\fP that was not private anonymous;
-> +.IP *
->  \fIold_size\fP was zero and \fIold_address\fP does not refer to a
->  shareable mapping (but see BUGS);
->  .IP *
-> @@ -209,10 +224,20 @@ flag was not specified.
->  .RE
->  .TP
->  .B ENOMEM
-> +Not enough memory was available to complete the operation.
-> +Possible causes are:
-> +.RS
-> +.IP * 3
->  The memory area cannot be expanded at the current virtual address, and the
->  .B MREMAP_MAYMOVE
->  flag is not set in \fIflags\fP.
->  Or, there is not enough (virtual) memory available.
-> +.IP *
-> +.B MREMAP_DONTUNMAP
-> +was used without
-> +.B MREMAP_FIXED
-> +causing a new mapping to be created that would exceed the virtual memory available or it would exceed the maximum number of allowed mappings.
-> +.RE
->  .SH CONFORMING TO
->  This call is Linux-specific, and should not be used in programs
->  intended to be portable.
-> -- 
-> 2.25.0.341.g760bfbb309-goog
-> 
+This means that after you've looked up the mm with mm_access(), you
+have to actually *use* that pointer. You're not allowed to simply read
+task->mm yourself.
+
+Therefore, I think you should:
+
+ - change patch 1/8 ("mm: pass task to do_madvise") to also pass an
+mm_struct* to do_madvise (but keep the task_struct* for patch 4/8)
+ - in this patch, pass the mm_struct* from mm_access() into do_madvise()
+ - drop patch 3/8 ("mm: validate mm in do_madvise"); it just papers
+over a symptom without addressing the underlying problem
