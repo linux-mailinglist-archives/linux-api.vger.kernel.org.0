@@ -2,20 +2,64 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7963515CE07
-	for <lists+linux-api@lfdr.de>; Thu, 13 Feb 2020 23:24:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A00D15CE4A
+	for <lists+linux-api@lfdr.de>; Thu, 13 Feb 2020 23:48:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726968AbgBMWYA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 13 Feb 2020 17:24:00 -0500
-Received: from zeniv.linux.org.uk ([195.92.253.2]:35034 "EHLO
-        ZenIV.linux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727347AbgBMWYA (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 13 Feb 2020 17:24:00 -0500
-Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j2Mti-00CGBO-G2; Thu, 13 Feb 2020 22:23:50 +0000
-Date:   Thu, 13 Feb 2020 22:23:50 +0000
-From:   Al Viro <viro@zeniv.linux.org.uk>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
+        id S1727778AbgBMWsJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 13 Feb 2020 17:48:09 -0500
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:47063 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727519AbgBMWsJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 13 Feb 2020 17:48:09 -0500
+Received: by mail-lf1-f68.google.com with SMTP id z26so5410056lfg.13
+        for <linux-api@vger.kernel.org>; Thu, 13 Feb 2020 14:48:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=rVdHJ1r/9FxJmwhDqRkVHSIn1Ry+lO3z+KpnaUuqwYk=;
+        b=dRYW8MemR37cE0uru6NTUES5Od7vEqzfZmb/KMY93QEjURoq6DE5QcXLZ6JJL9HB8V
+         KfvM/ZKQbYsF7Zy+x1PnUgqdmV3x1lbxpWU+BFmhJglL6UqALgYvF3IltbUH8c3PxzFq
+         KRLtkM5e8bHrUc0004IuGa/Hy6940Rjrv4zzw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=rVdHJ1r/9FxJmwhDqRkVHSIn1Ry+lO3z+KpnaUuqwYk=;
+        b=lTVuiyhRhpJQumHmMZxZOpbAayhg//OpkMDwgzk5/AuAeC4t7HSW2qOa+RQkaaBQ9q
+         dvLiYtFKIfcaC+BXb656B0uFxU63qJz8p+KwsPZiGYuubOPB1ZYSdzTxNp2nPo4789og
+         cLu5/fIKbIg8fMZUcAAroeCV9wc6P47l8VloIWzhrxI3C0uTRQqklR4aE3DkXEodVLPV
+         lei7mIZS6JKYTllN5/Ccc6aDyL++iNk4x3pDcF48ef/U1/TrmliWvXSicftc22MZqSVj
+         A/cOLSwh0bcSOZ+gfvlyXT1L3Hc5Jk6Qyxxktm6MwybfIFXIABJRsSElYHht7ek2Wl9g
+         TStQ==
+X-Gm-Message-State: APjAAAWNOObioeKkO7P/hj1wc74vZn8CWBoMN1oPVKLPi2GMGQOEfHjV
+        Hoo6/OYgWK0wn6VITOmSSUjzRpKSWqM=
+X-Google-Smtp-Source: APXvYqwgZCRIsO19DnZdvNTfnX9pApJpMA8KM0503kUB9eiXoEkQaHVeqnKJjKOU5wDcGyGM9RirHw==
+X-Received: by 2002:ac2:43af:: with SMTP id t15mr116644lfl.154.1581634087269;
+        Thu, 13 Feb 2020 14:48:07 -0800 (PST)
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com. [209.85.208.178])
+        by smtp.gmail.com with ESMTPSA id t7sm2315826ljo.7.2020.02.13.14.48.05
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Feb 2020 14:48:05 -0800 (PST)
+Received: by mail-lj1-f178.google.com with SMTP id o15so8515589ljg.6
+        for <linux-api@vger.kernel.org>; Thu, 13 Feb 2020 14:48:05 -0800 (PST)
+X-Received: by 2002:a2e:88c5:: with SMTP id a5mr35496ljk.201.1581634084790;
+ Thu, 13 Feb 2020 14:48:04 -0800 (PST)
+MIME-Version: 1.0
+References: <20200212200335.GO23230@ZenIV.linux.org.uk> <CAHk-=wi+1CPShMFvJNPfnrJ8DD8uVKUOQ5TQzQUNGLUkeoahkg@mail.gmail.com>
+ <20200212203833.GQ23230@ZenIV.linux.org.uk> <20200212204124.GR23230@ZenIV.linux.org.uk>
+ <CAHk-=wi5FOGV_3tALK3n6E2fK3Oa_yCYkYQtCSaXLSEm2DUCKg@mail.gmail.com>
+ <87lfp7h422.fsf@x220.int.ebiederm.org> <CAHk-=wgmn9Qds0VznyphouSZW6e42GWDT5H1dpZg8pyGDGN+=w@mail.gmail.com>
+ <87pnejf6fz.fsf@x220.int.ebiederm.org> <20200213055527.GS23230@ZenIV.linux.org.uk>
+ <CAHk-=wgQnNHYxV7-SyRP=g9vTHyNAK9g1juLLB=eho4=DHVZEQ@mail.gmail.com> <20200213222350.GU23230@ZenIV.linux.org.uk>
+In-Reply-To: <20200213222350.GU23230@ZenIV.linux.org.uk>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Thu, 13 Feb 2020 14:47:48 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wjePLiQqUfQGCrNb0wp+EtgRddQbcK-pHH=6rxbdYNNOA@mail.gmail.com>
+Message-ID: <CAHk-=wjePLiQqUfQGCrNb0wp+EtgRddQbcK-pHH=6rxbdYNNOA@mail.gmail.com>
+Subject: Re: [PATCH v8 07/11] proc: flush task dcache entries from all procfs instances
+To:     Al Viro <viro@zeniv.linux.org.uk>
 Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
         LKML <linux-kernel@vger.kernel.org>,
         Kernel Hardening <kernel-hardening@lists.openwall.com>,
@@ -37,63 +81,31 @@ Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
         Kees Cook <keescook@chromium.org>,
         Oleg Nesterov <oleg@redhat.com>,
         Solar Designer <solar@openwall.com>
-Subject: Re: [PATCH v8 07/11] proc: flush task dcache entries from all procfs
- instances
-Message-ID: <20200213222350.GU23230@ZenIV.linux.org.uk>
-References: <20200212200335.GO23230@ZenIV.linux.org.uk>
- <CAHk-=wi+1CPShMFvJNPfnrJ8DD8uVKUOQ5TQzQUNGLUkeoahkg@mail.gmail.com>
- <20200212203833.GQ23230@ZenIV.linux.org.uk>
- <20200212204124.GR23230@ZenIV.linux.org.uk>
- <CAHk-=wi5FOGV_3tALK3n6E2fK3Oa_yCYkYQtCSaXLSEm2DUCKg@mail.gmail.com>
- <87lfp7h422.fsf@x220.int.ebiederm.org>
- <CAHk-=wgmn9Qds0VznyphouSZW6e42GWDT5H1dpZg8pyGDGN+=w@mail.gmail.com>
- <87pnejf6fz.fsf@x220.int.ebiederm.org>
- <20200213055527.GS23230@ZenIV.linux.org.uk>
- <CAHk-=wgQnNHYxV7-SyRP=g9vTHyNAK9g1juLLB=eho4=DHVZEQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wgQnNHYxV7-SyRP=g9vTHyNAK9g1juLLB=eho4=DHVZEQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Feb 13, 2020 at 01:30:11PM -0800, Linus Torvalds wrote:
-> On Wed, Feb 12, 2020 at 9:55 PM Al Viro <viro@zeniv.linux.org.uk> wrote:
-> >
-> > What I don't understand is the insistence on getting those dentries
-> > via dcache lookups.
-> 
-> I don't think that's an "insistence", it's more of a "historical
-> behavior" together with "several changes over the years to deal with
-> dentry-level cleanups and updates".
-> 
-> > _IF_ we are willing to live with cacheline
-> > contention (on ->d_lock of root dentry, if nothing else), why not
-> > do the following:
-> >         * put all dentries of such directories ([0-9]* and [0-9]*/task/*)
-> > into a list anchored in task_struct; have non-counting reference to
-> > task_struct stored in them (might simplify part of get_proc_task() users,
-> 
-> Hmm.
-> 
-> Right now I don't think we actually create any dentries at all for the
-> short-lived process case.
-> 
-> Wouldn't your suggestion make fork/exit rather worse?
-> 
-> Or would you create the dentries dynamically still at lookup time, and
-> then attach them to the process at that point?
-> 
-> What list would you use for the dentry chaining? Would you play games
-> with the dentry hashing, and "hash" them off the process, and never
-> hit in the lookup cache?
+On Thu, Feb 13, 2020 at 2:23 PM Al Viro <viro@zeniv.linux.org.uk> wrote:
+>
+> I'd been thinking of ->d_fsdata pointing to a structure with list_head
+> and a (non-counting) task_struct pointer for those guys.  Allocated
+> on lookup, of course (as well as readdir ;-/) and put on the list
+> at the same time.
 
-I'd been thinking of ->d_fsdata pointing to a structure with list_head
-and a (non-counting) task_struct pointer for those guys.  Allocated
-on lookup, of course (as well as readdir ;-/) and put on the list
-at the same time.
+Hmm. That smells like potentially a lot of small allocations, and
+making readdir() even nastier.
 
-IOW, for short-lived process we simply have an empty (h)list anchored
-in task_struct and that's it.
+Do we really want to create the dentries at readdir time? We do now
+(with proc_fill_cache()) but do we actually _need_ to?
+
+I guess a lot of readdir users end up doing a stat on it immediately
+afterwards. I think right now we do it to get the inode number, and
+maybe that is a basic requirement (even if I don't think it's really
+stable - an inode could be evicted and then the ino changes, no?)
+
+Ho humm. This all doesn't make me happy. But I guess the proof is in
+the pudding - and if you come up with a good patch, I won't complain.
+
+              Linus
