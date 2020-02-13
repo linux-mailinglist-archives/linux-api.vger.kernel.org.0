@@ -2,200 +2,266 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 508F415B5B0
-	for <lists+linux-api@lfdr.de>; Thu, 13 Feb 2020 01:10:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 86E3615B5C3
+	for <lists+linux-api@lfdr.de>; Thu, 13 Feb 2020 01:22:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729285AbgBMAJu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 12 Feb 2020 19:09:50 -0500
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:33496 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729103AbgBMAJu (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Feb 2020 19:09:50 -0500
-Received: by mail-ed1-f68.google.com with SMTP id r21so4598927edq.0
-        for <linux-api@vger.kernel.org>; Wed, 12 Feb 2020 16:09:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=HglMhRV1r3SlCbyh50p8XWXMifi0DbV0medDPmHPWIY=;
-        b=cgZdKtHSkw6wGlofy5ORamY4majYp5ZL8xVC4i2IAjxKZ+DIoA+RHnKzW5rqBgKYhH
-         gYPFParo3CDZbz5ML9ncCpAGxaZIqwx9I1HFgW7sEUl7WXlTFQtoX17ClMgO6pBPOyvF
-         U+UR9ZzRqd3M0HuauEVRrm6SsbkzDwCTV0jTOz2x48ia2WVNYy7+UwckGmY7T5U21yyp
-         p+2nblF0CL7Gywq8jeENvPPsr4unR99eYMqiQBn4r8CfJZzu/+Sh4crQxD06V5Xtfp6z
-         BNvTs4R1mnuLI2tUL4OGNyHhlSKD8k9P4AuCDtX3Yp6Wk3ra+TvmSr/YUAo0vI0Ah2ld
-         YzmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=HglMhRV1r3SlCbyh50p8XWXMifi0DbV0medDPmHPWIY=;
-        b=FKQghyMBqPrMIJaPp89LrU3eaVd0s6CfOLj2IGa7vrI0O6ZnqB11uRSUiA68fB/9pL
-         QdNmhrs8yXONoKe+NHJ6OcP5Jjoc0d/eVoXpIdd9Kw9He0yTduwqz0g+qtbjURp6H4B8
-         0BXknKI3AKBViSklnThFykQtn0el91njIklXFtqkinf30o8nVM6sBxAgoTmC7EF7NemX
-         sj4DUPSrfAfmfaU6mXaup43zTLixhKVMqnULKtNG7nLujkcS4r5J0fQiZG9q4RE7bpFw
-         Wa4NpFPbO13OVS1Sd/2a35kbCKbF3u24QFJmBHmnHRuiHmr0jopviLsd/TdVHLypi/cI
-         SGMg==
-X-Gm-Message-State: APjAAAUdhO/hb2xem/O7VdEPcm+R0ohL+bZb4oxsVtSZtETVPVRp2fuu
-        2SsQGhSzedtvrSNDXP08aO8leM0ITCt7zs7BYjQ9
-X-Google-Smtp-Source: APXvYqxZzJWTQkF0MyAR/0hvazcgtPMpLBtZbyavM6j8WQ0AcCQg2H9RMuC42u9/Eg9eKGj3MTNxtdWkgRhqZAMYJww=
-X-Received: by 2002:a50:e108:: with SMTP id h8mr11996848edl.196.1581552586354;
- Wed, 12 Feb 2020 16:09:46 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1577736799.git.rgb@redhat.com> <20200204231454.oxa7pyvuxbj466fj@madcap2.tricolour.ca>
- <CAHC9VhQquokw+7UOU=G0SsD35UdgmfysVKCGCE87JVaoTkbisg@mail.gmail.com> <3142237.YMNxv0uec1@x2>
-In-Reply-To: <3142237.YMNxv0uec1@x2>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Wed, 12 Feb 2020 19:09:35 -0500
-Message-ID: <CAHC9VhTiCHQbp2SwK0Xb1QgpUZxOQ26JKKPsVGT0ZvMqx28oPQ@mail.gmail.com>
-Subject: Re: [PATCH ghak90 V8 07/16] audit: add contid support for signalling
- the audit daemon
-To:     Steve Grubb <sgrubb@redhat.com>
-Cc:     linux-audit@redhat.com, Richard Guy Briggs <rgb@redhat.com>,
-        nhorman@tuxdriver.com, linux-api@vger.kernel.org,
-        containers@lists.linux-foundation.org,
-        LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
-        netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
-        simo@redhat.com, netdev@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>,
-        mpatel@redhat.com, Serge Hallyn <serge@hallyn.com>
+        id S1729314AbgBMAWJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 12 Feb 2020 19:22:09 -0500
+Received: from mga04.intel.com ([192.55.52.120]:12226 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729132AbgBMAWJ (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 12 Feb 2020 19:22:09 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Feb 2020 16:22:08 -0800
+X-IronPort-AV: E=Sophos;i="5.70,434,1574150400"; 
+   d="scan'208";a="237874632"
+Received: from ahduyck-desk1.jf.intel.com ([10.7.198.76])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Feb 2020 16:22:08 -0800
+Message-ID: <3f0218093e2d19fa0f24ceff635cbb9ec5ba69ec.camel@linux.intel.com>
+Subject: Re: [PATCH v4 1/8] mm: pass task to do_madvise
+From:   Alexander Duyck <alexander.h.duyck@linux.intel.com>
+To:     Minchan Kim <minchan@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
+        linux-api@vger.kernel.org, oleksandr@redhat.com,
+        Suren Baghdasaryan <surenb@google.com>,
+        Tim Murray <timmurray@google.com>,
+        Daniel Colascione <dancol@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Brian Geffon <bgeffon@google.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        John Dias <joaodias@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>
+Date:   Wed, 12 Feb 2020 16:21:59 -0800
+In-Reply-To: <20200212233946.246210-2-minchan@kernel.org>
+References: <20200212233946.246210-1-minchan@kernel.org>
+         <20200212233946.246210-2-minchan@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.5 (3.32.5-1.fc30) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Feb 12, 2020 at 5:39 PM Steve Grubb <sgrubb@redhat.com> wrote:
-> On Wednesday, February 5, 2020 5:50:28 PM EST Paul Moore wrote:
-> > > > > > ... When we record the audit container ID in audit_signal_info() we
-> > > > > > take an extra reference to the audit container ID object so that it
-> > > > > > will not disappear (and get reused) until after we respond with an
-> > > > > > AUDIT_SIGNAL_INFO2.  In audit_receive_msg() when we do the
-> > > > > > AUDIT_SIGNAL_INFO2 processing we drop the extra reference we took
-> > > > > > in
-> > > > > > audit_signal_info().  Unless I'm missing some other change you
-> > > > > > made,
-> > > > > > this *shouldn't* affect the syscall records, all it does is
-> > > > > > preserve
-> > > > > > the audit container ID object in the kernel's ACID store so it
-> > > > > > doesn't
-> > > > > > get reused.
-> > > > >
-> > > > > This is exactly what I had understood.  I hadn't considered the extra
-> > > > > details below in detail due to my original syscall concern, but they
-> > > > > make sense.
-> > > > >
-> > > > > The syscall I refer to is the one connected with the drop of the
-> > > > > audit container identifier by the last process that was in that
-> > > > > container in patch 5/16.  The production of this record is contingent
-> > > > > on
-> > > > > the last ref in a contobj being dropped.  So if it is due to that ref
-> > > > > being maintained by audit_signal_info() until the AUDIT_SIGNAL_INFO2
-> > > > > record it fetched, then it will appear that the fetch action closed
-> > > > > the
-> > > > > container rather than the last process in the container to exit.
-> > > > >
-> > > > > Does this make sense?
-> > > >
-> > > > More so than your original reply, at least to me anyway.
-> > > >
-> > > > It makes sense that the audit container ID wouldn't be marked as
-> > > > "dead" since it would still be very much alive and available for use
-> > > > by the orchestrator, the question is if that is desirable or not.  I
-> > > > think the answer to this comes down the preserving the correctness of
-> > > > the audit log.
-> > > >
-> > > > If the audit container ID reported by AUDIT_SIGNAL_INFO2 has been
-> > > > reused then I think there is a legitimate concern that the audit log
-> > > > is not correct, and could be misleading.  If we solve that by grabbing
-> > > > an extra reference, then there could also be some confusion as
-> > > > userspace considers a container to be "dead" while the audit container
-> > > > ID still exists in the kernel, and the kernel generated audit
-> > > > container ID death record will not be generated until much later (and
-> > > > possibly be associated with a different event, but that could be
-> > > > solved by unassociating the container death record).
-> > >
-> > > How does syscall association of the death record with AUDIT_SIGNAL_INFO2
-> > > possibly get associated with another event?  Or is the syscall
-> > > association with the fetch for the AUDIT_SIGNAL_INFO2 the other event?
-> >
-> > The issue is when does the audit container ID "die".  If it is when
-> > the last task in the container exits, then the death record will be
-> > associated when the task's exit.  If the audit container ID lives on
-> > until the last reference of it in the audit logs, including the
-> > SIGNAL_INFO2 message, the death record will be associated with the
-> > related SIGNAL_INFO2 syscalls, or perhaps unassociated depending on
-> > the details of the syscalls/netlink.
-> >
-> > > Another idea might be to bump the refcount in audit_signal_info() but
-> > > mark tht contid as dead so it can't be reused if we are concerned that
-> > > the dead contid be reused?
-> >
-> > Ooof.  Yes, maybe, but that would be ugly.
-> >
-> > > There is still the problem later that the reported contid is incomplete
-> > > compared to the rest of the contid reporting cycle wrt nesting since
-> > > AUDIT_SIGNAL_INFO2 will need to be more complex w/2 variable length
-> > > fields to accommodate a nested contid list.
-> >
-> > Do we really care about the full nested audit container ID list in the
-> > SIGNAL_INFO2 record?
-> >
-> > > > Of the two
-> > > > approaches, I think the latter is safer in that it preserves the
-> > > > correctness of the audit log, even though it could result in a delay
-> > > > of the container death record.
-> > >
-> > > I prefer the former since it strongly indicates last task in the
-> > > container.  The AUDIT_SIGNAL_INFO2 msg has the pid and other subject
-> > > attributes and the contid to strongly link the responsible party.
-> >
-> > Steve is the only one who really tracks the security certifications
-> > that are relevant to audit, see what the certification requirements
-> > have to say and we can revisit this.
->
-> Sever Virtualization Protection Profile is the closest applicable standard
->
-> https://www.niap-ccevs.org/Profile/Info.cfm?PPID=408&id=408
->
-> It is silent on audit requirements for the lifecycle of a VM. I assume that
-> all that is needed is what the orchestrator says its doing at the high level.
-> So, if an orchestrator wants to shutdown a container, the orchestrator must
-> log that intent and its results. In a similar fashion, systemd logs that it's
-> killing a service and we don't actually hook the exit syscall of the service
-> to record that.
->
-> Now, if a container was being used as a VPS, and it had a fully functioning
-> userspace, it's own services, and its very own audit daemon, then in this
-> case it would care who sent a signal to its auditd. The tenant of that
-> container may have to comply with PCI-DSS or something else. It would log the
-> audit service is being terminated and systemd would record that its tearing
-> down the environment. The OS doesn't need to do anything.
+On Wed, 2020-02-12 at 15:39 -0800, Minchan Kim wrote:
+> In upcoming patches, do_madvise will be called from external process
+> context so it shouldn't asssume "current" is always hinted process's
+> task_struct. Thus, let's get the mm_struct from vma->vm_mm, not
+> current because vma is always hinted process's one. And let's pass
+> *current* as new task argument of do_madvise so it shouldn't change
+> existing behavior.
+> 
+> Signed-off-by: Minchan Kim <minchan@kernel.org>
+> ---
+>  fs/io_uring.c      |  2 +-
+>  include/linux/mm.h |  3 ++-
+>  mm/madvise.c       | 37 ++++++++++++++++++++-----------------
+>  3 files changed, 23 insertions(+), 19 deletions(-)
+> 
+> diff --git a/fs/io_uring.c b/fs/io_uring.c
+> index 63beda9bafc5..6307206b970f 100644
+> --- a/fs/io_uring.c
+> +++ b/fs/io_uring.c
+> @@ -2736,7 +2736,7 @@ static int io_madvise(struct io_kiocb *req, struct io_kiocb **nxt,
+>  	if (force_nonblock)
+>  		return -EAGAIN;
+>  
+> -	ret = do_madvise(ma->addr, ma->len, ma->advice);
+> +	ret = do_madvise(current, ma->addr, ma->len, ma->advice);
+>  	if (ret < 0)
+>  		req_set_fail_links(req);
+>  	io_cqring_add_event(req, ret);
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 52269e56c514..8cb41131ec96 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -2323,7 +2323,8 @@ extern int __do_munmap(struct mm_struct *, unsigned long, size_t,
+>  		       struct list_head *uf, bool downgrade);
+>  extern int do_munmap(struct mm_struct *, unsigned long, size_t,
+>  		     struct list_head *uf);
+> -extern int do_madvise(unsigned long start, size_t len_in, int behavior);
+> +extern int do_madvise(struct task_struct *task, unsigned long start,
+> +			size_t len_in, int behavior);
+>  
+>  static inline unsigned long
+>  do_mmap_pgoff(struct file *file, unsigned long addr,
+> diff --git a/mm/madvise.c b/mm/madvise.c
+> index 43b47d3fae02..ab4011ba2d9e 100644
+> --- a/mm/madvise.c
+> +++ b/mm/madvise.c
+> @@ -256,6 +256,7 @@ static long madvise_willneed(struct vm_area_struct *vma,
+>  {
+>  	struct file *file = vma->vm_file;
+>  	loff_t offset;
+> +	struct mm_struct *mm = vma->vm_mm;
+>  
+>  	*prev = vma;
+>  #ifdef CONFIG_SWAP
 
-This latter case is the case of interest here, since the host auditd
-should only be killed from a process on the host itself, not a process
-running in a container.  If we work under the assumption (and this may
-be a break in our approach to not defining "container") that an auditd
-instance is only ever signaled by a process with the same audit
-container ID (ACID), is this really even an issue?  Right now it isn't
-as even with this patchset we will still really only support one
-auditd instance, presumably on the host, so this isn't a significant
-concern.  Moving forward, once we add support for multiple auditd
-instances we will likely need to move the signal info into
-(potentially) s per-ACID struct, a struct whose lifetime would match
-that of the associated container by definition; as the auditd
-container died, the struct would die, the refcounts dropped, and any
-ACID held only the signal info refcount would be dropped/killed.
+I would probably move the declaration of the mm variable to the top just
+so you don't have the large "offset" valley between the two long variable
+declarations.
 
-However, making this assumption would mean that we are expecting a
-"container" to provide some level of isolation such that processes
-with a different audit container ID do not signal each other.  From a
-practical perspective I think that fits with the most (all?)
-definitions of "container", but I can't say that for certain.  In
-those cases where the assumption is not correct and processes can
-signal each other across audit container ID boundaries, perhaps it is
-enough to explain that an audit container ID may not fully disappear
-until it has been fetched with a SIGNAL_INFO2 message.
+> @@ -288,12 +289,12 @@ static long madvise_willneed(struct vm_area_struct *vma,
+>  	 */
+>  	*prev = NULL;	/* tell sys_madvise we drop mmap_sem */
+>  	get_file(file);
+> -	up_read(&current->mm->mmap_sem);
+> +	up_read(&mm->mmap_sem);
+>  	offset = (loff_t)(start - vma->vm_start)
+>  			+ ((loff_t)vma->vm_pgoff << PAGE_SHIFT);
+>  	vfs_fadvise(file, offset, end - start, POSIX_FADV_WILLNEED);
+>  	fput(file);
+> -	down_read(&current->mm->mmap_sem);
+> +	down_read(&mm->mmap_sem);
+>  	return 0;
+>  }
+>  
+> @@ -674,9 +675,7 @@ static int madvise_free_pte_range(pmd_t *pmd, unsigned long addr,
+>  	}
+>  out:
+>  	if (nr_swap) {
+> -		if (current->mm == mm)
+> -			sync_mm_rss(mm);
+> -
+> +		sync_mm_rss(mm);
+>  		add_mm_counter(mm, MM_SWAPENTS, nr_swap);
+>  	}
+>  	arch_leave_lazy_mmu_mode();
 
--- 
-paul moore
-www.paul-moore.com
+This seems like it is taking things in the opposite direction of the other
+changes. sync_mm_rss will operate on current if I am not mistaken. I don't
+think you would want to add the stats from current to the stats of the
+task you are updating.
+
+It might make sense to add a new function that would allow you to sync the
+remote task stats by creaing a version of sync_mm_rss that also takes a
+task pointer.
+
+> @@ -756,6 +755,7 @@ static long madvise_dontneed_free(struct vm_area_struct *vma,
+>  				  unsigned long start, unsigned long end,
+>  				  int behavior)
+>  {
+> +	struct mm_struct *mm = vma->vm_mm;
+>  	*prev = vma;
+>  	if (!can_madv_lru_vma(vma))
+>  		return -EINVAL;
+> @@ -763,8 +763,8 @@ static long madvise_dontneed_free(struct vm_area_struct *vma,
+>  	if (!userfaultfd_remove(vma, start, end)) {
+>  		*prev = NULL; /* mmap_sem has been dropped, prev is stale */
+>  
+> -		down_read(&current->mm->mmap_sem);
+> -		vma = find_vma(current->mm, start);
+> +		down_read(&mm->mmap_sem);
+> +		vma = find_vma(mm, start);
+>  		if (!vma)
+>  			return -ENOMEM;
+>  		if (start < vma->vm_start) {
+
+This piece of code has me wondering if it is valid to be using vma->mm at
+the start of the function. I assume we are probably safe since we read the
+mm value before the semaphore was released in userfaultfd_remove. It might
+make more sense to just pass the task to the function and use task->mm-
+>mmap_sem instead. 
+
+It might be simpler, safer, and easier to review to just go through and
+add the task struct as needed and then simply replace references to
+current->mm with task->mm.
+
+> @@ -818,6 +818,7 @@ static long madvise_remove(struct vm_area_struct *vma,
+>  	loff_t offset;
+>  	int error;
+>  	struct file *f;
+> +	struct mm_struct *mm = vma->vm_mm;
+>  
+>  	*prev = NULL;	/* tell sys_madvise we drop mmap_sem */
+>  
+> @@ -845,13 +846,13 @@ static long madvise_remove(struct vm_area_struct *vma,
+>  	get_file(f);
+>  	if (userfaultfd_remove(vma, start, end)) {
+>  		/* mmap_sem was not released by userfaultfd_remove() */
+> -		up_read(&current->mm->mmap_sem);
+> +		up_read(&mm->mmap_sem);
+>  	}
+>  	error = vfs_fallocate(f,
+>  				FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE,
+>  				offset, end - start);
+>  	fput(f);
+> -	down_read(&current->mm->mmap_sem);
+> +	down_read(&mm->mmap_sem);
+>  	return error;
+>  }
+>  
+> @@ -1044,7 +1045,8 @@ madvise_behavior_valid(int behavior)
+>   *  -EBADF  - map exists, but area maps something that isn't a file.
+>   *  -EAGAIN - a kernel resource was temporarily unavailable.
+>   */
+> -int do_madvise(unsigned long start, size_t len_in, int behavior)
+> +int do_madvise(struct task_struct *task, unsigned long start,
+> +					size_t len_in, int behavior)
+>  {
+>  	unsigned long end, tmp;
+>  	struct vm_area_struct *vma, *prev;
+> @@ -1053,6 +1055,7 @@ int do_madvise(unsigned long start, size_t len_in, int behavior)
+>  	int write;
+>  	size_t len;
+>  	struct blk_plug plug;
+> +	struct mm_struct *mm = task->mm;
+>  
+>  	start = untagged_addr(start);
+>  
+> @@ -1082,10 +1085,10 @@ int do_madvise(unsigned long start, size_t len_in, int behavior)
+>  
+>  	write = madvise_need_mmap_write(behavior);
+>  	if (write) {
+> -		if (down_write_killable(&current->mm->mmap_sem))
+> +		if (down_write_killable(&mm->mmap_sem))
+>  			return -EINTR;
+>  	} else {
+> -		down_read(&current->mm->mmap_sem);
+> +		down_read(&mm->mmap_sem);
+>  	}
+>  
+>  	/*
+> @@ -1093,7 +1096,7 @@ int do_madvise(unsigned long start, size_t len_in, int behavior)
+>  	 * ranges, just ignore them, but return -ENOMEM at the end.
+>  	 * - different from the way of handling in mlock etc.
+>  	 */
+> -	vma = find_vma_prev(current->mm, start, &prev);
+> +	vma = find_vma_prev(mm, start, &prev);
+>  	if (vma && start > vma->vm_start)
+>  		prev = vma;
+>  
+> @@ -1130,19 +1133,19 @@ int do_madvise(unsigned long start, size_t len_in, int behavior)
+>  		if (prev)
+>  			vma = prev->vm_next;
+>  		else	/* madvise_remove dropped mmap_sem */
+> -			vma = find_vma(current->mm, start);
+> +			vma = find_vma(mm, start);
+>  	}
+>  out:
+>  	blk_finish_plug(&plug);
+>  	if (write)
+> -		up_write(&current->mm->mmap_sem);
+> +		up_write(&mm->mmap_sem);
+>  	else
+> -		up_read(&current->mm->mmap_sem);
+> +		up_read(&mm->mmap_sem);
+>  
+>  	return error;
+>  }
+>  
+>  SYSCALL_DEFINE3(madvise, unsigned long, start, size_t, len_in, int, behavior)
+>  {
+> -	return do_madvise(start, len_in, behavior);
+> +	return do_madvise(current, start, len_in, behavior);
+>  }
+
+
