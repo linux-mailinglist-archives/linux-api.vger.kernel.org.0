@@ -2,384 +2,169 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D07B15D972
-	for <lists+linux-api@lfdr.de>; Fri, 14 Feb 2020 15:28:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 44C1015E79A
+	for <lists+linux-api@lfdr.de>; Fri, 14 Feb 2020 17:55:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729417AbgBNO2h (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 14 Feb 2020 09:28:37 -0500
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:40943 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728123AbgBNO2h (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 14 Feb 2020 09:28:37 -0500
-Received: by mail-lj1-f194.google.com with SMTP id n18so10956779ljo.7
-        for <linux-api@vger.kernel.org>; Fri, 14 Feb 2020 06:28:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shutemov-name.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=AafOgySyVAzNy0c2ESmrKX2K4Va55RytPel0n9VaSzQ=;
-        b=nHSn54izT9Msimbur8SPtDE3YxZvL5kxU+xWVBaAscT1fbbIdKw83O2OvwloH0I5n5
-         QievxaE0p4d/SwFB2vQRyII4ea75N1wGlUVU+Lz/LHfbWA2V1szE4HxJYd2kjC+2BZq8
-         GG+t4QpWHrn45qA0KMo1bmJh8LLBejR1KrE9+Ak9WENSGwHSA2NA/zJDDoqMpXOPKcue
-         50nqBRxhURgBbPUVFCR8vSVNVBeG1J/qzsnprAYXmyUdSn/po4s8AuzezOSXe/1uresb
-         WaIEZfm02srJijxWKIsw4BlIreBDeCVfxlU+6Y8EiX6SDr9MQAMucUSzX4j68bXil+Cm
-         bSxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=AafOgySyVAzNy0c2ESmrKX2K4Va55RytPel0n9VaSzQ=;
-        b=PhQZPUlp3a2McKEN8vBV++PI6+4Z8I+aWXirod4r8V0OVR27lP5HrKvN4UZwxhL/fv
-         Nld7h9sSwVXTykiVeKeeeS3GNY/Xz4Y3kgqIbugOaqChmRTme+SRVzLlHfEyGmiw7QNi
-         MTuzQ6UQbTkbT6w3geU1Lv7p9EBJ5zv1gC3gLcy8IRyTVETTmzggt13Mf5Y3emq29YHR
-         LNEhJDKvBPzW/jPGqJJJyQ36sq65F3P6LlTSiKc05YNdzRBln+j0wZPp1vRjbHLLx5mA
-         4PuFs1HXckoBofabHZQF8OPurW3Nr45MewtUoM3rLdNgvMo/UsTnIp77rLrbbqUX5juH
-         myxQ==
-X-Gm-Message-State: APjAAAUtSjbwB1j5Ct6UzCLRlakPDDoXm5hLIrnePFANZoNJSh9jP7Ni
-        3Ty6i3Kp9i1awdHxAcBnrbScPg==
-X-Google-Smtp-Source: APXvYqyNgbOD18Nh05jEbTbR/WGlDFR4IPYAZjI0gDO74z2U9weVu95HKeKUBL3KbdshfB+UFiX7cw==
-X-Received: by 2002:a2e:860c:: with SMTP id a12mr2344290lji.146.1581690515304;
-        Fri, 14 Feb 2020 06:28:35 -0800 (PST)
-Received: from box.localdomain ([86.57.175.117])
-        by smtp.gmail.com with ESMTPSA id i1sm3594789lji.71.2020.02.14.06.28.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Feb 2020 06:28:34 -0800 (PST)
-Received: by box.localdomain (Postfix, from userid 1000)
-        id 37EF1100F30; Fri, 14 Feb 2020 17:28:57 +0300 (+03)
-Date:   Fri, 14 Feb 2020 17:28:57 +0300
-From:   "Kirill A. Shutemov" <kirill@shutemov.name>
-To:     Brian Geffon <bgeffon@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        "Michael S . Tsirkin" <mst@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-api@vger.kernel.org,
-        Andy Lutomirski <luto@amacapital.net>,
-        Will Deacon <will@kernel.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Yu Zhao <yuzhao@google.com>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Florian Weimer <fweimer@redhat.com>
-Subject: Re: [PATCH v5 1/2] mm: Add MREMAP_DONTUNMAP to mremap().
-Message-ID: <20200214142857.kcmjiequhfl3sot2@box>
-References: <20200207201856.46070-1-bgeffon@google.com>
- <20200214040952.43195-1-bgeffon@google.com>
+        id S1729770AbgBNQyy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 14 Feb 2020 11:54:54 -0500
+Received: from mail.efficios.com ([167.114.26.124]:59858 "EHLO
+        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404925AbgBNQyx (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 14 Feb 2020 11:54:53 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id B00CE23ACB5;
+        Fri, 14 Feb 2020 11:54:50 -0500 (EST)
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id b0oj3fE8KmnK; Fri, 14 Feb 2020 11:54:50 -0500 (EST)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 3FDA723A8FB;
+        Fri, 14 Feb 2020 11:54:50 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 3FDA723A8FB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+        s=default; t=1581699290;
+        bh=NiKdD4GMaJ2MLkmF5uW6TCLm7+mQJ4RNezaFecTBBrc=;
+        h=Date:From:To:Message-ID:MIME-Version;
+        b=lmZfsuR8mMqnn/jkQx05Bu1jbK8vDIOmqGJaHkWup/0MlxAA/1gicJaDAkdKhB944
+         GhMWtw7u4HFvMPw+aOfPYDhGY8fYj94hJSqomzcvUQBEeMBMUqkjAspJwK+hPPzp0v
+         Yh3RwAaRgapqzNq2bhTAaE0Db8eNkjVBhTOlh7UHB8u3yN1mKoay4Ml35xHH1SAGRi
+         vFcltsNIlMjLtOyiKmpk1D6uXX1lq+u61akr0QrigKoV9FgAuzxw+kC6GOFwsAtBFd
+         5iW9l5E9ypdtJkwRrprv6leD3FA/K+deK8lIBVdDd1NFl5tzr+2MrrxQAZQUO15PkR
+         TYhq6aPXyutGQ==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id a7LVwWYzJImk; Fri, 14 Feb 2020 11:54:50 -0500 (EST)
+Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
+        by mail.efficios.com (Postfix) with ESMTP id 2291D23AF8E;
+        Fri, 14 Feb 2020 11:54:50 -0500 (EST)
+Date:   Fri, 14 Feb 2020 11:54:50 -0500 (EST)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     "H. Peter Anvin" <hpa@zytor.com>, Chris Lameter <cl@linux.com>,
+        Jann Horn <jannh@google.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Joel Fernandes <joelaf@google.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Watson <davejwatson@fb.com>,
+        Will Deacon <will.deacon@arm.com>, shuah <shuah@kernel.org>,
+        Andi Kleen <andi@firstfloor.org>,
+        linux-kselftest <linux-kselftest@vger.kernel.org>,
+        Russell King <linux@arm.linux.org.uk>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Paul <paulmck@linux.vnet.ibm.com>, Paul Turner <pjt@google.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Josh Triplett <josh@joshtriplett.org>,
+        rostedt <rostedt@goodmis.org>, Ben Maurer <bmaurer@fb.com>,
+        linux-api <linux-api@vger.kernel.org>,
+        Andy Lutomirski <luto@amacapital.net>
+Message-ID: <1713146428.2610.1581699290029.JavaMail.zimbra@efficios.com>
+In-Reply-To: <87blql5hfb.fsf@oldenburg2.str.redhat.com>
+References: <20200121160312.26545-1-mathieu.desnoyers@efficios.com> <2049164886.596497.1579641536619.JavaMail.zimbra@efficios.com> <alpine.DEB.2.21.2001212141590.1231@www.lameter.com> <1648013936.596672.1579655468604.JavaMail.zimbra@efficios.com> <ead7a565-9a23-a7d7-904d-c4860f63952a@zytor.com> <87a76efuux.fsf@oldenburg2.str.redhat.com> <134428560.600911.1580153955842.JavaMail.zimbra@efficios.com> <87blql5hfb.fsf@oldenburg2.str.redhat.com>
+Subject: Re: [RFC PATCH v1] pin_on_cpu: Introduce thread CPU pinning system
+ call
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200214040952.43195-1-bgeffon@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [167.114.26.124]
+X-Mailer: Zimbra 8.8.15_GA_3899 (ZimbraWebClient - FF72 (Linux)/8.8.15_GA_3895)
+Thread-Topic: pin_on_cpu: Introduce thread CPU pinning system call
+Thread-Index: cTvqdrvCQudYKnfodFshnn5ecRABXA==
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Feb 13, 2020 at 08:09:51PM -0800, Brian Geffon wrote:
-> When remapping an anonymous, private mapping, if MREMAP_DONTUNMAP is
-> set, the source mapping will not be removed. The remap operation
-> will be performed as it would have been normally by moving over the
-> page tables to the new mapping. The old vma will have any locked
-> flags cleared, have no pagetables, and any userfaultfds that were
-> watching that range will continue watching it.
+----- On Jan 30, 2020, at 6:10 AM, Florian Weimer fweimer@redhat.com wrote:
+
+> * Mathieu Desnoyers:
 > 
-> For a mapping that is shared or not anonymous, MREMAP_DONTUNMAP will cause
-> the mremap() call to fail. Because MREMAP_DONTUNMAP always results in moving
-> a VMA you MUST use the MREMAP_MAYMOVE flag. The final result is two
-> equally sized VMAs where the destination contains the PTEs of the source.
+>> It brings an interesting idea to the table though. Let's assume for now that
+>> the only intended use of pin_on_cpu(2) would be to allow rseq(2) critical
+>> sections to update per-cpu data on specific cpu number targets. In fact,
+>> considering that userspace can be preempted at any point, we still need a
+>> mechanism to guarantee atomicity with respect to other threads running on
+>> the same runqueue, which rseq(2) provides. Therefore, that assumption does
+>> not appear too far-fetched.
+>>
+>> There are 2 scenarios we need to consider here:
+>>
+>> A) pin_on_cpu(2) targets a CPU which is not part of the affinity mask.
+>>
+>> This case is easy: pin_on_cpu can return an error, and the caller needs to act
+>> accordingly (e.g. figure out that this is a design error and report it, or
+>> decide that it really did not want to touch that per-cpu data that badly and
+>> make the entire process fall-back to a mechanism which does not use per-cpu
+>> data at all from that point onwards)
 > 
-> We hope to use this in Chrome OS where with userfaultfd we could write
-> an anonymous mapping to disk without having to STOP the process or worry
-> about VMA permission changes.
+> Affinity masks currently are not like process memory: there is an
+> expectation that they can be altered from outside the process.
+
+Yes, that's my main issue.
+
+> Given that the caller may not have any ways to recover from the
+> suggested pin_on_cpu behavior, that seems problematic.
+
+Indeed.
+
 > 
-> This feature also has a use case in Android, Lokesh Gidra has said
-> that "As part of using userfaultfd for GC, We'll have to move the physical
-> pages of the java heap to a separate location. For this purpose mremap
-> will be used. Without the MREMAP_DONTUNMAP flag, when I mremap the java
-> heap, its virtual mapping will be removed as well. Therefore, we'll
-> require performing mmap immediately after. This is not only time consuming
-> but also opens a time window where a native thread may call mmap and
-> reserve the java heap's address range for its own usage. This flag
-> solves the problem."
-> 
->   v4 -> v5:
->     - Correct commit message to more accurately reflect the behavior.
->     - Clear VM_LOCKED and VM_LOCKEDONFAULT on the old vma.
->            
-> Signed-off-by: Brian Geffon <bgeffon@google.com>
-> 
-> ---
->  include/uapi/linux/mman.h |   5 +-
->  mm/mremap.c               | 106 ++++++++++++++++++++++++++++++--------
->  2 files changed, 88 insertions(+), 23 deletions(-)
-> 
-> diff --git a/include/uapi/linux/mman.h b/include/uapi/linux/mman.h
-> index fc1a64c3447b..923cc162609c 100644
-> --- a/include/uapi/linux/mman.h
-> +++ b/include/uapi/linux/mman.h
-> @@ -5,8 +5,9 @@
->  #include <asm/mman.h>
->  #include <asm-generic/hugetlb_encode.h>
->  
-> -#define MREMAP_MAYMOVE	1
-> -#define MREMAP_FIXED	2
-> +#define MREMAP_MAYMOVE		1
-> +#define MREMAP_FIXED		2
-> +#define MREMAP_DONTUNMAP	4
->  
->  #define OVERCOMMIT_GUESS		0
->  #define OVERCOMMIT_ALWAYS		1
-> diff --git a/mm/mremap.c b/mm/mremap.c
-> index 1fc8a29fbe3f..a2a792fdbc64 100644
-> --- a/mm/mremap.c
-> +++ b/mm/mremap.c
-> @@ -318,8 +318,8 @@ unsigned long move_page_tables(struct vm_area_struct *vma,
->  static unsigned long move_vma(struct vm_area_struct *vma,
->  		unsigned long old_addr, unsigned long old_len,
->  		unsigned long new_len, unsigned long new_addr,
-> -		bool *locked, struct vm_userfaultfd_ctx *uf,
-> -		struct list_head *uf_unmap)
-> +		bool *locked, unsigned long flags,
-> +		struct vm_userfaultfd_ctx *uf, struct list_head *uf_unmap)
->  {
->  	struct mm_struct *mm = vma->vm_mm;
->  	struct vm_area_struct *new_vma;
-> @@ -408,11 +408,49 @@ static unsigned long move_vma(struct vm_area_struct *vma,
->  	if (unlikely(vma->vm_flags & VM_PFNMAP))
->  		untrack_pfn_moved(vma);
->  
-> +	if (unlikely(!err && (flags & MREMAP_DONTUNMAP))) {
-> +		if (vm_flags & VM_ACCOUNT) {
-> +			/* Always put back VM_ACCOUNT since we won't unmap */
-> +			vma->vm_flags |= VM_ACCOUNT;
-> +
-> +			vm_acct_memory(vma_pages(new_vma));
-> +		}
-> +
-> +		/*
-> +		 * locked_vm accounting: if the mapping remained the same size
-> +		 * it will have just moved and we don't need to touch locked_vm
-> +		 * because we skip the do_unmap. If the mapping shrunk before
-> +		 * being moved then the do_unmap on that portion will have
-> +		 * adjusted vm_locked. Only if the mapping grows do we need to
-> +		 * do something special; the reason is locked_vm only accounts
-> +		 * for old_len, but we're now adding new_len - old_len locked
-> +		 * bytes to the new mapping.
-> +		 */
-> +		if (vm_flags & VM_LOCKED) {
-> +			/* We always clear VM_LOCKED[ONFAULT] on the old vma */
-> +			vma->vm_flags &= VM_LOCKED_CLEAR_MASK;
-> +
-> +			if (new_len > old_len) {
-> +				mm->locked_vm +=
-> +					(new_len - old_len) >> PAGE_SHIFT;
-> +				*locked = true;
+> What I would expect is that if pin_on_cpu cannot achieve implied
+> exclusion by running on the associated CPU, it acquires a lock that
+> prevents others pin_on_cpu calls from entering the critical section, and
+> tasks in the same task group from running on that CPU (if the CPU
+> becomes available to the task group).  The second part should maintain
+> exclusion of rseq sequences even if their fast path is not changed.
 
-This level of code indentation suggests that code restructuring is
-required.
+I try to avoid mutual exclusion over shared memory as rseq fallback whenever
+I can, so we can use rseq from lock-free algorithms without losing lock-freedom.
 
-> +			}
-> +		}
-> +
-> +		goto out;
-> +	}
-> +
->  	if (do_munmap(mm, old_addr, old_len, uf_unmap) < 0) {
->  		/* OOM: unable to split vma, just get accounts right */
->  		vm_unacct_memory(excess >> PAGE_SHIFT);
->  		excess = 0;
->  	}
-> +
-> +	if (vm_flags & VM_LOCKED) {
-> +		mm->locked_vm += new_len >> PAGE_SHIFT;
-> +		*locked = true;
-> +	}
+> (On the other hand, I'm worried that per-CPU data structures are a dead
+> end for user space unless we get containerized affinity masks, so that
+> contains only see resources that are actually available to them.)
 
-I don't follow why this is required.
+I'm currently implementing a prototype of the following ideas, and I'm curious to
+read your thoughts on those:
 
-> +out:
->  	mm->hiwater_vm = hiwater_vm;
->  
->  	/* Restore VM_ACCOUNT if one or two pieces of vma left */
-> @@ -422,16 +460,12 @@ static unsigned long move_vma(struct vm_area_struct *vma,
->  			vma->vm_next->vm_flags |= VM_ACCOUNT;
->  	}
->  
-> -	if (vm_flags & VM_LOCKED) {
-> -		mm->locked_vm += new_len >> PAGE_SHIFT;
-> -		*locked = true;
-> -	}
-> -
+I'm adding a "affinity_pinned" flag to the task struct of each thread. It can
+be set and cleared only by the owner thread through pin_on_cpu syscall commands.
+When the affinity is pinned by a thread, trying to change its affinity (from an
+external thread, or possibly from itself) will fail.
 
-Ah. You moved this piece. Why?
+Whenever a thread would (temporarily) pin itself on a specific CPU, it would
+also pin its affinity mask as a side-effect. When a thread unpins from a CPU,
+the affinity mask stays pinned. The purpose of keeping this affinity pinned
+state per-thread is to ensure we don't end up with tiny race windows where
+changing the thread's affinity mask "typically" works, but fails once in a
+while because it's done concurrently with a 1ms long cpu pinning. This would
+lead to flaky code, and I try hard to avoid that.
 
->  	return new_addr;
->  }
->  
->  static struct vm_area_struct *vma_to_resize(unsigned long addr,
-> -	unsigned long old_len, unsigned long new_len, unsigned long *p)
-> +	unsigned long old_len, unsigned long new_len, unsigned long flags,
-> +	unsigned long *p)
->  {
->  	struct mm_struct *mm = current->mm;
->  	struct vm_area_struct *vma = find_vma(mm, addr);
-> @@ -453,6 +487,10 @@ static struct vm_area_struct *vma_to_resize(unsigned long addr,
->  		return ERR_PTR(-EINVAL);
->  	}
->  
-> +	if (flags & MREMAP_DONTUNMAP && (!vma_is_anonymous(vma) ||
-> +			vma->vm_flags & VM_SHARED))
-> +		return ERR_PTR(-EINVAL);
-> +
->  	if (is_vm_hugetlb_page(vma))
->  		return ERR_PTR(-EINVAL);
->  
-> @@ -497,7 +535,7 @@ static struct vm_area_struct *vma_to_resize(unsigned long addr,
->  
->  static unsigned long mremap_to(unsigned long addr, unsigned long old_len,
->  		unsigned long new_addr, unsigned long new_len, bool *locked,
-> -		struct vm_userfaultfd_ctx *uf,
-> +		unsigned long flags, struct vm_userfaultfd_ctx *uf,
->  		struct list_head *uf_unmap_early,
->  		struct list_head *uf_unmap)
->  {
-> @@ -505,7 +543,7 @@ static unsigned long mremap_to(unsigned long addr, unsigned long old_len,
->  	struct vm_area_struct *vma;
->  	unsigned long ret = -EINVAL;
->  	unsigned long charged = 0;
-> -	unsigned long map_flags;
-> +	unsigned long map_flags = 0;
->  
->  	if (offset_in_page(new_addr))
->  		goto out;
-> @@ -534,9 +572,11 @@ static unsigned long mremap_to(unsigned long addr, unsigned long old_len,
->  	if ((mm->map_count + 2) >= sysctl_max_map_count - 3)
->  		return -ENOMEM;
->  
-> -	ret = do_munmap(mm, new_addr, new_len, uf_unmap_early);
-> -	if (ret)
-> -		goto out;
-> +	if (flags & MREMAP_FIXED) {
+How changing this affinity should fail (from sched_setaffinity and cpusets) is a
+big unanswered question. I see two major alternatives so far:
 
-I think it has to be
+1) We deliver a signal to the target thread (SIGKILL ? SIGSEGV ?), considering
+   that failure to be able to change its affinity mask means we need to send a
+   signal. How exactly would the killed application recover (or if it should)
+   is still unclear.
 
-	if (!(flags & MREMAP_DONTUNMAP)) {
+2) Return an error to the sched_setaffinity or cpusets caller, and let it deal
+   with the error as it sees fit: ignore it, log it, or send a signal.
 
-No?
+I think option (2) provides the most flexiblity, and moves policy outside of
+the kernel, which is a good thing. However, looking at how cpusets seems to
+simply ignore errors when setting a task's cpumask, I wonder if asking from
+cpusets to handle any kind of error is asking too much. :-/
+
+Thanks,
+
+Mathieu
 
 
-> +		ret = do_munmap(mm, new_addr, new_len, uf_unmap_early);
-> +		if (ret)
-> +			goto out;
-> +	}
->  
->  	if (old_len >= new_len) {
->  		ret = do_munmap(mm, addr+new_len, old_len - new_len, uf_unmap);
-> @@ -545,13 +585,26 @@ static unsigned long mremap_to(unsigned long addr, unsigned long old_len,
->  		old_len = new_len;
->  	}
->  
-> -	vma = vma_to_resize(addr, old_len, new_len, &charged);
-> +	vma = vma_to_resize(addr, old_len, new_len, flags, &charged);
->  	if (IS_ERR(vma)) {
->  		ret = PTR_ERR(vma);
->  		goto out;
->  	}
->  
-> -	map_flags = MAP_FIXED;
-> +	/*
-> +	 * MREMAP_DONTUNMAP expands by new_len - (new_len - old_len), we will
-> +	 * check that we can expand by new_len and vma_to_resize will handle
-> +	 * the vma growing which is (new_len - old_len).
-> +	 */
-> +	if (flags & MREMAP_DONTUNMAP &&
-> +		!may_expand_vm(mm, vma->vm_flags, new_len >> PAGE_SHIFT)) {
-> +		ret = -ENOMEM;
-> +		goto out;
-> +	}
-> +
-> +	if (flags & MREMAP_FIXED)
-> +		map_flags |= MAP_FIXED;
-> +
->  	if (vma->vm_flags & VM_MAYSHARE)
->  		map_flags |= MAP_SHARED;
->  
-> @@ -561,10 +614,16 @@ static unsigned long mremap_to(unsigned long addr, unsigned long old_len,
->  	if (offset_in_page(ret))
->  		goto out1;
->  
-> -	ret = move_vma(vma, addr, old_len, new_len, new_addr, locked, uf,
-> +	/* We got a new mapping */
-> +	if (!(flags & MREMAP_FIXED))
-> +		new_addr = ret;
-> +
-> +	ret = move_vma(vma, addr, old_len, new_len, new_addr, locked, flags, uf,
->  		       uf_unmap);
-> +
->  	if (!(offset_in_page(ret)))
->  		goto out;
-> +
->  out1:
->  	vm_unacct_memory(charged);
->  
-> @@ -609,12 +668,16 @@ SYSCALL_DEFINE5(mremap, unsigned long, addr, unsigned long, old_len,
->  	addr = untagged_addr(addr);
->  	new_addr = untagged_addr(new_addr);
->  
-> -	if (flags & ~(MREMAP_FIXED | MREMAP_MAYMOVE))
-> +	if (flags & ~(MREMAP_FIXED | MREMAP_MAYMOVE | MREMAP_DONTUNMAP))
->  		return ret;
->  
->  	if (flags & MREMAP_FIXED && !(flags & MREMAP_MAYMOVE))
->  		return ret;
->  
-> +	/* MREMAP_DONTUNMAP is always a move */
-> +	if (flags & MREMAP_DONTUNMAP && !(flags & MREMAP_MAYMOVE))
-> +		return ret;
-> +
->  	if (offset_in_page(addr))
->  		return ret;
->  
-> @@ -632,9 +695,10 @@ SYSCALL_DEFINE5(mremap, unsigned long, addr, unsigned long, old_len,
->  	if (down_write_killable(&current->mm->mmap_sem))
->  		return -EINTR;
->  
-> -	if (flags & MREMAP_FIXED) {
-> +	if (flags & MREMAP_FIXED || flags & MREMAP_DONTUNMAP) {
 
-	if (flags & (MREMAP_FIXED | MREMAP_DONTUNMAP)) {
-
->  		ret = mremap_to(addr, old_len, new_addr, new_len,
-> -				&locked, &uf, &uf_unmap_early, &uf_unmap);
-> +				&locked, flags, &uf, &uf_unmap_early,
-> +				&uf_unmap);
->  		goto out;
->  	}
->  
-> @@ -662,7 +726,7 @@ SYSCALL_DEFINE5(mremap, unsigned long, addr, unsigned long, old_len,
->  	/*
->  	 * Ok, we need to grow..
->  	 */
-> -	vma = vma_to_resize(addr, old_len, new_len, &charged);
-> +	vma = vma_to_resize(addr, old_len, new_len, flags, &charged);
->  	if (IS_ERR(vma)) {
->  		ret = PTR_ERR(vma);
->  		goto out;
-> @@ -712,7 +776,7 @@ SYSCALL_DEFINE5(mremap, unsigned long, addr, unsigned long, old_len,
->  		}
->  
->  		ret = move_vma(vma, addr, old_len, new_len, new_addr,
-> -			       &locked, &uf, &uf_unmap);
-> +			       &locked, flags, &uf, &uf_unmap);
->  	}
->  out:
->  	if (offset_in_page(ret)) {
-> -- 
-> 2.25.0.265.gbab2e86ba0-goog
-> 
 
 -- 
- Kirill A. Shutemov
+Mathieu Desnoyers
+EfficiOS Inc.
+http://www.efficios.com
