@@ -2,110 +2,123 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A00D15CE4A
-	for <lists+linux-api@lfdr.de>; Thu, 13 Feb 2020 23:48:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0293615CF1C
+	for <lists+linux-api@lfdr.de>; Fri, 14 Feb 2020 01:36:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727778AbgBMWsJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 13 Feb 2020 17:48:09 -0500
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:47063 "EHLO
+        id S1728068AbgBNAgV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 13 Feb 2020 19:36:21 -0500
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:46450 "EHLO
         mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727519AbgBMWsJ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 13 Feb 2020 17:48:09 -0500
-Received: by mail-lf1-f68.google.com with SMTP id z26so5410056lfg.13
-        for <linux-api@vger.kernel.org>; Thu, 13 Feb 2020 14:48:08 -0800 (PST)
+        with ESMTP id S1727988AbgBNAgU (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 13 Feb 2020 19:36:20 -0500
+Received: by mail-lf1-f68.google.com with SMTP id z26so5545784lfg.13
+        for <linux-api@vger.kernel.org>; Thu, 13 Feb 2020 16:36:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rVdHJ1r/9FxJmwhDqRkVHSIn1Ry+lO3z+KpnaUuqwYk=;
-        b=dRYW8MemR37cE0uru6NTUES5Od7vEqzfZmb/KMY93QEjURoq6DE5QcXLZ6JJL9HB8V
-         KfvM/ZKQbYsF7Zy+x1PnUgqdmV3x1lbxpWU+BFmhJglL6UqALgYvF3IltbUH8c3PxzFq
-         KRLtkM5e8bHrUc0004IuGa/Hy6940Rjrv4zzw=
+        d=shutemov-name.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=4f0EZeoJlExzljE8pJVUxkTCYd/feIyLQps13jN8CxI=;
+        b=PacGcFWD/+hjRVHJiK+ORMA3HMJLTlsaB+Wjr9TLvq+iI0kdJnr0AbgEl5LQCXI/dw
+         u9AoIP+FTxfxUXlA9Ps6lORc63DbyQgtlHqzF8v7joJKPBftimDS51TTAwiC6vIznm/0
+         oj1OBSd7sy4hEj+laIQEi6a29v5EbGZeacU7LrVOLyKscRyh8yKZarFWURNE/QpdxCNr
+         nS6TAzXb5s9c4qXfgbfwka7AcihAZNSnsk4769Lij4sI/EPBL0iLtHUaT9LALPJXTIpS
+         YBaGeA5YE3FxbqV/Yh7UmizHXUqeQcRE4l7+8MuaK+AeWHDHey6vx6GeeOE1ZuIPluZ6
+         SDIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rVdHJ1r/9FxJmwhDqRkVHSIn1Ry+lO3z+KpnaUuqwYk=;
-        b=lTVuiyhRhpJQumHmMZxZOpbAayhg//OpkMDwgzk5/AuAeC4t7HSW2qOa+RQkaaBQ9q
-         dvLiYtFKIfcaC+BXb656B0uFxU63qJz8p+KwsPZiGYuubOPB1ZYSdzTxNp2nPo4789og
-         cLu5/fIKbIg8fMZUcAAroeCV9wc6P47l8VloIWzhrxI3C0uTRQqklR4aE3DkXEodVLPV
-         lei7mIZS6JKYTllN5/Ccc6aDyL++iNk4x3pDcF48ef/U1/TrmliWvXSicftc22MZqSVj
-         A/cOLSwh0bcSOZ+gfvlyXT1L3Hc5Jk6Qyxxktm6MwybfIFXIABJRsSElYHht7ek2Wl9g
-         TStQ==
-X-Gm-Message-State: APjAAAWNOObioeKkO7P/hj1wc74vZn8CWBoMN1oPVKLPi2GMGQOEfHjV
-        Hoo6/OYgWK0wn6VITOmSSUjzRpKSWqM=
-X-Google-Smtp-Source: APXvYqwgZCRIsO19DnZdvNTfnX9pApJpMA8KM0503kUB9eiXoEkQaHVeqnKJjKOU5wDcGyGM9RirHw==
-X-Received: by 2002:ac2:43af:: with SMTP id t15mr116644lfl.154.1581634087269;
-        Thu, 13 Feb 2020 14:48:07 -0800 (PST)
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com. [209.85.208.178])
-        by smtp.gmail.com with ESMTPSA id t7sm2315826ljo.7.2020.02.13.14.48.05
-        for <linux-api@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Feb 2020 14:48:05 -0800 (PST)
-Received: by mail-lj1-f178.google.com with SMTP id o15so8515589ljg.6
-        for <linux-api@vger.kernel.org>; Thu, 13 Feb 2020 14:48:05 -0800 (PST)
-X-Received: by 2002:a2e:88c5:: with SMTP id a5mr35496ljk.201.1581634084790;
- Thu, 13 Feb 2020 14:48:04 -0800 (PST)
-MIME-Version: 1.0
-References: <20200212200335.GO23230@ZenIV.linux.org.uk> <CAHk-=wi+1CPShMFvJNPfnrJ8DD8uVKUOQ5TQzQUNGLUkeoahkg@mail.gmail.com>
- <20200212203833.GQ23230@ZenIV.linux.org.uk> <20200212204124.GR23230@ZenIV.linux.org.uk>
- <CAHk-=wi5FOGV_3tALK3n6E2fK3Oa_yCYkYQtCSaXLSEm2DUCKg@mail.gmail.com>
- <87lfp7h422.fsf@x220.int.ebiederm.org> <CAHk-=wgmn9Qds0VznyphouSZW6e42GWDT5H1dpZg8pyGDGN+=w@mail.gmail.com>
- <87pnejf6fz.fsf@x220.int.ebiederm.org> <20200213055527.GS23230@ZenIV.linux.org.uk>
- <CAHk-=wgQnNHYxV7-SyRP=g9vTHyNAK9g1juLLB=eho4=DHVZEQ@mail.gmail.com> <20200213222350.GU23230@ZenIV.linux.org.uk>
-In-Reply-To: <20200213222350.GU23230@ZenIV.linux.org.uk>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Thu, 13 Feb 2020 14:47:48 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wjePLiQqUfQGCrNb0wp+EtgRddQbcK-pHH=6rxbdYNNOA@mail.gmail.com>
-Message-ID: <CAHk-=wjePLiQqUfQGCrNb0wp+EtgRddQbcK-pHH=6rxbdYNNOA@mail.gmail.com>
-Subject: Re: [PATCH v8 07/11] proc: flush task dcache entries from all procfs instances
-To:     Al Viro <viro@zeniv.linux.org.uk>
-Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=4f0EZeoJlExzljE8pJVUxkTCYd/feIyLQps13jN8CxI=;
+        b=V/41KEygkAolU8sWxLmTny6iOloySg1Vso6V20t8dOZTFd+y47JAOue4UlKQZNCyCD
+         V/4EuKYf7Z02o5IQqs8ZmcEQiLwda7eLFgDCG3t/Q3c7/Lqgda00BkbMlXVb/M2Onaf9
+         2HnF181D0J1tsIEjAP3XnfkD0yxPkbfVe2ZscUujGlURecb7IOZK9ViGMD3jFe3PDTLq
+         XoatESN7eu7SntNBkVSEGQSWwkk7uJypPd2izFWOWiC1TVGOcKpVYvYl2WfEhnZidTag
+         /A+7njHc8ABwFLcEXYP5ocNNIi/tErttTVhgqkWTHaCBvn6PyRUmDXKQNq7EwbSI1gUf
+         UlZw==
+X-Gm-Message-State: APjAAAVfOcl0qfLSqOg/9l7dGR28HVBXZrSHyFXq/8fY/ZVxDdLkyU7W
+        AlTUH/poXqwofeHm1caGaepHzA==
+X-Google-Smtp-Source: APXvYqyX50RxYmxQWDCQJ4bRjVQ1dfugN3SgCgtgCIto9MmZHtlmWbmJtslnfFe7WjbYmJjlQeJHhQ==
+X-Received: by 2002:ac2:4833:: with SMTP id 19mr261332lft.211.1581640578725;
+        Thu, 13 Feb 2020 16:36:18 -0800 (PST)
+Received: from box.localdomain ([86.57.175.117])
+        by smtp.gmail.com with ESMTPSA id y2sm2437542ljm.28.2020.02.13.16.36.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Feb 2020 16:36:17 -0800 (PST)
+Received: by box.localdomain (Postfix, from userid 1000)
+        id 1512C100F2C; Fri, 14 Feb 2020 03:36:40 +0300 (+03)
+Date:   Fri, 14 Feb 2020 03:36:40 +0300
+From:   "Kirill A. Shutemov" <kirill@shutemov.name>
+To:     Brian Geffon <bgeffon@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        "Michael S . Tsirkin" <mst@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>,
         LKML <linux-kernel@vger.kernel.org>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-mm <linux-mm@kvack.org>,
         Linux API <linux-api@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        Linux Security Module <linux-security-module@vger.kernel.org>,
-        Akinobu Mita <akinobu.mita@gmail.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Daniel Micay <danielmicay@gmail.com>,
-        Djalal Harouni <tixxdz@gmail.com>,
-        "Dmitry V . Levin" <ldv@altlinux.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Jeff Layton <jlayton@poochiereds.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Solar Designer <solar@openwall.com>
-Content-Type: text/plain; charset="UTF-8"
+        Andy Lutomirski <luto@amacapital.net>,
+        Will Deacon <will@kernel.org>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Yu Zhao <yuzhao@google.com>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Florian Weimer <fweimer@redhat.com>
+Subject: Re: [PATCH v4] mm: Add MREMAP_DONTUNMAP to mremap().
+Message-ID: <20200214003640.yphbnjw7omsx2rje@box>
+References: <20200207201856.46070-1-bgeffon@google.com>
+ <20200210104520.cfs2oytkrf5ihd3m@box>
+ <CADyq12wcwvRLwueucHFV2ErL67etOJdFGYQdqVFM2WAeOkMGQA@mail.gmail.com>
+ <20200213120813.myanzyjmpyzixghf@box>
+ <CADyq12wWOhGDeUeOB74dxuRKjPhduMWZLBMxOxpm5-yHOpjaRw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CADyq12wWOhGDeUeOB74dxuRKjPhduMWZLBMxOxpm5-yHOpjaRw@mail.gmail.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Feb 13, 2020 at 2:23 PM Al Viro <viro@zeniv.linux.org.uk> wrote:
->
-> I'd been thinking of ->d_fsdata pointing to a structure with list_head
-> and a (non-counting) task_struct pointer for those guys.  Allocated
-> on lookup, of course (as well as readdir ;-/) and put on the list
-> at the same time.
+On Thu, Feb 13, 2020 at 10:20:44AM -0800, Brian Geffon wrote:
+> Hi Kirill,
+> 
+> > But if you do the operation for the VM_LOCKED vma, you'll have two locked
+> > VMA's now, right? Where do you account the old locked vma you left behind?
+> 
+> You bring up a good point. In a previous iteration of my patch I had
+> it clearing the locked flags on the old VMA as technically the locked
+> pages had migrated. I talked myself out of that but the more I think
+> about it we should probably do that. Something along the lines of:
+> 
+> +    if (vm_flags & VM_LOCKED) {
+> +      /* Locked pages would have migrated to the new VMA */
+> +      vma->vm_flags &= VM_LOCKED_CLEAR_MASK;
+> +      if (new_len > old_len)
+> +              mm->locked_vm += (new_len - old_len) >> PAGE_SHIFT;
+> +   }
+> 
+> I feel that this is correct. The only other possible option would be
+> to clear only the VM_LOCKED flag on the old vma leaving VM_LOCKONFAULT
+> to handle the MCL_ONFAULT mlocked situation, thoughts? Regardless I'll
+> have to mail a new patch because that part where I'm incrementing the
+> mm->locked_vm lost the check on VM_LOCKED during patch versions.
 
-Hmm. That smells like potentially a lot of small allocations, and
-making readdir() even nastier.
+Note, that we account mlock limit on per-VMA basis, not per page. Even for
+VM_LOCKONFAULT.
 
-Do we really want to create the dentries at readdir time? We do now
-(with proc_fill_cache()) but do we actually _need_ to?
+> Thanks again for taking the time to review.
 
-I guess a lot of readdir users end up doing a stat on it immediately
-afterwards. I think right now we do it to get the inode number, and
-maybe that is a basic requirement (even if I don't think it's really
-stable - an inode could be evicted and then the ino changes, no?)
+I believe the right approach is to strip VM_LOCKED[ONFAULT] from the vma
+you left behind. Or the new vma. It is a policy decision.
 
-Ho humm. This all doesn't make me happy. But I guess the proof is in
-the pudding - and if you come up with a good patch, I won't complain.
+JFYI, we do not inherit VM_LOCKED on fork(), so it's common practice to
+strip VM_LOCKED on vma duplication.
 
-              Linus
+Other option is to leave VM_LOCKED on both VMAs and fail the operation if
+we are over the limit. But we need to have a good reason to take this
+path. It makes the interface less flexible.
+
+-- 
+ Kirill A. Shutemov
