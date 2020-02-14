@@ -2,137 +2,225 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 90AD715F49F
-	for <lists+linux-api@lfdr.de>; Fri, 14 Feb 2020 19:24:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A885715F589
+	for <lists+linux-api@lfdr.de>; Fri, 14 Feb 2020 19:39:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394902AbgBNSWM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 14 Feb 2020 13:22:12 -0500
-Received: from mail-il1-f195.google.com ([209.85.166.195]:42814 "EHLO
-        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2394897AbgBNSWL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 14 Feb 2020 13:22:11 -0500
-Received: by mail-il1-f195.google.com with SMTP id x2so26930ila.9
-        for <linux-api@vger.kernel.org>; Fri, 14 Feb 2020 10:22:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=8qwb+lRTuOpes8xtaV7AKCv3PBGORM2BmFGpjI+nmpE=;
-        b=t2X1vD6b4vzcyYKeWXV148o4eFIVd6WZxhJItit3wq0vnRe4HvYJfLkKUtMgcWQ31G
-         VRLaorGbSK79Vevj9soE5iVXOq4dndvM/jy6LXriqeIR7wVc/V5sh+kCLYL1dMz/FMhh
-         0ByPRUiwxDqlk832uRr5+d8IQC4TmpXV+IZFWMs4hE01jDeDKdDVdeQK/w7TuEU1idTX
-         iNNKPQ1lBKOnsHbI5uk29dUPX5LUlBNqubasFicW8i16gcKFyEAoLmyVtUsr428vyzqF
-         /RMsqtg+N7J7QD6XXBHChqF8QBdXyN+kV/9a+dLg2xoDdjk8SOqUqj1rZ8GAkQtUoar1
-         7MbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=8qwb+lRTuOpes8xtaV7AKCv3PBGORM2BmFGpjI+nmpE=;
-        b=DdQ8FNkV3bephIVbNvdMkj0ap/jhwa2CG2n//Zlb4lRQk+2kn1Ez+Gk05kPqQGI59Y
-         r1cieRs2J4bL0qHvWH+e38WbJHh7A+a7XjORevOR8ZCN4+EzeOLxWx7FkjA4x8/DqoC8
-         Qrk4yh4iWeryvbCxi5GIL7xXck39FHSXCYOSc/KkU22mDH5Fpln3ris/XxmGmcaU89Nw
-         sEq70GJfDRNbxB3D9jFXdWjnajkuDqLVcTq0bopMWeZqAztsqnTpc3FNHwyrx3gTLTx9
-         VFfgJ40+7RhNt8qDpzRT+gvZ+Ckb+Lvw/8MFcIWW5t5VRHmnAD0Ho31zatRA25FhwgRR
-         Tsyw==
-X-Gm-Message-State: APjAAAXzLdawW5CIv9J4soHK1tE9q+FcBo0NNBHChasLBiYy1gSEW5vZ
-        LTJ8aLHhcgFNxW05Ml8ZVcX4MVxIKvI=
-X-Google-Smtp-Source: APXvYqzvncynTCDmYylq3A4KCMdXhy5MVQ9TmDi4HIhCpbFZz8Z/rnYpRK1Wy38BVNpmc/kvq8GaTg==
-X-Received: by 2002:a92:b68a:: with SMTP id m10mr4384218ill.255.1581704530319;
-        Fri, 14 Feb 2020 10:22:10 -0800 (PST)
-Received: from [192.168.1.159] ([65.144.74.34])
-        by smtp.gmail.com with ESMTPSA id j17sm2230109ild.45.2020.02.14.10.22.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Feb 2020 10:22:09 -0800 (PST)
-Subject: Re: [PATCH v5 1/7] mm: pass task and mm to do_madvise
-To:     Jann Horn <jannh@google.com>, Minchan Kim <minchan@kernel.org>,
-        io-uring <io-uring@vger.kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Oleksandr Natalenko <oleksandr@redhat.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Tim Murray <timmurray@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Brian Geffon <bgeffon@google.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        John Dias <joaodias@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>, sj38.park@gmail.com,
-        Alexander Duyck <alexander.h.duyck@linux.intel.com>
-References: <20200214170520.160271-1-minchan@kernel.org>
- <20200214170520.160271-2-minchan@kernel.org>
- <CAG48ez3S5+EasZ1ZWcMQYZQQ5zJOBtY-_C7oz6DMfG4Gcyig1g@mail.gmail.com>
-From:   Jens Axboe <axboe@kernel.dk>
-Message-ID: <68044a15-6a31-e432-3105-f2f1af9f4b74@kernel.dk>
-Date:   Fri, 14 Feb 2020 11:22:08 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        id S1730473AbgBNSh7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 14 Feb 2020 13:37:59 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:33609 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730427AbgBNSh6 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 14 Feb 2020 13:37:58 -0500
+Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236] helo=wittgenstein.fritz.box)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1j2fqG-0000uO-Vs; Fri, 14 Feb 2020 18:37:33 +0000
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     =?UTF-8?q?St=C3=A9phane=20Graber?= <stgraber@ubuntu.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Aleksa Sarai <cyphar@cyphar.com>, Jann Horn <jannh@google.com>
+Cc:     smbarber@chromium.org, Seth Forshee <seth.forshee@canonical.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Serge Hallyn <serge@hallyn.com>,
+        James Morris <jmorris@namei.org>,
+        Kees Cook <keescook@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Phil Estes <estesp@gmail.com>, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org,
+        containers@lists.linux-foundation.org,
+        linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
+        Christian Brauner <christian.brauner@ubuntu.com>
+Subject: [PATCH v2 00/28] user_namespace: introduce fsid mappings
+Date:   Fri, 14 Feb 2020 19:35:26 +0100
+Message-Id: <20200214183554.1133805-1-christian.brauner@ubuntu.com>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-In-Reply-To: <CAG48ez3S5+EasZ1ZWcMQYZQQ5zJOBtY-_C7oz6DMfG4Gcyig1g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2/14/20 10:25 AM, Jann Horn wrote:
-> +Jens and io-uring list
-> 
-> On Fri, Feb 14, 2020 at 6:06 PM Minchan Kim <minchan@kernel.org> wrote:
->> In upcoming patches, do_madvise will be called from external process
->> context so we shouldn't asssume "current" is always hinted process's
->> task_struct.
-> [...]
->> [1] http://lore.kernel.org/r/CAG48ez27=pwm5m_N_988xT1huO7g7h6arTQL44zev6TD-h-7Tg@mail.gmail.com
-> [...]
->> diff --git a/fs/io_uring.c b/fs/io_uring.c
-> [...]
->> @@ -2736,7 +2736,7 @@ static int io_madvise(struct io_kiocb *req, struct io_kiocb **nxt,
->>         if (force_nonblock)
->>                 return -EAGAIN;
->>
->> -       ret = do_madvise(ma->addr, ma->len, ma->advice);
->> +       ret = do_madvise(current, current->mm, ma->addr, ma->len, ma->advice);
->>         if (ret < 0)
->>                 req_set_fail_links(req);
->>         io_cqring_add_event(req, ret);
-> 
-> Jens, can you have a look at this change and the following patch
-> <https://lore.kernel.org/linux-mm/20200214170520.160271-4-minchan@kernel.org/>
-> ("[PATCH v5 3/7] mm: check fatal signal pending of target process")?
-> Basically Minchan's patch tries to plumb through the identity of the
-> target task so that if that task gets killed in the middle of the
-> operation, the (potentially long-running and costly) madvise operation
-> can be cancelled. Just passing in "current" instead (which in this
-> case is the uring worker thread AFAIK) doesn't really break anything,
-> other than making the optimization not work, but I wonder whether this
-> couldn't be done more cleanly - maybe by passing in NULL to mean "we
-> don't know who the target task is", since I think we don't know that
-> here?
+Hey everyone,
 
-Thanks for bringing this to my attention, patches that touch io_uring
-(or anything else) really should be CC'ed to the maintainer(s) of those
-areas...
+This is v2 with various fixes after discussions with Jann.
 
-Yeah, the change above won't do the right thing for io_uring, in fact
-it'll always be the wrong task. So I'd second Jann's question, and ask
-if we really need the actual task, or if NULL could be used? For
-cancelation purposes, I'm guessing you want the task that's actually
-doing the operation, even if it's on behalf of someone else. That makes
-the interface a bit weird, as you'd assume the task/mm passed in would
-be related to the madvise itself, not just for cancelation.
+From pings and off-list questions and discussions at Google Container
+Security Summit there seems to be quite a lot of interest in this
+patchset with use-cases ranging from layer sharing for app containers
+and k8s, as well as data sharing between containers with different id
+mappings. I haven't Cced all people because I don't have all the email
+adresses at hand but I've at least added Phil now. :)
 
-Would be nice with some clarification, so we can figure out an approach
-that would actually work.
+This is the implementation of shiftfs which was cooked up during lunch at
+Linux Plumbers 2019 the day after the container's microconference. The
+idea is a design-stew from Stéphane, Aleksa, Eric, and myself. Back then
+we all were quite busy with other work and couldn't really sit down and
+implement it. But I took a few days last week to do this work, including
+demos and performance testing.
+This implementation does not require us to touch the vfs substantially
+at all. Instead, we implement shiftfs via fsid mappings.
+With this patch, it took me 20 mins to port both LXD and LXC to support
+shiftfs via fsid mappings.
 
+For anyone wanting to play with this the branch can be pulled from:
+https://github.com/brauner/linux/tree/fsid_mappings
+https://gitlab.com/brauner/linux/-/tree/fsid_mappings
+https://git.kernel.org/pub/scm/linux/kernel/git/brauner/linux.git/log/?h=fsid_mappings
+
+The main use case for shiftfs for us is in allowing shared writable
+storage to multiple containers using non-overlapping id mappings.
+In such a scenario you want the fsids to be valid and identical in both
+containers for the shared mount. A demo for this exists in [3].
+If you don't want to read on, go straight to the other demos below in
+[1] and [2].
+
+People not as familiar with user namespaces might not be aware that fsid
+mappings already exist. Right now, fsid mappings are always identical to
+id mappings. Specifically, the kernel will lookup fsuids in the uid
+mappings and fsgids in the gid mappings of the relevant user namespace.
+
+With this patch series we simply introduce the ability to create fsid
+mappings that are different from the id mappings of a user namespace.
+The whole feature set is placed under a config option that defaults to
+false.
+
+In the usual case of running an unprivileged container we will have
+setup an id mapping, e.g. 0 100000 100000. The on-disk mapping will
+correspond to this id mapping, i.e. all files which we want to appear as
+0:0 inside the user namespace will be chowned to 100000:100000 on the
+host. This works, because whenever the kernel needs to do a filesystem
+access it will lookup the corresponding uid and gid in the idmapping
+tables of the container.
+Now think about the case where we want to have an id mapping of 0 100000
+100000 but an on-disk mapping of 0 300000 100000 which is needed to e.g.
+share a single on-disk mapping with multiple containers that all have
+different id mappings.
+This will be problematic. Whenever a filesystem access is requested, the
+kernel will now try to lookup a mapping for 300000 in the id mapping
+tables of the user namespace but since there is none the files will
+appear to be owned by the overflow id, i.e. usually 65534:65534 or
+nobody:nogroup.
+
+With fsid mappings we can solve this by writing an id mapping of 0
+100000 100000 and an fsid mapping of 0 300000 100000. On filesystem
+access the kernel will now lookup the mapping for 300000 in the fsid
+mapping tables of the user namespace. And since such a mapping exists,
+the corresponding files will have correct ownership.
+
+A note on proc (and sys), the proc filesystem is special in sofar as it
+only has a single superblock that is (currently but might be about to
+change) visible in all user namespaces (same goes for sys). This means
+it has special semantics in many ways, including how file ownership and
+access works. The fsid mapping implementation does not alter how proc
+(and sys) ownership works. proc and sys will both continue to lookup
+filesystem access in id mapping tables.
+
+When Writing fsid mappings the same rules apply as when writing id
+mappings so I won't reiterate them here. The limit of fs id mappings is
+the same as for id mappings, i.e. 340 lines.
+
+# Performance
+Back when I extended the range of possible id mappings to 340 I did
+performance testing by booting into single user mode, creating 1,000,000
+files to fstat()ing them and calculated the mean fstat() time per file.
+(Back when Linux was still fast. I won't mention that the stat
+ numbers have (thanks microcode!) doubled since then...)
+I did the same test for this patchset: one vanilla kernel, one kernel
+with my fsid mapping patches but CONFIG_USER_NS_FSID set to n and one
+with fsid mappings patches enabled. I then ran the same test on all
+three kernels and compared the numbers. The implementation does not
+introduce overhead. That's all I can say. Here are the numbers:
+
+             | vanilla v5.5 | fsid mappings       | fsid mappings      | fsid mappings      |
+	     |              | disabled in Kconfig | enabled in Kconfig | enabled in Kconfig |
+	     |   	    |                     | and unset for all  | and set for all    |
+	     |   	    |    		  | test cases         | test cases         |
+-------------|--------------|---------------------|--------------------|--------------------|
+ 0  mappings |       367 ns |              365 ns |             365 ns |             N/A    |
+ 1  mappings |       362 ns |              367 ns |             363 ns |             363 ns |
+ 2  mappings |       361 ns |              369 ns |             363 ns |             364 ns |
+ 3  mappings |       361 ns |              368 ns |             366 ns |             365 ns |
+ 5  mappings |       365 ns |              368 ns |             363 ns |             365 ns |
+ 10 mappings |       391 ns |              388 ns |             387 ns |             389 ns |
+ 50 mappings |       395 ns |              398 ns |             401 ns |             397 ns |
+100 mappings |       400 ns |              405 ns |             399 ns |             399 ns |
+200 mappings |       404 ns |              407 ns |             430 ns |             404 ns |
+300 mappings |       492 ns |              494 ns |             432 ns |             413 ns |
+340 mappings |       495 ns |              497 ns |             500 ns |             484 ns |
+
+# Demos
+[1]: Create a container with different id and fsid mappings.
+     https://asciinema.org/a/300233 
+[2]: Create a container with id mappings but without fsid mappings.
+     https://asciinema.org/a/300234
+[3]: Share storage between multiple containers with non-overlapping id
+     mappings.
+     https://asciinema.org/a/300235
+
+Thanks!
+Christian
+
+Christian Brauner (28):
+  user_namespace: introduce fsid mappings infrastructure
+  proc: add /proc/<pid>/fsuid_map
+  proc: add /proc/<pid>/fsgid_map
+  fsuidgid: add fsid mapping helpers
+  proc: task_state(): use from_kfs{g,u}id_munged
+  cred: add kfs{g,u}id
+  sys: __sys_setfsuid(): handle fsid mappings
+  sys: __sys_setfsgid(): handle fsid mappings
+  sys:__sys_setuid(): handle fsid mappings
+  sys:__sys_setgid(): handle fsid mappings
+  sys:__sys_setreuid(): handle fsid mappings
+  sys:__sys_setregid(): handle fsid mappings
+  sys:__sys_setresuid(): handle fsid mappings
+  sys:__sys_setresgid(): handle fsid mappings
+  fs: add is_userns_visible() helper
+  namei: may_{o_}create(): handle fsid mappings
+  inode: inode_owner_or_capable(): handle fsid mappings
+  capability: privileged_wrt_inode_uidgid(): handle fsid mappings
+  stat: handle fsid mappings
+  open: handle fsid mappings
+  posix_acl: handle fsid mappings
+  attr: notify_change(): handle fsid mappings
+  commoncap: cap_bprm_set_creds(): handle fsid mappings
+  commoncap: cap_task_fix_setuid(): handle fsid mappings
+  commoncap: handle fsid mappings with vfs caps
+  exec: bprm_fill_uid(): handle fsid mappings
+  ptrace: adapt ptrace_may_access() to always uses unmapped fsids
+  devpts: handle fsid mappings
+
+ fs/attr.c                      |  23 ++-
+ fs/devpts/inode.c              |   7 +-
+ fs/exec.c                      |  25 ++-
+ fs/inode.c                     |   7 +-
+ fs/namei.c                     |  36 +++-
+ fs/open.c                      |  16 +-
+ fs/posix_acl.c                 |  21 +--
+ fs/proc/array.c                |   5 +-
+ fs/proc/base.c                 |  34 ++++
+ fs/stat.c                      |  48 ++++--
+ include/linux/cred.h           |   4 +
+ include/linux/fs.h             |   5 +
+ include/linux/fsuidgid.h       | 122 +++++++++++++
+ include/linux/stat.h           |   1 +
+ include/linux/user_namespace.h |  10 ++
+ init/Kconfig                   |  11 ++
+ kernel/capability.c            |  10 +-
+ kernel/ptrace.c                |   4 +-
+ kernel/sys.c                   | 106 +++++++++---
+ kernel/user.c                  |  22 +++
+ kernel/user_namespace.c        | 303 ++++++++++++++++++++++++++++++++-
+ security/commoncap.c           |  35 ++--
+ 22 files changed, 757 insertions(+), 98 deletions(-)
+ create mode 100644 include/linux/fsuidgid.h
+
+
+base-commit: bb6d3fb354c5ee8d6bde2d576eb7220ea09862b9
 -- 
-Jens Axboe
+2.25.0
 
