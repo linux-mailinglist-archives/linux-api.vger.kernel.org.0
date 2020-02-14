@@ -2,48 +2,48 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 314D415E954
-	for <lists+linux-api@lfdr.de>; Fri, 14 Feb 2020 18:07:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E41015E958
+	for <lists+linux-api@lfdr.de>; Fri, 14 Feb 2020 18:07:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403948AbgBNRGX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 14 Feb 2020 12:06:23 -0500
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:43286 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2394502AbgBNRGW (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 14 Feb 2020 12:06:22 -0500
-Received: by mail-pl1-f195.google.com with SMTP id p11so3938114plq.10;
-        Fri, 14 Feb 2020 09:06:22 -0800 (PST)
+        id S2405268AbgBNRGb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 14 Feb 2020 12:06:31 -0500
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:41419 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404173AbgBNRGa (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 14 Feb 2020 12:06:30 -0500
+Received: by mail-pl1-f196.google.com with SMTP id t14so3944859plr.8;
+        Fri, 14 Feb 2020 09:06:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=gRy5L/NnyJoS2OmlDqUm+MfIJpvKwHXn+HXMaRFsP54=;
-        b=a3RgWYknp3aBE8KobRcbN/rCDxpNx9DBj5n7uvvVHS2JEIrakFpt7XwPXPmxZzG3l6
-         +wuaX5L6PqE1/IqPrTWiEMrTiUydOnsonFMYRhixjJyhg/DNlrNh1F9KetYktv0wevo9
-         A3/rVuwX1FxopwKr7ShZ3xoBw/ZoX3HQwpvBjuR2zBSX6fh4hXXCkSDZvoq+Xgv4wPyH
-         jMfRW2dIg+uPxb1dxWa12TvwNbgnvfh5AQhdGLQWXxhBWYBg5cNoOmeizIPe6ucXYZYG
-         LRupuxhsdoMeF9i/JkdpqJXoYZzzb5HmAIg0fWbRVIhQA1kNYwaQ4xZmr/khBwvy+InK
-         GMYQ==
+        bh=R66XKPvBxqpxo7iMIyU+G3YX3vLAVwMoSg/oCCOPM6c=;
+        b=I0kE/hGL8Zsgc74d67WkWf94B3lrUOTjc1PnWdmkE3Pk2rAq4CLywAIj9CqgPFwD4U
+         /i/SCuPL7Mvju9Y7uTHUXYdvbmfrQTdUunPd5tT1eKug/losWVdNHFIboyvjCKmCrxnk
+         pC9fE8pM+3WNCV5Zfy0Jftj2HaV12cNwvGbH4W7wfcmCCoaJF8fBX5+SPLr8vTMRcCxM
+         fuervFFcOuTBJ1XiyNz8HHSSnAeL94e0t/RySterT2+/SW4e3Gq6LeZYJRVYDLQMCNJE
+         dItl0BRKzgfOSBgCrAEdeUnSHvIxxochJo1wjbFKsjmJTxJCBeQD5xh2tF+UcCU51KOb
+         xM1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=gRy5L/NnyJoS2OmlDqUm+MfIJpvKwHXn+HXMaRFsP54=;
-        b=QSkyIET1HhjLQOIeVGM7f7n/ctMOF1lbwoiLsHOPNk3FXn66Ei/mKvU88BFZrZW/rx
-         ZKohrf1SrINdqP4o9ND6T75KFprnnyZLZLQilBlSraJKuGl9XcswvVPGbRQ13EQQkl/2
-         e759tdHZKOqgewwDyGhGZAxO3DmSm/m5m+RpWUWyg70Ne58aB/AHsQoB6rovVl31CmkQ
-         UtS7+OtcnUvXg0S/riwZJOfr2jtHptED36HNySAvrDZMXzM3VDVPwfOl3Me9FTrpFaAU
-         nLgu4b7ZG9MVdlXyW2a0bfyHsRg3jRBZX5h8kC4O7/Htq2OOr9KrwFXa7sE+Fgyf27Tu
-         TJrQ==
-X-Gm-Message-State: APjAAAULtjokXqnh9fKnzLRld/t+PI2PeLPmoCAMllCxOk4Qm/2JiPnU
-        2OS8YhoOKYvbfkk7p2R+G98=
-X-Google-Smtp-Source: APXvYqxkQjUfp4sJ7OTXS5M1xqiEpED7kh+kjiS+rgHdddd36PL3o1LAU+jD/WiYx/YX1/Cx4dhMoA==
-X-Received: by 2002:a17:902:b215:: with SMTP id t21mr4293214plr.190.1581699981877;
-        Fri, 14 Feb 2020 09:06:21 -0800 (PST)
+        bh=R66XKPvBxqpxo7iMIyU+G3YX3vLAVwMoSg/oCCOPM6c=;
+        b=ik0/Sl4SGiqkKGOC9Fq1Qhf2Rf+UBUgAtl9zR7j68ixgVlEbODisOoQsc8BBFcyMlK
+         6Vi8CGylxKeRB+t0zGPHf0QQk53IEc0mMn7lVqbQBYNxHbBM7LWaQv//tZv/Qld90OuA
+         W4CZxUTJKOEneMXQ0xTyCmRhGBAEVG7uc6VZnuY9E6tMlGt2wL7lmhmuF9mKLeHv6QiP
+         czJUXhunWQ3F27+NrnWlazIieoeTS21UutlfGmm+Asj2knYFxi7ufMsw6tS45gBRTKHr
+         k8CIt+579/iSOwxiMFVX9Lbz9Nz8Ko/6wnTcpZKxSVWAVR4abfEVgriPIvquWuSqQr0z
+         Bw3g==
+X-Gm-Message-State: APjAAAWusyxnKsaKLAtVev1SN43NraQ62ZsmPpAovHUlzFBWqgoW32yA
+        VaOT603cNTcZPS2ZMxN7eqw=
+X-Google-Smtp-Source: APXvYqz5cYkCvXS9hd5Np+Hbagcxe+bpyjSJHEfYShA6ygQz8K5or1mGdHjY13gyXIHKMm0BXLc7aA==
+X-Received: by 2002:a17:902:a610:: with SMTP id u16mr4245899plq.305.1581699989175;
+        Fri, 14 Feb 2020 09:06:29 -0800 (PST)
 Received: from bbox-1.mtv.corp.google.com ([2620:15c:211:1:3e01:2939:5992:52da])
-        by smtp.gmail.com with ESMTPSA id a13sm7662924pfg.65.2020.02.14.09.06.15
+        by smtp.gmail.com with ESMTPSA id a13sm7662924pfg.65.2020.02.14.09.06.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Feb 2020 09:06:19 -0800 (PST)
+        Fri, 14 Feb 2020 09:06:26 -0800 (PST)
 From:   Minchan Kim <minchan@kernel.org>
 To:     Andrew Morton <akpm@linux-foundation.org>
 Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
@@ -61,10 +61,11 @@ Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
         Joel Fernandes <joel@joelfernandes.org>, sj38.park@gmail.com,
         alexander.h.duyck@linux.intel.com, Jann Horn <jannh@google.com>,
         Minchan Kim <minchan@kernel.org>,
-        Christian Brauner <christian@brauner.io>
-Subject: [PATCH v5 4/7] pid: export pidfd_get_pid
-Date:   Fri, 14 Feb 2020 09:05:17 -0800
-Message-Id: <20200214170520.160271-5-minchan@kernel.org>
+        Christian Brauner <christian@brauner.io>,
+        Kirill Tkhai <ktkhai@virtuozzo.com>
+Subject: [PATCH v5 5/7] mm: support both pid and pidfd for process_madvise
+Date:   Fri, 14 Feb 2020 09:05:18 -0800
+Message-Id: <20200214170520.160271-6-minchan@kernel.org>
 X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
 In-Reply-To: <20200214170520.160271-1-minchan@kernel.org>
 References: <20200214170520.160271-1-minchan@kernel.org>
@@ -75,87 +76,112 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-process_madvise syscall needs pidfd_get_pid function to translate
-pidfd to pid so this patch exports the function.
+There is a demand[1] to support pid as well pidfd for process_madvise
+to reduce unnecessary syscall to get pidfd if the user has control of
+the target process(ie, they could guarantee the process is not gone
+or pid is not reused. Or, it might be okay to give a hint to wrong
+process).
+
+This patch aims for supporting both options like waitid(2). So, the
+syscall is currently,
+
+	int process_madvise(int which, pid_t pid, void *addr,
+		size_t length, int advise, unsigned long flag);
+
+@which is actually idtype_t for userspace libray and currently,
+it supports P_PID and P_PIDFD.
+
+[1]  https://lore.kernel.org/linux-mm/9d849087-3359-c4ab-fbec-859e8186c509@virtuozzo.com/
 
 Cc: Christian Brauner <christian@brauner.io>
-Suggested-by: Alexander Duyck <alexander.h.duyck@linux.intel.com>
-Reviewed-by: Alexander Duyck <alexander.h.duyck@linux.intel.com>
+Suggested-by: Kirill Tkhai <ktkhai@virtuozzo.com>
 Signed-off-by: Minchan Kim <minchan@kernel.org>
 ---
- include/linux/pid.h |  1 +
- kernel/exit.c       | 17 -----------------
- kernel/pid.c        | 17 +++++++++++++++++
- 3 files changed, 18 insertions(+), 17 deletions(-)
+ include/linux/syscalls.h |  3 ++-
+ mm/madvise.c             | 34 ++++++++++++++++++++++------------
+ 2 files changed, 24 insertions(+), 13 deletions(-)
 
-diff --git a/include/linux/pid.h b/include/linux/pid.h
-index 998ae7d24450..023d9c3a8edc 100644
---- a/include/linux/pid.h
-+++ b/include/linux/pid.h
-@@ -75,6 +75,7 @@ extern const struct file_operations pidfd_fops;
- struct file;
- 
- extern struct pid *pidfd_pid(const struct file *file);
-+extern struct pid *pidfd_get_pid(unsigned int fd);
- 
- static inline struct pid *get_pid(struct pid *pid)
- {
-diff --git a/kernel/exit.c b/kernel/exit.c
-index 0b81b26a872a..43375f9d8bbc 100644
---- a/kernel/exit.c
-+++ b/kernel/exit.c
-@@ -1470,23 +1470,6 @@ static long do_wait(struct wait_opts *wo)
- 	return retval;
+diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+index e4cd2c2f8bb4..f5ada20e2943 100644
+--- a/include/linux/syscalls.h
++++ b/include/linux/syscalls.h
+@@ -876,7 +876,8 @@ asmlinkage long sys_munlockall(void);
+ asmlinkage long sys_mincore(unsigned long start, size_t len,
+ 				unsigned char __user * vec);
+ asmlinkage long sys_madvise(unsigned long start, size_t len, int behavior);
+-asmlinkage long sys_process_madvise(int pidfd, unsigned long start,
++
++asmlinkage long sys_process_madvise(int which, pid_t pid, unsigned long start,
+ 			size_t len, int behavior, unsigned long flags);
+ asmlinkage long sys_remap_file_pages(unsigned long start, unsigned long size,
+ 			unsigned long prot, unsigned long pgoff,
+diff --git a/mm/madvise.c b/mm/madvise.c
+index fca3a9e9bd39..bbbfea93396a 100644
+--- a/mm/madvise.c
++++ b/mm/madvise.c
+@@ -1180,11 +1180,10 @@ SYSCALL_DEFINE3(madvise, unsigned long, start, size_t, len_in, int, behavior)
+ 	return do_madvise(current, current->mm, start, len_in, behavior);
  }
  
--static struct pid *pidfd_get_pid(unsigned int fd)
--{
+-SYSCALL_DEFINE5(process_madvise, int, pidfd, unsigned long, start,
++SYSCALL_DEFINE6(process_madvise, int, which, pid_t, upid, unsigned long, start,
+ 		size_t, len_in, int, behavior, unsigned long, flags)
+ {
+ 	int ret;
 -	struct fd f;
--	struct pid *pid;
--
--	f = fdget(fd);
--	if (!f.file)
--		return ERR_PTR(-EBADF);
--
--	pid = pidfd_pid(f.file);
--	if (!IS_ERR(pid))
--		get_pid(pid);
--
--	fdput(f);
--	return pid;
--}
--
- static long kernel_waitid(int which, pid_t upid, struct waitid_info *infop,
- 			  int options, struct rusage *ru)
- {
-diff --git a/kernel/pid.c b/kernel/pid.c
-index 0f4ecb57214c..360ba480a2a9 100644
---- a/kernel/pid.c
-+++ b/kernel/pid.c
-@@ -496,6 +496,23 @@ struct pid *find_ge_pid(int nr, struct pid_namespace *ns)
- 	return idr_get_next(&ns->idr, &nr);
- }
+ 	struct pid *pid;
+ 	struct task_struct *task;
+ 	struct mm_struct *mm;
+@@ -1195,20 +1194,31 @@ SYSCALL_DEFINE5(process_madvise, int, pidfd, unsigned long, start,
+ 	if (!process_madvise_behavior_valid(behavior))
+ 		return -EINVAL;
  
-+struct pid *pidfd_get_pid(unsigned int fd)
-+{
-+	struct fd f;
-+	struct pid *pid;
+-	f = fdget(pidfd);
+-	if (!f.file)
+-		return -EBADF;
++	switch (which) {
++	case P_PID:
++		if (upid <= 0)
++			return -EINVAL;
 +
-+	f = fdget(fd);
-+	if (!f.file)
-+		return ERR_PTR(-EBADF);
-+
-+	pid = pidfd_pid(f.file);
-+	if (!IS_ERR(pid))
-+		get_pid(pid);
-+
-+	fdput(f);
-+	return pid;
-+}
-+
- /**
-  * pidfd_create() - Create a new pid file descriptor.
-  *
++		pid = find_get_pid(upid);
++		if (!pid)
++			return -ESRCH;
++		break;
++	case P_PIDFD:
++		if (upid < 0)
++			return -EINVAL;
+ 
+-	pid = pidfd_pid(f.file);
+-	if (IS_ERR(pid)) {
+-		ret = PTR_ERR(pid);
+-		goto fdput;
++		pid = pidfd_get_pid(upid);
++		if (IS_ERR(pid))
++			return PTR_ERR(pid);
++		break;
++	default:
++		return -EINVAL;
+ 	}
+ 
+ 	task = get_pid_task(pid, PIDTYPE_PID);
+ 	if (!task) {
+ 		ret = -ESRCH;
+-		goto fdput;
++		goto put_pid;
+ 	}
+ 
+ 	mm = mm_access(task, PTRACE_MODE_ATTACH_FSCREDS);
+@@ -1221,7 +1231,7 @@ SYSCALL_DEFINE5(process_madvise, int, pidfd, unsigned long, start,
+ 	mmput(mm);
+ release_task:
+ 	put_task_struct(task);
+-fdput:
+-	fdput(f);
++put_pid:
++	put_pid(pid);
+ 	return ret;
+ }
 -- 
 2.25.0.265.gbab2e86ba0-goog
 
