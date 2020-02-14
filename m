@@ -2,91 +2,108 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BF2615F652
-	for <lists+linux-api@lfdr.de>; Fri, 14 Feb 2020 20:03:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2343F15F670
+	for <lists+linux-api@lfdr.de>; Fri, 14 Feb 2020 20:09:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729499AbgBNTDU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 14 Feb 2020 14:03:20 -0500
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:33352 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725932AbgBNTDU (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 14 Feb 2020 14:03:20 -0500
-Received: by mail-pl1-f193.google.com with SMTP id ay11so4073336plb.0
-        for <linux-api@vger.kernel.org>; Fri, 14 Feb 2020 11:03:18 -0800 (PST)
+        id S2387605AbgBNTJy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 14 Feb 2020 14:09:54 -0500
+Received: from mail-io1-f66.google.com ([209.85.166.66]:42347 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387576AbgBNTJy (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 14 Feb 2020 14:09:54 -0500
+Received: by mail-io1-f66.google.com with SMTP id z1so11112367iom.9
+        for <linux-api@vger.kernel.org>; Fri, 14 Feb 2020 11:09:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tycho-ws.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=X67Mr7JHgMW0MtPbY5RUDBc6idW8KEYPReWaSuRnXh4=;
-        b=v0JLbJHanSqJgxnGB542gdGMsejEY6woNkilQ94b+P9gJ+YAMQgsu9ur6JPedZ9A3Y
-         F2taOjVCszau/FtGTE4KIYWb00umSwqDTMoeIGGck0H4ZjPOUWqry7S8K5Fh6x28E6iF
-         SmB56gTFYXn3LYMGEXqJsCBWipK43wSQa3ZDgo9lFxdMW4DVx4MCAFdqH4uMq98UCSIy
-         c/9MmVX/DzPYfTZvGTwAJ5SMGNPcSMRjI7NG0ecOjiyy9p2kZXVm4ZJcMAnPZQlkGSPK
-         XMzeJo/tveLYVOhGY1FueG8X0zp7bDjMGTcFGvf/espDzfHyJ5pmJJVFdkWZzoJOr9qB
-         0RLQ==
+        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=3nQft3zNgFt5uQU8oAfUWTsZHLYmMf56s+RYaheimZE=;
+        b=MyO7QGdH+798UZjnAMYOkuj8AFhvD2grF/mlXVN0vybPurAJxYZ3oL+IKZCAWZdcy+
+         6FvlmOcxSEeyW8GYOiu92uMLIpGO5GXj3ROj/POgPywHF+Dt2fQxlx1GIav6E7x8zu1c
+         CTgCm8fggVi5/kFqoAyeAhSdRpnkaQluMrEathIPxVTtnDPqtth+G/BB5JjQt+WUNXJ9
+         jTURq56vwZzGFlpQN6IhytUiG3E2ru0w7HUvwsQRSSwxhzmPCj1Kew74eBYQZNib9FRM
+         aCVMOfr4k5v9e+J+g08mdNKZWQHugVJLIgsInifA26Ph3dd5Xl2RBoil6Z1ALotLGyjj
+         NqYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=X67Mr7JHgMW0MtPbY5RUDBc6idW8KEYPReWaSuRnXh4=;
-        b=m1nvYvj1hmTTfTwIahDDVL81Jr3+qawHP9nmFlwPS51v2JcJhoZBCI4NOII6iP9HsA
-         u4htu7kNDYS3f1ImCZlHL+KnX32YT8ZrCa1zbcVr3/ZPUGnFfn1Sd8OGJtFdKFnNt9MP
-         E4UKRwrAWWGpgFmYcGZ8x8Q3MipGBgtqx6w8LGoqs7q0QztJ5oxQx3j8a1hlJSfEM0A9
-         T3UQOTxTux9Jma8aWSWS8At85ccIlVrKQK1JEpNODggiMA14QXFzexprI2DJaao/9vgz
-         TBf8q508Gvz58yiRUM0CQIlvk5GRjGw5zLZHRPC2FvHgVovUj/irVh8Az1NJdbSqKG8z
-         lQpA==
-X-Gm-Message-State: APjAAAUj9/+L2EfXcGDqmVefRakRqp0xYgaHL7yvTUCdcBKGDty51tes
-        2NM3oURr+tkhSk/qssqPsN7b9g==
-X-Google-Smtp-Source: APXvYqwcwuUZwJSa7Do9y4rRp+P0PvJ6ZLvjFhDsEpfTEuG614CCQQrcH1qgYMDHXD8v2yUJD9C+uQ==
-X-Received: by 2002:a17:90a:fe02:: with SMTP id ck2mr5267083pjb.10.1581706997875;
-        Fri, 14 Feb 2020 11:03:17 -0800 (PST)
-Received: from cisco ([2001:420:c0c8:1005::22c])
-        by smtp.gmail.com with ESMTPSA id r6sm7877667pfh.91.2020.02.14.11.03.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Feb 2020 11:03:17 -0800 (PST)
-Date:   Fri, 14 Feb 2020 12:03:14 -0700
-From:   Tycho Andersen <tycho@tycho.ws>
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     =?iso-8859-1?Q?St=E9phane?= Graber <stgraber@ubuntu.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Aleksa Sarai <cyphar@cyphar.com>, Jann Horn <jannh@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        containers@lists.linux-foundation.org, smbarber@chromium.org,
-        Seth Forshee <seth.forshee@canonical.com>,
-        linux-security-module@vger.kernel.org,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        Alexey Dobriyan <adobriyan@gmail.com>
-Subject: Re: [PATCH v2 19/28] stat: handle fsid mappings
-Message-ID: <20200214190314.GD22883@cisco>
-References: <20200214183554.1133805-1-christian.brauner@ubuntu.com>
- <20200214183554.1133805-20-christian.brauner@ubuntu.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=3nQft3zNgFt5uQU8oAfUWTsZHLYmMf56s+RYaheimZE=;
+        b=F9sxbDWEuidcx/spE/9psBxvJiL0vfNShXSQWr2HX+e1zBMGMDLpoBH/0KeherG39k
+         2c35dmEOiv/KveI8wfw8bmgTo87t+PbMJcnYF8/uBYCMiBcFl6YAce+oCZfI/E8TQpYg
+         nHnvlfLH+8H63bgViW+O89n4BX3TOIVKNNmI1f+VN4Kwofx6SJvbmCCVp4MZWm62x81z
+         mnftHpkvOaOVEPvmkPZ5FEMBJrwS620JVEVZrWR9RPSRFoR2LEsx+1PHNDB/FaFObQ7C
+         rn3hVzGegWLDwZ3bLsO3MTOj5+MZ+9uLuzTuty2IUjYgtwL543JBiBBa9Pr9RcMoQQsW
+         /k8A==
+X-Gm-Message-State: APjAAAWxEnBqIHZxho4PhqXUyFNcV/yjkPJoLQPDlvChvnH+b4TdSE0B
+        B2yVztilqhKrld8f3MGlsaUpJQ==
+X-Google-Smtp-Source: APXvYqxw24vmx09MidR6SM+oAC5IbyGhplcGKEG/Y6qBp3Q33Biv24Xoj209dgWP5oW04FL2GGkyzA==
+X-Received: by 2002:a02:cab0:: with SMTP id e16mr3903013jap.6.1581707393584;
+        Fri, 14 Feb 2020 11:09:53 -0800 (PST)
+Received: from [192.168.1.159] ([65.144.74.34])
+        by smtp.gmail.com with ESMTPSA id z21sm1692252ioj.21.2020.02.14.11.09.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Feb 2020 11:09:53 -0800 (PST)
+Subject: Re: [PATCH v5 1/7] mm: pass task and mm to do_madvise
+To:     Minchan Kim <minchan@kernel.org>
+Cc:     Jann Horn <jannh@google.com>, io-uring <io-uring@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Oleksandr Natalenko <oleksandr@redhat.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Tim Murray <timmurray@google.com>,
+        Daniel Colascione <dancol@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Brian Geffon <bgeffon@google.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        John Dias <joaodias@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>, sj38.park@gmail.com,
+        Alexander Duyck <alexander.h.duyck@linux.intel.com>
+References: <20200214170520.160271-1-minchan@kernel.org>
+ <20200214170520.160271-2-minchan@kernel.org>
+ <CAG48ez3S5+EasZ1ZWcMQYZQQ5zJOBtY-_C7oz6DMfG4Gcyig1g@mail.gmail.com>
+ <68044a15-6a31-e432-3105-f2f1af9f4b74@kernel.dk>
+ <20200214184514.GA165785@google.com>
+From:   Jens Axboe <axboe@kernel.dk>
+Message-ID: <93aadcc6-3ef5-4ea0-be6b-23c06862002e@kernel.dk>
+Date:   Fri, 14 Feb 2020 12:09:50 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200214183554.1133805-20-christian.brauner@ubuntu.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200214184514.GA165785@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Feb 14, 2020 at 07:35:45PM +0100, Christian Brauner wrote:
-> @@ -471,8 +484,13 @@ static long cp_new_stat64(struct kstat *stat, struct stat64 __user *statbuf)
->  #endif
->  	tmp.st_mode = stat->mode;
->  	tmp.st_nlink = stat->nlink;
-> -	tmp.st_uid = from_kuid_munged(current_user_ns(), stat->uid);
-> -	tmp.st_gid = from_kgid_munged(current_user_ns(), stat->gid);
-> +	if (stat->userns_visible) {
-> +		tmp.st_uid, from_kuid_munged(current_user_ns(), stat->uid);
-> +		tmp.st_gid, from_kgid_munged(current_user_ns(), stat->gid);
-> +	} else {
-> +		tmp.st_uid, from_kfsuid_munged(current_user_ns(), stat->uid);
-> +		tmp.st_gid, from_kfsgid_munged(current_user_ns(), stat->gid);
-> +	}
+On 2/14/20 11:45 AM, Minchan Kim wrote:
+> diff --git a/fs/io_uring.c b/fs/io_uring.c
+> index 63beda9bafc5..1c7e9cd6c8ce 100644
+> --- a/fs/io_uring.c
+> +++ b/fs/io_uring.c
+> @@ -2736,7 +2736,7 @@ static int io_madvise(struct io_kiocb *req, struct io_kiocb **nxt,
+>  	if (force_nonblock)
+>  		return -EAGAIN;
+>  
+> -	ret = do_madvise(ma->addr, ma->len, ma->advice);
+> +	ret = do_madvise(NULL, current->mm, ma->addr, ma->len, ma->advice);
+>  	if (ret < 0)
+>  		req_set_fail_links(req);
+>  	io_cqring_add_event(req, ret);
 
-I suppose this should be = ?
+I think we want to use req->work.mm here - it'll be the same as
+current->mm at this point, but it makes it clear that we're using a
+grabbed mm.
 
-Tycho
+-- 
+Jens Axboe
+
