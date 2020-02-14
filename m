@@ -2,453 +2,226 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A72BB15D0EC
-	for <lists+linux-api@lfdr.de>; Fri, 14 Feb 2020 05:10:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 08E7C15D1AF
+	for <lists+linux-api@lfdr.de>; Fri, 14 Feb 2020 06:36:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728621AbgBNEKi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 13 Feb 2020 23:10:38 -0500
-Received: from mail-ua1-f73.google.com ([209.85.222.73]:46954 "EHLO
-        mail-ua1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728416AbgBNEKi (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 13 Feb 2020 23:10:38 -0500
-Received: by mail-ua1-f73.google.com with SMTP id 107so2044297uau.13
-        for <linux-api@vger.kernel.org>; Thu, 13 Feb 2020 20:10:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=2uoNUUGtHwnITLt2DMb1JQQT22YDWW1bocfB8RTH9Fw=;
-        b=LQPVFDje4iIkzs/Lq0cNUS+xTINGSTgVULCElCh14tLPD2INxCJgjei1vspVBaASzc
-         SNvStdSwbZHxBn9lokVpawwO/wQYX96pM0XptK3rG94rH8GSzWDQETZ5vx6BxXjFOI94
-         mF6mjr/L1Hop7uop0gby+4xGRz0rXQGcFmb1T6sELlHiQQRrZvO7osvNUuCtj3oBOz9A
-         Jslh6nUYoKu5+/57XX62hH5IYioZBtV0Ds/zIl5qaTMp9CII8H7XfKf3KWQyC1HWgI33
-         0x5LGgag6SOYQOCN8MCorkurk+8dmPR4pewBKH2QD9hxq74tVaJVqY7KipQc5zM+lw3a
-         xX+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=2uoNUUGtHwnITLt2DMb1JQQT22YDWW1bocfB8RTH9Fw=;
-        b=YlXQ2MoMkWulMbljcdZ3TVdz9QDOz2nLj3TPGi/R9dhOQHTJA9U25PD+rlOXKthCTH
-         rTD5fSxiBM0c5Gs3GQUZCKr/eOxjdlXr1Ej16jrgJMgH8UJKk7ub0y8GCQvrOFRSUSTj
-         KL3MCsWNS05ZASW5U/jeR/zqwCz6Ax2yjtroGU4C7IHYgWHshU52A1VfsUwfj64Z2j61
-         i4omMSiPGkSRK19w45pVtQyb8qH+dkcjGUh2HKo2tWEqkujK87lhamobUQn/UdDOIoeV
-         qSFy+n3Hv/3+J3zS27v5+c65mpzD20Q1ZLp14CYXqs0V04foflKbCt2ML6LYamyO9OL0
-         dPmQ==
-X-Gm-Message-State: APjAAAX/XNmHaqhdrnAc0TkNQq8foKJu9XanfSquwXf4DHoNRbkm0NJm
-        RfS/fLyRGC5fkV/QoKq+KWOyDkuDAOWv
-X-Google-Smtp-Source: APXvYqwsH7G0kvl5P2gwLIJaneCn1/p4BLpgvi86EadxVGGeuN+Um7Lvo0ziXTBjXF+U0dp2mijCA+5q7ug2
-X-Received: by 2002:ab0:248a:: with SMTP id i10mr590373uan.108.1581653435831;
- Thu, 13 Feb 2020 20:10:35 -0800 (PST)
-Date:   Thu, 13 Feb 2020 20:09:52 -0800
-In-Reply-To: <20200214040952.43195-1-bgeffon@google.com>
-Message-Id: <20200214040952.43195-2-bgeffon@google.com>
-Mime-Version: 1.0
-References: <20200207201856.46070-1-bgeffon@google.com> <20200214040952.43195-1-bgeffon@google.com>
-X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
-Subject: [PATCH v5 2/2] selftest: Add MREMAP_DONTUNMAP selftest.
-From:   Brian Geffon <bgeffon@google.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     "Michael S . Tsirkin" <mst@redhat.com>,
-        Brian Geffon <bgeffon@google.com>,
-        Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-api@vger.kernel.org,
-        Andy Lutomirski <luto@amacapital.net>,
-        Will Deacon <will@kernel.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Yu Zhao <yuzhao@google.com>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "Kirill A . Shutemov" <kirill@shutemov.name>
-Content-Type: text/plain; charset="UTF-8"
+        id S1726092AbgBNFgO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 14 Feb 2020 00:36:14 -0500
+Received: from out03.mta.xmission.com ([166.70.13.233]:40568 "EHLO
+        out03.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725975AbgBNFgO (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 14 Feb 2020 00:36:14 -0500
+X-Greylist: delayed 6310 seconds by postgrey-1.27 at vger.kernel.org; Fri, 14 Feb 2020 00:36:13 EST
+Received: from in01.mta.xmission.com ([166.70.13.51])
+        by out03.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.90_1)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1j2S0H-0007eG-Fg; Thu, 13 Feb 2020 20:50:57 -0700
+Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
+        by in01.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.87)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1j2S04-0006sC-0X; Thu, 13 Feb 2020 20:50:57 -0700
+From:   ebiederm@xmission.com (Eric W. Biederman)
+To:     Al Viro <viro@zeniv.linux.org.uk>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        Linux Security Module <linux-security-module@vger.kernel.org>,
+        Akinobu Mita <akinobu.mita@gmail.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Daniel Micay <danielmicay@gmail.com>,
+        Djalal Harouni <tixxdz@gmail.com>,
+        "Dmitry V . Levin" <ldv@altlinux.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Jeff Layton <jlayton@poochiereds.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Solar Designer <solar@openwall.com>
+References: <87v9obipk9.fsf@x220.int.ebiederm.org>
+        <CAHk-=wgwmu4jpmOqW0+Lz0dcem1Fub=ThLHvmLobf_WqCq7bwg@mail.gmail.com>
+        <20200212200335.GO23230@ZenIV.linux.org.uk>
+        <CAHk-=wi+1CPShMFvJNPfnrJ8DD8uVKUOQ5TQzQUNGLUkeoahkg@mail.gmail.com>
+        <20200212203833.GQ23230@ZenIV.linux.org.uk>
+        <20200212204124.GR23230@ZenIV.linux.org.uk>
+        <CAHk-=wi5FOGV_3tALK3n6E2fK3Oa_yCYkYQtCSaXLSEm2DUCKg@mail.gmail.com>
+        <87lfp7h422.fsf@x220.int.ebiederm.org>
+        <CAHk-=wgmn9Qds0VznyphouSZW6e42GWDT5H1dpZg8pyGDGN+=w@mail.gmail.com>
+        <87pnejf6fz.fsf@x220.int.ebiederm.org>
+        <20200213055527.GS23230@ZenIV.linux.org.uk>
+Date:   Thu, 13 Feb 2020 21:48:48 -0600
+In-Reply-To: <20200213055527.GS23230@ZenIV.linux.org.uk> (Al Viro's message of
+        "Thu, 13 Feb 2020 05:55:27 +0000")
+Message-ID: <87tv3tde1r.fsf@x220.int.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
+X-XM-SPF: eid=1j2S04-0006sC-0X;;;mid=<87tv3tde1r.fsf@x220.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX1/1dFI6wvja0DiTAq8ebep58YMngTYQfmY=
+X-SA-Exim-Connect-IP: 68.227.160.95
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa07.xmission.com
+X-Spam-Level: 
+X-Spam-Status: No, score=0.5 required=8.0 tests=ALL_TRUSTED,BAYES_50,
+        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,XMSubLong autolearn=disabled
+        version=3.4.2
+X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4986]
+        *  0.7 XMSubLong Long Subject
+        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
+        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
+        *      [sa07 1397; Body=1 Fuz1=1 Fuz2=1]
+X-Spam-DCC: XMission; sa07 1397; Body=1 Fuz1=1 Fuz2=1 
+X-Spam-Combo: ;Al Viro <viro@zeniv.linux.org.uk>
+X-Spam-Relay-Country: 
+X-Spam-Timing: total 12984 ms - load_scoreonly_sql: 0.04 (0.0%),
+        signal_user_changed: 2.7 (0.0%), b_tie_ro: 1.92 (0.0%), parse: 1.00
+        (0.0%), extract_message_metadata: 12 (0.1%), get_uri_detail_list: 2.5
+        (0.0%), tests_pri_-1000: 4.6 (0.0%), tests_pri_-950: 1.19 (0.0%),
+        tests_pri_-900: 0.96 (0.0%), tests_pri_-90: 33 (0.3%), check_bayes: 32
+        (0.2%), b_tokenize: 11 (0.1%), b_tok_get_all: 11 (0.1%), b_comp_prob:
+        3.3 (0.0%), b_tok_touch_all: 4.1 (0.0%), b_finish: 0.64 (0.0%),
+        tests_pri_0: 338 (2.6%), check_dkim_signature: 0.54 (0.0%),
+        check_dkim_adsp: 2.4 (0.0%), poll_dns_idle: 12569 (96.8%),
+        tests_pri_10: 2.0 (0.0%), tests_pri_500: 12587 (96.9%), rewrite_mail:
+        0.00 (0.0%)
+Subject: Re: [PATCH v8 07/11] proc: flush task dcache entries from all procfs instances
+X-Spam-Flag: No
+X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
+X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Add a few simple self tests for the new flag MREMAP_DONTUNMAP,
-they are simple smoke tests which also demonstrate the behavior.
+Al Viro <viro@zeniv.linux.org.uk> writes:
 
-Signed-off-by: Brian Geffon <bgeffon@google.com>
----
- tools/testing/selftests/vm/Makefile           |   1 +
- tools/testing/selftests/vm/mremap_dontunmap.c | 326 ++++++++++++++++++
- tools/testing/selftests/vm/run_vmtests        |  15 +
- 3 files changed, 342 insertions(+)
- create mode 100644 tools/testing/selftests/vm/mremap_dontunmap.c
+> On Wed, Feb 12, 2020 at 10:37:52PM -0600, Eric W. Biederman wrote:
+>
+>> I think I have an alternate idea that could work.  Add some extra code
+>> into proc_task_readdir, that would look for dentries that no longer
+>> point to tasks and d_invalidate them.  With the same logic probably
+>> being called from a few more places as well like proc_pid_readdir,
+>> proc_task_lookup, and proc_pid_lookup.
+>> 
+>> We could even optimize it and have a process died flag we set in the
+>> superblock.
+>> 
+>> That would would batch up the freeing work until the next time someone
+>> reads from proc in a way that would create more dentries.  So it would
+>> prevent dentries from reaped zombies from growing without bound.
+>> 
+>> Hmm.  Given the existence of proc_fill_cache it would really be a good
+>> idea if readdir and lookup performed some of the freeing work as well.
+>> As on readdir we always populate the dcache for all of the directory
+>> entries.
+>
+> First of all, that won't do a damn thing when nobody is accessing
+> given superblock.  What's more, readdir in root of that procfs instance
+> is not enough - you need it in task/ of group leader.
 
-diff --git a/tools/testing/selftests/vm/Makefile b/tools/testing/selftests/vm/Makefile
-index 9534dc2bc929..4b2b969fc3c7 100644
---- a/tools/testing/selftests/vm/Makefile
-+++ b/tools/testing/selftests/vm/Makefile
-@@ -12,6 +12,7 @@ TEST_GEN_FILES += map_fixed_noreplace
- TEST_GEN_FILES += map_populate
- TEST_GEN_FILES += mlock-random-test
- TEST_GEN_FILES += mlock2-tests
-+TEST_GEN_FILES += mremap_dontunmap
- TEST_GEN_FILES += on-fault-limit
- TEST_GEN_FILES += thuge-gen
- TEST_GEN_FILES += transhuge-stress
-diff --git a/tools/testing/selftests/vm/mremap_dontunmap.c b/tools/testing/selftests/vm/mremap_dontunmap.c
-new file mode 100644
-index 000000000000..de2a861c7c6d
---- /dev/null
-+++ b/tools/testing/selftests/vm/mremap_dontunmap.c
-@@ -0,0 +1,326 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+/*
-+ * Tests for mremap w/ MREMAP_DONTUNMAP.
-+ *
-+ * Copyright 2020, Brian Geffon <bgeffon@google.com>
-+ */
-+#define _GNU_SOURCE
-+#include <sys/mman.h>
-+#include <errno.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <stdlib.h>
-+#include <unistd.h>
-+
-+#include "../kselftest.h"
-+
-+#ifndef MREMAP_DONTUNMAP
-+#define MREMAP_DONTUNMAP 4
-+#endif
-+
-+unsigned long page_size;
-+char *page_buffer;
-+
-+static void dump_maps(void)
-+{
-+        char cmd[32];
-+
-+        snprintf(cmd, sizeof(cmd), "cat /proc/%d/maps", getpid());
-+        system(cmd);
-+}
-+
-+#define BUG_ON(condition, description)					      \
-+	do {								      \
-+		if (condition) {					      \
-+			fprintf(stderr, "[FAIL]\t%s():%d\t%s:%s\n", __func__, \
-+				__LINE__, (description), strerror(errno));    \
-+			dump_maps();                                          \
-+			exit(1);					      \
-+		} 							      \
-+	} while (0)
-+
-+// Try a simple operation for to "test" for kernel support this prevents
-+// reporting tests as failed when it's run on an older kernel.
-+static int kernel_support_for_mremap_dontunmap()
-+{
-+        int ret = 0;
-+        unsigned long num_pages = 1;
-+        void *source_mapping = mmap(NULL, num_pages * page_size, PROT_NONE,
-+                                    MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+        BUG_ON(source_mapping == MAP_FAILED, "mmap");
-+
-+        // This simple remap should only fail if MREMAP_DONTUNMAP isn't
-+        // supported.
-+        void *dest_mapping =
-+            mremap(source_mapping, num_pages * page_size, num_pages * page_size,
-+                   MREMAP_DONTUNMAP | MREMAP_MAYMOVE, 0);
-+        if (dest_mapping == MAP_FAILED) {
-+                ret = errno;
-+        } else {
-+                BUG_ON(munmap(dest_mapping, num_pages * page_size) == -1,
-+                       "unable to unmap destination mapping");
-+        }
-+
-+        BUG_ON(munmap(source_mapping, num_pages * page_size) == -1,
-+               "unable to unmap source mapping");
-+        return ret;
-+}
-+
-+// This helper will just validate that an entire mapping contains the expected
-+// byte.
-+static int check_region_contains_byte(void *addr, unsigned long size, char byte)
-+{
-+        BUG_ON(size & (page_size - 1),
-+               "check_region_contains_byte expects page multiples");
-+        BUG_ON((unsigned long)addr & (page_size - 1),
-+               "check_region_contains_byte expects page alignment");
-+
-+        memset(page_buffer, byte, page_size);
-+
-+        unsigned long num_pages = size / page_size;
-+        unsigned long i;
-+
-+        // Compare each page checking that it contains our expected byte.
-+        for (i = 0; i < num_pages; ++i) {
-+                int ret =
-+                    memcmp(addr + (i * page_size), page_buffer, page_size);
-+                if (ret) {
-+                        return ret;
-+                }
-+        }
-+
-+        return 0;
-+}
-+
-+// this test validates that MREMAP_DONTUNMAP moves the pagetables while leaving
-+// the source mapping mapped.
-+static void mremap_dontunmap_simple()
-+{
-+        unsigned long num_pages = 5;
-+
-+        void *source_mapping =
-+            mmap(NULL, num_pages * page_size, PROT_READ | PROT_WRITE,
-+                 MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+        BUG_ON(source_mapping == MAP_FAILED, "mmap");
-+
-+        memset(source_mapping, 'a', num_pages * page_size);
-+
-+        // Try to just move the whole mapping anywhere (not fixed).
-+        void *dest_mapping =
-+            mremap(source_mapping, num_pages * page_size, num_pages * page_size,
-+                   MREMAP_DONTUNMAP | MREMAP_MAYMOVE, NULL);
-+        BUG_ON(dest_mapping == MAP_FAILED, "mremap");
-+
-+        // Validate that the pages have been moved, we know they were moved if
-+        // the dest_mapping contains a's.
-+        BUG_ON(check_region_contains_byte
-+               (dest_mapping, num_pages * page_size, 'a') != 0,
-+               "pages did not migrate");
-+        BUG_ON(check_region_contains_byte
-+               (source_mapping, num_pages * page_size, 0) != 0,
-+               "source should have no ptes");
-+
-+        BUG_ON(munmap(dest_mapping, num_pages * page_size) == -1,
-+               "unable to unmap destination mapping");
-+        BUG_ON(munmap(source_mapping, num_pages * page_size) == -1,
-+               "unable to unmap source mapping");
-+}
-+
-+// This test validates MREMAP_DONTUNMAP will move page tables to a specific
-+// destination using MREMAP_FIXED, also while validating that the source
-+// remains intact.
-+static void mremap_dontunmap_simple_fixed()
-+{
-+        unsigned long num_pages = 5;
-+
-+        // Since we want to guarantee that we can remap to a point, we will
-+        // create a mapping up front.
-+        void *dest_mapping =
-+            mmap(NULL, num_pages * page_size, PROT_READ | PROT_WRITE,
-+                 MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+        BUG_ON(dest_mapping == MAP_FAILED, "mmap");
-+        memset(dest_mapping, 'X', num_pages * page_size);
-+
-+        void *source_mapping =
-+            mmap(NULL, num_pages * page_size, PROT_READ | PROT_WRITE,
-+                 MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+        BUG_ON(source_mapping == MAP_FAILED, "mmap");
-+        memset(source_mapping, 'a', num_pages * page_size);
-+
-+        void *remapped_mapping =
-+            mremap(source_mapping, num_pages * page_size, num_pages * page_size,
-+                   MREMAP_FIXED | MREMAP_DONTUNMAP | MREMAP_MAYMOVE,
-+                   dest_mapping);
-+        BUG_ON(remapped_mapping == MAP_FAILED, "mremap");
-+        BUG_ON(remapped_mapping != dest_mapping,
-+               "mremap should have placed the remapped mapping at dest_mapping");
-+
-+        // The dest mapping will have been unmap by mremap so we expect the Xs
-+        // to be gone and replaced with a's.
-+        BUG_ON(check_region_contains_byte
-+               (dest_mapping, num_pages * page_size, 'a') != 0,
-+               "pages did not migrate");
-+
-+        // And the source mapping will have had its ptes dropped.
-+        BUG_ON(check_region_contains_byte
-+               (source_mapping, num_pages * page_size, 0) != 0,
-+               "source should have no ptes");
-+
-+        BUG_ON(munmap(dest_mapping, num_pages * page_size) == -1,
-+               "unable to unmap destination mapping");
-+        BUG_ON(munmap(source_mapping, num_pages * page_size) == -1,
-+               "unable to unmap source mapping");
-+}
-+
-+// This test validates that we can MREMAP_DONTUNMAP for a portion of an
-+// existing mapping.
-+static void mremap_dontunmap_partial_mapping()
-+{
-+        /*
-+         *  source mapping:
-+         *  --------------
-+         *  | aaaaaaaaaa |
-+         *  --------------
-+         *  to become:
-+         *  --------------
-+         *  | aaaaa00000 |
-+         *  --------------
-+         *  With the destination mapping containing 5 pages of As.
-+         *  ---------
-+         *  | aaaaa |
-+         *  ---------
-+         */
-+        unsigned long num_pages = 10;
-+        void *source_mapping =
-+            mmap(NULL, num_pages * page_size, PROT_READ | PROT_WRITE,
-+                 MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+        BUG_ON(source_mapping == MAP_FAILED, "mmap");
-+        memset(source_mapping, 'a', num_pages * page_size);
-+
-+        // We will grab the last 5 pages of the source and move them.
-+        void *dest_mapping =
-+            mremap(source_mapping + (5 * page_size), 5 * page_size,
-+                   5 * page_size,
-+                   MREMAP_DONTUNMAP | MREMAP_MAYMOVE, NULL);
-+        BUG_ON(dest_mapping == MAP_FAILED, "mremap");
-+
-+        // We expect the first 5 pages of the source to contain a's and the
-+        // final 5 pages to contain zeros.
-+        BUG_ON(check_region_contains_byte(source_mapping, 5 * page_size, 'a') !=
-+               0, "first 5 pages of source should have original pages");
-+        BUG_ON(check_region_contains_byte
-+               (source_mapping + (5 * page_size), 5 * page_size, 0) != 0,
-+               "final 5 pages of source should have no ptes");
-+
-+        // Finally we expect the destination to have 5 pages worth of a's.
-+        BUG_ON(check_region_contains_byte(dest_mapping, 5 * page_size, 'a') !=
-+               0, "dest mapping should contain ptes from the source");
-+
-+        BUG_ON(munmap(dest_mapping, 5 * page_size) == -1,
-+               "unable to unmap destination mapping");
-+        BUG_ON(munmap(source_mapping, num_pages * page_size) == -1,
-+               "unable to unmap source mapping");
-+}
-+
-+// This test validates that we can shrink an existing mapping via the normal
-+// mremap behavior along with the MREMAP_DONTUNMAP flag.
-+static void mremap_dontunmap_shrink_mapping()
-+{
-+        /*
-+         * We shrink the source by 5 pages while remapping.
-+         *  source mapping:
-+         *  --------------
-+         *  | aaaaaaaaaa |
-+         *  --------------
-+         *  to become:
-+         *  ---------
-+         *  | 00000 |
-+         *  ---------
-+         *  With the destination mapping containing 5 pages of As followed by
-+         *  the original pages of Xs.
-+         *  --------------
-+         *  | aaaaaXXXXX |
-+         *  --------------
-+         */
-+
-+        unsigned long num_pages = 10;
-+
-+        // We use MREMAP_FIXED because we don't want the mremap to place the
-+        // remapped mapping behind the source, if it did
-+        // we wouldn't be able to validate that the mapping was in fact
-+        // adjusted.
-+        void *dest_mapping =
-+            mmap(NULL, num_pages * page_size, PROT_READ | PROT_WRITE,
-+                 MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+        BUG_ON(dest_mapping == MAP_FAILED, "mmap");
-+        memset(dest_mapping, 'X', num_pages * page_size);
-+
-+        void *source_mapping =
-+            mmap(NULL, num_pages * page_size, PROT_READ | PROT_WRITE,
-+                 MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+        BUG_ON(source_mapping == MAP_FAILED, "mmap");
-+        memset(source_mapping, 'a', num_pages * page_size);
-+
-+        // We are shrinking the mapping while also using MREMAP_DONTUNMAP
-+        void *remapped_mapping =
-+            mremap(source_mapping, num_pages * page_size, 5 * page_size,
-+                   MREMAP_FIXED | MREMAP_DONTUNMAP | MREMAP_MAYMOVE,
-+                   dest_mapping);
-+        BUG_ON(remapped_mapping == MAP_FAILED, "mremap");
-+        BUG_ON(remapped_mapping != dest_mapping,
-+               "expected mremap to place mapping at dest");
-+
-+        // The last 5 pages of source should have become unmapped while the
-+        // first 5 remain.
-+        unsigned char buf[5];
-+        int ret = mincore(source_mapping + (5 * page_size), 5 * page_size, buf);
-+        BUG_ON((ret != -1 || (ret == -1 && errno != ENOMEM)),
-+               "we expect -ENOMEM from mincore.");
-+
-+        BUG_ON(check_region_contains_byte(source_mapping, 5 * page_size, 0) !=
-+               0, "source should have no ptes");
-+        BUG_ON(check_region_contains_byte(dest_mapping, 5 * page_size, 'a') !=
-+               0, "dest mapping should contain ptes from the source");
-+
-+        // And the second half of the destination should be unchanged.
-+        BUG_ON(check_region_contains_byte(dest_mapping + (5 * page_size),
-+                                          5 * page_size, 'X') != 0,
-+               "second half of dest shouldn't be touched");
-+
-+        // Cleanup
-+        BUG_ON(munmap(dest_mapping, num_pages * page_size) == -1,
-+               "unable to unmap destination mapping");
-+        BUG_ON(munmap(source_mapping, 5 * page_size) == -1,
-+               "unable to unmap source mapping");
-+}
-+
-+int main(void)
-+{
-+        page_size = sysconf(_SC_PAGE_SIZE);
-+
-+        // test for kernel support for MREMAP_DONTUNMAP skipping the test if
-+        // not.
-+        if (kernel_support_for_mremap_dontunmap() != 0) {
-+		printf("No kernel support for MREMAP_DONTUNMAP\n");
-+		return KSFT_SKIP;
-+	}
-+
-+        // Keep a page sized buffer around for when we need it.
-+        page_buffer =
-+            mmap(NULL, page_size, PROT_READ | PROT_WRITE,
-+                 MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+        BUG_ON(page_buffer == MAP_FAILED, "unable to mmap a page.");
-+
-+        mremap_dontunmap_simple();
-+        mremap_dontunmap_simple_fixed();
-+        mremap_dontunmap_partial_mapping();
-+        mremap_dontunmap_shrink_mapping();
-+
-+        BUG_ON(munmap(page_buffer, page_size) == -1,
-+               "unable to unmap page buffer");
-+
-+        printf("OK\n");
-+        return 0;
-+}
-diff --git a/tools/testing/selftests/vm/run_vmtests b/tools/testing/selftests/vm/run_vmtests
-index 951c507a27f7..d380b95c5de5 100755
---- a/tools/testing/selftests/vm/run_vmtests
-+++ b/tools/testing/selftests/vm/run_vmtests
-@@ -227,4 +227,19 @@ else
- 	exitcode=1
- fi
- 
-+echo "------------------------------------"
-+echo "running MREMAP_DONTUNMAP smoke test"
-+echo "------------------------------------"
-+./mremap_dontunmap
-+ret_val=$?
-+
-+if [ $ret_val -eq 0 ]; then
-+	echo "[PASS]"
-+elif [ $ret_val -eq $ksft_skip ]; then
-+	 echo "[SKIP]"
-+	 exitcode=$ksft_skip
-+else
-+	echo "[FAIL]"
-+	exitcode=1
-+fi
- exit $exitcode
--- 
-2.25.0.265.gbab2e86ba0-goog
+It should give a rough bound on the number of stale dentries a
+superblock can have.  The same basic concept has been used very
+successfully in many incremental garbage collectors.  In those malloc
+(or the equivalent) does a finite amount of garbage collection work to
+roughly balance out the amount of memory allocated.  I am proposing
+something similar for proc instances.
+
+Further if no one is accessing a superblock we don't have a problem
+either.
+
+
+> What I don't understand is the insistence on getting those dentries
+> via dcache lookups.  _IF_ we are willing to live with cacheline
+> contention (on ->d_lock of root dentry, if nothing else), why not
+> do the following:
+
+No insistence from this side.
+
+I was not seeing atomic_inc_not_zero(sb->s_active) from rcu
+context as option earlier.  But it is an option.
+
+> 	* put all dentries of such directories ([0-9]* and [0-9]*/task/*)
+> into a list anchored in task_struct; have non-counting reference to
+> task_struct stored in them (might simplify part of get_proc_task() users,
+> BTW - avoids pid-to-task_struct lookups if we have a dentry and not just
+> the inode; many callers do)
+> 	* have ->d_release() remove from it (protecting per-task_struct lock
+> nested outside of all ->d_lock)
+> 	* on exit:
+> 	lock the (per-task_struct) list
+> 	while list is non-empty
+> 		pick the first dentry
+> 		remove from the list
+> 		sb = dentry->d_sb
+> 		try to bump sb->s_active (if non-zero, that is).
+> 		if failed
+> 			continue // move on to the next one - nothing to do here
+> 		grab ->d_lock
+> 		res = handle_it(dentry, &temp_list)
+> 		drop ->d_lock
+> 		unlock the list
+> 		if (!list_empty(&temp_list))
+> 			shrink_dentry_list(&temp_list)
+> 		if (res)
+> 			d_invalidate(dentry)
+> 			dput(dentry)
+> 		deactivate_super(sb)
+> 		lock the list
+> 	unlock the list
+>
+> handle_it(dentry, temp_list) // ->d_lock held; that one should be in dcache.c
+> 	if ->d_count is negative // unlikely
+> 		return 0;
+> 	if ->d_count is positive,
+> 		increment ->d_count
+> 		return 1;
+> 	// OK, it's still alive, but ->d_count is 0
+> 	__d_drop	// equivalent of d_invalidate in this case
+> 	if not on a shrink list // otherwise it's not our headache
+> 		if on lru list
+> 			d_lru_del
+> 		d_shrink_add dentry to temp_list
+> 	return 0;
+>
+> And yeah, that'll dirty ->s_active for each procfs superblock that
+> has dentry for our process present in dcache.  On exit()...
+
+
+I would thread the whole thing through the proc_inode instead of coming
+up with a new allocation per dentry so an extra memory allocation isn't
+needed.  We already have i_dentry.  So going from the vfs_inode to
+the dentry is trivial.
+
+
+
+But truthfully I don't like proc_flush_task.
+
+The problem is that proc_flush_task is a layering violation and magic
+code that pretty much no one understands.  We have some very weird
+cases where dput or d_invalidate wound up triggering ext3 code.  It has
+been fixed for a long time now, but it wasy crazy weird unexpected
+stuff.
+
+
+Al your logic above just feels very clever, and like many pieces of the
+kernel have to know how other pieces of the kernel work.  If we can find
+something stupid and simple that also solves the problem I would be much
+happier.   Than anyone could understand and fix it if something goes
+wrong.
+
+Eric
+
+
+
+
+
 
