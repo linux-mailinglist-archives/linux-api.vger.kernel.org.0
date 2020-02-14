@@ -2,108 +2,200 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2343F15F670
-	for <lists+linux-api@lfdr.de>; Fri, 14 Feb 2020 20:09:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C31F15F695
+	for <lists+linux-api@lfdr.de>; Fri, 14 Feb 2020 20:13:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387605AbgBNTJy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 14 Feb 2020 14:09:54 -0500
-Received: from mail-io1-f66.google.com ([209.85.166.66]:42347 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387576AbgBNTJy (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 14 Feb 2020 14:09:54 -0500
-Received: by mail-io1-f66.google.com with SMTP id z1so11112367iom.9
-        for <linux-api@vger.kernel.org>; Fri, 14 Feb 2020 11:09:54 -0800 (PST)
+        id S2388381AbgBNTNH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 14 Feb 2020 14:13:07 -0500
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:44471 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388662AbgBNTMF (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 14 Feb 2020 14:12:05 -0500
+Received: by mail-ot1-f67.google.com with SMTP id h9so10134211otj.11
+        for <linux-api@vger.kernel.org>; Fri, 14 Feb 2020 11:12:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=3nQft3zNgFt5uQU8oAfUWTsZHLYmMf56s+RYaheimZE=;
-        b=MyO7QGdH+798UZjnAMYOkuj8AFhvD2grF/mlXVN0vybPurAJxYZ3oL+IKZCAWZdcy+
-         6FvlmOcxSEeyW8GYOiu92uMLIpGO5GXj3ROj/POgPywHF+Dt2fQxlx1GIav6E7x8zu1c
-         CTgCm8fggVi5/kFqoAyeAhSdRpnkaQluMrEathIPxVTtnDPqtth+G/BB5JjQt+WUNXJ9
-         jTURq56vwZzGFlpQN6IhytUiG3E2ru0w7HUvwsQRSSwxhzmPCj1Kew74eBYQZNib9FRM
-         aCVMOfr4k5v9e+J+g08mdNKZWQHugVJLIgsInifA26Ph3dd5Xl2RBoil6Z1ALotLGyjj
-         NqYw==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6uqzI/vJCb+lytMRQLBtmGBNvQ3CBGyQ4CHe99juhWw=;
+        b=A01RKV0yUncA2zmUFntZswW/86rIj8tLC2M+AhXaShqxWykJDCkRYD43cXW50sXU39
+         MAa7XyeI7GLjetxuKiKl6Z+csq3oWb/Ynl+99TLWkIoJSkpYl2aCL7j/cGo8BHzrvsd2
+         8aySaepz0fQ2TgDbNN875+eReDdnjC93cTHaog9V5AwTUQwx8yb1iHjXkm3WNamm65pV
+         hGFAn/wkc14F1h7uUo5Lzol4RTLd0WtY2Xogo92Ly7NncWyYlAwKRiui1jUZR5WcYhIt
+         FXIzTf3dg9PluaRNFM74ih0l8HABOHZ+yTWC3VapgIcDQ1btBJ0IDtlJKNucSnOnbLig
+         c0/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=3nQft3zNgFt5uQU8oAfUWTsZHLYmMf56s+RYaheimZE=;
-        b=F9sxbDWEuidcx/spE/9psBxvJiL0vfNShXSQWr2HX+e1zBMGMDLpoBH/0KeherG39k
-         2c35dmEOiv/KveI8wfw8bmgTo87t+PbMJcnYF8/uBYCMiBcFl6YAce+oCZfI/E8TQpYg
-         nHnvlfLH+8H63bgViW+O89n4BX3TOIVKNNmI1f+VN4Kwofx6SJvbmCCVp4MZWm62x81z
-         mnftHpkvOaOVEPvmkPZ5FEMBJrwS620JVEVZrWR9RPSRFoR2LEsx+1PHNDB/FaFObQ7C
-         rn3hVzGegWLDwZ3bLsO3MTOj5+MZ+9uLuzTuty2IUjYgtwL543JBiBBa9Pr9RcMoQQsW
-         /k8A==
-X-Gm-Message-State: APjAAAWxEnBqIHZxho4PhqXUyFNcV/yjkPJoLQPDlvChvnH+b4TdSE0B
-        B2yVztilqhKrld8f3MGlsaUpJQ==
-X-Google-Smtp-Source: APXvYqxw24vmx09MidR6SM+oAC5IbyGhplcGKEG/Y6qBp3Q33Biv24Xoj209dgWP5oW04FL2GGkyzA==
-X-Received: by 2002:a02:cab0:: with SMTP id e16mr3903013jap.6.1581707393584;
-        Fri, 14 Feb 2020 11:09:53 -0800 (PST)
-Received: from [192.168.1.159] ([65.144.74.34])
-        by smtp.gmail.com with ESMTPSA id z21sm1692252ioj.21.2020.02.14.11.09.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Feb 2020 11:09:53 -0800 (PST)
-Subject: Re: [PATCH v5 1/7] mm: pass task and mm to do_madvise
-To:     Minchan Kim <minchan@kernel.org>
-Cc:     Jann Horn <jannh@google.com>, io-uring <io-uring@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Oleksandr Natalenko <oleksandr@redhat.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Tim Murray <timmurray@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Brian Geffon <bgeffon@google.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        John Dias <joaodias@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>, sj38.park@gmail.com,
-        Alexander Duyck <alexander.h.duyck@linux.intel.com>
-References: <20200214170520.160271-1-minchan@kernel.org>
- <20200214170520.160271-2-minchan@kernel.org>
- <CAG48ez3S5+EasZ1ZWcMQYZQQ5zJOBtY-_C7oz6DMfG4Gcyig1g@mail.gmail.com>
- <68044a15-6a31-e432-3105-f2f1af9f4b74@kernel.dk>
- <20200214184514.GA165785@google.com>
-From:   Jens Axboe <axboe@kernel.dk>
-Message-ID: <93aadcc6-3ef5-4ea0-be6b-23c06862002e@kernel.dk>
-Date:   Fri, 14 Feb 2020 12:09:50 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6uqzI/vJCb+lytMRQLBtmGBNvQ3CBGyQ4CHe99juhWw=;
+        b=bpc0ExUNlnqP1MjmS3emi4rzkr5VGW36yifm9CqKCAkB/DG4mijlVpvUKsZmzPCImW
+         dU4ZxwF/m+ojz9dod1jIkILW9KEHK8ej40jEKQIueL4cN3vXEurEHb/bFMiSAPRULw8i
+         WPmi/1owbWk1+BRy1nC65tUmd4xFVcqPkBJPt+qL0ylUtYpO+NVfNoJVEHsNxez+mSaW
+         zg9XslD82WSA2Xv2TgPSf07sTrIE85roFBdWKgOlYjMZ06CUJEV0gr3Tev788OFf+CUE
+         UA/ApToJPPOqsXKaEcYUJGyazxw2ntobX2PIggKGLA71o13dJ666lEGqso9N2STtZfSG
+         TYow==
+X-Gm-Message-State: APjAAAXiS/Oxl568eC8wy4We+JWpL0m6Q5kRBwkI45w799tcC/AVe7uC
+        yEgFy3Fpe9wY4A2cNtt+VSqW/1KFxHf1Pi0o2WtBaQ==
+X-Google-Smtp-Source: APXvYqw9Sh4U5QH4PzNP9ZbTWhW45tXHy/W8ePIQAS0ykZLvuNQTIJlI1t1RupZqm8jvXOKMHeZWx2pyg/XWkHVOixM=
+X-Received: by 2002:a05:6830:1d6e:: with SMTP id l14mr3411629oti.32.1581707524096;
+ Fri, 14 Feb 2020 11:12:04 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200214184514.GA165785@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200214183554.1133805-1-christian.brauner@ubuntu.com> <20200214183554.1133805-5-christian.brauner@ubuntu.com>
+In-Reply-To: <20200214183554.1133805-5-christian.brauner@ubuntu.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Fri, 14 Feb 2020 20:11:36 +0100
+Message-ID: <CAG48ez2o81ZwwL9muYyheN9vY69vJR5sB9LsLh=nk6wB4iuUgw@mail.gmail.com>
+Subject: Re: [PATCH v2 04/28] fsuidgid: add fsid mapping helpers
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     =?UTF-8?Q?St=C3=A9phane_Graber?= <stgraber@ubuntu.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Stephen Barber <smbarber@chromium.org>,
+        Seth Forshee <seth.forshee@canonical.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Serge Hallyn <serge@hallyn.com>,
+        James Morris <jmorris@namei.org>,
+        Kees Cook <keescook@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Phil Estes <estesp@gmail.com>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux Containers <containers@lists.linux-foundation.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2/14/20 11:45 AM, Minchan Kim wrote:
-> diff --git a/fs/io_uring.c b/fs/io_uring.c
-> index 63beda9bafc5..1c7e9cd6c8ce 100644
-> --- a/fs/io_uring.c
-> +++ b/fs/io_uring.c
-> @@ -2736,7 +2736,7 @@ static int io_madvise(struct io_kiocb *req, struct io_kiocb **nxt,
->  	if (force_nonblock)
->  		return -EAGAIN;
->  
-> -	ret = do_madvise(ma->addr, ma->len, ma->advice);
-> +	ret = do_madvise(NULL, current->mm, ma->addr, ma->len, ma->advice);
->  	if (ret < 0)
->  		req_set_fail_links(req);
->  	io_cqring_add_event(req, ret);
+On Fri, Feb 14, 2020 at 7:37 PM Christian Brauner
+<christian.brauner@ubuntu.com> wrote:
+> This adds a set of helpers to translate between kfsuid/kfsgid and their
+> userspace fsuid/fsgid counter parts relative to a given user namespace.
+>
+> - kuid_t make_kfsuid(struct user_namespace *from, uid_t fsuid)
+>   Maps a user-namespace fsuid pair into a kfsuid.
+>   If no fsuid mappings have been written it behaves identical to calling
+>   make_kuid(). This ensures backwards compatibility for workloads unaware
+>   or not in need of fsid mappings.
+[...]
+> +#ifdef CONFIG_USER_NS_FSID
+> +/**
+> + *     make_kfsuid - Map a user-namespace fsuid pair into a kuid.
+> + *     @ns:  User namespace that the fsuid is in
+> + *     @fsuid: User identifier
+> + *
+> + *     Maps a user-namespace fsuid pair into a kernel internal kfsuid,
+> + *     and returns that kfsuid.
+> + *
+> + *     When there is no mapping defined for the user-namespace kfsuid
+> + *     pair INVALID_UID is returned.  Callers are expected to test
+> + *     for and handle INVALID_UID being returned.  INVALID_UID
+> + *     may be tested for using uid_valid().
+> + */
+> +kuid_t make_kfsuid(struct user_namespace *ns, uid_t fsuid)
+> +{
+> +       unsigned extents = ns->fsuid_map.nr_extents;
+> +       smp_rmb();
+> +
+> +       /* Map the fsuid to a global kernel fsuid */
+> +       if (extents == 0)
+> +               return KUIDT_INIT(map_id_down(&ns->uid_map, fsuid));
+> +
+> +       return KUIDT_INIT(map_id_down(&ns->fsuid_map, fsuid));
+> +}
+> +EXPORT_SYMBOL(make_kfsuid);
 
-I think we want to use req->work.mm here - it'll be the same as
-current->mm at this point, but it makes it clear that we're using a
-grabbed mm.
+What effect is this fallback going to have for nested namespaces?
 
--- 
-Jens Axboe
+Let's say we have an outer namespace N1 with this uid_map:
 
+    0 100000 65535
+
+and with this fsuid_map:
+
+    0 300000 65535
+
+Now from in there, a process that is not aware of the existence of
+fsuid mappings creates a new user namespace N2 with the following
+uid_map:
+
+    0 1000 1
+
+At this point, if a process in N2 does chown("foo", 0, 0), is that
+going to make "foo" owned by kuid 101000, which isn't even mapped in
+N1?
+
+> @@ -1215,11 +1376,13 @@ static bool new_idmap_permitted(const struct file *file,
+>             uid_eq(ns->owner, cred->euid)) {
+>                 u32 id = new_map->extent[0].lower_first;
+>                 if (cap_setid == CAP_SETUID) {
+> -                       kuid_t uid = make_kuid(ns->parent, id);
+> +                       kuid_t uid = map_fsid ? make_kfsuid(ns->parent, id) :
+> +                                               make_kuid(ns->parent, id);
+>                         if (uid_eq(uid, cred->euid))
+>                                 return true;
+
+Let's say we have an outer user namespace N1 with this uid_map:
+
+    0 1000 3000
+
+and this fsuid_map:
+
+    0 2000 3000
+
+and in that namespace, a process is running as UID 1000 (which means
+kernel-euid=2000, kernel-fsuid=3000). Now this process unshares its
+user namespace and from this nested user namespace N2, tries to write
+the following fsuid_map:
+
+    0 1000 1
+
+This should work, since the only ID it maps is the one the process had
+in N1; but the code is AFAICS going to run as follows:
+
+        if ((new_map->nr_extents == 1) && (new_map->extent[0].count == 1) &&
+            uid_eq(ns->owner, cred->euid)) { // branch taken
+                u32 id = new_map->extent[0].lower_first;
+                if (cap_setid == CAP_SETUID) { // branch taken
+                        // uid = make_kfsuid(ns->parent, 1000) = 3000
+                        kuid_t uid = map_fsid ? make_kfsuid(ns->parent, id) :
+                                                make_kuid(ns->parent, id);
+                        // uid_eq(3000, 2000)
+                        if (uid_eq(uid, cred->euid)) // not taken
+                                return true;
+                } else [...]
+        }
+
+Instead, I think what would succeed is this, which shouldn't be allowed:
+
+    0 0 1
+
+which AFAICS will evaluate as follows:
+
+        if ((new_map->nr_extents == 1) && (new_map->extent[0].count == 1) &&
+            uid_eq(ns->owner, cred->euid)) { // branch taken
+                u32 id = new_map->extent[0].lower_first;
+                if (cap_setid == CAP_SETUID) { // branch taken
+                        // uid = make_kfsuid(ns->parent, 0) = 2000
+                        kuid_t uid = map_fsid ? make_kfsuid(ns->parent, id) :
+                                                make_kuid(ns->parent, id);
+                        // uid_eq(2000, 2000)
+                        if (uid_eq(uid, cred->euid)) // taken
+                                return true;
+                } else [...]
+        }
+
+>                 } else if (cap_setid == CAP_SETGID) {
+> -                       kgid_t gid = make_kgid(ns->parent, id);
+> +                       kgid_t gid = map_fsid ? make_kfsgid(ns->parent, id) :
+> +                                               make_kgid(ns->parent, id);
+>                         if (!(ns->flags & USERNS_SETGROUPS_ALLOWED) &&
+>                             gid_eq(gid, cred->egid))
+>                                 return true;
+> --
+> 2.25.0
+>
