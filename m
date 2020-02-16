@@ -2,66 +2,67 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 82428160444
-	for <lists+linux-api@lfdr.de>; Sun, 16 Feb 2020 15:12:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E10BA1604AC
+	for <lists+linux-api@lfdr.de>; Sun, 16 Feb 2020 17:03:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726671AbgBPOMm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 16 Feb 2020 09:12:42 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:46336 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726171AbgBPOMl (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 16 Feb 2020 09:12:41 -0500
-Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1j3Kf0-0000yC-JA; Sun, 16 Feb 2020 14:12:38 +0000
-Date:   Sun, 16 Feb 2020 15:12:37 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Tycho Andersen <tycho@tycho.ws>
-Cc:     linux-security-module@vger.kernel.org,
+        id S1728346AbgBPQDQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 16 Feb 2020 11:03:16 -0500
+Received: from albireo.enyo.de ([37.24.231.21]:41926 "EHLO albireo.enyo.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728293AbgBPQDP (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Sun, 16 Feb 2020 11:03:15 -0500
+X-Greylist: delayed 325 seconds by postgrey-1.27 at vger.kernel.org; Sun, 16 Feb 2020 11:03:14 EST
+Received: from [172.17.203.2] (helo=deneb.enyo.de)
+        by albireo.enyo.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        id 1j3MID-0006zV-7T; Sun, 16 Feb 2020 15:57:13 +0000
+Received: from fw by deneb.enyo.de with local (Exim 4.92)
+        (envelope-from <fw@deneb.enyo.de>)
+        id 1j3MGr-0001RD-Ge; Sun, 16 Feb 2020 16:55:49 +0100
+From:   Florian Weimer <fw@deneb.enyo.de>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     =?iso-8859-1?Q?St=E9phane?= Graber <stgraber@ubuntu.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Aleksa Sarai <cyphar@cyphar.com>, Jann Horn <jannh@google.com>,
+        smbarber@chromium.org, Seth Forshee <seth.forshee@canonical.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Serge Hallyn <serge@hallyn.com>,
+        James Morris <jmorris@namei.org>,
         Kees Cook <keescook@chromium.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        linux-api@vger.kernel.org, containers@lists.linux-foundation.org,
-        Jann Horn <jannh@google.com>, linux-kernel@vger.kernel.org,
-        smbarber@chromium.org, Seth Forshee <seth.forshee@canonical.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Phil Estes <estesp@gmail.com>, linux-kernel@vger.kernel.org,
         linux-fsdevel@vger.kernel.org,
-        Alexander Viro <viro@zeniv.linux.org.uk>
-Subject: Re: [PATCH v2 19/28] stat: handle fsid mappings
-Message-ID: <20200216141237.nk7yh7hdwpo5nmfx@wittgenstein>
+        containers@lists.linux-foundation.org,
+        linux-security-module@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: [PATCH v2 00/28] user_namespace: introduce fsid mappings
 References: <20200214183554.1133805-1-christian.brauner@ubuntu.com>
- <20200214183554.1133805-20-christian.brauner@ubuntu.com>
- <20200214190314.GD22883@cisco>
+Date:   Sun, 16 Feb 2020 16:55:49 +0100
+In-Reply-To: <20200214183554.1133805-1-christian.brauner@ubuntu.com>
+        (Christian Brauner's message of "Fri, 14 Feb 2020 19:35:26 +0100")
+Message-ID: <87pneesf0a.fsf@mid.deneb.enyo.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200214190314.GD22883@cisco>
+Content-Type: text/plain
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Feb 14, 2020 at 12:03:14PM -0700, Tycho Andersen wrote:
-> On Fri, Feb 14, 2020 at 07:35:45PM +0100, Christian Brauner wrote:
-> > @@ -471,8 +484,13 @@ static long cp_new_stat64(struct kstat *stat, struct stat64 __user *statbuf)
-> >  #endif
-> >  	tmp.st_mode = stat->mode;
-> >  	tmp.st_nlink = stat->nlink;
-> > -	tmp.st_uid = from_kuid_munged(current_user_ns(), stat->uid);
-> > -	tmp.st_gid = from_kgid_munged(current_user_ns(), stat->gid);
-> > +	if (stat->userns_visible) {
-> > +		tmp.st_uid, from_kuid_munged(current_user_ns(), stat->uid);
-> > +		tmp.st_gid, from_kgid_munged(current_user_ns(), stat->gid);
-> > +	} else {
-> > +		tmp.st_uid, from_kfsuid_munged(current_user_ns(), stat->uid);
-> > +		tmp.st_gid, from_kfsgid_munged(current_user_ns(), stat->gid);
-> > +	}
-> 
-> I suppose this should be = ?
+* Christian Brauner:
 
-Good catch. I thought I had eliminated all those by doing automated
-conversion but apparently not. :)
+> With fsid mappings we can solve this by writing an id mapping of 0
+> 100000 100000 and an fsid mapping of 0 300000 100000. On filesystem
+> access the kernel will now lookup the mapping for 300000 in the fsid
+> mapping tables of the user namespace. And since such a mapping exists,
+> the corresponding files will have correct ownership.
 
-Christian
+I'm worried that this is a bit of a management nightmare because the
+data about the mapping does not live within the file system (it's
+externally determined, static, but crucial to the interpretation of
+file system content).  I expect that many organizations have
+centralized allocation of user IDs, but centralized allocation of the
+static mapping does not appear feasible.
+
+Have you considered a more complex design, where untranslated nested
+user IDs are store in a file attribute (or something like that)?  This
+way, any existing user ID infrastructure can be carried over largely
+unchanged.
