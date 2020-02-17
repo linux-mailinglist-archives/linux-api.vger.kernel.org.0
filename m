@@ -2,124 +2,181 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EF4A6161DA4
-	for <lists+linux-api@lfdr.de>; Tue, 18 Feb 2020 00:03:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C5BCF161DA9
+	for <lists+linux-api@lfdr.de>; Tue, 18 Feb 2020 00:04:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726097AbgBQXDi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 17 Feb 2020 18:03:38 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:56717 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725922AbgBQXDi (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 17 Feb 2020 18:03:38 -0500
-Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1j3pQK-0001Ar-JZ; Mon, 17 Feb 2020 23:03:32 +0000
-Date:   Tue, 18 Feb 2020 00:03:31 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc:     Dmitry Safonov <dima@arista.com>, Andrei Vagin <avagin@openvz.org>,
-        Linux Kernel <linux-kernel@vger.kernel.org>,
-        Dmitry Safonov <0x7f454c46@gmail.com>,
-        Adrian Reber <adrian@lisas.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Cyrill Gorcunov <gorcunov@openvz.org>,
+        id S1725922AbgBQXDz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 17 Feb 2020 18:03:55 -0500
+Received: from bedivere.hansenpartnership.com ([66.63.167.143]:39988 "EHLO
+        bedivere.hansenpartnership.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726231AbgBQXDy (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 17 Feb 2020 18:03:54 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by bedivere.hansenpartnership.com (Postfix) with ESMTP id EE5E08EE218;
+        Mon, 17 Feb 2020 15:03:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
+        s=20151216; t=1581980633;
+        bh=cKWeAR/GPO4WXEUP0uO66DaWo59eZHYqfr5lOCkqTw4=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=SNq/G+RmQ1Xdi9BnqL2fWWSLDefAI1VgoY2q0pyyUJVpRcwLgFz0OBTnAwFy6s4EA
+         rXmg9fCydpYYdXofbP/RCstUAYZNxT+P+EEwsOpEsRosTxEKhvql5Jk06fr2vuKjVF
+         BUmW6/qL9sAZnwVMYLGQomCOBiT7nKPLXFNeH79Y=
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+        by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 1jDa1pxOAIGq; Mon, 17 Feb 2020 15:03:51 -0800 (PST)
+Received: from jarvis.ext.hansenpartnership.com (jarvis.ext.hansenpartnership.com [153.66.160.226])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 4BF3F8EE0F5;
+        Mon, 17 Feb 2020 15:03:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
+        s=20151216; t=1581980631;
+        bh=cKWeAR/GPO4WXEUP0uO66DaWo59eZHYqfr5lOCkqTw4=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=sw4oW0ZJ8ACH2AmNd5N/cNFH7INRk1B8q9b3pWPMEMCOWhUnzQl1OiL1aDhe5bmfc
+         9e2tjZQpT5tIGmfyPcaIP+gbgXT2vcDOPGUkjTVkaiD7s6dKFErUBp/a2iugIEBo7Q
+         Vn2NEY26FVaqs01HeiqukgbjRKMFT6P+d8P0DYQ0=
+Message-ID: <1581980625.24289.30.camel@HansenPartnership.com>
+Subject: Re: [PATCH v2 00/28] user_namespace: introduce fsid mappings
+From:   James Bottomley <James.Bottomley@HansenPartnership.com>
+To:     =?ISO-8859-1?Q?St=E9phane?= Graber <stgraber@ubuntu.com>
+Cc:     linux-security-module@vger.kernel.org,
+        Kees Cook <keescook@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-api@vger.kernel.org,
+        Linux Containers <containers@lists.linux-foundation.org>,
+        Jann Horn <jannh@google.com>, linux-kernel@vger.kernel.org,
+        smbarber@chromium.org, Seth Forshee <seth.forshee@canonical.com>,
         "Eric W. Biederman" <ebiederm@xmission.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jann Horn <jannh@google.com>, Jeff Dike <jdike@addtoit.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Pavel Emelyanov <xemul@virtuozzo.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        containers <containers@lists.linux-foundation.org>,
-        criu@openvz.org, Linux API <linux-api@vger.kernel.org>,
-        x86@kernel.org, Andrei Vagin <avagin@gmail.com>
-Subject: Re: Time Namespaces: CLONE_NEWTIME and clone3()?
-Message-ID: <20200217230331.he6p5bs766zp6smx@wittgenstein>
-References: <20191112012724.250792-1-dima@arista.com>
- <20191112012724.250792-4-dima@arista.com>
- <CAHO5Pa2_7BzZPCXjFj4f=YoX28M4q2Au=h6GrzN-EjRffMo1iw@mail.gmail.com>
- <20200217145908.7epzz5nescccwvzv@wittgenstein>
- <CAKgNAkjfdWFwNdFzdBY81_8WZJNtbtztfjO9T2YNQDV4ThNiNw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAKgNAkjfdWFwNdFzdBY81_8WZJNtbtztfjO9T2YNQDV4ThNiNw@mail.gmail.com>
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>
+Date:   Mon, 17 Feb 2020 15:03:45 -0800
+In-Reply-To: <CA+enf=vwd-dxzve87t7Mw1Z35RZqdLzVaKq=fZ4EGOpnES0f5w@mail.gmail.com>
+References: <20200214183554.1133805-1-christian.brauner@ubuntu.com>
+         <1581973919.24289.12.camel@HansenPartnership.com>
+         <CA+enf=vwd-dxzve87t7Mw1Z35RZqdLzVaKq=fZ4EGOpnES0f5w@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.26.6 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Feb 17, 2020 at 10:47:53PM +0100, Michael Kerrisk (man-pages) wrote:
-> Hello Christian,
+On Mon, 2020-02-17 at 16:57 -0500, Stéphane Graber wrote:
+> On Mon, Feb 17, 2020 at 4:12 PM James Bottomley <
+> James.Bottomley@hansenpartnership.com> wrote:
 > 
-> On Mon, 17 Feb 2020 at 16:15, Christian Brauner
-> <christian.brauner@ubuntu.com> wrote:
-> >
-> > On Mon, Feb 17, 2020 at 03:20:55PM +0100, Michael Kerrisk wrote:
-> > > Hello Dmitry, Andrei,
-> > >
-> > > Is the CLONE_NEWTIME flag intended to be usable with clone3()? The
-> > > mail quoted below implies (in my reading) that this should be possible
-> > > once clone3() is available, which it is by now. (See also [1].)
-> > >
-> > > If the answer is yes, CLONE_NEWTIME  should be usable with clone3(),
-> > > then I have a bug report and a question.
-> > >
-> > > I successfully used CLONE_NEWTIME with unshare(). But if I try to use
-> > > CLONE_NEWSIGNAL with clone3(), it errors out with EINVAL, because of
-> >
-> > s/CLONE_NEWSIGNAL/CLONE_NEWTIME/
-> >
-> > > the following check in clone3_args_valid():
-> > >
-> > >         /*
-> > >          * - make the CLONE_DETACHED bit reuseable for clone3
-> > >          * - make the CSIGNAL bits reuseable for clone3
-> > >          */
-> > >         if (kargs->flags & (CLONE_DETACHED | CSIGNAL))
-> > >                 return false;
-> > >
-> > > The problem is that CLONE_NEWTIME matches one of the bits in the
-> > > CSIGNAL mask. If the intention is to allow CLONE_NEWTIME with
-> > > clone3(), then either the bit needs to be redefined, or the error
-> > > checking in clone3_args_valid() needs to be reworked.
-> >
-> > If this is intended to be useable with clone3() the check should be
-> > adapted to allow for CLONE_NEWTIME. (I asked about this a while ago I
-> > think.)
-> > But below rather sounds like it should simply be an unshare() flag. The
-> > code seems to set frozen_offsets to true right after copy_namespaces()
-> > in timens_on_fork(new_ns, tsk) and so the offsets can't be changed
-> > anymore unless I'm reading this wrong.
-> > Alternatives seem to either make timens_offsets writable once after fork
-> > and before exec, I guess - though that's probably not going to work
-> > with the vdso judging from timens_on_fork().
-> >
-> > The other alternative is that Andrei and Dmitry send me a patch to
-> > enable CLONE_NEWTIME with clone3() by exposing struct timens_offsets (or
-> > a version of it) in the uapi and extend struct clone_args to include a
-> > pointer to a struct timens_offset that is _only_ set when CLONE_NEWTIME
-> > is set.
-> > Though the unshare() way sounds way less invasive simpler.
+> > On Fri, 2020-02-14 at 19:35 +0100, Christian Brauner wrote:
+> > [...]
+> > > With this patch series we simply introduce the ability to create
+> > > fsid mappings that are different from the id mappings of a user
+> > > namespace. The whole feature set is placed under a config option
+> > > that defaults to false.
+> > > 
+> > > In the usual case of running an unprivileged container we will
+> > > have setup an id mapping, e.g. 0 100000 100000. The on-disk
+> > > mapping will correspond to this id mapping, i.e. all files which
+> > > we want to appear as 0:0 inside the user namespace will be
+> > > chowned to 100000:100000 on the host. This works, because
+> > > whenever the kernel needs to do a filesystem access it will
+> > > lookup the corresponding uid and gid in the idmapping tables of
+> > > the container.
+> > > Now think about the case where we want to have an id mapping of 0
+> > > 100000 100000 but an on-disk mapping of 0 300000 100000 which is
+> > > needed to e.g. share a single on-disk mapping with multiple
+> > > containers that all have different id mappings.
+> > > This will be problematic. Whenever a filesystem access is
+> > > requested, the kernel will now try to lookup a mapping for 300000
+> > > in the id mapping tables of the user namespace but since there is
+> > > none the files will appear to be owned by the overflow id, i.e.
+> > > usually 65534:65534 or nobody:nogroup.
+> > > 
+> > > With fsid mappings we can solve this by writing an id mapping of
+> > > 0 100000 100000 and an fsid mapping of 0 300000 100000. On
+> > > filesystem access the kernel will now lookup the mapping for
+> > > 300000 in the fsid mapping tables of the user namespace. And
+> > > since such a mapping exists, the corresponding files will have
+> > > correct ownership.
+> > 
+> > How do we parametrise this new fsid shift for the unprivileged use
+> > case?  For newuidmap/newgidmap, it's easy because each user gets a
+> > dedicated range and everything "just works (tm)".  However, for the
+> > fsid mapping, assuming some newfsuid/newfsgid tool to help, that
+> > tool has to know not only your allocated uid/gid chunk, but also
+> > the offset map of the image.  The former is easy, but the latter is
+> > going to vary by the actual image ... well unless we standardise
+> > some accepted shift for images and it simply becomes a known static
+> > offset.
+> > 
 > 
-> Actually, I think the alternative you propose just here is better. I
-> imagine there are times when one will want to create multiple
-> namespaces with a single call to clone3(), including a time namespace.
-> I think this should be allowed by the API. And, otherwise, clone3()
-> becomes something of a second-class citizen for creating namespaces.
-> (I don't really get the "less invasive" argument. Implementing this is
-> just a piece of kernel to code to make user-space's life a bit simpler
-> and more consistent.)
+> For unprivileged runtimes, I would expect images to be unshifted and
+> be unpacked from within a userns.
 
-I don't particularly mind either way. If there's actual users that need
-to set it at clone3() time then we can extend it. So I'd like to hear
-what Adrian, Dmitry, and Thomas think since they are well-versed how
-this will be used in the wild. I'm weary of exposing a whole new uapi
-struct and extending clone3() without any real use-case but I'm happy to
-if there is!
+For images whose resting format is an archive like tar, I concur.
 
-Christian
+>  So your unprivileged user would be allowed a uid/gid range through
+> /etc/subuid and /etc/subgid and allowed to use them through
+> newuidmap/newgidmap.In that namespace, you can then pull
+> and unpack any images/layers you may want and the resulting fs tree
+> will look correct from within that namespace.
+> 
+> All that is possible today and is how for example unprivileged LXC
+> works right now.
+
+I do have a counter example, but it might be more esoteric: I do use
+unprivileged architecture emulation containers to maintain actual
+physical system boot environments.  These are stored as mountable disk
+images, not as archives, so I do need a simple remapping ... however, I
+think this use case is simple: it's a back shift along my owned uid/gid
+range, so tools for allowing unprivileged use can easily cope with this
+use case, so the use is either fsid identity or fsid back along
+existing user_ns mapping.
+
+> What this patchset then allows is for containers to have differing
+> uid/gid maps while still being based off the same image or layers.
+> In this scenario, you would carve a subset of your main uid/gid map
+> for each container you run and run them in a child user namespace
+> while setting up a fsuid/fsgid map such that their filesystem access
+> do not follow their uid/gid map. This then results in proper
+> isolation for processes, networks, ... as everything runs as
+> different kuid/kgid but the VFS view will be the same in all
+> containers.
+
+Who owns the shifted range of the image ... all tenants or none?
+
+> Shared storage between those otherwise isolated containers would also
+> work just fine by simply bind-mounting the same path into two or more
+> containers.
+> 
+> 
+> Now one additional thing that would be safe for a setuid wrapper to
+> allow would be for arbitrary mapping of any of the uid/gid that the
+> user owns to be used within the fsuid/fsgid map. One potential use
+> for this would be to create any number of user namespaces, each with
+> their own mapping for uid 0 while still having all VFS access be
+> mapped to the user that spawned them (say uid=1000, gid=1000).
+> 
+> 
+> Note that in our case, the intended use for this is from a privileged
+> runtime where our images would be unshifted as would be the container
+> storage and any shared storage for containers. The security model
+> effectively relying on properly configured filesystem permissions and
+> mount namespaces such that the content of those paths can never be
+> seen by anyone but root outside of those containers (and therefore
+> avoids all the issues around setuid/setgid/fscaps).
+
+Yes, I understand ... all orchestration systems are currently hugely
+privileged.  However, there is interest in getting them down to only
+"slightly privileged".
+
+James
+
+
+> We will then be able to allocate distinct, random, ranges of 65536
+> uids/gids (or more) for each container without ever having to do any
+> uid/gid shifting at the filesystem layer or run into issues when
+> having to setup shared storage between containers or attaching
+> external storage volumes to those containers.
