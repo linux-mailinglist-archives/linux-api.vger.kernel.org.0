@@ -2,146 +2,151 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D2175161CF0
-	for <lists+linux-api@lfdr.de>; Mon, 17 Feb 2020 22:48:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E602161D0A
+	for <lists+linux-api@lfdr.de>; Mon, 17 Feb 2020 23:03:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729910AbgBQVsG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 17 Feb 2020 16:48:06 -0500
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:39990 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728935AbgBQVsG (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 17 Feb 2020 16:48:06 -0500
-Received: by mail-ed1-f65.google.com with SMTP id p3so22337064edx.7;
-        Mon, 17 Feb 2020 13:48:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=zfMS77r2/yOT69zQZB5nUanXr9vmDwcibatswF77RLM=;
-        b=H+p1UwY0pkxpP9j7tLcvoTxufeba8MCcndAMKeLxuH8IdIhOzeXQD8tOmiF/2a301y
-         XAaXMFIBn/5LcPF5yJy/vmIXjQC2xtRIhXMm0E1n0jsVnKlLJIeVKDx6RXW13r4Q7H06
-         04bk9OYBeyEfXLOdoJGu3RLO6u0FMKYUmCXgPGy6aKMG7EdtuaHAIad+XVdBQg8xV+pp
-         Q6kWvUmeX/MJZ0w6oka1GRbXw4LHE85qsrg9xJoc3Dx12eUdR5T65mlUyvuQqq1zlsVz
-         4c1eF5f3tgfF1yZTjyJ9wW3Nmkvy32hEr4avE7NQQa6ZN6iYoniXXs+AtE6wY/6hzsUQ
-         kWRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=zfMS77r2/yOT69zQZB5nUanXr9vmDwcibatswF77RLM=;
-        b=O1MSnS8CEILWujWies2U9UMN33s8xq547ar5cuk4CLEIUEX55sUhKSENcx4vdJ/nBu
-         n5VRCw/yTYru4dbUzJmDcSfXPwPV5M01fEVgfnRgiXerK618JQUnb6I7cePMp1pBCTSE
-         mCUvWcOIji0q2bbmWGPPgnHfYpmyA50ziDCPZ2xDVMGQwz9Q/T9WwxMD+rTqnR1G3CQY
-         coEOUFqwyBkGCocNoGiDOwZjJOw3/G/EDVDccs80lYhFJARqD4V1cDlvU8Ilr2b+ZcPN
-         LS/R1/AQ6AGyxd1YAxfFn6rg5jDdhmXlrcFYp3QBadHh3YmyD2NFav/Vy7OKKYXL2frI
-         718Q==
-X-Gm-Message-State: APjAAAXL4aZsOaUvXj5IhldGddJv5qSVYAkEyhG+Rodqix1MjBmBP+0a
-        MG27MZEUqydDppqy5cR70l584Ubf4GBnkiFTUlk=
-X-Google-Smtp-Source: APXvYqwdswv+8mGQteeErSB7yFQjychp2XnULWOThIztPi9Y3g89o2LbrvtqVap9ZG9uYBcsUUGdgo7T4c9hhkrtsfQ=
-X-Received: by 2002:a17:906:7c9:: with SMTP id m9mr16348125ejc.243.1581976083916;
- Mon, 17 Feb 2020 13:48:03 -0800 (PST)
+        id S1726010AbgBQWDJ convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Mon, 17 Feb 2020 17:03:09 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:55845 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726299AbgBQWDI (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 17 Feb 2020 17:03:08 -0500
+Received: from mail-lf1-f46.google.com ([209.85.167.46])
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <stgraber@ubuntu.com>)
+        id 1j3oTp-0006Xh-Io
+        for linux-api@vger.kernel.org; Mon, 17 Feb 2020 22:03:05 +0000
+Received: by mail-lf1-f46.google.com with SMTP id m30so12927682lfp.8
+        for <linux-api@vger.kernel.org>; Mon, 17 Feb 2020 14:03:05 -0800 (PST)
+X-Gm-Message-State: APjAAAUO8AvBS0uGHsNaFg3OjL7TQMajpdxn7SEW4iud2rXPMRtxiu2Z
+        ByEnwOZbrKc9WuL3Kcn8hWKk+5UVYcQOMgG2jGll/Q==
+X-Google-Smtp-Source: APXvYqxfzaNIrWsnxmQ/xqv/hlxasa72H1Nm3nfqgJQmPhBMHU82ojwvN6/kjkL7pS2rQUVLpiWQ8R4IEbGQPJ6GeNk=
+X-Received: by 2002:ac2:47e6:: with SMTP id b6mr8894012lfp.96.1581976984864;
+ Mon, 17 Feb 2020 14:03:04 -0800 (PST)
 MIME-Version: 1.0
-References: <20191112012724.250792-1-dima@arista.com> <20191112012724.250792-4-dima@arista.com>
- <CAHO5Pa2_7BzZPCXjFj4f=YoX28M4q2Au=h6GrzN-EjRffMo1iw@mail.gmail.com> <20200217145908.7epzz5nescccwvzv@wittgenstein>
-In-Reply-To: <20200217145908.7epzz5nescccwvzv@wittgenstein>
-Reply-To: mtk.manpages@gmail.com
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Date:   Mon, 17 Feb 2020 22:47:53 +0100
-Message-ID: <CAKgNAkjfdWFwNdFzdBY81_8WZJNtbtztfjO9T2YNQDV4ThNiNw@mail.gmail.com>
-Subject: Re: Time Namespaces: CLONE_NEWTIME and clone3()?
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     Dmitry Safonov <dima@arista.com>, Andrei Vagin <avagin@openvz.org>,
-        Linux Kernel <linux-kernel@vger.kernel.org>,
-        Dmitry Safonov <0x7f454c46@gmail.com>,
-        Adrian Reber <adrian@lisas.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Cyrill Gorcunov <gorcunov@openvz.org>,
+References: <20200214183554.1133805-1-christian.brauner@ubuntu.com>
+ <1581973919.24289.12.camel@HansenPartnership.com> <CA+enf=vwd-dxzve87t7Mw1Z35RZqdLzVaKq=fZ4EGOpnES0f5w@mail.gmail.com>
+In-Reply-To: <CA+enf=vwd-dxzve87t7Mw1Z35RZqdLzVaKq=fZ4EGOpnES0f5w@mail.gmail.com>
+From:   =?UTF-8?Q?St=C3=A9phane_Graber?= <stgraber@ubuntu.com>
+Date:   Mon, 17 Feb 2020 17:02:52 -0500
+X-Gmail-Original-Message-ID: <CA+enf=uhST2pSVK2oFWyP9nCoQOkJwRtLw4D_3FSwz9hyHqPcQ@mail.gmail.com>
+Message-ID: <CA+enf=uhST2pSVK2oFWyP9nCoQOkJwRtLw4D_3FSwz9hyHqPcQ@mail.gmail.com>
+Subject: Re: [PATCH v2 00/28] user_namespace: introduce fsid mappings
+To:     James Bottomley <James.Bottomley@hansenpartnership.com>
+Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
         "Eric W. Biederman" <ebiederm@xmission.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jann Horn <jannh@google.com>, Jeff Dike <jdike@addtoit.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Pavel Emelyanov <xemul@virtuozzo.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        containers <containers@lists.linux-foundation.org>,
-        criu@openvz.org, Linux API <linux-api@vger.kernel.org>,
-        x86@kernel.org, Andrei Vagin <avagin@gmail.com>
+        Aleksa Sarai <cyphar@cyphar.com>, Jann Horn <jannh@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        Linux Containers <containers@lists.linux-foundation.org>,
+        smbarber@chromium.org, Seth Forshee <seth.forshee@canonical.com>,
+        linux-security-module@vger.kernel.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        linux-api@vger.kernel.org,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hello Christian,
+And re-sending, this time hopefully actually in plain text mode.
+Sorry about that, my e-mail client isn't behaving today...
 
-On Mon, 17 Feb 2020 at 16:15, Christian Brauner
-<christian.brauner@ubuntu.com> wrote:
+Stéphane
+
+On Mon, Feb 17, 2020 at 4:57 PM Stéphane Graber <stgraber@ubuntu.com> wrote:
 >
-> On Mon, Feb 17, 2020 at 03:20:55PM +0100, Michael Kerrisk wrote:
-> > Hello Dmitry, Andrei,
-> >
-> > Is the CLONE_NEWTIME flag intended to be usable with clone3()? The
-> > mail quoted below implies (in my reading) that this should be possible
-> > once clone3() is available, which it is by now. (See also [1].)
-> >
-> > If the answer is yes, CLONE_NEWTIME  should be usable with clone3(),
-> > then I have a bug report and a question.
-> >
-> > I successfully used CLONE_NEWTIME with unshare(). But if I try to use
-> > CLONE_NEWSIGNAL with clone3(), it errors out with EINVAL, because of
+> On Mon, Feb 17, 2020 at 4:12 PM James Bottomley <James.Bottomley@hansenpartnership.com> wrote:
+>>
+>> On Fri, 2020-02-14 at 19:35 +0100, Christian Brauner wrote:
+>> [...]
+>> > With this patch series we simply introduce the ability to create fsid
+>> > mappings that are different from the id mappings of a user namespace.
+>> > The whole feature set is placed under a config option that defaults
+>> > to false.
+>> >
+>> > In the usual case of running an unprivileged container we will have
+>> > setup an id mapping, e.g. 0 100000 100000. The on-disk mapping will
+>> > correspond to this id mapping, i.e. all files which we want to appear
+>> > as 0:0 inside the user namespace will be chowned to 100000:100000 on
+>> > the host. This works, because whenever the kernel needs to do a
+>> > filesystem access it will lookup the corresponding uid and gid in the
+>> > idmapping tables of the container.
+>> > Now think about the case where we want to have an id mapping of 0
+>> > 100000 100000 but an on-disk mapping of 0 300000 100000 which is
+>> > needed to e.g. share a single on-disk mapping with multiple
+>> > containers that all have different id mappings.
+>> > This will be problematic. Whenever a filesystem access is requested,
+>> > the kernel will now try to lookup a mapping for 300000 in the id
+>> > mapping tables of the user namespace but since there is none the
+>> > files will appear to be owned by the overflow id, i.e. usually
+>> > 65534:65534 or nobody:nogroup.
+>> >
+>> > With fsid mappings we can solve this by writing an id mapping of 0
+>> > 100000 100000 and an fsid mapping of 0 300000 100000. On filesystem
+>> > access the kernel will now lookup the mapping for 300000 in the fsid
+>> > mapping tables of the user namespace. And since such a mapping
+>> > exists, the corresponding files will have correct ownership.
+>>
+>> How do we parametrise this new fsid shift for the unprivileged use
+>> case?  For newuidmap/newgidmap, it's easy because each user gets a
+>> dedicated range and everything "just works (tm)".  However, for the
+>> fsid mapping, assuming some newfsuid/newfsgid tool to help, that tool
+>> has to know not only your allocated uid/gid chunk, but also the offset
+>> map of the image.  The former is easy, but the latter is going to vary
+>> by the actual image ... well unless we standardise some accepted shift
+>> for images and it simply becomes a known static offset.
 >
-> s/CLONE_NEWSIGNAL/CLONE_NEWTIME/
 >
-> > the following check in clone3_args_valid():
-> >
-> >         /*
-> >          * - make the CLONE_DETACHED bit reuseable for clone3
-> >          * - make the CSIGNAL bits reuseable for clone3
-> >          */
-> >         if (kargs->flags & (CLONE_DETACHED | CSIGNAL))
-> >                 return false;
-> >
-> > The problem is that CLONE_NEWTIME matches one of the bits in the
-> > CSIGNAL mask. If the intention is to allow CLONE_NEWTIME with
-> > clone3(), then either the bit needs to be redefined, or the error
-> > checking in clone3_args_valid() needs to be reworked.
+> For unprivileged runtimes, I would expect images to be unshifted and be
+> unpacked from within a userns. So your unprivileged user would be allowed
+> a uid/gid range through /etc/subuid and /etc/subgid and allowed to use
+> them through newuidmap/newgidmap.In that namespace, you can then pull
+> and unpack any images/layers you may want and the resulting fs tree will
+> look correct from within that namespace.
 >
-> If this is intended to be useable with clone3() the check should be
-> adapted to allow for CLONE_NEWTIME. (I asked about this a while ago I
-> think.)
-> But below rather sounds like it should simply be an unshare() flag. The
-> code seems to set frozen_offsets to true right after copy_namespaces()
-> in timens_on_fork(new_ns, tsk) and so the offsets can't be changed
-> anymore unless I'm reading this wrong.
-> Alternatives seem to either make timens_offsets writable once after fork
-> and before exec, I guess - though that's probably not going to work
-> with the vdso judging from timens_on_fork().
+> All that is possible today and is how for example unprivileged LXC works
+> right now.
 >
-> The other alternative is that Andrei and Dmitry send me a patch to
-> enable CLONE_NEWTIME with clone3() by exposing struct timens_offsets (or
-> a version of it) in the uapi and extend struct clone_args to include a
-> pointer to a struct timens_offset that is _only_ set when CLONE_NEWTIME
-> is set.
-> Though the unshare() way sounds way less invasive simpler.
-
-Actually, I think the alternative you propose just here is better. I
-imagine there are times when one will want to create multiple
-namespaces with a single call to clone3(), including a time namespace.
-I think this should be allowed by the API. And, otherwise, clone3()
-becomes something of a second-class citizen for creating namespaces.
-(I don't really get the "less invasive" argument. Implementing this is
-just a piece of kernel to code to make user-space's life a bit simpler
-and more consistent.)
-
-Thanks,
-
-Michael
-
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+> What this patchset then allows is for containers to have differing
+> uid/gid maps while still being based off the same image or layers.
+> In this scenario, you would carve a subset of your main uid/gid map for
+> each container you run and run them in a child user namespace while
+> setting up a fsuid/fsgid map such that their filesystem access do not
+> follow their uid/gid map. This then results in proper isolation for
+> processes, networks, ... as everything runs as different kuid/kgid but
+> the VFS view will be the same in all containers.
+>
+> Shared storage between those otherwise isolated containers would also
+> work just fine by simply bind-mounting the same path into two or more
+> containers.
+>
+>
+> Now one additional thing that would be safe for a setuid wrapper to
+> allow would be for arbitrary mapping of any of the uid/gid that the user
+> owns to be used within the fsuid/fsgid map. One potential use for this
+> would be to create any number of user namespaces, each with their own
+> mapping for uid 0 while still having all VFS access be mapped to the
+> user that spawned them (say uid=1000, gid=1000).
+>
+>
+> Note that in our case, the intended use for this is from a privileged runtime
+> where our images would be unshifted as would be the container storage
+> and any shared storage for containers. The security model effectively relying
+> on properly configured filesystem permissions and mount namespaces such
+> that the content of those paths can never be seen by anyone but root outside
+> of those containers (and therefore avoids all the issues around setuid/setgid/fscaps).
+>
+> We will then be able to allocate distinct, random, ranges of 65536 uids/gids (or more)
+> for each container without ever having to do any uid/gid shifting at the filesystem layer
+> or run into issues when having to setup shared storage between containers or attaching
+> external storage volumes to those containers.
+>
+>> James
+>
+>
+> Stéphane
