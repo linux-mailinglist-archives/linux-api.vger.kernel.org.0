@@ -2,100 +2,81 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B60716154D
-	for <lists+linux-api@lfdr.de>; Mon, 17 Feb 2020 15:59:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 09AEF161C91
+	for <lists+linux-api@lfdr.de>; Mon, 17 Feb 2020 22:06:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729316AbgBQO7P (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 17 Feb 2020 09:59:15 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:46123 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729206AbgBQO7O (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 17 Feb 2020 09:59:14 -0500
-Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1j3hra-0006Ab-1U; Mon, 17 Feb 2020 14:59:10 +0000
-Date:   Mon, 17 Feb 2020 15:59:08 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Michael Kerrisk <mtk.manpages@gmail.com>
-Cc:     Dmitry Safonov <dima@arista.com>, Andrei Vagin <avagin@openvz.org>,
-        Linux Kernel <linux-kernel@vger.kernel.org>,
-        Dmitry Safonov <0x7f454c46@gmail.com>,
-        Adrian Reber <adrian@lisas.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Cyrill Gorcunov <gorcunov@openvz.org>,
+        id S1728254AbgBQVGP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 17 Feb 2020 16:06:15 -0500
+Received: from bedivere.hansenpartnership.com ([66.63.167.143]:38056 "EHLO
+        bedivere.hansenpartnership.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728142AbgBQVGP (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 17 Feb 2020 16:06:15 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by bedivere.hansenpartnership.com (Postfix) with ESMTP id 466BB8EE218;
+        Mon, 17 Feb 2020 13:06:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
+        s=20151216; t=1581973574;
+        bh=Ye6mKiav8eWebLVBGMgayVZBb7heIIMuGJ8hEE7lDI0=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=iiSqW4Qs0du1znFCIxrbW3rsNBS0ZWGcsPJFuwAjeU8QZorEjP1m+ojE9K8y3RF85
+         jE1YlPMzH3mVOpgj/RNhWtMpJ2DZ0xVfVh8WD3gKtkJSJF1EN5niLEOj//hhB5R2tV
+         UN4LLK5FRcuYjJAQzcyvPzMwGiEm/zdL4PoB1A/Y=
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+        by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id V6nM5tdySi7P; Mon, 17 Feb 2020 13:06:12 -0800 (PST)
+Received: from jarvis.ext.hansenpartnership.com (jarvis.ext.hansenpartnership.com [153.66.160.226])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 5BF0B8EE0F5;
+        Mon, 17 Feb 2020 13:06:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
+        s=20151216; t=1581973572;
+        bh=Ye6mKiav8eWebLVBGMgayVZBb7heIIMuGJ8hEE7lDI0=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=vP32wPjTKMUEEnhAJdE2mjE2viHl89h4Vo3gO8TCgoE5Vw7ZDz1Yhh5W6zKh1wE63
+         zhP7dER+FAH3nmwMJ3XIXTIKcs0Hjm0ANG0DzAf558gdi8n39NF3ZwN/YHfUp4GOXu
+         /ExioklqE0lmR12tgLheR4VDDmrNWdyveifOSCZI=
+Message-ID: <1581973568.24289.6.camel@HansenPartnership.com>
+Subject: Re: [PATCH v2 00/28] user_namespace: introduce fsid mappings
+From:   James Bottomley <James.Bottomley@HansenPartnership.com>
+To:     Christian Brauner <christian.brauner@ubuntu.com>,
+        =?ISO-8859-1?Q?St=E9phane?= Graber <stgraber@ubuntu.com>,
         "Eric W. Biederman" <ebiederm@xmission.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jann Horn <jannh@google.com>, Jeff Dike <jdike@addtoit.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Pavel Emelyanov <xemul@virtuozzo.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        containers <containers@lists.linux-foundation.org>,
-        criu@openvz.org, Linux API <linux-api@vger.kernel.org>,
-        x86@kernel.org, Andrei Vagin <avagin@gmail.com>
-Subject: Re: Time Namespaces: CLONE_NEWTIME and clone3()?
-Message-ID: <20200217145908.7epzz5nescccwvzv@wittgenstein>
-References: <20191112012724.250792-1-dima@arista.com>
- <20191112012724.250792-4-dima@arista.com>
- <CAHO5Pa2_7BzZPCXjFj4f=YoX28M4q2Au=h6GrzN-EjRffMo1iw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAHO5Pa2_7BzZPCXjFj4f=YoX28M4q2Au=h6GrzN-EjRffMo1iw@mail.gmail.com>
+        Aleksa Sarai <cyphar@cyphar.com>, Jann Horn <jannh@google.com>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        containers@lists.linux-foundation.org, smbarber@chromium.org,
+        Seth Forshee <seth.forshee@canonical.com>,
+        linux-security-module@vger.kernel.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        Alexey Dobriyan <adobriyan@gmail.com>
+Date:   Mon, 17 Feb 2020 13:06:08 -0800
+In-Reply-To: <20200214183554.1133805-1-christian.brauner@ubuntu.com>
+References: <20200214183554.1133805-1-christian.brauner@ubuntu.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.26.6 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Feb 17, 2020 at 03:20:55PM +0100, Michael Kerrisk wrote:
-> Hello Dmitry, Andrei,
-> 
-> Is the CLONE_NEWTIME flag intended to be usable with clone3()? The
-> mail quoted below implies (in my reading) that this should be possible
-> once clone3() is available, which it is by now. (See also [1].)
-> 
-> If the answer is yes, CLONE_NEWTIME  should be usable with clone3(),
-> then I have a bug report and a question.
-> 
-> I successfully used CLONE_NEWTIME with unshare(). But if I try to use
-> CLONE_NEWSIGNAL with clone3(), it errors out with EINVAL, because of
+On Fri, 2020-02-14 at 19:35 +0100, Christian Brauner wrote:
+[...]
+> People not as familiar with user namespaces might not be aware that
+> fsid mappings already exist. Right now, fsid mappings are always
+> identical to id mappings. Specifically, the kernel will lookup fsuids
+> in the uid mappings and fsgids in the gid mappings of the relevant
+> user namespace.
 
-s/CLONE_NEWSIGNAL/CLONE_NEWTIME/
+This isn't actually entirely true: today we have the superblock user
+namespace, which can be used for fsid remapping on filesystems that
+support it (currently f2fs and fuse).  Since this is a single shift,
+how is it going to play with s_user_ns?  Do you have to understand the
+superblock mapping to use this shift, or are we simply using this to
+replace s_user_ns?
 
-> the following check in clone3_args_valid():
-> 
->         /*
->          * - make the CLONE_DETACHED bit reuseable for clone3
->          * - make the CSIGNAL bits reuseable for clone3
->          */
->         if (kargs->flags & (CLONE_DETACHED | CSIGNAL))
->                 return false;
-> 
-> The problem is that CLONE_NEWTIME matches one of the bits in the
-> CSIGNAL mask. If the intention is to allow CLONE_NEWTIME with
-> clone3(), then either the bit needs to be redefined, or the error
-> checking in clone3_args_valid() needs to be reworked.
+James
 
-If this is intended to be useable with clone3() the check should be
-adapted to allow for CLONE_NEWTIME. (I asked about this a while ago I
-think.)
-But below rather sounds like it should simply be an unshare() flag. The
-code seems to set frozen_offsets to true right after copy_namespaces()
-in timens_on_fork(new_ns, tsk) and so the offsets can't be changed
-anymore unless I'm reading this wrong.
-Alternatives seem to either make timens_offsets writable once after fork
-and before exec, I guess - though that's probably not going to work
-with the vdso judging from timens_on_fork().
-
-The other alternative is that Andrei and Dmitry send me a patch to
-enable CLONE_NEWTIME with clone3() by exposing struct timens_offsets (or
-a version of it) in the uapi and extend struct clone_args to include a
-pointer to a struct timens_offset that is _only_ set when CLONE_NEWTIME
-is set.
-Though the unshare() way sounds way less invasive simpler.
-
-Christian
