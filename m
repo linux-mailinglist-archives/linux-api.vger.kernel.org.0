@@ -2,117 +2,69 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A1191604E3
-	for <lists+linux-api@lfdr.de>; Sun, 16 Feb 2020 17:55:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E79E0160C09
+	for <lists+linux-api@lfdr.de>; Mon, 17 Feb 2020 08:59:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728434AbgBPQz5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 16 Feb 2020 11:55:57 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:48536 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728370AbgBPQz5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 16 Feb 2020 11:55:57 -0500
-Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1j3NCh-0001oq-38; Sun, 16 Feb 2020 16:55:35 +0000
-Date:   Sun, 16 Feb 2020 17:55:33 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Jann Horn <jannh@google.com>
-Cc:     =?utf-8?B?U3TDqXBoYW5l?= Graber <stgraber@ubuntu.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Stephen Barber <smbarber@chromium.org>,
-        Seth Forshee <seth.forshee@canonical.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Serge Hallyn <serge@hallyn.com>,
-        James Morris <jmorris@namei.org>,
-        Kees Cook <keescook@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Phil Estes <estesp@gmail.com>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: [PATCH v2 04/28] fsuidgid: add fsid mapping helpers
-Message-ID: <20200216165533.z2n2fjs3onlna526@wittgenstein>
-References: <20200214183554.1133805-1-christian.brauner@ubuntu.com>
- <20200214183554.1133805-5-christian.brauner@ubuntu.com>
- <CAG48ez2o81ZwwL9muYyheN9vY69vJR5sB9LsLh=nk6wB4iuUgw@mail.gmail.com>
+        id S1726808AbgBQH7o (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 17 Feb 2020 02:59:44 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:39178 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726267AbgBQH7o (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 17 Feb 2020 02:59:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=u+qbunCLoImJlKPf9M1OUAgIIN//AvIrEPu2le+1et4=; b=pyZzDjG5VaY1EeVrlxpSbjyZtU
+        Oc+ORmiYlpXPZYKPNwgtE3N70SZArwV4dNwu/uyRhr5D7d1nd+M/oAwUFpNi82iEKtGutr1Yq0DfS
+        vlnRayUCiWp68ayBF2HYwfFpAl6jB6gtVQ9gsOdDxt36/kCngrQwHRluzHHR/a3ejAp8dQY4it7eH
+        MYVZBrSo1YJGU0Mp42zhYMZ0psyRuXBuLF+fV2QcWPxV0mVIHpIFFT9rEdZs/J95YzGXZJdc48GBR
+        Md+sIfXEEFbBJ/WzjIPd3Hg7PXWxRsVaDOcbYmPrkaFixt0iwmUba7PiJqk8BHAJVHPqqhutiyydc
+        /ayUKuaA==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1j3bJc-0002xV-MM; Mon, 17 Feb 2020 07:59:40 +0000
+Date:   Sun, 16 Feb 2020 23:59:40 -0800
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Minchan Kim <minchan@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
+        oleksandr@redhat.com, Suren Baghdasaryan <surenb@google.com>,
+        Tim Murray <timmurray@google.com>,
+        Daniel Colascione <dancol@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Brian Geffon <bgeffon@google.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        John Dias <joaodias@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>, sj38.park@gmail.com,
+        alexander.h.duyck@linux.intel.com, Jann Horn <jannh@google.com>,
+        Christian Brauner <christian@brauner.io>
+Subject: Re: [PATCH v5 4/7] pid: export pidfd_get_pid
+Message-ID: <20200217075940.GA10342@infradead.org>
+References: <20200214170520.160271-1-minchan@kernel.org>
+ <20200214170520.160271-5-minchan@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAG48ez2o81ZwwL9muYyheN9vY69vJR5sB9LsLh=nk6wB4iuUgw@mail.gmail.com>
+In-Reply-To: <20200214170520.160271-5-minchan@kernel.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Feb 14, 2020 at 08:11:36PM +0100, Jann Horn wrote:
-> On Fri, Feb 14, 2020 at 7:37 PM Christian Brauner
-> <christian.brauner@ubuntu.com> wrote:
-> > This adds a set of helpers to translate between kfsuid/kfsgid and their
-> > userspace fsuid/fsgid counter parts relative to a given user namespace.
-> >
-> > - kuid_t make_kfsuid(struct user_namespace *from, uid_t fsuid)
-> >   Maps a user-namespace fsuid pair into a kfsuid.
-> >   If no fsuid mappings have been written it behaves identical to calling
-> >   make_kuid(). This ensures backwards compatibility for workloads unaware
-> >   or not in need of fsid mappings.
-> [...]
-> > +#ifdef CONFIG_USER_NS_FSID
-> > +/**
-> > + *     make_kfsuid - Map a user-namespace fsuid pair into a kuid.
-> > + *     @ns:  User namespace that the fsuid is in
-> > + *     @fsuid: User identifier
-> > + *
-> > + *     Maps a user-namespace fsuid pair into a kernel internal kfsuid,
-> > + *     and returns that kfsuid.
-> > + *
-> > + *     When there is no mapping defined for the user-namespace kfsuid
-> > + *     pair INVALID_UID is returned.  Callers are expected to test
-> > + *     for and handle INVALID_UID being returned.  INVALID_UID
-> > + *     may be tested for using uid_valid().
-> > + */
-> > +kuid_t make_kfsuid(struct user_namespace *ns, uid_t fsuid)
-> > +{
-> > +       unsigned extents = ns->fsuid_map.nr_extents;
-> > +       smp_rmb();
-> > +
-> > +       /* Map the fsuid to a global kernel fsuid */
-> > +       if (extents == 0)
-> > +               return KUIDT_INIT(map_id_down(&ns->uid_map, fsuid));
-> > +
-> > +       return KUIDT_INIT(map_id_down(&ns->fsuid_map, fsuid));
-> > +}
-> > +EXPORT_SYMBOL(make_kfsuid);
-> 
-> What effect is this fallback going to have for nested namespaces?
-> 
-> Let's say we have an outer namespace N1 with this uid_map:
-> 
->     0 100000 65535
-> 
-> and with this fsuid_map:
-> 
->     0 300000 65535
-> 
-> Now from in there, a process that is not aware of the existence of
-> fsuid mappings creates a new user namespace N2 with the following
-> uid_map:
-> 
->     0 1000 1
-> 
-> At this point, if a process in N2 does chown("foo", 0, 0), is that
-> going to make "foo" owned by kuid 101000, which isn't even mapped in
-> N1?
+On Fri, Feb 14, 2020 at 09:05:17AM -0800, Minchan Kim wrote:
+> process_madvise syscall needs pidfd_get_pid function to translate
+> pidfd to pid so this patch exports the function.
 
-So Jann just made a clever suggestion that would solve this problem fsid
-maps can only be written if the corresponding id mapping has been
-written and fsid mappings will only have an effect once the
-corresponding id mapping has been written. That sounds rather sane to
-me.
+For that it should not need to exported, but then again the actual
+patch doesn't export it anyway, so this is just a commit log issue.
 
-Christian
+>  extern struct pid *pidfd_pid(const struct file *file);
+> +extern struct pid *pidfd_get_pid(unsigned int fd);
+
+... and there is no need for the extern keyword on prototypes in
+headers.
