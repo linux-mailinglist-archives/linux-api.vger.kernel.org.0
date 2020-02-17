@@ -2,234 +2,195 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 98D6E1612FF
-	for <lists+linux-api@lfdr.de>; Mon, 17 Feb 2020 14:16:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 247891612F7
+	for <lists+linux-api@lfdr.de>; Mon, 17 Feb 2020 14:16:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729221AbgBQNPd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 17 Feb 2020 08:15:33 -0500
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:55373 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728843AbgBQNPJ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 17 Feb 2020 08:15:09 -0500
-Received: by mail-wm1-f67.google.com with SMTP id q9so17094354wmj.5;
-        Mon, 17 Feb 2020 05:15:08 -0800 (PST)
+        id S1729161AbgBQNP2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 17 Feb 2020 08:15:28 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:38977 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729043AbgBQNPW (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 17 Feb 2020 08:15:22 -0500
+Received: by mail-wm1-f66.google.com with SMTP id c84so18447517wme.4;
+        Mon, 17 Feb 2020 05:15:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=67kTUyBE7oGcc+gBY0DKM3Gkm5L+z0sRvog8FHnMFxc=;
-        b=mLXxGqqskF5hafzHi3/1bYY7OGzhxnLqHzZUzgMjC3mbDdSzb3IItjW2yn9b2/PdB6
-         0UVv1ksZNTbERfFlP81BsDel/AhJqEExILXOcY3yyPhmVVX+8yOVq1BmFqewOMfCYc/t
-         aNa/lAk6Mbv0OLu2gI19of7grMXNOTaJtMWGuqng51IOrGC6bRPSEIjE1DezEZ4qiXpH
-         f5W9uK0+2EGvNPJ9hwT2l27ObmnAmeNc8ghd/loZ7PIsXulKli6TtL6lOnplIAWvCfa8
-         LRTaWLE4jkfQmW/X0nddUiujU56kk2tuXXesXtTBO4Ro0SWQwJR7vpHSy/25SWAiPAP0
-         tcZQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=Lz+xcFdtQb9MfwudpkflwlNS1QuyfuZosxO8i55t0/o=;
+        b=t9ldRPTVxPsgaaeqI24DkK0+48DTyQS1K/VjBmeqFyXp9H+TzRdS6NBHrNq+yjgm87
+         P6O4ZSOeEG/zMh15Inw96qPX/YozRLyH88U1CNIuIPncgI0aWXKGSWqu4RxLAyLBxbr8
+         SnjB8WRDDpaoFIHuemRU6Q8cL5cWq4/zC+D0BSAnbvg65Nd4dlbJ1huucyYS8hbwlJfH
+         zslSnAdVyhr4J0krABizHf8tDCmI6j5vVyxJv1spiLeEFwxUeolCmT+P5zxCI75YkMeg
+         5DIquCPWcWzPL1l6wswYwldz2V/KGSWZv30AqmOdKJ+8Vx4YUzzjVA1b2ok511p6gE+b
+         GZKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=67kTUyBE7oGcc+gBY0DKM3Gkm5L+z0sRvog8FHnMFxc=;
-        b=P6m0Z4Zlxtdixcp5r8oahAxNaRKf4yKoBPGyxFVlQJdkJD+aySn6Y4QRClcvtpvlVl
-         3xUG8OrbcUiSmatMpwwV/veoYvAXB44T6mUh2GjjNhuJudKXfKpBNbq/0TdBxb9vE/8y
-         iiQEvG2GTfOvkfAsev3PN4wVveenngWvFUkquccSQThACuFCvXAOXs7f6Zc3jkV7nttU
-         7NHdT/L/rTb1hWs+g5fqcErtK84oNWOqKorckVMuCn9NVnPC4RfiMNnEqqkn2vToz3i9
-         uOdsmPNKBEnfcXfwZSeL4N6ptn6sJ3kcj3rCJc0In6OSez0vvSkgot0loYuMvdOPhVDI
-         Pqbw==
-X-Gm-Message-State: APjAAAXu+HCpW6ANWjT8pB3AjfFrlVBKGGUeMKPqFxbMPmnj51XFnU1j
-        twSom/jyNsslYvKCJQBxGHLTzjlt
-X-Google-Smtp-Source: APXvYqzTFrqQqHZchrtDqmg2An2AwP48A1NIaj5XjemuRVB4w7Z/rMaZxX13rf57GupbYmRQyQY0tg==
-X-Received: by 2002:a1c:2747:: with SMTP id n68mr21247791wmn.14.1581945307219;
-        Mon, 17 Feb 2020 05:15:07 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=Lz+xcFdtQb9MfwudpkflwlNS1QuyfuZosxO8i55t0/o=;
+        b=MPUKYgvqkOKbFZflwKigE34cxK01uSbPA0aD5oqweFC7IsgrfimaFZgATZBLduYbgz
+         3ql3WwW5BKc9WQ+EaeAR9oh36wzr2ZDWFgp8jnDC//Wrjfr88zaiadg94JTzY2rWeix/
+         bxrTDLmBsmxZX/pgJy6dv2CM14D0MZTw4hKeCId4f3jBzNFdf+FnPRGfBjQGlcoOfgS2
+         0GGqTllkewyhjbyJoHnwHyJIRKHSzkN0PpZEqQmgCzOpZDPUb5zEiHnDDFAz/zDZgd98
+         kRjpoceFG3tTrRB+rjRl+/U70y7AlcCUbI3bAG1ZVmsaRpryFwjuSLeXAR2WqTDKkNUJ
+         EDYA==
+X-Gm-Message-State: APjAAAW+pahSUUAaYz3FJJ5jwljP2vw9T9lj5z4QJIgrRdOsQxcULSVb
+        +5xATtzBNwqvZuDGfNohZGRNo4V+
+X-Google-Smtp-Source: APXvYqy02avEyoX3UKEo2nVco1Fo/wUPTOQeHOueRs4qH06fKzqEz+tdkKGERFXQAvun9EhWZA637Q==
+X-Received: by 2002:a05:600c:2147:: with SMTP id v7mr21397524wml.61.1581945319728;
+        Mon, 17 Feb 2020 05:15:19 -0800 (PST)
 Received: from amir-ThinkPad-T480.ctera.local (bzq-166-168-31-246.red.bezeqint.net. [31.168.166.246])
-        by smtp.gmail.com with ESMTPSA id m21sm545745wmi.27.2020.02.17.05.15.05
+        by smtp.gmail.com with ESMTPSA id m21sm545745wmi.27.2020.02.17.05.15.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Feb 2020 05:15:06 -0800 (PST)
+        Mon, 17 Feb 2020 05:15:19 -0800 (PST)
 From:   Amir Goldstein <amir73il@gmail.com>
 To:     Jan Kara <jack@suse.cz>
-Cc:     linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        Matthew Bobrowski <mbobrowski@mbobrowski.org>
-Subject: [PATCH v2 00/16] Fanotify event with name info
-Date:   Mon, 17 Feb 2020 15:14:39 +0200
-Message-Id: <20200217131455.31107-1-amir73il@gmail.com>
+Cc:     linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
+Subject: [PATCH v2 10/16] fanotify: send FAN_DIR_MODIFY event flavor with dir inode and name
+Date:   Mon, 17 Feb 2020 15:14:49 +0200
+Message-Id: <20200217131455.31107-11-amir73il@gmail.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200217131455.31107-1-amir73il@gmail.com>
+References: <20200217131455.31107-1-amir73il@gmail.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Jan,
+Dirent events are going to be supported in two flavors:
 
-This is v2 of the fanotify name info series.
-The user requirement for the name info feature, as well as early UAPI
-discussions can be found in this [1] lore thread.
-The "prep" part of v1 was posted to the list [2] and includes two
-minor bug fixes, but I decided not to split the submission into
-two series this posting.
+1. Directory fid info + mask that includes the specific event types
+   (e.g. FAN_CREATE) and an optional FAN_ONDIR flag.
+2. Directory fid info + name + mask that includes only FAN_DIR_MODIFY.
 
-The patches are also available on my github branch fanotify_name [3]
-along with LTP tests [4], man page draft [5] and a demo [6].
+To request the second event flavor, user needs to set the event type
+FAN_DIR_MODIFY in the mark mask.
 
-Patches 1-7 are cleanup and minor re-factoring in prep for the name
-info patches.
+The first flavor is supported since kernel v5.1 for groups initialized
+with flag FAN_REPORT_FID.  It is intended to be used for watching
+directories in "batch mode" - the watcher is notified when directory is
+changed and re-scans the directory content in response.  This event
+flavor is stored more compactly in the event queue, so it is optimal
+for workloads with frequent directory changes.
 
-Patches 8-9 are fixes for minor bug that I found during the work.
-The referred LTP branch [4] includes improvements to ltp tests fanotify09
-and fanotify15 to cover these bugs.  I did not mark those patches for
-stable, because backporting is not trivial and the bugs are really minor.
-For the same reason, I did not bother to provide bug fix patches that are
-not dependent on the cleanup patches.
+The second event flavor is intended to be used for watching large
+directories, where the cost of re-scan of the directory on every change
+is considered too high.  The watcher getting the event with the directory
+fid and entry name is expected to call fstatat(2) to query the content of
+the entry after the change.
 
-Patches 10-13 implement the new event type FAN_DIR_MODIFY per your
-suggestion, which includes the directory fid and entry name info.
+Legacy inotify events are reported with name and event mask (e.g. "foo",
+FAN_CREATE | FAN_ONDIR).  That can lead users to the conclusion that
+there is *currently* an entry "foo" that is a sub-directory, when in fact
+"foo" may be negative or non-dir by the time user gets the event.
 
-Patches 14-15 implement the FAN_REPORT_NAME init flag for reporting
-name info on path type events.
+To make it clear that the current state of the named entry is unknown,
+when reporting an event with name info, fanotify obfuscates the specific
+event types (e.g. create,delete,rename) and uses a common event type -
+FAN_DIR_MODIFY to decribe the change.  This should make it harder for
+users to make wrong assumptions and write buggy filesystem monitors.
 
-Patch 16 is a "bonus" patch that implements an unprivileged fanotify
-watch.  It is not proposed for merging at this time, but is provided
-in order to demonstrate how name info reporting is applicable for an
-unprivileged watcher, should we decide to implement the feature.
-LTP tests, man page draft for unprivileged fanotify written by Matthew
-Bobrowski are available on fanotify_unpriv branches in respective trees.
+At this point, name info reporting is not yet implemented, so trying to
+set FAN_DIR_MODIFY in mark mask will return -EINVAL.
 
-The inotify demo branch [6] includes a script test_demo.sh whose
-output [7] can be seen here below.  The demo generates filesystem
-events including file and directory renames, sleeps 2 seconds and
-then reads the events from the queue and generates a report on
-changes in the filesystem.
+Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+---
+ fs/notify/fanotify/fanotify.c    | 7 ++++---
+ fs/notify/fsnotify.c             | 2 +-
+ include/linux/fsnotify.h         | 6 ++++++
+ include/linux/fsnotify_backend.h | 4 +++-
+ include/uapi/linux/fanotify.h    | 1 +
+ 5 files changed, 15 insertions(+), 5 deletions(-)
 
-At event report time, the watcher uses open_by_handle_at(2) to report
-up-to-date paths for parent dirs.  The last name element in the path
-is reported as it was recorded at event time, but the watcher uses
-fstatat(2) to check whether the reported entry is negative or positive.
-Negative entry paths are annotated with "(deleted)" postfix.
-
-The idea is that file change monitors will use this information to
-query the content of modified directories and file and update a
-secondary data structure or take other actions.
-
-The demo scripts can run as root and non-root user.  When run as
-non-root user, if the bonus FAN_UNPRIVILEGED patch is applied, it
-demonstrates the unprivileged fanotify recursive watcher and produces
-the exact same report information as the privileged filesystem watcher.
-
-Thanks,
-Amir.
-
-Changes since v1:
-- A few more cleanup patches
-- Drop the abstract take_name_snapshot() vfs interface change
-- Do not obfuscate event type for path type events
-- Deal with the corner cases of event on root and disconnected dentry
-- Bonus FAN_UNPRIVILEGED patch
-
-[1] https://lore.kernel.org/linux-fsdevel/CADKPpc2RuncyN+ZONkwBqtW7iBb5ep_3yQN7PKe7ASn8DpNvBw@mail.gmail.com/
-[2] https://lore.kernel.org/linux-fsdevel/20200114151655.29473-1-amir73il@gmail.com/
-[3] https://github.com/amir73il/linux/commits/fanotify_name
-[4] https://github.com/amir73il/ltp/commits/fanotify_name
-[5] https://github.com/amir73il/man-pages/commits/fanotify_name
-[6] https://github.com/amir73il/inotify-tools/commits/fanotify_name
-[7] Demo run of inotifywatch race free monitor
-==============================================
-~# ./test_demo.sh /vdf
-+ WD=/vdf
-+ cd /vdf
-+ rm -rf a
-+ mkdir -p a/b/c/d/e/f/g/
-+ touch a/b/c/0 a/b/c/1 a/b/c/d/e/f/g/0
-+ id -u
-+ [ 0 = 0 ]
-+ MODE=--global
-+ EVENTS=-e dir_modify  -e modify -e attrib  -e close_write
-+ sleep 1
-+ inotifywatch --global -e dir_modify -e modify -e attrib -e
-close_write --timeout -2 /vdf
-Establishing filesystem global watch...
-Finished establishing watches, now collecting statistics.
-Sleeping for 2 seconds...
-+
-+ t=Create files and dirs...
-+ touch a/0 a/1 a/2 a/3
-+ mkdir a/dir0 a/dir1 a/dir2
-+
-+ t=Rename files and dirs...
-+ mv a/0 a/3
-+ mv a/dir0 a/dir3
-+
-+ t=Delete files and dirs...
-+ rm a/1
-+ rmdir a/dir1
-+
-+ t=Modify files and dirs...
-+ chmod +x a/b/c/d
-+ echo
-+
-+ t=Move files and dirs...
-+ mv a/b/c/1 a/b/c/d/e/f/g/1
-+ mv a/b/c/d/e/f/g a/b/c/d/e/G
-+
-[fid=fd50.0.2007403;name='0'] /vdf/a/0 (deleted)
-[fid=fd50.0.2007403;name='1'] /vdf/a/1 (deleted)
-[fid=fd50.0.2007403;name='2'] /vdf/a/2
-[fid=fd50.0.2007403;name='3'] /vdf/a/3
-[fid=fd50.0.2007403;name='dir0'] /vdf/a/dir0 (deleted)
-[fid=fd50.0.2007403;name='dir1'] /vdf/a/dir1 (deleted)
-[fid=fd50.0.2007403;name='dir2'] /vdf/a/dir2
-[fid=fd50.0.2007403;name='dir3'] /vdf/a/dir3
-[fid=fd50.0.86;name='d'] /vdf/a/b/c/d
-[fid=fd50.0.86;name='0'] /vdf/a/b/c/0
-[fid=fd50.0.86;name='1'] /vdf/a/b/c/1 (deleted)
-[fid=fd50.0.87;name='1'] /vdf/a/b/c/d/e/G/1
-[fid=fd50.0.3000083;name='g'] /vdf/a/b/c/d/e/f/g (deleted)
-[fid=fd50.0.2007404;name='G'] /vdf/a/b/c/d/e/G
-total  modify  attrib  close_write  dir_modify  filename
-3      0       1       1            2           /vdf/a/0 (deleted)
-3      0       1       1            2           /vdf/a/1 (deleted)
-3      0       1       1            2           /vdf/a/3
-2      0       1       1            1           /vdf/a/2
-2      0       0       0            2           /vdf/a/dir0 (deleted)
-2      0       0       0            2           /vdf/a/dir1 (deleted)
-1      0       0       0            1           /vdf/a/dir2
-1      0       0       0            1           /vdf/a/dir3
-1      0       1       0            0           /vdf/a/b/c/d
-1      1       0       1            0           /vdf/a/b/c/0
-1      0       0       0            1           /vdf/a/b/c/1 (deleted)
-1      0       0       0            1           /vdf/a/b/c/d/e/G/1
-1      0       0       0            1           /vdf/a/b/c/d/e/f/g (deleted)
-1      0       0       0            1           /vdf/a/b/c/d/e/G
-==============================================
-
-Amir Goldstein (16):
-  fsnotify: tidy up FS_ and FAN_ constants
-  fsnotify: factor helpers fsnotify_dentry() and fsnotify_file()
-  fsnotify: funnel all dirent events through fsnotify_name()
-  fsnotify: use helpers to access data by data_type
-  fsnotify: simplify arguments passing to fsnotify_parent()
-  fsnotify: pass dentry instead of inode for events possible on child
-  fsnotify: replace inode pointer with tag
-  fanotify: merge duplicate events on parent and child
-  fanotify: fix merging marks masks with FAN_ONDIR
-  fanotify: send FAN_DIR_MODIFY event flavor with dir inode and name
-  fanotify: prepare to encode both parent and child fid's
-  fanotify: record name info for FAN_DIR_MODIFY event
-  fanotify: report name info for FAN_DIR_MODIFY event
-  fanotify: report parent fid + name with FAN_REPORT_NAME
-  fanotify: refine rules for when name is reported
-  fanotify: support limited functionality for unprivileged users
-
- fs/notify/fanotify/fanotify.c        | 231 +++++++++++++++++++++------
- fs/notify/fanotify/fanotify.h        | 111 ++++++++++---
- fs/notify/fanotify/fanotify_user.c   | 182 +++++++++++++++++----
- fs/notify/fsnotify.c                 |  22 +--
- fs/notify/inotify/inotify_fsnotify.c |  10 +-
- include/linux/fanotify.h             |  21 ++-
- include/linux/fsnotify.h             | 135 +++++++---------
- include/linux/fsnotify_backend.h     |  87 +++++++---
- include/uapi/linux/fanotify.h        |  11 +-
- kernel/audit_fsnotify.c              |  13 +-
- kernel/audit_watch.c                 |  16 +-
- 11 files changed, 584 insertions(+), 255 deletions(-)
-
-
-base-commit: 11a48a5a18c63fd7621bb050228cebf13566e4d8
+diff --git a/fs/notify/fanotify/fanotify.c b/fs/notify/fanotify/fanotify.c
+index 36903542aa57..1f60823931b7 100644
+--- a/fs/notify/fanotify/fanotify.c
++++ b/fs/notify/fanotify/fanotify.c
+@@ -194,9 +194,9 @@ static u32 fanotify_group_event_mask(struct fsnotify_group *group,
+ 	test_mask = event_mask & marks_mask & ~marks_ignored_mask;
+ 
+ 	/*
+-	 * dirent modification events (create/delete/move) do not carry the
+-	 * child entry name/inode information. Instead, we report FAN_ONDIR
+-	 * for mkdir/rmdir so user can differentiate them from creat/unlink.
++	 * For dirent modification events (create/delete/move) that do not carry
++	 * the child entry name information, we report FAN_ONDIR for mkdir/rmdir
++	 * so user can differentiate them from creat/unlink.
+ 	 *
+ 	 * For backward compatibility and consistency, do not report FAN_ONDIR
+ 	 * to user in legacy fanotify mode (reporting fd) and report FAN_ONDIR
+@@ -399,6 +399,7 @@ static int fanotify_handle_event(struct fsnotify_group *group,
+ 	BUILD_BUG_ON(FAN_MOVED_FROM != FS_MOVED_FROM);
+ 	BUILD_BUG_ON(FAN_CREATE != FS_CREATE);
+ 	BUILD_BUG_ON(FAN_DELETE != FS_DELETE);
++	BUILD_BUG_ON(FAN_DIR_MODIFY != FS_DIR_MODIFY);
+ 	BUILD_BUG_ON(FAN_DELETE_SELF != FS_DELETE_SELF);
+ 	BUILD_BUG_ON(FAN_MOVE_SELF != FS_MOVE_SELF);
+ 	BUILD_BUG_ON(FAN_EVENT_ON_CHILD != FS_EVENT_ON_CHILD);
+diff --git a/fs/notify/fsnotify.c b/fs/notify/fsnotify.c
+index 193530f57963..72d332ce8e12 100644
+--- a/fs/notify/fsnotify.c
++++ b/fs/notify/fsnotify.c
+@@ -383,7 +383,7 @@ static __init int fsnotify_init(void)
+ {
+ 	int ret;
+ 
+-	BUILD_BUG_ON(HWEIGHT32(ALL_FSNOTIFY_BITS) != 25);
++	BUILD_BUG_ON(HWEIGHT32(ALL_FSNOTIFY_BITS) != 26);
+ 
+ 	ret = init_srcu_struct(&fsnotify_mark_srcu);
+ 	if (ret)
+diff --git a/include/linux/fsnotify.h b/include/linux/fsnotify.h
+index 7ba40c19bc7e..fb54d9d70552 100644
+--- a/include/linux/fsnotify.h
++++ b/include/linux/fsnotify.h
+@@ -30,6 +30,12 @@ static inline void fsnotify_name(struct inode *dir, __u32 mask,
+ 				 const struct qstr *name, u32 cookie)
+ {
+ 	fsnotify(dir, mask, child, FSNOTIFY_EVENT_INODE, name, cookie);
++	/*
++	 * Send another flavor of the event without child inode data and
++	 * without the specific event type (e.g. FS_CREATE|FS_IS_DIR).
++	 * The name is relative to the dir inode the event is reported to.
++	 */
++	fsnotify(dir, FS_DIR_MODIFY, dir, FSNOTIFY_EVENT_INODE, name, 0);
+ }
+ 
+ static inline void fsnotify_dirent(struct inode *dir, struct dentry *dentry,
+diff --git a/include/linux/fsnotify_backend.h b/include/linux/fsnotify_backend.h
+index cd106b5c87a4..310c639de04e 100644
+--- a/include/linux/fsnotify_backend.h
++++ b/include/linux/fsnotify_backend.h
+@@ -47,6 +47,7 @@
+ #define FS_OPEN_PERM		0x00010000	/* open event in an permission hook */
+ #define FS_ACCESS_PERM		0x00020000	/* access event in a permissions hook */
+ #define FS_OPEN_EXEC_PERM	0x00040000	/* open/exec event in a permission hook */
++#define FS_DIR_MODIFY		0x00080000	/* Directory entry was modified */
+ 
+ #define FS_EXCL_UNLINK		0x04000000	/* do not send events if object is unlinked */
+ /* This inode cares about things that happen to its children.  Always set for
+@@ -66,7 +67,8 @@
+  * The watching parent may get an FS_ATTRIB|FS_EVENT_ON_CHILD event
+  * when a directory entry inside a child subdir changes.
+  */
+-#define ALL_FSNOTIFY_DIRENT_EVENTS	(FS_CREATE | FS_DELETE | FS_MOVE)
++#define ALL_FSNOTIFY_DIRENT_EVENTS	(FS_CREATE | FS_DELETE | FS_MOVE | \
++					 FS_DIR_MODIFY)
+ 
+ #define ALL_FSNOTIFY_PERM_EVENTS (FS_OPEN_PERM | FS_ACCESS_PERM | \
+ 				  FS_OPEN_EXEC_PERM)
+diff --git a/include/uapi/linux/fanotify.h b/include/uapi/linux/fanotify.h
+index 2a1844edda47..615fa2c87179 100644
+--- a/include/uapi/linux/fanotify.h
++++ b/include/uapi/linux/fanotify.h
+@@ -24,6 +24,7 @@
+ #define FAN_OPEN_PERM		0x00010000	/* File open in perm check */
+ #define FAN_ACCESS_PERM		0x00020000	/* File accessed in perm check */
+ #define FAN_OPEN_EXEC_PERM	0x00040000	/* File open/exec in perm check */
++#define FAN_DIR_MODIFY		0x00080000	/* Directory entry was modified */
+ 
+ #define FAN_EVENT_ON_CHILD	0x08000000	/* Interested in child events */
+ 
 -- 
 2.17.1
 
