@@ -2,49 +2,51 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E5786162CF3
-	for <lists+linux-api@lfdr.de>; Tue, 18 Feb 2020 18:32:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 809DF162CF4
+	for <lists+linux-api@lfdr.de>; Tue, 18 Feb 2020 18:32:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726779AbgBRRc2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 18 Feb 2020 12:32:28 -0500
-Received: from mail-pg1-f202.google.com ([209.85.215.202]:52373 "EHLO
-        mail-pg1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726610AbgBRRc1 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 18 Feb 2020 12:32:27 -0500
-Received: by mail-pg1-f202.google.com with SMTP id h21so14325010pgl.19
-        for <linux-api@vger.kernel.org>; Tue, 18 Feb 2020 09:32:25 -0800 (PST)
+        id S1726823AbgBRRc3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 18 Feb 2020 12:32:29 -0500
+Received: from mail-pj1-f74.google.com ([209.85.216.74]:59109 "EHLO
+        mail-pj1-f74.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726783AbgBRRc2 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 18 Feb 2020 12:32:28 -0500
+Received: by mail-pj1-f74.google.com with SMTP id ie20so474209pjb.8
+        for <linux-api@vger.kernel.org>; Tue, 18 Feb 2020 09:32:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc
-         :content-transfer-encoding;
-        bh=ebfF8pOo+xEWQraK5a885IMQv9bAJ6QGYlcTDoREdzI=;
-        b=PqZZqruQ/7dDlrD/N87ChBTNgKXEg+PA3IzOPfPY6JoLyTSIIoNZfrmkoNGIgWlnTs
-         mJmY7A/qGku4kmtVPfKi/Zo6BC402MLfDMvxVOC1bYuvBA4CqE2dAM5UXtjj8dRwnVS2
-         ZWycE0BlfttMwwDu3wZtwYs8RN6zyb2ZJi2elxfv6xuKqZnlWRC+tyC26N26M3IjlX/H
-         pVZ6/Y4KzXWjd+g8+02SDzj4hbK5DkTUrjGkITeWzfVAxQjd4MIdl3OJhN1Ff8G7JF0I
-         369zZpBupgnlZEgVwEEpPhzMnoDflGlAY+d2b9LYyuAT+4Ss3RPgN+HaH5kRW3sH4OT7
-         F8Nw==
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc;
+        bh=2uoNUUGtHwnITLt2DMb1JQQT22YDWW1bocfB8RTH9Fw=;
+        b=dVsc5heFCl4J22LEz6upTHD2gNOjl3TlZgwD22VL9ixDYsOL6JUZ9RD9dhwsF5kIeB
+         MsqvJwF9oGLPLQlNNT/pK6+DZTC4+Z2NdosRBWdj9xOsMyRbamJJWqkA9jglaBaVtY2X
+         TqUkxrRksMbhgh0elbm1yUgQGiTnztygwoaEVOg4cYeqNQ2svZdOxYAdqNDRowKKadlN
+         bo54zVRxWanbCYms9m8LGYR0TfIKpaZB9IEmFbjayqKuNJRA/b48ZcCN58kKLDh6uUEg
+         +WzWQsqF4q0wjQqAOBXRXpXvoXUvZUgICyQckiRyV9o8ytGRvdiAqCzy6D0gsHx6+Uj9
+         nf1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
-         :content-transfer-encoding;
-        bh=ebfF8pOo+xEWQraK5a885IMQv9bAJ6QGYlcTDoREdzI=;
-        b=sFYWU4ovAM+lx1zQTn/8oCc3Fi+YSfxUx1gXgjcnIY/EcvlzvDB5Vm/sMXN1Q7XQTE
-         rdBF1BDkdc7FO1kOmYriaPV9I3zti7Qw8DgNSFM3Q0g/m7E+7OY4W5EufudCrzMELyGq
-         8XM9/ePIXvIplLs3aZutvL/5sdo8OaWqdAhC0rMM0ruz7D4PzMduEoGFu52QbiendQSU
-         QMMYOZ1b2TatCSJ8C2cZVs+2COmfADj7l3RJRFlKQOW6qy446oa7bF06VhKRk2bxLBba
-         YMzLRb150I+6rv3x2xLI7TIZqmfssYnBG+fgKbWpVnuFIQpnNN7wwO2aaOBrr8in8U8v
-         J/xQ==
-X-Gm-Message-State: APjAAAXyaAd56FLi6dPHIXyNQ3N+1ybLkW37PlFiS/h4jVQWovIaysH8
-        SXA8FWtTOGdzgW04HsVpnt/NQRvyfRvd
-X-Google-Smtp-Source: APXvYqwYqvWu4bmg78Vlk33yab/grWuGIdV3qkndrOt4/v8PJmuM+GXSDgDfhEudf6V7wArBXW9JD6w4Cb1N
-X-Received: by 2002:a63:e50a:: with SMTP id r10mr13835452pgh.27.1582047145076;
- Tue, 18 Feb 2020 09:32:25 -0800 (PST)
-Date:   Tue, 18 Feb 2020 09:32:20 -0800
-Message-Id: <20200218173221.237674-1-bgeffon@google.com>
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=2uoNUUGtHwnITLt2DMb1JQQT22YDWW1bocfB8RTH9Fw=;
+        b=XSU7T/AGL9rEoBWRQlI3dq8ngu2tbCo0fU35jXGZsGhmut71zXfDou58ssXZp3M7Kt
+         LZ49IpRMu3UVZnaFe8KUf/Bt0IO8RQGTN72Ww/msSUBVXv4DX+aTLH2ID8MKbKFlNKRd
+         56+m8rLQu7ie7A9mIPo7Hd0sc5HFyCLuAVgIkEwIESMkbvZzjMZIdswcaHufYAlrk7gD
+         ev+ifioVw5S+pIx+OfjNrxD4rWEJBpdAVfiOFu6PuhzW8pt6SrHEkU5rL9dnxgmx8arR
+         kZvLVUUnderZpjvaCPmTjzNlwcU+fexjjMmc6lIgPkl06VLK1rdplNRWE4hXUEONLAUT
+         VWrw==
+X-Gm-Message-State: APjAAAXNHJOw9r+QE2e6kEknHUlleHPv4o559mwo6+aOeHExroRGwZlM
+        l1YXhozVObpDxaz/pq/o0z+ss5hy+LOZ
+X-Google-Smtp-Source: APXvYqzmdJV0euZbN5r9fOn9hcRMubD/PJBZubsR4EFkjREC7iKjmkdXyQeZAkpooEGfBe8piptVijirdm9d
+X-Received: by 2002:a63:4d8:: with SMTP id 207mr23985494pge.269.1582047147663;
+ Tue, 18 Feb 2020 09:32:27 -0800 (PST)
+Date:   Tue, 18 Feb 2020 09:32:21 -0800
+In-Reply-To: <20200218173221.237674-1-bgeffon@google.com>
+Message-Id: <20200218173221.237674-2-bgeffon@google.com>
 Mime-Version: 1.0
+References: <20200218173221.237674-1-bgeffon@google.com>
 X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
-Subject: [PATCH v6 1/2] mm: Add MREMAP_DONTUNMAP to mremap().
+Subject: [PATCH v6 2/2] selftest: Add MREMAP_DONTUNMAP selftest.
 From:   Brian Geffon <bgeffon@google.com>
 To:     Andrew Morton <akpm@linux-foundation.org>
 Cc:     "Michael S . Tsirkin" <mst@redhat.com>,
@@ -62,303 +64,390 @@ Cc:     "Michael S . Tsirkin" <mst@redhat.com>,
         Florian Weimer <fweimer@redhat.com>,
         "Kirill A . Shutemov" <kirill@shutemov.name>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-When remapping an anonymous, private mapping, if MREMAP_DONTUNMAP is
-set, the source mapping will not be removed. The remap operation
-will be performed as it would have been normally by moving over the
-page tables to the new mapping. The old vma will have any locked
-flags cleared, have no pagetables, and any userfaultfds that were
-watching that range will continue watching it.
+Add a few simple self tests for the new flag MREMAP_DONTUNMAP,
+they are simple smoke tests which also demonstrate the behavior.
 
-For a mapping that is shared or not anonymous, MREMAP_DONTUNMAP will cause
-the mremap() call to fail. Because MREMAP_DONTUNMAP always results in movin=
-g
-a VMA you MUST use the MREMAP_MAYMOVE flag. The final result is two
-equally sized VMAs where the destination contains the PTEs of the source.
-
-We hope to use this in Chrome OS where with userfaultfd we could write
-an anonymous mapping to disk without having to STOP the process or worry
-about VMA permission changes.
-
-This feature also has a use case in Android, Lokesh Gidra has said
-that "As part of using userfaultfd for GC, We'll have to move the physical
-pages of the java heap to a separate location. For this purpose mremap
-will be used. Without the MREMAP_DONTUNMAP flag, when I mremap the java
-heap, its virtual mapping will be removed as well. Therefore, we'll
-require performing mmap immediately after. This is not only time consuming
-but also opens a time window where a native thread may call mmap and
-reserve the java heap's address range for its own usage. This flag
-solves the problem."
-
-  v5 -> v6:
-    - Code cleanup suggested by Kirill.
-
-  v4 -> v5:
-    - Correct commit message to more accurately reflect the behavior.
-    - Clear VM_LOCKED and VM_LOCKEDONFAULT on the old vma.
-        =C2=A0 =C2=A0
 Signed-off-by: Brian Geffon <bgeffon@google.com>
 ---
- include/uapi/linux/mman.h |   5 +-
- mm/mremap.c               | 103 ++++++++++++++++++++++++++++++--------
- 2 files changed, 85 insertions(+), 23 deletions(-)
+ tools/testing/selftests/vm/Makefile           |   1 +
+ tools/testing/selftests/vm/mremap_dontunmap.c | 326 ++++++++++++++++++
+ tools/testing/selftests/vm/run_vmtests        |  15 +
+ 3 files changed, 342 insertions(+)
+ create mode 100644 tools/testing/selftests/vm/mremap_dontunmap.c
 
-diff --git a/include/uapi/linux/mman.h b/include/uapi/linux/mman.h
-index fc1a64c3447b..923cc162609c 100644
---- a/include/uapi/linux/mman.h
-+++ b/include/uapi/linux/mman.h
-@@ -5,8 +5,9 @@
- #include <asm/mman.h>
- #include <asm-generic/hugetlb_encode.h>
-=20
--#define MREMAP_MAYMOVE	1
--#define MREMAP_FIXED	2
-+#define MREMAP_MAYMOVE		1
-+#define MREMAP_FIXED		2
-+#define MREMAP_DONTUNMAP	4
-=20
- #define OVERCOMMIT_GUESS		0
- #define OVERCOMMIT_ALWAYS		1
-diff --git a/mm/mremap.c b/mm/mremap.c
-index 1fc8a29fbe3f..fa27103502c5 100644
---- a/mm/mremap.c
-+++ b/mm/mremap.c
-@@ -318,8 +318,8 @@ unsigned long move_page_tables(struct vm_area_struct *v=
-ma,
- static unsigned long move_vma(struct vm_area_struct *vma,
- 		unsigned long old_addr, unsigned long old_len,
- 		unsigned long new_len, unsigned long new_addr,
--		bool *locked, struct vm_userfaultfd_ctx *uf,
--		struct list_head *uf_unmap)
-+		bool *locked, unsigned long flags,
-+		struct vm_userfaultfd_ctx *uf, struct list_head *uf_unmap)
- {
- 	struct mm_struct *mm =3D vma->vm_mm;
- 	struct vm_area_struct *new_vma;
-@@ -408,11 +408,46 @@ static unsigned long move_vma(struct vm_area_struct *=
-vma,
- 	if (unlikely(vma->vm_flags & VM_PFNMAP))
- 		untrack_pfn_moved(vma);
-=20
-+	if (unlikely(!err && (flags & MREMAP_DONTUNMAP))) {
-+		if (vm_flags & VM_ACCOUNT) {
-+			/* Always put back VM_ACCOUNT since we won't unmap */
-+			vma->vm_flags |=3D VM_ACCOUNT;
+diff --git a/tools/testing/selftests/vm/Makefile b/tools/testing/selftests/vm/Makefile
+index 9534dc2bc929..4b2b969fc3c7 100644
+--- a/tools/testing/selftests/vm/Makefile
++++ b/tools/testing/selftests/vm/Makefile
+@@ -12,6 +12,7 @@ TEST_GEN_FILES += map_fixed_noreplace
+ TEST_GEN_FILES += map_populate
+ TEST_GEN_FILES += mlock-random-test
+ TEST_GEN_FILES += mlock2-tests
++TEST_GEN_FILES += mremap_dontunmap
+ TEST_GEN_FILES += on-fault-limit
+ TEST_GEN_FILES += thuge-gen
+ TEST_GEN_FILES += transhuge-stress
+diff --git a/tools/testing/selftests/vm/mremap_dontunmap.c b/tools/testing/selftests/vm/mremap_dontunmap.c
+new file mode 100644
+index 000000000000..de2a861c7c6d
+--- /dev/null
++++ b/tools/testing/selftests/vm/mremap_dontunmap.c
+@@ -0,0 +1,326 @@
++// SPDX-License-Identifier: GPL-2.0
 +
-+			vm_acct_memory(vma_pages(new_vma));
-+		}
++/*
++ * Tests for mremap w/ MREMAP_DONTUNMAP.
++ *
++ * Copyright 2020, Brian Geffon <bgeffon@google.com>
++ */
++#define _GNU_SOURCE
++#include <sys/mman.h>
++#include <errno.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <stdlib.h>
++#include <unistd.h>
 +
-+		/*
-+		 * locked_vm accounting: if the mapping remained the same size
-+		 * it will have just moved and we don't need to touch locked_vm
-+		 * because we skip the do_unmap. If the mapping shrunk before
-+		 * being moved then the do_unmap on that portion will have
-+		 * adjusted vm_locked. Only if the mapping grows do we need to
-+		 * do something special; the reason is locked_vm only accounts
-+		 * for old_len, but we're now adding new_len - old_len locked
-+		 * bytes to the new mapping.
-+		 */
-+		if (vm_flags & VM_LOCKED && new_len > old_len) {
-+			mm->locked_vm +=3D (new_len - old_len) >> PAGE_SHIFT;
-+			*locked =3D true;
-+		}
++#include "../kselftest.h"
 +
-+		/* We always clear VM_LOCKED[ONFAULT] on the old vma */
-+		vma->vm_flags &=3D VM_LOCKED_CLEAR_MASK;
++#ifndef MREMAP_DONTUNMAP
++#define MREMAP_DONTUNMAP 4
++#endif
 +
-+		goto out;
++unsigned long page_size;
++char *page_buffer;
++
++static void dump_maps(void)
++{
++        char cmd[32];
++
++        snprintf(cmd, sizeof(cmd), "cat /proc/%d/maps", getpid());
++        system(cmd);
++}
++
++#define BUG_ON(condition, description)					      \
++	do {								      \
++		if (condition) {					      \
++			fprintf(stderr, "[FAIL]\t%s():%d\t%s:%s\n", __func__, \
++				__LINE__, (description), strerror(errno));    \
++			dump_maps();                                          \
++			exit(1);					      \
++		} 							      \
++	} while (0)
++
++// Try a simple operation for to "test" for kernel support this prevents
++// reporting tests as failed when it's run on an older kernel.
++static int kernel_support_for_mremap_dontunmap()
++{
++        int ret = 0;
++        unsigned long num_pages = 1;
++        void *source_mapping = mmap(NULL, num_pages * page_size, PROT_NONE,
++                                    MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++        BUG_ON(source_mapping == MAP_FAILED, "mmap");
++
++        // This simple remap should only fail if MREMAP_DONTUNMAP isn't
++        // supported.
++        void *dest_mapping =
++            mremap(source_mapping, num_pages * page_size, num_pages * page_size,
++                   MREMAP_DONTUNMAP | MREMAP_MAYMOVE, 0);
++        if (dest_mapping == MAP_FAILED) {
++                ret = errno;
++        } else {
++                BUG_ON(munmap(dest_mapping, num_pages * page_size) == -1,
++                       "unable to unmap destination mapping");
++        }
++
++        BUG_ON(munmap(source_mapping, num_pages * page_size) == -1,
++               "unable to unmap source mapping");
++        return ret;
++}
++
++// This helper will just validate that an entire mapping contains the expected
++// byte.
++static int check_region_contains_byte(void *addr, unsigned long size, char byte)
++{
++        BUG_ON(size & (page_size - 1),
++               "check_region_contains_byte expects page multiples");
++        BUG_ON((unsigned long)addr & (page_size - 1),
++               "check_region_contains_byte expects page alignment");
++
++        memset(page_buffer, byte, page_size);
++
++        unsigned long num_pages = size / page_size;
++        unsigned long i;
++
++        // Compare each page checking that it contains our expected byte.
++        for (i = 0; i < num_pages; ++i) {
++                int ret =
++                    memcmp(addr + (i * page_size), page_buffer, page_size);
++                if (ret) {
++                        return ret;
++                }
++        }
++
++        return 0;
++}
++
++// this test validates that MREMAP_DONTUNMAP moves the pagetables while leaving
++// the source mapping mapped.
++static void mremap_dontunmap_simple()
++{
++        unsigned long num_pages = 5;
++
++        void *source_mapping =
++            mmap(NULL, num_pages * page_size, PROT_READ | PROT_WRITE,
++                 MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++        BUG_ON(source_mapping == MAP_FAILED, "mmap");
++
++        memset(source_mapping, 'a', num_pages * page_size);
++
++        // Try to just move the whole mapping anywhere (not fixed).
++        void *dest_mapping =
++            mremap(source_mapping, num_pages * page_size, num_pages * page_size,
++                   MREMAP_DONTUNMAP | MREMAP_MAYMOVE, NULL);
++        BUG_ON(dest_mapping == MAP_FAILED, "mremap");
++
++        // Validate that the pages have been moved, we know they were moved if
++        // the dest_mapping contains a's.
++        BUG_ON(check_region_contains_byte
++               (dest_mapping, num_pages * page_size, 'a') != 0,
++               "pages did not migrate");
++        BUG_ON(check_region_contains_byte
++               (source_mapping, num_pages * page_size, 0) != 0,
++               "source should have no ptes");
++
++        BUG_ON(munmap(dest_mapping, num_pages * page_size) == -1,
++               "unable to unmap destination mapping");
++        BUG_ON(munmap(source_mapping, num_pages * page_size) == -1,
++               "unable to unmap source mapping");
++}
++
++// This test validates MREMAP_DONTUNMAP will move page tables to a specific
++// destination using MREMAP_FIXED, also while validating that the source
++// remains intact.
++static void mremap_dontunmap_simple_fixed()
++{
++        unsigned long num_pages = 5;
++
++        // Since we want to guarantee that we can remap to a point, we will
++        // create a mapping up front.
++        void *dest_mapping =
++            mmap(NULL, num_pages * page_size, PROT_READ | PROT_WRITE,
++                 MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++        BUG_ON(dest_mapping == MAP_FAILED, "mmap");
++        memset(dest_mapping, 'X', num_pages * page_size);
++
++        void *source_mapping =
++            mmap(NULL, num_pages * page_size, PROT_READ | PROT_WRITE,
++                 MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++        BUG_ON(source_mapping == MAP_FAILED, "mmap");
++        memset(source_mapping, 'a', num_pages * page_size);
++
++        void *remapped_mapping =
++            mremap(source_mapping, num_pages * page_size, num_pages * page_size,
++                   MREMAP_FIXED | MREMAP_DONTUNMAP | MREMAP_MAYMOVE,
++                   dest_mapping);
++        BUG_ON(remapped_mapping == MAP_FAILED, "mremap");
++        BUG_ON(remapped_mapping != dest_mapping,
++               "mremap should have placed the remapped mapping at dest_mapping");
++
++        // The dest mapping will have been unmap by mremap so we expect the Xs
++        // to be gone and replaced with a's.
++        BUG_ON(check_region_contains_byte
++               (dest_mapping, num_pages * page_size, 'a') != 0,
++               "pages did not migrate");
++
++        // And the source mapping will have had its ptes dropped.
++        BUG_ON(check_region_contains_byte
++               (source_mapping, num_pages * page_size, 0) != 0,
++               "source should have no ptes");
++
++        BUG_ON(munmap(dest_mapping, num_pages * page_size) == -1,
++               "unable to unmap destination mapping");
++        BUG_ON(munmap(source_mapping, num_pages * page_size) == -1,
++               "unable to unmap source mapping");
++}
++
++// This test validates that we can MREMAP_DONTUNMAP for a portion of an
++// existing mapping.
++static void mremap_dontunmap_partial_mapping()
++{
++        /*
++         *  source mapping:
++         *  --------------
++         *  | aaaaaaaaaa |
++         *  --------------
++         *  to become:
++         *  --------------
++         *  | aaaaa00000 |
++         *  --------------
++         *  With the destination mapping containing 5 pages of As.
++         *  ---------
++         *  | aaaaa |
++         *  ---------
++         */
++        unsigned long num_pages = 10;
++        void *source_mapping =
++            mmap(NULL, num_pages * page_size, PROT_READ | PROT_WRITE,
++                 MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++        BUG_ON(source_mapping == MAP_FAILED, "mmap");
++        memset(source_mapping, 'a', num_pages * page_size);
++
++        // We will grab the last 5 pages of the source and move them.
++        void *dest_mapping =
++            mremap(source_mapping + (5 * page_size), 5 * page_size,
++                   5 * page_size,
++                   MREMAP_DONTUNMAP | MREMAP_MAYMOVE, NULL);
++        BUG_ON(dest_mapping == MAP_FAILED, "mremap");
++
++        // We expect the first 5 pages of the source to contain a's and the
++        // final 5 pages to contain zeros.
++        BUG_ON(check_region_contains_byte(source_mapping, 5 * page_size, 'a') !=
++               0, "first 5 pages of source should have original pages");
++        BUG_ON(check_region_contains_byte
++               (source_mapping + (5 * page_size), 5 * page_size, 0) != 0,
++               "final 5 pages of source should have no ptes");
++
++        // Finally we expect the destination to have 5 pages worth of a's.
++        BUG_ON(check_region_contains_byte(dest_mapping, 5 * page_size, 'a') !=
++               0, "dest mapping should contain ptes from the source");
++
++        BUG_ON(munmap(dest_mapping, 5 * page_size) == -1,
++               "unable to unmap destination mapping");
++        BUG_ON(munmap(source_mapping, num_pages * page_size) == -1,
++               "unable to unmap source mapping");
++}
++
++// This test validates that we can shrink an existing mapping via the normal
++// mremap behavior along with the MREMAP_DONTUNMAP flag.
++static void mremap_dontunmap_shrink_mapping()
++{
++        /*
++         * We shrink the source by 5 pages while remapping.
++         *  source mapping:
++         *  --------------
++         *  | aaaaaaaaaa |
++         *  --------------
++         *  to become:
++         *  ---------
++         *  | 00000 |
++         *  ---------
++         *  With the destination mapping containing 5 pages of As followed by
++         *  the original pages of Xs.
++         *  --------------
++         *  | aaaaaXXXXX |
++         *  --------------
++         */
++
++        unsigned long num_pages = 10;
++
++        // We use MREMAP_FIXED because we don't want the mremap to place the
++        // remapped mapping behind the source, if it did
++        // we wouldn't be able to validate that the mapping was in fact
++        // adjusted.
++        void *dest_mapping =
++            mmap(NULL, num_pages * page_size, PROT_READ | PROT_WRITE,
++                 MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++        BUG_ON(dest_mapping == MAP_FAILED, "mmap");
++        memset(dest_mapping, 'X', num_pages * page_size);
++
++        void *source_mapping =
++            mmap(NULL, num_pages * page_size, PROT_READ | PROT_WRITE,
++                 MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++        BUG_ON(source_mapping == MAP_FAILED, "mmap");
++        memset(source_mapping, 'a', num_pages * page_size);
++
++        // We are shrinking the mapping while also using MREMAP_DONTUNMAP
++        void *remapped_mapping =
++            mremap(source_mapping, num_pages * page_size, 5 * page_size,
++                   MREMAP_FIXED | MREMAP_DONTUNMAP | MREMAP_MAYMOVE,
++                   dest_mapping);
++        BUG_ON(remapped_mapping == MAP_FAILED, "mremap");
++        BUG_ON(remapped_mapping != dest_mapping,
++               "expected mremap to place mapping at dest");
++
++        // The last 5 pages of source should have become unmapped while the
++        // first 5 remain.
++        unsigned char buf[5];
++        int ret = mincore(source_mapping + (5 * page_size), 5 * page_size, buf);
++        BUG_ON((ret != -1 || (ret == -1 && errno != ENOMEM)),
++               "we expect -ENOMEM from mincore.");
++
++        BUG_ON(check_region_contains_byte(source_mapping, 5 * page_size, 0) !=
++               0, "source should have no ptes");
++        BUG_ON(check_region_contains_byte(dest_mapping, 5 * page_size, 'a') !=
++               0, "dest mapping should contain ptes from the source");
++
++        // And the second half of the destination should be unchanged.
++        BUG_ON(check_region_contains_byte(dest_mapping + (5 * page_size),
++                                          5 * page_size, 'X') != 0,
++               "second half of dest shouldn't be touched");
++
++        // Cleanup
++        BUG_ON(munmap(dest_mapping, num_pages * page_size) == -1,
++               "unable to unmap destination mapping");
++        BUG_ON(munmap(source_mapping, 5 * page_size) == -1,
++               "unable to unmap source mapping");
++}
++
++int main(void)
++{
++        page_size = sysconf(_SC_PAGE_SIZE);
++
++        // test for kernel support for MREMAP_DONTUNMAP skipping the test if
++        // not.
++        if (kernel_support_for_mremap_dontunmap() != 0) {
++		printf("No kernel support for MREMAP_DONTUNMAP\n");
++		return KSFT_SKIP;
 +	}
 +
- 	if (do_munmap(mm, old_addr, old_len, uf_unmap) < 0) {
- 		/* OOM: unable to split vma, just get accounts right */
- 		vm_unacct_memory(excess >> PAGE_SHIFT);
- 		excess =3D 0;
- 	}
++        // Keep a page sized buffer around for when we need it.
++        page_buffer =
++            mmap(NULL, page_size, PROT_READ | PROT_WRITE,
++                 MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++        BUG_ON(page_buffer == MAP_FAILED, "unable to mmap a page.");
 +
-+	if (vm_flags & VM_LOCKED) {
-+		mm->locked_vm +=3D new_len >> PAGE_SHIFT;
-+		*locked =3D true;
-+	}
-+out:
- 	mm->hiwater_vm =3D hiwater_vm;
-=20
- 	/* Restore VM_ACCOUNT if one or two pieces of vma left */
-@@ -422,16 +457,12 @@ static unsigned long move_vma(struct vm_area_struct *=
-vma,
- 			vma->vm_next->vm_flags |=3D VM_ACCOUNT;
- 	}
-=20
--	if (vm_flags & VM_LOCKED) {
--		mm->locked_vm +=3D new_len >> PAGE_SHIFT;
--		*locked =3D true;
--	}
--
- 	return new_addr;
- }
-=20
- static struct vm_area_struct *vma_to_resize(unsigned long addr,
--	unsigned long old_len, unsigned long new_len, unsigned long *p)
-+	unsigned long old_len, unsigned long new_len, unsigned long flags,
-+	unsigned long *p)
- {
- 	struct mm_struct *mm =3D current->mm;
- 	struct vm_area_struct *vma =3D find_vma(mm, addr);
-@@ -453,6 +484,10 @@ static struct vm_area_struct *vma_to_resize(unsigned l=
-ong addr,
- 		return ERR_PTR(-EINVAL);
- 	}
-=20
-+	if (flags & MREMAP_DONTUNMAP && (!vma_is_anonymous(vma) ||
-+			vma->vm_flags & VM_SHARED))
-+		return ERR_PTR(-EINVAL);
++        mremap_dontunmap_simple();
++        mremap_dontunmap_simple_fixed();
++        mremap_dontunmap_partial_mapping();
++        mremap_dontunmap_shrink_mapping();
 +
- 	if (is_vm_hugetlb_page(vma))
- 		return ERR_PTR(-EINVAL);
-=20
-@@ -497,7 +532,7 @@ static struct vm_area_struct *vma_to_resize(unsigned lo=
-ng addr,
-=20
- static unsigned long mremap_to(unsigned long addr, unsigned long old_len,
- 		unsigned long new_addr, unsigned long new_len, bool *locked,
--		struct vm_userfaultfd_ctx *uf,
-+		unsigned long flags, struct vm_userfaultfd_ctx *uf,
- 		struct list_head *uf_unmap_early,
- 		struct list_head *uf_unmap)
- {
-@@ -505,7 +540,7 @@ static unsigned long mremap_to(unsigned long addr, unsi=
-gned long old_len,
- 	struct vm_area_struct *vma;
- 	unsigned long ret =3D -EINVAL;
- 	unsigned long charged =3D 0;
--	unsigned long map_flags;
-+	unsigned long map_flags =3D 0;
-=20
- 	if (offset_in_page(new_addr))
- 		goto out;
-@@ -534,9 +569,11 @@ static unsigned long mremap_to(unsigned long addr, uns=
-igned long old_len,
- 	if ((mm->map_count + 2) >=3D sysctl_max_map_count - 3)
- 		return -ENOMEM;
-=20
--	ret =3D do_munmap(mm, new_addr, new_len, uf_unmap_early);
--	if (ret)
--		goto out;
-+	if (flags & MREMAP_FIXED) {
-+		ret =3D do_munmap(mm, new_addr, new_len, uf_unmap_early);
-+		if (ret)
-+			goto out;
-+	}
-=20
- 	if (old_len >=3D new_len) {
- 		ret =3D do_munmap(mm, addr+new_len, old_len - new_len, uf_unmap);
-@@ -545,13 +582,26 @@ static unsigned long mremap_to(unsigned long addr, un=
-signed long old_len,
- 		old_len =3D new_len;
- 	}
-=20
--	vma =3D vma_to_resize(addr, old_len, new_len, &charged);
-+	vma =3D vma_to_resize(addr, old_len, new_len, flags, &charged);
- 	if (IS_ERR(vma)) {
- 		ret =3D PTR_ERR(vma);
- 		goto out;
- 	}
-=20
--	map_flags =3D MAP_FIXED;
-+	/*
-+	 * MREMAP_DONTUNMAP expands by new_len - (new_len - old_len), we will
-+	 * check that we can expand by new_len and vma_to_resize will handle
-+	 * the vma growing which is (new_len - old_len).
-+	 */
-+	if (flags & MREMAP_DONTUNMAP &&
-+		!may_expand_vm(mm, vma->vm_flags, new_len >> PAGE_SHIFT)) {
-+		ret =3D -ENOMEM;
-+		goto out;
-+	}
++        BUG_ON(munmap(page_buffer, page_size) == -1,
++               "unable to unmap page buffer");
 +
-+	if (flags & MREMAP_FIXED)
-+		map_flags |=3D MAP_FIXED;
++        printf("OK\n");
++        return 0;
++}
+diff --git a/tools/testing/selftests/vm/run_vmtests b/tools/testing/selftests/vm/run_vmtests
+index 951c507a27f7..d380b95c5de5 100755
+--- a/tools/testing/selftests/vm/run_vmtests
++++ b/tools/testing/selftests/vm/run_vmtests
+@@ -227,4 +227,19 @@ else
+ 	exitcode=1
+ fi
+ 
++echo "------------------------------------"
++echo "running MREMAP_DONTUNMAP smoke test"
++echo "------------------------------------"
++./mremap_dontunmap
++ret_val=$?
 +
- 	if (vma->vm_flags & VM_MAYSHARE)
- 		map_flags |=3D MAP_SHARED;
-=20
-@@ -561,10 +611,16 @@ static unsigned long mremap_to(unsigned long addr, un=
-signed long old_len,
- 	if (offset_in_page(ret))
- 		goto out1;
-=20
--	ret =3D move_vma(vma, addr, old_len, new_len, new_addr, locked, uf,
-+	/* We got a new mapping */
-+	if (!(flags & MREMAP_FIXED))
-+		new_addr =3D ret;
-+
-+	ret =3D move_vma(vma, addr, old_len, new_len, new_addr, locked, flags, uf=
-,
- 		       uf_unmap);
-+
- 	if (!(offset_in_page(ret)))
- 		goto out;
-+
- out1:
- 	vm_unacct_memory(charged);
-=20
-@@ -609,12 +665,16 @@ SYSCALL_DEFINE5(mremap, unsigned long, addr, unsigned=
- long, old_len,
- 	addr =3D untagged_addr(addr);
- 	new_addr =3D untagged_addr(new_addr);
-=20
--	if (flags & ~(MREMAP_FIXED | MREMAP_MAYMOVE))
-+	if (flags & ~(MREMAP_FIXED | MREMAP_MAYMOVE | MREMAP_DONTUNMAP))
- 		return ret;
-=20
- 	if (flags & MREMAP_FIXED && !(flags & MREMAP_MAYMOVE))
- 		return ret;
-=20
-+	/* MREMAP_DONTUNMAP is always a move */
-+	if (flags & MREMAP_DONTUNMAP && !(flags & MREMAP_MAYMOVE))
-+		return ret;
-+
- 	if (offset_in_page(addr))
- 		return ret;
-=20
-@@ -632,9 +692,10 @@ SYSCALL_DEFINE5(mremap, unsigned long, addr, unsigned =
-long, old_len,
- 	if (down_write_killable(&current->mm->mmap_sem))
- 		return -EINTR;
-=20
--	if (flags & MREMAP_FIXED) {
-+	if (flags & (MREMAP_FIXED | MREMAP_DONTUNMAP)) {
- 		ret =3D mremap_to(addr, old_len, new_addr, new_len,
--				&locked, &uf, &uf_unmap_early, &uf_unmap);
-+				&locked, flags, &uf, &uf_unmap_early,
-+				&uf_unmap);
- 		goto out;
- 	}
-=20
-@@ -662,7 +723,7 @@ SYSCALL_DEFINE5(mremap, unsigned long, addr, unsigned l=
-ong, old_len,
- 	/*
- 	 * Ok, we need to grow..
- 	 */
--	vma =3D vma_to_resize(addr, old_len, new_len, &charged);
-+	vma =3D vma_to_resize(addr, old_len, new_len, flags, &charged);
- 	if (IS_ERR(vma)) {
- 		ret =3D PTR_ERR(vma);
- 		goto out;
-@@ -712,7 +773,7 @@ SYSCALL_DEFINE5(mremap, unsigned long, addr, unsigned l=
-ong, old_len,
- 		}
-=20
- 		ret =3D move_vma(vma, addr, old_len, new_len, new_addr,
--			       &locked, &uf, &uf_unmap);
-+			       &locked, flags, &uf, &uf_unmap);
- 	}
- out:
- 	if (offset_in_page(ret)) {
---=20
++if [ $ret_val -eq 0 ]; then
++	echo "[PASS]"
++elif [ $ret_val -eq $ksft_skip ]; then
++	 echo "[SKIP]"
++	 exitcode=$ksft_skip
++else
++	echo "[FAIL]"
++	exitcode=1
++fi
+ exit $exitcode
+-- 
 2.25.0.265.gbab2e86ba0-goog
 
