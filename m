@@ -2,55 +2,53 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DFD4F1638EA
-	for <lists+linux-api@lfdr.de>; Wed, 19 Feb 2020 02:02:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 34EEC16397D
+	for <lists+linux-api@lfdr.de>; Wed, 19 Feb 2020 02:44:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726482AbgBSBCz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 18 Feb 2020 20:02:55 -0500
-Received: from mail-pj1-f65.google.com ([209.85.216.65]:39850 "EHLO
-        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726422AbgBSBCz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 18 Feb 2020 20:02:55 -0500
-Received: by mail-pj1-f65.google.com with SMTP id e9so1787091pjr.4;
-        Tue, 18 Feb 2020 17:02:54 -0800 (PST)
+        id S1727763AbgBSBoi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 18 Feb 2020 20:44:38 -0500
+Received: from mail-pj1-f68.google.com ([209.85.216.68]:51911 "EHLO
+        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727533AbgBSBoi (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 18 Feb 2020 20:44:38 -0500
+Received: by mail-pj1-f68.google.com with SMTP id fa20so1861729pjb.1;
+        Tue, 18 Feb 2020 17:44:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=XjAe17WwACXa462Lft2fmmYSSdsBuO8CjnLHnDQfA9o=;
-        b=N/mnf1Er4IIWBp/vNkC29mKZ4xdYtar5T1k0lCH0ra0Gvg4QEsfodG4yfbYjbIIVsA
-         Ebxt5L+ceOQDzzgQ6ss86xHtREFi/atw695bOLYoGADEvvUHZWQrOn3GjpxgtI80l4nf
-         dgcEwaDoUjgD8cKwpn2DT7SP55f/ZpeuEi9PesGyEYi75Cwkm8OrHffgemLfc21yIrJa
-         aoXB10/qxrB2kTMZWy0pY/5Y9GD7DPniS0kC7A0ckCJxB0JvfOXv6RgEuMZymEVkCP3m
-         VLplNEJHE/x8lhuA06ehV5xEjMvN7tIlS668+bwte2sjl1f4i9vAGiQlw7iV8BvcOPMa
-         B0Zg==
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jexvvsJg+MaDHz4Tc7pcFF//GHPzAbjYjk1o03WxMjk=;
+        b=OOtOyOOiA/Z2sEg/9aLi0DEKLDWgMMh0gloywbMYa0ILzbiUUwIiNhq9/UmbTaKmN1
+         fHvjq++7nDH89D9L/zUWlcWbDaUZ77cSQ1FLA8bHVVHDqBcvA7HDC/dzjGwTo9UTydB8
+         oGCSX7p3/ykmkgnUlhOrPIy9NG8TGJLvT0fh0xqgIKi+kIFllCpzN8shnF6XXHa29Jpk
+         owOEf5MIcd1jBbBTehuxfxDAu40WX3QPMzKj9QnidLPDBsHND2lYL82hjXp9r5k2LeUJ
+         o6MYQxk4C/GFDCapJAaHhDCsjAIc/wz96owcRuNe/Qg4QiA/JmiyOlT7YoBGuag74qYF
+         OCYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=XjAe17WwACXa462Lft2fmmYSSdsBuO8CjnLHnDQfA9o=;
-        b=IjqTQpagTIHZ8IBpUYnaYhpwn2a8Sr9U2tXcyDyPiYxocO/MZlJY2ARdJ9KRDgvvPO
-         yoCucKtljjeYeWtIHLIpPofch6cX0wG+vu3RiiJ2FVdPKJP0TIMCyYMUphmtqwVopUj9
-         d8XEopFYCiQqomKj/NZiOdJwlH8DwHyuvZjTwbAeIfYTrMMAUxjN2FYJ+VQxpKqB6WrA
-         CO8+Cya4KsXUd13l4CvlM/hKwFyuq8V5qQycfYkM2LtFGXU4hZdEvpSCRqryd0DdkmMg
-         GseBH7LRWFIoxrDNAc3TlPxQUElObxRv179Ny0wD7NKzCZbpKE+rFopE8hkcDgorZdLm
-         kxXw==
-X-Gm-Message-State: APjAAAVEpfikGysjUkFto0NOAa7FNaFomBdlKhdcGpN/WP7g1wnQF6ie
-        mT0KOxxn6fLRiV5b2tMI+9c=
-X-Google-Smtp-Source: APXvYqw/93b9ec12Bht0Doaq2TFiyyatxu8H8/vw+iAKm+7XIR1dpiYwJce2oS3meL+K6eTrysEwfQ==
-X-Received: by 2002:a17:902:b110:: with SMTP id q16mr23061828plr.289.1582074174075;
-        Tue, 18 Feb 2020 17:02:54 -0800 (PST)
-Received: from google.com ([2620:15c:211:1:3e01:2939:5992:52da])
-        by smtp.gmail.com with ESMTPSA id r9sm208768pfl.136.2020.02.18.17.02.52
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=jexvvsJg+MaDHz4Tc7pcFF//GHPzAbjYjk1o03WxMjk=;
+        b=Jku3RgMAwWbDMejBlVcDHci2Z+V4o+vTxx1UnyqNDn2EC3//ShHl8ekpSkOFXLXclT
+         YZ8EbdQ/mDEtV1n+EOrWz2Fo+bK5NWm9egzujyiHyMXAwmHO/2Y/YGoKYIEynhThe8QW
+         95KvsRG7L+IJ9eu4v4uBsU3tE+Gvm2Ta7BhzBYRSnWewVHd9HzCuVTl1IPAu8kxrNEPS
+         IqMOFgySZ5nCBtmja9yCIlBNCcgCuExxztR3nOPSlB/mNzofGVUAs1Kei5893BSes51H
+         yyN2LMKX7VDvwkG6MOIfO0+ZCvuQGl9vmn/3Xhenw2iDq5EXVKLP60ePRa4iRAOxndWA
+         0avg==
+X-Gm-Message-State: APjAAAUr27ovScddgXaEUlCCWpRNOOaXtRAEcP1/2nkExH+rtO2so6KB
+        BAeEkiWelVO4dKpZ0T2HByM=
+X-Google-Smtp-Source: APXvYqzSzVk5xtTCn6Y0eWG7homfmpB0LfjG1wXXG9Gh5SqfXEE4253LF8S/uxor/szQK15/b1qCnw==
+X-Received: by 2002:a17:90a:8b82:: with SMTP id z2mr6336196pjn.59.1582076677219;
+        Tue, 18 Feb 2020 17:44:37 -0800 (PST)
+Received: from bbox-1.mtv.corp.google.com ([2620:15c:211:1:3e01:2939:5992:52da])
+        by smtp.gmail.com with ESMTPSA id t186sm221192pgd.26.2020.02.18.17.44.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Feb 2020 17:02:52 -0800 (PST)
-Date:   Tue, 18 Feb 2020 17:02:50 -0800
+        Tue, 18 Feb 2020 17:44:36 -0800 (PST)
 From:   Minchan Kim <minchan@kernel.org>
-To:     Christoph Hellwig <hch@infradead.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
-        oleksandr@redhat.com, Suren Baghdasaryan <surenb@google.com>,
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
+        linux-api@vger.kernel.org, oleksandr@redhat.com,
+        Suren Baghdasaryan <surenb@google.com>,
         Tim Murray <timmurray@google.com>,
         Daniel Colascione <dancol@google.com>,
         Sandeep Patil <sspatil@google.com>,
@@ -62,34 +60,103 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         John Dias <joaodias@google.com>,
         Joel Fernandes <joel@joelfernandes.org>, sj38.park@gmail.com,
         alexander.h.duyck@linux.intel.com, Jann Horn <jannh@google.com>,
-        Christian Brauner <christian@brauner.io>
-Subject: Re: [PATCH v5 4/7] pid: export pidfd_get_pid
-Message-ID: <20200219010250.GB126504@google.com>
-References: <20200214170520.160271-1-minchan@kernel.org>
- <20200214170520.160271-5-minchan@kernel.org>
- <20200217075940.GA10342@infradead.org>
+        Minchan Kim <minchan@kernel.org>
+Subject: [PATCH v6 0/7] introduce memory hinting API for external process
+Date:   Tue, 18 Feb 2020 17:44:26 -0800
+Message-Id: <20200219014433.88424-1-minchan@kernel.org>
+X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200217075940.GA10342@infradead.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sun, Feb 16, 2020 at 11:59:40PM -0800, Christoph Hellwig wrote:
-> On Fri, Feb 14, 2020 at 09:05:17AM -0800, Minchan Kim wrote:
-> > process_madvise syscall needs pidfd_get_pid function to translate
-> > pidfd to pid so this patch exports the function.
-> 
-> For that it should not need to exported, but then again the actual
-> patch doesn't export it anyway, so this is just a commit log issue.
-> 
-> >  extern struct pid *pidfd_pid(const struct file *file);
-> > +extern struct pid *pidfd_get_pid(unsigned int fd);
-> 
-> ... and there is no need for the extern keyword on prototypes in
-> headers.
+Now, we have MADV_PAGEOUT and MADV_COLD as madvise hinting API. With that,
+application could give hints to kernel what memory range are preferred to be
+reclaimed. However, in some platform(e.g., Android), the information
+required to make the hinting decision is not known to the app.
+Instead, it is known to a centralized userspace daemon(e.g., ActivityManagerService),
+and that daemon must be able to initiate reclaim on its own without any app
+involvement.
 
-Will fix new version. Thanks for the review!
+To solve the concern, this patch introduces new syscall - process_madvise(2).
+Bascially, it's same with madvise(2) syscall but it has some differences.
+
+1. It needs pidfd of target process to provide the hint
+2. It supports only MADV_{COLD|PAGEOUT|MERGEABLE|UNMEREABLE} at this moment.
+   Other hints in madvise will be opened when there are explicit requests from
+   community to prevent unexpected bugs we couldn't support.
+3. Only privileged processes can do something for other process's address
+   space.
+
+For more detail of the new API, please see "mm: introduce external memory hinting API"
+description in this patchset.
+
+* from v5 - https://lore.kernel.org/linux-mm/20200214170520.160271-1-minchan@kernel.org/
+  * use null task and requestor's mm for io_madvise - Jann and Jens
+  * use right commit description for moving pidfd_get_pid - Christoph
+
+* from v4 - https://lore.kernel.org/linux-mm/20200212233946.246210-1-minchan@kernel.org/
+  * pass mm down to functions, not accessing task->mm - Jann
+  * clean up - Alexander
+  * add Reviewed-by - Alexander, SeongJae
+  * patch reordering
+
+* from v3 - https://lore.kernel.org/linux-mm/20200128001641.5086-1-minchan@kernel.org/
+  * verify task->mm aftere access_mm - Oleg
+  * split some patches for easy review - Alexander
+  * clean up fatal signal checking - Suren
+
+* from v2 - https://lore.kernel.org/linux-mm/20200116235953.163318-1-minchan@kernel.org/
+  * check signal callee and caller to bail out - Kirill Tkhai
+  * put more clarification for justification of new API
+
+* from v1 - https://lore.kernel.org/linux-mm/20200110213433.94739-1-minchan@kernel.org/
+  * fix syscall number - SeongJae
+  * use get_pid_task - Kirill Tkhai
+  * extend API to support pid as well as pidfd - Kirill Tkhai
+
+
+Minchan Kim (5):
+  mm: pass task and mm to do_madvise
+  mm: introduce external memory hinting API
+  mm: check fatal signal pending of target process
+  pid: move pidfd_get_pid function to pid.c
+  mm: support both pid and pidfd for process_madvise
+
+Oleksandr Natalenko (2):
+  mm/madvise: employ mmget_still_valid for write lock
+  mm/madvise: allow KSM hints for remote API
+
+ arch/alpha/kernel/syscalls/syscall.tbl      |   1 +
+ arch/arm/tools/syscall.tbl                  |   1 +
+ arch/arm64/include/asm/unistd.h             |   2 +-
+ arch/arm64/include/asm/unistd32.h           |   2 +
+ arch/ia64/kernel/syscalls/syscall.tbl       |   1 +
+ arch/m68k/kernel/syscalls/syscall.tbl       |   1 +
+ arch/microblaze/kernel/syscalls/syscall.tbl |   1 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl   |   1 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl   |   1 +
+ arch/parisc/kernel/syscalls/syscall.tbl     |   1 +
+ arch/powerpc/kernel/syscalls/syscall.tbl    |   1 +
+ arch/s390/kernel/syscalls/syscall.tbl       |   1 +
+ arch/sh/kernel/syscalls/syscall.tbl         |   1 +
+ arch/sparc/kernel/syscalls/syscall.tbl      |   1 +
+ arch/x86/entry/syscalls/syscall_32.tbl      |   1 +
+ arch/x86/entry/syscalls/syscall_64.tbl      |   1 +
+ arch/xtensa/kernel/syscalls/syscall.tbl     |   1 +
+ fs/io_uring.c                               |   2 +-
+ include/linux/mm.h                          |   3 +-
+ include/linux/pid.h                         |   1 +
+ include/linux/syscalls.h                    |   3 +
+ include/uapi/asm-generic/unistd.h           |   4 +-
+ kernel/exit.c                               |  17 ---
+ kernel/pid.c                                |  17 +++
+ kernel/sys_ni.c                             |   1 +
+ mm/madvise.c                                | 144 ++++++++++++++++----
+ 26 files changed, 167 insertions(+), 44 deletions(-)
+
+-- 
+2.25.0.265.gbab2e86ba0-goog
+
