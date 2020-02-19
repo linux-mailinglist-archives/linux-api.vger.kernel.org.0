@@ -2,239 +2,122 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 185A71652EE
-	for <lists+linux-api@lfdr.de>; Thu, 20 Feb 2020 00:08:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E7DC4165309
+	for <lists+linux-api@lfdr.de>; Thu, 20 Feb 2020 00:23:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726647AbgBSXIk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 19 Feb 2020 18:08:40 -0500
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:38987 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726613AbgBSXIk (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 19 Feb 2020 18:08:40 -0500
-Received: by mail-ot1-f66.google.com with SMTP id 77so1882358oty.6
-        for <linux-api@vger.kernel.org>; Wed, 19 Feb 2020 15:08:37 -0800 (PST)
+        id S1726680AbgBSXXN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 19 Feb 2020 18:23:13 -0500
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:42666 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726613AbgBSXXM (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 19 Feb 2020 18:23:12 -0500
+Received: by mail-pf1-f193.google.com with SMTP id 4so868514pfz.9;
+        Wed, 19 Feb 2020 15:23:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+b/hnzT2EVX6PsP41apCreu0TLShLliK5hvUBXDcdhg=;
-        b=qIlUYzd/1xNdQTWozr3rnyU8nrLQyoqiBCS7An0VMpC+1xLFH+/vQkw0MpeRYPX3kV
-         DMYkRfYvJs4yNdOPs62dxOgs0L0eJTu/Kn5rfdZz4c2nN4aRvBSbol5Rd5ltHkWE2j/r
-         DHJKOv3OxVQfbCyg49Ja1bbxVoV5AJBbe0QN+iqpdt1pygJCis+5/wnc2VAuIp2Rudxp
-         K28hrmMkh3mpLyFNVv2bFwANNfaM6JMFhcqkhWu8jZJVlNhETSr78kdLxgpz8aLH49UG
-         FnEAH7GZ4+M6lrxmZ7Uphk+aNvThaOx45Bj7DcXlwmqFY2aYKMp3S62d+FmsPvyrYAj5
-         SOEg==
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=CeoKC7hzC6I62gTM+Mhw7YfGVER9ZVRo7JdMhdNPmSk=;
+        b=Cfn8V0YciBTXAuwpgcp6rJ1RRQWQ8YESs/k45IyinbQAtZtOm98ulE4qaSflYZd7sl
+         eywfyM46Y1P2n8SwDF1GidyApN6qI1rhNuAY1yOun/lyTDQAOc8V9KBHQNDycGniKiW7
+         1QHYPhY6hl/Sk8H2xcKnPJZVeHhhbF7evCksyKBIr6HqXEixSVZ3z1yqy7XkNHTVLnoP
+         9uEdM0hEDV5JdaI/2ncUBOfVa2z30hrBiLFjkfSBt4i4k0DIfGfQbQWzjYdjj5aoMRCF
+         5mVtod5EaNgCVF9gs2hmSmUyzTnVkTtBN9Vi903hiwAzzycvFDblncNDP14qPOmIeOVh
+         jgrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+b/hnzT2EVX6PsP41apCreu0TLShLliK5hvUBXDcdhg=;
-        b=kTyWTyT3I4YtluIcn/kVGe+wCU5nN/FH0FiYLlQy8Io32ZlaEDXBeOCsG6VwPp3WFU
-         +ljoIStVjPd0eEGaMcHI+IefyehaErd6f6/jS0r/DkLBacMFVjkTKwO02byHAXZ2hxvy
-         1lLlYTlDsCKDeyiFcd+2R5wJXqh7m+K5Fv5OP8IIJtnswmmn+YhHJXa+8ptJcxKjv8y2
-         1LkYgbjic4wc5Dzr2S8HKUNmUEBvrou01NOdDrCX9DJRjF+9GvtsAxvUeQMOaMntJV3g
-         MPNWlucOmWfYKJmGO8A/tMSWmD7zeVU4aKTzYXPfg9wxXKj6q6fHP9DBeRfdLqMQpbPJ
-         18cg==
-X-Gm-Message-State: APjAAAVmh7/Youfff9uxCgOx08n6yCiB0HFaTCHl17+myRj+o+kGo7Q5
-        r1e2jrd6qFX5H4sIfW/S1bvNqc8mE22liNBy/SvbLA==
-X-Google-Smtp-Source: APXvYqymq8C+IWZykVtXoDYEl/sBsbLdmJzjVdXLfHaGCka/F3YZemVTX4DcJK0wIaWoPsEJf0m8EHdynLmhmXHKNgc=
-X-Received: by 2002:a05:6830:13c3:: with SMTP id e3mr6694844otq.180.1582153717156;
- Wed, 19 Feb 2020 15:08:37 -0800 (PST)
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to:user-agent;
+        bh=CeoKC7hzC6I62gTM+Mhw7YfGVER9ZVRo7JdMhdNPmSk=;
+        b=bCf4ND02/X4yjNOQ09cwtSpuBLihtrd31ztz8mg1L8oJEEgQlkt2XKLyqYh3uiWwHH
+         fUdyt/J4DkFwyDlkHASuL7+F1opZGgNMDhNQ05ssVAG7ZfKOc8Qy4w3aCxTHx7IHYjPg
+         CiHL9q/9PVuYknyGCH6XbUKjUkDc8EJZaKUAkz2Ul4A+fmpZI69Itpwi1dg1eQwKT2DF
+         Vle9aAKlw1JS7exkOkeR8323w1EOZn9cUEi0PFDzyfwmu5u+uL8CNwAo2Dp6VytcPkPU
+         bgHT2l6PXuV949Rcf9MQ/4O7jTg/vL5MoEBGKNnXwzO3M/043IPwfKXbQWABuf3KByUm
+         DNDA==
+X-Gm-Message-State: APjAAAVvvvzPVQNYFJktkOm6/LWaZeJR/8eat9JLVPPrR4ex9fJerrJf
+        4aYIr+ET5pvxef6azor/rEM=
+X-Google-Smtp-Source: APXvYqzYVMfv/pKmDoOIvzEuKdD1kuiEsw68gFp/0c+G+WPa4VaIT2FxxcWcsbL/yOnHnbRu8/lxVQ==
+X-Received: by 2002:aa7:820d:: with SMTP id k13mr30135749pfi.10.1582154592037;
+        Wed, 19 Feb 2020 15:23:12 -0800 (PST)
+Received: from google.com ([2620:15c:211:1:3e01:2939:5992:52da])
+        by smtp.gmail.com with ESMTPSA id w11sm717199pfn.4.2020.02.19.15.23.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Feb 2020 15:23:11 -0800 (PST)
+Date:   Wed, 19 Feb 2020 15:23:09 -0800
+From:   Minchan Kim <minchan@kernel.org>
+To:     Brian Geffon <bgeffon@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        "Michael S . Tsirkin" <mst@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-api@vger.kernel.org,
+        Andy Lutomirski <luto@amacapital.net>,
+        Will Deacon <will@kernel.org>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Yu Zhao <yuzhao@google.com>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>
+Subject: Re: [PATCH v6 1/2] mm: Add MREMAP_DONTUNMAP to mremap().
+Message-ID: <20200219232309.GB148976@google.com>
+References: <20200218173221.237674-1-bgeffon@google.com>
 MIME-Version: 1.0
-References: <158204549488.3299825.3783690177353088425.stgit@warthog.procyon.org.uk>
- <158204561120.3299825.5242636508455859327.stgit@warthog.procyon.org.uk>
-In-Reply-To: <158204561120.3299825.5242636508455859327.stgit@warthog.procyon.org.uk>
-From:   Jann Horn <jannh@google.com>
-Date:   Thu, 20 Feb 2020 00:08:11 +0100
-Message-ID: <CAG48ez2B2J_3-+EjR20ukRu3noPnAccZsOTaea0jtKK4=+bkhQ@mail.gmail.com>
-Subject: Re: [PATCH 15/19] vfs: Add superblock notifications [ver #16]
-To:     David Howells <dhowells@redhat.com>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>, raven@themaw.net,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Christian Brauner <christian@brauner.io>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200218173221.237674-1-bgeffon@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Feb 18, 2020 at 6:07 PM David Howells <dhowells@redhat.com> wrote:
-> Add a superblock event notification facility whereby notifications about
-> superblock events, such as I/O errors (EIO), quota limits being hit
-> (EDQUOT) and running out of space (ENOSPC) can be reported to a monitoring
-> process asynchronously.  Note that this does not cover vfsmount topology
-> changes.  watch_mount() is used for that.
-[...]
-> @@ -354,6 +356,10 @@ void deactivate_locked_super(struct super_block *s)
->  {
->         struct file_system_type *fs = s->s_type;
->         if (atomic_dec_and_test(&s->s_active)) {
-> +#ifdef CONFIG_SB_NOTIFICATIONS
-> +               if (s->s_watchers)
-> +                       remove_watch_list(s->s_watchers, s->s_unique_id);
-> +#endif
->                 cleancache_invalidate_fs(s);
->                 unregister_shrinker(&s->s_shrink);
->                 fs->kill_sb(s);
-[...]
-> +/**
-> + * sys_watch_sb - Watch for superblock events.
-> + * @dfd: Base directory to pathwalk from or fd referring to superblock.
-> + * @filename: Path to superblock to place the watch upon
-> + * @at_flags: Pathwalk control flags
-> + * @watch_fd: The watch queue to send notifications to.
-> + * @watch_id: The watch ID to be placed in the notification (-1 to remove watch)
-> + */
-> +SYSCALL_DEFINE5(watch_sb,
-> +               int, dfd,
-> +               const char __user *, filename,
-> +               unsigned int, at_flags,
-> +               int, watch_fd,
-> +               int, watch_id)
-> +{
-> +       struct watch_queue *wqueue;
-> +       struct super_block *s;
-> +       struct watch_list *wlist = NULL;
-> +       struct watch *watch = NULL;
-> +       struct path path;
-> +       unsigned int lookup_flags =
-> +               LOOKUP_DIRECTORY | LOOKUP_FOLLOW | LOOKUP_AUTOMOUNT;
-> +       int ret;
-[...]
-> +       wqueue = get_watch_queue(watch_fd);
-> +       if (IS_ERR(wqueue))
-> +               goto err_path;
-> +
-> +       s = path.dentry->d_sb;
-> +       if (watch_id >= 0) {
-> +               ret = -ENOMEM;
-> +               if (!s->s_watchers) {
+On Tue, Feb 18, 2020 at 09:32:20AM -0800, Brian Geffon wrote:
+> When remapping an anonymous, private mapping, if MREMAP_DONTUNMAP is
+> set, the source mapping will not be removed. The remap operation
+> will be performed as it would have been normally by moving over the
+> page tables to the new mapping. The old vma will have any locked
+> flags cleared, have no pagetables, and any userfaultfds that were
+> watching that range will continue watching it.
+> 
+> For a mapping that is shared or not anonymous, MREMAP_DONTUNMAP will cause
+> the mremap() call to fail. Because MREMAP_DONTUNMAP always results in moving
+> a VMA you MUST use the MREMAP_MAYMOVE flag. The final result is two
+> equally sized VMAs where the destination contains the PTEs of the source.
+> 
+> We hope to use this in Chrome OS where with userfaultfd we could write
+> an anonymous mapping to disk without having to STOP the process or worry
+> about VMA permission changes.
+> 
+> This feature also has a use case in Android, Lokesh Gidra has said
+> that "As part of using userfaultfd for GC, We'll have to move the physical
+> pages of the java heap to a separate location. For this purpose mremap
+> will be used. Without the MREMAP_DONTUNMAP flag, when I mremap the java
+> heap, its virtual mapping will be removed as well. Therefore, we'll
+> require performing mmap immediately after. This is not only time consuming
+> but also opens a time window where a native thread may call mmap and
+> reserve the java heap's address range for its own usage. This flag
+> solves the problem."
+> 
+>   v5 -> v6:
+>     - Code cleanup suggested by Kirill.
+> 
+>   v4 -> v5:
+>     - Correct commit message to more accurately reflect the behavior.
+>     - Clear VM_LOCKED and VM_LOCKEDONFAULT on the old vma.
+>            
+> Signed-off-by: Brian Geffon <bgeffon@google.com>
 
-READ_ONCE() ?
+Description and implemenation looks clean/sane for me.
 
-> +                       wlist = kzalloc(sizeof(*wlist), GFP_KERNEL);
-> +                       if (!wlist)
-> +                               goto err_wqueue;
-> +                       init_watch_list(wlist, NULL);
-> +               }
-> +
-> +               watch = kzalloc(sizeof(*watch), GFP_KERNEL);
-> +               if (!watch)
-> +                       goto err_wlist;
-> +
-> +               init_watch(watch, wqueue);
-> +               watch->id               = s->s_unique_id;
-> +               watch->private          = s;
-> +               watch->info_id          = (u32)watch_id << 24;
-> +
-> +               ret = security_watch_sb(watch, s);
-> +               if (ret < 0)
-> +                       goto err_watch;
-> +
-> +               down_write(&s->s_umount);
-> +               ret = -EIO;
-> +               if (atomic_read(&s->s_active)) {
-> +                       if (!s->s_watchers) {
-> +                               s->s_watchers = wlist;
-> +                               wlist = NULL;
-> +                       }
-> +
-> +                       ret = add_watch_to_object(watch, s->s_watchers);
-> +                       if (ret == 0) {
-> +                               spin_lock(&sb_lock);
-> +                               s->s_count++;
-> +                               spin_unlock(&sb_lock);
+Reviewed-by: Minchan Kim <minchan@kernel.org>
 
-Where is the corresponding decrement of s->s_count? I'm guessing that
-it should be in the ->release_watch() handler, except that there isn't
-one...
+When I review the patch, it seems to be broken with lots of "=20", not
+sure it's my mail client problem or yours. Anyway, please double check
+it.
 
-> +                               watch = NULL;
-> +                       }
-> +               }
-> +               up_write(&s->s_umount);
-> +       } else {
-> +               ret = -EBADSLT;
-> +               if (READ_ONCE(s->s_watchers)) {
-
-(Nit: I don't get why you do a lockless check here before taking the
-lock - it'd be more straightforward to take the lock first, and it's
-not like you want to optimize for the case where someone calls
-sys_watch_sb() with invalid arguments...)
-
-> +                       down_write(&s->s_umount);
-> +                       ret = remove_watch_from_object(s->s_watchers, wqueue,
-> +                                                      s->s_unique_id, false);
-> +                       up_write(&s->s_umount);
-> +               }
-> +       }
-> +
-> +err_watch:
-> +       kfree(watch);
-> +err_wlist:
-> +       kfree(wlist);
-> +err_wqueue:
-> +       put_watch_queue(wqueue);
-> +err_path:
-> +       path_put(&path);
-> +       return ret;
-> +}
-> +#endif
-[...]
-> +/**
-> + * notify_sb: Post simple superblock notification.
-> + * @s: The superblock the notification is about.
-> + * @subtype: The type of notification.
-> + * @info: WATCH_INFO_FLAG_* flags to be set in the record.
-> + */
-> +static inline void notify_sb(struct super_block *s,
-> +                            enum superblock_notification_type subtype,
-> +                            u32 info)
-> +{
-> +#ifdef CONFIG_SB_NOTIFICATIONS
-> +       if (unlikely(s->s_watchers)) {
-
-READ_ONCE() ?
-
-> +               struct superblock_notification n = {
-> +                       .watch.type     = WATCH_TYPE_SB_NOTIFY,
-> +                       .watch.subtype  = subtype,
-> +                       .watch.info     = watch_sizeof(n) | info,
-> +                       .sb_id          = s->s_unique_id,
-> +               };
-> +
-> +               post_sb_notification(s, &n);
-> +       }
-> +
-> +#endif
-> +}
-> +
-> +/**
-> + * notify_sb_error: Post superblock error notification.
-> + * @s: The superblock the notification is about.
-> + * @error: The error number to be recorded.
-> + */
-> +static inline int notify_sb_error(struct super_block *s, int error)
-> +{
-> +#ifdef CONFIG_SB_NOTIFICATIONS
-> +       if (unlikely(s->s_watchers)) {
-
-READ_ONCE() ?
-
-> +               struct superblock_error_notification n = {
-> +                       .s.watch.type   = WATCH_TYPE_SB_NOTIFY,
-> +                       .s.watch.subtype = NOTIFY_SUPERBLOCK_ERROR,
-> +                       .s.watch.info   = watch_sizeof(n),
-> +                       .s.sb_id        = s->s_unique_id,
-> +                       .error_number   = error,
-> +                       .error_cookie   = 0,
-> +               };
-> +
-> +               post_sb_notification(s, &n.s);
-> +       }
-> +#endif
-> +       return error;
-> +}
+Thanks.
