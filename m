@@ -2,18 +2,18 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2940F163A4C
-	for <lists+linux-api@lfdr.de>; Wed, 19 Feb 2020 03:36:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A3A68163A64
+	for <lists+linux-api@lfdr.de>; Wed, 19 Feb 2020 03:42:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728122AbgBSCgW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 18 Feb 2020 21:36:22 -0500
-Received: from mail.hallyn.com ([178.63.66.53]:49514 "EHLO mail.hallyn.com"
+        id S1726799AbgBSCmf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 18 Feb 2020 21:42:35 -0500
+Received: from mail.hallyn.com ([178.63.66.53]:49664 "EHLO mail.hallyn.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728069AbgBSCgW (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 18 Feb 2020 21:36:22 -0500
+        id S1727187AbgBSCmf (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 18 Feb 2020 21:42:35 -0500
 Received: by mail.hallyn.com (Postfix, from userid 1001)
-        id E304F1090; Tue, 18 Feb 2020 20:36:19 -0600 (CST)
-Date:   Tue, 18 Feb 2020 20:36:19 -0600
+        id 170EEB83; Tue, 18 Feb 2020 20:42:33 -0600 (CST)
+Date:   Tue, 18 Feb 2020 20:42:33 -0600
 From:   "Serge E. Hallyn" <serge@hallyn.com>
 To:     Christian Brauner <christian.brauner@ubuntu.com>
 Cc:     =?iso-8859-1?Q?St=E9phane?= Graber <stgraber@ubuntu.com>,
@@ -30,46 +30,38 @@ Cc:     =?iso-8859-1?Q?St=E9phane?= Graber <stgraber@ubuntu.com>,
         linux-fsdevel@vger.kernel.org,
         containers@lists.linux-foundation.org,
         linux-security-module@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH v3 07/25] proc: task_state(): use from_kfs{g,u}id_munged
-Message-ID: <20200219023619.GE19144@mail.hallyn.com>
+Subject: Re: [PATCH v3 09/25] fs: add is_userns_visible() helper
+Message-ID: <20200219024233.GA19334@mail.hallyn.com>
 References: <20200218143411.2389182-1-christian.brauner@ubuntu.com>
- <20200218143411.2389182-8-christian.brauner@ubuntu.com>
+ <20200218143411.2389182-10-christian.brauner@ubuntu.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200218143411.2389182-8-christian.brauner@ubuntu.com>
+In-Reply-To: <20200218143411.2389182-10-christian.brauner@ubuntu.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Feb 18, 2020 at 03:33:53PM +0100, Christian Brauner wrote:
-> If fsid mappings have been written, this will cause proc to look at fsid
-> mappings for the user namespace. If no fsid mappings have been written the
-> behavior is as before.
-> 
-> Here is part of the output from /proc/<pid>/status from the initial user
-> namespace for systemd running in an unprivileged container as user namespace
-> root with id mapping 0 100000 100000 and fsid mapping 0 300000 100000:
-> 
-> Name:   systemd
-> Umask:  0000
-> State:  S (sleeping)
-> Tgid:   13023
-> Ngid:   0
-> Pid:    13023
-> PPid:   13008
-> TracerPid:      0
-> Uid:    100000  100000  100000  300000
-> Gid:    100000  100000  100000  300000
-> FDSize: 64
-> Groups:
-> 
+On Tue, Feb 18, 2020 at 03:33:55PM +0100, Christian Brauner wrote:
+> Introduce a helper which makes it possible to detect fileystems whose
+> superblock is visible in multiple user namespace. This currently only
+> means proc and sys. Such filesystems usually have special semantics so their
+> behavior will not be changed with the introduction of fsid mappings.
+
+Hi,
+
+I'm afraid I've got a bit of a hangup about the terminology here.  I
+*think* what you mean is that SB_I_USERNS_VISIBLE is an fs whose uids are
+always translated per the id mappings, not fsid mappings.  But when I see
+the name it seems to imply that !SB_I_USERNS_VISIBLE filesystems can't
+be seen by other namespaces at all.
+
+Am I right in my first interpretation?  If so, can we talk about the
+naming?
+
 > Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
-
-Acked-by: Serge Hallyn <serge@hallyn.com>
-
 > ---
 > /* v2 */
 > unchanged
@@ -77,34 +69,22 @@ Acked-by: Serge Hallyn <serge@hallyn.com>
 > /* v3 */
 > unchanged
 > ---
->  fs/proc/array.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+>  include/linux/fs.h | 5 +++++
+>  1 file changed, 5 insertions(+)
 > 
-> diff --git a/fs/proc/array.c b/fs/proc/array.c
-> index 5efaf3708ec6..d4a04f85a67e 100644
-> --- a/fs/proc/array.c
-> +++ b/fs/proc/array.c
-> @@ -91,6 +91,7 @@
->  #include <linux/string_helpers.h>
->  #include <linux/user_namespace.h>
->  #include <linux/fs_struct.h>
-> +#include <linux/fsuidgid.h>
+> diff --git a/include/linux/fs.h b/include/linux/fs.h
+> index 3cd4fe6b845e..fdc8fb2d786b 100644
+> --- a/include/linux/fs.h
+> +++ b/include/linux/fs.h
+> @@ -3651,4 +3651,9 @@ static inline int inode_drain_writes(struct inode *inode)
+>  	return filemap_write_and_wait(inode->i_mapping);
+>  }
 >  
->  #include <asm/pgtable.h>
->  #include <asm/processor.h>
-> @@ -193,11 +194,11 @@ static inline void task_state(struct seq_file *m, struct pid_namespace *ns,
->  	seq_put_decimal_ull(m, "\nUid:\t", from_kuid_munged(user_ns, cred->uid));
->  	seq_put_decimal_ull(m, "\t", from_kuid_munged(user_ns, cred->euid));
->  	seq_put_decimal_ull(m, "\t", from_kuid_munged(user_ns, cred->suid));
-> -	seq_put_decimal_ull(m, "\t", from_kuid_munged(user_ns, cred->fsuid));
-> +	seq_put_decimal_ull(m, "\t", from_kfsuid_munged(user_ns, cred->fsuid));
->  	seq_put_decimal_ull(m, "\nGid:\t", from_kgid_munged(user_ns, cred->gid));
->  	seq_put_decimal_ull(m, "\t", from_kgid_munged(user_ns, cred->egid));
->  	seq_put_decimal_ull(m, "\t", from_kgid_munged(user_ns, cred->sgid));
-> -	seq_put_decimal_ull(m, "\t", from_kgid_munged(user_ns, cred->fsgid));
-> +	seq_put_decimal_ull(m, "\t", from_kfsgid_munged(user_ns, cred->fsgid));
->  	seq_put_decimal_ull(m, "\nFDSize:\t", max_fds);
->  
->  	seq_puts(m, "\nGroups:\t");
+> +static inline bool is_userns_visible(unsigned long iflags)
+> +{
+> +	return (iflags & SB_I_USERNS_VISIBLE);
+> +}
+> +
+>  #endif /* _LINUX_FS_H */
 > -- 
 > 2.25.0
