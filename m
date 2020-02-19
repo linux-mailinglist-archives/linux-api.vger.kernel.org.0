@@ -2,18 +2,18 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C7AB2163A36
-	for <lists+linux-api@lfdr.de>; Wed, 19 Feb 2020 03:33:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 237EA163A49
+	for <lists+linux-api@lfdr.de>; Wed, 19 Feb 2020 03:36:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728068AbgBSCdq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 18 Feb 2020 21:33:46 -0500
-Received: from mail.hallyn.com ([178.63.66.53]:49412 "EHLO mail.hallyn.com"
+        id S1728132AbgBSCfz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 18 Feb 2020 21:35:55 -0500
+Received: from mail.hallyn.com ([178.63.66.53]:49488 "EHLO mail.hallyn.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726799AbgBSCdq (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 18 Feb 2020 21:33:46 -0500
+        id S1728087AbgBSCfy (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 18 Feb 2020 21:35:54 -0500
 Received: by mail.hallyn.com (Postfix, from userid 1001)
-        id DB1D4F8F; Tue, 18 Feb 2020 20:33:43 -0600 (CST)
-Date:   Tue, 18 Feb 2020 20:33:43 -0600
+        id 4AFEEFF9; Tue, 18 Feb 2020 20:35:52 -0600 (CST)
+Date:   Tue, 18 Feb 2020 20:35:52 -0600
 From:   "Serge E. Hallyn" <serge@hallyn.com>
 To:     Christian Brauner <christian.brauner@ubuntu.com>
 Cc:     =?iso-8859-1?Q?St=E9phane?= Graber <stgraber@ubuntu.com>,
@@ -30,91 +30,209 @@ Cc:     =?iso-8859-1?Q?St=E9phane?= Graber <stgraber@ubuntu.com>,
         linux-fsdevel@vger.kernel.org,
         containers@lists.linux-foundation.org,
         linux-security-module@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH v3 03/25] proc: add /proc/<pid>/fsgid_map
-Message-ID: <20200219023343.GC19144@mail.hallyn.com>
+Subject: Re: [PATCH v3 05/25] user_namespace: refactor map_write()
+Message-ID: <20200219023552.GD19144@mail.hallyn.com>
 References: <20200218143411.2389182-1-christian.brauner@ubuntu.com>
- <20200218143411.2389182-4-christian.brauner@ubuntu.com>
+ <20200218143411.2389182-6-christian.brauner@ubuntu.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200218143411.2389182-4-christian.brauner@ubuntu.com>
+In-Reply-To: <20200218143411.2389182-6-christian.brauner@ubuntu.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Feb 18, 2020 at 03:33:49PM +0100, Christian Brauner wrote:
-> The /proc/<pid>/fsgid_map file can be written once to setup an fsgid mapping
-> for a user namespace. Writing to this file has the same restrictions as writing
-> to /proc/<pid>/fsgid_map.
+On Tue, Feb 18, 2020 at 03:33:51PM +0100, Christian Brauner wrote:
+> Refactor map_write() to prepare for adding fsid mappings support. This mainly
+> factors out various open-coded parts into helpers that can be reused in the
+> follow up patch.
 > 
-> root@e1-vm:/# cat /proc/13023/fsgid_map
->          0     300000     100000
-> 
-> Fsid mappings have always been around. They are currently always identical to
-> the id mappings for a user namespace. This means, currently whenever an fsid
-> needs to be looked up the kernel will use the id mapping of the user namespace.
-> With the introduction of fsid mappings the kernel will now lookup fsids in the
-> fsid mappings of the user namespace. If no fsid mapping exists the kernel will
-> continue looking up fsids in the id mappings of the user namespace. Hence, if a
-> system supports fsid mappings through /proc/<pid>/fs*id_map and a container
-> runtime is not aware of fsid mappings it or does not use them it will it will
-> continue to work just as before.
-> 
+> Cc: Jann Horn <jannh@google.com>
 > Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
 
 Acked-by: Serge Hallyn <serge@hallyn.com>
 
 > ---
 > /* v2 */
-> unchanged
+> patch not present
 > 
 > /* v3 */
-> - Christian Brauner <christian.brauner@ubuntu.com>:
->   - Fix grammar in commit message.
+> patch added
+> - Jann Horn <jannh@google.com>:
+>   - Split changes to map_write() to implement fsid mappings into three separate
+>     patches: basic fsid helpers, preparatory changes to map_write(), actual
+>     fsid mapping support in map_write().
 > ---
->  fs/proc/base.c | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
+>  kernel/user_namespace.c | 117 +++++++++++++++++++++++++---------------
+>  1 file changed, 74 insertions(+), 43 deletions(-)
 > 
-> diff --git a/fs/proc/base.c b/fs/proc/base.c
-> index 5fb28004663e..1303cdd2e617 100644
-> --- a/fs/proc/base.c
-> +++ b/fs/proc/base.c
-> @@ -2975,6 +2975,11 @@ static int proc_fsuid_map_open(struct inode *inode, struct file *file)
->  {
->  	return proc_id_map_open(inode, file, &proc_fsuid_seq_operations);
+> diff --git a/kernel/user_namespace.c b/kernel/user_namespace.c
+> index 2cfd1e519cc4..e91141262bcc 100644
+> --- a/kernel/user_namespace.c
+> +++ b/kernel/user_namespace.c
+> @@ -1038,10 +1038,10 @@ static int cmp_extents_reverse(const void *a, const void *b)
 >  }
-> +
-> +static int proc_fsgid_map_open(struct inode *inode, struct file *file)
+>  
+>  /**
+> - * sort_idmaps - Sorts an array of idmap entries.
+> + * sort_map - Sorts an array of idmap entries.
+>   * Can only be called if number of mappings exceeds UID_GID_MAP_MAX_BASE_EXTENTS.
+>   */
+> -static int sort_idmaps(struct uid_gid_map *map)
+> +static int sort_map(struct uid_gid_map *map)
+>  {
+>  	if (map->nr_extents <= UID_GID_MAP_MAX_BASE_EXTENTS)
+>  		return 0;
+> @@ -1064,6 +1064,71 @@ static int sort_idmaps(struct uid_gid_map *map)
+>  	return 0;
+>  }
+>  
+> +static int sort_idmaps(struct uid_gid_map *map)
 > +{
-> +	return proc_id_map_open(inode, file, &proc_fsgid_seq_operations);
+> +	return sort_map(map);
 > +}
->  #endif
->  
->  static const struct file_operations proc_uid_map_operations = {
-> @@ -3009,6 +3014,14 @@ static const struct file_operations proc_fsuid_map_operations = {
->  	.llseek		= seq_lseek,
->  	.release	= proc_id_map_release,
->  };
 > +
-> +static const struct file_operations proc_fsgid_map_operations = {
-> +	.open		= proc_fsgid_map_open,
-> +	.write		= proc_fsgid_map_write,
-> +	.read		= seq_read,
-> +	.llseek		= seq_lseek,
-> +	.release	= proc_id_map_release,
-> +};
->  #endif
+> +static int map_from_parent(struct uid_gid_map *new_map,
+> +			   struct uid_gid_map *parent_map)
+> +{
+> +	unsigned idx;
+> +
+> +	/* Map the lower ids from the parent user namespace to the
+> +	 * kernel global id space.
+> +	 */
+> +	for (idx = 0; idx < new_map->nr_extents; idx++) {
+> +		struct uid_gid_extent *e;
+> +		u32 lower_first;
+> +
+> +		if (new_map->nr_extents <= UID_GID_MAP_MAX_BASE_EXTENTS)
+> +			e = &new_map->extent[idx];
+> +		else
+> +			e = &new_map->forward[idx];
+> +
+> +		lower_first = map_id_range_down(parent_map, e->lower_first, e->count);
+> +
+> +		/* Fail if we can not map the specified extent to
+> +		 * the kernel global id space.
+> +		 */
+> +		if (lower_first == (u32)-1)
+> +			return -EPERM;
+> +
+> +		e->lower_first = lower_first;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int map_into_kids(struct uid_gid_map *id_map,
+> +			 struct uid_gid_map *parent_id_map)
+> +{
+> +	return map_from_parent(id_map, parent_id_map);
+> +}
+> +
+> +static void install_idmaps(struct uid_gid_map *id_map,
+> +			   struct uid_gid_map *new_id_map)
+> +{
+> +	if (new_id_map->nr_extents <= UID_GID_MAP_MAX_BASE_EXTENTS) {
+> +		memcpy(id_map->extent, new_id_map->extent,
+> +		       new_id_map->nr_extents * sizeof(new_id_map->extent[0]));
+> +	} else {
+> +		id_map->forward = new_id_map->forward;
+> +		id_map->reverse = new_id_map->reverse;
+> +	}
+> +}
+> +
+> +static void free_idmaps(struct uid_gid_map *new_id_map)
+> +{
+> +	if (new_id_map->nr_extents > UID_GID_MAP_MAX_BASE_EXTENTS) {
+> +		kfree(new_id_map->forward);
+> +		kfree(new_id_map->reverse);
+> +		new_id_map->forward = NULL;
+> +		new_id_map->reverse = NULL;
+> +		new_id_map->nr_extents = 0;
+> +	}
+> +}
+> +
+>  static ssize_t map_write(struct file *file, const char __user *buf,
+>  			 size_t count, loff_t *ppos,
+>  			 int cap_setid,
+> @@ -1073,7 +1138,6 @@ static ssize_t map_write(struct file *file, const char __user *buf,
+>  	struct seq_file *seq = file->private_data;
+>  	struct user_namespace *ns = seq->private;
+>  	struct uid_gid_map new_map;
+> -	unsigned idx;
+>  	struct uid_gid_extent extent;
+>  	char *kbuf = NULL, *pos, *next_line;
+>  	ssize_t ret;
+> @@ -1191,61 +1255,28 @@ static ssize_t map_write(struct file *file, const char __user *buf,
+>  	if (!new_idmap_permitted(file, ns, cap_setid, &new_map))
+>  		goto out;
 >  
->  static int proc_setgroups_open(struct inode *inode, struct file *file)
-> @@ -3195,6 +3208,7 @@ static const struct pid_entry tgid_base_stuff[] = {
->  #ifdef CONFIG_USER_NS
->  #ifdef CONFIG_USER_NS_FSID
->  	REG("fsuid_map",  S_IRUGO|S_IWUSR, proc_fsuid_map_operations),
-> +	REG("fsgid_map",  S_IRUGO|S_IWUSR, proc_fsgid_map_operations),
->  #endif
->  	REG("uid_map",    S_IRUGO|S_IWUSR, proc_uid_map_operations),
->  	REG("gid_map",    S_IRUGO|S_IWUSR, proc_gid_map_operations),
+> -	ret = -EPERM;
+> -	/* Map the lower ids from the parent user namespace to the
+> -	 * kernel global id space.
+> -	 */
+> -	for (idx = 0; idx < new_map.nr_extents; idx++) {
+> -		struct uid_gid_extent *e;
+> -		u32 lower_first;
+> -
+> -		if (new_map.nr_extents <= UID_GID_MAP_MAX_BASE_EXTENTS)
+> -			e = &new_map.extent[idx];
+> -		else
+> -			e = &new_map.forward[idx];
+> -
+> -		lower_first = map_id_range_down(parent_map,
+> -						e->lower_first,
+> -						e->count);
+> -
+> -		/* Fail if we can not map the specified extent to
+> -		 * the kernel global id space.
+> -		 */
+> -		if (lower_first == (u32) -1)
+> -			goto out;
+> -
+> -		e->lower_first = lower_first;
+> -	}
+> +	ret = map_into_kids(&new_map, parent_map);
+> +	if (ret)
+> +		goto out;
+>  
+>  	/*
+>  	 * If we want to use binary search for lookup, this clones the extent
+>  	 * array and sorts both copies.
+>  	 */
+>  	ret = sort_idmaps(&new_map);
+> -	if (ret < 0)
+> +	if (ret)
+>  		goto out;
+>  
+>  	/* Install the map */
+> -	if (new_map.nr_extents <= UID_GID_MAP_MAX_BASE_EXTENTS) {
+> -		memcpy(map->extent, new_map.extent,
+> -		       new_map.nr_extents * sizeof(new_map.extent[0]));
+> -	} else {
+> -		map->forward = new_map.forward;
+> -		map->reverse = new_map.reverse;
+> -	}
+> +	install_idmaps(map, &new_map);
+>  	smp_wmb();
+>  	map->nr_extents = new_map.nr_extents;
+>  
+>  	*ppos = count;
+>  	ret = count;
+>  out:
+> -	if (ret < 0 && new_map.nr_extents > UID_GID_MAP_MAX_BASE_EXTENTS) {
+> -		kfree(new_map.forward);
+> -		kfree(new_map.reverse);
+> -		map->forward = NULL;
+> -		map->reverse = NULL;
+> -		map->nr_extents = 0;
+> -	}
+> +	if (ret < 0)
+> +		free_idmaps(&new_map);
+>  
+>  	mutex_unlock(&userns_state_mutex);
+>  	kfree(kbuf);
 > -- 
 > 2.25.0
