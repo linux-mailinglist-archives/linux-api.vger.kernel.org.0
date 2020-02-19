@@ -2,62 +2,70 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DEA7D16459F
-	for <lists+linux-api@lfdr.de>; Wed, 19 Feb 2020 14:36:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 163D9164762
+	for <lists+linux-api@lfdr.de>; Wed, 19 Feb 2020 15:46:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726723AbgBSNgc convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Wed, 19 Feb 2020 08:36:32 -0500
-Received: from scm.imp.edu.mx ([132.247.16.103]:18945 "EHLO scm.imp.edu.mx"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726548AbgBSNgc (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 19 Feb 2020 08:36:32 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by scm.imp.edu.mx (Postfix) with ESMTP id 1A6EC18AC7C;
-        Wed, 19 Feb 2020 06:11:25 -0600 (CST)
-X-Virus-Scanned: by SpamTitan at imp.edu.mx
-Received: from scm.imp.edu.mx (localhost [127.0.0.1])
-        by scm.imp.edu.mx (Postfix) with ESMTP id 3BDD118DA14;
-        Wed, 19 Feb 2020 04:51:46 -0600 (CST)
-Authentication-Results: scm.imp.edu.mx; none
-Received: from imp.edu.mx (unknown [10.249.93.105])
-        by scm.imp.edu.mx (Postfix) with ESMTP id 39D5318D9F9;
-        Wed, 19 Feb 2020 04:51:42 -0600 (CST)
-Received: from localhost (localhost [127.0.0.1])
-        by imp.edu.mx (Postfix) with ESMTP id 23609180635F4E;
-        Wed, 19 Feb 2020 04:51:43 -0600 (CST)
-Received: from imp.edu.mx ([127.0.0.1])
-        by localhost (imp.edu.mx [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id VKJQCI3YEdu1; Wed, 19 Feb 2020 04:51:43 -0600 (CST)
-Received: from localhost (localhost [127.0.0.1])
-        by imp.edu.mx (Postfix) with ESMTP id 0235E180635F44;
-        Wed, 19 Feb 2020 04:51:43 -0600 (CST)
-X-Virus-Scanned: amavisd-new at imp.edu.mx
-Received: from imp.edu.mx ([127.0.0.1])
-        by localhost (imp.edu.mx [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id lUsOR2y12Kdm; Wed, 19 Feb 2020 04:51:42 -0600 (CST)
-Received: from [45.147.4.119] (unknown [45.147.4.119])
-        by imp.edu.mx (Postfix) with ESMTPSA id A3A89180635F4E;
-        Wed, 19 Feb 2020 04:51:41 -0600 (CST)
-Content-Type: text/plain; charset="iso-8859-1"
+        id S1726450AbgBSOqW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 19 Feb 2020 09:46:22 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:33595 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726610AbgBSOqV (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 19 Feb 2020 09:46:21 -0500
+Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236] helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1j4QcA-0003Zb-Gm; Wed, 19 Feb 2020 14:46:14 +0000
+Date:   Wed, 19 Feb 2020 15:46:13 +0100
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     David Howells <dhowells@redhat.com>
+Cc:     viro@zeniv.linux.org.uk, raven@themaw.net, mszeredi@redhat.com,
+        christian@brauner.io, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/19] VFS: Filesystem information and notifications [ver
+ #16]
+Message-ID: <20200219144613.lc5y2jgzipynas5l@wittgenstein>
+References: <158204549488.3299825.3783690177353088425.stgit@warthog.procyon.org.uk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: 19-02-2020
-To:     Recipients <mucios@imp.edu.mx>
-From:   "urs portmann" <mucios@imp.edu.mx>
-Date:   Wed, 19 Feb 2020 21:51:39 +1100
-Reply-To: onube@qq.com
-Message-Id: <20200219105141.A3A89180635F4E@imp.edu.mx>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <158204549488.3299825.3783690177353088425.stgit@warthog.procyon.org.uk>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Guten Morgen,
-                                          19-02-2020
-Wir haben versucht, Sie zu erreichen und haben noch nichts von Ihnen gehört. Haben Sie unsere letzte E-Mail über Ihre S.p.e.n.d.e erhalten? Wenn nicht, melden Sie sich bitte bei uns, um weitere Informationen zu erhalten.
+On Tue, Feb 18, 2020 at 05:04:55PM +0000, David Howells wrote:
+> 
+> Here are a set of patches that adds system calls, that (a) allow
+> information about the VFS, mount topology, superblock and files to be
+> retrieved and (b) allow for notifications of mount topology rearrangement
+> events, mount and superblock attribute changes and other superblock events,
+> such as errors.
+> 
+> ============================
+> FILESYSTEM INFORMATION QUERY
+> ============================
+> 
+> The first system call, fsinfo(), allows information about the filesystem at
+> a particular path point to be queried as a set of attributes, some of which
+> may have more than one value.
+> 
+> Attribute values are of four basic types:
+> 
+>  (1) Version dependent-length structure (size defined by type).
+> 
+>  (2) Variable-length string (up to 4096, including NUL).
+> 
+>  (3) List of structures (up to INT_MAX size).
+> 
+>  (4) Opaque blob (up to INT_MAX size).
 
-Wir warten darauf, von Ihnen zu hören, sobald Sie diese Nachricht erhalten, die Sie bei der weiteren Vorgehensweise unterstützt.
+I mainly have an organizational question. :) This is a huge patchset
+with lots and lots of (good) features. Wouldn't it make sense to make
+the fsinfo() syscall a completely separate patchset from the
+watch_mount() and watch_sb() syscalls? It seems that they don't need to
+depend on each other at all. This would make reviewing this so much
+nicer and likely would mean that fsinfo() could proceed a little faster.
 
-Mfg
-urs portmann
+Christian
