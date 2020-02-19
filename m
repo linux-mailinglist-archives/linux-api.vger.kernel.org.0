@@ -2,92 +2,78 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FB2F164941
-	for <lists+linux-api@lfdr.de>; Wed, 19 Feb 2020 16:54:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B11A71649AD
+	for <lists+linux-api@lfdr.de>; Wed, 19 Feb 2020 17:16:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726604AbgBSPyO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 19 Feb 2020 10:54:14 -0500
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:46230 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726528AbgBSPyO (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 19 Feb 2020 10:54:14 -0500
-Received: by mail-ot1-f68.google.com with SMTP id g64so544403otb.13
-        for <linux-api@vger.kernel.org>; Wed, 19 Feb 2020 07:54:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=lxARnBor1U+6So+HrMWf9Gk7N+daPrHbJnbZhnhwrnE=;
-        b=hCbOktmi3YliRq0ScBXSNUesHyAqvCL12c5uWO6XJNi9n/y2ahYy8f6c/hN9HhkUp6
-         NtGyeKNDq17KU1oflZcGFavHZ0yak7eV3txHutBNLTY+fhuz//0QGxRkoWIV07omcEfA
-         pV2jnT0owxB53J3tC25KDX6npdI6rpYslOVlEcpoDIMBKSsQQwz65+OTQrTbhk+C91KH
-         1egcT0uxQa4IR7ZPjdBFsZarSM4W8MpTmZQCyLXSB+NtwqZcQBCMtj55+3PKd8Ts8PoK
-         t5d3X57H5eosvrejeqcBMmaMblxiDL8WOSJRKe0vQsPwInYir9WHgpdZ7zxw5ZYJrLkr
-         SE7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lxARnBor1U+6So+HrMWf9Gk7N+daPrHbJnbZhnhwrnE=;
-        b=o6ksRQln0lk1Bs9gXRgH1HDWco6Y3WsTQDLu1lQPp54DBWo+yWXuEtdFjmKWvYP2SH
-         0mry+jsx0c6Pl7njeaPxv8yZJWP2z3xiqVla6rak5gfThYVlAgWkRFNCe3IO3z5vN0IB
-         Tt+ByFss4sn4UGFkZF7EdAj4SGzeII+phsceKONYjuudJRTkc9ukD92uS/djcasokv7e
-         XYuhdZuxJVEXP+rv2lX/KU8flrPF8bj+sNA10x5RdQ36QvWXGg665FNIXPLTYNAgJXv7
-         zA1lsa99SzeyL3M9dFlNfgRA8vOBxGX7hrsD7osUEnOCiTP3J5EC5BGpED7rHrovDCIw
-         Oajg==
-X-Gm-Message-State: APjAAAWVd925sExwLcaCeQbUH3zc7usyTixefAwnZmuq/yzA+8Oo4+ks
-        t8wKBUCzsIpVZrOs1bZNW/q3skY4UK9SFDgy+JYaqw==
-X-Google-Smtp-Source: APXvYqxMNt0Da4orYoVxsQsRxu5xNkMkw0G1x6vghAKafmTT/NokCPoqIr/ZB8PYTJmUP6i//FyBRvrO9SGFwmyS5SI=
-X-Received: by 2002:a05:6830:13c3:: with SMTP id e3mr5336055otq.180.1582127653521;
- Wed, 19 Feb 2020 07:54:13 -0800 (PST)
-MIME-Version: 1.0
-References: <20200218143411.2389182-1-christian.brauner@ubuntu.com> <20200218143411.2389182-20-christian.brauner@ubuntu.com>
-In-Reply-To: <20200218143411.2389182-20-christian.brauner@ubuntu.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Wed, 19 Feb 2020 16:53:47 +0100
-Message-ID: <CAG48ez2ikuZQTctjR0RAXYUFrSsJdyn98cKGn5hGEhYjzWfO8g@mail.gmail.com>
-Subject: Re: [PATCH v3 19/25] commoncap: handle fsid mappings with vfs caps
+        id S1726875AbgBSQQS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 19 Feb 2020 11:16:18 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:56682 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726856AbgBSQQS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 19 Feb 2020 11:16:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1582128977;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=kc32RHpu0LmyGTpAUd3PKfJ5eSwyU/PwzSUYgSvBE5o=;
+        b=AkKbLOElWVabtAVMKQxb9QpuE5TLmrNAbVQukpBLeDQK5ZPg97NJg/tx30XPa/sYYATsxe
+        OuSN4Raywpec0T+Cauv4JB5ZFmsN5r4oxbSW1nOyg3/CuKqUEcLI75EYtDPK5qMGGyKf9v
+        b7UGv8b1O174fgq1Pb7XgZYKLZYTLdI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-11-c_CiPQdAOZqyhXma7cbl6w-1; Wed, 19 Feb 2020 11:16:14 -0500
+X-MC-Unique: c_CiPQdAOZqyhXma7cbl6w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39644800D48;
+        Wed, 19 Feb 2020 16:16:13 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-122-163.rdu2.redhat.com [10.10.122.163])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 9328587B26;
+        Wed, 19 Feb 2020 16:16:11 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <20200219144613.lc5y2jgzipynas5l@wittgenstein>
+References: <20200219144613.lc5y2jgzipynas5l@wittgenstein> <158204549488.3299825.3783690177353088425.stgit@warthog.procyon.org.uk>
 To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     =?UTF-8?Q?St=C3=A9phane_Graber?= <stgraber@ubuntu.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Stephen Barber <smbarber@chromium.org>,
-        Seth Forshee <seth.forshee@canonical.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Serge Hallyn <serge@hallyn.com>,
-        James Morris <jmorris@namei.org>,
-        Kees Cook <keescook@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Phil Estes <estesp@gmail.com>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Cc:     dhowells@redhat.com, viro@zeniv.linux.org.uk, raven@themaw.net,
+        mszeredi@redhat.com, christian@brauner.io,
+        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/19] VFS: Filesystem information and notifications [ver #16]
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <232828.1582128970.1@warthog.procyon.org.uk>
+Date:   Wed, 19 Feb 2020 16:16:10 +0000
+Message-ID: <232829.1582128970@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Feb 18, 2020 at 3:35 PM Christian Brauner
-<christian.brauner@ubuntu.com> wrote:
-> Switch vfs cap helpers to lookup fsids in the fsid mappings. If no fsid
-> mappings are setup the behavior is unchanged, i.e. fsids are looked up in the
-> id mappings.
-[...]
-> diff --git a/security/commoncap.c b/security/commoncap.c
-[...]
-> @@ -328,7 +328,7 @@ static bool rootid_owns_currentns(kuid_t kroot)
->                 return false;
->
->         for (ns = current_user_ns(); ; ns = ns->parent) {
-> -               if (from_kuid(ns, kroot) == 0)
-> +               if (from_kfsuid(ns, kroot) == 0)
->                         return true;
->                 if (ns == &init_user_ns)
->                         break;
+Christian Brauner <christian.brauner@ubuntu.com> wrote:
 
-Nit: Maybe change the name of this function to something that makes it
-clear that this operates in the fsuid mapping domain.
+> I mainly have an organizational question. :) This is a huge patchset
+> with lots and lots of (good) features. Wouldn't it make sense to make
+> the fsinfo() syscall a completely separate patchset from the
+> watch_mount() and watch_sb() syscalls? It seems that they don't need to
+> depend on each other at all. This would make reviewing this so much
+> nicer and likely would mean that fsinfo() could proceed a little faster.
+
+I can split it up again, but it's not quite as independent as it seems.
+
+There's a notification counter added to both the mount struct and the
+super_block struct.  This is bumped by notifications and retrieved by
+fsinfo().  You need this in the event that there's an overrun and you have to
+rescan the whole tree.
+
+So to actually make use of the mount/sb notification facilities, you need
+fsinfo() as well.
+
+David
+
