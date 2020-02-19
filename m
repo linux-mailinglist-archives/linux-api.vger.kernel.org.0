@@ -2,69 +2,76 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7232D1643E0
-	for <lists+linux-api@lfdr.de>; Wed, 19 Feb 2020 13:06:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3968F16442E
+	for <lists+linux-api@lfdr.de>; Wed, 19 Feb 2020 13:28:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726734AbgBSMGY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 19 Feb 2020 07:06:24 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:57574 "EHLO
+        id S1726725AbgBSM2I (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 19 Feb 2020 07:28:08 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:58298 "EHLO
         youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726495AbgBSMGY (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 19 Feb 2020 07:06:24 -0500
+        with ESMTP id S1726491AbgBSM2I (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 19 Feb 2020 07:28:08 -0500
 Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236] helo=wittgenstein)
         by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
         (Exim 4.86_2)
         (envelope-from <christian.brauner@ubuntu.com>)
-        id 1j4O7B-0002If-8k; Wed, 19 Feb 2020 12:06:05 +0000
-Date:   Wed, 19 Feb 2020 13:06:04 +0100
+        id 1j4OSH-0003l8-Ra; Wed, 19 Feb 2020 12:27:53 +0000
+Date:   Wed, 19 Feb 2020 13:27:52 +0100
 From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     "Serge E. Hallyn" <serge@hallyn.com>
+To:     James Bottomley <James.Bottomley@HansenPartnership.com>
 Cc:     =?utf-8?B?U3TDqXBoYW5l?= Graber <stgraber@ubuntu.com>,
         "Eric W. Biederman" <ebiederm@xmission.com>,
         Aleksa Sarai <cyphar@cyphar.com>, Jann Horn <jannh@google.com>,
-        smbarber@chromium.org, Seth Forshee <seth.forshee@canonical.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        James Morris <jmorris@namei.org>,
         Kees Cook <keescook@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Phil Estes <estesp@gmail.com>, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-api@vger.kernel.org,
         containers@lists.linux-foundation.org,
-        linux-security-module@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH v3 09/25] fs: add is_userns_visible() helper
-Message-ID: <20200219120604.vqudwaeppebvisco@wittgenstein>
+        linux-kernel@vger.kernel.org, smbarber@chromium.org,
+        Seth Forshee <seth.forshee@canonical.com>,
+        linux-security-module@vger.kernel.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        linux-fsdevel@vger.kernel.org,
+        Alexey Dobriyan <adobriyan@gmail.com>
+Subject: Re: [PATCH v3 00/25] user_namespace: introduce fsid mappings
+Message-ID: <20200219122752.jalnsmsotigwxwsw@wittgenstein>
 References: <20200218143411.2389182-1-christian.brauner@ubuntu.com>
- <20200218143411.2389182-10-christian.brauner@ubuntu.com>
- <20200219024233.GA19334@mail.hallyn.com>
+ <1582069856.16681.59.camel@HansenPartnership.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200219024233.GA19334@mail.hallyn.com>
+In-Reply-To: <1582069856.16681.59.camel@HansenPartnership.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Feb 18, 2020 at 08:42:33PM -0600, Serge Hallyn wrote:
-> On Tue, Feb 18, 2020 at 03:33:55PM +0100, Christian Brauner wrote:
-> > Introduce a helper which makes it possible to detect fileystems whose
-> > superblock is visible in multiple user namespace. This currently only
-> > means proc and sys. Such filesystems usually have special semantics so their
-> > behavior will not be changed with the introduction of fsid mappings.
+On Tue, Feb 18, 2020 at 03:50:56PM -0800, James Bottomley wrote:
+> On Tue, 2020-02-18 at 15:33 +0100, Christian Brauner wrote:
+> > In the usual case of running an unprivileged container we will have
+> > setup an id mapping, e.g. 0 100000 100000. The on-disk mapping will
+> > correspond to this id mapping, i.e. all files which we want to appear
+> > as 0:0 inside the user namespace will be chowned to 100000:100000 on
+> > the host. This works, because whenever the kernel needs to do a
+> > filesystem access it will lookup the corresponding uid and gid in the
+> > idmapping tables of the container. Now think about the case where we
+> > want to have an id mapping of 0 100000 100000 but an on-disk mapping
+> > of 0 300000 100000 which is needed to e.g. share a single on-disk
+> > mapping with multiple containers that all have different id mappings.
+> > This will be problematic. Whenever a filesystem access is requested,
+> > the kernel will now try to lookup a mapping for 300000 in the id
+> > mapping tables of the user namespace but since there is none the
+> > files will appear to be owned by the overflow id, i.e. usually
+> > 65534:65534 or nobody:nogroup.
+> > 
+> > With fsid mappings we can solve this by writing an id mapping of 0
+> > 100000 100000 and an fsid mapping of 0 300000 100000. On filesystem
+> > access the kernel will now lookup the mapping for 300000 in the fsid
+> > mapping tables of the user namespace. And since such a mapping
+> > exists, the corresponding files will have correct ownership.
 > 
-> Hi,
-> 
-> I'm afraid I've got a bit of a hangup about the terminology here.  I
-> *think* what you mean is that SB_I_USERNS_VISIBLE is an fs whose uids are
-> always translated per the id mappings, not fsid mappings.  But when I see
+> So I did compile this up in order to run the shiftfs tests over it to
+> see how it coped with the various corner cases.  However, what I find
+> is it simply fails the fsid reverse mapping in the setup.  Trying to
+> use a simple uid of 0 100000 1000 and a fsid of 100000 0 1000 fails the
+> entry setuid(0) call because of this code:
 
-Correct!
-
-> the name it seems to imply that !SB_I_USERNS_VISIBLE filesystems can't
-> be seen by other namespaces at all.
-> 
-> Am I right in my first interpretation?  If so, can we talk about the
-> naming?
-
-Yep, your first interpretation is right. What about: wants_idmaps()
+This is easy to fix. But what's the exact use-case?
