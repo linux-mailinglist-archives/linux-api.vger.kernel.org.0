@@ -2,95 +2,62 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F6D1164BB2
-	for <lists+linux-api@lfdr.de>; Wed, 19 Feb 2020 18:19:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DB2AC164EF8
+	for <lists+linux-api@lfdr.de>; Wed, 19 Feb 2020 20:36:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726734AbgBSRTF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 19 Feb 2020 12:19:05 -0500
-Received: from mail.kernel.org ([198.145.29.99]:42754 "EHLO mail.kernel.org"
+        id S1726719AbgBSTgB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 19 Feb 2020 14:36:01 -0500
+Received: from mail.hallyn.com ([178.63.66.53]:39468 "EHLO mail.hallyn.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726610AbgBSRTF (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 19 Feb 2020 12:19:05 -0500
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3E3A724680
-        for <linux-api@vger.kernel.org>; Wed, 19 Feb 2020 17:19:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1582132744;
-        bh=pdkNY2hNSnY9gfk2NzrHjgF6xJM4H9Y/ewvIWmreT30=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=vnO2O4ARZ57+m2WKOUb7GhddjqaoDXVsuMXfiNZeEGx2CUEhSrcOLwk7vQ6jehuVY
-         7ZAQf5jzJfdbS7ByhaI5MGieQG5Akj0KliXYRwXHNlnQNEhGb87pr//Tw8tqFq6uyH
-         kyfrK/detgBoqWdOmwxa2BWw5+K7YNOlQZ/t1UXw=
-Received: by mail-wm1-f51.google.com with SMTP id p17so1533663wma.1
-        for <linux-api@vger.kernel.org>; Wed, 19 Feb 2020 09:19:04 -0800 (PST)
-X-Gm-Message-State: APjAAAX61+emydHJ9Z19VIh3Q+glMVcZmbGURIf5RS5meGuTxe8n/qVp
-        mSllC45vvS0BI2PMN3b8x6uGnnFYHA3YKFC5m6C4xg==
-X-Google-Smtp-Source: APXvYqzBqeT3cBwt5QLq0QxxbNo0Ff+khHeTRw3LvaqWbB7JAMELbBnkX4mD5JEjB+jVyyVW16JjTf+gEg/eDtdINSk=
-X-Received: by 2002:a1c:b0c3:: with SMTP id z186mr10898715wme.36.1582132742597;
- Wed, 19 Feb 2020 09:19:02 -0800 (PST)
-MIME-Version: 1.0
-References: <20200218143411.2389182-1-christian.brauner@ubuntu.com>
- <20200218143411.2389182-10-christian.brauner@ubuntu.com> <20200219024233.GA19334@mail.hallyn.com>
- <20200219120604.vqudwaeppebvisco@wittgenstein>
-In-Reply-To: <20200219120604.vqudwaeppebvisco@wittgenstein>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Wed, 19 Feb 2020 09:18:51 -0800
-X-Gmail-Original-Message-ID: <CALCETrW-XPkBMs30vk+Aiv+jA5i7TjHOYCgz0Ud6d0geaYte=g@mail.gmail.com>
-Message-ID: <CALCETrW-XPkBMs30vk+Aiv+jA5i7TjHOYCgz0Ud6d0geaYte=g@mail.gmail.com>
-Subject: Re: [PATCH v3 09/25] fs: add is_userns_visible() helper
+        id S1726683AbgBSTgA (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 19 Feb 2020 14:36:00 -0500
+Received: by mail.hallyn.com (Postfix, from userid 1001)
+        id B6255B4F; Wed, 19 Feb 2020 13:35:58 -0600 (CST)
+Date:   Wed, 19 Feb 2020 13:35:58 -0600
+From:   "Serge E. Hallyn" <serge@hallyn.com>
 To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     "Serge E. Hallyn" <serge@hallyn.com>,
-        =?UTF-8?Q?St=C3=A9phane_Graber?= <stgraber@ubuntu.com>,
+Cc:     =?iso-8859-1?Q?St=E9phane?= Graber <stgraber@ubuntu.com>,
         "Eric W. Biederman" <ebiederm@xmission.com>,
         Aleksa Sarai <cyphar@cyphar.com>, Jann Horn <jannh@google.com>,
         smbarber@chromium.org, Seth Forshee <seth.forshee@canonical.com>,
         Alexander Viro <viro@zeniv.linux.org.uk>,
         Alexey Dobriyan <adobriyan@gmail.com>,
+        Serge Hallyn <serge@hallyn.com>,
         James Morris <jmorris@namei.org>,
         Kees Cook <keescook@chromium.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Phil Estes <estesp@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Phil Estes <estesp@gmail.com>, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org,
+        containers@lists.linux-foundation.org,
+        linux-security-module@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: [PATCH v3 00/25] user_namespace: introduce fsid mappings
+Message-ID: <20200219193558.GA27641@mail.hallyn.com>
+References: <20200218143411.2389182-1-christian.brauner@ubuntu.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200218143411.2389182-1-christian.brauner@ubuntu.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Feb 19, 2020 at 4:06 AM Christian Brauner
-<christian.brauner@ubuntu.com> wrote:
->
-> On Tue, Feb 18, 2020 at 08:42:33PM -0600, Serge Hallyn wrote:
-> > On Tue, Feb 18, 2020 at 03:33:55PM +0100, Christian Brauner wrote:
-> > > Introduce a helper which makes it possible to detect fileystems whose
-> > > superblock is visible in multiple user namespace. This currently only
-> > > means proc and sys. Such filesystems usually have special semantics so their
-> > > behavior will not be changed with the introduction of fsid mappings.
-> >
-> > Hi,
-> >
-> > I'm afraid I've got a bit of a hangup about the terminology here.  I
-> > *think* what you mean is that SB_I_USERNS_VISIBLE is an fs whose uids are
-> > always translated per the id mappings, not fsid mappings.  But when I see
->
-> Correct!
->
-> > the name it seems to imply that !SB_I_USERNS_VISIBLE filesystems can't
-> > be seen by other namespaces at all.
-> >
-> > Am I right in my first interpretation?  If so, can we talk about the
-> > naming?
->
-> Yep, your first interpretation is right. What about: wants_idmaps()
+On Tue, Feb 18, 2020 at 03:33:46PM +0100, Christian Brauner wrote:
+> With fsid mappings we can solve this by writing an id mapping of 0
+> 100000 100000 and an fsid mapping of 0 300000 100000. On filesystem
+> access the kernel will now lookup the mapping for 300000 in the fsid
+> mapping tables of the user namespace. And since such a mapping exists,
+> the corresponding files will have correct ownership.
 
-Maybe fsidmap_exempt()?
+So if I have
 
-I still haven't convinced myself that any of the above is actually
-correct behavior, especially when people do things like creating
-setuid binaries.
+/proc/self/uid_map: 0 100000 100000
+/proc/self/fsid_map: 1000 1000 1
+
+1. If I read files from the rootfs which have host uid 101000, they
+will appear as uid 100 to me?
+
+2. If I read host files with uid 1000, they will appear as uid 1000 to me?
+
+3. If I create a new file, as uid 1000, what will be the inode owning uid?
