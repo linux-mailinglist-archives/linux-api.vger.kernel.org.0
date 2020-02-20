@@ -2,93 +2,149 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 39D49165FAF
-	for <lists+linux-api@lfdr.de>; Thu, 20 Feb 2020 15:26:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D29CA16601C
+	for <lists+linux-api@lfdr.de>; Thu, 20 Feb 2020 15:55:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727553AbgBTO01 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 20 Feb 2020 09:26:27 -0500
-Received: from mail.hallyn.com ([178.63.66.53]:59536 "EHLO mail.hallyn.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727088AbgBTO01 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 20 Feb 2020 09:26:27 -0500
-Received: by mail.hallyn.com (Postfix, from userid 1001)
-        id B0D613F5; Thu, 20 Feb 2020 08:26:24 -0600 (CST)
-Date:   Thu, 20 Feb 2020 08:26:24 -0600
-From:   "Serge E. Hallyn" <serge@hallyn.com>
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        =?iso-8859-1?Q?St=E9phane?= Graber <stgraber@ubuntu.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Aleksa Sarai <cyphar@cyphar.com>, Jann Horn <jannh@google.com>,
-        smbarber@chromium.org, Seth Forshee <seth.forshee@canonical.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        James Morris <jmorris@namei.org>,
-        Kees Cook <keescook@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Phil Estes <estesp@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: [PATCH v3 09/25] fs: add is_userns_visible() helper
-Message-ID: <20200220142624.GA5249@mail.hallyn.com>
-References: <20200218143411.2389182-1-christian.brauner@ubuntu.com>
- <20200218143411.2389182-10-christian.brauner@ubuntu.com>
- <20200219024233.GA19334@mail.hallyn.com>
- <20200219120604.vqudwaeppebvisco@wittgenstein>
- <CALCETrW-XPkBMs30vk+Aiv+jA5i7TjHOYCgz0Ud6d0geaYte=g@mail.gmail.com>
+        id S1728406AbgBTOyw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 20 Feb 2020 09:54:52 -0500
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:45780 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728405AbgBTOyw (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 20 Feb 2020 09:54:52 -0500
+Received: by mail-ot1-f66.google.com with SMTP id 59so3853429otp.12
+        for <linux-api@vger.kernel.org>; Thu, 20 Feb 2020 06:54:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=UmzmFkPjCuGBaCDC2J5E9Q9j03PnI6HdFcXUuBD5/TU=;
+        b=wJAOkl5DhW5ltYAytZ3UeR8ZVsjpxC5WJLYJXFPCOSwgAQtg3OX7P4ojn1gKMvFkAf
+         A1P9Nl3SgGwCSOqwsStyfCXicx4iRruvmDpDxMpaEFRFTIXPMwyq2ppqzH29EY+Atz7n
+         VZ4SRCYZnms43dn5PGkBmkuGPupGO2e2ERVuer6o7oQsVoAozhe0Nq61jCPL+eWuS/mA
+         ckAuP6Z0hXuTSKZoZ191U0xjCMO4Kok63NzBJx0z932uf+yjw94fPg2QUYFdjyjPvU9z
+         DQC/+tuFsHPl3AzcPC27Q9cI49rDFxbtOpHHDog9x7pKFgS4g/68KPAAvs0KDOdXqvck
+         X/mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=UmzmFkPjCuGBaCDC2J5E9Q9j03PnI6HdFcXUuBD5/TU=;
+        b=EhPsiuiuk+eQ/6J32HMiLnt001fJtSEvnxqW3SlnkBTqtGJrijFJQiCUN3Qg6OJpr5
+         o/Ae12dKlgf4eVImYTwbAvp22K3BuFoksa9FIzNBeShf9ei1knhOc4mqljsPUg3eKkCL
+         roRJ0OF/S769cNKI1GAjvgSFpWdCEi678KIDo8A4lpWDUmzBqKPxrmyYfe5z9Zk6BSdT
+         jmdyFEoy17vDfRj2EOwibpOjRVTUv60p7g5XaV97c/d4IWn/P1W/kteNhb864ZeWqcra
+         laWXZuMgAG5yo3lSWEaj6oT63ocxS4aohPA6EQchKt0FjsKFJVWNPAdeKqxBHnVYzTaH
+         +h0g==
+X-Gm-Message-State: APjAAAWI32+GKyaREI4UDe2rR66KZMlQCIWbiHxDN+y1+Evg1OGDlyLg
+        evFbyLdBDxmvNTISp087TqnB3t3ZZqxFLJgVpToPXg==
+X-Google-Smtp-Source: APXvYqyUVQt81DtB/0rrPhX/8feTQLhMBsEKNm27cSmXNSmmbP94300Qc1MMAygvmZVsVX8XoNGexNlRTiv2fuuBJs4=
+X-Received: by 2002:a05:6830:1d6e:: with SMTP id l14mr23301953oti.32.1582210491228;
+ Thu, 20 Feb 2020 06:54:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CALCETrW-XPkBMs30vk+Aiv+jA5i7TjHOYCgz0Ud6d0geaYte=g@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <158204549488.3299825.3783690177353088425.stgit@warthog.procyon.org.uk>
+ <158204550281.3299825.6344518327575765653.stgit@warthog.procyon.org.uk>
+ <CAG48ez0o3iHjQJNvh8V2Ao77g0CqfqGsv6caMCOFDy7w-VdtkQ@mail.gmail.com> <584179.1582196636@warthog.procyon.org.uk>
+In-Reply-To: <584179.1582196636@warthog.procyon.org.uk>
+From:   Jann Horn <jannh@google.com>
+Date:   Thu, 20 Feb 2020 15:54:25 +0100
+Message-ID: <CAG48ez00KA3tjeccDCeqmgHyppTLEr+UkrB=QaQ-FX-cTY3aCA@mail.gmail.com>
+Subject: Re: [PATCH 01/19] vfs: syscall: Add fsinfo() to query filesystem
+ information [ver #16]
+To:     David Howells <dhowells@redhat.com>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>, raven@themaw.net,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Christian Brauner <christian@brauner.io>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Feb 19, 2020 at 09:18:51AM -0800, Andy Lutomirski wrote:
-> On Wed, Feb 19, 2020 at 4:06 AM Christian Brauner
-> <christian.brauner@ubuntu.com> wrote:
-> >
-> > On Tue, Feb 18, 2020 at 08:42:33PM -0600, Serge Hallyn wrote:
-> > > On Tue, Feb 18, 2020 at 03:33:55PM +0100, Christian Brauner wrote:
-> > > > Introduce a helper which makes it possible to detect fileystems whose
-> > > > superblock is visible in multiple user namespace. This currently only
-> > > > means proc and sys. Such filesystems usually have special semantics so their
-> > > > behavior will not be changed with the introduction of fsid mappings.
-> > >
-> > > Hi,
-> > >
-> > > I'm afraid I've got a bit of a hangup about the terminology here.  I
-> > > *think* what you mean is that SB_I_USERNS_VISIBLE is an fs whose uids are
-> > > always translated per the id mappings, not fsid mappings.  But when I see
-> >
-> > Correct!
-> >
-> > > the name it seems to imply that !SB_I_USERNS_VISIBLE filesystems can't
-> > > be seen by other namespaces at all.
-> > >
-> > > Am I right in my first interpretation?  If so, can we talk about the
-> > > naming?
-> >
-> > Yep, your first interpretation is right. What about: wants_idmaps()
-> 
-> Maybe fsidmap_exempt()?
+On Thu, Feb 20, 2020 at 12:04 PM David Howells <dhowells@redhat.com> wrote:
+> Jann Horn <jannh@google.com> wrote:
+>
+> > > +int fsinfo_string(const char *s, struct fsinfo_context *ctx)
+> > ...
+> > Please add a check here to ensure that "ret" actually fits into the
+> > buffer (and use WARN_ON() if you think the check should never fire).
+> > Otherwise I think this is too fragile.
+>
+> How about:
+>
+>         int fsinfo_string(const char *s, struct fsinfo_context *ctx)
+>         {
+>                 unsigned int len;
+>                 char *p = ctx->buffer;
+>                 int ret = 0;
+>                 if (s) {
+>                         len = strlen(s);
+>                         if (len > ctx->buf_size - 1)
+>                                 len = ctx->buf_size;
+>                         if (!ctx->want_size_only) {
+>                                 memcpy(p, s, len);
+>                                 p[len] = 0;
 
-Yeah, and maybe SB_USERNS_FSID_EXEMPT ?
+I think this is off-by-one? If len was too big, it is set to
+ctx->buf_size, so in that case this effectively becomes
+`ctx->buffer[ctx->buf_size] = 0`, which is one byte out of bounds,
+right?
 
-> I still haven't convinced myself that any of the above is actually
-> correct behavior, especially when people do things like creating
-> setuid binaries.
+Maybe use something like `len = min_t(size_t, strlen(s), ctx->buf_size-1)` ?
 
-The only place that would be a problem is if the child userns has an
-fsidmapping from X to 0 in the parent userns, right?  Yeah I'm sure
-many people would ignore all advice to the contrary and do this anyway,
-but I would try hard to suggest that people use an intermediary userns
-for storing filesystems for the "docker share" case.  So the host fsid
-range would start at say 200000.  So a setuid binary would just be
-setuid-200000.
+Looks good apart from that, I think.
+
+>                         }
+>                         ret = len;
+>                 }
+>                 return ret;
+>         }
+[...]
+> > > +       return ctx->usage;
+> >
+> > It is kind of weird that you have to return the ctx->usage everywhere
+> > even though the caller already has ctx...
+>
+> At this point, it's only used and returned by fsinfo_attributes() and really
+> is only for the use of the attribute getter function.
+>
+> I could, I suppose, return the amount of data in ctx->usage and then preset it
+> for VSTRUCT-type objects.  Unfortunately, I can't make the getter return void
+> since it might have to return an error.
+
+Yeah, then you'd be passing around the error separately from the
+length... I don't know whether that'd make things better or worse.
+
+[...]
+> > > +struct fsinfo_attribute {
+> > > +       unsigned int            attr_id;        /* The ID of the attribute */
+> > > +       enum fsinfo_value_type  type:8;         /* The type of the attribute's value(s) */
+> > > +       unsigned int            flags:8;
+> > > +       unsigned int            size:16;        /* - Value size (FSINFO_STRUCT) */
+> > > +       unsigned int            element_size:16; /* - Element size (FSINFO_LIST) */
+> > > +       int (*get)(struct path *path, struct fsinfo_context *params);
+> > > +};
+> >
+> > Why the bitfields? It doesn't look like that's going to help you much,
+> > you'll just end up with 6 bytes of holes on x86-64:
+>
+> Expanding them to non-bitfields will require an extra 10 bytes, making the
+> struct 8 bytes bigger with 4 bytes of padding.  I can do that if you'd rather.
+
+Wouldn't this still have the same total size?
+
+struct fsinfo_attribute {
+  unsigned int attr_id;        /* 0x0-0x3 */
+  enum fsinfo_value_type type; /* 0x4-0x7 */
+  u8 flags;                    /* 0x8-0x8 */
+  /* 1-byte hole */
+  u16 size;                    /* 0xa-0xb */
+  u16 element_size;            /* 0xc-0xd */
+  /* 2-byte hole */
+  int (*get)(...);             /* 0x10-0x18 */
+};
+
+But it's not like I really care about this detail all that much, feel
+free to leave it as-is.
