@@ -2,80 +2,216 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AD361165AC2
-	for <lists+linux-api@lfdr.de>; Thu, 20 Feb 2020 10:59:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D0DF165B95
+	for <lists+linux-api@lfdr.de>; Thu, 20 Feb 2020 11:34:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727589AbgBTJ7N (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 20 Feb 2020 04:59:13 -0500
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:33885 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727167AbgBTJ7M (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 20 Feb 2020 04:59:12 -0500
-Received: by mail-pf1-f195.google.com with SMTP id i6so1687881pfc.1
-        for <linux-api@vger.kernel.org>; Thu, 20 Feb 2020 01:59:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=xsUbPWAhYtsZRE8nHbpZ90/dMr+6ACJOvf/o3gzcGwM=;
-        b=QdHe6Zh6CaaJ1sLjPHuXQjx0A7okAlWelDRXZEPEU+kwdNYSczM+V7StPYmf15KhlB
-         ZZUIU3Ujyb1Xj8AceGV8iVZ2iiS28Rr7vBbXrNedZs5i7lbzutryYzK7zCOXomIVEN3M
-         R5PjDrlbyujYAAaCwE7waRPyYozYzSeDHpW1FtZwZBkmnwFngTv5lztGfk+R2MkFYZdt
-         7hLqhj4oRlJEBvFft0XDzwoPYuBGV+aokdHYdyFPj1mxRf0pRzprh5hq2ys1gNlMd29O
-         59StfSNPA9rPzdcPE2+bMmNPpfS5UsN322ZDaxc3BFWPB4XRsWOpUFQgqRlIpr5pZ5Mo
-         bZeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=xsUbPWAhYtsZRE8nHbpZ90/dMr+6ACJOvf/o3gzcGwM=;
-        b=OC7+V57wUaBKft86s24ZpSR+ua16AVwqXHtX62M3kQOwmdC1yNrPiYY2O76B/QXaT0
-         1ec5TYQVijTAKTPlLEhfy0j4jWCIdpCLG1DG6FjDiZhpToHBX/psfLl1bEFpsc7amM7s
-         IKu8FOYHJ3r+1/8Leo67BYClrqgV9KlqOthgg0FAXrq9M+XNzSbCNhiBgUVvmdi28kq3
-         fggQVv9dHvWWBNHU9AAfPrNmMUa/73rdKb4khwCutp31QsByY+ML68FICnCrS+KC/+wU
-         Z34rFGoEWVB53s3tKy7xXCtNDscuv5tgqFy6XVc8s4ks1uUKgGIOQhcMA4Z5dp/Jp2N9
-         443A==
-X-Gm-Message-State: APjAAAWN2VRpuhRjEIiL9sTwmo6v52DKAduv7flg2t4Jka7NS+4oQSzg
-        T+Kcn3Q7znRHaPRemEh7cyT2A5cBIAHroCfTckA=
-X-Google-Smtp-Source: APXvYqxR6yBhFw7r4dKTBjurm+98OBjYzU6hHIkAF9J6I0GDbPsV3TjDG0R7oydjb3FX87Fo+WI6tw3et3LXPO91wj4=
-X-Received: by 2002:a63:7e56:: with SMTP id o22mr7959509pgn.136.1582192750995;
- Thu, 20 Feb 2020 01:59:10 -0800 (PST)
+        id S1727134AbgBTKen (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 20 Feb 2020 05:34:43 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:54217 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727091AbgBTKen (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 20 Feb 2020 05:34:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1582194882;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=IbRiHn2UAAo1XhaSQjnQaPYh19kM6Kh7056eiuL/Ryo=;
+        b=NjDV+Hdyxg0zMBZB8zr582tLfOk1YjRYU+3uvqFltugQn9LSf5bHAY1Jhol7FQ3zJVF6dN
+        j3OrKzU47eKawxteomPfgxACihDdS8iB+A5wY9xOWT1UzWxSla7cUgDwFirqQBX7wNTKfT
+        idPoF+/t41ftlu5eP4Yj/Clk4E+iLBc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-117-qU9IaiWhN92zMfQkTauxHw-1; Thu, 20 Feb 2020 05:34:40 -0500
+X-MC-Unique: qU9IaiWhN92zMfQkTauxHw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F8D1801FA6;
+        Thu, 20 Feb 2020 10:34:38 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-122-163.rdu2.redhat.com [10.10.122.163])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id BBEF85DA76;
+        Thu, 20 Feb 2020 10:34:36 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <20200219163128.GB9496@magnolia>
+References: <20200219163128.GB9496@magnolia> <158204549488.3299825.3783690177353088425.stgit@warthog.procyon.org.uk> <158204550281.3299825.6344518327575765653.stgit@warthog.procyon.org.uk>
+To:     "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc:     dhowells@redhat.com, viro@zeniv.linux.org.uk, raven@themaw.net,
+        mszeredi@redhat.com, christian@brauner.io,
+        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 01/19] vfs: syscall: Add fsinfo() to query filesystem information [ver #16]
 MIME-Version: 1.0
-Received: by 2002:a17:90a:90f:0:0:0:0 with HTTP; Thu, 20 Feb 2020 01:59:10
- -0800 (PST)
-Reply-To: cagesusan199@gmail.com
-From:   "Mrs. Susan S. Cage" <drgoodluckebelejonathan061@gmail.com>
-Date:   Thu, 20 Feb 2020 01:59:10 -0800
-Message-ID: <CALjo5=9xXnhZ+fS9HXLQ1t3mihewzgBQ-JvaZXKyeZQBZ+PTXw@mail.gmail.com>
-Subject: Attention:Beneficiary
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <542410.1582194875.1@warthog.procyon.org.uk>
+Content-Transfer-Encoding: quoted-printable
+Date:   Thu, 20 Feb 2020 10:34:35 +0000
+Message-ID: <542411.1582194875@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
--- 
-Dearest Friend,
+Darrick J. Wong <darrick.wong@oracle.com> wrote:
 
-Sorry for invading your privacy, my name is Susan S. Cage I am 81
-years, citizen of United States and presently in hospital undergoing
-chromatography for bronchogenic carcinomas (Lung cancer) which
-affected both Lungs. The doctors said I have few days to live because
-the cancer has now affected my brain.
+> > +	p->f_blocks.hi	=3D 0;
+> > +	p->f_blocks.lo	=3D buf.f_blocks;
+> =
 
-My late husband left Fifteen Million, Five Hundred British Pounds
-Sterling in my account, I want to transfer the money to you and I want
-you to use it as a donate for charitable and help the needy,
-motherless, less privileged and widows within your location.
+> Er... are there filesystems (besides that (xfs++)++ one) that require
+> u128 counters?  I suspect that the Very Large Fields are for future
+> expandability, but I also wonder about the whether it's worth the
+> complexity of doing this, since the structures can always be
+> version-revved later.
 
-I need your assurance that you will use the fund for charity, once I a
-favorable reply from you, will inform my Bank through my lawyer to
-transfer the fund to you as my Next of Kin and Sole Beneficiary. Once
-I receive your response, I will inform my bank in writing through my
-lawyer.
+I'm making a relatively cheap allowance for future expansion.  Dave Chinne=
+r
+has mentioned at one of the LSFs that 16EiB may be exceeded soon (though I
+hate to think of fscking such a beastie).  I know that the YFS variant of =
+AFS
+supports 96-bit vnode numbers (which I translate to inode numbers).  What =
+I'm
+trying to avoid is the problem we have with stat/statfs where under some
+circumstances we have to return an error (ERANGE?) because we can't repres=
+ent
+the number if someone asks for an older version of the struct.
 
+Since the buffer is (meant to be) pre-cleared, the filesystem can just ign=
+ore
+the high word if it's never going to set it.  In fact, fsinfo_generic_stat=
+fs
+doesn't need to set them either.
 
+> XFS inodes are u64 values...
+> ...and the max symlink target length is 1k, not PAGE_SIZE...
 
-Thank you and God bless you.
+Yeah, and AFS(YFS) has 96-bit inode numbers.  The filesystem's fsinfo tabl=
+e is
+read first so that the filesystem can override this.
 
-Mrs. Susan S. Cage
+> ...so is the usage model here that XFS should call fsinfo_generic_limits
+> to fill out the fsinfo_limits structure, modify the values in
+> ctx->buffer as appropriate for XFS, and then return the structure size?
+
+Actually, I should export some these so that you can do that.  I'll export
+fsinfo_generic_{timestamp_info,supports,limits} for now.
+
+> > +#define FSINFO_ATTR_VOLUME_ID		0x05	/* Volume ID (string) */
+> > +#define FSINFO_ATTR_VOLUME_UUID		0x06	/* Volume UUID (LE uuid) */
+> > +#define FSINFO_ATTR_VOLUME_NAME		0x07	/* Volume name (string) */
+> =
+
+> I think I've muttered about the distinction between volume id and
+> volume name before, but I'm still wondering how confusing that will be
+> for users?  Let me check my assumptions, though:
+> =
+
+> Volume ID is whatever's in super_block.s_id, which (at least for xfs and
+> ext4) is the device name (e.g. "sda1").  I guess that's useful for
+> correlating a thing you can call fsinfo() on against strings that were
+> logged in dmesg.
+>
+> Volume name I think is the fs label (e.g. "home"), which I think will
+> have to be implemented separately by each filesystem, and that's why
+> there's no generic vfs implementation.
+
+Yes.  For AFS, for example, this would be the name of the volume (which ma=
+y be
+changed), whereas the volume ID is the number in the protocol that actuall=
+y
+refers to the volume (which cannot be changed).
+
+And, as you say, for blockdev mounts, the ID is the device name and the vo=
+lume
+name is filesystem specific.
+
+> The 7 -> 0 -> 1 sequence here confused me until I figured out that
+> QUERY_TYPE is the mask for QUERY_{PATH,FD}.
+
+Changed to FSINFO_FLAGS_QUERY_MASK.
+
+> > +struct fsinfo_limits {
+> > +...
+> > +	__u32	__reserved[1];
+> =
+
+> I wonder if these structures ought to reserve more space than a single u=
+32...
+
+No need.  Part of the way the interface is designed is that the version nu=
+mber
+for a particular VSTRUCT-type attribute is also the length.  So a newer
+version is also longer.  All the old fields must be retained and filled in=
+.
+New fields are tagged on the end.
+
+If userspace asks for an older version than is supported, it gets a trunca=
+ted
+return.  If it asks for a newer version, the extra fields it is expecting =
+are
+all set to 0.  Either way, the length (and thus the version) the kernel
+supports is returned - not the length copied.
+
+The __reserved fields are there because they represent padding (the struct=
+ is
+going to be aligned/padded according to __u64 in this case).  Ideally, I'd
+mark the structs __packed, but this messes with the alignment and may make=
+ the
+compiler do funny tricks to get out any field larger than a byte.
+
+I've renamed them to __padding.
+
+> > +struct fsinfo_supports {
+> > +	__u64	stx_attributes;		/* What statx::stx_attributes are supported *=
+/
+> > +	__u32	stx_mask;		/* What statx::stx_mask bits are supported */
+> > +	__u32	ioc_flags;		/* What FS_IOC_* flags are supported */
+> =
+
+> "IOC"?  That just means 'ioctl'.  Is this field supposed to return the
+> supported FS_IOC_GETFLAGS flags, or the supported FS_IOC_FSGETXATTR
+> flags?
+
+FS_IOC_[GS]ETFLAGS is what I meant.
+
+> I suspect it would also be a big help to be able to tell userspace which
+> of the flags can be set, and which can be cleared.
+
+How about:
+
+	__u32	fs_ioc_getflags;	/* What FS_IOC_GETFLAGS may return */
+	__u32	fs_ioc_setflags_set;	/* What FS_IOC_SETFLAGS may set */
+	__u32	fs_ioc_setflags_clear;	/* What FS_IOC_SETFLAGS may clear */
+
+> > +struct fsinfo_timestamp_one {
+> > +	__s64	minimum;	/* Minimum timestamp value in seconds */
+> > +	__u64	maximum;	/* Maximum timestamp value in seconds */
+> =
+
+> Given that time64_t is s64, why is the maximum here u64?
+
+Well, I assume it extremely unlikely that the maximum can be before 1970, =
+so
+there doesn't seem any need to allow the maximum to be negative.  Furtherm=
+ore,
+it would be feasible that you could encounter a filesystem with a u64
+filesystem that doesn't support dates before 1970.
+
+On the other hand, if Linux is still going when __s64 seconds from 1970 wr=
+aps,
+it will be impressive, but I'm not sure we'll be around to see it...  Some=
+one
+will have to cast a resurrection spell on Arnd to fix that one.
+
+However, since signed/unsigned comparisons may have issues, I can turn it =
+into
+an __s64 also if that is preferred.
+
+David
+
