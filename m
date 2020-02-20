@@ -2,65 +2,68 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BDBF1166AA3
-	for <lists+linux-api@lfdr.de>; Fri, 21 Feb 2020 00:00:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D6D5166AAE
+	for <lists+linux-api@lfdr.de>; Fri, 21 Feb 2020 00:02:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727883AbgBTXAf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 20 Feb 2020 18:00:35 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:34211 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727880AbgBTXAf (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 20 Feb 2020 18:00:35 -0500
-Received: by mail-lj1-f193.google.com with SMTP id x7so223046ljc.1
-        for <linux-api@vger.kernel.org>; Thu, 20 Feb 2020 15:00:34 -0800 (PST)
+        id S1727884AbgBTXCp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 20 Feb 2020 18:02:45 -0500
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:41028 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729205AbgBTXCn (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 20 Feb 2020 18:02:43 -0500
+Received: by mail-lj1-f194.google.com with SMTP id h23so193214ljc.8
+        for <linux-api@vger.kernel.org>; Thu, 20 Feb 2020 15:02:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linux-foundation.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=oW+dHyuXcdgcpFOp9rkCYNNzyvxL/1mmVUWMW1tVkn8=;
-        b=HsJYplXHj9WIosfuyYDxgCIpizr4Q2QTncG0r8kQoBcqx1jdtsR9fFVeYAPGlhnI5Y
-         7UWBHhKU9LT9oEd08VowjnmWRULPbdq+faWGzRjHU4lCzwffnnc4X3O8+YTbupxrOXam
-         he3lTa6POmGxUb6ylyx451mYPhWfQQq6/MfdM=
+        bh=8oe6NGrWHTfgph3/inQD25AzfwK01P8Rirv0Se4y4rY=;
+        b=eERYNg5pIV17feq4MuZzbw+6+6UOz8wPDMox8sHvl6LW5lyeCJiNPLjaaiAnC6tgNr
+         k4eFpoUVZrOY+nWuuaeOf69/y2kMFcR2Xyd4iQCdWpyjSB4kE6JLltV8O5wbI2adfQ2q
+         gkwegZ8+VoH9h8WqrHWMh85pZ16PVGc+EW3II=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=oW+dHyuXcdgcpFOp9rkCYNNzyvxL/1mmVUWMW1tVkn8=;
-        b=RtCgIJerdTJBAFns5fPw3keyrb56mFaAwkseI0r0NBHA9ZwgEyXUhue+ubqoHkIDvo
-         mHR9LdDHUyjvp+XavLgiNr/mrlzSe2XRiM85Q95Zkrdvnp5ObbfRuiPwi6Lxso9Jocp1
-         Ml1HGi3ASbdcNdhLpp+fp3TcTeilysQybCup8LEZUCGPR7L7ku/Fb/yqvWIn2J4d0tfT
-         +NDLd62whb1UmJegmx/yc0FeDaJhy6g5MvegV27plYu8ROZMc2mNBIIlA9j0PRHLAuXu
-         DKlnn3/zRIVjJvYxytcr4Va2rGwhVyWb5ZeQ4HkSsNE7sTvLdi7xh/E4bpJqqRsTvfPf
-         vNwA==
-X-Gm-Message-State: APjAAAUoCmq6dKexmEsUtYNAKLBMhit2LAkaLdC7zxLSaI9wmaYthB0v
-        gm4bPtAoEipxCn3YEi+6Kt8k7ae+m5s=
-X-Google-Smtp-Source: APXvYqzhglzq7D6pYQGZC6xzfPBEdCmbjR1BIHjkyfjOw8SMjmBmvFaU32Ls3ul4LZvmuuulZoKnEQ==
-X-Received: by 2002:a2e:818e:: with SMTP id e14mr20042886ljg.2.1582239632727;
-        Thu, 20 Feb 2020 15:00:32 -0800 (PST)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com. [209.85.208.181])
-        by smtp.gmail.com with ESMTPSA id t24sm495738lfk.52.2020.02.20.15.00.30
+        bh=8oe6NGrWHTfgph3/inQD25AzfwK01P8Rirv0Se4y4rY=;
+        b=LnDKz7XzwOhFK4mOUjWfJkh7WBqkbrc5YxydYeTMzFQBeYo3NSkBnCSIf1SawWyV2w
+         GZmueodv3v5FhX55LdO1SG3NHm4LdWLUBSSvBMSb4WxeI6L19GHion2+gmLeX9iEonxa
+         BEIDDwTouWSVBxhO/BbtXXeE6kncnrD4fHWuY+9O8r0e5p/cChgV1vd3+GrSaXWhX/V9
+         CGwjFaqE+Tz3TvaVucg2MCYuwgNjaczxIkxBdkAI8m0lHugFP5jpxuqSiGAnainfbG8g
+         h4ao4QUTZAxH3fpC6Yw1/CLFtxc6BW1VwdoqrBU8zJZXozeKtF8kqjcJv7HhXT7hsq52
+         9t+w==
+X-Gm-Message-State: APjAAAWNgvqNHMo5dwmUnTAoqutI3mvMDPM/+l8v5BPRf22YFTk4dxGi
+        zC6Od4mtnPG3CdlIhDqmc4wUHr3/3uI=
+X-Google-Smtp-Source: APXvYqwCr2Ei2hxr+V3+dt7gOAQwfZIa6Aue1Jxi1gPv0YJ0CLNRCHaZWEov5RyesOoQEi4FRNHjQg==
+X-Received: by 2002:a2e:6c06:: with SMTP id h6mr20271283ljc.246.1582239761149;
+        Thu, 20 Feb 2020 15:02:41 -0800 (PST)
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com. [209.85.208.173])
+        by smtp.gmail.com with ESMTPSA id u9sm451107lji.49.2020.02.20.15.02.38
         for <linux-api@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Feb 2020 15:00:30 -0800 (PST)
-Received: by mail-lj1-f181.google.com with SMTP id n18so192447ljo.7
-        for <linux-api@vger.kernel.org>; Thu, 20 Feb 2020 15:00:30 -0800 (PST)
-X-Received: by 2002:a2e:88c5:: with SMTP id a5mr20496205ljk.201.1582239629960;
- Thu, 20 Feb 2020 15:00:29 -0800 (PST)
+        Thu, 20 Feb 2020 15:02:39 -0800 (PST)
+Received: by mail-lj1-f173.google.com with SMTP id o15so203880ljg.6
+        for <linux-api@vger.kernel.org>; Thu, 20 Feb 2020 15:02:38 -0800 (PST)
+X-Received: by 2002:a2e:97cc:: with SMTP id m12mr19768759ljj.241.1582239758414;
+ Thu, 20 Feb 2020 15:02:38 -0800 (PST)
 MIME-Version: 1.0
-References: <20200212200335.GO23230@ZenIV.linux.org.uk> <CAHk-=wi+1CPShMFvJNPfnrJ8DD8uVKUOQ5TQzQUNGLUkeoahkg@mail.gmail.com>
+References: <20200210150519.538333-8-gladkov.alexey@gmail.com>
+ <87v9odlxbr.fsf@x220.int.ebiederm.org> <20200212144921.sykucj4mekcziicz@comp-core-i7-2640m-0182e6>
+ <87tv3vkg1a.fsf@x220.int.ebiederm.org> <CAHk-=wg52stFtUxMOxs3afkwDWmWn1JXC7RJ7dPsTrJbnxpZVg@mail.gmail.com>
+ <87v9obipk9.fsf@x220.int.ebiederm.org> <CAHk-=wgwmu4jpmOqW0+Lz0dcem1Fub=ThLHvmLobf_WqCq7bwg@mail.gmail.com>
+ <20200212200335.GO23230@ZenIV.linux.org.uk> <CAHk-=wi+1CPShMFvJNPfnrJ8DD8uVKUOQ5TQzQUNGLUkeoahkg@mail.gmail.com>
  <20200212203833.GQ23230@ZenIV.linux.org.uk> <20200212204124.GR23230@ZenIV.linux.org.uk>
  <CAHk-=wi5FOGV_3tALK3n6E2fK3Oa_yCYkYQtCSaXLSEm2DUCKg@mail.gmail.com>
  <87lfp7h422.fsf@x220.int.ebiederm.org> <CAHk-=wgmn9Qds0VznyphouSZW6e42GWDT5H1dpZg8pyGDGN+=w@mail.gmail.com>
  <87pnejf6fz.fsf@x220.int.ebiederm.org> <871rqpaswu.fsf_-_@x220.int.ebiederm.org>
- <87blpt9e6m.fsf_-_@x220.int.ebiederm.org> <20200220225420.GR23230@ZenIV.linux.org.uk>
-In-Reply-To: <20200220225420.GR23230@ZenIV.linux.org.uk>
+In-Reply-To: <871rqpaswu.fsf_-_@x220.int.ebiederm.org>
 From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Thu, 20 Feb 2020 15:00:13 -0800
-X-Gmail-Original-Message-ID: <CAHk-=whPwMTTaGtphubBXeiKitKigutddx9Fcp4Sf1sw4tpyeA@mail.gmail.com>
-Message-ID: <CAHk-=whPwMTTaGtphubBXeiKitKigutddx9Fcp4Sf1sw4tpyeA@mail.gmail.com>
-Subject: Re: [PATCH 4/7] proc: Use d_invalidate in proc_prune_siblings_dcache
-To:     Al Viro <viro@zeniv.linux.org.uk>
-Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
+Date:   Thu, 20 Feb 2020 15:02:22 -0800
+X-Gmail-Original-Message-ID: <CAHk-=whX7UmXgCKPPvjyQFqBiKw-Zsgj22_rH8epDPoWswAnLA@mail.gmail.com>
+Message-ID: <CAHk-=whX7UmXgCKPPvjyQFqBiKw-Zsgj22_rH8epDPoWswAnLA@mail.gmail.com>
+Subject: Re: [PATCH 0/7] proc: Dentry flushing without proc_mnt
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
         LKML <linux-kernel@vger.kernel.org>,
         Kernel Hardening <kernel-hardening@lists.openwall.com>,
         Linux API <linux-api@vger.kernel.org>,
@@ -87,14 +90,17 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Feb 20, 2020 at 2:54 PM Al Viro <viro@zeniv.linux.org.uk> wrote:
+On Thu, Feb 20, 2020 at 12:48 PM Eric W. Biederman
+<ebiederm@xmission.com> wrote:
 >
-> s/no inode.*/it's a directory inode./
+> Linus, does this approach look like something you can stand?
 
-That actually makes my worry go away too. We don't allow aliases for
-directory inodes, iirc.
+A couple of worries, although one of them seem to have already been
+resolved by Al.
 
-So then it doesn't depend on some /proc implementation issue any more,
-then it's fundamental that there's only one dentry.
+I think the real gatekeeper should be Al in general.  But other than
+the small comments I had, I think this might work just fine.
 
-            Linus
+Al?
+
+           Linus
