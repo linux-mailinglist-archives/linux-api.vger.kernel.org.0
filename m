@@ -2,135 +2,112 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1AE421659E8
-	for <lists+linux-api@lfdr.de>; Thu, 20 Feb 2020 10:09:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DDFCB1659F6
+	for <lists+linux-api@lfdr.de>; Thu, 20 Feb 2020 10:17:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726821AbgBTJJr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 20 Feb 2020 04:09:47 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:36977 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726813AbgBTJJr (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 20 Feb 2020 04:09:47 -0500
-Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1j4hq0-0006gp-7x; Thu, 20 Feb 2020 09:09:40 +0000
-Date:   Thu, 20 Feb 2020 10:09:39 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Ian Kent <raven@themaw.net>
-Cc:     David Howells <dhowells@redhat.com>, viro@zeniv.linux.org.uk,
-        mszeredi@redhat.com, christian@brauner.io,
-        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/19] VFS: Filesystem information and notifications [ver
- #16]
-Message-ID: <20200220090939.4e2mpmdixcyruzda@wittgenstein>
-References: <158204549488.3299825.3783690177353088425.stgit@warthog.procyon.org.uk>
- <20200219144613.lc5y2jgzipynas5l@wittgenstein>
- <c9a6f929b57e0c21c8845c211d1e3eab09d09633.camel@themaw.net>
+        id S1726830AbgBTJRK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 20 Feb 2020 04:17:10 -0500
+Received: from smtp-fw-6001.amazon.com ([52.95.48.154]:50344 "EHLO
+        smtp-fw-6001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726803AbgBTJRK (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 20 Feb 2020 04:17:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1582190230; x=1613726230;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   mime-version;
+  bh=3DR/UH6MEPv43yGUiIRitijjOdGjwQGa0V2AAfInCYM=;
+  b=jXYZt7ecjO//M2DtZFe7S/88uwuivVGtxYP3w9IjYHXziFkxMPac4syI
+   EWmZDMaR9G5fERwQUBrT8aq1hlnq/C56fODq1+OFLaBVuHjywne3dGBe2
+   s0fI66AolilQBh16dLwToq9TucNLCTg5tAkg8aALGNMMjwtU/fB+aoGNf
+   M=;
+IronPort-SDR: wz79lME026lmGTeEOVhzNMQUXbePBwBbna1HEI5VzRyyhMCftsQsZad6YIlel6EqMNx4l17IFr
+ UdYdDtsWdvnQ==
+X-IronPort-AV: E=Sophos;i="5.70,463,1574121600"; 
+   d="scan'208";a="18729860"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-2c-397e131e.us-west-2.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP; 20 Feb 2020 09:16:56 +0000
+Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan3.pdx.amazon.com [10.170.41.166])
+        by email-inbound-relay-2c-397e131e.us-west-2.amazon.com (Postfix) with ESMTPS id 537CAA2660;
+        Thu, 20 Feb 2020 09:16:54 +0000 (UTC)
+Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
+ EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
+ id 15.0.1236.3; Thu, 20 Feb 2020 09:16:54 +0000
+Received: from u886c93fd17d25d.ant.amazon.com (10.43.161.45) by
+ EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
+ id 15.0.1367.3; Thu, 20 Feb 2020 09:16:45 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+CC:     Minchan Kim <minchan@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>, <linux-api@vger.kernel.org>,
+        <oleksandr@redhat.com>, Suren Baghdasaryan <surenb@google.com>,
+        Tim Murray <timmurray@google.com>,
+        Daniel Colascione <dancol@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Brian Geffon <bgeffon@google.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        John Dias <joaodias@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>, <sj38.park@gmail.com>,
+        <alexander.h.duyck@linux.intel.com>, Jann Horn <jannh@google.com>
+Subject: Re: Re: [PATCH v6 0/7] introduce memory hinting API for external process
+Date:   Thu, 20 Feb 2020 10:16:31 +0100
+Message-ID: <20200220091631.31949-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200219120123.07dda51c29006a892059ccde@linux-foundation.org> (raw)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <c9a6f929b57e0c21c8845c211d1e3eab09d09633.camel@themaw.net>
+Content-Type: text/plain
+X-Originating-IP: [10.43.161.45]
+X-ClientProxiedBy: EX13D06UWA002.ant.amazon.com (10.43.160.143) To
+ EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Feb 20, 2020 at 12:42:15PM +0800, Ian Kent wrote:
-> On Wed, 2020-02-19 at 15:46 +0100, Christian Brauner wrote:
-> > On Tue, Feb 18, 2020 at 05:04:55PM +0000, David Howells wrote:
-> > > Here are a set of patches that adds system calls, that (a) allow
-> > > information about the VFS, mount topology, superblock and files to
-> > > be
-> > > retrieved and (b) allow for notifications of mount topology
-> > > rearrangement
-> > > events, mount and superblock attribute changes and other superblock
-> > > events,
-> > > such as errors.
-> > > 
-> > > ============================
-> > > FILESYSTEM INFORMATION QUERY
-> > > ============================
-> > > 
-> > > The first system call, fsinfo(), allows information about the
-> > > filesystem at
-> > > a particular path point to be queried as a set of attributes, some
-> > > of which
-> > > may have more than one value.
-> > > 
-> > > Attribute values are of four basic types:
-> > > 
-> > >  (1) Version dependent-length structure (size defined by type).
-> > > 
-> > >  (2) Variable-length string (up to 4096, including NUL).
-> > > 
-> > >  (3) List of structures (up to INT_MAX size).
-> > > 
-> > >  (4) Opaque blob (up to INT_MAX size).
+On Wed, 19 Feb 2020 12:01:23 -0800 Andrew Morton <akpm@linux-foundation.org> wrote:
+
+> On Tue, 18 Feb 2020 17:44:26 -0800 Minchan Kim <minchan@kernel.org> wrote:
+> 
+> > Now, we have MADV_PAGEOUT and MADV_COLD as madvise hinting API. With that,
+> > application could give hints to kernel what memory range are preferred to be
+> > reclaimed. However, in some platform(e.g., Android), the information
+> > required to make the hinting decision is not known to the app.
+> > Instead, it is known to a centralized userspace daemon(e.g., ActivityManagerService),
+> > and that daemon must be able to initiate reclaim on its own without any app
+> > involvement.
 > > 
-> > I mainly have an organizational question. :) This is a huge patchset
-> > with lots and lots of (good) features. Wouldn't it make sense to make
-> > the fsinfo() syscall a completely separate patchset from the
-> > watch_mount() and watch_sb() syscalls? It seems that they don't need
-> > to
-> > depend on each other at all. This would make reviewing this so much
-> > nicer and likely would mean that fsinfo() could proceed a little
-> > faster.
 > 
-> The remainder of the fsinfo() series would need to remain useful
-> if this was done.
+> This patchset doesn't seem to be getting a lot of interest from other
+> potential users?  It seems very specialized.  Are there or will there
+> ever be any users of this apart from one Android daemon?
 > 
-> For context I want work on improving handling of large mount
-> tables.
+> Also, it doesn't terribly hard for ActivityManagerService to tell
+> another process "now run madvise with these arguments".  Please explain
+> why this is not practical in ActivityManagerService and also within
+> other potential users of this syscall.
 
-Yeah, I've talked to David about this; polling on a large mountinfo file
-is not great, I agree.
+I personally have interest in and hope successful development/merge of this
+patchset.
 
-> 
-> Ultimately I expect to solve a very long standing autofs problem
-> of using large direct mount maps without prohibitive performance
-> overhead (and there a lot of rather challenging autofs changes to
-> do for this too) and I believe the fsinfo() system call, and
-> related bits, is the way to do this.
-> 
-> But improving the handling of large mount tables for autofs
-> will have the side effect of improvements for other mount table
-> users, even in the early stages of this work.
-> 
-> For example I want to use this for mount table handling improvements
-> in libmount. Clearly that ultimately needs mount change notification
-> in the end but ...
-> 
-> There's a bunch of things that need to be done alone the way
-> to even get started.
-> 
-> One thing that's needed is the ability to call fsinfo() to get
-> information on a mount to avoid constant reading of the proc based
-> mount table, which happens a lot (since the mount info. needs
-> to be up to date) so systemd (and others) would see an improvement
-> with the fsinfo() system call alone able to be used in libmount.
-> 
-> But for the fsinfo() system call to be used for this the file
-> system specific mount options need to also be obtained when
-> using fsinfo(). That means the super block operation fsinfo uses
-> to provide this must be implemented for at least most file systems.
-> 
-> So separating out the notifications part, leaving whatever is needed
-> to still be able to do this, should be fine and the system call
-> would be immediately useful once the super operation is implemented
-> for the needed file systems.
-> 
-> Whether the implementation of the super operation should be done
-> as part of this series is another question but would certainly
-> be a challenge and make the series more complicated. But is needed
-> for the change to be useful in my case.
+The interested usecases of 'madvise_process()' for me is optimizations of
+general memory-intensive workloads having dynamic data access patterns on
+hierarchical memory systems (e.g., multi-tier memory or fast storage based swap
+devices).  In more detail, I'm already using a part of this patchset for my RFC
+patchset implementing Data Access Monitoring-based Operation Schemes[1].  For
+my specific case, I don't need new system call but only target task argument,
+though.
 
-I think what would might work - and what David had already brought up
-briefly - is to either base the fsinfo branch on top of the mount
-notificaiton branch or break the notification counters pieces into a
-separate patch and base both mount notifications and fsinfo on top of
-it.
+Once in a past, before joining my current company, I tried using 'madvise()' to
+optimize some scientific HPC programs.  The improvement results were clear, but
+optimizing each of the workloads was challenging and time-consuming.  I believe
+this new systemcall to be very helpful for such cases, either.
 
-Christian
+[1] https://lore.kernel.org/linux-mm/20200218085309.18346-1-sjpark@amazon.com/
+
+
+Thanks,
+SeongJae Park
