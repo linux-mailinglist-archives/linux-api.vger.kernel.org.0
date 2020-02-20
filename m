@@ -2,103 +2,93 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AEC7C165DF3
-	for <lists+linux-api@lfdr.de>; Thu, 20 Feb 2020 13:59:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 39D49165FAF
+	for <lists+linux-api@lfdr.de>; Thu, 20 Feb 2020 15:26:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727233AbgBTM7A (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 20 Feb 2020 07:59:00 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44950 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726959AbgBTM7A (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 20 Feb 2020 07:59:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1582203538;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=lgoZ/r5nCvlwSEe4sHdp4x/cyogCcgRFAVbQihojpxY=;
-        b=cifWBOl2lRaWCe2IH3XI5SJzGOGWvhSiYb7MYzsxHT32Nqr303pz9BnFNN9zJCR/jfN0Ok
-        6ZMatqQxDQhslSo8x0o0NpznO9lj6EKU0azqUIqpmM/vymMc+OJKS6Wq0M2csI2/cK1Ets
-        dMQYGJfZI6A6fOekVrY4fuW6kVJ96jI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-380-FXF-0yCqM0yQB_kg1T-nig-1; Thu, 20 Feb 2020 07:58:56 -0500
-X-MC-Unique: FXF-0yCqM0yQB_kg1T-nig-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D2FC107ACC4;
-        Thu, 20 Feb 2020 12:58:55 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-122-163.rdu2.redhat.com [10.10.122.163])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 932855C13C;
-        Thu, 20 Feb 2020 12:58:53 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <CAG48ez0fsB_XTmNfE-2tuabH7JHyQdih8bu7Qwu9HGWJXti7tQ@mail.gmail.com>
-References: <CAG48ez0fsB_XTmNfE-2tuabH7JHyQdih8bu7Qwu9HGWJXti7tQ@mail.gmail.com> <158204549488.3299825.3783690177353088425.stgit@warthog.procyon.org.uk> <158204558110.3299825.5080605285325995873.stgit@warthog.procyon.org.uk>
-To:     Jann Horn <jannh@google.com>
-Cc:     dhowells@redhat.com, Al Viro <viro@zeniv.linux.org.uk>,
-        raven@themaw.net, Miklos Szeredi <mszeredi@redhat.com>,
-        Christian Brauner <christian@brauner.io>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 11/19] afs: Support fsinfo() [ver #16]
+        id S1727553AbgBTO01 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 20 Feb 2020 09:26:27 -0500
+Received: from mail.hallyn.com ([178.63.66.53]:59536 "EHLO mail.hallyn.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727088AbgBTO01 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 20 Feb 2020 09:26:27 -0500
+Received: by mail.hallyn.com (Postfix, from userid 1001)
+        id B0D613F5; Thu, 20 Feb 2020 08:26:24 -0600 (CST)
+Date:   Thu, 20 Feb 2020 08:26:24 -0600
+From:   "Serge E. Hallyn" <serge@hallyn.com>
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        =?iso-8859-1?Q?St=E9phane?= Graber <stgraber@ubuntu.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Aleksa Sarai <cyphar@cyphar.com>, Jann Horn <jannh@google.com>,
+        smbarber@chromium.org, Seth Forshee <seth.forshee@canonical.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        James Morris <jmorris@namei.org>,
+        Kees Cook <keescook@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Phil Estes <estesp@gmail.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        Linux Containers <containers@lists.linux-foundation.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [PATCH v3 09/25] fs: add is_userns_visible() helper
+Message-ID: <20200220142624.GA5249@mail.hallyn.com>
+References: <20200218143411.2389182-1-christian.brauner@ubuntu.com>
+ <20200218143411.2389182-10-christian.brauner@ubuntu.com>
+ <20200219024233.GA19334@mail.hallyn.com>
+ <20200219120604.vqudwaeppebvisco@wittgenstein>
+ <CALCETrW-XPkBMs30vk+Aiv+jA5i7TjHOYCgz0Ud6d0geaYte=g@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <628198.1582203532.1@warthog.procyon.org.uk>
-Date:   Thu, 20 Feb 2020 12:58:52 +0000
-Message-ID: <628199.1582203532@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CALCETrW-XPkBMs30vk+Aiv+jA5i7TjHOYCgz0Ud6d0geaYte=g@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Jann Horn <jannh@google.com> wrote:
+On Wed, Feb 19, 2020 at 09:18:51AM -0800, Andy Lutomirski wrote:
+> On Wed, Feb 19, 2020 at 4:06 AM Christian Brauner
+> <christian.brauner@ubuntu.com> wrote:
+> >
+> > On Tue, Feb 18, 2020 at 08:42:33PM -0600, Serge Hallyn wrote:
+> > > On Tue, Feb 18, 2020 at 03:33:55PM +0100, Christian Brauner wrote:
+> > > > Introduce a helper which makes it possible to detect fileystems whose
+> > > > superblock is visible in multiple user namespace. This currently only
+> > > > means proc and sys. Such filesystems usually have special semantics so their
+> > > > behavior will not be changed with the introduction of fsid mappings.
+> > >
+> > > Hi,
+> > >
+> > > I'm afraid I've got a bit of a hangup about the terminology here.  I
+> > > *think* what you mean is that SB_I_USERNS_VISIBLE is an fs whose uids are
+> > > always translated per the id mappings, not fsid mappings.  But when I see
+> >
+> > Correct!
+> >
+> > > the name it seems to imply that !SB_I_USERNS_VISIBLE filesystems can't
+> > > be seen by other namespaces at all.
+> > >
+> > > Am I right in my first interpretation?  If so, can we talk about the
+> > > naming?
+> >
+> > Yep, your first interpretation is right. What about: wants_idmaps()
+> 
+> Maybe fsidmap_exempt()?
 
-> Ewww. So basically, having one static set of .fsinfo_attributes is not
-> sufficiently flexible for everyone, but instead of allowing the
-> filesystem to dynamically provide a list of supported attributes, you
-> just duplicate the super_operations? Seems to me like it'd be cleaner
-> to add a function pointer to the super_operations that can dynamically
-> fill out the supported fsinfo attributes.
->
-> It seems to me like the current API is going to be a dead end if you
-> ever want to have decent passthrough of these things for e.g. FUSE, or
-> overlayfs, or VirtFS?
+Yeah, and maybe SB_USERNS_FSID_EXEMPT ?
 
-Ummm...
+> I still haven't convinced myself that any of the above is actually
+> correct behavior, especially when people do things like creating
+> setuid binaries.
 
-Would it be sufficient to have a function that returns a list of attributes?
-Or does it need to be able to call to vfs_do_fsinfo() if it supports an
-attribute?
-
-There are two things I want to be able to do:
-
- (1) Do the buffer wrangling in the core - which means the core needs to see
-     the type of the attribute.  That's fine if, say, afs_fsinfo() can call
-     vfs_do_fsinfo() with the definition for any attribute it wants to handle
-     and, say, return -ENOPKG otherways so that the core can then fall back to
-     its private list.
-
- (2) Be able to retrieve the list of attributes and/or query an attribute.
-     Now, I can probably manage this even through the same interface.  If,
-     say, seeing FSINFO_ATTR_FSINFO_ATTRIBUTES causes the handler to simply
-     append on the IDs of its own supported attributes (a helper can be
-     provided for that).
-
-     If it sees FSINFO_ATR_FSINFO_ATTRIBUTE_INFO, it can just look to see if
-     it has the attribute with the ID matching Nth and return that, else
-     ENOPKG - again a helper could be provided.
-
-Chaining through overlayfs gets tricky.  You end up with multiple contributory
-filesystems with different properties - and any one of those layers could
-perhaps be another overlay.  Overlayfs would probably needs to integrate the
-info and derive the lowest common set.
-
-David
-
+The only place that would be a problem is if the child userns has an
+fsidmapping from X to 0 in the parent userns, right?  Yeah I'm sure
+many people would ignore all advice to the contrary and do this anyway,
+but I would try hard to suggest that people use an intermediary userns
+for storing filesystems for the "docker share" case.  So the host fsid
+range would start at say 200000.  So a setuid binary would just be
+setuid-200000.
