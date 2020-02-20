@@ -2,75 +2,108 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F9CC166A30
-	for <lists+linux-api@lfdr.de>; Thu, 20 Feb 2020 23:10:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 074BE166A61
+	for <lists+linux-api@lfdr.de>; Thu, 20 Feb 2020 23:33:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729045AbgBTWKd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 20 Feb 2020 17:10:33 -0500
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:34768 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728996AbgBTWKd (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 20 Feb 2020 17:10:33 -0500
-Received: by mail-pf1-f193.google.com with SMTP id i6so83466pfc.1
-        for <linux-api@vger.kernel.org>; Thu, 20 Feb 2020 14:10:27 -0800 (PST)
+        id S1729222AbgBTWde (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 20 Feb 2020 17:33:34 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:34084 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728582AbgBTWdb (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 20 Feb 2020 17:33:31 -0500
+Received: by mail-lj1-f195.google.com with SMTP id x7so169838ljc.1
+        for <linux-api@vger.kernel.org>; Thu, 20 Feb 2020 14:33:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mbobrowski-org.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=s3qScU3LxilFb/Kfn9mTZZUWCwQksK34AFtWAW2NAKA=;
-        b=SoeRUsx69E7wQb7Ba6BGEQXkcnejiJb/5LOOV6DUIgL8w0wyvqVxQGlLh71EnkKWCl
-         l/28rBfECVCfvtM3X9stjNGKEn//csKQaIMr+MQ8WRv6Gj6pPHiS1UCs33xF10rbGQiN
-         rce7HxHNQ1AEEOY3qEVfOjGNC/Uvk4tiJK4/KpednpEvBjWQzq53P8tillJvpj5WFwGI
-         4d6t5o1/aNL1JHoWXhXw9D6hSf4fx4yAOZG5pxbwBVTfI6xE3pMutu2n3nIt0lNiDnzA
-         kQpeH09HFBLKMXbcvhfkLQ9Ql8dazbuUBo9k0NspLLvzxu6osEUDQ2Vur2Npiax5UCTZ
-         yQpg==
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=WrNmlOpMVxzFXh2A2oJzXRWZK2fGDe1+SPIAN4gWybk=;
+        b=QiMLUGsRq9HWg+G+gXiEaS3g8vcEPOTXS0nkdYQXIsCA2EjphiI1+TGu1HVJ3od+BY
+         4nIUXqbNSwvfL1zzmPatevn6ccupRjp+aZGa5eL8bOeMqUiv7Bg7Hz5IKilERFOA99sS
+         jMLLQ3OrRmjEMgFi9TJzZnDfd0rXWYetgu1bs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=s3qScU3LxilFb/Kfn9mTZZUWCwQksK34AFtWAW2NAKA=;
-        b=uPFOUAxH0sDM+AwaCxTTb56ozjW5TVcl2E/gHUpkbCdsB8j0cX1r+BSHZ9r73LQ3l8
-         3SQMcp8DgIxZP+9i0QMKgPK+Q00vEDeNt7ZBUcLDNv28EoBU6Ub8fCPB9g/n11ortT2B
-         RDA7Wr0ucb/o6zsAxtviz/EEsBPCRvtqbeklQLfsxzu0Xuc/AIbYUKlFP80IlYOFxm/p
-         lqfWEFckXyQgWmIkWp7diWmSZCr+Q8oF8rRfgOD/rNOBpIVB/uQiVqEq4RSrQ4lc/NaB
-         0jJdYfgOFohOijVkDN7v7UUtH3o1MavgWgvvY7Y4hQCTVQx3kauuNugXrNp2lrT3+USv
-         2IKw==
-X-Gm-Message-State: APjAAAWhrnIurfyB0lgPAE5QFHEB0N6eHND+C4buQA1aokTogXeO53N4
-        k3lXJxiUXUx8jxkwDFhKAUwMvI7X6A==
-X-Google-Smtp-Source: APXvYqwGmHNhTysHbkt132cf1y+nRJgMUHLm0pj4oiNwD0/iz+8OFMEEcG5ZrwrHnPuJR1J7+6qjhg==
-X-Received: by 2002:a65:6454:: with SMTP id s20mr36095737pgv.386.1582236627248;
-        Thu, 20 Feb 2020 14:10:27 -0800 (PST)
-Received: from athena.bobrowski.net (n114-75-163-224.bla4.nsw.optusnet.com.au. [114.75.163.224])
-        by smtp.gmail.com with ESMTPSA id f8sm383948pjg.28.2020.02.20.14.10.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Feb 2020 14:10:26 -0800 (PST)
-Date:   Fri, 21 Feb 2020 09:10:21 +1100
-From:   Matthew Bobrowski <mbobrowski@mbobrowski.org>
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org
-Subject: Re: [PATCH v2 00/16] Fanotify event with name info
-Message-ID: <20200220221021.GA4379@athena.bobrowski.net>
-References: <20200217131455.31107-1-amir73il@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=WrNmlOpMVxzFXh2A2oJzXRWZK2fGDe1+SPIAN4gWybk=;
+        b=o66P2f6o8GlVpVVfKyNy8wEEUWs0zJVP/yBGzHzVqF5cBwSYkaDUTdTgSvVMrolDOU
+         ZsdKACJGiZX4wDJIHtzCoWSaZRnW+YGz+MPyBDuUdTSni0fwiXjj++Hb4SYiibpi/pne
+         HdoopQhqbVYaNsUB4Xs7cTBJZ81KI84S87N4o1iwOevS5t4iffawiPq+kEYRhFVRT5yA
+         OqBgVU7/LsNIz0BqAYeqPJaMwD9egRsYpq4Nkthhu29VslMR+92rTaZdhp/WPn1icjil
+         GnjJ401E2BX/Z4c1710Z0Zpdq+F/W000Gbcx3wCmyO5mlmAGeEhU58OHmME2XgZpIZ/F
+         iViA==
+X-Gm-Message-State: APjAAAXKIsEN6MNqJh1oYVWq1qoPi4VDu1hp552JvvYDvnyP2+19NBL+
+        uLJBEXtsevcGTf03STfIRMcysNKtM8Y=
+X-Google-Smtp-Source: APXvYqwmwNWxlo3/f6LbppRaCo6MW1915QWAX+7xbgEXOzW1823YSPEZllqnuCwQSAmdBe2HKDKlRw==
+X-Received: by 2002:a2e:b0c4:: with SMTP id g4mr20305050ljl.83.1582238008561;
+        Thu, 20 Feb 2020 14:33:28 -0800 (PST)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com. [209.85.208.176])
+        by smtp.gmail.com with ESMTPSA id e30sm420385ljp.24.2020.02.20.14.33.26
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Feb 2020 14:33:27 -0800 (PST)
+Received: by mail-lj1-f176.google.com with SMTP id a13so125045ljm.10
+        for <linux-api@vger.kernel.org>; Thu, 20 Feb 2020 14:33:26 -0800 (PST)
+X-Received: by 2002:a2e:97cc:: with SMTP id m12mr19716647ljj.241.1582238006401;
+ Thu, 20 Feb 2020 14:33:26 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200217131455.31107-1-amir73il@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200210150519.538333-8-gladkov.alexey@gmail.com>
+ <87v9odlxbr.fsf@x220.int.ebiederm.org> <20200212144921.sykucj4mekcziicz@comp-core-i7-2640m-0182e6>
+ <87tv3vkg1a.fsf@x220.int.ebiederm.org> <CAHk-=wg52stFtUxMOxs3afkwDWmWn1JXC7RJ7dPsTrJbnxpZVg@mail.gmail.com>
+ <87v9obipk9.fsf@x220.int.ebiederm.org> <CAHk-=wgwmu4jpmOqW0+Lz0dcem1Fub=ThLHvmLobf_WqCq7bwg@mail.gmail.com>
+ <20200212200335.GO23230@ZenIV.linux.org.uk> <CAHk-=wi+1CPShMFvJNPfnrJ8DD8uVKUOQ5TQzQUNGLUkeoahkg@mail.gmail.com>
+ <20200212203833.GQ23230@ZenIV.linux.org.uk> <20200212204124.GR23230@ZenIV.linux.org.uk>
+ <CAHk-=wi5FOGV_3tALK3n6E2fK3Oa_yCYkYQtCSaXLSEm2DUCKg@mail.gmail.com>
+ <87lfp7h422.fsf@x220.int.ebiederm.org> <CAHk-=wgmn9Qds0VznyphouSZW6e42GWDT5H1dpZg8pyGDGN+=w@mail.gmail.com>
+ <87pnejf6fz.fsf@x220.int.ebiederm.org> <871rqpaswu.fsf_-_@x220.int.ebiederm.org>
+ <87h7zl9e7u.fsf_-_@x220.int.ebiederm.org>
+In-Reply-To: <87h7zl9e7u.fsf_-_@x220.int.ebiederm.org>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Thu, 20 Feb 2020 14:33:10 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wht3ZWRaYs8QBXuftfuiFGOTjjZ9zj3-Dz7dkiBhJNBrQ@mail.gmail.com>
+Message-ID: <CAHk-=wht3ZWRaYs8QBXuftfuiFGOTjjZ9zj3-Dz7dkiBhJNBrQ@mail.gmail.com>
+Subject: Re: [PATCH 3/7] proc: Mov rcu_read_(lock|unlock) in proc_prune_siblings_dcache
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        Linux Security Module <linux-security-module@vger.kernel.org>,
+        Akinobu Mita <akinobu.mita@gmail.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Daniel Micay <danielmicay@gmail.com>,
+        Djalal Harouni <tixxdz@gmail.com>,
+        "Dmitry V . Levin" <ldv@altlinux.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Jeff Layton <jlayton@poochiereds.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Solar Designer <solar@openwall.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Feb 17, 2020 at 03:14:39PM +0200, Amir Goldstein wrote:
-> This is v2 of the fanotify name info series.
+On Thu, Feb 20, 2020 at 12:51 PM Eric W. Biederman
+<ebiederm@xmission.com> wrote:
 >
-> The user requirement for the name info feature, as well as early UAPI
-> discussions can be found in this [1] lore thread.
+> Don't make it look like rcu_read_lock is held over the entire loop
+> instead just take the rcu_read_lock over the part of the loop that
+> matters.  This makes the intent of the code a little clearer.
 
-Oh, wonderful. I'm keen to have this feature come to fruition.
+No, this is horrid.
 
-After my wedding, which is this Saturday (tomorrow), I'll come around
-to reviewing this series.
+Maybe it makes the intent clearer, but it also causes that "continue"
+case to unlock and relock immediately.
 
-/M
+And maybe that case never triggers, and that's ok. But then it needs a
+big comment about it.
+
+              Linus
