@@ -2,112 +2,80 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DDFCB1659F6
-	for <lists+linux-api@lfdr.de>; Thu, 20 Feb 2020 10:17:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD361165AC2
+	for <lists+linux-api@lfdr.de>; Thu, 20 Feb 2020 10:59:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726830AbgBTJRK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 20 Feb 2020 04:17:10 -0500
-Received: from smtp-fw-6001.amazon.com ([52.95.48.154]:50344 "EHLO
-        smtp-fw-6001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726803AbgBTJRK (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 20 Feb 2020 04:17:10 -0500
+        id S1727589AbgBTJ7N (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 20 Feb 2020 04:59:13 -0500
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:33885 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727167AbgBTJ7M (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 20 Feb 2020 04:59:12 -0500
+Received: by mail-pf1-f195.google.com with SMTP id i6so1687881pfc.1
+        for <linux-api@vger.kernel.org>; Thu, 20 Feb 2020 01:59:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1582190230; x=1613726230;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   mime-version;
-  bh=3DR/UH6MEPv43yGUiIRitijjOdGjwQGa0V2AAfInCYM=;
-  b=jXYZt7ecjO//M2DtZFe7S/88uwuivVGtxYP3w9IjYHXziFkxMPac4syI
-   EWmZDMaR9G5fERwQUBrT8aq1hlnq/C56fODq1+OFLaBVuHjywne3dGBe2
-   s0fI66AolilQBh16dLwToq9TucNLCTg5tAkg8aALGNMMjwtU/fB+aoGNf
-   M=;
-IronPort-SDR: wz79lME026lmGTeEOVhzNMQUXbePBwBbna1HEI5VzRyyhMCftsQsZad6YIlel6EqMNx4l17IFr
- UdYdDtsWdvnQ==
-X-IronPort-AV: E=Sophos;i="5.70,463,1574121600"; 
-   d="scan'208";a="18729860"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-2c-397e131e.us-west-2.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP; 20 Feb 2020 09:16:56 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan3.pdx.amazon.com [10.170.41.166])
-        by email-inbound-relay-2c-397e131e.us-west-2.amazon.com (Postfix) with ESMTPS id 537CAA2660;
-        Thu, 20 Feb 2020 09:16:54 +0000 (UTC)
-Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1236.3; Thu, 20 Feb 2020 09:16:54 +0000
-Received: from u886c93fd17d25d.ant.amazon.com (10.43.161.45) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1367.3; Thu, 20 Feb 2020 09:16:45 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-CC:     Minchan Kim <minchan@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>, <linux-api@vger.kernel.org>,
-        <oleksandr@redhat.com>, Suren Baghdasaryan <surenb@google.com>,
-        Tim Murray <timmurray@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Brian Geffon <bgeffon@google.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        John Dias <joaodias@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>, <sj38.park@gmail.com>,
-        <alexander.h.duyck@linux.intel.com>, Jann Horn <jannh@google.com>
-Subject: Re: Re: [PATCH v6 0/7] introduce memory hinting API for external process
-Date:   Thu, 20 Feb 2020 10:16:31 +0100
-Message-ID: <20200220091631.31949-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200219120123.07dda51c29006a892059ccde@linux-foundation.org> (raw)
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=xsUbPWAhYtsZRE8nHbpZ90/dMr+6ACJOvf/o3gzcGwM=;
+        b=QdHe6Zh6CaaJ1sLjPHuXQjx0A7okAlWelDRXZEPEU+kwdNYSczM+V7StPYmf15KhlB
+         ZZUIU3Ujyb1Xj8AceGV8iVZ2iiS28Rr7vBbXrNedZs5i7lbzutryYzK7zCOXomIVEN3M
+         R5PjDrlbyujYAAaCwE7waRPyYozYzSeDHpW1FtZwZBkmnwFngTv5lztGfk+R2MkFYZdt
+         7hLqhj4oRlJEBvFft0XDzwoPYuBGV+aokdHYdyFPj1mxRf0pRzprh5hq2ys1gNlMd29O
+         59StfSNPA9rPzdcPE2+bMmNPpfS5UsN322ZDaxc3BFWPB4XRsWOpUFQgqRlIpr5pZ5Mo
+         bZeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=xsUbPWAhYtsZRE8nHbpZ90/dMr+6ACJOvf/o3gzcGwM=;
+        b=OC7+V57wUaBKft86s24ZpSR+ua16AVwqXHtX62M3kQOwmdC1yNrPiYY2O76B/QXaT0
+         1ec5TYQVijTAKTPlLEhfy0j4jWCIdpCLG1DG6FjDiZhpToHBX/psfLl1bEFpsc7amM7s
+         IKu8FOYHJ3r+1/8Leo67BYClrqgV9KlqOthgg0FAXrq9M+XNzSbCNhiBgUVvmdi28kq3
+         fggQVv9dHvWWBNHU9AAfPrNmMUa/73rdKb4khwCutp31QsByY+ML68FICnCrS+KC/+wU
+         Z34rFGoEWVB53s3tKy7xXCtNDscuv5tgqFy6XVc8s4ks1uUKgGIOQhcMA4Z5dp/Jp2N9
+         443A==
+X-Gm-Message-State: APjAAAWN2VRpuhRjEIiL9sTwmo6v52DKAduv7flg2t4Jka7NS+4oQSzg
+        T+Kcn3Q7znRHaPRemEh7cyT2A5cBIAHroCfTckA=
+X-Google-Smtp-Source: APXvYqxR6yBhFw7r4dKTBjurm+98OBjYzU6hHIkAF9J6I0GDbPsV3TjDG0R7oydjb3FX87Fo+WI6tw3et3LXPO91wj4=
+X-Received: by 2002:a63:7e56:: with SMTP id o22mr7959509pgn.136.1582192750995;
+ Thu, 20 Feb 2020 01:59:10 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.161.45]
-X-ClientProxiedBy: EX13D06UWA002.ant.amazon.com (10.43.160.143) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+Received: by 2002:a17:90a:90f:0:0:0:0 with HTTP; Thu, 20 Feb 2020 01:59:10
+ -0800 (PST)
+Reply-To: cagesusan199@gmail.com
+From:   "Mrs. Susan S. Cage" <drgoodluckebelejonathan061@gmail.com>
+Date:   Thu, 20 Feb 2020 01:59:10 -0800
+Message-ID: <CALjo5=9xXnhZ+fS9HXLQ1t3mihewzgBQ-JvaZXKyeZQBZ+PTXw@mail.gmail.com>
+Subject: Attention:Beneficiary
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, 19 Feb 2020 12:01:23 -0800 Andrew Morton <akpm@linux-foundation.org> wrote:
+-- 
+Dearest Friend,
 
-> On Tue, 18 Feb 2020 17:44:26 -0800 Minchan Kim <minchan@kernel.org> wrote:
-> 
-> > Now, we have MADV_PAGEOUT and MADV_COLD as madvise hinting API. With that,
-> > application could give hints to kernel what memory range are preferred to be
-> > reclaimed. However, in some platform(e.g., Android), the information
-> > required to make the hinting decision is not known to the app.
-> > Instead, it is known to a centralized userspace daemon(e.g., ActivityManagerService),
-> > and that daemon must be able to initiate reclaim on its own without any app
-> > involvement.
-> > 
-> 
-> This patchset doesn't seem to be getting a lot of interest from other
-> potential users?  It seems very specialized.  Are there or will there
-> ever be any users of this apart from one Android daemon?
-> 
-> Also, it doesn't terribly hard for ActivityManagerService to tell
-> another process "now run madvise with these arguments".  Please explain
-> why this is not practical in ActivityManagerService and also within
-> other potential users of this syscall.
+Sorry for invading your privacy, my name is Susan S. Cage I am 81
+years, citizen of United States and presently in hospital undergoing
+chromatography for bronchogenic carcinomas (Lung cancer) which
+affected both Lungs. The doctors said I have few days to live because
+the cancer has now affected my brain.
 
-I personally have interest in and hope successful development/merge of this
-patchset.
+My late husband left Fifteen Million, Five Hundred British Pounds
+Sterling in my account, I want to transfer the money to you and I want
+you to use it as a donate for charitable and help the needy,
+motherless, less privileged and widows within your location.
 
-The interested usecases of 'madvise_process()' for me is optimizations of
-general memory-intensive workloads having dynamic data access patterns on
-hierarchical memory systems (e.g., multi-tier memory or fast storage based swap
-devices).  In more detail, I'm already using a part of this patchset for my RFC
-patchset implementing Data Access Monitoring-based Operation Schemes[1].  For
-my specific case, I don't need new system call but only target task argument,
-though.
-
-Once in a past, before joining my current company, I tried using 'madvise()' to
-optimize some scientific HPC programs.  The improvement results were clear, but
-optimizing each of the workloads was challenging and time-consuming.  I believe
-this new systemcall to be very helpful for such cases, either.
-
-[1] https://lore.kernel.org/linux-mm/20200218085309.18346-1-sjpark@amazon.com/
+I need your assurance that you will use the fund for charity, once I a
+favorable reply from you, will inform my Bank through my lawyer to
+transfer the fund to you as my Next of Kin and Sole Beneficiary. Once
+I receive your response, I will inform my bank in writing through my
+lawyer.
 
 
-Thanks,
-SeongJae Park
+
+Thank you and God bless you.
+
+Mrs. Susan S. Cage
