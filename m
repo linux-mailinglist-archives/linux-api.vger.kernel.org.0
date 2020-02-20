@@ -2,112 +2,173 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B976516602C
-	for <lists+linux-api@lfdr.de>; Thu, 20 Feb 2020 15:58:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 07CAC1660F6
+	for <lists+linux-api@lfdr.de>; Thu, 20 Feb 2020 16:31:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728218AbgBTO6h (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 20 Feb 2020 09:58:37 -0500
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:41623 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728211AbgBTO6h (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 20 Feb 2020 09:58:37 -0500
-Received: by mail-oi1-f196.google.com with SMTP id i1so27769163oie.8
-        for <linux-api@vger.kernel.org>; Thu, 20 Feb 2020 06:58:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=fpwkKx7E4F4iGPP1d6IgP9CAngaHu/jtsv9MUOt6i20=;
-        b=rhM3j0x8usrirIjQD0qjSQ9jCCkuL46j6a4GYkPXKtnSgcJhk6Hx9Th+jZf4OPWbqZ
-         EDZz3oWYIE9EiZWJqp2PUKigyRRw/t6Q8UH8RqgRNGsTWV2dv9mCr2DcH4z2bQQ+xk2z
-         kYwaMe7GObMMSex4qojHOfzhjSgF0C0TaHxJYt1mQa7h1Ewq+OWpkkTj9lDdiomRk5M6
-         rRTAz/AFKDZMNW7yS5X69XPQn0UBAe7qzflPdGZWJ08eh9do95UBp6tUxa/M6BwZpMHp
-         3HF+uapICKyFdhOCgDzsKDrdTMOx5Xl1lWUMDmdY/3QoY8XGcpsi8+IoC8lTU4JBx+35
-         OQiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=fpwkKx7E4F4iGPP1d6IgP9CAngaHu/jtsv9MUOt6i20=;
-        b=O5EKjZsws+Xa9JIHQXnnNacIVwswiyCEmKk6f7wA1YelYdFWL08Ni8AFQepan2pKH8
-         bns5B2u1Rshm+jtXSO27/rc8woqSj+IddhxQVQVHdX17XIuY/idE988T8LcSxIzzfBsp
-         Bp6/MRujuB61IrTskfgZHvF62LvGKd05lK14pxopqEb2QlT2+Ozl1sopBYCdDV+x5uXp
-         /xM3AG2wR2xEm9sLdmYkluPQ2rABPOgMlGOB7SfmdMqmXgnYjXKU6V119s/sIRk6F9m2
-         6hBfwPf+LHmkpb9WJCw35l8RgiPGzVywlHd2gcaZTe/9NQE9SgRllWcc+pkR6SrdCU3F
-         rdjw==
-X-Gm-Message-State: APjAAAXJEjjcxiCeh6P/uT7i7GYxJcOWXHVs/om2MEo+jEVVdvXQQAx/
-        2OzPm3wrG4Jtij+cdppe//y8HA63ZCp5uQkKaijzQo/CSsA=
-X-Google-Smtp-Source: APXvYqwLZrWv2noarPLEsgl5QTqzBVLNEume/NYspxHkGbrXT7XqrvirpoDtoOYD8R+IEePb15ICBTNX5VckUg08Qbg=
-X-Received: by 2002:aca:b187:: with SMTP id a129mr2344580oif.175.1582210716581;
- Thu, 20 Feb 2020 06:58:36 -0800 (PST)
-MIME-Version: 1.0
-References: <158204549488.3299825.3783690177353088425.stgit@warthog.procyon.org.uk>
- <158204558110.3299825.5080605285325995873.stgit@warthog.procyon.org.uk>
- <CAG48ez0fsB_XTmNfE-2tuabH7JHyQdih8bu7Qwu9HGWJXti7tQ@mail.gmail.com> <628199.1582203532@warthog.procyon.org.uk>
-In-Reply-To: <628199.1582203532@warthog.procyon.org.uk>
-From:   Jann Horn <jannh@google.com>
-Date:   Thu, 20 Feb 2020 15:58:10 +0100
-Message-ID: <CAG48ez03VMKEmJEmViSkxbF9J5dW=6vny9vKGdenBewtjF+nqQ@mail.gmail.com>
-Subject: Re: [PATCH 11/19] afs: Support fsinfo() [ver #16]
-To:     David Howells <dhowells@redhat.com>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>, raven@themaw.net,
+        id S1728344AbgBTPbb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 20 Feb 2020 10:31:31 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:56676 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728305AbgBTPbb (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 20 Feb 2020 10:31:31 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01KFNwuY192733;
+        Thu, 20 Feb 2020 15:31:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=u5fnLg75pU3mlFP0qdM0mNbAL16bOquMeO3QiE/+bWc=;
+ b=ZZ/BBv7NVYMfNlRKwRU6X/B4HHodiV2/eQFu2I34Jr4vpdAHx03nFFYsOqiwc1H2lnvt
+ bmC2ACr6p0PYtSVeR7ZUk9FFU8PkRceV9bvhSbIz+HDvUbh+lKlJC0IGWPoO8B5DOh7T
+ 5CJkWPXkBWmPcTDmumVC1yRbCAKPOykMeUWumdVS451Iuh5KmYOG7T61n1jMFugARKlC
+ rrBuoEMzEhfghb+QmfJsExY8jvKwlLQN5JXw+One8IGv5RtX1kmtlA/NcoXd8KPxNxFF
+ WsqFrCJpfkMm28YdRn7W3c/aD+s8uGFDFvEC3JruIzCfPwSn9hBL+vx1VL1Hs//ix2On 8g== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by aserp2120.oracle.com with ESMTP id 2y8udkjfxx-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 20 Feb 2020 15:31:21 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01KFSOFx036989;
+        Thu, 20 Feb 2020 15:31:21 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by aserp3030.oracle.com with ESMTP id 2y8udcyyug-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 20 Feb 2020 15:31:21 +0000
+Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 01KFVJPs008924;
+        Thu, 20 Feb 2020 15:31:19 GMT
+Received: from localhost (/67.169.218.210)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Thu, 20 Feb 2020 07:31:19 -0800
+Date:   Thu, 20 Feb 2020 07:31:18 -0800
+From:   "Darrick J. Wong" <darrick.wong@oracle.com>
+To:     Jann Horn <jannh@google.com>
+Cc:     David Howells <dhowells@redhat.com>,
+        Al Viro <viro@zeniv.linux.org.uk>, raven@themaw.net,
         Miklos Szeredi <mszeredi@redhat.com>,
         Christian Brauner <christian@brauner.io>,
         Linux API <linux-api@vger.kernel.org>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         kernel list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH 01/19] vfs: syscall: Add fsinfo() to query filesystem
+ information [ver #16]
+Message-ID: <20200220153118.GE9496@magnolia>
+References: <158204549488.3299825.3783690177353088425.stgit@warthog.procyon.org.uk>
+ <158204550281.3299825.6344518327575765653.stgit@warthog.procyon.org.uk>
+ <CAG48ez0o3iHjQJNvh8V2Ao77g0CqfqGsv6caMCOFDy7w-VdtkQ@mail.gmail.com>
+ <584179.1582196636@warthog.procyon.org.uk>
+ <CAG48ez00KA3tjeccDCeqmgHyppTLEr+UkrB=QaQ-FX-cTY3aCA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAG48ez00KA3tjeccDCeqmgHyppTLEr+UkrB=QaQ-FX-cTY3aCA@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9537 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxscore=0 adultscore=0
+ mlxlogscore=999 malwarescore=0 bulkscore=0 suspectscore=2 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
+ definitions=main-2002200113
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9537 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 lowpriorityscore=0 suspectscore=2
+ spamscore=0 priorityscore=1501 adultscore=0 mlxscore=0 clxscore=1011
+ malwarescore=0 mlxlogscore=999 phishscore=0 impostorscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
+ definitions=main-2002200113
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Feb 20, 2020 at 1:59 PM David Howells <dhowells@redhat.com> wrote:
-> Jann Horn <jannh@google.com> wrote:
->
-> > Ewww. So basically, having one static set of .fsinfo_attributes is not
-> > sufficiently flexible for everyone, but instead of allowing the
-> > filesystem to dynamically provide a list of supported attributes, you
-> > just duplicate the super_operations? Seems to me like it'd be cleaner
-> > to add a function pointer to the super_operations that can dynamically
-> > fill out the supported fsinfo attributes.
+On Thu, Feb 20, 2020 at 03:54:25PM +0100, Jann Horn wrote:
+> On Thu, Feb 20, 2020 at 12:04 PM David Howells <dhowells@redhat.com> wrote:
+> > Jann Horn <jannh@google.com> wrote:
 > >
-> > It seems to me like the current API is going to be a dead end if you
-> > ever want to have decent passthrough of these things for e.g. FUSE, or
-> > overlayfs, or VirtFS?
->
-> Ummm...
->
-> Would it be sufficient to have a function that returns a list of attributes?
-> Or does it need to be able to call to vfs_do_fsinfo() if it supports an
-> attribute?
->
-> There are two things I want to be able to do:
->
->  (1) Do the buffer wrangling in the core - which means the core needs to see
->      the type of the attribute.  That's fine if, say, afs_fsinfo() can call
->      vfs_do_fsinfo() with the definition for any attribute it wants to handle
->      and, say, return -ENOPKG otherways so that the core can then fall back to
->      its private list.
->
->  (2) Be able to retrieve the list of attributes and/or query an attribute.
->      Now, I can probably manage this even through the same interface.  If,
->      say, seeing FSINFO_ATTR_FSINFO_ATTRIBUTES causes the handler to simply
->      append on the IDs of its own supported attributes (a helper can be
->      provided for that).
->
->      If it sees FSINFO_ATR_FSINFO_ATTRIBUTE_INFO, it can just look to see if
->      it has the attribute with the ID matching Nth and return that, else
->      ENOPKG - again a helper could be provided.
->
-> Chaining through overlayfs gets tricky.  You end up with multiple contributory
-> filesystems with different properties - and any one of those layers could
-> perhaps be another overlay.  Overlayfs would probably needs to integrate the
-> info and derive the lowest common set.
+> > > > +int fsinfo_string(const char *s, struct fsinfo_context *ctx)
+> > > ...
+> > > Please add a check here to ensure that "ret" actually fits into the
+> > > buffer (and use WARN_ON() if you think the check should never fire).
+> > > Otherwise I think this is too fragile.
+> >
+> > How about:
+> >
+> >         int fsinfo_string(const char *s, struct fsinfo_context *ctx)
+> >         {
+> >                 unsigned int len;
+> >                 char *p = ctx->buffer;
+> >                 int ret = 0;
+> >                 if (s) {
+> >                         len = strlen(s);
+> >                         if (len > ctx->buf_size - 1)
+> >                                 len = ctx->buf_size;
+> >                         if (!ctx->want_size_only) {
+> >                                 memcpy(p, s, len);
+> >                                 p[len] = 0;
+> 
+> I think this is off-by-one? If len was too big, it is set to
+> ctx->buf_size, so in that case this effectively becomes
+> `ctx->buffer[ctx->buf_size] = 0`, which is one byte out of bounds,
+> right?
+> 
+> Maybe use something like `len = min_t(size_t, strlen(s), ctx->buf_size-1)` ?
+> 
+> Looks good apart from that, I think.
+> 
+> >                         }
+> >                         ret = len;
+> >                 }
+> >                 return ret;
+> >         }
+> [...]
+> > > > +       return ctx->usage;
+> > >
+> > > It is kind of weird that you have to return the ctx->usage everywhere
+> > > even though the caller already has ctx...
+> >
+> > At this point, it's only used and returned by fsinfo_attributes() and really
+> > is only for the use of the attribute getter function.
+> >
+> > I could, I suppose, return the amount of data in ctx->usage and then preset it
+> > for VSTRUCT-type objects.  Unfortunately, I can't make the getter return void
+> > since it might have to return an error.
+> 
+> Yeah, then you'd be passing around the error separately from the
+> length... I don't know whether that'd make things better or worse.
+> 
+> [...]
+> > > > +struct fsinfo_attribute {
+> > > > +       unsigned int            attr_id;        /* The ID of the attribute */
+> > > > +       enum fsinfo_value_type  type:8;         /* The type of the attribute's value(s) */
+> > > > +       unsigned int            flags:8;
+> > > > +       unsigned int            size:16;        /* - Value size (FSINFO_STRUCT) */
+> > > > +       unsigned int            element_size:16; /* - Element size (FSINFO_LIST) */
+> > > > +       int (*get)(struct path *path, struct fsinfo_context *params);
+> > > > +};
+> > >
+> > > Why the bitfields? It doesn't look like that's going to help you much,
+> > > you'll just end up with 6 bytes of holes on x86-64:
+> >
+> > Expanding them to non-bitfields will require an extra 10 bytes, making the
+> > struct 8 bytes bigger with 4 bytes of padding.  I can do that if you'd rather.
+> 
+> Wouldn't this still have the same total size?
+> 
+> struct fsinfo_attribute {
+>   unsigned int attr_id;        /* 0x0-0x3 */
+>   enum fsinfo_value_type type; /* 0x4-0x7 */
+>   u8 flags;                    /* 0x8-0x8 */
+>   /* 1-byte hole */
+>   u16 size;                    /* 0xa-0xb */
+>   u16 element_size;            /* 0xc-0xd */
+>   /* 2-byte hole */
+>   int (*get)(...);             /* 0x10-0x18 */
+> };
+> 
+> But it's not like I really care about this detail all that much, feel
+> free to leave it as-is.
 
-Hm - I guess just returning a list of attributes ought to be fine?
-Then AFS can just return one of its two statically-allocated attribute
-lists there, and a filesystem with more complicated circumstances
-(like FUSE or overlayfs or whatever) can compute a heap-allocated list
-on mount that is freed when the superblock goes away, or something
-like that?
+I was thinking, why not just have unsigned int flags from the start?
+That replaces the padding holes with usable flag space, though I guess
+this is in-core only so I'm not that passionate.  I doubt we're going to
+have millions of fsinfo attributes. :)
+
+--D
