@@ -2,89 +2,108 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 493FC1683D4
-	for <lists+linux-api@lfdr.de>; Fri, 21 Feb 2020 17:42:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 16A7E168412
+	for <lists+linux-api@lfdr.de>; Fri, 21 Feb 2020 17:50:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727259AbgBUQl6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 Feb 2020 11:41:58 -0500
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:43601 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726906AbgBUQl6 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Feb 2020 11:41:58 -0500
-Received: by mail-ot1-f65.google.com with SMTP id p8so2520179oth.10
-        for <linux-api@vger.kernel.org>; Fri, 21 Feb 2020 08:41:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=W8MzCk9OwOPa97vO2O05j0c9kWBLJAm/QkTzXLv8BeU=;
-        b=Doowzri/qjWvN5enbBTfhnuLRHkk4kje0+PTPJj+PR3X4oDZn7sF3iriUqDNqR8/PI
-         OOnksEMCeYJc7svg25ckcRLmo1MHTk3uYWuiFjMOU0iBUvIVwFbuqfTa32hzgWGms6tY
-         IyqkduEYw2LZv7swLMlyARmx1plXfqmA+FLzhnY+ipmXD4+ozrCxMB4Y9GhH3MRKPlMd
-         BeVFozsTd2kF6x9oNde7HiVC74A3wPSjqGINyRkEX4H1uIyEboe2MHlOjhFv6XAd+f62
-         e+k7csSsznEVOEJ3be54MVHd6vIU4Iv1dItJt1txTk2PsdBjP8fn5svlevyrAON5jjNH
-         YWaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=W8MzCk9OwOPa97vO2O05j0c9kWBLJAm/QkTzXLv8BeU=;
-        b=busUUjF2rofaI27HwMscreW2lydrUWv+CM8zFK4B5aNGRsoLeZTLWf2Dn3+KWAsX8y
-         hNqh6ab8SzsteFrpX4+NowGetdASamTdh9RZVCXPzeNkmd0fOGlUNR8WBkqruCPPJRZw
-         iglZhFleSkdUQePI/L1lT13baN+Y8dHGoCKOvnSZQWFKxxRKtMGk+ifS7HBg+ncGguWs
-         1tTDfqswOjfDBDQqSiM9KOgNL0wUq6jaRhbpZXtfDWBHxWSbE2SYiSOTAdlNBhqeeHiX
-         auoIkn0wWj8nSqcpUxgW+1OT7hBctP0jaluJN4cxYQoXG7srUvUFoMjNho+PEK93JlsH
-         jRMQ==
-X-Gm-Message-State: APjAAAWsUnfLuMw9eZXkzQZzrAqG+uXfg4Ux4y4nnS3iQFk/YFk3PdSZ
-        7DAbH1GIjq/p7jvWzi5ZnByC3nDKRWohbbNkIqg1QQ==
-X-Google-Smtp-Source: APXvYqx0HGLTCbdTjv0nDBX10uWCVZSgjBknBgULwUuOc07vU8ZgOAq0qvlJewVmC7Wi5NEAW1+GZDssTDFqVlAh0uw=
-X-Received: by 2002:a9d:5e8b:: with SMTP id f11mr15510368otl.110.1582303317466;
- Fri, 21 Feb 2020 08:41:57 -0800 (PST)
-MIME-Version: 1.0
-References: <158204549488.3299825.3783690177353088425.stgit@warthog.procyon.org.uk>
- <158204561120.3299825.5242636508455859327.stgit@warthog.procyon.org.uk>
- <CAG48ez2B2J_3-+EjR20ukRu3noPnAccZsOTaea0jtKK4=+bkhQ@mail.gmail.com>
- <1897788.1582295034@warthog.procyon.org.uk> <CAG48ez2nFks+yN1Kp4TZisso+rjvv_4UW0FTo8iFUd4Qyq1qDw@mail.gmail.com>
- <2031798.1582302800@warthog.procyon.org.uk>
-In-Reply-To: <2031798.1582302800@warthog.procyon.org.uk>
-From:   Jann Horn <jannh@google.com>
-Date:   Fri, 21 Feb 2020 17:41:31 +0100
-Message-ID: <CAG48ez2vzgVgJw7-WKa1GbyLw2nJGvAnS21w=gHV02rUNheYFw@mail.gmail.com>
-Subject: Re: [PATCH 15/19] vfs: Add superblock notifications [ver #16]
-To:     David Howells <dhowells@redhat.com>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>, raven@themaw.net,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Christian Brauner <christian@brauner.io>,
+        id S1727960AbgBUQuy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 Feb 2020 11:50:54 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35658 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727959AbgBUQuv (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Feb 2020 11:50:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1582303850;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=4h82rv0PoKdnsyNmTUn/xy7ivRxE79f7MGtv9RQvsxs=;
+        b=K1shmBu8+u1/EsmCeJcLOaIF0aoRRyv11djXs6M4qTDQnYzkGX9nfNXZ9iN8RNF2H0Geqx
+        rhLBJHFP4V21MftI7Z0FB/e2f+X8aWlloY8W5R8ppMf7/Ef+syM8Q0q/5B1X78Y5bOVIDf
+        dKba6K/A0nDhzTG3K4b5gihJ92t+a3Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-493-NEfudibLOf2BUHT9bNEyZQ-1; Fri, 21 Feb 2020 11:50:46 -0500
+X-MC-Unique: NEfudibLOf2BUHT9bNEyZQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C638119057C2;
+        Fri, 21 Feb 2020 16:50:42 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.43.17.70])
+        by smtp.corp.redhat.com (Postfix) with SMTP id 229DC1001B0B;
+        Fri, 21 Feb 2020 16:50:37 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+        oleg@redhat.com; Fri, 21 Feb 2020 17:50:42 +0100 (CET)
+Date:   Fri, 21 Feb 2020 17:50:37 +0100
+From:   Oleg Nesterov <oleg@redhat.com>
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
         Linux API <linux-api@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        Linux Security Module <linux-security-module@vger.kernel.org>,
+        Akinobu Mita <akinobu.mita@gmail.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Daniel Micay <danielmicay@gmail.com>,
+        Djalal Harouni <tixxdz@gmail.com>,
+        "Dmitry V . Levin" <ldv@altlinux.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Jeff Layton <jlayton@poochiereds.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Solar Designer <solar@openwall.com>
+Subject: Re: [PATCH 7/7] proc: Ensure we see the exit of each process tid
+ exactly once
+Message-ID: <20200221165036.GB16646@redhat.com>
+References: <20200212200335.GO23230@ZenIV.linux.org.uk>
+ <CAHk-=wi+1CPShMFvJNPfnrJ8DD8uVKUOQ5TQzQUNGLUkeoahkg@mail.gmail.com>
+ <20200212203833.GQ23230@ZenIV.linux.org.uk>
+ <20200212204124.GR23230@ZenIV.linux.org.uk>
+ <CAHk-=wi5FOGV_3tALK3n6E2fK3Oa_yCYkYQtCSaXLSEm2DUCKg@mail.gmail.com>
+ <87lfp7h422.fsf@x220.int.ebiederm.org>
+ <CAHk-=wgmn9Qds0VznyphouSZW6e42GWDT5H1dpZg8pyGDGN+=w@mail.gmail.com>
+ <87pnejf6fz.fsf@x220.int.ebiederm.org>
+ <871rqpaswu.fsf_-_@x220.int.ebiederm.org>
+ <87r1yp7zhc.fsf_-_@x220.int.ebiederm.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87r1yp7zhc.fsf_-_@x220.int.ebiederm.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Feb 21, 2020 at 5:33 PM David Howells <dhowells@redhat.com> wrote:
-> Jann Horn <jannh@google.com> wrote:
+On 02/20, Eric W. Biederman wrote:
 >
-> > (And as in the other case, the s->s_count increment will probably have
-> > to be moved above the add_watch_to_object(), unless you hold the
-> > sb_lock around it?)
->
-> It shouldn't matter as I'm holding s->s_umount across the add and increment.
-> That prevents the watch from being removed: watch_sb() would have to get the
-> lock first to do that.  It also deactivate_locked_super() from removing all
-> the watchers.
+> +void exchange_tids(struct task_struct *ntask, struct task_struct *otask)
+> +{
+> +	/* pid_links[PIDTYPE_PID].next is always NULL */
+> +	struct pid *npid = READ_ONCE(ntask->thread_pid);
+> +	struct pid *opid = READ_ONCE(otask->thread_pid);
+> +
+> +	rcu_assign_pointer(opid->tasks[PIDTYPE_PID].first, &ntask->pid_links[PIDTYPE_PID]);
+> +	rcu_assign_pointer(npid->tasks[PIDTYPE_PID].first, &otask->pid_links[PIDTYPE_PID]);
+> +	rcu_assign_pointer(ntask->thread_pid, opid);
+> +	rcu_assign_pointer(otask->thread_pid, npid);
 
-Can't the same thing I already pointed out on "[PATCH 13/19] vfs: Add
-a mount-notification facility [ver #16]" also happen here?
+this breaks has_group_leader_pid()...
 
-If another thread concurrently runs close(watch_fd) before the
-spin_lock(&sb_lock), pipe_release -> put_pipe_info -> free_pipe_info
--> watch_queue_clear will run, correct? And then watch_queue_clear()
-will find the watch that we've just created and call its
-->release_watch() handler, which causes put_super(), potentially
-dropping the refcount to zero? And then stuff will blow up.
+proc_pid_readdir() can miss a process doing mt-exec but this looks fixable,
+just we need to update ntask->thread_pid before updating ->first.
 
-> I can move it before, but I probably have to drop s_umount before I can call
-> put_super().
+The more problematic case is __exit_signal() which does
+		
+		if (unlikely(has_group_leader_pid(tsk)))
+			posix_cpu_timers_exit_group(tsk);
+
+Oleg.
+
