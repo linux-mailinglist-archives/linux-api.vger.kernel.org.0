@@ -2,79 +2,112 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B667716824B
-	for <lists+linux-api@lfdr.de>; Fri, 21 Feb 2020 16:49:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F478168342
+	for <lists+linux-api@lfdr.de>; Fri, 21 Feb 2020 17:27:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729363AbgBUPtc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 Feb 2020 10:49:32 -0500
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:37607 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729242AbgBUPtb (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Feb 2020 10:49:31 -0500
-Received: by mail-oi1-f193.google.com with SMTP id q84so2002374oic.4
-        for <linux-api@vger.kernel.org>; Fri, 21 Feb 2020 07:49:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=tZq1kXcTzLYMO34ccHleJXhWtfhzhvYI72RXtYcu7d0=;
-        b=CdmQEUm8JFubqCiKsGRRwXaaEn4qDiBSqM15yM/guhBqxH9V3QOcf/DPFyjJx3SIXM
-         sSKrSthI73C8sGegIXkZRqWATeanB5j2t3Lberqg2CMBchFEPYrStpZ8+fxLyqaeiGG+
-         cQm4GkqXK/TmylwKp39PXCVweb+KMzgJ0aox0FOipONF3hu+eaIDomovULMYNUb5FxVI
-         Cqq7lrK+ojtFa1C2FZjIb7Ff/Uqb9nHpH+g1vs6gebvrESJbMVm73IvPmLooQ91ao5RV
-         ymwGGJagi9SrtWu8R4Abmlj1JTK2CaTlZbXXS007p4Z383xXzfZJn/zrmkIaqZirnaRx
-         bR0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=tZq1kXcTzLYMO34ccHleJXhWtfhzhvYI72RXtYcu7d0=;
-        b=b4fltoGaKYvvHSY3hAb4ducRzufLTT0gmlNIUVYRjtpQhjkoJypEg5zukIZVKOxjIG
-         Vi4vZOgZuk5UBruKFOIqlJUyAa9ccSkh4t5Gxl53SvW4ReSmeoqOjTnQBpHE3vOI+S6N
-         egCywfVC+sgagFaG4S+OSbuLUUbuDzGyWCnkapJHTtwZ22/mGYrJcgE3sJ96yefN38ri
-         C9wg1sFsr3dVO2MH5o1GOHdO+jY+R7N4rvebdvQxmmanx+6LFq6RCz9qi528bph6jSGH
-         XJZ7znlFrSTccyJhDh0IA3SMANl0d+monrMGfB8l7PwSVkPDMPp7/+EynTKipO9ip5rW
-         iQBQ==
-X-Gm-Message-State: APjAAAWPyzBlzT7jrCFyWmgopJaHR58lXFvky1i+fmBag14g3DLNaCQA
-        cdpwhrqvvp0ldwkDQH+DhpEJT/jtIwg4TlTtBxQ9pE+7TK3vXA==
-X-Google-Smtp-Source: APXvYqx6oYoFCUHz9LVEwbxSzLX1UA9ybF3b+klYwrM1272ykReKNgP4dv2zTdA7aiz1zUlVmIn0Cga9Tqdx35yo8Ww=
-X-Received: by 2002:aca:d954:: with SMTP id q81mr2492691oig.157.1582300170627;
- Fri, 21 Feb 2020 07:49:30 -0800 (PST)
-MIME-Version: 1.0
-References: <158204549488.3299825.3783690177353088425.stgit@warthog.procyon.org.uk>
- <158204559631.3299825.5358385352169781990.stgit@warthog.procyon.org.uk>
- <CAG48ez3ZMg4O5US3n=p1CYK-2AAgLRY+pjnUXp2p5hdwbjCRSA@mail.gmail.com> <1808070.1582287889@warthog.procyon.org.uk>
-In-Reply-To: <1808070.1582287889@warthog.procyon.org.uk>
-From:   Jann Horn <jannh@google.com>
-Date:   Fri, 21 Feb 2020 16:49:04 +0100
-Message-ID: <CAG48ez0+_kO_YL6iO9uA+HjjnHRVHVD-bFq0C=ZLeaGtTMss5A@mail.gmail.com>
-Subject: Re: [PATCH 13/19] vfs: Add a mount-notification facility [ver #16]
+        id S1726032AbgBUQ1J (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 Feb 2020 11:27:09 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:48476 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725995AbgBUQ1J (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Feb 2020 11:27:09 -0500
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01LGIwcx053579;
+        Fri, 21 Feb 2020 16:27:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=cJdVhpaS83UqPdlhm3OcGKgICsyiB6IZqLKasmn4brM=;
+ b=hcHFpHlQAhdMyb5ODWJhaLjbxIpe7q26O1sXF2xcjiK3IoYep4gxbcljPVQ/+QSswa38
+ XR5Yovwr+fozgj5AVR1+kMmHgg93z9KCJF4k7JjxJ1mRQ+0z0TMz5EIoYLK4DJi5DVt4
+ 6VDCu5AXyKYHnILgXu8lD4jjFkRcMAGrj6HXyzlMIQrwfmpzRlWnNA1JtBhlP8RY+CCP
+ DN4FpghX/NVMgUsm6hZbJ8ZGE2ZwjSoqbORPq77ohe/8f0Kgmsdym4kbKLgvJuQMCI7a
+ HmYIU3bb5xL7J/kyg9yZWrTZapaysbrFybP1tlmb5uhWVwksqm5dg4QoOz35wGWU+0fw 0Q== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by userp2130.oracle.com with ESMTP id 2y8uddhjt9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 21 Feb 2020 16:27:01 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01LGIAkS015199;
+        Fri, 21 Feb 2020 16:27:00 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by aserp3020.oracle.com with ESMTP id 2y8udnrapf-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 21 Feb 2020 16:27:00 +0000
+Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 01LGQxQQ015939;
+        Fri, 21 Feb 2020 16:26:59 GMT
+Received: from localhost (/67.169.218.210)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Fri, 21 Feb 2020 08:26:58 -0800
+Date:   Fri, 21 Feb 2020 08:26:57 -0800
+From:   "Darrick J. Wong" <darrick.wong@oracle.com>
 To:     David Howells <dhowells@redhat.com>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>, raven@themaw.net,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Christian Brauner <christian@brauner.io>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Cc:     viro@zeniv.linux.org.uk, raven@themaw.net, mszeredi@redhat.com,
+        christian@brauner.io, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 18/19] ext4: Add example fsinfo information [ver #16]
+Message-ID: <20200221162657.GG9496@magnolia>
+References: <20200219170421.GD9496@magnolia>
+ <158204549488.3299825.3783690177353088425.stgit@warthog.procyon.org.uk>
+ <158204563445.3299825.13575924510060131783.stgit@warthog.procyon.org.uk>
+ <1899516.1582296185@warthog.procyon.org.uk>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1899516.1582296185@warthog.procyon.org.uk>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9538 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxlogscore=999
+ phishscore=0 suspectscore=0 mlxscore=0 malwarescore=0 adultscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2002210122
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9538 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 impostorscore=0
+ mlxlogscore=999 malwarescore=0 mlxscore=0 suspectscore=0
+ priorityscore=1501 bulkscore=0 adultscore=0 spamscore=0 lowpriorityscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2002210122
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Feb 21, 2020 at 1:24 PM David Howells <dhowells@redhat.com> wrote:
-> Jann Horn <jannh@google.com> wrote:
->
-> > > + * Post mount notifications to all watches going rootwards along the tree.
-> > > + *
-> > > + * Must be called with the mount_lock held.
-> >
-> > Please put such constraints into lockdep assertions instead of
-> > comments; that way, violations can actually be detected.
->
-> What's the best way to write a lockdep assertion?
->
->         BUG_ON(!lockdep_is_held(lock));
+On Fri, Feb 21, 2020 at 02:43:05PM +0000, David Howells wrote:
+> Darrick J. Wong <darrick.wong@oracle.com> wrote:
+> 
+> > > +	memcpy(ctx->buffer, es->s_volume_name, sizeof(es->s_volume_name));
+> > 
+> > Shouldn't this be checking that ctx->buffer is large enough to hold
+> > s_volume_name?
+> 
+> Well, the buffer is guaranteed to be 4KiB in size.
 
-lockdep_assert_held(lock) is the normal way, I think - that will
-WARN() if lockdep is enabled and the lock is not held.
+Ah, ok.
+
+> > > +	return strlen(ctx->buffer);
+> > 
+> > s_volume_name is /not/ a null-terminated string if the label is 16
+> > characters long.
+> 
+> And the buffer is precleared, so it's automatically NULL terminated.
+
+<nod>
+
+> > > +#define FSINFO_ATTR_EXT4_TIMESTAMPS	0x400	/* Ext4 superblock timestamps */
+> > 
+> > I guess each filesystem gets ... 256 different attrs, and the third
+> > nibble determines the namespace?
+> 
+> No.  Think of it as allocating namespace in 256-number blocks.  That means
+> there are 16 million of them.  If a filesystem uses up an entire block, it can
+> always allocate another one.  I don't think it likely that we'll get
+> sufficient filesystems to eat them all.
+
+Ah.  In that case I declare that we would like to reserve 0x5800-0x58FF
+for XFS. :)
+
+--D
+
+> David
+> 
