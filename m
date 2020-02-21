@@ -2,112 +2,75 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F478168342
-	for <lists+linux-api@lfdr.de>; Fri, 21 Feb 2020 17:27:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CE1616838A
+	for <lists+linux-api@lfdr.de>; Fri, 21 Feb 2020 17:33:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726032AbgBUQ1J (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 Feb 2020 11:27:09 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:48476 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725995AbgBUQ1J (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Feb 2020 11:27:09 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01LGIwcx053579;
-        Fri, 21 Feb 2020 16:27:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=cJdVhpaS83UqPdlhm3OcGKgICsyiB6IZqLKasmn4brM=;
- b=hcHFpHlQAhdMyb5ODWJhaLjbxIpe7q26O1sXF2xcjiK3IoYep4gxbcljPVQ/+QSswa38
- XR5Yovwr+fozgj5AVR1+kMmHgg93z9KCJF4k7JjxJ1mRQ+0z0TMz5EIoYLK4DJi5DVt4
- 6VDCu5AXyKYHnILgXu8lD4jjFkRcMAGrj6HXyzlMIQrwfmpzRlWnNA1JtBhlP8RY+CCP
- DN4FpghX/NVMgUsm6hZbJ8ZGE2ZwjSoqbORPq77ohe/8f0Kgmsdym4kbKLgvJuQMCI7a
- HmYIU3bb5xL7J/kyg9yZWrTZapaysbrFybP1tlmb5uhWVwksqm5dg4QoOz35wGWU+0fw 0Q== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by userp2130.oracle.com with ESMTP id 2y8uddhjt9-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 21 Feb 2020 16:27:01 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01LGIAkS015199;
-        Fri, 21 Feb 2020 16:27:00 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by aserp3020.oracle.com with ESMTP id 2y8udnrapf-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 21 Feb 2020 16:27:00 +0000
-Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 01LGQxQQ015939;
-        Fri, 21 Feb 2020 16:26:59 GMT
-Received: from localhost (/67.169.218.210)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Fri, 21 Feb 2020 08:26:58 -0800
-Date:   Fri, 21 Feb 2020 08:26:57 -0800
-From:   "Darrick J. Wong" <darrick.wong@oracle.com>
-To:     David Howells <dhowells@redhat.com>
-Cc:     viro@zeniv.linux.org.uk, raven@themaw.net, mszeredi@redhat.com,
-        christian@brauner.io, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 18/19] ext4: Add example fsinfo information [ver #16]
-Message-ID: <20200221162657.GG9496@magnolia>
-References: <20200219170421.GD9496@magnolia>
- <158204549488.3299825.3783690177353088425.stgit@warthog.procyon.org.uk>
- <158204563445.3299825.13575924510060131783.stgit@warthog.procyon.org.uk>
- <1899516.1582296185@warthog.procyon.org.uk>
+        id S1727206AbgBUQd1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 Feb 2020 11:33:27 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54216 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726767AbgBUQd0 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Feb 2020 11:33:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1582302805;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=BUt7yxaGqyhaBTF6KME7cZTH0QCIcSm1V6IEK/6dFnM=;
+        b=B0FelwNxyRVtPqWe8d7KIkurZnqVJcy2I0dGPCIxfoYrhoUfn9jNTciNsgnjFGn0EI5PqH
+        3ED+WYlkx4qACcEyr0nN2B06oHGANi3FhYQBf/gXLGmsCJfQKxAEf5gmtlQAhGe6PRdPmd
+        fJSFMJivQ7perayDuQJw6ESnttB9elw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-314-lXsEKvoKOOGLgNW6yuNVXw-1; Fri, 21 Feb 2020 11:33:24 -0500
+X-MC-Unique: lXsEKvoKOOGLgNW6yuNVXw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA0E319057A4;
+        Fri, 21 Feb 2020 16:33:22 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-122-163.rdu2.redhat.com [10.10.122.163])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 40AC48B55C;
+        Fri, 21 Feb 2020 16:33:21 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <CAG48ez2nFks+yN1Kp4TZisso+rjvv_4UW0FTo8iFUd4Qyq1qDw@mail.gmail.com>
+References: <CAG48ez2nFks+yN1Kp4TZisso+rjvv_4UW0FTo8iFUd4Qyq1qDw@mail.gmail.com> <158204549488.3299825.3783690177353088425.stgit@warthog.procyon.org.uk> <158204561120.3299825.5242636508455859327.stgit@warthog.procyon.org.uk> <CAG48ez2B2J_3-+EjR20ukRu3noPnAccZsOTaea0jtKK4=+bkhQ@mail.gmail.com> <1897788.1582295034@warthog.procyon.org.uk>
+To:     Jann Horn <jannh@google.com>
+Cc:     dhowells@redhat.com, Al Viro <viro@zeniv.linux.org.uk>,
+        raven@themaw.net, Miklos Szeredi <mszeredi@redhat.com>,
+        Christian Brauner <christian@brauner.io>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 15/19] vfs: Add superblock notifications [ver #16]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1899516.1582296185@warthog.procyon.org.uk>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9538 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxlogscore=999
- phishscore=0 suspectscore=0 mlxscore=0 malwarescore=0 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002210122
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9538 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 impostorscore=0
- mlxlogscore=999 malwarescore=0 mlxscore=0 suspectscore=0
- priorityscore=1501 bulkscore=0 adultscore=0 spamscore=0 lowpriorityscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002210122
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <2031797.1582302800.1@warthog.procyon.org.uk>
+Date:   Fri, 21 Feb 2020 16:33:20 +0000
+Message-ID: <2031798.1582302800@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Feb 21, 2020 at 02:43:05PM +0000, David Howells wrote:
-> Darrick J. Wong <darrick.wong@oracle.com> wrote:
-> 
-> > > +	memcpy(ctx->buffer, es->s_volume_name, sizeof(es->s_volume_name));
-> > 
-> > Shouldn't this be checking that ctx->buffer is large enough to hold
-> > s_volume_name?
-> 
-> Well, the buffer is guaranteed to be 4KiB in size.
+Jann Horn <jannh@google.com> wrote:
 
-Ah, ok.
+> (And as in the other case, the s->s_count increment will probably have
+> to be moved above the add_watch_to_object(), unless you hold the
+> sb_lock around it?)
 
-> > > +	return strlen(ctx->buffer);
-> > 
-> > s_volume_name is /not/ a null-terminated string if the label is 16
-> > characters long.
-> 
-> And the buffer is precleared, so it's automatically NULL terminated.
+It shouldn't matter as I'm holding s->s_umount across the add and increment.
+That prevents the watch from being removed: watch_sb() would have to get the
+lock first to do that.  It also deactivate_locked_super() from removing all
+the watchers.
 
-<nod>
+I can move it before, but I probably have to drop s_umount before I can call
+put_super().
 
-> > > +#define FSINFO_ATTR_EXT4_TIMESTAMPS	0x400	/* Ext4 superblock timestamps */
-> > 
-> > I guess each filesystem gets ... 256 different attrs, and the third
-> > nibble determines the namespace?
-> 
-> No.  Think of it as allocating namespace in 256-number blocks.  That means
-> there are 16 million of them.  If a filesystem uses up an entire block, it can
-> always allocate another one.  I don't think it likely that we'll get
-> sufficient filesystems to eat them all.
+David
 
-Ah.  In that case I declare that we would like to reserve 0x5800-0x58FF
-for XFS. :)
-
---D
-
-> David
-> 
