@@ -2,112 +2,92 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5048816801D
-	for <lists+linux-api@lfdr.de>; Fri, 21 Feb 2020 15:24:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 41983168089
+	for <lists+linux-api@lfdr.de>; Fri, 21 Feb 2020 15:43:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728668AbgBUOYB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 Feb 2020 09:24:01 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:58353 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728663AbgBUOYB (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Feb 2020 09:24:01 -0500
+        id S1728068AbgBUOnP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 Feb 2020 09:43:15 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26569 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1728723AbgBUOnO (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Feb 2020 09:43:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1582295040;
+        s=mimecast20190719; t=1582296194;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=c8mWqxlRjMqzWv3h3wuv1G8u9oII3zP+jyI9+XnLcJA=;
-        b=HR2+2PNt7ChpqxRVT0QC6isaDDjOcejMK69/XW7Y7Soo4lkjqgNIX+DehWrJ6orfJm3rUt
-        WZnCE8Yb358XKbwBCSo/z9818lph/gNENv5tRs/2OirLRZMvwGkPdYXl1ryf2i60FwvHMB
-        LK99pTUUsX+aAHFwTPSdEuX0VtULCrg=
+        bh=frQbF+c16vD65ZiZEf+lKyTvER21AAYID9Vfs1Sqi8c=;
+        b=GBL7L2+OOphHuowqcCTG6BRkeLFtWcYwvHlUez3tZHwJg8uMsVtpeddRd9OyNNn3pAkPlX
+        pWueqeT3mgmLgR5goFQ4fi/aH13cN0xr6gn6PtL8NUSWj+2nADYAm4A6Ka7GMiyebAlbwU
+        lvIVGlAk7mkmO/x9ypfJWxnR6VOV19Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-295-K3W4URiHOyKQlUHyroESXw-1; Fri, 21 Feb 2020 09:23:58 -0500
-X-MC-Unique: K3W4URiHOyKQlUHyroESXw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+ us-mta-55-rhZzXX99NbuzYxjCOs-KIg-1; Fri, 21 Feb 2020 09:43:09 -0500
+X-MC-Unique: rhZzXX99NbuzYxjCOs-KIg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 086AF8010EB;
-        Fri, 21 Feb 2020 14:23:57 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8941718C35A0;
+        Fri, 21 Feb 2020 14:43:07 +0000 (UTC)
 Received: from warthog.procyon.org.uk (ovpn-122-163.rdu2.redhat.com [10.10.122.163])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 6B95A60BE0;
-        Fri, 21 Feb 2020 14:23:55 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id E1CAF87B11;
+        Fri, 21 Feb 2020 14:43:05 +0000 (UTC)
 Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
         Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
         Kingdom.
         Registered in England and Wales under Company Registration No. 3798903
 From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <CAG48ez2B2J_3-+EjR20ukRu3noPnAccZsOTaea0jtKK4=+bkhQ@mail.gmail.com>
-References: <CAG48ez2B2J_3-+EjR20ukRu3noPnAccZsOTaea0jtKK4=+bkhQ@mail.gmail.com> <158204549488.3299825.3783690177353088425.stgit@warthog.procyon.org.uk> <158204561120.3299825.5242636508455859327.stgit@warthog.procyon.org.uk>
-To:     Jann Horn <jannh@google.com>
-Cc:     dhowells@redhat.com, Al Viro <viro@zeniv.linux.org.uk>,
-        raven@themaw.net, Miklos Szeredi <mszeredi@redhat.com>,
-        Christian Brauner <christian@brauner.io>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 15/19] vfs: Add superblock notifications [ver #16]
+In-Reply-To: <20200219170421.GD9496@magnolia>
+References: <20200219170421.GD9496@magnolia> <158204549488.3299825.3783690177353088425.stgit@warthog.procyon.org.uk> <158204563445.3299825.13575924510060131783.stgit@warthog.procyon.org.uk>
+To:     "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc:     dhowells@redhat.com, viro@zeniv.linux.org.uk, raven@themaw.net,
+        mszeredi@redhat.com, christian@brauner.io,
+        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 18/19] ext4: Add example fsinfo information [ver #16]
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
-Content-ID: <1897787.1582295034.1@warthog.procyon.org.uk>
-Date:   Fri, 21 Feb 2020 14:23:54 +0000
-Message-ID: <1897788.1582295034@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Content-ID: <1899515.1582296185.1@warthog.procyon.org.uk>
+Content-Transfer-Encoding: quoted-printable
+Date:   Fri, 21 Feb 2020 14:43:05 +0000
+Message-ID: <1899516.1582296185@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Jann Horn <jannh@google.com> wrote:
+Darrick J. Wong <darrick.wong@oracle.com> wrote:
 
-> > +               if (!s->s_watchers) {
-> 
-> READ_ONCE() ?
+> > +	memcpy(ctx->buffer, es->s_volume_name, sizeof(es->s_volume_name));
+> =
 
-I'm not sure it matters.  It can only be set once, and the next time we read
-it we're inside the lock.  And at this point, I don't actually dereference it,
-and if it's non-NULL, it's not going to change.
+> Shouldn't this be checking that ctx->buffer is large enough to hold
+> s_volume_name?
 
-> > +                       ret = add_watch_to_object(watch, s->s_watchers);
-> > +                       if (ret == 0) {
-> > +                               spin_lock(&sb_lock);
-> > +                               s->s_count++;
-> > +                               spin_unlock(&sb_lock);
-> 
-> Where is the corresponding decrement of s->s_count? I'm guessing that
-> it should be in the ->release_watch() handler, except that there isn't
-> one...
+Well, the buffer is guaranteed to be 4KiB in size.
 
-Um.  Good question.  I think this should do the job:
+> > +	return strlen(ctx->buffer);
+> =
 
-	static void sb_release_watch(struct watch *watch)
-	{
-		put_super(watch->private);
-	}
+> s_volume_name is /not/ a null-terminated string if the label is 16
+> characters long.
 
-And this then has to be set later:
+And the buffer is precleared, so it's automatically NULL terminated.
 
-	init_watch_list(wlist, sb_release_watch);
+> > +#define FSINFO_ATTR_EXT4_TIMESTAMPS	0x400	/* Ext4 superblock timestam=
+ps */
+> =
 
-> > +       } else {
-> > +               ret = -EBADSLT;
-> > +               if (READ_ONCE(s->s_watchers)) {
-> 
-> (Nit: I don't get why you do a lockless check here before taking the
-> lock - it'd be more straightforward to take the lock first, and it's
-> not like you want to optimize for the case where someone calls
-> sys_watch_sb() with invalid arguments...)
+> I guess each filesystem gets ... 256 different attrs, and the third
+> nibble determines the namespace?
 
-Fair enough.  I'll remove it.
-
-> > +#ifdef CONFIG_SB_NOTIFICATIONS
-> > +       if (unlikely(s->s_watchers)) {
-> 
-> READ_ONCE() ?
-
-Shouldn't matter.  It's only read once and then a decision is made on it
-immediately thereafter.  And if it's non-NULL, the value cannot change
-thereafter.
+No.  Think of it as allocating namespace in 256-number blocks.  That means
+there are 16 million of them.  If a filesystem uses up an entire block, it=
+ can
+always allocate another one.  I don't think it likely that we'll get
+sufficient filesystems to eat them all.
 
 David
 
