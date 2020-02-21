@@ -2,68 +2,94 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CDB29168487
-	for <lists+linux-api@lfdr.de>; Fri, 21 Feb 2020 18:11:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 71BA916851F
+	for <lists+linux-api@lfdr.de>; Fri, 21 Feb 2020 18:36:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727966AbgBURLm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 Feb 2020 12:11:42 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:24941 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727020AbgBURLi (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Feb 2020 12:11:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1582305097;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=oey+jiBKGtn4SGos1yizbcranLQ5vYUebcQ+ncI0qRE=;
-        b=LKDxhjnJZ3j+js7Vz5QQ+Wdc2noWDtkTY/88hyMbux2IkbjCF9Gf4OorO7l53PvH9qgGdU
-        jcj7KYlbh2Xv/2C968rnFSLeze037E64cE0w6nGxwZK92EhXVZapHiExDOYhxcv3qrmwjT
-        HV/3cN9OFflVU6b0tCdRQfmfHJFQ9p0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-267-jvkJ_iX-OzyYb5WiRMdggg-1; Fri, 21 Feb 2020 12:11:35 -0500
-X-MC-Unique: jvkJ_iX-OzyYb5WiRMdggg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2EEF8017CC;
-        Fri, 21 Feb 2020 17:11:33 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-122-163.rdu2.redhat.com [10.10.122.163])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 10D3A8ECFD;
-        Fri, 21 Feb 2020 17:11:31 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <CAG48ez2vzgVgJw7-WKa1GbyLw2nJGvAnS21w=gHV02rUNheYFw@mail.gmail.com>
-References: <CAG48ez2vzgVgJw7-WKa1GbyLw2nJGvAnS21w=gHV02rUNheYFw@mail.gmail.com> <158204549488.3299825.3783690177353088425.stgit@warthog.procyon.org.uk> <158204561120.3299825.5242636508455859327.stgit@warthog.procyon.org.uk> <CAG48ez2B2J_3-+EjR20ukRu3noPnAccZsOTaea0jtKK4=+bkhQ@mail.gmail.com> <1897788.1582295034@warthog.procyon.org.uk> <CAG48ez2nFks+yN1Kp4TZisso+rjvv_4UW0FTo8iFUd4Qyq1qDw@mail.gmail.com> <2031798.1582302800@warthog.procyon.org.uk>
-To:     Jann Horn <jannh@google.com>
-Cc:     dhowells@redhat.com, Al Viro <viro@zeniv.linux.org.uk>,
-        raven@themaw.net, Miklos Szeredi <mszeredi@redhat.com>,
+        id S1727152AbgBURgy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 Feb 2020 12:36:54 -0500
+Received: from mail-oi1-f175.google.com ([209.85.167.175]:45736 "EHLO
+        mail-oi1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726150AbgBURgx (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Feb 2020 12:36:53 -0500
+Received: by mail-oi1-f175.google.com with SMTP id v19so2329622oic.12
+        for <linux-api@vger.kernel.org>; Fri, 21 Feb 2020 09:36:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=NTRXYuQ87dvDK9Oz1vWAuaYjsHn0ZemoE8V0xwoz7H0=;
+        b=kXo0h9Gt5NHWtGfZV9IH1vFOGRutjzEa7R2/xU2oUsHRonvAFyHjnro0dqamOexF8z
+         EsiyWR8yFFWMoONokEhG6mOxxYHiJ+iQPuhmpWKiW32liSjm4QrviswEFzhWBSeLEE5w
+         eRujlRgEzoM8eNA+CYFUf2UGSflgLO+Emz02CqJyfadQZotnXRkCQ+l2cGQbdxuRBYyc
+         C8peDwALRlJaHoSjbBAPenvadCC2o2QvOz8CgNr/fTkxiHagEkqE9jDB4/15IuoNRLAZ
+         6z66cy/jd2dxId0AXTVmEfjV3d/4ynIY1vQdorg5LDEUuZqqy6Hu7T8FDaxBieccmRE6
+         muzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=NTRXYuQ87dvDK9Oz1vWAuaYjsHn0ZemoE8V0xwoz7H0=;
+        b=CMOMDtVT29EI1NTjj7lkUb06pw3+ltXsBQitirhsf2MNiitOUjsQg9ID4Lb9IGrYYm
+         EYImB5UaYtuuABmbcCTcgCmII7EYUfhSpo+wJgRmswoeUabnQPr5KF2AzUIaSUMf8iSP
+         YVVQzi8CYx03ifQVpdocQzm+sbtf+C8+x8I0URl/bRdZjOOIvbObeK/1ZGxavXiRjy0H
+         Q7I0HUy0PGpWCzMoyZ5qjqMt3K2dzZQf7MIFFBMdVm1a0Zkb8hJUzqWTNXZAG7E8jPW+
+         Ln/YJrGDK860Lzr0KtoeB21hjVKkNfwRmlvcv999p2g7NFGqlwJWk5cxY0XGEZDMxjpu
+         w36w==
+X-Gm-Message-State: APjAAAXsajw7HYIVv90H4b7adzx2sH6FFGf3O1oArSvXIGtK5YW5oU0n
+        bspzFxM5ckgDHVg6xoG11nl51M+Vbde8rKSkAdu9qg==
+X-Google-Smtp-Source: APXvYqxCoOJQzNGFh4S6Wf2LwznGZ2gPK7NTphumYq3n31yOSzlLD/AyHuWWgTne7kL2s4mbyiQCCgUXnQwWQXZ8d/8=
+X-Received: by 2002:aca:d954:: with SMTP id q81mr2902469oig.157.1582306612529;
+ Fri, 21 Feb 2020 09:36:52 -0800 (PST)
+MIME-Version: 1.0
+References: <158204549488.3299825.3783690177353088425.stgit@warthog.procyon.org.uk>
+ <158204559631.3299825.5358385352169781990.stgit@warthog.procyon.org.uk>
+ <CAG48ez3ZMg4O5US3n=p1CYK-2AAgLRY+pjnUXp2p5hdwbjCRSA@mail.gmail.com>
+ <1808070.1582287889@warthog.procyon.org.uk> <CAG48ez0+_kO_YL6iO9uA+HjjnHRVHVD-bFq0C=ZLeaGtTMss5A@mail.gmail.com>
+ <2113718.1582304782@warthog.procyon.org.uk>
+In-Reply-To: <2113718.1582304782@warthog.procyon.org.uk>
+From:   Jann Horn <jannh@google.com>
+Date:   Fri, 21 Feb 2020 18:36:26 +0100
+Message-ID: <CAG48ez14CHMjZS8vCp6h6FnLvcFQq8oy_9JPCd=5qZ52X6w12Q@mail.gmail.com>
+Subject: seq_lock and lockdep_is_held() assertions
+To:     David Howells <dhowells@redhat.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>, raven@themaw.net,
+        Miklos Szeredi <mszeredi@redhat.com>,
         Christian Brauner <christian@brauner.io>,
         Linux API <linux-api@vger.kernel.org>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         kernel list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 15/19] vfs: Add superblock notifications [ver #16]
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <2125808.1582305091.1@warthog.procyon.org.uk>
-Date:   Fri, 21 Feb 2020 17:11:31 +0000
-Message-ID: <2125809.1582305091@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Jann Horn <jannh@google.com> wrote:
+adding some locking folks to the thread...
 
-> If another thread concurrently runs close(watch_fd)
+On Fri, Feb 21, 2020 at 6:06 PM David Howells <dhowells@redhat.com> wrote:
+> Jann Horn <jannh@google.com> wrote:
+> > On Fri, Feb 21, 2020 at 1:24 PM David Howells <dhowells@redhat.com> wrote:
+> > > What's the best way to write a lockdep assertion?
+> > >
+> > >         BUG_ON(!lockdep_is_held(lock));
+> >
+> > lockdep_assert_held(lock) is the normal way, I think - that will
+> > WARN() if lockdep is enabled and the lock is not held.
+>
+> Okay.  But what's the best way with a seqlock_t?  It has two dep maps in it.
+> Do I just ignore the one attached to the spinlock?
 
-Fair point.  We have the watch queue pinned, but watch_queue_clear() is called
-before the ref is released.
+Uuuh... very good question. Looking at how the seqlock_t helpers use
+the dep map of the seqlock, I don't think lockdep asserts work for
+asserting that you're in the read side of a seqlock?
 
-David
+read_seqbegin_or_lock() -> read_seqbegin() -> read_seqcount_begin() ->
+seqcount_lockdep_reader_access() does seqcount_acquire_read() (which
+maps to lock_acquire_shared_recursive()), but immediately following
+that calls seqcount_release() (which maps to lock_release())?
 
+So I think lockdep won't consider you to be holding any locks after
+read_seqbegin_or_lock() if the lock wasn't taken?
