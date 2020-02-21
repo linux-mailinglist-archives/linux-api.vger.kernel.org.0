@@ -2,112 +2,176 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 69CD81685DF
-	for <lists+linux-api@lfdr.de>; Fri, 21 Feb 2020 19:02:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D0C71685E2
+	for <lists+linux-api@lfdr.de>; Fri, 21 Feb 2020 19:02:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729487AbgBUSCh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 Feb 2020 13:02:37 -0500
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:42519 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729479AbgBUSCh (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Feb 2020 13:02:37 -0500
-Received: by mail-oi1-f194.google.com with SMTP id j132so2422424oih.9
-        for <linux-api@vger.kernel.org>; Fri, 21 Feb 2020 10:02:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=YwDEdueNqiLiTZn2fh4bRMDgxjPniW53g8xmvHACU8Q=;
-        b=xQjdrHTyiXy4turHzDZawU33aP36M8C7jfcRPKkpZOWK4V8Zng8Z6f+ZgYj7VxJaFK
-         5Spfrxkvpfi24B5ZMNSQ4zijH9oXUi0TjkRHlZy4p+o+GHFj7sQp91f/yhA706x1ZWMy
-         QI/h2BnyyFjtA2nPfmhrZidKwkesQDhIpNPE5Rq3JTzmWpzItKvuV7pFIm/r2ZDha7co
-         9f+SB7uplc1s7HwIkY6KPwsRdjrP3Q9n9R9o/2r5hb5l4YFol9quvryDblWiKQ2ERHY6
-         wHqrdXaOo/w+WgWBTejcc8efA2jIXWb8INL/HXIVLxDLOM7zPH3L/wwe9r8ECi41E5HS
-         TBCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=YwDEdueNqiLiTZn2fh4bRMDgxjPniW53g8xmvHACU8Q=;
-        b=fyrU6mu1QF9ut0boJm5MuRoPM152x2NwBzFOlJXKDGszbcgz3E27Nq+JsrQnqtu89b
-         P+P0v7ce4d8cV2VswEu3+tubJTLdBWqV4sbebQkQy7xZOptXPFO833KAxVDHCya6i+xj
-         trdIvxo92bTANNHOyqdz5MeyrxUZ8IZfMj20j3pmv6tdqse/c/bPr/GwU0STmb5nhvhg
-         6LSGD0OYho3weYnOf/anfhzT2VFZ7lrkyIxdbRfyayeNBKE4ckOfentKJTdL0x6aaEOF
-         3gLu/IpCgY4PvXuAKxlk5kiIZQCvmIo38zF6uNikYLAj+faZlBmSicPZfGYFLdhVMf+4
-         KyoA==
-X-Gm-Message-State: APjAAAVNgh88/MT49Rzduj3WUbE+hYRA0cZ7kgI8solXPENAhqyN7fAT
-        dYqG8xAZfC+s5cqFS6UcnsOBd3RmPzfPcWeWdyyGRQ==
-X-Google-Smtp-Source: APXvYqyEtv2oGXx37l0a2b85lAJA3ombqXpMi4TeaNhtI8rq6+iJk+G5kX12275qe2nvDThK6H9LGH1udU668SSz7Zo=
-X-Received: by 2002:aca:c551:: with SMTP id v78mr3003192oif.161.1582308156744;
- Fri, 21 Feb 2020 10:02:36 -0800 (PST)
+        id S1729550AbgBUSCp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 Feb 2020 13:02:45 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55471 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1729542AbgBUSCo (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Feb 2020 13:02:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1582308163;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=GyJi62FBwsHTe3Zl4H44iXaw4BfzG8ra8uaMuD9rQ7s=;
+        b=GhOpGCmJDr4KjUg2Ba9/FxJsG8zCEssW6Cl5oaJvi/BmWXeFPW064clYErOtkVX8QVDfqw
+        v85iEQJ+O4xoDuHRzOAgpOi9GOw0754NMm3yL/UdHrkmGpue9Y8tjycT9vNK7dVm/utKR8
+        SJXnbXtlKaedo0u2H9WWOnLDnR+nG10=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-216--scizVTAMaqFNbUQPxuW4Q-1; Fri, 21 Feb 2020 13:02:40 -0500
+X-MC-Unique: -scizVTAMaqFNbUQPxuW4Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D014E1005513;
+        Fri, 21 Feb 2020 18:02:38 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-122-163.rdu2.redhat.com [10.10.122.163])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 17C7660C63;
+        Fri, 21 Feb 2020 18:02:36 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+Subject: [PATCH 06/17] watch_queue: sample: Display superblock notifications
+ [ver #17]
+From:   David Howells <dhowells@redhat.com>
+To:     viro@zeniv.linux.org.uk
+Cc:     dhowells@redhat.com, raven@themaw.net, mszeredi@redhat.com,
+        christian@brauner.io, jannh@google.com, darrick.wong@oracle.com,
+        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Date:   Fri, 21 Feb 2020 18:02:36 +0000
+Message-ID: <158230815634.2185128.9507318728078606539.stgit@warthog.procyon.org.uk>
+In-Reply-To: <158230810644.2185128.16726948836367716086.stgit@warthog.procyon.org.uk>
+References: <158230810644.2185128.16726948836367716086.stgit@warthog.procyon.org.uk>
+User-Agent: StGit/0.21
 MIME-Version: 1.0
-References: <158204549488.3299825.3783690177353088425.stgit@warthog.procyon.org.uk>
- <158204559631.3299825.5358385352169781990.stgit@warthog.procyon.org.uk>
- <CAG48ez3ZMg4O5US3n=p1CYK-2AAgLRY+pjnUXp2p5hdwbjCRSA@mail.gmail.com>
- <1808070.1582287889@warthog.procyon.org.uk> <CAG48ez0+_kO_YL6iO9uA+HjjnHRVHVD-bFq0C=ZLeaGtTMss5A@mail.gmail.com>
- <2113718.1582304782@warthog.procyon.org.uk> <CAG48ez14CHMjZS8vCp6h6FnLvcFQq8oy_9JPCd=5qZ52X6w12Q@mail.gmail.com>
-In-Reply-To: <CAG48ez14CHMjZS8vCp6h6FnLvcFQq8oy_9JPCd=5qZ52X6w12Q@mail.gmail.com>
-From:   John Stultz <john.stultz@linaro.org>
-Date:   Fri, 21 Feb 2020 10:02:25 -0800
-Message-ID: <CALAqxLWxpkZMrJEHgYjtZnRtYtT7zY8=igKQ3rNPpqNV8FmLhg@mail.gmail.com>
-Subject: Re: seq_lock and lockdep_is_held() assertions
-To:     Jann Horn <jannh@google.com>
-Cc:     David Howells <dhowells@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>, raven@themaw.net,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Christian Brauner <christian@brauner.io>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Feb 21, 2020 at 9:36 AM Jann Horn <jannh@google.com> wrote:
->
-> adding some locking folks to the thread...
->
-> On Fri, Feb 21, 2020 at 6:06 PM David Howells <dhowells@redhat.com> wrote:
-> > Jann Horn <jannh@google.com> wrote:
-> > > On Fri, Feb 21, 2020 at 1:24 PM David Howells <dhowells@redhat.com> wrote:
-> > > > What's the best way to write a lockdep assertion?
-> > > >
-> > > >         BUG_ON(!lockdep_is_held(lock));
-> > >
-> > > lockdep_assert_held(lock) is the normal way, I think - that will
-> > > WARN() if lockdep is enabled and the lock is not held.
-> >
-> > Okay.  But what's the best way with a seqlock_t?  It has two dep maps in it.
-> > Do I just ignore the one attached to the spinlock?
->
-> Uuuh... very good question. Looking at how the seqlock_t helpers use
-> the dep map of the seqlock, I don't think lockdep asserts work for
-> asserting that you're in the read side of a seqlock?
->
-> read_seqbegin_or_lock() -> read_seqbegin() -> read_seqcount_begin() ->
-> seqcount_lockdep_reader_access() does seqcount_acquire_read() (which
-> maps to lock_acquire_shared_recursive()), but immediately following
-> that calls seqcount_release() (which maps to lock_release())?
->
-> So I think lockdep won't consider you to be holding any locks after
-> read_seqbegin_or_lock() if the lock wasn't taken?
+The notification is run as:
 
-Yea. It's a bit foggy now, but the main concern at the time was
-wanting to catch seqlock readers that happened under a writer which
-was a common cause of deadlocks between the timekeeping core and stuff
-like printks (or anything we called out that might try to read the
-time).
+	./watch_test
 
-I think it was because writers can properly interrupt readers, we
-couldn't hold the depmap across the read critical section? That's why
-we just take and release the depmap, since that will still catch any
-reads made while holding the write, which would deadlock.
+and it then watches "/mnt" for superblock notifications:
 
-But take that with a grain of salt, as its been awhile.
+	# mount -t tmpfs none /mnt
+	# ./watch_test &
+	# mount -o remount,ro /mnt
+	# mount -o remount,rw /mnt
 
-thanks
--john
+producing:
+
+	# ./watch_test
+	NOTIFY[000]: ty=000003 sy=00 i=03010010
+	SUPER 157eb57ca7 change=0[readonly]
+	read() = 16
+	NOTIFY[000]: ty=000002 sy=04 i=02010010
+	MOUNT 000001a0 change=4[setattr] aux=0
+	read() = 16
+	NOTIFY[000]: ty=000002 sy=04 i=02010010
+	MOUNT 000001a0 change=4[setattr] aux=0
+
+Signed-off-by: David Howells <dhowells@redhat.com>
+---
+
+ samples/watch_queue/watch_test.c |   39 +++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 38 insertions(+), 1 deletion(-)
+
+diff --git a/samples/watch_queue/watch_test.c b/samples/watch_queue/watch_test.c
+index 49d185150506..eea3bd8c6569 100644
+--- a/samples/watch_queue/watch_test.c
++++ b/samples/watch_queue/watch_test.c
+@@ -29,6 +29,9 @@
+ #ifndef __NR_watch_mount
+ #define __NR_watch_mount -1
+ #endif
++#ifndef __NR_watch_sb
++#define __NR_watch_sb -1
++#endif
+ 
+ #define BUF_SIZE 256
+ 
+@@ -82,6 +85,24 @@ static void saw_mount_change(struct watch_notification *n, size_t len)
+ 	       m->triggered_on, n->subtype, mount_subtypes[n->subtype], m->changed_mount);
+ }
+ 
++static const char *super_subtypes[256] = {
++	[NOTIFY_SUPERBLOCK_READONLY]	= "readonly",
++	[NOTIFY_SUPERBLOCK_ERROR]	= "error",
++	[NOTIFY_SUPERBLOCK_EDQUOT]	= "edquot",
++	[NOTIFY_SUPERBLOCK_NETWORK]	= "network",
++};
++
++static void saw_super_change(struct watch_notification *n, size_t len)
++{
++	struct superblock_notification *s = (struct superblock_notification *)n;
++
++	if (len < sizeof(struct superblock_notification))
++		return;
++
++	printf("SUPER %08llx change=%u[%s]\n",
++	       s->sb_id, n->subtype, super_subtypes[n->subtype]);
++}
++
+ /*
+  * Consume and display events.
+  */
+@@ -161,6 +182,9 @@ static void consumer(int fd)
+ 			case WATCH_TYPE_MOUNT_NOTIFY:
+ 				saw_mount_change(&n.n, len);
+ 				break;
++			case WATCH_TYPE_SB_NOTIFY:
++				saw_super_change(&n.n, len);
++				break;
+ 			}
+ 
+ 			p += len;
+@@ -169,7 +193,7 @@ static void consumer(int fd)
+ }
+ 
+ static struct watch_notification_filter filter = {
+-	.nr_filters	= 2,
++	.nr_filters	= 3,
+ 	.filters = {
+ 		[0]	= {
+ 			.type			= WATCH_TYPE_KEY_NOTIFY,
+@@ -180,6 +204,14 @@ static struct watch_notification_filter filter = {
+ 			// Reject move-from notifications
+ 			.subtype_filter[0]	= UINT_MAX & ~(1 << NOTIFY_MOUNT_MOVE_FROM),
+ 		},
++		[2]	= {
++			.type			= WATCH_TYPE_SB_NOTIFY,
++			// Only accept notification of changes to R/O state
++			.subtype_filter[0]	= (1 << NOTIFY_SUPERBLOCK_READONLY),
++			// Only accept notifications of change-to-R/O
++			.info_mask		= WATCH_INFO_FLAG_0,
++			.info_filter		= WATCH_INFO_FLAG_0,
++		},
+ 	},
+ };
+ 
+@@ -218,6 +250,11 @@ int main(int argc, char **argv)
+ 		exit(1);
+ 	}
+ 
++	if (syscall(__NR_watch_sb, AT_FDCWD, "/mnt", 0, fd, 0x03) == -1) {
++		perror("watch_sb");
++		exit(1);
++	}
++
+ 	consumer(fd);
+ 	exit(0);
+ }
+
+
