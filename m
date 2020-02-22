@@ -2,241 +2,188 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 33C70168841
-	for <lists+linux-api@lfdr.de>; Fri, 21 Feb 2020 21:21:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 82324168FE1
+	for <lists+linux-api@lfdr.de>; Sat, 22 Feb 2020 16:48:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726989AbgBUUVi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 Feb 2020 15:21:38 -0500
-Received: from bedivere.hansenpartnership.com ([66.63.167.143]:48276 "EHLO
-        bedivere.hansenpartnership.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726483AbgBUUVi (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Feb 2020 15:21:38 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by bedivere.hansenpartnership.com (Postfix) with ESMTP id B8A788EE3D5;
-        Fri, 21 Feb 2020 12:21:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
-        s=20151216; t=1582316496;
-        bh=X9lwNoA40+rafWitx3M+xWbVDsNdql9HImMtv2QjhWQ=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=MUEts7USA39twCVAZQqCBvLNWZDomXqzMPbZbKIWZih7ENCn3fbWk2hryWh/kMA85
-         kduhunZyO/HM6qqQXRIClt90s5Y5JzhLPjZBxe3Y/bMkg2GOU6VFbTIQQhLEr8mHDE
-         2ZjXS59RN0P0eHFS+Ckn+QhaR+XVgeGORqlHnncM=
-Received: from bedivere.hansenpartnership.com ([127.0.0.1])
-        by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 2Y69yOA-ybgd; Fri, 21 Feb 2020 12:21:36 -0800 (PST)
-Received: from jarvis.ext.hansenpartnership.com (jarvis.ext.hansenpartnership.com [153.66.160.226])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 9607F8EE180;
-        Fri, 21 Feb 2020 12:21:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
-        s=20151216; t=1582316496;
-        bh=X9lwNoA40+rafWitx3M+xWbVDsNdql9HImMtv2QjhWQ=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=MUEts7USA39twCVAZQqCBvLNWZDomXqzMPbZbKIWZih7ENCn3fbWk2hryWh/kMA85
-         kduhunZyO/HM6qqQXRIClt90s5Y5JzhLPjZBxe3Y/bMkg2GOU6VFbTIQQhLEr8mHDE
-         2ZjXS59RN0P0eHFS+Ckn+QhaR+XVgeGORqlHnncM=
-Message-ID: <1582316494.3376.45.camel@HansenPartnership.com>
-Subject: Re: [PATCH 00/17] VFS: Filesystem information and notifications
- [ver #17]
-From:   James Bottomley <James.Bottomley@HansenPartnership.com>
-To:     David Howells <dhowells@redhat.com>, viro@zeniv.linux.org.uk
-Cc:     raven@themaw.net, mszeredi@redhat.com, christian@brauner.io,
-        jannh@google.com, darrick.wong@oracle.com,
-        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Date:   Fri, 21 Feb 2020 12:21:34 -0800
-In-Reply-To: <158230810644.2185128.16726948836367716086.stgit@warthog.procyon.org.uk>
-References: <158230810644.2185128.16726948836367716086.stgit@warthog.procyon.org.uk>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.26.6 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1727525AbgBVPsg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 22 Feb 2020 10:48:36 -0500
+Received: from out03.mta.xmission.com ([166.70.13.233]:53310 "EHLO
+        out03.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727480AbgBVPsf (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 22 Feb 2020 10:48:35 -0500
+Received: from in01.mta.xmission.com ([166.70.13.51])
+        by out03.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.90_1)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1j5X15-0002Kb-RQ; Sat, 22 Feb 2020 08:48:31 -0700
+Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
+        by in01.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.87)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1j5X14-0004kb-Io; Sat, 22 Feb 2020 08:48:31 -0700
+From:   ebiederm@xmission.com (Eric W. Biederman)
+To:     Oleg Nesterov <oleg@redhat.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        Linux Security Module <linux-security-module@vger.kernel.org>,
+        Akinobu Mita <akinobu.mita@gmail.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Daniel Micay <danielmicay@gmail.com>,
+        Djalal Harouni <tixxdz@gmail.com>,
+        "Dmitry V . Levin" <ldv@altlinux.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Jeff Layton <jlayton@poochiereds.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Solar Designer <solar@openwall.com>
+References: <20200212200335.GO23230@ZenIV.linux.org.uk>
+        <CAHk-=wi+1CPShMFvJNPfnrJ8DD8uVKUOQ5TQzQUNGLUkeoahkg@mail.gmail.com>
+        <20200212203833.GQ23230@ZenIV.linux.org.uk>
+        <20200212204124.GR23230@ZenIV.linux.org.uk>
+        <CAHk-=wi5FOGV_3tALK3n6E2fK3Oa_yCYkYQtCSaXLSEm2DUCKg@mail.gmail.com>
+        <87lfp7h422.fsf@x220.int.ebiederm.org>
+        <CAHk-=wgmn9Qds0VznyphouSZW6e42GWDT5H1dpZg8pyGDGN+=w@mail.gmail.com>
+        <87pnejf6fz.fsf@x220.int.ebiederm.org>
+        <871rqpaswu.fsf_-_@x220.int.ebiederm.org>
+        <87r1yp7zhc.fsf_-_@x220.int.ebiederm.org>
+        <20200221165036.GB16646@redhat.com>
+Date:   Sat, 22 Feb 2020 09:46:29 -0600
+In-Reply-To: <20200221165036.GB16646@redhat.com> (Oleg Nesterov's message of
+        "Fri, 21 Feb 2020 17:50:37 +0100")
+Message-ID: <87mu9a4obu.fsf@x220.int.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
+X-XM-SPF: eid=1j5X14-0004kb-Io;;;mid=<87mu9a4obu.fsf@x220.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX1+wG8oCF9P5p4qTliSUMtLy9dXaaffHDtc=
+X-SA-Exim-Connect-IP: 68.227.160.95
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa06.xmission.com
+X-Spam-Level: **
+X-Spam-Status: No, score=2.0 required=8.0 tests=ALL_TRUSTED,BAYES_50,
+        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,XMNoVowels,XMSubLong
+        autolearn=disabled version=3.4.2
+X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  1.5 XMNoVowels Alpha-numberic number with no vowels
+        *  0.7 XMSubLong Long Subject
+        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
+        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
+        *      [sa06 1397; Body=1 Fuz1=1 Fuz2=1]
+X-Spam-DCC: XMission; sa06 1397; Body=1 Fuz1=1 Fuz2=1 
+X-Spam-Combo: **;Oleg Nesterov <oleg@redhat.com>
+X-Spam-Relay-Country: 
+X-Spam-Timing: total 717 ms - load_scoreonly_sql: 0.03 (0.0%),
+        signal_user_changed: 2.8 (0.4%), b_tie_ro: 1.94 (0.3%), parse: 0.93
+        (0.1%), extract_message_metadata: 12 (1.7%), get_uri_detail_list: 2.2
+        (0.3%), tests_pri_-1000: 6 (0.8%), tests_pri_-950: 1.23 (0.2%),
+        tests_pri_-900: 1.12 (0.2%), tests_pri_-90: 32 (4.4%), check_bayes: 30
+        (4.2%), b_tokenize: 11 (1.5%), b_tok_get_all: 10 (1.4%), b_comp_prob:
+        3.0 (0.4%), b_tok_touch_all: 3.9 (0.5%), b_finish: 0.68 (0.1%),
+        tests_pri_0: 648 (90.3%), check_dkim_signature: 0.57 (0.1%),
+        check_dkim_adsp: 12 (1.7%), poll_dns_idle: 0.37 (0.1%), tests_pri_10:
+        2.9 (0.4%), tests_pri_500: 8 (1.0%), rewrite_mail: 0.00 (0.0%)
+Subject: Re: [PATCH 7/7] proc: Ensure we see the exit of each process tid exactly once
+X-Spam-Flag: No
+X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
+X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, 2020-02-21 at 18:01 +0000, David Howells wrote:
-[...]
-> ============================
-> FILESYSTEM INFORMATION QUERY
-> ============================
-> 
-> The fsinfo() system call allows information about the filesystem at a
-> particular path point to be queried as a set of attributes, some of
-> which may have more than one value.
-> 
-> Attribute values are of four basic types:
-> 
->  (1) Version dependent-length structure (size defined by type).
-> 
->  (2) Variable-length string (up to 4096, including NUL).
-> 
->  (3) List of structures (up to INT_MAX size).
-> 
->  (4) Opaque blob (up to INT_MAX size).
-> 
-> Attributes can have multiple values either as a sequence of values or
-> a sequence-of-sequences of values and all the values of a particular
-> attribute must be of the same type.
-> 
-> Note that the values of an attribute *are* allowed to vary between
-> dentries within a single superblock, depending on the specific dentry
-> that you're looking at, but all the values of an attribute have to be
-> of the same type.
-> 
-> I've tried to make the interface as light as possible, so
-> integer/enum attribute selector rather than string and the core does
-> all the allocation and extensibility support work rather than leaving
-> that to the filesystems. That means that for the first two attribute
-> types, the filesystem will always see a sufficiently-sized buffer
-> allocated.  Further, this removes the possibility of the filesystem
-> gaining access to the userspace buffer.
-> 
-> 
-> fsinfo() allows a variety of information to be retrieved about a
-> filesystem and the mount topology:
-> 
->  (1) General superblock attributes:
-> 
->      - Filesystem identifiers (UUID, volume label, device numbers,
-> ...)
->      - The limits on a filesystem's capabilities
->      - Information on supported statx fields and attributes and IOC
-> flags.
->      - A variety single-bit flags indicating supported capabilities.
->      - Timestamp resolution and range.
->      - The amount of space/free space in a filesystem (as statfs()).
->      - Superblock notification counter.
-> 
->  (2) Filesystem-specific superblock attributes:
-> 
->      - Superblock-level timestamps.
->      - Cell name.
->      - Server names and addresses.
->      - Filesystem-specific information.
-> 
->  (3) VFS information:
-> 
->      - Mount topology information.
->      - Mount attributes.
->      - Mount notification counter.
-> 
->  (4) Information about what the fsinfo() syscall itself supports,
-> including
->      the type and struct/element size of attributes.
-> 
-> The system is extensible:
-> 
->  (1) New attributes can be added.  There is no requirement that a
->      filesystem implement every attribute.  Note that the core VFS
-> keeps a
->      table of types and sizes so it can handle future extensibility
-> rather
->      than delegating this to the filesystems.
-> 
->  (2) Version length-dependent structure attributes can be made larger
-> and
->      have additional information tacked on the end, provided it keeps
-> the
->      layout of the existing fields.  If an older process asks for a
-> shorter
->      structure, it will only be given the bits it asks for.  If a
-> newer
->      process asks for a longer structure on an older kernel, the
-> extra
->      space will be set to 0.  In all cases, the size of the data
-> actually
->      available is returned.
-> 
->      In essence, the size of a structure is that structure's version:
-> a
->      smaller size is an earlier version and a later version includes
->      everything that the earlier version did.
-> 
->  (3) New single-bit capability flags can be added.  This is a
-> structure-typed
->      attribute and, as such, (2) applies.  Any bits you wanted but
-> the kernel
->      doesn't support are automatically set to 0.
-> 
-> fsinfo() may be called like the following, for example:
-> 
-> 	struct fsinfo_params params = {
-> 		.at_flags	= AT_SYMLINK_NOFOLLOW,
-> 		.flags		= FSINFO_FLAGS_QUERY_PATH,
-> 		.request	= FSINFO_ATTR_AFS_SERVER_ADDRESSES,
-> 		.Nth		= 2,
-> 	};
-> 	struct fsinfo_server_address address;
-> 	len = fsinfo(AT_FDCWD, "/afs/grand.central.org/doc", &params,
-> 		     &address, sizeof(address));
-> 
-> The above example would query an AFS filesystem to retrieve the
-> address
-> list for the 3rd server, and:
-> 
-> 	struct fsinfo_params params = {
-> 		.at_flags	= AT_SYMLINK_NOFOLLOW,
-> 		.flags		= FSINFO_FLAGS_QUERY_PATH,
-> 		.request	= FSINFO_ATTR_AFS_CELL_NAME;
-> 	};
-> 	char cell_name[256];
-> 	len = fsinfo(AT_FDCWD, "/afs/grand.central.org/doc", &params,
-> 		     &cell_name, sizeof(cell_name));
-> 
-> would retrieve the name of an AFS cell as a string.
-> 
-> In future, I want to make fsinfo() capable of querying a context
-> created by
-> fsopen() or fspick(), e.g.:
-> 
-> 	fd = fsopen("ext4", 0);
-> 	struct fsinfo_params params = {
-> 		.flags		= FSINFO_FLAGS_QUERY_FSCONTEXT,
-> 		.request	= FSINFO_ATTR_PARAMETERS;
-> 	};
-> 	char buffer[65536];
-> 	fsinfo(fd, NULL, &params, &buffer, sizeof(buffer));
-> 
-> even if that context doesn't currently have a superblock attached.  I
-> would prefer this to contain length-prefixed strings so that there's
-> no need to insert escaping, especially as any character, including
-> '\', can be used as the separator in cifs and so that binary
-> parameters can be returned (though that is a lesser issue).
+Oleg Nesterov <oleg@redhat.com> writes:
 
-Could I make a suggestion about how this should be done in a way that
-doesn't actually require the fsinfo syscall at all: it could just be
-done with fsconfig.  The idea is based on something I've wanted to do
-for configfd but couldn't because otherwise it wouldn't substitute for
-fsconfig, but Christian made me think it was actually essential to the
-ability of the seccomp and other verifier tools in the critique of
-configfd and I belive the same critique applies here.
+> On 02/20, Eric W. Biederman wrote:
+>>
+>> +void exchange_tids(struct task_struct *ntask, struct task_struct *otask)
+>> +{
+>> +	/* pid_links[PIDTYPE_PID].next is always NULL */
+>> +	struct pid *npid = READ_ONCE(ntask->thread_pid);
+>> +	struct pid *opid = READ_ONCE(otask->thread_pid);
+>> +
+>> +	rcu_assign_pointer(opid->tasks[PIDTYPE_PID].first, &ntask->pid_links[PIDTYPE_PID]);
+>> +	rcu_assign_pointer(npid->tasks[PIDTYPE_PID].first, &otask->pid_links[PIDTYPE_PID]);
+>> +	rcu_assign_pointer(ntask->thread_pid, opid);
+>> +	rcu_assign_pointer(otask->thread_pid, npid);
+>
+> this breaks has_group_leader_pid()...
+>
+> proc_pid_readdir() can miss a process doing mt-exec but this looks fixable,
+> just we need to update ntask->thread_pid before updating ->first.
+>
+> The more problematic case is __exit_signal() which does
+> 		
+> 		if (unlikely(has_group_leader_pid(tsk)))
+> 			posix_cpu_timers_exit_group(tsk);
 
-Instead of making fsconfig functionally configure ... as in you pass
-the attribute name, type and parameters down into the fs specific
-handler and the handler does a string match and then verifies the
-parameters and then acts on them, make it table configured, so what
-each fstype does is register a table of attributes which can be got and
-optionally set (with each attribute having a get and optional set
-function).  We'd have multiple tables per fstype, so the generic VFS
-can register a table of attributes it understands for every fstype
-(things like name, uuid and the like) and then each fs type would
-register a table of fs specific attributes following the same pattern. 
-The system would examine the fs specific table before the generic one,
-allowing overrides.  fsconfig would have the ability to both get and
-set attributes, permitting retrieval as well as setting (which is how I
-get rid of the fsinfo syscall), we'd have a global parameter, which
-would retrieve the entire table by name and type so the whole thing is
-introspectable because the upper layer knows a-priori all the
-attributes which can be set for a given fs type and what type they are
-(so we can make more of the parsing generic).  Any attribute which
-doesn't have a set routine would be read only and all attributes would
-have to have a get routine meaning everything is queryable.
+Along with the comment:
+		/*
+		 * This can only happen if the caller is de_thread().
+		 * FIXME: this is the temporary hack, we should teach
+		 * posix-cpu-timers to handle this case correctly.
+		 */
+So I suspect this is fixable and the above fix might be part of that.
 
-I think I know how to code this up in a way that would be fully
-transparent to the existing syscalls.
+Hmm looking at your commit:
 
-James
+commit e0a70217107e6f9844628120412cb27bb4cea194
+Author: Oleg Nesterov <oleg@redhat.com>
+Date:   Fri Nov 5 16:53:42 2010 +0100
+
+    posix-cpu-timers: workaround to suppress the problems with mt exec
+    
+    posix-cpu-timers.c correctly assumes that the dying process does
+    posix_cpu_timers_exit_group() and removes all !CPUCLOCK_PERTHREAD
+    timers from signal->cpu_timers list.
+    
+    But, it also assumes that timer->it.cpu.task is always the group
+    leader, and thus the dead ->task means the dead thread group.
+    
+    This is obviously not true after de_thread() changes the leader.
+    After that almost every posix_cpu_timer_ method has problems.
+    
+    It is not simple to fix this bug correctly. First of all, I think
+    that timer->it.cpu should use struct pid instead of task_struct.
+    Also, the locking should be reworked completely. In particular,
+    tasklist_lock should not be used at all. This all needs a lot of
+    nontrivial and hard-to-test changes.
+    
+    Change __exit_signal() to do posix_cpu_timers_exit_group() when
+    the old leader dies during exec. This is not the fix, just the
+    temporary hack to hide the problem for 2.6.37 and stable. IOW,
+    this is obviously wrong but this is what we currently have anyway:
+    cpu timers do not work after mt exec.
+    
+    In theory this change adds another race. The exiting leader can
+    detach the timers which were attached to the new leader. However,
+    the window between de_thread() and release_task() is small, we
+    can pretend that sys_timer_create() was called before de_thread().
+    
+    Signed-off-by: Oleg Nesterov <oleg@redhat.com>
+    Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+
+It looks like the data structures need fixing.  Possibly to use struct
+pid.  Possibly to move the group data to signal struct.
+
+I think I played with some of that awhile ago.
+
+I am going to move this change to another patchset.  So I don't wind up
+playing shift the bug around.  I thought I would need this to get the
+other code working but it turns out we remain bug compatible without
+this.
+
+Hopefully I can get something out in the next week or so that addresses
+the issues you have pointed out.
+
+Eric
 
