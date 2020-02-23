@@ -2,188 +2,233 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 82324168FE1
-	for <lists+linux-api@lfdr.de>; Sat, 22 Feb 2020 16:48:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E7ED0169823
+	for <lists+linux-api@lfdr.de>; Sun, 23 Feb 2020 15:46:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727525AbgBVPsg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 22 Feb 2020 10:48:36 -0500
-Received: from out03.mta.xmission.com ([166.70.13.233]:53310 "EHLO
-        out03.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727480AbgBVPsf (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 22 Feb 2020 10:48:35 -0500
-Received: from in01.mta.xmission.com ([166.70.13.51])
-        by out03.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.90_1)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1j5X15-0002Kb-RQ; Sat, 22 Feb 2020 08:48:31 -0700
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
-        by in01.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.87)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1j5X14-0004kb-Io; Sat, 22 Feb 2020 08:48:31 -0700
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     Oleg Nesterov <oleg@redhat.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        Linux Security Module <linux-security-module@vger.kernel.org>,
-        Akinobu Mita <akinobu.mita@gmail.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Daniel Micay <danielmicay@gmail.com>,
-        Djalal Harouni <tixxdz@gmail.com>,
-        "Dmitry V . Levin" <ldv@altlinux.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Jeff Layton <jlayton@poochiereds.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Solar Designer <solar@openwall.com>
-References: <20200212200335.GO23230@ZenIV.linux.org.uk>
-        <CAHk-=wi+1CPShMFvJNPfnrJ8DD8uVKUOQ5TQzQUNGLUkeoahkg@mail.gmail.com>
-        <20200212203833.GQ23230@ZenIV.linux.org.uk>
-        <20200212204124.GR23230@ZenIV.linux.org.uk>
-        <CAHk-=wi5FOGV_3tALK3n6E2fK3Oa_yCYkYQtCSaXLSEm2DUCKg@mail.gmail.com>
-        <87lfp7h422.fsf@x220.int.ebiederm.org>
-        <CAHk-=wgmn9Qds0VznyphouSZW6e42GWDT5H1dpZg8pyGDGN+=w@mail.gmail.com>
-        <87pnejf6fz.fsf@x220.int.ebiederm.org>
-        <871rqpaswu.fsf_-_@x220.int.ebiederm.org>
-        <87r1yp7zhc.fsf_-_@x220.int.ebiederm.org>
-        <20200221165036.GB16646@redhat.com>
-Date:   Sat, 22 Feb 2020 09:46:29 -0600
-In-Reply-To: <20200221165036.GB16646@redhat.com> (Oleg Nesterov's message of
-        "Fri, 21 Feb 2020 17:50:37 +0100")
-Message-ID: <87mu9a4obu.fsf@x220.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        id S1726302AbgBWOqa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 23 Feb 2020 09:46:30 -0500
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:40238 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726208AbgBWOq3 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 23 Feb 2020 09:46:29 -0500
+Received: by mail-pf1-f195.google.com with SMTP id b185so3909692pfb.7;
+        Sun, 23 Feb 2020 06:46:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=BFmvR6FXjIiaKj0uGYjYuAkA3IYTXfDuXDN6BEVXAi8=;
+        b=d1PGMP0q2gyHWtYiojcyQFQQZ6zFdugDBtV9XTiC7PeXcYa3lpugKc2EWuGcrbBdMj
+         FRVMxBa3UI/Yg7ujTT2A2B6cpp+UWAC79CRHZCzI3m1EAlRvO3eXY+1uV/rOkZBOIfau
+         rO1iyYqUeOIw+zOFQ410oXXIAWcuT1hyShMB7T2LSE6OcoUF7NjQb8q+Eg8CildoDeNC
+         AbH1t/8RvOvGlZQpxHYDQ75hT43vOjaBpJ/1OWhUsY3afHC6g1wEyyGkN3sPdoGPKJMv
+         cThKTufNVhqPUI+rJWBBYaGRRSw7JYDilTLt8ufEw++RIH7xhLTnMkTmI/WqYXCYuOZ/
+         ri4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=BFmvR6FXjIiaKj0uGYjYuAkA3IYTXfDuXDN6BEVXAi8=;
+        b=GjKRuAYXWuzJ/wLjE2hSv1XjQ+hYFwXpbSmVRd8MU9lAlBZLZ177Ubs5tqSDVS6kbR
+         gqrUGGUajepYhQrsQWHCzJAiqVDsPUoG0ZH51N3+mvqUhMGFZbWZ+kzQMffr9vIFUWf8
+         eaDCBUwPKeuPOUt41fvMcOvo1zCrOdkvx9mQKonE9nV/sOgmo9InXWQTsp915kElanlc
+         vBTrbvutqUSAmLFb6+xhGtERbO9WJxhLp4u+oNYmbHqMXlvMBfKh5wVjUXn5Djv9WeAw
+         +Ujk7u9CSZjyKdUfFyvSY5UymlC2RT1l1PVGPf/TKGMfM/S6c+6eFgtevTDbMwGMPQxD
+         ZJyw==
+X-Gm-Message-State: APjAAAX+0ggQoukFSxHTRgDPhjRu0veR9LsslauUwNbRHmRQq+Tq4uNn
+        6H7G/VDn0b0S7Lig3zOyyNnWXbaD+04=
+X-Google-Smtp-Source: APXvYqzYO/p7EgGYRqDVODSuOoJ9hxTp7laqD+BWxt1FdHzRKGazplZoI0v9QZ4jXlwsgiyDiHo5Gg==
+X-Received: by 2002:a63:515d:: with SMTP id r29mr47131410pgl.265.1582469188855;
+        Sun, 23 Feb 2020 06:46:28 -0800 (PST)
+Received: from localhost ([178.128.102.47])
+        by smtp.gmail.com with ESMTPSA id 144sm9738371pfc.45.2020.02.23.06.46.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Feb 2020 06:46:27 -0800 (PST)
+Date:   Sun, 23 Feb 2020 22:46:17 +0800
+From:   Eryu Guan <guaneryu@gmail.com>
+To:     Omar Sandoval <osandov@osandov.com>
+Cc:     linux-fsdevel@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
+        kernel-team@fb.com, linux-api@vger.kernel.org,
+        David Howells <dhowells@redhat.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Xi Wang <xi@cs.washington.edu>, fstests@vger.kernel.org
+Subject: Re: [RFC PATCH xfstests] generic: add smoke test for AT_LINK_REPLACE
+Message-ID: <20200223144345.GE3840@desktop>
+References: <cover.1580251857.git.osandov@fb.com>
+ <f23621bea2e8d5f919389131b84fa0226b90f502.1580253372.git.osandov@fb.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1j5X14-0004kb-Io;;;mid=<87mu9a4obu.fsf@x220.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX1+wG8oCF9P5p4qTliSUMtLy9dXaaffHDtc=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa06.xmission.com
-X-Spam-Level: **
-X-Spam-Status: No, score=2.0 required=8.0 tests=ALL_TRUSTED,BAYES_50,
-        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,XMNoVowels,XMSubLong
-        autolearn=disabled version=3.4.2
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  1.5 XMNoVowels Alpha-numberic number with no vowels
-        *  0.7 XMSubLong Long Subject
-        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
-        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-        *      [sa06 1397; Body=1 Fuz1=1 Fuz2=1]
-X-Spam-DCC: XMission; sa06 1397; Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: **;Oleg Nesterov <oleg@redhat.com>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 717 ms - load_scoreonly_sql: 0.03 (0.0%),
-        signal_user_changed: 2.8 (0.4%), b_tie_ro: 1.94 (0.3%), parse: 0.93
-        (0.1%), extract_message_metadata: 12 (1.7%), get_uri_detail_list: 2.2
-        (0.3%), tests_pri_-1000: 6 (0.8%), tests_pri_-950: 1.23 (0.2%),
-        tests_pri_-900: 1.12 (0.2%), tests_pri_-90: 32 (4.4%), check_bayes: 30
-        (4.2%), b_tokenize: 11 (1.5%), b_tok_get_all: 10 (1.4%), b_comp_prob:
-        3.0 (0.4%), b_tok_touch_all: 3.9 (0.5%), b_finish: 0.68 (0.1%),
-        tests_pri_0: 648 (90.3%), check_dkim_signature: 0.57 (0.1%),
-        check_dkim_adsp: 12 (1.7%), poll_dns_idle: 0.37 (0.1%), tests_pri_10:
-        2.9 (0.4%), tests_pri_500: 8 (1.0%), rewrite_mail: 0.00 (0.0%)
-Subject: Re: [PATCH 7/7] proc: Ensure we see the exit of each process tid exactly once
-X-Spam-Flag: No
-X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
-X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f23621bea2e8d5f919389131b84fa0226b90f502.1580253372.git.osandov@fb.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Oleg Nesterov <oleg@redhat.com> writes:
+On Wed, Jan 29, 2020 at 12:58:27AM -0800, Omar Sandoval wrote:
+> From: Omar Sandoval <osandov@fb.com>
+> 
+> Cc: fstests@vger.kernel.org
+> Signed-off-by: Omar Sandoval <osandov@fb.com>
 
-> On 02/20, Eric W. Biederman wrote:
->>
->> +void exchange_tids(struct task_struct *ntask, struct task_struct *otask)
->> +{
->> +	/* pid_links[PIDTYPE_PID].next is always NULL */
->> +	struct pid *npid = READ_ONCE(ntask->thread_pid);
->> +	struct pid *opid = READ_ONCE(otask->thread_pid);
->> +
->> +	rcu_assign_pointer(opid->tasks[PIDTYPE_PID].first, &ntask->pid_links[PIDTYPE_PID]);
->> +	rcu_assign_pointer(npid->tasks[PIDTYPE_PID].first, &otask->pid_links[PIDTYPE_PID]);
->> +	rcu_assign_pointer(ntask->thread_pid, opid);
->> +	rcu_assign_pointer(otask->thread_pid, npid);
->
-> this breaks has_group_leader_pid()...
->
-> proc_pid_readdir() can miss a process doing mt-exec but this looks fixable,
-> just we need to update ntask->thread_pid before updating ->first.
->
-> The more problematic case is __exit_signal() which does
-> 		
-> 		if (unlikely(has_group_leader_pid(tsk)))
-> 			posix_cpu_timers_exit_group(tsk);
+Looks fine overall, would you please provide more info about this
+AT_LINK_REPLACE flag? e.g. what's the expected behavior, what's current
+status (merged in kernel or still pending?), reference the related
+commits if already merged.
 
-Along with the comment:
-		/*
-		 * This can only happen if the caller is de_thread().
-		 * FIXME: this is the temporary hack, we should teach
-		 * posix-cpu-timers to handle this case correctly.
-		 */
-So I suspect this is fixable and the above fix might be part of that.
+> ---
+>  common/rc             |  2 +-
+>  tests/generic/593     | 97 +++++++++++++++++++++++++++++++++++++++++++
+>  tests/generic/593.out |  6 +++
+>  tests/generic/group   |  1 +
+>  4 files changed, 105 insertions(+), 1 deletion(-)
+>  create mode 100755 tests/generic/593
+>  create mode 100644 tests/generic/593.out
+> 
+> diff --git a/common/rc b/common/rc
+> index eeac1355..257f65a1 100644
+> --- a/common/rc
+> +++ b/common/rc
+> @@ -2172,7 +2172,7 @@ _require_xfs_io_command()
+>  		;;
+>  	"flink")
+>  		local testlink=$TEST_DIR/$$.link.xfs_io
+> -		testio=`$XFS_IO_PROG -F -f -c "flink $testlink" $testfile 2>&1`
+> +		testio=`$XFS_IO_PROG -F -f -c "flink $param $testlink" $testfile 2>&1`
+>  		rm -f $testlink > /dev/null 2>&1
+>  		;;
+>  	"-T")
+> diff --git a/tests/generic/593 b/tests/generic/593
+> new file mode 100755
+> index 00000000..8a9fee02
+> --- /dev/null
+> +++ b/tests/generic/593
+> @@ -0,0 +1,97 @@
+> +#! /bin/bash
+> +# SPDX-License-Identifier: GPL-2.0
+> +# Copyright (c) 2020 Facebook.  All Rights Reserved.
+> +#
+> +# FS QA Test 593
+> +#
+> +# Smoke test linkat() with AT_LINK_REPLACE.
+> +#
+> +seq=`basename $0`
+> +seqres=$RESULT_DIR/$seq
+> +echo "QA output created by $seq"
+> +
+> +here=`pwd`
+> +tmp=/tmp/$$
+> +status=1	# failure is the default!
+> +trap "_cleanup; exit \$status" 0 1 2 3 15
+> +
+> +_cleanup()
+> +{
+> +	cd /
+> +	rm -f $tmp.*
+> +}
+> +
+> +# get standard environment, filters and checks
+> +. ./common/rc
+> +. ./common/filter
+> +
+> +# remove previous $seqres.full before test
+> +rm -f $seqres.full
+> +
+> +_supported_fs generic
+> +_supported_os Linux
+> +_require_test
+> +_require_xfs_io_command "-T"
+> +_require_xfs_io_command "flink" "-f"
+> +
+> +same_file() {
+> +	[[ "$(stat -c '%d %i' "$1")" = "$(stat -c '%d %i' "$2")" ]]
+> +}
+> +
+> +touch "$TEST_DIR/$seq.src"
+> +touch "$TEST_DIR/$seq.tgt"
+> +$XFS_IO_PROG -c "flink -f $TEST_DIR/$seq.tgt" "$TEST_DIR/$seq.src"
+> +same_file "$TEST_DIR/$seq.src" "$TEST_DIR/$seq.tgt" ||
+> +	echo "Target was not replaced"
+> +
+> +# Linking to the same file should be a noop.
+> +$XFS_IO_PROG -c "flink -f $TEST_DIR/$seq.src" "$TEST_DIR/$seq.src"
+> +$XFS_IO_PROG -c "flink -f $TEST_DIR/$seq.tgt" "$TEST_DIR/$seq.src"
+> +same_file "$TEST_DIR/$seq.src" "$TEST_DIR/$seq.tgt" || echo "Target changed?"
+> +
+> +# Should work with O_TMPFILE.
+> +$XFS_IO_PROG -c "flink -f $TEST_DIR/$seq.tgt" -T "$TEST_DIR"
+> +stat -c '%h' "$TEST_DIR/$seq.tgt"
+> +same_file "$TEST_DIR/$seq.src" "$TEST_DIR/$seq.tgt" &&
+> +	echo "Target was not replaced"
+> +
+> +# It's okay if the target doesn't exist.
+> +$XFS_IO_PROG -c "flink -f $TEST_DIR/$seq.tgt2" "$TEST_DIR/$seq.src"
+> +same_file "$TEST_DIR/$seq.src" "$TEST_DIR/$seq.tgt2" ||
+> +	echo "Target was not created"
+> +
+> +# Can't replace directories.
+> +mkdir "$TEST_DIR/$seq.dir"
+> +$XFS_IO_PROG -c "flink -f $TEST_DIR/$seq.dir" "$TEST_DIR/$seq.src"
+> +cd "$TEST_DIR/$seq.dir"
+> +$XFS_IO_PROG -c "flink -f ." "$TEST_DIR/$seq.src"
+> +$XFS_IO_PROG -c "flink -f .." "$TEST_DIR/$seq.src"
+> +cd - &> /dev/null
+> +
+> +# Can't replace local mount points.
+> +touch "$TEST_DIR/$seq.mnt"
+> +$MOUNT_PROG --bind "$TEST_DIR/$seq.mnt" "$TEST_DIR/$seq.mnt"
+> +$XFS_IO_PROG -c "flink -f $TEST_DIR/$seq.mnt" "$TEST_DIR/$seq.src"
+> +
+> +# Can replace mount points in other namespaces, though.
+> +unshare -m \
 
-Hmm looking at your commit:
+Better to define an UNSHARE_PROG in common/config and require it in this
+test, then use $UNSHARE_PROG here.
 
-commit e0a70217107e6f9844628120412cb27bb4cea194
-Author: Oleg Nesterov <oleg@redhat.com>
-Date:   Fri Nov 5 16:53:42 2010 +0100
+Thanks,
+Eryu
 
-    posix-cpu-timers: workaround to suppress the problems with mt exec
-    
-    posix-cpu-timers.c correctly assumes that the dying process does
-    posix_cpu_timers_exit_group() and removes all !CPUCLOCK_PERTHREAD
-    timers from signal->cpu_timers list.
-    
-    But, it also assumes that timer->it.cpu.task is always the group
-    leader, and thus the dead ->task means the dead thread group.
-    
-    This is obviously not true after de_thread() changes the leader.
-    After that almost every posix_cpu_timer_ method has problems.
-    
-    It is not simple to fix this bug correctly. First of all, I think
-    that timer->it.cpu should use struct pid instead of task_struct.
-    Also, the locking should be reworked completely. In particular,
-    tasklist_lock should not be used at all. This all needs a lot of
-    nontrivial and hard-to-test changes.
-    
-    Change __exit_signal() to do posix_cpu_timers_exit_group() when
-    the old leader dies during exec. This is not the fix, just the
-    temporary hack to hide the problem for 2.6.37 and stable. IOW,
-    this is obviously wrong but this is what we currently have anyway:
-    cpu timers do not work after mt exec.
-    
-    In theory this change adds another race. The exiting leader can
-    detach the timers which were attached to the new leader. However,
-    the window between de_thread() and release_task() is small, we
-    can pretend that sys_timer_create() was called before de_thread().
-    
-    Signed-off-by: Oleg Nesterov <oleg@redhat.com>
-    Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
-
-It looks like the data structures need fixing.  Possibly to use struct
-pid.  Possibly to move the group data to signal struct.
-
-I think I played with some of that awhile ago.
-
-I am going to move this change to another patchset.  So I don't wind up
-playing shift the bug around.  I thought I would need this to get the
-other code working but it turns out we remain bug compatible without
-this.
-
-Hopefully I can get something out in the next week or so that addresses
-the issues you have pointed out.
-
-Eric
-
+> +	bash -c "$UMOUNT_PROG $TEST_DIR/$seq.mnt; $XFS_IO_PROG -c \"flink -f $TEST_DIR/$seq.mnt\" $TEST_DIR/$seq.src"
+> +if $UMOUNT_PROG "$TEST_DIR/$seq.mnt" &> /dev/null; then
+> +	echo "Mount point was not detached"
+> +fi
+> +same_file "$TEST_DIR/$seq.src" "$TEST_DIR/$seq.mnt" ||
+> +	echo "Mount point was not replaced"
+> +
+> +# Should replace symlinks, not follow them.
+> +touch "$TEST_DIR/$seq.symtgt"
+> +ln -s "$TEST_DIR/$seq.symtgt" "$TEST_DIR/$seq.sym"
+> +$XFS_IO_PROG -c "flink -f $TEST_DIR/$seq.sym" "$TEST_DIR/$seq.src"
+> +same_file "$TEST_DIR/$seq.src" "$TEST_DIR/$seq.sym" ||
+> +	echo "Symlink was not replaced"
+> +same_file "$TEST_DIR/$seq.src" "$TEST_DIR/$seq.symtgt" &&
+> +	echo "Symlink target was replaced"
+> +
+> +rm -rf "$TEST_DIR/$seq."*
+> +
+> +status=0
+> +exit
+> diff --git a/tests/generic/593.out b/tests/generic/593.out
+> new file mode 100644
+> index 00000000..834c34bf
+> --- /dev/null
+> +++ b/tests/generic/593.out
+> @@ -0,0 +1,6 @@
+> +QA output created by 593
+> +1
+> +flink: Is a directory
+> +flink: Is a directory
+> +flink: Is a directory
+> +flink: Device or resource busy
+> diff --git a/tests/generic/group b/tests/generic/group
+> index 6fe62505..0a87efca 100644
+> --- a/tests/generic/group
+> +++ b/tests/generic/group
+> @@ -595,3 +595,4 @@
+>  590 auto prealloc preallocrw
+>  591 auto quick rw pipe splice
+>  592 auto quick encrypt
+> +593 auto quick hardlink
+> -- 
+> 2.25.0
+> 
