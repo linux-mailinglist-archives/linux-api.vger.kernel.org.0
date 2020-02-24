@@ -2,110 +2,87 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 546FD16A8E3
-	for <lists+linux-api@lfdr.de>; Mon, 24 Feb 2020 15:55:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 74CA516AA15
+	for <lists+linux-api@lfdr.de>; Mon, 24 Feb 2020 16:28:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727474AbgBXOzi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 24 Feb 2020 09:55:38 -0500
-Received: from bedivere.hansenpartnership.com ([66.63.167.143]:58324 "EHLO
-        bedivere.hansenpartnership.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727359AbgBXOzi (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 24 Feb 2020 09:55:38 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by bedivere.hansenpartnership.com (Postfix) with ESMTP id D9AAD8EE193;
-        Mon, 24 Feb 2020 06:55:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
-        s=20151216; t=1582556137;
-        bh=nYoNWmZAomzGgPf7q+XQUVWK7ASnTrz9ODYpmR2mpKc=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=Za/Ozcng988/g8wymADbE9zgdkkvaF7q2cFM+uiHjmqmZVI01eMWKGeGXj5yoZqHz
-         zW4LTM5KYvbWvLzaW9jO8C7RbNT2zgWdmQ9ZY6LelAG+ZHkW6+0wPAXJ5fIIef4uVF
-         /0z2pvIbXhGqmOrPsG3ZJLCOQ+ILDTlH0xwnz/hE=
-Received: from bedivere.hansenpartnership.com ([127.0.0.1])
-        by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id wH3sn0ON16yB; Mon, 24 Feb 2020 06:55:37 -0800 (PST)
-Received: from jarvis.ext.hansenpartnership.com (jarvis.ext.hansenpartnership.com [153.66.160.226])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 1B36F8EE0E2;
-        Mon, 24 Feb 2020 06:55:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
-        s=20151216; t=1582556137;
-        bh=nYoNWmZAomzGgPf7q+XQUVWK7ASnTrz9ODYpmR2mpKc=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=Za/Ozcng988/g8wymADbE9zgdkkvaF7q2cFM+uiHjmqmZVI01eMWKGeGXj5yoZqHz
-         zW4LTM5KYvbWvLzaW9jO8C7RbNT2zgWdmQ9ZY6LelAG+ZHkW6+0wPAXJ5fIIef4uVF
-         /0z2pvIbXhGqmOrPsG3ZJLCOQ+ILDTlH0xwnz/hE=
-Message-ID: <1582556135.3384.4.camel@HansenPartnership.com>
-Subject: Re: [PATCH 00/17] VFS: Filesystem information and notifications
- [ver #17]
-From:   James Bottomley <James.Bottomley@HansenPartnership.com>
-To:     Miklos Szeredi <mszeredi@redhat.com>
-Cc:     David Howells <dhowells@redhat.com>,
+        id S1727895AbgBXP24 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 24 Feb 2020 10:28:56 -0500
+Received: from mail-io1-f67.google.com ([209.85.166.67]:34536 "EHLO
+        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727860AbgBXP2x (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 24 Feb 2020 10:28:53 -0500
+Received: by mail-io1-f67.google.com with SMTP id 13so10099332iou.1
+        for <linux-api@vger.kernel.org>; Mon, 24 Feb 2020 07:28:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=MPLy+I1kf18awADSJ+a+kXYkss5ko3QnxlgaP18iAaI=;
+        b=hR91BNo0v9W2lKGsQ+28dV2f5cukj0J5Cq2WtUwQzy8DbroeQONE8wkNp/8DXGAj0b
+         wS2gR97Spg4fao+tg+p7ub4Y30ipXiXecLYvggLQhPDsYbVIzad1QzrJYKXyFNitudhw
+         elclO4ETUa54GEeb88QHzma/x6byZ9ENFz9rc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MPLy+I1kf18awADSJ+a+kXYkss5ko3QnxlgaP18iAaI=;
+        b=epMPff3kBiBKWPL51TItwuwrnnjd9hijuYt/bhWYy5iuPhJ3jGnm0FnSaXMgXQDt5O
+         /xyQtDjMex0sKI1Tondt/hZM9Lt8FQTOYiTteFiOjf5nyUFFtgb2dfr68sUll8svf/h0
+         vR5B+Mj8sX2/oyN4RK57XijFUUODdF+Qs/zmxGxljBQ9fLYp1g02HB6rM/OKX+iXTQwX
+         kvVmsm4xtnXinnEDLtfLPixtosX9VXP5ugMs+6aSsyNUn2K40736+Z3qHj8aYR8Gcr53
+         W/LWmWpJ4RQlHqX0PMcXbVMIwTK1jjUaMxEuyy1puWAO5Ly6hDK6D9d1GU+GXf6Bcudo
+         5kWA==
+X-Gm-Message-State: APjAAAWWPJRfR3skHjMaz78QOfPn173pnFykMUonlM5l7WAbd/lOUwrM
+        XB4F0ikGsCcOFKYybxrXHd/T19FpRqYLfy2/Q/6tzA==
+X-Google-Smtp-Source: APXvYqyvNJZ5VSWFSREvni1YMdamiTezkJiBrYDHxTOY/6jEk+6CRYsk62v8jxoGiT8VHnrEWrOj1S3gMbDf4tiBSQw=
+X-Received: by 2002:a02:cc59:: with SMTP id i25mr50551851jaq.78.1582558131274;
+ Mon, 24 Feb 2020 07:28:51 -0800 (PST)
+MIME-Version: 1.0
+References: <158230810644.2185128.16726948836367716086.stgit@warthog.procyon.org.uk>
+ <1582316494.3376.45.camel@HansenPartnership.com> <CAOssrKehjnTwbc6A1VagM5hG_32hy3mXZenx_PdGgcUGxYOaLQ@mail.gmail.com>
+ <1582556135.3384.4.camel@HansenPartnership.com>
+In-Reply-To: <1582556135.3384.4.camel@HansenPartnership.com>
+From:   Miklos Szeredi <miklos@szeredi.hu>
+Date:   Mon, 24 Feb 2020 16:28:40 +0100
+Message-ID: <CAJfpegsk6BsVhUgHNwJgZrqcNP66wS0fhCXo_2sLt__goYGPWg@mail.gmail.com>
+Subject: Re: [PATCH 00/17] VFS: Filesystem information and notifications [ver #17]
+To:     James Bottomley <James.Bottomley@hansenpartnership.com>
+Cc:     Miklos Szeredi <mszeredi@redhat.com>,
+        David Howells <dhowells@redhat.com>,
         viro <viro@zeniv.linux.org.uk>, Ian Kent <raven@themaw.net>,
-        christian@brauner.io, Jann Horn <jannh@google.com>,
-        darrick.wong@oracle.com, Linux API <linux-api@vger.kernel.org>,
+        Christian Brauner <christian@brauner.io>,
+        Jann Horn <jannh@google.com>,
+        "Darrick J. Wong" <darrick.wong@oracle.com>,
+        Linux API <linux-api@vger.kernel.org>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         lkml <linux-kernel@vger.kernel.org>
-Date:   Mon, 24 Feb 2020 06:55:35 -0800
-In-Reply-To: <CAOssrKehjnTwbc6A1VagM5hG_32hy3mXZenx_PdGgcUGxYOaLQ@mail.gmail.com>
-References: <158230810644.2185128.16726948836367716086.stgit@warthog.procyon.org.uk>
-         <1582316494.3376.45.camel@HansenPartnership.com>
-         <CAOssrKehjnTwbc6A1VagM5hG_32hy3mXZenx_PdGgcUGxYOaLQ@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.26.6 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, 2020-02-24 at 11:24 +0100, Miklos Szeredi wrote:
-> On Fri, Feb 21, 2020 at 9:21 PM James Bottomley
-> <James.Bottomley@hansenpartnership.com> wrote:
-[...]
-> > Could I make a suggestion about how this should be done in a way
-> > that doesn't actually require the fsinfo syscall at all: it could
-> > just be done with fsconfig.  The idea is based on something I've
-> > wanted to do for configfd but couldn't because otherwise it
-> > wouldn't substitute for fsconfig, but Christian made me think it
-> > was actually essential to the ability of the seccomp and other
-> > verifier tools in the critique of configfd and I belive the same
-> > critique applies here.
-> > 
-> > Instead of making fsconfig functionally configure ... as in you
-> > pass the attribute name, type and parameters down into the fs
-> > specific handler and the handler does a string match and then
-> > verifies the parameters and then acts on them, make it table
-> > configured, so what each fstype does is register a table of
-> > attributes which can be got and optionally set (with each attribute
-> > having a get and optional set function).  We'd have multiple tables
-> > per fstype, so the generic VFS can register a table of attributes
-> > it understands for every fstype (things like name, uuid and the
-> > like) and then each fs type would register a table of fs specific
-> > attributes following the same pattern. The system would examine the
-> > fs specific table before the generic one, allowing
-> > overrides.  fsconfig would have the ability to both get and
-> > set attributes, permitting retrieval as well as setting (which is
-> > how I get rid of the fsinfo syscall), we'd have a global parameter,
-> > which would retrieve the entire table by name and type so the whole
-> > thing is introspectable because the upper layer knows a-priori all
-> > the attributes which can be set for a given fs type and what type
-> > they are (so we can make more of the parsing generic).  Any
-> > attribute which doesn't have a set routine would be read only and
-> > all attributes would have to have a get routine meaning everything
-> > is queryable.
-> 
-> And that makes me wonder: would a
-> "/sys/class/fs/$ST_DEV/options/$OPTION" type interface be feasible
-> for this?
+On Mon, Feb 24, 2020 at 3:55 PM James Bottomley
+<James.Bottomley@hansenpartnership.com> wrote:
 
-Once it's table driven, certainly a sysfs directory becomes possible. 
-The problem with ST_DEV is filesystems like btrfs and xfs that may have
-multiple devices.  The current fsinfo takes a fspick'd directory fd so
-the input to the query is a path, which gets messy in sysfs, although I
-could see something like /sys/class/fs/mount/<path>/$OPTION working.
+> Once it's table driven, certainly a sysfs directory becomes possible.
+> The problem with ST_DEV is filesystems like btrfs and xfs that may have
+> multiple devices.
 
-James
+For XFS there's always  a single sb->s_dev though, that's what st_dev
+will be set to on all files.
 
+Btrfs subvolume is sort of a lightweight superblock, so basically all
+such st_dev's are aliases of the same master superblock.  So lookup of
+all subvolume st_dev's could result in referencing the same underlying
+struct super_block (just like /proc/$PID will reference the same
+underlying task group regardless of which of the task group member's
+PID is used).
+
+Having this info in sysfs would spare us a number of issues that a set
+of new syscalls would bring.  The question is, would that be enough,
+or is there a reason that sysfs can't be used to present the various
+filesystem related information that fsinfo is supposed to present?
+
+Thanks,
+Miklos
