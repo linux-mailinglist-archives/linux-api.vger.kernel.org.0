@@ -2,435 +2,673 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DAEB116AB91
-	for <lists+linux-api@lfdr.de>; Mon, 24 Feb 2020 17:31:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E387916AC91
+	for <lists+linux-api@lfdr.de>; Mon, 24 Feb 2020 18:03:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727746AbgBXQbq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 24 Feb 2020 11:31:46 -0500
-Received: from out01.mta.xmission.com ([166.70.13.231]:48478 "EHLO
-        out01.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727160AbgBXQbq (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 24 Feb 2020 11:31:46 -0500
-Received: from in02.mta.xmission.com ([166.70.13.52])
-        by out01.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.90_1)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1j6Ge1-0004uo-5E; Mon, 24 Feb 2020 09:31:45 -0700
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
-        by in02.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.87)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1j6Gdx-00052X-3L; Mon, 24 Feb 2020 09:31:44 -0700
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        Linux Security Module <linux-security-module@vger.kernel.org>,
-        Akinobu Mita <akinobu.mita@gmail.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Daniel Micay <danielmicay@gmail.com>,
-        Djalal Harouni <tixxdz@gmail.com>,
-        "Dmitry V . Levin" <ldv@altlinux.org>,
+        id S1727479AbgBXRDI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 24 Feb 2020 12:03:08 -0500
+Received: from smtp-sh2.infomaniak.ch ([128.65.195.6]:51329 "EHLO
+        smtp-sh2.infomaniak.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726806AbgBXRDH (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 24 Feb 2020 12:03:07 -0500
+Received: from smtp-3-0000.mail.infomaniak.ch (smtp-3-0000.mail.infomaniak.ch [10.4.36.107])
+        by smtp-sh2.infomaniak.ch (8.14.4/8.14.4/Debian-8+deb8u2) with ESMTP id 01OG2O4L042016
+        (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+        Mon, 24 Feb 2020 17:02:24 +0100
+Received: from localhost (unknown [94.23.54.103])
+        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 48R6Jw04gPzljlp7;
+        Mon, 24 Feb 2020 17:02:24 +0100 (CET)
+From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
+To:     linux-kernel@vger.kernel.org
+Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Jeff Layton <jlayton@poochiereds.net>,
+        James Morris <jmorris@namei.org>, Jann Horn <jann@thejh.net>,
         Jonathan Corbet <corbet@lwn.net>,
         Kees Cook <keescook@chromium.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Solar Designer <solar@openwall.com>,
-        Alexey Gladkov <gladkov.alexey@gmail.com>
-References: <20200210150519.538333-8-gladkov.alexey@gmail.com>
-        <87v9odlxbr.fsf@x220.int.ebiederm.org>
-        <20200212144921.sykucj4mekcziicz@comp-core-i7-2640m-0182e6>
-        <87tv3vkg1a.fsf@x220.int.ebiederm.org>
-        <CAHk-=wg52stFtUxMOxs3afkwDWmWn1JXC7RJ7dPsTrJbnxpZVg@mail.gmail.com>
-        <87v9obipk9.fsf@x220.int.ebiederm.org>
-        <CAHk-=wgwmu4jpmOqW0+Lz0dcem1Fub=ThLHvmLobf_WqCq7bwg@mail.gmail.com>
-        <20200212200335.GO23230@ZenIV.linux.org.uk>
-        <CAHk-=wi+1CPShMFvJNPfnrJ8DD8uVKUOQ5TQzQUNGLUkeoahkg@mail.gmail.com>
-        <20200212203833.GQ23230@ZenIV.linux.org.uk>
-        <20200212204124.GR23230@ZenIV.linux.org.uk>
-        <CAHk-=wi5FOGV_3tALK3n6E2fK3Oa_yCYkYQtCSaXLSEm2DUCKg@mail.gmail.com>
-        <87lfp7h422.fsf@x220.int.ebiederm.org>
-        <CAHk-=wgmn9Qds0VznyphouSZW6e42GWDT5H1dpZg8pyGDGN+=w@mail.gmail.com>
-        <87pnejf6fz.fsf@x220.int.ebiederm.org>
-        <871rqpaswu.fsf_-_@x220.int.ebiederm.org>
-        <871rqk2brn.fsf_-_@x220.int.ebiederm.org>
-Date:   Mon, 24 Feb 2020 10:29:38 -0600
-In-Reply-To: <871rqk2brn.fsf_-_@x220.int.ebiederm.org> (Eric W. Biederman's
-        message of "Mon, 24 Feb 2020 10:25:16 -0600")
-Message-ID: <8736b00wzx.fsf_-_@x220.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mickael.salaun@ssi.gouv.fr>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-security-module@vger.kernel.org, x86@kernel.org
+Subject: [RFC PATCH v14 01/10] landlock: Add object and rule management
+Date:   Mon, 24 Feb 2020 17:02:06 +0100
+Message-Id: <20200224160215.4136-2-mic@digikod.net>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200224160215.4136-1-mic@digikod.net>
+References: <20200224160215.4136-1-mic@digikod.net>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1j6Gdx-00052X-3L;;;mid=<8736b00wzx.fsf_-_@x220.int.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX19MH8OOLAnkeXKMBLr4LWC1fUGnAEgCvqg=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa07.xmission.com
-X-Spam-Level: ***
-X-Spam-Status: No, score=3.1 required=8.0 tests=ALL_TRUSTED,BAYES_50,
-        DCC_CHECK_NEGATIVE,FVGT_m_MULTI_ODD,LotsOfNums_01,
-        T_FILL_THIS_FORM_SHORT,T_TM2_M_HEADER_IN_MSG,T_XMDrugObfuBody_08,
-        XMSubLong autolearn=disabled version=3.4.2
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.4998]
-        *  0.7 XMSubLong Long Subject
-        *  1.2 LotsOfNums_01 BODY: Lots of long strings of numbers
-        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
-        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-        *      [sa07 1397; Body=1 Fuz1=1 Fuz2=1]
-        *  0.4 FVGT_m_MULTI_ODD Contains multiple odd letter combinations
-        *  1.0 T_XMDrugObfuBody_08 obfuscated drug references
-        *  0.0 T_FILL_THIS_FORM_SHORT Fill in a short form with personal
-        *      information
-X-Spam-DCC: XMission; sa07 1397; Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: ***;Linus Torvalds <torvalds@linux-foundation.org>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 3638 ms - load_scoreonly_sql: 0.09 (0.0%),
-        signal_user_changed: 8 (0.2%), b_tie_ro: 5 (0.1%), parse: 2.2 (0.1%),
-        extract_message_metadata: 24 (0.7%), get_uri_detail_list: 6 (0.2%),
-        tests_pri_-1000: 26 (0.7%), tests_pri_-950: 1.80 (0.0%),
-        tests_pri_-900: 1.11 (0.0%), tests_pri_-90: 52 (1.4%), check_bayes: 50
-        (1.4%), b_tokenize: 23 (0.6%), b_tok_get_all: 14 (0.4%), b_comp_prob:
-        4.3 (0.1%), b_tok_touch_all: 6 (0.2%), b_finish: 0.72 (0.0%),
-        tests_pri_0: 580 (15.9%), check_dkim_signature: 0.93 (0.0%),
-        check_dkim_adsp: 2.4 (0.1%), poll_dns_idle: 2927 (80.4%),
-        tests_pri_10: 2.2 (0.1%), tests_pri_500: 2937 (80.7%), rewrite_mail:
-        0.00 (0.0%)
-Subject: [PATCH v2 6/6] proc: Use a list of inodes to flush from proc
-X-Spam-Flag: No
-X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
-X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
+X-Antivirus-Code: 0x100000
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+A Landlock object enables to identify a kernel object (e.g. an inode).
+A Landlock rule is a set of access rights allowed on an object.  Rules
+are grouped in rulesets that may be tied to a set of processes (i.e.
+subjects) to enforce a scoped access-control (i.e. a domain).
 
-Rework the flushing of proc to use a list of directory inodes that
-need to be flushed.
+Because Landlock's goal is to empower any process (especially
+unprivileged ones) to sandbox themselves, we can't rely on a system-wide
+object identification such as file extended attributes.  Indeed, we need
+innocuous, composable and modular access-controls.
 
-The list is kept on struct pid not on struct task_struct, as there is
-a fixed connection between proc inodes and pids but at least for the
-case of de_thread the pid of a task_struct changes.
+The main challenge with this constraints is to identify kernel objects
+while this identification is useful (i.e. when a security policy makes
+use of this object).  But this identification data should be freed once
+no policy is using it.  This ephemeral tagging should not and may not be
+written in the filesystem.  We then need to manage the lifetime of a
+rule according to the lifetime of its object.  To avoid a global lock,
+this implementation make use of RCU and counters to safely reference
+objects.
 
-This removes the dependency on proc_mnt which allows for different
-mounts of proc having different mount options even in the same pid
-namespace and this allows for the removal of proc_mnt which will
-trivially the first mount of proc to honor it's mount options.
+A following commit uses this generic object management for inodes.
 
-This flushing remains an optimization.  The functions
-pid_delete_dentry and pid_revalidate ensure that ordinary dcache
-management will not attempt to use dentries past the point their
-respective task has died.  When unused the shrinker will
-eventually be able to remove these dentries.
-
-There is a case in de_thread where proc_flush_pid can be
-called early for a given pid.  Which winds up being
-safe (if suboptimal) as this is just an optiimization.
-
-Only pid directories are put on the list as the other
-per pid files are children of those directories and
-d_invalidate on the directory will get them as well.
-
-So that the pid can be used during flushing it's reference count is
-taken in release_task and dropped in proc_flush_pid.  Further the call
-of proc_flush_pid is moved after the tasklist_lock is released in
-release_task so that it is certain that the pid has already been
-unhashed when flushing it taking place.  This removes a small race
-where a dentry could recreated.
-
-As struct pid is supposed to be small and I need a per pid lock
-I reuse the only lock that currently exists in struct pid the
-the wait_pidfd.lock.
-
-The net result is that this adds all of this functionality
-with just a little extra list management overhead and
-a single extra pointer in struct pid.
-
-v2: Initialize pid->inodes.  I somehow failed to get that
-    initialization into the initial version of the patch.  A boot
-    failure was reported by "kernel test robot <lkp@intel.com>", and
-    failure to initialize that pid->inodes matches all of the reported
-    symptoms.
-
-Signed-off-by: Eric W. Biederman <ebiederm@xmission.com>
+Signed-off-by: Mickaël Salaün <mic@digikod.net>
+Cc: Andy Lutomirski <luto@amacapital.net>
+Cc: James Morris <jmorris@namei.org>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: Serge E. Hallyn <serge@hallyn.com>
 ---
- fs/proc/base.c          | 111 +++++++++++++---------------------------
- fs/proc/inode.c         |   2 +-
- fs/proc/internal.h      |   1 +
- include/linux/pid.h     |   1 +
- include/linux/proc_fs.h |   4 +-
- kernel/exit.c           |   4 +-
- kernel/pid.c            |   1 +
- 7 files changed, 45 insertions(+), 79 deletions(-)
 
-diff --git a/fs/proc/base.c b/fs/proc/base.c
-index c7c64272b0fa..e7efe9d6f3d6 100644
---- a/fs/proc/base.c
-+++ b/fs/proc/base.c
-@@ -1834,11 +1834,25 @@ void task_dump_owner(struct task_struct *task, umode_t mode,
- 	*rgid = gid;
- }
+Changes since v13:
+* New dedicated implementation, removing the need for eBPF.
+
+Previous version:
+https://lore.kernel.org/lkml/20190721213116.23476-6-mic@digikod.net/
+---
+ MAINTAINERS                |  10 ++
+ security/Kconfig           |   1 +
+ security/Makefile          |   2 +
+ security/landlock/Kconfig  |  15 ++
+ security/landlock/Makefile |   3 +
+ security/landlock/object.c | 339 +++++++++++++++++++++++++++++++++++++
+ security/landlock/object.h | 134 +++++++++++++++
+ 7 files changed, 504 insertions(+)
+ create mode 100644 security/landlock/Kconfig
+ create mode 100644 security/landlock/Makefile
+ create mode 100644 security/landlock/object.c
+ create mode 100644 security/landlock/object.h
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index fcd79fc38928..206f85768cd9 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -9360,6 +9360,16 @@ F:	net/core/skmsg.c
+ F:	net/core/sock_map.c
+ F:	net/ipv4/tcp_bpf.c
  
-+void proc_pid_evict_inode(struct proc_inode *ei)
++LANDLOCK SECURITY MODULE
++M:	Mickaël Salaün <mic@digikod.net>
++L:	linux-security-module@vger.kernel.org
++W:	https://landlock.io
++T:	git https://github.com/landlock-lsm/linux.git
++S:	Supported
++F:	security/landlock/
++K:	landlock
++K:	LANDLOCK
++
+ LANTIQ / INTEL Ethernet drivers
+ M:	Hauke Mehrtens <hauke@hauke-m.de>
+ L:	netdev@vger.kernel.org
+diff --git a/security/Kconfig b/security/Kconfig
+index 2a1a2d396228..9d9981394fb0 100644
+--- a/security/Kconfig
++++ b/security/Kconfig
+@@ -238,6 +238,7 @@ source "security/loadpin/Kconfig"
+ source "security/yama/Kconfig"
+ source "security/safesetid/Kconfig"
+ source "security/lockdown/Kconfig"
++source "security/landlock/Kconfig"
+ 
+ source "security/integrity/Kconfig"
+ 
+diff --git a/security/Makefile b/security/Makefile
+index 746438499029..2472ef96d40a 100644
+--- a/security/Makefile
++++ b/security/Makefile
+@@ -12,6 +12,7 @@ subdir-$(CONFIG_SECURITY_YAMA)		+= yama
+ subdir-$(CONFIG_SECURITY_LOADPIN)	+= loadpin
+ subdir-$(CONFIG_SECURITY_SAFESETID)    += safesetid
+ subdir-$(CONFIG_SECURITY_LOCKDOWN_LSM)	+= lockdown
++subdir-$(CONFIG_SECURITY_LANDLOCK)		+= landlock
+ 
+ # always enable default capabilities
+ obj-y					+= commoncap.o
+@@ -29,6 +30,7 @@ obj-$(CONFIG_SECURITY_YAMA)		+= yama/
+ obj-$(CONFIG_SECURITY_LOADPIN)		+= loadpin/
+ obj-$(CONFIG_SECURITY_SAFESETID)       += safesetid/
+ obj-$(CONFIG_SECURITY_LOCKDOWN_LSM)	+= lockdown/
++obj-$(CONFIG_SECURITY_LANDLOCK)	+= landlock/
+ obj-$(CONFIG_CGROUP_DEVICE)		+= device_cgroup.o
+ 
+ # Object integrity file lists
+diff --git a/security/landlock/Kconfig b/security/landlock/Kconfig
+new file mode 100644
+index 000000000000..4a321d5b3f67
+--- /dev/null
++++ b/security/landlock/Kconfig
+@@ -0,0 +1,15 @@
++# SPDX-License-Identifier: GPL-2.0-only
++
++config SECURITY_LANDLOCK
++	bool "Landlock support"
++	depends on SECURITY
++	default n
++	help
++	  This selects Landlock, a safe sandboxing mechanism.  It enables to
++	  restrict processes on the fly (i.e. enforce an access control policy),
++	  which can complement seccomp-bpf.  The security policy is a set of access
++	  rights tied to an object, which could be a file, a socket or a process.
++
++	  See Documentation/security/landlock/ for further information.
++
++	  If you are unsure how to answer this question, answer N.
+diff --git a/security/landlock/Makefile b/security/landlock/Makefile
+new file mode 100644
+index 000000000000..cb6deefbf4c0
+--- /dev/null
++++ b/security/landlock/Makefile
+@@ -0,0 +1,3 @@
++obj-$(CONFIG_SECURITY_LANDLOCK) := landlock.o
++
++landlock-y := object.o
+diff --git a/security/landlock/object.c b/security/landlock/object.c
+new file mode 100644
+index 000000000000..38fbbb108120
+--- /dev/null
++++ b/security/landlock/object.c
+@@ -0,0 +1,339 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Landlock LSM - Object and rule management
++ *
++ * Copyright © 2016-2020 Mickaël Salaün <mic@digikod.net>
++ * Copyright © 2018-2020 ANSSI
++ *
++ * Principles and constraints of the object and rule management:
++ * - Do not leak memory.
++ * - Try as much as possible to free a memory allocation as soon as it is
++ *   unused.
++ * - Do not use global lock.
++ * - Do not charge processes other than the one requesting a Landlock
++ *   operation.
++ */
++
++#include <linux/bug.h>
++#include <linux/compiler.h>
++#include <linux/compiler_types.h>
++#include <linux/err.h>
++#include <linux/errno.h>
++#include <linux/fs.h>
++#include <linux/kernel.h>
++#include <linux/list.h>
++#include <linux/rbtree.h>
++#include <linux/rcupdate.h>
++#include <linux/refcount.h>
++#include <linux/slab.h>
++#include <linux/spinlock.h>
++#include <linux/workqueue.h>
++
++#include "object.h"
++
++struct landlock_object *landlock_create_object(
++		const enum landlock_object_type type, void *underlying_object)
 +{
-+	struct pid *pid = ei->pid;
++	struct landlock_object *object;
 +
-+	if (S_ISDIR(ei->vfs_inode.i_mode)) {
-+		spin_lock(&pid->wait_pidfd.lock);
-+		hlist_del_init_rcu(&ei->sibling_inodes);
-+		spin_unlock(&pid->wait_pidfd.lock);
-+	}
-+
-+	put_pid(pid);
++	if (WARN_ON_ONCE(!underlying_object))
++		return NULL;
++	object = kzalloc(sizeof(*object), GFP_KERNEL);
++	if (!object)
++		return NULL;
++	refcount_set(&object->usage, 1);
++	refcount_set(&object->cleaners, 1);
++	spin_lock_init(&object->lock);
++	INIT_LIST_HEAD(&object->rules);
++	object->type = type;
++	WRITE_ONCE(object->underlying_object, underlying_object);
++	return object;
 +}
 +
- struct inode *proc_pid_make_inode(struct super_block * sb,
- 				  struct task_struct *task, umode_t mode)
- {
- 	struct inode * inode;
- 	struct proc_inode *ei;
-+	struct pid *pid;
- 
- 	/* We need a new inode */
- 
-@@ -1856,10 +1870,18 @@ struct inode *proc_pid_make_inode(struct super_block * sb,
- 	/*
- 	 * grab the reference to task.
- 	 */
--	ei->pid = get_task_pid(task, PIDTYPE_PID);
--	if (!ei->pid)
-+	pid = get_task_pid(task, PIDTYPE_PID);
-+	if (!pid)
- 		goto out_unlock;
- 
-+	/* Let the pid remember us for quick removal */
-+	ei->pid = pid;
-+	if (S_ISDIR(mode)) {
-+		spin_lock(&pid->wait_pidfd.lock);
-+		hlist_add_head_rcu(&ei->sibling_inodes, &pid->inodes);
-+		spin_unlock(&pid->wait_pidfd.lock);
++struct landlock_object *landlock_get_object(struct landlock_object *object)
++	__acquires(object->usage)
++{
++	__acquire(object->usage);
++	/*
++	 * If @object->usage equal 0, then it will be ignored by writers, and
++	 * underlying_object->object may be replaced, but this is not an issue
++	 * for release_object().
++	 */
++	if (object && refcount_inc_not_zero(&object->usage)) {
++		/*
++		 * It should not be possible to get a reference to an object if
++		 * its underlying object is being terminated (e.g. with
++		 * landlock_release_object()), because an object is only
++		 * modifiable through such underlying object.  This is not the
++		 * case with landlock_get_object_cleaner().
++		 */
++		WARN_ON_ONCE(!READ_ONCE(object->underlying_object));
++		return object;
 +	}
++	return NULL;
++}
 +
- 	task_dump_owner(task, 0, &inode->i_uid, &inode->i_gid);
- 	security_task_to_inode(task, inode);
- 
-@@ -3230,90 +3252,29 @@ static const struct inode_operations proc_tgid_base_inode_operations = {
- 	.permission	= proc_pid_permission,
- };
- 
--static void proc_flush_task_mnt(struct vfsmount *mnt, pid_t pid, pid_t tgid)
--{
--	struct dentry *dentry, *leader, *dir;
--	char buf[10 + 1];
--	struct qstr name;
--
--	name.name = buf;
--	name.len = snprintf(buf, sizeof(buf), "%u", pid);
--	/* no ->d_hash() rejects on procfs */
--	dentry = d_hash_and_lookup(mnt->mnt_root, &name);
--	if (dentry) {
--		d_invalidate(dentry);
--		dput(dentry);
--	}
--
--	if (pid == tgid)
--		return;
--
--	name.name = buf;
--	name.len = snprintf(buf, sizeof(buf), "%u", tgid);
--	leader = d_hash_and_lookup(mnt->mnt_root, &name);
--	if (!leader)
--		goto out;
--
--	name.name = "task";
--	name.len = strlen(name.name);
--	dir = d_hash_and_lookup(leader, &name);
--	if (!dir)
--		goto out_put_leader;
--
--	name.name = buf;
--	name.len = snprintf(buf, sizeof(buf), "%u", pid);
--	dentry = d_hash_and_lookup(dir, &name);
--	if (dentry) {
--		d_invalidate(dentry);
--		dput(dentry);
--	}
--
--	dput(dir);
--out_put_leader:
--	dput(leader);
--out:
--	return;
--}
--
- /**
-- * proc_flush_task -  Remove dcache entries for @task from the /proc dcache.
-- * @task: task that should be flushed.
-+ * proc_flush_pid -  Remove dcache entries for @pid from the /proc dcache.
-+ * @pid: pid that should be flushed.
-  *
-- * When flushing dentries from proc, one needs to flush them from global
-- * proc (proc_mnt) and from all the namespaces' procs this task was seen
-- * in. This call is supposed to do all of this job.
-- *
-- * Looks in the dcache for
-- * /proc/@pid
-- * /proc/@tgid/task/@pid
-- * if either directory is present flushes it and all of it'ts children
-- * from the dcache.
-+ * This function walks a list of inodes (that belong to any proc
-+ * filesystem) that are attached to the pid and flushes them from
-+ * the dentry cache.
-  *
-  * It is safe and reasonable to cache /proc entries for a task until
-  * that task exits.  After that they just clog up the dcache with
-  * useless entries, possibly causing useful dcache entries to be
-- * flushed instead.  This routine is proved to flush those useless
-- * dcache entries at process exit time.
-+ * flushed instead.  This routine is provided to flush those useless
-+ * dcache entries when a process is reaped.
-  *
-  * NOTE: This routine is just an optimization so it does not guarantee
-- *       that no dcache entries will exist at process exit time it
-- *       just makes it very unlikely that any will persist.
-+ *       that no dcache entries will exist after a process is reaped
-+ *       it just makes it very unlikely that any will persist.
-  */
- 
--void proc_flush_task(struct task_struct *task)
-+void proc_flush_pid(struct pid *pid)
- {
--	int i;
--	struct pid *pid, *tgid;
--	struct upid *upid;
--
--	pid = task_pid(task);
--	tgid = task_tgid(task);
--
--	for (i = 0; i <= pid->level; i++) {
--		upid = &pid->numbers[i];
--		proc_flush_task_mnt(upid->ns->proc_mnt, upid->nr,
--					tgid->numbers[i].nr);
--	}
-+	proc_invalidate_siblings_dcache(&pid->inodes, &pid->wait_pidfd.lock);
-+	put_pid(pid);
- }
- 
- static struct dentry *proc_pid_instantiate(struct dentry * dentry,
-diff --git a/fs/proc/inode.c b/fs/proc/inode.c
-index d9243b24554a..1e730ea1dcd6 100644
---- a/fs/proc/inode.c
-+++ b/fs/proc/inode.c
-@@ -40,7 +40,7 @@ static void proc_evict_inode(struct inode *inode)
- 
- 	/* Stop tracking associated processes */
- 	if (ei->pid) {
--		put_pid(ei->pid);
-+		proc_pid_evict_inode(ei);
- 		ei->pid = NULL;
- 	}
- 
-diff --git a/fs/proc/internal.h b/fs/proc/internal.h
-index fd470172675f..9e294f0290e5 100644
---- a/fs/proc/internal.h
-+++ b/fs/proc/internal.h
-@@ -158,6 +158,7 @@ extern int proc_pid_statm(struct seq_file *, struct pid_namespace *,
- extern const struct dentry_operations pid_dentry_operations;
- extern int pid_getattr(const struct path *, struct kstat *, u32, unsigned int);
- extern int proc_setattr(struct dentry *, struct iattr *);
-+extern void proc_pid_evict_inode(struct proc_inode *);
- extern struct inode *proc_pid_make_inode(struct super_block *, struct task_struct *, umode_t);
- extern void pid_update_inode(struct task_struct *, struct inode *);
- extern int pid_delete_dentry(const struct dentry *);
-diff --git a/include/linux/pid.h b/include/linux/pid.h
-index 998ae7d24450..01a0d4e28506 100644
---- a/include/linux/pid.h
-+++ b/include/linux/pid.h
-@@ -62,6 +62,7 @@ struct pid
- 	unsigned int level;
- 	/* lists of tasks that use this pid */
- 	struct hlist_head tasks[PIDTYPE_MAX];
-+	struct hlist_head inodes;
- 	/* wait queue for pidfd notifications */
- 	wait_queue_head_t wait_pidfd;
- 	struct rcu_head rcu;
-diff --git a/include/linux/proc_fs.h b/include/linux/proc_fs.h
-index 3dfa92633af3..40a7982b7285 100644
---- a/include/linux/proc_fs.h
-+++ b/include/linux/proc_fs.h
-@@ -32,7 +32,7 @@ struct proc_ops {
- typedef int (*proc_write_t)(struct file *, char *, size_t);
- 
- extern void proc_root_init(void);
--extern void proc_flush_task(struct task_struct *);
-+extern void proc_flush_pid(struct pid *);
- 
- extern struct proc_dir_entry *proc_symlink(const char *,
- 		struct proc_dir_entry *, const char *);
-@@ -105,7 +105,7 @@ static inline void proc_root_init(void)
- {
- }
- 
--static inline void proc_flush_task(struct task_struct *task)
-+static inline void proc_flush_pid(struct pid *pid)
- {
- }
- 
-diff --git a/kernel/exit.c b/kernel/exit.c
-index 2833ffb0c211..502b4995b688 100644
---- a/kernel/exit.c
-+++ b/kernel/exit.c
-@@ -191,6 +191,7 @@ void put_task_struct_rcu_user(struct task_struct *task)
- void release_task(struct task_struct *p)
- {
- 	struct task_struct *leader;
-+	struct pid *thread_pid;
- 	int zap_leader;
- repeat:
- 	/* don't need to get the RCU readlock here - the process is dead and
-@@ -199,11 +200,11 @@ void release_task(struct task_struct *p)
- 	atomic_dec(&__task_cred(p)->user->processes);
- 	rcu_read_unlock();
- 
--	proc_flush_task(p);
- 	cgroup_release(p);
- 
- 	write_lock_irq(&tasklist_lock);
- 	ptrace_release_task(p);
-+	thread_pid = get_pid(p->thread_pid);
- 	__exit_signal(p);
- 
- 	/*
-@@ -226,6 +227,7 @@ void release_task(struct task_struct *p)
- 	}
- 
- 	write_unlock_irq(&tasklist_lock);
-+	proc_flush_pid(thread_pid);
- 	release_thread(p);
- 	put_task_struct_rcu_user(p);
- 
-diff --git a/kernel/pid.c b/kernel/pid.c
-index 0f4ecb57214c..ca08d6a3aa77 100644
---- a/kernel/pid.c
-+++ b/kernel/pid.c
-@@ -258,6 +258,7 @@ struct pid *alloc_pid(struct pid_namespace *ns, pid_t *set_tid,
- 		INIT_HLIST_HEAD(&pid->tasks[type]);
- 
- 	init_waitqueue_head(&pid->wait_pidfd);
-+	INIT_HLIST_HEAD(&pid->inodes);
- 
- 	upid = pid->numbers + ns->level;
- 	spin_lock_irq(&pidmap_lock);
++static struct landlock_object *get_object_cleaner(
++		struct landlock_object *object)
++	__acquires(object->cleaners)
++{
++	__acquire(object->cleaners);
++	if (object && refcount_inc_not_zero(&object->cleaners))
++		return object;
++	return NULL;
++}
++
++/*
++ * There is two cases when an object should be free and the reference to the
++ * underlying object should be put:
++ * - when the last rule tied to this object is removed, which is handled by
++ *   landlock_put_rule() and then release_object();
++ * - when the object is being terminated (e.g. no more reference to an inode),
++ *   which is handled by landlock_put_object().
++ */
++static void put_object_free(struct landlock_object *object)
++	__releases(object->cleaners)
++{
++	__release(object->cleaners);
++	if (!refcount_dec_and_test(&object->cleaners))
++		return;
++	WARN_ON_ONCE(refcount_read(&object->usage));
++	/*
++	 * Ensures a safe use of @object in the RCU block from
++	 * landlock_put_rule().
++	 */
++	kfree_rcu(object, rcu_free);
++}
++
++/*
++ * Destroys a newly created and useless object.
++ */
++void landlock_drop_object(struct landlock_object *object)
++{
++	if (WARN_ON_ONCE(!refcount_dec_and_test(&object->usage)))
++		return;
++	__acquire(object->cleaners);
++	put_object_free(object);
++}
++
++/*
++ * Puts the underlying object (e.g. inode) if it is the first request to
++ * release @object, without calling landlock_put_object().
++ *
++ * Return true if this call effectively marks @object as released, false
++ * otherwise.
++ */
++static bool release_object(struct landlock_object *object)
++	__releases(&object->lock)
++{
++	void *underlying_object;
++
++	lockdep_assert_held(&object->lock);
++
++	underlying_object = xchg(&object->underlying_object, NULL);
++	spin_unlock(&object->lock);
++	might_sleep();
++	if (!underlying_object)
++		return false;
++
++	switch (object->type) {
++	case LANDLOCK_OBJECT_INODE:
++		break;
++	default:
++		WARN_ON_ONCE(1);
++	}
++	return true;
++}
++
++static void put_object_cleaner(struct landlock_object *object)
++	__releases(object->cleaners)
++{
++	/* Let's try an early lockless check. */
++	if (list_empty(&object->rules) &&
++			READ_ONCE(object->underlying_object)) {
++		/*
++		 * Puts @object if there is no rule tied to it and the
++		 * remaining user is the underlying object.  This check is
++		 * atomic because @object->rules and @object->underlying_object
++		 * are protected by @object->lock.
++		 */
++		spin_lock(&object->lock);
++		if (list_empty(&object->rules) &&
++				READ_ONCE(object->underlying_object) &&
++				refcount_dec_if_one(&object->usage)) {
++			/*
++			 * Releases @object, in place of
++			 * landlock_release_object().
++			 *
++			 * @object is already empty, implying that all its
++			 * previous rules are already disabled.
++			 *
++			 * Unbalance the @object->cleaners counter to reflect
++			 * the underlying object release.
++			 */
++			if (!WARN_ON_ONCE(!release_object(object))) {
++				__acquire(object->cleaners);
++				put_object_free(object);
++			}
++		} else {
++			spin_unlock(&object->lock);
++		}
++	}
++	put_object_free(object);
++}
++
++/*
++ * Putting an object is easy when the object is being terminated, but it is
++ * much more tricky when the reason is that there is no more rule tied to this
++ * object.  Indeed, new rules could be added at the same time.
++ */
++void landlock_put_object(struct landlock_object *object)
++	__releases(object->usage)
++{
++	struct landlock_object *object_cleaner;
++
++	__release(object->usage);
++	might_sleep();
++	if (!object)
++		return;
++	/*
++	 * Guards against concurrent termination to be able to terminate
++	 * @object if it is empty and not referenced by another rule-appender
++	 * other than the underlying object.
++	 */
++	object_cleaner = get_object_cleaner(object);
++	if (WARN_ON_ONCE(!object_cleaner)) {
++		__release(object->cleaners);
++		return;
++	}
++	/*
++	 * Decrements @object->usage and if it reach zero, also decrement
++	 * @object->cleaners.  If both reach zero, then release and free
++	 * @object.
++	 */
++	if (refcount_dec_and_test(&object->usage)) {
++		struct landlock_rule *rule_walker, *rule_walker2;
++
++		spin_lock(&object->lock);
++		/*
++		 * Disables all the rules tied to @object when it is forbidden
++		 * to add new rule but still allowed to remove them with
++		 * landlock_put_rule().  This is crucial to be able to safely
++		 * free a rule according to landlock_rule_is_disabled().
++		 */
++		list_for_each_entry_safe(rule_walker, rule_walker2,
++				&object->rules, list)
++			list_del_rcu(&rule_walker->list);
++
++		/*
++		 * Releases @object if it is not already released (e.g. with
++		 * landlock_release_object()).
++		 */
++		release_object(object);
++		/*
++		 * Unbalances the @object->cleaners counter to reflect the
++		 * underlying object release.
++		 */
++		__acquire(object->cleaners);
++		put_object_free(object);
++	}
++	put_object_cleaner(object_cleaner);
++}
++
++void landlock_put_rule(struct landlock_object *object,
++		struct landlock_rule *rule)
++{
++	if (!rule)
++		return;
++	WARN_ON_ONCE(!object);
++	/*
++	 * Guards against a concurrent @object self-destruction with
++	 * landlock_put_object() or put_object_cleaner().
++	 */
++	rcu_read_lock();
++	if (landlock_rule_is_disabled(rule)) {
++		rcu_read_unlock();
++		if (refcount_dec_and_test(&rule->usage))
++			kfree_rcu(rule, rcu_free);
++		return;
++	}
++	if (refcount_dec_and_test(&rule->usage)) {
++		struct landlock_object *safe_object;
++
++		/*
++		 * Now, @rule may still be enabled, or in the process of being
++		 * untied to @object by put_object_cleaner().  However, we know
++		 * that @object will not be freed until rcu_read_unlock() and
++		 * until @object->cleaners reach zero.  Furthermore, we may not
++		 * be the only one willing to free a @rule linked with @object.
++		 * If we succeed to hold @object with get_object_cleaner(), we
++		 * know that until put_object_cleaner(), we can safely use
++		 * @object to remove @rule.
++		 */
++		safe_object = get_object_cleaner(object);
++		rcu_read_unlock();
++		if (!safe_object) {
++			__release(safe_object->cleaners);
++			/*
++			 * We can safely free @rule because it is already
++			 * removed from @object's list.
++			 */
++			WARN_ON_ONCE(!landlock_rule_is_disabled(rule));
++			kfree_rcu(rule, rcu_free);
++		} else {
++			spin_lock(&safe_object->lock);
++			if (!landlock_rule_is_disabled(rule))
++				list_del(&rule->list);
++			spin_unlock(&safe_object->lock);
++			kfree_rcu(rule, rcu_free);
++			put_object_cleaner(safe_object);
++		}
++	} else {
++		rcu_read_unlock();
++	}
++	/*
++	 * put_object_cleaner() might sleep, but it is only reachable if
++	 * !landlock_rule_is_disabled().  Therefore, clean_ref() can not sleep.
++	 */
++	might_sleep();
++}
++
++void landlock_release_object(struct landlock_object __rcu *rcu_object)
++{
++	struct landlock_object *object;
++
++	if (!rcu_object)
++		return;
++	rcu_read_lock();
++	object = get_object_cleaner(rcu_dereference(rcu_object));
++	rcu_read_unlock();
++	if (unlikely(!object)) {
++		__release(object->cleaners);
++		return;
++	}
++	/*
++	 * Makes sure that the underlying object never point to a freed object
++	 * by firstly releasing the object (i.e. NULL the reference to it) to
++	 * be sure no one could get a new reference to it while it is being
++	 * terminated.  Secondly, put the object globally (e.g. for the
++	 * super-block).
++	 *
++	 * This can run concurrently with put_object_cleaner(), which may try
++	 * to release @object as well.
++	 */
++	spin_lock(&object->lock);
++	if (release_object(object)) {
++		/*
++		 * Unbalances the object to reflect the underlying object
++		 * release.
++		 */
++		__acquire(object->usage);
++		landlock_put_object(object);
++	}
++	/*
++	 * If a concurrent thread is adding a new rule, the object will be free
++	 * at the end of this rule addition, otherwise it will be free with the
++	 * following put_object_cleaner() or a remaining one.
++	 */
++	put_object_cleaner(object);
++}
+diff --git a/security/landlock/object.h b/security/landlock/object.h
+new file mode 100644
+index 000000000000..15dfc9a75a82
+--- /dev/null
++++ b/security/landlock/object.h
+@@ -0,0 +1,134 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Landlock LSM - Object and rule management
++ *
++ * Copyright © 2016-2020 Mickaël Salaün <mic@digikod.net>
++ * Copyright © 2018-2020 ANSSI
++ */
++
++#ifndef _SECURITY_LANDLOCK_OBJECT_H
++#define _SECURITY_LANDLOCK_OBJECT_H
++
++#include <linux/compiler_types.h>
++#include <linux/list.h>
++#include <linux/poison.h>
++#include <linux/rcupdate.h>
++#include <linux/refcount.h>
++#include <linux/spinlock.h>
++
++struct landlock_access {
++	/*
++	 * @self: Bitfield of allowed actions on the kernel object.  They are
++	 * relative to the object type (e.g. LANDLOCK_ACTION_FS_READ).
++	 */
++	u32 self;
++	/*
++	 * @beneath: Same as @self, but for the child objects (e.g. a file in a
++	 * directory).
++	 */
++	u32 beneath;
++};
++
++struct landlock_rule {
++	struct landlock_access access;
++	/*
++	 * @list: Linked list with other rules tied to the same object, which
++	 * enable to manage their lifetimes.  This is also used to identify if
++	 * a rule is still valid, thanks to landlock_rule_is_disabled(), which
++	 * is important in the matching process because the original object
++	 * address might have been recycled.
++	 */
++	struct list_head list;
++	union {
++		/*
++		 * @usage: Number of rulesets pointing to this rule.  This
++		 * field is never used by RCU readers.
++		 */
++		refcount_t usage;
++		struct rcu_head rcu_free;
++	};
++};
++
++enum landlock_object_type {
++	LANDLOCK_OBJECT_INODE = 1,
++};
++
++struct landlock_object {
++	/*
++	 * @usage: Main usage counter, used to tie an object to it's underlying
++	 * object (i.e. create a lifetime) and potentially add new rules.
++	 */
++	refcount_t usage;
++	/*
++	 * @cleaners: Usage counter used to free a rule from @rules (thanks to
++	 * put_rule()).  Enables to get a reference to this object until it
++	 * really become freed.  Cf. put_object().
++	 */
++	refcount_t cleaners;
++	union {
++		/*
++		 * The use of this struct is controlled by @usage and
++		 * @cleaners, which makes it safe to union it with @rcu_free.
++		 */
++		struct {
++			/*
++			 * @underlying_object: Used when cleaning up an object
++			 * and to mark an object as tied to its underlying
++			 * kernel structure.  It must then be atomically read
++			 * using READ_ONCE().
++			 *
++			 * The one who clear @underlying_object must:
++			 * 1. clear the object self-reference and
++			 * 2. decrement @usage (and potentially free the
++			 *    object).
++			 *
++			 * Cf. clean_object().
++			 */
++			void *underlying_object;
++			/*
++			 * @type: Only used when cleaning up an object.
++			 */
++			enum landlock_object_type type;
++			spinlock_t lock;
++			/*
++			 * @rules: List of struct landlock_rule linked with
++			 * their "list" field.  This list is only accessed when
++			 * updating the list (to be able to clean up later)
++			 * while holding @lock.
++			 */
++			struct list_head rules;
++		};
++		struct rcu_head rcu_free;
++	};
++};
++
++void landlock_put_rule(struct landlock_object *object,
++		struct landlock_rule *rule);
++
++void landlock_release_object(struct landlock_object __rcu *rcu_object);
++
++struct landlock_object *landlock_create_object(
++		const enum landlock_object_type type, void *underlying_object);
++
++struct landlock_object *landlock_get_object(struct landlock_object *object)
++	__acquires(object->usage);
++
++void landlock_put_object(struct landlock_object *object)
++	__releases(object->usage);
++
++void landlock_drop_object(struct landlock_object *object);
++
++static inline bool landlock_rule_is_disabled(
++		struct landlock_rule *rule)
++{
++	/*
++	 * Disabling (i.e. unlinking) a landlock_rule is a one-way operation.
++	 * It is not possible to re-enable such a rule, then there is no need
++	 * for smp_load_acquire().
++	 *
++	 * LIST_POISON2 is set by list_del() and list_del_rcu().
++	 */
++	return !rule || READ_ONCE(rule->list.prev) == LIST_POISON2;
++}
++
++#endif /* _SECURITY_LANDLOCK_OBJECT_H */
 -- 
 2.25.0
 
