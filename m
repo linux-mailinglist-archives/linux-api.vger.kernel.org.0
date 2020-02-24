@@ -2,126 +2,255 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 93779169FD1
-	for <lists+linux-api@lfdr.de>; Mon, 24 Feb 2020 09:15:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EAE216A3D4
+	for <lists+linux-api@lfdr.de>; Mon, 24 Feb 2020 11:25:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726778AbgBXIPy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 24 Feb 2020 03:15:54 -0500
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:32867 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726509AbgBXIPx (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 24 Feb 2020 03:15:53 -0500
-Received: by mail-lj1-f194.google.com with SMTP id y6so9064568lji.0
-        for <linux-api@vger.kernel.org>; Mon, 24 Feb 2020 00:15:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shutemov-name.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=9E4atKHNFhMUgRRiEy/HKZbsazKIFq0A6zQaS+Ym2Rs=;
-        b=0aRJ8jlk7K/HKTsns95GBBaEHmGtOdnFbjYj9vIhbo4+tLtlyfufBnVwleKPB1/X98
-         Pgtv8FVCl9tXtLobT7bdmwNtDdZHepJTvYQCXdV9n1wLvHk+nzSJlzAmbOEH8mlNtA7v
-         2DGluNg5tOwwERslMq2gB1V/ls4vsq6Q3436qFBbuOHbRKV974b0zOc/iXXNTzaB7r9u
-         0Y+UxTJda51orCm8P6331EASksnvu6HLENq7I9WhIqKwFNvx+Aj7pHEwlDpT19zJbP6d
-         hq9a+vogQGu+76vpLV9FQ94YnCrRP3OaxqfAj5NR7t5mEhqvtmmMD5AZ5LSwOYCEeT2G
-         hHlg==
+        id S1726765AbgBXKZG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 24 Feb 2020 05:25:06 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:29203 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726628AbgBXKZG (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 24 Feb 2020 05:25:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1582539904;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=gy+vhmoT6JM3Yv4RVEvhda7Thq8Oh3Z0jshMS0ARWMg=;
+        b=AOFFqkmxILJ2Zl9K6bpthBxxKvDW7FP5PWRwIJQIJLM08qdmdYmjDFeqXoDHpwJC0PGD3W
+        zpxSXEPG0l6QQOzoHQg1G3y5/JDv31LlrEPWSiQAKsjRZZUyrXCW8QaHSRaCaRaRx5KExd
+        Ol8TRKbGyHPJbT5cqDIy4dBYpqJTwzo=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-142-Cd9h1g7bM7iPJCMnuQ_9DA-1; Mon, 24 Feb 2020 05:25:03 -0500
+X-MC-Unique: Cd9h1g7bM7iPJCMnuQ_9DA-1
+Received: by mail-qt1-f198.google.com with SMTP id z25so10143764qto.8
+        for <linux-api@vger.kernel.org>; Mon, 24 Feb 2020 02:25:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=9E4atKHNFhMUgRRiEy/HKZbsazKIFq0A6zQaS+Ym2Rs=;
-        b=fOtvhoiYG2M4aocDKDkLwiiAwlkNW1Uc0UWYqtP1nZDW0A7/JbIYgJHrDp7ThyQGs/
-         l0IStnaHf5HI9QDDJ9izyN58+OD4DsoBginmcVEAvB54PzNSEPEJ9Zq3w6lTXFXdp1SV
-         nuPnSRDwmS+j/5cp7kjR7ja5nrM2TiTGYyHUQmAWfmoNFOdPh/jkxmMZ51KC6JT4tYzy
-         ktTynj8wpZkg8m8AGFTuAhn4JxWRDRdiJZiBj7nENT40aH7N49WYTWTicXfEcukoVmhe
-         pB8z5AZPPrjLU68Z4Y2XyROBPf5kkZG7tltLJ7AD3jXPEUMWQdiuoHK0Ka78cd+oTdj4
-         uqBw==
-X-Gm-Message-State: APjAAAV7dx00ZRyvg3rGrbAXgh9vt6TW5N5gNJkmOvkvdmYMdiRvirU5
-        QPtWaVLIUGE6a/1SKLUs3uuChw==
-X-Google-Smtp-Source: APXvYqzgh1ZGX/532+S4qeKBsp3fOZk0JQWUNLbURDxZxQbr4hjc1+mWNY2lYVuZyvgFoFMOCV92hw==
-X-Received: by 2002:a2e:9b5a:: with SMTP id o26mr29929299ljj.190.1582532151395;
-        Mon, 24 Feb 2020 00:15:51 -0800 (PST)
-Received: from box.localdomain ([86.57.175.117])
-        by smtp.gmail.com with ESMTPSA id n189sm3008847lfa.14.2020.02.24.00.15.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Feb 2020 00:15:50 -0800 (PST)
-Received: by box.localdomain (Postfix, from userid 1000)
-        id DF908100FD9; Mon, 24 Feb 2020 11:16:22 +0300 (+03)
-Date:   Mon, 24 Feb 2020 11:16:22 +0300
-From:   "Kirill A. Shutemov" <kirill@shutemov.name>
-To:     Brian Geffon <bgeffon@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        "Michael S . Tsirkin" <mst@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-api@vger.kernel.org,
-        Andy Lutomirski <luto@amacapital.net>,
-        Will Deacon <will@kernel.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Yu Zhao <yuzhao@google.com>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Florian Weimer <fweimer@redhat.com>, mtk.manpages@gmail.com,
-        linux-man@vger.kernel.org, Lokesh Gidra <lokeshgidra@google.com>
-Subject: Re: [PATCH v7 1/2] mm: Add MREMAP_DONTUNMAP to mremap().
-Message-ID: <20200224081622.f4oy2pqk6aq6krfp@box>
-References: <20200221174248.244748-1-bgeffon@google.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=gy+vhmoT6JM3Yv4RVEvhda7Thq8Oh3Z0jshMS0ARWMg=;
+        b=Ir3lz3LbuTv/EG6h9aGZJr2SiEOxQQfotJRItTPCvId1Zq160Xqhfvol8OVgrYwJAh
+         kBkMx6Y+x6Egmi2z4O6WyIXHoT59BCs7UnO7DJxkX2xELuBXe+qM9I88dQKZ7etbf+Zk
+         YcW0i2TiN4xt3QqV9/pUTx5oPkJGP49zAyfFkID/YGtKUdLh2pti9yraIKE0Gd4NTKxa
+         X59NFsTFedxTjNn1qBd/nunTFf9FYz0ORvwRWLpJQq3R5B1wIdjdlg5c25uCZOs068b6
+         xBjdBN0Oa8cqH5/RjSrI+zeqV5gU201sTt/P43ZsQ1BdwAk2EJe+dEYij/qrhMVbXk/h
+         L9Ag==
+X-Gm-Message-State: APjAAAWF/yE1vrVGhZQAwdyqD6VHGWh8vFc9A+7hRr+AGFGlfyF66BYO
+        fu6Ryo9B3pILyfqr7D3Y7/flfN3pXK+79gygoY/UruNJ/YQHi34rk3ALzrDgGUPHqG/n5LapYdi
+        mwfnS7nzl7myBXozEOTeOUZ+1V4YIbMmriDmP
+X-Received: by 2002:a37:a881:: with SMTP id r123mr14184707qke.199.1582539902832;
+        Mon, 24 Feb 2020 02:25:02 -0800 (PST)
+X-Google-Smtp-Source: APXvYqztFT5Zfqx4XMsPU01nDc9vsIiEe1j5CK26LdX74+ps7d85rr9U4y9yqiVVjcliDp+alv+x51zsiwVwJlJsaVY=
+X-Received: by 2002:a37:a881:: with SMTP id r123mr14184671qke.199.1582539902450;
+ Mon, 24 Feb 2020 02:25:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200221174248.244748-1-bgeffon@google.com>
+References: <158230810644.2185128.16726948836367716086.stgit@warthog.procyon.org.uk>
+ <1582316494.3376.45.camel@HansenPartnership.com>
+In-Reply-To: <1582316494.3376.45.camel@HansenPartnership.com>
+From:   Miklos Szeredi <mszeredi@redhat.com>
+Date:   Mon, 24 Feb 2020 11:24:51 +0100
+Message-ID: <CAOssrKehjnTwbc6A1VagM5hG_32hy3mXZenx_PdGgcUGxYOaLQ@mail.gmail.com>
+Subject: Re: [PATCH 00/17] VFS: Filesystem information and notifications [ver #17]
+To:     James Bottomley <James.Bottomley@hansenpartnership.com>
+Cc:     David Howells <dhowells@redhat.com>,
+        viro <viro@zeniv.linux.org.uk>, Ian Kent <raven@themaw.net>,
+        christian@brauner.io, Jann Horn <jannh@google.com>,
+        darrick.wong@oracle.com, Linux API <linux-api@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Feb 21, 2020 at 09:42:46AM -0800, Brian Geffon wrote:
-> When remapping an anonymous, private mapping, if MREMAP_DONTUNMAP is
-> set, the source mapping will not be removed. The remap operation
-> will be performed as it would have been normally by moving over the
-> page tables to the new mapping. The old vma will have any locked
-> flags cleared, have no pagetables, and any userfaultfds that were
-> watching that range will continue watching it.
-> 
-> For a mapping that is shared or not anonymous, MREMAP_DONTUNMAP will cause
-> the mremap() call to fail. Because MREMAP_DONTUNMAP always results in moving
-> a VMA you MUST use the MREMAP_MAYMOVE flag, it's not possible to resize
-> a VMA while also moving with MREMAP_DONTUNMAP so old_len must always
-> be equal to the new_len otherwise it will return -EINVAL.
-> 
-> We hope to use this in Chrome OS where with userfaultfd we could write
-> an anonymous mapping to disk without having to STOP the process or worry
-> about VMA permission changes.
-> 
-> This feature also has a use case in Android, Lokesh Gidra has said
-> that "As part of using userfaultfd for GC, We'll have to move the physical
-> pages of the java heap to a separate location. For this purpose mremap
-> will be used. Without the MREMAP_DONTUNMAP flag, when I mremap the java
-> heap, its virtual mapping will be removed as well. Therefore, we'll
-> require performing mmap immediately after. This is not only time consuming
-> but also opens a time window where a native thread may call mmap and
-> reserve the java heap's address range for its own usage. This flag
-> solves the problem."
-> 
->   v6 -> v7:
->     - Don't allow resizing VMA as part of MREMAP_DONTUNMAP.
->       There is no clear use case at the moment and it can be added
->       later as it simplifies the implementation for now.
-> 
->   v5 -> v6:
->     - Code cleanup suggested by Kirill.
-> 
->   v4 -> v5:
->     - Correct commit message to more accurately reflect the behavior.
->     - Clear VM_LOCKED and VM_LOCKEDONFAULT on the old vma.
->            
-> Signed-off-by: Brian Geffon <bgeffon@google.com>
-> Reviewed-by: Minchan Kim <minchan@kernel.org>
-> Tested-by: Lokesh Gidra <lokeshgidra@google.com>
+On Fri, Feb 21, 2020 at 9:21 PM James Bottomley
+<James.Bottomley@hansenpartnership.com> wrote:
+>
+> On Fri, 2020-02-21 at 18:01 +0000, David Howells wrote:
+> [...]
+> > ============================
+> > FILESYSTEM INFORMATION QUERY
+> > ============================
+> >
+> > The fsinfo() system call allows information about the filesystem at a
+> > particular path point to be queried as a set of attributes, some of
+> > which may have more than one value.
+> >
+> > Attribute values are of four basic types:
+> >
+> >  (1) Version dependent-length structure (size defined by type).
+> >
+> >  (2) Variable-length string (up to 4096, including NUL).
+> >
+> >  (3) List of structures (up to INT_MAX size).
+> >
+> >  (4) Opaque blob (up to INT_MAX size).
+> >
+> > Attributes can have multiple values either as a sequence of values or
+> > a sequence-of-sequences of values and all the values of a particular
+> > attribute must be of the same type.
+> >
+> > Note that the values of an attribute *are* allowed to vary between
+> > dentries within a single superblock, depending on the specific dentry
+> > that you're looking at, but all the values of an attribute have to be
+> > of the same type.
+> >
+> > I've tried to make the interface as light as possible, so
+> > integer/enum attribute selector rather than string and the core does
+> > all the allocation and extensibility support work rather than leaving
+> > that to the filesystems. That means that for the first two attribute
+> > types, the filesystem will always see a sufficiently-sized buffer
+> > allocated.  Further, this removes the possibility of the filesystem
+> > gaining access to the userspace buffer.
+> >
+> >
+> > fsinfo() allows a variety of information to be retrieved about a
+> > filesystem and the mount topology:
+> >
+> >  (1) General superblock attributes:
+> >
+> >      - Filesystem identifiers (UUID, volume label, device numbers,
+> > ...)
+> >      - The limits on a filesystem's capabilities
+> >      - Information on supported statx fields and attributes and IOC
+> > flags.
+> >      - A variety single-bit flags indicating supported capabilities.
+> >      - Timestamp resolution and range.
+> >      - The amount of space/free space in a filesystem (as statfs()).
+> >      - Superblock notification counter.
+> >
+> >  (2) Filesystem-specific superblock attributes:
+> >
+> >      - Superblock-level timestamps.
+> >      - Cell name.
+> >      - Server names and addresses.
+> >      - Filesystem-specific information.
+> >
+> >  (3) VFS information:
+> >
+> >      - Mount topology information.
+> >      - Mount attributes.
+> >      - Mount notification counter.
+> >
+> >  (4) Information about what the fsinfo() syscall itself supports,
+> > including
+> >      the type and struct/element size of attributes.
+> >
+> > The system is extensible:
+> >
+> >  (1) New attributes can be added.  There is no requirement that a
+> >      filesystem implement every attribute.  Note that the core VFS
+> > keeps a
+> >      table of types and sizes so it can handle future extensibility
+> > rather
+> >      than delegating this to the filesystems.
+> >
+> >  (2) Version length-dependent structure attributes can be made larger
+> > and
+> >      have additional information tacked on the end, provided it keeps
+> > the
+> >      layout of the existing fields.  If an older process asks for a
+> > shorter
+> >      structure, it will only be given the bits it asks for.  If a
+> > newer
+> >      process asks for a longer structure on an older kernel, the
+> > extra
+> >      space will be set to 0.  In all cases, the size of the data
+> > actually
+> >      available is returned.
+> >
+> >      In essence, the size of a structure is that structure's version:
+> > a
+> >      smaller size is an earlier version and a later version includes
+> >      everything that the earlier version did.
+> >
+> >  (3) New single-bit capability flags can be added.  This is a
+> > structure-typed
+> >      attribute and, as such, (2) applies.  Any bits you wanted but
+> > the kernel
+> >      doesn't support are automatically set to 0.
+> >
+> > fsinfo() may be called like the following, for example:
+> >
+> >       struct fsinfo_params params = {
+> >               .at_flags       = AT_SYMLINK_NOFOLLOW,
+> >               .flags          = FSINFO_FLAGS_QUERY_PATH,
+> >               .request        = FSINFO_ATTR_AFS_SERVER_ADDRESSES,
+> >               .Nth            = 2,
+> >       };
+> >       struct fsinfo_server_address address;
+> >       len = fsinfo(AT_FDCWD, "/afs/grand.central.org/doc", &params,
+> >                    &address, sizeof(address));
+> >
+> > The above example would query an AFS filesystem to retrieve the
+> > address
+> > list for the 3rd server, and:
+> >
+> >       struct fsinfo_params params = {
+> >               .at_flags       = AT_SYMLINK_NOFOLLOW,
+> >               .flags          = FSINFO_FLAGS_QUERY_PATH,
+> >               .request        = FSINFO_ATTR_AFS_CELL_NAME;
+> >       };
+> >       char cell_name[256];
+> >       len = fsinfo(AT_FDCWD, "/afs/grand.central.org/doc", &params,
+> >                    &cell_name, sizeof(cell_name));
+> >
+> > would retrieve the name of an AFS cell as a string.
+> >
+> > In future, I want to make fsinfo() capable of querying a context
+> > created by
+> > fsopen() or fspick(), e.g.:
+> >
+> >       fd = fsopen("ext4", 0);
+> >       struct fsinfo_params params = {
+> >               .flags          = FSINFO_FLAGS_QUERY_FSCONTEXT,
+> >               .request        = FSINFO_ATTR_PARAMETERS;
+> >       };
+> >       char buffer[65536];
+> >       fsinfo(fd, NULL, &params, &buffer, sizeof(buffer));
+> >
+> > even if that context doesn't currently have a superblock attached.  I
+> > would prefer this to contain length-prefixed strings so that there's
+> > no need to insert escaping, especially as any character, including
+> > '\', can be used as the separator in cifs and so that binary
+> > parameters can be returned (though that is a lesser issue).
+>
+> Could I make a suggestion about how this should be done in a way that
+> doesn't actually require the fsinfo syscall at all: it could just be
+> done with fsconfig.  The idea is based on something I've wanted to do
+> for configfd but couldn't because otherwise it wouldn't substitute for
+> fsconfig, but Christian made me think it was actually essential to the
+> ability of the seccomp and other verifier tools in the critique of
+> configfd and I belive the same critique applies here.
+>
+> Instead of making fsconfig functionally configure ... as in you pass
+> the attribute name, type and parameters down into the fs specific
+> handler and the handler does a string match and then verifies the
+> parameters and then acts on them, make it table configured, so what
+> each fstype does is register a table of attributes which can be got and
+> optionally set (with each attribute having a get and optional set
+> function).  We'd have multiple tables per fstype, so the generic VFS
+> can register a table of attributes it understands for every fstype
+> (things like name, uuid and the like) and then each fs type would
+> register a table of fs specific attributes following the same pattern.
+> The system would examine the fs specific table before the generic one,
+> allowing overrides.  fsconfig would have the ability to both get and
+> set attributes, permitting retrieval as well as setting (which is how I
+> get rid of the fsinfo syscall), we'd have a global parameter, which
+> would retrieve the entire table by name and type so the whole thing is
+> introspectable because the upper layer knows a-priori all the
+> attributes which can be set for a given fs type and what type they are
+> (so we can make more of the parsing generic).  Any attribute which
+> doesn't have a set routine would be read only and all attributes would
+> have to have a get routine meaning everything is queryable.
 
-Acked-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+And that makes me wonder: would a
+"/sys/class/fs/$ST_DEV/options/$OPTION" type interface be feasible for
+this?
 
--- 
- Kirill A. Shutemov
+Thanks,
+Miklos
+
