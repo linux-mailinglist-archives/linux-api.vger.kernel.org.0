@@ -2,114 +2,138 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A2C3216C07A
-	for <lists+linux-api@lfdr.de>; Tue, 25 Feb 2020 13:13:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 66BB816C2B3
+	for <lists+linux-api@lfdr.de>; Tue, 25 Feb 2020 14:48:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726587AbgBYMNY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 25 Feb 2020 07:13:24 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:30625 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725788AbgBYMNX (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 25 Feb 2020 07:13:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1582632802;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=+wrw7WE/m40W3sxI/uRBNf21Q8ICUq5UNJSWodR4eJA=;
-        b=C6sJFRR0irmuNu7632lgIlYSYY1gbAmMs9WkPwxNP9/oxZVQEKzu+Vv6si43ie6ci/Yb+E
-        eJN5hT41E1OL39VblSRXA2nFyKeTBGfSpQ6ah8HkLuQI+n8f8fxQ8RiSb1BHtkYqpddkw2
-        JOfti6n4TG50G+SCHhH55sH9mXiBIUs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-458-J14YSICYPv2YWiUP_29jHA-1; Tue, 25 Feb 2020 07:13:18 -0500
-X-MC-Unique: J14YSICYPv2YWiUP_29jHA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0FBC8017CC;
-        Tue, 25 Feb 2020 12:13:16 +0000 (UTC)
-Received: from fogou.chygwyn.com (unknown [10.33.36.14])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 7CF7027186;
-        Tue, 25 Feb 2020 12:13:13 +0000 (UTC)
-Subject: Re: [PATCH 00/17] VFS: Filesystem information and notifications [ver
- #17]
-To:     Miklos Szeredi <miklos@szeredi.hu>,
-        James Bottomley <James.Bottomley@hansenpartnership.com>
-Cc:     Miklos Szeredi <mszeredi@redhat.com>,
-        David Howells <dhowells@redhat.com>,
-        viro <viro@zeniv.linux.org.uk>, Ian Kent <raven@themaw.net>,
-        Christian Brauner <christian@brauner.io>,
-        Jann Horn <jannh@google.com>,
-        "Darrick J. Wong" <darrick.wong@oracle.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-References: <158230810644.2185128.16726948836367716086.stgit@warthog.procyon.org.uk>
- <1582316494.3376.45.camel@HansenPartnership.com>
- <CAOssrKehjnTwbc6A1VagM5hG_32hy3mXZenx_PdGgcUGxYOaLQ@mail.gmail.com>
- <1582556135.3384.4.camel@HansenPartnership.com>
- <CAJfpegsk6BsVhUgHNwJgZrqcNP66wS0fhCXo_2sLt__goYGPWg@mail.gmail.com>
-From:   Steven Whitehouse <swhiteho@redhat.com>
-Message-ID: <a657a80e-8913-d1f3-0ffe-d582f5cb9aa2@redhat.com>
-Date:   Tue, 25 Feb 2020 12:13:11 +0000
+        id S1729206AbgBYNsg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 25 Feb 2020 08:48:36 -0500
+Received: from mx2.suse.de ([195.135.220.15]:46416 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726019AbgBYNsg (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 25 Feb 2020 08:48:36 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id EDF33AD03;
+        Tue, 25 Feb 2020 13:48:33 +0000 (UTC)
+Subject: Re: [PATCH v7 1/2] mm: Add MREMAP_DONTUNMAP to mremap().
+To:     Brian Geffon <bgeffon@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     "Michael S . Tsirkin" <mst@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-api@vger.kernel.org,
+        Andy Lutomirski <luto@amacapital.net>,
+        Will Deacon <will@kernel.org>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Yu Zhao <yuzhao@google.com>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
+        mtk.manpages@gmail.com, linux-man@vger.kernel.org,
+        Lokesh Gidra <lokeshgidra@google.com>
+References: <20200221174248.244748-1-bgeffon@google.com>
+From:   Vlastimil Babka <vbabka@suse.cz>
+Autocrypt: addr=vbabka@suse.cz; prefer-encrypt=mutual; keydata=
+ mQINBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
+ KxRWDHX0R2tgpFDXHnzZcQywawu8eSq0LxzxFNYMvtB7sV1pxYwej2qx9B75qW2plBs+7+YB
+ 87tMFA+u+L4Z5xAzIimfLD5EKC56kJ1CsXlM8S/LHcmdD9Ctkn3trYDNnat0eoAcfPIP2OZ+
+ 9oe9IF/R28zmh0ifLXyJQQz5ofdj4bPf8ecEW0rhcqHfTD8k4yK0xxt3xW+6Exqp9n9bydiy
+ tcSAw/TahjW6yrA+6JhSBv1v2tIm+itQc073zjSX8OFL51qQVzRFr7H2UQG33lw2QrvHRXqD
+ Ot7ViKam7v0Ho9wEWiQOOZlHItOOXFphWb2yq3nzrKe45oWoSgkxKb97MVsQ+q2SYjJRBBH4
+ 8qKhphADYxkIP6yut/eaj9ImvRUZZRi0DTc8xfnvHGTjKbJzC2xpFcY0DQbZzuwsIZ8OPJCc
+ LM4S7mT25NE5kUTG/TKQCk922vRdGVMoLA7dIQrgXnRXtyT61sg8PG4wcfOnuWf8577aXP1x
+ 6mzw3/jh3F+oSBHb/GcLC7mvWreJifUL2gEdssGfXhGWBo6zLS3qhgtwjay0Jl+kza1lo+Cv
+ BB2T79D4WGdDuVa4eOrQ02TxqGN7G0Biz5ZLRSFzQSQwLn8fbwARAQABtCBWbGFzdGltaWwg
+ QmFia2EgPHZiYWJrYUBzdXNlLmN6PokCVAQTAQoAPgIbAwULCQgHAwUVCgkICwUWAgMBAAIe
+ AQIXgBYhBKlA1DSZLC6OmRA9UCJPp+fMgqZkBQJcbbyGBQkH8VTqAAoJECJPp+fMgqZkpGoP
+ /1jhVihakxw1d67kFhPgjWrbzaeAYOJu7Oi79D8BL8Vr5dmNPygbpGpJaCHACWp+10KXj9yz
+ fWABs01KMHnZsAIUytVsQv35DMMDzgwVmnoEIRBhisMYOQlH2bBn/dqBjtnhs7zTL4xtqEcF
+ 1hoUFEByMOey7gm79utTk09hQE/Zo2x0Ikk98sSIKBETDCl4mkRVRlxPFl4O/w8dSaE4eczH
+ LrKezaFiZOv6S1MUKVKzHInonrCqCNbXAHIeZa3JcXCYj1wWAjOt9R3NqcWsBGjFbkgoKMGD
+ usiGabetmQjXNlVzyOYdAdrbpVRNVnaL91sB2j8LRD74snKsV0Wzwt90YHxDQ5z3M75YoIdl
+ byTKu3BUuqZxkQ/emEuxZ7aRJ1Zw7cKo/IVqjWaQ1SSBDbZ8FAUPpHJxLdGxPRN8Pfw8blKY
+ 8mvLJKoF6i9T6+EmlyzxqzOFhcc4X5ig5uQoOjTIq6zhLO+nqVZvUDd2Kz9LMOCYb516cwS/
+ Enpi0TcZ5ZobtLqEaL4rupjcJG418HFQ1qxC95u5FfNki+YTmu6ZLXy+1/9BDsPuZBOKYpUm
+ 3HWSnCS8J5Ny4SSwfYPH/JrtberWTcCP/8BHmoSpS/3oL3RxrZRRVnPHFzQC6L1oKvIuyXYF
+ rkybPXYbmNHN+jTD3X8nRqo+4Qhmu6SHi3Vq
+Message-ID: <61fc2045-b5fd-86b4-9092-e7638ad63b1e@suse.cz>
+Date:   Tue, 25 Feb 2020 14:48:31 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <CAJfpegsk6BsVhUgHNwJgZrqcNP66wS0fhCXo_2sLt__goYGPWg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20200221174248.244748-1-bgeffon@google.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi,
+On 2/21/20 6:42 PM, Brian Geffon wrote:
+> When remapping an anonymous, private mapping, if MREMAP_DONTUNMAP is
+> set, the source mapping will not be removed. The remap operation
+> will be performed as it would have been normally by moving over the
+> page tables to the new mapping. The old vma will have any locked
+> flags cleared, have no pagetables, and any userfaultfds that were
+> watching that range will continue watching it.
+> 
+> For a mapping that is shared or not anonymous, MREMAP_DONTUNMAP will cause
+> the mremap() call to fail. Because MREMAP_DONTUNMAP always results in moving
+> a VMA you MUST use the MREMAP_MAYMOVE flag, it's not possible to resize
+> a VMA while also moving with MREMAP_DONTUNMAP so old_len must always
+> be equal to the new_len otherwise it will return -EINVAL.
+> 
+> We hope to use this in Chrome OS where with userfaultfd we could write
+> an anonymous mapping to disk without having to STOP the process or worry
+> about VMA permission changes.
+> 
+> This feature also has a use case in Android, Lokesh Gidra has said
+> that "As part of using userfaultfd for GC, We'll have to move the physical
+> pages of the java heap to a separate location. For this purpose mremap
+> will be used. Without the MREMAP_DONTUNMAP flag, when I mremap the java
+> heap, its virtual mapping will be removed as well. Therefore, we'll
+> require performing mmap immediately after. This is not only time consuming
+> but also opens a time window where a native thread may call mmap and
+> reserve the java heap's address range for its own usage. This flag
+> solves the problem."
+> 
+>   v6 -> v7:
+>     - Don't allow resizing VMA as part of MREMAP_DONTUNMAP.
+>       There is no clear use case at the moment and it can be added
+>       later as it simplifies the implementation for now.
+> 
+>   v5 -> v6:
+>     - Code cleanup suggested by Kirill.
+> 
+>   v4 -> v5:
+>     - Correct commit message to more accurately reflect the behavior.
+>     - Clear VM_LOCKED and VM_LOCKEDONFAULT on the old vma.
+>            
+> Signed-off-by: Brian Geffon <bgeffon@google.com>
+> Reviewed-by: Minchan Kim <minchan@kernel.org>
+> Tested-by: Lokesh Gidra <lokeshgidra@google.com>
 
-On 24/02/2020 15:28, Miklos Szeredi wrote:
-> On Mon, Feb 24, 2020 at 3:55 PM James Bottomley
-> <James.Bottomley@hansenpartnership.com> wrote:
->
->> Once it's table driven, certainly a sysfs directory becomes possible.
->> The problem with ST_DEV is filesystems like btrfs and xfs that may have
->> multiple devices.
-> For XFS there's always  a single sb->s_dev though, that's what st_dev
-> will be set to on all files.
->
-> Btrfs subvolume is sort of a lightweight superblock, so basically all
-> such st_dev's are aliases of the same master superblock.  So lookup of
-> all subvolume st_dev's could result in referencing the same underlying
-> struct super_block (just like /proc/$PID will reference the same
-> underlying task group regardless of which of the task group member's
-> PID is used).
->
-> Having this info in sysfs would spare us a number of issues that a set
-> of new syscalls would bring.  The question is, would that be enough,
-> or is there a reason that sysfs can't be used to present the various
-> filesystem related information that fsinfo is supposed to present?
->
-> Thanks,
-> Miklos
->
-We need a unique id for superblocks anyway. I had wondered about using 
-s_dev some time back, but for the reasons mentioned earlier in this 
-thread I think it might just land up being confusing and difficult to 
-manage. While fake s_devs are created for sbs that don't have a device, 
-I can't help thinking that something closer to ifindex, but for 
-superblocks, is needed here. That would avoid the issue of which device 
-number to use.
+Acked-by: Vlastimil Babka <vbabka@suse.cz>
 
-In fact we need that anyway for the notifications, since without that 
-there is a race that can lead to missing remounts of the same device, in 
-case a umount/mount pair is missed due to an overrun, and then fsinfo 
-returns the same device as before, with potentially the same mount 
-options too. So I think a unique id for a superblock is a generically 
-useful feature, which would also allow for sensible sysfs directory 
-naming, if required,
+Thanks.
 
-Steve.
+> diff --git a/mm/mremap.c b/mm/mremap.c
+> index 1fc8a29fbe3f..8b7bf3845e50 100644
+> --- a/mm/mremap.c
+> +++ b/mm/mremap.c
+> @@ -318,8 +318,8 @@ unsigned long move_page_tables(struct vm_area_struct *vma,
+>  static unsigned long move_vma(struct vm_area_struct *vma,
+>  		unsigned long old_addr, unsigned long old_len,
+>  		unsigned long new_len, unsigned long new_addr,
+> -		bool *locked, struct vm_userfaultfd_ctx *uf,
+> -		struct list_head *uf_unmap)
+> +		bool *locked, unsigned long flags,
+> +		struct vm_userfaultfd_ctx *uf, struct list_head *uf_unmap)
 
+The usage of MREMAP_DONTUNMAP directly in the "flags" parameter seems
+weird for generically named vma manipulation functions, but as they are
+all local to mremap.c then it's probably fine.
 
