@@ -2,46 +2,46 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2119916EFDF
-	for <lists+linux-api@lfdr.de>; Tue, 25 Feb 2020 21:13:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C003816EFE6
+	for <lists+linux-api@lfdr.de>; Tue, 25 Feb 2020 21:14:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729018AbgBYUNj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 25 Feb 2020 15:13:39 -0500
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:33647 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728315AbgBYUNi (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 25 Feb 2020 15:13:38 -0500
-Received: by mail-pl1-f193.google.com with SMTP id ay11so272555plb.0
-        for <linux-api@vger.kernel.org>; Tue, 25 Feb 2020 12:13:36 -0800 (PST)
+        id S1731735AbgBYUOj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 25 Feb 2020 15:14:39 -0500
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:46966 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731724AbgBYUOi (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 25 Feb 2020 15:14:38 -0500
+Received: by mail-pf1-f195.google.com with SMTP id k29so120160pfp.13
+        for <linux-api@vger.kernel.org>; Tue, 25 Feb 2020 12:14:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=IfvOa5CAoS9YrIm9N+UKd0iHPjsP1Uph4Ha67JwUu2o=;
-        b=Z3jNU3sFtdRcUf3XGqpGhOL2LVYIwJc2/3GB2RBrFkvN/amW/IWS6/xFHLrBHEY9B3
-         VcfHm8TXxaWtA6xKll8ghTdVcB4Uco9nYUxcs7quUwQMLlYY0kQ3mGvv821BcaEuA6a3
-         6Xfea/cZ+XC2gGZE+CD/J+nr/LokygHBO5Tvw=
+        bh=BTTLmTlutCOGMTV3ONbR2Fs2QQVUcjN96p4jAbuK95s=;
+        b=QB9/2Oh/cWiLYN8wCN3MJFPiDTfRIJ4E1pxfixTeHiURbdkz67+jdzh8PFJTTfyAyu
+         D3dwetUzQ2S8grF3unLt2EOypBpGybAQh2kB2M2KTKe1PtTjL8Om5GSjQE5+wg8CNBvd
+         kIY+aXUTNgORVkBwei2THalxhJyNF6vj4dofg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=IfvOa5CAoS9YrIm9N+UKd0iHPjsP1Uph4Ha67JwUu2o=;
-        b=h3IgItYvf8QDoiQCtywblCTgZQjjWhWeO/ubXeHIHoJ/ztPayXJsHQBDyxQamCTJGi
-         8Yf+UlGNEUa/gZRMuCp3EwT3iSdRb5Xa5QcUYxoxtgO3Xw6pjH73uo22z2A92G4B+3zl
-         iNj87Yvk7xF8IMtFobzjk4KDxN0JxandK8bbdkspWDALwDZbTfbxz40jxXMK/TrU/BBR
-         POVycvYzIINwWfVYHyY4hXxgXOz5Cx9If+XUL238gipgBDfI2ksADJs927B6xxkYXWQ3
-         yeVCPpd3GhrJ9y3YIk/3MTX2efwd96dAcfZbHTw10WKGj2GBIyI9IAX8qcuC3cst23Xi
-         UuLQ==
-X-Gm-Message-State: APjAAAUwuM8d9lfb1gOSRjTS9tffUipjpiNyefTQ9SiEnQY/8J9E1Ubf
-        Z49MZW4rexPFB38JimIzpO/tnQ==
-X-Google-Smtp-Source: APXvYqw0iwR9Xn1V95LV9IEegPlHmPh9oFHhrgdXWTNBfMRQN1imw8kisoN796o80/OQIjtO6Xs0BA==
-X-Received: by 2002:a17:90a:330c:: with SMTP id m12mr866153pjb.18.1582661616566;
-        Tue, 25 Feb 2020 12:13:36 -0800 (PST)
+        bh=BTTLmTlutCOGMTV3ONbR2Fs2QQVUcjN96p4jAbuK95s=;
+        b=e+uyKW6w5iZwzsloOl+2mfIPw5jlkBkPA0KHODQCbWhHqwnfjyXj0oKKE4UWHMDYg7
+         k3Q+9La4I5+D/vexL8YQx7WWZ7/zI86eHacE2EXKXZEsuxPrh5x5Ae9j0LAlS96u8ehw
+         ax0f47T2F2L7mRK/hvvWZDG9a3r1f0MWdzeL5jK4DhTiOgDI6xgAmZ4YscMLJgpRKRwJ
+         YqwMMe450WMkl8K5VSwv/KYtu7VnDrcR/7HFXBsQO8o1sIsnJc5uRrt1WYtcKOv2o/1D
+         B6H1GeW8dsl+bfTH/t9OLZwy3Z94/epHoF8eXFRc+ggbhMuXog7TV4YurckUrknHnv09
+         SWmw==
+X-Gm-Message-State: APjAAAXxgGsqIDiDEJ1I54ZQ/GHg3oo0umuNXWkP2IIaHb8+MKcAASAh
+        4m+LKgbchpqD1ohVX87vU2ft0w==
+X-Google-Smtp-Source: APXvYqzQRJ5UsCLDvhXrdE0i7Rc00jqGyfX6QsU0LmkGz7BPlioCLt8NE2IkhrABklXhz2sOHBeagQ==
+X-Received: by 2002:a62:6d01:: with SMTP id i1mr448865pfc.94.1582661676706;
+        Tue, 25 Feb 2020 12:14:36 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id 13sm17939080pfi.78.2020.02.25.12.13.35
+        by smtp.gmail.com with ESMTPSA id i14sm4258972pgh.14.2020.02.25.12.14.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2020 12:13:35 -0800 (PST)
-Date:   Tue, 25 Feb 2020 12:13:34 -0800
+        Tue, 25 Feb 2020 12:14:35 -0800 (PST)
+Date:   Tue, 25 Feb 2020 12:14:34 -0800
 From:   Kees Cook <keescook@chromium.org>
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
@@ -67,23 +67,47 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
         Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
-Subject: Re: [RFC PATCH v9 11/27] drm/i915/gvt: Change _PAGE_DIRTY to
- _PAGE_DIRTY_BITS
-Message-ID: <202002251213.DFD1E3E27@keescook>
+Subject: Re: [RFC PATCH v9 12/27] x86/mm: Modify ptep_set_wrprotect and
+ pmdp_set_wrprotect for _PAGE_DIRTY_SW
+Message-ID: <202002251214.8B2063AA87@keescook>
 References: <20200205181935.3712-1-yu-cheng.yu@intel.com>
- <20200205181935.3712-12-yu-cheng.yu@intel.com>
+ <20200205181935.3712-13-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200205181935.3712-12-yu-cheng.yu@intel.com>
+In-Reply-To: <20200205181935.3712-13-yu-cheng.yu@intel.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Feb 05, 2020 at 10:19:19AM -0800, Yu-cheng Yu wrote:
-> After the introduction of _PAGE_DIRTY_SW, a dirty PTE can have either
-> _PAGE_DIRTY_HW or _PAGE_DIRTY_SW.  Change _PAGE_DIRTY to _PAGE_DIRTY_BITS.
+On Wed, Feb 05, 2020 at 10:19:20AM -0800, Yu-cheng Yu wrote:
+> When Shadow Stack (SHSTK) is enabled, the [R/O + PAGE_DIRTY_HW] setting is
+> reserved only for SHSTK.  Non-Shadow Stack R/O PTEs are
+> [R/O + PAGE_DIRTY_SW].
+> 
+> When a PTE goes from [R/W + PAGE_DIRTY_HW] to [R/O + PAGE_DIRTY_SW], it
+> could become a transient SHSTK PTE in two cases.
+> 
+> The first case is that some processors can start a write but end up seeing
+> a read-only PTE by the time they get to the Dirty bit, creating a transient
+> SHSTK PTE.  However, this will not occur on processors supporting SHSTK
+> therefore we don't need a TLB flush here.
+> 
+> The second case is that when the software, without atomic, tests & replaces
+> PAGE_DIRTY_HW with PAGE_DIRTY_SW, a transient SHSTK PTE can exist.  This is
+> prevented with cmpxchg.
+> 
+> Dave Hansen, Jann Horn, Andy Lutomirski, and Peter Zijlstra provided many
+> insights to the issue.  Jann Horn provided the cmpxchg solution.
+> 
+> v9:
+> - Change compile-time conditionals to runtime checks.
+> - Fix parameters of try_cmpxchg(): change pte_t/pmd_t to
+>   pte_t.pte/pmd_t.pmd.
+> 
+> v4:
+> - Implement try_cmpxchg().
 > 
 > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 
@@ -92,22 +116,93 @@ Reviewed-by: Kees Cook <keescook@chromium.org>
 -Kees
 
 > ---
->  drivers/gpu/drm/i915/gvt/gtt.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  arch/x86/include/asm/pgtable.h | 66 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 66 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/i915/gvt/gtt.c b/drivers/gpu/drm/i915/gvt/gtt.c
-> index 4b04af569c05..e467ca182633 100644
-> --- a/drivers/gpu/drm/i915/gvt/gtt.c
-> +++ b/drivers/gpu/drm/i915/gvt/gtt.c
-> @@ -1201,7 +1201,7 @@ static int split_2MB_gtt_entry(struct intel_vgpu *vgpu,
->  	}
+> diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
+> index 2733e7ec16b3..43cb27379208 100644
+> --- a/arch/x86/include/asm/pgtable.h
+> +++ b/arch/x86/include/asm/pgtable.h
+> @@ -1253,6 +1253,39 @@ static inline pte_t ptep_get_and_clear_full(struct mm_struct *mm,
+>  static inline void ptep_set_wrprotect(struct mm_struct *mm,
+>  				      unsigned long addr, pte_t *ptep)
+>  {
+> +	/*
+> +	 * Some processors can start a write, but end up seeing a read-only
+> +	 * PTE by the time they get to the Dirty bit.  In this case, they
+> +	 * will set the Dirty bit, leaving a read-only, Dirty PTE which
+> +	 * looks like a Shadow Stack PTE.
+> +	 *
+> +	 * However, this behavior has been improved and will not occur on
+> +	 * processors supporting Shadow Stack.  Without this guarantee, a
+> +	 * transition to a non-present PTE and flush the TLB would be
+> +	 * needed.
+> +	 *
+> +	 * When changing a writable PTE to read-only and if the PTE has
+> +	 * _PAGE_DIRTY_HW set, we move that bit to _PAGE_DIRTY_SW so that
+> +	 * the PTE is not a valid Shadow Stack PTE.
+> +	 */
+> +#ifdef CONFIG_X86_64
+> +	if (static_cpu_has(X86_FEATURE_SHSTK)) {
+> +		pte_t new_pte, pte = READ_ONCE(*ptep);
+> +
+> +		do {
+> +			/*
+> +			 * This is the same as moving _PAGE_DIRTY_HW
+> +			 * to _PAGE_DIRTY_SW.
+> +			 */
+> +			new_pte = pte_wrprotect(pte);
+> +			new_pte.pte |= (new_pte.pte & _PAGE_DIRTY_HW) >>
+> +					_PAGE_BIT_DIRTY_HW << _PAGE_BIT_DIRTY_SW;
+> +			new_pte.pte &= ~_PAGE_DIRTY_HW;
+> +		} while (!try_cmpxchg(&ptep->pte, &pte.pte, new_pte.pte));
+> +
+> +		return;
+> +	}
+> +#endif
+>  	clear_bit(_PAGE_BIT_RW, (unsigned long *)&ptep->pte);
+>  }
 >  
->  	/* Clear dirty field. */
-> -	se->val64 &= ~_PAGE_DIRTY;
-> +	se->val64 &= ~_PAGE_DIRTY_BITS;
+> @@ -1303,6 +1336,39 @@ static inline pud_t pudp_huge_get_and_clear(struct mm_struct *mm,
+>  static inline void pmdp_set_wrprotect(struct mm_struct *mm,
+>  				      unsigned long addr, pmd_t *pmdp)
+>  {
+> +	/*
+> +	 * Some processors can start a write, but end up seeing a read-only
+> +	 * PMD by the time they get to the Dirty bit.  In this case, they
+> +	 * will set the Dirty bit, leaving a read-only, Dirty PMD which
+> +	 * looks like a Shadow Stack PMD.
+> +	 *
+> +	 * However, this behavior has been improved and will not occur on
+> +	 * processors supporting Shadow Stack.  Without this guarantee, a
+> +	 * transition to a non-present PMD and flush the TLB would be
+> +	 * needed.
+> +	 *
+> +	 * When changing a writable PMD to read-only and if the PMD has
+> +	 * _PAGE_DIRTY_HW set, we move that bit to _PAGE_DIRTY_SW so that
+> +	 * the PMD is not a valid Shadow Stack PMD.
+> +	 */
+> +#ifdef CONFIG_X86_64
+> +	if (static_cpu_has(X86_FEATURE_SHSTK)) {
+> +		pmd_t new_pmd, pmd = READ_ONCE(*pmdp);
+> +
+> +		do {
+> +			/*
+> +			 * This is the same as moving _PAGE_DIRTY_HW
+> +			 * to _PAGE_DIRTY_SW.
+> +			 */
+> +			new_pmd = pmd_wrprotect(pmd);
+> +			new_pmd.pmd |= (new_pmd.pmd & _PAGE_DIRTY_HW) >>
+> +					_PAGE_BIT_DIRTY_HW << _PAGE_BIT_DIRTY_SW;
+> +			new_pmd.pmd &= ~_PAGE_DIRTY_HW;
+> +		} while (!try_cmpxchg(&pmdp->pmd, &pmd.pmd, new_pmd.pmd));
+> +
+> +		return;
+> +	}
+> +#endif
+>  	clear_bit(_PAGE_BIT_RW, (unsigned long *)pmdp);
+>  }
 >  
->  	ops->clear_pse(se);
->  	ops->clear_ips(se);
 > -- 
 > 2.21.0
 > 
