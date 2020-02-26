@@ -2,26 +2,26 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 36B72170B67
-	for <lists+linux-api@lfdr.de>; Wed, 26 Feb 2020 23:20:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 62388170BD5
+	for <lists+linux-api@lfdr.de>; Wed, 26 Feb 2020 23:47:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727781AbgBZWUl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 26 Feb 2020 17:20:41 -0500
-Received: from mga11.intel.com ([192.55.52.93]:32725 "EHLO mga11.intel.com"
+        id S1727846AbgBZWrS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 26 Feb 2020 17:47:18 -0500
+Received: from mga06.intel.com ([134.134.136.31]:13010 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727709AbgBZWUk (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 26 Feb 2020 17:20:40 -0500
+        id S1727763AbgBZWrS (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 26 Feb 2020 17:47:18 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Feb 2020 14:20:40 -0800
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Feb 2020 14:47:17 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.70,489,1574150400"; 
-   d="scan'208";a="241827003"
+   d="scan'208";a="241833449"
 Received: from pkabrax-mobl.amr.corp.intel.com (HELO [10.251.2.6]) ([10.251.2.6])
-  by orsmga006.jf.intel.com with ESMTP; 26 Feb 2020 14:20:38 -0800
-Subject: Re: [RFC PATCH v9 12/27] x86/mm: Modify ptep_set_wrprotect and
- pmdp_set_wrprotect for _PAGE_DIRTY_SW
+  by orsmga006.jf.intel.com with ESMTP; 26 Feb 2020 14:47:16 -0800
+Subject: Re: [RFC PATCH v9 13/27] x86/mm: Shadow Stack page fault error
+ checking
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
         "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -48,7 +48,7 @@ To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
         Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
 References: <20200205181935.3712-1-yu-cheng.yu@intel.com>
- <20200205181935.3712-13-yu-cheng.yu@intel.com>
+ <20200205181935.3712-14-yu-cheng.yu@intel.com>
 From:   Dave Hansen <dave.hansen@intel.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=dave.hansen@intel.com; keydata=
@@ -94,12 +94,12 @@ Autocrypt: addr=dave.hansen@intel.com; keydata=
  MTsCeQDdjpgHsj+P2ZDeEKCbma4m6Ez/YWs4+zDm1X8uZDkZcfQlD9NldbKDJEXLIjYWo1PH
  hYepSffIWPyvBMBTW2W5FRjJ4vLRrJSUoEfJuPQ3vW9Y73foyo/qFoURHO48AinGPZ7PC7TF
  vUaNOTjKedrqHkaOcqB185ahG2had0xnFsDPlx5y
-Message-ID: <c8ad93b2-878f-1d90-e054-970f251efc71@intel.com>
-Date:   Wed, 26 Feb 2020 14:20:38 -0800
+Message-ID: <1c8946d0-7934-3485-aa82-d37d41021dc7@intel.com>
+Date:   Wed, 26 Feb 2020 14:47:16 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200205181935.3712-13-yu-cheng.yu@intel.com>
+In-Reply-To: <20200205181935.3712-14-yu-cheng.yu@intel.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -109,95 +109,98 @@ List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 On 2/5/20 10:19 AM, Yu-cheng Yu wrote:
-> When Shadow Stack (SHSTK) is enabled, the [R/O + PAGE_DIRTY_HW] setting is
-> reserved only for SHSTK.
+> If a page fault is triggered by a Shadow Stack (SHSTK) access
+> (e.g. CALL/RET) or SHSTK management instructions (e.g. WRUSSQ), then bit[6]
+> of the page fault error code is set.
 
-Got it.
+How about starting with a definition:
 
-> Non-Shadow Stack R/O PTEs are [R/O + PAGE_DIRTY_SW].
+	Shadow stack accesses are those that are performed by the CPU
+	where it expects to encounter a shadow stack mapping.  These
+	accesses are performed implicitly by CALL/RET at the site of the
+	shadow stack pointer.  These accesses are made explicitly by
+	shadow stack management instructions like WRUSSQ.
 
-This is only true for *dirty* PTEs, right?
+> In access_error(), verify a SHSTK page fault is within a SHSTK memory area.
+> It is always an error otherwise.
 
-> When a PTE goes from [R/W + PAGE_DIRTY_HW] to [R/O + PAGE_DIRTY_SW], it
-> could become a transient SHSTK PTE in two cases.
-> 
-> The first case is that some processors can start a write but end up seeing
-> a read-only PTE by the time they get to the Dirty bit, creating a transient
-> SHSTK PTE.  However, this will not occur on processors supporting SHSTK
-> therefore we don't need a TLB flush here.
-> 
-> The second case is that when the software, without atomic, tests & replaces
-> PAGE_DIRTY_HW with PAGE_DIRTY_SW, a transient SHSTK PTE can exist.  This is
-> prevented with cmpxchg.
-> 
-> Dave Hansen, Jann Horn, Andy Lutomirski, and Peter Zijlstra provided many
-> insights to the issue.  Jann Horn provided the cmpxchg solution.
-> 
-> v9:
-> - Change compile-time conditionals to runtime checks.
-> - Fix parameters of try_cmpxchg(): change pte_t/pmd_t to
->   pte_t.pte/pmd_t.pmd.
-> 
-> v4:
-> - Implement try_cmpxchg().
-> 
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> ---
->  arch/x86/include/asm/pgtable.h | 66 ++++++++++++++++++++++++++++++++++
->  1 file changed, 66 insertions(+)
-> 
-> diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
-> index 2733e7ec16b3..43cb27379208 100644
-> --- a/arch/x86/include/asm/pgtable.h
-> +++ b/arch/x86/include/asm/pgtable.h
-> @@ -1253,6 +1253,39 @@ static inline pte_t ptep_get_and_clear_full(struct mm_struct *mm,
->  static inline void ptep_set_wrprotect(struct mm_struct *mm,
->  				      unsigned long addr, pte_t *ptep)
->  {
+How about: Shadow stacks accesses to shadow-stack mapping can see faults
+in normal, valid operation just like regular accesses to regular
+mappings.  Shadow stacks need some of the same features like delayed
+allocation, swap and copy-on-write.
+
+Shadow stack accesses can also result in errors, such as when a shadow
+stack overflows, or if a shadow stack access occurs to a
+non-shadow-stack mapping.
+
+> For a valid SHSTK access, set FAULT_FLAG_WRITE to effect copy-on-write.
+
+It seems rather odd to want copy-on-write behavior for read faults.
+Could you elaborate on why, please?
+
+> diff --git a/arch/x86/include/asm/traps.h b/arch/x86/include/asm/traps.h
+> index 7ac26bbd0bef..8023d177fcd8 100644
+> --- a/arch/x86/include/asm/traps.h
+> +++ b/arch/x86/include/asm/traps.h
+> @@ -169,6 +169,7 @@ enum {
+>   *   bit 3 ==				1: use of reserved bit detected
+>   *   bit 4 ==				1: fault was an instruction fetch
+>   *   bit 5 ==				1: protection keys block access
+> + *   bit 6 ==				1: shadow stack access fault
+>   */
+>  enum x86_pf_error_code {
+>  	X86_PF_PROT	=		1 << 0,
+> @@ -177,5 +178,6 @@ enum x86_pf_error_code {
+>  	X86_PF_RSVD	=		1 << 3,
+>  	X86_PF_INSTR	=		1 << 4,
+>  	X86_PF_PK	=		1 << 5,
+> +	X86_PF_SHSTK	=		1 << 6,
+>  };
+>  #endif /* _ASM_X86_TRAPS_H */
+> diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
+> index 304d31d8cbbc..9c1243302663 100644
+> --- a/arch/x86/mm/fault.c
+> +++ b/arch/x86/mm/fault.c
+> @@ -1187,6 +1187,17 @@ access_error(unsigned long error_code, struct vm_area_struct *vma)
+>  				       (error_code & X86_PF_INSTR), foreign))
+>  		return 1;
+>  
 > +	/*
-> +	 * Some processors can start a write, but end up seeing a read-only
-> +	 * PTE by the time they get to the Dirty bit.  In this case, they
-> +	 * will set the Dirty bit, leaving a read-only, Dirty PTE which
-> +	 * looks like a Shadow Stack PTE.
-> +	 *
-> +	 * However, this behavior has been improved and will not occur on
-> +	 * processors supporting Shadow Stack.  Without this guarantee, a
-> +	 * transition to a non-present PTE and flush the TLB would be
-> +	 * needed.
-> +	 *
-> +	 * When changing a writable PTE to read-only and if the PTE has
-> +	 * _PAGE_DIRTY_HW set, we move that bit to _PAGE_DIRTY_SW so that
-> +	 * the PTE is not a valid Shadow Stack PTE.
+> +	 * Verify X86_PF_SHSTK is within a Shadow Stack VMA.
+> +	 * It is always an error if there is a Shadow Stack
+> +	 * fault outside a Shadow Stack VMA.
 > +	 */
-> +#ifdef CONFIG_X86_64
-> +	if (static_cpu_has(X86_FEATURE_SHSTK)) {
 
-Judicious application of arch/x86/include/asm/disabled-features.h should
-be able to get rid of the #ifdef.  See pkeys in there for another example.
+Nit: there was an access that caused the fault.  We can be a bit more
+broad in the implications from the comment if we say "access" instead of
+"fault".
 
-> +		pte_t new_pte, pte = READ_ONCE(*ptep);
+> +	if (error_code & X86_PF_SHSTK) {
+> +		if (!(vma->vm_flags & VM_SHSTK))
+> +			return 1;
+> +		return 0;
+> +	}
 > +
-> +		do {
-> +			/*
-> +			 * This is the same as moving _PAGE_DIRTY_HW
-> +			 * to _PAGE_DIRTY_SW.
-> +			 */
-> +			new_pte = pte_wrprotect(pte);
-> +			new_pte.pte |= (new_pte.pte & _PAGE_DIRTY_HW) >>
-> +					_PAGE_BIT_DIRTY_HW << _PAGE_BIT_DIRTY_SW;
-> +			new_pte.pte &= ~_PAGE_DIRTY_HW;
-> +		} while (!try_cmpxchg(&ptep->pte, &pte.pte, new_pte.pte));
+>  	if (error_code & X86_PF_WRITE) {
+>  		/* write, present and write, not present: */
+>  		if (unlikely(!(vma->vm_flags & VM_WRITE)))
 
-Have you tried to test this code?
+Is there an analogous check for !X86_PF_SHSTK faults to VM_SHSTK VMAs?
 
-This is trying to transition the value at '&ptep->pte' from the
-'pte.pte' value to 'new_pte.pte'.  If the value at '&ptep->pte' does not
-match 'pte.pte', the cmpxchg will fail and we'll run through the loop again.
+> @@ -1344,6 +1355,13 @@ void do_user_addr_fault(struct pt_regs *regs,
+>  
+>  	perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, address);
+>  
+> +	/*
+> +	 * If the fault is caused by a Shadow Stack access,
+> +	 * i.e. CALL/RET/SAVEPREVSSP/RSTORSSP, then set
+> +	 * FAULT_FLAG_WRITE to effect copy-on-write.
+> +	 */
+> +	if (hw_error_code & X86_PF_SHSTK)
+> +		flags |= FAULT_FLAG_WRITE;
+>  	if (hw_error_code & X86_PF_WRITE)
+>  		flags |= FAULT_FLAG_WRITE;
+>  	if (hw_error_code & X86_PF_INSTR)
 
-What terminates that loop?
-
-The "old" value (pte.pte) never gets updated since it is read outside
-the loop.  There's no guarantee that the contents (&ptep->pte) will ever
-match pte.pte.
-
-Doesn't the READ_ONCE() need to be inside the loop?
+It would be great if you could also include the *why*.  *Why* do read
+faults need copy-on-write semantics?
