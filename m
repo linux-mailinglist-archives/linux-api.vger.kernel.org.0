@@ -2,25 +2,26 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F664170A7F
-	for <lists+linux-api@lfdr.de>; Wed, 26 Feb 2020 22:35:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BA97170B01
+	for <lists+linux-api@lfdr.de>; Wed, 26 Feb 2020 23:02:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727504AbgBZVfT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 26 Feb 2020 16:35:19 -0500
-Received: from mga17.intel.com ([192.55.52.151]:30083 "EHLO mga17.intel.com"
+        id S1727774AbgBZWCI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 26 Feb 2020 17:02:08 -0500
+Received: from mga06.intel.com ([134.134.136.31]:10191 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727550AbgBZVfT (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 26 Feb 2020 16:35:19 -0500
+        id S1727672AbgBZWCI (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 26 Feb 2020 17:02:08 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Feb 2020 13:35:17 -0800
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Feb 2020 14:02:07 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.70,489,1574150400"; 
-   d="scan'208";a="241816607"
+   d="scan'208";a="241822675"
 Received: from pkabrax-mobl.amr.corp.intel.com (HELO [10.251.2.6]) ([10.251.2.6])
-  by orsmga006.jf.intel.com with ESMTP; 26 Feb 2020 13:35:16 -0800
-Subject: Re: [RFC PATCH v9 09/27] x86/mm: Introduce _PAGE_DIRTY_SW
+  by orsmga006.jf.intel.com with ESMTP; 26 Feb 2020 14:02:06 -0800
+Subject: Re: [RFC PATCH v9 10/27] x86/mm: Update pte_modify, pmd_modify, and
+ _PAGE_CHG_MASK for _PAGE_DIRTY_SW
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
         "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -47,7 +48,7 @@ To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
         Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
 References: <20200205181935.3712-1-yu-cheng.yu@intel.com>
- <20200205181935.3712-10-yu-cheng.yu@intel.com>
+ <20200205181935.3712-11-yu-cheng.yu@intel.com>
 From:   Dave Hansen <dave.hansen@intel.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=dave.hansen@intel.com; keydata=
@@ -93,12 +94,12 @@ Autocrypt: addr=dave.hansen@intel.com; keydata=
  MTsCeQDdjpgHsj+P2ZDeEKCbma4m6Ez/YWs4+zDm1X8uZDkZcfQlD9NldbKDJEXLIjYWo1PH
  hYepSffIWPyvBMBTW2W5FRjJ4vLRrJSUoEfJuPQ3vW9Y73foyo/qFoURHO48AinGPZ7PC7TF
  vUaNOTjKedrqHkaOcqB185ahG2had0xnFsDPlx5y
-Message-ID: <325d3a25-0016-ea19-c0c9-7958066fc94e@intel.com>
-Date:   Wed, 26 Feb 2020 13:35:15 -0800
+Message-ID: <c215a795-1411-9ab0-10a6-520dd4771016@intel.com>
+Date:   Wed, 26 Feb 2020 14:02:06 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200205181935.3712-10-yu-cheng.yu@intel.com>
+In-Reply-To: <20200205181935.3712-11-yu-cheng.yu@intel.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -107,224 +108,92 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+The subject really needs work.  Could you think of a way to summarize
+the changes here in english as opposed to just listing the symbols you
+modified?
+
+I think we could probably just auto-generate subjects for patches if the
+existing one were sufficient.
+
 On 2/5/20 10:19 AM, Yu-cheng Yu wrote:
-> When Shadow Stack (SHSTK) is introduced, a R/O and Dirty PTE exists in the
-> following cases:
-> 
-> (a) A modified, copy-on-write (COW) page;
-> (b) A R/O page that has been COW'ed;
-> (c) A SHSTK page.
+> After the introduction of _PAGE_DIRTY_SW, pte_modify and pmd_modify need to
+> set the Dirty bit accordingly: if Shadow Stack is enabled and _PAGE_RW is
+> cleared, use _PAGE_DIRTY_SW; otherwise _PAGE_DIRTY_HW.
 
-I really like to begin these patches with a problem statement:
+You've basically gone and written the code's if() statement in english
+here.  That doesn't really help me understand the patch.
 
-	There is essentially no room left in the x86 hardware PTEs on
-	some OSes (not Linux).  That left the hardware architects
-	looking for a way to represent a new memory type (shadow stack)
-	within the existing bits.  They chose to repurpose a lightly-
-	used state: Write=0,Dirty=1.
+> Since the Dirty bit is modify by pte_modify(), remove _PAGE_DIRTY_HW from
+> PAGE_CHG_MASK.
 
-	The reason it's lightly used is that Dirty=1 is normally set by
-	hardware and can not normally be set by hardware on a Write=0
-	PTE.  Software must normally be involved to create one of these
-	PTEs, so software can simply opt to not create them.
+			 ^ modified
 
-But that leaves us with a Linux problem: we need to ensure we never
-create Write=0,Dirty=1 PTEs.  In places where we do create them, we need
-to find an alternative way to represent them _without_ using the same
-hardware bit combination.  Thus, enter _PAGE_DIRTY_SW.
+This is a great example of a changelog that adds very little value.
+It's following the comments and doing what they say, but it's pretty
+obvious that the analysis stopped there.
 
-... back to the list:
-> (a) A modified, copy-on-write (COW) page;
-> (b) A R/O page that has been COW'ed;
+What *kinds* of bits are in _PAGE_CHG_MASK or not?  What changed about
+_PAGE_DIRTY_HW.  By this definition, shouldn't _PAGE_DIRTY_SW have
+technically been in this mask before this patch?
 
-(a) is pretty clear to me.  We had a Write=1,Dirty=1 PTE and fork()'d.
-The fork() code set Write=0, but left Dirty=1.  In this case, we have a
-read-only PTE underneath a VM_WRITE VMA.
-
-(b) is not clear to me.  Could you please differentiate between the
-permissions of the PTE and the permissions of the VMA, and also include
-the steps needed to create it?
-
-I think you also forgot a state:
-
-(d) a page where the processor observed a Write=1 PTE, started a write,
-    set Dirty=1, but then observed a Write=0 PTE.
-
-That's possible today.
-
-> To separate non-SHSTK memory from SHSTK, introduce a spare bit of the
-> 64-bit PTE as _PAGE_BIT_DIRTY_SW and use that for case (a) and (b).
-> This results in the following possible settings:
-> 
-> Modified PTE:         (R/W + DIRTY_HW)
-> Modified and COW PTE: (R/O + DIRTY_SW)
-> R/O PTE COW'ed:       (R/O + DIRTY_SW)
-> SHSTK PTE:            (R/O + DIRTY_HW)
-> SHSTK shared PTE[1]:  (R/O + DIRTY_SW)
-> SHSTK PTE COW'ed:     (R/O + DIRTY_HW)
-> 
-> [1] When a SHSTK page is being shared among threads,
-
-I think you mean processes.  You can probably even mention here that
-this happens at fork().
-
->     its PTE is cleared of
->     _PAGE_DIRTY_HW, so the next SHSTK access causes a fault, and the page
->     is duplicated and _PAGE_DIRTY_HW is set again.
-
-It's worth noting here that this is the COW equivalent for shadow stack
-pages, even though it's copy-on-any-access rather than copy-on-write.
-
-
->  static inline pte_t pte_mkold(pte_t pte)
-> @@ -322,6 +322,17 @@ static inline pte_t pte_mkold(pte_t pte)
->  
->  static inline pte_t pte_wrprotect(pte_t pte)
->  {
-> +	/*
-> +	 * Use _PAGE_DIRTY_SW on a R/O PTE to set it apart from
-> +	 * a Shadow Stack PTE, which is R/O + _PAGE_DIRTY_HW.
-> +	 */
-
-I think we can do better here than this comment.  Maybe:
-
-	/*
-	 * Blindly clearing _PAGE_RW might accidentally create
-	 * A shadow stack PTE (RW=0,Dirty=1).  Move the hardware
-	 * dirty value to the software bit.
-	 */
-	
-
-> +	if (static_cpu_has(X86_FEATURE_SHSTK)) {
-
-Do we need to check cpuid, or do we need to check whether shadow stacks
-are enabled?  What if X86_FEATURE_SHSTK is set, but cr4.X86_CR4_CET=0?
-
-I think you've gone and tried to clear X86_FEATURE_SHSTK whenever the
-feature is not enabled.  That's a _bit_ funky, but I guess it works.  I
-think I'd rather have some common helper like: shadow_stacks_enabled()
-that gets called so that you at least have a single place in the code to
-point out this convention.
-
-> +		if (pte_flags(pte) & _PAGE_DIRTY_HW) {
-> +			pte = pte_clear_flags(pte, _PAGE_DIRTY_HW);
-> +			pte = pte_set_flags(pte, _PAGE_DIRTY_SW);
-> +		}
+> diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
+> index 62aeb118bc36..2733e7ec16b3 100644
+> --- a/arch/x86/include/asm/pgtable.h
+> +++ b/arch/x86/include/asm/pgtable.h
+> @@ -702,6 +702,14 @@ static inline pte_t pte_modify(pte_t pte, pgprot_t newprot)
+>  	val &= _PAGE_CHG_MASK;
+>  	val |= check_pgprot(newprot) & ~_PAGE_CHG_MASK;
+>  	val = flip_protnone_guard(oldval, val, PTE_PFN_MASK);
+> +
+> +	if (pte_dirty(pte)) {
+> +		if (static_cpu_has(X86_FEATURE_SHSTK) && !(val & _PAGE_RW))
+> +			val |= _PAGE_DIRTY_SW;
+> +		else
+> +			val |= _PAGE_DIRTY_HW;
 > +	}
 > +
->  	return pte_clear_flags(pte, _PAGE_RW);
+>  	return __pte(val);
 >  }
 
-Just curious, but how clean does the assembly look after this change?
-Does this really blow up the code?
+OK, so this is a path we use for changing bunches of PTEs to 'newprot'.
+ It doesn't use the pte_*() helpers that the previous patch fixed up, so
+we need a new site.
 
-This code is used in fork() which we care deeply about.  Did you go
-looking for any performance impact from this?
+Right?
 
-> @@ -332,9 +343,25 @@ static inline pte_t pte_mkexec(pte_t pte)
+Maybe that would make good changelog text.
+
+Also, couldn't we just have a pte_fixup() function or something that did
+this logic and could be shared?
+
+> @@ -712,6 +720,14 @@ static inline pmd_t pmd_modify(pmd_t pmd, pgprot_t newprot)
+>  	val &= _HPAGE_CHG_MASK;
+>  	val |= check_pgprot(newprot) & ~_HPAGE_CHG_MASK;
+>  	val = flip_protnone_guard(oldval, val, PHYSICAL_PMD_PAGE_MASK);
+> +
+> +	if (pmd_dirty(pmd)) {
+> +		if (static_cpu_has(X86_FEATURE_SHSTK) && !(val & _PAGE_RW))
+> +			val |= _PAGE_DIRTY_SW;
+> +		else
+> +			val |= _PAGE_DIRTY_HW;
+> +	}
+> +
+>  	return __pmd(val);
+>  }
 >  
->  static inline pte_t pte_mkdirty(pte_t pte)
->  {
-> +	pteval_t dirty = _PAGE_DIRTY_HW;
-> +
-> +	if (static_cpu_has(X86_FEATURE_SHSTK) && !pte_write(pte))
-> +		dirty = _PAGE_DIRTY_SW;
-> +
-> +	return pte_set_flags(pte, dirty | _PAGE_SOFT_DIRTY);
-> +}
-
-Comment, please.
-
-	/* Avoid creating (HW)Dirty=1,Write=0 PTEs */
-
-> +static inline pte_t pte_mkdirty_shstk(pte_t pte)
-> +{
-> +	pte = pte_clear_flags(pte, _PAGE_DIRTY_SW);
->  	return pte_set_flags(pte, _PAGE_DIRTY_HW | _PAGE_SOFT_DIRTY);
->  }
-
-I've already forgotten what the right thing here is and why you _need_
-_PAGE_DIRTY_SW clear.  That's a bad sign. :)
-
-Could you please enlighten us by adding a comment?
-
-> +static inline bool pte_dirty_hw(pte_t pte)
-> +{
-> +	return pte_flags(pte) & _PAGE_DIRTY_HW;
-> +}
-
-There's at least one open-coded instance of this above.  Why not just
-move this up so you can use it?
-...
-
-All of those comments pretty much go for the pmd and pud variants too,
-of course.
-
 > diff --git a/arch/x86/include/asm/pgtable_types.h b/arch/x86/include/asm/pgtable_types.h
-> index e647e3c75578..826823df917f 100644
+> index 826823df917f..e7e28bf7e919 100644
 > --- a/arch/x86/include/asm/pgtable_types.h
 > +++ b/arch/x86/include/asm/pgtable_types.h
-> @@ -23,7 +23,8 @@
->  #define _PAGE_BIT_SOFTW2	10	/* " */
->  #define _PAGE_BIT_SOFTW3	11	/* " */
->  #define _PAGE_BIT_PAT_LARGE	12	/* On 2MB or 1GB pages */
-> -#define _PAGE_BIT_SOFTW4	58	/* available for programmer */
-> +#define _PAGE_BIT_SOFTW4	57	/* available for programmer */
-> +#define _PAGE_BIT_SOFTW5	58	/* available for programmer */
->  #define _PAGE_BIT_PKEY_BIT0	59	/* Protection Keys, bit 1/4 */
->  #define _PAGE_BIT_PKEY_BIT1	60	/* Protection Keys, bit 2/4 */
->  #define _PAGE_BIT_PKEY_BIT2	61	/* Protection Keys, bit 3/4 */
-> @@ -35,6 +36,12 @@
->  #define _PAGE_BIT_SOFT_DIRTY	_PAGE_BIT_SOFTW3 /* software dirty tracking */
->  #define _PAGE_BIT_DEVMAP	_PAGE_BIT_SOFTW4
->  
-> +/*
-> + * This bit indicates a copy-on-write page, and is different from
-> + * _PAGE_BIT_SOFT_DIRTY, which tracks which pages a task writes to.
-> + */
-> +#define _PAGE_BIT_DIRTY_SW	_PAGE_BIT_SOFTW5 /* was written to */
-
-Does it *only* indicate a copy-on-write (or copy-on-access) page?  If
-so, haven't we misnamed it?
-
->  /* If _PAGE_BIT_PRESENT is clear, we use these: */
->  /* - if the user mapped it with PROT_NONE; pte_present gives true */
->  #define _PAGE_BIT_PROTNONE	_PAGE_BIT_GLOBAL
-> @@ -108,6 +115,28 @@
->  #define _PAGE_DEVMAP	(_AT(pteval_t, 0))
->  #endif
->  
-> +/* A R/O and dirty PTE exists in the following cases:
-
-Which dirty is this talking about?  DIRTY_HW?  DIRTY_SW?
-
-> + *	(a) A modified, copy-on-write (COW) page;
-> + *	(b) A R/O page that has been COW'ed;
-> + *	(c) A SHSTK page.
-
-Don't forget (d).
-
-> + * _PAGE_DIRTY_SW is used to separate case (c) from others.
-> + * This results in the following settings:
-> + *
-> + *	Modified PTE:         (R/W + DIRTY_HW)
-> + *	Modified and COW PTE: (R/O + DIRTY_SW)
-> + *	R/O PTE COW'ed:       (R/O + DIRTY_SW)
-> + *	SHSTK PTE:            (R/O + DIRTY_HW)
-> + *	SHSTK PTE COW'ed:     (R/O + DIRTY_HW)
-> + *	SHSTK PTE being shared among threads: (R/O + DIRTY_SW)
-> + */
-> +#ifdef CONFIG_X86_INTEL_SHADOW_STACK_USER
-> +#define _PAGE_DIRTY_SW	(_AT(pteval_t, 1) << _PAGE_BIT_DIRTY_SW)
-> +#else
-> +#define _PAGE_DIRTY_SW	(_AT(pteval_t, 0))
-> +#endif
-> +
-> +#define _PAGE_DIRTY_BITS (_PAGE_DIRTY_HW | _PAGE_DIRTY_SW)
-> +
->  #define _PAGE_PROTNONE	(_AT(pteval_t, 1) << _PAGE_BIT_PROTNONE)
->  
->  #define _PAGE_TABLE_NOENC	(_PAGE_PRESENT | _PAGE_RW | _PAGE_USER |\
-> 
+> @@ -150,8 +150,8 @@
+>   * instance, and is *not* included in this mask since
+>   * pte_modify() does modify it.
+>   */
+> -#define _PAGE_CHG_MASK	(PTE_PFN_MASK | _PAGE_PCD | _PAGE_PWT |		\
+> -			 _PAGE_SPECIAL | _PAGE_ACCESSED | _PAGE_DIRTY_HW |	\
+> +#define _PAGE_CHG_MASK	(PTE_PFN_MASK | _PAGE_PCD | _PAGE_PWT |	\
+> +			 _PAGE_SPECIAL | _PAGE_ACCESSED |	\
+>  			 _PAGE_SOFT_DIRTY | _PAGE_DEVMAP)
+>  #define _HPAGE_CHG_MASK (_PAGE_CHG_MASK | _PAGE_PSE)
 
 
