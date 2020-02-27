@@ -2,113 +2,160 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EFBCA170F3A
-	for <lists+linux-api@lfdr.de>; Thu, 27 Feb 2020 04:57:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D4631170FF4
+	for <lists+linux-api@lfdr.de>; Thu, 27 Feb 2020 06:06:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728324AbgB0D5G (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 26 Feb 2020 22:57:06 -0500
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:37551 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728252AbgB0D5F (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 26 Feb 2020 22:57:05 -0500
-Received: by mail-pf1-f194.google.com with SMTP id p14so898185pfn.4
-        for <linux-api@vger.kernel.org>; Wed, 26 Feb 2020 19:57:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=content-transfer-encoding:from:mime-version:subject:date:message-id
-         :references:cc:in-reply-to:to;
-        bh=CnaaQj5OkZlinyuOBz/+nnOP++fx4EwIlpltdiovgCE=;
-        b=CvFkH5dzd6cq24Yi56VcybisKknibFmU/ow2ZqelBQazvt8BufBh2ODr6THyJye6BK
-         pWi9IQSyRt+DW4H7LH3Aw5WOB0wmY2ss62VcGrpUEDa8LKWEhtep7DgNKCIbBL1AWb6E
-         Tq57vgFbkcc608Dp5NIyKYhwGlsVs0fuPZ3UMk/nQOtDlUMasKcyMX8I/qiEzMoaNKIQ
-         y6n/KjR0q+J0RQiLg4/94jYEXnIlUggAEkQ/dDJpkqkojBDmZJ0kwbgYurQI4Y7i8MIi
-         0yIhFypbvEihEA0ivMQ6+HmGvD0QQVI3e6COI7tobO8x7xKc8jppGDUrtCV8AD2tGzdl
-         S8/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:content-transfer-encoding:from:mime-version
-         :subject:date:message-id:references:cc:in-reply-to:to;
-        bh=CnaaQj5OkZlinyuOBz/+nnOP++fx4EwIlpltdiovgCE=;
-        b=mcQldRUSsv02AigTX1ssOl/OGWnrooMWLdM0cqtaKDLAGzljJh9A2ZIwY0ClCXm7PR
-         ulSo97lgdE8Mmqk4vK2/+0ndH3HXR69N2ORyRDZS1FH+VkJfF1S6+yK4tAsO3Okif2D/
-         dtwG1ulTKa+aAsA4fBxnQhIXbJqRSCfc+G9DUGtdoVCqJnfppI4SuSs+ZF5hfMJ2Med8
-         TXVR7LWg5XCjYCP18cyrvnqzUuvO7yu6R1iKXw/ne+ejqAnCe4lI5gng6PriJwOc2i5S
-         1hNVtyc+7xMqHwPs9MuChPlkF5piNiaEgMt5+ISDkih6kRhQOdsj4+MwVHcUXK5nkKGu
-         nQzw==
-X-Gm-Message-State: APjAAAUEfAAYa0jcfbEeuiH5dnMF0RVSysCnc62ibMmzUCRXWemInd/g
-        /yiN86VOPOAh+t3yjr8AKoGeng==
-X-Google-Smtp-Source: APXvYqy28xXxMFJjJ7wZKlE7xuddyqQc8I1BmGULeVfYLEzR3Y+/xN7FT1RQFMCIBqkzWHgsDEn21A==
-X-Received: by 2002:a62:17c3:: with SMTP id 186mr2085313pfx.158.1582775824816;
-        Wed, 26 Feb 2020 19:57:04 -0800 (PST)
-Received: from ?IPv6:2600:1010:b069:8a27:ddd9:92ea:d62b:8a52? ([2600:1010:b069:8a27:ddd9:92ea:d62b:8a52])
-        by smtp.gmail.com with ESMTPSA id j21sm4165728pji.13.2020.02.26.19.57.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Feb 2020 19:57:03 -0800 (PST)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From:   Andy Lutomirski <luto@amacapital.net>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [RFC PATCH v9 05/27] x86/cet/shstk: Add Kconfig option for user-mode Shadow Stack protection
-Date:   Wed, 26 Feb 2020 19:57:01 -0800
-Message-Id: <FF42D299-D7A4-4884-9E45-DBEB5853FE56@amacapital.net>
-References: <CAMe9rOqhf4y+e6h8i7P8+70pwLSg8n=ise6LEqABNPKarECdeA@mail.gmail.com>
-Cc:     Dave Hansen <dave.hansen@intel.com>,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
+        id S1725802AbgB0FGu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 27 Feb 2020 00:06:50 -0500
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:59977 "EHLO
+        new1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725790AbgB0FGu (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 27 Feb 2020 00:06:50 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 27D5C737F;
+        Thu, 27 Feb 2020 00:06:47 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Thu, 27 Feb 2020 00:06:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=
+        message-id:subject:from:to:cc:date:in-reply-to:references
+        :content-type:mime-version:content-transfer-encoding; s=fm2; bh=
+        7VMetkVh205MzER1jhY7QfzeT/S8gk9URVRPcaR9UKY=; b=W2OsanbM4Y8N7In5
+        ulcg2cGkc762HChDxbpL7sdlY3FHEr5UtUaky3Id8B4Ez8PVwLkaF8cfEpICIdBy
+        Xt7n/6Dqk5eI0e9+rMeUws2jM5RFovMCugq/+PvYK5jEXpfQan0q58LWdchZ2bfR
+        WzeY10G1WL4d7N8leKIlgQqyysYWhjhW/BMmasr3oPfa1GOSd5ABB7A3H75gtt/x
+        bXclqh60MTUvIcM/qtScr0uW+euP6nWv4EyQkbvJLNdwZPabxC9Z/wBRlTlTwBmH
+        bfEeQEx3KWLaawlf5FdpkiqtUASSGU5lRdXJ5ZUK8KNvHa6k+A/chvB/Olwq2lLZ
+        Bd1cUA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:in-reply-to:message-id:mime-version:references
+        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm2; bh=7VMetkVh205MzER1jhY7QfzeT/S8gk9URVRPcaR9U
+        KY=; b=s2D+WB69gZXt5NsTV7nJlj/+NG6CxkQ5cJWonajElYzKmdNc2fxAODUR5
+        vLjjyzrHRBo1uSgVb7VPVOPbQ4BJkBglTx+kkoUUfPvcKcF7bY+UghGP/dlZWL44
+        WJULFq6b2tHrB2rXxOi08xPrUyu2VxELzKsrZ93L8UfXLlmNFHOpIfiXNDoR7uQW
+        W9BWiBePb2kB6zeA1mtU+YZHeLXHnrCaQo3dIMoH0TgZCKDn7VIv3zP8QqxXQdtA
+        fvdC7SGbyGvO3E9j1HucB7UXo/KbPiLMU4Adiswzw7DTEln6Q8Mzvu8Ey54uHEDS
+        vPQXTN7R6HV1lKXYR7oTMRYpWHV/Q==
+X-ME-Sender: <xms:Zk5XXu8UUkZ2foIoXf2SguUEfEfUsPzeSYQW-32vD9v-SHSFfot_2w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrleehgdekvdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefkuffhvfffjghftggfggfgsehtjeertddtreejnecuhfhrohhmpefkrghnucfm
+    vghnthcuoehrrghvvghnsehthhgvmhgrfidrnhgvtheqnecukfhppeduudekrddvtdekrd
+    dukeehrddugeeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhf
+    rhhomheprhgrvhgvnhesthhhvghmrgifrdhnvght
+X-ME-Proxy: <xmx:Zk5XXjq2kzjheij30NPfrlzINAHm9we_2SZugqbGzz8-L-1hyruffg>
+    <xmx:Zk5XXsLFGLC4IIMpEQT_lEIId5f-TSAaWcnoEPFyYNNEchYsX4B0aQ>
+    <xmx:Zk5XXm71yRDmPqsFHdKQOnobRhiSGeyg8pgFiBiVRJ3G8aXsVPV25Q>
+    <xmx:Z05XXsRQd3afcvSV6Fqqrd1CstsqPgyXFpAuNFt_ETou83LLB_gPXw>
+Received: from mickey.themaw.net (unknown [118.208.185.148])
+        by mail.messagingengine.com (Postfix) with ESMTPA id CE3CA3280059;
+        Thu, 27 Feb 2020 00:06:41 -0500 (EST)
+Message-ID: <1c8db4e2b707f958316941d8edd2073ee7e7b22c.camel@themaw.net>
+Subject: Re: [PATCH 00/17] VFS: Filesystem information and notifications
+ [ver #17]
+From:   Ian Kent <raven@themaw.net>
+To:     Miklos Szeredi <mszeredi@redhat.com>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>
+Cc:     Steven Whitehouse <swhiteho@redhat.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        David Howells <dhowells@redhat.com>,
+        viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <christian@brauner.io>,
+        Jann Horn <jannh@google.com>,
+        "Darrick J. Wong" <darrick.wong@oracle.com>,
         Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
-In-Reply-To: <CAMe9rOqhf4y+e6h8i7P8+70pwLSg8n=ise6LEqABNPKarECdeA@mail.gmail.com>
-To:     "H.J. Lu" <hjl.tools@gmail.com>
-X-Mailer: iPhone Mail (17D50)
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Date:   Thu, 27 Feb 2020 13:06:37 +0800
+In-Reply-To: <CAOssrKfaxnHswrKejedFzmYTbYivJ++cPes4c91+BJDfgH4xJA@mail.gmail.com>
+References: <158230810644.2185128.16726948836367716086.stgit@warthog.procyon.org.uk>
+         <1582316494.3376.45.camel@HansenPartnership.com>
+         <CAOssrKehjnTwbc6A1VagM5hG_32hy3mXZenx_PdGgcUGxYOaLQ@mail.gmail.com>
+         <1582556135.3384.4.camel@HansenPartnership.com>
+         <CAJfpegsk6BsVhUgHNwJgZrqcNP66wS0fhCXo_2sLt__goYGPWg@mail.gmail.com>
+         <a657a80e-8913-d1f3-0ffe-d582f5cb9aa2@redhat.com>
+         <1582644535.3361.8.camel@HansenPartnership.com>
+         <CAOssrKfaxnHswrKejedFzmYTbYivJ++cPes4c91+BJDfgH4xJA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.5 (3.32.5-1.fc30) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Wed, 2020-02-26 at 10:11 +0100, Miklos Szeredi wrote:
+> On Tue, Feb 25, 2020 at 4:29 PM James Bottomley
+> <James.Bottomley@hansenpartnership.com> wrote:
+> 
+> > The other thing a file descriptor does that sysfs doesn't is that
+> > it
+> > solves the information leak: if I'm in a mount namespace that has
+> > no
+> > access to certain mounts, I can't fspick them and thus I can't see
+> > the
+> > information.  By default, with sysfs I can.
+> 
+> That's true, but procfs/sysfs has to deal with various namespacing
+> issues anyway.  If this is just about hiding a number of entries,
+> then
+> I don't think that's going to be a big deal.
 
-> On Feb 26, 2020, at 6:11 PM, H.J. Lu <hjl.tools@gmail.com> wrote:
->=20
-> =EF=BB=BFOn Wed, Feb 26, 2020 at 5:16 PM Dave Hansen <dave.hansen@intel.co=
-m> wrote:
->>=20
->> On 2/26/20 5:02 PM, H.J. Lu wrote:
->>>> That way everybody with old toolchains can still build the kernel (and
->>>> run/test code with your config option on, btw...).
->>> CET requires a complete new OS image from kernel, toolchain, run-time.
->>> CET enabled kernel without the rest of updated OS won't give you CET
->>> at all.
->>=20
->> If you require a new toolchain, nobody even builds your fancy feature.
->> Probably including 0day and all of the lazy maintainers with crufty old
->> distros.
->=20
-> GCC 8 or above is needed since vDSO must be compiled with
-> --fcf-protection=3Dbranch.
+I didn't see name space considerations in sysfs when I was looking at
+it recently. Obeying name space requirements is likely a lot of work
+in sysfs.
 
-Fair enough. I don=E2=80=99t particularly want to carry a gross hack to add t=
-he ENDBRANCHes without compiler support.
+> 
+> The syscall API is efficient: single syscall per query instead of
+> several, no parsing necessary.
+> 
+> However, it is difficult to extend, because the ABI must be updated,
+> possibly libc and util-linux also, so that scripts can also consume
+> the new parameter.  With the sysfs approach only the kernel needs to
+> be updated, and possibly only the filesystem code, not even the VFS.
+> 
+> So I think the question comes down to:  do we need a highly efficient
+> way to query the superblock parameters all at once, or not?
 
+Or a similar question could be, how could a sysfs interface work
+to provide mount information.
+
+Getting information about all mounts might not be too bad but the
+sysfs directory structure that would be needed to represent all
+system mounts (without considering name spaces) would likely
+result in somewhat busy user space code.
+
+For example, given a path, and the path is all I know, how do I
+get mount information?
+
+Ignoring possible multiple mounts on a mount point, call fsinfo()
+with the path and get the id (the path walk is low overhead) to
+use with fsinfo() to get the all the info I need ... done.
+
+Again, ignoring possible multiple mounts on a mount point, and
+assuming there is a sysfs tree enumerating all the system mounts.
+I could open <sysfs base> + mount point path followed buy opening
+and reading the individual attribute files ... a bit more busy
+that one ... particularly if I need to do it for several thousand
+mounts.
+
+Then there's the code that would need to be added to maintain the
+various views in the sysfs tree, which can't be restricted only to
+the VFS because there's file system specific info needed too (the
+maintain a table idea), and that's before considering name space
+handling changes to sysfs.
+
+At the least the question of "do we need a highly efficient way
+to query the superblock parameters all at once" needs to be
+extended to include mount table enumeration as well as getting
+the info.
+
+But this is just me thinking about mount table handling and the
+quite significant problem we now have with user space scanning
+the proc mount tables to get this information.
+
+Ian
 
