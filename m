@@ -2,26 +2,25 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 62388170BD5
-	for <lists+linux-api@lfdr.de>; Wed, 26 Feb 2020 23:47:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 11B8B170CF8
+	for <lists+linux-api@lfdr.de>; Thu, 27 Feb 2020 01:08:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727846AbgBZWrS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 26 Feb 2020 17:47:18 -0500
-Received: from mga06.intel.com ([134.134.136.31]:13010 "EHLO mga06.intel.com"
+        id S1728035AbgB0AIJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 26 Feb 2020 19:08:09 -0500
+Received: from mga11.intel.com ([192.55.52.93]:39522 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727763AbgBZWrS (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 26 Feb 2020 17:47:18 -0500
+        id S1726413AbgB0AII (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 26 Feb 2020 19:08:08 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Feb 2020 14:47:17 -0800
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Feb 2020 16:08:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,489,1574150400"; 
-   d="scan'208";a="241833449"
+X-IronPort-AV: E=Sophos;i="5.70,490,1574150400"; 
+   d="scan'208";a="241854019"
 Received: from pkabrax-mobl.amr.corp.intel.com (HELO [10.251.2.6]) ([10.251.2.6])
-  by orsmga006.jf.intel.com with ESMTP; 26 Feb 2020 14:47:16 -0800
-Subject: Re: [RFC PATCH v9 13/27] x86/mm: Shadow Stack page fault error
- checking
+  by orsmga006.jf.intel.com with ESMTP; 26 Feb 2020 16:08:06 -0800
+Subject: Re: [RFC PATCH v9 14/27] mm: Handle Shadow Stack page fault
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
         "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -48,7 +47,7 @@ To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
         Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
 References: <20200205181935.3712-1-yu-cheng.yu@intel.com>
- <20200205181935.3712-14-yu-cheng.yu@intel.com>
+ <20200205181935.3712-15-yu-cheng.yu@intel.com>
 From:   Dave Hansen <dave.hansen@intel.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=dave.hansen@intel.com; keydata=
@@ -94,12 +93,12 @@ Autocrypt: addr=dave.hansen@intel.com; keydata=
  MTsCeQDdjpgHsj+P2ZDeEKCbma4m6Ez/YWs4+zDm1X8uZDkZcfQlD9NldbKDJEXLIjYWo1PH
  hYepSffIWPyvBMBTW2W5FRjJ4vLRrJSUoEfJuPQ3vW9Y73foyo/qFoURHO48AinGPZ7PC7TF
  vUaNOTjKedrqHkaOcqB185ahG2had0xnFsDPlx5y
-Message-ID: <1c8946d0-7934-3485-aa82-d37d41021dc7@intel.com>
-Date:   Wed, 26 Feb 2020 14:47:16 -0800
+Message-ID: <4902a6ee-cb0f-2700-1f6d-9d756593183c@intel.com>
+Date:   Wed, 26 Feb 2020 16:08:06 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200205181935.3712-14-yu-cheng.yu@intel.com>
+In-Reply-To: <20200205181935.3712-15-yu-cheng.yu@intel.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -108,99 +107,66 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2/5/20 10:19 AM, Yu-cheng Yu wrote:
-> If a page fault is triggered by a Shadow Stack (SHSTK) access
-> (e.g. CALL/RET) or SHSTK management instructions (e.g. WRUSSQ), then bit[6]
-> of the page fault error code is set.
+> diff --git a/mm/memory.c b/mm/memory.c
+> index 45442d9a4f52..6daa28614327 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -772,7 +772,8 @@ copy_one_pte(struct mm_struct *dst_mm, struct mm_struct *src_mm,
+>  	 * If it's a COW mapping, write protect it both
+>  	 * in the parent and the child
+>  	 */
+> -	if (is_cow_mapping(vm_flags) && pte_write(pte)) {
+> +	if ((is_cow_mapping(vm_flags) && pte_write(pte)) ||
+> +	    arch_copy_pte_mapping(vm_flags)) {
+>  		ptep_set_wrprotect(src_mm, addr, src_pte);
+>  		pte = pte_wrprotect(pte);
+>  	}
 
-How about starting with a definition:
+You have to modify this because pte_write()==0 for shadow stack PTEs, right?
 
-	Shadow stack accesses are those that are performed by the CPU
-	where it expects to encounter a shadow stack mapping.  These
-	accesses are performed implicitly by CALL/RET at the site of the
-	shadow stack pointer.  These accesses are made explicitly by
-	shadow stack management instructions like WRUSSQ.
+Aren't shadow stack ptes *logically* writable, even if they don't have
+the write bit set?  What would happen if we made pte_write()==1 for them?
 
-> In access_error(), verify a SHSTK page fault is within a SHSTK memory area.
-> It is always an error otherwise.
-
-How about: Shadow stacks accesses to shadow-stack mapping can see faults
-in normal, valid operation just like regular accesses to regular
-mappings.  Shadow stacks need some of the same features like delayed
-allocation, swap and copy-on-write.
-
-Shadow stack accesses can also result in errors, such as when a shadow
-stack overflows, or if a shadow stack access occurs to a
-non-shadow-stack mapping.
-
-> For a valid SHSTK access, set FAULT_FLAG_WRITE to effect copy-on-write.
-
-It seems rather odd to want copy-on-write behavior for read faults.
-Could you elaborate on why, please?
-
-> diff --git a/arch/x86/include/asm/traps.h b/arch/x86/include/asm/traps.h
-> index 7ac26bbd0bef..8023d177fcd8 100644
-> --- a/arch/x86/include/asm/traps.h
-> +++ b/arch/x86/include/asm/traps.h
-> @@ -169,6 +169,7 @@ enum {
->   *   bit 3 ==				1: use of reserved bit detected
->   *   bit 4 ==				1: fault was an instruction fetch
->   *   bit 5 ==				1: protection keys block access
-> + *   bit 6 ==				1: shadow stack access fault
->   */
->  enum x86_pf_error_code {
->  	X86_PF_PROT	=		1 << 0,
-> @@ -177,5 +178,6 @@ enum x86_pf_error_code {
->  	X86_PF_RSVD	=		1 << 3,
->  	X86_PF_INSTR	=		1 << 4,
->  	X86_PF_PK	=		1 << 5,
-> +	X86_PF_SHSTK	=		1 << 6,
->  };
->  #endif /* _ASM_X86_TRAPS_H */
-> diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
-> index 304d31d8cbbc..9c1243302663 100644
-> --- a/arch/x86/mm/fault.c
-> +++ b/arch/x86/mm/fault.c
-> @@ -1187,6 +1187,17 @@ access_error(unsigned long error_code, struct vm_area_struct *vma)
->  				       (error_code & X86_PF_INSTR), foreign))
->  		return 1;
+> @@ -2417,6 +2418,7 @@ static inline void wp_page_reuse(struct vm_fault *vmf)
+>  	flush_cache_page(vma, vmf->address, pte_pfn(vmf->orig_pte));
+>  	entry = pte_mkyoung(vmf->orig_pte);
+>  	entry = maybe_mkwrite(pte_mkdirty(entry), vma);
+> +	entry = pte_set_vma_features(entry, vma);
+>  	if (ptep_set_access_flags(vma, vmf->address, vmf->pte, entry, 1))
+>  		update_mmu_cache(vma, vmf->address, vmf->pte);
+>  	pte_unmap_unlock(vmf->pte, vmf->ptl);
+> @@ -2504,6 +2506,7 @@ static vm_fault_t wp_page_copy(struct vm_fault *vmf)
+>  		flush_cache_page(vma, vmf->address, pte_pfn(vmf->orig_pte));
+>  		entry = mk_pte(new_page, vma->vm_page_prot);
+>  		entry = maybe_mkwrite(pte_mkdirty(entry), vma);
+> +		entry = pte_set_vma_features(entry, vma);
+>  		/*
+>  		 * Clear the pte entry and flush it first, before updating the
+>  		 * pte with the new entry. This will avoid a race condition
+> @@ -3023,6 +3026,7 @@ vm_fault_t do_swap_page(struct vm_fault *vmf)
+>  	pte = mk_pte(page, vma->vm_page_prot);
+>  	if ((vmf->flags & FAULT_FLAG_WRITE) && reuse_swap_page(page, NULL)) {
+>  		pte = maybe_mkwrite(pte_mkdirty(pte), vma);
+> +		pte = pte_set_vma_features(pte, vma);
+>  		vmf->flags &= ~FAULT_FLAG_WRITE;
+>  		ret |= VM_FAULT_WRITE;
+>  		exclusive = RMAP_EXCLUSIVE;
+> @@ -3165,6 +3169,7 @@ static vm_fault_t do_anonymous_page(struct vm_fault *vmf)
+>  	entry = mk_pte(page, vma->vm_page_prot);
+>  	if (vma->vm_flags & VM_WRITE)
+>  		entry = pte_mkwrite(pte_mkdirty(entry));
+> +	entry = pte_set_vma_features(entry, vma);
 >  
-> +	/*
-> +	 * Verify X86_PF_SHSTK is within a Shadow Stack VMA.
-> +	 * It is always an error if there is a Shadow Stack
-> +	 * fault outside a Shadow Stack VMA.
-> +	 */
+>  	vmf->pte = pte_offset_map_lock(vma->vm_mm, vmf->pmd, vmf->address,
+>  			&vmf->ptl);
+> 
 
-Nit: there was an access that caused the fault.  We can be a bit more
-broad in the implications from the comment if we say "access" instead of
-"fault".
+These seem wrong, or at best inconsistent with what's already done.
 
-> +	if (error_code & X86_PF_SHSTK) {
-> +		if (!(vma->vm_flags & VM_SHSTK))
-> +			return 1;
-> +		return 0;
-> +	}
-> +
->  	if (error_code & X86_PF_WRITE) {
->  		/* write, present and write, not present: */
->  		if (unlikely(!(vma->vm_flags & VM_WRITE)))
+We don't need anything like pte_set_vma_features() today because we have
+vma->vm_page_prot.  We could easily have done what you suggest here for
+things like protection keys: ignore the pkey PTE bits until we create
+the final PTE then shove them in there.
 
-Is there an analogous check for !X86_PF_SHSTK faults to VM_SHSTK VMAs?
-
-> @@ -1344,6 +1355,13 @@ void do_user_addr_fault(struct pt_regs *regs,
->  
->  	perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, address);
->  
-> +	/*
-> +	 * If the fault is caused by a Shadow Stack access,
-> +	 * i.e. CALL/RET/SAVEPREVSSP/RSTORSSP, then set
-> +	 * FAULT_FLAG_WRITE to effect copy-on-write.
-> +	 */
-> +	if (hw_error_code & X86_PF_SHSTK)
-> +		flags |= FAULT_FLAG_WRITE;
->  	if (hw_error_code & X86_PF_WRITE)
->  		flags |= FAULT_FLAG_WRITE;
->  	if (hw_error_code & X86_PF_INSTR)
-
-It would be great if you could also include the *why*.  *Why* do read
-faults need copy-on-write semantics?
+What are the bit patterns of the shadow stack bits that come out of
+these sites?  Can they be represented in ->vm_page_prot?
