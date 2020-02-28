@@ -2,188 +2,145 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 98BEE17421A
-	for <lists+linux-api@lfdr.de>; Fri, 28 Feb 2020 23:41:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A8EC01742B2
+	for <lists+linux-api@lfdr.de>; Sat, 29 Feb 2020 00:14:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726860AbgB1WlU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 28 Feb 2020 17:41:20 -0500
-Received: from mail-vs1-f67.google.com ([209.85.217.67]:41417 "EHLO
-        mail-vs1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726151AbgB1WlU (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 28 Feb 2020 17:41:20 -0500
-Received: by mail-vs1-f67.google.com with SMTP id k188so2998502vsc.8
-        for <linux-api@vger.kernel.org>; Fri, 28 Feb 2020 14:41:19 -0800 (PST)
+        id S1726151AbgB1XOL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 28 Feb 2020 18:14:11 -0500
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:46958 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725957AbgB1XOK (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 28 Feb 2020 18:14:10 -0500
+Received: by mail-pl1-f195.google.com with SMTP id y8so1799233pll.13
+        for <linux-api@vger.kernel.org>; Fri, 28 Feb 2020 15:14:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=x9BTwZzXxDzrVF6UcyviikLcydQEHUNnudxLaL8uKts=;
-        b=od+LBP/b8AMnzHYGyWOnh67HAS41CcWjLjL6lDYC0IPO5w9Y+65KibixkdjVm0Jyki
-         jrMHaWIyTGMm7MfEZ5ojgmzD5FeHRS9dd46zT+Ma7W2AF0oPG/ZHVQZRQxf6W3V9JK6f
-         RQ5AsX8F6clUzPqYCRUBczsZwgMk9yTKJfVJceHfV1xz5qR0gcIJwKmKoV/ixJCTx48b
-         wbpAdqCb2dN5Eh4Z7DSEND//LSvQvYYMbyTSJt7FS3pgkGluUF8htfuFhoBJxB9bxNoo
-         sFoX/jxeHVnTHZtOsOUP8ifNUgMLgoB7PpK98WxIODlBHfQ5cfxISbjpF1d9HsbWKSeG
-         4Mqw==
+        d=osandov-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qYRCFe+0MRQNS4OgeJSALRbvhoDISvltVMM/A8keomE=;
+        b=ZVpx4u+bpNYlQ8XxZ+f5VbCuEBlDevQRfeh/RZjzaQwKmjHUSK4YhdjsexT3HOwCQr
+         J/IEdHl33g1zaJelduV2oMPjTZ0FCQhNps8zU4K7DUyE4MXDFPbPHelmCdY5OkB6U+ww
+         R0vCPzPB+FWSBIKtc+vZgUmX+xHhWvxIcNj62oFdg9rHcWm5mYYkBW2OHpBqkhfh+dG9
+         GI32ASERUQrIM8CnMpvJ+hysNcYv+DsydD3y/HvUCoj037OaLGgJ3cJG7I6EW5H3EG4N
+         b8z3wV5BWGptgho1DbdR5C/p0d5qoUb56TA5jcN3fidIwB4j4r4PnOZmO5Fw850aOIfF
+         V1Kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=x9BTwZzXxDzrVF6UcyviikLcydQEHUNnudxLaL8uKts=;
-        b=od/39vuBcOkqNCRUwdGWmcnwiebONkqs+MJ0rMBe57QFpFT0TGsIRwcgQH1TFUh9L+
-         h4955JxSpfv+DVNAarOV98b6LD9/xM+DCrtgH4ZNTuaiFWneJKbU1K3OGhFbBVCilrMY
-         aMwfCG20tJhXp6W+dQcoK6t6xWuUSUK7BwGVANTXl4S+mxCutL2qLVDToZS5wGxoMpSQ
-         qNoAaKtegWm6R5Cmv9GArHwRpSwmHBBIhmxVjtmr0wt/t1SatC9sy/+XPi7ckGRPkCCp
-         AZaJqYY2wQQgWntt6DH5BoXxlT4tC2jjtqjp9WVLiqE62bQHhY/Q+C3juJGNnrbN010u
-         PdSQ==
-X-Gm-Message-State: ANhLgQ0jLx/GBcJPuUYCx3ro+qA+cJjmKlHRWlNeczUosn8tgeGQajKZ
-        uA6OkeaQU/FIj7W+ZScX7128soEOLc5O1eWpYpWN9g==
-X-Google-Smtp-Source: ADFU+vsU9EKYwuh5cDn64CV1YZwJLdXB+wHL9slJ1TyqxeZMR/DWCL7TOAXvCTq9PPzu7K4/OV39qXsbqz8VvHNwGLo=
-X-Received: by 2002:a05:6102:303a:: with SMTP id v26mr4021916vsa.119.1582929678413;
- Fri, 28 Feb 2020 14:41:18 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qYRCFe+0MRQNS4OgeJSALRbvhoDISvltVMM/A8keomE=;
+        b=HnFmW2QTnoj8BoSxcZVvehH73mhiWF0wcdOgbMCUdFVpnAU+pldc01B/VSNwqDKyD0
+         3APsorA4O4pGpYX2UbLqnsmMpbiytbSQRD9B2hsKaBl+wMwEsL4FWhp3yKnladpFYiO/
+         yxfxQF9luiVma+T26jjz13k9u+cp8bUeqjWqJbUML/O5b1qn5KI/yD2yrt+pe294c78i
+         d6rKj3Wk/KZ+jihrIylYF0cBBCM6NuQCHMZ2E+11CSqhGMn2+riB5sLlwf/dsVkHEU7q
+         +qb7caz3nIs+UOmKy7ssQDqGR3z0CaZvlzooQbiErwfu8dyRBPTW/kaJPKJSwybIHYx7
+         Vc9A==
+X-Gm-Message-State: APjAAAW0ev24OHq0F3BP1ufeHQG6+F5sMc8dN1A/7sQhxME9AUFUUgqN
+        ibbh+NE1Inx9TY98ob3m2chwKQ==
+X-Google-Smtp-Source: APXvYqx0CySVh5fXc2TgOxWs832q5LpZeX0rkAWsq8FVK+WvnC1Q6Lj3ciwIS0BP//UODtlU0SLMtQ==
+X-Received: by 2002:a17:902:a608:: with SMTP id u8mr6010424plq.76.1582931649409;
+        Fri, 28 Feb 2020 15:14:09 -0800 (PST)
+Received: from vader.thefacebook.com ([2620:10d:c090:500::6:1714])
+        by smtp.gmail.com with ESMTPSA id q7sm11421878pgk.62.2020.02.28.15.14.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Feb 2020 15:14:08 -0800 (PST)
+From:   Omar Sandoval <osandov@osandov.com>
+To:     linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>
+Cc:     Dave Chinner <david@fromorbit.com>, Jann Horn <jannh@google.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Aleksa Sarai <cyphar@cyphar.com>, linux-api@vger.kernel.org,
+        kernel-team@fb.com
+Subject: [PATCH v4 0/9] fs: interface for directly reading/writing compressed data
+Date:   Fri, 28 Feb 2020 15:13:51 -0800
+Message-Id: <cover.1582930832.git.osandov@fb.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200219014433.88424-1-minchan@kernel.org> <20200219014433.88424-6-minchan@kernel.org>
-In-Reply-To: <20200219014433.88424-6-minchan@kernel.org>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Fri, 28 Feb 2020 14:41:07 -0800
-Message-ID: <CAJuCfpE_T1UG_eSQMa6y7n0GXQBOQ8sE=0fcWmSo2ZhHoj4mCg@mail.gmail.com>
-Subject: Re: [PATCH v6 5/7] mm: support both pid and pidfd for process_madvise
-To:     Minchan Kim <minchan@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
-        oleksandr@redhat.com, Tim Murray <timmurray@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Brian Geffon <bgeffon@google.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        John Dias <joaodias@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>, sj38.park@gmail.com,
-        alexander.h.duyck@linux.intel.com, Jann Horn <jannh@google.com>,
-        Christian Brauner <christian@brauner.io>,
-        Kirill Tkhai <ktkhai@virtuozzo.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Feb 18, 2020 at 5:44 PM Minchan Kim <minchan@kernel.org> wrote:
->
-> There is a demand[1] to support pid as well pidfd for process_madvise
-> to reduce unnecessary syscall to get pidfd if the user has control of
-> the target process(ie, they could guarantee the process is not gone
-> or pid is not reused. Or, it might be okay to give a hint to wrong
-> process).
+From: Omar Sandoval <osandov@fb.com>
 
-nit: When would "give a hint to wrong process" be ok? I would just
-remove this part.
+Hello,
 
->
-> This patch aims for supporting both options like waitid(2). So, the
-> syscall is currently,
->
->         int process_madvise(int which, pid_t pid, void *addr,
->                 size_t length, int advise, unsigned long flag);
->
-> @which is actually idtype_t for userspace libray and currently,
-> it supports P_PID and P_PIDFD.
->
-> [1]  https://lore.kernel.org/linux-mm/9d849087-3359-c4ab-fbec-859e8186c509@virtuozzo.com/
->
-> Cc: Christian Brauner <christian@brauner.io>
-> Suggested-by: Kirill Tkhai <ktkhai@virtuozzo.com>
-> Signed-off-by: Minchan Kim <minchan@kernel.org>
-> ---
->  include/linux/syscalls.h |  3 ++-
->  mm/madvise.c             | 34 ++++++++++++++++++++++------------
->  2 files changed, 24 insertions(+), 13 deletions(-)
->
-> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-> index e4cd2c2f8bb4..f5ada20e2943 100644
-> --- a/include/linux/syscalls.h
-> +++ b/include/linux/syscalls.h
-> @@ -876,7 +876,8 @@ asmlinkage long sys_munlockall(void);
->  asmlinkage long sys_mincore(unsigned long start, size_t len,
->                                 unsigned char __user * vec);
->  asmlinkage long sys_madvise(unsigned long start, size_t len, int behavior);
-> -asmlinkage long sys_process_madvise(int pidfd, unsigned long start,
-> +
-> +asmlinkage long sys_process_madvise(int which, pid_t pid, unsigned long start,
->                         size_t len, int behavior, unsigned long flags);
->  asmlinkage long sys_remap_file_pages(unsigned long start, unsigned long size,
->                         unsigned long prot, unsigned long pgoff,
-> diff --git a/mm/madvise.c b/mm/madvise.c
-> index def1507c2030..f6d9b9e66243 100644
-> --- a/mm/madvise.c
-> +++ b/mm/madvise.c
-> @@ -1182,11 +1182,10 @@ SYSCALL_DEFINE3(madvise, unsigned long, start, size_t, len_in, int, behavior)
->         return do_madvise(current, current->mm, start, len_in, behavior);
->  }
->
-> -SYSCALL_DEFINE5(process_madvise, int, pidfd, unsigned long, start,
-> +SYSCALL_DEFINE6(process_madvise, int, which, pid_t, upid, unsigned long, start,
->                 size_t, len_in, int, behavior, unsigned long, flags)
->  {
->         int ret;
-> -       struct fd f;
->         struct pid *pid;
->         struct task_struct *task;
->         struct mm_struct *mm;
-> @@ -1197,20 +1196,31 @@ SYSCALL_DEFINE5(process_madvise, int, pidfd, unsigned long, start,
->         if (!process_madvise_behavior_valid(behavior))
->                 return -EINVAL;
->
-> -       f = fdget(pidfd);
-> -       if (!f.file)
-> -               return -EBADF;
-> +       switch (which) {
-> +       case P_PID:
-> +               if (upid <= 0)
-> +                       return -EINVAL;
-> +
-> +               pid = find_get_pid(upid);
-> +               if (!pid)
-> +                       return -ESRCH;
-> +               break;
-> +       case P_PIDFD:
-> +               if (upid < 0)
-> +                       return -EINVAL;
->
-> -       pid = pidfd_pid(f.file);
-> -       if (IS_ERR(pid)) {
-> -               ret = PTR_ERR(pid);
-> -               goto fdput;
-> +               pid = pidfd_get_pid(upid);
-> +               if (IS_ERR(pid))
-> +                       return PTR_ERR(pid);
-> +               break;
-> +       default:
-> +               return -EINVAL;
->         }
->
->         task = get_pid_task(pid, PIDTYPE_PID);
->         if (!task) {
->                 ret = -ESRCH;
-> -               goto fdput;
-> +               goto put_pid;
->         }
->
->         mm = mm_access(task, PTRACE_MODE_ATTACH_FSCREDS);
-> @@ -1223,7 +1233,7 @@ SYSCALL_DEFINE5(process_madvise, int, pidfd, unsigned long, start,
->         mmput(mm);
->  release_task:
->         put_task_struct(task);
-> -fdput:
-> -       fdput(f);
-> +put_pid:
-> +       put_pid(pid);
->         return ret;
->  }
-> --
-> 2.25.0.265.gbab2e86ba0-goog
->
+This series adds an API for reading compressed data on a filesystem
+without decompressing it as well as support for writing compressed data
+directly to the filesystem. As with the previous submissions, I've
+included a man page patch describing the API. I have test cases
+(including fsstress support) and example programs which I'll send up
+once the interface is more or less settled [1].
 
-Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+The main use-case is Btrfs send/receive: currently, when sending data
+from one compressed filesystem to another, the sending side decompresses
+the data and the receiving side recompresses it before writing it out.
+This is wasteful and can be avoided if we can just send and write
+compressed extents. The send part will be implemented in a separate
+series, as this API can stand alone.
+
+I'm fairly happy with the UAPI and VFS interface now. I'd love for Al
+and/or Christoph to take a look at that part. The Btrfs side is mostly
+there, just missing read repair.
+
+Patches 1-3 add the VFS support. Patches 4-7 are Btrfs prep patches.
+Patch 8 adds Btrfs encoded read support and patch 9 adds Btrfs encoded
+write support.
+
+Changes from v3:
+
+- Rebase on v5.6-rc3.
+- Disallow extents with a file length greater than the unencoded
+  length.
+- Drop Btrfs cleanups and fixes that have already been merged.
+- Add Nikolay's reviewed-bys.
+
+Please share any comments on the API or implementation. Thanks!
+
+1: https://github.com/osandov/xfstests/tree/rwf-encoded
+2: https://lore.kernel.org/linux-btrfs/cover.1574273658.git.osandov@fb.com/
+
+Omar Sandoval (9):
+  iov_iter: add copy_struct_from_iter()
+  fs: add O_ALLOW_ENCODED open flag
+  fs: add RWF_ENCODED for reading/writing compressed data
+  btrfs: don't advance offset for compressed bios in btrfs_csum_one_bio()
+  btrfs: add ram_bytes and offset to btrfs_ordered_extent
+  btrfs: support different disk extent size for delalloc
+  btrfs: optionally extend i_size in cow_file_range_inline()
+  btrfs: implement RWF_ENCODED reads
+  btrfs: implement RWF_ENCODED writes
+
+ Documentation/filesystems/encoded_io.rst |  74 ++
+ Documentation/filesystems/index.rst      |   1 +
+ arch/alpha/include/uapi/asm/fcntl.h      |   1 +
+ arch/parisc/include/uapi/asm/fcntl.h     |   1 +
+ arch/sparc/include/uapi/asm/fcntl.h      |   1 +
+ fs/btrfs/compression.c                   |  12 +-
+ fs/btrfs/compression.h                   |   6 +-
+ fs/btrfs/ctree.h                         |   9 +-
+ fs/btrfs/delalloc-space.c                |  38 +-
+ fs/btrfs/delalloc-space.h                |   4 +-
+ fs/btrfs/file-item.c                     |  35 +-
+ fs/btrfs/file.c                          |  55 +-
+ fs/btrfs/inode.c                         | 873 ++++++++++++++++++++---
+ fs/btrfs/ordered-data.c                  |  77 +-
+ fs/btrfs/ordered-data.h                  |  18 +-
+ fs/btrfs/relocation.c                    |   4 +-
+ fs/fcntl.c                               |  10 +-
+ fs/namei.c                               |   4 +
+ include/linux/fcntl.h                    |   2 +-
+ include/linux/fs.h                       |  16 +
+ include/linux/uio.h                      |   2 +
+ include/uapi/asm-generic/fcntl.h         |   4 +
+ include/uapi/linux/fs.h                  |  33 +-
+ lib/iov_iter.c                           |  82 +++
+ mm/filemap.c                             | 166 ++++-
+ 25 files changed, 1306 insertions(+), 222 deletions(-)
+ create mode 100644 Documentation/filesystems/encoded_io.rst
+
+-- 
+2.25.1
+
