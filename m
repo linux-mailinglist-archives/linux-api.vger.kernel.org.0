@@ -2,107 +2,142 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A396D173728
-	for <lists+linux-api@lfdr.de>; Fri, 28 Feb 2020 13:27:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 074D2173A2B
+	for <lists+linux-api@lfdr.de>; Fri, 28 Feb 2020 15:44:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725856AbgB1M1R (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 28 Feb 2020 07:27:17 -0500
-Received: from mail.kernel.org ([198.145.29.99]:48882 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725802AbgB1M1R (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 28 Feb 2020 07:27:17 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1727031AbgB1Oov (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 28 Feb 2020 09:44:51 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36165 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727145AbgB1Oou (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 28 Feb 2020 09:44:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1582901089;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=OXGpTAeTsc+HYb8q55xKk+dP/T7Dt1sKVwoGRCyxIxk=;
+        b=PMUK1n34XBZwz0JIyWyNPKJfmeKQXU8FtR9bd2Q7Tnim+GTxJOPWW3A/bZSYtx8Cug5o6e
+        /G6BxxU8CHwy5YRD/BAlGFENcRU08z4w6XvEvP/rzx1VPcJCTL8JopwiqfhL9iYzVyIdHS
+        XsZyAUuvGooL2IpHGAeKCn7zHluP4oQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-435-BJGbG-SrMxWfLot1IfDJjQ-1; Fri, 28 Feb 2020 09:44:48 -0500
+X-MC-Unique: BJGbG-SrMxWfLot1IfDJjQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1632D246A3;
-        Fri, 28 Feb 2020 12:27:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1582892834;
-        bh=m93yM93vQbcHMkGCkK/OGG8kf11IbeXU6ORroxAAGzo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=1qkwABoJTSe5SmM+7+hNubXHM41yKugx1YRFHDmMnoOK5YYsRXnCmI+7Quf+GWlwi
-         Bsu0HcZJviHZoYaZPpZHFb/vRkds/rPDV/VIY8AovPBUoT3uvbuxw3yFlFhMyyAs6G
-         ZzL4KOs+fv5qzsr28SX0dPrQDm2L4JnAnSNwmRAM=
-Date:   Fri, 28 Feb 2020 13:27:12 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Miklos Szeredi <miklos@szeredi.hu>
-Cc:     Ian Kent <raven@themaw.net>, Karel Zak <kzak@redhat.com>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        James Bottomley <James.Bottomley@hansenpartnership.com>,
-        Steven Whitehouse <swhiteho@redhat.com>,
-        David Howells <dhowells@redhat.com>,
-        viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <christian@brauner.io>,
-        Jann Horn <jannh@google.com>,
-        "Darrick J. Wong" <darrick.wong@oracle.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Lennart Poettering <lennart@poettering.net>,
-        Zbigniew =?utf-8?Q?J=C4=99drzejewski-Szmek?= <zbyszek@in.waw.pl>,
-        util-linux@vger.kernel.org
-Subject: Re: [PATCH 00/17] VFS: Filesystem information and notifications [ver
- #17]
-Message-ID: <20200228122712.GA3013026@kroah.com>
-References: <a657a80e-8913-d1f3-0ffe-d582f5cb9aa2@redhat.com>
- <1582644535.3361.8.camel@HansenPartnership.com>
- <CAOssrKfaxnHswrKejedFzmYTbYivJ++cPes4c91+BJDfgH4xJA@mail.gmail.com>
- <1c8db4e2b707f958316941d8edd2073ee7e7b22c.camel@themaw.net>
- <CAJfpegtRoXnPm5_sMYPL2L6FCZU52Tn8wk7NcW-dm4_2x=dD3Q@mail.gmail.com>
- <3e656465c427487e4ea14151b77d391d52cd6bad.camel@themaw.net>
- <CAJfpegu5xLcR=QbAOnUrL49QTem6X6ok7nPU+kLFnNHdPXSh1A@mail.gmail.com>
- <20200227151421.3u74ijhqt6ekbiss@ws.net.home>
- <ba2b44cc1382c62be3ac896a5476c8e1dc7c0230.camel@themaw.net>
- <CAJfpeguXPmw+PfZJFOscGLm0oe7dUQY4CYXazx9=x020Fbe86A@mail.gmail.com>
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37D04800D5A;
+        Fri, 28 Feb 2020 14:44:46 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-120-182.rdu2.redhat.com [10.10.120.182])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 412941CB;
+        Fri, 28 Feb 2020 14:44:44 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <20200226022913.i2b3rnb3ua4dlym3@yavin.dot.cyphar.com>
+References: <20200226022913.i2b3rnb3ua4dlym3@yavin.dot.cyphar.com> <158230810644.2185128.16726948836367716086.stgit@warthog.procyon.org.uk> <158230816405.2185128.14624101691579582829.stgit@warthog.procyon.org.uk>
+To:     Aleksa Sarai <cyphar@cyphar.com>
+Cc:     dhowells@redhat.com, viro@zeniv.linux.org.uk, raven@themaw.net,
+        mszeredi@redhat.com, christian@brauner.io, jannh@google.com,
+        darrick.wong@oracle.com, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 07/17] fsinfo: Add fsinfo() syscall to query filesystem information [ver #17]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJfpeguXPmw+PfZJFOscGLm0oe7dUQY4CYXazx9=x020Fbe86A@mail.gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <95824.1582901083.1@warthog.procyon.org.uk>
+Content-Transfer-Encoding: quoted-printable
+Date:   Fri, 28 Feb 2020 14:44:43 +0000
+Message-ID: <95825.1582901083@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Feb 28, 2020 at 09:35:17AM +0100, Miklos Szeredi wrote:
-> On Fri, Feb 28, 2020 at 1:43 AM Ian Kent <raven@themaw.net> wrote:
-> 
-> > > I'm not sure about sysfs/, you need somehow resolve namespaces, order
-> > > of the mount entries (which one is the last one), etc. IMHO translate
-> > > mountpoint path to sysfs/ path will be complicated.
-> >
-> > I wonder about that too, after all sysfs contains a tree of nodes
-> > from which the view is created unlike proc which translates kernel
-> > information directly based on what the process should see.
-> >
-> > We'll need to wait a bit and see what Miklos has in mind for mount
-> > table enumeration and nothing has been said about name spaces yet.
-> 
-> Adding Greg for sysfs knowledge.
-> 
-> As far as I understand the sysfs model is, basically:
-> 
->   - list of devices sorted by class and address
->   - with each class having a given set of attributes
+Aleksa Sarai <cyphar@cyphar.com> wrote:
 
-Close enough :)
+> > If params is given, all of params->__reserved[] must be 0.
+> =
 
-> Superblocks and mounts could get enumerated by a unique identifier.
-> mnt_id seems to be good for mounts, s_dev may or may not be good for
-> superblock, but  s_id (as introduced in this patchset) could be used
-> instead.
+> I would suggest that rather than having a reserved field for future
+> extensions, you make use of copy_struct_from_user() and have extensible
+> structs:
 
-So what would the sysfs tree look like with this?
+Yeah.  I seem to recall that special support was required for 6-arg syscal=
+ls
+on some arches, though I could move the dfd argument into the parameter bl=
+ock
+and make AT_FDCWD the default.
 
-> As for namespaces, that's "just" an access control issue, AFAICS.
-> For example a task with a non-initial mount namespace should not have
-> access to attributes of mounts outside of its namespace.  Checking
-> access to superblock attributes would be similar: scan the list of
-> mounts and only allow access if at least one mount would get access.
+> I dropped the "const" on fsinfo_params because the planned CHECK_FiELDS
+> feature for extensible-struct syscalls requires writing to the struct.
 
-sysfs does handle namespaces, look at how networking does this.  But,
-it's not exactly the simplest thing to do so, so be careful with that as
-this is going to be essential for this type of work.
+Ummm...  Why?  You shouldn't be trying to alter the parameters structure. =
+ It
+could feasibly be stored static const in userspace (though I'm not sure ho=
+w
+likely it would be that someone would do that).
 
-thanks,
+> I also switched the flags field to u64 because CHECK_FiELDS is intended =
+to
+> use (1<<63) for all syscalls (this has the nice benefit of removing the =
+need
+> of a padding field entirely).
 
-greg k-h
+ 	struct fsinfo_params {
+ 		__u32	flags;
+ 		__u32	at_flags;
+ 		__u32	request;
+ 		__u32	Nth;
+ 		__u32	Mth;
+ 	};
+
+What padding? ;-)
+
+Though possibly the struct does need forcing to 64-bit alignment for futur=
+e
+expansion.
+
+> > dfd, filename and params->at_flags indicate the file to query.  There =
+is no
+> > equivalent of lstat() as that can be emulated with fsinfo() by setting
+> > AT_SYMLINK_NOFOLLOW in params->at_flags.
+> =
+
+> Minor gripe -- can we make the default be AT_SYMLINK_NOFOLLOW and you
+> need to explicitly pass AT_SYMLINK_FOLLOW? Accidentally following
+> symlinks is a constant source of security bugs.
+
+Someone else has said that all new syscalls should be using RESOLVE_* flag=
+s in
+preference to AT_* flags (even though RESOLVE_* flags are not a superset o=
+f
+AT_* flags and appear to be in a header named specifically for the openat2=
+()
+syscall, not generic).
+
+I'm not sure who authored openat2.h, but they went with a RESOLVE_NO_SYMLI=
+NKS
+rather than a RESOLVE_SYMLINKS ;-)
+
+> > There is also no equivalent of fstat() as that can be emulated by
+> > passing a NULL filename to fsinfo() with the fd of interest in dfd.
+> =
+
+> Presumably you also need to pass AT_EMPTY_PATH?
+
+Actually, you need to set FSINFO_FLAGS_QUERY_FD in fsinfo_params::flags.  =
+I
+need to update the description for this.
+
+> Sounds good, though I think we should zero-fill the tail end of the
+> buffer (if the buffer is larger than the in-kernel one).
+
+I do that.  I should make it clearer in the patch description.
+
+David
+
