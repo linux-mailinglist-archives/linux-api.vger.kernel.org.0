@@ -2,135 +2,198 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C255E1728A6
-	for <lists+linux-api@lfdr.de>; Thu, 27 Feb 2020 20:33:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E4BC2172CCF
+	for <lists+linux-api@lfdr.de>; Fri, 28 Feb 2020 01:13:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729853AbgB0TdJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 27 Feb 2020 14:33:09 -0500
-Received: from mail-qv1-f68.google.com ([209.85.219.68]:45355 "EHLO
-        mail-qv1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729727AbgB0TdJ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 27 Feb 2020 14:33:09 -0500
-Received: by mail-qv1-f68.google.com with SMTP id l14so134429qvu.12
-        for <linux-api@vger.kernel.org>; Thu, 27 Feb 2020 11:33:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=SHUqZMiqxXrugyTiyJw+5kNiudFRuI7VyrA9wECW0ig=;
-        b=J72fW5mPWHpUAeGa8GWszUuNSkb0QFONZmhovIbvGL9xlofynOtEKg65dV3i2/9vHp
-         NX8jTCbg8aS+DG5SOAUoIPdJiyrWvuQZd82R8x6g6hbO0/py7DLb5MJQ0/XYreQaU11c
-         2/Dkcskm09qrpwQR+4WF/rXKNDZcNTwzVrVkgp32Mmrfji9nhoWrvWf1dIMboI2CVaTR
-         b0lZN2/s2R+ebKkAt2yfWfe45euRfmjbcSMrVunUxx93XVFO5Jc0nRlafpSbd7iZ0pOK
-         00CnKGLYBmkeRkqyqE71ie81uIwq2JSuKSE8qv2wgAhv7lRfcUrpKtEWOOElSYDvGAcm
-         rWUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=SHUqZMiqxXrugyTiyJw+5kNiudFRuI7VyrA9wECW0ig=;
-        b=fkjQb2GrtAWVQ8OUOrlJ3L2iOD7+7MUXUcNIVM4gCPLWmvK2mbOHYisTXmuDRzazQq
-         YykqlJTJSrFJr3GNxZ1KJiV64PnRjfQt8snMkiP4TGCgAlxSqpNgoG9jHU5d4oje3Ad+
-         WJQGQaLXJADVlNN7eTgZy9QA7LWK20ThU93CoRT10omhBbUTq1xrrf3rNfRVFMoScS0U
-         GV2bVBi5N1ZFFXqlGTagyH8Bw0NgGdQzWg69gU+6RErRhLyPBM8s2zbyv6JdsHyN8EAd
-         OPXQHmR5llhZVhs1IUg6r3qpDF2cWBvptqFC5o0pnW/oTYxcLdH05224TVVeMoXlBPA+
-         eDsQ==
-X-Gm-Message-State: APjAAAU8dgXeZ3Huxu33thd/S1jqTlvXeX4jOfSUf4hYX9oHcBHJExwf
-        EsiENsvtluEwcQOx3ioU/awz9A==
-X-Google-Smtp-Source: APXvYqx7jA/aL2KD5I2k9qdaMge+hyhUwSDtAYGVFKgeefzL8C4Cjur66Z0uHKiPhoj4lA7OoDlcsQ==
-X-Received: by 2002:a0c:e2d2:: with SMTP id t18mr512811qvl.130.1582831986313;
-        Thu, 27 Feb 2020 11:33:06 -0800 (PST)
-Received: from [192.168.1.106] ([107.15.81.208])
-        by smtp.gmail.com with ESMTPSA id t4sm3670940qkm.82.2020.02.27.11.33.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Feb 2020 11:33:05 -0800 (PST)
-Subject: Re: [PATCH v3 00/25] user_namespace: introduce fsid mappings
-To:     Christian Brauner <christian.brauner@ubuntu.com>,
-        =?UTF-8?Q?St=c3=a9phane_Graber?= <stgraber@ubuntu.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Aleksa Sarai <cyphar@cyphar.com>, Jann Horn <jannh@google.com>
-Cc:     smbarber@chromium.org, Seth Forshee <seth.forshee@canonical.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Serge Hallyn <serge@hallyn.com>,
-        James Morris <jmorris@namei.org>,
-        Kees Cook <keescook@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Phil Estes <estesp@gmail.com>, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org,
-        containers@lists.linux-foundation.org,
-        linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
-        mpawlowski@fb.com
-References: <20200218143411.2389182-1-christian.brauner@ubuntu.com>
-From:   Josef Bacik <josef@toxicpanda.com>
-Message-ID: <2b0fe94b-036a-919e-219b-cc1ba0641781@toxicpanda.com>
-Date:   Thu, 27 Feb 2020 14:33:04 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:68.0)
- Gecko/20100101 Thunderbird/68.5.0
+        id S1728993AbgB1ANA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 27 Feb 2020 19:13:00 -0500
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:53689 "EHLO
+        new4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730012AbgB1ANA (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 27 Feb 2020 19:13:00 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+        by mailnew.nyi.internal (Postfix) with ESMTP id A495D5D51;
+        Thu, 27 Feb 2020 19:12:58 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Thu, 27 Feb 2020 19:12:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=
+        message-id:subject:from:to:cc:date:in-reply-to:references
+        :content-type:mime-version:content-transfer-encoding; s=fm2; bh=
+        w8Q1TP8cNfFZvTOV/us6+HG/JI4ZnetedhTQJKrLS0Q=; b=atFtFNYTdozH94PX
+        Sn5x1jYqyJjFRHQe8WiRHd6AtqdDoijvymz+Ecl6CbG77NcebilOvx7uSvsI0OhM
+        IJsC2tw42dCIeIEm2tQuu8G9FvDWKY5A+PJWtJZoHyE/7hu0vmqTxGga4FyRWAeU
+        e9LlKT7GMMzoA0CgpRVtX23EUe+LtVwjPv0AKpS98AgjJuJO4cZ2i8WHHpRQtIpy
+        8Gu6Q6gLRiuKgSyApdlA80QpE2OzAW6NH0XQrtgYsCHhEPAuyhOTtlLIjvmUNlUn
+        Zhq6ZRYXn5n2nI7p3Bcxesun4O2ZObS6WM9Mzqk19FGsvWJj6eNoP+Iq3n8mjpHR
+        93iCHQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:in-reply-to:message-id:mime-version:references
+        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm2; bh=w8Q1TP8cNfFZvTOV/us6+HG/JI4ZnetedhTQJKrLS
+        0Q=; b=NThbApITPxaHuh3l01v1Q5rfeThSa7VO3ftgPi1Csm1XbGpzAlIN9Bn/O
+        v4EQmRKmtzbogPCMNau+LWl+9A08DHYghPEXqFqX5169iV/7MA1t1Hx/sjx4IAJx
+        whW+RXTrmdH7Sw6FAvGBS05JXsOHmFwOg4SDfvNKq0+HKLASiXdes5PkoAN3vQ1D
+        qhkQFMm1koR3p6v8kIXLOINIT1j5GUlm3cLZMUCS4RZbi3Cjo9zKpGtRQeqKecsP
+        nf2w2rFm0ljV83iFuUWdNNIFEpI2kG+rB3w1560ceBziaoldsb2Ign74FNj3fPrk
+        PjdskSQXyaMVpYz38Vhy9HzvRk0eQ==
+X-ME-Sender: <xms:CVtYXhhMibnYZG3JOibjFolgMPJ-s2Hix9OENXTo2cAcF1sNFqR6Eg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrleejgddvtdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefkuffhvfffjghftggfggfgsehtjeertddtreejnecuhfhrohhmpefkrghnucfm
+    vghnthcuoehrrghvvghnsehthhgvmhgrfidrnhgvtheqnecukfhppeduudekrddvtdelrd
+    dukedvrdeludenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhr
+    ohhmpehrrghvvghnsehthhgvmhgrfidrnhgvth
+X-ME-Proxy: <xmx:CVtYXqDmhZIR2cCU4mRDtITaOpc7gbH103p7U59DjL-nq67UqokIVQ>
+    <xmx:CVtYXhsnZ9-UXyTiZL19e36hRC-FMEV-KsIabzVF7HClrYgYYanJwA>
+    <xmx:CVtYXmI29ddMgqlUNuQPhd_aXZZnfgQACzMCoWvi5gbHDEIUiUpv8w>
+    <xmx:CltYXnPbCfZqJYAgqZI_jNPmlCmK-quLx8hb4LThTNri3Qq44YFuuQ>
+Received: from mickey.themaw.net (unknown [118.209.182.91])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 1BDBA3280059;
+        Thu, 27 Feb 2020 19:12:51 -0500 (EST)
+Message-ID: <ee9da02d77121ecbbdee805e0d2e0aaabdc52ed4.camel@themaw.net>
+Subject: Re: [PATCH 00/17] VFS: Filesystem information and notifications
+ [ver #17]
+From:   Ian Kent <raven@themaw.net>
+To:     Miklos Szeredi <miklos@szeredi.hu>
+Cc:     Miklos Szeredi <mszeredi@redhat.com>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>,
+        Steven Whitehouse <swhiteho@redhat.com>,
+        David Howells <dhowells@redhat.com>,
+        viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <christian@brauner.io>,
+        Jann Horn <jannh@google.com>,
+        "Darrick J. Wong" <darrick.wong@oracle.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>, Karel Zak <kzak@redhat.com>,
+        Lennart Poettering <lennart@poettering.net>,
+        Zbigniew =?UTF-8?Q?J=C4=99drzejewski-Szmek?= <zbyszek@in.waw.pl>,
+        util-linux@vger.kernel.org
+Date:   Fri, 28 Feb 2020 08:12:48 +0800
+In-Reply-To: <CAJfpegu5xLcR=QbAOnUrL49QTem6X6ok7nPU+kLFnNHdPXSh1A@mail.gmail.com>
+References: <158230810644.2185128.16726948836367716086.stgit@warthog.procyon.org.uk>
+         <1582316494.3376.45.camel@HansenPartnership.com>
+         <CAOssrKehjnTwbc6A1VagM5hG_32hy3mXZenx_PdGgcUGxYOaLQ@mail.gmail.com>
+         <1582556135.3384.4.camel@HansenPartnership.com>
+         <CAJfpegsk6BsVhUgHNwJgZrqcNP66wS0fhCXo_2sLt__goYGPWg@mail.gmail.com>
+         <a657a80e-8913-d1f3-0ffe-d582f5cb9aa2@redhat.com>
+         <1582644535.3361.8.camel@HansenPartnership.com>
+         <CAOssrKfaxnHswrKejedFzmYTbYivJ++cPes4c91+BJDfgH4xJA@mail.gmail.com>
+         <1c8db4e2b707f958316941d8edd2073ee7e7b22c.camel@themaw.net>
+         <CAJfpegtRoXnPm5_sMYPL2L6FCZU52Tn8wk7NcW-dm4_2x=dD3Q@mail.gmail.com>
+         <3e656465c427487e4ea14151b77d391d52cd6bad.camel@themaw.net>
+         <CAJfpegu5xLcR=QbAOnUrL49QTem6X6ok7nPU+kLFnNHdPXSh1A@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.5 (3.32.5-1.fc30) 
 MIME-Version: 1.0
-In-Reply-To: <20200218143411.2389182-1-christian.brauner@ubuntu.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2/18/20 9:33 AM, Christian Brauner wrote:
-> Hey everyone,
+On Thu, 2020-02-27 at 14:45 +0100, Miklos Szeredi wrote:
+> On Thu, Feb 27, 2020 at 12:34 PM Ian Kent <raven@themaw.net> wrote:
+> > On Thu, 2020-02-27 at 10:36 +0100, Miklos Szeredi wrote:
+> > > On Thu, Feb 27, 2020 at 6:06 AM Ian Kent <raven@themaw.net>
+> > > wrote:
+> > > 
+> > > > At the least the question of "do we need a highly efficient way
+> > > > to query the superblock parameters all at once" needs to be
+> > > > extended to include mount table enumeration as well as getting
+> > > > the info.
+> > > > 
+> > > > But this is just me thinking about mount table handling and the
+> > > > quite significant problem we now have with user space scanning
+> > > > the proc mount tables to get this information.
+> > > 
+> > > Right.
+> > > 
+> > > So the problem is that currently autofs needs to rescan the proc
+> > > mount
+> > > table on every change.   The solution to that is to
+> > 
+> > Actually no, that's not quite the problem I see.
+> > 
+> > autofs handles large mount tables fairly well (necessarily) and
+> > in time I plan to remove the need to read the proc tables at all
+> > (that's proven very difficult but I'll get back to that).
+> > 
+> > This has to be done to resolve the age old problem of autofs not
+> > being able to handle large direct mount maps. But, because of
+> > the large number of mounts associated with large direct mount
+> > maps, other system processes are badly affected too.
+> > 
+> > So the problem I want to see fixed is the effect of very large
+> > mount tables on other user space applications, particularly the
+> > effect when a large number of mounts or umounts are performed.
+> > 
+> > Clearly large mount tables not only result from autofs and the
+> > problems caused by them are slightly different to the mount and
+> > umount problem I describe. But they are a problem nevertheless
+> > in the sense that frequent notifications that lead to reading
+> > a large proc mount table has significant overhead that can't be
+> > avoided because the table may have changed since the last time
+> > it was read.
+> > 
+> > It's easy to cause several system processes to peg a fair number
+> > of CPU's when a large number of mounts/umounts are being performed,
+> > namely systemd, udisks2 and a some others. Also I've seen couple
+> > of application processes badly affected purely by the presence of
+> > a large number of mounts in the proc tables, that's not quite so
+> > bad though.
+> > 
+> > >  - add a notification mechanism   - lookup a mount based on path
+> > >  - and a way to selectively query mount/superblock information
+> > based on path ...
+> > > right?
+> > > 
+> > > For the notification we have uevents in sysfs, which also
+> > > supplies
+> > > the
+> > > changed parameters.  Taking aside namespace issues and addressing
+> > > mounts would this work for autofs?
+> > 
+> > The parameters supplied by the notification mechanism are
+> > important.
+> > 
+> > The place this is needed will be libmount since it catches a broad
+> > number of user space applications, including those I mentioned
+> > above
+> > (well at least systemd, I think also udisks2, very probably
+> > others).
+> > 
+> > So that means mount table info. needs to be maintained, whether
+> > that
+> > can be achieved using sysfs I don't know. Creating and maintaining
+> > the sysfs tree would be a big challenge I think.
+> > 
+> > But before trying to work out how to use a notification mechanism
+> > just having a way to get the info provided by the proc tables using
+> > a path alone should give initial immediate improvement in libmount.
 > 
-> This is v3 after (off- and online) discussions with Jann the following
-> changes were made:
-> - To handle nested user namespaces cleanly, efficiently, and with full
->    backwards compatibility for non fsid-mapping aware workloads we only
->    allow writing fsid mappings as long as the corresponding id mapping
->    type has not been written.
-> - Split the patch which adds the internal ability in
->    kernel/user_namespace to verify and write fsid mappings into tree
->    patches:
->    1. [PATCH v3 04/25] fsuidgid: add fsid mapping helpers
->       patch to implement core helpers for fsid translations (i.e.
->       make_kfs*id(), from_kfs*id{_munged}(), kfs*id_to_k*id(),
->       k*id_to_kfs*id()
->    2. [PATCH v3 05/25] user_namespace: refactor map_write()
->       patch to refactor map_write() in order to prepare for actual fsid
->       mappings changes in the following patch. (This should make it
->       easier to review.)
->    3. [PATCH v3 06/25] user_namespace: make map_write() support fsid mappings
->       patch to implement actual fsid mappings support in mape_write()
-> - Let the keyctl infrastructure only operate on kfsid which are always
->    mapped/looked up in the id mappings similar to what we do for
->    filesystems that have the same superblock visible in multiple user
->    namespaces.
+> Adding Karel, Lennart, Zbigniew and util-linux@vger...
 > 
-> This version also comes with minimal tests which I intend to expand in
-> the future.
-> 
->  From pings and off-list questions and discussions at Google Container
-> Security Summit there seems to be quite a lot of interest in this
-> patchset with use-cases ranging from layer sharing for app containers
-> and k8s, as well as data sharing between containers with different id
-> mappings. I haven't Cced all people because I don't have all the email
-> adresses at hand but I've at least added Phil now. :)
-> 
-I put this into a kernel for our container guys to mess with in order to 
-validate it would actually be useful for real world uses.  I've cc'ed the guy 
-who did all of the work in case you have specific questions.
+> At a quick glance at libmount and systemd code, it appears that just
+> switching out the implementation in libmount will not be enough:
+> systemd is calling functions like mnt_table_parse_*() when it
+> receives
+> a notification that the mount table changed.
 
-Good news is the interface is acceptable, albeit apparently the whole user ns 
-interface sucks in general.  But you haven't made it worse, so success!
+Maybe I wasn't clear, my bad, sorry about that.
 
-But in testing it there appears to be a problem with tmpfs?  Our applications 
-will use shared memory segments for certain things and it apparently breaks this 
-in interesting ways, it appears to not shift the UID appropriately on tmpfs. 
-This seems to be relatively straightforward to reproduce, but if you have 
-trouble let me know and I'll come up with a shell script that reproduces the 
-problem.
+There's no question that change notification handling is needed too.
 
-We are happy to continue testing these patches to make sure they're working in 
-our container setup, if you want to CC me on future submissions I can build them 
-for our internal testing and validate them as well.  Thanks,
+I'm claiming that an initial change to use something that can get
+the mount information without using the proc tables alone will give
+an "initial immediate improvement".
 
-Josef
+The work needed to implement mount table change notification
+handling will take much more time and exactly what changes that
+will bring is not clear yet and I do plan to work on that too,
+together with Karel.
+
+Ian
+
