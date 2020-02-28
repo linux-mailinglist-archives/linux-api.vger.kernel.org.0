@@ -2,62 +2,58 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D762172D8C
-	for <lists+linux-api@lfdr.de>; Fri, 28 Feb 2020 01:43:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FF7F173304
+	for <lists+linux-api@lfdr.de>; Fri, 28 Feb 2020 09:35:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730146AbgB1And (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 27 Feb 2020 19:43:33 -0500
-Received: from new4-smtp.messagingengine.com ([66.111.4.230]:57317 "EHLO
-        new4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730120AbgB1And (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 27 Feb 2020 19:43:33 -0500
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 2A8B15AE0;
-        Thu, 27 Feb 2020 19:43:32 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Thu, 27 Feb 2020 19:43:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=
-        message-id:subject:from:to:cc:date:in-reply-to:references
-        :content-type:mime-version:content-transfer-encoding; s=fm2; bh=
-        WDBemPNCysVXmovtXdZ+Fmhvn30nAoiqvFdtKbQjVNU=; b=YK4tHmE6ayv7oVIJ
-        PIKzxzvORN8fBQxtRJ1oevZttnXo50N7fwQRQFL3ZVn/VND4zaIpJ02ycg1nytE6
-        qiCmAyoM+pxXKzYhhFfyMaAMpPg4ibHLWK/+VAhpf7in9Gp6MGc95uErdNwqwP3p
-        uOWlDCMMsdsxRgTPyfUePPUSVa5uYGTG7alWp7JXXfenrXNmrH6G9lihciQU7/iv
-        41pQjPI5aTHoRQUlxGHhPSrz9hKAt54E1VKcaY55bMFvz38ejKhETXw61UQgNgl0
-        3G6l4C09hE6EY9BqYxqMhQA+r2pp4b7jROI9eMCWQ82kYU53qpb9VmFt4xVhmwNu
-        DaTFHw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:in-reply-to:message-id:mime-version:references
-        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm2; bh=WDBemPNCysVXmovtXdZ+Fmhvn30nAoiqvFdtKbQjV
-        NU=; b=TUQCUY3A02IMlJEITczf1DoElLTggjrGA5tP3XvyovFL7fyyjnnletPnu
-        wE6jCGSF28AnFpuMaCCMkoYD58Hs2ItxicY1EEPnCUTAQMCBhKk/UPS28U4QtmKg
-        emiScc6ba+IQ3tzwDaPSXyCdHWlwgoX6fWNNkvnnZA0YnUxw6ExB/n7xCL4S1Jwm
-        hVyJjLbQisIS9dtEy5/t700+ELFYdw7vSIvHoUN2SioaKU/JqV6h4F971plU8AcZ
-        XymozN7IYpDJyYocKtqGpqQY5loR/xZ0Fi2zA9F9nKspjysw8pAqglLG1ZrqIAYg
-        FpPiDipujWJRroY7Ee18M+ASv4hgg==
-X-ME-Sender: <xms:M2JYXqNFDuvBJMAe_DStK9UVzi9TiRVX_FBlazoBxMGnLXdZyndQeg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrleejgddviecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefkuffhvfffjghftggfggfgsehtjeertddtreejnecuhfhrohhmpefkrghnucfm
-    vghnthcuoehrrghvvghnsehthhgvmhgrfidrnhgvtheqnecukfhppeduudekrddvtdelrd
-    dukedvrdeludenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhr
-    ohhmpehrrghvvghnsehthhgvmhgrfidrnhgvth
-X-ME-Proxy: <xmx:M2JYXjrxjZaSk4WTajunwLrhF1mRY8-rJScrFmJahndKuQ1BcCM_nA>
-    <xmx:M2JYXn6EYVt_6PJnjhtu2bMCOl6tv8cZ3ULM-XiisjfY-yvctgbYDw>
-    <xmx:M2JYXlo534q2lXX69GCRUhjaO2U1j-LAsmFs0S6a55-rYFWTIUmouQ>
-    <xmx:NGJYXp2beQemkZQgYlxxK0iAGrf1SCPK_0x0LSQGEEXZZykcI2pSjQ>
-Received: from mickey.themaw.net (unknown [118.209.182.91])
-        by mail.messagingengine.com (Postfix) with ESMTPA id A6DD53060FDD;
-        Thu, 27 Feb 2020 19:43:25 -0500 (EST)
-Message-ID: <ba2b44cc1382c62be3ac896a5476c8e1dc7c0230.camel@themaw.net>
-Subject: Re: [PATCH 00/17] VFS: Filesystem information and notifications
- [ver #17]
-From:   Ian Kent <raven@themaw.net>
-To:     Karel Zak <kzak@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>
-Cc:     Miklos Szeredi <mszeredi@redhat.com>,
+        id S1726490AbgB1If3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 28 Feb 2020 03:35:29 -0500
+Received: from mail-il1-f193.google.com ([209.85.166.193]:36161 "EHLO
+        mail-il1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725877AbgB1If3 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 28 Feb 2020 03:35:29 -0500
+Received: by mail-il1-f193.google.com with SMTP id b15so2055954iln.3
+        for <linux-api@vger.kernel.org>; Fri, 28 Feb 2020 00:35:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=OXyFeX6mAXl7ibpfgMxisE4ycSpVpmIz9s5cjNf8Vhw=;
+        b=pn3452AKsTBvGlo0Y5JA0NZltS3uiCzuNxlOu9vIU/91jdvfz1MmnUcdniXZft8fOK
+         uRgelnJFXnk/5446/FJEkurj9vFQkfopb6YzN9hGnaI6ygpIsXBuRwoK4kfbvuwENiZZ
+         0wpCmRg1DtQDcyWKqHDbVr5FOAQOpPzh6yVGk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=OXyFeX6mAXl7ibpfgMxisE4ycSpVpmIz9s5cjNf8Vhw=;
+        b=VzJvwb4kp1dYrely0i9lhTknQVEPQSxrKH82BA/5MJv9BpJFEXw0uSVuUIPmcz25JS
+         HITDENVz8585tLENfVv6eSfTDp0z7KV6tH99m6IyzuUIASIdTLzHpS9VEo6dac/mN47I
+         WzDplf65LicySjW2ACJNT8ZlbSTPg/L8g5kn2jUONm8NrlCntD9YIkfZnSJSk9P/O8en
+         egKEMmWYtMFIY3eSWLEP6RjrY3mAQYT2Sfej80DmGntcPtacavdhmH5UzktzUSHPJb17
+         4KreFX7reZw4NUMfCA4JQRX6LOIDymXcDF9mcLIAj9N0xII5CfjVjAMgJGG52vjNm74a
+         dPgw==
+X-Gm-Message-State: APjAAAVJcuaCJGD/PUdrj60WsESY38QC8ZQYkm/ifjqRscswu99T1mbf
+        sZnfv8r24hDJCbaIrBNPk5iDWpqyJgcWhub0DRjDaA==
+X-Google-Smtp-Source: APXvYqxjtpW0+aq1pP5LqW+8ExOWmG1iZmCw8TTmpTp910yfA5bDPzQCZIQLWAdbpcyM6H+iB+v7QzmYJWaDKFsm31s=
+X-Received: by 2002:a92:c0c9:: with SMTP id t9mr3379386ilf.174.1582878928605;
+ Fri, 28 Feb 2020 00:35:28 -0800 (PST)
+MIME-Version: 1.0
+References: <CAOssrKehjnTwbc6A1VagM5hG_32hy3mXZenx_PdGgcUGxYOaLQ@mail.gmail.com>
+ <1582556135.3384.4.camel@HansenPartnership.com> <CAJfpegsk6BsVhUgHNwJgZrqcNP66wS0fhCXo_2sLt__goYGPWg@mail.gmail.com>
+ <a657a80e-8913-d1f3-0ffe-d582f5cb9aa2@redhat.com> <1582644535.3361.8.camel@HansenPartnership.com>
+ <CAOssrKfaxnHswrKejedFzmYTbYivJ++cPes4c91+BJDfgH4xJA@mail.gmail.com>
+ <1c8db4e2b707f958316941d8edd2073ee7e7b22c.camel@themaw.net>
+ <CAJfpegtRoXnPm5_sMYPL2L6FCZU52Tn8wk7NcW-dm4_2x=dD3Q@mail.gmail.com>
+ <3e656465c427487e4ea14151b77d391d52cd6bad.camel@themaw.net>
+ <CAJfpegu5xLcR=QbAOnUrL49QTem6X6ok7nPU+kLFnNHdPXSh1A@mail.gmail.com>
+ <20200227151421.3u74ijhqt6ekbiss@ws.net.home> <ba2b44cc1382c62be3ac896a5476c8e1dc7c0230.camel@themaw.net>
+In-Reply-To: <ba2b44cc1382c62be3ac896a5476c8e1dc7c0230.camel@themaw.net>
+From:   Miklos Szeredi <miklos@szeredi.hu>
+Date:   Fri, 28 Feb 2020 09:35:17 +0100
+Message-ID: <CAJfpeguXPmw+PfZJFOscGLm0oe7dUQY4CYXazx9=x020Fbe86A@mail.gmail.com>
+Subject: Re: [PATCH 00/17] VFS: Filesystem information and notifications [ver #17]
+To:     Ian Kent <raven@themaw.net>
+Cc:     Karel Zak <kzak@redhat.com>, Miklos Szeredi <mszeredi@redhat.com>,
         James Bottomley <James.Bottomley@hansenpartnership.com>,
         Steven Whitehouse <swhiteho@redhat.com>,
         David Howells <dhowells@redhat.com>,
@@ -69,94 +65,56 @@ Cc:     Miklos Szeredi <mszeredi@redhat.com>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         lkml <linux-kernel@vger.kernel.org>,
         Lennart Poettering <lennart@poettering.net>,
-        Zbigniew =?UTF-8?Q?J=C4=99drzejewski-Szmek?= <zbyszek@in.waw.pl>,
+        =?UTF-8?Q?Zbigniew_J=C4=99drzejewski=2DSzmek?= <zbyszek@in.waw.pl>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         util-linux@vger.kernel.org
-Date:   Fri, 28 Feb 2020 08:43:21 +0800
-In-Reply-To: <20200227151421.3u74ijhqt6ekbiss@ws.net.home>
-References: <CAOssrKehjnTwbc6A1VagM5hG_32hy3mXZenx_PdGgcUGxYOaLQ@mail.gmail.com>
-         <1582556135.3384.4.camel@HansenPartnership.com>
-         <CAJfpegsk6BsVhUgHNwJgZrqcNP66wS0fhCXo_2sLt__goYGPWg@mail.gmail.com>
-         <a657a80e-8913-d1f3-0ffe-d582f5cb9aa2@redhat.com>
-         <1582644535.3361.8.camel@HansenPartnership.com>
-         <CAOssrKfaxnHswrKejedFzmYTbYivJ++cPes4c91+BJDfgH4xJA@mail.gmail.com>
-         <1c8db4e2b707f958316941d8edd2073ee7e7b22c.camel@themaw.net>
-         <CAJfpegtRoXnPm5_sMYPL2L6FCZU52Tn8wk7NcW-dm4_2x=dD3Q@mail.gmail.com>
-         <3e656465c427487e4ea14151b77d391d52cd6bad.camel@themaw.net>
-         <CAJfpegu5xLcR=QbAOnUrL49QTem6X6ok7nPU+kLFnNHdPXSh1A@mail.gmail.com>
-         <20200227151421.3u74ijhqt6ekbiss@ws.net.home>
 Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.5 (3.32.5-1.fc30) 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, 2020-02-27 at 16:14 +0100, Karel Zak wrote:
-> On Thu, Feb 27, 2020 at 02:45:27PM +0100, Miklos Szeredi wrote:
-> > > So the problem I want to see fixed is the effect of very large
-> > > mount tables on other user space applications, particularly the
-> > > effect when a large number of mounts or umounts are performed.
-> 
-> Yes, now you have to generate (in kernel) and parse (in
-> userspace) all mount table to get information about just 
-> one mount table entry. This is typical for umount or systemd.
-> 
-> > > >  - add a notification mechanism   - lookup a mount based on
-> > > > path
-> > > >  - and a way to selectively query mount/superblock information
-> > > based on path ...
-> 
-> For umount-like use-cases we need mountpoint/ to mount entry
-> conversion; I guess something like open(mountpoint/) + fsinfo() 
-> should be good enough.
-> 
-> For systemd we need the same, but triggered by notification. The
-> ideal
-> solution is to get mount entry ID or FD from notification and later
-> use this
-> ID or FD to ask for details about the mount entry (probably again
-> fsinfo()).
-> The notification has to be usable with in epoll() set.
-> 
-> This solves 99% of our performance issues I guess.
-> 
-> > > So that means mount table info. needs to be maintained, whether
-> > > that
-> > > can be achieved using sysfs I don't know. Creating and
-> > > maintaining
-> > > the sysfs tree would be a big challenge I think.
-> 
-> It will be still necessary to get complete mount table sometimes,
-> but 
-> not in performance sensitive scenarios.
+On Fri, Feb 28, 2020 at 1:43 AM Ian Kent <raven@themaw.net> wrote:
 
-That was my understanding too.
+> > I'm not sure about sysfs/, you need somehow resolve namespaces, order
+> > of the mount entries (which one is the last one), etc. IMHO translate
+> > mountpoint path to sysfs/ path will be complicated.
+>
+> I wonder about that too, after all sysfs contains a tree of nodes
+> from which the view is created unlike proc which translates kernel
+> information directly based on what the process should see.
+>
+> We'll need to wait a bit and see what Miklos has in mind for mount
+> table enumeration and nothing has been said about name spaces yet.
 
-Mount table enumeration is possible with fsinfo() but you still
-have to handle each and every mount so improvement there is not
-going to be as much as cases where the proc mount table needs to
-be scanned independently for an individual mount. It will be
-somewhat more straight forward without the need to dissect text
-records though.
+Adding Greg for sysfs knowledge.
 
-> 
-> I'm not sure about sysfs/, you need somehow resolve namespaces, order
-> of the mount entries (which one is the last one), etc. IMHO translate
-> mountpoint path to sysfs/ path will be complicated.
+As far as I understand the sysfs model is, basically:
 
-I wonder about that too, after all sysfs contains a tree of nodes
-from which the view is created unlike proc which translates kernel
-information directly based on what the process should see.
+  - list of devices sorted by class and address
+  - with each class having a given set of attributes
 
-We'll need to wait a bit and see what Miklos has in mind for mount
-table enumeration and nothing has been said about name spaces yet.
+Superblocks and mounts could get enumerated by a unique identifier.
+mnt_id seems to be good for mounts, s_dev may or may not be good for
+superblock, but  s_id (as introduced in this patchset) could be used
+instead.
 
-While fsinfo() is not similar to proc it does handle name spaces
-in a sensible way via. file handles, a bit similar to the proc fs,
-and ordering is catered for in the fsinfo() enumeration in a natural
-way. Not sure how that would be handled using sysfs ...
+As for namespaces, that's "just" an access control issue, AFAICS.
+For example a task with a non-initial mount namespace should not have
+access to attributes of mounts outside of its namespace.  Checking
+access to superblock attributes would be similar: scan the list of
+mounts and only allow access if at least one mount would get access.
 
-Ian
+> While fsinfo() is not similar to proc it does handle name spaces
+> in a sensible way via. file handles, a bit similar to the proc fs,
+> and ordering is catered for in the fsinfo() enumeration in a natural
+> way. Not sure how that would be handled using sysfs ...
 
+I agree that the access control is much more straightforward with
+fsinfo(2) and this may be the single biggest reason to introduce a new
+syscall.
+
+Let's see what others thing.
+
+Thanks,
+Miklos
