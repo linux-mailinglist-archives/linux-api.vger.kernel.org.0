@@ -2,112 +2,125 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 752901742EB
-	for <lists+linux-api@lfdr.de>; Sat, 29 Feb 2020 00:20:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A577D174494
+	for <lists+linux-api@lfdr.de>; Sat, 29 Feb 2020 03:59:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726046AbgB1XUI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 28 Feb 2020 18:20:08 -0500
-Received: from mail-ua1-f65.google.com ([209.85.222.65]:37715 "EHLO
-        mail-ua1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725957AbgB1XUI (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 28 Feb 2020 18:20:08 -0500
-Received: by mail-ua1-f65.google.com with SMTP id h32so1620675uah.4
-        for <linux-api@vger.kernel.org>; Fri, 28 Feb 2020 15:20:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=VU34bwckjyg5xsCO6OcehkGprELR+hgQrM6MHlc+k24=;
-        b=p712VrGqlJPpzao7YD3m5WX0LwQXtasWycAZR6Qv7IV0othNqCEH71tVJM2dopv6af
-         sSO8BQuwI9/or54uFHbjxF2CZdx+mBayfoBqjtGedEVeI+as7B6KM8lW8g0A2yYN3KPf
-         Bt5nJiuIcPY6xqYfFiU1su+u2LEuGh6MVdzDcI9oEmRy3zU0uimpQkB2C6GNcZp1ThKW
-         ftlwSgDHO7rZaaPNKsUOMofgpJYnyN2NrPVF2PrRfd/HdlhYG0NSDq+3O5nSutE6lrIM
-         0nrGXHCVT0QfVmQkePA2n2I4pNWldsh6VIbF1ZbvzPNJCW5aIIzLigynVqrzxFeuH8Qc
-         G/EQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=VU34bwckjyg5xsCO6OcehkGprELR+hgQrM6MHlc+k24=;
-        b=LzFsY0LCuaHPNRyXoQJP63vTCpNHZqYWgsr6Me66sXO4sTZOLzijqnGF75sTDAA81T
-         JeCSby5007hiXZTxVsWB7P7x4iHqGOSfV9UO3WKvwsRXhLFKreO9Pwx4zLONOJgdKWeM
-         liz/k5hfU7iWlqyLhb+EolKCopzM3pSkWeTMxsdNMiMSYKyZiaG0tiwHYRr7LSFjS5z6
-         MhOhmi3FmTCeLu/B58V6ytulrqltbaCYLOkzWsp+/pXnSRLTP2qcWbJy7DtsKEx4UaZP
-         AR6cfnhreZ0bQEmN9Dg2KwOd2p7Www+x303i3jgxce7qQvSPOFcNhIrSnDspX8O9HzOg
-         9+cg==
-X-Gm-Message-State: ANhLgQ1G4Tr6mgLxWoGtiM80/AZGl+2jYOionoh2CPBUpURT0ZvgnT4o
-        HxnTs+HTV38MI4WDKy0VWtbQRMNFbm0P5bsA4V2yPw==
-X-Google-Smtp-Source: ADFU+vu77RknxSN0Qez7GxUaCFdomtgxWWwgBofJYgMiqzYUzWYSNhzh9gQeVE9ot63IVGGE/yy38i9GzlZhRohTM4M=
-X-Received: by 2002:ab0:32cf:: with SMTP id f15mr3393489uao.42.1582932006884;
- Fri, 28 Feb 2020 15:20:06 -0800 (PST)
+        id S1726589AbgB2C7y (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 28 Feb 2020 21:59:54 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:43794 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726046AbgB2C7y (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 28 Feb 2020 21:59:54 -0500
+Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236] helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1j7sM1-0000Wh-Pt; Sat, 29 Feb 2020 02:59:49 +0000
+Date:   Sat, 29 Feb 2020 03:59:48 +0100
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     linux-kernel@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        Linux Security Module <linux-security-module@vger.kernel.org>,
+        Akinobu Mita <akinobu.mita@gmail.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Daniel Micay <danielmicay@gmail.com>,
+        Djalal Harouni <tixxdz@gmail.com>,
+        "Dmitry V . Levin" <ldv@altlinux.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Jeff Layton <jlayton@poochiereds.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Alexey Gladkov <gladkov.alexey@gmail.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jeff Dike <jdike@addtoit.com>,
+        Richard Weinberger <richard@nod.at>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>
+Subject: Re: [PATCH 4/3] pid: Improve the comment about waiting in
+ zap_pid_ns_processes
+Message-ID: <20200229025948.mfla2guxzvo7mdwg@wittgenstein>
+References: <20200212203833.GQ23230@ZenIV.linux.org.uk>
+ <20200212204124.GR23230@ZenIV.linux.org.uk>
+ <CAHk-=wi5FOGV_3tALK3n6E2fK3Oa_yCYkYQtCSaXLSEm2DUCKg@mail.gmail.com>
+ <87lfp7h422.fsf@x220.int.ebiederm.org>
+ <CAHk-=wgmn9Qds0VznyphouSZW6e42GWDT5H1dpZg8pyGDGN+=w@mail.gmail.com>
+ <87pnejf6fz.fsf@x220.int.ebiederm.org>
+ <871rqpaswu.fsf_-_@x220.int.ebiederm.org>
+ <871rqk2brn.fsf_-_@x220.int.ebiederm.org>
+ <878skmsbyy.fsf_-_@x220.int.ebiederm.org>
+ <878skmpcib.fsf_-_@x220.int.ebiederm.org>
 MIME-Version: 1.0
-References: <20200219014433.88424-1-minchan@kernel.org> <20200219014433.88424-7-minchan@kernel.org>
-In-Reply-To: <20200219014433.88424-7-minchan@kernel.org>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Fri, 28 Feb 2020 15:19:55 -0800
-Message-ID: <CAJuCfpE=7aqwegMb5i3EwWb=xcphXSNE33dCCUvt=WS0Sr-wfg@mail.gmail.com>
-Subject: Re: [PATCH v6 6/7] mm/madvise: employ mmget_still_valid for write lock
-To:     Minchan Kim <minchan@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
-        oleksandr@redhat.com, Tim Murray <timmurray@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Brian Geffon <bgeffon@google.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        John Dias <joaodias@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>, sj38.park@gmail.com,
-        alexander.h.duyck@linux.intel.com, Jann Horn <jannh@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <878skmpcib.fsf_-_@x220.int.ebiederm.org>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Feb 18, 2020 at 5:44 PM Minchan Kim <minchan@kernel.org> wrote:
->
-> From: Oleksandr Natalenko <oleksandr@redhat.com>
->
-> Do the very same trick as we already do since 04f5866e41fb. KSM hints
-> will require locking mmap_sem for write since they modify vm_flags, so
-> for remote KSM hinting this additional check is needed.
->
-> Signed-off-by: Oleksandr Natalenko <oleksandr@redhat.com>
-> Signed-off-by: Minchan Kim <minchan@kernel.org>
+On Fri, Feb 28, 2020 at 04:34:20PM -0600, Eric W. Biederman wrote:
+> 
+> Oleg wrote a very informative comment, but with the removal of
+> proc_cleanup_work it is no longer accurate.
+> 
+> Rewrite the comment so that it only talks about the details
+> that are still relevant, and hopefully is a little clearer.
+> 
+> Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
 > ---
->  mm/madvise.c | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/mm/madvise.c b/mm/madvise.c
-> index f6d9b9e66243..c55a18fe71f9 100644
-> --- a/mm/madvise.c
-> +++ b/mm/madvise.c
-> @@ -1118,6 +1118,8 @@ int do_madvise(struct task_struct *target_task, struct mm_struct *mm,
->         if (write) {
->                 if (down_write_killable(&mm->mmap_sem))
->                         return -EINTR;
-> +               if (current->mm != mm && !mmget_still_valid(mm))
+>  kernel/pid_namespace.c | 31 +++++++++++++++++++------------
+>  1 file changed, 19 insertions(+), 12 deletions(-)
+> 
+> diff --git a/kernel/pid_namespace.c b/kernel/pid_namespace.c
+> index 318fcc6ba301..01f8ba32cc0c 100644
+> --- a/kernel/pid_namespace.c
+> +++ b/kernel/pid_namespace.c
+> @@ -224,20 +224,27 @@ void zap_pid_ns_processes(struct pid_namespace *pid_ns)
+>  	} while (rc != -ECHILD);
+>  
+>  	/*
+> -	 * kernel_wait4() above can't reap the EXIT_DEAD children but we do not
+> -	 * really care, we could reparent them to the global init. We could
+> -	 * exit and reap ->child_reaper even if it is not the last thread in
+> -	 * this pid_ns, free_pid(pid_allocated == 0) calls proc_cleanup_work(),
+> -	 * pid_ns can not go away until proc_kill_sb() drops the reference.
+> +	 * kernel_wait4() misses EXIT_DEAD children, and EXIT_ZOMBIE
+> +	 * process whose parents processes are outside of the pid
+> +	 * namespace.  Such processes are created with setns()+fork().
+>  	 *
+> -	 * But this ns can also have other tasks injected by setns()+fork().
+> -	 * Again, ignoring the user visible semantics we do not really need
+> -	 * to wait until they are all reaped, but they can be reparented to
+> -	 * us and thus we need to ensure that pid->child_reaper stays valid
+> -	 * until they all go away. See free_pid()->wake_up_process().
+> +	 * If those EXIT_ZOMBIE processes are not reaped by their
+> +	 * parents before their parents exit, they will be reparented
+> +	 * to pid_ns->child_reaper.  Thus pidns->child_reaper needs to
+> +	 * stay valid until they all go away.
+>  	 *
+> -	 * We rely on ignored SIGCHLD, an injected zombie must be autoreaped
+> -	 * if reparented.
+> +	 * The code relies on the the pid_ns->child_reaper ignoring
 
-mmget_still_valid() seems pretty light-weight, so why not just use
-that without checking that the mm belongs to the current process
-first?
+s/the the/the/
 
-> +                       goto skip_mm;
->         } else {
->                 down_read(&mm->mmap_sem);
->         }
-> @@ -1169,6 +1171,7 @@ int do_madvise(struct task_struct *target_task, struct mm_struct *mm,
->         }
->  out:
->         blk_finish_plug(&plug);
-> +skip_mm:
->         if (write)
->                 up_write(&mm->mmap_sem);
->         else
-> --
-> 2.25.0.265.gbab2e86ba0-goog
->
+Hm, can we maybe reformulate this to:
+
+"The code relies on having made pid_ns->child_reaper ignore SIGCHLD above
+causing EXIT_ZOMBIE processes to be autoreaped if reparented."
+
+Which imho makes it clearer that it was us ensuring that SIGCHLD is
+ignored. Someone not too familiar with the exit codepaths might be
+looking at zap_pid_ns_processes() not knowing that it is only called
+when namespace init is exiting.
+
+Otherwise
+
+Acked-by: Christian Brauner <christian.brauner@ubuntu.com>
