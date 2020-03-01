@@ -2,286 +2,204 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 08E07174899
-	for <lists+linux-api@lfdr.de>; Sat, 29 Feb 2020 19:11:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D5BA174A8E
+	for <lists+linux-api@lfdr.de>; Sun,  1 Mar 2020 01:47:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727366AbgB2SLB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 29 Feb 2020 13:11:01 -0500
-Received: from mail-pj1-f67.google.com ([209.85.216.67]:36160 "EHLO
-        mail-pj1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727177AbgB2SLA (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 29 Feb 2020 13:11:00 -0500
-Received: by mail-pj1-f67.google.com with SMTP id gv17so2652831pjb.1
-        for <linux-api@vger.kernel.org>; Sat, 29 Feb 2020 10:10:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=osandov-com.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=7sy8AOJ/15eT2KVP4UWt2JpZHRiEAQnmxmL1o6lYero=;
-        b=boYMWy0uH+IGGQmZ9jR9o/oMeVuC1J2Vk0aQ4D2AJNgzv3nUtfC9EIbHaRI6i34gPM
-         SbkrlyvZArKyc4DPoNXiYhlrvZn5dJNu4CfnBhWX901WWM9vTpB3uBlLfW5jbtWrSjyo
-         eo4HOrEdyMyaUzvNWnK9V9mTH1+ZoBKjbNRfBGDx2In7lCAptkh5Uv2tyolS0IgUm4cR
-         gXzx3q2/uy3u//9LAxtkRuVB8T3qFjf9e2w/FoBBawSCIHs2k3Q1i+pN7Dbza8GvyuC/
-         JXZFYjEtriuIs7gT4que4PlLtylT4e6HTqDLfvao16GrS3JequXyBMiemXgY+d8lXe6A
-         DBMA==
+        id S1727207AbgCAArg convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Sat, 29 Feb 2020 19:47:36 -0500
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:33028 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726786AbgCAArf (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 29 Feb 2020 19:47:35 -0500
+Received: by mail-qt1-f196.google.com with SMTP id x8so2819171qts.0;
+        Sat, 29 Feb 2020 16:47:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=7sy8AOJ/15eT2KVP4UWt2JpZHRiEAQnmxmL1o6lYero=;
-        b=IxSELNuF+7A9OagtvRDEn5EAfpfHV0Do65BCpFYt9Y6Wr/c7QsXYbt8dZUgZ8i2POw
-         beBW9Y1QxER/YmN23kA447XUAOxzsjC7vEqIMcT8r4zTFd3pe5kIpm6z3Yz0mh4BeGav
-         jPSIYSjAkrhuDle1WYNMBsB3t6HmAE15NgHKQmcQn1ma16O2S5H9+0fHKfTZ6cqx5czj
-         anuCSypOpSPmlpsw9k8KOgqqgKZEcv/E2GwQBXXFjdKmVkiVuPK9IeOWtBM088kig9oM
-         bpZhTsFZlCHexApP1eFzgZBR/n+psaMTw+OL3c0NkUVWTR6cT1gfhkJy1t3tGzYdlQlv
-         UpvQ==
-X-Gm-Message-State: APjAAAUurEaI5XHV6ZI0wTRMUSHJj4JzQ70Iz5SpP67WyAZONgaS3dJK
-        suJ7+x8+Jq2+2rkbgzIF81Kqpw==
-X-Google-Smtp-Source: APXvYqybeS5MbSric+KrWp1UODE4dnY4mGpqShiZFnfzfg5BetSTd/rk0guzRj9/e465cj5luyQuQw==
-X-Received: by 2002:a17:902:be04:: with SMTP id r4mr9771281pls.315.1582999857094;
-        Sat, 29 Feb 2020 10:10:57 -0800 (PST)
-Received: from vader ([2607:fb90:8365:d596:e6a7:a0ff:fe0b:c9a8])
-        by smtp.gmail.com with ESMTPSA id l37sm6283692pjb.15.2020.02.29.10.10.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Feb 2020 10:10:56 -0800 (PST)
-Date:   Sat, 29 Feb 2020 10:10:53 -0800
-From:   Omar Sandoval <osandov@osandov.com>
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux Btrfs <linux-btrfs@vger.kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dave Chinner <david@fromorbit.com>,
-        Jann Horn <jannh@google.com>, Aleksa Sarai <cyphar@cyphar.com>,
-        Linux API <linux-api@vger.kernel.org>, kernel-team@fb.com
-Subject: Re: [PATCH v4 3/9] fs: add RWF_ENCODED for reading/writing
- compressed data
-Message-ID: <20200229181053.GB157744@vader>
-References: <cover.1582930832.git.osandov@fb.com>
- <4f8b9a66f5f6efdb9cab566581acb292f0b5b528.1582930832.git.osandov@fb.com>
- <CAOQ4uxi_KRZFiEsDj_yn0f+Zo4tgAkKKcuAp3jiAmB4r7xjiEA@mail.gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=oH0ncHNV8XxAqVrlyEJMu+Cv/ThtQO/KP6auu0wc1lg=;
+        b=JBiw+nr5O2EgoGHCgthrjTdz7ghd30CabF2c+uundh7dsC4b7mbSbngjk96uxG/jvr
+         e5rRkJRQEGLQ0N+WskZsaKtdNjhtTYIJ9ebgFphHpkwOAIG/JahVu5TZUN1DdcbxT2lW
+         a5mfkrjUFlh3h28Jn7Oh/29PMlxVWDKV8+AIGxrxvr+8EHOwernqvVzetFBN6vl7R5iD
+         R6I6s7fQg+WBe7baqhfaO2AyHfwEum5sjtTiC3wzKC9dRfRSi03eSkBpEwddRxWTwHu9
+         ubAUriskyPyCgI4lZGA+G5gf2rm0F70MgIPmEy2KJnFtzt8qapgn2gQgSm30UvTW9ydw
+         +4pw==
+X-Gm-Message-State: APjAAAX0xrs0KF52khBJ24evfxBsulcYd0Miv0wdFBRXyTjIcgkKksrg
+        d3e97gko8B+0STC7jt5ialP5SVExXk1RNE13vWg=
+X-Google-Smtp-Source: APXvYqyyJpbm+wc92foVb2tgN6GdgD9tF3sjZIJHrWt8MtUjgy13G9NMtx15eXtf5uWPSkPa6budnFBYEhuAcp2cyqM=
+X-Received: by 2002:ac8:12c5:: with SMTP id b5mr10245689qtj.386.1583023654212;
+ Sat, 29 Feb 2020 16:47:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOQ4uxi_KRZFiEsDj_yn0f+Zo4tgAkKKcuAp3jiAmB4r7xjiEA@mail.gmail.com>
+References: <20200128132539.782286-1-laurent@vivier.eu>
+In-Reply-To: <20200128132539.782286-1-laurent@vivier.eu>
+From:   YunQiang Su <syq@debian.org>
+Date:   Sun, 1 Mar 2020 08:47:23 +0800
+Message-ID: <CAKcpw6W8_a3LPMPTph1asU3dCfjXk-xh5_7+MCEFicwTph+EKg@mail.gmail.com>
+Subject: Re: [PATCH v3] binfmt_misc: pass binfmt_misc flags to the interpreter
+To:     Laurent Vivier <laurent@vivier.eu>
+Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>,
+        libc-alpha@sourceware.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Feb 29, 2020 at 12:40:58PM +0200, Amir Goldstein wrote:
-> On Sat, Feb 29, 2020 at 1:14 AM Omar Sandoval <osandov@osandov.com> wrote:
-> >
-> > From: Omar Sandoval <osandov@fb.com>
-> >
-> > Btrfs supports transparent compression: data written by the user can be
-> > compressed when written to disk and decompressed when read back.
-> > However, we'd like to add an interface to write pre-compressed data
-> > directly to the filesystem, and the matching interface to read
-> > compressed data without decompressing it. This adds support for
-> > so-called "encoded I/O" via preadv2() and pwritev2().
-> >
-> > A new RWF_ENCODED flags indicates that a read or write is "encoded". If
-> > this flag is set, iov[0].iov_base points to a struct encoded_iov which
-> > is used for metadata: namely, the compression algorithm, unencoded
-> > (i.e., decompressed) length, and what subrange of the unencoded data
-> > should be used (needed for truncated or hole-punched extents and when
-> > reading in the middle of an extent). For reads, the filesystem returns
-> > this information; for writes, the caller provides it to the filesystem.
-> > iov[0].iov_len must be set to sizeof(struct encoded_iov), which can be
-> > used to extend the interface in the future a la copy_struct_from_user().
-> > The remaining iovecs contain the encoded extent.
-> >
-> > This adds the VFS helpers for supporting encoded I/O and documentation
-> > for filesystem support.
-> >
-> > Signed-off-by: Omar Sandoval <osandov@fb.com>
-> > ---
-> >  Documentation/filesystems/encoded_io.rst |  74 ++++++++++
-> >  Documentation/filesystems/index.rst      |   1 +
-> >  include/linux/fs.h                       |  16 +++
-> >  include/uapi/linux/fs.h                  |  33 ++++-
-> >  mm/filemap.c                             | 166 +++++++++++++++++++++--
-> >  5 files changed, 276 insertions(+), 14 deletions(-)
-> >  create mode 100644 Documentation/filesystems/encoded_io.rst
-> >
-> > diff --git a/Documentation/filesystems/encoded_io.rst b/Documentation/filesystems/encoded_io.rst
-> > new file mode 100644
-> > index 000000000000..50405276d866
-> > --- /dev/null
-> > +++ b/Documentation/filesystems/encoded_io.rst
-> > @@ -0,0 +1,74 @@
-> > +===========
-> > +Encoded I/O
-> > +===========
-> > +
-> > +Encoded I/O is a mechanism for reading and writing encoded (e.g., compressed
-> > +and/or encrypted) data directly from/to the filesystem. The userspace interface
-> > +is thoroughly described in the :manpage:`encoded_io(7)` man page; this document
-> > +describes the requirements for filesystem support.
-> > +
-> > +First of all, a filesystem supporting encoded I/O must indicate this by setting
-> > +the ``FMODE_ENCODED_IO`` flag in its ``file_open`` file operation::
-> > +
-> > +    static int foo_file_open(struct inode *inode, struct file *filp)
-> > +    {
-> > +            ...
-> > +            filep->f_mode |= FMODE_ENCODED_IO;
-> > +            ...
-> > +    }
-> > +
-> > +Encoded I/O goes through ``read_iter`` and ``write_iter``, designated by the
-> > +``IOCB_ENCODED`` flag in ``kiocb->ki_flags``.
-> > +
-> > +Reads
-> > +=====
-> > +
-> > +Encoded ``read_iter`` should:
-> > +
-> > +1. Call ``generic_encoded_read_checks()`` to validate the file and buffers
-> > +   provided by userspace.
-> > +2. Initialize the ``encoded_iov`` appropriately.
-> > +3. Copy it to the user with ``copy_encoded_iov_to_iter()``.
-> > +4. Copy the encoded data to the user.
-> > +5. Advance ``kiocb->ki_pos`` by ``encoded_iov->len``.
-> > +6. Return the size of the encoded data read, not including the ``encoded_iov``.
-> > +
-> > +There are a few details to be aware of:
-> > +
-> > +* Encoded ``read_iter`` should support reading unencoded data if the extent is
-> > +  not encoded.
-> > +* If the buffers provided by the user are not large enough to contain an entire
-> > +  encoded extent, then ``read_iter`` should return ``-ENOBUFS``. This is to
-> > +  avoid confusing userspace with truncated data that cannot be properly
-> > +  decoded.
-> > +* Reads in the middle of an encoded extent can be returned by setting
-> > +  ``encoded_iov->unencoded_offset`` to non-zero.
-> > +* Truncated unencoded data (e.g., because the file does not end on a block
-> > +  boundary) may be returned by setting ``encoded_iov->len`` to a value smaller
-> > +  value than ``encoded_iov->unencoded_len - encoded_iov->unencoded_offset``.
-> > +
-> > +Writes
-> > +======
-> > +
-> > +Encoded ``write_iter`` should (in addition to the usual accounting/checks done
-> > +by ``write_iter``):
-> > +
-> > +1. Call ``copy_encoded_iov_from_iter()`` to get and validate the
-> > +   ``encoded_iov``.
-> > +2. Call ``generic_encoded_write_checks()`` instead of
-> > +   ``generic_write_checks()``.
-> > +3. Check that the provided encoding in ``encoded_iov`` is supported.
-> > +4. Advance ``kiocb->ki_pos`` by ``encoded_iov->len``.
-> > +5. Return the size of the encoded data written.
-> > +
-> > +Again, there are a few details:
-> > +
-> > +* Encoded ``write_iter`` doesn't need to support writing unencoded data.
-> > +* ``write_iter`` should either write all of the encoded data or none of it; it
-> > +  must not do partial writes.
-> > +* ``write_iter`` doesn't need to validate the encoded data; a subsequent read
-> > +  may return, e.g., ``-EIO`` if the data is not valid.
-> > +* The user may lie about the unencoded size of the data; a subsequent read
-> > +  should truncate or zero-extend the unencoded data rather than returning an
-> > +  error.
-> > +* Be careful of page cache coherency.
-> > diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-> > index 386eaad008b2..e074a3f1f856 100644
-> > --- a/Documentation/filesystems/index.rst
-> > +++ b/Documentation/filesystems/index.rst
-> > @@ -37,6 +37,7 @@ filesystem implementations.
-> >     journalling
-> >     fscrypt
-> >     fsverity
-> > +   encoded_io
-> >
-> >  Filesystems
-> >  ===========
-> > diff --git a/include/linux/fs.h b/include/linux/fs.h
-> > index 3cd4fe6b845e..aa7efd3430d1 100644
-> > --- a/include/linux/fs.h
-> > +++ b/include/linux/fs.h
-> > @@ -175,6 +175,9 @@ typedef int (dio_iodone_t)(struct kiocb *iocb, loff_t offset,
-> >  /* File does not contribute to nr_files count */
-> >  #define FMODE_NOACCOUNT                ((__force fmode_t)0x20000000)
-> >
-> > +/* File supports encoded IO */
-> > +#define FMODE_ENCODED_IO       ((__force fmode_t)0x40000000)
-> > +
-> >  /*
-> >   * Flag for rw_copy_check_uvector and compat_rw_copy_check_uvector
-> >   * that indicates that they should check the contents of the iovec are
-> > @@ -314,6 +317,7 @@ enum rw_hint {
-> >  #define IOCB_SYNC              (1 << 5)
-> >  #define IOCB_WRITE             (1 << 6)
-> >  #define IOCB_NOWAIT            (1 << 7)
-> > +#define IOCB_ENCODED           (1 << 8)
-> >
-> >  struct kiocb {
-> >         struct file             *ki_filp;
-> > @@ -3109,6 +3113,13 @@ extern int sb_min_blocksize(struct super_block *, int);
-> >  extern int generic_file_mmap(struct file *, struct vm_area_struct *);
-> >  extern int generic_file_readonly_mmap(struct file *, struct vm_area_struct *);
-> >  extern ssize_t generic_write_checks(struct kiocb *, struct iov_iter *);
-> > +struct encoded_iov;
-> > +extern int generic_encoded_write_checks(struct kiocb *,
-> > +                                       const struct encoded_iov *);
-> > +extern int copy_encoded_iov_from_iter(struct encoded_iov *, struct iov_iter *);
-> > +extern ssize_t generic_encoded_read_checks(struct kiocb *, struct iov_iter *);
-> > +extern int copy_encoded_iov_to_iter(const struct encoded_iov *,
-> > +                                   struct iov_iter *);
-> >  extern int generic_remap_checks(struct file *file_in, loff_t pos_in,
-> >                                 struct file *file_out, loff_t pos_out,
-> >                                 loff_t *count, unsigned int remap_flags);
-> > @@ -3434,6 +3445,11 @@ static inline int kiocb_set_rw_flags(struct kiocb *ki, rwf_t flags)
-> >                         return -EOPNOTSUPP;
-> >                 ki->ki_flags |= IOCB_NOWAIT;
-> >         }
-> > +       if (flags & RWF_ENCODED) {
-> > +               if (!(ki->ki_filp->f_mode & FMODE_ENCODED_IO))
-> > +                       return -EOPNOTSUPP;
-> > +               ki->ki_flags |= IOCB_ENCODED;
-> > +       }
-> >         if (flags & RWF_HIPRI)
-> >                 ki->ki_flags |= IOCB_HIPRI;
-> >         if (flags & RWF_DSYNC)
-> > diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
-> > index 379a612f8f1d..f8c6c1e08def 100644
-> > --- a/include/uapi/linux/fs.h
-> > +++ b/include/uapi/linux/fs.h
-> > @@ -278,6 +278,34 @@ struct fsxattr {
-> >                                          SYNC_FILE_RANGE_WAIT_BEFORE | \
-> >                                          SYNC_FILE_RANGE_WAIT_AFTER)
-> >
-> > +enum {
-> > +       ENCODED_IOV_COMPRESSION_NONE,
-> > +#define ENCODED_IOV_COMPRESSION_NONE ENCODED_IOV_COMPRESSION_NONE
-> > +       ENCODED_IOV_COMPRESSION_ZLIB,
-> > +#define ENCODED_IOV_COMPRESSION_ZLIB ENCODED_IOV_COMPRESSION_ZLIB
-> > +       ENCODED_IOV_COMPRESSION_LZO,
-> > +#define ENCODED_IOV_COMPRESSION_LZO ENCODED_IOV_COMPRESSION_LZO
-> > +       ENCODED_IOV_COMPRESSION_ZSTD,
-> > +#define ENCODED_IOV_COMPRESSION_ZSTD ENCODED_IOV_COMPRESSION_ZSTD
-> > +       ENCODED_IOV_COMPRESSION_TYPES = ENCODED_IOV_COMPRESSION_ZSTD,
-> > +};
-> > +
-> > +enum {
-> > +       ENCODED_IOV_ENCRYPTION_NONE,
-> > +#define ENCODED_IOV_ENCRYPTION_NONE ENCODED_IOV_ENCRYPTION_NONE
-> > +       ENCODED_IOV_ENCRYPTION_TYPES = ENCODED_IOV_ENCRYPTION_NONE,
-> > +};
-> > +
-> 
-> What are those defines???
+Laurent Vivier <laurent@vivier.eu> 于2020年1月28日周二 下午9:25写道：
+>
+> It can be useful to the interpreter to know which flags are in use.
+>
+> For instance, knowing if the preserve-argv[0] is in use would
+> allow to skip the pathname argument.
+>
+> This patch uses an unused auxiliary vector, AT_FLAGS, to add a
+> flag to inform interpreter if the preserve-argv[0] is enabled.
+>
 
-They're so you can check whether an enum value is defined in the UAPI
-headers via ifdef. E.g., if we were to add
-ENCODED_IOV_COMPRESSION_SOME_NEW_ALGORITHM, applications could use:
+I am suggested to post linux-arch and/or linux-api.
 
-#ifndef ENCODED_IOV_COMPRESSION_SOME_NEW_ALGORITHM
-#define ENCODED_IOV_COMPRESSION_SOME_NEW_ALGORITHM 4
-#endif
-
-In my experience, this makes dealing with lagging UAPI headers less
-annoying. This is done elsewhere in UAPI headers (e.g.,
-include/uapi/linux/in.h).
+> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+> ---
+>
+> Notes:
+>     This can be tested with QEMU from my branch:
+>
+>       https://github.com/vivier/qemu/commits/binfmt-argv0
+>
+>     With something like:
+>
+>       # cp ..../qemu-ppc /chroot/powerpc/jessie
+>
+>       # qemu-binfmt-conf.sh --qemu-path / --systemd ppc --credential yes \
+>                             --persistent no --preserve-argv0 yes
+>       # systemctl restart systemd-binfmt.service
+>       # cat /proc/sys/fs/binfmt_misc/qemu-ppc
+>       enabled
+>       interpreter //qemu-ppc
+>       flags: POC
+>       offset 0
+>       magic 7f454c4601020100000000000000000000020014
+>       mask ffffffffffffff00fffffffffffffffffffeffff
+>       # chroot /chroot/powerpc/jessie  sh -c 'echo $0'
+>       sh
+>
+>       # qemu-binfmt-conf.sh --qemu-path / --systemd ppc --credential yes \
+>                             --persistent no --preserve-argv0 no
+>       # systemctl restart systemd-binfmt.service
+>       # cat /proc/sys/fs/binfmt_misc/qemu-ppc
+>       enabled
+>       interpreter //qemu-ppc
+>       flags: OC
+>       offset 0
+>       magic 7f454c4601020100000000000000000000020014
+>       mask ffffffffffffff00fffffffffffffffffffeffff
+>       # chroot /chroot/powerpc/jessie  sh -c 'echo $0'
+>       /bin/sh
+>
+>     v3: mix my patch with one from YunQiang Su and my comments on it
+>         introduce a new flag in the uabi for the AT_FLAGS
+>     v2: only pass special flags (remove Magic and Enabled flags)
+>
+>  fs/binfmt_elf.c              | 5 ++++-
+>  fs/binfmt_elf_fdpic.c        | 5 ++++-
+>  fs/binfmt_misc.c             | 4 +++-
+>  include/linux/binfmts.h      | 4 ++++
+>  include/uapi/linux/binfmts.h | 4 ++++
+>  5 files changed, 19 insertions(+), 3 deletions(-)
+>
+> diff --git a/fs/binfmt_elf.c b/fs/binfmt_elf.c
+> index ecd8d2698515..ff918042ceed 100644
+> --- a/fs/binfmt_elf.c
+> +++ b/fs/binfmt_elf.c
+> @@ -176,6 +176,7 @@ create_elf_tables(struct linux_binprm *bprm, struct elfhdr *exec,
+>         unsigned char k_rand_bytes[16];
+>         int items;
+>         elf_addr_t *elf_info;
+> +       elf_addr_t flags = 0;
+>         int ei_index = 0;
+>         const struct cred *cred = current_cred();
+>         struct vm_area_struct *vma;
+> @@ -250,7 +251,9 @@ create_elf_tables(struct linux_binprm *bprm, struct elfhdr *exec,
+>         NEW_AUX_ENT(AT_PHENT, sizeof(struct elf_phdr));
+>         NEW_AUX_ENT(AT_PHNUM, exec->e_phnum);
+>         NEW_AUX_ENT(AT_BASE, interp_load_addr);
+> -       NEW_AUX_ENT(AT_FLAGS, 0);
+> +       if (bprm->interp_flags & BINPRM_FLAGS_PRESERVE_ARGV0)
+> +               flags |= AT_FLAGS_PRESERVE_ARGV0;
+> +       NEW_AUX_ENT(AT_FLAGS, flags);
+>         NEW_AUX_ENT(AT_ENTRY, exec->e_entry);
+>         NEW_AUX_ENT(AT_UID, from_kuid_munged(cred->user_ns, cred->uid));
+>         NEW_AUX_ENT(AT_EUID, from_kuid_munged(cred->user_ns, cred->euid));
+> diff --git a/fs/binfmt_elf_fdpic.c b/fs/binfmt_elf_fdpic.c
+> index 240f66663543..abb90d82aa58 100644
+> --- a/fs/binfmt_elf_fdpic.c
+> +++ b/fs/binfmt_elf_fdpic.c
+> @@ -507,6 +507,7 @@ static int create_elf_fdpic_tables(struct linux_binprm *bprm,
+>         char __user *u_platform, *u_base_platform, *p;
+>         int loop;
+>         int nr; /* reset for each csp adjustment */
+> +       unsigned long flags = 0;
+>
+>  #ifdef CONFIG_MMU
+>         /* In some cases (e.g. Hyper-Threading), we want to avoid L1 evictions
+> @@ -647,7 +648,9 @@ static int create_elf_fdpic_tables(struct linux_binprm *bprm,
+>         NEW_AUX_ENT(AT_PHENT,   sizeof(struct elf_phdr));
+>         NEW_AUX_ENT(AT_PHNUM,   exec_params->hdr.e_phnum);
+>         NEW_AUX_ENT(AT_BASE,    interp_params->elfhdr_addr);
+> -       NEW_AUX_ENT(AT_FLAGS,   0);
+> +       if (bprm->interp_flags & BINPRM_FLAGS_PRESERVE_ARGV0)
+> +               flags |= AT_FLAGS_PRESERVE_ARGV0;
+> +       NEW_AUX_ENT(AT_FLAGS,   flags);
+>         NEW_AUX_ENT(AT_ENTRY,   exec_params->entry_addr);
+>         NEW_AUX_ENT(AT_UID,     (elf_addr_t) from_kuid_munged(cred->user_ns, cred->uid));
+>         NEW_AUX_ENT(AT_EUID,    (elf_addr_t) from_kuid_munged(cred->user_ns, cred->euid));
+> diff --git a/fs/binfmt_misc.c b/fs/binfmt_misc.c
+> index cdb45829354d..b9acdd26a654 100644
+> --- a/fs/binfmt_misc.c
+> +++ b/fs/binfmt_misc.c
+> @@ -154,7 +154,9 @@ static int load_misc_binary(struct linux_binprm *bprm)
+>         if (bprm->interp_flags & BINPRM_FLAGS_PATH_INACCESSIBLE)
+>                 goto ret;
+>
+> -       if (!(fmt->flags & MISC_FMT_PRESERVE_ARGV0)) {
+> +       if (fmt->flags & MISC_FMT_PRESERVE_ARGV0) {
+> +               bprm->interp_flags |= BINPRM_FLAGS_PRESERVE_ARGV0;
+> +       } else {
+>                 retval = remove_arg_zero(bprm);
+>                 if (retval)
+>                         goto ret;
+> diff --git a/include/linux/binfmts.h b/include/linux/binfmts.h
+> index b40fc633f3be..265b80d5fd6f 100644
+> --- a/include/linux/binfmts.h
+> +++ b/include/linux/binfmts.h
+> @@ -78,6 +78,10 @@ struct linux_binprm {
+>  #define BINPRM_FLAGS_PATH_INACCESSIBLE_BIT 2
+>  #define BINPRM_FLAGS_PATH_INACCESSIBLE (1 << BINPRM_FLAGS_PATH_INACCESSIBLE_BIT)
+>
+> +/* if preserve the argv0 for the interpreter  */
+> +#define BINPRM_FLAGS_PRESERVE_ARGV0_BIT 3
+> +#define BINPRM_FLAGS_PRESERVE_ARGV0 (1 << BINPRM_FLAGS_PRESERVE_ARGV0_BIT)
+> +
+>  /* Function parameter for binfmt->coredump */
+>  struct coredump_params {
+>         const kernel_siginfo_t *siginfo;
+> diff --git a/include/uapi/linux/binfmts.h b/include/uapi/linux/binfmts.h
+> index 689025d9c185..a70747416130 100644
+> --- a/include/uapi/linux/binfmts.h
+> +++ b/include/uapi/linux/binfmts.h
+> @@ -18,4 +18,8 @@ struct pt_regs;
+>  /* sizeof(linux_binprm->buf) */
+>  #define BINPRM_BUF_SIZE 256
+>
+> +/* if preserve the argv0 for the interpreter  */
+> +#define AT_FLAGS_PRESERVE_ARGV0_BIT 0
+> +#define AT_FLAGS_PRESERVE_ARGV0 (1 << AT_FLAGS_PRESERVE_ARGV0_BIT)
+> +
+>  #endif /* _UAPI_LINUX_BINFMTS_H */
+> --
+> 2.24.1
+>
