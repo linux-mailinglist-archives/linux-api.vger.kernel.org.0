@@ -2,269 +2,181 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 20CCC174C25
-	for <lists+linux-api@lfdr.de>; Sun,  1 Mar 2020 08:26:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 306C6174E88
+	for <lists+linux-api@lfdr.de>; Sun,  1 Mar 2020 17:38:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725884AbgCAH0W (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 1 Mar 2020 02:26:22 -0500
-Received: from mail-il1-f195.google.com ([209.85.166.195]:35775 "EHLO
-        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725601AbgCAH0W (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 1 Mar 2020 02:26:22 -0500
-Received: by mail-il1-f195.google.com with SMTP id g126so6583208ilh.2;
-        Sat, 29 Feb 2020 23:26:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ZgMI9gzeDKjwdz0UCklXxTagolmRcd8ptBhfjTJM5A8=;
-        b=YIXyQZo+9x6Rfv59dG2RU+7DJUmstQlvshuO+ZpZwYeHEFxBGkF87+6srg0w9pvWWV
-         S53zgQTx/f0+Fbeg1gg4/0N3sLd8E1IpMhDptS3GFdgcmRjRpwAqlHzhWaXtFkHutmro
-         RVbwx0v3ILrgegjUV3Fb7An0HdiB++SXyhMYmlooPj5AA1KtKSe/qUNXu0+tAt4YETJg
-         S87GSJ+dIYmUdXbcHBMt0zQFBznTGj+4InYjkKG6eOvQklloBPEFnvAsZ9qfreav5EMU
-         s8Oxa6SIQa+ltLHhX0Gh6EHdM6SZGRGO0hMlVzCFpGcXOOeuGHultgpuX7aMyGiM5UHo
-         ZnPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZgMI9gzeDKjwdz0UCklXxTagolmRcd8ptBhfjTJM5A8=;
-        b=SXnve/ogJWG3KYmwogfmGOGYGUGVszixQyynXkzGHDuYW6SPK6lrTeWUnBt5o/WmRk
-         MHtowjEUSaGW5u/V5DC3HRpPUYTLWM3RMSAjx6+9cpSdbqvlPMMnK3V5i7xzFVaJYvSi
-         jajhViuG3BNAvXY8zLdtL1wKQ8AlSIKrnRNeiZce0uiAD4eQ5Q659qq2Oi4gzSAa2wH2
-         xH5R29DowOmC+8LrehGCQ/givxA8uVAZPbT+bKbOtB3LKOXzsq/dcdipghoQKRkRLWRM
-         Gt4bvorHNAAmHGTXV3ja4seOgUfYzXDnWn2+9QkR+oG/0XhWf1U8UBcuHqAHC2ZVP607
-         Gn3A==
-X-Gm-Message-State: APjAAAXoLo48nBW21/qCM9Rv1WuZJMpwNnAkXuUesJEk+v7JwLy9zktJ
-        T1uM7XF61nCFJcTlWMvFgGUJ1nCKLassph2tbSI=
-X-Google-Smtp-Source: APXvYqwyBLB23Q3JdTt4ZXnNkL9M+MCr+V5OudPYDeAdqTesKuP1r98p3DTKUkbUxRlwP35mdarn0m6FWAczUJrg3lY=
-X-Received: by 2002:a92:6f10:: with SMTP id k16mr11593427ilc.275.1583047580949;
- Sat, 29 Feb 2020 23:26:20 -0800 (PST)
+        id S1726561AbgCAQia (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 1 Mar 2020 11:38:30 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:55780 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726448AbgCAQi3 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 1 Mar 2020 11:38:29 -0500
+Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236] helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1j8Rbl-0000yU-V7; Sun, 01 Mar 2020 16:38:26 +0000
+Date:   Sun, 1 Mar 2020 17:38:25 +0100
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Aleksa Sarai <cyphar@cyphar.com>
+Cc:     David Howells <dhowells@redhat.com>, linux-api@vger.kernel.org,
+        viro@zeniv.linux.org.uk, metze@samba.org,
+        torvalds@linux-foundation.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, fweimer@redhat.com
+Subject: Re: Have RESOLVE_* flags superseded AT_* flags for new syscalls?
+Message-ID: <20200301163825.ov42k4pvtbxlmg4s@wittgenstein>
+References: <96563.1582901612@warthog.procyon.org.uk>
+ <20200228152427.rv3crd7akwdhta2r@wittgenstein>
+ <20200229152656.gwu7wbqd32liwjye@yavin>
 MIME-Version: 1.0
-References: <cover.1582930832.git.osandov@fb.com> <00f86ed7c25418599e6067cb1dfb186c90ce7bf3.1582931488.git.osandov@fb.com>
- <CAOQ4uxgym1C3JZHrLhBmEh_T7UbQOukxTBKVzHqp4NSdjredSg@mail.gmail.com> <20200229180335.GA157744@vader>
-In-Reply-To: <20200229180335.GA157744@vader>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Sun, 1 Mar 2020 09:26:10 +0200
-Message-ID: <CAOQ4uxiKmErX0YLkHs2tE4=OUobxmiYBsDz5982YYmierm2Yig@mail.gmail.com>
-Subject: Re: [PATCH man-pages v4] Document encoded I/O
-To:     Omar Sandoval <osandov@osandov.com>
-Cc:     linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux Btrfs <linux-btrfs@vger.kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dave Chinner <david@fromorbit.com>,
-        Jann Horn <jannh@google.com>, Aleksa Sarai <cyphar@cyphar.com>,
-        Linux API <linux-api@vger.kernel.org>, kernel-team@fb.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200229152656.gwu7wbqd32liwjye@yavin>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Feb 29, 2020 at 8:03 PM Omar Sandoval <osandov@osandov.com> wrote:
->
-> On Sat, Feb 29, 2020 at 12:28:41PM +0200, Amir Goldstein wrote:
-> > > +encoded_io \- overview of encoded I/O
-> > > +.SH DESCRIPTION
-> > > +Several filesystems (e.g., Btrfs) support transparent encoding
-> > > +(e.g., compression, encryption) of data on disk:
-> > > +written data is encoded by the kernel before it is written to disk,
-> > > +and read data is decoded before being returned to the user.
-> > > +In some cases, it is useful to skip this encoding step.
-> > > +For example, the user may want to read the compressed contents of a file
-> > > +or write pre-compressed data directly to a file.
-> > > +This is referred to as "encoded I/O".
-> > > +.SS Encoded I/O API
-> > > +Encoded I/O is specified with the
-> > > +.B RWF_ENCODED
-> > > +flag to
-> > > +.BR preadv2 (2)
-> > > +and
-> > > +.BR pwritev2 (2).
-> > > +If
-> > > +.B RWF_ENCODED
-> > > +is specified, then
-> > > +.I iov[0].iov_base
-> > > +points to an
-> > > +.I
-> > > +encoded_iov
-> > > +structure, defined in
-> > > +.I <linux/fs.h>
-> > > +as:
-> > > +.PP
-> > > +.in +4n
-> > > +.EX
-> > > +struct encoded_iov {
-> > > +    __aligned_u64 len;
-> > > +    __aligned_u64 unencoded_len;
-> > > +    __aligned_u64 unencoded_offset;
-> > > +    __u32 compression;
-> > > +    __u32 encryption;
-> > > +};
-> >
-> > This new API can generate many diverse error conditions that the standard errno
-> > codes are not rich enough to describe.
-> > Maybe add room for encoded io specific error codes in the metadata structure
-> > would be good practice, for example:
-> > - compression method not supported
-> > - encryption method not supported
-> > - the combination of enc/comp is not supported
-> > - and so on
->
-> I like this idea, but it feels like even more iovec abuse. Namely, for
+On Sun, Mar 01, 2020 at 02:26:56AM +1100, Aleksa Sarai wrote:
+> On 2020-02-28, Christian Brauner <christian.brauner@ubuntu.com> wrote:
+> > [Cc Florian since that ends up on libc's table sooner or later...]
+> > 
+> > On Fri, Feb 28, 2020 at 02:53:32PM +0000, David Howells wrote:
+> > > 	
+> > > I've been told that RESOLVE_* flags, which can be found in linux/openat2.h,
+> > > should be used instead of the equivalent AT_* flags for new system calls.  Is
+> > > this the case?
+> > 
+> > Imho, it would make sense to use RESOLVE_* flags for new system calls
+> > and afair this was the original intention.
+> 
+> Yes, RESOLVE_ flags would ideally be usable with all new system calls
+> (though only where it makes sense, obviously). This would make it much
+> easier for userspace to safely resolve paths without having to go
+> through several levels of O_PATH fuckery.
+> 
+> The "openat2.h" name was honestly a completely arbitrary decision.
+> 
+> > So we either end up adding new AT_* flags mirroring the new RESOLVE_*
+> > flags or we end up adding new RESOLVE_* flags mirroring parts of AT_*
+> > flags. And if that's a possibility I vote for RESOLVE_* flags going
+> > forward. The have better naming too imho.
+> 
+> I can see the argument for merging AT_ flags into RESOLVE_ flags (fewer
+> flag arguments for syscalls is usually a good thing) ... but I don't
+> really like it. There are a couple of problems right off the bat:
 
-That's true.
+Sorry, I didn't want to suggest that we simply merge them or make one a
+superset of the other (Though I think that's what David first had in
+mind.). I rather meant it like: If we need a flag in the RESOLVE_*
+namespace that already corresponds to a flag present in the AT_*
+namespace we should not use the AT_* flag but rather introduce a new
+RESOLVE_* flag. This way we don't end up mixing AT_* and RESOLVE_*
+flags. That obviously is optimistic about not ending up with a scenario
+where an old syscall suddenly wants a RESOLVE_* flag. That still seems
+better than a new syscall wanting RESOLVE_* and AT_*. But maybe I'm
+overthinking this.
 
-> pwritev2(), it feels a little off that we'd be copying _to_ user memory
-> rather than only copying from. It's probably worth it for better errors,
-> though.
->
+I think you did a good job by keeping the values apart for now for
+RESOLVE_* and AT_*, right? Mixing them would thus be kinda ok but still
+feels very messy.
 
-Apropos iovec abuse, if encoded io is going to interpret iovec[0] differently
-why not interpret iovec arg differently. The result might be less awkward if
-the structure passed to preadv2/pwritev2 is struct encoded_iov * instead
-of struct iov *.
+> 
+>  * The prefix RESOLVE_ implies that the flag is specifically about path
+>    resolution. While you could argue that AT_EMPTY_PATH is at least
+>    *related* to path resolution, flags like AT_REMOVEDIR and
+>    AT_RECURSIVE aren't.
+> 
+>  * That point touches on something I see as a more fundamental problem
+>    in the AT_ flags -- they were intended to be generic flags for all of
+>    the ...at(2) syscalls. But then AT_ grew things like AT_STATX_ and
+>    AT_REMOVEDIR (both of which are necessary features to have for their
+>    respective syscalls, but now those flag bits are dead for other
+>    syscalls -- not to mention the whole AT_SYMLINK_{NO,}FOLLOW thing).
 
-> > > +.EE
-> > > +.in
-> > > +.PP
-> > > +This may be extended in the future, so
-> > > +.I iov[0].iov_len
-> > > +must be set to
-> > > +.I "sizeof(struct\ encoded_iov)"
-> > > +for forward/backward compatibility.
-> > > +The remaining buffers contain the encoded data.
-> > > +.PP
-> > > +.I compression
-> > > +and
-> > > +.I encryption
-> > > +are the encoding fields.
-> > > +.I compression
-> > > +is one of
-> > > +.B ENCODED_IOV_COMPRESSION_NONE
-> > > +(zero),
-> > > +.BR ENCODED_IOV_COMPRESSION_ZLIB ,
-> > > +.BR ENCODED_IOV_COMPRESSION_LZO ,
-> > > +or
-> > > +.BR ENCODED_IOV_COMPRESSION_ZSTD .
-> > > +.I encryption
-> > > +is currently always
-> > > +.B ENCODED_IOV_ENCRYPTION_NONE
-> > > +(zero).
-> > > +.PP
-> > > +.I unencoded_len
-> > > +is the length of the unencoded (i.e., decrypted and decompressed) data.
-> > > +.I unencoded_offset
-> > > +is the offset into the unencoded data where the data in the file begins
-> > > +(less than or equal to
-> > > +.IR unencoded_len ).
-> > > +.I len
-> > > +is the length of the data in the file
-> > > +(less than or equal to
-> > > +.I unencoded_len
-> > > +-
-> > > +.IR unencoded_offset ).
-> > > +.I
-> > > +.PP
-> > > +In most cases,
-> > > +.I len
-> > > +is equal to
-> > > +.I unencoded_len
-> > > +and
-> > > +.I unencoded_offset
-> > > +is zero.
-> > > +However, it may be necessary to refer to a subset of the unencoded data,
-> > > +usually because a read occurred in the middle of an encoded extent,
-> > > +because part of an extent was overwritten or deallocated in some
-> > > +way (e.g., with
-> > > +.BR write (2),
-> > > +.BR truncate (2),
-> > > +or
-> > > +.BR fallocate (2))
-> > > +or because part of an extent was added to the file (e.g., with
-> > > +.BR ioctl_ficlonerange (2)
-> > > +or
-> > > +.BR ioctl_fideduperange (2)).
-> > > +For example, if
-> > > +.I len
-> > > +is 300,
-> > > +.I unencoded_len
-> > > +is 1000,
-> > > +and
-> > > +.I unencoded_offset
-> > > +is 600,
-> > > +then the encoded data is 1000 bytes long when decoded,
-> > > +of which only the 300 bytes starting at offset 600 are used;
-> > > +the first 600 and last 100 bytes should be ignored.
-> > > +.PP
-> > > +If the unencoded data is actually longer than
-> > > +.IR unencoded_len ,
-> > > +then it is truncated;
-> > > +if it is shorter, then it is extended with zeroes.
-> >
-> > I find the unencoded_len/unencoded_offset API extremely confusing and all
-> > the clarifications above did not help to ease this feeling.
-> > Please remind me why does the API need to expose unencoded details at all.
-> > I understand the backup/restore use case for read/write encoded data.
-> > I do not understand how unencoded offset info is relevant to this use case
-> > or what are the other use cases it is relevant for.
->
-> I agree, it's confusing. However, without this concept on the read side,
-> there's no way to represent some file extent layouts, and without the
-> write side, those layouts can't be written back out. That would make
-> this interface much less useful for backups.
->
-> These cases arise in a few ways on Btrfs:
->
-> 1. Files with a size unaligned to the block size.
->
->    Ignoring inline data, Btrfs always pads data to the filesystem block
->    size when compressing. So, a file with a size unaligned to the block
->    size will end with an extent that decompresses to a multiple of the
->    block size, but logically the file only contains the data up to
->    i_size. In this case, len (length up to i_size) < unencoded_len (full
->    decompressed length). This can arise simply from writing out an
->    unaligned file or from truncating a file unaligned.
->
-> 2. FICLONERANGE from the middle of an extent.
->
->    Suppose file A has a large compressed extent with
->    len = unencoded_len = 128k and unencoded_offset = 0. If the user does
->    an FICLONERANGE out of the middle of that extent (say, 64k long and
->    4k from the start of the extent), Btrfs creates a "partial" extent
->    which references the original extent (in my example, the result would
->    have len = 64k, unencoded_offset = 4k, and unencoded_len still 128k).
->
-> 3. Overwriting the middle of an extent.
->
->    In some cases, when the middle of an extent is overwritten (e.g., an
->    O_DIRECT write, FICLONERANGE, or FIDEDUPERANGE), Btrfs splits up the
->    overwritten extents into partial extents referencing the original
->    extent instead of rewriting the whole extent.
->
-> These aren't specific to compression or Btrfs' on-disk format. fscrypt
-> uses block ciphers for file data, so case 1 is just as relevant for
-> that. The way Btrfs handles case 2 is the only sane way I can see for
-> supporting FICLONERANGE for encoded data.
->
+Right, basically why we ended up with RESOLVE_*.
 
-I see... so now I understand the complication, but that doesn't mean
-that the developers reading the encoded_io documentation will or that
-they will get the implementation details right.
+> 
+>  * While the above might be seen as minor quibbles, the really big
+>    issue is that even the flags which are "similar" (AT_SYMLINK_NOFOLLOW
+>    and RESOLVE_NO_SYMLINKS) have different semantics (by design -- in my
+>    view, AT_SYMLINK_{NO,}FOLLOW / O_NOFOLLOW / lstat(2) has always had
+>    the wrong semantics if the intention was to be a way to safely avoid
+>    resolving symlinks).
+> 
+> But maybe I'm just overthinking what a merge of AT_ and RESOLVE_ would
+> look like -- would it on.
+> 
+> > An argument against this could be that we might end up causing more
+> > confusion for userspace due to yet another set of flags. But maybe this
+> > isn't an issue as long as we restrict RESOLVE_* flags to new syscalls.
+> > When we introduce a new syscall userspace will have to add support for
+> > it anyway.
+> > 
+> > > 
+> > > If so, should we comment them as being deprecated in the header file?  And
+> > > should they be in linux/fcntl.h rather than linux/openat2.h?
+> > > 
+> > > Also:
+> > > 
+> > >  (*) It should be noted that the RESOLVE_* flags are not a superset of the
+> > >      AT_* flags (there's no equivalent of AT_NO_AUTOMOUNT for example).
+> > 
+> > That's true but it seems we could just add e.g. RESOLVE_NO_AUTOMOUNT as
+> > soon as we have a new syscall showing up that needs it or we have an
+> > existing syscall (e.g. openat2()) that already uses RESOLVE_* flags and
+> > needs it?
+> 
+> RESOLVE_NO_AUTOMOUNT is on the roadmap for openat2() -- I mentioned it
+> as future work in the cover letter. :P
+> 
+> But see my above concerns about merging AT_ and RESOLVE_ flags. The
+> semantic disconnect between AT_ and RESOLVE_ (which is most obvious with
+> AT_SYMLINK_NOFOLLOW) also exists for AT_NO_AUTOMOUNT.
+> 
+> > >  (*) It has been suggested that AT_SYMLINK_NOFOLLOW should be the default, but
+> > >      only RESOLVE_NO_SYMLINKS exists.
+> > 
+> > I'd be very much in favor of not following symlinks being the default.
+> > That's usually a source of a lot of security issues.
+> > And since no kernel with openat2() has been released there's still time
+> > to switch it and with openat2() being a new syscall it won't hurt if it
+> > has new semantics; I mean it deviates from openat() - intentionally -
+> > already.
+> 
+> I agree in principle, but the problem is that if we want to add new
+> RESOLVE_ flags you end up with half (or fewer) of the flags being opt-in
+> with the rest necessarily being opt-out (since the flag not being set
+> needs to be the old behaviour).
 
-IMO, if the only use case for encoded io is backup/restore, then we
-should make the API simpler and more oriented to this use case, namely,
-serialization -
-For all I care, btrfs can still return struct encoded_iov in iov[0],
-but the user needs not to know about this and this internal detail should
-not be documented nor exposed in UAPI.
-btrfs send reads a stream of encoded data and metadata that describes it.
-btrfs receive writes the encoded data stream and metadata descriptors that
-tell the file system about overlapping extents and whatnot.
+(This also reminds me of the discussion we had with new fd types
+being cloexec by default going forward or not. :))
+Fair, but that's true for any new flag argument that introduces a
+hardening relevant feature that wasn't blocked by default for any
+syscall (looking at you mmap(MAP_FIXED/MAP_FIXED_NOREPLACE) :).) I'd
+also point out that with symlink resolution we've over time kinda
+figured out that it should probably be opt-in rather than opt-out. I
+feel that's not necessarily true for something like xdev.
 
-Is that something that can work out, or does userspace have to be aware
-of encoded extents layout?
+> 
+> There's also a slight ugliness with RESOLVE_SYMLINKS|RESOLVE_MAGICLINKS
+> -- should you have to specify both or should RESOLVE_MAGICLINKS imply
+> RESOLVE_SYMLINKS but only for magic-links. (Is allowing magic-links but
+> not symlinks even a sane thing to do?)
 
-Thanks,
-Amir.
+Tricky but you have the inverse problem right now, no? Meaning, what
+happens if you specify RESOLVE_NO_SYMLINKS but don't specify
+RESOLVE_MAGICLINKS? Seems like you'd end up allowing magic links but no
+symlinks, no?
+
+> 
+> Also I have a very strong feeling people won't like RESOLVE_XDEV nor
+> RESOLVE_SYMLINKS being opt-in -- lots of systems use bind-mounts and
+> symlinks in system paths and developers might not be aware of this.
+
+I don't see that as a problem because openat2() is a new syscall anyway.
+So any application that wants to make use of it needs to get used to
+new semantics already. It's not that we're switching an old syscall to
+new behavior.
+
+Christian
