@@ -2,92 +2,140 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E504E175E21
-	for <lists+linux-api@lfdr.de>; Mon,  2 Mar 2020 16:25:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DF8E5175E4F
+	for <lists+linux-api@lfdr.de>; Mon,  2 Mar 2020 16:37:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727350AbgCBPZM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 2 Mar 2020 10:25:12 -0500
-Received: from mout-p-103.mailbox.org ([80.241.56.161]:31314 "EHLO
-        mout-p-103.mailbox.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726805AbgCBPZM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 2 Mar 2020 10:25:12 -0500
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:105:465:1:1:0])
+        id S1727075AbgCBPhM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 2 Mar 2020 10:37:12 -0500
+Received: from mout-p-201.mailbox.org ([80.241.56.171]:45268 "EHLO
+        mout-p-201.mailbox.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726751AbgCBPhM (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 2 Mar 2020 10:37:12 -0500
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:105:465:1:2:0])
         (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
         (No client certificate requested)
-        by mout-p-103.mailbox.org (Postfix) with ESMTPS id 48WP8j4TPrzKmjb;
-        Mon,  2 Mar 2020 16:25:09 +0100 (CET)
+        by mout-p-201.mailbox.org (Postfix) with ESMTPS id 48WPQY1crwzQlKM;
+        Mon,  2 Mar 2020 16:37:09 +0100 (CET)
 X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp1.mailbox.org ([80.241.60.240])
-        by spamfilter02.heinlein-hosting.de (spamfilter02.heinlein-hosting.de [80.241.56.116]) (amavisd-new, port 10030)
-        with ESMTP id fAzdbPLBLvfp; Mon,  2 Mar 2020 16:25:06 +0100 (CET)
-Date:   Tue, 3 Mar 2020 02:24:58 +1100
+Received: from smtp2.mailbox.org ([80.241.60.241])
+        by spamfilter06.heinlein-hosting.de (spamfilter06.heinlein-hosting.de [80.241.56.125]) (amavisd-new, port 10030)
+        with ESMTP id 6OMBcZierEM3; Mon,  2 Mar 2020 16:37:05 +0100 (CET)
+Date:   Tue, 3 Mar 2020 02:36:57 +1100
 From:   Aleksa Sarai <cyphar@cyphar.com>
 To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     David Howells <dhowells@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>, linux-api@vger.kernel.org,
+Cc:     Florian Weimer <fweimer@redhat.com>,
+        David Howells <dhowells@redhat.com>, linux-api@vger.kernel.org,
         viro@zeniv.linux.org.uk, metze@samba.org,
         torvalds@linux-foundation.org, linux-fsdevel@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Subject: Re: Have RESOLVE_* flags superseded AT_* flags for new syscalls?
-Message-ID: <20200302152458.hznqqssixhlpykgr@yavin>
-References: <20200302143546.srzk3rnh4o6s76a7@wittgenstein>
- <20200302115239.pcxvej3szmricxzu@wittgenstein>
- <96563.1582901612@warthog.procyon.org.uk>
+Message-ID: <20200302153657.7k7qo4k5he2acxct@yavin>
+References: <96563.1582901612@warthog.procyon.org.uk>
  <20200228152427.rv3crd7akwdhta2r@wittgenstein>
  <87h7z7ngd4.fsf@oldenburg2.str.redhat.com>
- <848282.1583159228@warthog.procyon.org.uk>
- <888183.1583160603@warthog.procyon.org.uk>
- <20200302150528.okjdx2mkluicje4w@wittgenstein>
+ <20200302115239.pcxvej3szmricxzu@wittgenstein>
+ <20200302120503.g5pt4ky3uvb2ly63@wittgenstein>
+ <20200302151046.447zgo36dmfdr2ik@wittgenstein>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="xn7vzrzjedzuxf6n"
+        protocol="application/pgp-signature"; boundary="z3gcdvurlvimlu7q"
 Content-Disposition: inline
-In-Reply-To: <20200302150528.okjdx2mkluicje4w@wittgenstein>
+In-Reply-To: <20200302151046.447zgo36dmfdr2ik@wittgenstein>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 
---xn7vzrzjedzuxf6n
-Content-Type: text/plain; charset=us-ascii
+--z3gcdvurlvimlu7q
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 On 2020-03-02, Christian Brauner <christian.brauner@ubuntu.com> wrote:
-> On Mon, Mar 02, 2020 at 02:50:03PM +0000, David Howells wrote:
-> > Christian Brauner <christian.brauner@ubuntu.com> wrote:
+> On Mon, Mar 02, 2020 at 01:05:04PM +0100, Christian Brauner wrote:
+> > On Mon, Mar 02, 2020 at 12:52:39PM +0100, Christian Brauner wrote:
+> > > On Mon, Mar 02, 2020 at 12:30:47PM +0100, Florian Weimer wrote:
+> > > > * Christian Brauner:
+> > > >=20
+> > > > > [Cc Florian since that ends up on libc's table sooner or later...]
+> > > >=20
+> > > > I'm not sure what you are after here =E2=80=A6
+> > >=20
+> > > Exactly what you've commented below. Input on whether any of these
+> > > changes would be either problematic if you e.g. were to implement
+> > > openat() on top of openat2() in the future or if it would be problema=
+tic
+> > > if we e.g. were to really deprecate AT_* flags for new syscalls.
+> > >=20
+> > > >=20
+> > > > > On Fri, Feb 28, 2020 at 02:53:32PM +0000, David Howells wrote:
+> > > > >> =09
+> > > > >> I've been told that RESOLVE_* flags, which can be found in linux=
+/openat2.h,
+> > > > >> should be used instead of the equivalent AT_* flags for new syst=
+em calls.  Is
+> > > > >> this the case?
+> > > > >
+> > > > > Imho, it would make sense to use RESOLVE_* flags for new system c=
+alls
+> > > > > and afair this was the original intention.
+> > > > > The alternative is that RESOLVE_* flags are special to openat2().=
+ But
+> > > > > that seems strange, imho. The semantics openat2() has might be ve=
+ry
+> > > > > useful for new system calls as well which might also want to supp=
+ort
+> > > > > parts of AT_* flags (see fsinfo()). So we either end up adding ne=
+w AT_*
+> > > > > flags mirroring the new RESOLVE_* flags or we end up adding new
+> > > > > RESOLVE_* flags mirroring parts of AT_* flags. And if that's a
+> > > > > possibility I vote for RESOLVE_* flags going forward. The have be=
+tter
+> > > > > naming too imho.
+> > > > >
+> > > > > An argument against this could be that we might end up causing mo=
+re
+> > > > > confusion for userspace due to yet another set of flags. But mayb=
+e this
+> > > > > isn't an issue as long as we restrict RESOLVE_* flags to new sysc=
+alls.
+> > > > > When we introduce a new syscall userspace will have to add suppor=
+t for
+> > > > > it anyway.
+> > > >=20
+> > > > I missed the start of the dicussion and what this is about, sorry.
+> > > >=20
+> > > > Regarding open flags, I think the key point for future APIs is to a=
+void
+> > > > using the set of flags for both control of the operation itself
+> > > > (O_NOFOLLOW/AT_SYMLINK_NOFOLLOW, O_NOCTTY) and properaties of the
+> > > > resulting descriptor (O_RDWR, O_SYNC).  I expect that doing that wo=
+uld
 > >=20
-> > > I think we settled this and can agree on RESOLVE_NO_SYMLINKS being the
-> > > right thing to do, i.e. not resolving symlinks will stay opt-in.
-> > > Or is your worry even with the current semantics of openat2()? I don't
-> > > see the issue since O_NOFOLLOW still works with openat2().
-> >=20
-> > Say, for example, my home dir is on a network volume somewhere and /hom=
-e has a
-> > symlink pointing to it.  RESOLVE_NO_SYMLINKS cannot be used to access a=
- file
-> > inside my homedir if the pathwalk would go through /home/dhowells - thi=
-s would
-> > affect fsinfo() - so RESOLVE_NO_SYMLINKS is not a substitute for
-> > AT_SYMLINK_NOFOLLOW (O_NOFOLLOW would not come into it).
+> > Yeah, we have touched on that already and we have other APIs having
+> > related problems. A clean way to avoid this problem is to require new
+> > syscalls to either have two flag arguments, or - if appropriate -
+> > suggest they make use of struct open_how that was implemented for
+> > openat2().
 >=20
-> I think we didn't really have this issue/face that question because
-> openat() never supported AT_SYMLINK_{NO}FOLLOW. Whereas e.g. fsinfo()
-> does. So in such cases we are back to: either allow both AT_* and
-> RESOLVE_* flags (imho not the best option) or add (a) new RESOLVE_*
-> variant(s). It seems we leaned toward the latter so far...
+> By the way, if we really means business wrt to: separate resolution from
+> fd-property falgs then shouldn't we either require O_NOFOLLOW for
+> openat2() be specified in open_how->resolve or disallow O_NOFOLLOW for
+> openat2() and introduce a new RESOLVE_* variant?
 
-So, RESOLVE_NO_TRAILING_SYMLINKS?
+I think we agreed a while ago we aren't touching O_ flags for openat2()
+because it would hamper adoption (this is the same reason we aren't
+fixing the whole O_ACCMODE mess, and O_LARGEFILE, and the arch-specific
+O_ flags, and O_TMPFILE, and __O_SYNC, and FASYNC/O_ASYNC, and
+__FMODE_EXEC and __FMODE_NONOTIFY, and ...).
 
-=2E.. *sigh*. Yeah, okay I'm fine (though not super happy) with that. We'd
-also presumably need RESOLVE_NO_TRAILING_AUTOMOUNTS for David's
-AT_NO_AUTOMOUNT usecases -- as well as RESOLVE_NO_AUTOMOUNTS eventually.
+To be fair, we did fix O_PATH|O_TMPFILE and invalid mode combinations
+but that's only because those were fairly broken.
 
-Now let's just hope no new syscalls need both AT_RECURSIVE and
-RESOLVE_NO_SYMLINKS -- that will put us in a very interesting situation
-where you have two ways of specifying "don't follow trailing
-symlinks"...
+But as I mentioned in a sister mail, I do agree that allowing O_NOFOLLOW
+and RESOLVE_NO_TRAILING_SYMLINKS makes me feel a little uneasy. But
+maybe it's totally fine and I'm worrying for no reason.
 
 --=20
 Aleksa Sarai
@@ -95,15 +143,15 @@ Senior Software Engineer (Containers)
 SUSE Linux GmbH
 <https://www.cyphar.com/>
 
---xn7vzrzjedzuxf6n
+--z3gcdvurlvimlu7q
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCXl0lRwAKCRCdlLljIbnQ
-EmMSAQDIO3yZ0xSckeOPL7fzRMy0Am5PpfhMf2341+52eCfxBAD/bHvDr3LqRDWv
-GcWsOSOh/7tqzSIZKtlz0QQlD4pzkwg=
-=KDk8
+iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCXl0oFwAKCRCdlLljIbnQ
+ElnIAP9m9sYf6BaM1rn8GNQEfGPy2a9VHHurhDb+SjelDPiC7AD9E+jCX3UcZ2+5
+gTG0XVFUvphs+TqKngfX+EBNIHB8bw0=
+=N0M9
 -----END PGP SIGNATURE-----
 
---xn7vzrzjedzuxf6n--
+--z3gcdvurlvimlu7q--
