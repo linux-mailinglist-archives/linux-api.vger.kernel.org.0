@@ -2,122 +2,141 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 45A8A175FB1
-	for <lists+linux-api@lfdr.de>; Mon,  2 Mar 2020 17:32:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E78B7175FB8
+	for <lists+linux-api@lfdr.de>; Mon,  2 Mar 2020 17:33:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726775AbgCBQcC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 2 Mar 2020 11:32:02 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:37384 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727083AbgCBQcC (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 2 Mar 2020 11:32:02 -0500
-Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1j8nz1-00070K-Mf; Mon, 02 Mar 2020 16:31:55 +0000
-Date:   Mon, 2 Mar 2020 17:31:54 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Aleksa Sarai <cyphar@cyphar.com>
-Cc:     Florian Weimer <fweimer@redhat.com>,
-        David Howells <dhowells@redhat.com>, linux-api@vger.kernel.org,
-        viro@zeniv.linux.org.uk, metze@samba.org,
-        torvalds@linux-foundation.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: Have RESOLVE_* flags superseded AT_* flags for new syscalls?
-Message-ID: <20200302163154.mpdf5oex3hxnrmvc@wittgenstein>
-References: <96563.1582901612@warthog.procyon.org.uk>
- <20200228152427.rv3crd7akwdhta2r@wittgenstein>
- <87h7z7ngd4.fsf@oldenburg2.str.redhat.com>
- <20200302115239.pcxvej3szmricxzu@wittgenstein>
- <20200302120503.g5pt4ky3uvb2ly63@wittgenstein>
- <20200302151046.447zgo36dmfdr2ik@wittgenstein>
- <20200302153657.7k7qo4k5he2acxct@yavin>
+        id S1727060AbgCBQc6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 2 Mar 2020 11:32:58 -0500
+Received: from mail-vk1-f196.google.com ([209.85.221.196]:34436 "EHLO
+        mail-vk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727112AbgCBQc5 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 2 Mar 2020 11:32:57 -0500
+Received: by mail-vk1-f196.google.com with SMTP id w67so3133985vkf.1
+        for <linux-api@vger.kernel.org>; Mon, 02 Mar 2020 08:32:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6G1UATj4krZxsCknjrQEeeFai91FPwBe7XfsjRuVvR4=;
+        b=gjBc7d6YnjDc2NB2v1tqHbdmYRA6US1Zc4Bwdfw5pIWhSmmK+Bim0XXVC967za6mwx
+         ttu/8XEIGHY+D5pOwYhrSNHH/c4SoLvoncF5LehwoF40RSVQ9t9odVgxLiDlcLjFr8Qf
+         uXYk5vh3osEyjqmPttQL18i1ib4MEU32Qt3I2R3oe2JnmiK3Jik/inzsusGzwGnwm8pV
+         s1va7f8IYUZ7uLxzJUgWIyTWYsii4w3rsSFeFJeDn2VTka/qdtcbcgiRxqnQuUa+AYgx
+         0sFVAYTtpPKHuI2iqRu7GbzoyP3paHDugM7UXOnTi6wNwOQFMIQx2OSWfFXbxa+LWAu3
+         a1yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6G1UATj4krZxsCknjrQEeeFai91FPwBe7XfsjRuVvR4=;
+        b=Jr7oVzKlWmTxHMx8PG3NjEYWbJegcquYNwZkzQ7kw1j4TKnotELWm+4kZeLoatbNO6
+         iCsGsG594+1dzIYwoPa5cc+N01Sp4WIGUTYps7op0vOvIUE/fzwT9AQZvh71g1hyr2Hc
+         OReiORYZGdfevJiMivoMrPxF/as4JxB2YCHnPTEjxLBsy55v2S/o7FKEOo1rT9kMsiDB
+         kEBIeEHyw6LzVo0iTcDIObkdoTFHl3LOFi4bjSMznrPniMMslUmcyXtkiVX8SL7vV7E6
+         auRl5wYDnYTMxnJLnnv5o65MWnHBUJW8qQEC1jDwAkMaK5MJz946gTHpioTdSMsY1na6
+         WJhw==
+X-Gm-Message-State: ANhLgQ0RfmkTNFUQB8wvK3xsbvwqmxcdQozIE/aq7wq6LoaXR//FCDOi
+        psPZ/WKERB8ZLdn5FVN/JxzIa59KVy09FNTiMl1uWw==
+X-Google-Smtp-Source: ADFU+vudr5OddUJOm/nCflCRNBR8hUNIZhkJyQ8IXmQMh0kL9nYnxmTqjHWz5AHVu0pL2BiPYiLALTBK7m4MdHvpN+w=
+X-Received: by 2002:ac5:c914:: with SMTP id t20mr334096vkl.37.1583166775011;
+ Mon, 02 Mar 2020 08:32:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200302153657.7k7qo4k5he2acxct@yavin>
+References: <20200219014433.88424-1-minchan@kernel.org> <20200219014433.88424-7-minchan@kernel.org>
+ <CAJuCfpE=7aqwegMb5i3EwWb=xcphXSNE33dCCUvt=WS0Sr-wfg@mail.gmail.com> <20200302073332.gn7lvhxmmv5pupyq@butterfly.localdomain>
+In-Reply-To: <20200302073332.gn7lvhxmmv5pupyq@butterfly.localdomain>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Mon, 2 Mar 2020 08:32:44 -0800
+Message-ID: <CAJuCfpE++EUbmhmr6+iutFk5Nd3teXy5Xr0y735LP25ciNKKcQ@mail.gmail.com>
+Subject: Re: [PATCH v6 6/7] mm/madvise: employ mmget_still_valid for write lock
+To:     Oleksandr Natalenko <oleksandr@redhat.com>
+Cc:     Minchan Kim <minchan@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
+        Tim Murray <timmurray@google.com>,
+        Daniel Colascione <dancol@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Brian Geffon <bgeffon@google.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        John Dias <joaodias@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>, sj38.park@gmail.com,
+        alexander.h.duyck@linux.intel.com, Jann Horn <jannh@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Mar 03, 2020 at 02:36:57AM +1100, Aleksa Sarai wrote:
-> On 2020-03-02, Christian Brauner <christian.brauner@ubuntu.com> wrote:
-> > On Mon, Mar 02, 2020 at 01:05:04PM +0100, Christian Brauner wrote:
-> > > On Mon, Mar 02, 2020 at 12:52:39PM +0100, Christian Brauner wrote:
-> > > > On Mon, Mar 02, 2020 at 12:30:47PM +0100, Florian Weimer wrote:
-> > > > > * Christian Brauner:
-> > > > > 
-> > > > > > [Cc Florian since that ends up on libc's table sooner or later...]
-> > > > > 
-> > > > > I'm not sure what you are after here …
-> > > > 
-> > > > Exactly what you've commented below. Input on whether any of these
-> > > > changes would be either problematic if you e.g. were to implement
-> > > > openat() on top of openat2() in the future or if it would be problematic
-> > > > if we e.g. were to really deprecate AT_* flags for new syscalls.
-> > > > 
-> > > > > 
-> > > > > > On Fri, Feb 28, 2020 at 02:53:32PM +0000, David Howells wrote:
-> > > > > >> 	
-> > > > > >> I've been told that RESOLVE_* flags, which can be found in linux/openat2.h,
-> > > > > >> should be used instead of the equivalent AT_* flags for new system calls.  Is
-> > > > > >> this the case?
-> > > > > >
-> > > > > > Imho, it would make sense to use RESOLVE_* flags for new system calls
-> > > > > > and afair this was the original intention.
-> > > > > > The alternative is that RESOLVE_* flags are special to openat2(). But
-> > > > > > that seems strange, imho. The semantics openat2() has might be very
-> > > > > > useful for new system calls as well which might also want to support
-> > > > > > parts of AT_* flags (see fsinfo()). So we either end up adding new AT_*
-> > > > > > flags mirroring the new RESOLVE_* flags or we end up adding new
-> > > > > > RESOLVE_* flags mirroring parts of AT_* flags. And if that's a
-> > > > > > possibility I vote for RESOLVE_* flags going forward. The have better
-> > > > > > naming too imho.
-> > > > > >
-> > > > > > An argument against this could be that we might end up causing more
-> > > > > > confusion for userspace due to yet another set of flags. But maybe this
-> > > > > > isn't an issue as long as we restrict RESOLVE_* flags to new syscalls.
-> > > > > > When we introduce a new syscall userspace will have to add support for
-> > > > > > it anyway.
-> > > > > 
-> > > > > I missed the start of the dicussion and what this is about, sorry.
-> > > > > 
-> > > > > Regarding open flags, I think the key point for future APIs is to avoid
-> > > > > using the set of flags for both control of the operation itself
-> > > > > (O_NOFOLLOW/AT_SYMLINK_NOFOLLOW, O_NOCTTY) and properaties of the
-> > > > > resulting descriptor (O_RDWR, O_SYNC).  I expect that doing that would
-> > > 
-> > > Yeah, we have touched on that already and we have other APIs having
-> > > related problems. A clean way to avoid this problem is to require new
-> > > syscalls to either have two flag arguments, or - if appropriate -
-> > > suggest they make use of struct open_how that was implemented for
-> > > openat2().
-> > 
-> > By the way, if we really means business wrt to: separate resolution from
-> > fd-property falgs then shouldn't we either require O_NOFOLLOW for
-> > openat2() be specified in open_how->resolve or disallow O_NOFOLLOW for
-> > openat2() and introduce a new RESOLVE_* variant?
-> 
-> I think we agreed a while ago we aren't touching O_ flags for openat2()
-> because it would hamper adoption (this is the same reason we aren't
-> fixing the whole O_ACCMODE mess, and O_LARGEFILE, and the arch-specific
-> O_ flags, and O_TMPFILE, and __O_SYNC, and FASYNC/O_ASYNC, and
-> __FMODE_EXEC and __FMODE_NONOTIFY, and ...).
-> 
-> To be fair, we did fix O_PATH|O_TMPFILE and invalid mode combinations
-> but that's only because those were fairly broken.
+On Sun, Mar 1, 2020 at 11:33 PM Oleksandr Natalenko
+<oleksandr@redhat.com> wrote:
+>
+> Hello.
+>
+> On Fri, Feb 28, 2020 at 03:19:55PM -0800, Suren Baghdasaryan wrote:
+> > On Tue, Feb 18, 2020 at 5:44 PM Minchan Kim <minchan@kernel.org> wrote:
+> > >
+> > > From: Oleksandr Natalenko <oleksandr@redhat.com>
+> > >
+> > > Do the very same trick as we already do since 04f5866e41fb. KSM hints
+> > > will require locking mmap_sem for write since they modify vm_flags, so
+> > > for remote KSM hinting this additional check is needed.
+> > >
+> > > Signed-off-by: Oleksandr Natalenko <oleksandr@redhat.com>
+> > > Signed-off-by: Minchan Kim <minchan@kernel.org>
+> > > ---
+> > >  mm/madvise.c | 3 +++
+> > >  1 file changed, 3 insertions(+)
+> > >
+> > > diff --git a/mm/madvise.c b/mm/madvise.c
+> > > index f6d9b9e66243..c55a18fe71f9 100644
+> > > --- a/mm/madvise.c
+> > > +++ b/mm/madvise.c
+> > > @@ -1118,6 +1118,8 @@ int do_madvise(struct task_struct *target_task, struct mm_struct *mm,
+> > >         if (write) {
+> > >                 if (down_write_killable(&mm->mmap_sem))
+> > >                         return -EINTR;
+> > > +               if (current->mm != mm && !mmget_still_valid(mm))
+> >
+> > mmget_still_valid() seems pretty light-weight, so why not just use
+> > that without checking that the mm belongs to the current process
+> > first?
+>
+> I'd keep the checks separate to a) do not functionally change current->mm
+> == mm case; b) clearly separate the intention to call
+> mmget_still_valid() only for remote access (using mmget_still_valid()
+> for current->mm == mm does not make any sense here, IMO, since there's
+> no possibility of expecting a core dump at this point); c) ease the job for
+> reviewer once mmget_still_valid() is scheduled to be removed (I hope it
+> eventually goes away indeed).
+>
 
-Right, O_NOFOLLOW would've been kinda neat too because afaict it's the
-only flag left that is specifically related to path resolution in there
-that would fit nicely into open_how->resolve. :)
+Makes sense. Thanks!
 
-> 
-> But as I mentioned in a sister mail, I do agree that allowing O_NOFOLLOW
-> and RESOLVE_NO_TRAILING_SYMLINKS makes me feel a little uneasy. But
+> >
+> > > +                       goto skip_mm;
+> > >         } else {
+> > >                 down_read(&mm->mmap_sem);
+> > >         }
+> > > @@ -1169,6 +1171,7 @@ int do_madvise(struct task_struct *target_task, struct mm_struct *mm,
+> > >         }
+> > >  out:
+> > >         blk_finish_plug(&plug);
+> > > +skip_mm:
+> > >         if (write)
+> > >                 up_write(&mm->mmap_sem);
+> > >         else
+> > > --
+> > > 2.25.0.265.gbab2e86ba0-goog
+> > >
+> >
+>
+> --
+>   Best regards,
+>     Oleksandr Natalenko (post-factum)
+>     Principal Software Maintenance Engineer
+>
 
-No version of this will be completey satisfying I fear.
-
-Christian
+Reviewed-by: Suren Baghdasaryan <surenb@google.com>
