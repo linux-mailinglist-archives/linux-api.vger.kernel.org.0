@@ -2,48 +2,48 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E550176421
-	for <lists+linux-api@lfdr.de>; Mon,  2 Mar 2020 20:38:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA2BB176418
+	for <lists+linux-api@lfdr.de>; Mon,  2 Mar 2020 20:38:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726780AbgCBTiS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 2 Mar 2020 14:38:18 -0500
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:42605 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727413AbgCBTgw (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 2 Mar 2020 14:36:52 -0500
-Received: by mail-pl1-f195.google.com with SMTP id u3so182310plr.9;
-        Mon, 02 Mar 2020 11:36:50 -0800 (PST)
+        id S1727775AbgCBTgx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 2 Mar 2020 14:36:53 -0500
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:34795 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727767AbgCBTgx (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 2 Mar 2020 14:36:53 -0500
+Received: by mail-pf1-f195.google.com with SMTP id y21so216488pfp.1;
+        Mon, 02 Mar 2020 11:36:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=pHysGZtRm9DpDxh7VwFObxgb2rj7KREaKfoe8EJ8zu8=;
-        b=jdVlEcSDzo3ybdd7sN6kE2OKzk9oA7bpxTLKHadgEWCMOybjQ+xvZnJGVZ7fZjEfQg
-         uMEDZ86LuVgP1Q6ZD7VtneBpW3iteqpuTrP3/PWga/dBDviAOIX7pwxJvpurzCqOj7fN
-         jQT25IdzQdbEKTplDxwjaE6/Sp8da28vTFvaqYVQXWMS/ijYzC9/vT04XJhzJeUyFmi5
-         W1dY2xG14HMz217CZrrz7AQLnie7ovjZYjeZ46ICnLv/i7QSZQi050GPkvgyUDs+oPaF
-         p9OjX1JTqSRH+dMbwMtnn3Yrjt7fT/yKlKug7rJY5AteQTiqrX7VGVvcPd+bOjNPIBRu
-         c9OA==
+        bh=xPq4MnSfZ5jWfAsPssUVfjNY8ScP1mqw+MypBd7iP+U=;
+        b=oVv7S+P/QEC4IU0JDW3R6+pH/HZQedvJgo/p6dLtJbajwRcJqo63ZjdjfP6Ha5zzeg
+         Yek9HPH1rVrC7+TbFuveVjZTlryEeEiAPzr/4j7HtUFDgWG36Da9obumxjlnsZrMCWSK
+         OFxnXBCRtKPcKIFR9QDy+A6XD9Q/V7rFLGekAwxJb0/JVc7zqPyrU3zJfpWHPEG7kN0o
+         xkoLZz3J/qCLjy8ARct6biDDVe9Le9+F1G/M9RGeDd6MmxIoeZfGDLPRH+YFha0gFu9e
+         A8zPcDCOEBZYuCZ58v4eoa1lTSg+/Q0nLNDXSKylf246Yv42793BURa8ErWOkeaq+ufh
+         RvXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=pHysGZtRm9DpDxh7VwFObxgb2rj7KREaKfoe8EJ8zu8=;
-        b=ckLOo4o0u8ITN4DCQ4XKB96swS7lcsNV2lzNaLQeuBcUJsio0oze2TSwqX3Q2pADhD
-         IvG7SKNuscIGnMBjaH6M6hkcgYDX8JQCQt//wQZYZWZW095/1G3LgRObiXL+28rVsudf
-         mtcF0Q4iWtGKoN1kcSAuZKLI8dP3Wg+7pAkdukmiwPrsvTvcz6UsoIrOWbLEBiyuXXPm
-         ZWvQ7HzfycDxtBLYyttPzgya040QCSiP2JSQRhv3urI+afnpgZNcCXONWOvNfcbVS3J7
-         /XdxMtbAaF9bveaazbRwNHjL3kkkGrimPqLQXIWcdWvKnSMeI1lo7Gj1uXdQnNk6xeCQ
-         tW9A==
-X-Gm-Message-State: ANhLgQ0zQ/YzWdnBESuVTRsRZqxy+ZqzFgakHVRssPpQlwDY6FvnzOiP
-        6tXKvwToL+N4b5ahJcUtYLw=
-X-Google-Smtp-Source: ADFU+vuNMy9czC34xQNT/3L0cavE3HOPPROCVeNfLMB3n1LQxWwOUbMYURhKYhirIyIz1qSVT3nMgQ==
-X-Received: by 2002:a17:90a:ec10:: with SMTP id l16mr37690pjy.19.1583177810150;
-        Mon, 02 Mar 2020 11:36:50 -0800 (PST)
+        bh=xPq4MnSfZ5jWfAsPssUVfjNY8ScP1mqw+MypBd7iP+U=;
+        b=eisYK+yE/21SjBkdKxawulYdob4q/qc6ojKClH2GNyyk/8gVKdaGTHi0yGWnELUWao
+         ZE1ng5YZySXklFQpnUyt+GEZAm8RAZrtNHgmiKZB71lFj3PCaT4Ew7VM7cESFZETwkW5
+         i5V/cksAwqUNE9JOyNZZ4z8DyhxYw3SF77DZETHPwyNYkUZPJ4n3eOBL5XF1DiqKAXbC
+         JjLs/p2fn5WgbVUXX/EujV9xHdvyslWk0bd6yJjgyP07zUTzjTS/5cQgV+UROSi/dd6x
+         pSHjnmApPkpdTOk0uJbgX2Ceyxa4nuE+hggRFNGISCdoZC04SNVooOZDoDUujD6V9X9K
+         /dKA==
+X-Gm-Message-State: ANhLgQ174m7RimzwpPgUpVkIG4acLnjesA1uo8rY9mpqHjc+OkBBSiYz
+        6AgSfznndRjQd24X0hDNnFM=
+X-Google-Smtp-Source: ADFU+vv9CLHD6sVa3fBRa6pzZ4SBhCdu9PYfQpsoPVh3OiiLUei4gNaaBkWGAAN2cXCdFxrDXM+9Yw==
+X-Received: by 2002:aa7:9497:: with SMTP id z23mr526938pfk.229.1583177811915;
+        Mon, 02 Mar 2020 11:36:51 -0800 (PST)
 Received: from bbox-1.mtv.corp.google.com ([2620:15c:211:1:3e01:2939:5992:52da])
-        by smtp.gmail.com with ESMTPSA id hg6sm35441pjb.22.2020.03.02.11.36.48
+        by smtp.gmail.com with ESMTPSA id hg6sm35441pjb.22.2020.03.02.11.36.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Mar 2020 11:36:49 -0800 (PST)
+        Mon, 02 Mar 2020 11:36:50 -0800 (PST)
 From:   Minchan Kim <minchan@kernel.org>
 To:     Andrew Morton <akpm@linux-foundation.org>
 Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
@@ -61,12 +61,10 @@ Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
         Joel Fernandes <joel@joelfernandes.org>,
         Jann Horn <jannh@google.com>,
         alexander.h.duyck@linux.intel.com, sj38.park@gmail.com,
-        Minchan Kim <minchan@kernel.org>,
-        Christian Brauner <christian@brauner.io>,
-        Kirill Tkhai <ktkhai@virtuozzo.com>
-Subject: [PATCH v7 5/7] mm: support both pid and pidfd for process_madvise
-Date:   Mon,  2 Mar 2020 11:36:28 -0800
-Message-Id: <20200302193630.68771-6-minchan@kernel.org>
+        Minchan Kim <minchan@kernel.org>
+Subject: [PATCH v7 6/7] mm/madvise: employ mmget_still_valid for write lock
+Date:   Mon,  2 Mar 2020 11:36:29 -0800
+Message-Id: <20200302193630.68771-7-minchan@kernel.org>
 X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
 In-Reply-To: <20200302193630.68771-1-minchan@kernel.org>
 References: <20200302193630.68771-1-minchan@kernel.org>
@@ -77,112 +75,40 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-There is a demand[1] to support pid as well pidfd for process_madvise
-to reduce unnecessary syscall to get pidfd if the user has control of
-the target process(ie, they could guarantee the process is not gone
-or pid is not reused).
+From: Oleksandr Natalenko <oleksandr@redhat.com>
 
-This patch aims for supporting both options like waitid(2). So, the
-syscall is currently,
+Do the very same trick as we already do since 04f5866e41fb. KSM hints
+will require locking mmap_sem for write since they modify vm_flags, so
+for remote KSM hinting this additional check is needed.
 
-	int process_madvise(int which, pid_t pid, void *addr,
-		size_t length, int advise, unsigned long flag);
-
-@which is actually idtype_t for userspace libray and currently,
-it supports P_PID and P_PIDFD.
-
-[1]  https://lore.kernel.org/linux-mm/9d849087-3359-c4ab-fbec-859e8186c509@virtuozzo.com/
-
-Cc: Christian Brauner <christian@brauner.io>
 Reviewed-by: Suren Baghdasaryan <surenb@google.com>
-Suggested-by: Kirill Tkhai <ktkhai@virtuozzo.com>
+Signed-off-by: Oleksandr Natalenko <oleksandr@redhat.com>
 Signed-off-by: Minchan Kim <minchan@kernel.org>
 ---
- include/linux/syscalls.h |  3 ++-
- mm/madvise.c             | 34 ++++++++++++++++++++++------------
- 2 files changed, 24 insertions(+), 13 deletions(-)
+ mm/madvise.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-index e4cd2c2f8bb4..f5ada20e2943 100644
---- a/include/linux/syscalls.h
-+++ b/include/linux/syscalls.h
-@@ -876,7 +876,8 @@ asmlinkage long sys_munlockall(void);
- asmlinkage long sys_mincore(unsigned long start, size_t len,
- 				unsigned char __user * vec);
- asmlinkage long sys_madvise(unsigned long start, size_t len, int behavior);
--asmlinkage long sys_process_madvise(int pidfd, unsigned long start,
-+
-+asmlinkage long sys_process_madvise(int which, pid_t pid, unsigned long start,
- 			size_t len, int behavior, unsigned long flags);
- asmlinkage long sys_remap_file_pages(unsigned long start, unsigned long size,
- 			unsigned long prot, unsigned long pgoff,
 diff --git a/mm/madvise.c b/mm/madvise.c
-index 6543f2bfc3d8..e794367f681e 100644
+index e794367f681e..e77c6c1fad34 100644
 --- a/mm/madvise.c
 +++ b/mm/madvise.c
-@@ -1182,11 +1182,10 @@ SYSCALL_DEFINE3(madvise, unsigned long, start, size_t, len_in, int, behavior)
- 	return do_madvise(current, current->mm, start, len_in, behavior);
- }
- 
--SYSCALL_DEFINE5(process_madvise, int, pidfd, unsigned long, start,
-+SYSCALL_DEFINE6(process_madvise, int, which, pid_t, upid, unsigned long, start,
- 		size_t, len_in, int, behavior, unsigned long, flags)
- {
- 	int ret;
--	struct fd f;
- 	struct pid *pid;
- 	struct task_struct *task;
- 	struct mm_struct *mm;
-@@ -1197,20 +1196,31 @@ SYSCALL_DEFINE5(process_madvise, int, pidfd, unsigned long, start,
- 	if (!process_madvise_behavior_valid(behavior))
- 		return -EINVAL;
- 
--	f = fdget(pidfd);
--	if (!f.file)
--		return -EBADF;
-+	switch (which) {
-+	case P_PID:
-+		if (upid <= 0)
-+			return -EINVAL;
-+
-+		pid = find_get_pid(upid);
-+		if (!pid)
-+			return -ESRCH;
-+		break;
-+	case P_PIDFD:
-+		if (upid < 0)
-+			return -EINVAL;
- 
--	pid = pidfd_pid(f.file);
--	if (IS_ERR(pid)) {
--		ret = PTR_ERR(pid);
--		goto fdput;
-+		pid = pidfd_get_pid(upid);
-+		if (IS_ERR(pid))
-+			return PTR_ERR(pid);
-+		break;
-+	default:
-+		return -EINVAL;
+@@ -1118,6 +1118,8 @@ int do_madvise(struct task_struct *target_task, struct mm_struct *mm,
+ 	if (write) {
+ 		if (down_write_killable(&mm->mmap_sem))
+ 			return -EINTR;
++		if (current->mm != mm && !mmget_still_valid(mm))
++			goto skip_mm;
+ 	} else {
+ 		down_read(&mm->mmap_sem);
  	}
- 
- 	task = get_pid_task(pid, PIDTYPE_PID);
- 	if (!task) {
- 		ret = -ESRCH;
--		goto fdput;
-+		goto put_pid;
+@@ -1169,6 +1171,7 @@ int do_madvise(struct task_struct *target_task, struct mm_struct *mm,
  	}
- 
- 	mm = mm_access(task, PTRACE_MODE_ATTACH_FSCREDS);
-@@ -1223,7 +1233,7 @@ SYSCALL_DEFINE5(process_madvise, int, pidfd, unsigned long, start,
- 	mmput(mm);
- release_task:
- 	put_task_struct(task);
--fdput:
--	fdput(f);
-+put_pid:
-+	put_pid(pid);
- 	return ret;
- }
+ out:
+ 	blk_finish_plug(&plug);
++skip_mm:
+ 	if (write)
+ 		up_write(&mm->mmap_sem);
+ 	else
 -- 
 2.25.0.265.gbab2e86ba0-goog
 
