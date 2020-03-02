@@ -2,74 +2,66 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A9C31175ABC
-	for <lists+linux-api@lfdr.de>; Mon,  2 Mar 2020 13:43:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BEEA7175AF8
+	for <lists+linux-api@lfdr.de>; Mon,  2 Mar 2020 13:55:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727669AbgCBMnB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 2 Mar 2020 07:43:01 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50588 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727228AbgCBMnA (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 2 Mar 2020 07:43:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1583152980;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=jBO8EEOjfex8u0t23SNnR9VcuJJE9A6M8SfZYPDK40Y=;
-        b=JZ8BoiRRRvIb5MtikvxjCTbQNdRhhALsF/tOOZJ6UeHMIgrzozRcl66Hzj9Mb0wIdrT8wJ
-        dVC8va0RxUbRVtIFKGpbOboHqoWl1DyG1PWjv6ml0NH17Nm21TCLnTfWxujykKytfNNQky
-        E9NCmseU1EXrZh7oZHK4uRY35z4iXl0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-327-VdUHncH4OyKzclJAazqbEg-1; Mon, 02 Mar 2020 07:42:56 -0500
-X-MC-Unique: VdUHncH4OyKzclJAazqbEg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9ED5F10CE780;
-        Mon,  2 Mar 2020 12:42:54 +0000 (UTC)
-Received: from oldenburg2.str.redhat.com (ovpn-116-127.ams2.redhat.com [10.36.116.127])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 2F46B5DA2C;
-        Mon,  2 Mar 2020 12:42:52 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Christian Brauner <christian.brauner@ubuntu.com>
+        id S1727784AbgCBMze (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 2 Mar 2020 07:55:34 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:56364 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727173AbgCBMze (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 2 Mar 2020 07:55:34 -0500
+Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236] helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1j8kbc-0005MT-1m; Mon, 02 Mar 2020 12:55:32 +0000
+Date:   Mon, 2 Mar 2020 13:55:31 +0100
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Florian Weimer <fweimer@redhat.com>
 Cc:     David Howells <dhowells@redhat.com>, linux-api@vger.kernel.org,
         viro@zeniv.linux.org.uk, metze@samba.org,
         torvalds@linux-foundation.org, cyphar@cyphar.com,
         linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: Have RESOLVE_* flags superseded AT_* flags for new syscalls?
+Message-ID: <20200302125531.7z2viveb3zxhqkuj@wittgenstein>
 References: <96563.1582901612@warthog.procyon.org.uk>
-        <20200228152427.rv3crd7akwdhta2r@wittgenstein>
-        <87h7z7ngd4.fsf@oldenburg2.str.redhat.com>
-        <20200302115239.pcxvej3szmricxzu@wittgenstein>
-        <8736arnel9.fsf@oldenburg2.str.redhat.com>
-        <20200302121959.it3iophjavbhtoyp@wittgenstein>
-        <20200302123510.bm3a2zssohwvkaa4@wittgenstein>
-Date:   Mon, 02 Mar 2020 13:42:50 +0100
-In-Reply-To: <20200302123510.bm3a2zssohwvkaa4@wittgenstein> (Christian
-        Brauner's message of "Mon, 2 Mar 2020 13:35:10 +0100")
-Message-ID: <87y2sjlygl.fsf@oldenburg2.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ <20200228152427.rv3crd7akwdhta2r@wittgenstein>
+ <87h7z7ngd4.fsf@oldenburg2.str.redhat.com>
+ <20200302115239.pcxvej3szmricxzu@wittgenstein>
+ <8736arnel9.fsf@oldenburg2.str.redhat.com>
+ <20200302121959.it3iophjavbhtoyp@wittgenstein>
+ <20200302123510.bm3a2zssohwvkaa4@wittgenstein>
+ <87y2sjlygl.fsf@oldenburg2.str.redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <87y2sjlygl.fsf@oldenburg2.str.redhat.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Christian Brauner:
+On Mon, Mar 02, 2020 at 01:42:50PM +0100, Florian Weimer wrote:
+> * Christian Brauner:
+> 
+> > One difference to openat() is that openat2() doesn't silently ignore
+> > unknown flags. But I'm not sure that would matter for iplementing
+> > openat() via openat2() since there are no flags that openat() knows about
+> > that openat2() doesn't know about afaict. So the only risks would be
+> > programs that accidently have a bit set that isn't used yet.
+> 
+> Will there be any new flags for openat in the future?  If not, we can
+> just use a constant mask in an openat2-based implementation of openat.
 
-> One difference to openat() is that openat2() doesn't silently ignore
-> unknown flags. But I'm not sure that would matter for iplementing
-> openat() via openat2() since there are no flags that openat() knows about
-> that openat2() doesn't know about afaict. So the only risks would be
-> programs that accidently have a bit set that isn't used yet.
+From past experiences with other syscalls I would expect that any new
+features would only be available through openat2().
+The way I see it in general is that a revised version of a syscall
+basically deprecates the old syscall _wrt to new features_, i.e. new
+features will only be available through the revised version unless there
+are very strong reasons to also allow it in the old version (security
+bug or whatever).
+(But I don't want to be presumptuous here and pretend I can make any
+definiteve statement. Ultimately it's up to the community, I guess. :))
 
-Will there be any new flags for openat in the future?  If not, we can
-just use a constant mask in an openat2-based implementation of openat.
-
-Thanks,
-Florian
-
+Christian
