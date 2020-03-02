@@ -2,81 +2,71 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AA810175B0D
-	for <lists+linux-api@lfdr.de>; Mon,  2 Mar 2020 13:58:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B471A175CFC
+	for <lists+linux-api@lfdr.de>; Mon,  2 Mar 2020 15:27:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727421AbgCBM6g (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 2 Mar 2020 07:58:36 -0500
-Received: from sonic312-20.consmr.mail.bf2.yahoo.com ([74.6.128.82]:40148 "EHLO
-        sonic312-20.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727497AbgCBM6g (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 2 Mar 2020 07:58:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1583153914; bh=/GcFFbn2btZiSKYiGCo/BleXlnSRHZPoMjv/YxR5ftE=; h=Date:From:Reply-To:Subject:References:From:Subject; b=SFsrN0XYusoDAJBPFtwd9hTxOnRHfcFZzRie4wZ3Uq2l0ctnT53LbwwDtRCeQn+CgC16FUec4xDQ7hRVUgqcgiEHXEqi7A7nO8T6/NkgvLbYETS9pBnsF0YTAzwZN+p5rRidDAbr3Qr70eBTjF7gcX4UbOoiHU/ctRR7HAeJ4CSfHbWwP2o8U+u2KpyNC7R4elQLNMed+bvmHQaqjaJ5utCpe85hcBhUZaWQOXY4DhKIWe3/ldpHFP/HwO19N3caS5SpudEydnvZVsyn1V5QKmlXloEvz3dmYLUSCv0YLYS1ZpbDnUBjmy2TDFAYo1S1sBOOdycJxQ9tUsVL+OG6eg==
-X-YMail-OSG: Pve3Lg8VM1n7_oUZAtWE8RQ81zYOA2Gnwux6N2zQe4onPUH5Afv0lH9sDRAEoPv
- IGep23JQQ9MTXQz5fpOURkSgHpk9wxD9sj1KAnbm328ufIEPC.HnDqElh..Cj3Hpkrjn0mciJwC7
- .7.VaQW32MEx9zau1xlEcRAc9JZE7BCURcYcQQ6iPbyDZiC5EZm8.Q_PdocOXr39J45HnBXntYdx
- 7EyL_iQXbcxQWwhLiP6G3U3RQbTlv1nLSHTQpiMVFmkmTIyNIb6wITc_NMkjAe46MYZVIL.7.GGY
- gclOLUEFzlh0SS_JFs3YCPT3f8nRpa8_uFh.IfQTSSNQVgtdOsIuQhm8A4_Msd7VjUUOM5YLZ_jg
- 962NoCSmtbJDghFBhBJXIL90IbrYrZWbYOokHDIDsPRf1Vu9Jq.HVdVQGIj6wZ6b1otOeKUnNL.j
- O.YhM6uLoQNB3abxnKc8sRDc4FmE5pNSmEl5Gyaqd3GTkOeQKC0jGP0cau86KsNTeXq230CBelF0
- uk6i9P9U_6cJn8pTlr8ZC34OdQvU5MqjulY.2kBff.adOVBQlV6iFbX5yn6swLfCcX20YrN3Yr5R
- LyrHRgmQMPWAX7w16FyN30PcS6zhbXmh5rSRurR03ztl866zJ_v0OZMXeqglJniBSB4H3Xnyb_Wf
- pbkak591A24OGcLiJQFusmapuag8Phxrdk8l_wbQ_kEsqGdp6Vd4obj1Jdp09n7zsBAAsCU7ywVu
- y5W0G.RardguAdzIskMpEkaumZHHX5xxiHgSWyvuk6OeJ7RLcYjdaKCVu8z2zZrC3Ups2S628tuL
- nanM6vLEHInpUC54E7EGLw6JiNaKd5katjcRxlAAMlTQxeMGs5zRNano2Ief0qveTnhSyDKQEOkx
- ad_0bO9l8vP7qqb3gEM3gjUQY2rHX5xYEeoeK5gq7iM65Enk5sh5lRWkClCRkYL68J23lmUgLPdF
- NiPuM8pc_Rsvgio6wwztDuLD9DMNc3WeJB3AGNMbpdATSnnb5JgfoH7nrNwoIDCViCmOZFIdq52H
- kkOUwDjBp9r8ToUJ7yFp1q7YpzrxHy75fuAaOOm4WZBzV.WST1y.MOBhtBm34js0ZobvdcmvVUr9
- h7B3S2LsPWkrfSk2LFdqUzzDV2ZhyhIA8yuAlA6ZVM.a82Ope7nLgPSTtVAh6mr57loLlHzW_2U4
- zgAfC42XETBZSeKQKYnU2el2DSJA41hlwr3eVZc343US.PxyQEhCKnA7VTDsd5DkFx25e3m0ZyZo
- g24ro0J54ExMci6dzdSlqNZw2R5I.N9MJi7Pl1Aha9C4.W5woCluMCB0cwGTFuNWRlhw-
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic312.consmr.mail.bf2.yahoo.com with HTTP; Mon, 2 Mar 2020 12:58:34 +0000
-Date:   Mon, 2 Mar 2020 12:58:31 +0000 (UTC)
-From:   Jak Abdullah mishail <mishailjakabdullah397@gmail.com>
-Reply-To: mishailjakabdullah@gmail.com
-Message-ID: <1967107543.2106198.1583153911376@mail.yahoo.com>
-Subject: I NEED YOUR ASSISTANCE AND CO-OPERATION TO INVEST IN YOUR COUNTRY,
+        id S1727053AbgCBO1P (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 2 Mar 2020 09:27:15 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:23767 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727032AbgCBO1P (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 2 Mar 2020 09:27:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1583159233;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=3+UBgX7eoIkK/t5w+2bDxE2KMKopb4wrJcspZOaATZ0=;
+        b=QMDe9GMumFcSmscgXll4YP/p48LlYMrLgrVZHrlQoSqyE1u5oQzpgDOXP647yyAHT/1OFH
+        1dCVzLvSYIhXbUn9Am7ULnXGPaRkAEOWbbdybwhRTHOaCiX68Y/NTLCG/wSYBtqY0MJ501
+        ow7gHL6F1LE/GWm2fRHMxhghhECRU9c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-72-_RitG97wNkGAfE8aopeJaA-1; Mon, 02 Mar 2020 09:27:12 -0500
+X-MC-Unique: _RitG97wNkGAfE8aopeJaA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DDC02107ACCC;
+        Mon,  2 Mar 2020 14:27:10 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-120-182.rdu2.redhat.com [10.10.120.182])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id D890C5D9C9;
+        Mon,  2 Mar 2020 14:27:08 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <20200302115239.pcxvej3szmricxzu@wittgenstein>
+References: <20200302115239.pcxvej3szmricxzu@wittgenstein> <96563.1582901612@warthog.procyon.org.uk> <20200228152427.rv3crd7akwdhta2r@wittgenstein> <87h7z7ngd4.fsf@oldenburg2.str.redhat.com>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     dhowells@redhat.com, Florian Weimer <fweimer@redhat.com>,
+        linux-api@vger.kernel.org, viro@zeniv.linux.org.uk,
+        metze@samba.org, torvalds@linux-foundation.org, cyphar@cyphar.com,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: Have RESOLVE_* flags superseded AT_* flags for new syscalls?
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-References: <1967107543.2106198.1583153911376.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.15302 YMailNodin Mozilla/5.0 (Windows NT 6.1; rv:47.0) Gecko/20100101 Firefox/47.0
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <848281.1583159228.1@warthog.procyon.org.uk>
+Date:   Mon, 02 Mar 2020 14:27:08 +0000
+Message-ID: <848282.1583159228@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Greeting,
+Christian Brauner <christian.brauner@ubuntu.com> wrote:
 
-My Name is Mr.Jak Abdullah mishail from Damascus Syria, and I am now resign=
-ed from the government. I am a member of an opposition party goverment in S=
-yria and a business man also,
+> > AT_SYMLINK_NOFOLLOW only applies to the last pathname component anyway,
+> > so it's relatively little protection.
+> 
+> So this is partially why I think it's at least worth considerings: the
+> new RESOLVE_NO_SYMLINKS flag does block all symlink resolution, not just
+> for the last component in contrast to AT_SYMLINK_NOFOLLOW. This is
+> 278121417a72d87fb29dd8c48801f80821e8f75a
 
-I need a foreign partner to enable me transport my investment capital and t=
-hen Relocate with my family, honestly I wish I will discuss more and get al=
-ong I need a partner because my investment capital is in my international a=
-ccount. Am interested in buying Properties, houses, building real estates a=
-nd some tourist places, my capital for investment is ($16.5 million USD) Me=
-anwhile if there is any profitable investment that you have so much experie=
-nce on it then we can join together as partners since I=E2=80=99m a foreign=
-er.
+That sounds like a potentially significant UAPI change.  What will that break?
 
-I came across your e-mail contact through private search while in need of y=
-our assistance and I decided to contact you directly to ask you if you know=
- any Lucrative Business Investment in your Country I can invest my Money si=
-nce my Country Syria Security and Economic Independent has lost to the Grea=
-test Lower level, and our Culture has lost forever including our happiness =
-has been taken away from us. Our Country has been on fire for many years no=
-w.
+David
 
-If you are capable of handling this business Contact me for more details i =
-will appreciate it if you can contact me immediately.
-You may as well tell me little more about yourself. Contact me urgently to =
-enable us proceed with the business.
-
-I will be waiting for your respond.
-
-Sincerely Yours,
-
-Jak Abdullah mishail
