@@ -2,50 +2,44 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 77A4B1765B5
-	for <lists+linux-api@lfdr.de>; Mon,  2 Mar 2020 22:16:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A5D761765ED
+	for <lists+linux-api@lfdr.de>; Mon,  2 Mar 2020 22:25:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725911AbgCBVQU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 2 Mar 2020 16:16:20 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52258 "EHLO mail.kernel.org"
+        id S1726232AbgCBVZc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 2 Mar 2020 16:25:32 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54420 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726536AbgCBVQU (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 2 Mar 2020 16:16:20 -0500
+        id S1725911AbgCBVZc (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 2 Mar 2020 16:25:32 -0500
 Received: from localhost.localdomain (c-73-231-172-41.hsd1.ca.comcast.net [73.231.172.41])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A456F20873;
-        Mon,  2 Mar 2020 21:16:18 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id C2BD0208C3;
+        Mon,  2 Mar 2020 21:25:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583183779;
-        bh=1zHdXUwUuJKgz+S2bvIxUrqahpJf4qagshjRfd/2x6w=;
+        s=default; t=1583184332;
+        bh=irH+qIz7RQAX8VNOn4osnuiinNKfwvRGDRqgNDX/JKk=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=ZmcLe9uaAA2Qx+E2R23T0roasOLIwuwb4Ktw0FpDcq7IuHF0bxOc874A5Vgvyr/zN
-         7shrL4WwoFYUXOCtUCrTkpJIO5vSMfYGlSp982jYZfyDSLtYt8Mn6YILc7T16dRdeY
-         RmZOGzGZtOz3uiYbZUFBdNU6SItSYiMVo7NkrJvk=
-Date:   Mon, 2 Mar 2020 13:16:18 -0800
+        b=veaCjF2SKyTQH/NZgidyCbSQloTu1GBH7jEg4PH2gAtPsw1kfiuemamqB9QJuq7eb
+         IwbcA7ag3CnHZhzVlTlbYOVMOSPV+rPms4rRA/1mL53MzpksBbXBQUnNmsaikzpvud
+         t3AobnNzWI8oXZ1IRmv+g3CAJu4r+adKsjSsEFjc=
+Date:   Mon, 2 Mar 2020 13:25:31 -0800
 From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Minchan Kim <minchan@kernel.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
-        linux-api@vger.kernel.org, oleksandr@redhat.com,
-        Suren Baghdasaryan <surenb@google.com>,
-        Tim Murray <timmurray@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Brian Geffon <bgeffon@google.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        John Dias <joaodias@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jann Horn <jannh@google.com>,
-        alexander.h.duyck@linux.intel.com, sj38.park@gmail.com
-Subject: Re: [PATCH v7 0/7] introduce memory hinting API for external
- process
-Message-Id: <20200302131618.b0f9f0e76d53a69184321884@linux-foundation.org>
-In-Reply-To: <20200302193630.68771-1-minchan@kernel.org>
-References: <20200302193630.68771-1-minchan@kernel.org>
+To:     Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc:     Vlastimil Babka <vbabka@suse.cz>, linux-mm@kvack.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [PATCH v2] mm/compaction: Disable compact_unevictable_allowed
+ on RT
+Message-Id: <20200302132531.59a2c9dffe2515d78abaf909@linux-foundation.org>
+In-Reply-To: <20200302173516.iysuejilava37psk@linutronix.de>
+References: <20200115161035.893221-1-bigeasy@linutronix.de>
+        <4cf4507b-0632-34e6-5985-df933559af9f@suse.cz>
+        <20200302173516.iysuejilava37psk@linutronix.de>
 X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 Mime-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -55,32 +49,53 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon,  2 Mar 2020 11:36:23 -0800 Minchan Kim <minchan@kernel.org> wrote:
+On Mon, 2 Mar 2020 18:35:16 +0100 Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
 
-> Now, we have MADV_PAGEOUT and MADV_COLD as madvise hinting API. With that,
-> application could give hints to kernel what memory range are preferred to be
-> reclaimed. However, in some platform(e.g., Android), the information
-> required to make the hinting decision is not known to the app.
-> Instead, it is known to a centralized userspace daemon(e.g., ActivityManagerService),
-> and that daemon must be able to initiate reclaim on its own without any app
-> involvement.
+> Since commit
+>     5bbe3547aa3ba ("mm: allow compaction of unevictable pages")
 > 
-> To solve the concern, this patch introduces new syscall - process_madvise(2).
-> Bascially, it's same with madvise(2) syscall but it has some differences.
+> it is allowed to examine mlocked pages and compact them by default.
+> On -RT even minor pagefaults are problematic because it may take a few
+> 100us to resolve them and until then the task is blocked.
 > 
-> 1. It needs pidfd of target process to provide the hint
-> 2. It supports only MADV_{COLD|PAGEOUT|MERGEABLE|UNMEREABLE} at this moment.
->    Other hints in madvise will be opened when there are explicit requests from
->    community to prevent unexpected bugs we couldn't support.
-> 3. Only privileged processes can do something for other process's address
->    space.
-> 
-> For more detail of the new API, please see "mm: introduce external memory hinting API"
-> description in this patchset.
+> Make compact_unevictable_allowed = 0 default and RO on RT.
 
-Thanks, I grabbed these.
+hm, that's a bit sad but I guess it's tolerable.
 
-I massaged the patch titles significantly - mainly to alert readers to
-the fact that we're proposing a new syscall.
+> ...
+>
+> index 64aeee1009cab..bbfa59d25eec3 100644
+> --- a/Documentation/admin-guide/sysctl/vm.rst
+> +++ b/Documentation/admin-guide/sysctl/vm.rst
+> @@ -128,6 +128,7 @@ allowed to examine the unevictable lru (mlocked pages) for pages to compact.
+>  This should be used on systems where stalls for minor page faults are an
+>  acceptable trade for large contiguous free memory.  Set to 0 to prevent
+>  compaction from moving pages that are unevictable.  Default value is 1.
+> +On CONFIG_PREEMPT_RT the default value is 0.
 
-Is a manpage for process_madvise(2) being prepared?
+This doesn't mention that the file is unwritable on -rt, and it doesn't
+explain *why* -rt has different behaviour.
+
+> --- a/kernel/sysctl.c
+> +++ b/kernel/sysctl.c
+> @@ -1483,7 +1483,11 @@ static struct ctl_table vm_table[] = {
+>  		.procname	= "compact_unevictable_allowed",
+>  		.data		= &sysctl_compact_unevictable_allowed,
+>  		.maxlen		= sizeof(int),
+> +#ifdef CONFIG_PREEMPT_RT
+> +		.mode		= 0444,
+> +#else
+>  		.mode		= 0644,
+> +#endif
+
+This is non-backward-compatible and introduces a possibility that
+tested-on-non-rt userspace will fail on -rt kernels.  It might be
+better to accept the writes, but to ignore them.  Probably with a
+pr_warn_once() to let people know what we did.
+
+But do we really need to take the option away from -rt users?  Perhaps
+someone wants this feature and can accept the latency hit.  How about
+switching the default and otherwise leaving the kernel behaviour as-is
+and simply emitting a warning letting -rt users know that they might
+not want to enable this?
+
