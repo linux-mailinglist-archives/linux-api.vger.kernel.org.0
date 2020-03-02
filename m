@@ -2,69 +2,106 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 35D52176020
-	for <lists+linux-api@lfdr.de>; Mon,  2 Mar 2020 17:37:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CB34D176121
+	for <lists+linux-api@lfdr.de>; Mon,  2 Mar 2020 18:35:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727159AbgCBQhx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 2 Mar 2020 11:37:53 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:24530 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726946AbgCBQhx (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 2 Mar 2020 11:37:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1583167072;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=fC95qP5SJj04fpXo5+HmQBZoe9M23e68wzRbVjI+h48=;
-        b=Ha+mGrrSTYsJOcWJU2JmDsiKMnqjYSeuGc+UWeqtDc3M62DciVxUF3t5IMJdsLIvyThCto
-        yegf58ix8NpU8yxOjdRxakG7Wqt3eJ1soqKhY6HOstZlVkCM0KROxc216XBAhaAU1fHHX7
-        po+2d63P6RAeAFlft8ES7eakldHO8BM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-416-nBzKOs3jP-GRZrHcsh7How-1; Mon, 02 Mar 2020 11:37:50 -0500
-X-MC-Unique: nBzKOs3jP-GRZrHcsh7How-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE814101044E;
-        Mon,  2 Mar 2020 16:37:48 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-120-182.rdu2.redhat.com [10.10.120.182])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 6AA6B60CD3;
-        Mon,  2 Mar 2020 16:37:46 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <20200302152458.hznqqssixhlpykgr@yavin>
-References: <20200302152458.hznqqssixhlpykgr@yavin> <20200302143546.srzk3rnh4o6s76a7@wittgenstein> <20200302115239.pcxvej3szmricxzu@wittgenstein> <96563.1582901612@warthog.procyon.org.uk> <20200228152427.rv3crd7akwdhta2r@wittgenstein> <87h7z7ngd4.fsf@oldenburg2.str.redhat.com> <848282.1583159228@warthog.procyon.org.uk> <888183.1583160603@warthog.procyon.org.uk> <20200302150528.okjdx2mkluicje4w@wittgenstein>
-To:     Aleksa Sarai <cyphar@cyphar.com>
-Cc:     dhowells@redhat.com,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Florian Weimer <fweimer@redhat.com>, linux-api@vger.kernel.org,
-        viro@zeniv.linux.org.uk, metze@samba.org,
-        torvalds@linux-foundation.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: Have RESOLVE_* flags superseded AT_* flags for new syscalls?
+        id S1727030AbgCBRfX convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Mon, 2 Mar 2020 12:35:23 -0500
+Received: from Galois.linutronix.de ([193.142.43.55]:42437 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727152AbgCBRfX (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 2 Mar 2020 12:35:23 -0500
+Received: from bigeasy by Galois.linutronix.de with local (Exim 4.80)
+        (envelope-from <bigeasy@linutronix.de>)
+        id 1j8oyK-00069s-IK; Mon, 02 Mar 2020 18:35:16 +0100
+Date:   Mon, 2 Mar 2020 18:35:16 +0100
+From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To:     Vlastimil Babka <vbabka@suse.cz>
+Cc:     linux-mm@kvack.org, Thomas Gleixner <tglx@linutronix.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: [PATCH v2] mm/compaction: Disable compact_unevictable_allowed on RT
+Message-ID: <20200302173516.iysuejilava37psk@linutronix.de>
+References: <20200115161035.893221-1-bigeasy@linutronix.de>
+ <4cf4507b-0632-34e6-5985-df933559af9f@suse.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <932112.1583167065.1@warthog.procyon.org.uk>
-Date:   Mon, 02 Mar 2020 16:37:45 +0000
-Message-ID: <932113.1583167065@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8BIT
+In-Reply-To: <4cf4507b-0632-34e6-5985-df933559af9f@suse.cz>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Aleksa Sarai <cyphar@cyphar.com> wrote:
+Since commit
+    5bbe3547aa3ba ("mm: allow compaction of unevictable pages")
 
-> Now let's just hope no new syscalls need both AT_RECURSIVE and
-> RESOLVE_NO_SYMLINKS
+it is allowed to examine mlocked pages and compact them by default.
+On -RT even minor pagefaults are problematic because it may take a few
+100us to resolve them and until then the task is blocked.
 
-Ummm...  AT_RECURSIVE is used by open_tree() to determine whether to copy just
-the mount it's looking at or the entire subtree from that point.
+Make compact_unevictable_allowed = 0 default and RO on RT.
 
-David
+Link: https://lore.kernel.org/linux-mm/20190710144138.qyn4tuttdq6h7kqx@linutronix.de/
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+---
+v1…v2: - Make the proc file RO instead removing it.
+       - Mention this change in Documentation/…/vm.rst.
+
+ Documentation/admin-guide/sysctl/vm.rst | 1 +
+ kernel/sysctl.c                         | 4 ++++
+ mm/compaction.c                         | 4 ++++
+ 3 files changed, 9 insertions(+)
+
+diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
+index 64aeee1009cab..bbfa59d25eec3 100644
+--- a/Documentation/admin-guide/sysctl/vm.rst
++++ b/Documentation/admin-guide/sysctl/vm.rst
+@@ -128,6 +128,7 @@ allowed to examine the unevictable lru (mlocked pages) for pages to compact.
+ This should be used on systems where stalls for minor page faults are an
+ acceptable trade for large contiguous free memory.  Set to 0 to prevent
+ compaction from moving pages that are unevictable.  Default value is 1.
++On CONFIG_PREEMPT_RT the default value is 0.
+ 
+ 
+ dirty_background_bytes
+diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+index ad5b88a53c5a8..f113e31d0b0b6 100644
+--- a/kernel/sysctl.c
++++ b/kernel/sysctl.c
+@@ -1483,7 +1483,11 @@ static struct ctl_table vm_table[] = {
+ 		.procname	= "compact_unevictable_allowed",
+ 		.data		= &sysctl_compact_unevictable_allowed,
+ 		.maxlen		= sizeof(int),
++#ifdef CONFIG_PREEMPT_RT
++		.mode		= 0444,
++#else
+ 		.mode		= 0644,
++#endif
+ 		.proc_handler	= proc_dointvec,
+ 		.extra1		= SYSCTL_ZERO,
+ 		.extra2		= SYSCTL_ONE,
+diff --git a/mm/compaction.c b/mm/compaction.c
+index 672d3c78c6abf..ba77809a1666e 100644
+--- a/mm/compaction.c
++++ b/mm/compaction.c
+@@ -1590,7 +1590,11 @@ typedef enum {
+  * Allow userspace to control policy on scanning the unevictable LRU for
+  * compactable pages.
+  */
++#ifdef CONFIG_PREEMPT_RT
++int sysctl_compact_unevictable_allowed __read_mostly = 0;
++#else
+ int sysctl_compact_unevictable_allowed __read_mostly = 1;
++#endif
+ 
+ static inline void
+ update_fast_start_pfn(struct compact_control *cc, unsigned long pfn)
+-- 
+2.25.1
 
