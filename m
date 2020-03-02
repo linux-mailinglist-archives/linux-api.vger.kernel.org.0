@@ -2,48 +2,48 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DA2BB176418
-	for <lists+linux-api@lfdr.de>; Mon,  2 Mar 2020 20:38:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 33B7D17641E
+	for <lists+linux-api@lfdr.de>; Mon,  2 Mar 2020 20:38:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727775AbgCBTgx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 2 Mar 2020 14:36:53 -0500
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:34795 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727767AbgCBTgx (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 2 Mar 2020 14:36:53 -0500
-Received: by mail-pf1-f195.google.com with SMTP id y21so216488pfp.1;
-        Mon, 02 Mar 2020 11:36:52 -0800 (PST)
+        id S1726232AbgCBTiJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 2 Mar 2020 14:38:09 -0500
+Received: from mail-pj1-f66.google.com ([209.85.216.66]:35669 "EHLO
+        mail-pj1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727781AbgCBTgz (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 2 Mar 2020 14:36:55 -0500
+Received: by mail-pj1-f66.google.com with SMTP id s8so230615pjq.0;
+        Mon, 02 Mar 2020 11:36:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=xPq4MnSfZ5jWfAsPssUVfjNY8ScP1mqw+MypBd7iP+U=;
-        b=oVv7S+P/QEC4IU0JDW3R6+pH/HZQedvJgo/p6dLtJbajwRcJqo63ZjdjfP6Ha5zzeg
-         Yek9HPH1rVrC7+TbFuveVjZTlryEeEiAPzr/4j7HtUFDgWG36Da9obumxjlnsZrMCWSK
-         OFxnXBCRtKPcKIFR9QDy+A6XD9Q/V7rFLGekAwxJb0/JVc7zqPyrU3zJfpWHPEG7kN0o
-         xkoLZz3J/qCLjy8ARct6biDDVe9Le9+F1G/M9RGeDd6MmxIoeZfGDLPRH+YFha0gFu9e
-         A8zPcDCOEBZYuCZ58v4eoa1lTSg+/Q0nLNDXSKylf246Yv42793BURa8ErWOkeaq+ufh
-         RvXQ==
+        bh=Mu70DJRDEBMY5udogCEqxqr5nIzNXb/ZVa6ak+DAEGE=;
+        b=bGAzt2bRUsm7cgwQ5RTZVf/S93SfPOeYEhBXNLGRwQ8/ecMiHe74IFmLVYWe7mhP76
+         SkKnx+8xM0l1+Vo/1ldCceHC4pVNU92FOdKXVZJ/cpPs57m6I33Ct0SvcF7+6hTz060z
+         MhCQVL3cDoV7wDT1XD8fjiEpgPtQbwYq6kTsTvmWXZGI//EB+u3f/rPb0yrxA2BEZSbR
+         QO+6mFAIfwPr9yxjr0Uxm9mb9irEnCMdcctTP5mItZtb+FUOpOcV1/oiVX8I4x26JXxW
+         xOyDuld8jCL3RnQS04e9azPeVX+QUDh9ni+5UwrMD74gFWVbXqmdeGTAJmCHdydrtIQw
+         4vwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=xPq4MnSfZ5jWfAsPssUVfjNY8ScP1mqw+MypBd7iP+U=;
-        b=eisYK+yE/21SjBkdKxawulYdob4q/qc6ojKClH2GNyyk/8gVKdaGTHi0yGWnELUWao
-         ZE1ng5YZySXklFQpnUyt+GEZAm8RAZrtNHgmiKZB71lFj3PCaT4Ew7VM7cESFZETwkW5
-         i5V/cksAwqUNE9JOyNZZ4z8DyhxYw3SF77DZETHPwyNYkUZPJ4n3eOBL5XF1DiqKAXbC
-         JjLs/p2fn5WgbVUXX/EujV9xHdvyslWk0bd6yJjgyP07zUTzjTS/5cQgV+UROSi/dd6x
-         pSHjnmApPkpdTOk0uJbgX2Ceyxa4nuE+hggRFNGISCdoZC04SNVooOZDoDUujD6V9X9K
-         /dKA==
-X-Gm-Message-State: ANhLgQ174m7RimzwpPgUpVkIG4acLnjesA1uo8rY9mpqHjc+OkBBSiYz
-        6AgSfznndRjQd24X0hDNnFM=
-X-Google-Smtp-Source: ADFU+vv9CLHD6sVa3fBRa6pzZ4SBhCdu9PYfQpsoPVh3OiiLUei4gNaaBkWGAAN2cXCdFxrDXM+9Yw==
-X-Received: by 2002:aa7:9497:: with SMTP id z23mr526938pfk.229.1583177811915;
-        Mon, 02 Mar 2020 11:36:51 -0800 (PST)
+        bh=Mu70DJRDEBMY5udogCEqxqr5nIzNXb/ZVa6ak+DAEGE=;
+        b=bpbKuDVleoCS4wxfp3dOHpE6BweDC/EHiZjG5rCnPoZOBS6DPPJQ20nBRiIC5wSiu+
+         yeeR+gx+lo+C2OQfY3eeMrFISV7Tmas05J+liOZgHntiGo95rj6OWhk/F/4HD8MiOM/e
+         brTD0ImvW/1leaRPE4/myvDLS0uZvHVftalILG7CwBfSk7xi3EOKAORujiKFdfqcjl0X
+         cytZgvEnyWhDC4PoVa57QWisae7BcOMi27PZFhU66dX7kh4OjkCaEhrrF0GNBjo/ZEc6
+         MkQBbNgxMrtm0oLDIgiQY1+/abUib/1F8yv7S/5W/+9OgNF/mf+QzvuwpstVQc44rAsj
+         quBg==
+X-Gm-Message-State: ANhLgQ1NOQ2BCVrlKzYdNvXoxPObO8Bz800eqNXnHDJUhCCkBAzglNgR
+        BhB7BzD8QTgauBaGwP5gGdWknfD9
+X-Google-Smtp-Source: ADFU+vtcLKKSg3LAVPMvkZQMOIZdKtFP4hQNOw94oXNyYV8OY5PcR4U8eitUv3IIaT8DAv+7edpk4A==
+X-Received: by 2002:a17:90a:858c:: with SMTP id m12mr19528pjn.127.1583177813686;
+        Mon, 02 Mar 2020 11:36:53 -0800 (PST)
 Received: from bbox-1.mtv.corp.google.com ([2620:15c:211:1:3e01:2939:5992:52da])
-        by smtp.gmail.com with ESMTPSA id hg6sm35441pjb.22.2020.03.02.11.36.50
+        by smtp.gmail.com with ESMTPSA id hg6sm35441pjb.22.2020.03.02.11.36.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Mar 2020 11:36:50 -0800 (PST)
+        Mon, 02 Mar 2020 11:36:52 -0800 (PST)
 From:   Minchan Kim <minchan@kernel.org>
 To:     Andrew Morton <akpm@linux-foundation.org>
 Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
@@ -61,10 +61,11 @@ Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
         Joel Fernandes <joel@joelfernandes.org>,
         Jann Horn <jannh@google.com>,
         alexander.h.duyck@linux.intel.com, sj38.park@gmail.com,
-        Minchan Kim <minchan@kernel.org>
-Subject: [PATCH v7 6/7] mm/madvise: employ mmget_still_valid for write lock
-Date:   Mon,  2 Mar 2020 11:36:29 -0800
-Message-Id: <20200302193630.68771-7-minchan@kernel.org>
+        Minchan Kim <minchan@kernel.org>,
+        SeongJae Park <sjpark@amazon.de>
+Subject: [PATCH v7 7/7] mm/madvise: allow KSM hints for remote API
+Date:   Mon,  2 Mar 2020 11:36:30 -0800
+Message-Id: <20200302193630.68771-8-minchan@kernel.org>
 X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
 In-Reply-To: <20200302193630.68771-1-minchan@kernel.org>
 References: <20200302193630.68771-1-minchan@kernel.org>
@@ -77,38 +78,70 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 From: Oleksandr Natalenko <oleksandr@redhat.com>
 
-Do the very same trick as we already do since 04f5866e41fb. KSM hints
-will require locking mmap_sem for write since they modify vm_flags, so
-for remote KSM hinting this additional check is needed.
+It all began with the fact that KSM works only on memory that is marked
+by madvise(). And the only way to get around that is to either:
 
-Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+  * use LD_PRELOAD; or
+  * patch the kernel with something like UKSM or PKSM.
+
+(i skip ptrace can of worms here intentionally)
+
+To overcome this restriction, lets employ a new remote madvise API. This
+can be used by some small userspace helper daemon that will do auto-KSM
+job for us.
+
+I think of two major consumers of remote KSM hints:
+
+  * hosts, that run containers, especially similar ones and especially in
+    a trusted environment, sharing the same runtime like Node.js;
+
+  * heavy applications, that can be run in multiple instances, not
+    limited to opensource ones like Firefox, but also those that cannot be
+    modified since they are binary-only and, maybe, statically linked.
+
+Speaking of statistics, more numbers can be found in the very first
+submission, that is related to this one [1]. For my current setup with
+two Firefox instances I get 100 to 200 MiB saved for the second instance
+depending on the amount of tabs.
+
+1 FF instance with 15 tabs:
+
+   $ echo "$(cat /sys/kernel/mm/ksm/pages_sharing) * 4 / 1024" | bc
+   410
+
+2 FF instances, second one has 12 tabs (all the tabs are different):
+
+   $ echo "$(cat /sys/kernel/mm/ksm/pages_sharing) * 4 / 1024" | bc
+   592
+
+At the very moment I do not have specific numbers for containerised
+workload, but those should be comparable in case the containers share
+similar/same runtime.
+
+[1] https://lore.kernel.org/patchwork/patch/1012142/
+
+Reviewed-by: SeongJae Park <sjpark@amazon.de>
 Signed-off-by: Oleksandr Natalenko <oleksandr@redhat.com>
 Signed-off-by: Minchan Kim <minchan@kernel.org>
 ---
- mm/madvise.c | 3 +++
- 1 file changed, 3 insertions(+)
+ mm/madvise.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/mm/madvise.c b/mm/madvise.c
-index e794367f681e..e77c6c1fad34 100644
+index e77c6c1fad34..f4fa962ee74d 100644
 --- a/mm/madvise.c
 +++ b/mm/madvise.c
-@@ -1118,6 +1118,8 @@ int do_madvise(struct task_struct *target_task, struct mm_struct *mm,
- 	if (write) {
- 		if (down_write_killable(&mm->mmap_sem))
- 			return -EINTR;
-+		if (current->mm != mm && !mmget_still_valid(mm))
-+			goto skip_mm;
- 	} else {
- 		down_read(&mm->mmap_sem);
- 	}
-@@ -1169,6 +1171,7 @@ int do_madvise(struct task_struct *target_task, struct mm_struct *mm,
- 	}
- out:
- 	blk_finish_plug(&plug);
-+skip_mm:
- 	if (write)
- 		up_write(&mm->mmap_sem);
- 	else
+@@ -1005,6 +1005,10 @@ process_madvise_behavior_valid(int behavior)
+ 	switch (behavior) {
+ 	case MADV_COLD:
+ 	case MADV_PAGEOUT:
++#ifdef CONFIG_KSM
++	case MADV_MERGEABLE:
++	case MADV_UNMERGEABLE:
++#endif
+ 		return true;
+ 	default:
+ 		return false;
 -- 
 2.25.0.265.gbab2e86ba0-goog
 
