@@ -2,141 +2,69 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E78B7175FB8
-	for <lists+linux-api@lfdr.de>; Mon,  2 Mar 2020 17:33:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 35D52176020
+	for <lists+linux-api@lfdr.de>; Mon,  2 Mar 2020 17:37:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727060AbgCBQc6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 2 Mar 2020 11:32:58 -0500
-Received: from mail-vk1-f196.google.com ([209.85.221.196]:34436 "EHLO
-        mail-vk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727112AbgCBQc5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 2 Mar 2020 11:32:57 -0500
-Received: by mail-vk1-f196.google.com with SMTP id w67so3133985vkf.1
-        for <linux-api@vger.kernel.org>; Mon, 02 Mar 2020 08:32:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6G1UATj4krZxsCknjrQEeeFai91FPwBe7XfsjRuVvR4=;
-        b=gjBc7d6YnjDc2NB2v1tqHbdmYRA6US1Zc4Bwdfw5pIWhSmmK+Bim0XXVC967za6mwx
-         ttu/8XEIGHY+D5pOwYhrSNHH/c4SoLvoncF5LehwoF40RSVQ9t9odVgxLiDlcLjFr8Qf
-         uXYk5vh3osEyjqmPttQL18i1ib4MEU32Qt3I2R3oe2JnmiK3Jik/inzsusGzwGnwm8pV
-         s1va7f8IYUZ7uLxzJUgWIyTWYsii4w3rsSFeFJeDn2VTka/qdtcbcgiRxqnQuUa+AYgx
-         0sFVAYTtpPKHuI2iqRu7GbzoyP3paHDugM7UXOnTi6wNwOQFMIQx2OSWfFXbxa+LWAu3
-         a1yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6G1UATj4krZxsCknjrQEeeFai91FPwBe7XfsjRuVvR4=;
-        b=Jr7oVzKlWmTxHMx8PG3NjEYWbJegcquYNwZkzQ7kw1j4TKnotELWm+4kZeLoatbNO6
-         iCsGsG594+1dzIYwoPa5cc+N01Sp4WIGUTYps7op0vOvIUE/fzwT9AQZvh71g1hyr2Hc
-         OReiORYZGdfevJiMivoMrPxF/as4JxB2YCHnPTEjxLBsy55v2S/o7FKEOo1rT9kMsiDB
-         kEBIeEHyw6LzVo0iTcDIObkdoTFHl3LOFi4bjSMznrPniMMslUmcyXtkiVX8SL7vV7E6
-         auRl5wYDnYTMxnJLnnv5o65MWnHBUJW8qQEC1jDwAkMaK5MJz946gTHpioTdSMsY1na6
-         WJhw==
-X-Gm-Message-State: ANhLgQ0RfmkTNFUQB8wvK3xsbvwqmxcdQozIE/aq7wq6LoaXR//FCDOi
-        psPZ/WKERB8ZLdn5FVN/JxzIa59KVy09FNTiMl1uWw==
-X-Google-Smtp-Source: ADFU+vudr5OddUJOm/nCflCRNBR8hUNIZhkJyQ8IXmQMh0kL9nYnxmTqjHWz5AHVu0pL2BiPYiLALTBK7m4MdHvpN+w=
-X-Received: by 2002:ac5:c914:: with SMTP id t20mr334096vkl.37.1583166775011;
- Mon, 02 Mar 2020 08:32:55 -0800 (PST)
+        id S1727159AbgCBQhx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 2 Mar 2020 11:37:53 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:24530 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726946AbgCBQhx (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 2 Mar 2020 11:37:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1583167072;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=fC95qP5SJj04fpXo5+HmQBZoe9M23e68wzRbVjI+h48=;
+        b=Ha+mGrrSTYsJOcWJU2JmDsiKMnqjYSeuGc+UWeqtDc3M62DciVxUF3t5IMJdsLIvyThCto
+        yegf58ix8NpU8yxOjdRxakG7Wqt3eJ1soqKhY6HOstZlVkCM0KROxc216XBAhaAU1fHHX7
+        po+2d63P6RAeAFlft8ES7eakldHO8BM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-416-nBzKOs3jP-GRZrHcsh7How-1; Mon, 02 Mar 2020 11:37:50 -0500
+X-MC-Unique: nBzKOs3jP-GRZrHcsh7How-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE814101044E;
+        Mon,  2 Mar 2020 16:37:48 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-120-182.rdu2.redhat.com [10.10.120.182])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6AA6B60CD3;
+        Mon,  2 Mar 2020 16:37:46 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <20200302152458.hznqqssixhlpykgr@yavin>
+References: <20200302152458.hznqqssixhlpykgr@yavin> <20200302143546.srzk3rnh4o6s76a7@wittgenstein> <20200302115239.pcxvej3szmricxzu@wittgenstein> <96563.1582901612@warthog.procyon.org.uk> <20200228152427.rv3crd7akwdhta2r@wittgenstein> <87h7z7ngd4.fsf@oldenburg2.str.redhat.com> <848282.1583159228@warthog.procyon.org.uk> <888183.1583160603@warthog.procyon.org.uk> <20200302150528.okjdx2mkluicje4w@wittgenstein>
+To:     Aleksa Sarai <cyphar@cyphar.com>
+Cc:     dhowells@redhat.com,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Florian Weimer <fweimer@redhat.com>, linux-api@vger.kernel.org,
+        viro@zeniv.linux.org.uk, metze@samba.org,
+        torvalds@linux-foundation.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: Have RESOLVE_* flags superseded AT_* flags for new syscalls?
 MIME-Version: 1.0
-References: <20200219014433.88424-1-minchan@kernel.org> <20200219014433.88424-7-minchan@kernel.org>
- <CAJuCfpE=7aqwegMb5i3EwWb=xcphXSNE33dCCUvt=WS0Sr-wfg@mail.gmail.com> <20200302073332.gn7lvhxmmv5pupyq@butterfly.localdomain>
-In-Reply-To: <20200302073332.gn7lvhxmmv5pupyq@butterfly.localdomain>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Mon, 2 Mar 2020 08:32:44 -0800
-Message-ID: <CAJuCfpE++EUbmhmr6+iutFk5Nd3teXy5Xr0y735LP25ciNKKcQ@mail.gmail.com>
-Subject: Re: [PATCH v6 6/7] mm/madvise: employ mmget_still_valid for write lock
-To:     Oleksandr Natalenko <oleksandr@redhat.com>
-Cc:     Minchan Kim <minchan@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
-        Tim Murray <timmurray@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Brian Geffon <bgeffon@google.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        John Dias <joaodias@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>, sj38.park@gmail.com,
-        alexander.h.duyck@linux.intel.com, Jann Horn <jannh@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <932112.1583167065.1@warthog.procyon.org.uk>
+Date:   Mon, 02 Mar 2020 16:37:45 +0000
+Message-ID: <932113.1583167065@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sun, Mar 1, 2020 at 11:33 PM Oleksandr Natalenko
-<oleksandr@redhat.com> wrote:
->
-> Hello.
->
-> On Fri, Feb 28, 2020 at 03:19:55PM -0800, Suren Baghdasaryan wrote:
-> > On Tue, Feb 18, 2020 at 5:44 PM Minchan Kim <minchan@kernel.org> wrote:
-> > >
-> > > From: Oleksandr Natalenko <oleksandr@redhat.com>
-> > >
-> > > Do the very same trick as we already do since 04f5866e41fb. KSM hints
-> > > will require locking mmap_sem for write since they modify vm_flags, so
-> > > for remote KSM hinting this additional check is needed.
-> > >
-> > > Signed-off-by: Oleksandr Natalenko <oleksandr@redhat.com>
-> > > Signed-off-by: Minchan Kim <minchan@kernel.org>
-> > > ---
-> > >  mm/madvise.c | 3 +++
-> > >  1 file changed, 3 insertions(+)
-> > >
-> > > diff --git a/mm/madvise.c b/mm/madvise.c
-> > > index f6d9b9e66243..c55a18fe71f9 100644
-> > > --- a/mm/madvise.c
-> > > +++ b/mm/madvise.c
-> > > @@ -1118,6 +1118,8 @@ int do_madvise(struct task_struct *target_task, struct mm_struct *mm,
-> > >         if (write) {
-> > >                 if (down_write_killable(&mm->mmap_sem))
-> > >                         return -EINTR;
-> > > +               if (current->mm != mm && !mmget_still_valid(mm))
-> >
-> > mmget_still_valid() seems pretty light-weight, so why not just use
-> > that without checking that the mm belongs to the current process
-> > first?
->
-> I'd keep the checks separate to a) do not functionally change current->mm
-> == mm case; b) clearly separate the intention to call
-> mmget_still_valid() only for remote access (using mmget_still_valid()
-> for current->mm == mm does not make any sense here, IMO, since there's
-> no possibility of expecting a core dump at this point); c) ease the job for
-> reviewer once mmget_still_valid() is scheduled to be removed (I hope it
-> eventually goes away indeed).
->
+Aleksa Sarai <cyphar@cyphar.com> wrote:
 
-Makes sense. Thanks!
+> Now let's just hope no new syscalls need both AT_RECURSIVE and
+> RESOLVE_NO_SYMLINKS
 
-> >
-> > > +                       goto skip_mm;
-> > >         } else {
-> > >                 down_read(&mm->mmap_sem);
-> > >         }
-> > > @@ -1169,6 +1171,7 @@ int do_madvise(struct task_struct *target_task, struct mm_struct *mm,
-> > >         }
-> > >  out:
-> > >         blk_finish_plug(&plug);
-> > > +skip_mm:
-> > >         if (write)
-> > >                 up_write(&mm->mmap_sem);
-> > >         else
-> > > --
-> > > 2.25.0.265.gbab2e86ba0-goog
-> > >
-> >
->
-> --
->   Best regards,
->     Oleksandr Natalenko (post-factum)
->     Principal Software Maintenance Engineer
->
+Ummm...  AT_RECURSIVE is used by open_tree() to determine whether to copy just
+the mount it's looking at or the entire subtree from that point.
 
-Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+David
+
