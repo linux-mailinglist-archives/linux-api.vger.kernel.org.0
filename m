@@ -2,56 +2,30 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 40B13177733
-	for <lists+linux-api@lfdr.de>; Tue,  3 Mar 2020 14:35:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 024AA17778E
+	for <lists+linux-api@lfdr.de>; Tue,  3 Mar 2020 14:43:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729449AbgCCNey (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 3 Mar 2020 08:34:54 -0500
-Received: from mail-il1-f195.google.com ([209.85.166.195]:35387 "EHLO
-        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726465AbgCCNey (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Mar 2020 08:34:54 -0500
-Received: by mail-il1-f195.google.com with SMTP id g126so2770941ilh.2
-        for <linux-api@vger.kernel.org>; Tue, 03 Mar 2020 05:34:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=d8UZDr3lZGFyJivNM6em5ybzB9qz5QGiZZazZdznXqk=;
-        b=eEQq5fiMKdVd42vqfExJKz3i8PtBQaz26xc++cNx+VS/zkeI5e09ipMisnSMiHdrf5
-         u+xmYZFz/xI0z/5+EySdWurVl96IIsUyghbPc5Vppji0ZZ9iQNhE7e1tgdNfKcxWAAes
-         y80ESNGhn+KNkkn+eLigS588MUERmZAN3AgMs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=d8UZDr3lZGFyJivNM6em5ybzB9qz5QGiZZazZdznXqk=;
-        b=VOFW+iQAtqUSw9E3dA8T/LgknPNcaO+Lim4XzMxebqJ4ncPzD76EAU5BB/YVcSps/g
-         f5+xJRb/KQQWKJS648DImY78UIdpqS8ETUGCruSCh9QzqpYkmolhH60C1lahqZS3USpi
-         gr3zJvSy6UXdI+unM8t1IYwEIgVQkkMmhqBU1yuX3hNUOr/DfQlBreXANaWjUYvEGecV
-         mEKfbeW/4fz2kE+/VrQWVoPE54l1boL0J576KmmENAlydPOgaveuREbY4cZjRFhJjZxR
-         6bHymRDXt+Y0trwxGGmuDl2vgw5Y6SZol1NnBTAmLxPNi6T/7z58JfofbS59Ng4q6g5M
-         fsiA==
-X-Gm-Message-State: ANhLgQ18a2WuZzkNVsKBqwfJHe3q89zoK9jjt/OgkFL1ocimtIKwFK6i
-        zuLy4IlB7wl3pfdPjOzHDQES6sFl7i2jOhyk/+ekWw==
-X-Google-Smtp-Source: ADFU+vse5bB7gLvCvFy8XryGmsALFqGE4Oyf3LKEtJstP+x5Mc4KlKOxwSw8ylASXSSbsPp5ZHBKAyS4fw1aRsVzAO8=
-X-Received: by 2002:a92:8847:: with SMTP id h68mr4667878ild.212.1583242493712;
- Tue, 03 Mar 2020 05:34:53 -0800 (PST)
-MIME-Version: 1.0
-References: <1582644535.3361.8.camel@HansenPartnership.com>
- <20200228155244.k4h4hz3dqhl7q7ks@wittgenstein> <107666.1582907766@warthog.procyon.org.uk>
- <CAJfpegu0qHBZ7iK=R4ajmmHC4g=Yz56otpKMy5w-y0UxJ1zO+Q@mail.gmail.com>
- <0403cda7345e34c800eec8e2870a1917a8c07e5c.camel@themaw.net>
- <CAJfpegtu6VqhPdcudu79TX3e=_NZaJ+Md3harBGV7Bg_-+fR8Q@mail.gmail.com>
- <1509948.1583226773@warthog.procyon.org.uk> <CAJfpegtOwyaWpNfjomRVOt8NKqT94O5n4-LOHTR7YZT9fadVHA@mail.gmail.com>
- <20200303113814.rsqhljkch6tgorpu@ws.net.home> <20200303130347.GA2302029@kroah.com>
- <20200303131434.GA2373427@kroah.com>
-In-Reply-To: <20200303131434.GA2373427@kroah.com>
-From:   Miklos Szeredi <miklos@szeredi.hu>
-Date:   Tue, 3 Mar 2020 14:34:42 +0100
-Message-ID: <CAJfpegt0aQVvoDeBXOu2xZh+atZQ+q5uQ_JRxe46E8cZ7sHRwg@mail.gmail.com>
-Subject: Re: [PATCH 00/17] VFS: Filesystem information and notifications [ver #17]
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+        id S1725944AbgCCNnT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 3 Mar 2020 08:43:19 -0500
+Received: from mail.kernel.org ([198.145.29.99]:36714 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725932AbgCCNnT (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 3 Mar 2020 08:43:19 -0500
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id F1B9920717;
+        Tue,  3 Mar 2020 13:43:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1583242998;
+        bh=LsmV8M+K1WrR+kQz2BjN3GavRyic/105fmJ2fgu+v8U=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=m7D5oAe/mXB81Q5EvjErelrC7dcsVBIPlqYjg6/7QzcJLcJ3NbAvNfXd3CFPL5um0
+         +/1agyp/hxBRzSbvRXJ6fahy0JKexFlR14u3ius8X6CtWTU5Lhh8Y4Ph9lig8GzK2K
+         NrYTrB/5QWEVLaOOgkSyz7gGmo8JmuLbfyUY0Phs=
+Date:   Tue, 3 Mar 2020 14:43:16 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Miklos Szeredi <miklos@szeredi.hu>
 Cc:     Karel Zak <kzak@redhat.com>, David Howells <dhowells@redhat.com>,
         Ian Kent <raven@themaw.net>,
         Christian Brauner <christian.brauner@ubuntu.com>,
@@ -65,32 +39,71 @@ Cc:     Karel Zak <kzak@redhat.com>, David Howells <dhowells@redhat.com>,
         Linux API <linux-api@vger.kernel.org>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         lkml <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH 00/17] VFS: Filesystem information and notifications [ver
+ #17]
+Message-ID: <20200303134316.GA2509660@kroah.com>
+References: <107666.1582907766@warthog.procyon.org.uk>
+ <CAJfpegu0qHBZ7iK=R4ajmmHC4g=Yz56otpKMy5w-y0UxJ1zO+Q@mail.gmail.com>
+ <0403cda7345e34c800eec8e2870a1917a8c07e5c.camel@themaw.net>
+ <CAJfpegtu6VqhPdcudu79TX3e=_NZaJ+Md3harBGV7Bg_-+fR8Q@mail.gmail.com>
+ <1509948.1583226773@warthog.procyon.org.uk>
+ <CAJfpegtOwyaWpNfjomRVOt8NKqT94O5n4-LOHTR7YZT9fadVHA@mail.gmail.com>
+ <20200303113814.rsqhljkch6tgorpu@ws.net.home>
+ <20200303130347.GA2302029@kroah.com>
+ <20200303131434.GA2373427@kroah.com>
+ <CAJfpegt0aQVvoDeBXOu2xZh+atZQ+q5uQ_JRxe46E8cZ7sHRwg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJfpegt0aQVvoDeBXOu2xZh+atZQ+q5uQ_JRxe46E8cZ7sHRwg@mail.gmail.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Mar 3, 2020 at 2:14 PM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
-
-> > Unlimited beers for a 21-line kernel patch?  Sign me up!
+On Tue, Mar 03, 2020 at 02:34:42PM +0100, Miklos Szeredi wrote:
+> On Tue, Mar 3, 2020 at 2:14 PM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> 
+> > > Unlimited beers for a 21-line kernel patch?  Sign me up!
+> > >
+> > > Totally untested, barely compiled patch below.
 > >
-> > Totally untested, barely compiled patch below.
->
-> Ok, that didn't even build, let me try this for real now...
+> > Ok, that didn't even build, let me try this for real now...
+> 
+> Some comments on the interface:
 
-Some comments on the interface:
+Ok, hey, let's do this proper :)
 
-O_LARGEFILE can be unconditional, since offsets are not exposed to the caller.
+> O_LARGEFILE can be unconditional, since offsets are not exposed to the caller.
 
-Use the openat2 style arguments; limit the accepted flags to sane ones
-(e.g. don't let this syscall create a file).
+Good point.
 
-If buffer is too small to fit the whole file, return error.
+> Use the openat2 style arguments; limit the accepted flags to sane ones
+> (e.g. don't let this syscall create a file).
 
-Verify that the number of bytes read matches the file size, otherwise
-return error (may need to loop?).
+Yeah, I just added that check to my local version:
+	/* Mask off all O_ flags as we only want to read from the file */
+	flags &= ~(VALID_OPEN_FLAGS);
+	flags |= O_RDONLY | O_LARGEFILE;
 
-Thanks,
-Miklos
+> If buffer is too small to fit the whole file, return error.
+
+Why?  What's wrong with just returning the bytes asked for?  If someone
+only wants 5 bytes from the front of a file, it should be fine to give
+that to them, right?
+
+> Verify that the number of bytes read matches the file size, otherwise
+> return error (may need to loop?).
+
+No, we can't "match file size" as sysfs files do not really have a sane
+"size".  So I don't want to loop at all here, one-shot, that's all you
+get :)
+
+Let me actually do this and try it out for real.
+
+/me has no idea what he is getting himself into...
+
+thanks,
+
+greg k-h
