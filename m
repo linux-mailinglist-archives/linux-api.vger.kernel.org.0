@@ -2,194 +2,210 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 676F8177956
-	for <lists+linux-api@lfdr.de>; Tue,  3 Mar 2020 15:42:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 31CF21779D0
+	for <lists+linux-api@lfdr.de>; Tue,  3 Mar 2020 16:02:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729609AbgCCOky (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 3 Mar 2020 09:40:54 -0500
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:41396 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728933AbgCCOkx (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Mar 2020 09:40:53 -0500
-Received: by mail-ot1-f67.google.com with SMTP id v19so3176637ote.8
-        for <linux-api@vger.kernel.org>; Tue, 03 Mar 2020 06:40:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/mBWi97cRQrHShTl1wrJlc6BFZ2cxgJKMQ2xHrdnm0o=;
-        b=CrqZYCge8xKex30AAOHdpb0X5fD036JnHc2WvUXS0REQgZ4bU3rWlAlHCJ7350y6/q
-         Vlc0QA4cUYJ6GGYyIHxmwoQuxu9rZ3SV7ScZsy460bxcGCTSmhH0znlPJ8ioY1vCqu3f
-         pKvh7iLZb4C7L6aGAl/AmTDdazhseXNLBtvB3zKNBDckQmes2vUe9LmZBay+1fSBICiJ
-         dZ+P5ZDkHh9H7JYdpds2XJ4Wgqbk4fXxUHh5UGbZQ2qy8Oy7jfxZAgQEnrcLsk/vt+IL
-         XqvrpfzAP/USd+K1viA+k9OwkXLq2EwdIKML34OB8ZWksYGLjRuXZvCSjdYu1mOIwtjq
-         4JDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/mBWi97cRQrHShTl1wrJlc6BFZ2cxgJKMQ2xHrdnm0o=;
-        b=R6zhl5F8ELwYI57Nd7Vvhi89sinLzbnok9GvjdMCwiy5oGyDomOZojOkXSkHwKMqaT
-         KGzXBC+azjQ6AeJthuau2DdqEQCYId7otMiYkm4HvfF0AW3VwQ1encw5oxqSifKohW7H
-         k7OH7EnqM8qO66cKjYCqlE3F10lHgz8yHkWzzhq9CUW/wE1whlNhGMOS+DKuyLZIWZrT
-         Blo4C5aD9j7rWV9OwFD1wrFG7LUFEPDnX1bi4xXHXdB7XS4Vv/AhKHDctzn1Betj35Z6
-         yxOLSYVnBl6wou1m3yxLhRXGjs7YN6YqjIgbAkzADmnsHJn/lH9hWo3pjRpfUxA11ZZv
-         AIPg==
-X-Gm-Message-State: ANhLgQ1kSBrqn4Wvc7cZdib/XCl8PuogXxU/kn6UM+9zDeGxGfW5cR9+
-        jdbeW7Be5nO6z/NAZPz/cG8vUK/lrPicXcLfGZJYTw==
-X-Google-Smtp-Source: ADFU+vu2yfaWH2buwSbocuTlemn870P5bOwMPwqx/zPpaBU68d+JJKh9qyzCZC8XdU+TPpl8/WgjPAFlQtdumGuIKqM=
-X-Received: by 2002:a05:6830:1d6e:: with SMTP id l14mr3567202oti.32.1583246452097;
- Tue, 03 Mar 2020 06:40:52 -0800 (PST)
+        id S1729776AbgCCPBs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 3 Mar 2020 10:01:48 -0500
+Received: from merlin.infradead.org ([205.233.59.134]:46138 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728332AbgCCPBs (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Mar 2020 10:01:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=dEEm5ydZwX4Ix5TrfG4K4/6Uwi5ZDgR3cEhVEHmG0EM=; b=w5kJB6v3QP4a9vOynNSJ/uc36B
+        TMLR/u8HzmoT4TqyDcs+mNncsYPC3t6AnwN0tVVEPpgPZ+ExYS0Et5Oe/uwnzO502vlgV8soLRefJ
+        dKj7js6kRaEZOyPnIJMheq8TK1tlelAosnRSIoljdsHf2820OV7c+mAt/BHCgHAVY7JVZAEqUgy1N
+        uuUCaG3lEYa1nhfZKmSUAa/OBI3S4RL3SNRQ0OIZuVHXIMlncmnDKkzJMvnS1sBJa9l/IhOCxAmJg
+        WM8eGWYqWGwqN5ttXgNOfmcunET1Rp2v43/rC4FiN5BP+9t+uG0O6LIARCZaRgRs/jCB3XHhZ2wxB
+        tuSQhDBg==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1j992h-0007q6-Hs; Tue, 03 Mar 2020 15:01:08 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id C82D430110E;
+        Tue,  3 Mar 2020 15:59:06 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id CE38D2007DF2A; Tue,  3 Mar 2020 16:01:04 +0100 (CET)
+Date:   Tue, 3 Mar 2020 16:01:04 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     "Pierre-Loup A. Griffais" <pgriffais@valvesoftware.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@collabora.com>,
+        linux-kernel@vger.kernel.org, kernel@collabora.com,
+        krisman@collabora.com, shuah@kernel.org,
+        linux-kselftest@vger.kernel.org, rostedt@goodmis.org,
+        ryao@gentoo.org, dvhart@infradead.org, mingo@redhat.com,
+        z.figura12@gmail.com, steven@valvesoftware.com,
+        steven@liquorix.net, malteskarupke@web.de, carlos@redhat.com,
+        adhemerval.zanella@linaro.org, libc-alpha@sourceware.org,
+        linux-api@vger.kernel.org
+Subject: Re: 'simple' futex interface [Was: [PATCH v3 1/4] futex: Implement
+ mechanism to wait on any of several futexes]
+Message-ID: <20200303150104.GE2596@hirez.programming.kicks-ass.net>
+References: <20200228190717.GM18400@hirez.programming.kicks-ass.net>
+ <20200228194958.GO14946@hirez.programming.kicks-ass.net>
+ <87tv3aflqm.fsf@nanos.tec.linutronix.de>
+ <967d5047-2cb6-d6d8-6107-edb99a4c9696@valvesoftware.com>
+ <87o8thg031.fsf@nanos.tec.linutronix.de>
+ <beb82055-96fa-cb64-a06e-9d7a0946587b@valvesoftware.com>
+ <20200303120050.GC2596@hirez.programming.kicks-ass.net>
+ <87pndth9ur.fsf@oldenburg2.str.redhat.com>
+ <20200303132150.GD2596@hirez.programming.kicks-ass.net>
+ <878skhh7og.fsf@oldenburg2.str.redhat.com>
 MIME-Version: 1.0
-References: <0403cda7345e34c800eec8e2870a1917a8c07e5c.camel@themaw.net>
- <CAJfpegtu6VqhPdcudu79TX3e=_NZaJ+Md3harBGV7Bg_-+fR8Q@mail.gmail.com>
- <1509948.1583226773@warthog.procyon.org.uk> <CAJfpegtOwyaWpNfjomRVOt8NKqT94O5n4-LOHTR7YZT9fadVHA@mail.gmail.com>
- <20200303113814.rsqhljkch6tgorpu@ws.net.home> <20200303130347.GA2302029@kroah.com>
- <20200303131434.GA2373427@kroah.com> <CAJfpegt0aQVvoDeBXOu2xZh+atZQ+q5uQ_JRxe46E8cZ7sHRwg@mail.gmail.com>
- <20200303134316.GA2509660@kroah.com> <CAJfpegtFyZqSRzo3uuXp1S2_jJJ29DL=xAwKjpEGvyG7=AzabA@mail.gmail.com>
- <20200303142958.GB47158@kroah.com>
-In-Reply-To: <20200303142958.GB47158@kroah.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Tue, 3 Mar 2020 15:40:24 +0100
-Message-ID: <CAG48ez1sdUJzp85oqBw8vCpc3E4Sb26M9pj2zHhnKpb-1+f4vg@mail.gmail.com>
-Subject: Re: [PATCH 00/17] VFS: Filesystem information and notifications [ver #17]
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Miklos Szeredi <miklos@szeredi.hu>, Karel Zak <kzak@redhat.com>,
-        David Howells <dhowells@redhat.com>,
-        Ian Kent <raven@themaw.net>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        James Bottomley <James.Bottomley@hansenpartnership.com>,
-        Steven Whitehouse <swhiteho@redhat.com>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <christian@brauner.io>,
-        "Darrick J. Wong" <darrick.wong@oracle.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <878skhh7og.fsf@oldenburg2.str.redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Mar 3, 2020 at 3:30 PM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
-> On Tue, Mar 03, 2020 at 03:10:50PM +0100, Miklos Szeredi wrote:
-> > On Tue, Mar 3, 2020 at 2:43 PM Greg Kroah-Hartman
-> > <gregkh@linuxfoundation.org> wrote:
-> > >
-> > > On Tue, Mar 03, 2020 at 02:34:42PM +0100, Miklos Szeredi wrote:
+On Tue, Mar 03, 2020 at 02:47:11PM +0100, Florian Weimer wrote:
+> (added missing Cc: for linux-api, better late than never I guess)
+> 
+> * Peter Zijlstra:
+> 
+> >> What's the actual type of *uaddr?  Does it vary by size (which I assume
+> >> is in bits?)?  Are there alignment constraints?
 > >
-> > > > If buffer is too small to fit the whole file, return error.
-> > >
-> > > Why?  What's wrong with just returning the bytes asked for?  If someone
-> > > only wants 5 bytes from the front of a file, it should be fine to give
-> > > that to them, right?
+> > Yeah, u8, u16, u32, u64 depending on the size specified in flags.
+> > Naturally aligned.
+> 
+> So 4-byte alignment for u32 and 8-byte alignment for u64 on all
+> architectures?
+> 
+> (I really want to nail this down, sorry.)
+
+Exactly so.
+
+> >> These system calls seemed to be type-polymorphic still, which is
+> >> problematic for defining a really nice C interface.  I would really like
+> >> to have a strongly typed interface for this, with a nice struct futex
+> >> wrapper type (even if it means that we need four of them).
 > >
-> > I think we need to signal in some way to the caller that the result
-> > was truncated (see readlink(2), getxattr(2), getcwd(2)), otherwise the
-> > caller might be surprised.
->
-> But that's not the way a "normal" read works.  Short reads are fine, if
-> the file isn't big enough.  That's how char device nodes work all the
-> time as well, and this kind of is like that, or some kind of "stream" to
-> read from.
->
-> If you think the file is bigger, then you, as the caller, can just pass
-> in a bigger buffer if you want to (i.e. you can stat the thing and
-> determine the size beforehand.)
->
-> Think of the "normal" use case here, a sysfs read with a PAGE_SIZE
-> buffer.  That way userspace "knows" it will always read all of the data
-> it can from the file, we don't have to do any seeking or determining
-> real file size, or anything else like that.
->
-> We return the number of bytes read as well, so we "know" if we did a
-> short read, and also, you could imply, if the number of bytes read are
-> the exact same as the number of bytes of the buffer, maybe the file is
-> either that exact size, or bigger.
->
-> This should be "simple", let's not make it complex if we can help it :)
->
-> > > > Verify that the number of bytes read matches the file size, otherwise
-> > > > return error (may need to loop?).
-> > >
-> > > No, we can't "match file size" as sysfs files do not really have a sane
-> > > "size".  So I don't want to loop at all here, one-shot, that's all you
-> > > get :)
+> > You mean like: futex_wait1(u8 *,...) futex_wait2(u16 *,...)
+> > futex_wait4(u32 *,...) etc.. ?
 > >
-> > Hmm.  I understand the no-size thing.  But looping until EOF (i.e.
-> > until read return zero) might be a good idea regardless, because short
-> > reads are allowed.
->
-> If you want to loop, then do a userspace open/read-loop/close cycle.
-> That's not what this syscall should be for.
->
-> Should we call it: readfile-only-one-try-i-hope-my-buffer-is-big-enough()?  :)
+> > I suppose making it 16 or so syscalls (more if we want WAKE_OP or
+> > requeue across size) is a bit daft, so yeah, sucks.
+> 
+> We could abstract this in the userspace wrapper.  It would help to have
+> an explicit size argument, or at least an extension-safe way to pass
+> this information to the kernel.  I guess if everything else fails, we
+> could use the flags bits for that, as long as it is clear that the
+> interface will only support these six types (four without NUMA, two with
+> NUMA).
 
-So how is this supposed to work in e.g. the following case?
+The problem is the cmp_requeue syscall, that already has 6 arguments. I
+don't see where else than the flags field we can stuff this :/
 
-========================================
-$ cat map_lots_and_read_maps.c
-#include <sys/mman.h>
-#include <fcntl.h>
-#include <unistd.h>
+> >> Will all architectures support all sizes?  If not, how do we probe which
+> >> size/flags combinations are supported?
+> >
+> > Up to the native word size (long), IOW ILP32 will not support u64.
+> 
+> Many ILP32 targets could support atomic accesses on 8-byte storage
+> units, as long as there is 8-byte alignment.  But given how common
+> 4-byte-align u64 is on 32-bit, maybe that's not such a good idea.
 
-int main(void) {
-  for (int i=0; i<1000; i++) {
-    mmap(NULL, 0x1000, (i&1)?PROT_READ:PROT_NONE,
-MAP_PRIVATE|MAP_ANONYMOUS, -1, 0);
-  }
-  int maps = open("/proc/self/maps", O_RDONLY);
-  static char buf[0x100000];
-  int res;
-  do {
-    res = read(maps, buf, sizeof(buf));
-  } while (res > 0);
-}
-$ gcc -o map_lots_and_read_maps map_lots_and_read_maps.c
-$ strace -e trace='!mmap' ./map_lots_and_read_maps
-execve("./map_lots_and_read_maps", ["./map_lots_and_read_maps"],
-0x7ffebd297ac0 /* 51 vars */) = 0
-brk(NULL)                               = 0x563a1184f000
-access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (No such file or directory)
-openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
-fstat(3, {st_mode=S_IFREG|0644, st_size=208479, ...}) = 0
-close(3)                                = 0
-openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
-read(3, "\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\320l\2\0\0\0\0\0"...,
-832) = 832
-fstat(3, {st_mode=S_IFREG|0755, st_size=1820104, ...}) = 0
-mprotect(0x7fb5c2d1a000, 1642496, PROT_NONE) = 0
-close(3)                                = 0
-arch_prctl(ARCH_SET_FS, 0x7fb5c2eb6500) = 0
-mprotect(0x7fb5c2eab000, 12288, PROT_READ) = 0
-mprotect(0x563a103e4000, 4096, PROT_READ) = 0
-mprotect(0x7fb5c2f12000, 4096, PROT_READ) = 0
-munmap(0x7fb5c2eb7000, 208479)          = 0
-openat(AT_FDCWD, "/proc/self/maps", O_RDONLY) = 3
-read(3, "563a103e1000-563a103e2000 r--p 0"..., 1048576) = 4075
-read(3, "7fb5c2985000-7fb5c2986000 ---p 0"..., 1048576) = 4067
-read(3, "7fb5c29d8000-7fb5c29d9000 r--p 0"..., 1048576) = 4067
-read(3, "7fb5c2a2b000-7fb5c2a2c000 ---p 0"..., 1048576) = 4067
-read(3, "7fb5c2a7e000-7fb5c2a7f000 r--p 0"..., 1048576) = 4067
-read(3, "7fb5c2ad1000-7fb5c2ad2000 ---p 0"..., 1048576) = 4067
-read(3, "7fb5c2b24000-7fb5c2b25000 r--p 0"..., 1048576) = 4067
-read(3, "7fb5c2b77000-7fb5c2b78000 ---p 0"..., 1048576) = 4067
-read(3, "7fb5c2bca000-7fb5c2bcb000 r--p 0"..., 1048576) = 4067
-read(3, "7fb5c2c1d000-7fb5c2c1e000 ---p 0"..., 1048576) = 4067
-read(3, "7fb5c2c70000-7fb5c2c71000 r--p 0"..., 1048576) = 4067
-read(3, "7fb5c2cc3000-7fb5c2cc4000 ---p 0"..., 1048576) = 4078
-read(3, "7fb5c2eca000-7fb5c2ecb000 r--p 0"..., 1048576) = 2388
-read(3, "", 1048576)                    = 0
-exit_group(0)                           = ?
-+++ exited with 0 +++
-$
-========================================
+'Many' might be over-stating it, but yeah, there are definitely a bunch
+of them that can do it (x86, armv7-lpae, arc, are the ones I know from
+memory). The problem is that the syscalls then look like:
 
-The kernel is randomly returning short reads *with different lengths*
-that are vaguely around PAGE_SIZE, no matter how big the buffer
-supplied by userspace is. And while repeated read() calls will return
-consistent state thanks to the seqfile magic, repeated readfile()
-calls will probably return garbage with half-complete lines.
+  sys_futex_wait(void *uaddr, u64 val, unsigned long flags, ktime_t *timo);
+  struct futex_wait {
+	  void *uaddr;
+	  u64 val;
+	  u64 flags;
+  };
+  sys_futex_waitv(struct futex_wait *waiters, unsigned int nr_waiters,
+		  u64 flags, ktime_t *timo);
+  sys_futex_wake(void *uaddr, unsigned int nr, u64 flags);
+  sys_futex_cmp_requeue(void *uaddr1, void *uaddr2, unsigned int nr_wake,
+		  unsigned int nr_requeue, u64 cmpval, unsigned long flags);
+
+And that makes 7 arguments for cmp_requeue, which can't be. Maybe we if
+combine nr_wake and nr_requeue in one as 2 u16... ?
+
+And then we need to go detector if the platform supports it or not..
+
+> >> > For NUMA I propose that when NUMA_FLAG is set, uaddr-4 will be 'int
+> >> > node_id', with the following semantics:
+> >> >
+> >> >  - on WAIT, node_id is read and when 0 <= node_id <= nr_nodes, is
+> >> >    directly used to index into per-node hash-tables. When -1, it is
+> >> >    replaced by the current node_id and an smp_mb() is issued before we
+> >> >    load and compare the @uaddr.
+> >> >
+> >> >  - on WAKE/REQUEUE, it is an immediate index.
+> >> 
+> >> Does this mean the first waiter determines the NUMA index, and all
+> >> future waiters use the same chain even if they are on different nodes?
+> >
+> > Every new waiter could (re)set node_id, after all, when its not actually
+> > waiting, nobody cares what's in that field.
+> >
+> >> I think documenting this as a node index would be a mistake.  It could
+> >> be an arbitrary hint for locating the corresponding kernel data
+> >> structures.
+> >
+> > Nah, it allows explicit placement, after all, we have set_mempolicy()
+> > and sched_setaffinity() and all the other NUMA crud so that programs
+> > that think they know what they're doing, can do explicit placement.
+> 
+> But I'm not sure if it makes sense to read the node ID from the
+> neighboring value of a futex used in this way.  Or do you think that
+> userspace might set the node ID to help the kernel implementation, and
+> not just relying on it to be set by the kernel after initializing it to
+> -1?
+
+I'm fairly sure that there will be a number of users that will
+definitely want to do that; this would be the same people that use
+set_mempolicy() and sched_setaffinity() and do all the other numa
+binding crud.
+
+HPC, certain database vendors, possibly RT and KVM users.
+
+> Conversely, even for non-NUMA systems, a lookup hint that allows to
+> reduce in-kernel futex contention might be helpful.  If it's documented
+> to be the NUME node ID, that wouldn't be possible.
+
+Do we really have significant contention on small systems? And how would
+increasing the hash-table not solve that?
+
+> >> > Any invalid value with result in EINVAL.
+> >> 
+> >> Using uaddr-4 is slightly tricky with a 64-bit futex value, due to the
+> >> need to maintain alignment and avoid padding.
+> >
+> > Yes, but it works, unlike uaddr+4 :-) Also, 1 and 2 byte futexes and
+> > NUMA_FLAG are incompatible due to this, but I feel short futexes and
+> > NUMA don't really make sense anyway, the only reason to use a short
+> > futex is to save space, so you don't want another 4 bytes for numa on
+> > top of that anyway.
+> 
+> I think it would be much easier to make the NUMA hint the same size of
+> the futex, so 4 and 8 bytes.  It could also make sense to require 8 and
+> 16 byte alignment, to permit different implementation choices in the
+> future.
+> 
+> So we'd have:
+> 
+> struct futex8  { u8 value; };
+> struct futex16 { u16 value __attribute__ ((aligned (2))); };
+> struct futex32 { u32 value __attribute__ ((aligned (4))); };
+> struct futex64 { u64 value __attribute__ ((aligned (8))); };
+> struct futex32_numa { u32 value __attribute__ ((aligned (8))); u32 hint; };
+> struct futex64_numa { u64 value __attribute__ ((aligned (16))); u64 hint; };
+
+That works, I suppose... although I'm sure someone will curse us for it
+when trying to pack some extra things in his cacheline.
+
