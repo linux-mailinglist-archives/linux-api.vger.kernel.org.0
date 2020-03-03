@@ -2,49 +2,49 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C7C061782CF
-	for <lists+linux-api@lfdr.de>; Tue,  3 Mar 2020 20:07:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BE9D417830F
+	for <lists+linux-api@lfdr.de>; Tue,  3 Mar 2020 20:23:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730379AbgCCTHl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 3 Mar 2020 14:07:41 -0500
-Received: from mail-il1-f194.google.com ([209.85.166.194]:44336 "EHLO
-        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729484AbgCCTHl (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Mar 2020 14:07:41 -0500
-Received: by mail-il1-f194.google.com with SMTP id x7so3737301ilq.11
-        for <linux-api@vger.kernel.org>; Tue, 03 Mar 2020 11:07:41 -0800 (PST)
+        id S1728033AbgCCTXT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 3 Mar 2020 14:23:19 -0500
+Received: from mail-il1-f195.google.com ([209.85.166.195]:43272 "EHLO
+        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729825AbgCCTXT (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Mar 2020 14:23:19 -0500
+Received: by mail-il1-f195.google.com with SMTP id o18so3790346ilg.10
+        for <linux-api@vger.kernel.org>; Tue, 03 Mar 2020 11:23:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=kernel-dk.20150623.gappssmtp.com; s=20150623;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=zXPZ9A67qwmOg7igLgXKoR5AdobcYJckvv+S7pUuvQY=;
-        b=RVsmivnszCvULa3sdd8ZiSiDR7on5w6WX87+33rE5AEVBNk6MRJYP3fph1RK0dq+3I
-         PVYA/XQHyd3jA2zktgFe/M7Qbb9zXtDddA2swswtnomhrCjOq1d8+gEwvnEPYDJRJ8Hy
-         8JAFgDr6sr5vVhYetEB6vikYsVX0y6X8imD4xpPqEEwM385D86VL2YFIrkdROv3op8EI
-         RqLYvEXKZ5EdLAqOCJMvPwKWvxqm+EHR8AN9xZ4V9RbQ5lXzgOPH/ZZupOsi6NUuxu6R
-         R9EXa1SrOzS+QluyNBtjXUjtrkegqlVnnacCTudR/qKi8MBDZ6BVjtCMR61tFgIG1n3/
-         iXig==
+        bh=KiZbLVn4oUdQq37v8gihe8HTdDkjhp2c0YGGCKWw9Xs=;
+        b=cUtFbLLAYh6gx9tm2hX9XXTHNvQbYYtQzHRgoECvT1iNpNhnaqHdzCG/CIyEeLM4gL
+         Z1ePPKxytHV6jrshCuDSCg/F/Y3EhjB789IMGMhvLY5BjMF12XYa9P1fenpGS3wnUpiq
+         2ub+HBTb161Oel2xhswKj/mAZyHisH25WZK9vbaxjY6LTd9Hw0LO3CFy6e1A4xK6Rp8h
+         B5RYOBiOga3ZtJu6UFkd/mh/wq7qjfsVdp483vXbAO26p9+WfSM398uJZlbzilANoMKh
+         Fc8hK9CXNYQpui0/BpLv6RVXEYpV8KRigcO4x7aUkA1YZ0R/2aAWKkiiGy9dpnCH8Mco
+         ACqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=zXPZ9A67qwmOg7igLgXKoR5AdobcYJckvv+S7pUuvQY=;
-        b=sZwX3vz9qMRhNa21m//3x7lA5W1O2RPCnp6Ldio1W/wl1LMg/GPGkWr3BPiNZeCJVe
-         oZ91tvTN5zPxHG45F85gA2PWtiujwc8nUMGNneCb1Mb3F9Cm3WNtkY2Coftg1+zpTuoQ
-         0hzV8j57t15K3ZScCMgmY2C2dSfpYqH0x7U2uD5q/bGS1A0irm0WYkZ5xTVQRjzxhpx9
-         jKPmkSI+AiIf2XHYNT1c6d7EWJcYrj/0Cg6AWDqQPfIr8vu+P5SA2MSs1n5/h9K0r0aQ
-         EOhMLqzlUn88JgKugzRNJWcJxFaWfcM45BTNQ+cVoH2BAVZoQh8xqSq9w5YQTA9baka8
-         X/5g==
-X-Gm-Message-State: ANhLgQ1735a0yyZnklvO9TcmaexFIPLz/9hr+NTJirAwE5hg/KTiGCyE
-        lQC8J5gCjq6X3fFUsa4vwRfYQw==
-X-Google-Smtp-Source: ADFU+vuQjHxyW/mK7WjwkVP659P3n5h/bmVjdQMY9rkFbwUjk2zxIIY5IPzahRooNGOex1K/NE8Z9g==
-X-Received: by 2002:a92:7e9d:: with SMTP id q29mr6105954ill.29.1583262460436;
-        Tue, 03 Mar 2020 11:07:40 -0800 (PST)
+        bh=KiZbLVn4oUdQq37v8gihe8HTdDkjhp2c0YGGCKWw9Xs=;
+        b=S3h7JcGeooJ3CseTOi/erUl6QsrYQxttUXC15Oj7oshLM88kA1ONwvdElOY3X7i75w
+         LGa1lyesfrvVie2YfLJIuMkJW6WN7KEUBiaajXZRVV08u2IRzCxAK6GQCOPW5aZomyI0
+         Vou7NLq+YDesfmPATR+xuVZXmZnFaSHUMf/waRAGC+Ga2iSaw9AOPnFwvTFlll4wRi9H
+         gaT3BXglI66kdGOs2y/b4tCXtZ9GAxj9Qv5JqoeDInskM5yaXCwm/mmoRfKtiIWG4IOx
+         ICuwDft20U8Fp/1HYyvba4Wmgpsk+A9TVGFjrH1BGo5IJotc9dw034/YKZsg51eTGptm
+         skYA==
+X-Gm-Message-State: ANhLgQ2v6rEizxRL+JXlewxc941koqqWfOuKxKaii3g4CC0dH1nk/F/L
+        FAFoNf/Q410JSQNhnB9SOSVJ4w==
+X-Google-Smtp-Source: ADFU+vsGYrEKxsUpTqs5b+dGZi3gm2OTFxMN1tCOScyWlCXapZO1C3KKgpKNsVOR0wDn9xAFuJJT4A==
+X-Received: by 2002:a92:9507:: with SMTP id y7mr1729545ilh.243.1583263398611;
+        Tue, 03 Mar 2020 11:23:18 -0800 (PST)
 Received: from [192.168.1.159] ([65.144.74.34])
-        by smtp.gmail.com with ESMTPSA id j78sm5446799ili.37.2020.03.03.11.07.38
+        by smtp.gmail.com with ESMTPSA id f72sm8161736ilg.84.2020.03.03.11.23.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Mar 2020 11:07:39 -0800 (PST)
+        Tue, 03 Mar 2020 11:23:18 -0800 (PST)
 Subject: Re: [PATCH 00/17] VFS: Filesystem information and notifications [ver
  #17]
 To:     Jeff Layton <jlayton@kernel.org>,
@@ -77,8 +77,8 @@ References: <CAJfpegtu6VqhPdcudu79TX3e=_NZaJ+Md3harBGV7Bg_-+fR8Q@mail.gmail.com>
  <7a05adc8-1ca9-c900-7b24-305f1b3a9b86@kernel.dk>
  <dbb06c63c17c23fcacdd99e8b2266804ee39ffe5.camel@kernel.org>
 From:   Jens Axboe <axboe@kernel.dk>
-Message-ID: <5394c5c4-aeb8-97d5-8347-e763a1abd9ed@kernel.dk>
-Date:   Tue, 3 Mar 2020 12:07:38 -0700
+Message-ID: <dc84aa00-e570-8833-cf9f-d1001c52dd7a@kernel.dk>
+Date:   Tue, 3 Mar 2020 12:23:16 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
@@ -92,126 +92,15 @@ List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 On 3/3/20 12:02 PM, Jeff Layton wrote:
-> On Tue, 2020-03-03 at 09:55 -0700, Jens Axboe wrote:
->> On 3/3/20 9:51 AM, Jeff Layton wrote:
->>> On Tue, 2020-03-03 at 08:44 -0700, Jens Axboe wrote:
->>>> On 3/3/20 7:24 AM, Greg Kroah-Hartman wrote:
->>>>> On Tue, Mar 03, 2020 at 03:13:26PM +0100, Jann Horn wrote:
->>>>>> On Tue, Mar 3, 2020 at 3:10 PM Greg Kroah-Hartman
->>>>>> <gregkh@linuxfoundation.org> wrote:
->>>>>>> On Tue, Mar 03, 2020 at 02:43:16PM +0100, Greg Kroah-Hartman wrote:
->>>>>>>> On Tue, Mar 03, 2020 at 02:34:42PM +0100, Miklos Szeredi wrote:
->>>>>>>>> On Tue, Mar 3, 2020 at 2:14 PM Greg Kroah-Hartman
->>>>>>>>> <gregkh@linuxfoundation.org> wrote:
->>>>>>>>>
->>>>>>>>>>> Unlimited beers for a 21-line kernel patch?  Sign me up!
->>>>>>>>>>>
->>>>>>>>>>> Totally untested, barely compiled patch below.
->>>>>>>>>>
->>>>>>>>>> Ok, that didn't even build, let me try this for real now...
->>>>>>>>>
->>>>>>>>> Some comments on the interface:
->>>>>>>>
->>>>>>>> Ok, hey, let's do this proper :)
->>>>>>>
->>>>>>> Alright, how about this patch.
->>>>>>>
->>>>>>> Actually tested with some simple sysfs files.
->>>>>>>
->>>>>>> If people don't strongly object, I'll add "real" tests to it, hook it up
->>>>>>> to all arches, write a manpage, and all the fun fluff a new syscall
->>>>>>> deserves and submit it "for real".
->>>>>>
->>>>>> Just FYI, io_uring is moving towards the same kind of thing... IIRC
->>>>>> you can already use it to batch a bunch of open() calls, then batch a
->>>>>> bunch of read() calls on all the new fds and close them at the same
->>>>>> time. And I think they're planning to add support for doing
->>>>>> open()+read()+close() all in one go, too, except that it's a bit
->>>>>> complicated because passing forward the file descriptor in a generic
->>>>>> way is a bit complicated.
->>>>>
->>>>> It is complicated, I wouldn't recommend using io_ring for reading a
->>>>> bunch of procfs or sysfs files, that feels like a ton of overkill with
->>>>> too much setup/teardown to make it worth while.
->>>>>
->>>>> But maybe not, will have to watch and see how it goes.
->>>>
->>>> It really isn't, and I too thinks it makes more sense than having a
->>>> system call just for the explicit purpose of open/read/close. As Jann
->>>> said, you can't currently do a linked sequence of open/read/close,
->>>> because the fd passing between them isn't done. But that will come in
->>>> the future. If the use case is "a bunch of files", then you could
->>>> trivially do "open bunch", "read bunch", "close bunch" in three separate
->>>> steps.
->>>>
->>>> Curious what the use case is for this that warrants a special system
->>>> call?
->>>>
->>>
->>> Agreed. I'd really rather see something more general-purpose than the
->>> proposed readfile(). At least with NFS and SMB, you can compound
->>> together fairly arbitrary sorts of operations, and it'd be nice to be
->>> able to pattern calls into the kernel for those sorts of uses.
->>>
->>> So, NFSv4 has the concept of a current_stateid that is maintained by the
->>> server. So basically you can do all this (e.g.) in a single compound:
->>>
->>> open <some filehandle get a stateid>
->>> write <using that stateid>
->>> close <same stateid>
->>>
->>> It'd be nice to be able to do something similar with io_uring. Make it
->>> so that when you do an open, you set the "current fd" inside the
->>> kernel's context, and then be able to issue io_uring requests that
->>> specify a magic "fd" value that use it.
->>>
->>> That would be a really useful pattern.
->>
->> For io_uring, you can link requests that you submit into a chain. Each
->> link in the chain is done in sequence. Which means that you could do:
->>
->> <open some file><read from that file><close that file>
->>
->> in a single sequence. The only thing that is missing right now is a way
->> to have the return of that open propagated to the 'fd' of the read and
->> close, and it's actually one of the topics to discuss at LSFMM next
->> month.
->>
->> One approach would be to use BPF to handle this passing, another
->> suggestion has been to have the read/close specify some magic 'fd' value
->> that just means "inherit fd from result of previous". The latter sounds
->> very close to the stateid you mention above, and the upside here is that
->> it wouldn't explode the necessary toolchain to need to include BPF.
->>
->> In other words, this is really close to being reality and practically
->> feasible.
->>
-> 
-> Excellent.
-> 
-> Yes, the latter is exactly what I had in mind for this. I suspect that
-> that would cover a large fraction of the potential use-cases for this.
-> 
 > Basically, all you'd need to do is keep a pointer to struct file in the
 > internal state for the chain. Then, allow userland to specify some magic
 > fd value for subsequent chained operations that says to use that instead
 > of consulting the fdtable. Maybe use -4096 (-MAX_ERRNO - 1)?
 
-Yeah I think that'd be a suitable way to signal that.
-
-> That would cover the smb or nfs server sort of use cases, I think. For
-> the sysfs cases, I guess you'd need to dispatch several chains, but that
-> doesn't sound _too_ onerous.
-
-The magic fd would be per-chain, so doing multiple chains wouldn't
-really matter at all.
-
-Let me try and hack this up, should be pretty trivial.
-
-> In fact, with that you should even be able to emulate the proposed
-> readlink syscall in a userland library.
-
-Exactly
+BTW, I think we need two magics here. One that says "result from
+previous is fd for next", and one that says "fd from previous is fd for
+next". The former allows inheritance from open -> read, the latter from
+read -> write.
 
 -- 
 Jens Axboe
