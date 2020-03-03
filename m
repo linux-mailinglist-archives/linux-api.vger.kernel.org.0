@@ -2,26 +2,61 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AF379177419
-	for <lists+linux-api@lfdr.de>; Tue,  3 Mar 2020 11:26:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8442B17743A
+	for <lists+linux-api@lfdr.de>; Tue,  3 Mar 2020 11:32:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728574AbgCCKZw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 3 Mar 2020 05:25:52 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:37483 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728473AbgCCKZw (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Mar 2020 05:25:52 -0500
-Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1j94k9-00048f-UU; Tue, 03 Mar 2020 10:25:42 +0000
-Date:   Tue, 3 Mar 2020 11:25:41 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Miklos Szeredi <miklos@szeredi.hu>
+        id S1728693AbgCCKcp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 3 Mar 2020 05:32:45 -0500
+Received: from mail-il1-f194.google.com ([209.85.166.194]:41772 "EHLO
+        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728372AbgCCKcp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Mar 2020 05:32:45 -0500
+Received: by mail-il1-f194.google.com with SMTP id q13so2298383ile.8
+        for <linux-api@vger.kernel.org>; Tue, 03 Mar 2020 02:32:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4OjMBCp185rGeJiYNbICf2InVl2PDcWD4SEMMWbNn20=;
+        b=EgBq0A2ueanm2MvysZvBDL8USSRx6pTzWx2f04bJ4DFxzma7xFHZNG2+Rg4SZkgd+O
+         K26n1FQBeiKe8uXeeDPX7xyIybxQZzyZVVzfse2xhJ/Cz1Oj1bDVo17iaVLZVj0WRG8s
+         nQx5gnQ9btpq29VS2/nKW+UhtVD3Ik2avMa90=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4OjMBCp185rGeJiYNbICf2InVl2PDcWD4SEMMWbNn20=;
+        b=gWv0omzrArqOlfrY7UanMA4QZLIWr5x33DFbispRTTZJPOcbCIn+tv2fRWfHPXsuXh
+         jqxd1YNPDAcP+z6rHK9m6+rE+QoU2q+67/lD2KUOgqhf2bx2YKngRrt5oOQO+TlHwtC4
+         1DmVGMoDECh7V7DwJN1TK9sixgDUKPxKjPilxMnM8YJVTIVO/wE/9Vm87EOigd6Uwmg2
+         ojXX5HUxtdVgfUis3hiybcTwh3yvW0oxl3rVbnTqfe7IOB9sBncYG7nSwdtHEY1Tgca9
+         Z9ww/251Mbesb4f3Ai2iVND8czyNXVssL93Y1oUGHtiJa0ptQGUf9/hpJ8RNaEJIVyOm
+         pc0g==
+X-Gm-Message-State: ANhLgQ1exOVk3qfeXZ7PYCCsuVdu043yUj0LmRh3k/hQs0kUQ2+3J7s+
+        EcXV4xY3i+VsxTFhd78tYiVvKBrVoFwrdpzBifTpuQ==
+X-Google-Smtp-Source: ADFU+vtBUu4UN/503DlgMuAkB/+JNw29l5C01S+SzUIIjaQZb5bNvIbrd2zfhpo/xTL/HkTPnrVFO0z7X5d23lRKXyY=
+X-Received: by 2002:a92:89cb:: with SMTP id w72mr3979428ilk.252.1583231564670;
+ Tue, 03 Mar 2020 02:32:44 -0800 (PST)
+MIME-Version: 1.0
+References: <158230810644.2185128.16726948836367716086.stgit@warthog.procyon.org.uk>
+ <1582316494.3376.45.camel@HansenPartnership.com> <CAOssrKehjnTwbc6A1VagM5hG_32hy3mXZenx_PdGgcUGxYOaLQ@mail.gmail.com>
+ <1582556135.3384.4.camel@HansenPartnership.com> <CAJfpegsk6BsVhUgHNwJgZrqcNP66wS0fhCXo_2sLt__goYGPWg@mail.gmail.com>
+ <a657a80e-8913-d1f3-0ffe-d582f5cb9aa2@redhat.com> <1582644535.3361.8.camel@HansenPartnership.com>
+ <20200228155244.k4h4hz3dqhl7q7ks@wittgenstein> <107666.1582907766@warthog.procyon.org.uk>
+ <CAJfpegu0qHBZ7iK=R4ajmmHC4g=Yz56otpKMy5w-y0UxJ1zO+Q@mail.gmail.com>
+ <0403cda7345e34c800eec8e2870a1917a8c07e5c.camel@themaw.net>
+ <CAJfpegtu6VqhPdcudu79TX3e=_NZaJ+Md3harBGV7Bg_-+fR8Q@mail.gmail.com>
+ <1509948.1583226773@warthog.procyon.org.uk> <CAJfpegtOwyaWpNfjomRVOt8NKqT94O5n4-LOHTR7YZT9fadVHA@mail.gmail.com>
+ <CAJfpegtemv64mpmTRT6ViHmsWq4nNE4KQvuHkNCYozRU7dQd8Q@mail.gmail.com> <06d2dbf0-4580-3812-bb14-34c6aa615747@redhat.com>
+In-Reply-To: <06d2dbf0-4580-3812-bb14-34c6aa615747@redhat.com>
+From:   Miklos Szeredi <miklos@szeredi.hu>
+Date:   Tue, 3 Mar 2020 11:32:33 +0100
+Message-ID: <CAJfpegsW5S3dRhhfGyAnhLEDjBxMQRBda5fsnXQ+=S=4YR0MCA@mail.gmail.com>
+Subject: Re: [PATCH 00/17] VFS: Filesystem information and notifications [ver #17]
+To:     Steven Whitehouse <swhiteho@redhat.com>
 Cc:     David Howells <dhowells@redhat.com>, Ian Kent <raven@themaw.net>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
         James Bottomley <James.Bottomley@hansenpartnership.com>,
-        Steven Whitehouse <swhiteho@redhat.com>,
         Miklos Szeredi <mszeredi@redhat.com>,
         viro <viro@zeniv.linux.org.uk>,
         Christian Brauner <christian@brauner.io>,
@@ -31,112 +66,57 @@ Cc:     David Howells <dhowells@redhat.com>, Ian Kent <raven@themaw.net>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         lkml <linux-kernel@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH 00/17] VFS: Filesystem information and notifications [ver
- #17]
-Message-ID: <20200303102541.diud7za3vvjvqco4@wittgenstein>
-References: <1582644535.3361.8.camel@HansenPartnership.com>
- <20200228155244.k4h4hz3dqhl7q7ks@wittgenstein>
- <107666.1582907766@warthog.procyon.org.uk>
- <CAJfpegu0qHBZ7iK=R4ajmmHC4g=Yz56otpKMy5w-y0UxJ1zO+Q@mail.gmail.com>
- <0403cda7345e34c800eec8e2870a1917a8c07e5c.camel@themaw.net>
- <CAJfpegtu6VqhPdcudu79TX3e=_NZaJ+Md3harBGV7Bg_-+fR8Q@mail.gmail.com>
- <1509948.1583226773@warthog.procyon.org.uk>
- <CAJfpegtOwyaWpNfjomRVOt8NKqT94O5n4-LOHTR7YZT9fadVHA@mail.gmail.com>
- <20200303100045.zqntjjjv6npvs5zl@wittgenstein>
- <CAJfpegu_O=wQsewDWdM39dhkrEoMPG4ZBkTQOsWTgFnYmvrLeA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAJfpegu_O=wQsewDWdM39dhkrEoMPG4ZBkTQOsWTgFnYmvrLeA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Mar 03, 2020 at 11:13:50AM +0100, Miklos Szeredi wrote:
-> On Tue, Mar 3, 2020 at 11:00 AM Christian Brauner
-> <christian.brauner@ubuntu.com> wrote:
+On Tue, Mar 3, 2020 at 11:22 AM Steven Whitehouse <swhiteho@redhat.com> wrote:
+>
+> Hi,
+>
+> On 03/03/2020 09:48, Miklos Szeredi wrote:
+> > On Tue, Mar 3, 2020 at 10:26 AM Miklos Szeredi <miklos@szeredi.hu> wrote:
+> >> On Tue, Mar 3, 2020 at 10:13 AM David Howells <dhowells@redhat.com> wrote:
+> >>> Miklos Szeredi <miklos@szeredi.hu> wrote:
+> >>>
+> >>>> I'm doing a patch.   Let's see how it fares in the face of all these
+> >>>> preconceptions.
+> >>> Don't forget the efficiency criterion.  One reason for going with fsinfo(2) is
+> >>> that scanning /proc/mounts when there are a lot of mounts in the system is
+> >>> slow (not to mention the global lock that is held during the read).
+> > BTW, I do feel that there's room for improvement in userspace code as
+> > well.  Even quite big mount table could be scanned for *changes* very
+> > efficiently.  l.e. cache previous contents of /proc/self/mountinfo and
+> > compare with new contents, line-by-line.  Only need to parse the
+> > changed/added/removed lines.
 > >
-> > On Tue, Mar 03, 2020 at 10:26:21AM +0100, Miklos Szeredi wrote:
-> > > On Tue, Mar 3, 2020 at 10:13 AM David Howells <dhowells@redhat.com> wrote:
-> > > >
-> > > > Miklos Szeredi <miklos@szeredi.hu> wrote:
-> > > >
-> > > > > I'm doing a patch.   Let's see how it fares in the face of all these
-> > > > > preconceptions.
-> > > >
-> > > > Don't forget the efficiency criterion.  One reason for going with fsinfo(2) is
-> > > > that scanning /proc/mounts when there are a lot of mounts in the system is
-> > > > slow (not to mention the global lock that is held during the read).
-> > > >
-> > > > Now, going with sysfs files on top of procfs links might avoid the global
-> > > > lock, and you can avoid rereading the options string if you export a change
-> > > > notification, but you're going to end up injecting a whole lot of pathwalk
-> > > > latency into the system.
-> > >
-> > > Completely irrelevant.  Cached lookup is so much optimized, that you
-> > > won't be able to see any of it.
-> > >
-> > > No, I don't think this is going to be a performance issue at all, but
-> > > if anything we could introduce a syscall
-> > >
-> > >   ssize_t readfile(int dfd, const char *path, char *buf, size_t
-> > > bufsize, int flags);
-> > >
-> > > that is basically the equivalent of open + read + close, or even a
-> > > vectored variant that reads multiple files.  But that's off topic
-> > > again, since I don't think there's going to be any performance issue
-> > > even with plain I/O syscalls.
-> > >
-> > > >
-> > > > On top of that, it isn't going to help with the case that I'm working towards
-> > > > implementing where a container manager can monitor for mounts taking place
-> > > > inside the container and supervise them.  What I'm proposing is that during
-> > > > the action phase (eg. FSCONFIG_CMD_CREATE), fsconfig() would hand an fd
-> > > > referring to the context under construction to the manager, which would then
-> > > > be able to call fsinfo() to query it and fsconfig() to adjust it, reject it or
-> > > > permit it.  Something like:
-> > > >
-> > > >         fd = receive_context_to_supervise();
-> > > >         struct fsinfo_params params = {
-> > > >                 .flags          = FSINFO_FLAGS_QUERY_FSCONTEXT,
-> > > >                 .request        = FSINFO_ATTR_SB_OPTIONS,
-> > > >         };
-> > > >         fsinfo(fd, NULL, &params, sizeof(params), buffer, sizeof(buffer));
-> > > >         supervise_parameters(buffer);
-> > > >         fsconfig(fd, FSCONFIG_SET_FLAG, "hard", NULL, 0);
-> > > >         fsconfig(fd, FSCONFIG_SET_STRING, "vers", "4.2", 0);
-> > > >         fsconfig(fd, FSCONFIG_CMD_SUPERVISE_CREATE, NULL, NULL, 0);
-> > > >         struct fsinfo_params params = {
-> > > >                 .flags          = FSINFO_FLAGS_QUERY_FSCONTEXT,
-> > > >                 .request        = FSINFO_ATTR_SB_NOTIFICATIONS,
-> > > >         };
-> > > >         struct fsinfo_sb_notifications sbnotify;
-> > > >         fsinfo(fd, NULL, &params, sizeof(params), &sbnotify, sizeof(sbnotify));
-> > > >         watch_super(fd, "", AT_EMPTY_PATH, watch_fd, 0x03);
-> > > >         fsconfig(fd, FSCONFIG_CMD_SUPERVISE_PERMIT, NULL, NULL, 0);
-> > > >         close(fd);
-> > > >
-> > > > However, the supervised mount may be happening in a completely different set
-> > > > of namespaces, in which case the supervisor presumably wouldn't be able to see
-> > > > the links in procfs and the relevant portions of sysfs.
-> > >
-> > > It would be a "jump" link to the otherwise invisible directory.
+> > Also it would be pretty easy to throttle the number of updates so
+> > systemd et al. wouldn't hog the system with unnecessary processing.
 > >
-> > More magic links to beam you around sounds like a bad idea. We had a
-> > bunch of CVEs around them in containers and they were one of the major
-> > reasons behind us pushing for openat2(). That's why it has a
-> > RESOLVE_NO_MAGICLINKS flag.
-> 
-> No, that link wouldn't beam you around at all, it would end up in an
-> internally mounted instance of a mountfs, a safe place where no
+> > Thanks,
+> > Miklos
+> >
+>
+> At least having patches to compare would allow us to look at the
+> performance here and gain some numbers, which would be helpful to frame
+> the discussions. However I'm not seeing how it would be easy to throttle
+> updates... they occur at whatever rate they are generated and this can
+> be fairly high. Also I'm not sure that I follow how the notifications
+> and the dumping of the whole table are synchronized in this case, either.
 
-Even if it is a magic link to a safe place it's a magic link. They
-aren't a great solution to this problem. fsinfo() is cleaner and
-simpler as it creates a context for a supervised mount which gives the a
-managing application fine-grained control and makes it easily
-extendable.
-Also, we're apparently at the point where it seems were suggesting
-another (pseudo)filesystem to get information about filesystems.
+What I meant is optimizing current userspace without additional kernel
+infrastructure.   Since currently there's only the monolithic
+/proc/self/mountinfo, it's reasonable that if the rate of change is
+very high, then we don't re-read this table on every change, only
+within a reasonable time limit (e.g. 1s) to provide timely updates.
+Re-reading the table on every change would (does?) slow down the
+system so that the actual updates would even be slower, so throttling
+in this case very much  makes sense.
 
-Christian
+Once we have per-mount information from the kernel, throttling updates
+probably does not make sense.
+
+Thanks,
+Miklos
