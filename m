@@ -2,24 +2,34 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D7DA417758B
-	for <lists+linux-api@lfdr.de>; Tue,  3 Mar 2020 12:57:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2007817769A
+	for <lists+linux-api@lfdr.de>; Tue,  3 Mar 2020 14:05:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729071AbgCCL5D (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 3 Mar 2020 06:57:03 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:39494 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725818AbgCCL5D (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Mar 2020 06:57:03 -0500
-Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1j96AO-0000th-AQ; Tue, 03 Mar 2020 11:56:52 +0000
-Date:   Tue, 3 Mar 2020 12:56:51 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Miklos Szeredi <miklos@szeredi.hu>
-Cc:     David Howells <dhowells@redhat.com>, Ian Kent <raven@themaw.net>,
+        id S1728494AbgCCNDv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 3 Mar 2020 08:03:51 -0500
+Received: from mail.kernel.org ([198.145.29.99]:49700 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729249AbgCCNDu (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 3 Mar 2020 08:03:50 -0500
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 36E6D20866;
+        Tue,  3 Mar 2020 13:03:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1583240629;
+        bh=f5TALLM7M04mw4MFMI6suvBwcBH6Hd4opudh07oYOZ4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=HGZKD28dn34LE53PY7JnKdnnaep5PxSNdTqI9Rf14XPqJI6mRPHPh6qiVXbKKyccK
+         Cs5GgBp32G+tzfpxv+05TCf4nQAoKK71wdKCP/p860chfn/v9IsbG7IAEwh+XTdJig
+         iBvKRptwEaPe33EjTDzrITZpsidZvqdzKAdmvw2g=
+Date:   Tue, 3 Mar 2020 14:03:47 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Karel Zak <kzak@redhat.com>
+Cc:     Miklos Szeredi <miklos@szeredi.hu>,
+        David Howells <dhowells@redhat.com>,
+        Ian Kent <raven@themaw.net>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
         James Bottomley <James.Bottomley@hansenpartnership.com>,
         Steven Whitehouse <swhiteho@redhat.com>,
         Miklos Szeredi <mszeredi@redhat.com>,
@@ -29,70 +39,94 @@ Cc:     David Howells <dhowells@redhat.com>, Ian Kent <raven@themaw.net>,
         "Darrick J. Wong" <darrick.wong@oracle.com>,
         Linux API <linux-api@vger.kernel.org>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+        lkml <linux-kernel@vger.kernel.org>
 Subject: Re: [PATCH 00/17] VFS: Filesystem information and notifications [ver
  #17]
-Message-ID: <20200303115651.j5q7bsvzu5mstgw4@wittgenstein>
-References: <107666.1582907766@warthog.procyon.org.uk>
+Message-ID: <20200303130347.GA2302029@kroah.com>
+References: <a657a80e-8913-d1f3-0ffe-d582f5cb9aa2@redhat.com>
+ <1582644535.3361.8.camel@HansenPartnership.com>
+ <20200228155244.k4h4hz3dqhl7q7ks@wittgenstein>
+ <107666.1582907766@warthog.procyon.org.uk>
  <CAJfpegu0qHBZ7iK=R4ajmmHC4g=Yz56otpKMy5w-y0UxJ1zO+Q@mail.gmail.com>
  <0403cda7345e34c800eec8e2870a1917a8c07e5c.camel@themaw.net>
  <CAJfpegtu6VqhPdcudu79TX3e=_NZaJ+Md3harBGV7Bg_-+fR8Q@mail.gmail.com>
  <1509948.1583226773@warthog.procyon.org.uk>
  <CAJfpegtOwyaWpNfjomRVOt8NKqT94O5n4-LOHTR7YZT9fadVHA@mail.gmail.com>
- <20200303100045.zqntjjjv6npvs5zl@wittgenstein>
- <CAJfpegu_O=wQsewDWdM39dhkrEoMPG4ZBkTQOsWTgFnYmvrLeA@mail.gmail.com>
- <20200303102541.diud7za3vvjvqco4@wittgenstein>
- <CAJfpegu7CTmE8XfL-Oqp3KkjJNU5FM+VJxohFfK9dO+xnJAdYA@mail.gmail.com>
+ <20200303113814.rsqhljkch6tgorpu@ws.net.home>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAJfpegu7CTmE8XfL-Oqp3KkjJNU5FM+VJxohFfK9dO+xnJAdYA@mail.gmail.com>
+In-Reply-To: <20200303113814.rsqhljkch6tgorpu@ws.net.home>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Mar 03, 2020 at 12:33:48PM +0100, Miklos Szeredi wrote:
-> On Tue, Mar 3, 2020 at 11:25 AM Christian Brauner
-> <christian.brauner@ubuntu.com> wrote:
-> >
-> > On Tue, Mar 03, 2020 at 11:13:50AM +0100, Miklos Szeredi wrote:
-> > > On Tue, Mar 3, 2020 at 11:00 AM Christian Brauner
-> > > <christian.brauner@ubuntu.com> wrote:
+On Tue, Mar 03, 2020 at 12:38:14PM +0100, Karel Zak wrote:
+> On Tue, Mar 03, 2020 at 10:26:21AM +0100, Miklos Szeredi wrote:
+> > No, I don't think this is going to be a performance issue at all, but
+> > if anything we could introduce a syscall
+> > 
+> >   ssize_t readfile(int dfd, const char *path, char *buf, size_t
+> > bufsize, int flags);
 > 
-> > > > More magic links to beam you around sounds like a bad idea. We had a
-> > > > bunch of CVEs around them in containers and they were one of the major
-> > > > reasons behind us pushing for openat2(). That's why it has a
-> > > > RESOLVE_NO_MAGICLINKS flag.
-> > >
-> > > No, that link wouldn't beam you around at all, it would end up in an
-> > > internally mounted instance of a mountfs, a safe place where no
-> >
-> > Even if it is a magic link to a safe place it's a magic link. They
-> > aren't a great solution to this problem. fsinfo() is cleaner and
-> > simpler as it creates a context for a supervised mount which gives the a
-> > managing application fine-grained control and makes it easily
-> > extendable.
-> 
-> Yeah, it's a nice and clean interface in the ioctl(2) sense. Sure,
-> fsinfo() is way better than ioctl(), but it at the core it's still the
-> same syscall multiplexer, do everything hack.
+> off-topic, but I'll buy you many many beers if you implement it ;-),
+> because open + read + close is pretty common for /sys and /proc in
+> many userspace tools; for example ps, top, lsblk, lsmem, lsns, udevd
+> etc. is all about it.
 
-In contrast to a generic ioctl() it's a domain-specific separate
-syscall. You can't suddenly set kvm options through fsinfo() I would
-hope. I find it at least debatable that a new filesystem is preferable.
-And - feel free to simply dismiss the concerns I expressed - so far
-there has not been a lot of excitement about this idea.
+Unlimited beers for a 21-line kernel patch?  Sign me up!
 
-> 
-> > Also, we're apparently at the point where it seems were suggesting
-> > another (pseudo)filesystem to get information about filesystems.
-> 
-> Implementation detail.  Why would you care?
+Totally untested, barely compiled patch below.
 
-I wouldn't call this an implementation detail. That's quite a big
-design choice; it's a separate fileystem. In addition, implementation
-details need to be maintained.
+Actually, I like this idea (the syscall, not just the unlimited beers).
+Maybe this could make a lot of sense, I'll write some actual tests for
+it now that syscalls are getting "heavy" again due to CPU vendors
+finally paying the price for their madness...
 
-Christian
+thanks,
+
+greg k-h
+-------------------
+
+
+diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
+index 44d510bc9b78..178cd45340e2 100644
+--- a/arch/x86/entry/syscalls/syscall_64.tbl
++++ b/arch/x86/entry/syscalls/syscall_64.tbl
+@@ -359,6 +359,7 @@
+ 435	common	clone3			__x64_sys_clone3/ptregs
+ 437	common	openat2			__x64_sys_openat2
+ 438	common	pidfd_getfd		__x64_sys_pidfd_getfd
++439	common	readfile		__x86_sys_readfile
+ 
+ #
+ # x32-specific system call numbers start at 512 to avoid cache impact
+diff --git a/fs/open.c b/fs/open.c
+index 0788b3715731..1a830fada750 100644
+--- a/fs/open.c
++++ b/fs/open.c
+@@ -1340,3 +1340,23 @@ int stream_open(struct inode *inode, struct file *filp)
+ }
+ 
+ EXPORT_SYMBOL(stream_open);
++
++SYSCALL_DEFINE5(readfile, int, dfd, const char __user *, filename,
++		char __user *, buffer, size_t, bufsize, int, flags)
++{
++	int retval;
++	int fd;
++
++	if (force_o_largefile())
++		flags |= O_LARGEFILE;
++
++	fd = do_sys_open(dfd, filename, flags, O_RDONLY);
++	if (fd <= 0)
++		return fd;
++
++	retval = ksys_read(fd, buffer, bufsize);
++
++	__close_fd(current->files, fd);
++
++	return retval;
++}
