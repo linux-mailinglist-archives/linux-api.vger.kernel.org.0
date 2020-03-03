@@ -2,131 +2,91 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2007817769A
-	for <lists+linux-api@lfdr.de>; Tue,  3 Mar 2020 14:05:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B2F6E1776B2
+	for <lists+linux-api@lfdr.de>; Tue,  3 Mar 2020 14:12:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728494AbgCCNDv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 3 Mar 2020 08:03:51 -0500
-Received: from mail.kernel.org ([198.145.29.99]:49700 "EHLO mail.kernel.org"
+        id S1728475AbgCCNKW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 3 Mar 2020 08:10:22 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52214 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729249AbgCCNDu (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 3 Mar 2020 08:03:50 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        id S1725932AbgCCNKW (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 3 Mar 2020 08:10:22 -0500
+Received: from tleilax.poochiereds.net (68-20-15-154.lightspeed.rlghnc.sbcglobal.net [68.20.15.154])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 36E6D20866;
-        Tue,  3 Mar 2020 13:03:49 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id B309820842;
+        Tue,  3 Mar 2020 13:10:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583240629;
-        bh=f5TALLM7M04mw4MFMI6suvBwcBH6Hd4opudh07oYOZ4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=HGZKD28dn34LE53PY7JnKdnnaep5PxSNdTqI9Rf14XPqJI6mRPHPh6qiVXbKKyccK
-         Cs5GgBp32G+tzfpxv+05TCf4nQAoKK71wdKCP/p860chfn/v9IsbG7IAEwh+XTdJig
-         iBvKRptwEaPe33EjTDzrITZpsidZvqdzKAdmvw2g=
-Date:   Tue, 3 Mar 2020 14:03:47 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Karel Zak <kzak@redhat.com>
-Cc:     Miklos Szeredi <miklos@szeredi.hu>,
-        David Howells <dhowells@redhat.com>,
-        Ian Kent <raven@themaw.net>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        James Bottomley <James.Bottomley@hansenpartnership.com>,
-        Steven Whitehouse <swhiteho@redhat.com>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <christian@brauner.io>,
-        Jann Horn <jannh@google.com>,
-        "Darrick J. Wong" <darrick.wong@oracle.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 00/17] VFS: Filesystem information and notifications [ver
- #17]
-Message-ID: <20200303130347.GA2302029@kroah.com>
-References: <a657a80e-8913-d1f3-0ffe-d582f5cb9aa2@redhat.com>
- <1582644535.3361.8.camel@HansenPartnership.com>
- <20200228155244.k4h4hz3dqhl7q7ks@wittgenstein>
- <107666.1582907766@warthog.procyon.org.uk>
- <CAJfpegu0qHBZ7iK=R4ajmmHC4g=Yz56otpKMy5w-y0UxJ1zO+Q@mail.gmail.com>
- <0403cda7345e34c800eec8e2870a1917a8c07e5c.camel@themaw.net>
- <CAJfpegtu6VqhPdcudu79TX3e=_NZaJ+Md3harBGV7Bg_-+fR8Q@mail.gmail.com>
- <1509948.1583226773@warthog.procyon.org.uk>
- <CAJfpegtOwyaWpNfjomRVOt8NKqT94O5n4-LOHTR7YZT9fadVHA@mail.gmail.com>
- <20200303113814.rsqhljkch6tgorpu@ws.net.home>
+        s=default; t=1583241021;
+        bh=GUivKWtJ0hc5w+IWW+xdUUVwt4AOV4xypfGmVeG8obk=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=2DHptrzLvXGqjt4aF8ToOLoi8KlVSviu7WYm+bc5etPR1UyLZfjEArvUVCjms2MSo
+         JRtbUxKrFFjb6YgIKxmDMkhWTdAugW/zC/mQ4anP0LGlbUyjTr84Ek/VBshwgcBFRe
+         tCQBp8L/sdiu6b2wCS6UEg+Vo54Oy5An8iQ7SPJ8=
+Message-ID: <a4415d7d5d75e6af4cb275f753068186342ef7be.camel@kernel.org>
+Subject: Re: [PATCH v4 0/2] vfs: have syncfs() return error when there are
+ writeback errors
+From:   Jeff Layton <jlayton@kernel.org>
+To:     viro@zeniv.linux.org.uk, Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, andres@anarazel.de, willy@infradead.org,
+        dhowells@redhat.com, hch@infradead.org, jack@suse.cz,
+        david@fromorbit.com, David Howells <dhowells@redhat.com>
+Date:   Tue, 03 Mar 2020 08:10:19 -0500
+In-Reply-To: <20200213210255.871579-1-jlayton@kernel.org>
+References: <20200213210255.871579-1-jlayton@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200303113814.rsqhljkch6tgorpu@ws.net.home>
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Mar 03, 2020 at 12:38:14PM +0100, Karel Zak wrote:
-> On Tue, Mar 03, 2020 at 10:26:21AM +0100, Miklos Szeredi wrote:
-> > No, I don't think this is going to be a performance issue at all, but
-> > if anything we could introduce a syscall
-> > 
-> >   ssize_t readfile(int dfd, const char *path, char *buf, size_t
-> > bufsize, int flags);
+On Thu, 2020-02-13 at 16:02 -0500, Jeff Layton wrote:
+> v4:
+> - switch to dedicated errseq_t cursor in struct file for syncfs
+> - drop ioctl for fetching the errseq_t without syncing
 > 
-> off-topic, but I'll buy you many many beers if you implement it ;-),
-> because open + read + close is pretty common for /sys and /proc in
-> many userspace tools; for example ps, top, lsblk, lsmem, lsns, udevd
-> etc. is all about it.
+> This is the fourth posting of this patchset. After thinking about it
+> more, I think multiplexing file->f_wb_err based on O_PATH open is just
+> too weird. I think it'd be better if syncfs() "just worked" as expected
+> no matter what sort of fd you use, or how you multiplex it with fsync.
+> 
+> Also (at least on x86_64) there is currently a 4 byte pad at the end of
+> the struct so this doesn't end up growing the memory utilization anyway.
+> Does anyone object to doing this?
+> 
+> I've also dropped the ioctl patch. I have a draft patch to expose that
+> via fsinfo, but that functionality is really separate from returning an
+> error to syncfs. We can look at that after the syncfs piece is settled.
+> 
+> Jeff Layton (2):
+>   vfs: track per-sb writeback errors and report them to syncfs
+>   buffer: record blockdev write errors in super_block that it backs
+> 
+>  drivers/dax/device.c    |  1 +
+>  fs/buffer.c             |  2 ++
+>  fs/file_table.c         |  1 +
+>  fs/open.c               |  3 +--
+>  fs/sync.c               |  6 ++++--
+>  include/linux/fs.h      | 16 ++++++++++++++++
+>  include/linux/pagemap.h |  5 ++++-
+>  7 files changed, 29 insertions(+), 5 deletions(-)
+> 
 
-Unlimited beers for a 21-line kernel patch?  Sign me up!
+Hi Al,
 
-Totally untested, barely compiled patch below.
+Wondering if you've had a chance to look at these yet? I think it makes
+sense -- the only part I'm not sure about is adding a field to struct
+file. That ends up inside the 4-byte pad at the end on x86_64, so my
+hope is that that's not a problem.
 
-Actually, I like this idea (the syscall, not just the unlimited beers).
-Maybe this could make a lot of sense, I'll write some actual tests for
-it now that syscalls are getting "heavy" again due to CPU vendors
-finally paying the price for their madness...
+If you're too busy at the moment, then maybe Andrew can help shepherd
+this in instead?
 
-thanks,
+Thanks,
+-- 
+Jeff Layton <jlayton@kernel.org>
 
-greg k-h
--------------------
-
-
-diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
-index 44d510bc9b78..178cd45340e2 100644
---- a/arch/x86/entry/syscalls/syscall_64.tbl
-+++ b/arch/x86/entry/syscalls/syscall_64.tbl
-@@ -359,6 +359,7 @@
- 435	common	clone3			__x64_sys_clone3/ptregs
- 437	common	openat2			__x64_sys_openat2
- 438	common	pidfd_getfd		__x64_sys_pidfd_getfd
-+439	common	readfile		__x86_sys_readfile
- 
- #
- # x32-specific system call numbers start at 512 to avoid cache impact
-diff --git a/fs/open.c b/fs/open.c
-index 0788b3715731..1a830fada750 100644
---- a/fs/open.c
-+++ b/fs/open.c
-@@ -1340,3 +1340,23 @@ int stream_open(struct inode *inode, struct file *filp)
- }
- 
- EXPORT_SYMBOL(stream_open);
-+
-+SYSCALL_DEFINE5(readfile, int, dfd, const char __user *, filename,
-+		char __user *, buffer, size_t, bufsize, int, flags)
-+{
-+	int retval;
-+	int fd;
-+
-+	if (force_o_largefile())
-+		flags |= O_LARGEFILE;
-+
-+	fd = do_sys_open(dfd, filename, flags, O_RDONLY);
-+	if (fd <= 0)
-+		return fd;
-+
-+	retval = ksys_read(fd, buffer, bufsize);
-+
-+	__close_fd(current->files, fd);
-+
-+	return retval;
-+}
