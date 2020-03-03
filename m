@@ -2,152 +2,136 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D8E7B1783DA
-	for <lists+linux-api@lfdr.de>; Tue,  3 Mar 2020 21:22:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F096178411
+	for <lists+linux-api@lfdr.de>; Tue,  3 Mar 2020 21:33:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728393AbgCCUWa convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Tue, 3 Mar 2020 15:22:30 -0500
-Received: from Galois.linutronix.de ([193.142.43.55]:45326 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728176AbgCCUW3 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Mar 2020 15:22:29 -0500
-Received: from bigeasy by Galois.linutronix.de with local (Exim 4.80)
-        (envelope-from <bigeasy@linutronix.de>)
-        id 1j9E3d-0005wY-8G; Tue, 03 Mar 2020 21:22:25 +0100
-Date:   Tue, 3 Mar 2020 21:22:25 +0100
-From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Vlastimil Babka <vbabka@suse.cz>, linux-mm@kvack.org,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: [PATCH 2/2 v3] mm/compaction: Disable compact_unevictable_allowed on
- RT
-Message-ID: <20200303202225.nhqc3v5gwlb7x6et@linutronix.de>
-References: <20200115161035.893221-1-bigeasy@linutronix.de>
- <4cf4507b-0632-34e6-5985-df933559af9f@suse.cz>
- <20200302173516.iysuejilava37psk@linutronix.de>
- <20200302132531.59a2c9dffe2515d78abaf909@linux-foundation.org>
- <20200303175910.ichnkjkgmz5y2ipb@linutronix.de>
- <20200303202054.gsosv7fsx2ma3cic@linutronix.de>
+        id S1731831AbgCCUdF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 3 Mar 2020 15:33:05 -0500
+Received: from mail-io1-f68.google.com ([209.85.166.68]:40975 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730837AbgCCUdF (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Mar 2020 15:33:05 -0500
+Received: by mail-io1-f68.google.com with SMTP id m25so5126434ioo.8
+        for <linux-api@vger.kernel.org>; Tue, 03 Mar 2020 12:33:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=NA2tNK/EVxzQPmbB3xl2CeQSQTv5FvhMkwiaUXLKu8k=;
+        b=DpN9m2XxTJTaWFWLrmhMZf7V1GCIm2YxJek3ns+5tzeuum4/wfQwH9U2ZVWZLuJq//
+         G2CG7cMZ0uQKq6uaHP8VVNjvib+G3RVyvjy7kH1kMoIqA6mVWk7oMvVIx0cQScQFHTeP
+         RoxPHN++33ZpZYk7akbvYSAPI67SVi6AJikPSC380seGBqZGGSBROhHh1amdaWEiTHv/
+         zGWD9tdG/3wh5hGmAJH+XrjB6dYRvmmltVccjFxf1BEHVmkM1qx9gkGowI4f9RceBYG1
+         M1a6y9e1ip8ePcFbBhriMn4ip7GfqEce3g3YiwuI1ECwwRU+ZQnZJLtO8KOh8C43TIEv
+         nStA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=NA2tNK/EVxzQPmbB3xl2CeQSQTv5FvhMkwiaUXLKu8k=;
+        b=EKD5/O4zZCiLNeeQYiTSuXmSAidemtB2qXdzXSjGPwmtxnh8/4IiJ7QST0X0ByrmNf
+         e4RIyTO+E3zomGHGzM9M2guwUV+eZu5tK+e9KOKTAUbW8ouPOryONhsGaQpCIkjI9bXw
+         sLy1OMdEY7Ebq381FdxQldv59AKXaScVKK9AltPzbGokVkrfjP6TJCbHNqSnjytWG5bf
+         OsPvm/4OQ9grbA2PGj8D1WZHY4R24/BwitxEjje1DvwHm9a0sfYpv6DklI9JIyfajoLy
+         s8ypq5QHIJ0lRVruEX9tsW3rt5G0DRipCBWkTjd49vYbp86nmz8QQUAwT2O7GQ01mIl5
+         WM+Q==
+X-Gm-Message-State: ANhLgQ2yc/F9qxcQ4/hbQsMndfdVJzhgCPa1AosgWzd11FM1I2SC8edB
+        X+mipFi+CCs6zwiAImrT0SvT1w==
+X-Google-Smtp-Source: ADFU+vtoGIx3gKdYMLKlNybMcolvbKZ8/DjRo+oIeqMeZA+KrGcg/iqJ1ptT8MMywh+gWnklsTi+dQ==
+X-Received: by 2002:a6b:710c:: with SMTP id q12mr5643228iog.167.1583267584182;
+        Tue, 03 Mar 2020 12:33:04 -0800 (PST)
+Received: from [192.168.1.159] ([65.144.74.34])
+        by smtp.gmail.com with ESMTPSA id f9sm756927ioc.70.2020.03.03.12.33.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Mar 2020 12:33:03 -0800 (PST)
+Subject: Re: [PATCH 00/17] VFS: Filesystem information and notifications [ver
+ #17]
+To:     Jeff Layton <jlayton@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jann Horn <jannh@google.com>
+Cc:     Miklos Szeredi <miklos@szeredi.hu>, Karel Zak <kzak@redhat.com>,
+        David Howells <dhowells@redhat.com>,
+        Ian Kent <raven@themaw.net>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>,
+        Steven Whitehouse <swhiteho@redhat.com>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <christian@brauner.io>,
+        "Darrick J. Wong" <darrick.wong@oracle.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+References: <CAJfpegtu6VqhPdcudu79TX3e=_NZaJ+Md3harBGV7Bg_-+fR8Q@mail.gmail.com>
+ <1509948.1583226773@warthog.procyon.org.uk>
+ <CAJfpegtOwyaWpNfjomRVOt8NKqT94O5n4-LOHTR7YZT9fadVHA@mail.gmail.com>
+ <20200303113814.rsqhljkch6tgorpu@ws.net.home>
+ <20200303130347.GA2302029@kroah.com> <20200303131434.GA2373427@kroah.com>
+ <CAJfpegt0aQVvoDeBXOu2xZh+atZQ+q5uQ_JRxe46E8cZ7sHRwg@mail.gmail.com>
+ <20200303134316.GA2509660@kroah.com> <20200303141030.GA2811@kroah.com>
+ <CAG48ez3Z2V8J7dpO6t8nw7O2cMJ6z8vwLZXLAoKGH3OnCb-7JQ@mail.gmail.com>
+ <20200303142407.GA47158@kroah.com>
+ <030888a2-db3e-919d-d8ef-79dcc10779f9@kernel.dk>
+ <acb1753c78a019fb0d54ba29077cef144047f70f.camel@kernel.org>
+ <7a05adc8-1ca9-c900-7b24-305f1b3a9b86@kernel.dk>
+ <dbb06c63c17c23fcacdd99e8b2266804ee39ffe5.camel@kernel.org>
+ <dc84aa00-e570-8833-cf9f-d1001c52dd7a@kernel.dk>
+ <cb2a7273a4cac7bac5f5b323e1958242b98e605e.camel@kernel.org>
+From:   Jens Axboe <axboe@kernel.dk>
+Message-ID: <f3e36d79-a324-678d-ae19-eaee14eaefbd@kernel.dk>
+Date:   Tue, 3 Mar 2020 13:33:01 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
+In-Reply-To: <cb2a7273a4cac7bac5f5b323e1958242b98e605e.camel@kernel.org>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8BIT
-In-Reply-To: <20200303202054.gsosv7fsx2ma3cic@linutronix.de>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Since commit
-    5bbe3547aa3ba ("mm: allow compaction of unevictable pages")
+On 3/3/20 12:43 PM, Jeff Layton wrote:
+> On Tue, 2020-03-03 at 12:23 -0700, Jens Axboe wrote:
+>> On 3/3/20 12:02 PM, Jeff Layton wrote:
+>>> Basically, all you'd need to do is keep a pointer to struct file in the
+>>> internal state for the chain. Then, allow userland to specify some magic
+>>> fd value for subsequent chained operations that says to use that instead
+>>> of consulting the fdtable. Maybe use -4096 (-MAX_ERRNO - 1)?
+>>
+>> BTW, I think we need two magics here. One that says "result from
+>> previous is fd for next", and one that says "fd from previous is fd for
+>> next". The former allows inheritance from open -> read, the latter from
+>> read -> write.
+>>
+> 
+> Do we? I suspect that in almost all of the cases, all we'd care about is
+> the last open. Also if you have unrelated operations in there you still
+> have to chain the fd through somehow to the next op which is a bit hard
+> to do with that scheme.
+> 
+> I'd just have a single magic carveout that means "use the result of last
+> open call done in this chain". If you do a second open (or pipe, or...),
+> then that would put the old struct file pointer and drop a new one in
+> there.
+> 
+> If we really do want to enable multiple opens in a single chain though,
+> then we might want to rethink this and consider some sort of slot table
+> for storing open fds.
 
-it is allowed to examine mlocked pages and compact them by default.
-On -RT even minor pagefaults are problematic because it may take a few
-100us to resolve them and until then the task is blocked.
+I think the one magic can work, you just have to define your chain
+appropriately for the case where you have multiple opens. That's true
+for the two magic approach as well, of course, I don't want a stack of
+open fds, just "last open" should suffice.
 
-Make compact_unevictable_allowed = 0 default and issue a warning on RT
-if it is changed.
+I don't like the implicit close, if your op opens an fd, something
+should close it again. You pass it back to the application in any case
+for io_uring, so the app can just close it. Which means that your chain
+should just include a close for whatever fd you open, unless you plan on
+using it in the application aftwards.
 
-Link: https://lore.kernel.org/linux-mm/20190710144138.qyn4tuttdq6h7kqx@linutronix.de/
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
-v2…v3: - Allow to modify the value but issue a warning if it is changed.
-
-v1…v2: - Make the proc file RO instead removing it.
-       - Mention this change in Documentation/…/vm.rst.
-
- Documentation/admin-guide/sysctl/vm.rst |  3 +++
- kernel/sysctl.c                         | 27 ++++++++++++++++++++++++-
- mm/compaction.c                         |  4 ++++
- 3 files changed, 33 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-index 64aeee1009cab..0329a4d3fa9ec 100644
---- a/Documentation/admin-guide/sysctl/vm.rst
-+++ b/Documentation/admin-guide/sysctl/vm.rst
-@@ -128,6 +128,9 @@ allowed to examine the unevictable lru (mlocked pages) for pages to compact.
- This should be used on systems where stalls for minor page faults are an
- acceptable trade for large contiguous free memory.  Set to 0 to prevent
- compaction from moving pages that are unevictable.  Default value is 1.
-+On CONFIG_PREEMPT_RT the default value is 0 in order to avoid a page fault, due
-+to compaction, which would block the task from becomming active until the fault
-+is resolved.
- 
- 
- dirty_background_bytes
-diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-index 982203101f961..3ace90b6ac57f 100644
---- a/kernel/sysctl.c
-+++ b/kernel/sysctl.c
-@@ -212,6 +212,11 @@ static int proc_do_cad_pid(struct ctl_table *table, int write,
- 		  void __user *buffer, size_t *lenp, loff_t *ppos);
- static int proc_taint(struct ctl_table *table, int write,
- 			       void __user *buffer, size_t *lenp, loff_t *ppos);
-+#ifdef CONFIG_COMPACTION
-+static int proc_dointvec_warn_RT_change(struct ctl_table *table, int write,
-+					void __user *buffer, size_t *lenp,
-+					loff_t *ppos);
-+#endif
- #endif
- 
- #ifdef CONFIG_PRINTK
-@@ -1484,7 +1489,7 @@ static struct ctl_table vm_table[] = {
- 		.data		= &sysctl_compact_unevictable_allowed,
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
--		.proc_handler	= proc_dointvec_minmax,
-+		.proc_handler	= proc_dointvec_warn_RT_change,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= SYSCTL_ONE,
- 	},
-@@ -2572,6 +2577,26 @@ int proc_dointvec(struct ctl_table *table, int write,
- 	return do_proc_dointvec(table, write, buffer, lenp, ppos, NULL, NULL);
- }
- 
-+#ifdef CONFIG_COMPACTION
-+static int proc_dointvec_warn_RT_change(struct ctl_table *table, int write,
-+					void __user *buffer, size_t *lenp,
-+					loff_t *ppos)
-+{
-+	int ret, old;
-+
-+	if (!IS_ENABLED(CONFIG_PREEMPT_RT) || !write)
-+		return proc_dointvec(table, write, buffer, lenp, ppos);
-+
-+	old = *(int *)table->data;
-+	ret = proc_dointvec(table, write, buffer, lenp, ppos);
-+	if (ret)
-+		return ret;
-+	WARN_ONCE(old != *(int *)table->data, "sysctl attribute %s changed.",
-+		  table->procname);
-+	return ret;
-+}
-+#endif
-+
- /**
-  * proc_douintvec - read a vector of unsigned integers
-  * @table: the sysctl table
-diff --git a/mm/compaction.c b/mm/compaction.c
-index 672d3c78c6abf..ba77809a1666e 100644
---- a/mm/compaction.c
-+++ b/mm/compaction.c
-@@ -1590,7 +1590,11 @@ typedef enum {
-  * Allow userspace to control policy on scanning the unevictable LRU for
-  * compactable pages.
-  */
-+#ifdef CONFIG_PREEMPT_RT
-+int sysctl_compact_unevictable_allowed __read_mostly = 0;
-+#else
- int sysctl_compact_unevictable_allowed __read_mostly = 1;
-+#endif
- 
- static inline void
- update_fast_start_pfn(struct compact_control *cc, unsigned long pfn)
 -- 
-2.25.1
+Jens Axboe
 
