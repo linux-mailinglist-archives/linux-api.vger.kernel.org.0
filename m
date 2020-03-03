@@ -2,147 +2,96 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 37E96177D40
-	for <lists+linux-api@lfdr.de>; Tue,  3 Mar 2020 18:22:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 888E61780E0
+	for <lists+linux-api@lfdr.de>; Tue,  3 Mar 2020 20:00:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730027AbgCCRV2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 3 Mar 2020 12:21:28 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:50095 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729786AbgCCRV2 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Mar 2020 12:21:28 -0500
-Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1j9BDx-0006cR-KJ; Tue, 03 Mar 2020 17:20:53 +0000
-Date:   Tue, 3 Mar 2020 18:20:52 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Bernd Edlinger <bernd.edlinger@hotmail.de>
-Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
+        id S2387576AbgCCR7S convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Tue, 3 Mar 2020 12:59:18 -0500
+Received: from Galois.linutronix.de ([193.142.43.55]:45089 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387558AbgCCR7R (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Mar 2020 12:59:17 -0500
+Received: from bigeasy by Galois.linutronix.de with local (Exim 4.80)
+        (envelope-from <bigeasy@linutronix.de>)
+        id 1j9Bp0-0002vG-V7; Tue, 03 Mar 2020 18:59:10 +0100
+Date:   Tue, 3 Mar 2020 18:59:10 +0100
+From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Vlastimil Babka <vbabka@suse.cz>, linux-mm@kvack.org,
         Thomas Gleixner <tglx@linutronix.de>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Yuyang Du <duyuyang@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jamorris@linux.microsoft.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christian Kellner <christian@kellner.me>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
-Subject: Re: [PATCHv5] exec: Fix a deadlock in ptrace
-Message-ID: <20200303172052.fvqk4r7vbtxwo3ig@wittgenstein>
-References: <875zfmloir.fsf@x220.int.ebiederm.org>
- <AM6PR03MB51707ABF20B6CBBECC34865FE4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87v9nmjulm.fsf@x220.int.ebiederm.org>
- <AM6PR03MB5170B976E6387FDDAD59A118E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <202003021531.C77EF10@keescook>
- <20200303085802.eqn6jbhwxtmz4j2x@wittgenstein>
- <AM6PR03MB5170285B336790D3450E2644E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87v9nlii0b.fsf@x220.int.ebiederm.org>
- <AM6PR03MB5170609D44967E044FD1BE40E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <20200303170109.y6q2acgydyzuh3mp@wittgenstein>
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [PATCH v2] mm/compaction: Disable compact_unevictable_allowed on
+ RT
+Message-ID: <20200303175910.ichnkjkgmz5y2ipb@linutronix.de>
+References: <20200115161035.893221-1-bigeasy@linutronix.de>
+ <4cf4507b-0632-34e6-5985-df933559af9f@suse.cz>
+ <20200302173516.iysuejilava37psk@linutronix.de>
+ <20200302132531.59a2c9dffe2515d78abaf909@linux-foundation.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200303170109.y6q2acgydyzuh3mp@wittgenstein>
+Content-Transfer-Encoding: 8BIT
+In-Reply-To: <20200302132531.59a2c9dffe2515d78abaf909@linux-foundation.org>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Mar 03, 2020 at 06:01:11PM +0100, Christian Brauner wrote:
-> On Tue, Mar 03, 2020 at 04:48:01PM +0000, Bernd Edlinger wrote:
-> > On 3/3/20 4:18 PM, Eric W. Biederman wrote:
-> > > Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
-> > > 
-> > >> This fixes a deadlock in the tracer when tracing a multi-threaded
-> > >> application that calls execve while more than one thread are running.
-> > >>
-> > >> I observed that when running strace on the gcc test suite, it always
-> > >> blocks after a while, when expect calls execve, because other threads
-> > >> have to be terminated.  They send ptrace events, but the strace is no
-> > >> longer able to respond, since it is blocked in vm_access.
-> > >>
-> > >> The deadlock is always happening when strace needs to access the
-> > >> tracees process mmap, while another thread in the tracee starts to
-> > >> execve a child process, but that cannot continue until the
-> > >> PTRACE_EVENT_EXIT is handled and the WIFEXITED event is received:
-> > > 
-> > > A couple of things.
-> > > 
-> > > Why do we think it is safe to change the behavior exposed to userspace?
-> > > Not the deadlock but all of the times the current code would not
-> > > deadlock?
-> > > 
-> > > Especially given that this is a small window it might be hard for people
-> > > to track down and report so we need a strong argument that this won't
-> > > break existing userspace before we just change things.
-> > > 
-> > 
-> > Hmm, I tend to agree.
-> > 
-> > > Usually surveying all of the users of a system call that we can find
-> > > and checking to see if they might be affected by the change in behavior
-> > > is difficult enough that we usually opt for not being lazy and
-> > > preserving the behavior.
-> > > 
-> > > This patch is up to two changes in behavior now, that could potentially
-> > > affect a whole array of programs.  Adding linux-api so that this change
-> > > in behavior can be documented if/when this change goes through.
-> > > 
-> > 
-> > One is PTRACE_ACCESS possibly returning EAGAIN, yes.
-> > 
-> > We could try to restrict that behavior change to when any
-> > thread is ptraced when execve starts, can't be too complicated.
-> > 
-> > 
-> > But the other is only SYS_seccomp returning EAGAIN, when a different
-> > thread of the current process is calling execve at the same time.
-> > 
-> > I would consider it completely impossible to have any user-visual effect,
-> > since de_thread is just terminating all threads, including the thread
-> > where the -EAGAIN was returned, so we will never know what happened.
+On 2020-03-02 13:25:31 [-0800], Andrew Morton wrote:
+> > index 64aeee1009cab..bbfa59d25eec3 100644
+> > --- a/Documentation/admin-guide/sysctl/vm.rst
+> > +++ b/Documentation/admin-guide/sysctl/vm.rst
+> > @@ -128,6 +128,7 @@ allowed to examine the unevictable lru (mlocked pages) for pages to compact.
+> >  This should be used on systems where stalls for minor page faults are an
+> >  acceptable trade for large contiguous free memory.  Set to 0 to prevent
+> >  compaction from moving pages that are unevictable.  Default value is 1.
+> > +On CONFIG_PREEMPT_RT the default value is 0.
 > 
-> I think if we risk a user-space facing change we should try the simple
-> thing first before making the fix more convoluted? But it's a tough
-> call...
+> This doesn't mention that the file is unwritable on -rt, and it doesn't
+> explain *why* -rt has different behaviour.
 
-Actually, to get a _rough_ estimate of the possible impact I would
-recommend you run the criu test suite (and possible the strace
-test-suite) on a kernel with and without your fix. That's what I tend to
-do when I touch code I fear will have impact on APIs that very deeply
-touch core kernel. Criu's test-suite makes heavy use of ptrace and
-usually runs into a bunch of interesting (exec) races too, and does have
-tests for handling zombies processes etc. pp.
+I updated this bit.
 
-Should be relatively simple: create a vm and then criu build-dependencies,
-git clone criu; cd criu; make; cd test; ./zdtm.py run -a --keep-going
-If your system doesn't support Selinux properly, you need to disable it
-when running the tests and you also need to make sure that you're using
-python3 or change the shebang in zdtm.py to python3.
+> > --- a/kernel/sysctl.c
+> > +++ b/kernel/sysctl.c
+> > @@ -1483,7 +1483,11 @@ static struct ctl_table vm_table[] = {
+> >  		.procname	= "compact_unevictable_allowed",
+> >  		.data		= &sysctl_compact_unevictable_allowed,
+> >  		.maxlen		= sizeof(int),
+> > +#ifdef CONFIG_PREEMPT_RT
+> > +		.mode		= 0444,
+> > +#else
+> >  		.mode		= 0644,
+> > +#endif
+> 
+> This is non-backward-compatible and introduces a possibility that
+> tested-on-non-rt userspace will fail on -rt kernels.  It might be
+> better to accept the writes, but to ignore them.  Probably with a
+> pr_warn_once() to let people know what we did.
 
-Just a recommendation.
+Hmm.
 
-Christian
+> But do we really need to take the option away from -rt users?  Perhaps
+> someone wants this feature and can accept the latency hit.  How about
+> switching the default and otherwise leaving the kernel behaviour as-is
+> and simply emitting a warning letting -rt users know that they might
+> not want to enable this?
+
+I don't think that RT people can live with the latency spike. The
+problem is that it is not deterministic in terms *when* it happens and
+*how*long* does it need to complete. Also it is not visible so you end
+up with additional 100us and you have no idea why.
+compaction is "okay" in the setup / configuration phase when the mlock()
+pages aren't around / the RT task is disabled. So it does not disturb
+the RT load.
+
+Allowing the user to change the knob and spitting a warning is probably
+good. So we have a preferred default and the user is aware if it is
+changed with or without his knowledge.
+Let me send a patch in a bit…
+
+Sebastian
