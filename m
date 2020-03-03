@@ -2,55 +2,45 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 736A1177048
-	for <lists+linux-api@lfdr.de>; Tue,  3 Mar 2020 08:46:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6378F177218
+	for <lists+linux-api@lfdr.de>; Tue,  3 Mar 2020 10:13:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727498AbgCCHqV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 3 Mar 2020 02:46:21 -0500
-Received: from mail-il1-f193.google.com ([209.85.166.193]:45488 "EHLO
-        mail-il1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726164AbgCCHqV (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Mar 2020 02:46:21 -0500
-Received: by mail-il1-f193.google.com with SMTP id p8so1887910iln.12
-        for <linux-api@vger.kernel.org>; Mon, 02 Mar 2020 23:46:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ELZPyz+JMM9KR/Aq1ALyZfnG+hF1PW/nIOxRAiYMFlA=;
-        b=h//WCX1u89UHh6CAN0ekseTsItC2J5xMQfHl6n0s1N9AX+zx70w8Zxu0fuym78HBDv
-         ZEt42SF+RPlW0mcOJcki5T5Usfq7aLeqO1zd9I0brS5E9QMGuQHA63EHHUADxREX/OqS
-         gy0aUO+wM4MvJT1ssK9MvsaXJZqHt+TItge3Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ELZPyz+JMM9KR/Aq1ALyZfnG+hF1PW/nIOxRAiYMFlA=;
-        b=l/W33iXopDnfBxp6VKN0qJFRw4QAFCeOiR4JjnGWwVEym8bwEW6Vd4aeyDN9bTq2vH
-         j+TfkrClzGl2pfvx8cymO+nE0IvxaXdkrgwGMDBQjE+9auvP+OvSHOxFoyI5ptZzehkY
-         iHF1LcwQEP+7+W9k1fgfsP6D1oRm9bIl4ZeMUluqJP8Gxv7RUQyNEZ7Es0eGLaWMWrvw
-         3XnxpMLg7cRGgNNtcd7W38GowuM0GdVGy40X2OHFbdGG7aWfQ8IsEPwAyTPc3k1bmbUb
-         d07d9vu5svBuFEr7YBmhpuPfO7iGqarIY8AyjaNx81TsVFLtIVWj2MOM1ILZlp+ADaEO
-         zQSA==
-X-Gm-Message-State: ANhLgQ0U0Z6wDo0ypmR7Pv+NeC7HOZLAW6ft77jTLDVSQBfukWjtlR+r
-        k1bkAneq10nFZDp+0hVb3teGm138orvxtadw9zHczA==
-X-Google-Smtp-Source: ADFU+vvEp1VOCUcDcLeAQYAAy2siLYtK8Vfu/WGfBBl0ZwK2hZRppZiOkMiVlWL/6lKu5Nh0cVOfH98k5NauZOHJE88=
-X-Received: by 2002:a05:6e02:f43:: with SMTP id y3mr3580059ilj.174.1583221580782;
- Mon, 02 Mar 2020 23:46:20 -0800 (PST)
-MIME-Version: 1.0
-References: <158230810644.2185128.16726948836367716086.stgit@warthog.procyon.org.uk>
- <1582316494.3376.45.camel@HansenPartnership.com> <CAOssrKehjnTwbc6A1VagM5hG_32hy3mXZenx_PdGgcUGxYOaLQ@mail.gmail.com>
- <1582556135.3384.4.camel@HansenPartnership.com> <CAJfpegsk6BsVhUgHNwJgZrqcNP66wS0fhCXo_2sLt__goYGPWg@mail.gmail.com>
- <a657a80e-8913-d1f3-0ffe-d582f5cb9aa2@redhat.com> <1582644535.3361.8.camel@HansenPartnership.com>
- <20200228155244.k4h4hz3dqhl7q7ks@wittgenstein> <107666.1582907766@warthog.procyon.org.uk>
- <CAJfpegu0qHBZ7iK=R4ajmmHC4g=Yz56otpKMy5w-y0UxJ1zO+Q@mail.gmail.com> <0403cda7345e34c800eec8e2870a1917a8c07e5c.camel@themaw.net>
-In-Reply-To: <0403cda7345e34c800eec8e2870a1917a8c07e5c.camel@themaw.net>
-From:   Miklos Szeredi <miklos@szeredi.hu>
-Date:   Tue, 3 Mar 2020 08:46:09 +0100
-Message-ID: <CAJfpegtu6VqhPdcudu79TX3e=_NZaJ+Md3harBGV7Bg_-+fR8Q@mail.gmail.com>
-Subject: Re: [PATCH 00/17] VFS: Filesystem information and notifications [ver #17]
-To:     Ian Kent <raven@themaw.net>
-Cc:     David Howells <dhowells@redhat.com>,
+        id S1727798AbgCCJNE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 3 Mar 2020 04:13:04 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:39189 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727805AbgCCJNE (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Mar 2020 04:13:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1583226783;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=qMP4Yyr6RpOE+LNq0HWY7JfUV3/6ReV0xC+ZidKNJgU=;
+        b=CgZP405/WZRTwns8NWSJYEMlJLTgh63riPIRebPrXnArszTGYMYJ8cd9OlgaR1WTYBKVlO
+        Z4qTqp41f/K8iUAoDKkZzWZ6ZFrEKoe2RNtr7JfOgjiUXYZseet1FahgfOc4DEaGiMGjUm
+        1mzxO8KUAVNh5EFxpf0Cw4bzMLin85U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-355-Y08eRkhaPm2zAg6y2Z84lg-1; Tue, 03 Mar 2020 04:12:59 -0500
+X-MC-Unique: Y08eRkhaPm2zAg6y2Z84lg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 65E301005F83;
+        Tue,  3 Mar 2020 09:12:57 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-120-182.rdu2.redhat.com [10.10.120.182])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6012C91D74;
+        Tue,  3 Mar 2020 09:12:54 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <CAJfpegtu6VqhPdcudu79TX3e=_NZaJ+Md3harBGV7Bg_-+fR8Q@mail.gmail.com>
+References: <CAJfpegtu6VqhPdcudu79TX3e=_NZaJ+Md3harBGV7Bg_-+fR8Q@mail.gmail.com> <158230810644.2185128.16726948836367716086.stgit@warthog.procyon.org.uk> <1582316494.3376.45.camel@HansenPartnership.com> <CAOssrKehjnTwbc6A1VagM5hG_32hy3mXZenx_PdGgcUGxYOaLQ@mail.gmail.com> <1582556135.3384.4.camel@HansenPartnership.com> <CAJfpegsk6BsVhUgHNwJgZrqcNP66wS0fhCXo_2sLt__goYGPWg@mail.gmail.com> <a657a80e-8913-d1f3-0ffe-d582f5cb9aa2@redhat.com> <1582644535.3361.8.camel@HansenPartnership.com> <20200228155244.k4h4hz3dqhl7q7ks@wittgenstein> <107666.1582907766@warthog.procyon.org.uk> <CAJfpegu0qHBZ7iK=R4ajmmHC4g=Yz56otpKMy5w-y0UxJ1zO+Q@mail.gmail.com> <0403cda7345e34c800eec8e2870a1917a8c07e5c.camel@themaw.net>
+To:     Miklos Szeredi <miklos@szeredi.hu>
+Cc:     dhowells@redhat.com, Ian Kent <raven@themaw.net>,
         Christian Brauner <christian.brauner@ubuntu.com>,
         James Bottomley <James.Bottomley@hansenpartnership.com>,
         Steven Whitehouse <swhiteho@redhat.com>,
@@ -63,105 +53,63 @@ Cc:     David Howells <dhowells@redhat.com>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         lkml <linux-kernel@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH 00/17] VFS: Filesystem information and notifications [ver #17]
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <1509947.1583226773.1@warthog.procyon.org.uk>
+Date:   Tue, 03 Mar 2020 09:12:53 +0000
+Message-ID: <1509948.1583226773@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Mar 3, 2020 at 6:28 AM Ian Kent <raven@themaw.net> wrote:
->
-> On Mon, 2020-03-02 at 10:09 +0100, Miklos Szeredi wrote:
-> > On Fri, Feb 28, 2020 at 5:36 PM David Howells <dhowells@redhat.com>
-> > wrote:
-> > > sysfs also has some other disadvantages for this:
-> > >
-> > >  (1) There's a potential chicken-and-egg problem in that you have
-> > > to create a
-> > >      bunch of files and dirs in sysfs for every created mount and
-> > > superblock
-> > >      (possibly excluding special ones like the socket mount) - but
-> > > this
-> > >      includes sysfs itself.  This might work - provided you create
-> > > sysfs
-> > >      first.
-> >
-> > Sysfs architecture looks something like this (I hope Greg will
-> > correct
-> > me if I'm wrong):
-> >
-> > device driver -> kobj tree <- sysfs tree
-> >
-> > The kobj tree is created by the device driver, and the dentry tree is
-> > created on demand from the kobj tree.   Lifetime of kobjs is bound to
-> > both the sysfs objects and the device but not the other way round.
-> > I.e. device can go away while the sysfs object is still being
-> > referenced, and sysfs can be freely mounted and unmounted
-> > independently of device initialization.
-> >
-> > So there's no ordering requirement between sysfs mounts and other
-> > mounts.   I might be wrong on the details, since mounts are created
-> > very early in the boot process...
-> >
-> > >  (2) sysfs is memory intensive.  The directory structure has to be
-> > > backed by
-> > >      dentries and inodes that linger as long as the referenced
-> > > object does
-> > >      (procfs is more efficient in this regard for files that aren't
-> > > being
-> > >      accessed)
-> >
-> > See above: I don't think dentries and inodes are pinned, only kobjs
-> > and their associated cruft.  Which may be too heavy, depending on the
-> > details of the kobj tree.
-> >
-> > >  (3) It gives people extra, indirect ways to pin mount objects and
-> > >      superblocks.
-> >
-> > See above.
-> >
-> > > For the moment, fsinfo() gives you three ways of referring to a
-> > > filesystem
-> > > object:
-> > >
-> > >  (a) Directly by path.
-> >
-> > A path is always representable by an O_PATH descriptor.
-> >
-> > >  (b) By path associated with an fd.
-> >
-> > See my proposal about linking from /proc/$PID/fdmount/$FD ->
-> > /sys/devices/virtual/mounts/$MOUNT_ID.
-> >
-> > >  (c) By mount ID (perm checked by working back up the tree).
-> >
-> > Check that perm on lookup of /sys/devices/virtual/mounts/$MOUNT_ID.
-> > The proc symlink would bypass the lookup check by directly jumping to
-> > the mountinfo dir.
-> >
-> > > but will need to add:
-> > >
-> > >  (d) By fscontext fd (which is hard to find in sysfs).  Indeed, the
-> > > superblock
-> > >      may not even exist yet.
-> >
-> > Proc symlink would work for that too.
->
-> There's mounts enumeration too, ordering is required to identify the
-> top (or bottom depending on terminology) with more than one mount on
-> a mount point.
->
-> >
-> > If sysfs is too heavy, this could be proc or a completely new
-> > filesystem.  The implementation is much less relevant at this stage
-> > of
-> > the discussion than the interface.
->
-> Ha, proc with the seq file interface, that's already proved to not
-> work properly and looks difficult to fix.
+Miklos Szeredi <miklos@szeredi.hu> wrote:
 
-I'm doing a patch.   Let's see how it fares in the face of all these
-preconceptions.
+> I'm doing a patch.   Let's see how it fares in the face of all these
+> preconceptions.
 
-Thanks,
-Miklos
+Don't forget the efficiency criterion.  One reason for going with fsinfo(2) is
+that scanning /proc/mounts when there are a lot of mounts in the system is
+slow (not to mention the global lock that is held during the read).
+
+Now, going with sysfs files on top of procfs links might avoid the global
+lock, and you can avoid rereading the options string if you export a change
+notification, but you're going to end up injecting a whole lot of pathwalk
+latency into the system.
+
+On top of that, it isn't going to help with the case that I'm working towards
+implementing where a container manager can monitor for mounts taking place
+inside the container and supervise them.  What I'm proposing is that during
+the action phase (eg. FSCONFIG_CMD_CREATE), fsconfig() would hand an fd
+referring to the context under construction to the manager, which would then
+be able to call fsinfo() to query it and fsconfig() to adjust it, reject it or
+permit it.  Something like:
+
+	fd = receive_context_to_supervise();
+	struct fsinfo_params params = {
+		.flags		= FSINFO_FLAGS_QUERY_FSCONTEXT,
+		.request	= FSINFO_ATTR_SB_OPTIONS,
+	};
+	fsinfo(fd, NULL, &params, sizeof(params), buffer, sizeof(buffer));
+	supervise_parameters(buffer);
+	fsconfig(fd, FSCONFIG_SET_FLAG, "hard", NULL, 0);
+	fsconfig(fd, FSCONFIG_SET_STRING, "vers", "4.2", 0);
+	fsconfig(fd, FSCONFIG_CMD_SUPERVISE_CREATE, NULL, NULL, 0);
+	struct fsinfo_params params = {
+		.flags		= FSINFO_FLAGS_QUERY_FSCONTEXT,
+		.request	= FSINFO_ATTR_SB_NOTIFICATIONS,
+	};
+	struct fsinfo_sb_notifications sbnotify;
+	fsinfo(fd, NULL, &params, sizeof(params), &sbnotify, sizeof(sbnotify));
+	watch_super(fd, "", AT_EMPTY_PATH, watch_fd, 0x03);
+	fsconfig(fd, FSCONFIG_CMD_SUPERVISE_PERMIT, NULL, NULL, 0);
+	close(fd);
+
+However, the supervised mount may be happening in a completely different set
+of namespaces, in which case the supervisor presumably wouldn't be able to see
+the links in procfs and the relevant portions of sysfs.
+
+David
+
