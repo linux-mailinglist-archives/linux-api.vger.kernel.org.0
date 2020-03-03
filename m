@@ -2,143 +2,79 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BDC2177AD1
-	for <lists+linux-api@lfdr.de>; Tue,  3 Mar 2020 16:44:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A537B177B1D
+	for <lists+linux-api@lfdr.de>; Tue,  3 Mar 2020 16:54:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729753AbgCCPor (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 3 Mar 2020 10:44:47 -0500
-Received: from mail-io1-f68.google.com ([209.85.166.68]:39951 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725796AbgCCPor (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Mar 2020 10:44:47 -0500
-Received: by mail-io1-f68.google.com with SMTP id m22so4051865ioj.7
-        for <linux-api@vger.kernel.org>; Tue, 03 Mar 2020 07:44:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ZG+Z5PlJjVm8PVRrvVFjKYG60wCcDQJcM/cIXR7GgWs=;
-        b=Lz3S0tthIYaC3IENsF36JWiCsuLYH86LS7/c5LNNFUEJdwftjJ3tcQmCn4mVtCUG+o
-         XseDzhB4vzz/3J+8RSvuHvNBmm78EbXQEYUrGpskbzlT0lU51zA5VhjKVW5EOc0mrWso
-         QKzxShqhorVF33vtLXFwI7HEZoQD6SVTfR//8ia1gWa4HyuJ78V1DbQi8ljs30PCwUbL
-         5urcNDkfNkyj+1/5qRoCUz1PYUOcI0v1EQRD4tP5gftHukoNMnV8YNXLdD4VL64vaRFr
-         IiTgTTZWvn3m3Iyr38KQDBs8ijMhd/Xl4ltF3hqoGqwJ3s0YIl5rWElbuumej2uE3WFV
-         aqiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ZG+Z5PlJjVm8PVRrvVFjKYG60wCcDQJcM/cIXR7GgWs=;
-        b=FbLb5OY1qOV7fzQ0c9vXEqz0nJ6kdFohaDCJjuKz9ja9Tsw6WNDFfV1kA8BMtwXZTG
-         nwn4zWU7iNAaIYHszlu7sELTE41o3qP8+yOYujCCKnNQsHTuSlsRLIap7CZIAT0yV1TE
-         ZcTEwvRJYdLBgjlyjaS3slY7vajrAG9U+xF7LQv8HFy6/bjC3gt6uGEjs1HgJtaXbvt7
-         awHzRUCC9SHImfbCy7T7P4mpKp5E/7gbIZvF/2BpX6fDox3ifrU03oSMyuKOfMbZ+0zc
-         uVXLkOjWG766vtMC96UN/pnpEaYMKscwp3X+hkV88yFw1FvNedpfsjNmaE/4mPKgTMbj
-         +Ebg==
-X-Gm-Message-State: ANhLgQ2PdoPiCFhj7H/x9uyXvEfNryN1PF8vPZk92r+3Zu5ClRi/pozU
-        IxMNIsclPtm51v7IIVRMMc1WPw==
-X-Google-Smtp-Source: ADFU+vtxG3oWgwLPSPn/IZ0T3hF+eib4xFsRFf/5PavaMAyfTas5IKEm4Hjr+94AF9p8J0X/cfg78w==
-X-Received: by 2002:a5e:c207:: with SMTP id v7mr4350463iop.88.1583250286473;
-        Tue, 03 Mar 2020 07:44:46 -0800 (PST)
-Received: from [192.168.1.159] ([65.144.74.34])
-        by smtp.gmail.com with ESMTPSA id e65sm8011244ilg.2.2020.03.03.07.44.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Mar 2020 07:44:45 -0800 (PST)
-Subject: Re: [PATCH 00/17] VFS: Filesystem information and notifications [ver
- #17]
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jann Horn <jannh@google.com>
-Cc:     Miklos Szeredi <miklos@szeredi.hu>, Karel Zak <kzak@redhat.com>,
-        David Howells <dhowells@redhat.com>,
-        Ian Kent <raven@themaw.net>,
+        id S1729687AbgCCPyC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 3 Mar 2020 10:54:02 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35289 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1728783AbgCCPyC (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Mar 2020 10:54:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1583250840;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=AOExeUOyNDqAFm6mopMdpHTa+bOM1g1XII8yprReEI8=;
+        b=YXHDIZLnxwrVntGY5a1TL0XwO2c2c1HR2PEA0nnty57isLNA6j+EuJt5JvTXPDp9tKTHap
+        FVolaVZv6zh72gZm7yPCwGfumYWO1/X0ghHZ5rztv10+cTeJZ6Yn0u4si/7GAdRPXhNgLj
+        mNw8ku1S9bJTzl7f3unXdR/Ny8O4Ays=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-373-EDcCpvkjO_-vX5ams9tUzA-1; Tue, 03 Mar 2020 10:53:59 -0500
+X-MC-Unique: EDcCpvkjO_-vX5ams9tUzA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC33710CE78A;
+        Tue,  3 Mar 2020 15:53:56 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-120-182.rdu2.redhat.com [10.10.120.182])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 76EF8100EBA4;
+        Tue,  3 Mar 2020 15:53:49 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <20200303152352.GA221026@kroah.com>
+References: <20200303152352.GA221026@kroah.com> <CAJfpegu0qHBZ7iK=R4ajmmHC4g=Yz56otpKMy5w-y0UxJ1zO+Q@mail.gmail.com> <0403cda7345e34c800eec8e2870a1917a8c07e5c.camel@themaw.net> <CAJfpegtu6VqhPdcudu79TX3e=_NZaJ+Md3harBGV7Bg_-+fR8Q@mail.gmail.com> <1509948.1583226773@warthog.procyon.org.uk> <CAJfpegtOwyaWpNfjomRVOt8NKqT94O5n4-LOHTR7YZT9fadVHA@mail.gmail.com> <20200303113814.rsqhljkch6tgorpu@ws.net.home> <20200303130347.GA2302029@kroah.com> <20200303131434.GA2373427@kroah.com> <CAJfpegt0aQVvoDeBXOu2xZh+atZQ+q5uQ_JRxe46E8cZ7sHRwg@mail.gmail.com> <20200303142351.vtc2ldqltev5jo4h@wittgenstein>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     dhowells@redhat.com,
         Christian Brauner <christian.brauner@ubuntu.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Karel Zak <kzak@redhat.com>, Ian Kent <raven@themaw.net>,
         James Bottomley <James.Bottomley@hansenpartnership.com>,
         Steven Whitehouse <swhiteho@redhat.com>,
         Miklos Szeredi <mszeredi@redhat.com>,
         viro <viro@zeniv.linux.org.uk>,
         Christian Brauner <christian@brauner.io>,
+        Jann Horn <jannh@google.com>,
         "Darrick J. Wong" <darrick.wong@oracle.com>,
         Linux API <linux-api@vger.kernel.org>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         lkml <linux-kernel@vger.kernel.org>
-References: <CAJfpegtu6VqhPdcudu79TX3e=_NZaJ+Md3harBGV7Bg_-+fR8Q@mail.gmail.com>
- <1509948.1583226773@warthog.procyon.org.uk>
- <CAJfpegtOwyaWpNfjomRVOt8NKqT94O5n4-LOHTR7YZT9fadVHA@mail.gmail.com>
- <20200303113814.rsqhljkch6tgorpu@ws.net.home>
- <20200303130347.GA2302029@kroah.com> <20200303131434.GA2373427@kroah.com>
- <CAJfpegt0aQVvoDeBXOu2xZh+atZQ+q5uQ_JRxe46E8cZ7sHRwg@mail.gmail.com>
- <20200303134316.GA2509660@kroah.com> <20200303141030.GA2811@kroah.com>
- <CAG48ez3Z2V8J7dpO6t8nw7O2cMJ6z8vwLZXLAoKGH3OnCb-7JQ@mail.gmail.com>
- <20200303142407.GA47158@kroah.com>
-From:   Jens Axboe <axboe@kernel.dk>
-Message-ID: <030888a2-db3e-919d-d8ef-79dcc10779f9@kernel.dk>
-Date:   Tue, 3 Mar 2020 08:44:43 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Subject: Re: [PATCH 00/17] VFS: Filesystem information and notifications [ver #17]
 MIME-Version: 1.0
-In-Reply-To: <20200303142407.GA47158@kroah.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <1842202.1583250829.1@warthog.procyon.org.uk>
+Date:   Tue, 03 Mar 2020 15:53:49 +0000
+Message-ID: <1842203.1583250829@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 3/3/20 7:24 AM, Greg Kroah-Hartman wrote:
-> On Tue, Mar 03, 2020 at 03:13:26PM +0100, Jann Horn wrote:
->> On Tue, Mar 3, 2020 at 3:10 PM Greg Kroah-Hartman
->> <gregkh@linuxfoundation.org> wrote:
->>>
->>> On Tue, Mar 03, 2020 at 02:43:16PM +0100, Greg Kroah-Hartman wrote:
->>>> On Tue, Mar 03, 2020 at 02:34:42PM +0100, Miklos Szeredi wrote:
->>>>> On Tue, Mar 3, 2020 at 2:14 PM Greg Kroah-Hartman
->>>>> <gregkh@linuxfoundation.org> wrote:
->>>>>
->>>>>>> Unlimited beers for a 21-line kernel patch?  Sign me up!
->>>>>>>
->>>>>>> Totally untested, barely compiled patch below.
->>>>>>
->>>>>> Ok, that didn't even build, let me try this for real now...
->>>>>
->>>>> Some comments on the interface:
->>>>
->>>> Ok, hey, let's do this proper :)
->>>
->>> Alright, how about this patch.
->>>
->>> Actually tested with some simple sysfs files.
->>>
->>> If people don't strongly object, I'll add "real" tests to it, hook it up
->>> to all arches, write a manpage, and all the fun fluff a new syscall
->>> deserves and submit it "for real".
->>
->> Just FYI, io_uring is moving towards the same kind of thing... IIRC
->> you can already use it to batch a bunch of open() calls, then batch a
->> bunch of read() calls on all the new fds and close them at the same
->> time. And I think they're planning to add support for doing
->> open()+read()+close() all in one go, too, except that it's a bit
->> complicated because passing forward the file descriptor in a generic
->> way is a bit complicated.
-> 
-> It is complicated, I wouldn't recommend using io_ring for reading a
-> bunch of procfs or sysfs files, that feels like a ton of overkill with
-> too much setup/teardown to make it worth while.
-> 
-> But maybe not, will have to watch and see how it goes.
+Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
 
-It really isn't, and I too thinks it makes more sense than having a
-system call just for the explicit purpose of open/read/close. As Jann
-said, you can't currently do a linked sequence of open/read/close,
-because the fd passing between them isn't done. But that will come in
-the future. If the use case is "a bunch of files", then you could
-trivially do "open bunch", "read bunch", "close bunch" in three separate
-steps.
+> If you look at the patch I posted in this thread, I think it properly
+> supports open_how and RESOLVE_* flags.  But remember it's opening a file
+> that is already present, in RO mode, no creation allowed, so most of the
+> open_how interactions are limited.
 
-Curious what the use case is for this that warrants a special system
-call?
+Something we should consider adding to openat2() at some point is the ability
+to lock on open/create.  Various network filesystems support it.
 
--- 
-Jens Axboe
+David
 
