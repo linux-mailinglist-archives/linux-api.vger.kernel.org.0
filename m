@@ -2,210 +2,237 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 31CF21779D0
-	for <lists+linux-api@lfdr.de>; Tue,  3 Mar 2020 16:02:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 06420177A48
+	for <lists+linux-api@lfdr.de>; Tue,  3 Mar 2020 16:21:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729776AbgCCPBs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 3 Mar 2020 10:01:48 -0500
-Received: from merlin.infradead.org ([205.233.59.134]:46138 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728332AbgCCPBs (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Mar 2020 10:01:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=dEEm5ydZwX4Ix5TrfG4K4/6Uwi5ZDgR3cEhVEHmG0EM=; b=w5kJB6v3QP4a9vOynNSJ/uc36B
-        TMLR/u8HzmoT4TqyDcs+mNncsYPC3t6AnwN0tVVEPpgPZ+ExYS0Et5Oe/uwnzO502vlgV8soLRefJ
-        dKj7js6kRaEZOyPnIJMheq8TK1tlelAosnRSIoljdsHf2820OV7c+mAt/BHCgHAVY7JVZAEqUgy1N
-        uuUCaG3lEYa1nhfZKmSUAa/OBI3S4RL3SNRQ0OIZuVHXIMlncmnDKkzJMvnS1sBJa9l/IhOCxAmJg
-        WM8eGWYqWGwqN5ttXgNOfmcunET1Rp2v43/rC4FiN5BP+9t+uG0O6LIARCZaRgRs/jCB3XHhZ2wxB
-        tuSQhDBg==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j992h-0007q6-Hs; Tue, 03 Mar 2020 15:01:08 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id C82D430110E;
-        Tue,  3 Mar 2020 15:59:06 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id CE38D2007DF2A; Tue,  3 Mar 2020 16:01:04 +0100 (CET)
-Date:   Tue, 3 Mar 2020 16:01:04 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     "Pierre-Loup A. Griffais" <pgriffais@valvesoftware.com>,
+        id S1729821AbgCCPVM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 3 Mar 2020 10:21:12 -0500
+Received: from out02.mta.xmission.com ([166.70.13.232]:51874 "EHLO
+        out02.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728787AbgCCPVL (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Mar 2020 10:21:11 -0500
+Received: from in01.mta.xmission.com ([166.70.13.51])
+        by out02.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.90_1)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1j99Lt-0008Dj-DE; Tue, 03 Mar 2020 08:20:57 -0700
+Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
+        by in01.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.87)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1j99Ls-00074l-Ha; Tue, 03 Mar 2020 08:20:57 -0700
+From:   ebiederm@xmission.com (Eric W. Biederman)
+To:     Bernd Edlinger <bernd.edlinger@hotmail.de>
+Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@collabora.com>,
-        linux-kernel@vger.kernel.org, kernel@collabora.com,
-        krisman@collabora.com, shuah@kernel.org,
-        linux-kselftest@vger.kernel.org, rostedt@goodmis.org,
-        ryao@gentoo.org, dvhart@infradead.org, mingo@redhat.com,
-        z.figura12@gmail.com, steven@valvesoftware.com,
-        steven@liquorix.net, malteskarupke@web.de, carlos@redhat.com,
-        adhemerval.zanella@linaro.org, libc-alpha@sourceware.org,
-        linux-api@vger.kernel.org
-Subject: Re: 'simple' futex interface [Was: [PATCH v3 1/4] futex: Implement
- mechanism to wait on any of several futexes]
-Message-ID: <20200303150104.GE2596@hirez.programming.kicks-ass.net>
-References: <20200228190717.GM18400@hirez.programming.kicks-ass.net>
- <20200228194958.GO14946@hirez.programming.kicks-ass.net>
- <87tv3aflqm.fsf@nanos.tec.linutronix.de>
- <967d5047-2cb6-d6d8-6107-edb99a4c9696@valvesoftware.com>
- <87o8thg031.fsf@nanos.tec.linutronix.de>
- <beb82055-96fa-cb64-a06e-9d7a0946587b@valvesoftware.com>
- <20200303120050.GC2596@hirez.programming.kicks-ass.net>
- <87pndth9ur.fsf@oldenburg2.str.redhat.com>
- <20200303132150.GD2596@hirez.programming.kicks-ass.net>
- <878skhh7og.fsf@oldenburg2.str.redhat.com>
+        Oleg Nesterov <oleg@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Peter Zijlstra \(Intel\)" <peterz@infradead.org>,
+        Yuyang Du <duyuyang@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jamorris@linux.microsoft.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christian Kellner <christian@kellner.me>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        "linux-doc\@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel\@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm\@kvack.org" <linux-mm@kvack.org>,
+        "stable\@vger.kernel.org" <stable@vger.kernel.org>,
+        <linux-api@vger.kernel.org>
+References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <87a74zmfc9.fsf@x220.int.ebiederm.org>
+        <AM6PR03MB517071DEF894C3D72D2B4AE2E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <87k142lpfz.fsf@x220.int.ebiederm.org>
+        <AM6PR03MB51704206634C009500A8080DE4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <875zfmloir.fsf@x220.int.ebiederm.org>
+        <AM6PR03MB51707ABF20B6CBBECC34865FE4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <87v9nmjulm.fsf@x220.int.ebiederm.org>
+        <AM6PR03MB5170B976E6387FDDAD59A118E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <202003021531.C77EF10@keescook>
+        <20200303085802.eqn6jbhwxtmz4j2x@wittgenstein>
+        <AM6PR03MB5170285B336790D3450E2644E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
+Date:   Tue, 03 Mar 2020 09:18:44 -0600
+In-Reply-To: <AM6PR03MB5170285B336790D3450E2644E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        (Bernd Edlinger's message of "Tue, 3 Mar 2020 13:02:51 +0000")
+Message-ID: <87v9nlii0b.fsf@x220.int.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <878skhh7og.fsf@oldenburg2.str.redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
+X-XM-SPF: eid=1j99Ls-00074l-Ha;;;mid=<87v9nlii0b.fsf@x220.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX19rGY6nP+Gy6pmv+g93hLTd2evDLDDhunA=
+X-SA-Exim-Connect-IP: 68.227.160.95
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa03.xmission.com
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=8.0 tests=ALL_TRUSTED,BAYES_40,
+        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG autolearn=disabled
+        version=3.4.2
+X-Spam-Virus: No
+X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+        * -0.0 BAYES_40 BODY: Bayes spam probability is 20 to 40%
+        *      [score: 0.3807]
+        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
+        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
+        *      [sa03 1397; Body=1 Fuz1=1 Fuz2=1]
+X-Spam-DCC: XMission; sa03 1397; Body=1 Fuz1=1 Fuz2=1 
+X-Spam-Combo: ;Bernd Edlinger <bernd.edlinger@hotmail.de>
+X-Spam-Relay-Country: 
+X-Spam-Timing: total 400 ms - load_scoreonly_sql: 0.03 (0.0%),
+        signal_user_changed: 2.4 (0.6%), b_tie_ro: 1.67 (0.4%), parse: 0.86
+        (0.2%), extract_message_metadata: 9 (2.3%), get_uri_detail_list: 1.73
+        (0.4%), tests_pri_-1000: 14 (3.5%), tests_pri_-950: 0.99 (0.2%),
+        tests_pri_-900: 0.84 (0.2%), tests_pri_-90: 36 (8.9%), check_bayes: 35
+        (8.6%), b_tokenize: 11 (2.7%), b_tok_get_all: 13 (3.3%), b_comp_prob:
+        2.4 (0.6%), b_tok_touch_all: 5 (1.3%), b_finish: 0.61 (0.2%),
+        tests_pri_0: 327 (81.7%), check_dkim_signature: 0.47 (0.1%),
+        check_dkim_adsp: 2.3 (0.6%), poll_dns_idle: 0.87 (0.2%), tests_pri_10:
+        1.70 (0.4%), tests_pri_500: 5.0 (1.2%), rewrite_mail: 0.00 (0.0%)
+Subject: Re: [PATCHv5] exec: Fix a deadlock in ptrace
+X-Spam-Flag: No
+X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
+X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Mar 03, 2020 at 02:47:11PM +0100, Florian Weimer wrote:
-> (added missing Cc: for linux-api, better late than never I guess)
-> 
-> * Peter Zijlstra:
-> 
-> >> What's the actual type of *uaddr?  Does it vary by size (which I assume
-> >> is in bits?)?  Are there alignment constraints?
-> >
-> > Yeah, u8, u16, u32, u64 depending on the size specified in flags.
-> > Naturally aligned.
-> 
-> So 4-byte alignment for u32 and 8-byte alignment for u64 on all
-> architectures?
-> 
-> (I really want to nail this down, sorry.)
+Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
 
-Exactly so.
+> This fixes a deadlock in the tracer when tracing a multi-threaded
+> application that calls execve while more than one thread are running.
+>
+> I observed that when running strace on the gcc test suite, it always
+> blocks after a while, when expect calls execve, because other threads
+> have to be terminated.  They send ptrace events, but the strace is no
+> longer able to respond, since it is blocked in vm_access.
+>
+> The deadlock is always happening when strace needs to access the
+> tracees process mmap, while another thread in the tracee starts to
+> execve a child process, but that cannot continue until the
+> PTRACE_EVENT_EXIT is handled and the WIFEXITED event is received:
 
-> >> These system calls seemed to be type-polymorphic still, which is
-> >> problematic for defining a really nice C interface.  I would really like
-> >> to have a strongly typed interface for this, with a nice struct futex
-> >> wrapper type (even if it means that we need four of them).
-> >
-> > You mean like: futex_wait1(u8 *,...) futex_wait2(u16 *,...)
-> > futex_wait4(u32 *,...) etc.. ?
-> >
-> > I suppose making it 16 or so syscalls (more if we want WAKE_OP or
-> > requeue across size) is a bit daft, so yeah, sucks.
-> 
-> We could abstract this in the userspace wrapper.  It would help to have
-> an explicit size argument, or at least an extension-safe way to pass
-> this information to the kernel.  I guess if everything else fails, we
-> could use the flags bits for that, as long as it is clear that the
-> interface will only support these six types (four without NUMA, two with
-> NUMA).
+A couple of things.
 
-The problem is the cmp_requeue syscall, that already has 6 arguments. I
-don't see where else than the flags field we can stuff this :/
+Why do we think it is safe to change the behavior exposed to userspace?
+Not the deadlock but all of the times the current code would not
+deadlock?
 
-> >> Will all architectures support all sizes?  If not, how do we probe which
-> >> size/flags combinations are supported?
-> >
-> > Up to the native word size (long), IOW ILP32 will not support u64.
-> 
-> Many ILP32 targets could support atomic accesses on 8-byte storage
-> units, as long as there is 8-byte alignment.  But given how common
-> 4-byte-align u64 is on 32-bit, maybe that's not such a good idea.
+Especially given that this is a small window it might be hard for people
+to track down and report so we need a strong argument that this won't
+break existing userspace before we just change things.
 
-'Many' might be over-stating it, but yeah, there are definitely a bunch
-of them that can do it (x86, armv7-lpae, arc, are the ones I know from
-memory). The problem is that the syscalls then look like:
+Usually surveying all of the users of a system call that we can find
+and checking to see if they might be affected by the change in behavior
+is difficult enough that we usually opt for not being lazy and
+preserving the behavior.
 
-  sys_futex_wait(void *uaddr, u64 val, unsigned long flags, ktime_t *timo);
-  struct futex_wait {
-	  void *uaddr;
-	  u64 val;
-	  u64 flags;
-  };
-  sys_futex_waitv(struct futex_wait *waiters, unsigned int nr_waiters,
-		  u64 flags, ktime_t *timo);
-  sys_futex_wake(void *uaddr, unsigned int nr, u64 flags);
-  sys_futex_cmp_requeue(void *uaddr1, void *uaddr2, unsigned int nr_wake,
-		  unsigned int nr_requeue, u64 cmpval, unsigned long flags);
+This patch is up to two changes in behavior now, that could potentially
+affect a whole array of programs.  Adding linux-api so that this change
+in behavior can be documented if/when this change goes through.
 
-And that makes 7 arguments for cmp_requeue, which can't be. Maybe we if
-combine nr_wake and nr_requeue in one as 2 u16... ?
+If you can split the documentation and test fixes out into separate
+patches that would help reviewing this code, or please make it explicit
+that the your are changing documentation about behavior that is changing
+with this patch.
 
-And then we need to go detector if the platform supports it or not..
+Eric
 
-> >> > For NUMA I propose that when NUMA_FLAG is set, uaddr-4 will be 'int
-> >> > node_id', with the following semantics:
-> >> >
-> >> >  - on WAIT, node_id is read and when 0 <= node_id <= nr_nodes, is
-> >> >    directly used to index into per-node hash-tables. When -1, it is
-> >> >    replaced by the current node_id and an smp_mb() is issued before we
-> >> >    load and compare the @uaddr.
-> >> >
-> >> >  - on WAKE/REQUEUE, it is an immediate index.
-> >> 
-> >> Does this mean the first waiter determines the NUMA index, and all
-> >> future waiters use the same chain even if they are on different nodes?
-> >
-> > Every new waiter could (re)set node_id, after all, when its not actually
-> > waiting, nobody cares what's in that field.
-> >
-> >> I think documenting this as a node index would be a mistake.  It could
-> >> be an arbitrary hint for locating the corresponding kernel data
-> >> structures.
-> >
-> > Nah, it allows explicit placement, after all, we have set_mempolicy()
-> > and sched_setaffinity() and all the other NUMA crud so that programs
-> > that think they know what they're doing, can do explicit placement.
-> 
-> But I'm not sure if it makes sense to read the node ID from the
-> neighboring value of a futex used in this way.  Or do you think that
-> userspace might set the node ID to help the kernel implementation, and
-> not just relying on it to be set by the kernel after initializing it to
-> -1?
+> diff --git a/tools/testing/selftests/ptrace/vmaccess.c b/tools/testing/selftests/ptrace/vmaccess.c
+> new file mode 100644
+> index 0000000..6d8a048
+> --- /dev/null
+> +++ b/tools/testing/selftests/ptrace/vmaccess.c
+> @@ -0,0 +1,66 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * Copyright (c) 2020 Bernd Edlinger <bernd.edlinger@hotmail.de>
+> + * All rights reserved.
+> + *
+> + * Check whether /proc/$pid/mem can be accessed without causing deadlocks
+> + * when de_thread is blocked with ->cred_guard_mutex held.
+> + */
+> +
+> +#include "../kselftest_harness.h"
+> +#include <stdio.h>
+> +#include <fcntl.h>
+> +#include <pthread.h>
+> +#include <signal.h>
+> +#include <unistd.h>
+> +#include <sys/ptrace.h>
+> +
+> +static void *thread(void *arg)
+> +{
+> +	ptrace(PTRACE_TRACEME, 0, 0L, 0L);
+> +	return NULL;
+> +}
+> +
+> +TEST(vmaccess)
+> +{
+> +	int f, pid = fork();
+> +	char mm[64];
+> +
+> +	if (!pid) {
+> +		pthread_t pt;
+> +
+> +		pthread_create(&pt, NULL, thread, NULL);
+> +		pthread_join(pt, NULL);
+> +		execlp("true", "true", NULL);
+> +	}
+> +
+> +	sleep(1);
+> +	sprintf(mm, "/proc/%d/mem", pid);
+> +	f = open(mm, O_RDONLY);
+> +	ASSERT_LE(0, f);
+> +	close(f);
+> +	f = kill(pid, SIGCONT);
+> +	ASSERT_EQ(0, f);
+> +}
+> +
+> +TEST(attach)
+> +{
+> +	int f, pid = fork();
+> +
+> +	if (!pid) {
+> +		pthread_t pt;
+> +
+> +		pthread_create(&pt, NULL, thread, NULL);
+> +		pthread_join(pt, NULL);
+> +		execlp("true", "true", NULL);
+> +	}
+> +
+> +	sleep(1);
+> +	f = ptrace(PTRACE_ATTACH, pid, 0L, 0L);
 
-I'm fairly sure that there will be a number of users that will
-definitely want to do that; this would be the same people that use
-set_mempolicy() and sched_setaffinity() and do all the other numa
-binding crud.
+To be meaningful this code needs to learn to loop when
+ptrace returns -EAGAIN.
 
-HPC, certain database vendors, possibly RT and KVM users.
+Because that is pretty much what any self respecting user space
+process will do.
 
-> Conversely, even for non-NUMA systems, a lookup hint that allows to
-> reduce in-kernel futex contention might be helpful.  If it's documented
-> to be the NUME node ID, that wouldn't be possible.
+At which point I am not certain we can say that the behavior has
+sufficiently improved not to be a deadlock.
 
-Do we really have significant contention on small systems? And how would
-increasing the hash-table not solve that?
+> +	ASSERT_EQ(EAGAIN, errno);
+> +	ASSERT_EQ(f, -1);
+> +	f = kill(pid, SIGCONT);
+> +	ASSERT_EQ(0, f);
+> +}
+> +
+> +TEST_HARNESS_MAIN
 
-> >> > Any invalid value with result in EINVAL.
-> >> 
-> >> Using uaddr-4 is slightly tricky with a 64-bit futex value, due to the
-> >> need to maintain alignment and avoid padding.
-> >
-> > Yes, but it works, unlike uaddr+4 :-) Also, 1 and 2 byte futexes and
-> > NUMA_FLAG are incompatible due to this, but I feel short futexes and
-> > NUMA don't really make sense anyway, the only reason to use a short
-> > futex is to save space, so you don't want another 4 bytes for numa on
-> > top of that anyway.
-> 
-> I think it would be much easier to make the NUMA hint the same size of
-> the futex, so 4 and 8 bytes.  It could also make sense to require 8 and
-> 16 byte alignment, to permit different implementation choices in the
-> future.
-> 
-> So we'd have:
-> 
-> struct futex8  { u8 value; };
-> struct futex16 { u16 value __attribute__ ((aligned (2))); };
-> struct futex32 { u32 value __attribute__ ((aligned (4))); };
-> struct futex64 { u64 value __attribute__ ((aligned (8))); };
-> struct futex32_numa { u32 value __attribute__ ((aligned (8))); u32 hint; };
-> struct futex64_numa { u64 value __attribute__ ((aligned (16))); u64 hint; };
-
-That works, I suppose... although I'm sure someone will curse us for it
-when trying to pack some extra things in his cacheline.
-
+Eric
