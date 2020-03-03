@@ -2,197 +2,75 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FC311777B0
-	for <lists+linux-api@lfdr.de>; Tue,  3 Mar 2020 14:50:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DAA3A177855
+	for <lists+linux-api@lfdr.de>; Tue,  3 Mar 2020 15:09:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728877AbgCCNr0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 3 Mar 2020 08:47:26 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:42463 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728488AbgCCNr0 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Mar 2020 08:47:26 -0500
+        id S1729535AbgCCOJY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 3 Mar 2020 09:09:24 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35102 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727913AbgCCOJY (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Mar 2020 09:09:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1583243245;
+        s=mimecast20190719; t=1583244563;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=oLbXIHNh6ajSmLz52Mx2ILZg/lbZzgtk/alq2aRbGqk=;
-        b=Myt8WNsSWu7CRJtjDG1r1Ni6MsRE8bCwJyLUEyy2OnvIO0ZiV0aFQGcfHXAb11RD4RS55Z
-        3TgD+LqREHJ+dCZ8dMsSCOx+ZiCCkbNfXjpcrNhnw01NQGQQsroUAyT0EfDu7SsxJA+ESC
-        xxw/sdewA6yVrwi8YfCHNG62PmapJEw=
+        bh=f1oQbBmvrBGg0OPWPnhd5xlRIiyvJNmigaWzMX+f8Oo=;
+        b=Hk6M5h8no4DBgLFBrEq9Z1+PdfBBGrQzf0x4pc1IDWMOYvwgSZGit7toOz95vkfsA6IKTu
+        nx9t1dW09QxHg4w7WEQGuyWoOx9mzN8yjkXH0uSq3x0Gr+yl3Jjm5fZNGOXHW2J0fjfsva
+        HwCsxKaA9arK+8AHiGjv9CyFAe8fSfw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-207-yu8_6u-4Ob62cHeK20fo5w-1; Tue, 03 Mar 2020 08:47:21 -0500
-X-MC-Unique: yu8_6u-4Ob62cHeK20fo5w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+ us-mta-451-V0i0Dt2SOYSUsHpCEce_5g-1; Tue, 03 Mar 2020 09:09:19 -0500
+X-MC-Unique: V0i0Dt2SOYSUsHpCEce_5g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E8042A0CC0;
-        Tue,  3 Mar 2020 13:47:18 +0000 (UTC)
-Received: from oldenburg2.str.redhat.com (dhcp-192-227.str.redhat.com [10.33.192.227])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id A8383100164D;
-        Tue,  3 Mar 2020 13:47:12 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     "Pierre-Loup A. Griffais" <pgriffais@valvesoftware.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        =?utf-8?Q?Andr=C3=A9?= Almeida <andrealmeid@collabora.com>,
-        linux-kernel@vger.kernel.org, kernel@collabora.com,
-        krisman@collabora.com, shuah@kernel.org,
-        linux-kselftest@vger.kernel.org, rostedt@goodmis.org,
-        ryao@gentoo.org, dvhart@infradead.org, mingo@redhat.com,
-        z.figura12@gmail.com, steven@valvesoftware.com,
-        steven@liquorix.net, malteskarupke@web.de, carlos@redhat.com,
-        adhemerval.zanella@linaro.org, libc-alpha@sourceware.org,
-        linux-api@vger.kernel.org
-Subject: Re: 'simple' futex interface [Was: [PATCH v3 1/4] futex: Implement mechanism to wait on any of several futexes]
-References: <20200213214525.183689-1-andrealmeid@collabora.com>
-        <20200213214525.183689-2-andrealmeid@collabora.com>
-        <20200228190717.GM18400@hirez.programming.kicks-ass.net>
-        <20200228194958.GO14946@hirez.programming.kicks-ass.net>
-        <87tv3aflqm.fsf@nanos.tec.linutronix.de>
-        <967d5047-2cb6-d6d8-6107-edb99a4c9696@valvesoftware.com>
-        <87o8thg031.fsf@nanos.tec.linutronix.de>
-        <beb82055-96fa-cb64-a06e-9d7a0946587b@valvesoftware.com>
-        <20200303120050.GC2596@hirez.programming.kicks-ass.net>
-        <87pndth9ur.fsf@oldenburg2.str.redhat.com>
-        <20200303132150.GD2596@hirez.programming.kicks-ass.net>
-Date:   Tue, 03 Mar 2020 14:47:11 +0100
-In-Reply-To: <20200303132150.GD2596@hirez.programming.kicks-ass.net> (Peter
-        Zijlstra's message of "Tue, 3 Mar 2020 14:21:50 +0100")
-Message-ID: <878skhh7og.fsf@oldenburg2.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 995FA18B9FC1;
+        Tue,  3 Mar 2020 14:09:17 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-120-182.rdu2.redhat.com [10.10.120.182])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id A16BA60BE1;
+        Tue,  3 Mar 2020 14:09:14 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <20200303130347.GA2302029@kroah.com>
+References: <20200303130347.GA2302029@kroah.com> <a657a80e-8913-d1f3-0ffe-d582f5cb9aa2@redhat.com> <1582644535.3361.8.camel@HansenPartnership.com> <20200228155244.k4h4hz3dqhl7q7ks@wittgenstein> <107666.1582907766@warthog.procyon.org.uk> <CAJfpegu0qHBZ7iK=R4ajmmHC4g=Yz56otpKMy5w-y0UxJ1zO+Q@mail.gmail.com> <0403cda7345e34c800eec8e2870a1917a8c07e5c.camel@themaw.net> <CAJfpegtu6VqhPdcudu79TX3e=_NZaJ+Md3harBGV7Bg_-+fR8Q@mail.gmail.com> <1509948.1583226773@warthog.procyon.org.uk> <CAJfpegtOwyaWpNfjomRVOt8NKqT94O5n4-LOHTR7YZT9fadVHA@mail.gmail.com> <20200303113814.rsqhljkch6tgorpu@ws.net.home>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     dhowells@redhat.com, Karel Zak <kzak@redhat.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Ian Kent <raven@themaw.net>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>,
+        Steven Whitehouse <swhiteho@redhat.com>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <christian@brauner.io>,
+        Jann Horn <jannh@google.com>,
+        "Darrick J. Wong" <darrick.wong@oracle.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 00/17] VFS: Filesystem information and notifications [ver #17]
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <1656812.1583244553.1@warthog.procyon.org.uk>
+Date:   Tue, 03 Mar 2020 14:09:13 +0000
+Message-ID: <1656813.1583244553@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-(added missing Cc: for linux-api, better late than never I guess)
+Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
 
-* Peter Zijlstra:
+> Actually, I like this idea (the syscall,
 
->> What's the actual type of *uaddr?  Does it vary by size (which I assume
->> is in bits?)?  Are there alignment constraints?
->
-> Yeah, u8, u16, u32, u64 depending on the size specified in flags.
-> Naturally aligned.
+It might mesh well with atomic_open in some way.
 
-So 4-byte alignment for u32 and 8-byte alignment for u64 on all
-architectures?
-
-(I really want to nail this down, sorry.)
-
->> These system calls seemed to be type-polymorphic still, which is
->> problematic for defining a really nice C interface.  I would really like
->> to have a strongly typed interface for this, with a nice struct futex
->> wrapper type (even if it means that we need four of them).
->
-> You mean like: futex_wait1(u8 *,...) futex_wait2(u16 *,...)
-> futex_wait4(u32 *,...) etc.. ?
->
-> I suppose making it 16 or so syscalls (more if we want WAKE_OP or
-> requeue across size) is a bit daft, so yeah, sucks.
-
-We could abstract this in the userspace wrapper.  It would help to have
-an explicit size argument, or at least an extension-safe way to pass
-this information to the kernel.  I guess if everything else fails, we
-could use the flags bits for that, as long as it is clear that the
-interface will only support these six types (four without NUMA, two with
-NUMA).
-
->> Will all architectures support all sizes?  If not, how do we probe which
->> size/flags combinations are supported?
->
-> Up to the native word size (long), IOW ILP32 will not support u64.
-
-Many ILP32 targets could support atomic accesses on 8-byte storage
-units, as long as there is 8-byte alignment.  But given how common
-4-byte-align u64 is on 32-bit, maybe that's not such a good idea.
-
-> Overlapping futexes are expressly forbidden, that is:
->
-> {
-> 	u32 var;
-> 	void *addr = &var;
-> }
->
-> P0()
-> {
-> 	futex_wait4(addr,...);
-> }
->
-> P1()
-> {
-> 	futex_wait1(addr+1,...);
-> }
->
-> Will have one of them return something bad.
-
-That makes sense.  A strongly typed interface would also reflect that in
-the types.
-
->> > For NUMA I propose that when NUMA_FLAG is set, uaddr-4 will be 'int
->> > node_id', with the following semantics:
->> >
->> >  - on WAIT, node_id is read and when 0 <= node_id <= nr_nodes, is
->> >    directly used to index into per-node hash-tables. When -1, it is
->> >    replaced by the current node_id and an smp_mb() is issued before we
->> >    load and compare the @uaddr.
->> >
->> >  - on WAKE/REQUEUE, it is an immediate index.
->> 
->> Does this mean the first waiter determines the NUMA index, and all
->> future waiters use the same chain even if they are on different nodes?
->
-> Every new waiter could (re)set node_id, after all, when its not actually
-> waiting, nobody cares what's in that field.
->
->> I think documenting this as a node index would be a mistake.  It could
->> be an arbitrary hint for locating the corresponding kernel data
->> structures.
->
-> Nah, it allows explicit placement, after all, we have set_mempolicy()
-> and sched_setaffinity() and all the other NUMA crud so that programs
-> that think they know what they're doing, can do explicit placement.
-
-But I'm not sure if it makes sense to read the node ID from the
-neighboring value of a futex used in this way.  Or do you think that
-userspace might set the node ID to help the kernel implementation, and
-not just relying on it to be set by the kernel after initializing it to
--1?
-
-Conversely, even for non-NUMA systems, a lookup hint that allows to
-reduce in-kernel futex contention might be helpful.  If it's documented
-to be the NUME node ID, that wouldn't be possible.
-
->> > Any invalid value with result in EINVAL.
->> 
->> Using uaddr-4 is slightly tricky with a 64-bit futex value, due to the
->> need to maintain alignment and avoid padding.
->
-> Yes, but it works, unlike uaddr+4 :-) Also, 1 and 2 byte futexes and
-> NUMA_FLAG are incompatible due to this, but I feel short futexes and
-> NUMA don't really make sense anyway, the only reason to use a short
-> futex is to save space, so you don't want another 4 bytes for numa on
-> top of that anyway.
-
-I think it would be much easier to make the NUMA hint the same size of
-the futex, so 4 and 8 bytes.  It could also make sense to require 8 and
-16 byte alignment, to permit different implementation choices in the
-future.
-
-So we'd have:
-
-struct futex8  { u8 value; };
-struct futex16 { u16 value __attribute__ ((aligned (2))); };
-struct futex32 { u32 value __attribute__ ((aligned (4))); };
-struct futex64 { u64 value __attribute__ ((aligned (8))); };
-struct futex32_numa { u32 value __attribute__ ((aligned (8))); u32 hint; };
-struct futex64_numa { u64 value __attribute__ ((aligned (16))); u64 hint; };
-
-Thanks,
-Florian
+David
 
