@@ -2,96 +2,180 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1135A1786C0
-	for <lists+linux-api@lfdr.de>; Wed,  4 Mar 2020 00:56:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 194211787E9
+	for <lists+linux-api@lfdr.de>; Wed,  4 Mar 2020 03:01:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727707AbgCCX4i (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 3 Mar 2020 18:56:38 -0500
-Received: from mail.kernel.org ([198.145.29.99]:38142 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727274AbgCCX4i (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 3 Mar 2020 18:56:38 -0500
-Received: from localhost.localdomain (c-73-231-172-41.hsd1.ca.comcast.net [73.231.172.41])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4F0CE20866;
-        Tue,  3 Mar 2020 23:56:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583279796;
-        bh=zVphD0+lmSoeVpHjFG+9E8QBcLMbSzrDZweDit/0a3o=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=mKX2B+3Z4/Y3P1GhdlDAWkLGvdkB4LlgxiGgntPi5hOBIqR2WrXc9JXX6poU7TrMV
-         cEundsxK66IXugFeyld+uQrp9pohnxnbQX59yQL2EuOZk1/yhU7spdZ4FOUvxmx5lM
-         r9RKtAxbCENPTEEc3nwAF40vIVuo105k3JRu8dAs=
-Date:   Tue, 3 Mar 2020 15:56:35 -0800
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc:     Vlastimil Babka <vbabka@suse.cz>, linux-mm@kvack.org,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: [PATCH 2/2 v3] mm/compaction: Disable
- compact_unevictable_allowed on RT
-Message-Id: <20200303155635.1955cb90451abd3ef8bfba63@linux-foundation.org>
-In-Reply-To: <20200303202225.nhqc3v5gwlb7x6et@linutronix.de>
-References: <20200115161035.893221-1-bigeasy@linutronix.de>
-        <4cf4507b-0632-34e6-5985-df933559af9f@suse.cz>
-        <20200302173516.iysuejilava37psk@linutronix.de>
-        <20200302132531.59a2c9dffe2515d78abaf909@linux-foundation.org>
-        <20200303175910.ichnkjkgmz5y2ipb@linutronix.de>
-        <20200303202054.gsosv7fsx2ma3cic@linutronix.de>
-        <20200303202225.nhqc3v5gwlb7x6et@linutronix.de>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+        id S1727865AbgCDCBp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 3 Mar 2020 21:01:45 -0500
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:44619 "EHLO
+        new3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727725AbgCDCBp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Mar 2020 21:01:45 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+        by mailnew.nyi.internal (Postfix) with ESMTP id D50014BCC;
+        Tue,  3 Mar 2020 21:01:43 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Tue, 03 Mar 2020 21:01:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=
+        message-id:subject:from:to:cc:date:in-reply-to:references
+        :content-type:mime-version:content-transfer-encoding; s=fm2; bh=
+        ow4wwXQIg9ovCqqBjjjTQMs5ZKSMH9h5wtQ/U1CNI/I=; b=vDPbhtWTqiBiUQry
+        B1qXySlymx6WucS60DbKY/k3yxXdgkijDpLdraCuA6qqY/1rusUCZvinzKpoXQlT
+        vQK51RWEHlRcQm9Wu7/ygpykpyYACaLGWin8w3PubywD5mZ+i2kjY3nRILBDlNb/
+        2J5cLHfMj3r/BHP3sPRIJlI1ou13L36kJmvVXaoY2wPCW+Egymg8oriIt9FAYiSj
+        RcDhx3MoxwDpUSi6a+FhzYAKoYo3y5oR17IYbmH9jscxV5Qog/TX2BsP/6pPiEfx
+        jl7vo3Y+vVfd0kfuAqadwIOAxFQaG3z/X02VYL+0pgH1KXR1i7yPomSe1tFz4UUM
+        v2ZhGA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:in-reply-to:message-id:mime-version:references
+        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm2; bh=ow4wwXQIg9ovCqqBjjjTQMs5ZKSMH9h5wtQ/U1CNI
+        /I=; b=gctaaglvDbkWZxX8IvhuEc3hMbS93cVej20svOfL42SOTof7DxnnnIJ2E
+        EfCwjiUtphQ61Xy+RfujGBtVdIwNZ9JD9iSPb9mxSJvSbu8gmQM4JkL+n1iZU4vO
+        kdUZqMQ2hz7C83cn/EtrLto5BxzeYlAWxvl52tD0MyC9k48Z/6Nox5IkUyMFtvxl
+        RjJt51LcK7XBIm8iFl1pPR6hM7OO7kWaSBUJdsKxRGRnd216QdX2kXfH32L+wCSS
+        0J99u0agy4eJyFJSzXCPNrfiCAs8P341khlZGoE6EiQVMl17EDMSKPv++2fxLfcK
+        KSITryfZXHbSItn+co5uUDPOxUcDA==
+X-ME-Sender: <xms:BgxfXuGLOxUSByDJ8jy-5pyDace_gLPSJgmB70kBBMRvWdyqEhg05g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedruddtjedggedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepkffuhffvffgjfhgtfggggfesthejredttderjeenucfhrhhomhepkfgrnhcu
+    mfgvnhhtuceorhgrvhgvnhesthhhvghmrgifrdhnvghtqeenucfkphepuddukedrvddtke
+    drudektddrvddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
+    fhhrohhmpehrrghvvghnsehthhgvmhgrfidrnhgvth
+X-ME-Proxy: <xmx:BgxfXtLCknRPtWwE86XXC3rwy0pVR1chvaPVbZHTCV00-SeOX9Hq0g>
+    <xmx:BgxfXinVXuCvUWH2ouDYQSdD-zlfItf_r00yukPTThsswleQhuPshw>
+    <xmx:BgxfXlTmRRpUDMheX1NVKlWyFvoS1aAlFybjDCRLikM-1BY0w6yXrA>
+    <xmx:BwxfXsE8W3Bmqg4AueenI57GlWlN7i5b0lVa2g4WxLy11sUSyo8_ygTlTic>
+Received: from mickey.themaw.net (unknown [118.208.180.202])
+        by mail.messagingengine.com (Postfix) with ESMTPA id C9AA93280063;
+        Tue,  3 Mar 2020 21:01:37 -0500 (EST)
+Message-ID: <33d900c8061c40f70ba2b9d1855fd6bd1c2b68bb.camel@themaw.net>
+Subject: Re: [PATCH 00/17] VFS: Filesystem information and notifications
+ [ver #17]
+From:   Ian Kent <raven@themaw.net>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Karel Zak <kzak@redhat.com>
+Cc:     Miklos Szeredi <miklos@szeredi.hu>,
+        David Howells <dhowells@redhat.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>,
+        Steven Whitehouse <swhiteho@redhat.com>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <christian@brauner.io>,
+        Jann Horn <jannh@google.com>,
+        "Darrick J. Wong" <darrick.wong@oracle.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Date:   Wed, 04 Mar 2020 10:01:33 +0800
+In-Reply-To: <20200303130347.GA2302029@kroah.com>
+References: <a657a80e-8913-d1f3-0ffe-d582f5cb9aa2@redhat.com>
+         <1582644535.3361.8.camel@HansenPartnership.com>
+         <20200228155244.k4h4hz3dqhl7q7ks@wittgenstein>
+         <107666.1582907766@warthog.procyon.org.uk>
+         <CAJfpegu0qHBZ7iK=R4ajmmHC4g=Yz56otpKMy5w-y0UxJ1zO+Q@mail.gmail.com>
+         <0403cda7345e34c800eec8e2870a1917a8c07e5c.camel@themaw.net>
+         <CAJfpegtu6VqhPdcudu79TX3e=_NZaJ+Md3harBGV7Bg_-+fR8Q@mail.gmail.com>
+         <1509948.1583226773@warthog.procyon.org.uk>
+         <CAJfpegtOwyaWpNfjomRVOt8NKqT94O5n4-LOHTR7YZT9fadVHA@mail.gmail.com>
+         <20200303113814.rsqhljkch6tgorpu@ws.net.home>
+         <20200303130347.GA2302029@kroah.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.5 (3.32.5-1.fc30) 
+MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, 3 Mar 2020 21:22:25 +0100 Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
-
-> Since commit
->     5bbe3547aa3ba ("mm: allow compaction of unevictable pages")
+On Tue, 2020-03-03 at 14:03 +0100, Greg Kroah-Hartman wrote:
+> On Tue, Mar 03, 2020 at 12:38:14PM +0100, Karel Zak wrote:
+> > On Tue, Mar 03, 2020 at 10:26:21AM +0100, Miklos Szeredi wrote:
+> > > No, I don't think this is going to be a performance issue at all,
+> > > but
+> > > if anything we could introduce a syscall
+> > > 
+> > >   ssize_t readfile(int dfd, const char *path, char *buf, size_t
+> > > bufsize, int flags);
+> > 
+> > off-topic, but I'll buy you many many beers if you implement it ;-
+> > ),
+> > because open + read + close is pretty common for /sys and /proc in
+> > many userspace tools; for example ps, top, lsblk, lsmem, lsns,
+> > udevd
+> > etc. is all about it.
 > 
-> it is allowed to examine mlocked pages and compact them by default.
-> On -RT even minor pagefaults are problematic because it may take a few
-> 100us to resolve them and until then the task is blocked.
+> Unlimited beers for a 21-line kernel patch?  Sign me up!
 > 
-> Make compact_unevictable_allowed = 0 default and issue a warning on RT
-> if it is changed.
+> Totally untested, barely compiled patch below.
+> 
+> Actually, I like this idea (the syscall, not just the unlimited
+> beers).
+> Maybe this could make a lot of sense, I'll write some actual tests
+> for
+> it now that syscalls are getting "heavy" again due to CPU vendors
+> finally paying the price for their madness...
 
-Fair enough, I guess.
+The problem isn't with open->read->close but with the mount info.
+changing between reads (ie. seq file read takes and drops the
+needed lock between reads at least once).
 
-> @@ -2572,6 +2577,26 @@ int proc_dointvec(struct ctl_table *table, int write,
->  	return do_proc_dointvec(table, write, buffer, lenp, ppos, NULL, NULL);
+The problem is you don't know the buffer size needed to get this
+in one hit, how is this different to read(2)?
+
+> 
+> thanks,
+> 
+> greg k-h
+> -------------------
+> 
+> 
+> diff --git a/arch/x86/entry/syscalls/syscall_64.tbl
+> b/arch/x86/entry/syscalls/syscall_64.tbl
+> index 44d510bc9b78..178cd45340e2 100644
+> --- a/arch/x86/entry/syscalls/syscall_64.tbl
+> +++ b/arch/x86/entry/syscalls/syscall_64.tbl
+> @@ -359,6 +359,7 @@
+>  435	common	clone3			__x64_sys_clone3/ptregs
+>  437	common	openat2			__x64_sys_openat2
+>  438	common	pidfd_getfd		__x64_sys_pidfd_getfd
+> +439	common	readfile		__x86_sys_readfile
+>  
+>  #
+>  # x32-specific system call numbers start at 512 to avoid cache
+> impact
+> diff --git a/fs/open.c b/fs/open.c
+> index 0788b3715731..1a830fada750 100644
+> --- a/fs/open.c
+> +++ b/fs/open.c
+> @@ -1340,3 +1340,23 @@ int stream_open(struct inode *inode, struct
+> file *filp)
 >  }
 >  
-> +#ifdef CONFIG_COMPACTION
-> +static int proc_dointvec_warn_RT_change(struct ctl_table *table, int write,
-> +					void __user *buffer, size_t *lenp,
-> +					loff_t *ppos)
+>  EXPORT_SYMBOL(stream_open);
+> +
+> +SYSCALL_DEFINE5(readfile, int, dfd, const char __user *, filename,
+> +		char __user *, buffer, size_t, bufsize, int, flags)
 > +{
-> +	int ret, old;
+> +	int retval;
+> +	int fd;
 > +
-> +	if (!IS_ENABLED(CONFIG_PREEMPT_RT) || !write)
-> +		return proc_dointvec(table, write, buffer, lenp, ppos);
+> +	if (force_o_largefile())
+> +		flags |= O_LARGEFILE;
 > +
-> +	old = *(int *)table->data;
-> +	ret = proc_dointvec(table, write, buffer, lenp, ppos);
-> +	if (ret)
-> +		return ret;
-> +	WARN_ONCE(old != *(int *)table->data, "sysctl attribute %s changed.",
-> +		  table->procname);
-
-The WARN will include a stack trace which just isn't interesting.  A
-pr_warn() would be better?
-
-> +	return ret;
+> +	fd = do_sys_open(dfd, filename, flags, O_RDONLY);
+> +	if (fd <= 0)
+> +		return fd;
+> +
+> +	retval = ksys_read(fd, buffer, bufsize);
+> +
+> +	__close_fd(current->files, fd);
+> +
+> +	return retval;
 > +}
-> +#endif
 
