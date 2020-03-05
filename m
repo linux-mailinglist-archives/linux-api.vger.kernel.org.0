@@ -2,77 +2,146 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D536317AFD0
-	for <lists+linux-api@lfdr.de>; Thu,  5 Mar 2020 21:35:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2740417AFD7
+	for <lists+linux-api@lfdr.de>; Thu,  5 Mar 2020 21:38:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726181AbgCEUfQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 5 Mar 2020 15:35:16 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20047 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726145AbgCEUfQ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 5 Mar 2020 15:35:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1583440515;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=5U5JtOxyT2J/jqnRkTwxu/wWznmUdm4uGYD+aZ7B6ZU=;
-        b=WrE+quKr5n/HJuXB7AlmbOXHqOQOfGgkNfXravx9zlF5BTHV8nAtlVdThh6rk/yeWamGQZ
-        Efat6Wu+PCGIDjUkABnAqujhPRBisl1aC5rxV/z6h9wldPwW20aEhGi1NoTnoOam7OSD+4
-        l6bw2svgr4DeiAWBKNWee0Ov3whcQng=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-198-HfKQmJQFOQCbDo7hC9AehQ-1; Thu, 05 Mar 2020 15:35:11 -0500
-X-MC-Unique: HfKQmJQFOQCbDo7hC9AehQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D7A1100550E;
-        Thu,  5 Mar 2020 20:35:09 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-120-182.rdu2.redhat.com [10.10.120.182])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id BB36E5D9CD;
-        Thu,  5 Mar 2020 20:35:07 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <4e915f46-093b-c566-1746-938dbd6dcf62@samba.org>
-References: <4e915f46-093b-c566-1746-938dbd6dcf62@samba.org> <3774367.1583430213@warthog.procyon.org.uk>
-To:     Stefan Metzmacher <metze@samba.org>
-Cc:     dhowells@redhat.com, linux-api@vger.kernel.org,
-        viro@zeniv.linux.org.uk, torvalds@linux-foundation.org,
-        cyphar@cyphar.com, christian.brauner@ubuntu.com,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC][PATCH] Mark AT_* path flags as deprecated and add missing RESOLVE_ flags
+        id S1726080AbgCEUiR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 5 Mar 2020 15:38:17 -0500
+Received: from mga07.intel.com ([134.134.136.100]:46441 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725991AbgCEUiR (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 5 Mar 2020 15:38:17 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Mar 2020 12:38:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,519,1574150400"; 
+   d="scan'208";a="229822632"
+Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
+  by orsmga007.jf.intel.com with ESMTP; 05 Mar 2020 12:38:15 -0800
+Message-ID: <607b3094a06dd62dfabb0fd6991429f464355a0c.camel@intel.com>
+Subject: Re: [RFC PATCH v9 05/27] x86/cet/shstk: Add Kconfig option for
+ user-mode Shadow Stack protection
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Dave Hansen <dave.hansen@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
+Date:   Thu, 05 Mar 2020 12:38:14 -0800
+In-Reply-To: <597fb45a-cb94-e8e7-8e80-45a26766d32a@intel.com>
+References: <20200205181935.3712-1-yu-cheng.yu@intel.com>
+         <20200205181935.3712-6-yu-cheng.yu@intel.com>
+         <597fb45a-cb94-e8e7-8e80-45a26766d32a@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <3786500.1583440507.1@warthog.procyon.org.uk>
-Content-Transfer-Encoding: quoted-printable
-Date:   Thu, 05 Mar 2020 20:35:07 +0000
-Message-ID: <3786501.1583440507@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Stefan Metzmacher <metze@samba.org> wrote:
+On Wed, 2020-02-26 at 09:03 -0800, Dave Hansen wrote:
+> On 2/5/20 10:19 AM, Yu-cheng Yu wrote:
+> > Introduce Kconfig option: X86_INTEL_SHADOW_STACK_USER.
+> > 
+> > Shadow Stack (SHSTK) provides protection against function return address
+> > corruption.  It is active when the kernel has this feature enabled, and
+> > both the processor and the application support it.  When this feature is
+> > enabled, legacy non-SHSTK applications continue to work, but without SHSTK
+> > protection.
+> > 
+> > The user-mode SHSTK protection is only implemented for the 64-bit kernel.
+> > IA32 applications are supported under the compatibility mode.
+> 
+> I think what you're trying to say here is that the hardware supports
+> shadow stacks with 32-bit kernels.  However, this series does not
+> include that support and we have no plans to add it.
+> 
+> Right?
 
-> Where's the RESOLVE_NO_TERMINAL_AUTOMOUNTS check?
+Yes.
 
-See:
+> 
+> I'll let others weigh in, but I rather dislike the use of acronyms here.
+>  I'd much rather see the english "shadow stack" everywhere than SHSTK.
 
-      (3) Make openat2() support RESOLVE_NO_TERMINAL_SYMLINKS.  LOOKUP_OPE=
-N
-          internally implies LOOKUP_AUTOMOUNT, and AT_EMPTY_PATH is probab=
-ly not
-          worth supporting (maybe use dup2() instead?).
+I will change to shadow stack.
 
-As things currently stand, automount following is explicitly forced on for
-open and create.  We can make it error out instead if this is desirable if
-RESOLVE_NO_TERMINAL_AUTOMOUNTS in such a case.
+> 
+> > diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+> > index 5e8949953660..6c34b701c588 100644
+> > --- a/arch/x86/Kconfig
+> > +++ b/arch/x86/Kconfig
+> > @@ -1974,6 +1974,28 @@ config X86_INTEL_TSX_MODE_AUTO
+> >  	  side channel attacks- equals the tsx=auto command line parameter.
+> >  endchoice
+> >  
+> > +config X86_INTEL_CET
+> > +	def_bool n
+> > +
+> > +config ARCH_HAS_SHSTK
+> > +	def_bool n
+> > +
+> > +config X86_INTEL_SHADOW_STACK_USER
+> > +	prompt "Intel Shadow Stack for user-mode"
+> 
+> Nit: this whole thing is to support more than a single stack.  I'd make
+> this plural at least in the text: "shadow stacks".
 
-David
+OK.
+
+> 
+> > +	def_bool n
+> > +	depends on CPU_SUP_INTEL && X86_64
+> > +	select ARCH_USES_HIGH_VMA_FLAGS
+> > +	select X86_INTEL_CET
+> > +	select ARCH_HAS_SHSTK
+> > +	---help---
+> > +	  Shadow Stack (SHSTK) provides protection against program
+> > +	  stack corruption.  It is active when the kernel has this
+> > +	  feature enabled, and the processor and the application
+> > +	  support it.  When this feature is enabled, legacy non-SHSTK
+> > +	  applications continue to work, but without SHSTK protection.
+> > +
+> > +	  If unsure, say y.
+> 
+> This is missing a *lot* of information.
+> 
+> What matters to someone turning this on?
+> 
+> 1. It's a hardware feature.  This only matters if you have the right
+>    hardware
+> 2. It's a security hardening feature.  You dance around this, but need
+>    to come out and say it.
+> 3. Apps must be enabled to use it.  You get no protection "for free" on
+>    old userspace.
+> 4. The hardware supports user and kernel, but this option is for
+>    userspace only.
+
+I will update the help text.
+
+Yu-cheng
 
