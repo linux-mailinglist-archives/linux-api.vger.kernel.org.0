@@ -2,78 +2,97 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C52B17AE49
-	for <lists+linux-api@lfdr.de>; Thu,  5 Mar 2020 19:39:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7779E17AE85
+	for <lists+linux-api@lfdr.de>; Thu,  5 Mar 2020 19:52:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726092AbgCESjJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 5 Mar 2020 13:39:09 -0500
-Received: from mga12.intel.com ([192.55.52.136]:53061 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726036AbgCESjJ (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 5 Mar 2020 13:39:09 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Mar 2020 10:39:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,518,1574150400"; 
-   d="scan'208";a="233019834"
-Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by fmsmga007.fm.intel.com with ESMTP; 05 Mar 2020 10:39:09 -0800
-Message-ID: <5dcc9da2caff92a9af16846cbe1f168f61368c51.camel@intel.com>
-Subject: Re: [RFC PATCH v9 18/27] x86/cet/shstk: Introduce WRUSS instruction
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        id S1726436AbgCESvx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 5 Mar 2020 13:51:53 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:44288 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725946AbgCESvx (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 5 Mar 2020 13:51:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Transfer-Encoding
+        :Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+        Sender:Reply-To:Content-ID:Content-Description;
+        bh=Yn5/IW3OYHf5EUn3GzmHogT1LV9Dftj667FAvQnTKI4=; b=VVk6ByjsRM3wpWY+qvfeAVvFex
+        XSR3Yje5R00vVodKBhThEv3KsINHfdyK4sDscmpZv3NRJq5tIIABEiVi6J/lt6WJh2neZ//CU+xSB
+        rECagYV5W63kkDmeLBsfyRon75GkhHqJkKSGoJ46JVs87XqpW19FnOFHt5Pb6lkgecjeDhebwIxD8
+        smPH00JfG0iTvdM6x1U4xwQTwATpB7D5Fj+9WzRaT3+tdzn9MRsVeFpcD07fiTbCRWzLw2l4Tv5Mb
+        t2hFpnkyadlZ6M6P8MxkYKd60qZwJMVKFn+tMcVe3efktI5e/147Vgg9+G1/63fiSBRGQQW0Z1GBk
+        oW6khrUw==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1j9vas-0005bE-DZ; Thu, 05 Mar 2020 18:51:38 +0000
+Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 6FE8E980EDA; Thu,  5 Mar 2020 19:51:36 +0100 (CET)
+Date:   Thu, 5 Mar 2020 19:51:36 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@collabora.com>
+Cc:     Florian Weimer <fweimer@redhat.com>,
+        "Pierre-Loup A. Griffais" <pgriffais@valvesoftware.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
-Date:   Thu, 05 Mar 2020 10:39:08 -0800
-In-Reply-To: <202002251309.E238DFEEB4@keescook>
-References: <20200205181935.3712-1-yu-cheng.yu@intel.com>
-         <20200205181935.3712-19-yu-cheng.yu@intel.com>
-         <202002251309.E238DFEEB4@keescook>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
+        linux-kernel@vger.kernel.org, kernel@collabora.com,
+        krisman@collabora.com, shuah@kernel.org,
+        linux-kselftest@vger.kernel.org, rostedt@goodmis.org,
+        ryao@gentoo.org, dvhart@infradead.org, mingo@redhat.com,
+        z.figura12@gmail.com, steven@valvesoftware.com,
+        steven@liquorix.net, malteskarupke@web.de, carlos@redhat.com,
+        adhemerval.zanella@linaro.org, libc-alpha@sourceware.org,
+        linux-api@vger.kernel.org
+Subject: Re: 'simple' futex interface [Was: [PATCH v3 1/4] futex: Implement
+ mechanism to wait on any of several futexes]
+Message-ID: <20200305185136.GB3348@worktop.programming.kicks-ass.net>
+References: <87tv3aflqm.fsf@nanos.tec.linutronix.de>
+ <967d5047-2cb6-d6d8-6107-edb99a4c9696@valvesoftware.com>
+ <87o8thg031.fsf@nanos.tec.linutronix.de>
+ <beb82055-96fa-cb64-a06e-9d7a0946587b@valvesoftware.com>
+ <20200303120050.GC2596@hirez.programming.kicks-ass.net>
+ <87pndth9ur.fsf@oldenburg2.str.redhat.com>
+ <20200303132150.GD2596@hirez.programming.kicks-ass.net>
+ <878skhh7og.fsf@oldenburg2.str.redhat.com>
+ <20200303150104.GE2596@hirez.programming.kicks-ass.net>
+ <52406c54-60b3-dcfe-65d8-4c425459e37b@collabora.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <52406c54-60b3-dcfe-65d8-4c425459e37b@collabora.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, 2020-02-25 at 13:10 -0800, Kees Cook wrote:
-> On Wed, Feb 05, 2020 at 10:19:26AM -0800, Yu-cheng Yu wrote:
-> > WRUSS is a new kernel-mode instruction but writes directly to user Shadow
-> > Stack (SHSTK) memory.  This is used to construct a return address on SHSTK
-> > for the signal handler.
+On Thu, Mar 05, 2020 at 01:14:17PM -0300, André Almeida wrote:
+
+> >   sys_futex_wait(void *uaddr, u64 val, unsigned long flags, ktime_t *timo);
+> >   struct futex_wait {
+> > 	  void *uaddr;
+> > 	  u64 val;
+> > 	  u64 flags;
+> >   };
+> >   sys_futex_waitv(struct futex_wait *waiters, unsigned int nr_waiters,
+> > 		  u64 flags, ktime_t *timo);
+> >   sys_futex_wake(void *uaddr, unsigned int nr, u64 flags);
+> >   sys_futex_cmp_requeue(void *uaddr1, void *uaddr2, unsigned int nr_wake,
+> > 		  unsigned int nr_requeue, u64 cmpval, unsigned long flags);
 > > 
-> > This instruction can fault if the user SHSTK is not valid SHSTK memory.
-> > In that case, the kernel does a fixup.
+> > And that makes 7 arguments for cmp_requeue, which can't be. Maybe we if
+> > combine nr_wake and nr_requeue in one as 2 u16... ?
+> > 
+> > And then we need to go detector if the platform supports it or not..
+> > 
 > 
-> Since these functions aren't used in this patch, should this get merged
-> with patch 19?
+> Thanks everyone for the feedback around our mechanism. Are the
+> performance benefits of implementing a syscall to wait on a single futex
+> significant enough to maintain it instead of just using
+> `sys_futex_waitv()` with `nr_waiters = 1`? If we join both cases in a
+> single interface, we may even add a new member for NUMA hint in `struct
+> futex_wait`.
 
-Yes, I can do that.
+My consideration was that avoiding the get_user/copy_from_user might
+become measurable on !PTI systems with SMAP.
 
-Yu-cheng
-
+But someone would have to build it and measure it before we can be sure
+of course.
