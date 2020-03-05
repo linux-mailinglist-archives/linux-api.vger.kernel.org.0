@@ -2,67 +2,99 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D77D817A8C8
-	for <lists+linux-api@lfdr.de>; Thu,  5 Mar 2020 16:23:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 855F317A92C
+	for <lists+linux-api@lfdr.de>; Thu,  5 Mar 2020 16:48:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726498AbgCEPXq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 5 Mar 2020 10:23:46 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:45235 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726243AbgCEPXq (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 5 Mar 2020 10:23:46 -0500
-Received: from b2b-5-147-251-51.unitymedia.biz ([5.147.251.51] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1j9sLc-0006Xj-1j; Thu, 05 Mar 2020 15:23:40 +0000
-Date:   Thu, 5 Mar 2020 16:23:39 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Aleksa Sarai <cyphar@cyphar.com>
-Cc:     Florian Weimer <fweimer@redhat.com>,
-        David Howells <dhowells@redhat.com>, linux-api@vger.kernel.org,
-        viro@zeniv.linux.org.uk, metze@samba.org,
-        torvalds@linux-foundation.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: Have RESOLVE_* flags superseded AT_* flags for new syscalls?
-Message-ID: <20200305152339.3uitms2pua5wzzed@wittgenstein>
-References: <96563.1582901612@warthog.procyon.org.uk>
- <20200228152427.rv3crd7akwdhta2r@wittgenstein>
- <87h7z7ngd4.fsf@oldenburg2.str.redhat.com>
- <20200302115239.pcxvej3szmricxzu@wittgenstein>
- <8736arnel9.fsf@oldenburg2.str.redhat.com>
- <20200302121959.it3iophjavbhtoyp@wittgenstein>
- <20200302123510.bm3a2zssohwvkaa4@wittgenstein>
- <87y2sjlygl.fsf@oldenburg2.str.redhat.com>
- <20200305141154.e246swv62rnctite@yavin>
+        id S1726141AbgCEPsQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 5 Mar 2020 10:48:16 -0500
+Received: from mx2.suse.de ([195.135.220.15]:49368 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726099AbgCEPsQ (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 5 Mar 2020 10:48:16 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 535D9AC37;
+        Thu,  5 Mar 2020 15:48:14 +0000 (UTC)
+Subject: Re: [PATCH v7 1/7] mm: pass task and mm to do_madvise
+To:     Minchan Kim <minchan@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
+        linux-api@vger.kernel.org, oleksandr@redhat.com,
+        Suren Baghdasaryan <surenb@google.com>,
+        Tim Murray <timmurray@google.com>,
+        Daniel Colascione <dancol@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Brian Geffon <bgeffon@google.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        John Dias <joaodias@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jann Horn <jannh@google.com>,
+        alexander.h.duyck@linux.intel.com, sj38.park@gmail.com,
+        Jens Axboe <axboe@kernel.dk>
+References: <20200302193630.68771-1-minchan@kernel.org>
+ <20200302193630.68771-2-minchan@kernel.org>
+From:   Vlastimil Babka <vbabka@suse.cz>
+Message-ID: <2a767d50-4034-da8c-c40c-280e0dda910e@suse.cz>
+Date:   Thu, 5 Mar 2020 16:48:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <20200302193630.68771-2-minchan@kernel.org>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200305141154.e246swv62rnctite@yavin>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Mar 06, 2020 at 01:11:54AM +1100, Aleksa Sarai wrote:
-> On 2020-03-02, Florian Weimer <fweimer@redhat.com> wrote:
-> > * Christian Brauner:
-> > > One difference to openat() is that openat2() doesn't silently ignore
-> > > unknown flags. But I'm not sure that would matter for iplementing
-> > > openat() via openat2() since there are no flags that openat() knows about
-> > > that openat2() doesn't know about afaict. So the only risks would be
-> > > programs that accidently have a bit set that isn't used yet.
-> > 
-> > Will there be any new flags for openat in the future?  If not, we can
-> > just use a constant mask in an openat2-based implementation of openat.
+On 3/2/20 8:36 PM, Minchan Kim wrote:
+> In upcoming patches, do_madvise will be called from external process
+> context so we shouldn't asssume "current" is always hinted process's
+> task_struct.
+
+
+> Furthermore, we couldn't access mm_struct via task->mm
+> once it's verified by access_mm which will be introduced in next
+> patch[1].
+
+I would suggest to replace with:
+
+Furthermore, we must not access mm_struct via task->mm, but obtain it via
+access_mm() once (in the following patch) and only use that pointer [1], so pass
+it to do_madvise() as well. Note the vma->vm_mm pointers are safe, so we can use
+them further down the call stack.
+
+> And let's pass *current* and current->mm as arguments of
+> do_madvise so it shouldn't change existing behavior but prepare
+> next patch to make review easy.
 > 
-> There is one being proposed at the moment as part of the compressed
-> read/write work[1].
+> Note: io_madvise pass NULL as target_task argument of do_madvise
+> because it couldn't know who is target.
 
-That work predates openat2() having been merged so there's an argument
-to be made that it should be on top of openat2() imho. But that assumes
-people agree with
-https://lore.kernel.org/linux-fsdevel/3607683.1583419401@warthog.procyon.org.uk/T/#m58c1b6c2697e72e7b42bdbea248178ed31b7d787
-and I haven't heard anything in either direction...
+             can't
 
-Christian
+> [1] http://lore.kernel.org/r/CAG48ez27=pwm5m_N_988xT1huO7g7h6arTQL44zev6TD-h-7Tg@mail.gmail.com
+> 
+> Cc: Jens Axboe <axboe@kernel.dk>
+> Cc: Jann Horn <jannh@google.com>
+> Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+> Signed-off-by: Minchan Kim <minchan@kernel.org>
+
+Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
+
+Nit:
+
+> @@ -676,7 +677,6 @@ static int madvise_free_pte_range(pmd_t *pmd, unsigned long addr,
+>  	if (nr_swap) {
+>  		if (current->mm == mm)
+>  			sync_mm_rss(mm);
+> -
+>  		add_mm_counter(mm, MM_SWAPENTS, nr_swap);
+>  	}
+>  	arch_leave_lazy_mmu_mode();
+
+This looks stray and unrelated.
