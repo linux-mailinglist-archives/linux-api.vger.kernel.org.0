@@ -2,83 +2,89 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 91C2917BB56
-	for <lists+linux-api@lfdr.de>; Fri,  6 Mar 2020 12:14:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A251117BBAB
+	for <lists+linux-api@lfdr.de>; Fri,  6 Mar 2020 12:30:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726846AbgCFLOY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 6 Mar 2020 06:14:24 -0500
-Received: from mx2.suse.de ([195.135.220.15]:43826 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726873AbgCFLOY (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 6 Mar 2020 06:14:24 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id E631BB1D1;
-        Fri,  6 Mar 2020 11:14:21 +0000 (UTC)
-Subject: Re: [PATCH v7 5/7] mm: support both pid and pidfd for process_madvise
-To:     Minchan Kim <minchan@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
-        linux-api@vger.kernel.org, oleksandr@redhat.com,
-        Suren Baghdasaryan <surenb@google.com>,
-        Tim Murray <timmurray@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Brian Geffon <bgeffon@google.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        John Dias <joaodias@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jann Horn <jannh@google.com>,
-        alexander.h.duyck@linux.intel.com, sj38.park@gmail.com,
-        Christian Brauner <christian@brauner.io>,
-        Kirill Tkhai <ktkhai@virtuozzo.com>
-References: <20200302193630.68771-1-minchan@kernel.org>
- <20200302193630.68771-6-minchan@kernel.org>
-From:   Vlastimil Babka <vbabka@suse.cz>
-Message-ID: <14089609-5fb1-b082-716f-c2e129d27c48@suse.cz>
-Date:   Fri, 6 Mar 2020 12:14:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1726185AbgCFLaK convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Fri, 6 Mar 2020 06:30:10 -0500
+Received: from mail-qk1-f196.google.com ([209.85.222.196]:44732 "EHLO
+        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726108AbgCFLaK (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Mar 2020 06:30:10 -0500
+Received: by mail-qk1-f196.google.com with SMTP id f198so1889167qke.11;
+        Fri, 06 Mar 2020 03:30:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Nna0nsguv2U+v9ziNQRL80k09HbQlLvP1j4KtjoAo7M=;
+        b=P7EcwBcK7dx8cF79C9pN3P6os2Z3YL6AU/wh0wx1LLH1l78jY4kiL53d5woVTM5qNl
+         zOzIhESzoLvN1T5kdKAfTD6rEiWYYQmj+xeoVvPw7HKmTpokbVUhNvpt/vCeC++Y0PcH
+         wHOg/i20WypsCUUFgbqe6UFtxftO/ptP3eLWTbAjYWfrB/oSVIeVXeKCRK/Mq3AiPiwG
+         k4Z1KVUXJK31T5j3cxAUY4fkAhBuFMhJ9kQquP2yjt/XYVvIHr687XaoKLW7wJ1X81a6
+         3WHz4RRRyGYR3Cz2V8fxrqB+uhS0usmz1JcTQn6297qOtrPwKhMR0BC3oFg/fOhY8eh/
+         o9wg==
+X-Gm-Message-State: ANhLgQ2znZ8XFgc+mygHmuNsTYQFfSoyz/gjmjdDUHVshFUUVC/DZaxY
+        LOX4AjZ68l09qOI7Cmd7s9HwHNWz9Jum35wfD7Q=
+X-Google-Smtp-Source: ADFU+vsdbMUXZ/9+PsZX4vmn+uiZw3tJKm/S0yTnSyg72ZSBwF9YNhD0HM8bKgqMu40FTOyith2U60eZc5tP18laC8U=
+X-Received: by 2002:a37:6646:: with SMTP id a67mr2383615qkc.457.1583494209166;
+ Fri, 06 Mar 2020 03:30:09 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200302193630.68771-6-minchan@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200306080905.173466-1-syq@debian.org> <87r1y53npd.fsf@mid.deneb.enyo.de>
+ <8441f497-61eb-5c14-bf1e-c90a464105a7@vivier.eu> <87mu8t3mlw.fsf@mid.deneb.enyo.de>
+ <40da389d-4e74-2644-2e7c-04d988fcc26f@vivier.eu>
+In-Reply-To: <40da389d-4e74-2644-2e7c-04d988fcc26f@vivier.eu>
+From:   YunQiang Su <syq@debian.org>
+Date:   Fri, 6 Mar 2020 19:29:57 +0800
+Message-ID: <CAKcpw6WEO5Rmsv+WFkOMrkH+0jwtFKKy7b2n3U9xgv-xGC0UUQ@mail.gmail.com>
+Subject: Re: [PATCH] binfmt_misc: pass binfmt_misc P flag to the interpreter
+To:     Laurent Vivier <laurent@vivier.eu>
+Cc:     Florian Weimer <fw@deneb.enyo.de>, torvalds@linux-foundation.org,
+        Greg KH <gregkh@linuxfoundation.org>,
+        akpm@linux-foundation.org, Al Viro <viro@zeniv.linux.org.uk>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        libc-alpha@sourceware.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 3/2/20 8:36 PM, Minchan Kim wrote:
-> There is a demand[1] to support pid as well pidfd for process_madvise
-> to reduce unnecessary syscall to get pidfd if the user has control of
-> the target process(ie, they could guarantee the process is not gone
-> or pid is not reused).
-> 
-> This patch aims for supporting both options like waitid(2). So, the
-> syscall is currently,
-> 
-> 	int process_madvise(int which, pid_t pid, void *addr,
-> 		size_t length, int advise, unsigned long flag);
+Laurent Vivier <laurent@vivier.eu> 于2020年3月6日周五 下午7:13写道：
+>
+> Le 06/03/2020 à 09:37, Florian Weimer a écrit :
+> > * Laurent Vivier:
+> >
+> >> Le 06/03/2020 à 09:13, Florian Weimer a écrit :
+> >>> * YunQiang Su:
+> >>>
+> >>>> +  if (bprm->interp_flags & BINPRM_FLAGS_PRESERVE_ARGV0)
+> >>>> +          flags |= AT_FLAGS_PRESERVE_ARGV0;
+> >>>> +  NEW_AUX_ENT(AT_FLAGS, flags);
+> >>>
+> >>> Is it necessary to reuse AT_FLAGS?  I think it's cleaner to define a
+> >>> separate AT_ tag dedicated to binfmt_misc.
+> >>
+> >> Not necessary, but it seemed simpler and cleaner to re-use a flag that
+> >> is marked as unused and with a name matching the new role. It avoids to
+> >> patch other packages (like glibc) to add it as it is already defined.
+> >
+> > You still need to define AT_FLAGS_PRESERVE_ARGV0.  At that point, you
+> > might as well define AT_BINFMT and AT_BINFMT_PRESERVE_ARGV0.
+> >
+>
+> Yes, you're right.
+>
+> But is there any reason to not reuse AT_FLAGS?
 
-This is again halfway between kernel and userspace description, so if we stick
-to userspace then it's:
+AT_* only has 32 slot and now. I was afraid that maybe we shouldn't take one.
+   /* AT_* values 18 through 22 are reserved */
+   27,28,29,30 are not used now.
+Which should we use?
 
- 	int process_madvise(idtype_t idtype, id_t id, void *addr,
- 		size_t length, int advice, unsigned long flags);
-
-
-> @which is actually idtype_t for userspace libray and currently,
-> it supports P_PID and P_PIDFD.
-> 
-> [1]  https://lore.kernel.org/linux-mm/9d849087-3359-c4ab-fbec-859e8186c509@virtuozzo.com/
-> 
-> Cc: Christian Brauner <christian@brauner.io>
-> Reviewed-by: Suren Baghdasaryan <surenb@google.com>
-> Suggested-by: Kirill Tkhai <ktkhai@virtuozzo.com>
-> Signed-off-by: Minchan Kim <minchan@kernel.org>
-
-Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
+>
+> Thanks,
+> Laurent
