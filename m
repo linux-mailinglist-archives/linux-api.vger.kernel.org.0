@@ -2,79 +2,70 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ED25D17BFEC
-	for <lists+linux-api@lfdr.de>; Fri,  6 Mar 2020 15:10:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A40F017C0AC
+	for <lists+linux-api@lfdr.de>; Fri,  6 Mar 2020 15:44:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726974AbgCFOKe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 6 Mar 2020 09:10:34 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:55845 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726185AbgCFOKd (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Mar 2020 09:10:33 -0500
-Received: from b2b-5-147-251-51.unitymedia.biz ([5.147.251.51] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1jADgL-0005aS-Uk; Fri, 06 Mar 2020 14:10:30 +0000
-Date:   Fri, 6 Mar 2020 15:10:29 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Aleksa Sarai <cyphar@cyphar.com>
-Cc:     David Howells <dhowells@redhat.com>, linux-api@vger.kernel.org,
+        id S1727258AbgCFOnt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 6 Mar 2020 09:43:49 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35870 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727059AbgCFOnt (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Mar 2020 09:43:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1583505828;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=8zS24+hgqMgXxDrHvOtYHhXkklLLaRqFr5tO/jCmpNA=;
+        b=PpGsWK9pvnOz9DXfwjjc464Wk+0XXGBBLp3wSd1ckrdlSmPO+wAmcwb3a5hGk1ADUeW2gv
+        Qxv+wB3MiaemxHG6VhLKi1Xp21sf4MLFB41Qu/0I8gMGzlvMWmTatmFLRLByqneIRuOQUX
+        7kASK9jASIYOJ4XMGzKCbNL3F1kwhfo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-75-13YqOVG-N-K2QjmFm0H8jA-1; Fri, 06 Mar 2020 09:43:46 -0500
+X-MC-Unique: 13YqOVG-N-K2QjmFm0H8jA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE4DF18AB2C2;
+        Fri,  6 Mar 2020 14:43:44 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-120-182.rdu2.redhat.com [10.10.120.182])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id F15475D9CD;
+        Fri,  6 Mar 2020 14:43:42 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <20200306135632.j7kidnqm3edji6cz@wittgenstein>
+References: <20200306135632.j7kidnqm3edji6cz@wittgenstein> <3774367.1583430213@warthog.procyon.org.uk>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     dhowells@redhat.com, linux-api@vger.kernel.org,
         viro@zeniv.linux.org.uk, torvalds@linux-foundation.org,
-        metze@samba.org, linux-fsdevel@vger.kernel.org,
+        metze@samba.org, cyphar@cyphar.com, linux-fsdevel@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [RFC][PATCH] Mark AT_* path flags as deprecated and add missing
- RESOLVE_ flags
-Message-ID: <20200306141029.zon3nt7oxqywbzf6@wittgenstein>
-References: <3774367.1583430213@warthog.procyon.org.uk>
- <20200306134116.qfa2gj6os4weru7o@yavin>
+Subject: Re: [RFC][PATCH] Mark AT_* path flags as deprecated and add missing RESOLVE_ flags
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200306134116.qfa2gj6os4weru7o@yavin>
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <4040641.1583505822.1@warthog.procyon.org.uk>
+Date:   Fri, 06 Mar 2020 14:43:42 +0000
+Message-ID: <4040642.1583505822@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Mar 07, 2020 at 12:41:16AM +1100, Aleksa Sarai wrote:
-> On 2020-03-05, David Howells <dhowells@redhat.com> wrote:
-> > Do we want to do this?  Or should we duplicate the RESOLVE_* flags to AT_*
-> > flags so that existing *at() syscalls can make use of them?
-> > 
-> > David
-> > ---
-> > commit 448731bf3b29f2b1f7c969d7efe1f0673ae13b5e
-> > Author: David Howells <dhowells@redhat.com>
-> > Date:   Thu Mar 5 17:40:02 2020 +0000
-> > 
-> >     Mark AT_* flags as deprecated and add missing RESOLVE_ flags
-> >     
-> >     It has been suggested that new path-using system calls should use RESOLVE_*
-> >     flags instead of AT_* flags, but the RESOLVE_* flag functions are not a
-> >     superset of the AT_* flag functions.  So formalise this by:
-> >     
-> >      (1) In linux/fcntl.h, add a comment noting that the AT_* flags are
-> >          deprecated for new system calls and that RESOLVE_* flags should be
-> >          used instead.
+Christian Brauner <christian.brauner@ubuntu.com> wrote:
+
+> > +	if (flags & O_NOFOLLOW)
+> > +		lookup_flags &= ~LOOKUP_FOLLOW;
 > 
-> I wouldn't say it that way -- the RESOLVE_* flags should be used by
-> syscalls *where it makes sense to change the path resolution rules*. If
-> it makes more sense for them to have their own flag set, they should
-> arguably make a separate one (like renameat2 did -- though renameat2 can
-> never take AT_EMPTY_PATH because it isn't sufficiently extensible).
+> Odd change. But I guess you're doing it for the sake of consistency
+> because of how you treat NO_TERMINAL_SYMLINKS below.
 
-Yeah, we should clearly state that they are not a replacement for
-_all_ the AT_* flags. I think it makes sense to think of RESOLVE_* flags
-as a superset of the path-resolution portions of AT_* flags.
+Not really.  The default is to follow.  Both remove the LOOKUP_FOLLOW flag and
+neither set it.
 
-Maybe in openat2.h:
+David
 
-/*
- * Flags available to syscalls wanting to modify how paths are resolved.
- * RESOLVE_* flags are intended to as a superset of those AT_* flags 
- * concerned with path resolution. All syscalls modifying their path
- * resolution behavior are expected to use RESOLVE_* flags.
- */
-
-Something like this (Native speaker can probably do this way nicer.)?
