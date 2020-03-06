@@ -2,129 +2,154 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CB1F917C5D8
-	for <lists+linux-api@lfdr.de>; Fri,  6 Mar 2020 20:02:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B439017C620
+	for <lists+linux-api@lfdr.de>; Fri,  6 Mar 2020 20:16:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726674AbgCFTCM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 6 Mar 2020 14:02:12 -0500
-Received: from mga17.intel.com ([192.55.52.151]:1470 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726167AbgCFTCL (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 6 Mar 2020 14:02:11 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Mar 2020 11:02:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,523,1574150400"; 
-   d="scan'208";a="244691684"
-Received: from ray.jf.intel.com (HELO [10.7.201.139]) ([10.7.201.139])
-  by orsmga006.jf.intel.com with ESMTP; 06 Mar 2020 11:02:09 -0800
-Subject: Re: [RFC PATCH v9 05/27] x86/cet/shstk: Add Kconfig option for
- user-mode Shadow Stack protection
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        id S1726307AbgCFTQN convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Fri, 6 Mar 2020 14:16:13 -0500
+Received: from mail-oln040092070042.outbound.protection.outlook.com ([40.92.70.42]:8449
+        "EHLO EUR03-AM5-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726167AbgCFTQM (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 6 Mar 2020 14:16:12 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FghbxTReKSlAco+/DZw4jTOqbOguzXfGPbvIuxD+njSiaofPYF9jg0UO1bktRbhWatDyipYIPa9d6yRaWGavSnJiSPbPUf7hWXICiOqLDhWEGFucQShy31WfE4zdXp0XM3m4Z9ofBoP6Y8OKYOT5pTna3UeZcr164NyA/IIuFuc1hEbEs3jNZXhnsXbVJQb57u/TZhOMVJ6tMV6VFoj/3lvt75SjuYVtJ3zoahj6GsSns5YHYZ3tjtjjXWuJQXgVO6XdCvCjeypHsWQK2v/AlwYNTO3ariRjL01LhrrTKCFV6tkLRwiTAAG7IfAvCHpNNHA6yzORcDe8w6O4c9Yg3w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uIzJzakET+nudEIKDq5F6x974sE6vtbHCXBBRfPzsbM=;
+ b=n1rLGoYP8nla7yBgJN41Vuk+gPWp4/nCtvIfM1MyW2Sq7eTKjQGm9WflmDP9PviMy1L9t+QYGuNXwFyS6l0z7PzR2YX2ixDrRp0laVINlXRuvzmeiO2aAInvY6XC2/nJAQhvimvUtOxsFq3Z5SB/djsmPQWjlWCGHhnr8k8dlFL0h1BLzUeSaX2hvlD4SMcrc8fGUngVfBeTpmElQrfOKwFY+PeiAIIa+6lP4e5s3YYxPlbA4d1nTAy+rRPT76BezNNp+m1+DikO82K0cg0Sh4iIU2dlxZIn8HWcgrehKNKXTeG/s5CNzLwVAiZaB7qomPbwNaGJRqAPSHqB3xPYhw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from DB5EUR03FT020.eop-EUR03.prod.protection.outlook.com
+ (2a01:111:e400:7e0a::3c) by
+ DB5EUR03HT131.eop-EUR03.prod.protection.outlook.com (2a01:111:e400:7e0a::307)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.11; Fri, 6 Mar
+ 2020 19:16:08 +0000
+Received: from AM6PR03MB5170.eurprd03.prod.outlook.com (10.152.20.51) by
+ DB5EUR03FT020.mail.protection.outlook.com (10.152.20.134) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2793.11 via Frontend Transport; Fri, 6 Mar 2020 19:16:08 +0000
+Received: from AM6PR03MB5170.eurprd03.prod.outlook.com
+ ([fe80::1956:d274:cab3:b4dd]) by AM6PR03MB5170.eurprd03.prod.outlook.com
+ ([fe80::1956:d274:cab3:b4dd%6]) with mapi id 15.20.2772.019; Fri, 6 Mar 2020
+ 19:16:08 +0000
+Received: from [192.168.1.101] (92.77.140.102) by FRYP281CA0004.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::14) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.15 via Frontend Transport; Fri, 6 Mar 2020 19:16:07 +0000
+From:   Bernd Edlinger <bernd.edlinger@hotmail.de>
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+CC:     Christian Brauner <christian.brauner@ubuntu.com>,
         Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
-References: <20200205181935.3712-1-yu-cheng.yu@intel.com>
- <20200205181935.3712-6-yu-cheng.yu@intel.com>
- <d4dabb84-5636-2657-c45e-795f3f2dcbbc@intel.com>
- <070d9d78981f0aad2baf740233e8dfc32ecd29d7.camel@intel.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-Message-ID: <d4e09cf8-4237-d168-7e46-929f2b536332@intel.com>
-Date:   Fri, 6 Mar 2020 11:02:08 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <070d9d78981f0aad2baf740233e8dfc32ecd29d7.camel@intel.com>
-Content-Type: text/plain; charset=utf-8
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Yuyang Du <duyuyang@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jamorris@linux.microsoft.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christian Kellner <christian@kellner.me>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
+Subject: Re: [PATCH 2/2] exec: Add a exec_update_mutex to replace
+ cred_guard_mutex
+Thread-Topic: [PATCH 2/2] exec: Add a exec_update_mutex to replace
+ cred_guard_mutex
+Thread-Index: AQHV8zOjiaOX92PFsUy1cOGGFJ5V7ag6ihsAgAB9KjCAAOmyAA==
+Date:   Fri, 6 Mar 2020 19:16:08 +0000
+Message-ID: <AM6PR03MB5170E9D0DB405EC051F7731CE4E30@AM6PR03MB5170.eurprd03.prod.outlook.com>
+References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <AM6PR03MB5170B976E6387FDDAD59A118E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <202003021531.C77EF10@keescook>
+ <20200303085802.eqn6jbhwxtmz4j2x@wittgenstein>
+ <AM6PR03MB5170285B336790D3450E2644E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87v9nlii0b.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB5170609D44967E044FD1BE40E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87a74xi4kz.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB51705AA3009B4986BB6EF92FE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87r1y8dqqz.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
+ <87imjicxjw.fsf_-_@x220.int.ebiederm.org>
+ <AM6PR03MB5170375DBF699D4F3DC7A08DE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87k13yawpp.fsf@x220.int.ebiederm.org>
+In-Reply-To: <87k13yawpp.fsf@x220.int.ebiederm.org>
+Accept-Language: en-US, en-GB, de-DE
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: FRYP281CA0004.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::14)
+ To AM6PR03MB5170.eurprd03.prod.outlook.com (2603:10a6:20b:ca::23)
+x-incomingtopheadermarker: OriginalChecksum:EAD22F76A094F409A4EDCD4477720CEB4503D562E8D6AA0F890EDBA16291F42E;UpperCasedChecksum:71F045288ECA85363986E47F3340E99BB2B694FE8C4D59FE3583673AEEE75A6A;SizeAsReceived:9908;Count:50
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn:  [NjjbdR5hkty6MCsyI4upoQ3j5M/LGKJ+]
+x-microsoft-original-message-id: <3809f78d-9223-ea8a-ce30-73dcf372d21d@hotmail.de>
+x-ms-publictraffictype: Email
+x-incomingheadercount: 50
+x-eopattributedmessage: 0
+x-ms-office365-filtering-correlation-id: 00161e8f-36fa-488a-de4c-08d7c202d31b
+x-ms-traffictypediagnostic: DB5EUR03HT131:
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ou8Rae7NaWgGLlGpxv8IlgAD0rnGOfKRp3LkYZFlTSDVX26TdBtTfnvi5HjRCcRuMTqKn/01JrT0dImgQrL4aZc1/LZChvEtCY0BEiD6PFr+iImq55NAfUXtpbLZtKPWR8rcmgVAWcDSd7MjlgDGgT5TQnnVK9/AzigTObVOne1Z/W4DAhUok4ZS8I8OymNB
+x-ms-exchange-antispam-messagedata: PQrQw1zcai4oqKo9xMjG8obL6CcGrgfQ++dRBm6IDPboDPUI3jHIe0Mid36OyT2vBJhfKtOTPe1TyQu1GxRItstobjF1rSBSMnWHqP9VIQ4YGpUPXWZkxwjBOkBUpiKZoG9qCDhFdJ60SKnQWiqi8A==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="Windows-1252"
+Content-ID: <CA5DC7EFFE138C4AAD3C85E6122AAC41@eurprd03.prod.outlook.com>
+Content-Transfer-Encoding: 8BIT
+MIME-Version: 1.0
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 00161e8f-36fa-488a-de4c-08d7c202d31b
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Mar 2020 19:16:08.8373
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Internet
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB5EUR03HT131
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 3/6/20 10:37 AM, Yu-cheng Yu wrote:
-> We used to do this for CET instructions, but after adding kernel-mode
-> instructions and inserting ENDBR's, the code becomes cluttered.  I also
-> found an earlier discussion on the ENDBR:
+On 3/6/20 6:17 AM, Eric W. Biederman wrote:
+> Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
 > 
-> https://lore.kernel.org/lkml/CALCETrVRH8LeYoo7V1VBPqg4WS0Enxtizt=T7dPvgoeWfJrdzA@mail.gmail.com/
-> 
-> It makes sense to let the user know early on that the system cannot support
-> CET and cannot build a CET-enabled kernel.
-> 
-> One thing we can do is to disable CET in Kconfig and not in kernel
-> build, which I will do in the next version.
+>> On 3/5/20 10:16 PM, Eric W. Biederman wrote:
+>>>
+>>> The cred_guard_mutex is problematic.  The cred_guard_mutex is held
+>>> over the userspace accesses as the arguments from userspace are read.
+>>> The cred_guard_mutex is held of PTRACE_EVENT_EXIT as the the other
+>>> threads are killed.  The cred_guard_mutex is held over
+>>> "put_user(0, tsk->clear_child_tid)" in exit_mm().
+>>>
 
-I'll go on the record and say I think we should allow building
-CET-enabled kernels on old toolchains.  We need it for build test
-coverage.  We can spit out a warning, but we need to allow building it.
+I am all for this patch, and the direction it is heading, Eric.
 
-Andy L, do you have any heartburn with that?
+I just wanted to add a note that I think it is
+possible that exec_mm_release can also invoke put_user(0, tsk->clear_child_tid),
+under the new exec_update_mutex, since vm_access increments the
+mm->mm_users, under the cred_update_mutex, but releases the mutex,
+and the caller can hold the reference for a while and then exec_mmap is not
+releasing the last reference.
+
+
+Bernd.
