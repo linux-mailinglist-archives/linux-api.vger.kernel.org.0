@@ -2,150 +2,126 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2663117C2DC
-	for <lists+linux-api@lfdr.de>; Fri,  6 Mar 2020 17:26:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 58DBB17C358
+	for <lists+linux-api@lfdr.de>; Fri,  6 Mar 2020 17:58:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726140AbgCFQ0k convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Fri, 6 Mar 2020 11:26:40 -0500
-Received: from mail-oln040092074103.outbound.protection.outlook.com ([40.92.74.103]:51330
-        "EHLO EUR04-DB3-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726166AbgCFQ0j (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 6 Mar 2020 11:26:39 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mndLkuF/4+ZA8pg23sQ9BVkOtGDP0VE5c+lpIaJUjY5YySiJ2Avseh8fQonLow2E+UilVMoEs2iHF8hIC3VRAYouAh7Vwqg1H2dkuzyrrUc+cEH0xzOtpEo6ph2m6pjj2PkW4o7NLJ3jmEFjinyknuVti1ODKfTi0Q/5XGP42GPICaX422J4muvDnUTzaSwmamuwyiclT/DWWLH0OYvY333u8b8OfKvt4OvVtw+uJ6ppL3cuMjOLsUnp2tnf0za8aONfin53ImrsJhDV5Q4R0OhBK+wOPG8b8nTBqAF4mI3CGFtrdq+D1ckftSU/1lPT8YgVvWW8G07TBEKtQTZ+sg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8Io7E+Ui2qIzTcTCR72QAGn67K2nLZUYLahWMx2SMUc=;
- b=X57kxxxfGDnewALInZkbNePdMoLa4oQkduU6T3p6vZKjlh/r2O+Qk9EXP4RKbWDVVWYK+V3jnggakzBFmAsyFgHXAite5gAeq3akrWpdaplqaLetAlV1Zqayc3zIByJoFTBT1LTkHtMVoOxWTr6hr5MAej6Wgo+CAqi+RRpPuKSWIe651eQirSas0L+RVXN1Y3Yh/qR1DBJlJpTD0QYoMuJVo2m4fU+i+IZ7D/LdoXOP4t5UGgMaW2MAyC51gUo5hmsYNoUXOkT5CsVesO3q953423vsUXE2AA9+cj1gTghAMUpjJKIPlwZ+s2kD5Usi/175kxzmB/xtrbL9M+OvUA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-Received: from VI1EUR04FT058.eop-eur04.prod.protection.outlook.com
- (2a01:111:e400:7e0e::36) by
- VI1EUR04HT180.eop-eur04.prod.protection.outlook.com (2a01:111:e400:7e0e::66)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.11; Fri, 6 Mar
- 2020 16:26:35 +0000
-Received: from AM6PR03MB5170.eurprd03.prod.outlook.com (10.152.28.57) by
- VI1EUR04FT058.mail.protection.outlook.com (10.152.29.71) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2793.11 via Frontend Transport; Fri, 6 Mar 2020 16:26:35 +0000
-Received: from AM6PR03MB5170.eurprd03.prod.outlook.com
- ([fe80::1956:d274:cab3:b4dd]) by AM6PR03MB5170.eurprd03.prod.outlook.com
- ([fe80::1956:d274:cab3:b4dd%6]) with mapi id 15.20.2772.019; Fri, 6 Mar 2020
- 16:26:35 +0000
-Received: from [192.168.1.101] (92.77.140.102) by ZRAP278CA0014.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:10::24) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.16 via Frontend Transport; Fri, 6 Mar 2020 16:26:33 +0000
-From:   Bernd Edlinger <bernd.edlinger@hotmail.de>
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-CC:     Christian Brauner <christian.brauner@ubuntu.com>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
+        id S1726314AbgCFQ57 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Fri, 6 Mar 2020 11:57:59 -0500
+Received: from eu-smtp-delivery-151.mimecast.com ([207.82.80.151]:24614 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726368AbgCFQ57 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Mar 2020 11:57:59 -0500
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-20-vOmmemdGMmSebKCtFim0sQ-1; Fri, 06 Mar 2020 16:57:55 +0000
+X-MC-Unique: vOmmemdGMmSebKCtFim0sQ-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Fri, 6 Mar 2020 16:57:55 +0000
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
+ Fri, 6 Mar 2020 16:57:55 +0000
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Peter Zijlstra' <peterz@infradead.org>,
+        =?iso-8859-1?Q?Andr=E9_Almeida?= <andrealmeid@collabora.com>
+CC:     Florian Weimer <fweimer@redhat.com>,
+        "Pierre-Loup A. Griffais" <pgriffais@valvesoftware.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Yuyang Du <duyuyang@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jamorris@linux.microsoft.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christian Kellner <christian@kellner.me>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        "kernel@collabora.com" <kernel@collabora.com>,
+        "krisman@collabora.com" <krisman@collabora.com>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "ryao@gentoo.org" <ryao@gentoo.org>,
+        "dvhart@infradead.org" <dvhart@infradead.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "z.figura12@gmail.com" <z.figura12@gmail.com>,
+        "steven@valvesoftware.com" <steven@valvesoftware.com>,
+        "steven@liquorix.net" <steven@liquorix.net>,
+        "malteskarupke@web.de" <malteskarupke@web.de>,
+        "carlos@redhat.com" <carlos@redhat.com>,
+        "adhemerval.zanella@linaro.org" <adhemerval.zanella@linaro.org>,
+        "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>,
         "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
-Subject: Re: [PATCH 1/2] exec: Properly mark the point of no return
-Thread-Topic: [PATCH 1/2] exec: Properly mark the point of no return
-Thread-Index: AQHV8zOIDtdt4OHpy0WII6Z+9AZegqg6nBAAgABo5giAALyfgA==
-Date:   Fri, 6 Mar 2020 16:26:34 +0000
-Message-ID: <AM6PR03MB5170688693E4114CA9367211E4E30@AM6PR03MB5170.eurprd03.prod.outlook.com>
-References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <AM6PR03MB5170B976E6387FDDAD59A118E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <202003021531.C77EF10@keescook>
- <20200303085802.eqn6jbhwxtmz4j2x@wittgenstein>
- <AM6PR03MB5170285B336790D3450E2644E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87v9nlii0b.fsf@x220.int.ebiederm.org>
- <AM6PR03MB5170609D44967E044FD1BE40E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87a74xi4kz.fsf@x220.int.ebiederm.org>
- <AM6PR03MB51705AA3009B4986BB6EF92FE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87r1y8dqqz.fsf@x220.int.ebiederm.org>
- <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
- <87o8tacxl3.fsf_-_@x220.int.ebiederm.org>
- <AM6PR03MB5170B05CFDAF21D8A99B7E48E4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87pndqax3j.fsf@x220.int.ebiederm.org>
-In-Reply-To: <87pndqax3j.fsf@x220.int.ebiederm.org>
-Accept-Language: en-US, en-GB, de-DE
+Subject: RE: 'simple' futex interface [Was: [PATCH v3 1/4] futex: Implement
+ mechanism to wait on any of several futexes]
+Thread-Topic: 'simple' futex interface [Was: [PATCH v3 1/4] futex: Implement
+ mechanism to wait on any of several futexes]
+Thread-Index: AQHV8x8l7LKRap7vfU2BMMqcavNvO6g7ya9A
+Date:   Fri, 6 Mar 2020 16:57:54 +0000
+Message-ID: <0271e473ddcf463bb030eb4cbecbe888@AcuMS.aculab.com>
+References: <87tv3aflqm.fsf@nanos.tec.linutronix.de>
+ <967d5047-2cb6-d6d8-6107-edb99a4c9696@valvesoftware.com>
+ <87o8thg031.fsf@nanos.tec.linutronix.de>
+ <beb82055-96fa-cb64-a06e-9d7a0946587b@valvesoftware.com>
+ <20200303120050.GC2596@hirez.programming.kicks-ass.net>
+ <87pndth9ur.fsf@oldenburg2.str.redhat.com>
+ <20200303132150.GD2596@hirez.programming.kicks-ass.net>
+ <878skhh7og.fsf@oldenburg2.str.redhat.com>
+ <20200303150104.GE2596@hirez.programming.kicks-ass.net>
+ <52406c54-60b3-dcfe-65d8-4c425459e37b@collabora.com>
+ <20200305185136.GB3348@worktop.programming.kicks-ass.net>
+In-Reply-To: <20200305185136.GB3348@worktop.programming.kicks-ass.net>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-clientproxiedby: ZRAP278CA0014.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:10::24) To AM6PR03MB5170.eurprd03.prod.outlook.com
- (2603:10a6:20b:ca::23)
-x-incomingtopheadermarker: OriginalChecksum:DA816E1DEDC4BA9DF9DBBBF2CC39CA4E2C4664A595A9424824BFDAF23294FBD6;UpperCasedChecksum:E1114A9E9CF3C62F1A20B426AF6762161E7A0FAD8694E8A5FE36B25F189AB47F;SizeAsReceived:9897;Count:50
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tmn:  [w3tKcLr0mKFaBaS1K/cxK7beXyXo0iyJ]
-x-microsoft-original-message-id: <4fe01e54-2f0f-3381-ed4c-e90f63741717@hotmail.de>
-x-ms-publictraffictype: Email
-x-incomingheadercount: 50
-x-eopattributedmessage: 0
-x-ms-office365-filtering-correlation-id: ec1878a5-305e-44f8-082d-08d7c1eb2307
-x-ms-traffictypediagnostic: VI1EUR04HT180:
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: V3jE/pm2bdQm0TxXo+FfbjDhjLWDPgMmRhMVcgCeHk/31mvdiWIA/DuG/043D396eT0QhFXCyL7dSirFLnZdhQ6U12OdMjsWMC+kR0KRZ3jsaIHXyNtRD30l2bWbKtgFn8hQJZ/5gNNJH9yux7NmmfgrO0/veRe2FrUNcfobzZSqwf+29d8me5/Go+45oAnG
-x-ms-exchange-antispam-messagedata: k+uC5fcaLM7rehNPDQoZeMxt3OfEGzH7p2/ZRbCOhIoecExfA2Ouq1x+euM5xUOFLKbkSJ2wIMD5//t/wWfpdjfvSV3a+CYfh5EKJWqtpiDWQu8cFt0i+4gka2bxuT4/7Yh5+doi7cT4MnQZBcmZtg==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="Windows-1252"
-Content-ID: <7C09FD473FD1FA4FA82AF05D172951FF@eurprd03.prod.outlook.com>
-Content-Transfer-Encoding: 8BIT
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: ec1878a5-305e-44f8-082d-08d7c1eb2307
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Mar 2020 16:26:34.9940
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Internet
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1EUR04HT180
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 3/6/20 6:09 AM, Eric W. Biederman wrote:
-> Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
+From: Peter Zijlstra
+> Sent: 05 March 2020 18:52
++> On Thu, Mar 05, 2020 at 01:14:17PM -0300, André Almeida wrote:
 > 
->> On 3/5/20 10:15 PM, Eric W. Biederman wrote:
->>>
->>> Add a flag binfmt->unrecoverable to mark when execution has gotten to
->>> the point where it is impossible to return to userspace with the
->>> calling process unchanged.
->>>
->>> While techinically this state starts as soon as de_thread starts
+> > >   sys_futex_wait(void *uaddr, u64 val, unsigned long flags, ktime_t *timo);
+> > >   struct futex_wait {
+> > > 	  void *uaddr;
+> > > 	  u64 val;
+> > > 	  u64 flags;
+> > >   };
+> > >   sys_futex_waitv(struct futex_wait *waiters, unsigned int nr_waiters,
+> > > 		  u64 flags, ktime_t *timo);
+> > >   sys_futex_wake(void *uaddr, unsigned int nr, u64 flags);
+> > >   sys_futex_cmp_requeue(void *uaddr1, void *uaddr2, unsigned int nr_wake,
+> > > 		  unsigned int nr_requeue, u64 cmpval, unsigned long flags);
+> > >
+> > > And that makes 7 arguments for cmp_requeue, which can't be. Maybe we if
+> > > combine nr_wake and nr_requeue in one as 2 u16... ?
+> > >
+> > > And then we need to go detector if the platform supports it or not..
+> > >
+> >
+> > Thanks everyone for the feedback around our mechanism. Are the
+> > performance benefits of implementing a syscall to wait on a single futex
+> > significant enough to maintain it instead of just using
+> > `sys_futex_waitv()` with `nr_waiters = 1`? If we join both cases in a
+> > single interface, we may even add a new member for NUMA hint in `struct
+> > futex_wait`.
+> 
+> My consideration was that avoiding the get_user/copy_from_user might
+> become measurable on !PTI systems with SMAP.
+> 
+> But someone would have to build it and measure it before we can be sure
+> of course.
 
-typo: s/techinically/technically/
+An extra copy_from_user is likely to be noticable.
+It certainly makes recvmsg() slower than recv().
+Especially if the hardended usercopy crap gets involved.
 
->>> killing threads, the only return path at that point is if there is a
->>> fatal signal pending.  I have choosen instead to set unrecoverable
+	David
+ 
 
-I'm not good at english, is this chosen ?
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
 
-
-Bernd.
