@@ -2,43 +2,28 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AD1BB17B1F4
-	for <lists+linux-api@lfdr.de>; Thu,  5 Mar 2020 23:56:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 90DAF17B600
+	for <lists+linux-api@lfdr.de>; Fri,  6 Mar 2020 06:08:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726142AbgCEW4H convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Thu, 5 Mar 2020 17:56:07 -0500
-Received: from mail-vi1eur05olkn2104.outbound.protection.outlook.com ([40.92.90.104]:45153
-        "EHLO EUR05-VI1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726128AbgCEW4H (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 5 Mar 2020 17:56:07 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=U6A4qZbNCfGWsXeIvdr6kqJ/amkE8yIxfPp3e2pQ9jrWrDXGD5SLIa9j0eh4tvKHLu8YZb+elX5+wPMD5IsFZuky3cVz0ZZfgh0THuB5S/uIH+HVcVvfzzRrav232g1fI8F7H5EgSXyjZ7v0/Ib7eSYFCrl3G82Uezl661X42JrCF9o0LS3f2E8+2xoGsltT9SnQIHGPAmKLaG9O4caS2bskoBQ+a1adORZpDIkK2Olmeb1Td2PqgZSsCJC8yiy3fQaBCPjgjuhyKK0Canhqw8gF2ZrD+oqavYJpm1BBRZUgqsfUi6c+6cZ/qs1gW+Om7ojr6FZA5yahbShqvC2ENQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KDdC9hvKRliCZOl6sjx6IJBf9FDU4elCX2xh61mM2Vk=;
- b=L459/foOwKYign+QhAvjUFqlnJ8D6ng4ORV7GqRO3T3Cy2vNwQzs14fZeVl6CZ868B3NGhiTNxsIBfCnJVO2mfCojlue7FMN2gvCUVSg9avuFzDb3GRGFQwn2ITJMa/R30AZLPp/OMMBMsvOzj276OX3tmBTXn5meqJMK01I09FRVgMZMi3g341etIn5jghAEbbFpe9IxidDELm3lXjrZVCnjliNVlmiNoXKEmUyFykTVNpSu+MmN48GS0nxzp+ICH+vGThai8LOyb+LfZZ1BAE1KCfriAe/87UupRyTh3HskvSJ8P1Z2oiYwF0dQ3b56ewzq/X2/xhOi2Bua4iR+g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-Received: from AM6EUR05FT004.eop-eur05.prod.protection.outlook.com
- (2a01:111:e400:fc11::39) by
- AM6EUR05HT175.eop-eur05.prod.protection.outlook.com (2a01:111:e400:fc11::267)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.11; Thu, 5 Mar
- 2020 22:56:01 +0000
-Received: from AM6PR03MB5170.eurprd03.prod.outlook.com (10.233.240.53) by
- AM6EUR05FT004.mail.protection.outlook.com (10.233.240.227) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2793.11 via Frontend Transport; Thu, 5 Mar 2020 22:56:01 +0000
-Received: from AM6PR03MB5170.eurprd03.prod.outlook.com
- ([fe80::1956:d274:cab3:b4dd]) by AM6PR03MB5170.eurprd03.prod.outlook.com
- ([fe80::1956:d274:cab3:b4dd%6]) with mapi id 15.20.2772.019; Thu, 5 Mar 2020
- 22:56:01 +0000
-Received: from [192.168.1.101] (92.77.140.102) by AM0PR05CA0063.eurprd05.prod.outlook.com (2603:10a6:208:be::40) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.15 via Frontend Transport; Thu, 5 Mar 2020 22:56:00 +0000
-From:   Bernd Edlinger <bernd.edlinger@hotmail.de>
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-CC:     Christian Brauner <christian.brauner@ubuntu.com>,
+        id S1725941AbgCFFIf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 6 Mar 2020 00:08:35 -0500
+Received: from out02.mta.xmission.com ([166.70.13.232]:47484 "EHLO
+        out02.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725799AbgCFFIf (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Mar 2020 00:08:35 -0500
+Received: from in01.mta.xmission.com ([166.70.13.51])
+        by out02.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.90_1)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1jA5Dn-0007A2-BN; Thu, 05 Mar 2020 22:08:27 -0700
+Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
+        by in01.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.87)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1jA5Dm-0003Pg-FD; Thu, 05 Mar 2020 22:08:27 -0700
+From:   ebiederm@xmission.com (Eric W. Biederman)
+To:     Bernd Edlinger <bernd.edlinger@hotmail.de>
+Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
         Kees Cook <keescook@chromium.org>,
         Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
         Alexander Viro <viro@zeniv.linux.org.uk>,
@@ -49,7 +34,7 @@ CC:     Christian Brauner <christian.brauner@ubuntu.com>,
         Frederic Weisbecker <frederic@kernel.org>,
         Andrei Vagin <avagin@gmail.com>,
         Ingo Molnar <mingo@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        "Peter Zijlstra \(Intel\)" <peterz@infradead.org>,
         Yuyang Du <duyuyang@gmail.com>,
         David Hildenbrand <david@redhat.com>,
         Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
@@ -63,168 +48,145 @@ CC:     Christian Brauner <christian.brauner@ubuntu.com>,
         Andrea Arcangeli <aarcange@redhat.com>,
         Aleksa Sarai <cyphar@cyphar.com>,
         "Dmitry V. Levin" <ldv@altlinux.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
-Subject: Re: [PATCH 1/2] exec: Properly mark the point of no return
-Thread-Topic: [PATCH 1/2] exec: Properly mark the point of no return
-Thread-Index: AQHV8zOIDtdt4OHpy0WII6Z+9AZegqg6nBAA
-Date:   Thu, 5 Mar 2020 22:56:01 +0000
-Message-ID: <AM6PR03MB5170B05CFDAF21D8A99B7E48E4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        "linux-doc\@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel\@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm\@kvack.org" <linux-mm@kvack.org>,
+        "stable\@vger.kernel.org" <stable@vger.kernel.org>,
+        "linux-api\@vger.kernel.org" <linux-api@vger.kernel.org>
 References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <AM6PR03MB51707ABF20B6CBBECC34865FE4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87v9nmjulm.fsf@x220.int.ebiederm.org>
- <AM6PR03MB5170B976E6387FDDAD59A118E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <202003021531.C77EF10@keescook>
- <20200303085802.eqn6jbhwxtmz4j2x@wittgenstein>
- <AM6PR03MB5170285B336790D3450E2644E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87v9nlii0b.fsf@x220.int.ebiederm.org>
- <AM6PR03MB5170609D44967E044FD1BE40E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87a74xi4kz.fsf@x220.int.ebiederm.org>
- <AM6PR03MB51705AA3009B4986BB6EF92FE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87r1y8dqqz.fsf@x220.int.ebiederm.org>
- <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
- <87o8tacxl3.fsf_-_@x220.int.ebiederm.org>
-In-Reply-To: <87o8tacxl3.fsf_-_@x220.int.ebiederm.org>
-Accept-Language: en-US, en-GB, de-DE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: AM0PR05CA0063.eurprd05.prod.outlook.com
- (2603:10a6:208:be::40) To AM6PR03MB5170.eurprd03.prod.outlook.com
- (2603:10a6:20b:ca::23)
-x-incomingtopheadermarker: OriginalChecksum:272380709DEB80306E9009F61E2997677429D2C3BDF0FBC3F0F15DDDC349B10F;UpperCasedChecksum:21F0A5716B0852942E038A9075DF8A415A4691F0A163A0DD201B056A0DF548A6;SizeAsReceived:9890;Count:50
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tmn:  [izdHMbh3bnDYSfTpdS4ROrLapHN4x4DX]
-x-microsoft-original-message-id: <d4003229-394f-e962-109c-875fbdd1198e@hotmail.de>
-x-ms-publictraffictype: Email
-x-incomingheadercount: 50
-x-eopattributedmessage: 0
-x-ms-office365-filtering-correlation-id: 11b256b2-15fb-4537-cef8-08d7c158604b
-x-ms-traffictypediagnostic: AM6EUR05HT175:
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 0hjSR8sFoP5pZfY+2ji5Jjh2SJ5FnTvekp7+oWOwi4CDGhi8CryMEW/7/hNAwR6I85x1Xj2/KfPJb/moNfZYh4vzurGzhyYqSfE2rTb1IYqqUSRYIIujq7CiTvJavuJRvEgMn1O91dXTDtuVUWSw4VZb+0etlV+bZwWQR+V5UxVN2SOPH/gQFX/RGVyw3p5l
-x-ms-exchange-antispam-messagedata: 3ENPk+OnLtZ3ZFws88q3ivvo8YLOSnhbyGhaUDLajUerqrTkxEHXStoKK9P3fZ+W7UaHkq/2qrGZfxF9FqXJ+0bHEF/9RLX/0xYz/cO/KHe31mtPREQ29BoL6HkY4g0GyjBqrrUzxB1CB8DVN71OxQ==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="Windows-1252"
-Content-ID: <0B2ECCD68E9FD54C97C2891C56840623@eurprd03.prod.outlook.com>
-Content-Transfer-Encoding: 8BIT
+        <875zfmloir.fsf@x220.int.ebiederm.org>
+        <AM6PR03MB51707ABF20B6CBBECC34865FE4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <87v9nmjulm.fsf@x220.int.ebiederm.org>
+        <AM6PR03MB5170B976E6387FDDAD59A118E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <202003021531.C77EF10@keescook>
+        <20200303085802.eqn6jbhwxtmz4j2x@wittgenstein>
+        <AM6PR03MB5170285B336790D3450E2644E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <87v9nlii0b.fsf@x220.int.ebiederm.org>
+        <AM6PR03MB5170609D44967E044FD1BE40E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <87a74xi4kz.fsf@x220.int.ebiederm.org>
+        <AM6PR03MB51705AA3009B4986BB6EF92FE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <87r1y8dqqz.fsf@x220.int.ebiederm.org>
+        <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
+        <AM6PR03MB5170C0E85446CAE39F642F5BE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
+Date:   Thu, 05 Mar 2020 23:06:12 -0600
+In-Reply-To: <AM6PR03MB5170C0E85446CAE39F642F5BE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
+        (Bernd Edlinger's message of "Thu, 5 Mar 2020 22:31:24 +0000")
+Message-ID: <87zhcuax8b.fsf@x220.int.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 11b256b2-15fb-4537-cef8-08d7c158604b
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Mar 2020 22:56:01.7235
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Internet
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6EUR05HT175
+Content-Type: text/plain
+X-XM-SPF: eid=1jA5Dm-0003Pg-FD;;;mid=<87zhcuax8b.fsf@x220.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX1+myVahi27pkdFpz/bqvDvh1TPI3iGlNUI=
+X-SA-Exim-Connect-IP: 68.227.160.95
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa07.xmission.com
+X-Spam-Level: **
+X-Spam-Status: No, score=2.0 required=8.0 tests=ALL_TRUSTED,BAYES_50,
+        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,XMNoVowels,XMSubLong
+        autolearn=disabled version=3.4.2
+X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4963]
+        *  0.7 XMSubLong Long Subject
+        *  1.5 XMNoVowels Alpha-numberic number with no vowels
+        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
+        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
+        *      [sa07 1397; Body=1 Fuz1=1 Fuz2=1]
+X-Spam-DCC: XMission; sa07 1397; Body=1 Fuz1=1 Fuz2=1 
+X-Spam-Combo: **;Bernd Edlinger <bernd.edlinger@hotmail.de>
+X-Spam-Relay-Country: 
+X-Spam-Timing: total 370 ms - load_scoreonly_sql: 0.03 (0.0%),
+        signal_user_changed: 2.5 (0.7%), b_tie_ro: 1.73 (0.5%), parse: 1.01
+        (0.3%), extract_message_metadata: 11 (3.1%), get_uri_detail_list: 1.72
+        (0.5%), tests_pri_-1000: 17 (4.7%), tests_pri_-950: 1.23 (0.3%),
+        tests_pri_-900: 1.06 (0.3%), tests_pri_-90: 32 (8.7%), check_bayes: 31
+        (8.3%), b_tokenize: 12 (3.4%), b_tok_get_all: 9 (2.5%), b_comp_prob:
+        2.9 (0.8%), b_tok_touch_all: 3.7 (1.0%), b_finish: 0.62 (0.2%),
+        tests_pri_0: 292 (78.9%), check_dkim_signature: 0.55 (0.1%),
+        check_dkim_adsp: 2.4 (0.7%), poll_dns_idle: 0.84 (0.2%), tests_pri_10:
+        2.1 (0.6%), tests_pri_500: 6 (1.6%), rewrite_mail: 0.00 (0.0%)
+Subject: Re: [PATCH 0/2] Infrastructure to allow fixing exec deadlocks
+X-Spam-Flag: No
+X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
+X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 3/5/20 10:15 PM, Eric W. Biederman wrote:
-> 
-> Add a flag binfmt->unrecoverable to mark when execution has gotten to
-> the point where it is impossible to return to userspace with the
-> calling process unchanged.
-> 
-> While techinically this state starts as soon as de_thread starts
-> killing threads, the only return path at that point is if there is a
-> fatal signal pending.  I have choosen instead to set unrecoverable
-> when the killing stops, and there are possibilities of failures other
-> than fatal signals.  In particular it is possible for the allocation
-> of a new sighand structure to fail.
-> 
-> Setting unrecoverable at this point has the benefit that other actions
-> can be taken after the other threads are all dead, and the
-> unrecoverable flag can double as a flag that those actions have been
-> taken.
-> 
-> Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
-> ---
->  fs/exec.c               | 7 ++++---
->  include/linux/binfmts.h | 7 ++++++-
->  2 files changed, 10 insertions(+), 4 deletions(-)
-> 
-> diff --git a/fs/exec.c b/fs/exec.c
-> index db17be51b112..c243f9660d46 100644
-> --- a/fs/exec.c
-> +++ b/fs/exec.c
-> @@ -1061,7 +1061,7 @@ static int exec_mmap(struct mm_struct *mm)
->   * disturbing other processes.  (Other processes might share the signal
->   * table via the CLONE_SIGHAND option to clone().)
->   */
-> -static int de_thread(struct task_struct *tsk)
-> +static int de_thread(struct linux_binprm *bprm, struct task_struct *tsk)
->  {
->  	struct signal_struct *sig = tsk->signal;
->  	struct sighand_struct *oldsighand = tsk->sighand;
-> @@ -1182,6 +1182,7 @@ static int de_thread(struct task_struct *tsk)
->  		release_task(leader);
->  	}
->  
-> +	bprm->unrecoverable = true;
->  	sig->group_exit_task = NULL;
->  	sig->notify_count = 0;
->  
+Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
 
-ah, sorry, 
-        if (thread_group_empty(tsk))
-                goto no_thread_group;
-will skip this:
+> On 3/5/20 10:14 PM, Eric W. Biederman wrote:
+>> 
+>> Bernd, everyone
+>> 
+>> This is how I think the infrastructure change should look that makes way
+>> for fixing this issue.
+>> 
+>> - Correct the point of no return.
+>> - Add a new mutex to replace cred_guard_mutex
+>> 
+>> Then I think it is just going through the existing
+>> users of cred_guard_mutex and fixing them to use the new one.
+>> 
+>> There really aren't that many users of cred_guard_mutex so we should be
+>> able to get through the easy ones fairly quickly.  And anything that
+>> isn't easy we can wait until we have a good fix.
+>> 
+>> The users of cred_guard_mutex that I saw were:
+>>     fs/proc/base.c:
+>>        proc_pid_attr_write
+>>        do_io_accounting
+>>        proc_pid_stack
+>>        proc_pid_syscall
+>>        proc_pid_personality
+>>     
+>>     perf_event_open
+>>     mm_access
+>>     kcmp
+>>     pidfd_fget
+>>     seccomp_set_mode_filter
+>> 
+>> Bernd does this make sense to you?  
+>> 
+>> I think we can fix the seccomp/no_new_privs issue with some careful
+>> refactoring.  We can probably do the same for ptrace but that appears
+>> to need a little lsm bug fixing.
+>> 
+>
+> Yes, for most functions the proposed "exec_update_mutex" is fine,
+> but we will need a longer-time block for ptrace_attach, seccomp_set_mode_filter
+> and proc_pid_attr_write need to be blocked for the whole exec duration so
+> they need a second "mutex", with deadlock-detection as in my previous patch,
+> if I see that right.
 
-        sig->group_exit_task = NULL;
-        sig->notify_count = 0;
+So far I am leaving "cred_guard_mutex" as that second "mutex".  My sense
+is that when all we have left are the hard cases we can take those
+cases out in detail, examine them and see what really can be done.
 
-no_thread_group:
-        /* we have changed execution domain */
-        tsk->exit_signal = SIGCHLD;
+> Unfortunately only one of the two test cases can be fixed without the
+> second mutex, of course the mm_access is what cause the practical problem.
 
-so I think the bprm->unrecoverable = true; should be here?
+Fixing the practical problems are foremost on my agenda.
+That and clearing away enough of the noise that we can really focus on
+the hard problems when we begin to address them.
 
+That way I am hoping we can really solve some of these issues and make
+them go away.
 
-Bernd.
-> @@ -1266,7 +1267,7 @@ int flush_old_exec(struct linux_binprm * bprm)
->  	 * Make sure we have a private signal table and that
->  	 * we are unassociated from the previous thread group.
->  	 */
-> -	retval = de_thread(current);
-> +	retval = de_thread(bprm, current);
->  	if (retval)
->  		goto out;
->  
-> @@ -1664,7 +1665,7 @@ int search_binary_handler(struct linux_binprm *bprm)
->  
->  		read_lock(&binfmt_lock);
->  		put_binfmt(fmt);
-> -		if (retval < 0 && !bprm->mm) {
-> +		if (retval < 0 && bprm->unrecoverable) {
->  			/* we got to flush_old_exec() and failed after it */
->  			read_unlock(&binfmt_lock);
->  			force_sigsegv(SIGSEGV);
-> diff --git a/include/linux/binfmts.h b/include/linux/binfmts.h
-> index b40fc633f3be..12263115ce7a 100644
-> --- a/include/linux/binfmts.h
-> +++ b/include/linux/binfmts.h
-> @@ -44,7 +44,12 @@ struct linux_binprm {
->  		 * exec has happened. Used to sanitize execution environment
->  		 * and to set AT_SECURE auxv for glibc.
->  		 */
-> -		secureexec:1;
-> +		secureexec:1,
-> +		/*
-> +		 * Set when changes have been made that prevent returning
-> +		 * to userspace.
-> +		 */
-> +		unrecoverable:1;
->  #ifdef __alpha__
->  	unsigned int taso:1;
->  #endif
-> 
+> Currently for the unlimited user space delay, I have only the case of
+> a ptraced sibling thread on my radar, de_thread waits for the parent
+> to call wait in this case, that can literally take forever.
+> But I know that also PTRACE_CONT may be needed after a PTRACE_EVENT_EXIT.
+>
+> Can you explain what else in the user space can go wrong to make an
+> unlimited delay in the execve?
+
+Triggering a page fault.  Depending on the backing store or possibly
+with the use of userfaultfd that page fault can be delayed indefinitely
+and pretty much be as bad as the ptrace case.
+
+Eric
