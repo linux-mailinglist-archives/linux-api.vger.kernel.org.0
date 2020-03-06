@@ -2,57 +2,55 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D034817C0D8
-	for <lists+linux-api@lfdr.de>; Fri,  6 Mar 2020 15:49:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 473F717C101
+	for <lists+linux-api@lfdr.de>; Fri,  6 Mar 2020 15:56:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726240AbgCFOtA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 6 Mar 2020 09:49:00 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45341 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726182AbgCFOtA (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Mar 2020 09:49:00 -0500
+        id S1726974AbgCFO4W (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 6 Mar 2020 09:56:22 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:53225 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726674AbgCFO4V (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Mar 2020 09:56:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1583506139;
+        s=mimecast20190719; t=1583506580;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=KPKncNxD+H6FSBEIxsKO9EUaXIxD1slAskRHA95lWGQ=;
-        b=C+tHuFN5buSaxVwHfL8Q9S79Y85t8iSYrZBKKHsgZiiPPYvlJZZatLfgkyxmQDEHAyVRWK
-        xJwVGAnKSpXhps7AxYR3rIUcr8n/6UnHsxFMF6jubqgTZDGUL5lAalBr3gJRs+KxQf8dIL
-        cnDRecSBV99DNqFdt5cnNQ4vYrO4/Uo=
+        bh=VvNfBP6h/YjLYDbQgpAqGLfV7p/dFrBKdGIUKmuZy+w=;
+        b=Ev1SqxoFfHE/Sx7fthEHBJOb8RzMfBFhgxq2EaYRs8yjqkKam/w80WMGcd2ZRmmx+z5FEP
+        JMKg+GH+QWmAQXm/weV/ZRkILk/PvaFBh+jVQewiq0oWF+o3RaJPX124J05efu8fwMkElt
+        oO6LLTUMYKAy/cTWmI92vhVO0qOqIv4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-203-QSXU0n8gM-6CEnr1OE_cyg-1; Fri, 06 Mar 2020 09:48:57 -0500
-X-MC-Unique: QSXU0n8gM-6CEnr1OE_cyg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+ us-mta-105-OA2bfNzCNW2ep838-KW2qg-1; Fri, 06 Mar 2020 09:56:16 -0500
+X-MC-Unique: OA2bfNzCNW2ep838-KW2qg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 383AD1034B20;
-        Fri,  6 Mar 2020 14:48:53 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E96A19251A7;
+        Fri,  6 Mar 2020 14:56:15 +0000 (UTC)
 Received: from warthog.procyon.org.uk (ovpn-120-182.rdu2.redhat.com [10.10.120.182])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 78B788D57C;
-        Fri,  6 Mar 2020 14:48:51 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 9AA985D9CD;
+        Fri,  6 Mar 2020 14:56:13 +0000 (UTC)
 Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
         Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
         Kingdom.
         Registered in England and Wales under Company Registration No. 3798903
 From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <20200306140032.tpwfytofaeuazalo@yavin>
-References: <20200306140032.tpwfytofaeuazalo@yavin> <20200302152458.hznqqssixhlpykgr@yavin> <20200302143546.srzk3rnh4o6s76a7@wittgenstein> <20200302115239.pcxvej3szmricxzu@wittgenstein> <96563.1582901612@warthog.procyon.org.uk> <20200228152427.rv3crd7akwdhta2r@wittgenstein> <87h7z7ngd4.fsf@oldenburg2.str.redhat.com> <848282.1583159228@warthog.procyon.org.uk> <888183.1583160603@warthog.procyon.org.uk> <20200302150528.okjdx2mkluicje4w@wittgenstein> <932113.1583167065@warthog.procyon.org.uk>
+In-Reply-To: <20200306134407.zjiiieg3m6ce5uts@yavin>
+References: <20200306134407.zjiiieg3m6ce5uts@yavin> <4e915f46-093b-c566-1746-938dbd6dcf62@samba.org> <3774367.1583430213@warthog.procyon.org.uk> <3786501.1583440507@warthog.procyon.org.uk>
 To:     Aleksa Sarai <cyphar@cyphar.com>
-Cc:     dhowells@redhat.com,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Florian Weimer <fweimer@redhat.com>, linux-api@vger.kernel.org,
-        viro@zeniv.linux.org.uk, metze@samba.org,
-        torvalds@linux-foundation.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: Have RESOLVE_* flags superseded AT_* flags for new syscalls?
+Cc:     dhowells@redhat.com, Stefan Metzmacher <metze@samba.org>,
+        linux-api@vger.kernel.org, viro@zeniv.linux.org.uk,
+        torvalds@linux-foundation.org, christian.brauner@ubuntu.com,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC][PATCH] Mark AT_* path flags as deprecated and add missing RESOLVE_ flags
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
-Content-ID: <4041048.1583506130.1@warthog.procyon.org.uk>
-Date:   Fri, 06 Mar 2020 14:48:50 +0000
-Message-ID: <4041049.1583506130@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Content-ID: <4041660.1583506572.1@warthog.procyon.org.uk>
+Date:   Fri, 06 Mar 2020 14:56:12 +0000
+Message-ID: <4041661.1583506572@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
@@ -60,12 +58,12 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 Aleksa Sarai <cyphar@cyphar.com> wrote:
 
-> Right, but open_tree() doesn't need RESOLVE_ flags (nor can you add them
-> without an open_tree2()). Instead you can pass an O_PATH file descriptor
-> with AT_EMPTY_PATH which you could've safely resolved with openat2().
+> But please (for now) also reserve RESOLVE_NO_AUTOMOUNTS, which would
+> apply the same restriction for all path components.
 
-Note that openat2() is not a substitute for open_tree(). See the effect of
-the OPEN_TREE_CLONE flag.
+I'm not going to do that for the moment.  There will be objections if it isn't
+wired up for at least something - but at the moment Al doesn't want people
+going and making conflicting changes in fs/namei.c with what he's doing.
 
 David
 
