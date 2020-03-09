@@ -2,71 +2,130 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 34E6417EAEE
-	for <lists+linux-api@lfdr.de>; Mon,  9 Mar 2020 22:13:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 68F6517EB9E
+	for <lists+linux-api@lfdr.de>; Mon,  9 Mar 2020 23:02:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726861AbgCIVNN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 9 Mar 2020 17:13:13 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46541 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726847AbgCIVNM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Mar 2020 17:13:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1583788392;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Il8BHXhlu0rpVwjSDD1TcJtiqIzjydKT/JxTacOBPvo=;
-        b=ZHNtAPJPBiIT91FePIAP1f47Yx2Cy84ctHB4ZOHid8hy4Q7A0gGlYNRoyIibXVoIDHAhrO
-        lLi/nNbG5VqiImXmEZb+TwbbXbR7AhIXXKjBdGAFE5Phvq0qpGOu5v8wvRrgmT6xyEXGyw
-        9D15T728ZK1UbPiTwI5aWTKFj0LvYVw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-408-8LJQfvrlOuG6Zr6VQp3twA-1; Mon, 09 Mar 2020 17:13:10 -0400
-X-MC-Unique: 8LJQfvrlOuG6Zr6VQp3twA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C9F3107ACC9;
-        Mon,  9 Mar 2020 21:13:08 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-120-182.rdu2.redhat.com [10.10.120.182])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 499805D9CA;
-        Mon,  9 Mar 2020 21:13:05 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <a2012ba2-e322-39e2-fa80-c8d4aef501de@samba.org>
-References: <a2012ba2-e322-39e2-fa80-c8d4aef501de@samba.org> <158376244589.344135.12925590041630631412.stgit@warthog.procyon.org.uk> <158376245699.344135.7522994074747336376.stgit@warthog.procyon.org.uk>
-To:     Stefan Metzmacher <metze@samba.org>
-Cc:     dhowells@redhat.com, torvalds@linux-foundation.org,
-        viro@zeniv.linux.org.uk, Aleksa Sarai <cyphar@cyphar.com>,
-        raven@themaw.net, mszeredi@redhat.com, christian@brauner.io,
-        jannh@google.com, darrick.wong@oracle.com, kzak@redhat.com,
-        jlayton@redhat.com, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 01/14] VFS: Add additional RESOLVE_* flags [ver #18]
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <530114.1583788384.1@warthog.procyon.org.uk>
-Date:   Mon, 09 Mar 2020 21:13:04 +0000
-Message-ID: <530115.1583788384@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+        id S1726809AbgCIWCv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 9 Mar 2020 18:02:51 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:34298 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726698AbgCIWCv (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Mar 2020 18:02:51 -0400
+Received: by mail-pf1-f195.google.com with SMTP id 23so3671003pfj.1
+        for <linux-api@vger.kernel.org>; Mon, 09 Mar 2020 15:02:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
+        h=content-transfer-encoding:from:mime-version:subject:date:message-id
+         :references:cc:in-reply-to:to;
+        bh=B5OgwLbxTYL8rRn4EF2MAfAN7hpkfoK750t2M4UCwgo=;
+        b=k7m0mMFH+E9q0CRxNmkcw/WjIiU3u8HYrkthyvX44sVEWwSTtlfL9zkRTWaymm0suE
+         z/oxWHIuh8U6qpYlzE/uQv8I2nH9Cq7mWonmkYvAA8FFoEtNExjsUyB3EkAR5IIui3Ws
+         +ZMeEfw+tUooprJRQE2K4pBEIO+Krj+J200DwENOWzFav0P5RAzc3ZcoEkQn+KZ47yOP
+         sdY2c3TneVv0k2YoQhIYlkhgHyfLOenohLqOLf4d/BxIX9wXrvTZrJtuN4qlRQwHs3sN
+         XaZtsypjg/xuhgxYLejS54RIfQ8WhqX/OAyaeMB6VFTlZEOYPGbWmt8vZtK38VR6V4UD
+         z3tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:content-transfer-encoding:from:mime-version
+         :subject:date:message-id:references:cc:in-reply-to:to;
+        bh=B5OgwLbxTYL8rRn4EF2MAfAN7hpkfoK750t2M4UCwgo=;
+        b=RYk/+UipgerV4G8LbixnqeLlYmK8cSwhyb2iR9w2I5xMd8HF09c9AvTE37cq36PWFS
+         1QdjfLW1aK2A4soOwyfwl1gEepwBgpfML81GMuwnRtFvt3dFoaRU2z0nnOVEaQLSU0KA
+         P3PGlUMP7bb6fo+rMfJNw0kOwiHNfTVFrd6kMvSPoDBY4/Y+3rNqy7DFLhPmJljAzrnB
+         0xFpedwExcFo6qzBhV9C7CgF46zkKECmbCMtF/LJYDJPl8JBeSGsJIm2z4vUPOn9aIjS
+         ywr9hFnQFK+HEoR4CFa1HAe3PhGxCw/vjNuwLGF+muTeqipGVtKEITNEZVJZlBa1OPBk
+         AM0g==
+X-Gm-Message-State: ANhLgQ34YOo1Bgz8hDNgEYi5uqgWSCnrxyzaPrA+WG6XBOUvofRBlLBx
+        Fdh8d3oPR8eV5qDvc43E+hJxxQ==
+X-Google-Smtp-Source: ADFU+vsx7LnRrhN+zK+Ce/q90rwl9eKyvQc5jsl61yoaiGP1sPVaeB+aS/NwpUfls6ugHik69LHdsA==
+X-Received: by 2002:aa7:8805:: with SMTP id c5mr19035175pfo.142.1583791369790;
+        Mon, 09 Mar 2020 15:02:49 -0700 (PDT)
+Received: from ?IPv6:2600:1010:b008:e441:7cf7:7af3:4ebc:f96b? ([2600:1010:b008:e441:7cf7:7af3:4ebc:f96b])
+        by smtp.gmail.com with ESMTPSA id y28sm21152320pgc.69.2020.03.09.15.02.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Mar 2020 15:02:48 -0700 (PDT)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From:   Andy Lutomirski <luto@amacapital.net>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [RFC PATCH v9 01/27] Documentation/x86: Add CET description
+Date:   Mon, 9 Mar 2020 15:02:47 -0700
+Message-Id: <2F4A39C5-34EF-4D41-A178-08C34FFA9762@amacapital.net>
+References: <CAMe9rOqf0OHL9397Vikgb=UWhRMf+FmGq-9VAJNmfmzNMMDkCw@mail.gmail.com>
+Cc:     Dave Hansen <dave.hansen@intel.com>,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
+In-Reply-To: <CAMe9rOqf0OHL9397Vikgb=UWhRMf+FmGq-9VAJNmfmzNMMDkCw@mail.gmail.com>
+To:     "H.J. Lu" <hjl.tools@gmail.com>
+X-Mailer: iPhone Mail (17D50)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Stefan Metzmacher <metze@samba.org> wrote:
 
-> > Automounting is currently forced by doing an open(), so adding support to
-> > openat2() for RESOLVE_NO_TRAILING_AUTOMOUNTS is not trivial.
-> 
-> lookup_flags &= ~LOOKUP_AUTOMOUNT won't work?
+> On Mar 9, 2020, at 2:13 PM, H.J. Lu <hjl.tools@gmail.com> wrote:
+>=20
+> =EF=BB=BFOn Mon, Mar 9, 2020 at 1:59 PM Dave Hansen <dave.hansen@intel.com=
+> wrote:
+>>=20
+>> On 3/9/20 1:54 PM, H.J. Lu wrote:
+>>>> If a program with the magic ELF CET flags missing can=E2=80=99t make a
+>>>> thread with IBT and/or SHSTK enabled, then I think we=E2=80=99ve made a=
+n
+>>>> error and should fix it.
+>>>>=20
+>>> A non-CET program can start a CET program and vice versa.
+>>=20
+>> Could we be specific here, please?
+>>=20
+>> HJ are you saying that:
+>> * CET program can execve() a non-CET program, and
+>> * a non-CET program can execve() a CET program
+>>=20
+>> ?
+>=20
+> Yes.
+>=20
+>> That's obvious.
+>>=20
+>> But what are the rules for clone()?  Should there be rules for
+>> mismatches for CET enabling between threads if a process (not child
+>> processes)?
+>=20
+> What did you mean? A threaded application is either CET enabled or not
+> CET enabled.   A new thread from clone makes no difference.
 
-No.  LOOKUP_OPEN overrides that.
+Why?  Dave=E2=80=99s example seems like a good reason to allow per-thread co=
+ntrol.
 
-David
 
+
+>=20
+> --=20
+> H.J.
