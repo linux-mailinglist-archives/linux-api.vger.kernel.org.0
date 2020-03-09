@@ -2,160 +2,150 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 730DA17E88B
-	for <lists+linux-api@lfdr.de>; Mon,  9 Mar 2020 20:35:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E422117E8A3
+	for <lists+linux-api@lfdr.de>; Mon,  9 Mar 2020 20:36:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726121AbgCITfF convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Mon, 9 Mar 2020 15:35:05 -0400
-Received: from mail-oln040092068083.outbound.protection.outlook.com ([40.92.68.83]:54531
-        "EHLO EUR02-HE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725992AbgCITfF (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 9 Mar 2020 15:35:05 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=g3rQAArBPqovEB66sv7k0plhWBS1hQDLOp3nCvw3dSoVEMx+FZgpqxW3wsI0zxQrgPv/IOzSWmRFxslxhUS+nCYY4ro/E5kdq6kI/s4QfdeJzyATkCt8BQYd6KZeNBa9xtO7Gqce5qNEXRDT6PItgUDOMKY3bJY6d+CHs63P2qE6TcUj4KV0zzE3fv+L49SPeJk7xOVFrWTHwqlMmQTK+6lUcjuiLrGuI8mXtH6pc8FXmvfxRdJ3lI+Sex6J5j707Np5NbA5xOxRhzarSBfHSAHV80IuzW9jI0A+YHqgHG5btU7MwHG9+5qVZBfH8oAr3MJf0XUMF20oxUiXJBuQ9A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TNF+ypRjnXNodGw7+eEn6FxwMgQlbpZjkBUCLzykMlY=;
- b=IUBTPXhnmfRoEopqrb2jp8hZjUE9JzRHXzOJg7VTN+e26Ftvda3vHP4ypYLiTj1qcsB9ztB0r/OD37wnAJva9Ovs8EbqtJLLwQMOOlG+1EN1XsGSCN41qWt2yI21dsYrAOOs9cBt0YGEp1o8h28aKMoQCMhPTxuqAYJ9ST3bBvuzpp7RWSaYvaw1hePOhktRrp41nU1D+kUwLpHtEsyOCyDG9V1FQcKBENZd8Q+aKbvf7Wq9SfHJTYwQEqU2sYnRQs4U3+Vq4Ubprd6OKU2xDdo9gA9SLJgGxH162eVC8hb7jfGyp41agcc7bedgSTEKFe8g0/7ifSa28BLJVdsfJg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-Received: from VE1EUR02FT019.eop-EUR02.prod.protection.outlook.com
- (2a01:111:e400:7e1e::35) by
- VE1EUR02HT202.eop-EUR02.prod.protection.outlook.com (2a01:111:e400:7e1e::342)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.11; Mon, 9 Mar
- 2020 19:34:59 +0000
-Received: from AM6PR03MB5170.eurprd03.prod.outlook.com (10.152.12.60) by
- VE1EUR02FT019.mail.protection.outlook.com (10.152.12.107) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2793.11 via Frontend Transport; Mon, 9 Mar 2020 19:34:59 +0000
-Received: from AM6PR03MB5170.eurprd03.prod.outlook.com
- ([fe80::1956:d274:cab3:b4dd]) by AM6PR03MB5170.eurprd03.prod.outlook.com
- ([fe80::1956:d274:cab3:b4dd%6]) with mapi id 15.20.2772.019; Mon, 9 Mar 2020
- 19:34:59 +0000
-Received: from [192.168.1.101] (92.77.140.102) by AM0PR06CA0072.eurprd06.prod.outlook.com (2603:10a6:208:aa::49) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.16 via Frontend Transport; Mon, 9 Mar 2020 19:34:58 +0000
-From:   Bernd Edlinger <bernd.edlinger@hotmail.de>
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-CC:     Christian Brauner <christian.brauner@ubuntu.com>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
+        id S1726633AbgCITfZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 9 Mar 2020 15:35:25 -0400
+Received: from mga05.intel.com ([192.55.52.43]:2209 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726567AbgCITfY (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 9 Mar 2020 15:35:24 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Mar 2020 12:35:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,534,1574150400"; 
+   d="scan'208";a="245446011"
+Received: from acrisan1-mobl1.amr.corp.intel.com (HELO [10.251.22.118]) ([10.251.22.118])
+  by orsmga006.jf.intel.com with ESMTP; 09 Mar 2020 12:35:23 -0700
+Subject: Re: [RFC PATCH v9 01/27] Documentation/x86: Add CET description
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Yuyang Du <duyuyang@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jamorris@linux.microsoft.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christian Kellner <christian@kellner.me>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
-Subject: Re: [PATCH v2 4/5] exec: Move exec_mmap right after de_thread in
- flush_old_exec
-Thread-Topic: [PATCH v2 4/5] exec: Move exec_mmap right after de_thread in
- flush_old_exec
-Thread-Index: AQHV9ZIq8LqSeoOzkk+o9CTpCnOInKhAqHsA
-Date:   Mon, 9 Mar 2020 19:34:59 +0000
-Message-ID: <AM6PR03MB5170C3A4319BA6A057C3CCACE4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
-References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87v9nmjulm.fsf@x220.int.ebiederm.org>
- <AM6PR03MB5170B976E6387FDDAD59A118E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <202003021531.C77EF10@keescook>
- <20200303085802.eqn6jbhwxtmz4j2x@wittgenstein>
- <AM6PR03MB5170285B336790D3450E2644E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87v9nlii0b.fsf@x220.int.ebiederm.org>
- <AM6PR03MB5170609D44967E044FD1BE40E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87a74xi4kz.fsf@x220.int.ebiederm.org>
- <AM6PR03MB51705AA3009B4986BB6EF92FE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87r1y8dqqz.fsf@x220.int.ebiederm.org>
- <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
- <87v9ne5y4y.fsf_-_@x220.int.ebiederm.org>
- <875zfe5xzb.fsf_-_@x220.int.ebiederm.org>
-In-Reply-To: <875zfe5xzb.fsf_-_@x220.int.ebiederm.org>
-Accept-Language: en-US, en-GB, de-DE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: AM0PR06CA0072.eurprd06.prod.outlook.com
- (2603:10a6:208:aa::49) To AM6PR03MB5170.eurprd03.prod.outlook.com
- (2603:10a6:20b:ca::23)
-x-incomingtopheadermarker: OriginalChecksum:79C496411C7C971373B50F97092B52D602659E5707CEC701B2124EABB1337BFE;UpperCasedChecksum:67F7095DB63B9127FCCACBBA6A9CA42499F1591C5E46C3069ADC0B8C0E291EE4;SizeAsReceived:9883;Count:50
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tmn:  [L/99uBRPV/LyRVM1VSZjAibKvfuULYqn]
-x-microsoft-original-message-id: <4ec7b6c3-da81-bbcd-214f-d12978145288@hotmail.de>
-x-ms-publictraffictype: Email
-x-incomingheadercount: 50
-x-eopattributedmessage: 0
-x-ms-office365-filtering-correlation-id: 159ed0df-750b-4023-81ac-08d7c460f435
-x-ms-traffictypediagnostic: VE1EUR02HT202:
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: hdZNzwc6pLT+2ViQ6odqvXNOXUghN906xwKz7gKotZHXwtZ84GBG37ZaQ5MfMRMFX0Bp1hipJLqjJ5vayQGpYGd3co0jNqtL35Ee9UUptvl8j3aws7GjxqJu2rA9COHOUD4HIVWIjmXe6ZCi2MVuGDoLxYMs9Vnfh5uuP0++vgvematv3RWW9vMxUlEEsL1B
-x-ms-exchange-antispam-messagedata: z84Cpt8/RbEwCJyUJXIKMHrcP50YynlkojBX/rYwVXrlVV7nyCVK+CVnt9b8d+gl19kcMEHMZe/SzH3YeFY7vj4hApKiOoDWjozs3rQJEIy/lYfbXHWd8BPpPUDAhvKhVC1q9NrWzfsCYWqqLePjdQ==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="Windows-1252"
-Content-ID: <9E086A324F4FE14290E8EA9DD6C880C2@eurprd03.prod.outlook.com>
-Content-Transfer-Encoding: 8BIT
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
+References: <20200205181935.3712-1-yu-cheng.yu@intel.com>
+ <20200205181935.3712-2-yu-cheng.yu@intel.com>
+ <9ae1cf84-1d84-1d34-c0ce-48b0d70b8f3f@intel.com>
+ <0f43463e02d1be2af6bcf8ff6917e751ba7676a0.camel@intel.com>
+ <968af1c2-a5b4-fb48-dfa9-499ec37f677c@intel.com>
+ <fed72ecc917373669ac546d4e8214793d78bd513.camel@intel.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+Message-ID: <9b7ff325-d7cd-9309-d060-ad641486d106@intel.com>
+Date:   Mon, 9 Mar 2020 12:35:22 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 159ed0df-750b-4023-81ac-08d7c460f435
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Mar 2020 19:34:59.2994
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Internet
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1EUR02HT202
+In-Reply-To: <fed72ecc917373669ac546d4e8214793d78bd513.camel@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 3/8/20 10:38 PM, Eric W. Biederman wrote:
+On 3/9/20 12:27 PM, Yu-cheng Yu wrote:
+> On Mon, 2020-03-09 at 10:21 -0700, Dave Hansen wrote:
+>> On 3/9/20 10:00 AM, Yu-cheng Yu wrote:
+>>> On Wed, 2020-02-26 at 09:57 -0800, Dave Hansen wrote>>>>> +Note:
+>>>>> +  There is no CET-enabling arch_prctl function.  By design, CET is
+>>>>> +  enabled automatically if the binary and the system can support it.
+>>>>
+>>>> This is kinda interesting.  It means that a JIT couldn't choose to
+>>>> protect the code it generates and have different rules from itself?
+>>>
+>>> JIT needs to be updated for CET first.  Once that is done, it runs with CET
+>>> enabled.  It can use the NOTRACK prefix, for example.
+>>
+>> Am I missing something?
+>>
+>> What's the direct connection between shadow stacks and Indirect Branch
+>> Tracking other than Intel marketing umbrellas?
 > 
-> I have read through the code in exec_mmap and I do not see anything
-> that depends on sighand or the sighand lock, or on signals in anyway
-> so this should be safe.
-> 
-> This rearrangement of code has two siginficant benefits.  It makes
-                                        ^ typo: significant
+> What I meant is that JIT code needs to be updated first; if it skips RETs,
+> it needs to unwind the stack, and if it does indirect JMPs somewhere it
+> needs to fix up the branch target or use NOTRACK.
 
-> the determination of passing the point of no return by testing bprm->mm
-> accurate.  All failures prior to that point in flush_old_exec are
-> either truly recoverable or they are fatal.
-> 
-> Futher this consolidates all of the possible indefinite waits for   ^ typo: Further
+I'm totally lost.  I think we have very different models of how a JIT
+might generate and run code.
 
-> userspace together at the top of flush_old_exec.  The possible wait
-> for a ptracer on PTRACE_EVENT_EXIT, the possible wait for a page fault
-> to be resolved in clear_child_tid, and the possible wait for a page
-> fault in exit_robust_list.
-> 
-> This consolidation allows the creation of a mutex to replace
-> cred_guard_mutex that is not held of possible indefinite userspace
+I can totally see a scenario where a JIT goes and generates a bunch of
+code, then forks a new thread to go run that code.  The control flow of
+the JIT thread itself *NEVER* interacts with the control flow of the
+program it writes.  They never share a stack and nothing ever jumps or
+rets between the two worlds.
 
-can you also reword this "held of" thing here as well?
+Does anything actually do that?  I've got no idea.  But, I can clearly
+see a world where the entirety of Chrome and Firefox and the entire rust
+runtime might not be fully recompiled and CET-enabled for a while.  But,
+we still want the JIT-generated code to be CET-protected since it has
+the most exposed attack surface.
 
-
-Thanks
-Bernd.
+I don't think that's too far-fetched.
