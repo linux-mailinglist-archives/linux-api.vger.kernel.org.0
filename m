@@ -2,167 +2,116 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FE7217EC57
-	for <lists+linux-api@lfdr.de>; Mon,  9 Mar 2020 23:53:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A516617EC79
+	for <lists+linux-api@lfdr.de>; Tue, 10 Mar 2020 00:11:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727397AbgCIWxM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 9 Mar 2020 18:53:12 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59589 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727406AbgCIWxL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Mar 2020 18:53:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1583794390;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=2rI8BG2LwE/WAlwyan0GLFodPzv/0iZV/5EOQthjqaU=;
-        b=DeV68icCbacGft4Dt+OxIDnxsuXVXE6ZXETMszsOqNUhIw/0L2ogdjaw/M2osDwj3bgtDm
-        qWs6tFAvG6oZC28kKIW7Ek8YDyezDcfspCqoQl8aOgCVdJS8gfh3d9KjGSSv6gEz6s2RqS
-        4hKelJ0uv59ay8kQ4evIG11xkqlSh18=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-341-0io6CmWXN42H4XZTVuBR1g-1; Mon, 09 Mar 2020 18:53:02 -0400
-X-MC-Unique: 0io6CmWXN42H4XZTVuBR1g-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C654107ACC7;
-        Mon,  9 Mar 2020 22:52:59 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-120-182.rdu2.redhat.com [10.10.120.182])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 55D9673892;
-        Mon,  9 Mar 2020 22:52:54 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <20200309200238.GB28467@miu.piliscsaba.redhat.com>
-References: <20200309200238.GB28467@miu.piliscsaba.redhat.com> <158376244589.344135.12925590041630631412.stgit@warthog.procyon.org.uk>
-To:     Miklos Szeredi <miklos@szeredi.hu>
-Cc:     dhowells@redhat.com, torvalds@linux-foundation.org,
-        viro@zeniv.linux.org.uk, Theodore Ts'o <tytso@mit.edu>,
-        Stefan Metzmacher <metze@samba.org>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        linux-ext4@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>,
-        Trond Myklebust <trond.myklebust@hammerspace.com>,
-        Anna Schumaker <anna.schumaker@netapp.com>,
-        linux-nfs@vger.kernel.org, linux-api@vger.kernel.org,
-        raven@themaw.net, mszeredi@redhat.com, christian@brauner.io,
-        jannh@google.com, darrick.wong@oracle.com, kzak@redhat.com,
-        jlayton@redhat.com, linux-fsdevel@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/14] VFS: Filesystem information [ver #18]
+        id S1727273AbgCIXLm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 9 Mar 2020 19:11:42 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:33827 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726698AbgCIXLm (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Mar 2020 19:11:42 -0400
+Received: by mail-ot1-f68.google.com with SMTP id j16so11396669otl.1;
+        Mon, 09 Mar 2020 16:11:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=LKRHxYimFMZUOSCFWBWPQEeraoRwWzQd26N8/GrplsA=;
+        b=rulg74NMqVMzZo2by+XKSp3K4FvZFLEJZX14TihGtvaEapM1a5FXYMGx4Y0CzF/XQb
+         p5dlHlN5peWB/cQQ+ltlHoDtJDdFFIH2cKE2/b21VuJ79VlmdZBJSNqtpUMpKFoqMtr+
+         vmTtA1Kb22Sjvk/j66aWnqe06zNZBrP/+eNgVAC4ii9Ag1J8R0Jw2KbLs5fAn2FxG/Wm
+         iDulToOeNyr0vnAEviO9klOQ4enf00c4roCnTPxv6qb6m9Uho20RwTMPGNjBPuuUef14
+         FVaiSZ7QGc6bkPz6hck+9VM+xv1ZB5pwevCFNa4q1ycFRFVouUkX/2NW8kMtZComw9kc
+         vmxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=LKRHxYimFMZUOSCFWBWPQEeraoRwWzQd26N8/GrplsA=;
+        b=QoooLDU0OZ0mBJ4AXcfvmyn3m64Mx/RLByRaTjPR1IDD9QCqJMfaONEhgMpkCVCSwE
+         WitEoWCLPt/VNszX8dFQlmOhDfPbq62oRT6iexALTQUezRGKVhBJYo4b+5jA22uNQmp5
+         ueGQ5vadetrERNMxGW2AGxO+BNj8pS+ZLCiSZI9uJNS5ebTz2/3kvzbY0AGqSTMa7Auy
+         cY+YYNisAjFTdNoh0r3lJrg7QPnnuCrSNl+6M39jyg7g8UVR3GPptanAkz9bMgEa/QR7
+         6nUO7IpO3US4AvY2ycvewsTpi5flvZL4bjRgTscCCrMSEYwfRFMGofXVG5VQ31WW7ltx
+         9XtA==
+X-Gm-Message-State: ANhLgQ1QXK3Xq27G5I9gvlao4AHatUOuEY4U0GXcvrAPHeWqOjO23c8I
+        D37bW4j+bJlkhHu/QLmjfMBZwANXT2iOsNLpcaI=
+X-Google-Smtp-Source: ADFU+vtL/gChUunHBPDJ//510Fa7sEtCs5vnQQ5R8G6UMz//hGSWJNgzgLHodYMrsAEKImkJ7AcjxUHEpiE6XdjOIn8=
+X-Received: by 2002:a9d:6c94:: with SMTP id c20mr15239729otr.285.1583795499756;
+ Mon, 09 Mar 2020 16:11:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <537181.1583794373.1@warthog.procyon.org.uk>
-Content-Transfer-Encoding: quoted-printable
-Date:   Mon, 09 Mar 2020 22:52:53 +0000
-Message-ID: <537182.1583794373@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+References: <CAMe9rOoRTVUzNC88Ho2XTTNJCymrd3L=XdB9xFcgxPVwAZ0FWA@mail.gmail.com>
+ <AE81FEF5-ECC5-46AA-804D-9D64E656D16E@amacapital.net> <CAMe9rOoDMenvD9XRL1szR5yLQEwv9Q6f4O7CtwbdZ-cJqzezKA@mail.gmail.com>
+ <0088001c-0b12-a7dc-ff2a-9d5c282fa36b@intel.com> <CAMe9rOqf0OHL9397Vikgb=UWhRMf+FmGq-9VAJNmfmzNMMDkCw@mail.gmail.com>
+ <56ab33ac-865b-b37e-75f2-a489424566c3@intel.com>
+In-Reply-To: <56ab33ac-865b-b37e-75f2-a489424566c3@intel.com>
+From:   "H.J. Lu" <hjl.tools@gmail.com>
+Date:   Mon, 9 Mar 2020 16:11:03 -0700
+Message-ID: <CAMe9rOrzrXORQgcAwzGn+=PBvxCEgc5Km_TQq+P7uoqwiacJSA@mail.gmail.com>
+Subject: Re: [RFC PATCH v9 01/27] Documentation/x86: Add CET description
+To:     Dave Hansen <dave.hansen@intel.com>
+Cc:     Andy Lutomirski <luto@amacapital.net>,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Miklos Szeredi <miklos@szeredi.hu> wrote:
+On Mon, Mar 9, 2020 at 3:19 PM Dave Hansen <dave.hansen@intel.com> wrote:
+>
+> On 3/9/20 2:12 PM, H.J. Lu wrote:
+> >> But what are the rules for clone()?  Should there be rules for
+> >> mismatches for CET enabling between threads if a process (not child
+> >> processes)?
+> > What did you mean? A threaded application is either CET enabled or not
+> > CET enabled.   A new thread from clone makes no difference.
+>
+> Stacks are fundamentally thread-local resources.  The registers that
+> point to them and MSRs that manage shadow stacks are all CPU-thread
+> local.  Nothing is fundamentally tied to the address space shared across
+> the process.
+>
+> A thread might also share *no* control flow with its child.  It might
+> ask the thread to start in code that the parent can never even reach.
+>
+> It sounds like you've picked a Linux implementation that has
+> restrictions on top of the fundamentals.  That's not wrong per se, but
+> it does deserve explanation and deliberate, not experimental design.
+>
+> Could you go back to the folks at Intel and try to figure out what this
+> was designed to *do*?  Yes, I'm probably one of those folks.  You know
+> where to find me. :)
 
-> >  (1) It can be targetted.  It makes it easy to query directly by path =
-or
-> >      fd, but can also query by mount ID or fscontext fd.  procfs and s=
-ysfs
-> >      cannot do three of these things easily.
-> =
+A threaded application is loaded from disk.  The object file on disk is
+either CET enabled or not CET enabled.
 
-> See above: with the addition of open(path, O_PATH) it can do all of thes=
-e.
-
-That's a horrible interface.  To query a file by path, you have to do:
-
-	fd =3D open(path, O_PATH);
-	sprintf(procpath, "/proc/self/fdmount/%u/<attr>");
-	fd2 =3D open(procpath, O_RDONLY);
-	read(fd2, ...);
-	close(fd2);
-	close(fd);
-
-See point (3) about efficiency also.  You're having to open *two* files.
-
-> >  (2) Easier to provide LSM oversight.  Is the accessing process allowe=
-d to
-> >      query information pertinent to a particular file?
-> =
-
-> Not quite sure why this would be easier for a new ad-hoc interface than =
-for
-> the well established filesystem API.
-
-You're right.  That's why fsinfo() uses standard pathwalk where possible,
-e.g.:
-
-	fsinfo(AT_FDCWD, "/path/to/file", ...);
-
-or a fairly standard fd-querying interface:
-
-	fsinfo(fd, "", { resolve_flags =3D RESOLVE_EMPTY_PATH },  ...);
-
-to query an open file descriptor.  These are well-established filesystem A=
-PIs.
-
-Where I vary from this is allowing direct specification of a mount ID also=
-,
-with a special flag to say that's what I'm doing:
-
-	fsinfo(AT_FDCWD, "23", { flags =3D FSINFO_QUERY_FLAGS_MOUNT },  ...);
-
-> >  (7) Don't have to create/delete a bunch of sysfs/procfs nodes each ti=
-me a
-> >      mount happens or is removed - and since systemd makes much use of
-> >      mount namespaces and mount propagation, this will create a lot of
-> >      nodes.
-> =
-
-> This patch creates a single struct mountfs_entry per mount, which is 48b=
-ytes.
-
-fsinfo() doesn't create any.  Furthermore, it seems that mounts get multip=
-lied
-8-10 times by systemd - though, as you say, it's not necessarily a great d=
-eal
-of memory.
-
-> Now onto the advantages of a filesystem based API:
-> =
-
->  - immediately usable from all programming languages, including scripts
-
-This is not true.  You can't open O_PATH from shell scripts, so you can't
-query things by path that you can't or shouldn't open (dev file paths, for
-example; symlinks).
-
-I imagine you're thinking of something like:
-
-	{
-		id=3D`cat /proc/self/fdmount/5/parent_mount`
-	} 5</my/path/to/my/file
-
-but what if /my/path/to/my/file is actually /dev/foobar?
-
-I've had a grep through the bash sources, but can't seem to find anywhere =
-that
-uses O_PATH.
-
->  - same goes for future extensions: no need to update libc, utils, langu=
-age
->    bindings, strace, etc...
-
-Applications and libraries using these attributes would have to change any=
-way
-to make use of additional information.
-
-But it's not a good argument since you now have to have text parsers that
-change over time.
-
-David
-
+-- 
+H.J.
