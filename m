@@ -2,154 +2,131 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AC7D17E909
-	for <lists+linux-api@lfdr.de>; Mon,  9 Mar 2020 20:47:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4524317E924
+	for <lists+linux-api@lfdr.de>; Mon,  9 Mar 2020 20:50:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726384AbgCITrg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 9 Mar 2020 15:47:36 -0400
-Received: from out01.mta.xmission.com ([166.70.13.231]:33434 "EHLO
-        out01.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725992AbgCITrg (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Mar 2020 15:47:36 -0400
-Received: from in01.mta.xmission.com ([166.70.13.51])
-        by out01.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.90_1)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1jBONC-0000ls-98; Mon, 09 Mar 2020 13:47:34 -0600
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
-        by in01.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.87)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1jBONB-0006yu-FV; Mon, 09 Mar 2020 13:47:34 -0600
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     Bernd Edlinger <bernd.edlinger@hotmail.de>
-Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Peter Zijlstra \(Intel\)" <peterz@infradead.org>,
-        Yuyang Du <duyuyang@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jamorris@linux.microsoft.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christian Kellner <christian@kellner.me>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        "linux-doc\@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel\@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm\@kvack.org" <linux-mm@kvack.org>,
-        "stable\@vger.kernel.org" <stable@vger.kernel.org>,
-        "linux-api\@vger.kernel.org" <linux-api@vger.kernel.org>
-References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87v9nmjulm.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB5170B976E6387FDDAD59A118E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <202003021531.C77EF10@keescook>
-        <20200303085802.eqn6jbhwxtmz4j2x@wittgenstein>
-        <AM6PR03MB5170285B336790D3450E2644E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87v9nlii0b.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB5170609D44967E044FD1BE40E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87a74xi4kz.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB51705AA3009B4986BB6EF92FE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87r1y8dqqz.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
-        <87v9ne5y4y.fsf_-_@x220.int.ebiederm.org>
-        <875zfe5xzb.fsf_-_@x220.int.ebiederm.org>
-        <AM6PR03MB5170C3A4319BA6A057C3CCACE4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
-Date:   Mon, 09 Mar 2020 14:45:15 -0500
-In-Reply-To: <AM6PR03MB5170C3A4319BA6A057C3CCACE4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        (Bernd Edlinger's message of "Mon, 9 Mar 2020 19:34:59 +0000")
-Message-ID: <87tv2xz510.fsf@x220.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        id S1726385AbgCITuy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 9 Mar 2020 15:50:54 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:39861 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726096AbgCITux (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Mar 2020 15:50:53 -0400
+Received: by mail-ot1-f67.google.com with SMTP id a9so4647102otl.6;
+        Mon, 09 Mar 2020 12:50:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=nkN/HhcaxTaMqjSPmAB4y2TrVQWh2UghCp6ed7Ymedw=;
+        b=GRUVcWz8NS6GonVqLH7A8HBhMLWHO/FQrUmK2o5rILiHn267Yu/YMDls+jBXFYlQoU
+         sSBf9pKseLsFO4P4HQkiLtMdyYGx5v+rBWxbsRgtg2F+BXuQ6I6vQDlqAVjwJ8/KHBNR
+         BOq0GhdowdUt/dQFjA5j0PZ65C+X4OoD/KEjb1wNROmtYHkAjWzwOg1En720F6woKchZ
+         ni/J3LoGiyqx+2RrYBFLY8wXJMlNphBeMahzijYvyYzk2Q/dbcuxv6PiIfYlXDhvrBwR
+         bEr/fwCZE3AY6rhbz8+c4NEGZ9kShnw4A+xjp7kOroNplVej75u5I64gxC2fTfMciQh5
+         lMVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nkN/HhcaxTaMqjSPmAB4y2TrVQWh2UghCp6ed7Ymedw=;
+        b=AWXgM7yjMQwUsNPau4/KNn9Bg3WKHiqa/aGKQnIWSz9LBo/Ce74qs6bSNUP5lSM+CM
+         e5EPzzy6Vlgz05NTNQIv0ImR4doxtmyA+zDKayDFq4lFLslPKwILbF5Mf1W2DHOP0Opr
+         qxMRypcxKd47Ecm8ZkDXeVI1O8yrmGlz/m28aVieCvJOJhDUd2YtU/O20X7CUJU202e4
+         yJu/A1yPL5X0laGw4LeDtIcTEkoUemg4+DzTdbQkyToQTLc+4I2AL7hN8gofwlmupw31
+         H6T2S5ecARWrfuSy3qFlfOhI09aYhKVGaMsY2kz9y2+Y5i0DJ9QrKilZZvdkz6eDhG9n
+         noaw==
+X-Gm-Message-State: ANhLgQ1C0fosKlX/9neLYvyXdH08P2S7W17EZFC8O/Of3YM4MbT/NMuS
+        +DWI+mxvnFOhFlq2sh6t2UrDI8DMC0R8Rmbfyqg=
+X-Google-Smtp-Source: ADFU+vve+GcrqYBONvNR2/zOYFR37sq8ywR+BjHMbjrW7EG8MZXD9YH7Fm5vcljapWORsYBTgXr3IcPwh7QcWKheLL4=
+X-Received: by 2002:a9d:6c94:: with SMTP id c20mr14659465otr.285.1583783451354;
+ Mon, 09 Mar 2020 12:50:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1jBONB-0006yu-FV;;;mid=<87tv2xz510.fsf@x220.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX19PMadbznaJfutgyOFU+nq1+wKoP70FUBk=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa04.xmission.com
-X-Spam-Level: 
-X-Spam-Status: No, score=0.5 required=8.0 tests=ALL_TRUSTED,BAYES_50,
-        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,T_TooManySym_01,XMSubLong
-        autolearn=disabled version=3.4.2
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.4895]
-        *  0.7 XMSubLong Long Subject
-        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
-        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-        *      [sa04 1397; Body=1 Fuz1=1 Fuz2=1]
-        *  0.0 T_TooManySym_01 4+ unique symbols in subject
-X-Spam-DCC: XMission; sa04 1397; Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: ;Bernd Edlinger <bernd.edlinger@hotmail.de>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 346 ms - load_scoreonly_sql: 0.04 (0.0%),
-        signal_user_changed: 2.3 (0.7%), b_tie_ro: 1.48 (0.4%), parse: 0.96
-        (0.3%), extract_message_metadata: 14 (3.9%), get_uri_detail_list: 1.16
-        (0.3%), tests_pri_-1000: 27 (7.7%), tests_pri_-950: 1.15 (0.3%),
-        tests_pri_-900: 0.98 (0.3%), tests_pri_-90: 32 (9.1%), check_bayes: 30
-        (8.8%), b_tokenize: 10 (3.0%), b_tok_get_all: 7 (2.1%), b_comp_prob:
-        2.2 (0.6%), b_tok_touch_all: 3.8 (1.1%), b_finish: 0.60 (0.2%),
-        tests_pri_0: 256 (73.9%), check_dkim_signature: 0.53 (0.2%),
-        check_dkim_adsp: 2.3 (0.7%), poll_dns_idle: 0.69 (0.2%), tests_pri_10:
-        2.9 (0.8%), tests_pri_500: 8 (2.3%), rewrite_mail: 0.00 (0.0%)
-Subject: Re: [PATCH v2 4/5] exec: Move exec_mmap right after de_thread in flush_old_exec
-X-Spam-Flag: No
-X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
-X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
+References: <20200205181935.3712-1-yu-cheng.yu@intel.com> <20200205181935.3712-2-yu-cheng.yu@intel.com>
+ <9ae1cf84-1d84-1d34-c0ce-48b0d70b8f3f@intel.com> <0f43463e02d1be2af6bcf8ff6917e751ba7676a0.camel@intel.com>
+ <968af1c2-a5b4-fb48-dfa9-499ec37f677c@intel.com> <fed72ecc917373669ac546d4e8214793d78bd513.camel@intel.com>
+ <9b7ff325-d7cd-9309-d060-ad641486d106@intel.com>
+In-Reply-To: <9b7ff325-d7cd-9309-d060-ad641486d106@intel.com>
+From:   "H.J. Lu" <hjl.tools@gmail.com>
+Date:   Mon, 9 Mar 2020 12:50:15 -0700
+Message-ID: <CAMe9rOoRTVUzNC88Ho2XTTNJCymrd3L=XdB9xFcgxPVwAZ0FWA@mail.gmail.com>
+Subject: Re: [RFC PATCH v9 01/27] Documentation/x86: Add CET description
+To:     Dave Hansen <dave.hansen@intel.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
-
-> On 3/8/20 10:38 PM, Eric W. Biederman wrote:
->> 
->> This consolidation allows the creation of a mutex to replace
->> cred_guard_mutex that is not held of possible indefinite userspace
+On Mon, Mar 9, 2020 at 12:35 PM Dave Hansen <dave.hansen@intel.com> wrote:
 >
-> can you also reword this "held of" thing here as well?
+> On 3/9/20 12:27 PM, Yu-cheng Yu wrote:
+> > On Mon, 2020-03-09 at 10:21 -0700, Dave Hansen wrote:
+> >> On 3/9/20 10:00 AM, Yu-cheng Yu wrote:
+> >>> On Wed, 2020-02-26 at 09:57 -0800, Dave Hansen wrote>>>>> +Note:
+> >>>>> +  There is no CET-enabling arch_prctl function.  By design, CET is
+> >>>>> +  enabled automatically if the binary and the system can support it.
+> >>>>
+> >>>> This is kinda interesting.  It means that a JIT couldn't choose to
+> >>>> protect the code it generates and have different rules from itself?
+> >>>
+> >>> JIT needs to be updated for CET first.  Once that is done, it runs with CET
+> >>> enabled.  It can use the NOTRACK prefix, for example.
+> >>
+> >> Am I missing something?
+> >>
+> >> What's the direct connection between shadow stacks and Indirect Branch
+> >> Tracking other than Intel marketing umbrellas?
+> >
+> > What I meant is that JIT code needs to be updated first; if it skips RETs,
+> > it needs to unwind the stack, and if it does indirect JMPs somewhere it
+> > needs to fix up the branch target or use NOTRACK.
+>
+> I'm totally lost.  I think we have very different models of how a JIT
+> might generate and run code.
+>
+> I can totally see a scenario where a JIT goes and generates a bunch of
+> code, then forks a new thread to go run that code.  The control flow of
+> the JIT thread itself *NEVER* interacts with the control flow of the
+> program it writes.  They never share a stack and nothing ever jumps or
+> rets between the two worlds.
+>
+> Does anything actually do that?  I've got no idea.  But, I can clearly
+> see a world where the entirety of Chrome and Firefox and the entire rust
+> runtime might not be fully recompiled and CET-enabled for a while.  But,
+> we still want the JIT-generated code to be CET-protected since it has
+> the most exposed attack surface.
+>
+> I don't think that's too far-fetched.
 
-Done:
+CET support is all or nothing.   You can mix and match, but you will get
+no CET protection, similar to NX feature.
 
-    exec: Move exec_mmap right after de_thread in flush_old_exec
-    
-    I have read through the code in exec_mmap and I do not see anything
-    that depends on sighand or the sighand lock, or on signals in anyway
-    so this should be safe.
-    
-    This rearrangement of code has two siginficant benefits.  It makes
-    the determination of passing the point of no return by testing bprm->mm
-    accurate.  All failures prior to that point in flush_old_exec are
-    either truly recoverable or they are fatal.
-    
-    Futher this consolidates all of the possible indefinite waits for
-    userspace together at the top of flush_old_exec.  The possible wait
-    for a ptracer on PTRACE_EVENT_EXIT, the possible wait for a page fault
-    to be resolved in clear_child_tid, and the possible wait for a page
-    fault in exit_robust_list.
-    
-    This consolidation allows the creation of a mutex to replace
-    cred_guard_mutex that is not held over possible indefinite userspace
-    waits.  Which will allow removing deadlock scenarios from the kernel.
-    
-    Reviewed-by: Bernd Edlinger <bernd.edlinger@hotmail.de>
-    Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
-
-Eric
+-- 
+H.J.
