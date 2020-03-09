@@ -2,137 +2,149 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4752817EBD6
-	for <lists+linux-api@lfdr.de>; Mon,  9 Mar 2020 23:19:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C0B1D17EC49
+	for <lists+linux-api@lfdr.de>; Mon,  9 Mar 2020 23:49:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727192AbgCIWTQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 9 Mar 2020 18:19:16 -0400
-Received: from mga06.intel.com ([134.134.136.31]:5055 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727191AbgCIWTP (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 9 Mar 2020 18:19:15 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Mar 2020 15:19:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,534,1574150400"; 
-   d="scan'208";a="245486701"
-Received: from acrisan1-mobl1.amr.corp.intel.com (HELO [10.251.22.118]) ([10.251.22.118])
-  by orsmga006.jf.intel.com with ESMTP; 09 Mar 2020 15:19:14 -0700
-Subject: Re: [RFC PATCH v9 01/27] Documentation/x86: Add CET description
-To:     "H.J. Lu" <hjl.tools@gmail.com>
-Cc:     Andy Lutomirski <luto@amacapital.net>,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
-References: <CAMe9rOoRTVUzNC88Ho2XTTNJCymrd3L=XdB9xFcgxPVwAZ0FWA@mail.gmail.com>
- <AE81FEF5-ECC5-46AA-804D-9D64E656D16E@amacapital.net>
- <CAMe9rOoDMenvD9XRL1szR5yLQEwv9Q6f4O7CtwbdZ-cJqzezKA@mail.gmail.com>
- <0088001c-0b12-a7dc-ff2a-9d5c282fa36b@intel.com>
- <CAMe9rOqf0OHL9397Vikgb=UWhRMf+FmGq-9VAJNmfmzNMMDkCw@mail.gmail.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-Message-ID: <56ab33ac-865b-b37e-75f2-a489424566c3@intel.com>
-Date:   Mon, 9 Mar 2020 15:19:13 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1727380AbgCIWtj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 9 Mar 2020 18:49:39 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:27261 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727320AbgCIWtj (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Mar 2020 18:49:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1583794177;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=HV3qgkcKTLqlj5wcbDRS2AXp9vzUwXBC/9+EqfzmMvM=;
+        b=flB/qYV3oZtemL7FunkCvY3h1OPfoFmETpZisaE7fLoKqoVF1mnp1LeoojWJ/hqDnSIfjK
+        aOYVM6SjPk5DuXhcSCmVM1u++HokVeiVTwQI64ODG9TWV5gXHJxcWeUCI0wf4En3tIosMc
+        8RvFxavJGloK6l6kxGyjgFE+bHtXm3o=
+Received: from mail-yw1-f71.google.com (mail-yw1-f71.google.com
+ [209.85.161.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-102-xs6mxgTaNvGWMGMp3juGSQ-1; Mon, 09 Mar 2020 18:49:34 -0400
+X-MC-Unique: xs6mxgTaNvGWMGMp3juGSQ-1
+Received: by mail-yw1-f71.google.com with SMTP id p132so3246061ywb.2
+        for <linux-api@vger.kernel.org>; Mon, 09 Mar 2020 15:49:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=HV3qgkcKTLqlj5wcbDRS2AXp9vzUwXBC/9+EqfzmMvM=;
+        b=e9/SqmZpc+6qL3I0vW4GP7n67pcKadp3wVxmlmBJ2fIc6Nfyiu7fvO/xc93x90gJrG
+         /03E71ZVsCv1p3C+vqGln88JRL+mI9dht3K6+dKS83SV/xgwd5h2A4S5CyZ6zmsaJ0on
+         F7GyOvxyrlbZumPnpVOiWj+9zKflVrB0jvWUrqZdYIO0EJ2XDFF6wnYo2LdgECd2+2az
+         7fIP+b2AphLEPxDfb17Pc9TWetnvLylLYzepSUCzSWnWcElYFnx13s12+EMa7s5Q2s1s
+         wTf1nM0FYNrqrTVtL1ULwA/4OJx+0oM+BQxqiCzn1z755E934gITM0cspMOcL0sUJlet
+         PWqA==
+X-Gm-Message-State: ANhLgQ26FAE6eSAKPkiRjNbAi9qqqHI7qlzLV3TkBD4sWDd2xlsIb6Y4
+        ug3EZsqLtdwt/MKZHEZLuagH/lsvS7yNk/G0qZ39kCMf8qAX6UzVrgsBeqrWYtSJuunpJFkW+c+
+        PvJD0PhAQKlIGnoeomG3P
+X-Received: by 2002:a25:2146:: with SMTP id h67mr19645205ybh.92.1583794173508;
+        Mon, 09 Mar 2020 15:49:33 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vvt6Q0tj/V6bzMSoorE++/YZCJuiryDKikREWseTxP4/vg08CzbzDn75K5ktPnB52gDWscllg==
+X-Received: by 2002:a25:2146:: with SMTP id h67mr19645165ybh.92.1583794173070;
+        Mon, 09 Mar 2020 15:49:33 -0700 (PDT)
+Received: from tleilax.poochiereds.net (68-20-15-154.lightspeed.rlghnc.sbcglobal.net. [68.20.15.154])
+        by smtp.gmail.com with ESMTPSA id w17sm3584845ywa.8.2020.03.09.15.49.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Mar 2020 15:49:32 -0700 (PDT)
+Message-ID: <32c384ac3adf0cf924d3071a13af7edffe53cc2b.camel@redhat.com>
+Subject: Re: [PATCH 00/14] VFS: Filesystem information [ver #18]
+From:   Jeff Layton <jlayton@redhat.com>
+To:     Andres Freund <andres@anarazel.de>
+Cc:     David Howells <dhowells@redhat.com>, torvalds@linux-foundation.org,
+        viro@zeniv.linux.org.uk, Theodore Ts'o <tytso@mit.edu>,
+        Stefan Metzmacher <metze@samba.org>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        linux-ext4@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>,
+        Trond Myklebust <trond.myklebust@hammerspace.com>,
+        Anna Schumaker <anna.schumaker@netapp.com>,
+        linux-nfs@vger.kernel.org, linux-api@vger.kernel.org,
+        raven@themaw.net, mszeredi@redhat.com, christian@brauner.io,
+        jannh@google.com, darrick.wong@oracle.com, kzak@redhat.com,
+        linux-fsdevel@vger.kernel.org,
+        linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Mon, 09 Mar 2020 18:49:31 -0400
+In-Reply-To: <20200309192240.nqf5bxylptw7mdm3@alap3.anarazel.de>
+References: <158376244589.344135.12925590041630631412.stgit@warthog.procyon.org.uk>
+         <2d31e2658e5f6651dc7d9908c4c12b6ba461fc88.camel@redhat.com>
+         <20200309192240.nqf5bxylptw7mdm3@alap3.anarazel.de>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
 MIME-Version: 1.0
-In-Reply-To: <CAMe9rOqf0OHL9397Vikgb=UWhRMf+FmGq-9VAJNmfmzNMMDkCw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 3/9/20 2:12 PM, H.J. Lu wrote:
->> But what are the rules for clone()?  Should there be rules for
->> mismatches for CET enabling between threads if a process (not child
->> processes)?
-> What did you mean? A threaded application is either CET enabled or not
-> CET enabled.   A new thread from clone makes no difference.
+On Mon, 2020-03-09 at 12:22 -0700, Andres Freund wrote:
+> Hi,
+> 
+> On 2020-03-09 13:50:59 -0400, Jeff Layton wrote:
+> > The PostgreSQL devs asked a while back for some way to tell whether
+> > there have been any writeback errors on a superblock w/o having to do
+> > any sort of flush -- just "have there been any so far".
+> 
+> Indeed.
+> 
+> 
+> > I sent a patch a few weeks ago to make syncfs() return errors when there
+> > have been writeback errors on the superblock. It's not merged yet, but
+> > once we have something like that in place, we could expose info from the
+> > errseq_t to userland using this interface.
+> 
+> I'm still a bit worried about the details of errseq_t being exposed to
+> userland. Partially because it seems to restrict further evolution of
+> errseq_t, and partially because it will likely up with userland trying
+> to understand it (it's e.g. just too attractive to report a count of
+> errors etc).
 
-Stacks are fundamentally thread-local resources.  The registers that
-point to them and MSRs that manage shadow stacks are all CPU-thread
-local.  Nothing is fundamentally tied to the address space shared across
-the process.
+Trying to interpret the counter field won't really tell you anything.
+The counter is not incremented unless someone has queried the value
+since it was last checked. A single increment could represent a single
+writeback error or 10000 identical ones.
 
-A thread might also share *no* control flow with its child.  It might
-ask the thread to start in code that the parent can never even reach.
+There _is_ a flag that tells you whether someone has queried it, but
+that gets masked off before copying the cookie to userland.
 
-It sounds like you've picked a Linux implementation that has
-restrictions on top of the fundamentals.  That's not wrong per se, but
-it does deserve explanation and deliberate, not experimental design.
+> Is there a reason to not instead report a 64bit counter instead of the
+> cookie? In contrast to the struct file case we'd only have the space
+> overhead once per superblock, rather than once per #files * #fd. And it
+> seems that the maintenance of that counter could be done without
+> widespread changes, e.g. instead/in addition to your change:
+> 
 
-Could you go back to the folks at Intel and try to figure out what this
-was designed to *do*?  Yes, I'm probably one of those folks.  You know
-where to find me. :)
+What problem would moving to a 64-bit counter solve? I get the concern
+about people trying to get a counter out of the cookie field, but giving
+people an explicit 64-bit counter seems even more open to
+misinterpretation.
+
+All that said, is an opaque cookie still something you'd find useful?
+
+> > diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
+> > index ccb14b6a16b5..897439475315 100644
+> > --- a/include/linux/pagemap.h
+> > +++ b/include/linux/pagemap.h
+> > @@ -51,7 +51,10 @@ static inline void mapping_set_error(struct address_space *mapping, int error)
+> >  		return;
+> > 
+> >  	/* Record in wb_err for checkers using errseq_t based tracking */
+> > -	filemap_set_wb_err(mapping, error);
+> > +	__filemap_set_wb_err(mapping, error);
+> > +
+> > +	/* Record it in superblock */
+> > +	errseq_set(&mapping->host->i_sb->s_wb_err, error);
+> > 
+> >  	/* Record it in flags for now, for legacy callers */
+> >  	if (error == -ENOSPC)
+> 
+> Btw, seems like mapping_set_error() should have a non-inline cold path?
+
+Good point. I'll do that in the next iteration.
+
+-- 
+Jeff Layton <jlayton@redhat.com>
+
