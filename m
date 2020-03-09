@@ -2,220 +2,166 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D9BEC17E0D5
-	for <lists+linux-api@lfdr.de>; Mon,  9 Mar 2020 14:11:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FE8C17E19C
+	for <lists+linux-api@lfdr.de>; Mon,  9 Mar 2020 14:46:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726486AbgCINL0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 9 Mar 2020 09:11:26 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46906 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726368AbgCINL0 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Mar 2020 09:11:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1583759484;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=xRJIUHA2CnOOeiHBMD4y+dr1ZXYznLSuwH0WgiBK5ck=;
-        b=SD8pWHFZtyclFsLyZychQ3WhfZaP7d9FJSQ3urFJU1Sj1cziI2MB0SJmtHjEPp1nhnGrZu
-        XKa7Xeo4iFXPYCwxGJ4SnVsdtX7C1fu77ghQL0pAjmR5Jcl0f+bcQ3MCAeY8EuANET5xIE
-        fpNfjKqaaXRit5vue6Tbd8x7Y2sjxG8=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-466-RK9m87tFP3WzGf7U2bdUVg-1; Mon, 09 Mar 2020 09:11:20 -0400
-X-MC-Unique: RK9m87tFP3WzGf7U2bdUVg-1
-Received: by mail-wr1-f72.google.com with SMTP id c16so4318116wrt.2
-        for <linux-api@vger.kernel.org>; Mon, 09 Mar 2020 06:11:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=xRJIUHA2CnOOeiHBMD4y+dr1ZXYznLSuwH0WgiBK5ck=;
-        b=i579r4YX4QYHirjC7YiBr3c38p9rLhc6XEu6FBWAfuzjlY0QhJPF1h0rI3kg8a2dTU
-         KKU9nnNVsHrU8lrLaxDQlI+1nmG3PguQBphBKD3bHGQH8eRQQpdeHMFnEma7WShw9aLX
-         bVPHCqUdBgu++yRU7GJLK9pwb0LS4blj6Fo5Sp0WmVgEVb4kBLJfK8VJwhuHW3NeD/WG
-         uq7iVzkYeNSklXKAhWmN2gkd9GDRwCxX8SvOo6HiEMk4rfwlmJ/NaS7YKiz/0N6nGWoX
-         ZgdgmdlBOf7v3OZ9NmZfhOFTxGB1o4qi/nzoH9CI38afZz4DCtHbSA4Y2r0HkExlFs7q
-         PO+g==
-X-Gm-Message-State: ANhLgQ3Jq+RSwyfCeXHnYnd/+ti+qDpJw2Cd0B9l1MMvVuym5MUBBim8
-        h9mpCj6k+CCQ/8gfNAZPICRu/oa9OPaVQpQQ6+rTcmCGtah7wTqbzsG/OZfhLDDo2Tl9MCskYeU
-        LXkZ0MgWNkkjsx4gEe7Yn
-X-Received: by 2002:adf:e506:: with SMTP id j6mr20733590wrm.309.1583759479369;
-        Mon, 09 Mar 2020 06:11:19 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vuCDJFZ7JTpz5uoFvZAVeKx+9vsgLNPQPPkBhoFe61RXjhOioyK15/Hhufdoq2jrHxA0uFd5Q==
-X-Received: by 2002:adf:e506:: with SMTP id j6mr20733564wrm.309.1583759479021;
-        Mon, 09 Mar 2020 06:11:19 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
-        by smtp.gmail.com with ESMTPSA id y15sm5710650wrq.89.2020.03.09.06.11.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2020 06:11:18 -0700 (PDT)
-Date:   Mon, 9 Mar 2020 14:11:17 +0100
-From:   Oleksandr Natalenko <oleksandr@redhat.com>
-To:     Vlastimil Babka <vbabka@suse.cz>
-Cc:     Minchan Kim <minchan@kernel.org>,
+        id S1726739AbgCINp6 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Mon, 9 Mar 2020 09:45:58 -0400
+Received: from mail-oln040092069109.outbound.protection.outlook.com ([40.92.69.109]:15648
+        "EHLO EUR02-VE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726720AbgCINp6 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 9 Mar 2020 09:45:58 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=T9IScGzvU8L67rmtAj/zc/nOJEnDxtAYddUn8VD0DZnhAkwtq6CsZzABhwFPbRV8G8sAHC8ElrTO6Y2nYaTIKmyxzb/AqCs1HVEoxTlmGqmo/SZw7LBVjrrzqAYyhghQ/kbI2AD6KEKIc/mWXhv876FLtxpnBtqjrxJW2Pnmyn7X9yDVjwObumvauRNuTX9psXkkBmY/ZlwxOe8363UynQvn0RmWhDAUX6oiC+kWUtx0pWJtFLQhAznqdfk+WRkAgWS8w6ob2x7r4zYVA4JO+Rrt+9bFgjQhIwM381R5YCYZgsWAA5PUS7gA/oxUQrbRdzp7p/nin2ZSSQ8OZ9IcBw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7HXds6Q+11jQaIEKLExMVNC1Wx7+1+Af0RzE8zZ+hBY=;
+ b=jgTSASowan6dUKioXtc7z6mpkUFJq0tcZLGm1cLka/HCVN/ORRuOtdajQAkF0jgwL6UPFfSRQjx+fQugpfr9iphCj3cQmKn/AWFGD+K1zepRhBedJIhuNwZTAUAgpxM/uqfSF7eNZGc8vaat+jUxHJPLwR1RLnQhBiSNgKN61dSKEOtLO8yKEVDI0rB7FGjz8g8D0pUrW3ODFcnIpWOgPSVBvmqKa91pBx7QucGLCA5FIorSYTPKaEuxO5WB8XvmwWgctv204UeyBUcNmgd5ZUncFfRVbSn5VmR1DruamUQ0HSt4NSYxj+V31sFlf8hH91agTAUO6PWYv7dmYvylFA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from HE1EUR02FT038.eop-EUR02.prod.protection.outlook.com
+ (2a01:111:e400:7e1d::36) by
+ HE1EUR02HT174.eop-EUR02.prod.protection.outlook.com (2a01:111:e400:7e1d::490)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.11; Mon, 9 Mar
+ 2020 13:45:52 +0000
+Received: from AM6PR03MB5170.eurprd03.prod.outlook.com (10.152.10.54) by
+ HE1EUR02FT038.mail.protection.outlook.com (10.152.11.30) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2793.11 via Frontend Transport; Mon, 9 Mar 2020 13:45:52 +0000
+Received: from AM6PR03MB5170.eurprd03.prod.outlook.com
+ ([fe80::1956:d274:cab3:b4dd]) by AM6PR03MB5170.eurprd03.prod.outlook.com
+ ([fe80::1956:d274:cab3:b4dd%6]) with mapi id 15.20.2772.019; Mon, 9 Mar 2020
+ 13:45:52 +0000
+Received: from [192.168.1.101] (92.77.140.102) by FR2P281CA0022.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:14::9) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.15 via Frontend Transport; Mon, 9 Mar 2020 13:45:51 +0000
+From:   Bernd Edlinger <bernd.edlinger@hotmail.de>
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+CC:     Christian Brauner <christian.brauner@ubuntu.com>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
         Andrew Morton <akpm@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
-        Suren Baghdasaryan <surenb@google.com>,
-        Tim Murray <timmurray@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Brian Geffon <bgeffon@google.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Yuyang Du <duyuyang@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jamorris@linux.microsoft.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Shakeel Butt <shakeelb@google.com>,
-        John Dias <joaodias@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jann Horn <jannh@google.com>,
-        alexander.h.duyck@linux.intel.com, sj38.park@gmail.com,
-        SeongJae Park <sjpark@amazon.de>
-Subject: Re: [PATCH v7 7/7] mm/madvise: allow KSM hints for remote API
-Message-ID: <20200309131117.anvyjszaigpoz2kp@butterfly.localdomain>
-References: <20200302193630.68771-1-minchan@kernel.org>
- <20200302193630.68771-8-minchan@kernel.org>
- <2a66abd8-4103-f11b-06d1-07762667eee6@suse.cz>
- <20200306134146.mqiyvsdnqty7so53@butterfly.localdomain>
- <a63768c1-3959-563b-376b-1d8d90d79b41@suse.cz>
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christian Kellner <christian@kellner.me>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
+Subject: Re: [PATCH v2 5/5] exec: Add a exec_update_mutex to replace
+ cred_guard_mutex
+Thread-Topic: [PATCH v2 5/5] exec: Add a exec_update_mutex to replace
+ cred_guard_mutex
+Thread-Index: AQHV9ZJHYfsGvDLnM0SksOJ5MpqOZahARvEA
+Date:   Mon, 9 Mar 2020 13:45:52 +0000
+Message-ID: <AM6PR03MB5170BC58D90BAD80CDEF3F8BE4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87v9nmjulm.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB5170B976E6387FDDAD59A118E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <202003021531.C77EF10@keescook>
+ <20200303085802.eqn6jbhwxtmz4j2x@wittgenstein>
+ <AM6PR03MB5170285B336790D3450E2644E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87v9nlii0b.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB5170609D44967E044FD1BE40E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87a74xi4kz.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB51705AA3009B4986BB6EF92FE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87r1y8dqqz.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
+ <87v9ne5y4y.fsf_-_@x220.int.ebiederm.org>
+ <87zhcq4jdj.fsf_-_@x220.int.ebiederm.org>
+In-Reply-To: <87zhcq4jdj.fsf_-_@x220.int.ebiederm.org>
+Accept-Language: en-US, en-GB, de-DE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: FR2P281CA0022.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:14::9) To AM6PR03MB5170.eurprd03.prod.outlook.com
+ (2603:10a6:20b:ca::23)
+x-incomingtopheadermarker: OriginalChecksum:C8EDBA1F05C561CF3BB4B45B988EA7AC398CC95AA926D55BE60041CF42968EBF;UpperCasedChecksum:4C0B955CC6DA8074080DD2C8D8152A121E3344CFA53DB0EFC92D14C6A0F32C00;SizeAsReceived:9871;Count:50
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn:  [7tYKb0jPB66M7v/f58HxmMHbKML6mDV9]
+x-microsoft-original-message-id: <3576ca27-c68a-308a-9ddd-f76d163f81e8@hotmail.de>
+x-ms-publictraffictype: Email
+x-incomingheadercount: 50
+x-eopattributedmessage: 0
+x-ms-office365-filtering-correlation-id: 44b748a1-c14c-42f9-5846-08d7c4302ef5
+x-ms-traffictypediagnostic: HE1EUR02HT174:
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: VJu1xTPVWop4UxIZDKT10eupaGw0QfN3FCeMSQ0LKXismnUscAXRHbGFZcI381sxu9FXdDbHNVVd9rbpIZamsO1/tZhd3nrG9fxo/onm72SYdfFtsuP+CCDi12EsyGs6BCRX8UfcTxv6T66AVnP5xGlLGVL4PCjg4l5IEqGqiZbw1o02zO+wGPDu9eI7lok6
+x-ms-exchange-antispam-messagedata: CNDUBxT8GpIyfrFfVgTyBSIObU39JrZ7PuzGPfd+dOM9ToJwic7uL2ep5Sf1VZu8xw0txeZaQLvpLnhUEuDzN3Yu45nL6vGPwrww8CfbgB0SJrXeuYFj5m9P9uzF2g1IvMCECBnTCuFNZ243vSfFPg==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="Windows-1252"
+Content-ID: <25EC084D81A12142B470F4D19192D000@eurprd03.prod.outlook.com>
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a63768c1-3959-563b-376b-1d8d90d79b41@suse.cz>
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 44b748a1-c14c-42f9-5846-08d7c4302ef5
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Mar 2020 13:45:52.5307
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Internet
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1EUR02HT174
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Mar 06, 2020 at 05:08:18PM +0100, Vlastimil Babka wrote:
-> On 3/6/20 2:41 PM, Oleksandr Natalenko wrote:
-> > On Fri, Mar 06, 2020 at 02:13:49PM +0100, Vlastimil Babka wrote:
-> >> On 3/2/20 8:36 PM, Minchan Kim wrote:
-> >> > From: Oleksandr Natalenko <oleksandr@redhat.com>
-> >> > 
-> >> > It all began with the fact that KSM works only on memory that is marked
-> >> > by madvise(). And the only way to get around that is to either:
-> >> > 
-> >> >   * use LD_PRELOAD; or
-> >> >   * patch the kernel with something like UKSM or PKSM.
-> >> > 
-> >> > (i skip ptrace can of worms here intentionally)
-> >> > 
-> >> > To overcome this restriction, lets employ a new remote madvise API. This
-> >> > can be used by some small userspace helper daemon that will do auto-KSM
-> >> > job for us.
-> >> > 
-> >> > I think of two major consumers of remote KSM hints:
-> >> > 
-> >> >   * hosts, that run containers, especially similar ones and especially in
-> >> >     a trusted environment, sharing the same runtime like Node.js;
+On 3/8/20 10:38 PM, Eric W. Biederman wrote:
 > 
-> Ah, I forgot to ask, given the discussion of races in patch 2 (Question 2),
-> where android can stop the tasks to apply the madvise hints in a race-free
-> manner, how does that work for remote KSM hints in your scenarios, especially
-> the one above?
+> The cred_guard_mutex is problematic.  The cred_guard_mutex is held
+> over the userspace accesses as the arguments from userspace are read.
+> The cred_guard_mutex is held of PTRACE_EVENT_EXIT as the the other
 
-We have cgroup.freeze for that.
+... is held while waiting for the trace parent to handle PTRACE_EVENT_EXIT
+or something?
 
+I wonder if we also should mention that
+it is held while waiting for the trace parent to
+receive the exit code with "wait"?
+
+> threads are killed.  The cred_guard_mutex is held over
+> "put_user(0, tsk->clear_child_tid)" in exit_mm().
 > 
-> >> > 
-> >> >   * heavy applications, that can be run in multiple instances, not
-> >> >     limited to opensource ones like Firefox, but also those that cannot be
-> >> >     modified since they are binary-only and, maybe, statically linked.
-> >> > 
-> >> > Speaking of statistics, more numbers can be found in the very first
-> >> > submission, that is related to this one [1]. For my current setup with
-> >> > two Firefox instances I get 100 to 200 MiB saved for the second instance
-> >> > depending on the amount of tabs.
-> >> > 
-> >> > 1 FF instance with 15 tabs:
-> >> > 
-> >> >    $ echo "$(cat /sys/kernel/mm/ksm/pages_sharing) * 4 / 1024" | bc
-> >> >    410
-> >> > 
-> >> > 2 FF instances, second one has 12 tabs (all the tabs are different):
-> >> > 
-> >> >    $ echo "$(cat /sys/kernel/mm/ksm/pages_sharing) * 4 / 1024" | bc
-> >> >    592
-> >> > 
-> >> > At the very moment I do not have specific numbers for containerised
-> >> > workload, but those should be comparable in case the containers share
-> >> > similar/same runtime.
-> >> > 
-> >> > [1] https://lore.kernel.org/patchwork/patch/1012142/
-> >> > 
-> >> > Reviewed-by: SeongJae Park <sjpark@amazon.de>
-> >> > Signed-off-by: Oleksandr Natalenko <oleksandr@redhat.com>
-> >> > Signed-off-by: Minchan Kim <minchan@kernel.org>
-> >> 
-> >> This will lead to one process calling unmerge_ksm_pages() of another. There's a
-> >> (signal_pending(current)) test there, should it check also the other task,
-> >> analogically to task 3?
-> > 
-> > Do we care about current there then? Shall we just pass mm into unmerge_ksm_pages and check the signals of the target task only, be it current or something else?
+> Any of those can result in deadlock, as the cred_guard_mutex is held
+> over a possible indefinite userspace waits for userspace.
 > 
-> Dunno, it's nice to react to signals quickly, for any proces that gets them, no?
+> Add exec_update_mutex that is only held over exec updating process
 
-So, do you mean something like this?
+Add ?
 
-===
-diff --git a/mm/ksm.c b/mm/ksm.c
-index 363ec8189561..b39c237cfcf4 100644
---- a/mm/ksm.c
-+++ b/mm/ksm.c
-@@ -849,7 +849,8 @@ static int unmerge_ksm_pages(struct vm_area_struct *vma,
- 	for (addr = start; addr < end && !err; addr += PAGE_SIZE) {
- 		if (ksm_test_exit(vma->vm_mm))
- 			break;
--		if (signal_pending(current))
-+		if (signal_pending(current) ||
-+		    signal_pending(rcu_dereference(vma->vm_mm->owner)))
- 			err = -ERESTARTSYS;
- 		else
- 			err = break_ksm(vma, addr);
-===
-
-BTW, this won't work with !CONFIG_MEMCG, so probably task_struct should be
-passed through instead. IIUC, this would also require amending struct
-mm_slot in order to share the same code path with ksmd.
-
-I'm not sure I've seen such a culprit anywhere else, so I'm in doubt
-this would be a correct thing to do.
-
-Ideas?
-
+> with the new contents of exec, so that code that needs not to be
+> confused by exec changing the mm and the cred in ways that can not
+> happen during ordinary execution of a process.
 > 
-> >> Then break_ksm() is fine as it is, as ksmd also calls it, right?
-> > 
-> > I think break_ksm() cares only about mmap_sem protection, so we should
-> > be fine here.
-> > 
-> >> 
-> >> > ---
-> >> >  mm/madvise.c | 4 ++++
-> >> >  1 file changed, 4 insertions(+)
-> >> > 
-> >> > diff --git a/mm/madvise.c b/mm/madvise.c
-> >> > index e77c6c1fad34..f4fa962ee74d 100644
-> >> > --- a/mm/madvise.c
-> >> > +++ b/mm/madvise.c
-> >> > @@ -1005,6 +1005,10 @@ process_madvise_behavior_valid(int behavior)
-> >> >  	switch (behavior) {
-> >> >  	case MADV_COLD:
-> >> >  	case MADV_PAGEOUT:
-> >> > +#ifdef CONFIG_KSM
-> >> > +	case MADV_MERGEABLE:
-> >> > +	case MADV_UNMERGEABLE:
-> >> > +#endif
-> >> >  		return true;
-> >> >  	default:
-> >> >  		return false;
-> >> > 
-> >> 
-> > 
-> 
+> The plan is to switch the users of cred_guard_mutex to
+> exec_udpate_mutex one by one.  This lets us move forward while still
 
--- 
-  Best regards,
-    Oleksandr Natalenko (post-factum)
-    Principal Software Maintenance Engineer
+s/udpate/update/
 
+
+Bernd.
