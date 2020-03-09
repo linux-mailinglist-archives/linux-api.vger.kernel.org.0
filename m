@@ -2,178 +2,151 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DCDC17E007
-	for <lists+linux-api@lfdr.de>; Mon,  9 Mar 2020 13:20:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8550C17E049
+	for <lists+linux-api@lfdr.de>; Mon,  9 Mar 2020 13:30:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726677AbgCIMTy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 9 Mar 2020 08:19:54 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46734 "EHLO
+        id S1726368AbgCIMav (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 9 Mar 2020 08:30:51 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21176 "EHLO
         us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726605AbgCIMTy (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Mar 2020 08:19:54 -0400
+        with ESMTP id S1726391AbgCIMau (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Mar 2020 08:30:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1583756393;
+        s=mimecast20190719; t=1583757049;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=GyJi62FBwsHTe3Zl4H44iXaw4BfzG8ra8uaMuD9rQ7s=;
-        b=bKXVbKzqgRe5FH/3GQb3LFZqmwwPQPG9A2M++Qsvtf3KoDbTTSFLYmBcsIwL3DwjIWMTYB
-        anpiy9c9PQ9BaiUKa0HXqM5nsML1TQtTlYQZzkeTk+WetYprPaR/69qqf78aWyuEhJ3KKH
-        84vv7ItkUXWgvt2ztNlD0Bg2Q9p4U5Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-42-Wsrr7mZfMMSBkoQbAWtN0g-1; Mon, 09 Mar 2020 08:19:51 -0400
-X-MC-Unique: Wsrr7mZfMMSBkoQbAWtN0g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E51A100550E;
-        Mon,  9 Mar 2020 12:19:49 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-120-182.rdu2.redhat.com [10.10.120.182])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id AF4FE1001B3F;
-        Mon,  9 Mar 2020 12:19:46 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-Subject: [RFC PATCH 17/17] watch_queue: sample: Display superblock
- notifications [ver #4]
-From:   David Howells <dhowells@redhat.com>
-To:     torvalds@linux-foundation.org, viro@zeniv.linux.org.uk
-Cc:     dhowells@redhat.com, dhowells@redhat.com, casey@schaufler-ca.com,
-        sds@tycho.nsa.gov, nicolas.dichtel@6wind.com, raven@themaw.net,
-        christian@brauner.io, andres@anarazel.de, jlayton@redhat.com,
-        dray@redhat.com, kzak@redhat.com, keyrings@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Mon, 09 Mar 2020 12:19:46 +0000
-Message-ID: <158375638603.334846.5465237543300472274.stgit@warthog.procyon.org.uk>
-In-Reply-To: <158375623086.334846.16121725232323108842.stgit@warthog.procyon.org.uk>
-References: <158375623086.334846.16121725232323108842.stgit@warthog.procyon.org.uk>
-User-Agent: StGit/0.21
+        bh=4uzsPQ+ZsiFXUNzM64RYqffPOnfhsKcEvaN4HId4EK8=;
+        b=ei/vdRMA/XJIWkZk3OORtBaT4F0mxQC2IzcxjxGW7T7nri+8Bb6OvwfGO9cxyt2z7ikbF6
+        kqwPt3Lz59OnJpO9R8EWI6xProRl0FF5F4EbXwyszoZ1rYwmEnRCfsqWLRQ4Z5XOgZn1cj
+        dbE9IAa50ArvrngvI3jxCKuLa5Zcjgs=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-162-6fUrCzp1O0uikiq73T9giw-1; Mon, 09 Mar 2020 08:30:48 -0400
+X-MC-Unique: 6fUrCzp1O0uikiq73T9giw-1
+Received: by mail-wm1-f70.google.com with SMTP id v21so2401560wml.5
+        for <linux-api@vger.kernel.org>; Mon, 09 Mar 2020 05:30:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=4uzsPQ+ZsiFXUNzM64RYqffPOnfhsKcEvaN4HId4EK8=;
+        b=bbZSuTdqjdhS7/qoDmYYSIXqTTrJPpA5v1+vm93US4MO5IYM7p4WIh52W8L4PIpO5d
+         9kfEar3n/9JS7xK7sPYvpjJHKurakV/Tt7RWtztoIELqSx5UiWnoyUhcqYj9VX/FuJ7/
+         Zqg90bf9RdOkZlyyu0SUsLAaCQ88E3NUM5/0fZZFQaieK04EmfSNgkwrVPeiPhlRPe0i
+         zmhB9ztfzNgwHMmazGtPRwM5CbQ2/R4BsEUm3Eo/0elArSKw+xDh/6hHWs7HdO9kyIZI
+         Xo00WwUt2ix+PsmpuwhXk5qaZLhLxMtUaAnVe+t9PM4mGau0XFRsKK2akNwh/xTF2NS/
+         i35A==
+X-Gm-Message-State: ANhLgQ28Z0/gKnYuSPKH8NTgd0RI+a6sA1sdd8i6rpPjLb/HJZ+yufSN
+        w7xTbwjkg4Q1NUaNOrWVXBRVnXv/0vhIFUp7O6MEfS32EoqScZFkxmfe6APz0k6r+T5UJ2WwqtF
+        +OOo7V8rBjxfJPaFjlEJJ
+X-Received: by 2002:adf:ef92:: with SMTP id d18mr20470461wro.193.1583757046852;
+        Mon, 09 Mar 2020 05:30:46 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vujV46ctESl/MRhsNnLuJc5z1YddqftLU07svKg9hSa4UYTEJYDybn2Z8AShVV5pT5Snx8WxA==
+X-Received: by 2002:adf:ef92:: with SMTP id d18mr20470437wro.193.1583757046644;
+        Mon, 09 Mar 2020 05:30:46 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+        by smtp.gmail.com with ESMTPSA id c5sm9841274wma.3.2020.03.09.05.30.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Mar 2020 05:30:45 -0700 (PDT)
+Date:   Mon, 9 Mar 2020 13:30:45 +0100
+From:   Oleksandr Natalenko <oleksandr@redhat.com>
+To:     Vlastimil Babka <vbabka@suse.cz>
+Cc:     Minchan Kim <minchan@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
+        Suren Baghdasaryan <surenb@google.com>,
+        Tim Murray <timmurray@google.com>,
+        Daniel Colascione <dancol@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Sonny Rao <sonnyrao@google.com>,
+        Brian Geffon <bgeffon@google.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        John Dias <joaodias@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jann Horn <jannh@google.com>,
+        alexander.h.duyck@linux.intel.com, sj38.park@gmail.com
+Subject: Re: [PATCH v7 6/7] mm/madvise: employ mmget_still_valid for write
+ lock
+Message-ID: <20200309123045.o4cwni3ra6zq6ha2@butterfly.localdomain>
+References: <20200302193630.68771-1-minchan@kernel.org>
+ <20200302193630.68771-7-minchan@kernel.org>
+ <d21c85b2-2493-e538-5419-79cf049a469e@suse.cz>
+ <20200306130303.kztv64f52qknxb6k@butterfly.localdomain>
+ <86fc8d7b-ad6b-1691-b022-025d01e9e8e3@suse.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <86fc8d7b-ad6b-1691-b022-025d01e9e8e3@suse.cz>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-The notification is run as:
+On Fri, Mar 06, 2020 at 05:03:50PM +0100, Vlastimil Babka wrote:
+> On 3/6/20 2:03 PM, Oleksandr Natalenko wrote:
+> > Hello.
+> > 
+> > On Fri, Mar 06, 2020 at 01:52:07PM +0100, Vlastimil Babka wrote:
+> >> > diff --git a/mm/madvise.c b/mm/madvise.c
+> >> > index e794367f681e..e77c6c1fad34 100644
+> >> > --- a/mm/madvise.c
+> >> > +++ b/mm/madvise.c
+> >> > @@ -1118,6 +1118,8 @@ int do_madvise(struct task_struct *target_task, struct mm_struct *mm,
+> >> >  	if (write) {
+> >> >  		if (down_write_killable(&mm->mmap_sem))
+> >> >  			return -EINTR;
+> >> > +		if (current->mm != mm && !mmget_still_valid(mm))
+> >> > +			goto skip_mm;
+> >> 
+> >> This will return 0, is that correct? Shoudln't there be a similar error e.g. as
+> >> when finding the task by pid fails (-ESRCH ?), because IIUC the task here is
+> >> going away and dumping the core?
+> > 
+> > Yeah.
+> > 
+> > Something like this then:
+> > 
+> > ===
+> > diff --git a/mm/madvise.c b/mm/madvise.c
+> > index 48d1da08c160..7ed2f4d13924 100644
+> > --- a/mm/madvise.c
+> > +++ b/mm/madvise.c
+> > @@ -1122,6 +1122,10 @@ int do_madvise(struct task_struct *target_task, struct mm_struct *mm,
+> >  	if (write) {
+> >  		if (down_write_killable(&mm->mmap_sem))
+> >  			return -EINTR;
+> > +		if (current->mm != mm && !mmget_still_valid(mm)) {
+> > +			error = -ESRCH;
+> > +			goto skip_mm;
+> > +		}
+> >  	} else {
+> >  		down_read(&mm->mmap_sem);
+> >  	}
+> > @@ -1173,6 +1177,7 @@ int do_madvise(struct task_struct *target_task, struct mm_struct *mm,
+> >  	}
+> >  out:
+> >  	blk_finish_plug(&plug);
+> > +skip_mm:
+> >  	if (write)
+> >  		up_write(&mm->mmap_sem);
+> >  	else
+> > 
+> > ===
+> > 
+> > ?
+> 
+> Yep, thanks.
+> 
 
-	./watch_test
+Minchan, shall you take this change into the next submission, or you'd
+prefer me sending it to you as a new patch?
 
-and it then watches "/mnt" for superblock notifications:
-
-	# mount -t tmpfs none /mnt
-	# ./watch_test &
-	# mount -o remount,ro /mnt
-	# mount -o remount,rw /mnt
-
-producing:
-
-	# ./watch_test
-	NOTIFY[000]: ty=000003 sy=00 i=03010010
-	SUPER 157eb57ca7 change=0[readonly]
-	read() = 16
-	NOTIFY[000]: ty=000002 sy=04 i=02010010
-	MOUNT 000001a0 change=4[setattr] aux=0
-	read() = 16
-	NOTIFY[000]: ty=000002 sy=04 i=02010010
-	MOUNT 000001a0 change=4[setattr] aux=0
-
-Signed-off-by: David Howells <dhowells@redhat.com>
----
-
- samples/watch_queue/watch_test.c |   39 +++++++++++++++++++++++++++++++++++++-
- 1 file changed, 38 insertions(+), 1 deletion(-)
-
-diff --git a/samples/watch_queue/watch_test.c b/samples/watch_queue/watch_test.c
-index 49d185150506..eea3bd8c6569 100644
---- a/samples/watch_queue/watch_test.c
-+++ b/samples/watch_queue/watch_test.c
-@@ -29,6 +29,9 @@
- #ifndef __NR_watch_mount
- #define __NR_watch_mount -1
- #endif
-+#ifndef __NR_watch_sb
-+#define __NR_watch_sb -1
-+#endif
- 
- #define BUF_SIZE 256
- 
-@@ -82,6 +85,24 @@ static void saw_mount_change(struct watch_notification *n, size_t len)
- 	       m->triggered_on, n->subtype, mount_subtypes[n->subtype], m->changed_mount);
- }
- 
-+static const char *super_subtypes[256] = {
-+	[NOTIFY_SUPERBLOCK_READONLY]	= "readonly",
-+	[NOTIFY_SUPERBLOCK_ERROR]	= "error",
-+	[NOTIFY_SUPERBLOCK_EDQUOT]	= "edquot",
-+	[NOTIFY_SUPERBLOCK_NETWORK]	= "network",
-+};
-+
-+static void saw_super_change(struct watch_notification *n, size_t len)
-+{
-+	struct superblock_notification *s = (struct superblock_notification *)n;
-+
-+	if (len < sizeof(struct superblock_notification))
-+		return;
-+
-+	printf("SUPER %08llx change=%u[%s]\n",
-+	       s->sb_id, n->subtype, super_subtypes[n->subtype]);
-+}
-+
- /*
-  * Consume and display events.
-  */
-@@ -161,6 +182,9 @@ static void consumer(int fd)
- 			case WATCH_TYPE_MOUNT_NOTIFY:
- 				saw_mount_change(&n.n, len);
- 				break;
-+			case WATCH_TYPE_SB_NOTIFY:
-+				saw_super_change(&n.n, len);
-+				break;
- 			}
- 
- 			p += len;
-@@ -169,7 +193,7 @@ static void consumer(int fd)
- }
- 
- static struct watch_notification_filter filter = {
--	.nr_filters	= 2,
-+	.nr_filters	= 3,
- 	.filters = {
- 		[0]	= {
- 			.type			= WATCH_TYPE_KEY_NOTIFY,
-@@ -180,6 +204,14 @@ static struct watch_notification_filter filter = {
- 			// Reject move-from notifications
- 			.subtype_filter[0]	= UINT_MAX & ~(1 << NOTIFY_MOUNT_MOVE_FROM),
- 		},
-+		[2]	= {
-+			.type			= WATCH_TYPE_SB_NOTIFY,
-+			// Only accept notification of changes to R/O state
-+			.subtype_filter[0]	= (1 << NOTIFY_SUPERBLOCK_READONLY),
-+			// Only accept notifications of change-to-R/O
-+			.info_mask		= WATCH_INFO_FLAG_0,
-+			.info_filter		= WATCH_INFO_FLAG_0,
-+		},
- 	},
- };
- 
-@@ -218,6 +250,11 @@ int main(int argc, char **argv)
- 		exit(1);
- 	}
- 
-+	if (syscall(__NR_watch_sb, AT_FDCWD, "/mnt", 0, fd, 0x03) == -1) {
-+		perror("watch_sb");
-+		exit(1);
-+	}
-+
- 	consumer(fd);
- 	exit(0);
- }
-
+-- 
+  Best regards,
+    Oleksandr Natalenko (post-factum)
+    Principal Software Maintenance Engineer
 
