@@ -2,131 +2,224 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 99C3A17E861
-	for <lists+linux-api@lfdr.de>; Mon,  9 Mar 2020 20:27:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BF8517E866
+	for <lists+linux-api@lfdr.de>; Mon,  9 Mar 2020 20:29:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726295AbgCIT1a (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 9 Mar 2020 15:27:30 -0400
-Received: from mga01.intel.com ([192.55.52.88]:20358 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725992AbgCIT1a (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 9 Mar 2020 15:27:30 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Mar 2020 12:27:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,534,1574150400"; 
-   d="scan'208";a="414918030"
-Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by orsmga005.jf.intel.com with ESMTP; 09 Mar 2020 12:27:28 -0700
-Message-ID: <fed72ecc917373669ac546d4e8214793d78bd513.camel@intel.com>
-Subject: Re: [RFC PATCH v9 01/27] Documentation/x86: Add CET description
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Dave Hansen <dave.hansen@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        id S1726275AbgCIT3D convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Mon, 9 Mar 2020 15:29:03 -0400
+Received: from mail-oln040092074067.outbound.protection.outlook.com ([40.92.74.67]:51015
+        "EHLO EUR04-DB3-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726378AbgCIT3D (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 9 Mar 2020 15:29:03 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DSp/MZxz2+QoiQVZL/OLbVaZq7EIpOVSKdgsheSYZPG+FPIJQFgLxNQLUjqqQfpVluay+cagx4I6R7KcLaUe8MQSk2uFUMVnNXR72vXj6es2PYhT2Y3bExXNXihmLmVrfih9yGoIsg7Lnd04qKjJctO/ThmHz/mhp/k0P2/ycRMs7yKAPTauwURmVP4jgkXL3rhi4Up/CRL2Qcw90RAAqYY1vlyU4J1J3+gjt0rNh+19w4LytKsGPAsKWc/YepOVwT6/rk/H/nbyEw/QnrDeE5D7FuXp0fSHXSxUGPOB0rRVZWqWgqSC6nHwlI0pyRmM/ZCdlz5Vsc394a0zXWEl/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=25fEhLFqCPK19uG1MGMDMSHf5O3MxrMfxThzPBvX2zA=;
+ b=ed7/mypASGkgMhkvawQM+qKQf2jDXZw+v08KatFvGKf/2eGKrmScvEnTJZQRAkIyjm15ksmu1z8XnyQr3PuvG52S7Ocb6Ye9L9kl8dFsNVkF/5fZ0tEq6b3lWbHmjQmYaLma/5meM99PQQ2HKDmg+DLg9mgEh6oEIzkJVZsiLznYnE62Oq7P/QsfcYVACu0GcBmJvkfZ3SyRzxBw7Yo/KWl/rIN6b9imI+UGBx0a1m8hvMErLiOZxPRHblzWYm+GA1Stbwx+pzRX6+pCln25Nm0/WacNzvri62neC/tkrSofTg6VL6QQjgMbPENAW+xN/YO9sK3Ex+PJv/Bhun85Rw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from HE1EUR04FT025.eop-eur04.prod.protection.outlook.com
+ (2a01:111:e400:7e0d::3a) by
+ HE1EUR04HT218.eop-eur04.prod.protection.outlook.com (2a01:111:e400:7e0d::128)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.11; Mon, 9 Mar
+ 2020 19:28:57 +0000
+Received: from AM6PR03MB5170.eurprd03.prod.outlook.com (10.152.26.60) by
+ HE1EUR04FT025.mail.protection.outlook.com (10.152.27.28) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2793.11 via Frontend Transport; Mon, 9 Mar 2020 19:28:57 +0000
+Received: from AM6PR03MB5170.eurprd03.prod.outlook.com
+ ([fe80::1956:d274:cab3:b4dd]) by AM6PR03MB5170.eurprd03.prod.outlook.com
+ ([fe80::1956:d274:cab3:b4dd%6]) with mapi id 15.20.2772.019; Mon, 9 Mar 2020
+ 19:28:57 +0000
+Received: from [192.168.1.101] (92.77.140.102) by ZR0P278CA0002.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:16::12) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.14 via Frontend Transport; Mon, 9 Mar 2020 19:28:54 +0000
+From:   Bernd Edlinger <bernd.edlinger@hotmail.de>
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+CC:     Christian Brauner <christian.brauner@ubuntu.com>,
         Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
-Date:   Mon, 09 Mar 2020 12:27:28 -0700
-In-Reply-To: <968af1c2-a5b4-fb48-dfa9-499ec37f677c@intel.com>
-References: <20200205181935.3712-1-yu-cheng.yu@intel.com>
-         <20200205181935.3712-2-yu-cheng.yu@intel.com>
-         <9ae1cf84-1d84-1d34-c0ce-48b0d70b8f3f@intel.com>
-         <0f43463e02d1be2af6bcf8ff6917e751ba7676a0.camel@intel.com>
-         <968af1c2-a5b4-fb48-dfa9-499ec37f677c@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Yuyang Du <duyuyang@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jamorris@linux.microsoft.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christian Kellner <christian@kellner.me>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
+Subject: Re: [PATCH v2 2/5] exec: Factor unshare_sighand out of de_thread and
+ call it separately
+Thread-Topic: [PATCH v2 2/5] exec: Factor unshare_sighand out of de_thread and
+ call it separately
+Thread-Index: AQHV9ZHwMYkHVvw7WkOaWuLYK/D8U6hApsoA
+Date:   Mon, 9 Mar 2020 19:28:57 +0000
+Message-ID: <AM6PR03MB5170654B139FCBDB31320481E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87v9nmjulm.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB5170B976E6387FDDAD59A118E4E70@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <202003021531.C77EF10@keescook>
+ <20200303085802.eqn6jbhwxtmz4j2x@wittgenstein>
+ <AM6PR03MB5170285B336790D3450E2644E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87v9nlii0b.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB5170609D44967E044FD1BE40E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87a74xi4kz.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB51705AA3009B4986BB6EF92FE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87r1y8dqqz.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
+ <87v9ne5y4y.fsf_-_@x220.int.ebiederm.org>
+ <87k13u5y26.fsf_-_@x220.int.ebiederm.org>
+In-Reply-To: <87k13u5y26.fsf_-_@x220.int.ebiederm.org>
+Accept-Language: en-US, en-GB, de-DE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: ZR0P278CA0002.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:16::12) To AM6PR03MB5170.eurprd03.prod.outlook.com
+ (2603:10a6:20b:ca::23)
+x-incomingtopheadermarker: OriginalChecksum:771835AA78CAE5BFC139105ED5335C323419C4769AFF08F1788ABA23277AD63C;UpperCasedChecksum:9B440B72CF96ADD1588BE7715CB29C7D3398C3B8368000B6B4E6A2AAD3AF2F1C;SizeAsReceived:9923;Count:50
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn:  [1XxhMO/1r/wBolGMgXKhaxoyb6xWg5KB]
+x-microsoft-original-message-id: <9c02946b-f907-2e43-eaf6-5b09600e8221@hotmail.de>
+x-ms-publictraffictype: Email
+x-incomingheadercount: 50
+x-eopattributedmessage: 0
+x-ms-office365-filtering-correlation-id: 836277e3-0366-46ea-ec78-08d7c4601cac
+x-ms-traffictypediagnostic: HE1EUR04HT218:
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: I78APqynq+QI/pVE5NAlb3N6ZtJUWX9IqiV3wxU+7czkTOHissLQ9eo0px0kJFyiF3IdbLSZ6p7rjAXghDxMfHt3nTVSBHnWgQUIJxgepUgSDHcSoLpghf87WObhPW6n8ZX6A/RresGFagRirOeG2h+SKmLCIV/85PpWXnCmgcJ15kajMOn4tJ5GWspVfM0s
+x-ms-exchange-antispam-messagedata: 3sOZ+gQkwYYhWyLHpw7y7ceDSeK1bbnvsSVbGdSHFMpquV7mAIcfe8Ck2Qyf6bICh7jGEWGcCezK39A/dmxNDp7MKPcLvmV1E18M5TcmBe/7T+7K146mknbuOGnIIVg7k3ctUoP80vA8Bc57EdNGWQ==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="Windows-1252"
+Content-ID: <C207B16EE808B04FABD30CC9CD591EE3@eurprd03.prod.outlook.com>
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 836277e3-0366-46ea-ec78-08d7c4601cac
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Mar 2020 19:28:57.7621
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Internet
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1EUR04HT218
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, 2020-03-09 at 10:21 -0700, Dave Hansen wrote:
-> On 3/9/20 10:00 AM, Yu-cheng Yu wrote:
-> > On Wed, 2020-02-26 at 09:57 -0800, Dave Hansen wrote:
-> > > > index ade4e6ec23e0..8b69ebf0baed 100644
-> > > > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > > > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > > > @@ -3001,6 +3001,12 @@
-> > > >  			noexec=on: enable non-executable mappings (default)
-> > > >  			noexec=off: disable non-executable mappings
-> > > >  
-> > > > +	no_cet_shstk	[X86-64] Disable Shadow Stack for user-mode
-> > > > +			applications
-> > > 
-> > > If we ever add kernel support, "no_cet_shstk" will mean "no cet shstk
-> > > for userspace"?
-> > 
-> > What about no_user_shstk, no_kernel_shstk?
-
-[...]
-
-> > > > +Note:
-> > > > +  There is no CET-enabling arch_prctl function.  By design, CET is
-> > > > +  enabled automatically if the binary and the system can support it.
-> > > 
-> > > This is kinda interesting.  It means that a JIT couldn't choose to
-> > > protect the code it generates and have different rules from itself?
-> > 
-> > JIT needs to be updated for CET first.  Once that is done, it runs with CET
-> > enabled.  It can use the NOTRACK prefix, for example.
+On 3/8/20 10:36 PM, Eric W. Biederman wrote:
 > 
-> Am I missing something?
+> This makes the code clearer and makes it easier to implement a mutex
+> that is not taken over any locations that may block indefinitely waiting
+> for userspace.
 > 
-> What's the direct connection between shadow stacks and Indirect Branch
-> Tracking other than Intel marketing umbrellas?
+> Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
 
-What I meant is that JIT code needs to be updated first; if it skips RETs,
-it needs to unwind the stack, and if it does indirect JMPs somewhere it
-needs to fix up the branch target or use NOTRACK.
+Reviewed-by: Bernd Edlinger <bernd.edlinger@hotmail.de>
 
-> > > > +  The parameters passed are always unsigned 64-bit.  When an IA32
-> > > > +  application passing pointers, it should only use the lower 32 bits.
-> > > 
-> > > Won't a 32-bit app calling prctl() use the 32-bit ABI?  How would it
-> > > even know it's running on a 64-bit kernel?
-> > 
-> > The 32-bit app is passing only a pointer to an array of 64-bit numbers.
+
+Bernd.
+> ---
+>  fs/exec.c | 39 ++++++++++++++++++++++++++-------------
+>  1 file changed, 26 insertions(+), 13 deletions(-)
 > 
-> Well, the documentation just talked about pointers and I naively assume
-> it means the "unsigned long *" you had in there.
+> diff --git a/fs/exec.c b/fs/exec.c
+> index c3f34791f2f0..ff74b9a74d34 100644
+> --- a/fs/exec.c
+> +++ b/fs/exec.c
+> @@ -1194,6 +1194,23 @@ static int de_thread(struct task_struct *tsk)
+>  	flush_itimer_signals();
+>  #endif
+>  
+> +	BUG_ON(!thread_group_leader(tsk));
+> +	return 0;
+> +
+> +killed:
+> +	/* protects against exit_notify() and __exit_signal() */
+> +	read_lock(&tasklist_lock);
+> +	sig->group_exit_task = NULL;
+> +	sig->notify_count = 0;
+> +	read_unlock(&tasklist_lock);
+> +	return -EAGAIN;
+> +}
+> +
+> +
+> +static int unshare_sighand(struct task_struct *me)
+> +{
+> +	struct sighand_struct *oldsighand = me->sighand;
+> +
+>  	if (refcount_read(&oldsighand->count) != 1) {
+>  		struct sighand_struct *newsighand;
+>  		/*
+> @@ -1210,23 +1227,13 @@ static int de_thread(struct task_struct *tsk)
+>  
+>  		write_lock_irq(&tasklist_lock);
+>  		spin_lock(&oldsighand->siglock);
+> -		rcu_assign_pointer(tsk->sighand, newsighand);
+> +		rcu_assign_pointer(me->sighand, newsighand);
+>  		spin_unlock(&oldsighand->siglock);
+>  		write_unlock_irq(&tasklist_lock);
+>  
+>  		__cleanup_sighand(oldsighand);
+>  	}
+> -
+> -	BUG_ON(!thread_group_leader(tsk));
+>  	return 0;
+> -
+> -killed:
+> -	/* protects against exit_notify() and __exit_signal() */
+> -	read_lock(&tasklist_lock);
+> -	sig->group_exit_task = NULL;
+> -	sig->notify_count = 0;
+> -	read_unlock(&tasklist_lock);
+> -	return -EAGAIN;
+>  }
+>  
+>  char *__get_task_comm(char *buf, size_t buf_size, struct task_struct *tsk)
+> @@ -1264,13 +1271,19 @@ int flush_old_exec(struct linux_binprm * bprm)
+>  	int retval;
+>  
+>  	/*
+> -	 * Make sure we have a private signal table and that
+> -	 * we are unassociated from the previous thread group.
+> +	 * Make this the only thread in the thread group.
+>  	 */
+>  	retval = de_thread(me);
+>  	if (retval)
+>  		goto out;
+>  
+> +	/*
+> +	 * Make the signal table private.
+> +	 */
+> +	retval = unshare_sighand(me);
+> +	if (retval)
+> +		goto out;
+> +
+>  	/*
+>  	 * Must be called _before_ exec_mmap() as bprm->mm is
+>  	 * not visibile until then. This also enables the update
 > 
-> Rather than make suggestions, just say that the ABI is universally
-> 64-bit.  Saying that the pointers must be valid is just kinda silly.
-> It's also not 100% clear what an "IA32 application" *MEANS* given fun
-> things like x32.
-
-Ok, I will update the text.
-
-> 
-> Also, I went to go find this implementation in your series.  I couldn't
-> find it.  Did I miss a patch?  Or are you documenting things you didn't
-> even implement?
-
-In patch #27: Add arch_prctl functions for Shadow Stack.
-
-Yu-cheng
-
