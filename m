@@ -2,124 +2,291 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D7B0217E43A
-	for <lists+linux-api@lfdr.de>; Mon,  9 Mar 2020 17:03:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EF5617E539
+	for <lists+linux-api@lfdr.de>; Mon,  9 Mar 2020 17:59:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727101AbgCIQDi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 9 Mar 2020 12:03:38 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:35523 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727026AbgCIQDh (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Mar 2020 12:03:37 -0400
-Received: by mail-wm1-f66.google.com with SMTP id m3so87002wmi.0;
-        Mon, 09 Mar 2020 09:03:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=4Vb8vw+xlPzxP4hGQgzGpAoq0a99lvU78mWwnn4o6e4=;
-        b=RsUc0jePyBz4QStJstqt2Wvt+bRn+ldjjaGD1uoWhKggPE42qel38e9BvP4UmMY/GB
-         e+XE18rnkZ9YeGE6w39XKV9ozawTRetQy1hTOq618gYvvAdRvUSRdrQJ7hRQKJwupJFw
-         5GLEbXDV3YCh/tidMOlb44fqdLPZ/38k+oyidRaoQEqzTJHTV7Rfdnf6UQheNn7XuX8F
-         MuTjeZbngVY9OYJklhOAovR4wTwSm6mNeGDqW8ISX6+Ef/b+ki6QrTT6rbAnm2hN+5NA
-         5nBSNJQCesgWmqzgZyTIFd7DAWcbFwp45W7M4/Q9mw1kZ/QSGTV3bycxKPcx7BNj5bSE
-         Lkpg==
-X-Gm-Message-State: ANhLgQ3H1eCQ1g0IGy3kNc9rIgurIyHaa+4bzDkT9BDo80DJZCMC2Hb2
-        etzFfpOOfVsCqilDDgj3WVg=
-X-Google-Smtp-Source: ADFU+vs/vVARoowvzHwEBELNyzAhXmxMxbsk+sHC8tw965L4Ewe24G/EJ0vjZZKrFGdJ/VZOLA4eKQ==
-X-Received: by 2002:a05:600c:215:: with SMTP id 21mr20616319wmi.119.1583769813931;
-        Mon, 09 Mar 2020 09:03:33 -0700 (PDT)
-Received: from localhost (prg-ext-pat.suse.com. [213.151.95.130])
-        by smtp.gmail.com with ESMTPSA id 61sm12198177wrd.58.2020.03.09.09.03.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2020 09:03:33 -0700 (PDT)
-Date:   Mon, 9 Mar 2020 17:03:32 +0100
-From:   Michal Hocko <mhocko@kernel.org>
-To:     Vlastimil Babka <vbabka@suse.cz>
-Cc:     Oleksandr Natalenko <oleksandr@redhat.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
-        Suren Baghdasaryan <surenb@google.com>,
-        Tim Murray <timmurray@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Brian Geffon <bgeffon@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        John Dias <joaodias@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jann Horn <jannh@google.com>,
-        alexander.h.duyck@linux.intel.com, sj38.park@gmail.com,
-        SeongJae Park <sjpark@amazon.de>
-Subject: Re: [PATCH v7 7/7] mm/madvise: allow KSM hints for remote API
-Message-ID: <20200309160332.GS8447@dhcp22.suse.cz>
-References: <20200302193630.68771-1-minchan@kernel.org>
- <20200302193630.68771-8-minchan@kernel.org>
- <2a66abd8-4103-f11b-06d1-07762667eee6@suse.cz>
- <20200306134146.mqiyvsdnqty7so53@butterfly.localdomain>
- <a63768c1-3959-563b-376b-1d8d90d79b41@suse.cz>
- <20200309131117.anvyjszaigpoz2kp@butterfly.localdomain>
- <20200309150815.GR8447@dhcp22.suse.cz>
- <20200309151932.6sjwq6bucbu6zsea@butterfly.localdomain>
- <34f812b8-df54-eaad-5cf0-335f07da55c6@suse.cz>
+        id S1727341AbgCIQ7v (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 9 Mar 2020 12:59:51 -0400
+Received: from foss.arm.com ([217.140.110.172]:54762 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727185AbgCIQ7u (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 9 Mar 2020 12:59:50 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 020081FB;
+        Mon,  9 Mar 2020 09:59:50 -0700 (PDT)
+Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1926E3F534;
+        Mon,  9 Mar 2020 09:59:47 -0700 (PDT)
+Date:   Mon, 9 Mar 2020 16:59:46 +0000
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Alex Belits <abelits@marvell.com>
+Cc:     "frederic@kernel.org" <frederic@kernel.org>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "mingo@kernel.org" <mingo@kernel.org>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Prasun Kapoor <pkapoor@marvell.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "will@kernel.org" <will@kernel.org>
+Subject: Re: [PATCH v2 06/12] task_isolation: arch/arm64: enable task
+ isolation functionality
+Message-ID: <20200309165945.GB44566@lakrids.cambridge.arm.com>
+References: <4473787e1b6bc3cc226067e8d122092a678b63de.camel@marvell.com>
+ <aed12dd15ea2981bc9554cfa8b5e273c1342c756.camel@marvell.com>
+ <b559513e03dfd09f64ace29452590ddb92c3196f.camel@marvell.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <34f812b8-df54-eaad-5cf0-335f07da55c6@suse.cz>
+In-Reply-To: <b559513e03dfd09f64ace29452590ddb92c3196f.camel@marvell.com>
+User-Agent: Mutt/1.11.1+11 (2f07cb52) (2018-12-01)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon 09-03-20 16:42:43, Vlastimil Babka wrote:
-> On 3/9/20 4:19 PM, Oleksandr Natalenko wrote:
-> > On Mon, Mar 09, 2020 at 04:08:15PM +0100, Michal Hocko wrote:
-> >> On Mon 09-03-20 14:11:17, Oleksandr Natalenko wrote:
-> >> > On Fri, Mar 06, 2020 at 05:08:18PM +0100, Vlastimil Babka wrote:
-> >> [...]
-> >> > > Dunno, it's nice to react to signals quickly, for any proces that gets them, no?
-> >> > 
-> >> > So, do you mean something like this?
-> >> > 
-> >> > ===
-> >> > diff --git a/mm/ksm.c b/mm/ksm.c
-> >> > index 363ec8189561..b39c237cfcf4 100644
-> >> > --- a/mm/ksm.c
-> >> > +++ b/mm/ksm.c
-> >> > @@ -849,7 +849,8 @@ static int unmerge_ksm_pages(struct vm_area_struct *vma,
-> >> >  	for (addr = start; addr < end && !err; addr += PAGE_SIZE) {
-> >> >  		if (ksm_test_exit(vma->vm_mm))
-> >> >  			break;
-> >> > -		if (signal_pending(current))
-> >> > +		if (signal_pending(current) ||
-> >> > +		    signal_pending(rcu_dereference(vma->vm_mm->owner)))
-> >> >  			err = -ERESTARTSYS;
-> >> >  		else
-> >> >  			err = break_ksm(vma, addr);
-> >> > ===
-> >> 
-> >> This is broken because mm might be attached to different tasks.
-> >> AFAIU this check is meant to allow quick backoff of the _calling_
-> >> process so that it doesn't waste time when the context is killed
-> >> already. I do not understand why should we care about any other context
-> >> here? What is the actual problem this would solve?
-> > 
-> > I agree with you, but still trying to understand what does Vlastimil mean
-> > :).
+On Sun, Mar 08, 2020 at 03:50:58AM +0000, Alex Belits wrote:
+> From: Chris Metcalf <cmetcalf@mellanox.com>
 > 
-> Well you wondered if we should stop caring about current, and I said that
-> probably wouldn't be nice.
-> As for caring about the other task, patch 3/7 does that for
-> (MADV_COLD|MADV_PAGEOUT) so I just pointed out that the KSM case doesn't. AFAIU
-> if we don't check the signals, we might be blocking the killed task from exiting?
+> In do_notify_resume(), call task_isolation_start() for
+> TIF_TASK_ISOLATION tasks. Add _TIF_TASK_ISOLATION to _TIF_WORK_MASK,
+> and define a local NOTIFY_RESUME_LOOP_FLAGS to check in the loop,
+> since we don't clear _TIF_TASK_ISOLATION in the loop.
+> 
+> We instrument the smp_send_reschedule() routine so that it checks for
+> isolated tasks and generates a suitable warning if needed.
+> 
+> Finally, report on page faults in task-isolation processes in
+> do_page_faults().
+> 
+> Signed-off-by: Chris Metcalf <cmetcalf@mellanox.com>
+> [abelits@marvell.com: simplified to match kernel 5.6]
+> Signed-off-by: Alex Belits <abelits@marvell.com>
+> ---
+>  arch/arm64/Kconfig                   |  1 +
+>  arch/arm64/include/asm/thread_info.h |  5 ++++-
+>  arch/arm64/kernel/ptrace.c           | 10 ++++++++++
+>  arch/arm64/kernel/signal.c           | 13 ++++++++++++-
+>  arch/arm64/kernel/smp.c              |  7 +++++++
+>  arch/arm64/mm/fault.c                |  5 +++++
+>  6 files changed, 39 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> index 0b30e884e088..93b6aabc8be9 100644
+> --- a/arch/arm64/Kconfig
+> +++ b/arch/arm64/Kconfig
+> @@ -129,6 +129,7 @@ config ARM64
+>  	select HAVE_ARCH_PREL32_RELOCATIONS
+>  	select HAVE_ARCH_SECCOMP_FILTER
+>  	select HAVE_ARCH_STACKLEAK
+> +	select HAVE_ARCH_TASK_ISOLATION
+>  	select HAVE_ARCH_THREAD_STRUCT_WHITELIST
+>  	select HAVE_ARCH_TRACEHOOK
+>  	select HAVE_ARCH_TRANSPARENT_HUGEPAGE
+> diff --git a/arch/arm64/include/asm/thread_info.h b/arch/arm64/include/asm/thread_info.h
+> index f0cec4160136..7563098eb5b2 100644
+> --- a/arch/arm64/include/asm/thread_info.h
+> +++ b/arch/arm64/include/asm/thread_info.h
+> @@ -63,6 +63,7 @@ void arch_release_task_struct(struct task_struct *tsk);
+>  #define TIF_FOREIGN_FPSTATE	3	/* CPU's FP state is not current's */
+>  #define TIF_UPROBE		4	/* uprobe breakpoint or singlestep */
+>  #define TIF_FSCHECK		5	/* Check FS is USER_DS on return */
+> +#define TIF_TASK_ISOLATION	6
+>  #define TIF_NOHZ		7
+>  #define TIF_SYSCALL_TRACE	8	/* syscall trace active */
+>  #define TIF_SYSCALL_AUDIT	9	/* syscall auditing */
+> @@ -83,6 +84,7 @@ void arch_release_task_struct(struct task_struct *tsk);
+>  #define _TIF_NEED_RESCHED	(1 << TIF_NEED_RESCHED)
+>  #define _TIF_NOTIFY_RESUME	(1 << TIF_NOTIFY_RESUME)
+>  #define _TIF_FOREIGN_FPSTATE	(1 << TIF_FOREIGN_FPSTATE)
+> +#define _TIF_TASK_ISOLATION	(1 << TIF_TASK_ISOLATION)
+>  #define _TIF_NOHZ		(1 << TIF_NOHZ)
+>  #define _TIF_SYSCALL_TRACE	(1 << TIF_SYSCALL_TRACE)
+>  #define _TIF_SYSCALL_AUDIT	(1 << TIF_SYSCALL_AUDIT)
+> @@ -96,7 +98,8 @@ void arch_release_task_struct(struct task_struct *tsk);
+>  
+>  #define _TIF_WORK_MASK		(_TIF_NEED_RESCHED | _TIF_SIGPENDING | \
+>  				 _TIF_NOTIFY_RESUME | _TIF_FOREIGN_FPSTATE | \
+> -				 _TIF_UPROBE | _TIF_FSCHECK)
+> +				 _TIF_UPROBE | _TIF_FSCHECK | \
+> +				 _TIF_TASK_ISOLATION)
+>  
+>  #define _TIF_SYSCALL_WORK	(_TIF_SYSCALL_TRACE | _TIF_SYSCALL_AUDIT | \
+>  				 _TIF_SYSCALL_TRACEPOINT | _TIF_SECCOMP | \
+> diff --git a/arch/arm64/kernel/ptrace.c b/arch/arm64/kernel/ptrace.c
+> index cd6e5fa48b9c..b35b9b0c594c 100644
+> --- a/arch/arm64/kernel/ptrace.c
+> +++ b/arch/arm64/kernel/ptrace.c
+> @@ -29,6 +29,7 @@
+>  #include <linux/regset.h>
+>  #include <linux/tracehook.h>
+>  #include <linux/elf.h>
+> +#include <linux/isolation.h>
+>  
+>  #include <asm/compat.h>
+>  #include <asm/cpufeature.h>
+> @@ -1836,6 +1837,15 @@ int syscall_trace_enter(struct pt_regs *regs)
+>  			return -1;
+>  	}
+>  
+> +	/*
+> +	 * In task isolation mode, we may prevent the syscall from
+> +	 * running, and if so we also deliver a signal to the process.
+> +	 */
+> +	if (test_thread_flag(TIF_TASK_ISOLATION)) {
+> +		if (task_isolation_syscall(regs->syscallno) == -1)
 
-I would have to double check but I do not think this would be a problem
-because the remote task should take mmget to prevent address space to
-vanish under its feet. That should also rule out the exclusive mmap_sem
-usage from the exit path.
--- 
-Michal Hocko
-SUSE Labs
+Please use NO_SYSCALL rather than -1 here.
+
+> +			return -1;
+> +	}
+> +
+>  	/* Do the secure computing after ptrace; failures should be fast. */
+>  	if (secure_computing() == -1)
+>  		return -1;
+> diff --git a/arch/arm64/kernel/signal.c b/arch/arm64/kernel/signal.c
+> index 339882db5a91..d488c91a4877 100644
+> --- a/arch/arm64/kernel/signal.c
+> +++ b/arch/arm64/kernel/signal.c
+> @@ -20,6 +20,7 @@
+>  #include <linux/tracehook.h>
+>  #include <linux/ratelimit.h>
+>  #include <linux/syscalls.h>
+> +#include <linux/isolation.h>
+>  
+>  #include <asm/daifflags.h>
+>  #include <asm/debug-monitors.h>
+> @@ -898,6 +899,11 @@ static void do_signal(struct pt_regs *regs)
+>  	restore_saved_sigmask();
+>  }
+>  
+> +#define NOTIFY_RESUME_LOOP_FLAGS \
+> +	(_TIF_NEED_RESCHED | _TIF_SIGPENDING | \
+> +	_TIF_NOTIFY_RESUME | _TIF_FOREIGN_FPSTATE | \
+> +	_TIF_UPROBE | _TIF_FSCHECK)
+> +
+>  asmlinkage void do_notify_resume(struct pt_regs *regs,
+>  				 unsigned long thread_flags)
+>  {
+> @@ -908,6 +914,8 @@ asmlinkage void do_notify_resume(struct pt_regs *regs,
+>  	 */
+>  	trace_hardirqs_off();
+>  
+> +	task_isolation_check_run_cleanup();
+> +
+>  	do {
+>  		/* Check valid user FS if needed */
+>  		addr_limit_user_check();
+> @@ -938,7 +946,10 @@ asmlinkage void do_notify_resume(struct pt_regs *regs,
+>  
+>  		local_daif_mask();
+>  		thread_flags = READ_ONCE(current_thread_info()->flags);
+> -	} while (thread_flags & _TIF_WORK_MASK);
+> +	} while (thread_flags & NOTIFY_RESUME_LOOP_FLAGS);
+> +
+> +	if (thread_flags & _TIF_TASK_ISOLATION)
+> +		task_isolation_start();
+>  }
+>  
+>  unsigned long __ro_after_init signal_minsigstksz;
+> diff --git a/arch/arm64/kernel/smp.c b/arch/arm64/kernel/smp.c
+> index d4ed9a19d8fe..00f0f77adea0 100644
+> --- a/arch/arm64/kernel/smp.c
+> +++ b/arch/arm64/kernel/smp.c
+> @@ -32,6 +32,7 @@
+>  #include <linux/irq_work.h>
+>  #include <linux/kexec.h>
+>  #include <linux/kvm_host.h>
+> +#include <linux/isolation.h>
+>  
+>  #include <asm/alternative.h>
+>  #include <asm/atomic.h>
+> @@ -818,6 +819,7 @@ void arch_send_call_function_single_ipi(int cpu)
+>  #ifdef CONFIG_ARM64_ACPI_PARKING_PROTOCOL
+>  void arch_send_wakeup_ipi_mask(const struct cpumask *mask)
+>  {
+> +	task_isolation_remote_cpumask(mask, "wakeup IPI");
+>  	smp_cross_call(mask, IPI_WAKEUP);
+>  }
+>  #endif
+> @@ -886,6 +888,9 @@ void handle_IPI(int ipinr, struct pt_regs *regs)
+>  		__inc_irq_stat(cpu, ipi_irqs[ipinr]);
+>  	}
+>  
+> +	task_isolation_interrupt("IPI type %d (%s)", ipinr,
+> +				 ipinr < NR_IPI ? ipi_types[ipinr] : "unknown");
+
+When I previously asked about tracing, I was asking about the format
+strings, since we don't bother with that kind of thing elsewhere.
+
+What exactly are these hooks used for? I assume the strings are only
+there as a debugging aid?
+
+What about other IRQs? Does we need something in the irqchip driver? 
+
+If we need to track that /any/ interrupt was received, I think that
+would be better to put in the top-level interrupt exception handler than
+to sprinkle hooks into every potential handler.
+
+> +
+>  	switch (ipinr) {
+>  	case IPI_RESCHEDULE:
+>  		scheduler_ipi();
+> @@ -948,12 +953,14 @@ void handle_IPI(int ipinr, struct pt_regs *regs)
+>  
+>  void smp_send_reschedule(int cpu)
+>  {
+> +	task_isolation_remote(cpu, "reschedule IPI");
+>  	smp_cross_call(cpumask_of(cpu), IPI_RESCHEDULE);
+>  }
+>  
+>  #ifdef CONFIG_GENERIC_CLOCKEVENTS_BROADCAST
+>  void tick_broadcast(const struct cpumask *mask)
+>  {
+> +	task_isolation_remote_cpumask(mask, "timer IPI");
+>  	smp_cross_call(mask, IPI_TIMER);
+>  }
+>  #endif
+> diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
+> index 85566d32958f..fc4b42c81c4f 100644
+> --- a/arch/arm64/mm/fault.c
+> +++ b/arch/arm64/mm/fault.c
+> @@ -23,6 +23,7 @@
+>  #include <linux/perf_event.h>
+>  #include <linux/preempt.h>
+>  #include <linux/hugetlb.h>
+> +#include <linux/isolation.h>
+>  
+>  #include <asm/acpi.h>
+>  #include <asm/bug.h>
+> @@ -543,6 +544,10 @@ static int __kprobes do_page_fault(unsigned long addr, unsigned int esr,
+>  	 */
+>  	if (likely(!(fault & (VM_FAULT_ERROR | VM_FAULT_BADMAP |
+>  			      VM_FAULT_BADACCESS)))) {
+> +		/* No signal was generated, but notify task-isolation tasks. */
+> +		if (user_mode(regs))
+> +			task_isolation_interrupt("page fault at %#lx", addr);
+
+This isn't an interrupt. Why do we need to hook this?
+
+What about /other/ exceptions caused by userspace?
+
+If we need to notify userspace, it would be much more reliable to do so
+in the return path.
+
+Thanks,
+Mark.
+
+> +
+>  		/*
+>  		 * Major/minor page fault accounting is only done
+>  		 * once. If we go through a retry, it is extremely
+> -- 
+> 2.20.1
+> 
