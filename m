@@ -2,194 +2,131 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7278B17E85D
-	for <lists+linux-api@lfdr.de>; Mon,  9 Mar 2020 20:27:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 99C3A17E861
+	for <lists+linux-api@lfdr.de>; Mon,  9 Mar 2020 20:27:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726106AbgCIT1N convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Mon, 9 Mar 2020 15:27:13 -0400
-Received: from mail-oln040092074079.outbound.protection.outlook.com ([40.92.74.79]:25813
-        "EHLO EUR04-DB3-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725992AbgCIT1N (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 9 Mar 2020 15:27:13 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VQ67fH9gpW1qd/9XtnGUsZzxnLCp8kFPh/NnOGCAzZ8ZFNTYPvOJ2Ij22dURElGsjpgg4L/skOHGczm/stWQVUy7Bvl2hDdImr+gBSx9Wu5tyOV3/b2c9n1YbLukH1F1s8e2FXs0cMu3LpbI3EdRNPFLEdHvbv5YFCdusRMze3rTEfng6gqkHSSzndE5kYYdmQod/4GSugv4vtzkteUKv07a6yFPulUs1uJUz7cl6nRnYRKFgIdLwYsQu8Da4e+GZe/mX5O/Z8FIM73/7xD7Ggp8j8hgyFCGStI5fRrLuwwcX4B0vQa+7NfWd9Gib4SDNEf0c/F4I0gTdg8ad3EIwg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qV+f3ezPIzB/u0ub2WCLVwnugNFFo6iQr9wWg3ERqBg=;
- b=F3opbmMqJQudRrtCQ2kXIDHj4M2LyXh2too0TaLD+7+b9damptesA5vF4BzVMKgkFiLGipJwQdKZJ3h7uhIc08htG3ql0A03UJGd9cYSh72B6MVScvIEx+DJZVriZOtna2/xA5R8Go6B8MmdGx6kpn/ikHDS+ccZevwZoYps+DEHPFhk8fGLvneOOYvIDAU2R/tY4kwaZXUKAaTNyPlsQsu3T9tDMZvpNF6QxfUhKtpdNuM/x2jvsFt04HJ8f0PjddyodeckucQi00B1ui/OMoLGHfJF7HG7xHtZ7AFYbf63k69tNk9nBsVJgc3TlEepIs+3m8lQxvsiZCczoysEqg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-Received: from HE1EUR04FT025.eop-eur04.prod.protection.outlook.com
- (2a01:111:e400:7e0d::35) by
- HE1EUR04HT242.eop-eur04.prod.protection.outlook.com (2a01:111:e400:7e0d::185)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.11; Mon, 9 Mar
- 2020 19:27:07 +0000
-Received: from AM6PR03MB5170.eurprd03.prod.outlook.com (10.152.26.60) by
- HE1EUR04FT025.mail.protection.outlook.com (10.152.27.28) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2793.11 via Frontend Transport; Mon, 9 Mar 2020 19:27:07 +0000
-Received: from AM6PR03MB5170.eurprd03.prod.outlook.com
- ([fe80::1956:d274:cab3:b4dd]) by AM6PR03MB5170.eurprd03.prod.outlook.com
- ([fe80::1956:d274:cab3:b4dd%6]) with mapi id 15.20.2772.019; Mon, 9 Mar 2020
- 19:27:07 +0000
-Received: from [192.168.1.101] (92.77.140.102) by ZR0P278CA0051.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:1d::20) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.16 via Frontend Transport; Mon, 9 Mar 2020 19:27:04 +0000
-From:   Bernd Edlinger <bernd.edlinger@hotmail.de>
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-CC:     Christian Brauner <christian.brauner@ubuntu.com>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
+        id S1726295AbgCIT1a (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 9 Mar 2020 15:27:30 -0400
+Received: from mga01.intel.com ([192.55.52.88]:20358 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725992AbgCIT1a (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 9 Mar 2020 15:27:30 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Mar 2020 12:27:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,534,1574150400"; 
+   d="scan'208";a="414918030"
+Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
+  by orsmga005.jf.intel.com with ESMTP; 09 Mar 2020 12:27:28 -0700
+Message-ID: <fed72ecc917373669ac546d4e8214793d78bd513.camel@intel.com>
+Subject: Re: [RFC PATCH v9 01/27] Documentation/x86: Add CET description
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Dave Hansen <dave.hansen@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Yuyang Du <duyuyang@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jamorris@linux.microsoft.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christian Kellner <christian@kellner.me>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
-Subject: Re: [PATCH v2 1/5] exec: Only compute current once in flush_old_exec
-Thread-Topic: [PATCH v2 1/5] exec: Only compute current once in flush_old_exec
-Thread-Index: AQHV9ZHPFX16pJkAgEa5cakb87d5R6hASgaAgAA9eBuAAAV1gIAAGVQA
-Date:   Mon, 9 Mar 2020 19:27:06 +0000
-Message-ID: <AM6PR03MB5170051D0E2FF2B6772189F6E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
-References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <20200303085802.eqn6jbhwxtmz4j2x@wittgenstein>
- <AM6PR03MB5170285B336790D3450E2644E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87v9nlii0b.fsf@x220.int.ebiederm.org>
- <AM6PR03MB5170609D44967E044FD1BE40E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87a74xi4kz.fsf@x220.int.ebiederm.org>
- <AM6PR03MB51705AA3009B4986BB6EF92FE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87r1y8dqqz.fsf@x220.int.ebiederm.org>
- <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
- <87v9ne5y4y.fsf_-_@x220.int.ebiederm.org>
- <87pndm5y3l.fsf_-_@x220.int.ebiederm.org>
- <AM6PR03MB5170FBDA2F0F19ECF2906703E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87mu8p4elb.fsf@x220.int.ebiederm.org>
- <AM6PR03MB51700E6A252CA1E3093B3ED8E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
-In-Reply-To: <AM6PR03MB51700E6A252CA1E3093B3ED8E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
-Accept-Language: en-US, en-GB, de-DE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: ZR0P278CA0051.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:1d::20) To AM6PR03MB5170.eurprd03.prod.outlook.com
- (2603:10a6:20b:ca::23)
-x-incomingtopheadermarker: OriginalChecksum:BBD5AB725885809191725ED86FF2795C5D228C0C94C44F429CAC1C5471B58054;UpperCasedChecksum:554CDE560CC1A53740F55DA4E0690775688176AD61F0B5C7B7E9AE58ACC25E50;SizeAsReceived:9989;Count:50
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tmn:  [A6bJYUQbLM4Tyu3Vck1oLGye8YGMUiax]
-x-microsoft-original-message-id: <ac137e26-34c5-0ace-9e99-6b7447802a99@hotmail.de>
-x-ms-publictraffictype: Email
-x-incomingheadercount: 50
-x-eopattributedmessage: 0
-x-ms-office365-filtering-correlation-id: 48f02d6a-a849-4537-5e8c-08d7c45fdab1
-x-ms-traffictypediagnostic: HE1EUR04HT242:
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: /Ub1ITtPpsoHh3oIsE6eM577SKl1VSH402Qiy9rN+wkLzHQL/abTL32qpbjYvBF8OlyZrrpqKi4wYijN9wbHYuT0AyUTEXK21KRajkKLoFiggKKaRZG8vL+rYaeNlGXtMj7kRQ9NI8R7UKNkz4cjYl5+NZO0wcssA+m3LgP28AshRLVaVEqGILwceUoBUz9C
-x-ms-exchange-antispam-messagedata: D4sD6C0tRl3FbqRkJWniBTCI4db8FbZ5L9MzUGb14pVGdE5YMWal/8zaTiN9FInDYX28cKOEHpE895zrcN3bJHobbpHzXRgD4Kjpb5q+pjAtUxuAwHIMOpo5VO/7cHrEnww1DQDzWrYwJIT3BbvttQ==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="Windows-1252"
-Content-ID: <E0967702A2E3524C95DB0C9796E6FFA2@eurprd03.prod.outlook.com>
-Content-Transfer-Encoding: 8BIT
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
+Date:   Mon, 09 Mar 2020 12:27:28 -0700
+In-Reply-To: <968af1c2-a5b4-fb48-dfa9-499ec37f677c@intel.com>
+References: <20200205181935.3712-1-yu-cheng.yu@intel.com>
+         <20200205181935.3712-2-yu-cheng.yu@intel.com>
+         <9ae1cf84-1d84-1d34-c0ce-48b0d70b8f3f@intel.com>
+         <0f43463e02d1be2af6bcf8ff6917e751ba7676a0.camel@intel.com>
+         <968af1c2-a5b4-fb48-dfa9-499ec37f677c@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 48f02d6a-a849-4537-5e8c-08d7c45fdab1
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Mar 2020 19:27:06.9207
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Internet
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1EUR04HT242
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 3/9/20 6:56 PM, Bernd Edlinger wrote:
-> On 3/9/20 6:34 PM, Eric W. Biederman wrote:
->> Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
->>
->>> On 3/8/20 10:35 PM, Eric W. Biederman wrote:
->>>>
->>>> Make it clear that current only needs to be computed once in
->>>> flush_old_exec.  This may have some efficiency improvements and it
->>>> makes the code easier to change.
->>>>
->>>> Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
->>>> ---
->>>>  fs/exec.c | 9 +++++----
->>>>  1 file changed, 5 insertions(+), 4 deletions(-)
->>>>
->>>> diff --git a/fs/exec.c b/fs/exec.c
->>>> index db17be51b112..c3f34791f2f0 100644
->>>> --- a/fs/exec.c
->>>> +++ b/fs/exec.c
->>>> @@ -1260,13 +1260,14 @@ void __set_task_comm(struct task_struct *tsk, const char *buf, bool exec)
->>>>   */
->>>>  int flush_old_exec(struct linux_binprm * bprm)
->>>>  {
->>>> +	struct task_struct *me = current;
->>>>  	int retval;
->>>>  
->>>>  	/*
->>>>  	 * Make sure we have a private signal table and that
->>>>  	 * we are unassociated from the previous thread group.
->>>>  	 */
->>>> -	retval = de_thread(current);
->>>> +	retval = de_thread(me);
->>>>  	if (retval)
->>>>  		goto out;
->>>>  
->>>> @@ -1294,10 +1295,10 @@ int flush_old_exec(struct linux_binprm * bprm)
->>>>  	bprm->mm = NULL;
->>>>  
->>>>  	set_fs(USER_DS);
->>>> -	current->flags &= ~(PF_RANDOMIZE | PF_FORKNOEXEC | PF_KTHREAD |
->>>> +	me->flags &= ~(PF_RANDOMIZE | PF_FORKNOEXEC | PF_KTHREAD |
->>>>  					PF_NOFREEZE | PF_NO_SETAFFINITY);
->>>
->>> I wonder if this line should be aligned with the previous?
->>
->> In this case I don't think so.  The style used for second line is indent
->> with tabs as much as possible to the right.  I haven't changed that.
->>
->> Further mixing a change in indentation style with just a variable rename
->> will make the patch confusing to read because two things have to be
->> verified at the same time.
->>
->> So while I see why you ask I think this bit needs to stay as is.
->>
+On Mon, 2020-03-09 at 10:21 -0700, Dave Hansen wrote:
+> On 3/9/20 10:00 AM, Yu-cheng Yu wrote:
+> > On Wed, 2020-02-26 at 09:57 -0800, Dave Hansen wrote:
+> > > > index ade4e6ec23e0..8b69ebf0baed 100644
+> > > > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > > > +++ b/Documentation/admin-guide/kernel-parameters.txt
+> > > > @@ -3001,6 +3001,12 @@
+> > > >  			noexec=on: enable non-executable mappings (default)
+> > > >  			noexec=off: disable non-executable mappings
+> > > >  
+> > > > +	no_cet_shstk	[X86-64] Disable Shadow Stack for user-mode
+> > > > +			applications
+> > > 
+> > > If we ever add kernel support, "no_cet_shstk" will mean "no cet shstk
+> > > for userspace"?
+> > 
+> > What about no_user_shstk, no_kernel_shstk?
+
+[...]
+
+> > > > +Note:
+> > > > +  There is no CET-enabling arch_prctl function.  By design, CET is
+> > > > +  enabled automatically if the binary and the system can support it.
+> > > 
+> > > This is kinda interesting.  It means that a JIT couldn't choose to
+> > > protect the code it generates and have different rules from itself?
+> > 
+> > JIT needs to be updated for CET first.  Once that is done, it runs with CET
+> > enabled.  It can use the NOTRACK prefix, for example.
 > 
-> Ah, okay, I see.
-> Thanks for explaining this rule, I was not aware of it,
-> but I am still new here :)
+> Am I missing something?
 > 
+> What's the direct connection between shadow stacks and Indirect Branch
+> Tracking other than Intel marketing umbrellas?
 
-Reviewed-by: Bernd Edlinger <bernd.edlinger@hotmail.de>
+What I meant is that JIT code needs to be updated first; if it skips RETs,
+it needs to unwind the stack, and if it does indirect JMPs somewhere it
+needs to fix up the branch target or use NOTRACK.
 
+> > > > +  The parameters passed are always unsigned 64-bit.  When an IA32
+> > > > +  application passing pointers, it should only use the lower 32 bits.
+> > > 
+> > > Won't a 32-bit app calling prctl() use the 32-bit ABI?  How would it
+> > > even know it's running on a 64-bit kernel?
+> > 
+> > The 32-bit app is passing only a pointer to an array of 64-bit numbers.
+> 
+> Well, the documentation just talked about pointers and I naively assume
+> it means the "unsigned long *" you had in there.
+> 
+> Rather than make suggestions, just say that the ABI is universally
+> 64-bit.  Saying that the pointers must be valid is just kinda silly.
+> It's also not 100% clear what an "IA32 application" *MEANS* given fun
+> things like x32.
 
-Bernd.
+Ok, I will update the text.
+
+> 
+> Also, I went to go find this implementation in your series.  I couldn't
+> find it.  Did I miss a patch?  Or are you documenting things you didn't
+> even implement?
+
+In patch #27: Add arch_prctl functions for Shadow Stack.
+
+Yu-cheng
+
