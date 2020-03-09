@@ -2,150 +2,117 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4944017E9C6
-	for <lists+linux-api@lfdr.de>; Mon,  9 Mar 2020 21:16:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 927F917E9D2
+	for <lists+linux-api@lfdr.de>; Mon,  9 Mar 2020 21:18:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726295AbgCIUQR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 9 Mar 2020 16:16:17 -0400
-Received: from mail-pj1-f66.google.com ([209.85.216.66]:54260 "EHLO
-        mail-pj1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726096AbgCIUQR (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Mar 2020 16:16:17 -0400
-Received: by mail-pj1-f66.google.com with SMTP id l36so370201pjb.3
-        for <linux-api@vger.kernel.org>; Mon, 09 Mar 2020 13:16:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=content-transfer-encoding:from:mime-version:subject:date:message-id
-         :references:cc:in-reply-to:to;
-        bh=hmz7wPe81dzHCyk8vtSMtwBBBBwZYq3jRplov8Ww+C4=;
-        b=ZRaiCHGEl38L7KRBnErstw4bimBDz87AHqw51Xkkbqe8mwiwaum46PZHXbMEgOOA0j
-         Mwyf6ObvRwr7G2hs8Uj+hpnHhTmm/J8upQOk3D/fFQm05iw67GgRr+tyo+BLdhHy5nB5
-         Lwwt/y/AF+8OL42TzE087xDA1gbjLJ4boZbPZTHMsE3SeiOU9i8j90C6EyxoOBaxPp5A
-         wprxkqzTwjQRhbgX5n/yY6UyfpmWQRavyv88zmVrNjeeHEmd2qDUM+SZ7oWZZscU3Kii
-         PPT1iRwszjNEqvOJzEFaD43kNCwMl9myIn1ub/f1VW1KDm9Dn4q/kySbYkWX0GbNjPwC
-         7XmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:content-transfer-encoding:from:mime-version
-         :subject:date:message-id:references:cc:in-reply-to:to;
-        bh=hmz7wPe81dzHCyk8vtSMtwBBBBwZYq3jRplov8Ww+C4=;
-        b=bqB5YDLdekmwCKPOOOUJXfXSGRGTJAO/alYbA8vlKo9NEmtG35KpLSl6KfgXKJCZjR
-         pX2fsY+xpSFqNEeVp/I2EZ9G0ezlulYxrc1gx84cS4chB2lNczSC9hv1o6uaBqKhvJt4
-         Q3OdSJgqVpywASE7dSGY5wc5ovbpWj3ErqbW/NY5bryjT4s/R2DnUtq0v/KxfWkd4yqB
-         xux0eJx0fllAq5HJczOserCakN3LbfVcdusO/S20gD+gmA9hGDIGV71ugGl4O5A1yz8v
-         +HCqxt83qPtTyGzh3LZN1Uwt9g/zufihF2FLkRFkRqwY7i1pZIXBrru9kmDVCnG55dqW
-         r0dw==
-X-Gm-Message-State: ANhLgQ2Yi83cwFM9X8n4Zg7RrDVRy8Wr7QTLTeuY0X96v5LfaagO14IG
-        M2B03orucppTTxS4IJnyMyk0nw==
-X-Google-Smtp-Source: ADFU+vufTMP65N8WnOzHoWZtLu1mlwMdUeuo8lDWUX7ChArVxhlmQwIZxREHkmUUUFy0pcgRqvHV6A==
-X-Received: by 2002:a17:902:7607:: with SMTP id k7mr17287063pll.175.1583784976613;
-        Mon, 09 Mar 2020 13:16:16 -0700 (PDT)
-Received: from ?IPv6:2601:646:c200:1ef2:61f8:fe1:ddbe:5c19? ([2601:646:c200:1ef2:61f8:fe1:ddbe:5c19])
-        by smtp.gmail.com with ESMTPSA id h2sm44306210pgv.40.2020.03.09.13.16.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Mar 2020 13:16:15 -0700 (PDT)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From:   Andy Lutomirski <luto@amacapital.net>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [RFC PATCH v9 01/27] Documentation/x86: Add CET description
-Date:   Mon, 9 Mar 2020 13:16:14 -0700
-Message-Id: <AE81FEF5-ECC5-46AA-804D-9D64E656D16E@amacapital.net>
-References: <CAMe9rOoRTVUzNC88Ho2XTTNJCymrd3L=XdB9xFcgxPVwAZ0FWA@mail.gmail.com>
-Cc:     Dave Hansen <dave.hansen@intel.com>,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        id S1726157AbgCIUSR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 9 Mar 2020 16:18:17 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:38821 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726121AbgCIUSR (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Mar 2020 16:18:17 -0400
+Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236] helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1jBOqC-0003vj-3C; Mon, 09 Mar 2020 20:17:32 +0000
+Date:   Mon, 9 Mar 2020 21:17:29 +0100
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     Bernd Edlinger <bernd.edlinger@hotmail.de>,
         Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
-In-Reply-To: <CAMe9rOoRTVUzNC88Ho2XTTNJCymrd3L=XdB9xFcgxPVwAZ0FWA@mail.gmail.com>
-To:     "H.J. Lu" <hjl.tools@gmail.com>
-X-Mailer: iPhone Mail (17D50)
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Yuyang Du <duyuyang@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jamorris@linux.microsoft.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christian Kellner <christian@kellner.me>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
+Subject: Re: [PATCH v2 3/5] exec: Move cleanup of posix timers on exec out of
+ de_thread
+Message-ID: <20200309201729.yk5sd26v4bz4gtou@wittgenstein>
+References: <87a74xi4kz.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB51705AA3009B4986BB6EF92FE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87r1y8dqqz.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
+ <87v9ne5y4y.fsf_-_@x220.int.ebiederm.org>
+ <87eeu25y14.fsf_-_@x220.int.ebiederm.org>
+ <20200309195909.h2lv5uawce5wgryx@wittgenstein>
+ <877dztz415.fsf@x220.int.ebiederm.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <877dztz415.fsf@x220.int.ebiederm.org>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Mon, Mar 09, 2020 at 03:06:46PM -0500, Eric W. Biederman wrote:
+> Christian Brauner <christian.brauner@ubuntu.com> writes:
+> 
+> > On Sun, Mar 08, 2020 at 04:36:55PM -0500, Eric W. Biederman wrote:
+> >> 
+> >> These functions have very little to do with de_thread move them out
+> >> of de_thread an into flush_old_exec proper so it can be more clearly
+> >> seen what flush_old_exec is doing.
+> >> 
+> >> Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
+> >> ---
+> >>  fs/exec.c | 10 +++++-----
+> >>  1 file changed, 5 insertions(+), 5 deletions(-)
+> >> 
+> >> diff --git a/fs/exec.c b/fs/exec.c
+> >> index ff74b9a74d34..215d86f77b63 100644
+> >> --- a/fs/exec.c
+> >> +++ b/fs/exec.c
+> >> @@ -1189,11 +1189,6 @@ static int de_thread(struct task_struct *tsk)
+> >
+> > While you're cleaning up de_thread() wouldn't it be good to also take
+> > the opportunity and remove the task argument from de_thread(). It's only
+> > ever used with current. Could be done in one of your patches or as a
+> > separate patch.
+> 
+> How does that affect the code generation?
 
+The same way renaming "tsk" to "me" does.
 
-> On Mar 9, 2020, at 12:50 PM, H.J. Lu <hjl.tools@gmail.com> wrote:
->=20
-> =EF=BB=BFOn Mon, Mar 9, 2020 at 12:35 PM Dave Hansen <dave.hansen@intel.co=
-m> wrote:
->>=20
->>> On 3/9/20 12:27 PM, Yu-cheng Yu wrote:
->>> On Mon, 2020-03-09 at 10:21 -0700, Dave Hansen wrote:
->>>> On 3/9/20 10:00 AM, Yu-cheng Yu wrote:
->>>>> On Wed, 2020-02-26 at 09:57 -0800, Dave Hansen wrote>>>>> +Note:
->>>>>>> +  There is no CET-enabling arch_prctl function.  By design, CET is
->>>>>>> +  enabled automatically if the binary and the system can support it=
-.
->>>>>>=20
->>>>>> This is kinda interesting.  It means that a JIT couldn't choose to
->>>>>> protect the code it generates and have different rules from itself?
->>>>>=20
->>>>> JIT needs to be updated for CET first.  Once that is done, it runs wit=
-h CET
->>>>> enabled.  It can use the NOTRACK prefix, for example.
->>>>=20
->>>> Am I missing something?
->>>>=20
->>>> What's the direct connection between shadow stacks and Indirect Branch
->>>> Tracking other than Intel marketing umbrellas?
->>>=20
->>> What I meant is that JIT code needs to be updated first; if it skips RET=
-s,
->>> it needs to unwind the stack, and if it does indirect JMPs somewhere it
->>> needs to fix up the branch target or use NOTRACK.
->>=20
->> I'm totally lost.  I think we have very different models of how a JIT
->> might generate and run code.
->>=20
->> I can totally see a scenario where a JIT goes and generates a bunch of
->> code, then forks a new thread to go run that code.  The control flow of
->> the JIT thread itself *NEVER* interacts with the control flow of the
->> program it writes.  They never share a stack and nothing ever jumps or
->> rets between the two worlds.
->>=20
->> Does anything actually do that?  I've got no idea.  But, I can clearly
->> see a world where the entirety of Chrome and Firefox and the entire rust
->> runtime might not be fully recompiled and CET-enabled for a while.  But,
->> we still want the JIT-generated code to be CET-protected since it has
->> the most exposed attack surface.
->>=20
->> I don't think that's too far-fetched.
->=20
-> CET support is all or nothing.   You can mix and match, but you will get
-> no CET protection, similar to NX feature.
->=20
+> 
+> My sense is that computing current once in flush_old_exec is much
+> better than computing it in each function flush_old_exec calls.
+> I remember that computing current used to be not expensive but
+> noticable.
+> 
+> For clarity I can see renaming tsk to me.  So that it is clear we are
+> talking about the current process, and not some arbitrary process.
 
-Can you explain?
-
-If a program with the magic ELF CET flags missing can=E2=80=99t make a threa=
-d with IBT and/or SHSTK enabled, then I think we=E2=80=99ve made an error an=
-d should fix it.
-
-> --=20
-> H.J.
+For clarity since de_thread() uses "tsk" giving the impression that any
+task can be dethreaded while it's only ever used with current. It's just
+a suggestion since you're doing the rename tsk->me anyway it would fit
+with the series. You do whatever you want though.
+(I just remember that the same request was made once to changes I did:
+Don't pass current as arg when it's the only task passed.)
