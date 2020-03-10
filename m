@@ -2,130 +2,86 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D99417EE63
-	for <lists+linux-api@lfdr.de>; Tue, 10 Mar 2020 03:14:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 05D7217F0F9
+	for <lists+linux-api@lfdr.de>; Tue, 10 Mar 2020 08:25:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726477AbgCJCOL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 9 Mar 2020 22:14:11 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:40452 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726156AbgCJCOL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Mar 2020 22:14:11 -0400
-Received: by mail-ot1-f66.google.com with SMTP id x19so11712819otp.7;
-        Mon, 09 Mar 2020 19:14:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=gAewQcsa0gHih3wXpHAV80ssMemQtrtXXF853KTte9o=;
-        b=L6Xq9iZGLEa1l14/JrlBDJBkv6HSKObpOzYqkDvz6JQ3GsPAHMI1pWejPHQchkBx/J
-         7DYTfbBRiVRSC0rvWKTxzNI97bTlim0XdN1HVXIso9GWDDH9ZIEbUsirmgrK6cjDzCTV
-         Ge94uFgJxo8bbnbP094yO7yKys8bFQDoQAIyZXhbAPUTDKRJU0Y23zTDUcqdQo0643N+
-         scYHFsyP+aMiDWTUKAw8HAzoul6KYwMEnWVYDdb1HCxu9FCzTzNwuC4hfZJEYYtjNDbh
-         71T4jtmAKGVBmywAehooLNjMEYzMwT8EoZhKl4EpuxgMTAxYCKfHbzE3aG4uKl6iobk8
-         PSag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=gAewQcsa0gHih3wXpHAV80ssMemQtrtXXF853KTte9o=;
-        b=NJpAJIl4/3LAigf+NTv5OlBER404onshMb2msx/G6/soCyHUxeEd7FNNBd+0scmaHu
-         O8kgIH5FXcjOR/g5khOv20F7hLQfNfNOjIqP28IOjEgCLLU1AHC8IsWzeAzNb/84rvvN
-         k6fIexutaQ1BXY04iEw3BeK4+cg1lDk/Sy7UtHUlP4vcqZzcQxqbSSuCMnlokB+INtuk
-         4ACU4bdZT/DUSUqhAD4MXYhh6oYJAhlCyT+BPAZeh5D2wIHGt5yi90+clP11EI1Cp717
-         3rPqEtA0KRIDyBpiRewYby1WFYtMC8RYh4nefnr0nV4rj7b+npganhb2nPOiLrWZbZt5
-         MMDw==
-X-Gm-Message-State: ANhLgQ1fGTRcik6H2uc0bTnIQWzxDKbzH37aq/glYKdDroWw0ihclkzx
-        bAzA7yBbTwr/IMUlZe19/wNNVPIG+4O3KAgkSbc=
-X-Google-Smtp-Source: ADFU+vtaVVdLu4F7XALa/kOBsPcMpoxoqzHShyPAI8Uyv+DJuJS2VG1IYhdWG4KhM/G0WcnD+WqCE+VveBubEMUEXwI=
-X-Received: by 2002:a9d:19ef:: with SMTP id k102mr12179526otk.220.1583806450481;
- Mon, 09 Mar 2020 19:14:10 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAMe9rOpJjaro_qK6kghGNuSHDaP_MjVaZMbok2kbuBD48VmvXg@mail.gmail.com>
- <E7E7A2AE-500A-4817-B00A-BE419E89C6F9@amacapital.net>
-In-Reply-To: <E7E7A2AE-500A-4817-B00A-BE419E89C6F9@amacapital.net>
-From:   "H.J. Lu" <hjl.tools@gmail.com>
-Date:   Mon, 9 Mar 2020 19:13:34 -0700
-Message-ID: <CAMe9rOoZazTpWcK1hr4d25z8Gv3yGbpn_48R1RHGfq-aDOJ0Eg@mail.gmail.com>
-Subject: Re: [RFC PATCH v9 01/27] Documentation/x86: Add CET description
-To:     Andy Lutomirski <luto@amacapital.net>
-Cc:     Dave Hansen <dave.hansen@intel.com>,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
+        id S1726205AbgCJHZO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 10 Mar 2020 03:25:14 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:38697 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726156AbgCJHZN (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 10 Mar 2020 03:25:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1583825112;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=d8UiZddWXkafFLvP5bz3JJYwq005hZDC3aZQhOodzY0=;
+        b=CFHsuN+UIfC75zF+9wSw//dzFzQ/xXnSBbHkk0xzP+qI5ls+GI5CdtDDxATwHiiSNL6Xdo
+        gSJHrSORWuS5hXLG8UXiVnLaje57cpkHkkBF6Y4Bqv1YSGdu805bl76FNczMdq7fd0RG3v
+        Yb/vDKn1ivnFtZZjXVvsC/keexik4wo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-92-tBUfClqxMNKyh-Do3iS4ng-1; Tue, 10 Mar 2020 03:25:11 -0400
+X-MC-Unique: tBUfClqxMNKyh-Do3iS4ng-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68D09107ACC9;
+        Tue, 10 Mar 2020 07:25:09 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-120-182.rdu2.redhat.com [10.10.120.182])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 7AB708F35C;
+        Tue, 10 Mar 2020 07:25:06 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <CAHk-=wiEBNFJ0_riJnpuUXTO7+_HByVo-R3pGoB_84qv3LzHxA@mail.gmail.com>
+References: <CAHk-=wiEBNFJ0_riJnpuUXTO7+_HByVo-R3pGoB_84qv3LzHxA@mail.gmail.com> <158376244589.344135.12925590041630631412.stgit@warthog.procyon.org.uk> <158376245699.344135.7522994074747336376.stgit@warthog.procyon.org.uk> <20200310005549.adrn3yf4mbljc5f6@yavin>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     dhowells@redhat.com, Aleksa Sarai <cyphar@cyphar.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Stefan Metzmacher <metze@samba.org>,
+        Ian Kent <raven@themaw.net>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Christian Brauner <christian@brauner.io>,
+        Jann Horn <jannh@google.com>,
+        "Darrick J. Wong" <darrick.wong@oracle.com>,
+        Karel Zak <kzak@redhat.com>, jlayton@redhat.com,
         Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 01/14] VFS: Add additional RESOLVE_* flags [ver #18]
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <580351.1583825105.1@warthog.procyon.org.uk>
+Date:   Tue, 10 Mar 2020 07:25:05 +0000
+Message-ID: <580352.1583825105@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Mar 9, 2020 at 6:21 PM Andy Lutomirski <luto@amacapital.net> wrote:
->
-> I am baffled by this discussion.
->
-> >> On Mar 9, 2020, at 5:09 PM, H.J. Lu <hjl.tools@gmail.com> wrote:
-> >>
-> >> =EF=BB=BFOn Mon, Mar 9, 2020 at 4:59 PM Andy Lutomirski <luto@amacapit=
-al.net> wrote:
-> >
-> >>>> .
-> >> This could presumably have been fixed by having libpcre or sljit
-> >> disable IBT before calling into JIT code or by running the JIT code in
-> >> another thread.  In the other direction, a non-CET libpcre build could
-> >> build IBT-capable JITted code and enable JIT (by syscall if we allow
-> >> that or by creating a thread?) when calling it.  And IBT has this
-> >
-> > This is not how thread in user space works.
->
-> void create_cet_thread(void (*func)(), unsigned int cet_flags);
->
-> I could implement this using clone() if the kernel provides the requisite=
- support. Sure, creating threads behind libc=E2=80=99s back like this is pe=
-rilous, but it can be done.
+Linus Torvalds <torvalds@linux-foundation.org> wrote:
 
-Sure, this can live outside of libc with kernel support.
+> > > Also make openat2() handle RESOLVE_NO_TRAILING_SYMLINKS.
+> 
+> No, please let's not do this.
+> 
+> We have O_NOFOLLOW, and we can't get rid of it.
+> 
+> So adding RESOLVE_NO_TRAILING_SYMLINKS isn't a cleanup. It's just
+> extra complexity for absolutely zero gain.
 
-> >
-> >> fancy legacy bitmap to allow non-instrumented code to run with IBT on,
-> >> although SHSTK doesn't have hardware support for a similar feature.
-> >
-> > All these changes are called CET enabing.
->
-> What does that mean?  If program A loads library B, and library B very ca=
-refully loads CET-mismatched code, program A may be blissfully unaware.
+Okay.  So what's the equivalent of AT_SYMLINK_NOFOLLOW in RESOLVE_* flag
+terms?  RESOLVE_NO_SYMLINKS is not equivalent, though O_NOFOLLOW is.  The
+reason I ask is that RESOLVE_* flags can't be easily extended to non-open
+syscalls that don't take O_* flags without it.  Would you prefer that new
+non-open syscalls continue to take AT_* and ignore RESOLVE_* flags?  That
+would be fine by me.
 
-Any source changes to make codes CET compatible is to enable CET.
+David
 
-Shadow stack can't be turned on or off arbitrarily.  ld.so checks it and
-makes sure that everything is consistent.  But this is entirely done in
-user space.  In the first phase, we want to make CET simple, not too
-complicated.
-
-
-H.J.
