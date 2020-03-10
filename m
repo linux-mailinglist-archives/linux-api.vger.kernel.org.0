@@ -2,195 +2,155 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B1A1218053F
-	for <lists+linux-api@lfdr.de>; Tue, 10 Mar 2020 18:46:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B88F6180628
+	for <lists+linux-api@lfdr.de>; Tue, 10 Mar 2020 19:24:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727112AbgCJRqG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 10 Mar 2020 13:46:06 -0400
-Received: from mail-oln040092073084.outbound.protection.outlook.com ([40.92.73.84]:31187
-        "EHLO EUR04-HE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726436AbgCJRqF (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 10 Mar 2020 13:46:05 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aTnb3zN2prC4Va3XgJIxKCFmt2RiY8azHtlcpueaWf777smX+ZVE2IFP6H10W3bjqWvJEUpjYyChe7H5kweBT3LzyyEbQ/vRDCGQA/Ev9OdHQHckBAXgU9fmX4rpDDrq/xzHrr8Er6T5uOJgt4HtFDvjpVfWXhDMTvNLVnGLUDDoyQvwK78eAUADeCbAVkmPbrehR0XYwFEljodjGI9TdNd/3t/HIkeKSLHeD++Zy/vZPhkiD1h9Ozl/b9n8sIsCe0g5JvtET9BMcmflYEUpL4mlHtu0o7KVNT6emPrBkbuYSsVSyzJrcofQFcjQ8F54BaaC3JYwqCwgwuGk/XAsCQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=olnWKl/qROPBG2YSqCrVe3w/cuXB3vs2TZn2SEBQtS4=;
- b=R60ja+hO2CPqQV5wf6Jd8O9OJM9U9LPOIdU+JvQRsl7FZM2HGV85sF0A5SWa6nc14Vh7pBdc4RFyf0q9cF0HbsjeOewg8/nx12N2g+ke30m4rYegSLMRth94cUTsrWUvul0WpQxPh1XPJhUP9gdEa49Kt6Rjr39Ki25M0/Ax4yskALEK0Qp8rDl5Kc7vZ2Lq294d7NMszoWtc5yx1Mj1Edt/zvfWGXAailoYqHbrZQHNrfsQaFuACa8b6s3EQfoC8lR1NlMvoxhnZ4FBKcF/idoZG/qkXmROFp3D9Mb2p6Gg9ICHFUBr0Pq8FJoYvduct94hN4BGnCZGuRpyutVjpQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=hotmail.de; dmarc=pass action=none header.from=hotmail.de;
- dkim=pass header.d=hotmail.de; arc=none
-Received: from VI1EUR04FT026.eop-eur04.prod.protection.outlook.com
- (2a01:111:e400:7e0e::34) by
- VI1EUR04HT049.eop-eur04.prod.protection.outlook.com (2a01:111:e400:7e0e::71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.11; Tue, 10 Mar
- 2020 17:45:59 +0000
-Received: from AM6PR03MB5170.eurprd03.prod.outlook.com (10.152.28.55) by
- VI1EUR04FT026.mail.protection.outlook.com (10.152.28.127) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2793.11 via Frontend Transport; Tue, 10 Mar 2020 17:45:59 +0000
-X-IncomingTopHeaderMarker: OriginalChecksum:157065CD350ECAB81667C96E5C20CAA90097A96A3C94C657D26C18E03AAAE564;UpperCasedChecksum:792CF835DAF8018F691592D716FE310F3AD2DB5F98FFECBD57CA01097CC3E226;SizeAsReceived:10287;Count:50
-Received: from AM6PR03MB5170.eurprd03.prod.outlook.com
- ([fe80::1956:d274:cab3:b4dd]) by AM6PR03MB5170.eurprd03.prod.outlook.com
- ([fe80::1956:d274:cab3:b4dd%6]) with mapi id 15.20.2793.013; Tue, 10 Mar 2020
- 17:45:59 +0000
-From:   Bernd Edlinger <bernd.edlinger@hotmail.de>
-Subject: [PATCH 4/4] perf: Use new infrastructure to fix deadlocks in execve
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Yuyang Du <duyuyang@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jamorris@linux.microsoft.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christian Kellner <christian@kellner.me>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
-References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
- <87v9ne5y4y.fsf_-_@x220.int.ebiederm.org>
- <87zhcq4jdj.fsf_-_@x220.int.ebiederm.org>
- <AM6PR03MB5170BC58D90BAD80CDEF3F8BE4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <878sk94eay.fsf@x220.int.ebiederm.org>
- <AM6PR03MB517086003BD2C32E199690A3E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87r1y12yc7.fsf@x220.int.ebiederm.org> <87k13t2xpd.fsf@x220.int.ebiederm.org>
- <87d09l2x5n.fsf@x220.int.ebiederm.org>
- <AM6PR03MB5170F0F9DC18F5EA77C9A857E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <871rq12vxu.fsf@x220.int.ebiederm.org>
- <AM6PR03MB5170DF45E3245F55B95CCD91E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <877dzt1fnf.fsf@x220.int.ebiederm.org>
- <AM6PR03MB51701C6F60699F99C5C67E0BE4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <875zfcxlwy.fsf@x220.int.ebiederm.org>
-Message-ID: <AM6PR03MB517035DEEDB9C8699CB6B34EE4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com>
-Date:   Tue, 10 Mar 2020 18:45:56 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-In-Reply-To: <875zfcxlwy.fsf@x220.int.ebiederm.org>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FRYP281CA0005.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::15)
- To AM6PR03MB5170.eurprd03.prod.outlook.com (2603:10a6:20b:ca::23)
-X-Microsoft-Original-Message-ID: <ac7b9c5d-171f-1f66-c0ef-7495e8b1ab9c@hotmail.de>
+        id S1726466AbgCJSYi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 10 Mar 2020 14:24:38 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:35756 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726269AbgCJSYi (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 10 Mar 2020 14:24:38 -0400
+Received: by mail-ed1-f67.google.com with SMTP id a20so11597344edj.2;
+        Tue, 10 Mar 2020 11:24:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=N/geXS1ktRmdQ+oZIMa1IAHtn3QcVn0X1vL0uiDn3J4=;
+        b=Y4Mv/RG7zokLOwUODFO2Sv/EsmnAk1VZ6R2I1es12dgvA3dk4X/FWJFZtNRWBjxX1c
+         tVE1ZflhW3Kp4bjtPKBmvvGeMQBcsZJGTmkv7NDsC+94yefejDo+krJ0mZ6z+rCw29Im
+         w5SvEhrJQa6CY2pe6OGXV9OZku2qIrPt4tm7ZbL1pJBuSrlEpdEFvJnaweYP7JX7wsu6
+         3EBT1W+V8D13FVYcMyWH69qIrnuH7bI3DBm1p+PPNdmJhjYQ4GyexONkrlvMCfGAsbbb
+         1WD62Oo0SFgxKGpMJph4XgLJKb+hluMBN5swYQF3UNmoZ6eQ1R28PSpsdXiZMQLAQm6s
+         /hbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=N/geXS1ktRmdQ+oZIMa1IAHtn3QcVn0X1vL0uiDn3J4=;
+        b=E9t7CmoRRUkjL/avxO9OWBHHsCwvdJWdxksp0IK7zp02LoKnMp/E8EzuCYp/JUylrf
+         ZfseErQYHrJqmVjwoKnuFqJn10nVvY4SyLcT2BSubfHdL6li8i8VtExtvysrdx35EywC
+         qyUClegLQQwaR5l+G5nmQlucZkplg7xhlhdhYJgoppi7tUNRE/cKZ9Y3gtVbRW1CiuT8
+         FyPCRgE4k1YmO13jwQ9amBHYAJZ5TwTa7TFqxmqPIa7tfpuQ+qnzsBFZEtledoXa3ymJ
+         Gl4Zk+qLf0oIf7LPmQf8amCbCBKqTo63AHuD8aSwbjJUCP/fI6MaB2Itz7zgP8vCWnlx
+         jPBg==
+X-Gm-Message-State: ANhLgQ3L+mSK6ibVwPU/+yWj4bXLb/lSPpjpFm+xqb+qrkYJ7q0ht6Sx
+        b6EIyPCQmKMytSxalR7XfcUkgduPiUhIolPLhIgrYA==
+X-Google-Smtp-Source: ADFU+vs6jC86jhNiQ9dqBIBIQR+hMKRBT5ajUKABb3eFRrfB1usVWKKbkTyQo55pqkLEuvp3Hn5ZneyFnY3BCe2a92I=
+X-Received: by 2002:a17:906:3e0c:: with SMTP id k12mr5881975eji.309.1583864674852;
+ Tue, 10 Mar 2020 11:24:34 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.101] (92.77.140.102) by FRYP281CA0005.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::15) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.15 via Frontend Transport; Tue, 10 Mar 2020 17:45:57 +0000
-X-Microsoft-Original-Message-ID: <ac7b9c5d-171f-1f66-c0ef-7495e8b1ab9c@hotmail.de>
-X-TMN:  [PsiCRHURkwuV3QcRtzZCs1L6kQTGErPj]
-X-MS-PublicTrafficType: Email
-X-IncomingHeaderCount: 50
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: 4169ac3b-8718-4076-5a5c-08d7c51ae47b
-X-MS-TrafficTypeDiagnostic: VI1EUR04HT049:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6V61Vwd71eCV5/xyqr6zFGWGkmdr0e/2xpXtwaqSADHJnCfjSq5tp0f+zozp1GpwgWCF23E5eYpBtYEOD6HiFcoTdii9XjpbkyP+/Si0MDbHUEVE5j5nT4T9iMJ3VlylqLSfT8Tk5ogmNDHNRhAHZkVJjuibHp9Hc9aL44OesT3ysLdMr/xVtT5ZcskSlKDt
-X-MS-Exchange-AntiSpam-MessageData: ZVT8iy5lQXVmz7CVP9D2H8Ed7OsWTSXwudkpB0jQF3LLZyNBmXjvv8l5ji3Fu5pnZh8sL+9tJw7u0581+WfG2gbDhAtuVhitJrkqaoAy6YuJSgPRCBcq0OiiC1Qo19OLJ2pDrEQTNBN1qa5ZGFs9/w==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4169ac3b-8718-4076-5a5c-08d7c51ae47b
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2020 17:45:59.2303
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1EUR04HT049
+References: <1580757507-120233-1-git-send-email-yang.shi@linux.alibaba.com>
+ <20200210093635.GC10636@dhcp22.suse.cz> <92f30e24-7b77-b21a-ed3a-efc55bc500c6@linux.alibaba.com>
+In-Reply-To: <92f30e24-7b77-b21a-ed3a-efc55bc500c6@linux.alibaba.com>
+From:   Yang Shi <shy828301@gmail.com>
+Date:   Tue, 10 Mar 2020 11:24:21 -0700
+Message-ID: <CAHbLzkpc4huH2J8xT0PCSGJba_WkWX-e3dtWQO7-Xi9aMTEV5w@mail.gmail.com>
+Subject: Re: [v3 PATCH] move_pages.2: Returning positive value is a new error case
+To:     mtk.manpages@gmail.com
+Cc:     Yang Shi <yang.shi@linux.alibaba.com>,
+        Michal Hocko <mhocko@kernel.org>, david@redhat.com,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-man@vger.kernel.org, linux-api@vger.kernel.org,
+        Linux MM <linux-mm@kvack.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This changes perf_event_set_clock to use the new exec_update_mutex
-instead of cred_guard_mutex.
+On Thu, Feb 20, 2020 at 9:07 AM Yang Shi <yang.shi@linux.alibaba.com> wrote:
+>
+>
+>
+> On 2/10/20 1:36 AM, Michal Hocko wrote:
+> > On Tue 04-02-20 03:18:27, Yang Shi wrote:
+> >> Since commit a49bd4d71637 ("mm, numa: rework do_pages_move"),
+> >> the semantic of move_pages() has changed to return the number of
+> >> non-migrated pages if they were result of a non-fatal reasons (usually a
+> >> busy page).  This was an unintentional change that hasn't been noticed
+> >> except for LTP tests which checked for the documented behavior.
+> >>
+> >> There are two ways to go around this change.  We can even get back to the
+> >> original behavior and return -EAGAIN whenever migrate_pages is not able
+> >> to migrate pages due to non-fatal reasons.  Another option would be to
+> >> simply continue with the changed semantic and extend move_pages
+> >> documentation to clarify that -errno is returned on an invalid input or
+> >> when migration simply cannot succeed (e.g. -ENOMEM, -EBUSY) or the
+> >> number of pages that couldn't have been migrated due to ephemeral
+> >> reasons (e.g. page is pinned or locked for other reasons).
+> >>
+> >> We decided to keep the second option in kernel because this behavior is in
+> >> place for some time without anybody complaining and possibly new users
+> >> depending on it.  Also it allows to have a slightly easier error handling
+> >> as the caller knows that it is worth to retry when err > 0.
+> >>
+> >> Update man pages to reflect the new semantic.
+> >>
+> >> Cc: Michal Hocko <mhocko@suse.com>
+> >> Cc: Michael Kerrisk <mtk.manpages@gmail.com>
+> >> Signed-off-by: Yang Shi <yang.shi@linux.alibaba.com>
+>
 
-This should be safe, as the credentials are only used for reading.
+Hi Michale,
 
-Signed-off-by: Bernd Edlinger <bernd.edlinger@hotmail.de>
----
- kernel/events/core.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+Maybe my work email went to your spam folder. So, ping with my
+personal email. Would you please consider take this patch?
 
-diff --git a/kernel/events/core.c b/kernel/events/core.c
-index 2173c23..c37f6eb 100644
---- a/kernel/events/core.c
-+++ b/kernel/events/core.c
-@@ -1248,7 +1248,7 @@ static void put_ctx(struct perf_event_context *ctx)
-  * function.
-  *
-  * Lock order:
-- *    cred_guard_mutex
-+ *    exec_update_mutex
-  *	task_struct::perf_event_mutex
-  *	  perf_event_context::mutex
-  *	    perf_event::child_mutex;
-@@ -11254,14 +11254,14 @@ static int perf_event_set_clock(struct perf_event *event, clockid_t clk_id)
- 	}
- 
- 	if (task) {
--		err = mutex_lock_interruptible(&task->signal->cred_guard_mutex);
-+		err = mutex_lock_interruptible(&task->signal->exec_update_mutex);
- 		if (err)
- 			goto err_task;
- 
- 		/*
- 		 * Reuse ptrace permission checks for now.
- 		 *
--		 * We must hold cred_guard_mutex across this and any potential
-+		 * We must hold exec_update_mutex across this and any potential
- 		 * perf_install_in_context() call for this new event to
- 		 * serialize against exec() altering our credentials (and the
- 		 * perf_event_exit_task() that could imply).
-@@ -11550,7 +11550,7 @@ static int perf_event_set_clock(struct perf_event *event, clockid_t clk_id)
- 	mutex_unlock(&ctx->mutex);
- 
- 	if (task) {
--		mutex_unlock(&task->signal->cred_guard_mutex);
-+		mutex_unlock(&task->signal->exec_update_mutex);
- 		put_task_struct(task);
- 	}
- 
-@@ -11586,7 +11586,7 @@ static int perf_event_set_clock(struct perf_event *event, clockid_t clk_id)
- 		free_event(event);
- err_cred:
- 	if (task)
--		mutex_unlock(&task->signal->cred_guard_mutex);
-+		mutex_unlock(&task->signal->exec_update_mutex);
- err_task:
- 	if (task)
- 		put_task_struct(task);
-@@ -11891,7 +11891,7 @@ static void perf_event_exit_task_context(struct task_struct *child, int ctxn)
- /*
-  * When a child task exits, feed back event values to parent events.
-  *
-- * Can be called with cred_guard_mutex held when called from
-+ * Can be called with exec_update_mutex held when called from
-  * install_exec_creds().
-  */
- void perf_event_exit_task(struct task_struct *child)
--- 
-1.9.1
+Thanks,
+Yang
+
+> Hi Michael,
+>
+> Would you please consider take this patch? The kernel change has been
+> upstreamed.
+>
+> Thanks,
+> Yang
+>
+> > Acked-by: Michal Hocko <mhocko@suse.com>
+> >
+> >> ---
+> >> v3: * Fixed the comments from David Hildenbrand.
+> >>      * Fixed the inaccuracy about pre-initialized status array values.
+> >> v2: * Added notes about status array per Michal.
+> >>      * Added Michal's Acked-by.
+> >>
+> >>   man2/move_pages.2 | 10 ++++++++--
+> >>   1 file changed, 8 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/man2/move_pages.2 b/man2/move_pages.2
+> >> index 1bf1053..50c83a4 100644
+> >> --- a/man2/move_pages.2
+> >> +++ b/man2/move_pages.2
+> >> @@ -104,7 +104,9 @@ pages that need to be moved.
+> >>   is an array of integers that return the status of each page.
+> >>   The array contains valid values only if
+> >>   .BR move_pages ()
+> >> -did not return an error.
+> >> +did not return an error.  Pre-initialization of the array to the value
+> >> +which cannot represent a real numa node or valid error of status array
+> >> +could help to identify pages that have been migrated
+> >>   .PP
+> >>   .I flags
+> >>   specify what types of pages to move.
+> >> @@ -164,9 +166,13 @@ returns zero.
+> >>   .\" do the right thing?
+> >>   On error, it returns \-1, and sets
+> >>   .I errno
+> >> -to indicate the error.
+> >> +to indicate the error. If positive value is returned, it is the number of
+> >> +non-migrated pages.
+> >>   .SH ERRORS
+> >>   .TP
+> >> +.B Positive value
+> >> +The number of non-migrated pages if they were the result of non-fatal
+> >> +reasons (since version 4.17).
+> >>   .B E2BIG
+> >>   Too many pages to move.
+> >>   Since Linux 2.6.29,
+> >> --
+> >> 1.8.3.1
+>
