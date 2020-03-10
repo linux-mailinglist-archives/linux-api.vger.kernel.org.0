@@ -2,146 +2,96 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F1A80180B8A
-	for <lists+linux-api@lfdr.de>; Tue, 10 Mar 2020 23:28:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 46D36180BC4
+	for <lists+linux-api@lfdr.de>; Tue, 10 Mar 2020 23:41:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726307AbgCJW2U (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 10 Mar 2020 18:28:20 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:45835 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726293AbgCJW2U (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 10 Mar 2020 18:28:20 -0400
-Received: by mail-pg1-f196.google.com with SMTP id m15so52471pgv.12;
-        Tue, 10 Mar 2020 15:28:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=VFg3q0grHf1UJPJBnQv+kbuTClZa3VwGIYfaQUbxb0M=;
-        b=RwSdSfQXspQhwN8CTBXVxGFwOeubmgD36ZRj+zPgQ5bDLNVgBhJn0KKdKUubjIr/4z
-         WWnYDKwHju68X14pD0oqQD0ZThVwXSlA2ITsaotTEfuUi6wxYEtOKV6z5Tl1Dqy9PRXA
-         5s143nTEfkJln7Jy6/OrTGAg7ecTOBOGBGSnsXiyNOI7b6z1Gc922x7Bj4onH4f5CFuT
-         +u5JYJbv7Fvl7HlRDGabTULLfxxiQ+t/jbgFv9PojrfZONVgPuz+k/rY1sjguzbn8W12
-         KKaH26PRG0TbZSKYDkCvoYqu9jaA0ZjKvhgjvPXUoTIcN3H4Q8l1rqqIFc17w5RK/qKF
-         4v/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=VFg3q0grHf1UJPJBnQv+kbuTClZa3VwGIYfaQUbxb0M=;
-        b=fQjoCaqoSuA+265eZ2SIzyEb3wVyuvNGTiXYMSU5LvOUR/1VPEJqjL36/orXymYHWn
-         4tj4g8PMIkiF4BTZVySTCleA4zC5gJT0bNpoIVHPinWpEyDfya4+GvQb60+lWmtNchAg
-         sKZTf55sNT9+VDZz33LWGDOccdbAtmEIXvVVPvk7WkgcqbJ7ezkQE4fAIq4whGm0wpqn
-         oeyyRcF+AVtfeVnKzjX90hfoqJWs600i4MaY1SIwrjXGuZ058ojLPUhQsT98GwzZFV+E
-         d8tvd9XdIcje1GDM4gZ30kLzQrIsYoHd1y77Ky+U1Dfs/0bhe3Bn6Fuap/WsoVbRbPBF
-         uhjg==
-X-Gm-Message-State: ANhLgQ2ZaLpjPFW3dc4BYBk3h6/JjfLCbKOFaj8sHurI95nH0fRdYgB0
-        vxUfFSrMm999zqcrp46GlvA=
-X-Google-Smtp-Source: ADFU+vsH6xyex3g3JYae9c8u5H/eF0+Q/hnTxWXi2RQIsrRas5S/3RLdKPogUdLuQvtAajmbzJqVPA==
-X-Received: by 2002:a63:2e49:: with SMTP id u70mr22485024pgu.202.1583879297724;
-        Tue, 10 Mar 2020 15:28:17 -0700 (PDT)
-Received: from google.com ([2620:15c:211:1:3e01:2939:5992:52da])
-        by smtp.gmail.com with ESMTPSA id q15sm12160875pgn.68.2020.03.10.15.28.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2020 15:28:16 -0700 (PDT)
-Date:   Tue, 10 Mar 2020 15:28:15 -0700
-From:   Minchan Kim <minchan@kernel.org>
-To:     Oleksandr Natalenko <oleksandr@redhat.com>
-Cc:     Vlastimil Babka <vbabka@suse.cz>,
+        id S1726315AbgCJWlE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 10 Mar 2020 18:41:04 -0400
+Received: from vmicros1.altlinux.org ([194.107.17.57]:58882 "EHLO
+        vmicros1.altlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726307AbgCJWlE (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 10 Mar 2020 18:41:04 -0400
+Received: from mua.local.altlinux.org (mua.local.altlinux.org [192.168.1.14])
+        by vmicros1.altlinux.org (Postfix) with ESMTP id 236F272CCF0;
+        Wed, 11 Mar 2020 01:41:01 +0300 (MSK)
+Received: by mua.local.altlinux.org (Postfix, from userid 508)
+        id 1A1F07CC7FF; Wed, 11 Mar 2020 01:41:01 +0300 (MSK)
+Date:   Wed, 11 Mar 2020 01:41:01 +0300
+From:   "Dmitry V. Levin" <ldv@altlinux.org>
+To:     Bernd Edlinger <bernd.edlinger@hotmail.de>
+Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
         Andrew Morton <akpm@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
-        Suren Baghdasaryan <surenb@google.com>,
-        Tim Murray <timmurray@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Brian Geffon <bgeffon@google.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Yuyang Du <duyuyang@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jamorris@linux.microsoft.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Shakeel Butt <shakeelb@google.com>,
-        John Dias <joaodias@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jann Horn <jannh@google.com>,
-        alexander.h.duyck@linux.intel.com, sj38.park@gmail.com
-Subject: Re: [PATCH v7 6/7] mm/madvise: employ mmget_still_valid for write
- lock
-Message-ID: <20200310222815.GD72963@google.com>
-References: <20200302193630.68771-1-minchan@kernel.org>
- <20200302193630.68771-7-minchan@kernel.org>
- <d21c85b2-2493-e538-5419-79cf049a469e@suse.cz>
- <20200306130303.kztv64f52qknxb6k@butterfly.localdomain>
- <86fc8d7b-ad6b-1691-b022-025d01e9e8e3@suse.cz>
- <20200309123045.o4cwni3ra6zq6ha2@butterfly.localdomain>
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christian Kellner <christian@kellner.me>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
+Subject: Re: [PATCH 2/4] selftests/ptrace: add test cases for dead-locks
+Message-ID: <20200310224100.GA1563@altlinux.org>
+References: <878sk94eay.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB517086003BD2C32E199690A3E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87r1y12yc7.fsf@x220.int.ebiederm.org>
+ <87k13t2xpd.fsf@x220.int.ebiederm.org>
+ <87d09l2x5n.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB5170F0F9DC18F5EA77C9A857E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <871rq12vxu.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB5170DF45E3245F55B95CCD91E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <877dzt1fnf.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB51703199741A2C27A78980FFE4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200309123045.o4cwni3ra6zq6ha2@butterfly.localdomain>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <AM6PR03MB51703199741A2C27A78980FFE4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Mar 09, 2020 at 01:30:45PM +0100, Oleksandr Natalenko wrote:
-> On Fri, Mar 06, 2020 at 05:03:50PM +0100, Vlastimil Babka wrote:
-> > On 3/6/20 2:03 PM, Oleksandr Natalenko wrote:
-> > > Hello.
-> > > 
-> > > On Fri, Mar 06, 2020 at 01:52:07PM +0100, Vlastimil Babka wrote:
-> > >> > diff --git a/mm/madvise.c b/mm/madvise.c
-> > >> > index e794367f681e..e77c6c1fad34 100644
-> > >> > --- a/mm/madvise.c
-> > >> > +++ b/mm/madvise.c
-> > >> > @@ -1118,6 +1118,8 @@ int do_madvise(struct task_struct *target_task, struct mm_struct *mm,
-> > >> >  	if (write) {
-> > >> >  		if (down_write_killable(&mm->mmap_sem))
-> > >> >  			return -EINTR;
-> > >> > +		if (current->mm != mm && !mmget_still_valid(mm))
-> > >> > +			goto skip_mm;
-> > >> 
-> > >> This will return 0, is that correct? Shoudln't there be a similar error e.g. as
-> > >> when finding the task by pid fails (-ESRCH ?), because IIUC the task here is
-> > >> going away and dumping the core?
-> > > 
-> > > Yeah.
-> > > 
-> > > Something like this then:
-> > > 
-> > > ===
-> > > diff --git a/mm/madvise.c b/mm/madvise.c
-> > > index 48d1da08c160..7ed2f4d13924 100644
-> > > --- a/mm/madvise.c
-> > > +++ b/mm/madvise.c
-> > > @@ -1122,6 +1122,10 @@ int do_madvise(struct task_struct *target_task, struct mm_struct *mm,
-> > >  	if (write) {
-> > >  		if (down_write_killable(&mm->mmap_sem))
-> > >  			return -EINTR;
-> > > +		if (current->mm != mm && !mmget_still_valid(mm)) {
-> > > +			error = -ESRCH;
-> > > +			goto skip_mm;
-> > > +		}
-> > >  	} else {
-> > >  		down_read(&mm->mmap_sem);
-> > >  	}
-> > > @@ -1173,6 +1177,7 @@ int do_madvise(struct task_struct *target_task, struct mm_struct *mm,
-> > >  	}
-> > >  out:
-> > >  	blk_finish_plug(&plug);
-> > > +skip_mm:
-> > >  	if (write)
-> > >  		up_write(&mm->mmap_sem);
-> > >  	else
-> > > 
-> > > ===
-> > > 
-> > > ?
-> > 
-> > Yep, thanks.
-> > 
+On Tue, Mar 10, 2020 at 02:44:01PM +0100, Bernd Edlinger wrote:
+> This adds test cases for ptrace deadlocks.
 > 
-> Minchan, shall you take this change into the next submission, or you'd
-> prefer me sending it to you as a new patch?
+> Additionally fixes a compile problem in get_syscall_info.c,
+> observed with gcc-4.8.4:
+> 
+> get_syscall_info.c: In function 'get_syscall_info':
+> get_syscall_info.c:93:3: error: 'for' loop initial declarations are only
+>                                  allowed in C99 mode
+>    for (unsigned int i = 0; i < ARRAY_SIZE(args); ++i) {
+>    ^
+> get_syscall_info.c:93:3: note: use option -std=c99 or -std=gnu99 to compile
+>                                your code
+[...]
+> @@ -1,6 +1,6 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+> -CFLAGS += -iquote../../../../include/uapi -Wall
+> +CFLAGS += -std=c99 -pthread -iquote../../../../include/uapi -Wall
 
-I should send patchset again so I will take it.
-Thanks!
+Wouldn't it be better to choose -std=gnu99 over -std=c99?
+
+
+-- 
+ldv
