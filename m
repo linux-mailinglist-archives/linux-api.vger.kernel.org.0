@@ -2,47 +2,63 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D0DFB180857
-	for <lists+linux-api@lfdr.de>; Tue, 10 Mar 2020 20:43:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DEC21808A8
+	for <lists+linux-api@lfdr.de>; Tue, 10 Mar 2020 21:00:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727465AbgCJTnG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 10 Mar 2020 15:43:06 -0400
-Received: from mail-oln040092067074.outbound.protection.outlook.com ([40.92.67.74]:51778
-        "EHLO EUR02-AM5-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726497AbgCJTnG (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 10 Mar 2020 15:43:06 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=A2A6kAmnRgrMVHWi9QphwkbAopL04pJ4Ojz/DJkMax3rdMvc/1StmbSUG80B7liZ5W5SIXuRZewtv6n5bqASGRg+cga/vla+IyokmyInPqxwvtBrtpPL5Jhewwiv+7Hp+ZqiurFIQ1FT+ywZTEiCz5oNaaWjO4pquJxCQDvj2yNapcCML+kDBnrTZPxoGevS3hizyDignZRWYsHUfzs3C/529yN2/DBbTfDTeW6b6JFi+BfA3Y2yv1zmmXMBxRB3e3PY22qS+eXs0QzqIr7Iab6vf6uPZLn8vgMZBWRaVuWXFifxpXOhzBMQSppNVd/Kqgw6gYYhcH/MCvOPHzVjrA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sFm4MTuYTt1g52hWoTGB38cRFGP+hcZZsEueMK0bonk=;
- b=Crut7EAiwkTW15dZn+d0R2mx6yFAL0s9OPut8XcgeKPkPyHPASoDAjttc7kvYYfC7sgmQ8AdiLtM4dQ/9kBwwSf83PcSuDyWo6Xhaj3wtJas1B1KlEy8ag3LTN1Ky6YYC2gyfuza56C63Ed7+KlDj1DYt75OFgOTXP4vyfta/Xh+gXVdm85Nkff88ZIDmtoFs8JZdFB3L+tT4SNgkAIatdQDYqOdktjW+T64RNTrzlgalGLvmWW0kFjKEBkberrEF41AkRZZ6X72M8dqGHkMtuYQbPouc70sKakvegH02lq+hpQNVNDPNaYar9o+3D8LswQHv97f3fW8N7m9eMcXzQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=hotmail.de; dmarc=pass action=none header.from=hotmail.de;
- dkim=pass header.d=hotmail.de; arc=none
-Received: from HE1EUR02FT053.eop-EUR02.prod.protection.outlook.com
- (2a01:111:e400:7e1d::37) by
- HE1EUR02HT035.eop-EUR02.prod.protection.outlook.com (2a01:111:e400:7e1d::363)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.11; Tue, 10 Mar
- 2020 19:42:58 +0000
-Received: from AM6PR03MB5170.eurprd03.prod.outlook.com (10.152.10.58) by
- HE1EUR02FT053.mail.protection.outlook.com (10.152.11.109) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2793.11 via Frontend Transport; Tue, 10 Mar 2020 19:42:58 +0000
-X-IncomingTopHeaderMarker: OriginalChecksum:2F08D4F2D70E50DF6E3FAE1F1920DEFF60C6DFD89655B01D8F22B0ED78D886EF;UpperCasedChecksum:6D1B31FA854788FD84D6A550CA28869AE1F9EBA85ECB92ECAA0EE7B238949F73;SizeAsReceived:10336;Count:50
-Received: from AM6PR03MB5170.eurprd03.prod.outlook.com
- ([fe80::1956:d274:cab3:b4dd]) by AM6PR03MB5170.eurprd03.prod.outlook.com
- ([fe80::1956:d274:cab3:b4dd%6]) with mapi id 15.20.2793.013; Tue, 10 Mar 2020
- 19:42:57 +0000
-Subject: Re: [PATCH 1/4] kernel/kcmp.c: Use new infrastructure to fix
- deadlocks in execve
+        id S1727386AbgCJUAz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 10 Mar 2020 16:00:55 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:36778 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727206AbgCJUAz (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 10 Mar 2020 16:00:55 -0400
+Received: by mail-ot1-f68.google.com with SMTP id j14so14475626otq.3
+        for <linux-api@vger.kernel.org>; Tue, 10 Mar 2020 13:00:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=zIAAqBT5cH5cbbW3GFto6v7mD8pF39ecAMkC8oTgutI=;
+        b=lToTywfF6/WNafCRISYFb5qIPhLOZD7H3m7K11tcVGoSy0sDMKZ5AOMrdtIh1Zcm+N
+         FsSDckkbtI4yqMRWo5Fjqdg64HXXgblPk8H7PM2B/BLCmb4xHoUig7plVH7TGc1gK2Cr
+         kNb3g6Is4ZWWVGTXV2n1kZH9gibgqCnEAvqkgY/U8QdWJYyuzGJ5/NKmku3+6X9qrx4w
+         ahi9XPBSsYLPDacA5iChtNW4lQKX1M3pK4Y+gCGh2NS8fv2rmtdk2F6Wa83/mGUwm7si
+         i9wYysP5fygg3ep0iX3jaDt/BGsNFKQNDX1evsDSMAIoQCH29ffsppjtETxuQHNKCs5q
+         BGiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zIAAqBT5cH5cbbW3GFto6v7mD8pF39ecAMkC8oTgutI=;
+        b=kVPxJ8YNjpJ4z73jdwyQoNSQlggZvfolLoEuf++x9ZOS9YTaew370p1rgm6ZKpM+Ur
+         +CXrJzsuJjED4ZwSy7RZg90F37wV2KTCtsxbFVBWWzzQ4pQzab7g+DkbUOHoeLV9n4pR
+         5bdhnEnxREsfw1/55P3jZ2rJuhBaiJCVaRw1o0woQO/wxrJhGQ1IsT+uE/sKFlMBif0d
+         y5rwKnvV95PelRLZibNsVi4ZZPO+6UOKtx3CE51QzAB8gJPsp5tu1OpHze784ValluVi
+         eDzrJ7TTM/HBzEYv9CjNcX8UVzvq27tBwZWABjJbFqR9LJj1+BI7UAzP+p3Y80WkYe3v
+         dsdg==
+X-Gm-Message-State: ANhLgQ3PxM7gbbRpYQp7SobwFchSnJ7JOBML7QQIhV3QL7iURQXx1DB6
+        caKMldvTWwqcvy+nDkniqjQYDaicZ2cINvPKllx2lA==
+X-Google-Smtp-Source: ADFU+vtcsmeizoaiKSlTHolQlrAnABBwhEpSV9VVyJB0PvpgO9H1QULcgU81RJuwJLNtl9eG+n2+fGb/mXJ4ROrh4fc=
+X-Received: by 2002:a05:6830:1d6e:: with SMTP id l14mr17776467oti.32.1583870453922;
+ Tue, 10 Mar 2020 13:00:53 -0700 (PDT)
+MIME-Version: 1.0
+References: <87r1y8dqqz.fsf@x220.int.ebiederm.org> <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87tv32cxmf.fsf_-_@x220.int.ebiederm.org> <87v9ne5y4y.fsf_-_@x220.int.ebiederm.org>
+ <87eeu25y14.fsf_-_@x220.int.ebiederm.org> <20200309195909.h2lv5uawce5wgryx@wittgenstein>
+ <877dztz415.fsf@x220.int.ebiederm.org> <20200309201729.yk5sd26v4bz4gtou@wittgenstein>
+ <87k13txnig.fsf@x220.int.ebiederm.org> <20200310085540.pztaty2mj62xt2nm@wittgenstein>
+ <87wo7svy96.fsf_-_@x220.int.ebiederm.org> <CAG48ez2cUZMVOAXfHPNjKjYsMSaWkjUjOCHo0KYZ+oXQUW4viA@mail.gmail.com>
+ <87k13sui1p.fsf@x220.int.ebiederm.org>
+In-Reply-To: <87k13sui1p.fsf@x220.int.ebiederm.org>
+From:   Jann Horn <jannh@google.com>
+Date:   Tue, 10 Mar 2020 21:00:27 +0100
+Message-ID: <CAG48ez2vRgaEVJ=Rs8gn6HkGO6syL8MpSOUq7BNN+OUE1uYxCA@mail.gmail.com>
+Subject: Re: [PATCH] pidfd: Stop taking cred_guard_mutex
 To:     "Eric W. Biederman" <ebiederm@xmission.com>
 Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
+        Bernd Edlinger <bernd.edlinger@hotmail.de>,
         Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Jonathan Corbet <corbet@lwn.net>,
         Alexander Viro <viro@zeniv.linux.org.uk>,
         Andrew Morton <akpm@linux-foundation.org>,
         Alexey Dobriyan <adobriyan@gmail.com>,
@@ -70,130 +86,101 @@ Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
         "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
         "linux-mm@kvack.org" <linux-mm@kvack.org>,
         "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
-References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87v9ne5y4y.fsf_-_@x220.int.ebiederm.org>
- <87zhcq4jdj.fsf_-_@x220.int.ebiederm.org>
- <AM6PR03MB5170BC58D90BAD80CDEF3F8BE4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <878sk94eay.fsf@x220.int.ebiederm.org>
- <AM6PR03MB517086003BD2C32E199690A3E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87r1y12yc7.fsf@x220.int.ebiederm.org> <87k13t2xpd.fsf@x220.int.ebiederm.org>
- <87d09l2x5n.fsf@x220.int.ebiederm.org>
- <AM6PR03MB5170F0F9DC18F5EA77C9A857E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <871rq12vxu.fsf@x220.int.ebiederm.org>
- <AM6PR03MB5170DF45E3245F55B95CCD91E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <877dzt1fnf.fsf@x220.int.ebiederm.org>
- <AM6PR03MB51701C6F60699F99C5C67E0BE4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <875zfcxlwy.fsf@x220.int.ebiederm.org>
- <AM6PR03MB517057A2269C3A4FB287B76EE4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87k13svxtw.fsf@x220.int.ebiederm.org>
-From:   Bernd Edlinger <bernd.edlinger@hotmail.de>
-Message-ID: <AM6PR03MB517005BA273D6438BD5D0E71E4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com>
-Date:   Tue, 10 Mar 2020 20:42:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-In-Reply-To: <87k13svxtw.fsf@x220.int.ebiederm.org>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: ZR0P278CA0032.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:1c::19) To AM6PR03MB5170.eurprd03.prod.outlook.com
- (2603:10a6:20b:ca::23)
-X-Microsoft-Original-Message-ID: <829be068-5eb6-c666-3698-c22f5061325c@hotmail.de>
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.101] (92.77.140.102) by ZR0P278CA0032.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:1c::19) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.16 via Frontend Transport; Tue, 10 Mar 2020 19:42:54 +0000
-X-Microsoft-Original-Message-ID: <829be068-5eb6-c666-3698-c22f5061325c@hotmail.de>
-X-TMN:  [tNZkuW7gjgOMltWxmQ8Hzlzcv5wn7a0h]
-X-MS-PublicTrafficType: Email
-X-IncomingHeaderCount: 50
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: c7d23077-feba-41d8-387a-08d7c52b3bbc
-X-MS-TrafficTypeDiagnostic: HE1EUR02HT035:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /A6B93GpstSE72sN071qFFvGm5n1xwNuBerrX3YuMDEaPjvB0lgwKBWpPRLjgOnsrSHMqTUUksuE7BLCgGGb5TQdz0G8ZwBXN9ZUluUSrKXyB/0lroSugYDge0q0kyq5R7U8VwSXKubsDPrEbDgCtqKLEL+4q8a5IJrw65FfvDFTFtDdG4etpv2d2NqGK/YK
-X-MS-Exchange-AntiSpam-MessageData: 94Y4s0sbg/84LyuryjYzBZWsAFrOxf78nL5OWh35eAEVgpjHBUxVZh9Xy0LueRQDdbC8f1bIuxi81snKwfQKogQoJI5rosHMmUx94RXVRwkp6iH0lt5yd2+CIRCfpB8pVMGiujjolS1Oe2AwdoliDA==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c7d23077-feba-41d8-387a-08d7c52b3bbc
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2020 19:42:57.5669
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1EUR02HT035
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Sargun Dhillon <sargun@sargun.me>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 3/10/20 8:01 PM, Eric W. Biederman wrote:
-> Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
-> 
->> This changes kcmp_epoll_target to use the new exec_update_mutex
->> instead of cred_guard_mutex.
->>
->> This should be safe, as the credentials are only used for reading,
->> and furthermore ->mm and ->sighand are updated on execve,
->> but only under the new exec_update_mutex.
->>
-> 
-> Can you add a comment that the exec_update_mutex is not needed for
-> KCMP_FILE?  As both sets of credentials during exec are valid
-> for accessing the files so exec_update_mutex does not matter.
-> 
+On Tue, Mar 10, 2020 at 8:29 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
+> Jann Horn <jannh@google.com> writes:
+> > On Tue, Mar 10, 2020 at 7:54 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
+> >> During exec some file descriptors are closed and the files struct is
+> >> unshared.  But all of that can happen at other times and it has the
+> >> same protections during exec as at ordinary times.  So stop taking the
+> >> cred_guard_mutex as it is useless.
+> >>
+> >> Furthermore he cred_guard_mutex is a bad idea because it is deadlock
+> >> prone, as it is held in serveral while waiting possibly indefinitely
+> >> for userspace to do something.
+> >
+> > Please don't. Just use the new exec_update_mutex like everywhere else.
+> >
+> >> Cc: Sargun Dhillon <sargun@sargun.me>
+> >> Cc: Christian Brauner <christian.brauner@ubuntu.com>
+> >> Cc: Arnd Bergmann <arnd@arndb.de>
+> >> Fixes: 8649c322f75c ("pid: Implement pidfd_getfd syscall")
+> >> Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
+> >> ---
+> >>  kernel/pid.c | 6 ------
+> >>  1 file changed, 6 deletions(-)
+> >>
+> >> Christian if you don't have any objections I will take this one through
+> >> my tree.
+> >>
+> >> I tried to figure out why this code path takes the cred_guard_mutex and
+> >> the archive on lore.kernel.org was not helpful in finding that part of
+> >> the conversation.
+> >
+> > That was my suggestion.
+> >
+> >> diff --git a/kernel/pid.c b/kernel/pid.c
+> >> index 60820e72634c..53646d5616d2 100644
+> >> --- a/kernel/pid.c
+> >> +++ b/kernel/pid.c
+> >> @@ -577,17 +577,11 @@ static struct file *__pidfd_fget(struct task_struct *task, int fd)
+> >>         struct file *file;
+> >>         int ret;
+> >>
+> >> -       ret = mutex_lock_killable(&task->signal->cred_guard_mutex);
+> >> -       if (ret)
+> >> -               return ERR_PTR(ret);
+> >> -
+> >>         if (ptrace_may_access(task, PTRACE_MODE_ATTACH_REALCREDS))
+> >>                 file = fget_task(task, fd);
+> >>         else
+> >>                 file = ERR_PTR(-EPERM);
+> >>
+> >> -       mutex_unlock(&task->signal->cred_guard_mutex);
+> >> -
+> >>         return file ?: ERR_PTR(-EBADF);
+> >>  }
+> >
+> > If you make this change, then if this races with execution of a setuid
+> > program that afterwards e.g. opens a unix domain socket, an attacker
+> > will be able to steal that socket and inject messages into
+> > communication with things like DBus. procfs currently has the same
+> > race, and that still needs to be fixed, but at least procfs doesn't
+> > let you open things like sockets because they don't have a working
+> > ->open handler, and it enforces the normal permission check for
+> > opening files.
+>
+> It isn't only exec that can change credentials.  Do we need a lock for
+> changing credentials?
 
-some files are closed by do_close_on_exec,
-so in theory this allows you to examine files that
-were open in the old user but closed for the new user
-with either credential.
+Hmm, I guess so? Normally, a task that's changing credentials becomes
+nondumpable at the same time (and there are explicit memory barriers
+in commit_creds() and __ptrace_may_access() to enforce the ordering
+for this); so you normally don't see tasks becoming ptrace-accessible
+via anything other than execve(). But I guess if someone opens a
+root-only file, closes it, drops privileges, and then explicitly does
+prctl(PR_SET_DUMPABLE, 1), we should probably protect that, too.
 
-It is not a race condition, but it may be a security
-concern.
+> Wouldn't it be sufficient to simply test ptrace_may_access after
+> we get a copy of the file?
 
-> I don't think exec_update_mutex is needed for KCMP_SYSVSEM
-> or KCMP_EPOLL_TFD either.  As I don't think exec changes either
-> one of those.
-> 
+There are also setuid helpers that can, after having done privileged
+stuff, drop privileges and call execve(); after that,
+ptrace_may_access() succeeds again. In particular, polkit has a helper
+that does this.
 
-KCMP_EPOLL_TFD is also accessing file pointers,
-that is possible.
+> If we need a lock around credential change let's design and build that.
+> Having a mismatch between what a lock is designed to do, and what
+> people use it for can only result in other bugs as people get confused.
 
-It might be that KCMP_SYSVSEM is a missed optimization, but
-I may have overlooked something.
-I'd rather err on the safe side.
-
-> Eric
-> 
-> 
->> Signed-off-by: Bernd Edlinger <bernd.edlinger@hotmail.de>
->> ---
->>  kernel/kcmp.c | 8 ++++----
->>  1 file changed, 4 insertions(+), 4 deletions(-)
->>
->> diff --git a/kernel/kcmp.c b/kernel/kcmp.c
->> index a0e3d7a..b3ff928 100644
->> --- a/kernel/kcmp.c
->> +++ b/kernel/kcmp.c
->> @@ -173,8 +173,8 @@ static int kcmp_epoll_target(struct task_struct *task1,
->>  	/*
->>  	 * One should have enough rights to inspect task details.
->>  	 */
->> -	ret = kcmp_lock(&task1->signal->cred_guard_mutex,
->> -			&task2->signal->cred_guard_mutex);
->> +	ret = kcmp_lock(&task1->signal->exec_update_mutex,
->> +			&task2->signal->exec_update_mutex);
->>  	if (ret)
->>  		goto err;
->>  	if (!ptrace_may_access(task1, PTRACE_MODE_READ_REALCREDS) ||
->> @@ -229,8 +229,8 @@ static int kcmp_epoll_target(struct task_struct *task1,
->>  	}
->>  
->>  err_unlock:
->> -	kcmp_unlock(&task1->signal->cred_guard_mutex,
->> -		    &task2->signal->cred_guard_mutex);
->> +	kcmp_unlock(&task1->signal->exec_update_mutex,
->> +		    &task2->signal->exec_update_mutex);
->>  err:
->>  	put_task_struct(task1);
->>  	put_task_struct(task2);
+Hmm... what benefits do we get from making it a separate lock? I guess
+it would allow us to make it a per-task lock instead of a
+signal_struct-wide one? That might be helpful...
