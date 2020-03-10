@@ -2,281 +2,156 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F0C6417F3BD
-	for <lists+linux-api@lfdr.de>; Tue, 10 Mar 2020 10:33:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9898A17FEEA
+	for <lists+linux-api@lfdr.de>; Tue, 10 Mar 2020 14:43:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726269AbgCJJdL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 10 Mar 2020 05:33:11 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:58187 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726258AbgCJJdL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 10 Mar 2020 05:33:11 -0400
-Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236] helo=wittgenstein.fritz.box)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1jBbG5-0006dc-62; Tue, 10 Mar 2020 09:33:05 +0000
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     christian.brauner@ubuntu.com
-Cc:     christian@brauner.io, darrick.wong@oracle.com, dhowells@redhat.com,
-        jannh@google.com, jlayton@redhat.com, kzak@redhat.com,
-        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org, mszeredi@redhat.com,
-        raven@themaw.net, torvalds@linux-foundation.org,
-        viro@zeniv.linux.org.uk
-Subject: [PATCH v19 14/14] arch: wire up fsinfo syscall
-Date:   Tue, 10 Mar 2020 10:32:41 +0100
-Message-Id: <20200310093241.1143777-2-christian.brauner@ubuntu.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200310093241.1143777-1-christian.brauner@ubuntu.com>
-References: <20200310093116.ylq6vaunr6js4eyy@wittgenstein>
- <20200310093241.1143777-1-christian.brauner@ubuntu.com>
+        id S1727663AbgCJNn2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 10 Mar 2020 09:43:28 -0400
+Received: from mail-oln040092065090.outbound.protection.outlook.com ([40.92.65.90]:30183
+        "EHLO EUR01-HE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727312AbgCJNn1 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 10 Mar 2020 09:43:27 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bMN6w/Qr/aS+HIOfZPZ5/HS/kEaZhWvScWGYXuxjLY9WPXvIlNnaRl2RxRBJkYp9LsVyZ5h2jRsUwI6i7IoMvi1bRiafxWezUycxxBDBtBY2427+Q+cfBK2/yPcNAfBxaQ21trd3Kbc8KYnwkNAqXKEbj7oPV7FV4VIUku2HQmBh2eBs+xKzUjx9gc3utBJbDeU/+3eDCCujn9dD+6tzRiBfqUJyA74cP3nMCkqXDmIoQNLakQdgNdcuORh9N9rtkCOx4goGZzsm8/fIoLw4WkDh32o3whyYGtkXKEA2dpwRfp+BC/DaAYBHOylwXBB7McYM/VrsHGSWJln0JKbv4g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XTIzbf6Kcu4NlVyKdTF/2JwkVBkFSzRIiCGYzIWzx7U=;
+ b=h9QF3UhrzTj4e/81LMmX0Ji/eLV2aiCo+nL7CpLUd/qLUdR9H/fsmLHQZDBFIbmrWctZlBTOto4mqvLUwkCGkQ2xoD1TCjbMuiaaAFAhVc5/abY99YEfEMRYkUvOVgzrqfzhw3kYc9YKJXenNf2LiGvLgZJzKzDFHXg8YkubiPWzxXFH6EcmBBrDZiAx2gWnfkE1ta77q4HVQT5khORC9s1V9UpUkmhB/OQscEd8xuET45BLJKrLjh/fFUbFTTFS2a8x1ZsEujHao6kkZIxctxStZkXJx/R8riT1M99Ri6a36kPed5b6WzNXAW3+So0Qg+zZhSEMM8w5KmV0Q0GnfA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=hotmail.de; dmarc=pass action=none header.from=hotmail.de;
+ dkim=pass header.d=hotmail.de; arc=none
+Received: from HE1EUR01FT023.eop-EUR01.prod.protection.outlook.com
+ (2a01:111:e400:7e18::3a) by
+ HE1EUR01HT009.eop-EUR01.prod.protection.outlook.com (2a01:111:e400:7e18::488)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.11; Tue, 10 Mar
+ 2020 13:43:23 +0000
+Received: from AM6PR03MB5170.eurprd03.prod.outlook.com (10.152.0.52) by
+ HE1EUR01FT023.mail.protection.outlook.com (10.152.0.162) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2793.11 via Frontend Transport; Tue, 10 Mar 2020 13:43:23 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:BC32DD4A261A6B8205E6ADF6EAB85B37EC990743ABB9F94782C126A987649264;UpperCasedChecksum:35D01622DF07921CB9D4DB6EBAE8AA9A4EC44BD275AB2ADAEE31F947CB5AF6DD;SizeAsReceived:10306;Count:50
+Received: from AM6PR03MB5170.eurprd03.prod.outlook.com
+ ([fe80::1956:d274:cab3:b4dd]) by AM6PR03MB5170.eurprd03.prod.outlook.com
+ ([fe80::1956:d274:cab3:b4dd%6]) with mapi id 15.20.2793.013; Tue, 10 Mar 2020
+ 13:43:23 +0000
+From:   Bernd Edlinger <bernd.edlinger@hotmail.de>
+Subject: [PATCH 0/4] Use new infrastructure to fix deadlocks in execve
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Yuyang Du <duyuyang@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jamorris@linux.microsoft.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christian Kellner <christian@kellner.me>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
+References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87r1y8dqqz.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
+ <87v9ne5y4y.fsf_-_@x220.int.ebiederm.org>
+ <87zhcq4jdj.fsf_-_@x220.int.ebiederm.org>
+ <AM6PR03MB5170BC58D90BAD80CDEF3F8BE4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <878sk94eay.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB517086003BD2C32E199690A3E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87r1y12yc7.fsf@x220.int.ebiederm.org> <87k13t2xpd.fsf@x220.int.ebiederm.org>
+ <87d09l2x5n.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB5170F0F9DC18F5EA77C9A857E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <871rq12vxu.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB5170DF45E3245F55B95CCD91E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <877dzt1fnf.fsf@x220.int.ebiederm.org>
+Message-ID: <AM6PR03MB51701C6F60699F99C5C67E0BE4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+Date:   Tue, 10 Mar 2020 14:43:21 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+In-Reply-To: <877dzt1fnf.fsf@x220.int.ebiederm.org>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM0PR06CA0101.eurprd06.prod.outlook.com
+ (2603:10a6:208:fa::42) To AM6PR03MB5170.eurprd03.prod.outlook.com
+ (2603:10a6:20b:ca::23)
+X-Microsoft-Original-Message-ID: <c7315cf7-713e-5b1d-38f7-20f77d3babea@hotmail.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.101] (92.77.140.102) by AM0PR06CA0101.eurprd06.prod.outlook.com (2603:10a6:208:fa::42) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.16 via Frontend Transport; Tue, 10 Mar 2020 13:43:21 +0000
+X-Microsoft-Original-Message-ID: <c7315cf7-713e-5b1d-38f7-20f77d3babea@hotmail.de>
+X-TMN:  [brG/2mTCvyYYudno6HDU6fhBD8F14Y7+]
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 50
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: 10d9e532-7fd0-4b56-d300-08d7c4f9006b
+X-MS-TrafficTypeDiagnostic: HE1EUR01HT009:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: KpfFSpSqKmus4lGNhEHdz7J7tlMiA/tSubeDZRFzX52cevNYsjMTr1uWuT8AbioUTZkwNOO4/GJPHzZYVcI2TAl5cWNaqLHSfnwgIxMORe7Svl1uJd8HFmgKr7IiZpbiHIpUQQ4tbkU8BhwpTwFq7DUi1rgPN1CR9ESMpMMRhORTn7MGYLayQTTXqv1C0zdz
+X-MS-Exchange-AntiSpam-MessageData: HovD+oKudL+zDQeiwb8n73p9ytIxhfk+yzOEkn0mybXKdEQbxNrH6ctVE3knvAgLYmSqR2tvFNxsbDWZrrPu+frQIKPfS3UDRTETi4Nfq1EApXmHeGw5lZX1aV5oM0cXbi2AlwRkL41XCTZrRjAMjg==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 10d9e532-7fd0-4b56-d300-08d7c4f9006b
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2020 13:43:23.3299
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1EUR01HT009
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This wires up the fsinfo() syscall for all architectures.
+This is a follow up on Eric's patch series to
+fix the deadlocks observed with ptracing when execve
+in multi-threaded applications.
 
-Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
----
- arch/alpha/kernel/syscalls/syscall.tbl      | 1 +
- arch/arm/tools/syscall.tbl                  | 1 +
- arch/arm64/include/asm/unistd.h             | 2 +-
- arch/arm64/include/asm/unistd32.h           | 2 ++
- arch/ia64/kernel/syscalls/syscall.tbl       | 1 +
- arch/m68k/kernel/syscalls/syscall.tbl       | 1 +
- arch/microblaze/kernel/syscalls/syscall.tbl | 1 +
- arch/mips/kernel/syscalls/syscall_n32.tbl   | 1 +
- arch/mips/kernel/syscalls/syscall_n64.tbl   | 1 +
- arch/mips/kernel/syscalls/syscall_o32.tbl   | 1 +
- arch/parisc/kernel/syscalls/syscall.tbl     | 1 +
- arch/powerpc/kernel/syscalls/syscall.tbl    | 1 +
- arch/s390/kernel/syscalls/syscall.tbl       | 1 +
- arch/sh/kernel/syscalls/syscall.tbl         | 1 +
- arch/sparc/kernel/syscalls/syscall.tbl      | 1 +
- arch/x86/entry/syscalls/syscall_32.tbl      | 1 +
- arch/x86/entry/syscalls/syscall_64.tbl      | 1 +
- arch/xtensa/kernel/syscalls/syscall.tbl     | 1 +
- include/linux/syscalls.h                    | 4 ++++
- include/uapi/asm-generic/unistd.h           | 4 +++-
- 20 files changed, 26 insertions(+), 2 deletions(-)
+This fixes the simple and most important case where
+the cred_guard_mutex causes strace to deadlock.
 
-diff --git a/arch/alpha/kernel/syscalls/syscall.tbl b/arch/alpha/kernel/syscalls/syscall.tbl
-index 7c0115af9010..4d0b07dde12d 100644
---- a/arch/alpha/kernel/syscalls/syscall.tbl
-+++ b/arch/alpha/kernel/syscalls/syscall.tbl
-@@ -479,3 +479,4 @@
- 548	common	pidfd_getfd			sys_pidfd_getfd
- 549	common	watch_mount			sys_watch_mount
- 550	common	watch_sb			sys_watch_sb
-+551	common	fsinfo				sys_fsinfo
-diff --git a/arch/arm/tools/syscall.tbl b/arch/arm/tools/syscall.tbl
-index f256f009a89f..fdda8382b420 100644
---- a/arch/arm/tools/syscall.tbl
-+++ b/arch/arm/tools/syscall.tbl
-@@ -453,3 +453,4 @@
- 438	common	pidfd_getfd			sys_pidfd_getfd
- 439	common	watch_mount			sys_watch_mount
- 440	common	watch_sb			sys_watch_sb
-+441	common	fsinfo				sys_fsinfo
-diff --git a/arch/arm64/include/asm/unistd.h b/arch/arm64/include/asm/unistd.h
-index bc0f923e0e04..388eeb71cff0 100644
---- a/arch/arm64/include/asm/unistd.h
-+++ b/arch/arm64/include/asm/unistd.h
-@@ -38,7 +38,7 @@
- #define __ARM_NR_compat_set_tls		(__ARM_NR_COMPAT_BASE + 5)
- #define __ARM_NR_COMPAT_END		(__ARM_NR_COMPAT_BASE + 0x800)
- 
--#define __NR_compat_syscalls		441
-+#define __NR_compat_syscalls		442
- #endif
- 
- #define __ARCH_WANT_SYS_CLONE
-diff --git a/arch/arm64/include/asm/unistd32.h b/arch/arm64/include/asm/unistd32.h
-index c1c61635f89c..1f7d2c8d481a 100644
---- a/arch/arm64/include/asm/unistd32.h
-+++ b/arch/arm64/include/asm/unistd32.h
-@@ -883,6 +883,8 @@ __SYSCALL(__NR_clone3, sys_clone3)
- __SYSCALL(__NR_openat2, sys_openat2)
- #define __NR_pidfd_getfd 438
- __SYSCALL(__NR_pidfd_getfd, sys_pidfd_getfd)
-+#define __NR_fsinfo 441
-+__SYSCALL(__NR_fsinfo, sys_fsinfo)
- 
- /*
-  * Please add new compat syscalls above this comment and update
-diff --git a/arch/ia64/kernel/syscalls/syscall.tbl b/arch/ia64/kernel/syscalls/syscall.tbl
-index a4dafc659647..2316e60e031a 100644
---- a/arch/ia64/kernel/syscalls/syscall.tbl
-+++ b/arch/ia64/kernel/syscalls/syscall.tbl
-@@ -360,3 +360,4 @@
- 438	common	pidfd_getfd			sys_pidfd_getfd
- 439	common	watch_mount			sys_watch_mount
- 440	common	watch_sb			sys_watch_sb
-+441	common	fsinfo				sys_fsinfo
-diff --git a/arch/m68k/kernel/syscalls/syscall.tbl b/arch/m68k/kernel/syscalls/syscall.tbl
-index 893fb4151547..efc2723ca91f 100644
---- a/arch/m68k/kernel/syscalls/syscall.tbl
-+++ b/arch/m68k/kernel/syscalls/syscall.tbl
-@@ -439,3 +439,4 @@
- 438	common	pidfd_getfd			sys_pidfd_getfd
- 439	common	watch_mount			sys_watch_mount
- 440	common	watch_sb			sys_watch_sb
-+441	common	fsinfo				sys_fsinfo
-diff --git a/arch/microblaze/kernel/syscalls/syscall.tbl b/arch/microblaze/kernel/syscalls/syscall.tbl
-index 54aaf0d40c64..745c0f462fce 100644
---- a/arch/microblaze/kernel/syscalls/syscall.tbl
-+++ b/arch/microblaze/kernel/syscalls/syscall.tbl
-@@ -445,3 +445,4 @@
- 438	common	pidfd_getfd			sys_pidfd_getfd
- 439	common	watch_mount			sys_watch_mount
- 440	common	watch_sb			sys_watch_sb
-+441	common	fsinfo				sys_fsinfo
-diff --git a/arch/mips/kernel/syscalls/syscall_n32.tbl b/arch/mips/kernel/syscalls/syscall_n32.tbl
-index fd34dd0efed0..499f83562a8c 100644
---- a/arch/mips/kernel/syscalls/syscall_n32.tbl
-+++ b/arch/mips/kernel/syscalls/syscall_n32.tbl
-@@ -378,3 +378,4 @@
- 438	n32	pidfd_getfd			sys_pidfd_getfd
- 439	n32	watch_mount			sys_watch_mount
- 440	n32	watch_sb			sys_watch_sb
-+441	n32	fsinfo				sys_fsinfo
-diff --git a/arch/mips/kernel/syscalls/syscall_n64.tbl b/arch/mips/kernel/syscalls/syscall_n64.tbl
-index db0f4c0a0a0b..b3188bc3ab3c 100644
---- a/arch/mips/kernel/syscalls/syscall_n64.tbl
-+++ b/arch/mips/kernel/syscalls/syscall_n64.tbl
-@@ -354,3 +354,4 @@
- 438	n64	pidfd_getfd			sys_pidfd_getfd
- 439	n64	watch_mount			sys_watch_mount
- 440	n64	watch_sb			sys_watch_sb
-+441	n64	fsinfo				sys_fsinfo
-diff --git a/arch/mips/kernel/syscalls/syscall_o32.tbl b/arch/mips/kernel/syscalls/syscall_o32.tbl
-index ce2e1326de8f..1a3e8ed5e538 100644
---- a/arch/mips/kernel/syscalls/syscall_o32.tbl
-+++ b/arch/mips/kernel/syscalls/syscall_o32.tbl
-@@ -427,3 +427,4 @@
- 438	o32	pidfd_getfd			sys_pidfd_getfd
- 439	o32	watch_mount			sys_watch_mount
- 440	o32	watch_sb			sys_watch_sb
-+441	o32	fsinfo				sys_fsinfo
-diff --git a/arch/parisc/kernel/syscalls/syscall.tbl b/arch/parisc/kernel/syscalls/syscall.tbl
-index 6e4a7c08b64b..2572c215d861 100644
---- a/arch/parisc/kernel/syscalls/syscall.tbl
-+++ b/arch/parisc/kernel/syscalls/syscall.tbl
-@@ -437,3 +437,4 @@
- 438	common	pidfd_getfd			sys_pidfd_getfd
- 439	common	watch_mount			sys_watch_mount
- 440	common	watch_sb			sys_watch_sb
-+441	common	fsinfo				sys_fsinfo
-diff --git a/arch/powerpc/kernel/syscalls/syscall.tbl b/arch/powerpc/kernel/syscalls/syscall.tbl
-index 08943f3b8206..39d7ac7e918c 100644
---- a/arch/powerpc/kernel/syscalls/syscall.tbl
-+++ b/arch/powerpc/kernel/syscalls/syscall.tbl
-@@ -521,3 +521,4 @@
- 438	common	pidfd_getfd			sys_pidfd_getfd
- 439	common	watch_mount			sys_watch_mount
- 440	common	watch_sb			sys_watch_sb
-+441	common	fsinfo				sys_fsinfo
-diff --git a/arch/s390/kernel/syscalls/syscall.tbl b/arch/s390/kernel/syscalls/syscall.tbl
-index b3b8529d2b74..ae4cefd3dd1b 100644
---- a/arch/s390/kernel/syscalls/syscall.tbl
-+++ b/arch/s390/kernel/syscalls/syscall.tbl
-@@ -442,3 +442,4 @@
- 438  common	pidfd_getfd		sys_pidfd_getfd			sys_pidfd_getfd
- 439	common	watch_mount		sys_watch_mount			sys_watch_mount
- 440	common	watch_sb		sys_watch_sb			sys_watch_sb
-+441  common	fsinfo			sys_fsinfo			sys_fsinfo
-diff --git a/arch/sh/kernel/syscalls/syscall.tbl b/arch/sh/kernel/syscalls/syscall.tbl
-index 89307a20657c..05945b9aee4b 100644
---- a/arch/sh/kernel/syscalls/syscall.tbl
-+++ b/arch/sh/kernel/syscalls/syscall.tbl
-@@ -442,3 +442,4 @@
- 438	common	pidfd_getfd			sys_pidfd_getfd
- 439	common	watch_mount			sys_watch_mount
- 440	common	watch_sb			sys_watch_sb
-+441	common	fsinfo				sys_fsinfo
-diff --git a/arch/sparc/kernel/syscalls/syscall.tbl b/arch/sparc/kernel/syscalls/syscall.tbl
-index 4ff841a00450..b71b34d4b45c 100644
---- a/arch/sparc/kernel/syscalls/syscall.tbl
-+++ b/arch/sparc/kernel/syscalls/syscall.tbl
-@@ -485,3 +485,4 @@
- 438	common	pidfd_getfd			sys_pidfd_getfd
- 439	common	watch_mount			sys_watch_mount
- 440	common	watch_sb			sys_watch_sb
-+441	common	fsinfo				sys_fsinfo
-diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
-index e2731d295f88..e118ba9aca4c 100644
---- a/arch/x86/entry/syscalls/syscall_32.tbl
-+++ b/arch/x86/entry/syscalls/syscall_32.tbl
-@@ -444,3 +444,4 @@
- 438	i386	pidfd_getfd		sys_pidfd_getfd			__ia32_sys_pidfd_getfd
- 439	i386	watch_mount		sys_watch_mount			__ia32_sys_watch_mount
- 440	i386	watch_sb		sys_watch_sb			__ia32_sys_watch_sb
-+441	i386	fsinfo			sys_fsinfo			__ia32_sys_fsinfo
-diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
-index f4391176102c..067f247471d0 100644
---- a/arch/x86/entry/syscalls/syscall_64.tbl
-+++ b/arch/x86/entry/syscalls/syscall_64.tbl
-@@ -361,6 +361,7 @@
- 438	common	pidfd_getfd		__x64_sys_pidfd_getfd
- 439	common	watch_mount		__x64_sys_watch_mount
- 440	common	watch_sb		__x64_sys_watch_sb
-+441	common	fsinfo			__x64_sys_fsinfo
- 
- #
- # x32-specific system call numbers start at 512 to avoid cache impact
-diff --git a/arch/xtensa/kernel/syscalls/syscall.tbl b/arch/xtensa/kernel/syscalls/syscall.tbl
-index 8e7d731ed6cf..e1ec25099d10 100644
---- a/arch/xtensa/kernel/syscalls/syscall.tbl
-+++ b/arch/xtensa/kernel/syscalls/syscall.tbl
-@@ -410,3 +410,4 @@
- 438	common	pidfd_getfd			sys_pidfd_getfd
- 439	common	watch_mount			sys_watch_mount
- 440	common	watch_sb			sys_watch_sb
-+441	common	fsinfo				sys_fsinfo
-diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-index c84440d57f52..76064c0807e5 100644
---- a/include/linux/syscalls.h
-+++ b/include/linux/syscalls.h
-@@ -47,6 +47,7 @@ struct stat64;
- struct statfs;
- struct statfs64;
- struct statx;
-+struct fsinfo_params;
- struct __sysctl_args;
- struct sysinfo;
- struct timespec;
-@@ -1007,6 +1008,9 @@ asmlinkage long sys_watch_mount(int dfd, const char __user *path,
- 				unsigned int at_flags, int watch_fd, int watch_id);
- asmlinkage long sys_watch_sb(int dfd, const char __user *path,
- 			     unsigned int at_flags, int watch_fd, int watch_id);
-+asmlinkage long sys_fsinfo(int dfd, const char __user *pathname,
-+			   struct fsinfo_params __user *params, size_t params_size,
-+			   void __user *result_buffer, size_t result_buf_size);
- 
- /*
-  * Architecture-specific system calls
-diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
-index 5bff318b7ffa..7d764f86d3f5 100644
---- a/include/uapi/asm-generic/unistd.h
-+++ b/include/uapi/asm-generic/unistd.h
-@@ -859,9 +859,11 @@ __SYSCALL(__NR_pidfd_getfd, sys_pidfd_getfd)
- __SYSCALL(__NR_watch_mount, sys_watch_mount)
- #define __NR_watch_sb 440
- __SYSCALL(__NR_watch_sb, sys_watch_sb)
-+#define __NR_fsinfo 441
-+__SYSCALL(__NR_fsinfo, sys_fsinfo)
- 
- #undef __NR_syscalls
--#define __NR_syscalls 441
-+#define __NR_syscalls 442
- 
- /*
-  * 32 bit systems traditionally used different
+This also adds a test case (which is only partially
+fixed so far, the rest of the fixes will follow
+soon).
+
+Two trivial comment fixes are also included.
+
+Bernd Edlinger (4):
+  exec: Fix a deadlock in ptrace
+  selftests/ptrace: add test cases for dead-locks
+  mm: docs: Fix a comment in process_vm_rw_core
+  kernel: doc: remove outdated comment in prepare_kernel_cred
+
+ kernel/cred.c                             |  2 -
+ kernel/fork.c                             |  4 +-
+ mm/process_vm_access.c                    |  2 +-
+ tools/testing/selftests/ptrace/Makefile   |  4 +-
+ tools/testing/selftests/ptrace/vmaccess.c | 86 +++++++++++++++++++++++++++++++
+ 5 files changed, 91 insertions(+), 7 deletions(-)
+ create mode 100644 tools/testing/selftests/ptrace/vmaccess.c
+
 -- 
-2.25.1
-
+1.9.1
