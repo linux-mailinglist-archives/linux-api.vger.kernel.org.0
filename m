@@ -2,27 +2,44 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 74826180201
-	for <lists+linux-api@lfdr.de>; Tue, 10 Mar 2020 16:38:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C7082180525
+	for <lists+linux-api@lfdr.de>; Tue, 10 Mar 2020 18:45:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726445AbgCJPiF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 10 Mar 2020 11:38:05 -0400
-Received: from out03.mta.xmission.com ([166.70.13.233]:44554 "EHLO
-        out03.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726380AbgCJPiF (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 10 Mar 2020 11:38:05 -0400
-Received: from in01.mta.xmission.com ([166.70.13.51])
-        by out03.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.90_1)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1jBgxE-0001AS-RF; Tue, 10 Mar 2020 09:38:00 -0600
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
-        by in01.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.87)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1jBgxD-0000sr-Jr; Tue, 10 Mar 2020 09:38:00 -0600
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     Bernd Edlinger <bernd.edlinger@hotmail.de>
+        id S1726466AbgCJRpD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 10 Mar 2020 13:45:03 -0400
+Received: from mail-oln040092073018.outbound.protection.outlook.com ([40.92.73.18]:53252
+        "EHLO EUR04-HE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726426AbgCJRpD (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 10 Mar 2020 13:45:03 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SiHAjlXN5qbXMDD/JfnNPl8ui7XjhtGKpAVhyYJg+ASIz3Q9Z/iHNjcuMCwgzIe2TuaaZbn92/HEh/ePqzt3hRrMiDbruaIk7k/XsmcfWn6YQfxlougYTTa4nHK4A20Op4jyTMEcfgcoI9fPm9/pZyY/Cjp0ELAOEZyQ332IHzuqS3UGjXwNmLgd8fGmfAGkHZnxF1l0q4eMLC7ZPZGzfCD5znnX2AZXVRK3rijSS+k2mQoDeTQsDOKQfkT+2WmeqAO1wP3wmjBeX87YJedusp13QX2c3yzNkLgcAAN/olKBOxGxSbeWKCRtzMqKDbdftpz9697WyxSdEVslY/+avg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nuaWEum7LK5Nl7cZXTekI4XxZLLAjLTVPkstbsytWsg=;
+ b=Q8CKrt+MYJx9SHeuqtOGC95NMar2ZZmlO9Ew49sY87GJzG5KCjy59dHbeWZjmeWgqdVmmu6D5Ol7x6HfvvzLFxC3plDwJ6SoMmYok/87GBfdhNegK33iwK92c3SiDndVFsQyf3jSL6Mmfy5JVDGOedDEh47NdxiMQuR9LtiwR/J8Zeup7Ck4Clc6lRwA2g7v0Iq2YhPE+sJytnphDFD8YYLiqupx9lYc8JPn13D+SSDZtwkewyidIKb94qHnydF4PjCBEdIWyQwPcjrmyJ5pMLhwr3PSpnvhZpAo+hbkhMJtWD9YbJcDenysp+pFIlPZfXMabj9sz6ENxY8V79PrtA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=hotmail.de; dmarc=pass action=none header.from=hotmail.de;
+ dkim=pass header.d=hotmail.de; arc=none
+Received: from VI1EUR04FT026.eop-eur04.prod.protection.outlook.com
+ (2a01:111:e400:7e0e::35) by
+ VI1EUR04HT216.eop-eur04.prod.protection.outlook.com (2a01:111:e400:7e0e::267)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.11; Tue, 10 Mar
+ 2020 17:44:59 +0000
+Received: from AM6PR03MB5170.eurprd03.prod.outlook.com (10.152.28.55) by
+ VI1EUR04FT026.mail.protection.outlook.com (10.152.28.127) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2793.11 via Frontend Transport; Tue, 10 Mar 2020 17:44:58 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:C66BBA9DCF3DEF17BD261EB77DD16B1009977AC6629A0E946531D39E32E4A8B2;UpperCasedChecksum:C8909EF579CC562BDB35BAF1EEE3308423F7F4F39EBDA1D2FC7571AEE4B7887C;SizeAsReceived:10297;Count:50
+Received: from AM6PR03MB5170.eurprd03.prod.outlook.com
+ ([fe80::1956:d274:cab3:b4dd]) by AM6PR03MB5170.eurprd03.prod.outlook.com
+ ([fe80::1956:d274:cab3:b4dd%6]) with mapi id 15.20.2793.013; Tue, 10 Mar 2020
+ 17:44:58 +0000
+From:   Bernd Edlinger <bernd.edlinger@hotmail.de>
+Subject: [PATCH 0/4] Use new infrastructure in more simple cases
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
 Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
         Kees Cook <keescook@chromium.org>,
         Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
@@ -34,7 +51,7 @@ Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
         Frederic Weisbecker <frederic@kernel.org>,
         Andrei Vagin <avagin@gmail.com>,
         Ingo Molnar <mingo@kernel.org>,
-        "Peter Zijlstra \(Intel\)" <peterz@infradead.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
         Yuyang Du <duyuyang@gmail.com>,
         David Hildenbrand <david@redhat.com>,
         Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
@@ -48,107 +65,85 @@ Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
         Andrea Arcangeli <aarcange@redhat.com>,
         Aleksa Sarai <cyphar@cyphar.com>,
         "Dmitry V. Levin" <ldv@altlinux.org>,
-        "linux-doc\@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel\@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm\@kvack.org" <linux-mm@kvack.org>,
-        "stable\@vger.kernel.org" <stable@vger.kernel.org>,
-        "linux-api\@vger.kernel.org" <linux-api@vger.kernel.org>
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
 References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87r1y8dqqz.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
-        <87v9ne5y4y.fsf_-_@x220.int.ebiederm.org>
-        <87zhcq4jdj.fsf_-_@x220.int.ebiederm.org>
-        <AM6PR03MB5170BC58D90BAD80CDEF3F8BE4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <878sk94eay.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB517086003BD2C32E199690A3E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87r1y12yc7.fsf@x220.int.ebiederm.org>
-        <87k13t2xpd.fsf@x220.int.ebiederm.org>
-        <87d09l2x5n.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB5170F0F9DC18F5EA77C9A857E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <871rq12vxu.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB5170DF45E3245F55B95CCD91E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <877dzt1fnf.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB51701C6F60699F99C5C67E0BE4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com>
-Date:   Tue, 10 Mar 2020 10:35:41 -0500
-In-Reply-To: <AM6PR03MB51701C6F60699F99C5C67E0BE4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        (Bernd Edlinger's message of "Tue, 10 Mar 2020 14:43:21 +0100")
-Message-ID: <875zfcxlwy.fsf@x220.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+ <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
+ <87v9ne5y4y.fsf_-_@x220.int.ebiederm.org>
+ <87zhcq4jdj.fsf_-_@x220.int.ebiederm.org>
+ <AM6PR03MB5170BC58D90BAD80CDEF3F8BE4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <878sk94eay.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB517086003BD2C32E199690A3E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87r1y12yc7.fsf@x220.int.ebiederm.org> <87k13t2xpd.fsf@x220.int.ebiederm.org>
+ <87d09l2x5n.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB5170F0F9DC18F5EA77C9A857E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <871rq12vxu.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB5170DF45E3245F55B95CCD91E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <877dzt1fnf.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB51701C6F60699F99C5C67E0BE4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <875zfcxlwy.fsf@x220.int.ebiederm.org>
+Message-ID: <AM6PR03MB51706494EF199E122CC041F7E4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+Date:   Tue, 10 Mar 2020 18:44:55 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+In-Reply-To: <875zfcxlwy.fsf@x220.int.ebiederm.org>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: ZR0P278CA0029.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:1c::16) To AM6PR03MB5170.eurprd03.prod.outlook.com
+ (2603:10a6:20b:ca::23)
+X-Microsoft-Original-Message-ID: <f0594757-fe9d-8351-3a15-014e4405ec22@hotmail.de>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1jBgxD-0000sr-Jr;;;mid=<875zfcxlwy.fsf@x220.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX18NOUXxtLcovq85kyfc0MbvMJLCG3mnAmU=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa07.xmission.com
-X-Spam-Level: **
-X-Spam-Status: No, score=2.0 required=8.0 tests=ALL_TRUSTED,BAYES_50,
-        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,XMNoVowels,XMSubLong
-        autolearn=disabled version=3.4.2
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.4887]
-        *  1.5 XMNoVowels Alpha-numberic number with no vowels
-        *  0.7 XMSubLong Long Subject
-        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
-        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-        *      [sa07 1397; Body=1 Fuz1=1 Fuz2=1]
-X-Spam-DCC: XMission; sa07 1397; Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: **;Bernd Edlinger <bernd.edlinger@hotmail.de>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 698 ms - load_scoreonly_sql: 0.05 (0.0%),
-        signal_user_changed: 6 (0.8%), b_tie_ro: 3.6 (0.5%), parse: 0.98
-        (0.1%), extract_message_metadata: 11 (1.5%), get_uri_detail_list: 0.89
-        (0.1%), tests_pri_-1000: 8 (1.2%), tests_pri_-950: 1.24 (0.2%),
-        tests_pri_-900: 1.05 (0.2%), tests_pri_-90: 32 (4.5%), check_bayes: 30
-        (4.2%), b_tokenize: 12 (1.7%), b_tok_get_all: 8 (1.1%), b_comp_prob:
-        3.6 (0.5%), b_tok_touch_all: 3.8 (0.5%), b_finish: 0.66 (0.1%),
-        tests_pri_0: 627 (89.8%), check_dkim_signature: 0.50 (0.1%),
-        check_dkim_adsp: 2.1 (0.3%), poll_dns_idle: 0.30 (0.0%), tests_pri_10:
-        2.0 (0.3%), tests_pri_500: 6 (0.8%), rewrite_mail: 0.00 (0.0%)
-Subject: Re: [PATCH 0/4] Use new infrastructure to fix deadlocks in execve
-X-Spam-Flag: No
-X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
-X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.101] (92.77.140.102) by ZR0P278CA0029.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:1c::16) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.17 via Frontend Transport; Tue, 10 Mar 2020 17:44:57 +0000
+X-Microsoft-Original-Message-ID: <f0594757-fe9d-8351-3a15-014e4405ec22@hotmail.de>
+X-TMN:  [7Oc0vrg7P6uiu2oSmedJe1YRpn2rdLIM]
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 50
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: 46783fac-8b56-4ade-3c8b-08d7c51ac071
+X-MS-TrafficTypeDiagnostic: VI1EUR04HT216:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dScJnprfhiGs+zwiR6Q8vhFisfXCU/4VIETMRLi7yBeETADvAFnElQZ+OAp+OFPPMB/nGuhfQN1sraJYboXfy04Q/w1tbBng/XS57EOiKeQ3I9toRnfLNcd/ZRk0ZJCEOAbt1yuGBGR95yVqcavgJ99BiSUobmxgYGD/g4DBY73XVy+2o9hZclDpyPttQClt
+X-MS-Exchange-AntiSpam-MessageData: zx7zqshi40iLJe5uMRi41B5/qxktXGuQWDGut7otpSDOKVcnKYmjgzOqFW2lOhUjB3WB81riMF7Okpjhnmu4kgYKHJ3WAnf4ScmSoxCnu+Xh3bCCMcX3n1io8+lVtloGSOWxkRiwoveVNEp49mprBw==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 46783fac-8b56-4ade-3c8b-08d7c51ac071
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2020 17:44:58.8690
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1EUR04HT216
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
+This continues the execve anti-deadlock patch and addresses all
+of the (mostly) simple cases, there the new exec_update_mutex
+can be used instead of the cred_guard_mutex.
 
-> This is a follow up on Eric's patch series to
-> fix the deadlocks observed with ptracing when execve
-> in multi-threaded applications.
->
-> This fixes the simple and most important case where
-> the cred_guard_mutex causes strace to deadlock.
->
-> This also adds a test case (which is only partially
-> fixed so far, the rest of the fixes will follow
-> soon).
->
-> Two trivial comment fixes are also included.
->
-> Bernd Edlinger (4):
->   exec: Fix a deadlock in ptrace
->   selftests/ptrace: add test cases for dead-locks
->   mm: docs: Fix a comment in process_vm_rw_core
->   kernel: doc: remove outdated comment in prepare_kernel_cred
->
->  kernel/cred.c                             |  2 -
->  kernel/fork.c                             |  4 +-
->  mm/process_vm_access.c                    |  2 +-
->  tools/testing/selftests/ptrace/Makefile   |  4 +-
->  tools/testing/selftests/ptrace/vmaccess.c | 86 +++++++++++++++++++++++++++++++
->  5 files changed, 91 insertions(+), 7 deletions(-)
->  create mode 100644 tools/testing/selftests/ptrace/vmaccess.c
+Note: each of these patches is independent of each other, so
+in case one of them turns out to be controversial, that does
+not affect the others.
 
-Applied.
+Bernd Edlinger (4):
+  kernel/kcmp.c: Use new infrastructure to fix deadlocks in execve
+  proc: Use new infrastructure to fix deadlocks in execve
+  proc: io_accounting: Use new infrastructure to fix deadlocks in execve
+  perf: Use new infrastructure to fix deadlocks in execve
 
-Thank you,
-Eric
+ fs/proc/base.c       | 10 +++++-----
+ kernel/events/core.c | 12 ++++++------
+ kernel/kcmp.c        |  8 ++++----
+ 3 files changed, 15 insertions(+), 15 deletions(-)
 
+-- 
+1.9.1
