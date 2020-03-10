@@ -2,49 +2,49 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 779C3180B5D
-	for <lists+linux-api@lfdr.de>; Tue, 10 Mar 2020 23:20:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9740D180B6D
+	for <lists+linux-api@lfdr.de>; Tue, 10 Mar 2020 23:24:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727728AbgCJWUO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 10 Mar 2020 18:20:14 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:45394 "EHLO
+        id S1726325AbgCJWYM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 10 Mar 2020 18:24:12 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:41068 "EHLO
         mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726283AbgCJWUO (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 10 Mar 2020 18:20:14 -0400
-Received: by mail-pl1-f193.google.com with SMTP id b22so76843pls.12;
-        Tue, 10 Mar 2020 15:20:12 -0700 (PDT)
+        with ESMTP id S1726315AbgCJWYM (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 10 Mar 2020 18:24:12 -0400
+Received: by mail-pl1-f193.google.com with SMTP id t14so89181plr.8;
+        Tue, 10 Mar 2020 15:24:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=LlDN/MK7CrxZu9xb4dnw85pho74h/DS1WZaWMDoSgwE=;
-        b=IaoscK++5rxK6qZ2/FHYQ6nlJ6PK373ITCG+4MIjR6b15wJKYDBiHrpkrvwKiIrzcy
-         jd5i7Tv56A+3iwRKTMn7g4jblcSKBPJAYEjpnozxVOHgKcOKJx/DlXW9wYRd2TX+XL/o
-         0BmjZ50iKsYDbGKlkUjW+mFNLLGW6XhVuroGLEdD8AcZeoPyL91qMUPU9wsCx2un4I6L
-         GkT4zzZusm6zZNGr2OzV0wj5DP0+7TQA8mBCz5RyLzlCpax2XlXZ3uP7e6jad6JYwEtq
-         njH+ZWG7B2AdxVjsWtt/FwvOS8HppVFclHmEo0912X0l1K1MDKr9Y6ho8dkyYIvxnX6d
-         90Tg==
+        bh=VHQdCYc7HG4lQiYGqYUT5UP51+C0gUPiE/s2rIkKRtU=;
+        b=KkWPHp8FUpWnyRN0umq7ZqUU6jx3hk5cpOiUL4uPzrawKLv6TEL2yRPitkww/xZ7ya
+         XOqwqFZQsUEJKkK9U20KiQTHiu14dxVnrL5+EOQzVZSz7hs4StJIAXm3kZxcD9RmNGNM
+         emB5EPlE9QfM63BvIiGnpUSAhQrvLunoPAx/lobQa872nLgOuNWUbPUy+Q5Jjhwr/p5n
+         D/xRRguId/b38RtD6CE8iZYcd4wFGQHNxmkw98D+feGYjCGUmbc1CZf558wu+g47zvNu
+         NfS+KuzM9qvdrLwUlx4Vu+cZ9QOUraHCYo+HIc/IDhoNFUxm2SmtLEbSOIvA5KAuaFR/
+         fPuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
          :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=LlDN/MK7CrxZu9xb4dnw85pho74h/DS1WZaWMDoSgwE=;
-        b=Qdp//UsjJKj4ypX2jdnBwK4K792cytA+D41F+Z7GXhpr7yzx2K3Cd/xje7rS2kEKcn
-         Byp4RP1Jm/NeYHbQYITo6ZxLRvdYoVSJp7qu/qTO9Djoi5BwjpJewdUWBP4C+A2wXc6h
-         ep23QgmuZv2yI6lJQvP7gQ0YdnCkLibpvlTmqO0HOv0Z0qKP2LiPm+xe01DdBPcHIBuA
-         6oCH6ZhzCyYvJjk0DCqYOF2vbZQbjXHarsXz6YBz5K8CimO8mbjvW/DkLQNfiEride+K
-         1VCJpfkFBXiSfNe4gfJNstMx/sI8IJlXVmC3jsRtlyhUaoRt0bw1Udr5elEwrENg6Gxs
-         WdKg==
-X-Gm-Message-State: ANhLgQ2FYdD0zi/1vLoEK7jWyuKDHJENINLIxq1XzbRJ53W3TIZ6yfGP
-        kG9wQ88qPh/duv4yAnSJ/QQ=
-X-Google-Smtp-Source: ADFU+vvk7+aqoNwobpRPQ+qRO3uj21tL5kgPUV7bKpFjuK4mVlX7rv3TJgflg2/ize2FmWV5IX7W0g==
-X-Received: by 2002:a17:902:528:: with SMTP id 37mr123615plf.322.1583878811879;
-        Tue, 10 Mar 2020 15:20:11 -0700 (PDT)
+        bh=VHQdCYc7HG4lQiYGqYUT5UP51+C0gUPiE/s2rIkKRtU=;
+        b=rwdOuIxuxPQbCRUre7Qm9GCkAlKPVl/ogjRPU0EeOh0idB8C6x6J6rZZaznijHWvU5
+         7d4o5/ks17ws98hjEs8ZCXCafU68G6N9jm3eB4PYIpgZl9X4fvaqDRz4dJVArvcmf/rh
+         8uBbYdWXtKFOjDuOJgJy5wOouW5UxrspldTKKj3yB0B9D/7cDeHX0G3FTC+R+mXGoMqM
+         rhnOldC9e4RopfErI6ZZwDCPEWU6ffU/zHGIq8q4AshokearX9AJhH9qa8G2O3VTb7qp
+         x0O8vl15AaEa1KbpjoxlTMiexjHbiqbUdvI+H0ThrJ5ijGyqMnPIKKMXwd4BkD9kczBq
+         UWmg==
+X-Gm-Message-State: ANhLgQ1RfoYukXk9TfxVou9d9P40CT6vxxunOJgrM0yG7oAzfNszv0b5
+        dqcpplyAsxQPfvpQ+Zb5lvc=
+X-Google-Smtp-Source: ADFU+vscvd0WY2fsGo8nNRttNgBNSpAdv2WUgdhACEYKmMYI3pA4z6251Yz9qfEoSYIvhhu71/jlYg==
+X-Received: by 2002:a17:90a:2ec7:: with SMTP id h7mr138998pjs.107.1583879051429;
+        Tue, 10 Mar 2020 15:24:11 -0700 (PDT)
 Received: from google.com ([2620:15c:211:1:3e01:2939:5992:52da])
-        by smtp.gmail.com with ESMTPSA id h24sm7528231pfn.49.2020.03.10.15.20.10
+        by smtp.gmail.com with ESMTPSA id 139sm25480434pfy.70.2020.03.10.15.24.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2020 15:20:10 -0700 (PDT)
-Date:   Tue, 10 Mar 2020 15:20:08 -0700
+        Tue, 10 Mar 2020 15:24:10 -0700 (PDT)
+Date:   Tue, 10 Mar 2020 15:24:08 -0700
 From:   Minchan Kim <minchan@kernel.org>
 To:     Vlastimil Babka <vbabka@suse.cz>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
@@ -63,67 +63,64 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Joel Fernandes <joel@joelfernandes.org>,
         Jann Horn <jannh@google.com>,
         alexander.h.duyck@linux.intel.com, sj38.park@gmail.com
-Subject: Re: [PATCH v7 2/7] mm: introduce external memory hinting API
-Message-ID: <20200310222008.GB72963@google.com>
+Subject: Re: [PATCH v7 3/7] mm: check fatal signal pending of target process
+Message-ID: <20200310222408.GC72963@google.com>
 References: <20200302193630.68771-1-minchan@kernel.org>
- <20200302193630.68771-3-minchan@kernel.org>
- <bc3f6bd5-f032-bcf5-a09f-556ab785c587@suse.cz>
+ <20200302193630.68771-4-minchan@kernel.org>
+ <2f3a9530-483d-0861-3844-bc12d212dd93@suse.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <bc3f6bd5-f032-bcf5-a09f-556ab785c587@suse.cz>
+In-Reply-To: <2f3a9530-483d-0861-3844-bc12d212dd93@suse.cz>
 User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Mar 05, 2020 at 07:15:10PM +0100, Vlastimil Babka wrote:
+On Fri, Mar 06, 2020 at 11:22:07AM +0100, Vlastimil Babka wrote:
 > On 3/2/20 8:36 PM, Minchan Kim wrote:
-> > There is usecase that System Management Software(SMS) want to give
-> > a memory hint like MADV_[COLD|PAGEEOUT] to other processes and
-> > in the case of Android, it is the ActivityManagerService.
-> > 
-> > It's similar in spirit to madvise(MADV_WONTNEED), but the information
-> 
-> You mean MADV_DONTNEED?
-
-Mean to DONT_NEED's future version.
-
-> 
-> > required to make the reclaim decision is not known to the app.
-> 
-> This seems to be mixing up the differences between MADV_DONTNEED and
-> COLD/PAGEOUT and self-imposed vs external memory hints?
-
-Sorry, I don't understand what you want here.
-
-> 
-> > Instead,
-> > it is known to the centralized userspace daemon(ActivityManagerService),
-> > and that daemon must be able to initiate reclaim on its own without
-> > any app involvement.
-> > 
-> > To solve the issue, this patch introduces a new syscall process_madvise(2).
-> > It uses pidfd of an external process to give the hint.
-> > 
-> >  int process_madvise(int pidfd, void *addr, size_t length, int advise,
-> > 			unsigned long flag);
-> 
-> It's more common to call the argument 'flags' not 'flag'? The code seems to call
-> it flags. Also in line with madvise(2), the 'advise' argument should rather be
-> 'advice'. This is more important for the manpage, but let's be consistent.
-
-Yub, I will send the patch along with your comment in previous patch.
-
-> 
-> ...
-> 
+> > Bail out to prevent unnecessary CPU overhead if target process has
+> > pending fatal signal during (MADV_COLD|MADV_PAGEOUT) operation.
 > > 
 > > Reviewed-by: Suren Baghdasaryan <surenb@google.com>
 > > Signed-off-by: Minchan Kim <minchan@kernel.org>
 > 
-> For the core parts,
 > Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
+> 
+> Nit below:
+> 
+> > ---
+> >  mm/madvise.c | 29 +++++++++++++++++++++--------
+> >  1 file changed, 21 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/mm/madvise.c b/mm/madvise.c
+> > index 349473fc6683..6543f2bfc3d8 100644
+> > --- a/mm/madvise.c
+> > +++ b/mm/madvise.c
+> > @@ -36,6 +36,7 @@
+> >  struct madvise_walk_private {
+> >  	struct mmu_gather *tlb;
+> >  	bool pageout;
+> > +	struct task_struct *target_task;
+> >  };
+> >  
+> >  /*
+> > @@ -316,6 +317,10 @@ static int madvise_cold_or_pageout_pte_range(pmd_t *pmd,
+> >  	if (fatal_signal_pending(current))
+> >  		return -EINTR;
+> >  
+> > +	if (private->target_task &&
+> > +			fatal_signal_pending(private->target_task))
+> > +		return -EINTR;
+> 
+> With madvise(2) private->target_task will be current, thus current will be
+> tested twice. Not wrong, but maybe add a "private->target_task != current"
+> condition?
 
-Thanks for the review!
+It was in old series but removed because reviewer(IIRC, suren) wanted it.
+I am not strong preference either way. Since you said it's nit and
+considering other reviewer wanted to remove it, I will not change
+further.
+
+Thanks!
