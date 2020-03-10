@@ -2,50 +2,50 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D6F511808EC
-	for <lists+linux-api@lfdr.de>; Tue, 10 Mar 2020 21:16:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A359A1808FC
+	for <lists+linux-api@lfdr.de>; Tue, 10 Mar 2020 21:18:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727550AbgCJUQd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 10 Mar 2020 16:16:33 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:33814 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727124AbgCJUQc (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 10 Mar 2020 16:16:32 -0400
-Received: by mail-pf1-f194.google.com with SMTP id 23so5224628pfj.1
-        for <linux-api@vger.kernel.org>; Tue, 10 Mar 2020 13:16:32 -0700 (PDT)
+        id S1726283AbgCJUSD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 10 Mar 2020 16:18:03 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:44788 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726426AbgCJUSA (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 10 Mar 2020 16:18:00 -0400
+Received: by mail-pf1-f196.google.com with SMTP id b72so3455895pfb.11
+        for <linux-api@vger.kernel.org>; Tue, 10 Mar 2020 13:17:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=DUOjVP5Gbs/kqvClABR44FE8+xg+AgbM19bKNtAY6RM=;
-        b=J4M0uyN8yr+WE91/EnStnaXtqW7/nhowSFEP7427vQyPhmyVseK/RtuSzWChg/C9Hr
-         zZ+zMYnkWIePFvXZqr08Bgtu6LZxyciu3wJk6FDiKEN2gAr2hr9x1d1z8YndRb7xny59
-         LIF8JAG0apaOV2Wrk6HcAMaxdWObISAFLKEGM=
+        bh=RKigTXtTZ1YImDJinI4wU2TyC7WQeMLqFQfSK2SiClo=;
+        b=i6PwcH1Y6dzAld5+0ItdFH0DNwVNQDvVoI3rFkpU5glNp7p1gPAzHwUVGup1Aj6YPT
+         mm52T1lUrybAlYpwBILDBxSuJksLBuWK9y1KWBhigTnvRKG8n9iDhSzGEkU4ueiYuSvY
+         EiCKda6MTerB6wqJNRGHCZxbLU3xNZ5OT1LFY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=DUOjVP5Gbs/kqvClABR44FE8+xg+AgbM19bKNtAY6RM=;
-        b=ETylwflEVHt84sZExgkI6eZN5zXHm5iJsYixxQsI74NwC7kDva2W230i6lwJzYz6yU
-         9jv07+XuNJ/mRKWfALVFL7N4LuWrzEPPMNMWw2fYrYAYq8Se3aJDimiEVK8KkBdtyTUP
-         ZWt3Kg6ensJkqhgC7CkRge2Xd44XeiWFsGIii27/MsO7jeu7dAd+qgsqoYL3rG6u/622
-         YHems3inax0hUfXzZ1lsb8QpChV2zSqciyaGHBTmXgAjmMImh59lvahTPzGLnkoshx9Z
-         BFkTSYEg7NSzJ6yrNhncGBxYFwoq5TkaZpZQJ0wjC1VDZoc05DFBEqyD3Dg/ZJ5OtdYi
-         HMRg==
-X-Gm-Message-State: ANhLgQ3IyIaW1HBXQybRAxhMoeGgBJaY7K+DDz31+3sYTTNItBdRqIqe
-        qVIgoMPFfG7tTGSjJvlMMjABgQ==
-X-Google-Smtp-Source: ADFU+vsvmkmyViYLeWPBKmK8uPBvLdmLN608raLFS0mCOwqgEfnZb/AeMfnBRwxnwZ3Ngq2HL/ZZcg==
-X-Received: by 2002:a63:2882:: with SMTP id o124mr6655825pgo.390.1583871391628;
-        Tue, 10 Mar 2020 13:16:31 -0700 (PDT)
+        bh=RKigTXtTZ1YImDJinI4wU2TyC7WQeMLqFQfSK2SiClo=;
+        b=D1Ygp775Dx2SkmrVPRn2L7sV0Gp8WJQ+gEgfSoJ6QHLuftI48tNJWv54n79IPU1n78
+         x/r+F6sKz7rJtYBgKxzmg3OqaCzFGUjqNaZM67jWnr2gH/0D/SOy6e0sqzLycEP7CvZI
+         VUkSmBUZtFmkquQvzhm3XUHfll59sfcqyZTgH5sOvAF3uRhm6LIHdKQFaZ6R9tFXve41
+         KyhycjJAPoMg2LzLlztk5DYbKgwi0vD2pxW3+FIdLN+ok6q1ZbKxI0fZ30C/ayfmHFGx
+         akZysg+iL2EuJdiXRXznPIJEDUkIfP8LNBixKtEvk3w/4AfsCW3Se0I4DptqtUePpOS/
+         xWcg==
+X-Gm-Message-State: ANhLgQ3qYHhsnNVndl3GG5H30wWGza3YwT+Wf0LaG9eDKzxNR7msK+kJ
+        D4At6Foq6hvG3rOnCFibzatEVA==
+X-Google-Smtp-Source: ADFU+vt2t4dqM/StQkYgOOR3czOMhuaGQySe+8w6u+0IAx0TkUIOlTLogaEjfIx9xPXJuWMsrEQx6g==
+X-Received: by 2002:a65:5383:: with SMTP id x3mr22185221pgq.279.1583871478687;
+        Tue, 10 Mar 2020 13:17:58 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id n9sm45162722pfq.160.2020.03.10.13.16.30
+        by smtp.gmail.com with ESMTPSA id 199sm51876404pfv.81.2020.03.10.13.17.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2020 13:16:30 -0700 (PDT)
-Date:   Tue, 10 Mar 2020 13:16:29 -0700
+        Tue, 10 Mar 2020 13:17:57 -0700 (PDT)
+Date:   Tue, 10 Mar 2020 13:17:56 -0700
 From:   Kees Cook <keescook@chromium.org>
 To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
-        Bernd Edlinger <bernd.edlinger@hotmail.de>,
+Cc:     Bernd Edlinger <bernd.edlinger@hotmail.de>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
         Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
         Alexander Viro <viro@zeniv.linux.org.uk>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -75,45 +75,92 @@ Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
         "linux-mm@kvack.org" <linux-mm@kvack.org>,
         "stable@vger.kernel.org" <stable@vger.kernel.org>,
         "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
-Subject: Re: [PATCH v2 3/5] exec: Move cleanup of posix timers on exec out of
- de_thread
-Message-ID: <202003101313.CF8CBDC582@keescook>
-References: <87r1y8dqqz.fsf@x220.int.ebiederm.org>
+Subject: Re: [PATCH v2 1/5] exec: Only compute current once in flush_old_exec
+Message-ID: <202003101317.20BD018D9@keescook>
+References: <87v9nlii0b.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB5170609D44967E044FD1BE40E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87a74xi4kz.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB51705AA3009B4986BB6EF92FE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87r1y8dqqz.fsf@x220.int.ebiederm.org>
  <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
  <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
  <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
  <87v9ne5y4y.fsf_-_@x220.int.ebiederm.org>
- <87eeu25y14.fsf_-_@x220.int.ebiederm.org>
- <20200309195909.h2lv5uawce5wgryx@wittgenstein>
- <877dztz415.fsf@x220.int.ebiederm.org>
- <20200309201729.yk5sd26v4bz4gtou@wittgenstein>
- <87k13txnig.fsf@x220.int.ebiederm.org>
+ <87pndm5y3l.fsf_-_@x220.int.ebiederm.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87k13txnig.fsf@x220.int.ebiederm.org>
+In-Reply-To: <87pndm5y3l.fsf_-_@x220.int.ebiederm.org>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Mar 09, 2020 at 03:48:55PM -0500, Eric W. Biederman wrote:
-> And I completely agree that we should at least rename tsk to me.
-> Just for clarity.
+On Sun, Mar 08, 2020 at 04:35:26PM -0500, Eric W. Biederman wrote:
+> 
+> Make it clear that current only needs to be computed once in
+> flush_old_exec.  This may have some efficiency improvements and it
+> makes the code easier to change.
+> 
+> Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
 
-I think it wouldn't hurt to add comments to spell it out explicitly
-in each of the tsk->me functions, something like:
+modulo my suggestion of adding more comments (it could even be kerndoc!)
+that explicitly states that "me" should always be "current", yup, looks
+good:
 
-/*
- * The "me" task_struct argument here must only ever refer to "current",
- * but it gets passed in to avoid re-calculating "current" in each helper.
- */
-
-I've found that the exec code in its entirety would be better off with
-more comments. :) Usually that's the bulk of what I find myself adding
-when I make changes in this area. ;)
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
 -Kees
+
+> ---
+>  fs/exec.c | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+> 
+> diff --git a/fs/exec.c b/fs/exec.c
+> index db17be51b112..c3f34791f2f0 100644
+> --- a/fs/exec.c
+> +++ b/fs/exec.c
+> @@ -1260,13 +1260,14 @@ void __set_task_comm(struct task_struct *tsk, const char *buf, bool exec)
+>   */
+>  int flush_old_exec(struct linux_binprm * bprm)
+>  {
+> +	struct task_struct *me = current;
+>  	int retval;
+>  
+>  	/*
+>  	 * Make sure we have a private signal table and that
+>  	 * we are unassociated from the previous thread group.
+>  	 */
+> -	retval = de_thread(current);
+> +	retval = de_thread(me);
+>  	if (retval)
+>  		goto out;
+>  
+> @@ -1294,10 +1295,10 @@ int flush_old_exec(struct linux_binprm * bprm)
+>  	bprm->mm = NULL;
+>  
+>  	set_fs(USER_DS);
+> -	current->flags &= ~(PF_RANDOMIZE | PF_FORKNOEXEC | PF_KTHREAD |
+> +	me->flags &= ~(PF_RANDOMIZE | PF_FORKNOEXEC | PF_KTHREAD |
+>  					PF_NOFREEZE | PF_NO_SETAFFINITY);
+>  	flush_thread();
+> -	current->personality &= ~bprm->per_clear;
+> +	me->personality &= ~bprm->per_clear;
+>  
+>  	/*
+>  	 * We have to apply CLOEXEC before we change whether the process is
+> @@ -1305,7 +1306,7 @@ int flush_old_exec(struct linux_binprm * bprm)
+>  	 * trying to access the should-be-closed file descriptors of a process
+>  	 * undergoing exec(2).
+>  	 */
+> -	do_close_on_exec(current->files);
+> +	do_close_on_exec(me->files);
+>  	return 0;
+>  
+>  out:
+> -- 
+> 2.25.0
+> 
 
 -- 
 Kees Cook
