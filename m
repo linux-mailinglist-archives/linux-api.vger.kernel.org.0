@@ -2,44 +2,44 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DEC21808A8
-	for <lists+linux-api@lfdr.de>; Tue, 10 Mar 2020 21:00:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 572241808D5
+	for <lists+linux-api@lfdr.de>; Tue, 10 Mar 2020 21:11:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727386AbgCJUAz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 10 Mar 2020 16:00:55 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:36778 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727206AbgCJUAz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 10 Mar 2020 16:00:55 -0400
-Received: by mail-ot1-f68.google.com with SMTP id j14so14475626otq.3
-        for <linux-api@vger.kernel.org>; Tue, 10 Mar 2020 13:00:54 -0700 (PDT)
+        id S1727311AbgCJUL1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 10 Mar 2020 16:11:27 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:44224 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727124AbgCJUL1 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 10 Mar 2020 16:11:27 -0400
+Received: by mail-oi1-f195.google.com with SMTP id d62so15229260oia.11
+        for <linux-api@vger.kernel.org>; Tue, 10 Mar 2020 13:11:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=zIAAqBT5cH5cbbW3GFto6v7mD8pF39ecAMkC8oTgutI=;
-        b=lToTywfF6/WNafCRISYFb5qIPhLOZD7H3m7K11tcVGoSy0sDMKZ5AOMrdtIh1Zcm+N
-         FsSDckkbtI4yqMRWo5Fjqdg64HXXgblPk8H7PM2B/BLCmb4xHoUig7plVH7TGc1gK2Cr
-         kNb3g6Is4ZWWVGTXV2n1kZH9gibgqCnEAvqkgY/U8QdWJYyuzGJ5/NKmku3+6X9qrx4w
-         ahi9XPBSsYLPDacA5iChtNW4lQKX1M3pK4Y+gCGh2NS8fv2rmtdk2F6Wa83/mGUwm7si
-         i9wYysP5fygg3ep0iX3jaDt/BGsNFKQNDX1evsDSMAIoQCH29ffsppjtETxuQHNKCs5q
-         BGiw==
+        bh=K3vOtJHo8wa+L0rub3QWCJZcPdNt+IghtsNXVMZnf9o=;
+        b=m/uY0trWMAr4FqVX9i9CSnmjQPURPHBOvx6pe5fEMWJ/e5Tk2vaRLevTLCVkqDclV/
+         9U8dYbHfSmT1VryWEJSOssyM6R8QAQdwr6JjSl1yllVynLdhE+EqANllz3GJD9T5HKJx
+         5o1mk82fLBEMHb75zYy13h8oqLlVg+LksCTipqO4JL4jJKJTlWmW0OpW3rTbODkp5lQD
+         o6zv+ZZn4FMnxGec2LxSQUD3vMa8YdhAk6f9V4RcuRPJetmizxPCHUgu3hzhD81e8CVo
+         Qx3HgSr4qFdSi9ME0sT7JSnsZUpOvPvCvsVRKmVC565oSKAhwb9Ar6hsa+h/gil57td2
+         EUFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=zIAAqBT5cH5cbbW3GFto6v7mD8pF39ecAMkC8oTgutI=;
-        b=kVPxJ8YNjpJ4z73jdwyQoNSQlggZvfolLoEuf++x9ZOS9YTaew370p1rgm6ZKpM+Ur
-         +CXrJzsuJjED4ZwSy7RZg90F37wV2KTCtsxbFVBWWzzQ4pQzab7g+DkbUOHoeLV9n4pR
-         5bdhnEnxREsfw1/55P3jZ2rJuhBaiJCVaRw1o0woQO/wxrJhGQ1IsT+uE/sKFlMBif0d
-         y5rwKnvV95PelRLZibNsVi4ZZPO+6UOKtx3CE51QzAB8gJPsp5tu1OpHze784ValluVi
-         eDzrJ7TTM/HBzEYv9CjNcX8UVzvq27tBwZWABjJbFqR9LJj1+BI7UAzP+p3Y80WkYe3v
-         dsdg==
-X-Gm-Message-State: ANhLgQ3PxM7gbbRpYQp7SobwFchSnJ7JOBML7QQIhV3QL7iURQXx1DB6
-        caKMldvTWwqcvy+nDkniqjQYDaicZ2cINvPKllx2lA==
-X-Google-Smtp-Source: ADFU+vtcsmeizoaiKSlTHolQlrAnABBwhEpSV9VVyJB0PvpgO9H1QULcgU81RJuwJLNtl9eG+n2+fGb/mXJ4ROrh4fc=
-X-Received: by 2002:a05:6830:1d6e:: with SMTP id l14mr17776467oti.32.1583870453922;
- Tue, 10 Mar 2020 13:00:53 -0700 (PDT)
+        bh=K3vOtJHo8wa+L0rub3QWCJZcPdNt+IghtsNXVMZnf9o=;
+        b=LXsJRclCVjgY/zc+NzzV1y2T2+F8ApTgRzXAJXpQo+oe7FRi9QmZ4DTOSAHAXbwWUs
+         h6GZAhohlw2gkDRWqy7WUK8bjOnWPNDqfQfhAN13xw52SeMqOT/YUkKC58dH/sMxzhgO
+         jiqMBbIVhRj+gZVXH1Js71VOu69LLHTXbc5u1ALlPnnFFiAVnVCWf/DnLyDIDXzLTI9R
+         ZFxwzqlBTmIZkq+7vXJ2/F0kY1Ft+y+D9dzAah5g/r6mn+OjDFbahKH7GHInecLYyBEB
+         UzijhI6PatGRI6UtOo2J3bOxFgMsye+SmiRyk9uRubGsah9k0tBbeZ9HPTMM1qdBfTUN
+         oHng==
+X-Gm-Message-State: ANhLgQ0UwREUp9/lnyQgf3VOhrZjW2t4A9b8DDdZVlkfuTjPqnV+jGnS
+        4scOwBmhm4nws4LbD7ZyZO5tD/3hC9tYY3NSZr6MKQ==
+X-Google-Smtp-Source: ADFU+vvZVc2KY+6w3Oc3P2SV7qOVRFP8YKpYN4giT8uBe7Bxf6wvbyMTpIifKCNOOu6O6nioDLX4rtyrr5xoVXiS41s=
+X-Received: by 2002:aca:bac1:: with SMTP id k184mr2032952oif.157.1583871086051;
+ Tue, 10 Mar 2020 13:11:26 -0700 (PDT)
 MIME-Version: 1.0
 References: <87r1y8dqqz.fsf@x220.int.ebiederm.org> <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
  <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
@@ -48,11 +48,11 @@ References: <87r1y8dqqz.fsf@x220.int.ebiederm.org> <AM6PR03MB517053AED7DC89F7C07
  <877dztz415.fsf@x220.int.ebiederm.org> <20200309201729.yk5sd26v4bz4gtou@wittgenstein>
  <87k13txnig.fsf@x220.int.ebiederm.org> <20200310085540.pztaty2mj62xt2nm@wittgenstein>
  <87wo7svy96.fsf_-_@x220.int.ebiederm.org> <CAG48ez2cUZMVOAXfHPNjKjYsMSaWkjUjOCHo0KYZ+oXQUW4viA@mail.gmail.com>
- <87k13sui1p.fsf@x220.int.ebiederm.org>
-In-Reply-To: <87k13sui1p.fsf@x220.int.ebiederm.org>
+ <87k13sui1p.fsf@x220.int.ebiederm.org> <CAG48ez2vRgaEVJ=Rs8gn6HkGO6syL8MpSOUq7BNN+OUE1uYxCA@mail.gmail.com>
+In-Reply-To: <CAG48ez2vRgaEVJ=Rs8gn6HkGO6syL8MpSOUq7BNN+OUE1uYxCA@mail.gmail.com>
 From:   Jann Horn <jannh@google.com>
-Date:   Tue, 10 Mar 2020 21:00:27 +0100
-Message-ID: <CAG48ez2vRgaEVJ=Rs8gn6HkGO6syL8MpSOUq7BNN+OUE1uYxCA@mail.gmail.com>
+Date:   Tue, 10 Mar 2020 21:10:59 +0100
+Message-ID: <CAG48ez1LjW1xAGe-5tNtstCWxG2bkiHaQUMOcJNjx=z-2Wc2Jw@mail.gmail.com>
 Subject: Re: [PATCH] pidfd: Stop taking cred_guard_mutex
 To:     "Eric W. Biederman" <ebiederm@xmission.com>
 Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
@@ -95,92 +95,39 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Mar 10, 2020 at 8:29 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
-> Jann Horn <jannh@google.com> writes:
-> > On Tue, Mar 10, 2020 at 7:54 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
-> >> During exec some file descriptors are closed and the files struct is
-> >> unshared.  But all of that can happen at other times and it has the
-> >> same protections during exec as at ordinary times.  So stop taking the
-> >> cred_guard_mutex as it is useless.
-> >>
-> >> Furthermore he cred_guard_mutex is a bad idea because it is deadlock
-> >> prone, as it is held in serveral while waiting possibly indefinitely
-> >> for userspace to do something.
+On Tue, Mar 10, 2020 at 9:00 PM Jann Horn <jannh@google.com> wrote:
+> On Tue, Mar 10, 2020 at 8:29 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
+> > Jann Horn <jannh@google.com> writes:
+> > > On Tue, Mar 10, 2020 at 7:54 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
+> > >> During exec some file descriptors are closed and the files struct is
+> > >> unshared.  But all of that can happen at other times and it has the
+> > >> same protections during exec as at ordinary times.  So stop taking the
+> > >> cred_guard_mutex as it is useless.
+> > >>
+> > >> Furthermore he cred_guard_mutex is a bad idea because it is deadlock
+> > >> prone, as it is held in serveral while waiting possibly indefinitely
+> > >> for userspace to do something.
+[...]
+> > > If you make this change, then if this races with execution of a setuid
+> > > program that afterwards e.g. opens a unix domain socket, an attacker
+> > > will be able to steal that socket and inject messages into
+> > > communication with things like DBus. procfs currently has the same
+> > > race, and that still needs to be fixed, but at least procfs doesn't
+> > > let you open things like sockets because they don't have a working
+> > > ->open handler, and it enforces the normal permission check for
+> > > opening files.
 > >
-> > Please don't. Just use the new exec_update_mutex like everywhere else.
-> >
-> >> Cc: Sargun Dhillon <sargun@sargun.me>
-> >> Cc: Christian Brauner <christian.brauner@ubuntu.com>
-> >> Cc: Arnd Bergmann <arnd@arndb.de>
-> >> Fixes: 8649c322f75c ("pid: Implement pidfd_getfd syscall")
-> >> Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
-> >> ---
-> >>  kernel/pid.c | 6 ------
-> >>  1 file changed, 6 deletions(-)
-> >>
-> >> Christian if you don't have any objections I will take this one through
-> >> my tree.
-> >>
-> >> I tried to figure out why this code path takes the cred_guard_mutex and
-> >> the archive on lore.kernel.org was not helpful in finding that part of
-> >> the conversation.
-> >
-> > That was my suggestion.
-> >
-> >> diff --git a/kernel/pid.c b/kernel/pid.c
-> >> index 60820e72634c..53646d5616d2 100644
-> >> --- a/kernel/pid.c
-> >> +++ b/kernel/pid.c
-> >> @@ -577,17 +577,11 @@ static struct file *__pidfd_fget(struct task_struct *task, int fd)
-> >>         struct file *file;
-> >>         int ret;
-> >>
-> >> -       ret = mutex_lock_killable(&task->signal->cred_guard_mutex);
-> >> -       if (ret)
-> >> -               return ERR_PTR(ret);
-> >> -
-> >>         if (ptrace_may_access(task, PTRACE_MODE_ATTACH_REALCREDS))
-> >>                 file = fget_task(task, fd);
-> >>         else
-> >>                 file = ERR_PTR(-EPERM);
-> >>
-> >> -       mutex_unlock(&task->signal->cred_guard_mutex);
-> >> -
-> >>         return file ?: ERR_PTR(-EBADF);
-> >>  }
-> >
-> > If you make this change, then if this races with execution of a setuid
-> > program that afterwards e.g. opens a unix domain socket, an attacker
-> > will be able to steal that socket and inject messages into
-> > communication with things like DBus. procfs currently has the same
-> > race, and that still needs to be fixed, but at least procfs doesn't
-> > let you open things like sockets because they don't have a working
-> > ->open handler, and it enforces the normal permission check for
-> > opening files.
+> > It isn't only exec that can change credentials.  Do we need a lock for
+> > changing credentials?
+[...]
+> > If we need a lock around credential change let's design and build that.
+> > Having a mismatch between what a lock is designed to do, and what
+> > people use it for can only result in other bugs as people get confused.
 >
-> It isn't only exec that can change credentials.  Do we need a lock for
-> changing credentials?
+> Hmm... what benefits do we get from making it a separate lock? I guess
+> it would allow us to make it a per-task lock instead of a
+> signal_struct-wide one? That might be helpful...
 
-Hmm, I guess so? Normally, a task that's changing credentials becomes
-nondumpable at the same time (and there are explicit memory barriers
-in commit_creds() and __ptrace_may_access() to enforce the ordering
-for this); so you normally don't see tasks becoming ptrace-accessible
-via anything other than execve(). But I guess if someone opens a
-root-only file, closes it, drops privileges, and then explicitly does
-prctl(PR_SET_DUMPABLE, 1), we should probably protect that, too.
-
-> Wouldn't it be sufficient to simply test ptrace_may_access after
-> we get a copy of the file?
-
-There are also setuid helpers that can, after having done privileged
-stuff, drop privileges and call execve(); after that,
-ptrace_may_access() succeeds again. In particular, polkit has a helper
-that does this.
-
-> If we need a lock around credential change let's design and build that.
-> Having a mismatch between what a lock is designed to do, and what
-> people use it for can only result in other bugs as people get confused.
-
-Hmm... what benefits do we get from making it a separate lock? I guess
-it would allow us to make it a per-task lock instead of a
-signal_struct-wide one? That might be helpful...
+But actually, isn't the core purpose of the cred_guard_mutex to guard
+against concurrent credential changes anyway? That's what almost
+everyone uses it for, and it's in the name...
