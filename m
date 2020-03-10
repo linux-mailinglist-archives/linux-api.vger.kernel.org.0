@@ -2,154 +2,125 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D1DE217ED22
-	for <lists+linux-api@lfdr.de>; Tue, 10 Mar 2020 01:09:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 080AA17ED34
+	for <lists+linux-api@lfdr.de>; Tue, 10 Mar 2020 01:18:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727287AbgCJAJM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 9 Mar 2020 20:09:12 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:39728 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727242AbgCJAJL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Mar 2020 20:09:11 -0400
-Received: by mail-lj1-f196.google.com with SMTP id f10so12092324ljn.6;
-        Mon, 09 Mar 2020 17:09:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nOkimidvyE/85zDjV2EvZo2MwwHSxFziV1SbX9R/ibI=;
-        b=GmWZ2zNy3pBOaZKriqQ+ELzUA3ZkISmORCjefwTdN4b6GxnT8oDZNXtKGfqGeLb0xN
-         IiiTUGNMcYuPt78bzuCu2JseD2cKOcG2BKIbBv1nrDraA4IiFTuiOIGeLR9XtJWTSHSU
-         o5Y/SCO0xHIPL/s3Pnm9NltrhNpdm7orHHx5Ul5VHu3SlrFWDRkRvpCRJoKDfkv8aok4
-         7gSVUyGypCeG5yDuly7tpN0rQT+gi/PCLpHd+t/JsrbziukkSxb5v8o0NeMAsDbF2NF7
-         CYyb5DSfuCPlfnZdjg8XkFrrco44Kf7YR9qedQo6F6nt1XP0LKndiRnpRysETF81WdNy
-         m3cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nOkimidvyE/85zDjV2EvZo2MwwHSxFziV1SbX9R/ibI=;
-        b=EtgbDLQ7rNknyA+IkoYfcGZlC8R+faRu7iOL8ZH+I5Qqv1Q+7x5huVL1C1ww3ZQXXw
-         1Dca9XjpXBMZBSEfp5xpuabMacoDwDjhNVWxc2vKANY1N7+sh089LDR0PMONd1jiEbvv
-         s8W6VqmHZb7X1CZXX3ttH2LVbkVTHm5N+Qx8oAJuC/t3BJS7qFtYtVHxZgLOnlLx86yi
-         58RohfCdgXRKMEMtDU4AMRk4RLqNXxiiyKde7DIOR7YonFjH4w6dpyOc6bcpRS27WFmC
-         pqysuDFBbTsN3UbEXWtY1Syf3xCNa6ziDkD2Ox7jiW7QkI3aDHpp53rttlBBHKWUquBE
-         HMwA==
-X-Gm-Message-State: ANhLgQ1m1HLFXEX8tlwsWha2lbXqHYTuVmrrKr/65MVGEBB6ulBOo5Hr
-        72cmSVlWMKEl3N0wzNYBMc6gv2VmzANzrFmcIJY=
-X-Google-Smtp-Source: ADFU+vvjCYjVO/XFpatNgn8tZurmWdaqMzx7frshrS7TT94YxiCF5e8FcMU3eOUTCYMk5SHGalsvUcqmR8ytYRc9NOc=
-X-Received: by 2002:a2e:9b90:: with SMTP id z16mr11153242lji.254.1583798948111;
- Mon, 09 Mar 2020 17:09:08 -0700 (PDT)
+        id S1727487AbgCJAS1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 9 Mar 2020 20:18:27 -0400
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:39277 "EHLO
+        new4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726937AbgCJAS0 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Mar 2020 20:18:26 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 35D6B2B17;
+        Mon,  9 Mar 2020 20:18:25 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Mon, 09 Mar 2020 20:18:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=anarazel.de; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm1; bh=y2GQYGvf1VdVHeGmvE5sDqwzusj
+        gACWrEd8rXJZj1/8=; b=hCLjptm8wkq6KP7tCx7x9OtPNkX0eMvm5L8o2L97Wdo
+        y7vZrsFkN2f4S8Xv4R8dqRogUS/9W/QJ66jTev5Aoip48Jo0P4gB73pf4vehqIPK
+        JjNTp8MWQ1ArZcM945bWyUlu9TnTT7vRowJNgZw7oaWVz+6Ro+kUV+BvaTb/Axir
+        Rd6auBHkdyebUJ4UZ8DYveKmdHVSu6fdUbPx5wy2rYk0qCyFwSg38WMAwVPUg5Ku
+        GA4lOOXpIKxaAK22UekVw8FFJzKTa6OzjJ9Oxk/T3qcyaA35MUgwyxYjd1ZtgS6K
+        i5h6lcNjdPFhMmGhYyeM8m3cEHGO/5NZU3TbC7SzNdw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=y2GQYG
+        vf1VdVHeGmvE5sDqwzusjgACWrEd8rXJZj1/8=; b=hR1CHx7sGSLI0tfsHsnts5
+        3Hmffp3/lf5X5mVKSJZiHGvay1HEsa/lAhINcfhikONaFnXvPMdWcLXqeI65qu98
+        5IGZzvzrZLQ9rEQZTkcsAFr2dIvY4csYaQValDPkpQpiqkp6DIy7g6XepjoptqAM
+        TAM4ZHUlxf1IYp29XvsF7D7DaBJDJkw0kAtUKVLfY/O4E08dDeL6j/ykjMW5rpWe
+        5XcWL8In/VDf8l+3tnGbBDB8uwSj9B1NPqbn3/lNK7AcsnmcVtwEgK191sA2Nh4G
+        LIeRxCXeQnoCNpMDjJXnTOClDNOcp3XeJNhqoSjyqGciCTV5p+IuLeAxePrsi5bg
+        ==
+X-ME-Sender: <xms:z9xmXj9MdiMQxb3sWpQ0zpHMFqyrXHaQEw8NK1xMORNkzGXW3ZRTzQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrudduledgudelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpeetnhgurhgv
+    shcuhfhrvghunhguuceorghnughrvghssegrnhgrrhgriigvlhdruggvqeenucfkphepie
+    ejrdduiedtrddvudejrddvhedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghm
+    pehmrghilhhfrhhomheprghnughrvghssegrnhgrrhgriigvlhdruggv
+X-ME-Proxy: <xmx:z9xmXg-FyPlg1L30wL5k3gQsDNd-t7jy7bKj8Kt6liqh63q9EbY7mw>
+    <xmx:z9xmXuF-0sjXCm1U5Zku5J7ltPA7_BmZzh1YdA3oUYFbwW4JBHao7g>
+    <xmx:z9xmXicuLoixXJ2XZ_721dkzztz4dN0Kp240Oq1ekOXjgrpEZlsUkw>
+    <xmx:0dxmXho2KzunPEg77nJRP3TUrcGMSb00ReWWFfVGCGI3mSgfDxoD0Q>
+Received: from intern.anarazel.de (c-67-160-217-250.hsd1.ca.comcast.net [67.160.217.250])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 007C43061856;
+        Mon,  9 Mar 2020 20:18:23 -0400 (EDT)
+Date:   Mon, 9 Mar 2020 17:18:21 -0700
+From:   Andres Freund <andres@anarazel.de>
+To:     Jeff Layton <jlayton@redhat.com>
+Cc:     David Howells <dhowells@redhat.com>, torvalds@linux-foundation.org,
+        viro@zeniv.linux.org.uk, Theodore Ts'o <tytso@mit.edu>,
+        Stefan Metzmacher <metze@samba.org>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        linux-ext4@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>,
+        Trond Myklebust <trond.myklebust@hammerspace.com>,
+        Anna Schumaker <anna.schumaker@netapp.com>,
+        linux-nfs@vger.kernel.org, linux-api@vger.kernel.org,
+        raven@themaw.net, mszeredi@redhat.com, christian@brauner.io,
+        jannh@google.com, darrick.wong@oracle.com, kzak@redhat.com,
+        linux-fsdevel@vger.kernel.org,
+        linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/14] VFS: Filesystem information [ver #18]
+Message-ID: <20200310001821.vb7qwfhnq67rsknn@alap3.anarazel.de>
+References: <158376244589.344135.12925590041630631412.stgit@warthog.procyon.org.uk>
+ <2d31e2658e5f6651dc7d9908c4c12b6ba461fc88.camel@redhat.com>
+ <20200309192240.nqf5bxylptw7mdm3@alap3.anarazel.de>
+ <32c384ac3adf0cf924d3071a13af7edffe53cc2b.camel@redhat.com>
 MIME-Version: 1.0
-References: <CAMe9rOoRTVUzNC88Ho2XTTNJCymrd3L=XdB9xFcgxPVwAZ0FWA@mail.gmail.com>
- <AE81FEF5-ECC5-46AA-804D-9D64E656D16E@amacapital.net> <CAMe9rOoDMenvD9XRL1szR5yLQEwv9Q6f4O7CtwbdZ-cJqzezKA@mail.gmail.com>
- <0088001c-0b12-a7dc-ff2a-9d5c282fa36b@intel.com> <CAMe9rOqf0OHL9397Vikgb=UWhRMf+FmGq-9VAJNmfmzNMMDkCw@mail.gmail.com>
- <56ab33ac-865b-b37e-75f2-a489424566c3@intel.com> <CAMe9rOrzrXORQgcAwzGn+=PBvxCEgc5Km_TQq+P7uoqwiacJSA@mail.gmail.com>
- <c06073a2-6858-d5dc-d74b-ef2568bd9423@intel.com> <CAMe9rOrxM=RefftngNXhP906mrW1SMy7vp+O=yOj_WwcdQpGcg@mail.gmail.com>
- <CALCETrWF1NQeGXy0GXRwW71Bc3oSN=vsXMsBqnaqs7Us7RYebQ@mail.gmail.com>
-In-Reply-To: <CALCETrWF1NQeGXy0GXRwW71Bc3oSN=vsXMsBqnaqs7Us7RYebQ@mail.gmail.com>
-From:   "H.J. Lu" <hjl.tools@gmail.com>
-Date:   Mon, 9 Mar 2020 17:08:29 -0700
-Message-ID: <CAMe9rOpJjaro_qK6kghGNuSHDaP_MjVaZMbok2kbuBD48VmvXg@mail.gmail.com>
-Subject: Re: [RFC PATCH v9 01/27] Documentation/x86: Add CET description
-To:     Andy Lutomirski <luto@amacapital.net>
-Cc:     Dave Hansen <dave.hansen@intel.com>,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <32c384ac3adf0cf924d3071a13af7edffe53cc2b.camel@redhat.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Mar 9, 2020 at 4:59 PM Andy Lutomirski <luto@amacapital.net> wrote:
->
-> On Mon, Mar 9, 2020 at 4:52 PM H.J. Lu <hjl.tools@gmail.com> wrote:
+Hi,
+
+On 2020-03-09 18:49:31 -0400, Jeff Layton wrote:
+> On Mon, 2020-03-09 at 12:22 -0700, Andres Freund wrote:
+> > On 2020-03-09 13:50:59 -0400, Jeff Layton wrote:
+> > > I sent a patch a few weeks ago to make syncfs() return errors when there
+> > > have been writeback errors on the superblock. It's not merged yet, but
+> > > once we have something like that in place, we could expose info from the
+> > > errseq_t to userland using this interface.
 > >
-> > On Mon, Mar 9, 2020 at 4:21 PM Dave Hansen <dave.hansen@intel.com> wrote:
-> > >
-> > > On 3/9/20 4:11 PM, H.J. Lu wrote:
-> > > > A threaded application is loaded from disk.  The object file on disk is
-> > > > either CET enabled or not CET enabled.
-> > >
-> > > Huh.  Are you saying that all instructions executed on userspace on
-> > > Linux come off of object files on the disk?  That's an interesting
-> > > assertion.  You might want to go take a look at the processes on your
-> > > systems.  Here's my browser for example:
-> > >
-> > > # for p in $(ps aux | grep chromium | awk '{print $2}' ); do cat
-> > > /proc/$p/maps; done | grep ' r-xp 00000000 00:00 0'
-> > > ...
-> > > 202f00082000-202f000bf000 r-xp 00000000 00:00 0
-> > > 202f000c2000-202f000c3000 r-xp 00000000 00:00 0
-> > > 202f00102000-202f00103000 r-xp 00000000 00:00 0
-> > > 202f00142000-202f00143000 r-xp 00000000 00:00 0
-> > > 202f00182000-202f001bf000 r-xp 00000000 00:00 0
-> > >
-> > > Lots of funny looking memory areas which are anonymous and executable!
-> > > Those didn't come off the disk.  Same thing in firefox.  Weird.  Any
-> > > idea what those are?
-> > >
-> > > One guess: https://en.wikipedia.org/wiki/Just-in-time_compilation
-> >
-> > jitted code belongs to a process loaded from disk.  Enable CET in
-> > an application which uses JIT engine means to also enable CET in
-> > JIT engine.  Take git as an example, "git grep" crashed for me on Tiger
-> > Lake.   It turned out that git itself was compiled with -fcf-protection and
-> > git was linked against libpcre2-8.so.0 also compiled with -fcf-protection,
-> > which has a JIT, sljit, which was not CET enabled.  git crashed in the
-> > jitted codes due to missing ENDBR.  I had to enable CET in sljit to make
-> > git working on CET enabled Tiger Lake.  So we need to enable CET in
-> > JIT engine before enabling CET in applications which use JIT engine.
+> > I'm still a bit worried about the details of errseq_t being exposed to
+> > userland. Partially because it seems to restrict further evolution of
+> > errseq_t, and partially because it will likely up with userland trying
+> > to understand it (it's e.g. just too attractive to report a count of
+> > errors etc).
 >
-> This could presumably have been fixed by having libpcre or sljit
-> disable IBT before calling into JIT code or by running the JIT code in
-> another thread.  In the other direction, a non-CET libpcre build could
-> build IBT-capable JITted code and enable JIT (by syscall if we allow
-> that or by creating a thread?) when calling it.  And IBT has this
+> Trying to interpret the counter field won't really tell you anything.
+> The counter is not incremented unless someone has queried the value
+> since it was last checked. A single increment could represent a single
+> writeback error or 10000 identical ones.
 
-This is not how thread in user space works.
-
-> fancy legacy bitmap to allow non-instrumented code to run with IBT on,
-> although SHSTK doesn't have hardware support for a similar feature.
-
-All these changes are called CET enabing.
-
-> So, sure, the glibc-linked ELF ecosystem needs some degree of CET
-> coordination, but it is absolutely not the case that a process MUST
-> have all CET or no CET.  Let's please support the complicated cases in
-> the kernel and the ABI too.  If glibc wants to make it annoying to do
-> complicated things, so be it.  People work behind glibc's back all the
-> time.
-
-CET is no different from NX in this regard.
+Oh, right.  A zero errseq would still indicate something, but that's
+probably fine.
 
 
--- 
-H.J.
+> > Is there a reason to not instead report a 64bit counter instead of the
+> > cookie? In contrast to the struct file case we'd only have the space
+> > overhead once per superblock, rather than once per #files * #fd. And it
+> > seems that the maintenance of that counter could be done without
+> > widespread changes, e.g. instead/in addition to your change:
+
+> What problem would moving to a 64-bit counter solve? I get the concern
+> about people trying to get a counter out of the cookie field, but giving
+> people an explicit 64-bit counter seems even more open to
+> misinterpretation.
+
+Well, you could get an actual error count out of it? I was thinking that
+that value would get incremented every time mapping_set_error() is
+called, which should make it a meaningful count?
+
+Greetings,
+
+Andres Freund
