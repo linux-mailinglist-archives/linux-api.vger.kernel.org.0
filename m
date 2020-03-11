@@ -2,175 +2,292 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F06871822CB
-	for <lists+linux-api@lfdr.de>; Wed, 11 Mar 2020 20:51:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD7BC1825F7
+	for <lists+linux-api@lfdr.de>; Thu, 12 Mar 2020 00:38:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387396AbgCKTvR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 11 Mar 2020 15:51:17 -0400
-Received: from out01.mta.xmission.com ([166.70.13.231]:48866 "EHLO
-        out01.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731030AbgCKTvQ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 11 Mar 2020 15:51:16 -0400
-Received: from in01.mta.xmission.com ([166.70.13.51])
-        by out01.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.90_1)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1jC7Nn-0003gw-M1; Wed, 11 Mar 2020 13:51:11 -0600
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
-        by in01.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.87)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1jC7Nm-0007Ul-Q4; Wed, 11 Mar 2020 13:51:11 -0600
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Bernd Edlinger <bernd.edlinger@hotmail.de>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Peter Zijlstra \(Intel\)" <peterz@infradead.org>,
-        Yuyang Du <duyuyang@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jamorris@linux.microsoft.com>,
+        id S2387500AbgCKXip (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 11 Mar 2020 19:38:45 -0400
+Received: from smtp-42a9.mail.infomaniak.ch ([84.16.66.169]:60129 "EHLO
+        smtp-42a9.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726194AbgCKXip (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 11 Mar 2020 19:38:45 -0400
+Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id AC4E6100351F7;
+        Thu, 12 Mar 2020 00:38:39 +0100 (CET)
+Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
+        by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 48d7gx0FMFzlmRkW;
+        Thu, 12 Mar 2020 00:38:36 +0100 (CET)
+Subject: Re: [RFC PATCH v14 00/10] Landlock LSM
+To:     Jann Horn <jannh@google.com>
+Cc:     kernel list <linux-kernel@vger.kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christian Kellner <christian@kellner.me>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        "linux-doc\@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel\@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm\@kvack.org" <linux-mm@kvack.org>,
-        "stable\@vger.kernel.org" <stable@vger.kernel.org>,
-        "linux-api\@vger.kernel.org" <linux-api@vger.kernel.org>
-References: <87r1y12yc7.fsf@x220.int.ebiederm.org>
-        <87k13t2xpd.fsf@x220.int.ebiederm.org>
-        <87d09l2x5n.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB5170F0F9DC18F5EA77C9A857E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <871rq12vxu.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB5170DF45E3245F55B95CCD91E4FE0@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <877dzt1fnf.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB51701C6F60699F99C5C67E0BE4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <875zfcxlwy.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB5170BD2476E35068E182EFA4E4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <202003111203.738487D@keescook>
-Date:   Wed, 11 Mar 2020 14:48:50 -0500
-In-Reply-To: <202003111203.738487D@keescook> (Kees Cook's message of "Wed, 11
-        Mar 2020 12:08:08 -0700")
-Message-ID: <87pndin04d.fsf@x220.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        James Morris <jmorris@namei.org>, Jann Horn <jann@thejh.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mickael.salaun@ssi.gouv.fr>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        linux-doc@vger.kernel.org,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        the arch/x86 maintainers <x86@kernel.org>
+References: <20200224160215.4136-1-mic@digikod.net>
+ <CAG48ez21bEn0wL1bbmTiiu8j9jP5iEWtHOwz4tURUJ+ki0ydYw@mail.gmail.com>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <873d7419-bdd9-8a52-0a9b-dddbe31df4f9@digikod.net>
+Date:   Thu, 12 Mar 2020 00:38:21 +0100
+User-Agent: 
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1jC7Nm-0007Ul-Q4;;;mid=<87pndin04d.fsf@x220.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX1+d5+rrjcsoE4xtiynlnq3fJUCLMY6zpyU=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa05.xmission.com
-X-Spam-Level: **
-X-Spam-Status: No, score=2.0 required=8.0 tests=ALL_TRUSTED,BAYES_50,
-        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,T_TooManySym_01,XMNoVowels,
-        XMSubLong autolearn=disabled version=3.4.2
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.7 XMSubLong Long Subject
-        *  1.5 XMNoVowels Alpha-numberic number with no vowels
-        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
-        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-        *      [sa05 1397; Body=1 Fuz1=1 Fuz2=1]
-        *  0.0 T_TooManySym_01 4+ unique symbols in subject
-X-Spam-DCC: XMission; sa05 1397; Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: **;Kees Cook <keescook@chromium.org>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 421 ms - load_scoreonly_sql: 0.03 (0.0%),
-        signal_user_changed: 3.4 (0.8%), b_tie_ro: 2.2 (0.5%), parse: 1.74
-        (0.4%), extract_message_metadata: 24 (5.6%), get_uri_detail_list: 2.6
-        (0.6%), tests_pri_-1000: 39 (9.3%), tests_pri_-950: 1.53 (0.4%),
-        tests_pri_-900: 1.26 (0.3%), tests_pri_-90: 34 (8.1%), check_bayes: 33
-        (7.7%), b_tokenize: 14 (3.4%), b_tok_get_all: 9 (2.1%), b_comp_prob:
-        2.8 (0.7%), b_tok_touch_all: 4.1 (1.0%), b_finish: 0.70 (0.2%),
-        tests_pri_0: 288 (68.3%), check_dkim_signature: 0.84 (0.2%),
-        check_dkim_adsp: 2.1 (0.5%), poll_dns_idle: 0.35 (0.1%), tests_pri_10:
-        4.2 (1.0%), tests_pri_500: 19 (4.6%), rewrite_mail: 0.00 (0.0%)
-Subject: Re: [PATCH 3/4] proc: io_accounting: Use new infrastructure to fix deadlocks in execve
-X-Spam-Flag: No
-X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
-X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
+In-Reply-To: <CAG48ez21bEn0wL1bbmTiiu8j9jP5iEWtHOwz4tURUJ+ki0ydYw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
+X-Antivirus-Code: 0x100000
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Kees Cook <keescook@chromium.org> writes:
 
-> On Tue, Mar 10, 2020 at 06:45:47PM +0100, Bernd Edlinger wrote:
->> This changes do_io_accounting to use the new exec_update_mutex
->> instead of cred_guard_mutex.
->> 
->> This fixes possible deadlocks when the trace is accessing
->> /proc/$pid/io for instance.
->> 
->> This should be safe, as the credentials are only used for reading.
->
-> I'd like to see the rationale described better here for why it should be
-> safe. I'm still not seeing why this is safe here, as we might check
-> ptrace_may_access() with one cred and then iterate io accounting with a
-> different credential...
->
-> What am I missing?
+On 10/03/2020 00:44, Jann Horn wrote:
+> On Mon, Feb 24, 2020 at 5:03 PM Mickaël Salaün <mic@digikod.net> wrote:
+>> This new version of Landlock is a major revamp of the previous series
+>> [1], hence the RFC tag.  The three main changes are the replacement of
+>> eBPF with a dedicated safe management of access rules, the replacement
+>> of the use of seccomp(2) with a dedicated syscall, and the management of
+>> filesystem access-control (back from the v10).
+>>
+>> As discussed in [2], eBPF may be too powerful and dangerous to be put in
+>> the hand of unprivileged and potentially malicious processes, especially
+>> because of side-channel attacks against access-controls or other parts
+>> of the kernel.
+>>
+>> Thanks to this new implementation (1540 SLOC), designed from the ground
+>> to be used by unprivileged processes, this series enables a process to
+>> sandbox itself without requiring CAP_SYS_ADMIN, but only the
+>> no_new_privs constraint (like seccomp).  Not relying on eBPF also
+>> enables to improve performances, especially for stacked security
+>> policies thanks to mergeable rulesets.
+>>
+>> The compiled documentation is available here:
+>> https://landlock.io/linux-doc/landlock-v14/security/landlock/index.html
+>>
+>> This series can be applied on top of v5.6-rc3.  This can be tested with
+>> CONFIG_SECURITY_LANDLOCK and CONFIG_SAMPLE_LANDLOCK.  This patch series
+>> can be found in a Git repository here:
+>> https://github.com/landlock-lsm/linux/commits/landlock-v14
+>> I would really appreciate constructive comments on the design and the code.
+> 
+> I've looked through the patchset, and I think that it would be
+> possible to simplify it quite a bit. I have tried to do that (and
+> compiled-tested it, but not actually tried running it); here's what I
+> came up with:
+> 
+> https://github.com/thejh/linux/commits/landlock-mod
+> 
+> The three modified patches (patches 1, 2 and 5) are marked with
+> "[MODIFIED]" in their title. Please take a look - what do you think?
+> Feel free to integrate my changes into your patches if you think they
+> make sense.
 
-The rational for non-regression is that exec_update_mutex covers all
-of the same tsk->cred changes as cred_guard_mutex.  Therefore we are not
-any worse off, and we avoid the deadlock.
+Regarding the landlock_release_inodes(), the final wait_var_event() is
+indeed needed (as does fsnotify), but why do you use a READ_ONCE() for
+landlock_initialized?
 
-As for safety.  Jann's argument that the only interesting credential
-change is in exec applies.  All other credential changes that have any
-effect on permission checks make the new cred non-dumpable (excepions
-apply see the code).
+I was reluctant to use function pointers but landlock_object_operations
+makes a cleaner and more generic interface to manage objects.
 
-So I think this is a non-regressing change.  A safe change.
+Your get_inode_object() is much simpler and easier to understand than
+the get_object() and get_cleaner().
+The other main change is about the object cross-reference: you entirely
+removed it, which means that an object will only be free when there are
+no rules using it. This does not free an object when its underlying
+object is being terminated. We now only have to worry about the
+termination of the parent of an underlying object (e.g. the super-block
+of an inode).
 
-I don't think either version of this code is fully correct.
+However, I think you forgot to increment object->usage in
+create_ruleset_elem(). There is also an unused checked_mask variable in
+merge_ruleset().
 
-Eric
+All this removes optimizations that made the code more difficult to
+understand. The performance difference is negligible, and I think that
+the memory footprint is fine.
+These optimizations (and others) could be discussed later. I'm
+integrating most of your changes in the next patch series.
 
->> Signed-off-by: Bernd Edlinger <bernd.edlinger@hotmail.de>
->> ---
->>  fs/proc/base.c | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->> 
->> diff --git a/fs/proc/base.c b/fs/proc/base.c
->> index 4fdfe4f..529d0c6 100644
->> --- a/fs/proc/base.c
->> +++ b/fs/proc/base.c
->> @@ -2770,7 +2770,7 @@ static int do_io_accounting(struct task_struct *task, struct seq_file *m, int wh
->>  	unsigned long flags;
->>  	int result;
->>  
->> -	result = mutex_lock_killable(&task->signal->cred_guard_mutex);
->> +	result = mutex_lock_killable(&task->signal->exec_update_mutex);
->>  	if (result)
->>  		return result;
->>  
->> @@ -2806,7 +2806,7 @@ static int do_io_accounting(struct task_struct *task, struct seq_file *m, int wh
->>  	result = 0;
->>  
->>  out_unlock:
->> -	mutex_unlock(&task->signal->cred_guard_mutex);
->> +	mutex_unlock(&task->signal->exec_update_mutex);
->>  	return result;
->>  }
->>  
->> -- 
->> 1.9.1
+Thank you very much for this review and the code.
+
+> 
+> 
+> Apart from simplifying the code, I also found the following issues,
+> which I have fixed in the modified patches:
+> 
+> put_hierarchy() has to drop a reference on its parent. (However, this
+> must not recurse, so we have to do it with a loop.)
+
+Right, fixed.
+
+> 
+> put_ruleset() is not in an RCU read-side critical section, so as soon
+> as it calls kfree_rcu(), "freeme" might disappear; but "orig" is in
+> "freeme", so when the loop tries to find the next element with
+> rb_next(orig), that can be a UAF.
+> rbtree_postorder_for_each_entry_safe() exists for dealing with such
+> issues.
+
+Good catch.
+
+> 
+> AFAIK the calls to rb_erase() in clean_ruleset() is not safe if
+> someone is concurrently accessing the rbtree as an RCU reader, because
+> concurrent rotations can prevent a lookup from succeeding. The
+> simplest fix is probably to just make any rbtree that has been
+> installed on a process immutable, and give up on the cleaning -
+> arguably the memory wastage that can cause is pretty limited.
+
+Yes, let's go for immutable domains.
+
+> (By the
+> way, as a future optimization, we might want to turn the rbtree into a
+> hashtable when installing it?)
+
+Definitely. This was a previous (private) implementation I did for
+domains, but to simplify the code I reused the same type as a ruleset. A
+future evolution of Landlock could add back this optimization.
+
+> 
+> The iput() in landlock_release_inode() looks unsafe - you need to
+> guarantee that even if the deletion of a ruleset races with
+> generic_shutdown_super(), every iput() for that superblock finishes
+> before landlock_release_inodes() returns, even if the iput() is
+> happening in the context of ruleset deletion. This is why
+> fsnotify_unmount_inodes() has that wait_var_event() at the end.
+
+Right, much better with that.
+
+> 
+> 
+> Aside from those things, there is also a major correctness issue where
+> I'm not sure how to solve it properly:
+> 
+> Let's say a process installs a filter on itself like this:
+> 
+> struct landlock_attr_ruleset ruleset = { .handled_access_fs =
+> ACCESS_FS_ROUGHLY_WRITE};
+> int ruleset_fd = landlock(LANDLOCK_CMD_CREATE_RULESET,
+> LANDLOCK_OPT_CREATE_RULESET, sizeof(ruleset), &ruleset);
+> struct landlock_attr_path_beneath path_beneath = {
+>   .ruleset_fd = ruleset_fd,
+>   .allowed_access = ACCESS_FS_ROUGHLY_WRITE,
+>   .parent_fd = open("/tmp/foobar", O_PATH),
+> };
+> landlock(LANDLOCK_CMD_ADD_RULE, LANDLOCK_OPT_ADD_RULE_PATH_BENEATH,
+> sizeof(path_beneath), &path_beneath);
+> prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0);
+> struct landlock_attr_enforce attr_enforce = { .ruleset_fd = ruleset_fd };
+> landlock(LANDLOCK_CMD_ENFORCE_RULESET, LANDLOCK_OPT_ENFORCE_RULESET,
+> sizeof(attr_enforce), &attr_enforce);
+> 
+> At this point, the process is not supposed to be able to write to
+> anything outside /tmp/foobar, right? But what happens if the process
+> does the following next?
+> 
+> struct landlock_attr_ruleset ruleset = { .handled_access_fs =
+> ACCESS_FS_ROUGHLY_WRITE};
+> int ruleset_fd = landlock(LANDLOCK_CMD_CREATE_RULESET,
+> LANDLOCK_OPT_CREATE_RULESET, sizeof(ruleset), &ruleset);
+> struct landlock_attr_path_beneath path_beneath = {
+>   .ruleset_fd = ruleset_fd,
+>   .allowed_access = ACCESS_FS_ROUGHLY_WRITE,
+>   .parent_fd = open("/", O_PATH),
+> };
+> landlock(LANDLOCK_CMD_ADD_RULE, LANDLOCK_OPT_ADD_RULE_PATH_BENEATH,
+> sizeof(path_beneath), &path_beneath);
+> prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0);
+> struct landlock_attr_enforce attr_enforce = { .ruleset_fd = ruleset_fd };
+> landlock(LANDLOCK_CMD_ENFORCE_RULESET, LANDLOCK_OPT_ENFORCE_RULESET,
+> sizeof(attr_enforce), &attr_enforce);
+> 
+> As far as I can tell from looking at the source, after this, you will
+> have write access to the entire filesystem again. I think the idea is
+> that LANDLOCK_CMD_ENFORCE_RULESET should only let you drop privileges,
+> not increase them, right?
+
+There is an additionnal check in syscall.c:get_path_from_fd(): it is
+forbidden to add a rule with a path which is not accessible (according
+to LANDLOCK_ACCESS_FS_OPEN) thanks to a call to security_file_open(),
+but this is definitely not perfect.
+
+> 
+> I think the easy way to fix this would be to add a bitmask to each
+> rule that says from which ruleset it originally comes, and then let
+> check_access_path() collect these bitmasks from each rule with OR, and
+> check at the end whether the resulting bitmask is full - if not, at
+> least one of the rulesets did not permit the access, and it should be
+> denied.
+> 
+> But maybe it would make more sense to change how the API works
+> instead, and get rid of the concept of "merging" two rulesets
+> together? Instead, we could make the API work like this:
+> 
+>  - LANDLOCK_CMD_CREATE_RULESET gives you a file descriptor whose
+> ->private_data contains a pointer to the old ruleset of the process,
+> as well as a pointer to a new empty ruleset.
+>  - LANDLOCK_CMD_ADD_RULE fails if the specified rule would not be
+> permitted by the old ruleset, then adds the rule to the new ruleset
+>  - LANDLOCK_CMD_ENFORCE_RULESET fails if the old ruleset pointer in
+> ->private_data doesn't match the current ruleset of the process, then
+> replaces the old ruleset with the new ruleset.
+> 
+> With this, the new ruleset is guaranteed to be a subset of the old
+> ruleset because each of the new ruleset's rules is permitted by the
+> old ruleset. (Unless the directory hierarchy rotates, but in that case
+> the inaccuracy isn't much worse than what would've been possible
+> through RCU path walk anyway AFAIK.)
+> 
+> What do you think?
+> 
+
+I would prefer to add the same checks you described at first (with
+check_access_path), but only when creating a new ruleset with
+merge_ruleset() (which should probably be renamed). This enables not to
+rely on a parent ruleset/domain until the enforcement, which is the case
+anyway.
+Unfortunately this doesn't work for some cases with bind mounts. Because
+check_access_path() goes through one path, another (bind mounted) path
+could be illegitimately allowed.
+That makes the problem a bit more complicated. A solution may be to keep
+track of the hierarchy of each rule (e.g. with a layer/depth number),
+and only allow an access request if at least a rule of each layer allow
+this access. In this case we also need to correctly handle the case when
+rules from different layers are tied to the same object.
+
+I would like Landlock to have "pure" syscalls, in the sense that a
+process A (e.g. a daemon) could prepare a ruleset and sends its FD to a
+process B which would then be able to use it to sandbox itself. I think
+it makes the reasoning clearer not to have a given ruleset (FD) tied to
+a domain (i.e. parent ruleset) at first.
+Landlock should (as much as possible) return an error if a syscall
+argument is invalid, not according to the current access control (which
+is not the case currently because of the security_file_open() check).
+This means that these additional merge_ruleset() checks should only
+affect the new domain/ruleset, but it should not be visible to userspace.
+
+In a future evolution, it may be useful to add a lock/seal command to
+deny any additional rule enforcement. However that may be
+counter-productive because that enable application developers (e.g. for
+a shell) to deny the use of Landlock features to its child processes.
+But it would be possible anyway with seccomp-bpf…
