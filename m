@@ -2,202 +2,115 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F9B0181DE9
-	for <lists+linux-api@lfdr.de>; Wed, 11 Mar 2020 17:31:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EA78D182038
+	for <lists+linux-api@lfdr.de>; Wed, 11 Mar 2020 19:00:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730157AbgCKQbm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 11 Mar 2020 12:31:42 -0400
-Received: from out01.mta.xmission.com ([166.70.13.231]:54052 "EHLO
-        out01.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729675AbgCKQbm (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 11 Mar 2020 12:31:42 -0400
-Received: from in02.mta.xmission.com ([166.70.13.52])
-        by out01.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.90_1)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1jC4GW-0001qd-9w; Wed, 11 Mar 2020 10:31:28 -0600
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
-        by in02.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.87)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1jC4GV-0006Xl-GD; Wed, 11 Mar 2020 10:31:28 -0600
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     Bernd Edlinger <bernd.edlinger@hotmail.de>
-Cc:     Jann Horn <jannh@google.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Kees Cook <keescook@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Peter Zijlstra \(Intel\)" <peterz@infradead.org>,
-        Yuyang Du <duyuyang@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jamorris@linux.microsoft.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christian Kellner <christian@kellner.me>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        "linux-doc\@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel\@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm\@kvack.org" <linux-mm@kvack.org>,
-        "stable\@vger.kernel.org" <stable@vger.kernel.org>,
-        "linux-api\@vger.kernel.org" <linux-api@vger.kernel.org>
-References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <AM6PR03MB5170285B336790D3450E2644E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87v9nlii0b.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB5170609D44967E044FD1BE40E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87a74xi4kz.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB51705AA3009B4986BB6EF92FE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87r1y8dqqz.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
-        <87v9ne5y4y.fsf_-_@x220.int.ebiederm.org>
-        <87zhcq4jdj.fsf_-_@x220.int.ebiederm.org>
-        <CAG48ez13XXWNRLrPFRHRsvPKSwSK1-6k+1F7QujWOJtVuk0QHg@mail.gmail.com>
-        <87wo7roq2c.fsf@x220.int.ebiederm.org>
-        <CAG48ez1j2=pdj0nc1syHkh6X4d=aHuCH1srzA6hT7+32QD+6Gg@mail.gmail.com>
-        <87k13roigf.fsf@x220.int.ebiederm.org>
-        <AM6PR03MB51709C444F21281F6A40F039E4FC0@AM6PR03MB5170.eurprd03.prod.outlook.com>
-Date:   Wed, 11 Mar 2020 11:29:08 -0500
-In-Reply-To: <AM6PR03MB51709C444F21281F6A40F039E4FC0@AM6PR03MB5170.eurprd03.prod.outlook.com>
-        (Bernd Edlinger's message of "Wed, 11 Mar 2020 07:33:35 +0100")
-Message-ID: <87d09ionxn.fsf@x220.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        id S1730752AbgCKSAM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 11 Mar 2020 14:00:12 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:41713 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730628AbgCKSAL (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 11 Mar 2020 14:00:11 -0400
+Received: by mail-lj1-f196.google.com with SMTP id o10so3351763ljc.8
+        for <linux-api@vger.kernel.org>; Wed, 11 Mar 2020 11:00:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dpqDD1Wo+HKU40oDoKA/BJI8LsaHpPP8z3qrK9mKasM=;
+        b=ckkZBdQmXywHGIbczwxKoXJtM5bn1Q4zF8980dmDzUAerY42Vnt79h0/hrgko+maFY
+         g6W5qtOcDU0FR7TReGj9YV2UAWuNcF/lAEUT03GfvSsuEW22s7MzLhczmTz71ew7VoeG
+         9tipLpaaHNIEBXH+b/EPSFlrBcI9QWo4iyKEg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dpqDD1Wo+HKU40oDoKA/BJI8LsaHpPP8z3qrK9mKasM=;
+        b=EEdDJJlJtRsHsMYZFBWs5CWCiYtpC70OdbHqe5w3YSULPc84+IWMWLFczE8LUtg6+K
+         ACvP0U7Sr5hcYxKwCMwlM9MWEiSdAb6rPjm31YL4Tpz+7GFHmX6MtppB1FyjZOoxLMtz
+         HRu1QZjAkwmKmX3x5RvnOKbesASuLlxyG6mQ/9HP3jEi2YqWp6EwFZqoZ1Md5LH9Zn7y
+         MZdkUxBy0dKYbl6nRqrqjWbMv5pYpDmGJq07ArBR6TeSmWa3WYf7GMUxubQzp0leEupe
+         fVbOLkP4LFEtNL2K7h5gJcTeCgTWpqhTHmTMzhbON7PJl8jKR4gxX3uoLHkLA26nyC7n
+         KbzA==
+X-Gm-Message-State: ANhLgQ1vUk8QIiM9dH2pOoLoazNBiK/QRzapB916u9zuVDXOj5sEe1yz
+        IXoZ+K41VItwHpApFCqJvhse9J4aF1I=
+X-Google-Smtp-Source: ADFU+vsr8CteEkWlolPTlsNUmpQFdgAmvYUHJQhvJkeal0qRiPPlAgEavVi//ObQn/cVp4iX1yxnxg==
+X-Received: by 2002:a2e:151e:: with SMTP id s30mr2813395ljd.92.1583949609227;
+        Wed, 11 Mar 2020 11:00:09 -0700 (PDT)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com. [209.85.208.172])
+        by smtp.gmail.com with ESMTPSA id y78sm2276927lfa.2.2020.03.11.11.00.07
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 Mar 2020 11:00:07 -0700 (PDT)
+Received: by mail-lj1-f172.google.com with SMTP id e18so3339315ljn.12
+        for <linux-api@vger.kernel.org>; Wed, 11 Mar 2020 11:00:07 -0700 (PDT)
+X-Received: by 2002:a2e:5850:: with SMTP id x16mr2622296ljd.209.1583949607115;
+ Wed, 11 Mar 2020 11:00:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1jC4GV-0006Xl-GD;;;mid=<87d09ionxn.fsf@x220.int.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX19ZjP97Ct6MFalNH8PhJ+rPzWt746X6+Og=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa04.xmission.com
-X-Spam-Level: 
-X-Spam-Status: No, score=0.5 required=8.0 tests=ALL_TRUSTED,BAYES_50,
-        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,T_TooManySym_01,XMSubLong
-        autolearn=disabled version=3.4.2
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.4984]
-        *  0.7 XMSubLong Long Subject
-        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
-        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-        *      [sa04 1397; Body=1 Fuz1=1 Fuz2=1]
-        *  0.0 T_TooManySym_01 4+ unique symbols in subject
-X-Spam-DCC: XMission; sa04 1397; Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: ;Bernd Edlinger <bernd.edlinger@hotmail.de>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 384 ms - load_scoreonly_sql: 0.05 (0.0%),
-        signal_user_changed: 5 (1.3%), b_tie_ro: 3.9 (1.0%), parse: 1.44
-        (0.4%), extract_message_metadata: 18 (4.7%), get_uri_detail_list: 2.8
-        (0.7%), tests_pri_-1000: 31 (8.0%), tests_pri_-950: 1.26 (0.3%),
-        tests_pri_-900: 0.91 (0.2%), tests_pri_-90: 34 (8.8%), check_bayes: 32
-        (8.4%), b_tokenize: 12 (3.2%), b_tok_get_all: 10 (2.6%), b_comp_prob:
-        3.1 (0.8%), b_tok_touch_all: 3.5 (0.9%), b_finish: 0.70 (0.2%),
-        tests_pri_0: 282 (73.4%), check_dkim_signature: 0.56 (0.1%),
-        check_dkim_adsp: 2.2 (0.6%), poll_dns_idle: 0.61 (0.2%), tests_pri_10:
-        1.80 (0.5%), tests_pri_500: 5 (1.4%), rewrite_mail: 0.00 (0.0%)
-Subject: Re: [PATCH v2 5/5] exec: Add a exec_update_mutex to replace cred_guard_mutex
-X-Spam-Flag: No
-X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
-X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
+References: <158376244589.344135.12925590041630631412.stgit@warthog.procyon.org.uk>
+ <158376245699.344135.7522994074747336376.stgit@warthog.procyon.org.uk>
+ <20200310005549.adrn3yf4mbljc5f6@yavin> <CAHk-=wiEBNFJ0_riJnpuUXTO7+_HByVo-R3pGoB_84qv3LzHxA@mail.gmail.com>
+ <580352.1583825105@warthog.procyon.org.uk>
+In-Reply-To: <580352.1583825105@warthog.procyon.org.uk>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Wed, 11 Mar 2020 10:59:51 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wiaL6zznNtCHKg6+MJuCqDxO=yVfms3qR9A0czjKuSSiA@mail.gmail.com>
+Message-ID: <CAHk-=wiaL6zznNtCHKg6+MJuCqDxO=yVfms3qR9A0czjKuSSiA@mail.gmail.com>
+Subject: Re: [PATCH 01/14] VFS: Add additional RESOLVE_* flags [ver #18]
+To:     David Howells <dhowells@redhat.com>
+Cc:     Aleksa Sarai <cyphar@cyphar.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Stefan Metzmacher <metze@samba.org>,
+        Ian Kent <raven@themaw.net>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Christian Brauner <christian@brauner.io>,
+        Jann Horn <jannh@google.com>,
+        "Darrick J. Wong" <darrick.wong@oracle.com>,
+        Karel Zak <kzak@redhat.com>, jlayton@redhat.com,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
+On Tue, Mar 10, 2020 at 12:25 AM David Howells <dhowells@redhat.com> wrote:
+?
+> Okay.  So what's the equivalent of AT_SYMLINK_NOFOLLOW in RESOLVE_* flag
+> terms?
 
-> On 3/11/20 1:15 AM, Eric W. Biederman wrote:
->> Jann Horn <jannh@google.com> writes:
->> 
->>> On Tue, Mar 10, 2020 at 10:33 PM Eric W. Biederman
->>> <ebiederm@xmission.com> wrote:
->>>> Jann Horn <jannh@google.com> writes:
->>>>> On Sun, Mar 8, 2020 at 10:41 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
->>>>>> The cred_guard_mutex is problematic.  The cred_guard_mutex is held
->>>>>> over the userspace accesses as the arguments from userspace are read.
->>>>>> The cred_guard_mutex is held of PTRACE_EVENT_EXIT as the the other
->>>>>> threads are killed.  The cred_guard_mutex is held over
->>>>>> "put_user(0, tsk->clear_child_tid)" in exit_mm().
->>>>>>
->>>>>> Any of those can result in deadlock, as the cred_guard_mutex is held
->>>>>> over a possible indefinite userspace waits for userspace.
->>>>>>
->>>>>> Add exec_update_mutex that is only held over exec updating process
->>>>>> with the new contents of exec, so that code that needs not to be
->>>>>> confused by exec changing the mm and the cred in ways that can not
->>>>>> happen during ordinary execution of a process.
->>>>>>
->>>>>> The plan is to switch the users of cred_guard_mutex to
->>>>>> exec_udpate_mutex one by one.  This lets us move forward while still
->>>>>> being careful and not introducing any regressions.
->>>>> [...]
->>>>>> @@ -1034,6 +1035,11 @@ static int exec_mmap(struct mm_struct *mm)
->>>>>>                         return -EINTR;
->>>>>>                 }
->>>>>>         }
->>>>>> +
->>>>>> +       ret = mutex_lock_killable(&tsk->signal->exec_update_mutex);
->>>>>> +       if (ret)
->>>>>> +               return ret;
->>>>>
->>>>> We're already holding the old mmap_sem, and now nest the
->>>>> exec_update_mutex inside it; but then while still holding the
->>>>> exec_update_mutex, we do mmput(), which can e.g. end up in ksm_exit(),
->>>>> which can do down_write(&mm->mmap_sem) from __ksm_exit(). So I think
->>>>> at least lockdep will be unhappy, and I'm not sure whether it's an
->>>>> actual problem or not.
->>>>
->>>> Good point.  I should double check the lock ordering here with mmap_sem.
->>>> It doesn't look like mmput takes mmap_sem
->>>
->>> You sure about that? mmput() -> __mmput() -> ksm_exit() ->
->>> __ksm_exit() -> down_write(&mm->mmap_sem)
->>>
->>> Or also: mmput() -> __mmput() -> khugepaged_exit() ->
->>> __khugepaged_exit() -> down_write(&mm->mmap_sem)
->>>
->>> Or is there a reason why those paths can't happen?
->> 
->> Clearly I didn't look far enough. 
->> 
->> I will adjust this so that exec_update_mutex is taken before mmap_sem.
->> Anything else is just asking for trouble.
->> 
->
-> Note that vm_access does also mmput under the exec_update_mutex.
-> So I don't see a huge problem here.
-> But maybe I missed something.
+Nothing.
 
-The issue is that to prevent deadlock locks must always be taken
-in the same order.
+openat2() takes two sets of flags. We'll never get rid of
+AT_SYMLINK_NOFOLLOW / O_NOFOLLOW, and we've added RESOLVE_NO_SYMLINKS
+to the new set of flags. It's just a separate namespace.
 
-Taking mmap_sem then exec_update_mutex at the start of the function,
-then taking exec_update_mutex then mmap_sem in mmput, takes the
-two locks in two different orders.   Which means that in the right
-set or circumstances:
+We will _not_ be adding a RESOLVE_XYZ flag for O_NOFOLLOW or
+AT_SYMLINK_NOFOLLOW. At least not visible to user space - because as
+people already figured out, that just causes problems with consistency
+issues.
 
-thread1:                                thread2:
-   obtain mmap_sem                      optain exec_update_mutex
-      wait for exec_update_mutex        wait for mmap_sem
+And yes, the fact that we then have three different user-visible
+namespaces (O_xyz flags for open(), AT_xyz flags for linkat(), and now
+RESOLVE_xyz flags for openat2()) is sad and messy. But it's an
+inherent messiness from just how the world works. We can't get rid of
+it.
 
-Which guarantees that neither thread will make progress.
+If we need linkat2() and friends, so be it. Do we?
 
-The fix is easy I just need to take exec_update_mutex a few lines
-earlier.
+Could we have a _fourth_ set of flags that are simply for internal use
+that is a superset of them all? Sure. But no, it's almost certainly
+not worth it. Four is not better than three.
 
-Eric
+Now, some type-safety in the kernel to make sure that we can't mix
+AT_xyz with O_xyz or RESOLVE_xyz - that might be worth it. Although
+judging by past experience, not enough people run sparse for it to
+really be worth it.
 
+               Linus
+
+PS. Yeah, we also have that LOOKUP_xyz namespace, and the access mode
+namespace, so we already have those internal format versions too.
