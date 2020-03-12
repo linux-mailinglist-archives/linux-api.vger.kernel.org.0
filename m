@@ -2,128 +2,231 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1538C183A86
-	for <lists+linux-api@lfdr.de>; Thu, 12 Mar 2020 21:23:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 83C38183A9F
+	for <lists+linux-api@lfdr.de>; Thu, 12 Mar 2020 21:27:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726571AbgCLUXn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 12 Mar 2020 16:23:43 -0400
-Received: from mail-pj1-f65.google.com ([209.85.216.65]:36402 "EHLO
-        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726558AbgCLUXm (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 12 Mar 2020 16:23:42 -0400
-Received: by mail-pj1-f65.google.com with SMTP id l41so3121197pjb.1;
-        Thu, 12 Mar 2020 13:23:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=E48tDkZx/8j+Ju5P8a7Hgys5ARHNcg71wMnlvvHjODQ=;
-        b=uHQkP5ZYmW2TWq+I/J0FK+bJgD+cfoL9CWjoXUTPJWUbEFmEn0h6lO4cHmDaf1qhOo
-         2PI0epZ4LwmiF2rffZXulhUT4LkIHxSSYzhhNWUc+hpluTp/nZ7hXMV3+hRv0clx24+Q
-         QplHZeHr/unYjngauEgMJ5xqSoSCudiNDBcOsacdYIptVpwaww7rXA6jXldbWLKnfEJh
-         weR/DI+v7Rq9dJ9ESGWe0vjLLCZhsjXS4eq2odTI4NB+1PFBClj/5JOOIlyx37WuZHWD
-         WdZG6jUmlH6j1GW5PdaeoElUo1oZEL15dkV6psfnXPjCGCHGFY+sQJ8fVwacyem2dzMY
-         zLig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=E48tDkZx/8j+Ju5P8a7Hgys5ARHNcg71wMnlvvHjODQ=;
-        b=hwkPtYwDh0nEcPM0RjuSY8K564O8JhwK9+Udarxb7RuIhcrwrAn9UU/1eynQXKq7wH
-         740W6KGwZDxakTByYeVTnKM/vsZWArtZQPBjqnbgiE3e//391EfMkHWVieeWsjGP7AEL
-         /nh1qlgjlBcxU7/SEg2B9x3EsNx81rAxa1NnabDJREnSthwisvkRZ8gSrJwHVID3jxzm
-         55PG1cijpI7uKF7amkW44xDAy74wWMdukcCvaSUCitVOieYMjOHlz24Q48dPC1I4YeHt
-         Da7dg7QYqlrudBFBGKPLdvFdN2m/l6kXx4z7oieKCyKVkTAf33IL5YH6OV/LtqkbnQuT
-         Bacg==
-X-Gm-Message-State: ANhLgQ0KVg53CrIKXVyHkeqOn36pRFtdIMK9arToHPV/hsGFkoTezFbO
-        qqQqWKLsGc4NI9f7p9dz+WSB1WNm
-X-Google-Smtp-Source: ADFU+vtfHouS/icEFZlgwFly1nG+Y9MAhxq009zIbS2uW0Cb2Uz9i1mtCzAK4DHsvIMnFvMmjPeKhg==
-X-Received: by 2002:a17:902:bc4c:: with SMTP id t12mr9032471plz.54.1584044621809;
-        Thu, 12 Mar 2020 13:23:41 -0700 (PDT)
-Received: from google.com ([2620:15c:211:1:3e01:2939:5992:52da])
-        by smtp.gmail.com with ESMTPSA id z17sm7602271pff.12.2020.03.12.13.23.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2020 13:23:40 -0700 (PDT)
-Date:   Thu, 12 Mar 2020 13:23:39 -0700
-From:   Minchan Kim <minchan@kernel.org>
-To:     Vlastimil Babka <vbabka@suse.cz>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
-        oleksandr@redhat.com, Suren Baghdasaryan <surenb@google.com>,
-        Tim Murray <timmurray@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Brian Geffon <bgeffon@google.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        John Dias <joaodias@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jann Horn <jannh@google.com>,
-        alexander.h.duyck@linux.intel.com, sj38.park@gmail.com
-Subject: Re: [PATCH v7 2/7] mm: introduce external memory hinting API
-Message-ID: <20200312202339.GB68817@google.com>
-References: <20200302193630.68771-1-minchan@kernel.org>
- <20200302193630.68771-3-minchan@kernel.org>
- <bc3f6bd5-f032-bcf5-a09f-556ab785c587@suse.cz>
- <20200310222008.GB72963@google.com>
- <07109fb3-dcf3-0252-4515-7e476fadc259@suse.cz>
+        id S1726898AbgCLU1z (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 12 Mar 2020 16:27:55 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55243 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726824AbgCLU1z (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 12 Mar 2020 16:27:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1584044874;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Ti9ElYYJJUMy6J+NrQNZbft3CU+uyju9tIjmoqyQ/Lw=;
+        b=T2PJIgKwE5iIHhZpo0eZwwMLkx6TDiS4KT6V1uMJNGGAbqvFEB8BQ/tTOuH7GTKSSzGhax
+        2V6QRT6AbF5VwUxEC+yqh+6bB2ij8ZEX+x7aknY5YGct5cAPa26WQZ8kKy+4joyrGC+u04
+        BNEHutLh/toOMr0AwlLVyXyp6BYTp3w=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-148-otG1qv1NMlW8m4EK7XqJdQ-1; Thu, 12 Mar 2020 16:27:49 -0400
+X-MC-Unique: otG1qv1NMlW8m4EK7XqJdQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 828A9107ACCD;
+        Thu, 12 Mar 2020 20:27:47 +0000 (UTC)
+Received: from madcap2.tricolour.ca (ovpn-112-16.rdu2.redhat.com [10.10.112.16])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 7E95F8F375;
+        Thu, 12 Mar 2020 20:27:36 +0000 (UTC)
+Date:   Thu, 12 Mar 2020 16:27:33 -0400
+From:   Richard Guy Briggs <rgb@redhat.com>
+To:     Paul Moore <paul@paul-moore.com>
+Cc:     Steve Grubb <sgrubb@redhat.com>, linux-audit@redhat.com,
+        nhorman@tuxdriver.com, linux-api@vger.kernel.org,
+        containers@lists.linux-foundation.org,
+        LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
+        netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
+        simo@redhat.com, netdev@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>,
+        mpatel@redhat.com, Serge Hallyn <serge@hallyn.com>
+Subject: Re: [PATCH ghak90 V8 07/16] audit: add contid support for signalling
+ the audit daemon
+Message-ID: <20200312202733.7kli64zsnqc4mrd2@madcap2.tricolour.ca>
+References: <cover.1577736799.git.rgb@redhat.com>
+ <20200204231454.oxa7pyvuxbj466fj@madcap2.tricolour.ca>
+ <CAHC9VhQquokw+7UOU=G0SsD35UdgmfysVKCGCE87JVaoTkbisg@mail.gmail.com>
+ <3142237.YMNxv0uec1@x2>
+ <CAHC9VhTiCHQbp2SwK0Xb1QgpUZxOQ26JKKPsVGT0ZvMqx28oPQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <07109fb3-dcf3-0252-4515-7e476fadc259@suse.cz>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <CAHC9VhTiCHQbp2SwK0Xb1QgpUZxOQ26JKKPsVGT0ZvMqx28oPQ@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Mar 12, 2020 at 01:40:26PM +0100, Vlastimil Babka wrote:
-> On 3/10/20 11:20 PM, Minchan Kim wrote:
-> > On Thu, Mar 05, 2020 at 07:15:10PM +0100, Vlastimil Babka wrote:
-> >> On 3/2/20 8:36 PM, Minchan Kim wrote:
-> >> > There is usecase that System Management Software(SMS) want to give
-> >> > a memory hint like MADV_[COLD|PAGEEOUT] to other processes and
-> >> > in the case of Android, it is the ActivityManagerService.
-> >> > 
-> >> > It's similar in spirit to madvise(MADV_WONTNEED), but the information
-> >> 
-> >> You mean MADV_DONTNEED?
-> > 
-> > Mean to DONT_NEED's future version.
-> 
-> What's that exactly?
+On 2020-02-12 19:09, Paul Moore wrote:
+> On Wed, Feb 12, 2020 at 5:39 PM Steve Grubb <sgrubb@redhat.com> wrote:
+> > On Wednesday, February 5, 2020 5:50:28 PM EST Paul Moore wrote:
+> > > > > > > ... When we record the audit container ID in audit_signal_info() we
+> > > > > > > take an extra reference to the audit container ID object so that it
+> > > > > > > will not disappear (and get reused) until after we respond with an
+> > > > > > > AUDIT_SIGNAL_INFO2.  In audit_receive_msg() when we do the
+> > > > > > > AUDIT_SIGNAL_INFO2 processing we drop the extra reference we took
+> > > > > > > in
+> > > > > > > audit_signal_info().  Unless I'm missing some other change you
+> > > > > > > made,
+> > > > > > > this *shouldn't* affect the syscall records, all it does is
+> > > > > > > preserve
+> > > > > > > the audit container ID object in the kernel's ACID store so it
+> > > > > > > doesn't
+> > > > > > > get reused.
+> > > > > >
+> > > > > > This is exactly what I had understood.  I hadn't considered the extra
+> > > > > > details below in detail due to my original syscall concern, but they
+> > > > > > make sense.
+> > > > > >
+> > > > > > The syscall I refer to is the one connected with the drop of the
+> > > > > > audit container identifier by the last process that was in that
+> > > > > > container in patch 5/16.  The production of this record is contingent
+> > > > > > on
+> > > > > > the last ref in a contobj being dropped.  So if it is due to that ref
+> > > > > > being maintained by audit_signal_info() until the AUDIT_SIGNAL_INFO2
+> > > > > > record it fetched, then it will appear that the fetch action closed
+> > > > > > the
+> > > > > > container rather than the last process in the container to exit.
+> > > > > >
+> > > > > > Does this make sense?
+> > > > >
+> > > > > More so than your original reply, at least to me anyway.
+> > > > >
+> > > > > It makes sense that the audit container ID wouldn't be marked as
+> > > > > "dead" since it would still be very much alive and available for use
+> > > > > by the orchestrator, the question is if that is desirable or not.  I
+> > > > > think the answer to this comes down the preserving the correctness of
+> > > > > the audit log.
+> > > > >
+> > > > > If the audit container ID reported by AUDIT_SIGNAL_INFO2 has been
+> > > > > reused then I think there is a legitimate concern that the audit log
+> > > > > is not correct, and could be misleading.  If we solve that by grabbing
+> > > > > an extra reference, then there could also be some confusion as
+> > > > > userspace considers a container to be "dead" while the audit container
+> > > > > ID still exists in the kernel, and the kernel generated audit
+> > > > > container ID death record will not be generated until much later (and
+> > > > > possibly be associated with a different event, but that could be
+> > > > > solved by unassociating the container death record).
+> > > >
+> > > > How does syscall association of the death record with AUDIT_SIGNAL_INFO2
+> > > > possibly get associated with another event?  Or is the syscall
+> > > > association with the fetch for the AUDIT_SIGNAL_INFO2 the other event?
+> > >
+> > > The issue is when does the audit container ID "die".  If it is when
+> > > the last task in the container exits, then the death record will be
+> > > associated when the task's exit.  If the audit container ID lives on
+> > > until the last reference of it in the audit logs, including the
+> > > SIGNAL_INFO2 message, the death record will be associated with the
+> > > related SIGNAL_INFO2 syscalls, or perhaps unassociated depending on
+> > > the details of the syscalls/netlink.
+> > >
+> > > > Another idea might be to bump the refcount in audit_signal_info() but
+> > > > mark tht contid as dead so it can't be reused if we are concerned that
+> > > > the dead contid be reused?
+> > >
+> > > Ooof.  Yes, maybe, but that would be ugly.
+> > >
+> > > > There is still the problem later that the reported contid is incomplete
+> > > > compared to the rest of the contid reporting cycle wrt nesting since
+> > > > AUDIT_SIGNAL_INFO2 will need to be more complex w/2 variable length
+> > > > fields to accommodate a nested contid list.
+> > >
+> > > Do we really care about the full nested audit container ID list in the
+> > > SIGNAL_INFO2 record?
 
-For zapping timing point of view, dontneed acts immediately so it's very
-strong hint. However, MADV_COLD and MADV_PAGEOUT does lazily depending
-on the future. For example, the page never discarded if it's touched
-before the tail of LRU. If other process which shared the page has
-touched the page, never paging out.
+I'm inclined to hand-wave it away as inconvenient that can be looked up
+more carefully if it is really needed.  Maybe the block above would be
+safer and more complete even though it is ugly.
 
+> > > > > Of the two
+> > > > > approaches, I think the latter is safer in that it preserves the
+> > > > > correctness of the audit log, even though it could result in a delay
+> > > > > of the container death record.
+> > > >
+> > > > I prefer the former since it strongly indicates last task in the
+> > > > container.  The AUDIT_SIGNAL_INFO2 msg has the pid and other subject
+> > > > attributes and the contid to strongly link the responsible party.
+> > >
+> > > Steve is the only one who really tracks the security certifications
+> > > that are relevant to audit, see what the certification requirements
+> > > have to say and we can revisit this.
+> >
+> > Sever Virtualization Protection Profile is the closest applicable standard
+> >
+> > https://www.niap-ccevs.org/Profile/Info.cfm?PPID=408&id=408
+> >
+> > It is silent on audit requirements for the lifecycle of a VM. I assume that
+> > all that is needed is what the orchestrator says its doing at the high level.
+> > So, if an orchestrator wants to shutdown a container, the orchestrator must
+> > log that intent and its results. In a similar fashion, systemd logs that it's
+> > killing a service and we don't actually hook the exit syscall of the service
+> > to record that.
+> >
+> > Now, if a container was being used as a VPS, and it had a fully functioning
+> > userspace, it's own services, and its very own audit daemon, then in this
+> > case it would care who sent a signal to its auditd. The tenant of that
+> > container may have to comply with PCI-DSS or something else. It would log the
+> > audit service is being terminated and systemd would record that its tearing
+> > down the environment. The OS doesn't need to do anything.
 > 
-> >> 
-> >> > required to make the reclaim decision is not known to the app.
-> >> 
-> >> This seems to be mixing up the differences between MADV_DONTNEED and
-> >> COLD/PAGEOUT and self-imposed vs external memory hints?
-> > 
-> > Sorry, I don't understand what you want here.
-> 
-> You say that process_madvise(MADV_[COLD|PAGEEOUT]) is similar to
-> madvise(MADV_WONTNEED) but the difference is that the information
-> required to make the reclaim decision is not known to the app.
-> 
-> I see two differences. One is madvise vs process_madvise, which is explained by
-> "reclaim decision is not known to the app."
-> The other is MADV_WONTNEED vs MADV_[COLD|PAGEEOUT], which is... I'm not sure
-> until you say what's "DONT_NEED's future version" :D
-> 
-> Anyway I assume this part is from the versions where the new COLD and PAGEOUT
-> flags were introduced together with external memory hinting API?
+> This latter case is the case of interest here, since the host auditd
+> should only be killed from a process on the host itself, not a process
+> running in a container.  If we work under the assumption (and this may
+> be a break in our approach to not defining "container") that an auditd
+> instance is only ever signaled by a process with the same audit
+> container ID (ACID), is this really even an issue?  Right now it isn't
+> as even with this patchset we will still really only support one
+> auditd instance, presumably on the host, so this isn't a significant
+> concern.  Moving forward, once we add support for multiple auditd
+> instances we will likely need to move the signal info into
+> (potentially) s per-ACID struct, a struct whose lifetime would match
+> that of the associated container by definition; as the auditd
+> container died, the struct would die, the refcounts dropped, and any
+> ACID held only the signal info refcount would be dropped/killed.
 
-Exactly. Maybe it would be better to remove the part once we merged the
-COLD and PAGEOUT now.
+Any process could signal auditd if it can see it based on namespace
+relationships, nevermind container placement.  Some container
+architectures would not have a namespace configuration that would block
+this (combination of PID/user/IPC?).
 
-Thanks for the review, Vlastimil!
+> However, making this assumption would mean that we are expecting a
+> "container" to provide some level of isolation such that processes
+> with a different audit container ID do not signal each other.  From a
+> practical perspective I think that fits with the most (all?)
+> definitions of "container", but I can't say that for certain.  In
+> those cases where the assumption is not correct and processes can
+> signal each other across audit container ID boundaries, perhaps it is
+> enough to explain that an audit container ID may not fully disappear
+> until it has been fetched with a SIGNAL_INFO2 message.
+
+I think more and more, that more complete isolation is being done,
+taking advantage of each type of namespace as they become available, but
+I know a nuber of them didn't find it important yet to use IPC, PID or
+user namespaces which would be the only namespaces I can think of that
+would provide that isolation.
+
+It isn't entirely clear to me which side you fall on this issue, Paul.
+Can you pronounce on your strong preference one way or the other if the
+death of a container coincide with the exit of the last process in that
+namespace, or the fetch of any signal info related to it?  I have a bias
+to the former since the code already does that and I feel the exit of
+the last process is much more relevant supported by the syscall record,
+but could change it to the latter if you feel strongly enough about it
+to block upstream acceptance.
+
+> paul moore
+
+- RGB
+
+--
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems
+Remote, Ottawa, Red Hat Canada
+IRC: rgb, SunRaycer
+Voice: +1.647.777.2635, Internal: (81) 32635
+
