@@ -2,92 +2,115 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BFCDB184CE9
-	for <lists+linux-api@lfdr.de>; Fri, 13 Mar 2020 17:49:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 55067184DE9
+	for <lists+linux-api@lfdr.de>; Fri, 13 Mar 2020 18:48:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726406AbgCMQtf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 13 Mar 2020 12:49:35 -0400
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:39213 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727053AbgCMQtd (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 13 Mar 2020 12:49:33 -0400
-Received: by mail-ed1-f68.google.com with SMTP id df19so6478129edb.6
-        for <linux-api@vger.kernel.org>; Fri, 13 Mar 2020 09:49:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=YGG5XY3Ewg2kr6ydPgEVpPEQe8Bu0vVCZeuUuZTd/eQ=;
-        b=WoJn/P9W8ionIJ6xiBiPAmxmGbbYK44xv4IrICoWubAgYlhtkhxUJmVCijstH/13K8
-         e8sfsXfNGVfsBKnRV0SJuy8a8BZyemhuV3VRdHRn2DarGPfrMqFVOH/OuDqiVr4hokOl
-         UhOrjDnrSoggcD90vmrkTdZGj88Cdu4MhRmnyJ0V4shQjxGwADiObeG6nDXMrC2tX1Sf
-         Zx5guOou8iWTPF16pL8NUnjXXzxYS+GbneCIQZyfvTaduvQymLt4+IWsFLUbJONa/YD2
-         kXa9vk9xzfHNLaAh621qmRaQsnpJdixash8QTk6Mp+WMhkhfOstdpA5Hj+YyS0gM+Gnv
-         FnoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=YGG5XY3Ewg2kr6ydPgEVpPEQe8Bu0vVCZeuUuZTd/eQ=;
-        b=dDlYQhyzR8bF1rWaUCrNVkd8+PkyRxz2xGx1jrCn9olsKS72Ns+kzJCETykeHNuK78
-         5NzYmeUW3hVhJaixdmCBld+920xUNXu5w1/si6B+DdOj8B4w1HRAWkHsaWu7ogDx2Zp4
-         zffXQ0MtnRQvzKhs2atwtEw3OmOjEZLw59UbRR4JKcAErQYlWtDwu15wmPbB63kNLsR+
-         nBK1P03IxDKISQV9cy2YK1hlpEdzXlphsjQjYNup5FJSUp6WJmv71OxrfyPminFSJK85
-         phtFVdZuyKnjrYWZkOZTgwG74qakwOIeQIpZA/pRXZ1OPZwUps81IA/7JwRs1wuu6tRB
-         OlkA==
-X-Gm-Message-State: ANhLgQ0Y7zmDssmp8TVSlexqiNK4bJ06CnnWLDU06wcPSDJGjCGVJ5tJ
-        rA/FitezUbRdGMo6jfLpYabQNsg32p4+HFG9MSk6
-X-Google-Smtp-Source: ADFU+vv+9NsRZqnIPliXMbq5GOtlCub1wdzEkmolWWP97LJYncHkT1zJ8K+tAtQcCN/BN4QsA0IqfHmFy6PXx2taKa0=
-X-Received: by 2002:aa7:dd01:: with SMTP id i1mr14078117edv.164.1584118169827;
- Fri, 13 Mar 2020 09:49:29 -0700 (PDT)
+        id S1726866AbgCMRsf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 13 Mar 2020 13:48:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37578 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726637AbgCMRsf (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 13 Mar 2020 13:48:35 -0400
+Received: from localhost (unknown [213.57.247.131])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id AD81D206E9;
+        Fri, 13 Mar 2020 17:48:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1584121714;
+        bh=RTV73rV9tbgZdgxhjVpHf5cbOgrjF4jkzZeN0BW3HjQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=rTBDRlbNcvDK/M91AaxB/KKnHxKNQs5wEAymm0R3zmKwmKgdJygpE4ZsGPQ9coL9N
+         OYVFjHI3f6jp625auhfZc1YBPcOjdbUwuqBfrp6tAIUn89ZPdKMAFrRhzWScGBrRKX
+         LQ2mB2q61tTaRHFX3muuqAdvw4OuG3GM3e94uy3U=
+Date:   Fri, 13 Mar 2020 19:48:27 +0200
+From:   Leon Romanovsky <leon@kernel.org>
+To:     Vlastimil Babka <vbabka@suse.cz>
+Cc:     Jaewon Kim <jaewon31.kim@samsung.com>, adobriyan@gmail.com,
+        akpm@linux-foundation.org, labbott@redhat.com,
+        sumit.semwal@linaro.org, minchan@kernel.org, ngupta@vflare.org,
+        sergey.senozhatsky.work@gmail.com, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, jaewon31.kim@gmail.com,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [RFC PATCH 0/3] meminfo: introduce extra meminfo
+Message-ID: <20200313174827.GA67638@unreal>
+References: <CGME20200311034454epcas1p2ef0c0081971dd82282583559398e58b2@epcas1p2.samsung.com>
+ <20200311034441.23243-1-jaewon31.kim@samsung.com>
+ <af4ace34-0db2-dd17-351f-eaa806f0a6ac@suse.cz>
 MIME-Version: 1.0
-References: <cover.1577736799.git.rgb@redhat.com> <20200312202733.7kli64zsnqc4mrd2@madcap2.tricolour.ca>
- <CAHC9VhS9DtxJ4gvOfMRnzoo6ccGJVKL+uZYe6qqH+SPqD8r01Q@mail.gmail.com> <2588582.z15pWOfGEt@x2>
-In-Reply-To: <2588582.z15pWOfGEt@x2>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Fri, 13 Mar 2020 12:49:18 -0400
-Message-ID: <CAHC9VhQ7hFc8EqrEojmjQriWtKkqjPyzWrnrc_eVKjcYhhV8QQ@mail.gmail.com>
-Subject: Re: [PATCH ghak90 V8 07/16] audit: add contid support for signalling
- the audit daemon
-To:     Steve Grubb <sgrubb@redhat.com>
-Cc:     Richard Guy Briggs <rgb@redhat.com>, linux-audit@redhat.com,
-        nhorman@tuxdriver.com, linux-api@vger.kernel.org,
-        containers@lists.linux-foundation.org,
-        LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
-        netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
-        simo@redhat.com, netdev@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>,
-        mpatel@redhat.com, Serge Hallyn <serge@hallyn.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <af4ace34-0db2-dd17-351f-eaa806f0a6ac@suse.cz>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Mar 13, 2020 at 12:45 PM Steve Grubb <sgrubb@redhat.com> wrote:
-> On Friday, March 13, 2020 12:42:15 PM EDT Paul Moore wrote:
-> > > I think more and more, that more complete isolation is being done,
-> > > taking advantage of each type of namespace as they become available, but
-> > > I know a nuber of them didn't find it important yet to use IPC, PID or
-> > > user namespaces which would be the only namespaces I can think of that
-> > > would provide that isolation.
-> > >
-> > > It isn't entirely clear to me which side you fall on this issue, Paul.
-> >
-> > That's mostly because I was hoping for some clarification in the
-> > discussion, especially the relevant certification requirements, but it
-> > looks like there is still plenty of room for interpretation there (as
-> > usual).  I'd much rather us arrive at decisions based on requirements
-> > and not gut feelings, which is where I think we are at right now.
+On Fri, Mar 13, 2020 at 04:19:36PM +0100, Vlastimil Babka wrote:
+> +CC linux-api, please include in future versions as well
 >
-> Certification rquirements are that we need the identity of anyone attempting
-> to modify the audit configuration including shutting it down.
+> On 3/11/20 4:44 AM, Jaewon Kim wrote:
+> > /proc/meminfo or show_free_areas does not show full system wide memory
+> > usage status. There seems to be huge hidden memory especially on
+> > embedded Android system. Because it usually have some HW IP which do not
+> > have internal memory and use common DRAM memory.
+> >
+> > In Android system, most of those hidden memory seems to be vmalloc pages
+> > , ion system heap memory, graphics memory, and memory for DRAM based
+> > compressed swap storage. They may be shown in other node but it seems to
+> > useful if /proc/meminfo shows all those extra memory information. And
+> > show_mem also need to print the info in oom situation.
+> >
+> > Fortunately vmalloc pages is alread shown by commit 97105f0ab7b8
+> > ("mm: vmalloc: show number of vmalloc pages in /proc/meminfo"). Swap
+> > memory using zsmalloc can be seen through vmstat by commit 91537fee0013
+> > ("mm: add NR_ZSMALLOC to vmstat") but not on /proc/meminfo.
+> >
+> > Memory usage of specific driver can be various so that showing the usage
+> > through upstream meminfo.c is not easy. To print the extra memory usage
+> > of a driver, introduce following APIs. Each driver needs to count as
+> > atomic_long_t.
+> >
+> > int register_extra_meminfo(atomic_long_t *val, int shift,
+> > 			   const char *name);
+> > int unregister_extra_meminfo(atomic_long_t *val);
+> >
+> > Currently register ION system heap allocator and zsmalloc pages.
+> > Additionally tested on local graphics driver.
+> >
+> > i.e) cat /proc/meminfo | tail -3
+> > IonSystemHeap:    242620 kB
+> > ZsPages:          203860 kB
+> > GraphicDriver:    196576 kB
+> >
+> > i.e.) show_mem on oom
+> > <6>[  420.856428]  Mem-Info:
+> > <6>[  420.856433]  IonSystemHeap:32813kB ZsPages:44114kB GraphicDriver::13091kB
+> > <6>[  420.856450]  active_anon:957205 inactive_anon:159383 isolated_anon:0
+>
+> I like the idea and the dynamic nature of this, so that drivers not present
+> wouldn't add lots of useless zeroes to the output.
+> It also makes simpler the decisions of "what is important enough to need its own
+> meminfo entry".
+>
+> The suggestion for hunting per-driver /sys files would only work if there was a
+> common name to such files so once can find(1) them easily.
+> It also doesn't work for the oom/failed alloc warning output.
 
-Yep, got it.  Unfortunately that doesn't really help with what we are
-talking about.  Although preventing the reuse of the ACID before the
-SIGNAL2 record does help preserve the sanity of the audit stream which
-I believe to be very important, regardless.
+Of course there is a need to have a stable name for such an output, this
+is why driver/core should be responsible for that and not drivers authors.
 
--- 
-paul moore
-www.paul-moore.com
+The use case which I had in mind slightly different than to look after OOM.
+
+I'm interested to optimize our drivers in their memory footprint to
+allow better scale in SR-IOV mode where one device creates many separate
+copies of itself. Those copies easily can take gigabytes of RAM due to
+the need to optimize for high-performance networking. Sometimes the
+amount of memory and not HW is actually limits the scale factor.
+
+So I would imagine this feature being used as an aid for the driver
+developers and not for the runtime decisions.
+
+My 2-cents.
+
+Thanks
