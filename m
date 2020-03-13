@@ -2,110 +2,140 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D421184EB7
-	for <lists+linux-api@lfdr.de>; Fri, 13 Mar 2020 19:35:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A906184F18
+	for <lists+linux-api@lfdr.de>; Fri, 13 Mar 2020 19:59:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727524AbgCMSfP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 13 Mar 2020 14:35:15 -0400
-Received: from hr2.samba.org ([144.76.82.148]:59188 "EHLO hr2.samba.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727295AbgCMSfO (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 13 Mar 2020 14:35:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=samba.org;
-         s=42; h=Message-ID:Cc:To:From:Date;
-        bh=WW96sv0//Vhg79QaiYlSOEgUUQBStmetDMf4TONIc6M=; b=kIlHxupkrQOi9TzlSzfbE4/bDL
-        uXCSnq22mxKKsPp4wsY2SjwgRHrGGUjd5PkshA6/Ij7StaJi+8cCOXa+2uy4ujPSwXlu4A9n3fflf
-        XkyYa3DkycxsDmAzUHRsrhw/lk4UQEuZG4SUx77yN3+V1HapwvdE+wEtw1OqGFv2+0PFrzzEuTaf/
-        UILafbWfwJ6SVlMnnuB2/AhboOh8yg4LEOd40ctbA5s+rP3kSe79DPDaQA93TxktwMI4ekakTqtcG
-        6UsWH3CbrSZH8DYC3XwCombBEVbF1GH+zILxk/YiipBOVfVlGS6LpdTFyGanweoKoy2YO/1N0o8Q9
-        RhjdcWajNX5yyJ0vVHYm3FrfIeucAWOay4dqo9PauHbqEoCHY1eujrUgDXPg4HMaIlFtRVnOC6Q4E
-        1KLWYGQz1OmRlsyhTOvvjXdzI88D+i+MKn2RMug3oipCgs+yrtta2s96ODrrQVXqGTHTk2wQZX736
-        ghOoK4n2imWOy9qW7TdbFV1f;
-Received: from [127.0.0.2] (localhost [127.0.0.1])
-        by hr2.samba.org with esmtpsa (TLS1.3:ECDHE_RSA_CHACHA20_POLY1305:256)
-        (Exim)
-        id 1jCp9J-00029j-FH; Fri, 13 Mar 2020 18:35:09 +0000
-Date:   Fri, 13 Mar 2020 11:35:03 -0700
-From:   Jeremy Allison <jra@samba.org>
-To:     Al Viro <viro@zeniv.linux.org.uk>
-Cc:     Aleksa Sarai <cyphar@cyphar.com>,
-        Stefan Metzmacher <metze@samba.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        David Howells <dhowells@redhat.com>,
-        Ian Kent <raven@themaw.net>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Christian Brauner <christian@brauner.io>,
-        Jann Horn <jannh@google.com>,
-        "Darrick J. Wong" <darrick.wong@oracle.com>,
-        Karel Zak <kzak@redhat.com>, jlayton@redhat.com,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Ralph =?iso-8859-1?Q?B=F6hme?= <slow@samba.org>,
-        Volker Lendecke <vl@sernet.de>
-Subject: Re: [PATCH 01/14] VFS: Add additional RESOLVE_* flags [ver #18]
-Message-ID: <20200313183503.GA29092@jeremy-acer>
-Reply-To: Jeremy Allison <jra@samba.org>
-References: <158376245699.344135.7522994074747336376.stgit@warthog.procyon.org.uk>
- <20200310005549.adrn3yf4mbljc5f6@yavin>
- <CAHk-=wiEBNFJ0_riJnpuUXTO7+_HByVo-R3pGoB_84qv3LzHxA@mail.gmail.com>
- <580352.1583825105@warthog.procyon.org.uk>
- <CAHk-=wiaL6zznNtCHKg6+MJuCqDxO=yVfms3qR9A0czjKuSSiA@mail.gmail.com>
- <3d209e29-e73d-23a6-5c6f-0267b1e669b6@samba.org>
- <CAHk-=wgu3Wo_xcjXnwski7JZTwQFaMmKD0hoTZ=hqQv3-YojSg@mail.gmail.com>
- <8d24e9f6-8e90-96bb-6e98-035127af0327@samba.org>
- <20200313095901.tdv4vl7envypgqfz@yavin>
- <20200313182844.GO23230@ZenIV.linux.org.uk>
+        id S1727198AbgCMS7Y (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 13 Mar 2020 14:59:24 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31813 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726605AbgCMS7Y (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 13 Mar 2020 14:59:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1584125963;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=8o++RDtPi06edCq2V+yf5BrhzW8DgwWaCOa0CXjSS/g=;
+        b=HBPibadc/4XSbbFNgztPwKWxvnDeFzVwyV8QJKGjY4PI4kVO0Kv/kNCmW6fWC0vknv/8Ii
+        8HKO13hPCAkWwAvpcPYd6gByh4ZEYIImxmSxErmLV240BG/WoQlW3JMuolsxbGBnCdFr2k
+        Ec0xU4l05bn5zVVllb+Tx/DTiwJ5dwE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-292-XcPF1FLCMJWyZY5LCgmxEQ-1; Fri, 13 Mar 2020 14:59:18 -0400
+X-MC-Unique: XcPF1FLCMJWyZY5LCgmxEQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31D29102CE17;
+        Fri, 13 Mar 2020 18:59:16 +0000 (UTC)
+Received: from madcap2.tricolour.ca (ovpn-112-16.rdu2.redhat.com [10.10.112.16])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 8FA3B8FC06;
+        Fri, 13 Mar 2020 18:59:03 +0000 (UTC)
+Date:   Fri, 13 Mar 2020 14:59:00 -0400
+From:   Richard Guy Briggs <rgb@redhat.com>
+To:     Paul Moore <paul@paul-moore.com>
+Cc:     Steve Grubb <sgrubb@redhat.com>, linux-audit@redhat.com,
+        nhorman@tuxdriver.com, linux-api@vger.kernel.org,
+        containers@lists.linux-foundation.org,
+        LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
+        netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
+        simo@redhat.com, netdev@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>,
+        mpatel@redhat.com, Serge Hallyn <serge@hallyn.com>
+Subject: Re: [PATCH ghak90 V8 07/16] audit: add contid support for signalling
+ the audit daemon
+Message-ID: <20200313185900.y44yvrfm4zxa5lfk@madcap2.tricolour.ca>
+References: <cover.1577736799.git.rgb@redhat.com>
+ <20200204231454.oxa7pyvuxbj466fj@madcap2.tricolour.ca>
+ <CAHC9VhQquokw+7UOU=G0SsD35UdgmfysVKCGCE87JVaoTkbisg@mail.gmail.com>
+ <3142237.YMNxv0uec1@x2>
+ <CAHC9VhTiCHQbp2SwK0Xb1QgpUZxOQ26JKKPsVGT0ZvMqx28oPQ@mail.gmail.com>
+ <CAHC9VhS09b_fM19tn7pHZzxfyxcHnK+PJx80Z9Z1hn8-==4oLA@mail.gmail.com>
+ <20200312193037.2tb5f53yeisfq4ta@madcap2.tricolour.ca>
+ <CAHC9VhQoVOzy_b9W6h+kmizKr1rPkC4cy5aYoKT2i0ZgsceNDg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200313182844.GO23230@ZenIV.linux.org.uk>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <CAHC9VhQoVOzy_b9W6h+kmizKr1rPkC4cy5aYoKT2i0ZgsceNDg@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Mar 13, 2020 at 06:28:44PM +0000, Al Viro wrote:
-> On Fri, Mar 13, 2020 at 08:59:01PM +1100, Aleksa Sarai wrote:
-> > On 2020-03-12, Stefan Metzmacher <metze@samba.org> wrote:
-> > > Am 12.03.20 um 17:24 schrieb Linus Torvalds:
-> > > > But yes, if we have a major package like samba use it, then by all
-> > > > means let's add linkat2(). How many things are we talking about? We
-> > > > have a number of system calls that do *not* take flags, but do do
-> > > > pathname walking. I'm thinking things like "mkdirat()"?)
-> > > 
-> > > I haven't looked them up in detail yet.
-> > > Jeremy can you provide a list?
-> > > 
-> > > Do you think we could route some of them like mkdirat() and mknodat()
-> > > via openat2() instead of creating new syscalls?
-> > 
-> > I have heard some folks asking for a way to create a directory and get a
-> > handle to it atomically -- so arguably this is something that could be
-> > inside openat2()'s feature set (O_MKDIR?). But I'm not sure how popular
-> > of an idea this is.
+On 2020-03-13 12:29, Paul Moore wrote:
+> On Thu, Mar 12, 2020 at 3:30 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > On 2020-02-13 16:44, Paul Moore wrote:
+> > > This is a bit of a thread-hijack, and for that I apologize, but
+> > > another thought crossed my mind while thinking about this issue
+> > > further ... Once we support multiple auditd instances, including the
+> > > necessary record routing and duplication/multiple-sends (the host
+> > > always sees *everything*), we will likely need to find a way to "trim"
+> > > the audit container ID (ACID) lists we send in the records.  The
+> > > auditd instance running on the host/initns will always see everything,
+> > > so it will want the full container ACID list; however an auditd
+> > > instance running inside a container really should only see the ACIDs
+> > > of any child containers.
+> >
+> > Agreed.  This should be easy to check and limit, preventing an auditd
+> > from seeing any contid that is a parent of its own contid.
+> >
+> > > For example, imagine a system where the host has containers 1 and 2,
+> > > each running an auditd instance.  Inside container 1 there are
+> > > containers A and B.  Inside container 2 there are containers Y and Z.
+> > > If an audit event is generated in container Z, I would expect the
+> > > host's auditd to see a ACID list of "1,Z" but container 1's auditd
+> > > should only see an ACID list of "Z".  The auditd running in container
+> > > 2 should not see the record at all (that will be relatively
+> > > straightforward).  Does that make sense?  Do we have the record
+> > > formats properly designed to handle this without too much problem (I'm
+> > > not entirely sure we do)?
+> >
+> > I completely agree and I believe we have record formats that are able to
+> > handle this already.
 > 
-> For fuck sake, *NO*!
-> 
-> We don't need any more multiplexors from hell.  mkdir() and open() have
-> deeply different interpretation of pathnames (and anyone who asks for
-> e.g. traversals of dangling symlinks on mkdir() is insane).  Don't try to
-> mix those; even O_TMPFILE had been a mistake.
-> 
-> Folks, we'd paid very dearly for the atomic_open() merge.  We are _still_
-> paying for it - and keep finding bugs induced by the convoluted horrors
-> in that thing (see yesterday pull from vfs.git#fixes for the latest crop).
-> I hope to get into more or less sane shape (part - this cycle, with
-> followups in the next one), but the last thing we need is more complexity
-> in the area.
+> I'm not convinced we do.  What about the cases where we have a field
+> with a list of audit container IDs?  How do we handle that?
 
-Can we disentangle the laudable desire to keep kernel internals
-simple (which I completely agree with :-) from the desire to
-keep user-space interfaces simple ?
+I don't understand the problem.  (I think you crossed your 1/2 vs
+A/B/Y/Z in your example.)  Clarifying the example above, if as you
+suggest an event happens in container Z, the hosts's auditd would report
+	Z,^2
+and the auditd in container 2 would report
+	Z,^2
+but if there were another auditd running in container Z it would report
+	Z
+while the auditd in container 1 or A/B would see nothing.
 
-Having some way of doing a mkdir() that returns an open fd
-on the new directory *is* a very useful thing for many applications,
-but I really don't care how the kernel implements it. We have so much
-Linux-specific code already that one more thing won't matter :-).
+The format I had proposed already handles that:
+contid^contid,contid^contid but you'd like to see it changed to
+contid,^contid,contid,^contid and both formats handle it though I find
+the former much easier to read.  For the example above we'd have:
+	A,^1
+	B,^1
+	Y,^2
+	Z,^2
+and for a shared network namespace potentially:
+	A,^1,B,^1,Y,^2,Z,^2
+and if there were an event reported by an auditd in container Z it would
+report only:
+	Z
+
+Now, I could see an argument for restricting the visibility of the
+contid to the container containing an auditd so that an auditd cannot
+see its own contid, but that wasn't my design intent.  This can still be
+addressed after the initial code is committed without breaking the API.
+
+> paul moore
+
+- RGB
+
+--
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems
+Remote, Ottawa, Red Hat Canada
+IRC: rgb, SunRaycer
+Voice: +1.647.777.2635, Internal: (81) 32635
+
