@@ -2,78 +2,37 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D4B12184370
-	for <lists+linux-api@lfdr.de>; Fri, 13 Mar 2020 10:13:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A7A8184A73
+	for <lists+linux-api@lfdr.de>; Fri, 13 Mar 2020 16:19:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726310AbgCMJNo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 13 Mar 2020 05:13:44 -0400
-Received: from relay.sw.ru ([185.231.240.75]:56008 "EHLO relay.sw.ru"
+        id S1726681AbgCMPTk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 13 Mar 2020 11:19:40 -0400
+Received: from mx2.suse.de ([195.135.220.15]:40696 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726230AbgCMJNn (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 13 Mar 2020 05:13:43 -0400
-Received: from dhcp-172-16-24-104.sw.ru ([172.16.24.104])
-        by relay.sw.ru with esmtp (Exim 4.92.3)
-        (envelope-from <ktkhai@virtuozzo.com>)
-        id 1jCgNL-0005Fb-2f; Fri, 13 Mar 2020 12:13:03 +0300
-Subject: Re: [PATCH v2 5/5] exec: Add a exec_update_mutex to replace
- cred_guard_mutex
-To:     Bernd Edlinger <bernd.edlinger@hotmail.de>,
-        "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Yuyang Du <duyuyang@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jamorris@linux.microsoft.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christian Kellner <christian@kellner.me>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
-References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87v9nlii0b.fsf@x220.int.ebiederm.org>
- <AM6PR03MB5170609D44967E044FD1BE40E4E40@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87a74xi4kz.fsf@x220.int.ebiederm.org>
- <AM6PR03MB51705AA3009B4986BB6EF92FE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87r1y8dqqz.fsf@x220.int.ebiederm.org>
- <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
- <87v9ne5y4y.fsf_-_@x220.int.ebiederm.org>
- <87zhcq4jdj.fsf_-_@x220.int.ebiederm.org>
- <f37a5d68-9674-533f-ee9c-a49174605710@virtuozzo.com>
- <87d09hn4kt.fsf@x220.int.ebiederm.org>
- <dbce35c7-c060-cfd8-bde1-98fd9a0747a9@virtuozzo.com>
- <87lfo5lju6.fsf@x220.int.ebiederm.org>
- <AM6PR03MB5170E9E71B9F84330B098BADE4FA0@AM6PR03MB5170.eurprd03.prod.outlook.com>
-From:   Kirill Tkhai <ktkhai@virtuozzo.com>
-Message-ID: <6002ac56-025a-d50f-e89d-1bf42a072323@virtuozzo.com>
-Date:   Fri, 13 Mar 2020 12:13:02 +0300
+        id S1726420AbgCMPTk (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 13 Mar 2020 11:19:40 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 98C4DAE61;
+        Fri, 13 Mar 2020 15:19:37 +0000 (UTC)
+Subject: Re: [RFC PATCH 0/3] meminfo: introduce extra meminfo
+To:     Jaewon Kim <jaewon31.kim@samsung.com>, adobriyan@gmail.com,
+        akpm@linux-foundation.org, labbott@redhat.com,
+        sumit.semwal@linaro.org, minchan@kernel.org, ngupta@vflare.org,
+        sergey.senozhatsky.work@gmail.com
+Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        jaewon31.kim@gmail.com, Linux API <linux-api@vger.kernel.org>,
+        Leon Romanovsky <leon@kernel.org>
+References: <CGME20200311034454epcas1p2ef0c0081971dd82282583559398e58b2@epcas1p2.samsung.com>
+ <20200311034441.23243-1-jaewon31.kim@samsung.com>
+From:   Vlastimil Babka <vbabka@suse.cz>
+Message-ID: <af4ace34-0db2-dd17-351f-eaa806f0a6ac@suse.cz>
+Date:   Fri, 13 Mar 2020 16:19:36 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <AM6PR03MB5170E9E71B9F84330B098BADE4FA0@AM6PR03MB5170.eurprd03.prod.outlook.com>
-Content-Type: text/plain; charset=windows-1252
+In-Reply-To: <20200311034441.23243-1-jaewon31.kim@samsung.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
@@ -81,98 +40,72 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 13.03.2020 04:05, Bernd Edlinger wrote:
-> On 3/12/20 3:38 PM, Eric W. Biederman wrote:
->> Kirill Tkhai <ktkhai@virtuozzo.com> writes:
->>
->>> On 12.03.2020 15:24, Eric W. Biederman wrote:
->>>>
->>>> I actually need to switch the lock ordering here, and I haven't yet
->>>> because my son was sick yesterday.
-> 
-> All the best wishes to you and your son.  I hope he will get well soon.
-> 
-> And sorry for not missing the issue in the review.  The reason turns
-> out that bprm_mm_init is called after prepare_bprm_creds, but there
-> are error pathes between those where free_bprm is called up with
-> cred != NULL and mm == NULL, but the mutex not locked.
-> 
-> I figured out a possible fix for the problem that was pointed out:
-> 
-> 
-> From ceb6f65b52b3a7f0280f4f20509a1564a439edf6 Mon Sep 17 00:00:00 2001
-> From: Bernd Edlinger <bernd.edlinger@hotmail.de>
-> Date: Wed, 11 Mar 2020 15:31:07 +0100
-> Subject: [PATCH] Fix issues with exec_update_mutex
-> 
-> Signed-off-by: Bernd Edlinger <bernd.edlinger@hotmail.de>
-> ---
->  fs/exec.c | 17 ++++++++++-------
->  1 file changed, 10 insertions(+), 7 deletions(-)
-> 
-> diff --git a/fs/exec.c b/fs/exec.c
-> index ffeebb1..cde4937 100644
-> --- a/fs/exec.c
-> +++ b/fs/exec.c
-> @@ -1021,8 +1021,14 @@ static int exec_mmap(struct mm_struct *mm)
->  	old_mm = current->mm;
->  	exec_mm_release(tsk, old_mm);
->  
-> -	if (old_mm) {
-> +	if (old_mm)
->  		sync_mm_rss(old_mm);
-> +
-> +	ret = mutex_lock_killable(&tsk->signal->exec_update_mutex);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (old_mm) {
->  		/*
->  		 * Make sure that if there is a core dump in progress
->  		 * for the old mm, we get out and die instead of going
-> @@ -1032,14 +1038,11 @@ static int exec_mmap(struct mm_struct *mm)
->  		down_read(&old_mm->mmap_sem);
->  		if (unlikely(old_mm->core_state)) {
->  			up_read(&old_mm->mmap_sem);
-> +			mutex_unlock(&tsk->signal->exec_update_mutex);
->  			return -EINTR;
->  		}
->  	}
->  
-> -	ret = mutex_lock_killable(&tsk->signal->exec_update_mutex);
-> -	if (ret)
-> -		return ret;
-> -
->  	task_lock(tsk);
->  	active_mm = tsk->active_mm;
->  	membarrier_exec_mmap(mm);
-> @@ -1444,8 +1447,6 @@ static void free_bprm(struct linux_binprm *bprm)
->  {
->  	free_arg_pages(bprm);
->  	if (bprm->cred) {
-> -		if (!bprm->mm)
-> -			mutex_unlock(&current->signal->exec_update_mutex);
->  		mutex_unlock(&current->signal->cred_guard_mutex);
->  		abort_creds(bprm->cred);
->  	}
-> @@ -1846,6 +1847,8 @@ static int __do_execve_file(int fd, struct filename *filename,
->  	would_dump(bprm, bprm->file);
->  
->  	retval = exec_binprm(bprm);
-> +	if (bprm->cred && !bprm->mm)
-> +		mutex_unlock(&current->signal->exec_update_mutex);
++CC linux-api, please include in future versions as well
 
-Despite this should fix the problem, this looks like a broken puzzle.
+On 3/11/20 4:44 AM, Jaewon Kim wrote:
+> /proc/meminfo or show_free_areas does not show full system wide memory
+> usage status. There seems to be huge hidden memory especially on
+> embedded Android system. Because it usually have some HW IP which do not
+> have internal memory and use common DRAM memory.
+> 
+> In Android system, most of those hidden memory seems to be vmalloc pages
+> , ion system heap memory, graphics memory, and memory for DRAM based
+> compressed swap storage. They may be shown in other node but it seems to
+> useful if /proc/meminfo shows all those extra memory information. And
+> show_mem also need to print the info in oom situation.
+> 
+> Fortunately vmalloc pages is alread shown by commit 97105f0ab7b8
+> ("mm: vmalloc: show number of vmalloc pages in /proc/meminfo"). Swap
+> memory using zsmalloc can be seen through vmstat by commit 91537fee0013
+> ("mm: add NR_ZSMALLOC to vmstat") but not on /proc/meminfo.
+> 
+> Memory usage of specific driver can be various so that showing the usage
+> through upstream meminfo.c is not easy. To print the extra memory usage
+> of a driver, introduce following APIs. Each driver needs to count as
+> atomic_long_t.
+> 
+> int register_extra_meminfo(atomic_long_t *val, int shift,
+> 			   const char *name);
+> int unregister_extra_meminfo(atomic_long_t *val);
+> 
+> Currently register ION system heap allocator and zsmalloc pages.
+> Additionally tested on local graphics driver.
+> 
+> i.e) cat /proc/meminfo | tail -3
+> IonSystemHeap:    242620 kB
+> ZsPages:          203860 kB
+> GraphicDriver:    196576 kB
+> 
+> i.e.) show_mem on oom
+> <6>[  420.856428]  Mem-Info:
+> <6>[  420.856433]  IonSystemHeap:32813kB ZsPages:44114kB GraphicDriver::13091kB
+> <6>[  420.856450]  active_anon:957205 inactive_anon:159383 isolated_anon:0
 
-We can't use bprm->cred as an identifier whether the mutex was locked or not.
-We can check for bprm->cred in regard to cred_guard_mutex, because of there is
-strong rule: "cred_guard_mutex is becomes locked together with bprm->cred assignment
-(see prepare_bprm_creds()), and it becomes unlocked together with bprm->cred zeroing".
-Take attention on modularity of all this: there is no dependencies between anything else.
+I like the idea and the dynamic nature of this, so that drivers not present
+wouldn't add lots of useless zeroes to the output.
+It also makes simpler the decisions of "what is important enough to need its own
+meminfo entry".
 
-In regard to newly introduced exec_update_mutex, your fix and source patch way look like
-an obfuscation. The mutex becomes deadly glued to unrelated bprm->cred and bprm->mm,
-and this introduces the problems in the future modifications and support of all involved
-entities. If someone wants to move some functions in relation to each other, there will
-be a pain, and this person will have to go again the same dependencies and bug way,
-Eric stepped on in the original patch.
+The suggestion for hunting per-driver /sys files would only work if there was a
+common name to such files so once can find(1) them easily.
+It also doesn't work for the oom/failed alloc warning output.
+
+I think a new meminfo_extra file is a reasonable compromise, as there might be
+tools periodically reading /proc/meminfo and thus we would limit the overhead of
+that.
+
+> Jaewon Kim (3):
+>   proc/meminfo: introduce extra meminfo
+>   mm: zsmalloc: include zs page size in proc/meminfo
+>   android: ion: include system heap size in proc/meminfo
+> 
+>  drivers/staging/android/ion/ion.c             |   2 +
+>  drivers/staging/android/ion/ion.h             |   1 +
+>  drivers/staging/android/ion/ion_system_heap.c |   2 +
+>  fs/proc/meminfo.c                             | 103 ++++++++++++++++++++++++++
+>  include/linux/mm.h                            |   4 +
+>  lib/show_mem.c                                |   1 +
+>  mm/zsmalloc.c                                 |   2 +
+>  7 files changed, 115 insertions(+)
+> 
+
