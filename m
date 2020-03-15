@@ -2,229 +2,309 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EDE921857A1
-	for <lists+linux-api@lfdr.de>; Sun, 15 Mar 2020 02:43:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 57D2F185E14
+	for <lists+linux-api@lfdr.de>; Sun, 15 Mar 2020 16:26:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726530AbgCOBnU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 14 Mar 2020 21:43:20 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:40265 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725793AbgCOBnU (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 14 Mar 2020 21:43:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1584236599;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=3e7Tw9KVLEB745n5d/5G/T+bWHZ31Uxeku3W06v7l+s=;
-        b=Xn/4A/9fxzJEHKHk2JqSDZ4IxNlnnP/QE/t+LPvRM8zT6a3K2xKber/21L37l8EsuwerX2
-        VneM990kc8p9LPlmJwXNXfOc9TC9lehzEqkpO1DdtyxHyzwNMGe6GHUW16mmgA0Ct1k7f+
-        SEMhbDJfv7AodoOiN7AGZoZHX/399Mw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-477-4mEgduNBOPCxyWPcLT1Lmw-1; Sat, 14 Mar 2020 18:42:20 -0400
-X-MC-Unique: 4mEgduNBOPCxyWPcLT1Lmw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S1728852AbgCOPZ5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 15 Mar 2020 11:25:57 -0400
+Received: from monster.unsafe.ru ([5.9.28.80]:33902 "EHLO mail.unsafe.ru"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728794AbgCOPZ5 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Sun, 15 Mar 2020 11:25:57 -0400
+Received: from localhost.localdomain (ip-89-102-33-211.net.upcbroadband.cz [89.102.33.211])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BF898017CC;
-        Sat, 14 Mar 2020 22:42:17 +0000 (UTC)
-Received: from madcap2.tricolour.ca (ovpn-112-16.rdu2.redhat.com [10.10.112.16])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 23AB65C1B2;
-        Sat, 14 Mar 2020 22:42:05 +0000 (UTC)
-Date:   Sat, 14 Mar 2020 18:42:03 -0400
-From:   Richard Guy Briggs <rgb@redhat.com>
-To:     Paul Moore <paul@paul-moore.com>
-Cc:     nhorman@tuxdriver.com, linux-api@vger.kernel.org,
-        containers@lists.linux-foundation.org,
-        LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
-        Linux-Audit Mailing List <linux-audit@redhat.com>,
-        netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
-        simo@redhat.com, netdev@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>,
-        mpatel@redhat.com, Serge Hallyn <serge@hallyn.com>
-Subject: Re: [PATCH ghak90 V8 13/16] audit: track container nesting
-Message-ID: <20200314224203.ncyx3rgwwe6zet4e@madcap2.tricolour.ca>
-References: <cover.1577736799.git.rgb@redhat.com>
- <6452955c1e038227a5cd169f689f3fd3db27513f.1577736799.git.rgb@redhat.com>
- <CAHC9VhRkH=YEjAY6dJJHSp934grHnf=O4RiqLu3U8DzdVQOZkg@mail.gmail.com>
- <20200130192753.n7jjrshbhrczjzoe@madcap2.tricolour.ca>
- <CAHC9VhSVN3mNb5enhLR1hY+ekiAyiYWbehrwd_zN7kz13dF=1w@mail.gmail.com>
- <20200205235056.e5365xtgz7rbese2@madcap2.tricolour.ca>
- <CAHC9VhTM6MDHLcBfwJ_9DCroG0VA-meO770ihjn1sVy6=0JrHw@mail.gmail.com>
- <20200312205147.plxs4czjeuu4davj@madcap2.tricolour.ca>
- <CAHC9VhTqWdXMsbSbsWJzRRvVbSaaFBmnFFsVutM7XSx5NT_FJA@mail.gmail.com>
+        by mail.unsafe.ru (Postfix) with ESMTPSA id 31B7EC61AE0;
+        Sun, 15 Mar 2020 15:25:48 +0000 (UTC)
+From:   Alexey Gladkov <gladkov.alexey@gmail.com>
+To:     LKML <linux-kernel@vger.kernel.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        Linux Security Module <linux-security-module@vger.kernel.org>
+Cc:     Akinobu Mita <akinobu.mita@gmail.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Alexey Gladkov <legion@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Daniel Micay <danielmicay@gmail.com>,
+        Djalal Harouni <tixxdz@gmail.com>,
+        "Dmitry V . Levin" <ldv@altlinux.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Jeff Layton <jlayton@poochiereds.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Oleg Nesterov <oleg@redhat.com>
+Subject: [PATCH v9 0/8] proc: modernize proc to support multiple private instances
+Date:   Sun, 15 Mar 2020 16:25:15 +0100
+Message-Id: <cover.1584278173.git.gladkov.alexey@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHC9VhTqWdXMsbSbsWJzRRvVbSaaFBmnFFsVutM7XSx5NT_FJA@mail.gmail.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2020-03-13 12:47, Paul Moore wrote:
-> On Thu, Mar 12, 2020 at 4:52 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > On 2020-02-13 16:49, Paul Moore wrote:
-> > > On Wed, Feb 5, 2020 at 6:51 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > > On 2020-02-05 18:05, Paul Moore wrote:
-> > > > > On Thu, Jan 30, 2020 at 2:28 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > > > > On 2020-01-22 16:29, Paul Moore wrote:
-> > > > > > > On Tue, Dec 31, 2019 at 2:51 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > > > > > >
-> > > > > > > > Track the parent container of a container to be able to filter and
-> > > > > > > > report nesting.
-> > > > > > > >
-> > > > > > > > Now that we have a way to track and check the parent container of a
-> > > > > > > > container, modify the contid field format to be able to report that
-> > > > > > > > nesting using a carrat ("^") separator to indicate nesting.  The
-> > > > > > > > original field format was "contid=<contid>" for task-associated records
-> > > > > > > > and "contid=<contid>[,<contid>[...]]" for network-namespace-associated
-> > > > > > > > records.  The new field format is
-> > > > > > > > "contid=<contid>[^<contid>[...]][,<contid>[...]]".
-> > > > > > >
-> > > > > > > Let's make sure we always use a comma as a separator, even when
-> > > > > > > recording the parent information, for example:
-> > > > > > > "contid=<contid>[,^<contid>[...]][,<contid>[...]]"
-> > > > > >
-> > > > > > The intent here is to clearly indicate and separate nesting from
-> > > > > > parallel use of several containers by one netns.  If we do away with
-> > > > > > that distinction, then we lose that inheritance accountability and
-> > > > > > should really run the list through a "uniq" function to remove the
-> > > > > > produced redundancies.  This clear inheritance is something Steve was
-> > > > > > looking for since tracking down individual events/records to show that
-> > > > > > inheritance was not aways feasible due to rolled logs or search effort.
-> > > > >
-> > > > > Perhaps my example wasn't clear.  I'm not opposed to the little
-> > > > > carat/hat character indicating a container's parent, I just think it
-> > > > > would be good to also include a comma *in*addition* to the carat/hat.
-> > > >
-> > > > Ah, ok.  Well, I'd offer that it would be slightly shorter, slightly
-> > > > less cluttered and having already written the parser in userspace, I
-> > > > think the parser would be slightly simpler.
-> > > >
-> > > > I must admit, I was a bit puzzled by your snippet of code that was used
-> > > > as a prefix to the next item rather than as a postfix to the given item.
-> > > >
-> > > > Can you say why you prefer the comma in addition?
-> > >
-> > > Generally speaking, I believe that a single delimiter is both easier
-> > > for the eyes to parse, and easier/safer for machines to parse as well.
-> > > In this particular case I think of the comma as a delimiter and the
-> > > carat as a modifier, reusing the carat as a delimiter seems like a bad
-> > > idea to me.
-> >
-> > I'm not crazy about this idea, but I'll have a look at how much work it
-> > is to recode the userspace search tools.  It also adds extra characters
-> > and noise into the string format that seems counterproductive.
-> 
-> If anything the parser should be *easier* (although both parsers
-> should fall into the "trivial" category).  The comma is the one and
-> only delimiter, and if the ACID starts with a carat then it is a
-> parent of the preceding ACID.
+Greetings!
 
-Ok, after a day of staring at the code and getting nowhere due to
-multiple distractions, I was able to rework this code fairly easily and
-it turned out simpler which should not surprise you.  Both kernel and
-userspace code are now in the format you recommended.
+Preface:
+--------
+This is patchset v9 to modernize procfs and make it able to support multiple
+private instances per the same pid namespace.
 
-> > > > > > > > diff --git a/kernel/audit.c b/kernel/audit.c
-> > > > > > > > index ef8e07524c46..68be59d1a89b 100644
-> > > > > > > > --- a/kernel/audit.c
-> > > > > > > > +++ b/kernel/audit.c
-> > > > > > >
-> > > > > > > > @@ -492,6 +493,7 @@ void audit_switch_task_namespaces(struct nsproxy *ns, struct task_struct *p)
-> > > > > > > >                 audit_netns_contid_add(new->net_ns, contid);
-> > > > > > > >  }
-> > > > > > > >
-> > > > > > > > +void audit_log_contid(struct audit_buffer *ab, u64 contid);
-> > > > > > >
-> > > > > > > If we need a forward declaration, might as well just move it up near
-> > > > > > > the top of the file with the rest of the declarations.
-> > > > > >
-> > > > > > Ok.
-> > > > > >
-> > > > > > > > +void audit_log_contid(struct audit_buffer *ab, u64 contid)
-> > > > > > > > +{
-> > > > > > > > +       struct audit_contobj *cont = NULL, *prcont = NULL;
-> > > > > > > > +       int h;
-> > > > > > >
-> > > > > > > It seems safer to pass the audit container ID object and not the u64.
-> > > > > >
-> > > > > > It would also be faster, but in some places it isn't available such as
-> > > > > > for ptrace and signal targets.  This also links back to the drop record
-> > > > > > refcounts to hold onto the contobj until process exit, or signal
-> > > > > > delivery.
-> > > > > >
-> > > > > > What we could do is to supply two potential parameters, a contobj and/or
-> > > > > > a contid, and have it use the contobj if it is valid, otherwise, use the
-> > > > > > contid, as is done for names and paths supplied to audit_log_name().
-> > > > >
-> > > > > Let's not do multiple parameters, that begs for misuse, let's take the
-> > > > > wrapper function route:
-> > > > >
-> > > > >  func a(int id) {
-> > > > >    // important stuff
-> > > > >  }
-> > > > >
-> > > > >  func ao(struct obj) {
-> > > > >    a(obj.id);
-> > > > >  }
-> > > > >
-> > > > > ... and we can add a comment that you *really* should be using the
-> > > > > variant that passes an object.
-> > > >
-> > > > I was already doing that where it available, and dereferencing the id
-> > > > for the call.  But I see an advantage to having both parameters supplied
-> > > > to the function, since it saves us the trouble of dereferencing it,
-> > > > searching for the id in the hash list and re-locating the object if the
-> > > > object is already available.
-> > >
-> > > I strongly prefer we not do multiple parameters for the same "thing";
-> >
-> > So do I, ideally.  However...
-> >
-> > > I would much rather do the wrapper approach as described above.  I
-> > > would also like to see us use the audit container ID object as much as
-> > > possible, using a bare integer should be a last resort.
-> >
-> > It is not clear to me that you understood what I wrote above.  I can't
-> > use the object pointer where preferable because there are a few cases
-> > where only the ID is available.  If only the ID is available, I would
-> > have to make a best effort to look up the object pointer and am not
-> > guaranteed to find it (invalid, stale, signal info...).  If I am forced
-> > to use only one, it becomes the ID that is used, and I no longer have
-> > the benefit of already having the object pointer for certainty and
-> > saving work.  For all cases where I have the object pointer, which is
-> > most cases, and most frequently used cases, I will have to dereference
-> > the object pointer to an ID, then go through the work again to re-locate
-> > the object pointer.  This is less certain, and more work.  Reluctantly,
-> > the only practical solution I see here is to supply both, favouring the
-> > object pointer if it is valid, then falling back on the ID from the next
-> > parameter.
-> 
-> It has been a while since I last looked at the patchset, but my
-> concern over the prefered use of the ACID number vs the ACID object is
-> that the number offers no reuse protection where the object does.  I
-> really would like us to use the object everywhere it is possible.
+This patchset can be applied on top of:
 
-Ok, so I take it from this that I go ahead with the dual format since
-the wrapper funciton to convert from object to ID strips away object
-information negating any benefit of favouring the object pointer.  I'll
-look at the remaining calls that use a contid (rather than contobj) and
-convert all that I can over to storing an object using the dual counters
-that track process exits versus signal2 and trace references.
+git.kernel.org/pub/scm/linux/kernel/git/ebiederm/user-namespace.git 58a45d79571a
 
-> paul moore
 
-- RGB
+Procfs modernization:
+---------------------
+Historically procfs was always tied to pid namespaces, during pid
+namespace creation we internally create a procfs mount for it. However,
+this has the effect that all new procfs mounts are just a mirror of the
+internal one, any change, any mount option update, any new future
+introduction will propagate to all other procfs mounts that are in the
+same pid namespace.
 
---
-Richard Guy Briggs <rgb@redhat.com>
-Sr. S/W Engineer, Kernel Security, Base Operating Systems
-Remote, Ottawa, Red Hat Canada
-IRC: rgb, SunRaycer
-Voice: +1.647.777.2635, Internal: (81) 32635
+This may have solved several use cases in that time. However today we
+face new requirements, and making procfs able to support new private
+instances inside same pid namespace seems a major point. If we want to
+to introduce new features and security mechanisms we have to make sure
+first that we do not break existing usecases. Supporting private procfs
+instances will allow to support new features and behaviour without
+propagating it to all other procfs mounts.
+
+Today procfs is more of a burden especially to some Embedded, IoT,
+sandbox, container use cases. In user space we are over-mounting null
+or inaccessible files on top to hide files and information. If we want
+to hide pids we have to create PID namespaces otherwise mount options
+propagate to all other proc mounts, changing a mount option value in one
+mount will propagate to all other proc mounts. If we want to introduce
+new features, then they will propagate to all other mounts too, resulting
+either maybe new useful functionality or maybe breaking stuff. We have
+also to note that userspace should not workaround procfs, the kernel
+should just provide a sane simple interface.
+
+In this regard several developers and maintainers pointed out that
+there are problems with procfs and it has to be modernized:
+
+"Here's another one: split up and modernize /proc." by Andy Lutomirski [1]
+
+Discussion about kernel pointer leaks:
+
+"And yes, as Kees and Daniel mentioned, it's definitely not just dmesg.
+In fact, the primary things tend to be /proc and /sys, not dmesg
+itself." By Linus Torvalds [2]
+
+Lot of other areas in the kernel and filesystems have been updated to be
+able to support private instances, devpts is one major example [3].
+
+Which will be used for:
+
+1) Embedded systems and IoT: usually we have one supervisor for
+apps, we have some lightweight sandbox support, however if we create
+pid namespaces we have to manage all the processes inside too,
+where our goal is to be able to run a bunch of apps each one inside
+its own mount namespace, maybe use network namespaces for vlans
+setups, but right now we only want mount namespaces, without all the
+other complexity. We want procfs to behave more like a real file system,
+and block access to inodes that belong to other users. The 'hidepid=' will
+not work since it is a shared mount option.
+
+2) Containers, sandboxes and Private instances of file systems - devpts case
+Historically, lot of file systems inside Linux kernel view when instantiated
+were just a mirror of an already created and mounted filesystem. This was the
+case of devpts filesystem, it seems at that time the requirements were to
+optimize things and reuse the same memory, etc. This design used to work but not
+anymore with today's containers, IoT, hostile environments and all the privacy
+challenges that Linux faces.
+
+In that regards, devpts was updated so that each new mounts is a total
+independent file system by the following patches:
+
+"devpts: Make each mount of devpts an independent filesystem" by
+Eric W. Biederman [3] [4]
+
+3) Linux Security Modules have multiple ptrace paths inside some
+subsystems, however inside procfs, the implementation does not guarantee
+that the ptrace() check which triggers the security_ptrace_check() hook
+will always run. We have the 'hidepid' mount option that can be used to
+force the ptrace_may_access() check inside has_pid_permissions() to run.
+The problem is that 'hidepid' is per pid namespace and not attached to
+the mount point, any remount or modification of 'hidepid' will propagate
+to all other procfs mounts.
+
+This also does not allow to support Yama LSM easily in desktop and user
+sessions. Yama ptrace scope which restricts ptrace and some other
+syscalls to be allowed only on inferiors, can be updated to have a
+per-task context, where the context will be inherited during fork(),
+clone() and preserved across execve(). If we support multiple private
+procfs instances, then we may force the ptrace_may_access() on
+/proc/<pids>/ to always run inside that new procfs instances. This will
+allow to specifiy on user sessions if we should populate procfs with
+pids that the user can ptrace or not.
+
+By using Yama ptrace scope, some restricted users will only be able to see
+inferiors inside /proc, they won't even be able to see their other
+processes. Some software like Chromium, Firefox's crash handler, Wine
+and others are already using Yama to restrict which processes can be
+ptracable. With this change this will give the possibility to restrict
+/proc/<pids>/ but more importantly this will give desktop users a
+generic and usuable way to specifiy which users should see all processes
+and which user can not.
+
+Side notes:
+
+* This covers the lack of seccomp where it is not able to parse
+arguments, it is easy to install a seccomp filter on direct syscalls
+that operate on pids, however /proc/<pid>/ is a Linux ABI using
+filesystem syscalls. With this change all LSMs should be able to analyze
+open/read/write/close... on /proc/<pid>/
+
+4) This will allow to implement new features either in kernel or
+userspace without having to worry about procfs.
+In containers, sandboxes, etc we have workarounds to hide some /proc
+inodes, this should be supported natively without doing extra complex
+work, the kernel should be able to support sane options that work with
+today and future Linux use cases.
+
+5) Creation of new superblock with all procfs options for each procfs
+mount will fix the ignoring of mount options. The problem is that the
+second mount of procfs in the same pid namespace ignores the mount
+options. The mount options are ignored without error until procfs is
+remounted.
+
+Before:
+
+# grep ^proc /proc/mounts
+proc /proc proc rw,relatime,hidepid=2 0 0
+
+# strace -e mount mount -o hidepid=1 -t proc proc /tmp/proc
+mount("proc", "/tmp/proc", "proc", 0, "hidepid=1") = 0
++++ exited with 0 +++
+
+# grep ^proc /proc/mounts
+proc /proc proc rw,relatime,hidepid=2 0 0
+proc /tmp/proc proc rw,relatime,hidepid=2 0 0
+
+# mount -o remount,hidepid=1 -t proc proc /tmp/proc
+
+# grep ^proc /proc/mounts
+proc /proc proc rw,relatime,hidepid=1 0 0
+proc /tmp/proc proc rw,relatime,hidepid=1 0 0
+
+After:
+
+# grep ^proc /proc/mounts
+proc /proc proc rw,relatime,hidepid=ptraceable 0 0
+
+# mount -o hidepid=invisible -t proc proc /tmp/proc
+
+# grep ^proc /proc/mounts
+proc /proc proc rw,relatime,hidepid=ptraceable 0 0
+proc /tmp/proc proc rw,relatime,hidepid=invisible 0 0
+
+
+Introduced changes:
+-------------------
+Each mount of procfs creates a separate procfs instance with its own
+mount options.
+
+This series adds few new mount options:
+
+* New 'hidepid=ptraceable' or 'hidepid=4' mount option to show only ptraceable
+processes in the procfs. This allows to support lightweight sandboxes in
+Embedded Linux, also solves the case for LSM where now with this mount option,
+we make sure that they have a ptrace path in procfs.
+
+* 'subset=pidfs' that allows to hide non-pid inodes from procfs. It can be used
+in containers and sandboxes, as these are already trying to hide and block
+access to procfs inodes anyway.
+
+
+ChangeLog:
+----------
+# v9:
+* Rebase on top of Eric W. Biederman's procfs changes.
+* Add human readable values of 'hidepid' as suggested by Andy Lutomirski.
+
+# v8:
+* Started using RCU lock to clean dcache entries as suggested by Linus Torvalds.
+
+# v7:
+* 'pidonly=1' renamed to 'subset=pidfs' as suggested by Alexey Dobriyan.
+* HIDEPID_* moved to uapi/ as they are user interface to mount().
+  Suggested-by Alexey Dobriyan <adobriyan@gmail.com>
+
+# v6:
+* 'hidepid=' and 'gid=' mount options are moved from pid namespace to superblock.
+* 'newinstance' mount option removed as suggested by Eric W. Biederman.
+   Mount of procfs always creates a new instance.
+* 'limit_pids' renamed to 'hidepid=3'.
+* I took into account the comment of Linus Torvalds [7].
+* Documentation added.
+
+# v5:
+* Fixed a bug that caused a problem with the Fedora boot.
+* The 'pidonly' option is visible among the mount options.
+
+# v2:
+* Renamed mount options to 'newinstance' and 'pids='
+   Suggested-by: Andy Lutomirski <luto@kernel.org>
+* Fixed order of commit, Suggested-by: Andy Lutomirski <luto@kernel.org>
+* Many bug fixes.
+
+# v1:
+* Removed 'unshared' mount option and replaced it with 'limit_pids'
+   which is attached to the current procfs mount.
+   Suggested-by Andy Lutomirski <luto@kernel.org>
+* Do not fill dcache with pid entries that we can not ptrace.
+* Many bug fixes.
+
+
+References:
+-----------
+[1] https://lists.linuxfoundation.org/pipermail/ksummit-discuss/2017-January/004215.html
+[2] http://www.openwall.com/lists/kernel-hardening/2017/10/05/5
+[3] https://lwn.net/Articles/689539/
+[4] http://lxr.free-electrons.com/source/Documentation/filesystems/devpts.txt?v=3.14
+[5] https://lkml.org/lkml/2017/5/2/407
+[6] https://lkml.org/lkml/2017/5/3/357
+[7] https://lkml.org/lkml/2018/5/11/505
+
+
+Alexey Gladkov (8):
+  proc: rename struct proc_fs_info to proc_fs_opts
+  proc: allow to mount many instances of proc in one pid namespace
+  proc: move hide_pid, pid_gid from pid_namespace to proc_fs_info
+  proc: instantiate only pids that we can ptrace on 'hidepid=4' mount
+    option
+  proc: add option to mount only a pids subset
+  docs: proc: add documentation for "hidepid=4" and "subset=pidfs"
+    options and new mount behavior
+  proc: move hidepid values to uapi as they are user interface to mount
+  proc: use human-readable values for hidehid
+
+ Documentation/filesystems/proc.txt |  93 ++++++++++++++++-----
+ fs/proc/base.c                     |  46 ++++++++---
+ fs/proc/generic.c                  |   9 +++
+ fs/proc/inode.c                    |  28 +++++--
+ fs/proc/root.c                     | 126 +++++++++++++++++++++++------
+ fs/proc/self.c                     |   6 +-
+ fs/proc/thread_self.c              |   6 +-
+ fs/proc_namespace.c                |  14 ++--
+ include/linux/pid_namespace.h      |   8 --
+ include/linux/proc_fs.h            |  22 +++++
+ include/uapi/linux/proc_fs.h       |  13 +++
+ 11 files changed, 288 insertions(+), 83 deletions(-)
+ create mode 100644 include/uapi/linux/proc_fs.h
+
+-- 
+2.25.1
 
