@@ -2,115 +2,116 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9136E18AE17
-	for <lists+linux-api@lfdr.de>; Thu, 19 Mar 2020 09:10:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4801918AE1D
+	for <lists+linux-api@lfdr.de>; Thu, 19 Mar 2020 09:11:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725601AbgCSIJ5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 19 Mar 2020 04:09:57 -0400
-Received: from mout-p-102.mailbox.org ([80.241.56.152]:43918 "EHLO
-        mout-p-102.mailbox.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726658AbgCSIJ4 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 19 Mar 2020 04:09:56 -0400
-Received: by mout-p-102.mailbox.org (Postfix, from userid 51)
-        id 48jfhd5MvxzKmds; Thu, 19 Mar 2020 09:09:27 +0100 (CET)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:105:465:1:2:0])
+        id S1726151AbgCSILN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 19 Mar 2020 04:11:13 -0400
+Received: from mout-p-202.mailbox.org ([80.241.56.172]:43130 "EHLO
+        mout-p-202.mailbox.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725601AbgCSILN (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 19 Mar 2020 04:11:13 -0400
+Received: by mout-p-202.mailbox.org (Postfix, from userid 51)
+        id 48jfk71G2BzQlGs; Thu, 19 Mar 2020 08:10:17 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [80.241.60.241])
         (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
         (No client certificate requested)
-        by mout-p-102.mailbox.org (Postfix) with ESMTPS id 48gz4W18xTzKmRB;
-        Mon, 16 Mar 2020 15:21:15 +0100 (CET)
+        by mout-p-202.mailbox.org (Postfix) with ESMTPS id 48hb5f6dqzzQlGj;
+        Tue, 17 Mar 2020 15:24:22 +0100 (CET)
 X-Virus-Scanned: amavisd-new at heinlein-support.de
 Received: from smtp2.mailbox.org ([80.241.60.241])
         by spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de [80.241.56.122]) (amavisd-new, port 10030)
-        with ESMTP id iCfejkjpJ5ez; Mon, 16 Mar 2020 15:21:11 +0100 (CET)
-Date:   Tue, 17 Mar 2020 01:20:57 +1100
+        with ESMTP id zRiPUP04n628; Tue, 17 Mar 2020 15:24:19 +0100 (CET)
+Date:   Wed, 18 Mar 2020 01:23:50 +1100
 From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     Al Viro <viro@zeniv.linux.org.uk>
-Cc:     Stefan Metzmacher <metze@samba.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        David Howells <dhowells@redhat.com>,
-        Ian Kent <raven@themaw.net>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Christian Brauner <christian@brauner.io>,
-        Jann Horn <jannh@google.com>,
-        "Darrick J. Wong" <darrick.wong@oracle.com>,
-        Karel Zak <kzak@redhat.com>, jlayton@redhat.com,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jeremy Allison <jra@samba.org>,
-        Ralph =?utf-8?B?QsO2aG1l?= <slow@samba.org>,
-        Volker Lendecke <vl@sernet.de>
-Subject: Re: [PATCH 01/14] VFS: Add additional RESOLVE_* flags [ver #18]
-Message-ID: <20200316142057.xo24zea3k5zwswra@yavin>
-References: <158376245699.344135.7522994074747336376.stgit@warthog.procyon.org.uk>
- <20200310005549.adrn3yf4mbljc5f6@yavin>
- <CAHk-=wiEBNFJ0_riJnpuUXTO7+_HByVo-R3pGoB_84qv3LzHxA@mail.gmail.com>
- <580352.1583825105@warthog.procyon.org.uk>
- <CAHk-=wiaL6zznNtCHKg6+MJuCqDxO=yVfms3qR9A0czjKuSSiA@mail.gmail.com>
- <3d209e29-e73d-23a6-5c6f-0267b1e669b6@samba.org>
- <CAHk-=wgu3Wo_xcjXnwski7JZTwQFaMmKD0hoTZ=hqQv3-YojSg@mail.gmail.com>
- <8d24e9f6-8e90-96bb-6e98-035127af0327@samba.org>
- <20200313095901.tdv4vl7envypgqfz@yavin>
- <20200313182844.GO23230@ZenIV.linux.org.uk>
+To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc:     Adrian Reber <areber@redhat.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Pavel Emelyanov <ovzxemul@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Dmitry Safonov <0x7f454c46@gmail.com>,
+        Andrei Vagin <avagin@gmail.com>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Radostin Stoyanov <rstoyanov1@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Cyrill Gorcunov <gorcunov@openvz.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: clone3: allow creation of time namespace with offset
+Message-ID: <20200317142350.ssraami3a4vnk5po@yavin>
+References: <20200317083043.226593-1-areber@redhat.com>
+ <CAKgNAkh7=2Noyn0o3880xbbi4w5oiwqs9ibTYLtheqzxne3mbQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="4df6bjmhtolysrje"
+        protocol="application/pgp-signature"; boundary="iakfd3bjzr4y3tmr"
 Content-Disposition: inline
-In-Reply-To: <20200313182844.GO23230@ZenIV.linux.org.uk>
+In-Reply-To: <CAKgNAkh7=2Noyn0o3880xbbi4w5oiwqs9ibTYLtheqzxne3mbQ@mail.gmail.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 
---4df6bjmhtolysrje
+--iakfd3bjzr4y3tmr
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On 2020-03-13, Al Viro <viro@zeniv.linux.org.uk> wrote:
-> On Fri, Mar 13, 2020 at 08:59:01PM +1100, Aleksa Sarai wrote:
-> > On 2020-03-12, Stefan Metzmacher <metze@samba.org> wrote:
-> > > Am 12.03.20 um 17:24 schrieb Linus Torvalds:
-> > > > But yes, if we have a major package like samba use it, then by all
-> > > > means let's add linkat2(). How many things are we talking about? We
-> > > > have a number of system calls that do *not* take flags, but do do
-> > > > pathname walking. I'm thinking things like "mkdirat()"?)
-> > >=20
-> > > I haven't looked them up in detail yet.
-> > > Jeremy can you provide a list?
-> > >=20
-> > > Do you think we could route some of them like mkdirat() and mknodat()
-> > > via openat2() instead of creating new syscalls?
-> >=20
-> > I have heard some folks asking for a way to create a directory and get a
-> > handle to it atomically -- so arguably this is something that could be
-> > inside openat2()'s feature set (O_MKDIR?). But I'm not sure how popular
-> > of an idea this is.
+On 2020-03-17, Michael Kerrisk (man-pages) <mtk.manpages@gmail.com> wrote:
+> [CC +=3D linux-api; please CC on future versions]
 >=20
-> For fuck sake, *NO*!
->=20
-> We don't need any more multiplexors from hell.  mkdir() and open() have
-> deeply different interpretation of pathnames (and anyone who asks for
-> e.g. traversals of dangling symlinks on mkdir() is insane).  Don't try to
-> mix those; even O_TMPFILE had been a mistake.
+> On Tue, 17 Mar 2020 at 09:32, Adrian Reber <areber@redhat.com> wrote:
+> > Requiring nanoseconds as well as seconds for two clocks during clone3()
+> > means that it would require 4 additional members to 'struct clone_args':
+> >
+> >         __aligned_u64 tls;
+> >         __aligned_u64 set_tid;
+> >         __aligned_u64 set_tid_size;
+> > +       __aligned_u64 boottime_offset_seconds;
+> > +       __aligned_u64 boottime_offset_nanoseconds;
+> > +       __aligned_u64 monotonic_offset_seconds;
+> > +       __aligned_u64 monotonic_offset_nanoseconds;
+> >  };
+> >
+> > To avoid four additional members to 'struct clone_args' this patchset
+> > uses another approach:
+> >
+> >         __aligned_u64 tls;
+> >         __aligned_u64 set_tid;
+> >         __aligned_u64 set_tid_size;
+> > +       __aligned_u64 timens_offset;
+> > +       __aligned_u64 timens_offset_size;
+> >  };
+> >
+> > timens_offset is a pointer to an array just as previously done with
+> > set_tid and timens_offset_size is the size of the array.
+> >
+> > The timens_offset array is expected to contain a struct like this:
+> >
+> > struct set_timens_offset {
+> >        int clockid;
+> >        struct timespec val;
+> > };
+> >
+> > This way it is possible to pass the information of multiple clocks with
+> > seconds and nanonseconds to clone3().
+> >
+> > To me this seems the better approach, but I am not totally convinced
+> > that it is the right thing. If there are other ideas how to pass two
+> > clock offsets with seconds and nanonseconds to clone3() I would be happy
+> > to hear other ideas.
 
-I agree that O_TMPFILE is a mess, and you're right that it wouldn't be a
-good idea to fold it into open*(). But what is your opinion on a
-hypothetical mkdirat2() which would let you get an fd to the directory
-that was just created?
+While I agree this does make the API cleaner, I am a little worried that
+it risks killing some of the ideas we discussed for seccomp deep
+inspection. In particular, having a pointer to variable-sized data
+inside the struct means that now the cBPF program can't just be given a
+copy of the struct data from userspace to check.
 
-> We really don't need openat2() turning into another one.  Syscall table
-> slots are not in a short supply, and the level of review one gets from
-> "new syscall added" is higher than from "make fubar(2) recognize a new
-> member in options->union_full_of_crap if it has RESOLVE_TO_WANK_WITH_RIGH=
-T_HAND
-> set in options->flags, affecting its behaviour in some odd ways".
-> Which is a good thing, damnit.
-
-You're quite right, and I don't intend openat2() to become another
-ioctl-but-with-even-more-fun-semantics.
+I'm sure it's a solveable problem (and it was one we were bound to run
+into at some point), it'll just mean we'll need a more complicated way
+of filtering such syscalls.
 
 --=20
 Aleksa Sarai
@@ -118,15 +119,15 @@ Senior Software Engineer (Containers)
 SUSE Linux GmbH
 <https://www.cyphar.com/>
 
---4df6bjmhtolysrje
+--iakfd3bjzr4y3tmr
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCXm+LRgAKCRCdlLljIbnQ
-ElaGAP9fIzu4LXSjbBKEZbs6rG1neKLKVE2Rsq9L4OP4o/amMgD+PgF9GjE/nolu
-40b4nj09uWyhqFo1UO9AbuIefV4TJQo=
-=iIAL
+iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCXnDdcwAKCRCdlLljIbnQ
+EkDfAP4oqBtz79HrO5K84v1Oc+8BJnHtioYyEbAw6bApHUzizwEA/y+FnNZfg354
+lxpGstBAS/4Qjyki4qqo9BOYoQimPwI=
+=qITz
 -----END PGP SIGNATURE-----
 
---4df6bjmhtolysrje--
+--iakfd3bjzr4y3tmr--
