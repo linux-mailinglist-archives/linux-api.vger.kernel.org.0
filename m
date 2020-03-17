@@ -2,213 +2,269 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C29BD1877F6
-	for <lists+linux-api@lfdr.de>; Tue, 17 Mar 2020 04:05:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CC1F7187BA0
+	for <lists+linux-api@lfdr.de>; Tue, 17 Mar 2020 09:57:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726674AbgCQDFC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 16 Mar 2020 23:05:02 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:35805 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726343AbgCQDFC (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 16 Mar 2020 23:05:02 -0400
-Received: by mail-oi1-f193.google.com with SMTP id k8so18803531oik.2;
-        Mon, 16 Mar 2020 20:05:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=sbAutxY+MMd/SQjeY5/YKMt12lMLdCJAf1DdUAYR8Tg=;
-        b=t2hO8/RpTKCYZNJeAmfbV2hv6YWpYYQLcETN7xVnmRBZuNenDPRZ8zi/otwjz1EMeo
-         Ouyk940BY2UA0VIHU4DptOg2b7SVQII9MMCKJ1kgWJTDXBlN/S0Zy1ZAO5mXGfNcHV5t
-         4L2x3oSTaoyEBWletjG0C+wXp6MNN4kOLVsox2Q8E4La8OsJpN8gAFZZ8KyATWsKNwDy
-         8hGVamUUpsEo5d6+WskhntXJxD527QzZwTEQmUBPi6cPLZJCEDRQ7ZLJG3Lszs6h9vU2
-         7PMu2q6McZSvSHQhdY6wMWTr02Mun6Ex8GRV56rZgORy/2IZcP5FhT438qYhEMqIUE/j
-         CpFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=sbAutxY+MMd/SQjeY5/YKMt12lMLdCJAf1DdUAYR8Tg=;
-        b=jMRnmyTnJGQZag7xMWie3cl5eZNWIPSm+P+GDVbBRUl403kYqlbix+Bsx/8hqRXbjF
-         1kTE+rCImaipHt1oCPH8ga9xbSmftWGrZt+QxPEQX2N9fXUcNLIx/8OmLsGbijMnaWaa
-         53aQXcWapjNhb/eqxjroIwIbS0ZXy/2pnTC19kLe2Qo/AseHzyf8XDXJjQl7fiGj7CIl
-         nFm1WPQYn44qAvARvTofcMug5xiKcORqlz28GHaCprpexSTJ8sGJnd4t0Wz1tv8qbO4H
-         fjSGVGKw4hEH1DzqAjl06M763go8TAFYHjdoYlpmmc1gvWcMaJ5UMRigcgPp/jLw/J6D
-         SNCA==
-X-Gm-Message-State: ANhLgQ2q8rvEErvVmVedzytlELbcI+nTnzsimCMvUdKfwKlKspTSPjSq
-        tJErk34Q/socQuclvKJzgjFlzLURFoVNaPII0cMls9oKWt0=
-X-Google-Smtp-Source: ADFU+vtjeeGC8+hlNw5uVS8yJznnDKurgL1PzzKIqIYqcStJ22twI296KX1QNxWNO3M+6DfYrLQpNvce7kc6+p5/U3M=
-X-Received: by 2002:aca:54ca:: with SMTP id i193mr1945950oib.163.1584414301757;
- Mon, 16 Mar 2020 20:05:01 -0700 (PDT)
-MIME-Version: 1.0
-References: <CGME20200311034454epcas1p2ef0c0081971dd82282583559398e58b2@epcas1p2.samsung.com>
- <20200311034441.23243-1-jaewon31.kim@samsung.com> <af4ace34-0db2-dd17-351f-eaa806f0a6ac@suse.cz>
- <20200313174827.GA67638@unreal> <5E6EFB6C.7050105@samsung.com> <20200316083154.GF8510@unreal>
-In-Reply-To: <20200316083154.GF8510@unreal>
-From:   Jaewon Kim <jaewon31.kim@gmail.com>
-Date:   Tue, 17 Mar 2020 12:04:46 +0900
-Message-ID: <CAJrd-UvttDDSL=q1RXC6Z+jvZAGsN2iM8C8xOSrpJFdLb0e-3g@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/3] meminfo: introduce extra meminfo
-To:     Leon Romanovsky <leon@kernel.org>
-Cc:     Jaewon Kim <jaewon31.kim@samsung.com>,
-        Vlastimil Babka <vbabka@suse.cz>, adobriyan@gmail.com,
+        id S1725872AbgCQI5u (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 17 Mar 2020 04:57:50 -0400
+Received: from relay.sw.ru ([185.231.240.75]:60238 "EHLO relay.sw.ru"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725730AbgCQI5t (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 17 Mar 2020 04:57:49 -0400
+Received: from [192.168.15.225]
+        by relay.sw.ru with esmtp (Exim 4.92.3)
+        (envelope-from <ktkhai@virtuozzo.com>)
+        id 1jE81u-0003Hm-6F; Tue, 17 Mar 2020 11:56:54 +0300
+Subject: Re: [PATCH v3 5/5] exec: Add a exec_update_mutex to replace
+ cred_guard_mutex
+To:     Bernd Edlinger <bernd.edlinger@hotmail.de>,
+        "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>, minchan@kernel.org,
-        ngupta@vflare.org, sergey.senozhatsky.work@gmail.com,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Yuyang Du <duyuyang@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jamorris@linux.microsoft.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christian Kellner <christian@kellner.me>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
+References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87a74xi4kz.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB51705AA3009B4986BB6EF92FE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87r1y8dqqz.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
+ <87v9ne5y4y.fsf_-_@x220.int.ebiederm.org>
+ <87zhcq4jdj.fsf_-_@x220.int.ebiederm.org>
+ <f37a5d68-9674-533f-ee9c-a49174605710@virtuozzo.com>
+ <87d09hn4kt.fsf@x220.int.ebiederm.org>
+ <dbce35c7-c060-cfd8-bde1-98fd9a0747a9@virtuozzo.com>
+ <87lfo5lju6.fsf@x220.int.ebiederm.org>
+ <AM6PR03MB5170E9E71B9F84330B098BADE4FA0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+ <6002ac56-025a-d50f-e89d-1bf42a072323@virtuozzo.com>
+ <AM6PR03MB5170353DF3575FF7742BB155E4FB0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+From:   Kirill Tkhai <ktkhai@virtuozzo.com>
+Message-ID: <532ce6a3-f0df-e3e4-6966-473c608246e1@virtuozzo.com>
+Date:   Tue, 17 Mar 2020 11:56:53 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <AM6PR03MB5170353DF3575FF7742BB155E4FB0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-2020=EB=85=84 3=EC=9B=94 16=EC=9D=BC (=EC=9B=94) =EC=98=A4=ED=9B=84 5:32, L=
-eon Romanovsky <leon@kernel.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> On Mon, Mar 16, 2020 at 01:07:08PM +0900, Jaewon Kim wrote:
-> >
-> >
-> > On 2020=EB=85=84 03=EC=9B=94 14=EC=9D=BC 02:48, Leon Romanovsky wrote:
-> > > On Fri, Mar 13, 2020 at 04:19:36PM +0100, Vlastimil Babka wrote:
-> > >> +CC linux-api, please include in future versions as well
-> > >>
-> > >> On 3/11/20 4:44 AM, Jaewon Kim wrote:
-> > >>> /proc/meminfo or show_free_areas does not show full system wide mem=
-ory
-> > >>> usage status. There seems to be huge hidden memory especially on
-> > >>> embedded Android system. Because it usually have some HW IP which d=
-o not
-> > >>> have internal memory and use common DRAM memory.
-> > >>>
-> > >>> In Android system, most of those hidden memory seems to be vmalloc =
-pages
-> > >>> , ion system heap memory, graphics memory, and memory for DRAM base=
-d
-> > >>> compressed swap storage. They may be shown in other node but it see=
-ms to
-> > >>> useful if /proc/meminfo shows all those extra memory information. A=
-nd
-> > >>> show_mem also need to print the info in oom situation.
-> > >>>
-> > >>> Fortunately vmalloc pages is alread shown by commit 97105f0ab7b8
-> > >>> ("mm: vmalloc: show number of vmalloc pages in /proc/meminfo"). Swa=
-p
-> > >>> memory using zsmalloc can be seen through vmstat by commit 91537fee=
-0013
-> > >>> ("mm: add NR_ZSMALLOC to vmstat") but not on /proc/meminfo.
-> > >>>
-> > >>> Memory usage of specific driver can be various so that showing the =
-usage
-> > >>> through upstream meminfo.c is not easy. To print the extra memory u=
-sage
-> > >>> of a driver, introduce following APIs. Each driver needs to count a=
-s
-> > >>> atomic_long_t.
-> > >>>
-> > >>> int register_extra_meminfo(atomic_long_t *val, int shift,
-> > >>>                      const char *name);
-> > >>> int unregister_extra_meminfo(atomic_long_t *val);
-> > >>>
-> > >>> Currently register ION system heap allocator and zsmalloc pages.
-> > >>> Additionally tested on local graphics driver.
-> > >>>
-> > >>> i.e) cat /proc/meminfo | tail -3
-> > >>> IonSystemHeap:    242620 kB
-> > >>> ZsPages:          203860 kB
-> > >>> GraphicDriver:    196576 kB
-> > >>>
-> > >>> i.e.) show_mem on oom
-> > >>> <6>[  420.856428]  Mem-Info:
-> > >>> <6>[  420.856433]  IonSystemHeap:32813kB ZsPages:44114kB GraphicDri=
-ver::13091kB
-> > >>> <6>[  420.856450]  active_anon:957205 inactive_anon:159383 isolated=
-_anon:0
-> > >> I like the idea and the dynamic nature of this, so that drivers not =
-present
-> > >> wouldn't add lots of useless zeroes to the output.
-> > >> It also makes simpler the decisions of "what is important enough to =
-need its own
-> > >> meminfo entry".
-> > >>
-> > >> The suggestion for hunting per-driver /sys files would only work if =
-there was a
-> > >> common name to such files so once can find(1) them easily.
-> > >> It also doesn't work for the oom/failed alloc warning output.
-> > > Of course there is a need to have a stable name for such an output, t=
-his
-> > > is why driver/core should be responsible for that and not drivers aut=
-hors.
-> > >
-> > > The use case which I had in mind slightly different than to look afte=
-r OOM.
-> > >
-> > > I'm interested to optimize our drivers in their memory footprint to
-> > > allow better scale in SR-IOV mode where one device creates many separ=
-ate
-> > > copies of itself. Those copies easily can take gigabytes of RAM due t=
-o
-> > > the need to optimize for high-performance networking. Sometimes the
-> > > amount of memory and not HW is actually limits the scale factor.
-> > >
-> > > So I would imagine this feature being used as an aid for the driver
-> > > developers and not for the runtime decisions.
-> > >
-> > > My 2-cents.
-> > >
-> > > Thanks
-> > >
-> > >
-> > Thank you for your comment.
-> > My idea, I think, may be able to help each driver developer to see thei=
-r memory usage.
-> > But I'd like to see overall memory usage through the one node.
->
-> It is more than enough :).
->
-> >
-> > Let me know if you have more comment.
-> > I am planning to move my logic to be shown on a new node, /proc/meminfo=
-_extra at v2.
->
-> Can you please help me to understand how that file will look like once
-> many drivers will start to use this interface? Will I see multiple
-> lines?
->
-> Something like:
-> driver1 ....
-> driver2 ....
-> driver3 ....
-> ...
-> driver1000 ....
->
-> How can we extend it to support subsystems core code?
+On 14.03.2020 12:11, Bernd Edlinger wrote:
+> The cred_guard_mutex is problematic.  The cred_guard_mutex is held
+> over the userspace accesses as the arguments from userspace are read.
+> The cred_guard_mutex is held of PTRACE_EVENT_EXIT as the the other
+> threads are killed.  The cred_guard_mutex is held over
+> "put_user(0, tsk->clear_child_tid)" in exit_mm().
+> 
+> Any of those can result in deadlock, as the cred_guard_mutex is held
+> over a possible indefinite userspace waits for userspace.
+> 
+> Add exec_update_mutex that is only held over exec updating process
+> with the new contents of exec, so that code that needs not to be
+> confused by exec changing the mm and the cred in ways that can not
+> happen during ordinary execution of a process.
+> 
+> The plan is to switch the users of cred_guard_mutex to
+> exec_udpate_mutex one by one.  This lets us move forward while still
+> being careful and not introducing any regressions.
+> 
+> Link: https://lore.kernel.org/lkml/20160921152946.GA24210@dhcp22.suse.cz/
+> Link: https://lore.kernel.org/lkml/AM6PR03MB5170B06F3A2B75EFB98D071AE4E60@AM6PR03MB5170.eurprd03.prod.outlook.com/
+> Link: https://lore.kernel.org/linux-fsdevel/20161102181806.GB1112@redhat.com/
+> Link: https://lore.kernel.org/lkml/20160923095031.GA14923@redhat.com/
+> Link: https://lore.kernel.org/lkml/20170213141452.GA30203@redhat.com/
+> Ref: 45c1a159b85b ("Add PTRACE_O_TRACEVFORKDONE and PTRACE_O_TRACEEXIT facilities.")
+> Ref: 456f17cd1a28 ("[PATCH] user-vm-unlock-2.5.31-A2")
+> Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
+> Signed-off-by: Bernd Edlinger <bernd.edlinger@hotmail.de>
+> ---
+>  fs/exec.c                    | 17 ++++++++++++++---
+>  include/linux/binfmts.h      |  8 +++++++-
+>  include/linux/sched/signal.h |  9 ++++++++-
+>  init/init_task.c             |  1 +
+>  kernel/fork.c                |  1 +
+>  5 files changed, 31 insertions(+), 5 deletions(-)
+> 
+> v3: this update fixes lock-order and adds an explicit data member in linux_binprm
+> 
+> diff --git a/fs/exec.c b/fs/exec.c
+> index d820a72..11974a1 100644
+> --- a/fs/exec.c
+> +++ b/fs/exec.c
+> @@ -1014,12 +1014,17 @@ static int exec_mmap(struct mm_struct *mm)
+>  {
+>  	struct task_struct *tsk;
+>  	struct mm_struct *old_mm, *active_mm;
+> +	int ret;
+>  
+>  	/* Notify parent that we're no longer interested in the old VM */
+>  	tsk = current;
+>  	old_mm = current->mm;
+>  	exec_mm_release(tsk, old_mm);
+>  
+> +	ret = mutex_lock_killable(&tsk->signal->exec_update_mutex);
+> +	if (ret)
+> +		return ret;
+> +
+>  	if (old_mm) {
+>  		sync_mm_rss(old_mm);
+>  		/*
+> @@ -1031,9 +1036,11 @@ static int exec_mmap(struct mm_struct *mm)
+>  		down_read(&old_mm->mmap_sem);
+>  		if (unlikely(old_mm->core_state)) {
+>  			up_read(&old_mm->mmap_sem);
+> +			mutex_unlock(&tsk->signal->exec_update_mutex);
+>  			return -EINTR;
+>  		}
+>  	}
+> +
+>  	task_lock(tsk);
+>  	active_mm = tsk->active_mm;
+>  	membarrier_exec_mmap(mm);
+> @@ -1288,11 +1295,12 @@ int flush_old_exec(struct linux_binprm * bprm)
+>  		goto out;
+>  
+>  	/*
+> -	 * After clearing bprm->mm (to mark that current is using the
+> -	 * prepared mm now), we have nothing left of the original
+> +	 * After setting bprm->called_exec_mmap (to mark that current is
+> +	 * using the prepared mm now), we have nothing left of the original
+>  	 * process. If anything from here on returns an error, the check
+>  	 * in search_binary_handler() will SEGV current.
+>  	 */
+> +	bprm->called_exec_mmap = 1;
 
-I do not have a plan to support subsystem core.
+The two below is non-breaking pair:
 
-I just want the /proc/meminfo_extra to show size of alloc_pages APIs
-rather than slub size. It is to show hidden huge memory.
-I think most of drivers do not need to register its size to
-/proc/meminfo_extra because
-drivers usually use slub APIs and rather than alloc_pages APIs.
-/proc/slabinfo helps for slub size in detail.
+exec_mmap(bprm->mm);
+bprm->called_exec_mmap = 1;
 
-As a candidate of /proc/meminfo_extra, I hope only few drivers using
-huge memory like over 100 MB got from alloc_pages APIs.
+Why not move this into exec_mmap(), so nobody definitely inserts something
+between them?
 
-As you say, if there is a static node on /sys for each driver, it may
-be used for all the drivers.
-I think sysfs class way may be better to show categorized sum size.
-But /proc/meminfo_extra can be another way to show those hidden huge memory=
-.
-I mean your idea and my idea is not exclusive.
+>  	bprm->mm = NULL;
+>  
+>  #ifdef CONFIG_POSIX_TIMERS
+> @@ -1438,6 +1446,8 @@ static void free_bprm(struct linux_binprm *bprm)
+>  {
+>  	free_arg_pages(bprm);
+>  	if (bprm->cred) {
+> +		if (bprm->called_exec_mmap)
+> +			mutex_unlock(&current->signal->exec_update_mutex);
+>  		mutex_unlock(&current->signal->cred_guard_mutex);
+>  		abort_creds(bprm->cred);
+>  	}
+> @@ -1487,6 +1497,7 @@ void install_exec_creds(struct linux_binprm *bprm)
+>  	 * credentials; any time after this it may be unlocked.
+>  	 */
+>  	security_bprm_committed_creds(bprm);
+> +	mutex_unlock(&current->signal->exec_update_mutex);
+>  	mutex_unlock(&current->signal->cred_guard_mutex);
+>  }
+>  EXPORT_SYMBOL(install_exec_creds);
+> @@ -1678,7 +1689,7 @@ int search_binary_handler(struct linux_binprm *bprm)
+>  
+>  		read_lock(&binfmt_lock);
+>  		put_binfmt(fmt);
+> -		if (retval < 0 && !bprm->mm) {
+> +		if (retval < 0 && bprm->called_exec_mmap) {
+>  			/* we got to flush_old_exec() and failed after it */
+>  			read_unlock(&binfmt_lock);
+>  			force_sigsegv(SIGSEGV);
+> diff --git a/include/linux/binfmts.h b/include/linux/binfmts.h
+> index b40fc63..a345d9f 100644
+> --- a/include/linux/binfmts.h
+> +++ b/include/linux/binfmts.h
+> @@ -44,7 +44,13 @@ struct linux_binprm {
+>  		 * exec has happened. Used to sanitize execution environment
+>  		 * and to set AT_SECURE auxv for glibc.
+>  		 */
+> -		secureexec:1;
+> +		secureexec:1,
+> +		/*
+> +		 * Set by flush_old_exec, when exec_mmap has been called.
+> +		 * This is past the point of no return, when the
+> +		 * exec_update_mutex has been taken.
+> +		 */
+> +		called_exec_mmap:1;
+>  #ifdef __alpha__
+>  	unsigned int taso:1;
+>  #endif
+> diff --git a/include/linux/sched/signal.h b/include/linux/sched/signal.h
+> index 8805025..a29df79 100644
+> --- a/include/linux/sched/signal.h
+> +++ b/include/linux/sched/signal.h
+> @@ -224,7 +224,14 @@ struct signal_struct {
+>  
+>  	struct mutex cred_guard_mutex;	/* guard against foreign influences on
+>  					 * credential calculations
+> -					 * (notably. ptrace) */
+> +					 * (notably. ptrace)
+> +					 * Deprecated do not use in new code.
+> +					 * Use exec_update_mutex instead.
+> +					 */
+> +	struct mutex exec_update_mutex;	/* Held while task_struct is being
+> +					 * updated during exec, and may have
+> +					 * inconsistent permissions.
+> +					 */
+>  } __randomize_layout;
+>  
+>  /*
+> diff --git a/init/init_task.c b/init/init_task.c
+> index 9e5cbe5..bd403ed 100644
+> --- a/init/init_task.c
+> +++ b/init/init_task.c
+> @@ -26,6 +26,7 @@
+>  	.multiprocess	= HLIST_HEAD_INIT,
+>  	.rlim		= INIT_RLIMITS,
+>  	.cred_guard_mutex = __MUTEX_INITIALIZER(init_signals.cred_guard_mutex),
+> +	.exec_update_mutex = __MUTEX_INITIALIZER(init_signals.exec_update_mutex),
+>  #ifdef CONFIG_POSIX_TIMERS
+>  	.posix_timers = LIST_HEAD_INIT(init_signals.posix_timers),
+>  	.cputimer	= {
+> diff --git a/kernel/fork.c b/kernel/fork.c
+> index 8642530..036b692 100644
+> --- a/kernel/fork.c
+> +++ b/kernel/fork.c
+> @@ -1594,6 +1594,7 @@ static int copy_signal(unsigned long clone_flags, struct task_struct *tsk)
+>  	sig->oom_score_adj_min = current->signal->oom_score_adj_min;
+>  
+>  	mutex_init(&sig->cred_guard_mutex);
+> +	mutex_init(&sig->exec_update_mutex);
+>  
+>  	return 0;
+>  }
+> 
 
-Thank you
->
-> Thanks
->
-> >
-> > Thank you
-> > Jaewon Kim
