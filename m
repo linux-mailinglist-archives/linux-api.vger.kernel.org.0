@@ -2,239 +2,284 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 93B6F188E42
-	for <lists+linux-api@lfdr.de>; Tue, 17 Mar 2020 20:46:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D5F59189054
+	for <lists+linux-api@lfdr.de>; Tue, 17 Mar 2020 22:29:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726549AbgCQTq0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 17 Mar 2020 15:46:26 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:38864 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726530AbgCQTq0 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Mar 2020 15:46:26 -0400
-Received: by mail-ot1-f66.google.com with SMTP id t28so20371857ott.5
-        for <linux-api@vger.kernel.org>; Tue, 17 Mar 2020 12:46:24 -0700 (PDT)
+        id S1726936AbgCQV3S (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 17 Mar 2020 17:29:18 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:42189 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726549AbgCQV3R (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Mar 2020 17:29:17 -0400
+Received: by mail-pf1-f196.google.com with SMTP id x2so12299925pfn.9
+        for <linux-api@vger.kernel.org>; Tue, 17 Mar 2020 14:29:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=9s2Sb3c4MxnnBmpoBuePNWugbWE68PyhFAR020YyxKI=;
-        b=JI600Y+S7vaaL+M1SlEKgAEtEUPT5Q45PYyhNUPJY82ExiEm4yLvuyoLjANOxrw/L8
-         K0LSxUZhq+pXM1GGwp3j51HMQSJZsaS91TWVYRhmi3aC265XUUVxVsf85Lt6C4FHfODU
-         F+8841uMdqRd6VymvDirqjn9SmklKMzELb2nq4ltyUMq1nVMo8mh6KrYIj6CXSK8975s
-         8Wppxc9EDwI6+CuP2CcdW21eufAGc9NTfDD0XTQ6x9Ta4mXhWmyFq+EubLApEE3PIMY3
-         UluxszB5ZBrGmCkrxM1stsbflxhZ846CG2/SzeG3kVFjDKkewelUAmzGKrdjkzgjSzUp
-         gkCw==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=/sMRI0VauACLkjZfQ1o3jN9W5PKGT8cUGk4UrrBBSoY=;
+        b=d0FzwdKBK/YLXE8t1dRwjWvwQAKoJA3Rdt0dlgdhOYEpbdmU1Sr8kMU8PlYHslXyrN
+         Dl7axC2i8WKhmyeYVweidZW/Rhhiu7O+SOdo+V4jZ/KBu0vMK/RecBtvJWAODcHUR0sj
+         Rcg+ZMWAbCYCbJ1Wl7lTadlUjov4RrFpki+jg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=9s2Sb3c4MxnnBmpoBuePNWugbWE68PyhFAR020YyxKI=;
-        b=lW6HS/VBAW7BeikXpwZnScIQyj1W2gFjnazFHlHMd+eZ82zY2m9L3WdEH0c/E5w6m5
-         MT+5bqtRvTY/NrBWSUOB9kqJ+i/dIaJ+zxXJaBnKdGhcd0R0ZFxi0gKhOQCMoCMNrHO0
-         osbHNRt8Y+UVGyESZwUn6g4/4zfliuKAXH+TFoViqMm2pOZ0XSwyHw2wB3mb3rPQ+v5s
-         4fq7SP+cEhAbsEXdM/gL7FTJn1uyrIH2cW2tDP+wWdPBbHdCo9yPTjjPAb+AWeivD7b3
-         v+bv8dAPXE+Wcpo0GZ76tnta/b70/SYKUfGgwSy41+2kQmeDAInQJdoOwkJaOQstIepP
-         wbEQ==
-X-Gm-Message-State: ANhLgQ3Xr5o8HZtihglDmLZMJhawLFOwtCXcVcqoDVeLJUuLt3COSQFF
-        iJyZYXzlrtzSVElxlO7pvHKvF3p+3VCqQmEOuxDwng==
-X-Google-Smtp-Source: ADFU+vuKl0l5cSfO5Cy+yKgBZm1XSTGaBWgXbflYl3a2hR5fw7Go07ECSMEPZtHP+SUIHarbwT5aqXaP0EMleeCdfQE=
-X-Received: by 2002:a9d:5e8b:: with SMTP id f11mr858477otl.110.1584474384151;
- Tue, 17 Mar 2020 12:46:24 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=/sMRI0VauACLkjZfQ1o3jN9W5PKGT8cUGk4UrrBBSoY=;
+        b=N8869+EXHPEbaA0GgUMRi2eb06e6zhIUSCkiBg/VhBHiJWswX+8tF09QVrhVWaGDQu
+         MKTP7f6J9adCGaqfo1jw9Fh564nyH68+PJOP7Q9njhzzMD4lUsiABBZMh3nWDZwADNOC
+         yhhk6UKoo3SeG/ejUKFkJHW3WOVxVvto+wuExVKqgwGbbxJYU+gWM/+tOliv5nIxaScj
+         IO9nIOUx28f4Li6V8Knadd9oaIfGCjysmtJZmNm8xAMCQdmdlz4YRAndf3kkSKU3NJwh
+         rQ8Xsw4vuJnebSxjNj8ryuO+XKIX9Mhg0vvlA5yf2w96HsfeE2qKQNmATksC2UsFKGPx
+         1nGg==
+X-Gm-Message-State: ANhLgQ1QnkFLtDZuC+kG8Sla24mrZXfe26Z8nPCvPM82dNuilsPpW9UW
+        p/26a/5X0hmj8CSBJ+aoO8muOw==
+X-Google-Smtp-Source: ADFU+vsdTrJfNhFNSnd9VpKTXB8MOOw8+ctzgV60WPiq4OrJkGbsOrygehOkVlGSrUBxYLy/u8L+rw==
+X-Received: by 2002:aa7:8709:: with SMTP id b9mr814465pfo.138.1584480554898;
+        Tue, 17 Mar 2020 14:29:14 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id gn11sm286309pjb.42.2020.03.17.14.29.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Mar 2020 14:29:13 -0700 (PDT)
+Date:   Tue, 17 Mar 2020 14:29:12 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Vlastimil Babka <vbabka@suse.cz>
+Cc:     Luis Chamberlain <mcgrof@kernel.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-mm@kvack.org, Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>
+Subject: Re: [RFC] kernel/sysctl: support setting sysctl parameters from
+ kernel command line
+Message-ID: <202003171421.5DCADF51@keescook>
+References: <20200317132105.24555-1-vbabka@suse.cz>
 MIME-Version: 1.0
-References: <20200224160215.4136-1-mic@digikod.net> <CAG48ez21bEn0wL1bbmTiiu8j9jP5iEWtHOwz4tURUJ+ki0ydYw@mail.gmail.com>
- <873d7419-bdd9-8a52-0a9b-dddbe31df4f9@digikod.net> <CAG48ez0=0W5Ok-8nASqZrZ28JboXRRi3gDxV5u6mdcOtzwuRVA@mail.gmail.com>
- <688dda0f-0907-34eb-c19e-3e9e5f613a74@digikod.net>
-In-Reply-To: <688dda0f-0907-34eb-c19e-3e9e5f613a74@digikod.net>
-From:   Jann Horn <jannh@google.com>
-Date:   Tue, 17 Mar 2020 20:45:57 +0100
-Message-ID: <CAG48ez16yT+zbK1WPxr2TnxrifW5c2DnpFLbWRRLUT_WpuFNmw@mail.gmail.com>
-Subject: Re: [RFC PATCH v14 00/10] Landlock LSM
-To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
-Cc:     kernel list <linux-kernel@vger.kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        James Morris <jmorris@namei.org>, Jann Horn <jann@thejh.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mickael.salaun@ssi.gouv.fr>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200317132105.24555-1-vbabka@suse.cz>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Mar 17, 2020 at 6:50 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net> =
-wrote:
-> On 17/03/2020 17:19, Jann Horn wrote:
-> > On Thu, Mar 12, 2020 at 12:38 AM Micka=C3=ABl Sala=C3=BCn <mic@digikod.=
-net> wrote:
-> >> On 10/03/2020 00:44, Jann Horn wrote:
-> >>> On Mon, Feb 24, 2020 at 5:03 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod=
-.net> wrote:
->
+On Tue, Mar 17, 2020 at 02:21:05PM +0100, Vlastimil Babka wrote:
+> A recently proposed patch to add vm_swappiness command line parameter in
+> addition to existing sysctl [1] made me wonder why we don't have a general
+> support for passing sysctl parameters via command line. Googling found only
+> somebody else wondering the same [2], but I haven't found any prior discussion
+> with reasons why not to do this.
+
+I'd like to see stuff like this (as you say, you've found some
+redundancies here which could be cleaned up a bit). I think the reason
+it hasn't happened before is that the answers have mostly revolved
+around "just set it in your initramfs". :P
+
 > [...]
->
-> >>> Aside from those things, there is also a major correctness issue wher=
-e
-> >>> I'm not sure how to solve it properly:
-> >>>
-> >>> Let's say a process installs a filter on itself like this:
-> >>>
-> >>> struct landlock_attr_ruleset ruleset =3D { .handled_access_fs =3D
-> >>> ACCESS_FS_ROUGHLY_WRITE};
-> >>> int ruleset_fd =3D landlock(LANDLOCK_CMD_CREATE_RULESET,
-> >>> LANDLOCK_OPT_CREATE_RULESET, sizeof(ruleset), &ruleset);
-> >>> struct landlock_attr_path_beneath path_beneath =3D {
-> >>>   .ruleset_fd =3D ruleset_fd,
-> >>>   .allowed_access =3D ACCESS_FS_ROUGHLY_WRITE,
-> >>>   .parent_fd =3D open("/tmp/foobar", O_PATH),
-> >>> };
-> >>> landlock(LANDLOCK_CMD_ADD_RULE, LANDLOCK_OPT_ADD_RULE_PATH_BENEATH,
-> >>> sizeof(path_beneath), &path_beneath);
-> >>> prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0);
-> >>> struct landlock_attr_enforce attr_enforce =3D { .ruleset_fd =3D rules=
-et_fd };
-> >>> landlock(LANDLOCK_CMD_ENFORCE_RULESET, LANDLOCK_OPT_ENFORCE_RULESET,
-> >>> sizeof(attr_enforce), &attr_enforce);
-> >>>
-> >>> At this point, the process is not supposed to be able to write to
-> >>> anything outside /tmp/foobar, right? But what happens if the process
-> >>> does the following next?
-> >>>
-> >>> struct landlock_attr_ruleset ruleset =3D { .handled_access_fs =3D
-> >>> ACCESS_FS_ROUGHLY_WRITE};
-> >>> int ruleset_fd =3D landlock(LANDLOCK_CMD_CREATE_RULESET,
-> >>> LANDLOCK_OPT_CREATE_RULESET, sizeof(ruleset), &ruleset);
-> >>> struct landlock_attr_path_beneath path_beneath =3D {
-> >>>   .ruleset_fd =3D ruleset_fd,
-> >>>   .allowed_access =3D ACCESS_FS_ROUGHLY_WRITE,
-> >>>   .parent_fd =3D open("/", O_PATH),
-> >>> };
-> >>> landlock(LANDLOCK_CMD_ADD_RULE, LANDLOCK_OPT_ADD_RULE_PATH_BENEATH,
-> >>> sizeof(path_beneath), &path_beneath);
-> >>> prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0);
-> >>> struct landlock_attr_enforce attr_enforce =3D { .ruleset_fd =3D rules=
-et_fd };
-> >>> landlock(LANDLOCK_CMD_ENFORCE_RULESET, LANDLOCK_OPT_ENFORCE_RULESET,
-> >>> sizeof(attr_enforce), &attr_enforce);
-> >>>
-> >>> As far as I can tell from looking at the source, after this, you will
-> >>> have write access to the entire filesystem again. I think the idea is
-> >>> that LANDLOCK_CMD_ENFORCE_RULESET should only let you drop privileges=
-,
-> >>> not increase them, right?
-> >>
-> >> There is an additionnal check in syscall.c:get_path_from_fd(): it is
-> >> forbidden to add a rule with a path which is not accessible (according
-> >> to LANDLOCK_ACCESS_FS_OPEN) thanks to a call to security_file_open(),
-> >> but this is definitely not perfect.
-> >
-> > Ah, I missed that.
-> >
-> >>> I think the easy way to fix this would be to add a bitmask to each
-> >>> rule that says from which ruleset it originally comes, and then let
-> >>> check_access_path() collect these bitmasks from each rule with OR, an=
-d
-> >>> check at the end whether the resulting bitmask is full - if not, at
-> >>> least one of the rulesets did not permit the access, and it should be
-> >>> denied.
-> >>>
-> >>> But maybe it would make more sense to change how the API works
-> >>> instead, and get rid of the concept of "merging" two rulesets
-> >>> together? Instead, we could make the API work like this:
-> >>>
-> >>>  - LANDLOCK_CMD_CREATE_RULESET gives you a file descriptor whose
-> >>> ->private_data contains a pointer to the old ruleset of the process,
-> >>> as well as a pointer to a new empty ruleset.
-> >>>  - LANDLOCK_CMD_ADD_RULE fails if the specified rule would not be
-> >>> permitted by the old ruleset, then adds the rule to the new ruleset
-> >>>  - LANDLOCK_CMD_ENFORCE_RULESET fails if the old ruleset pointer in
-> >>> ->private_data doesn't match the current ruleset of the process, then
-> >>> replaces the old ruleset with the new ruleset.
-> >>>
-> >>> With this, the new ruleset is guaranteed to be a subset of the old
-> >>> ruleset because each of the new ruleset's rules is permitted by the
-> >>> old ruleset. (Unless the directory hierarchy rotates, but in that cas=
-e
-> >>> the inaccuracy isn't much worse than what would've been possible
-> >>> through RCU path walk anyway AFAIK.)
-> >>>
-> >>> What do you think?
-> >>>
-> >>
-> >> I would prefer to add the same checks you described at first (with
-> >> check_access_path), but only when creating a new ruleset with
-> >> merge_ruleset() (which should probably be renamed). This enables not t=
-o
-> >> rely on a parent ruleset/domain until the enforcement, which is the ca=
-se
-> >> anyway.
-> >> Unfortunately this doesn't work for some cases with bind mounts. Becau=
-se
-> >> check_access_path() goes through one path, another (bind mounted) path
-> >> could be illegitimately allowed.
-> >
-> > Hmm... I'm not sure what you mean. At the moment, landlock doesn't
-> > allow any sandboxed process to change the mount hierarchy, right? Can
-> > you give an example where this would go wrong?
->
-> Indeed, a Landlocked process must no be able to change its mount
-> namespace layout. However, bind mounts may already exist.
-> Let's say a process sandbox itself to only access /a in a read-write
-> way.
+> Hence, this patch adds a new parse_args() pass that looks for parameters
+> prefixed by 'sysctl.' and searches for them in the sysctl ctl_tables. When
+> found, the respective proc handler is invoked. The search is just a naive
+> linear one, to avoid using the whole procfs layer. It should be acceptable,
+> as the cost depends on number of sysctl. parameters passed.
 
-So, first policy:
+I think this needs reconsidering: this RFC only searches 1 level deep,
+but sysctls are a tree. For example:
 
-/a RW
+kernel.yama.ptrace_scope
+mm.transparent_hugepage.enabled
+net.ipv4.conf.default.rp_filter
+...etc
 
-> Then, this process (or one of its children) add a new restriction
-> on /a/b to only be able to read this hierarchy.
+If this goes in, it'll need to do full traversal.
 
-You mean with the second policy looking like this?
+> The main limitation of avoiding the procfs layer is however that sysctls
+> dynamically registered by register_sysctl_table() or register_sysctl_paths()
+> cannot be set by this method.
 
-/a RW
-/a/b R
+Correct. And I like what you've done in the code: announce any unhandled
+sysctls.
 
-Then the resulting policy would be:
+> The processing is hooked right before the init process is loaded, as some
+> handlers might be more complicated than simple setters and might need some
+> subsystems to be initialized. At the moment the init process can be started and
+> eventually execute a process writing to /proc/sys/ then it should be also fine
+> to do that from the kernel.
 
-/a RW policy_bitmask=3D0x00000003 (bits 0 and 1 set)
-/a/b R policy_bitmask=3D0x00000002 (bit 1 set)
-required_bits=3D0x00000003 (bits 0 and 1 set)
+I agree about placement.
 
-> The check at insertion
-> time would allow this because this access right is a subset of the
-> access right allowed with the parent directory. However, If /a/b is bind
-> mounted somewhere else, let's say in /private/b, then the second
-> enforcement just gave new access rights to this hierarchy too.
+> 
+> [1] https://lore.kernel.org/linux-doc/BL0PR02MB560167492CA4094C91589930E9FC0@BL0PR02MB5601.namprd02.prod.outlook.com/
+> [2] https://unix.stackexchange.com/questions/558802/how-to-set-sysctl-using-kernel-command-line-parameter
+> 
+> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+> ---
+> Hi,
+> 
+> this is an early RFC so I can get feedback whether to pursue this idea further,
+> before trying the more complicated stuff with dynamically registered sysctls.
+> For those I have some unanswered questions:
+> - Support them at all?
 
-But with the solution I proposed, landlock's path walk would see
-something like this when accessing a file at /private/b/foo:
-/private/b/foo <no rules>
-  policies seen until now: 0x00000000
-/private/b <access: R, policy_bitmask=3D0x00000002>
-  policies seen until now: 0x00000002
-/private <no rules>
-  policies seen until now: 0x00000002
-/ <no rules>
-  policies seen until now: 0x00000002
+Maybe? It seems excessive for the initial version.
 
-It wouldn't encounter any rule from the first policy, so the OR of the
-seen policy bitmasks would be 0x00000002, which is not the required
-value 0x00000003, and so the access would be denied.
+> - Do so by an internal procfs mount again, that was removed by 61a47c1ad3a4 ?
+>   Or try to keep it simple.
+
+I think you can walk the registered sysctl structures themselves, yes?
+
+> - If sysctls are dynamically registered at module load, process the command
+>   line sysctl arguments again? - this would be rather complicated I guess.
+
+If it does get supported, perhaps saving them somewhere for
+register_sysctl_table() to walk when it gets called?
+
+I like the idea if just for having to build less boiler plate for
+supporting things that I've had to plumb to both boot_params and sysctl.
+:)
+
+-Kees
+
+> 
+> Vlastimil
+> 
+>  include/linux/sysctl.h |  1 +
+>  init/main.c            | 21 ++++++++++++++
+>  kernel/sysctl.c        | 66 ++++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 88 insertions(+)
+> 
+> diff --git a/include/linux/sysctl.h b/include/linux/sysctl.h
+> index 02fa84493f23..62ae963a5c0c 100644
+> --- a/include/linux/sysctl.h
+> +++ b/include/linux/sysctl.h
+> @@ -206,6 +206,7 @@ struct ctl_table_header *register_sysctl_paths(const struct ctl_path *path,
+>  void unregister_sysctl_table(struct ctl_table_header * table);
+>  
+>  extern int sysctl_init(void);
+> +int process_sysctl_arg(char *param, char *val, const char *unused, void *arg);
+>  
+>  extern struct ctl_table sysctl_mount_point[];
+>  
+> diff --git a/init/main.c b/init/main.c
+> index ee4947af823f..74a094c6b8b9 100644
+> --- a/init/main.c
+> +++ b/init/main.c
+> @@ -1345,6 +1345,25 @@ void __weak free_initmem(void)
+>  	free_initmem_default(POISON_FREE_INITMEM);
+>  }
+>  
+> +static void do_sysctl_args(void)
+> +{
+> +#ifdef CONFIG_SYSCTL
+> +	size_t len = strlen(saved_command_line) + 1;
+> +	char *command_line;
+> +
+> +	command_line = kzalloc(len, GFP_KERNEL);
+> +	if (!command_line)
+> +		panic("%s: Failed to allocate %zu bytes\n", __func__, len);
+> +
+> +	strcpy(command_line, saved_command_line);
+> +
+> +	parse_args("Setting sysctl args", command_line,
+> +		   NULL, 0, -1, -1, NULL, process_sysctl_arg);
+> +
+> +	kfree(command_line);
+> +#endif
+> +}
+> +
+>  static int __ref kernel_init(void *unused)
+>  {
+>  	int ret;
+> @@ -1367,6 +1386,8 @@ static int __ref kernel_init(void *unused)
+>  
+>  	rcu_end_inkernel_boot();
+>  
+> +	do_sysctl_args();
+> +
+>  	if (ramdisk_execute_command) {
+>  		ret = run_init_process(ramdisk_execute_command);
+>  		if (!ret)
+> diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+> index ad5b88a53c5a..0444656c259d 100644
+> --- a/kernel/sysctl.c
+> +++ b/kernel/sysctl.c
+> @@ -1980,6 +1980,72 @@ int __init sysctl_init(void)
+>  	return 0;
+>  }
+>  
+> +/* Set sysctl value passed on kernel command line. */
+> +int process_sysctl_arg(char *param, char *val,
+> +			       const char *unused, void *arg)
+> +{
+> +	size_t count;
+> +	char *tmp;
+> +	int err;
+> +	loff_t ppos = 0;
+> +	struct ctl_table *base, *child = NULL, *found = NULL;
+> +
+> +	if (strncmp(param, "sysctl.", sizeof("sysctl.") - 1))
+> +		return 0;
+> +
+> +	param += (sizeof("sysctl.") - 1);
+> +
+> +	tmp = strchr(param, '.');
+> +	if (!tmp) {
+> +		pr_warn("Invalid sysctl param '%s' on command line", param);
+> +		return 0;
+> +	}
+> +
+> +	*tmp = '\0';
+> +
+> +	for (base = &sysctl_base_table[0]; base->procname != 0; base++) {
+> +		if (strcmp(param, base->procname) == 0) {
+> +			child = base->child;
+> +			break;
+> +		}
+> +	}
+> +
+> +	if (!child) {
+> +		pr_warn("Unknown sysctl prefix '%s' on command line", param);
+> +		return 0;
+> +	}
+> +
+> +	tmp++;
+> +
+> +	for (; child->procname != 0; child++) {
+> +		if (strcmp(tmp, child->procname) == 0) {
+> +			found = child;
+> +			break;
+> +		}
+> +	}
+> +
+> +	if (!found) {
+> +		pr_warn("Unknown sysctl param '%s.%s' on command line", param, tmp);
+> +		return 0;
+> +	}
+> +
+> +	if (!(found->mode & 0200)) {
+> +		pr_warn("Cannot set sysctl '%s.%s=%s' from command line - not writable",
+> +			param, tmp, val);
+> +		return 0;
+> +	}
+> +
+> +
+> +	count = strlen(val);
+> +	err = found->proc_handler(found, 1, val, &count, &ppos);
+> +
+> +	if (err)
+> +		pr_warn("Error %d setting sysctl '%s.%s=%s' from command line",
+> +			err, param, tmp, val);
+> +
+> +	return 0;
+> +}
+> +
+>  #endif /* CONFIG_SYSCTL */
+>  
+>  /*
+> -- 
+> 2.25.1
+> 
+
+-- 
+Kees Cook
