@@ -2,145 +2,158 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2894B187C5F
-	for <lists+linux-api@lfdr.de>; Tue, 17 Mar 2020 10:40:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 11B3718823B
+	for <lists+linux-api@lfdr.de>; Tue, 17 Mar 2020 12:32:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726777AbgCQJkO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 17 Mar 2020 05:40:14 -0400
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:33464 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726760AbgCQJkN (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Mar 2020 05:40:13 -0400
-Received: by mail-ed1-f68.google.com with SMTP id z65so25528161ede.0;
-        Tue, 17 Mar 2020 02:40:12 -0700 (PDT)
+        id S1725794AbgCQLcA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 17 Mar 2020 07:32:00 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:42256 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725872AbgCQLb7 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Mar 2020 07:31:59 -0400
+Received: by mail-lj1-f195.google.com with SMTP id q19so22319582ljp.9
+        for <linux-api@vger.kernel.org>; Tue, 17 Mar 2020 04:31:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=Z+fnHPmjTvYVaCbry35HAxtdpXdWo4RD3OIz+px6SGc=;
-        b=Wd8arqk+ky/rUkkIYXPsVMQ1m9DliRq56vGPcryGaIl9nl1q7/V2snm5rdly3z8Oec
-         iRXiFwNg1xdkDZi7oiR4VIA1SaAr1V6j9pCvbgvBv+Mt+AH4XCxUrEh7hK2rs5WHKIHt
-         qFW3M59FVVbcG6mZWmCFljtEzMWJblCi6pydhLeZQptGynR2kJqWicJBBXNUGDUBKcW6
-         9vWGH1JBpfXGwBstUKPHgLrYHHvTwP8Zj1h+MiD01ebw/DmvPg5VBGO8kMeVBpIYnxuK
-         qrXtZak/ruwGq0wAvfVSunWfIVZBw4lsSPAk5ijYvTogzCCFsahhqd7aJPK7KVG3RPgt
-         f8SA==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WmJlBqTMa5CmdiFIToGjODDNiC8IWRj11NilEIEtQyE=;
+        b=F+QLlWXHueXk9FIie+nFx5HGLWeGdYJkP1o+weY4/OE7tGYvjaycevNwN888rlgn8/
+         nTLBUXpuzAe/IDou25ef/q2vc4WvRwwug6YUdLnhfXfZVDS8027fcl7ELowhrgXoSEtY
+         KB/HU3ypUqaJZR6sLIjBk22EL59kT6FsLYCgoS79hCVnV/7uXK3bACbOAImWiQ5zfDmV
+         OlqVjFhQ0dUs97Wu5f1FzjrVVB4iciokJnoUKu5vXptLshhJeBCg7P7kDhQ349KTiC7w
+         /97l8ecM3Q9N+M80A4VduEj/zPXxW7kDiUmHHsoK/FaHIwVXsqo7l7hu1VHHRoZeT6xI
+         r3Qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=Z+fnHPmjTvYVaCbry35HAxtdpXdWo4RD3OIz+px6SGc=;
-        b=UxPsa/21QrvfcMOxopvOuRo1fWpaA2L/nbbht3xXFzrXqFpC/Rz3lpUnpYwqhlBpB/
-         gwRVKCgZplewCxNaihjf6TyCu8nI64u06W3uZHgkn4FxVhxzQZ3X5wZHM2qwXdlOXLSi
-         EUivFJkak02930ry7d1Tfo1/nkNzDPc/QKm6yjYTf7Nc8t7pZazQwkIN/OFJUn7dJh9d
-         +85vEQD/NSw0skAADXaO3m5gtm2vY+QzzoJzu2ryWzk554lcTAl2/CzH5IshOwfebtoK
-         eCYLZ2tzlNCHVnBcG0BvzxI4iSxji2uJHoniRStBphV3Jxn5lW0uP+K/pXXO02+q0vcU
-         v/zA==
-X-Gm-Message-State: ANhLgQ2qIN3lEiG4QMZI2M5KJ6vYyx66U8YlLTYcWVbHmExO3SsP6YrE
-        R/898AoYShIRLwezjsLMG7bQghV5TD7fSmoaa+8=
-X-Google-Smtp-Source: ADFU+vvei8gNf0aOLwxNV7tM+antMLxB/49Sgt3hcAwiXwanufRDe6jH1Jpeb5CgdbhLdyycQMV4+IisSCsMoEVfNSQ=
-X-Received: by 2002:a17:906:70c9:: with SMTP id g9mr3284339ejk.243.1584438011180;
- Tue, 17 Mar 2020 02:40:11 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WmJlBqTMa5CmdiFIToGjODDNiC8IWRj11NilEIEtQyE=;
+        b=pc0Q1+fSMjKOrRLwwQmhOwEzEniaQqb+I5wjkDXTxPDiuT1uowSKonMnpns+baEwdK
+         bCWnXVtd/QL9fg0QDAEozbLlTokk+2/4vZByKb7W25+Bz4cggvRWfDDamV58Vw4qdDpg
+         NLcWFg1OrPy2GnKXVLfSsfgSURDKZ+8hU8Zp7UqzLzdisNnZ9WyYxxPhQjYn8mdM4duI
+         FPxKxgCSv+agU8PaX2foqxWJOzJMO7F8RJwQ5QQ4ovyH0kB6tnwU0eJNKisT115AgCMC
+         6aMROI5pSF+rY0rPBqt2khcjya+9Hli6QIaxmi8mGXV+gUgWdo8JP5sLLjFAPIiV09VQ
+         /Udw==
+X-Gm-Message-State: ANhLgQ0jGyjdjjeMtZgInWRNuIZmqV5BkyqZEKEi1eCMvs25885Rf/ic
+        QmRvN2mD8meaz+YN6mB1erg8+w==
+X-Google-Smtp-Source: ADFU+vuUA0PtGuRfrupcVqALAoBlNnXdvyHxT7lgi1sZxyelUn5XW7P+x0jA+NKEwgdlYgklvWkvNA==
+X-Received: by 2002:a2e:9804:: with SMTP id a4mr500667ljj.180.1584444717157;
+        Tue, 17 Mar 2020 04:31:57 -0700 (PDT)
+Received: from genomnajs.ideon.se ([85.235.10.227])
+        by smtp.gmail.com with ESMTPSA id a18sm2105691ljn.85.2020.03.17.04.31.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Mar 2020 04:31:56 -0700 (PDT)
+From:   Linus Walleij <linus.walleij@linaro.org>
+To:     Theodore Ts'o <tytso@mit.edu>,
+        Andreas Dilger <adilger.kernel@dilger.ca>
+Cc:     linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, qemu-devel@nongnu.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Florian Weimer <fw@deneb.enyo.de>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Andy Lutomirski <luto@kernel.org>, stable@vger.kernel.org
+Subject: [PATCH] ext4: Give 32bit personalities 32bit hashes
+Date:   Tue, 17 Mar 2020 12:31:53 +0100
+Message-Id: <20200317113153.7945-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-References: <20200317083043.226593-1-areber@redhat.com>
-In-Reply-To: <20200317083043.226593-1-areber@redhat.com>
-Reply-To: mtk.manpages@gmail.com
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Date:   Tue, 17 Mar 2020 10:40:00 +0100
-Message-ID: <CAKgNAkh7=2Noyn0o3880xbbi4w5oiwqs9ibTYLtheqzxne3mbQ@mail.gmail.com>
-Subject: Re: clone3: allow creation of time namespace with offset
-To:     Adrian Reber <areber@redhat.com>
-Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Pavel Emelyanov <ovzxemul@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Dmitry Safonov <0x7f454c46@gmail.com>,
-        Andrei Vagin <avagin@gmail.com>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Radostin Stoyanov <rstoyanov1@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Cyrill Gorcunov <gorcunov@openvz.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-[CC += linux-api; please CC on future versions]
+It was brought to my attention that this bug from 2018 was
+still unresolved: 32 bit emulators like QEMU were given
+64 bit hashes when running 32 bit emulation on 64 bit systems.
 
-On Tue, 17 Mar 2020 at 09:32, Adrian Reber <areber@redhat.com> wrote:
->
-> This is an attempt to add time namespace support to clone3(). I am not
-> really sure which way clone3() should handle time namespaces. The time
-> namespace through /proc cannot be used with clone3() because the offsets
-> for the time namespace need to be written before a process has been
-> created in that time namespace. This means it is necessary to somehow
-> tell clone3() the offsets for the clocks.
->
-> The time namespace offers the possibility to set offsets for
-> CLOCK_MONOTONIC and CLOCK_BOOTTIME. My first approach was to extend
-> 'struct clone_args` with '__aligned_u64 monotonic_offset' and
-> '__aligned_u64 boottime_offset'. The problem with this approach was that
-> it was not possible to set nanoseconds for the clocks in the time
-> namespace.
->
-> One of the motivations for clone3() with CLONE_NEWTIME was to enable
-> CRIU to restore a process in a time namespace with the corresponding
-> offsets. And although the nanosecond value can probably never be
-> restored to the same value it had during checkpointing, because the
-> clock keeps on running between CRIU pausing all processes and CRIU
-> actually reading the value of the clocks, the nanosecond value is still
-> necessary for CRIU to not restore a process where the clock jumps back
-> due to CRIU restoring it with a nanonsecond value that is too small.
->
-> Requiring nanoseconds as well as seconds for two clocks during clone3()
-> means that it would require 4 additional members to 'struct clone_args':
->
->         __aligned_u64 tls;
->         __aligned_u64 set_tid;
->         __aligned_u64 set_tid_size;
-> +       __aligned_u64 boottime_offset_seconds;
-> +       __aligned_u64 boottime_offset_nanoseconds;
-> +       __aligned_u64 monotonic_offset_seconds;
-> +       __aligned_u64 monotonic_offset_nanoseconds;
->  };
->
-> To avoid four additional members to 'struct clone_args' this patchset
-> uses another approach:
->
->         __aligned_u64 tls;
->         __aligned_u64 set_tid;
->         __aligned_u64 set_tid_size;
-> +       __aligned_u64 timens_offset;
-> +       __aligned_u64 timens_offset_size;
->  };
->
-> timens_offset is a pointer to an array just as previously done with
-> set_tid and timens_offset_size is the size of the array.
->
-> The timens_offset array is expected to contain a struct like this:
->
-> struct set_timens_offset {
->        int clockid;
->        struct timespec val;
-> };
->
-> This way it is possible to pass the information of multiple clocks with
-> seconds and nanonseconds to clone3().
->
-> To me this seems the better approach, but I am not totally convinced
-> that it is the right thing. If there are other ideas how to pass two
-> clock offsets with seconds and nanonseconds to clone3() I would be happy
-> to hear other ideas.
->
->                 Adrian
->
->
+The personality(2) system call supports to let processes
+indicate that they are 32 bit Linux to the kernel. This
+was suggested by Teo in the original thread, so I just wired
+it up and it solves the problem.
 
+Programs that need the 32 bit hash only need to issue the
+personality(PER_LINUX32) call and things start working.
 
+I made a test program like this:
+
+  #include <dirent.h>
+  #include <errno.h>
+  #include <stdio.h>
+  #include <string.h>
+  #include <sys/types.h>
+  #include <sys/personality.h>
+
+  int main(int argc, char** argv) {
+    DIR* dir;
+    personality(PER_LINUX32);
+    dir = opendir("/boot");
+    printf("dir=%p\n", dir);
+    printf("readdir(dir)=%p\n", readdir(dir));
+    printf("errno=%d: %s\n", errno, strerror(errno));
+    return 0;
+  }
+
+This was compiled with an ARM32 toolchain from Bootlin using
+glibc 2.28 and thus suffering from the bug.
+
+Before the patch:
+
+  $ ./readdir-bug
+  dir=0x86000
+  readdir(dir)=(nil)
+  errno=75: Value too large for defined data type
+
+After the patch:
+
+  $ ./readdir-bug
+  dir=0x86000
+  readdir(dir)=0x86020
+  errno=0: Success
+
+Problem solved.
+
+Cc: Florian Weimer <fw@deneb.enyo.de>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Andy Lutomirski <luto@kernel.org>
+Cc: stable@vger.kernel.org
+Suggested-by: Theodore Ts'o <tytso@mit.edu>
+Link: https://bugs.launchpad.net/qemu/+bug/1805913
+Link: https://lore.kernel.org/lkml/87bm56vqg4.fsf@mid.deneb.enyo.de/
+Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=205957
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ fs/ext4/dir.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/fs/ext4/dir.c b/fs/ext4/dir.c
+index 9aa1f75409b0..3faf9edf3e92 100644
+--- a/fs/ext4/dir.c
++++ b/fs/ext4/dir.c
+@@ -27,6 +27,7 @@
+ #include <linux/slab.h>
+ #include <linux/iversion.h>
+ #include <linux/unicode.h>
++#include <linux/personality.h>
+ #include "ext4.h"
+ #include "xattr.h"
+ 
+@@ -618,6 +619,14 @@ static int ext4_dx_readdir(struct file *file, struct dir_context *ctx)
+ 
+ static int ext4_dir_open(struct inode * inode, struct file * filp)
+ {
++	/*
++	 * If we are currently running e.g. a 32 bit emulator on
++	 * a 64 bit machine, the emulator will indicate that it needs
++	 * a 32 bit personality and thus 32 bit hashes from the file
++	 * system.
++	 */
++	if (personality(current->personality) == PER_LINUX32)
++		filp->f_mode |= FMODE_32BITHASH;
+ 	if (IS_ENCRYPTED(inode))
+ 		return fscrypt_get_encryption_info(inode) ? -EACCES : 0;
+ 	return 0;
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+2.24.1
+
