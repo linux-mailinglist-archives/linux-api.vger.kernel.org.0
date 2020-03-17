@@ -2,192 +2,103 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EE9A9188798
-	for <lists+linux-api@lfdr.de>; Tue, 17 Mar 2020 15:37:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 354B41889D1
+	for <lists+linux-api@lfdr.de>; Tue, 17 Mar 2020 17:09:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726452AbgCQOhV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 17 Mar 2020 10:37:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37882 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726112AbgCQOhU (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 17 Mar 2020 10:37:20 -0400
-Received: from localhost (unknown [213.57.247.131])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E6B48206EC;
-        Tue, 17 Mar 2020 14:37:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1584455839;
-        bh=dARYz+leSffiwgdemawygAm01GWic7pAWNKG76n9NdI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=D1tC7jy9B+DYx1AtU6mc14IU6Nmj7AKyr97756dfyfL369IC63E6hTaJzpUuFdKX9
-         /7TDOuI4EQDZQbHbvhFhZyXSFdC3PAlJn8x0s9uwIZ3up037yoxsbjWdVvJ7tdH+Ab
-         KwFHhUxCf9wu8UABGt4vGgQJS+bNnaYKQKqlBwKg=
-Date:   Tue, 17 Mar 2020 16:37:15 +0200
-From:   Leon Romanovsky <leon@kernel.org>
-To:     Jaewon Kim <jaewon31.kim@gmail.com>
-Cc:     Jaewon Kim <jaewon31.kim@samsung.com>,
-        Vlastimil Babka <vbabka@suse.cz>, adobriyan@gmail.com,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>, minchan@kernel.org,
-        ngupta@vflare.org, sergey.senozhatsky.work@gmail.com,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        id S1726019AbgCQQJw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 17 Mar 2020 12:09:52 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:58740 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726016AbgCQQJw (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Mar 2020 12:09:52 -0400
+Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236] helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1jEEmm-0004fx-QV; Tue, 17 Mar 2020 16:09:44 +0000
+Date:   Tue, 17 Mar 2020 17:09:43 +0100
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Aleksa Sarai <cyphar@cyphar.com>
+Cc:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
+        Adrian Reber <areber@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Pavel Emelyanov <ovzxemul@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Dmitry Safonov <0x7f454c46@gmail.com>,
+        Andrei Vagin <avagin@gmail.com>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Radostin Stoyanov <rstoyanov1@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Cyrill Gorcunov <gorcunov@openvz.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Linux API <linux-api@vger.kernel.org>
-Subject: Re: [RFC PATCH 0/3] meminfo: introduce extra meminfo
-Message-ID: <20200317143715.GI3351@unreal>
-References: <CGME20200311034454epcas1p2ef0c0081971dd82282583559398e58b2@epcas1p2.samsung.com>
- <20200311034441.23243-1-jaewon31.kim@samsung.com>
- <af4ace34-0db2-dd17-351f-eaa806f0a6ac@suse.cz>
- <20200313174827.GA67638@unreal>
- <5E6EFB6C.7050105@samsung.com>
- <20200316083154.GF8510@unreal>
- <CAJrd-UvttDDSL=q1RXC6Z+jvZAGsN2iM8C8xOSrpJFdLb0e-3g@mail.gmail.com>
+Subject: Re: clone3: allow creation of time namespace with offset
+Message-ID: <20200317160943.2qquqsa4l3oc7ii2@wittgenstein>
+References: <20200317083043.226593-1-areber@redhat.com>
+ <CAKgNAkh7=2Noyn0o3880xbbi4w5oiwqs9ibTYLtheqzxne3mbQ@mail.gmail.com>
+ <20200317142350.ssraami3a4vnk5po@yavin>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJrd-UvttDDSL=q1RXC6Z+jvZAGsN2iM8C8xOSrpJFdLb0e-3g@mail.gmail.com>
+In-Reply-To: <20200317142350.ssraami3a4vnk5po@yavin>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Mar 17, 2020 at 12:04:46PM +0900, Jaewon Kim wrote:
-> 2020년 3월 16일 (월) 오후 5:32, Leon Romanovsky <leon@kernel.org>님이 작성:
-> >
-> > On Mon, Mar 16, 2020 at 01:07:08PM +0900, Jaewon Kim wrote:
+On Wed, Mar 18, 2020 at 01:23:50AM +1100, Aleksa Sarai wrote:
+> On 2020-03-17, Michael Kerrisk (man-pages) <mtk.manpages@gmail.com> wrote:
+> > [CC += linux-api; please CC on future versions]
+> > 
+> > On Tue, 17 Mar 2020 at 09:32, Adrian Reber <areber@redhat.com> wrote:
+> > > Requiring nanoseconds as well as seconds for two clocks during clone3()
+> > > means that it would require 4 additional members to 'struct clone_args':
 > > >
+> > >         __aligned_u64 tls;
+> > >         __aligned_u64 set_tid;
+> > >         __aligned_u64 set_tid_size;
+> > > +       __aligned_u64 boottime_offset_seconds;
+> > > +       __aligned_u64 boottime_offset_nanoseconds;
+> > > +       __aligned_u64 monotonic_offset_seconds;
+> > > +       __aligned_u64 monotonic_offset_nanoseconds;
+> > >  };
 > > >
-> > > On 2020년 03월 14일 02:48, Leon Romanovsky wrote:
-> > > > On Fri, Mar 13, 2020 at 04:19:36PM +0100, Vlastimil Babka wrote:
-> > > >> +CC linux-api, please include in future versions as well
-> > > >>
-> > > >> On 3/11/20 4:44 AM, Jaewon Kim wrote:
-> > > >>> /proc/meminfo or show_free_areas does not show full system wide memory
-> > > >>> usage status. There seems to be huge hidden memory especially on
-> > > >>> embedded Android system. Because it usually have some HW IP which do not
-> > > >>> have internal memory and use common DRAM memory.
-> > > >>>
-> > > >>> In Android system, most of those hidden memory seems to be vmalloc pages
-> > > >>> , ion system heap memory, graphics memory, and memory for DRAM based
-> > > >>> compressed swap storage. They may be shown in other node but it seems to
-> > > >>> useful if /proc/meminfo shows all those extra memory information. And
-> > > >>> show_mem also need to print the info in oom situation.
-> > > >>>
-> > > >>> Fortunately vmalloc pages is alread shown by commit 97105f0ab7b8
-> > > >>> ("mm: vmalloc: show number of vmalloc pages in /proc/meminfo"). Swap
-> > > >>> memory using zsmalloc can be seen through vmstat by commit 91537fee0013
-> > > >>> ("mm: add NR_ZSMALLOC to vmstat") but not on /proc/meminfo.
-> > > >>>
-> > > >>> Memory usage of specific driver can be various so that showing the usage
-> > > >>> through upstream meminfo.c is not easy. To print the extra memory usage
-> > > >>> of a driver, introduce following APIs. Each driver needs to count as
-> > > >>> atomic_long_t.
-> > > >>>
-> > > >>> int register_extra_meminfo(atomic_long_t *val, int shift,
-> > > >>>                      const char *name);
-> > > >>> int unregister_extra_meminfo(atomic_long_t *val);
-> > > >>>
-> > > >>> Currently register ION system heap allocator and zsmalloc pages.
-> > > >>> Additionally tested on local graphics driver.
-> > > >>>
-> > > >>> i.e) cat /proc/meminfo | tail -3
-> > > >>> IonSystemHeap:    242620 kB
-> > > >>> ZsPages:          203860 kB
-> > > >>> GraphicDriver:    196576 kB
-> > > >>>
-> > > >>> i.e.) show_mem on oom
-> > > >>> <6>[  420.856428]  Mem-Info:
-> > > >>> <6>[  420.856433]  IonSystemHeap:32813kB ZsPages:44114kB GraphicDriver::13091kB
-> > > >>> <6>[  420.856450]  active_anon:957205 inactive_anon:159383 isolated_anon:0
-> > > >> I like the idea and the dynamic nature of this, so that drivers not present
-> > > >> wouldn't add lots of useless zeroes to the output.
-> > > >> It also makes simpler the decisions of "what is important enough to need its own
-> > > >> meminfo entry".
-> > > >>
-> > > >> The suggestion for hunting per-driver /sys files would only work if there was a
-> > > >> common name to such files so once can find(1) them easily.
-> > > >> It also doesn't work for the oom/failed alloc warning output.
-> > > > Of course there is a need to have a stable name for such an output, this
-> > > > is why driver/core should be responsible for that and not drivers authors.
-> > > >
-> > > > The use case which I had in mind slightly different than to look after OOM.
-> > > >
-> > > > I'm interested to optimize our drivers in their memory footprint to
-> > > > allow better scale in SR-IOV mode where one device creates many separate
-> > > > copies of itself. Those copies easily can take gigabytes of RAM due to
-> > > > the need to optimize for high-performance networking. Sometimes the
-> > > > amount of memory and not HW is actually limits the scale factor.
-> > > >
-> > > > So I would imagine this feature being used as an aid for the driver
-> > > > developers and not for the runtime decisions.
-> > > >
-> > > > My 2-cents.
-> > > >
-> > > > Thanks
-> > > >
-> > > >
-> > > Thank you for your comment.
-> > > My idea, I think, may be able to help each driver developer to see their memory usage.
-> > > But I'd like to see overall memory usage through the one node.
-> >
-> > It is more than enough :).
-> >
+> > > To avoid four additional members to 'struct clone_args' this patchset
+> > > uses another approach:
 > > >
-> > > Let me know if you have more comment.
-> > > I am planning to move my logic to be shown on a new node, /proc/meminfo_extra at v2.
-> >
-> > Can you please help me to understand how that file will look like once
-> > many drivers will start to use this interface? Will I see multiple
-> > lines?
-> >
-> > Something like:
-> > driver1 ....
-> > driver2 ....
-> > driver3 ....
-> > ...
-> > driver1000 ....
-> >
-> > How can we extend it to support subsystems core code?
->
-> I do not have a plan to support subsystem core.
-
-Fair enough.
-
->
-> I just want the /proc/meminfo_extra to show size of alloc_pages APIs
-> rather than slub size. It is to show hidden huge memory.
-> I think most of drivers do not need to register its size to
-> /proc/meminfo_extra because
-> drivers usually use slub APIs and rather than alloc_pages APIs.
-> /proc/slabinfo helps for slub size in detail.
-
-The problem with this statement that the drivers that consuming memory
-are the ones who are interested in this interface. I can be not accurate
-here, but I think that all RDMA and major NICs will want to get this
-information.
-
-On my machine, it is something like 6 devices.
-
->
-> As a candidate of /proc/meminfo_extra, I hope only few drivers using
-> huge memory like over 100 MB got from alloc_pages APIs.
->
-> As you say, if there is a static node on /sys for each driver, it may
-> be used for all the drivers.
-> I think sysfs class way may be better to show categorized sum size.
-> But /proc/meminfo_extra can be another way to show those hidden huge memory.
-> I mean your idea and my idea is not exclusive.
-
-It is just better to have one interface.
-
->
-> Thank you
-> >
-> > Thanks
-> >
+> > >         __aligned_u64 tls;
+> > >         __aligned_u64 set_tid;
+> > >         __aligned_u64 set_tid_size;
+> > > +       __aligned_u64 timens_offset;
+> > > +       __aligned_u64 timens_offset_size;
+> > >  };
 > > >
-> > > Thank you
-> > > Jaewon Kim
->
+> > > timens_offset is a pointer to an array just as previously done with
+> > > set_tid and timens_offset_size is the size of the array.
+> > >
+> > > The timens_offset array is expected to contain a struct like this:
+> > >
+> > > struct set_timens_offset {
+> > >        int clockid;
+> > >        struct timespec val;
+> > > };
+> > >
+> > > This way it is possible to pass the information of multiple clocks with
+> > > seconds and nanonseconds to clone3().
+> > >
+> > > To me this seems the better approach, but I am not totally convinced
+> > > that it is the right thing. If there are other ideas how to pass two
+> > > clock offsets with seconds and nanonseconds to clone3() I would be happy
+> > > to hear other ideas.
+> 
+> While I agree this does make the API cleaner, I am a little worried that
+> it risks killing some of the ideas we discussed for seccomp deep
+> inspection. In particular, having a pointer to variable-sized data
+> inside the struct means that now the cBPF program can't just be given a
+> copy of the struct data from userspace to check.
+
+I suggested two alternative approaches in a response to this. The
+easiest one would be to simple assume that the struct doesn't change
+size.
+(But haven't we crossed that bridge with the set_tid array already?)
