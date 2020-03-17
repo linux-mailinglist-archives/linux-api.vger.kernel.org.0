@@ -2,242 +2,239 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4723B188D22
-	for <lists+linux-api@lfdr.de>; Tue, 17 Mar 2020 19:28:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 93B6F188E42
+	for <lists+linux-api@lfdr.de>; Tue, 17 Mar 2020 20:46:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726713AbgCQS2z (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 17 Mar 2020 14:28:55 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:51912 "EHLO
-        us-smtp-delivery-74.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726682AbgCQS2z (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Mar 2020 14:28:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1584469734;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=K+IwNfCaU/P1ux5HKJF3z1NkFX7txjGZvGBam0p510E=;
-        b=eTqnZyuGttuLlwqatpUrLdFnAanCa7vMCj9/ecVvnTMu2nprrmxSFwK47NwSW6/NNVrLkF
-        aulW674PGQjcPaEAgLhbPesWP+ucSVAg+SJPjgvSiZmDklJeRHakXtI1FXD/zHB3wEfUjo
-        Ytnp4R5vMr92SHFMNQd7yyOLdIyeb5E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-346-5pYTBthUM_qAjZ1-ibWyTw-1; Tue, 17 Mar 2020 14:28:51 -0400
-X-MC-Unique: 5pYTBthUM_qAjZ1-ibWyTw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 054BF1857BE9;
-        Tue, 17 Mar 2020 18:28:49 +0000 (UTC)
-Received: from madcap2.tricolour.ca (unknown [10.36.110.5])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id D19B36E3EE;
-        Tue, 17 Mar 2020 18:28:33 +0000 (UTC)
-Date:   Tue, 17 Mar 2020 14:28:29 -0400
-From:   Richard Guy Briggs <rgb@redhat.com>
-To:     Paul Moore <paul@paul-moore.com>
-Cc:     nhorman@tuxdriver.com, linux-api@vger.kernel.org,
-        containers@lists.linux-foundation.org,
-        LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
-        Linux-Audit Mailing List <linux-audit@redhat.com>,
-        netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
-        simo@redhat.com, netdev@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>,
-        mpatel@redhat.com, Serge Hallyn <serge@hallyn.com>
-Subject: Re: [PATCH ghak90 V8 13/16] audit: track container nesting
-Message-ID: <20200317182828.t4ewyw2l5epy2s6n@madcap2.tricolour.ca>
-References: <cover.1577736799.git.rgb@redhat.com>
- <6452955c1e038227a5cd169f689f3fd3db27513f.1577736799.git.rgb@redhat.com>
- <CAHC9VhRkH=YEjAY6dJJHSp934grHnf=O4RiqLu3U8DzdVQOZkg@mail.gmail.com>
- <20200130192753.n7jjrshbhrczjzoe@madcap2.tricolour.ca>
- <CAHC9VhSVN3mNb5enhLR1hY+ekiAyiYWbehrwd_zN7kz13dF=1w@mail.gmail.com>
- <20200205235056.e5365xtgz7rbese2@madcap2.tricolour.ca>
- <CAHC9VhTM6MDHLcBfwJ_9DCroG0VA-meO770ihjn1sVy6=0JrHw@mail.gmail.com>
- <20200312205147.plxs4czjeuu4davj@madcap2.tricolour.ca>
- <CAHC9VhTqWdXMsbSbsWJzRRvVbSaaFBmnFFsVutM7XSx5NT_FJA@mail.gmail.com>
- <20200314224203.ncyx3rgwwe6zet4e@madcap2.tricolour.ca>
+        id S1726549AbgCQTq0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 17 Mar 2020 15:46:26 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:38864 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726530AbgCQTq0 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Mar 2020 15:46:26 -0400
+Received: by mail-ot1-f66.google.com with SMTP id t28so20371857ott.5
+        for <linux-api@vger.kernel.org>; Tue, 17 Mar 2020 12:46:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=9s2Sb3c4MxnnBmpoBuePNWugbWE68PyhFAR020YyxKI=;
+        b=JI600Y+S7vaaL+M1SlEKgAEtEUPT5Q45PYyhNUPJY82ExiEm4yLvuyoLjANOxrw/L8
+         K0LSxUZhq+pXM1GGwp3j51HMQSJZsaS91TWVYRhmi3aC265XUUVxVsf85Lt6C4FHfODU
+         F+8841uMdqRd6VymvDirqjn9SmklKMzELb2nq4ltyUMq1nVMo8mh6KrYIj6CXSK8975s
+         8Wppxc9EDwI6+CuP2CcdW21eufAGc9NTfDD0XTQ6x9Ta4mXhWmyFq+EubLApEE3PIMY3
+         UluxszB5ZBrGmCkrxM1stsbflxhZ846CG2/SzeG3kVFjDKkewelUAmzGKrdjkzgjSzUp
+         gkCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=9s2Sb3c4MxnnBmpoBuePNWugbWE68PyhFAR020YyxKI=;
+        b=lW6HS/VBAW7BeikXpwZnScIQyj1W2gFjnazFHlHMd+eZ82zY2m9L3WdEH0c/E5w6m5
+         MT+5bqtRvTY/NrBWSUOB9kqJ+i/dIaJ+zxXJaBnKdGhcd0R0ZFxi0gKhOQCMoCMNrHO0
+         osbHNRt8Y+UVGyESZwUn6g4/4zfliuKAXH+TFoViqMm2pOZ0XSwyHw2wB3mb3rPQ+v5s
+         4fq7SP+cEhAbsEXdM/gL7FTJn1uyrIH2cW2tDP+wWdPBbHdCo9yPTjjPAb+AWeivD7b3
+         v+bv8dAPXE+Wcpo0GZ76tnta/b70/SYKUfGgwSy41+2kQmeDAInQJdoOwkJaOQstIepP
+         wbEQ==
+X-Gm-Message-State: ANhLgQ3Xr5o8HZtihglDmLZMJhawLFOwtCXcVcqoDVeLJUuLt3COSQFF
+        iJyZYXzlrtzSVElxlO7pvHKvF3p+3VCqQmEOuxDwng==
+X-Google-Smtp-Source: ADFU+vuKl0l5cSfO5Cy+yKgBZm1XSTGaBWgXbflYl3a2hR5fw7Go07ECSMEPZtHP+SUIHarbwT5aqXaP0EMleeCdfQE=
+X-Received: by 2002:a9d:5e8b:: with SMTP id f11mr858477otl.110.1584474384151;
+ Tue, 17 Mar 2020 12:46:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200314224203.ncyx3rgwwe6zet4e@madcap2.tricolour.ca>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+References: <20200224160215.4136-1-mic@digikod.net> <CAG48ez21bEn0wL1bbmTiiu8j9jP5iEWtHOwz4tURUJ+ki0ydYw@mail.gmail.com>
+ <873d7419-bdd9-8a52-0a9b-dddbe31df4f9@digikod.net> <CAG48ez0=0W5Ok-8nASqZrZ28JboXRRi3gDxV5u6mdcOtzwuRVA@mail.gmail.com>
+ <688dda0f-0907-34eb-c19e-3e9e5f613a74@digikod.net>
+In-Reply-To: <688dda0f-0907-34eb-c19e-3e9e5f613a74@digikod.net>
+From:   Jann Horn <jannh@google.com>
+Date:   Tue, 17 Mar 2020 20:45:57 +0100
+Message-ID: <CAG48ez16yT+zbK1WPxr2TnxrifW5c2DnpFLbWRRLUT_WpuFNmw@mail.gmail.com>
+Subject: Re: [RFC PATCH v14 00/10] Landlock LSM
+To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
+Cc:     kernel list <linux-kernel@vger.kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        James Morris <jmorris@namei.org>, Jann Horn <jann@thejh.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mickael.salaun@ssi.gouv.fr>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        linux-doc@vger.kernel.org,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2020-03-14 18:42, Richard Guy Briggs wrote:
-> On 2020-03-13 12:47, Paul Moore wrote:
-> > On Thu, Mar 12, 2020 at 4:52 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > On 2020-02-13 16:49, Paul Moore wrote:
-> > > > On Wed, Feb 5, 2020 at 6:51 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > > > On 2020-02-05 18:05, Paul Moore wrote:
-> > > > > > On Thu, Jan 30, 2020 at 2:28 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > > > > > On 2020-01-22 16:29, Paul Moore wrote:
-> > > > > > > > On Tue, Dec 31, 2019 at 2:51 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > > > > > > >
-> > > > > > > > > Track the parent container of a container to be able to filter and
-> > > > > > > > > report nesting.
-> > > > > > > > >
-> > > > > > > > > Now that we have a way to track and check the parent container of a
-> > > > > > > > > container, modify the contid field format to be able to report that
-> > > > > > > > > nesting using a carrat ("^") separator to indicate nesting.  The
-> > > > > > > > > original field format was "contid=<contid>" for task-associated records
-> > > > > > > > > and "contid=<contid>[,<contid>[...]]" for network-namespace-associated
-> > > > > > > > > records.  The new field format is
-> > > > > > > > > "contid=<contid>[^<contid>[...]][,<contid>[...]]".
-> > > > > > > >
-> > > > > > > > Let's make sure we always use a comma as a separator, even when
-> > > > > > > > recording the parent information, for example:
-> > > > > > > > "contid=<contid>[,^<contid>[...]][,<contid>[...]]"
-> > > > > > >
-> > > > > > > The intent here is to clearly indicate and separate nesting from
-> > > > > > > parallel use of several containers by one netns.  If we do away with
-> > > > > > > that distinction, then we lose that inheritance accountability and
-> > > > > > > should really run the list through a "uniq" function to remove the
-> > > > > > > produced redundancies.  This clear inheritance is something Steve was
-> > > > > > > looking for since tracking down individual events/records to show that
-> > > > > > > inheritance was not aways feasible due to rolled logs or search effort.
-> > > > > >
-> > > > > > Perhaps my example wasn't clear.  I'm not opposed to the little
-> > > > > > carat/hat character indicating a container's parent, I just think it
-> > > > > > would be good to also include a comma *in*addition* to the carat/hat.
-> > > > >
-> > > > > Ah, ok.  Well, I'd offer that it would be slightly shorter, slightly
-> > > > > less cluttered and having already written the parser in userspace, I
-> > > > > think the parser would be slightly simpler.
-> > > > >
-> > > > > I must admit, I was a bit puzzled by your snippet of code that was used
-> > > > > as a prefix to the next item rather than as a postfix to the given item.
-> > > > >
-> > > > > Can you say why you prefer the comma in addition?
-> > > >
-> > > > Generally speaking, I believe that a single delimiter is both easier
-> > > > for the eyes to parse, and easier/safer for machines to parse as well.
-> > > > In this particular case I think of the comma as a delimiter and the
-> > > > carat as a modifier, reusing the carat as a delimiter seems like a bad
-> > > > idea to me.
-> > >
-> > > I'm not crazy about this idea, but I'll have a look at how much work it
-> > > is to recode the userspace search tools.  It also adds extra characters
-> > > and noise into the string format that seems counterproductive.
-> > 
-> > If anything the parser should be *easier* (although both parsers
-> > should fall into the "trivial" category).  The comma is the one and
-> > only delimiter, and if the ACID starts with a carat then it is a
-> > parent of the preceding ACID.
-> 
-> Ok, after a day of staring at the code and getting nowhere due to
-> multiple distractions, I was able to rework this code fairly easily and
-> it turned out simpler which should not surprise you.  Both kernel and
-> userspace code are now in the format you recommended.
-> 
-> > > > > > > > > diff --git a/kernel/audit.c b/kernel/audit.c
-> > > > > > > > > index ef8e07524c46..68be59d1a89b 100644
-> > > > > > > > > --- a/kernel/audit.c
-> > > > > > > > > +++ b/kernel/audit.c
-> > > > > > > >
-> > > > > > > > > @@ -492,6 +493,7 @@ void audit_switch_task_namespaces(struct nsproxy *ns, struct task_struct *p)
-> > > > > > > > >                 audit_netns_contid_add(new->net_ns, contid);
-> > > > > > > > >  }
-> > > > > > > > >
-> > > > > > > > > +void audit_log_contid(struct audit_buffer *ab, u64 contid);
-> > > > > > > >
-> > > > > > > > If we need a forward declaration, might as well just move it up near
-> > > > > > > > the top of the file with the rest of the declarations.
-> > > > > > >
-> > > > > > > Ok.
-> > > > > > >
-> > > > > > > > > +void audit_log_contid(struct audit_buffer *ab, u64 contid)
-> > > > > > > > > +{
-> > > > > > > > > +       struct audit_contobj *cont = NULL, *prcont = NULL;
-> > > > > > > > > +       int h;
-> > > > > > > >
-> > > > > > > > It seems safer to pass the audit container ID object and not the u64.
-> > > > > > >
-> > > > > > > It would also be faster, but in some places it isn't available such as
-> > > > > > > for ptrace and signal targets.  This also links back to the drop record
-> > > > > > > refcounts to hold onto the contobj until process exit, or signal
-> > > > > > > delivery.
-> > > > > > >
-> > > > > > > What we could do is to supply two potential parameters, a contobj and/or
-> > > > > > > a contid, and have it use the contobj if it is valid, otherwise, use the
-> > > > > > > contid, as is done for names and paths supplied to audit_log_name().
-> > > > > >
-> > > > > > Let's not do multiple parameters, that begs for misuse, let's take the
-> > > > > > wrapper function route:
-> > > > > >
-> > > > > >  func a(int id) {
-> > > > > >    // important stuff
-> > > > > >  }
-> > > > > >
-> > > > > >  func ao(struct obj) {
-> > > > > >    a(obj.id);
-> > > > > >  }
-> > > > > >
-> > > > > > ... and we can add a comment that you *really* should be using the
-> > > > > > variant that passes an object.
-> > > > >
-> > > > > I was already doing that where it available, and dereferencing the id
-> > > > > for the call.  But I see an advantage to having both parameters supplied
-> > > > > to the function, since it saves us the trouble of dereferencing it,
-> > > > > searching for the id in the hash list and re-locating the object if the
-> > > > > object is already available.
-> > > >
-> > > > I strongly prefer we not do multiple parameters for the same "thing";
-> > >
-> > > So do I, ideally.  However...
-> > >
-> > > > I would much rather do the wrapper approach as described above.  I
-> > > > would also like to see us use the audit container ID object as much as
-> > > > possible, using a bare integer should be a last resort.
-> > >
-> > > It is not clear to me that you understood what I wrote above.  I can't
-> > > use the object pointer where preferable because there are a few cases
-> > > where only the ID is available.  If only the ID is available, I would
-> > > have to make a best effort to look up the object pointer and am not
-> > > guaranteed to find it (invalid, stale, signal info...).  If I am forced
-> > > to use only one, it becomes the ID that is used, and I no longer have
-> > > the benefit of already having the object pointer for certainty and
-> > > saving work.  For all cases where I have the object pointer, which is
-> > > most cases, and most frequently used cases, I will have to dereference
-> > > the object pointer to an ID, then go through the work again to re-locate
-> > > the object pointer.  This is less certain, and more work.  Reluctantly,
-> > > the only practical solution I see here is to supply both, favouring the
-> > > object pointer if it is valid, then falling back on the ID from the next
-> > > parameter.
-> > 
-> > It has been a while since I last looked at the patchset, but my
-> > concern over the prefered use of the ACID number vs the ACID object is
-> > that the number offers no reuse protection where the object does.  I
-> > really would like us to use the object everywhere it is possible.
-> 
-> Ok, so I take it from this that I go ahead with the dual format since
-> the wrapper funciton to convert from object to ID strips away object
-> information negating any benefit of favouring the object pointer.  I'll
-> look at the remaining calls that use a contid (rather than contobj) and
-> convert all that I can over to storing an object using the dual counters
-> that track process exits versus signal2 and trace references.
+On Tue, Mar 17, 2020 at 6:50 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net> =
+wrote:
+> On 17/03/2020 17:19, Jann Horn wrote:
+> > On Thu, Mar 12, 2020 at 12:38 AM Micka=C3=ABl Sala=C3=BCn <mic@digikod.=
+net> wrote:
+> >> On 10/03/2020 00:44, Jann Horn wrote:
+> >>> On Mon, Feb 24, 2020 at 5:03 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod=
+.net> wrote:
+>
+> [...]
+>
+> >>> Aside from those things, there is also a major correctness issue wher=
+e
+> >>> I'm not sure how to solve it properly:
+> >>>
+> >>> Let's say a process installs a filter on itself like this:
+> >>>
+> >>> struct landlock_attr_ruleset ruleset =3D { .handled_access_fs =3D
+> >>> ACCESS_FS_ROUGHLY_WRITE};
+> >>> int ruleset_fd =3D landlock(LANDLOCK_CMD_CREATE_RULESET,
+> >>> LANDLOCK_OPT_CREATE_RULESET, sizeof(ruleset), &ruleset);
+> >>> struct landlock_attr_path_beneath path_beneath =3D {
+> >>>   .ruleset_fd =3D ruleset_fd,
+> >>>   .allowed_access =3D ACCESS_FS_ROUGHLY_WRITE,
+> >>>   .parent_fd =3D open("/tmp/foobar", O_PATH),
+> >>> };
+> >>> landlock(LANDLOCK_CMD_ADD_RULE, LANDLOCK_OPT_ADD_RULE_PATH_BENEATH,
+> >>> sizeof(path_beneath), &path_beneath);
+> >>> prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0);
+> >>> struct landlock_attr_enforce attr_enforce =3D { .ruleset_fd =3D rules=
+et_fd };
+> >>> landlock(LANDLOCK_CMD_ENFORCE_RULESET, LANDLOCK_OPT_ENFORCE_RULESET,
+> >>> sizeof(attr_enforce), &attr_enforce);
+> >>>
+> >>> At this point, the process is not supposed to be able to write to
+> >>> anything outside /tmp/foobar, right? But what happens if the process
+> >>> does the following next?
+> >>>
+> >>> struct landlock_attr_ruleset ruleset =3D { .handled_access_fs =3D
+> >>> ACCESS_FS_ROUGHLY_WRITE};
+> >>> int ruleset_fd =3D landlock(LANDLOCK_CMD_CREATE_RULESET,
+> >>> LANDLOCK_OPT_CREATE_RULESET, sizeof(ruleset), &ruleset);
+> >>> struct landlock_attr_path_beneath path_beneath =3D {
+> >>>   .ruleset_fd =3D ruleset_fd,
+> >>>   .allowed_access =3D ACCESS_FS_ROUGHLY_WRITE,
+> >>>   .parent_fd =3D open("/", O_PATH),
+> >>> };
+> >>> landlock(LANDLOCK_CMD_ADD_RULE, LANDLOCK_OPT_ADD_RULE_PATH_BENEATH,
+> >>> sizeof(path_beneath), &path_beneath);
+> >>> prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0);
+> >>> struct landlock_attr_enforce attr_enforce =3D { .ruleset_fd =3D rules=
+et_fd };
+> >>> landlock(LANDLOCK_CMD_ENFORCE_RULESET, LANDLOCK_OPT_ENFORCE_RULESET,
+> >>> sizeof(attr_enforce), &attr_enforce);
+> >>>
+> >>> As far as I can tell from looking at the source, after this, you will
+> >>> have write access to the entire filesystem again. I think the idea is
+> >>> that LANDLOCK_CMD_ENFORCE_RULESET should only let you drop privileges=
+,
+> >>> not increase them, right?
+> >>
+> >> There is an additionnal check in syscall.c:get_path_from_fd(): it is
+> >> forbidden to add a rule with a path which is not accessible (according
+> >> to LANDLOCK_ACCESS_FS_OPEN) thanks to a call to security_file_open(),
+> >> but this is definitely not perfect.
+> >
+> > Ah, I missed that.
+> >
+> >>> I think the easy way to fix this would be to add a bitmask to each
+> >>> rule that says from which ruleset it originally comes, and then let
+> >>> check_access_path() collect these bitmasks from each rule with OR, an=
+d
+> >>> check at the end whether the resulting bitmask is full - if not, at
+> >>> least one of the rulesets did not permit the access, and it should be
+> >>> denied.
+> >>>
+> >>> But maybe it would make more sense to change how the API works
+> >>> instead, and get rid of the concept of "merging" two rulesets
+> >>> together? Instead, we could make the API work like this:
+> >>>
+> >>>  - LANDLOCK_CMD_CREATE_RULESET gives you a file descriptor whose
+> >>> ->private_data contains a pointer to the old ruleset of the process,
+> >>> as well as a pointer to a new empty ruleset.
+> >>>  - LANDLOCK_CMD_ADD_RULE fails if the specified rule would not be
+> >>> permitted by the old ruleset, then adds the rule to the new ruleset
+> >>>  - LANDLOCK_CMD_ENFORCE_RULESET fails if the old ruleset pointer in
+> >>> ->private_data doesn't match the current ruleset of the process, then
+> >>> replaces the old ruleset with the new ruleset.
+> >>>
+> >>> With this, the new ruleset is guaranteed to be a subset of the old
+> >>> ruleset because each of the new ruleset's rules is permitted by the
+> >>> old ruleset. (Unless the directory hierarchy rotates, but in that cas=
+e
+> >>> the inaccuracy isn't much worse than what would've been possible
+> >>> through RCU path walk anyway AFAIK.)
+> >>>
+> >>> What do you think?
+> >>>
+> >>
+> >> I would prefer to add the same checks you described at first (with
+> >> check_access_path), but only when creating a new ruleset with
+> >> merge_ruleset() (which should probably be renamed). This enables not t=
+o
+> >> rely on a parent ruleset/domain until the enforcement, which is the ca=
+se
+> >> anyway.
+> >> Unfortunately this doesn't work for some cases with bind mounts. Becau=
+se
+> >> check_access_path() goes through one path, another (bind mounted) path
+> >> could be illegitimately allowed.
+> >
+> > Hmm... I'm not sure what you mean. At the moment, landlock doesn't
+> > allow any sandboxed process to change the mount hierarchy, right? Can
+> > you give an example where this would go wrong?
+>
+> Indeed, a Landlocked process must no be able to change its mount
+> namespace layout. However, bind mounts may already exist.
+> Let's say a process sandbox itself to only access /a in a read-write
+> way.
 
-After reworking all the signal code to use the contobj and open coding
-unnested single contid appearances, I was able to stick with just
-passing a contobj to audit_contiainer_id() and audit_log_contid(), so
-the dual format conundrum went away.
+So, first policy:
 
-It issues the death certificate on process exit, and will issue an error
-indicating the contid is dead and can't be reused yet until it is reaped
-by a sig2 call.
+/a RW
 
-> > paul moore
-> 
-> - RGB
+> Then, this process (or one of its children) add a new restriction
+> on /a/b to only be able to read this hierarchy.
 
-- RGB
+You mean with the second policy looking like this?
 
---
-Richard Guy Briggs <rgb@redhat.com>
-Sr. S/W Engineer, Kernel Security, Base Operating Systems
-Remote, Ottawa, Red Hat Canada
-IRC: rgb, SunRaycer
-Voice: +1.647.777.2635, Internal: (81) 32635
+/a RW
+/a/b R
 
+Then the resulting policy would be:
+
+/a RW policy_bitmask=3D0x00000003 (bits 0 and 1 set)
+/a/b R policy_bitmask=3D0x00000002 (bit 1 set)
+required_bits=3D0x00000003 (bits 0 and 1 set)
+
+> The check at insertion
+> time would allow this because this access right is a subset of the
+> access right allowed with the parent directory. However, If /a/b is bind
+> mounted somewhere else, let's say in /private/b, then the second
+> enforcement just gave new access rights to this hierarchy too.
+
+But with the solution I proposed, landlock's path walk would see
+something like this when accessing a file at /private/b/foo:
+/private/b/foo <no rules>
+  policies seen until now: 0x00000000
+/private/b <access: R, policy_bitmask=3D0x00000002>
+  policies seen until now: 0x00000002
+/private <no rules>
+  policies seen until now: 0x00000002
+/ <no rules>
+  policies seen until now: 0x00000002
+
+It wouldn't encounter any rule from the first policy, so the OR of the
+seen policy bitmasks would be 0x00000002, which is not the required
+value 0x00000003, and so the access would be denied.
