@@ -2,224 +2,192 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E54AA18854B
-	for <lists+linux-api@lfdr.de>; Tue, 17 Mar 2020 14:21:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EE9A9188798
+	for <lists+linux-api@lfdr.de>; Tue, 17 Mar 2020 15:37:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726646AbgCQNVS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 17 Mar 2020 09:21:18 -0400
-Received: from mx2.suse.de ([195.135.220.15]:45312 "EHLO mx2.suse.de"
+        id S1726452AbgCQOhV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 17 Mar 2020 10:37:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37882 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726598AbgCQNVS (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 17 Mar 2020 09:21:18 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 4BE94AACA;
-        Tue, 17 Mar 2020 13:21:14 +0000 (UTC)
-From:   Vlastimil Babka <vbabka@suse.cz>
-To:     Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>
-Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Vlastimil Babka <vbabka@suse.cz>
-Subject: [RFC] kernel/sysctl: support setting sysctl parameters from kernel command line
-Date:   Tue, 17 Mar 2020 14:21:05 +0100
-Message-Id: <20200317132105.24555-1-vbabka@suse.cz>
-X-Mailer: git-send-email 2.25.1
+        id S1726112AbgCQOhU (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 17 Mar 2020 10:37:20 -0400
+Received: from localhost (unknown [213.57.247.131])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E6B48206EC;
+        Tue, 17 Mar 2020 14:37:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1584455839;
+        bh=dARYz+leSffiwgdemawygAm01GWic7pAWNKG76n9NdI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=D1tC7jy9B+DYx1AtU6mc14IU6Nmj7AKyr97756dfyfL369IC63E6hTaJzpUuFdKX9
+         /7TDOuI4EQDZQbHbvhFhZyXSFdC3PAlJn8x0s9uwIZ3up037yoxsbjWdVvJ7tdH+Ab
+         KwFHhUxCf9wu8UABGt4vGgQJS+bNnaYKQKqlBwKg=
+Date:   Tue, 17 Mar 2020 16:37:15 +0200
+From:   Leon Romanovsky <leon@kernel.org>
+To:     Jaewon Kim <jaewon31.kim@gmail.com>
+Cc:     Jaewon Kim <jaewon31.kim@samsung.com>,
+        Vlastimil Babka <vbabka@suse.cz>, adobriyan@gmail.com,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>, minchan@kernel.org,
+        ngupta@vflare.org, sergey.senozhatsky.work@gmail.com,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [RFC PATCH 0/3] meminfo: introduce extra meminfo
+Message-ID: <20200317143715.GI3351@unreal>
+References: <CGME20200311034454epcas1p2ef0c0081971dd82282583559398e58b2@epcas1p2.samsung.com>
+ <20200311034441.23243-1-jaewon31.kim@samsung.com>
+ <af4ace34-0db2-dd17-351f-eaa806f0a6ac@suse.cz>
+ <20200313174827.GA67638@unreal>
+ <5E6EFB6C.7050105@samsung.com>
+ <20200316083154.GF8510@unreal>
+ <CAJrd-UvttDDSL=q1RXC6Z+jvZAGsN2iM8C8xOSrpJFdLb0e-3g@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJrd-UvttDDSL=q1RXC6Z+jvZAGsN2iM8C8xOSrpJFdLb0e-3g@mail.gmail.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-A recently proposed patch to add vm_swappiness command line parameter in
-addition to existing sysctl [1] made me wonder why we don't have a general
-support for passing sysctl parameters via command line. Googling found only
-somebody else wondering the same [2], but I haven't found any prior discussion
-with reasons why not to do this.
+On Tue, Mar 17, 2020 at 12:04:46PM +0900, Jaewon Kim wrote:
+> 2020년 3월 16일 (월) 오후 5:32, Leon Romanovsky <leon@kernel.org>님이 작성:
+> >
+> > On Mon, Mar 16, 2020 at 01:07:08PM +0900, Jaewon Kim wrote:
+> > >
+> > >
+> > > On 2020년 03월 14일 02:48, Leon Romanovsky wrote:
+> > > > On Fri, Mar 13, 2020 at 04:19:36PM +0100, Vlastimil Babka wrote:
+> > > >> +CC linux-api, please include in future versions as well
+> > > >>
+> > > >> On 3/11/20 4:44 AM, Jaewon Kim wrote:
+> > > >>> /proc/meminfo or show_free_areas does not show full system wide memory
+> > > >>> usage status. There seems to be huge hidden memory especially on
+> > > >>> embedded Android system. Because it usually have some HW IP which do not
+> > > >>> have internal memory and use common DRAM memory.
+> > > >>>
+> > > >>> In Android system, most of those hidden memory seems to be vmalloc pages
+> > > >>> , ion system heap memory, graphics memory, and memory for DRAM based
+> > > >>> compressed swap storage. They may be shown in other node but it seems to
+> > > >>> useful if /proc/meminfo shows all those extra memory information. And
+> > > >>> show_mem also need to print the info in oom situation.
+> > > >>>
+> > > >>> Fortunately vmalloc pages is alread shown by commit 97105f0ab7b8
+> > > >>> ("mm: vmalloc: show number of vmalloc pages in /proc/meminfo"). Swap
+> > > >>> memory using zsmalloc can be seen through vmstat by commit 91537fee0013
+> > > >>> ("mm: add NR_ZSMALLOC to vmstat") but not on /proc/meminfo.
+> > > >>>
+> > > >>> Memory usage of specific driver can be various so that showing the usage
+> > > >>> through upstream meminfo.c is not easy. To print the extra memory usage
+> > > >>> of a driver, introduce following APIs. Each driver needs to count as
+> > > >>> atomic_long_t.
+> > > >>>
+> > > >>> int register_extra_meminfo(atomic_long_t *val, int shift,
+> > > >>>                      const char *name);
+> > > >>> int unregister_extra_meminfo(atomic_long_t *val);
+> > > >>>
+> > > >>> Currently register ION system heap allocator and zsmalloc pages.
+> > > >>> Additionally tested on local graphics driver.
+> > > >>>
+> > > >>> i.e) cat /proc/meminfo | tail -3
+> > > >>> IonSystemHeap:    242620 kB
+> > > >>> ZsPages:          203860 kB
+> > > >>> GraphicDriver:    196576 kB
+> > > >>>
+> > > >>> i.e.) show_mem on oom
+> > > >>> <6>[  420.856428]  Mem-Info:
+> > > >>> <6>[  420.856433]  IonSystemHeap:32813kB ZsPages:44114kB GraphicDriver::13091kB
+> > > >>> <6>[  420.856450]  active_anon:957205 inactive_anon:159383 isolated_anon:0
+> > > >> I like the idea and the dynamic nature of this, so that drivers not present
+> > > >> wouldn't add lots of useless zeroes to the output.
+> > > >> It also makes simpler the decisions of "what is important enough to need its own
+> > > >> meminfo entry".
+> > > >>
+> > > >> The suggestion for hunting per-driver /sys files would only work if there was a
+> > > >> common name to such files so once can find(1) them easily.
+> > > >> It also doesn't work for the oom/failed alloc warning output.
+> > > > Of course there is a need to have a stable name for such an output, this
+> > > > is why driver/core should be responsible for that and not drivers authors.
+> > > >
+> > > > The use case which I had in mind slightly different than to look after OOM.
+> > > >
+> > > > I'm interested to optimize our drivers in their memory footprint to
+> > > > allow better scale in SR-IOV mode where one device creates many separate
+> > > > copies of itself. Those copies easily can take gigabytes of RAM due to
+> > > > the need to optimize for high-performance networking. Sometimes the
+> > > > amount of memory and not HW is actually limits the scale factor.
+> > > >
+> > > > So I would imagine this feature being used as an aid for the driver
+> > > > developers and not for the runtime decisions.
+> > > >
+> > > > My 2-cents.
+> > > >
+> > > > Thanks
+> > > >
+> > > >
+> > > Thank you for your comment.
+> > > My idea, I think, may be able to help each driver developer to see their memory usage.
+> > > But I'd like to see overall memory usage through the one node.
+> >
+> > It is more than enough :).
+> >
+> > >
+> > > Let me know if you have more comment.
+> > > I am planning to move my logic to be shown on a new node, /proc/meminfo_extra at v2.
+> >
+> > Can you please help me to understand how that file will look like once
+> > many drivers will start to use this interface? Will I see multiple
+> > lines?
+> >
+> > Something like:
+> > driver1 ....
+> > driver2 ....
+> > driver3 ....
+> > ...
+> > driver1000 ....
+> >
+> > How can we extend it to support subsystems core code?
+>
+> I do not have a plan to support subsystem core.
 
-Settings the vm_swappiness issue aside (the underlying issue might be solved in
-a different way), quick search of kernel-parameters.txt shows there are already
-some that exist as both sysctl and kernel parameter - hung_task_panic,
-nmi_watchdog, numa_zonelist_order, traceoff_on_warning. A general mechanism
-would remove the need to add more of those one-offs and might be handy in
-situations where configuration by e.g. /etc/sysctl.d/ is impractical.
-Also after 61a47c1ad3a4 ("sysctl: Remove the sysctl system call") the only way
-to set sysctl is via procfs, so this would eventually allow small systems to be
-built without CONFIG_PROC_SYSCTL and still be able to change sysctl parameters.
+Fair enough.
 
-Hence, this patch adds a new parse_args() pass that looks for parameters
-prefixed by 'sysctl.' and searches for them in the sysctl ctl_tables. When
-found, the respective proc handler is invoked. The search is just a naive
-linear one, to avoid using the whole procfs layer. It should be acceptable,
-as the cost depends on number of sysctl. parameters passed.
+>
+> I just want the /proc/meminfo_extra to show size of alloc_pages APIs
+> rather than slub size. It is to show hidden huge memory.
+> I think most of drivers do not need to register its size to
+> /proc/meminfo_extra because
+> drivers usually use slub APIs and rather than alloc_pages APIs.
+> /proc/slabinfo helps for slub size in detail.
 
-The main limitation of avoiding the procfs layer is however that sysctls
-dynamically registered by register_sysctl_table() or register_sysctl_paths()
-cannot be set by this method.
+The problem with this statement that the drivers that consuming memory
+are the ones who are interested in this interface. I can be not accurate
+here, but I think that all RDMA and major NICs will want to get this
+information.
 
-The processing is hooked right before the init process is loaded, as some
-handlers might be more complicated than simple setters and might need some
-subsystems to be initialized. At the moment the init process can be started and
-eventually execute a process writing to /proc/sys/ then it should be also fine
-to do that from the kernel.
+On my machine, it is something like 6 devices.
 
-[1] https://lore.kernel.org/linux-doc/BL0PR02MB560167492CA4094C91589930E9FC0@BL0PR02MB5601.namprd02.prod.outlook.com/
-[2] https://unix.stackexchange.com/questions/558802/how-to-set-sysctl-using-kernel-command-line-parameter
+>
+> As a candidate of /proc/meminfo_extra, I hope only few drivers using
+> huge memory like over 100 MB got from alloc_pages APIs.
+>
+> As you say, if there is a static node on /sys for each driver, it may
+> be used for all the drivers.
+> I think sysfs class way may be better to show categorized sum size.
+> But /proc/meminfo_extra can be another way to show those hidden huge memory.
+> I mean your idea and my idea is not exclusive.
 
-Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
----
-Hi,
+It is just better to have one interface.
 
-this is an early RFC so I can get feedback whether to pursue this idea further,
-before trying the more complicated stuff with dynamically registered sysctls.
-For those I have some unanswered questions:
-- Support them at all?
-- Do so by an internal procfs mount again, that was removed by 61a47c1ad3a4 ?
-  Or try to keep it simple.
-- If sysctls are dynamically registered at module load, process the command
-  line sysctl arguments again? - this would be rather complicated I guess.
-
-Vlastimil
-
- include/linux/sysctl.h |  1 +
- init/main.c            | 21 ++++++++++++++
- kernel/sysctl.c        | 66 ++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 88 insertions(+)
-
-diff --git a/include/linux/sysctl.h b/include/linux/sysctl.h
-index 02fa84493f23..62ae963a5c0c 100644
---- a/include/linux/sysctl.h
-+++ b/include/linux/sysctl.h
-@@ -206,6 +206,7 @@ struct ctl_table_header *register_sysctl_paths(const struct ctl_path *path,
- void unregister_sysctl_table(struct ctl_table_header * table);
- 
- extern int sysctl_init(void);
-+int process_sysctl_arg(char *param, char *val, const char *unused, void *arg);
- 
- extern struct ctl_table sysctl_mount_point[];
- 
-diff --git a/init/main.c b/init/main.c
-index ee4947af823f..74a094c6b8b9 100644
---- a/init/main.c
-+++ b/init/main.c
-@@ -1345,6 +1345,25 @@ void __weak free_initmem(void)
- 	free_initmem_default(POISON_FREE_INITMEM);
- }
- 
-+static void do_sysctl_args(void)
-+{
-+#ifdef CONFIG_SYSCTL
-+	size_t len = strlen(saved_command_line) + 1;
-+	char *command_line;
-+
-+	command_line = kzalloc(len, GFP_KERNEL);
-+	if (!command_line)
-+		panic("%s: Failed to allocate %zu bytes\n", __func__, len);
-+
-+	strcpy(command_line, saved_command_line);
-+
-+	parse_args("Setting sysctl args", command_line,
-+		   NULL, 0, -1, -1, NULL, process_sysctl_arg);
-+
-+	kfree(command_line);
-+#endif
-+}
-+
- static int __ref kernel_init(void *unused)
- {
- 	int ret;
-@@ -1367,6 +1386,8 @@ static int __ref kernel_init(void *unused)
- 
- 	rcu_end_inkernel_boot();
- 
-+	do_sysctl_args();
-+
- 	if (ramdisk_execute_command) {
- 		ret = run_init_process(ramdisk_execute_command);
- 		if (!ret)
-diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-index ad5b88a53c5a..0444656c259d 100644
---- a/kernel/sysctl.c
-+++ b/kernel/sysctl.c
-@@ -1980,6 +1980,72 @@ int __init sysctl_init(void)
- 	return 0;
- }
- 
-+/* Set sysctl value passed on kernel command line. */
-+int process_sysctl_arg(char *param, char *val,
-+			       const char *unused, void *arg)
-+{
-+	size_t count;
-+	char *tmp;
-+	int err;
-+	loff_t ppos = 0;
-+	struct ctl_table *base, *child = NULL, *found = NULL;
-+
-+	if (strncmp(param, "sysctl.", sizeof("sysctl.") - 1))
-+		return 0;
-+
-+	param += (sizeof("sysctl.") - 1);
-+
-+	tmp = strchr(param, '.');
-+	if (!tmp) {
-+		pr_warn("Invalid sysctl param '%s' on command line", param);
-+		return 0;
-+	}
-+
-+	*tmp = '\0';
-+
-+	for (base = &sysctl_base_table[0]; base->procname != 0; base++) {
-+		if (strcmp(param, base->procname) == 0) {
-+			child = base->child;
-+			break;
-+		}
-+	}
-+
-+	if (!child) {
-+		pr_warn("Unknown sysctl prefix '%s' on command line", param);
-+		return 0;
-+	}
-+
-+	tmp++;
-+
-+	for (; child->procname != 0; child++) {
-+		if (strcmp(tmp, child->procname) == 0) {
-+			found = child;
-+			break;
-+		}
-+	}
-+
-+	if (!found) {
-+		pr_warn("Unknown sysctl param '%s.%s' on command line", param, tmp);
-+		return 0;
-+	}
-+
-+	if (!(found->mode & 0200)) {
-+		pr_warn("Cannot set sysctl '%s.%s=%s' from command line - not writable",
-+			param, tmp, val);
-+		return 0;
-+	}
-+
-+
-+	count = strlen(val);
-+	err = found->proc_handler(found, 1, val, &count, &ppos);
-+
-+	if (err)
-+		pr_warn("Error %d setting sysctl '%s.%s=%s' from command line",
-+			err, param, tmp, val);
-+
-+	return 0;
-+}
-+
- #endif /* CONFIG_SYSCTL */
- 
- /*
--- 
-2.25.1
-
+>
+> Thank you
+> >
+> > Thanks
+> >
+> > >
+> > > Thank you
+> > > Jaewon Kim
+>
