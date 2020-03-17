@@ -2,187 +2,145 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BC3F187BA5
-	for <lists+linux-api@lfdr.de>; Tue, 17 Mar 2020 09:58:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2894B187C5F
+	for <lists+linux-api@lfdr.de>; Tue, 17 Mar 2020 10:40:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725906AbgCQI6K (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 17 Mar 2020 04:58:10 -0400
-Received: from relay.sw.ru ([185.231.240.75]:60316 "EHLO relay.sw.ru"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725862AbgCQI6K (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 17 Mar 2020 04:58:10 -0400
-Received: from [192.168.15.225]
-        by relay.sw.ru with esmtp (Exim 4.92.3)
-        (envelope-from <ktkhai@virtuozzo.com>)
-        id 1jE832-0003KS-Rn; Tue, 17 Mar 2020 11:58:05 +0300
-Subject: Re: [PATCH v2 5/5] exec: Add a exec_update_mutex to replace
- cred_guard_mutex
-To:     Bernd Edlinger <bernd.edlinger@hotmail.de>,
-        "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Yuyang Du <duyuyang@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jamorris@linux.microsoft.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christian Kellner <christian@kellner.me>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
-References: <AM6PR03MB5170EB4427BF5C67EE98FF09E4E60@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <AM6PR03MB51705AA3009B4986BB6EF92FE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87r1y8dqqz.fsf@x220.int.ebiederm.org>
- <AM6PR03MB517053AED7DC89F7C0704B7DE4E50@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <AM6PR03MB51703B44170EAB4626C9B2CAE4E20@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <87tv32cxmf.fsf_-_@x220.int.ebiederm.org>
- <87v9ne5y4y.fsf_-_@x220.int.ebiederm.org>
- <87zhcq4jdj.fsf_-_@x220.int.ebiederm.org>
- <f37a5d68-9674-533f-ee9c-a49174605710@virtuozzo.com>
- <87d09hn4kt.fsf@x220.int.ebiederm.org>
- <dbce35c7-c060-cfd8-bde1-98fd9a0747a9@virtuozzo.com>
- <87lfo5lju6.fsf@x220.int.ebiederm.org>
- <AM6PR03MB5170E9E71B9F84330B098BADE4FA0@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <6002ac56-025a-d50f-e89d-1bf42a072323@virtuozzo.com>
- <AM6PR03MB5170CF763987C24F22B38838E4FB0@AM6PR03MB5170.eurprd03.prod.outlook.com>
- <AM6PR03MB5170813CDCAA105535F84C93E4FB0@AM6PR03MB5170.eurprd03.prod.outlook.com>
-From:   Kirill Tkhai <ktkhai@virtuozzo.com>
-Message-ID: <68528401-58ff-c335-a752-00ebaa433e02@virtuozzo.com>
-Date:   Tue, 17 Mar 2020 11:58:04 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1726777AbgCQJkO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 17 Mar 2020 05:40:14 -0400
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:33464 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726760AbgCQJkN (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Mar 2020 05:40:13 -0400
+Received: by mail-ed1-f68.google.com with SMTP id z65so25528161ede.0;
+        Tue, 17 Mar 2020 02:40:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=Z+fnHPmjTvYVaCbry35HAxtdpXdWo4RD3OIz+px6SGc=;
+        b=Wd8arqk+ky/rUkkIYXPsVMQ1m9DliRq56vGPcryGaIl9nl1q7/V2snm5rdly3z8Oec
+         iRXiFwNg1xdkDZi7oiR4VIA1SaAr1V6j9pCvbgvBv+Mt+AH4XCxUrEh7hK2rs5WHKIHt
+         qFW3M59FVVbcG6mZWmCFljtEzMWJblCi6pydhLeZQptGynR2kJqWicJBBXNUGDUBKcW6
+         9vWGH1JBpfXGwBstUKPHgLrYHHvTwP8Zj1h+MiD01ebw/DmvPg5VBGO8kMeVBpIYnxuK
+         qrXtZak/ruwGq0wAvfVSunWfIVZBw4lsSPAk5ijYvTogzCCFsahhqd7aJPK7KVG3RPgt
+         f8SA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=Z+fnHPmjTvYVaCbry35HAxtdpXdWo4RD3OIz+px6SGc=;
+        b=UxPsa/21QrvfcMOxopvOuRo1fWpaA2L/nbbht3xXFzrXqFpC/Rz3lpUnpYwqhlBpB/
+         gwRVKCgZplewCxNaihjf6TyCu8nI64u06W3uZHgkn4FxVhxzQZ3X5wZHM2qwXdlOXLSi
+         EUivFJkak02930ry7d1Tfo1/nkNzDPc/QKm6yjYTf7Nc8t7pZazQwkIN/OFJUn7dJh9d
+         +85vEQD/NSw0skAADXaO3m5gtm2vY+QzzoJzu2ryWzk554lcTAl2/CzH5IshOwfebtoK
+         eCYLZ2tzlNCHVnBcG0BvzxI4iSxji2uJHoniRStBphV3Jxn5lW0uP+K/pXXO02+q0vcU
+         v/zA==
+X-Gm-Message-State: ANhLgQ2qIN3lEiG4QMZI2M5KJ6vYyx66U8YlLTYcWVbHmExO3SsP6YrE
+        R/898AoYShIRLwezjsLMG7bQghV5TD7fSmoaa+8=
+X-Google-Smtp-Source: ADFU+vvei8gNf0aOLwxNV7tM+antMLxB/49Sgt3hcAwiXwanufRDe6jH1Jpeb5CgdbhLdyycQMV4+IisSCsMoEVfNSQ=
+X-Received: by 2002:a17:906:70c9:: with SMTP id g9mr3284339ejk.243.1584438011180;
+ Tue, 17 Mar 2020 02:40:11 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <AM6PR03MB5170813CDCAA105535F84C93E4FB0@AM6PR03MB5170.eurprd03.prod.outlook.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200317083043.226593-1-areber@redhat.com>
+In-Reply-To: <20200317083043.226593-1-areber@redhat.com>
+Reply-To: mtk.manpages@gmail.com
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Date:   Tue, 17 Mar 2020 10:40:00 +0100
+Message-ID: <CAKgNAkh7=2Noyn0o3880xbbi4w5oiwqs9ibTYLtheqzxne3mbQ@mail.gmail.com>
+Subject: Re: clone3: allow creation of time namespace with offset
+To:     Adrian Reber <areber@redhat.com>
+Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Pavel Emelyanov <ovzxemul@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Dmitry Safonov <0x7f454c46@gmail.com>,
+        Andrei Vagin <avagin@gmail.com>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Radostin Stoyanov <rstoyanov1@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Cyrill Gorcunov <gorcunov@openvz.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 14.03.2020 13:02, Bernd Edlinger wrote:
-> On 3/14/20 10:57 AM, Bernd Edlinger wrote:
->> On 3/13/20 10:13 AM, Kirill Tkhai wrote:
->>>
->>> Despite this should fix the problem, this looks like a broken puzzle.
->>>
->>> We can't use bprm->cred as an identifier whether the mutex was locked or not.
->>> We can check for bprm->cred in regard to cred_guard_mutex, because of there is
->>> strong rule: "cred_guard_mutex is becomes locked together with bprm->cred assignment
->>> (see prepare_bprm_creds()), and it becomes unlocked together with bprm->cred zeroing".
->>> Take attention on modularity of all this: there is no dependencies between anything else.
->>>
->>> In regard to newly introduced exec_update_mutex, your fix and source patch way look like
->>> an obfuscation. The mutex becomes deadly glued to unrelated bprm->cred and bprm->mm,
->>> and this introduces the problems in the future modifications and support of all involved
->>> entities. If someone wants to move some functions in relation to each other, there will
->>> be a pain, and this person will have to go again the same dependencies and bug way,
->>> Eric stepped on in the original patch.
->>>
->>
->> Okay, yes, valid points you make, thanks.
->> I just wanted to understand what was exactly wrong with this patch,
->> since the failure mode looked a lot like it was failing because of
->> something clobbering the data unexpectedly.
->>
->>
->> So I have posted a few updated patch for the failed one here:
->>
->> [PATCH v3 5/5] exec: Add a exec_update_mutex to replace cred_guard_mutex
->> [PATCH] pidfd: Use new infrastructure to fix deadlocks in execve
->>
->> which replaces these:
->> [PATCH v2 5/5] exec: Add a exec_update_mutex to replace cred_guard_mutex
->> https://lore.kernel.org/lkml/87zhcq4jdj.fsf_-_@x220.int.ebiederm.org/
->>
->> [PATCH] pidfd: Stop taking cred_guard_mutex 
->> https://lore.kernel.org/lkml/87wo7svy96.fsf_-_@x220.int.ebiederm.org/
->>
->>
->> and a new patch series to fix deadlock in ptrace_attach and update doc:
->> [PATCH 0/2] exec: Fix dead-lock in de_thread with ptrace_attach
->> [PATCH 1/2] exec: Fix dead-lock in de_thread with ptrace_attach
->> [PATCH 2/2] doc: Update documentation of ->exec_*_mutex
->>
->>
->> Other patches needed, still valid:
->>
->> [PATCH v2 1/5] exec: Only compute current once in flush_old_exec
->> https://lore.kernel.org/lkml/87pndm5y3l.fsf_-_@x220.int.ebiederm.org/
->>
->> [PATCH v2 2/5] exec: Factor unshare_sighand out of de_thread and call it separately
->> https://lore.kernel.org/lkml/87k13u5y26.fsf_-_@x220.int.ebiederm.org/
->>
-> 
-> Ah, sorry, forgot this one:
-> [PATCH v2 3/5] exec: Move cleanup of posix timers on exec out of de_thread
-> https://lore.kernel.org/lkml/87eeu25y14.fsf_-_@x220.int.ebiederm.org/
-> 
->> [PATCH v2 4/5] exec: Move exec_mmap right after de_thread in flush_old_exec
->> https://lore.kernel.org/lkml/875zfe5xzb.fsf_-_@x220.int.ebiederm.org/
+[CC += linux-api; please CC on future versions]
 
-1-4/5 look OK for me. You may add my
+On Tue, 17 Mar 2020 at 09:32, Adrian Reber <areber@redhat.com> wrote:
+>
+> This is an attempt to add time namespace support to clone3(). I am not
+> really sure which way clone3() should handle time namespaces. The time
+> namespace through /proc cannot be used with clone3() because the offsets
+> for the time namespace need to be written before a process has been
+> created in that time namespace. This means it is necessary to somehow
+> tell clone3() the offsets for the clocks.
+>
+> The time namespace offers the possibility to set offsets for
+> CLOCK_MONOTONIC and CLOCK_BOOTTIME. My first approach was to extend
+> 'struct clone_args` with '__aligned_u64 monotonic_offset' and
+> '__aligned_u64 boottime_offset'. The problem with this approach was that
+> it was not possible to set nanoseconds for the clocks in the time
+> namespace.
+>
+> One of the motivations for clone3() with CLONE_NEWTIME was to enable
+> CRIU to restore a process in a time namespace with the corresponding
+> offsets. And although the nanosecond value can probably never be
+> restored to the same value it had during checkpointing, because the
+> clock keeps on running between CRIU pausing all processes and CRIU
+> actually reading the value of the clocks, the nanosecond value is still
+> necessary for CRIU to not restore a process where the clock jumps back
+> due to CRIU restoring it with a nanonsecond value that is too small.
+>
+> Requiring nanoseconds as well as seconds for two clocks during clone3()
+> means that it would require 4 additional members to 'struct clone_args':
+>
+>         __aligned_u64 tls;
+>         __aligned_u64 set_tid;
+>         __aligned_u64 set_tid_size;
+> +       __aligned_u64 boottime_offset_seconds;
+> +       __aligned_u64 boottime_offset_nanoseconds;
+> +       __aligned_u64 monotonic_offset_seconds;
+> +       __aligned_u64 monotonic_offset_nanoseconds;
+>  };
+>
+> To avoid four additional members to 'struct clone_args' this patchset
+> uses another approach:
+>
+>         __aligned_u64 tls;
+>         __aligned_u64 set_tid;
+>         __aligned_u64 set_tid_size;
+> +       __aligned_u64 timens_offset;
+> +       __aligned_u64 timens_offset_size;
+>  };
+>
+> timens_offset is a pointer to an array just as previously done with
+> set_tid and timens_offset_size is the size of the array.
+>
+> The timens_offset array is expected to contain a struct like this:
+>
+> struct set_timens_offset {
+>        int clockid;
+>        struct timespec val;
+> };
+>
+> This way it is possible to pass the information of multiple clocks with
+> seconds and nanonseconds to clone3().
+>
+> To me this seems the better approach, but I am not totally convinced
+> that it is the right thing. If there are other ideas how to pass two
+> clock offsets with seconds and nanonseconds to clone3() I would be happy
+> to hear other ideas.
+>
+>                 Adrian
+>
+>
 
-Reviewed-by: Kirill Tkhai <ktkhai@virtuozzo.com>
 
->> [PATCH 1/4] exec: Fix a deadlock in ptrace
->> https://lore.kernel.org/lkml/AM6PR03MB517033EAD25BED15CC84E17DE4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com/
->>
->> [PATCH 2/4] selftests/ptrace: add test cases for dead-locks
->> https://lore.kernel.org/lkml/AM6PR03MB51703199741A2C27A78980FFE4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com/
->>
->> [PATCH 3/4] mm: docs: Fix a comment in process_vm_rw_core
->> https://lore.kernel.org/lkml/AM6PR03MB5170ED6D4D216EEEEF400136E4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com/
->>
->> [PATCH 4/4] kernel: doc: remove outdated comment cred.c
->> https://lore.kernel.org/lkml/AM6PR03MB517039DB07AB641C194FEA57E4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com/
->>
->> [PATCH 1/4] kernel/kcmp.c: Use new infrastructure to fix deadlocks in execve
->> https://lore.kernel.org/lkml/AM6PR03MB517057A2269C3A4FB287B76EE4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com/
->>
->> [PATCH 2/4] proc: Use new infrastructure to fix deadlocks in execve
->> https://lore.kernel.org/lkml/AM6PR03MB51705D211EC8E7EA270627B1E4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com/
->>
->> [PATCH 3/4] proc: io_accounting: Use new infrastructure to fix deadlocks in execve
->> https://lore.kernel.org/lkml/AM6PR03MB5170BD2476E35068E182EFA4E4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com/
->>
->> [PATCH 4/4] perf: Use new infrastructure to fix deadlocks in execve
->> https://lore.kernel.org/lkml/AM6PR03MB517035DEEDB9C8699CB6B34EE4FF0@AM6PR03MB5170.eurprd03.prod.outlook.com/
->>
->>
->> I think most of the existing patches are already approved, but if
->> there are still change requests, please let me know.
->>
->>
->> Thanks
->> Bernd.
->>
-> 
-> Hope it is correct now.
-> I haven't seen the new patches on the kernel archives yet,
-> so I cannot add URLs for them.
-> 
-> Bernd.
-> 
-
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
