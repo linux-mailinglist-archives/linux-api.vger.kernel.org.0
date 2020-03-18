@@ -2,142 +2,68 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F172D18A02D
-	for <lists+linux-api@lfdr.de>; Wed, 18 Mar 2020 17:06:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 16DB118A2B3
+	for <lists+linux-api@lfdr.de>; Wed, 18 Mar 2020 19:56:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727175AbgCRQGG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 18 Mar 2020 12:06:06 -0400
-Received: from mail-il1-f193.google.com ([209.85.166.193]:42570 "EHLO
-        mail-il1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726871AbgCRQGD (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 18 Mar 2020 12:06:03 -0400
-Received: by mail-il1-f193.google.com with SMTP id p2so16351589ile.9
-        for <linux-api@vger.kernel.org>; Wed, 18 Mar 2020 09:06:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Q+E6phefA0/UCxZU68Ee5CkdpY/LreXqfKusKthyp5I=;
-        b=PmkHFgajk2/8VWOHdYUg8VCj1tVopeX6fqfrGgYm0sPb35e5EoxUjxowANbaw3zCwS
-         wqDhItzeSSD2F4OzNelMLAyDUKSqRDkOzITlg+Hge+tWY5LhXczVM8GuM5pTiPEM5aFa
-         ut6OlQnzTW2CXrIbgEnOI63xRs4UIkIGUhynA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Q+E6phefA0/UCxZU68Ee5CkdpY/LreXqfKusKthyp5I=;
-        b=ukfNQPs4SfagcKZZ159rJZYEJe38RCHJH0saxqed1fHIA+4hbKsGG1TcShFDaH0Ofl
-         Qm5s0fqoXO36FvNsbWlYp1FT+TIDTqAc6GvQWDEbcBwVYt5W4SYjDfq9hbC3wQxbcppj
-         q6t0KqjA1MPV9EUkS2hftEooWWffYunvx8wjuNzNqlRQ/CKUg7jk+Fr7T4eGz4Ga+H+s
-         oekXozDI9D7VlrVkG+1cdDT/sivETqhtS09BQjuX9MslUWcLY+hc1pE8lIyf7aBAknbi
-         gA4ZX87k+tqlR5JtEvsyNmzAGGbcARzK4KqEMNVoFxXwEGCnOFeOSLes+wrC/Xy3k0t2
-         Io5A==
-X-Gm-Message-State: ANhLgQ1LcKe4HXS5gMPrQFO6sulAxGgKb8yEIWKCQACveh4DE6iFVfnQ
-        bZI4zWI2wfQuTqg2qtgtdmv3IQWDyWlo9iE4rG4qkw==
-X-Google-Smtp-Source: ADFU+vseuj9ZXYFeMbS3X+5vGmRRSiZoxImF5rzfLQFjQscZDtBKPWLdRkROYV3TZYIAEV5wBxQF2hmZ0LlipmXRNY0=
-X-Received: by 2002:a92:5d52:: with SMTP id r79mr4664957ilb.212.1584547562099;
- Wed, 18 Mar 2020 09:06:02 -0700 (PDT)
-MIME-Version: 1.0
-References: <158454408854.2864823.5910520544515668590.stgit@warthog.procyon.org.uk>
-In-Reply-To: <158454408854.2864823.5910520544515668590.stgit@warthog.procyon.org.uk>
-From:   Miklos Szeredi <miklos@szeredi.hu>
-Date:   Wed, 18 Mar 2020 17:05:50 +0100
-Message-ID: <CAJfpeguaiicjS2StY5m=8H7BCjq6PLxMsWE3Mx_jYR1foDWVTg@mail.gmail.com>
-Subject: Re: [PATCH 00/13] VFS: Filesystem information [ver #19]
+        id S1726795AbgCRS4f (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 18 Mar 2020 14:56:35 -0400
+Received: from namei.org ([65.99.196.166]:42008 "EHLO namei.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726506AbgCRS4f (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 18 Mar 2020 14:56:35 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by namei.org (8.14.4/8.14.4) with ESMTP id 02IIu8gs029803;
+        Wed, 18 Mar 2020 18:56:08 GMT
+Date:   Thu, 19 Mar 2020 05:56:08 +1100 (AEDT)
+From:   James Morris <jmorris@namei.org>
 To:     David Howells <dhowells@redhat.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Linux NFS list <linux-nfs@vger.kernel.org>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Anna Schumaker <anna.schumaker@netapp.com>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-ext4@vger.kernel.org,
-        Trond Myklebust <trond.myklebust@hammerspace.com>,
-        Ian Kent <raven@themaw.net>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Christian Brauner <christian@brauner.io>,
-        Jann Horn <jannh@google.com>,
-        "Darrick J. Wong" <darrick.wong@oracle.com>,
-        Karel Zak <kzak@redhat.com>, Jeff Layton <jlayton@redhat.com>,
+cc:     torvalds@linux-foundation.org, viro@zeniv.linux.org.uk,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        linux-security-module@vger.kernel.org,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Stephen Smalley <sds@tycho.nsa.gov>, nicolas.dichtel@6wind.com,
+        raven@themaw.net, christian@brauner.io, andres@anarazel.de,
+        jlayton@redhat.com, dray@redhat.com, kzak@redhat.com,
+        keyrings@vger.kernel.org, linux-api@vger.kernel.org,
         linux-fsdevel@vger.kernel.org,
-        LSM <linux-security-module@vger.kernel.org>,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 02/17] security: Add hooks to rule on setting a watch
+ [ver #5]
+In-Reply-To: <158454381028.2863966.13720387027986442186.stgit@warthog.procyon.org.uk>
+Message-ID: <alpine.LRH.2.21.2003190555450.29708@namei.org>
+References: <158454378820.2863966.10496767254293183123.stgit@warthog.procyon.org.uk> <158454381028.2863966.13720387027986442186.stgit@warthog.procyon.org.uk>
+User-Agent: Alpine 2.21 (LRH 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Mar 18, 2020 at 4:08 PM David Howells <dhowells@redhat.com> wrote:
+On Wed, 18 Mar 2020, David Howells wrote:
 
-> ============================
-> WHY NOT USE PROCFS OR SYSFS?
-> ============================
->
-> Why is it better to go with a new system call rather than adding more magic
-> stuff to /proc or /sysfs for each superblock object and each mount object?
->
->  (1) It can be targetted.  It makes it easy to query directly by path.
->      procfs and sysfs cannot do this easily.
->
->  (2) It's more efficient as we can return specific binary data rather than
->      making huge text dumps.  Granted, sysfs and procfs could present the
->      same data, though as lots of little files which have to be
->      individually opened, read, closed and parsed.
+> Add security hooks that will allow an LSM to rule on whether or not a watch
+> may be set.  More than one hook is required as the watches watch different
+> types of object.
+> 
+> Signed-off-by: David Howells <dhowells@redhat.com>
+> cc: Casey Schaufler <casey@schaufler-ca.com>
+> cc: Stephen Smalley <sds@tycho.nsa.gov>
+> cc: linux-security-module@vger.kernel.org
+> ---
+> 
+>  include/linux/lsm_hooks.h |   24 ++++++++++++++++++++++++
+>  include/linux/security.h  |   17 +++++++++++++++++
+>  security/security.c       |   14 ++++++++++++++
+>  3 files changed, 55 insertions(+)
+> 
 
-Asked this a number of times, but you haven't answered yet:  what
-application would require such a high efficiency?
 
-Nobody's suggesting we move stat(2) to proc interfaces, and AFAIK
-nobody suggested we move /proc/PID/* to a binary syscall interface.
-Each one has its place, and I strongly feel that mount info belongs in
-the latter category.    Feel free to prove the opposite.
+Acked-by: James Morris <jamorris@linux.microsoft.com>
 
->  (3) We wouldn't have the overhead of open and close (even adding a
->      self-contained readfile() syscall has to do that internally
 
-Busted: add f_op->readfile() and be done with all that.   For example
-DEFINE_SHOW_ATTRIBUTE() could be trivially moved to that interface.
+-- 
+James Morris
+<jmorris@namei.org>
 
-We could optimize existing proc, sys, etc. interfaces, but it's not
-been an issue, apparently.
-
->
->  (4) Opening a file in procfs or sysfs has a pathwalk overhead for each
->      file accessed.  We can use an integer attribute ID instead (yes, this
->      is similar to ioctl) - but could also use a string ID if that is
->      preferred.
->
->  (5) Can easily query cross-namespace if, say, a container manager process
->      is given an fs_context that hasn't yet been mounted into a namespace -
->      or hasn't even been fully created yet.
-
-Works with my patch.
-
->  (6) Don't have to create/delete a bunch of sysfs/procfs nodes each time a
->      mount happens or is removed - and since systemd makes much use of
->      mount namespaces and mount propagation, this will create a lot of
->      nodes.
-
-Not true.
-
-> The argument for doing this through procfs/sysfs/somemagicfs is that
-> someone using a shell can just query the magic files using ordinary text
-> tools, such as cat - and that has merit - but it doesn't solve the
-> query-by-pathname problem.
->
-> The suggested way around the query-by-pathname problem is to open the
-> target file O_PATH and then look in a magic directory under procfs
-> corresponding to the fd number to see a set of attribute files[*] laid out.
-> Bash, however, can't open by O_PATH or O_NOFOLLOW as things stand...
-
-Bash doesn't have fsinfo(2) either, so that's not really a good argument.
-
-Implementing a utility to show mount attribute(s) by path is trivial
-for the file based interface, while it would need to be updated for
-each extension of fsinfo(2).   Same goes for libc, language bindings,
-etc.
-
-Thanks,
-Miklos
