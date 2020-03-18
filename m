@@ -2,175 +2,361 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 93B3118A793
-	for <lists+linux-api@lfdr.de>; Wed, 18 Mar 2020 23:06:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 470C518A948
+	for <lists+linux-api@lfdr.de>; Thu, 19 Mar 2020 00:34:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726619AbgCRWGP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 18 Mar 2020 18:06:15 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:42574 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726975AbgCRWGO (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 18 Mar 2020 18:06:14 -0400
-Received: by mail-ed1-f67.google.com with SMTP id b21so51029edy.9
-        for <linux-api@vger.kernel.org>; Wed, 18 Mar 2020 15:06:12 -0700 (PDT)
+        id S1727020AbgCRXeP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 18 Mar 2020 19:34:15 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:33264 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727283AbgCRXeN (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 18 Mar 2020 19:34:13 -0400
+Received: by mail-oi1-f194.google.com with SMTP id r7so785757oij.0
+        for <linux-api@vger.kernel.org>; Wed, 18 Mar 2020 16:34:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=TDXZZkhqjusv291He84nhKQlMbFezXaGS9XY4w8phpE=;
-        b=EGq9j8ta0EzuoZHC99ctGlzz5FJgMcHEAbQAY1LzC7m2yp+tVJkMr4r617GRqI0ca6
-         Z6smPIs417FGSdP6HYXkQWHLvupus3gRbB6ttGrFxU6ommiXyDGunEw+TRP0TgHao1TU
-         4Zuy5cg6A3jg+knqeniLehrw6GKjBIxp7c/IQ4oZLNCTkhb+VBMb4rkbGmGRA69VSJR9
-         LYyO7JXPLwrPS+tF7PpR1NKN+psauSaajm2Y6qFCN6eNWY78mekonIly4LPjoSQO9Xwj
-         pnC3ZVehyi0uC3wqWOG172opZ0qSIKIrqp40cuBX5baeZ0IuWv1Udr4hof6nAKv0n3Rx
-         3PAQ==
+         :cc:content-transfer-encoding;
+        bh=6IKlL+I/c+Hjy4y3Xx8YKRHHyf6Y2ndtzTeKefGZ0X0=;
+        b=DrrXM1TfGXM7JpdPjJELh2Jet/0olmv7sgsJVcrfO7NNAm/C/uyNtme7E3RQnm7e+i
+         2YJureu5k61DYblkRP+iPdXjAj6EmoxPiSARalPXqDlODHBYpQUrTo+7+LWZQEaGtq4z
+         PWxPkuzUsv3k04l7Z0iBS0WqR/llQh3FVVrQOOulX84B2lD338s2/H/o5WrE5DPjv/Ky
+         ROl0qCPSz4ymdkxl27Z6MsJBAKiP17fV4389dy1Dn5iuD3LMNBb4AGc09RyXd4B7XEHE
+         ySE3qNl/9EKEnQS5sd1SsSKs/oXsgIHSjA6vuGQmMLZGV+j7AlmeM0VBLcPchf3vk+8Q
+         fJag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=TDXZZkhqjusv291He84nhKQlMbFezXaGS9XY4w8phpE=;
-        b=e0umFoNYjkXAe6+7yjtYQfT7fzxbC4NRsLLZ5zFhw4jAd6hp86YpTUNUyKzGRPtAIN
-         Vbr9bkOObmS6KV1LO1+QaGYhvGfMyCUGJh2Hgasx3KaeNxMt8VGbkY2TWXvJdi/uO9Tf
-         8Ck218cOhEoSKvJeXSG13LbCFEIyqqqSyKZ5yzz3hVslaVG1NBQHW5Au7P1OkRN3AAsO
-         DEwTai61KiuACNsLqnZWPRJY+xQkDFyVigDo9DkXtt91Tgm0CM+zvy9nIOXYLzabt3QF
-         94FA5xwvDG9b4Ov3/ESHfvqIhjeBsULKdUE1r4tSN8yuxbzSw4VvgqP+frfXyPk9QbSi
-         kGkw==
-X-Gm-Message-State: ANhLgQ12tXbnoFJdNUUO70Kcy6DhVuBpKbdQVuy2HU+plb3itRDyD6uO
-        YMZ3QzPylnu4UJ1MkFFscTg4UqSgBZilurOO3IDC
-X-Google-Smtp-Source: ADFU+vtW4mfjwnuF24IoXcYzayNDU8snpAdY8T07RFr+nxOE2IbbjW1zRxqJVYGpUJx8Vd5VOBHbcoPpD4xtj23EMDs=
-X-Received: by 2002:a17:906:cb93:: with SMTP id mf19mr378815ejb.272.1584569171696;
- Wed, 18 Mar 2020 15:06:11 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=6IKlL+I/c+Hjy4y3Xx8YKRHHyf6Y2ndtzTeKefGZ0X0=;
+        b=dNxnrwZkluUGOZDoT2jvT91/D/X+gs6xMJSOw0mN+8ZqpKgyV1FB3+mQ90wTwfvX4l
+         aNIMI8e6O8yHrEX/Fy1mdp8xCcwP+Jiw6GfXYLof0ScKF9ief+TGGe+O2FDOdlQjTnXW
+         diX0bZdnVI4bo+YeQSzCqRHlJVad7XHDl4yPy/uq8WyuUdXK2X3e4NKsjXPzW25l/3CG
+         kZGAA8Gq4O/F6C5+1t7VdxeXOlOOurN8yLBngFnXqYsvoOTBmDAchxxlppqgXKAAHBqi
+         ViqUUpPAc1aXAj6heUAthZ6AlcxQqb7MS1phFnD5cqYfhYhYvqbc++/E3CH0rULo2uy9
+         3yGw==
+X-Gm-Message-State: ANhLgQ0GQ6irq6iKjONlqM8fqTocU6ekEnn25J+iuyUgfsiJFOOMd3YA
+        2kwcwwPIV39Qjtw47/bsS/J42Dl73w2feTfoqsHYwA==
+X-Google-Smtp-Source: ADFU+vv8F3Y9wGStW1nBrbFs3yrWKsAXE0IC+0piatRYJ3uczWe5YH3FoAj96UZ0SHVWroel259FmrrZ8VibD0XoKz8=
+X-Received: by 2002:aca:5e88:: with SMTP id s130mr335083oib.47.1584574450560;
+ Wed, 18 Mar 2020 16:34:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAHC9VhQquokw+7UOU=G0SsD35UdgmfysVKCGCE87JVaoTkbisg@mail.gmail.com>
- <3142237.YMNxv0uec1@x2> <CAHC9VhTiCHQbp2SwK0Xb1QgpUZxOQ26JKKPsVGT0ZvMqx28oPQ@mail.gmail.com>
- <CAHC9VhS09b_fM19tn7pHZzxfyxcHnK+PJx80Z9Z1hn8-==4oLA@mail.gmail.com>
- <20200312193037.2tb5f53yeisfq4ta@madcap2.tricolour.ca> <CAHC9VhQoVOzy_b9W6h+kmizKr1rPkC4cy5aYoKT2i0ZgsceNDg@mail.gmail.com>
- <20200313185900.y44yvrfm4zxa5lfk@madcap2.tricolour.ca> <CAHC9VhR2zCCE5bjH75rSwfLC7TJGFj4RBnrtcOoUiqVp9q5TaA@mail.gmail.com>
- <20200318212630.mw2geg4ykhnbtr3k@madcap2.tricolour.ca> <CAHC9VhRYvGAru3aOMwWKCCWDktS+2pGr+=vV4SjHW_0yewD98A@mail.gmail.com>
- <20200318215550.es4stkjwnefrfen2@madcap2.tricolour.ca>
-In-Reply-To: <20200318215550.es4stkjwnefrfen2@madcap2.tricolour.ca>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Wed, 18 Mar 2020 18:06:00 -0400
-Message-ID: <CAHC9VhSdDDP7Ec-w61NhGxZG5ZiekmrBCAg=Y=VJvEZcgQh46g@mail.gmail.com>
-Subject: Re: [PATCH ghak90 V8 07/16] audit: add contid support for signalling
- the audit daemon
-To:     Richard Guy Briggs <rgb@redhat.com>
-Cc:     Steve Grubb <sgrubb@redhat.com>, linux-audit@redhat.com,
-        nhorman@tuxdriver.com, linux-api@vger.kernel.org,
-        containers@lists.linux-foundation.org,
-        LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
-        netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
-        simo@redhat.com, netdev@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>,
-        mpatel@redhat.com, Serge Hallyn <serge@hallyn.com>
+References: <20200224160215.4136-1-mic@digikod.net> <CAG48ez21bEn0wL1bbmTiiu8j9jP5iEWtHOwz4tURUJ+ki0ydYw@mail.gmail.com>
+ <873d7419-bdd9-8a52-0a9b-dddbe31df4f9@digikod.net> <CAG48ez0=0W5Ok-8nASqZrZ28JboXRRi3gDxV5u6mdcOtzwuRVA@mail.gmail.com>
+ <688dda0f-0907-34eb-c19e-3e9e5f613a74@digikod.net> <CAG48ez16yT+zbK1WPxr2TnxrifW5c2DnpFLbWRRLUT_WpuFNmw@mail.gmail.com>
+ <e8530226-f295-a897-1132-7e6970dad49f@digikod.net>
+In-Reply-To: <e8530226-f295-a897-1132-7e6970dad49f@digikod.net>
+From:   Jann Horn <jannh@google.com>
+Date:   Thu, 19 Mar 2020 00:33:44 +0100
+Message-ID: <CAG48ez1K-7Lq2Ep_p9fOvXQ-fwj_8dA1CFd5SVDbT4ccqejDzA@mail.gmail.com>
+Subject: Re: [RFC PATCH v14 00/10] Landlock LSM
+To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
+Cc:     kernel list <linux-kernel@vger.kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        James Morris <jmorris@namei.org>, Jann Horn <jann@thejh.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mickael.salaun@ssi.gouv.fr>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        linux-doc@vger.kernel.org,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Mar 18, 2020 at 5:56 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> On 2020-03-18 17:42, Paul Moore wrote:
-> > On Wed, Mar 18, 2020 at 5:27 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > On 2020-03-18 16:56, Paul Moore wrote:
-> > > > On Fri, Mar 13, 2020 at 2:59 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > > > On 2020-03-13 12:29, Paul Moore wrote:
-> > > > > > On Thu, Mar 12, 2020 at 3:30 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > > > > > On 2020-02-13 16:44, Paul Moore wrote:
-> > > > > > > > This is a bit of a thread-hijack, and for that I apologize, but
-> > > > > > > > another thought crossed my mind while thinking about this issue
-> > > > > > > > further ... Once we support multiple auditd instances, including the
-> > > > > > > > necessary record routing and duplication/multiple-sends (the host
-> > > > > > > > always sees *everything*), we will likely need to find a way to "trim"
-> > > > > > > > the audit container ID (ACID) lists we send in the records.  The
-> > > > > > > > auditd instance running on the host/initns will always see everything,
-> > > > > > > > so it will want the full container ACID list; however an auditd
-> > > > > > > > instance running inside a container really should only see the ACIDs
-> > > > > > > > of any child containers.
-> > > > > > >
-> > > > > > > Agreed.  This should be easy to check and limit, preventing an auditd
-> > > > > > > from seeing any contid that is a parent of its own contid.
-> > > > > > >
-> > > > > > > > For example, imagine a system where the host has containers 1 and 2,
-> > > > > > > > each running an auditd instance.  Inside container 1 there are
-> > > > > > > > containers A and B.  Inside container 2 there are containers Y and Z.
-> > > > > > > > If an audit event is generated in container Z, I would expect the
-> > > > > > > > host's auditd to see a ACID list of "1,Z" but container 1's auditd
-> > > > > > > > should only see an ACID list of "Z".  The auditd running in container
-> > > > > > > > 2 should not see the record at all (that will be relatively
-> > > > > > > > straightforward).  Does that make sense?  Do we have the record
-> > > > > > > > formats properly designed to handle this without too much problem (I'm
-> > > > > > > > not entirely sure we do)?
-> > > > > > >
-> > > > > > > I completely agree and I believe we have record formats that are able to
-> > > > > > > handle this already.
-> > > > > >
-> > > > > > I'm not convinced we do.  What about the cases where we have a field
-> > > > > > with a list of audit container IDs?  How do we handle that?
-> > > > >
-> > > > > I don't understand the problem.  (I think you crossed your 1/2 vs
-> > > > > A/B/Y/Z in your example.) ...
-> > > >
-> > > > It looks like I did, sorry about that.
-> > > >
-> > > > > ... Clarifying the example above, if as you
-> > > > > suggest an event happens in container Z, the hosts's auditd would report
-> > > > >         Z,^2
-> > > > > and the auditd in container 2 would report
-> > > > >         Z,^2
-> > > > > but if there were another auditd running in container Z it would report
-> > > > >         Z
-> > > > > while the auditd in container 1 or A/B would see nothing.
-> > > >
-> > > > Yes.  My concern is how do we handle this to minimize duplicating and
-> > > > rewriting the records?  It isn't so much about the format, although
-> > > > the format is a side effect.
-> > >
-> > > Are you talking about caching, or about divulging more information than
-> > > necessary or even information leaks?  Or even noticing that records that
-> > > need to be generated to two audit daemons share the same contid field
-> > > values and should be generated at the same time or information shared
-> > > between them?  I'd see any of these as optimizations that don't affect
-> > > the api.
+On Wed, Mar 18, 2020 at 1:06 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net> =
+wrote:
+> On 17/03/2020 20:45, Jann Horn wrote:
+> > On Tue, Mar 17, 2020 at 6:50 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.n=
+et> wrote:
+> >> On 17/03/2020 17:19, Jann Horn wrote:
+> >>> On Thu, Mar 12, 2020 at 12:38 AM Micka=C3=ABl Sala=C3=BCn <mic@digiko=
+d.net> wrote:
+> >>>> On 10/03/2020 00:44, Jann Horn wrote:
+> >>>>> On Mon, Feb 24, 2020 at 5:03 PM Micka=C3=ABl Sala=C3=BCn <mic@digik=
+od.net> wrote:
+> >>
+> >> [...]
+> >>
+> >>>>> Aside from those things, there is also a major correctness issue wh=
+ere
+> >>>>> I'm not sure how to solve it properly:
+> >>>>>
+> >>>>> Let's say a process installs a filter on itself like this:
+> >>>>>
+> >>>>> struct landlock_attr_ruleset ruleset =3D { .handled_access_fs =3D
+> >>>>> ACCESS_FS_ROUGHLY_WRITE};
+> >>>>> int ruleset_fd =3D landlock(LANDLOCK_CMD_CREATE_RULESET,
+> >>>>> LANDLOCK_OPT_CREATE_RULESET, sizeof(ruleset), &ruleset);
+> >>>>> struct landlock_attr_path_beneath path_beneath =3D {
+> >>>>>   .ruleset_fd =3D ruleset_fd,
+> >>>>>   .allowed_access =3D ACCESS_FS_ROUGHLY_WRITE,
+> >>>>>   .parent_fd =3D open("/tmp/foobar", O_PATH),
+> >>>>> };
+> >>>>> landlock(LANDLOCK_CMD_ADD_RULE, LANDLOCK_OPT_ADD_RULE_PATH_BENEATH,
+> >>>>> sizeof(path_beneath), &path_beneath);
+> >>>>> prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0);
+> >>>>> struct landlock_attr_enforce attr_enforce =3D { .ruleset_fd =3D rul=
+eset_fd };
+> >>>>> landlock(LANDLOCK_CMD_ENFORCE_RULESET, LANDLOCK_OPT_ENFORCE_RULESET=
+,
+> >>>>> sizeof(attr_enforce), &attr_enforce);
+> >>>>>
+> >>>>> At this point, the process is not supposed to be able to write to
+> >>>>> anything outside /tmp/foobar, right? But what happens if the proces=
+s
+> >>>>> does the following next?
+> >>>>>
+> >>>>> struct landlock_attr_ruleset ruleset =3D { .handled_access_fs =3D
+> >>>>> ACCESS_FS_ROUGHLY_WRITE};
+> >>>>> int ruleset_fd =3D landlock(LANDLOCK_CMD_CREATE_RULESET,
+> >>>>> LANDLOCK_OPT_CREATE_RULESET, sizeof(ruleset), &ruleset);
+> >>>>> struct landlock_attr_path_beneath path_beneath =3D {
+> >>>>>   .ruleset_fd =3D ruleset_fd,
+> >>>>>   .allowed_access =3D ACCESS_FS_ROUGHLY_WRITE,
+> >>>>>   .parent_fd =3D open("/", O_PATH),
+> >>>>> };
+> >>>>> landlock(LANDLOCK_CMD_ADD_RULE, LANDLOCK_OPT_ADD_RULE_PATH_BENEATH,
+> >>>>> sizeof(path_beneath), &path_beneath);
+> >>>>> prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0);
+> >>>>> struct landlock_attr_enforce attr_enforce =3D { .ruleset_fd =3D rul=
+eset_fd };
+> >>>>> landlock(LANDLOCK_CMD_ENFORCE_RULESET, LANDLOCK_OPT_ENFORCE_RULESET=
+,
+> >>>>> sizeof(attr_enforce), &attr_enforce);
+> >>>>>
+> >>>>> As far as I can tell from looking at the source, after this, you wi=
+ll
+> >>>>> have write access to the entire filesystem again. I think the idea =
+is
+> >>>>> that LANDLOCK_CMD_ENFORCE_RULESET should only let you drop privileg=
+es,
+> >>>>> not increase them, right?
+> >>>>
+> >>>> There is an additionnal check in syscall.c:get_path_from_fd(): it is
+> >>>> forbidden to add a rule with a path which is not accessible (accordi=
+ng
+> >>>> to LANDLOCK_ACCESS_FS_OPEN) thanks to a call to security_file_open()=
+,
+> >>>> but this is definitely not perfect.
+> >>>
+> >>> Ah, I missed that.
+> >>>
+> >>>>> I think the easy way to fix this would be to add a bitmask to each
+> >>>>> rule that says from which ruleset it originally comes, and then let
+> >>>>> check_access_path() collect these bitmasks from each rule with OR, =
+and
+> >>>>> check at the end whether the resulting bitmask is full - if not, at
+> >>>>> least one of the rulesets did not permit the access, and it should =
+be
+> >>>>> denied.
+> >>>>>
+> >>>>> But maybe it would make more sense to change how the API works
+> >>>>> instead, and get rid of the concept of "merging" two rulesets
+> >>>>> together? Instead, we could make the API work like this:
+> >>>>>
+> >>>>>  - LANDLOCK_CMD_CREATE_RULESET gives you a file descriptor whose
+> >>>>> ->private_data contains a pointer to the old ruleset of the process=
+,
+> >>>>> as well as a pointer to a new empty ruleset.
+> >>>>>  - LANDLOCK_CMD_ADD_RULE fails if the specified rule would not be
+> >>>>> permitted by the old ruleset, then adds the rule to the new ruleset
+> >>>>>  - LANDLOCK_CMD_ENFORCE_RULESET fails if the old ruleset pointer in
+> >>>>> ->private_data doesn't match the current ruleset of the process, th=
+en
+> >>>>> replaces the old ruleset with the new ruleset.
+> >>>>>
+> >>>>> With this, the new ruleset is guaranteed to be a subset of the old
+> >>>>> ruleset because each of the new ruleset's rules is permitted by the
+> >>>>> old ruleset. (Unless the directory hierarchy rotates, but in that c=
+ase
+> >>>>> the inaccuracy isn't much worse than what would've been possible
+> >>>>> through RCU path walk anyway AFAIK.)
+> >>>>>
+> >>>>> What do you think?
+> >>>>>
+> >>>>
+> >>>> I would prefer to add the same checks you described at first (with
+> >>>> check_access_path), but only when creating a new ruleset with
+> >>>> merge_ruleset() (which should probably be renamed). This enables not=
+ to
+> >>>> rely on a parent ruleset/domain until the enforcement, which is the =
+case
+> >>>> anyway.
+> >>>> Unfortunately this doesn't work for some cases with bind mounts. Bec=
+ause
+> >>>> check_access_path() goes through one path, another (bind mounted) pa=
+th
+> >>>> could be illegitimately allowed.
+> >>>
+> >>> Hmm... I'm not sure what you mean. At the moment, landlock doesn't
+> >>> allow any sandboxed process to change the mount hierarchy, right? Can
+> >>> you give an example where this would go wrong?
+> >>
+> >> Indeed, a Landlocked process must no be able to change its mount
+> >> namespace layout. However, bind mounts may already exist.
+> >> Let's say a process sandbox itself to only access /a in a read-write
+> >> way.
 > >
-> > Imagine a record is generated in a container which has more than one
-> > auditd in it's ancestry that should receive this record, how do we
-> > handle that without completely killing performance?  That's my
-> > concern.  If you've already thought up a plan for this - excellent,
-> > please share :)
+> > So, first policy:
+> >
+> > /a RW
+> >
+> >> Then, this process (or one of its children) add a new restriction
+> >> on /a/b to only be able to read this hierarchy.
+> >
+> > You mean with the second policy looking like this?
 >
-> No, I haven't given that much thought other than the correctness and
-> security issues of making sure that each audit daemon is sufficiently
-> isolated to do its job but not jeopardize another audit domain.  Audit
-> already kills performance, according to some...
+> Right.
 >
-> We currently won't have that problem since there can only be one so far.
-> Fixing and optimizing this is part of the next phase of the challenge of
-> adding a second audit daemon.
+> >
+> > /a RW
+> > /a/b R
+> >
+> > Then the resulting policy would be:
+> >
+> > /a RW policy_bitmask=3D0x00000003 (bits 0 and 1 set)
+> > /a/b R policy_bitmask=3D0x00000002 (bit 1 set)
+> > required_bits=3D0x00000003 (bits 0 and 1 set)
+> >
+> >> The check at insertion
+> >> time would allow this because this access right is a subset of the
+> >> access right allowed with the parent directory. However, If /a/b is bi=
+nd
+> >> mounted somewhere else, let's say in /private/b, then the second
+> >> enforcement just gave new access rights to this hierarchy too.
+> >
+> > But with the solution I proposed, landlock's path walk would see
+> > something like this when accessing a file at /private/b/foo:
+> > /private/b/foo <no rules>
+> >   policies seen until now: 0x00000000
+> > /private/b <access: R, policy_bitmask=3D0x00000002>
+> >   policies seen until now: 0x00000002
+> > /private <no rules>
+> >   policies seen until now: 0x00000002
+> > / <no rules>
+> >   policies seen until now: 0x00000002
+> >
+> > It wouldn't encounter any rule from the first policy, so the OR of the
+> > seen policy bitmasks would be 0x00000002, which is not the required
+> > value 0x00000003, and so the access would be denied.
+> As I understand your proposition, we need to build the required_bits
+> when adding a rule or enforcing/merging a ruleset with a domain. The
+> issue is that a rule only refers to a struct inode, not a struct path.
+> For your proposition to work, we would need to walk through the file
+> path when adding a rule to a ruleset, which means that we need to depend
+> of the current view of the process (i.e. its mount namespace), and its
+> Landlock domain.
+
+I don't see why that is necessary. Why would we have to walk the file
+path when adding a rule?
+
+> If the required_bits field is set when the ruleset is
+> merged with the domain, it is not possible anymore to walk through the
+> corresponding initial file path, which makes the enforcement step too
+> late to check for such consistency. The important point is that a
+> ruleset/domain doesn't have a notion of file hierarchy, a ruleset is
+> only a set of tagged inodes.
 >
-> Let's work on correctness and reasonable efficiency for this phase and
-> not focus on a problem we don't yet have.  I wouldn't consider this
-> incurring technical debt at this point.
+> I'm not sure I got your proposition right, though. When and how would
+> you generate the required_bits?
 
-I agree, one stage at a time, but the choice we make here is going to
-have a significant impact on what we can do later.  We need to get
-this as "right" as possible; this isn't something we should dismiss
-with a hand-wave as a problem for the next stage.  We don't need an
-implementation, but I would like to see a rough design of how we would
-address this problem.
+Using your terminology:
+A domain is a collection of N layers, which are assigned indices 0..N-1.
+For each possible access type, a domain has a bitmask containing N
+bits that stores which layers control that access type. (Basically a
+per-layer version of fs_access_mask.)
+To validate an access, you start by ORing together the bitmasks for
+the requested access types; that gives you the required_bits mask,
+which lists all layers that want to control the access.
+Then you set seen_policy_bits=3D0, then do the
+check_access_path_continue() loop while keeping track of which layers
+you've seen with "seen_policy_bits |=3D access->contributing_policies",
+or something like that.
+And in the end, you check that seen_policy_bits is a superset of
+required_bits - something like `(~seen_policy_bits) & required_bits =3D=3D
+0`.
 
-> I could see cacheing a contid string from one starting point, but it may
-> be more work to search that cached string to truncate it or add to it
-> when another audit daemon requests a copy of a similar string.  I
-> suppose every full contid string could be generated the first time it is
-> used and parts of it used (start/finish) as needed but that
-> search/indexing may not be worth it.
+AFAICS to create a new domain from a bunch of layers, you wouldn't
+have to do any path walking.
 
-I hope we can do better than string manipulations in the kernel.  I'd
-much rather defer generating the ACID list (if possible), than
-generating a list only to keep copying and editing it as the record is
-sent.
+> Here is my updated proposition: add a layer level and a depth to each
+> rule (once enforced/merged with a domain), and a top layer level for a
+> domain. When enforcing a ruleset (i.e. merging a ruleset into the
+> current domain), the layer level of a new rule would be the incremented
+> top layer level.
+> If there is no rule (from this domain) tied to the same
+> inode, then the depth of the new rule is 1. However, if there is already
+> a rule tied to the same inode and if this rule's layer level is the
+> previous top layer level, then the depth and the layer level are both
+> incremented and the rule is updated with the new access rights (boolean
+> AND).
+>
+> The policy looks like this:
+> domain top_layer=3D2
+> /a RW policy_bitmask=3D0x00000003 layer=3D1 depth=3D1
+> /a/b R policy_bitmask=3D0x00000002 layer=3D2 depth=3D1
+>
+> The path walk access check walks through all inodes and start with a
+> layer counter equal to the top layer of the current domain. For each
+> encountered inode tied to a rule, the access rights are checked and a
+> new check ensures that the layer of the matching rule is the same as the
+> counter (this may be a merged ruleset containing rules pertaining to the
+> same hierarchy, which is fine) or equal to the decremented counter (i.e.
+> the path walk just reached the underlying layer). If the path walk
+> encounter a rule with a layer strictly less than the counter minus one,
+> there is a whole in the layers which means that the ruleset
+> hierarchy/subset does not match, and the access must be denied.
+>
+> When accessing a file at /private/b/foo for a read access:
+> /private/b/foo <no rules>
+>   allowed_access=3Dunknown layer_counter=3D2
+> /private/b <access: R, policy_bitmask=3D0x00000002, layer=3D2, depth=3D1>
+>   allowed_access=3Dallowed layer_counter=3D2
+> /private <no rules>
+>   allowed_access=3Dallowed layer_counter=3D2
+> / <no rules>
+>   allowed_access=3Dallowed layer_counter=3D2
+>
+> Because the layer_counter didn't reach 1, the access request is then deni=
+ed.
+>
+> This proposition enables not to rely on a parent ruleset at first, only
+> when enforcing/merging a ruleset with a domain. This also solves the
+> issue with multiple inherited/nested rules on the same inode (in which
+> case the depth just grows). Moreover, this enables to safely stop the
+> path walk as soon as we reach the layer 1.
 
--- 
-paul moore
-www.paul-moore.com
+(FWIW, you could do the same optimization with the seen_policy_bits approac=
+h.)
+
+I guess the difference between your proposal and mine is that in my
+proposal, the following would work, in effect permitting W access to
+/foo/bar/baz (and nothing else)?
+
+first ruleset:
+  /foo W
+second ruleset:
+  /foo/bar/baz W
+third ruleset:
+  /foo/bar W
+
+whereas in your proposal, IIUC it wouldn't be valid for a new ruleset
+to whitelist a superset of what was whitelisted in a previous ruleset?
