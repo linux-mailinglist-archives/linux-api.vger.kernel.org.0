@@ -2,55 +2,54 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 746AE18A518
-	for <lists+linux-api@lfdr.de>; Wed, 18 Mar 2020 21:59:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD65A18A573
+	for <lists+linux-api@lfdr.de>; Wed, 18 Mar 2020 22:01:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727901AbgCRU7B (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 18 Mar 2020 16:59:01 -0400
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:41760 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728745AbgCRU47 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 18 Mar 2020 16:56:59 -0400
-Received: by mail-ed1-f66.google.com with SMTP id v6so17502691edw.8
-        for <linux-api@vger.kernel.org>; Wed, 18 Mar 2020 13:56:58 -0700 (PDT)
+        id S1727991AbgCRVBk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 18 Mar 2020 17:01:40 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:33517 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728916AbgCRVBk (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 18 Mar 2020 17:01:40 -0400
+Received: by mail-ed1-f65.google.com with SMTP id z65so32698349ede.0
+        for <linux-api@vger.kernel.org>; Wed, 18 Mar 2020 14:01:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=g4AW1divsHMPr3pCP4CdP4Cl7K8Ooaeq6pBA6GUaETQ=;
-        b=vKUVcXTVLCHqGtHDPpcfyVqC7Iyjswe5s6J8QA9fOEK3HpHui7X1QKcUp6EbQ9CrJA
-         C05DjEwPknqFMwyMxVdqOASL4j0b74tzhGVN0rVlDcTqP9r+6muRk44tUHGBiJX0FH3l
-         0kSJ6xSo1oAI9qxQ9gvTZog0w8m3+yD8qjRaTynTXcNhuDoADAvpXa2+efq0e6D5YD6n
-         3CHbsifYNfb0CcekkOIbFkd9XH2x71AkNHltG81Un5wU3LND7OYeks7yEgdlSRFl1uJ5
-         VwR+O1FlMTPjN3UY4K4PQO/XHK+MSLNlCxZ0KmE3m5D5D1kIPJi19WSDxOhR1iInmt9f
-         77jw==
+        bh=h1JVSDR71Ka3PM04u0ramfobv1CKoUTWgjm5qfW2CV8=;
+        b=m+CruKFqyeFiSzmQCZqiAjkeem718D1Unt4LZxrLyM48zoGD0gDaVn0NlVfCexVTzu
+         wihdula0cgpJNes9gbbbPZGOCr8gmzgfMR1DP2niKlc4/Xbz1RjMvIcZK3QeYS4MTBzR
+         VGVmqZmbPsEQ42JahCXbnk6yopm5byhYxfuE4bMF2/oEIwfi0TIGwhWzo+tUFEv5Mobg
+         xAZqhXW9ZYNPl8K7ISeE3z29hhnh0uDlXFQhZXWxMxod1HlKG5GyxdS8a7Q7I9YuWv4C
+         hEdfpxYwsjziy7uL5etvx6svflsV0+OWDJH1g09o69UnURs0B4B8khAkiIXSB+T2BP9R
+         8WWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=g4AW1divsHMPr3pCP4CdP4Cl7K8Ooaeq6pBA6GUaETQ=;
-        b=N5uTo3uvWXtoCB+NKLcejf28vIQt8dcUKSwq3XMdv0apkTOPSMa6ifCKYmaaR+KXUO
-         WsC1/+VbyEjTU+FIoals9Gc5K/R69Pd/uJgF2oHFMw0Md6/HSgEfYjyeyPk9bTJF0elC
-         C/iCuCPvt00viTXo7g5VeEFFLPSeW/V35tDMD6rDhUCNgJM8Fap5I2/k6spiOuoxe2hf
-         O91mlg+8UAaRtNdF8YhR/GaB/SESZZjmVkZC4sJU3twJcwdCRR5hgO7MQjTIHcSmKFLB
-         9HLDsclD/vlFTDRodad+ec4Nznq0DB9RJETgvodlNDTamZxx+nErLL/GLbu0BQNxXuvs
-         CTSA==
-X-Gm-Message-State: ANhLgQ2eaHFTEC6qaQXcL2TtiwdG9PDvFlgbjui+9Y/Ob8XMqXZTpQqR
-        FKRFgIG2Ym1pfHhZ+glDwKK2cHH3gC8qH97+edKG
-X-Google-Smtp-Source: ADFU+vufKN/Y6D0NZVHBfHqWGsUn/HVoc7DCLKs6yGElrUkdM/dJMEcsEF5RKrrMdJTSmw7tnsN+cSFDtag+WxqrPu4=
-X-Received: by 2002:a17:906:7b8d:: with SMTP id s13mr120333ejo.77.1584565017755;
- Wed, 18 Mar 2020 13:56:57 -0700 (PDT)
+        bh=h1JVSDR71Ka3PM04u0ramfobv1CKoUTWgjm5qfW2CV8=;
+        b=lBqz4l67il4n2IyqnA7BB1sIBK1Ld+o0h6bea6q0YCmTdCoONAlFgDqSzmR0Dq7db1
+         F9zO3nH9h8kV0+uRZ9dOmhDjhStQySjJnqaetoopLKSasmqs5jCs4f/HXigSZSABO2cy
+         rwV+3zG/C+gvaEXyV7HrSAy1OGRndgvDOiTLvS0hqNsRpu9xWRdBQ/X7ShMQ7AcYQcT7
+         JIsjJhpdZHw8Q+C6QdebtVBwzxbta/lXIl7eSWV34wItabj/UKocgPvehJ5v+B1Uirt7
+         bZwzD/CdLFA1eHnxwerYBW+xCZ9ZEBpGXi3g2qHl1s7+/9NBznrnyoEPW0Lkh6w7UCBJ
+         5IPw==
+X-Gm-Message-State: ANhLgQ3xCJghIl0n5x041p9UfXFort50CTlaAGJF0lCYZpRrIMST5L8D
+        LREydHNpdLHWdOdSY9GPsyhJxrpCTIIllB3wdpnu
+X-Google-Smtp-Source: ADFU+vtjoB1L41gbvG3IfZm3ksBmDTvbqLdnYvpmD27Ya9UPhKm77W68IFm4/AxRz3i7hA2sUofnKwQPP6SAVhHtg78=
+X-Received: by 2002:a05:6402:8c3:: with SMTP id d3mr5966134edz.31.1584565297053;
+ Wed, 18 Mar 2020 14:01:37 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1577736799.git.rgb@redhat.com> <20200204231454.oxa7pyvuxbj466fj@madcap2.tricolour.ca>
  <CAHC9VhQquokw+7UOU=G0SsD35UdgmfysVKCGCE87JVaoTkbisg@mail.gmail.com>
  <3142237.YMNxv0uec1@x2> <CAHC9VhTiCHQbp2SwK0Xb1QgpUZxOQ26JKKPsVGT0ZvMqx28oPQ@mail.gmail.com>
- <CAHC9VhS09b_fM19tn7pHZzxfyxcHnK+PJx80Z9Z1hn8-==4oLA@mail.gmail.com>
- <20200312193037.2tb5f53yeisfq4ta@madcap2.tricolour.ca> <CAHC9VhQoVOzy_b9W6h+kmizKr1rPkC4cy5aYoKT2i0ZgsceNDg@mail.gmail.com>
- <20200313185900.y44yvrfm4zxa5lfk@madcap2.tricolour.ca>
-In-Reply-To: <20200313185900.y44yvrfm4zxa5lfk@madcap2.tricolour.ca>
+ <20200312202733.7kli64zsnqc4mrd2@madcap2.tricolour.ca> <CAHC9VhS9DtxJ4gvOfMRnzoo6ccGJVKL+uZYe6qqH+SPqD8r01Q@mail.gmail.com>
+ <20200313192306.wxey3wn2h4htpccm@madcap2.tricolour.ca>
+In-Reply-To: <20200313192306.wxey3wn2h4htpccm@madcap2.tricolour.ca>
 From:   Paul Moore <paul@paul-moore.com>
-Date:   Wed, 18 Mar 2020 16:56:46 -0400
-Message-ID: <CAHC9VhR2zCCE5bjH75rSwfLC7TJGFj4RBnrtcOoUiqVp9q5TaA@mail.gmail.com>
+Date:   Wed, 18 Mar 2020 17:01:26 -0400
+Message-ID: <CAHC9VhQKOpVWxDg-tWuCWV22QRu8P_NpFKme==0Ot1RQKa_DWA@mail.gmail.com>
 Subject: Re: [PATCH ghak90 V8 07/16] audit: add contid support for signalling
  the audit daemon
 To:     Richard Guy Briggs <rgb@redhat.com>
@@ -68,58 +67,38 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Mar 13, 2020 at 2:59 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> On 2020-03-13 12:29, Paul Moore wrote:
-> > On Thu, Mar 12, 2020 at 3:30 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > On 2020-02-13 16:44, Paul Moore wrote:
-> > > > This is a bit of a thread-hijack, and for that I apologize, but
-> > > > another thought crossed my mind while thinking about this issue
-> > > > further ... Once we support multiple auditd instances, including the
-> > > > necessary record routing and duplication/multiple-sends (the host
-> > > > always sees *everything*), we will likely need to find a way to "trim"
-> > > > the audit container ID (ACID) lists we send in the records.  The
-> > > > auditd instance running on the host/initns will always see everything,
-> > > > so it will want the full container ACID list; however an auditd
-> > > > instance running inside a container really should only see the ACIDs
-> > > > of any child containers.
-> > >
-> > > Agreed.  This should be easy to check and limit, preventing an auditd
-> > > from seeing any contid that is a parent of its own contid.
-> > >
-> > > > For example, imagine a system where the host has containers 1 and 2,
-> > > > each running an auditd instance.  Inside container 1 there are
-> > > > containers A and B.  Inside container 2 there are containers Y and Z.
-> > > > If an audit event is generated in container Z, I would expect the
-> > > > host's auditd to see a ACID list of "1,Z" but container 1's auditd
-> > > > should only see an ACID list of "Z".  The auditd running in container
-> > > > 2 should not see the record at all (that will be relatively
-> > > > straightforward).  Does that make sense?  Do we have the record
-> > > > formats properly designed to handle this without too much problem (I'm
-> > > > not entirely sure we do)?
-> > >
-> > > I completely agree and I believe we have record formats that are able to
-> > > handle this already.
-> >
-> > I'm not convinced we do.  What about the cases where we have a field
-> > with a list of audit container IDs?  How do we handle that?
+On Fri, Mar 13, 2020 at 3:23 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> On 2020-03-13 12:42, Paul Moore wrote:
+
+...
+
+> > The thread has had a lot of starts/stops, so I may be repeating a
+> > previous suggestion, but one idea would be to still emit a "death
+> > record" when the final task in the audit container ID does die, but
+> > block the particular audit container ID from reuse until it the
+> > SIGNAL2 info has been reported.  This gives us the timely ACID death
+> > notification while still preventing confusion and ambiguity caused by
+> > potentially reusing the ACID before the SIGNAL2 record has been sent;
+> > there is a small nit about the ACID being present in the SIGNAL2
+> > *after* its death, but I think that can be easily explained and
+> > understood by admins.
 >
-> I don't understand the problem.  (I think you crossed your 1/2 vs
-> A/B/Y/Z in your example.) ...
+> Thinking quickly about possible technical solutions to this, maybe it
+> makes sense to have two counters on a contobj so that we know when the
+> last process in that container exits and can issue the death
+> certificate, but we still block reuse of it until all further references
+> to it have been resolved.  This will likely also make it possible to
+> report the full contid chain in SIGNAL2 records.  This will eliminate
+> some of the issues we are discussing with regards to passing a contobj
+> vs a contid to the audit_log_contid function, but won't eliminate them
+> all because there are still some contids that won't have an object
+> associated with them to make it impossible to look them up in the
+> contobj lists.
 
-It looks like I did, sorry about that.
-
-> ... Clarifying the example above, if as you
-> suggest an event happens in container Z, the hosts's auditd would report
->         Z,^2
-> and the auditd in container 2 would report
->         Z,^2
-> but if there were another auditd running in container Z it would report
->         Z
-> while the auditd in container 1 or A/B would see nothing.
-
-Yes.  My concern is how do we handle this to minimize duplicating and
-rewriting the records?  It isn't so much about the format, although
-the format is a side effect.
+I'm not sure you need a full second counter, I imagine a simple flag
+would be okay.  I think you just something to indicate that this ACID
+object is marked as "dead" but it still being held for sanity reasons
+and should not be reused.
 
 -- 
 paul moore
