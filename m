@@ -2,45 +2,23 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4326F18BF12
-	for <lists+linux-api@lfdr.de>; Thu, 19 Mar 2020 19:09:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 476EA18BF2C
+	for <lists+linux-api@lfdr.de>; Thu, 19 Mar 2020 19:17:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726663AbgCSSJR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 19 Mar 2020 14:09:17 -0400
-Received: from mail.efficios.com ([167.114.26.124]:38474 "EHLO
-        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725787AbgCSSJR (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 19 Mar 2020 14:09:17 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 6CFE627A2DF;
-        Thu, 19 Mar 2020 14:09:15 -0400 (EDT)
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id jmjOxRt2Bg4k; Thu, 19 Mar 2020 14:09:14 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id BC42B27A457;
-        Thu, 19 Mar 2020 14:09:14 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com BC42B27A457
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1584641354;
-        bh=QrUfFRjrLvNryzVs/34w+Qbbt1S0+IB1GOeGR35CWVA=;
-        h=Date:From:To:Message-ID:MIME-Version;
-        b=j7x2KgimtwhqQsWjVREY7tOUb2YWfb8SdALWYZ9Hma7LiL8cFz72GnezhOhsdgM0F
-         YoGt1Gae8nPb7aqSDHLfWjNr2H6/FbnXoLqxI1LRG1v2KozNRzCvPIlNGjm7s/p8up
-         jUTTbZxQtUY6sFOUkOoHLLimIysp6gODwcdjshSx5lgIPgM9K61cRrggADEqv55N6Y
-         60dF6oM+1w8pJlJalrIok0I08gQv6h9bpb9KSsb/CXxsNCmzqf5RR3rmIpoDGfXfif
-         y3YUhyCxVczDigwQqyU5j9HIu9RXF98C7PMHvWqH8Bn5HfY1fnHW5wmCDx34nafW51
-         CbcO5uDrBsoxg==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id EfSP2e1G3KXZ; Thu, 19 Mar 2020 14:09:14 -0400 (EDT)
-Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
-        by mail.efficios.com (Postfix) with ESMTP id A98C027A69C;
-        Thu, 19 Mar 2020 14:09:14 -0400 (EDT)
-Date:   Thu, 19 Mar 2020 14:09:14 -0400 (EDT)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Florian Weimer <fw@deneb.enyo.de>
+        id S1726785AbgCSSRr convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Thu, 19 Mar 2020 14:17:47 -0400
+Received: from albireo.enyo.de ([37.24.231.21]:51982 "EHLO albireo.enyo.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726663AbgCSSRr (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 19 Mar 2020 14:17:47 -0400
+Received: from [172.17.203.2] (helo=deneb.enyo.de)
+        by albireo.enyo.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        id 1jEzjc-000123-KO; Thu, 19 Mar 2020 18:17:36 +0000
+Received: from fw by deneb.enyo.de with local (Exim 4.92)
+        (envelope-from <fw@deneb.enyo.de>)
+        id 1jEziG-0006VC-Ak; Thu, 19 Mar 2020 19:16:12 +0100
+From:   Florian Weimer <fw@deneb.enyo.de>
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 Cc:     libc-alpha <libc-alpha@sourceware.org>, carlos <carlos@redhat.com>,
         Rich Felker <dalias@libc.org>,
         linux-api <linux-api@vger.kernel.org>,
@@ -52,91 +30,74 @@ Cc:     libc-alpha <libc-alpha@sourceware.org>, carlos <carlos@redhat.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Paul <paulmck@linux.vnet.ibm.com>, Paul Turner <pjt@google.com>,
         Joseph Myers <joseph@codesourcery.com>
-Message-ID: <1302331358.3965.1584641354569.JavaMail.zimbra@efficios.com>
-In-Reply-To: <87r1xo5o2s.fsf@mid.deneb.enyo.de>
-References: <20200319144110.3733-1-mathieu.desnoyers@efficios.com> <20200319144110.3733-5-mathieu.desnoyers@efficios.com> <874kukpf9f.fsf@mid.deneb.enyo.de> <2147217200.3240.1584633395285.JavaMail.zimbra@efficios.com> <87r1xo5o2s.fsf@mid.deneb.enyo.de>
-Subject: Re: [RFC PATCH glibc 4/8] glibc: Perform rseq(2) registration at C
- startup and thread creation (v15)
+Subject: Re: [RFC PATCH glibc 4/8] glibc: Perform rseq(2) registration at C startup and thread creation (v15)
+References: <20200319144110.3733-1-mathieu.desnoyers@efficios.com>
+        <20200319144110.3733-5-mathieu.desnoyers@efficios.com>
+        <874kukpf9f.fsf@mid.deneb.enyo.de>
+        <2147217200.3240.1584633395285.JavaMail.zimbra@efficios.com>
+        <87r1xo5o2s.fsf@mid.deneb.enyo.de>
+        <1302331358.3965.1584641354569.JavaMail.zimbra@efficios.com>
+Date:   Thu, 19 Mar 2020 19:16:12 +0100
+In-Reply-To: <1302331358.3965.1584641354569.JavaMail.zimbra@efficios.com>
+        (Mathieu Desnoyers's message of "Thu, 19 Mar 2020 14:09:14 -0400
+        (EDT)")
+Message-ID: <87sgi4gqhf.fsf@mid.deneb.enyo.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [167.114.26.124]
-X-Mailer: Zimbra 8.8.15_GA_3918 (ZimbraWebClient - FF73 (Linux)/8.8.15_GA_3895)
-Thread-Topic: glibc: Perform rseq(2) registration at C startup and thread creation (v15)
-Thread-Index: Kjg1gZuOhEP58Sea3WPaGgIlKF6ZUA==
+Content-Transfer-Encoding: 8BIT
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
------ On Mar 19, 2020, at 12:03 PM, Florian Weimer fw@deneb.enyo.de wrote:
+* Mathieu Desnoyers:
 
-> * Mathieu Desnoyers:
->=20
->>> Can you use __has_include in <sys/rseq.h>, with a copy of the kernel
->>> definitions if the kernel header is not available?
->>
->> Sure. Should I pull a verbatim copy of uapi linux/rseq.h into glibc ?
->> If so, where should I put it ?
->=20
-> Probably into <sys/rseq.h>, perhaps with a construct like this
-> (untested):
->=20
-> #ifdef __has_include
-> # if __has_include ("linux/rseq.h")
-> #   define __GLIBC_HAVE_KERNEL_RSEQ
-> # endif
-> #else
-> # include <linux/version.h>
-> # if LINUX_VERSION_CODE >=3D KERNEL_VERSION (4, 18, 0)
-> #   define __GLIBC_HAVE_KERNEL_RSEQ
-> # endif
-> #endif
->=20
-> #ifdef __GLIBC_HAVE_KERNEL_RSEQ
-> # include <linux/rseq.h>
-> #else
->=20
-> =E2=80=A6 (fallback goes here)
-> #endif
+>> You also need to add an assert that the compiler supports
+>> __attribute__ ((aligned)) because ignoring it produces an
+>> ABI-incompatible header.
+>
+> Are you aware of some helper macro I should use to do this, or
+> is it done elsewhere in glibc ?
 
-OK will do.
+I don't think we have any such GCC-only types yet.  max_align_t is
+provided by GCC itself.
 
->=20
-> We have an ongoing debate whether the fallback definition should use
-> __u64 or uint64_t.
+>> The struct rseq/struct rseq_cs definitions
+>> are broken, they should not try to change the alignment.
+>
+> AFAIU, this means we should ideally not have used __attribute__((aligned))
+> in the uapi headers in the first place. Why is it broken ?
 
-Then I'll keep including <linux/types.h> in the fallback and use
-__u{32,64} for now. If this proves to be an issue we can change it later.
-This is the minimal change from the uapi header.
+Compilers which are not sufficiently GCC-compatible define
+__attribute__(X) as the empty expansion, so you silently get a
+different ABI.
 
->=20
-> You also need to add an assert that the compiler supports
-> __attribute__ ((aligned)) because ignoring it produces an
-> ABI-incompatible header.
+There is really no need to specify 32-byte alignment here.  Is not
+even the size of a standard cache line.  It can result in crashes if
+these structs are heap-allocated using malloc, when optimizing for
+AVX2.
 
-Are you aware of some helper macro I should use to do this, or
-is it done elsewhere in glibc ?
+For example, clang turns
 
-> The struct rseq/struct rseq_cs definitions
-> are broken, they should not try to change the alignment.
+void
+clear (struct rseq *p)
+{
+  memset (p, 0, sizeof (*p));
+}
 
-AFAIU, this means we should ideally not have used __attribute__((aligned))
-in the uapi headers in the first place. Why is it broken ? However, now
-that it is in the wild, it's a bit late to change that.
+into:
 
-> PS: I have Internet connection trouble.  Nobody should be worried if I
-> drop off the net for a while.  I understand this is quite a bad time
-> for that. 8-(
+	vxorps	%xmm0, %xmm0, %xmm0
+	vmovaps	%ymm0, (%rdi)
+	vzeroupper
+	retq
 
-Allright, thanks for the heads up! Stay safe!
+My understanding is that vmovaps will trap if the pointer is
+misaligned (“When the source or destination operand is a memory
+operand, the operand must be aligned on a 32-byte boundary or a
+general-protection exception (#GP) will be generated.”).
 
-Thanks,
+> However, now that it is in the wild, it's a bit late to change that.
 
-Mathieu
-
-
---=20
-Mathieu Desnoyers
-EfficiOS Inc.
-http://www.efficios.com
+I had forgotten about the alignment crashes.  I think we should
+seriously consider changing the types. 8-(
