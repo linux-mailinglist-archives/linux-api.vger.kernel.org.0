@@ -2,67 +2,98 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4801918AE1D
-	for <lists+linux-api@lfdr.de>; Thu, 19 Mar 2020 09:11:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BAA518AE20
+	for <lists+linux-api@lfdr.de>; Thu, 19 Mar 2020 09:11:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726151AbgCSILN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 19 Mar 2020 04:11:13 -0400
-Received: from mout-p-202.mailbox.org ([80.241.56.172]:43130 "EHLO
-        mout-p-202.mailbox.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725601AbgCSILN (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 19 Mar 2020 04:11:13 -0400
-Received: by mout-p-202.mailbox.org (Postfix, from userid 51)
-        id 48jfk71G2BzQlGs; Thu, 19 Mar 2020 08:10:17 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [80.241.60.241])
-        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
+        id S1726151AbgCSIL5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 19 Mar 2020 04:11:57 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:43906 "EHLO
+        us-smtp-delivery-74.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725601AbgCSIL4 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 19 Mar 2020 04:11:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1584605514;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=T1NFGmp/ZfO2b8+xQcK8SU35k88uC0jA2Heq1vKlCdU=;
+        b=Ow1azw8UG+duFMw9atLpskBwUBODVOVm6TnpgYITR2YA9FLhAGPk9bXaUgbhxz5novhje6
+        7MEGCQV5HHZA7pvNcvk0u8Tey6SY1XKADhJ0jBchlmSc9+VHWzliuKGKD5pi5lNhf8OzPo
+        I7mUnxJPLlo2DxkxyKCYWBEzkNH7WN4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-137-8_ZP5jXTN323QX24HDHZtQ-1; Thu, 19 Mar 2020 04:11:48 -0400
+X-MC-Unique: 8_ZP5jXTN323QX24HDHZtQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mout-p-202.mailbox.org (Postfix) with ESMTPS id 48hb5f6dqzzQlGj;
-        Tue, 17 Mar 2020 15:24:22 +0100 (CET)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp2.mailbox.org ([80.241.60.241])
-        by spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de [80.241.56.122]) (amavisd-new, port 10030)
-        with ESMTP id zRiPUP04n628; Tue, 17 Mar 2020 15:24:19 +0100 (CET)
-Date:   Wed, 18 Mar 2020 01:23:50 +1100
-From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc:     Adrian Reber <areber@redhat.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44FAE13EA;
+        Thu, 19 Mar 2020 08:11:46 +0000 (UTC)
+Received: from dcbz.redhat.com (ovpn-112-179.ams2.redhat.com [10.36.112.179])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id AE1776EFA8;
+        Thu, 19 Mar 2020 08:11:39 +0000 (UTC)
+Date:   Thu, 19 Mar 2020 09:11:37 +0100
+From:   Adrian Reber <areber@redhat.com>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
         Eric Biederman <ebiederm@xmission.com>,
         Pavel Emelyanov <ovzxemul@gmail.com>,
         Oleg Nesterov <oleg@redhat.com>,
         Dmitry Safonov <0x7f454c46@gmail.com>,
         Andrei Vagin <avagin@gmail.com>,
-        lkml <linux-kernel@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Mike Rapoport <rppt@linux.ibm.com>,
         Radostin Stoyanov <rstoyanov1@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
         Cyrill Gorcunov <gorcunov@openvz.org>,
         Thomas Gleixner <tglx@linutronix.de>,
+        Aleksa Sarai <cyphar@cyphar.com>,
         Linux API <linux-api@vger.kernel.org>
 Subject: Re: clone3: allow creation of time namespace with offset
-Message-ID: <20200317142350.ssraami3a4vnk5po@yavin>
+Message-ID: <20200319081137.GC223854@dcbz.redhat.com>
 References: <20200317083043.226593-1-areber@redhat.com>
- <CAKgNAkh7=2Noyn0o3880xbbi4w5oiwqs9ibTYLtheqzxne3mbQ@mail.gmail.com>
+ <CAK8P3a2-qQhpRdF0+iVrpp=vEvgwtndQL89CUm_QzoW2QYX1Jw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="iakfd3bjzr4y3tmr"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAKgNAkh7=2Noyn0o3880xbbi4w5oiwqs9ibTYLtheqzxne3mbQ@mail.gmail.com>
+In-Reply-To: <CAK8P3a2-qQhpRdF0+iVrpp=vEvgwtndQL89CUm_QzoW2QYX1Jw@mail.gmail.com>
+X-Operating-System: Linux (5.5.8-200.fc31.x86_64)
+X-Load-Average: 1.26 0.61 0.49
+X-Unexpected: The Spanish Inquisition
+X-GnuPG-Key: gpg --recv-keys D3C4906A
+Organization: Red Hat
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-
---iakfd3bjzr4y3tmr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On 2020-03-17, Michael Kerrisk (man-pages) <mtk.manpages@gmail.com> wrote:
-> [CC +=3D linux-api; please CC on future versions]
->=20
-> On Tue, 17 Mar 2020 at 09:32, Adrian Reber <areber@redhat.com> wrote:
+On Wed, Mar 18, 2020 at 11:18:53AM +0100, Arnd Bergmann wrote:
+> On Tue, Mar 17, 2020 at 9:32 AM Adrian Reber <areber@redhat.com> wrote:
+> >
+> > This is an attempt to add time namespace support to clone3(). I am not
+> > really sure which way clone3() should handle time namespaces. The time
+> > namespace through /proc cannot be used with clone3() because the offsets
+> > for the time namespace need to be written before a process has been
+> > created in that time namespace. This means it is necessary to somehow
+> > tell clone3() the offsets for the clocks.
+> >
+> > The time namespace offers the possibility to set offsets for
+> > CLOCK_MONOTONIC and CLOCK_BOOTTIME. My first approach was to extend
+> > 'struct clone_args` with '__aligned_u64 monotonic_offset' and
+> > '__aligned_u64 boottime_offset'. The problem with this approach was that
+> > it was not possible to set nanoseconds for the clocks in the time
+> > namespace.
+> >
+> > One of the motivations for clone3() with CLONE_NEWTIME was to enable
+> > CRIU to restore a process in a time namespace with the corresponding
+> > offsets. And although the nanosecond value can probably never be
+> > restored to the same value it had during checkpointing, because the
+> > clock keeps on running between CRIU pausing all processes and CRIU
+> > actually reading the value of the clocks, the nanosecond value is still
+> > necessary for CRIU to not restore a process where the clock jumps back
+> > due to CRIU restoring it with a nanonsecond value that is too small.
+> >
 > > Requiring nanoseconds as well as seconds for two clocks during clone3()
 > > means that it would require 4 additional members to 'struct clone_args':
 > >
@@ -74,60 +105,51 @@ On 2020-03-17, Michael Kerrisk (man-pages) <mtk.manpages@gmail.com> wrote:
 > > +       __aligned_u64 monotonic_offset_seconds;
 > > +       __aligned_u64 monotonic_offset_nanoseconds;
 > >  };
-> >
-> > To avoid four additional members to 'struct clone_args' this patchset
-> > uses another approach:
-> >
-> >         __aligned_u64 tls;
-> >         __aligned_u64 set_tid;
-> >         __aligned_u64 set_tid_size;
-> > +       __aligned_u64 timens_offset;
-> > +       __aligned_u64 timens_offset_size;
-> >  };
-> >
-> > timens_offset is a pointer to an array just as previously done with
-> > set_tid and timens_offset_size is the size of the array.
-> >
-> > The timens_offset array is expected to contain a struct like this:
-> >
-> > struct set_timens_offset {
-> >        int clockid;
-> >        struct timespec val;
-> > };
-> >
-> > This way it is possible to pass the information of multiple clocks with
-> > seconds and nanonseconds to clone3().
-> >
-> > To me this seems the better approach, but I am not totally convinced
-> > that it is the right thing. If there are other ideas how to pass two
-> > clock offsets with seconds and nanonseconds to clone3() I would be happy
-> > to hear other ideas.
+> 
+> Wouldn't it be sufficient to have the two nanosecond values, rather
+> than both seconds and nanoseconds? With 64-bit nanoseconds
+> you can represent several hundred years, and these would
+> always start at zero during boot.
 
-While I agree this does make the API cleaner, I am a little worried that
-it risks killing some of the ideas we discussed for seccomp deep
-inspection. In particular, having a pointer to variable-sized data
-inside the struct means that now the cBPF program can't just be given a
-copy of the struct data from userspace to check.
+I like this. Just using nanoseconds will make it easier and should
+indeed be enough.
 
-I'm sure it's a solveable problem (and it was one we were bound to run
-into at some point), it'll just mean we'll need a more complicated way
-of filtering such syscalls.
+> Regardless of this, I think you need a signed offset, not unsigned.
 
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-<https://www.cyphar.com/>
+Right, that was just a quick test at some point.
 
---iakfd3bjzr4y3tmr
-Content-Type: application/pgp-signature; name="signature.asc"
+Christian and I have also been discussing this a bit and Christian
+prefers a pointer to a struct. Maybe something like this:
 
------BEGIN PGP SIGNATURE-----
+        __aligned_u64 tls;
+        __aligned_u64 set_tid;
+        __aligned_u64 set_tid_size;
++       __aligned_u64 timens_offset;
+ };
 
-iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCXnDdcwAKCRCdlLljIbnQ
-EkDfAP4oqBtz79HrO5K84v1Oc+8BJnHtioYyEbAw6bApHUzizwEA/y+FnNZfg354
-lxpGstBAS/4Qjyki4qqo9BOYoQimPwI=
-=qITz
------END PGP SIGNATURE-----
+With Arnd's idea of only using nanoseconds, timens_offset would then
+contain something like this:
 
---iakfd3bjzr4y3tmr--
+struct timens_offset {
+	__aligned_s64 monotonic_offset_ns;
+	__aligned_s64 boottime_offset_ns;
+};
+
+I kind of prefer adding boottime and monotonic directly to struct clone_args
+
+        __aligned_u64 tls;
+        __aligned_u64 set_tid;
+        __aligned_u64 set_tid_size;
++       __aligned_s64 monotonic_offset_ns;
++       __aligned_s64 boottime_offset_ns;
+ };
+
+But setting the time namespace offset is probably something which does
+not happen very often while using clone3(), so maybe the pointer to a
+struct approach is better.
+
+I will resend the patches using the pointer to a struct approach if
+there are no other ideas how to do this.
+
+		Adrian
+
