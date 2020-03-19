@@ -2,96 +2,200 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9841D18B162
-	for <lists+linux-api@lfdr.de>; Thu, 19 Mar 2020 11:30:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5208818B19D
+	for <lists+linux-api@lfdr.de>; Thu, 19 Mar 2020 11:37:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726911AbgCSKaN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 19 Mar 2020 06:30:13 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:51109 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726936AbgCSKaN (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 19 Mar 2020 06:30:13 -0400
-Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1jEsR2-00065s-3p; Thu, 19 Mar 2020 10:29:56 +0000
-Date:   Thu, 19 Mar 2020 11:29:55 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Adrian Reber <areber@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Pavel Emelyanov <ovzxemul@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Dmitry Safonov <0x7f454c46@gmail.com>,
-        Andrei Vagin <avagin@gmail.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Radostin Stoyanov <rstoyanov1@gmail.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Cyrill Gorcunov <gorcunov@openvz.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: clone3: allow creation of time namespace with offset
-Message-ID: <20200319102955.i7slokibkkysz6g6@wittgenstein>
-References: <20200317083043.226593-1-areber@redhat.com>
- <CAK8P3a2-qQhpRdF0+iVrpp=vEvgwtndQL89CUm_QzoW2QYX1Jw@mail.gmail.com>
- <20200319081137.GC223854@dcbz.redhat.com>
- <CAK8P3a18YySozk6P77JpS58Hbtz=QQmLKw+PrzXbdOwtOQQuJA@mail.gmail.com>
+        id S1726901AbgCSKhr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 19 Mar 2020 06:37:47 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:34385 "EHLO
+        us-smtp-delivery-74.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726802AbgCSKhr (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 19 Mar 2020 06:37:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1584614265;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=CiofkCH/sv7+7rpU6YsJXFWeq/w+9dcTqMLo0EbVExc=;
+        b=W7enGfnGkzo+p5isCuaz2QP27q8GOvyQ76Ay8BoyaC/khJGWZOfSdTWDjhVz19C21djghg
+        9IztDMJzlYu3VzND6E8nPAKKEUtAkGaRmO+43nBy9qLrvoykX/5lZkjkj3PDSTYmjvBvut
+        SMdc5niQc0JA+wjxge8N980vt2y+fds=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-285-cUdAiS5ZN1Sq4KuQlxE-7w-1; Thu, 19 Mar 2020 06:37:44 -0400
+X-MC-Unique: cUdAiS5ZN1Sq4KuQlxE-7w-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BBCD5107ACC4;
+        Thu, 19 Mar 2020 10:37:41 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-113-126.rdu2.redhat.com [10.10.113.126])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C3A2117B91;
+        Thu, 19 Mar 2020 10:37:37 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <CAJfpeguaiicjS2StY5m=8H7BCjq6PLxMsWE3Mx_jYR1foDWVTg@mail.gmail.com>
+References: <CAJfpeguaiicjS2StY5m=8H7BCjq6PLxMsWE3Mx_jYR1foDWVTg@mail.gmail.com> <158454408854.2864823.5910520544515668590.stgit@warthog.procyon.org.uk>
+To:     Miklos Szeredi <miklos@szeredi.hu>
+Cc:     dhowells@redhat.com,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Linux NFS list <linux-nfs@vger.kernel.org>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Anna Schumaker <anna.schumaker@netapp.com>,
+        "Theodore Ts'o" <tytso@mit.edu>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-ext4@vger.kernel.org,
+        Trond Myklebust <trond.myklebust@hammerspace.com>,
+        Ian Kent <raven@themaw.net>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Christian Brauner <christian@brauner.io>,
+        Jann Horn <jannh@google.com>,
+        "Darrick J. Wong" <darrick.wong@oracle.com>,
+        Karel Zak <kzak@redhat.com>, Jeff Layton <jlayton@redhat.com>,
+        linux-fsdevel@vger.kernel.org,
+        LSM <linux-security-module@vger.kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/13] VFS: Filesystem information [ver #19]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAK8P3a18YySozk6P77JpS58Hbtz=QQmLKw+PrzXbdOwtOQQuJA@mail.gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <3085879.1584614257.1@warthog.procyon.org.uk>
+Content-Transfer-Encoding: quoted-printable
+Date:   Thu, 19 Mar 2020 10:37:37 +0000
+Message-ID: <3085880.1584614257@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Mar 19, 2020 at 09:16:43AM +0100, Arnd Bergmann wrote:
-> On Thu, Mar 19, 2020 at 9:11 AM Adrian Reber <areber@redhat.com> wrote:
-> 
-> > With Arnd's idea of only using nanoseconds, timens_offset would then
-> > contain something like this:
+Miklos Szeredi <miklos@szeredi.hu> wrote:
+
+> >  (2) It's more efficient as we can return specific binary data rather =
+than
+> >      making huge text dumps.  Granted, sysfs and procfs could present =
+the
+> >      same data, though as lots of little files which have to be
+> >      individually opened, read, closed and parsed.
+> =
+
+> Asked this a number of times, but you haven't answered yet:  what
+> application would require such a high efficiency?
+
+Low efficiency means more time doing this when that time could be spent do=
+ing
+other things - or even putting the CPU in a powersaving state.  Using an
+open/read/close render-to-text-and-parse interface *will* be slower and le=
+ss
+efficient as there are more things you have to do to use it.
+
+Then consider doing a walk over all the mounts in the case where there are
+10000 of them - we have issues with /proc/mounts for such.  fsinfo() will =
+end
+up doing a lot less work.
+
+> I strongly feel that mount info belongs in the latter category
+
+I feel strongly that a lot of stuff done through /proc or /sys shouldn't b=
+e.
+
+Yes, it's nice that you can explore it with cat and poke it with echo, but=
+ it
+has a number of problems: security, atomiticity, efficiency and providing =
+an
+round-the-back way to pin stuff if not done right.
+
+> >  (3) We wouldn't have the overhead of open and close (even adding a
+> >      self-contained readfile() syscall has to do that internally
+> =
+
+> Busted: add f_op->readfile() and be done with all that.   For example
+> DEFINE_SHOW_ATTRIBUTE() could be trivially moved to that interface.
+
+Look at your example.  "f_op->".  That's "file->f_op->" I presume.
+
+You would have to make it "i_op->" to avoid the open and the close - and f=
+or
+things like procfs and sysfs, that's probably entirely reasonable - but be=
+ar
+in mind that you still have to apply all the LSM file security controls, j=
+ust
+in case the backing filesystem is, say, ext4 rather than procfs.
+
+> We could optimize existing proc, sys, etc. interfaces, but it's not
+> been an issue, apparently.
+
+You can't get rid of or change many of the existing interfaces.  A lot of =
+them
+are effectively indirect system calls and are, as such, part of the fixed
+UAPI.  You'd have to add a parallel optimised set.
+
+> >  (6) Don't have to create/delete a bunch of sysfs/procfs nodes each ti=
+me a
+> >      mount happens or is removed - and since systemd makes much use of
+> >      mount namespaces and mount propagation, this will create a lot of
+> >      nodes.
+> =
+
+> Not true.
+
+This may not be true if you roll your own special filesystem.  It *is* tru=
+e if
+you do it in procfs or sysfs.  The files don't exist if you don't create n=
+odes
+or attribute tables for them.
+
+> > The argument for doing this through procfs/sysfs/somemagicfs is that
+> > someone using a shell can just query the magic files using ordinary te=
+xt
+> > tools, such as cat - and that has merit - but it doesn't solve the
+> > query-by-pathname problem.
 > >
-> > struct timens_offset {
-> >         __aligned_s64 monotonic_offset_ns;
-> >         __aligned_s64 boottime_offset_ns;
-> > };
-> >
-> > I kind of prefer adding boottime and monotonic directly to struct clone_args
-> >
-> >         __aligned_u64 tls;
-> >         __aligned_u64 set_tid;
-> >         __aligned_u64 set_tid_size;
-> > +       __aligned_s64 monotonic_offset_ns;
-> > +       __aligned_s64 boottime_offset_ns;
-> >  };
-> 
-> I would also prefer the second approach using two 64-bit integers
-> instead of a pointer, as it keeps the interface simpler to implement
-> and simpler to interpret by other tools.
+> > The suggested way around the query-by-pathname problem is to open the
+> > target file O_PATH and then look in a magic directory under procfs
+> > corresponding to the fd number to see a set of attribute files[*] laid=
+ out.
+> > Bash, however, can't open by O_PATH or O_NOFOLLOW as things stand...
+> =
 
-Why I don't like has two reasons. There's the scenario where we have
-added new extensions after the new boottime member and then we introduce
-another offset. Then you'd be looking at:
+> Bash doesn't have fsinfo(2) either, so that's not really a good argument=
+.
 
-__aligned_u64 tls;
-__aligned_u64 set_tid;
-__aligned_u64 set_tid_size;
-+ __aligned_s64 monotonic_offset_ns;
-+ __aligned_s64 boottime_offset_ns;
-__aligned_s64 something_1
-__aligned_s64 anything_2
-+ __aligned_s64 sometime_offset_ns
+I never claimed that fsinfo() could be accessed directly from the shell.  =
+For
+you proposal, you claimed "immediately usable from all programming languag=
+es,
+including scripts".
 
-which bothers me just by looking at it. That's in addition to adding two
-new members to the struct when most people will never set CLONE_NEWTIME.
-We'll also likely have more features in the future that will want to
-pass down more info than we want to directly expose in struct
-clone_args, e.g. for a long time I have been thinking about adding a
-struct for CLONE_NEWUSER that allows you to specify the id mappings you
-want the new user namespace to get. We surely don't want to force all
-new info into the uppermost struct. So I'm not convinced we should here.
+> Implementing a utility to show mount attribute(s) by path is trivial
+> for the file based interface, while it would need to be updated for
+> each extension of fsinfo(2).   Same goes for libc, language bindings,
+> etc.
 
-Christian
+That's not precisely true.  If you aren't using an extension to an fsinfo(=
+)
+attribute, you wouldn't need to change anything[*].
+
+If you want to use an extension - *even* through a file based interface - =
+you
+*would* have to change your code and your parser.
+
+And, no, extending an fsinfo() attribute would not require any changes to =
+libc
+unless libc is using that attribute[*] and wants to access the extension.
+
+[*] I assume that in C/C++ at least, you'd use linux/fsinfo.h rather than =
+some
+    libc version.
+
+[*] statfs() could be emulated this way, but I'm not sure what else libc
+    specifically is going to look at.  This is more aimed at libmount amon=
+gst
+    other things.
+
+David
+
