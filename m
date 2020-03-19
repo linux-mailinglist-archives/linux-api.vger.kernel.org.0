@@ -2,235 +2,153 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E81A18C22A
-	for <lists+linux-api@lfdr.de>; Thu, 19 Mar 2020 22:18:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D94418C28C
+	for <lists+linux-api@lfdr.de>; Thu, 19 Mar 2020 22:48:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727257AbgCSVSF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 19 Mar 2020 17:18:05 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:46263 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727217AbgCSVSF (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 19 Mar 2020 17:18:05 -0400
-Received: by mail-oi1-f196.google.com with SMTP id x5so4266453oic.13
-        for <linux-api@vger.kernel.org>; Thu, 19 Mar 2020 14:18:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=4C+0nKFxrFROQId9OciywMK+cltQuGW8rSImB/XpE18=;
-        b=Tf78afLj/m/bi1jEn2dedtTK5zop4owAQzcX3wyo5V2S+9CuMcHQb2WI6FP6o3Jb2Z
-         9kG2/43U+Ux4h8FtNpjk+dvWJOkqXBWhJc6u+oszorqaLHlefR2HxruTLUgbDo9vtvs9
-         VsZfgRLTaDof9ve4kEgPIrUa3y1cMTBN6hZtnaLs1AUr6TNJz6UU0YHepkEtgP5XiUBo
-         yKfGqXYLL9STToaIsbEUGRI1l+5P/o1MiTU9WHK8HQ7e2atdfkQmnMU4HyHhfDTty3Hg
-         tRea4auOXg+pxAvVuGDWpY9By8Z3tZloSjkVxqfNaY2jmWk33NoRBXSoywuJZbuc6Elk
-         IvQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=4C+0nKFxrFROQId9OciywMK+cltQuGW8rSImB/XpE18=;
-        b=rx+EJRuGzbPABlcRIw9bYnSzol7K5MuNnio49hC8KydGCJywZEra19HLqR7VCqYkzc
-         1Bs45ZsjCsq2+BdFFU9NKXKclZbf1nW+vZEVNFPZd0CbZgGJSlzVWk4e3ANJzEop24qe
-         GB6u1gIR44E9fdy5NkCzBkBxsu3ow0dODHv19U5i2WIFz/WOc+ziqdQsaDos/1chR46w
-         UdtG2hwhBF8huD3SH8PTSCfeqVQKMYtt55+5XTae4eyab1HSctzZTssCkH7vjJmps6io
-         2nnCz9Q1Dz7cC6vcxyS7qlF4+fCTFKzw08a+cwaAYZ+4rvIjCKPcqLkM2POJdobvzpUm
-         U0gg==
-X-Gm-Message-State: ANhLgQ0TOqEWOOefzNsNy2Yqvbwtx0akamSbISNrMeugBKUfsXY4TSuw
-        KuUQvkJtuP/T7Cl11CmOVgwdV5N9sf8a4Mb/mKVNmQ==
-X-Google-Smtp-Source: ADFU+vvHueiVN2vm54kmRzDAr+XPiDXdCxsSO49VaaCHt9qN865al8ErN5y3kk+48T9ySDC+IbgANXTlwgqIxqx4psI=
-X-Received: by 2002:aca:bac1:: with SMTP id k184mr4023086oif.157.1584652683852;
- Thu, 19 Mar 2020 14:18:03 -0700 (PDT)
+        id S1725787AbgCSVs3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 19 Mar 2020 17:48:29 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:23075 "EHLO
+        us-smtp-delivery-74.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727138AbgCSVs2 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 19 Mar 2020 17:48:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1584654506;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=tsfr9KiPwPHaSNob1o89QdgA/mKpTxdC3audBQKrY6g=;
+        b=bR4PV2OxMRijskEFjJmDbjur4RI2ZFHRHguU3PgQaU9c+mZp692+hMiM29fgStEtGv9o6z
+        dnhYSR4s5smIwRmQ5f44La8mMpKARcnzGcTq3a8X6HnWBwFKxeESgZX5xqfiwpBjPLEtfH
+        T29miHKMeaSBAl044DRSCTyZOA+qhLk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-111-OLeMbR_VN_W9GnHsc2JE3w-1; Thu, 19 Mar 2020 17:48:23 -0400
+X-MC-Unique: OLeMbR_VN_W9GnHsc2JE3w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 28CAF107ACC4;
+        Thu, 19 Mar 2020 21:48:20 +0000 (UTC)
+Received: from madcap2.tricolour.ca (unknown [10.36.110.5])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 0A40CBBBF3;
+        Thu, 19 Mar 2020 21:48:03 +0000 (UTC)
+Date:   Thu, 19 Mar 2020 17:47:59 -0400
+From:   Richard Guy Briggs <rgb@redhat.com>
+To:     Paul Moore <paul@paul-moore.com>
+Cc:     Steve Grubb <sgrubb@redhat.com>, linux-audit@redhat.com,
+        nhorman@tuxdriver.com, linux-api@vger.kernel.org,
+        containers@lists.linux-foundation.org,
+        LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
+        netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
+        simo@redhat.com, netdev@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>,
+        mpatel@redhat.com, Serge Hallyn <serge@hallyn.com>
+Subject: Re: [PATCH ghak90 V8 07/16] audit: add contid support for signalling
+ the audit daemon
+Message-ID: <20200319214759.qgxt2sfkmd6srdol@madcap2.tricolour.ca>
+References: <20200204231454.oxa7pyvuxbj466fj@madcap2.tricolour.ca>
+ <CAHC9VhQquokw+7UOU=G0SsD35UdgmfysVKCGCE87JVaoTkbisg@mail.gmail.com>
+ <3142237.YMNxv0uec1@x2>
+ <CAHC9VhTiCHQbp2SwK0Xb1QgpUZxOQ26JKKPsVGT0ZvMqx28oPQ@mail.gmail.com>
+ <20200312202733.7kli64zsnqc4mrd2@madcap2.tricolour.ca>
+ <CAHC9VhS9DtxJ4gvOfMRnzoo6ccGJVKL+uZYe6qqH+SPqD8r01Q@mail.gmail.com>
+ <20200313192306.wxey3wn2h4htpccm@madcap2.tricolour.ca>
+ <CAHC9VhQKOpVWxDg-tWuCWV22QRu8P_NpFKme==0Ot1RQKa_DWA@mail.gmail.com>
+ <20200318214154.ycxy5dl4pxno6fvi@madcap2.tricolour.ca>
+ <CAHC9VhSuMnd3-ci2Bx-xJ0yscQ=X8ZqFAcNPKpbh_ZWN3FJcuQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20200224160215.4136-1-mic@digikod.net> <CAG48ez21bEn0wL1bbmTiiu8j9jP5iEWtHOwz4tURUJ+ki0ydYw@mail.gmail.com>
- <873d7419-bdd9-8a52-0a9b-dddbe31df4f9@digikod.net> <CAG48ez0=0W5Ok-8nASqZrZ28JboXRRi3gDxV5u6mdcOtzwuRVA@mail.gmail.com>
- <688dda0f-0907-34eb-c19e-3e9e5f613a74@digikod.net> <CAG48ez16yT+zbK1WPxr2TnxrifW5c2DnpFLbWRRLUT_WpuFNmw@mail.gmail.com>
- <e8530226-f295-a897-1132-7e6970dad49f@digikod.net> <CAG48ez1K-7Lq2Ep_p9fOvXQ-fwj_8dA1CFd5SVDbT4ccqejDzA@mail.gmail.com>
- <2d48e3e3-e7b2-ec33-91c5-be6a308a12d4@digikod.net>
-In-Reply-To: <2d48e3e3-e7b2-ec33-91c5-be6a308a12d4@digikod.net>
-From:   Jann Horn <jannh@google.com>
-Date:   Thu, 19 Mar 2020 22:17:37 +0100
-Message-ID: <CAG48ez18LrDVLdp3agTwHNYxOBJyEb5PZ1dkwbNjpPVQoTsLcA@mail.gmail.com>
-Subject: Re: [RFC PATCH v14 00/10] Landlock LSM
-To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
-Cc:     kernel list <linux-kernel@vger.kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        James Morris <jmorris@namei.org>, Jann Horn <jann@thejh.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mickael.salaun@ssi.gouv.fr>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHC9VhSuMnd3-ci2Bx-xJ0yscQ=X8ZqFAcNPKpbh_ZWN3FJcuQ@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Mar 19, 2020 at 5:58 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net> =
-wrote:
-> On 19/03/2020 00:33, Jann Horn wrote:
-> > On Wed, Mar 18, 2020 at 1:06 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.n=
-et> wrote:
-[...]
-> >> As I understand your proposition, we need to build the required_bits
-> >> when adding a rule or enforcing/merging a ruleset with a domain. The
-> >> issue is that a rule only refers to a struct inode, not a struct path.
-> >> For your proposition to work, we would need to walk through the file
-> >> path when adding a rule to a ruleset, which means that we need to depe=
-nd
-> >> of the current view of the process (i.e. its mount namespace), and its
-> >> Landlock domain.
+On 2020-03-18 17:47, Paul Moore wrote:
+> On Wed, Mar 18, 2020 at 5:42 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > On 2020-03-18 17:01, Paul Moore wrote:
+> > > On Fri, Mar 13, 2020 at 3:23 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > > On 2020-03-13 12:42, Paul Moore wrote:
+> > >
+> > > ...
+> > >
+> > > > > The thread has had a lot of starts/stops, so I may be repeating a
+> > > > > previous suggestion, but one idea would be to still emit a "death
+> > > > > record" when the final task in the audit container ID does die, but
+> > > > > block the particular audit container ID from reuse until it the
+> > > > > SIGNAL2 info has been reported.  This gives us the timely ACID death
+> > > > > notification while still preventing confusion and ambiguity caused by
+> > > > > potentially reusing the ACID before the SIGNAL2 record has been sent;
+> > > > > there is a small nit about the ACID being present in the SIGNAL2
+> > > > > *after* its death, but I think that can be easily explained and
+> > > > > understood by admins.
+> > > >
+> > > > Thinking quickly about possible technical solutions to this, maybe it
+> > > > makes sense to have two counters on a contobj so that we know when the
+> > > > last process in that container exits and can issue the death
+> > > > certificate, but we still block reuse of it until all further references
+> > > > to it have been resolved.  This will likely also make it possible to
+> > > > report the full contid chain in SIGNAL2 records.  This will eliminate
+> > > > some of the issues we are discussing with regards to passing a contobj
+> > > > vs a contid to the audit_log_contid function, but won't eliminate them
+> > > > all because there are still some contids that won't have an object
+> > > > associated with them to make it impossible to look them up in the
+> > > > contobj lists.
+> > >
+> > > I'm not sure you need a full second counter, I imagine a simple flag
+> > > would be okay.  I think you just something to indicate that this ACID
+> > > object is marked as "dead" but it still being held for sanity reasons
+> > > and should not be reused.
 > >
-> > I don't see why that is necessary. Why would we have to walk the file
-> > path when adding a rule?
-> >
-> >> If the required_bits field is set when the ruleset is
-> >> merged with the domain, it is not possible anymore to walk through the
-> >> corresponding initial file path, which makes the enforcement step too
-> >> late to check for such consistency. The important point is that a
-> >> ruleset/domain doesn't have a notion of file hierarchy, a ruleset is
-> >> only a set of tagged inodes.
-> >>
-> >> I'm not sure I got your proposition right, though. When and how would
-> >> you generate the required_bits?
-> >
-> > Using your terminology:
-> > A domain is a collection of N layers, which are assigned indices 0..N-1=
-.
-> > For each possible access type, a domain has a bitmask containing N
-> > bits that stores which layers control that access type. (Basically a
-> > per-layer version of fs_access_mask.)
->
-> OK, so there is a bit for each domain, which means that you get a limit
-> of, let's say 64 layers? Knowing that each layer can be created by a
-> standalone application, potentially nested in a bunch of layers, this
-> seems artificially limiting.
+> > Ok, I see your point.  This refcount can be changed to a flag easily
+> > enough without change to the api if we can be sure that more than one
+> > signal can't be delivered to the audit daemon *and* collected by sig2.
+> > I'll have a more careful look at the audit daemon code to see if I can
+> > determine this.
+> 
+> Maybe I'm not understanding your concern, but this isn't really
+> different than any of the other things we track for the auditd signal
+> sender, right?  If we are worried about multiple signals being sent
+> then it applies to everything, not just the audit container ID.
 
-Yes, that is a downside of my approach.
+Yes, you are right.  In all other cases the information is simply
+overwritten.  In the case of the audit container identifier any
+previous value is put before a new one is referenced, so only the last
+signal is kept.  So, we only need a flag.  Does a flag implemented with
+a rcu-protected refcount sound reasonable to you?
 
-> > To validate an access, you start by ORing together the bitmasks for
-> > the requested access types; that gives you the required_bits mask,
-> > which lists all layers that want to control the access.
-> > Then you set seen_policy_bits=3D0, then do the
-> > check_access_path_continue() loop while keeping track of which layers
-> > you've seen with "seen_policy_bits |=3D access->contributing_policies",
-> > or something like that.
-> > And in the end, you check that seen_policy_bits is a superset of
-> > required_bits - something like `(~seen_policy_bits) & required_bits =3D=
-=3D
-> > 0`.
-> >
-> > AFAICS to create a new domain from a bunch of layers, you wouldn't
-> > have to do any path walking.
->
-> Right, I misunderstood your previous email.
->
-> >
-> >> Here is my updated proposition: add a layer level and a depth to each
-> >> rule (once enforced/merged with a domain), and a top layer level for a
-> >> domain. When enforcing a ruleset (i.e. merging a ruleset into the
-> >> current domain), the layer level of a new rule would be the incremente=
-d
-> >> top layer level.
-> >> If there is no rule (from this domain) tied to the same
-> >> inode, then the depth of the new rule is 1. However, if there is alrea=
-dy
-> >> a rule tied to the same inode and if this rule's layer level is the
-> >> previous top layer level, then the depth and the layer level are both
-> >> incremented and the rule is updated with the new access rights (boolea=
-n
-> >> AND).
-> >>
-> >> The policy looks like this:
-> >> domain top_layer=3D2
-> >> /a RW policy_bitmask=3D0x00000003 layer=3D1 depth=3D1
-> >> /a/b R policy_bitmask=3D0x00000002 layer=3D2 depth=3D1
-> >>
-> >> The path walk access check walks through all inodes and start with a
-> >> layer counter equal to the top layer of the current domain. For each
-> >> encountered inode tied to a rule, the access rights are checked and a
-> >> new check ensures that the layer of the matching rule is the same as t=
-he
-> >> counter (this may be a merged ruleset containing rules pertaining to t=
-he
-> >> same hierarchy, which is fine) or equal to the decremented counter (i.=
-e.
-> >> the path walk just reached the underlying layer). If the path walk
-> >> encounter a rule with a layer strictly less than the counter minus one=
-,
-> >> there is a whole in the layers which means that the ruleset
-> >> hierarchy/subset does not match, and the access must be denied.
-> >>
-> >> When accessing a file at /private/b/foo for a read access:
-> >> /private/b/foo <no rules>
-> >>   allowed_access=3Dunknown layer_counter=3D2
-> >> /private/b <access: R, policy_bitmask=3D0x00000002, layer=3D2, depth=
-=3D1>
-> >>   allowed_access=3Dallowed layer_counter=3D2
-> >> /private <no rules>
-> >>   allowed_access=3Dallowed layer_counter=3D2
-> >> / <no rules>
-> >>   allowed_access=3Dallowed layer_counter=3D2
-> >>
-> >> Because the layer_counter didn't reach 1, the access request is then d=
-enied.
-> >>
-> >> This proposition enables not to rely on a parent ruleset at first, onl=
-y
-> >> when enforcing/merging a ruleset with a domain. This also solves the
-> >> issue with multiple inherited/nested rules on the same inode (in which
-> >> case the depth just grows). Moreover, this enables to safely stop the
-> >> path walk as soon as we reach the layer 1.
-> >
-> > (FWIW, you could do the same optimization with the seen_policy_bits app=
-roach.)
-> >
-> > I guess the difference between your proposal and mine is that in my
-> > proposal, the following would work, in effect permitting W access to
-> > /foo/bar/baz (and nothing else)?
-> >
-> > first ruleset:
-> >   /foo W
-> > second ruleset:
-> >   /foo/bar/baz W
-> > third ruleset:
-> >   /foo/bar W
-> >
-> > whereas in your proposal, IIUC it wouldn't be valid for a new ruleset
-> > to whitelist a superset of what was whitelisted in a previous ruleset?
-> >
->
-> This behavior seems dangerous because a process which sandbox itself to
-> only access /foo/bar W can bypass the restrictions from one of its
-> parent domains (i.e. only access /foo/bar/baz W). Indeed, each layer is
-> (most of the time) a different and standalone security policy.
+> > Another question occurs to me is that what if the audit daemon is sent a
+> > signal and it cannot or will not collect the sig2 information from the
+> > kernel (SIGKILL?)?  Does that audit container identifier remain dead
+> > until reboot, or do we institute some other form of reaping, possibly
+> > time-based?
+> 
+> In order to preserve the integrity of the audit log that ACID value
+> would need to remain unavailable until the ACID which contains the
+> associated auditd is "dead" (no one can request the signal sender's
+> info if that container is dead).
 
-It isn't actually bypassing the restriction: You still can't actually
-access files like /foo/bar/blah, because a path walk from there
-doesn't encounter any rules from the second ruleset.
+I don't understand why it would be associated with the contid of the
+audit daemon process rather than with the audit daemon process itself.
+How does the signal collection somehow get transferred or delegated to
+another member of that audit daemon's container?
 
-> To sum up, the bitmask approach doesn't have the notion of layers
-> ordering. It is then not possible to check that a rule comes from a
-> domain which is the direct ancestor of a child's domain. I want each
-> policy/layer to be really nested in the sense that a process sandboxing
-> itself can only add more restriction to itself with regard to its parent
-> domain (and the whole hierarchy). This is a similar approach to
-> seccomp-bpf (with chained filters), except there is almost no overhead
-> to nest several policies/layers together because they are flattened.
-> Using the layer level and depth approach enables to implement this.
+Thinking aloud here, the audit daemon's exit when it calls audit_free()
+needs to ..._put_sig and cancel that audit_sig_cid (which in the future
+will be allocated per auditd rather than the global it is now since
+there is only one audit daemon).
+
+> paul moore
+
+- RGB
+
+--
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems
+Remote, Ottawa, Red Hat Canada
+IRC: rgb, SunRaycer
+Voice: +1.647.777.2635, Internal: (81) 32635
+
