@@ -2,169 +2,172 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D4D818D70F
-	for <lists+linux-api@lfdr.de>; Fri, 20 Mar 2020 19:34:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E6EB618D8F3
+	for <lists+linux-api@lfdr.de>; Fri, 20 Mar 2020 21:24:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726809AbgCTSd7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 20 Mar 2020 14:33:59 -0400
-Received: from mail-pj1-f68.google.com ([209.85.216.68]:33041 "EHLO
-        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726783AbgCTSd7 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 20 Mar 2020 14:33:59 -0400
-Received: by mail-pj1-f68.google.com with SMTP id dw20so3720952pjb.0;
-        Fri, 20 Mar 2020 11:33:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=S7Fui894R9lUu2xo1vf09TLmig4naq9sdfWsRqwPmJ0=;
-        b=hu21JmRQA0gv0PwiesOLkjyJGbNmheJ8OF1ARDPC13kWSznREiboKE/qbGYpwIQpSB
-         IJodTlinDcyiAkUbd4IrTokwyNJefZHgPEWSnFHPUqXHLWXJyRlQ/QTcCQjbxzn+DKZl
-         EITX/zvsIQyKis61huEbg86FiK7+FReoTKsTnpx4yKQ7nCb9Vawe3DTHA2lecbteAhm0
-         0S5UwBXX6GE6/aGkL41/8jVH2oGpWaFmxxQh6zAuc66jeuibyN+tua3muXEYo2JuECzO
-         mWnqlDc3lqDE/3hV6ctM/dE5sD1IoXyc5y8ujhqT2LCX17C8oq7gQHRuRRNskPahirY3
-         GOsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=S7Fui894R9lUu2xo1vf09TLmig4naq9sdfWsRqwPmJ0=;
-        b=Qd4qnCqtJ3aC76jb2QU0XAL1PLdRTfrOIGLSMykMSiMsVCc2hBXlYPrBxPwZDuEsAM
-         vwjkZfNoL7pcJL9FnBWZ4C6acV8sHtYaN5qhXfN/nvOQNLQJpSiELwCzbbiKEQyx7OqI
-         iozDFmp6O7Fr9Uy8P5YUmcTuJI2jSWZ0VO9eOyJnUsRzO13NwGawFH4TCUfKgrocOek7
-         RJKrMmKdphKB/TObEUqJVT7FKrzga2VbPqIf0SiPk1PzjkzMcL0vAqv3Xazko2ImaTwU
-         fyKc8C70tjiFTSR41SLt5cKjtxBiPdbWiXGGUulkjTGU8KoqWruV43p33xZa/h66Hzj3
-         XbHw==
-X-Gm-Message-State: ANhLgQ3Gu8ARQZd5m9ZOXQimMkqCl0CRTMR+qFzUtjGZ/3VtaFQW3aqU
-        C5omZmy1HW9PbAwS+ohDk48=
-X-Google-Smtp-Source: ADFU+vvUspVXpPWj0jZAAuPx+ygVkmstUOzsVMpCR7zHEhcpsHtwhIEN8zcuSygrsCJPw3ysito5tA==
-X-Received: by 2002:a17:90a:da01:: with SMTP id e1mr11297095pjv.100.1584729237878;
-        Fri, 20 Mar 2020 11:33:57 -0700 (PDT)
-Received: from gmail.com ([2601:600:817f:a132:df3e:521d:99d5:710d])
-        by smtp.gmail.com with ESMTPSA id h11sm6359312pfn.103.2020.03.20.11.33.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Mar 2020 11:33:57 -0700 (PDT)
-Date:   Fri, 20 Mar 2020 11:33:55 -0700
-From:   Andrei Vagin <avagin@gmail.com>
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Adrian Reber <areber@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Pavel Emelyanov <ovzxemul@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Dmitry Safonov <0x7f454c46@gmail.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Radostin Stoyanov <rstoyanov1@gmail.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Cyrill Gorcunov <gorcunov@openvz.org>,
+        id S1726783AbgCTUYO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 20 Mar 2020 16:24:14 -0400
+Received: from mail-oln040092073016.outbound.protection.outlook.com ([40.92.73.16]:14830
+        "EHLO EUR04-HE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726666AbgCTUYO (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 20 Mar 2020 16:24:14 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DB+SzLgw5fb9DlMUuCkR9KshgOxf42Gecy2nvOt2JTMPyjxoSnccuRiKw9N/SVnWBB/hvADbqXslaKfPu2L8FDsBaC2BfFoqiEAbyx8tI2ErStnjs0DY9Ny55/uA4EmkOtuvuaTR2EaEOxIfUcNOASmo3IbGU0+GlTuCByk6GOGk11vmmLpDGjdhPdKmmen7VcpXNGKKkmIEM4XyScd2CZ44C/bk55VzewvfsqttdFxbmaJRZvP95haa71gN3Jer4LKfSQC2Yi+6Ui2i0wENPFecg1aMaFDqWP3dOOxoRa7z1jvYMQzzTHgyaNHD/PPUszLRth9INvMRuVuM01FXrQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wnzrjsR1MXLEfp6VYylXz8lJomJ1GTiPhRkhVOp2Jno=;
+ b=ZalEUzDOZ/npxYTykyNjG3l8jwlHX6GquY9aXLNAtlVL25zZRyTLtgMOzxhshdP17zWCsKvMVJGXqCt3cFbOCUDNYi+LJhAltHW9KW2Fa59Un6J38EK/4XAErulT/7y1330JIfjiJmNeu2Q6V5XGdRuDZ6Yvj7ISNftv+8e+nYe2UBcaOaxJACdgRqZ5QEC/my5ZV+ZMmS5yNlD/GAu3/q9I4VjYq+VEuS30SMwpWh3u7KTbxYicruEGTxnubRzXArk/gjY7g8VoUA9HY1lqpqxf/5l/aMzWdn9Q2UC25hAvpILSH+UUIYk3c/cV/zHrAXyl7lA7q5I8WlILvYs9kA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=hotmail.de; dmarc=pass action=none header.from=hotmail.de;
+ dkim=pass header.d=hotmail.de; arc=none
+Received: from DB3EUR04FT027.eop-eur04.prod.protection.outlook.com
+ (2a01:111:e400:7e0c::34) by
+ DB3EUR04HT231.eop-eur04.prod.protection.outlook.com (2a01:111:e400:7e0c::208)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2814.13; Fri, 20 Mar
+ 2020 20:24:08 +0000
+Received: from AM6PR03MB5170.eurprd03.prod.outlook.com (10.152.24.52) by
+ DB3EUR04FT027.mail.protection.outlook.com (10.152.24.122) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2814.13 via Frontend Transport; Fri, 20 Mar 2020 20:24:08 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:AEE64B1550B431206270635F9D8A99774518771E6545A912F7D017D5C57AC256;UpperCasedChecksum:39FFD2F0D261FA8D423CE5CB0EBC04B6973AC5A609322673B09495AF68875B6A;SizeAsReceived:9280;Count:47
+Received: from AM6PR03MB5170.eurprd03.prod.outlook.com
+ ([fe80::1956:d274:cab3:b4dd]) by AM6PR03MB5170.eurprd03.prod.outlook.com
+ ([fe80::1956:d274:cab3:b4dd%6]) with mapi id 15.20.2835.017; Fri, 20 Mar 2020
+ 20:24:07 +0000
+From:   Bernd Edlinger <bernd.edlinger@hotmail.de>
+Subject: [PATCH v6 00/16] Infrastructure to allow fixing exec deadlocks
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kirill Tkhai <ktkhai@virtuozzo.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
         Thomas Gleixner <tglx@linutronix.de>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Yuyang Du <duyuyang@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jamorris@linux.microsoft.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christian Kellner <christian@kellner.me>,
+        Andrea Arcangeli <aarcange@redhat.com>,
         Aleksa Sarai <cyphar@cyphar.com>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: clone3: allow creation of time namespace with offset
-Message-ID: <20200320183355.GA118769@gmail.com>
-References: <20200317083043.226593-1-areber@redhat.com>
- <CAK8P3a2-qQhpRdF0+iVrpp=vEvgwtndQL89CUm_QzoW2QYX1Jw@mail.gmail.com>
- <20200319081137.GC223854@dcbz.redhat.com>
- <CAK8P3a18YySozk6P77JpS58Hbtz=QQmLKw+PrzXbdOwtOQQuJA@mail.gmail.com>
- <20200319102955.i7slokibkkysz6g6@wittgenstein>
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
+Message-ID: <AM6PR03MB5170B2F5BE24A28980D05780E4F50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+Date:   Fri, 20 Mar 2020 21:24:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: ZR0P278CA0009.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:16::19) To AM6PR03MB5170.eurprd03.prod.outlook.com
+ (2603:10a6:20b:ca::23)
+X-Microsoft-Original-Message-ID: <0c6e2f5d-4e5c-db65-782e-0f47e07a9ced@hotmail.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=koi8-r
-Content-Disposition: inline
-In-Reply-To: <20200319102955.i7slokibkkysz6g6@wittgenstein>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.101] (92.77.140.102) by ZR0P278CA0009.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:16::19) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2835.19 via Frontend Transport; Fri, 20 Mar 2020 20:24:05 +0000
+X-Microsoft-Original-Message-ID: <0c6e2f5d-4e5c-db65-782e-0f47e07a9ced@hotmail.de>
+X-TMN:  [J1V25By95N2xhKpxjpMoIW+RBDPTCscq]
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 47
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: df6b3e20-eaaa-4365-478a-08d7cd0ca42f
+X-MS-TrafficTypeDiagnostic: DB3EUR04HT231:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: nYSeCGFPYSn+2eWASvmdey0sKtb1geuGHM2M+1N6b3cj5+RU2stF3ICfdrQ6wsftMYqa5ZMAcBXJ/yjB3cKZQjFvllM5WRNHq2fJmDKy9qFMAF6Y0mI3ixe5xFAdpg0eZQGqsE0l9OnXrmmh1fidZrPLCvPklHZMQkS23OysnaZO71COsSejZ9A9ZlBKPnsqAEnGLQkoRYDEe+aqe6tzJeDq/X77xmflrVX5YlyVcbM=
+X-MS-Exchange-AntiSpam-MessageData: Quk3kAnSpHqQSnlEPNhZqLyGraCYXIlLyt2nhzqRWoLnS3EXQpfX6rwhKcdQW3o/OUsPfFD1/mOkTu6HpQ/Xyesnvxn4wpX6ejv1e29K1ybsqCRaTEBRhOd9pm7UWUIckwgaTtp3A6eGp2usm0cPnQ==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: df6b3e20-eaaa-4365-478a-08d7cd0ca42f
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2020 20:24:07.7116
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3EUR04HT231
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Mar 19, 2020 at 11:29:55AM +0100, Christian Brauner wrote:
-> On Thu, Mar 19, 2020 at 09:16:43AM +0100, Arnd Bergmann wrote:
-> > On Thu, Mar 19, 2020 at 9:11 AM Adrian Reber <areber@redhat.com> wrote:
-> > 
-> > > With Arnd's idea of only using nanoseconds, timens_offset would then
-> > > contain something like this:
-> > >
-> > > struct timens_offset {
-> > >         __aligned_s64 monotonic_offset_ns;
-> > >         __aligned_s64 boottime_offset_ns;
-> > > };
-> > >
-> > > I kind of prefer adding boottime and monotonic directly to struct clone_args
-> > >
-> > >         __aligned_u64 tls;
-> > >         __aligned_u64 set_tid;
-> > >         __aligned_u64 set_tid_size;
-> > > +       __aligned_s64 monotonic_offset_ns;
-> > > +       __aligned_s64 boottime_offset_ns;
-> > >  };
-> > 
-> > I would also prefer the second approach using two 64-bit integers
-> > instead of a pointer, as it keeps the interface simpler to implement
-> > and simpler to interpret by other tools.
-> 
-> Why I don't like has two reasons. There's the scenario where we have
-> added new extensions after the new boottime member and then we introduce
-> another offset. Then you'd be looking at:
-> 
-> __aligned_u64 tls;
-> __aligned_u64 set_tid;
-> __aligned_u64 set_tid_size;
-> + __aligned_s64 monotonic_offset_ns;
-> + __aligned_s64 boottime_offset_ns;
-> __aligned_s64 something_1
-> __aligned_s64 anything_2
-> + __aligned_s64 sometime_offset_ns
-> 
-> which bothers me just by looking at it. That's in addition to adding two
-> new members to the struct when most people will never set CLONE_NEWTIME.
-> We'll also likely have more features in the future that will want to
-> pass down more info than we want to directly expose in struct
-> clone_args, e.g. for a long time I have been thinking about adding a
-> struct for CLONE_NEWUSER that allows you to specify the id mappings you
-> want the new user namespace to get. We surely don't want to force all
-> new info into the uppermost struct. So I'm not convinced we should here.
+This is an infrastructure change that makes way for fixing this issue.
+Each patch was already posted previously so this is just a cleanup of
+the original mailing list thread(s) which got out of control by now.
 
-I think here we can start thinking about a netlink-like interface.
+Everything started here:
+https://lore.kernel.org/lkml/AM6PR03MB5170B06F3A2B75EFB98D071AE4E60@AM6PR03MB5170.eurprd03.prod.outlook.com/
 
-struct clone_args {
-	....
-	u64	attrs_offset;
-}
+I added reviewed-by tags from the mailing list threads, except when
+withdrawn.
 
-struct clone_attr {
-	u16 cla_len;
-	u16 cla_type;
-}
+It took a lot longer than expected to collect everything from the
+mailinglist threads, since several commit messages have been infected
+with typos, and they got fixed without a new patch version.
 
+- Correct the point of no return.
+- Add two new mutexes to replace cred_guard_mutex.
+- Fix each use of cred_guard_mutex.
+- Update documentation.
+- Add a test case.
 
-....
+Bernd Edlinger (11):
+  exec: Fix a deadlock in strace
+  selftests/ptrace: add test cases for dead-locks
+  mm: docs: Fix a comment in process_vm_rw_core
+  kernel: doc: remove outdated comment cred.c
+  kernel/kcmp.c: Use new infrastructure to fix deadlocks in execve
+  proc: Use new infrastructure to fix deadlocks in execve
+  proc: io_accounting: Use new infrastructure to fix deadlocks in execve
+  perf: Use new infrastructure to fix deadlocks in execve
+  pidfd: Use new infrastructure to fix deadlocks in execve
+  exec: Fix dead-lock in de_thread with ptrace_attach
+  doc: Update documentation of ->exec_*_mutex
 
-int parse_clone_attributes(struct kernel_clone_args *kargs, struct clone_args *args, size_t args_size)
-{
-	u64 off = args->attrs_offset;
+Eric W. Biederman (5):
+  exec: Only compute current once in flush_old_exec
+  exec: Factor unshare_sighand out of de_thread and call it separately
+  exec: Move cleanup of posix timers on exec out of de_thread
+  exec: Move exec_mmap right after de_thread in flush_old_exec
+  exec: Add exec_update_mutex to replace cred_guard_mutex
 
-	while (off < size) {
-		struct clone_attr *attr;
+ Documentation/security/credentials.rst    |  29 +++++--
+ fs/exec.c                                 | 122 ++++++++++++++++++++++--------
+ fs/proc/base.c                            |  23 +++---
+ include/linux/binfmts.h                   |   8 +-
+ include/linux/sched/signal.h              |  17 ++++-
+ init/init_task.c                          |   3 +-
+ kernel/cred.c                             |   4 +-
+ kernel/events/core.c                      |  12 +--
+ kernel/fork.c                             |   7 +-
+ kernel/kcmp.c                             |   8 +-
+ kernel/pid.c                              |   4 +-
+ kernel/ptrace.c                           |  20 ++++-
+ kernel/seccomp.c                          |  15 ++--
+ mm/process_vm_access.c                    |   2 +-
+ tools/testing/selftests/ptrace/Makefile   |   4 +-
+ tools/testing/selftests/ptrace/vmaccess.c |  86 +++++++++++++++++++++
+ 16 files changed, 278 insertions(+), 86 deletions(-)
+ create mode 100644 tools/testing/selftests/ptrace/vmaccess.c
 
-		if (off + sizeof(struct clone_attr) uargs_size)
-			return -EINVAL;
-
-		attr = (struct clone_attr *) ((void *)args + off);
-
-		if (attr->cla_type > CLONE_ATTR_TYPE_MAX)
-			return -ENOSYS;
-
-		kargs->attrs[attr->cla_type] = CLONE_ATTR_DATA(attr);
-		off += CLONE_ATTR_LEN(attr);
-	}
-
-	return 0;
-}
-
-This interface doesn't suffer from problems what you enumerated before:
-
-* clone_args contains only fields which are often used.
-* per-feature attributes can be extended in a future without breaking
-  backward compatibility.
-* unused features don't affect clone3 argument size.
-* seccomp-friendly (I am not 100% sure about this)
-
+-- 
+1.9.1
