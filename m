@@ -2,75 +2,81 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 90A0418DDD1
-	for <lists+linux-api@lfdr.de>; Sat, 21 Mar 2020 04:57:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 00D3A18E383
+	for <lists+linux-api@lfdr.de>; Sat, 21 Mar 2020 18:59:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727046AbgCUD5L (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 20 Mar 2020 23:57:11 -0400
-Received: from mout-p-202.mailbox.org ([80.241.56.172]:50284 "EHLO
-        mout-p-202.mailbox.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726980AbgCUD5L (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 20 Mar 2020 23:57:11 -0400
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [80.241.60.241])
-        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
+        id S1727192AbgCUR74 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 21 Mar 2020 13:59:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55718 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727033AbgCUR7z (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Sat, 21 Mar 2020 13:59:55 -0400
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mout-p-202.mailbox.org (Postfix) with ESMTPS id 48kn0446HYzQlFS;
-        Sat, 21 Mar 2020 04:57:08 +0100 (CET)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp2.mailbox.org ([80.241.60.241])
-        by hefe.heinlein-support.de (hefe.heinlein-support.de [91.198.250.172]) (amavisd-new, port 10030)
-        with ESMTP id XfvDeWEXw3H2; Sat, 21 Mar 2020 04:57:05 +0100 (CET)
-Date:   Sat, 21 Mar 2020 14:56:57 +1100
-From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     Eric Rannaud <eric.rannaud@gmail.com>
-Cc:     linux-api@vger.kernel.org, linux-man@vger.kernel.org
-Subject: Re: clock_settime(2) error for non-settable clocks
-Message-ID: <20200321035657.6baexoov65dkpmsb@yavin.dot.cyphar.com>
-References: <CA+zRj8U5_NaY4ZQXj9r=f58KcO3pq5k9HZt9KxRYHnOOk=e1WQ@mail.gmail.com>
+        by mail.kernel.org (Postfix) with ESMTPSA id 4313220777
+        for <linux-api@vger.kernel.org>; Sat, 21 Mar 2020 17:59:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1584813595;
+        bh=ZuSbGGhVk7ElppFEqcvOSgLGvokuNn1yu1rZCbs0kLc=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=xXFV2aBD5/J82q4O1hmTkXBtsj7YBtcg2BEaN/STukf4zsn8ZYoIlbw5ZnYzBrF9H
+         2o9e4DXG32XBWiOCGVm5jah8zLILiCV9bD50cBNHNaurK9M5ihvNxF0R2a+fpLYFes
+         KSPGTRXTD/PzeYsSRmB00sn+H3cN3FB570lfZVeU=
+Received: by mail-wr1-f41.google.com with SMTP id 31so5454320wrs.3
+        for <linux-api@vger.kernel.org>; Sat, 21 Mar 2020 10:59:55 -0700 (PDT)
+X-Gm-Message-State: ANhLgQ3iiw+2FxdLLmXR3SRVuGZWql8XB+K33fq93TPhmMMhEaZbOFkG
+        UdiyzUEtmDoAVv0fzXuLMgzbbP/GC4Go/+PGQ3d3Fg==
+X-Google-Smtp-Source: ADFU+vuKInd6HLK3CpjXtrY2FJ7SVmSBD1uxiV4Y4RKiP50pxec4KIoEPSyoO18WS7CfNZcZSZUrSaI1LOQ+973El/c=
+X-Received: by 2002:adf:f504:: with SMTP id q4mr12140926wro.257.1584813593681;
+ Sat, 21 Mar 2020 10:59:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="kzmu4bo7chcvjthj"
-Content-Disposition: inline
-In-Reply-To: <CA+zRj8U5_NaY4ZQXj9r=f58KcO3pq5k9HZt9KxRYHnOOk=e1WQ@mail.gmail.com>
+References: <20200319021629.GC23230@ZenIV.linux.org.uk>
+In-Reply-To: <20200319021629.GC23230@ZenIV.linux.org.uk>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Sat, 21 Mar 2020 10:59:41 -0700
+X-Gmail-Original-Message-ID: <CALCETrULZc+T6MeRwfcf=JGoh0xE0YEsTFeLiB5=zdH8AX+3bg@mail.gmail.com>
+Message-ID: <CALCETrULZc+T6MeRwfcf=JGoh0xE0YEsTFeLiB5=zdH8AX+3bg@mail.gmail.com>
+Subject: Re: [RFC][possible bug] when should SS_AUTODISARM have effect?
+To:     Al Viro <viro@zeniv.linux.org.uk>
+Cc:     Stas Sergeev <stsp@list.ru>, Ingo Molnar <mingo@kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Wed, Mar 18, 2020 at 7:16 PM Al Viro <viro@zeniv.linux.org.uk> wrote:
+>
+>         Consider the following scenario:  SIGPIPE has SA_ONSTACK
+> handler, SIGSEGV - non-SA_ONSTACK one.  SIGPIPE is delivered
+> and we fail halfway through setting a sigframe for it.
+> OK, we get SIGSEGV forced in, which gets handled not on altstack.
+> But what should happen if we fail *after* having saved the
+> altstack settings into the sigframe that got abandoned?
+>
+>         AFAICS, we get them reset and the original setting
+> entirely lost.  Shouldn't that thing be applied only after
+> we have succeeded in building the frame?  In signal_delivered(),
+> perhaps...
+>
+>         I realize that this is out of scope for POSIX, so it's
+> not a matter of standard compliance, but it looks like a bit
+> of a QoI issue...
 
---kzmu4bo7chcvjthj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I suspect that the number of real programs that usefully handle
+SIGSEGV due to signal delivery failure is extremely low.  And the
+number of real programs that use SA_ONSTACK and expect to survive when
+the alternate stack is bad may well be zero.
 
-On 2020-03-20, Eric Rannaud <eric.rannaud@gmail.com> wrote:
-> Should we update the manpage to more fully explain the range of
-> possible errors or instead try to have more consistent errors? For
-> syscalls, what's the backward-compatibility contract for errno values?
+Honestly, if we actually want to make any of this useful, I think a
+better design would be to use an entirely separate signal specifically
+for signal delivery failure.  So we'd have SIGBADSIG, and signal
+delivery failure tries to deliver SIGBADSIG.  The current design is
+like if x86 handled exception failure by sending #PF.  The results
+would be nonsensical.
 
-It's the same as everything else -- "if it breaks an existing
-application, it's a regression". There was an infamous case of this
-exact scenario happening (changing the errno returned from an ioctl
-broke pulseaudio) in 2012[1].
-
-[1]: https://lore.kernel.org/lkml/CA+55aFzX56kPPwSO97X=3DUyPaMzV5QRNG9ScN=
-=3DnxnHFjmz=3D_8yA@mail.gmail.com/
-
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-<https://www.cyphar.com/>
-
---kzmu4bo7chcvjthj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCXnWQhgAKCRCdlLljIbnQ
-EqYCAQDjcZTklhc1vemF4cPQj5xLzAMOmEkkXWwbAikPkPZtVwEA5+o3SQiZm7Zi
-bSOBdZoOotaxgIYpE1MR1KRl2eFoyg4=
-=c/WG
------END PGP SIGNATURE-----
-
---kzmu4bo7chcvjthj--
+But adding a feature like this would be silly unless someone actually
+wanted to use it.
