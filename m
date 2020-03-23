@@ -2,45 +2,44 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 172931901FD
-	for <lists+linux-api@lfdr.de>; Tue, 24 Mar 2020 00:39:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9346B190207
+	for <lists+linux-api@lfdr.de>; Tue, 24 Mar 2020 00:40:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726986AbgCWXjc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 23 Mar 2020 19:39:32 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:54650 "EHLO
+        id S1727059AbgCWXkE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 23 Mar 2020 19:40:04 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:54956 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726955AbgCWXjc (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 23 Mar 2020 19:39:32 -0400
+        with ESMTP id S1726955AbgCWXkD (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 23 Mar 2020 19:40:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
         Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
         Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=TEUZhCjfShs/MS4UZq1VHSw7JcuxY18OqcwtWtp0bLM=; b=IBayBFhlOFrtLI4GQitRSAxT4p
-        YfYtYcm3rr9WoyfzPh1kErg35kzKMlOOaFuqQKuo2SC7JafYpPtats4RcJywhuZWw2mO0W20BIvYG
-        iKBysCDo6RipS4Bxof13jZY9nZBTiCQ5LHNmE3MGBkoX9x79lnr8rJ2X+qMmNqrb82YvFHouNVpAA
-        cNs8ZA/K/OV5+MileG370xj+Z2EJ990t/uP7EcykvTcmLVhFILIVRUfmBnM/1ed+6HoTqYNqfOhpv
-        1njFpvw5nt5FvWpMhLAlD/nz6o64Pgy31Mab9MJZXlUW4WHIBpvd+I768Z8Izmfql6fB+1ujFMsqH
-        kIkgiB/g==;
+        bh=7b0sNlPhsgzfNj3PIDDNNjIWRJba+EejUPTeNsIBEVs=; b=lylUgvtj511QqIOAomQV4LIcY9
+        HyT+1myA6bmTo9wr2vnYspwQOQay5TqvBNW2NK+zjb9TunKB7xYX08xoEnocjrtxoXuCHwp0tyZ1+
+        kEnxgVZzHtNfOqFrx2zqAgzixjsReEJmd86iTiOJDXIZzcjX0CY7J7Or07GyDYSG2+m6yoDSnAgyH
+        2jW0UaQ/iCQWSHUWEG8nOGjeYGaROWxWlZZ+ySJHui0fAa0O6yCerlfDwJJQs+VMxNZSQ0xrPRVOO
+        sWerISru79qbUen+l8jp4A2KlbaRS5QsvjjdbZkcQuNf7qaLGuQZNKxtAbi8GT+bduSIoJd0bbPh4
+        iH6Xc/0g==;
 Received: from [2601:1c0:6280:3f0::19c2]
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jGWfJ-0008ER-S0; Mon, 23 Mar 2020 23:39:29 +0000
-Subject: Re: [PATCH V2] kernel/hung_task.c: Introduce sysctl to print all
- traces when a hung task is detected
+        id 1jGWfr-0008O0-6E; Mon, 23 Mar 2020 23:40:03 +0000
+Subject: Re: [PATCH V2] panic: Add sysctl/cmdline to dump all CPUs backtraces
+ on oops event
 To:     "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+        linux-kernel@vger.kernel.org
 Cc:     linux-doc@vger.kernel.org, mcgrof@kernel.org,
         keescook@chromium.org, yzaikin@google.com, tglx@linutronix.de,
-        penguin-kernel@I-love.SAKURA.ne.jp, akpm@linux-foundation.org,
-        cocci@systeme.lip6.fr, linux-api@vger.kernel.org,
-        kernel@gpiccoli.net
-References: <20200323214618.28429-1-gpiccoli@canonical.com>
+        akpm@linux-foundation.org, linux-api@vger.kernel.org,
+        willy@infradead.org, kernel@gpiccoli.net
+References: <20200323223035.29891-1-gpiccoli@canonical.com>
 From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <a64729ec-9027-a386-58c6-7dc9fe9a4730@infradead.org>
-Date:   Mon, 23 Mar 2020 16:39:25 -0700
+Message-ID: <f13d3c11-9a04-3c09-a514-4382c0eb91e8@infradead.org>
+Date:   Mon, 23 Mar 2020 16:40:02 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200323214618.28429-1-gpiccoli@canonical.com>
+In-Reply-To: <20200323223035.29891-1-gpiccoli@canonical.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -49,77 +48,83 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi,
+Hi-
+(same)
 
-On 3/23/20 2:46 PM, Guilherme G. Piccoli wrote:
+On 3/23/20 3:30 PM, Guilherme G. Piccoli wrote:
 
 > 
->  .../admin-guide/kernel-parameters.txt         |  6 ++++
->  Documentation/admin-guide/sysctl/kernel.rst   | 15 ++++++++++
->  include/linux/sched/sysctl.h                  |  7 +++++
->  kernel/hung_task.c                            | 30 +++++++++++++++++--
->  kernel/sysctl.c                               | 11 +++++++
->  5 files changed, 67 insertions(+), 2 deletions(-)
+> V2: Implemented grammar suggestions from Randy, Andrew and
+> Matthew. Thanks in advance for the reviews!
+> Cheers,
 > 
-
-admin-guide/kernel-parameters.txt predominantly uses "CPUs" for plural CPUs
-when not part of a cmdline keyword etc., so please adjust below:
-
+> Guilherme
+> 
+> 
+>  .../admin-guide/kernel-parameters.txt         |  8 +++++++
+>  Documentation/admin-guide/sysctl/kernel.rst   | 17 +++++++++++++++
+>  include/linux/kernel.h                        |  6 ++++++
+>  kernel/panic.c                                | 21 +++++++++++++++++++
+>  kernel/sysctl.c                               | 11 ++++++++++
+>  5 files changed, 63 insertions(+)
+> 
 > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index c07815d230bc..7a14caac6c94 100644
+> index 7a14caac6c94..7db622028c00 100644
 > --- a/Documentation/admin-guide/kernel-parameters.txt
 > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -1453,6 +1453,12 @@
->  			x86-64 are 2M (when the CPU supports "pse") and 1G
->  			(when the CPU supports the "pdpe1gb" cpuinfo flag).
+> @@ -3333,6 +3333,14 @@
+>  			This will also cause panics on machine check exceptions.
+>  			Useful together with panic=30 to trigger a reboot.
 >  
-> +	hung_task_all_cpu_backtrace=
+> +	oops_all_cpu_backtrace=
 > +			[KNL] Should kernel generate backtraces on all cpus
 
 			                                               CPUs
 
-> +			when a hung task is detected. Defaults to 0 and can
-> +			be controlled by hung_task_all_cpu_backtrace sysctl.
+> +			when oops occurs - this should be a last measure resort
+> +			in case	a kdump cannot be collected, for example.
+> +			Defaults to 0 and can be controlled by the sysctl
+> +			kernel.oops_all_cpu_backtrace.
 > +			Format: <integer>
 > +
->  	hung_task_panic=
->  			[KNL] Should the hung task detector generate panics.
->  			Format: <integer>
+>  	page_alloc.shuffle=
+>  			[KNL] Boolean flag to control whether the page allocator
+>  			should randomize its free lists. The randomization may
 > diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-> index def074807cee..8b4ff69d2348 100644
+> index 8b4ff69d2348..8660001d3a3e 100644
 > --- a/Documentation/admin-guide/sysctl/kernel.rst
 > +++ b/Documentation/admin-guide/sysctl/kernel.rst
-> @@ -40,6 +40,7 @@ show up in /proc/sys/kernel:
->  - hotplug
->  - hardlockup_all_cpu_backtrace
->  - hardlockup_panic
-> +- hung_task_all_cpu_backtrace
->  - hung_task_panic
->  - hung_task_check_count
->  - hung_task_timeout_secs
-> @@ -338,6 +339,20 @@ Path for the hotplug policy agent.
->  Default value is "/sbin/hotplug".
+> @@ -57,6 +57,7 @@ show up in /proc/sys/kernel:
+>  - msgmnb
+>  - msgmni
+>  - nmi_watchdog
+> +- oops_all_cpu_backtrace
+>  - osrelease
+>  - ostype
+>  - overflowgid
+> @@ -572,6 +573,22 @@ numa_balancing_scan_size_mb is how many megabytes worth of pages are
+>  scanned for a given scan.
 >  
 >  
-> +hung_task_all_cpu_backtrace:
+> +oops_all_cpu_backtrace:
 > +================
 > +
 > +If this option is set, the kernel will send an NMI to all CPUs to dump
-> +their backtraces when a hung task is detected. This file shows up if
-> +CONFIG_DETECT_HUNG_TASK and CONFIG_SMP are enabled.
+> +their backtraces when an oops event occurs. It should be used as a last
+> +resort in case a panic cannot be triggered (to protect VMs running, for
+> +example) or kdump can't be collected. This file shows up if CONFIG_SMP
+> +is enabled.
 > +
-> +0: Won't show all CPUs backtraces when a hung task is detected.
+> +0: Won't show all CPUs backtraces when an oops is detected.
 > +This is the default behavior.
 > +
 > +1: Will non-maskably interrupt all CPUs and dump their backtraces when
-> +a hung task is detected.
+> +an oops event is detected.
 > +
 > +
->  hung_task_panic:
->  ================
+>  osrelease, ostype & version:
+>  ============================
 >  
-
-
 thanks.
 
 -- 
