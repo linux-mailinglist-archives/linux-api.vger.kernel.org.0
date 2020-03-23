@@ -2,170 +2,263 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B567418F231
-	for <lists+linux-api@lfdr.de>; Mon, 23 Mar 2020 10:53:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C27318F32A
+	for <lists+linux-api@lfdr.de>; Mon, 23 Mar 2020 11:52:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727738AbgCWJxs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 23 Mar 2020 05:53:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56184 "EHLO mail.kernel.org"
+        id S1728008AbgCWKwh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 23 Mar 2020 06:52:37 -0400
+Received: from relay.sw.ru ([185.231.240.75]:55904 "EHLO relay.sw.ru"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727737AbgCWJxs (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 23 Mar 2020 05:53:48 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B5CDF2072D;
-        Mon, 23 Mar 2020 09:53:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1584957227;
-        bh=vYQRdibAHre6Z0ZRM2+BRlR2nFJ0LeQHPRN+LvLMVBQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=yWjYuu7kvYMl56D+Y8BuUPq3QPFiMCKuoOxVlWQhwAM+Wm8idPdIVqevNxw69uAAk
-         ovtTcEbcF8rxF1O0XGhGCwlQyvi72gjTGLHWblk502xAlVEL1Pik4+Qi5JPX9hQqV2
-         2pOn7t/JqTJs1YpmmO9wrZEG1pWDWllk+Oa0PCDY=
-Date:   Mon, 23 Mar 2020 10:53:44 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Jaewon Kim <jaewon31.kim@samsung.com>
-Cc:     leon@kernel.org, vbabka@suse.cz, adobriyan@gmail.com,
-        akpm@linux-foundation.org, labbott@redhat.com,
-        sumit.semwal@linaro.org, minchan@kernel.org, ngupta@vflare.org,
-        sergey.senozhatsky.work@gmail.com, kasong@redhat.com,
-        bhe@redhat.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        jaewon31.kim@gmail.com, linux-api@vger.kernel.org,
-        kexec@lists.infradead.org
-Subject: Re: [RFC PATCH v2 1/3] meminfo_extra: introduce meminfo extra
-Message-ID: <20200323095344.GB425358@kroah.com>
-References: <20200323080503.6224-1-jaewon31.kim@samsung.com>
- <CGME20200323080508epcas1p387c9c19b480da53be40fe5d51e76a477@epcas1p3.samsung.com>
- <20200323080503.6224-2-jaewon31.kim@samsung.com>
+        id S1727874AbgCWKwh (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 23 Mar 2020 06:52:37 -0400
+Received: from [192.168.15.148]
+        by relay.sw.ru with esmtp (Exim 4.92.3)
+        (envelope-from <ktkhai@virtuozzo.com>)
+        id 1jGKgC-0007R0-KH; Mon, 23 Mar 2020 13:51:37 +0300
+Subject: Re: [PATCH v6 05/16] exec: Add exec_update_mutex to replace
+ cred_guard_mutex
+To:     Bernd Edlinger <bernd.edlinger@hotmail.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Yuyang Du <duyuyang@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jamorris@linux.microsoft.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christian Kellner <christian@kellner.me>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
+References: <077b63b7-6f5e-aa8e-bf96-a586b481cc46@hotmail.de>
+ <AM6PR03MB5170739C1B582B37E637279EE4F50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+From:   Kirill Tkhai <ktkhai@virtuozzo.com>
+Message-ID: <2f4afb28-887d-2b49-570c-af933314de34@virtuozzo.com>
+Date:   Mon, 23 Mar 2020 13:51:35 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200323080503.6224-2-jaewon31.kim@samsung.com>
+In-Reply-To: <AM6PR03MB5170739C1B582B37E637279EE4F50@AM6PR03MB5170.eurprd03.prod.outlook.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Mar 23, 2020 at 05:05:01PM +0900, Jaewon Kim wrote:
-> Provide APIs to drivers so that they can show its memory usage on
-> /proc/meminfo_extra.
+On 20.03.2020 23:25, Bernd Edlinger wrote:
+> The cred_guard_mutex is problematic as it is held over possibly
+> indefinite waits for userspace.  The possible indefinite waits for
+> userspace that I have identified are: The cred_guard_mutex is held in
+> PTRACE_EVENT_EXIT waiting for the tracer.  The cred_guard_mutex is
+> held over "put_user(0, tsk->clear_child_tid)" in exit_mm().  The
+> cred_guard_mutex is held over "get_user(futex_offset, ...")  in
+> exit_robust_list.  The cred_guard_mutex held over copy_strings.
 > 
-> int register_meminfo_extra(atomic_long_t *val, int shift,
-> 			   const char *name);
-> int unregister_meminfo_extra(atomic_long_t *val);
-
-Nit, isn't it nicer to have the subsystem name first:
-	meminfo_extra_register()
-	meminfo_extra_unregister()
-?
-
-
-
+> The functions get_user and put_user can trigger a page fault which can
+> potentially wait indefinitely in the case of userfaultfd or if
+> userspace implements part of the page fault path.
 > 
-> Signed-off-by: Jaewon Kim <jaewon31.kim@samsung.com>
+> In any of those cases the userspace process that the kernel is waiting
+> for might make a different system call that winds up taking the
+> cred_guard_mutex and result in deadlock.
+> 
+> Holding a mutex over any of those possibly indefinite waits for
+> userspace does not appear necessary.  Add exec_update_mutex that will
+> just cover updating the process during exec where the permissions and
+> the objects pointed to by the task struct may be out of sync.
+> 
+> The plan is to switch the users of cred_guard_mutex to
+> exec_update_mutex one by one.  This lets us move forward while still
+> being careful and not introducing any regressions.
+>
+> Link: https://lore.kernel.org/lkml/20160921152946.GA24210@dhcp22.suse.cz/
+> Link: https://lore.kernel.org/lkml/AM6PR03MB5170B06F3A2B75EFB98D071AE4E60@AM6PR03MB5170.eurprd03.prod.outlook.com/
+> Link: https://lore.kernel.org/linux-fsdevel/20161102181806.GB1112@redhat.com/
+> Link: https://lore.kernel.org/lkml/20160923095031.GA14923@redhat.com/
+> Link: https://lore.kernel.org/lkml/20170213141452.GA30203@redhat.com/
+> Ref: 45c1a159b85b ("Add PTRACE_O_TRACEVFORKDONE and PTRACE_O_TRACEEXIT facilities.")
+> Ref: 456f17cd1a28 ("[PATCH] user-vm-unlock-2.5.31-A2")
+> Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
+> Signed-off-by: Bernd Edlinger <bernd.edlinger@hotmail.de>
+
+Reviewed-by: Kirill Tkhai <ktkhai@virtuozzo.com>
+
 > ---
-> v2: move to /proc/meminfo_extra as a new file, meminfo_extra.c
->     use rcu to reduce lock overhead
-> v1: print info at /proc/meminfo
-> ---
->  fs/proc/Makefile        |   1 +
->  fs/proc/meminfo_extra.c | 123 ++++++++++++++++++++++++++++++++++++++++++++++++
->  include/linux/mm.h      |   4 ++
->  mm/page_alloc.c         |   1 +
->  4 files changed, 129 insertions(+)
->  create mode 100644 fs/proc/meminfo_extra.c
+>  fs/exec.c                    | 22 +++++++++++++++++++---
+>  include/linux/binfmts.h      |  8 +++++++-
+>  include/linux/sched/signal.h |  9 ++++++++-
+>  init/init_task.c             |  1 +
+>  kernel/fork.c                |  1 +
+>  5 files changed, 36 insertions(+), 5 deletions(-)
 > 
-> diff --git a/fs/proc/Makefile b/fs/proc/Makefile
-> index bd08616ed8ba..83d2f55591c6 100644
-> --- a/fs/proc/Makefile
-> +++ b/fs/proc/Makefile
-> @@ -19,6 +19,7 @@ proc-y	+= devices.o
->  proc-y	+= interrupts.o
->  proc-y	+= loadavg.o
->  proc-y	+= meminfo.o
-> +proc-y	+= meminfo_extra.o
->  proc-y	+= stat.o
->  proc-y	+= uptime.o
->  proc-y	+= util.o
-> diff --git a/fs/proc/meminfo_extra.c b/fs/proc/meminfo_extra.c
-> new file mode 100644
-> index 000000000000..bd3f0d2b7fb7
-> --- /dev/null
-> +++ b/fs/proc/meminfo_extra.c
-> @@ -0,0 +1,123 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +#include <linux/mm.h>
-> +#include <linux/proc_fs.h>
-> +#include <linux/seq_file.h>
-> +#include <linux/slab.h>
+> diff --git a/fs/exec.c b/fs/exec.c
+> index d820a72..0e46ec5 100644
+> --- a/fs/exec.c
+> +++ b/fs/exec.c
+> @@ -1010,16 +1010,26 @@ ssize_t read_code(struct file *file, unsigned long addr, loff_t pos, size_t len)
+>  }
+>  EXPORT_SYMBOL(read_code);
+>  
+> +/*
+> + * Maps the mm_struct mm into the current task struct.
+> + * On success, this function returns with the mutex
+> + * exec_update_mutex locked.
+> + */
+>  static int exec_mmap(struct mm_struct *mm)
+>  {
+>  	struct task_struct *tsk;
+>  	struct mm_struct *old_mm, *active_mm;
+> +	int ret;
+>  
+>  	/* Notify parent that we're no longer interested in the old VM */
+>  	tsk = current;
+>  	old_mm = current->mm;
+>  	exec_mm_release(tsk, old_mm);
+>  
+> +	ret = mutex_lock_killable(&tsk->signal->exec_update_mutex);
+> +	if (ret)
+> +		return ret;
 > +
-> +static void show_val_kb(struct seq_file *m, const char *s, unsigned long num)
-> +{
-> +	seq_put_decimal_ull_width(m, s, num << (PAGE_SHIFT - 10), 8);
-> +	seq_write(m, " kB\n", 4);
-> +}
+>  	if (old_mm) {
+>  		sync_mm_rss(old_mm);
+>  		/*
+> @@ -1031,9 +1041,11 @@ static int exec_mmap(struct mm_struct *mm)
+>  		down_read(&old_mm->mmap_sem);
+>  		if (unlikely(old_mm->core_state)) {
+>  			up_read(&old_mm->mmap_sem);
+> +			mutex_unlock(&tsk->signal->exec_update_mutex);
+>  			return -EINTR;
+>  		}
+>  	}
 > +
-> +static LIST_HEAD(meminfo_head);
-> +static DEFINE_SPINLOCK(meminfo_lock);
-> +
-> +#define NAME_SIZE      15
-> +#define NAME_BUF_SIZE  (NAME_SIZE + 2) /* ':' and '\0' */
-> +
-> +struct meminfo_extra {
-> +	struct list_head list;
-> +	atomic_long_t *val;
-> +	int shift_for_page;
-> +	char name[NAME_BUF_SIZE];
-> +	char name_pad[NAME_BUF_SIZE];
-> +};
-> +
-> +int register_meminfo_extra(atomic_long_t *val, int shift, const char *name)
-> +{
-> +	struct meminfo_extra *meminfo, *memtemp;
-> +	int len;
-> +	int error = 0;
-> +
-> +	meminfo = kzalloc(sizeof(*meminfo), GFP_KERNEL);
-> +	if (!meminfo) {
-> +		error = -ENOMEM;
-> +		goto out;
-> +	}
-> +
-> +	meminfo->val = val;
-> +	meminfo->shift_for_page = shift;
-> +	strncpy(meminfo->name, name, NAME_SIZE);
-> +	len = strlen(meminfo->name);
-> +	meminfo->name[len] = ':';
-> +	strncpy(meminfo->name_pad, meminfo->name, NAME_BUF_SIZE);
-> +	while (++len < NAME_BUF_SIZE - 1)
-> +		meminfo->name_pad[len] = ' ';
-> +
-> +	spin_lock(&meminfo_lock);
-> +	list_for_each_entry_rcu(memtemp, &meminfo_head, list) {
-> +		if (memtemp->val == val) {
-> +			error = -EINVAL;
-> +			break;
-> +		}
-> +	}
-> +	if (!error)
-> +		list_add_tail_rcu(&meminfo->list, &meminfo_head);
-> +	spin_unlock(&meminfo_lock);
+>  	task_lock(tsk);
+>  	active_mm = tsk->active_mm;
+>  	membarrier_exec_mmap(mm);
+> @@ -1288,11 +1300,12 @@ int flush_old_exec(struct linux_binprm * bprm)
+>  		goto out;
+>  
+>  	/*
+> -	 * After clearing bprm->mm (to mark that current is using the
+> -	 * prepared mm now), we have nothing left of the original
+> +	 * After setting bprm->called_exec_mmap (to mark that current is
+> +	 * using the prepared mm now), we have nothing left of the original
+>  	 * process. If anything from here on returns an error, the check
+>  	 * in search_binary_handler() will SEGV current.
+>  	 */
+> +	bprm->called_exec_mmap = 1;
+>  	bprm->mm = NULL;
+>  
+>  #ifdef CONFIG_POSIX_TIMERS
+> @@ -1438,6 +1451,8 @@ static void free_bprm(struct linux_binprm *bprm)
+>  {
+>  	free_arg_pages(bprm);
+>  	if (bprm->cred) {
+> +		if (bprm->called_exec_mmap)
+> +			mutex_unlock(&current->signal->exec_update_mutex);
+>  		mutex_unlock(&current->signal->cred_guard_mutex);
+>  		abort_creds(bprm->cred);
+>  	}
+> @@ -1487,6 +1502,7 @@ void install_exec_creds(struct linux_binprm *bprm)
+>  	 * credentials; any time after this it may be unlocked.
+>  	 */
+>  	security_bprm_committed_creds(bprm);
+> +	mutex_unlock(&current->signal->exec_update_mutex);
+>  	mutex_unlock(&current->signal->cred_guard_mutex);
+>  }
+>  EXPORT_SYMBOL(install_exec_creds);
+> @@ -1678,7 +1694,7 @@ int search_binary_handler(struct linux_binprm *bprm)
+>  
+>  		read_lock(&binfmt_lock);
+>  		put_binfmt(fmt);
+> -		if (retval < 0 && !bprm->mm) {
+> +		if (retval < 0 && bprm->called_exec_mmap) {
+>  			/* we got to flush_old_exec() and failed after it */
+>  			read_unlock(&binfmt_lock);
+>  			force_sigsegv(SIGSEGV);
+> diff --git a/include/linux/binfmts.h b/include/linux/binfmts.h
+> index b40fc63..a345d9f 100644
+> --- a/include/linux/binfmts.h
+> +++ b/include/linux/binfmts.h
+> @@ -44,7 +44,13 @@ struct linux_binprm {
+>  		 * exec has happened. Used to sanitize execution environment
+>  		 * and to set AT_SECURE auxv for glibc.
+>  		 */
+> -		secureexec:1;
+> +		secureexec:1,
+> +		/*
+> +		 * Set by flush_old_exec, when exec_mmap has been called.
+> +		 * This is past the point of no return, when the
+> +		 * exec_update_mutex has been taken.
+> +		 */
+> +		called_exec_mmap:1;
+>  #ifdef __alpha__
+>  	unsigned int taso:1;
+>  #endif
+> diff --git a/include/linux/sched/signal.h b/include/linux/sched/signal.h
+> index 8805025..a29df79 100644
+> --- a/include/linux/sched/signal.h
+> +++ b/include/linux/sched/signal.h
+> @@ -224,7 +224,14 @@ struct signal_struct {
+>  
+>  	struct mutex cred_guard_mutex;	/* guard against foreign influences on
+>  					 * credential calculations
+> -					 * (notably. ptrace) */
+> +					 * (notably. ptrace)
+> +					 * Deprecated do not use in new code.
+> +					 * Use exec_update_mutex instead.
+> +					 */
+> +	struct mutex exec_update_mutex;	/* Held while task_struct is being
+> +					 * updated during exec, and may have
+> +					 * inconsistent permissions.
+> +					 */
+>  } __randomize_layout;
+>  
+>  /*
+> diff --git a/init/init_task.c b/init/init_task.c
+> index 9e5cbe5..bd403ed 100644
+> --- a/init/init_task.c
+> +++ b/init/init_task.c
+> @@ -26,6 +26,7 @@
+>  	.multiprocess	= HLIST_HEAD_INIT,
+>  	.rlim		= INIT_RLIMITS,
+>  	.cred_guard_mutex = __MUTEX_INITIALIZER(init_signals.cred_guard_mutex),
+> +	.exec_update_mutex = __MUTEX_INITIALIZER(init_signals.exec_update_mutex),
+>  #ifdef CONFIG_POSIX_TIMERS
+>  	.posix_timers = LIST_HEAD_INIT(init_signals.posix_timers),
+>  	.cputimer	= {
+> diff --git a/kernel/fork.c b/kernel/fork.c
+> index 8642530..036b692 100644
+> --- a/kernel/fork.c
+> +++ b/kernel/fork.c
+> @@ -1594,6 +1594,7 @@ static int copy_signal(unsigned long clone_flags, struct task_struct *tsk)
+>  	sig->oom_score_adj_min = current->signal->oom_score_adj_min;
+>  
+>  	mutex_init(&sig->cred_guard_mutex);
+> +	mutex_init(&sig->exec_update_mutex);
+>  
+>  	return 0;
+>  }
+> 
 
-If you have a lock, why are you needing rcu?
-
-
-
-> +	if (error)
-> +		kfree(meminfo);
-> +out:
-> +
-> +	return error;
-> +}
-> +EXPORT_SYMBOL(register_meminfo_extra);
-
-EXPORT_SYMBOL_GPL()?  I have to ask :)
-
-thanks,
-
-greg k-h
