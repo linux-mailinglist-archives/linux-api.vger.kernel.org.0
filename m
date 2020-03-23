@@ -2,51 +2,51 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8925718F093
-	for <lists+linux-api@lfdr.de>; Mon, 23 Mar 2020 09:05:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 96C4518F092
+	for <lists+linux-api@lfdr.de>; Mon, 23 Mar 2020 09:05:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727477AbgCWIFO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        id S1727505AbgCWIFO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
         Mon, 23 Mar 2020 04:05:14 -0400
-Received: from mailout4.samsung.com ([203.254.224.34]:34878 "EHLO
-        mailout4.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727486AbgCWIFO (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 23 Mar 2020 04:05:14 -0400
-Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
-        by mailout4.samsung.com (KnoxPortal) with ESMTP id 20200323080511epoutp0417be27baddb47688644854d9c7d61aa2~_4EZu04Ib1426914269epoutp04r
+Received: from mailout3.samsung.com ([203.254.224.33]:11001 "EHLO
+        mailout3.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727503AbgCWIFN (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 23 Mar 2020 04:05:13 -0400
+Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
+        by mailout3.samsung.com (KnoxPortal) with ESMTP id 20200323080511epoutp03bd3dcf98bb3c73e6ad08d8ea38a4612d~_4EZpX0FB1284012840epoutp03t
         for <linux-api@vger.kernel.org>; Mon, 23 Mar 2020 08:05:11 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20200323080511epoutp0417be27baddb47688644854d9c7d61aa2~_4EZu04Ib1426914269epoutp04r
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20200323080511epoutp03bd3dcf98bb3c73e6ad08d8ea38a4612d~_4EZpX0FB1284012840epoutp03t
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1584950712;
-        bh=TRbGcx9ZV+IqrIG8JwLR8QmselJK4B5I11L2jHQXF2Y=;
+        s=mail20170921; t=1584950711;
+        bh=dSYUW03bHzrs9o67DnwnF349vBuzWA6AMzTlkUXfLWo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=lkPTNkKW34Nr83/BA5jeRhsaATENKf7iFNm1BaH+7DxMD2SCaGXKPIHvhiQJpQO+H
-         o/OZNqqvR7HMGcGYOuu3OyOWBpZpUGaP1MKAhWR52iEnogSbxSXHPN47Urcj5OGYd+
-         1xCKW0y37hWvKjCQci8RgDufF48soNuViO4xMVys=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-        epcas1p2.samsung.com (KnoxPortal) with ESMTP id
-        20200323080511epcas1p2d7cdcc4edcce296e22135a322e7c704b~_4EZI67xg2102421024epcas1p2l;
+        b=c/Cq70XueTavKVS2yaajtyGQISate4WyZ7oZSqtZQFwf4a6DvwjItBfnkm0OR2LVw
+         2VX/3auCyY7O2C7mw8yH5jkZ7Hswc50BfXw6jn/HRihKV0o0yrU0hAWDq5zfoShaHe
+         krQpzu0Er2Cio6ru0MQmbAPIkhGgH0m+j9xLR008=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+        epcas1p1.samsung.com (KnoxPortal) with ESMTP id
+        20200323080511epcas1p1e045fa882c46a59520affd8470248956~_4EZAIXBi2159621596epcas1p1G;
         Mon, 23 Mar 2020 08:05:11 +0000 (GMT)
-Received: from epsmges1p5.samsung.com (unknown [182.195.40.164]) by
-        epsnrtp4.localdomain (Postfix) with ESMTP id 48m6PL2KbPzMqYkd; Mon, 23 Mar
-        2020 08:05:10 +0000 (GMT)
+Received: from epsmges1p1.samsung.com (unknown [182.195.40.163]) by
+        epsnrtp2.localdomain (Postfix) with ESMTP id 48m6PJ58TyzMqYkg; Mon, 23 Mar
+        2020 08:05:08 +0000 (GMT)
 Received: from epcas1p1.samsung.com ( [182.195.41.45]) by
-        epsmges1p5.samsung.com (Symantec Messaging Gateway) with SMTP id
-        95.2A.04074.4BD687E5; Mon, 23 Mar 2020 17:05:08 +0900 (KST)
+        epsmges1p1.samsung.com (Symantec Messaging Gateway) with SMTP id
+        E1.70.04145.4BD687E5; Mon, 23 Mar 2020 17:05:08 +0900 (KST)
 Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-        epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
-        20200323080508epcas1p387c9c19b480da53be40fe5d51e76a477~_4EWBfKY43019030190epcas1p3C;
+        epcas1p2.samsung.com (KnoxPortal) with ESMTPA id
+        20200323080508epcas1p2dfe6517169a65936e5ab10c4e63a19a7~_4EWKChal2331623316epcas1p28;
         Mon, 23 Mar 2020 08:05:08 +0000 (GMT)
-Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
         epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20200323080507epsmtrp18e52c71f3a54794974a1c99e59279abe~_4EWAYGbR0063700637epsmtrp1e;
-        Mon, 23 Mar 2020 08:05:07 +0000 (GMT)
-X-AuditID: b6c32a39-58bff70000000fea-59-5e786db4b413
+        20200323080508epsmtrp1e95a6cc4a2e1e35601c95ad2b01b48c9~_4EWIopZ50063700637epsmtrp1f;
+        Mon, 23 Mar 2020 08:05:08 +0000 (GMT)
+X-AuditID: b6c32a35-2a5ff70000001031-37-5e786db4bb01
 Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-        epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        67.15.04158.3BD687E5; Mon, 23 Mar 2020 17:05:07 +0900 (KST)
+        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        C7.73.04024.4BD687E5; Mon, 23 Mar 2020 17:05:08 +0900 (KST)
 Received: from jaewon-linux.10.32.193.11 (unknown [10.253.104.82]) by
         epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-        20200323080507epsmtip15ad9b6907ccc4b094399b05cc333e9db~_4EVz4Cu80126401264epsmtip1M;
+        20200323080507epsmtip1af2b09b7d835e20c46018369fa326f2f~_4EV5mw5Z3157831578epsmtip1N;
         Mon, 23 Mar 2020 08:05:07 +0000 (GMT)
 From:   Jaewon Kim <jaewon31.kim@samsung.com>
 To:     gregkh@linuxfoundation.org, leon@kernel.org, vbabka@suse.cz,
@@ -57,244 +57,101 @@ To:     gregkh@linuxfoundation.org, leon@kernel.org, vbabka@suse.cz,
 Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
         jaewon31.kim@gmail.com, linux-api@vger.kernel.org,
         kexec@lists.infradead.org, Jaewon Kim <jaewon31.kim@samsung.com>
-Subject: [RFC PATCH v2 1/3] meminfo_extra: introduce meminfo extra
-Date:   Mon, 23 Mar 2020 17:05:01 +0900
-Message-Id: <20200323080503.6224-2-jaewon31.kim@samsung.com>
+Subject: [RFC PATCH v2 2/3] mm: zsmalloc: include zs page size in meminfo
+ extra
+Date:   Mon, 23 Mar 2020 17:05:02 +0900
+Message-Id: <20200323080503.6224-3-jaewon31.kim@samsung.com>
 X-Mailer: git-send-email 2.13.7
 In-Reply-To: <20200323080503.6224-1-jaewon31.kim@samsung.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Tf0xTVxTHd9/re6+Y1rxU507QIL5EJi5ASy1eN7roZpY3xjIWEk32B+wF
-        bihZf7z0FaUkGyCEKAhUonEiGATFDXGQtnEgCEuBsc3FLhB/xhK3bCZzExIM4srUtX0a99/3
-        nPP55px77r1a2jDBJmvLnR7idkp2gV2luTiRnpERdFQWGX2P0/Dx2jzcMdDP4vDdKIvregZY
-        3BQ4gXDzwn0Kn5u/gvDIlSUKfz36mMJHo2dpHFg+yOLZSx0snut/xuDepQUOD9a3c/g3XxuF
-        f4o85PDJ2ha00yAOt0c40d93iBX9i22ceOf6KCv+8OWKRhzv7OfEwJlqcWHsGiu2BPuQ+HPX
-        JCcOLwYY8aE/pUD3iT3XRqRS4k4lzhJXabmzzCp8UFj8brElx2jKMO3A24VUp+QgVmF3fkHG
-        e+X22PGE1H2SvSKWKpAURch6O9ftqvCQVJtL8VgFIpfaZZNRzlQkh1LhLMsscTneNBmN2ZYY
-        +and9uBUA5LbtlROjebVoJ5NjShJC/w2aDn0O9uIVmkN/BCCu7VTlBosIhj86lukBo8QnJs5
-        wr6wHPc/ouPawF9GEJrVqNAygtsBHxcvsPwbsNDVxsQLa/lWCroj3QmK5i8g6GuMUHFqDf8O
-        HJ3uSWgNvxlunfehuNbzuTAyORczaGPtNsLpZ4luSbwVxmZuJ4YFvpeDiSc+Wh1pNxxonqZU
-        vQbuTwc5VSfDn60NnGqoQ/DgRACpQT2CiL8ZqZQZmg//Qse70Xw6DFzKUtObYHilM4HQ/GqY
-        XzrMqAPp4WCDQUXSoP7eEqPqDfDk6b3niAjhp2nqVnwIVmbnOR9KaX/ZoAuhPrSOyIqjjCgm
-        2fL/K/OjxAPeumMIfX81P4R4LRJ0+pqm/UUGRtqneB0hBFpaWKsPkMoig75U8lYRt6vYXWEn
-        SghZYps8Qie/WuKKfQenp9hkyTabzXhbzvYci1l4TX/shr3IwJdJHvIZITJxv/BR2qTkGjTl
-        XRmp2x+2tO/6lQluGY/ezPqusHPPeKPjj4+Oee9UzWd/PNAQXW898NepLy6mb2Y+t/1Ipxv9
-        ryxfXj24YedbHZNM0573T+49f+bflLzqdeAdzNQFpTAUZsmhIX3361UzH16IhpfH5lqb1peQ
-        7NGUq3v1/5y9Jef/rZvurdZ90wqCRrFJpq20W5H+A+pzAAXWAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrFLMWRmVeSWpSXmKPExsWy7bCSnO7m3Io4g9e9FhbTG70s5qxfw2Zx
-        /sEvNovmxevZLLo3z2S06H3/isli+bvTjBa7T39lsli55weTxZRfS5ktNn/vYLO4vGsOm8W9
-        Nf9ZLZZ9fc9usaFlFrvFowmTmCxO3f3MbjG7sY/RQchj56y77B6bVnWyeWz6NInd4861PWwe
-        J2b8ZvHYP3cNu8fmJfUe7/ddZfPo27KK0ePMgiPsHjs/bWb1+LxJLoAnissmJTUnsyy1SN8u
-        gSvj7bw2xoJJGhVH93g1MC5W7GLk5JAQMJGYvukbcxcjF4eQwG5GibOLvzNDJGQk3px/ytLF
-        yAFkC0scPlwMUfOVUWLnywVgNWwC2hLvF0xiBbFFBOYzSfS384MUMQtsZpSYuLSZBSQhLOAk
-        MeX4YiYQm0VAVeLm6gmMIDavgI3E7iP3oBbISyz8DzaTU8BWYt+lW2wgthBQydbuZ8wTGPkW
-        MDKsYpRMLSjOTc8tNiwwykst1ytOzC0uzUvXS87P3cQIjhEtrR2MJ07EH2IU4GBU4uG90Vse
-        J8SaWFZcmXuIUYKDWUmEd3NqRZwQb0piZVVqUX58UWlOavEhRmkOFiVxXvn8Y5FCAumJJanZ
-        qakFqUUwWSYOTqkGRqZv3/ZucD51/AabsuIKsz+K8/o4tPaoi8y689E7Tf7hdMnd6qJJby6v
-        lZf75Vjv+fJq974tJjUpTsbT3yzO2he+jl84IXTRrFXzPvxwjbjEeCVsgbfw2/0TFd8XuJw2
-        ncjENH2VdF3fR/ELdivEdu7Z8CMsnkHjSPTPIq0XMxbob3nk2/KIS1qJpTgj0VCLuag4EQC6
-        tjChjQIAAA==
-X-CMS-MailID: 20200323080508epcas1p387c9c19b480da53be40fe5d51e76a477
+X-Brightmail-Tracker: H4sIAAAAAAAAA01TbUxTVxjOube994J23FzdPEHC2E1mgkuhtbScTViWaLabQRRjJHFZYDfl
+        hBJvP9JbFPWHVAmyQqUSDaPSBT9QqRBMSwYodqaSjAzn5xgTrVF/qJhAFYcayOZabs3273nf
+        93nO877vOYchuVEqk6mxubDTJko8la766UquVjtgravQ9UVzUbv7a9TZ30uh6w8WKHTgZD+F
+        msMdAHnjzwh0ZnYcoIvj8wTqGXlDoCML3SQKv26i0O0LnRS63/tWjU7Px2l0vsFPo0e+NgL9
+        GntJo2PuQ+ALThj2x2ghFPyeEkJzbbRw748RShj7YVEl/BzopYXwqX1CPDJBCYcGgkC42jVK
+        C8NzYbXwMpRdtvwbqciCxSrszME2s72qxlZdzJdsrdxQaTTp9Fr9p6iQz7GJVlzMbywt035Z
+        IyXG43N2ilJtIlUmyjKf/3mR017rwjkWu+wq5rGjSnLodY48WbTKtbbqPLPd+plep1tnTDC/
+        kyyNU09phy+97vn0qKoe+BkPSGMgWwAPejoJD0hnOHYIwOGLbiJZ4Ng5AA9PqJXCKwC9U63g
+        neJFrDNVuATg/vHrKiV4DWD97BMqyaLYT2C8q22JtZJtJeCJ2IklFsn2ARj0xBImDLOC3QJv
+        +oxJgYr9GPqaB1VJrGGLYE/PPVWSAtkP4fG3ZDKdxhbDyK0pKnkMZE/TcLTPSygtbYTT4XgK
+        r4DPfhmgFZwJp1sbaUVwAMCZjjBQggYAYyFvaiAD9LbcIJNuJJsL+y/kK+mP4PBiYIlCsu/B
+        2fkWtdKQBjY1cgplDWx4PK9WcBb8+5/HKSzAxdlQakU+AM/NdRM+kO3/z6ELgCD4ADtkazWW
+        9Q79/+8sBJZe8FrjEDhyrTQKWAbwyzX1zbsqOLW4U95tjQLIkPxKTRjXVXCaKnH3Huy0Vzpr
+        JSxHgTGxysNk5vtme+I/2FyVeuM6g8GACkyFJqOBX6U5OilVcGy16MI7MHZg5zsdwaRl1oOj
+        sa82ZbU8dEz8uHDwxeWSZXvLs65uXVVwNyCdyXgzacLrh8rkSx3b1U+ORcby71vcm7f9XhKM
+        lP95xx8wB/ZM0Z5vm0YGTv11Zf/g5l3tbq7UTOS96mhvHrycPrHBGiHLjzeYMnonM8gZnpnZ
+        d3fHpq5u9W9j0ezpG/Tq8kItc5ZXyRZRv5Z0yuK/EJa4iNcDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrFLMWRmVeSWpSXmKPExsWy7bCSnO6W3Io4g5f3mC2mN3pZzFm/hs3i
+        /INfbBbNi9ezWXRvnslo0fv+FZPF8nenGS12n/7KZLFyzw8miym/ljJbbP7ewWZxedccNot7
+        a/6zWiz7+p7dYkPLLHaLRxMmMVmcuvuZ3WJ2Yx+jg5DHzll32T02repk89j0aRK7x51re9g8
+        Tsz4zeKxf+4ado/NS+o93u+7yubRt2UVo8eZBUfYPXZ+2szq8XmTXABPFJdNSmpOZllqkb5d
+        AldG260X7AUTuCo+vDzC0sA4i6OLkZNDQsBE4uPdOaxdjFwcQgK7GSWebX3NBpGQkXhz/ilL
+        FyMHkC0scfhwMUhYSOAro8Tcy/EgNpuAtsT7BZNYQWwRgflMEv3t/CBzmAU2M0pMXNrMApIQ
+        FvCXmDJpITOIzSKgKjGheztYnFfARmLlyjtQ8+UlFv4HK+EUsJXYd+kWG8QuG4mt3c+YJzDy
+        LWBkWMUomVpQnJueW2xYYJiXWq5XnJhbXJqXrpecn7uJERwjWpo7GC8viT/EKMDBqMTDe6O3
+        PE6INbGsuDL3EKMEB7OSCO/m1Io4Id6UxMqq1KL8+KLSnNTiQ4zSHCxK4rxP845FCgmkJ5ak
+        ZqemFqQWwWSZODilGhgdq2s3egb8jnmwbmcVnwPrn7bpync2HNa5MafyhfgS6edT4ltYw5nm
+        zBU/Yb5BoDM7bEOEDW9Jz3f/Le90Nk2pOv774ZETNY5uDx62PYg9qRaYsfd19sGqubEuNxW1
+        nBp7zT2bEjTnK2jOZWzY9tp2upARu4BGpjXD8hWmHksYlxU3We7U7VRiKc5INNRiLipOBACx
+        /fqvjQIAAA==
+X-CMS-MailID: 20200323080508epcas1p2dfe6517169a65936e5ab10c4e63a19a7
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 X-Sendblock-Type: SVC_REQ_APPROVE
 CMS-TYPE: 101P
 DLP-Filter: Pass
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20200323080508epcas1p387c9c19b480da53be40fe5d51e76a477
+X-CMS-RootMailID: 20200323080508epcas1p2dfe6517169a65936e5ab10c4e63a19a7
 References: <20200323080503.6224-1-jaewon31.kim@samsung.com>
-        <CGME20200323080508epcas1p387c9c19b480da53be40fe5d51e76a477@epcas1p3.samsung.com>
+        <CGME20200323080508epcas1p2dfe6517169a65936e5ab10c4e63a19a7@epcas1p2.samsung.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Provide APIs to drivers so that they can show its memory usage on
-/proc/meminfo_extra.
+On most of recent Android device use DRAM memory based compressed swap
+to save free memory. And the swap device size is also big enough.
 
-int register_meminfo_extra(atomic_long_t *val, int shift,
-			   const char *name);
-int unregister_meminfo_extra(atomic_long_t *val);
+The zsmalloc page size is alread shown on vmstat by commit 91537fee0013
+("mm: add NR_ZSMALLOC to vmstat"). If the size is also shown in
+/proc/meminfo_extra, it will be better to see system wide memory usage at a
+glance.
+
+To include heap size, use register_meminfo_extra introduced in previous
+patch.
+
+i.e) cat /proc/meminfo_extra | grep ZsPages
+IonSystemHeap:    242620 kB
+ZsPages:          203860 kB
+
+i.e.) show_mem on oom
+<6>[  420.856428]  Mem-Info:
+<6>[  420.856433]  ZsPages:44114kB
 
 Signed-off-by: Jaewon Kim <jaewon31.kim@samsung.com>
 ---
-v2: move to /proc/meminfo_extra as a new file, meminfo_extra.c
-    use rcu to reduce lock overhead
-v1: print info at /proc/meminfo
----
- fs/proc/Makefile        |   1 +
- fs/proc/meminfo_extra.c | 123 ++++++++++++++++++++++++++++++++++++++++++++++++
- include/linux/mm.h      |   4 ++
- mm/page_alloc.c         |   1 +
- 4 files changed, 129 insertions(+)
- create mode 100644 fs/proc/meminfo_extra.c
+ mm/zsmalloc.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/fs/proc/Makefile b/fs/proc/Makefile
-index bd08616ed8ba..83d2f55591c6 100644
---- a/fs/proc/Makefile
-+++ b/fs/proc/Makefile
-@@ -19,6 +19,7 @@ proc-y	+= devices.o
- proc-y	+= interrupts.o
- proc-y	+= loadavg.o
- proc-y	+= meminfo.o
-+proc-y	+= meminfo_extra.o
- proc-y	+= stat.o
- proc-y	+= uptime.o
- proc-y	+= util.o
-diff --git a/fs/proc/meminfo_extra.c b/fs/proc/meminfo_extra.c
-new file mode 100644
-index 000000000000..bd3f0d2b7fb7
---- /dev/null
-+++ b/fs/proc/meminfo_extra.c
-@@ -0,0 +1,123 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include <linux/mm.h>
-+#include <linux/proc_fs.h>
-+#include <linux/seq_file.h>
-+#include <linux/slab.h>
-+
-+static void show_val_kb(struct seq_file *m, const char *s, unsigned long num)
-+{
-+	seq_put_decimal_ull_width(m, s, num << (PAGE_SHIFT - 10), 8);
-+	seq_write(m, " kB\n", 4);
-+}
-+
-+static LIST_HEAD(meminfo_head);
-+static DEFINE_SPINLOCK(meminfo_lock);
-+
-+#define NAME_SIZE      15
-+#define NAME_BUF_SIZE  (NAME_SIZE + 2) /* ':' and '\0' */
-+
-+struct meminfo_extra {
-+	struct list_head list;
-+	atomic_long_t *val;
-+	int shift_for_page;
-+	char name[NAME_BUF_SIZE];
-+	char name_pad[NAME_BUF_SIZE];
-+};
-+
-+int register_meminfo_extra(atomic_long_t *val, int shift, const char *name)
-+{
-+	struct meminfo_extra *meminfo, *memtemp;
-+	int len;
-+	int error = 0;
-+
-+	meminfo = kzalloc(sizeof(*meminfo), GFP_KERNEL);
-+	if (!meminfo) {
-+		error = -ENOMEM;
-+		goto out;
-+	}
-+
-+	meminfo->val = val;
-+	meminfo->shift_for_page = shift;
-+	strncpy(meminfo->name, name, NAME_SIZE);
-+	len = strlen(meminfo->name);
-+	meminfo->name[len] = ':';
-+	strncpy(meminfo->name_pad, meminfo->name, NAME_BUF_SIZE);
-+	while (++len < NAME_BUF_SIZE - 1)
-+		meminfo->name_pad[len] = ' ';
-+
-+	spin_lock(&meminfo_lock);
-+	list_for_each_entry_rcu(memtemp, &meminfo_head, list) {
-+		if (memtemp->val == val) {
-+			error = -EINVAL;
-+			break;
-+		}
-+	}
-+	if (!error)
-+		list_add_tail_rcu(&meminfo->list, &meminfo_head);
-+	spin_unlock(&meminfo_lock);
-+	if (error)
-+		kfree(meminfo);
-+out:
-+
-+	return error;
-+}
-+EXPORT_SYMBOL(register_meminfo_extra);
-+
-+int unregister_meminfo_extra(atomic_long_t *val)
-+{
-+	struct meminfo_extra *memtemp;
-+	int error = -EINVAL;
-+
-+	spin_lock(&meminfo_lock);
-+	list_for_each_entry_rcu(memtemp, &meminfo_head, list) {
-+		if (memtemp->val == val) {
-+			list_del_rcu(&memtemp->list);
-+			error = 0;
-+			break;
-+		}
-+	}
-+	spin_unlock(&meminfo_lock);
-+	if (!error) {
-+		synchronize_rcu();
-+		kfree(memtemp);
-+	}
-+
-+	return error;
-+}
-+EXPORT_SYMBOL(unregister_meminfo_extra);
-+
-+static void __meminfo_extra(struct seq_file *m)
-+{
-+	struct meminfo_extra *memtemp;
-+	unsigned long nr_page;
-+
-+	rcu_read_lock();
-+	list_for_each_entry_rcu(memtemp, &meminfo_head, list) {
-+		nr_page = (unsigned long)atomic_long_read(memtemp->val);
-+		nr_page = nr_page >> memtemp->shift_for_page;
-+		if (m)
-+			show_val_kb(m, memtemp->name_pad, nr_page);
-+		else
-+			pr_cont("%s%lukB ", memtemp->name, nr_page);
-+	}
-+	rcu_read_unlock();
-+}
-+
-+void show_meminfo_extra(void)
-+{
-+	__meminfo_extra(NULL);
-+}
-+
-+static int meminfo_extra_proc_show(struct seq_file *m, void *v)
-+{
-+	__meminfo_extra(m);
-+
-+	return 0;
-+}
-+
-+static int __init proc_meminfo_extra_init(void)
-+{
-+	proc_create_single("meminfo_extra", 0, NULL, meminfo_extra_proc_show);
-+	return 0;
-+}
-+fs_initcall(proc_meminfo_extra_init);
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 52269e56c514..55317161ab57 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -2898,6 +2898,10 @@ void __init setup_nr_node_ids(void);
- static inline void setup_nr_node_ids(void) {}
- #endif
+diff --git a/mm/zsmalloc.c b/mm/zsmalloc.c
+index 22d17ecfe7df..9d5682aa44ac 100644
+--- a/mm/zsmalloc.c
++++ b/mm/zsmalloc.c
+@@ -2566,6 +2566,7 @@ static int __init zs_init(void)
  
-+void show_meminfo_extra(void);
-+int register_meminfo_extra(atomic_long_t *val, int shift, const char *name);
-+int unregister_meminfo_extra(atomic_long_t *val);
-+
- extern int memcmp_pages(struct page *page1, struct page *page2);
+ 	zs_stat_init();
  
- static inline int pages_identical(struct page *page1, struct page *page2)
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 3c4eb750a199..db1be9a39783 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -5229,6 +5229,7 @@ void show_free_areas(unsigned int filter, nodemask_t *nodemask)
- 	struct zone *zone;
- 	pg_data_t *pgdat;
++	register_meminfo_extra(&vm_zone_stat[NR_ZSPAGES], 0, "ZsPages");
+ 	return 0;
  
-+	show_meminfo_extra();
- 	for_each_populated_zone(zone) {
- 		if (show_mem_node_skip(filter, zone_to_nid(zone), nodemask))
- 			continue;
+ hp_setup_fail:
+@@ -2583,6 +2584,7 @@ static void __exit zs_exit(void)
+ 	cpuhp_remove_state(CPUHP_MM_ZS_PREPARE);
+ 
+ 	zs_stat_exit();
++	unregister_meminfo_extra(&vm_zone_stat[NR_ZSPAGES]);
+ }
+ 
+ module_init(zs_init);
 -- 
 2.13.7
 
