@@ -2,166 +2,268 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D467418F586
-	for <lists+linux-api@lfdr.de>; Mon, 23 Mar 2020 14:17:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 618E5190094
+	for <lists+linux-api@lfdr.de>; Mon, 23 Mar 2020 22:46:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728374AbgCWNRr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 23 Mar 2020 09:17:47 -0400
-Received: from mail.efficios.com ([167.114.26.124]:41622 "EHLO
-        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728354AbgCWNRr (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 23 Mar 2020 09:17:47 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 0EAEC1B7AC6;
-        Mon, 23 Mar 2020 09:17:46 -0400 (EDT)
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id E6vPFh4NTUkU; Mon, 23 Mar 2020 09:17:45 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 4233D1B7AC2;
-        Mon, 23 Mar 2020 09:17:41 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 4233D1B7AC2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1584969461;
-        bh=EXf/hm5ac4SJ4Hv465ElHbR9dRCaShBTU9s7+Fwxjek=;
-        h=From:To:Date:Message-Id;
-        b=Y/EoiO8g0nb12Pk8n1me2Uf7JWusrycKp3hbImLtxBO2qGOlQPAJTlX9e1Z/cwKxb
-         djbuE/Adk8hP1o3djs7gJhQzLjBVlJylc9F99zaTXIC/s4jXXleaZGcUU/EX2tq2cP
-         xIJiYZD2JKSjlQmj5GGTkv0LKq8tevnV5xynG+BR93nSG8+0+W+9vq5O+tC6WpYfem
-         x3QkkTXLyAXRW8aa5Bo8Gs67pYfnpCjnwBAf/9whJC7sIXDdZ/kek/wnEWu4JBol4p
-         962SB5DbukGpNWvvjnMIbokpYBtNxoaO1ALjt3Zni5ItaRd7duGj2IiH2s0Vj9dPJh
-         +ECIcW7zWDEEA==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id BufffxTbxr6K; Mon, 23 Mar 2020 09:17:41 -0400 (EDT)
-Received: from localhost.localdomain (192-222-181-218.qc.cable.ebox.net [192.222.181.218])
-        by mail.efficios.com (Postfix) with ESMTPSA id 9DF801B7E84;
-        Mon, 23 Mar 2020 09:17:38 -0400 (EDT)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Carlos O'Donell <carlos@redhat.com>
-Cc:     Florian Weimer <fweimer@redhat.com>,
-        Joseph Myers <joseph@codesourcery.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        libc-alpha@sourceware.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ben Maurer <bmaurer@fb.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Dave Watson <davejwatson@fb.com>, Paul Turner <pjt@google.com>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: [RFC PATCH glibc 5/8] glibc: sched_getcpu(): use rseq cpu_id TLS on Linux (v7)
-Date:   Mon, 23 Mar 2020 09:16:04 -0400
-Message-Id: <20200323131607.15185-6-mathieu.desnoyers@efficios.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200323131607.15185-1-mathieu.desnoyers@efficios.com>
-References: <20200323131607.15185-1-mathieu.desnoyers@efficios.com>
+        id S1727030AbgCWVq1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 23 Mar 2020 17:46:27 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:41305 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726962AbgCWVq1 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 23 Mar 2020 17:46:27 -0400
+Received: from mail-qk1-f197.google.com ([209.85.222.197])
+        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <gpiccoli@canonical.com>)
+        id 1jGUtr-0004ql-Rf
+        for linux-api@vger.kernel.org; Mon, 23 Mar 2020 21:46:24 +0000
+Received: by mail-qk1-f197.google.com with SMTP id s130so2712072qke.18
+        for <linux-api@vger.kernel.org>; Mon, 23 Mar 2020 14:46:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=IyEq9cC0p84R074N8knqi4eTkTH1auwI+4lEtYST0ds=;
+        b=CyB0eDV+24LGfCfv9apcjiiSKQBfi+y2ZjVVp2JWAmC7GKCXHTubIwsTrAwOqQD/Tk
+         palMlfd7mE2eSEe2ROWfD9CWawL2ZVVliwqJFc/hEArriVjLpRv2jNhrBlHj+1+FmTbW
+         nC+8vEzLkODkLJElF3i00dRcQsyaOgp6xkgzOQ2RZgp2xWvoUwsPxpFxW7AqRPGbkIir
+         MErczZYlXtxUfrIsGQG2tTuCX2iUCbi3M6a0WIX/Uic4F6WGxSJL+KdOH0kxnZ90On+k
+         sWKhRLEhBYTd9fTD9iq4T4+Rfx+Lgz7uCF1NGGz0fLYCh6nciih8Uwp3FFDkMnHF9+tb
+         392w==
+X-Gm-Message-State: ANhLgQ3RBfjHNZtdjDfbllMfKrOx7RonaItCAJHyqt+62fwD0xsVDVpH
+        LeeY2kKfBKPPS9YK1MIhTyXypp9qpKRBC5+CoPDdOb9R3mIuQFluA5xRson1HRPwzV/tDsAmaa5
+        kM6w0tRUmuTT8v1W3yCI/U8i5Lg6pH2E8Hv35qg==
+X-Received: by 2002:a37:6244:: with SMTP id w65mr23140466qkb.350.1584999982757;
+        Mon, 23 Mar 2020 14:46:22 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vuI4/eAcWMUFjJrQ5h020CG4ZX670DnngXSCdDt0sTCtBJ+f49LvAshp3E1er5aV0Dy6bfepA==
+X-Received: by 2002:a37:6244:: with SMTP id w65mr23140424qkb.350.1584999982307;
+        Mon, 23 Mar 2020 14:46:22 -0700 (PDT)
+Received: from localhost (189-47-87-73.dsl.telesp.net.br. [189.47.87.73])
+        by smtp.gmail.com with ESMTPSA id 5sm3398651qka.16.2020.03.23.14.46.20
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 23 Mar 2020 14:46:21 -0700 (PDT)
+From:   "Guilherme G. Piccoli" <gpiccoli@canonical.com>
+To:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org, mcgrof@kernel.org,
+        keescook@chromium.org, yzaikin@google.com, tglx@linutronix.de,
+        penguin-kernel@I-love.SAKURA.ne.jp, akpm@linux-foundation.org,
+        cocci@systeme.lip6.fr, linux-api@vger.kernel.org,
+        gpiccoli@canonical.com, kernel@gpiccoli.net
+Subject: [PATCH V2] kernel/hung_task.c: Introduce sysctl to print all traces when a hung task is detected
+Date:   Mon, 23 Mar 2020 18:46:18 -0300
+Message-Id: <20200323214618.28429-1-gpiccoli@canonical.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-When available, use the cpu_id field from __rseq_abi on Linux to
-implement sched_getcpu(). Fall-back on the vgetcpu vDSO if unavailable.
+Commit 401c636a0eeb ("kernel/hung_task.c: show all hung tasks before panic")
+introduced a change in that we started to show all CPUs backtraces when a
+hung task is detected _and_ the sysctl/kernel parameter "hung_task_panic"
+is set. The idea is good, because usually when observing deadlocks (that
+may lead to hung tasks), the culprit is another task holding a lock and
+not necessarily the task detected as hung.
 
-Benchmarks:
+The problem with this approach is that dumping backtraces is a slightly
+expensive task, specially printing that on console (and specially in many
+CPU machines, as servers commonly found nowadays). So, users that plan to
+collect a kdump to investigate the hung tasks and narrow down the deadlock
+definitely don't need the CPUs backtrace on dmesg/console, which will delay
+the panic and pollute the log (crash tool would easily grab all CPUs traces
+with 'bt -a' command).
+Also, there's the reciprocal scenario: some users may be interested in
+seeing the CPUs backtraces but not have the system panic when a hung task
+is detected. The current approach hence is almost as embedding a policy in
+the kernel, by forcing the CPUs backtraces' dump (only) on hung_task_panic.
 
-x86-64: Intel E5-2630 v3@2.40GHz, 16-core, hyperthreading
+This patch decouples the panic event on hung task from the CPUs backtraces
+dump, by creating (and documenting) a new sysctl/kernel parameter called
+"hung_task_all_cpu_backtrace", analog to the approach taken on soft/hard
+lockups, that have both a panic and an "all_cpu_backtrace" sysctl to allow
+individual control. The new mechanism for dumping the CPUs backtraces on
+hung task detection respects "hung_task_warnings" by not dumping the
+traces in case there's no warnings left.
 
-glibc sched_getcpu():                     13.7 ns (baseline)
-glibc sched_getcpu() using rseq:           2.5 ns (speedup:  5.5x)
-inline load cpuid from __rseq_abi TLS:     0.8 ns (speedup: 17.1x)
-
-	* sysdeps/unix/sysv/linux/sched_getcpu.c: use rseq cpu_id TLS on
-	Linux.
-
-Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-CC: Carlos O'Donell <carlos@redhat.com>
-CC: Florian Weimer <fweimer@redhat.com>
-CC: Joseph Myers <joseph@codesourcery.com>
-CC: Szabolcs Nagy <szabolcs.nagy@arm.com>
-CC: Thomas Gleixner <tglx@linutronix.de>
-CC: Ben Maurer <bmaurer@fb.com>
-CC: Peter Zijlstra <peterz@infradead.org>
-CC: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-CC: Boqun Feng <boqun.feng@gmail.com>
-CC: Will Deacon <will.deacon@arm.com>
-CC: Dave Watson <davejwatson@fb.com>
-CC: Paul Turner <pjt@google.com>
-CC: libc-alpha@sourceware.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-api@vger.kernel.org
+Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Signed-off-by: Guilherme G. Piccoli <gpiccoli@canonical.com>
 ---
-Changes since v1:
-- rseq is only used if both __NR_rseq and RSEQ_SIG are defined.
 
-Changes since v2:
-- remove duplicated __rseq_abi extern declaration.
 
-Changes since v3:
-- update ChangeLog.
+V2: Followed suggestions from Kees and Tetsuo (and other grammar
+improvements). Also, followed Tetsuo suggestion to itereate kernel
+testing community - but I don't really know a ML for that, so I've
+CCed Coccinelle community and kernel-api ML.
 
-Changes since v4:
-- Use atomic_load_relaxed to load the __rseq_abi.cpu_id field, a
-  consequence of the fact that __rseq_abi is not volatile anymore.
-- Include atomic.h which provides atomic_load_relaxed.
+Also, Tetsuo suggested that this option could be default to 1 - I'm
+open to it, but given it is only available if hung_task panic is set
+as of now and the goal of this patch is give users more flexibility,
+I vote to keep default as 0. I can respin a V3 in case more people
+want to see it enabled by default. Thanks in advance for the review!
+Cheers,
 
-Changes since v5:
-- Use __ASSUME_RSEQ to detect rseq availability.
+Guilherme
 
-Changes since v6:
-- Remove use of __ASSUME_RSEQ.
----
- sysdeps/unix/sysv/linux/sched_getcpu.c | 27 ++++++++++++++++++++++++--
- 1 file changed, 25 insertions(+), 2 deletions(-)
 
-diff --git a/sysdeps/unix/sysv/linux/sched_getcpu.c b/sysdeps/unix/sysv/linux/sched_getcpu.c
-index c019cfb3cf..2269c4f2bd 100644
---- a/sysdeps/unix/sysv/linux/sched_getcpu.c
-+++ b/sysdeps/unix/sysv/linux/sched_getcpu.c
-@@ -18,10 +18,15 @@
- #include <errno.h>
- #include <sched.h>
- #include <sysdep.h>
-+#include <atomic.h>
- #include <sysdep-vdso.h>
+ .../admin-guide/kernel-parameters.txt         |  6 ++++
+ Documentation/admin-guide/sysctl/kernel.rst   | 15 ++++++++++
+ include/linux/sched/sysctl.h                  |  7 +++++
+ kernel/hung_task.c                            | 30 +++++++++++++++++--
+ kernel/sysctl.c                               | 11 +++++++
+ 5 files changed, 67 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index c07815d230bc..7a14caac6c94 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1453,6 +1453,12 @@
+ 			x86-64 are 2M (when the CPU supports "pse") and 1G
+ 			(when the CPU supports the "pdpe1gb" cpuinfo flag).
  
--int
--sched_getcpu (void)
-+#ifdef HAVE_GETCPU_VSYSCALL
-+# define HAVE_VSYSCALL
-+#endif
++	hung_task_all_cpu_backtrace=
++			[KNL] Should kernel generate backtraces on all cpus
++			when a hung task is detected. Defaults to 0 and can
++			be controlled by hung_task_all_cpu_backtrace sysctl.
++			Format: <integer>
 +
-+static int
-+vsyscall_sched_getcpu (void)
- {
-   unsigned int cpu;
-   int r = -1;
-@@ -32,3 +37,21 @@ sched_getcpu (void)
- #endif
-   return r == -1 ? r : cpu;
- }
+ 	hung_task_panic=
+ 			[KNL] Should the hung task detector generate panics.
+ 			Format: <integer>
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index def074807cee..8b4ff69d2348 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -40,6 +40,7 @@ show up in /proc/sys/kernel:
+ - hotplug
+ - hardlockup_all_cpu_backtrace
+ - hardlockup_panic
++- hung_task_all_cpu_backtrace
+ - hung_task_panic
+ - hung_task_check_count
+ - hung_task_timeout_secs
+@@ -338,6 +339,20 @@ Path for the hotplug policy agent.
+ Default value is "/sbin/hotplug".
+ 
+ 
++hung_task_all_cpu_backtrace:
++================
 +
-+#include <sys/rseq.h>
++If this option is set, the kernel will send an NMI to all CPUs to dump
++their backtraces when a hung task is detected. This file shows up if
++CONFIG_DETECT_HUNG_TASK and CONFIG_SMP are enabled.
 +
-+#ifdef RSEQ_SIG
-+int
-+sched_getcpu (void)
-+{
-+  int cpu_id = atomic_load_relaxed (&__rseq_abi.cpu_id);
++0: Won't show all CPUs backtraces when a hung task is detected.
++This is the default behavior.
 +
-+  return cpu_id >= 0 ? cpu_id : vsyscall_sched_getcpu ();
-+}
++1: Will non-maskably interrupt all CPUs and dump their backtraces when
++a hung task is detected.
++
++
+ hung_task_panic:
+ ================
+ 
+diff --git a/include/linux/sched/sysctl.h b/include/linux/sched/sysctl.h
+index d4f6215ee03f..8cd29440ec8a 100644
+--- a/include/linux/sched/sysctl.h
++++ b/include/linux/sched/sysctl.h
+@@ -7,6 +7,13 @@
+ struct ctl_table;
+ 
+ #ifdef CONFIG_DETECT_HUNG_TASK
++
++#ifdef CONFIG_SMP
++extern unsigned int sysctl_hung_task_all_cpu_backtrace;
 +#else
-+int
-+sched_getcpu (void)
++#define sysctl_hung_task_all_cpu_backtrace 0
++#endif /* CONFIG_SMP */
++
+ extern int	     sysctl_hung_task_check_count;
+ extern unsigned int  sysctl_hung_task_panic;
+ extern unsigned long sysctl_hung_task_timeout_secs;
+diff --git a/kernel/hung_task.c b/kernel/hung_task.c
+index 14a625c16cb3..0d76f9d25820 100644
+--- a/kernel/hung_task.c
++++ b/kernel/hung_task.c
+@@ -53,9 +53,28 @@ int __read_mostly sysctl_hung_task_warnings = 10;
+ static int __read_mostly did_panic;
+ static bool hung_task_show_lock;
+ static bool hung_task_call_panic;
++static bool hung_task_show_all_bt;
+ 
+ static struct task_struct *watchdog_task;
+ 
++#ifdef CONFIG_SMP
++/*
++ * Should we dump all CPUs backtraces in a hung task event?
++ * Defaults to 0, can be changed either via cmdline or sysctl.
++ */
++unsigned int __read_mostly sysctl_hung_task_all_cpu_backtrace;
++
++static int __init hung_task_backtrace_setup(char *str)
 +{
-+  return vsyscall_sched_getcpu ();
++	int rc = kstrtouint(str, 0, &sysctl_hung_task_all_cpu_backtrace);
++
++	if (rc)
++		return rc;
++	return 1;
 +}
-+#endif
++__setup("hung_task_all_cpu_backtrace=", hung_task_backtrace_setup);
++#endif /* CONFIG_SMP */
++
+ /*
+  * Should we panic (and reboot, if panic_timeout= is set) when a
+  * hung task is detected:
+@@ -137,6 +156,9 @@ static void check_hung_task(struct task_struct *t, unsigned long timeout)
+ 			" disables this message.\n");
+ 		sched_show_task(t);
+ 		hung_task_show_lock = true;
++
++		if (sysctl_hung_task_all_cpu_backtrace)
++			hung_task_show_all_bt = true;
+ 	}
+ 
+ 	touch_nmi_watchdog();
+@@ -201,10 +223,14 @@ static void check_hung_uninterruptible_tasks(unsigned long timeout)
+ 	rcu_read_unlock();
+ 	if (hung_task_show_lock)
+ 		debug_show_all_locks();
+-	if (hung_task_call_panic) {
++
++	if (hung_task_show_all_bt) {
++		hung_task_show_all_bt = false;
+ 		trigger_all_cpu_backtrace();
++	}
++
++	if (hung_task_call_panic)
+ 		panic("hung_task: blocked tasks");
+-	}
+ }
+ 
+ static long hung_timeout_jiffies(unsigned long last_checked,
+diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+index ad5b88a53c5a..238f268de486 100644
+--- a/kernel/sysctl.c
++++ b/kernel/sysctl.c
+@@ -1098,6 +1098,17 @@ static struct ctl_table kern_table[] = {
+ 	},
+ #endif
+ #ifdef CONFIG_DETECT_HUNG_TASK
++#ifdef CONFIG_SMP
++	{
++		.procname	= "hung_task_all_cpu_backtrace",
++		.data		= &sysctl_hung_task_all_cpu_backtrace,
++		.maxlen		= sizeof(int),
++		.mode		= 0644,
++		.proc_handler	= proc_dointvec_minmax,
++		.extra1		= SYSCTL_ZERO,
++		.extra2		= SYSCTL_ONE,
++	},
++#endif /* CONFIG_SMP */
+ 	{
+ 		.procname	= "hung_task_panic",
+ 		.data		= &sysctl_hung_task_panic,
 -- 
-2.17.1
+2.25.1
 
