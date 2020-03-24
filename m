@@ -2,69 +2,95 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 39F07191A2B
-	for <lists+linux-api@lfdr.de>; Tue, 24 Mar 2020 20:42:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 30C85191A3F
+	for <lists+linux-api@lfdr.de>; Tue, 24 Mar 2020 20:45:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726764AbgCXTkm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 24 Mar 2020 15:40:42 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:55024 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726067AbgCXTkm (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 24 Mar 2020 15:40:42 -0400
-Received: from mail-lf1-f70.google.com ([209.85.167.70])
-        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <guilherme.piccoli@canonical.com>)
-        id 1jGpPk-00063H-5B
-        for linux-api@vger.kernel.org; Tue, 24 Mar 2020 19:40:40 +0000
-Received: by mail-lf1-f70.google.com with SMTP id q4so6198164lff.4
-        for <linux-api@vger.kernel.org>; Tue, 24 Mar 2020 12:40:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=j/2JobbXs1W8yxYMJ6+lq0xhIU5CU+OqYIQOVd5RVlA=;
-        b=E1JODISxV/uXw5Tnv5/PnTwThhRddV8CKmZh+g1v0yOLsJkUPx9bD64hQ2M1IMGdUR
-         kfIa6LdBYDZOylxtkn3RbaWZVpoQlQmbJfLweh+8dHAMjG5Nyn+R60D80F7SecxBQ3R3
-         sQy0iWg5BEMb+teInZlgFj3920186d7OD4Yhy7rv9ltNw82ZePw66WaU2ivCTBx9V16t
-         mLi2nd4V0r9NsB2fDV2qyAk2LFsBnIKZ2hHsLJZdS3ZCibXMsNxKO9XMHdr3OYaq+jq0
-         onEyhvlEqT7692QSzGR1oxY/mLIlgUv6fsSswCoLimsEhJYw1JiNRZF0lmdBh9qpVBRk
-         en9A==
-X-Gm-Message-State: ANhLgQ0XmCb1/uniJFojmKZM3ti6lqWbf8Sa8SEXoCAFQ9hua051klfu
-        OHHMXE8r/gPDWCUlSKYvUJ1nf5XpiWR6evk7sXkW3RC5I1X9gvSUBPNcG4dJ6aVLWQuTpuq3sQB
-        U8rXWb+pL6P5ySxufmPCkfC4kKY+MmLdoldfdESIh4gvKIfUFpAElfg==
-X-Received: by 2002:a2e:85c6:: with SMTP id h6mr11096998ljj.218.1585078839449;
-        Tue, 24 Mar 2020 12:40:39 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vt0WbprPyjvyjWMRUlAK3041SLktIQRQSflKpi1eNe5RAyLTHHdxh7A+f14ugm+cM4/wPJn748paxHlMg1chqs=
-X-Received: by 2002:a2e:85c6:: with SMTP id h6mr11096987ljj.218.1585078839248;
- Tue, 24 Mar 2020 12:40:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200323223035.29891-1-gpiccoli@canonical.com> <202003241137.A90B14A@keescook>
-In-Reply-To: <202003241137.A90B14A@keescook>
-From:   Guilherme Piccoli <gpiccoli@canonical.com>
-Date:   Tue, 24 Mar 2020 16:40:02 -0300
-Message-ID: <CAHD1Q_wYtuWPtDQ6xVQZ8AGbnVYhh8bYzrhnr=-OYokHEPhQZg@mail.gmail.com>
-Subject: Re: [PATCH V2] panic: Add sysctl/cmdline to dump all CPUs backtraces
- on oops event
-To:     Kees Cook <keescook@chromium.org>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        mcgrof@kernel.org, Iurii Zaikin <yzaikin@google.com>,
+        id S1725953AbgCXTo7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 24 Mar 2020 15:44:59 -0400
+Received: from mail.efficios.com ([167.114.26.124]:35206 "EHLO
+        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725877AbgCXTo7 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 24 Mar 2020 15:44:59 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id A178426CC74;
+        Tue, 24 Mar 2020 15:44:58 -0400 (EDT)
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id KlUo0PFuqzlt; Tue, 24 Mar 2020 15:44:58 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 3AB3D26CF80;
+        Tue, 24 Mar 2020 15:44:58 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 3AB3D26CF80
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+        s=default; t=1585079098;
+        bh=EOvwRt//tfRS27woHCwYV1oIOJw5868xS1N0BbJF0Ps=;
+        h=Date:From:To:Message-ID:MIME-Version;
+        b=QsZKNsAIov7+AFWzhh+erOXHeondRgv6BlcGVXFsb/ihUEf5Ao7z5VFLLKMOfpVCu
+         VSmNCBYuzCk+v7bPx8we/D2baRC401klafVcIRgj0M+275YKB0niqWVsTR0+iP3fgD
+         Q4tAM8rg9G8k9qab5jvICjxzydJFaJCojV6oMb+/QjdvwuCutbwu1C1Sd3/bJSKM7Q
+         S5UUQ2b38w5l3F8EtM9CPSFZORRKDZ5fkkU1ww1e5vpPIEMTw1RhMaNrajZUj7+iOo
+         /lIL19Vi2+sgIQZqtdZ/WV9yxE8olNwdMSPjw9/jDCO1ZAxAkaM8LCnZTuzdY8PdTD
+         wTvymo56FB9Qg==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id nMPC8AM_o8PR; Tue, 24 Mar 2020 15:44:58 -0400 (EDT)
+Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
+        by mail.efficios.com (Postfix) with ESMTP id 27BBA26CE27;
+        Tue, 24 Mar 2020 15:44:58 -0400 (EDT)
+Date:   Tue, 24 Mar 2020 15:44:58 -0400 (EDT)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     Joseph Myers <joseph@codesourcery.com>
+Cc:     Rich Felker <dalias@libc.org>,
+        libc-alpha <libc-alpha@sourceware.org>,
+        linux-api <linux-api@vger.kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Will Deacon <will.deacon@arm.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ben Maurer <bmaurer@fb.com>, Dave Watson <davejwatson@fb.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-api@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Guilherme G. Piccoli" <kernel@gpiccoli.net>
-Content-Type: text/plain; charset="UTF-8"
+        Paul <paulmck@linux.vnet.ibm.com>, Paul Turner <pjt@google.com>
+Message-ID: <1094187167.10225.1585079098074.JavaMail.zimbra@efficios.com>
+In-Reply-To: <alpine.DEB.2.21.2003241857350.8310@digraph.polyomino.org.uk>
+References: <20200323131607.15185-1-mathieu.desnoyers@efficios.com> <20200323131607.15185-5-mathieu.desnoyers@efficios.com> <alpine.DEB.2.21.2003232159310.13609@digraph.polyomino.org.uk> <1873939476.8349.1585055299958.JavaMail.zimbra@efficios.com> <alpine.DEB.2.21.2003241857350.8310@digraph.polyomino.org.uk>
+Subject: Re: [RFC PATCH glibc 4/8] glibc: Perform rseq(2) registration at C
+ startup and thread creation (v16)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [167.114.26.124]
+X-Mailer: Zimbra 8.8.15_GA_3918 (ZimbraWebClient - FF74 (Linux)/8.8.15_GA_3895)
+Thread-Topic: glibc: Perform rseq(2) registration at C startup and thread creation (v16)
+Thread-Index: JDnp6/Oado3vQ4/sidiioZ9DbRGBfQ==
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Thanks Kees! I'll respin a V3 without the kernel param, now that we
-plan to have "soon" a way to set sysctl parameters from the
-command-line.
+----- On Mar 24, 2020, at 2:58 PM, Joseph Myers joseph@codesourcery.com wrote:
 
-Cheers,
+> On Tue, 24 Mar 2020, Mathieu Desnoyers via Libc-alpha wrote:
+> 
+>> ----- On Mar 23, 2020, at 6:01 PM, Joseph Myers joseph@codesourcery.com wrote:
+>> 
+>> > Note that we no longer use manually-written ChangeLog-format logs.
+>> 
+>> Do you mean the part at the end of the commit message ?
+> 
+> I mean the
+> 
+>	* filename: Changes to this file.
+>	* other/file: Likewise.
+> 
+> part.
+
+Thanks for the clarification! Now done in preparation for next round.
+
+Mathieu
 
 
-Guilherme
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+http://www.efficios.com
