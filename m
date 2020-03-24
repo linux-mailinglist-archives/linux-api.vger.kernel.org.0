@@ -2,96 +2,122 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 46A09191BD7
-	for <lists+linux-api@lfdr.de>; Tue, 24 Mar 2020 22:19:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F1B2F191BF4
+	for <lists+linux-api@lfdr.de>; Tue, 24 Mar 2020 22:30:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726673AbgCXVSB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 24 Mar 2020 17:18:01 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:45338 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727088AbgCXVSB (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 24 Mar 2020 17:18:01 -0400
-Received: by mail-lf1-f65.google.com with SMTP id v4so2815lfo.12
-        for <linux-api@vger.kernel.org>; Tue, 24 Mar 2020 14:17:58 -0700 (PDT)
+        id S1727023AbgCXVai (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 24 Mar 2020 17:30:38 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:45612 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727270AbgCXVah (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 24 Mar 2020 17:30:37 -0400
+Received: by mail-lj1-f195.google.com with SMTP id t17so242054ljc.12
+        for <linux-api@vger.kernel.org>; Tue, 24 Mar 2020 14:30:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=linux-foundation.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=nFWhs7FYWqUzfSLp89dUr9RqAyDvvxrGjpfFY3Xf6t0=;
-        b=r/73bErWdHQvuSdWJNWD31sFM6sBzEI3plO5Ph0mnhTsKRC3h1QN3i7Fz3eKj47Yan
-         BwWMNi7sdz1VngrNfJgVhs4otMGlVbKrH5Ojtg4qQyZl6c5KNhEt2puHDbfeP7zS1g9z
-         9sb9L8shr//a5jX0W9biM5R/XFXVss0aK7nJnFNfhT69yuJ3vEp20yhHEiPfGub2S0l3
-         eAM6WE6onEd3buLeks9BWIX5O3wweUSmc37Ts60F6+qNm0gZUEZMEVw0o0nixNUSAlOc
-         geZpCA4tpuURui/rTdFdYUk8MNAkScEJxAEUfyVK4GkLj/8d6IGrDaMTou75bMHoukIi
-         C9DQ==
+        bh=K0AQOrscsNAyPOgnjIz1wdZ8BwbWscK7BvSW7dZFNMU=;
+        b=TU+v6vgTqqL8DSRyHNIS3zPA2Au3s8bOdz4RjYVrI59y/xJG37DuCzUkFedo8prEM1
+         kEhbDC8RUbuZ44J4woqibSX2DnsCF77IrNvFFBgUdsgFnP87BEfOj65kKyLU5UPa/XiH
+         yLDUovevdVM9pFj6antE7mF1/9gnUPays5DSg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=nFWhs7FYWqUzfSLp89dUr9RqAyDvvxrGjpfFY3Xf6t0=;
-        b=mC8hxUFAsFmnisSOx7TWyQhtoCWFd0XNrTUHE3OCdAf10FhulMdeYwAGtGM9oMhS0j
-         z2O5yXu3um/zEDa4DpZxVw/S/I0k9TYd3TJY+cENRGE0XDWFYb0AAJY1yCPBhNgkO2HC
-         2HnHqwfVZih9rjZbKAmJ0SmoRd5dCo3vmIgVB9fAGn9AhO/gi0YVUVoD3ANfae+rJOMu
-         TuZ+7r9CxpxW2p+/Zpy3e7rq4iFMHCi2LGBBvZgYxBbv5qSYdbqMInnrIR/eYzAPLthj
-         oiJfdR+EBeGXHSnBq0t+QOiifX2OlvCJvnZ6szxpRDYaBbX584xiVAr/WQlVjJK3t4gq
-         WxMw==
-X-Gm-Message-State: ANhLgQ2dANiBdzyWtpMXh37s96h0VuZjkPuduqwjyrHb9v189Yx99x57
-        2Za+8qTuVIrDNZnLqTobHH9EL9vTsmwOBAdQDQ7i4w==
-X-Google-Smtp-Source: ADFU+vu/WFfI8+Ea0qixkispTE8M2IBdFmk3vOeBjdzg2fpI2YVxUN1mkgIfe3Rc2yqBnwLXF8WOfkInLMcS8iGWzNs=
-X-Received: by 2002:a19:6502:: with SMTP id z2mr23818lfb.47.1585084677811;
- Tue, 24 Mar 2020 14:17:57 -0700 (PDT)
+        bh=K0AQOrscsNAyPOgnjIz1wdZ8BwbWscK7BvSW7dZFNMU=;
+        b=jTv4fbciX1klo7ar1b6YOocHNS3eAY3S72cZ1CxenX+KrUh8/dxBrFeoXNUM0/8mnB
+         DFEupBZOVcdqNQFRoCqnJc+vlxt/X9zCJLQbHbzSJ8V3LAG297G42hBU6ujVHYnoecgS
+         yXNr5YM5asSAwVF1fvWgoJHCjmW6DBOS9Uviezk89iHM90xs2mJ21GFqBVifGoCcp9Yf
+         yrOrRWAP/2JFyphgZtuQ2PMNLqBNg0s6EVf8bVbvTcekcREBK8Ko7+ORmznnhfzyrUgp
+         LFoB2kCNyICgJdkH3ZW7jU9VCzNomgKBy+YLAGBm3GmVMd+m1wuMyj0xkwY2Mz7b1O4a
+         zrsA==
+X-Gm-Message-State: ANhLgQ1CnwplMEDPa30UkYMAL+tsnkcaUUjmGo+Fl1w23ppltgb13Ne0
+        9y1PuybbUdfVeSs68kvxxkWRudkpkeQ=
+X-Google-Smtp-Source: ADFU+vsPoCpaoywiQ5c9Ytu3iCbC2RqOYLAsrpSiOKIZ8kXkGh9En5/tXnyQQXRETRzO9051skG2lw==
+X-Received: by 2002:a2e:9982:: with SMTP id w2mr18267988lji.11.1585085435414;
+        Tue, 24 Mar 2020 14:30:35 -0700 (PDT)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com. [209.85.208.182])
+        by smtp.gmail.com with ESMTPSA id c20sm10888871lfb.60.2020.03.24.14.30.35
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Mar 2020 14:30:35 -0700 (PDT)
+Received: by mail-lj1-f182.google.com with SMTP id n17so271310lji.8
+        for <linux-api@vger.kernel.org>; Tue, 24 Mar 2020 14:30:35 -0700 (PDT)
+X-Received: by 2002:a19:f015:: with SMTP id p21mr60990lfc.10.1585084934903;
+ Tue, 24 Mar 2020 14:22:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200317113153.7945-1-linus.walleij@linaro.org>
- <CAFEAcA9mXE+gPnvM6HZ-w0+BhbpeuH=osFH-9NUzCLv=w-c7HQ@mail.gmail.com>
- <CACRpkdZtLNUwiZEMiJEoB0ojOBckyGcZeyFkR6MC69qv-ry9EA@mail.gmail.com>
- <CAFEAcA-gdwi=KSW6LqVdEJWSo9VEL5abYQs9LoHd4mKE_-h=Aw@mail.gmail.com>
- <CACRpkdYuZgZUznVxt1AHCSJa_GAXy8N0SduE5OrjDnE1s_L7Zg@mail.gmail.com>
- <20200324023431.GD53396@mit.edu> <CAFEAcA_6RY1XFVNJCo5=tTkv2GQpXZRqh_Zz4dYadq-8MJZgTQ@mail.gmail.com>
- <20200324184754.GG53396@mit.edu>
-In-Reply-To: <20200324184754.GG53396@mit.edu>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 24 Mar 2020 22:17:46 +0100
-Message-ID: <CACRpkdapsgkNbNNGz12tBQKh8GKgcUuwgLywM7CMghr94C-Fsg@mail.gmail.com>
-Subject: Re: [PATCH] ext4: Give 32bit personalities 32bit hashes
-To:     "Theodore Y. Ts'o" <tytso@mit.edu>
-Cc:     Peter Maydell <peter.maydell@linaro.org>,
-        "Suzuki K. Poulose" <suzuki.poulose@arm.com>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Ext4 Developers List <linux-ext4@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+References: <20200324204449.7263-1-gladkov.alexey@gmail.com> <20200324204449.7263-4-gladkov.alexey@gmail.com>
+In-Reply-To: <20200324204449.7263-4-gladkov.alexey@gmail.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Tue, 24 Mar 2020 14:21:59 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whXbgW7-FYL4Rkaoh8qX+CkS5saVGP2hsJPV0c+EZ6K7A@mail.gmail.com>
+Message-ID: <CAHk-=whXbgW7-FYL4Rkaoh8qX+CkS5saVGP2hsJPV0c+EZ6K7A@mail.gmail.com>
+Subject: Re: [PATCH RESEND v9 3/8] proc: move hide_pid, pid_gid from
+ pid_namespace to proc_fs_info
+To:     Alexey Gladkov <gladkov.alexey@gmail.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
         Linux API <linux-api@vger.kernel.org>,
-        QEMU Developers <qemu-devel@nongnu.org>,
-        Florian Weimer <fw@deneb.enyo.de>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        Linux Security Module <linux-security-module@vger.kernel.org>,
+        Akinobu Mita <akinobu.mita@gmail.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Alexey Gladkov <legion@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Andy Lutomirski <luto@kernel.org>,
-        stable <stable@vger.kernel.org>
+        Daniel Micay <danielmicay@gmail.com>,
+        Djalal Harouni <tixxdz@gmail.com>,
+        "Dmitry V . Levin" <ldv@altlinux.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Jeff Layton <jlayton@poochiereds.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Oleg Nesterov <oleg@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Mar 24, 2020 at 7:48 PM Theodore Y. Ts'o <tytso@mit.edu> wrote:
-> On Tue, Mar 24, 2020 at 09:29:58AM +0000, Peter Maydell wrote:
-> >
-> > On the contrary, that would be a much better interface for QEMU.
-> > We always know when we're doing an open-syscall on behalf
-> > of the guest, and it would be trivial to make the fcntl() call then.
-> > That would ensure that we don't accidentally get the
-> > '32-bit semantics' on file descriptors QEMU opens for its own
-> > purposes, and wouldn't leave us open to the risk in future that
-> > setting the PER_LINUX32 flag for all of QEMU causes
-> > unexpected extra behaviour in future kernels that would be correct
-> > for the guest binary but wrong/broken for QEMU's own internals.
+On Tue, Mar 24, 2020 at 1:46 PM Alexey Gladkov <gladkov.alexey@gmail.com> wrote:
 >
-> If using a flag set by fcntl is better for qemu, then by all means
-> let's go with that instead of using a personality flag/number.
->
-> Linus, do you have what you need to do a respin of the patch?
+> +/* definitions for hide_pid field */
+> +enum {
+> +       HIDEPID_OFF       = 0,
+> +       HIDEPID_NO_ACCESS = 1,
+> +       HIDEPID_INVISIBLE = 2,
+> +};
 
-Absolutely, I'm a bit occupied this week but I will try to get to it
-early next week!
+Should this enum be named...
 
-Thanks a lot for the directions here, it's highly valuable.
+>  struct proc_fs_info {
+>         struct pid_namespace *pid_ns;
+>         struct dentry *proc_self;        /* For /proc/self */
+>         struct dentry *proc_thread_self; /* For /proc/thread-self */
+> +       kgid_t pid_gid;
+> +       int hide_pid;
+>  };
 
-Yours,
-Linus Walleij
+.. and then used here instead of "int"?
+
+Same goes for 'struct proc_fs_context' too, for that matter?
+
+And maybe in the function declarations and definitions too? In things
+like 'has_pid_permissions()' (the series adds some other cases later,
+like hidepid2str() etc)
+
+Yeah, enums and ints are kind of interchangeable in C, but even if it
+wouldn't give us any more typechecking (except perhaps with sparse if
+you mark it so), it would be documenting the use.
+
+Or am I missing something?
+
+Anyway, I continue to think the series looks fine, bnut would love to
+see it in -next and perhaps comments from Al and Alexey Dobriyan..
+
+            Linus
