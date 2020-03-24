@@ -2,134 +2,176 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 51B1C1916DF
-	for <lists+linux-api@lfdr.de>; Tue, 24 Mar 2020 17:50:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 02A91191846
+	for <lists+linux-api@lfdr.de>; Tue, 24 Mar 2020 18:59:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727273AbgCXQux (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 24 Mar 2020 12:50:53 -0400
-Received: from mx2.suse.de ([195.135.220.15]:40516 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725767AbgCXQux (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 24 Mar 2020 12:50:53 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 67515ABCF;
-        Tue, 24 Mar 2020 16:50:50 +0000 (UTC)
-Subject: Re: [RFC] kernel/sysctl: support setting sysctl parameters from
- kernel command line
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Luis Chamberlain <mcgrof@kernel.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>
-References: <20200317132105.24555-1-vbabka@suse.cz>
- <202003171421.5DCADF51@keescook>
-From:   Vlastimil Babka <vbabka@suse.cz>
-Message-ID: <bc721358-6202-bdc5-0398-29921b3f9855@suse.cz>
-Date:   Tue, 24 Mar 2020 17:50:49 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1727530AbgCXR5I (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 24 Mar 2020 13:57:08 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:51828 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727466AbgCXR5I (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 24 Mar 2020 13:57:08 -0400
+Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236] helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1jGnnH-0005ms-Ii; Tue, 24 Mar 2020 17:56:51 +0000
+Date:   Tue, 24 Mar 2020 18:56:49 +0100
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Adrian Reber <areber@redhat.com>
+Cc:     Andrei Vagin <avagin@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Pavel Emelyanov <ovzxemul@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Dmitry Safonov <0x7f454c46@gmail.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Radostin Stoyanov <rstoyanov1@gmail.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Cyrill Gorcunov <gorcunov@openvz.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: clone3: allow creation of time namespace with offset
+Message-ID: <20200324175649.fqkwiuvs2drk26ln@wittgenstein>
+References: <20200317083043.226593-1-areber@redhat.com>
+ <CAK8P3a2-qQhpRdF0+iVrpp=vEvgwtndQL89CUm_QzoW2QYX1Jw@mail.gmail.com>
+ <20200319081137.GC223854@dcbz.redhat.com>
+ <CAK8P3a18YySozk6P77JpS58Hbtz=QQmLKw+PrzXbdOwtOQQuJA@mail.gmail.com>
+ <20200319102955.i7slokibkkysz6g6@wittgenstein>
+ <20200320183355.GA118769@gmail.com>
+ <20200324160945.orcm75avj2ol3eop@wittgenstein>
+ <20200324162546.GG358599@dcbz.redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <202003171421.5DCADF51@keescook>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <20200324162546.GG358599@dcbz.redhat.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 3/17/20 10:29 PM, Kees Cook wrote:
-> On Tue, Mar 17, 2020 at 02:21:05PM +0100, Vlastimil Babka wrote:
->> A recently proposed patch to add vm_swappiness command line parameter in
->> addition to existing sysctl [1] made me wonder why we don't have a general
->> support for passing sysctl parameters via command line. Googling found only
->> somebody else wondering the same [2], but I haven't found any prior discussion
->> with reasons why not to do this.
-> 
-> I'd like to see stuff like this (as you say, you've found some
-> redundancies here which could be cleaned up a bit). I think the reason
-> it hasn't happened before is that the answers have mostly revolved
-> around "just set it in your initramfs". :P
-> 
->> [...]
->> Hence, this patch adds a new parse_args() pass that looks for parameters
->> prefixed by 'sysctl.' and searches for them in the sysctl ctl_tables. When
->> found, the respective proc handler is invoked. The search is just a naive
->> linear one, to avoid using the whole procfs layer. It should be acceptable,
->> as the cost depends on number of sysctl. parameters passed.
-> 
-> I think this needs reconsidering: this RFC only searches 1 level deep,
-> but sysctls are a tree. For example:
+On Tue, Mar 24, 2020 at 05:25:46PM +0100, Adrian Reber wrote:
+> On Tue, Mar 24, 2020 at 05:09:45PM +0100, Christian Brauner wrote:
+> > On Fri, Mar 20, 2020 at 11:33:55AM -0700, Andrei Vagin wrote:
+> > > On Thu, Mar 19, 2020 at 11:29:55AM +0100, Christian Brauner wrote:
+> > > > On Thu, Mar 19, 2020 at 09:16:43AM +0100, Arnd Bergmann wrote:
+> > > > > On Thu, Mar 19, 2020 at 9:11 AM Adrian Reber <areber@redhat.com> wrote:
+> > > > > 
+> > > > > > With Arnd's idea of only using nanoseconds, timens_offset would then
+> > > > > > contain something like this:
+> > > > > >
+> > > > > > struct timens_offset {
+> > > > > >         __aligned_s64 monotonic_offset_ns;
+> > > > > >         __aligned_s64 boottime_offset_ns;
+> > > > > > };
+> > > > > >
+> > > > > > I kind of prefer adding boottime and monotonic directly to struct clone_args
+> > > > > >
+> > > > > >         __aligned_u64 tls;
+> > > > > >         __aligned_u64 set_tid;
+> > > > > >         __aligned_u64 set_tid_size;
+> > > > > > +       __aligned_s64 monotonic_offset_ns;
+> > > > > > +       __aligned_s64 boottime_offset_ns;
+> > > > > >  };
+> > > > > 
+> > > > > I would also prefer the second approach using two 64-bit integers
+> > > > > instead of a pointer, as it keeps the interface simpler to implement
+> > > > > and simpler to interpret by other tools.
+> > > > 
+> > > > Why I don't like has two reasons. There's the scenario where we have
+> > > > added new extensions after the new boottime member and then we introduce
+> > > > another offset. Then you'd be looking at:
+> > > > 
+> > > > __aligned_u64 tls;
+> > > > __aligned_u64 set_tid;
+> > > > __aligned_u64 set_tid_size;
+> > > > + __aligned_s64 monotonic_offset_ns;
+> > > > + __aligned_s64 boottime_offset_ns;
+> > > > __aligned_s64 something_1
+> > > > __aligned_s64 anything_2
+> > > > + __aligned_s64 sometime_offset_ns
+> > > > 
+> > > > which bothers me just by looking at it. That's in addition to adding two
+> > > > new members to the struct when most people will never set CLONE_NEWTIME.
+> > > > We'll also likely have more features in the future that will want to
+> > > > pass down more info than we want to directly expose in struct
+> > > > clone_args, e.g. for a long time I have been thinking about adding a
+> > > > struct for CLONE_NEWUSER that allows you to specify the id mappings you
+> > > > want the new user namespace to get. We surely don't want to force all
+> > > > new info into the uppermost struct. So I'm not convinced we should here.
+> > > 
+> > > I think here we can start thinking about a netlink-like interface.
+> > 
+> > I think netlink is just not a great model for an API and I would not
+> > want us to go down that route.
+> > 
+> > I kept thinking about this for a bit and I think that we will end up
+> > growing more namespace-related functionality. So one thing that came to
+> > my mind is the following layout:
+> > 
+> > struct {
+> > 	struct {
+> > 		__s64 monotonic;
+> > 		__s64 boot;
+> > 	} time;
+> > } namespaces;
+> > 
+> > struct _clone_args {
+> > 	__aligned_u64 flags;
+> > 	__aligned_u64 pidfd;
+> > 	__aligned_u64 child_tid;
+> > 	__aligned_u64 parent_tid;
+> > 	__aligned_u64 exit_signal;
+> > 	__aligned_u64 stack;
+> > 	__aligned_u64 stack_size;
+> > 	__aligned_u64 tls;
+> > 	__aligned_u64 set_tid;
+> > 	__aligned_u64 set_tid_size;
+> > 	__aligned_u64 namespaces;
+> > 	__aligned_u64 namespaces_size;
+> > };
+> > 
+> > Then when we end up adding id mapping support for CLONE_NEWUSER we can
+> > extend this with:
+> > 
+> > struct {
+> > 	struct {
+> > 		__aligned_u64 monotonic;
+> > 		__aligned_u64 boot;
 
-Yes, that was an oversight, easily fixed.
+s/__aligned_u64/__s64/g
 
-> kernel.yama.ptrace_scope
-> mm.transparent_hugepage.enabled
+Sorry, leftover from my first draft.
 
-Hm, transparent_hugepage is in sysfs (/sys/kernel/mm), but not sysctl, at least
-in my case the sysctl tool doesn't list it. Yours does? Yay for consistency.
-
-> net.ipv4.conf.default.rp_filter
-> ...etc
+> > 	} time;
+> > 
+> > 	struct {
+> > 		/* id mapping members */
+> > 	} user;
+> > } namespaces;
+> > 
+> > Thoughts? Other ideas?
 > 
-> If this goes in, it'll need to do full traversal.
-
-Right.
-
->> The main limitation of avoiding the procfs layer is however that sysctls
->> dynamically registered by register_sysctl_table() or register_sysctl_paths()
->> cannot be set by this method.
+> Works for me.
 > 
-> Correct. And I like what you've done in the code: announce any unhandled
-> sysctls.
-> 
->> The processing is hooked right before the init process is loaded, as some
->> handlers might be more complicated than simple setters and might need some
->> subsystems to be initialized. At the moment the init process can be started and
->> eventually execute a process writing to /proc/sys/ then it should be also fine
->> to do that from the kernel.
-> 
-> I agree about placement.
-> 
->> 
->> [1] https://lore.kernel.org/linux-doc/BL0PR02MB560167492CA4094C91589930E9FC0@BL0PR02MB5601.namprd02.prod.outlook.com/
->> [2] https://unix.stackexchange.com/questions/558802/how-to-set-sysctl-using-kernel-command-line-parameter
->> 
->> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
->> ---
->> Hi,
->> 
->> this is an early RFC so I can get feedback whether to pursue this idea further,
->> before trying the more complicated stuff with dynamically registered sysctls.
->> For those I have some unanswered questions:
->> - Support them at all?
-> 
-> Maybe? It seems excessive for the initial version.
+> If we add the user namespace id mappings and then at some point a third
+> element for the time namespace appears it would also start to be mixed.
+> Just as you mentioned that a few mails ago.
 
-OK
+I think you misunderstand me or I'm misunderstanding you. That new time
+namespace member would go into struct time {} so
 
->> - Do so by an internal procfs mount again, that was removed by 61a47c1ad3a4 ?
->>   Or try to keep it simple.
-> 
-> I think you can walk the registered sysctl structures themselves, yes?
+struct {
+	struct {
+		__s64 monotonic;
+		__s64 boot;
+		__s64 someothertime;
+	} time;
 
-I should be able to, yeah.
+	struct {
+		/* id mapping members */
+	} user;
+} namespaces;
 
->> - If sysctls are dynamically registered at module load, process the command
->>   line sysctl arguments again? - this would be rather complicated I guess.
-> 
-> If it does get supported, perhaps saving them somewhere for
-> register_sysctl_table() to walk when it gets called?
-> 
-> I like the idea if just for having to build less boiler plate for
-> supporting things that I've had to plumb to both boot_params and sysctl.
-> :)
-
-Thanks, I will pursue the idea further then :)
-
-Vlastimil
+Christian
