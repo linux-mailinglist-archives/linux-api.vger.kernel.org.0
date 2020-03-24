@@ -2,236 +2,146 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E778719106E
-	for <lists+linux-api@lfdr.de>; Tue, 24 Mar 2020 14:31:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A7FB1915B0
+	for <lists+linux-api@lfdr.de>; Tue, 24 Mar 2020 17:10:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727927AbgCXN2H (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 24 Mar 2020 09:28:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54022 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727323AbgCXN2G (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 24 Mar 2020 09:28:06 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E829820775;
-        Tue, 24 Mar 2020 13:28:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1585056485;
-        bh=56ZiM9ngvtgpS2+CpoNQGLLWww2zfE2Ii5Pgd1jL4ik=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=kIOfe6Br65Xs59Evt70ByRdrV7WuFJOQ6DUWcvyDT7UNBqPiicHp/2fFjVvNEpFkY
-         k7JfI8sMjCV7Mb1JHW/54/PZPGCu2puvRHh9STZHIroFdZh1GRHer8ErOufuASvlGT
-         i4T/jw2pCZl7Z2jAKUmnbEyXjQikYJu2k3LG03Mo=
-Date:   Tue, 24 Mar 2020 14:19:16 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Jaewon Kim <jaewon31.kim@samsung.com>
-Cc:     leon@kernel.org, vbabka@suse.cz, adobriyan@gmail.com,
-        akpm@linux-foundation.org, labbott@redhat.com,
-        sumit.semwal@linaro.org, minchan@kernel.org, ngupta@vflare.org,
-        sergey.senozhatsky.work@gmail.com, kasong@redhat.com,
-        bhe@redhat.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        jaewon31.kim@gmail.com, linux-api@vger.kernel.org,
-        kexec@lists.infradead.org
-Subject: Re: [RFC PATCH v2 1/3] meminfo_extra: introduce meminfo extra
-Message-ID: <20200324131916.GA2500287@kroah.com>
-References: <20200323080503.6224-1-jaewon31.kim@samsung.com>
- <CGME20200323080508epcas1p387c9c19b480da53be40fe5d51e76a477@epcas1p3.samsung.com>
- <20200323080503.6224-2-jaewon31.kim@samsung.com>
- <20200323095344.GB425358@kroah.com>
- <5E79CEB5.8070308@samsung.com>
- <20200324101110.GA2218981@kroah.com>
- <5E79F102.9080405@samsung.com>
- <20200324114645.GA2330984@kroah.com>
- <5E7A02BC.7020803@samsung.com>
+        id S1727628AbgCXQKD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 24 Mar 2020 12:10:03 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:47999 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727545AbgCXQKD (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 24 Mar 2020 12:10:03 -0400
+Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236] helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1jGm7e-0003gz-Ic; Tue, 24 Mar 2020 16:09:46 +0000
+Date:   Tue, 24 Mar 2020 17:09:45 +0100
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Andrei Vagin <avagin@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+        Adrian Reber <areber@redhat.com>
+Cc:     Eric Biederman <ebiederm@xmission.com>,
+        Pavel Emelyanov <ovzxemul@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Dmitry Safonov <0x7f454c46@gmail.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Radostin Stoyanov <rstoyanov1@gmail.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Cyrill Gorcunov <gorcunov@openvz.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: clone3: allow creation of time namespace with offset
+Message-ID: <20200324160945.orcm75avj2ol3eop@wittgenstein>
+References: <20200317083043.226593-1-areber@redhat.com>
+ <CAK8P3a2-qQhpRdF0+iVrpp=vEvgwtndQL89CUm_QzoW2QYX1Jw@mail.gmail.com>
+ <20200319081137.GC223854@dcbz.redhat.com>
+ <CAK8P3a18YySozk6P77JpS58Hbtz=QQmLKw+PrzXbdOwtOQQuJA@mail.gmail.com>
+ <20200319102955.i7slokibkkysz6g6@wittgenstein>
+ <20200320183355.GA118769@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5E7A02BC.7020803@samsung.com>
+In-Reply-To: <20200320183355.GA118769@gmail.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Mar 24, 2020 at 09:53:16PM +0900, Jaewon Kim wrote:
+On Fri, Mar 20, 2020 at 11:33:55AM -0700, Andrei Vagin wrote:
+> On Thu, Mar 19, 2020 at 11:29:55AM +0100, Christian Brauner wrote:
+> > On Thu, Mar 19, 2020 at 09:16:43AM +0100, Arnd Bergmann wrote:
+> > > On Thu, Mar 19, 2020 at 9:11 AM Adrian Reber <areber@redhat.com> wrote:
+> > > 
+> > > > With Arnd's idea of only using nanoseconds, timens_offset would then
+> > > > contain something like this:
+> > > >
+> > > > struct timens_offset {
+> > > >         __aligned_s64 monotonic_offset_ns;
+> > > >         __aligned_s64 boottime_offset_ns;
+> > > > };
+> > > >
+> > > > I kind of prefer adding boottime and monotonic directly to struct clone_args
+> > > >
+> > > >         __aligned_u64 tls;
+> > > >         __aligned_u64 set_tid;
+> > > >         __aligned_u64 set_tid_size;
+> > > > +       __aligned_s64 monotonic_offset_ns;
+> > > > +       __aligned_s64 boottime_offset_ns;
+> > > >  };
+> > > 
+> > > I would also prefer the second approach using two 64-bit integers
+> > > instead of a pointer, as it keeps the interface simpler to implement
+> > > and simpler to interpret by other tools.
+> > 
+> > Why I don't like has two reasons. There's the scenario where we have
+> > added new extensions after the new boottime member and then we introduce
+> > another offset. Then you'd be looking at:
+> > 
+> > __aligned_u64 tls;
+> > __aligned_u64 set_tid;
+> > __aligned_u64 set_tid_size;
+> > + __aligned_s64 monotonic_offset_ns;
+> > + __aligned_s64 boottime_offset_ns;
+> > __aligned_s64 something_1
+> > __aligned_s64 anything_2
+> > + __aligned_s64 sometime_offset_ns
+> > 
+> > which bothers me just by looking at it. That's in addition to adding two
+> > new members to the struct when most people will never set CLONE_NEWTIME.
+> > We'll also likely have more features in the future that will want to
+> > pass down more info than we want to directly expose in struct
+> > clone_args, e.g. for a long time I have been thinking about adding a
+> > struct for CLONE_NEWUSER that allows you to specify the id mappings you
+> > want the new user namespace to get. We surely don't want to force all
+> > new info into the uppermost struct. So I'm not convinced we should here.
 > 
-> 
-> On 2020년 03월 24일 20:46, Greg KH wrote:
-> > On Tue, Mar 24, 2020 at 08:37:38PM +0900, Jaewon Kim wrote:
-> >>
-> >> On 2020년 03월 24일 19:11, Greg KH wrote:
-> >>> On Tue, Mar 24, 2020 at 06:11:17PM +0900, Jaewon Kim wrote:
-> >>>> On 2020년 03월 23일 18:53, Greg KH wrote:
-> >>>>>> +int register_meminfo_extra(atomic_long_t *val, int shift, const char *name)
-> >>>>>> +{
-> >>>>>> +	struct meminfo_extra *meminfo, *memtemp;
-> >>>>>> +	int len;
-> >>>>>> +	int error = 0;
-> >>>>>> +
-> >>>>>> +	meminfo = kzalloc(sizeof(*meminfo), GFP_KERNEL);
-> >>>>>> +	if (!meminfo) {
-> >>>>>> +		error = -ENOMEM;
-> >>>>>> +		goto out;
-> >>>>>> +	}
-> >>>>>> +
-> >>>>>> +	meminfo->val = val;
-> >>>>>> +	meminfo->shift_for_page = shift;
-> >>>>>> +	strncpy(meminfo->name, name, NAME_SIZE);
-> >>>>>> +	len = strlen(meminfo->name);
-> >>>>>> +	meminfo->name[len] = ':';
-> >>>>>> +	strncpy(meminfo->name_pad, meminfo->name, NAME_BUF_SIZE);
-> >>>>>> +	while (++len < NAME_BUF_SIZE - 1)
-> >>>>>> +		meminfo->name_pad[len] = ' ';
-> >>>>>> +
-> >>>>>> +	spin_lock(&meminfo_lock);
-> >>>>>> +	list_for_each_entry_rcu(memtemp, &meminfo_head, list) {
-> >>>>>> +		if (memtemp->val == val) {
-> >>>>>> +			error = -EINVAL;
-> >>>>>> +			break;
-> >>>>>> +		}
-> >>>>>> +	}
-> >>>>>> +	if (!error)
-> >>>>>> +		list_add_tail_rcu(&meminfo->list, &meminfo_head);
-> >>>>>> +	spin_unlock(&meminfo_lock);
-> >>>>> If you have a lock, why are you needing rcu?
-> >>>> I think _rcu should be removed out of list_for_each_entry_rcu.
-> >>>> But I'm confused about what you meant.
-> >>>> I used rcu_read_lock on __meminfo_extra,
-> >>>> and I think spin_lock is also needed for addition and deletion to handle multiple modifiers.
-> >>> If that's the case, then that's fine, it just didn't seem like that was
-> >>> needed.  Or I might have been reading your rcu logic incorrectly...
-> >>>
-> >>>>>> +	if (error)
-> >>>>>> +		kfree(meminfo);
-> >>>>>> +out:
-> >>>>>> +
-> >>>>>> +	return error;
-> >>>>>> +}
-> >>>>>> +EXPORT_SYMBOL(register_meminfo_extra);
-> >>>>> EXPORT_SYMBOL_GPL()?  I have to ask :)
-> >>>> I can use EXPORT_SYMBOL_GPL.
-> >>>>> thanks,
-> >>>>>
-> >>>>> greg k-h
-> >>>>>
-> >>>>>
-> >>>> Hello
-> >>>> Thank you for your comment.
-> >>>>
-> >>>> By the way there was not resolved discussion on v1 patch as I mentioned on cover page.
-> >>>> I'd like to hear your opinion on this /proc/meminfo_extra node.
-> >>> I think it is the propagation of an old and obsolete interface that you
-> >>> will have to support for the next 20+ years and yet not actually be
-> >>> useful :)
-> >>>
-> >>>> Do you think this is meaningful or cannot co-exist with other future
-> >>>> sysfs based API.
-> >>> What sysfs-based API?
-> >> Please refer to mail thread on v1 patch set - https://protect2.fireeye.com/url?k=16e3accc-4b2f6548-16e22783-0cc47aa8f5ba-935fe828ac2f6656&u=https://lkml.org/lkml/fancy/2020/3/10/2102
-> >> especially discussion with Leon Romanovsky on https://protect2.fireeye.com/url?k=74208ed9-29ec475d-74210596-0cc47aa8f5ba-0bd4ef48931fec95&u=https://lkml.org/lkml/fancy/2020/3/16/140
-> > I really do not understand what you are referring to here, sorry.   I do
-> > not see any sysfs-based code in that thread.
-> Sorry. I also did not see actual code.
-> Hello Leon Romanovsky, could you elaborate your plan regarding sysfs stuff?
-> >
-> > And try to use lore.kernel.org, lkml.org doesn't always work and we have
-> > no control over that :(
-> >
-> >>> I still don't know _why_ you want this.  The ION stuff is not needed as
-> >>> that code is about to be deleted, so who else wants this?  What is the
-> >>> use-case for it that is so desperately needed that parsing
-> >>> yet-another-proc file is going to solve the problem?
-> >> In my Android device, there are graphic driver memory, zsmalloc memory except ION.
-> > Ok, so what does Android have to do with this?
-> Some driver in Android platform may use my API to show its memory usage.
+> I think here we can start thinking about a netlink-like interface.
 
-I do not understand what this means.
+I think netlink is just not a great model for an API and I would not
+want us to go down that route.
 
-> >> I don't know other cases in other platform.
-> >> Not desperately needed but I think we need one userspace knob to see overall hidden huge memory.
-> > Why?  Who wants that?  What would userspace do with that?  And what
-> > exactly do you want to show?
-> >
-> > Is this just a debugging thing?  Then use debugfs for that, not proc.
-> > Isn't that what the DRM developers are starting to do?
-> >
-> >> Additionally I'd like to see all those hidden memory in OutOfMemory log.
-> > How is anything hidden, can't you see it in the slab information?
-> >
-> Let me explain more.
-> 
-> 0. slab
-> As I said in cover page, this is not for memory allocated by slab.
+I kept thinking about this for a bit and I think that we will end up
+growing more namespace-related functionality. So one thing that came to
+my mind is the following layout:
 
-Great, then have the subsystem that allocates such memory, be the thing
-that exports the information.  Drivers "on their own" do not grab any
-memory without asking for it from other parts of the kernel.
+struct {
+	struct {
+		__s64 monotonic;
+		__s64 boot;
+	} time;
+} namespaces;
 
-Modify those "other parts", this isn't a driver-specific thing at all.
+struct _clone_args {
+	__aligned_u64 flags;
+	__aligned_u64 pidfd;
+	__aligned_u64 child_tid;
+	__aligned_u64 parent_tid;
+	__aligned_u64 exit_signal;
+	__aligned_u64 stack;
+	__aligned_u64 stack_size;
+	__aligned_u64 tls;
+	__aligned_u64 set_tid;
+	__aligned_u64 set_tid_size;
+	__aligned_u64 namespaces;
+	__aligned_u64 namespaces_size;
+};
 
-So, what "other parts" are involved here?
+Then when we end up adding id mapping support for CLONE_NEWUSER we can
+extend this with:
 
-> I'd like to know where huge memory has gone.
-> Those are directly allocated by alloc_pages instead of slab.
-> /proc/slabinfo does not show this information.
+struct {
+	struct {
+		__aligned_u64 monotonic;
+		__aligned_u64 boot;
+	} time;
 
-Why isn't alloc_pages information exported anywhere?  Work on that.
+	struct {
+		/* id mapping members */
+	} user;
+} namespaces;
 
-> 1. /proc/meminfo_extra
-> /proc/meminfo_extra could be debugging thing to see memory status at a certain time.
+Thoughts? Other ideas?
 
-If it is debugging, then use debugfs.
-
-> But it, I think, is also basic information rather than just for debugging.
-
-Who would use that information for anything except debugging?
-
-> It is similar with /proc/meminfo which is in procfs instead of debugfs.
-
-meminfo is older than debugfs and sysfs, can't change that today.
-
-> 2. oom log
-> oom log in show_mem is more than just debugging.
-
-Why?  Who sees this?
-
-> As existing oom log shows much memory information, I think we need the hidden memory info.
-> Without these information, we do NOT know oom reason because other traditional stats are not enough.
-
-Why not?  Kernel users of memory shouldn't be triggering OOM events.
-
-
-> >> This is useful to get clue to find memory hogger.
-> >> i.e.) show_mem on oom
-> >> <6>[  420.856428]  Mem-Info:
-> >> <6>[  420.856433]  IonSystemHeap:32813kB ZsPages:44114kB GraphicDriver::13091kB
-> >> <6>[  420.856450]  active_anon:957205 inactive_anon:159383 isolated_anon:0
-> > So what does this show you?  That someone is takign a ton of ION memory
-> > for some unknown use?  What can you do with that?  What would you do
-> > with that?
-> We may not know exact memory owner. But we can narrow down.
-> Anyway I think this is meaningful instead of no clue.
-
-Again, work on the subsystems that actually allocate the memory, not
-drivers.  And if you want to mess with drivers, do it in a
-device-specific way, not a driver-specific way.
-
-> > And memory is almost never assigned to a "driver", it is assigned to a
-> > "device" that uses it.  Drivers can handle multiple devices at the same
-> > time, so why would you break this down by drivers?  Are you assuming
-> > that a driver only talks to one piece of hardware?
-> Yes a driver may support several devices. I don't know if it same on an embedded device.
-
-Why wouldn't it be?  Is this new interface somehow only acceptable for
-systems with one-device-per-driver?  If so, that's not going to work at
-all.
-
-> Anyway I think the idea works even for several devices, although the driver should
-> distinguish memory usage for each device and should register each memory stat.
-
-And how would that happen?
-
-thanks,
-
-greg k-h
+Christian
