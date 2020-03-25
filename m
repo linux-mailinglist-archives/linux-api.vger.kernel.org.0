@@ -2,191 +2,234 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4910C19271C
-	for <lists+linux-api@lfdr.de>; Wed, 25 Mar 2020 12:27:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F8311927AE
+	for <lists+linux-api@lfdr.de>; Wed, 25 Mar 2020 13:04:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726906AbgCYL1P (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 25 Mar 2020 07:27:15 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:51282 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726700AbgCYL1P (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 25 Mar 2020 07:27:15 -0400
-Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1jH4BR-0007uT-JQ; Wed, 25 Mar 2020 11:26:53 +0000
-Date:   Wed, 25 Mar 2020 12:26:52 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Adrian Reber <areber@redhat.com>
-Cc:     Andrei Vagin <avagin@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Pavel Emelyanov <ovzxemul@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Dmitry Safonov <0x7f454c46@gmail.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Radostin Stoyanov <rstoyanov1@gmail.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Cyrill Gorcunov <gorcunov@openvz.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: clone3: allow creation of time namespace with offset
-Message-ID: <20200325112652.sx66bhad7cqdsatm@wittgenstein>
-References: <20200317083043.226593-1-areber@redhat.com>
- <CAK8P3a2-qQhpRdF0+iVrpp=vEvgwtndQL89CUm_QzoW2QYX1Jw@mail.gmail.com>
- <20200319081137.GC223854@dcbz.redhat.com>
- <CAK8P3a18YySozk6P77JpS58Hbtz=QQmLKw+PrzXbdOwtOQQuJA@mail.gmail.com>
- <20200319102955.i7slokibkkysz6g6@wittgenstein>
- <20200320183355.GA118769@gmail.com>
- <20200324160945.orcm75avj2ol3eop@wittgenstein>
- <20200324162546.GG358599@dcbz.redhat.com>
- <20200324175649.fqkwiuvs2drk26ln@wittgenstein>
- <20200325075836.GK358599@dcbz.redhat.com>
+        id S1727129AbgCYMD5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 25 Mar 2020 08:03:57 -0400
+Received: from mx2.suse.de ([195.135.220.15]:50392 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727389AbgCYMD5 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 25 Mar 2020 08:03:57 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 55705AC1D;
+        Wed, 25 Mar 2020 12:03:54 +0000 (UTC)
+From:   Vlastimil Babka <vbabka@suse.cz>
+To:     Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>
+Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-mm@kvack.org, Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        "Guilherme G . Piccoli" <gpiccoli@canonical.com>,
+        Vlastimil Babka <vbabka@suse.cz>
+Subject: [RFC v2 1/2] kernel/sysctl: support setting sysctl parameters from kernel command line
+Date:   Wed, 25 Mar 2020 13:03:44 +0100
+Message-Id: <20200325120345.12946-1-vbabka@suse.cz>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200325075836.GK358599@dcbz.redhat.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Mar 25, 2020 at 08:58:36AM +0100, Adrian Reber wrote:
-> On Tue, Mar 24, 2020 at 06:56:49PM +0100, Christian Brauner wrote:
-> > On Tue, Mar 24, 2020 at 05:25:46PM +0100, Adrian Reber wrote:
-> > > On Tue, Mar 24, 2020 at 05:09:45PM +0100, Christian Brauner wrote:
-> > > > On Fri, Mar 20, 2020 at 11:33:55AM -0700, Andrei Vagin wrote:
-> > > > > On Thu, Mar 19, 2020 at 11:29:55AM +0100, Christian Brauner wrote:
-> > > > > > On Thu, Mar 19, 2020 at 09:16:43AM +0100, Arnd Bergmann wrote:
-> > > > > > > On Thu, Mar 19, 2020 at 9:11 AM Adrian Reber <areber@redhat.com> wrote:
-> > > > > > > 
-> > > > > > > > With Arnd's idea of only using nanoseconds, timens_offset would then
-> > > > > > > > contain something like this:
-> > > > > > > >
-> > > > > > > > struct timens_offset {
-> > > > > > > >         __aligned_s64 monotonic_offset_ns;
-> > > > > > > >         __aligned_s64 boottime_offset_ns;
-> > > > > > > > };
-> > > > > > > >
-> > > > > > > > I kind of prefer adding boottime and monotonic directly to struct clone_args
-> > > > > > > >
-> > > > > > > >         __aligned_u64 tls;
-> > > > > > > >         __aligned_u64 set_tid;
-> > > > > > > >         __aligned_u64 set_tid_size;
-> > > > > > > > +       __aligned_s64 monotonic_offset_ns;
-> > > > > > > > +       __aligned_s64 boottime_offset_ns;
-> > > > > > > >  };
-> > > > > > > 
-> > > > > > > I would also prefer the second approach using two 64-bit integers
-> > > > > > > instead of a pointer, as it keeps the interface simpler to implement
-> > > > > > > and simpler to interpret by other tools.
-> > > > > > 
-> > > > > > Why I don't like has two reasons. There's the scenario where we have
-> > > > > > added new extensions after the new boottime member and then we introduce
-> > > > > > another offset. Then you'd be looking at:
-> > > > > > 
-> > > > > > __aligned_u64 tls;
-> > > > > > __aligned_u64 set_tid;
-> > > > > > __aligned_u64 set_tid_size;
-> > > > > > + __aligned_s64 monotonic_offset_ns;
-> > > > > > + __aligned_s64 boottime_offset_ns;
-> > > > > > __aligned_s64 something_1
-> > > > > > __aligned_s64 anything_2
-> > > > > > + __aligned_s64 sometime_offset_ns
-> > > > > > 
-> > > > > > which bothers me just by looking at it. That's in addition to adding two
-> > > > > > new members to the struct when most people will never set CLONE_NEWTIME.
-> > > > > > We'll also likely have more features in the future that will want to
-> > > > > > pass down more info than we want to directly expose in struct
-> > > > > > clone_args, e.g. for a long time I have been thinking about adding a
-> > > > > > struct for CLONE_NEWUSER that allows you to specify the id mappings you
-> > > > > > want the new user namespace to get. We surely don't want to force all
-> > > > > > new info into the uppermost struct. So I'm not convinced we should here.
-> > > > > 
-> > > > > I think here we can start thinking about a netlink-like interface.
-> > > > 
-> > > > I think netlink is just not a great model for an API and I would not
-> > > > want us to go down that route.
-> > > > 
-> > > > I kept thinking about this for a bit and I think that we will end up
-> > > > growing more namespace-related functionality. So one thing that came to
-> > > > my mind is the following layout:
-> > > > 
-> > > > struct {
-> > > > 	struct {
-> > > > 		__s64 monotonic;
-> > > > 		__s64 boot;
-> > > > 	} time;
-> > > > } namespaces;
-> > > > 
-> > > > struct _clone_args {
-> > > > 	__aligned_u64 flags;
-> > > > 	__aligned_u64 pidfd;
-> > > > 	__aligned_u64 child_tid;
-> > > > 	__aligned_u64 parent_tid;
-> > > > 	__aligned_u64 exit_signal;
-> > > > 	__aligned_u64 stack;
-> > > > 	__aligned_u64 stack_size;
-> > > > 	__aligned_u64 tls;
-> > > > 	__aligned_u64 set_tid;
-> > > > 	__aligned_u64 set_tid_size;
-> > > > 	__aligned_u64 namespaces;
-> > > > 	__aligned_u64 namespaces_size;
-> > > > };
-> > > > 
-> > > > Then when we end up adding id mapping support for CLONE_NEWUSER we can
-> > > > extend this with:
-> > > > 
-> > > > struct {
-> > > > 	struct {
-> > > > 		__aligned_u64 monotonic;
-> > > > 		__aligned_u64 boot;
-> > 
-> > s/__aligned_u64/__s64/g
-> > 
-> > Sorry, leftover from my first draft.
-> > 
-> > > > 	} time;
-> > > > 
-> > > > 	struct {
-> > > > 		/* id mapping members */
-> > > > 	} user;
-> > > > } namespaces;
-> > > > 
-> > > > Thoughts? Other ideas?
-> > > 
-> > > Works for me.
-> > > 
-> > > If we add the user namespace id mappings and then at some point a third
-> > > element for the time namespace appears it would also start to be mixed.
-> > > Just as you mentioned that a few mails ago.
-> > 
-> > I think you misunderstand me or I'm misunderstanding you. That new time
-> > namespace member would go into struct time {} so
-> > 
-> > struct {
-> > 	struct {
-> > 		__s64 monotonic;
-> > 		__s64 boot;
-> > 		__s64 someothertime;
-> > 	} time;
-> > 
-> > 	struct {
-> > 		/* id mapping members */
-> > 	} user;
-> > } namespaces;
-> 
-> My question was about how does the kernel know how 'struct namespaces'
-> is structured. How can an older kernel (which only is aware of two
-> clocks) deal with a, like in this example, third clock. Will the size
-> '__aligned_u64 namespaces_size' be used for versioning?
+A recently proposed patch to add vm_swappiness command line parameter in
+addition to existing sysctl [1] made me wonder why we don't have a general
+support for passing sysctl parameters via command line. Googling found only
+somebody else wondering the same [2], but I haven't found any prior discussion
+with reasons why not to do this.
 
-Yes, that would be the idea.
+Settings the vm_swappiness issue aside (the underlying issue might be solved in
+a different way), quick search of kernel-parameters.txt shows there are already
+some that exist as both sysctl and kernel parameter - hung_task_panic,
+nmi_watchdog, numa_zonelist_order, traceoff_on_warning. A general mechanism
+would remove the need to add more of those one-offs and might be handy in
+situations where configuration by e.g. /etc/sysctl.d/ is impractical.
+Also after 61a47c1ad3a4 ("sysctl: Remove the sysctl system call") the only way
+to set sysctl is via procfs, so this would eventually allow small systems to be
+built without CONFIG_PROC_SYSCTL and still be able to change sysctl parameters.
 
-I don't want to give the impression that I think this is the best
-solution. It's one solution that I think is feasible. But if we have
-something better that is also future proof I'm happy to hear ideas.
+Hence, this patch adds a new parse_args() pass that looks for parameters
+prefixed by 'sysctl.' and searches for them in the sysctl ctl_tables. When
+found, the respective proc handler is invoked. The search is just a naive
+linear one, to avoid using the whole procfs layer. It should be acceptable,
+as the cost depends on number of sysctl. parameters passed.
 
-Christian
+The main limitation of avoiding the procfs layer is however that sysctls
+dynamically registered by register_sysctl_table() or register_sysctl_paths()
+cannot currently be set by this method.
+
+The processing is hooked right before the init process is loaded, as some
+handlers might be more complicated than simple setters and might need some
+subsystems to be initialized. At the moment the init process can be started and
+eventually execute a process writing to /proc/sys/ then it should be also fine
+to do that from the kernel.
+
+[1] https://lore.kernel.org/linux-doc/BL0PR02MB560167492CA4094C91589930E9FC0@BL0PR02MB5601.namprd02.prod.outlook.com/
+[2] https://unix.stackexchange.com/questions/558802/how-to-set-sysctl-using-kernel-command-line-parameter
+
+Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+---
+v2: - handle any nesting level of parameter name
+ - add Documentation/admin-guide/kernel-parameters.txt blurb
+ - alias support for legacy one-off parameters, with first conversion (patch 2)
+ - still no support for dynamically registed sysctls
+
+ .../admin-guide/kernel-parameters.txt         |  9 +++
+ include/linux/sysctl.h                        |  1 +
+ init/main.c                                   | 21 +++++++
+ kernel/sysctl.c                               | 62 +++++++++++++++++++
+ 4 files changed, 93 insertions(+)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index c07815d230bc..5076e288f93f 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -4793,6 +4793,15 @@
+ 
+ 	switches=	[HW,M68k]
+ 
++	sysctl.*=	[KNL]
++			Set a sysctl parameter right before loading the init
++			process, as if the value was written to the respective
++			/proc/sys/... file. Currently a subset of sysctl
++			parameters is supported that is not registered
++			dynamically. Unrecognized parameters and invalid values
++			are reported in the kernel log.
++			Example: sysctl.vm.swappiness=40
++
+ 	sysfs.deprecated=0|1 [KNL]
+ 			Enable/disable old style sysfs layout for old udev
+ 			on older distributions. When this option is enabled
+diff --git a/include/linux/sysctl.h b/include/linux/sysctl.h
+index 02fa84493f23..62ae963a5c0c 100644
+--- a/include/linux/sysctl.h
++++ b/include/linux/sysctl.h
+@@ -206,6 +206,7 @@ struct ctl_table_header *register_sysctl_paths(const struct ctl_path *path,
+ void unregister_sysctl_table(struct ctl_table_header * table);
+ 
+ extern int sysctl_init(void);
++int process_sysctl_arg(char *param, char *val, const char *unused, void *arg);
+ 
+ extern struct ctl_table sysctl_mount_point[];
+ 
+diff --git a/init/main.c b/init/main.c
+index ee4947af823f..74a094c6b8b9 100644
+--- a/init/main.c
++++ b/init/main.c
+@@ -1345,6 +1345,25 @@ void __weak free_initmem(void)
+ 	free_initmem_default(POISON_FREE_INITMEM);
+ }
+ 
++static void do_sysctl_args(void)
++{
++#ifdef CONFIG_SYSCTL
++	size_t len = strlen(saved_command_line) + 1;
++	char *command_line;
++
++	command_line = kzalloc(len, GFP_KERNEL);
++	if (!command_line)
++		panic("%s: Failed to allocate %zu bytes\n", __func__, len);
++
++	strcpy(command_line, saved_command_line);
++
++	parse_args("Setting sysctl args", command_line,
++		   NULL, 0, -1, -1, NULL, process_sysctl_arg);
++
++	kfree(command_line);
++#endif
++}
++
+ static int __ref kernel_init(void *unused)
+ {
+ 	int ret;
+@@ -1367,6 +1386,8 @@ static int __ref kernel_init(void *unused)
+ 
+ 	rcu_end_inkernel_boot();
+ 
++	do_sysctl_args();
++
+ 	if (ramdisk_execute_command) {
+ 		ret = run_init_process(ramdisk_execute_command);
+ 		if (!ret)
+diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+index ad5b88a53c5a..18c7f5606d55 100644
+--- a/kernel/sysctl.c
++++ b/kernel/sysctl.c
+@@ -1980,6 +1980,68 @@ int __init sysctl_init(void)
+ 	return 0;
+ }
+ 
++/* Set sysctl value passed on kernel command line. */
++int process_sysctl_arg(char *param, char *val,
++			       const char *unused, void *arg)
++{
++	size_t count;
++	char *remaining;
++	int err;
++	loff_t ppos = 0;
++	struct ctl_table *ctl, *found = NULL;
++
++	if (strncmp(param, "sysctl.", sizeof("sysctl.") - 1))
++		return 0;
++
++	param += sizeof("sysctl.") - 1;
++
++	remaining = param;
++	ctl = &sysctl_base_table[0];
++
++	while(ctl->procname != 0) {
++		int len = strlen(ctl->procname);
++		if (strncmp(remaining, ctl->procname, len)) {
++			ctl++;
++			continue;
++		}
++		if (ctl->child) {
++			if (remaining[len] == '.') {
++				remaining += len + 1;
++				ctl = ctl->child;
++				continue;
++			}
++		} else {
++			if (remaining[len] == '\0') {
++				found = ctl;
++				break;
++			}
++		}
++		ctl++;
++	}
++
++	if (!found) {
++		pr_warn("Unknown sysctl param '%s' on command line", param);
++		return 0;
++	}
++
++	if (!(found->mode & 0200)) {
++		pr_warn("Cannot set sysctl '%s=%s' from command line - not writable",
++			param, val);
++		return 0;
++	}
++
++	count = strlen(val);
++	err = found->proc_handler(found, 1, val, &count, &ppos);
++
++	if (err)
++		pr_warn("Error %d setting sysctl '%s=%s' from command line",
++			err, param, val);
++
++	pr_debug("Set sysctl '%s=%s' from command line", param, val);
++
++	return 0;
++}
++
+ #endif /* CONFIG_SYSCTL */
+ 
+ /*
+-- 
+2.25.1
+
