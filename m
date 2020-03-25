@@ -2,40 +2,21 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B04B5192B19
-	for <lists+linux-api@lfdr.de>; Wed, 25 Mar 2020 15:29:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 834CF192B4B
+	for <lists+linux-api@lfdr.de>; Wed, 25 Mar 2020 15:36:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727604AbgCYO3k (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 25 Mar 2020 10:29:40 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:44748 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727501AbgCYO3k (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 25 Mar 2020 10:29:40 -0400
-Received: by mail-wr1-f65.google.com with SMTP id m17so3324034wrw.11;
-        Wed, 25 Mar 2020 07:29:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=xK7fLCOSSVH8HJsoEd66t540+DpWVzc878w2lJBoIek=;
-        b=dnhA39pPS/8f9/GN4xySx8k7TPWXzL46VPbs9cs2YTPSOW0TMM0Zc5RAKWpi8ubbjS
-         J3/VtH4BlMyBK0F0QCM7VU2icxTHO95RG7tBOvggCI5ezG16ZL49l5G2tajqAADKWOrv
-         3mm+gOaLKO3JqTMfaFKI09BS4HZHdH9pdXocjwW/gcxOi8JnXRa11h4S/ol7SQP9hpbG
-         6JS2AK0mk9GTLZVzdSzP9l3RnJ3EjlHvbHoEA5JH5k9clj05VAbuKM2PkrM9hghA5ewb
-         Mu4yn8kwqFpihtHmp36JejyF+OoF2dVzXbAT5BdU57MMuF46eg8GexqwoDh6n7EeDmIk
-         gK7A==
-X-Gm-Message-State: ANhLgQ2jmk2HTGh6qtsi7cSYi9Sl+5jIPvi/BkoVyr6S/RQymBTesLiv
-        W75uidHapuogiyVDAmRfY8RGNjUR
-X-Google-Smtp-Source: ADFU+vvV+iXXv1GpZUfxs9nW5CvCN4kTMNBy1SnvAwfCo+uprHM46YrQo6ZhbZ/Dwea7ETji/N05WQ==
-X-Received: by 2002:a5d:4683:: with SMTP id u3mr3723218wrq.248.1585146578476;
-        Wed, 25 Mar 2020 07:29:38 -0700 (PDT)
-Received: from localhost (ip-37-188-135-150.eurotel.cz. [37.188.135.150])
-        by smtp.gmail.com with ESMTPSA id b15sm33619364wru.70.2020.03.25.07.29.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2020 07:29:37 -0700 (PDT)
-Date:   Wed, 25 Mar 2020 15:29:36 +0100
-From:   Michal Hocko <mhocko@kernel.org>
-To:     Vlastimil Babka <vbabka@suse.cz>
+        id S1727593AbgCYOg0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 25 Mar 2020 10:36:26 -0400
+Received: from mx2.suse.de ([195.135.220.15]:36610 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727695AbgCYOg0 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 25 Mar 2020 10:36:26 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 38A0DAC50;
+        Wed, 25 Mar 2020 14:36:24 +0000 (UTC)
+Subject: Re: [RFC v2 2/2] kernel/sysctl: support handling command line aliases
+To:     Michal Hocko <mhocko@kernel.org>
 Cc:     Luis Chamberlain <mcgrof@kernel.org>,
         Kees Cook <keescook@chromium.org>,
         Iurii Zaikin <yzaikin@google.com>,
@@ -45,46 +26,57 @@ Cc:     Luis Chamberlain <mcgrof@kernel.org>,
         Matthew Wilcox <willy@infradead.org>,
         "Eric W . Biederman" <ebiederm@xmission.com>,
         "Guilherme G . Piccoli" <gpiccoli@canonical.com>
-Subject: Re: [RFC v2 2/2] kernel/sysctl: support handling command line aliases
-Message-ID: <20200325142936.GC19542@dhcp22.suse.cz>
 References: <20200325120345.12946-1-vbabka@suse.cz>
  <20200325120345.12946-2-vbabka@suse.cz>
+ <20200325142936.GC19542@dhcp22.suse.cz>
+From:   Vlastimil Babka <vbabka@suse.cz>
+Message-ID: <52faea3b-6442-3b1b-9404-6a018d1d1c44@suse.cz>
+Date:   Wed, 25 Mar 2020 15:36:23 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200325120345.12946-2-vbabka@suse.cz>
+In-Reply-To: <20200325142936.GC19542@dhcp22.suse.cz>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Both patches look really great to me. I haven't really checked all the
-details but from a quick glance they both seem ok.
+On 3/25/20 3:29 PM, Michal Hocko wrote:
+> Both patches look really great to me. I haven't really checked all the
+> details but from a quick glance they both seem ok.
 
-I would just add a small clarification here. Unless I am mistaken
-early_param is called earlier than it would be now. But that shouldn't
-cause any problems because the underlying implementation is just a noop
-for backward compatibility.
+Thanks.
 
-Thanks a lot this looks like a very nice improvement.
+> I would just add a small clarification here. Unless I am mistaken
+> early_param is called earlier than it would be now. But that shouldn't
+> cause any problems because the underlying implementation is just a noop
+> for backward compatibility.
 
-On Wed 25-03-20 13:03:45, Vlastimil Babka wrote:
-[...]
-> -static __init int setup_numa_zonelist_order(char *s)
-> -{
-> -	if (!s)
-> -		return 0;
-> -
-> -	return __parse_numa_zonelist_order(s);
-> -}
-> -early_param("numa_zonelist_order", setup_numa_zonelist_order);
-> -
->  char numa_zonelist_order[] = "Node";
->  
->  /*
-> -- 
-> 2.25.1
+Yeah, indeed worth noting somewhere explicitly. The conversion can't be done
+blindly, one has to consider whether the delay compared to early_param can be a
+disadvantage or not. For example the nmi_watchdog parameter is probably best
+left as it is?
 
--- 
-Michal Hocko
-SUSE Labs
+> Thanks a lot this looks like a very nice improvement.
+> 
+> On Wed 25-03-20 13:03:45, Vlastimil Babka wrote:
+> [...]
+>> -static __init int setup_numa_zonelist_order(char *s)
+>> -{
+>> -	if (!s)
+>> -		return 0;
+>> -
+>> -	return __parse_numa_zonelist_order(s);
+>> -}
+>> -early_param("numa_zonelist_order", setup_numa_zonelist_order);
+>> -
+>>  char numa_zonelist_order[] = "Node";
+>>  
+>>  /*
+>> -- 
+>> 2.25.1
+> 
+
