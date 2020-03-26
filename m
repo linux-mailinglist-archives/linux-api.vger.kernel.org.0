@@ -2,23 +2,40 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 848B9193FC2
-	for <lists+linux-api@lfdr.de>; Thu, 26 Mar 2020 14:30:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 99D69193FEB
+	for <lists+linux-api@lfdr.de>; Thu, 26 Mar 2020 14:39:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726318AbgCZNau (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 26 Mar 2020 09:30:50 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:39779 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726175AbgCZNau (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 26 Mar 2020 09:30:50 -0400
-Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1jHSao-0003tR-O0; Thu, 26 Mar 2020 13:30:42 +0000
-Date:   Thu, 26 Mar 2020 14:30:41 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Michal Hocko <mhocko@kernel.org>
+        id S1727647AbgCZNjU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 26 Mar 2020 09:39:20 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:39313 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725994AbgCZNjU (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 26 Mar 2020 09:39:20 -0400
+Received: by mail-wr1-f68.google.com with SMTP id p10so7832473wrt.6;
+        Thu, 26 Mar 2020 06:39:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=19Pztl4eD0UX0aRRYwPGEQuItPKM8kfOdpcItRtfgXE=;
+        b=hRlHoyGy8kDiWVnPBKxURkaL2L6SV+ZOF7aFTlt6HAMDc4lpmQBa+Vb3s9p+CaVDJJ
+         mTmkh/i+ZJKTMKxLxqQqUxLPxQ3YOtOt12C4E3nYIuDq8dxDcwkLYVP/y4QzNkQdGQ7V
+         birRYr/08BDowOUnKTfBlrfZISo2lHnGVCwifT2fw+ATX2AlFEGqaeA9+VarjYIhgmG4
+         3d8Z7dzk5N6hl+bHXJ2tkfmUJFccEIClwFGv8JllbAC1ndAtuiTdGJsK4fpM6T1/JMBC
+         kf1xyJ2Ujr/A7g3R4xzHdF7CoY8skKzdux23/pymFUWrPb5gSLjtOBsW0addwPRWhEnh
+         721w==
+X-Gm-Message-State: ANhLgQ0PLxRlofV487m4oD+F0sZa5gTTgwck316e/ObuZXydLBurdyL3
+        XB2aMZOHiqR2yjxD/MDZBjQ=
+X-Google-Smtp-Source: ADFU+vtk9zmWZvzCHwkqppRQIVeYZ6TTx2b4k3bygVqfm3s1Ky3k2UREkOWABI0nEj77sewyC1P8pw==
+X-Received: by 2002:a05:6000:100f:: with SMTP id a15mr9083191wrx.382.1585229958157;
+        Thu, 26 Mar 2020 06:39:18 -0700 (PDT)
+Received: from localhost (ip-37-188-135-150.eurotel.cz. [37.188.135.150])
+        by smtp.gmail.com with ESMTPSA id 195sm3660380wmb.8.2020.03.26.06.39.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Mar 2020 06:39:17 -0700 (PDT)
+Date:   Thu, 26 Mar 2020 14:39:15 +0100
+From:   Michal Hocko <mhocko@kernel.org>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
 Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
         Vlastimil Babka <vbabka@suse.cz>,
         Luis Chamberlain <mcgrof@kernel.org>,
@@ -31,45 +48,45 @@ Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
         "Guilherme G . Piccoli" <gpiccoli@canonical.com>
 Subject: Re: [RFC v2 1/2] kernel/sysctl: support setting sysctl parameters
  from kernel command line
-Message-ID: <20200326133041.a3zit3gzdqmphane@wittgenstein>
+Message-ID: <20200326133915.GQ27965@dhcp22.suse.cz>
 References: <20200325120345.12946-1-vbabka@suse.cz>
  <874kuc5b5z.fsf@x220.int.ebiederm.org>
  <20200326065829.GC27965@dhcp22.suse.cz>
+ <20200326133041.a3zit3gzdqmphane@wittgenstein>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200326065829.GC27965@dhcp22.suse.cz>
+In-Reply-To: <20200326133041.a3zit3gzdqmphane@wittgenstein>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Mar 26, 2020 at 07:58:29AM +0100, Michal Hocko wrote:
-> On Wed 25-03-20 17:20:40, Eric W. Biederman wrote:
-> > Vlastimil Babka <vbabka@suse.cz> writes:
-> [...]
-> > > +	if (strncmp(param, "sysctl.", sizeof("sysctl.") - 1))
-> > > +		return 0;
+On Thu 26-03-20 14:30:41, Christian Brauner wrote:
+> On Thu, Mar 26, 2020 at 07:58:29AM +0100, Michal Hocko wrote:
+> > On Wed 25-03-20 17:20:40, Eric W. Biederman wrote:
+> > > Vlastimil Babka <vbabka@suse.cz> writes:
+> > [...]
+> > > > +	if (strncmp(param, "sysctl.", sizeof("sysctl.") - 1))
+> > > > +		return 0;
+> > > 
+> > > Is there any way we can use a slash separated path.  I know
+> > > in practice there are not any sysctl names that don't have
+> > > a '.' in them but why should we artifically limit ourselves?
 > > 
-> > Is there any way we can use a slash separated path.  I know
-> > in practice there are not any sysctl names that don't have
-> > a '.' in them but why should we artifically limit ourselves?
+> > Because this is the normal userspace interface? Why should it be any
+> > different from calling sysctl?
+> > [...]
 > 
-> Because this is the normal userspace interface? Why should it be any
-> different from calling sysctl?
-> [...]
+> Imho, we should use ".". Kernel developers aren't the ones setting
+> these options, admins are and if I think back to the times doing that as
+> a job at uni I'd be very confused if I learned that I get to set sysctl
+> options through the kernel command but need to use yet another format
+> than what I usually do to set those from the shell. Consistency is most
+> of the times to be preferred imho.
 
-Imho, we should use ".". Kernel developers aren't the ones setting
-these options, admins are and if I think back to the times doing that as
-a job at uni I'd be very confused if I learned that I get to set sysctl
-options through the kernel command but need to use yet another format
-than what I usually do to set those from the shell. Consistency is most
-of the times to be preferred imho.
-
-Also, the kernel docs illustrate that the "." syntax is used for other
-keys as well (e.g. acpi.<option>) and userspace options passed via the
-kernel command line have standardized on the "." format as well, e.g.
-systemd appends in the same format (e.g.
-systemd.unified_cgroup_hierarchy, systemd.unit what have you).
-
-Christian
+Absolutely agreed! Even if sysctl can consume / instead of ., which was a
+news to me btw, the majority of the usage is with `.'
+-- 
+Michal Hocko
+SUSE Labs
