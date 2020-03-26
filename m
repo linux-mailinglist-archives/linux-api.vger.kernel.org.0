@@ -2,162 +2,254 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C9D181943A9
-	for <lists+linux-api@lfdr.de>; Thu, 26 Mar 2020 16:57:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 54548194661
+	for <lists+linux-api@lfdr.de>; Thu, 26 Mar 2020 19:17:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727792AbgCZP5H (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 26 Mar 2020 11:57:07 -0400
-Received: from mail.efficios.com ([167.114.26.124]:47408 "EHLO
-        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727345AbgCZP5G (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 26 Mar 2020 11:57:06 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 4C00D277EB7;
-        Thu, 26 Mar 2020 11:57:05 -0400 (EDT)
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id Ii5h1qGZ6RL3; Thu, 26 Mar 2020 11:57:05 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 7FD412772CF;
-        Thu, 26 Mar 2020 11:57:00 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 7FD412772CF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1585238220;
-        bh=MPN/nh2eqVGSbCWW3l0JbpXjFSWm7qUcdtF1gO28mMI=;
-        h=From:To:Date:Message-Id;
-        b=PjdXKZGAoCtHn7Ent2hrASug0GK23cqHmwHKVjpmNtbMqPebA3qJj0ta5FGJDWJsP
-         sjXX1IcZ16FIDnV8l9FPYiT/ny/d6mwYD8TQoGNb4l4Ug2/TEH01lb/nJ2Ag+cWjd9
-         jn/3AWuW/Lv3ojvI0LbQaPx3HC1iQ+a0rG1jeD30YHXKay7IQG9h9xbUq7qKJIDhRf
-         MUuU7IA5lny9x4J8QqShNm8h0GgYYYH8Hmy96VRLjXNge0/OonVK4FP3KfpNtY3HG8
-         5AuM7MIGrVGpwXGpCIRPCT1IYh6rqkAIBydRLGEJUpY027ZMYg8+2iAHHzPTHuktCQ
-         WMw7ZBJ7gOZvA==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id P1cMScfDNFqm; Thu, 26 Mar 2020 11:57:00 -0400 (EDT)
-Received: from localhost.localdomain (192-222-181-218.qc.cable.ebox.net [192.222.181.218])
-        by mail.efficios.com (Postfix) with ESMTPSA id 06F282777E1;
-        Thu, 26 Mar 2020 11:56:58 -0400 (EDT)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Carlos O'Donell <carlos@redhat.com>
-Cc:     Florian Weimer <fweimer@redhat.com>,
-        Joseph Myers <joseph@codesourcery.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        libc-alpha@sourceware.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ben Maurer <bmaurer@fb.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Paul Turner <pjt@google.com>, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org
-Subject: [PATCH glibc 6/9] glibc: sched_getcpu(): use rseq cpu_id TLS on Linux (v7)
-Date:   Thu, 26 Mar 2020 11:56:30 -0400
-Message-Id: <20200326155633.18236-7-mathieu.desnoyers@efficios.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200326155633.18236-1-mathieu.desnoyers@efficios.com>
-References: <20200326155633.18236-1-mathieu.desnoyers@efficios.com>
+        id S1728569AbgCZSQ0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 26 Mar 2020 14:16:26 -0400
+Received: from mx2.suse.de ([195.135.220.15]:45174 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727907AbgCZSQ0 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 26 Mar 2020 14:16:26 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id D7CC6ADDA;
+        Thu, 26 Mar 2020 18:16:22 +0000 (UTC)
+From:   Vlastimil Babka <vbabka@suse.cz>
+To:     Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>
+Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-mm@kvack.org, Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        "Guilherme G . Piccoli" <gpiccoli@canonical.com>,
+        Vlastimil Babka <vbabka@suse.cz>
+Subject: [RFC v3 1/2] kernel/sysctl: support setting sysctl parameters from kernel command line
+Date:   Thu, 26 Mar 2020 19:16:05 +0100
+Message-Id: <20200326181606.7027-1-vbabka@suse.cz>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-When available, use the cpu_id field from __rseq_abi on Linux to
-implement sched_getcpu(). Fall-back on the vgetcpu vDSO if unavailable.
+A recently proposed patch to add vm_swappiness command line parameter in
+addition to existing sysctl [1] made me wonder why we don't have a general
+support for passing sysctl parameters via command line. Googling found only
+somebody else wondering the same [2], but I haven't found any prior discussion
+with reasons why not to do this.
 
-Benchmarks:
+Settings the vm_swappiness issue aside (the underlying issue might be solved in
+a different way), quick search of kernel-parameters.txt shows there are already
+some that exist as both sysctl and kernel parameter - hung_task_panic,
+nmi_watchdog, numa_zonelist_order, traceoff_on_warning. A general mechanism
+would remove the need to add more of those one-offs and might be handy in
+situations where configuration by e.g. /etc/sysctl.d/ is impractical.
 
-x86-64: Intel E5-2630 v3@2.40GHz, 16-core, hyperthreading
+Hence, this patch adds a new parse_args() pass that looks for parameters
+prefixed by 'sysctl.' and tries to interpret them as writes to the
+corresponding sys/ files using an temporary in-kernel procfs mount. This
+mechanism was suggested by Eric W. Biederman [3], as it handles all dynamically
+registered sysctl tables. Errors due to e.g. invalid parameter name or value
+are reported in the kernel log.
 
-glibc sched_getcpu():                     13.7 ns (baseline)
-glibc sched_getcpu() using rseq:           2.5 ns (speedup:  5.5x)
-inline load cpuid from __rseq_abi TLS:     0.8 ns (speedup: 17.1x)
+The processing is hooked right before the init process is loaded, as some
+handlers might be more complicated than simple setters and might need some
+subsystems to be initialized. At the moment the init process can be started and
+eventually execute a process writing to /proc/sys/ then it should be also fine
+to do that from the kernel.
 
-Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-CC: Carlos O'Donell <carlos@redhat.com>
-CC: Florian Weimer <fweimer@redhat.com>
-CC: Joseph Myers <joseph@codesourcery.com>
-CC: Szabolcs Nagy <szabolcs.nagy@arm.com>
-CC: Thomas Gleixner <tglx@linutronix.de>
-CC: Ben Maurer <bmaurer@fb.com>
-CC: Peter Zijlstra <peterz@infradead.org>
-CC: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-CC: Boqun Feng <boqun.feng@gmail.com>
-CC: Will Deacon <will.deacon@arm.com>
-CC: Paul Turner <pjt@google.com>
-CC: libc-alpha@sourceware.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-api@vger.kernel.org
+Sysctls registered later on module load time are not set by this mechanism -
+it's expected that in such scenarios, setting sysctl values from userspace is
+practical enough.
+
+[1] https://lore.kernel.org/r/BL0PR02MB560167492CA4094C91589930E9FC0@BL0PR02MB5601.namprd02.prod.outlook.com/
+[2] https://unix.stackexchange.com/questions/558802/how-to-set-sysctl-using-kernel-command-line-parameter
+[3] https://lore.kernel.org/r/87bloj2skm.fsf@x220.int.ebiederm.org/
+
+Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
 ---
-Changes since v1:
-- rseq is only used if both __NR_rseq and RSEQ_SIG are defined.
+Changes in v3:
+- use temporary procfs mount as Eric suggested. Seems to be the better option
+  after all. Naming wise it simply converts all . to / - according to strace the
+  sysctl tool seems to be doing the same.
 
-Changes since v2:
-- remove duplicated __rseq_abi extern declaration.
+Since the major change, I'm sending another RFC. If this approach is ok, then
+it probably needs just some tweaks to the various error prints, and then
+converting the rest of existing on-off aliases (if I come up with an idea how
+to find them all). Thanks for all the feedback so far.
 
-Changes since v3:
-- update ChangeLog.
+ .../admin-guide/kernel-parameters.txt         |  9 ++
+ fs/proc/proc_sysctl.c                         | 90 +++++++++++++++++++
+ include/linux/sysctl.h                        |  4 +
+ init/main.c                                   |  2 +
+ 4 files changed, 105 insertions(+)
 
-Changes since v4:
-- Use atomic_load_relaxed to load the __rseq_abi.cpu_id field, a
-  consequence of the fact that __rseq_abi is not volatile anymore.
-- Include atomic.h which provides atomic_load_relaxed.
-
-Changes since v5:
-- Use __ASSUME_RSEQ to detect rseq availability.
-
-Changes since v6:
-- Remove use of __ASSUME_RSEQ.
----
- sysdeps/unix/sysv/linux/sched_getcpu.c | 27 ++++++++++++++++++++++++--
- 1 file changed, 25 insertions(+), 2 deletions(-)
-
-diff --git a/sysdeps/unix/sysv/linux/sched_getcpu.c b/sysdeps/unix/sysv/linux/sched_getcpu.c
-index c019cfb3cf..2269c4f2bd 100644
---- a/sysdeps/unix/sysv/linux/sched_getcpu.c
-+++ b/sysdeps/unix/sysv/linux/sched_getcpu.c
-@@ -18,10 +18,15 @@
- #include <errno.h>
- #include <sched.h>
- #include <sysdep.h>
-+#include <atomic.h>
- #include <sysdep-vdso.h>
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index c07815d230bc..0c7e032e7c2e 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -4793,6 +4793,15 @@
  
--int
--sched_getcpu (void)
-+#ifdef HAVE_GETCPU_VSYSCALL
-+# define HAVE_VSYSCALL
-+#endif
+ 	switches=	[HW,M68k]
+ 
++	sysctl.*=	[KNL]
++			Set a sysctl parameter, right before loading the init
++			process, as if the value was written to the respective
++			/proc/sys/... file. Unrecognized parameters and invalid
++			values are reported in the kernel log. Sysctls
++			registered later by a loaded module cannot be set this
++			way.
++			Example: sysctl.vm.swappiness=40
 +
-+static int
-+vsyscall_sched_getcpu (void)
- {
-   unsigned int cpu;
-   int r = -1;
-@@ -32,3 +37,21 @@ sched_getcpu (void)
- #endif
-   return r == -1 ? r : cpu;
+ 	sysfs.deprecated=0|1 [KNL]
+ 			Enable/disable old style sysfs layout for old udev
+ 			on older distributions. When this option is enabled
+diff --git a/fs/proc/proc_sysctl.c b/fs/proc/proc_sysctl.c
+index c75bb4632ed1..8ee3273e4540 100644
+--- a/fs/proc/proc_sysctl.c
++++ b/fs/proc/proc_sysctl.c
+@@ -14,6 +14,7 @@
+ #include <linux/mm.h>
+ #include <linux/module.h>
+ #include <linux/bpf-cgroup.h>
++#include <linux/mount.h>
+ #include "internal.h"
+ 
+ static const struct dentry_operations proc_sys_dentry_operations;
+@@ -1725,3 +1726,92 @@ int __init proc_sys_init(void)
+ 
+ 	return sysctl_init();
  }
 +
-+#include <sys/rseq.h>
++struct vfsmount *proc_mnt = NULL;
 +
-+#ifdef RSEQ_SIG
-+int
-+sched_getcpu (void)
++/* Set sysctl value passed on kernel command line. */
++static int process_sysctl_arg(char *param, char *val,
++			       const char *unused, void *arg)
 +{
-+  int cpu_id = atomic_load_relaxed (&__rseq_abi.cpu_id);
++	char *path;
++	struct file_system_type *proc_fs_type;
++	struct file *file;
++	int len;
++	int err;
++	loff_t pos = 0;
++	ssize_t wret;
 +
-+  return cpu_id >= 0 ? cpu_id : vsyscall_sched_getcpu ();
++	if (strncmp(param, "sysctl", sizeof("sysctl") - 1))
++		return 0;
++
++	param += sizeof("sysctl") - 1;
++
++	if (param[0] != '/' && param[0] != '.')
++		return 0;
++
++	param++;
++
++	if (!proc_mnt) {
++		proc_fs_type = get_fs_type("proc");
++		if (!proc_fs_type) {
++			pr_err("Failed to mount procfs to set sysctl from command line");
++			return 0;
++		}
++		proc_mnt = kern_mount(proc_fs_type);
++		put_filesystem(proc_fs_type);
++		if (IS_ERR(proc_mnt)) {
++			pr_err("Failed to mount procfs to set sysctl from command line");
++			proc_mnt = NULL;
++			return 0;
++		}
++	}
++
++	len = 4 + strlen(param) + 1;
++	path = kmalloc(len, GFP_KERNEL);
++	if (!path)
++		panic("%s: Failed to allocate %d bytes t\n", __func__, len);
++
++	strcpy(path, "sys/");
++	strcat(path, param);
++	strreplace(path, '.', '/');
++
++	file = file_open_root(proc_mnt->mnt_root, proc_mnt, path, O_WRONLY, 0);
++	if (IS_ERR(file)) {
++		err = PTR_ERR(file);
++		pr_err("Error %d opening proc file %s to set sysctl parameter '%s=%s'",
++			err, path, param, val);
++		goto out;
++	}
++	len = strlen(val);
++	wret = kernel_write(file, val, len, &pos);
++	if (wret < 0) {
++		err = wret;
++		pr_err("Error %d writing to proc file %s to set sysctl parameter '%s=%s'",
++			err, path, param, val);
++	} else if (wret != len) {
++		pr_err("Wrote only %ld bytes of %d  writing to proc file %s to set sysctl parameter '%s=%s'",
++			wret, len, path, param, val);
++	}
++
++	filp_close(file, NULL);
++out:
++	kfree(path);
++	return 0;
 +}
-+#else
-+int
-+sched_getcpu (void)
++
++void do_sysctl_args(void)
 +{
-+  return vsyscall_sched_getcpu ();
++	char *command_line;
++
++	command_line = kstrdup(saved_command_line, GFP_KERNEL);
++	if (!command_line)
++		panic("%s: Failed to allocate copy of command line\n", __func__);
++
++	parse_args("Setting sysctl args", command_line,
++		   NULL, 0, -1, -1, NULL, process_sysctl_arg);
++
++	if (proc_mnt)
++		kern_unmount(proc_mnt);
++
++	kfree(command_line);
 +}
-+#endif
+diff --git a/include/linux/sysctl.h b/include/linux/sysctl.h
+index 02fa84493f23..5f3f2a00d75f 100644
+--- a/include/linux/sysctl.h
++++ b/include/linux/sysctl.h
+@@ -206,6 +206,7 @@ struct ctl_table_header *register_sysctl_paths(const struct ctl_path *path,
+ void unregister_sysctl_table(struct ctl_table_header * table);
+ 
+ extern int sysctl_init(void);
++void do_sysctl_args(void);
+ 
+ extern struct ctl_table sysctl_mount_point[];
+ 
+@@ -236,6 +237,9 @@ static inline void setup_sysctl_set(struct ctl_table_set *p,
+ {
+ }
+ 
++void do_sysctl_args(void)
++{
++}
+ #endif /* CONFIG_SYSCTL */
+ 
+ int sysctl_max_threads(struct ctl_table *table, int write,
+diff --git a/init/main.c b/init/main.c
+index ee4947af823f..a91ea166a731 100644
+--- a/init/main.c
++++ b/init/main.c
+@@ -1367,6 +1367,8 @@ static int __ref kernel_init(void *unused)
+ 
+ 	rcu_end_inkernel_boot();
+ 
++	do_sysctl_args();
++
+ 	if (ramdisk_execute_command) {
+ 		ret = run_init_process(ramdisk_execute_command);
+ 		if (!ret)
 -- 
-2.17.1
+2.25.1
 
