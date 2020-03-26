@@ -2,431 +2,186 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1231D1948DF
-	for <lists+linux-api@lfdr.de>; Thu, 26 Mar 2020 21:28:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 67EE319493B
+	for <lists+linux-api@lfdr.de>; Thu, 26 Mar 2020 21:34:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728824AbgCZU15 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 26 Mar 2020 16:27:57 -0400
-Received: from smtp-190a.mail.infomaniak.ch ([185.125.25.10]:47613 "EHLO
-        smtp-190a.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728811AbgCZU15 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 26 Mar 2020 16:27:57 -0400
-Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 48pGkw5RH1zlj7tm;
-        Thu, 26 Mar 2020 21:27:52 +0100 (CET)
-Received: from localhost (unknown [94.23.54.103])
-        by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 48pGkw2Sb5zlkchT;
-        Thu, 26 Mar 2020 21:27:52 +0100 (CET)
-From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
-To:     linux-kernel@vger.kernel.org
-Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        James Morris <jmorris@namei.org>, Jann Horn <jann@thejh.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mickael.salaun@ssi.gouv.fr>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-security-module@vger.kernel.org, x86@kernel.org
-Subject: [PATCH v15 10/10] landlock: Add user and kernel documentation
-Date:   Thu, 26 Mar 2020 21:27:31 +0100
-Message-Id: <20200326202731.693608-11-mic@digikod.net>
-X-Mailer: git-send-email 2.26.0.rc2
-In-Reply-To: <20200326202731.693608-1-mic@digikod.net>
-References: <20200326202731.693608-1-mic@digikod.net>
+        id S1726291AbgCZUeM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 26 Mar 2020 16:34:12 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:41047 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726281AbgCZUeM (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 26 Mar 2020 16:34:12 -0400
+Received: by mail-pg1-f194.google.com with SMTP id b1so3473859pgm.8
+        for <linux-api@vger.kernel.org>; Thu, 26 Mar 2020 13:34:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Le7doV1aD2nnDIjljTT6TRoqwG4Kk2Xg5cqe+Y2QeE8=;
+        b=IRl4RWYnFi1S/4ylGpDj2CLK3Ia0Xfv+YRQBn3BpWZOs7UKH6YZo8+zxLGWahTKYuZ
+         M/tNUA95U4+1GTULWdX+4rxNECrKnt/UOjrhOmD5k3nKqeauDBg0WkYbDFmCbgqodyGb
+         N0hlBrV9t60fDGH88FD7DUnHKF0D8Q11RzoCg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Le7doV1aD2nnDIjljTT6TRoqwG4Kk2Xg5cqe+Y2QeE8=;
+        b=ozY46K8cBOc03mPnzq1JEy+JOFZdQ6AuXiEQQnU820ErRwaFAWidVDPqq6GlM3ezSF
+         keHtYGAocbkZfRngDyAaKGcM9DadsOndL3kQphUn/LRTySF3R/nA9XepmT+HIhEFkNLS
+         svXlRnja/FEM4LvDe4IZQZzMSuYWcVwdziHPWTcLv6eLatnWgrDFlpCckq3AieOTEnw9
+         zEPqzds2hrHZ7M/EB1qH1D+QEth1EK6Iv1kZp32sKjMce6nFkMFG1OGFXnlOuFLE7+23
+         JKlQsPRbmJNTYM7HX/auRqFchTuGHVcH22peJe2LRNJzfUony5iqV/UbSlSEiZ0QAzQR
+         Nyow==
+X-Gm-Message-State: ANhLgQ0pfjNUB/4ng3V9xKG03Yty0BXgHulkdIXnvz/vSRmNcMtcC16b
+        N9e+ylaezTwK6DEMcqo/3Nesqg==
+X-Google-Smtp-Source: ADFU+vvJTCE0NaoY9hAAFAj5SygbDrAri2BStTDh6/CdBA2TgHqaM/8tkrZcR45y2gjrmFw6MHuIHw==
+X-Received: by 2002:a62:342:: with SMTP id 63mr11323648pfd.19.1585254850791;
+        Thu, 26 Mar 2020 13:34:10 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id l11sm2222672pjy.44.2020.03.26.13.34.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Mar 2020 13:34:09 -0700 (PDT)
+Date:   Thu, 26 Mar 2020 13:34:08 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Vlastimil Babka <vbabka@suse.cz>
+Cc:     Luis Chamberlain <mcgrof@kernel.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-mm@kvack.org, Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        "Guilherme G . Piccoli" <gpiccoli@canonical.com>
+Subject: Re: [RFC v3 2/2] kernel/sysctl: support handling command line aliases
+Message-ID: <202003261329.AAFEE9C@keescook>
+References: <20200326181606.7027-1-vbabka@suse.cz>
+ <20200326181606.7027-2-vbabka@suse.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
-X-Antivirus-Code: 0x100000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200326181606.7027-2-vbabka@suse.cz>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This documentation can be built with the Sphinx framework.
+On Thu, Mar 26, 2020 at 07:16:06PM +0100, Vlastimil Babka wrote:
+> We can now handle sysctl parameters on kernel command line, but historically
+> some parameters introduced their own command line equivalent, which we don't
+> want to remove for compatibility reasons. We can however convert them to the
+> generic infrastructure with a table translating the legacy command line
+> parameters to their sysctl names, and removing the one-off param handlers.
+> 
+> This patch adds the support and makes the first conversion to demonstrate it,
+> on the (deprecated) numa_zonelist_order parameter.
+> 
+> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+> ---
+> Changes in v3:
+> - constify some things according to Kees
+> - expand the comment of sysctl_aliases to note on different timings
+> 
+>  fs/proc/proc_sysctl.c | 48 ++++++++++++++++++++++++++++++++++++-------
+>  mm/page_alloc.c       |  9 --------
+>  2 files changed, 41 insertions(+), 16 deletions(-)
+> 
+> diff --git a/fs/proc/proc_sysctl.c b/fs/proc/proc_sysctl.c
+> index 8ee3273e4540..3a861e0a7c7e 100644
+> --- a/fs/proc/proc_sysctl.c
+> +++ b/fs/proc/proc_sysctl.c
+> @@ -1729,6 +1729,37 @@ int __init proc_sys_init(void)
+>  
+>  struct vfsmount *proc_mnt = NULL;
+>  
+> +struct sysctl_alias {
+> +	const char *kernel_param;
+> +	const char *sysctl_param;
+> +};
+> +
+> +/*
+> + * Historically some settings had both sysctl and a command line parameter.
+> + * With the generic sysctl. parameter support, we can handle them at a single
+> + * place and only keep the historical name for compatibility. This is not meant
+> + * to add brand new aliases. When adding existing aliases, consider whether
+> + * the possibly different moment of changing the value (e.g. from early_param
+> + * to the moment do_sysctl_args() is called) is an issue for the specific
+> + * parameter.
+> + */
+> +static const struct sysctl_alias sysctl_aliases[] = {
+> +	{"numa_zonelist_order",		"vm.numa_zonelist_order" },
+> +	{ }
+> +};
+> +
+> +const char *sysctl_find_alias(char *param)
 
-Signed-off-by: Mickaël Salaün <mic@digikod.net>
-Reviewed-by: Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>
-Cc: Andy Lutomirski <luto@amacapital.net>
-Cc: James Morris <jmorris@namei.org>
-Cc: Kees Cook <keescook@chromium.org>
-Cc: Serge E. Hallyn <serge@hallyn.com>
----
+This should be "static" too.
 
-Changes since v14:
-* Fix spelling (contributed by Randy Dunlap).
-* Extend documentation about inheritance and explain layer levels.
-* Remove the use of now-removed access rights.
-* Use GitHub links.
-* Improve kernel documentation.
-* Add section for tests.
-* Update example.
+> +{
+> +	const struct sysctl_alias *alias;
+> +
+> +	for (alias = &sysctl_aliases[0]; alias->kernel_param != NULL; alias++) {
+> +		if (strcmp(alias->kernel_param, param) == 0)
+> +			return alias->sysctl_param;
+> +	}
+> +
+> +	return NULL;
+> +}
+> +
+>  /* Set sysctl value passed on kernel command line. */
+>  static int process_sysctl_arg(char *param, char *val,
+>  			       const char *unused, void *arg)
+> @@ -1741,15 +1772,18 @@ static int process_sysctl_arg(char *param, char *val,
+>  	loff_t pos = 0;
+>  	ssize_t wret;
+>  
+> -	if (strncmp(param, "sysctl", sizeof("sysctl") - 1))
+> -		return 0;
+> -
+> -	param += sizeof("sysctl") - 1;
+> +	if (strncmp(param, "sysctl", sizeof("sysctl") - 1) == 0) {
+> +		param += sizeof("sysctl") - 1;
+>  
+> -	if (param[0] != '/' && param[0] != '.')
+> -		return 0;
+> +		if (param[0] != '/' && param[0] != '.')
+> +			return 0;
+>  
+> -	param++;
+> +		param++;
+> +	} else {
+> +		param = (char *) sysctl_find_alias(param);
+> +		if (!param)
+> +			return 0;
+> +	}
+>  
+>  	if (!proc_mnt) {
+>  		proc_fs_type = get_fs_type("proc");
+> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> index 3c4eb750a199..de7a134b1b8a 100644
+> --- a/mm/page_alloc.c
+> +++ b/mm/page_alloc.c
+> @@ -5460,15 +5460,6 @@ static int __parse_numa_zonelist_order(char *s)
+>  	return 0;
+>  }
+>  
+> -static __init int setup_numa_zonelist_order(char *s)
+> -{
+> -	if (!s)
+> -		return 0;
+> -
+> -	return __parse_numa_zonelist_order(s);
+> -}
+> -early_param("numa_zonelist_order", setup_numa_zonelist_order);
+> -
+>  char numa_zonelist_order[] = "Node";
+>  
+>  /*
+> -- 
+> 2.25.1
+> 
 
-Changes since v13:
-* Rewrote the documentation according to the major revamp.
+Otherwise, yay, I love it! :)
 
-Previous version:
-https://lore.kernel.org/lkml/20191104172146.30797-8-mic@digikod.net/
----
- Documentation/security/index.rst           |   1 +
- Documentation/security/landlock/index.rst  |  18 ++
- Documentation/security/landlock/kernel.rst |  69 +++++++
- Documentation/security/landlock/user.rst   | 227 +++++++++++++++++++++
- 4 files changed, 315 insertions(+)
- create mode 100644 Documentation/security/landlock/index.rst
- create mode 100644 Documentation/security/landlock/kernel.rst
- create mode 100644 Documentation/security/landlock/user.rst
-
-diff --git a/Documentation/security/index.rst b/Documentation/security/index.rst
-index fc503dd689a7..4d213e76ddf4 100644
---- a/Documentation/security/index.rst
-+++ b/Documentation/security/index.rst
-@@ -15,3 +15,4 @@ Security Documentation
-    self-protection
-    siphash
-    tpm/index
-+   landlock/index
-diff --git a/Documentation/security/landlock/index.rst b/Documentation/security/landlock/index.rst
-new file mode 100644
-index 000000000000..2520f8f33f5e
---- /dev/null
-+++ b/Documentation/security/landlock/index.rst
-@@ -0,0 +1,18 @@
-+=========================================
-+Landlock LSM: unprivileged access control
-+=========================================
-+
-+:Author: Mickaël Salaün
-+
-+The goal of Landlock is to enable to restrict ambient rights (e.g.  global
-+filesystem access) for a set of processes.  Because Landlock is a stackable
-+LSM, it makes possible to create safe security sandboxes as new security layers
-+in addition to the existing system-wide access-controls. This kind of sandbox
-+is expected to help mitigate the security impact of bugs or
-+unexpected/malicious behaviors in user-space applications. Landlock empowers
-+any process, including unprivileged ones, to securely restrict themselves.
-+
-+.. toctree::
-+
-+    user
-+    kernel
-diff --git a/Documentation/security/landlock/kernel.rst b/Documentation/security/landlock/kernel.rst
-new file mode 100644
-index 000000000000..0211ef5df06f
---- /dev/null
-+++ b/Documentation/security/landlock/kernel.rst
-@@ -0,0 +1,69 @@
-+==============================
-+Landlock: kernel documentation
-+==============================
-+
-+Landlock's goal is to create scoped access-control (i.e. sandboxing).  To
-+harden a whole system, this feature should be available to any process,
-+including unprivileged ones.  Because such process may be compromised or
-+backdoored (i.e. untrusted), Landlock's features must be safe to use from the
-+kernel and other processes point of view.  Landlock's interface must therefore
-+expose a minimal attack surface.
-+
-+Landlock is designed to be usable by unprivileged processes while following the
-+system security policy enforced by other access control mechanisms (e.g. DAC,
-+LSM).  Indeed, a Landlock rule shall not interfere with other access-controls
-+enforced on the system, only add more restrictions.
-+
-+Any user can enforce Landlock rulesets on their processes.  They are merged and
-+evaluated according to the inherited ones in a way that ensures that only more
-+constraints can be added.
-+
-+Guiding principles for safe access controls
-+===========================================
-+
-+* A Landlock rule shall be focused on access control on kernel objects instead
-+  of syscall filtering (i.e. syscall arguments), which is the purpose of
-+  seccomp-bpf.
-+* To avoid multiple kinds of side-channel attacks (e.g. leak of security
-+  policies, CPU-based attacks), Landlock rules shall not be able to
-+  programmatically communicate with user space.
-+* Kernel access check shall not slow down access request from unsandboxed
-+  processes.
-+* Computation related to Landlock operations (e.g. enforce a ruleset) shall
-+  only impact the processes requesting them.
-+
-+Tests
-+=====
-+
-+Userspace tests for backward compatibility, ptrace restrictions and filesystem
-+support can be found here: `tools/testing/selftests/landlock/`_.
-+
-+Kernel structures
-+=================
-+
-+Object
-+------
-+
-+.. kernel-doc:: security/landlock/object.h
-+    :identifiers:
-+
-+Ruleset and domain
-+------------------
-+
-+A domain is a read-only ruleset tied to a set of subjects (i.e. tasks'
-+credentials).  Each time a ruleset is enforced on a task, the current domain is
-+duplicated and the ruleset is imported as a new layer of rules in the new
-+domain.  Indeed, once in a domain, each rule is tied to a layer level.  To
-+grant access to an object, at least one rule of each layer must allow the
-+requested action on the object.  A task can then only transit to a new domain
-+which is the intersection of the constraints from the current domain and those
-+of a ruleset provided by the task.
-+
-+The definition of a subject is implicit for a task sandboxing itself, which
-+makes the reasoning much easier and helps avoid pitfalls.
-+
-+.. kernel-doc:: security/landlock/ruleset.h
-+    :identifiers:
-+
-+.. Links
-+.. _tools/testing/selftests/landlock/: https://github.com/landlock-lsm/linux/tree/landlock-v15/tools/testing/selftests/landlock/
-diff --git a/Documentation/security/landlock/user.rst b/Documentation/security/landlock/user.rst
-new file mode 100644
-index 000000000000..8f34d1cf1e03
---- /dev/null
-+++ b/Documentation/security/landlock/user.rst
-@@ -0,0 +1,227 @@
-+=================================
-+Landlock: userspace documentation
-+=================================
-+
-+Landlock rules
-+==============
-+
-+A Landlock rule enables to describe an action on an object.  An object is
-+currently a file hierarchy, and the related filesystem actions are defined in
-+`Access rights`_.  A set of rules is aggregated in a ruleset, which can then
-+restrict the thread enforcing it, and its future children.
-+
-+Defining and enforcing a security policy
-+----------------------------------------
-+
-+Before defining a security policy, an application should first probe for the
-+features supported by the running kernel, which is important to be compatible
-+with older kernels.  This can be done thanks to the `landlock` syscall (cf.
-+:ref:`syscall`).
-+
-+.. code-block:: c
-+
-+    struct landlock_attr_features attr_features;
-+
-+    if (landlock(LANDLOCK_CMD_GET_FEATURES, LANDLOCK_OPT_GET_FEATURES,
-+            sizeof(attr_features), &attr_features)) {
-+        perror("Failed to probe the Landlock supported features");
-+        return 1;
-+    }
-+
-+Then, we need to create the ruleset that will contain our rules.  For this
-+example, the ruleset will contain rules which only allow read actions, but
-+write actions will be denied.  The ruleset then needs to handle both of these
-+kind of actions.  To have a backward compatibility, these actions should be
-+ANDed with the supported ones.
-+
-+.. code-block:: c
-+
-+    int ruleset_fd;
-+    struct landlock_attr_ruleset ruleset = {
-+        .handled_access_fs =
-+            LANDLOCK_ACCESS_FS_EXECUTE |
-+            LANDLOCK_ACCESS_FS_WRITE_FILE |
-+            LANDLOCK_ACCESS_FS_READ_FILE |
-+            LANDLOCK_ACCESS_FS_READ_DIR |
-+            LANDLOCK_ACCESS_FS_LINK_TO |
-+            LANDLOCK_ACCESS_FS_RENAME_FROM |
-+            LANDLOCK_ACCESS_FS_RENAME_TO |
-+            LANDLOCK_ACCESS_FS_RMDIR |
-+            LANDLOCK_ACCESS_FS_UNLINK |
-+            LANDLOCK_ACCESS_FS_MAKE_CHAR |
-+            LANDLOCK_ACCESS_FS_MAKE_DIR |
-+            LANDLOCK_ACCESS_FS_MAKE_REG |
-+            LANDLOCK_ACCESS_FS_MAKE_SOCK |
-+            LANDLOCK_ACCESS_FS_MAKE_FIFO |
-+            LANDLOCK_ACCESS_FS_MAKE_BLOCK |
-+            LANDLOCK_ACCESS_FS_MAKE_SYM,
-+    };
-+
-+    ruleset.handled_access_fs &= attr_features.access_fs;
-+    ruleset_fd = landlock(LANDLOCK_CMD_CREATE_RULESET,
-+                    LANDLOCK_OPT_CREATE_RULESET, sizeof(ruleset), &ruleset);
-+    if (ruleset_fd < 0) {
-+        perror("Failed to create a ruleset");
-+        return 1;
-+    }
-+
-+We can now add a new rule to this ruleset thanks to the returned file
-+descriptor referring to this ruleset.  The rule will only enable to read the
-+file hierarchy ``/usr``.  Without another rule, write actions would then be
-+denied by the ruleset.  To add ``/usr`` to the ruleset, we open it with the
-+``O_PATH`` flag and fill the &struct landlock_attr_path_beneath with this file
-+descriptor.
-+
-+.. code-block:: c
-+
-+    int err;
-+    struct landlock_attr_path_beneath path_beneath = {
-+        .ruleset_fd = ruleset_fd,
-+        .allowed_access =
-+            LANDLOCK_ACCESS_FS_EXECUTE |
-+            LANDLOCK_ACCESS_FS_READ_FILE |
-+            LANDLOCK_ACCESS_FS_READ_DIR,
-+    };
-+
-+    path_beneath.allowed_access &= attr_features.access_fs;
-+    path_beneath.parent_fd = open("/usr", O_PATH | O_CLOEXEC);
-+    if (path_beneath.parent_fd < 0) {
-+        perror("Failed to open file");
-+        close(ruleset_fd);
-+        return 1;
-+    }
-+    err = landlock(LANDLOCK_CMD_ADD_RULE, LANDLOCK_OPT_ADD_RULE_PATH_BENEATH,
-+            sizeof(path_beneath), &path_beneath);
-+    close(path_beneath.parent_fd);
-+    if (err) {
-+        perror("Failed to update ruleset");
-+        close(ruleset_fd);
-+        return 1;
-+    }
-+
-+We now have a ruleset with one rule allowing read access to ``/usr`` while
-+denying all accesses featured in ``attr_features.access_fs`` to everything else
-+on the filesystem.  The next step is to restrict the current thread from
-+gaining more privileges (e.g. thanks to a SUID binary).
-+
-+.. code-block:: c
-+
-+    if (prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0)) {
-+        perror("Failed to restrict privileges");
-+        close(ruleset_fd);
-+        return 1;
-+    }
-+
-+The current thread is now ready to sandbox itself with the ruleset.
-+
-+.. code-block:: c
-+
-+    struct landlock_attr_enforce attr_enforce = {
-+        .ruleset_fd = ruleset_fd,
-+    };
-+
-+    if (landlock(LANDLOCK_CMD_ENFORCE_RULESET, LANDLOCK_OPT_ENFORCE_RULESET,
-+            sizeof(attr_enforce), &attr_enforce)) {
-+        perror("Failed to enforce ruleset");
-+        close(ruleset_fd);
-+        return 1;
-+    }
-+    close(ruleset_fd);
-+
-+If the last `landlock` system call succeeds, the current thread is now
-+restricted and this policy will be enforced on all its subsequently created
-+children as well.  Once a thread is landlocked, there is no way to remove its
-+security policy; only adding more restrictions is allowed.  These threads are
-+now in a new Landlock domain, merge of their parent one (if any) with the new
-+ruleset.
-+
-+Full working code can be found in `samples/landlock/sandboxer.c`_.
-+
-+Inheritance
-+-----------
-+
-+Every new thread resulting from a :manpage:`clone(2)` inherits Landlock domain
-+restrictions from its parent.  This is similar to the seccomp inheritance (cf.
-+:doc:`/userspace-api/seccomp_filter`) or any other LSM dealing with task's
-+:manpage:`credentials(7)`.  For instance, one process's thread may apply
-+Landlock rules to itself, but they will not be automatically applied to other
-+sibling threads (unlike POSIX thread credential changes, cf.
-+:manpage:`nptl(7)`).
-+
-+When a thread sandbox itself, we have the grantee that the related security
-+policy will stay enforced on all this thread's descendants.  This enables to
-+create standalone and modular security policies per application, which will
-+automatically be composed between themselves according to their runtime parent
-+policies.
-+
-+Ptrace restrictions
-+-------------------
-+
-+A sandboxed process has less privileges than a non-sandboxed process and must
-+then be subject to additional restrictions when manipulating another process.
-+To be allowed to use :manpage:`ptrace(2)` and related syscalls on a target
-+process, a sandboxed process should have a subset of the target process rules,
-+which means the tracee must be in a sub-domain of the tracer.
-+
-+.. _syscall:
-+
-+The `landlock` syscall and its arguments
-+========================================
-+
-+.. kernel-doc:: security/landlock/syscall.c
-+    :identifiers: sys_landlock
-+
-+Commands
-+--------
-+
-+.. kernel-doc:: include/uapi/linux/landlock.h
-+    :identifiers: landlock_cmd
-+
-+Options
-+-------
-+
-+.. kernel-doc:: include/uapi/linux/landlock.h
-+    :identifiers: options_intro
-+                  options_get_features options_create_ruleset
-+                  options_add_rule options_enforce_ruleset
-+
-+Attributes
-+----------
-+
-+.. kernel-doc:: include/uapi/linux/landlock.h
-+    :identifiers: landlock_attr_features landlock_attr_ruleset
-+                  landlock_attr_path_beneath landlock_attr_enforce
-+
-+Access rights
-+-------------
-+
-+.. kernel-doc:: include/uapi/linux/landlock.h
-+    :identifiers: fs_access
-+
-+Questions and answers
-+=====================
-+
-+What about user space sandbox managers?
-+---------------------------------------
-+
-+Using user space process to enforce restrictions on kernel resources can lead
-+to race conditions or inconsistent evaluations (i.e. `Incorrect mirroring of
-+the OS code and state
-+<https://www.ndss-symposium.org/ndss2003/traps-and-pitfalls-practical-problems-system-call-interposition-based-security-tools/>`_).
-+
-+What about namespaces and containers?
-+-------------------------------------
-+
-+Namespaces can help create sandboxes but they are not designed for
-+access-control and then miss useful features for such use case (e.g. no
-+fine-grained restrictions).  Moreover, their complexity can lead to security
-+issues, especially when untrusted processes can manipulate them (cf.
-+`Controlling access to user namespaces <https://lwn.net/Articles/673597/>`_).
-+
-+Additional documentation
-+========================
-+
-+See https://landlock.io
-+
-+.. Links
-+.. _samples/landlock/sandboxer.c: https://github.com/landlock-lsm/linux/tree/landlock-v15/samples/landlock/sandboxer.c
 -- 
-2.26.0.rc2
-
+Kees Cook
