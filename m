@@ -2,184 +2,237 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 769B5195E5A
-	for <lists+linux-api@lfdr.de>; Fri, 27 Mar 2020 20:12:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 24B9C196152
+	for <lists+linux-api@lfdr.de>; Fri, 27 Mar 2020 23:39:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726937AbgC0TMz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 27 Mar 2020 15:12:55 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:16807 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726738AbgC0TMz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 27 Mar 2020 15:12:55 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e7e4fd90002>; Fri, 27 Mar 2020 12:11:21 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Fri, 27 Mar 2020 12:12:54 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Fri, 27 Mar 2020 12:12:54 -0700
-Received: from [10.2.58.50] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 27 Mar
- 2020 19:12:54 +0000
-Subject: Re: [PATCH] mm: introduce MAP_FIXED_HUGETLB_LEN to mmap()
-To:     Li Xinhai <lixinhai.lxh@gmail.com>, <linux-mm@kvack.org>,
-        Linux API <linux-api@vger.kernel.org>
-CC:     Mike Kravetz <mike.kravetz@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-References: <1585313944-8627-1-git-send-email-lixinhai.lxh@gmail.com>
-X-Nvconfidentiality: public
-From:   John Hubbard <jhubbard@nvidia.com>
-Message-ID: <a3444ac1-90d3-83fa-fd7b-85ea77c6e0ff@nvidia.com>
-Date:   Fri, 27 Mar 2020 12:12:54 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        id S1727620AbgC0WjK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 27 Mar 2020 18:39:10 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:43272 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727716AbgC0WjK (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 27 Mar 2020 18:39:10 -0400
+Received: from mail-qk1-f199.google.com ([209.85.222.199])
+        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <gpiccoli@canonical.com>)
+        id 1jHxat-0000Vy-PI
+        for linux-api@vger.kernel.org; Fri, 27 Mar 2020 22:36:51 +0000
+Received: by mail-qk1-f199.google.com with SMTP id y5so2606988qky.13
+        for <linux-api@vger.kernel.org>; Fri, 27 Mar 2020 15:36:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=O94P0uoScvdbW3wTdJiQYQPyg7B5lC7WAC85T+bbce4=;
+        b=m+a5pDbfSIQBIBJAXgCpS4cedMefy4wUMSh6EZFZDmeHE82AO2fBGFy9rsh1JBc4vM
+         UlSK0F4ztsyEbiqbYGmSBZ/0R+O14JftNglLIq4yzjaUOQ1dcA9VSEY/E3rw70sAwpi7
+         OanwG7YmmbqMAma+WUzVGozsBHmRZn8z/0otOBrSnwFzWfh0UXbgR0Z6kK+MVN+uMX7p
+         knIP3vmOdnMlQmfKI/+zVf6epFr8I+2LWzCbCziSM7VJo1NTF9aFp7Vw0oNK9gGkjVuG
+         KJIaBl8LQi++Do8UYOgeUqDfgdvPvmtYO7iuqZHKibDVsMo96JPDIHgQYsJzQgWKOL25
+         7hKg==
+X-Gm-Message-State: ANhLgQ1FnMtQuXtinn6F09x1L33jTCSuzeObRZQ57l0HTP8Ox2zxCSoT
+        aIZ9gkVhwaXECyHBbEkvhRbo4faRZOvuvUSdwe9gxsx7X9gNqOsV5O+jizLfxAz+gJSj8ENWmxh
+        d8R6qorhjHYPrVzZuPL1YRGkA9hgsOs9Ig2sK8A==
+X-Received: by 2002:ae9:ed4a:: with SMTP id c71mr1637002qkg.418.1585348610697;
+        Fri, 27 Mar 2020 15:36:50 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vsEdbz0uv5I6GDIIDnD05XVXJ9B1aeiR0bCDmtaklFI7RlYJRhcoq0y3fccbC+JNH6yttitqQ==
+X-Received: by 2002:ae9:ed4a:: with SMTP id c71mr1636966qkg.418.1585348610238;
+        Fri, 27 Mar 2020 15:36:50 -0700 (PDT)
+Received: from localhost (189-47-87-73.dsl.telesp.net.br. [189.47.87.73])
+        by smtp.gmail.com with ESMTPSA id c40sm5212630qtk.18.2020.03.27.15.36.48
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 27 Mar 2020 15:36:49 -0700 (PDT)
+From:   "Guilherme G. Piccoli" <gpiccoli@canonical.com>
+To:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        akpm@linux-foundation.org
+Cc:     linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
+        tglx@linutronix.de, penguin-kernel@I-love.SAKURA.ne.jp,
+        vbabka@suse.cz, rdunlap@infradead.org, willy@infradead.org,
+        gpiccoli@canonical.com, kernel@gpiccoli.net
+Subject: [PATCH V3] kernel/hung_task.c: Introduce sysctl to print all traces when a hung task is detected
+Date:   Fri, 27 Mar 2020 19:36:46 -0300
+Message-Id: <20200327223646.20779-1-gpiccoli@canonical.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <1585313944-8627-1-git-send-email-lixinhai.lxh@gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1585336281; bh=AUhaKHwkE+hJ0knKe/OQPJvGbUJPsl8juAKT/nUXcGs=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=SuGFEBOY89HbUB/8dwmtlXPFi9CqsooX3xi2wvEy6EcefC1toszAaC3njKprZDQHe
-         Y/QrMlZpmNL+i+3948JNiH2luFT1tNbygv/JiI+DVLUZ+/vl9TV70Uve0Qeo7rtX60
-         Qh7fu0c64mAvdy8NY+zfXC+Gs1CL8jQgwX4/c6a68TDr7f9y1f824RWUfOJ2zTmHDb
-         OVRJ7CaWZSbpc4f/faO0nQVBAzCk0LG84m8iQE7ciRfUT0QT6+aQ6td9JypjS2cTSz
-         vZ8b2hwYvy6yPtsPyDAbWgd6HlWO+oxBc3+Rk8Bjn6JPv9hpQVZYs7xJEi+4UIEiqr
-         yHx8iw6rzvIUA==
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 3/27/20 5:59 AM, Li Xinhai wrote:
-> The purpose of MAP_FIXED_HUGETLB_LEN is to check whether the parameter
-> length is valid or not according to the target file's huge page size.
-> When it is used, if length is not aligned to underlying huge page size,
-> mmap() is failed with errno set to EINVAL. When it is not used, the
-> current semantic is maintained, i.e., length is round up to underlying
-> huge page size.
-> 
-> In current code, the vma related call, except mmap, are all consider
-> not correctly aligned length as invalid parameter, including mprotect,
-> munmap, mlock, etc., by checking through hugetlb_vm_op_split. So, user
-> will see failure, after successfully call mmap, although using same
-> length parameter to other mapping syscall.
-> 
-> With MAP_FIXED_HUGETLB_LEN, user can choose to check if length is
-> correctly aligned at first place when call mmap, instead of failure after
-> mapping has been created.
+Commit 401c636a0eeb ("kernel/hung_task.c: show all hung tasks before panic")
+introduced a change in that we started to show all CPUs backtraces when a
+hung task is detected _and_ the sysctl/kernel parameter "hung_task_panic"
+is set. The idea is good, because usually when observing deadlocks (that
+may lead to hung tasks), the culprit is another task holding a lock and
+not necessarily the task detected as hung.
 
-Hi Li,
+The problem with this approach is that dumping backtraces is a slightly
+expensive task, specially printing that on console (and specially in many
+CPU machines, as servers commonly found nowadays). So, users that plan to
+collect a kdump to investigate the hung tasks and narrow down the deadlock
+definitely don't need the CPUs backtrace on dmesg/console, which will delay
+the panic and pollute the log (crash tool would easily grab all CPUs traces
+with 'bt -a' command).
+Also, there's the reciprocal scenario: some users may be interested in
+seeing the CPUs backtraces but not have the system panic when a hung task
+is detected. The current approach hence is almost as embedding a policy in
+the kernel, by forcing the CPUs backtraces' dump (only) on hung_task_panic.
 
-This is not worth creating a new MAP_ flag. If you look at the existing flags
-you will see that they are both limited and carefully chosen, so as to cover
-a reasonable chunk of functionality per flag. We don't just drop in a flag
-for tiny corner cases like this one.
+This patch decouples the panic event on hung task from the CPUs
+backtraces dump, by creating (and documenting) a new sysctl called
+"hung_task_all_cpu_backtrace", analog to the approach taken on soft/hard
+lockups, that have both a panic and an "all_cpu_backtrace" sysctl to allow
+individual control. The new mechanism for dumping the CPUs backtraces on
+hung task detection respects "hung_task_warnings" by not dumping the
+traces in case there's no warnings left.
 
-btw, remember that user API changes require man pages updates as well. And
-that the API has to be supported forever. And that if we use up valuable
-flag slots on trivia then we'll run out of flags quite soon, and won't be
-able to do broader, more important upgrades.
+Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Reviewed-by: Kees Cook <keescook@chromium.org>
+Signed-off-by: Guilherme G. Piccoli <gpiccoli@canonical.com>
+---
 
-Also, we need to include a user space API mailing list for things that
-affect that. Adding them now: Linux API <linux-api@vger.kernel.org>
-The man pages mailing list will also be needed if we go there.
+V3: Following the suggestion from Vlastimil, removed the kernel parameter
+since soon we (hopefully) will have a generic approach to set sysctls via
+kernel parameters[0] - thanks Vlastimil, great idea!
 
-Let's take a closer look at your problem and see what it takes to solve it.
-If we need some sort of flag to mmap() or other routines, fine. But so far,
-I can see at least two solutions that are much easier:
+Thanks,
 
-> 
-> Signed-off-by: Li Xinhai <lixinhai.lxh@gmail.com>
-> Cc: Mike Kravetz <mike.kravetz@oracle.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> ---
->   include/uapi/asm-generic/mman-common.h |  1 +
->   mm/mmap.c                              | 17 +++++++++++++++--
->   2 files changed, 16 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/uapi/asm-generic/mman-common.h b/include/uapi/asm-generic/mman-common.h
-> index f94f65d..1c9ba97 100644
-> --- a/include/uapi/asm-generic/mman-common.h
-> +++ b/include/uapi/asm-generic/mman-common.h
-> @@ -21,6 +21,7 @@
->   #define MAP_TYPE	0x0f		/* Mask for type of mapping */
->   #define MAP_FIXED	0x10		/* Interpret addr exactly */
->   #define MAP_ANONYMOUS	0x20		/* don't use a file */
-> +#define MAP_FIXED_HUGETLB_LEN	0x40	/* check alignment of addr, length, offset */
->   
->   /* 0x0100 - 0x4000 flags are defined in asm-generic/mman.h */
->   #define MAP_POPULATE		0x008000	/* populate (prefault) pagetables */
-> diff --git a/mm/mmap.c b/mm/mmap.c
-> index d681a20..50a12e0 100644
-> --- a/mm/mmap.c
-> +++ b/mm/mmap.c
-> @@ -1560,9 +1560,18 @@ unsigned long ksys_mmap_pgoff(unsigned long addr, unsigned long len,
->   		file = fget(fd);
->   		if (!file)
->   			return -EBADF;
-> -		if (is_file_hugepages(file))
-> -			len = ALIGN(len, huge_page_size(hstate_file(file)));
+Guilherme
 
-Solution idea #1: because your proposal here requires changing the calling
-(user space) code by adding the new flag to the mmap() call, it's therefore
-clear that other changes to the calling code are also possible. So what
-about simply doing the length check first, before calling mmap()? In other
-words, do the user space equivalent of the above two lines that you're deleting?
-That avoids your stated problem of calling mmap twice.
+[0] lore.kernel.org/lkml/20200326181606.7027-1-vbabka@suse.cz/T
 
 
-> +
->   		retval = -EINVAL;
-> +		if (is_file_hugepages(file)) {
-> +			struct hstate *hs = hstate_file(file);
-> +
-> +			if (flags & MAP_FIXED_HUGETLB_LEN &&
-> +				len & ~(huge_page_mask(hs)))
-> +				goto out_fput;
-> +
-> +			len = ALIGN(len, huge_page_size(hs));
+ Documentation/admin-guide/sysctl/kernel.rst | 15 +++++++++++++++
+ include/linux/sched/sysctl.h                |  7 +++++++
+ kernel/hung_task.c                          | 20 ++++++++++++++++++--
+ kernel/sysctl.c                             | 11 +++++++++++
+ 4 files changed, 51 insertions(+), 2 deletions(-)
 
-
-Solution idea #2: just do the length check unconditionally here (without looking
-at a new flag), and return an error if it is not aligned. And same thing for the
-MAP_HUGETLB case below. And delete the "len = ALIGN(len, huge_page_size(hs));" in
-both cases.
-
-That would still require a man page update, and consensus that it won't Break
-The World, but it's possible (I really don't know) that this is a more common
-and desirable behavior.
-
-Let's see if anyone else weighs in about this.
-
-
-> +		}
-> +
->   		if (unlikely(flags & MAP_HUGETLB && !is_file_hugepages(file)))
->   			goto out_fput;
->   	} else if (flags & MAP_HUGETLB) {
-> @@ -1573,6 +1582,10 @@ unsigned long ksys_mmap_pgoff(unsigned long addr, unsigned long len,
->   		if (!hs)
->   			return -EINVAL;
->   
-> +		if (flags & MAP_FIXED_HUGETLB_LEN &&
-> +			len & ~(huge_page_mask(hs)))
-> +			return -EINVAL;
-> +
->   		len = ALIGN(len, huge_page_size(hs));
->   		/*
->   		 * VM_NORESERVE is used because the reservations will be
-> 
-
-
-thanks,
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index def074807cee..8b4ff69d2348 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -40,6 +40,7 @@ show up in /proc/sys/kernel:
+ - hotplug
+ - hardlockup_all_cpu_backtrace
+ - hardlockup_panic
++- hung_task_all_cpu_backtrace
+ - hung_task_panic
+ - hung_task_check_count
+ - hung_task_timeout_secs
+@@ -338,6 +339,20 @@ Path for the hotplug policy agent.
+ Default value is "/sbin/hotplug".
+ 
+ 
++hung_task_all_cpu_backtrace:
++================
++
++If this option is set, the kernel will send an NMI to all CPUs to dump
++their backtraces when a hung task is detected. This file shows up if
++CONFIG_DETECT_HUNG_TASK and CONFIG_SMP are enabled.
++
++0: Won't show all CPUs backtraces when a hung task is detected.
++This is the default behavior.
++
++1: Will non-maskably interrupt all CPUs and dump their backtraces when
++a hung task is detected.
++
++
+ hung_task_panic:
+ ================
+ 
+diff --git a/include/linux/sched/sysctl.h b/include/linux/sched/sysctl.h
+index d4f6215ee03f..8cd29440ec8a 100644
+--- a/include/linux/sched/sysctl.h
++++ b/include/linux/sched/sysctl.h
+@@ -7,6 +7,13 @@
+ struct ctl_table;
+ 
+ #ifdef CONFIG_DETECT_HUNG_TASK
++
++#ifdef CONFIG_SMP
++extern unsigned int sysctl_hung_task_all_cpu_backtrace;
++#else
++#define sysctl_hung_task_all_cpu_backtrace 0
++#endif /* CONFIG_SMP */
++
+ extern int	     sysctl_hung_task_check_count;
+ extern unsigned int  sysctl_hung_task_panic;
+ extern unsigned long sysctl_hung_task_timeout_secs;
+diff --git a/kernel/hung_task.c b/kernel/hung_task.c
+index 14a625c16cb3..9a774aee1a44 100644
+--- a/kernel/hung_task.c
++++ b/kernel/hung_task.c
+@@ -53,9 +53,18 @@ int __read_mostly sysctl_hung_task_warnings = 10;
+ static int __read_mostly did_panic;
+ static bool hung_task_show_lock;
+ static bool hung_task_call_panic;
++static bool hung_task_show_all_bt;
+ 
+ static struct task_struct *watchdog_task;
+ 
++#ifdef CONFIG_SMP
++/*
++ * Should we dump all CPUs backtraces in a hung task event?
++ * Defaults to 0, can be changed via sysctl.
++ */
++unsigned int __read_mostly sysctl_hung_task_all_cpu_backtrace;
++#endif /* CONFIG_SMP */
++
+ /*
+  * Should we panic (and reboot, if panic_timeout= is set) when a
+  * hung task is detected:
+@@ -137,6 +146,9 @@ static void check_hung_task(struct task_struct *t, unsigned long timeout)
+ 			" disables this message.\n");
+ 		sched_show_task(t);
+ 		hung_task_show_lock = true;
++
++		if (sysctl_hung_task_all_cpu_backtrace)
++			hung_task_show_all_bt = true;
+ 	}
+ 
+ 	touch_nmi_watchdog();
+@@ -201,10 +213,14 @@ static void check_hung_uninterruptible_tasks(unsigned long timeout)
+ 	rcu_read_unlock();
+ 	if (hung_task_show_lock)
+ 		debug_show_all_locks();
+-	if (hung_task_call_panic) {
++
++	if (hung_task_show_all_bt) {
++		hung_task_show_all_bt = false;
+ 		trigger_all_cpu_backtrace();
++	}
++
++	if (hung_task_call_panic)
+ 		panic("hung_task: blocked tasks");
+-	}
+ }
+ 
+ static long hung_timeout_jiffies(unsigned long last_checked,
+diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+index ad5b88a53c5a..238f268de486 100644
+--- a/kernel/sysctl.c
++++ b/kernel/sysctl.c
+@@ -1098,6 +1098,17 @@ static struct ctl_table kern_table[] = {
+ 	},
+ #endif
+ #ifdef CONFIG_DETECT_HUNG_TASK
++#ifdef CONFIG_SMP
++	{
++		.procname	= "hung_task_all_cpu_backtrace",
++		.data		= &sysctl_hung_task_all_cpu_backtrace,
++		.maxlen		= sizeof(int),
++		.mode		= 0644,
++		.proc_handler	= proc_dointvec_minmax,
++		.extra1		= SYSCTL_ZERO,
++		.extra2		= SYSCTL_ONE,
++	},
++#endif /* CONFIG_SMP */
+ 	{
+ 		.procname	= "hung_task_panic",
+ 		.data		= &sysctl_hung_task_panic,
 -- 
-John Hubbard
-NVIDIA
+2.25.1
+
