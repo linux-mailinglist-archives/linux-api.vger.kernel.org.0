@@ -2,127 +2,279 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 32641196312
-	for <lists+linux-api@lfdr.de>; Sat, 28 Mar 2020 03:20:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 07557196933
+	for <lists+linux-api@lfdr.de>; Sat, 28 Mar 2020 21:28:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726330AbgC1CUF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 27 Mar 2020 22:20:05 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:41683 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726225AbgC1CUF (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 27 Mar 2020 22:20:05 -0400
-Received: by mail-lf1-f68.google.com with SMTP id z23so9489817lfh.8
-        for <linux-api@vger.kernel.org>; Fri, 27 Mar 2020 19:20:02 -0700 (PDT)
+        id S1727484AbgC1U2e (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 28 Mar 2020 16:28:34 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:43611 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727485AbgC1U2d (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 28 Mar 2020 16:28:33 -0400
+Received: by mail-pg1-f194.google.com with SMTP id u12so6545489pgb.10
+        for <linux-api@vger.kernel.org>; Sat, 28 Mar 2020 13:28:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:references:mime-version:message-id
-         :content-transfer-encoding;
-        bh=6kTAzk4E7LlwXW6lIU0+VI4nFEnSXMflGO25gvKSnN8=;
-        b=LAunUqUFS9WVR8uP6krysBocg8EvmhzuVlEMAGMGxK0+IfmDiRd2rkE91AJ+q5gvVd
-         XknsqKSNLSoTstzxiw15EYhxx9vx/DvLVCIPK43y54+DKIwEk1uiiP2sfAJiirGZHjq2
-         jz7aU0jTUTqinPu15fs3cfxSlE9mabkBvjqZFCbkkpYbGkFEKqKnj8wz7DSZMdgDE/ME
-         WybS6ZhOyoVe77/WLBfuwCfkkAGl+IkCT2+8rsP/7oG4lMBHAKtaClL1dFYBLFNH06MK
-         J+O3m4HX6s7k0BR2V1U92lisht/HVykqGLdigRw/qiQGdlzhrYL0eHNwx2E+ZJdFEHPM
-         49ZA==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=MUiWV4pjfeHPi8U1e/rHhzPVFQ2nBZ/K1op0DmSl2ak=;
+        b=O356OkPU3ESu244KOG9mhvpPy+52uafWy+esv/NqtJeU4HkZdS2FgU1+D6ku18Ey9U
+         WwE1swFtAGXf6jIcipRl3rxt7eSXUxtW5jNPJbCl+RWJmyxlvMgSIRn/BFX3k8XEF5Jz
+         fm+WSAuOQB8rXjlO7nq1GRvVm1DR6X/f6Bd1E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:references:mime-version
-         :message-id:content-transfer-encoding;
-        bh=6kTAzk4E7LlwXW6lIU0+VI4nFEnSXMflGO25gvKSnN8=;
-        b=S7/Nol3stoN5083whiRWJkIpCskHQlACy4xFG9KWXq/OdR89YWtrS+JDAcGWdHWxFH
-         urw+g4SxyP7IVRMTasPD16p6udkwlZ1YzDa9VQ+uuljJSEhMvgmU+z8Gdn1FlGyySUUb
-         mhJCf6K9xRs6qg+n01YWocMBPoWDhxgF9jhbZDck7ca556u07IT6n6+fCI5vUD0Xr54t
-         SDW5DWTttee3UdSyzrGEiKts2FCOEpgE/S2qT3U/8+qLv3qHuCpvthCCCKM/r+Rdh2dN
-         IE7chO3EOvrD5GxNoOh23hC5vdhy7dkCLcvaLw0AEJKS6tonK9lvQlEwfbiy0SkZVdfk
-         3nKQ==
-X-Gm-Message-State: AGi0PubMveOXgrs0IpDVjRu2jO449ajkbAbGc2Jy56cvOPRcghxu48Zz
-        nriJaM34HN3ra6T0IEfpnf0=
-X-Google-Smtp-Source: APiQypLqf3r+TvSoHMoJaXqR2UEqE9MOt2wKn/Xfb0HQ7ZNd93/MRFT20TEkUSikJu2KAbpzl5r+fg==
-X-Received: by 2002:ac2:4c13:: with SMTP id t19mr1320363lfq.16.1585362001518;
-        Fri, 27 Mar 2020 19:20:01 -0700 (PDT)
-Received: from N-20L6PF1KTYA2 ([131.228.2.21])
-        by smtp.gmail.com with ESMTPSA id l11sm3753552lfg.87.2020.03.27.19.19.59
-        (version=TLS1_2 cipher=AES128-GCM-SHA256 bits=128/128);
-        Fri, 27 Mar 2020 19:20:01 -0700 (PDT)
-Date:   Sat, 28 Mar 2020 10:19:59 +0800
-From:   "Li Xinhai" <lixinhai.lxh@gmail.com>
-To:     "Mike Kravetz" <mike.kravetz@oracle.com>,
-        "John Hubbard" <jhubbard@nvidia.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "Linux API" <linux-api@vger.kernel.org>
-Cc:     akpm <akpm@linux-foundation.org>
-Subject: Re: Re: [PATCH] mm: introduce MAP_FIXED_HUGETLB_LEN to mmap()
-References: <1585313944-8627-1-git-send-email-lixinhai.lxh@gmail.com>, 
-        <a3444ac1-90d3-83fa-fd7b-85ea77c6e0ff@nvidia.com>, 
-        <0de74135-200f-ce91-3f27-5ab759220c9d@oracle.com>
-X-Priority: 3
-X-GUID: 2FD015B4-7EA5-4DFD-8759-5A8251224820
-X-Has-Attach: no
-X-Mailer: Foxmail 7.2.13.365[cn]
-Mime-Version: 1.0
-Message-ID: <2020032810195804815050@gmail.com>
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: base64
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=MUiWV4pjfeHPi8U1e/rHhzPVFQ2nBZ/K1op0DmSl2ak=;
+        b=Vs6U0Oj9CH3tTYiusnuTE1t17efNdo0ZO21p3M6QD3m9vdn/IWtRZc/aCjjNKjVpA/
+         +sEfLdQGMN8Lq3zc/Qn/EpG/WGHf4lMWef8w96nDRSTC6wW1LjI6EP1a/XItIXn8FrIf
+         gaxT7mJ5FC0CtY5IzumNwM7XMVKJfKaRx0j4FOR0q3FEXgHS+aMAdKOK/7I5tkPUD0eX
+         deFjKtnh2I0Xg3adgpgyxhZ3jX81nkjOEUCOHLojJdsdwO91Ij32/wqYm8C2UO+bM+E7
+         TLxRdinzRadjZt1lYQ7KUtOx66QhKIs15WkIS8uVtvPtmuA1rxTQl+yyZgjL5AP937Ih
+         Dt8g==
+X-Gm-Message-State: ANhLgQ2r1FNuwkc0Wtd0Jbv52FVoV+zDXeblf1jR8s76wGCBj0sNvC5f
+        j9yJJVg1YgEaLNAEDvQYL8uHEw==
+X-Google-Smtp-Source: ADFU+vvfFxyZ2kTL+AiPQZIPrYo32pSmRxmE/hu6jvevOYpyed0FsDRABSVDRXjfu6Xe5G8kaOa63g==
+X-Received: by 2002:aa7:959a:: with SMTP id z26mr5695770pfj.211.1585427310147;
+        Sat, 28 Mar 2020 13:28:30 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id r63sm6926642pfr.42.2020.03.28.13.28.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Mar 2020 13:28:29 -0700 (PDT)
+Date:   Sat, 28 Mar 2020 13:28:28 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Alexey Gladkov <gladkov.alexey@gmail.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        Linux Security Module <linux-security-module@vger.kernel.org>,
+        Akinobu Mita <akinobu.mita@gmail.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Alexey Gladkov <legion@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Daniel Micay <danielmicay@gmail.com>,
+        Djalal Harouni <tixxdz@gmail.com>,
+        "Dmitry V . Levin" <ldv@altlinux.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Jeff Layton <jlayton@poochiereds.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Oleg Nesterov <oleg@redhat.com>
+Subject: Re: [PATCH v10 8/9] proc: use human-readable values for hidehid
+Message-ID: <202003281321.A69D9DE45@keescook>
+References: <20200327172331.418878-1-gladkov.alexey@gmail.com>
+ <20200327172331.418878-9-gladkov.alexey@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200327172331.418878-9-gladkov.alexey@gmail.com>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-T24gMjAyMC0wMy0yOMKgYXQgMDk6MzHCoE1pa2UgS3JhdmV0esKgd3JvdGU6Cj5PbiAzLzI3LzIw
-IDEyOjEyIFBNLCBKb2huIEh1YmJhcmQgd3JvdGU6Cj4+IE9uIDMvMjcvMjAgNTo1OSBBTSwgTGkg
-WGluaGFpIHdyb3RlOgo+Pj4gVGhlIHB1cnBvc2Ugb2YgTUFQX0ZJWEVEX0hVR0VUTEJfTEVOIGlz
-IHRvIGNoZWNrIHdoZXRoZXIgdGhlIHBhcmFtZXRlcgo+Pj4gbGVuZ3RoIGlzIHZhbGlkIG9yIG5v
-dCBhY2NvcmRpbmcgdG8gdGhlIHRhcmdldCBmaWxlJ3MgaHVnZSBwYWdlIHNpemUuCj4+PiBXaGVu
-IGl0IGlzIHVzZWQsIGlmIGxlbmd0aCBpcyBub3QgYWxpZ25lZCB0byB1bmRlcmx5aW5nIGh1Z2Ug
-cGFnZSBzaXplLAo+Pj4gbW1hcCgpIGlzIGZhaWxlZCB3aXRoIGVycm5vIHNldCB0byBFSU5WQUwu
-IFdoZW4gaXQgaXMgbm90IHVzZWQsIHRoZQo+Pj4gY3VycmVudCBzZW1hbnRpYyBpcyBtYWludGFp
-bmVkLCBpLmUuLCBsZW5ndGggaXMgcm91bmQgdXAgdG8gdW5kZXJseWluZwo+Pj4gaHVnZSBwYWdl
-IHNpemUuCj4+Pgo+Pj4gSW4gY3VycmVudCBjb2RlLCB0aGUgdm1hIHJlbGF0ZWQgY2FsbCwgZXhj
-ZXB0IG1tYXAsIGFyZSBhbGwgY29uc2lkZXIKPj4+IG5vdCBjb3JyZWN0bHkgYWxpZ25lZCBsZW5n
-dGggYXMgaW52YWxpZCBwYXJhbWV0ZXIsIGluY2x1ZGluZyBtcHJvdGVjdCwKPj4+IG11bm1hcCwg
-bWxvY2ssIGV0Yy4sIGJ5IGNoZWNraW5nIHRocm91Z2ggaHVnZXRsYl92bV9vcF9zcGxpdC4gU28s
-IHVzZXIKPj4+IHdpbGwgc2VlIGZhaWx1cmUsIGFmdGVyIHN1Y2Nlc3NmdWxseSBjYWxsIG1tYXAs
-IGFsdGhvdWdoIHVzaW5nIHNhbWUKPj4+IGxlbmd0aCBwYXJhbWV0ZXIgdG8gb3RoZXIgbWFwcGlu
-ZyBzeXNjYWxsLgo+Pj4KPj4+IFdpdGggTUFQX0ZJWEVEX0hVR0VUTEJfTEVOLCB1c2VyIGNhbiBj
-aG9vc2UgdG8gY2hlY2sgaWYgbGVuZ3RoIGlzCj4+PiBjb3JyZWN0bHkgYWxpZ25lZCBhdCBmaXJz
-dCBwbGFjZSB3aGVuIGNhbGwgbW1hcCwgaW5zdGVhZCBvZiBmYWlsdXJlIGFmdGVyCj4+PiBtYXBw
-aW5nIGhhcyBiZWVuIGNyZWF0ZWQuCj4+Cj4+IEhpIExpLAo+Pgo+PiBUaGlzIGlzIG5vdCB3b3J0
-aCBjcmVhdGluZyBhIG5ldyBNQVBfIGZsYWcuIElmIHlvdSBsb29rIGF0IHRoZSBleGlzdGluZyBm
-bGFncwo+PiB5b3Ugd2lsbCBzZWUgdGhhdCB0aGV5IGFyZSBib3RoIGxpbWl0ZWQgYW5kIGNhcmVm
-dWxseSBjaG9zZW4sIHNvIGFzIHRvIGNvdmVyCj4+IGEgcmVhc29uYWJsZSBjaHVuayBvZiBmdW5j
-dGlvbmFsaXR5IHBlciBmbGFnLiBXZSBkb24ndCBqdXN0IGRyb3AgaW4gYSBmbGFnCj4+IGZvciB0
-aW55IGNvcm5lciBjYXNlcyBsaWtlIHRoaXMgb25lLgo+Pgo+PiBidHcsIHJlbWVtYmVyIHRoYXQg
-dXNlciBBUEkgY2hhbmdlcyByZXF1aXJlIG1hbiBwYWdlcyB1cGRhdGVzIGFzIHdlbGwuIEFuZAo+
-PiB0aGF0IHRoZSBBUEkgaGFzIHRvIGJlIHN1cHBvcnRlZCBmb3JldmVyLiBBbmQgdGhhdCBpZiB3
-ZSB1c2UgdXAgdmFsdWFibGUKPj4gZmxhZyBzbG90cyBvbiB0cml2aWEgdGhlbiB3ZSdsbCBydW4g
-b3V0IG9mIGZsYWdzIHF1aXRlIHNvb24sIGFuZCB3b24ndCBiZQo+PiBhYmxlIHRvIGRvIGJyb2Fk
-ZXIsIG1vcmUgaW1wb3J0YW50IHVwZ3JhZGVzLgo+Pgo+PiBBbHNvLCB3ZSBuZWVkIHRvIGluY2x1
-ZGUgYSB1c2VyIHNwYWNlIEFQSSBtYWlsaW5nIGxpc3QgZm9yIHRoaW5ncyB0aGF0Cj4+IGFmZmVj
-dCB0aGF0LiBBZGRpbmcgdGhlbSBub3c6IExpbnV4IEFQSSA8bGludXgtYXBpQHZnZXIua2VybmVs
-Lm9yZz4KPj4gVGhlIG1hbiBwYWdlcyBtYWlsaW5nIGxpc3Qgd2lsbCBhbHNvIGJlIG5lZWRlZCBp
-ZiB3ZSBnbyB0aGVyZS4KPj4KPj4gTGV0J3MgdGFrZSBhIGNsb3NlciBsb29rIGF0IHlvdXIgcHJv
-YmxlbSBhbmQgc2VlIHdoYXQgaXQgdGFrZXMgdG8gc29sdmUgaXQuCj4+IElmIHdlIG5lZWQgc29t
-ZSBzb3J0IG9mIGZsYWcgdG8gbW1hcCgpIG9yIG90aGVyIHJvdXRpbmVzLCBmaW5lLiBCdXQgc28g
-ZmFyLAo+PiBJIGNhbiBzZWUgYXQgbGVhc3QgdHdvIHNvbHV0aW9ucyB0aGF0IGFyZSBtdWNoIGVh
-c2llcjoKPgo+SSB0b28gcXVlc3Rpb24gdGhlIG1vdGl2YXRpb24gZm9yIHRoaXMgcGF0Y2guwqAg
-SXMgaXQgc2ltcGx5IHRvIGVsaW1pbmF0ZSBzb21lCj5vZiB0aGUgaHVnZXRsYiBzcGVjaWFsIGJl
-aGF2aW9yIGFuZCBtYWtlIGl0IGJlaGF2ZSBtb3JlIGxpa2UgdGhlIHJlc3Qgb2YgbW0/Cj4gCj4+
-IFNvbHV0aW9uIGlkZWEgIzI6IGp1c3QgZG8gdGhlIGxlbmd0aCBjaGVjayB1bmNvbmRpdGlvbmFs
-bHkgaGVyZSAod2l0aG91dCBsb29raW5nCj4+IGF0IGEgbmV3IGZsYWcpLCBhbmQgcmV0dXJuIGFu
-IGVycm9yIGlmIGl0IGlzIG5vdCBhbGlnbmVkLiBBbmQgc2FtZSB0aGluZyBmb3IgdGhlCj4+IE1B
-UF9IVUdFVExCIGNhc2UgYmVsb3cuIEFuZCBkZWxldGUgdGhlICJsZW4gPSBBTElHTihsZW4sIGh1
-Z2VfcGFnZV9zaXplKGhzKSk7IiBpbgo+PiBib3RoIGNhc2VzLgo+Pgo+PiBUaGF0IHdvdWxkIHN0
-aWxsIHJlcXVpcmUgYSBtYW4gcGFnZSB1cGRhdGUsIGFuZCBjb25zZW5zdXMgdGhhdCBpdCB3b24n
-dCBCcmVhawo+PiBUaGUgV29ybGQsIGJ1dCBpdCdzIHBvc3NpYmxlIChJIHJlYWxseSBkb24ndCBr
-bm93KSB0aGF0IHRoaXMgaXMgYSBtb3JlIGNvbW1vbgo+PiBhbmQgZGVzaXJhYmxlIGJlaGF2aW9y
-Lgo+Pgo+PiBMZXQncyBzZWUgaWYgYW55b25lIGVsc2Ugd2VpZ2hzIGluIGFib3V0IHRoaXMuCj4K
-PlRoYXQgY2VydGFpbmx5IHdvdWxkIGJlIHRoZSBlYXNpZXN0IHRoaW5nIHRvIGRvLsKgIEhvd2V2
-ZXIsIEknbSBndWVzc2luZwo+dGhlIGN1cnJlbnQgYmVoYXZpb3Igd2FzIGFkZGVkIHdoZW4gaHVn
-ZXRsYiBtbWFwIHN1cHBvcnQgd2FzIGFkZGVkLsKgIAoKPlRoZXJlIGlzIG5vIHRlbGxpbmcgaG93
-IG1hbnkgYXBwbGljYXRpb25zIG1pZ2h0IGJyZWFrIGlmIHdlIGNoYW5nZSB0aGUgYmVoYXZpb3Iu
-Cj5JJ20gZ3Vlc3NpbmcgdGhpcyBpcyB0aGUgcmVhc29uIExpIGNob3NlIHRvIG9ubHkgY2hhbmdl
-IHRoZSBiZWhhdmlvciBpZgo+YSBuZXcgZmxhZyB3YXMgc3BlY2lmaWVkLiAKWWVzLCBJIHdhcyBj
-b25zaWRlcmluZyB0aGlzIGNoYW5nZSB3b3VsZCBicmVhayBzb21ldGhpbmcuCgo+LS0KPk1pa2Ug
-S3JhdmV0eg==
+On Fri, Mar 27, 2020 at 06:23:30PM +0100, Alexey Gladkov wrote:
+> The hidepid parameter values are becoming more and more and it becomes
+> difficult to remember what each new magic number means.
+> 
+> Suggested-by: Andy Lutomirski <luto@kernel.org>
+> Reviewed-by: Alexey Dobriyan <adobriyan@gmail.com>
+> Signed-off-by: Alexey Gladkov <gladkov.alexey@gmail.com>
+> ---
+>  Documentation/filesystems/proc.txt | 52 +++++++++++++++---------------
+>  fs/proc/inode.c                    | 13 +++++++-
+>  fs/proc/root.c                     | 36 +++++++++++++++++++--
+>  3 files changed, 71 insertions(+), 30 deletions(-)
+> 
+> diff --git a/Documentation/filesystems/proc.txt b/Documentation/filesystems/proc.txt
+> index bd0e0ab85048..af47672cb2cb 100644
+> --- a/Documentation/filesystems/proc.txt
+> +++ b/Documentation/filesystems/proc.txt
+> @@ -2025,28 +2025,28 @@ The following mount options are supported:
+>  	gid=		Set the group authorized to learn processes information.
+>  	subset=		Show only the specified subset of procfs.
+>  
+> -hidepid=0 means classic mode - everybody may access all /proc/<pid>/ directories
+> -(default).
+> -
+> -hidepid=1 means users may not access any /proc/<pid>/ directories but their
+> -own.  Sensitive files like cmdline, sched*, status are now protected against
+> -other users.  This makes it impossible to learn whether any user runs
+> -specific program (given the program doesn't reveal itself by its behaviour).
+> -As an additional bonus, as /proc/<pid>/cmdline is unaccessible for other users,
+> -poorly written programs passing sensitive information via program arguments are
+> -now protected against local eavesdroppers.
+> -
+> -hidepid=2 means hidepid=1 plus all /proc/<pid>/ will be fully invisible to other
+> -users.  It doesn't mean that it hides a fact whether a process with a specific
+> -pid value exists (it can be learned by other means, e.g. by "kill -0 $PID"),
+> -but it hides process' uid and gid, which may be learned by stat()'ing
+> -/proc/<pid>/ otherwise.  It greatly complicates an intruder's task of gathering
+> -information about running processes, whether some daemon runs with elevated
+> -privileges, whether other user runs some sensitive program, whether other users
+> -run any program at all, etc.
+> -
+> -hidepid=4 means that procfs should only contain /proc/<pid>/ directories
+> -that the caller can ptrace.
+> +hidepid=off or hidepid=0 means classic mode - everybody may access all
+> +/proc/<pid>/ directories (default).
+> +
+> +hidepid=noaccess or hidepid=1 means users may not access any /proc/<pid>/
+> +directories but their own.  Sensitive files like cmdline, sched*, status are now
+> +protected against other users.  This makes it impossible to learn whether any
+> +user runs specific program (given the program doesn't reveal itself by its
+> +behaviour).  As an additional bonus, as /proc/<pid>/cmdline is unaccessible for
+> +other users, poorly written programs passing sensitive information via program
+> +arguments are now protected against local eavesdroppers.
+> +
+> +hidepid=invisible or hidepid=2 means hidepid=noaccess plus all /proc/<pid>/ will
+> +be fully invisible to other users.  It doesn't mean that it hides a fact whether
+> +a process with a specific pid value exists (it can be learned by other means,
+> +e.g. by "kill -0 $PID"), but it hides process' uid and gid, which may be learned
+> +by stat()'ing /proc/<pid>/ otherwise.  It greatly complicates an intruder's task
+> +of gathering information about running processes, whether some daemon runs with
+> +elevated privileges, whether other user runs some sensitive program, whether
+> +other users run any program at all, etc.
+> +
+> +hidepid=ptraceable or hidepid=4 means that procfs should only contain
+> +/proc/<pid>/ directories that the caller can ptrace.
+>  
+>  gid= defines a group authorized to learn processes information otherwise
+>  prohibited by hidepid=.  If you use some daemon like identd which needs to learn
+> @@ -2093,8 +2093,8 @@ creates a new procfs instance. Mount options affect own procfs instance.
+>  It means that it became possible to have several procfs instances
+>  displaying tasks with different filtering options in one pid namespace.
+>  
+> -# mount -o hidepid=2 -t proc proc /proc
+> -# mount -o hidepid=1 -t proc proc /tmp/proc
+> +# mount -o hidepid=invisible -t proc proc /proc
+> +# mount -o hidepid=noaccess -t proc proc /tmp/proc
+>  # grep ^proc /proc/mounts
+> -proc /proc proc rw,relatime,hidepid=2 0 0
+> -proc /tmp/proc proc rw,relatime,hidepid=1 0 0
+> +proc /proc proc rw,relatime,hidepid=invisible 0 0
+> +proc /tmp/proc proc rw,relatime,hidepid=noaccess 0 0
+> diff --git a/fs/proc/inode.c b/fs/proc/inode.c
+> index e6577ce6027b..f01fb4bed75c 100644
+> --- a/fs/proc/inode.c
+> +++ b/fs/proc/inode.c
+> @@ -165,6 +165,17 @@ void proc_invalidate_siblings_dcache(struct hlist_head *inodes, spinlock_t *lock
+>  		deactivate_super(old_sb);
+>  }
+>  
+> +static inline const char *hidepid2str(int v)
+> +{
+> +	switch (v) {
+> +		case HIDEPID_OFF: return "off";
+> +		case HIDEPID_NO_ACCESS: return "noaccess";
+> +		case HIDEPID_INVISIBLE: return "invisible";
+> +		case HIDEPID_NOT_PTRACEABLE: return "ptraceable";
+> +	}
+> +	BUG();
 
+Please don't use BUG()[1]. Add a default case with a warn and return
+"unknown":
+
+	switch (v) {
+	case HIDEPID_OFF: return "off";
+	case HIDEPID_NO_ACCESS: return "noaccess";
+	case HIDEPID_INVISIBLE: return "invisible";
+	case HIDEPID_NOT_PTRACEABLE: return "ptraceable";
+	default:
+		WARN_ON_ONCE("bad hide_pid value: %d\n", v);
+		return "unknown";
+	}
+
+[1] https://lore.kernel.org/lkml/202003141524.59C619B51A@keescook/
+
+> +}
+> +
+>  static int proc_show_options(struct seq_file *seq, struct dentry *root)
+>  {
+>  	struct proc_fs_info *fs_info = proc_sb_info(root->d_sb);
+> @@ -172,7 +183,7 @@ static int proc_show_options(struct seq_file *seq, struct dentry *root)
+>  	if (!gid_eq(fs_info->pid_gid, GLOBAL_ROOT_GID))
+>  		seq_printf(seq, ",gid=%u", from_kgid_munged(&init_user_ns, fs_info->pid_gid));
+>  	if (fs_info->hide_pid != HIDEPID_OFF)
+> -		seq_printf(seq, ",hidepid=%u", fs_info->hide_pid);
+> +		seq_printf(seq, ",hidepid=%s", hidepid2str(fs_info->hide_pid));
+>  	if (fs_info->pidonly != PROC_PIDONLY_OFF)
+>  		seq_printf(seq, ",subset=pid");
+>  
+> diff --git a/fs/proc/root.c b/fs/proc/root.c
+> index dbcd96f07c7a..ba782d6e6197 100644
+> --- a/fs/proc/root.c
+> +++ b/fs/proc/root.c
+> @@ -45,7 +45,7 @@ enum proc_param {
+>  
+>  static const struct fs_parameter_spec proc_fs_parameters[] = {
+>  	fsparam_u32("gid",	Opt_gid),
+> -	fsparam_u32("hidepid",	Opt_hidepid),
+> +	fsparam_string("hidepid",	Opt_hidepid),
+>  	fsparam_string("subset",	Opt_subset),
+>  	{}
+>  };
+> @@ -58,6 +58,35 @@ static inline int valid_hidepid(unsigned int value)
+>  		value == HIDEPID_NOT_PTRACEABLE);
+>  }
+>  
+> +static int proc_parse_hidepid_param(struct fs_context *fc, struct fs_parameter *param)
+> +{
+> +	struct proc_fs_context *ctx = fc->fs_private;
+> +	struct fs_parameter_spec hidepid_u32_spec = fsparam_u32("hidepid", Opt_hidepid);
+> +	struct fs_parse_result result;
+> +	int base = (unsigned long)hidepid_u32_spec.data;
+> +
+> +	if (param->type != fs_value_is_string)
+> +		return invalf(fc, "proc: unexpected type of hidepid value\n");
+> +
+> +	if (!kstrtouint(param->string, base, &result.uint_32)) {
+> +		ctx->hidepid = result.uint_32;
+
+This need to bounds-check the value with a call to valid_hidepid(), yes?
+
+> +		return 0;
+> +	}
+> +
+> +	if (!strcmp(param->string, "off"))
+> +		ctx->hidepid = HIDEPID_OFF;
+> +	else if (!strcmp(param->string, "noaccess"))
+> +		ctx->hidepid = HIDEPID_NO_ACCESS;
+> +	else if (!strcmp(param->string, "invisible"))
+> +		ctx->hidepid = HIDEPID_INVISIBLE;
+> +	else if (!strcmp(param->string, "ptraceable"))
+> +		ctx->hidepid = HIDEPID_NOT_PTRACEABLE;
+> +	else
+> +		return invalf(fc, "proc: unknown value of hidepid - %s\n", param->string);
+> +
+> +	return 0;
+> +}
+> +
+>  static int proc_parse_subset_param(struct fs_context *fc, char *value)
+>  {
+>  	struct proc_fs_context *ctx = fc->fs_private;
+> @@ -97,9 +126,10 @@ static int proc_parse_param(struct fs_context *fc, struct fs_parameter *param)
+>  		break;
+>  
+>  	case Opt_hidepid:
+> -		if (!valid_hidepid(result.uint_32))
+> +		if (proc_parse_hidepid_param(fc, param))
+> +			return -EINVAL;
+> +		if (!valid_hidepid(ctx->hidepid))
+>  			return invalf(fc, "proc: unknown value of hidepid.\n");
+> -		ctx->hidepid = result.uint_32;
+>  		break;
+>  
+>  	case Opt_subset:
+> -- 
+> 2.25.2
+> 
+
+-- 
+Kees Cook
