@@ -2,119 +2,124 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E127196ABF
-	for <lists+linux-api@lfdr.de>; Sun, 29 Mar 2020 05:11:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BA49196AC0
+	for <lists+linux-api@lfdr.de>; Sun, 29 Mar 2020 05:11:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726445AbgC2DKx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 28 Mar 2020 23:10:53 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:33630 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726315AbgC2DKw (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 28 Mar 2020 23:10:52 -0400
-Received: by mail-lf1-f66.google.com with SMTP id x200so3915813lff.0
-        for <linux-api@vger.kernel.org>; Sat, 28 Mar 2020 20:10:50 -0700 (PDT)
+        id S1727149AbgC2DLz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 28 Mar 2020 23:11:55 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:37926 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727121AbgC2DLy (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 28 Mar 2020 23:11:54 -0400
+Received: by mail-ed1-f67.google.com with SMTP id e5so16701065edq.5
+        for <linux-api@vger.kernel.org>; Sat, 28 Mar 2020 20:11:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=CAYqJ2L9pgxOOLuY6Zx/KWHLN9INKRlM0+JHPK6lpa0=;
-        b=bYHQmUhxUUGWWSF7gp3BLGZ3wd/pBbLbCUm5xAwnOJyOP7ZmGtrFIEGQr2SdI3EnOS
-         6huRoHeh/Gy9dQIdV3ov1h6Ue67QqzGjYZipvuCYoy7DQiBQOl9rnIVnMKtonGmBRj82
-         sH8ExNnAuxLmkgwjPoHA4Wl5Qw2zovnIfTCPeRabf1Nf3XybBEd5hoKXUulHiy/kaUD4
-         AmBm3SU36ueipT5w+SVZ8+31RL10t/fP1livOEr4/TPU62iy3DNrVrB2zkx1hW0FwYlc
-         aDI2gALJNFE0xxRehC9GjEEuA+bfgtB4APLTr0j2J/vYOAWL3cbRY+KlNDPY6MwYa30Y
-         Jicw==
+        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=QCNJAUmnzDN9FZcZL525t31JITbaUoqdlbI+Ngrcb2Q=;
+        b=m1tGNjwy+SOvZqLF6fO17u3ClF2d67j8aXHoHY1dw1Akc1hbsGxDZMYPC2VBMObQfV
+         ova0wmjBzwcmQkBSnqv1BIYenDPMnjgFm5l+U579QF6Ziw8gRaW1IHMK5R1Rkqof/jk0
+         k02MdWhDxlczwjxkzuy/MjRfDqDVz1w8DE1pf8DCkRBRStH3S/Cj8rVhzHPa6zewSMbN
+         41OZmsDyXigpVVvfjIF7+bCqUWin8T2D0rE08sf8lEvHTDizePb4Hxf11vCqV7lbLwlN
+         nyaZ+aCdVU80g51lvj3HKJl/l7o6U5YZsi89i6/CssH3Nr+hTKMar4D17vXJEeLcmBTm
+         ScOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=CAYqJ2L9pgxOOLuY6Zx/KWHLN9INKRlM0+JHPK6lpa0=;
-        b=Zhb0cf5Fla2bL3FEQkvervld2g5x9QWCwA3gmagKW0N4AEDuonabCOrLUjrBaHMW1c
-         0N62h7BzWo05mTAJVXu5A4IGgi6X6oFbfPsZ7Q+1UYK/hcQbeJhqlpP3N9gaWmm5i+0M
-         xesUeyVYOhRBXQXiOkgj5MF6Sd6CQfI5dTeYNjIjAJ5Wr8zItKALNly/G+05rLij94C5
-         OUloJ2cElb5abhA7yVQLO1YPezCEGXTsVO4bGMlDtY9VFlbNp5DCv/uaoNbv0QO0tx0y
-         zxf0EqbzjZporxIbFD5ElQkyj5HixlOmOuLR5x+jwt205aRJmSKkkb4JaHk/nl7YX8bu
-         zrzA==
-X-Gm-Message-State: AGi0Pua4Bj0QgKRag2u6nnIEdaMN6Se3FDF1m/E4ZIz1avlAH7uH8al3
-        HoojK/PkWv7Y/uWuqp8SFyU=
-X-Google-Smtp-Source: APiQypIE2W6sxu6iZ7if6zeX6twP3WphJkiTDF92AmZDpwK72QPDIK7/56s5kyhUp9RtTj2JTXUqGQ==
-X-Received: by 2002:a05:6512:46a:: with SMTP id x10mr4148242lfd.193.1585451449996;
-        Sat, 28 Mar 2020 20:10:49 -0700 (PDT)
-Received: from localhost.localdomain.localdomain ([131.228.2.21])
-        by smtp.gmail.com with ESMTPSA id z9sm5911154lfh.45.2020.03.28.20.10.48
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 28 Mar 2020 20:10:49 -0700 (PDT)
-From:   Li Xinhai <lixinhai.lxh@gmail.com>
-To:     linux-mm@kvack.org
-Cc:     linux-api@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        John Hubbard <jhubbard@nvidia.com>
-Subject: [PATCH] mm: allow checking length for hugetlb mapping in mmap()
-Date:   Sun, 29 Mar 2020 03:08:15 +0000
-Message-Id: <1585451295-22302-1-git-send-email-lixinhai.lxh@gmail.com>
-X-Mailer: git-send-email 1.8.3.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QCNJAUmnzDN9FZcZL525t31JITbaUoqdlbI+Ngrcb2Q=;
+        b=Y94erVOkO7aT5IMY+oYm52LvDzYDFt+izkw94O37gVL+2sujHYLgGJ1TeBb1SMFpPN
+         T0UZ2cGJI7rG43eRfHVj3Vj1L4Cpmsshgd7vw3jqWJdJkoIlRHVUmqtfo8bZJPtrtNAt
+         ZUT4FnwK9RcxgPNWzgM6ZA+OY5AIBS4oTyzM3L+S1gjzWyCg4Jtku0R9QOI2b25rHTJY
+         DXKuNf8hL6hklWQbMuH/LfZ0SHtHoKg2Iyvj95im0Whjn4qxv9I0Cc63XJoT62BU+4om
+         DSxLfU4CC4qMVYKysHyqrm594ZSL3P9O7xjiUDIEIWQiwgC3hKNDuqgKg8sL62E2G5tg
+         8bpw==
+X-Gm-Message-State: ANhLgQ2yIhDiLZpEe/AMwZaJMiPW/SADhGHf2HneC/Yq4Ff69dEGhz61
+        GzXJ0+vmyP/PQbm0xHG+rUIgeKA/t69gD3RQPlTA
+X-Google-Smtp-Source: ADFU+vsO3z8fR85BdzrdW8wO5Ic5j66UK7NtBXWnojiKMj/pMltL8hW55ibXGgej7CzgWStIAOOuND+xZVVbglX1ybU=
+X-Received: by 2002:a17:906:1993:: with SMTP id g19mr5774145ejd.70.1585451512568;
+ Sat, 28 Mar 2020 20:11:52 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200312193037.2tb5f53yeisfq4ta@madcap2.tricolour.ca>
+ <CAHC9VhQoVOzy_b9W6h+kmizKr1rPkC4cy5aYoKT2i0ZgsceNDg@mail.gmail.com>
+ <20200313185900.y44yvrfm4zxa5lfk@madcap2.tricolour.ca> <CAHC9VhR2zCCE5bjH75rSwfLC7TJGFj4RBnrtcOoUiqVp9q5TaA@mail.gmail.com>
+ <20200318212630.mw2geg4ykhnbtr3k@madcap2.tricolour.ca> <CAHC9VhRYvGAru3aOMwWKCCWDktS+2pGr+=vV4SjHW_0yewD98A@mail.gmail.com>
+ <20200318215550.es4stkjwnefrfen2@madcap2.tricolour.ca> <CAHC9VhSdDDP7Ec-w61NhGxZG5ZiekmrBCAg=Y=VJvEZcgQh46g@mail.gmail.com>
+ <20200319220249.jyr6xmwvflya5mks@madcap2.tricolour.ca> <CAHC9VhR84aN72yNB_j61zZgrQV1y6yvrBLNY7jp7BqQiEDL+cw@mail.gmail.com>
+ <20200324210152.5uydf3zqi3dwshfu@madcap2.tricolour.ca>
+In-Reply-To: <20200324210152.5uydf3zqi3dwshfu@madcap2.tricolour.ca>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Sat, 28 Mar 2020 23:11:41 -0400
+Message-ID: <CAHC9VhTQUnVhoN3JXTAQ7ti+nNLfGNVXhT6D-GYJRSpJHCwDRg@mail.gmail.com>
+Subject: Re: [PATCH ghak90 V8 07/16] audit: add contid support for signalling
+ the audit daemon
+To:     Richard Guy Briggs <rgb@redhat.com>
+Cc:     nhorman@tuxdriver.com, linux-api@vger.kernel.org,
+        containers@lists.linux-foundation.org,
+        LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
+        linux-audit@redhat.com, netfilter-devel@vger.kernel.org,
+        ebiederm@xmission.com, simo@redhat.com, netdev@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>,
+        mpatel@redhat.com, Serge Hallyn <serge@hallyn.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-In current code, the vma related call of hugetlb mapping, except mmap,
-are all consider not correctly aligned length as invalid parameter,
-including mprotect,munmap, mlock, etc., by checking through
-hugetlb_vm_op_split. So, user will see failure, after successfully call
-mmap, although using same length parameter to other mapping syscall.
+On Tue, Mar 24, 2020 at 5:02 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> On 2020-03-23 20:16, Paul Moore wrote:
+> > On Thu, Mar 19, 2020 at 6:03 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > On 2020-03-18 18:06, Paul Moore wrote:
+> >
+> > ...
+> >
+> > > > I hope we can do better than string manipulations in the kernel.  I'd
+> > > > much rather defer generating the ACID list (if possible), than
+> > > > generating a list only to keep copying and editing it as the record is
+> > > > sent.
+> > >
+> > > At the moment we are stuck with a string-only format.
+> >
+> > Yes, we are.  That is another topic, and another set of changes I've
+> > been deferring so as to not disrupt the audit container ID work.
+> >
+> > I was thinking of what we do inside the kernel between when the record
+> > triggering event happens and when we actually emit the record to
+> > userspace.  Perhaps we collect the ACID information while the event is
+> > occurring, but we defer generating the record until later when we have
+> > a better understanding of what should be included in the ACID list.
+> > It is somewhat similar (but obviously different) to what we do for
+> > PATH records (we collect the pathname info when the path is being
+> > resolved).
+>
+> Ok, now I understand your concern.
+>
+> In the case of NETFILTER_PKT records, the CONTAINER_ID record is the
+> only other possible record and they are generated at the same time with
+> a local context.
+>
+> In the case of any event involving a syscall, that CONTAINER_ID record
+> is generated at the time of the rest of the event record generation at
+> syscall exit.
+>
+> The others are only generated when needed, such as the sig2 reply.
+>
+> We generally just store the contobj pointer until we actually generate
+> the CONTAINER_ID (or CONTAINER_OP) record.
 
-It is desirable for all hugetlb mapping calls have consistent behavior,
-without mmap as exception(which round up length to align underlying
-hugepage size). In current Documentation/admin-guide/mm/hugetlbpage.rst,
-the description is:
-"
-Syscalls that operate on memory backed by hugetlb pages only have their
-lengths aligned to the native page size of the processor; they will
-normally fail with errno set to EINVAL or exclude hugetlb pages that
-extend beyond the length if not hugepage aligned. For example, munmap(2)
-will fail if memory is backed by a hugetlb page and the length is smaller
-than the hugepage size.
-"
-which express the consistent behavior.
+Perhaps I'm remembering your latest spin of these patches incorrectly,
+but there is still a big gap between when the record is generated and
+when it is sent up to the audit daemon.  Most importantly in that gap
+is the whole big queue/multicast/unicast mess.
 
-Signed-off-by: Li Xinhai <lixinhai.lxh@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Mike Kravetz <mike.kravetz@oracle.com>
-Cc: John Hubbard <jhubbard@nvidia.com>
----
-changes:
-0. patch which introduce new flag for mmap()
-   The new flag should be avoided.
-   https://lore.kernel.org/linux-mm/1585313944-8627-1-git-send-email-lixinhai.lxh@gmail.com/
+You don't need to show me code, but I would like to see some sort of
+plan for dealing with multiple nested audit daemons.  Basically I just
+want to make sure we aren't painting ourselves into a corner with this
+approach; and if for some horrible reason we are, I at least want us
+to be aware of what we are getting ourselves into.
 
- mm/mmap.c | 8 --------
- 1 file changed, 8 deletions(-)
-
-diff --git a/mm/mmap.c b/mm/mmap.c
-index d681a20..b2aa102 100644
---- a/mm/mmap.c
-+++ b/mm/mmap.c
-@@ -1560,20 +1560,12 @@ unsigned long ksys_mmap_pgoff(unsigned long addr, unsigned long len,
- 		file = fget(fd);
- 		if (!file)
- 			return -EBADF;
--		if (is_file_hugepages(file))
--			len = ALIGN(len, huge_page_size(hstate_file(file)));
- 		retval = -EINVAL;
- 		if (unlikely(flags & MAP_HUGETLB && !is_file_hugepages(file)))
- 			goto out_fput;
- 	} else if (flags & MAP_HUGETLB) {
- 		struct user_struct *user = NULL;
--		struct hstate *hs;
- 
--		hs = hstate_sizelog((flags >> MAP_HUGE_SHIFT) & MAP_HUGE_MASK);
--		if (!hs)
--			return -EINVAL;
--
--		len = ALIGN(len, huge_page_size(hs));
- 		/*
- 		 * VM_NORESERVE is used because the reservations will be
- 		 * taken when vm_ops->mmap() is called
 -- 
-1.8.3.1
-
+paul moore
+www.paul-moore.com
