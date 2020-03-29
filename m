@@ -2,168 +2,131 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AC622196B9E
-	for <lists+linux-api@lfdr.de>; Sun, 29 Mar 2020 09:23:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E43B196BD9
+	for <lists+linux-api@lfdr.de>; Sun, 29 Mar 2020 10:09:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727302AbgC2HXJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 29 Mar 2020 03:23:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49918 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727286AbgC2HXJ (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Sun, 29 Mar 2020 03:23:09 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9057320748;
-        Sun, 29 Mar 2020 07:23:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1585466588;
-        bh=pYRVbuBb5qkU8mIDMvM9P+PnyRnhYJ9Ioj9Q4SdIUHU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Hhw84d8vq304G7LOdUQ6QR19pDWmynfURj4cOG9t45qWXx4SOoGzVzxayBlFOCnlh
-         YH3NtgjpA8FmgQkMtVpKHdT7ji3D5tjWqm8bqJtENK90x44zSDo0BncPyghfsFXJcG
-         8F3zGY3mZBTBlCHqp/Hy/u0s28idN2z10A6t0LY0=
-Date:   Sun, 29 Mar 2020 09:23:04 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Leon Romanovsky <leon@kernel.org>
-Cc:     Jaewon Kim <jaewon31.kim@samsung.com>, vbabka@suse.cz,
-        adobriyan@gmail.com, akpm@linux-foundation.org, labbott@redhat.com,
-        sumit.semwal@linaro.org, minchan@kernel.org, ngupta@vflare.org,
-        sergey.senozhatsky.work@gmail.com, kasong@redhat.com,
-        bhe@redhat.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        jaewon31.kim@gmail.com, linux-api@vger.kernel.org,
-        kexec@lists.infradead.org
-Subject: Re: [RFC PATCH v2 1/3] meminfo_extra: introduce meminfo extra
-Message-ID: <20200329072304.GA3909421@kroah.com>
-References: <20200323080503.6224-1-jaewon31.kim@samsung.com>
- <CGME20200323080508epcas1p387c9c19b480da53be40fe5d51e76a477@epcas1p3.samsung.com>
- <20200323080503.6224-2-jaewon31.kim@samsung.com>
- <20200323095344.GB425358@kroah.com>
- <5E79CEB5.8070308@samsung.com>
- <20200324101110.GA2218981@kroah.com>
- <5E79F102.9080405@samsung.com>
- <20200324114645.GA2330984@kroah.com>
- <5E7A02BC.7020803@samsung.com>
- <20200329071907.GB2454444@unreal>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200329071907.GB2454444@unreal>
+        id S1726912AbgC2IJo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 29 Mar 2020 04:09:44 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:42087 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726342AbgC2IJo (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 29 Mar 2020 04:09:44 -0400
+Received: by mail-lj1-f194.google.com with SMTP id q19so14479687ljp.9
+        for <linux-api@vger.kernel.org>; Sun, 29 Mar 2020 01:09:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:references:mime-version:message-id
+         :content-transfer-encoding;
+        bh=nfIG8cn5n2jKn60XaCZ4m2Evv6duWnqoHOxTAvuXroc=;
+        b=LSlukffnQeidqHJw+H/ywQArEQNfBpeSuTTOgudmCvnMZcKJ8WYRRHLnQoVA/uOQpy
+         CGbI3zHZCrt3p1FU1mINwNjepIWt24KmBnPKR8lhSqxy4UFvFS4xIlWUQNlEE7UoY6nE
+         z2FahkFUQ4KR6M0ehxHYtibelEe1nKUTGh68OvaF+xcs2RlnXPNjwphi7UZBIT0GAnjF
+         2YaGrtYou9aaqkcFnFvN3pnk+qjuydqeF2//G93geP/h5hCWPZM1RSPOZHvjrIWpGX7n
+         qeaaSQkgivOuEwQoDBv9eBsL4OO4VK/7HERAHRaDSbCBWFuFSexKCBjOtzBvyc7KB3o3
+         vxbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:references:mime-version
+         :message-id:content-transfer-encoding;
+        bh=nfIG8cn5n2jKn60XaCZ4m2Evv6duWnqoHOxTAvuXroc=;
+        b=mUVvLKXQkOBvgrNwaeEkRP+kw3dVUYXqxxARSBpLpRG8WOkR+tl8qs9K08ASW753ya
+         XOYdrSM8P/YNQ96pbPyzJiJd5zJi0pYmqV4LOFF0T1AtKvuCmVbBb1We5MUzH++zXemS
+         pZoOAf8dSXX89QHGhtL8FOG/c8HJgkbAdrTttdhCpMwX2FO7cwEmU2QAC1oYhWIWHX0D
+         aCuRg3kaYDRofJSKvG6ytYMMtBJStW1PL6y9KcVUHyc6e/xvBCmAIG4oAe7MoJI3344p
+         vLZV+YH7NP5n23Y0qy2zfzCwjU9oRzj5M54HilYMRRW3KsP0IPmUBel7UtyRleQX3dqE
+         xwlw==
+X-Gm-Message-State: AGi0PuYn9Ayz2TIB74KWVWFLtFWcnNkpqvzXM3sh7t7NuH4WTjsdlkdw
+        uJYYOcO6woqyMj2BIY4MzgU=
+X-Google-Smtp-Source: APiQypI17PLA1euK5hEyobg/043mt/+YoUyBOoWAdZwIbSLsQhqezAKpgX04wPKg0aa9L87v9WU9hg==
+X-Received: by 2002:a2e:9b8e:: with SMTP id z14mr4128523lji.150.1585469378894;
+        Sun, 29 Mar 2020 01:09:38 -0700 (PDT)
+Received: from N-20L6PF1KTYA2 ([131.228.2.21])
+        by smtp.gmail.com with ESMTPSA id d12sm5724504lfi.86.2020.03.29.01.09.36
+        (version=TLS1_2 cipher=AES128-GCM-SHA256 bits=128/128);
+        Sun, 29 Mar 2020 01:09:38 -0700 (PDT)
+Date:   Sun, 29 Mar 2020 16:09:36 +0800
+From:   "Li Xinhai" <lixinhai.lxh@gmail.com>
+To:     "John Hubbard" <jhubbard@nvidia.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>
+Cc:     "Linux API" <linux-api@vger.kernel.org>,
+        akpm <akpm@linux-foundation.org>,
+        "Mike Kravetz" <mike.kravetz@oracle.com>
+Subject: Re: [PATCH] mm: allow checking length for hugetlb mapping in mmap()
+References: <1585451295-22302-1-git-send-email-lixinhai.lxh@gmail.com>, 
+        <f8b5b647-9041-8127-925c-1c8dcb508f24@nvidia.com>
+X-Priority: 3
+X-GUID: E72919FA-68BF-475A-B2C4-CA1C9D6727E2
+X-Has-Attach: no
+X-Mailer: Foxmail 7.2.13.365[cn]
+Mime-Version: 1.0
+Message-ID: <2020032916093522557671@gmail.com>
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sun, Mar 29, 2020 at 10:19:07AM +0300, Leon Romanovsky wrote:
-> On Tue, Mar 24, 2020 at 09:53:16PM +0900, Jaewon Kim wrote:
-> >
-> >
-> > On 2020년 03월 24일 20:46, Greg KH wrote:
-> > > On Tue, Mar 24, 2020 at 08:37:38PM +0900, Jaewon Kim wrote:
-> > >>
-> > >> On 2020년 03월 24일 19:11, Greg KH wrote:
-> > >>> On Tue, Mar 24, 2020 at 06:11:17PM +0900, Jaewon Kim wrote:
-> > >>>> On 2020년 03월 23일 18:53, Greg KH wrote:
-> > >>>>>> +int register_meminfo_extra(atomic_long_t *val, int shift, const char *name)
-> > >>>>>> +{
-> > >>>>>> +	struct meminfo_extra *meminfo, *memtemp;
-> > >>>>>> +	int len;
-> > >>>>>> +	int error = 0;
-> > >>>>>> +
-> > >>>>>> +	meminfo = kzalloc(sizeof(*meminfo), GFP_KERNEL);
-> > >>>>>> +	if (!meminfo) {
-> > >>>>>> +		error = -ENOMEM;
-> > >>>>>> +		goto out;
-> > >>>>>> +	}
-> > >>>>>> +
-> > >>>>>> +	meminfo->val = val;
-> > >>>>>> +	meminfo->shift_for_page = shift;
-> > >>>>>> +	strncpy(meminfo->name, name, NAME_SIZE);
-> > >>>>>> +	len = strlen(meminfo->name);
-> > >>>>>> +	meminfo->name[len] = ':';
-> > >>>>>> +	strncpy(meminfo->name_pad, meminfo->name, NAME_BUF_SIZE);
-> > >>>>>> +	while (++len < NAME_BUF_SIZE - 1)
-> > >>>>>> +		meminfo->name_pad[len] = ' ';
-> > >>>>>> +
-> > >>>>>> +	spin_lock(&meminfo_lock);
-> > >>>>>> +	list_for_each_entry_rcu(memtemp, &meminfo_head, list) {
-> > >>>>>> +		if (memtemp->val == val) {
-> > >>>>>> +			error = -EINVAL;
-> > >>>>>> +			break;
-> > >>>>>> +		}
-> > >>>>>> +	}
-> > >>>>>> +	if (!error)
-> > >>>>>> +		list_add_tail_rcu(&meminfo->list, &meminfo_head);
-> > >>>>>> +	spin_unlock(&meminfo_lock);
-> > >>>>> If you have a lock, why are you needing rcu?
-> > >>>> I think _rcu should be removed out of list_for_each_entry_rcu.
-> > >>>> But I'm confused about what you meant.
-> > >>>> I used rcu_read_lock on __meminfo_extra,
-> > >>>> and I think spin_lock is also needed for addition and deletion to handle multiple modifiers.
-> > >>> If that's the case, then that's fine, it just didn't seem like that was
-> > >>> needed.  Or I might have been reading your rcu logic incorrectly...
-> > >>>
-> > >>>>>> +	if (error)
-> > >>>>>> +		kfree(meminfo);
-> > >>>>>> +out:
-> > >>>>>> +
-> > >>>>>> +	return error;
-> > >>>>>> +}
-> > >>>>>> +EXPORT_SYMBOL(register_meminfo_extra);
-> > >>>>> EXPORT_SYMBOL_GPL()?  I have to ask :)
-> > >>>> I can use EXPORT_SYMBOL_GPL.
-> > >>>>> thanks,
-> > >>>>>
-> > >>>>> greg k-h
-> > >>>>>
-> > >>>>>
-> > >>>> Hello
-> > >>>> Thank you for your comment.
-> > >>>>
-> > >>>> By the way there was not resolved discussion on v1 patch as I mentioned on cover page.
-> > >>>> I'd like to hear your opinion on this /proc/meminfo_extra node.
-> > >>> I think it is the propagation of an old and obsolete interface that you
-> > >>> will have to support for the next 20+ years and yet not actually be
-> > >>> useful :)
-> > >>>
-> > >>>> Do you think this is meaningful or cannot co-exist with other future
-> > >>>> sysfs based API.
-> > >>> What sysfs-based API?
-> > >> Please refer to mail thread on v1 patch set - https://protect2.fireeye.com/url?k=16e3accc-4b2f6548-16e22783-0cc47aa8f5ba-935fe828ac2f6656&u=https://lkml.org/lkml/fancy/2020/3/10/2102
-> > >> especially discussion with Leon Romanovsky on https://protect2.fireeye.com/url?k=74208ed9-29ec475d-74210596-0cc47aa8f5ba-0bd4ef48931fec95&u=https://lkml.org/lkml/fancy/2020/3/16/140
-> > > I really do not understand what you are referring to here, sorry.   I do
-> > > not see any sysfs-based code in that thread.
-> > Sorry. I also did not see actual code.
-> > Hello Leon Romanovsky, could you elaborate your plan regarding sysfs stuff?
-> 
-> Sorry for being late, I wasn't in "TO:", so missed the whole discussion.
-> 
-> Greg,
-> 
-> We need the exposed information for the memory optimizations (debug, not
-> production) of our high speed NICs. Our devices (mlx5) allocates a lot of
-> memory, so optimization there can help us to scale in SRIOV mode easier and
-> be less constraint by the memory.
+T24gMjAyMC0wMy0yOcKgYXQgMTE6NTPCoEpvaG4gSHViYmFyZMKgd3JvdGU6Cj5PbiAzLzI4LzIw
+IDg6MDggUE0sIExpIFhpbmhhaSB3cm90ZToKPj4gSW4gY3VycmVudCBjb2RlLCB0aGUgdm1hIHJl
+bGF0ZWQgY2FsbCBvZiBodWdldGxiIG1hcHBpbmcsIGV4Y2VwdCBtbWFwLAo+PiBhcmUgYWxsIGNv
+bnNpZGVyIG5vdCBjb3JyZWN0bHkgYWxpZ25lZCBsZW5ndGggYXMgaW52YWxpZCBwYXJhbWV0ZXIs
+Cj4+IGluY2x1ZGluZyBtcHJvdGVjdCxtdW5tYXAsIG1sb2NrLCBldGMuLCBieSBjaGVja2luZyB0
+aHJvdWdoCj4+IGh1Z2V0bGJfdm1fb3Bfc3BsaXQuIFNvLCB1c2VyIHdpbGwgc2VlIGZhaWx1cmUs
+IGFmdGVyIHN1Y2Nlc3NmdWxseSBjYWxsCj4+IG1tYXAsIGFsdGhvdWdoIHVzaW5nIHNhbWUgbGVu
+Z3RoIHBhcmFtZXRlciB0byBvdGhlciBtYXBwaW5nIHN5c2NhbGwuCj4+Cj4+IEl0IGlzIGRlc2ly
+YWJsZSBmb3IgYWxsIGh1Z2V0bGIgbWFwcGluZyBjYWxscyBoYXZlIGNvbnNpc3RlbnQgYmVoYXZp
+b3IsCj4+IHdpdGhvdXQgbW1hcCBhcyBleGNlcHRpb24od2hpY2ggcm91bmQgdXAgbGVuZ3RoIHRv
+IGFsaWduIHVuZGVybHlpbmcKPj4gaHVnZXBhZ2Ugc2l6ZSkuIEluIGN1cnJlbnQgRG9jdW1lbnRh
+dGlvbi9hZG1pbi1ndWlkZS9tbS9odWdldGxicGFnZS5yc3QsCj4+IHRoZSBkZXNjcmlwdGlvbiBp
+czoKPj4gIgo+PiBTeXNjYWxscyB0aGF0IG9wZXJhdGUgb24gbWVtb3J5IGJhY2tlZCBieSBodWdl
+dGxiIHBhZ2VzIG9ubHkgaGF2ZSB0aGVpcgo+PiBsZW5ndGhzIGFsaWduZWQgdG8gdGhlIG5hdGl2
+ZSBwYWdlIHNpemUgb2YgdGhlIHByb2Nlc3NvcjsgdGhleSB3aWxsCj4+IG5vcm1hbGx5IGZhaWwg
+d2l0aCBlcnJubyBzZXQgdG8gRUlOVkFMIG9yIGV4Y2x1ZGUgaHVnZXRsYiBwYWdlcyB0aGF0Cj4+
+IGV4dGVuZCBiZXlvbmQgdGhlIGxlbmd0aCBpZiBub3QgaHVnZXBhZ2UgYWxpZ25lZC4gRm9yIGV4
+YW1wbGUsIG11bm1hcCgyKQo+PiB3aWxsIGZhaWwgaWYgbWVtb3J5IGlzIGJhY2tlZCBieSBhIGh1
+Z2V0bGIgcGFnZSBhbmQgdGhlIGxlbmd0aCBpcyBzbWFsbGVyCj4+IHRoYW4gdGhlIGh1Z2VwYWdl
+IHNpemUuCj4+ICIKPj4gd2hpY2ggZXhwcmVzcyB0aGUgY29uc2lzdGVudCBiZWhhdmlvci4KPgo+
+Cj5NaXNzaW5nIGhlcmUgaXMgYSBkZXNjcmlwdGlvbiBvZiB3aGF0IHRoZSBwYXRjaCBhY3R1YWxs
+eSBkb2VzLi4uCj4gCgpyaWdodCwgbW9yZSBzdGF0ZW1lbnQgY2FuIGJlIGFkZGVkIGxpa2U6CiIK
+QWZ0ZXIgdGhpcyBwYXRjaCwgYWxsIGh1Z2V0bGIgbWFwcGluZyByZWxhdGVkIHN5c2NhbGwgd2ls
+IG9ubHkgYWxpZ24KbGVuZ3RoIHBhcmFtZXRlciB0byB0aGUgbmF0aXZlIHBhZ2Ugc2l6ZSBvZiB0
+aGUgcHJvY2Vzc29yLiBGb3IgbW1hcCgpLApodWdldGxiX2dldF91bm1tYXBlZF9hcmVhKCkgd2ls
+bCBzZXQgZXJybm8gdG8gRUlOVkFMIGlmIGxlbmd0aCBpcyBub3QKYWxpZ25lZCB0byB1bmRlcmx5
+aW5nIGh1Z2VwYWdlIHNpemUuCiIKCj4+Cj4+IFNpZ25lZC1vZmYtYnk6IExpIFhpbmhhaSA8bGl4
+aW5oYWkubHhoQGdtYWlsLmNvbT4KPj4gQ2M6IEFuZHJldyBNb3J0b24gPGFrcG1AbGludXgtZm91
+bmRhdGlvbi5vcmc+Cj4+IENjOiBNaWtlIEtyYXZldHogPG1pa2Uua3JhdmV0ekBvcmFjbGUuY29t
+Pgo+PiBDYzogSm9obiBIdWJiYXJkIDxqaHViYmFyZEBudmlkaWEuY29tPgo+PiAtLS0KPj4gY2hh
+bmdlczoKPj4gMC4gcGF0Y2ggd2hpY2ggaW50cm9kdWNlIG5ldyBmbGFnIGZvciBtbWFwKCkKPj7C
+oMKgwqDCoCBUaGUgbmV3IGZsYWcgc2hvdWxkIGJlIGF2b2lkZWQuCj4+IGh0dHBzOi8vbG9yZS5r
+ZXJuZWwub3JnL2xpbnV4LW1tLzE1ODUzMTM5NDQtODYyNy0xLWdpdC1zZW5kLWVtYWlsLWxpeGlu
+aGFpLmx4aEBnbWFpbC5jb20vCj4+Cj4+wqDCoCBtbS9tbWFwLmMgfCA4IC0tLS0tLS0tCj4+wqDC
+oCAxIGZpbGUgY2hhbmdlZCwgOCBkZWxldGlvbnMoLSkKPj4KPj4gZGlmZiAtLWdpdCBhL21tL21t
+YXAuYyBiL21tL21tYXAuYwo+PiBpbmRleCBkNjgxYTIwLi5iMmFhMTAyIDEwMDY0NAo+PiAtLS0g
+YS9tbS9tbWFwLmMKPj4gKysrIGIvbW0vbW1hcC5jCj4+IEBAIC0xNTYwLDIwICsxNTYwLDEyIEBA
+IHVuc2lnbmVkIGxvbmcga3N5c19tbWFwX3Bnb2ZmKHVuc2lnbmVkIGxvbmcgYWRkciwgdW5zaWdu
+ZWQgbG9uZyBsZW4sCj4+wqDCoCBmaWxlID0gZmdldChmZCk7Cj4+wqDCoCBpZiAoIWZpbGUpCj4+
+wqDCoCByZXR1cm4gLUVCQURGOwo+PiAtCWlmIChpc19maWxlX2h1Z2VwYWdlcyhmaWxlKSkKPj4g
+LQlsZW4gPSBBTElHTihsZW4sIGh1Z2VfcGFnZV9zaXplKGhzdGF0ZV9maWxlKGZpbGUpKSk7Cj4K
+Pgo+Li4uYW5kIGl0IGxvb2tzIGxpa2UgdGhpcyBpcyBzaW1wbHkgcmVtb3ZpbmcgdGhlIGZvcmNl
+ZCBhbGlnbm1lbnQuIEFuZCBub3QgYWRkaW5nCj5hbnkgZXJyb3IgY2FzZSBmb3Igbm9uLWFsaWdu
+ZWQgY2FzZXMuIFNvIG5vdyBJJ20gbm90IGltbWVkaWF0ZWx5IHN1cmUgd2hhdCBoYXBwZW5zIGlm
+IGEKPm5vbi1hbGlnbmVkIGFkZHJlc3MgaXMgcGFzc2VkIGluLgo+Cj5JIHdvdWxkIGhhdmUgZXhw
+ZWN0ZWQgdG8gc2VlIGVpdGhlciBlcnJvciBjaGVja2luZyBvciBhbiBBTElHTiBjYWxsIGhlcmUs
+IGJ1dCBub3cgYm90aAo+YXJlIGdvbmUsIHNvIEknbSBsb3N0IGFuZCBjb25mdXNlZC4gOikKPiAK
+CkFmdGVyIHRoaXMgcGF0Y2gsIHRoZSBhbGlnbmVtZW50IHdpbGwgb25seSBvbiAibmF0aXZlIHBh
+Z2Ugc2l6ZSBvZiB0aGUgcHJvY2Vzc29yIiBhcyBkb25lIGluCmRvX21tYXAoKS4gVGhlbiwgZm9s
+bG93aW5nIHRoZSBjb2RlIHBhdGgsIGNoZWNraW5nIGZ1cnRoZXIgYnkgaHVnZXRsYl9nZXRfdW5t
+bWFwZWRfYXJlYSgpCmFjY29yZGluZyB0b8KgdW5kZXJseWluZyBodWdlcGFnZSBzaXplLgoKPgo+
+dGhhbmtzLAo+LS0KPkpvaG4gSHViYmFyZAo+TlZJRElBCj4KPj7CoMKgIHJldHZhbCA9IC1FSU5W
+QUw7Cj4+wqDCoCBpZiAodW5saWtlbHkoZmxhZ3MgJiBNQVBfSFVHRVRMQiAmJiAhaXNfZmlsZV9o
+dWdlcGFnZXMoZmlsZSkpKQo+PsKgwqAgZ290byBvdXRfZnB1dDsKPj7CoMKgIH0gZWxzZSBpZiAo
+ZmxhZ3MgJiBNQVBfSFVHRVRMQikgewo+PsKgwqAgc3RydWN0IHVzZXJfc3RydWN0ICp1c2VyID0g
+TlVMTDsKPj4gLQlzdHJ1Y3QgaHN0YXRlICpoczsKPj7CoMKgCj4+IC0JaHMgPSBoc3RhdGVfc2l6
+ZWxvZygoZmxhZ3MgPj4gTUFQX0hVR0VfU0hJRlQpICYgTUFQX0hVR0VfTUFTSyk7Cj4+IC0JaWYg
+KCFocykKPj4gLQlyZXR1cm4gLUVJTlZBTDsKPj4gLQo+PiAtCWxlbiA9IEFMSUdOKGxlbiwgaHVn
+ZV9wYWdlX3NpemUoaHMpKTsKPj7CoMKgIC8qCj4+wqDCoCAqIFZNX05PUkVTRVJWRSBpcyB1c2Vk
+IGJlY2F1c2UgdGhlIHJlc2VydmF0aW9ucyB3aWxsIGJlCj4+wqDCoCAqIHRha2VuIHdoZW4gdm1f
+b3BzLT5tbWFwKCkgaXMgY2FsbGVkCj4+
 
-Great, then use debugfs and expose what ever you want in what ever way
-you want, no restrictions there, you do not need any type of kernel-wide
-/proc file for that today.
-
-> I want to emphasize that I don't like idea of extending /proc/* interface
-> because it is going to be painful to grep on large machines with many
-> devices. And I don't like the idea that every driver will need to register
-> into this interface, because it will be abused almost immediately.
-
-I agree.
-
-> My proposal was to create new sysfs file by driver/core and put all
-> information automatically there, for example, it can be
-> /sys/devices/pci0000:00/0000:00:0c.0/meminfo
->                                      ^^^^^^^
-
-Nope, again, use debugfs, as sysfs is only one-value-per-file.
-
-thanks,
-
-greg k-h
