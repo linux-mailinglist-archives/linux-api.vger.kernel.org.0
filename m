@@ -2,138 +2,210 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4315A196AE8
-	for <lists+linux-api@lfdr.de>; Sun, 29 Mar 2020 05:53:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AED1B196B28
+	for <lists+linux-api@lfdr.de>; Sun, 29 Mar 2020 06:31:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726382AbgC2DxJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 28 Mar 2020 23:53:09 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:1590 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726315AbgC2DxJ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 28 Mar 2020 23:53:09 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e801b460000>; Sat, 28 Mar 2020 20:51:34 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Sat, 28 Mar 2020 20:53:08 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Sat, 28 Mar 2020 20:53:08 -0700
-Received: from [10.2.58.50] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sun, 29 Mar
- 2020 03:53:08 +0000
-Subject: Re: [PATCH] mm: allow checking length for hugetlb mapping in mmap()
-To:     Li Xinhai <lixinhai.lxh@gmail.com>, <linux-mm@kvack.org>
-CC:     <linux-api@vger.kernel.org>,
+        id S1725834AbgC2EbU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 29 Mar 2020 00:31:20 -0400
+Received: from mail-oln040092072097.outbound.protection.outlook.com ([40.92.72.97]:46857
+        "EHLO EUR03-VE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725813AbgC2EbU (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Sun, 29 Mar 2020 00:31:20 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kyup1taQce7Czvt7r62RNYdbwR337OIPCOcCoEdRyTJRYDV8GLaNxAiL+bCCFyiWG9wCBa6VqWYqremWrUt/TqXQ5Zvcb0NEL8ZYrhItSyqGsTpb50rrsiivE/WA6p1PG0nsp9LXmwJeG2xxonJPV91T2J96ZoJfobB75ney0oeIuzcN+weNzkRWIOP05cs/1U+EnkxdP3GyDGhzVqxEEo18LI7TFGZC/vuWGr/XR8gebaZxOfPzkD/pNfJBSQ9ULBvxzB8jkz0ev4QEQLaAwL9vzEYkFA0m1H6jZGHbHlJ170I0hYcYnkwQSH7x5ZM4qKfILIkQiZpUp0OnHQVlJQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BU6qOvtkmoxpqbOUiMCq2Q6Uh6Xqp4ZpfT/eykTnfl4=;
+ b=ltV5XHTSw9REvhh8GTOAeC3mMtQvHO+X3Xn9KrB9aMLKZGgBpvjArcO87SLf2r4Sif03lMUfNWM5T8tr98vB6APpmaXtC4uBRO9gf/o2pKlNjqtHmOLlkiyk0IDhXSyBxb47t8asemeIYnpwQKLh8p3g4Qh8jFYCYo4HoaYkB5rWaxRMnFcH1vvIIHz8/us6KSV9p0hqNFF5y+ZFVBxNcDJFQCLS8iXbv4QFIKf8He9zkJDHlIjoDnmKe4r0K+qGl/XdSYgtRbTvSCEuFU9AnODrj2w8DqsY+T9wFrAhy1h6YgHTdj9Heqlg3LlB9eh2SqQZkj78kzrw2FB1xndJCw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=hotmail.de; dmarc=pass action=none header.from=hotmail.de;
+ dkim=pass header.d=hotmail.de; arc=none
+Received: from VE1EUR03FT048.eop-EUR03.prod.protection.outlook.com
+ (2a01:111:e400:7e09::52) by
+ VE1EUR03HT047.eop-EUR03.prod.protection.outlook.com (2a01:111:e400:7e09::416)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2856.17; Sun, 29 Mar
+ 2020 04:31:14 +0000
+Received: from AM6PR03MB5170.eurprd03.prod.outlook.com (10.152.18.51) by
+ VE1EUR03FT048.mail.protection.outlook.com (10.152.19.8) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2856.17 via Frontend Transport; Sun, 29 Mar 2020 04:31:14 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:ED9EED656349D1FAC421A208C7F8CFD1A715EF757F9B8E5B54AB5D7201CA1406;UpperCasedChecksum:872083040AC657C2F86F36691608A054C21B532E3E0B156EAF4E00B017714D8F;SizeAsReceived:9568;Count:50
+Received: from AM6PR03MB5170.eurprd03.prod.outlook.com
+ ([fe80::1956:d274:cab3:b4dd]) by AM6PR03MB5170.eurprd03.prod.outlook.com
+ ([fe80::1956:d274:cab3:b4dd%6]) with mapi id 15.20.2835.025; Sun, 29 Mar 2020
+ 04:31:14 +0000
+Subject: Re: [PATCH v6 15/16] exec: Fix dead-lock in de_thread with
+ ptrace_attach
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        Kirill Tkhai <ktkhai@virtuozzo.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Kees Cook <keescook@chromium.org>,
+        "jannh@google.com" <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>
-References: <1585451295-22302-1-git-send-email-lixinhai.lxh@gmail.com>
-From:   John Hubbard <jhubbard@nvidia.com>
-X-Nvconfidentiality: public
-Message-ID: <f8b5b647-9041-8127-925c-1c8dcb508f24@nvidia.com>
-Date:   Sat, 28 Mar 2020 20:53:07 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
-MIME-Version: 1.0
-In-Reply-To: <1585451295-22302-1-git-send-email-lixinhai.lxh@gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
+        "adobriyan@gmail.com" <adobriyan@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        "avagin@gmail.com" <avagin@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        "duyuyang@gmail.com" <duyuyang@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jamorris@linux.microsoft.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        "christian@kellner.me" <christian@kellner.me>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
+References: <077b63b7-6f5e-aa8e-bf96-a586b481cc46@hotmail.de>
+ <b6537ae6-31b1-5c50-f32b-8b8332ace882@hotmail.de>
+ <87a7448q7t.fsf@x220.int.ebiederm.org>
+From:   Bernd Edlinger <bernd.edlinger@hotmail.de>
+Message-ID: <AM6PR03MB51700B30078BDCB6C6A4E0CAE4CA0@AM6PR03MB5170.eurprd03.prod.outlook.com>
+Date:   Sun, 29 Mar 2020 06:31:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+In-Reply-To: <87a7448q7t.fsf@x220.int.ebiederm.org>
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1585453894; bh=NfEElATanGXp13na3lUpdTsmmzPeIP2rqZ50O/f1exk=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=pLE1149/A+cR5S345/tFxoBhdj5NW3ZDXteirzwCr8YDWSAdN8ittKZ3m95nhuMTe
-         rK0fIpTeVggDxMpextcycJf+rsdzYKk0bzJCvwMYP34ICIKrxz0iMjoeVT5AOhNqsW
-         2PLAxp4yHdSSNpe6drCoZLzANF0T9YBZtM3ZiWcazFMnmhT8tP4CkV4MUKYc1ikysA
-         bfct3fFZ0lr/DTPpGGv0ce0jJFf5TCXXIoYl0+bcCPH8rDZw98EeZ5+P+mdkg8B7Oe
-         SVAqkUh0gBlUxphneL2bsAk4paZFXe4ltD39k+4BMRjDAIPBYsEXkGYZX0p82MS4Lh
-         IYv9HuP6eh7Xw==
+X-ClientProxiedBy: ZRAP278CA0013.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:10::23) To AM6PR03MB5170.eurprd03.prod.outlook.com
+ (2603:10a6:20b:ca::23)
+X-Microsoft-Original-Message-ID: <88361bfb-17d9-aae5-b7ef-08d4271c9bad@hotmail.de>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.101] (92.77.140.102) by ZRAP278CA0013.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:10::23) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2856.18 via Frontend Transport; Sun, 29 Mar 2020 04:31:12 +0000
+X-Microsoft-Original-Message-ID: <88361bfb-17d9-aae5-b7ef-08d4271c9bad@hotmail.de>
+X-TMN:  [4KLlOOtqgqNbDk08WSbsS+zK6jdLXZV3]
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 50
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: 5e9d7664-0054-49af-6157-08d7d39a042d
+X-MS-TrafficTypeDiagnostic: VE1EUR03HT047:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: d/6ABfWPMOvYmVF/EnnTcKRwiZPgLYPvr9qYP8jRl35a42BJw0NbBjO/e48BVSF42XmzPdJwjUbP9h3SJGDuz+7vz7LJ1bI6sn3wCVeVjFdf3Pi961YLETO0X7GX8ETHia8ANJfWrrWlmrJGYm2mWbk8A7T6SFy98uAid0TnK1B6AXwXYlncFMVa143CX/BL
+X-MS-Exchange-AntiSpam-MessageData: HQ9anwJaCcDwGJH2DhJEt2I93KHYcht9rU00eGoDRXCyeI/s7Y+OTYslB3oEYTQfG8GxhJaDmu4PnyOf02kIWSi6k/O3/ue36tkcKJ3XVWLM0VZOaYkWjLwa1Ge1G5nfu3MnD6+FHKRkLsLGk79+WQ==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5e9d7664-0054-49af-6157-08d7d39a042d
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2020 04:31:14.7979
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1EUR03HT047
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 3/28/20 8:08 PM, Li Xinhai wrote:
-> In current code, the vma related call of hugetlb mapping, except mmap,
-> are all consider not correctly aligned length as invalid parameter,
-> including mprotect,munmap, mlock, etc., by checking through
-> hugetlb_vm_op_split. So, user will see failure, after successfully call
-> mmap, although using same length parameter to other mapping syscall.
+On 3/25/20 3:27 PM, Eric W. Biederman wrote:
+> Bernd Edlinger <bernd.edlinger@hotmail.de> writes:
 > 
-> It is desirable for all hugetlb mapping calls have consistent behavior,
-> without mmap as exception(which round up length to align underlying
-> hugepage size). In current Documentation/admin-guide/mm/hugetlbpage.rst,
-> the description is:
-> "
-> Syscalls that operate on memory backed by hugetlb pages only have their
-> lengths aligned to the native page size of the processor; they will
-> normally fail with errno set to EINVAL or exclude hugetlb pages that
-> extend beyond the length if not hugepage aligned. For example, munmap(2)
-> will fail if memory is backed by a hugetlb page and the length is smaller
-> than the hugepage size.
-> "
-> which express the consistent behavior.
+>> This removes the last users of cred_guard_mutex
+>> and replaces it with a new mutex exec_guard_mutex,
+>> and a boolean unsafe_execve_in_progress.
+>>
+>> This addresses the case when at least one of the
+>> sibling threads is traced, and therefore the trace
+>> process may dead-lock in ptrace_attach, but de_thread
+>> will need to wait for the tracer to continue execution.
+>>
+>> The solution is to detect this situation and make
+>> ptrace_attach and similar functions return -EAGAIN,
+>> but only in a situation where a dead-lock is imminent.
+>>
+>> This means this is an API change, but only when the
+>> process is traced while execve happens in a
+>> multi-threaded application.
+>>
+>> See tools/testing/selftests/ptrace/vmaccess.c
+>> for a test case that gets fixed by this change.
+> 
+> Hmm.  The logic with unsafe_execve_in_progress is interesting.
+> I think I see what you are aiming for.
+> 
+> So far as you have hit what you are aiming for I think this is
+> a safe change as the only cases that will change are the cases
+> that would deadlock today.
+> 
+> At a minimum the code is subtle and I don't see big fat
+> warning comments that subtle code needs to keep people
+> from using it wrong.
+> 
+
+Okay, I can add big fat warning comments, yeah.
+
+> Further while the change below to proc_pid_attr_write looks
+> like it is being treated the same as ptrace_attach.  When in
+> fact proc_pid_attr_write needs the no_new_privs and ptrace_attach
+> protection the same as exec.  As the updated cred won't be used in an
+> ongoing exec, exec does not need protection from proc_pid_attr_write,
+> other than deadlock protection.
+> 
+
+Not sure I understand this comment correct.
+You refer to this block here:
+
+> @@ -2680,14 +2680,17 @@ static ssize_t proc_pid_attr_write(struct file * file, const char __user * buf,
+>         }
+> 
+>         /* Guard against adverse ptrace interaction */
+> -       rv = mutex_lock_interruptible(&current->signal->cred_guard_mutex);
+> +       rv = mutex_lock_interruptible(&current->signal->exec_guard_mutex);
+>         if (rv < 0)
+>                 goto out_free;
+> 
+> -       rv = security_setprocattr(PROC_I(inode)->op.lsm,
+> -                                 file->f_path.dentry->d_name.name, page,
+> -                                 count);
+> -       mutex_unlock(&current->signal->cred_guard_mutex);
+> +       if (unlikely(current->signal->unsafe_execve_in_progress))
+> +               rv = -EAGAIN;
+> +       else
+> +               rv = security_setprocattr(PROC_I(inode)->op.lsm,
+> +                                         file->f_path.dentry->d_name.name,
+> +                                         page, count);
+> +       mutex_unlock(&current->signal->exec_guard_mutex);
+>  out_free:
+>         kfree(page);
+
+I think the logic is correct, but instead if an if-then-else,
+I need the big-fat-warning-comment followed by if-unsafe-goto-mutex-unlock
+kind of thing, so it looks more like the other places, right?
 
 
-Missing here is a description of what the patch actually does...
+> Having the relevant lock be per task_struct lock would probably be a
+> better way to avoid deadlock with a concurrent proc_pid_attr_write.
+> 
+
+Please elaborate your idea a bit.
 
 > 
-> Signed-off-by: Li Xinhai <lixinhai.lxh@gmail.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Mike Kravetz <mike.kravetz@oracle.com>
-> Cc: John Hubbard <jhubbard@nvidia.com>
-> ---
-> changes:
-> 0. patch which introduce new flag for mmap()
->     The new flag should be avoided.
->     https://lore.kernel.org/linux-mm/1585313944-8627-1-git-send-email-lixinhai.lxh@gmail.com/
+> So I am going to pass on these last two patches for now, and apply the
+> rest and get them into linux-next.
 > 
->   mm/mmap.c | 8 --------
->   1 file changed, 8 deletions(-)
-> 
-> diff --git a/mm/mmap.c b/mm/mmap.c
-> index d681a20..b2aa102 100644
-> --- a/mm/mmap.c
-> +++ b/mm/mmap.c
-> @@ -1560,20 +1560,12 @@ unsigned long ksys_mmap_pgoff(unsigned long addr, unsigned long len,
->   		file = fget(fd);
->   		if (!file)
->   			return -EBADF;
-> -		if (is_file_hugepages(file))
-> -			len = ALIGN(len, huge_page_size(hstate_file(file)));
+
+No problem, I can update this patch and if you like take it to your tree,
+otherwise it is of course not the most important issue in the world ;-)
 
 
-...and it looks like this is simply removing the forced alignment. And not adding
-any error case for non-aligned cases. So now I'm not immediately sure what happens if a
-non-aligned address is passed in.
-
-I would have expected to see either error checking or an ALIGN call here, but now both
-are gone, so I'm lost and confused. :)
-
-
-thanks,
--- 
-John Hubbard
-NVIDIA
-
->   		retval = -EINVAL;
->   		if (unlikely(flags & MAP_HUGETLB && !is_file_hugepages(file)))
->   			goto out_fput;
->   	} else if (flags & MAP_HUGETLB) {
->   		struct user_struct *user = NULL;
-> -		struct hstate *hs;
->   
-> -		hs = hstate_sizelog((flags >> MAP_HUGE_SHIFT) & MAP_HUGE_MASK);
-> -		if (!hs)
-> -			return -EINVAL;
-> -
-> -		len = ALIGN(len, huge_page_size(hs));
->   		/*
->   		 * VM_NORESERVE is used because the reservations will be
->   		 * taken when vm_ops->mmap() is called
-> 
+Thanks
+Bernd.
