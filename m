@@ -2,124 +2,109 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BA49196AC0
-	for <lists+linux-api@lfdr.de>; Sun, 29 Mar 2020 05:11:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1204B196ACB
+	for <lists+linux-api@lfdr.de>; Sun, 29 Mar 2020 05:17:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727149AbgC2DLz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 28 Mar 2020 23:11:55 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:37926 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727121AbgC2DLy (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 28 Mar 2020 23:11:54 -0400
-Received: by mail-ed1-f67.google.com with SMTP id e5so16701065edq.5
-        for <linux-api@vger.kernel.org>; Sat, 28 Mar 2020 20:11:53 -0700 (PDT)
+        id S1727226AbgC2DRL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 28 Mar 2020 23:17:11 -0400
+Received: from mail-pj1-f66.google.com ([209.85.216.66]:55574 "EHLO
+        mail-pj1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726661AbgC2DRK (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 28 Mar 2020 23:17:10 -0400
+Received: by mail-pj1-f66.google.com with SMTP id fh8so791393pjb.5
+        for <linux-api@vger.kernel.org>; Sat, 28 Mar 2020 20:17:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=QCNJAUmnzDN9FZcZL525t31JITbaUoqdlbI+Ngrcb2Q=;
-        b=m1tGNjwy+SOvZqLF6fO17u3ClF2d67j8aXHoHY1dw1Akc1hbsGxDZMYPC2VBMObQfV
-         ova0wmjBzwcmQkBSnqv1BIYenDPMnjgFm5l+U579QF6Ziw8gRaW1IHMK5R1Rkqof/jk0
-         k02MdWhDxlczwjxkzuy/MjRfDqDVz1w8DE1pf8DCkRBRStH3S/Cj8rVhzHPa6zewSMbN
-         41OZmsDyXigpVVvfjIF7+bCqUWin8T2D0rE08sf8lEvHTDizePb4Hxf11vCqV7lbLwlN
-         nyaZ+aCdVU80g51lvj3HKJl/l7o6U5YZsi89i6/CssH3Nr+hTKMar4D17vXJEeLcmBTm
-         ScOA==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=4II2bc92WqcI1jJHIbHJBRCr9XHybTRKP72pOZ2vBn8=;
+        b=m9oqaykcy7+GRfPUA0qekrpwJwNqG0S1mlKb9K3dSMoiUplMP4jDXKYYiUxNSn1n+v
+         4oyL3E8RvMsSp58YQD7MyGe1pOXmUDh3zVX3F14wt1es3/kyO62xLP1vqLHROC2/iG5A
+         NA5fTeT/j2lxo6j6d+AbeShqGk6CPpwln0Emo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QCNJAUmnzDN9FZcZL525t31JITbaUoqdlbI+Ngrcb2Q=;
-        b=Y94erVOkO7aT5IMY+oYm52LvDzYDFt+izkw94O37gVL+2sujHYLgGJ1TeBb1SMFpPN
-         T0UZ2cGJI7rG43eRfHVj3Vj1L4Cpmsshgd7vw3jqWJdJkoIlRHVUmqtfo8bZJPtrtNAt
-         ZUT4FnwK9RcxgPNWzgM6ZA+OY5AIBS4oTyzM3L+S1gjzWyCg4Jtku0R9QOI2b25rHTJY
-         DXKuNf8hL6hklWQbMuH/LfZ0SHtHoKg2Iyvj95im0Whjn4qxv9I0Cc63XJoT62BU+4om
-         DSxLfU4CC4qMVYKysHyqrm594ZSL3P9O7xjiUDIEIWQiwgC3hKNDuqgKg8sL62E2G5tg
-         8bpw==
-X-Gm-Message-State: ANhLgQ2yIhDiLZpEe/AMwZaJMiPW/SADhGHf2HneC/Yq4Ff69dEGhz61
-        GzXJ0+vmyP/PQbm0xHG+rUIgeKA/t69gD3RQPlTA
-X-Google-Smtp-Source: ADFU+vsO3z8fR85BdzrdW8wO5Ic5j66UK7NtBXWnojiKMj/pMltL8hW55ibXGgej7CzgWStIAOOuND+xZVVbglX1ybU=
-X-Received: by 2002:a17:906:1993:: with SMTP id g19mr5774145ejd.70.1585451512568;
- Sat, 28 Mar 2020 20:11:52 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=4II2bc92WqcI1jJHIbHJBRCr9XHybTRKP72pOZ2vBn8=;
+        b=W7ADQ5B2fqyX1OKgfJxnIzjjPRa0juithN7YAiqAAiGKZuWpvq5BT7LDD7xtmzCGou
+         Q00KYf7fS4+3+53H7uv964qhu906XhRRN3q7OBhydsCXsTyMqKow7P2IygWE8CbBA1qH
+         SDncQsT/IauYHVUQubuicHnOecUZVsA+0QDq3rhO4jvxy1STchLsPMVoUcvLnNtxyC+l
+         6DuP4sZzAjAaX2QDp1FzYrrOwlIQc9gP8cPoF305UJR44pPgjac2k86zADpRqx8gtUsW
+         RQaXVmbJ5qYa3qnOrbnVuHothEo1JK4K03amJ0nE2jv9CJjh0/QYOJ/OF4FWsL/1jP7g
+         IetQ==
+X-Gm-Message-State: ANhLgQ3qRJyyh8OQ8tIjFxLoKvE5tVqNeW0DkHvBYbLx81EfIkoCi1ZE
+        nQibeNMkCsqQrrqivDgqq0JZIA==
+X-Google-Smtp-Source: ADFU+vtseLSYN5So1Oobu2UiukVUxTzuZN3FTYmpLjJuga7kllNUrhEyIWnwcYJIyJMu6YW0JBI/4Q==
+X-Received: by 2002:a17:90a:7105:: with SMTP id h5mr8294662pjk.54.1585451827508;
+        Sat, 28 Mar 2020 20:17:07 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id y14sm7123511pfp.127.2020.03.28.20.17.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Mar 2020 20:17:06 -0700 (PDT)
+Date:   Sat, 28 Mar 2020 20:17:05 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Alexey Gladkov <gladkov.alexey@gmail.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        Linux Security Module <linux-security-module@vger.kernel.org>,
+        Akinobu Mita <akinobu.mita@gmail.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Daniel Micay <danielmicay@gmail.com>,
+        Djalal Harouni <tixxdz@gmail.com>,
+        "Dmitry V . Levin" <ldv@altlinux.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Jeff Layton <jlayton@poochiereds.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Oleg Nesterov <oleg@redhat.com>
+Subject: Re: [PATCH v10 7/9] proc: move hidepid values to uapi as they are
+ user interface to mount
+Message-ID: <202003282016.19E071712@keescook>
+References: <20200327172331.418878-1-gladkov.alexey@gmail.com>
+ <20200327172331.418878-8-gladkov.alexey@gmail.com>
+ <202003281340.B73225DCC9@keescook>
+ <20200328212547.xxiqxqhxzwp6w5n5@comp-core-i7-2640m-0182e6>
+ <202003281453.CED94974@keescook>
+ <20200328230046.v3qbffmbtl4sd7tg@comp-core-i7-2640m-0182e6>
 MIME-Version: 1.0
-References: <20200312193037.2tb5f53yeisfq4ta@madcap2.tricolour.ca>
- <CAHC9VhQoVOzy_b9W6h+kmizKr1rPkC4cy5aYoKT2i0ZgsceNDg@mail.gmail.com>
- <20200313185900.y44yvrfm4zxa5lfk@madcap2.tricolour.ca> <CAHC9VhR2zCCE5bjH75rSwfLC7TJGFj4RBnrtcOoUiqVp9q5TaA@mail.gmail.com>
- <20200318212630.mw2geg4ykhnbtr3k@madcap2.tricolour.ca> <CAHC9VhRYvGAru3aOMwWKCCWDktS+2pGr+=vV4SjHW_0yewD98A@mail.gmail.com>
- <20200318215550.es4stkjwnefrfen2@madcap2.tricolour.ca> <CAHC9VhSdDDP7Ec-w61NhGxZG5ZiekmrBCAg=Y=VJvEZcgQh46g@mail.gmail.com>
- <20200319220249.jyr6xmwvflya5mks@madcap2.tricolour.ca> <CAHC9VhR84aN72yNB_j61zZgrQV1y6yvrBLNY7jp7BqQiEDL+cw@mail.gmail.com>
- <20200324210152.5uydf3zqi3dwshfu@madcap2.tricolour.ca>
-In-Reply-To: <20200324210152.5uydf3zqi3dwshfu@madcap2.tricolour.ca>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Sat, 28 Mar 2020 23:11:41 -0400
-Message-ID: <CAHC9VhTQUnVhoN3JXTAQ7ti+nNLfGNVXhT6D-GYJRSpJHCwDRg@mail.gmail.com>
-Subject: Re: [PATCH ghak90 V8 07/16] audit: add contid support for signalling
- the audit daemon
-To:     Richard Guy Briggs <rgb@redhat.com>
-Cc:     nhorman@tuxdriver.com, linux-api@vger.kernel.org,
-        containers@lists.linux-foundation.org,
-        LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
-        linux-audit@redhat.com, netfilter-devel@vger.kernel.org,
-        ebiederm@xmission.com, simo@redhat.com, netdev@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>,
-        mpatel@redhat.com, Serge Hallyn <serge@hallyn.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200328230046.v3qbffmbtl4sd7tg@comp-core-i7-2640m-0182e6>
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Mar 24, 2020 at 5:02 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> On 2020-03-23 20:16, Paul Moore wrote:
-> > On Thu, Mar 19, 2020 at 6:03 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > On 2020-03-18 18:06, Paul Moore wrote:
-> >
-> > ...
-> >
-> > > > I hope we can do better than string manipulations in the kernel.  I'd
-> > > > much rather defer generating the ACID list (if possible), than
-> > > > generating a list only to keep copying and editing it as the record is
-> > > > sent.
-> > >
-> > > At the moment we are stuck with a string-only format.
-> >
-> > Yes, we are.  That is another topic, and another set of changes I've
-> > been deferring so as to not disrupt the audit container ID work.
-> >
-> > I was thinking of what we do inside the kernel between when the record
-> > triggering event happens and when we actually emit the record to
-> > userspace.  Perhaps we collect the ACID information while the event is
-> > occurring, but we defer generating the record until later when we have
-> > a better understanding of what should be included in the ACID list.
-> > It is somewhat similar (but obviously different) to what we do for
-> > PATH records (we collect the pathname info when the path is being
-> > resolved).
->
-> Ok, now I understand your concern.
->
-> In the case of NETFILTER_PKT records, the CONTAINER_ID record is the
-> only other possible record and they are generated at the same time with
-> a local context.
->
-> In the case of any event involving a syscall, that CONTAINER_ID record
-> is generated at the time of the rest of the event record generation at
-> syscall exit.
->
-> The others are only generated when needed, such as the sig2 reply.
->
-> We generally just store the contobj pointer until we actually generate
-> the CONTAINER_ID (or CONTAINER_OP) record.
+On Sun, Mar 29, 2020 at 12:00:46AM +0100, Alexey Gladkov wrote:
+> On Sat, Mar 28, 2020 at 02:53:49PM -0700, Kees Cook wrote:
+> > > > > +/* definitions for hide_pid field */
+> > > > > +enum {
+> > > > > +	HIDEPID_OFF            = 0,
+> > > > > +	HIDEPID_NO_ACCESS      = 1,
+> > > > > +	HIDEPID_INVISIBLE      = 2,
+> > > > > +	HIDEPID_NOT_PTRACEABLE = 4,
+> > > > > +};
+> > > > Should the numeric values still be UAPI if there is string parsing now?
+> > > 
+> > > I think yes, because these are still valid hidepid= values.
+> > 
+> > But if we don't expose the values, we can do whatever we like with
+> > future numbers (e.g. the "is this a value or a bit field?" question).
+> 
+> Alexey Dobriyan suggested to put these parameters into the UAPI and it
+> makes sense because these are user parameters.
 
-Perhaps I'm remembering your latest spin of these patches incorrectly,
-but there is still a big gap between when the record is generated and
-when it is sent up to the audit daemon.  Most importantly in that gap
-is the whole big queue/multicast/unicast mess.
-
-You don't need to show me code, but I would like to see some sort of
-plan for dealing with multiple nested audit daemons.  Basically I just
-want to make sure we aren't painting ourselves into a corner with this
-approach; and if for some horrible reason we are, I at least want us
-to be aware of what we are getting ourselves into.
+Okidokey. :) Anyway, ignore my HIDEPID_MAX idea then, since this could
+become a bitfield. Just checking for individual bits is the way to go
+for now. Sorry for the noise.
 
 -- 
-paul moore
-www.paul-moore.com
+Kees Cook
