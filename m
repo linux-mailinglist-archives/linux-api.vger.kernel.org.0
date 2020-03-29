@@ -2,122 +2,138 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 84379196F72
-	for <lists+linux-api@lfdr.de>; Sun, 29 Mar 2020 20:45:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AADCF19705A
+	for <lists+linux-api@lfdr.de>; Sun, 29 Mar 2020 22:49:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728419AbgC2Sp0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 29 Mar 2020 14:45:26 -0400
-Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21409 "EHLO
-        sender4-of-o54.zoho.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728534AbgC2SpZ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 29 Mar 2020 14:45:25 -0400
-X-Greylist: delayed 905 seconds by postgrey-1.27 at vger.kernel.org; Sun, 29 Mar 2020 14:45:25 EDT
-ARC-Seal: i=1; a=rsa-sha256; t=1585506615; cv=none; 
-        d=zohomail.com; s=zohoarc; 
-        b=Gnz5i7zHhx3IcbvzMlmWDQnrh0sR4zto57trVmDlWHXCoqi97GnlySWHSZwCHJVpXxoFxxRJFA79+Sc5jtaOmw+XvgCCYJ+/+0MwR4/FDAPoxnr9MYfGZTiif69skBq6lg81l31e2A840IhfQHOnnL3tSAiOKo9SPbBuV59nW1g=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-        t=1585506615; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To; 
-        bh=hqPCegPJeX/Ry7agpxmBok0vX/8k1cwBMc60UNQIMGc=; 
-        b=jo1R6Ef+IV8X1KTtlIbl0iRh/hm9GeB8s4e+1FU5zCAwpXTUftK1eue2XMTj6uXlnad1dGpqe5GxCMZw+TzUoeN0dEqjDKEWuzEVnFSi5b4k3WyelLDhAtSNzVRkic2XQfQjMfXCq1GUmSDWx5JZ5xwGaW2+9NzqNtf/LizNSKo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-        dkim=pass  header.i=meresinski.eu;
-        spf=pass  smtp.mailfrom=tomasz@meresinski.eu;
-        dmarc=pass header.from=<tomasz@meresinski.eu> header.from=<tomasz@meresinski.eu>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1585506615;
-        s=zoho; d=meresinski.eu; i=tomasz@meresinski.eu;
-        h=From:To:Cc:Message-ID:Subject:Date:MIME-Version:Content-Type:Content-Transfer-Encoding;
-        bh=hqPCegPJeX/Ry7agpxmBok0vX/8k1cwBMc60UNQIMGc=;
-        b=NPVa0VJstiyOaSTToNKVS1OU5UupuHHoOwXKsojUesZJEyO6AjsT9x+LpBgGB+g7
-        FV40TBOIguUZqNmzN1m3xIT6UwxwkoPsjtjotCgu8sdDKX6dyk1ms0NMeVlCubtbLz5
-        3M3VnGm/UMbnk0rKuSOKgg/R76LSXWGiCMCNR0kg=
-Received: from localhost.localdomain (78-11-200-65.static.ip.netia.com.pl [78.11.200.65]) by mx.zohomail.com
-        with SMTPS id 1585506613099417.6913837527152; Sun, 29 Mar 2020 11:30:13 -0700 (PDT)
-From:   =?UTF-8?q?Tomasz=20Meresi=C5=84ski?= <tomasz@meresinski.eu>
-To:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org
-Cc:     davem@davemloft.net, kuba@kernel.org,
-        =?UTF-8?q?Tomasz=20Meresi=C5=84ski?= <tomasz@meresinski.eu>
-Message-ID: <20200329182503.754-1-tomasz@meresinski.eu>
-Subject: [PATCH RFC net-next] af_unix: eof in recvmsg after shutdown for nonblocking dgram socket
-Date:   Sun, 29 Mar 2020 20:25:03 +0200
-X-Mailer: git-send-email 2.17.1
+        id S1728650AbgC2UtO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 29 Mar 2020 16:49:14 -0400
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:42531 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727370AbgC2UtO (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 29 Mar 2020 16:49:14 -0400
+Received: by mail-ed1-f66.google.com with SMTP id cw6so17668212edb.9;
+        Sun, 29 Mar 2020 13:49:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc:content-transfer-encoding;
+        bh=CBrZCY262yJqZoWVYzJDLziYuDtLCOEuJP1pAWpEfsg=;
+        b=jnwvy92LwSffGa10CcijkNob4skNB32haEpszHXlP3JpTyUx7VsBaLTqjoLLkM3RZE
+         ATktXr1wkB5ID7zgdlLkJjalYY7gcmAyfycvXqPIx6Jmfns5uBSnz43R6BnAhgprC15p
+         wIAJenNNgQlwXV4vHuMI22FX8C1LF2ghfUMcPk4exMAfscdR3pj5sGgMD6m3U+VjspJ+
+         KW/z7YZAcZNxPDjPCJmujWppRw1W9FnoilPXdiMnRDc42PmGcxtRK4ZyrM6I+HoRocIh
+         RGkAsV7QH+cOg3nZ3Ap00EmsCgWBrDgeSRfacbGyYXEBQSJTgcg1ncpcxDKbSAcMWZ0A
+         U+4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc:content-transfer-encoding;
+        bh=CBrZCY262yJqZoWVYzJDLziYuDtLCOEuJP1pAWpEfsg=;
+        b=jOu4kJwa9arYrM1V5iPCvAU0qVwNlKwwR/lM29Y/W5b10jo9rQXN82TmkCSzCuEOLi
+         0LWnK/j2lfQ9rP0OZzoH7vfgEixIN44dNKggfMO3EShDZ1xCMFYA+MQynw18UCrB1CEX
+         CMr3O0GbZKIn1DpSWSEnAAMhIHAg/BE8sIS/rnuDxLoOir656dnZGvhpA4FHlpDXLmYm
+         9UpUY2ZcU0CCDlOiZK/if9nJyeUCuZdS+zicwaMFA2TNjUQDgO3wHcr+GB7mSWfCNKkC
+         cc6SAz0LSwYWBvyBH9tpC2t3B4xKHdFNcaq02Df74biRtZws4xQK7I72LhEB4IxbQSuQ
+         K23A==
+X-Gm-Message-State: ANhLgQ1AwW2WW7yHL3ulifeq16ZJ71UObdtG8KMYnF9xuJtBPsf4rVrm
+        Uv0l9YRQQXXeYa1JR57IKEh3OZc4ZKkOM4WZ4wc=
+X-Google-Smtp-Source: ADFU+vs7d42gGJdwKipFf5RwR68cUNNlz0MoLkmh98QcAOIqRaGIUtg9TG6d4NPbzJyMlT7d4rLb3CVhJJFi4Rjd1BY=
+X-Received: by 2002:a50:8046:: with SMTP id 64mr8717182eda.332.1585514952374;
+ Sun, 29 Mar 2020 13:49:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <CA+zRj8U5_NaY4ZQXj9r=f58KcO3pq5k9HZt9KxRYHnOOk=e1WQ@mail.gmail.com>
+ <a225bae5-e342-fee4-b7fa-c3093ca52fa0@gmail.com>
+In-Reply-To: <a225bae5-e342-fee4-b7fa-c3093ca52fa0@gmail.com>
+Reply-To: mtk.manpages@gmail.com
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Date:   Sun, 29 Mar 2020 22:49:00 +0200
+Message-ID: <CAKgNAkhzOq2-H8Ka2Dx9ijrVZkaH9cNzKkAENM9hyQx9MBnAKQ@mail.gmail.com>
+Subject: Re: clock_settime(2) error for non-settable clocks
+To:     Eric Rannaud <eric.rannaud@gmail.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-man <linux-man@vger.kernel.org>
+Cc:     Aleksa Sarai <asarai@suse.de>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-ZohoMailClient: External
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Calling recvmsg() after shutdown(SHUT_RD) is a some kind of undocumented
-behaviour. For blocking socket it just returns 0 (EOF), but for nonblocking
-socket it returns -EAGAIN. It can cause some event loops to infinitely wait
-for an event on this socket (https://github.com/tokio-rs/tokio/issues/1679)
+On Thu, 26 Mar 2020 at 09:37, Michael Kerrisk (man-pages)
+<mtk.manpages@gmail.com> wrote:
+>
+> Eric,
+>
+> On 3/20/20 7:02 PM, Eric Rannaud wrote:
+> > If clock_id is a valid clock on the system (i.e. it can be passed to
+> > clock_gettime(2)), clock_settime(clock_id, &ts) sets errno to, either:
+> >
+> >   - EINVAL if CONFIG_POSIX_TIMERS is not enabled (kernel/posix-stubs.c)=
+;
+> >   - EINVAL if CONFIG_POSIX_TIMERS is enabled (kernel/posix-timers.c)
+> > and the k_clock has no set function (e.g. CLOCK_BOOTTIME);
+> >   - EACCES for dynamic posix clock devices that lack F_WRITE
+> > (kernel/posix-time.c);
+> >   - EOPNOTSUPP for dynamic posix clock devices that have F_WRITE but
+> > don't have a clock_settime op.
+> >   - EOPNOTSUPP for drivers/ptp/ptp_kvm.c (they provide a clock_settime
+> > op that returns -EOPNOTSUPP directly, rather than opt to leave
+> > clock_settime NULL which would do the same thing, see previous point).
+> >
+> > The manpage for clock_settime(2) is not very clear:
+> >
+> >        EINVAL The clk_id specified is not supported on this system.
+> >
+> >        EPERM  clock_settime() does not have permission to set the clock=
+  indi=E2=80=90
+> >               cated.
+> >
+> > To me, the manpage reads like EPERM should be expected when trying to
+> > set a clock that is not settable.
+> >
+> > Should we update the manpage to more fully explain the range of
+> > possible errors or instead try to have more consistent errors? For
+> > syscalls, what's the backward-compatibility contract for errno values?
+>
+> A man-pages patch would be most appropriate. Would you be able to put
+> something together?
 
-Simple Python test case:
-| import socket
-|
-| print('BLOCKING TEST')
-| a =3D socket.socket(family=3Dsocket.AF_UNIX, type=3Dsocket.SOCK_DGRAM)
-| a.shutdown(socket.SHUT_RD)
-|
-| result =3D a.recv(1)
-| print('recv result ', result)
-|
-| a.close()
-|
-| print('NONBLOCKING TEST')
-| type =3D socket.SOCK_DGRAM | socket.SOCK_NONBLOCK
-| a =3D socket.socket(family=3Dsocket.AF_UNIX, type=3Dtype)
-| a.shutdown(socket.SHUT_RD)
-|
-| try:
-|     result =3D a.recv(1)
-| except BlockingIOError:
-|     print('Got Blocking IO Error')
-| else:
-|     print('recv result ', result)
-|
-| a.close()
+I have in the meantime added this patch:
 
-Signed-off-by: Tomasz Meresi=C5=84ski <tomasz@meresinski.eu>
----
-I'm not so sure about this patch because it can be called userspace API bre=
-ak.=20
-This sequence is now some kind of undefined behaviour - it's documented now=
-here.
-In the first place, I think that shutdown(SHUT_RD) should fail here as it d=
-oes with AF_INET dgram socket.
-On the other hand, there may be some user of this kind of shutdown() behavi=
-our so it'd be too risky.
+commit 238442a2de3821921e9b78117bf89519f8093c42 (HEAD -> master)
+Author: Michael Kerrisk <mtk.manpages@gmail.com>
+Date:   Sun Mar 29 22:36:19 2020 +0200
 
-The problem here is that EAGAIN errno is used in event loops as we should w=
-ait for the next events indicator.
-It's not true here because there won't be any new events with this socket a=
-s it's shut down.
+    clock_getres.2: ERRORS: add EINVAL for attempt to set a nonsettable clo=
+ck
 
- net/unix/af_unix.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+    Signed-off-by: Michael Kerrisk <mtk.manpages@gmail.com>
 
-diff --git a/net/unix/af_unix.c b/net/unix/af_unix.c
-index 3385a7a0b231..9458b11289c2 100644
---- a/net/unix/af_unix.c
-+++ b/net/unix/af_unix.c
-@@ -2123,9 +2123,8 @@ static int unix_dgram_recvmsg(struct socket *sock, st=
-ruct msghdr *msg,
-=20
- =09if (!skb) { /* implies iolock unlocked */
- =09=09unix_state_lock(sk);
--=09=09/* Signal EOF on disconnected non-blocking SEQPACKET socket. */
--=09=09if (sk->sk_type =3D=3D SOCK_SEQPACKET && err =3D=3D -EAGAIN &&
--=09=09    (sk->sk_shutdown & RCV_SHUTDOWN))
-+=09=09/* Signal EOF on disconnected socket. */
-+=09=09if (err =3D=3D -EAGAIN && (sk->sk_shutdown & RCV_SHUTDOWN))
- =09=09=09err =3D 0;
- =09=09unix_state_unlock(sk);
- =09=09goto out;
+diff --git a/man2/clock_getres.2 b/man2/clock_getres.2
+index ed9310208..66ed84c5c 100644
+--- a/man2/clock_getres.2
++++ b/man2/clock_getres.2
+@@ -237,6 +237,13 @@ is negative or
+ .I tp.tv_nsec
+ is outside the range [0..999,999,999].
+ .TP
++.B EINVAL
++The
++.I clk_id
++specified in a call to
++.BR clock_settime ()
++is not a settable clock.
++.TP
+ .BR EINVAL " (since Linux 4.3)"
+ .\" commit e1d7ba8735551ed79c7a0463a042353574b96da3
+ A call to
+
+Thanks,
+
+Michael
+
 --=20
-2.17.1
-
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
