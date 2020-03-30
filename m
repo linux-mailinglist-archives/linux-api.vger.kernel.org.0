@@ -2,134 +2,108 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F799197E50
-	for <lists+linux-api@lfdr.de>; Mon, 30 Mar 2020 16:26:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 554F8197EBF
+	for <lists+linux-api@lfdr.de>; Mon, 30 Mar 2020 16:46:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728322AbgC3O0q (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 30 Mar 2020 10:26:46 -0400
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:46880 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728070AbgC3O0p (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 30 Mar 2020 10:26:45 -0400
-Received: by mail-ed1-f68.google.com with SMTP id cf14so20784011edb.13
-        for <linux-api@vger.kernel.org>; Mon, 30 Mar 2020 07:26:44 -0700 (PDT)
+        id S1727849AbgC3Oqf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 30 Mar 2020 10:46:35 -0400
+Received: from mail-pj1-f66.google.com ([209.85.216.66]:51364 "EHLO
+        mail-pj1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727769AbgC3Oqe (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 30 Mar 2020 10:46:34 -0400
+Received: by mail-pj1-f66.google.com with SMTP id w9so7679909pjh.1;
+        Mon, 30 Mar 2020 07:46:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nIwHXYaHc6+JACA+fBj9Ng03i5CGrWKmbD2K5DI9CIE=;
-        b=ajvRh38GUf77mUItDVx5WbVN3YYFvjpLhHpwTv84kBQrU1zHTfXiaouPYDLxmTBG45
-         8MfOdRSj5sryUlWJASFBkFehPbzj8g+e0VLiclXWIZ4G7TNuAWnOLRZsHy5ZILaeErIk
-         LqDtUQMsHOq4lmfzrcPHMubNv/dsDfNl88x3vGdvlTcKgkieRjEG7LJI1fd9nz6RqZu5
-         BOFFrhLvSD3REAwMRyI7d5+5fdIIBNKMwpnUqrTKVhUtpQqIoLekud+8zPPbmsCM+lt0
-         dRMyhqGXKHl96BJACIDgeCHLcpYrgLmsx7K26Jot1RzI/1+tsWiYSF1NdBH7pmfmhUq/
-         WEgQ==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=BBNV7mCHl8ARll4ecc1sVG2Qhvtdfex91jBAy7FeD5E=;
+        b=Xg7FkvV8uCD5UbuTMsSG7MouNqxGXREwGo2CzFyIyiHdAtB7sXqI3tOWVghjtUEYh0
+         aXs+eWoOseSRSsH8JiqitZJK8BWXHmUUiLOCkuDb98VU3Phrph1MBzuTmTuW6DQsnW+E
+         GruUp/0qfCRyDEsZ7tNIhn5CwEzk3RhKUl4sSSZYIOmzXcvrQcnlQMp78LfHMoJgypw1
+         823cbowoiSUn/YmTyfTQhqIUOUMM03B9YXiNZb/Y8kJply0edBKDKPirKYjqlSFI24q1
+         Z63y+/vmE+nTUoUwxQJKEeO9u7H/Mg3U6ITyXYlSHKvFhld8eynK6CJ9z8eW2eAEV1T7
+         dlnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nIwHXYaHc6+JACA+fBj9Ng03i5CGrWKmbD2K5DI9CIE=;
-        b=hSeu7ErGCrmhkTzKCiQFxYdhdYdSqU5GzmuqF2ZUjlrm00lOKSfT45W4ySxNM7ySJs
-         9W0OEcb0YaN84sAituxET1Ck7ZiAwREkCNlOVg5KE7sQnnsqmef89atdN2t5QM6DKGJx
-         SchSZAz1KyysyVNwBkuPYO7Ec8jJOd3gOqyOHPHRzicQN3SC1LmfIcMq8qQhHmQd0hJg
-         pU5t/Bq5W5NEtrU2NG8tEMTRks1JvKMMFX7Qku76o4ml7SjioUyxSXf1W9z+lF8nhiZp
-         lkqiHCzdVeaTMlUC5QZCinzABz6vDYQSd27tl47WKGmNoqutmxSmjXqB6paoNLI39Bri
-         RwVg==
-X-Gm-Message-State: ANhLgQ3nr9pD7kVl9a8ZjJ43R23a38ZvnVpgDjTCfi4ni22LMdQvkSRn
-        vv1C0NCrzBXxD3LmdHHEFBP6fzo58+qnAZTScg29
-X-Google-Smtp-Source: ADFU+vvlCnwKHdKl+nxVyk3rZYlrc9sBCQh+XYbClaJVIEpd7a51sng79ner8qjsey4+ghjyaCmOteBvcjGEv+YeeMA=
-X-Received: by 2002:aa7:c48f:: with SMTP id m15mr9786550edq.164.1585578403828;
- Mon, 30 Mar 2020 07:26:43 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=BBNV7mCHl8ARll4ecc1sVG2Qhvtdfex91jBAy7FeD5E=;
+        b=BewZ4IfrctxzYYj2hGHGOPVOZ/Of8QikbMnLGy3BqM6bdGxCBPb1h2V6HlEpvrnEGt
+         AVNra8+gIRef4wmZputjklOnsU8dIvHeXSG3NyGBTEeTN67rG25fU6YgiCSg/xe34Ba2
+         5DTWNaIN+r8fweSmlUxYlAA3l6mOEby13OJp5VBz7e8RXrPJvcGVOXAt7ff7Bam5IHyR
+         QNTDoBt89NkrDdh0zOBPdJGCKJQ76rn2Sv0RzUgnsKlfqcZGmni6kXCy4BkWGJOKI0XI
+         8ALdhLskNGpirhd6rFJuh5fKQIRPWqyUizdkMmsrnzU7WajFwy1q/jddKC6zJ8hmoz1w
+         bF6Q==
+X-Gm-Message-State: ANhLgQ2u3xoSwGmDjImpzzAIuzFmCA1kuvEGtlYGReLlZUy20Y1h9MEn
+        D21aqEVyuVNi9MAeuZBr4gE=
+X-Google-Smtp-Source: ADFU+vuzOLitTeL+ZQiw6hgGpxorkO+zvB0TOdLFdQtE28ZuSntUjkSNVSQ9+B/KwzIkHl+Y7e0+XA==
+X-Received: by 2002:a17:90a:f98d:: with SMTP id cq13mr16273240pjb.105.1585579593306;
+        Mon, 30 Mar 2020 07:46:33 -0700 (PDT)
+Received: from earth-mac.local (219x123x138x129.ap219.ftth.ucom.ne.jp. [219.123.138.129])
+        by smtp.gmail.com with ESMTPSA id h198sm10333214pfe.76.2020.03.30.07.46.32
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 30 Mar 2020 07:46:32 -0700 (PDT)
+Received: by earth-mac.local (Postfix, from userid 501)
+        id 2A534202804C0F; Mon, 30 Mar 2020 23:46:31 +0900 (JST)
+From:   Hajime Tazaki <thehajime@gmail.com>
+To:     linux-um@lists.infradead.org
+Cc:     Octavian Purdila <tavi.purdila@gmail.com>,
+        Akira Moroo <retrage01@gmail.com>,
+        linux-kernel-library@freelists.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org
+Subject: [RFC v4 01/25] arch: add __SYSCALL_DEFINE_ARCH
+Date:   Mon, 30 Mar 2020 23:45:33 +0900
+Message-Id: <9b9d47a8be1c38561d0fc3e4478628e4bb6056ef.1585579244.git.thehajime@gmail.com>
+X-Mailer: git-send-email 2.20.1 (Apple Git-117)
+In-Reply-To: <cover.1585579244.git.thehajime@gmail.com>
+References: <cover.1585579244.git.thehajime@gmail.com>
 MIME-Version: 1.0
-References: <20200313185900.y44yvrfm4zxa5lfk@madcap2.tricolour.ca>
- <CAHC9VhR2zCCE5bjH75rSwfLC7TJGFj4RBnrtcOoUiqVp9q5TaA@mail.gmail.com>
- <20200318212630.mw2geg4ykhnbtr3k@madcap2.tricolour.ca> <CAHC9VhRYvGAru3aOMwWKCCWDktS+2pGr+=vV4SjHW_0yewD98A@mail.gmail.com>
- <20200318215550.es4stkjwnefrfen2@madcap2.tricolour.ca> <CAHC9VhSdDDP7Ec-w61NhGxZG5ZiekmrBCAg=Y=VJvEZcgQh46g@mail.gmail.com>
- <20200319220249.jyr6xmwvflya5mks@madcap2.tricolour.ca> <CAHC9VhR84aN72yNB_j61zZgrQV1y6yvrBLNY7jp7BqQiEDL+cw@mail.gmail.com>
- <20200324210152.5uydf3zqi3dwshfu@madcap2.tricolour.ca> <CAHC9VhTQUnVhoN3JXTAQ7ti+nNLfGNVXhT6D-GYJRSpJHCwDRg@mail.gmail.com>
- <20200330134705.jlrkoiqpgjh3rvoh@madcap2.tricolour.ca>
-In-Reply-To: <20200330134705.jlrkoiqpgjh3rvoh@madcap2.tricolour.ca>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Mon, 30 Mar 2020 10:26:34 -0400
-Message-ID: <CAHC9VhQTsEMcYAF1CSHrrVn07DR450W9j6sFVfKAQZ0VpheOfw@mail.gmail.com>
-Subject: Re: [PATCH ghak90 V8 07/16] audit: add contid support for signalling
- the audit daemon
-To:     Richard Guy Briggs <rgb@redhat.com>
-Cc:     nhorman@tuxdriver.com, linux-api@vger.kernel.org,
-        containers@lists.linux-foundation.org,
-        LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
-        linux-audit@redhat.com, netfilter-devel@vger.kernel.org,
-        ebiederm@xmission.com, simo@redhat.com, netdev@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>,
-        mpatel@redhat.com, Serge Hallyn <serge@hallyn.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Mar 30, 2020 at 9:47 AM Richard Guy Briggs <rgb@redhat.com> wrote:
-> On 2020-03-28 23:11, Paul Moore wrote:
-> > On Tue, Mar 24, 2020 at 5:02 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > On 2020-03-23 20:16, Paul Moore wrote:
-> > > > On Thu, Mar 19, 2020 at 6:03 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > > > On 2020-03-18 18:06, Paul Moore wrote:
-> > > >
-> > > > ...
-> > > >
-> > > > > > I hope we can do better than string manipulations in the kernel.  I'd
-> > > > > > much rather defer generating the ACID list (if possible), than
-> > > > > > generating a list only to keep copying and editing it as the record is
-> > > > > > sent.
-> > > > >
-> > > > > At the moment we are stuck with a string-only format.
-> > > >
-> > > > Yes, we are.  That is another topic, and another set of changes I've
-> > > > been deferring so as to not disrupt the audit container ID work.
-> > > >
-> > > > I was thinking of what we do inside the kernel between when the record
-> > > > triggering event happens and when we actually emit the record to
-> > > > userspace.  Perhaps we collect the ACID information while the event is
-> > > > occurring, but we defer generating the record until later when we have
-> > > > a better understanding of what should be included in the ACID list.
-> > > > It is somewhat similar (but obviously different) to what we do for
-> > > > PATH records (we collect the pathname info when the path is being
-> > > > resolved).
-> > >
-> > > Ok, now I understand your concern.
-> > >
-> > > In the case of NETFILTER_PKT records, the CONTAINER_ID record is the
-> > > only other possible record and they are generated at the same time with
-> > > a local context.
-> > >
-> > > In the case of any event involving a syscall, that CONTAINER_ID record
-> > > is generated at the time of the rest of the event record generation at
-> > > syscall exit.
-> > >
-> > > The others are only generated when needed, such as the sig2 reply.
-> > >
-> > > We generally just store the contobj pointer until we actually generate
-> > > the CONTAINER_ID (or CONTAINER_OP) record.
-> >
-> > Perhaps I'm remembering your latest spin of these patches incorrectly,
-> > but there is still a big gap between when the record is generated and
-> > when it is sent up to the audit daemon.  Most importantly in that gap
-> > is the whole big queue/multicast/unicast mess.
->
-> So you suggest generating that record on the fly once it reaches the end
-> of the audit_queue just before being sent?  That sounds...  disruptive.
-> Each audit daemon is going to have its own queues, so by the time it
-> ends up in a particular queue, we'll already know its scope and would
-> have the right list of contids to print in that record.
+From: Octavian Purdila <tavi.purdila@gmail.com>
 
-I'm not suggesting any particular solution, I'm just pointing out a
-potential problem.  It isn't clear to me that you've thought about how
-we generate a multiple records, each with the correct ACID list
-intended for a specific audit daemon, based on a single audit event.
-Explain to me how you intend that to work and we are good.  Be
-specific because I'm not convinced we are talking on the same plane
-here.
+This allows the architecture code to process the system call
+definitions. It is used by LKL to create strong typed function
+definitions for system calls.
 
+Signed-off-by: Octavian Purdila <tavi.purdila@gmail.com>
+Cc: linux-api@vger.kernel.org
+---
+ include/linux/syscalls.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+index 1815065d52f3..e45815a3ee10 100644
+--- a/include/linux/syscalls.h
++++ b/include/linux/syscalls.h
+@@ -203,9 +203,14 @@ static inline int is_syscall_trace_event(struct trace_event_call *tp_event)
+ }
+ #endif
+ 
++#ifndef __SYSCALL_DEFINE_ARCH
++#define __SYSCALL_DEFINE_ARCH(x, sname, ...)
++#endif
++
+ #ifndef SYSCALL_DEFINE0
+ #define SYSCALL_DEFINE0(sname)					\
+ 	SYSCALL_METADATA(_##sname, 0);				\
++	__SYSCALL_DEFINE_ARCH(0, _##sname);			\
+ 	asmlinkage long sys_##sname(void);			\
+ 	ALLOW_ERROR_INJECTION(sys_##sname, ERRNO);		\
+ 	asmlinkage long sys_##sname(void)
+@@ -222,6 +227,7 @@ static inline int is_syscall_trace_event(struct trace_event_call *tp_event)
+ 
+ #define SYSCALL_DEFINEx(x, sname, ...)				\
+ 	SYSCALL_METADATA(sname, x, __VA_ARGS__)			\
++	__SYSCALL_DEFINE_ARCH(x, sname, __VA_ARGS__)		\
+ 	__SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+ 
+ #define __PROTECT(...) asmlinkage_protect(__VA_ARGS__)
 -- 
-paul moore
-www.paul-moore.com
+2.21.0 (Apple Git-122.2)
+
