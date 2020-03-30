@@ -2,18 +2,18 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E0543197B5F
-	for <lists+linux-api@lfdr.de>; Mon, 30 Mar 2020 13:56:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8589D197B58
+	for <lists+linux-api@lfdr.de>; Mon, 30 Mar 2020 13:55:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730064AbgC3L4A (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 30 Mar 2020 07:56:00 -0400
-Received: from mx2.suse.de ([195.135.220.15]:51502 "EHLO mx2.suse.de"
+        id S1729977AbgC3Lzz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 30 Mar 2020 07:55:55 -0400
+Received: from mx2.suse.de ([195.135.220.15]:51548 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729941AbgC3Lzz (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        id S1730051AbgC3Lzz (ORCPT <rfc822;linux-api@vger.kernel.org>);
         Mon, 30 Mar 2020 07:55:55 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 96DB7ABC2;
+        by mx2.suse.de (Postfix) with ESMTP id A8C12ACC2;
         Mon, 30 Mar 2020 11:55:52 +0000 (UTC)
 From:   Vlastimil Babka <vbabka@suse.cz>
 To:     Luis Chamberlain <mcgrof@kernel.org>,
@@ -31,9 +31,9 @@ Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Christian Brauner <christian.brauner@ubuntu.com>,
         Vlastimil Babka <vbabka@suse.cz>
-Subject: [PATCH 2/3] kernel/sysctl: support handling command line aliases
-Date:   Mon, 30 Mar 2020 13:55:34 +0200
-Message-Id: <20200330115535.3215-3-vbabka@suse.cz>
+Subject: [PATCH 3/3] kernel/hung_task convert hung_task_panic boot parameter to sysctl
+Date:   Mon, 30 Mar 2020 13:55:35 +0200
+Message-Id: <20200330115535.3215-4-vbabka@suse.cz>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200330115535.3215-1-vbabka@suse.cz>
 References: <20200330115535.3215-1-vbabka@suse.cz>
@@ -44,109 +44,67 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-We can now handle sysctl parameters on kernel command line, but historically
-some parameters introduced their own command line equivalent, which we don't
-want to remove for compatibility reasons. We can however convert them to the
-generic infrastructure with a table translating the legacy command line
-parameters to their sysctl names, and removing the one-off param handlers.
+We can now handle sysctl parameters on kernel command line and have
+infrastructure to convert legacy command line options that duplicate sysctl
+to become a sysctl alias.
 
-This patch adds the support and makes the first conversion to demonstrate it,
-on the (deprecated) numa_zonelist_order parameter.
+This patch converts the hung_task_panic parameter. Note that the sysctl handler
+is more strict and allows only 0 and 1, while the legacy parameter allowed
+any non-zero value. But there is little reason anyone would not be using 1.
 
 Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
 ---
- fs/proc/proc_sysctl.c | 48 ++++++++++++++++++++++++++++++++++++-------
- mm/page_alloc.c       |  9 --------
- 2 files changed, 41 insertions(+), 16 deletions(-)
+ Documentation/admin-guide/kernel-parameters.txt |  2 +-
+ fs/proc/proc_sysctl.c                           |  1 +
+ kernel/hung_task.c                              | 10 ----------
+ 3 files changed, 2 insertions(+), 11 deletions(-)
 
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 81ff626fc700..e0b8840404a1 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1457,7 +1457,7 @@
+ 			[KNL] Should the hung task detector generate panics.
+ 			Format: <integer>
+ 
+-			A nonzero value instructs the kernel to panic when a
++			A value of 1 instructs the kernel to panic when a
+ 			hung task is detected. The default value is controlled
+ 			by the CONFIG_BOOTPARAM_HUNG_TASK_PANIC build-time
+ 			option. The value selected by this boot parameter can
 diff --git a/fs/proc/proc_sysctl.c b/fs/proc/proc_sysctl.c
-index 653188c9c4c9..97eb0b552bf8 100644
+index 97eb0b552bf8..77b1b844b02b 100644
 --- a/fs/proc/proc_sysctl.c
 +++ b/fs/proc/proc_sysctl.c
-@@ -1727,6 +1727,37 @@ int __init proc_sys_init(void)
- 	return sysctl_init();
- }
+@@ -1743,6 +1743,7 @@ struct sysctl_alias {
+  */
+ static const struct sysctl_alias sysctl_aliases[] = {
+ 	{"numa_zonelist_order",		"vm.numa_zonelist_order" },
++	{"hung_task_panic",		"kernel.hung_task_panic" },
+ 	{ }
+ };
  
-+struct sysctl_alias {
-+	const char *kernel_param;
-+	const char *sysctl_param;
-+};
-+
-+/*
-+ * Historically some settings had both sysctl and a command line parameter.
-+ * With the generic sysctl. parameter support, we can handle them at a single
-+ * place and only keep the historical name for compatibility. This is not meant
-+ * to add brand new aliases. When adding existing aliases, consider whether
-+ * the possibly different moment of changing the value (e.g. from early_param
-+ * to the moment do_sysctl_args() is called) is an issue for the specific
-+ * parameter.
-+ */
-+static const struct sysctl_alias sysctl_aliases[] = {
-+	{"numa_zonelist_order",		"vm.numa_zonelist_order" },
-+	{ }
-+};
-+
-+static const char *sysctl_find_alias(char *param)
-+{
-+	const struct sysctl_alias *alias;
-+
-+	for (alias = &sysctl_aliases[0]; alias->kernel_param != NULL; alias++) {
-+		if (strcmp(alias->kernel_param, param) == 0)
-+			return alias->sysctl_param;
-+	}
-+
-+	return NULL;
-+}
-+
- /* Set sysctl value passed on kernel command line. */
- static int process_sysctl_arg(char *param, char *val,
- 			       const char *unused, void *arg)
-@@ -1740,15 +1771,18 @@ static int process_sysctl_arg(char *param, char *val,
- 	loff_t pos = 0;
- 	ssize_t wret;
+diff --git a/kernel/hung_task.c b/kernel/hung_task.c
+index 14a625c16cb3..b22b5eeab3cb 100644
+--- a/kernel/hung_task.c
++++ b/kernel/hung_task.c
+@@ -63,16 +63,6 @@ static struct task_struct *watchdog_task;
+ unsigned int __read_mostly sysctl_hung_task_panic =
+ 				CONFIG_BOOTPARAM_HUNG_TASK_PANIC_VALUE;
  
--	if (strncmp(param, "sysctl", sizeof("sysctl") - 1))
--		return 0;
--
--	param += sizeof("sysctl") - 1;
-+	if (strncmp(param, "sysctl", sizeof("sysctl") - 1) == 0) {
-+		param += sizeof("sysctl") - 1;
- 
--	if (param[0] != '/' && param[0] != '.')
--		return 0;
-+		if (param[0] != '/' && param[0] != '.')
-+			return 0;
- 
--	param++;
-+		param++;
-+	} else {
-+		param = (char *) sysctl_find_alias(param);
-+		if (!param)
-+			return 0;
-+	}
- 
- 	if (!proc_mnt) {
- 		proc_fs_type = get_fs_type("proc");
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 3c4eb750a199..de7a134b1b8a 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -5460,15 +5460,6 @@ static int __parse_numa_zonelist_order(char *s)
- 	return 0;
- }
- 
--static __init int setup_numa_zonelist_order(char *s)
+-static int __init hung_task_panic_setup(char *str)
 -{
--	if (!s)
--		return 0;
+-	int rc = kstrtouint(str, 0, &sysctl_hung_task_panic);
 -
--	return __parse_numa_zonelist_order(s);
+-	if (rc)
+-		return rc;
+-	return 1;
 -}
--early_param("numa_zonelist_order", setup_numa_zonelist_order);
+-__setup("hung_task_panic=", hung_task_panic_setup);
 -
- char numa_zonelist_order[] = "Node";
- 
- /*
+ static int
+ hung_task_panic(struct notifier_block *this, unsigned long event, void *ptr)
+ {
 -- 
 2.25.1
 
