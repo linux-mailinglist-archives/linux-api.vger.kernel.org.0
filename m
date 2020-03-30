@@ -2,148 +2,178 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FA58198298
-	for <lists+linux-api@lfdr.de>; Mon, 30 Mar 2020 19:43:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A77B1982B3
+	for <lists+linux-api@lfdr.de>; Mon, 30 Mar 2020 19:50:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729654AbgC3Rn3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 30 Mar 2020 13:43:29 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:41653 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729535AbgC3Rn3 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 30 Mar 2020 13:43:29 -0400
-Received: by mail-pf1-f194.google.com with SMTP id a24so2107522pfc.8
-        for <linux-api@vger.kernel.org>; Mon, 30 Mar 2020 10:43:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=JAZJzRt7fuqaSj+7HicEUO63r6qcWUEADIAna3qwLDs=;
-        b=dF49PPbEaBBAIakmxJGfH4zdz1EarD3UK9HHLVKkyMv3TfMpe6uEid/u1o00U8uISw
-         +jMjg1dnPsE/lkzCZBlV3+UsnmQv7/ya8oEP7SuUFOX6Mqkgfo9AR7gsx4Inp4EDmhT/
-         Qzhi67TS9ZFS/EziBdF1M/V1cW2IN5FCwMU8c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=JAZJzRt7fuqaSj+7HicEUO63r6qcWUEADIAna3qwLDs=;
-        b=Dpua7dsh4qPRNIpJPrOTKMRTUlo2aNNdQeO1Fn62Xy7KMnrZy1IvxRor9Eqaa70nkN
-         HLVrRKp/Ny/yssAqRVZUHQUxxN2xvx0eBIXu6DYJwBDrwPjfywwXnGrnxi51vdYQPenq
-         Oyp/TuSm0As+922/1dwcKFTZM3orDdaGd618RIME80XNW9K1mgPFaF0cRJLbesalKnL3
-         oYeAsPSWKyH41NVvGRlz6SPQBcwklmKxnzJL1aJSBE4oONy5Uzf/3hOgbsGPEbe5SeaM
-         HrkotPxXWS3y+HAxIyBd5H1g7STN5tt+ElVT289Uz4h01MUbNm/lBq8UvuI4RS0bZz7S
-         7FIg==
-X-Gm-Message-State: ANhLgQ1dbht60pK8YF6LmJEIp8EDXpZO1y1zOyQAVlspkGs/2rJ6t9+6
-        aMeJmzJt15W8lZPOfuXk7wFRLA==
-X-Google-Smtp-Source: ADFU+vsi0e3UarNlqpbTS7I7SsjeqBAthl6X9Kptox1ndXG/A6U3/rU8cIh4ts0jiI17uPGOP22EBQ==
-X-Received: by 2002:a63:1862:: with SMTP id 34mr14099661pgy.191.1585590207804;
-        Mon, 30 Mar 2020 10:43:27 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id k3sm10598303pfp.142.2020.03.30.10.43.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Mar 2020 10:43:27 -0700 (PDT)
-Date:   Mon, 30 Mar 2020 10:43:26 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Vlastimil Babka <vbabka@suse.cz>
-Cc:     Luis Chamberlain <mcgrof@kernel.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        "Guilherme G . Piccoli" <gpiccoli@canonical.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>
-Subject: Re: [PATCH 3/3] kernel/hung_task convert hung_task_panic boot
- parameter to sysctl
-Message-ID: <202003301042.97F3B00@keescook>
-References: <20200330115535.3215-1-vbabka@suse.cz>
- <20200330115535.3215-4-vbabka@suse.cz>
+        id S1730260AbgC3RuA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 30 Mar 2020 13:50:00 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:27111 "EHLO
+        us-smtp-delivery-74.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730209AbgC3Rt7 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 30 Mar 2020 13:49:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1585590598;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=VXITz6a4t0dcGhoFiL5Naxzq4cQ+raar83CvULBdiIM=;
+        b=bOkPWGwRFZ2Y+Lx4JbSFU1XKq4x/Zn/YIUyu/5VAjx5qT0/Ielrms7kRGD/mWo5KBZL+Wu
+        TKmhdxrFRwqzmUYnTbabz5BNGhLfcc51HahSf/i+qHo/FhRQLXi+O5OQVExft4nXc5jU7+
+        w9IU5Ja8sBnOwXvWTDTtqAzbKi8t6Yc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-88-apH4BbMWM2eldESph-N2Pw-1; Mon, 30 Mar 2020 13:49:54 -0400
+X-MC-Unique: apH4BbMWM2eldESph-N2Pw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E72128017CC;
+        Mon, 30 Mar 2020 17:49:51 +0000 (UTC)
+Received: from madcap2.tricolour.ca (unknown [10.10.110.46])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 4C8319128F;
+        Mon, 30 Mar 2020 17:49:40 +0000 (UTC)
+Date:   Mon, 30 Mar 2020 13:49:37 -0400
+From:   Richard Guy Briggs <rgb@redhat.com>
+To:     Paul Moore <paul@paul-moore.com>
+Cc:     nhorman@tuxdriver.com, linux-api@vger.kernel.org,
+        containers@lists.linux-foundation.org,
+        LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
+        linux-audit@redhat.com, netfilter-devel@vger.kernel.org,
+        ebiederm@xmission.com, simo@redhat.com, netdev@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>,
+        mpatel@redhat.com, Serge Hallyn <serge@hallyn.com>
+Subject: Re: [PATCH ghak90 V8 07/16] audit: add contid support for signalling
+ the audit daemon
+Message-ID: <20200330174937.xalrsiev7q3yxsx2@madcap2.tricolour.ca>
+References: <20200318215550.es4stkjwnefrfen2@madcap2.tricolour.ca>
+ <CAHC9VhSdDDP7Ec-w61NhGxZG5ZiekmrBCAg=Y=VJvEZcgQh46g@mail.gmail.com>
+ <20200319220249.jyr6xmwvflya5mks@madcap2.tricolour.ca>
+ <CAHC9VhR84aN72yNB_j61zZgrQV1y6yvrBLNY7jp7BqQiEDL+cw@mail.gmail.com>
+ <20200324210152.5uydf3zqi3dwshfu@madcap2.tricolour.ca>
+ <CAHC9VhTQUnVhoN3JXTAQ7ti+nNLfGNVXhT6D-GYJRSpJHCwDRg@mail.gmail.com>
+ <20200330134705.jlrkoiqpgjh3rvoh@madcap2.tricolour.ca>
+ <CAHC9VhQTsEMcYAF1CSHrrVn07DR450W9j6sFVfKAQZ0VpheOfw@mail.gmail.com>
+ <20200330162156.mzh2tsnovngudlx2@madcap2.tricolour.ca>
+ <CAHC9VhTRzZXJ6yUFL+xZWHNWZFTyiizBK12ntrcSwmgmySbkWw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200330115535.3215-4-vbabka@suse.cz>
+In-Reply-To: <CAHC9VhTRzZXJ6yUFL+xZWHNWZFTyiizBK12ntrcSwmgmySbkWw@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Mar 30, 2020 at 01:55:35PM +0200, Vlastimil Babka wrote:
-> We can now handle sysctl parameters on kernel command line and have
-> infrastructure to convert legacy command line options that duplicate sysctl
-> to become a sysctl alias.
+On 2020-03-30 13:34, Paul Moore wrote:
+> On Mon, Mar 30, 2020 at 12:22 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > On 2020-03-30 10:26, Paul Moore wrote:
+> > > On Mon, Mar 30, 2020 at 9:47 AM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > > On 2020-03-28 23:11, Paul Moore wrote:
+> > > > > On Tue, Mar 24, 2020 at 5:02 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > > > > On 2020-03-23 20:16, Paul Moore wrote:
+> > > > > > > On Thu, Mar 19, 2020 at 6:03 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > > > > > > On 2020-03-18 18:06, Paul Moore wrote:
+> > > > > > >
+> > > > > > > ...
+> > > > > > >
+> > > > > > > > > I hope we can do better than string manipulations in the kernel.  I'd
+> > > > > > > > > much rather defer generating the ACID list (if possible), than
+> > > > > > > > > generating a list only to keep copying and editing it as the record is
+> > > > > > > > > sent.
+> > > > > > > >
+> > > > > > > > At the moment we are stuck with a string-only format.
+> > > > > > >
+> > > > > > > Yes, we are.  That is another topic, and another set of changes I've
+> > > > > > > been deferring so as to not disrupt the audit container ID work.
+> > > > > > >
+> > > > > > > I was thinking of what we do inside the kernel between when the record
+> > > > > > > triggering event happens and when we actually emit the record to
+> > > > > > > userspace.  Perhaps we collect the ACID information while the event is
+> > > > > > > occurring, but we defer generating the record until later when we have
+> > > > > > > a better understanding of what should be included in the ACID list.
+> > > > > > > It is somewhat similar (but obviously different) to what we do for
+> > > > > > > PATH records (we collect the pathname info when the path is being
+> > > > > > > resolved).
+> > > > > >
+> > > > > > Ok, now I understand your concern.
+> > > > > >
+> > > > > > In the case of NETFILTER_PKT records, the CONTAINER_ID record is the
+> > > > > > only other possible record and they are generated at the same time with
+> > > > > > a local context.
+> > > > > >
+> > > > > > In the case of any event involving a syscall, that CONTAINER_ID record
+> > > > > > is generated at the time of the rest of the event record generation at
+> > > > > > syscall exit.
+> > > > > >
+> > > > > > The others are only generated when needed, such as the sig2 reply.
+> > > > > >
+> > > > > > We generally just store the contobj pointer until we actually generate
+> > > > > > the CONTAINER_ID (or CONTAINER_OP) record.
+> > > > >
+> > > > > Perhaps I'm remembering your latest spin of these patches incorrectly,
+> > > > > but there is still a big gap between when the record is generated and
+> > > > > when it is sent up to the audit daemon.  Most importantly in that gap
+> > > > > is the whole big queue/multicast/unicast mess.
+> > > >
+> > > > So you suggest generating that record on the fly once it reaches the end
+> > > > of the audit_queue just before being sent?  That sounds...  disruptive.
+> > > > Each audit daemon is going to have its own queues, so by the time it
+> > > > ends up in a particular queue, we'll already know its scope and would
+> > > > have the right list of contids to print in that record.
+> > >
+> > > I'm not suggesting any particular solution, I'm just pointing out a
+> > > potential problem.  It isn't clear to me that you've thought about how
+> > > we generate a multiple records, each with the correct ACID list
+> > > intended for a specific audit daemon, based on a single audit event.
+> > > Explain to me how you intend that to work and we are good.  Be
+> > > specific because I'm not convinced we are talking on the same plane
+> > > here.
+> >
+> > Well, every time a record gets generated, *any* record gets generated,
+> > we'll need to check for which audit daemons this record is in scope and
+> > generate a different one for each depending on the content and whether
+> > or not the content is influenced by the scope.
 > 
-> This patch converts the hung_task_panic parameter. Note that the sysctl handler
-> is more strict and allows only 0 and 1, while the legacy parameter allowed
-> any non-zero value. But there is little reason anyone would not be using 1.
-> 
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+> That's the problem right there - we don't want to have to generate a
+> unique record for *each* auditd on *every* record.  That is a recipe
+> for disaster.
 
-I'll let others double-check, but I think this change should be okay. If
-not, we can adjust the sysctl handler to accept an arbitrary int.
+I don't see how we can get around this.
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+We will already have that problem for PIDs in different PID namespaces.
 
--Kees
+We already need to use a different serial number in each auditd/queue,
+or else we serialize *all* audit events on the machine and either leak
+information to the nested daemons that there are other events happenning
+on the machine, or confuse the host daemon because it now thinks that we
+are losing events due to serial numbers missing because some nested
+daemon issued an event that was not relevant to the host daemon,
+consuming a globally serial audit message sequence number.
 
-> ---
->  Documentation/admin-guide/kernel-parameters.txt |  2 +-
->  fs/proc/proc_sysctl.c                           |  1 +
->  kernel/hung_task.c                              | 10 ----------
->  3 files changed, 2 insertions(+), 11 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 81ff626fc700..e0b8840404a1 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -1457,7 +1457,7 @@
->  			[KNL] Should the hung task detector generate panics.
->  			Format: <integer>
->  
-> -			A nonzero value instructs the kernel to panic when a
-> +			A value of 1 instructs the kernel to panic when a
->  			hung task is detected. The default value is controlled
->  			by the CONFIG_BOOTPARAM_HUNG_TASK_PANIC build-time
->  			option. The value selected by this boot parameter can
-> diff --git a/fs/proc/proc_sysctl.c b/fs/proc/proc_sysctl.c
-> index 97eb0b552bf8..77b1b844b02b 100644
-> --- a/fs/proc/proc_sysctl.c
-> +++ b/fs/proc/proc_sysctl.c
-> @@ -1743,6 +1743,7 @@ struct sysctl_alias {
->   */
->  static const struct sysctl_alias sysctl_aliases[] = {
->  	{"numa_zonelist_order",		"vm.numa_zonelist_order" },
-> +	{"hung_task_panic",		"kernel.hung_task_panic" },
->  	{ }
->  };
->  
-> diff --git a/kernel/hung_task.c b/kernel/hung_task.c
-> index 14a625c16cb3..b22b5eeab3cb 100644
-> --- a/kernel/hung_task.c
-> +++ b/kernel/hung_task.c
-> @@ -63,16 +63,6 @@ static struct task_struct *watchdog_task;
->  unsigned int __read_mostly sysctl_hung_task_panic =
->  				CONFIG_BOOTPARAM_HUNG_TASK_PANIC_VALUE;
->  
-> -static int __init hung_task_panic_setup(char *str)
-> -{
-> -	int rc = kstrtouint(str, 0, &sysctl_hung_task_panic);
-> -
-> -	if (rc)
-> -		return rc;
-> -	return 1;
-> -}
-> -__setup("hung_task_panic=", hung_task_panic_setup);
-> -
->  static int
->  hung_task_panic(struct notifier_block *this, unsigned long event, void *ptr)
->  {
-> -- 
-> 2.25.1
-> 
+> Solving this for all of the known audit records is not something we
+> need to worry about in depth at the moment (although giving it some
+> casual thought is not a bad thing), but solving this for the audit
+> container ID information *is* something we need to worry about right
+> now.
 
--- 
-Kees Cook
+If you think that a different nested contid value string per daemon is
+not acceptable, then we are back to issuing a record that has only *one*
+contid listed without any nesting information.  This brings us back to
+the original problem of keeping *all* audit log history since the boot
+of the machine to be able to track the nesting of any particular contid.
+
+What am I missing?  What do you suggest?
+
+> paul moore
+
+- RGB
+
+--
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems
+Remote, Ottawa, Red Hat Canada
+IRC: rgb, SunRaycer
+Voice: +1.647.777.2635, Internal: (81) 32635
+
