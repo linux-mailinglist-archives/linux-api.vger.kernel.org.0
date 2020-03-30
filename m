@@ -2,239 +2,94 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 76D16197A79
-	for <lists+linux-api@lfdr.de>; Mon, 30 Mar 2020 13:12:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EDE35197B5D
+	for <lists+linux-api@lfdr.de>; Mon, 30 Mar 2020 13:56:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729621AbgC3LMz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 30 Mar 2020 07:12:55 -0400
-Received: from raptor.unsafe.ru ([5.9.43.93]:42996 "EHLO raptor.unsafe.ru"
+        id S1730062AbgC3Lzz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 30 Mar 2020 07:55:55 -0400
+Received: from mx2.suse.de ([195.135.220.15]:51586 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729263AbgC3LMy (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 30 Mar 2020 07:12:54 -0400
-Received: from comp-core-i7-2640m-0182e6.redhat.com (ip-89-102-33-211.net.upcbroadband.cz [89.102.33.211])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by raptor.unsafe.ru (Postfix) with ESMTPSA id 7F525208C1;
-        Mon, 30 Mar 2020 11:12:48 +0000 (UTC)
-From:   Alexey Gladkov <gladkov.alexey@gmail.com>
-To:     LKML <linux-kernel@vger.kernel.org>
-Cc:     Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        Linux Security Module <linux-security-module@vger.kernel.org>,
-        Akinobu Mita <akinobu.mita@gmail.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Alexey Gladkov <legion@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Daniel Micay <danielmicay@gmail.com>,
-        Djalal Harouni <tixxdz@gmail.com>,
-        "Dmitry V . Levin" <ldv@altlinux.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Jeff Layton <jlayton@poochiereds.net>,
-        Jonathan Corbet <corbet@lwn.net>,
+        id S1730052AbgC3Lzz (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 30 Mar 2020 07:55:55 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id A8C2DAD11;
+        Mon, 30 Mar 2020 11:55:52 +0000 (UTC)
+From:   Vlastimil Babka <vbabka@suse.cz>
+To:     Luis Chamberlain <mcgrof@kernel.org>,
         Kees Cook <keescook@chromium.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Oleg Nesterov <oleg@redhat.com>
-Subject: [PATCH v11 8/9] proc: use human-readable values for hidehid
-Date:   Mon, 30 Mar 2020 13:12:35 +0200
-Message-Id: <20200330111235.154182-1-gladkov.alexey@gmail.com>
-X-Mailer: git-send-email 2.25.2
-In-Reply-To: <20200327172331.418878-9-gladkov.alexey@gmail.com>
-References: <20200327172331.418878-9-gladkov.alexey@gmail.com>
+        Iurii Zaikin <yzaikin@google.com>
+Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-mm@kvack.org, Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        "Guilherme G . Piccoli" <gpiccoli@canonical.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Vlastimil Babka <vbabka@suse.cz>
+Subject: [PATCH 0/3] support setting sysctl parameters from kernel command line
+Date:   Mon, 30 Mar 2020 13:55:32 +0200
+Message-Id: <20200330115535.3215-1-vbabka@suse.cz>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.6.1 (raptor.unsafe.ru [5.9.43.93]); Mon, 30 Mar 2020 11:12:50 +0000 (UTC)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-The hidepid parameter values are becoming more and more and it becomes
-difficult to remember what each new magic number means.
+This series adds support for something that seems like many people always
+wanted but nobody added it yet, so here's the ability to set sysctl parameters
+via kernel command line options in the form of sysctl.vm.something=1
 
-Suggested-by: Andy Lutomirski <luto@kernel.org>
-Signed-off-by: Alexey Gladkov <gladkov.alexey@gmail.com>
----
- Documentation/filesystems/proc.txt | 52 +++++++++++++++---------------
- fs/proc/inode.c                    | 15 ++++++++-
- fs/proc/root.c                     | 36 +++++++++++++++++++--
- 3 files changed, 73 insertions(+), 30 deletions(-)
+The important part is Patch 1. The second, not so important part is an attempt
+to clean up legacy one-off parameters that do the same thing as a sysctl.
+I don't want to remove them completely for compatibility reasons, but with
+generic sysctl support the idea is to remove the one-off param handlers and
+treat the parameters as aliases for the sysctl variants.
 
-diff --git a/Documentation/filesystems/proc.txt b/Documentation/filesystems/proc.txt
-index bd0e0ab85048..af47672cb2cb 100644
---- a/Documentation/filesystems/proc.txt
-+++ b/Documentation/filesystems/proc.txt
-@@ -2025,28 +2025,28 @@ The following mount options are supported:
- 	gid=		Set the group authorized to learn processes information.
- 	subset=		Show only the specified subset of procfs.
- 
--hidepid=0 means classic mode - everybody may access all /proc/<pid>/ directories
--(default).
--
--hidepid=1 means users may not access any /proc/<pid>/ directories but their
--own.  Sensitive files like cmdline, sched*, status are now protected against
--other users.  This makes it impossible to learn whether any user runs
--specific program (given the program doesn't reveal itself by its behaviour).
--As an additional bonus, as /proc/<pid>/cmdline is unaccessible for other users,
--poorly written programs passing sensitive information via program arguments are
--now protected against local eavesdroppers.
--
--hidepid=2 means hidepid=1 plus all /proc/<pid>/ will be fully invisible to other
--users.  It doesn't mean that it hides a fact whether a process with a specific
--pid value exists (it can be learned by other means, e.g. by "kill -0 $PID"),
--but it hides process' uid and gid, which may be learned by stat()'ing
--/proc/<pid>/ otherwise.  It greatly complicates an intruder's task of gathering
--information about running processes, whether some daemon runs with elevated
--privileges, whether other user runs some sensitive program, whether other users
--run any program at all, etc.
--
--hidepid=4 means that procfs should only contain /proc/<pid>/ directories
--that the caller can ptrace.
-+hidepid=off or hidepid=0 means classic mode - everybody may access all
-+/proc/<pid>/ directories (default).
-+
-+hidepid=noaccess or hidepid=1 means users may not access any /proc/<pid>/
-+directories but their own.  Sensitive files like cmdline, sched*, status are now
-+protected against other users.  This makes it impossible to learn whether any
-+user runs specific program (given the program doesn't reveal itself by its
-+behaviour).  As an additional bonus, as /proc/<pid>/cmdline is unaccessible for
-+other users, poorly written programs passing sensitive information via program
-+arguments are now protected against local eavesdroppers.
-+
-+hidepid=invisible or hidepid=2 means hidepid=noaccess plus all /proc/<pid>/ will
-+be fully invisible to other users.  It doesn't mean that it hides a fact whether
-+a process with a specific pid value exists (it can be learned by other means,
-+e.g. by "kill -0 $PID"), but it hides process' uid and gid, which may be learned
-+by stat()'ing /proc/<pid>/ otherwise.  It greatly complicates an intruder's task
-+of gathering information about running processes, whether some daemon runs with
-+elevated privileges, whether other user runs some sensitive program, whether
-+other users run any program at all, etc.
-+
-+hidepid=ptraceable or hidepid=4 means that procfs should only contain
-+/proc/<pid>/ directories that the caller can ptrace.
- 
- gid= defines a group authorized to learn processes information otherwise
- prohibited by hidepid=.  If you use some daemon like identd which needs to learn
-@@ -2093,8 +2093,8 @@ creates a new procfs instance. Mount options affect own procfs instance.
- It means that it became possible to have several procfs instances
- displaying tasks with different filtering options in one pid namespace.
- 
--# mount -o hidepid=2 -t proc proc /proc
--# mount -o hidepid=1 -t proc proc /tmp/proc
-+# mount -o hidepid=invisible -t proc proc /proc
-+# mount -o hidepid=noaccess -t proc proc /tmp/proc
- # grep ^proc /proc/mounts
--proc /proc proc rw,relatime,hidepid=2 0 0
--proc /tmp/proc proc rw,relatime,hidepid=1 0 0
-+proc /proc proc rw,relatime,hidepid=invisible 0 0
-+proc /tmp/proc proc rw,relatime,hidepid=noaccess 0 0
-diff --git a/fs/proc/inode.c b/fs/proc/inode.c
-index e6577ce6027b..d38a9e592352 100644
---- a/fs/proc/inode.c
-+++ b/fs/proc/inode.c
-@@ -24,6 +24,7 @@
- #include <linux/seq_file.h>
- #include <linux/slab.h>
- #include <linux/mount.h>
-+#include <linux/bug.h>
- 
- #include <linux/uaccess.h>
- 
-@@ -165,6 +166,18 @@ void proc_invalidate_siblings_dcache(struct hlist_head *inodes, spinlock_t *lock
- 		deactivate_super(old_sb);
- }
- 
-+static inline const char *hidepid2str(int v)
-+{
-+	switch (v) {
-+		case HIDEPID_OFF: return "off";
-+		case HIDEPID_NO_ACCESS: return "noaccess";
-+		case HIDEPID_INVISIBLE: return "invisible";
-+		case HIDEPID_NOT_PTRACEABLE: return "ptraceable";
-+	}
-+	WARN_ONCE(1, "bad hide_pid value: %d\n", v);
-+	return "unknown";
-+}
-+
- static int proc_show_options(struct seq_file *seq, struct dentry *root)
- {
- 	struct proc_fs_info *fs_info = proc_sb_info(root->d_sb);
-@@ -172,7 +185,7 @@ static int proc_show_options(struct seq_file *seq, struct dentry *root)
- 	if (!gid_eq(fs_info->pid_gid, GLOBAL_ROOT_GID))
- 		seq_printf(seq, ",gid=%u", from_kgid_munged(&init_user_ns, fs_info->pid_gid));
- 	if (fs_info->hide_pid != HIDEPID_OFF)
--		seq_printf(seq, ",hidepid=%u", fs_info->hide_pid);
-+		seq_printf(seq, ",hidepid=%s", hidepid2str(fs_info->hide_pid));
- 	if (fs_info->pidonly != PROC_PIDONLY_OFF)
- 		seq_printf(seq, ",subset=pid");
- 
-diff --git a/fs/proc/root.c b/fs/proc/root.c
-index dbcd96f07c7a..ba782d6e6197 100644
---- a/fs/proc/root.c
-+++ b/fs/proc/root.c
-@@ -45,7 +45,7 @@ enum proc_param {
- 
- static const struct fs_parameter_spec proc_fs_parameters[] = {
- 	fsparam_u32("gid",	Opt_gid),
--	fsparam_u32("hidepid",	Opt_hidepid),
-+	fsparam_string("hidepid",	Opt_hidepid),
- 	fsparam_string("subset",	Opt_subset),
- 	{}
- };
-@@ -58,6 +58,35 @@ static inline int valid_hidepid(unsigned int value)
- 		value == HIDEPID_NOT_PTRACEABLE);
- }
- 
-+static int proc_parse_hidepid_param(struct fs_context *fc, struct fs_parameter *param)
-+{
-+	struct proc_fs_context *ctx = fc->fs_private;
-+	struct fs_parameter_spec hidepid_u32_spec = fsparam_u32("hidepid", Opt_hidepid);
-+	struct fs_parse_result result;
-+	int base = (unsigned long)hidepid_u32_spec.data;
-+
-+	if (param->type != fs_value_is_string)
-+		return invalf(fc, "proc: unexpected type of hidepid value\n");
-+
-+	if (!kstrtouint(param->string, base, &result.uint_32)) {
-+		ctx->hidepid = result.uint_32;
-+		return 0;
-+	}
-+
-+	if (!strcmp(param->string, "off"))
-+		ctx->hidepid = HIDEPID_OFF;
-+	else if (!strcmp(param->string, "noaccess"))
-+		ctx->hidepid = HIDEPID_NO_ACCESS;
-+	else if (!strcmp(param->string, "invisible"))
-+		ctx->hidepid = HIDEPID_INVISIBLE;
-+	else if (!strcmp(param->string, "ptraceable"))
-+		ctx->hidepid = HIDEPID_NOT_PTRACEABLE;
-+	else
-+		return invalf(fc, "proc: unknown value of hidepid - %s\n", param->string);
-+
-+	return 0;
-+}
-+
- static int proc_parse_subset_param(struct fs_context *fc, char *value)
- {
- 	struct proc_fs_context *ctx = fc->fs_private;
-@@ -97,9 +126,10 @@ static int proc_parse_param(struct fs_context *fc, struct fs_parameter *param)
- 		break;
- 
- 	case Opt_hidepid:
--		if (!valid_hidepid(result.uint_32))
-+		if (proc_parse_hidepid_param(fc, param))
-+			return -EINVAL;
-+		if (!valid_hidepid(ctx->hidepid))
- 			return invalf(fc, "proc: unknown value of hidepid.\n");
--		ctx->hidepid = result.uint_32;
- 		break;
- 
- 	case Opt_subset:
+I have identified several parameters that mention sysctl counterparts in
+Documentation/admin-guide/kernel-parameters.txt but there might be more. The
+conversion also has varying level of success:
+
+- numa_zonelist_order is converted in Patch 2 together with adding the
+  necessary infrastructure. It's easy as it doesn't really do anything but warn
+  on deprecated value these days.
+- hung_task_panic is converted in Patch 3, but there's a downside that now it
+  only accepts 0 and 1, while previously it was any integer value
+- nmi_watchdog maps to two sysctls nmi_watchdog and hardlockup_panic, so
+  there's no straighforward conversion possible
+- traceoff_on_warning is a flag without value and it would be required to
+  handle that somehow in the conversion infractructure, which seems pointless
+  for a single flag
+
+Anyway I hope that Patch 1 is mature enough to go regardless of the fate of the
+less important second part.
+
+Changes since RFCv2
+- make proc_mnt internal to functions (Kees)
+- use kasprintf when building path (Kees)
+- improve error reporting - common errnos are translated to more obvious
+  messages and the rest uses %pe
+
+Vlastimil Babka (3):
+  kernel/sysctl: support setting sysctl parameters from kernel command
+    line
+  kernel/sysctl: support handling command line aliases
+  kernel/hung_task convert hung_task_panic boot parameter to sysctl
+
+ .../admin-guide/kernel-parameters.txt         |  11 +-
+ fs/proc/proc_sysctl.c                         | 135 ++++++++++++++++++
+ include/linux/sysctl.h                        |   4 +
+ init/main.c                                   |   2 +
+ kernel/hung_task.c                            |  10 --
+ mm/page_alloc.c                               |   9 --
+ 6 files changed, 151 insertions(+), 20 deletions(-)
+
 -- 
-2.25.2
+2.25.1
 
