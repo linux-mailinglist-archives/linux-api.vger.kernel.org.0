@@ -2,161 +2,138 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7049319838A
-	for <lists+linux-api@lfdr.de>; Mon, 30 Mar 2020 20:41:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2CA021984FE
+	for <lists+linux-api@lfdr.de>; Mon, 30 Mar 2020 21:55:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726385AbgC3Slz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 30 Mar 2020 14:41:55 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:37272 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726567AbgC3Slz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 30 Mar 2020 14:41:55 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02UIda16060704;
-        Mon, 30 Mar 2020 18:41:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=dhrzUGgVm+Wzh5ejmhh2gbHZgBqZJCbqEjk0hhpoY80=;
- b=y0Z/L4HWR0nONsb7Sw3W3ZnFN3YgCBpW5RyHFHvYZ/g401dfAEj4p5Wz9i+Ai3CKrKE+
- rwCqjMvEqsBxrVLwdEnZwrSEO9BecPrjsHvqnTPHzy7Ds0CkceI722QP5lEA4NWUksiI
- GjwfouvhxqwVUnkEBwrucQHO8tOdKkuiaTlZJalMq+RRr+jxoeSs0T8gRdP0jXp7TIb5
- 9hPXmjQzfYjYNICriv6r346mMS3AP7NI3xAZ/ZKvN6OlcgIz5u48Ew7ifPmkFebpB1oK
- 7hwNLt1aa6igny5ESDNXxXbAIRzgu8/z8LZkJv/ihiPoe4/WYs/VmbFQcTqYSEuk7DxX /w== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by userp2130.oracle.com with ESMTP id 303ceuufv3-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 30 Mar 2020 18:41:48 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02UIapno183588;
-        Mon, 30 Mar 2020 18:39:48 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by userp3030.oracle.com with ESMTP id 302g2ccx6q-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 30 Mar 2020 18:39:48 +0000
-Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 02UIdkBc017835;
-        Mon, 30 Mar 2020 18:39:46 GMT
-Received: from [192.168.1.206] (/71.63.128.209)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Mon, 30 Mar 2020 11:39:45 -0700
-Subject: Re: [PATCH] mm: allow checking length for hugetlb mapping in mmap()
-To:     Li Xinhai <lixinhai.lxh@gmail.com>,
-        John Hubbard <jhubbard@nvidia.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>
-Cc:     Linux API <linux-api@vger.kernel.org>,
-        akpm <akpm@linux-foundation.org>
-References: <1585451295-22302-1-git-send-email-lixinhai.lxh@gmail.com> <>
- <f8b5b647-9041-8127-925c-1c8dcb508f24@nvidia.com>
- <2020032916093522557671@gmail.com>
-From:   Mike Kravetz <mike.kravetz@oracle.com>
-Message-ID: <5e02a305-038f-b86c-31e7-85358563cbc5@oracle.com>
-Date:   Mon, 30 Mar 2020 11:39:44 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        id S1727255AbgC3Tzw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 30 Mar 2020 15:55:52 -0400
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:40509 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727745AbgC3Tzr (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 30 Mar 2020 15:55:47 -0400
+Received: by mail-ed1-f68.google.com with SMTP id w26so22285187edu.7
+        for <linux-api@vger.kernel.org>; Mon, 30 Mar 2020 12:55:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dh9JcSi6kj0UWIbirpsquHk1PO2ZTJ6f6wAxTa4W5Zs=;
+        b=DZk2EcadSRy+jmjLIyyvOwCfhNdDlY3wMU3gTOTK1MOXJ9bZhFpym+h6ycl+idnIWn
+         SsmZQJKtl9iTffn/DdsGsPysGCoyWM9UFc0uMIYHqOT2z5sBnbcDqL176yFWOcNWpk/v
+         SL53a/gXGohE1DQca/J8rKY+wKFfgrlpBcJTWgpRRmqX4D4/lPWy9aotUaYsxCYmYiYK
+         OtSNHNlZDTpDF0dFONn3fKYVj/3RoQP8vPxJqI1/s4VGJN+h5iwuRg6I0xGMy9Xnyver
+         +2Vt0W54SbaK/bs9jzOVTjHv/eCoKKiYgbHkxhUe93AIoeTE2uwNruCrN5QeGM0qgjOo
+         zdAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dh9JcSi6kj0UWIbirpsquHk1PO2ZTJ6f6wAxTa4W5Zs=;
+        b=Za2kMdezJ7vKg2k/h6X2qtaUYujPsPA0ML/Ex4WgXJoKc0jxEOfSvNI856WIco5Gpg
+         dxpXA3YHq0LOBbXk4dxvfWb/tRX0l3M0y4IawbGS+uhURM0vUy7Yd/La/DMmynbnxiG5
+         JOuy8LZrDbKDdXATB6hkhfFvmr1F1ptx5HrBpOSQLhnuo6TZKKeGLJMdBkgqgFO1dl8H
+         T0WGouCSizHU2ZcZr7EKGUH3pTItdV+fG5nbu9RB+vpO5FXvMUu8UgI+E2QeN9PzRVzz
+         N40zgqjzsdatirBM0cNeX8HPBI7ZdcM/MaQIp2eL/FUqTckADjUkPfWdNaJj3RGzVREp
+         wq+Q==
+X-Gm-Message-State: ANhLgQ1VzJ2IxPxA+BVaCJ2ZueRZuZ/dNLz6bzHUiPlLp/j3uEb2QuGe
+        ZCjyVHtamsrvVaMXZWWRmxhJKh3qLyUpLTXzkRXG
+X-Google-Smtp-Source: ADFU+vul3dd78FpyQ/P1xT0CAzUKDA49PHsMIvhi1CMzemU48YH7Min2sbynkoDLmBburfXlTyDJdiTLpwO7v8ADPZw=
+X-Received: by 2002:a50:f152:: with SMTP id z18mr12867397edl.31.1585598145722;
+ Mon, 30 Mar 2020 12:55:45 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <2020032916093522557671@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9576 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 spamscore=0 mlxscore=0
- adultscore=0 phishscore=0 bulkscore=0 suspectscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2003300157
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9576 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 adultscore=0
- clxscore=1015 phishscore=0 lowpriorityscore=0 spamscore=0 malwarescore=0
- suspectscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2003300157
+References: <20200318215550.es4stkjwnefrfen2@madcap2.tricolour.ca>
+ <CAHC9VhSdDDP7Ec-w61NhGxZG5ZiekmrBCAg=Y=VJvEZcgQh46g@mail.gmail.com>
+ <20200319220249.jyr6xmwvflya5mks@madcap2.tricolour.ca> <CAHC9VhR84aN72yNB_j61zZgrQV1y6yvrBLNY7jp7BqQiEDL+cw@mail.gmail.com>
+ <20200324210152.5uydf3zqi3dwshfu@madcap2.tricolour.ca> <CAHC9VhTQUnVhoN3JXTAQ7ti+nNLfGNVXhT6D-GYJRSpJHCwDRg@mail.gmail.com>
+ <20200330134705.jlrkoiqpgjh3rvoh@madcap2.tricolour.ca> <CAHC9VhQTsEMcYAF1CSHrrVn07DR450W9j6sFVfKAQZ0VpheOfw@mail.gmail.com>
+ <20200330162156.mzh2tsnovngudlx2@madcap2.tricolour.ca> <CAHC9VhTRzZXJ6yUFL+xZWHNWZFTyiizBK12ntrcSwmgmySbkWw@mail.gmail.com>
+ <20200330174937.xalrsiev7q3yxsx2@madcap2.tricolour.ca>
+In-Reply-To: <20200330174937.xalrsiev7q3yxsx2@madcap2.tricolour.ca>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Mon, 30 Mar 2020 15:55:36 -0400
+Message-ID: <CAHC9VhR_bKSHDn2WAUgkquu+COwZUanc0RV3GRjMDvpoJ5krjQ@mail.gmail.com>
+Subject: Re: [PATCH ghak90 V8 07/16] audit: add contid support for signalling
+ the audit daemon
+To:     Richard Guy Briggs <rgb@redhat.com>
+Cc:     nhorman@tuxdriver.com, linux-api@vger.kernel.org,
+        containers@lists.linux-foundation.org,
+        LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
+        linux-audit@redhat.com, netfilter-devel@vger.kernel.org,
+        ebiederm@xmission.com, simo@redhat.com, netdev@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>,
+        mpatel@redhat.com, Serge Hallyn <serge@hallyn.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 3/29/20 1:09 AM, Li Xinhai wrote:
-> On 2020-03-29 at 11:53 John Hubbard wrote:
->> On 3/28/20 8:08 PM, Li Xinhai wrote:
->>> In current code, the vma related call of hugetlb mapping, except mmap,
->>> are all consider not correctly aligned length as invalid parameter,
->>> including mprotect,munmap, mlock, etc., by checking through
->>> hugetlb_vm_op_split. So, user will see failure, after successfully call
->>> mmap, although using same length parameter to other mapping syscall.
->>>
->>> It is desirable for all hugetlb mapping calls have consistent behavior,
->>> without mmap as exception(which round up length to align underlying
->>> hugepage size). In current Documentation/admin-guide/mm/hugetlbpage.rst,
->>> the description is:
->>> "
->>> Syscalls that operate on memory backed by hugetlb pages only have their
->>> lengths aligned to the native page size of the processor; they will
->>> normally fail with errno set to EINVAL or exclude hugetlb pages that
->>> extend beyond the length if not hugepage aligned. For example, munmap(2)
->>> will fail if memory is backed by a hugetlb page and the length is smaller
->>> than the hugepage size.
->>> "
->>> which express the consistent behavior.
->>
->>
->> Missing here is a description of what the patch actually does...
->>
-> 
-> right, more statement can be added like:
-> "
-> After this patch, all hugetlb mapping related syscall wil only align
-> length parameter to the native page size of the processor. For mmap(),
-> hugetlb_get_unmmaped_area() will set errno to EINVAL if length is not
-> aligned to underlying hugepage size.
-> "
-> 
->>>
->>> Signed-off-by: Li Xinhai <lixinhai.lxh@gmail.com>
->>> Cc: Andrew Morton <akpm@linux-foundation.org>
->>> Cc: Mike Kravetz <mike.kravetz@oracle.com>
->>> Cc: John Hubbard <jhubbard@nvidia.com>
->>> ---
->>> changes:
->>> 0. patch which introduce new flag for mmap()
->>>      The new flag should be avoided.
->>> https://lore.kernel.org/linux-mm/1585313944-8627-1-git-send-email-lixinhai.lxh@gmail.com/
+On Mon, Mar 30, 2020 at 1:49 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> On 2020-03-30 13:34, Paul Moore wrote:
+> > On Mon, Mar 30, 2020 at 12:22 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > On 2020-03-30 10:26, Paul Moore wrote:
+> > > > On Mon, Mar 30, 2020 at 9:47 AM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > > > On 2020-03-28 23:11, Paul Moore wrote:
+> > > > > > On Tue, Mar 24, 2020 at 5:02 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > > > > > On 2020-03-23 20:16, Paul Moore wrote:
+> > > > > > > > On Thu, Mar 19, 2020 at 6:03 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > > > > > > > On 2020-03-18 18:06, Paul Moore wrote:
 
-It is not exactly clear in your commit message, but this change will cause
-mmap() of hugetlb ranges to fail (-EINVAL) if length is not a multiple of
-huge page size.  The mmap man page says:
+...
 
-  Huge page (Huge TLB) mappings
-       For mappings that employ huge pages, the requirements for the arguments
-       of  mmap()  and munmap() differ somewhat from the requirements for map‐
-       pings that use the native system page size.
+> > > Well, every time a record gets generated, *any* record gets generated,
+> > > we'll need to check for which audit daemons this record is in scope and
+> > > generate a different one for each depending on the content and whether
+> > > or not the content is influenced by the scope.
+> >
+> > That's the problem right there - we don't want to have to generate a
+> > unique record for *each* auditd on *every* record.  That is a recipe
+> > for disaster.
+>
+> I don't see how we can get around this.
+>
+> We will already have that problem for PIDs in different PID namespaces.
 
-       For mmap(), offset must be a multiple of the underlying huge page size.
-       The system automatically aligns length to be a multiple of the underly‐
-       ing huge page size.
+As I said below, let's not worry about this for all of the
+known/current audit records, lets just think about how we solve this
+for the ACID related information.
 
-       For munmap(), addr and length must both be a multiple of the underlying
-       huge page size.
+One of the bigger problems with translating namespace info (e.g. PIDs)
+across ACIDs is that an ACID - by definition - has no understanding of
+namespaces (both the concept as well as any given instance).
 
-So this change may cause application failure.  The code you are removing was
-added with commit af73e4d9506d.  The commit message for that commit says:
+> We already need to use a different serial number in each auditd/queue,
+> or else we serialize *all* audit events on the machine and either leak
+> information to the nested daemons that there are other events happenning
+> on the machine, or confuse the host daemon because it now thinks that we
+> are losing events due to serial numbers missing because some nested
+> daemon issued an event that was not relevant to the host daemon,
+> consuming a globally serial audit message sequence number.
 
-    hugetlbfs: fix mmap failure in unaligned size request
-    
-    The current kernel returns -EINVAL unless a given mmap length is
-    "almost" hugepage aligned.  This is because in sys_mmap_pgoff() the
-    given length is passed to vm_mmap_pgoff() as it is without being aligned
-    with hugepage boundary.
-    
-    This is a regression introduced in commit 40716e29243d ("hugetlbfs: fix
-    alignment of huge page requests"), where alignment code is pushed into
-    hugetlb_file_setup() and the variable len in caller side is not changed.
+This isn't really relevant to the ACID lists, but sure.
 
-The change in commit af73e4d9506d was added because causing mmap to return
--EINVAL if length is not a multiple of huge page size was considered a
-regression.  It would still be considered a regression today.
+> > Solving this for all of the known audit records is not something we
+> > need to worry about in depth at the moment (although giving it some
+> > casual thought is not a bad thing), but solving this for the audit
+> > container ID information *is* something we need to worry about right
+> > now.
+>
+> If you think that a different nested contid value string per daemon is
+> not acceptable, then we are back to issuing a record that has only *one*
+> contid listed without any nesting information.  This brings us back to
+> the original problem of keeping *all* audit log history since the boot
+> of the machine to be able to track the nesting of any particular contid.
 
-I understand that the behavior not consistent.  However, it is clearly
-documented.  I do not believe we can change the behavior of this code.
+I'm not ruling anything out, except for the "let's just completely
+regenerate every record for each auditd instance".
+
+> What am I missing?  What do you suggest?
+
+I'm missing a solution in this thread, since you are the person
+driving this effort I'm asking you to get creative and present us with
+some solutions. :)
+
 
 -- 
-Mike Kravetz
+paul moore
+www.paul-moore.com
