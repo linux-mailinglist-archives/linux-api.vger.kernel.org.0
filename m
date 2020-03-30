@@ -2,108 +2,160 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 554F8197EBF
-	for <lists+linux-api@lfdr.de>; Mon, 30 Mar 2020 16:46:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AEB0E197F83
+	for <lists+linux-api@lfdr.de>; Mon, 30 Mar 2020 17:24:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727849AbgC3Oqf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 30 Mar 2020 10:46:35 -0400
-Received: from mail-pj1-f66.google.com ([209.85.216.66]:51364 "EHLO
-        mail-pj1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727769AbgC3Oqe (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 30 Mar 2020 10:46:34 -0400
-Received: by mail-pj1-f66.google.com with SMTP id w9so7679909pjh.1;
-        Mon, 30 Mar 2020 07:46:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=BBNV7mCHl8ARll4ecc1sVG2Qhvtdfex91jBAy7FeD5E=;
-        b=Xg7FkvV8uCD5UbuTMsSG7MouNqxGXREwGo2CzFyIyiHdAtB7sXqI3tOWVghjtUEYh0
-         aXs+eWoOseSRSsH8JiqitZJK8BWXHmUUiLOCkuDb98VU3Phrph1MBzuTmTuW6DQsnW+E
-         GruUp/0qfCRyDEsZ7tNIhn5CwEzk3RhKUl4sSSZYIOmzXcvrQcnlQMp78LfHMoJgypw1
-         823cbowoiSUn/YmTyfTQhqIUOUMM03B9YXiNZb/Y8kJply0edBKDKPirKYjqlSFI24q1
-         Z63y+/vmE+nTUoUwxQJKEeO9u7H/Mg3U6ITyXYlSHKvFhld8eynK6CJ9z8eW2eAEV1T7
-         dlnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=BBNV7mCHl8ARll4ecc1sVG2Qhvtdfex91jBAy7FeD5E=;
-        b=BewZ4IfrctxzYYj2hGHGOPVOZ/Of8QikbMnLGy3BqM6bdGxCBPb1h2V6HlEpvrnEGt
-         AVNra8+gIRef4wmZputjklOnsU8dIvHeXSG3NyGBTEeTN67rG25fU6YgiCSg/xe34Ba2
-         5DTWNaIN+r8fweSmlUxYlAA3l6mOEby13OJp5VBz7e8RXrPJvcGVOXAt7ff7Bam5IHyR
-         QNTDoBt89NkrDdh0zOBPdJGCKJQ76rn2Sv0RzUgnsKlfqcZGmni6kXCy4BkWGJOKI0XI
-         8ALdhLskNGpirhd6rFJuh5fKQIRPWqyUizdkMmsrnzU7WajFwy1q/jddKC6zJ8hmoz1w
-         bF6Q==
-X-Gm-Message-State: ANhLgQ2u3xoSwGmDjImpzzAIuzFmCA1kuvEGtlYGReLlZUy20Y1h9MEn
-        D21aqEVyuVNi9MAeuZBr4gE=
-X-Google-Smtp-Source: ADFU+vuzOLitTeL+ZQiw6hgGpxorkO+zvB0TOdLFdQtE28ZuSntUjkSNVSQ9+B/KwzIkHl+Y7e0+XA==
-X-Received: by 2002:a17:90a:f98d:: with SMTP id cq13mr16273240pjb.105.1585579593306;
-        Mon, 30 Mar 2020 07:46:33 -0700 (PDT)
-Received: from earth-mac.local (219x123x138x129.ap219.ftth.ucom.ne.jp. [219.123.138.129])
-        by smtp.gmail.com with ESMTPSA id h198sm10333214pfe.76.2020.03.30.07.46.32
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 30 Mar 2020 07:46:32 -0700 (PDT)
-Received: by earth-mac.local (Postfix, from userid 501)
-        id 2A534202804C0F; Mon, 30 Mar 2020 23:46:31 +0900 (JST)
-From:   Hajime Tazaki <thehajime@gmail.com>
-To:     linux-um@lists.infradead.org
-Cc:     Octavian Purdila <tavi.purdila@gmail.com>,
-        Akira Moroo <retrage01@gmail.com>,
-        linux-kernel-library@freelists.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org
-Subject: [RFC v4 01/25] arch: add __SYSCALL_DEFINE_ARCH
-Date:   Mon, 30 Mar 2020 23:45:33 +0900
-Message-Id: <9b9d47a8be1c38561d0fc3e4478628e4bb6056ef.1585579244.git.thehajime@gmail.com>
-X-Mailer: git-send-email 2.20.1 (Apple Git-117)
-In-Reply-To: <cover.1585579244.git.thehajime@gmail.com>
-References: <cover.1585579244.git.thehajime@gmail.com>
+        id S1728973AbgC3PYI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 30 Mar 2020 11:24:08 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:58873 "EHLO
+        us-smtp-delivery-74.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728967AbgC3PYH (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 30 Mar 2020 11:24:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1585581847;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=D5uFspd3/cIWYU7H3JtoXL8Mlj5rBTwKwCCQJPO8iZg=;
+        b=bvJPEj2g2dIkdhNV+J6wWwtyLCAbTcEXIkPz0gvswjjSPfQKAHIzrujVbcSGHWsdtFq5mu
+        EQj0RabGUvpTIlaxux7Hxq6vMTzJpkdhdyORip5PcmrX0F5owpVZ9e4yIsGRDexL35LqjK
+        mExqJ5pLR4rcX3G1+gncUkcU15NDI/I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-92-43WTi89VPVK6XSkd5tw5ow-1; Mon, 30 Mar 2020 11:24:03 -0400
+X-MC-Unique: 43WTi89VPVK6XSkd5tw5ow-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32077DB6E;
+        Mon, 30 Mar 2020 15:24:01 +0000 (UTC)
+Received: from madcap2.tricolour.ca (unknown [10.10.110.46])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 19F5399DEC;
+        Mon, 30 Mar 2020 15:23:49 +0000 (UTC)
+Date:   Mon, 30 Mar 2020 11:23:47 -0400
+From:   Richard Guy Briggs <rgb@redhat.com>
+To:     Paul Moore <paul@paul-moore.com>
+Cc:     Steve Grubb <sgrubb@redhat.com>, linux-audit@redhat.com,
+        nhorman@tuxdriver.com, linux-api@vger.kernel.org,
+        containers@lists.linux-foundation.org,
+        LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
+        netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
+        simo@redhat.com, netdev@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>,
+        mpatel@redhat.com, Serge Hallyn <serge@hallyn.com>
+Subject: Re: [PATCH ghak90 V8 07/16] audit: add contid support for signalling
+ the audit daemon
+Message-ID: <20200330152347.zjrcd6uuolfnq3fy@madcap2.tricolour.ca>
+References: <20200312202733.7kli64zsnqc4mrd2@madcap2.tricolour.ca>
+ <CAHC9VhS9DtxJ4gvOfMRnzoo6ccGJVKL+uZYe6qqH+SPqD8r01Q@mail.gmail.com>
+ <20200313192306.wxey3wn2h4htpccm@madcap2.tricolour.ca>
+ <CAHC9VhQKOpVWxDg-tWuCWV22QRu8P_NpFKme==0Ot1RQKa_DWA@mail.gmail.com>
+ <20200318214154.ycxy5dl4pxno6fvi@madcap2.tricolour.ca>
+ <CAHC9VhSuMnd3-ci2Bx-xJ0yscQ=X8ZqFAcNPKpbh_ZWN3FJcuQ@mail.gmail.com>
+ <20200319214759.qgxt2sfkmd6srdol@madcap2.tricolour.ca>
+ <CAHC9VhTp25OAaTO5UMft0OzUZ=oQpZFjebkjjQP0-NrPp0bNAg@mail.gmail.com>
+ <20200325122903.obkpyog7fjabzrpf@madcap2.tricolour.ca>
+ <CAHC9VhTuYYqAtoNAKLX3qja6DnqEbFuHchi9ESwbcb5WC_Mvtw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHC9VhTuYYqAtoNAKLX3qja6DnqEbFuHchi9ESwbcb5WC_Mvtw@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Octavian Purdila <tavi.purdila@gmail.com>
+On 2020-03-28 23:17, Paul Moore wrote:
+> On Wed, Mar 25, 2020 at 8:29 AM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > On 2020-03-20 17:56, Paul Moore wrote:
+> > > On Thu, Mar 19, 2020 at 5:48 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > > On 2020-03-18 17:47, Paul Moore wrote:
+> > > > > On Wed, Mar 18, 2020 at 5:42 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > > > > On 2020-03-18 17:01, Paul Moore wrote:
+> > > > > > > On Fri, Mar 13, 2020 at 3:23 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > > > > > > On 2020-03-13 12:42, Paul Moore wrote:
+> > > > > > >
+> > > > > > > ...
+> > > > > > >
+> > > > > > > > > The thread has had a lot of starts/stops, so I may be repeating a
+> > > > > > > > > previous suggestion, but one idea would be to still emit a "death
+> > > > > > > > > record" when the final task in the audit container ID does die, but
+> > > > > > > > > block the particular audit container ID from reuse until it the
+> > > > > > > > > SIGNAL2 info has been reported.  This gives us the timely ACID death
+> > > > > > > > > notification while still preventing confusion and ambiguity caused by
+> > > > > > > > > potentially reusing the ACID before the SIGNAL2 record has been sent;
+> > > > > > > > > there is a small nit about the ACID being present in the SIGNAL2
+> > > > > > > > > *after* its death, but I think that can be easily explained and
+> > > > > > > > > understood by admins.
+> > > > > > > >
+> > > > > > > > Thinking quickly about possible technical solutions to this, maybe it
+> > > > > > > > makes sense to have two counters on a contobj so that we know when the
+> > > > > > > > last process in that container exits and can issue the death
+> > > > > > > > certificate, but we still block reuse of it until all further references
+> > > > > > > > to it have been resolved.  This will likely also make it possible to
+> > > > > > > > report the full contid chain in SIGNAL2 records.  This will eliminate
+> > > > > > > > some of the issues we are discussing with regards to passing a contobj
+> > > > > > > > vs a contid to the audit_log_contid function, but won't eliminate them
+> > > > > > > > all because there are still some contids that won't have an object
+> > > > > > > > associated with them to make it impossible to look them up in the
+> > > > > > > > contobj lists.
+> > > > > > >
+> > > > > > > I'm not sure you need a full second counter, I imagine a simple flag
+> > > > > > > would be okay.  I think you just something to indicate that this ACID
+> > > > > > > object is marked as "dead" but it still being held for sanity reasons
+> > > > > > > and should not be reused.
+> > > > > >
+> > > > > > Ok, I see your point.  This refcount can be changed to a flag easily
+> > > > > > enough without change to the api if we can be sure that more than one
+> > > > > > signal can't be delivered to the audit daemon *and* collected by sig2.
+> > > > > > I'll have a more careful look at the audit daemon code to see if I can
+> > > > > > determine this.
+> > > > >
+> > > > > Maybe I'm not understanding your concern, but this isn't really
+> > > > > different than any of the other things we track for the auditd signal
+> > > > > sender, right?  If we are worried about multiple signals being sent
+> > > > > then it applies to everything, not just the audit container ID.
+> > > >
+> > > > Yes, you are right.  In all other cases the information is simply
+> > > > overwritten.  In the case of the audit container identifier any
+> > > > previous value is put before a new one is referenced, so only the last
+> > > > signal is kept.  So, we only need a flag.  Does a flag implemented with
+> > > > a rcu-protected refcount sound reasonable to you?
+> > >
+> > > Well, if I recall correctly you still need to fix the locking in this
+> > > patchset so until we see what that looks like it is hard to say for
+> > > certain.  Just make sure that the flag is somehow protected from
+> > > races; it is probably a lot like the "valid" flags you sometimes see
+> > > with RCU protected lists.
+> >
+> > This is like looking for a needle in a haystack.  Can you point me to
+> > some code that does "valid" flags with RCU protected lists.
+> 
+> Sigh.  Come on Richard, you've been playing in the kernel for some
+> time now.  I can't think of one off the top of my head as I write
+> this, but there are several resources that deal with RCU protected
+> lists in the kernel, Google is your friend and Documentation/RCU is
+> your friend.
 
-This allows the architecture code to process the system call
-definitions. It is used by LKL to create strong typed function
-definitions for system calls.
+Ok, I thought you were talking about a specific piece of code...
 
-Signed-off-by: Octavian Purdila <tavi.purdila@gmail.com>
-Cc: linux-api@vger.kernel.org
----
- include/linux/syscalls.h | 6 ++++++
- 1 file changed, 6 insertions(+)
+> Spending time to learn how RCU works and how to use it properly is not
+> time wasted.  It's a tricky thing to get right (I have to refresh my
+> memory on some of the more subtle details each time I write/review RCU
+> code), but it's very cool when done correctly.
 
-diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-index 1815065d52f3..e45815a3ee10 100644
---- a/include/linux/syscalls.h
-+++ b/include/linux/syscalls.h
-@@ -203,9 +203,14 @@ static inline int is_syscall_trace_event(struct trace_event_call *tp_event)
- }
- #endif
- 
-+#ifndef __SYSCALL_DEFINE_ARCH
-+#define __SYSCALL_DEFINE_ARCH(x, sname, ...)
-+#endif
-+
- #ifndef SYSCALL_DEFINE0
- #define SYSCALL_DEFINE0(sname)					\
- 	SYSCALL_METADATA(_##sname, 0);				\
-+	__SYSCALL_DEFINE_ARCH(0, _##sname);			\
- 	asmlinkage long sys_##sname(void);			\
- 	ALLOW_ERROR_INJECTION(sys_##sname, ERRNO);		\
- 	asmlinkage long sys_##sname(void)
-@@ -222,6 +227,7 @@ static inline int is_syscall_trace_event(struct trace_event_call *tp_event)
- 
- #define SYSCALL_DEFINEx(x, sname, ...)				\
- 	SYSCALL_METADATA(sname, x, __VA_ARGS__)			\
-+	__SYSCALL_DEFINE_ARCH(x, sname, __VA_ARGS__)		\
- 	__SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
- 
- #define __PROTECT(...) asmlinkage_protect(__VA_ARGS__)
--- 
-2.21.0 (Apple Git-122.2)
+I review Documentation/RCU almost every time I work on RCU...
+
+> paul moore
+
+- RGB
+
+--
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems
+Remote, Ottawa, Red Hat Canada
+IRC: rgb, SunRaycer
+Voice: +1.647.777.2635, Internal: (81) 32635
 
