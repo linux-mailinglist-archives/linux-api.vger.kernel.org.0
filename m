@@ -2,188 +2,89 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 038661997A4
-	for <lists+linux-api@lfdr.de>; Tue, 31 Mar 2020 15:37:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A01FE199895
+	for <lists+linux-api@lfdr.de>; Tue, 31 Mar 2020 16:31:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730895AbgCaNhu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 31 Mar 2020 09:37:50 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:40261 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730216AbgCaNhu (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 31 Mar 2020 09:37:50 -0400
-Received: by mail-lf1-f65.google.com with SMTP id j17so17305361lfe.7
-        for <linux-api@vger.kernel.org>; Tue, 31 Mar 2020 06:37:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=aU5iLCuWaH4zxyOLw8e9l2ANSFZT9vUFLRpaEbsCIeI=;
-        b=M2bf+eVpkauwEFyb4CxmjaPvpl1N7Yad7zfCQI7ftWmBLkeJPC0XXouWV2QI8hxZp0
-         SWvodVcZIL6Bb/b/rJIkQwkInHpjgZ5o+LFL4a9Pq3M4CqV+zv5VdnUEa/Y9J4upA+Im
-         9Jw34jRSN6kWPZ+k5VsdGo8jY+lJaogNfFrBKMbUo/M+wp9QThZUUdUXu+DGnXp8u5k2
-         KPhTqiN5HAQpCWvh1il9cj1mhxWhSyWq/d4wVo+nmE3Zy9I/KddzW5kBlWk/4bQIKCOR
-         Av5ZU2ntiH08RXx7Vy7fMOQlQY1fz06o4VosndadGp4GHJG5h/oOYOtMMvQhx/Kp3hXh
-         clpg==
+        id S1730703AbgCaObk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 31 Mar 2020 10:31:40 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:42322 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730810AbgCaObk (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 31 Mar 2020 10:31:40 -0400
+Received: by mail-pf1-f196.google.com with SMTP id 22so10398519pfa.9;
+        Tue, 31 Mar 2020 07:31:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=aU5iLCuWaH4zxyOLw8e9l2ANSFZT9vUFLRpaEbsCIeI=;
-        b=hvrpE62pEkKEhEoyWVRnFaI4MSVsV4uyNXuYqxp2F0NV497u9otrJvTOIRIUWIe0LJ
-         XUAZAUsp9djaH2okTqBMz9oPNHWT4948GDMYStzRhhkfTRW8AHqaKgyKRDWlcs2p1zdp
-         xQ3Fb/TcGZm0fXpjEtxl9zIeHZvsV9hmEGK5yMpHVDyMkhMGAJk6F3NFC9ZtlDg4u1JA
-         X+EdLxL7cfYJe6uORRG4a3wWbGLnjpZNuvBsb/vhToPq+I5iqKGgFNB8mcMticmzoIMD
-         Ttitb8kvLdaeEJ49o5c/J4bEKrCKsi5Vm8eEuTMeHRQ75xVvZlT1o/p1mszZFFk116MK
-         Vs7Q==
-X-Gm-Message-State: AGi0Puanbw0Tom72eD0bvHyzhYKhmoMF466LzIbTl938fPDP1xGG1N9w
-        Scvy21EJ+FUKwoOZy01JM/0dZg==
-X-Google-Smtp-Source: APiQypKT2+uqdUkMNinUZ7US4h3EuWA+Qnq8u+r/x9eYKAF8W37lj90IU1/6iLzyAQ3J8dNMc7hMJw==
-X-Received: by 2002:a19:ad43:: with SMTP id s3mr11555874lfd.63.1585661866597;
-        Tue, 31 Mar 2020 06:37:46 -0700 (PDT)
-Received: from localhost.localdomain (c-f3d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.243])
-        by smtp.gmail.com with ESMTPSA id x128sm9837994lff.67.2020.03.31.06.37.45
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=ZV1KfwgGLtoEiy3TkAg/zZ6KIB+b40AZeOP0Q0XHWHU=;
+        b=V/ckHBGkUv+faIurBZm6aWkZw8kSgZv/W32v4KnRdHa3ae4XdBHYzRPzrKlm7N82wq
+         6tazVl/vkU+thJE5va34cOiRLqXI+R3LequulATdCwnwje5A/mPVtrJnOyq4p3pf+N9S
+         6uWJsnj/KTpQ1pK/7N4Q+NxBYqFyKHZkQdcOF0mhY4JoKZyZWXFW2Ndgx2WFDfwdP7BJ
+         MWVTD+PhVu28Po06FEONOF8zzI2Aj4+b5+JgzeW01tA5XH5tqXtmeLUAUSeVh5znX8tv
+         nuwpsyj7NAZxrbSl1bRHfMPNFXEo8WFUJSSR/58GUmp2BhDV82HXg3nLf+31df9865qf
+         SKrg==
+X-Gm-Message-State: ANhLgQ32zP88vMIDbn+syR3TVqKLMyTETGr3z6aXJ7+BTrJztNOUYEjX
+        VrYUXRNssY1JKm3NBQ5+tmA=
+X-Google-Smtp-Source: ADFU+vv9QG+JNLAPq5Hse2+XL1fqy/ETctrMBCrfQRW4WYOaoKGlkutwe7Dhv7pKCEUfjkAs3IExyg==
+X-Received: by 2002:a63:7e10:: with SMTP id z16mr18195431pgc.412.1585665098929;
+        Tue, 31 Mar 2020 07:31:38 -0700 (PDT)
+Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
+        by smtp.gmail.com with ESMTPSA id 184sm469375pge.71.2020.03.31.07.31.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Mar 2020 06:37:45 -0700 (PDT)
-From:   Linus Walleij <linus.walleij@linaro.org>
-To:     Theodore Ts'o <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>
-Cc:     linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, qemu-devel@nongnu.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Florian Weimer <fw@deneb.enyo.de>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Andy Lutomirski <luto@kernel.org>
-Subject: [PATCH] fcntl: Add 32bit filesystem mode
-Date:   Tue, 31 Mar 2020 15:35:36 +0200
-Message-Id: <20200331133536.3328-1-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.25.1
+        Tue, 31 Mar 2020 07:31:35 -0700 (PDT)
+Received: by 42.do-not-panic.com (Postfix, from userid 1000)
+        id 0DA0940277; Tue, 31 Mar 2020 14:31:35 +0000 (UTC)
+Date:   Tue, 31 Mar 2020 14:31:35 +0000
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Vlastimil Babka <vbabka@suse.cz>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-mm@kvack.org, Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        "Guilherme G . Piccoli" <gpiccoli@canonical.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>
+Subject: Re: [PATCH 1/3] kernel/sysctl: support setting sysctl parameters
+ from kernel command line
+Message-ID: <20200331143134.GY11244@42.do-not-panic.com>
+References: <20200330115535.3215-1-vbabka@suse.cz>
+ <20200330115535.3215-2-vbabka@suse.cz>
+ <20200330224422.GX11244@42.do-not-panic.com>
+ <8146e3d0-89c3-7f79-f786-084c58282c85@suse.cz>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8146e3d0-89c3-7f79-f786-084c58282c85@suse.cz>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-It was brought to my attention that this bug from 2018 was
-still unresolved: 32 bit emulators like QEMU were given
-64 bit hashes when running 32 bit emulation on 64 bit systems.
+On Tue, Mar 31, 2020 at 09:42:46AM +0200, Vlastimil Babka wrote:
+> On 3/31/20 12:44 AM, Luis Chamberlain wrote:
+> > 
+> > This is wonderful when we think about existing sysctls which have
+> > corresponding silly boot params that do the same thing. However, shoving
+> > a boot param capability down every possible built-in sysctl brings
+> > forward support considerations we should take serious, as this would
+> > add a new user interface and we'll have to support it.
+> 
+> Hmm, if I boot with an initramfs with init process that does mount /proc and set
+> some sysctl there as the very first thing, then this will be almost the same
+> moment as my patch does it. There is no further kernel initialization in
+> between. So with your logic we already do support all non-modular sysctls to be
+> set so early.
 
-This adds a fcntl() operation to set the underlying filesystem
-into 32bit mode even if the file hanle was opened using 64bit
-mode without the compat syscalls.
+Yes, true. Then by all means:
 
-Programs that need the 32 bit file system behavior need to
-issue a fcntl() system call such as in this example:
+Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
 
-  #define F_SET_FILE_32BIT_FS (1024 + 15)
-
-  int main(int argc, char** argv) {
-    DIR* dir;
-    int err;
-    int fd;
-
-    dir = opendir("/boot");
-    fd = dirfd(dir);
-    err = fcntl(fd, F_SET_FILE_32BIT_FS);
-    if (err) {
-      printf("fcntl() failed! err=%d\n", err);
-      return 1;
-    }
-    printf("dir=%p\n", dir);
-    printf("readdir(dir)=%p\n", readdir(dir));
-    printf("errno=%d: %s\n", errno, strerror(errno));
-    return 0;
-  }
-
-This can be pretty hard to test since C libraries and linux
-userspace security extensions aggressively filter the parameters
-that are passed down and allowed to commit into actual system
-calls.
-
-Cc: Florian Weimer <fw@deneb.enyo.de>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: Andy Lutomirski <luto@kernel.org>
-Suggested-by: Theodore Ts'o <tytso@mit.edu>
-Link: https://bugs.launchpad.net/qemu/+bug/1805913
-Link: https://lore.kernel.org/lkml/87bm56vqg4.fsf@mid.deneb.enyo.de/
-Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=205957
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
- fs/fcntl.c                       | 4 ++++
- include/uapi/linux/fcntl.h       | 9 +++++++++
- tools/include/uapi/linux/fcntl.h | 9 +++++++++
- tools/perf/trace/beauty/fcntl.c  | 3 ++-
- 4 files changed, 24 insertions(+), 1 deletion(-)
-
-diff --git a/fs/fcntl.c b/fs/fcntl.c
-index 2e4c0fa2074b..d194b1265bd4 100644
---- a/fs/fcntl.c
-+++ b/fs/fcntl.c
-@@ -426,6 +426,10 @@ static long do_fcntl(int fd, unsigned int cmd, unsigned long arg,
- 	case F_SET_FILE_RW_HINT:
- 		err = fcntl_rw_hint(filp, cmd, arg);
- 		break;
-+	case F_SET_FILE_32BIT_FS:
-+		filp->f_mode |= FMODE_32BITHASH;
-+		err = 0;
-+		break;
- 	default:
- 		break;
- 	}
-diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
-index ca88b7bce553..b9ad934147e8 100644
---- a/include/uapi/linux/fcntl.h
-+++ b/include/uapi/linux/fcntl.h
-@@ -73,6 +73,15 @@
-  */
- #define RWF_WRITE_LIFE_NOT_SET	RWH_WRITE_LIFE_NOT_SET
- 
-+/*
-+ * This instructs the kernel to provide 32bit semantics (such as hashes) from
-+ * the file system layer, when running a userland that depend on 32bit
-+ * semantics on a kernel that supports 64bit userland, but does not use the
-+ * compat ioctl() for e.g. open(), so that the kernel would otherwise assume
-+ * that the userland process is capable of dealing with 64bit semantics.
-+ */
-+#define F_SET_FILE_32BIT_FS	(F_LINUX_SPECIFIC_BASE + 15)
-+
- /*
-  * Types of directory notifications that may be requested.
-  */
-diff --git a/tools/include/uapi/linux/fcntl.h b/tools/include/uapi/linux/fcntl.h
-index ca88b7bce553..b9ad934147e8 100644
---- a/tools/include/uapi/linux/fcntl.h
-+++ b/tools/include/uapi/linux/fcntl.h
-@@ -73,6 +73,15 @@
-  */
- #define RWF_WRITE_LIFE_NOT_SET	RWH_WRITE_LIFE_NOT_SET
- 
-+/*
-+ * This instructs the kernel to provide 32bit semantics (such as hashes) from
-+ * the file system layer, when running a userland that depend on 32bit
-+ * semantics on a kernel that supports 64bit userland, but does not use the
-+ * compat ioctl() for e.g. open(), so that the kernel would otherwise assume
-+ * that the userland process is capable of dealing with 64bit semantics.
-+ */
-+#define F_SET_FILE_32BIT_FS	(F_LINUX_SPECIFIC_BASE + 15)
-+
- /*
-  * Types of directory notifications that may be requested.
-  */
-diff --git a/tools/perf/trace/beauty/fcntl.c b/tools/perf/trace/beauty/fcntl.c
-index 56ef83b3d130..da80264678cb 100644
---- a/tools/perf/trace/beauty/fcntl.c
-+++ b/tools/perf/trace/beauty/fcntl.c
-@@ -94,7 +94,8 @@ size_t syscall_arg__scnprintf_fcntl_arg(char *bf, size_t size, struct syscall_ar
- 	    cmd == F_OFD_SETLK || cmd == F_OFD_SETLKW || cmd == F_OFD_GETLK ||
- 	    cmd == F_GETOWN_EX || cmd == F_SETOWN_EX ||
- 	    cmd == F_GET_RW_HINT || cmd == F_SET_RW_HINT ||
--	    cmd == F_GET_FILE_RW_HINT || cmd == F_SET_FILE_RW_HINT)
-+	    cmd == F_GET_FILE_RW_HINT || cmd == F_SET_FILE_RW_HINT ||
-+	    cmd == F_SET_FILE_32BIT_FS)
- 		return syscall_arg__scnprintf_hex(bf, size, arg);
- 
- 	return syscall_arg__scnprintf_long(bf, size, arg);
--- 
-2.25.1
-
+  Luis
