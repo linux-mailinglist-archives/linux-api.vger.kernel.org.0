@@ -2,268 +2,243 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2891D19AB71
-	for <lists+linux-api@lfdr.de>; Wed,  1 Apr 2020 14:15:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D44719ABC6
+	for <lists+linux-api@lfdr.de>; Wed,  1 Apr 2020 14:36:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727661AbgDAMPR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 1 Apr 2020 08:15:17 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:56242 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727439AbgDAMPR (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 1 Apr 2020 08:15:17 -0400
-Received: by mail-wm1-f68.google.com with SMTP id r16so6317170wmg.5;
-        Wed, 01 Apr 2020 05:15:14 -0700 (PDT)
+        id S1732362AbgDAMgJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 1 Apr 2020 08:36:09 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:44319 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732284AbgDAMgI (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 1 Apr 2020 08:36:08 -0400
+Received: by mail-ed1-f65.google.com with SMTP id i16so28457223edy.11
+        for <linux-api@vger.kernel.org>; Wed, 01 Apr 2020 05:36:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=preiv/lahCApGCdyoFXEO2ZyWJjwn6w9vkb6ab8bsKA=;
-        b=Zw/Yr8ozkJU+iwarnyhQyd/SaK5vHylTzqz+Nqz+OQTb1Q9tlP4gH7YN0UvxKvItIo
-         N9l0VvhhHufBcW5331XHoSdZoj5QOZ9V66zE7nvJDdmeqJMEX7j8L9AzGgAy9xfyk8W4
-         ZiSaWafw9hKFbqDlIQ0mLvlFd7DsnikDx5xkjIOiTENTlISrcKGzd1orG+rV3+6Mru7m
-         Jl4CqK128WRrGa+EZjP/n1fThyd2ycwa82k/CXr5chxveMNkIiwTeHhv0RufNGfl7yPM
-         /nFPX462Fixo017a2p8xyt6U/qhgm6/ARjEtiDVEUWkSC8Ki4AY9dbhszd06jb2C4w8M
-         ACiA==
+        d=szeredi.hu; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=uTsGL65lvJuTsIl0dqr7bKucShhojW0xMedUkjqlVzM=;
+        b=jCJFZ+HiNEuy/1r56aFNXrn6fHoEK8O3KCSz//LJzZatHHt+nxLGC/hod64eTteDFK
+         seWl4HmqojVkL5q8Bn6tL0NJv+dwEUUj3UALZF1fbSNV+MWwr06bJR7UUSiXzzC1sT8E
+         iCeJq2MPcTQXxneT4OlsyPJ5NPC0xTwgbWYXE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=preiv/lahCApGCdyoFXEO2ZyWJjwn6w9vkb6ab8bsKA=;
-        b=Vu4W1pod07LwenJtd8alusxlIgulBFVCjeOaLZt/HRtu/CirYbB2Y3mR2fdhV/utsn
-         1q53kSDpq6YWkK9H8CA6zH4DWieavAmBuaRl449EcRl4glTO+Y9a5EJZXU4rJb/1FaVC
-         EkHEJ14x0P4jUAZk0ZtMCyaQxS8VIKB8cDEzgl3WtzseS/yjiZzraifIjz42NNSq23QA
-         BDG9PmqGu0KT+V1snm4kxd5XZ2uOSN09hD/U1fv8fJOumJ1/RsM8MM//KzVhJKVUB/I5
-         z87zjJfdkWUzUG2WTRDBOnAOVEeI3eqXhDvCr6xGQH67JgTSRUHOyuCPH/1rOdDZF7Hy
-         D3xQ==
-X-Gm-Message-State: AGi0Pub8cES6CDCwrMPS5Pc1dV82Ey5w6i3zJSxzl12zWlRDxaEU55Gi
-        oGYjmiD92ipP2atgqGrc5KFqeGGi
-X-Google-Smtp-Source: APiQypJTGqqVaLxFsHL2RwgYI1A9DrxeICLq5ou33KNEMrGsd+Gfs7Uk/W+eJYDUS9N2uce4OyOPUQ==
-X-Received: by 2002:a7b:ce12:: with SMTP id m18mr4190189wmc.135.1585743313513;
-        Wed, 01 Apr 2020 05:15:13 -0700 (PDT)
-Received: from ?IPv6:2001:a61:2482:101:3351:6160:8173:cc31? ([2001:a61:2482:101:3351:6160:8173:cc31])
-        by smtp.gmail.com with ESMTPSA id b127sm200102wmd.2.2020.04.01.05.15.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Apr 2020 05:15:12 -0700 (PDT)
-Cc:     mtk.manpages@gmail.com, Adrian Reber <areber@redhat.com>,
-        Andrei Vagin <avagin@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Pavel Emelyanov <ovzxemul@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Dmitry Safonov <0x7f454c46@gmail.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Radostin Stoyanov <rstoyanov1@gmail.com>,
-        Cyrill Gorcunov <gorcunov@openvz.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: clone3: allow creation of time namespace with offset
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-References: <20200319081137.GC223854@dcbz.redhat.com>
- <CAK8P3a18YySozk6P77JpS58Hbtz=QQmLKw+PrzXbdOwtOQQuJA@mail.gmail.com>
- <20200319102955.i7slokibkkysz6g6@wittgenstein>
- <20200320183355.GA118769@gmail.com>
- <20200324160945.orcm75avj2ol3eop@wittgenstein>
- <20200324162546.GG358599@dcbz.redhat.com>
- <20200324175649.fqkwiuvs2drk26ln@wittgenstein>
- <20200325075836.GK358599@dcbz.redhat.com>
- <20200325112652.sx66bhad7cqdsatm@wittgenstein>
- <78979e3f-293e-998a-0d7b-40da2616afcf@gmail.com>
- <20200401114620.465d3zw7nymqgqww@wittgenstein>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <39fe60b6-6e4a-eb22-c205-b11e869653bf@gmail.com>
-Date:   Wed, 1 Apr 2020 14:15:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=uTsGL65lvJuTsIl0dqr7bKucShhojW0xMedUkjqlVzM=;
+        b=J8yghvfK/3qEQRXgn3c3GghnpXDfMr6DlVD/WR8cFqyEvs2nLnmUEq1tj/WiBkj4+3
+         nc8O6Fq4l5rFK/OBs++Uru7gqSr90IbIFFoWgVSY0Wf1Qgxjow0BaXvZTAhLg+eeXEXD
+         Vq7PHL5N4U9T4a0nz43KcQVVA1cNHxJpxyt2GeGJlOhsAq2ALZA9PsYAJ1cISewPt4up
+         n0D0J7UYkn3jTS/rtbJbLBV0aE5Oxhrhtp5qyKdIz/C70aEYJEkptrv+BNqI3Y5h6oI8
+         kJsN5Ifi0KgbP+NB6xPTuhcX+PZ30Q6AK4DMCZnyisaL9IP8ZKpoAjsflGPeB0fMBhqJ
+         m8DQ==
+X-Gm-Message-State: ANhLgQ2ZRKK/+8OPk8zIhp9akP/eFGs3gpIC2N9xuBYpBAhxFAkF5sMg
+        j0uYOYBq3wTdkwx/wlOHjYRsGASkZrcD2XjPo/GLAw==
+X-Google-Smtp-Source: ADFU+vsoMwBMgIgC/8S96zUEPD0HRtg+Cs7XYzKiQfJkDdEozIlnng26VULIF3grdKiGgeey0ggZqqyPn0VFldxuZ9g=
+X-Received: by 2002:a50:c341:: with SMTP id q1mr21103698edb.247.1585744565376;
+ Wed, 01 Apr 2020 05:36:05 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200401114620.465d3zw7nymqgqww@wittgenstein>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <158454408854.2864823.5910520544515668590.stgit@warthog.procyon.org.uk>
+ <CAJfpeguaiicjS2StY5m=8H7BCjq6PLxMsWE3Mx_jYR1foDWVTg@mail.gmail.com>
+ <50caf93782ba1d66bd6acf098fb8dcb0ecc98610.camel@themaw.net>
+ <CAJfpegvvMVoNp1QeXEZiNucCeuUeDP4tKqVfq2F4koQKzjKmvw@mail.gmail.com>
+ <2465266.1585729649@warthog.procyon.org.uk> <CAJfpegsyeJmH3zJuseaAAY06fzgavSzpOtYr-1Mw8GR0cLcQbA@mail.gmail.com>
+In-Reply-To: <CAJfpegsyeJmH3zJuseaAAY06fzgavSzpOtYr-1Mw8GR0cLcQbA@mail.gmail.com>
+From:   Miklos Szeredi <miklos@szeredi.hu>
+Date:   Wed, 1 Apr 2020 14:35:54 +0200
+Message-ID: <CAJfpeguxACC68bMhS-mNm4m6ytrKgs1--jbF5X3tBiPf_iG1jg@mail.gmail.com>
+Subject: Re: [PATCH 00/13] VFS: Filesystem information [ver #19]
+To:     David Howells <dhowells@redhat.com>
+Cc:     Ian Kent <raven@themaw.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Linux NFS list <linux-nfs@vger.kernel.org>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Anna Schumaker <anna.schumaker@netapp.com>,
+        "Theodore Ts'o" <tytso@mit.edu>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-ext4@vger.kernel.org,
+        Trond Myklebust <trond.myklebust@hammerspace.com>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Christian Brauner <christian@brauner.io>,
+        Jann Horn <jannh@google.com>,
+        "Darrick J. Wong" <darrick.wong@oracle.com>,
+        Karel Zak <kzak@redhat.com>, Jeff Layton <jlayton@redhat.com>,
+        linux-fsdevel@vger.kernel.org,
+        LSM <linux-security-module@vger.kernel.org>,
+        linux-kernel@vger.kernel.org
+Content-Type: multipart/mixed; boundary="00000000000086676005a239ed40"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 4/1/20 1:46 PM, Christian Brauner wrote:
-> On Wed, Apr 01, 2020 at 01:40:25PM +0200, Michael Kerrisk (man-pages) wrote:
->> On 3/25/20 12:26 PM, Christian Brauner wrote:
->>> On Wed, Mar 25, 2020 at 08:58:36AM +0100, Adrian Reber wrote:
->>>> On Tue, Mar 24, 2020 at 06:56:49PM +0100, Christian Brauner wrote:
->>>>> On Tue, Mar 24, 2020 at 05:25:46PM +0100, Adrian Reber wrote:
->>>>>> On Tue, Mar 24, 2020 at 05:09:45PM +0100, Christian Brauner wrote:
->>>>>>> On Fri, Mar 20, 2020 at 11:33:55AM -0700, Andrei Vagin wrote:
->>>>>>>> On Thu, Mar 19, 2020 at 11:29:55AM +0100, Christian Brauner wrote:
->>>>>>>>> On Thu, Mar 19, 2020 at 09:16:43AM +0100, Arnd Bergmann wrote:
->>>>>>>>>> On Thu, Mar 19, 2020 at 9:11 AM Adrian Reber <areber@redhat.com> wrote:
->>>>>>>>>>
->>>>>>>>>>> With Arnd's idea of only using nanoseconds, timens_offset would then
->>>>>>>>>>> contain something like this:
->>>>>>>>>>>
->>>>>>>>>>> struct timens_offset {
->>>>>>>>>>>         __aligned_s64 monotonic_offset_ns;
->>>>>>>>>>>         __aligned_s64 boottime_offset_ns;
->>>>>>>>>>> };
->>>>>>>>>>>
->>>>>>>>>>> I kind of prefer adding boottime and monotonic directly to struct clone_args
->>>>>>>>>>>
->>>>>>>>>>>         __aligned_u64 tls;
->>>>>>>>>>>         __aligned_u64 set_tid;
->>>>>>>>>>>         __aligned_u64 set_tid_size;
->>>>>>>>>>> +       __aligned_s64 monotonic_offset_ns;
->>>>>>>>>>> +       __aligned_s64 boottime_offset_ns;
->>>>>>>>>>>  };
->>>>>>>>>>
->>>>>>>>>> I would also prefer the second approach using two 64-bit integers
->>>>>>>>>> instead of a pointer, as it keeps the interface simpler to implement
->>>>>>>>>> and simpler to interpret by other tools.
->>>>>>>>>
->>>>>>>>> Why I don't like has two reasons. There's the scenario where we have
->>>>>>>>> added new extensions after the new boottime member and then we introduce
->>>>>>>>> another offset. Then you'd be looking at:
->>>>>>>>>
->>>>>>>>> __aligned_u64 tls;
->>>>>>>>> __aligned_u64 set_tid;
->>>>>>>>> __aligned_u64 set_tid_size;
->>>>>>>>> + __aligned_s64 monotonic_offset_ns;
->>>>>>>>> + __aligned_s64 boottime_offset_ns;
->>>>>>>>> __aligned_s64 something_1
->>>>>>>>> __aligned_s64 anything_2
->>>>>>>>> + __aligned_s64 sometime_offset_ns
->>>>>>>>>
->>>>>>>>> which bothers me just by looking at it. That's in addition to adding two
->>>>>>>>> new members to the struct when most people will never set CLONE_NEWTIME.
->>>>>>>>> We'll also likely have more features in the future that will want to
->>>>>>>>> pass down more info than we want to directly expose in struct
->>>>>>>>> clone_args, e.g. for a long time I have been thinking about adding a
->>>>>>>>> struct for CLONE_NEWUSER that allows you to specify the id mappings you
->>>>>>>>> want the new user namespace to get. We surely don't want to force all
->>>>>>>>> new info into the uppermost struct. So I'm not convinced we should here.
->>>>>>>>
->>>>>>>> I think here we can start thinking about a netlink-like interface.
->>>>>>>
->>>>>>> I think netlink is just not a great model for an API and I would not
->>>>>>> want us to go down that route.
->>>>>>>
->>>>>>> I kept thinking about this for a bit and I think that we will end up
->>>>>>> growing more namespace-related functionality. So one thing that came to
->>>>>>> my mind is the following layout:
->>>>>>>
->>>>>>> struct {
->>>>>>> 	struct {
->>>>>>> 		__s64 monotonic;
->>>>>>> 		__s64 boot;
->>>>>>> 	} time;
->>>>>>> } namespaces;
->>>>>>>
->>>>>>> struct _clone_args {
->>>>>>> 	__aligned_u64 flags;
->>>>>>> 	__aligned_u64 pidfd;
->>>>>>> 	__aligned_u64 child_tid;
->>>>>>> 	__aligned_u64 parent_tid;
->>>>>>> 	__aligned_u64 exit_signal;
->>>>>>> 	__aligned_u64 stack;
->>>>>>> 	__aligned_u64 stack_size;
->>>>>>> 	__aligned_u64 tls;
->>>>>>> 	__aligned_u64 set_tid;
->>>>>>> 	__aligned_u64 set_tid_size;
->>>>>>> 	__aligned_u64 namespaces;
->>>>>>> 	__aligned_u64 namespaces_size;
->>>>>>> };
->>>>>>>
->>>>>>> Then when we end up adding id mapping support for CLONE_NEWUSER we can
->>>>>>> extend this with:
->>>>>>>
->>>>>>> struct {
->>>>>>> 	struct {
->>>>>>> 		__aligned_u64 monotonic;
->>>>>>> 		__aligned_u64 boot;
->>>>>
->>>>> s/__aligned_u64/__s64/g
->>>>>
->>>>> Sorry, leftover from my first draft.
->>>>>
->>>>>>> 	} time;
->>>>>>>
->>>>>>> 	struct {
->>>>>>> 		/* id mapping members */
->>>>>>> 	} user;
->>>>>>> } namespaces;
->>>>>>>
->>>>>>> Thoughts? Other ideas?
->>>>>>
->>>>>> Works for me.
->>>>>>
->>>>>> If we add the user namespace id mappings and then at some point a third
->>>>>> element for the time namespace appears it would also start to be mixed.
->>>>>> Just as you mentioned that a few mails ago.
->>>>>
->>>>> I think you misunderstand me or I'm misunderstanding you. That new time
->>>>> namespace member would go into struct time {} so
->>>>>
->>>>> struct {
->>>>> 	struct {
->>>>> 		__s64 monotonic;
->>>>> 		__s64 boot;
->>>>> 		__s64 someothertime;
->>>>> 	} time;
->>>>>
->>>>> 	struct {
->>>>> 		/* id mapping members */
->>>>> 	} user;
->>>>> } namespaces;
->>
->> So far, this seems like the least worst approach to me :-).
->>
->> I think it's reasonable to assume that there will be another
->> time NS offset to add one day. I don't think anyone expected
->> CLOCK_BOOTIME (added in 2011) at the time that CLOCK_MONOTONIC
->> appeared (as part of the POSIX timers API in Linux 2.6.0 2003);
->> similarly, we probably can't conceive now what clock might be
->> added in the future that should also be governed by time
->> namespaces.
->>
->>
->> But...
->>
->>>> My question was about how does the kernel know how 'struct namespaces'
->>>> is structured. How can an older kernel (which only is aware of two
->>>> clocks) deal with a, like in this example, third clock. Will the size
->>>> '__aligned_u64 namespaces_size' be used for versioning?
->>>
->>> Yes, that would be the idea.
->>
->> The idea implied here (if I understand correctly) of "binary chop
->> on the structure size to see what your kernel supports" is pretty
->> clunky, IMO. It's worth at least considering alternatives. 
->> For example, seccomp has a number of interesting interfaces to
->> discover what the running kernel supports [1]. Maybe it is worth
->> considering something similar for clone3()?
-> 
-> Yes, that's definitely something I've been thinking about and I've also
-> discussed this publicly on the libc-alpha mailing list since Florian
-> (Weimer) wants this for glibc. _But_ I didn't want to simply go my own
-> way and so Aleksa and I stuck our heads together and tried to come up
-> with a generic way that e.g. would work for both openat2() and for
-> clone3(), in fact we tried to come up with a generic way that could
-> potentially be used by any syscall that makes use of the new
-> copy_struct_from_user() helper that Aleksa and I pushed upstream. We
-> haven't yet gotten around to actually try and implementing our ideas.
-> I'll try to get around to this during this cycle (/me makes note to "sit
-> down" with Aleksa). We'll definitely take a look at seccomp and cgroups
-> too.
+--00000000000086676005a239ed40
+Content-Type: text/plain; charset="UTF-8"
 
-Great! Thanks for thinking about this. Just by the way, on 
-discussions such as the one you had with Florian, it would
-be great if you CCed linux-api@ (and also for the patch series
-that implements this idea).
+On Wed, Apr 1, 2020 at 10:37 AM Miklos Szeredi <miklos@szeredi.hu> wrote:
+>
+> On Wed, Apr 1, 2020 at 10:27 AM David Howells <dhowells@redhat.com> wrote:
+> >
+> > Miklos Szeredi <miklos@szeredi.hu> wrote:
+> >
+> > > According to dhowell's measurements processing 100k mounts would take
+> > > about a few seconds of system time (that's the time spent by the
+> > > kernel to retrieve the data,
+> >
+> > But the inefficiency of mountfs - at least as currently implemented - scales
+> > up with the number of individual values you want to retrieve, both in terms of
+> > memory usage and time taken.
+>
+> I've taken that into account when guesstimating a "few seconds per
+> 100k entries".  My guess is that there's probably an order of
+> magnitude difference between the performance of a fs based interface
+> and a binary syscall based interface.  That could be reduced somewhat
+> with a readfile(2) type API.
 
-Cheers,
+And to show that I'm not completely off base, attached a patch that
+adds a limited readfile(2) syscall and uses it in the p2 method.
 
-Michael
+Results are promising:
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+./test-fsinfo-perf /tmp/a 30000
+--- make mounts ---
+--- test fsinfo by path ---
+sum(mnt_id) = 930000
+--- test fsinfo by mnt_id ---
+sum(mnt_id) = 930000
+--- test /proc/fdinfo ---
+sum(mnt_id) = 930000
+--- test mountfs ---
+sum(mnt_id) = 930000
+For   30000 mounts, f=    146400us f2=    136766us p=   1406569us p2=
+  221669us; p=9.6*f p=10.3*f2 p=6.3*p2
+--- umount ---
+
+This is about a 2 fold increase in speed compared to open + read + close.
+
+Is someone still worried about performance, or can we move on to more
+interesting parts of the design?
+
+Thanks,
+Miklos
+
+--00000000000086676005a239ed40
+Content-Type: text/x-patch; charset="US-ASCII"; name="fsmount-readfile.patch"
+Content-Disposition: attachment; filename="fsmount-readfile.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_k8hbbx3t0>
+X-Attachment-Id: f_k8hbbx3t0
+
+SW5kZXg6IGxpbnV4L2ZzL21vdW50ZnMvc3VwZXIuYwo9PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09Ci0tLSBsaW51eC5vcmln
+L2ZzL21vdW50ZnMvc3VwZXIuYwkyMDIwLTA0LTAxIDE0OjIxOjI0LjYwOTk1NTA3MiArMDIwMAor
+KysgbGludXgvZnMvbW91bnRmcy9zdXBlci5jCTIwMjAtMDQtMDEgMTQ6MjE6NDIuNDI2MTUxNTQ1
+ICswMjAwCkBAIC01MSwxMCArNTEsMTEgQEAgc3RhdGljIGJvb2wgbW91bnRmc19lbnRyeV92aXNp
+YmxlKHN0cnVjdAogCiAJcmV0dXJuIHZpc2libGU7CiB9CisKIHN0YXRpYyBpbnQgbW91bnRmc19h
+dHRyX3Nob3coc3RydWN0IHNlcV9maWxlICpzZiwgdm9pZCAqdikKIHsKIAljb25zdCBjaGFyICpu
+YW1lID0gc2YtPmZpbGUtPmZfcGF0aC5kZW50cnktPmRfbmFtZS5uYW1lOwotCXN0cnVjdCBtb3Vu
+dGZzX2VudHJ5ICplbnRyeSA9IHNmLT5wcml2YXRlOworCXN0cnVjdCBtb3VudGZzX2VudHJ5ICpl
+bnRyeSA9IGZpbGVfaW5vZGUoc2YtPmZpbGUpLT5pX3ByaXZhdGU7CiAJc3RydWN0IG1vdW50ICpt
+bnQ7CiAJc3RydWN0IHZmc21vdW50ICptOwogCXN0cnVjdCBzdXBlcl9ibG9jayAqc2I7CkBAIC0x
+NDAsMTIgKzE0MSw0MCBAQCBzdGF0aWMgaW50IG1vdW50ZnNfYXR0cl9zaG93KHN0cnVjdCBzZXFf
+CiAJcmV0dXJuIGVycjsKIH0KIAorc3NpemVfdCBtb3VudGZzX2F0dHJfcmVhZGZpbGUoc3RydWN0
+IGZpbGUgKmZpbGUsIGNoYXIgX191c2VyICpidWYsIHNpemVfdCBzaXplKQoreworCXN0cnVjdCBz
+ZXFfZmlsZSBtID0geyAuc2l6ZSA9IFBBR0VfU0laRSwgLmZpbGUgPSBmaWxlIH07CisJc3NpemVf
+dCByZXQ7CisKK3JldHJ5OgorCW0uYnVmID0ga3ZtYWxsb2MobS5zaXplLCBHRlBfS0VSTkVMKTsK
+KwlpZiAoIW0uYnVmKQorCQlyZXR1cm4gLUVOT01FTTsKKworCXJldCA9IG1vdW50ZnNfYXR0cl9z
+aG93KCZtLCBOVUxMKTsKKwlpZiAoIXJldCkgeworCQlpZiAobS5jb3VudCA9PSBtLnNpemUpIHsK
+KwkJCWt2ZnJlZShtLmJ1Zik7CisJCQltLnNpemUgPDw9IDE7CisJCQltLmNvdW50ID0gMDsKKwkJ
+CWdvdG8gcmV0cnk7CisJCX0KKwkJcmV0ID0gbWluKG0uY291bnQsIHNpemUpOworCQlpZiAoY29w
+eV90b191c2VyKGJ1ZiwgbS5idWYsIHJldCkpCisJCQlyZXQgPSAtRUZBVUxUOworCX0KKworCWt2
+ZnJlZShtLmJ1Zik7CisJcmV0dXJuIHJldDsKK30KKwogc3RhdGljIGludCBtb3VudGZzX2F0dHJf
+b3BlbihzdHJ1Y3QgaW5vZGUgKmlub2RlLCBzdHJ1Y3QgZmlsZSAqZmlsZSkKIHsKLQlyZXR1cm4g
+c2luZ2xlX29wZW4oZmlsZSwgbW91bnRmc19hdHRyX3Nob3csIGlub2RlLT5pX3ByaXZhdGUpOwor
+CXJldHVybiBzaW5nbGVfb3BlbihmaWxlLCBtb3VudGZzX2F0dHJfc2hvdywgTlVMTCk7CiB9CiAK
+IHN0YXRpYyBjb25zdCBzdHJ1Y3QgZmlsZV9vcGVyYXRpb25zIG1vdW50ZnNfYXR0cl9mb3BzID0g
+eworCS5yZWFkZmlsZQk9IG1vdW50ZnNfYXR0cl9yZWFkZmlsZSwKIAkub3BlbgkJPSBtb3VudGZz
+X2F0dHJfb3BlbiwKIAkucmVhZAkJPSBzZXFfcmVhZCwKIAkubGxzZWVrCQk9IHNlcV9sc2VlaywK
+SW5kZXg6IGxpbnV4L3NhbXBsZXMvdmZzL3Rlc3QtZnNpbmZvLXBlcmYuYwo9PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09Ci0t
+LSBsaW51eC5vcmlnL3NhbXBsZXMvdmZzL3Rlc3QtZnNpbmZvLXBlcmYuYwkyMDIwLTA0LTAxIDE0
+OjIxOjI0LjYwOTk1NTA3MiArMDIwMAorKysgbGludXgvc2FtcGxlcy92ZnMvdGVzdC1mc2luZm8t
+cGVyZi5jCTIwMjAtMDQtMDEgMTQ6MjE6NDIuNDI2MTUxNTQ1ICswMjAwCkBAIC0xNzIsNiArMTcy
+LDEyIEBAIHN0YXRpYyB2b2lkIGdldF9pZF9ieV9wcm9jKGludCBpeCwgY29uc3QKIAkvL3ByaW50
+ZigiWyV1XSAldVxuIiwgaXgsIHgpOwogfQogCitzdGF0aWMgbG9uZyByZWFkZmlsZShpbnQgZGZk
+LCBjb25zdCBjaGFyICpuYW1lLCBjaGFyICpidWZmZXIsIHNpemVfdCBzaXplLAorCQkgICAgIGlu
+dCBmbGFncykKK3sKKwlyZXR1cm4gc3lzY2FsbChfX05SX3JlYWRmaWxlLCBkZmQsIG5hbWUsIGJ1
+ZmZlciwgc2l6ZSwgZmxhZ3MpOworfQorCiBzdGF0aWMgdm9pZCBnZXRfaWRfYnlfZnNpbmZvXzIo
+dm9pZCkKIHsKIAlzdHJ1Y3QgZnNpbmZvX21vdW50X3RvcG9sb2d5IHQ7CkBAIC0zMDAsMTEgKzMw
+Niw4IEBAIHN0YXRpYyB2b2lkIGdldF9pZF9ieV9tb3VudGZzKHZvaWQpCiAJCX0KIAogCQlzcHJp
+bnRmKHByb2NmaWxlLCAiJXUvcGFyZW50IiwgbW50X2lkKTsKLQkJZmQgPSBvcGVuYXQobW50ZmQs
+IHByb2NmaWxlLCBPX1JET05MWSk7Ci0JCUVSUihmZCwgcHJvY2ZpbGUpOwotCQlsZW4gPSByZWFk
+KGZkLCBidWZmZXIsIHNpemVvZihidWZmZXIpIC0gMSk7Ci0JCUVSUihsZW4sICJyZWFkL3BhcmVu
+dCIpOwotCQljbG9zZShmZCk7CisJCWxlbiA9IHJlYWRmaWxlKG1udGZkLCBwcm9jZmlsZSwgYnVm
+ZmVyLCBzaXplb2YoYnVmZmVyKSwgMCk7CisJCUVSUihsZW4sICJyZWFkZmlsZS9wYXJlbnQiKTsK
+IAkJaWYgKGxlbiA+IDAgJiYgYnVmZmVyW2xlbiAtIDFdID09ICdcbicpCiAJCQlsZW4tLTsKIAkJ
+YnVmZmVyW2xlbl0gPSAwOwpAQCAtMzE5LDExICszMjIsOCBAQCBzdGF0aWMgdm9pZCBnZXRfaWRf
+YnlfbW91bnRmcyh2b2lkKQogCQlzdW1fY2hlY2sgKz0geDsKIAogCQlzcHJpbnRmKHByb2NmaWxl
+LCAiJXUvY291bnRlciIsIG1udF9pZCk7Ci0JCWZkID0gb3BlbmF0KG1udGZkLCBwcm9jZmlsZSwg
+T19SRE9OTFkpOwotCQlFUlIoZmQsIHByb2NmaWxlKTsKLQkJbGVuID0gcmVhZChmZCwgYnVmZmVy
+LCBzaXplb2YoYnVmZmVyKSAtIDEpOwotCQlFUlIobGVuLCAicmVhZC9jb3VudGVyIik7Ci0JCWNs
+b3NlKGZkKTsKKwkJbGVuID0gcmVhZGZpbGUobW50ZmQsIHByb2NmaWxlLCBidWZmZXIsIHNpemVv
+ZihidWZmZXIpIC0gMSwgMCk7CisJCUVSUihsZW4sICJyZWFkZmlsZS9jb3VudGVyIik7CiAJCWlm
+IChsZW4gPiAwICYmIGJ1ZmZlcltsZW4gLSAxXSA9PSAnXG4nKQogCQkJbGVuLS07CiAJCWJ1ZmZl
+cltsZW5dID0gMDsKSW5kZXg6IGxpbnV4L2FyY2gveDg2L2VudHJ5L3N5c2NhbGxzL3N5c2NhbGxf
+NjQudGJsCj09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT0KLS0tIGxpbnV4Lm9yaWcvYXJjaC94ODYvZW50cnkvc3lzY2FsbHMv
+c3lzY2FsbF82NC50YmwJMjAyMC0wNC0wMSAxNDoyMTozNy4yODQwOTQ4NDAgKzAyMDAKKysrIGxp
+bnV4L2FyY2gveDg2L2VudHJ5L3N5c2NhbGxzL3N5c2NhbGxfNjQudGJsCTIwMjAtMDQtMDEgMTQ6
+MjE6NDIuNDEyMTUxMzkwICswMjAwCkBAIC0zNjIsNiArMzYyLDcgQEAKIDQzOQljb21tb24Jd2F0
+Y2hfbW91bnQJCV9feDY0X3N5c193YXRjaF9tb3VudAogNDQwCWNvbW1vbgl3YXRjaF9zYgkJX194
+NjRfc3lzX3dhdGNoX3NiCiA0NDEJY29tbW9uCWZzaW5mbwkJCV9feDY0X3N5c19mc2luZm8KKzQ0
+Mgljb21tb24JcmVhZGZpbGUJCV9feDY0X3N5c19yZWFkZmlsZQogCiAjCiAjIHgzMi1zcGVjaWZp
+YyBzeXN0ZW0gY2FsbCBudW1iZXJzIHN0YXJ0IGF0IDUxMiB0byBhdm9pZCBjYWNoZSBpbXBhY3QK
+SW5kZXg6IGxpbnV4L2ZzL29wZW4uYwo9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09Ci0tLSBsaW51eC5vcmlnL2ZzL29wZW4u
+YwkyMDIwLTA0LTAxIDE0OjIxOjM3LjI4NDA5NDg0MCArMDIwMAorKysgbGludXgvZnMvb3Blbi5j
+CTIwMjAtMDQtMDEgMTQ6MjE6NDIuNDI0MTUxNTIzICswMjAwCkBAIC0xMzQwLDMgKzEzNDAsMjUg
+QEAgaW50IHN0cmVhbV9vcGVuKHN0cnVjdCBpbm9kZSAqaW5vZGUsIHN0cgogfQogCiBFWFBPUlRf
+U1lNQk9MKHN0cmVhbV9vcGVuKTsKKworU1lTQ0FMTF9ERUZJTkU1KHJlYWRmaWxlLCBpbnQsIGRm
+ZCwgY29uc3QgY2hhciBfX3VzZXIgKiwgZmlsZW5hbWUsCisJCWNoYXIgX191c2VyICosIGJ1ZmZl
+ciwgc2l6ZV90LCBidWZzaXplLCBpbnQsIGZsYWdzKQoreworCXNzaXplX3QgcmV0OworCXN0cnVj
+dCBmaWxlIGZpbGUgPSB7fTsKKworCWlmIChmbGFncykKKwkJcmV0dXJuIC1FSU5WQUw7CisKKwly
+ZXQgPSB1c2VyX3BhdGhfYXQoZGZkLCBmaWxlbmFtZSwgMCwgJmZpbGUuZl9wYXRoKTsKKwlpZiAo
+IXJldCkgeworCQlmaWxlLmZfaW5vZGUgPSBmaWxlLmZfcGF0aC5kZW50cnktPmRfaW5vZGU7CisJ
+CWZpbGUuZl9vcCA9IGZpbGUuZl9pbm9kZS0+aV9mb3A7CisJCXJldCA9IC1FT1BOT1RTVVBQOwor
+CQlpZiAoZmlsZS5mX29wLT5yZWFkZmlsZSkKKwkJCXJldCA9IGZpbGUuZl9vcC0+cmVhZGZpbGUo
+JmZpbGUsIGJ1ZmZlciwgYnVmc2l6ZSk7CisJCXBhdGhfcHV0KCZmaWxlLmZfcGF0aCk7CisJfQor
+CisJcmV0dXJuIHJldDsKK30KSW5kZXg6IGxpbnV4L2luY2x1ZGUvbGludXgvc3lzY2FsbHMuaAo9
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09Ci0tLSBsaW51eC5vcmlnL2luY2x1ZGUvbGludXgvc3lzY2FsbHMuaAkyMDIwLTA0
+LTAxIDE0OjIxOjM3LjI4NDA5NDg0MCArMDIwMAorKysgbGludXgvaW5jbHVkZS9saW51eC9zeXNj
+YWxscy5oCTIwMjAtMDQtMDEgMTQ6MjE6NDIuNDEzMTUxNDAxICswMjAwCkBAIC0xMDExLDYgKzEw
+MTEsOCBAQCBhc21saW5rYWdlIGxvbmcgc3lzX3dhdGNoX3NiKGludCBkZmQsIGNvCiBhc21saW5r
+YWdlIGxvbmcgc3lzX2ZzaW5mbyhpbnQgZGZkLCBjb25zdCBjaGFyIF9fdXNlciAqcGF0aG5hbWUs
+CiAJCQkgICBzdHJ1Y3QgZnNpbmZvX3BhcmFtcyBfX3VzZXIgKnBhcmFtcywgc2l6ZV90IHBhcmFt
+c19zaXplLAogCQkJICAgdm9pZCBfX3VzZXIgKnJlc3VsdF9idWZmZXIsIHNpemVfdCByZXN1bHRf
+YnVmX3NpemUpOworYXNtbGlua2FnZSBsb25nIHN5c19yZWFkZmlsZShpbnQgZGZkLCBjb25zdCBj
+aGFyIF9fdXNlciAqZmlsZW5hbWUsCisJCQkgICAgIGNoYXIgX191c2VyICpidWZmZXIsIHNpemVf
+dCBidWZzaXplLCBpbnQgZmxhZ3MpOwogCiAvKgogICogQXJjaGl0ZWN0dXJlLXNwZWNpZmljIHN5
+c3RlbSBjYWxscwpJbmRleDogbGludXgvaW5jbHVkZS91YXBpL2FzbS1nZW5lcmljL3VuaXN0ZC5o
+Cj09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT0KLS0tIGxpbnV4Lm9yaWcvaW5jbHVkZS91YXBpL2FzbS1nZW5lcmljL3VuaXN0
+ZC5oCTIwMjAtMDQtMDEgMTQ6MjE6MzcuMjg0MDk0ODQwICswMjAwCisrKyBsaW51eC9pbmNsdWRl
+L3VhcGkvYXNtLWdlbmVyaWMvdW5pc3RkLmgJMjAyMC0wNC0wMSAxNDoyMTo0Mi40MTMxNTE0MDEg
+KzAyMDAKQEAgLTg2MSw5ICs4NjEsMTEgQEAgX19TWVNDQUxMKF9fTlJfd2F0Y2hfbW91bnQsIHN5
+c193YXRjaF9tbwogX19TWVNDQUxMKF9fTlJfd2F0Y2hfc2IsIHN5c193YXRjaF9zYikKICNkZWZp
+bmUgX19OUl9mc2luZm8gNDQxCiBfX1NZU0NBTEwoX19OUl9mc2luZm8sIHN5c19mc2luZm8pCisj
+ZGVmaW5lIF9fTlJfcmVhZGZpbGUgNDQyCitfX1NZU0NBTEwoX19OUl9yZWFkZmlsZSwgc3lzX3Jl
+YWRmaWxlKQogCiAjdW5kZWYgX19OUl9zeXNjYWxscwotI2RlZmluZSBfX05SX3N5c2NhbGxzIDQ0
+MgorI2RlZmluZSBfX05SX3N5c2NhbGxzIDQ0MwogCiAvKgogICogMzIgYml0IHN5c3RlbXMgdHJh
+ZGl0aW9uYWxseSB1c2VkIGRpZmZlcmVudApJbmRleDogbGludXgvaW5jbHVkZS9saW51eC9mcy5o
+Cj09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT0KLS0tIGxpbnV4Lm9yaWcvaW5jbHVkZS9saW51eC9mcy5oCTIwMjAtMDQtMDEg
+MTQ6MjE6MTkuMTQ0ODk0ODA0ICswMjAwCisrKyBsaW51eC9pbmNsdWRlL2xpbnV4L2ZzLmgJMjAy
+MC0wNC0wMSAxNDoyMTo0Mi40MjUxNTE1MzQgKzAyMDAKQEAgLTE4NjgsNiArMTg2OCw3IEBAIHN0
+cnVjdCBmaWxlX29wZXJhdGlvbnMgewogCQkJCSAgIHN0cnVjdCBmaWxlICpmaWxlX291dCwgbG9m
+Zl90IHBvc19vdXQsCiAJCQkJICAgbG9mZl90IGxlbiwgdW5zaWduZWQgaW50IHJlbWFwX2ZsYWdz
+KTsKIAlpbnQgKCpmYWR2aXNlKShzdHJ1Y3QgZmlsZSAqLCBsb2ZmX3QsIGxvZmZfdCwgaW50KTsK
+Kwlzc2l6ZV90ICgqcmVhZGZpbGUpKHN0cnVjdCBmaWxlICosIGNoYXIgX191c2VyICosIHNpemVf
+dCk7CiB9IF9fcmFuZG9taXplX2xheW91dDsKIAogc3RydWN0IGlub2RlX29wZXJhdGlvbnMgewo=
+--00000000000086676005a239ed40--
