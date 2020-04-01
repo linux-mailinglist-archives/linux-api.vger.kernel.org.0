@@ -2,103 +2,110 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3072A19AF16
-	for <lists+linux-api@lfdr.de>; Wed,  1 Apr 2020 17:52:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B9A8E19B636
+	for <lists+linux-api@lfdr.de>; Wed,  1 Apr 2020 21:08:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733100AbgDAPv7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 1 Apr 2020 11:51:59 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:42654 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1733173AbgDAPv5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 1 Apr 2020 11:51:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1585756316;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=9Hue9l1/UJQF2U4lKyhSbPFzaMnHT5K5mJD7PcBNrM4=;
-        b=JEn7WyYGin1Qa2heTnw+oGJhzvCAn1rzIlyfGTaWw69DHLE1BwOtR4YjOdhbrPoUpNSLWw
-        ima3vIvr57dL2nEoUJupsBtXBK/JYKZmVSIUJ48hAct7B4kZOTrpoecF1jb7wispYwNOXF
-        LoDMi87ZI++ezloSam+assXKbDHd8N8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-191-W2iZb2t4MKawS3j31oos7A-1; Wed, 01 Apr 2020 11:51:53 -0400
-X-MC-Unique: W2iZb2t4MKawS3j31oos7A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1338113F7;
-        Wed,  1 Apr 2020 15:51:48 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-114-243.ams2.redhat.com [10.36.114.243])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id D631696B87;
-        Wed,  1 Apr 2020 15:51:43 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <CAJfpeguxACC68bMhS-mNm4m6ytrKgs1--jbF5X3tBiPf_iG1jg@mail.gmail.com>
-References: <CAJfpeguxACC68bMhS-mNm4m6ytrKgs1--jbF5X3tBiPf_iG1jg@mail.gmail.com> <158454408854.2864823.5910520544515668590.stgit@warthog.procyon.org.uk> <CAJfpeguaiicjS2StY5m=8H7BCjq6PLxMsWE3Mx_jYR1foDWVTg@mail.gmail.com> <50caf93782ba1d66bd6acf098fb8dcb0ecc98610.camel@themaw.net> <CAJfpegvvMVoNp1QeXEZiNucCeuUeDP4tKqVfq2F4koQKzjKmvw@mail.gmail.com> <2465266.1585729649@warthog.procyon.org.uk> <CAJfpegsyeJmH3zJuseaAAY06fzgavSzpOtYr-1Mw8GR0cLcQbA@mail.gmail.com>
-To:     Miklos Szeredi <miklos@szeredi.hu>
-Cc:     dhowells@redhat.com, Ian Kent <raven@themaw.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Linux NFS list <linux-nfs@vger.kernel.org>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Anna Schumaker <anna.schumaker@netapp.com>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-ext4@vger.kernel.org,
-        Trond Myklebust <trond.myklebust@hammerspace.com>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Christian Brauner <christian@brauner.io>,
-        Jann Horn <jannh@google.com>,
-        "Darrick J. Wong" <darrick.wong@oracle.com>,
-        Karel Zak <kzak@redhat.com>, Jeff Layton <jlayton@redhat.com>,
-        linux-fsdevel@vger.kernel.org,
-        LSM <linux-security-module@vger.kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/13] VFS: Filesystem information [ver #19]
+        id S1732211AbgDATIT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 1 Apr 2020 15:08:19 -0400
+Received: from mga07.intel.com ([134.134.136.100]:29382 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726785AbgDATIT (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 1 Apr 2020 15:08:19 -0400
+IronPort-SDR: 6rPHb3i30bmshs2l1nA7fsTqzRgqpXAiWsbkxVGSA7U79LyUZg30INaqM9m7wtH10/ziDzfxV5
+ A3irZdjC5Tbw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2020 12:08:18 -0700
+IronPort-SDR: in2xdzjovyULgkguc9M6PuUxwD1BffwldF242QJfyCpxPS5pR3+7QyNM7BfJFISOePMd2m+Ifb
+ Yaqs2nxNS4bw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,332,1580803200"; 
+   d="scan'208";a="252735857"
+Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
+  by orsmga006.jf.intel.com with ESMTP; 01 Apr 2020 12:08:17 -0700
+Message-ID: <6f68d7af6a618c087a85d2db6ad40b346e055452.camel@intel.com>
+Subject: Re: [RFC PATCH v9 09/27] x86/mm: Introduce _PAGE_DIRTY_SW
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Dave Hansen <dave.hansen@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>, x86-patch-review@intel.com
+Date:   Wed, 01 Apr 2020 12:08:16 -0700
+In-Reply-To: <325d3a25-0016-ea19-c0c9-7958066fc94e@intel.com>
+References: <20200205181935.3712-1-yu-cheng.yu@intel.com>
+         <20200205181935.3712-10-yu-cheng.yu@intel.com>
+         <325d3a25-0016-ea19-c0c9-7958066fc94e@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <2583799.1585756303.1@warthog.procyon.org.uk>
-Date:   Wed, 01 Apr 2020 16:51:43 +0100
-Message-ID: <2583800.1585756303@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Content-Transfer-Encoding: 7bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Miklos Szeredi <miklos@szeredi.hu> wrote:
+On Wed, 2020-02-26 at 13:35 -0800, Dave Hansen wrote:
+> On 2/5/20 10:19 AM, Yu-cheng Yu wrote:
+> > When Shadow Stack (SHSTK) is introduced, a R/O and Dirty PTE exists in the
+> > following cases:
+> > 
+> > (a) A modified, copy-on-write (COW) page;
+> > (b) A R/O page that has been COW'ed;
+> > (c) A SHSTK page.
+[...]
 
-> For   30000 mounts, f=    146400us f2=    136766us p=   1406569us p2=
->   221669us; p=9.6*f p=10.3*f2 p=6.3*p2
+> > diff --git a/arch/x86/include/asm/pgtable_types.h b/arch/x86/include/asm/pgtable_types.h
+> > index e647e3c75578..826823df917f 100644
+> > --- a/arch/x86/include/asm/pgtable_types.h
+> > +++ b/arch/x86/include/asm/pgtable_types.h
+> > @@ -23,7 +23,8 @@
+> >  #define _PAGE_BIT_SOFTW2	10	/* " */
+> >  #define _PAGE_BIT_SOFTW3	11	/* " */
+> >  #define _PAGE_BIT_PAT_LARGE	12	/* On 2MB or 1GB pages */
+> > -#define _PAGE_BIT_SOFTW4	58	/* available for programmer */
+> > +#define _PAGE_BIT_SOFTW4	57	/* available for programmer */
+> > +#define _PAGE_BIT_SOFTW5	58	/* available for programmer */
+> >  #define _PAGE_BIT_PKEY_BIT0	59	/* Protection Keys, bit 1/4 */
+> >  #define _PAGE_BIT_PKEY_BIT1	60	/* Protection Keys, bit 2/4 */
+> >  #define _PAGE_BIT_PKEY_BIT2	61	/* Protection Keys, bit 3/4 */
+> > @@ -35,6 +36,12 @@
+> >  #define _PAGE_BIT_SOFT_DIRTY	_PAGE_BIT_SOFTW3 /* software dirty tracking */
+> >  #define _PAGE_BIT_DEVMAP	_PAGE_BIT_SOFTW4
+> >  
+> > +/*
+> > + * This bit indicates a copy-on-write page, and is different from
+> > + * _PAGE_BIT_SOFT_DIRTY, which tracks which pages a task writes to.
+> > + */
+> > +#define _PAGE_BIT_DIRTY_SW	_PAGE_BIT_SOFTW5 /* was written to */
+> 
+> Does it *only* indicate a copy-on-write (or copy-on-access) page?  If
+> so, haven't we misnamed it?
 
-	f =    146400us
-	f2=    136766us
-	p =   1406569us  <--- Order of magnitude slower
-	p2=    221669us
+It indicates either a copy-on-write page or a read-only page that has been
+cow'ed.  What about _PAGE_BIT_COW?
 
-And more memory used because it's added a whole bunch of inodes and dentries
-to the cache.  For each mount that's a pair for each dir and a pair for each
-file within the dir.  So for the two files my test is reading, for 30000
-mounts, that's 90000 dentries and 90000 inodes in mountfs alone.
+Yu-cheng
 
-	(gdb) p sizeof(struct dentry)
-	$1 = 216
-	(gdb) p sizeof(struct inode)
-	$2 = 696
-	(gdb) p (216*696)*30000*3/1024/1024
-	$3 = 615
-
-so 615 MiB of RAM added to the caches in an extreme case.
-
-We're seeing customers with 10000+ mounts - that would be 205 MiB, just to
-read two values from each mount.
-
-I presume you're not going through /proc/fdinfo each time as that would add
-another d+i - for >1GiB added to the caches for 30000 mounts.
-
-David
 
