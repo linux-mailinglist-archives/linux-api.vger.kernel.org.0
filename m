@@ -2,21 +2,21 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F21819C71F
-	for <lists+linux-api@lfdr.de>; Thu,  2 Apr 2020 18:33:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4438F19C760
+	for <lists+linux-api@lfdr.de>; Thu,  2 Apr 2020 18:52:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732530AbgDBQd0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 2 Apr 2020 12:33:26 -0400
-Received: from raptor.unsafe.ru ([5.9.43.93]:43112 "EHLO raptor.unsafe.ru"
+        id S2388438AbgDBQwG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 2 Apr 2020 12:52:06 -0400
+Received: from raptor.unsafe.ru ([5.9.43.93]:48690 "EHLO raptor.unsafe.ru"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732412AbgDBQd0 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 2 Apr 2020 12:33:26 -0400
+        id S1727412AbgDBQwG (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 2 Apr 2020 12:52:06 -0400
 Received: from comp-core-i7-2640m-0182e6 (ip-89-102-33-211.net.upcbroadband.cz [89.102.33.211])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by raptor.unsafe.ru (Postfix) with ESMTPSA id 19CEB2052E;
-        Thu,  2 Apr 2020 16:32:51 +0000 (UTC)
-Date:   Thu, 2 Apr 2020 18:32:46 +0200
+        by raptor.unsafe.ru (Postfix) with ESMTPSA id 066E52052E;
+        Thu,  2 Apr 2020 16:52:00 +0000 (UTC)
+Date:   Thu, 2 Apr 2020 18:51:56 +0200
 From:   Alexey Gladkov <gladkov.alexey@gmail.com>
 To:     "Eric W. Biederman" <ebiederm@xmission.com>
 Cc:     LKML <linux-kernel@vger.kernel.org>,
@@ -39,49 +39,67 @@ Cc:     LKML <linux-kernel@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Kees Cook <keescook@chromium.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
-        Oleg Nesterov <oleg@redhat.com>
-Subject: Re: [PATCH v10 2/9] proc: allow to mount many instances of proc in
- one pid namespace
-Message-ID: <20200402163246.7kfzujkku65belrw@comp-core-i7-2640m-0182e6>
+        Oleg Nesterov <oleg@redhat.com>,
+        David Howells <dhowells@redhat.com>
+Subject: Re: [PATCH v10 8/9] proc: use human-readable values for hidehid
+Message-ID: <20200402165156.4mzenof4upvtd3lv@comp-core-i7-2640m-0182e6>
 References: <20200327172331.418878-1-gladkov.alexey@gmail.com>
- <20200327172331.418878-3-gladkov.alexey@gmail.com>
- <87eet5lx97.fsf@x220.int.ebiederm.org>
+ <20200327172331.418878-9-gladkov.alexey@gmail.com>
+ <87d08pkh4u.fsf@x220.int.ebiederm.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <87eet5lx97.fsf@x220.int.ebiederm.org>
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.6.1 (raptor.unsafe.ru [5.9.43.93]); Thu, 02 Apr 2020 16:33:23 +0000 (UTC)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87d08pkh4u.fsf@x220.int.ebiederm.org>
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.6.1 (raptor.unsafe.ru [5.9.43.93]); Thu, 02 Apr 2020 16:52:02 +0000 (UTC)
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Apr 02, 2020 at 10:31:48AM -0500, Eric W. Biederman wrote:
+On Thu, Apr 02, 2020 at 11:05:21AM -0500, Eric W. Biederman wrote:
+> Alexey Gladkov <gladkov.alexey@gmail.com> writes:
 > 
-> > diff --git a/include/linux/proc_fs.h b/include/linux/proc_fs.h
-> > index 40a7982b7285..5920a4ecd71b 100644
-> > --- a/include/linux/proc_fs.h
-> > +++ b/include/linux/proc_fs.h
-> > @@ -27,6 +27,17 @@ struct proc_ops {
-> >  	unsigned long (*proc_get_unmapped_area)(struct file *, unsigned long, unsigned long, unsigned long, unsigned long);
-> >  };
+> > The hidepid parameter values are becoming more and more and it becomes
+> > difficult to remember what each new magic number means.
+> 
+> In principle I like this change.  In practice I think you have just
+> broken ABI compatiblity with the new mount ABI.
+> 
+> In particular the following line seems broken.
+> 
+> > diff --git a/fs/proc/root.c b/fs/proc/root.c
+> > index dbcd96f07c7a..ba782d6e6197 100644
+> > --- a/fs/proc/root.c
+> > +++ b/fs/proc/root.c
+> > @@ -45,7 +45,7 @@ enum proc_param {
 > >  
-> > +struct proc_fs_info {
-> > +	struct pid_namespace *pid_ns;
-> > +	struct dentry *proc_self;        /* For /proc/self */
-> > +	struct dentry *proc_thread_self; /* For /proc/thread-self */
-> > +};
+> >  static const struct fs_parameter_spec proc_fs_parameters[] = {
+> >  	fsparam_u32("gid",	Opt_gid),
+> > -	fsparam_u32("hidepid",	Opt_hidepid),
+> > +	fsparam_string("hidepid",	Opt_hidepid),
+> >  	fsparam_string("subset",	Opt_subset),
+> >  	{}
+> >  };
 > 
-> Minor nit.
-> 
-> I have not seen a patch where you remove proc_self and proc_thread_self
-> from struct pid_namepace.
-> 
-> Ideally it would have been in this patch.  But as it won't break
-> anyone's bisection can you please have a follow up patch that removes
-> those fields?
+> As I read fs_parser.c fs_param_is_u32 handles string inputs and turns them
+> into numbers, and it handles binary numbers.  However fs_param_is_string
+> appears to only handle strings.  It appears to have not capacity to turn
+> raw binary numbers into strings.
 
-Yep. I miss that. I will make v11 to address this and other nits.
+I use result only with hidepid_u32_spec and nobody modifies param->string.
+I do not use internal functions here.
+
+I don’t follow how a raw number can get here ?
+
+> So I think we probably need to fix fs_param_is_string to raw binary
+> numbers before we can safely make this change to fs/proc/root.c
+> 
+> David am I reading the fs_parser.c code correctly?  If I am are you ok
+> with a change like the above?
+> 
+> Eric
+> 
 
 -- 
 Rgrds, legion
