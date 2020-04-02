@@ -2,84 +2,226 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B613919C421
-	for <lists+linux-api@lfdr.de>; Thu,  2 Apr 2020 16:29:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC23019C5AA
+	for <lists+linux-api@lfdr.de>; Thu,  2 Apr 2020 17:19:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387865AbgDBO3Z (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 2 Apr 2020 10:29:25 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:44930 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732302AbgDBO3Z (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 2 Apr 2020 10:29:25 -0400
-Received: by mail-oi1-f196.google.com with SMTP id v134so2889364oie.11;
-        Thu, 02 Apr 2020 07:29:25 -0700 (PDT)
+        id S2389098AbgDBPTS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 2 Apr 2020 11:19:18 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:46230 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389058AbgDBPTS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 2 Apr 2020 11:19:18 -0400
+Received: by mail-ed1-f65.google.com with SMTP id cf14so4597395edb.13
+        for <linux-api@vger.kernel.org>; Thu, 02 Apr 2020 08:19:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=szeredi.hu; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=jygQ/diY941o6mpEEimAy4AjY3Bq2iWufaPGPW83eaU=;
-        b=cOYd01hxJK0Y6e7aC0+Hkb0NPr8dT54zFU2z9gkuieOdkRYNwl0/R/YI0EQO+WP92D
-         O8rSvsWs7GVsDJ8nik03mn6yZ+fNk0WJfgvH9IBCaqA2E7YRtoawxrxFmkHFpC8HPi1H
-         e1BRNvTJTfk7IZMkolN6WSfWIdCbdPHYKG0a8LjYaTg8g+dHX3v5LZCP7Ebv3r0SKXep
-         2zWGtPq6bDLl/UMg3WS7mO93G1OPYO7SzbSPc1AZda7kRyCfbMP2XRBBOX44YsouT/it
-         qCTIDKEUoTF+LNtWJUiHVzSoO0HApzOTVJ1i+etGALkGfMdrSqJPzFj7w2KRcbN0LfT+
-         MeKA==
+        bh=MUZimPCBmfg/lNq5C9li8ToeMH5GybOob9boTMJ8Ry4=;
+        b=pJotPFYLX2utpXM+urj5d012OnozHKhG/DAfbSolW1WTTjvFpXzSE2T94VdAu5KGjE
+         y6UduEs0avw6aH/jnPIj35O1z9paB7T50YDn82a4NRSD6s3ei7KyuqtU4Kg/o/8lD4KB
+         y6eArWXTDzt7ZY64tQxj+HCgONZ3sGjRTBDZI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=jygQ/diY941o6mpEEimAy4AjY3Bq2iWufaPGPW83eaU=;
-        b=ttq8yX8Tsq1zu/mdABLqdZ0xLYMkmblUcNxZlwVvxJIx814uuqCX6smg/5uRbOkHbv
-         +rVHhQhEgoiIFsWt752H0QyEoAJ7PbYIRBTFbyhTTV0VIU8qRNt/INdDtk0m0u1eAv/1
-         fTv19Ej0sUWmsioIazHaklZhX512nif+AVCmA1hX14dO0oHP3VpCo6/GLHKw4XpniCiS
-         EDjcpgUHbh9Tx6jE2qB/UlC8ZTXyV6yEEzptYfwxi37Q6xP1mR0uOxAcSr1T+nmE2ZmB
-         +F9TO44T8+5sAC0htyEiYMrsMsuq8DLPcfHjKCHeviKCcuGB4JVZLIuW6oim89vwXhG+
-         BYbw==
-X-Gm-Message-State: AGi0PuagCMxLHmhRIIE9C36Kg77KWNRQgVbkLG6lylZImBF9j0M8380l
-        N3RTNnERzo86sfHw1pN9GO89j9LOz4euosrlzIM=
-X-Google-Smtp-Source: APiQypK/KK5SU5LGft8aOp7UNHf12bzZfCsR6/8x3di+hIijsZizrnNzLY71CZADU1QC3+aspILxKzz1e7B1CZ1j1WE=
-X-Received: by 2002:aca:57d6:: with SMTP id l205mr2334809oib.20.1585837764854;
- Thu, 02 Apr 2020 07:29:24 -0700 (PDT)
+        bh=MUZimPCBmfg/lNq5C9li8ToeMH5GybOob9boTMJ8Ry4=;
+        b=Ds/5FTPXNhN81fszjrysEdaZtKDH6acvPLgPZHpzXf8w3h6WwvkD+Vv01FsJOh0FNK
+         9CkA6x8HxfczQ6Bv48ZrnG6XdUBrqDDhjCDRLOQNGtMrutuNIqKALBIjrFqPHsKRetyd
+         9oYokRxnj4CgyRf4AR422QrBaUgKof4w5kX2eBC9m20QhEqRuHv/tAwoqcYx/Sh3YUBj
+         dyNFTlJdj/wti+kCBRKbXhHz7Zqsa5CR6A6exY5CK+cmckx0yeeYF0/c1JkPWZxNQtre
+         cRqtFXpWYLLQzbd3oIleR8X8fKHzUqVa5Y1EnUYQqpa1g+NRNpVtYE7WJYf15ggl21A7
+         OxXg==
+X-Gm-Message-State: AGi0PubPXeSn2rZrgPnlllr2hp6Ju4aEgMOz8sbT9cVyjZFgEAUexUUP
+        OJ2fWxM3TezkMV61Cb0aFS49zkQ4pZecjUxaR9vZEQ==
+X-Google-Smtp-Source: APiQypKo3qRag48ZV+QcN5Q48u7U1vmvCSGaVa84FwlErWIvq9TTAI/U67RpOOZHpA8X6cv/s5bg8cpOTZDAbDROO0E=
+X-Received: by 2002:a17:906:405b:: with SMTP id y27mr3832799ejj.213.1585840754915;
+ Thu, 02 Apr 2020 08:19:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <CA+zRj8U5_NaY4ZQXj9r=f58KcO3pq5k9HZt9KxRYHnOOk=e1WQ@mail.gmail.com>
- <a225bae5-e342-fee4-b7fa-c3093ca52fa0@gmail.com> <CAKgNAkhzOq2-H8Ka2Dx9ijrVZkaH9cNzKkAENM9hyQx9MBnAKQ@mail.gmail.com>
- <CAKgNAkiTYY3mrdsWypX22WCczVK9GDsOO-Vq58go_b2=719=FA@mail.gmail.com>
-In-Reply-To: <CAKgNAkiTYY3mrdsWypX22WCczVK9GDsOO-Vq58go_b2=719=FA@mail.gmail.com>
-From:   Eric Rannaud <eric.rannaud@gmail.com>
-Date:   Thu, 2 Apr 2020 07:29:13 -0700
-Message-ID: <CA+zRj8WjV9Zw+a470X=CcoxQL1uaj92xey4CDsBsDNj5wdu8Dg@mail.gmail.com>
-Subject: Re: clock_settime(2) error for non-settable clocks
-To:     mtk.manpages@gmail.com
-Cc:     Linux API <linux-api@vger.kernel.org>,
-        linux-man <linux-man@vger.kernel.org>,
-        Aleksa Sarai <asarai@suse.de>
+References: <158454378820.2863966.10496767254293183123.stgit@warthog.procyon.org.uk>
+ <158454391302.2863966.1884682840541676280.stgit@warthog.procyon.org.uk>
+In-Reply-To: <158454391302.2863966.1884682840541676280.stgit@warthog.procyon.org.uk>
+From:   Miklos Szeredi <miklos@szeredi.hu>
+Date:   Thu, 2 Apr 2020 17:19:03 +0200
+Message-ID: <CAJfpegspWA6oUtdcYvYF=3fij=Bnq03b8VMbU9RNMKc+zzjbag@mail.gmail.com>
+Subject: Re: [PATCH 13/17] watch_queue: Implement mount topology and attribute
+ change notifications [ver #5]
+To:     David Howells <dhowells@redhat.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Stephen Smalley <sds@tycho.nsa.gov>, nicolas.dichtel@6wind.com,
+        Ian Kent <raven@themaw.net>,
+        Christian Brauner <christian@brauner.io>, andres@anarazel.de,
+        Jeff Layton <jlayton@redhat.com>, dray@redhat.com,
+        Karel Zak <kzak@redhat.com>, keyrings@vger.kernel.org,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org,
+        LSM <linux-security-module@vger.kernel.org>,
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Michael,
+On Wed, Mar 18, 2020 at 4:05 PM David Howells <dhowells@redhat.com> wrote:
+>
+> Add a mount notification facility whereby notifications about changes in
+> mount topology and configuration can be received.  Note that this only
+> covers vfsmount topology changes and not superblock events.  A separate
+> facility will be added for that.
+>
+> Every mount is given a change counter than counts the number of topological
+> rearrangements in which it is involved and the number of attribute changes
+> it undergoes.  This allows notification loss to be dealt with.
 
-I just sent a patch to the mailing list [1] capturing additional error
-codes returned for dynamic POSIX clock devices.
+Isn't queue overrun signalled anyway?
+
+If an event is lost, there's no way to know which object was affected,
+so how does the counter help here?
+
+>  Later
+> patches will provide a way to quickly retrieve this value, along with
+> information about topology and parameters for the superblock.
+
+So?  If we receive a notification for MNT1 with change counter CTR1
+and then receive the info for MNT1 with CTR2, then we know that we
+either missed a notification or we raced and will receive the
+notification later.  This helps with not having to redo the query when
+we receive the notification with CTR2, but this is just an
+optimization, not really useful.
+
+> Firstly, a watch queue needs to be created:
+>
+>         pipe2(fds, O_NOTIFICATION_PIPE);
+>         ioctl(fds[1], IOC_WATCH_QUEUE_SET_SIZE, 256);
+>
+> then a notification can be set up to report notifications via that queue:
+>
+>         struct watch_notification_filter filter = {
+>                 .nr_filters = 1,
+>                 .filters = {
+>                         [0] = {
+>                                 .type = WATCH_TYPE_MOUNT_NOTIFY,
+>                                 .subtype_filter[0] = UINT_MAX,
+>                         },
+>                 },
+>         };
+>         ioctl(fds[1], IOC_WATCH_QUEUE_SET_FILTER, &filter);
+>         watch_mount(AT_FDCWD, "/", 0, fds[1], 0x02);
+>
+> In this case, it would let me monitor the mount topology subtree rooted at
+> "/" for events.  Mount notifications propagate up the tree towards the
+> root, so a watch will catch all of the events happening in the subtree
+> rooted at the watch.
+
+Does it make sense to watch a single mount?  A set of mounts?   A
+subtree with an exclusion list (subtrees, types, ???)?
+
+Not asking for these to be implemented initially, just questioning
+whether the API is flexible enough to allow these cases to be
+implemented later if needed.
+
+>
+> After setting the watch, records will be placed into the queue when, for
+> example, as superblock switches between read-write and read-only.  Records
+> are of the following format:
+>
+>         struct mount_notification {
+>                 struct watch_notification watch;
+>                 __u32   triggered_on;
+>                 __u32   auxiliary_mount;
+
+What guarantees that mount_id is going to remain a 32bit entity?
+
+>                 __u32   topology_changes;
+>                 __u32   attr_changes;
+>                 __u32   aux_topology_changes;
+
+Being 32bit this introduces wraparound effects.  Is that really worth it?
+
+>         } *n;
+>
+> Where:
+>
+>         n->watch.type will be WATCH_TYPE_MOUNT_NOTIFY.
+>
+>         n->watch.subtype will indicate the type of event, such as
+>         NOTIFY_MOUNT_NEW_MOUNT.
+>
+>         n->watch.info & WATCH_INFO_LENGTH will indicate the length of the
+>         record.
+
+Hmm, size of record limited to 112bytes?  Is this verified somewhere?
+Don't see a BUILD_BUG_ON() in watch_sizeof().
+
+>
+>         n->watch.info & WATCH_INFO_ID will be the fifth argument to
+>         watch_mount(), shifted.
+>
+>         n->watch.info & NOTIFY_MOUNT_IN_SUBTREE if true indicates that the
+>         notifcation was generated in the mount subtree rooted at the watch,
+
+notification
+
+>         and not actually in the watch itself.
+>
+>         n->watch.info & NOTIFY_MOUNT_IS_RECURSIVE if true indicates that
+>         the notifcation was generated by an event (eg. SETATTR) that was
+>         applied recursively.  The notification is only generated for the
+>         object that initially triggered it.
+
+Unused in this patchset.  Please don't add things to the API which are not used.
+
+>
+>         n->watch.info & NOTIFY_MOUNT_IS_NOW_RO will be used for
+>         NOTIFY_MOUNT_READONLY, being set if the superblock becomes R/O, and
+>         being cleared otherwise,
+
+Does this refer to mount r/o flag or superblock r/o flag?  Confused.
+
+> and for NOTIFY_MOUNT_NEW_MOUNT, being set
+>         if the new mount is a submount (e.g. an automount).
+
+Huh?  What has r/o flag do with being a submount?
+
+>
+>         n->watch.info & NOTIFY_MOUNT_IS_SUBMOUNT if true indicates that the
+>         NOTIFY_MOUNT_NEW_MOUNT notification is in response to a mount
+>         performed by the kernel (e.g. an automount).
+>
+>         n->triggered_on indicates the ID of the mount to which the change
+>         was accounted (e.g. the new parent of a new mount).
+
+For move there are two parents that are affected.  This doesn't look
+sufficient to reflect that.
+
+>
+>         n->axiliary_mount indicates the ID of an additional mount that was
+>         affected (e.g. a new mount itself) or 0.
+>
+>         n->topology_changes provides the value of the topology change
+>         counter of the triggered-on mount at the conclusion of the
+>         operarion.
+
+operation
+
+>
+>         n->attr_changes provides the value of the attribute change counter
+>         of the triggered-on mount at the conclusion of the operarion.
+
+operation
+
+>
+>         n->aux_topology_changes provides the value of the topology change
+>         counter of the auxiliary mount at the conclusion of the operation.
+>
+> Note that it is permissible for event records to be of variable length -
+> or, at least, the length may be dependent on the subtype.  Note also that
+> the queue can be shared between multiple notifications of various types.
+
+Will review code later...
 
 Thanks,
-Eric
-
-1. https://marc.info/?l=linux-man&m=158583744306140&w=2
-
-On Thu, Apr 2, 2020 at 4:48 AM Michael Kerrisk (man-pages)
-<mtk.manpages@gmail.com> wrote:
->
-> Eric,
->
-> See also my changes in
-> https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/commit/?id=96d951a401c65525bec0f973946b8dfb24afd670
->
-> A textual table in that commit captures most of what I know. Still,
-> some pieces that you mentioned are not covered. (patches welcome)
->
-> Thanks,
->
-> Michael
+Miklos
