@@ -2,86 +2,95 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CBA219C384
-	for <lists+linux-api@lfdr.de>; Thu,  2 Apr 2020 16:02:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44DC819C3B6
+	for <lists+linux-api@lfdr.de>; Thu,  2 Apr 2020 16:14:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388499AbgDBOBs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 2 Apr 2020 10:01:48 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:41768 "EHLO
+        id S1729275AbgDBOOm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 2 Apr 2020 10:14:42 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:34071 "EHLO
         us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1732434AbgDBOBr (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 2 Apr 2020 10:01:47 -0400
+        by vger.kernel.org with ESMTP id S1726368AbgDBOOm (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 2 Apr 2020 10:14:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1585836106;
-        h=from:from:reply-to:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
+        s=mimecast20190719; t=1585836881;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=x06202PPsponxfSDbfvTzZWwYLXlP9C+BG2B0SFMxYo=;
-        b=FAHfTZHy+iME/Jr0FgOHwqGRx38sxQDfevXvdN8aFtq1uobeWjeacIBODCx4C73jlyvVjG
-        pL+r3Ot2O+RplbJjZE0LdxOZu3XQ2lxMhalhMTfL4QMVBn4FOzpnqnes5RX9kGTST/y6S2
-        k+CxFPRMRAsCv1n1Pihjjj7FRefkIpg=
+        bh=jHomtIlfVWCjz0uqN5tmjf5fA1sQAGrA5th4ZK/FkAU=;
+        b=UY4nakXp06wKrlt0gUyiKxWDGXtJsAlfFXwQo9P51QEzWc/s9KTgag38W0VVNKvoxRuvwH
+        Pvpau8WC6TRKs9F4uix4iaet8viORycQPIUZQyjoyIV3MUvYEJQS5DsA40L3/Cb6JxfnVh
+        N3xB3aBOzZ0QvqCqS6xV/Xwj+vzji40=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-102-72hyDqbUOuWMmr71FgHJ_g-1; Thu, 02 Apr 2020 10:01:42 -0400
-X-MC-Unique: 72hyDqbUOuWMmr71FgHJ_g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+ us-mta-263-1BusTZ8oOt2-QFfQoMK6lw-1; Thu, 02 Apr 2020 10:14:38 -0400
+X-MC-Unique: 1BusTZ8oOt2-QFfQoMK6lw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB0AB1084424;
-        Thu,  2 Apr 2020 14:01:40 +0000 (UTC)
-Received: from mchristi.msp.csb (ovpn-118-19.rdu2.redhat.com [10.10.118.19])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 9EA8960BF3;
-        Thu,  2 Apr 2020 14:01:39 +0000 (UTC)
-Reply-To: mchristi@redhat.com
-Subject: Re: [PATCH] prctl.2: doc PR_SET/GET_IO_FLUSHER - V4
-To:     Bart Van Assche <bvanassche@acm.org>, linux-api@vger.kernel.org,
-        david@fromorbit.com, mhocko@suse.com, masato.suzuki@wdc.com,
-        damien.lemoal@wdc.com, darrick.wong@oracle.com,
-        mtk.manpages@gmail.com, linux-man@vger.kernel.org
-References: <20200402020850.7218-1-mchristi@redhat.com>
- <9eab1b92-6a44-616a-44b2-f1ee6475f6f0@acm.org>
-From:   Michael Christie <mchristi@redhat.com>
-Organization: Red Hat
-Message-ID: <c2451ffc-da39-9914-2d2e-e3a9a8356298@redhat.com>
-Date:   Thu, 2 Apr 2020 09:01:39 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AFCDC800D50;
+        Thu,  2 Apr 2020 14:14:34 +0000 (UTC)
+Received: from ws.net.home (unknown [10.40.194.51])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 39C1899E16;
+        Thu,  2 Apr 2020 14:14:27 +0000 (UTC)
+Date:   Thu, 2 Apr 2020 16:14:24 +0200
+From:   Karel Zak <kzak@redhat.com>
+To:     Ian Kent <raven@themaw.net>
+Cc:     Miklos Szeredi <miklos@szeredi.hu>,
+        David Howells <dhowells@redhat.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Linux NFS list <linux-nfs@vger.kernel.org>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Anna Schumaker <anna.schumaker@netapp.com>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-ext4@vger.kernel.org,
+        Trond Myklebust <trond.myklebust@hammerspace.com>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Christian Brauner <christian@brauner.io>,
+        Jann Horn <jannh@google.com>,
+        "Darrick J. Wong" <darrick.wong@oracle.com>,
+        Jeff Layton <jlayton@redhat.com>,
+        linux-fsdevel@vger.kernel.org,
+        LSM <linux-security-module@vger.kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/13] VFS: Filesystem information [ver #19]
+Message-ID: <20200402141424.3zyphot2kjf5vaoo@ws.net.home>
+References: <158454408854.2864823.5910520544515668590.stgit@warthog.procyon.org.uk>
+ <CAJfpeguaiicjS2StY5m=8H7BCjq6PLxMsWE3Mx_jYR1foDWVTg@mail.gmail.com>
+ <50caf93782ba1d66bd6acf098fb8dcb0ecc98610.camel@themaw.net>
+ <CAJfpegvvMVoNp1QeXEZiNucCeuUeDP4tKqVfq2F4koQKzjKmvw@mail.gmail.com>
+ <2465266.1585729649@warthog.procyon.org.uk>
+ <CAJfpegsyeJmH3zJuseaAAY06fzgavSzpOtYr-1Mw8GR0cLcQbA@mail.gmail.com>
+ <459876eceda4bc68212faf4ed3d4bcb8570aa105.camel@themaw.net>
 MIME-Version: 1.0
-In-Reply-To: <9eab1b92-6a44-616a-44b2-f1ee6475f6f0@acm.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <459876eceda4bc68212faf4ed3d4bcb8570aa105.camel@themaw.net>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 04/01/2020 10:46 PM, Bart Van Assche wrote:
-> On 2020-04-01 19:08, Mike Christie wrote:
->> +.TP
->> +.B PR_GET_IO_FLUSHER (Since Linux 5.6)
->> +Return as the function result 1 if the caller is in the IO_FLUSHER st=
-ate and
->> +0 if not.
->=20
-> Although I'm not at all a language expert, the word order at the start
-> of the above sentence seems a bit weird to me?
->=20
+On Thu, Apr 02, 2020 at 09:38:20AM +0800, Ian Kent wrote:
+> I prefer the system call interface and I'm not offering justification
+> for that other than a general dislike (and on occasion outright
+> frustration) of pretty much every proc implementation I have had to
+> look at.
 
-Do you mean the "Return as the function result" part or something else?
+Frankly, I'm modest, what about to have both interfaces in kernel --
+fsinfo() as well mountfs? It's nothing unusual for example for block
+devices to have attribute accessible by /sys as well as by ioctl().
 
-That is how the other commands worded it. It looks like I messed up and
-dropped the (). This is how they did it:
+I can imagine that for complex task or performance sensitive tasks
+it's better to use fsinfo(), but in another simple use-cases (for
+example to convert mountpoint to device name in shell) is better to
+read /proc/.../<atrtr>.
 
-"Return (as the function result)"
+    Karel
 
-I will resend with that fix.
-
-If I misunderstood you I will fix that too.
-
-
-
+-- 
+ Karel Zak  <kzak@redhat.com>
+ http://karelzak.blogspot.com
 
