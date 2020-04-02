@@ -2,100 +2,84 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ADC2619C3EB
-	for <lists+linux-api@lfdr.de>; Thu,  2 Apr 2020 16:24:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B613919C421
+	for <lists+linux-api@lfdr.de>; Thu,  2 Apr 2020 16:29:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731780AbgDBOYC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 2 Apr 2020 10:24:02 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:43693 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729213AbgDBOYC (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 2 Apr 2020 10:24:02 -0400
-Received: by mail-pf1-f194.google.com with SMTP id f206so1811821pfa.10
-        for <linux-api@vger.kernel.org>; Thu, 02 Apr 2020 07:24:01 -0700 (PDT)
+        id S2387865AbgDBO3Z (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 2 Apr 2020 10:29:25 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:44930 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732302AbgDBO3Z (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 2 Apr 2020 10:29:25 -0400
+Received: by mail-oi1-f196.google.com with SMTP id v134so2889364oie.11;
+        Thu, 02 Apr 2020 07:29:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nanocritical.com; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=xKsdyJHMQOOGD0iN0cwvmSOHvAeupUh/gQgZtw9UX6s=;
-        b=Au8mSb87D14H7Y6Oz2xrArStsBmCxE6pPs5joodDHlfwWbtu11X5F6jQU2MHcz1L8v
-         vbZ80oBuIeDlTXds02bSA2HfuzroP1HcLreUmcxxtohujTQW3aniI4d+zVLydxcS5E81
-         sSuKU8dQckYNT+GSa6tpMo5VVknxNUYCY8oPU=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=jygQ/diY941o6mpEEimAy4AjY3Bq2iWufaPGPW83eaU=;
+        b=cOYd01hxJK0Y6e7aC0+Hkb0NPr8dT54zFU2z9gkuieOdkRYNwl0/R/YI0EQO+WP92D
+         O8rSvsWs7GVsDJ8nik03mn6yZ+fNk0WJfgvH9IBCaqA2E7YRtoawxrxFmkHFpC8HPi1H
+         e1BRNvTJTfk7IZMkolN6WSfWIdCbdPHYKG0a8LjYaTg8g+dHX3v5LZCP7Ebv3r0SKXep
+         2zWGtPq6bDLl/UMg3WS7mO93G1OPYO7SzbSPc1AZda7kRyCfbMP2XRBBOX44YsouT/it
+         qCTIDKEUoTF+LNtWJUiHVzSoO0HApzOTVJ1i+etGALkGfMdrSqJPzFj7w2KRcbN0LfT+
+         MeKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=xKsdyJHMQOOGD0iN0cwvmSOHvAeupUh/gQgZtw9UX6s=;
-        b=X4V66cOFHW+9ax5N6ZeW12BzzWZBilwrygtiJntNoXcACyl6ds57+166fNyMwJgN1f
-         xPJhdQDBNQt5L7MWmH+qWw2uXLSc8H53VDIx4kr1heFaMoWAF6eRR0pa/6L/vDUOeFMJ
-         cePwdMpTzFxejZ5l1/S0ZuopQ1e6VJJyIYWAPX8zIc7WDuyVZ3A+rOmSNaDrAMU4aKSj
-         ycjUqXQyaHNeyKSZeZHL/XlaDGNMOUnmNTsoIZJemQXvrhk5OGi8Ha99OyYA9w3rhyxu
-         P/XyuIIMhmJ2kEbPgR0drcE75t9gCRh7IA5Gc6t1wcypjHZ91ZCJOgqM63QzMhAeRIU6
-         Qhgg==
-X-Gm-Message-State: AGi0PuabbM94s2wVyy7dKsM31lQOSKe0mAKEaCrAakc5L/B+MYHNiSr8
-        77zmd/vltfqKDRTFQwqP6LGwgVHcCHU=
-X-Google-Smtp-Source: APiQypJKcXYFCdc9+7WRjMSg7cY/u6tT/yYMhCEC1xya6kl1p312x/Yj5tZR0Eu2qKnArtICLC54hg==
-X-Received: by 2002:a63:7419:: with SMTP id p25mr3382733pgc.217.1585837441243;
-        Thu, 02 Apr 2020 07:24:01 -0700 (PDT)
-Received: from localhost (d154-5-233-134.bchsia.telus.net. [154.5.233.134])
-        by smtp.gmail.com with ESMTPSA id o15sm3837044pjp.41.2020.04.02.07.23.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Apr 2020 07:24:00 -0700 (PDT)
-Received: by localhost (sSMTP sendmail emulation); Thu, 02 Apr 2020 07:23:58 -0700
-From:   "Eric Rannaud" <e@nanocritical.com>
-To:     linux-man <linux-man@vger.kernel.org>
-Cc:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Eric Rannaud <eric.rannaud@gmail.com>,
-        Eric Rannaud <e@nanocritical.com>
-Subject: [PATCH 1/1] clock_getres.2: dynamic POSIX clock devices can return other errors
-Date:   Thu,  2 Apr 2020 07:23:47 -0700
-Message-Id: <ce049b034919c4a09629c2e7bec574af133fb064.1585837173.git.e@nanocritical.com>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <CAKgNAkiTYY3mrdsWypX22WCczVK9GDsOO-Vq58go_b2=719=FA@mail.gmail.com>
-References: <CAKgNAkiTYY3mrdsWypX22WCczVK9GDsOO-Vq58go_b2=719=FA@mail.gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jygQ/diY941o6mpEEimAy4AjY3Bq2iWufaPGPW83eaU=;
+        b=ttq8yX8Tsq1zu/mdABLqdZ0xLYMkmblUcNxZlwVvxJIx814uuqCX6smg/5uRbOkHbv
+         +rVHhQhEgoiIFsWt752H0QyEoAJ7PbYIRBTFbyhTTV0VIU8qRNt/INdDtk0m0u1eAv/1
+         fTv19Ej0sUWmsioIazHaklZhX512nif+AVCmA1hX14dO0oHP3VpCo6/GLHKw4XpniCiS
+         EDjcpgUHbh9Tx6jE2qB/UlC8ZTXyV6yEEzptYfwxi37Q6xP1mR0uOxAcSr1T+nmE2ZmB
+         +F9TO44T8+5sAC0htyEiYMrsMsuq8DLPcfHjKCHeviKCcuGB4JVZLIuW6oim89vwXhG+
+         BYbw==
+X-Gm-Message-State: AGi0PuagCMxLHmhRIIE9C36Kg77KWNRQgVbkLG6lylZImBF9j0M8380l
+        N3RTNnERzo86sfHw1pN9GO89j9LOz4euosrlzIM=
+X-Google-Smtp-Source: APiQypK/KK5SU5LGft8aOp7UNHf12bzZfCsR6/8x3di+hIijsZizrnNzLY71CZADU1QC3+aspILxKzz1e7B1CZ1j1WE=
+X-Received: by 2002:aca:57d6:: with SMTP id l205mr2334809oib.20.1585837764854;
+ Thu, 02 Apr 2020 07:29:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CA+zRj8U5_NaY4ZQXj9r=f58KcO3pq5k9HZt9KxRYHnOOk=e1WQ@mail.gmail.com>
+ <a225bae5-e342-fee4-b7fa-c3093ca52fa0@gmail.com> <CAKgNAkhzOq2-H8Ka2Dx9ijrVZkaH9cNzKkAENM9hyQx9MBnAKQ@mail.gmail.com>
+ <CAKgNAkiTYY3mrdsWypX22WCczVK9GDsOO-Vq58go_b2=719=FA@mail.gmail.com>
+In-Reply-To: <CAKgNAkiTYY3mrdsWypX22WCczVK9GDsOO-Vq58go_b2=719=FA@mail.gmail.com>
+From:   Eric Rannaud <eric.rannaud@gmail.com>
+Date:   Thu, 2 Apr 2020 07:29:13 -0700
+Message-ID: <CA+zRj8WjV9Zw+a470X=CcoxQL1uaj92xey4CDsBsDNj5wdu8Dg@mail.gmail.com>
+Subject: Re: clock_settime(2) error for non-settable clocks
+To:     mtk.manpages@gmail.com
+Cc:     Linux API <linux-api@vger.kernel.org>,
+        linux-man <linux-man@vger.kernel.org>,
+        Aleksa Sarai <asarai@suse.de>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-See Linux source as of v5.4:
-  kernel/time/posix-clock.c
+Hi Michael,
 
-Signed-off-by: Eric Rannaud <e@nanocritical.com>
----
- man2/clock_getres.2 | 9 +++++++++
- 1 file changed, 9 insertions(+)
+I just sent a patch to the mailing list [1] capturing additional error
+codes returned for dynamic POSIX clock devices.
 
-diff --git a/man2/clock_getres.2 b/man2/clock_getres.2
-index 0154f9d32473..71f7f8dfa662 100644
---- a/man2/clock_getres.2
-+++ b/man2/clock_getres.2
-@@ -260,6 +260,10 @@ specified in a call to
- .BR clock_settime ()
- is not a settable clock.
- .TP
-+.B EOPNOTSUPP
-+The operation is not supported by the dynamic POSIX clock device
-+specified.
-+.TP
- .BR EINVAL " (since Linux 4.3)"
- .\" commit e1d7ba8735551ed79c7a0463a042353574b96da3
- A call to
-@@ -276,6 +280,11 @@ clock.
- .B EPERM
- .BR clock_settime ()
- does not have permission to set the clock indicated.
-+.TP
-+.B EACCES
-+.BR clock_settime ()
-+does not have write permission for the dynamic POSIX
-+clock device indicated.
- .SH VERSIONS
- These system calls first appeared in Linux 2.6.
- .SH ATTRIBUTES
--- 
-2.26.0
+Thanks,
+Eric
 
+1. https://marc.info/?l=linux-man&m=158583744306140&w=2
+
+On Thu, Apr 2, 2020 at 4:48 AM Michael Kerrisk (man-pages)
+<mtk.manpages@gmail.com> wrote:
+>
+> Eric,
+>
+> See also my changes in
+> https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/commit/?id=96d951a401c65525bec0f973946b8dfb24afd670
+>
+> A textual table in that commit captures most of what I know. Still,
+> some pieces that you mentioned are not covered. (patches welcome)
+>
+> Thanks,
+>
+> Michael
