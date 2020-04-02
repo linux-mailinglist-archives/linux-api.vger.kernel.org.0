@@ -2,95 +2,100 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 44DC819C3B6
-	for <lists+linux-api@lfdr.de>; Thu,  2 Apr 2020 16:14:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ADC2619C3EB
+	for <lists+linux-api@lfdr.de>; Thu,  2 Apr 2020 16:24:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729275AbgDBOOm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 2 Apr 2020 10:14:42 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:34071 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726368AbgDBOOm (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 2 Apr 2020 10:14:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1585836881;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=jHomtIlfVWCjz0uqN5tmjf5fA1sQAGrA5th4ZK/FkAU=;
-        b=UY4nakXp06wKrlt0gUyiKxWDGXtJsAlfFXwQo9P51QEzWc/s9KTgag38W0VVNKvoxRuvwH
-        Pvpau8WC6TRKs9F4uix4iaet8viORycQPIUZQyjoyIV3MUvYEJQS5DsA40L3/Cb6JxfnVh
-        N3xB3aBOzZ0QvqCqS6xV/Xwj+vzji40=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-263-1BusTZ8oOt2-QFfQoMK6lw-1; Thu, 02 Apr 2020 10:14:38 -0400
-X-MC-Unique: 1BusTZ8oOt2-QFfQoMK6lw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AFCDC800D50;
-        Thu,  2 Apr 2020 14:14:34 +0000 (UTC)
-Received: from ws.net.home (unknown [10.40.194.51])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 39C1899E16;
-        Thu,  2 Apr 2020 14:14:27 +0000 (UTC)
-Date:   Thu, 2 Apr 2020 16:14:24 +0200
-From:   Karel Zak <kzak@redhat.com>
-To:     Ian Kent <raven@themaw.net>
-Cc:     Miklos Szeredi <miklos@szeredi.hu>,
-        David Howells <dhowells@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Linux NFS list <linux-nfs@vger.kernel.org>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Anna Schumaker <anna.schumaker@netapp.com>,
-        Theodore Ts'o <tytso@mit.edu>,
+        id S1731780AbgDBOYC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 2 Apr 2020 10:24:02 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:43693 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729213AbgDBOYC (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 2 Apr 2020 10:24:02 -0400
+Received: by mail-pf1-f194.google.com with SMTP id f206so1811821pfa.10
+        for <linux-api@vger.kernel.org>; Thu, 02 Apr 2020 07:24:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=nanocritical.com; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=xKsdyJHMQOOGD0iN0cwvmSOHvAeupUh/gQgZtw9UX6s=;
+        b=Au8mSb87D14H7Y6Oz2xrArStsBmCxE6pPs5joodDHlfwWbtu11X5F6jQU2MHcz1L8v
+         vbZ80oBuIeDlTXds02bSA2HfuzroP1HcLreUmcxxtohujTQW3aniI4d+zVLydxcS5E81
+         sSuKU8dQckYNT+GSa6tpMo5VVknxNUYCY8oPU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=xKsdyJHMQOOGD0iN0cwvmSOHvAeupUh/gQgZtw9UX6s=;
+        b=X4V66cOFHW+9ax5N6ZeW12BzzWZBilwrygtiJntNoXcACyl6ds57+166fNyMwJgN1f
+         xPJhdQDBNQt5L7MWmH+qWw2uXLSc8H53VDIx4kr1heFaMoWAF6eRR0pa/6L/vDUOeFMJ
+         cePwdMpTzFxejZ5l1/S0ZuopQ1e6VJJyIYWAPX8zIc7WDuyVZ3A+rOmSNaDrAMU4aKSj
+         ycjUqXQyaHNeyKSZeZHL/XlaDGNMOUnmNTsoIZJemQXvrhk5OGi8Ha99OyYA9w3rhyxu
+         P/XyuIIMhmJ2kEbPgR0drcE75t9gCRh7IA5Gc6t1wcypjHZ91ZCJOgqM63QzMhAeRIU6
+         Qhgg==
+X-Gm-Message-State: AGi0PuabbM94s2wVyy7dKsM31lQOSKe0mAKEaCrAakc5L/B+MYHNiSr8
+        77zmd/vltfqKDRTFQwqP6LGwgVHcCHU=
+X-Google-Smtp-Source: APiQypJKcXYFCdc9+7WRjMSg7cY/u6tT/yYMhCEC1xya6kl1p312x/Yj5tZR0Eu2qKnArtICLC54hg==
+X-Received: by 2002:a63:7419:: with SMTP id p25mr3382733pgc.217.1585837441243;
+        Thu, 02 Apr 2020 07:24:01 -0700 (PDT)
+Received: from localhost (d154-5-233-134.bchsia.telus.net. [154.5.233.134])
+        by smtp.gmail.com with ESMTPSA id o15sm3837044pjp.41.2020.04.02.07.23.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Apr 2020 07:24:00 -0700 (PDT)
+Received: by localhost (sSMTP sendmail emulation); Thu, 02 Apr 2020 07:23:58 -0700
+From:   "Eric Rannaud" <e@nanocritical.com>
+To:     linux-man <linux-man@vger.kernel.org>
+Cc:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
         Linux API <linux-api@vger.kernel.org>,
-        linux-ext4@vger.kernel.org,
-        Trond Myklebust <trond.myklebust@hammerspace.com>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Christian Brauner <christian@brauner.io>,
-        Jann Horn <jannh@google.com>,
-        "Darrick J. Wong" <darrick.wong@oracle.com>,
-        Jeff Layton <jlayton@redhat.com>,
-        linux-fsdevel@vger.kernel.org,
-        LSM <linux-security-module@vger.kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/13] VFS: Filesystem information [ver #19]
-Message-ID: <20200402141424.3zyphot2kjf5vaoo@ws.net.home>
-References: <158454408854.2864823.5910520544515668590.stgit@warthog.procyon.org.uk>
- <CAJfpeguaiicjS2StY5m=8H7BCjq6PLxMsWE3Mx_jYR1foDWVTg@mail.gmail.com>
- <50caf93782ba1d66bd6acf098fb8dcb0ecc98610.camel@themaw.net>
- <CAJfpegvvMVoNp1QeXEZiNucCeuUeDP4tKqVfq2F4koQKzjKmvw@mail.gmail.com>
- <2465266.1585729649@warthog.procyon.org.uk>
- <CAJfpegsyeJmH3zJuseaAAY06fzgavSzpOtYr-1Mw8GR0cLcQbA@mail.gmail.com>
- <459876eceda4bc68212faf4ed3d4bcb8570aa105.camel@themaw.net>
+        Eric Rannaud <eric.rannaud@gmail.com>,
+        Eric Rannaud <e@nanocritical.com>
+Subject: [PATCH 1/1] clock_getres.2: dynamic POSIX clock devices can return other errors
+Date:   Thu,  2 Apr 2020 07:23:47 -0700
+Message-Id: <ce049b034919c4a09629c2e7bec574af133fb064.1585837173.git.e@nanocritical.com>
+X-Mailer: git-send-email 2.26.0
+In-Reply-To: <CAKgNAkiTYY3mrdsWypX22WCczVK9GDsOO-Vq58go_b2=719=FA@mail.gmail.com>
+References: <CAKgNAkiTYY3mrdsWypX22WCczVK9GDsOO-Vq58go_b2=719=FA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <459876eceda4bc68212faf4ed3d4bcb8570aa105.camel@themaw.net>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Transfer-Encoding: 8bit
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Apr 02, 2020 at 09:38:20AM +0800, Ian Kent wrote:
-> I prefer the system call interface and I'm not offering justification
-> for that other than a general dislike (and on occasion outright
-> frustration) of pretty much every proc implementation I have had to
-> look at.
+See Linux source as of v5.4:
+  kernel/time/posix-clock.c
 
-Frankly, I'm modest, what about to have both interfaces in kernel --
-fsinfo() as well mountfs? It's nothing unusual for example for block
-devices to have attribute accessible by /sys as well as by ioctl().
+Signed-off-by: Eric Rannaud <e@nanocritical.com>
+---
+ man2/clock_getres.2 | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-I can imagine that for complex task or performance sensitive tasks
-it's better to use fsinfo(), but in another simple use-cases (for
-example to convert mountpoint to device name in shell) is better to
-read /proc/.../<atrtr>.
-
-    Karel
-
+diff --git a/man2/clock_getres.2 b/man2/clock_getres.2
+index 0154f9d32473..71f7f8dfa662 100644
+--- a/man2/clock_getres.2
++++ b/man2/clock_getres.2
+@@ -260,6 +260,10 @@ specified in a call to
+ .BR clock_settime ()
+ is not a settable clock.
+ .TP
++.B EOPNOTSUPP
++The operation is not supported by the dynamic POSIX clock device
++specified.
++.TP
+ .BR EINVAL " (since Linux 4.3)"
+ .\" commit e1d7ba8735551ed79c7a0463a042353574b96da3
+ A call to
+@@ -276,6 +280,11 @@ clock.
+ .B EPERM
+ .BR clock_settime ()
+ does not have permission to set the clock indicated.
++.TP
++.B EACCES
++.BR clock_settime ()
++does not have write permission for the dynamic POSIX
++clock device indicated.
+ .SH VERSIONS
+ These system calls first appeared in Linux 2.6.
+ .SH ATTRIBUTES
 -- 
- Karel Zak  <kzak@redhat.com>
- http://karelzak.blogspot.com
+2.26.0
 
