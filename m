@@ -2,118 +2,95 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 197BF19CABF
-	for <lists+linux-api@lfdr.de>; Thu,  2 Apr 2020 22:07:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50F0F19CACD
+	for <lists+linux-api@lfdr.de>; Thu,  2 Apr 2020 22:12:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388502AbgDBUHN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 2 Apr 2020 16:07:13 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:40005 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726617AbgDBUHN (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 2 Apr 2020 16:07:13 -0400
-Received: by mail-ot1-f67.google.com with SMTP id r19so4850517otn.7;
-        Thu, 02 Apr 2020 13:07:12 -0700 (PDT)
+        id S2388242AbgDBUMj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 2 Apr 2020 16:12:39 -0400
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:37221 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729123AbgDBUMj (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 2 Apr 2020 16:12:39 -0400
+Received: by mail-ed1-f68.google.com with SMTP id de14so6078612edb.4;
+        Thu, 02 Apr 2020 13:12:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=BUFtmlg41TuJZV8AFeY3Ax8m5WV2BnHwD1DxS40jxDc=;
-        b=kYUERnsRHs56p2QVEoIlDkQcC6o89BTpcya+rHIELnNtnMQzijMzAv39fkH1G6ovDi
-         lyzY1dwhW+e2u2SUc6un6ZUXs6g5HD7yhfpZ567vM40Y4evQgUcvNQSrqm1Gxq5TW5SM
-         aqsLGFbxrERC76+MKL1y9ElaF7h8usmZggMDJbSaIG9+U0WK0ElZD68jfJZ1TJsL4GBY
-         11zShgmNLF7L4xs2XfgLQRwNTW7GI4JhHyJV1+/2M7uNPlVMmt03Tuw5LSLLU0jGZFv6
-         18LIWLZe6izLRr5onQN47yPDw3Q5P1hiS+MkHzF66pLSFsRHSoox/xQGE0A8tfqV4o/d
-         ecfA==
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=T+mdDv2o4qw148SQ2RO/8yaxT59TE2MvJ+X7iPWLruI=;
+        b=lOyEmfuMgu4nM2UlmIJ05f6ya3kVrmsClUpyXI8lhqdQZJoQcghsYH9A17QrubZoVo
+         ouLpQrNQyewYo0Hgmstep4GZ9aydLdwjDmSIqltbhR4JRTl3+UXpSs+duJ9STlste8vv
+         zv3sDv2NWzAGUCEDbEgPz4l1HISFyqbnslCd3jx4dOzG/1idMKNXu8n3QK+YY/4asnJp
+         db4Kc0Fy8fhVKiKe7SPpbKxLJtBLZbbh3Dl4HO7Kh7FsArZsPVqTHVOVzT3rvq7IXhl4
+         BLGaLNWHlQS4WsxIwLex+CPyJAjCo+CSCFiz0TIQWP2paRlDzO5iOYXM9QD3mhg4KvLs
+         WsZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BUFtmlg41TuJZV8AFeY3Ax8m5WV2BnHwD1DxS40jxDc=;
-        b=c6CiBwBFVHCRyFAC77jcKYdPXIU+7y5Ec3U51YeNBDpco5DayXgwoFHbHs+3MNRzRO
-         NdYoDXGdV24QPSvifjuZDVnaQE0mMCLhaWYWLxhnBWaGByiAM+eAGpAAv+4lR9NrvQZS
-         cMI0OAQo5ceAdZzStA3dJ3mtm9gHnN4s9cCjBUukc0O0f5nAc9T2MV1MlEdl7yg1PI4I
-         IxZm/+3sHmxZUvJB5iV80qTQ5hicSzm4kH47qDZsVS+jprzf+lg682GvlNUdp/BBNLql
-         zy+tks2ShYQa5qIF/lkXARzr2KdS9g0XVoP7G9A4INBUnTTuDa00basYRIrkBv4osHBn
-         tiiA==
-X-Gm-Message-State: AGi0Pua+l5kYt6zNqmRdW9TPTHwbtiVhzckDgpXoYpl9cxmPi0bFFwwR
-        WFrWYgMFM9ZlmwkIHKIslHZFAMpuRYIeZ6ftChU=
-X-Google-Smtp-Source: APiQypLkjZPAMQazKF1lzyj9LHkXuX85vsXZmIePxxBonv771twBMPyGUkjMIXSkvuQLMJzJTFGzvrNj0vVSLEKvM94=
-X-Received: by 2002:a05:6830:1d95:: with SMTP id y21mr3937189oti.180.1585858032155;
- Thu, 02 Apr 2020 13:07:12 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=T+mdDv2o4qw148SQ2RO/8yaxT59TE2MvJ+X7iPWLruI=;
+        b=m0wbFPYs/yFsNbx1JlG1QcuuiC9WKwoLxitx1yLxlnDF68sLU41+/i5r5xEpSjTn+J
+         YKNCEZ7LNNiaXwnt5fz9CSGezZknWTnrI9o+LExrg09ScFmliBbWavIJS5WRR1DB7+tb
+         S9MpczZ2lPwHqduM/QWglgtx/N146xaCytAzmscI89kls7AKFd3cjrxQkIsDDdUOgGvf
+         uESZsdyJWoMS0bwGRrSw9DKQIM2hxOdOuRFqRFrsu0E3caMaQ14pKo4db/tV3e3b3U+7
+         JeZVSu6IZ7ENqBIgsiFkNkDUXVgWH0cPxGVcek6Ce0QdL/bioEE6CIeeFvHz3KnmkUX9
+         pXnw==
+X-Gm-Message-State: AGi0PubA1I9fsfkYHJp6qrb/fxoaUfKdh+EWmHs2lIc79EYPGWBwEugT
+        Ou9k8i2bpmPO7G19lRWvY+S810s+S3twXN5+44k=
+X-Google-Smtp-Source: APiQypI1Pq5fTtm+F/ez/Gz7Kt70/XYeCGI0XFO/HJeWNwMwGEe1+EeK4ncKNPaAwmGfU8BwlxR90c/G2x0kHnyrkE4=
+X-Received: by 2002:a17:906:8042:: with SMTP id x2mr5033753ejw.157.1585858356918;
+ Thu, 02 Apr 2020 13:12:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAKgNAkiTYY3mrdsWypX22WCczVK9GDsOO-Vq58go_b2=719=FA@mail.gmail.com>
- <ce049b034919c4a09629c2e7bec574af133fb064.1585837173.git.e@nanocritical.com>
-In-Reply-To: <ce049b034919c4a09629c2e7bec574af133fb064.1585837173.git.e@nanocritical.com>
-From:   Eric Rannaud <eric.rannaud@gmail.com>
-Date:   Thu, 2 Apr 2020 13:06:59 -0700
-Message-ID: <CA+zRj8XYLpa_gep+VxUfQuqeKu+=thMit-jNv1soC8Mh5H43Ug@mail.gmail.com>
-Subject: Re: [PATCH 1/1] clock_getres.2: dynamic POSIX clock devices can
- return other errors
-To:     Eric Rannaud <e@nanocritical.com>
-Cc:     linux-man <linux-man@vger.kernel.org>,
-        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
-        Linux API <linux-api@vger.kernel.org>
+References: <20200402020850.7218-1-mchristi@redhat.com> <9eab1b92-6a44-616a-44b2-f1ee6475f6f0@acm.org>
+ <c2451ffc-da39-9914-2d2e-e3a9a8356298@redhat.com>
+In-Reply-To: <c2451ffc-da39-9914-2d2e-e3a9a8356298@redhat.com>
+Reply-To: mtk.manpages@gmail.com
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Date:   Thu, 2 Apr 2020 22:12:25 +0200
+Message-ID: <CAKgNAki_5SBbQJdjg1j0i5BvfUu7sXUiBbgBU8QJY+Av-Ok-pg@mail.gmail.com>
+Subject: Re: [PATCH] prctl.2: doc PR_SET/GET_IO_FLUSHER - V4
+To:     Mike Christie <mchristi@redhat.com>
+Cc:     Bart Van Assche <bvanassche@acm.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Dave Chinner <david@fromorbit.com>,
+        Michal Hocko <mhocko@suse.com>, masato.suzuki@wdc.com,
+        damien.lemoal@wdc.com, "Darrick J. Wong" <darrick.wong@oracle.com>,
+        linux-man <linux-man@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-api-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Micheal,
-
-I'm conscious that saying "dynamic POSIX clock device" without any
-explanation may be too obscure for a man page.
-
-There is documentation in:
-- include/linux/posix-clock.h
-- Documentation/driver-api/ptp.rst (explicitly states that EOPNOTSUPP
-should be returned)
-- include/uapi/linux/ptp_clock.h
-
-(IEEE 1588 PTP is the canonical user of these dynamic clock devices)
-
-Would you want to refer to any of these from the man page?
-
-Thanks for maintaining this project!
-Eric
-
-On Thu, Apr 2, 2020 at 7:24 AM Eric Rannaud <e@nanocritical.com> wrote:
+On Thu, 2 Apr 2020 at 16:01, Michael Christie <mchristi@redhat.com> wrote:
 >
-> See Linux source as of v5.4:
->   kernel/time/posix-clock.c
+> On 04/01/2020 10:46 PM, Bart Van Assche wrote:
+> > On 2020-04-01 19:08, Mike Christie wrote:
+> >> +.TP
+> >> +.B PR_GET_IO_FLUSHER (Since Linux 5.6)
+> >> +Return as the function result 1 if the caller is in the IO_FLUSHER state and
+> >> +0 if not.
+> >
+> > Although I'm not at all a language expert, the word order at the start
+> > of the above sentence seems a bit weird to me?
+> >
 >
-> Signed-off-by: Eric Rannaud <e@nanocritical.com>
-> ---
->  man2/clock_getres.2 | 9 +++++++++
->  1 file changed, 9 insertions(+)
+> Do you mean the "Return as the function result" part or something else?
 >
-> diff --git a/man2/clock_getres.2 b/man2/clock_getres.2
-> index 0154f9d32473..71f7f8dfa662 100644
-> --- a/man2/clock_getres.2
-> +++ b/man2/clock_getres.2
-> @@ -260,6 +260,10 @@ specified in a call to
->  .BR clock_settime ()
->  is not a settable clock.
->  .TP
-> +.B EOPNOTSUPP
-> +The operation is not supported by the dynamic POSIX clock device
-> +specified.
-> +.TP
->  .BR EINVAL " (since Linux 4.3)"
->  .\" commit e1d7ba8735551ed79c7a0463a042353574b96da3
->  A call to
-> @@ -276,6 +280,11 @@ clock.
->  .B EPERM
->  .BR clock_settime ()
->  does not have permission to set the clock indicated.
-> +.TP
-> +.B EACCES
-> +.BR clock_settime ()
-> +does not have write permission for the dynamic POSIX
-> +clock device indicated.
->  .SH VERSIONS
->  These system calls first appeared in Linux 2.6.
->  .SH ATTRIBUTES
-> --
-> 2.26.0
+> That is how the other commands worded it. It looks like I messed up and
+> dropped the (). This is how they did it:
 >
+> "Return (as the function result)"
+>
+> I will resend with that fix.
+>
+> If I misunderstood you I will fix that too.
+
+I already fixed this piece. There are still the open questions in my
+other mail though.
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
